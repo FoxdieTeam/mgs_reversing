@@ -26,8 +26,6 @@ typedef struct _Spark2Prim
     short    x1, y1;
 } Spark2Prim;
 
-extern MATRIX  DG_ZeroMatrix;
-extern SVECTOR DG_ZeroVector;
 extern int     GV_Clock_800AB920;
 extern int     GM_CurrentMap_800AB9B0;
 

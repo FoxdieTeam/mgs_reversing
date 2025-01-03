@@ -32,8 +32,6 @@ typedef struct Panel2Work
 
 SVECTOR s08b_dword_800C3650 = {0, 0, 65236};
 
-extern SVECTOR DG_ZeroVector;
-
 void     Takabe_FreeObjs_800DC820(DG_OBJS *objs);
 DG_OBJS *s00a_unknown3_800DC7BC(int model, LitHeader *lit);
 

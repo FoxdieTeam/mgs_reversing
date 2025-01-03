@@ -17,7 +17,6 @@ char GM_NoiseSound_800B76E0[4][3];
 
 extern int   GM_GameOverVox;
 extern int   dword_800ABA58;
-extern int   GM_GameStatus;
 extern int   GM_AlertMode_800ABA00;
 extern int   GM_AlertLevel_800ABA18;
 

@@ -14,8 +14,6 @@ typedef struct BombledWork
 
 #define EXEC_LEVEL 5
 
-extern SVECTOR DG_ZeroVector;
-
 void s08c_800C42B0(SVECTOR *pos);
 
 void Bombled_800C7660(BombledWork *work)

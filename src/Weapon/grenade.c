@@ -6,6 +6,8 @@
 #include <libpad.h>
 
 #include "common.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "Bullet/blast.h"
 #include "Bullet/tenage.h"
 #include "Game/object.h"
@@ -13,17 +15,14 @@
 #include "Game/linkvarbuf.h"
 #include "Okajima/chafgrnd.h"
 #include "Okajima/stngrnd.h"
-#include "libdg/libdg.h"
 #include "Game/map.h"
 #include "strcode.h"
 
 extern short         GM_Magazine_800AB9EC;
 extern short         GM_MagazineMax_800ABA2C;
-extern SVECTOR       DG_ZeroVector;
 extern SVECTOR       GM_PlayerPosition_800ABA10;
 extern int           DG_CurrentGroupID_800AB968;
 extern BLAST_DATA    blast_data_8009F4B8[8];
-extern TBombFunction GM_lpfnBombHoming;
 extern int           GM_PlayerStatus_800ABA50;
 
 /*---------------------------------------------------------------------------*/
@@ -113,11 +112,11 @@ STATIC void GrenadeAct( GrenadeWork *work )
                 NewBlast( world, &blast_data_8009F4B8[0] );
                 break;
             case GRD_STUN:
-                NewStunGrenade_80074B5C( world );
+                NewStanBlast( world );
                 grenade_800663A0();
                 break;
             case GRD_CHAFF:
-                NewChafgrnd_80077264( world );
+                NewChaffGrd( world );
                 grenade_800663A0();
                 break;
             default:

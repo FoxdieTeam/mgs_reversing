@@ -13,7 +13,7 @@
 #include "motion.h"
 #include "strctrl.h"
 //#include "linkvarbuf.h"
-#include "SD/sound.h"
+#include "SD/sd_cli.h"
 #include "SD/g_sound.h"
 
 enum GAMED_STATE {          // private to gamed.c
@@ -249,6 +249,19 @@ int                     alert ;
 /*---------------------------------------------------------------------------*/
 
 /* gamed.c */
+extern int GM_GameStatus;
+extern int GM_LoadRequest;
+extern int GM_GameOverTimer;
+extern SVECTOR *GM_lpsvectWind;
+extern TPlayerActFunction GM_lpfnPlayerActControl;
+extern TPlayerActFunction GM_lpfnPlayerActObject2;
+extern short GM_uBombHoming;
+extern short GM_uTenageMotion;
+extern TBombFunction  GM_lpfnBombHoming;
+extern TBombFunction2 GM_lpfnBombBound;
+extern TBombFunction3 GM_lpfnBombExplosion;
+extern int GM_PadResetDisable;
+
 void GM_InitReadError(void);
 void DrawReadError(void);
 void GM_SetSystemCallbackProc(int index, int proc);
@@ -266,9 +279,9 @@ void GM_InitScript(void);
 void GM_InitArea(void);
 void GM_GetAreaHistory(AreaHistory *pHistoryCopy);
 void GM_SetAreaHistory(AreaHistory *pNewHistory);
-int  GM_SetArea(int stage_id, char *pStageName);
+int  GM_SetArea(int stage_id, char *stage_name);
 int  GM_AreaHistory(int stage_id);
-char *GM_GetArea(int unused);
+char *GM_GetArea(int flag);
 
 /* chara.c */
 void GM_InitChara(void);
@@ -298,10 +311,15 @@ void sub_80032B40(SVECTOR *svec, unsigned int se_id, int y_pos);
 void sub_80032BC4(SVECTOR *svec, unsigned int se_id, int param_3);
 void GM_SetSound(int sound_code, int sync_mode);
 
+/* motion.c */
+int  GM_ConfigMotionControl(OBJECT *object, MOTION_CONTROL *m_ctrl, int name,
+                            MOTION_SEGMENT *m_segs1, MOTION_SEGMENT *m_segs2,
+                            CONTROL *control, SVECTOR *rots);
+int  GM_ConfigMotionAdjust(OBJECT *object, SVECTOR *adjust);
+
 /* unsorted stuff */
 void               GM_ExitBehindCamera_80030AEC(void);
 void               GM_CheckBehindCamera_80030B3C(HZD_HDL *map, CONTROL *control);
-int                GM_ConfigMotionAdjust_80035008(OBJECT *pObj, SVECTOR *adjust);
 int                GM_StreamStatus_80037CD8(void);
 void               GM_ReshadeObjs_80031660(DG_OBJS *pObj);
 void               GM_Reset_helper3_80030760();
@@ -314,7 +332,6 @@ void sub_8002EADC(int);
 
 void sub_8002EC8C(SVECTOR*, SVECTOR*, SVECTOR*);
 void GM_CameraEventReset_800309A8(void);
-int  GM_ConfigMotionControl_80034F08(OBJECT *pObj, MOTION_CONTROL *pMCtrl, int name, MOTION_SEGMENT *a4, MOTION_SEGMENT *a5, CONTROL *pCtrl, SVECTOR *rots);
 
 void            GM_CameraSetBounds_80030888(SVECTOR *vec1, SVECTOR *vec2, int param_3_bool);
 void            GM_CameraSetLimits_800308E0(SVECTOR *vec1, SVECTOR *vec2, int param_3_bool);

@@ -53,7 +53,7 @@ void d01a_blur_800CCB28(void)
     setSemiTrans(tile, 1);
     setXY0(tile, -160, -112);
     setWH(tile, 320, 224);
-    DG_InitBackgroundTile(tile);
+    DG_SetBackGroundTile(tile);
     addPrim(&ot[0xFF], tile);
 
     stp = &d01a_dword_800D1448[GV_Clock_800AB920];

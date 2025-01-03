@@ -7,22 +7,37 @@
 
 #include "common.h"
 #include "mts/mts.h"
+#include "libgv/libgv.h"
 
-FS_FILE_TABLE fs_file_table_8009D4E8 = {};
+#define FS_DIRNAME_MAX 8
 
-STATIC int FS_CdStageFileInit_helper(CDBIOS_TASK *task)
+typedef struct _FS_DIR_ENTRY {
+    char    name[FS_DIRNAME_MAX];
+    int     offset;     // in number of sectors
+} FS_DIR_ENTRY;
+
+typedef struct _FS_FILE_TABLE {
+    int             start;
+    int             size;
+    int             count;
+    FS_DIR_ENTRY   *dirs;
+} FS_FILE_TABLE;
+
+STATIC FS_FILE_TABLE fs_file_table = {};
+
+STATIC int FS_CdStageReadCallback(CDBIOS_TASK *task)
 {
     unsigned int size, rounded;
 
-    if (task->field_14_sectors_delivered == 0)
+    if (task->sectors_delivered == 0)
     {
-        size = *(unsigned int *)task->field_8_buffer;
+        size = *(unsigned int *)task->buffer;
         rounded = (size + 3) / 4;
 
-        task->field_18_size = rounded;
-        task->field_1C_remaining = rounded - 512;
+        task->size = rounded;
+        task->remaining = rounded - 512;
 
-        fs_file_table_8009D4E8.size = size;
+        fs_file_table.size = size;
     }
 
     return 1;
@@ -32,43 +47,41 @@ void FS_CdStageFileInit(void *pHeap, int startSector)
 {
     int size;
 
-    fs_file_table_8009D4E8.start = startSector;
-    CDBIOS_ReadRequest(pHeap, startSector, 2048, &FS_CdStageFileInit_helper);
+    fs_file_table.start = startSector;
+    CDBIOS_ReadRequest(pHeap, startSector, FS_SECTOR_SIZE, &FS_CdStageReadCallback);
 
     while (CDBIOS_ReadSync() > 0)
     {
         mts_wait_vbl(1);
     }
 
-    size = fs_file_table_8009D4E8.size;
+    size = fs_file_table.size;
 
-    if (!fs_file_table_8009D4E8.files)
+    if (!fs_file_table.dirs)
     {
-        fs_file_table_8009D4E8.files = GV_AllocResidentMemory(size);
+        fs_file_table.dirs = GV_AllocResidentMemory(size);
     }
 
-    printf("%X %X %d\n", (unsigned int)pHeap + 4, (unsigned int)fs_file_table_8009D4E8.files, size);
-    GV_CopyMemory((char *)pHeap + 4, fs_file_table_8009D4E8.files, size);
+    printf("%X %X %d\n", (unsigned int)pHeap + 4, (unsigned int)fs_file_table.dirs, size);
+    GV_CopyMemory((char *)pHeap + 4, fs_file_table.dirs, size);
 
-    fs_file_table_8009D4E8.count = size / sizeof(FS_FILE);
+    fs_file_table.count = size / sizeof(FS_DIR_ENTRY);
 }
 
-int FS_CdGetStageFileTop(char *filename)
+int FS_CdGetStageFileTop(char *dirname)
 {
-    FS_FILE *file;
+    FS_DIR_ENTRY *dir;
     int count;
 
-    file = fs_file_table_8009D4E8.files;
+    dir = fs_file_table.dirs;
 
-    for (count = fs_file_table_8009D4E8.count; count > 0; count--)
+    for (count = fs_file_table.count; count > 0; count--)
     {
-        if (!strncmp(file->name, filename, 8))
+        if (strncmp(dir->name, dirname, FS_DIRNAME_MAX) == 0)
         {
-            return file->offset + fs_file_table_8009D4E8.start;
+            return dir->offset + fs_file_table.start;
         }
-
-        file++;
+        dir++;
     }
-
     return -1;
 }

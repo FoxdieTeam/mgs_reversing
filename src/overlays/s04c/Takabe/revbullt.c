@@ -31,8 +31,6 @@ typedef struct _RevbulltWork
     int      bounces;
 } RevbulltWork;
 
-extern SVECTOR DG_ZeroVector;
-extern int     GM_GameOverTimer;
 extern int     GM_CurrentMap_800AB9B0;
 
 const SVECTOR s04c_dword_800DBAE4 = {0, -750, 0, 0};
@@ -229,7 +227,7 @@ void RevbulltAct_800D2864(RevbulltWork *work)
                 world.t[2] = work->position.vz;
 
                 DG_ReflectMatrix(&work->normal, &world, &world);
-                NewSpark_80074564(&world, 0);
+                NewSpark(&world, 0);
 
                 if (work->bounces > 0)
                 {

@@ -10,6 +10,7 @@
 #include "libdg/libdg.h"
 #include "libhzd/libhzd.h"
 #include "Takabe/prim.h"
+#include "Game/game.h"
 #include "Game/camera.h"
 #include "Game/object.h"
 #include "Game/map.h"
@@ -20,11 +21,8 @@
 #include "SD/g_sound.h"
 #include "strcode.h"
 
-extern MATRIX           DG_ZeroMatrix;
-extern SVECTOR          DG_ZeroVector;
 extern GV_PAD           GV_PadData_800B05C0[4];
 extern OBJECT *         GM_PlayerBody_800ABA20;
-extern int              GM_GameOverTimer;
 extern SVECTOR          GM_PlayerPosition_800ABA10;
 extern int              GV_Clock_800AB920;
 extern BLAST_DATA       blast_data_8009F4B8[8];
@@ -33,7 +31,6 @@ extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern TARGET          *target_800BDF00;
 extern int              dword_8009F604;
 extern int              dword_800BDEF8[];
-extern int              GM_GameStatus;
 extern CONTROL         *GM_PlayerControl_800AB9F4;
 extern int              GM_CameraTrackSave;
 extern SVECTOR          GM_CameraRotateSave;
@@ -89,7 +86,7 @@ int dword_8009F470 = 0;
 int dword_8009F474 = 0;
 SVECTOR svector_8009F478 = {0, 0, 0, 0};
 int dword_8009F480 = 0;
-short Nik_Blast_8009F484 = 0;
+short Nik_Blast = 0;
 SVECTOR svector_8009F488 = {100, 100, 100, 0};
 
 /*---------------------------------------------------------------------------*/
@@ -140,11 +137,11 @@ STATIC void rmissile_8006B924(RMissileWork *work)
 
 STATIC void rmissile_act_helper_helper_8006B9B0(RMissileWork *work)
 {
-    Nik_Blast_8009F484 = 1;
+    Nik_Blast = 1;
 
     if (dword_8009F604 != SGT_NIKITA)
     {
-        NewSight_80071CDC(SGT_NIKITA, SGT_NIKITA, &Nik_Blast_8009F484, 1, 0);
+        NewSight_80071CDC(SGT_NIKITA, SGT_NIKITA, &Nik_Blast, 1, 0);
     }
 
     GM_Camera_800B77E8.first_person = 1;
@@ -154,7 +151,7 @@ STATIC void rmissile_act_helper_helper_8006B9B0(RMissileWork *work)
         work->field_113 = 1;
         dword_800BDEF8[0] = 0x5A875D;
         dword_800BDEF8[1] = 0xC1A80;
-        NewSgtRect3(&Nik_Blast_8009F484, 1, dword_800BDEF8, 0);
+        NewSgtRect3(&Nik_Blast, 1, dword_800BDEF8, 0);
         GM_SeSet2(0, 0x3F, SE_ITEM_OPENWINDOW);
     }
 }
@@ -182,9 +179,9 @@ STATIC void rmissile_act_helper_helper_8006BA70(RMissileWork *work)
 
     if (!(GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000))
     {
-        MENU_Color_80038B4C(158, 184, 138);
-        MENU_Locate_80038B34(116, 98, 0);
-        MENU_Printf_80038C38("ENEMY\n");
+        MENU_Color(158, 184, 138);
+        MENU_Locate(116, 98, 0);
+        MENU_Printf("ENEMY\n");
         menu_Text_Init_80038B98();
     }
 }
@@ -227,14 +224,14 @@ STATIC void rmissile_act_helper_helper_8006BB10(RMissileWork *work)
     addPrim(ot, poly);
     ctrl = work->control;
 
-    MENU_Locate_80038B34(8, 136, 0);
-    MENU_Printf_80038C38("%d", ctrl.mov.vx);
+    MENU_Locate(8, 136, 0);
+    MENU_Printf("%d", ctrl.mov.vx);
 
-    MENU_Locate_80038B34(8, 144, 0);
-    MENU_Printf_80038C38("%d", ctrl.mov.vy);
+    MENU_Locate(8, 144, 0);
+    MENU_Printf("%d", ctrl.mov.vy);
 
-    MENU_Locate_80038B34(8, 152, 0);
-    MENU_Printf_80038C38("%d", ctrl.mov.vz);
+    MENU_Locate(8, 152, 0);
+    MENU_Printf("%d", ctrl.mov.vz);
 
     menu_Text_Init_80038B98();
 }
@@ -278,7 +275,7 @@ STATIC void rmissile_act_helper_8006BD24(RMissileWork *work, int pad_status)
     work->field_113 = 0;
 
     GM_Camera_800B77E8.first_person = 0;
-    Nik_Blast_8009F484 = 0;
+    Nik_Blast = 0;
 
     if (work->field_115)
     {
@@ -342,7 +339,7 @@ STATIC void rmissile_act_helper_8006BEEC(RMissileWork *work)
         work->field_113 = 0;
 
         GM_Camera_800B77E8.first_person = 0;
-        Nik_Blast_8009F484 = 0;
+        Nik_Blast = 0;
 
         if (!work->field_112)
         {
@@ -446,7 +443,7 @@ STATIC void rmissile_act_helper_8006C114(RMissileWork *work)
     if (GM_Camera_800B77E8.first_person && !work->field_117)
     {
         GM_Camera_800B77E8.first_person = 0;
-        Nik_Blast_8009F484 = 0;
+        Nik_Blast = 0;
     }
 
     work->field_113 = 0;
@@ -752,7 +749,7 @@ STATIC void RMissileDie(RMissileWork *work)
     }
 
     dword_8009F470 = 0;
-    Nik_Blast_8009F484 = 0;
+    Nik_Blast = 0;
 
     prim = work->field_2D8_prim;
     if (prim)
@@ -817,7 +814,7 @@ STATIC int RMissileInitPolys(RMissileWork *work)
     return 0;
 }
 
-STATIC static inline void rmissile_loader_helper_helper_8006CD1C_set_poly(POLY_FT4 *poly, DG_TEX *tex)
+static inline void rmissile_loader_helper_helper_8006CD1C_set_poly(POLY_FT4 *poly, DG_TEX *tex)
 {
     int u, v, w, h;
 
@@ -879,7 +876,7 @@ STATIC void rmissile_loader_helper_8006CE54(RMissileWork *work)
     tex = DG_GetTexture(hash);
 
     work->field_2DC_tex = tex;
-    prim = work->field_2D8_prim = Takabe_MakeIndividualRect3DPrim_800793E8(8, work->field_2E4_svector_8Array);
+    prim = work->field_2D8_prim = Takabe_MakeIndividualRect3DPrim(8, work->field_2E4_svector_8Array);
 
     rmissile_loader_helper_helper_8006CD1C(&prim->packs[0]->poly_ft4, tex, 8);
     rmissile_loader_helper_helper_8006CD1C(&prim->packs[1]->poly_ft4, tex, 8);
@@ -990,7 +987,7 @@ GV_ACT *NewRMissile(MATRIX *world, int side)
         work->field_11A = 0;
         work->field_11C = 0;
         work->field_168 = 0;
-        Nik_Blast_8009F484 = 0;
+        Nik_Blast = 0;
     }
 
     return &work->actor;

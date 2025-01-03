@@ -1,13 +1,8 @@
 #include "libdg.h"
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 #include "common.h"
-
-/**gp*******************************************/
-extern unsigned long DG_PacketCode[2];
-/***********************************************/
-
-/**data*******************************/
-extern SVECTOR DG_Ambient;
-/*************************************/
 
 void DG_ShadeStart( void )
 {

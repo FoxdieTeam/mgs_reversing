@@ -6,16 +6,16 @@
 
 typedef struct _FogWork
 {
-    GV_ACT    actor;
-    int       map;
-    int       name;
-    int       scale;
-    int       f2C;
-    TChanl_Fn bound;
-    TChanl_Fn trans;
-    TChanl_Fn shade;
-    TChanl_Fn sort;
-    int       f40;
+    GV_ACT       actor;
+    int          map;
+    int          name;
+    int          scale;
+    int          f2C;
+    DG_CHANLFUNC bound;
+    DG_CHANLFUNC trans;
+    DG_CHANLFUNC shade;
+    DG_CHANLFUNC sort;
+    int          f40;
 } FogWork;
 
 int SECTION("overlay.bss") s12c_800DA428;

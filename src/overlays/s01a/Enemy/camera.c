@@ -3,6 +3,7 @@
 #include "common.h"
 #include "mts/mts.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "Game/game.h"
 #include "Game/object.h"
 #include "Game/linkvarbuf.h"
@@ -92,7 +93,6 @@ extern TOPCOMMAND_STRUCT TOPCOMMAND_800E0F20;
 extern int               COM_VibTime_800E0F68;
 
 extern int              GM_PlayerMap_800ABA0C;
-extern SVECTOR          DG_ZeroVector;
 extern SVECTOR          GM_PlayerPosition_800ABA10;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern CONTROL         *GM_WhereList_800B56D0[96];
@@ -690,7 +690,7 @@ void s01a_camera_800D5D1C(CameraWork *work)
 
         if (!(work->field_1F0 & 0x7))
         {
-            NewSpark_80074564(&mat, GV_RandU(2));
+            NewSpark(&mat, GV_RandU(2));
         }
         if (work->field_1F0 == work->field_1F0 / 12 * 12)
         {

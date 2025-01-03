@@ -103,8 +103,8 @@ typedef struct CONTROL
 #define MAX_CONTROLS 96
 
 /* control.c */
-int  GM_ControlPushBack(CONTROL *control);
-void GM_ControlRemove(CONTROL *control);
+// int  GM_ControlPushBack(CONTROL *control);
+// void GM_ControlRemove(CONTROL *control);
 void GM_InitWhereSystem(void);
 int  GM_InitControl(CONTROL *control, int scriptData, int scriptBinds);
 void GM_ActControl(CONTROL *control);

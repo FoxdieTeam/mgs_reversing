@@ -1,8 +1,39 @@
 #include "scn_mask.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
+#include "common.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
+#include "Equip/equip.h"
+
 extern int GV_Clock_800AB920;
 
-void scn_mask_act_80078620(struct ScnMaskWork *work)
+/*---------------------------------------------------------------------------*/
+
+typedef struct SCN_MASK_PRIMS
+{
+    DR_TPAGE field_0_unknown1[2];
+    TILE     field_10_tile_big[2];
+    DR_TPAGE field_30_unknown2[2];
+    TILE     field_40_tile_lines[2][112];
+} SCN_MASK_PRIMS;
+
+typedef struct ScnMaskWork
+{
+    GV_ACT           actor;
+    SCN_MASK_PRIMS  *field_20_pPrims;
+    int              field_24;
+    int              field_28;
+} ScnMaskWork;
+
+#define EXEC_LEVEL 2
+
+/*---------------------------------------------------------------------------*/
+
+STATIC void scn_mask_Act(struct ScnMaskWork *work)
 {
     int            i;
     TILE          *pTiles;
@@ -23,7 +54,7 @@ void scn_mask_act_80078620(struct ScnMaskWork *work)
     addPrim(pOt, &work->field_20_pPrims->field_0_unknown1[GV_Clock_800AB920]);
 }
 
-void scn_mask_kill_80078774(struct ScnMaskWork *work)
+STATIC void scn_mask_Die(struct ScnMaskWork *work)
 {
     if (work->field_20_pPrims)
     {
@@ -31,13 +62,14 @@ void scn_mask_kill_80078774(struct ScnMaskWork *work)
     }
 }
 
-int scn_mask_loader_800787A4(struct ScnMaskWork *work, int a2)
+STATIC int scn_mask_GetResources(struct ScnMaskWork *work, int a2)
 {
-    struct scn_mask_prims *pPrims;
-    TILE                  *p2nd;
-    int                    k112_counter;
-    TILE                  *p1st;
-    pPrims = (struct scn_mask_prims *)GV_Malloc(sizeof(struct scn_mask_prims));
+    SCN_MASK_PRIMS  *pPrims;
+    TILE            *p2nd;
+    int              k112_counter;
+    TILE            *p1st;
+
+    pPrims = (SCN_MASK_PRIMS *)GV_Malloc(sizeof(SCN_MASK_PRIMS));
     work->field_20_pPrims = pPrims;
     if (!pPrims)
     {
@@ -103,24 +135,27 @@ int scn_mask_loader_800787A4(struct ScnMaskWork *work, int a2)
     return 0;
 }
 
+/*---------------------------------------------------------------------------*/
 /**
- * @brief Constructor for the screen effect of the thermal goggles or night vision goggles.
+ * @brief   Constructor for the screen effect of the thermal goggles
+ *          or night vision goggles.
  *
- * @param a1 1 for thermal goggles, 0 for night vision goggles.
- * @return GV_ACT* the actor for the screen effect.
+ * @param   type    1 for thermal goggles, 0 for night vision goggles.
+ *
+ * @return  GV_ACT* the actor for the screen effect.
  */
-GV_ACT *new_scn_mask_8007895C(int a1)
+GV_ACT *NewNightVisionScreen(int type)
 {
-    ScnMaskWork *work = (ScnMaskWork *)GV_NewActor(2, sizeof(ScnMaskWork));
+    ScnMaskWork *work = (ScnMaskWork *)GV_NewActor(EXEC_LEVEL, sizeof(ScnMaskWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)scn_mask_act_80078620,
-                         (GV_ACTFUNC)scn_mask_kill_80078774, "scn_mask.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)scn_mask_Act,
+                         (GV_ACTFUNC)scn_mask_Die, "scn_mask.c");
 
-        if (scn_mask_loader_800787A4(work, a1) < 0)
+        if (scn_mask_GetResources(work, type) < 0)
         {
             GV_DestroyActor(&work->actor);
-            return 0;
+            return NULL;
         }
     }
     return &work->actor;

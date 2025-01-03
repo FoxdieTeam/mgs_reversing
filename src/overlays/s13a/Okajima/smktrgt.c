@@ -19,7 +19,6 @@ typedef struct _SmktrgtWork
     int     map;
 } SmktrgtWork;
 
-extern SVECTOR DG_ZeroVector;
 extern int     GM_CurrentMap_800AB9B0;
 extern int     GM_PlayerMap_800ABA0C;
 

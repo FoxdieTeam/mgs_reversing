@@ -4,7 +4,10 @@
 #include <sys/types.h>
 #include <libgte.h>
 #include <libgpu.h>
+
 #include "common.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
 
 extern void s00a_command_800C6BCC( WatcherWork *work, int time );
 extern void s00a_command_800C6FA8( WatcherWork *work, int time );
@@ -22,7 +25,6 @@ extern int               COM_EYE_LENGTH_800E0D8C;
 extern int               COM_PlayerAddressOne_800E0F40[8];
 
 extern OBJECT *GM_PlayerBody_800ABA20;
-extern SVECTOR DG_ZeroVector;
 
 int s00a_command_800C50B0( WatcherWork *work )
 {

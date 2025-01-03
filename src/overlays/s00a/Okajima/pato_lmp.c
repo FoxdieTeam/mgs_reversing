@@ -3,6 +3,7 @@
 #include "common.h"
 #include "mts/mts.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "Game/object.h"
 #include "Game/camera.h"
@@ -304,8 +305,6 @@ void s00a_pato_lmp_800D6194(PatoLmpWork *work, int arg1, int arg2, int arg3)
         s00a_pato_lmp_800D5F1C((POLY_FT4*)prim_uni, 0);
     }
 }
-
-extern SVECTOR DG_ZeroVector;
 
 void s00a_pato_lmp_800D6550( PatoLmpWork* work )
 {

@@ -3,6 +3,6 @@
 
 #include "libgv/libgv.h"
 
-GV_ACT *NewDoor_8006FD00(int name, int where, int argc, char **argv);
+GV_ACT *NewDoor(int name, int where, int argc, char **argv);
 
 #endif // _THING_DOOR_H_

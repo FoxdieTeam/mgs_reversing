@@ -13,7 +13,7 @@
 CHARA _StageCharacterEntries[] =
 {
     { CHARA_LAMP, NewLamp_800C3B34 },
-    { CHARA_DOOR, NewDoor_8006FD00 },
+    { CHARA_DOOR, NewDoor },
     { CHARA_CINEMA, NewCinemaScreenSet_800DE4D8 },
     { CHARA_OBSTACLE, NewWall_800C3718 },
     { CHARA_GAS_EFFECT, NewGasEffect_800C4E5C },

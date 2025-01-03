@@ -100,13 +100,13 @@ void SndtstAct_800C32D8( Work *work )
             GM_VoxStream_80037E40( work->field_2C_code, 0 );
         }
 
-        MENU_Locate_80038B34( 160, 120, 0x2 );
-        MENU_Printf_80038C38( work->field_28_name );
+        MENU_Locate( 160, 120, 0x2 );
+        MENU_Printf( work->field_28_name );
     }
     else
     {
-        MENU_Locate_80038B34( 160, 120, 0x2 );
-        MENU_Printf_80038C38( "PLAYING" );
+        MENU_Locate( 160, 120, 0x2 );
+        MENU_Printf( "PLAYING" );
 
         if ( pPad->press & PAD_CROSS )
         {
@@ -145,8 +145,8 @@ void SndtstAct_800C32D8( Work *work )
                 symbol = '0';
             }
 
-            MENU_Locate_80038B34( 116, 32 + i * 10, 0 );
-            MENU_Printf_80038C38( "%c  %c  :%d", symbol, "-0=-"[pUnk[i].field_3], pUnk[i].field_0 );
+            MENU_Locate( 116, 32 + i * 10, 0 );
+            MENU_Printf( "%c  %c  :%d", symbol, "-0=-"[pUnk[i].field_3], pUnk[i].field_0 );
         }
     }
 }

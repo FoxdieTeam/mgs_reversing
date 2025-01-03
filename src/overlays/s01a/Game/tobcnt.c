@@ -23,9 +23,6 @@ typedef struct _TobcntWork
     DVECTOR  directions[166];
 } TobcntWork;
 
-extern int    GM_GameStatus;
-extern int    GM_LoadRequest;
-extern int    GM_GameOverTimer;
 extern int    GV_Clock_800AB920;
 extern int    GV_PauseLevel_800AB928;
 extern GV_PAD GV_PadData_800B05C0[4];

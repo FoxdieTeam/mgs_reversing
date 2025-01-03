@@ -1,5 +1,8 @@
 #include "../../../s00a/Enemy/enemy.h"
+
 #include "common.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "Game/item.h"
 #include "Game/linkvarbuf.h"
 #include "SD/g_sound.h"
@@ -299,7 +302,7 @@ void ActReadyGun_800D51EC( ZakoWork* work, int time )
         {
             SetAction( work, ACTION5, ACTINTERP );
         }
-        GM_ConfigMotionAdjust_80035008( &( work->body ), &work->field_724 ) ;
+        GM_ConfigMotionAdjust( &( work->body ), &work->field_724 ) ;
     }
 
     ReviseReadyGun_800D4828( work );
@@ -353,7 +356,7 @@ void s11e_zk11ecom_800D5360( ZakoWork* work, int time )
     {
         SetAction( work, ACTION4, 0 ) ;
         ZAKO11E_SetPutChar_800D8004( work, 3 ) ;
-        GM_ConfigMotionAdjust_80035008( &( work->body ), &work->field_724 ) ;
+        GM_ConfigMotionAdjust( &( work->body ), &work->field_724 ) ;
     }
 
     ReviseReadyGun_800D4828( work );
@@ -586,9 +589,8 @@ extern unsigned char s11e_dword_800C3658;
 extern unsigned char s11e_dword_800C365C;
 
 extern int GM_PlayerAction_800ABA40;
-extern SVECTOR DG_ZeroVector;
 
-extern void NewPadVibration_8005D58C( unsigned char *ptr, int flags );
+extern void NewPadVibration( unsigned char *ptr, int flags );
 extern void s11e_zk11ecom_800D649C( ZakoWork *work, int time );
 
 void s11e_zk11ecom_800D5B04( ZakoWork *work, int time )
@@ -654,8 +656,8 @@ void s11e_zk11ecom_800D5B04( ZakoWork *work, int time )
 
         if ( s2 == 0x30 && !( work->field_B5C & 7  ) )
         {
-            NewPadVibration_8005D58C( &s11e_dword_800C3658, 1);
-            NewPadVibration_8005D58C( &s11e_dword_800C365C, 2);
+            NewPadVibration( &s11e_dword_800C3658, 1);
+            NewPadVibration( &s11e_dword_800C365C, 2);
         }
         work->control.turn = GM_PlayerControl_800AB9F4->rot;
         s11e_zk11ecom_800D5A84( work );
@@ -1586,7 +1588,7 @@ extern SVECTOR s11e_dword_800C3680;
 extern SVECTOR s11e_dword_800C3688;
 
 
-extern void    NewBlood_80072728( MATRIX *, int );
+extern void    NewBlood( MATRIX *, int );
 
 void ZAKO11E_PutBlood_800D7A14( ZakoWork* work, int obj_idx, int count )
 {
@@ -1595,7 +1597,7 @@ void ZAKO11E_PutBlood_800D7A14( ZakoWork* work, int obj_idx, int count )
     DG_MovePos( &s11e_dword_800C3670 );
     DG_RotatePos( &s11e_dword_800C3678 );
     ReadRotMatrix( &mat );
-    NewBlood_80072728( &mat, count );
+    NewBlood( &mat, count );
 }
 
 void ZAKO11E_PutFog_800D7A84( ZakoWork *work )
@@ -1725,8 +1727,6 @@ void ZAKO11E_PutSound_800D7CAC( ZakoWork* work )
     }
 }
 
-extern int GV_Time;
-
 extern void  NewLSight_800D1D2C( SVECTOR *from, SVECTOR *to, int color ) ;
 extern void  AN_Breath_800C3AA8( MATRIX * );
 
@@ -1791,7 +1791,7 @@ extern SVECTOR s11e_dword_800C36AC;
 
 extern void  NewAnime_8005D6BC( MATRIX *, int );
 extern void  NewAnime_8005D604( MATRIX * );
-extern void *NewBulletEx_80076708(  int, MATRIX*, int, int, int, int, int, int, int );
+extern void *NewBulletEx( int, MATRIX*, int, int, int, int, int, int, int );
 
 
 extern int ZAKO11E_ClearPutChar_800D804C( ZakoWork *work, void *func );
@@ -1818,11 +1818,11 @@ void ZAKO11E_PutBulletEx_800D7EC8( ZakoWork *work )
 
     if ( GV_Time & 3 )
     {
-        NewBulletEx_80076708( 0x100,  &local_mat, 2, 1, 0, 0xA, work->field_B84, 0x2710, 0x2EE);
+        NewBulletEx( 0x100,  &local_mat, 2, 1, 0, 0xA, work->field_B84, 0x2710, 0x2EE);
     }
     else
     {
-        NewBulletEx_80076708( 0x1100, &local_mat, 2, 1, 0, 0xA, work->field_B84, 0x2710, 0x2EE);
+        NewBulletEx( 0x1100, &local_mat, 2, 1, 0, 0xA, work->field_B84, 0x2710, 0x2EE);
     }
 
     GM_SeSetMode( &work->control.mov, SE_ENEMY_SHOT, GM_SEMODE_BOMB );

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "Game/target.h"
 #include "Game/game.h"
@@ -41,12 +42,8 @@ int     NewCinemaScreenClose_800DE4CC(GV_ACT *work);
 GV_ACT *NewSpark2_800CA714(MATRIX *world);
 
 extern int     GM_CurrentMap_800AB9B0;
-extern int     GM_GameStatus;
-extern int     GM_GameOverTimer;
 extern int     GM_PadVibration_800ABA3C;
 extern int     GM_PadVibration2_800ABA54;
-extern MATRIX  DG_ZeroMatrix;
-extern int     GV_Time;
 extern DG_CHANL DG_Chanls_800B1800[3];
 
 void PLampLookAt_800CC9F4(PLampWork *work, SVECTOR *eye, SVECTOR *center)
@@ -363,7 +360,7 @@ void PLamp_800CCE6C(PLampWork *work)
             {
                 NewSpark2_800CA714(&mat);
             }
-            NewSpark_80074564(&mat, 0);
+            NewSpark(&mat, 0);
         }
         break;
 

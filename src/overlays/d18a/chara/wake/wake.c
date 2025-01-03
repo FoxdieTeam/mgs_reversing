@@ -90,8 +90,8 @@ void WakeCheckPad_800C5E8C(WakeWork *work)
     pad2 = work->pad;
     left_dy = pad2->left_dy;
 
-    GM_CheckShukanReverse_8004FBF8(&status);
-    GM_CheckShukanReverseAnalog_8004FC70(&left_dy);
+    GM_CheckShukanReverse(&status);
+    GM_CheckShukanReverseAnalog(&left_dy);
 
     if (Wake_800C5E24(pad))
     {

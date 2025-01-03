@@ -29,7 +29,6 @@ typedef struct FadeIoWork
 extern int GV_Clock_800AB920;
 extern int GV_PassageTime_800AB924;
 extern int GV_PauseLevel_800AB928;
-extern int GM_GameStatus;
 
 unsigned short fadeio_msgs[] = {HASH_KILL, 0x71F1};
 

@@ -1,31 +1,80 @@
 #include "bullet.h"
 
 #include "common.h"
-#include "spark.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "Anime/animeconv/anime.h"
+#include "libhzd/libhzd.h"
 #include "Game/game.h"
+#include "Game/target.h"
 #include "Game/linkvarbuf.h"
 #include "Anime/animeconv/anime.h"
+#include "spark.h"
 
 extern int GM_CurrentMap_800AB9B0;
-extern int GM_GameStatus;
 
-//------------------------------------------------------------------------------
+/*---------------------------------------------------------------------------*/
 
-int dword_8009F6A8 = 0;
+// TODO: This type of struct is seen in other places that make use of HZD_FLR.
+typedef struct Bullet_vecs
+{
+    SVECTOR vecs[4];
+} Bullet_vecs;
 
-SVECTOR svec_8009F6AC[4] = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
-SVECTOR svec_8009F6CC = {0, 400, 0, 0};
-VECTOR vec_8009F6D4 = {0, 0, 0, 0};
-SVECTOR svec_8009F6E4 = {0, 55536, 0, 0};
-SVECTOR svec_8009F6EC = {100, 100, 100, 0};
-SVECTOR svec_8009F6F4 = {0, 0, 0, 0};
-SVECTOR svec_8009F6FC = {0, 400, 0, 0};
+typedef struct BulletWork
+{
+    GV_ACT      actor;
+    int         field_20;
+    MATRIX      field_24;
+    TARGET      field_44_target;
+    DG_PRIM    *field_8C_pPrim;
+    SVECTOR     field_90[8];
+    Bullet_vecs field_D0[2];
+    SVECTOR     field_110;
+    SVECTOR     field_118;
+    SVECTOR     field_120;
+    SVECTOR     field_128;
+    HZD_FLR    *field_130;
+    int         field_134;
+    int         field_138;
+    int         field_13C;
+    int         field_140;
+    int         field_144_noise_len;
+    int         field_148_side;
+    int         field_14C;
+    int         field_150;
+    int         field_154_hp;
+    int         field_158;
+    int         field_15C;
+    int         field_160;
+    int         field_164;
+    int         field_168;
+    int         field_16C;
+} BulletWork;
 
-//------------------------------------------------------------------------------
+// STATIC_ASSERT(sizeof(BulletWork) == 0x170, "sizeof(BulletWork) is wrong!");
 
-void bullet_80075314(SVECTOR *pVec, int amount)
+#define EXEC_LEVEL 5
+
+/*---------------------------------------------------------------------------*/
+
+STATIC int dword_8009F6A8 = 0;
+
+STATIC SVECTOR svec_8009F6AC[4] = {
+    {0, 0, 0, 0},
+    {0, 0, 0, 0},
+    {0, 0, 0, 0},
+    {0, 0, 0, 0}
+};
+STATIC SVECTOR svec_8009F6CC = {0, 400, 0, 0};
+STATIC VECTOR vec_8009F6D4 = {0, 0, 0, 0};
+STATIC SVECTOR svec_8009F6E4 = {0, 55536, 0, 0};
+STATIC SVECTOR svec_8009F6EC = {100, 100, 100, 0};
+STATIC SVECTOR svec_8009F6F4 = {0, 0, 0, 0};
+STATIC SVECTOR svec_8009F6FC = {0, 400, 0, 0};
+
+/*---------------------------------------------------------------------------*/
+
+STATIC void bullet_80075314(SVECTOR *pVec, int amount)
 {
     svec_8009F6AC[0].vx = amount;
     svec_8009F6AC[1].vx = -amount;
@@ -34,7 +83,7 @@ void bullet_80075314(SVECTOR *pVec, int amount)
     DG_PutVector(svec_8009F6AC, pVec, 4);
 }
 
-void bullet_loader2_helper_80075358(BulletWork *work)
+STATIC void bullet_loader2_helper_80075358(BulletWork *work)
 {
     Bullet_vecs *pVecs;
     int i;
@@ -49,7 +98,7 @@ void bullet_loader2_helper_80075358(BulletWork *work)
     }
 }
 
-void bullet_act_helper_80075414(BulletWork *work)
+STATIC void bullet_act_helper_80075414(BulletWork *work)
 {
     Bullet_vecs *pVecs;
     int i;
@@ -68,7 +117,7 @@ void bullet_act_helper_80075414(BulletWork *work)
     bullet_80075314(pVecs->vecs, work->field_150);
 }
 
-void bullet_act_helper_800754E4(BulletWork *work)
+STATIC void bullet_act_helper_800754E4(BulletWork *work)
 {
     int i;
     SVECTOR *pDst;
@@ -93,7 +142,7 @@ void bullet_act_helper_800754E4(BulletWork *work)
     }
 }
 
-void bullet_loader2_helper_80075610(POLY_FT4 *pPoly, DG_TEX *pTex, int arg2)
+STATIC void bullet_loader2_helper_80075610(POLY_FT4 *pPoly, DG_TEX *pTex, int arg2)
 {
     int i, j;
     int r, gb;
@@ -137,7 +186,7 @@ void bullet_loader2_helper_80075610(POLY_FT4 *pPoly, DG_TEX *pTex, int arg2)
     }
 }
 
-int bullet_loader3_8007575C(BulletWork *work, MATRIX *pMtx, int noiseLen)
+STATIC int bullet_loader3_8007575C(BulletWork *work, MATRIX *pMtx, int noiseLen)
 {
     SVECTOR     svec1, svec2, svec3;
     VECTOR      vec1, vec2;
@@ -343,17 +392,17 @@ skip_clamp_z:
     }
 }
 
-void bullet_act_80075DD4(BulletWork *work)
+STATIC void bullet_Act(BulletWork *work)
 {
     MATRIX mtx;
     SVECTOR vec;
     int sound;
-    MAP *pMapRecord;
+    MAP *map;
 
     sound = 0;
     GM_SetCurrentMap(work->field_20);
 
-    pMapRecord = Map_FromId_800314C0(work->field_20);
+    map = Map_FromId_800314C0(work->field_20);
     work->field_13C += work->field_15C;
 
     if (work->field_138 < work->field_13C)
@@ -365,7 +414,7 @@ void bullet_act_80075DD4(BulletWork *work)
         GV_AddVec3(&work->field_110, &work->field_120, &vec);
     }
 
-    if (GM_Target_8002E1B8(&work->field_110, &vec, pMapRecord->index, &vec, work->field_148_side))
+    if (GM_Target_8002E1B8(&work->field_110, &vec, map->index, &vec, work->field_148_side))
     {
         GM_MoveTarget(&work->field_44_target, &vec);
         GM_PowerTarget(&work->field_44_target);
@@ -409,11 +458,11 @@ void bullet_act_80075DD4(BulletWork *work)
 
             if (work->field_14C & 0x200)
             {
-                NewSpark_80074564(&mtx, 1);
+                NewSpark(&mtx, 1);
             }
             else if (work->field_14C & 0x100)
             {
-                NewSpark_80074564(&mtx, 0);
+                NewSpark(&mtx, 0);
             }
         }
 
@@ -454,7 +503,7 @@ void bullet_act_80075DD4(BulletWork *work)
     GV_DestroyActor(&work->actor);
 }
 
-void bullet_kill_80076164(BulletWork *work)
+STATIC void bullet_Die(BulletWork *work)
 {
     DG_PRIM *prim;
 
@@ -466,29 +515,29 @@ void bullet_kill_80076164(BulletWork *work)
     }
 }
 
-int bullet_SetTarget_800761A0( BulletWork *actor, int side )
+STATIC int bullet_SetTarget( BulletWork *work, int side )
 {
     SVECTOR pos;
 
-    GM_SetTarget( &actor->field_44_target, TARGET_POWER, side, &svec_8009F6EC );
+    GM_SetTarget( &work->field_44_target, TARGET_POWER, side, &svec_8009F6EC );
 
-    pos.vx = actor->field_120.vx >> 3; // divide 8 won't match
-    pos.vy = actor->field_120.vy >> 3;
-    pos.vz = actor->field_120.vz >> 3;
+    pos.vx = work->field_120.vx >> 3; // divide 8 won't match
+    pos.vy = work->field_120.vy >> 3;
+    pos.vz = work->field_120.vz >> 3;
 
-    if ( actor->field_14C & 0x800 )
+    if ( work->field_14C & 0x800 )
     {
-        GM_Target_8002DCCC( &actor->field_44_target, 0, 2, actor->field_154_hp, 0, &pos );
+        GM_Target_8002DCCC( &work->field_44_target, 0, 2, work->field_154_hp, 0, &pos );
     }
     else
     {
-        GM_Target_8002DCCC( &actor->field_44_target, 0, 1, actor->field_154_hp, 0, &pos );
+        GM_Target_8002DCCC( &work->field_44_target, 0, 1, work->field_154_hp, 0, &pos );
     }
 
     return 0;
 }
 
-int bullet_loader2_80076274(BulletWork *work, MATRIX* pMtx, int arg2, int noiseLen, int whichSide)
+STATIC int bullet_GetResources(BulletWork *work, MATRIX* pMtx, int arg2, int noiseLen, int whichSide)
 {
     DG_PRIM *pPrim;
     DG_TEX *pTex;
@@ -543,73 +592,75 @@ int bullet_loader2_80076274(BulletWork *work, MATRIX* pMtx, int arg2, int noiseL
     return 0;
 }
 
-BulletWork * NewBulletEnemy_80076420(MATRIX *arg0, int whichSide, int arg2, int arg3, int arg4)
-{
-    BulletWork  *actor;
-    SVECTOR       vec;
+/*---------------------------------------------------------------------------*/
 
-    actor = (BulletWork *)GV_NewActor( 5, sizeof(BulletWork) );
-    if ( actor != NULL )
+GV_ACT *NewBulletEnemy(MATRIX *arg0, int whichSide, int arg2, int arg3, int arg4)
+{
+    BulletWork  *work;
+    SVECTOR      vec;
+
+    work = (BulletWork *)GV_NewActor( EXEC_LEVEL, sizeof(BulletWork) );
+    if ( work != NULL )
     {
-        GV_SetNamedActor( (GV_ACT *)actor,
-                          (GV_ACTFUNC)&bullet_act_80075DD4,
-                          (GV_ACTFUNC)&bullet_kill_80076164,
+        GV_SetNamedActor( &work->actor,
+                          (GV_ACTFUNC)&bullet_Act,
+                          (GV_ACTFUNC)&bullet_Die,
                           "bullet.c" );
         vec.vx = arg0->m[0][0];
         vec.vy = arg0->m[1][0];
         vec.vz = arg0->m[2][0];
-        actor->field_160 = GV_VecLen3( &vec );
-        actor->field_150 = 10;
-        actor->field_154_hp = 64;
+        work->field_160 = GV_VecLen3( &vec );
+        work->field_150 = 10;
+        work->field_154_hp = 64;
 
         if ( arg3 == 2 )
         {
-            actor->field_158 = 100000;
-            actor->field_15C = 5000;
+            work->field_158 = 100000;
+            work->field_15C = 5000;
         }
         else if ( arg3 == 1 )
         {
-            actor->field_158 = 10000;
-            actor->field_15C = 5000;
+            work->field_158 = 10000;
+            work->field_15C = 5000;
         }
         else
         {
-            actor->field_158 = 10000;
-            actor->field_15C = 750;
+            work->field_158 = 10000;
+            work->field_15C = 750;
         }
 
-        actor->field_168 = arg4;
+        work->field_168 = arg4;
 
-        if ( bullet_loader2_80076274( actor, arg0, arg2, arg3, whichSide ) < 0 )
+        if ( bullet_GetResources( work, arg0, arg2, arg3, whichSide ) < 0 )
         {
-            GV_DestroyActor( (GV_ACT *)actor );
+            GV_DestroyActor( &work->actor );
             return NULL;
         }
 
-        if ( bullet_SetTarget_800761A0( actor, whichSide ) < 0 )
+        if ( bullet_SetTarget( work, whichSide ) < 0 )
         {
-            GV_DestroyActor( (GV_ACT *)actor );
+            GV_DestroyActor( &work->actor );
         }
 
-        actor->field_14C = 0x100;
-        actor->field_144_noise_len = arg3;
-        actor->field_134 = arg2;
-        actor->field_148_side = whichSide;
+        work->field_14C = 0x100;
+        work->field_144_noise_len = arg3;
+        work->field_134 = arg2;
+        work->field_148_side = whichSide;
     }
-    return actor;
+    return &work->actor;
 }
 
-GV_ACT *bullet_init_80076584(MATRIX *pMtx, int whichSide, int a3, int noiseLen)
+GV_ACT *NewBullet(MATRIX *pMtx, int whichSide, int a3, int noiseLen)
 {
     SVECTOR vec;
     BulletWork *work;
 
-    work = (BulletWork *)GV_NewActor(5, sizeof(BulletWork));
+    work = (BulletWork *)GV_NewActor(EXEC_LEVEL, sizeof(BulletWork));
     if ( work )
     {
         GV_SetNamedActor(&work->actor,
-                         (GV_ACTFUNC)&bullet_act_80075DD4,
-                         (GV_ACTFUNC)&bullet_kill_80076164,
+                         (GV_ACTFUNC)&bullet_Act,
+                         (GV_ACTFUNC)&bullet_Die,
                          "bullet.c");
         vec.vx = pMtx->m[0][0];
         vec.vy = pMtx->m[1][0];
@@ -652,13 +703,13 @@ GV_ACT *bullet_init_80076584(MATRIX *pMtx, int whichSide, int a3, int noiseLen)
 
         work->field_168 = 1;
 
-        if ( bullet_loader2_80076274(work, pMtx, a3, noiseLen, whichSide) < 0 )
+        if ( bullet_GetResources(work, pMtx, a3, noiseLen, whichSide) < 0 )
         {
             GV_DestroyActor(&work->actor);
-            return 0;
+            return NULL;
         }
 
-        if ( bullet_SetTarget_800761A0(work, whichSide) < 0 )
+        if ( bullet_SetTarget(work, whichSide) < 0 )
         {
             GV_DestroyActor(&work->actor);
         }
@@ -672,22 +723,21 @@ GV_ACT *bullet_init_80076584(MATRIX *pMtx, int whichSide, int a3, int noiseLen)
     return &work->actor;
 }
 
-BulletWork * NewBulletEx_80076708(
-    int a1, MATRIX* pMtx, int side, int a4, int a5, int a6, int a7, int a8, int a9)
+GV_ACT *NewBulletEx(int a1, MATRIX* pMtx, int side, int a4, int a5, int a6, int a7, int a8, int a9)
 {
     BulletWork* work; // $s0
     int flags; // $v1
     SVECTOR vec; // [sp+18h] [-28h] BYREF
     MATRIX mtx; // [sp+20h] [-20h] BYREF
 
-    work = (BulletWork*)GV_NewActor(5, sizeof(BulletWork));
+    work = (BulletWork*)GV_NewActor(EXEC_LEVEL, sizeof(BulletWork));
     if (!work)
     {
-        return 0;
+        return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)bullet_act_80075DD4,
-        (GV_ACTFUNC)bullet_kill_80076164, "bullet.c");
+    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)bullet_Act,
+        (GV_ACTFUNC)bullet_Die, "bullet.c");
     work->field_14C = a1;
     work->field_150 = a6 / 2;
     work->field_154_hp = a7;
@@ -709,14 +759,14 @@ BulletWork * NewBulletEx_80076708(
         work->field_168 = 1;
     }
 
-    if (bullet_loader2_80076274(work, &mtx, a4, a5, side) < 0)
+    if (bullet_GetResources(work, &mtx, a4, a5, side) < 0)
     {
         GV_DestroyActor(&work->actor);
-        return 0;
+        return NULL;
     }
     else
     {
-        if (bullet_SetTarget_800761A0(work, side) < 0)
+        if (bullet_SetTarget(work, side) < 0)
         {
             GV_DestroyActor(&work->actor);
         }
@@ -750,16 +800,16 @@ BulletWork * NewBulletEx_80076708(
         }
 
         ++dword_8009F6A8;
-        return work;
+        return &work->actor;
     }
 
-    return 0;
+    return NULL;
 }
 
-BulletWork * sub_8007692C(MATRIX *pMtx, int a2, int a3, int a4, int a5, int a6, int a7, int a8)
+GV_ACT *NewBullet2(MATRIX *pMtx, int a2, int a3, int a4, int a5, int a6, int a7, int a8)
 {
-    SVECTOR vec; // [sp+28h] [-28h] BYREF
-    MATRIX mtx; // [sp+30h] [-20h] BYREF
+    SVECTOR vec;
+    MATRIX mtx;
 
     DG_SetPos(pMtx);
     vec.vx = 1024;
@@ -767,5 +817,5 @@ BulletWork * sub_8007692C(MATRIX *pMtx, int a2, int a3, int a4, int a5, int a6, 
     vec.vz = 0;
     DG_RotatePos(&vec);
     ReadRotMatrix(&mtx);
-    return NewBulletEx_80076708(256, &mtx, a2, a3, a4, a5, a6, a7, a8);
+    return NewBulletEx(256, &mtx, a2, a3, a4, a5, a6, a7, a8);
 }

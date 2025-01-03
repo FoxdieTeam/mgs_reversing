@@ -21,8 +21,7 @@ typedef struct _DBloodsWork
 
 int d00a_dword_800E1650;
 
-extern SVECTOR DG_ZeroVector;
-extern int     GM_CurrentMap_800AB9B0;
+extern int GM_CurrentMap_800AB9B0;
 
 #define EXEC_LEVEL 7
 

@@ -1,8 +1,9 @@
-#include "common.h"
 #include "libdg.h"
 
-extern MATRIX DG_LightMatrix;
-extern MATRIX DG_ZeroMatrix;
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+#include "common.h"
 
 STATIC int DG_MakeObjs_helper( DG_MDL *mdl )
 {

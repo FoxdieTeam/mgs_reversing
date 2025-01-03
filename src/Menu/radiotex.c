@@ -7,8 +7,8 @@
 #include "Game/game.h"
 #include "Menu/menuman.h"
 
-RECT rect_800AB6C8 = {768, 256, 256, 4};
-RECT rect_800AB6D0 = {896, 336, 64, 96};
+STATIC RECT rect_800AB6C8 = {768, 256, 256, 4};
+STATIC RECT rect_800AB6D0 = {896, 336, 64, 96};
 
 void sub_800469F0(menu_chara_struct *pStru)
 {
@@ -19,7 +19,7 @@ void sub_800469F0(menu_chara_struct *pStru)
 
     offsetImage2 = rect_800AB6C8.w * rect_800AB6C8.h * 2; // 16-bit per pixel
     totalSize = offsetImage2 + rect_800AB6D0.w * rect_800AB6D0.h * 2;
-    pSaveText = (short *)GV_AllocMemory(0, totalSize);
+    pSaveText = (short *)GV_AllocMemory(GV_PACKET_MEMORY0, totalSize);
 
     pStru->field_2C_pSaveText = pSaveText;
     if (pSaveText == NULL)
@@ -45,7 +45,7 @@ void menu_radio_codec_helper_helper7_helper_80046A98(menu_chara_struct *pStru)
     LoadImage(&rect_800AB6D0, (u_long *)(pSaveText + imageSize));
 
     DrawSync(0);
-    GV_FreeMemory(0, pStru->field_2C_pSaveText);
+    GV_FreeMemory(GV_PACKET_MEMORY0, pStru->field_2C_pSaveText);
 }
 
 /**

@@ -71,12 +71,10 @@ const char s03e_aInitopen_800CBF68[] = "INiTOPEN\n";
 
 EvPanelWork *SECTION("overlay.bss") s03e_dword_800CC6B8;
 
-extern int          GV_Time;
 extern int          GM_CurrentMap_800AB9B0;
 extern GM_Camera    GM_Camera_800B77E8;
 extern OBJECT      *GM_PlayerBody_800ABA20;
 extern int          GM_PlayerStatus_800ABA50;
-extern int          DG_UnDrawFrameCount;
 extern int          GM_AlertMode_800ABA00;
 extern int          GM_CameraShakeOffset_800ABA98;
 extern GV_PAD       GV_PadData_800B05C0[4];
@@ -457,8 +455,8 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
 
         printf((char *)s03e_aInitopen_800CBF68);
 
-        NewPadVibration_8005D58C(s03e_dword_800C3290, 1);
-        NewPadVibration_8005D58C(s03e_dword_800C329C, 2);
+        NewPadVibration(s03e_dword_800C3290, 1);
+        NewPadVibration(s03e_dword_800C329C, 2);
 
         DG_UnDrawFrameCount = 0x7fff0000;
 
@@ -712,8 +710,8 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
 
             s03e_evpanel_800C3950(work, code);
 
-            NewPadVibration_8005D58C(s03e_dword_800C3278, 1);
-            NewPadVibration_8005D58C(s03e_dword_800C327C, 2);
+            NewPadVibration(s03e_dword_800C3278, 1);
+            NewPadVibration(s03e_dword_800C327C, 2);
         }
         break;
 

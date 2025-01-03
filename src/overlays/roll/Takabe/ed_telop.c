@@ -4,6 +4,7 @@
 
 #include "common.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "Game/game.h"
 #include "Menu/menuman.h"
@@ -37,8 +38,6 @@ unsigned short ed_telop_hashes_800C3240[] = {0x29B9};
 static EdTelopPrims ed_telop_prims_800C9BC8[2];
 static u_long       ed_telop_800C9C38[160];
 
-extern int DG_UnDrawFrameCount;
-extern int GM_GameStatus;
 extern int GV_Clock_800AB920;
 
 char * roll_ending2_800C5E54(void *, char *, int);
@@ -58,7 +57,7 @@ int EdTelop_800C4F18(void)
     str = GCL_ReadString(GCL_GetParamResult());
     if (GCL_GetOption('t'))
     {
-        MENU_JimakuWrite_800494E8(str, GCL_GetNextParamValue());
+        MENU_JimakuWrite(str, GCL_GetNextParamValue());
     }
 
     return 1;

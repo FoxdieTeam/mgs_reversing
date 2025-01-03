@@ -55,10 +55,9 @@ typedef struct _Work
     int      f6BC;
 } Work;
 
-extern int    GM_GameStatus;
 extern int    GV_Clock_800AB920;
 extern int    GM_CurrentMap_800AB9B0;
-extern int    gDiskNum_800ACBF0;
+extern int    FS_DiskNum_800ACBF0;
 extern GV_PAD GV_PadData_800B05C0[4];
 
 // FIXME: it's the same struct (but different data) as in preope.c (in preope overlay)
@@ -117,7 +116,7 @@ void Change_800C364C( Work *work, int index )
 
     font_set_kcb( kcb, -1, -1, 0, 6, 2, 0 );
 
-    font_set_buffer( kcb, GV_AllocMemory( 2, font_get_buffer_size( kcb ) ) );
+    font_set_buffer( kcb, GV_AllocMemory( GV_NORMAL_MEMORY, font_get_buffer_size( kcb ) ) );
     font_set_color( kcb, 0, dword_800C3218[ index ].color, 0 );
     font_clut_update( kcb );
 }
@@ -558,7 +557,7 @@ void change_800C3CD0( Work *work )
             {
                 printf( "THIS IS DISC 2!!\n" );
                 work->f6B0 = 9;
-                gDiskNum_800ACBF0 = status;
+                FS_DiskNum_800ACBF0 = status;
             }
             else
             {
@@ -627,7 +626,7 @@ void ChangeDie_800C43EC( Work *work )
 
     for ( i = 0; i < 6; i++ )
     {
-        GV_FreeMemory( 2, Change_800C3B84( &work->kcb[i] ) );
+        GV_FreeMemory( GV_NORMAL_MEMORY, Change_800C3B84( &work->kcb[i] ) );
     }
 }
 

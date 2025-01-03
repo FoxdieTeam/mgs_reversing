@@ -15,13 +15,10 @@
 #include "SD/g_sound.h"
 #include "strcode.h"
 
-extern MATRIX DG_ZeroMatrix;
-extern SVECTOR DG_ZeroVector;
 extern TARGET *target_800BDF00;
 
 extern BLAST_DATA       blast_data_8009F4B8[8];
 
-extern int              GM_GameStatus;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 

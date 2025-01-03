@@ -169,7 +169,7 @@ static inline void SetMode( Meryl72Work *work, ACTION action )
     work->time = 0;
     work->control.turn.vz = 0;
     work->control.turn.vx = 0;
-    //GM_ConfigMotionAdjust_80035008( &( work->body ), 0 );
+    //GM_ConfigMotionAdjust( &( work->body ), 0 );
 }
 
 static inline void SetMode2( Meryl72Work *work, void *func )
@@ -182,7 +182,7 @@ static inline void SetMode2( Meryl72Work *work, void *func )
 
     work->control.turn.vz = 0;
     work->control.turn.vx = 0;
-    GM_ConfigMotionAdjust_80035008( &( work->body ), 0 );
+    GM_ConfigMotionAdjust( &( work->body ), 0 );
 }
 
 //action.c

@@ -4,34 +4,8 @@
 #include <sys/types.h>
 #include <libgte.h>
 #include <libgpu.h>
-#include "common.h"
 #include "libgv/libgv.h"
-#include "libdg/libdg.h"
 
-typedef struct _ChafgrndWork
-{
-    GV_ACT   actor;
-    int      field_20_map;
-    int      field_24;
-    int      field_28;
-    SVECTOR  field_2c;
-    SVECTOR  field_34[2][64];
-    SVECTOR  field_434[2][64];
-    SVECTOR  field_834[64];
-    DG_PRIM *field_a34;
-    int      field_a38;
-    int      field_a3c;
-    char     field_a40[64];
-    MATRIX   field_a80;
-} ChafgrndWork;
-
-STATIC_ASSERT(sizeof(ChafgrndWork) == 0xAA0, "sizeof(ChafgrndWork) is wrong!");
-
-void chafgrnd_act_80076B28(ChafgrndWork *work);
-void chafgrnd_kill_8007721C(ChafgrndWork *work);
-
-int chafgrnd_loader_80077014(ChafgrndWork *work, MATRIX *pWorld);
-
-GV_ACT *NewChafgrnd_80077264(MATRIX *pWorld);
+GV_ACT *NewChaffGrd(MATRIX *world);
 
 #endif // _CHAFGRND_H_

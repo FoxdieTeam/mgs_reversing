@@ -45,7 +45,7 @@ typedef struct _StnSightWork
 
 #define EXEC_LEVEL 7
 
-short word_800AB8EC = 0;
+STATIC short word_800AB8EC = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -79,9 +79,9 @@ STATIC void stnsight_act_helper_8006837C(StnSightWork *work)
         return;
     }
 
-    MENU_Color_80038B4C(0x2e, 0x41, 0x41);
-    MENU_Locate_80038B34(0xb4, 0x10, 0);
-    MENU_Printf_80038C38("LOCK_ON\n");
+    MENU_Color(0x2e, 0x41, 0x41);
+    MENU_Locate(0xb4, 0x10, 0);
+    MENU_Printf("LOCK_ON\n");
     menu_Text_Init_80038B98();
 }
 
@@ -100,7 +100,7 @@ STATIC void stnsight_act_helper_80068420(StnSightWork *work, unsigned int *ot)
     int v7; // $s3
 
     pad_status = work->pad_data->status;
-    GM_CheckShukanReverse_8004FBF8(&pad_status);
+    GM_CheckShukanReverse(&pad_status);
 
     if (GV_PauseLevel_800AB928 || ((GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF) != 0))
     {
@@ -153,11 +153,11 @@ STATIC void stnsight_act_helper_80068420(StnSightWork *work, unsigned int *ot)
     tiles = work->field_48_tiles_2Array[GV_Clock_800AB920];
     ybase = work->field_58_ybase;
 
-    MENU_Color_80038B4C(0x68, 0x6f, 0x74);
+    MENU_Color(0x68, 0x6f, 0x74);
 
     for (; v6 < 210; v6 += 16, v7 -= 5)
     {
-        MENU_Locate_80038B34(0x28, v6 - 2, 1);
+        MENU_Locate(0x28, v6 - 2, 1);
 
         if ((GM_PlayerStatus_800ABA50 & 0x4000000) == 0)
         {
@@ -165,16 +165,16 @@ STATIC void stnsight_act_helper_80068420(StnSightWork *work, unsigned int *ot)
             {
                 if (v7 < 0)
                 {
-                    MENU_Printf_80038C38("-0%d", -v7);
+                    MENU_Printf("-0%d", -v7);
                 }
                 else
                 {
-                    MENU_Printf_80038C38("0%d", v7);
+                    MENU_Printf("0%d", v7);
                 }
             }
             else
             {
-                MENU_Printf_80038C38("%d", v7);
+                MENU_Printf("%d", v7);
             }
         }
 
@@ -342,13 +342,13 @@ STATIC void stnsight_act_helper_80068A24(StnSightWork *work, unsigned int *ot)
 
         stnsight_act_helper_helper_80068320(ot, (unsigned int *)lines);
 
-        MENU_Locate_80038B34(sx + 0x8d, sy + 0x7f, 0);
-        MENU_Color_80038B4C(0x1d, 0x29, 0x29);
+        MENU_Locate(sx + 0x8d, sy + 0x7f, 0);
+        MENU_Color(0x1d, 0x29, 0x29);
 
         if ((GM_PlayerStatus_800ABA50 & 0x4000000) == 0)
         {
-            MENU_Printf_80038C38("%d %d\n", ((ushort)svector_8009F494.vx << 16) >> 20,
-                               ((ushort)svector_8009F494.vy << 16) >> 20);
+            MENU_Printf("%d %d\n", ((ushort)svector_8009F494.vx << 16) >> 20,
+                        ((ushort)svector_8009F494.vy << 16) >> 20);
         }
     }
     else
@@ -443,7 +443,7 @@ STATIC void StnSightAct(StnSightWork *work)
     }
 
     pad_status = work->pad_data->status;
-    GM_CheckShukanReverse_8004FBF8(&pad_status);
+    GM_CheckShukanReverse(&pad_status);
 
     iVar3 = work->field_58_ybase;
 

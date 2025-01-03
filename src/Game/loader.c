@@ -5,18 +5,18 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libfs/libfs.h"
+#include "Game/game.h"
 
 extern int GM_LoadComplete_800ABA38;
-extern int GM_LoadRequest;
 extern int GM_PadVibration2_800ABA54;
 
 typedef struct LoaderWork
 {
-    GV_ACT      actor;
-    STAGE_FILE *stage_file;         // void *info;
-    int         proc_cancel_flags;  // int type;
-    int         reading;            // int reading;
-    int         time;               // int time;
+    GV_ACT  actor;
+    void   *info;
+    int     type;
+    int     reading;
+    int     time;
 } LoaderWork;
 
 #define EXEC_LEVEL 2
@@ -25,9 +25,9 @@ STATIC void LoaderAct(LoaderWork *work)
 {
     work->time++;
 
-    if (work->proc_cancel_flags != 2)
+    if (work->type != 2)
     {
-        if (work->proc_cancel_flags == 3)
+        if (work->type == 3)
         {
             DG_OffsetDispEnv(work->time & 2);
             GM_PadVibration2_800ABA54 = 100;
@@ -36,7 +36,7 @@ STATIC void LoaderAct(LoaderWork *work)
 
     if (work->reading)
     {
-        if (!FS_LoadStageSync(work->stage_file))
+        if (!FS_LoadStageSync(work->info))
         {
             work->reading = FALSE;
         }
@@ -50,36 +50,36 @@ STATIC void LoaderAct(LoaderWork *work)
 STATIC void LoaderDie(LoaderWork *work)
 {
     printf("LoadEnd\n");
-    FS_LoadStageComplete(work->stage_file);
+    FS_LoadStageComplete(work->info);
     GM_LoadComplete_800ABA38 = -1;
 }
 
-void *NewLoader(const char *stage_name)
+void *NewLoader(const char *dir)
 {
     LoaderWork *work;
 
 #ifdef DEV_EXE
     // force load some overlay in dev variant
-    if (strcmp(stage_name, "title") == 0)
+    if (strcmp(dir, "title") == 0)
     {
-        stage_name = "select1";
+        dir = "select1";
     }
 #endif
 
     work = (LoaderWork *)GV_NewActor(EXEC_LEVEL, sizeof(LoaderWork));
     printf("LoadReq\n");
-    work->stage_file = FS_LoadStageRequest(stage_name);
+    work->info = FS_LoadStageRequest(dir);
 
-    if (!work->stage_file)
+    if (!work->info)
     {
-        printf("NOT FOUND STAGE %s\n", stage_name);
+        printf("NOT FOUND STAGE %s\n", dir);
     }
 
     GV_SetNamedActor(&work->actor, (GV_ACTFUNC)LoaderAct,
                      (GV_ACTFUNC)LoaderDie, "loader.c");
 
     work->reading = TRUE;
-    work->proc_cancel_flags = (GM_LoadRequest & 0xf);
+    work->type = (GM_LoadRequest & 0x0f);
     GM_LoadComplete_800ABA38 = 0;
     return (void *)work;
 }

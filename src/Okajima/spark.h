@@ -3,6 +3,6 @@
 
 #include "libgv/libgv.h"
 
-GV_ACT *NewSpark_80074564(MATRIX *pMatrix, int pCnt);
+GV_ACT *NewSpark(MATRIX *pMatrix, int pCnt);
 
 #endif // _SPARK_H_

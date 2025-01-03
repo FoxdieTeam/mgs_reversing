@@ -35,7 +35,7 @@ typedef struct _FamasWork
 #define EXEC_LEVEL      6
 #define MAGAZINE_SIZE   25
 
-SVECTOR stru_800AB850 = { 5, -500, 80, 0 };
+STATIC SVECTOR stru_800AB850 = { 5, -500, 80, 0 };
 
 /*---------------------------------------------------------------------------*/
 
@@ -115,7 +115,7 @@ STATIC void FamasAct(FamasWork *work)
                         v10 = 1;
                     }
 
-                    bullet_init_80076584(pMtx, f54, v9, v10);
+                    NewBullet(pMtx, f54, v9, v10);
                     --GM_Weapons[WEAPON_FAMAS];
 
                     GM_SeSet(&work->control->mov, SE_FAMAS_SHOT);
@@ -141,7 +141,7 @@ STATIC void FamasAct(FamasWork *work)
                         v14 = 1;
                     }
 
-                    bullet_init_80076584(pMtx, f54, v13, v14);
+                    NewBullet(pMtx, f54, v13, v14);
                     GM_SeSet(&work->control->mov, SE_MP5_SHOT);
                 }
 

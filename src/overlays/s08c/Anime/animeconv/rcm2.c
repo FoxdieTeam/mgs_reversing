@@ -38,7 +38,7 @@ void s08c_800C4194(MATRIX *pos)
     prescript.s_anim = 0;
 
     anm_800C32F0.pre_script = &prescript;
-    NewAnime_8005FBC8(NULL, NULL, &anm_800C32F0);
+    NewAnime(NULL, NULL, &anm_800C32F0);
 }
 
 void s08c_800C4220(MATRIX *pos)
@@ -69,7 +69,7 @@ void s08c_800C4220(MATRIX *pos)
     prescript.s_anim = 0;
 
     anm_800C32F0.pre_script = &prescript;
-    NewAnime_8005FBC8(NULL, NULL, &anm_800C32F0);
+    NewAnime(NULL, NULL, &anm_800C32F0);
 }
 
 void s08c_800C42B0(SVECTOR *pos)
@@ -96,5 +96,5 @@ void s08c_800C42B0(SVECTOR *pos)
     prescript.s_anim = 0;
 
     anm_800C330C.pre_script = &prescript;
-    NewAnime_8005FBC8(NULL, NULL, &anm_800C330C);
+    NewAnime(NULL, NULL, &anm_800C330C);
 }

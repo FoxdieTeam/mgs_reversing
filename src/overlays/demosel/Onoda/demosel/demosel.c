@@ -102,10 +102,9 @@ signed char text_outline_direction_offsets_800C3290[] = {
 
 GV_ACT *NewMetLogo_800C5A90( int * );
 
-extern int    GM_GameStatus;
 extern int    GV_Clock_800AB920;
 extern int    GM_CurrentMap_800AB9B0;
-extern int    gDiskNum_800ACBF0;
+extern int    FS_DiskNum_800ACBF0;
 extern GV_PAD GV_PadData_800B05C0[4];
 
 #define EXEC_LEVEL 1
@@ -134,7 +133,7 @@ void demosel_800C35FC(DemoselWork *work, int index)
 
     font_set_kcb(kcb, -1, -1, 0, 6, 2, 0);
 
-    font_set_buffer(kcb, GV_AllocMemory(2, font_get_buffer_size(kcb)));
+    font_set_buffer(kcb, GV_AllocMemory(GV_NORMAL_MEMORY, font_get_buffer_size(kcb)));
     font_set_color(kcb, 0, dword_800C3218[index].color, 0);
     font_clut_update(kcb);
 }
@@ -575,7 +574,7 @@ void demosel_800C3C74(DemoselWork *work)
             {
                 printf( "THIS IS DISC 1!!\n" );
                 work->fDD4 = 9;
-                gDiskNum_800ACBF0 = 0;
+                FS_DiskNum_800ACBF0 = 0;
             }
             else
             {
@@ -1304,7 +1303,7 @@ void demosel_800C4880(DemoselWork *work)
         if (work->fDC8 >= 17)
         {
             demosel_800C434C(work);
-            if (gDiskNum_800ACBF0 == 0)
+            if (FS_DiskNum_800ACBF0 == 0)
             {
                 printf("flag %d %d %d\n", (int)work->argv[0], (int)work->argv[1], (int)work->argv[2]);
                 GCL_ExecProc(work->f31C, &args);

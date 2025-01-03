@@ -13,7 +13,6 @@
 
 extern GM_Camera GM_Camera_800B77E8;
 
-extern int              GM_GameStatus;
 extern CONTROL         *GM_PlayerControl_800AB9F4;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 extern OBJECT          *GM_PlayerBody_800ABA20;
@@ -23,7 +22,7 @@ extern int      GM_CurrentMap_800AB9B0;
 extern short    GM_Magazine_800AB9EC;
 extern short    GM_MagazineMax_800ABA2C;
 
-extern GV_ACT *bullet_init_80076584(MATRIX *pMtx, int a2, int a3, int noiseLen);
+extern GV_ACT *NewBullet(MATRIX *pMtx, int a2, int a3, int noiseLen);
 
 /*---------------------------------------------------------------------------*/
 // PSG1 Rifle
@@ -101,7 +100,7 @@ STATIC int RifleGetZoomLength(void)
 
 /*---------------------------------------------------------------------------*/
 
-SVECTOR svector_800AB8D4 = { 5, 300, 80, 0 };
+STATIC SVECTOR svector_800AB8D4 = { 5, 300, 80, 0 };
 
 STATIC void RifleAct(RifleWork *work)
 {
@@ -187,7 +186,7 @@ STATIC void RifleAct(RifleWork *work)
         mtx.t[1] = mtx2.t[1];
         mtx.t[2] = mtx2.t[2];
 
-        bullet_init_80076584(&mtx, work->which_side, 0, 2);
+        NewBullet(&mtx, work->which_side, 0, 2);
 
         GM_SeSet2(0, 63, SE_PSG1_SHOT);
         GM_SetNoise(100, 2, &work->control->mov);

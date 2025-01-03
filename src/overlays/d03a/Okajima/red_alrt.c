@@ -7,7 +7,6 @@
 
 RedAlrtWork *d03a_dword_800C3270 = NULL;
 
-extern SVECTOR DG_ZeroVector;
 extern int     GV_Clock_800AB920;
 extern int     GV_PauseLevel_800AB928;
 extern int     GM_CurrentMap_800AB9B0;

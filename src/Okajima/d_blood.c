@@ -2,6 +2,7 @@
 #include "d_bloodr.h"
 
 #include "common.h"
+#include "libgv/libgv.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "SD/g_sound.h"
@@ -11,25 +12,41 @@ extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern GV_PAD           GV_PadData_800B05C0[4];
 extern CONTROL      *GM_PlayerControl_800AB9F4;
 
-void d_blood_kill_null_800729AC(DBloodWork *work)
+/*---------------------------------------------------------------------------*/
+
+typedef struct _DBloodWork
+{
+    GV_ACT actor;
+    int    f20;
+    int    f24_state;
+    int    f28;
+    char   padding[0xC];
+    int    current_map;
+} DBloodWork;
+
+#define EXEC_LEVEL 6
+
+/*---------------------------------------------------------------------------*/
+
+STATIC void d_blood_Die(DBloodWork *work)
 {
 }
 
-int d_blood_act_helper_800729B4(void)
+STATIC int d_blood_act_helper_800729B4(void)
 {
-    CONTROL *pCtrl;
+    CONTROL *control;
     unsigned short *pArray;
     int i;
 
-    pCtrl = GM_PlayerControl_800AB9F4;
-    if (!pCtrl)
+    control = GM_PlayerControl_800AB9F4;
+    if (!control)
     {
         return 0;
     }
 
-    pArray = pCtrl->event.field_8_array;
+    pArray = control->event.field_8_array;
 
-    for (i = pCtrl->event.field_6_count; i > 0; i--, pArray++)
+    for (i = control->event.field_6_count; i > 0; i--, pArray++)
     {
         if (*pArray == 0xC09E)
         {
@@ -40,7 +57,7 @@ int d_blood_act_helper_800729B4(void)
     return 0;
 }
 
-void d_blood_act_80072A0C(DBloodWork *work)
+STATIC void d_blood_Act(DBloodWork *work)
 {
     switch (work->f24_state)
     {
@@ -53,7 +70,7 @@ void d_blood_act_80072A0C(DBloodWork *work)
             {
                 GM_SeSet2(0, 63, 183);
                 work->f24_state = 1;
-                NewKetchap_r_80073148(work->f38_current_map);
+                NewKetchap_r(work->current_map);
                 GM_GameStatus |= STATE_PADRELEASE;
             }
             else
@@ -78,36 +95,38 @@ void d_blood_act_80072A0C(DBloodWork *work)
     }
 }
 
-int d_blood_loader_helper_80072B24(DBloodWork *work)
+STATIC int d_blood_loader_helper_80072B24(DBloodWork *work)
 {
     work->f20 = 100;
     work->f24_state = 0;
     return 0;
 }
 
-int d_blood_loader_80072B38(DBloodWork *work)
+STATIC int d_blood_GetResources(DBloodWork *work)
 {
-    work->f38_current_map = GM_CurrentMap_800AB9B0;
+    work->current_map = GM_CurrentMap_800AB9B0;
     d_blood_loader_helper_80072B24(work);
     return 0;
 }
 
-GV_ACT *NewKetchap_80072B60(CONTROL *pControl, OBJECT *pParent, int numParent)
+/*---------------------------------------------------------------------------*/
+
+GV_ACT *NewKetchap(CONTROL *control, OBJECT *parent_obj, int num_parent)
 {
     DBloodWork *work;
 
-    work = (DBloodWork *)GV_NewActor(6, sizeof(DBloodWork));
+    work = (DBloodWork *)GV_NewActor(EXEC_LEVEL, sizeof(DBloodWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor,
-                         (GV_ACTFUNC)&d_blood_act_80072A0C,
-                         (GV_ACTFUNC)&d_blood_kill_null_800729AC,
+                         (GV_ACTFUNC)&d_blood_Act,
+                         (GV_ACTFUNC)&d_blood_Die,
                          "d_blood.c");
 
-        if (d_blood_loader_80072B38(work) < 0)
+        if (d_blood_GetResources(work) < 0)
         {
             GV_DestroyActor(&work->actor);
-            return 0;
+            return NULL;
         }
     }
 

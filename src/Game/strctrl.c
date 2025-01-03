@@ -3,18 +3,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "common.h"
-#include "SD/sound.h"
-#include "libgcl/libgcl.h"
+#include "SD/sd_cli.h"
+#include "libdg/libdg.h"
 #include "libfs/libfs.h"
+#include "libgcl/libgcl.h"
 #include "Game/game.h"
 #include "Game/jimctrl.h"
 #include "Kojo/demothrd.h"
 
 //------------------------------------------------------------------------------
 
-extern int              GM_GameStatus;
 extern StreamCtrlWork   strctrl_800B82B0;
-extern int              DG_UnDrawFrameCount;
 
 //------------------------------------------------------------------------------
 

@@ -16,7 +16,9 @@ extern DG_CHANL DG_Chanls_800B1800[3];
 extern int     GM_CurrentMap_800AB9B0;
 int            SECTION(".sbss") GM_CurrentMap_800AB9B0;
 
-POLY_FT4 * Takabe_MakeIndividualRect3DPrim_helper_80079284(DG_PRIM *prim, POLY_FT4 *packs, int n_packs)
+/*---------------------------------------------------------------------------*/
+
+STATIC POLY_FT4 *Takabe_MakeIndividualRect3DPrim_helper(DG_PRIM *prim, POLY_FT4 *packs, int n_packs)
 {
     SVECTOR *verts;
     SVECTOR *in;
@@ -113,11 +115,11 @@ POLY_FT4 * Takabe_MakeIndividualRect3DPrim_helper_80079284(DG_PRIM *prim, POLY_F
     return packs;
 }
 
-DG_PRIM * Takabe_MakeIndividualRect3DPrim_800793E8(int n_vertices, SVECTOR *vertices)
+DG_PRIM *Takabe_MakeIndividualRect3DPrim(int n_vertices, SVECTOR *vertices)
 {
     DG_PRIM *prim = DG_GetPrim(DG_PRIM_FREEPACKS | DG_PRIM_POLY_FT4, n_vertices, 0, vertices, NULL);
 
-    prim->handler = &Takabe_MakeIndividualRect3DPrim_helper_80079284;
+    prim->handler = &Takabe_MakeIndividualRect3DPrim_helper;
     prim->n_vertices = n_vertices;
 
     return prim;

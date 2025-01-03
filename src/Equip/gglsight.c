@@ -75,7 +75,7 @@ STATIC void gglsight_act_helper_80077A24(GoggleSightWork *work)
     pTile = work->field_40_tile1[GV_Clock_800AB920];
     pOt = DG_ChanlOTag(1);
     // TextConfig_Flags_eCentreAlign_02 | TextConfig_Flags_eSemiTransparent_20 | TextConfig_Flags_eDark_100
-    MENU_Locate_80038B34(0, 0, 0x122);
+    MENU_Locate(0, 0, 0x122);
 
     if (work->type == ITEM_N_V_G)
     {
@@ -91,7 +91,7 @@ STATIC void gglsight_act_helper_80077A24(GoggleSightWork *work)
     }
 
     // set the color of the first person overlay menu
-    MENU_Color_80038B4C(r, g, b);
+    MENU_Color(r, g, b);
 
     // PlayerHeading
     a1 = GM_PlayerControl_800AB9F4->rot.vy & 0xfff;
@@ -124,8 +124,8 @@ STATIC void gglsight_act_helper_80077A24(GoggleSightWork *work)
                 }
             }
 
-            MENU_Locate_80038B34(x, 148, 0x122);
-            MENU_Printf_80038C38("%02d", var_s0);
+            MENU_Locate(x, 148, 0x122);
+            MENU_Printf("%02d", var_s0);
 
             pTile->x0 = x;
             addPrim(pOt, pTile);
@@ -151,7 +151,7 @@ STATIC void gglsight_act_helper_80077C6C(GoggleSightWork *work)
 
     if (work->field_3C >= 6)
     {
-        MENU_Locate_80038B34(40, 56, 0x120);
+        MENU_Locate(40, 56, 0x120);
 
         if (work->type == ITEM_N_V_G)
         {
@@ -165,11 +165,11 @@ STATIC void gglsight_act_helper_80077C6C(GoggleSightWork *work)
             g = 160;
             b = 74;
         }
-        MENU_Color_80038B4C(r, g, b);
+        MENU_Color(r, g, b);
         vy = GM_PlayerControl_800AB9F4->rot.vy;
-        MENU_Printf_80038C38("%ld\n", 8 * (vy & 2047));
-        MENU_Printf_80038C38("%ld\n", 4 * (vy & 4095));
-        MENU_Printf_80038C38("%ld\n", 16 * (vy & 1023));
+        MENU_Printf("%ld\n", 8 * (vy & 2047));
+        MENU_Printf("%ld\n", 4 * (vy & 4095));
+        MENU_Printf("%ld\n", 16 * (vy & 1023));
     }
 }
 
@@ -253,7 +253,7 @@ STATIC void gglsight_act_helper_80077F70(GoggleSightWork *work)
     {
         old_380 = work->field_380;
         //  TextConfig_Flags_eLargeFont_10 | TextConfig_Flags_eSemiTransparent_20 | TextConfig_Flags_eDark_100
-        MENU_Locate_80038B34(41, 42, 304);
+        MENU_Locate(41, 42, 304);
         if (work->type == ITEM_N_V_G)
         {
             r = 255;
@@ -266,7 +266,7 @@ STATIC void gglsight_act_helper_80077F70(GoggleSightWork *work)
             g = 160;
             b = 74;
         }
-        MENU_Color_80038B4C(r, g, b);
+        MENU_Color(r, g, b);
 
         work->field_380++;
         if (work->field_380 >= 17)
@@ -276,18 +276,18 @@ STATIC void gglsight_act_helper_80077F70(GoggleSightWork *work)
 
         if (old_380 > 0)
         {
-            MENU_Printf_80038C38("SCAN"); // scan
+            MENU_Printf("SCAN"); // scan
         }
 
-        MENU_Locate_80038B34(137, 42, 304);
+        MENU_Locate(137, 42, 304);
 
         if (work->type == ITEM_N_V_G)
         {
-            MENU_Printf_80038C38("MODE - B"); // MODE - B
+            MENU_Printf("MODE - B"); // MODE - B
         }
         else
         {
-            MENU_Printf_80038C38("MODE - A"); // MODE - A
+            MENU_Printf("MODE - A"); // MODE - A
         }
     }
 }
@@ -404,7 +404,7 @@ STATIC void GoggleSightAct(GoggleSightWork *work)
         status = GV_PadData_800B05C0[0].status;
     }
 
-    GM_CheckShukanReverse_8004FBF8(&status);
+    GM_CheckShukanReverse(&status);
 
     ptr[0] = 1;
 

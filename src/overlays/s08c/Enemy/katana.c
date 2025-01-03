@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "common.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 
 typedef struct KatanaWork
@@ -21,7 +22,6 @@ typedef struct KatanaWork
 
 extern int    GV_Clock_800AB920;
 extern int    GM_CurrentMap_800AB9B0;
-extern MATRIX DG_ZeroMatrix;
 
 void s08c_katana_800C5040(KatanaWork *work)
 {

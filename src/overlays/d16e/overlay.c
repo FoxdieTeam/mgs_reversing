@@ -17,7 +17,7 @@
 #include "../d03a/Okajima/blurpure.h"
 
 GV_ACT *NewSpark2_800CA714(MATRIX *world);
-GV_ACT *NewSpark_80074564(MATRIX *pMatrix, int pCnt);
+GV_ACT *NewSpark(MATRIX *pMatrix, int pCnt);
 
 CHARA _StageCharacterEntries[] = 
 {
@@ -38,7 +38,7 @@ CHARA _StageCharacterEntries[] =
     { CHARA_RED_ALERT, (NEWCHARA)NewRedAlert2_800C4E84 },
     { CHARA_RED_ALERT_0038, (NEWCHARA)RedAlert_800C4F48 },
     { CHARA_SPARK2, (NEWCHARA)NewSpark2_800CA714 },
-    { CHARA_SPARK, (NEWCHARA)NewSpark_80074564 },
+    { CHARA_SPARK, (NEWCHARA)NewSpark },
     { CHARA_INVERLT2, (NEWCHARA)NewInverlt2_800D0FF4 },
     { CHARA_FALL_SPL, (NEWCHARA)NewBlurPure_800C54D4 },
     { 0, NULL }

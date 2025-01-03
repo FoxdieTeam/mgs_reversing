@@ -1,8 +1,7 @@
 #include "common.h"
+#include "libdg/libdg.h"
 #include "Anime/animeconv/anime.h"
 #include "strcode.h"
-
-extern SVECTOR DG_ZeroVector;
 
 const char s00a_dword_800E0288[] = {
     0x0, 0x1c, 0x1, 0x0,
@@ -31,5 +30,5 @@ void AN_Fog_800CA618( SVECTOR *pos )
     anm->pre_script = &pre;
     pre.scr_num = 0;
 
-    NewAnime_8005FBC8( NULL, 0, anm );
+    NewAnime( NULL, 0, anm );
 }

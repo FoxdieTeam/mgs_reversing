@@ -5,7 +5,7 @@
 extern DG_TEX TexSets_800B1F50[512];
 
 /*** data ***/
-DG_TEX dword_8009D450 = {};
+STATIC DG_TEX DG_NullTexture = {};
 
 /*** $gp ***/
 int     SECTION(".sbss") gTextureCacheSize_800AB988;
@@ -78,7 +78,7 @@ DG_TEX *DG_GetTexture( int name )
         {
             last_searched_texture_name = name;
         }
-        pFound = &dword_8009D450;
+        pFound = &DG_NullTexture;
     }
     return pFound;
 }

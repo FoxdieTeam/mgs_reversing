@@ -13,10 +13,7 @@
 #include "SD/g_sound.h"
 #include "strcode.h"
 
-extern int            GM_ClaymoreMap_800AB9DC;
-extern TBombFunction3 GM_lpfnBombExplosion;
-extern short          GM_uBombHoming;
-extern SVECTOR        DG_ZeroVector;
+extern int GM_ClaymoreMap_800AB9DC;
 
 /*---------------------------------------------------------------------------*/
 
@@ -263,7 +260,7 @@ void AN_Blast_Single(SVECTOR *pos)
     anm = &blast_anim_single;
     anm->pre_script = &pre;
 
-    NewAnime_8005FBC8( NULL, 0, anm );
+    NewAnime( NULL, 0, anm );
 }
 
 void AN_Blast_Mini(SVECTOR *pos)
@@ -280,7 +277,7 @@ void AN_Blast_Mini(SVECTOR *pos)
     anm->pre_script = &pre;
 
     pre.scr_num = 0;
-    NewAnime_8005FBC8( NULL, 0, anm );
+    NewAnime( NULL, 0, anm );
 }
 
 void AN_Blast_Minimini(SVECTOR *pos)
@@ -297,7 +294,7 @@ void AN_Blast_Minimini(SVECTOR *pos)
     anm->pre_script = &pre;
 
     pre.scr_num = 0;
-    NewAnime_8005FBC8( NULL, 0, anm );
+    NewAnime( NULL, 0, anm );
 }
 
 void AN_Blast_Rand(SVECTOR *pos)
@@ -345,7 +342,7 @@ void AN_Blast_Rand(SVECTOR *pos)
     }
 
     prescript.scr_num = 0;
-    NewAnime_8005FBC8(m, map, anm);
+    NewAnime(m, map, anm);
 }
 
 void AN_Blast_high(SVECTOR *pos)
@@ -363,7 +360,7 @@ void AN_Blast_high(SVECTOR *pos)
     anm->pre_script = &pre;
 
     pre.scr_num = 0;
-    NewAnime_8005FBC8( NULL, 0, anm );
+    NewAnime( NULL, 0, anm );
 
     pre.pos = *pos;
     pre.pos.vy += 400;
@@ -375,7 +372,7 @@ void AN_Blast_high(SVECTOR *pos)
     anm->pre_script = &pre;
 
     pre.scr_num = 1;
-    NewAnime_8005FBC8( NULL, 0, anm );
+    NewAnime( NULL, 0, anm );
 
     pre.pos = *pos;
     pre.pos.vy += 200;
@@ -387,7 +384,7 @@ void AN_Blast_high(SVECTOR *pos)
     anm->pre_script = &pre;
 
     pre.scr_num = 2;
-    NewAnime_8005FBC8( NULL, 0, anm );
+    NewAnime( NULL, 0, anm );
 
     pre.pos = *pos;
     pre.speed = DG_ZeroVector;
@@ -398,7 +395,7 @@ void AN_Blast_high(SVECTOR *pos)
     anm->pre_script = &pre;
 
     pre.scr_num = 3;
-    NewAnime_8005FBC8( NULL, 0, anm );
+    NewAnime( NULL, 0, anm );
 }
 
 void AN_Blast_high2(SVECTOR *pos, SVECTOR *offset)
@@ -420,7 +417,7 @@ void AN_Blast_high2(SVECTOR *pos, SVECTOR *offset)
     anm->pre_script = &pre;
 
     pre.scr_num = 0;
-    NewAnime_8005FBC8( NULL, 0, anm );
+    NewAnime( NULL, 0, anm );
 
     pre.pos = *pos;
     pre.pos.vx += (offset->vx * 3) >> 2;
@@ -436,7 +433,7 @@ void AN_Blast_high2(SVECTOR *pos, SVECTOR *offset)
     anm->pre_script = &pre;
 
     pre.scr_num = 1;
-    NewAnime_8005FBC8( NULL, 0, anm );
+    NewAnime( NULL, 0, anm );
 
     pre.pos = *pos;
     pre.pos.vx += offset->vx >> 1;
@@ -452,7 +449,7 @@ void AN_Blast_high2(SVECTOR *pos, SVECTOR *offset)
     anm->pre_script = &pre;
 
     pre.scr_num = 2;
-    NewAnime_8005FBC8( NULL, 0, anm );
+    NewAnime( NULL, 0, anm );
 
     pre.pos = *pos;
     pre.speed = DG_ZeroVector;
@@ -465,5 +462,5 @@ void AN_Blast_high2(SVECTOR *pos, SVECTOR *offset)
     anm->pre_script = &pre;
 
     pre.scr_num = 3;
-    NewAnime_8005FBC8( NULL, 0, anm );
+    NewAnime( NULL, 0, anm );
 }

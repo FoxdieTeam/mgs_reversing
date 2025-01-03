@@ -7,10 +7,11 @@
 
 #include "mts/mts.h"
 #include "mts/taskid.h"
-#include "SD/sound.h"
+#include "SD/sd_cli.h"
 
 #include "libgv/libgv.h"
 #include "libfs/libfs.h"
+#include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
 #include "memcard/memcard.h"
@@ -25,9 +26,9 @@ unsigned int _ramsize = 0x200000; //  2MB ram size
 unsigned int _stacksize = 0x8000; // 32KB stack size
 
 CHARA MainCharacterEntries[] = {
-    { CHARA_SNAKE, NewSnake_8005B650 }, // GV_StrCode("スネーク")
-    { CHARA_ITEM, NewItem_800344F8 },   // GV_StrCode("アイテム")
-    { CHARA_DOOR, NewDoor_8006FD00 },   // GV_StrCode("ドア")
+    { CHARA_SNAKE, NewSnake },  // GV_StrCode("スネーク")
+    { CHARA_ITEM, NewItem },    // GV_StrCode("アイテム")
+    { CHARA_DOOR, NewDoor },    // GV_StrCode("ドア")
     { 0, NULL }
 };
 

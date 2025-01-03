@@ -1,7 +1,7 @@
 #include "libdg.h"
 #include "common.h"
 
-DG_TEX dword_8009D3C4 = {0};
+STATIC DG_TEX dword_8009D3C4 = {0};
 
 STATIC int DG_AllocPacks( DG_OBJ *obj, int idx )
 {

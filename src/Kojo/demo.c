@@ -1,17 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "common.h"
-#include "demothrd.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "demothrd.h"
 #include "Anime/animeconv/anime.h"
 #include "Bullet/blast.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "strcode.h"
 
-extern SVECTOR          DG_ZeroVector;
-extern MATRIX           DG_ZeroMatrix;
-extern int              GV_Time;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 extern int              GM_PadVibration2_800ABA54;
 extern int              GM_PadVibration_800ABA3C;
@@ -23,9 +21,8 @@ void InitChain_8007F338(DemothrdWork_0x78_Chain *pSub);
 void Chain_Remove_8007F394(DemothrdWork_0x78_Chain *pRoot, DemothrdWork_0x78_Chain *pRemove);
 void demothrd_hind_8007D9C8(DemothrdWork *work, dmo_data_0x18 *pDmoData0x18, dmo_model_0x14 *p0x14, dmo_model_0x1A4 *p0x1A4);
 void demothrd_m1e1_8007D404(DemothrdWork *work, dmo_data_0x18 *p0x18, dmo_model_0x14 *p0x14, dmo_model_0x1A4 *p0x1A4);
-void AN_CaterpillerSmoke_8007DA28(SVECTOR *pos);
+void AN_CaterpillerSmoke(SVECTOR *pos);
 void M1E1GetCaterpillerVertex(OBJECT *pE1, OBJECT *pE2, SVECTOR *pSmokeVecs, int a4);
-void DG_ScreenObjs(DG_OBJS *pObjs);
 
 int CreateDemo_80079B50(DemothrdWork* pThis, demothrd_0x1C* pDmoData)
 {
@@ -293,7 +290,7 @@ int DestroyDemo_8007A66C(DemothrdWork *work)
   demothrd_0x1C *pHeader;
   void *pMaps;
   dmo_model_0x14 *pMods;
-  TChanl_Fn field_270_pOldRenderFn;
+  DG_CHANLFUNC field_270_pOldRenderFn;
 
   if ((work->field_20_flag & 2) != 0)
   {
@@ -2239,7 +2236,7 @@ void demothrd_m1e1_8007D404(DemothrdWork *work, dmo_data_0x18 *p0x18, dmo_model_
 
   if (abs(tmp1) >= pData->field_560)
   {
-    AN_CaterpillerSmoke_8007DA28(&smokeVecs[rand() % 5]);
+    AN_CaterpillerSmoke(&smokeVecs[rand() % 5]);
     DG_InvisibleObjs(pData->field_0[0][pData->field_558_idx[0]].objs);
     if (tmp1 > 0)
     {
@@ -2275,7 +2272,7 @@ void demothrd_m1e1_8007D404(DemothrdWork *work, dmo_data_0x18 *p0x18, dmo_model_
 
   if (abs(tmp1) >= pData->field_560)
   {
-    AN_CaterpillerSmoke_8007DA28(&smokeVecs[(rand() % 5) + 5]);
+    AN_CaterpillerSmoke(&smokeVecs[(rand() % 5) + 5]);
     DG_InvisibleObjs(pData->field_0[1][pData->field_558_idx[1]].objs);
     if (tmp1 > 0)
     {
@@ -2364,7 +2361,7 @@ const char animation_data_80013510[] = {
 
 ANIMATION stru_8009F790 = {PCX_CANON_SEQ, 2, 2, 4, 1, 300, 1, 5000, 5000, 128, NULL, (char *)animation_data_80013510};
 
-void AN_CaterpillerSmoke_8007DA28(SVECTOR *pos)
+void AN_CaterpillerSmoke(SVECTOR *pos)
 {
     ANIMATION *anm;
     PRESCRIPT  pre = {{ 0 }};
@@ -2374,7 +2371,7 @@ void AN_CaterpillerSmoke_8007DA28(SVECTOR *pos)
     anm = &stru_8009F73C;
     anm->pre_script = &pre;
 
-    NewAnime_8005FBC8( NULL, 0, anm );
+    NewAnime( NULL, 0, anm );
 }
 
 void demothrd_2_8007DA94(SVECTOR *pPosition, SVECTOR *pRotation)
@@ -2417,7 +2414,7 @@ void demothrd_2_8007DA94(SVECTOR *pPosition, SVECTOR *pRotation)
     pres[2].scr_num = 1;
     pres[2].s_anim = 0;
 
-    NewAnime_8005FBC8( NULL, 0, anm );
+    NewAnime( NULL, 0, anm );
 }
 
 void sub_8007DC24(SVECTOR *pPosition)
@@ -2452,7 +2449,7 @@ void sub_8007DC24(SVECTOR *pPosition)
     anm = &stru_8009F774;
     anm->pre_script = pres;
 
-    NewAnime_8005FBC8( NULL, 0, anm );
+    NewAnime( NULL, 0, anm );
 }
 
 void sub_8007DD80(short param_1, SVECTOR *pPos)
@@ -2482,7 +2479,7 @@ void sub_8007DD80(short param_1, SVECTOR *pPos)
     }
 
     stru_8009F774.pre_script = prescript;
-    NewAnime_8005FBC8(0, 0, &stru_8009F774);
+    NewAnime(0, 0, &stru_8009F774);
 }
 
 void sub_8007DF10(SVECTOR *pRotation, SVECTOR *pTranslation)
@@ -2511,15 +2508,15 @@ void sub_8007DF10(SVECTOR *pRotation, SVECTOR *pTranslation)
 
     pre.pos = vout[0];
     pre.scr_num = 0;
-    NewAnime_8005FBC8( NULL, 0, anm );
+    NewAnime( NULL, 0, anm );
 
     pre.pos = vout[1];
     pre.scr_num = 1;
-    NewAnime_8005FBC8( NULL, 0, anm );
+    NewAnime( NULL, 0, anm );
 
     pre.pos = vout[2];
     pre.scr_num = 2;
-    NewAnime_8005FBC8( NULL, 0, anm );
+    NewAnime( NULL, 0, anm );
 }
 
 void sub_8007E0AC(int y, SVECTOR *pPosition)
@@ -2553,7 +2550,7 @@ void sub_8007E0AC(int y, SVECTOR *pPosition)
     anm = &stru_8009F774;
     anm->pre_script = pre;
 
-    NewAnime_8005FBC8( NULL, 0, anm );
+    NewAnime( NULL, 0, anm );
 }
 
 #define __detx(a, b, c) (((b).y - (a).y) * ((c).z - (b).z) - ((b).z - (a).z) * ((c).y - (b).y))
@@ -3597,269 +3594,4 @@ void demothrd_Screen_Chanl_80080D48(DG_CHANL *chanl, int idx)
     {
         demothrd_4_helper_80080C20(*ppObjs++);
     }
-}
-
-void M1E1Caterpiller(M1E1Work *work)
-{
-    SVECTOR sp10;
-    SVECTOR sp18;
-    SVECTOR rotation;
-    int     diff;
-    int     f70;
-    int     length;
-    DG_MDL *pMdl;
-    DG_MDL *pMdl2;
-
-    diff = work->field_D60 - work->field_D8C;
-    f70 = 2;
-
-    if (diff > 0)
-    {
-        f70 += ((diff - (work->field_D68 - work->field_D8C)) * 5) / diff;
-    }
-
-    if ((GV_Time & 1) == 0)
-    {
-        DG_SetPos2(&work->control.mov, &work->control.turn);
-        rotation = work->control.turn;
-
-        while (rotation.vy < -2048)
-        {
-            rotation.vy += 4096;
-        }
-
-        while (rotation.vy > 2048)
-        {
-            rotation.vy -= 4096;
-        }
-
-        memset(&sp10, 0, 8);
-
-        pMdl = work->field_1C0[0].objs->objs[0].model;
-        sp10.vx = pMdl->min.vx + (pMdl->max.vx - pMdl->min.vx) / 2;
-
-        DG_PutVector(&sp10, &sp10, 1);
-
-        if (work->field_740 == 1)
-        {
-            work->field_E8C = sp10;
-        }
-
-        sp18.vx = sp10.vx - work->field_E8C.vx;
-        sp18.vy = sp10.vy - work->field_E8C.vy;
-        sp18.vz = sp10.vz - work->field_E8C.vz;
-
-        length = SquareRoot0(sp18.vx * sp18.vx + sp18.vy * sp18.vy + sp18.vz * sp18.vz);
-        length = (length * (1024 - abs(ratan2(sp18.vx, sp18.vz) - rotation.vy))) >> 10;
-
-        if (abs(length) < work->field_E84)
-        {
-            return;
-        }
-
-        rotation = work->control.rot;
-        rotation.vy += 2048;
-
-        if (length > 0)
-        {
-            if (work->field_E7C != 1 && work->field_F60 == 0)
-            {
-                work->field_F60 = 6;
-                demothrd_2_8007DA94(&work->field_718_targets[4]->center, &rotation);
-            }
-
-            work->field_E7C = 1;
-        }
-        else
-        {
-            if (work->field_E7C != -1 && work->field_F60 == 0)
-            {
-                work->field_F60 = 6;
-                demothrd_2_8007DA94(&work->field_718_targets[0]->center, &work->control.rot);
-            }
-
-            work->field_E7C = -1;
-        }
-
-        AN_CaterpillerSmoke_8007DA28(&work->field_718_targets[rand() % 5]->center);
-        DG_InvisibleObjs(work->field_1C0[work->field_E74].objs);
-
-        work->field_E74 += work->field_E7C;
-
-        if (work->field_E74 < 0)
-        {
-            work->field_E74 = 2;
-        }
-
-        if (work->field_E74 > 2)
-        {
-            work->field_E74 = 0;
-        }
-
-        DG_VisibleObjs(work->field_1C0[work->field_E74].objs);
-
-        work->field_E8C = sp10;
-
-        if ((f70 >= 3) && (work->field_F70 <= 0))
-        {
-            if (work->field_F74 == 0)
-            {
-                sub_80032B40(&work->control.mov, 182, work->field_E60);
-            }
-            else
-            {
-                sub_80032B40(&work->control.mov, 190, work->field_E60);
-            }
-
-            work->field_F70 = f70;
-            work->field_F74 = 30;
-        }
-    }
-    else
-    {
-        memset(&sp10, 0, 8);
-
-        pMdl2 = work->field_46C[0].objs->objs[0].model;
-        sp10.vx = pMdl2->min.vx + (pMdl2->max.vx - pMdl2->min.vx) / 2;
-
-        DG_SetPos2(&work->control.mov, &work->control.turn);
-        DG_PutVector(&sp10, &sp10, 1);
-
-        if (work->field_740 == 1)
-        {
-            work->field_E94 = sp10;
-        }
-
-        sp18.vx = sp10.vx - work->field_E94.vx;
-        sp18.vy = sp10.vy - work->field_E94.vy;
-        sp18.vz = sp10.vz - work->field_E94.vz;
-
-        length = SquareRoot0(sp18.vx * sp18.vx + sp18.vy * sp18.vy + sp18.vz * sp18.vz);
-        length = (length * (1024 - abs(ratan2(sp18.vx, sp18.vz) - rotation.vy))) >> 10;
-
-        if (abs(length) < work->field_E84)
-        {
-            return;
-        }
-
-        rotation = work->control.rot;
-        rotation.vy += 2048;
-
-        if (length > 0)
-        {
-            if (work->field_E80 != 1 && work->field_F64 == 0)
-            {
-                work->field_F64 = 6;
-                demothrd_2_8007DA94(&work->field_718_targets[9]->center, &rotation);
-            }
-
-            work->field_E80 = 1;
-        }
-        else
-        {
-            if (work->field_E80 != -1 && work->field_F64 == 0)
-            {
-                work->field_F64 = 6;
-                demothrd_2_8007DA94(&work->field_718_targets[5]->center, &work->control.rot);
-            }
-
-            work->field_E80 = -1;
-        }
-
-        AN_CaterpillerSmoke_8007DA28(&work->field_718_targets[(rand() % 5) + 5]->center);
-        DG_InvisibleObjs(work->field_46C[work->field_E78].objs);
-
-        work->field_E78 += work->field_E7C;
-
-        if (work->field_E78 < 0)
-        {
-            work->field_E78 = 2;
-        }
-
-        if (work->field_E78 > 2)
-        {
-            work->field_E78 = 0;
-        }
-
-        DG_VisibleObjs(work->field_46C[work->field_E78].objs);
-
-        work->field_E94 = sp10;
-
-        if ((f70 >= 3) && (work->field_F70 <= 0))
-        {
-            if (work->field_F74 == 0)
-            {
-                sub_80032B40(&work->control.mov, 182, work->field_E60);
-            }
-            else
-            {
-                sub_80032B40(&work->control.mov, 190, work->field_E60);
-            }
-
-            work->field_F70 = f70;
-            work->field_F74 = 30;
-        }
-    }
-}
-
-void M1E1GetCaterpillerVertex(OBJECT *pE1, OBJECT *pE2, SVECTOR *pSmokeVecs, int a4)
-{
-    DG_MDL *model; // $v0
-    int vx; // $v1
-    DG_MDL *v8; // $v0
-    int v9; // $v1
-
-    model = pE1->objs->objs[0].model;
-    vx = model->min.vx;
-    if ( a4 == 1 )
-    {
-        vx += (model->max.vx - vx) >> 1;
-    }
-
-    pSmokeVecs[0].vx = vx;
-    pSmokeVecs[0].vy = pE1->objs->objs[0].model->min.vy;
-    pSmokeVecs[0].vz = 2 * pE1->objs->objs[0].model->max.vz / 3;
-
-    pSmokeVecs[1].vx = vx;
-    pSmokeVecs[1].vy = pE1->objs->objs[0].model->min.vy;
-    pSmokeVecs[1].vz = pE1->objs->objs[0].model->max.vz / 3;
-
-    pSmokeVecs[2].vx = vx;
-    pSmokeVecs[2].vy = pE1->objs->objs[0].model->min.vy;
-    pSmokeVecs[2].vz = 0;
-
-    pSmokeVecs[3].vx = vx;
-    pSmokeVecs[3].vy = pE1->objs->objs[0].model->min.vy;
-    pSmokeVecs[3].vz = pE1->objs->objs[0].model->min.vz / 3;
-
-    pSmokeVecs[4].vx = vx;
-    pSmokeVecs[4].vy = pE1->objs->objs[0].model->min.vy;
-    pSmokeVecs[4].vz = (2 * pE1->objs->objs[0].model->min.vz) / 3;
-
-    v8 = pE2->objs->objs[0].model;
-    v9 = v8->max.vx;
-    if ( a4 == 1 )
-    {
-        v9 += (v8->min.vx - v9) >> 1;
-    }
-
-    pSmokeVecs[5].vx = v9;
-    pSmokeVecs[5].vy = pE2->objs->objs[0].model->min.vy;
-    pSmokeVecs[5].vz = 2 * pE2->objs->objs[0].model->max.vz / 3;
-
-    pSmokeVecs[6].vx = v9;
-    pSmokeVecs[6].vy = pE2->objs->objs[0].model->min.vy;
-    pSmokeVecs[6].vz = pE2->objs->objs[0].model->max.vz / 3;
-
-    pSmokeVecs[7].vx = v9;
-    pSmokeVecs[7].vy = pE2->objs->objs[0].model->min.vy;
-    pSmokeVecs[7].vz = 0;
-
-    pSmokeVecs[8].vx = v9;
-    pSmokeVecs[8].vy = pE2->objs->objs[0].model->min.vy;
-    pSmokeVecs[8].vz = pE2->objs->objs[0].model->min.vz / 3;
-
-    pSmokeVecs[9].vx = v9;
-    pSmokeVecs[9].vy = pE2->objs->objs[0].model->min.vy;
-    pSmokeVecs[9].vz = 2 * pE2->objs->objs[0].model->min.vz / 3;
 }

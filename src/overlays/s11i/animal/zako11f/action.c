@@ -47,8 +47,6 @@ void *PutFuncList_800C33E0[5] = {
 SVECTOR s11i_800C33F4 = {5, -500, 80, 0};
 SVECTOR s11i_800C33FC = {5, -500, 80, 0};
 
-extern SVECTOR DG_ZeroVector;
-
 extern CONTROL *GM_PlayerControl_800AB9F4;
 extern SVECTOR  GM_PlayerPosition_800ABA10;
 extern int      GM_PlayerAction_800ABA40;
@@ -111,7 +109,7 @@ static inline void SetZako11FMode( Zako11FWork *work, ZAKO11FACTION action ) // 
     work->time = 0;
     work->control.turn.vz = 0;
     work->control.turn.vx = 0;
-    GM_ConfigMotionAdjust_80035008( &( work->body ), NULL );
+    GM_ConfigMotionAdjust( &( work->body ), NULL );
 }
 
 static inline void SetZako11FModeFields( Zako11FWork *work, ZAKO11FACTION action ) // rename
@@ -377,7 +375,7 @@ void ActReadyGun_800CA674( Zako11FWork *work, int time )
             SetAction( work, ACTION5, ACTINTERP );
         }
 
-        GM_ConfigMotionAdjust_80035008( &( work->body ), work->adjust ) ;
+        GM_ConfigMotionAdjust( &( work->body ), work->adjust ) ;
     }
 
     ReviseReadyGun_800C9C34( work );
@@ -437,7 +435,7 @@ void s11i_asiato_800CA84C( Zako11FWork *work, int time )
     {
         SetAction(work, ACTION4, 0);
         ZAKO11F_SetPutChar_800CD700(work, GUNSHOOT);
-        GM_ConfigMotionAdjust_80035008(&work->body, work->adjust);
+        GM_ConfigMotionAdjust(&work->body, work->adjust);
     }
 
     ReviseReadyGun_800C9C34(work);
@@ -460,7 +458,7 @@ void s11i_asiato_800CA904( Zako11FWork *work, int time )
 
     if ( time == 0 )
     {
-        GM_ConfigMotionAdjust_80035008( &( work->body ), work->adjust );
+        GM_ConfigMotionAdjust( &( work->body ), work->adjust );
     }
 
     rot = &work->control.rot;
@@ -578,7 +576,7 @@ void s11i_asiato_800CAC84( Zako11FWork *work, int time )
     {
         SetAction( work, ACTION4, 0 );
         ZAKO11F_SetPutChar_800CD700(work, 4);
-        GM_ConfigMotionAdjust_80035008(&( work->body ), work->adjust);
+        GM_ConfigMotionAdjust(&( work->body ), work->adjust);
     }
 
     ReviseReadyGun2_800C9CBC(work);
@@ -772,8 +770,8 @@ void s11i_asiato_800CB140( Zako11FWork *work, int time )
 
         if ( action == ACTION48 && !( work->field_B5C & 0x7 ) )
         {
-            NewPadVibration_8005D58C(s11i_800C339C, 1);
-            NewPadVibration_8005D58C(s11i_800C33A0, 2);
+            NewPadVibration(s11i_800C339C, 1);
+            NewPadVibration(s11i_800C33A0, 2);
         }
 
         work->control.turn = GM_PlayerControl_800AB9F4->rot;

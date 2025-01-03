@@ -12,7 +12,6 @@
 
 #include "meryl72.h"
 
-extern SVECTOR          DG_ZeroVector;
 extern int              GM_CurrentMap_800AB9B0;
 extern int              GM_PlayerAddress_800AB9F0;
 extern int              GM_PlayerMap_800ABA0C;
@@ -115,7 +114,7 @@ void s07c_meryl72_800C6C48( Meryl72Work *work )
         param->max_life -= 4;
     }
 
-    MENU_DrawBar2_80038DE0( 28, param->max_life, param->life, GM_SnakeMaxHealth, &s07c_dword_800C32E4 );
+    MENU_DrawBar2( 28, param->max_life, param->life, GM_SnakeMaxHealth, &s07c_dword_800C32E4 );
 
     if ( work->fC36 > 0 )
     {
@@ -241,7 +240,7 @@ int s07c_meryl72_800C6F8C( Meryl72Work *work, int name, int map )
 
     GM_InitObject( body, GV_StrCode( "meryl" ), BODY_FLAG, motion );
     GM_ConfigObjectJoint( body );
-    GM_ConfigMotionControl_80034F08( body, &work->m_ctrl, motion, work->m_segs1, work->m_segs2, control, work->rots );
+    GM_ConfigMotionControl( body, &work->m_ctrl, motion, work->m_segs1, work->m_segs2, control, work->rots );
     GM_ConfigObjectLight( body, work->light );
 
     work->homing = GM_AllocHomingTarget( &work->body.objs->objs[6].world, control );

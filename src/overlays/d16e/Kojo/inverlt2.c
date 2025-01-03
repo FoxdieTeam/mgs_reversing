@@ -176,8 +176,8 @@ void Inverlt2Act_800D1580(Inverlt2Work *work)
     if ((temp_lo == 0) && (work->fE8 == 0))
     {
         work->fE8 = 1;
-        AN_Stn_G_Sonic_80074CA4(&work->fE0);
-        AN_Stn_G_Center_80074D28(&work->fE0);
+        AN_Stn_G_Sonic(&work->fE0);
+        AN_Stn_G_Center(&work->fE0);
         sub_800790E8();
     }
     else if (work->fE8 == 1)

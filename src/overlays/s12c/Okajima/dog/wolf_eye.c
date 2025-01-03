@@ -22,7 +22,6 @@ int SECTION("overlay.bss") s12c_800DA420;
 int SECTION("overlay.bss") s12c_dword_800DA424;
 
 extern int GM_CurrentMap_800AB9B0;
-extern SVECTOR DG_ZeroVector;
 
 #define EXEC_LEVEL 5
 

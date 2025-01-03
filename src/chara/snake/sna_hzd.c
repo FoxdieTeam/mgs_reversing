@@ -2,8 +2,6 @@
 
 //TODO: remove sna_init inclusion as SnaAutoMove isn't coupled with Snake
 
-extern SVECTOR DG_ZeroVector;
-
 extern int     GM_PlayerAddress_800AB9F0;
 extern SVECTOR GM_PlayerPosition_800ABA10;
 

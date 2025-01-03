@@ -1,5 +1,6 @@
 #include "common.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "Game/control.h"
 #include "Game/game.h"
 #include "Game/object.h"
@@ -32,7 +33,6 @@ typedef struct NinjaWork
 
 extern SVECTOR  GM_PlayerPosition_800ABA10;
 extern CONTROL *GM_PlayerControl_800AB9F4;
-extern SVECTOR  DG_ZeroVector;
 
 GV_ACT *NewSpark2_800CA714(MATRIX *world);
 void    AN_Unknown_800CCA40(SVECTOR *pos);
@@ -347,8 +347,8 @@ int NinjaGetResources_800CC83C(NinjaWork *work, int scriptData, int scriptBinds)
     object = &work->object;
     GM_InitObject(object, model & 0xFFFF, 0x2D, motion & 0xFFFF);
     GM_ConfigObjectJoint(object);
-    GM_ConfigMotionControl_80034F08(object, &work->motion, motion & 0xFFFF, work->oar1, work->oar2, control,
-                                    work->rots);
+    GM_ConfigMotionControl(object, &work->motion, motion & 0xFFFF, work->oar1, work->oar2, control,
+                           work->rots);
     GM_ConfigObjectLight(object, work->light);
     GM_ConfigObjectAction(object, 0, 0, 0);
 

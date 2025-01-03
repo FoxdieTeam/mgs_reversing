@@ -144,7 +144,7 @@ typedef struct PANEL_CONF
     PANEL_CONF_update field_18_pFnUpdate;
 } PANEL_CONF;
 
-typedef void (*TMenuSaveModeDataUnknownFn1)(char *, struct mem_card *, int, int);
+typedef void (*TMenuSaveModeDataUnknownFn1)(char *, struct MEM_CARD *, int, int);
 typedef void (*TMenuSaveModeDataUnknownFn2)(char *, char *);
 typedef void (*TMenuSaveModeDataUnknownFn3)(char *);
 
@@ -401,25 +401,25 @@ typedef struct Menu_Triangle
 
 PANEL_TEXTURE *menu_weapon_get_weapon_rpk_info_8003DED8(int weaponIdx);
 Menu_rpk_item            **menu_rpk_init_8003DD1C(const char *pFileName);
-void                       menu_restore_nouse_80043470();
+void                       menu_restore_nouse(void);
 PANEL_TEXTURE *menu_rpk_8003B5E0(int idx);
 void         sub_8003CB98(struct MenuWork *a1);
-int          menu_radio_do_file_mode_8004C418(MenuWork *work, GV_PAD *pPad);
+int          menu_radio_do_file_mode(MenuWork *work, GV_PAD *pPad);
 void         sub_8003CFE0(PANEL_TEXTURE *images, int index);
 void         draw_life_defaultX_8003F408(MenuPrim *prim, long y, long rest, long now, long max, MENU_BAR_CONF *bconf);
 void         draw_life_8003F464(MenuPrim *prim, long x, long y, long rest, long now, long max, MENU_BAR_CONF *bconf);
-void         menu_draw_bar_8003ED4C(MenuPrim *prim, long x, long y, long rest, long now, long max, MENU_BAR_CONF *bconf);
-void         MENU_InitRadioTable_80049644();
-void         set_sprt_default_8004AE14(SPRT *pSprt);
-void         move_coord_8004A494(int *arr, int len);
-void         MENU_ResetSystem_80038A88(void);
-void         MENU_SetRadarScale_80038E28(int);
-void         MENU_StartDeamon_80038A20(void);
+void         menu_draw_bar(MenuPrim *prim, long x, long y, long rest, long now, long max, MENU_BAR_CONF *bconf);
+void         MENU_InitRadioTable(void);
+// void         set_sprt_default_8004AE14(SPRT *pSprt);
+void         move_coord(int *arr, int len);
+void         MENU_ResetSystem(void);
+void         MENU_SetRadarScale(int);
+void         MENU_StartDeamon(void);
 void         menu_Text_Init_80038B98(void);
 void         menu_Text_PrimUnknown_80038BB4(void);
-void         menu_init_nouse_800434A8(void);
+void         menu_init_nouse(void);
 void         menu_init_rpk_item_8003DDCC(PANEL_TEXTURE *pUnk, int imgIdx, int palIdx);
-int          menu_draw_num_80038D10(int number);
+int          menu_draw_num(int number);
 
 void menu_radio_draw_face_helper_800470F4(int idx);
 void menu_radio_draw_face_helper2_800486F4(menu_chara_struct_sub *pSub, int idx);
@@ -434,11 +434,11 @@ void menu_item_update_helper2_8003BF1C(MenuWork *work, unsigned int *arg1);
 void menu_item_update_helper3_8003C24C(Menu_Item_Unknown *, unsigned short);
 void UpdateEnvironmentalEffects_8003C4EC();
 void menu_inventory_right_init_items_8003DE50(void);
-void menu_jimaku_act_80048FD4(MenuWork *work, unsigned int *pOt);
-void MENU_JimakuWrite_800494E8(char *str, int frames);
-void _menu_number_draw_80042988(MenuPrim *pOt, TextConfig *pSettings, int number);
-void _menu_number_draw_string2_80043220(MenuPrim *pGlue, TextConfig *pTextConfig, const char *str);
-void _menu_number_draw_string_80042BF4(MenuPrim *pGlue, TextConfig *pTextConfig, const char *str);
+void menu_jimaku_act(MenuWork *work, unsigned int *pOt);
+void MENU_JimakuWrite(char *str, int frames);
+void _menu_number_draw(MenuPrim *pOt, TextConfig *pSettings, int number);
+void _menu_number_draw_string2(MenuPrim *pGlue, TextConfig *pTextConfig, const char *str);
+void _menu_number_draw_string(MenuPrim *pGlue, TextConfig *pTextConfig, const char *str);
 void menu_weapon_init_helper_8003E0E8(MenuWork *param_1, unsigned int *param_2, int param_3, int param_4, PANEL *param_5);
 void menu_weapon_unknown_8003DEB0(void);
 void menu_weapon_update_8003E990(struct MenuWork *menuMan, unsigned char *param_2);
@@ -448,8 +448,8 @@ int  sub_8003DAFC(Menu_Inventory *pLeftRight, GV_PAD *pPad);
 int  sub_8003D52C(void);
 void menu_navigation_8003D6CC(Menu_Inventory *pLeftRight, GV_PAD *pPad);
 void sub_8003DA60(struct MenuWork *work, unsigned int *pOt, Menu_Inventory *pLeftRight, int off1, int off2);
-void menu_viewer_init_80044A70(MenuWork *);
-void menu_viewer_kill_80044A90(MenuWork *work);
+void menu_viewer_init(MenuWork *work);
+void menu_viewer_kill(MenuWork *work);
 void menuman_act_800386A4(MenuWork *);
 void menuman_kill_800387E8(MenuWork *);
 void sub_8003CE40(PANEL_TEXTURE *, int);
@@ -459,40 +459,40 @@ void menu_radio_load_palette_80046B74(void *image, int idx);
 void LoadFaceAnimImage_80046B10(face_anim_image *image, int idx);
 void sub_80046BD8(int idx);
 int sub_80046C90(menu_chara_struct_sub *pSub, int idx, face_full_anim *pFullAnim, int pFrameNum);
-void menuman_Reset_800389A8(void);
+void menuman_Reset(void);
 void menu_life_update_8003F530(MenuWork *work, unsigned char *pOt);
 void draw_player_life_8003F4B8(MenuPrim *prim, long x, long y);
-void init_file_mode_helper_8004A424(int param_1);
-void init_file_mode_helper_helper_80049EDC(void);
-void init_file_mode_helper2_8004A800(void);
+// void init_file_mode_helper_8004A424(int param_1);
+// void init_file_mode_helper_helper_80049EDC(void);
+// void init_file_mode_helper2_8004A800(void);
 void ResetCharacterCodecStruct(menu_chara_struct *unknown);
-void NewJimakuStr_8004955C(char *str, int int_1);
-void NewJimaku_800495A8(void);
-void MENU_ClearRadioTable_8004967C(void);
-void menu_RadioCall_80042730(int param_1, int param_2, int param_3);
-void MENU_ResetCall_80042814(void);
-void MENU_SetRadioCallbackProc_8004283C(int param_1);
-void MENU_SetRadioBaseCall_80049764(int contactFrequency, int radioTableCode);
-void MENU_SetRadioOverCall_80049794(int contactFrequency, int radioTableCode);
-void MENU_InitRadioMemory_8004E0EC(void);
+void NewJimakuStr(char *str, int int_1);
+void NewJimaku(void);
+void MENU_ClearRadioTable(void);
+void MENU_RadioCall(int param_1, int param_2, int param_3);
+void MENU_ResetCall(void);
+void MENU_SetRadioCallbackProc(int proc_id);
+void MENU_SetRadioBaseCall(int contactFrequency, int radioTableCode);
+void MENU_SetRadioOverCall(int contactFrequency, int radioTableCode);
+void MENU_InitRadioMemory(void);
 void menu_radio_update_helper_80038A6C(void);
 TILE          *menu_render_rect_8003DB2C(MenuPrim *pOt, int x, int y, int w, int h, int rgb);
 Menu_rpk_item *menu_rpk_get_img_8003DDB4(int id);
 Menu_rpk_item *menu_rpk_get_pal_8003DD9C(int id);
-void           MENU_JimakuClear_80049518(void);
-void           MENU_Locate_80038B34(int xpos, int ypos, int flags);
-void           MENU_Color_80038B4C(int r, int g, int b);
+void           MENU_JimakuClear(void);
+void           MENU_Locate(int xpos, int ypos, int flags);
+void           MENU_Color(int r, int g, int b);
 void           menu_radio_codec_start_task_80047C3C(void);
 void           menu_life_init_8003F7E0(MenuWork *work);
 RadioMemory   *menu_radio_table_find_8004D380(int toFind);
 RadioMemory   *menu_radio_table_next_free_8004D3B8(void);
 unsigned char *menu_gcl_read_word_80047098(int *pOut, unsigned char *pScript);
-void           MENU_SetRadioMemory_8004E110(int varId, const char *pVarName);
+void           MENU_SetRadioMemory(int varId, const char *pVarName);
 void           menu_gcl_set_radio_var_80047768(menu_chara_struct *unknown, unsigned char *pScript);
 unsigned char *menu_gcl_exec_block_800478B4(menu_chara_struct *unknown, unsigned char *pScript);
 int            menu_item_IsItemDisabled_8003B6D0(int item_idx);
-void           MENU_ResetTexture_80038A00(void);
-void           menu_jimaku_init_helper_800493F8(KCB *kcb);
+void           MENU_ResetTexture(void);
+// void           menu_jimaku_init_helper(KCB *kcb);
 void           menu_font_kill_helper_8003F50C(void);
 void           menu_radio_8004D2FC(DATA_INFO *pSaveMode);
 int            menu_radio_8004D334(GV_PAD *pPad);
@@ -504,29 +504,31 @@ int            menu_panel_8003D2BC(Menu_Item_Unknown *, int);
 void           sub_8003D520(void);
 int            sub_8003F84C(int);
 void           menu_printDescription_8003F97C(char *description);
-void           getAreaName_8004CF20(int code, char **pAreaNameForMenu, char **pAreaNameForSaveData);
+// void           getAreaName_8004CF20(int code, char **pAreaNameForMenu, char **pAreaNameForSaveData);
 void           sub_80048124(void);
 void           sub_800469F0(menu_chara_struct *pStru);
 void           menu_drawDescriptionPanel_8003F9B4(MenuWork *work, unsigned int *pOt, const char *str);
-void           MENU_DrawBar_80038D74(int xpos, int ypos, int rest, int now, MENU_BAR_CONF *bconf);
-void           MENU_DrawBar2_80038DE0(int ypos, int rest, int now, int max, MENU_BAR_CONF *bconf);
+void           MENU_DrawBar(int xpos, int ypos, int rest, int now, MENU_BAR_CONF *bconf);
+void           MENU_DrawBar2(int ypos, int rest, int now, int max, MENU_BAR_CONF *bconf);
+
+void MENU_AreaNameWrite(char *areaName);
 
 void sub_8003D594(PANEL_CONF *pPanelConf, int pos, int *xoff, int *yoff);
 void sub_8003D5F0(PANEL_CONF *pPanelConf, int pos, int *xoff, int *yoff);
 void sub_8003D64C(PANEL_CONF *pPanelConf, int pos, int *xoff, int *yoff);
 
-void makeTitle_8004D008(char *title, mem_card *pUnused, int hours, int minutes);
-void getAreaNameForMenu_8004D14C(char *areaNameForMenu, char *param_2);
-void writeGameData_8004D1D0(char *saveBuf);
+// void makeTitle_8004D008(char *title, MEM_CARD *pUnused, int hours, int minutes);
+// void getAreaNameForMenu_8004D14C(char *areaNameForMenu, char *param_2);
+// void writeGameData(char *saveBuf);
 
 Menu_Item_Unknown * menu_alloc_panel_8003D124(int count);
 
 void AssignXYFromVec_8003D1B8(PANEL *pArray, PANEL *pOther);
 
 #ifdef _BUILDING_MENUMAN_
-int MENU_Printf_80038C38(const char *fmt, const char *str, int param_3, int param_4, int param_5);
+int MENU_Printf(const char *fmt, const char *str, int param_3, int param_4, int param_5);
 #else
-int MENU_Printf_80038C38(const char *fmt, ...);
+int MENU_Printf(const char *fmt, ...);
 #endif
 
 // For MenuPrim

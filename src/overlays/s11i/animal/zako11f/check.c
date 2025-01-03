@@ -1,7 +1,5 @@
 #include "../../../s00a/Enemy/enemy.h"
 
-extern SVECTOR DG_ZeroVector;
-
 extern OBJECT *GM_PlayerBody_800ABA20;
 
 extern SVECTOR ZAKO11F_ATTACK_FORCE_800C3674;
@@ -37,7 +35,7 @@ static inline void SetZako11FMode( Zako11FWork *work, ZAKO11FACTION action ) // 
     work->time = 0;
     work->control.turn.vz = 0;
     work->control.turn.vx = 0;
-    GM_ConfigMotionAdjust_80035008( &( work->body ), NULL );
+    GM_ConfigMotionAdjust( &( work->body ), NULL );
 }
 
 static inline void SetZako11FMode2( Zako11FWork *work, ZAKO11FACTION action ) // rename
@@ -50,7 +48,7 @@ static inline void SetZako11FMode2( Zako11FWork *work, ZAKO11FACTION action ) //
 
     work->control.turn.vz = 0;
     work->control.turn.vx = 0;
-    GM_ConfigMotionAdjust_80035008( &( work->body ), 0 );
+    GM_ConfigMotionAdjust( &( work->body ), 0 );
 }
 /**********************************************************************************************************/
 

@@ -1,40 +1,100 @@
 #include "claymore.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
-#include "spark.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "Game/game.h"
 #include "Game/map.h"
+#include "Game/target.h"
 #include "Anime/animeconv/anime.h"
 #include "SD/g_sound.h"
+#include "spark.h"
 
-extern MAP   *claymore_MAP_800bdf08;
-extern int           GM_CurrentMap_800AB9B0;
-extern int           GM_GameOverTimer;
-extern SVECTOR       DG_ZeroVector;
-extern int           GM_ClaymoreMap_800AB9DC;
+extern MAP *claymore_MAP_800bdf08;
+extern int GM_CurrentMap_800AB9B0;
+extern int GM_ClaymoreMap_800AB9DC;
 
-SVECTOR stru_8009F630[4] = {{20, 0, 0, 0}, {-20, 0, 0, 0}, {0, 20, 0, 0}, {0, -20, 0, 0}};
-SVECTOR stru_8009F650[2] = {{0, 0, 200, 0}, {0, 0, 10000, 0}};
-SVECTOR stru_8009F660 = {100, 100, 100, 0};
+/*---------------------------------------------------------------------------*/
 
-void claymore_800731CC(SVECTOR *param_1)
+typedef struct ClaymoreWork
+{
+    GV_ACT      actor;
+    int       field_20_map;
+    SVECTOR   field_24;
+    SVECTOR   field_2C;
+    SVECTOR   field_34;
+    TARGET field_3C_target;
+    DG_PRIM  *field_84_pPrim;
+    SVECTOR   field_88;
+    int       field_90;
+    int       field_94;
+    int       field_98;
+    int       field_9C;
+    int       field_A0;
+    int       field_A4;
+    int       field_A8;
+    int       field_AC;
+    int       field_B0;
+    int       field_B4;
+    int       field_B8;
+    int       field_BC;
+    int       field_C0;
+    int       field_C4;
+    SVECTOR   field_C8; // Maybe a SVECTOR array from here? ([8], [4][2] or [2][4])
+    SVECTOR   field_D0;
+    SVECTOR   field_D8;
+    SVECTOR   field_E0;
+    SVECTOR   field_E8;
+    SVECTOR   field_F0;
+    SVECTOR   field_F8;
+    SVECTOR   field_100;
+    int       field_108;
+    int       field_10C;
+    SVECTOR   field_110;
+    SVECTOR   field_118;
+    int       field_120;
+    int       field_124; // Counter increasing from 0 to 3?
+    int       field_128;
+} ClaymoreWork;
+
+#define EXEC_LEVEL 6
+
+/*---------------------------------------------------------------------------*/
+
+STATIC SVECTOR stru_8009F630[4] = {
+    {  20,   0, 0, 0 },
+    { -20,   0, 0, 0 },
+    {   0,  20, 0, 0 },
+    {   0, -20, 0, 0 }
+};
+STATIC SVECTOR stru_8009F650[2] = {
+    { 0, 0,   200, 0 },
+    { 0, 0, 10000, 0 }
+};
+STATIC SVECTOR stru_8009F660 = { 100, 100, 100, 0 };
+
+STATIC void claymore_800731CC(SVECTOR *param_1)
 {
     DG_PutVector(stru_8009F630, param_1, 4); // 4 = sizeof?
 }
 
-void claymore_loader_helper2_800731F8(ClaymoreWork *claymore)
+STATIC void claymore_loader_helper2_800731F8(ClaymoreWork *work)
 {
     // Perform copies:
-    //   claymore->field_E8  = claymore->field_C8;
-    //   claymore->field_F0  = claymore->field_D0;
-    //   claymore->field_F8  = claymore->field_D8;
-    //   claymore->field_100 = claymore->field_E0;
+    //   work->field_E8  = work->field_C8;
+    //   work->field_F0  = work->field_D0;
+    //   work->field_F8  = work->field_D8;
+    //   work->field_100 = work->field_E0;
     //
     // This function is the same as claymore_act_helper_800732B0,
     // but this one calls claymore_800731CC earlier.
 
     int      i;
-    SVECTOR *vec = &claymore->field_C8;
+    SVECTOR *vec = &work->field_C8;
 
     claymore_800731CC(vec);
     for (i = 1; i > 0; i--, vec += 4)
@@ -43,19 +103,19 @@ void claymore_loader_helper2_800731F8(ClaymoreWork *claymore)
     }
 }
 
-void claymore_act_helper_800732B0(ClaymoreWork *claymore)
+STATIC void claymore_act_helper_800732B0(ClaymoreWork *work)
 {
     // Perform copies:
-    //   claymore->field_E8  = claymore->field_C8;
-    //   claymore->field_F0  = claymore->field_D0;
-    //   claymore->field_F8  = claymore->field_D8;
-    //   claymore->field_100 = claymore->field_E0;
+    //   work->field_E8  = work->field_C8;
+    //   work->field_F0  = work->field_D0;
+    //   work->field_F8  = work->field_D8;
+    //   work->field_100 = work->field_E0;
     //
     // This function is the same as claymore_loader_helper2_800731F8,
     // but this one calls claymore_800731CC later.
 
     int      i;
-    SVECTOR *vec = &claymore->field_E8;
+    SVECTOR *vec = &work->field_E8;
 
     for (i = 1; i > 0; i--, vec -= 4)
     {
@@ -64,7 +124,7 @@ void claymore_act_helper_800732B0(ClaymoreWork *claymore)
     claymore_800731CC(vec);
 }
 
-void claymore_act_helper_80073364(ClaymoreWork *work)
+STATIC void claymore_act_helper_80073364(ClaymoreWork *work)
 {
     SVECTOR *pSrc;
     SVECTOR *pDst;
@@ -86,7 +146,7 @@ void claymore_act_helper_80073364(ClaymoreWork *work)
     }
 }
 
-void claymore_loader_helper_80073490(POLY_FT4 *pPoly, DG_TEX *pTex)
+STATIC void claymore_loader_helper_80073490(POLY_FT4 *pPoly, DG_TEX *pTex)
 {
     int i, j;
     int shade;
@@ -120,7 +180,7 @@ void claymore_loader_helper_80073490(POLY_FT4 *pPoly, DG_TEX *pTex)
     }
 }
 
-int claymore_loader_helper_800735A0(ClaymoreWork *work, SVECTOR *arg1, SVECTOR *arg2)
+STATIC int claymore_loader_helper_800735A0(ClaymoreWork *work, SVECTOR *arg1, SVECTOR *arg2)
 {
     SVECTOR  vec;
     SVECTOR  vec2;
@@ -161,88 +221,88 @@ int claymore_loader_helper_800735A0(ClaymoreWork *work, SVECTOR *arg1, SVECTOR *
     return len;
 }
 
-void claymore_act_800736B0(ClaymoreWork *claymore)
+STATIC void claymore_Act(ClaymoreWork *work)
 {
     SVECTOR vec;
     MATRIX  matrix;
 
-    if (claymore->field_120 == 0)
+    if (work->field_120 == 0)
     {
-        int field_10C = claymore->field_10C;
+        int field_10C = work->field_10C;
 
-        GM_CurrentMap_800AB9B0 = claymore->field_20_map;
-        claymore->field_10C += 1500;
-        if (claymore->field_10C < claymore->field_108)
+        GM_CurrentMap_800AB9B0 = work->field_20_map;
+        work->field_10C += 1500;
+        if (work->field_10C < work->field_108)
         {
-            GV_AddVec3(&claymore->field_24, &claymore->field_34, &vec);
+            GV_AddVec3(&work->field_24, &work->field_34, &vec);
         }
         else
         {
-            vec = claymore->field_110;
+            vec = work->field_110;
         }
 
-        GM_Target_8002E1B8(&claymore->field_24, &vec, claymore->field_20_map, &vec, 0xff);
-        GM_MoveTarget(&claymore->field_3C_target, &vec);
+        GM_Target_8002E1B8(&work->field_24, &vec, work->field_20_map, &vec, 0xff);
+        GM_MoveTarget(&work->field_3C_target, &vec);
 
         if (GM_GameOverTimer == 0)
         {
-            if (GM_PowerTarget(&claymore->field_3C_target) != 0)
+            if (GM_PowerTarget(&work->field_3C_target) != 0)
             {
-                claymore->field_108 = 0;
-                claymore->field_128 = 2;
+                work->field_108 = 0;
+                work->field_128 = 2;
             }
         }
         else
         {
-            claymore->field_108 = 0;
+            work->field_108 = 0;
         }
 
-        claymore->field_24 = vec;
-        DG_SetPos2(&claymore->field_24, &claymore->field_2C);
+        work->field_24 = vec;
+        DG_SetPos2(&work->field_24, &work->field_2C);
 
-        claymore_act_helper_800732B0(claymore);
-        claymore_act_helper_80073364(claymore);
-        if (claymore->field_108 <= claymore->field_10C)
+        claymore_act_helper_800732B0(work);
+        claymore_act_helper_80073364(work);
+        if (work->field_108 <= work->field_10C)
         {
-            if (claymore->field_128 == 1 && (field_10C = GV_RandU(0x20), 0x14 < field_10C))
+            if (work->field_128 == 1 && (field_10C = GV_RandU(0x20), 0x14 < field_10C))
             {
                 ReadRotMatrix(&matrix);
-                matrix.t[0] = claymore->field_110.vx;
-                matrix.t[1] = claymore->field_110.vy;
-                matrix.t[2] = claymore->field_110.vz;
-                DG_ReflectMatrix(&claymore->field_118, &matrix, &matrix);
-                NewSpark_80074564(&matrix, 0);
-                GM_SeSet(&claymore->field_24, SE_REBDRM01);
+                matrix.t[0] = work->field_110.vx;
+                matrix.t[1] = work->field_110.vy;
+                matrix.t[2] = work->field_110.vz;
+                DG_ReflectMatrix(&work->field_118, &matrix, &matrix);
+                NewSpark(&matrix, 0);
+                GM_SeSet(&work->field_24, SE_REBDRM01);
             }
 
-            claymore->field_120 = 1;
-            claymore->field_124 = 0;
-            claymore->field_34 = DG_ZeroVector;
+            work->field_120 = 1;
+            work->field_124 = 0;
+            work->field_34 = DG_ZeroVector;
         }
     }
     else
     {
-        int field_124 = claymore->field_124;
+        int field_124 = work->field_124;
         if (field_124 == 0)
         {
-            DG_InvisiblePrim(claymore->field_84_pPrim);
+            DG_InvisiblePrim(work->field_84_pPrim);
         }
         if (field_124 >= 3)
         {
-            GV_DestroyActor(&claymore->field_0);
+            GV_DestroyActor(&work->actor);
         }
         else
         {
-            claymore->field_124 = field_124 + 1;
+            work->field_124 = field_124 + 1;
         }
     }
 }
 
-void claymore_kill_800738F4(ClaymoreWork *claymore)
+STATIC void claymore_Die(ClaymoreWork *work)
 {
     DG_PRIM *prim;
 
-    prim = claymore->field_84_pPrim;
+    prim = work->field_84_pPrim;
     if (prim)
     {
         DG_DequeuePrim(prim);
@@ -250,7 +310,7 @@ void claymore_kill_800738F4(ClaymoreWork *claymore)
     }
 }
 
-void claymore_loader_80073930(ClaymoreWork *work)
+STATIC void claymore_loader_80073930(ClaymoreWork *work)
 {
     SVECTOR vec;
 
@@ -263,28 +323,28 @@ void claymore_loader_80073930(ClaymoreWork *work)
     pTarget->field_44 = 5;
 }
 
-const SVECTOR svector_80012EDC = {0, 0, 1500, 0};
+STATIC const SVECTOR svector_80012EDC = {0, 0, 1500, 0};
 
-int claymore_loader_800739EC(ClaymoreWork *claymore, SVECTOR *new_field_24, SVECTOR *new_field_2C)
+STATIC int claymore_GetResources(ClaymoreWork *work, SVECTOR *new_field_24, SVECTOR *new_field_2C)
 {
     DG_PRIM *prim;
     DG_TEX  *tex;
     SVECTOR  new_field_34 = svector_80012EDC;
     int      retval;
 
-    claymore->field_10C = 0;
-    claymore->field_20_map = GM_CurrentMap_800AB9B0;
-    claymore->field_24 = *new_field_24;
-    claymore->field_2C = *new_field_2C;
-    claymore->field_2C.vy += GV_RandS(0x200);
-    claymore->field_2C.vx += GV_RandS(0x200);
-    claymore->field_108 = claymore_loader_helper_800735A0(claymore, &claymore->field_24, &claymore->field_2C);
+    work->field_10C = 0;
+    work->field_20_map = GM_CurrentMap_800AB9B0;
+    work->field_24 = *new_field_24;
+    work->field_2C = *new_field_2C;
+    work->field_2C.vy += GV_RandS(0x200);
+    work->field_2C.vx += GV_RandS(0x200);
+    work->field_108 = claymore_loader_helper_800735A0(work, &work->field_24, &work->field_2C);
 
-    DG_SetPos2(&claymore->field_24, &claymore->field_2C);
-    DG_RotVector(&new_field_34, &claymore->field_34, 1);
+    DG_SetPos2(&work->field_24, &work->field_2C);
+    DG_RotVector(&new_field_34, &work->field_34, 1);
 
-    prim = DG_GetPrim(DG_PRIM_POLY_FT4, 2, 0, &claymore->field_88, NULL);
-    claymore->field_84_pPrim = prim;
+    prim = DG_GetPrim(DG_PRIM_POLY_FT4, 2, 0, &work->field_88, NULL);
+    work->field_84_pPrim = prim;
 
     retval = -1;
 
@@ -297,7 +357,7 @@ int claymore_loader_800739EC(ClaymoreWork *claymore, SVECTOR *new_field_24, SVEC
         {
             claymore_loader_helper_80073490(&prim->packs[0]->poly_ft4, tex);
             claymore_loader_helper_80073490(&prim->packs[1]->poly_ft4, tex);
-            claymore_loader_helper2_800731F8(claymore);
+            claymore_loader_helper2_800731F8(work);
             retval = 0;
         }
         else
@@ -308,19 +368,21 @@ int claymore_loader_800739EC(ClaymoreWork *claymore, SVECTOR *new_field_24, SVEC
     return retval;
 }
 
-const SVECTOR stru_80012EEC = {200, 200, 200, 0};
+/*---------------------------------------------------------------------------*/
 
-GV_ACT *NewClaymore_80073B8C(SVECTOR *noise_position, SVECTOR *new_field_2C, int pCnt, int param_4)
+STATIC const SVECTOR stru_80012EEC = {200, 200, 200, 0};
+
+GV_ACT *NewClaymore(SVECTOR *noise_position, SVECTOR *new_field_2C, int pCnt, int param_4)
 {
     int             i;
-    ClaymoreWork   *claymore;
-    GV_ACT         *null_claymore;
+    ClaymoreWork   *work;
+    GV_ACT         *null_actor;
     SVECTOR         new_field_24;
     SVECTOR         vec2;
     int             current_map;
 
-    claymore = NULL;
-    null_claymore = NULL;
+    work = NULL;
+    null_actor = NULL;
 
     new_field_24 = stru_80012EEC;
 
@@ -345,26 +407,26 @@ GV_ACT *NewClaymore_80073B8C(SVECTOR *noise_position, SVECTOR *new_field_2C, int
 
     for (i = 0; i < pCnt; i++)
     {
-        claymore = (ClaymoreWork *)GV_NewActor(6, sizeof(ClaymoreWork));
-        if (claymore != NULL)
+        work = (ClaymoreWork *)GV_NewActor(EXEC_LEVEL, sizeof(ClaymoreWork));
+        if (work != NULL)
         {
-            GV_SetNamedActor(&claymore->field_0, (GV_ACTFUNC)claymore_act_800736B0,
-                             (GV_ACTFUNC)claymore_kill_800738F4, "claymore.c");
+            GV_SetNamedActor(&work->actor, (GV_ACTFUNC)claymore_Act,
+                             (GV_ACTFUNC)claymore_Die, "claymore.c");
             current_map = GM_CurrentMap_800AB9B0;
             GM_ClaymoreMap_800AB9DC = current_map;
-            if (claymore_loader_800739EC(claymore, &new_field_24, new_field_2C) < 0)
+            if (claymore_GetResources(work, &new_field_24, new_field_2C) < 0)
             {
-                GV_DestroyActor(&claymore->field_0);
+                GV_DestroyActor(&work->actor);
                 return NULL;
             }
-            claymore_loader_80073930(claymore);
-            claymore->field_120 = 0;
+            claymore_loader_80073930(work);
+            work->field_120 = 0;
         }
         else
         {
-            return null_claymore;
+            return null_actor;
         }
     }
 
-    return &claymore->field_0;
+    return &work->actor;
 }

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "Game/control.h"
 #include "Game/object.h"
 #include "chara/snake/shadow.h"
@@ -31,8 +32,6 @@ typedef struct Johnny2Work
 #define EXEC_LEVEL 5
 
 extern int s03c_dword_800C33D8;
-
-extern SVECTOR DG_ZeroVector;
 
 GV_ACT *NewJFamas_800CAFAC(CONTROL *control, OBJECT *parent, int num_parent, int *arg4);
 GV_ACT *NewGunLight_800D3AD4(MATRIX *world, int **pvisible);
@@ -165,8 +164,8 @@ int Johnny2GetResources_800CE1D0(Johnny2Work *work)
 
     GM_InitObject(obj, GV_StrCode("johnny"), 0x32D, GV_StrCode("joh_03c"));
     GM_ConfigObjectJoint(obj);
-    GM_ConfigMotionControl_80034F08(obj, &work->motion, GV_StrCode("joh_03c"), work->oar1, work->oar2, control,
-                                    work->rots);
+    GM_ConfigMotionControl(obj, &work->motion, GV_StrCode("joh_03c"), work->oar1, work->oar2, control,
+                           work->rots);
     GM_ConfigObjectLight(obj, work->light);
     GM_ConfigObjectAction(obj, 10, 0, 0);
 

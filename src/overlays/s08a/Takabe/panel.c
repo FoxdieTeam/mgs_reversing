@@ -25,7 +25,6 @@ typedef struct _PanelWork
 
 int panel_base_color = 0x3C808080;
 
-extern SVECTOR DG_ZeroVector;
 extern int     GM_CurrentMap_800AB9B0;
 
 int AN_Unknown_800DCE84(SVECTOR *pos);

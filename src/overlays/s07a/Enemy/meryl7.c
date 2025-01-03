@@ -362,7 +362,7 @@ int s07a_meryl7_800D5908( WatcherWork* work, int name, int where )
 
     GM_InitObject( body, KMD_IPPANHEI, 0x32D, 0xA8A1 ) ;
     GM_ConfigObjectJoint( body ) ;
-    GM_ConfigMotionControl_80034F08( body, &work->m_ctrl, 0xA8A1, work->field_1DC, &work->field_1DC[17], ctrl, work->rots );
+    GM_ConfigMotionControl( body, &work->m_ctrl, 0xA8A1, work->field_1DC, &work->field_1DC[17], ctrl, work->rots );
     GM_ConfigObjectLight( body, &work->field_888 );
 
     work->field_B7B = 0;

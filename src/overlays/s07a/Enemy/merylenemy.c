@@ -1,10 +1,10 @@
 #include "../../s00a/Enemy/enemy.h"
 
+#include "common.h"
+#include "libgv/libgv.h"
 #include "libhzd/libhzd.h"
 #include "Game/linkvarbuf.h"
 
-extern int      GV_Time;
-extern SVECTOR  DG_ZeroVector;
 extern int      GM_ClaymoreMap_800AB9DC;
 extern SVECTOR  GM_NoisePosition_800AB9F8;
 extern int      GM_PlayerMap_800ABA0C;

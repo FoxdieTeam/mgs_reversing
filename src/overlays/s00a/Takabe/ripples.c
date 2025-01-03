@@ -3,6 +3,7 @@
 #include <rand.h>
 #include "common.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "Takabe/thing.h"
 
 typedef struct RipplesWork
@@ -17,12 +18,11 @@ typedef struct RipplesWork
     short        field_4E;
 } RipplesWork;
 
-void * NewRipple_800D7F30( MATRIX *, int );
+void *NewRipple_800D7F30( MATRIX *, int );
 
 extern int GM_CurrentMap_800AB9B0;
-extern MATRIX DG_ZeroMatrix;
 
-void RipplesAct_800D85A0(RipplesWork *work)
+STATIC void RipplesAct_800D85A0(RipplesWork *work)
 {
     GM_CurrentMap_800AB9B0 = work->field_20;
     if (--work->field_48 < 0)
@@ -32,12 +32,12 @@ void RipplesAct_800D85A0(RipplesWork *work)
     }
 }
 
-void RipplesDie_800D862C(RipplesWork *work)
+STATIC void RipplesDie_800D862C(RipplesWork *work)
 {
-
+    /* do nothing */
 }
 
-int RipplesGetResources_800D8634(RipplesWork *work, int name, int where)
+STATIC int RipplesGetResources_800D8634(RipplesWork *work, int name, int where)
 {
     SVECTOR svec;
 

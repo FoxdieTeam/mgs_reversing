@@ -58,7 +58,6 @@ void     s16b_800C49AC(HZD_SEG *seg);
 DG_OBJS *s00a_unknown3_800DC7BC(int model, LitHeader *lit);
 
 extern HITTABLE      c4_actors_800BDD78[C4_COUNT];
-extern SVECTOR       DG_ZeroVector;
 
 void DummyWall_800D7418(OBJECT *obj, int model, int where, int flag);
 void DummyWall_800D7488(DummyWallWork *work, DG_MDL *mdl);

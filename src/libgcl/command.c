@@ -91,7 +91,6 @@ void GCL_ForceExecProc(int proc_id, GCL_ARGS *args)
     GCL_ExecBlock(get_proc_block(proc_id) + 3, args);
 }
 
-extern int              GM_LoadRequest;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 
 int GCL_ExecProc(int proc_id, GCL_ARGS *args)

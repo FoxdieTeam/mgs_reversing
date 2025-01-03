@@ -26,6 +26,8 @@
 #include "Game/camera.h"
 #include "Menu/menuman.h"
 
+/*---------------------------------------------------------------------------*/
+
 extern unsigned short   gSystemCallbackProcs_800B58C0[];
 extern int              GM_PlayerAddress_800AB9F0;
 int                     GM_PlayerAddress_800AB9F0;
@@ -76,7 +78,7 @@ TBombFunction  GM_lpfnBombHoming = NULL;
 TBombFunction2 GM_lpfnBombBound = NULL;
 TBombFunction3 GM_lpfnBombExplosion = NULL;
 
-int GM_PadResetDisable = 0;
+int GM_PadResetDisable = FALSE;
 
 extern int GM_PadVibration2_800ABA54;
 int        SECTION(".sbss") GM_PadVibration2_800ABA54;
@@ -106,9 +108,8 @@ extern int          dword_800BF270;
 extern int          str_off_idx_800BF264;
 extern char         exe_name_800B5860[32];
 extern char        *MGS_DiskName[3]; /* in main.c */
-extern int          gDiskNum_800ACBF0;
+extern int          FS_DiskNum_800ACBF0;
 extern int          GV_PassageTime_800AB924;
-extern int          DG_UnDrawFrameCount;
 extern int          gSaveCache_800B5294;
 extern int          GV_PauseLevel_800AB928;
 extern GV_PAD       GV_PadData_800B05C0[4];
@@ -119,11 +120,10 @@ extern GameWork GameWork_800B5880;
 
 extern unsigned char *GV_ResidentMemoryBottom_800AB940;
 
-extern unsigned char *gOverlayBase_800AB9C8;
-
+extern void *gOverlayBase_800AB9C8;
 extern int gOverlayBinSize_800B5290;
 
-extern void MENU_AreaNameWrite_80049534(char *areaName);
+/*---------------------------------------------------------------------------*/
 
 STATIC void GM_ClearWeaponAndItem(void)
 {
@@ -187,7 +187,7 @@ STATIC void GM_InitNoise(void)
 
 STATIC void GM_ResetSystem(void)
 {
-    menuman_Reset_800389A8();
+    menuman_Reset();
     GV_ResetSystem();
     DG_ResetPipeline();
     GCL_ResetSystem();
@@ -203,19 +203,19 @@ STATIC void GM_ResetMemory(void)
 // GM_InitStage?
 STATIC void GM_CreateLoader(void)
 {
-    char *stageName = "init";
+    char *stage = "init";
     if (GM_CurrentStageFlag != 0)
     {
-        stageName = GM_GetArea(GM_CurrentStageFlag);
+        stage = GM_GetArea(GM_CurrentStageFlag);
     }
-    NewLoader(stageName);
+    NewLoader(stage);
 }
 
 STATIC void GM_HidePauseScreen(void)
 {
     GV_PauseLevel_800AB928 &= ~2;
     GM_SetSound(0x01ffff02, 0);
-    MENU_JimakuClear_80049518();
+    MENU_JimakuClear();
     GM_GameStatus &= ~GAME_FLAG_BIT_08;
 }
 
@@ -230,7 +230,7 @@ STATIC void GM_ShowPauseScreen(void)
     {
         areaName = GM_StageName_800AB918;
     }
-    MENU_AreaNameWrite_80049534(areaName);
+    MENU_AreaNameWrite(areaName);
 }
 
 STATIC void GM_TogglePauseScreen(void)
@@ -426,7 +426,7 @@ STATIC void GM_Act(GameWork *work)
         }
 
         printf("end scenario\n");
-        MENU_ResetTexture_80038A00();
+        MENU_ResetTexture();
         GM_AlertModeReset();
         GM_SoundStart();
         work->status = WORKING;
@@ -509,7 +509,7 @@ STATIC void GM_Act(GameWork *work)
         {
             if (--dword_800AB9D0 < 0)
             {
-                sprintf(exe_name_800B5860, "cdrom:\\MGS\\%s;1", MGS_DiskName[gDiskNum_800ACBF0]);
+                sprintf(exe_name_800B5860, "cdrom:\\MGS\\%s;1", MGS_DiskName[FS_DiskNum_800ACBF0]);
                 EnterCriticalSection();
                 SetDispMask(0);
                 PadStopCom();
@@ -704,7 +704,7 @@ STATIC int GM_LoadInitBin(unsigned char *buf, int id)
     return 1; // the overlay is embedded in the executable in dev variant
 #endif
 
-    if ((gOverlayBase_800AB9C8 + gOverlayBinSize_800B5290) > GV_ResidentMemoryBottom_800AB940)
+    if (((u_char *)gOverlayBase_800AB9C8 + gOverlayBinSize_800B5290) > GV_ResidentMemoryBottom_800AB940)
     {
         printf("TOO LARGE STAGE BINARY!!\n");
     }
@@ -719,19 +719,19 @@ void GM_StartDaemon(void)
     GM_GameOverTimer = 0;
     GM_LoadRequest = 0;
     GM_LoadComplete_800ABA38 = 0;
-    MENU_StartDeamon_80038A20();
+    MENU_StartDeamon();
     GM_InitArea();
     GM_InitChara();
     GM_InitScript();
     GV_SetLoader('b', GM_LoadInitBin);
     GM_ClearWeaponAndItem();
     GV_InitActor(1, &GameWork_800B5880.actor, NULL);
-    GV_SetNamedActor(&GameWork_800B5880.actor, (GV_ACTFUNC)GM_Act, 0, "gamed.c");
+    GV_SetNamedActor(&GameWork_800B5880.actor, (GV_ACTFUNC)GM_Act, NULL, "gamed.c");
     GM_ResetSystem();
     GM_ActInit(&GameWork_800B5880);
     GM_ResetMemory();
     GM_CurrentPadData_800AB91C = GV_PadData_800B05C0;
-    GM_CurrentDiskFlag = gDiskNum_800ACBF0 + 1;
+    GM_CurrentDiskFlag = FS_DiskNum_800ACBF0 + 1;
     GV_SaveResidentTop();
     GameWork_800B5880.status = 0;
     GameWork_800B5880.field_24 = 0;

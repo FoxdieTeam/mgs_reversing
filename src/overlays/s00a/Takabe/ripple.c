@@ -12,9 +12,6 @@ typedef struct _RippleWork
     int      timer;   //0x148
 } RippleWork;
 
-extern MATRIX  DG_ZeroMatrix;
-extern SVECTOR DG_ZeroVector;
-
 void s00a_ripple_800D7AC0( SVECTOR* pos, int n_vec, int scale )
 {
     SVECTOR wave_pos[4];

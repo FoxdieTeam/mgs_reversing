@@ -1,5 +1,9 @@
 #include "../../../s00a/Enemy/enemy.h"
 
+#include "common.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
+
 extern void s11e_zk11ecom_800D57A0( ZakoWork *work, int time );
 extern void s11e_zk11ecom_800D5B04( ZakoWork *work, int time );
 
@@ -7,8 +11,6 @@ extern void s11e_zk11ecom_800D649C( ZakoWork *work, int time );
 extern void s11e_zk11ecom_800D638C( ZakoWork *work, int time );
 extern void s11e_zk11ecom_800D5E78( ZakoWork *work, int time );
 extern void s11e_zk11ecom_800D5EEC( ZakoWork *work, int time );
-
-extern SVECTOR DG_ZeroVector;
 
 extern SVECTOR ZAKO_TARGET_SIZE_800C38CC;
 extern SVECTOR ZAKO_TARGET_FORCE_800C38D4;

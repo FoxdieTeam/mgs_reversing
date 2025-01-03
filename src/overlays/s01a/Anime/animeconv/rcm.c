@@ -1,8 +1,7 @@
 #include "common.h"
+#include "libdg/libdg.h"
 #include "Anime/animeconv/anime.h"
 #include "strcode.h"
-
-extern SVECTOR DG_ZeroVector;
 
 const char anim_data_800E46F8[] = {
     0x00, 0x1f, 0x04, 0x00, 0x0b, 0x00, 0x0f, 0x00,
@@ -70,7 +69,7 @@ void s01a_object_800D93BC(short *arg0)
     prescript.s_anim = 0;
 
     anm_800C3C04.pre_script = &prescript;
-    NewAnime_8005FBC8(NULL, NULL, &anm_800C3C04);
+    NewAnime(NULL, NULL, &anm_800C3C04);
 }
 
 void s01a_object_800D9424(SVECTOR *pos, short scr_num)
@@ -83,7 +82,7 @@ void s01a_object_800D9424(SVECTOR *pos, short scr_num)
     prescript.s_anim = 0;
 
     anm_800C3C04.pre_script = &prescript;
-    NewAnime_8005FBC8(NULL, NULL, &anm_800C3C04);
+    NewAnime(NULL, NULL, &anm_800C3C04);
 }
 
 void s01a_object_800D94A8(SVECTOR *pos)
@@ -96,7 +95,7 @@ void s01a_object_800D94A8(SVECTOR *pos)
     prescript.s_anim = 0;
 
     anm_800C3C3C.pre_script = &prescript;
-    NewAnime_8005FBC8(NULL, NULL, &anm_800C3C3C);
+    NewAnime(NULL, NULL, &anm_800C3C3C);
 }
 
 void s01a_object_800D952C(SVECTOR *pos, short scr_num)
@@ -109,7 +108,7 @@ void s01a_object_800D952C(SVECTOR *pos, short scr_num)
     prescript.s_anim = 0;
 
     anm_800C3C58.pre_script = &prescript;
-    NewAnime_8005FBC8(NULL, NULL, &anm_800C3C58);
+    NewAnime(NULL, NULL, &anm_800C3C58);
 }
 
 void s01a_object_800D95B0(SVECTOR *pos)
@@ -122,7 +121,7 @@ void s01a_object_800D95B0(SVECTOR *pos)
     prescript.s_anim = 0;
 
     anm_800C3C74.pre_script = &prescript;
-    NewAnime_8005FBC8(NULL, NULL, &anm_800C3C74);
+    NewAnime(NULL, NULL, &anm_800C3C74);
 }
 
 void s01a_object_800D9634(SVECTOR *pos)
@@ -135,7 +134,7 @@ void s01a_object_800D9634(SVECTOR *pos)
     prescript.s_anim = 0;
 
     anm_800C3C20.pre_script = &prescript;
-    NewAnime_8005FBC8(NULL, NULL, &anm_800C3C20);
+    NewAnime(NULL, NULL, &anm_800C3C20);
 }
 
 void s01a_object_800D96B8(MATRIX *world, int arg1, char arg2, char arg3, char arg4, char arg5, char arg6, char arg7, char arg8, char *ptr)
@@ -166,5 +165,5 @@ void s01a_object_800D96B8(MATRIX *world, int arg1, char arg2, char arg3, char ar
     anm.field_18_ptr[17] = arg7;
     anm.field_18_ptr[18] = arg8;
 
-    NewAnime_8005FBC8(NULL, 0, &anm);
+    NewAnime(NULL, 0, &anm);
 }

@@ -13,7 +13,7 @@
 #include "libfs/libfs.h"
 #include "libgcl/libgcl.h"
 #include "Game/game.h"
-#include "SD/sound.h"
+#include "SD/sd_cli.h"
 #include "Takabe/thing.h"
 #include "mts/mts.h"
 #include "mts/taskid.h"
@@ -61,7 +61,6 @@ typedef struct Ending2Work
 #define EXEC_LEVEL 5
 
 extern int DG_FrameRate;
-extern int DG_UnDrawFrameCount;
 extern int GV_Clock_800AB920;
 
 // Similar in usage to struct in movie.c
@@ -207,15 +206,14 @@ void roll_ending2_800C5EAC(short *dst, char *indices, short *src, int count)
     }
 }
 
-static inline void MovieIntToPos(int i, CdlLOC *p)
+static inline void int_to_loc(int pos, CdlLOC *loc)
 {
-    int temp;
+    int seconds;
 
-    temp = i / 75;
-
-    p->sector = itob(i % 75);
-    p->second = itob(temp % 60);
-    p->minute = itob(temp / 60);
+    seconds = pos / 75;
+    loc->sector = itob(pos % 75);
+    loc->second = itob(seconds % 60);
+    loc->minute = itob(seconds / 60);
 }
 
 // Identical to Movie_800C4484
@@ -225,7 +223,7 @@ void Ending2Movie_800C5F00(int pos)
 
     do
     {
-        MovieIntToPos(pos, &loc);
+        int_to_loc(pos, &loc);
         while (CdControl(CdlSetloc, (u_char *)&loc, NULL) == 0)
             ;
     } while (CdRead2(CdlModeStream2 | CdlModeSpeed | CdlModeRT) == 0);
@@ -400,13 +398,13 @@ void Ending2Movie_800C6460(void)
     start_xa_sd();
 
     GV_ResetPacketMemory();
-    GV_AllocMemory2(0, 0x11000, &moviework_800C326C.vlc);
-    GV_AllocMemory2(0, 0x10000, &moviework_800C326C.ring);
+    GV_AllocMemory2(GV_PACKET_MEMORY0, 0x11000, &moviework_800C326C.vlc);
+    GV_AllocMemory2(GV_PACKET_MEMORY0, 0x10000, &moviework_800C326C.ring);
 
     for (i = 0; i < 2; i++)
     {
-        GV_AllocMemory2(1, 0x17800, &moviework_800C326C.dctin[i]);
-        GV_AllocMemory2(0, 0x1E00, &moviework_800C326C.dctout[i]);
+        GV_AllocMemory2(GV_PACKET_MEMORY1, 0x17800, &moviework_800C326C.dctin[i]);
+        GV_AllocMemory2(GV_PACKET_MEMORY0, 0x1E00, &moviework_800C326C.dctout[i]);
     }
 
     DecDCTReset(0);

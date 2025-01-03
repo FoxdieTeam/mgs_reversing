@@ -21,9 +21,6 @@ static inline void UnsetMode( Meryl72Work *work )
 }
 /*********************************************************************************************************/
 
-extern int GM_GameStatus;
-extern int GM_GameOverTimer ;
-extern SVECTOR DG_ZeroVector ;
 extern int GM_AlertMode_800ABA00 ;
 extern int GM_PlayerAction_800ABA40 ;
 extern CONTROL *GM_PlayerControl_800AB9F4 ;
@@ -56,7 +53,7 @@ void ActStandStill_800C8580( Meryl72Work* work, int time )
     if ( time == 0 )
     {
         SetAction( work, 0, ACTINTERP ) ;
-        GM_ConfigMotionAdjust_80035008( &( work->body ), &( work->rots[ 16 ] ) );
+        GM_ConfigMotionAdjust( &( work->body ), &( work->rots[ 16 ] ) );
     }
 
     if ( CheckDamage_800C7F6C( work ) || CheckPad_800C8308( work ) )
@@ -596,7 +593,7 @@ void ActReadyGun_800C9428( Meryl72Work* work, int time )
         {
             SetAction( work, ACTION5, ACTINTERP );
         }
-        GM_ConfigMotionAdjust_80035008( &( work->body ), &work->rots[16] ) ;
+        GM_ConfigMotionAdjust( &( work->body ), &work->rots[16] ) ;
     }
 
     ReviseReadyGun_800C8020( work );
@@ -653,7 +650,7 @@ void s07c_meryl72_unk1_800C9594( Meryl72Work* work, int time )
     {
         SetAction( work, ACTION4, 0 ) ;
         ML72_SetPutChar_800CB584( work, 3 ) ; //Meryl_SetPutChar
-        GM_ConfigMotionAdjust_80035008( &( work->body ), &work->rots[16] ) ;
+        GM_ConfigMotionAdjust( &( work->body ), &work->rots[16] ) ;
     }
 
     work->control.turn.vy = work->sn_dir;
@@ -676,7 +673,7 @@ void s07c_meryl72_unk1_800C964C( Meryl72Work *work, int time )
 
     if ( time == 0 )
     {
-        GM_ConfigMotionAdjust_80035008( &( work->body ), &work->rots[16] );
+        GM_ConfigMotionAdjust( &( work->body ), &work->rots[16] );
     }
 
     rot = &work->control.rot;
@@ -905,8 +902,8 @@ void s07c_meryl72_unk1_800C9B30( Meryl72Work* work, int time )
 
         if ( s2 == 0x1E && !( work->fAEC & 7  ) )
         {
-            NewPadVibration_8005D58C(s07c_dword_800C3384, 1);
-            NewPadVibration_8005D58C(s07c_dword_800C3388, 2);
+            NewPadVibration(s07c_dword_800C3384, 1);
+            NewPadVibration(s07c_dword_800C3388, 2);
         }
         work->control.turn = GM_PlayerControl_800AB9F4->rot;
         s07c_meryl72_unk1_800C9AB0( work );
