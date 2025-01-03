@@ -1,4 +1,5 @@
 #include "common.h"
+#include "strcode.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 #include "Takabe/thing.h"
@@ -12,7 +13,7 @@ typedef struct DymcFloorWork
     HZD_FLR flr;
 } DymcFloorWork;
 
-unsigned short dymc_flr_msgs_800C3630[2] = {0xD182, 0x006B};
+unsigned short dymc_flr_msgs_800C3630[2] = {HASH_ON2, HASH_OFF2};
 
 extern int GM_CurrentMap_800AB9B0;
 

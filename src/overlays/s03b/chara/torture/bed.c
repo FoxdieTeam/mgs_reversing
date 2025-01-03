@@ -29,12 +29,12 @@ static inline int BedCheckMessages(BedWork *work)
     msg = &work->control.field_5C_mesg[work->control.field_56] - 1;
     for (i = work->control.field_56; i > 0; i--)
     {
-        if (msg->message[0] == 0xE2E9)
+        if (msg->message[0] == HASH_TURN)
         {
             found = 1;
             work->control.turn.vx = msg->message[1];
         }
-        else if (msg->message[0] == 0x1A19)
+        else if (msg->message[0] == HASH_LEAVE2)
         {
             work->control.mov.vy = 500;
         }

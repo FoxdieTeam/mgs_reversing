@@ -123,7 +123,7 @@ void RevolverSendMessage_800C71B0(int hash, int message)
 
     msg.address = hash;
     msg.message_len = 2;
-    msg.message[0] = 0x937A;
+    msg.message[0] = HASH_MOTION;
     msg.message[1] = message;
     GV_SendMessage(&msg);
 }
@@ -171,7 +171,7 @@ void s03b_revolver_800C72A4(RevolverWork *work, int arg1)
     messages = work->field_964;
     hash = work->control.name;
 
-    while ((unsigned short)messages[1] != 0x385E || arg1 == 0)
+    while ((unsigned short)messages[1] != HASH_VOICE || arg1 == 0)
     {
         if (messages[0] == arg1)
         {
@@ -660,7 +660,7 @@ void s03b_revolver_800C7D04(RevolverWork *work, int arg1)
 
         GM_GameStatus &= ~STATE_PADRELEASE;
 
-        message[1] = 0x491D;
+        message[1] = HASH_MODE;
         message[2] = 1;
         RevolverSendMessage_800C7170(work->control.name, message);
 
@@ -968,7 +968,7 @@ void Revolver_800C8488(RevolverWork *work, int mode)
         message[2] = 0;
         RevolverSendMessage_800C7170(GV_StrCode("スネーク"), message);
 
-        message[1] = 0x491D;
+        message[1] = HASH_MODE;
         message[2] = work->field_9B6;
         RevolverSendMessage_800C7170(work->control.name, message);
 
@@ -1177,7 +1177,7 @@ void s03b_revolver_800C89C8(RevolverWork *work)
 
         switch (code)
         {
-        case 0x937A:
+        case HASH_MOTION:
             work->field_9C.action_flag = -1;
 
             if (action != -1)
@@ -1186,7 +1186,7 @@ void s03b_revolver_800C89C8(RevolverWork *work)
             }
             break;
 
-        case 0x4B5D:
+        case HASH_MOVE:
             work->field_8B8 = &work->field_838[action];
 
             if (work->field_9C.action_flag != flag)
@@ -1197,20 +1197,20 @@ void s03b_revolver_800C89C8(RevolverWork *work)
             work->field_948 |= 0x20;
             break;
 
-        case 0x385E:
+        case HASH_VOICE:
             s03b_boxall_800C93AC(work->field_8D0[action]);
             break;
 
-        case 0xE2E9:
+        case HASH_TURN:
             work->control.turn.vy = action;
             break;
 
-        case 0x491D:
+        case HASH_MODE:
             work->field_944 = action;
             work->field_94C = 0;
             break;
 
-        case 0x4F34:
+        case HASH_OPERATION:
             work->field_94C = 0;
             work->field_948 |= 0x200;
             break;

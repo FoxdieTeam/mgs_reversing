@@ -1690,11 +1690,11 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
                 msg.address = 0x3B8E;
                 if (pData->data.variant_0x3E.field_20 == 0)
                 {
-                    msg.message[0] = 0xD182;
+                    msg.message[0] = HASH_ON2;
                 }
                 else
                 {
-                    msg.message[0] = 0x6B;
+                    msg.message[0] = HASH_OFF2;
                 }
                 msg.message[1] = pData->data.variant_0x3E.field_22;
                 msg.message_len = 2;
