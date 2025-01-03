@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "common.h"
-#include "demothrd.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "demothrd.h"
 #include "Anime/animeconv/anime.h"
 #include "Bullet/blast.h"
 #include "Game/game.h"
@@ -20,7 +21,7 @@ void InitChain_8007F338(DemothrdWork_0x78_Chain *pSub);
 void Chain_Remove_8007F394(DemothrdWork_0x78_Chain *pRoot, DemothrdWork_0x78_Chain *pRemove);
 void demothrd_hind_8007D9C8(DemothrdWork *work, dmo_data_0x18 *pDmoData0x18, dmo_model_0x14 *p0x14, dmo_model_0x1A4 *p0x1A4);
 void demothrd_m1e1_8007D404(DemothrdWork *work, dmo_data_0x18 *p0x18, dmo_model_0x14 *p0x14, dmo_model_0x1A4 *p0x1A4);
-void AN_CaterpillerSmoke_8007DA28(SVECTOR *pos);
+void AN_CaterpillerSmoke(SVECTOR *pos);
 void M1E1GetCaterpillerVertex(OBJECT *pE1, OBJECT *pE2, SVECTOR *pSmokeVecs, int a4);
 
 int CreateDemo_80079B50(DemothrdWork* pThis, demothrd_0x1C* pDmoData)
@@ -2235,7 +2236,7 @@ void demothrd_m1e1_8007D404(DemothrdWork *work, dmo_data_0x18 *p0x18, dmo_model_
 
   if (abs(tmp1) >= pData->field_560)
   {
-    AN_CaterpillerSmoke_8007DA28(&smokeVecs[rand() % 5]);
+    AN_CaterpillerSmoke(&smokeVecs[rand() % 5]);
     DG_InvisibleObjs(pData->field_0[0][pData->field_558_idx[0]].objs);
     if (tmp1 > 0)
     {
@@ -2271,7 +2272,7 @@ void demothrd_m1e1_8007D404(DemothrdWork *work, dmo_data_0x18 *p0x18, dmo_model_
 
   if (abs(tmp1) >= pData->field_560)
   {
-    AN_CaterpillerSmoke_8007DA28(&smokeVecs[(rand() % 5) + 5]);
+    AN_CaterpillerSmoke(&smokeVecs[(rand() % 5) + 5]);
     DG_InvisibleObjs(pData->field_0[1][pData->field_558_idx[1]].objs);
     if (tmp1 > 0)
     {
@@ -2360,7 +2361,7 @@ const char animation_data_80013510[] = {
 
 ANIMATION stru_8009F790 = {PCX_CANON_SEQ, 2, 2, 4, 1, 300, 1, 5000, 5000, 128, NULL, (char *)animation_data_80013510};
 
-void AN_CaterpillerSmoke_8007DA28(SVECTOR *pos)
+void AN_CaterpillerSmoke(SVECTOR *pos)
 {
     ANIMATION *anm;
     PRESCRIPT  pre = {{ 0 }};

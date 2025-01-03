@@ -43,9 +43,9 @@ typedef struct RcmWork
 
 #define EXEC_LEVEL 6
 
-SVECTOR stru_800AB870 = {-100, -800, 80, 0};
-RECT    rect_800AB878 = {100, 100, 200, 200};
-SVECTOR svector_800AB880 = {-50, -300, 100, 0};
+STATIC SVECTOR stru_800AB870 = {-100, -800, 80, 0};
+STATIC RECT    rect_800AB878 = {100, 100, 200, 200};
+STATIC SVECTOR svector_800AB880 = {-50, -300, 100, 0};
 
 /*---------------------------------------------------------------------------*/
 

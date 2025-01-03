@@ -14,11 +14,11 @@ extern short GM_O2_800ABA34;
 MENU_BAR_CONF gSnakeLifeBarConfig_8009E5F4 = {"LIFE", {0x10, 0x8F, 0x7F}, {0x1F, 0xDF, 0x3F}, 0};
 MENU_BAR_CONF gSnakeO2BarConfig_8009E600 = {"O2", {0x1F, 0x3F, 0xC0}, {0x1F, 0x7F, 0xFF}, 1};
 
-int gTakeDamageCounter_800AB5FC = 0;
+STATIC int gTakeDamageCounter_800AB5FC = 0;
 
-RECT rect_800AB600 = {960, 256, 50, 80};
+STATIC RECT rect_800AB600 = {960, 256, 50, 80};
 
-short coords_800AB600[2][2] = {{86, 72}, {44, 72}};
+STATIC short coords_800AB600[2][2] = {{86, 72}, {44, 72}};
 
 // force gp
 extern int dword_800ABAE8;
@@ -27,7 +27,7 @@ int        SECTION(".sbss") dword_800ABAE8;
 extern int gSnakeLifeYPos_800ABAF0;
 int        SECTION(".sbss") gSnakeLifeYPos_800ABAF0;
 
-void MENU_ResetWeaponPos_8003ECC0(void)
+void MENU_ResetWeaponPos(void)
 {
     dword_800ABAE8 = 0;
 }
@@ -94,7 +94,7 @@ int menu_life_update_helper_8003ECCC(MenuMan_MenuBars *pBars)
  * @param max The maximum value of the bar.
  * @param pConfig Pointer to the bar's configuration (such as text and colors).
  */
-void menu_draw_bar_8003ED4C(MenuPrim *prim, long x, long y, long rest, long now, long max, MENU_BAR_CONF *bconf)
+void menu_draw_bar(MenuPrim *prim, long x, long y, long rest, long now, long max, MENU_BAR_CONF *bconf)
 {
     TextConfig text_config;
     int        scaled_max_val;
@@ -140,7 +140,7 @@ void menu_draw_bar_8003ED4C(MenuPrim *prim, long x, long y, long rest, long now,
         text_config.colour = 0x64FFFFFF;
     }
 
-    _menu_number_draw_string_80042BF4(prim, &text_config, bconf->field_0_text);
+    _menu_number_draw_string(prim, &text_config, bconf->field_0_text);
 
     width = text_config.xpos - x_text + 2;
     pTile = menu_render_rect_8003DB2C(prim, x_text - 1, text_config.ypos - 1, width, 7, 0);
@@ -242,61 +242,61 @@ void menu_life_update_helper2_8003F30C(MenuPrim *prim, MenuMan_MenuBars *pBars)
         pBar = UNTAG_PTR(MENU_BAR_CONF, pBar); // pointer flag to make it render in red
     }
 
-    menu_draw_bar_8003ED4C(prim,
-                           pBars->field_2_bar_x,
-                           pBars->field_4_bar_y,
-                           pBars->field_6_snake_hp,
-                           GM_SnakeCurrentHealth,
-                           GM_SnakeMaxHealth,
-                           pBar);
+    menu_draw_bar(prim,
+                  pBars->field_2_bar_x,
+                  pBars->field_4_bar_y,
+                  pBars->field_6_snake_hp,
+                  GM_SnakeCurrentHealth,
+                  GM_SnakeMaxHealth,
+                  pBar);
 
     // If the oxygen bar is not full then draw it
     if (pBars->field_1_O2_hp)
     {
-        menu_draw_bar_8003ED4C(prim,
-                               pBars->field_2_bar_x,
-                               pBars->field_4_bar_y + 12,
-                               GM_O2_800ABA34,
-                               GM_O2_800ABA34,
-                               1024,
-                               &gSnakeO2BarConfig_8009E600);
+        menu_draw_bar(prim,
+                      pBars->field_2_bar_x,
+                      pBars->field_4_bar_y + 12,
+                      GM_O2_800ABA34,
+                      GM_O2_800ABA34,
+                      1024,
+                      &gSnakeO2BarConfig_8009E600);
     }
 }
 
 void draw_life_defaultX_8003F408(MenuPrim *prim, long y, long rest, long now, long max, MENU_BAR_CONF *bconf)
 {
     GM_GameStatus |= STATE_SHOW_LIFEBAR;
-    menu_draw_bar_8003ED4C(prim,
-                           16,
-                           y + gSnakeLifeYPos_800ABAF0 - 16,
-                           rest,
-                           now,
-                           max,
-                           bconf);
+    menu_draw_bar(prim,
+                  16,
+                  y + gSnakeLifeYPos_800ABAF0 - 16,
+                  rest,
+                  now,
+                  max,
+                  bconf);
 }
 
 void draw_life_8003F464(MenuPrim *prim, long x, long y, long rest, long now, long max, MENU_BAR_CONF *bconf)
 {
     GM_GameStatus |= STATE_SHOW_LIFEBAR;
-    menu_draw_bar_8003ED4C(prim,
-                           x,
-                           y + gSnakeLifeYPos_800ABAF0 - 16,
-                           rest,
-                           now,
-                           max,
-                           bconf);
+    menu_draw_bar(prim,
+                  x,
+                  y + gSnakeLifeYPos_800ABAF0 - 16,
+                  rest,
+                  now,
+                  max,
+                  bconf);
 }
 
 void draw_player_life_8003F4B8(MenuPrim *prim, long x, long y)
 {
     GM_GameStatus |= STATE_SHOW_LIFEBAR;
-    menu_draw_bar_8003ED4C(prim,
-                           x,
-                           y,
-                           GM_SnakeCurrentHealth,
-                           GM_SnakeCurrentHealth,
-                           GM_SnakeMaxHealth,
-                           &gSnakeLifeBarConfig_8009E5F4);
+    menu_draw_bar(prim,
+                  x,
+                  y,
+                  GM_SnakeCurrentHealth,
+                  GM_SnakeCurrentHealth,
+                  GM_SnakeMaxHealth,
+                  &gSnakeLifeBarConfig_8009E5F4);
 }
 
 void menu_font_kill_helper_8003F50C(void)
@@ -536,7 +536,7 @@ void menu_drawDescriptionPanel_8003F9B4(MenuWork *work, unsigned int *pOt, const
     w = gMenuSprt_800bd998.w + 10;
     x1 = x0;
 
-    x4 = menu_number_draw_string_800430F0(work, pOt, x1 - 8, gMenuSprt_800bd998.y0 - 7, str, 0);
+    x4 = menu_number_draw_string(work, pOt, x1 - 8, gMenuSprt_800bd998.y0 - 7, str, 0);
     draw_player_life_8003F4B8(work->field_20_otBuf, x3, 24);
 
     i = 0;

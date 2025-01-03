@@ -2,6 +2,7 @@
 
 #include "common.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "Game/linkvarbuf.h"
 #include "Game/object.h"
@@ -477,7 +478,7 @@ void MouseAct_800D4904(MouseWork *work)
                 sp10.t[0] = sp30.vx;
                 sp10.t[1] = sp30.vy;
                 sp10.t[2] = sp30.vz;
-                NewBlood_80072728(&sp10, 1);
+                NewBlood(&sp10, 1);
             }
         }
 

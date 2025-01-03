@@ -202,7 +202,7 @@ void camera_800C53B8(MenuPrim *pGlue, RadioFileModeStruElem *pElem)
     textConfig.flags = 0x12;
     textConfig.colour = pUnk->field_18 | 0x66000000;
 
-    _menu_number_draw_string2_80043220(pGlue, &textConfig, (char *)pUnk->field_4); // TODO: Fix cast
+    _menu_number_draw_string2(pGlue, &textConfig, (char *)pUnk->field_4); // TODO: Fix cast
 }
 
 // Copy of menu_radio_do_file_mode_helper4_helper_8004A54C
@@ -261,8 +261,8 @@ void camera_800C553C(MenuPrim *pGlue, RadioFileModeStruElem *pElem)
     setSemiTrans(pTile, 0);
     addPrim(pGlue->mPrimBuf.mOt, pTile);
 
-    radio_draw_face_frame_800481CC(pGlue, x, y, w, h);
-    radio_draw_face_frame_800481CC(pGlue, x, y, w, h);
+    radio_draw_face_frame(pGlue, x, y, w, h);
+    radio_draw_face_frame(pGlue, x, y, w, h);
 }
 
 void camera_800C714C(MenuPrim *pGlue, SELECT_INFO *info);
@@ -772,7 +772,7 @@ void camera_800C714C(MenuPrim *pGlue, SELECT_INFO *info)
     }
     textConfig.xpos = info->field_0_xpos;
     textConfig.ypos = info->field_2_ypos;
-    _menu_number_draw_string2_80043220(pGlue, &textConfig, info->message);
+    _menu_number_draw_string2(pGlue, &textConfig, info->message);
     if (info->max_num == 1)
     {
         xpos = info->field_0_xpos;
@@ -800,7 +800,7 @@ void camera_800C714C(MenuPrim *pGlue, SELECT_INFO *info)
         {
             textConfig.colour = 0x663d482e;
         }
-        _menu_number_draw_string2_80043220(pGlue, &textConfig, info->curpos[i].mes);
+        _menu_number_draw_string2(pGlue, &textConfig, info->curpos[i].mes);
     }
 }
 

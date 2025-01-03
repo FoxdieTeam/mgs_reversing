@@ -65,12 +65,12 @@ void sna_8004E260(SnaInitWork *work, int a2, int interp, int a4)
     }
 }
 
-int GM_CheckPlayerStatusFlag_8004E29C(PlayerStatusFlag arg0)
+int GM_CheckPlayerStatusFlag(PlayerStatusFlag arg0)
 {
     return (GM_PlayerStatus_800ABA50 & arg0) != 0;
 }
 
-int GM_SetPlayerStatusFlag_8004E2B4(PlayerStatusFlag arg0)
+int GM_SetPlayerStatusFlag(PlayerStatusFlag arg0)
 {
     int temp_v0;
 
@@ -79,7 +79,7 @@ int GM_SetPlayerStatusFlag_8004E2B4(PlayerStatusFlag arg0)
     return temp_v0;
 }
 
-void GM_ClearPlayerStatusFlag_8004E2D4(PlayerStatusFlag flag)
+void GM_ClearPlayerStatusFlag(PlayerStatusFlag flag)
 {
     GM_PlayerStatus_800ABA50 &= ~flag;
 }
@@ -128,7 +128,7 @@ void CheckSnakeDead_8004E384(SnaInitWork *snake)
     if ((GM_SnakeCurrentHealth == 0) || (GM_GameOverTimer != 0))
     {
         snake->control.skip_flag |= CTRL_SKIP_TRAP;
-        GM_SetPlayerStatusFlag_8004E2B4(PLAYER_PAD_OFF | PLAYER_PREVENT_WEAPON_ITEM_SWITCH);
+        GM_SetPlayerStatusFlag(PLAYER_PAD_OFF | PLAYER_PREVENT_WEAPON_ITEM_SWITCH);
         sna_set_flags1_8004E2F4(snake, SNA_FLAG1_UNK23);
         GM_GameStatus |= (STATE_MENU_OFF | STATE_PADRELEASE);
 

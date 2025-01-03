@@ -4,6 +4,7 @@
 #include "common.h"
 #include "mts/mts.h" // for fprintf
 #include "libhzd/libhzd.h"
+#include "Game/game.h"
 #include "Game/linkvarbuf.h"
 
 extern ZAKO_COMMAND ZakoCommand_800DF280;

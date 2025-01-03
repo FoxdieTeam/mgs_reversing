@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include "mts/mts.h" // for fprintf
+#include "libgv/libgv.h"
 #include "libhzd/libhzd.h"
 
 extern ENEMY_COMMAND EnemyCommand_800E0D98;

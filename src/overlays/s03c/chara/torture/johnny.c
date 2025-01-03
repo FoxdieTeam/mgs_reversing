@@ -1,5 +1,6 @@
 #include "common.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "libhzd/libhzd.h"
 #include "Game/camera.h"
 #include "Game/control.h"
@@ -12,7 +13,6 @@
 #include "chara/snake/sna_init.h"
 #include "chara/snake/sna_hzd.h"
 #include "Okajima/blood.h"
-#include "common.h"
 #include "overlays/s03a/Okajima/hiyoko.h"
 #include "SD/g_sound.h"
 #include "strcode.h"
@@ -587,7 +587,7 @@ void Johnny_800C4BEC(JohnnyWork *work, int index)
     DG_MovePos(&s03c_dword_800C32D4);
     DG_RotatePos(&s03c_dword_800C32DC);
     ReadRotMatrix(&rot);
-    NewBlood_80072728(&rot, 1);
+    NewBlood(&rot, 1);
 }
 
 int Johnny_800C4C54(JohnnyWork *work)

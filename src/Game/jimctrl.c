@@ -85,7 +85,7 @@ void jimctrl_kill_helper_clear_80038004(JimakuCtrlWork *pJimCtrl)
 
     if (pJimCtrl->field_44_subtitles)
     {
-        MENU_JimakuClear_80049518();
+        MENU_JimakuClear();
     }
 
     if (pJimCtrl->field_38 != 0)
@@ -130,7 +130,7 @@ static inline void jimctrl_act_helper_80038070(JimakuCtrlWork *work, int str_cou
         {
         case 0:
         case 2:
-            MENU_JimakuWrite_800494E8(pData, 0);
+            MENU_JimakuWrite(pData, 0);
             break;
 
         case 1:
@@ -147,7 +147,7 @@ static inline void jimctrl_act_helper_80038070(JimakuCtrlWork *work, int str_cou
         {
         case 0:
         case 2:
-            MENU_JimakuClear_80049518();
+            MENU_JimakuClear();
             break;
 
         case 1:

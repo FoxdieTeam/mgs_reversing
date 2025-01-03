@@ -206,15 +206,14 @@ void roll_ending2_800C5EAC(short *dst, char *indices, short *src, int count)
     }
 }
 
-static inline void MovieIntToPos(int i, CdlLOC *p)
+static inline void int_to_loc(int pos, CdlLOC *loc)
 {
-    int temp;
+    int seconds;
 
-    temp = i / 75;
-
-    p->sector = itob(i % 75);
-    p->second = itob(temp % 60);
-    p->minute = itob(temp / 60);
+    seconds = pos / 75;
+    loc->sector = itob(pos % 75);
+    loc->second = itob(seconds % 60);
+    loc->minute = itob(seconds / 60);
 }
 
 // Identical to Movie_800C4484
@@ -224,7 +223,7 @@ void Ending2Movie_800C5F00(int pos)
 
     do
     {
-        MovieIntToPos(pos, &loc);
+        int_to_loc(pos, &loc);
         while (CdControl(CdlSetloc, (u_char *)&loc, NULL) == 0)
             ;
     } while (CdRead2(CdlModeStream2 | CdlModeSpeed | CdlModeRT) == 0);

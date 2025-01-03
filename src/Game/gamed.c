@@ -123,8 +123,6 @@ extern unsigned char *GV_ResidentMemoryBottom_800AB940;
 extern void *gOverlayBase_800AB9C8;
 extern int gOverlayBinSize_800B5290;
 
-extern void MENU_AreaNameWrite_80049534(char *areaName);
-
 /*---------------------------------------------------------------------------*/
 
 STATIC void GM_ClearWeaponAndItem(void)
@@ -189,7 +187,7 @@ STATIC void GM_InitNoise(void)
 
 STATIC void GM_ResetSystem(void)
 {
-    menuman_Reset_800389A8();
+    menuman_Reset();
     GV_ResetSystem();
     DG_ResetPipeline();
     GCL_ResetSystem();
@@ -217,7 +215,7 @@ STATIC void GM_HidePauseScreen(void)
 {
     GV_PauseLevel_800AB928 &= ~2;
     GM_SetSound(0x01ffff02, 0);
-    MENU_JimakuClear_80049518();
+    MENU_JimakuClear();
     GM_GameStatus &= ~GAME_FLAG_BIT_08;
 }
 
@@ -232,7 +230,7 @@ STATIC void GM_ShowPauseScreen(void)
     {
         areaName = GM_StageName_800AB918;
     }
-    MENU_AreaNameWrite_80049534(areaName);
+    MENU_AreaNameWrite(areaName);
 }
 
 STATIC void GM_TogglePauseScreen(void)
@@ -428,7 +426,7 @@ STATIC void GM_Act(GameWork *work)
         }
 
         printf("end scenario\n");
-        MENU_ResetTexture_80038A00();
+        MENU_ResetTexture();
         GM_AlertModeReset();
         GM_SoundStart();
         work->status = WORKING;
@@ -721,7 +719,7 @@ void GM_StartDaemon(void)
     GM_GameOverTimer = 0;
     GM_LoadRequest = 0;
     GM_LoadComplete_800ABA38 = 0;
-    MENU_StartDeamon_80038A20();
+    MENU_StartDeamon();
     GM_InitArea();
     GM_InitChara();
     GM_InitScript();

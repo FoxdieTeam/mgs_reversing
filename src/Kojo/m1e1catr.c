@@ -50,7 +50,7 @@ typedef struct M1E1Work
 } M1E1Work;
 
 void demothrd_2_8007DA94(SVECTOR *pPosition, SVECTOR *pRotation);
-void AN_CaterpillerSmoke_8007DA28(SVECTOR *pos); // todo: split demo.c
+void AN_CaterpillerSmoke(SVECTOR *pos); // todo: split demo.c
 
 void M1E1Caterpiller(M1E1Work *work)
 {
@@ -134,7 +134,7 @@ void M1E1Caterpiller(M1E1Work *work)
             work->field_E7C = -1;
         }
 
-        AN_CaterpillerSmoke_8007DA28(&work->field_718_targets[rand() % 5]->center);
+        AN_CaterpillerSmoke(&work->field_718_targets[rand() % 5]->center);
         DG_InvisibleObjs(work->field_1C0[work->field_E74].objs);
 
         work->field_E74 += work->field_E7C;
@@ -219,7 +219,7 @@ void M1E1Caterpiller(M1E1Work *work)
             work->field_E80 = -1;
         }
 
-        AN_CaterpillerSmoke_8007DA28(&work->field_718_targets[(rand() % 5) + 5]->center);
+        AN_CaterpillerSmoke(&work->field_718_targets[(rand() % 5) + 5]->center);
         DG_InvisibleObjs(work->field_46C[work->field_E78].objs);
 
         work->field_E78 += work->field_E7C;

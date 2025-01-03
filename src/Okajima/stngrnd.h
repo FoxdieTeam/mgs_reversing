@@ -2,11 +2,9 @@
 #define _STNGRND_H_
 
 #include "libgv/libgv.h"
-#include "libdg/libdg.h"
 
-void AN_Stn_G_Sonic_80074CA4(SVECTOR *pos);
-void AN_Stn_G_Center_80074D28(SVECTOR *pos);
-
-GV_ACT *NewStunGrenade_80074B5C( MATRIX *pMtx );
+GV_ACT *NewStanBlast( MATRIX *world );
+void AN_Stn_G_Sonic( SVECTOR *pos );
+void AN_Stn_G_Center( SVECTOR *pos );
 
 #endif // _STNGRND_H_

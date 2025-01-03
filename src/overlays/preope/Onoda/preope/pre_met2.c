@@ -730,17 +730,17 @@ void PreMet2_800C63B4(PreMet2Work *work)
         b = 116;
     }
 
-    MENU_Locate_80038B34(134, 202, 16);
-    MENU_Color_80038B4C(r, g, b);
-    MENU_Printf_80038C38("%2d", work->current_page_number);
+    MENU_Locate(134, 202, 16);
+    MENU_Color(r, g, b);
+    MENU_Printf("%2d", work->current_page_number);
 
-    MENU_Locate_80038B34(156, 202, 16);
-    MENU_Color_80038B4C(r, g, b);
-    MENU_Printf_80038C38("/");
+    MENU_Locate(156, 202, 16);
+    MENU_Color(r, g, b);
+    MENU_Printf("/");
 
-    MENU_Locate_80038B34(167, 202, 16);
-    MENU_Color_80038B4C(r, g, b);
-    MENU_Printf_80038C38("%d", PAGE_COUNT);
+    MENU_Locate(167, 202, 16);
+    MENU_Color(r, g, b);
+    MENU_Printf("%d", PAGE_COUNT);
 }
 
 void PreMet2Act_800C65A8(PreMet2Work *work)

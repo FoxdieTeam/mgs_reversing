@@ -1,5 +1,6 @@
 #include "common.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "Game/control.h"
 #include "Game/game.h"
@@ -996,7 +997,7 @@ void s11g_hind_800D3214(HindWork *work)
         var_a2 = field_654;
         var_s1 = field_654;
     }
-    MENU_DrawBar_80038D74(16, 28, var_a2, field_654, &work->field_7E8);
+    MENU_DrawBar(16, 28, var_a2, field_654, &work->field_7E8);
     if (field_654 < var_s1)
     {
         work->field_7F4 -= 8;

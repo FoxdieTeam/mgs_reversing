@@ -102,7 +102,7 @@ void HdBul2Act( HdBul2Work *work )
             scale.vx = scale.vy = scale.vz = 8192;
             ScaleMatrix( &world, &scale );
 
-            NewSpark_80074564( &world, 1 );
+            NewSpark( &world, 1 );
         }
         else
         {

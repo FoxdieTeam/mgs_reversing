@@ -3,13 +3,12 @@
 #include "Game/game.h"
 
 #define TEX_COPY_SIZE   (sizeof(DG_TEX) - offsetof(DG_TEX, used))
-#define TEX_COPY_WORDS  (TEX_COPY_SIZE / sizeof(u_short))
 
 STATIC void EQ_MoveTexture(u_short *src, u_short *dst)
 {
     u_short i;
 
-    for (i = 0; i < TEX_COPY_WORDS; i++)
+    for (i = 0; i < TEX_COPY_SIZE / sizeof(u_short); i++)
     {
         *dst++ = *src++;
     }
@@ -17,7 +16,7 @@ STATIC void EQ_MoveTexture(u_short *src, u_short *dst)
 
 void EQ_ChangeTexture(const char *itemName1, const char *itemName2)
 {
-    u_short temp[TEX_COPY_WORDS];
+    u_short temp[TEX_COPY_SIZE / sizeof(u_short)];
     DG_TEX *tex1;
     DG_TEX *tex2;
 

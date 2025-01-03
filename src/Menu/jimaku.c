@@ -6,8 +6,8 @@
 #include "libgcl/libgcl.h"
 #include "Game/linkvarbuf.h"
 
-extern void *MENU_JimakuTextBody_800ABB40;
-void        *SECTION(".sbss") MENU_JimakuTextBody_800ABB40;
+extern void *MENU_JimakuTextBody;
+void        *SECTION(".sbss") MENU_JimakuTextBody;
 
 extern int             GV_PauseLevel_800AB928;
 extern UnkJimakuStruct gUnkJimakuStruct_800BDA70;
@@ -15,7 +15,7 @@ extern GV_PAD          GV_PadData_800B05C0[4];
 
 signed char dword_8009E76C[] = {-1, 0, 1, 0, 0, 1, 0, -1};
 
-void menu_jimaku_act_80048FD4( MenuWork *work, unsigned int *pOt )
+void menu_jimaku_act( MenuWork *work, unsigned int *pOt )
 {
     TextConfig config;
     int        i;
@@ -65,7 +65,7 @@ void menu_jimaku_act_80048FD4( MenuWork *work, unsigned int *pOt )
             config.xpos = 160;
             config.ypos = 80;
 
-            _menu_number_draw_string2_80043220( work->field_20_otBuf, &config, "PAUSE" );
+            _menu_number_draw_string2( work->field_20_otBuf, &config, "PAUSE" );
             pTile = menu_render_rect_8003DB2C( work->field_20_otBuf, 0, 0, 320, 224, 0 );
             setSemiTrans(pTile, 1);
         }
@@ -121,7 +121,7 @@ void menu_jimaku_act_80048FD4( MenuWork *work, unsigned int *pOt )
     }
 }
 
-void menu_jimaku_init_helper_800493F8(KCB *kcb)
+STATIC void menu_jimaku_init_helper(KCB *kcb)
 {
     RECT rect;
     setRECT(&rect, 960, 256, 64, 38);
@@ -129,18 +129,18 @@ void menu_jimaku_init_helper_800493F8(KCB *kcb)
     font_init_kcb(kcb, &rect, 960, 510);
     font_set_kcb(kcb, -1, -1, 0, 6, 2, 0);
     printf("jimaku_font_buffer_size %d\n", font_get_buffer_size(kcb));
-    MENU_JimakuTextBody_800ABB40 = GV_AllocResidentMemory(font_get_buffer_size(kcb));
-    font_set_buffer(kcb, MENU_JimakuTextBody_800ABB40);
+    MENU_JimakuTextBody = GV_AllocResidentMemory(font_get_buffer_size(kcb));
+    font_set_buffer(kcb, MENU_JimakuTextBody);
     font_set_color(kcb, 0, 0x6739, 0);
     font_clut_update(kcb);
 }
 
-void menu_jimaku_init_800494C4()
+void menu_jimaku_init(MenuWork *work)
 {
-    menu_jimaku_init_helper_800493F8(&gUnkJimakuStruct_800BDA70.field_C_font);
+    menu_jimaku_init_helper(&gUnkJimakuStruct_800BDA70.field_C_font);
 }
 
-void MENU_JimakuWrite_800494E8(char *str, int frames)
+void MENU_JimakuWrite(char *str, int frames)
 {
     gUnkJimakuStruct_800BDA70.field_0_active = 0;
     gUnkJimakuStruct_800BDA70.field_2_timer = frames;
@@ -156,33 +156,33 @@ void MENU_JimakuWrite_800494E8(char *str, int frames)
     }
 }
 
-void MENU_JimakuClear_80049518(void)
+void MENU_JimakuClear(void)
 {
     gUnkJimakuStruct_800BDA70.field_0_active = 0;
     gUnkJimakuStruct_800BDA70.field_C_font.char_arr[6] &= ~0x80;
 }
 
-void MENU_AreaNameWrite_80049534(char *areaName)
+void MENU_AreaNameWrite(char *areaName)
 {
-    MENU_JimakuWrite_800494E8(areaName, 0);
+    MENU_JimakuWrite(areaName, 0);
     gUnkJimakuStruct_800BDA70.field_1_type = 1;
 }
 
-void NewJimakuStr_8004955C(char *str, int int_1)
+void NewJimakuStr(char *str, int int_1)
 {
-  MENU_JimakuWrite_800494E8(str, -1);
+  MENU_JimakuWrite(str, -1);
   GV_PauseLevel_800AB928 |= 1;
   gUnkJimakuStruct_800BDA70.field_3C = int_1;
   DG_FreeObjectQueue();
 }
 
-void NewJimaku_800495A8()
+void NewJimaku(void)
 {
     char *str;
 
     str = GCL_ReadString(GCL_GetParamResult());
     gUnkJimakuStruct_800BDA70.field_40 = GCL_GetParamResult();
-    MENU_JimakuWrite_800494E8(str, -1);
+    MENU_JimakuWrite(str, -1);
 
     if (GCL_GetOption('e'))
     {

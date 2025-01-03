@@ -8,9 +8,11 @@ extern unsigned short (*pfn_800BDFB4)(unsigned short);
 
 extern u_long DG_PaletteBuffer_800B3818[256];
 
-int dword_8009F728 = 0;
-RECT rect_8009F72C = {768, 226, 256, 2};
-RECT rect_8009F734 = {768, 196, 256, 2};
+/*---------------------------------------------------------------------------*/
+
+STATIC int dword_8009F728 = 0;
+STATIC RECT rect_8009F72C = {768, 226, 256, 2};
+STATIC RECT rect_8009F734 = {768, 196, 256, 2};
 
 void DG_StorePalette2(void)
 {
@@ -39,9 +41,9 @@ void DG_ResetPaletteEffect(void)
     dword_8009F728 = 0;
 }
 
-static inline ushort modify_data(ushort data, ushort param_2)
+static inline u_short modify_data(u_short data, u_short param_2)
 {
-    ushort high = data & 0x8000;
+    u_short high = data & 0x8000;
 
     if ((data & 0x7fff) != 0)
     {
@@ -53,11 +55,11 @@ static inline ushort modify_data(ushort data, ushort param_2)
     }
 }
 
-void sub_80079004(ushort param_1)
+void sub_80079004(u_short param_1)
 {
     RECT    rect = rect_8009F72C;
     int     count, count2;
-    ushort *ptr;
+    u_short *ptr;
 
     count = 15;
 
@@ -67,7 +69,7 @@ void sub_80079004(ushort param_1)
         StoreImage2(&rect, DG_PaletteBuffer_800B3818);
         DrawSync(0);
 
-        ptr = (ushort *)DG_PaletteBuffer_800B3818;
+        ptr = (u_short *)DG_PaletteBuffer_800B3818;
         count2 = 512;
 
         for (; count2 > 0; count2--)

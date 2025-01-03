@@ -4,6 +4,7 @@
 #include "common.h"
 #include "mts/mts.h" // for fprintf
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "Game/control.h"
 #include "Game/object.h"
 #include "Anime/animeconv/anime.h"

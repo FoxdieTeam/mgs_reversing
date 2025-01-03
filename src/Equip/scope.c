@@ -545,12 +545,12 @@ STATIC void scope_draw_text_80062DA8(ScopeWork *work)
 {
     if ( (GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000) == 0 )
     {
-        MENU_Locate_80038B34(20, 34, 0);
-        MENU_Color_80038B4C(127, 166, 97);
-        MENU_Printf_80038C38("- ZOOM LEVEL - - %d -", 100 * (GM_Camera_800B77E8.zoom / 320));
-        MENU_Color_80038B4C(101, 133, 77);
-        MENU_Locate_80038B34(32, 101, 1);
-        MENU_Printf_80038C38("%d", -work->field_6C_turn_vec.vx);
+        MENU_Locate(20, 34, 0);
+        MENU_Color(127, 166, 97);
+        MENU_Printf("- ZOOM LEVEL - - %d -", 100 * (GM_Camera_800B77E8.zoom / 320));
+        MENU_Color(101, 133, 77);
+        MENU_Locate(32, 101, 1);
+        MENU_Printf("%d", -work->field_6C_turn_vec.vx);
         menu_Text_Init_80038B98();
     }
 }
@@ -640,7 +640,7 @@ STATIC void ScopeAct(ScopeWork *work)
     }
 
     pad_status = work->field_54_pOldPad->status;
-    GM_CheckShukanReverse_8004FBF8(&pad_status);
+    GM_CheckShukanReverse(&pad_status);
 
     if ((GV_PauseLevel_800AB928 != 0) || (GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF) ||
         (GM_GameStatus < 0))

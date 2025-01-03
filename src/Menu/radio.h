@@ -3,13 +3,6 @@
 
 #include "menuman.h"
 
-typedef int (*TUnkRadioFn)(MenuWork *, unsigned int *); // (work, pOt)
-int menu_draw_mem_debug_80043678(MenuWork *work, unsigned int *pOt);
-int menu_draw_pow_debug_80043A24(MenuWork *work, unsigned int *pOt);
-int menu_draw_ply_debug_80043FD0(MenuWork *work, unsigned int *pOt);
-int menu_draw_obj_debug_800442E4(MenuWork *work, unsigned int *pOt);
-int menu_draw_tex_debug_800445F8(MenuWork *work, unsigned int *pOt);
-
 typedef struct RadioIncomingCall // @ 8009E708
 {
     short field_0;
@@ -202,7 +195,7 @@ void           menu_radio_codec_task_proc_80047AA0(void);
 void           menu_radio_codec_task_proc_helper_80046F3C(menu_chara_struct *pStru, faces_group *pFacesGroup);
 void           menu_radio_compact_free_vars_8004D3D8(void);
 void           init_radio_message_board_80040F74(MenuWork *work);
-void           init_file_mode_8004D24C(DATA_INFO *pSaveMode, int param_2);
+void           init_file_mode(DATA_INFO *pSaveMode, int param_2);
 void           sub_800434F4(MenuPrim *pGlue, int param_2, int param_3, PANEL_TEXTURE *param_4);
 void           menu_RadioCall_helper_800403E4();
 radio_table_entry           *sub_8004969C(radio_table *pRadioTable, int contactFrequency);
@@ -212,26 +205,26 @@ void           menu_radio_codec_helper_helper14_helper5_800402A0(MenuPrim *pGlue
 void           menu_radio_codec_helper_helper14_helper2_800401AC(MenuPrim *pGlue, int param_2, int param_3);
 void           menu_radio_codec_helper_helper14_helper6_helper_8004064C(MenuPrim *pGlue, int xpos, int ypos, int colour,
                                                                         int idx);
-int            MENU_GetRadioCode_800497C4(int param_1);
+int            MENU_GetRadioCode(int param_1);
 void           sub_80047D70(MenuWork *work, int param_2, int pRadioCode);
 void           sub_8004D4A0(RadioCodecStru_800ABB98 *pStru);
 void           menu_radio_update_helper4_8004D2D0(int param_1);
 
-int menu_number_draw_80042F78(MenuWork *work, unsigned int *pOt, int xpos, int ypos, int number, int flags);
-int menu_number_draw_number2_80042FC0(MenuWork *work, int xpos, int ypos, int current, int total);
-int menu_number_draw_string_800430F0(MenuWork *work, unsigned int *pOt, int xpos, int ypos, const char *str, int flags);
-void radio_draw_face_frame_800481CC(MenuPrim *pGlue, int x, int y, int w, int h);
-void menu_draw_nouse_800435A4(MenuPrim *pGlue, int offset_x, int offset_y);
-void menu_draw_frozen_800435C8(MenuPrim *pGlue, int offset_x, int offset_y);
-void menu_number_draw_magazine_80042E38(MenuWork *work, unsigned int *pOt, int xoff, int yoff, int pMagSize, int pAmmo, int pSubCnt2);
+int menu_number_draw(MenuWork *work, unsigned int *pOt, int xpos, int ypos, int number, int flags);
+int menu_number_draw_number2(MenuWork *work, int xpos, int ypos, int current, int total);
+int menu_number_draw_string(MenuWork *work, unsigned int *pOt, int xpos, int ypos, const char *str, int flags);
+void radio_draw_face_frame(MenuPrim *pGlue, int x, int y, int w, int h);
+void menu_draw_nouse(MenuPrim *pGlue, int offset_x, int offset_y);
+void menu_draw_frozen(MenuPrim *pGlue, int offset_x, int offset_y);
+void menu_number_draw_magazine(MenuWork *work, unsigned int *pOt, int xoff, int yoff, int pMagSize, int pAmmo, int pSubCnt2);
 void sub_8004ABF0(int param_1, int param_2, int param_3, int param_4, int divisor);
 void sub_8004B9C4(SELECT_INFO *pStru, int param_2);
 void menu_radio_do_file_mode_helper12_helper_8004B8FC(char *param_1, char *param_2);
-void menu_radio_init_save_mode_8004D280(int param_1, int param_2);
+void menu_radio_init_save_mode(int param_1, int param_2);
 void menu_radio_update_helper6_80047D40(MenuWork *work);
 
 void menu_radio_codec_helper_helper4_8004DE20(MenuWork *work);
-void menu_radio_codec_helper_helper5_8004D628(MenuWork *work, unsigned char *pOt);
+void menu_radio_draw_mem(MenuWork *work, unsigned char *pOt);
 int menu_radio_codec_helper_helper2_8004DF68(MenuWork *work, GV_PAD *pPad);
 void menu_radio_codec_helper__helper3_sub_8004DF44();
 void menu_radio_codec_helper_helper_8004E198(int toFind);
@@ -243,13 +236,13 @@ void menu_radio_codec_helper_helper3_80047F44(MenuWork *work, int param_2);
 void menu_radio_codec_helper_helper7_80048080();
 void ResetCodecState();
 void *menu_radio_codec_helper_helper17_80038678();
-int menu_radio_end_check_80048F98();
-void menu_radio_draw_face_80048DB0(MenuWork *work, menu_chara_struct *chara_struct);
+int menu_radio_end_check(void);
+void menu_radio_draw_face(MenuWork *work, menu_chara_struct *chara_struct);
 
 void sub_8004AEA8(SELECT_INFO *pStru);
 
 void menu_radio_do_file_mode_helper2_8004A87C(int idx, int param_2, int param_3, int divisor, int idx2);
-void allocMemoryForSelectInfo_8004B958(SELECT_INFO **selectInfo, int num);
+void allocMemoryForSelectInfo(SELECT_INFO **selectInfo, int num);
 int *menu_radio_do_file_mode_helper5_8004ABDC(int idx);
 void menu_radio_do_file_mode_helper4_8004AA68(int idx, int param_2, int param_3, int param_4, int param_5, int divisor);
 void menu_radio_do_file_mode_helper3_8004A994(int idx, int param_2, int param_3, int divisor, SELECT_INFO *field_14);
@@ -257,8 +250,8 @@ int menu_radio_do_file_mode_helper17_8004C2E4(GV_PAD *pPad, int *outParam, SELEC
 void drawCaption_8004AE3C(MenuWork *menuWork, const char *caption);
 int menu_radio_do_file_mode_helper12_8004BA80(MenuWork *work, MEM_CARD *pMemcard, const char *param_3, SELECT_INFO *pStru2);
 void menu_radio_do_file_mode_helper14_8004BE98(MenuWork *work, char *param_2, SELECT_INFO *pStru);
-void freeMemoryForSelectInfo_8004B91C(SELECT_INFO *selectInfo);
-void draw_radio_wait_mark_8004143C(MenuWork *work, unsigned char *pOt);
+void freeMemoryForSelectInfo(SELECT_INFO *selectInfo);
+void draw_radio_wait_mark(MenuWork *work, unsigned char *pOt);
 void menu_radio_do_file_mode_helper15_8004C04C(MenuWork *work, const char **srcs, int cnt, int field_4, const char *field_20, SELECT_INFO *pStru);
 void menu_radio_do_file_mode_helper16_8004C164(MenuPrim *pGlue, SELECT_INFO *pStru);
 int menu_radio_do_file_mode_helper13_8004BCF8(GV_PAD *pPad, int *pOut, SELECT_INFO *pStru);
@@ -266,6 +259,6 @@ void menu_radio_do_file_mode_helper8_8004AFE4(MenuWork *work, char *pOt, SELECT_
 void menu_radio_do_file_mode_helper6_8004AD40(MenuPrim *pGlue);
 void menu_radio_do_file_mode_save_memcard_8004B0A0(MenuWork *work, char *pOt, SELECT_INFO *pStru);
 void menu_radio_do_file_mode_helper_8004A858();
-void menu_draw_triangle_800435EC(MenuPrim *pGlue, Menu_Triangle *pTriangle);
+void menu_draw_triangle(MenuPrim *pGlue, Menu_Triangle *pTriangle);
 
 #endif // _RADIO_H

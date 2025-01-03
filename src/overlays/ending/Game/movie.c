@@ -57,15 +57,14 @@ static inline int MovieType(void)
     return (GM_GameStatusFlag & 0x100) ? 1 : 2;
 }
 
-static inline void MovieIntToPos(int i, CdlLOC *p)
+static inline void int_to_loc(int pos, CdlLOC *loc)
 {
-    int temp;
+    int seconds;
 
-    temp = i / 75;
-
-    p->sector = itob(i % 75);
-    p->second = itob(temp % 60);
-    p->minute = itob(temp / 60);
+    seconds = pos / 75;
+    loc->sector = itob(pos % 75);
+    loc->second = itob(seconds % 60);
+    loc->minute = itob(seconds / 60);
 }
 
 void Movie_800C4484(int pos)
@@ -74,7 +73,7 @@ void Movie_800C4484(int pos)
 
     do
     {
-        MovieIntToPos(pos, &loc);
+        int_to_loc(pos, &loc);
         while (CdControl(CdlSetloc, (u_char *)&loc, NULL) == 0);
     } while (CdRead2(CdlModeStream2 | CdlModeSpeed | CdlModeRT) == 0);
 }
@@ -247,13 +246,13 @@ void MovieAct_800C491C(MovieWork *work)
         {
             if (elapsed >= jimaku[1])
             {
-                MENU_JimakuWrite_800494E8((char *)jimaku + 16, 0);
+                MENU_JimakuWrite((char *)jimaku + 16, 0);
                 work->jimaku_length = jimaku[1] + jimaku[2];
             }
         }
         else if (elapsed >= work->jimaku_length)
         {
-            MENU_JimakuClear_80049518();
+            MENU_JimakuClear();
             work->jimaku_length = 0;
 
             skip = jimaku[0];
@@ -362,7 +361,7 @@ void MovieDie_800C4D78(MovieWork *work)
 
     work->file = NULL;
 
-    MENU_JimakuClear_80049518();
+    MENU_JimakuClear();
 
     DG_UnDrawFrameCount = 0x7FFF0000;
     GM_GameStatus &= ~STATE_DEMO;

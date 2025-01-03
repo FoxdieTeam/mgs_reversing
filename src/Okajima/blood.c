@@ -9,9 +9,28 @@
 
 extern int GM_CurrentMap_800AB9B0;
 
-RECT rect_8009F60C = {50, 50, 100, 100};
+/*---------------------------------------------------------------------------*/
 
-void blood_loader2_helper2_80072080(MATRIX *pMtx, SVECTOR *arg1, SVECTOR *arg2, int count, int arg4)
+typedef struct _BloodWork
+{
+    GV_ACT   actor;
+    int      field_20_map;
+    DG_PRIM *field_24_prims;
+    SVECTOR  field_28[16];
+    SVECTOR  field_A8[64];
+    int      field_2A8;
+    int      field_2AC_prim_count;
+} BloodWork;
+
+// STATIC_ASSERT(sizeof(BloodWork) == 0x2B0, "sizeof(BloodWork) is wrong!");
+
+#define EXEC_LEVEL 5
+
+/*---------------------------------------------------------------------------*/
+
+STATIC RECT rect_8009F60C = {50, 50, 100, 100};
+
+STATIC void blood_loader2_helper2_80072080(MATRIX *pMtx, SVECTOR *arg1, SVECTOR *arg2, int count, int arg4)
 {
     SVECTOR vecs[4];
     int sp30;
@@ -105,7 +124,7 @@ void blood_loader2_helper2_80072080(MATRIX *pMtx, SVECTOR *arg1, SVECTOR *arg2, 
     }
 }
 
-void blood_act_helper_80072394(SVECTOR *pVecsA, SVECTOR *pVecsB, int count)
+STATIC void blood_act_helper_80072394(SVECTOR *pVecsA, SVECTOR *pVecsB, int count)
 {
     int x, y, z;
 
@@ -129,7 +148,7 @@ void blood_act_helper_80072394(SVECTOR *pVecsA, SVECTOR *pVecsB, int count)
     }
 }
 
-void blood_loader2_helper_80072478(POLY_FT4 *pPolys, int primCount, DG_TEX *pTex, int count)
+STATIC void blood_loader2_helper_80072478(POLY_FT4 *pPolys, int primCount, DG_TEX *pTex, int count)
 {
     int x, y, w, h;
 
@@ -163,7 +182,7 @@ void blood_loader2_helper_80072478(POLY_FT4 *pPolys, int primCount, DG_TEX *pTex
     }
 }
 
-void blood_act_helper_8007250C(POLY_FT4 *pPolys, int count, int shade)
+STATIC void blood_act_helper_8007250C(POLY_FT4 *pPolys, int count, int shade)
 {
     while (--count >= 0)
     {
@@ -172,10 +191,10 @@ void blood_act_helper_8007250C(POLY_FT4 *pPolys, int count, int shade)
     }
 }
 
-void blood_act_80072538(BloodWork *work)
+STATIC void blood_Act(BloodWork *work)
 {
     int temp_s0;
-    DG_PRIM *pPrims;
+    DG_PRIM *prim;
 
     GM_SetCurrentMap(work->field_20_map);
 
@@ -188,27 +207,27 @@ void blood_act_80072538(BloodWork *work)
 
     blood_act_helper_80072394(work->field_28, work->field_A8, work->field_2AC_prim_count);
 
-    pPrims = work->field_24_prims;
-    blood_act_helper_8007250C(&pPrims->packs[0]->poly_ft4, work->field_2AC_prim_count, temp_s0 * 8);
-    blood_act_helper_8007250C(&pPrims->packs[1]->poly_ft4, work->field_2AC_prim_count, temp_s0 * 8);
+    prim = work->field_24_prims;
+    blood_act_helper_8007250C(&prim->packs[0]->poly_ft4, work->field_2AC_prim_count, temp_s0 * 8);
+    blood_act_helper_8007250C(&prim->packs[1]->poly_ft4, work->field_2AC_prim_count, temp_s0 * 8);
 }
 
-void blood_kill_800725CC(BloodWork *work)
+STATIC void blood_Die(BloodWork *work)
 {
-    DG_PRIM *pPrims;
+    DG_PRIM *prim;
 
-    pPrims = work->field_24_prims;
-    if (pPrims)
+    prim = work->field_24_prims;
+    if (prim)
     {
-        DG_DequeuePrim(pPrims);
-        DG_FreePrim(pPrims);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 
-int blood_loader2_80072608(BloodWork *work, MATRIX *arg1, int count)
+STATIC int blood_GetResources(BloodWork *work, MATRIX *arg1, int count)
 {
-    DG_PRIM *pPrims;
-    DG_TEX  *pTex;
+    DG_PRIM *prim;
+    DG_TEX  *tex;
 
     work->field_20_map = GM_CurrentMap_800AB9B0;
 
@@ -223,29 +242,31 @@ int blood_loader2_80072608(BloodWork *work, MATRIX *arg1, int count)
 
     blood_loader2_helper2_80072080(arg1, work->field_28, work->field_A8, work->field_2AC_prim_count, count);
 
-    pPrims = DG_GetPrim(DG_PRIM_POLY_FT4, work->field_2AC_prim_count, 0, work->field_A8, &rect_8009F60C);
-    work->field_24_prims = pPrims;
+    prim = DG_GetPrim(DG_PRIM_POLY_FT4, work->field_2AC_prim_count, 0, work->field_A8, &rect_8009F60C);
+    work->field_24_prims = prim;
 
-    if (!pPrims)
+    if (!prim)
     {
         return -1;
     }
 
-    pTex = DG_GetTexture(GV_StrCode("blood_1"));
+    tex = DG_GetTexture(GV_StrCode("blood_1"));
 
-    if (!pTex)
+    if (!tex)
     {
         return -1;
     }
 
-    blood_loader2_helper_80072478(&pPrims->packs[0]->poly_ft4, work->field_2AC_prim_count, pTex, count);
-    blood_loader2_helper_80072478(&pPrims->packs[1]->poly_ft4, work->field_2AC_prim_count, pTex, count);
+    blood_loader2_helper_80072478(&prim->packs[0]->poly_ft4, work->field_2AC_prim_count, tex, count);
+    blood_loader2_helper_80072478(&prim->packs[1]->poly_ft4, work->field_2AC_prim_count, tex, count);
 
     work->field_2A8 = 16;
     return 0;
 }
 
-GV_ACT *NewBlood_80072728(MATRIX *arg0, int count)
+/*---------------------------------------------------------------------------*/
+
+GV_ACT *NewBlood(MATRIX *arg0, int count)
 {
     SVECTOR input;
     SVECTOR speed;
@@ -277,12 +298,12 @@ GV_ACT *NewBlood_80072728(MATRIX *arg0, int count)
         speed.vy /= 4;
         speed.vz /= 4;
 
-        AN_Blood_Mist_80072934(&pos, &speed);
+        AN_Blood_Mist(&pos, &speed);
     }
 
     for (i = 0; i < count; i++)
     {
-        work = (BloodWork *)GV_NewActor(5, sizeof(BloodWork));
+        work = (BloodWork *)GV_NewActor(EXEC_LEVEL, sizeof(BloodWork));
 
         if (!work)
         {
@@ -290,11 +311,11 @@ GV_ACT *NewBlood_80072728(MATRIX *arg0, int count)
         }
 
         GV_SetNamedActor(&work->actor,
-                         (GV_ACTFUNC)&blood_act_80072538,
-                         (GV_ACTFUNC)&blood_kill_800725CC,
+                         (GV_ACTFUNC)&blood_Act,
+                         (GV_ACTFUNC)&blood_Die,
                          "blood.c");
 
-        if (blood_loader2_80072608(work, arg0, count) < 0)
+        if (blood_GetResources(work, arg0, count) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
@@ -304,24 +325,17 @@ GV_ACT *NewBlood_80072728(MATRIX *arg0, int count)
     return &work->actor;
 }
 
-const int animation_data_80012E84[] = {
-    0x12A00,
-    0x2FE0105,
-    0x80100,
-    0xCB0B0,
-    0xAFF0105,
-    0x64006400,
-    0xD010002,
-    0x105000C,
-    0x1E000AFF,
-    0xE8081E00,
-    0x2F8F8,
-    0xF0D01
+/*---------------------------------------------------------------------------*/
+
+STATIC const int blood_anim_data[] = {
+    0x00012A00, 0x02FE0105, 0x00080100, 0x000CB0B0,
+    0x0AFF0105, 0x64006400, 0x0D010002, 0x0105000C,
+    0x1E000AFF, 0xE8081E00, 0x0002F8F8, 0x000F0D01
 };
 
-ANIMATION stru_8009F614 = {PCX_BLOOD_2, 1, 1, 1, 1, 500, 3, 300, 300, 200, NULL, (void *)animation_data_80012E84};
+STATIC ANIMATION blood_anim = { PCX_BLOOD_2, 1, 1, 1, 1, 500, 3, 300, 300, 200, NULL, (void *)blood_anim_data };
 
-void AN_Blood_Mist_80072934(SVECTOR *pos, SVECTOR *speed)
+void AN_Blood_Mist(SVECTOR *pos, SVECTOR *speed)
 {
     ANIMATION *anm;
     PRESCRIPT  pre;
@@ -338,7 +352,7 @@ void AN_Blood_Mist_80072934(SVECTOR *pos, SVECTOR *speed)
     pre.scr_num = 0;
     pre.s_anim = 0;
 
-    anm = &stru_8009F614;
+    anm = &blood_anim;
     anm->pre_script = &pre;
 
     pre.scr_num = 0;

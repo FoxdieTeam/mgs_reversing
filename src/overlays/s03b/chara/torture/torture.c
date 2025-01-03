@@ -2,6 +2,7 @@
 #include "chara/snake/sna_init.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "Game/camera.h"
 #include "Game/control.h"
 #include "Game/game.h"
@@ -220,8 +221,8 @@ void s03b_torture_800C3FE4(TortureWork *work)
         status = pad->status;
         ldy = pad->left_dy;
 
-        GM_CheckShukanReverse_8004FBF8(&status);
-        GM_CheckShukanReverseAnalog_8004FC70(&ldy);
+        GM_CheckShukanReverse(&status);
+        GM_CheckShukanReverseAnalog(&ldy);
 
         if (pad->press & (PAD_UP | PAD_DOWN | PAD_LEFT | PAD_RIGHT))
         {
@@ -448,7 +449,7 @@ void s03b_torture_800C44D0(TortureWork *work, int arg1, int arg2)
         work->time_conf.field_7_rgb_right[2] = (0xFC00 / max) - 64;
     }
 
-    MENU_DrawBar2_80038DE0(28, now, now, max, &work->time_conf);
+    MENU_DrawBar2(28, now, now, max, &work->time_conf);
 }
 
 int s03b_torture_800C45E4(TortureWork *work)

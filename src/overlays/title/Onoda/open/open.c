@@ -1277,69 +1277,69 @@ void title_open_800D3500(OpenWork *work, int arg1)
     {
         title_open_800C4AD0(work, 21, 0x6739);
 
-        MENU_Locate_80038B34(54, 60, 0x10);
-        MENU_Color_80038B4C(100, 160, 135);
-        MENU_Printf_80038C38(title_aMemorycardslot_800D8FAC);
+        MENU_Locate(54, 60, 0x10);
+        MENU_Color(100, 160, 135);
+        MENU_Printf(title_aMemorycardslot_800D8FAC);
 
         if (work->f24F0 == 3)
         {
-            MENU_Locate_80038B34(223, 60, 0x10);
-            MENU_Color_80038B4C(181, 85, 42);
-            MENU_Printf_80038C38(title_aFull_800D8FC4);
+            MENU_Locate(223, 60, 0x10);
+            MENU_Color(181, 85, 42);
+            MENU_Printf(title_aFull_800D8FC4);
         }
         else
         {
-            MENU_Locate_80038B34(223, 60, 0x10);
-            MENU_Color_80038B4C(181, 85, 42);
-            MENU_Printf_80038C38(title_aNocard_800D8FCC);
+            MENU_Locate(223, 60, 0x10);
+            MENU_Color(181, 85, 42);
+            MENU_Printf(title_aNocard_800D8FCC);
         }
 
-        MENU_Locate_80038B34(54, 75, 0x10);
-        MENU_Color_80038B4C(100, 160, 135);
-        MENU_Printf_80038C38(title_aMemorycardslot_800D8FD4);
+        MENU_Locate(54, 75, 0x10);
+        MENU_Color(100, 160, 135);
+        MENU_Printf(title_aMemorycardslot_800D8FD4);
 
         if (work->f24F4 == 3)
         {
-            MENU_Locate_80038B34(223, 75, 0x10);
-            MENU_Color_80038B4C(181, 85, 42);
-            MENU_Printf_80038C38(title_aFull_800D8FC4);
+            MENU_Locate(223, 75, 0x10);
+            MENU_Color(181, 85, 42);
+            MENU_Printf(title_aFull_800D8FC4);
         }
         else
         {
-            MENU_Locate_80038B34(223, 75, 0x10);
-            MENU_Color_80038B4C(181, 85, 42);
-            MENU_Printf_80038C38(title_aNocard_800D8FCC);
+            MENU_Locate(223, 75, 0x10);
+            MENU_Color(181, 85, 42);
+            MENU_Printf(title_aNocard_800D8FCC);
         }
 
-        MENU_Locate_80038B34(70, 100, 0x10);
-        MENU_Color_80038B4C(100, 160, 135);
-        MENU_Printf_80038C38(title_aDoyouwanttocontinue_800D8FEC);
+        MENU_Locate(70, 100, 0x10);
+        MENU_Color(100, 160, 135);
+        MENU_Printf(title_aDoyouwanttocontinue_800D8FEC);
 
-        MENU_Locate_80038B34(85, 115, 0x10);
-        MENU_Color_80038B4C(100, 160, 135);
-        MENU_Printf_80038C38(title_aYourgamelikethis_800D9008);
+        MENU_Locate(85, 115, 0x10);
+        MENU_Color(100, 160, 135);
+        MENU_Printf(title_aYourgamelikethis_800D9008);
 
         if (work->f24E0 == 0)
         {
-            MENU_Locate_80038B34(100, 150, 0x10);
-            MENU_Color_80038B4C(192, 192, 192);
-            MENU_Printf_80038C38(title_aYes_800D9020);
+            MENU_Locate(100, 150, 0x10);
+            MENU_Color(192, 192, 192);
+            MENU_Printf(title_aYes_800D9020);
 
-            MENU_Locate_80038B34(200, 150, 0x10);
-            MENU_Color_80038B4C(46, 72, 61);
-            MENU_Printf_80038C38(title_aNo_800D9024);
+            MENU_Locate(200, 150, 0x10);
+            MENU_Color(46, 72, 61);
+            MENU_Printf(title_aNo_800D9024);
 
             title_open_800C4F1C(work, -68, 33, 40, 15, 255, 1);
         }
         else
         {
-            MENU_Locate_80038B34(100, 150, 0x10);
-            MENU_Color_80038B4C(46, 72, 61);
-            MENU_Printf_80038C38(title_aYes_800D9020);
+            MENU_Locate(100, 150, 0x10);
+            MENU_Color(46, 72, 61);
+            MENU_Printf(title_aYes_800D9020);
 
-            MENU_Locate_80038B34(200, 150, 0x10);
-            MENU_Color_80038B4C(192, 192, 192);
-            MENU_Printf_80038C38(title_aNo_800D9024);
+            MENU_Locate(200, 150, 0x10);
+            MENU_Color(192, 192, 192);
+            MENU_Printf(title_aNo_800D9024);
 
             title_open_800C4F1C(work, 28, 33, 40, 15, 255, 1);
         }

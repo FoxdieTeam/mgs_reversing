@@ -1,27 +1,48 @@
 #include "d_bloodr.h"
 
 #include "common.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "Game/game.h"
 
 extern int              GM_CurrentMap_800AB9B0;
-extern CONTROL      *GM_PlayerControl_800AB9F4;
+extern CONTROL         *GM_PlayerControl_800AB9F4;
 extern OBJECT          *GM_PlayerBody_800ABA20;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern SVECTOR          GM_PlayerPosition_800ABA10;
 
-void d_bloodr_kill_80072BD4(DBloodWorkr *work)
-{
-    DG_PRIM *pPrims;
+/*---------------------------------------------------------------------------*/
 
-    pPrims = work->field_20_prims;
-    if (pPrims)
+typedef struct _DBloodWorkr
+{
+    GV_ACT   actor;
+    DG_PRIM *field_20_prims;
+    SVECTOR  field_24[16];
+    SVECTOR  field_A4_positions[4];
+    SVECTOR  field_C4_rotation;
+    int      field_CC_map;
+    char     field_D0_pad[0x4];
+    int      field_D4_sequence;
+    int      field_D8;
+} DBloodWorkr;
+
+#define EXEC_LEVEL 7
+
+/*---------------------------------------------------------------------------*/
+
+STATIC void d_bloodr_Die(DBloodWorkr *work)
+{
+    DG_PRIM *prim;
+
+    prim = work->field_20_prims;
+    if (prim)
     {
-        DG_DequeuePrim(pPrims);
-        DG_FreePrim(pPrims);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 
-void d_bloodr_act_80072C10(DBloodWorkr *work)
+STATIC void d_bloodr_Act(DBloodWorkr *work)
 {
     SVECTOR vecs[4];
     SVECTOR rotation;
@@ -88,7 +109,7 @@ void d_bloodr_act_80072C10(DBloodWorkr *work)
     }
 }
 
-void d_bloodr_loader_helper_helper_80072DE8(POLY_FT4 *pPolysA, POLY_FT4 *pPolysB, int count, DG_TEX *pTex)
+STATIC void d_bloodr_loader_helper_helper_80072DE8(POLY_FT4 *pPolysA, POLY_FT4 *pPolysB, int count, DG_TEX *tex)
 {
     int x, y, w, h;
     int x2, y2, w2, h2;
@@ -103,27 +124,27 @@ void d_bloodr_loader_helper_helper_80072DE8(POLY_FT4 *pPolysA, POLY_FT4 *pPolysB
 
         setRGB0(pPolysA, 0, 255, 255);
 
-        x = pTex->off_x;
-        w = pTex->w;
-        y = pTex->off_y;
-        h = pTex->h;
+        x = tex->off_x;
+        w = tex->w;
+        y = tex->off_y;
+        h = tex->h;
 
         setUVWH(pPolysA, x, y, w, h);
 
-        pPolysA->tpage = pTex->tpage;
-        pPolysA->clut = pTex->clut;
+        pPolysA->tpage = tex->tpage;
+        pPolysA->clut = tex->clut;
 
         setRGB0(pPolysB, 0, 255, 255);
 
-        x2 = pTex->off_x;
-        w2 = pTex->w;
-        y2 = pTex->off_y;
-        h2 = pTex->h;
+        x2 = tex->off_x;
+        w2 = tex->w;
+        y2 = tex->off_y;
+        h2 = tex->h;
 
         setUVWH(pPolysB, x2, y2, w2, h2);
 
-        pPolysB->tpage = pTex->tpage;
-        pPolysB->clut = pTex->clut;
+        pPolysB->tpage = tex->tpage;
+        pPolysB->clut = tex->clut;
 
         pPolysA->tpage |= 0x40;
         pPolysA++;
@@ -133,13 +154,13 @@ void d_bloodr_loader_helper_helper_80072DE8(POLY_FT4 *pPolysA, POLY_FT4 *pPolysB
     }
 }
 
-int d_bloodr_loader_helper_80072EFC(DBloodWorkr *work)
+STATIC int d_bloodr_loader_helper_80072EFC(DBloodWorkr *work)
 {
     int indices[4];
     SVECTOR vecs[4];
     int i;
-    DG_PRIM *pPrim;
-    DG_TEX *pTex;
+    DG_PRIM *prim;
+    DG_TEX *tex;
 
     indices[0] = 0;
     indices[1] = 5;
@@ -174,27 +195,27 @@ int d_bloodr_loader_helper_80072EFC(DBloodWorkr *work)
         DG_PutVector(vecs, &work->field_24[i * 4], 4);
     }
 
-    pPrim = DG_GetPrim(DG_PRIM_POLY_FT4, 4, 0, work->field_24, 0);
-    work->field_20_prims = pPrim;
+    prim = DG_GetPrim(DG_PRIM_POLY_FT4, 4, 0, work->field_24, 0);
+    work->field_20_prims = prim;
 
-    if (!pPrim)
+    if (!prim)
     {
         return -1;
     }
 
-    pPrim->field_2E_k500 = 0;
-    pTex = DG_GetTexture(GV_StrCode("ketchap_grey"));
+    prim->field_2E_k500 = 0;
+    tex = DG_GetTexture(GV_StrCode("ketchap_grey"));
 
-    if (!pTex)
+    if (!tex)
     {
         return -1;
     }
 
-    d_bloodr_loader_helper_helper_80072DE8(&pPrim->packs[0]->poly_ft4, &pPrim->packs[1]->poly_ft4, 4, pTex);
+    d_bloodr_loader_helper_helper_80072DE8(&prim->packs[0]->poly_ft4, &prim->packs[1]->poly_ft4, 4, tex);
     return 0;
 }
 
-int d_bloodr_loader_800730EC(DBloodWorkr *work, int map)
+STATIC int d_bloodr_GetResources(DBloodWorkr *work, int map)
 {
     work->field_CC_map = map;
     work->field_D4_sequence = 0;
@@ -210,22 +231,24 @@ int d_bloodr_loader_800730EC(DBloodWorkr *work, int map)
     return 0;
 }
 
-GV_ACT *NewKetchap_r_80073148(int map)
+/*---------------------------------------------------------------------------*/
+
+GV_ACT *NewKetchap_r(int map)
 {
     DBloodWorkr *work;
 
-    work = (DBloodWorkr *)GV_NewActor(7, sizeof(DBloodWorkr));
+    work = (DBloodWorkr *)GV_NewActor(EXEC_LEVEL, sizeof(DBloodWorkr));
     if (work)
     {
         GV_SetNamedActor(&work->actor,
-                         (GV_ACTFUNC)&d_bloodr_act_80072C10,
-                         (GV_ACTFUNC)&d_bloodr_kill_80072BD4,
+                         (GV_ACTFUNC)&d_bloodr_Act,
+                         (GV_ACTFUNC)&d_bloodr_Die,
                          "d_bloodr.c");
 
-        if (d_bloodr_loader_800730EC(work, map) < 0)
+        if (d_bloodr_GetResources(work, map) < 0)
         {
             GV_DestroyActor(&work->actor);
-            return 0;
+            return NULL;
         }
     }
 

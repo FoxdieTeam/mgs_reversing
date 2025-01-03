@@ -1,5 +1,7 @@
 #include "../../s00a/Enemy/enemy.h"
 
+#include "common.h"
+#include "libgv/libgv.h"
 #include "libhzd/libhzd.h"
 #include "Game/linkvarbuf.h"
 

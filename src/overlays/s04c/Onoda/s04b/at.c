@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include "common.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "Game/object.h"
@@ -47,7 +49,7 @@ void s04c_at_800D7134(AtWork *work, int index, int count)
     DG_MovePos(&at_bloodpos);
     DG_RotatePos(&at_bloodrot);
     ReadRotMatrix(&rot);
-    NewBlood_80072728(&rot, count);
+    NewBlood(&rot, count);
 }
 
 void s04c_at_800D71A4(AtWork *work)
@@ -176,7 +178,7 @@ void AtAct_800D7324(AtWork *work)
 
     if (work->f710 != 0)
     {
-        MENU_DrawBar2_80038DE0(40, work->f720, work->f724, work->f738, &work->lifebar);
+        MENU_DrawBar2(40, work->f720, work->f724, work->f738, &work->lifebar);
         work->f720 = GV_NearSpeed(work->f720, work->f724, 4);
     }
 

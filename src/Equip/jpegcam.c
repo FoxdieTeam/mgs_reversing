@@ -8,6 +8,7 @@
 
 #include "common.h"
 #include "chara/snake/sna_init.h"
+#include "Game/game.h"
 #include "Game/camera.h"
 #include "Game/object.h"
 #include "Game/linkvarbuf.h"
@@ -618,8 +619,8 @@ STATIC void JpegcamProcessInput(JpegcamWork *work)
     status = work->pad_data->status;
     press = work->pad_data->press;
 
-    GM_CheckShukanReverse_8004FBF8(&status);
-    GM_CheckShukanReverse_8004FBF8(&press);
+    GM_CheckShukanReverse(&status);
+    GM_CheckShukanReverse(&press);
 
     if (GV_PauseLevel_800AB928 != 0)
     {
@@ -1018,10 +1019,10 @@ STATIC void JpegcamAct(JpegcamWork *work)
 
         if ( !(GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000) )
         {
-            MENU_Locate_80038B34(200, 25, 0);
-            MENU_Color_80038B4C(192, 144, 128);
-            MENU_Printf_80038C38("zoom  : %4d\n", GM_Camera_800B77E8.zoom);
-            MENU_Printf_80038C38("angle : %4d, %4d\n", -work->field_5C_ang.vx, work->field_5C_ang.vy);
+            MENU_Locate(200, 25, 0);
+            MENU_Color(192, 144, 128);
+            MENU_Printf("zoom  : %4d\n", GM_Camera_800B77E8.zoom);
+            MENU_Printf("angle : %4d, %4d\n", -work->field_5C_ang.vx, work->field_5C_ang.vy);
         }
         break;
 
