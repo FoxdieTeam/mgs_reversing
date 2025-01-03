@@ -12,8 +12,8 @@ extern GV_PAD GV_PadData_800B05C0[4];
 
 /***$gp****************************************************************/
 int GV_PadMask = 0;
-int GV_PadOrigin = 0;
-int GV_800AB37C = 0;
+STATIC int GV_PadOrigin = 0;
+STATIC int GV_800AB37C = 0;
 
 extern int dword_800AB950;
 int        SECTION(".sbss") dword_800AB950;
@@ -28,13 +28,13 @@ extern int GV_DemoPadAnalog_800AB95C;
 int        SECTION(".sbss") GV_DemoPadAnalog_800AB95C;
 /*********************************************************************/
 
-short key_table_8009D32C[] = {
+STATIC short key_table_8009D32C[] = {
     0x0000, 0x0800, 0x0400, 0x0600, 0x0000, 0x0000, 0x0200, 0x0000,
     0x0C00, 0x0A00, 0x0000, 0x0000, 0x0E00, 0x0000, 0x0000, 0x0000
 };
 
 #ifdef VR_EXE
-void sub_800165B0(MTS_PAD *data)
+STATIC void sub_800165B0(MTS_PAD *data)
 {
     unsigned short status = GV_DemoPadStatus_800AB958;
     if (status & 0x400)
@@ -50,7 +50,7 @@ void sub_800165B0(MTS_PAD *data)
 }
 #endif
 
-int GV_SwapButtons(int button, int a, int b)
+STATIC int GV_SwapButtons(int button, int a, int b)
 {
     int swapped;
     int i;
@@ -78,7 +78,7 @@ int GV_SwapButtons(int button, int a, int b)
     return swapped;
 }
 
-int GV_ConvertButtonMode(int button)
+STATIC int GV_ConvertButtonMode(int button)
 {
     switch (GM_GameStatusFlag & 0x7)
     {
@@ -93,7 +93,7 @@ int GV_ConvertButtonMode(int button)
     }
 }
 
-void GV_AnalogToDirection(int *button, MTS_PAD *data)
+STATIC void GV_AnalogToDirection(int *button, MTS_PAD *data)
 {
     char lx, rx;
     int  dir;
