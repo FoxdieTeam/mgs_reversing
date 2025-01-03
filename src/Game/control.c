@@ -126,7 +126,7 @@ static inline void GM_ActControl_helper(CONTROL *control)
     int         scriptData;
     int         count;
     GV_MSG     *pMsg;
-    int         hash1, hash2;
+    int         map_msg, move_msg;
     MAP *pMap;
 
     scriptData = control->name;
@@ -138,12 +138,12 @@ static inline void GM_ActControl_helper(CONTROL *control)
 
         pMsg = control->field_5C_mesg;
 
-        hash1 = 0xF9AD;
-        hash2 = 0x89CB;
+        map_msg = HASH_MAP;
+        move_msg = HASH_MOVE2;
 
         for (count--; count >= 0; count--, pMsg++)
         {
-            if (pMsg->message[0] == hash1)
+            if (pMsg->message[0] == map_msg)
             {
                 pMap = Map_FindByNum_80031504(pMsg->message[1]);
 
@@ -152,7 +152,7 @@ static inline void GM_ActControl_helper(CONTROL *control)
                     control->map = pMap;
                 }
             }
-            else if (pMsg->message[0] == hash2)
+            else if (pMsg->message[0] == move_msg)
             {
                 control->mov.vx = pMsg->message[1];
                 control->mov.vy = pMsg->message[2];

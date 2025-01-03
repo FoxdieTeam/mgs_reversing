@@ -18,7 +18,7 @@ typedef struct _ElcFlrWork
 
 #define EXEC_LEVEL 5
 
-unsigned short elc_flr_800C36DC[] = {0xD182, 0x006B};
+unsigned short elc_flr_800C36DC[] = {HASH_ON2, HASH_OFF2};
 
 void ElcFlrAct_800D47CC(ElcFlrWork *work)
 {
