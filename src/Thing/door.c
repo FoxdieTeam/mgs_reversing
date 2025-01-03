@@ -63,7 +63,7 @@ STATIC void door_send_msg_8006EC10(unsigned short addr, unsigned short a2)
     GV_MSG msg;
 
     msg.address = addr;
-    msg.message[0] = 0xF9AD;
+    msg.message[0] = HASH_MAP;
     msg.message[1] = a2;
     msg.message_len = 2;
     GV_SendMessage(&msg);

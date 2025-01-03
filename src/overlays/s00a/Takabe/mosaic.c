@@ -5,6 +5,7 @@
 #include "libdg/libdg.h"
 #include "Game/map.h"
 #include "Takabe/thing.h"
+#include "strcode.h"
 
 typedef struct MosaicWork
 {
@@ -30,10 +31,7 @@ typedef struct MosaicWork
     int    field_68;
 } MosaicWork;
 
-unsigned short mosaic_mes_list[] = {
-    0xD182,     //
-    0x006B      // GV_StrCode("k")
-};
+unsigned short mosaic_mes_list[] = {HASH_ON2, HASH_OFF2};
 
 extern int GV_PauseLevel_800AB928;
 

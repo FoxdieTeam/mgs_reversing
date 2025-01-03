@@ -17,7 +17,7 @@ typedef struct LampWork
     char           field_26;
     char           field_27;
     unsigned short field_28_name;
-    short          field_2A;
+    short          loops;
     int            field_2C_rgb;
     int            field_30;
     unsigned char *field_34_gcl_nextStrPtr;
@@ -100,7 +100,7 @@ void d11c_800C3518(LampWork *work, int arg1)
     work->field_38 = temp_v0;
     work->field_3C = temp_v0;
     work->field_30 = 0;
-    work->field_2A = -1;
+    work->loops = -1;
 }
 
 void d11c_800C3550(LampWork *work)
@@ -132,7 +132,7 @@ void d11c_800C3550(LampWork *work)
 
 void d11c_800C361C(LampWork *work)
 {
-    int param1, param2, param3;
+    int param1, param2, loops;
     int type;
 
     if (work->field_3C == NULL)
@@ -155,20 +155,22 @@ void d11c_800C361C(LampWork *work)
             work->field_30 = param2;
             work->field_3C = GCL_GetParamResult();
             return;
-        case 0xCA87:
+
+        case HASH_LOOP:
             if (GCL_GetParamResult())
             {
-                param3 = GCL_StrToInt(GCL_GetParamResult());
+                loops = GCL_StrToInt(GCL_GetParamResult());
             }
             else
             {
-                param3 = 0;
+                loops = 0;
             }
-            if (work->field_2A >= 0)
+
+            if (work->loops >= 0)
             {
-                if (param3 > 0)
+                if (loops > 0)
                 {
-                    if (--work->field_2A < 2)
+                    if (--work->loops < 2)
                     {
                         work->field_30 = -1;
                         work->field_3C = 0;
@@ -178,13 +180,16 @@ void d11c_800C361C(LampWork *work)
             }
             else
             {
-                work->field_2A = param3;
+                work->loops = loops;
             }
+
             GCL_SetArgTop(work->field_38);
             break;
+
         case 0x11F8:
             d11c_800C3518(work, GCL_StrToInt(GCL_GetParamResult()));
             GCL_SetArgTop(work->field_3C);
+
         default:
             printf("TEX:PARSE ERROR\n");
             break;
