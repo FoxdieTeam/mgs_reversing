@@ -1071,9 +1071,6 @@ void menu_radar_helper_8003ADD8(MenuWork *work, int index)
 extern int              GM_AlertMode_800ABA00;
 extern int              GM_AlertLevel_800ABA18;
 
-extern int cons_current_y_800AB4B0;
-int        cons_current_y_800AB4B0;
-
 void draw_radar(MenuWork *work, unsigned char *ot)
 {
     int       alertLevel, alertMode;

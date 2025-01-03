@@ -838,6 +838,8 @@ STATIC void sub_8004A648(MenuPrim *pGlue, RadioFileModeStruElem *pElem)
     radio_draw_face_frame(pGlue, x, y, w, h);
 }
 
+STATIC void menu_radio_do_file_mode_helper16_8004C164(MenuPrim *pGlue, SELECT_INFO *info);
+
 STATIC void menu_radio_do_file_mode_helper3_helper_8004A790(MenuPrim *pGlue, RadioFileModeStruElem *pElem)
 {
     RadioFileModeUnk1 *pUnk;

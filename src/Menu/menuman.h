@@ -410,7 +410,7 @@ void         draw_life_defaultX_8003F408(MenuPrim *prim, long y, long rest, long
 void         draw_life_8003F464(MenuPrim *prim, long x, long y, long rest, long now, long max, MENU_BAR_CONF *bconf);
 void         menu_draw_bar(MenuPrim *prim, long x, long y, long rest, long now, long max, MENU_BAR_CONF *bconf);
 void         MENU_InitRadioTable(void);
-void         set_sprt_default_8004AE14(SPRT *pSprt);
+// void         set_sprt_default_8004AE14(SPRT *pSprt);
 void         move_coord(int *arr, int len);
 void         MENU_ResetSystem(void);
 void         MENU_SetRadarScale(int);
@@ -464,7 +464,7 @@ void menu_life_update_8003F530(MenuWork *work, unsigned char *pOt);
 void draw_player_life_8003F4B8(MenuPrim *prim, long x, long y);
 // void init_file_mode_helper_8004A424(int param_1);
 // void init_file_mode_helper_helper_80049EDC(void);
-void init_file_mode_helper2_8004A800(void);
+// void init_file_mode_helper2_8004A800(void);
 void ResetCharacterCodecStruct(menu_chara_struct *unknown);
 void NewJimakuStr(char *str, int int_1);
 void NewJimaku(void);
@@ -504,7 +504,7 @@ int            menu_panel_8003D2BC(Menu_Item_Unknown *, int);
 void           sub_8003D520(void);
 int            sub_8003F84C(int);
 void           menu_printDescription_8003F97C(char *description);
-void           getAreaName_8004CF20(int code, char **pAreaNameForMenu, char **pAreaNameForSaveData);
+// void           getAreaName_8004CF20(int code, char **pAreaNameForMenu, char **pAreaNameForSaveData);
 void           sub_80048124(void);
 void           sub_800469F0(menu_chara_struct *pStru);
 void           menu_drawDescriptionPanel_8003F9B4(MenuWork *work, unsigned int *pOt, const char *str);
@@ -517,9 +517,9 @@ void sub_8003D594(PANEL_CONF *pPanelConf, int pos, int *xoff, int *yoff);
 void sub_8003D5F0(PANEL_CONF *pPanelConf, int pos, int *xoff, int *yoff);
 void sub_8003D64C(PANEL_CONF *pPanelConf, int pos, int *xoff, int *yoff);
 
-void makeTitle_8004D008(char *title, MEM_CARD *pUnused, int hours, int minutes);
-void getAreaNameForMenu_8004D14C(char *areaNameForMenu, char *param_2);
-void writeGameData(char *saveBuf);
+// void makeTitle_8004D008(char *title, MEM_CARD *pUnused, int hours, int minutes);
+// void getAreaNameForMenu_8004D14C(char *areaNameForMenu, char *param_2);
+// void writeGameData(char *saveBuf);
 
 Menu_Item_Unknown * menu_alloc_panel_8003D124(int count);
 

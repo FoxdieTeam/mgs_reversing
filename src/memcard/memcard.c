@@ -28,9 +28,7 @@ extern volatile long   gMemCard_io_size_800B5648;
 
 STATIC void memcard_hwcard_do_op(int op);
 STATIC void memcard_swcard_do_op(int op);
-
 STATIC int memcard_dummy(int state);
-STATIC void memcard_retry(int port);
 
 static inline void memcard_access_wait(void)
 {
