@@ -20,7 +20,7 @@ typedef struct ElcDamgWork
 
 #define EXEC_LEVEL 5
 
-unsigned short s08a_dword_800C36E0[2] = {0xD182, 0x006B};
+unsigned short s08a_dword_800C36E0[2] = {HASH_ON2, HASH_OFF2};
 
 extern int GM_GameOverTimer;
 

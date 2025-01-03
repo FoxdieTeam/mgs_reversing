@@ -129,7 +129,7 @@ void s03b_800CA868(void)
             }
             break;
 
-        case 0x9A1F:
+        case HASH_START:
             s03b_800CA794();
             break;
 
