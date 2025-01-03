@@ -39,7 +39,7 @@ extern int     GV_Clock_800AB920;
 extern int     GV_PauseLevel_800AB928;
 extern int     GM_CurrentMap_800AB9B0;
 
-unsigned short gas_efct_msgs[] = {0xD182, 0x006B};
+unsigned short gas_efct_msgs[] = {HASH_ON2, HASH_OFF2};
 
 #define EXEC_LEVEL 3
 

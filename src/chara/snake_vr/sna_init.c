@@ -177,12 +177,12 @@ ACTTRANS AllTrans = {20u, 21u, 84u };
 
 unsigned short short_8009ED6C = 980;
 
-ACTPACK actions_no_weapon_8009ED70 = 
+ACTPACK actions_no_weapon_8009ED70 =
 {
     &NoneStill, &NoneMove, &AllTrans, &NoneDamage, &NoneAttack, &e6_8009ED48[0], &e7_8009ED68
 };
 
-ACTPACK weapon_actions_8009ED8C[10] = 
+ACTPACK weapon_actions_8009ED8C[10] =
 {
     {&SocomStill,    &SocomMove,    &AllTrans, &SocomDamage, &SocomAttack,    &e6_8009ED48[1], &e7_8009ED68},
     {&FamasStill,    &FamasMove,    &AllTrans, &FamasDamage, &FamasAttack,    &e6_8009ED48[2], &e7_8009ED68},
@@ -846,7 +846,7 @@ void sna_8004F8E4(SnaInitWork *work, int a2)
         // スネーク
         msg.address = GV_StrCode("スネーク");
         msg.message_len = 6;
-        msg.message[0] = 48650;
+        msg.message[0] = HASH_GO_MOTION;
         msg.message[1] = a2;
         msg.message[2] = -1;
         msg.message[3] = -1;
@@ -1446,7 +1446,7 @@ void CheckMessage0_80050878(SnaInitWork *work)
 
         id = pMsg->message[0];
 
-        if ((id == 0x937A) || (id == 0x70FB) || (id == 0x3238) || (id == 0xBE0A))
+        if ((id == HASH_MOTION) || (id == HASH_RUN_MOVE) || (id == HASH_STANCE) || (id == HASH_GO_MOTION))
         {
             if (!GM_CheckPlayerStatusFlag(PLAYER_UNK4))
             {
@@ -1689,30 +1689,30 @@ void sna_act_unk_80050A64(SnaInitWork *work)
             pMsg->message_len = 0;
             break;
 
-        case 0x937a:
+        case HASH_MOTION:
             state = 0;
             goto helper3;
 
-        case 0xbe0a:
+        case HASH_GO_MOTION:
             state = 1;
 helper3:
             sna_act_unk_helper_80050A64(work, pMsg, state);
             break;
 
-        case 0x70fb:
+        case HASH_RUN_MOVE:
             sna_act_unk_helper2_80050A64(work, pMsg);
             break;
 
-        case 0x3238:
+        case HASH_STANCE:
             sna_act_unk_helper3_80050A64(work, pMsg);
             break;
 
-        case 0x5e8b:
+        case HASH_STOP:
             sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK19);
             pMsg->message_len = 0;
             break;
 
-        case 0x9a1f:
+        case HASH_START:
             sna_clear_flags1_8004E308(work, SNA_FLAG1_UNK19);
             pMsg->message_len = 0;
             break;
@@ -1722,22 +1722,22 @@ helper3:
             pMsg->message_len = 0;
             break;
 
-        case 0x2580:
+        case HASH_PADON:
             GM_ClearPlayerStatusFlag(PLAYER_PAD_OFF);
             pMsg->message_len = 0;
             break;
 
-        case 0xaf6a:
+        case HASH_PADOFF:
             GM_SetPlayerStatusFlag(PLAYER_PAD_OFF);
             pMsg->message_len = 0;
             break;
 
-        case 0x8012:
+        case HASH_TABAKO:
             tabako_dword_8009F2C0 = pMsg->message[1];
             pMsg->message_len = 0;
             break;
 
-        case 0x62b6:
+        case HASH_POSITION:
             work->control.mov.vx = pMsg->message[1];
             work->control.mov.vy = pMsg->message[2];
             work->control.mov.vz = pMsg->message[3];
@@ -7014,7 +7014,7 @@ static inline void sna_init_main_logic_helper3_800596FC(SnaInitWork *work)
     {
         hash = pMsg->message[0];
 
-        if ((hash == 0x937a) || (hash == 0x70fb) || (hash == 0x3238) || (hash == 0xbe0a))
+        if ((hash == HASH_MOTION) || (hash == HASH_RUN_MOVE) || (hash == HASH_STANCE) || (hash == HASH_GO_MOTION))
         {
             pTarget = work->field_89C_pTarget;
 

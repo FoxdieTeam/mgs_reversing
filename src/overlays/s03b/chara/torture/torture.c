@@ -1059,7 +1059,7 @@ void s03b_torture_800C5420(TortureWork *work, int arg1)
         work->f806 = 0;
         work->f802 &= ~0x2000;
 
-        s03b_torture_800C447C(work, 0x937A, 9);
+        s03b_torture_800C447C(work, HASH_MOTION, 9);
 
         work->f8AC = work->f89C;
         work->f8AC.vz = 0;
@@ -1238,7 +1238,7 @@ void s03b_torture_800C59FC(TortureWork *work, int arg1)
 
     if (arg1 == 0)
     {
-        s03b_torture_800C447C(work, 0x937A, 7);
+        s03b_torture_800C447C(work, HASH_MOTION, 7);
 
         if (work->body.action_flag != 2)
         {
@@ -1265,8 +1265,8 @@ void s03b_torture_800C59FC(TortureWork *work, int arg1)
             f85E = work->f85E;
             if (work->f85C != f85E)
             {
-                s03b_torture_800C447C(work, 0x937A, 7);
-                s03b_torture_800C447C(work, 0x385E, work->f85C + 2);
+                s03b_torture_800C447C(work, HASH_MOTION, 7);
+                s03b_torture_800C447C(work, HASH_VOICE, work->f85C + 2);
             }
         }
         else
@@ -1275,8 +1275,8 @@ void s03b_torture_800C59FC(TortureWork *work, int arg1)
             f85E = work->f85E;
             if (work->f85C != f85E)
             {
-                s03b_torture_800C447C(work, 0x937A, 7);
-                s03b_torture_800C447C(work, 0x385E, work->f85C + 2);
+                s03b_torture_800C447C(work, HASH_MOTION, 7);
+                s03b_torture_800C447C(work, HASH_VOICE, work->f85C + 2);
             }
         }
 
@@ -1335,8 +1335,8 @@ void s03b_torture_800C5AF8(TortureWork *work, int arg1)
                 {
                     GV_RandU(16);
 
-                    s03b_torture_800C447C(work, 0x4F34, 0);
-                    s03b_torture_800C447C(work, 0x385E, work->f85C + 8);
+                    s03b_torture_800C447C(work, HASH_OPERATION, 0);
+                    s03b_torture_800C447C(work, HASH_VOICE, work->f85C + 8);
 
                     work->f818 = f81A;
                 }
@@ -1366,7 +1366,7 @@ void s03b_torture_800C5AF8(TortureWork *work, int arg1)
             GM_GameStatus |= STATE_LIFEBAR_OFF;
             InfoKill_800CA5D0();
 
-            s03b_torture_800C447C(work, 0x491D, 2);
+            s03b_torture_800C447C(work, HASH_MODE, 2);
 
             work->f818 = 1;
         }

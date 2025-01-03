@@ -1,4 +1,5 @@
 #include "common.h"
+#include "strcode.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "Equip/equip.h"
@@ -6,7 +7,6 @@
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "Takabe/thing.h"
-#include "strcode.h"
 
 typedef struct _MirrorEntry
 {
@@ -103,7 +103,7 @@ void MirrorAct_800DFDDC(MirrorWork *work)
             entry++;
         }
 
-        if (action == 0xD182)
+        if (action == HASH_ON2)
         {
             if (found == 0)
             {

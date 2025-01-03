@@ -701,11 +701,11 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
 
             if (work->current_button_idx < work->field_34)
             {
-                code = 0x61;
+                code = 'a';
             }
             else
             {
-                code = 0x62;
+                code = 'b';
             }
 
             s03e_evpanel_800C3950(work, code);
