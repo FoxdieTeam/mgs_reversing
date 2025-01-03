@@ -24,4 +24,12 @@ enum CDBIOS_STATE {
     CDBIOS_STATE_ERROR,
 };
 
+/* cdbios.c */
+int  CDBIOS_Reset(void);
+void CDBIOS_TaskStart(void);
+void CDBIOS_ReadRequest(void *pHeap, unsigned int startSector, unsigned int sectorSize, void *fnCallBack);
+int  CDBIOS_ReadSync(void);
+void CDBIOS_ForceStop(void);
+int  CDBIOS_TaskState(void);
+
 #endif // _CDBIOS_H_
