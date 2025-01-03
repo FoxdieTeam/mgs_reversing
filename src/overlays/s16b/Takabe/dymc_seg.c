@@ -19,10 +19,7 @@ typedef struct DymcSegWork
 
 extern int GM_CurrentMap_800AB9B0;
 
-unsigned short dymc_seg_hashes[] = {
-    0xD182,     //
-    0x006B      // GV_StrCode("k")
-};
+unsigned short dymc_seg_hashes[] = {HASH_ON2, HASH_OFF2};
 
 #define EXEC_LEVEL 5
 
