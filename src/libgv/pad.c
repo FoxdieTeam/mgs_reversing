@@ -1,8 +1,9 @@
 #include "libgv.h"
-#include "Game/linkvarbuf.h"
-#include "Game/game.h"
+
 #include "mts/mts.h"
 #include "mts/mts_pad.h"
+#include "Game/linkvarbuf.h"
+#include "Game/game.h"
 
 /***bss****************************************************************/
 extern int     dword_800B05A8[6];
@@ -31,10 +32,6 @@ short key_table_8009D32C[] = {
     0x0000, 0x0800, 0x0400, 0x0600, 0x0000, 0x0000, 0x0200, 0x0000,
     0x0C00, 0x0A00, 0x0000, 0x0000, 0x0E00, 0x0000, 0x0000, 0x0000
 };
-
-extern int   DG_UnDrawFrameCount;
-extern int   GM_GameStatus;
-extern int   GV_Time;
 
 #ifdef VR_EXE
 void sub_800165B0(MTS_PAD *data)
