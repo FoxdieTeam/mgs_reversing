@@ -133,13 +133,13 @@ STATIC int FS_CdMakePositionTable_helper(char *inDirectoryRecord, FS_FILE_INFO *
 
                     if (parsedFileName[0] == 'Z' && getXAUserID((int)directoryRecord, fileIdentifierLength, basicRecordLength) == 0x0d)
                     {
-                        foundRecord->sector = 0;
+                        foundRecord->pos = 0;
                     }
                     else
                     {
                         sectorBaseValues = (directoryRecord + 2);
                         sectorBase = byteswap_ulong(sectorBaseValues);
-                        foundRecord->sector = sectorBase + 150;
+                        foundRecord->pos = sectorBase + 150;
                     }
                 }
                 else
@@ -167,7 +167,7 @@ STATIC int FS_CdMakePositionTable_helper(char *inDirectoryRecord, FS_FILE_INFO *
                 sizeValues = (directoryRecord + 10);
                 size = byteswap_ulong(sizeValues);
 
-                printf("FILE %s : top %d size %d set %d\n", parsedFileName, top, size, foundRecord->sector);
+                printf("FILE %s : top %d size %d set %d\n", parsedFileName, top, size, foundRecord->pos);
             }
         }
 

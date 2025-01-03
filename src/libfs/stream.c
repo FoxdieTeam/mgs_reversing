@@ -312,7 +312,7 @@ void FS_StreamCD( void )
 }
 
 // warning/bug here is probably in OG code, unless this is an incorrect match
-int FS_StreamGetTop( int is_movie )
+int FS_StreamGetTop( int is_demo )
 {
     int file_id;
 
@@ -320,7 +320,7 @@ int FS_StreamGetTop( int is_movie )
     file_id = *&file_id;
 #endif
 
-    switch (is_movie)
+    switch (is_demo)
     {
     case 0:
         file_id = FS_FILEID_VOX;
@@ -329,7 +329,7 @@ int FS_StreamGetTop( int is_movie )
         file_id = FS_FILEID_DEMO;
         break;
     }
-    return fs_file_info[file_id].sector;
+    return fs_file_info[file_id].pos;
 }
 
 int FS_StreamInit( void *pHeap, int heapSize )

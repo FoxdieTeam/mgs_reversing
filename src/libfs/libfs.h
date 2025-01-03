@@ -28,7 +28,7 @@ typedef struct _FS_STAGE_INFO   // private to stageld.c
 typedef struct _FS_FILE_INFO
 {
     const char *name;
-    u_int       sector;
+    u_int       pos;
 } FS_FILE_INFO;
 
 typedef struct _FS_MOVIE_FILE
@@ -65,7 +65,7 @@ extern FS_FILE_INFO fs_file_info[];
 
 int  FS_ResetCdFilePosition(void *pHeap);
 void FS_CDInit(void);
-void FS_LoadFileRequest(int file_id, int startSector, int sectorSize, void *buffer);
+void FS_LoadFileRequest(int fileno, int offset, int size, void *buffer);
 int  FS_LoadFileSync(void);
 void MakeFullPath(int, char *);
 
@@ -97,7 +97,7 @@ int  FS_StreamTaskState(void);
 void FS_StreamTaskInit(void);
 int  FS_StreamSync(void);
 void FS_StreamCD(void);
-int  FS_StreamGetTop(int is_movie);
+int  FS_StreamGetTop(int is_demo);
 int  FS_StreamInit(void *pHeap, int heapSize);
 void FS_StreamStop(void);
 void FS_StreamOpen(void);

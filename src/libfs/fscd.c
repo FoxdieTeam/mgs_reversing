@@ -15,8 +15,8 @@ int FS_ResetCdFilePosition(void *pHeap)
     if (disk_num >= 0)
     {
         printf("DISK %d\n", disk_num);
-        FS_CdStageFileInit(pHeap, fs_file_info[FS_FILEID_STAGE].sector);
-        FS_MovieFileInit(pHeap, fs_file_info[FS_FILEID_ZMOVIE].sector);
+        FS_CdStageFileInit(pHeap, fs_file_info[FS_FILEID_STAGE].pos);
+        FS_MovieFileInit(pHeap, fs_file_info[FS_FILEID_ZMOVIE].pos);
     }
     else
     {
@@ -35,9 +35,9 @@ void FS_CDInit(void)
     mts_wait_vbl(2);
 }
 
-void FS_LoadFileRequest(int file_id, int startSector, int sectorSize, void *buffer)
+void FS_LoadFileRequest(int fileno, int offset, int size, void *buffer)
 {
-    CDBIOS_ReadRequest(buffer, fs_file_info[file_id].sector + startSector, sectorSize, NULL);
+    CDBIOS_ReadRequest(buffer, fs_file_info[fileno].pos + offset, size, NULL);
 }
 
 int FS_LoadFileSync(void)
