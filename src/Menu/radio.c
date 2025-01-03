@@ -41,7 +41,7 @@ extern PANEL_TEXTURE     dword_800BDA30;
 extern RadioIncomingCall gRadioIncomingCall_8009E708;
 extern int               GV_Clock_800AB920;
 
-char dword_800AB610[8] = {2, 4, 3, 1, 4, 3, 1, 0};
+STATIC char dword_800AB610[8] = {2, 4, 3, 1, 4, 3, 1, 0};
 
 extern int GM_PlayerStatus_800ABA50;
 extern int GV_PauseLevel_800AB928;
@@ -557,7 +557,7 @@ void menu_radio_codec_helper_helper14_helper6_800407A4(MenuPrim *pGlue, int xpos
         conf.ypos = ypos + 0x28;
         conf.colour = 0x64000000 | colour;
         conf.flags = 0;
-        _menu_number_draw_string2_80043220(pGlue, &conf, "P#3T#3T");
+        _menu_number_draw_string2(pGlue, &conf, "P#3T#3T");
     }
     // Highlight MEMORY text when browsing the codec memory
     if (flags & CODEC_ACTION_MEMORY)
@@ -567,7 +567,7 @@ void menu_radio_codec_helper_helper14_helper6_800407A4(MenuPrim *pGlue, int xpos
         conf.ypos = ypos + 0x77;
         conf.colour = 0x64000000 | colour;
         conf.flags = 0;
-        _menu_number_draw_string2_80043220(pGlue, &conf, "MEMORY");
+        _menu_number_draw_string2(pGlue, &conf, "MEMORY");
     }
     if (flags & CODEC_ACTION_RIGHT)
     {
@@ -757,7 +757,7 @@ void menu_radio_codec_helper_helper14_80040DC4(MenuWork *work, int param_2)
     }
 }
 
-RECT rect_800AB630 = {960, 260, 63, 76};
+STATIC RECT rect_800AB630 = {960, 260, 63, 76};
 
 void init_radio_message_board_80040F74(MenuWork *work)
 {
@@ -805,7 +805,7 @@ void sub_80041118(MenuWork *work)
     font_update(kcb);
 }
 
-int draw_radio_message_8004114C(MenuWork *work, unsigned char *pOt)
+int draw_radio_message(MenuWork *work, unsigned char *pOt)
 {
     KCB  *kcb;
     SPRT *pPrim;
@@ -934,7 +934,7 @@ int menu_radio_codec_helper_helper12_80041280(MenuWork *work, unsigned char *pOt
     return 0;
 }
 
-void draw_radio_wait_mark_8004143C(MenuWork *work, unsigned char *pOt)
+void draw_radio_wait_mark(MenuWork *work, unsigned char *pOt)
 {
     MenuPrim *pOtBuffer; // $v1
     POLY_F3 *pPrim; // $a0
@@ -957,10 +957,10 @@ void draw_radio_wait_mark_8004143C(MenuWork *work, unsigned char *pOt)
     }
 }
 
-int codec_freq_800AB638 = 14000;
+STATIC int codec_freq_800AB638 = 14000;
 
 // call a frequency
-void menu_radio_codec_helper_helper11_8004150C(MenuWork *work)
+STATIC void menu_radio_codec_helper_helper11_8004150C(MenuWork *work)
 {
     int   pRadioCode;
     short codec_freq_800AB638_copy;
@@ -968,7 +968,7 @@ void menu_radio_codec_helper_helper11_8004150C(MenuWork *work)
     init_radio_message_board_80040F74(work);
     work->field_212 = 0x1e;
     GM_SeSet2(0, 0x3f, SE_RADIO_SEND);
-    pRadioCode = MENU_GetRadioCode_800497C4(codec_freq_800AB638);
+    pRadioCode = MENU_GetRadioCode(codec_freq_800AB638);
     if (pRadioCode >= 0)
     {
         sub_80047D70(work, codec_freq_800AB638, pRadioCode);
@@ -982,11 +982,11 @@ void menu_radio_codec_helper_helper11_8004150C(MenuWork *work)
     work->field_210_codec_state = 9;
 }
 
-int   dword_800AB63C = 0;
-short gCodecFadingStep = 0;
-int   dword_800AB644 = -1;
+STATIC int   dword_800AB63C = 0;
+STATIC short gCodecFadingStep = 0;
+STATIC int   dword_800AB644 = -1;
 
-void menu_radio_codec_helper_8004158C(MenuWork *work, unsigned char *pOt, GV_PAD *pPad)
+STATIC void menu_radio_codec_helper_8004158C(MenuWork *work, unsigned char *pOt, GV_PAD *pPad)
 {
     menu_chara_struct *pCharaStruct;
     menu_chara_struct *pCharaStruct2;
@@ -997,8 +997,6 @@ void menu_radio_codec_helper_8004158C(MenuWork *work, unsigned char *pOt, GV_PAD
     DR_TPAGE          *tpage1;
     DR_TPAGE          *tpage2;
     void              *subtitles;
-
-
 
     if (gCodecFadingStep == 0)
     {
@@ -1123,15 +1121,15 @@ skip_fading:
             // Blink the "PRESS SELECT TO EXIT" text periodically
             if (GV_Time % 64 < 0x34)
             {
-                MENU_Locate_80038B34(0xA0, 0x82, 2);
-                MENU_Color_80038B4C(0x2E, 0x47, 0x3D);
-                MENU_Printf_80038C38("PRESS SELECT TO EXIT");
+                MENU_Locate(0xA0, 0x82, 2);
+                MENU_Color(0x2E, 0x47, 0x3D);
+                MENU_Printf("PRESS SELECT TO EXIT");
                 menu_Text_Init_80038B98();
             }
         }
         break;
     case 10: // Codec Memory open
-        menu_radio_codec_helper_helper5_8004D628(work, pOt);
+        menu_radio_draw_mem(work, pOt);
         ret1 = menu_radio_codec_helper_helper2_8004DF68(work, pPad);
         if (pPad->press & PAD_SELECT)
         {
@@ -1220,8 +1218,8 @@ skip_fading:
                     work->field_210_codec_state = 6;
                     break;
                 case 3:
-                    menu_radio_init_save_mode_8004D280((int)pCharaStruct->field_C_pScript,
-                                                       pCharaStruct->field_1A_index);
+                    menu_radio_init_save_mode((int)pCharaStruct->field_C_pScript,
+                                              pCharaStruct->field_1A_index);
                     work->field_210_codec_state = 0xB;
                     gCodecFadingStep = 0x20;
                     break;
@@ -1233,7 +1231,7 @@ skip_fading:
         }
         break;
     case 4: // codec call interrupted
-        draw_radio_wait_mark_8004143C(work, pOt);
+        draw_radio_wait_mark(work, pOt);
         if ((pPad->release &
              (PAD_UP | PAD_DOWN | PAD_LEFT | PAD_RIGHT | PAD_TRIANGLE | PAD_CROSS | PAD_SQUARE | PAD_CIRCLE)) &&
             work->field_212 == 0)
@@ -1354,7 +1352,7 @@ skip_fading:
         }
         else
         {
-            draw_radio_wait_mark_8004143C(work, pOt);
+            draw_radio_wait_mark(work, pOt);
             if (pPad->press &
                 (PAD_UP | PAD_DOWN | PAD_LEFT | PAD_RIGHT | PAD_TRIANGLE | PAD_CROSS | PAD_SQUARE | PAD_CIRCLE))
             {
@@ -1380,7 +1378,7 @@ skip_fading:
         }
         else if (pCharaStruct3->field_1C_radioDatFragment != NULL)
         {
-            if (menu_radio_end_check_80048F98() != 0)
+            if (menu_radio_end_check() != 0)
             {
                 menu_radio_codec_helper_helper7_80048080();
                 ResetCodecState();
@@ -1435,7 +1433,7 @@ skip_fading:
         }
         break;
     case 12: // save screen open
-        if (menu_radio_do_file_mode_8004C418(work, pPad) != 0)
+        if (menu_radio_do_file_mode(work, pPad) != 0)
         {
             work->field_210_codec_state = 13;
             gCodecFadingCount = 0xFF;
@@ -1451,7 +1449,7 @@ skip_fading:
         }
         break;
     case 14:
-        ret2 = menu_radio_do_file_mode_8004C418(work, pPad);
+        ret2 = menu_radio_do_file_mode(work, pPad);
         if (ret2 != 0)
         {
             sub_8004124C(work);
@@ -1479,14 +1477,14 @@ skip_fading:
         break;
     }
 
-    draw_radio_message_8004114C(work, pOt);
+    draw_radio_message(work, pOt);
 
     NEW_PRIM(tpage1, work);
     setDrawTPage(tpage1, 1, 0, getTPage(0, 0, 960, 256));
     addPrim(pOt, tpage1);
 
     menu_radio_codec_helper_helper15_80040B8C(work->field_20_otBuf);
-    menu_radio_draw_face_80048DB0(work, work->field_218);
+    menu_radio_draw_face(work, work->field_218);
     menu_radio_codec_helper_helper14_80040DC4(work, codec_freq_800AB638);
 
     NEW_PRIM(tpage2, work);
@@ -1494,7 +1492,7 @@ skip_fading:
     addPrim(pOt, tpage2);
 }
 
-void menu_radio_update_helper5_80042160(MenuWork *work)
+STATIC void menu_radio_update_helper5_80042160(MenuWork *work)
 {
     dword_800AB63C = 0;
     dword_800ABB10 = 0;
@@ -1503,13 +1501,13 @@ void menu_radio_update_helper5_80042160(MenuWork *work)
     menu_radio_codec_create_state_80047CE4(work);
 }
 
-void menu_radio_init_nullsub_80042190(MenuWork *work)
+STATIC void menu_radio_init_nullsub_80042190(MenuWork *work)
 {
 }
 
-int dword_800AB648 = 0;
+STATIC int dword_800AB648 = 0;
 
-void menu_radio_update_80042198(MenuWork *work, unsigned char *pOt)
+STATIC void menu_radio_update_80042198(MenuWork *work, unsigned char *pOt)
 {
     GCL_ARGS args;
     long     argv[2];
@@ -1539,7 +1537,7 @@ void menu_radio_update_80042198(MenuWork *work, unsigned char *pOt)
                 GM_GameStatus &= ~(STATE_PADMASK | STATE_PADRELEASE);
                 work->field_2A_state = MENU_CODEC_OPEN;
                 menu_radio_update_helper2_80038A7C();
-                MENU_JimakuClear_80049518();
+                MENU_JimakuClear();
                 GV_PauseLevel_800AB928 |= 1;
                 DG_FreeObjectQueue();
                 DG_BackGroundBlack();
@@ -1586,7 +1584,7 @@ void menu_radio_update_80042198(MenuWork *work, unsigned char *pOt)
                     }
                     else
                     {
-                        menu_radio_init_save_mode_8004D280((int)gRadioIncomingCall_8009E708.field_4, 0);
+                        menu_radio_init_save_mode((int)gRadioIncomingCall_8009E708.field_4, 0);
                     }
                     work->field_210_codec_state = 14;
                     gMenuCallbackProc_800ABB08.type = 1;
@@ -1610,9 +1608,9 @@ void menu_radio_update_80042198(MenuWork *work, unsigned char *pOt)
                     if (timer < 26 && timer % 13 < 8)
                     {
                         menu_radio_update_helper3_80040498(work->field_20_otBuf);
-                        MENU_Color_80038B4C(0xFF, 0xFF, 0xFF);
-                        MENU_Locate_80038B34(0xA0, 0x3F, 2);
-                        MENU_Printf_80038C38("PUSH SELECT");
+                        MENU_Color(0xFF, 0xFF, 0xFF);
+                        MENU_Locate(0xA0, 0x3F, 2);
+                        MENU_Printf("PUSH SELECT");
                         menu_Text_Init_80038B98();
                     }
                     if (timer == 0 &&
@@ -1668,18 +1666,18 @@ void menu_radio_update_80042198(MenuWork *work, unsigned char *pOt)
     }
 }
 
-void menu_radio_init_80042700(MenuWork *work)
+void menu_radio_init(MenuWork *work)
 {
     work->field_2C_modules[MENU_RADIO] = menu_radio_update_80042198;
     work->field_28_flags |= 0x10u;
 }
 
-void menu_radio_kill_8004271C(MenuWork *work)
+void menu_radio_kill(MenuWork *work)
 {
     work->field_28_flags &= ~0x10u;
 }
 
-void menu_RadioCall_80042730(int param_1, int param_2, int time)
+void MENU_RadioCall(int param_1, int param_2, int time)
 {
     gRadioIncomingCall_8009E708.field_0 = param_1;
     gRadioIncomingCall_8009E708.field_4 = param_2;
@@ -1690,7 +1688,6 @@ void menu_RadioCall_80042730(int param_1, int param_2, int time)
         gRadioIncomingCall_8009E708.field_8 = 0;
         menu_RadioCall_helper_800403E4();
     }
-
     else
     {
         if (time >= 5)
@@ -1711,7 +1708,7 @@ void menu_RadioCall_80042730(int param_1, int param_2, int time)
     }
 }
 
-void MENU_SetLoad_800427E8(int procNameHashed, int param_2, short param_3)
+void MENU_SetLoad(int procNameHashed, int param_2, short param_3)
 {
     gRadioIncomingCall_8009E708.field_0 = param_3;
     gRadioIncomingCall_8009E708.field_2_timer = -1;
@@ -1720,7 +1717,7 @@ void MENU_SetLoad_800427E8(int procNameHashed, int param_2, short param_3)
     gMenuCallbackProc_800ABB08.type = 1;
 }
 
-void MENU_ResetCall_80042814(void)
+void MENU_ResetCall(void)
 {
     gRadioIncomingCall_8009E708.field_0 = 0;
     gRadioIncomingCall_8009E708.field_4 = 0;
@@ -1730,28 +1727,28 @@ void MENU_ResetCall_80042814(void)
     gMenuCallbackProc_800ABB08.procNameHashed = -1;
 }
 
-void MENU_SetRadioCallbackProc_8004283C(int procNameHashed)
+void MENU_SetRadioCallbackProc(int proc_id)
 {
-    gMenuCallbackProc_800ABB08.procNameHashed = procNameHashed;
+    gMenuCallbackProc_800ABB08.procNameHashed = proc_id;
 }
 
 // TODO: Functions from this point forward don't belong to radio.c!
 
-void menu_set_string2_80043138();
+void menu_set_string2(void);
 
 // rect_800AB64C is declared as a 1-element array
-// in order for menu_number_init_80042848
+// in order for menu_number_init
 // to declare extern to an array with unspecified size.
 // That way the "small data" optimization of -G8 doesn't kick
 // in (the compiler then doesn't know that rect_800AB64C is 8 bytes large,
 // under the "8 bytes" threshold in G8). Without it, it would force
 // us to compile this function (and the entire file) with -G0.
-RECT SECTION(".sdata") rect_800AB64C[] = {{960, 488, 64, 10}};
+STATIC RECT SECTION(".sdata") rect_800AB64C[] = {{960, 488, 64, 10}};
 
 extern SPRT gRadioNumberSprt_800bd9b0;
 extern SPRT gRadioNumberSprt2_800bd9d0;
 
-void menu_number_init_80042848(MenuWork *work)
+void menu_number_init(MenuWork *work)
 {
     RECT       rect1, rect2;
     ResHeader *pRes;
@@ -1793,14 +1790,15 @@ void menu_number_init_80042848(MenuWork *work)
     pSprt->w = 6;
     pSprt->h = 5;
     pSprt->clut = 0x7ffc;
-    menu_set_string2_80043138();
+    menu_set_string2();
 }
 
-void menu_number_kill_80042980(MenuWork *work)
+void menu_number_kill(MenuWork *work)
 {
+    /* do nothing */
 }
 
-void _menu_number_draw_80042988(MenuPrim *pOt, TextConfig *pSettings, int number)
+void _menu_number_draw(MenuPrim *pOt, TextConfig *pSettings, int number)
 {
     int            digit;
     SPRT          *sprtIter;
@@ -1882,7 +1880,7 @@ void _menu_number_draw_80042988(MenuPrim *pOt, TextConfig *pSettings, int number
  * @param flags TextConfig_Flags value that determines the alignment.
  * @return The final x-coordinate after adjustment.
  */
-int menu_draw_number_draw_helper_80042B64(SPRT *pPrim, char *pFreeLocation, int x, int align, int flags)
+STATIC int _menu_draw_number_draw_helper(SPRT *pPrim, char *pFreeLocation, int x, int align, int flags)
 {
     int offset_x0;
 
@@ -1919,7 +1917,7 @@ int menu_draw_number_draw_helper_80042B64(SPRT *pPrim, char *pFreeLocation, int 
     return x;
 }
 
-void _menu_number_draw_string_80042BF4(MenuPrim *pGlue, TextConfig *pTextConfig, const char *str)
+void _menu_number_draw_string(MenuPrim *pGlue, TextConfig *pTextConfig, const char *str)
 {
     SPRT        *pSprt;
     int          width;
@@ -1946,7 +1944,7 @@ void _menu_number_draw_string_80042BF4(MenuPrim *pGlue, TextConfig *pTextConfig,
     {
         if (c == '\n')
         {
-            menu_draw_number_draw_helper_80042B64(pSprt, pGlue->mPrimBuf.mFreeLocation, pTextConfig->xpos, width, pTextConfig->flags);
+            _menu_draw_number_draw_helper(pSprt, pGlue->mPrimBuf.mFreeLocation, pTextConfig->xpos, width, pTextConfig->flags);
             // move to the next line
             pTextConfig->ypos += 8;
             pSprt = (SPRT *)pGlue->mPrimBuf.mFreeLocation;
@@ -2050,11 +2048,11 @@ void _menu_number_draw_string_80042BF4(MenuPrim *pGlue, TextConfig *pTextConfig,
         width += skip;
     }
 
-    pTextConfig->xpos = menu_draw_number_draw_helper_80042B64(pSprt, pGlue->mPrimBuf.mFreeLocation, pTextConfig->xpos, width, pTextConfig->flags);
+    pTextConfig->xpos = _menu_draw_number_draw_helper(pSprt, pGlue->mPrimBuf.mFreeLocation, pTextConfig->xpos, width, pTextConfig->flags);
 }
 
-void menu_number_draw_magazine_80042E38(MenuWork *work, unsigned int *pOt, int xoff, int yoff, int pMagSize,
-                                        int pAmmo, int pSubCnt2)
+void menu_number_draw_magazine(MenuWork *work, unsigned int *pOt, int xoff, int yoff,
+                               int pMagSize, int pAmmo, int pSubCnt2)
 {
     SPRT *sprt;
     int   i;
@@ -2091,7 +2089,7 @@ void menu_number_draw_magazine_80042E38(MenuWork *work, unsigned int *pOt, int x
     }
 }
 
-int menu_number_draw_80042F78(MenuWork *work, unsigned int *pOt, int xpos, int ypos, int number, int flags)
+int menu_number_draw(MenuWork *work, unsigned int *pOt, int xpos, int ypos, int number, int flags)
 {
     TextConfig textConfig; // [sp+10h] [-10h] BYREF
 
@@ -2099,13 +2097,13 @@ int menu_number_draw_80042F78(MenuWork *work, unsigned int *pOt, int xpos, int y
     textConfig.ypos = ypos;
     textConfig.colour = 0x64808080;
     textConfig.flags = flags;
-    _menu_number_draw_80042988(work->field_20_otBuf, &textConfig, number);
+    _menu_number_draw(work->field_20_otBuf, &textConfig, number);
     return textConfig.xpos;
 }
 
 extern SPRT gRadioNumberSprt_800bd9b0;
 
-int menu_number_draw_number2_80042FC0(MenuWork *work, int xpos, int ypos, int current, int total)
+int menu_number_draw_number2(MenuWork *work, int xpos, int ypos, int current, int total)
 {
     SPRT      *pPrim;
     TextConfig textConfig;
@@ -2116,7 +2114,7 @@ int menu_number_draw_number2_80042FC0(MenuWork *work, int xpos, int ypos, int cu
     textConfig.flags = 0;
     // Use red color if "current" is 0, otherwise use grey
     textConfig.colour = (current == 0 ? 0x64002080 : 0x64575757);
-    _menu_number_draw_80042988(work->field_20_otBuf, &textConfig, current);
+    _menu_number_draw(work->field_20_otBuf, &textConfig, current);
 
     // Draw the "/" separator between the current and total numbers
     NEW_PRIM(pPrim, work);
@@ -2131,11 +2129,11 @@ int menu_number_draw_number2_80042FC0(MenuWork *work, int xpos, int ypos, int cu
 
     // Draw the "total" number
     textConfig.xpos = textConfig.xpos + 6;
-    _menu_number_draw_80042988(work->field_20_otBuf, &textConfig, total);
+    _menu_number_draw(work->field_20_otBuf, &textConfig, total);
     return textConfig.xpos;
 }
 
-int menu_number_draw_string_800430F0(MenuWork *work, unsigned int *pOt, int xpos, int ypos, const char *str, int flags)
+int menu_number_draw_string(MenuWork *work, unsigned int *pOt, int xpos, int ypos, const char *str, int flags)
 {
     TextConfig textConfig;
 
@@ -2143,15 +2141,15 @@ int menu_number_draw_string_800430F0(MenuWork *work, unsigned int *pOt, int xpos
     textConfig.ypos = ypos;
     textConfig.colour = 0x64808080;
     textConfig.flags = flags;
-    _menu_number_draw_string_80042BF4(work->field_20_otBuf, &textConfig, str);
+    _menu_number_draw_string(work->field_20_otBuf, &textConfig, str);
     return textConfig.xpos;
 }
 
-RECT gRadioStringRect_800AB658 = {960, 498, 0, 0};
+STATIC RECT gRadioStringRect_800AB658 = {960, 498, 0, 0};
 
 extern SPRT gRadioStringSprt_800BD9F0;
 
-void menu_set_string2_80043138()
+void menu_set_string2(void)
 {
     PANEL_TEXTURE pPanelTex;
     RECT          rect;
@@ -2179,7 +2177,7 @@ void menu_set_string2_80043138()
 }
 
 // wider spacing because of the larger font
-void _menu_number_draw_string2_80043220(MenuPrim *pGlue, TextConfig *pTextConfig, const char *str)
+void _menu_number_draw_string2(MenuPrim *pGlue, TextConfig *pTextConfig, const char *str)
 {
     SPRT        *pSprt;
     int          width;
@@ -2210,7 +2208,7 @@ void _menu_number_draw_string2_80043220(MenuPrim *pGlue, TextConfig *pTextConfig
 
         if (c == '\n')
         {
-            menu_draw_number_draw_helper_80042B64(pSprt, pGlue->mPrimBuf.mFreeLocation, pTextConfig->xpos, width, pTextConfig->flags);
+            _menu_draw_number_draw_helper(pSprt, pGlue->mPrimBuf.mFreeLocation, pTextConfig->xpos, width, pTextConfig->flags);
             // move to the next line
             pTextConfig->ypos += 8;
             pSprt = (SPRT *)pGlue->mPrimBuf.mFreeLocation;
@@ -2314,24 +2312,24 @@ void _menu_number_draw_string2_80043220(MenuPrim *pGlue, TextConfig *pTextConfig
 loop:
     }
 
-    pTextConfig->xpos = menu_draw_number_draw_helper_80042B64(pSprt, pGlue->mPrimBuf.mFreeLocation, pTextConfig->xpos, width, pTextConfig->flags);
+    pTextConfig->xpos = _menu_draw_number_draw_helper(pSprt, pGlue->mPrimBuf.mFreeLocation, pTextConfig->xpos, width, pTextConfig->flags);
 }
 
-void menu_restore_nouse_80043470()
+void menu_restore_nouse(void)
 {
     sub_8003CFE0(&dword_800BDA10, 2);
     sub_8003CFE0(&dword_800BDA30, 3);
 }
 
-void menu_init_nouse_800434A8()
+void menu_init_nouse(void)
 {
     dword_800BDA10.field_8_bufid = 0;
     menu_init_rpk_item_8003DDCC(&dword_800BDA10, 40, 39);
     menu_init_rpk_item_8003DDCC(&dword_800BDA30, 48, 39);
-    menu_restore_nouse_80043470();
+    menu_restore_nouse();
 }
 
-void sub_800434F4(MenuPrim *pGlue, int offset_x, int offset_y, PANEL_TEXTURE *pUnk)
+STATIC void sub_800434F4(MenuPrim *pGlue, int offset_x, int offset_y, PANEL_TEXTURE *pUnk)
 {
     SPRT *pPrim;
 
@@ -2344,17 +2342,17 @@ void sub_800434F4(MenuPrim *pGlue, int offset_x, int offset_y, PANEL_TEXTURE *pU
     addPrim(pGlue->mPrimBuf.mOt, pPrim);
 }
 
-void menu_draw_nouse_800435A4(MenuPrim *pGlue, int offset_x, int offset_y)
+void menu_draw_nouse(MenuPrim *pGlue, int offset_x, int offset_y)
 {
     sub_800434F4(pGlue, offset_x, offset_y, &dword_800BDA10);
 }
 
-void menu_draw_frozen_800435C8(MenuPrim *pGlue, int offset_x, int offset_y)
+void menu_draw_frozen(MenuPrim *pGlue, int offset_x, int offset_y)
 {
     sub_800434F4(pGlue, offset_x, offset_y, &dword_800BDA30);
 }
 
-void menu_draw_triangle_800435EC(MenuPrim *pGlue, Menu_Triangle *pTriangle)
+void menu_draw_triangle(MenuPrim *pGlue, Menu_Triangle *pTriangle)
 {
     POLY_F3 *pPrim;
 

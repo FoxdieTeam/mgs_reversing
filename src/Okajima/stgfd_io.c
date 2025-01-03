@@ -1,5 +1,17 @@
 #include "stgfd_io.h"
+
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
+#include "common.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
+
+extern int     GV_PauseLevel_800AB928;
+extern int     GV_Clock_800AB920;
+
+/*---------------------------------------------------------------------------*/
 
 typedef struct StgfdIoPrims
 {
@@ -20,10 +32,9 @@ typedef struct StgfdIoWork
 
 #define EXEC_LEVEL 3
 
-extern int     GV_PauseLevel_800AB928;
-extern int     GV_Clock_800AB920;
+/*---------------------------------------------------------------------------*/
 
-void stgfd_io_act_helper_80074DAC(StgfdIoWork *work)
+STATIC void stgfd_io_act_helper_80074DAC(StgfdIoWork *work)
 {
     short rgb[3]; // or RGB struct?
     if (GV_PauseLevel_800AB928)
@@ -44,7 +55,7 @@ void stgfd_io_act_helper_80074DAC(StgfdIoWork *work)
     setRGB0(&work->prims->tile[GV_Clock_800AB920], rgb[0], rgb[1], rgb[2]);
 }
 
-void stgfd_io_act_helper_80074F44(StgfdIoWork *work, int a2, int x, int y, int z)
+STATIC void stgfd_io_act_helper_80074F44(StgfdIoWork *work, int a2, int x, int y, int z)
 {
     work->field_24 = a2;
     work->field_34.vx = x;
@@ -52,7 +63,7 @@ void stgfd_io_act_helper_80074F44(StgfdIoWork *work, int a2, int x, int y, int z
     work->field_34.vz = z;
 }
 
-void stgfd_io_act_80074F5C(StgfdIoWork *work)
+STATIC void stgfd_io_Act(StgfdIoWork *work)
 {
     unsigned char *pOt = DG_ChanlOTag(0);
 
@@ -97,7 +108,7 @@ void stgfd_io_act_80074F5C(StgfdIoWork *work)
     }
 }
 
-void stgfd_io_kill_80075164(StgfdIoWork *work)
+STATIC void stgfd_io_Die(StgfdIoWork *work)
 {
     if (work->prims)
     {
@@ -105,7 +116,7 @@ void stgfd_io_kill_80075164(StgfdIoWork *work)
     }
 }
 
-int stgfd_io_loader_80075194(StgfdIoWork *work)
+STATIC int stgfd_io_GetResources(StgfdIoWork *work)
 {
     StgfdIoPrims *pAlloc = GV_Malloc(sizeof(StgfdIoPrims));
     work->prims = pAlloc;
@@ -136,20 +147,22 @@ int stgfd_io_loader_80075194(StgfdIoWork *work)
     return 0;
 }
 
-GV_ACT *NewStnFade_800752A0(void)
+/*---------------------------------------------------------------------------*/
+
+GV_ACT *NewStnFade(void)
 {
     StgfdIoWork *work = (StgfdIoWork *)GV_NewActor(EXEC_LEVEL, sizeof(StgfdIoWork));
     if (work)
     {
         GV_SetNamedActor(&work->actor,
-                         (GV_ACTFUNC)&stgfd_io_act_80074F5C,
-                         (GV_ACTFUNC)&stgfd_io_kill_80075164,
+                         (GV_ACTFUNC)&stgfd_io_Act,
+                         (GV_ACTFUNC)&stgfd_io_Die,
                          "stgfd_io.c");
 
-        if (stgfd_io_loader_80075194(work) < 0)
+        if (stgfd_io_GetResources(work) < 0)
         {
             GV_DestroyActor(&work->actor);
-            return 0;
+            return NULL;
         }
     }
 

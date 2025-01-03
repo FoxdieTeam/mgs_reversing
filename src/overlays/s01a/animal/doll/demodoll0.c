@@ -1,6 +1,8 @@
 #include "doll.h"
 
 #include "common.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "chara/snake/sna_init.h"
 #include "Game/jimctrl.h"
 

@@ -2,6 +2,8 @@
 
 #include <stdio.h>
 #include "common.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "libhzd/libhzd.h"
 #include "chara/snake/sna_init.h"
 #include "Game/jimctrl.h"

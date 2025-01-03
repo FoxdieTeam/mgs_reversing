@@ -1,6 +1,8 @@
 #include "../../s00a/Enemy/enemy.h"
 
 #include "common.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "Game/item.h"
 #include "Game/linkvarbuf.h"
 #include "Anime/animeconv/anime.h"
@@ -50,7 +52,7 @@ extern int ENE_ClearPutChar_800D9DB4( WatcherWork *work, void *func );
 
 extern int AttackForce_800D6C6C( WatcherWork *work );
 
-extern void    NewBlood_80072728( MATRIX *, int );
+extern void    NewBlood( MATRIX *, int );
 extern void    AN_Breath_800C3AA8( MATRIX * );
 extern GV_ACT *NewLSight_800D1D2C(SVECTOR *from, SVECTOR *to, int color);
 
@@ -1419,7 +1421,7 @@ void ENE_PutBlood_800D973C( WatcherWork* work, int obj_idx, int count )
     DG_MovePos( &s07a_dword_800C369C );
     DG_RotatePos( &s07a_dword_800C36A4 );
     ReadRotMatrix( &mat );
-    NewBlood_80072728( &mat, count );
+    NewBlood( &mat, count );
 }
 
 void ENE_PutFog_800D97AC(WatcherWork *work )

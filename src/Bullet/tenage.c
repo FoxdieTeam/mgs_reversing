@@ -121,11 +121,11 @@ STATIC void TenageAct(TenageWork *work)
         switch (work->type)
         {
         case GRD_STUN:
-            NewStunGrenade_80074B5C(&rotation);
+            NewStanBlast(&rotation);
             break;
 
         case GRD_CHAFF:
-            NewChafgrnd_80077264(&rotation);
+            NewChaffGrd(&rotation);
             break;
 
         case GRD_TBOMB:

@@ -114,7 +114,7 @@ void s07c_meryl72_800C6C48( Meryl72Work *work )
         param->max_life -= 4;
     }
 
-    MENU_DrawBar2_80038DE0( 28, param->max_life, param->life, GM_SnakeMaxHealth, &s07c_dword_800C32E4 );
+    MENU_DrawBar2( 28, param->max_life, param->life, GM_SnakeMaxHealth, &s07c_dword_800C32E4 );
 
     if ( work->fC36 > 0 )
     {

@@ -227,7 +227,7 @@ void RevbulltAct_800D2864(RevbulltWork *work)
                 world.t[2] = work->position.vz;
 
                 DG_ReflectMatrix(&work->normal, &world, &world);
-                NewSpark_80074564(&world, 0);
+                NewSpark(&world, 0);
 
                 if (work->bounces > 0)
                 {

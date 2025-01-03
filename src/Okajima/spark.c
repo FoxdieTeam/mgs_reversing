@@ -10,6 +10,12 @@
 #include "libdg/libdg.h"
 #include "Game/map.h"
 
+extern int            GM_CurrentMap_800AB9B0;
+extern int            GV_Clock_800AB920;
+extern unsigned short gSparkRandomTable_800BDF10[];
+
+/*---------------------------------------------------------------------------*/
+
 typedef struct SparkWork
 {
     GV_ACT   actor;
@@ -23,31 +29,29 @@ typedef struct SparkWork
 
 #define EXEC_LEVEL 5
 
-extern int            GM_CurrentMap_800AB9B0;
-extern int            GV_Clock_800AB920;
-extern unsigned short gSparkRandomTable_800BDF10[];
+/*---------------------------------------------------------------------------*/
 
-int gSparkRandomTableIndex_8009F668 = -1;
-int gSparkRandomTableIndex2_8009F66C = 0;
+STATIC int gSparkRandomTableIndex = -1;
+STATIC int gSparkRandomTableIndex2 = 0;
 
-void InitRandamTable_80073DB0(void)
+void InitRandamTable(void)
 {
-    if (gSparkRandomTableIndex_8009F668 != -1)
+    if (gSparkRandomTableIndex != -1)
     {
         short value = rand();
 
-        gSparkRandomTableIndex_8009F668++;
-        gSparkRandomTableIndex_8009F668 &= 0x3F;
+        gSparkRandomTableIndex++;
+        gSparkRandomTableIndex &= 0x3F;
 
-        gSparkRandomTable_800BDF10[gSparkRandomTableIndex_8009F668] = value;
+        gSparkRandomTable_800BDF10[gSparkRandomTableIndex] = value;
     }
     else
     {
         short *current = gSparkRandomTable_800BDF10;
         int remaining = 0x40;
 
-        gSparkRandomTableIndex_8009F668 = 0;
-        gSparkRandomTableIndex2_8009F66C = 0;
+        gSparkRandomTableIndex = 0;
+        gSparkRandomTableIndex2 = 0;
 
         do
         {
@@ -62,12 +66,12 @@ void InitRandamTable_80073DB0(void)
 static inline int spark_next_random(void)
 {
     unsigned short *pTable = gSparkRandomTable_800BDF10;
-    gSparkRandomTableIndex2_8009F66C++;
-    gSparkRandomTableIndex2_8009F66C &= 0x3F;
-    return pTable[gSparkRandomTableIndex2_8009F66C];
+    gSparkRandomTableIndex2++;
+    gSparkRandomTableIndex2 &= 0x3F;
+    return pTable[gSparkRandomTableIndex2];
 }
 
-void spark_loader3_80073E48(SVECTOR *a1, SVECTOR *a2, int count, int a4)
+STATIC void spark_loader3_80073E48(SVECTOR *a1, SVECTOR *a2, int count, int a4)
 {
     MATRIX sp10;
     MATRIX sp30;
@@ -134,7 +138,7 @@ void spark_loader3_80073E48(SVECTOR *a1, SVECTOR *a2, int count, int a4)
     gte_SetTransMatrix(&sp30);
 }
 
-void spark_act_helper_80074118(SVECTOR *arg0, SVECTOR *arg1, int count)
+STATIC void spark_act_helper_80074118(SVECTOR *arg0, SVECTOR *arg1, int count)
 {
     int x;
     int y;
@@ -171,33 +175,33 @@ void spark_act_helper_80074118(SVECTOR *arg0, SVECTOR *arg1, int count)
     }
 }
 
-void spark_loader4_80074234(POLY_FT4 *pPoly, int count, DG_TEX *pTex)
+STATIC void spark_loader4_80074234(POLY_FT4 *pPoly, int count, DG_TEX *tex)
 {
-    POLY_FT4 *pScratch;
+    POLY_FT4 *scratch;
     int x, y, w, h;
 
-    pScratch = (POLY_FT4 *)getScratchAddr(0);
+    scratch = (POLY_FT4 *)getScratchAddr(0);
 
-    setPolyFT4(pScratch);
-    setSemiTrans(pScratch, 1);
+    setPolyFT4(scratch);
+    setSemiTrans(scratch, 1);
 
-    x = pTex->off_x;
-    w = pTex->w;
-    y = pTex->off_y;
-    h = pTex->h;
+    x = tex->off_x;
+    w = tex->w;
+    y = tex->off_y;
+    h = tex->h;
 
-    setUVWH(pScratch, x, y, w, h);
+    setUVWH(scratch, x, y, w, h);
 
-    pScratch->tpage = pTex->tpage;
-    pScratch->clut = pTex->clut;
+    scratch->tpage = tex->tpage;
+    scratch->clut = tex->clut;
 
     while (--count >= 0)
     {
-        LCOPY2(&pScratch->tag, &pPoly->tag, &pScratch->r0, &pPoly->r0);
-        LCOPY(&pScratch->u0, &pPoly->u0);
-        LCOPY(&pScratch->u1, &pPoly->u1);
-        LCOPY(&pScratch->u2, &pPoly->u2);
-        LCOPY(&pScratch->u3, &pPoly->u3);
+        LCOPY2(&scratch->tag, &pPoly->tag, &scratch->r0, &pPoly->r0);
+        LCOPY(&scratch->u0, &pPoly->u0);
+        LCOPY(&scratch->u1, &pPoly->u1);
+        LCOPY(&scratch->u2, &pPoly->u2);
+        LCOPY(&scratch->u3, &pPoly->u3);
         pPoly++;
     }
 }
@@ -208,7 +212,7 @@ void spark_loader4_80074234(POLY_FT4 *pPoly, int count, DG_TEX *pTex)
 //     pPoly[i].b0 = color
 // for
 //     pPoly[0...count]
-void spark_800742F0(POLY_FT4 *pPoly, int count, int color)
+STATIC void spark_800742F0(POLY_FT4 *pPoly, int count, int color)
 {
     int mask_r0_g0_b0 = color | (color << 8) | (color << 16);
 
@@ -222,7 +226,7 @@ void spark_800742F0(POLY_FT4 *pPoly, int count, int color)
     }
 }
 
-void spark_act_80074334(SparkWork *work)
+STATIC void spark_Act(SparkWork *work)
 {
     int updated_f170;
     int lightRadius;
@@ -249,7 +253,7 @@ void spark_act_80074334(SparkWork *work)
     }
 }
 
-void spark_kill_800743DC(SparkWork *work)
+STATIC void spark_Die(SparkWork *work)
 {
     DG_PRIM *prim;
 
@@ -261,58 +265,63 @@ void spark_kill_800743DC(SparkWork *work)
     }
 }
 
-int SparkGetResources_80074418(struct SparkWork *work, MATRIX *a2, int a3)
+STATIC int spark_GetResources(struct SparkWork *work, MATRIX *a2, int count)
 {
-    DG_TEX  *pTexture;
-    DG_PRIM *pNewPrim;
+    DG_TEX  *tex;
+    DG_PRIM *prim;
 
     work->map = GM_CurrentMap_800AB9B0;
-    InitRandamTable_80073DB0();
-    spark_loader3_80073E48(work->f028, work->f068, 8, a3);
+    InitRandamTable();
+    spark_loader3_80073E48(work->f028, work->f068, 8, count);
 
-    pNewPrim = DG_GetPrim(DG_PRIM_POLY_FT4, 8, 0, work->f068, NULL);
-    work->prim = pNewPrim;
+    prim = DG_GetPrim(DG_PRIM_POLY_FT4, 8, 0, work->f068, NULL);
+    work->prim = prim;
 
-    if (!pNewPrim)
+    if (!prim)
     {
         return -1;
     }
 
     DG_SetPos(a2);
-    DG_PutPrim(&pNewPrim->world);
+    DG_PutPrim(&prim->world);
     work->f168.vx = a2->t[0];
     work->f168.vy = a2->t[1];
     work->f168.vz = a2->t[2];
-    pTexture = DG_GetTexture(GV_StrCode("spark_fl"));
+    tex = DG_GetTexture(GV_StrCode("spark_fl"));
 
-    if (!pTexture)
+    if (!tex)
     {
         return -1;
     }
 
-    spark_loader4_80074234(&pNewPrim->packs[0]->poly_ft4, 8, pTexture);
-    spark_loader4_80074234(&pNewPrim->packs[1]->poly_ft4, 8, pTexture);
-    spark_800742F0(&pNewPrim->packs[0]->poly_ft4, 8, 0);
-    spark_800742F0(&pNewPrim->packs[1]->poly_ft4, 8, 0);
+    spark_loader4_80074234(&prim->packs[0]->poly_ft4, 8, tex);
+    spark_loader4_80074234(&prim->packs[1]->poly_ft4, 8, tex);
+    spark_800742F0(&prim->packs[0]->poly_ft4, 8, 0);
+    spark_800742F0(&prim->packs[1]->poly_ft4, 8, 0);
 
     work->f170_counter = 12;
     return 0;
 }
 
-GV_ACT *NewSpark_80074564(MATRIX *pMatrix, int pCnt)
+/*---------------------------------------------------------------------------*/
+
+GV_ACT *NewSpark(MATRIX *pMatrix, int count)
 {
     SparkWork *work = NULL;
     int i;
 
-    for (i = 0; i <= pCnt; i++)
+    for (i = 0; i <= count; i++)
     {
         work = (SparkWork *) GV_NewActor(EXEC_LEVEL, sizeof(SparkWork));
         if (work != NULL)
         {
-            GV_SetNamedActor(&work->actor, (GV_ACTFUNC)spark_act_80074334, (GV_ACTFUNC)spark_kill_800743DC, "spark.c");
+            GV_SetNamedActor(&work->actor,
+                             (GV_ACTFUNC)spark_Act,
+                             (GV_ACTFUNC)spark_Die,
+                             "spark.c");
 
             SetSpadStack(SPAD_STACK_ADDR);
-            if (SparkGetResources_80074418(work, pMatrix, pCnt) < 0)
+            if (spark_GetResources(work, pMatrix, count) < 0)
             {
                 ResetSpadStack();
 

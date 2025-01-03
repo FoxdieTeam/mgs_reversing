@@ -1,15 +1,16 @@
 // FIXME: copy-pasta of snake/sna_init.h
 
-#ifndef _sna_H_
-#define _sna_H_
+#ifndef _SNA_INIT_H_
+#define _SNA_INIT_H_
+
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 
 #include "libgv/libgv.h"
 #include "Game/control.h"
 #include "Game/game.h"
 #include "Game/target.h"
-#include <sys/types.h>
-#include <libgte.h>
-#include <libgpu.h>
 
 typedef struct ACTSTILL
 {
@@ -284,7 +285,7 @@ typedef struct SnaInitWork
     int                 field_9A8_current_item;
     int                 field_9AC;
     GV_PAD             *field_9B0_pad_ptr;
-    ACTPACK    *field_9B4_action_table;
+    ACTPACK            *field_9B4_action_table;
     TSnakeFunction      field_9B8_fn_anim;
     int                 field_9BC_anim_frame;
     TSnakeFunction      field_9C0;
@@ -336,9 +337,9 @@ typedef GV_ACT * (*TSnakeEquipFuncion)(CONTROL *, OBJECT *, int);
 void         sna_start_anim_8004E1F4(SnaInitWork *work, void *pFn);
 void         SetAction_8004E22C(SnaInitWork *work, int action_flag, int interp);
 void         sna_8004E260(SnaInitWork *work, int a2, int interp, int a4);
-int          GM_CheckPlayerStatusFlag_8004E29C(PlayerStatusFlag arg0);
-int          GM_SetPlayerStatusFlag_8004E2B4(PlayerStatusFlag arg0);
-void         GM_ClearPlayerStatusFlag_8004E2D4(PlayerStatusFlag flag);
+int          GM_CheckPlayerStatusFlag(PlayerStatusFlag arg0);
+int          GM_SetPlayerStatusFlag(PlayerStatusFlag arg0);
+void         GM_ClearPlayerStatusFlag(PlayerStatusFlag flag);
 void         sna_set_flags1_8004E2F4(SnaInitWork *snake, SnaFlag1 flags);
 void         sna_clear_flags1_8004E308(SnaInitWork *snake, SnaFlag1 flags);
 int          sna_check_flags1_8004E31C(SnaInitWork *snake, SnaFlag1 flags);
@@ -379,8 +380,8 @@ int          sna_8004E808(SnaInitWork *work, int a2, int a3, int a4, int a5);
 // .. or move the implementation to a static inline in game.h which the definition in sna_init calls?
 int  GM_Next_BulName_8004FBA0();
 void GM_ClearBulName_8004FBE4(int idx);
-void GM_CheckShukanReverse_8004FBF8(unsigned short *pInput);
-void GM_CheckShukanReverseAnalog_8004FC70(unsigned char *pInput);
+void GM_CheckShukanReverse(unsigned short *pInput);
+void GM_CheckShukanReverseAnalog(unsigned char *pInput);
 
 void sna_check_knock_800501F8(SnaInitWork *work, int time);
 int  sna_prone_check_standup_80050398(SnaInitWork *work);
@@ -506,4 +507,4 @@ int sna_act_unk_helper2_helper_helper_8005C974(HZD_HDL *pHzd, int, int, CONTROL 
 void sna_act_helper2_helper2_80033054(int id, SVECTOR *vec);
 int sna_ration_available_8004FB4C(void);
 
-#endif // _sna_H_
+#endif // _SNA_INIT_H_

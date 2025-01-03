@@ -1,4 +1,8 @@
 #include "../../../s00a/Enemy/enemy.h"
+
+#include "common.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "libhzd/libhzd.h"
 
 extern ZAKO_COMMAND ZakoCommand_800DF280;

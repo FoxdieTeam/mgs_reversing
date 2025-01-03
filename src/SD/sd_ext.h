@@ -1,7 +1,7 @@
 #ifndef _SD_EXT_H_
 #define _SD_EXT_H_
 
-// do not #include this file externally! use sound.h instead.
+// Do not #include this file externally! Use sd_cli.h instead.
 
 #include <libspu.h>
 #include "sd_incl.h"

@@ -9,14 +9,14 @@
 #include "libgv/libgv.h"
 #include "Game/linkvarbuf.h"
 
-char    *gFontBegin = NULL;
-char    *gFontEnd = NULL;
-int      rubi_display_flag_800AB6B0 = 1;
-RubiRes *gRubiRes_800AB6B4 = NULL;
-int      dword_800AB6B8 = 0;
-int      font_palette_800AB6BC = 0;
-int      r_flag_800AB6C0 = 0;
-int      rubi_flag_800AB6C4 = 0;
+STATIC char    *gFontBegin = NULL;
+STATIC char    *gFontEnd = NULL;
+STATIC int      rubi_display_flag = TRUE;
+STATIC RubiRes *gRubiRes_800AB6B4 = NULL;
+STATIC int      dword_800AB6B8 = 0;
+STATIC int      font_palette_800AB6BC = 0;
+STATIC int      r_flag_800AB6C0 = 0;
+STATIC int      rubi_flag_800AB6C4 = 0;
 
 // Menu-related?
 
@@ -314,7 +314,7 @@ STATIC void font_draw_glyph(char *buffer, int x, int y, int width, char *glyph)
     {
         var_v1 = y - 4;
 
-        if (rubi_display_flag_800AB6B0 == 0)
+        if (rubi_display_flag == FALSE)
         {
             var_v1 = y - 2;
         }
@@ -473,7 +473,7 @@ STATIC int font_draw_ascii_glyph(char *buffer, int x, int y, int width, unsigned
         {
             shift = (retval + 1) / 2 - 1;
 
-            if (rubi_display_flag_800AB6B0)
+            if (rubi_display_flag)
             {
                 y2 = y - 4;
             }
@@ -599,7 +599,7 @@ STATIC unsigned int font_get_glyph_width(int a1)
 
 void font_set_rubi_display_mode(int display_flag)
 {
-    rubi_display_flag_800AB6B0 = display_flag;
+    rubi_display_flag = display_flag;
 }
 
 STATIC void set_rubi_left_pos(int xmax, int x, int y)
@@ -1046,7 +1046,7 @@ long font_draw_string(KCB *kcb, long xtop, long ytop, const char *string, long c
             case MAP_ASCII('{'):
                 r_flag_800AB6C0 = 1;
 
-                if (rubi_display_flag_800AB6B0)
+                if (rubi_display_flag)
                 {
                     rubi_flag_800AB6C4 = 1;
                     set_rubi_left_pos(xmax, x, y);

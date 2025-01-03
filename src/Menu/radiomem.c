@@ -16,12 +16,12 @@ short        gRadioCodecFrequency_800ABB9E;
 extern short word_800ABB9C;
 short        word_800ABB9C;
 
-int gRadioCodecIdx_800AB770 = 0;
+STATIC int gRadioCodecIdx_800AB770 = 0;
 
 Menu_Triangle stru_8009EC44 = {155, 125, 160, 120, 165, 125, 0x80808080};
 Menu_Triangle stru_8009EC54 = {156, 212, 160, 216, 164, 212, 0x80808080};
 
-RadioMemory       *menu_radio_table_find_8004D380( int frequency )
+RadioMemory *menu_radio_table_find_8004D380( int frequency )
 {
     RadioMemory *contact;
     int          i;
@@ -139,7 +139,7 @@ void sub_8004D580(int pressed)
     sub_8004D4A0(pStru);
 }
 
-void menu_radio_codec_helper_helper5_8004D628(MenuWork *work, unsigned char *pOt)
+void menu_radio_draw_mem(MenuWork *work, unsigned char *pOt)
 {
     TextConfig config;
     char       buffer[32];
@@ -172,12 +172,12 @@ void menu_radio_codec_helper_helper5_8004D628(MenuWork *work, unsigned char *pOt
     {
         if (stru_800ABB98->field_2 > 0)
         {
-            menu_draw_triangle_800435EC(work->field_20_otBuf, &stru_8009EC44);
+            menu_draw_triangle(work->field_20_otBuf, &stru_8009EC44);
         }
 
         if ((stru_800ABB98->field_2 + 8) < stru_800ABB98->field_4_count)
         {
-            menu_draw_triangle_800435EC(work->field_20_otBuf, &stru_8009EC54);
+            menu_draw_triangle(work->field_20_otBuf, &stru_8009EC54);
         }
     }
 
@@ -206,12 +206,12 @@ void menu_radio_codec_helper_helper5_8004D628(MenuWork *work, unsigned char *pOt
             pMemory = &pCodec->field_10_array[temp_s0 + i];
 
             sprintf(buffer, "%03d", pMemory->frequency / 100);
-            _menu_number_draw_string_80042BF4(pPrim, &config, buffer);
+            _menu_number_draw_string(pPrim, &config, buffer);
 
             config.xpos = x + 46;
 
             sprintf(buffer, "%02d", pMemory->frequency % 100);
-            _menu_number_draw_string_80042BF4(pPrim, &config, buffer);
+            _menu_number_draw_string(pPrim, &config, buffer);
 
             _NEW_PRIM(pTile, pPrim);
             LSTORE(config.colour, &pTile->r0);
@@ -465,7 +465,7 @@ int menu_radio_codec_helper_helper2_8004DF68(MenuWork *work, GV_PAD *pPad)
     }
 }
 
-void MENU_InitRadioMemory_8004E0EC(void)
+void MENU_InitRadioMemory(void)
 {
     RadioMemory *contact;
     int          i;
@@ -478,7 +478,7 @@ void MENU_InitRadioMemory_8004E0EC(void)
     }
 }
 
-void MENU_SetRadioMemory_8004E110(int frequency, const char *name)
+void MENU_SetRadioMemory(int frequency, const char *name)
 {
     RadioMemory *contact;
 

@@ -121,7 +121,7 @@ int HiyokoGetResources_800CFECC(HiyokoWork *work, int map)
         HiyokoGetSvec_800CFD04(opt, &work->pos);
     }
 
-    prim = Takabe_MakeIndividualRect3DPrim_800793E8(3, work->prim_vecs);
+    prim = Takabe_MakeIndividualRect3DPrim(3, work->prim_vecs);
     work->prim = prim;
     prim->userdata = NULL;
     if (prim == NULL)
@@ -172,7 +172,7 @@ int HiyokoGetResources_800D0018(HiyokoWork *work, MATRIX *world, int arg2)
     work->world = world;
     work->f74 = arg2;
 
-    work->prim = prim = Takabe_MakeIndividualRect3DPrim_800793E8(3, work->prim_vecs);
+    work->prim = prim = Takabe_MakeIndividualRect3DPrim(3, work->prim_vecs);
     prim->userdata = NULL;
     if (prim == NULL)
     {

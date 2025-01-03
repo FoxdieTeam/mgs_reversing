@@ -1,5 +1,8 @@
 #include "../../../s00a/Enemy/enemy.h"
+
 #include "common.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "Game/item.h"
 #include "Game/linkvarbuf.h"
 #include "SD/g_sound.h"
@@ -1585,7 +1588,7 @@ extern SVECTOR s11e_dword_800C3680;
 extern SVECTOR s11e_dword_800C3688;
 
 
-extern void    NewBlood_80072728( MATRIX *, int );
+extern void    NewBlood( MATRIX *, int );
 
 void ZAKO11E_PutBlood_800D7A14( ZakoWork* work, int obj_idx, int count )
 {
@@ -1594,7 +1597,7 @@ void ZAKO11E_PutBlood_800D7A14( ZakoWork* work, int obj_idx, int count )
     DG_MovePos( &s11e_dword_800C3670 );
     DG_RotatePos( &s11e_dword_800C3678 );
     ReadRotMatrix( &mat );
-    NewBlood_80072728( &mat, count );
+    NewBlood( &mat, count );
 }
 
 void ZAKO11E_PutFog_800D7A84( ZakoWork *work )
@@ -1788,7 +1791,7 @@ extern SVECTOR s11e_dword_800C36AC;
 
 extern void  NewAnime_8005D6BC( MATRIX *, int );
 extern void  NewAnime_8005D604( MATRIX * );
-extern void *NewBulletEx_80076708(  int, MATRIX*, int, int, int, int, int, int, int );
+extern void *NewBulletEx( int, MATRIX*, int, int, int, int, int, int, int );
 
 
 extern int ZAKO11E_ClearPutChar_800D804C( ZakoWork *work, void *func );
@@ -1815,11 +1818,11 @@ void ZAKO11E_PutBulletEx_800D7EC8( ZakoWork *work )
 
     if ( GV_Time & 3 )
     {
-        NewBulletEx_80076708( 0x100,  &local_mat, 2, 1, 0, 0xA, work->field_B84, 0x2710, 0x2EE);
+        NewBulletEx( 0x100,  &local_mat, 2, 1, 0, 0xA, work->field_B84, 0x2710, 0x2EE);
     }
     else
     {
-        NewBulletEx_80076708( 0x1100, &local_mat, 2, 1, 0, 0xA, work->field_B84, 0x2710, 0x2EE);
+        NewBulletEx( 0x1100, &local_mat, 2, 1, 0, 0xA, work->field_B84, 0x2710, 0x2EE);
     }
 
     GM_SeSetMode( &work->control.mov, SE_ENEMY_SHOT, GM_SEMODE_BOMB );

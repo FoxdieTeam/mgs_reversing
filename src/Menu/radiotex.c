@@ -7,8 +7,8 @@
 #include "Game/game.h"
 #include "Menu/menuman.h"
 
-RECT rect_800AB6C8 = {768, 256, 256, 4};
-RECT rect_800AB6D0 = {896, 336, 64, 96};
+STATIC RECT rect_800AB6C8 = {768, 256, 256, 4};
+STATIC RECT rect_800AB6D0 = {896, 336, 64, 96};
 
 void sub_800469F0(menu_chara_struct *pStru)
 {

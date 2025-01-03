@@ -1,5 +1,8 @@
 #include "../../s00a/Enemy/enemy.h"
 
+#include "common.h"
+#include "libdg/libdg.h"
+
 extern TOPCOMMAND_STRUCT TOPCOMMAND_800E0F20;
 extern SVECTOR ENEMY_ATTACK_FORCE_800C35BC;
 

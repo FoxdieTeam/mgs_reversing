@@ -3,6 +3,7 @@
 #include "chara/snake/sna_init.h"
 #include "chara/snake/shadow.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "Game/control.h"
 #include "Game/linkvarbuf.h"
 #include "Game/object.h"

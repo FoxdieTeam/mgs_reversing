@@ -1,5 +1,7 @@
 #include "enemy.h"
 
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "Anime/animeconv/anime.h"
 #include "Game/linkvarbuf.h"
 #include "strcode.h"

@@ -13,7 +13,7 @@
 #include "SD/g_sound.h"
 #include "strcode.h"
 
-extern int            GM_ClaymoreMap_800AB9DC;
+extern int GM_ClaymoreMap_800AB9DC;
 
 /*---------------------------------------------------------------------------*/
 

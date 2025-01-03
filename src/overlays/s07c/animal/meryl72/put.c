@@ -4,10 +4,10 @@ extern int   GV_Time;
 extern int   GM_PlayerMap_800ABA0C ;
 extern void  AN_Breath_800C3AA8( MATRIX * ) ;
 extern void  AN_Fog_800CA618( SVECTOR *pos ) ;
-extern void  NewBlood_80072728( MATRIX *, int ) ;
+extern void  NewBlood( MATRIX *, int ) ;
 extern void *AN_Unknown_800CA1EC( MATRIX* mat, int mark );
 
-extern GV_ACT *bullet_init_80076584(MATRIX *pMtx, int whichSide, int a3, int noiseLen);
+extern GV_ACT *NewBullet(MATRIX *pMtx, int whichSide, int a3, int noiseLen);
 
 SVECTOR s07c_dword_800C3394 = { 0, 0, 100, 0 };
 SVECTOR s07c_dword_800C339C = { -1024, 0, 0 };
@@ -19,7 +19,7 @@ void ML72_PutBlood_800CB2EC( Meryl72Work* work, int obj_idx, int count )
     DG_MovePos( &s07c_dword_800C3394 );
     DG_RotatePos( &s07c_dword_800C339C );
     ReadRotMatrix( &mat );
-    NewBlood_80072728( &mat, count );
+    NewBlood( &mat, count );
 }
 
 SVECTOR s07c_dword_800C33A4 = { 0, 0, 100, 0 };
@@ -130,7 +130,7 @@ void ML72_PutBullet_800CB4F0( Meryl72Work *work )
     DG_SetPos( mat );
     DG_MovePos( &s07c_dword_800C33C8 );
     ReadRotMatrix( &local_mat );
-    bullet_init_80076584( &local_mat, 2, 1, 0 );
+    NewBullet( &local_mat, 2, 1, 0 );
     GM_SeSet( &work->control.mov, SE_ENEMY_SHOT );
     NewAnime_8005D6BC( mat, 0 );
     NewAnime_8005D604( &local_mat );

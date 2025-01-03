@@ -57,7 +57,7 @@ int EdTelop_800C4F18(void)
     str = GCL_ReadString(GCL_GetParamResult());
     if (GCL_GetOption('t'))
     {
-        MENU_JimakuWrite_800494E8(str, GCL_GetNextParamValue());
+        MENU_JimakuWrite(str, GCL_GetNextParamValue());
     }
 
     return 1;

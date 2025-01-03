@@ -6,7 +6,7 @@
 // breaks when merged into preceding sbss file..?
 
 /**
- * Some known settings via GM_SetPlayerStatusFlag_8004E2B4():
+ * Some known settings via GM_SetPlayerStatusFlag():
  * |= 0x20008000 if Snake dies from sna_check_dead_8004E384() and sna_anim_dying_80055524().
  * |= 0x20 if Snake crouches from sna_anim_crouch_800527DC().
  * |= 0x40 if Snake goes prone from  sna_anim_prone_begin_80053BE8() and sna_anim_prone_idle_800528BC().

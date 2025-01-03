@@ -50,8 +50,8 @@ typedef struct _SocomWork
 #define EXEC_LEVEL      6
 #define MAGAZINE_SIZE   12
 
-short word_800AB824 = -215;
-RECT  stru_800AB828 = {0, 0, 2, 2};
+STATIC short word_800AB824 = -215;
+STATIC RECT  stru_800AB828 = {0, 0, 2, 2};
 
 SVECTOR stru_8009F3BC[] = {{20, -370, 60, 0}};
 SVECTOR stru_8009F3C4[2] = {{0, -215, 32, 0}, {0, -10455, 32, 0}};
@@ -345,7 +345,7 @@ STATIC void SocomAct( SocomWork *work )
         DG_SetPos( world );
         DG_MovePos( &stru_8009F3BC[0] );
         ReadRotMatrix( &MStack48 );
-        bullet_init_80076584( &MStack48, work->bullet_type, 0, 1 );
+        NewBullet( &MStack48, work->bullet_type, 0, 1 );
 
         if ( work->field_56 == 0 )
         {

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "Game/target.h"
 #include "Game/game.h"
@@ -359,7 +360,7 @@ void PLamp_800CCE6C(PLampWork *work)
             {
                 NewSpark2_800CA714(&mat);
             }
-            NewSpark_80074564(&mat, 0);
+            NewSpark(&mat, 0);
         }
         break;
 

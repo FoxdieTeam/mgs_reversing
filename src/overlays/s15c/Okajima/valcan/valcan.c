@@ -572,7 +572,7 @@ void Valcan_800D990C(ValcanWork *work)
         now = 8;
     }
 
-    MENU_DrawBar2_80038DE0(28, rest, now, 1024, &work->lifebar_8F4);
+    MENU_DrawBar2(28, rest, now, 1024, &work->lifebar_8F4);
 }
 
 void Valcan_800D99F0(ValcanWork *work)
@@ -866,7 +866,7 @@ void Valcan_800DA21C(ValcanWork *work) // it possibly returns a BulletWork*
     Valcan_800D9EBC(&work->control.mov, &GM_PlayerPosition_800ABA10, &svec);
     DG_SetPos2(&GM_PlayerPosition_800ABA10, &svec);
     ReadRotMatrix(&rotmat);
-    NewBulletEx_80076708(2048, &rotmat, 2, 0, 0, 30, 90, 30000, 100);
+    NewBulletEx(2048, &rotmat, 2, 0, 0, 30, 90, 30000, 100);
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DA2A8.s")
@@ -1386,7 +1386,7 @@ void Valcan_800DC06C(ValcanWork *work, int index, int blood_count)
     DG_RotatePos(&s15c_dword_800C3610);
 
     ReadRotMatrix(&mat);
-    NewBlood_80072728(&mat, blood_count);
+    NewBlood(&mat, blood_count);
 }
 
 void Valcan_800DC124(ValcanWork *work)

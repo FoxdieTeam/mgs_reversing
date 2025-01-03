@@ -6,6 +6,8 @@
 #include <libpad.h>
 
 #include "common.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "Bullet/blast.h"
 #include "Bullet/tenage.h"
 #include "Game/object.h"
@@ -13,7 +15,6 @@
 #include "Game/linkvarbuf.h"
 #include "Okajima/chafgrnd.h"
 #include "Okajima/stngrnd.h"
-#include "libdg/libdg.h"
 #include "Game/map.h"
 #include "strcode.h"
 
@@ -111,11 +112,11 @@ STATIC void GrenadeAct( GrenadeWork *work )
                 NewBlast( world, &blast_data_8009F4B8[0] );
                 break;
             case GRD_STUN:
-                NewStunGrenade_80074B5C( world );
+                NewStanBlast( world );
                 grenade_800663A0();
                 break;
             case GRD_CHAFF:
-                NewChafgrnd_80077264( world );
+                NewChaffGrd( world );
                 grenade_800663A0();
                 break;
             default:

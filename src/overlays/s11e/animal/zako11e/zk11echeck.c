@@ -1,5 +1,9 @@
 #include "../../../s00a/Enemy/enemy.h"
 
+#include "common.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
+
 extern void s11e_zk11ecom_800D57A0( ZakoWork *work, int time );
 extern void s11e_zk11ecom_800D5B04( ZakoWork *work, int time );
 
