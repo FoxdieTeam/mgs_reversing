@@ -69,14 +69,6 @@ void FS_LoadFileRequest(int file_id, int startSector, int sectorSize, void *buff
 int  FS_LoadFileSync(void);
 void MakeFullPath(int, char *);
 
-/* cdbios.c */
-int  CDBIOS_Reset(void);
-void CDBIOS_TaskStart(void);
-void CDBIOS_ReadRequest(void *pHeap, unsigned int startSector, unsigned int sectorSize, void *fnCallBack);
-int  CDBIOS_ReadSync(void);
-void CDBIOS_ForceStop(void);
-int  CDBIOS_TaskState(void);
-
 /* srchfile.c */
 int  FS_CdMakePositionTable(char *pHeap, FS_FILE_INFO *finfo);
 
