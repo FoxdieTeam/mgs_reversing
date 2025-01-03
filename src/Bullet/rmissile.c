@@ -814,7 +814,7 @@ STATIC int RMissileInitPolys(RMissileWork *work)
     return 0;
 }
 
-STATIC static inline void rmissile_loader_helper_helper_8006CD1C_set_poly(POLY_FT4 *poly, DG_TEX *tex)
+static inline void rmissile_loader_helper_helper_8006CD1C_set_poly(POLY_FT4 *poly, DG_TEX *tex)
 {
     int u, v, w, h;
 
