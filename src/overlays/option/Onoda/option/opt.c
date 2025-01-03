@@ -1418,19 +1418,264 @@ void option_800C5698(OptionWork *work)
     }
 }
 
-const int option_dword_800C94E0 = 0x800C59A0;
-const int option_dword_800C94E4 = 0x800C5C38;
-const int option_dword_800C94E8 = 0x800C5C38;
-const int option_dword_800C94EC = 0x800C5C38;
-const int option_dword_800C94F0 = 0x800C5F18;
-const int option_dword_800C94F4 = 0x800C61EC;
-const int option_dword_800C94F8 = 0x800C6480;
-const int option_dword_800C94FC = 0x800C61EC;
-const int option_dword_800C9500 = 0x800C64B8;
-const int option_dword_800C9504 = 0x800C64C8;
-const int option_dword_800C9508 = 0x800C6748;
+static inline void SetGameStatusFlags( OptionWork *work )
+{
+            GM_SeSet2( 0, 0x3F, 0x21 ) ;
+            if ( work->f924[3] == 0 )
+            {
+                GM_SetSound( 0xFF000006, 0 ) ;
+            }
+            else
+            {
+                GM_SetSound( 0xFF000005, 0 ) ;
+            }
+            
+            if ( work->f924[4] == 1 )
+            {
+                GM_GameStatusFlag |= STATE_RADIO_OFF;
+            }
+            else
+            {
+                GM_GameStatusFlag &= ~( STATE_RADIO_OFF );
+            }
 
-#pragma INCLUDE_ASM("asm/overlays/option/option_800C5950.s")
+            if ( !( work->f2B54 ) )
+            {
+                GM_GameStatusFlag |= STATE_RADIO_OFF;
+            }
+            
+            if ( work->f924[3] == 1 )
+            {
+                GM_GameStatusFlag |= STATE_SHOW_LIFEBAR;
+            }
+            else
+            {
+                GM_GameStatusFlag &= ~( STATE_SHOW_LIFEBAR );
+            }
+
+            if ( work->f924[1] == 1 )
+            {
+                GM_GameStatusFlag |= STATE_PAUSE_OFF;
+            }
+            else
+            {
+                GM_GameStatusFlag &= ~( STATE_PAUSE_OFF );
+            }
+
+            if ( work->f924[2] == 1 )
+            {
+                GM_GameStatusFlag |= 0x100; 
+            }
+            else
+            {
+                GM_GameStatusFlag &= ~( 0x100 ); 
+            }
+
+            switch ( work->f29E8 )
+            {
+                case 0:
+                GM_GameStatusFlag &= ~( 0x1000 | STATE_NVG | STATE_STUN | STATE_CHAFF ); 
+                if ( work->f2B60 )
+                {
+                    GM_GameStatusFlag |= STATE_THERMG;
+                }
+                break;
+                case 1:
+                GM_GameStatusFlag &= ~( 0x1000 | STATE_NVG | STATE_STUN | STATE_CHAFF );
+                GM_GameStatusFlag |= STATE_CHAFF ; 
+                if ( work->f2B60 )
+                {
+                    GM_GameStatusFlag |= (STATE_THERMG | STATE_CHAFF ); 
+                }
+                break;
+                case 2:
+                GM_GameStatusFlag &= ~( 0x1000 | STATE_NVG | STATE_STUN | STATE_CHAFF );
+                GM_GameStatusFlag |= STATE_STUN; 
+                if ( work->f2B60 )
+                {
+                    GM_GameStatusFlag |= (STATE_THERMG | STATE_STUN ); 
+                }
+                break;
+            }
+
+            if ( work->f29EC == 1 )
+            {
+                GM_GameStatusFlag |= 0x1000;
+            }
+            else
+            {
+                GM_GameStatusFlag &= ~( 0x1000 );
+            }
+
+            work->f920 = 11;
+            work->f2B58 = 0;
+
+            //loc_800C675C
+            GM_PadVibration_800ABA3C = 0;
+            GM_PadVibration2_800ABA54 = 0;
+            mts_set_pad_vibration( 1, 0 );
+            mts_set_pad_vibration2( 1, 0 );
+            work->f2B50 = 0;    
+}
+
+
+void option_800C5950( OptionWork *work )
+{
+    int press  = work->pad->press;
+    int status = work->pad->status;
+    
+    switch( work->f920 )
+    {
+    case 1:
+        if ( press & PAD_RIGHT )
+        {
+            if ( work->f924[ work->f920 ] == 0 )
+            {
+                option_800C4B68( work ) ;
+                GM_SeSet2( 0, 0x3F, SE_MENU_TOGGLE ) ;
+            }
+        }
+        else if ( press & PAD_LEFT )
+        {
+            if ( work->f924[ work->f920 ] == 1 )
+            {
+                option_800C4B68( work ) ;
+                GM_SeSet2( 0, 0x3F, SE_MENU_TOGGLE ) ;
+            }
+        }
+        else if ( press & PAD_DOWN )
+        {
+            option_800C5150( work, 1 ) ;
+            GM_SeSet2( 0, 0x3F, SE_MENU_CURSOR ) ;
+        }
+        else if ( press & PAD_CROSS )
+        {
+            SetGameStatusFlags( work ) ;
+        }
+    break;
+    case 2:
+    case 3:
+    case 4:
+        if ( press & PAD_RIGHT )
+        {
+            if ( work->f924[ work-> f920 ] == 0 )
+            {
+                option_800C4B68( work ) ;
+                GM_SeSet2( 0, 0x3F, SE_MENU_TOGGLE ) ;
+            }
+        }
+        else if ( press & PAD_LEFT )
+        {
+            if ( work->f924[ work-> f920 ] == 1 )
+            {
+                option_800C4B68( work ) ;
+                GM_SeSet2( 0, 0x3F, SE_MENU_TOGGLE ) ;
+            }
+        }
+        else if ( press & PAD_UP )
+        {
+            option_800C5150( work, 0 ) ;
+            GM_SeSet2( 0, 0x3F, SE_MENU_CURSOR ) ;
+        }       
+        else if ( press & PAD_DOWN )
+        {
+            option_800C5150( work, 1 ) ;
+            GM_SeSet2( 0, 0x3F, SE_MENU_CURSOR ) ;
+        }     
+        else if ( press & PAD_CROSS )
+        {
+            SetGameStatusFlags( work ) ;
+        }
+    break;
+    case 5:
+        if ( status & PAD_RIGHT )
+        {
+            work->f2B50 = 1;
+            if ( work->f924[ work-> f920 ] == 0 )
+            {
+                option_800C4B68( work ) ;
+            }
+        }
+        else if ( status & PAD_LEFT )
+        {
+            work->f2B50 = 1;  
+            if ( work->f924[ work-> f920 ] == 1 )
+            {
+                option_800C4B68( work ) ;
+            }
+        }
+        else if ( press & PAD_UP )
+        {
+            option_800C5150( work, 0 ) ;
+            GM_SeSet2( 0, 0x3F, SE_MENU_CURSOR ) ;
+        }       
+        else if ( press & PAD_DOWN )
+        {
+            option_800C5150( work, 1 ) ;
+            GM_SeSet2( 0, 0x3F, SE_MENU_CURSOR ) ;
+        }     
+        else if ( press & PAD_CROSS )
+        {
+            SetGameStatusFlags( work ) ;
+        }
+    break;
+    case 6:
+    case 8:
+        if ( press & PAD_UP )
+        {
+            option_800C5150( work, 0 ) ;
+            GM_SeSet2( 0, 0x3F, SE_MENU_CURSOR ) ;
+        }
+        else if ( press & PAD_DOWN )
+        {
+            option_800C5150( work, 1 ) ;
+            GM_SeSet2( 0, 0x3F, SE_MENU_CURSOR ) ;
+        }
+        else if ( press & PAD_CIRCLE )
+        {
+            option_800C5150( work, 2 ) ;
+            GM_SeSet2( 0, 0x3F, SE_MENU_SELECT ) ;
+        }
+        else if ( press & PAD_CROSS )
+        {
+            SetGameStatusFlags( work ) ;
+        }
+    break;
+    case 7:
+        if ( press & PAD_CIRCLE )
+        {
+            option_800C5150( work, 3 ) ;
+            GM_SeSet2( 0, 0x3F, SE_MENU_EXIT ) ;
+        }        
+        else if ( press & PAD_CROSS )
+        {
+            option_800C5150( work, 3 ) ;
+            GM_SeSet2( 0, 0x3F, SE_MENU_EXIT ) ;
+        }
+    break;
+    case 9:
+        option_800C5698( work );
+    break;
+    case 10:
+        if ( press & ( PAD_START | PAD_CROSS | PAD_CIRCLE ) )
+        {
+            SetGameStatusFlags( work ) ;
+        }
+        else if ( press & PAD_UP )
+        {
+            option_800C5150( work, 0 ) ;
+            GM_SeSet2( 0, 0x3F, SE_MENU_CURSOR ) ;
+        }
+    break;
+    case 11:
+        GM_PadVibration_800ABA3C = 0;
+        GM_PadVibration2_800ABA54 = 0;
+        mts_set_pad_vibration( 1, 0 );
+        mts_set_pad_vibration2( 1, 0 );
+        work->f2B50 = 0;   
+    break;
+    }
+}
 
 const char option_aOpcaption_800C950C[] = "op_caption";
 const char option_aOpsound_800C9518[] = "op_sound";
