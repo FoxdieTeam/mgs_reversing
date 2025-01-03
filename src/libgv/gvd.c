@@ -13,7 +13,7 @@ int    SECTION(".sbss") GV_Clock_800AB920;
 int    SECTION(".sbss") GV_PassageTime_800AB924;
 
 int GV_Time = 0;
-int dword_800AB334 = 0;
+STATIC int GV_LastTickCount = 0;
 
 extern int            DG_HikituriFlag;
 extern int            GV_PauseLevel_800AB928;
@@ -29,14 +29,14 @@ void GV_ExceptionCallback(void)
 
 STATIC void GV_DaemonAct(GV_ACT *actor)
 {
-    int tmp;
+    int ticks;
 
     GV_Time++;
 
-    tmp = mts_get_tick_count();
+    ticks = mts_get_tick_count();
 
-    GV_PassageTime_800AB924 = tmp - dword_800AB334;
-    dword_800AB334 = tmp;
+    GV_PassageTime_800AB924 = ticks - GV_LastTickCount;
+    GV_LastTickCount = ticks;
 
     if (DG_HikituriFlag == 0)
     {

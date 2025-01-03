@@ -19,19 +19,20 @@
 // 0x2 game paused
 int SECTION(".sbss") GV_PauseLevel_800AB928;
 
-int SECTION(".sbss") dword_0x800AB92C; //maybe unused
+STATIC int SECTION(".sbss") dword_0x800AB92C; //maybe unused
 
+// todo: should be declared static in cache.c
 GV_CACHE_TAG     *SECTION(".sbss") GV_CurrentTag_800AB930;
 GV_CACHE_TAG     *SECTION(".sbss") GV_ResidentFileRecords_800AB934;
 int               SECTION(".sbss") N_ResidentFileRecords_800AB938;
 
-short          SECTION(".sbss") dword_800AB93C;
+short          SECTION(".sbss") dword_800AB93C; /* static */
 unsigned char *SECTION(".sbss") GV_ResidentMemoryBottom_800AB940;
-int            SECTION(".sbss") dword_800AB944;
-int            SECTION(".sbss") which_buffer_800AB948;
-int            SECTION(".sbss") dword_800AB94C;
-int            SECTION(".sbss") dword_800AB950;
-int            SECTION(".sbss") dword_800AB954;
+int            SECTION(".sbss") dword_800AB944; /* static */
+int            SECTION(".sbss") which_buffer_800AB948; /* static */
+int            SECTION(".sbss") dword_800AB94C; /* static */
+int            SECTION(".sbss") dword_800AB950; /* static */
+int            SECTION(".sbss") dword_800AB954; /* static */
 
 int SECTION(".sbss") GV_DemoPadStatus_800AB958;
 int SECTION(".sbss") GV_DemoPadAnalog_800AB95C;
@@ -44,6 +45,8 @@ struct PauseKill gPauseKills_8009D308[9] = {{0, 7},  {0, 7},  {9, 4}, {9, 4}, {1
                                             {15, 4}, {15, 4}, {9, 4}, {0, 7}};
 
 extern int GM_CurrentMap_800AB9B0;
+
+/*---------------------------------------------------------------------------*/
 
 /**
  * @brief Initialize the actors lists and set the pause and kill levels.

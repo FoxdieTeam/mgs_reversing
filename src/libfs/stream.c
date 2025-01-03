@@ -8,12 +8,6 @@
 
 #include "common.h"
 #include "mts/mts.h"
-
-int  fs_stream_tick_start_8009D510 = -1;
-int  fs_dword_8009D514 = 0;
-int  fs_stream_is_force_stop_8009D518 = 0;
-int  fs_stream_end_flag_8009D51C = 1;
-int *fs_dword_8009D520 = NULL;
 #include "SD/sd_cli.h"
 
 extern int          fs_stream_ref_count_800B5298;
@@ -27,6 +21,12 @@ extern char         *fs_ptr_800B52B4;
 extern int          *fs_ptr_800B52B8;
 extern char         *fs_ptr_800B52BC;
 extern int          fs_stream_task_state_800B52C0;
+
+STATIC int  fs_stream_tick_start_8009D510 = -1;
+STATIC int  fs_dword_8009D514 = 0;
+STATIC int  fs_stream_is_force_stop_8009D518 = 0;
+STATIC int  fs_stream_end_flag_8009D51C = 1;
+STATIC int *fs_dword_8009D520 = NULL;
 
 STATIC int FS_800239E8( CDBIOS_TASK *task )
 {
