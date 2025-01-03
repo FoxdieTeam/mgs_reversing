@@ -1418,19 +1418,6 @@ void option_800C5698(OptionWork *work)
     }
 }
 
-/*
-const int option_dword_800C94E0 = 0x800C59A0;
-const int option_dword_800C94E4 = 0x800C5C38;
-const int option_dword_800C94E8 = 0x800C5C38;
-const int option_dword_800C94EC = 0x800C5C38;
-const int option_dword_800C94F0 = 0x800C5F18;
-const int option_dword_800C94F4 = 0x800C61EC;
-const int option_dword_800C94F8 = 0x800C6480;
-const int option_dword_800C94FC = 0x800C61EC;
-const int option_dword_800C9500 = 0x800C64B8;
-const int option_dword_800C9504 = 0x800C64C8;
-const int option_dword_800C9508 = 0x800C6748;
-*/
 static inline void SetGameStatusFlags( OptionWork *work )
 {
             GM_SeSet2( 0, 0x3F, 0x21 ) ;
