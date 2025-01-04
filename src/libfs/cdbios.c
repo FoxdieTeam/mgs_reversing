@@ -334,19 +334,19 @@ void CDBIOS_TaskStart(void)
     mts_start_task(MTSID_CDBIOS, CDBIOS_Main, STACK_BOTTOM(cd_bios_stack_800B4E88), CDBIOS_STACK_SIZE);
 }
 
-void CDBIOS_ReadRequest(void *pHeap, unsigned int startSector, unsigned int sectorSize, void *fnCallBack)
+void CDBIOS_ReadRequest(void *buffer, unsigned int sector, unsigned int size, void *callback)
 {
-    cd_bios_task_800B4E58.buffer = pHeap;
+    cd_bios_task_800B4E58.buffer = buffer;
 
-    if (sectorSize == 0)
+    if (size == 0)
     {
-        sectorSize = 0x7fff0000;
+        size = 0x7fff0000;
     }
 
-    cd_bios_task_800B4E58.remaining = (sectorSize + 3) >> 2;
-    cd_bios_task_800B4E58.size = (sectorSize + 3) >> 2;
-    cd_bios_task_800B4E58.sector = startSector;
-    cd_bios_task_800B4E58.callback = fnCallBack;
+    cd_bios_task_800B4E58.remaining = (size + 3) >> 2;
+    cd_bios_task_800B4E58.size = (size + 3) >> 2;
+    cd_bios_task_800B4E58.sector = sector;
+    cd_bios_task_800B4E58.callback = callback;
     cd_bios_task_800B4E58.sectors_delivered = 0;
 
     cdbios_stop_flag = 0;

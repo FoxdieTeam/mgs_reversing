@@ -27,7 +27,7 @@ enum CDBIOS_STATE {
 /* cdbios.c */
 int  CDBIOS_Reset(void);
 void CDBIOS_TaskStart(void);
-void CDBIOS_ReadRequest(void *pHeap, unsigned int startSector, unsigned int sectorSize, void *fnCallBack);
+void CDBIOS_ReadRequest(void *buffer, unsigned int sector, unsigned int size, void *callback);
 int  CDBIOS_ReadSync(void);
 void CDBIOS_ForceStop(void);
 int  CDBIOS_TaskState(void);

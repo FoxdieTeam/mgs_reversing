@@ -53,7 +53,10 @@ void FS_StartDaemon(void);
 void FS_CdStageProgBinFix(void);
 
 /* fscd.c */
-extern FS_FILE_INFO fs_file_info[];
+extern FS_FILE_INFO fs_file_info[]; /* in file.cnf */
+
+// NOTE: fs_file_info actually has FS_MAX_FILEID+1 elements,
+// but the last is a dummy entry to denote the end of the table.
 
 #define FS_FILEID_STAGE         (0)     // STAGE.DIR
 #define FS_FILEID_RADIO         (1)     // RADIO.DAT
@@ -62,18 +65,19 @@ extern FS_FILE_INFO fs_file_info[];
 #define FS_FILEID_VOX           (4)     // VOX.DAT
 #define FS_FILEID_DEMO          (5)     // DEMO.DAT
 #define FS_FILEID_BRF           (6)     // BRF.DAT
+#define FS_MAX_FILEID           (7)
 
-int  FS_ResetCdFilePosition(void *pHeap);
+int  FS_ResetCdFilePosition(void *buffer);
 void FS_CDInit(void);
 void FS_LoadFileRequest(int fileno, int offset, int size, void *buffer);
 int  FS_LoadFileSync(void);
 void MakeFullPath(int, char *);
 
 /* srchfile.c */
-int  FS_CdMakePositionTable(char *pHeap, FS_FILE_INFO *finfo);
+int  FS_CdMakePositionTable(char *buffer, FS_FILE_INFO *finfo);
 
 /* cdstage.c */
-void FS_CdStageFileInit(void *pHeap, int startSector);
+void FS_CdStageFileInit(void *buffer, int sector);
 int  FS_CdGetStageFileTop(char *filename);
 
 /* stageld.c */
@@ -82,8 +86,8 @@ int  FS_LoadStageSync(void *info);
 void FS_LoadStageComplete(void *info);
 
 /* movie.c */
-void FS_MovieFileInit(void *pHeap, int startSector);
-FS_MOVIE_FILE *FS_GetMovieInfo( unsigned int toFind );
+void FS_MovieFileInit(void *buffer, int sector);
+FS_MOVIE_FILE *FS_GetMovieInfo( unsigned int to_find );
 
 /* memfile.c */
 void FS_EnableMemfile( int read, int write );

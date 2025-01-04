@@ -3,10 +3,24 @@
 #include <stdio.h>
 #include <string.h>
 #include "common.h"
-#include "mts/mts.h"
+#include "mts/mts.h"    // for mts_wait_vbl
 
 extern const char *MGS_DiskName[3]; /* in main.c */
 
+/*---------------------------------------------------------------------------*/
+// TODO: these macros expect a little-endian host machine
+
+/* read little-endian 16-bit value */
+#define read_lsb_ushort(p) (p[0] | (p[1] << 8))
+/* read big-endian 16-bit value */
+#define read_msb_ushort(p) (p[1] | (p[0] << 8))
+
+/* read little-endian 32-bit value */
+#define read_lsb_ulong(p) (p[0] | (p[1] << 8) | (p[2] << 16) | (p[3] << 24))
+/* read big-endian 32-bit value */
+#define read_msb_ulong(p) (p[3] | (p[2] << 8) | (p[1] << 16) | (p[0] << 24))
+
+/*---------------------------------------------------------------------------*/
 /**
  * Copies ISO-9660 filename up until the first ';' character, trimming
  * the version number from the path, or until the NULL terminator is hit.
@@ -15,7 +29,7 @@ extern const char *MGS_DiskName[3]; /* in main.c */
  * @param[in]   src     input string pointer
  * @param[in]   length  input string length
  */
-STATIC void FS_CopyPathOnly(char *dest, char *src, int length)
+STATIC void FS_GetFileName(char *dest, char *src, int length)
 {
     while (length > 0)
     {
@@ -34,9 +48,17 @@ STATIC void FS_CopyPathOnly(char *dest, char *src, int length)
     *dest = 0;
 }
 
-STATIC int FS_CdMakePositionTable_helper2(void *pBuffer, int startSector, int sectorSize)
+/*---------------------------------------------------------------------------*/
+/**
+ * Reads CD-ROM data from a given LBA (Logical Block Address).
+ *
+ * @param[out]  buffer  the memory location to write to
+ * @param[in]   sector  sector number from whence to read
+ * @param[in]   size    number of bytes to read
+ */
+STATIC int FS_ReadCdSector(void *buffer, int sector, int size)
 {
-    CDBIOS_ReadRequest(pBuffer, startSector + 150, sectorSize, NULL);
+    CDBIOS_ReadRequest(buffer, sector + 150, size, NULL);
 
     while (1)
     {
@@ -49,11 +71,12 @@ STATIC int FS_CdMakePositionTable_helper2(void *pBuffer, int startSector, int se
     return 1;
 }
 
+/*---------------------------------------------------------------------------*/
 /**
  * Gets a pointer to the FS_FILE_INFO record by filename.
  *
- * @param       filename        filename to query
- * @param       finfo           pointer to FS_FILE_INFO array
+ * @param[in]   filename        filename to query
+ * @param[in]   finfo           pointer to FS_FILE_INFO array
  *
  * @retval      non-NULL        pointer to FS_FILE_INFO record
  * @retval      NULL            file not found
@@ -73,162 +96,204 @@ STATIC FS_FILE_INFO *FS_GetFileInfo(char *filename, FS_FILE_INFO *finfo)
 }
 
 // See: https://psx-spx.consoledev.net/cdromdrive/#cdrom-iso-file-and-directory-descriptors
-static inline char getXAUserID(int directoryRecord, int fileIdentifierLength, int basicRecordLength)
+static inline char GetXaAttribute(int dir_record, int name_length, int base_length)
 {
-    int xaRecord;
+    int xa_record;
     int padding;
 
-    xaRecord = fileIdentifierLength;
-    xaRecord += directoryRecord;
-    xaRecord = xaRecord + basicRecordLength;
+    xa_record = name_length;
+    xa_record += dir_record;
+    xa_record = xa_record + base_length;
 
-    padding = fileIdentifierLength & 1;
-    xaRecord = xaRecord - padding;
-    return *((char *)xaRecord + 3);
+    padding = name_length & 1;
+    xa_record = xa_record - padding;
+    return *((char *)xa_record + 3);
 }
 
-/* read little-endian 32-bit value */
-#define byteswap_ulong(p) (p[0] | (p[1] << 8) | (p[2] << 16) | (p[3] << 24))
-
-STATIC int FS_CdMakePositionTable_helper(char *inDirectoryRecord, FS_FILE_INFO *finfo)
+/*---------------------------------------------------------------------------*/
+/**
+ * @brief   Scans the game data directory records.
+ *
+ * Interates over all files listed in the game's data directory and
+ * sets the LBA offset of each corresponding entry in fs_file_info.
+ *
+ * The LBA will be set to 0 for any filenames beginning with 'Z' that
+ * do not have proper CD-XA attributes in the "System Use" section
+ * of the ISO-9660 directory record.
+ *
+ * @param[in]       buffer  ISO-9660 directory record table
+ * @param[in,out]   finfo   FS_FILE_INFO table to initialized
+ *
+ * @retval          -1      on failure
+ * @retval          >= 0    disc number (0: Disc 1, 1: Disc 2)
+ */
+STATIC int FS_ReadCdDirectory(char *buffer, FS_FILE_INFO *finfo)
 {
-    FS_FILE_INFO    *foundRecord;
-    const char     **diskNameIterator;
-    const char      *currentStringPtr;
-    int              fileIdentifierLength;
-    char             parsedFileName[32];
-    char            *sectorBaseValues;
-    char            *topValues;
-    char            *sizeValues;
-    int              sectorBase;
-    int              top;
-    int              size;
-    int              returnValue;
-    int              stringCount;
-    int              basicRecordLength;
-    char            *fileIdentifier;
-    char            *directoryRecord;
-    FS_FILE_INFO    *directoryRecords;
+    int base_length;            /* minimum record length */
+    int name_length;
+    char name_buf[32];
+    char *name_ptr;             /* file identifier */
+    char *dir_record;           /* directory record */
+    FS_FILE_INFO *file_info;
+    FS_FILE_INFO *found;
+    char *record_lba_ptr;
+    char *top_ptr, *size_ptr;
+    int record_lba;
+    int top, size;
+    int retval;                 /* disc id, -1 for error */
+    int disk_no;
+    const char **disk_name;     /* list of executable names */
+    const char *exe_name;       /* executable name (eg. SLPS_999.99) */
 
-    directoryRecords = finfo;
-    directoryRecord = inDirectoryRecord;
-    returnValue = -1;
+    file_info = finfo;
+    dir_record = buffer;
+    retval = -1;
 
-    while (*directoryRecord != 0)
+    /* iterate over the directory records */
+    while (dir_record[0] != 0)
     {
-        fileIdentifierLength = directoryRecord[32];
+        name_length = dir_record[32];
 
-        if (fileIdentifierLength != 1)
+        /* skip the "." ('\0') and ".." ('\1') entries */
+        if (name_length != 1)
         {
-            fileIdentifier = directoryRecord + 33;
-            FS_CopyPathOnly(parsedFileName, fileIdentifier, fileIdentifierLength);
+            name_ptr = &dir_record[33];
+            FS_GetFileName(name_buf, name_ptr, name_length);
 
-            if ((directoryRecord[25] & 2) == 0)
+            /* check if the record is a file */
+            if ((dir_record[25] & 2) == 0)
             {
-                foundRecord = FS_GetFileInfo(parsedFileName, directoryRecords);
+                found = FS_GetFileInfo(name_buf, file_info);
 
-                if (foundRecord)
+                /* write the position to the table entry */
+                if (found)
                 {
-                    basicRecordLength = 35;
+                    base_length = 35;
 
-                    if (parsedFileName[0] == 'Z' && getXAUserID((int)directoryRecord, fileIdentifierLength, basicRecordLength) == 0x0d)
+                    /* check XA data for correct attributes */
+                    if (name_buf[0] == 'Z' &&
+                        GetXaAttribute((int)dir_record, name_length, base_length) == 0x0D)
                     {
-                        foundRecord->pos = 0;
+                        // if GetXaAttribute() returned 0x0D, it's a normal file (0x0D55).
+                        // MGS's XA data (ZMOVIE.STR) typically has attribute 0x2555.
+                        found->pos = 0;
                     }
                     else
                     {
-                        sectorBaseValues = (directoryRecord + 2);
-                        sectorBase = byteswap_ulong(sectorBaseValues);
-                        foundRecord->pos = sectorBase + 150;
+                        /* get the file's position */
+                        record_lba_ptr = &dir_record[2];
+                        record_lba = read_lsb_ulong(record_lba_ptr);
+                        found->pos = record_lba + 150;
                     }
                 }
                 else
                 {
-                    diskNameIterator = MGS_DiskName;
-                    currentStringPtr = *diskNameIterator;
-                    stringCount = 0;
+                    /* check the hard-coded executable filename(s) */
+                    disk_name = MGS_DiskName;
+                    exe_name = *disk_name;
+                    disk_no = 0;
 
-                    while (currentStringPtr)
+                    while (exe_name != NULL)
                     {
-                        if (strcmp(parsedFileName, diskNameIterator[0]) == 0)
+                        if (strcmp(name_buf, *disk_name) == 0)
                         {
-                            returnValue = stringCount;
+                            retval = disk_no;
                         }
 
-                        diskNameIterator++;
-                        currentStringPtr = *diskNameIterator;
-                        stringCount++;
+                        disk_name++;
+                        exe_name = *disk_name;
+                        disk_no++;
                     }
                 }
 
-                topValues = (directoryRecord + 2);
-                top = byteswap_ulong(topValues);
+                top_ptr = &dir_record[2];
+                top = read_lsb_ulong(top_ptr);
 
-                sizeValues = (directoryRecord + 10);
-                size = byteswap_ulong(sizeValues);
+                size_ptr = &dir_record[10];
+                size = read_lsb_ulong(size_ptr);
 
-                printf("FILE %s : top %d size %d set %d\n", parsedFileName, top, size, foundRecord->pos);
+                printf("FILE %s : top %d size %d set %d\n", name_buf, top, size, found->pos);
             }
         }
 
-        directoryRecord += *directoryRecord;
+        /* advance to the next record */
+        dir_record += dir_record[0];
     }
 
-    return returnValue;
+    return retval;
 }
 
-int FS_CdMakePositionTable(char *pHeap, FS_FILE_INFO *finfo)
+/*---------------------------------------------------------------------------*/
+/**
+ * @brief   Initializes the CD-ROM file position table.
+ *
+ * @param[out]      buffer  temporary load buffer
+ *                          (needs to be at least 2048 bytes)
+ * @param[in,out]   finfo   FS_FILE_INFO table to initialized
+ *
+ * @retval          -1      on failure
+ * @retval          >= 0    disc number (0: Disc 1, 1: Disc 2)
+ */
+int FS_CdMakePositionTable(char *buffer, FS_FILE_INFO *finfo)
 {
-    char *buffer2;
-    char *dir_block_ptr;
-    int directory_block;
-    int path_table_size;
-    int ret;
-    int uVar7;
-    int directory_length;
-    char *directory_block_data;
-    char directory_name[16];    // "MGS\88888888.333"
+    char *path_table_ptr;
+    char *dir_lba_ptr;
+    int read_sector;
+    int path_table_size;    /* in bytes */
+    int retval;             /* disc id, -1 for error */
+    int path_entry_size;
+    int dir_name_length;    /* maximum of 8 chars */
+    char *dir_buffer;
+    char dir_name[16];
 
-    FS_CdMakePositionTable_helper2(pHeap, 16, FS_SECTOR_SIZE);
+    /* read ISO-9660 volume descriptor */
+    FS_ReadCdSector(buffer, 16, FS_SECTOR_SIZE);
 
-    if (strncmp(pHeap + 8, "PLAYSTATION", 11))
+    /* check system identifier */
+    if (strncmp(buffer + 0x08, "PLAYSTATION", 11) != 0)
     {
+        /* not a PlayStation-format disc */
         return -1;
     }
 
-    path_table_size = *(int *)(pHeap + 0x84);
+    /* read ISO-9660 path table */
+    path_table_size = *(int *)(buffer + 0x84);
+    FS_ReadCdSector(buffer, *(int *)(buffer + 0x8C), path_table_size);
 
-    FS_CdMakePositionTable_helper2(pHeap, *(int *)(pHeap + 0x8c), path_table_size);
-    directory_block_data = pHeap + ((((unsigned int)path_table_size + 3) >> 2) << 2);
+    /* align to the next multiple of 4 */
+    dir_buffer = buffer + ((((unsigned int)path_table_size + 3) >> 2) << 2);
 
-    ret = -1;
-    buffer2 = pHeap;
+    retval = -1;
+    path_table_ptr = buffer;
 
     while (path_table_size > 0)
     {
-        directory_length = *buffer2;
-        uVar7 = directory_length + 8;
+        dir_name_length = *path_table_ptr;
+        path_entry_size = 8 + dir_name_length;
 
-        FS_CopyPathOnly(directory_name, buffer2 + 8, directory_length);
+        FS_GetFileName(dir_name, path_table_ptr + 8, dir_name_length);
 
-        dir_block_ptr = buffer2 + 2;
-        directory_block = *dir_block_ptr | (*(dir_block_ptr + 1) << 8) | (*(dir_block_ptr + 2) << 16) | (*(dir_block_ptr + 3) << 24);
+        /* get directory LBA number */
+        dir_lba_ptr = path_table_ptr + 2;
+        read_sector = read_lsb_ulong(dir_lba_ptr);
 
-        if (!strcmp(directory_name, "MGS"))
+        /* found the game's data directory? */
+        if (strcmp(dir_name, "MGS") == 0)
         {
-            printf("MGS read_sector %d\n", directory_block);
-            FS_CdMakePositionTable_helper2(directory_block_data, directory_block, FS_SECTOR_SIZE);
-            ret = FS_CdMakePositionTable_helper(directory_block_data, finfo);
+            printf("MGS read_sector %d\n", read_sector);
+            FS_ReadCdSector(dir_buffer, read_sector, FS_SECTOR_SIZE);
+            retval = FS_ReadCdDirectory(dir_buffer, finfo);
         }
 
-        if (uVar7 & 1)
+        /* account for the padding field if the length is odd */
+        if (path_entry_size & 1)
         {
-            uVar7 = directory_length + 9;
+            path_entry_size = 8 + dir_name_length + 1;
         }
 
-        path_table_size -= uVar7;
-        buffer2 += uVar7;
+        path_table_size -= path_entry_size;
+        path_table_ptr += path_entry_size;
     }
 
-    return ret;
+    return retval;
 }

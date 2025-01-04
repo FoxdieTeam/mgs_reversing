@@ -6,8 +6,10 @@
 #include <libcd.h>
 
 #include "common.h"
-#include "mts/mts.h"
-#include "libgv/libgv.h"
+#include "mts/mts.h"        // for mts_wait_vbl
+#include "libgv/libgv.h"    // for GV_xxxMemory
+
+/*---------------------------------------------------------------------------*/
 
 #define FS_DIRNAME_MAX 8
 
@@ -17,13 +19,15 @@ typedef struct _FS_DIR_ENTRY {
 } FS_DIR_ENTRY;
 
 typedef struct _FS_FILE_TABLE {
-    int             start;
-    int             size;
-    int             count;
-    FS_DIR_ENTRY   *dirs;
+    int             pos;        // LBA position of STAGE.DIR
+    int             size;       // size of the directory table
+    int             count;      // number of stage directories
+    FS_DIR_ENTRY   *dirs;       // in-memory copy of the dir table
 } FS_FILE_TABLE;
 
 STATIC FS_FILE_TABLE fs_file_table = {};
+
+/*---------------------------------------------------------------------------*/
 
 STATIC int FS_CdStageReadCallback(CDBIOS_TASK *task)
 {
@@ -43,12 +47,12 @@ STATIC int FS_CdStageReadCallback(CDBIOS_TASK *task)
     return 1;
 }
 
-void FS_CdStageFileInit(void *pHeap, int startSector)
+void FS_CdStageFileInit(void *buffer, int sector)
 {
     int size;
 
-    fs_file_table.start = startSector;
-    CDBIOS_ReadRequest(pHeap, startSector, FS_SECTOR_SIZE, &FS_CdStageReadCallback);
+    fs_file_table.pos = sector;
+    CDBIOS_ReadRequest(buffer, sector, FS_SECTOR_SIZE, &FS_CdStageReadCallback);
 
     while (CDBIOS_ReadSync() > 0)
     {
@@ -62,8 +66,8 @@ void FS_CdStageFileInit(void *pHeap, int startSector)
         fs_file_table.dirs = GV_AllocResidentMemory(size);
     }
 
-    printf("%X %X %d\n", (unsigned int)pHeap + 4, (unsigned int)fs_file_table.dirs, size);
-    GV_CopyMemory((char *)pHeap + 4, fs_file_table.dirs, size);
+    printf("%X %X %d\n", (unsigned int)buffer + 4, (unsigned int)fs_file_table.dirs, size);
+    GV_CopyMemory((char *)buffer + 4, fs_file_table.dirs, size);
 
     fs_file_table.count = size / sizeof(FS_DIR_ENTRY);
 }
@@ -79,7 +83,7 @@ int FS_CdGetStageFileTop(char *dirname)
     {
         if (strncmp(dir->name, dirname, FS_DIRNAME_MAX) == 0)
         {
-            return dir->offset + fs_file_table.start;
+            return dir->offset + fs_file_table.pos;
         }
         dir++;
     }

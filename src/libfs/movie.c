@@ -13,40 +13,40 @@ typedef struct _FS_MOVIE_INFO
 
 STATIC FS_MOVIE_INFO *fs_movie_info = NULL;
 
-void FS_MovieFileInit(void *pHeap, int startSector)
+void FS_MovieFileInit(void *buffer, int sector)
 {
     int count;
     FS_MOVIE_FILE *file;
 
-    if (startSector < 150)
+    if (sector < 150)
     {
         printf("movie file is wrong\n");
         fs_movie_info = 0;
         return;
     }
 
-    CDBIOS_ReadRequest(pHeap, startSector, FS_SECTOR_SIZE, NULL);
+    CDBIOS_ReadRequest(buffer, sector, FS_SECTOR_SIZE, NULL);
 
     while (CDBIOS_ReadSync() > 0)
     {
         mts_wait_vbl(1);
     }
 
-    printf("MOVIE NUM %d\n", *(int *)pHeap);
+    printf("MOVIE NUM %d\n", *(int *)buffer);
 
     if (!fs_movie_info)
     {
         fs_movie_info = GV_AllocResidentMemory(sizeof(FS_MOVIE_INFO));
     }
 
-    GV_CopyMemory(pHeap, fs_movie_info, sizeof(FS_MOVIE_INFO));
+    GV_CopyMemory(buffer, fs_movie_info, sizeof(FS_MOVIE_INFO));
     printf("tablenum %d size %d\n", fs_movie_info->tablenum, sizeof(FS_MOVIE_INFO));
 
     file = fs_movie_info->files;
 
     for (count = fs_movie_info->tablenum; count > 0; count--)
     {
-        file->pos += startSector;
+        file->pos += sector;
         printf("id %d frame %d pos %d\n", file->id, file->frame, file->pos);
         file++;
     }
