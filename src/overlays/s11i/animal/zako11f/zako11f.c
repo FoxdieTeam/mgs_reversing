@@ -63,7 +63,7 @@ void s11i_zako11f_800C8774( Zako11FWork *work )
 }
 
 extern int s11i_dword_800D5C4C;
-extern ZAKO_COMMAND ZakoCommand_800D5AF8;
+extern ZAKO11F_COMMAND Zako11FCommand_800D5AF8;
 
 extern void Zako11FPushMove_800CDFAC( Zako11FWork *work );
 extern void Zako11FActionMain_800CDF40( Zako11FWork *work );
@@ -118,7 +118,7 @@ void ZAKO11FAct_800C88AC( Zako11FWork *work )
 
     s11i_zako11f_800C8774( work );
 
-    if ( s11i_dword_800D5C4C == 0xF && ZakoCommand_800D5AF8.field_0x8C[work->field_B74].field_04 == 1 )
+    if ( s11i_dword_800D5C4C == 0xF && Zako11FCommand_800D5AF8.field_0x8C[work->field_B74].field_04 == 1 )
     {
          GV_DestroyActor( &( work->actor ) );
     }

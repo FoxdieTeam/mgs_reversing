@@ -173,14 +173,10 @@ const int s11i_dword_800D5890 = 0x800D1CD8;
 const int s11i_dword_800D5894 = 0x800D1D88;
 const int s11i_dword_800D5898 = 0x800D1D00;
 const int s11i_dword_800D589C = 0x800D1D88;
-const char s11i_aZoned_800D58A0[] = "zone=%d ";
-const char s11i_dword_800D58AC[] = {'z', 'k', '1', '1'};
-const char s11i_dword_800D58B0[] = {'f', 'c', 'o', 'm'};
-const char s11i_dword_800D58B4[] = {'.', 'c', 0x0, 0x12};
 
-int SECTION("overlay.bss") s11i_dword_800D5AF0;
-int SECTION("overlay.bss") s11i_dword_800D5AF4;
-int SECTION("overlay.bss") ZakoCommand_800D5AF8;
+SVECTOR SECTION("overlay.bss") ZAKOCOM_PlayerPosition_800D5AF0;
+
+int SECTION("overlay.bss") Zako11FCommand_800D5AF8;
 int SECTION("overlay.bss") s11i_dword_800D5AFC;
 int SECTION("overlay.bss") s11i_dword_800D5B00;
 int SECTION("overlay.bss") s11i_dword_800D5B04;
@@ -262,9 +258,10 @@ int SECTION("overlay.bss") s11i_dword_800D5C30;
 int SECTION("overlay.bss") s11i_dword_800D5C34;
 int SECTION("overlay.bss") s11i_dword_800D5C38;
 int SECTION("overlay.bss") s11i_dword_800D5C3C;
-int SECTION("overlay.bss") s11i_dword_800D5C40;
+
+int SECTION("overlay.bss") TOPCOMMAND_800D5C40;
 int SECTION("overlay.bss") s11i_dword_800D5C44;
 int SECTION("overlay.bss") s11i_dword_800D5C48;
 int SECTION("overlay.bss") s11i_dword_800D5C4C;
-int SECTION("overlay.bss") s11i_dword_800D5C50;
-int SECTION("overlay.bss") s11i_dword_800D5C54;
+int SECTION("overlay.bss") ZAKOCOM_PlayerAddress_800D5C50;
+int SECTION("overlay.bss") ZAKOCOM_PlayerMap_800D5C54;

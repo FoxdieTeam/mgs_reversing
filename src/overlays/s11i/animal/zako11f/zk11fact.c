@@ -8,8 +8,8 @@ extern SVECTOR  GM_PlayerPosition_800ABA10;
 extern int      GM_PlayerStatus_800ABA50;
 extern CONTROL *GM_WhereList_800B56D0[96];
 
-extern int          ZAKO11F_EYE_LENGTH_800C3694;
-extern ZAKO_COMMAND ZakoCommand_800D5AF8;
+extern int             ZAKO11F_EYE_LENGTH_800C3694;
+extern ZAKO11F_COMMAND Zako11FCommand_800D5AF8;
 
 int AsiatoCheck_800D16C0( HZD_HDL *, SVECTOR * );
 int SearchNearAsiato_800D13B0( HZD_HDL *, SVECTOR *, short, short, short );
@@ -144,7 +144,7 @@ void s11i_asiato_800CDA6C( Zako11FWork *work )
 
     if ( ( GV_DiffVec3( &work->field_BA4, &GM_PlayerPosition_800ABA10 ) > 50 ) || ( work->field_BAC != GM_WhereList_800B56D0[0]->rot.vy ) )
     {
-        if ( ZakoCommand_800D5AF8.mode == TOP_COMM_ALERT )
+        if ( Zako11FCommand_800D5AF8.mode == TOP_COMM_ALERT )
         {
             return;
         }
@@ -199,7 +199,7 @@ void s11i_asiato_800CDC40( Zako11FWork *work )
     work->field_BA2 = 0;
     s11i_asiato_800CD8EC( work );
 
-    if ( ZakoCommand_800D5AF8.mode != TOP_COMM_ALERT )
+    if ( Zako11FCommand_800D5AF8.mode != TOP_COMM_ALERT )
     {
         s11i_asiato_800CD808( work );
         s11i_asiato_800CDA6C( work );
@@ -271,7 +271,7 @@ void s11i_asiato_800CDD64( Zako11FWork *work )
         return;
     }
 
-    if ( ZakoCommand_800D5AF8.field_0x0C % ZakoCommand_800D5AF8.field_0x08 == work->field_B74 )
+    if ( Zako11FCommand_800D5AF8.field_0x0C % Zako11FCommand_800D5AF8.field_0x08 == work->field_B74 )
     {
         if ( ZAKO11F_EYE_LENGTH_800C3694 + 2000 < dis )
         {
