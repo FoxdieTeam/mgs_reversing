@@ -20,7 +20,7 @@ extern SVECTOR s11i_800C33FC;
 extern const char *s11i_dword_800C33D4[3];
 extern void       *PutFuncList_800C33E0[5];
 
-extern ZAKO_COMMAND ZakoCommand_800D5AF8;
+extern ZAKO11F_COMMAND Zako11FCommand_800D5AF8;
 
 void  AN_Breath_800C3AA8( MATRIX *world );
 void  NewLSight_800D1D2C( SVECTOR *from, SVECTOR *to, int color );
@@ -185,7 +185,7 @@ void ZAKO11F_PutBreath_800CD358( Zako11FWork *work )
 {
     int frame;
 
-    if ( ZakoCommand_800D5AF8.mode == TOP_COMM_ALERT )
+    if ( Zako11FCommand_800D5AF8.mode == TOP_COMM_ALERT )
     {
         return;
     }
