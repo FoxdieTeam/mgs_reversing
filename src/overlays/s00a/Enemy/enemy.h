@@ -578,6 +578,39 @@ typedef struct _ZAKO_COMMAND
     int       field_0x120;
 } ZAKO_COMMAND;
 
+typedef struct _ZAKO11F_COMMAND
+{
+    int       field_0x00;
+    int       field_0x04;
+    int       field_0x08;
+    int       field_0x0C;
+    int       field_0x10;
+    int       field_0x14;
+    int       alert;
+    int       mode;
+    int       field_0x20;
+    int       com_addr;
+    int       com_map;
+    SVECTOR   com_pos;
+    short     n_zones;
+    short     field_0x36;
+    short     zones[4];
+    int       field_0x40[8];
+    int       field_0x60;    //enemy_reset_num
+    MAP      *map;
+    A4_STRUCT field_0x68;
+    C8_STRUCT field_0x8C[8];
+    int       field_0x10C;
+    short     field_0x110;
+    short     field_0x112;
+    short     field_0x114; //reset_enemy_max
+    short     field_0x116;
+    int       field_0x118;
+    int       field_0x11C;
+    int       field_0x120;
+    int       field_0x124[8];
+} ZAKO11F_COMMAND;
+
 //command.c
 #define TOP_COMM_TRAVEL 0
 #define TOP_COMM_ALERT  1
