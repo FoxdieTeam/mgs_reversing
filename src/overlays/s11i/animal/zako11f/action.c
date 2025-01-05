@@ -135,6 +135,19 @@ static inline void SetZako11FMode2( Zako11FWork *work, ZAKO11FACTION action ) //
     GM_ConfigMotionAdjust( &( work->body ), 0 );
 }
 
+static inline void SetZako11FMode2( Zako11FWork *work, ZAKO11FACTION action ) // rename
+{
+    if ( !work->action2 )
+    {
+        work->action2 = action;
+        work->time2 = 0;
+    }
+
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
+    GM_ConfigMotionAdjust_80035008( &( work->body ), 0 );
+}
+
 static inline void SetZako11FModeFields( Zako11FWork *work, ZAKO11FACTION action ) // rename
 {
     work->action = action;
