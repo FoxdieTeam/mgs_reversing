@@ -8,7 +8,8 @@ typedef struct
 
 typedef struct 
 {
-    GV_ACT  actor;
+    //GV_ACT  actor;   // Is this correct???
+    char padding3[0x20]; 
     CONTROL control;
     char padding1[0x7E4 - (sizeof(GV_ACT) + sizeof(CONTROL))]; 
     int unk7E4;
@@ -389,23 +390,22 @@ short Snake18_800CB280(Snake18Work* work, int arg1)
     return -1;
 }
 
-// https://decomp.me/scratch/rbM4L1
 // Todo:        d18a_snake18_800CB2EC   https://decomp.me/scratch/UVAkx (M2C_ERROR)
 //      Done:       d18a_snake18_800CB34C   https://decomp.me/scratch/Yq7dc
 // Todo:        d18a_snake18_800CB378   https://decomp.me/scratch/T45AR (M2C_ERROR)
-// Todo:        d18a_snake18_800CB3E8   https://decomp.me/scratch/VuutT 
+//      Done:        d18a_snake18_800CB3E8   https://decomp.me/scratch/l8vKC
 // Todo:        d18a_snake18_800CB42C   https://decomp.me/scratch/Menij
 // Todo:        d18a_snake18_800CB470   https://decomp.me/scratch/YLL1m
-// Todo:        d18a_snake18_800CB514   https://decomp.me/scratch/jVQmU (96.32%)
-//      Done:       d18a_snake18_800CB59C   https://decomp.me/scratch/LA1cM
-// Todo:        d18a_snake18_800CB60C   https://decomp.me/scratch/D94DB (64.57%)
-// Todo:        d18a_snake18_800CB710   https://decomp.me/scratch/7C9mW
+//      Done:        d18a_snake18_800CB514   https://decomp.me/scratch/4h1gf
+//      Done:        d18a_snake18_800CB59C   https://decomp.me/scratch/LA1cM
+//      Done:        d18a_snake18_800CB60C   https://decomp.me/scratch/TDT7X
+// Todo:        d18a_snake18_800CB710   https://decomp.me/scratch/geWmP
 //      Done:        d18a_snake18_800CB760   https://decomp.me/scratch/6jT89
 //      Done:        d18a_snake18_800CB7BC   https://decomp.me/scratch/cNTUX
-// Todo:        d18a_snake18_800CB7D0   https://decomp.me/scratch/EkLlJ
+//      Done:        d18a_snake18_800CB7D0   https://decomp.me/scratch/vOFPK
 //      Done:        d18a_snake18_800CB838   https://decomp.me/scratch/awpwA
-// Todo:        d18a_snake18_800CB888   https://decomp.me/scratch/H2TFc
-// Todo:        d18a_snake18_800CB908   https://decomp.me/scratch/Eed1g
-// Todo:        d18a_snake18_800CB9CC   https://decomp.me/scratch/x4LeS
+//      Done:        d18a_snake18_800CB888   https://decomp.me/scratch/gKL4w
+// Todo:        d18a_snake18_800CB908   https://decomp.me/scratch/jRC8c (M2C_ERROR)
+//      Done:        d18a_snake18_800CB9CC   https://decomp.me/scratch/7pDQo
 // Todo:        d18a_snake18_800CBA64   https://decomp.me/scratch/htVLT
 // Todo:        d18a_snake18_800CBB34   https://decomp.me/scratch/hbPJO
