@@ -1,5 +1,5 @@
 #include "common.h"
-
+#include "libgcl/libgcl.h"
 
 /*
 const int s11e_dword_800DED00 = 0x800DA0E0;
@@ -35,8 +35,7 @@ const char s11e_aEnemyvoicexx_800DED70[] = "ENEMY VOICE [0x%x]\n";
 const char s11e_aZkecomc_800DED84[] = "zk11ecom.c";
 
 
-int SECTION("overlay.bss") ZAKOCOM_PlayerPosition_800DF278;
-int SECTION("overlay.bss") s11e_dword_800DF27C;
+SVECTOR SECTION("overlay.bss") ZAKOCOM_PlayerPosition_800DF278;
 
 //zakocommand start
 int SECTION("overlay.bss") ZakoCommand_800DF280;
@@ -114,8 +113,10 @@ int SECTION("overlay.bss") s11e_dword_800DF39C;
 int SECTION("overlay.bss") s11e_dword_800DF3A0;
 //zakocommand end
 int SECTION("overlay.bss") s11e_dword_800DF3A4;
+
 int SECTION("overlay.bss") TOPCOMMAND_800DF3A8;
 int SECTION("overlay.bss") s11e_dword_800DF3AC;
+
 int SECTION("overlay.bss") s11e_dword_800DF3B0;
 int SECTION("overlay.bss") s11e_dword_800DF3B4;
 int SECTION("overlay.bss") ZAKOCOM_PlayerAddress_800DF3B8;
