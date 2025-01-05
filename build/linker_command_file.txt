@@ -64,9 +64,6 @@
 
     ;game
     include "{{OBJ_DIR}}\Game\control.obj"       ;control.c
-
-    include "{{OBJ_DIR}}\data\sbss\sbss.obj"
-
     ;libgv
     include "{{OBJ_DIR}}\libgv\math_near.obj"    ;math_near.c
 
@@ -80,13 +77,14 @@
     include "{{OBJ_DIR}}\Game\area.obj"          ;area.c
     include "{{OBJ_DIR}}\Game\chara.obj"         ;chara.c
 
+    include "{{OBJ_DIR}}\Game\gamed.obj"         ;gamed.c
+
     include "{{OBJ_DIR}}\data\sbss\sbss2.obj"
     include "{{OBJ_DIR}}\data\sbss\sbss2_2.obj"
     include "{{OBJ_DIR}}\data\sbss\sbss2_3.obj"
     include "{{OBJ_DIR}}\data\sbss\sbss2_4.obj"
     include "{{OBJ_DIR}}\data\sbss\sbss2_5.obj"
 
-    include "{{OBJ_DIR}}\Game\gamed.obj"         ;gamed.c
     include "{{OBJ_DIR}}\Game\script.obj"        ;script.c
 
     include "{{OBJ_DIR}}\data\sbss\sbss3.obj"
