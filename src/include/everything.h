@@ -60,7 +60,6 @@
 #include "Anime/animeconv/anime.h"
 #include "Bullet/bullet.h"
 #include "Equip/equip.h"
-#include "Equip/effect.h"
 #include "Weapon/weapon.h"
 #include "Kojo/demothrd.h"
 #include "Menu/menuman.h"
