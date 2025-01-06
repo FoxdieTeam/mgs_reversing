@@ -7,10 +7,10 @@
 
 // sbss ===============================================
 
-char   SECTION(".sbss") * GM_StageName_800AB918;
-short *SECTION(".sbss") GM_CurrentPadData_800AB91C;
-int    SECTION(".sbss") GV_Clock_800AB920;
-int    SECTION(".sbss") GV_PassageTime_800AB924;
+char   SECTION(".sbss") *GM_StageName_800AB918;
+short *SECTION(".sbss")  GM_CurrentPadData_800AB91C;
+int    SECTION(".sbss")  GV_Clock_800AB920;
+int    SECTION(".sbss")  GV_PassageTime_800AB924;
 
 int GV_Time = 0;
 STATIC int GV_LastTickCount = 0;

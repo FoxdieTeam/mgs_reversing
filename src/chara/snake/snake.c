@@ -12,6 +12,7 @@
 extern int     GM_PlayerStatus_800ABA50;
 extern short   word_8009EFC0[];
 
+//TODO: below defined in sna_init.c, need to remove gp hack
 extern SVECTOR           svector_800AB7CC;
 SVECTOR SECTION(".sbss") svector_800AB7CC;
 
@@ -20,9 +21,6 @@ void *SECTION(".sbss") GM_BombSeg_800ABBD8;
 
 extern int           dword_800ABBA8;
 int SECTION(".sbss") dword_800ABBA8;
-
-extern int           gSnaMoveDir_800ABBA4;
-int SECTION(".sbss") gSnaMoveDir_800ABBA4;
 
 extern char           *dword_800ABBB4;
 char *SECTION(".sbss") dword_800ABBB4;
