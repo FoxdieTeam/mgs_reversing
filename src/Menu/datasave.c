@@ -18,61 +18,33 @@
 
 //------------------------------------------------------------------------------
 // gp
-extern int dword_800ABB48;
-int        dword_800ABB48;
+int SECTION(".sbss") dword_800ABB44;
+int SECTION(".sbss") dword_800ABB48;
 
-extern void *stack_800ABB50;
-void        *stack_800ABB50;
+DATA_INFO *SECTION(".sbss") dataInfo_800ABB4C;
 
-extern int dword_800ABB58;
-int        dword_800ABB58;
+void *SECTION(".sbss") stack_800ABB50;
+int SECTION(".sbss") dword_800ABB54;
+int SECTION(".sbss") dword_800ABB58;
+int SECTION(".sbss") dword_800ABB5C;
 
-extern int dword_800ABB5C;
-int        dword_800ABB5C;
+int SECTION(".sbss") mcd_last_check_800ABB60[2];
+mem_card *SECTION(".sbss") mcd_last_file_800ABB68[2];
 
-extern int dword_800ABB54;
-int        dword_800ABB54;
+SELECT_INFO *SECTION(".sbss") dword_800ABB70;
+SELECT_INFO *SECTION(".sbss") dword_800ABB74;
+SELECT_INFO *SECTION(".sbss") dword_800ABB78;
 
-extern SELECT_INFO *dword_800ABB70;
-SELECT_INFO        *dword_800ABB70;
+RadioFileModeStru_800ABB7C *SECTION(".sbss") stru_800ABB7C;
 
-extern SELECT_INFO *dword_800ABB74;
-SELECT_INFO        *dword_800ABB74;
-
-extern SELECT_INFO *dword_800ABB78;
-SELECT_INFO        *dword_800ABB78;
-
-extern SELECT_INFO *dword_800ABB88;
-SELECT_INFO        *dword_800ABB88;
-
-extern int dword_800ABB84;
-int        dword_800ABB84;
-
-extern int dword_800ABB80;
-int        dword_800ABB80;
-
-extern int dword_800ABB8C;
-int        dword_800ABB8C;
-
-extern int dword_800ABB90;
-int        dword_800ABB90;
-
-extern DATA_INFO *dataInfo_800ABB4C;
-DATA_INFO        *dataInfo_800ABB4C;
+int SECTION(".sbss") dword_800ABB80;
+int SECTION(".sbss") dword_800ABB84;
+SELECT_INFO *SECTION(".sbss") dword_800ABB88;
+int SECTION(".sbss") dword_800ABB8C;
+int SECTION(".sbss") dword_800ABB90;
+int SECTION(".sbss") dword_800ABB94;
 
 //------------------------------------------------------------------------------
-
-extern Menu_Triangle upperTriangle_8009EBD0;
-extern Menu_Triangle lowerTriangle_8009EBE0;
-
-extern int mcd_last_check_800ABB60[2];
-int        mcd_last_check_800ABB60[2];
-
-extern mem_card *mcd_last_file_800ABB68[2];
-mem_card        *mcd_last_file_800ABB68[2];
-
-extern RadioFileModeStru_800ABB7C *stru_800ABB7C;
-RadioFileModeStru_800ABB7C        *stru_800ABB7C;
 
 extern int GM_PadResetDisable;
 
