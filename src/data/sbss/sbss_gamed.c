@@ -3,32 +3,32 @@
 #include "Game/game.h"
 
 //all of this should go in gamed.c
-SVECTOR SECTION(".sbss") GM_NoisePosition_800AB9F8;
+//SVECTOR SECTION(".sbss") GM_NoisePosition_800AB9F8;
 
-int SECTION(".sbss") GM_AlertMode_800ABA00;
-int SECTION(".sbss") GM_Photocode_800ABA04;
+//int SECTION(".sbss") GM_AlertMode_800ABA00;
+//int SECTION(".sbss") GM_Photocode_800ABA04;
 
-int SECTION(".sbss") dword_800ABA08;
-int SECTION(".sbss") GM_PlayerMap_800ABA0C;
+//int SECTION(".sbss") dword_800ABA08;
+//int SECTION(".sbss") GM_PlayerMap_800ABA0C;
 
-SVECTOR SECTION(".sbss") GM_PlayerPosition_800ABA10;
+//SVECTOR SECTION(".sbss") GM_PlayerPosition_800ABA10;
 
-int SECTION(".sbss") GM_AlertLevel_800ABA18;
+//int SECTION(".sbss") GM_AlertLevel_800ABA18;
 
-int SECTION(".sbss") dword_800ABA1C;
-OBJECT *SECTION(".sbss") GM_PlayerBody_800ABA20;
+//int SECTION(".sbss") dword_800ABA1C;
+//OBJECT *SECTION(".sbss") GM_PlayerBody_800ABA20;
 
-int SECTION(".sbss") GM_NoisePower_800ABA24;
-int SECTION(".sbss") GM_DisableItem_800ABA28;
-int SECTION(".sbss") GM_MagazineMax_800ABA2C;
-int SECTION(".sbss") GM_NoiseLength_800ABA30;
-short SECTION(".sbss") GM_O2_800ABA34;
-short SECTION(".sbss") word_800ABA36;
-int SECTION(".sbss") GM_LoadComplete_800ABA38;
-int SECTION(".sbss") GM_PadVibration_800ABA3C;
-int SECTION(".sbss") GM_PlayerAction_800ABA40;
-int SECTION(".sbss") dword_800ABA44;
-SVECTOR SECTION(".sbss") GM_PhotoViewPos_800ABA48;
+//int SECTION(".sbss") GM_NoisePower_800ABA24;
+//int SECTION(".sbss") GM_DisableItem_800ABA28;
+//int SECTION(".sbss") GM_MagazineMax_800ABA2C;
+//int SECTION(".sbss") GM_NoiseLength_800ABA30;
+//short SECTION(".sbss") GM_O2_800ABA34;
+//short SECTION(".sbss") word_800ABA36;
+//int SECTION(".sbss") GM_LoadComplete_800ABA38;
+//int SECTION(".sbss") GM_PadVibration_800ABA3C;
+//int SECTION(".sbss") GM_PlayerAction_800ABA40;
+//int SECTION(".sbss") dword_800ABA44;
+//SVECTOR SECTION(".sbss") GM_PhotoViewPos_800ABA48;
 
 /**
  * Some known settings via GM_SetPlayerStatusFlag_8004E2B4():
@@ -44,6 +44,6 @@ SVECTOR SECTION(".sbss") GM_PhotoViewPos_800ABA48;
  * |= 0x10020 if Snake crouches while up against a wall from sna_anim_wall_crouch_80052CCC().
  * |= 0x10 from sna_anim_choke_drag_80059054().
  */
-PlayerStatusFlag SECTION(".sbss") GM_PlayerStatus_800ABA50;
+//PlayerStatusFlag SECTION(".sbss") GM_PlayerStatus_800ABA50;
 
-int SECTION(".sbss") GM_PadVibration2_800ABA54;
+//int SECTION(".sbss") GM_PadVibration2_800ABA54;
