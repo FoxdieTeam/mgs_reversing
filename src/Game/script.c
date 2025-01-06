@@ -18,8 +18,12 @@
 
 extern  CAMERA          GM_CameraList_800B7718[8];
 extern  GM_Camera       GM_Camera_800B77E8;
-extern  char            dword_800ABA58[8];
-char                    dword_800ABA58[8]; // gp
+
+//extern  char            dword_800ABA58[8];
+//char                    dword_800ABA58[8]; // gp
+
+char SECTION(".sbss") dword_800ABA58[8];
+
 extern  BindStruct      gBindsArray_800b58e0[128];
 extern  unsigned int    GM_DisableWeapon_800AB9E4;
 extern  int             GM_DisableItem_800ABA28;

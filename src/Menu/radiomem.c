@@ -7,14 +7,9 @@
 
 extern RadioMemory gRadioMemory_800BDB38[ RADIO_MEMORY_COUNT ];
 
-extern RadioCodecStru_800ABB98 *stru_800ABB98;
-RadioCodecStru_800ABB98        *stru_800ABB98;
-
-extern short gRadioCodecFrequency_800ABB9E;
-short        gRadioCodecFrequency_800ABB9E;
-
-extern short word_800ABB9C;
-short        word_800ABB9C;
+RadioCodecStru_800ABB98 *SECTION(".sbss") stru_800ABB98;
+short                    SECTION(".sbss") word_800ABB9C;
+short                    SECTION(".sbss") gRadioCodecFrequency_800ABB9E;
 
 STATIC int gRadioCodecIdx_800AB770 = 0;
 

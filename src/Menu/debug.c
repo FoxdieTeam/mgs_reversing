@@ -18,16 +18,10 @@ extern unsigned short gOldRootCnt_800B1DC8[32];
 extern int GM_PlayerStatus_800ABA50;
 extern int GV_PauseLevel_800AB928;
 
-
-extern unsigned char menu_current_debug_screen_800ABB20;
-unsigned char        SECTION(".sbss") menu_current_debug_screen_800ABB20;
-
-extern short word_800ABB22;
-short        SECTION(".sbss") word_800ABB22;
-
-extern DG_TEX *dword_800ABB24;
-DG_TEX        *SECTION(".sbss") dword_800ABB24;
-
+unsigned char SECTION(".sbss") menu_current_debug_screen_800ABB20;
+unsigned char SECTION(".sbss") dword_800ABB21;
+short         SECTION(".sbss") word_800ABB22;
+DG_TEX       *SECTION(".sbss") dword_800ABB24;
 
 STATIC int menu_draw_mem_debug(MenuWork *work, unsigned int *pOt)
 {

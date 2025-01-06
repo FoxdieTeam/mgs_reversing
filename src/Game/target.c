@@ -56,11 +56,8 @@
 //
 extern TARGET gTargets_800B64E0[TARGET_ARRAY_LENGTH];
 
-extern int gTargets_lastSlotUsed_800ABA68;
-int        gTargets_lastSlotUsed_800ABA68;
-
-extern int gTargets_orphanedSlots_800ABA6C;
-int        gTargets_orphanedSlots_800ABA6C;
+int SECTION(".sbss") gTargets_lastSlotUsed_800ABA68;
+int SECTION(".sbss") gTargets_orphanedSlots_800ABA6C;
 
 extern int     GM_PlayerMap_800ABA0C;
 

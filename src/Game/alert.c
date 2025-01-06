@@ -3,14 +3,11 @@
 #include "libgcl/libgcl.h"
 #include "SD/g_sound.h"
 
-extern int           dword_800ABA70;
-int SECTION(".sbss") dword_800ABA70;
-
-extern int           dword_800ABA78[2];
-int SECTION(".sbss") dword_800ABA78[2];
-
-extern short GM_RadarMode_800ABA80;                    // 79c
-short        SECTION( ".sbss" ) GM_RadarMode_800ABA80; // GM_RadarMode_800ABA80
+int     SECTION(".sbss") dword_800ABA70;
+int     SECTION(".sbss") dword_800ABA74;
+int     SECTION(".sbss") dword_800ABA78[2];
+short   SECTION(".sbss") GM_RadarMode_800ABA80;
+short   SECTION(".sbss") word_800ABA82;
 
 char byte_8009D698[] = {0, 0, 1, 2};
 char GM_NoiseSound_800B76E0[4][3];

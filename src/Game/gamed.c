@@ -29,32 +29,20 @@
 /*---------------------------------------------------------------------------*/
 
 extern unsigned short   gSystemCallbackProcs_800B58C0[];
-extern int              GM_PlayerAddress_800AB9F0;
-int                     GM_PlayerAddress_800AB9F0;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 PlayerStatusFlag        GM_PlayerStatus_800ABA50;
-extern short            GM_Magazine_800AB9EC;
-short                   GM_Magazine_800AB9EC;
 extern short            GM_MagazineMax_800ABA2C;
 short                   GM_MagazineMax_800ABA2C;
 extern int              GM_AlertLevel_800ABA18;
 int                     GM_AlertLevel_800ABA18;
-extern int              GM_AlertMax_800AB9E0;
-int                     GM_AlertMax_800AB9E0;
-extern int              GM_ClaymoreMap_800AB9DC;
-int                     GM_ClaymoreMap_800AB9DC;
 extern int              GM_AlertMode_800ABA00;
 int                     GM_AlertMode_800ABA00;
-extern unsigned int     GM_DisableWeapon_800AB9E4;
-unsigned int            GM_DisableWeapon_800AB9E4;
 extern char            *GM_StageName_800AB918;
 char                   *GM_StageName_800AB918;
 extern SVECTOR          GM_PlayerPosition_800ABA10;
 SVECTOR                 GM_PlayerPosition_800ABA10;
 extern int              GM_DisableItem_800ABA28;
 int                     GM_DisableItem_800ABA28;
-extern short            GM_WeaponChanged_800AB9D8;
-short                   GM_WeaponChanged_800AB9D8;
 extern short            GM_O2_800ABA34;
 short                   GM_O2_800ABA34;
 extern int              GM_NoisePower_800ABA24;
@@ -80,23 +68,31 @@ TBombFunction3 GM_lpfnBombExplosion = NULL;
 
 int GM_PadResetDisable = FALSE;
 
+int          SECTION(".sbss") dword_800AB9CC;
+int          SECTION(".sbss") dword_800AB9D0;
+int          SECTION(".sbss") dword_800AB9D4;
+short        SECTION(".sbss") GM_WeaponChanged_800AB9D8;
+short        SECTION(".sbss") word_800AB9DA;
+int          SECTION(".sbss") GM_ClaymoreMap_800AB9DC;
+int          SECTION(".sbss") GM_AlertMax_800AB9E0;
+unsigned int SECTION(".sbss") GM_DisableWeapon_800AB9E4;
+int          SECTION(".sbss") gTotalFrameTime_800AB9E8;
+short        SECTION(".sbss") GM_Magazine_800AB9EC;
+int          SECTION(".sbss") GM_PlayerAddress_800AB9F0;
+CONTROL     *SECTION(".sbss") GM_PlayerControl_800AB9F4;
+//SVECTOR      SECTION(".sbss") GM_NoisePosition_800AB9F8; //breaks when added to a file that includes game.h
+
 extern int GM_PadVibration2_800ABA54;
 int        SECTION(".sbss") GM_PadVibration2_800ABA54;
 
 extern int GM_PadVibration_800ABA3C;
 int        SECTION(".sbss") GM_PadVibration_800ABA3C;
 
-extern int gTotalFrameTime_800AB9E8;
-int        SECTION(".sbss") gTotalFrameTime_800AB9E8;
-
 extern int GM_LoadComplete_800ABA38;
 int        SECTION(".sbss") GM_LoadComplete_800ABA38;
 
 extern GV_PAD *GM_CurrentPadData_800AB91C;
 GV_PAD        *SECTION(".sbss") GM_CurrentPadData_800AB91C;
-
-extern int dword_800AB9D0;
-int        SECTION(".sbss") dword_800AB9D0;
 
 extern CONTROL *GM_PlayerControl_800AB9F4;
 CONTROL        *SECTION(".sbss") GM_PlayerControl_800AB9F4;
