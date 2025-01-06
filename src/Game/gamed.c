@@ -1,6 +1,5 @@
 #define __BSSDEFINE__
 #include "game.h"
-
 #include <stdio.h>
 #include <sys/types.h>
 #include <libgte.h>
