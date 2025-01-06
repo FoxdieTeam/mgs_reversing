@@ -3,6 +3,7 @@
 #include "Game/game.h"
 #include "Game/vibrate.h"
 
+// @todo(Voxel): Duplicated struct declartion.
 typedef struct 
 {
     char* str;
@@ -11,10 +12,11 @@ typedef struct
 
 typedef struct 
 {
-    GV_ACT  actor;
+    short unk0;
+    short unk2;
+    char padding15[0x20 - 0x02 - sizeof(short)]; 
     CONTROL control;
     OBJECT  body;    //0x9C
-
     char pad[4];
     SVECTOR unk184;
     int unk18C;

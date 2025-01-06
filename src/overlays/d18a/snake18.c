@@ -10,10 +10,11 @@ typedef struct
 
 typedef struct 
 {
-    GV_ACT  actor;
+    short unk0;
+    short unk2;
+    char padding15[0x20 - 0x02 - sizeof(short)]; 
     CONTROL control;
     OBJECT  body;    //0x9C
-
     char pad[4];
     SVECTOR unk184;
     int unk18C;
@@ -46,23 +47,6 @@ typedef struct
     char unk90D;
     char unk90E;
 } Snake18Work;
-
-// @todo(Voxel): Cleanup: Merge structs? Differenet structs? Some overlap?
-typedef struct 
-{
-    char pad[8];
-    HZD_HDL* unk8;
-} Unk2C;
-
-typedef struct 
-{
-    char padding7;
-    short unk2;
-    char padding4[(0x2C - 0x2) - sizeof(short)]; 
-    Unk2C* unk2C;
-    char padding5[(0x7A - 0x2C) - sizeof(Unk2C*)];
-    short unk7A;
-} Snake18Work_Temp;
 
 extern int d18a_dword_800DAF0C;
 extern SVECTOR* d18a_dword_800DAEF8;
@@ -239,15 +223,15 @@ int Snake18_800CAEC0(int arg1, int arg2) // unused var?
     return var_a1;
 }
 
-int Snake18_800CAF20(int arg0) 
+int Snake18_800CAF20(Snake18Work* work) 
 {
     HZD_VEC sp10;    // sp14
     SVECTOR sp18;
-    Snake18Work_Temp* temp_s1;
+    CONTROL* control;
     int temp;
 
-    temp_s1 = (Snake18Work_Temp*)(arg0 + 0x20);  // @todo(Voxel): 
-    if ((temp_s1->unk7A - temp_s1->unk2) >= 0x5DC) 
+    control = &work->control;
+    if ((control->levels[1] - control->mov.vy) >= 0x5DC) 
     {
         sp18.vy = 0;       // sp1A
         sp18.vx = 0;       // sp18
@@ -257,7 +241,7 @@ int Snake18_800CAF20(int arg0)
         sp10.long_access[0] = 0;
         temp = 0x7FFF;
         sp10.long_access[1] = temp;
-        HZD_LevelTestHazard(temp_s1->unk2C->unk8, &sp18, 3);
+        HZD_LevelTestHazard(control->map->hzd, &sp18, 3);
         HZD_LevelMinMaxHeights((int *)&sp10);
 
         if ((sp10.long_access[1] - sp18.vy) >= 0x5DC) 
@@ -269,7 +253,7 @@ int Snake18_800CAF20(int arg0)
             DG_PutVector(&sp18, &sp18, 1);
             sp10.long_access[0] = 0;
             sp10.long_access[1] = temp;
-            HZD_LevelTestHazard(temp_s1->unk2C->unk8, &sp18, 3);
+            HZD_LevelTestHazard(control->map->hzd, &sp18, 3);
             HZD_LevelMinMaxHeights((int *)&sp10);
             
             return (sp10.long_access[1] - sp18.vy) < 0x5DC;
@@ -279,6 +263,7 @@ int Snake18_800CAF20(int arg0)
     return 1;
 }
 
+// @todo(Voxel): Remove this?
 typedef struct 
 {
     char pad1[0x6C];
