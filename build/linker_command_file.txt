@@ -77,7 +77,6 @@
     include "{{OBJ_DIR}}\Game\chara.obj"         ;chara.c
 
     include "{{OBJ_DIR}}\Game\gamed.obj"         ;gamed.c
-    include "{{OBJ_DIR}}\data\sbss\sbss_gamed.obj"
 
     include "{{OBJ_DIR}}\Game\script.obj"        ;script.c
 
@@ -155,7 +154,6 @@
 {% else %}
     include "{{OBJ_DIR}}\chara\snake_vr\sna_init.obj"
 {% endif %}
-    include "{{OBJ_DIR}}\data\sbss\sbss_sna_init.obj"
 
     ;80050A64 is in event.c
     ;also mentions of weapon.c and unique.c
