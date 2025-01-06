@@ -11,14 +11,10 @@ extern GV_HEAP MemorySystems_800AD2F0[ 3 ];
 extern int     GV_Clock_800AB920;
 extern DG_TEX  TexSets_800B1F50[512];
 
-extern unsigned char menu_current_debug_screen_800ABB20;
-unsigned char        SECTION(".sbss") menu_current_debug_screen_800ABB20;
-
-extern short word_800ABB22;
-short        SECTION(".sbss") word_800ABB22;
-
-extern DG_TEX *dword_800ABB24;
-DG_TEX        *SECTION(".sbss") dword_800ABB24;
+unsigned char SECTION(".sbss") menu_current_debug_screen_800ABB20;
+unsigned char SECTION(".sbss") dword_800ABB21;
+short         SECTION(".sbss") word_800ABB22;
+DG_TEX       *SECTION(".sbss") dword_800ABB24;
 
 int menu_draw_mem_debug_80043678(MenuWork *work, unsigned int *pOt)
 {

@@ -18,23 +18,7 @@
 // 0x1 codec
 // 0x2 game paused
 int SECTION(".sbss") GV_PauseLevel_800AB928;
-
 int SECTION(".sbss") dword_0x800AB92C; //maybe unused
-
-GV_CACHE_TAG     *SECTION(".sbss") GV_CurrentTag_800AB930;
-GV_CACHE_TAG     *SECTION(".sbss") GV_ResidentFileRecords_800AB934;
-int               SECTION(".sbss") N_ResidentFileRecords_800AB938;
-
-short          SECTION(".sbss") dword_800AB93C;
-unsigned char *SECTION(".sbss") GV_ResidentMemoryBottom_800AB940;
-int            SECTION(".sbss") dword_800AB944;
-int            SECTION(".sbss") which_buffer_800AB948;
-int            SECTION(".sbss") dword_800AB94C;
-int            SECTION(".sbss") dword_800AB950;
-int            SECTION(".sbss") dword_800AB954;
-
-int SECTION(".sbss") GV_DemoPadStatus_800AB958;
-int SECTION(".sbss") GV_DemoPadAnalog_800AB95C;
 
 extern struct ActorList gActorsList_800ACC18[ACTOR_LIST_COUNT];
 
