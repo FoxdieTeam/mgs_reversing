@@ -1,3 +1,4 @@
+#define __BSSDEFINE__
 #include "game.h"
 
 #include <stdio.h>
@@ -28,27 +29,12 @@
 
 /*---------------------------------------------------------------------------*/
 
-extern unsigned short   gSystemCallbackProcs_800B58C0[];
-extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
-PlayerStatusFlag        GM_PlayerStatus_800ABA50;
-extern short            GM_MagazineMax_800ABA2C;
-short                   GM_MagazineMax_800ABA2C;
-extern int              GM_AlertLevel_800ABA18;
-int                     GM_AlertLevel_800ABA18;
-extern int              GM_AlertMode_800ABA00;
-int                     GM_AlertMode_800ABA00;
+//both below are defined in gvd.c
 extern char            *GM_StageName_800AB918;
 char                   *GM_StageName_800AB918;
-extern SVECTOR          GM_PlayerPosition_800ABA10;
-SVECTOR                 GM_PlayerPosition_800ABA10;
-extern int              GM_DisableItem_800ABA28;
-int                     GM_DisableItem_800ABA28;
-extern short            GM_O2_800ABA34;
-short                   GM_O2_800ABA34;
-extern int              GM_NoisePower_800ABA24;
-int                     GM_NoisePower_800ABA24;
-extern int              GM_NoiseLength_800ABA30;
-int                     GM_NoiseLength_800ABA30;
+
+extern GV_PAD                  *GM_CurrentPadData_800AB91C;
+GV_PAD        *SECTION(".sbss") GM_CurrentPadData_800AB91C;
 
 int GM_GameStatus = 0;
 int GM_LoadRequest = 0;
@@ -80,23 +66,44 @@ int          SECTION(".sbss") gTotalFrameTime_800AB9E8;
 short        SECTION(".sbss") GM_Magazine_800AB9EC;
 int          SECTION(".sbss") GM_PlayerAddress_800AB9F0;
 CONTROL     *SECTION(".sbss") GM_PlayerControl_800AB9F4;
-//SVECTOR      SECTION(".sbss") GM_NoisePosition_800AB9F8; //breaks when added to a file that includes game.h
+SVECTOR      SECTION(".sbss") GM_NoisePosition_800AB9F8; //breaks when added to a file that includes game.h
+int          SECTION(".sbss") GM_AlertMode_800ABA00;
+int          SECTION(".sbss") GM_Photocode_800ABA04;
+int          SECTION(".sbss") dword_800ABA08;
+int          SECTION(".sbss") GM_PlayerMap_800ABA0C;
+SVECTOR      SECTION(".sbss") GM_PlayerPosition_800ABA10;
+int          SECTION(".sbss") GM_AlertLevel_800ABA18;
+int          SECTION(".sbss") dword_800ABA1C;
+OBJECT      *SECTION(".sbss") GM_PlayerBody_800ABA20;
+int          SECTION(".sbss") GM_NoisePower_800ABA24;
+int          SECTION(".sbss") GM_DisableItem_800ABA28;
+short        SECTION(".sbss") GM_MagazineMax_800ABA2C;
+int          SECTION(".sbss") GM_NoiseLength_800ABA30;
+short        SECTION(".sbss") GM_O2_800ABA34;
+int          SECTION(".sbss") GM_LoadComplete_800ABA38;
+int          SECTION(".sbss") GM_PadVibration_800ABA3C;
+int          SECTION(".sbss") GM_PlayerAction_800ABA40;
+int          SECTION(".sbss") dword_800ABA44;
+SVECTOR      SECTION(".sbss") GM_PhotoViewPos_800ABA48;
 
-extern int GM_PadVibration2_800ABA54;
-int        SECTION(".sbss") GM_PadVibration2_800ABA54;
+/**
+ * Some known settings via GM_SetPlayerStatusFlag():
+ * |= 0x20008000 if Snake dies from sna_check_dead_8004E384() and sna_anim_dying_80055524().
+ * |= 0x20 if Snake crouches from sna_anim_crouch_800527DC().
+ * |= 0x40 if Snake goes prone from  sna_anim_prone_begin_80053BE8() and sna_anim_prone_idle_800528BC().
+ * |= 0x10 if Snake runs from sna_anim_run_begin_80053B88(), sna_anim_run_8005292C(),
+ * sna_anim_rungun_begin_80056BDC() and sna_anim_rungun_80056C3C().
+ * |= 0x10 if Snake moves while prone from sna_anim_prone_move_800529C0().
+ * |= 0x10 if Snake moves while in a box from sna_anim_box_run_8005544C().
+ * |= 0x10000 if Snake pushes up against a wall from sna_anim_wall_idle_and_c4_80052A5C().
+ * |= 0x10010 if Snake moves while up against a wall from sna_anim_wall_move_80052BA8().
+ * |= 0x10020 if Snake crouches while up against a wall from sna_anim_wall_crouch_80052CCC().
+ * |= 0x10 from sna_anim_choke_drag_80059054().
+ */
+PlayerStatusFlag SECTION(".sbss") GM_PlayerStatus_800ABA50;
+int              SECTION(".sbss") GM_PadVibration2_800ABA54;
 
-extern int GM_PadVibration_800ABA3C;
-int        SECTION(".sbss") GM_PadVibration_800ABA3C;
-
-extern int GM_LoadComplete_800ABA38;
-int        SECTION(".sbss") GM_LoadComplete_800ABA38;
-
-extern GV_PAD *GM_CurrentPadData_800AB91C;
-GV_PAD        *SECTION(".sbss") GM_CurrentPadData_800AB91C;
-
-extern CONTROL *GM_PlayerControl_800AB9F4;
-CONTROL        *SECTION(".sbss") GM_PlayerControl_800AB9F4;
-
+extern unsigned short   gSystemCallbackProcs_800B58C0[];
 extern int          str_mute_fg_800BEFF0;
 extern unsigned int str_status_800BF16C;
 extern int          dword_800BF1A8;
