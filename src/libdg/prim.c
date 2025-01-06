@@ -1,4 +1,8 @@
 #include "libdg.h"
+
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 #include "common.h"
 
 extern int GV_Clock_800AB920;
@@ -7,7 +11,7 @@ extern int DG_CurrentGroupID_800AB968;
 /*** data *******************************************************/
 
 // psize, verts, voffset, vstep
-DG_PRIM_INFO DG_PrimInfos[DG_PRIM_MAX] = {
+STATIC DG_PRIM_INFO DG_PrimInfos[DG_PRIM_MAX] = {
     { 16, 2, 8,  4 }, // DG_PRIM_LINE_F2
     { 24, 3, 8,  4 }, // DG_PRIM_LINE_F3
     { 28, 4, 8,  4 }, // DG_PRIM_LINE_F4

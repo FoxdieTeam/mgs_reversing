@@ -50,7 +50,6 @@ typedef struct DoorWork
 
 #define EXEC_LEVEL 5
 
-extern int      GM_GameOverTimer;
 extern CONTROL *GM_PlayerControl_800AB9F4;
 extern int      GM_PlayerMap_800ABA0C;
 extern int      dword_8009F470;
@@ -759,7 +758,7 @@ STATIC int DoorGetResources_8006FA60(DoorWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT *NewDoor_8006FD00(int name, int where, int argc, char **argv)
+GV_ACT *NewDoor(int name, int where, int argc, char **argv)
 {
     int       leaf_count;
     DoorWork *work;

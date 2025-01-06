@@ -1,11 +1,11 @@
 #include "enemy.h"
 
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "Anime/animeconv/anime.h"
 #include "Game/linkvarbuf.h"
 #include "strcode.h"
 
-extern int      GV_Time;
-extern SVECTOR  DG_ZeroVector;
 extern int      GM_ClaymoreMap_800AB9DC;
 extern SVECTOR  GM_NoisePosition_800AB9F8;
 extern int      GM_PlayerMap_800ABA0C;

@@ -65,8 +65,6 @@ typedef struct _SearchlightWork
     MATRIX         lit_mtx;
 } SearchlightWork;
 
-extern MATRIX   DG_ZeroMatrix;
-extern SVECTOR  DG_ZeroVector;
 extern int      GM_PlayerMap_800ABA0C;
 extern SVECTOR  GM_PlayerPosition_800ABA10;
 extern int      GM_PlayerStatus_800ABA50;
@@ -837,12 +835,12 @@ void SearchlightAct_800D86F0(SearchlightWork *work)
             work->debug = 1;
         }
 
-        MENU_Locate_80038B34(8, 180, 0);
+        MENU_Locate(8, 180, 0);
 
         switch (work->debug - 1)
         {
         case 0:
-            MENU_Printf_80038C38(aSearchliUDRotXLRRotY);
+            MENU_Printf(aSearchliUDRotXLRRotY);
 
             if (status & PAD_UP)
             {
@@ -866,7 +864,7 @@ void SearchlightAct_800D86F0(SearchlightWork *work)
             break;
 
         case 1:
-            MENU_Printf_80038C38(aSearchliUDPosXLRPosZ);
+            MENU_Printf(aSearchliUDPosXLRPosZ);
 
             if (status & PAD_UP)
             {
@@ -890,7 +888,7 @@ void SearchlightAct_800D86F0(SearchlightWork *work)
             break;
 
         case 2:
-            MENU_Printf_80038C38(aSearchliUDPosYLRAngle);
+            MENU_Printf(aSearchliUDPosYLRAngle);
 
             if (status & PAD_UP)
             {
@@ -914,9 +912,9 @@ void SearchlightAct_800D86F0(SearchlightWork *work)
             break;
         }
 
-        MENU_Printf_80038C38(aSearchliRot7D7D7D, work->control.turn.vx, work->control.turn.vy, work->control.turn.vz);
-        MENU_Printf_80038C38(aSearchliPos7D7D7D, work->control.mov.vx, work->control.mov.vy, work->control.mov.vz);
-        MENU_Printf_80038C38(aSearchliAngle4D, work->angle);
+        MENU_Printf(aSearchliRot7D7D7D, work->control.turn.vx, work->control.turn.vy, work->control.turn.vz);
+        MENU_Printf(aSearchliPos7D7D7D, work->control.mov.vx, work->control.mov.vy, work->control.mov.vz);
+        MENU_Printf(aSearchliAngle4D, work->angle);
 
         s01a_lit_mdl_800E2D3C(work->lit_mdl, work->angle);
 

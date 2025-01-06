@@ -1,5 +1,6 @@
 #include "common.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "Game/control.h"
 #include "Game/object.h"
 #include "chara/snake/sna_init.h"
@@ -34,7 +35,6 @@ typedef struct OtacomWork
 
 int s03c_dword_800C33D8 = 0;
 
-extern SVECTOR  DG_ZeroVector;
 extern SVECTOR  GM_PlayerPosition_800ABA10;
 extern CONTROL *GM_PlayerControl_800AB9F4;
 
@@ -483,8 +483,8 @@ int OtacomGetResources_800CBDB4(OtacomWork *work, int arg1, int arg2)
 
     GM_InitObject(&work->object, model & 0xFFFF, 0x2D, motion & 0xFFFF);
     GM_ConfigObjectJoint(&work->object);
-    GM_ConfigMotionControl_80034F08(&work->object, &work->motion, motion & 0xFFFF, work->oar1, work->oar2, control,
-                                    work->rots);
+    GM_ConfigMotionControl(&work->object, &work->motion, motion & 0xFFFF, work->oar1, work->oar2, control,
+                           work->rots);
     GM_ConfigObjectLight(&work->object, work->light);
     GM_ConfigObjectAction(&work->object, 0, 0, 0);
 
@@ -531,7 +531,7 @@ int OtacomGetResources_800CBDB4(OtacomWork *work, int arg1, int arg2)
 
     work->shadow = 0;
     s03c_dword_800C33D8 = 0;
-    GM_ConfigMotionAdjust_80035008(&work->object, work->adjust);
+    GM_ConfigMotionAdjust(&work->object, work->adjust);
 
     return 0;
 }

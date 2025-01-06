@@ -42,7 +42,7 @@ STATIC void rfsight_act_helper_80069478(int a1, GV_PAD *pad, DVECTOR *axis, int 
     }
 
     status = pad->status;
-    GM_CheckShukanReverse_8004FBF8(&status);
+    GM_CheckShukanReverse(&status);
 
     if (GV_PauseLevel_800AB928 || (GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF))
     {

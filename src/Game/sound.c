@@ -1,5 +1,5 @@
 #include "game.h"
-#include "SD/sound.h"
+#include "SD/sd_cli.h"
 #include "SD/g_sound.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"

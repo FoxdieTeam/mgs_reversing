@@ -19,8 +19,6 @@ typedef struct _HdBul2Work
 
 SVECTOR s11i_800C32C8 = {200, 200, 200, 0};
 
-extern MATRIX  DG_ZeroMatrix;
-extern SVECTOR DG_ZeroVector;
 extern int     GV_Clock_800AB920;
 extern int     GM_CurrentMap_800AB9B0;
 
@@ -104,7 +102,7 @@ void HdBul2Act( HdBul2Work *work )
             scale.vx = scale.vy = scale.vz = 8192;
             ScaleMatrix( &world, &scale );
 
-            NewSpark_80074564( &world, 1 );
+            NewSpark( &world, 1 );
         }
         else
         {

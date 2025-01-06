@@ -51,7 +51,6 @@ typedef struct CameraWork
     char          *f49E4;
 } CameraWork;
 
-extern int                         GM_GameStatus;
 extern int                         GM_CurrentMap_800AB9B0;
 extern GV_PAD                      GV_PadData_800B05C0[4];
 extern int                         GV_Clock_800AB920;
@@ -163,7 +162,7 @@ void camera_800C5308(int arg0) {
 
     void* temp_v0;
 
-    temp_v0 = GV_AllocMemory(2, 2048);
+    temp_v0 = GV_AllocMemory(GV_NORMAL_MEMORY, 2048);
     camera_dword_800D0730 = temp_v0;
 
     if (temp_v0 == NULL) {
@@ -203,7 +202,7 @@ void camera_800C53B8(MenuPrim *pGlue, RadioFileModeStruElem *pElem)
     textConfig.flags = 0x12;
     textConfig.colour = pUnk->field_18 | 0x66000000;
 
-    _menu_number_draw_string2_80043220(pGlue, &textConfig, (char *)pUnk->field_4); // TODO: Fix cast
+    _menu_number_draw_string2(pGlue, &textConfig, (char *)pUnk->field_4); // TODO: Fix cast
 }
 
 // Copy of menu_radio_do_file_mode_helper4_helper_8004A54C
@@ -262,8 +261,8 @@ void camera_800C553C(MenuPrim *pGlue, RadioFileModeStruElem *pElem)
     setSemiTrans(pTile, 0);
     addPrim(pGlue->mPrimBuf.mOt, pTile);
 
-    radio_draw_face_frame_800481CC(pGlue, x, y, w, h);
-    radio_draw_face_frame_800481CC(pGlue, x, y, w, h);
+    radio_draw_face_frame(pGlue, x, y, w, h);
+    radio_draw_face_frame(pGlue, x, y, w, h);
 }
 
 void camera_800C714C(MenuPrim *pGlue, SELECT_INFO *info);
@@ -285,14 +284,14 @@ void camera_800C5684(MenuPrim *pGlue, RadioFileModeStruElem *pElem)
 }
 
 // duplicate of init_file_mode_helper2_8004A800
-// but with GV_AllocMemory(2, ...)
+// but with GV_AllocMemory(GV_NORMAL_MEMORY, ...)
 // instead of GV_AllocMemory(0, ...)
 void camera_800C56F4()
 {
     int i;
 
     camera_dword_800D075C =
-        (RadioFileModeStru_800ABB7C *)GV_AllocMemory(2, sizeof(RadioFileModeStru_800ABB7C));
+        (RadioFileModeStru_800ABB7C *)GV_AllocMemory(GV_NORMAL_MEMORY, sizeof(RadioFileModeStru_800ABB7C));
     if (camera_dword_800D075C == NULL)
     {
         printf((char *)camera_aNomemoryforobj_800CFF80);
@@ -306,7 +305,7 @@ void camera_800C56F4()
 
 void camera_800C5750(void)
 {
-    GV_FreeMemory(2, camera_dword_800D075C);
+    GV_FreeMemory(GV_NORMAL_MEMORY, camera_dword_800D075C);
 }
 
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C5778.s")
@@ -385,7 +384,7 @@ void camera_800C5D2C(SPRT *pPrim) // duplicate of set_sprt_default_8004AE14
 }
 
 // duplicate of init_radio_message_board_80040F74
-// but with GV_AllocMemory(2, ...)
+// but with GV_AllocMemory(GV_NORMAL_MEMORY, ...)
 // instead of GV_AllocMemory(0, ...)
 // and with one font_set_color missing
 void camera_800C5D54(MenuWork *work)
@@ -403,7 +402,7 @@ void camera_800C5D54(MenuWork *work)
         font_init_kcb(ptr_local_kcb, &camera_dword_800C389C, 960, 510);
         font_set_kcb(ptr_local_kcb, -1, -1, 0, 6, 2, 0);
 
-        allocated_kcb = (KCB *)GV_AllocMemory(2, font_get_buffer_size(ptr_local_kcb) + sizeof(KCB));
+        allocated_kcb = (KCB *)GV_AllocMemory(GV_NORMAL_MEMORY, font_get_buffer_size(ptr_local_kcb) + sizeof(KCB));
         font_set_buffer(ptr_local_kcb, allocated_kcb + 1);
         font_set_color(ptr_local_kcb, 0, 0x6739, 0);
         font_set_color(ptr_local_kcb, 1, 0x3bef, 0);
@@ -517,7 +516,7 @@ void camera_800C68DC(void *ptr)
     printf((char *)camera_aCloseinfo_800CFFE0);
     if (ptr)
     {
-        GV_FreeMemory(2, ptr);
+        GV_FreeMemory(GV_NORMAL_MEMORY, ptr);
     }
 }
 
@@ -527,7 +526,7 @@ void camera_800C6918(void **arg0, int arg1)
 
     if (*arg0 == NULL)
     {
-        temp_v0 = GV_AllocMemory(2, (arg1 * 0x24) + 0x24);
+        temp_v0 = GV_AllocMemory(GV_NORMAL_MEMORY, (arg1 * 0x24) + 0x24);
         *arg0 = temp_v0;
         if (temp_v0 == NULL)
         {
@@ -575,11 +574,11 @@ void updateCurrentEntry_800C6984(SELECT_INFO *info, int dir)
 }
 
 // duplicate of menu_radio_do_file_mode_helper12_8004BA80
-int camera_800C6A40(MenuWork *work, mem_card *pMemcard, const char *param_3,
+int camera_800C6A40(MenuWork *work, MEM_CARD *pMemcard, const char *param_3,
                     SELECT_INFO *info)
 {
     MENU_CURPOS *pIter;
-    mem_card_file       *pMcFile;
+    MEM_CARD_FILE       *pMcFile;
     int                  i;
 
     pIter = info->curpos;
@@ -587,20 +586,20 @@ int camera_800C6A40(MenuWork *work, mem_card *pMemcard, const char *param_3,
     strcpy(camera_dword_800C37F8, MGS_MemoryCardName);
     camera_dword_800C37F8[12] = camera_dword_800D072C->field_0[0];
 
-    for (i = 0; i < pMemcard->field_2_file_count; i++)
+    for (i = 0; i < pMemcard->file_count; i++)
     {
-        pMcFile = &pMemcard->field_4_files[i];
-        printf((char *)camera_aFiles_800D0010, pMcFile->field_0_name);
+        pMcFile = &pMemcard->files[i];
+        printf((char *)camera_aFiles_800D0010, pMcFile->name);
 
-        if (strncmp(pMcFile->field_0_name, camera_dword_800C37F8, 13) == 0)
+        if (strncmp(pMcFile->name, camera_dword_800C37F8, 13) == 0)
         {
-            camera_800C68BC(pIter->mes, pMcFile->field_0_name);
+            camera_800C68BC(pIter->mes, pMcFile->name);
             pIter->field_20 = i;
             pIter++;
         }
     }
 
-    if (camera_dword_800D0728 == 0 && pMemcard->field_3_free_blocks >= camera_dword_800D072C->blocks_count)
+    if (camera_dword_800D0728 == 0 && pMemcard->free_blocks >= camera_dword_800D072C->blocks_count)
     {
         memcpy(pIter->mes, (char *)camera_dword_800CFFC8, 1);
         pIter->field_20 = 16;
@@ -773,7 +772,7 @@ void camera_800C714C(MenuPrim *pGlue, SELECT_INFO *info)
     }
     textConfig.xpos = info->field_0_xpos;
     textConfig.ypos = info->field_2_ypos;
-    _menu_number_draw_string2_80043220(pGlue, &textConfig, info->message);
+    _menu_number_draw_string2(pGlue, &textConfig, info->message);
     if (info->max_num == 1)
     {
         xpos = info->field_0_xpos;
@@ -801,7 +800,7 @@ void camera_800C714C(MenuPrim *pGlue, SELECT_INFO *info)
         {
             textConfig.colour = 0x663d482e;
         }
-        _menu_number_draw_string2_80043220(pGlue, &textConfig, info->curpos[i].mes);
+        _menu_number_draw_string2(pGlue, &textConfig, info->curpos[i].mes);
     }
 }
 

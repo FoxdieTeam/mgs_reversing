@@ -24,14 +24,11 @@ short SECTION("overlay.bss") * s12c_800DAA48;
 short SECTION("overlay.bss") * s12c_800DAA4C;
 
 extern int           GV_Clock_800AB920;
-extern int           GM_GameStatus;
 extern int           GV_PauseLevel_800AB928;
 extern int           DG_CurrentGroupID_800AB968;
 extern unsigned int *ptr_800B1400[256];
 extern short         DG_ClipMin_800AB96C[2];
 extern short         DG_ClipMax_800AB970[2];
-extern SVECTOR       DG_Ambient;
-extern unsigned long DG_PacketCode[2];
 
 void s12c_800D497C(int arg0, int arg1)
 {

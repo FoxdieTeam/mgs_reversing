@@ -4,11 +4,6 @@
 #include <libgpu.h>
 #include "common.h"
 
-extern MATRIX       DG_LightMatrix;
-extern MATRIX       DG_ColorMatrix;
-
-extern CVECTOR      DG_PacketCode[2];
-
 extern DG_LitVertex DG_LitVertices_800B7A50[84];
 
 //there are a few of these that are close to gte_MulMatrix0 but with the first part changed
@@ -160,11 +155,11 @@ STATIC CVECTOR *DG_MakePreshade_helper( DG_MDL *mdl, CVECTOR *cvec, DG_OBJS *obj
     color.m[1][0] = DG_ColorMatrix.m[1][0];
     color.m[2][0] = DG_ColorMatrix.m[2][0];
 
-    pPacketCode = &DG_PacketCode[0];
+    pPacketCode = (CVECTOR *)&DG_PacketCode[0];
 
     if (mdl->flags & DG_MODEL_TRANS)
     {
-        pPacketCode = &DG_PacketCode[1];
+        pPacketCode = (CVECTOR *)&DG_PacketCode[1];
     }
 
     gte_ldrgb(pPacketCode);

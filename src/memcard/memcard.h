@@ -4,23 +4,23 @@
 // 8 KB
 #define MC_BLOCK_SIZE 8192
 
-typedef struct mem_card_file
+typedef struct MEM_CARD_FILE
 {
-    char            field_0_name[20];
+    char            name[20];
     char            field_14;
     char            field_15;
     unsigned short  field_16;
     int             field_18_size;
-} mem_card_file;
+} MEM_CARD_FILE;
 
-typedef struct mem_card
+typedef struct MEM_CARD
 {
-    unsigned char   field_0_card_idx;
-    unsigned char   field_1_last_op;
-    char            field_2_file_count;
-    char            field_3_free_blocks;
-    mem_card_file   field_4_files[15];
-} mem_card;
+    unsigned char   card_idx;
+    unsigned char   last_op;
+    char            file_count;
+    char            free_blocks;
+    MEM_CARD_FILE   files[15];
+} MEM_CARD;
 
 typedef void (*TMemCardFunc)(int);
 
@@ -29,11 +29,11 @@ int  memcard_check(int port);
 void memcard_init(void);
 void memcard_exit(void);
 void memcard_retry(int port);
-mem_card *memcard_get_files(int port);
+MEM_CARD *memcard_get_files(int port);
 int  memcard_delete(int port, const char *filename);
 
-void memcard_write(int port, const char *filename, int seekPos, char *pBuffer, int bufferSize);
-void memcard_read(int port, const char *filename, int seekPos, char *pBuffer, int bufferSize);
+void memcard_write(int port, const char *filename, int offset, char *buffer, int size);
+void memcard_read(int port, const char *filename, int offset, char *buffer, int size);
 int  memcard_get_status(void);
 int  memcard_format(int port);
 

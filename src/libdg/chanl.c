@@ -8,7 +8,7 @@
 
 /*** data ***/
 
-TChanl_Fn off_8009D35C[] = {
+DG_CHANLFUNC DG_ChanlUnits[] = {
     DG_ScreenChanl,     // 0: DG_CHANL_SCREEN
     DG_BoundChanl,      // 1: DG_CHANL_BOUND
     DG_TransChanl,      // 2: DG_CHANL_TRANS
@@ -19,21 +19,20 @@ TChanl_Fn off_8009D35C[] = {
 };
 
 /*** $gp ***/
-int DG_ObjectQueueVoided = 0;
+STATIC int DG_ObjectQueueVoided = FALSE;
 
 // standard
-int            SECTION(".sbss") dword_800AB974;
-int            SECTION(".sbss") dword_800AB978;
-unsigned char  SECTION(".sbss") DG_r_800AB97C;
-unsigned char  SECTION(".sbss") DG_g_800AB97D;
-unsigned char  SECTION(".sbss") DG_b_800AB97E;
+int            SECTION(".sbss") dword_800AB974; /* static */
+int            SECTION(".sbss") dword_800AB978; /* static */
+unsigned char  SECTION(".sbss") DG_r_800AB97C; /* static */
+unsigned char  SECTION(".sbss") DG_g_800AB97D; /* static */
+unsigned char  SECTION(".sbss") DG_b_800AB97E; /* static */
 short          SECTION(".sbss") N_ChanlPerfMax_800AB980;
 short          SECTION(".sbss") word_800AB982;
 unsigned short SECTION(".sbss") gCurrentRootCnt_800AB984;
 
 /*** sbss ***/
 extern int       DG_HikituriFlag;
-extern int       DG_UnDrawFrameCount;
 
 /*** bss ***/
 extern DG_CHANL       DG_Chanls_800B1800[3];
@@ -234,7 +233,7 @@ void DG_ClearChanlSystem( int which )
 void DG_RenderPipeline( int idx )
 {
     unsigned short *pPerfArrayIter;
-    TChanl_Fn      *pRenderFns;
+    DG_CHANLFUNC   *chanlfunc;
     int             start_idx;
     int             i;
 
@@ -248,7 +247,7 @@ void DG_RenderPipeline( int idx )
     else
     {
         GV_ZeroMemory(ptr_800B1400, sizeof(ptr_800B1400));
-        pRenderFns = off_8009D35C;
+        chanlfunc = DG_ChanlUnits;
 
         if (!DG_HikituriFlag)
         {
@@ -263,8 +262,8 @@ void DG_RenderPipeline( int idx )
         {
             *pPerfArrayIter++ = GetRCnt(RCntCNT1);
             // Call the render func, saving the time of the previous pass
-            (*pRenderFns)(&DG_Chanls_800B1800[1], idx);
-            pRenderFns++;
+            (*chanlfunc)(&DG_Chanls_800B1800[1], idx);
+            chanlfunc++;
         }
         *pPerfArrayIter++ = GetRCnt(RCntCNT1);
         N_ChanlPerfMax_800AB980 = (pPerfArrayIter) - &gOldRootCnt_800B1DC8[0];
@@ -410,7 +409,7 @@ void DG_FreeObjectQueue( void )
     chanl = &DG_Chanls_800B1800[1];
     queue = (DG_OBJS **)chanl->mQueue;
 
-    DG_ObjectQueueVoided = 1;
+    DG_ObjectQueueVoided = TRUE;
 
     for (i = chanl->mTotalObjectCount; i > 0; i--)
     {
@@ -422,7 +421,7 @@ void DG_FreeObjectQueue( void )
 
 void DG_ResetObjectQueue( void )
 {
-    DG_ObjectQueueVoided = 0;
+    DG_ObjectQueueVoided = FALSE;
     DG_UnDrawFrameCount = 1;
 }
 
@@ -456,16 +455,16 @@ void DG_BackGroundNormal( void )
     DG_SetBackgroundRGB(DG_r_800AB97C, DG_g_800AB97D, DG_b_800AB97E);
 }
 
-void DG_InitBackgroundTile( TILE *tile )
+void DG_SetBackGroundTile( TILE *tile )
 {
     tile->r0 = DG_r_800AB97C;
     tile->g0 = DG_g_800AB97D;
     tile->b0 = DG_b_800AB97E;
 }
 
-TChanl_Fn DG_SetChanlSystemUnits( int idx, TChanl_Fn newFunc )
+DG_CHANLFUNC DG_SetChanlSystemUnits( int idx, DG_CHANLFUNC newfunc )
 {
-    TChanl_Fn oldFunc = off_8009D35C[idx];
-    off_8009D35C[idx] = newFunc;
-    return oldFunc;
+    DG_CHANLFUNC oldfunc = DG_ChanlUnits[idx];
+    DG_ChanlUnits[idx] = newfunc;
+    return oldfunc;
 }

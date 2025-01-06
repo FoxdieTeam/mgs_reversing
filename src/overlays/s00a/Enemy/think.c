@@ -7,10 +7,11 @@
 
 #include "common.h"
 #include "mts/mts.h" // for fprintf
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "libhzd/libhzd.h"
 
 extern ENEMY_COMMAND EnemyCommand_800E0D98;
-extern int           GV_Time;
 extern SVECTOR       GM_PlayerPosition_800ABA10;
 extern int           GM_AlertLevel_800ABA18;
 extern int           GM_PlayerStatus_800ABA50;

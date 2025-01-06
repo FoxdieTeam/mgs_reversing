@@ -1,5 +1,5 @@
-#ifndef _SOUND_H_
-#define _SOUND_H_
+#ifndef _SD_CLI_H_
+#define _SD_CLI_H_
 
 /* sd_main.c */
 void SdMain(void);
@@ -20,11 +20,11 @@ int SePlay(int sound_code);
 int get_str_counter(void);
 
 /* sd_file.c */
-unsigned char *SD_SngDataLoadInit(unsigned short);
+unsigned char *SD_SngDataLoadInit(unsigned short id);
 void SD_80083ED4(void);
-unsigned char *SD_80083EE8(unsigned short);
-char *LoadInit(unsigned short);
+unsigned char *SD_SeDataLoadInit(unsigned short id);
+char *SD_WavDataLoadInit(unsigned short id);
 char *SD_WavLoadBuf(char *arg0);
-void SD_Unload(void);
+void SD_WavUnload(void);
 
-#endif // _SOUND_H_
+#endif // _SD_CLI_H_

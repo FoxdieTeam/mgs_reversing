@@ -5,6 +5,7 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
+#include "Game/game.h"
 #include "Game/camera.h"
 #include "strcode.h"
 
@@ -36,8 +37,6 @@ typedef struct _SnowWork
     GV_MSG   *msgs;
 } SnowWork;
 
-extern SVECTOR          DG_ZeroVector;
-extern SVECTOR         *GM_lpsvectWind;
 extern int              GV_Clock_800AB920;
 extern int              GM_CurrentMap_800AB9B0;
 extern CONTROL         *GM_WhereList_800B56D0[96];

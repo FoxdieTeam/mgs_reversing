@@ -56,8 +56,6 @@ SVECTOR SECTION("overlay.bss") rasen_el_800D2CAC;
 SVECTOR SECTION("overlay.bss") rasen_el_800D2CB4;
 int SECTION("overlay.bss") rasen_el_800D2CBC;
 
-extern SVECTOR         DG_ZeroVector;
-extern int             GM_GameStatus;
 extern int             GM_CurrentMap_800AB9B0;
 extern int             gControlCount_800AB9B4;
 extern CONTROL        *GM_PlayerControl_800AB9F4;

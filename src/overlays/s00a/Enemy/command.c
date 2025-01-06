@@ -9,6 +9,7 @@
 #include "common.h"
 #include "mts/mts.h" // for fprintf
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "Game/linkvarbuf.h"
 #include "Game/map.h"
@@ -65,8 +66,6 @@ int SECTION("overlay.bss") s00a_dword_800E0F6C;
 
 int SECTION("overlay.bss") COM_PlayerMapOne_800E0F70[8];
 
-extern int       GV_Time;
-extern SVECTOR   DG_ZeroVector;
 extern int       GM_PlayerAddress_800AB9F0;
 extern SVECTOR   GM_NoisePosition_800AB9F8;
 extern int       GM_PlayerMap_800ABA0C;
@@ -102,7 +101,7 @@ const char aCresetposd_800E07FC[] = " c_reset_pos = %d \n";
 const char aKottida_800E0810[] = "kottida !!\n";
 
 void GM_AlertModeSet( int );
-void NewPadVibration_8005D58C( unsigned char *ptr, int flags );
+void NewPadVibration( unsigned char *ptr, int flags );
 
 int s00a_command_800CEA2C( WatcherWork *work )
 {
@@ -202,8 +201,8 @@ void s00a_command_800CEC90( void )
 {
     if ( COM_VibTime_800E0F68 > 0 )
     {
-        NewPadVibration_8005D58C( s00a_dword_800C35DC, 1 );
-        NewPadVibration_8005D58C( s00a_dword_800C35E0, 2 );
+        NewPadVibration( s00a_dword_800C35DC, 1 );
+        NewPadVibration( s00a_dword_800C35E0, 2 );
         COM_VibTime_800E0F68--;
         return;
     }

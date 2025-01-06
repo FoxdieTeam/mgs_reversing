@@ -24,8 +24,6 @@ typedef struct _Shadow_Scratch
     MATRIX  mtx;
 } Shadow_Scratch;
 
-extern MATRIX DG_ZeroMatrix;
-
 void ShadowRotate_8005FD28(ShadowWork *work)
 {
     MATRIX *pWorld;

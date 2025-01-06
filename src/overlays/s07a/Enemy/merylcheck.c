@@ -1,8 +1,10 @@
 #include "../../s00a/Enemy/enemy.h"
 
+#include "common.h"
+#include "libdg/libdg.h"
+
 extern TOPCOMMAND_STRUCT TOPCOMMAND_800E0F20;
 extern SVECTOR ENEMY_ATTACK_FORCE_800C35BC;
-extern SVECTOR DG_ZeroVector;
 
 extern void s07a_meryl_unk_800D8CB4( WatcherWork *work, int time );
 extern void s07a_meryl_unk_800D8BA4( WatcherWork *work, int time );

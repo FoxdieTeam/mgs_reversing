@@ -1,5 +1,6 @@
 #include "libfs.h"
 #include <stdio.h>
+#include <stddef.h>
 
 extern int         dword_800BDFB8;
 extern int         dword_800BDFBC;
@@ -40,7 +41,7 @@ int FS_WriteMemfile( int id, int **buf_ptr, int size )
     int         ptr_off;
     FS_MEMFILE *memfile;
 
-    *buf_ptr = 0;
+    *buf_ptr = NULL;
 
     if (dword_800BDFBC != 0)
     {
@@ -71,7 +72,7 @@ int FS_ReadMemfile( int id, int **buf_ptr )
     FS_MEMFILE *memfile;
     int         idtemp;
 
-    *buf_ptr = 0;
+    *buf_ptr = NULL;
     memfile = FS_MEMFILE_BASE;
 
     if (dword_800BDFB8 && memfile->id)

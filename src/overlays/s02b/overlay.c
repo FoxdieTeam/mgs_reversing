@@ -32,7 +32,7 @@
 
 CHARA _StageCharacterEntries[] =
 {
-    { CHARA_VIBRATE, (NEWCHARA)vibrate_init_8005D508 },
+    { CHARA_VIBRATE, (NEWCHARA)NewVibration },
     { CHARA_PAD, NewPad_800C37EC },
     { CHARA_MOTION_SEQUENCE, NewMotse_800C5944 },
     { CHARA_INTR_CAM, NewIntrCam_800C5748 },

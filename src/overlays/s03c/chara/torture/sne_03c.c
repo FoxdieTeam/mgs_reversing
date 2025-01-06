@@ -38,7 +38,6 @@ typedef struct Snake03c2Work
 #define EXEC_LEVEL 5
 
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
-extern int              GM_GameStatus;
 extern CONTROL         *GM_PlayerControl_800AB9F4;
 extern OBJECT          *GM_PlayerBody_800ABA20;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
@@ -192,8 +191,8 @@ int Snake03c1GetResources_800CD98C(Snake03c1Work *work, int arg1, int arg2)
 
     GM_InitObject(&work->object, model & 0xFFFF, 0x2D, motion & 0xFFFF);
     GM_ConfigObjectJoint(&work->object);
-    GM_ConfigMotionControl_80034F08(&work->object, &work->motion, motion & 0xFFFF, work->oar1, work->oar2, control,
-                                    work->rots);
+    GM_ConfigMotionControl(&work->object, &work->motion, motion & 0xFFFF, work->oar1, work->oar2, control,
+                           work->rots);
     GM_ConfigObjectLight(&work->object, work->light);
     GM_ConfigObjectAction(&work->object, 0, 0, 0);
     Snake03c1_800CD914(work);

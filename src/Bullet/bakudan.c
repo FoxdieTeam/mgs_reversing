@@ -13,14 +13,12 @@
 #include "Game/object.h"
 #include "SD/g_sound.h"
 
-extern int     GM_GameStatus;
 extern GV_PAD  GV_PadData_800B05C0[4];
 extern int     GM_PlayerStatus_800ABA50;
 
 extern HITTABLE c4_actors_800BDD78[C4_COUNT];
 extern int GM_CurrentMap_800AB9B0;
 
-extern int GV_Time;
 extern int GM_PlayerMap_800ABA0C;
 
 extern unsigned short GM_ItemTypes_8009D598[];

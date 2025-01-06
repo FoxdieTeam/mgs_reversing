@@ -5,8 +5,6 @@
 #include "Okajima/blood.h"
 
 extern int     GV_Time;
-extern SVECTOR DG_ZeroVector;
-
 extern int     GM_PlayerMap_800ABA0C;
 extern SVECTOR GM_PlayerPosition_800ABA10;
 
@@ -24,7 +22,7 @@ extern ZAKO11F_COMMAND Zako11FCommand_800D5AF8;
 
 void  AN_Breath_800C3AA8( MATRIX *world );
 void  NewLSight_800D1D2C( SVECTOR *from, SVECTOR *to, int color );
-void *NewBulletEx_80076708( int, MATRIX *, int, int, int, int, int, int, int );
+void *NewBulletEx( int, MATRIX *, int, int, int, int, int, int, int );
 
 int ZAKO11F_ClearPutChar_800CD748( Zako11FWork *work, void *func );
 
@@ -36,7 +34,7 @@ void ZAKO11F_PutBlood_800CCFD4(Zako11FWork *work, int unit, int count)
     DG_MovePos(&s11i_800C33B4);
     DG_RotatePos(&s11i_800C33BC);
     ReadRotMatrix(&world);
-    NewBlood_80072728(&world, count);
+    NewBlood(&world, count);
 }
 
 void ZAKO11F_PutFog_800CD044(Zako11FWork *work)
@@ -262,11 +260,11 @@ void ZAKO11F_PutBulletEx_800CD4DC( Zako11FWork *work )
 
     if ( GV_Time & 3 )
     {
-        NewBulletEx_80076708(0x100, &local, ENEMY_SIDE, 1, 0, 0xA, work->field_B84, 10000, 750);
+        NewBulletEx(0x100, &local, ENEMY_SIDE, 1, 0, 0xA, work->field_B84, 10000, 750);
     }
     else
     {
-        NewBulletEx_80076708(0x1100, &local, ENEMY_SIDE, 1, 0, 0xA, work->field_B84, 10000, 750);
+        NewBulletEx(0x1100, &local, ENEMY_SIDE, 1, 0, 0xA, work->field_B84, 10000, 750);
     }
 
     GM_SeSetMode( &work->control.mov, SE_ENEMY_SHOT, GM_SEMODE_BOMB );
@@ -294,7 +292,7 @@ void ZAKO11F_PutBulletEx2_800CD618( Zako11FWork *work )
     DG_RotatePos( &rot );
     ReadRotMatrix( &local );
 
-    NewBulletEx_80076708(0x901, &local, ENEMY_SIDE, 1, 0, 0x1E, work->field_B86, 40000, 1500);
+    NewBulletEx(0x901, &local, ENEMY_SIDE, 1, 0, 0x1E, work->field_B86, 40000, 1500);
 
     GM_SeSetMode( &work->control.mov, SE_ENEMY_SHOT, GM_SEMODE_BOMB );
 

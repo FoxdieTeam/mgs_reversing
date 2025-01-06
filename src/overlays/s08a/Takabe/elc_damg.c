@@ -22,8 +22,6 @@ typedef struct ElcDamgWork
 
 unsigned short s08a_dword_800C36E0[2] = {HASH_ON2, HASH_OFF2};
 
-extern int GM_GameOverTimer;
-
 // Duplicate of RasenElExecProc_800CD1E4
 void ElcDamgExecProc_800D4AAC(int proc, int value)
 {

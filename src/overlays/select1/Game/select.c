@@ -131,7 +131,7 @@ void SelectAct_800C32D8(Work *work)
         GV_DestroyActor(&work->actor);
     }
     menu_Text_Init_80038B98();
-    MENU_Locate_80038B34(160, 120, 2);
+    MENU_Locate(160, 120, 2);
 
 #ifdef DEV_EXE
     if (isStageSelectionMenu)
@@ -142,9 +142,9 @@ void SelectAct_800C32D8(Work *work)
     {
         strcpy(stageInfo, work->current_entry_name);
     }
-    MENU_Printf_80038C38(stageInfo);
+    MENU_Printf(stageInfo);
 #else
-    MENU_Printf_80038C38(work->current_entry_name);
+    MENU_Printf(work->current_entry_name);
 #endif
 }
 

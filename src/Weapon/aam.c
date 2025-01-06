@@ -46,7 +46,7 @@ typedef struct _AamWork
 
 #define EXEC_LEVEL 6
 
-TARGET *StnTarget_800AB8A0 = NULL;
+TARGET *StnTarget = NULL;
 SVECTOR svector_800AB8A4 = {-300, 200, 0, 0};
 
 char byte_8009F40C[] = {0, 2, 127, 4, 0};
@@ -105,11 +105,11 @@ STATIC void AamAct(AamWork *work)
         {
             if (target_800BDF00 != 0)
             {
-                StnTarget_800AB8A0 = target_800BDF00;
+                StnTarget = target_800BDF00;
             }
             else
             {
-                StnTarget_800AB8A0 = 0;
+                StnTarget = 0;
             }
 
             rot.vx = work->control->rot.vx - 1024;
@@ -133,8 +133,8 @@ STATIC void AamAct(AamWork *work)
                 GM_SeSet(&work->control->mov, SE_MISSILE_FIRED);
                 GM_SetNoise(200, 2, &work->control->mov);
 
-                NewPadVibration_8005D58C(byte_8009F40C, 1);
-                NewPadVibration_8005D58C(byte_8009F414, 2);
+                NewPadVibration(byte_8009F40C, 1);
+                NewPadVibration(byte_8009F414, 2);
             }
         }
     }

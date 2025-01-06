@@ -2,17 +2,16 @@
 
 #include <stdio.h>
 #include "common.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libhzd/libhzd.h"
 #include "libgcl/libgcl.h"
 
 extern MAP gMapRecs_800B7910[ 16 ];
-extern GV_HEAP    MemorySystems_800AD2F0[ 3 ];
 extern DG_OBJS   *StageObjs_800B7890[ 32 ];
 extern int        DG_CurrentGroupID_800AB968;
 extern int        GM_PlayerMap_800ABA0C;
 extern int        HZD_CurrentGroup_800AB9A8;
-extern MATRIX     DG_ZeroMatrix;
 
 MAP* SECTION(".sbss") pHzdIter_800ABAA0;
 int  SECTION(".sbss") N_StageObjs_800ABAA4;

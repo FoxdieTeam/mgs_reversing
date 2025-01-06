@@ -23,8 +23,6 @@ extern int fonttext_dword_800C32B0;
 extern const char fonttext_aS[];
 extern const char aFonttextC[];
 
-extern SVECTOR DG_ZeroVector;
-
 int FonttextPollMessages_800C41EC( Work *work, int hash )
 {
     GV_MSG *message;
@@ -65,9 +63,9 @@ void FonttextAct_800C4290( Work *work )
     x = work->offset.x;
     y = work->offset.y;
 
-    MENU_Locate_80038B34( work->position.vx + x, work->position.vy + y, work->flags );
-    MENU_Color_80038B4C( work->color.vx, work->color.vy, work->color.vz );
-    MENU_Printf_80038C38( fonttext_aS, work->text );
+    MENU_Locate( work->position.vx + x, work->position.vy + y, work->flags );
+    MENU_Color( work->color.vx, work->color.vy, work->color.vz );
+    MENU_Printf( fonttext_aS, work->text );
 
     work->offset.x += work->offset.w;
     work->offset.y += work->offset.h;

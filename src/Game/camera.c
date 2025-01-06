@@ -21,20 +21,18 @@ int SECTION(".sbss") GM_event_camera_flag_800ABA9C;
 int      GM_CameraTrackSave = 10000;
 SVECTOR  GM_CameraRotateSave = { 640, 2048, 0, 0 };
 int      GM_CameraTrackOrg = 10000;
-int      GM_800AB43C = 0;
-int      GM_CameraFlagsOrg = 0; /* static */
-HZD_TRP *GM_800AB444 = NULL;
-int      GM_800AB448 = 0;
+
+STATIC int      GM_800AB43C = 0;
+STATIC int      GM_CameraFlagsOrg = 0;
+STATIC HZD_TRP *GM_800AB444 = NULL;
+STATIC int      GM_800AB448 = 0;
 
 extern int              GV_PauseLevel_800AB928;
 extern GM_Camera        GM_Camera_800B77E8;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B76F0;
-extern int              DG_UnDrawFrameCount;
-extern int              GV_Time;
 extern int              GM_AlertMode_800ABA00;
-extern int              GM_GameStatus;
 extern CAMERA           GM_CameraList_800B7718[8];
 extern int              GM_NoisePower_800ABA24;
 extern int              GM_NoiseLength_800ABA30;

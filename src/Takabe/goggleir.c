@@ -1,23 +1,49 @@
 #include "goggleir.h"
 #include "goggle.h"
 
-#include "scn_mask.h"
-#include "Equip/effect.h"
+#include "common.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "Game/map.h"
 #include "Game/linkvarbuf.h"
 #include "Game/object.h"
+#include "Equip/equip.h"
+#include "scn_mask.h"
 
-// thermal goggles (screen effect)
-
-extern int GM_GameStatus;
 extern int DG_CurrentGroupID_800AB968;
 extern int dword_800BDFA8;
 extern u_long DG_PaletteBuffer_800B3818[256];
 
-RECT rect_8009F718 = {768, 226, 256, 2};
-RECT rect_8009F720 = {768, 196, 256, 2};
+/*---------------------------------------------------------------------------*/
+// thermal goggles (screen effect)
 
-ushort goggleir_pal_convert_800789E0(ushort base)
+typedef struct GoggleIrWork
+{
+    GV_ACT         actor;
+    OBJECT_NO_ROTS object;
+    CONTROL       *control;
+    OBJECT        *parent_obj;
+    int            head_hidden;
+    int            field_50;
+    GV_ACT        *scn_mask; // thermal goggles screen effect
+    GV_ACT        *manager;
+    int            field_5C;
+    int            field_60;
+    GV_ACT        *manager2;
+    short          saved_n_packs;
+    short          saved_raise;
+} GoggleIrWork;
+
+// STATIC_ASSERT(sizeof(GoggleIrWork) == 0x6C, "sizeof(GoggleIrWork) is wrong!");
+
+#define EXEC_LEVEL 6
+
+/*---------------------------------------------------------------------------*/
+
+STATIC RECT rect_8009F718 = {768, 226, 256, 2};
+STATIC RECT rect_8009F720 = {768, 196, 256, 2};
+
+STATIC u_short goggleir_PaletteConvert(u_short base)
 {
     int r, r2;
     int g;
@@ -54,14 +80,14 @@ ushort goggleir_pal_convert_800789E0(ushort base)
     return r | g << 5 | b << 10 | a;
 }
 
-void goggleir_pal_cb_80078AB8(void)
+STATIC void goggleir_PaletteCallback(void)
 {
     int     iVar1;
-    ushort *puVar2;
+    u_short *puVar2;
     int     iVar3;
-    ushort  uVar4;
+    u_short uVar4;
 
-    iVar1 = 0xf;
+    iVar1 = 15;
 
     rect_8009F718.y = 0xe2;
     rect_8009F720.y = 0xc4;
@@ -72,18 +98,18 @@ void goggleir_pal_cb_80078AB8(void)
         StoreImage2(&rect_8009F720, DG_PaletteBuffer_800B3818);
         DrawSync(0);
 
-        puVar2 = (ushort *)DG_PaletteBuffer_800B3818;
+        puVar2 = (u_short *)DG_PaletteBuffer_800B3818;
         iVar3 = 0x200;
 
         for (; iVar3 > 0; iVar3--)
         {
-            *puVar2++ = goggleir_pal_convert_800789E0(*puVar2);
+            *puVar2++ = goggleir_PaletteConvert(*puVar2);
         }
 
         if (iVar1 == 1)
         {
-            uVar4 = goggleir_pal_convert_800789E0(0xffff);
-            puVar2 = (ushort *)&DG_PaletteBuffer_800B3818[248];
+            uVar4 = goggleir_PaletteConvert(0xffff);
+            puVar2 = (u_short *)&DG_PaletteBuffer_800B3818[248];
             iVar3 = 0x10;
 
             for (; iVar3 > 0; iVar3--)
@@ -99,30 +125,30 @@ void goggleir_pal_cb_80078AB8(void)
     }
 }
 
-void goggleir_act_80078BE0(GoggleIrWork *work)
+STATIC void goggleir_Act(GoggleIrWork *work)
 {
-    int new_map; // $a0
-    if (work->field_4C_head_hidden)
+    int new_map;
+    if (work->head_hidden)
     {
         new_map = work->control->map->index;
-        DG_GroupObjs(work->field_20_obj.objs, DG_CurrentGroupID_800AB968);
+        DG_GroupObjs(work->object.objs, DG_CurrentGroupID_800AB968);
         GM_CurrentMap_800AB9B0 = new_map;
-        if (work->field_48_pParent->objs->flag & DG_FLAG_INVISIBLE)
+        if (work->parent_obj->objs->flag & DG_FLAG_INVISIBLE)
         {
-            DG_InvisibleObjs(work->field_20_obj.objs);
+            DG_InvisibleObjs(work->object.objs);
         }
         else
         {
-            DG_VisibleObjs(work->field_20_obj.objs);
+            DG_VisibleObjs(work->object.objs);
         }
     }
 
     if (work->field_50 == 3)
     {
-        DG_SetExtPaletteMakeFunc_80079194(goggleir_pal_cb_80078AB8, goggleir_pal_convert_800789E0);
+        DG_SetExtPaletteMakeFunc(goggleir_PaletteCallback, goggleir_PaletteConvert);
         GM_GameStatus |= STATE_THERMG;
         dword_800BDFA8 = 1;
-        work->field_54_pScn_mask = (GV_ACT *)new_scn_mask_8007895C(1);
+        work->scn_mask = (GV_ACT *)NewNightVisionScreen(1);
     }
 
     if (work->field_50 < 11)
@@ -131,79 +157,81 @@ void goggleir_act_80078BE0(GoggleIrWork *work)
     }
 }
 
-void goggleir_kill_80078CE4(GoggleIrWork *work)
+STATIC void goggleir_Die(GoggleIrWork *work)
 {
     GM_GameStatus &= ~STATE_THERMG;
-    DG_ResetExtPaletteMakeFunc_800791E4();
+    DG_ResetExtPaletteMakeFunc();
 
-    if (work->field_54_pScn_mask)
+    if (work->scn_mask)
     {
-        GV_DestroyOtherActor(work->field_54_pScn_mask);
+        GV_DestroyOtherActor(work->scn_mask);
     }
 
-    if (work->field_58_pGglmng)
+    if (work->manager)
     {
-        GV_DestroyOtherActor(work->field_58_pGglmng);
+        GV_DestroyOtherActor(work->manager);
     }
 
-    if (work->field_64_pGglmng)
+    if (work->manager2)
     {
-        GV_DestroyOtherActor(work->field_64_pGglmng);
+        GV_DestroyOtherActor(work->manager2);
     }
 
-    if (work->field_4C_head_hidden)
+    if (work->head_hidden)
     {
-        GM_FreeObject((OBJECT *)&work->field_20_obj);
-        EQ_VisibleHead(work->field_48_pParent, &work->field_68_savedNPacks, &work->field_6A_saved_raise);
+        GM_FreeObject((OBJECT *)&work->object);
+        EQ_VisibleHead(work->parent_obj, &work->saved_n_packs, &work->saved_raise);
     }
 }
 
-int goggleir_loader_80078D8C(GoggleIrWork *work, OBJECT *pParent)
+STATIC int goggleir_GetResources(GoggleIrWork *work, OBJECT *parent)
 {
-    OBJECT_NO_ROTS *pObj = &work->field_20_obj;
+    OBJECT_NO_ROTS *obj = &work->object;
 
-    if (pParent->objs->n_models >= 7)
+    if (parent->objs->n_models >= 7)
     {
-        GM_InitObjectNoRots(pObj, GV_StrCode("goggles"), 877, 0);
-        if (!pObj->objs)
+        GM_InitObjectNoRots(obj, GV_StrCode("goggles"), 877, 0);
+        if (!obj->objs)
         {
             return -1;
         }
-        GM_ConfigObjectRoot((OBJECT *)pObj, pParent, 6);
-        if (pParent->light)
+        GM_ConfigObjectRoot((OBJECT *)obj, parent, 6);
+        if (parent->light)
         {
-            GM_ConfigObjectLight((OBJECT *)pObj, pParent->light);
+            GM_ConfigObjectLight((OBJECT *)obj, parent->light);
         }
-        work->field_48_pParent = pParent;
-        EQ_InvisibleHead(pParent, &work->field_68_savedNPacks, &work->field_6A_saved_raise);
-        work->field_4C_head_hidden = 1;
+        work->parent_obj = parent;
+        EQ_InvisibleHead(parent, &work->saved_n_packs, &work->saved_raise);
+        work->head_hidden = TRUE;
     }
 
-    work->field_64_pGglmng = NewGoggleManager(ITEM_THERM_G);
-    if (!work->field_64_pGglmng)
+    work->manager2 = NewGoggleManager(ITEM_THERM_G);
+    if (!work->manager2)
     {
         return -1;
     }
     return 0;
 }
 
-GV_ACT *NewGoggleIr_80078E6C(CONTROL *pCtrl, OBJECT *parent_obj, int unused)
+/*---------------------------------------------------------------------------*/
+
+GV_ACT *NewGoggleIr(CONTROL *control, OBJECT *parent_obj, int num_parent)
 {
-    GoggleIrWork *work = (GoggleIrWork *)GV_NewActor(6, sizeof(GoggleIrWork));
+    GoggleIrWork *work = (GoggleIrWork *)GV_NewActor(EXEC_LEVEL, sizeof(GoggleIrWork));
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)&goggleir_act_80078BE0,
-                         (GV_ACTFUNC)&goggleir_kill_80078CE4, "goggleir.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)&goggleir_Act,
+                         (GV_ACTFUNC)&goggleir_Die, "goggleir.c");
 
-        if (goggleir_loader_80078D8C(work, parent_obj) < 0)
+        if (goggleir_GetResources(work, parent_obj) < 0)
         {
             GV_DestroyActor(&work->actor);
-            return 0;
+            return NULL;
         }
     }
 
-    work->control = pCtrl;
+    work->control = control;
     work->field_50 = 0;
 
     return &work->actor;

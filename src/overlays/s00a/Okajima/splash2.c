@@ -19,7 +19,6 @@ typedef struct _Work
 
 void * NewRipple_800D7F30( MATRIX *, int );
 
-extern MATRIX DG_ZeroMatrix;
 extern int    GM_CurrentMap_800AB9B0;
 extern int    GV_Clock_800AB920;
 

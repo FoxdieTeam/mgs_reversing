@@ -1,5 +1,4 @@
 #include "equip.h"
-#include "effect.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -9,6 +8,7 @@
 
 #include "common.h"
 #include "chara/snake/sna_init.h"
+#include "Game/game.h"
 #include "Game/camera.h"
 #include "Game/object.h"
 #include "Game/linkvarbuf.h"
@@ -23,8 +23,6 @@ extern int                 DG_CurrentGroupID_800AB968;
 extern GM_Camera           GM_Camera_800B77E8;
 extern CONTROL            *GM_PlayerControl_800AB9F4;
 extern int                 dword_8009F604;
-extern int                 GM_LoadRequest;
-extern int                 GM_GameOverTimer;
 extern GV_PAD              GV_PadData_800B05C0[4];
 extern TMat8x8B            gJpegcamMatrix2_800BDCD8;
 extern UnkCameraStruct     gUnkCameraStruct_800B77B8;
@@ -35,7 +33,6 @@ extern int                 GV_PauseLevel_800AB928;
 extern char               *dword_800BDCC8;
 extern int                 dword_800BDCCC;
 extern int                 dword_800BDCD0;
-extern int                 DG_UnDrawFrameCount;
 extern UnkCameraStruct     gUnkCameraStruct_800B77B8;
 
 extern short dword_800ABBD4;
@@ -79,7 +76,7 @@ typedef struct JpegcamWork
 
 /*---------------------------------------------------------------------------*/
 
-STATIC void jpegcam_unk1_80063704(char *buf, mem_card *pMemcard, int arg2, int arg3);
+STATIC void jpegcam_unk1_80063704(char *buf, MEM_CARD *pMemcard, int arg2, int arg3);
 STATIC void jpegcam_unk2_80063888(char *param_1, int param_2);
 STATIC void jpegcam_unk3_800638B4(int *arg0);
 
@@ -132,7 +129,7 @@ STATIC SVECTOR dword_8009F3AC[2] = {
  * photo save functions
  */
 
-STATIC void jpegcam_unk1_80063704(char *buf, mem_card *pMemcard, int arg2, int arg3)
+STATIC void jpegcam_unk1_80063704(char *buf, MEM_CARD *pMemcard, int arg2, int arg3)
 {
     char photo_id[8];
     unsigned int blocks_avail;
@@ -142,11 +139,11 @@ STATIC void jpegcam_unk1_80063704(char *buf, mem_card *pMemcard, int arg2, int a
 
     blocks_avail = 0;
 
-    for (index = 0; index < pMemcard->field_2_file_count; index++)
+    for (index = 0; index < pMemcard->file_count; index++)
     {
-        if (strncmp(pMemcard->field_4_files[index].field_0_name, memoryCardFileName, 13) == 0)
+        if (strncmp(pMemcard->files[index].name, memoryCardFileName, 13) == 0)
         {
-            blocks_avail |= 1 << (pMemcard->field_4_files[index].field_0_name[18] - 64);
+            blocks_avail |= 1 << (pMemcard->files[index].name[18] - 64);
         }
     }
 
@@ -622,8 +619,8 @@ STATIC void JpegcamProcessInput(JpegcamWork *work)
     status = work->pad_data->status;
     press = work->pad_data->press;
 
-    GM_CheckShukanReverse_8004FBF8(&status);
-    GM_CheckShukanReverse_8004FBF8(&press);
+    GM_CheckShukanReverse(&status);
+    GM_CheckShukanReverse(&press);
 
     if (GV_PauseLevel_800AB928 != 0)
     {
@@ -1022,10 +1019,10 @@ STATIC void JpegcamAct(JpegcamWork *work)
 
         if ( !(GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000) )
         {
-            MENU_Locate_80038B34(200, 25, 0);
-            MENU_Color_80038B4C(192, 144, 128);
-            MENU_Printf_80038C38("zoom  : %4d\n", GM_Camera_800B77E8.zoom);
-            MENU_Printf_80038C38("angle : %4d, %4d\n", -work->field_5C_ang.vx, work->field_5C_ang.vy);
+            MENU_Locate(200, 25, 0);
+            MENU_Color(192, 144, 128);
+            MENU_Printf("zoom  : %4d\n", GM_Camera_800B77E8.zoom);
+            MENU_Printf("angle : %4d, %4d\n", -work->field_5C_ang.vx, work->field_5C_ang.vy);
         }
         break;
 

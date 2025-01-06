@@ -25,4 +25,12 @@ typedef int         TMat8x8I[8][8];     //  8 x  8 integer matrix
 
 GV_ACT *NewJpegcam( CONTROL *control, OBJECT *parent, int num_parent );
 
+void EQ_ChangeTexture(const char *itemName1, const char *itemName2);
+void EQ_InvisibleHead(OBJECT *object, short *n_packs, short *raise);
+void EQ_VisibleHead(OBJECT *object, short *n_packs, short *raise);
+#ifdef VR_EXE
+void EQ_InvisibleUnit(OBJECT *object, int idx, short *n_packs, short *raise);
+void EQ_VisibleUnit(OBJECT *object, int idx, short *n_packs, short *raise);
+#endif
+
 #endif // _EQUIP_H_

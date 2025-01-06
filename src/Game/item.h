@@ -44,7 +44,7 @@ typedef struct ItemWork
     SVECTOR        field_178;
 } ItemWork;
 
-GV_ACT *NewItem_800344F8(int name, int where, int argc, char **argv);
+GV_ACT *NewItem(int name, int where, int argc, char **argv);
 ItemWork * item_init_80034758(SVECTOR *pPos, SVECTOR *a2, Item_Info *pItemInfo);
 int  item_init_helper_800345C0(ItemWork *work, SVECTOR *pPos, SVECTOR *a3, Item_Info *pItemInfo, int where);
 void item_act_80033784(ItemWork *work);

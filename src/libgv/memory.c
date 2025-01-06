@@ -4,13 +4,13 @@
 #include "common.h"
 
 /**bss***************************************************************/
-extern GV_HEAP MemorySystems_800AD2F0[3];
+extern GV_HEAP MemorySystems_800AD2F0[GV_MEMORY_MAX];
 /********************************************************************/
 
 /***$gp****************************************************************/
-short          SECTION(".sbss") dword_800AB93C;
+short          SECTION(".sbss") dword_800AB93C; /* static */
 unsigned char *SECTION(".sbss") GV_ResidentMemoryBottom_800AB940;
-int            SECTION(".sbss") dword_800AB944;
+int            SECTION(".sbss") dword_800AB944; /* static */
 /*********************************************************************/
 
 extern unsigned char *gOverlayBase_800AB9C8;
@@ -295,7 +295,7 @@ void GV_InitMemorySystemAll(void)
 {
     int i;
 
-    for (i = 0; i < 3; i++)
+    for (i = 0; i < GV_MEMORY_MAX; i++)
     {
         GV_InitMemorySystem(i, 0, NULL, 0);
     }
@@ -758,9 +758,8 @@ void GV_CopyMemory(void *from, void *to, int size)
 }
 
 // TODO: Use sizeof(resident)+1 when the start is known
-// TODO: hardcoded
-// This goes backwards not "into" this heap buffer
-void *GV_ResidentAreaBottom = (void *)0x80117000;
+// TODO: hardcoded address
+void *GV_ResidentAreaBottom = GV_NORMAL_MEMORY_TOP;
 
 // from leaked original MGS source code
 /**

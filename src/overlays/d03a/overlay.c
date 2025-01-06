@@ -13,7 +13,7 @@
 
 CHARA _StageCharacterEntries[] =
 {
-    { CHARA_DOOR, NewDoor_8006FD00 },
+    { CHARA_DOOR, NewDoor },
     { CHARA_UJI, NewUji_800C42F8 },
     { CHARA_CINEMA, NewCinemaScreenSet_800DE4D8 },
     { CHARA_FADEIO, NewFadeIo_800C4224 },

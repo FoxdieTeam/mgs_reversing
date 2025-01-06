@@ -1,11 +1,9 @@
 #include "over.h"
 #include "common.h"
+#include "Game/game.h"
 #include "Game/linkvarbuf.h"
 
 extern int DG_FrameRate;
-extern int GM_LoadRequest;
-extern int GM_GameOverTimer;
-extern int GM_GameStatus;
 extern int GV_Clock_800AB920;
 extern int GV_PauseLevel_800AB928;
 
