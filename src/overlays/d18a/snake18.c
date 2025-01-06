@@ -1,21 +1,50 @@
 #include "common.h"
 #include "Game/control.h"
+#include "Game/game.h"
 
 typedef struct 
 {
     char* str;
+    char* str2;
 } Type;
 
 typedef struct 
 {
-    //GV_ACT  actor;   // Is this correct???
-    char padding3[0x20]; 
+    GV_ACT  actor;
     CONTROL control;
-    char padding1[0x7E4 - (sizeof(GV_ACT) + sizeof(CONTROL))]; 
+    OBJECT  body;    //0x9C
+
+    char pad[4];
+    SVECTOR unk184;
+    int unk18C;
+    char padding1[0x19C - 0x18C - sizeof(int)]; 
+    SVECTOR unk19C;
+    char padding2[0x1A4 - 0x19C - sizeof(SVECTOR)]; 
+    int unk1A4;
+    char padding3[0x1B0 - 0x1A4 - sizeof(int)]; 
+    short unk1B0;
+    char padding4[0x1C0 - 0x1B0 - sizeof(short)]; 
+    int unk1C0;
+    char padding5[0x7E4 - 0x1C0 - sizeof(int)]; 
     int unk7E4;
-    char padding2[(0x8A4 - 0x7E4) - sizeof(short*)];
+    char padding6[0x854 - 0x7E4 - sizeof(int)]; 
+    int unk854;
+    char padding7[0x858 - 0x854 - sizeof(int)]; 
+    int unk858;
+    char padding8[0x85C - 0x858 - sizeof(int)]; 
+    int unk85C;
+    char padding9[0x868 - 0x85C - sizeof(int)]; 
+    int unk868;
+    char padding10[0x86C - 0x868 - sizeof(int)]; 
+    short unk86C;
+    short unk86E;
+    char padding11[(0x8A4 - 0x86E) - sizeof(short*)];
     short *unk8A4;
     Type *unk8A8;
+    char padding12[(0x90C - 0x8A8) - sizeof(short*)]; 
+    char unk90C;
+    char unk90D;
+    char unk90E;
 } Snake18Work;
 
 // @todo(Voxel): Cleanup: Merge structs? Differenet structs? Some overlap?
@@ -397,15 +426,7 @@ short Snake18_800CB280(Snake18Work* work, int arg1)
 // Todo:        d18a_snake18_800CB42C   https://decomp.me/scratch/Menij
 // Todo:        d18a_snake18_800CB470   https://decomp.me/scratch/YLL1m
 //      Done:        d18a_snake18_800CB514   https://decomp.me/scratch/4h1gf
-//      Done:        d18a_snake18_800CB59C   https://decomp.me/scratch/LA1cM
-//      Done:        d18a_snake18_800CB60C   https://decomp.me/scratch/TDT7X
-// Todo:        d18a_snake18_800CB710   https://decomp.me/scratch/geWmP
-//      Done:        d18a_snake18_800CB760   https://decomp.me/scratch/6jT89
-//      Done:        d18a_snake18_800CB7BC   https://decomp.me/scratch/cNTUX
-//      Done:        d18a_snake18_800CB7D0   https://decomp.me/scratch/vOFPK
-//      Done:        d18a_snake18_800CB838   https://decomp.me/scratch/awpwA
-//      Done:        d18a_snake18_800CB888   https://decomp.me/scratch/gKL4w
-// Todo:        d18a_snake18_800CB908   https://decomp.me/scratch/jRC8c (M2C_ERROR)
+// Todo:        d18a_snake18_800CB908   https://decomp.me/scratch/VaYjF (77.35%) (M2C_ERROR)
 //      Done:        d18a_snake18_800CB9CC   https://decomp.me/scratch/7pDQo
-// Todo:        d18a_snake18_800CBA64   https://decomp.me/scratch/htVLT
+// Todo:        d18a_snake18_800CBA64   https://decomp.me/scratch/htVLT (66.58%)
 // Todo:        d18a_snake18_800CBB34   https://decomp.me/scratch/hbPJO
