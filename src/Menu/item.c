@@ -23,8 +23,8 @@ extern int           GM_PlayerMap_800ABA0C;
 extern MATRIX        DG_ZeroMatrix;
 extern SVECTOR       GM_PlayerPosition_800ABA10;
 
-extern int dword_800ABAD0;
-int        SECTION(".sbss") dword_800ABAD0;
+int SECTION(".sbss") dword_800ABAD0;
+int SECTION(".sbss") dword_800ABAD4;
 
 // Also see dword_8009E5CC.
 // Those strings are passed to font_draw_string().
@@ -1214,4 +1214,9 @@ void menu_item_init_8003CBF0(MenuWork *work)
 void menu_item_kill_8003CC74(MenuWork *work)
 {
     work->field_28_flags &= ~4u;
+}
+
+void sub_8003CC88()
+{
+    dword_800ABAD0 = 0;
 }

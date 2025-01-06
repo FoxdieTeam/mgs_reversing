@@ -20,17 +20,10 @@ int      rubi_flag_800AB6C4 = 0;
 
 // Menu-related?
 
-extern int rubi_left_pos_x_800ABB2C;
-int        SECTION(".sbss") rubi_left_pos_x_800ABB2C;
-
-extern int rubi_left_pos_y_800ABB30;
-int        SECTION(".sbss") rubi_left_pos_y_800ABB30;
-
-extern int rubi_left_pos_xmax_800ABB34;
-int        SECTION(".sbss") rubi_left_pos_xmax_800ABB34;
-
-extern char *dword_800ABB28;
-char        *SECTION(".sbss") dword_800ABB28;
+char *SECTION(".sbss") dword_800ABB28;
+int   SECTION(".sbss") rubi_left_pos_x_800ABB2C;
+int   SECTION(".sbss") rubi_left_pos_y_800ABB30;
+int   SECTION(".sbss") rubi_left_pos_xmax_800ABB34;
 
 char *dword_8009E75C[] = {NULL, NULL, NULL, NULL};
 

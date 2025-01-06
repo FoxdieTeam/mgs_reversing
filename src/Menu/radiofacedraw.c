@@ -16,8 +16,7 @@ int  dword_800AB6E0 = 0;
 menu_chara_struct *dword_800ABB38;
 menu_chara_struct *SECTION(".sbss") dword_800ABB38; // force gp
 
-extern int dword_800ABB3C;
-int        dword_800ABB3C;
+int SECTION(".sbss") dword_800ABB3C;
 
 
 extern int GV_Clock_800AB920;
