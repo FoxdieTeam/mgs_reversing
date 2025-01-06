@@ -31,6 +31,23 @@
 #include "SD/g_sound.h"
 #include "strcode.h"
 
+int          SECTION(".sbss") gSnaMoveDir_800ABBA4;
+int          SECTION(".sbss") dword_800ABBA8;
+SVECTOR     *SECTION(".sbss") dword_800ABBAC;
+void        *SECTION(".sbss") dword_800ABBB0;
+char        *SECTION(".sbss") dword_800ABBB4;
+int          SECTION(".sbss") sna_800ABBA0_pad;
+HZD_FLR     *SECTION(".sbss") flr_800ABBB8[2];
+int          SECTION(".sbss") dword_800ABBC0;
+int          SECTION(".sbss") dword_800ABBC4;
+SVECTOR     *SECTION(".sbss") pVec_800ABBC8;
+SVECTOR     *SECTION(".sbss") pVec_800ABBCC;
+int          SECTION(".sbss") dword_800ABBD0;
+short        SECTION(".sbss") dword_800ABBD4;
+void        *SECTION(".sbss") GM_BombSeg_800ABBD8;
+short        SECTION(".sbss") dword_800ABBDC;
+
+/*
 extern int dword_800ABBA8;
 int        SECTION(".sbss") dword_800ABBA8;
 
@@ -40,8 +57,6 @@ int        SECTION(".sbss") gSnaMoveDir_800ABBA4;
 extern char *dword_800ABBB4;
 char *       SECTION(".sbss") dword_800ABBB4;
 
-extern CONTROL *GM_PlayerControl_800AB9F4;
-extern OBJECT  *GM_PlayerBody_800ABA20;
 
 HZD_FLR *flr_800ABBB8[2];
 HZD_FLR *SECTION(".sbss") flr_800ABBB8[2];
@@ -75,7 +90,9 @@ void *SECTION(".sbss") GM_BombSeg_800ABBD8;
 
 extern SVECTOR *dword_800ABBAC;
 SVECTOR *SECTION(".sbss") dword_800ABBAC;
-
+*/
+extern CONTROL *GM_PlayerControl_800AB9F4;
+extern OBJECT  *GM_PlayerBody_800ABA20;
 extern short              GM_WeaponChanged_800AB9D8;
 extern int                GM_AlertMode_800ABA00;
 extern int                GM_GameOverTimer;
@@ -88,7 +105,7 @@ extern unsigned short     GM_ItemTypes_8009D598[];
 extern void              *dword_8009EEA4[];
 extern int                GV_Time;
 extern int                bakudan_count_8009F42C;
-extern int                gSnaMoveDir_800ABBA4;
+//extern int                gSnaMoveDir_800ABBA4;
 extern int                DG_UnDrawFrameCount;
 extern int                counter_8009F448;
 extern int                dword_800ABA1C;
