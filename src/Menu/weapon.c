@@ -27,7 +27,6 @@ void sub_8003D34C(Menu_Item_Unknown *a1, int a2);
 extern GM_Camera GM_Camera_800B77E8;
 
 
-
 STATIC PANEL_CONF *dword_800AB584 = NULL;
 
 extern int dword_8009E544[];
