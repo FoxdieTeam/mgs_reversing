@@ -53,7 +53,7 @@ CHARA _StageCharacterEntries[] =
     { CHARA_MOTION_SEQUENCE, NewMotse_800C5944 },
     { CHARA_FADEIO, NewFadeIo_800C4224 },
     { CHARA_FADEIO_0004, NewFadeIo_800C4224 },
-    { CHARA_BULLET, (NEWCHARA)NewBulletEx_80076708 },
+    { CHARA_BULLET, (NEWCHARA)NewBulletEx },
     { CHARA_DEMOKAGE, (NEWCHARA)NewDemoKage_800C48A4 },
     { CHARA_SUB_EFCT, NewFocus_800CEFF8 },
     { CHARA_BLOOD_BL, NewBlur_800CD530 },

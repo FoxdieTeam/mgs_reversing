@@ -1,5 +1,6 @@
 #include "common.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "Game/control.h"
 #include "Game/game.h"
@@ -278,8 +279,6 @@ typedef struct HindWork
 SVECTOR s11g_dword_800C3598 = {5000, 3000, 5000, 0};
 SVECTOR s11g_dword_800C35A0 = {100, 0, 0, 0};
 
-extern MATRIX           DG_ZeroMatrix;
-extern SVECTOR          DG_ZeroVector;
 extern SVECTOR          GM_PlayerPosition_800ABA10;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 extern DG_CHANL         DG_Chanls_800B1800[3];
@@ -998,7 +997,7 @@ void s11g_hind_800D3214(HindWork *work)
         var_a2 = field_654;
         var_s1 = field_654;
     }
-    MENU_DrawBar_80038D74(16, 28, var_a2, field_654, &work->field_7E8);
+    MENU_DrawBar(16, 28, var_a2, field_654, &work->field_7E8);
     if (field_654 < var_s1)
     {
         work->field_7F4 -= 8;

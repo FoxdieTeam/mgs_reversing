@@ -49,7 +49,6 @@ typedef struct SStormWork
 int s11i_dword_800C36B4[] = {0x00011000, 0x0CFE0105, 0xFF010000, 0x00000008, 0x0D010002};
 char s11i_dword_800C36C8[] = {0xF}; // FIXME: this is a part of s11i_dword_800C36B4[]
 
-extern SVECTOR         *GM_lpsvectWind;
 extern SVECTOR          GM_PlayerPosition_800ABA10;
 extern int              GM_CurrentMap_800AB9B0;
 extern int              GM_PlayerStatus_800ABA50;
@@ -335,7 +334,7 @@ void SStormAct_800D478C(SStormWork *work)
         work->field_50.field_0_texture_hash = GV_StrCode("snow_ex3");
         break;
     }
-    NewAnime_8005FBC8(NULL, NULL, &work->field_50);
+    NewAnime(NULL, NULL, &work->field_50);
 }
 
 void SStormDie_800D4E90(SStormWork *work)

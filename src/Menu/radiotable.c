@@ -5,22 +5,22 @@
 extern radio_table gRadioOverTable_800BDAF8;
 extern radio_table gRadioBaseTable_800BDAB8;
 
-void MENU_InitRadioTable_80049644()
+void MENU_InitRadioTable(void)
 {
-    int idx; // $a1
-    for (idx = 0; idx < 8; idx++)
+    int i;
+    for (i = 0; i < 8; i++)
     {
-        gRadioBaseTable_800BDAB8.field_0_entries[idx].field_0_contactFrequency = 0;
-        gRadioOverTable_800BDAF8.field_0_entries[idx].field_0_contactFrequency = 0;
+        gRadioBaseTable_800BDAB8.field_0_entries[i].field_0_contactFrequency = 0;
+        gRadioOverTable_800BDAF8.field_0_entries[i].field_0_contactFrequency = 0;
     }
 }
 
-void MENU_ClearRadioTable_8004967C(void)
+void MENU_ClearRadioTable(void)
 {
-    MENU_InitRadioTable_80049644();
+    MENU_InitRadioTable();
 }
 
-radio_table_entry *sub_8004969C(radio_table *pRadioTable, int contactFrequency)
+STATIC radio_table_entry *sub_8004969C(radio_table *pRadioTable, int contactFrequency)
 {
     radio_table_entry *entriesIter;
     int                freq;
@@ -57,7 +57,7 @@ radio_table_entry *sub_8004969C(radio_table *pRadioTable, int contactFrequency)
     }
 }
 
-radio_table_entry* sub_80049710(radio_table *pData, int contactFrequency, int radioTableCode)
+STATIC radio_table_entry* sub_80049710(radio_table *pData, int contactFrequency, int radioTableCode)
 {
     radio_table_entry *pFound; // $v0
 
@@ -80,17 +80,17 @@ radio_table_entry* sub_80049710(radio_table *pData, int contactFrequency, int ra
     return pFound;
 }
 
-void MENU_SetRadioBaseCall_80049764(int contactFrequency, int radioTableCode)
+void MENU_SetRadioBaseCall(int contactFrequency, int radioTableCode)
 {
     sub_80049710(&gRadioBaseTable_800BDAB8, contactFrequency, radioTableCode);
 }
 
-void MENU_SetRadioOverCall_80049794(int contactFrequency, int radioTableCode)
+void MENU_SetRadioOverCall(int contactFrequency, int radioTableCode)
 {
     sub_80049710(&gRadioOverTable_800BDAF8, contactFrequency, radioTableCode);
 }
 
-int MENU_GetRadioCode_800497C4(int contactFrequency)
+int MENU_GetRadioCode(int contactFrequency)
 {
     radio_table_entry *pFound; // $v0
 

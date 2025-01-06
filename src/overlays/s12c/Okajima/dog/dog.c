@@ -467,7 +467,6 @@ extern int              GM_PadVibration_800ABA3C;
 extern SVECTOR          GM_PlayerPosition_800ABA10;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern OBJECT          *GM_PlayerBody_800ABA20;
-extern SVECTOR          DG_ZeroVector;
 
 void *AN_Unknown_800CA1EC(MATRIX *mat, int mark);
 void *AN_Unknown_800CA320(MATRIX *mat, int mark);
@@ -843,7 +842,7 @@ void Dog_800CBBE8(DogWork *work, int index)
     DG_RotatePos(&pos);
 
     ReadRotMatrix(&rot);
-    NewBlood_80072728(&rot, 2);
+    NewBlood(&rot, 2);
 
     if (GV_RandU(16) == 0)
     {
@@ -879,7 +878,7 @@ void Dog_800CBCF4(DogWork *work, int arg1)
     DG_RotatePos(&svec);
 
     ReadRotMatrix(&rot);
-    NewBlood_80072728(&rot, 2);
+    NewBlood(&rot, 2);
 
     if (GV_RandU(2) != 0)
     {
@@ -959,7 +958,7 @@ void Dog_800D1638(DogWork *work, int obj_index, int blood_count, int index)
     DG_MovePos(&s12c_dword_800C3450);
     DG_RotatePos(&s12c_dword_800C3458);
     ReadRotMatrix(&rot);
-    NewBlood_80072728(&rot, blood_count);
+    NewBlood(&rot, blood_count);
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800D16C0.s")

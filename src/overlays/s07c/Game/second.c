@@ -21,12 +21,12 @@ void s07c_second_800C56A0(SecondWork *work)
     {
         work->field_20 = 1;
         printf("SECOND!!\n");
-        MENU_JimakuWrite_800494E8(work->field_28, 20000);
+        MENU_JimakuWrite(work->field_28, 20000);
     }
     else if (work->field_20 == 1 && GV_PadData_800B05C0[0].status)
     {
         work->field_20 = 0;
-        MENU_JimakuClear_80049518();
+        MENU_JimakuClear();
     }
 }
 

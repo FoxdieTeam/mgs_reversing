@@ -3,17 +3,12 @@
 #include <stdio.h>
 #include <sys/types.h>
 #include <libapi.h>
+#include <libetc.h>
 #include <libcd.h>
 
 #include "common.h"
 #include "mts/mts.h"
-#include "SD/sound.h"
-
-int  fs_stream_tick_start_8009D510 = -1;
-int  fs_dword_8009D514 = 0;
-int  fs_stream_is_force_stop_8009D518 = 0;
-int  fs_stream_end_flag_8009D51C = 1;
-int *fs_dword_8009D520 = NULL;
+#include "SD/sd_cli.h"
 
 extern int          fs_stream_ref_count_800B5298;
 extern int          fs_dword_800B529C;
@@ -27,6 +22,12 @@ extern int          *fs_ptr_800B52B8;
 extern char         *fs_ptr_800B52BC;
 extern int          fs_stream_task_state_800B52C0;
 
+STATIC int  fs_stream_tick_start_8009D510 = -1;
+STATIC int  fs_dword_8009D514 = 0;
+STATIC int  fs_stream_is_force_stop_8009D518 = 0;
+STATIC int  fs_stream_end_flag_8009D51C = 1;
+STATIC int *fs_dword_8009D520 = NULL;
+
 STATIC int FS_800239E8( CDBIOS_TASK *task )
 {
     char *charPtr1, *charPtr2;
@@ -37,7 +38,7 @@ STATIC int FS_800239E8( CDBIOS_TASK *task )
     int   retval;
 
     retval = 1;
-    fs_ptr_800B52B8 = task->field_8_buffer + task->field_C * 4;
+    fs_ptr_800B52B8 = task->buffer + task->field_C * 4;
 
     if (fs_stream_is_force_stop_8009D518 == 0 && fs_stream_end_flag_8009D51C == 0)
     {
@@ -93,7 +94,7 @@ STATIC int FS_800239E8( CDBIOS_TASK *task )
             }
 
             streamHeap = fs_stream_heap_800B52A4;
-            task->field_8_buffer = memcpyDst;
+            task->buffer = memcpyDst;
 
             *(int *)charPtr1 = -1;
             retval = 2;
@@ -116,7 +117,7 @@ STATIC int FS_800239E8( CDBIOS_TASK *task )
             retval = 2;
             fs_stream_heap_end_800B52A8 = streamHeapEnd;
 
-            task->field_8_buffer = fs_stream_heap_800B52A4;
+            task->buffer = fs_stream_heap_800B52A4;
             fs_ptr_800B52BC = fs_stream_heap_800B52A4;
             fs_ptr_800B52B8 = fs_stream_heap_800B52A4;
         }
@@ -135,7 +136,7 @@ STATIC int FS_800239E8( CDBIOS_TASK *task )
 
 exit:
     fs_dword_800B529C = 0;
-    fs_dword_800B52A0 = task->field_4_sector + 1;
+    fs_dword_800B52A0 = task->sector + 1;
     return 0;
 }
 
@@ -311,7 +312,7 @@ void FS_StreamCD( void )
 }
 
 // warning/bug here is probably in OG code, unless this is an incorrect match
-int FS_StreamGetTop( int is_movie )
+int FS_StreamGetTop( int is_demo )
 {
     int file_id;
 
@@ -319,16 +320,16 @@ int FS_StreamGetTop( int is_movie )
     file_id = *&file_id;
 #endif
 
-    switch (is_movie)
+    switch (is_demo)
     {
     case 0:
-        file_id = FILEID_VOX;
+        file_id = FS_FILEID_VOX;
         break;
     case 1:
-        file_id = FILEID_DEMO;
+        file_id = FS_FILEID_DEMO;
         break;
     }
-    return fs_file_info[file_id].sector;
+    return fs_file_info[file_id].pos;
 }
 
 int FS_StreamInit( void *pHeap, int heapSize )

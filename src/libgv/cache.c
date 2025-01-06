@@ -126,8 +126,7 @@ void *GV_GetCache(int id)
     {
         return tag->ptr;
     }
-
-    return 0;
+    return NULL;
 }
 
 // sets currently active cached file if it can be found

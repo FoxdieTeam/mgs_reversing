@@ -1,8 +1,7 @@
 #include "common.h"
+#include "libdg/libdg.h"
 #include "Anime/animeconv/anime.h"
 #include "strcode.h"
-
-extern SVECTOR DG_ZeroVector;
 
 const char s00a_dword_800DFEB4[] = {
     0x1, 'V', 0x4, 0x0,
@@ -291,7 +290,7 @@ void *AN_Unknown_800CA1EC( MATRIX *mat, int mark )
     }
 
     anim->pre_script = &pre;
-    return NewAnime_8005FBC8( mat, 0, anim );
+    return NewAnime( mat, 0, anim );
 }
 
 void *AN_Unknown_800CA320( MATRIX *mat, int mark )
@@ -344,7 +343,7 @@ void *AN_Unknown_800CA320( MATRIX *mat, int mark )
     }
 
     anim->pre_script = &pre;
-    return NewAnime_8005FBC8( mat, 0, anim );
+    return NewAnime( mat, 0, anim );
 }
 
 void *AN_Unknown_800CA458( MATRIX *mat, int mark )
@@ -398,7 +397,7 @@ void *AN_Unknown_800CA458( MATRIX *mat, int mark )
     }
 
     anim->pre_script = &pre;
-    return NewAnime_8005FBC8( mat, 0, anim );
+    return NewAnime( mat, 0, anim );
 }
 
 void AN_Unknown_800CA594( SVECTOR *pos )
@@ -414,5 +413,5 @@ void AN_Unknown_800CA594( SVECTOR *pos )
     anm = &s00a_dword_800C346C;
     anm->pre_script = &pre;
 
-    NewAnime_8005FBC8( NULL, 0, anm );
+    NewAnime( NULL, 0, anm );
 }

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "Game/game.h"
 #include "Game/object.h"
 #include "Game/vibrate.h"
@@ -22,8 +23,6 @@ unsigned char pipe_vibration1_800C3360[] = {0x7F, 0x02, 0x00, 0x00};
 unsigned char pipe_vibration2_800C3364[] = {0xAF, 0x04, 0x41, 0x04, 0x00, 0x00, 0x00, 0x00};
 
 extern int        GM_CurrentMap_800AB9B0;
-extern SVECTOR    DG_ZeroVector;
-extern MATRIX     DG_ZeroMatrix;
 extern BLAST_DATA blast_data_8009F4B8[8];
 
 // Duplicate of Snake03c2GetRaise_800CDB78
@@ -101,8 +100,8 @@ void Pipe_800CE1B8(PipeWork *work)
         mat.t[2] = work->svec.vz;
 
         NewBlast(&mat, &blast_data_8009F4B8[1]);
-        NewPadVibration_8005D58C(pipe_vibration1_800C3360, 1);
-        NewPadVibration_8005D58C(pipe_vibration2_800C3364, 2);
+        NewPadVibration(pipe_vibration1_800C3360, 1);
+        NewPadVibration(pipe_vibration2_800C3364, 2);
 
         GM_FreeTarget(work->target);
         work->target = NULL;
@@ -143,8 +142,8 @@ void PipeAct_800CE2A4(PipeWork *work)
             mat.t[2] += GV_RandS(0x800);
 
             NewBlast(&mat, &blast_data_8009F4B8[1]);
-            NewPadVibration_8005D58C(pipe_vibration1_800C3360, 1);
-            NewPadVibration_8005D58C(pipe_vibration2_800C3364, 2);
+            NewPadVibration(pipe_vibration1_800C3360, 1);
+            NewPadVibration(pipe_vibration2_800C3364, 2);
         }
     }
 }

@@ -47,7 +47,7 @@ void JFamasAct_800CAE30(JFamasWork *work)
         DG_SetPos(&work->object.objs->world);
         DG_MovePos(&s03c_dword_800C33AC);
         ReadRotMatrix(&rot);
-        bullet_init_80076584(&rot, work->side, 0, 1);
+        NewBullet(&rot, work->side, 0, 1);
         GM_SeSet(&work->control->mov, SE_FAMAS_SHOT);
         NewAnime_8005D604(&rot);
     }

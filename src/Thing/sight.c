@@ -264,9 +264,9 @@ STATIC void sight_act_helper_800713FC(SightWork *work, int clock)
 // Called every frame to display the scope's text pseudo-primitives.
 STATIC void sight_act_helper_80071498(SightTextPseudoPrim *textPrim)
 {
-    MENU_Locate_80038B34(textPrim->field_8_posX, textPrim->field_A_posY, 0);
-    MENU_Color_80038B4C(textPrim->field_4_r, textPrim->field_5_g, textPrim->field_6_b);
-    MENU_Printf_80038C38("%s", textPrim->field_C_text);
+    MENU_Locate(textPrim->field_8_posX, textPrim->field_A_posY, 0);
+    MENU_Color(textPrim->field_4_r, textPrim->field_5_g, textPrim->field_6_b);
+    MENU_Printf("%s", textPrim->field_C_text);
 }
 
 extern int GV_Clock_800AB920;

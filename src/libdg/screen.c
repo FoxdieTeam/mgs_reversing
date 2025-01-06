@@ -8,8 +8,6 @@
 
 extern DG_CHANL DG_Chanls_800B1800[3];
 
-extern MATRIX DG_ZeroMatrix;
-
 void DG_SetPos( MATRIX *matrix )
 {
     gte_SetRotMatrix(matrix);

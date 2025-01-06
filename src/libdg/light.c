@@ -4,6 +4,7 @@
 
 #include "libdg.h"
 #include "common.h"
+#include "libgv/libgv.h"
 #include "Game/game.h"
 
 /*---------------------------------------------------------------------------*/
@@ -26,15 +27,11 @@ MATRIX DG_ColorMatrix = {
 /*** $gp ***/
 SVECTOR DG_Ambient = { 0, 0, 0, 0 };
 
-int DG_PacketCode[2] = { 0x3C808080, 0x3E808080 };
+u_long DG_PacketCode[2] = { 0x3C808080, 0x3E808080 };
 
 /*** bss ***/
 extern DG_FixedLight   gFixedLights_800B1E08[8];
 extern DG_TmpLightList LightSystems_800B1E48[2];
-
-/*** sbss ***/
-extern int    GV_Time;
-extern int    GM_GameStatus;
 
 /*---------------------------------------------------------------------------*/
 

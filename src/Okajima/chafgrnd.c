@@ -5,35 +5,52 @@
 #include <libgte.h>
 #include <libgpu.h>
 
-#include "Bullet/blast.h"
-#include "Game/camera.h"
-#include "Game/game.h"
+#include "common.h"
 #include "mts/mts.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "Bullet/blast.h"
+#include "Game/camera.h"
+#include "Game/game.h"
 #include "SD/g_sound.h"
 #include "strcode.h"
 
 extern int              GM_PlayerMap_800ABA0C;
-
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
-
 extern int              dword_800BDF98;
 extern int              dword_800BDF9C;
 extern int              dword_800BDFA0;
-
-extern int              GM_GameStatus;
 extern int              GM_CurrentMap_800AB9B0;
-
 extern int              GV_Clock_800AB920;
-extern int              GV_Time;
 
-extern MATRIX           DG_ZeroMatrix;
-extern SVECTOR          DG_ZeroVector;
+/*---------------------------------------------------------------------------*/
 
-void chafgrnd_init_particle_size_800769EC(TILE *a0)
+typedef struct _ChaffGrdWork
 {
-    TILE        *pIter = a0;
+    GV_ACT   actor;
+    int      field_20_map;
+    int      field_24;
+    int      field_28;
+    SVECTOR  field_2c;
+    SVECTOR  field_34[2][64];
+    SVECTOR  field_434[2][64];
+    SVECTOR  field_834[64];
+    DG_PRIM *field_a34;
+    int      field_a38;
+    int      field_a3c;
+    char     field_a40[64];
+    MATRIX   field_a80;
+} ChaffGrdWork;
+
+// STATIC_ASSERT(sizeof(ChaffGrdWork) == 0xAA0, "sizeof(ChaffGrdWork) is wrong!");
+
+#define EXEC_LEVEL 5
+
+/*---------------------------------------------------------------------------*/
+
+STATIC void chafgrnd_InitParticleSize(TILE *tile)
+{
+    TILE        *pIter = tile;
     int          i;
     unsigned int rand_width, rand_height;
 
@@ -47,20 +64,20 @@ void chafgrnd_init_particle_size_800769EC(TILE *a0)
     }
 }
 
-void chafgrnd_init_particle_color_80076A6C(TILE * a0)
+STATIC void chafgrnd_InitParticleColor(TILE *tile)
 {
     int i;
 
     for (i = 0x40; i > 0; i--)
     {
-        a0->r0 = -1;
-        a0->g0 = -1;
-        a0->b0 = 0;
-        a0++;
+        tile->r0 = -1;
+        tile->g0 = -1;
+        tile->b0 = 0;
+        tile++;
     }
 }
 
-void chafgrnd_calc_particle_position_80076A98(SVECTOR *va, SVECTOR *vb, SVECTOR *vout)
+STATIC void chafgrnd_CalcParticlePosition(SVECTOR *va, SVECTOR *vb, SVECTOR *vout)
 {
     SVECTOR vec;
     int temp_s0;
@@ -86,7 +103,7 @@ void chafgrnd_calc_particle_position_80076A98(SVECTOR *va, SVECTOR *vb, SVECTOR 
     vout->vz = 0;
 }
 
-void chafgrnd_act_80076B28(ChafgrndWork* work)
+STATIC void chafgrnd_Act(ChaffGrdWork* work)
 {
     SVECTOR unused;
     SVECTOR sp18;
@@ -165,7 +182,7 @@ void chafgrnd_act_80076B28(ChafgrndWork* work)
     {
         work->field_24 = 1;
 
-        chafgrnd_calc_particle_position_80076A98(&gUnkCameraStruct2_800B7868.eye, &gUnkCameraStruct2_800B7868.center, &sp18);
+        chafgrnd_CalcParticlePosition(&gUnkCameraStruct2_800B7868.eye, &gUnkCameraStruct2_800B7868.center, &sp18);
 
         pVec = (SVECTOR *)getScratchAddr(0);
         pVec->vx = 0;
@@ -232,14 +249,14 @@ void chafgrnd_act_80076B28(ChafgrndWork* work)
         *var_s7 = *var_s4;
     }
 
-    chafgrnd_init_particle_color_80076A6C(&work->field_a34->packs[GV_Clock_800AB920]->tiles);
+    chafgrnd_InitParticleColor(&work->field_a34->packs[GV_Clock_800AB920]->tiles);
 }
 
-int chafgrnd_loader_80077014(ChafgrndWork *work, MATRIX *pWorld)
+STATIC int chafgrnd_GetResources(ChaffGrdWork *work, MATRIX *world)
 {
     SVECTOR vec1;
     SVECTOR vec2;
-    DG_PRIM *pPrim;
+    DG_PRIM *prim;
     int i;
     int j;
 
@@ -252,9 +269,9 @@ int chafgrnd_loader_80077014(ChafgrndWork *work, MATRIX *pWorld)
 
     work->field_20_map = GM_CurrentMap_800AB9B0;
 
-    work->field_2c.vx = pWorld->t[0];
-    work->field_2c.vy = pWorld->t[1];
-    work->field_2c.vz = pWorld->t[2];
+    work->field_2c.vx = world->t[0];
+    work->field_2c.vy = world->t[1];
+    work->field_2c.vz = world->t[2];
 
     work->field_20_map = GM_CurrentMap_800AB9B0;
 
@@ -262,16 +279,16 @@ int chafgrnd_loader_80077014(ChafgrndWork *work, MATRIX *pWorld)
     vec1.vy = 0;
     vec2.vz = 0;
 
-    pPrim = DG_GetPrim(DG_PRIM_OFFSET | DG_PRIM_TILE, 64, 0, work->field_834, NULL);
-    work->field_a34 = pPrim;
+    prim = DG_GetPrim(DG_PRIM_OFFSET | DG_PRIM_TILE, 64, 0, work->field_834, NULL);
+    work->field_a34 = prim;
 
-    if (!pPrim)
+    if (!prim)
     {
         return -1;
     }
 
-    chafgrnd_init_particle_size_800769EC(&pPrim->packs[0]->tiles);
-    chafgrnd_init_particle_size_800769EC(&pPrim->packs[1]->tiles);
+    chafgrnd_InitParticleSize(&prim->packs[0]->tiles);
+    chafgrnd_InitParticleSize(&prim->packs[1]->tiles);
 
     work->field_a80 = DG_ZeroMatrix;
 
@@ -295,27 +312,29 @@ int chafgrnd_loader_80077014(ChafgrndWork *work, MATRIX *pWorld)
     return 0;
 }
 
-void chafgrnd_kill_8007721C(ChafgrndWork *work)
+STATIC void chafgrnd_Die(ChaffGrdWork *work)
 {
-    DG_PRIM *pPrim = work->field_a34;
+    DG_PRIM *prim = work->field_a34;
 
     GM_GameStatus &= ~STATE_CHAFF;
 
-    if (pPrim)
+    if (prim)
     {
-        DG_DequeuePrim(pPrim);
-        DG_FreePrim(pPrim);
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
     }
 }
 
-GV_ACT *NewChafgrnd_80077264(MATRIX *pWorld)
+/*---------------------------------------------------------------------------*/
+
+GV_ACT *NewChaffGrd(MATRIX *world)
 {
     SVECTOR vec;
-    ChafgrndWork *work;
+    ChaffGrdWork *work;
 
-    vec.vx = pWorld->t[0];
-    vec.vy = pWorld->t[1];
-    vec.vz = pWorld->t[2];
+    vec.vx = world->t[0];
+    vec.vy = world->t[1];
+    vec.vz = world->t[2];
 
     GM_SetCurrentMap(GM_CurrentMap_800AB9B0);
     AN_Blast_Minimini(&vec);
@@ -329,16 +348,16 @@ GV_ACT *NewChafgrnd_80077264(MATRIX *pWorld)
         return NULL;
     }
 
-    work = (ChafgrndWork *)GV_NewActor(5, sizeof(ChafgrndWork));
+    work = (ChaffGrdWork *)GV_NewActor(EXEC_LEVEL, sizeof(ChaffGrdWork));
 
     if (work)
     {
         dword_800BDF98 = 0;
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)&chafgrnd_act_80076B28,
-                         (GV_ACTFUNC)&chafgrnd_kill_8007721C, "chafgrnd.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)&chafgrnd_Act,
+                         (GV_ACTFUNC)&chafgrnd_Die, "chafgrnd.c");
 
         work->field_a3c = 0;
-        if (chafgrnd_loader_80077014(work, pWorld) < 0)
+        if (chafgrnd_GetResources(work, world) < 0)
         {
             work->field_a3c = 1;
         }

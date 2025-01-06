@@ -63,9 +63,6 @@ char dummy_floor_800C3614[] = {0x50, 0x04, 0x00, 0x00};
 
 SVECTOR dummy_floor_800C3618 = {0, 4096, 0, 0};
 
-extern SVECTOR  DG_ZeroVector;
-extern int      GM_GameStatus;
-extern int      GM_GameOverTimer;
 extern int      GM_CurrentMap_800AB9B0;
 extern CONTROL *GM_PlayerControl_800AB9F4;
 extern int      dword_800ABA1C;
@@ -116,8 +113,8 @@ void DummyFloorAct_800D61A4(DummyFloorWork *work)
 
             GM_SeSet(&work->f15C, 187);
 
-            NewPadVibration_8005D58C(dummy_floor_800C3610, 1);
-            NewPadVibration_8005D58C(dummy_floor_800C3614, 2);
+            NewPadVibration(dummy_floor_800C3610, 1);
+            NewPadVibration(dummy_floor_800C3614, 2);
         }
 
         work->f198 = 1;

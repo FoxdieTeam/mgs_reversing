@@ -1,11 +1,11 @@
 #include "doll.h"
 
 #include "common.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "chara/snake/sna_init.h"
 #include "Game/jimctrl.h"
 
-extern int     GV_Time;
-extern SVECTOR DG_ZeroVector;
 extern SVECTOR GM_PlayerPosition_800ABA10;
 extern OBJECT *GM_PlayerBody_800ABA20;
 

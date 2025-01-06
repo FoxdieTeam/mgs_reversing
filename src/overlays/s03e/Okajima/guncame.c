@@ -2,6 +2,7 @@
 
 #include "common.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "Bullet/blast.h"
 #include "Game/control.h"
 #include "Game/game.h"
@@ -86,7 +87,6 @@ int SECTION("overlay.bss") s03e_dword_800CC6BC;
 
 extern int     dword_8009F480;
 extern int     s03e_dword_800C32B8;
-extern SVECTOR DG_ZeroVector;
 extern int     s03e_dword_800C32B4;
 extern SVECTOR guncame_svec;
 extern int     s03e_dword_800C32B4;
@@ -95,8 +95,6 @@ extern SVECTOR GM_PlayerPosition_800ABA10;
 extern int     dword_8009F46C[];
 extern int     dword_8009F480;
 extern SVECTOR svector_8009F478;
-extern int     GV_Time;
-extern int     GM_GameStatus;
 extern int     GM_CurrentMap_800AB9B0;
 extern int     GM_PlayerMap_800ABA0C;
 extern int     GM_PadVibration_800ABA3C;
@@ -109,7 +107,7 @@ void AN_Unknown_800D6BCC(SVECTOR *pos, SVECTOR *rot);
 void AN_Unknown_800D6EB0(SVECTOR *pos);
 
 GV_ACT *NewSpark2_800CA714(MATRIX *world);
-GV_ACT *NewBulletEx_80076708(int, MATRIX *, int, int, int, int, int, int, int);
+GV_ACT *NewBulletEx(int, MATRIX *, int, int, int, int, int, int, int);
 
 // Identical to d03a_red_alrt_800C437C
 int GunCame_800C6F60(unsigned short name, int nhashes, unsigned short *hashes)
@@ -327,7 +325,7 @@ void GunCame_800C73D0(GunCameWork *work)
 
     if (GM_GameStatus & (STATE_DEMO | STATE_PADDEMO | STATE_PADRELEASE))
     {
-        NewBulletEx_80076708(256, &pos, 0, 1, 0, 30, 0, work->field_364, 2000);
+        NewBulletEx(256, &pos, 0, 1, 0, 30, 0, work->field_364, 2000);
     }
     else
     {
@@ -336,19 +334,19 @@ void GunCame_800C73D0(GunCameWork *work)
         case DIFFICULTY_VERY_EASY:
         case DIFFICULTY_EASY:
         default:
-            NewBulletEx_80076708(256, &pos, 0, 1, 0, 30, 80, work->field_364, 2000);
+            NewBulletEx(256, &pos, 0, 1, 0, 30, 80, work->field_364, 2000);
             break;
 
         case DIFFICULTY_NORMAL:
-            NewBulletEx_80076708(256, &pos, 0, 1, 0, 30, 120, work->field_364, 2000);
+            NewBulletEx(256, &pos, 0, 1, 0, 30, 120, work->field_364, 2000);
             break;
 
         case DIFFICULTY_HARD:
-            NewBulletEx_80076708(256, &pos, 0, 1, 0, 30, 120, work->field_364, 2000);;
+            NewBulletEx(256, &pos, 0, 1, 0, 30, 120, work->field_364, 2000);;
             break;
 
         case DIFFICULTY_EXTREME:
-            NewBulletEx_80076708(256, &pos, 0, 1, 0, 30, 160, work->field_364, 2000);
+            NewBulletEx(256, &pos, 0, 1, 0, 30, 160, work->field_364, 2000);
             break;
         }
     }

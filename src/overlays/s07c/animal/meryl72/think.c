@@ -2,8 +2,6 @@
 
 #include "meryl72.h"
 
-extern int GM_GameStatus;
-extern int GM_GameOverTimer;
 extern int GV_Time;
 
 extern SVECTOR GM_PlayerPosition_800ABA10;

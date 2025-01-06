@@ -24,8 +24,6 @@ typedef struct _PadDemoWork
     int             f44;
 } PadDemoWork;
 
-extern int   DG_UnDrawFrameCount;
-extern int   GM_GameStatus;
 extern int   GV_PauseLevel_800AB928;
 extern short GV_DemoPadStatus_800AB958[2];
 extern int   GM_CurrentMap_800AB9B0;
@@ -34,7 +32,7 @@ extern int   GM_CurrentMap_800AB9B0;
 void sub_8003CC88(void);
 
 // Something to do with setting current/last weapon to WEAPON_NONE
-void MENU_ResetWeaponPos_8003ECC0(void);
+void MENU_ResetWeaponPos(void);
 
 #define EXEC_LEVEL 1
 
@@ -190,7 +188,7 @@ int PadDemoGetResources_800DCE94(PadDemoWork *work, int name, int map)
     }
 
     sub_8003CC88();
-    MENU_ResetWeaponPos_8003ECC0();
+    MENU_ResetWeaponPos();
 
     if (GCL_GetOption('f'))
     {

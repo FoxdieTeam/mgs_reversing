@@ -54,8 +54,9 @@
     ;libfs
     include "{{OBJ_DIR}}\libfs\fscd.obj"         ;fscd.c
     include "{{OBJ_DIR}}\libfs\cdbios.obj"       ;cdbios.c
+    include "{{OBJ_DIR}}\libfs\srchfile.obj"     ;srchfile.c
     include "{{OBJ_DIR}}\libfs\cdstage.obj"      ;cdstage.c
-    include "{{OBJ_DIR}}\libfs\hdstage.obj"      ;hdstage.c
+    include "{{OBJ_DIR}}\libfs\stageld.obj"      ;stageld.c
     include "{{OBJ_DIR}}\libfs\movie.obj"        ;movie.c
     include "{{OBJ_DIR}}\libfs\stream.obj"       ;stream.c
 
@@ -253,6 +254,7 @@
     include "{{OBJ_DIR}}\Kojo\demothrd.obj"
     include "{{OBJ_DIR}}\libfs\memfile.obj" ; memfile.c
     include "{{OBJ_DIR}}\Kojo\demo.obj"     ; demo.c
+    include "{{OBJ_DIR}}\Kojo\m1e1catr.obj" ; m1e1catr.c
 
     ; SD
     include "{{OBJ_DIR}}\SD\sd_main.obj"

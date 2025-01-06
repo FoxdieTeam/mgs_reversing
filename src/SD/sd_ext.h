@@ -1,7 +1,7 @@
 #ifndef _SD_EXT_H_
 #define _SD_EXT_H_
 
-// do not #include this file externally! use sound.h instead.
+// Do not #include this file externally! Use sd_cli.h instead.
 
 #include <libspu.h>
 #include "sd_incl.h"
@@ -50,14 +50,14 @@ void StrFadeWkSet(void);
 int StrFadeInt(void);
 void code2name(unsigned int code, char *name);
 char num2char(unsigned int num);
-unsigned char *SD_SngDataLoadInit(unsigned short unused);
+unsigned char *SD_SngDataLoadInit(unsigned short id);
 void SD_80083ED4(void);
-unsigned char *SD_80083EE8(unsigned short unused);
+unsigned char *SD_SeDataLoadInit(unsigned short id);
 void SD_80083EF8(void);
-char *LoadInit(unsigned short unused);
+char *SD_WavDataLoadInit(unsigned short id);
 int SD_80083F54(char *end);
 char *SD_WavLoadBuf(char *arg0);
-void SD_Unload(void);
+void SD_WavUnload(void);
 
 /* sd_drv.c */
 void IntSdMain(void);

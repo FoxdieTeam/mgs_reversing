@@ -27,12 +27,9 @@ void sub_8003D34C(Menu_Item_Unknown *a1, int a2);
 extern GM_Camera GM_Camera_800B77E8;
 
 
-
-PANEL_CONF *dword_800AB584 = NULL;
+STATIC PANEL_CONF *dword_800AB584 = NULL;
 
 extern int dword_8009E544[];
-extern int GM_GameStatus;
-
 
 u_long                    SECTION(".sbss") dword_800ABAD8;
 u_long                    SECTION(".sbss") dword_800ABADC;
@@ -1036,7 +1033,7 @@ const char WP_MP5_80011B04[] = (const char[]){
     0x7B, 0x81, 0x17, 0x81, 0x24, 0x81, 0x25, 0x81, 0x11, 0x81, 0x4B, 0x81, 0x28, 0xD0, 0x02, 0x82, 0x35, 0x82,
     0x4B, 0x82, 0x0A, 0xD0, 0x06, 0x82, 0x28, 0x90, 0x80, 0x90, 0x8C, 0xD0, 0x03, 0x82, 0x15, 0x82, 0x37, 0x82,
     0x4C, 0xC2, 0x23, 0x82, 0x15, 0xD0, 0x06, 0x90, 0x93, 0x90, 0x94, 0xD0, 0x03, 0x00};
-char *wpn_mp5_description_800AB5CC = (char *)WP_MP5_80011B04;
+STATIC char *wpn_mp5_description_800AB5CC = (char *)WP_MP5_80011B04;
 
 void menu_weapon_printDescription_8003E030(int wpn_id)
 {
@@ -1087,13 +1084,13 @@ void menu_weapon_init_helper_8003E0E8(MenuWork *work, unsigned int *pOt, int off
         weaponIdxCopy = weaponIdx;
         if (menu_weapon_isWeaponDisabled_8003DF30(weaponIdxCopy))
         {
-            menu_draw_nouse_800435A4(work->field_20_otBuf, offset_x, off_y);
+            menu_draw_nouse(work->field_20_otBuf, offset_x, off_y);
         }
 
         if (pPanel->field_2_num >= 0 && pPanel->field_2_num < 10000)
         {
-            menu_number_draw_number2_80042FC0(work, offset_x, off_y + 11, pPanel->field_2_num,
-                                              GM_WeaponsMax[pPanel->field_0_id]);
+            menu_number_draw_number2(work, offset_x, off_y + 11, pPanel->field_2_num,
+                                     GM_WeaponsMax[pPanel->field_0_id]);
         }
 
         weaponRpkInfo = &gMenuWeaponRpkInfo_8009E57C[weaponIdxCopy];
@@ -1122,8 +1119,8 @@ void menu_weapon_init_helper_8003E0E8(MenuWork *work, unsigned int *pOt, int off
         if (pPanel->field_6_current && GM_MagazineMax_800ABA2C > 0)
         {
             pSubCnt2 = (GM_CurrentWeaponId == WEAPON_FAMAS ? 3 : 0);
-            menu_number_draw_magazine_80042E38(work, pOt, offset_x + 45, off_y + 20, GM_Magazine_800AB9EC,
-                                               GM_MagazineMax_800ABA2C, pSubCnt2);
+            menu_number_draw_magazine(work, pOt, offset_x + 45, off_y + 20, GM_Magazine_800AB9EC,
+                                      GM_MagazineMax_800ABA2C, pSubCnt2);
         }
         else
         {
@@ -1136,12 +1133,12 @@ void menu_weapon_init_helper_8003E0E8(MenuWork *work, unsigned int *pOt, int off
             {
                 str = weaponRpkInfo->field_0_weapon_name;
             }
-            menu_number_draw_string_800430F0(work, pOt, offset_x + 46, off_y + 22, str, 1);
+            menu_number_draw_string(work, pOt, offset_x + 46, off_y + 22, str, 1);
         }
     }
     else
     {
-        menu_number_draw_string_800430F0(work, pOt, offset_x + 46, off_y + 22, "NO ITEM", 1);
+        menu_number_draw_string(work, pOt, offset_x + 46, off_y + 22, "NO ITEM", 1);
     }
 
     Menu_item_render_frame_rects_8003DBAC(work->field_20_otBuf, offset_x, off_y,
@@ -1194,8 +1191,8 @@ void menu_weapon_update_helper2_helper2_8003E3B0(MenuWork *work)
     GM_SeSet2(0, 0x3f, SE_ITEM_EQUIP);
 }
 
-int dword_800AB5E0 = 0;
-int dword_800AB5E4 = 0;
+STATIC int dword_800AB5E0 = 0;
+STATIC int dword_800AB5E4 = 0;
 
 int menu_weapon_update_helper_8003E4B8(MenuWork *work)
 {
@@ -1280,7 +1277,6 @@ int menu_weapon_update_helper_8003E4B8(MenuWork *work)
     return 1;
 }
 
-extern int DG_UnDrawFrameCount;
 extern int GV_PauseLevel_800AB928;
 
 void menu_weapon_update_helper2_8003E674(MenuWork *work, unsigned int *pOt)

@@ -21,7 +21,7 @@
 #include "mts/receive_buffer.h"
 #include "Game/homing.h"
 #include "Game/hittable.h"
-#include "SD/sound.h"
+#include "SD/sd_cli.h"
 #include "SD/sd_incl.h"
 #include "Game/camera.h"
 #include "Equip/equip.h"
@@ -40,10 +40,14 @@
 
 // --------------------------------------------------------------------------------------------------------------------
 
+/* main/main.obj */
 char BSS            GameStack_800ABBF0[2048]; // 0x800 (2048) bytes
 char BSS            SdStack_800AC3F0[2048]; // 0x800 (2048) bytes
-int BSS             gDiskNum_800ACBF0; // 0x4 (4) bytes
+
+/* libfs/select.obj */
+int BSS             FS_DiskNum_800ACBF0; // 0x4 (4) bytes
 int BSS             pad_800ACBF4; // 0x4 (4) bytes
+
 GV_ACT BSS          GV_Daemon_800ACBF8; // 0x20 (32) bytes
 struct ActorList BSS gActorsList_800ACC18[ACTOR_LIST_COUNT]; // 0x264 (612) bytes
 
@@ -102,7 +106,7 @@ CDBIOS_TASK BSS     cd_bios_task_800B4E58; // 0x24 (36) bytes
 gap                                     gap_800B4E7C[0xC]; // 12 bytes
 
 char BSS            cd_bios_stack_800B4E88[1024]; // 0x400 (1024) bytes
-STAGE_FILE *BSS     gStageFile_800B5288; // 0x4 (4) bytes
+FS_STAGE_INFO *BSS  gStageInfo_800B5288; // 0x4 (4) bytes
 int BSS             gLoaderStartTime_800B528C; // 0x4 (4) bytes
 int BSS             gOverlayBinSize_800B5290; // 0x4 (4) bytes
 int BSS             gSaveCache_800B5294; // 0x4 (4) bytes
@@ -120,6 +124,7 @@ unsigned int BSS    fs_stream_task_state_800B52C0; // 0x4 (4) bytes
 
 gap                                     gap_800B52C4[0x4]; // 4 bytes
 
+/* memcard.obj */
 long BSS            gHardware_end_io_800B52C8; // 0x4 (4) bytes
 long BSS            gHardware_end_write_800B52CC; // 0x4 (4) bytes
 long BSS            gHardware_timeout_800B52D0; // 0x4 (4) bytes
@@ -132,7 +137,7 @@ TMemCardFunc BSS    gHwCard_do_op_800B52E8; // 0x4 (4) bytes
 TMemCardFunc BSS    gSwCard_do_op_800B52EC; // 0x4 (4) bytes
 volatile int BSS    gSwCardLastOp_800B52F0; // 0x4 (4) bytes
 volatile int BSS    gHwCardLastOp_800B52F4; // 0x4 (4) bytes
-mem_card BSS        gMemCards_800B52F8[2]; // 0x350 (848) bytes
+MEM_CARD BSS        gMemCards_800B52F8[2]; // 0x350 (848) bytes
 volatile long BSS   gMemCard_io_size_800B5648; // 0x4 (4) bytes
 
 gap                                     gap_800B564C[0x4]; // 4 bytes

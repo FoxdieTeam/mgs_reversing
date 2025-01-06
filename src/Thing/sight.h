@@ -95,8 +95,6 @@ typedef struct SightWork
 
 STATIC_ASSERT(sizeof(SightWork) == 0x5C, "sizeof(SightWork) is wrong!");
 
-void sight_act_800714EC(SightWork *work);
-
 SightWork *NewSight_80071CDC(int hashedFileName0, int hashedFileName1, short *itemEquippedIndicator, short itemId,
                              short *xyOffsetBuffer);
 

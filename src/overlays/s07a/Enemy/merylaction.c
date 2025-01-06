@@ -1,6 +1,8 @@
 #include "../../s00a/Enemy/enemy.h"
 
 #include "common.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "Game/item.h"
 #include "Game/linkvarbuf.h"
 #include "Anime/animeconv/anime.h"
@@ -12,13 +14,10 @@ extern int           COM_EYE_LENGTH_800E0D8C;
 extern int           COM_VibTime_800E0F68;
 
 extern OBJECT *GM_PlayerBody_800ABA20;
-extern SVECTOR DG_ZeroVector;
 extern SVECTOR GM_PlayerPosition_800ABA10;
 extern CONTROL *GM_PlayerControl_800AB9F4;
 extern int      GM_PlayerAction_800ABA40;
-extern int      GM_GameOverTimer;
 extern int      GM_PlayerMap_800ABA0C;
-extern int      GV_Time;
 extern unsigned int GM_PlayerStatus_800ABA50;
 
 extern SVECTOR s07a_dword_800C3694;
@@ -53,7 +52,7 @@ extern int ENE_ClearPutChar_800D9DB4( WatcherWork *work, void *func );
 
 extern int AttackForce_800D6C6C( WatcherWork *work );
 
-extern void    NewBlood_80072728( MATRIX *, int );
+extern void    NewBlood( MATRIX *, int );
 extern void    AN_Breath_800C3AA8( MATRIX * );
 extern GV_ACT *NewLSight_800D1D2C(SVECTOR *from, SVECTOR *to, int color);
 
@@ -454,7 +453,7 @@ void ActReadyGun_800D7924( WatcherWork* work, int time )
         {
             SetAction( work, ACTION5, ACTINTERP );
         }
-        GM_ConfigMotionAdjust_80035008( &( work->body ), &work->field_724 ) ;
+        GM_ConfigMotionAdjust( &( work->body ), &work->field_724 ) ;
     }
 
     ReviseReadyGun_800D6BE4( work );
@@ -506,7 +505,7 @@ void s07a_meryl_unk_800D7A90( WatcherWork* work, int time )
     {
         SetAction( work, ACTION4, 0 ) ;
         ENE_SetPutChar_800D9D6C( work, 3 ) ;
-        GM_ConfigMotionAdjust_80035008( &( work->body ), &work->field_724 ) ;
+        GM_ConfigMotionAdjust( &( work->body ), &work->field_724 ) ;
     }
 
     ReviseReadyGun_800D6BE4( work );
@@ -528,7 +527,7 @@ void s07a_meryl_unk_800D7B48( WatcherWork* work, int time )
 
     if ( time == 0 )
     {
-        GM_ConfigMotionAdjust_80035008( &( work->body ), &work->field_724 );
+        GM_ConfigMotionAdjust( &( work->body ), &work->field_724 );
     }
 
     rot = &work->control.rot;
@@ -1422,7 +1421,7 @@ void ENE_PutBlood_800D973C( WatcherWork* work, int obj_idx, int count )
     DG_MovePos( &s07a_dword_800C369C );
     DG_RotatePos( &s07a_dword_800C36A4 );
     ReadRotMatrix( &mat );
-    NewBlood_80072728( &mat, count );
+    NewBlood( &mat, count );
 }
 
 void ENE_PutFog_800D97AC(WatcherWork *work )

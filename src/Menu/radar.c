@@ -1,25 +1,28 @@
+#include "radar.h"
 #include "menuman.h"
 
 #include <stdlib.h>
 #include "common.h"
-#include "radar.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "SD/g_sound.h"
 
-int               MENU_RadarScale_800AB480 = 13;
-int               MENU_RadarRangeH_800AB484 = 21845;
-int               MENU_RadarRangeV_800AB488 = 16383;
-TRadarFn_800AB48C gFn_radar_800AB48C = NULL;
-RECT              rect_800AB490 = {992, 382, 32, 2};
-short             gRadarClut_800AB498[4] = {0x5FBE, 0x5FBF, 0x5FFE, 0x5FFF};
+int MENU_RadarScale = 13;
+int MENU_RadarRangeH = 21845;
+int MENU_RadarRangeV = 16383;
+
+STATIC TRadarFn_800AB48C gFn_radar_800AB48C = NULL;
+STATIC RECT              rect_800AB490 = {992, 382, 32, 2};
+STATIC short             gRadarClut_800AB498[4] = {0x5FBE, 0x5FBF, 0x5FFE, 0x5FFF};
+
 // The following two arrays are indexed by 3 - radarMode:
 // 0 -> alert, 1 -> evasion, 2 and 3 -> never used? See comment on their usage.
-short             active7segmentColors_800AB4A0[4] = {0x8C91, 0x8D11, 0x8C91, 0x9A23};
-short             inactive7segmentColors_800AB4A8[4] = {0x8023, 0x8023, 0x8023, 0x0000};
-int               cons_current_y_800AB4B0 = 0;
-int               cons_current_x_800AB4B4 = 0;
+STATIC short active7segmentColors_800AB4A0[4] = {0x8C91, 0x8D11, 0x8C91, 0x9A23};
+STATIC short inactive7segmentColors_800AB4A8[4] = {0x8023, 0x8023, 0x8023, 0x0000};
+STATIC int cons_current_y_800AB4B0 = 0;
+STATIC int cons_current_x_800AB4B4 = 0;
 
 Menu_rpk_item *SECTION(".sbss") gRadar_rpk_800ABAC8;
 int            SECTION(".sbss") dword_800ABACC;
@@ -28,9 +31,7 @@ extern short    image_8009E338[];
 extern char     gDigit7Segment_8009E60C[];
 
 extern MATRIX gRadarScaleMatrix_800BD580;
-extern MATRIX DG_ZeroMatrix;
 
-extern int GM_GameStatus;
 extern int GV_Clock_800AB920;
 
 // Used for colors of vision cones of soldiers and surveillance cameras in the radar.
@@ -109,26 +110,26 @@ typedef enum // GM_RadarMode_800ABA80
     RADAR_ALERT = 3
 } RadarMode;
 
-void MENU_SetRadarScale_80038E28(int scale)
+void MENU_SetRadarScale(int scale)
 {
     int    scale2;
     VECTOR scale_vec;
 
-    MENU_RadarScale_800AB480 = scale * 13 / 4096;
+    MENU_RadarScale = scale * 13 / 4096;
 
-    scale2 = 65536 * 13 / MENU_RadarScale_800AB480;
+    scale2 = 65536 * 13 / MENU_RadarScale;
 
-    MENU_RadarRangeH_800AB484 = scale2 / 3;
-    MENU_RadarRangeV_800AB488 = scale2 / 4;
+    MENU_RadarRangeH = scale2 / 3;
+    MENU_RadarRangeV = scale2 / 4;
 
     gRadarScaleMatrix_800BD580 = DG_ZeroMatrix;
-    scale_vec.vz = MENU_RadarScale_800AB480;
-    scale_vec.vy = MENU_RadarScale_800AB480;
-    scale_vec.vx = MENU_RadarScale_800AB480;
+    scale_vec.vz = MENU_RadarScale;
+    scale_vec.vy = MENU_RadarScale;
+    scale_vec.vx = MENU_RadarScale;
     ScaleMatrix(&gRadarScaleMatrix_800BD580, &scale_vec);
 }
 
-void MENU_SetRadarFunc_80038F30(TRadarFn_800AB48C func)
+void MENU_SetRadarFunc(TRadarFn_800AB48C func)
 {
     gFn_radar_800AB48C = func;
 }
@@ -211,7 +212,6 @@ void drawBorder_800390FC(MenuWork *menuMan, unsigned char *ot)
 // clang-format on
 
 extern CONTROL         *GM_WhereList_800B56D0[96];
-extern int              GV_Time;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern int              gControlCount_800AB9B4;
 extern int              GM_PlayerMap_800ABA0C;
@@ -292,7 +292,7 @@ void drawMap_800391D0(MenuWork *work, unsigned char *ot, int arg2)
         return;
     }
 
-    scale = MENU_RadarScale_800AB480;
+    scale = MENU_RadarScale;
 
     entities = GM_WhereList_800B56D0;
     control = entities[0]; // entities[0] is Snake
@@ -432,11 +432,11 @@ void drawMap_800391D0(MenuWork *work, unsigned char *ot, int arg2)
     pvec = getScratchAddr2(DG_PVECTOR, 0);
     svec = getScratchAddr2(SVECTOR, 0);
 
-    pvec[1].vxy = svec[0].vx - MENU_RadarRangeH_800AB484 / 2;
-    pvec[1].vz = svec[0].vx + MENU_RadarRangeH_800AB484 / 2;
+    pvec[1].vxy = svec[0].vx - MENU_RadarRangeH / 2;
+    pvec[1].vz = svec[0].vx + MENU_RadarRangeH / 2;
 
-    pvec[2].vxy = svec[0].vz - MENU_RadarRangeV_800AB488 / 2;
-    pvec[2].vz = svec[0].vz + MENU_RadarRangeV_800AB488 / 2;
+    pvec[2].vxy = svec[0].vz - MENU_RadarRangeV / 2;
+    pvec[2].vz = svec[0].vz + MENU_RadarRangeV / 2;
 
     pvec[3].vxy = svec[0].vy + 1000;
     pvec[3].vz = svec[0].vy - 800;
@@ -1070,10 +1070,7 @@ void menu_radar_helper_8003ADD8(MenuWork *work, int index)
 extern int              GM_AlertMode_800ABA00;
 extern int              GM_AlertLevel_800ABA18;
 
-extern int cons_current_y_800AB4B0;
-int        cons_current_y_800AB4B0;
-
-void draw_radar_8003AEC0(MenuWork *work, unsigned char *ot)
+void draw_radar(MenuWork *work, unsigned char *ot)
 {
     int       alertLevel, alertMode;
     DR_AREA  *twin, *twin2, *twin3;
@@ -1256,7 +1253,7 @@ void menu_radar_update_8003B350(MenuWork *work, unsigned char *ot)
       {
         work->field_CC_radar_data.pos_y = clipY;
         menu_radar_helper_8003ADD8(work, GV_Clock_800AB920);
-        draw_radar_8003AEC0(work, ot);
+        draw_radar(work, ot);
       }
     }
   }
@@ -1281,7 +1278,7 @@ void menu_radar_init_8003B474(MenuWork *work)
 
     menu_init_radar_helper_8003ADAC();
     gFn_radar_800AB48C = 0;
-    MENU_SetRadarScale_80038E28(4096);
+    MENU_SetRadarScale(4096);
 }
 
 void menu_radar_kill_8003B554(MenuWork *work)

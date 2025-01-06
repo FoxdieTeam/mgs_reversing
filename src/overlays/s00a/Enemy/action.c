@@ -6,6 +6,8 @@
 #include <libgpu.h>
 
 #include "common.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "Game/item.h"
 #include "Game/linkvarbuf.h"
 #include "SD/g_sound.h"
@@ -32,7 +34,6 @@ extern int               COM_VibTime_800E0F68;
 
 extern int GV_NearExp4P(int from, int to);
 
-extern SVECTOR      DG_ZeroVector;
 extern OBJECT      *GM_PlayerBody_800ABA20;
 extern CONTROL     *GM_PlayerControl_800AB9F4;
 extern SVECTOR      GM_PlayerPosition_800ABA10;
@@ -425,7 +426,7 @@ void s00a_command_800C65A8( WatcherWork* work, int time )
         {
             SetAction( work, ACTION5, ACTINTERP );
         }
-        GM_ConfigMotionAdjust_80035008( &( work->body ), &work->field_724 ) ;
+        GM_ConfigMotionAdjust( &( work->body ), &work->field_724 ) ;
     }
 
     s00a_command_800C5860( work );
@@ -479,7 +480,7 @@ void s00a_command_800C6724( WatcherWork* work, int time )
     {
         SetAction( work, ACTION4, 0 ) ;
         ENE_SetPutChar_800C979C( work, 3 ) ;
-        GM_ConfigMotionAdjust_80035008( &( work->body ), &work->field_724 ) ;
+        GM_ConfigMotionAdjust( &( work->body ), &work->field_724 ) ;
     }
 
     s00a_command_800C5860( work );
@@ -1703,7 +1704,6 @@ void s00a_command_800C8DF8( WatcherWork *work, int time )
     }
 }
 
-extern int     GV_Time;
 extern SVECTOR DG_ZeroVector;
 extern int     GM_PlayerMap_800ABA0C;
 extern SVECTOR GM_PlayerPosition_800ABA10;
@@ -1737,8 +1737,8 @@ extern short   s00a_dword_800E0F12;
 
 extern void  NewAnime_8005D6BC( MATRIX *, int );
 extern void  NewAnime_8005D604( MATRIX * );
-extern void *NewBulletEx_80076708(  int, MATRIX*, int, int, int, int, int, int, int );
-extern void  NewBlood_80072728( MATRIX *, int );
+extern void *NewBulletEx( int, MATRIX*, int, int, int, int, int, int, int );
+extern void  NewBlood( MATRIX *, int );
 extern void  NewLSight_800D1D2C( SVECTOR *from, SVECTOR *to, int color ) ;
 extern void  AN_Breath_800C3AA8( MATRIX * );
 
@@ -1749,7 +1749,7 @@ void ENE_PutBlood_800C8FF8( WatcherWork* work, int obj_idx, int count )
     DG_MovePos( &s00a_dword_800C33D4 );
     DG_RotatePos( &s00a_dword_800C33DC );
     ReadRotMatrix( &mat );
-    NewBlood_80072728( &mat, count );
+    NewBlood( &mat, count );
 }
 
 void ENE_PutFog_800C9068( WatcherWork* work )
@@ -2042,11 +2042,11 @@ void ENE_PutBulletEx_800C963C( WatcherWork *work )
 
     if ( GV_Time & 3 )
     {
-        NewBulletEx_80076708( 0x100,  &local_mat, 2, 1, 0, 0xA, damage, 0x2710, 0x2EE);
+        NewBulletEx( 0x100,  &local_mat, 2, 1, 0, 0xA, damage, 0x2710, 0x2EE);
     }
     else
     {
-        NewBulletEx_80076708( 0x1100, &local_mat, 2, 1, 0, 0xA, damage, 0x2710, 0x2EE);
+        NewBulletEx( 0x1100, &local_mat, 2, 1, 0, 0xA, damage, 0x2710, 0x2EE);
     }
 
     GM_SeSetMode( &work->control.mov, SE_ENEMY_SHOT, GM_SEMODE_BOMB );

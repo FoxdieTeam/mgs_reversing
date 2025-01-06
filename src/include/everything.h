@@ -25,7 +25,7 @@
 #include "mts/mts.h"
 #include "mts/mts_new.h"
 #include "mts/mts_pad.h"
-#include "SD/sound.h"
+#include "SD/sd_cli.h"
 #include "SD/sd_incl.h"
 #include "SD/sd_ext.h"
 
@@ -60,7 +60,6 @@
 #include "Anime/animeconv/anime.h"
 #include "Bullet/bullet.h"
 #include "Equip/equip.h"
-#include "Equip/effect.h"
 #include "Weapon/weapon.h"
 #include "Kojo/demothrd.h"
 #include "Menu/menuman.h"

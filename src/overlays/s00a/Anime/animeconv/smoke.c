@@ -1,8 +1,7 @@
 #include "common.h"
+#include "libdg/libdg.h"
 #include "Anime/animeconv/anime.h"
 #include "strcode.h"
-
-extern SVECTOR DG_ZeroVector;
 
 const char s00a_dword_800E02AC[] = {
     0x2, 0x97, 0x3, 0x0,
@@ -239,13 +238,13 @@ void s00a_command_800CA69C( SVECTOR *pos )
     anm->pre_script = &pre;
 
     pre.scr_num = 0;
-    NewAnime_8005FBC8( NULL, 0, anm );
+    NewAnime( NULL, 0, anm );
 
     pre.scr_num = 1;
-    NewAnime_8005FBC8( NULL, 0, anm );
+    NewAnime( NULL, 0, anm );
 
     pre.scr_num = 2;
-    NewAnime_8005FBC8( NULL, 0, anm );
+    NewAnime( NULL, 0, anm );
 }
 
 void s00a_command_800CA758( SVECTOR* pos )
@@ -261,5 +260,5 @@ void s00a_command_800CA758( SVECTOR* pos )
     anm->pre_script = &pre;
     pre.scr_num = 0;
 
-    NewAnime_8005FBC8( NULL, 0, anm );
+    NewAnime( NULL, 0, anm );
 }

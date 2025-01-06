@@ -1,8 +1,9 @@
 #include "libgv.h"
-#include "Game/linkvarbuf.h"
-#include "Game/game.h"
+
 #include "mts/mts.h"
 #include "mts/mts_pad.h"
+#include "Game/linkvarbuf.h"
+#include "Game/game.h"
 
 /***bss****************************************************************/
 extern int     dword_800B05A8[6];
@@ -11,26 +12,22 @@ extern GV_PAD GV_PadData_800B05C0[4];
 
 /***$gp****************************************************************/
 int GV_PadMask = 0;
-int GV_PadOrigin = 0;
-int GV_800AB37C = 0;
+STATIC int GV_PadOrigin = 0;
+STATIC int GV_800AB37C = 0;
 
-int SECTION(".sbss") dword_800AB950;
-int SECTION(".sbss") dword_800AB954;
+int SECTION(".sbss") dword_800AB950; /* static */
+int SECTION(".sbss") dword_800AB954; /* static */
 int SECTION(".sbss") GV_DemoPadStatus_800AB958;
 int SECTION(".sbss") GV_DemoPadAnalog_800AB95C;
 /*********************************************************************/
 
-short key_table_8009D32C[] = {
+STATIC short key_table_8009D32C[] = {
     0x0000, 0x0800, 0x0400, 0x0600, 0x0000, 0x0000, 0x0200, 0x0000,
     0x0C00, 0x0A00, 0x0000, 0x0000, 0x0E00, 0x0000, 0x0000, 0x0000
 };
 
-extern int   DG_UnDrawFrameCount;
-extern int   GM_GameStatus;
-extern int   GV_Time;
-
 #ifdef VR_EXE
-void sub_800165B0(MTS_PAD *data)
+STATIC void sub_800165B0(MTS_PAD *data)
 {
     unsigned short status = GV_DemoPadStatus_800AB958;
     if (status & 0x400)
@@ -46,7 +43,7 @@ void sub_800165B0(MTS_PAD *data)
 }
 #endif
 
-int GV_SwapButtons(int button, int a, int b)
+STATIC int GV_SwapButtons(int button, int a, int b)
 {
     int swapped;
     int i;
@@ -74,7 +71,7 @@ int GV_SwapButtons(int button, int a, int b)
     return swapped;
 }
 
-int GV_ConvertButtonMode(int button)
+STATIC int GV_ConvertButtonMode(int button)
 {
     switch (GM_GameStatusFlag & 0x7)
     {
@@ -89,7 +86,7 @@ int GV_ConvertButtonMode(int button)
     }
 }
 
-void GV_AnalogToDirection(int *button, MTS_PAD *data)
+STATIC void GV_AnalogToDirection(int *button, MTS_PAD *data)
 {
     char lx, rx;
     int  dir;

@@ -51,11 +51,6 @@ typedef struct _EventmouseWork
 
 SVECTOR eventmous_vecs[2] = {{48, 0, 96, 0}, {-48, 0, 96, 0}};
 
-extern MATRIX  DG_ZeroMatrix;
-extern int     GV_Time;
-extern SVECTOR DG_ZeroVector;
-extern int     GM_GameStatus;
-extern int     GM_GameOverTimer;
 extern int     GV_Clock_800AB920;
 extern int     GM_CurrentMap_800AB9B0;
 extern int     GM_PlayerMap_800ABA0C;
@@ -616,7 +611,7 @@ void EventMouseAct_800C9F14(EventmouseWork *work)
             {
                 DG_SetPos2(&work->pos, &control->rot);
                 ReadRotMatrix(&world);
-                NewBlood_80072728(&world, 1);
+                NewBlood(&world, 1);
             }
         }
     }

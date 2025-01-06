@@ -2,6 +2,7 @@
 
 #include "common.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "libhzd/libhzd.h"
 #include "Game/game.h"
 #include "Game/hittable.h"
@@ -66,7 +67,6 @@ typedef struct _ElevatorWork
 
 extern int           bakudan_count_8009F42C;
 extern int           counter_8009F448;
-extern SVECTOR       DG_ZeroVector;
 extern int           GM_CurrentMap_800AB9B0;
 extern int           gControlCount_800AB9B4;
 extern int           GM_AlertMode_800ABA00;
@@ -416,14 +416,14 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
     {
         if (var_s5 & 0x24)
         {
-            NewPadVibration_8005D58C(elevator_vib_800C363C, 1);
-            NewPadVibration_8005D58C(elevator_vib_800C3644, 2);
+            NewPadVibration(elevator_vib_800C363C, 1);
+            NewPadVibration(elevator_vib_800C3644, 2);
         }
 
         if (var_s5 & 0x12)
         {
-            NewPadVibration_8005D58C(elevator_vib_800C3658, 1);
-            NewPadVibration_8005D58C(elevator_vib_800C365C, 2);
+            NewPadVibration(elevator_vib_800C3658, 1);
+            NewPadVibration(elevator_vib_800C365C, 2);
         }
     }
 

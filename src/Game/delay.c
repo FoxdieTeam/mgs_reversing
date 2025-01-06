@@ -2,9 +2,8 @@
 
 #include "common.h"
 #include "libgv/libgv.h"
+#include "Game/game.h"
 #include "Game/jimctrl.h"
-
-extern int GM_GameOverTimer;
 
 typedef union ProcIdOrScript {
     int            id;

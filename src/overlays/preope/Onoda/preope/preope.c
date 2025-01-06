@@ -75,7 +75,6 @@ signed char text_outline_direction_offsets_800C3248[] = {
      0, -1,
 };
 
-extern int    GM_GameStatus;
 extern int    GV_Clock_800AB920;
 extern GV_PAD GV_PadData_800B05C0[4];
 
@@ -109,7 +108,7 @@ void Preope_800C32E0(PreopeWork *work, int index)
 
     font_set_kcb(kcb, -1, -1, 0, 6, 2, 0);
 
-    font_set_buffer(kcb, GV_AllocMemory(2, font_get_buffer_size(kcb)));
+    font_set_buffer(kcb, GV_AllocMemory(GV_NORMAL_MEMORY, font_get_buffer_size(kcb)));
     font_set_color(kcb, 0, dword_800C3218[index].color, 0);
     font_clut_update(kcb);
 }

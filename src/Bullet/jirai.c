@@ -21,7 +21,6 @@ extern int           dword_8009F444;
 extern int           counter_8009F448;
 extern CONTROL   *GM_PlayerControl_800AB9F4;
 extern int           GM_PlayerStatus_800ABA50;
-extern int           GM_GameStatus;
 extern int           GM_CurrentMap_800AB9B0;
 extern SVECTOR       GM_PlayerPosition_800ABA10;
 extern HITTABLE stru_800BDE78[8];
@@ -31,7 +30,6 @@ extern SVECTOR       svec_8009F45C;
 extern SVECTOR       svec_8009F464;
 extern int           GM_PlayerMap_800ABA0C;
 extern int           GM_PlayerMap_800ABA0C;
-extern SVECTOR       DG_ZeroVector;
 
 /*---------------------------------------------------------------------------*/
 // Claymore (armed)
@@ -183,23 +181,23 @@ STATIC void JiraiDisplayText(JiraiWork *work, int arg1)
             b = 200;
         }
 
-        MENU_Color_80038B4C(r, g, b);
+        MENU_Color(r, g, b);
         text = "CLAYMORE";
     }
     else
     {
         text = "FULL";
-        MENU_Color_80038B4C(255, 48, 48);
+        MENU_Color(255, 48, 48);
     }
 
     if (work->control.map->index & GM_PlayerMap_800ABA0C)
     {
-        MENU_Locate_80038B34(vec.vx + 160, vec.vy + 104, 0x12);
-        MENU_Printf_80038C38(text);
+        MENU_Locate(vec.vx + 160, vec.vy + 104, 0x12);
+        MENU_Printf(text);
 
-        MENU_Color_80038B4C(1, 1, 1);
-        MENU_Locate_80038B34(vec.vx + 161, vec.vy + 105, 0x12);
-        MENU_Printf_80038C38(text);
+        MENU_Color(1, 1, 1);
+        MENU_Locate(vec.vx + 161, vec.vy + 105, 0x12);
+        MENU_Printf(text);
 
         menu_Text_Init_80038B98();
     }
@@ -374,7 +372,7 @@ STATIC void JiraiAct(JiraiWork *work)
             sub_8007913C();
         }
 
-        claymore = NewClaymore_80073B8C(&work->control.mov, &work->field_144_vec, 2, work->field_10C);
+        claymore = NewClaymore(&work->control.mov, &work->field_144_vec, 2, work->field_10C);
 
         if (!claymore)
         {

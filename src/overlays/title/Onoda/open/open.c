@@ -9,7 +9,7 @@
 #include "Font/font.h"
 #include "Menu/menuman.h"
 #include "Game/game.h"
-#include "SD/sound.h"
+#include "SD/sd_cli.h"
 #include "SD/g_sound.h"
 
 typedef struct _Unknown
@@ -158,9 +158,8 @@ extern const char title_aNo_800D9024[];                  // = "NO"
 extern const char aOpenC[];                              // = "open.c"
 
 extern char *MGS_MemoryCardName; /* in main.c */
-extern int   GM_GameStatus;
 extern int   GV_Clock_800AB920;
-extern int   gDiskNum_800ACBF0;
+extern int   FS_DiskNum_800ACBF0;
 
 #define EXEC_LEVEL 1
 
@@ -196,7 +195,7 @@ void Open_800C4500(OpenWork *work, int index)
 
     font_set_kcb(kcb, -1, -1, 0, 6, 2, 0);
 
-    buffer = GV_AllocMemory(2, font_get_buffer_size(kcb));
+    buffer = GV_AllocMemory(GV_NORMAL_MEMORY, font_get_buffer_size(kcb));
     font_set_buffer(kcb, buffer);
 
     font_set_color(kcb, 0, open_800C32B4[index].color, 0);
@@ -752,7 +751,7 @@ void title_open_800C5D10(OpenWork *work)
 
 void title_open_800C5D30(OpenWork *work)
 {
-    mem_card card1, card2;
+    MEM_CARD card1, card2;
     int      check1, check2;
     int      max1, max2;
     int      error1, error2;
@@ -784,26 +783,26 @@ void title_open_800C5D30(OpenWork *work)
         printf("this memcard is OK\n");
 
         card1 = *memcard_get_files(0);
-        printf("free = %d\n", card1.field_3_free_blocks);
+        printf("free = %d\n", card1.free_blocks);
 
-        if (card1.field_3_free_blocks == 0)
+        if (card1.free_blocks == 0)
         {
             found = 0;
-            for (i = 0; i < card1.field_2_file_count; i++)
+            for (i = 0; i < card1.file_count; i++)
             {
-                printf("name = %s\n", card1.field_4_files[i].field_0_name);
+                printf("name = %s\n", card1.files[i].name);
 
                 mismatch = 0;
                 for (j = 0; j < 12; j++)
                 {
-                    if (card1.field_4_files[i].field_0_name[j] != name[j])
+                    if (card1.files[i].name[j] != name[j])
                     {
                         mismatch = 1;
                         break;
                     }
                 }
 
-                if (mismatch == 0 && card1.field_4_files[i].field_0_name[12] == 'G')
+                if (mismatch == 0 && card1.files[i].name[12] == 'G')
                 {
                     found = 1;
                 }
@@ -825,26 +824,26 @@ void title_open_800C5D30(OpenWork *work)
         printf("this memcard is OK\n");
 
         card2 = *memcard_get_files(1);
-        printf("free = %d\n", card2.field_3_free_blocks);
+        printf("free = %d\n", card2.free_blocks);
 
-        if (card2.field_3_free_blocks == 0)
+        if (card2.free_blocks == 0)
         {
             found = 0;
-            for (i = 0; i < card2.field_2_file_count; i++)
+            for (i = 0; i < card2.file_count; i++)
             {
-                printf("name = %s\n", card2.field_4_files[i].field_0_name);
+                printf("name = %s\n", card2.files[i].name);
 
                 mismatch = 0;
                 for (j = 0; j < 12; j++)
                 {
-                    if (card2.field_4_files[i].field_0_name[j] != name[j])
+                    if (card2.files[i].name[j] != name[j])
                     {
                         mismatch = 1;
                         break;
                     }
                 }
 
-                if (mismatch == 0 && card2.field_4_files[i].field_0_name[12] == 'G')
+                if (mismatch == 0 && card2.files[i].name[12] == 'G')
                 {
                     found = 1;
                 }
@@ -912,7 +911,7 @@ void title_open_800C5D30(OpenWork *work)
 void title_open_800C61E0(OpenWork *work, GCL_ARGS *args)
 {
     GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
-    if (gDiskNum_800ACBF0 == 0)
+    if (FS_DiskNum_800ACBF0 == 0)
     {
         if (sd_sng_play() == 0)
         {
@@ -1278,69 +1277,69 @@ void title_open_800D3500(OpenWork *work, int arg1)
     {
         title_open_800C4AD0(work, 21, 0x6739);
 
-        MENU_Locate_80038B34(54, 60, 0x10);
-        MENU_Color_80038B4C(100, 160, 135);
-        MENU_Printf_80038C38(title_aMemorycardslot_800D8FAC);
+        MENU_Locate(54, 60, 0x10);
+        MENU_Color(100, 160, 135);
+        MENU_Printf(title_aMemorycardslot_800D8FAC);
 
         if (work->f24F0 == 3)
         {
-            MENU_Locate_80038B34(223, 60, 0x10);
-            MENU_Color_80038B4C(181, 85, 42);
-            MENU_Printf_80038C38(title_aFull_800D8FC4);
+            MENU_Locate(223, 60, 0x10);
+            MENU_Color(181, 85, 42);
+            MENU_Printf(title_aFull_800D8FC4);
         }
         else
         {
-            MENU_Locate_80038B34(223, 60, 0x10);
-            MENU_Color_80038B4C(181, 85, 42);
-            MENU_Printf_80038C38(title_aNocard_800D8FCC);
+            MENU_Locate(223, 60, 0x10);
+            MENU_Color(181, 85, 42);
+            MENU_Printf(title_aNocard_800D8FCC);
         }
 
-        MENU_Locate_80038B34(54, 75, 0x10);
-        MENU_Color_80038B4C(100, 160, 135);
-        MENU_Printf_80038C38(title_aMemorycardslot_800D8FD4);
+        MENU_Locate(54, 75, 0x10);
+        MENU_Color(100, 160, 135);
+        MENU_Printf(title_aMemorycardslot_800D8FD4);
 
         if (work->f24F4 == 3)
         {
-            MENU_Locate_80038B34(223, 75, 0x10);
-            MENU_Color_80038B4C(181, 85, 42);
-            MENU_Printf_80038C38(title_aFull_800D8FC4);
+            MENU_Locate(223, 75, 0x10);
+            MENU_Color(181, 85, 42);
+            MENU_Printf(title_aFull_800D8FC4);
         }
         else
         {
-            MENU_Locate_80038B34(223, 75, 0x10);
-            MENU_Color_80038B4C(181, 85, 42);
-            MENU_Printf_80038C38(title_aNocard_800D8FCC);
+            MENU_Locate(223, 75, 0x10);
+            MENU_Color(181, 85, 42);
+            MENU_Printf(title_aNocard_800D8FCC);
         }
 
-        MENU_Locate_80038B34(70, 100, 0x10);
-        MENU_Color_80038B4C(100, 160, 135);
-        MENU_Printf_80038C38(title_aDoyouwanttocontinue_800D8FEC);
+        MENU_Locate(70, 100, 0x10);
+        MENU_Color(100, 160, 135);
+        MENU_Printf(title_aDoyouwanttocontinue_800D8FEC);
 
-        MENU_Locate_80038B34(85, 115, 0x10);
-        MENU_Color_80038B4C(100, 160, 135);
-        MENU_Printf_80038C38(title_aYourgamelikethis_800D9008);
+        MENU_Locate(85, 115, 0x10);
+        MENU_Color(100, 160, 135);
+        MENU_Printf(title_aYourgamelikethis_800D9008);
 
         if (work->f24E0 == 0)
         {
-            MENU_Locate_80038B34(100, 150, 0x10);
-            MENU_Color_80038B4C(192, 192, 192);
-            MENU_Printf_80038C38(title_aYes_800D9020);
+            MENU_Locate(100, 150, 0x10);
+            MENU_Color(192, 192, 192);
+            MENU_Printf(title_aYes_800D9020);
 
-            MENU_Locate_80038B34(200, 150, 0x10);
-            MENU_Color_80038B4C(46, 72, 61);
-            MENU_Printf_80038C38(title_aNo_800D9024);
+            MENU_Locate(200, 150, 0x10);
+            MENU_Color(46, 72, 61);
+            MENU_Printf(title_aNo_800D9024);
 
             title_open_800C4F1C(work, -68, 33, 40, 15, 255, 1);
         }
         else
         {
-            MENU_Locate_80038B34(100, 150, 0x10);
-            MENU_Color_80038B4C(46, 72, 61);
-            MENU_Printf_80038C38(title_aYes_800D9020);
+            MENU_Locate(100, 150, 0x10);
+            MENU_Color(46, 72, 61);
+            MENU_Printf(title_aYes_800D9020);
 
-            MENU_Locate_80038B34(200, 150, 0x10);
-            MENU_Color_80038B4C(192, 192, 192);
-            MENU_Printf_80038C38(title_aNo_800D9024);
+            MENU_Locate(200, 150, 0x10);
+            MENU_Color(192, 192, 192);
+            MENU_Printf(title_aNo_800D9024);
 
             title_open_800C4F1C(work, 28, 33, 40, 15, 255, 1);
         }
@@ -1389,7 +1388,7 @@ void OpenDie_800D4098(OpenWork *work)
     for (i = 0; i < 24; i++)
     {
         buf = title_open_800C4B20(&work->kcb[i]);
-        GV_FreeMemory(2, buf);
+        GV_FreeMemory(GV_NORMAL_MEMORY, buf);
     }
 }
 

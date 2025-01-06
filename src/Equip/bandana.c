@@ -1,5 +1,4 @@
 #include "equip.h"
-#include "effect.h"
 
 #include "common.h"
 #include "Game/linkvarbuf.h"

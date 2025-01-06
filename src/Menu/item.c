@@ -1,26 +1,21 @@
 #include "menuman.h"
 
 #include "common.h"
+#include "libdg/libdg.h"
 #include "Bullet/blast.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "SD/g_sound.h"
-#include "libdg/libdg.h"
 #include "radio.h"
 
 extern PANEL_TEXTURE gMenuLeftItems_800BD5A0[];
 extern short         GM_WeaponTypes_8009D580[];
 extern short         GM_ItemTypes_8009D598[];
-extern int           GM_GameStatus;
 extern int           GM_PlayerStatus_800ABA50;
 extern int           GV_PauseLevel_800AB928;
 extern int           GM_DisableItem_800ABA28;
-extern int           DG_UnDrawFrameCount;
 extern int           dword_8009F46C;
-extern int           GV_Time;
-extern int           GM_GameOverTimer;
 extern int           GM_PlayerMap_800ABA0C;
-extern MATRIX        DG_ZeroMatrix;
 extern SVECTOR       GM_PlayerPosition_800ABA10;
 
 int SECTION(".sbss") dword_800ABAD0;
@@ -197,10 +192,9 @@ menu_weapon_rpk_info SECTION(".data") gMenuItemRpkInfo_8009E484[] = {
     {"TIMER.B", 26}, {"MINE.D", 20},  {"DISC", 28},     {"ROPE", 24},     {"SCARF", 29},   {"SUPPR.", 13}};
 
 void menu_draw_texture_8003CEF8(PANEL_TEXTURE *a1);
-int  menu_number_draw_number2_80042FC0(MenuWork *work, int xpos, int ypos, int current, int total);
+int  menu_number_draw_number2(MenuWork *work, int xpos, int ypos, int current, int total);
 void menu_init_sprt_8003D0D0(SPRT *pPrim, PANEL_TEXTURE *pUnk, int offset_x, int offset_y);
-int  menu_number_draw_string_800430F0(MenuWork *work, unsigned int *pOt, int xpos, int ypos, const char *str,
-                                      int flags);
+int  menu_number_draw_string(MenuWork *work, unsigned int *pOt, int xpos, int ypos, const char *str, int flags);
 void menu_sub_menu_update_8003DA0C(MenuWork *work, unsigned int *pOt, Menu_Inventory *pSubMenu);
 void Menu_item_render_frame_rects_8003DBAC(MenuPrim *pGlue, int x, int y, int param_4);
 int  menu_8003D538(void);
@@ -374,21 +368,21 @@ void menu_item_helper_8003B8F0(MenuWork *work, unsigned int *pOt, int xpos, int 
         // Draw "DISABLED" and "FROZEN" depending on the item state
         if (menu_item_IsItemDisabled_8003B6D0(pMenuSub->field_0_current.field_0_id))
         {
-            menu_draw_nouse_800435A4(work->field_20_otBuf, xpos, ypos);
+            menu_draw_nouse(work->field_20_otBuf, xpos, ypos);
         }
         if (GM_FrozenItemsState == 1)
         {
             if (pMenuSub->field_0_current.field_0_id == ITEM_RATION ||
                 pMenuSub->field_0_current.field_0_id == ITEM_KETCHUP)
             {
-                menu_draw_frozen_800435C8(work->field_20_otBuf, xpos, ypos);
+                menu_draw_frozen(work->field_20_otBuf, xpos, ypos);
             }
         }
         // If the item is a consumable, draw the current and max values
         if (GM_ItemTypes_8009D598[pMenuSub->field_0_current.field_0_id + 1] & ITEMTYPE_CONSUMABLE)
         {
-            menu_number_draw_number2_80042FC0(work, xpos, ypos + 11, pMenuSub->field_0_current.field_2_num,
-                                              GM_ItemsMax[pMenuSub->field_0_current.field_0_id]);
+            menu_number_draw_number2(work, xpos, ypos + 11, pMenuSub->field_0_current.field_2_num,
+                                     GM_ItemsMax[pMenuSub->field_0_current.field_0_id]);
         }
         else if (pMenuSub->field_0_current.field_0_id == ITEM_CARD)
         {
@@ -397,13 +391,13 @@ void menu_item_helper_8003B8F0(MenuWork *work, unsigned int *pOt, int xpos, int 
             textConfig.ypos = ypos + 14;
             textConfig.flags = 0;
             textConfig.colour = 0x64808080;
-            _menu_number_draw_string_80042BF4(work->field_20_otBuf, &textConfig, "LV.");
+            _menu_number_draw_string(work->field_20_otBuf, &textConfig, "LV.");
             textConfig.ypos -= 2;
-            _menu_number_draw_80042988(work->field_20_otBuf, &textConfig, GM_Items[ITEM_CARD]);
+            _menu_number_draw(work->field_20_otBuf, &textConfig, GM_Items[ITEM_CARD]);
         }
         else if (pMenuSub->field_0_current.field_0_id == ITEM_TIMER_B)
         {
-            menu_number_draw_80042F78(work, pOt, xpos + 10, ypos + 10, GM_Items[ITEM_TIMER_B], 0);
+            menu_number_draw(work, pOt, xpos + 10, ypos + 10, GM_Items[ITEM_TIMER_B], 0);
         }
 
         // Draw the item icon
@@ -425,13 +419,12 @@ void menu_item_helper_8003B8F0(MenuWork *work, unsigned int *pOt, int xpos, int 
             addPrim(pOt, pIconSprt);
         }
         // Draw the name of the item/weapon
-        menu_number_draw_string_800430F0(
-            work, pOt, xpos + 46, ypos + 22,
+        menu_number_draw_string(work, pOt, xpos + 46, ypos + 22,
             gMenuItemRpkInfo_8009E484[pMenuSub->field_0_current.field_0_id].field_0_weapon_name, 1);
     }
     else
     {
-        menu_number_draw_string_800430F0(work, pOt, xpos + 46, ypos + 22, "NO ITEM", 1);
+        menu_number_draw_string(work, pOt, xpos + 46, ypos + 22, "NO ITEM", 1);
     }
     // Draw the frame around the item.
     // Use a blue background for the item in the selection slot
@@ -491,8 +484,8 @@ void menu_8003BBEC(MenuWork *work)
     GM_SeSet2(0, 63, SE_ITEM_EQUIP);
 }
 
-int dword_800AB574 = 0;
-int dword_800AB578 = 0;
+STATIC int dword_800AB574 = 0;
+STATIC int dword_800AB578 = 0;
 
 int menu_item_update_helper_8003BCD4(MenuWork *work)
 {
@@ -1183,7 +1176,7 @@ void sub_8003CB98(MenuWork *work)
     int            field_0_item_id_idx; // $a0
     PANEL_TEXTURE *pItem;               // $v0
 
-    menu_restore_nouse_80043470();
+    menu_restore_nouse();
     field_0_item_id_idx = work->field_1DC_menu_item.field_0_current.field_0_id;
     if (field_0_item_id_idx != ITEM_NONE ||
         (field_0_item_id_idx = work->field_1DC_menu_item.field_11, field_0_item_id_idx != ITEM_NONE))
@@ -1208,7 +1201,7 @@ void menu_item_init_8003CBF0(MenuWork *work)
     menu_set_panel_config_8003D6A8(&work->field_1DC_menu_item, 0, (int *)menu_item_helper_8003B8F0);
     menu_sub_8003B568();
     sub_8003CB98(work);
-    menu_init_nouse_800434A8();
+    menu_init_nouse();
 }
 
 void menu_item_kill_8003CC74(MenuWork *work)

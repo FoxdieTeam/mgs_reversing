@@ -12,11 +12,7 @@ typedef struct      VibrateWork
     unsigned char   *field_24_pData;
 } VibrateWork;
 
-int                 vibrate_act_helper_8005D358(VibrateWork *);
-int                 vibrate_act_helper_8005D3A4(VibrateWork *);
-void                vibrate_act_8005D424(VibrateWork *);
-
-VibrateWork         *vibrate_init_8005D508(int);
-VibrateWork         *NewPadVibration_8005D58C(unsigned char *, int);
+VibrateWork *NewVibration(int);
+VibrateWork *NewPadVibration(unsigned char *, int);
 
 #endif // _VIBRATE_H_

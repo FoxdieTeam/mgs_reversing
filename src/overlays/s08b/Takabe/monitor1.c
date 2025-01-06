@@ -1,5 +1,6 @@
 #include "common.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "Game/control.h"
 #include "Game/object.h"
 #include "Takabe/thing.h"
@@ -20,9 +21,6 @@ typedef struct Monitor1Work
 } Monitor1Work;
 
 #define EXEC_LEVEL 5
-
-extern SVECTOR DG_ZeroVector;
-extern MATRIX  DG_ZeroMatrix;
 
 GV_ACT *NewSpark2_800CA714(MATRIX *world);
 void    AN_Unknown_800DCE84(SVECTOR *pos);

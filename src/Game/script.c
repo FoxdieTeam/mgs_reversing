@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "charadef.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "Game/control.h"
@@ -17,9 +18,6 @@
 
 extern  CAMERA          GM_CameraList_800B7718[8];
 extern  GM_Camera       GM_Camera_800B77E8;
-extern  int             GM_GameStatus;
-extern  int             DG_UnDrawFrameCount;
-extern  int             GM_LoadRequest;
 
 //extern  char            dword_800ABA58[8];
 //char                    dword_800ABA58[8]; // gp
@@ -27,10 +25,8 @@ extern  int             GM_LoadRequest;
 char SECTION(".sbss") dword_800ABA58[8];
 
 extern  BindStruct      gBindsArray_800b58e0[128];
-extern  int             GV_PadMask;
 extern  unsigned int    GM_DisableWeapon_800AB9E4;
 extern  int             GM_DisableItem_800ABA28;
-extern  int             GM_GameStatus;
 extern  CONTROL        *GM_PlayerControl_800AB9F4;
 extern  int             GM_Photocode_800ABA04;
 extern  int             dword_8009F46C;
@@ -568,7 +564,7 @@ STATIC int GM_Command_start(unsigned char *top)
     if (GCL_GetOption('v'))
     {
         GCL_InitVar();
-        MENU_InitRadioMemory_8004E0EC();
+        MENU_InitRadioMemory();
         gTotalFrameTime_800AB9E8 = 0;
     }
 
@@ -580,7 +576,7 @@ STATIC int GM_Command_start(unsigned char *top)
     if (GCL_GetOption('c'))
     {
         GCL_InitClearVar();
-        MENU_InitRadioMemory_8004E0EC();
+        MENU_InitRadioMemory();
         gTotalFrameTime_800AB9E8 = 0;
     }
     return 0;
@@ -670,7 +666,7 @@ STATIC int GM_Command_radio(unsigned char *top)
         {
             contactFrequency = GCL_GetNextParamValue();
             radioTableCode = GCL_GetNextParamValue();
-            MENU_SetRadioBaseCall_80049764(contactFrequency, radioTableCode);
+            MENU_SetRadioBaseCall(contactFrequency, radioTableCode);
         }
     }
     if (GCL_GetOption('o'))
@@ -696,27 +692,27 @@ STATIC int GM_Command_radio(unsigned char *top)
             {
                 radioTableCode = -1;
             }
-            MENU_SetRadioOverCall_80049794(contactFrequency, radioTableCode);
+            MENU_SetRadioOverCall(contactFrequency, radioTableCode);
         }
     }
     if (GCL_GetOption('c')) // call
     {
-        menu_RadioCall_80042730(GCL_GetNextParamValue(),  // contactFrequency
-                                GCL_GetNextParamValue(),  // radioTableCode
-                                GCL_GetNextParamValue()); // ring duration ?
+        MENU_RadioCall(GCL_GetNextParamValue(),  // contactFrequency
+                       GCL_GetNextParamValue(),  // radioTableCode
+                       GCL_GetNextParamValue()); // ring duration ?
     }
     if (GCL_GetOption('p')) // proc
     {
-        MENU_SetRadioCallbackProc_8004283C(GCL_GetNextParamValue());
+        MENU_SetRadioCallbackProc(GCL_GetNextParamValue());
     }
     if (GCL_GetOption('r')) // reset
     {
-        MENU_ResetCall_80042814();
+        MENU_ResetCall();
     }
     if (GCL_GetOption('m')) // mesg string (example: "clear")
     {
-        MENU_SetRadioMemory_8004E110(GCL_GetNextParamValue(), // contactFrequency
-                                     GCL_ReadString(GCL_GetParamResult())); // string
+        MENU_SetRadioMemory(GCL_GetNextParamValue(), // contactFrequency
+                            GCL_ReadString(GCL_GetParamResult())); // string
     }
     if (GCL_GetOption('d')) // disable?
     {
@@ -728,7 +724,7 @@ STATIC int GM_Command_radio(unsigned char *top)
     }
     if (GCL_GetOption('a'))
     {
-        MENU_ClearRadioTable_8004967C();
+        MENU_ClearRadioTable();
     }
     return 0;
 }
@@ -851,7 +847,7 @@ STATIC int GM_Command_demo(unsigned char *top)
         {
             msg = "DEMO ( no data on CD )";
         }
-        NewJimakuStr_8004955C( msg, cb_proc );
+        NewJimakuStr( msg, cb_proc );
     }
     return 0;
 }
@@ -989,7 +985,7 @@ STATIC int GM_Command_menu(unsigned char *top)
 
     if (GCL_GetOption('s'))
     {
-        MENU_SetRadarScale_80038E28(GCL_GetNextParamValue());
+        MENU_SetRadarScale(GCL_GetNextParamValue());
     }
 
     if (GCL_GetOption('w')) // weapon
@@ -1151,7 +1147,7 @@ STATIC int GM_Command_print(unsigned char *top)
 
 STATIC int GM_Command_jimaku(unsigned char *top)
 {
-    NewJimaku_800495A8();
+    NewJimaku();
     return 0;
 }
 

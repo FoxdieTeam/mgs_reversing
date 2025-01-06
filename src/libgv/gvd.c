@@ -13,7 +13,7 @@ int    SECTION(".sbss")  GV_Clock_800AB920;
 int    SECTION(".sbss")  GV_PassageTime_800AB924;
 
 int GV_Time = 0;
-int dword_800AB334 = 0;
+STATIC int GV_LastTickCount = 0;
 
 extern int            DG_HikituriFlag;
 extern int            GV_PauseLevel_800AB928;
@@ -29,14 +29,14 @@ void GV_ExceptionCallback(void)
 
 STATIC void GV_DaemonAct(GV_ACT *actor)
 {
-    int tmp;
+    int ticks;
 
     GV_Time++;
 
-    tmp = mts_get_tick_count();
+    ticks = mts_get_tick_count();
 
-    GV_PassageTime_800AB924 = tmp - dword_800AB334;
-    dword_800AB334 = tmp;
+    GV_PassageTime_800AB924 = ticks - GV_LastTickCount;
+    GV_LastTickCount = ticks;
 
     if (DG_HikituriFlag == 0)
     {
@@ -52,24 +52,21 @@ STATIC void GV_DaemonAct(GV_ACT *actor)
 
 void GV_ResetPacketMemory(void)
 {
-    // passing heap_80182000 produces addiu instead of ori
-    GV_InitMemorySystem(0, 1, (void *)0x80182000, 0x2f000);
-    GV_InitMemorySystem(1, 1, (void *)0x801b1000, 0x2f000); // ditto
+    GV_InitMemorySystem(GV_PACKET_MEMORY0, 1, GV_PACKET_MEMORY0_TOP, GV_PACKET_MEMORY_SIZE);
+    GV_InitMemorySystem(GV_PACKET_MEMORY1, 1, GV_PACKET_MEMORY1_TOP, GV_PACKET_MEMORY_SIZE);
 }
 
 void GV_SetPacketTempMemory(void)
 {
-    // passing heap_80182000 produces addiu instead of ori
-    GV_InitMemorySystem(0, 0, (void *)0x80182000, 0x5e000);
-    GV_InitMemorySystem(1, 0, 0, 0);
+    GV_InitMemorySystem(GV_PACKET_MEMORY0, 0, GV_PACKET_MEMORY0_TOP, (GV_PACKET_MEMORY_SIZE * 2));
+    GV_InitMemorySystem(GV_PACKET_MEMORY1, 0, NULL, 0);
 }
 
 void GV_InitMemory(void)
 {
     GV_InitMemorySystemAll();
     GV_ResetPacketMemory();
-    // passing heap_80117000 produces addiu instead of ori
-    GV_InitMemorySystem(2, 0, (void *)0x80117000, 0x6b000);
+    GV_InitMemorySystem(GV_NORMAL_MEMORY, 0, GV_NORMAL_MEMORY_TOP, GV_NORMAL_MEMORY_SIZE);
     printf("RESIDENT TOP %X\n", (unsigned int)GV_ResidentMemoryBottom_800AB940);
 }
 

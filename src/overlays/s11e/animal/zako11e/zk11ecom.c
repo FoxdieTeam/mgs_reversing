@@ -4,6 +4,7 @@
 #include "common.h"
 #include "mts/mts.h" // for fprintf
 #include "libhzd/libhzd.h"
+#include "Game/game.h"
 #include "Game/linkvarbuf.h"
 
 extern ZAKO_COMMAND ZakoCommand_800DF280;
@@ -629,8 +630,6 @@ int s11e_zk11ecom_800DA7F8( char *arg0 )
 
 //#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA85C.s")
 //extern void s11e_zk11ecom_800DA85C( void );
-
-extern int GM_GameOverTimer;
 
 void s11e_zk11ecom_800DA85C(void)
 {

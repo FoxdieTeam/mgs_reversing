@@ -10,8 +10,8 @@
 #include "mts/taskid.h"
 #include "SD/g_sound.h"
 
-RECT rect_800AB6D8 = {1008, 432, 5, 20};
-int  dword_800AB6E0 = 0;
+STATIC RECT rect_800AB6D8 = {1008, 432, 5, 20};
+STATIC int  dword_800AB6E0 = 0;
 
 menu_chara_struct *dword_800ABB38;
 menu_chara_struct *SECTION(".sbss") dword_800ABB38; // force gp
@@ -39,7 +39,7 @@ void sub_80048124()
     dword_800ABB3C = (rect.y << 6) | (rect.x >> 4 & 0x3f);
 }
 
-void radio_draw_face_frame_800481CC(MenuPrim *pGlue, int x, int y, int w, int h)
+void radio_draw_face_frame(MenuPrim *pGlue, int x, int y, int w, int h)
 {
     POLY_FT4  *polys[8];
     int        xn, yn;
@@ -316,7 +316,7 @@ void menu_radio_draw_face_helper5_8004896C( MenuPrim *pPrim, menu_chara_struct_s
         }
     }
 
-    radio_draw_face_frame_800481CC( pPrim, x, y, w, h );
+    radio_draw_face_frame( pPrim, x, y, w, h );
 
     _NEW_PRIM( pTpage, pPrim );
 
@@ -424,7 +424,7 @@ static inline void draw_face_anim(menu_chara_struct_sub *a1, int i, menu_chara_s
     menu_radio_draw_face_helper5_8004896C( prim, a1, i );
 }
 
-void menu_radio_draw_face_80048DB0( MenuWork *work, menu_chara_struct *chara_struct )
+void menu_radio_draw_face( MenuWork *work, menu_chara_struct *chara_struct )
 {
     menu_chara_struct_sub *chara_struct_sub;
     MenuPrim              *prim;
@@ -458,7 +458,7 @@ void menu_radio_draw_face_80048DB0( MenuWork *work, menu_chara_struct *chara_str
     }
 }
 
-int menu_radio_end_check_80048F98()
+int menu_radio_end_check(void)
 {
     int idx;
     for (idx = 0; idx < 2; idx++)

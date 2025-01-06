@@ -18,7 +18,7 @@
 // 0x1 codec
 // 0x2 game paused
 int SECTION(".sbss") GV_PauseLevel_800AB928;
-int SECTION(".sbss") dword_0x800AB92C; //maybe unused
+STATIC int SECTION(".sbss") dword_0x800AB92C; //maybe unused
 
 extern struct ActorList gActorsList_800ACC18[ACTOR_LIST_COUNT];
 
@@ -28,6 +28,8 @@ struct PauseKill gPauseKills_8009D308[9] = {{0, 7},  {0, 7},  {9, 4}, {9, 4}, {1
                                             {15, 4}, {15, 4}, {9, 4}, {0, 7}};
 
 extern int GM_CurrentMap_800AB9B0;
+
+/*---------------------------------------------------------------------------*/
 
 /**
  * @brief Initialize the actors lists and set the pause and kill levels.

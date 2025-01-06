@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include "common.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "Game/object.h"
@@ -35,8 +37,6 @@ SVECTOR at_bloodpos = {0, 0, 100, 0};
 SVECTOR at_bloodrot = {-1024, 0, 0, 0};
 SVECTOR at_target_size = {400, 900, 400, 0};
 
-extern SVECTOR DG_ZeroVector;
-extern int     GM_GameOverTimer;
 extern int     GM_CurrentMap_800AB9B0;
 
 #define EXEC_LEVEL 5
@@ -49,7 +49,7 @@ void s04c_at_800D7134(AtWork *work, int index, int count)
     DG_MovePos(&at_bloodpos);
     DG_RotatePos(&at_bloodrot);
     ReadRotMatrix(&rot);
-    NewBlood_80072728(&rot, count);
+    NewBlood(&rot, count);
 }
 
 void s04c_at_800D71A4(AtWork *work)
@@ -178,7 +178,7 @@ void AtAct_800D7324(AtWork *work)
 
     if (work->f710 != 0)
     {
-        MENU_DrawBar2_80038DE0(40, work->f720, work->f724, work->f738, &work->lifebar);
+        MENU_DrawBar2(40, work->f720, work->f724, work->f738, &work->lifebar);
         work->f720 = GV_NearSpeed(work->f720, work->f724, 4);
     }
 
@@ -232,7 +232,7 @@ int AtGetResources_800D75BC(AtWork *work, int name, int map)
     body = &work->body;
     GM_InitObject(body, GV_StrCode("ats_noc"), BODY_FLAG, GV_StrCode("shacho"));
     GM_ConfigObjectJoint(body);
-    GM_ConfigMotionControl_80034F08(body, &work->m_ctrl, GV_StrCode("shacho"), work->oar1, work->oar2, control, work->rots);
+    GM_ConfigMotionControl(body, &work->m_ctrl, GV_StrCode("shacho"), work->oar1, work->oar2, control, work->rots);
     GM_ConfigObjectLight(body, work->light);
     GM_ConfigObjectAction(body, 0, 0, 0);
 

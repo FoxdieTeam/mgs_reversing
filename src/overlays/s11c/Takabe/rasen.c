@@ -77,7 +77,6 @@ void Takabe_ReshadeModel_800DC854(DG_OBJS *objs, LitHeader *lit);
 void s00a_unknown3_800DC918();
 
 extern GM_Camera       GM_Camera_800B77E8;
-extern MATRIX          DG_ZeroMatrix;
 extern CONTROL        *GM_WhereList_800B56D0[96];
 extern int             gControlCount_800AB9B4;
 extern int             bakudan_count_8009F42C;
@@ -88,7 +87,6 @@ extern CONTROL        *GM_PlayerControl_800AB9F4;
 extern int             DG_CurrentGroupID_800AB968;
 extern int             GM_PlayerMap_800ABA0C;
 extern int             GM_PlayerStatus_800ABA50;
-extern SVECTOR         DG_ZeroVector;
 extern UnkCameraStruct gUnkCameraStruct_800B77B8;
 extern int             GV_PauseLevel_800AB928;
 extern SVECTOR         GM_PlayerPosition_800ABA10;

@@ -4,7 +4,7 @@
 
 extern AreaHistory      gAreaHistory_800B5850;
 
-char GM_CurrentStageName[8] = {};
+STATIC char GM_CurrentStageName[8] = {};
 
 short SECTION(".sbss")  sCurrentAreaName_800AB9C0;
 short SECTION(".sbss")  pad3_;
@@ -27,12 +27,12 @@ void GM_SetAreaHistory(AreaHistory *pNewHistory)
     gAreaHistory_800B5850 = *pNewHistory;
 }
 
-int GM_SetArea(int stage_id, char *pStageName)
+int GM_SetArea(int stage_id, char *stage_name)
 {
     int i;
 
     sCurrentAreaName_800AB9C0 = stage_id;
-    strcpy(GM_CurrentStageName, pStageName);
+    strcpy(GM_CurrentStageName, stage_name);
     for (i = MAX_HISTORY - 1; i > 0; i--)
     {
         gAreaHistory_800B5850.history[i] = gAreaHistory_800B5850.history[i - 1];
@@ -55,7 +55,7 @@ int GM_AreaHistory(int stage_id)
     return i;
 }
 
-char *GM_GetArea(int unused)
+char *GM_GetArea(int flag)
 {
     return GM_CurrentStageName;
 }

@@ -15,15 +15,10 @@
 #include "SD/g_sound.h"
 #include "strcode.h"
 
-extern short          GM_uBombHoming;
-extern TBombFunction  GM_lpfnBombHoming;
-extern TBombFunction2 GM_lpfnBombBound;
-extern int            GM_GameStatus;
 extern int            GM_PlayerStatus_800ABA50;
 extern int            dword_800BDD28;
 extern BLAST_DATA     blast_data_8009F4B8[8];
 extern SVECTOR        GM_PlayerPosition_800ABA10;
-extern SVECTOR        DG_ZeroVector;
 extern CONTROL       *tenage_ctrls_800BDD30[16];
 extern int            tenage_ctrls_count_800BDD70;
 
@@ -126,11 +121,11 @@ STATIC void TenageAct(TenageWork *work)
         switch (work->type)
         {
         case GRD_STUN:
-            NewStunGrenade_80074B5C(&rotation);
+            NewStanBlast(&rotation);
             break;
 
         case GRD_CHAFF:
-            NewChafgrnd_80077264(&rotation);
+            NewChaffGrd(&rotation);
             break;
 
         case GRD_TBOMB:

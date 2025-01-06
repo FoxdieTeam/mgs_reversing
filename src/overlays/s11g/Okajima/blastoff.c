@@ -21,7 +21,6 @@ typedef struct BlastoffWork
 
 #define EXEC_LEVEL 5
 
-extern MATRIX DG_ZeroMatrix;
 extern int    GV_Clock_800AB920;
 extern int    GM_CurrentMap_800AB9B0;
 
@@ -155,7 +154,7 @@ void Blastoff_800DBD34(BlastoffWork *work)
     int      i;
 
     work->tex = tex = DG_GetTexture(GV_StrCode("bomb1_fl"));
-    work->prim = prim = Takabe_MakeIndividualRect3DPrim_800793E8(16, work->prim_vecs);
+    work->prim = prim = Takabe_MakeIndividualRect3DPrim(16, work->prim_vecs);
 
     Blastoff_800DBC64(&prim->packs[0]->poly_ft4, tex, 16);
     Blastoff_800DBC64(&prim->packs[1]->poly_ft4, tex, 16);
