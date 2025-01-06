@@ -14,17 +14,10 @@ extern int        GM_PlayerMap_800ABA0C;
 extern int        HZD_CurrentGroup_800AB9A8;
 extern MATRIX     DG_ZeroMatrix;
 
-extern            MAP *pHzdIter_800ABAA0;
-MAP*       SECTION(".sbss") pHzdIter_800ABAA0; // force gp
-
-extern int        gMapCount_800ABAA8;
-int               SECTION( ".sbss" ) gMapCount_800ABAA8;
-
-extern int        N_StageObjs_800ABAA4;
-int               SECTION( ".sbss" ) N_StageObjs_800ABAA4;
-
-extern int        gMapsChanged_800ABAAC;
-int               SECTION(".sbss") gMapsChanged_800ABAAC;
+MAP* SECTION(".sbss") pHzdIter_800ABAA0;
+int  SECTION(".sbss") N_StageObjs_800ABAA4;
+int  SECTION(".sbss") gMapCount_800ABAA8;
+int  SECTION(".sbss") gMapsChanged_800ABAAC;
 
 void Map_light_80030C6C( int a1 )
 {

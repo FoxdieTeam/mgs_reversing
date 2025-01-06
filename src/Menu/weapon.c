@@ -18,31 +18,30 @@
 void sub_8003D3A4(Menu_Item_Unknown *a1, int a2);
 void sub_8003D34C(Menu_Item_Unknown *a1, int a2);
 
-u_long SECTION(".sbss") dword_800ABAD8;
-u_long SECTION(".sbss") dword_800ABADC;
+
 
 // menu related?
 
-int SECTION(".sbss") dword_800ABAE0;
+
 
 extern GM_Camera GM_Camera_800B77E8;
 
-Menu_rpk_item **SECTION(".sbss") gItemFile_table_800ABAE4;
+
 
 PANEL_CONF *dword_800AB584 = NULL;
 
 extern int dword_8009E544[];
 extern int GM_GameStatus;
 
+
+u_long                    SECTION(".sbss") dword_800ABAD8;
+u_long                    SECTION(".sbss") dword_800ABADC;
+int                       SECTION(".sbss") dword_800ABAE0;
+Menu_rpk_item           **SECTION(".sbss") gItemFile_table_800ABAE4;
 int                       SECTION(".sbss") dword_800ABAE8;
 int                       SECTION(".sbss") dword_800ABAEC;
 int                       SECTION(".sbss") gSnakeLifeYPos_800ABAF0;
 int                       SECTION(".sbss") dword_800ABAF4;
-int                       SECTION(".sbss") dword_800ABAF8;
-int                       SECTION(".sbss") gRadioClut_800ABAFC;
-int                       SECTION(".sbss") gCodecAction;
-char                     *SECTION(".sbss") dword_800ABB04;
-MenuCallbackProc_800ABB08 SECTION(".sbss") gMenuCallbackProc_800ABB08;
 
 extern PANEL_TEXTURE gMenuRightItems_800BD888[MENU_WEAPON_COUNT];
 
@@ -50,14 +49,6 @@ struct PANEL_CONF SECTION(".data") stru_8009E544[2] = {{16, 184, 1, 24576, 36864
                                                        {256, 184, 2, 12288, 49152, sub_8003D594, sub_8003D5F0, NULL}};
 
 #define OffsetToPointer(offset, valueToAdd) *((unsigned int *)offset) = (int)valueToAdd + *((unsigned int *)offset);
-
-extern int dword_800ABAD0;
-int        SECTION(".sbss") dword_800ABAD0;
-
-void sub_8003CC88()
-{
-    dword_800ABAD0 = 0;
-}
 
 extern array_800BD748_child array_800BD828[];
 extern array_800BD748_child array_800BD748[];
