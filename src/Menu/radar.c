@@ -24,9 +24,8 @@ STATIC short inactive7segmentColors_800AB4A8[4] = {0x8023, 0x8023, 0x8023, 0x000
 STATIC int cons_current_y_800AB4B0 = 0;
 STATIC int cons_current_x_800AB4B4 = 0;
 
-
-extern Menu_rpk_item *gRadar_rpk_800ABAC8;
-Menu_rpk_item        *SECTION(".sbss") gRadar_rpk_800ABAC8;
+Menu_rpk_item *SECTION(".sbss") gRadar_rpk_800ABAC8;
+int            SECTION(".sbss") dword_800ABACC;
 
 extern short    image_8009E338[];
 extern char     gDigit7Segment_8009E60C[];

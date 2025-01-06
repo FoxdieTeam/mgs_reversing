@@ -8,8 +8,9 @@ extern GV_HEAP MemorySystems_800AD2F0[GV_MEMORY_MAX];
 /********************************************************************/
 
 /***$gp****************************************************************/
-extern unsigned char *GV_ResidentMemoryBottom_800AB940;
-unsigned char        *SECTION(".sbss") GV_ResidentMemoryBottom_800AB940;
+short          SECTION(".sbss") dword_800AB93C; /* static */
+unsigned char *SECTION(".sbss") GV_ResidentMemoryBottom_800AB940;
+int            SECTION(".sbss") dword_800AB944; /* static */
 /*********************************************************************/
 
 extern unsigned char *gOverlayBase_800AB9C8;

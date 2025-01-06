@@ -4,8 +4,8 @@
 extern MESSAGE_LIST message_list_800B0320[2];
 
 /*** $gp ***/
-extern int which_buffer_800AB948;
-int SECTION(".sbss") which_buffer_800AB948;
+int SECTION(".sbss") which_buffer_800AB948; /* static */
+int SECTION(".sbss") dword_800AB94C; /* static */
 
 /*** sbss ***/
 extern int GV_PauseLevel_800AB928;
