@@ -29,31 +29,32 @@
 #include "SD/g_sound.h"
 #include "strcode.h"
 
-extern ACTTRANS AllTrans;
-ACTTRANS        AllTrans;
+extern CONTROL *GM_PlayerControl_800AB9F4;
+extern OBJECT  *GM_PlayerBody_800ABA20;
+
+extern SnaInitWork *sna_800ABBA0;
+SnaInitWork *SECTION(".sbss") sna_800ABBA0;
+
+extern int gSnaMoveDir_800ABBA4;
+int SECTION(".sbss") gSnaMoveDir_800ABBA4;
 
 extern int dword_800ABBA8;
 int        SECTION(".sbss") dword_800ABBA8;
 
-extern int gSnaMoveDir_800ABBA4;
-int        SECTION(".sbss") gSnaMoveDir_800ABBA4;
+extern SVECTOR *dword_800ABBAC;
+SVECTOR *SECTION(".sbss") dword_800ABBAC;
+
+extern void *dword_800ABBB0;
+void *       SECTION(".sbss") dword_800ABBB0;
 
 extern char *dword_800ABBB4;
 char *       SECTION(".sbss") dword_800ABBB4;
 
-extern CONTROL *GM_PlayerControl_800AB9F4;
-extern OBJECT  *GM_PlayerBody_800ABA20;
-
-
 extern HZD_FLR *flr_800ABBB8[2];
 HZD_FLR *SECTION(".sbss") flr_800ABBB8[2];
 
-
 extern int           dword_800ABBC0;
 int SECTION(".sbss") dword_800ABBC0;
-
-extern SnaInitWork *sna_800ABBA0;
-SnaInitWork *SECTION(".sbss") sna_800ABBA0;
 
 extern int dword_800ABBC4;
 int        SECTION(".sbss") dword_800ABBC4;
@@ -67,23 +68,14 @@ SVECTOR        *SECTION(".sbss") pVec_800ABBCC;
 extern int dword_800ABBD0;
 int        SECTION(".sbss") dword_800ABBD0;
 
-extern short dword_800ABBDC;
-short        SECTION(".sbss") dword_800ABBDC;
-
 extern short dword_800ABBD4;
 short        SECTION(".sbss") dword_800ABBD4;
-
-extern void *dword_800ABBB0;
-void *       SECTION(".sbss") dword_800ABBB0;
 
 extern void *GM_BombSeg_800ABBD8;
 void *SECTION(".sbss") GM_BombSeg_800ABBD8;
 
-extern SnaInitWork *sna_800ABBA0;
-SnaInitWork *SECTION(".sbss") sna_800ABBA0;
-
-extern SVECTOR *dword_800ABBAC;
-SVECTOR *SECTION(".sbss") dword_800ABBAC;
+extern short dword_800ABBDC;
+short        SECTION(".sbss") dword_800ABBDC;
 
 extern short              GM_WeaponChanged_800AB9D8;
 extern int                GM_AlertMode_800ABA00;
@@ -97,7 +89,6 @@ extern unsigned short     GM_ItemTypes_8009D598[];
 extern void              *dword_8009EEA4[];
 extern int                GV_Time;
 extern int                bakudan_count_8009F42C;
-extern int                gSnaMoveDir_800ABBA4;
 extern int                DG_UnDrawFrameCount;
 extern int                counter_8009F448;
 extern int                dword_800ABA1C;

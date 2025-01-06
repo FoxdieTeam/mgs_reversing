@@ -10,18 +10,6 @@
 #include "linkvarbuf.h"
 #include "strcode.h"
 
-extern int GM_event_camera_flag_800ABA9C;
-int SECTION(".sbss") GM_event_camera_flag_800ABA9C;
-
-extern int dword_800ABA90;
-int SECTION(".sbss") dword_800ABA90;
-
-extern int dword_800ABA94;
-int SECTION(".sbss") dword_800ABA94;
-
-extern int GM_CameraShakeOffset_800ABA98;
-int SECTION(".sbss") GM_CameraShakeOffset_800ABA98;
-
 int      GM_CameraTrackSave = 10000;
 SVECTOR  GM_CameraRotateSave = { 640, 2048, 0, 0 };
 int      GM_CameraTrackOrg = 10000;
@@ -31,8 +19,12 @@ HZD_TRP *GM_800AB444 = NULL;
 int      GM_800AB448 = 0;
 
 
-extern SVECTOR          svec_800ABA88;
-SVECTOR                 svec_800ABA88; // gp
+int     SECTION(".sbss") dword_800ABA84;
+SVECTOR SECTION(".sbss") svec_800ABA88;
+int     SECTION(".sbss") dword_800ABA90;
+int     SECTION(".sbss") dword_800ABA94;
+int     SECTION(".sbss") GM_CameraShakeOffset_800ABA98;
+int     SECTION(".sbss") GM_event_camera_flag_800ABA9C;
 
 extern int              GV_PauseLevel_800AB928;
 extern GM_Camera        GM_Camera_800B77E8;

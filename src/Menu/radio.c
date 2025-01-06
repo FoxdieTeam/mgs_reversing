@@ -15,26 +15,17 @@
 #include "Game/linkvarbuf.h"
 #include "SD/g_sound.h"
 
-extern char *dword_800ABB04;
-char        *SECTION(".sbss") dword_800ABB04;
+int                         SECTION(".sbss") dword_800ABAF8;
+int                         SECTION(".sbss") gRadioClut_800ABAFC;
+int                         SECTION(".sbss") gCodecAction;
+char                       *SECTION(".sbss") dword_800ABB04;
+MenuCallbackProc_800ABB08   SECTION(".sbss") gMenuCallbackProc_800ABB08;
+int                         SECTION(".sbss") dword_800ABB10;
+int                         SECTION(".sbss") dword_800ABB14;
+short                       SECTION(".sbss") gCodecFadingCount;
+short                       SECTION(".sbss") word_800ABB1A;
+int                         SECTION(".sbss") dword_800ABB1C;
 
-extern MenuCallbackProc_800ABB08 SECTION(".sbss") gMenuCallbackProc_800ABB08;
-MenuCallbackProc_800ABB08        SECTION(".sbss") gMenuCallbackProc_800ABB08;
-
-extern int dword_800ABB10;
-int        SECTION(".sbss") dword_800ABB10; // declared
-
-extern int gRadioClut_800ABAFC;
-int        SECTION(".sbss") gRadioClut_800ABAFC;
-
-extern int dword_800ABB1C;
-int        dword_800ABB1C;
-
-extern short gCodecFadingCount;
-short        gCodecFadingCount;
-
-extern int dword_800ABB14;
-int        dword_800ABB14;
 
 extern int   GV_Time;
 
@@ -54,6 +45,7 @@ extern int DG_UnDrawFrameCount;
 extern int gDiskNum_800ACBF0;
 
 extern char menu_string_format_8009E714[];
+
 
 // 7 segment digit bits
 //   --0--
@@ -724,12 +716,6 @@ void menu_radio_codec_helper_helper15_80040B8C(MenuPrim *pGlue)
     addPrim(pGlue->mPrimBuf.mOt, sprt2);
     addPrim(pGlue->mPrimBuf.mOt, tpage2);
 }
-
-extern int gCodecAction;
-int        SECTION(".sbss") gCodecAction;
-
-extern int dword_800ABAF8;
-int        SECTION(".sbss") dword_800ABAF8;
 
 extern Radio_8009E664 dword_8009E664[];
 

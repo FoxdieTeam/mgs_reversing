@@ -13,23 +13,19 @@ extern int     GM_GameOverTimer;
 extern int     GM_PlayerStatus_800ABA50;
 extern short   word_8009EFC0[];
 
-extern SVECTOR           svector_800AB7CC;
-SVECTOR SECTION(".sbss") svector_800AB7CC;
-
-extern void           *GM_BombSeg_800ABBD8;
-void *SECTION(".sbss") GM_BombSeg_800ABBD8;
+extern SVECTOR svector_800AB7CC;
 
 extern int           dword_800ABBA8;
 int SECTION(".sbss") dword_800ABBA8;
-
-extern int           gSnaMoveDir_800ABBA4;
-int SECTION(".sbss") gSnaMoveDir_800ABBA4;
 
 extern char           *dword_800ABBB4;
 char *SECTION(".sbss") dword_800ABBB4;
 
 extern HZD_FLR           *flr_800ABBB8[2];
 HZD_FLR *SECTION(".sbss") flr_800ABBB8[2];
+
+extern void           *GM_BombSeg_800ABBD8;
+void *SECTION(".sbss") GM_BombSeg_800ABBD8;
 
 #define GetAction( work ) (work->field_9C_obj.action_flag)
 

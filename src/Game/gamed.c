@@ -27,6 +27,7 @@
 #include "Menu/menuman.h"
 
 extern unsigned short   gSystemCallbackProcs_800B58C0[];
+
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 PlayerStatusFlag        GM_PlayerStatus_800ABA50;
 extern short            GM_MagazineMax_800ABA2C;
@@ -35,8 +36,10 @@ extern int              GM_AlertLevel_800ABA18;
 int                     GM_AlertLevel_800ABA18;
 extern int              GM_AlertMode_800ABA00;
 int                     GM_AlertMode_800ABA00;
+
 extern char            *GM_StageName_800AB918;
 char                   *GM_StageName_800AB918;
+
 extern SVECTOR          GM_PlayerPosition_800ABA10;
 SVECTOR                 GM_PlayerPosition_800ABA10;
 extern int              GM_DisableItem_800ABA28;
@@ -78,8 +81,30 @@ int          SECTION(".sbss") gTotalFrameTime_800AB9E8;
 short        SECTION(".sbss") GM_Magazine_800AB9EC;
 int          SECTION(".sbss") GM_PlayerAddress_800AB9F0;
 CONTROL     *SECTION(".sbss") GM_PlayerControl_800AB9F4;
-//SVECTOR      SECTION(".sbss") GM_NoisePosition_800AB9F8; //breaks when added to a file that includes game.h
-
+/*
+SVECTOR          SECTION(".sbss") GM_NoisePosition_800AB9F8;
+int              SECTION(".sbss") GM_AlertMode_800ABA00;
+int              SECTION(".sbss") GM_Photocode_800ABA04;
+int              SECTION(".sbss") dword_800ABA08;
+int              SECTION(".sbss") GM_PlayerMap_800ABA0C;
+SVECTOR          SECTION(".sbss") GM_PlayerPosition_800ABA10;
+int              SECTION(".sbss") GM_AlertLevel_800ABA18;
+int              SECTION(".sbss") dword_800ABA1C;
+OBJECT          *SECTION(".sbss") GM_PlayerBody_800ABA20;
+int              SECTION(".sbss") GM_NoisePower_800ABA24;
+int              SECTION(".sbss") GM_DisableItem_800ABA28;
+int              SECTION(".sbss") GM_MagazineMax_800ABA2C;
+int              SECTION(".sbss") GM_NoiseLength_800ABA30;
+short            SECTION(".sbss") GM_O2_800ABA34;
+short            SECTION(".sbss") word_800ABA36;
+int              SECTION(".sbss") GM_LoadComplete_800ABA38;
+int              SECTION(".sbss") GM_PadVibration_800ABA3C;
+int              SECTION(".sbss") GM_PlayerAction_800ABA40;
+int              SECTION(".sbss") dword_800ABA44;
+SVECTOR          SECTION(".sbss") GM_PhotoViewPos_800ABA48;
+PlayerStatusFlag SECTION(".sbss") GM_PlayerStatus_800ABA50;
+int              SECTION(".sbss") GM_PadVibration2_800ABA54;
+*/
 extern int GM_PadVibration2_800ABA54;
 int        SECTION(".sbss") GM_PadVibration2_800ABA54;
 

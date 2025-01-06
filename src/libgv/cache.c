@@ -9,13 +9,13 @@ extern GV_LOADFUNC  gFileExtHandlers_800ACE80[MAX_FILE_HANDLERS];
 /*********************************************************************/
 
 /***$gp***************************************************************/
-extern GV_CACHE_TAG *GV_CurrentTag_800AB930;
+//extern GV_CACHE_TAG *GV_CurrentTag_800AB930;
 GV_CACHE_TAG        *SECTION(".sbss") GV_CurrentTag_800AB930;
 
-extern GV_CACHE_TAG *GV_ResidentFileRecords_800AB934;
+//extern GV_CACHE_TAG *GV_ResidentFileRecords_800AB934;
 GV_CACHE_TAG        *SECTION(".sbss") GV_ResidentFileRecords_800AB934;
 
-extern int N_ResidentFileRecords_800AB938;
+//extern int N_ResidentFileRecords_800AB938;
 int        SECTION(".sbss") N_ResidentFileRecords_800AB938;
 /********************************************************************/
 

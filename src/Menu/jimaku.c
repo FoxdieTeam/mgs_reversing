@@ -6,8 +6,7 @@
 #include "libgcl/libgcl.h"
 #include "Game/linkvarbuf.h"
 
-extern void *MENU_JimakuTextBody_800ABB40;
-void        *SECTION(".sbss") MENU_JimakuTextBody_800ABB40;
+void *SECTION(".sbss") MENU_JimakuTextBody_800ABB40;
 
 extern int             GV_PauseLevel_800AB928;
 extern UnkJimakuStruct gUnkJimakuStruct_800BDA70;

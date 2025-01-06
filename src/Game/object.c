@@ -17,11 +17,12 @@ extern MATRIX  DG_LightMatrix;
 /*-----sbss---------------------------------------*/
 extern int GM_CurrentMap_800AB9B0;
 
-extern int mt_rt2_800ABAB8;
-int        SECTION(".sbss") mt_rt2_800ABAB8;
-
-extern int mt_count_800ABAC0;
-int        SECTION(".sbss") mt_count_800ABAC0;
+int SECTION(".sbss") fc_rt_800ABAB0;
+int SECTION(".sbss") mt_rt1_800ABAB4;
+int SECTION(".sbss") mt_rt2_800ABAB8;
+int SECTION(".sbss") fc_cnt_800ABABC;
+int SECTION(".sbss") mt_count_800ABAC0;
+int SECTION(".sbss") dword_800ABAC4;
 /*------------------------------------------------*/
 
 //not sure if this one belongs here
