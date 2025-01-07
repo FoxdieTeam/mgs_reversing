@@ -271,7 +271,7 @@ void s11i_asiato_800CDD64( Zako11FWork *work )
         return;
     }
 
-    if ( Zako11FCommand_800D5AF8.field_0x0C % Zako11FCommand_800D5AF8.field_0x08 == work->field_B74 )
+    if ( Zako11FCommand_800D5AF8.field_0x0C % Zako11FCommand_800D5AF8.n_watchers == work->field_B74 )
     {
         if ( ZAKO11F_EYE_LENGTH_800C3694 + 2000 < dis )
         {
