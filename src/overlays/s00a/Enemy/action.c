@@ -46,12 +46,12 @@ extern int          GM_PlayerMap_800ABA0C;
 static inline void UnsetMode( WatcherWork *work )
 {
     extern short    ActTable_800C3358[];
-    work->field_8E2 = 0;
+    work->unknown.last_unset = 0;
     GM_ConfigObjectOverride( &( work->body ), ActTable_800C3358[STANDSTILL], 0, ACTINTERP, 0 );
 
     work->action2 = 0;
     work->time2 = 0;
-    work->field_8E2 = 0;
+    work->unknown.last_unset = 0;
     work->control.turn.vz = 0;
     work->control.turn.vx = 0;
 }
@@ -59,19 +59,19 @@ static inline void UnsetMode( WatcherWork *work )
 static inline void UnsetMode2( WatcherWork *work )
 {
     extern short    ActTable_800C3358[];
-    work->field_8E2 = 0;
+    work->unknown.last_unset = 0;
     GM_ConfigObjectOverride( &( work->body ), ActTable_800C3358[STANDSTILL], 0, ACTINTERP, 0 );
 
     work->action2 = 0;
     work->time2 = 0;
-    work->field_8E2 = 0;
+    work->unknown.last_unset = 0;
     work->control.turn.vz = 0;
     work->control.turn.vx = 0;
 
-    if ( work->field_B68 )
+    if ( work->mosaic )
     {
-        GV_DestroyOtherActor( work->field_B68 );
-        work->field_B68 = 0;
+        GV_DestroyOtherActor( work->mosaic );
+        work->mosaic = 0;
     }
 
 }
@@ -79,7 +79,7 @@ static inline void UnsetMode2( WatcherWork *work )
 static inline void SetAction( WatcherWork *work, int n_action, int interp )
 {
     extern short    ActTable_800C3358[];
-    work->field_8E0 = n_action ;
+    work->unknown.last_set = n_action ;
     GM_ConfigObjectAction( &( work->body ), ActTable_800C3358[n_action], 0, interp );
 }
 
@@ -87,7 +87,7 @@ static inline void UnsetAction( WatcherWork *work, int n_action )
 {
     extern short    ActTable_800C3358[];
 
-    work->field_8E2 = n_action;
+    work->unknown.last_unset = n_action;
     GM_ConfigObjectOverride( &( work->body ), ActTable_800C3358[n_action], 0, ACTINTERP, 0x3FE );
 }
 
@@ -95,7 +95,7 @@ static inline void UnsetActionManual( WatcherWork *work, int n_action, int a4 )
 {
     extern short    ActTable_800C3358[];
 
-    work->field_8E2 = n_action;
+    work->unknown.last_unset = n_action;
     GM_ConfigObjectOverride( &( work->body ), ActTable_800C3358[n_action], 0, ACTINTERP, a4 );
 }
 
@@ -103,7 +103,7 @@ static inline void UnsetAction2( WatcherWork *work )
 {
     extern short    ActTable_800C3358[];
 
-    work->field_8E2 = 0;
+    work->unknown.last_unset = 0;
     GM_ConfigObjectOverride( &( work->body ), ActTable_800C3358[STANDSTILL], 0, ACTINTERP, 0 );
     GV_DestroyOtherActor( work->subweapon );
 }
@@ -188,10 +188,10 @@ void s00a_command_800C5E48( WatcherWork* work, int time )
     dist = -1;
     ctrl = &(work->control );
     dir = work->pad.dir;
-    field_8E0 = work->field_8E0;
+    field_8E0 = work->unknown.last_set;
     svec = work->control.field_60_vecs_ary;
 
-    if ( (work->pad.mode & 0x1) && ( work->field_8E0 != ACTION2 ) )
+    if ( (work->pad.mode & 0x1) && ( work->unknown.last_set != ACTION2 ) )
     {
         SetAction( work, ACTION2, ACTINTERP );
     }
@@ -277,7 +277,7 @@ void s00a_command_800C5E48( WatcherWork* work, int time )
 
     if ( !time )
     {
-        work->field_8E6 = 0;
+        work->unknown.field_1E = 0;
     }
 }
 
@@ -349,7 +349,7 @@ void s00a_command_800C6320( WatcherWork *work, int time )
 {
     SetTargetClass( work->target, TARGET_FLAG ) ;
     work->vision.length = COM_EYE_LENGTH_800E0D8C;
-    work->field_8E6 = 0;
+    work->unknown.field_1E = 0;
 
     if ( CheckDamage_800C5424( work ) )
     {
@@ -426,7 +426,7 @@ void s00a_command_800C65A8( WatcherWork* work, int time )
         {
             SetAction( work, ACTION5, ACTINTERP );
         }
-        GM_ConfigMotionAdjust( &( work->body ), &work->field_724 ) ;
+        GM_ConfigMotionAdjust( &( work->body ), work->adjust ) ;
     }
 
     s00a_command_800C5860( work );
@@ -480,7 +480,7 @@ void s00a_command_800C6724( WatcherWork* work, int time )
     {
         SetAction( work, ACTION4, 0 ) ;
         ENE_SetPutChar_800C979C( work, 3 ) ;
-        GM_ConfigMotionAdjust( &( work->body ), &work->field_724 ) ;
+        GM_ConfigMotionAdjust( &( work->body ), work->adjust ) ;
     }
 
     s00a_command_800C5860( work );
@@ -537,7 +537,7 @@ void ActGrenade_800C67EC( WatcherWork *work, int time )
 
     if ( time == 45 )
     {
-        if ( work->field_8E0 == 7 )
+        if ( work->unknown.last_set == 7 )
         {
             work->trigger |= WEAPON_TRIG2 ;
         }
@@ -553,7 +553,7 @@ void ActGrenade_800C67EC( WatcherWork *work, int time )
         return ;
     }
 
-    if ( work->field_8E0 == 7 )
+    if ( work->unknown.last_set == 7 )
     {
         if ( work->body.is_end )
         {
@@ -580,7 +580,7 @@ void s00a_command_800C6A40( WatcherWork* work, int time )
 {
     SetTargetClass( work->target, TARGET_FLAG );
     work->vision.length = COM_EYE_LENGTH_800E0D8C ;
-    work->field_8E6 = 0;
+    work->unknown.field_1E = 0;
 
     if ( time == 0 )
     {
@@ -642,12 +642,12 @@ void s00a_command_800C6BCC( WatcherWork* work, int time )
 
     target = work->target;
     ctrl = &work->control;
-    work->field_8E6 = 0;
+    work->unknown.field_1E = 0;
     work->act_status |= 0x08;
 
     if ( time == 0 )
     {
-        work->field_8DC = 6;
+        work->unknown.field_14 = 6;
         SetAction( work, ACTION31, ACTINTERP );
     }
 
@@ -656,7 +656,7 @@ void s00a_command_800C6BCC( WatcherWork* work, int time )
         s00a_command_800C59F8( work );
     }
 
-    if ( work->field_8E0 == 31 )
+    if ( work->unknown.last_set == 31 )
     {
         if ( time == 22 )
         {
@@ -743,9 +743,9 @@ void s00a_command_800C6FA8( WatcherWork* work, int time )
     TARGET *target;
 
     target = work->target;
-    s2 = work->field_8E0;
+    s2 = work->unknown.last_set;
 
-    work->field_8E6 = 0;
+    work->unknown.field_1E = 0;
     work->act_status |= 0x0C;
 
     if ( time == 0 )
@@ -775,7 +775,7 @@ void s00a_command_800C6FA8( WatcherWork* work, int time )
             {
                 work->field_C48 = v1;
             }
-            work->field_8DC = 5;
+            work->unknown.field_14 = 5;
             target->side = ENEMY_SIDE;
             SetMode( work, s00a_command_800C78E0 );
             target->field_42 = 0;
@@ -815,13 +815,13 @@ void s00a_command_800C6FA8( WatcherWork* work, int time )
         s00a_command_800C6EC8( work );
         break;
     case 0x27:
-        work->field_8DC = 4;
+        work->unknown.field_14 = 4;
         target->side = ENEMY_SIDE;
         target->field_26_hp = 0;
         SetMode( work, s00a_command_800C78E0 );
         return;
     default:
-        work->field_8DC = 5;
+        work->unknown.field_14 = 5;
         target->side = ENEMY_SIDE;
         SetMode( work, s00a_command_800C78E0 );
         return;
@@ -851,7 +851,7 @@ void s00a_command_800C7354( WatcherWork* work, int time )
     int time_offset;
 
     ctrl = &work->control;
-    work->field_8E6 = 0;
+    work->unknown.field_1E = 0;
     work->vision.length = 0;
     work->act_status |= 0x8;
 
@@ -869,7 +869,7 @@ void s00a_command_800C7354( WatcherWork* work, int time )
 
     if ( time == time_offset )
     {
-        work->field_8DC = 1;
+        work->unknown.field_14 = 1;
         SetAction( work, ACTION37, ACTINTERP ) ;
     }
     else
@@ -904,9 +904,9 @@ void s00a_command_800C7498( WatcherWork* work, int time )
     if ( time == 0 )
     {
 
-        if ( work->field_8DC < 3 )
+        if ( work->unknown.field_14 < 3 )
         {
-            if ( work->field_8DC == 1 )
+            if ( work->unknown.field_14 == 1 )
             {
                 SetAction( work, ACTION41, ACTINTERP );
             }
@@ -960,12 +960,12 @@ void s00a_command_800C76BC( WatcherWork* work, int time )
 //enemy getting up
 void s00a_command_800C76C4( WatcherWork* work, int time )
 {
-    work->field_8E6 = 0;
+    work->unknown.field_1E = 0;
     work->act_status |= 0x08;
 
     if ( time == 0 )
     {
-        if ( work->field_8DC < 3 )
+        if ( work->unknown.field_14 < 3 )
         {
             if ( work->field_B5A >= 0x5A )
             {
@@ -999,7 +999,7 @@ void s00a_command_800C77C8( WatcherWork* work, int time )
 {
     TARGET* target;
 
-    work->field_8E6 = 0;
+    work->unknown.field_1E = 0;
     SetTargetClass( work->target, TARGET_FLAG );
     work->vision.length = COM_EYE_LENGTH_800E0D8C ;
     work->act_status |= 0x08;
@@ -1040,8 +1040,8 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
     CONTROL* ctrl;
     WatcherUnk *unk;
 
-    unk = (WatcherUnk*)&work->field_8C8;
-    work->field_8E6 = 0;
+    unk = &work->unknown;
+    work->unknown.field_1E = 0;
     work->act_status |= 0x8;
     work->control.step = work->target->field_2C_vec;
 
@@ -1184,7 +1184,7 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
 
     if ( work->body.is_end )
     {
-        work->field_8E6 = 1;
+        work->unknown.field_1E = 1;
         work->target->field_2C_vec = DG_ZeroVector;
         if ( work->target->field_26_hp <= 0 )
         {
@@ -1202,10 +1202,10 @@ void s00a_command_800C7E28( WatcherWork* work, int time )
     CONTROL *ctrl;
 
     ctrl = &work->control;
-    work->field_8E6 = 0;
+    work->unknown.field_1E = 0;
     work->act_status |= 0x8;
 
-    if ( time == 0 && work->field_8DC != 2 )
+    if ( time == 0 && work->unknown.field_14 != 2 )
     {
         GM_SeSetMode( &ctrl->mov, 0x91, GM_SEMODE_BOMB );
     }
@@ -1215,14 +1215,14 @@ void s00a_command_800C7E28( WatcherWork* work, int time )
         ctrl->step = DG_ZeroVector;
     }
 
-    if ( work->field_8E0 < 39 )
+    if ( work->unknown.last_set < 39 )
     {
         ctrl->step = work->target->field_2C_vec;
         if ( work->body.is_end )
         {
-            if ( work->field_8DC < 3 )
+            if ( work->unknown.field_14 < 3 )
             {
-                if ( work->field_8DC == 1 )
+                if ( work->unknown.field_14 == 1 )
                 {
                     SetAction( work, ACTION41, ACTINTERP );
                 }
@@ -1246,7 +1246,7 @@ void s00a_command_800C7E28( WatcherWork* work, int time )
 
         if ( ctrl->field_57 )
         {
-            work->field_8E6 = 1;
+            work->unknown.field_1E = 1;
             work->target->field_2C_vec = DG_ZeroVector;
             GM_SeSetMode( &ctrl->mov, SE_HIT_FLOOR, GM_SEMODE_BOMB );
             ENE_PutBlood_800C8FF8( work, 6, 1 );
@@ -1262,9 +1262,9 @@ void s00a_command_800C8054( WatcherWork *work, int time )
     work->act_status |= 0x40;
     if ( time == 0 )
     {
-        if ( work->field_8DC < 3 )
+        if ( work->unknown.field_14 < 3 )
         {
-            if ( work->field_8DC == 1 )
+            if ( work->unknown.field_14 == 1 )
             {
                 SetAction( work, ACTION51, ACTINTERP );
             }
@@ -1355,7 +1355,7 @@ void s00a_command_800C82B0( WatcherWork *work )
     ctrl->height = work->body.field_18;
     ctrl->hzd_height = ctrl->levels[0] + 750;
 
-    unk = (WatcherUnk*)&work->field_8C8;
+    unk = &work->unknown;
 
     time_prev = work->time;
     work->time++;
@@ -1636,9 +1636,9 @@ void s00a_command_800C8C98( WatcherWork *work, int time )
     if ( time == 0 )
     {
         UnsetAction( work, ACTION25 );
-        if ( work->field_B68 == NULL )
+        if ( work->mosaic == NULL )
         {
-            work->field_B68 = NewMosaicSet_800DC9F4(&work->body.objs->objs[0].world, 300, 4, -250 );
+            work->mosaic = NewMosaicSet_800DC9F4(&work->body.objs->objs[0].world, 300, 4, -250 );
         }
         GM_SeSet( &work->control.mov, 0xB9 );
     }
@@ -1669,9 +1669,9 @@ void s00a_command_800C8DF8( WatcherWork *work, int time )
     if ( time == 0 )
     {
         UnsetAction( work, ACTION25 );
-        if ( work->field_B68 == NULL )
+        if ( work->mosaic == NULL )
         {
-            work->field_B68 = NewMosaicSet_800DC9F4(&work->body.objs->objs[0].world, 300, 4, -250 );
+            work->mosaic = NewMosaicSet_800DC9F4(&work->body.objs->objs[0].world, 300, 4, -250 );
         }
     }
 
@@ -1777,7 +1777,7 @@ void ENE_PutItem_800C90CC( WatcherWork *work )
     SVECTOR svec;
     CONTROL *ctrl;
     Item_Info item;
-    svec = work->field_8D4;
+    svec = work->unknown.field_0C;
     rand = 8;
     ctrl = &work->control;
     svec.vx += GV_RandU( rand );
@@ -1904,10 +1904,10 @@ void ENE_PutMark_800C9378( WatcherWork *work, int mark )
 
     if ( work->mark_time )
     {
-        GV_DestroyOtherActor( (GV_ACT*)work->field_B60 );
+        GV_DestroyOtherActor( work->mark );
     }
 
-    work->field_B60 = (int)AN_Unknown_800CA1EC( mat , mark ) ;
+    work->mark = AN_Unknown_800CA1EC( mat , mark ) ;
     work->mark_time = 30;
 }
 
@@ -1918,7 +1918,7 @@ void ENE_PutSound_800C9414( WatcherWork* work )
     int v1;
     if ( !EnemyCommand_800E0D98.field_0x17A ) return;
 
-    a3 = work->field_8E0;
+    a3 = work->unknown.last_set;
     a2 = work->m_ctrl.info1.frame;
 
     v1 = ( ( work->field_B78 % 4 ) * 2 ) + 0xA0;
@@ -1961,7 +1961,7 @@ void ENE_PutBreath_800C94B8( WatcherWork *work, int arg1 )
         return;
     }
 
-    if ( work->field_8E2 == 20 )
+    if ( work->unknown.last_unset == 20 )
     {
         frame = work->m_ctrl.info2.frame;
         if ( frame == 31 )
@@ -1969,7 +1969,7 @@ void ENE_PutBreath_800C94B8( WatcherWork *work, int arg1 )
             AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
         }
     }
-    else if ( work->field_8E2 == 22 )
+    else if ( work->unknown.last_unset == 22 )
     {
         frame = work->m_ctrl.info2.frame;
         if ( ( frame == 15 ) || ( frame == 35 ) || ( frame == 50 ) || ( frame == 60 ) ||
@@ -1978,7 +1978,7 @@ void ENE_PutBreath_800C94B8( WatcherWork *work, int arg1 )
             AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
         }
     }
-    else if ( work->field_8E2 == 19 )
+    else if ( work->unknown.last_unset == 19 )
     {
         frame = work->m_ctrl.info2.frame;
         if ( ( frame == 30  ) || ( frame == 40  ) || ( frame == 50 ) || ( frame == 60 ) ||

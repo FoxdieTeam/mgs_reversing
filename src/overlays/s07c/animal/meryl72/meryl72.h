@@ -73,21 +73,18 @@ typedef struct Meryl72Work
     void*          action2;         //0x8E0
     int            time;            //0x8E4
     int            time2;           //0x8E8
-    int            f8EC;            //0x8EC //actend?
+    int            actend;          //0x8EC
     TARGET        *target;          //0x8F0
     TARGET         target2;
     TARGET         punch;
-    HOMING        *homing;
+    HOMING        *hom;
     int            n_patrols;
-    SVECTOR        nodes[1];        //0x98C
-    char           pad20[0x10];
-    SVECTOR        f9A4;            //Probably array
-    char           pad18[0xE0];
-    GV_ACT        *shadow;          //0xA8C
-    int           *enable_shadow;
-    int            fA94;
-    int            fA98;
-    void*          fA9C[8];
+    SVECTOR        nodes[32];        //0x98C
+    GV_ACT        *shadow;
+    int           *shadow_enable;
+    GV_ACT        *glight;
+    int           *glight_enable;
+    void          *fA9C[8];
     short          think1;
     short          think2;
     short          think3;
@@ -96,7 +93,7 @@ typedef struct Meryl72Work
     int            next_node;
     Meryl72Pad     pad;             //0xACC
     unsigned int   trigger;         //0xAE0
-    GV_ACT*        subweapon;       //0xAE4
+    GV_ACT        *subweapon;       //0xAE4
     short          fAE8;
     short          fAEA;
     short          fAEC;

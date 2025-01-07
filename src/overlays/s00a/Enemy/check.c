@@ -76,7 +76,7 @@ int s00a_command_800C5194( WatcherWork *work ) {
         target->field_2C_vec = DG_ZeroVector;
         if ( target->field_2A <= 0 )
         {
-            work->field_8DC = 1;
+            work->unknown.field_14 = 1;
             SetMode( work, s00a_command_800C78E0 ) ;
         }
         else
@@ -85,14 +85,14 @@ int s00a_command_800C5194( WatcherWork *work ) {
         }
         break;
     case 3:
-        work->field_8DC = 0;
+        work->unknown.field_14 = 0;
         SetMode( work, s00a_command_800C78E0 ) ;
         break;
     case 0:
         target->field_2C_vec = DG_ZeroVector;
         if ( target->field_26_hp <= 0 )
         {
-            work->field_8DC = 1;
+            work->unknown.field_14 = 1;
             SetMode( work, s00a_command_800C78E0 ) ;
         }
         else
@@ -103,16 +103,16 @@ int s00a_command_800C5194( WatcherWork *work ) {
     case 1:
         if ( s00a_command_800C5158( &target->field_2C_vec ) < 100 )
         {
-            work->field_8DC = 3;
+            work->unknown.field_14 = 3;
         }
         else
         {
-            work->field_8DC = 2;
+            work->unknown.field_14 = 2;
         }
         SetMode( work, s00a_command_800C78E0 ) ;
         break;
     case 4:
-        work->field_8DC = 3;
+        work->unknown.field_14 = 3;
         SetMode( work, s00a_command_800C78E0 ) ;
         break;
     case 8:
@@ -230,7 +230,7 @@ void s00a_command_800C55B0( WatcherWork* work )
     work->think4 = 0;
     work->count3 = 0;
 
-    work->next_node = work->field_9E8 - 1;
+    work->next_node = work->n_nodes - 1;
     work->target_addr  = work->start_addr;
     work->target_pos   = work->start_pos;
 
@@ -288,17 +288,17 @@ void s00a_command_800C5860( WatcherWork* work )
     trans = ( ( GM_PlayerBody_800ABA20->objs->objs[6].world.t[1] - work->body.objs->objs[6].world.t[1] ) );
     trans = ratan2( work->sn_dis, trans  )  & 0xFFF;
 
-    near = GV_NearExp8( work->field_734, trans - 0x400 );
-    work->field_734 = near;
-    work->field_754 = near;
+    near = GV_NearExp8( work->adjust[2].vx, trans - 0x400 );
+    work->adjust[2].vx = near;
+    work->adjust[6].vx = near;
 
     if ( near < 0 )
     {
-        work->field_75C = near * 3 ;
+        work->adjust[7].vx = near * 3 ;
     }
     else
     {
-        work->field_75C = ( near * 3 ) / 2 ;
+        work->adjust[7].vx = ( near * 3 ) / 2 ;
     }
 }
 
@@ -430,7 +430,7 @@ int CheckPad_800C5A60( WatcherWork *work )
     if ( press & 0x30000 )
     {
         SetMode( work, s00a_command_800C65A8 );
-        work->field_734 = 0;
+        work->adjust[2].vx = 0;
         return 1;
     }
 

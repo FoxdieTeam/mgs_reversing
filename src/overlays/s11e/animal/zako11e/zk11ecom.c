@@ -427,7 +427,7 @@ void s11e_zk11ecom_800DA2BC( ZAKO_COMMAND* command )
     }
 }
 
-void s11e_zk11ecom_800DA3A0( C8_STRUCT* struct_c8 , int i )
+void s11e_zk11ecom_800DA3A0( WATCHER *struct_c8 , int i )
 {
     int x = struct_c8->field_08;
     switch ( x )

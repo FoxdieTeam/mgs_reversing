@@ -1429,7 +1429,7 @@ void s07c_meryl72_unk1_800CABA0( Meryl72Work *work )
     unk = &work->f8BC;
     ctrl   = &work->control;
 
-    work->f8EC = 0;
+    work->actend = 0;
     work->fC08 = 0;
     work->act_status = 0;
     work->f8BC.field_1C = 1 ;
@@ -1475,11 +1475,11 @@ void s07c_meryl72_unk1_800CABA0( Meryl72Work *work )
 
     if ( GM_AlertMode_800ABA00 == 3 && work->target->class & TARGET_POWER )
     {
-        work->homing->flag = 1;
+        work->hom->flag = 1;
     }
     else
     {
-        work->homing->flag = 0;
+        work->hom->flag = 0;
     }
 
     if ( unk->field_04 < 0 && ctrl->field_57 )
