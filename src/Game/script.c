@@ -19,10 +19,7 @@
 extern  CAMERA          GM_CameraList_800B7718[8];
 extern  GM_Camera       GM_Camera_800B77E8;
 
-//extern  char            dword_800ABA58[8];
-//char                    dword_800ABA58[8]; // gp
 
-char SECTION(".sbss") dword_800ABA58[8];
 
 extern  BindStruct      gBindsArray_800b58e0[128];
 extern  unsigned int    GM_DisableWeapon_800AB9E4;
@@ -33,8 +30,9 @@ extern  int             dword_8009F46C;
 extern  SVECTOR         svector_8009F478;
 extern  SVECTOR         GM_PhotoViewPos_800ABA48;
 
-int SECTION(".sbss") gBinds_800ABA60;
-int SECTION(".sbss") gBindsCount_800ABA64;
+char SECTION(".sbss") dword_800ABA58[8];
+int  SECTION(".sbss") gBinds_800ABA60;
+int  SECTION(".sbss") gBindsCount_800ABA64;
 
 extern char *GM_StageName_800AB918;
 char         SECTION(".sbss") * GM_StageName_800AB918;
