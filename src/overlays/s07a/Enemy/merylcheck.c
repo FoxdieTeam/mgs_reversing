@@ -95,7 +95,7 @@ int s07a_meryl_unk_800D6860( WatcherWork *work )
         target->field_2C_vec = DG_ZeroVector;
         if ( target->field_2A <= 0 )
         {
-            work->field_8DC = 1;
+            work->unknown.field_14 = 1;
             SetMode( work, s07a_meryl_unk_800D8CB4 ) ;
         }
         else
@@ -104,14 +104,14 @@ int s07a_meryl_unk_800D6860( WatcherWork *work )
         }
         break;
     case 3:
-        work->field_8DC = 0;
+        work->unknown.field_14 = 0;
         SetMode( work, s07a_meryl_unk_800D8CB4 ) ;
         break;
     case 0:
         target->field_2C_vec = DG_ZeroVector;
         if ( target->field_26_hp <= 0 )
         {
-            work->field_8DC = 1;
+            work->unknown.field_14 = 1;
             SetMode( work, s07a_meryl_unk_800D8CB4 ) ;
         }
         else
@@ -122,16 +122,16 @@ int s07a_meryl_unk_800D6860( WatcherWork *work )
     case 1:
         if ( s07a_meryl_unk_800D6824( &target->field_2C_vec ) < 100 )
         {
-            work->field_8DC = 3;
+            work->unknown.field_14 = 3;
         }
         else
         {
-            work->field_8DC = 2;
+            work->unknown.field_14 = 2;
         }
         SetMode( work, s07a_meryl_unk_800D8CB4 ) ;
         break;
     case 4:
-        work->field_8DC = 3;
+        work->unknown.field_14 = 3;
         SetMode( work, s07a_meryl_unk_800D8CB4 ) ;
         break;
     case 7:
@@ -212,17 +212,17 @@ void ReviseReadyGun_800D6BE4( WatcherWork* work )
     trans = ( ( GM_PlayerBody_800ABA20->objs->objs[6].world.t[1] - work->body.objs->objs[6].world.t[1] ) );
     trans = ratan2( work->sn_dis, trans  )  & 0xFFF;
 
-    near = GV_NearExp8( work->field_734, trans - 0x400 );
-    work->field_734 = near;
-    work->field_754 = near;
+    near = GV_NearExp8( work->adjust[2].vx, trans - 0x400 );
+    work->adjust[2].vx = near;
+    work->adjust[6].vx = near;
 
     if ( near < 0 )
     {
-        work->field_75C = near * 3 ;
+        work->adjust[7].vx = near * 3 ;
     }
     else
     {
-        work->field_75C = ( near * 3 ) / 2 ;
+        work->adjust[7].vx = ( near * 3 ) / 2 ;
     }
 }
 
@@ -373,7 +373,7 @@ int CheckPad_800D6DE4( WatcherWork *work )
     if ( press & 0x30000 )
     {
         SetMode( work, ActReadyGun_800D7924 );
-        work->field_734 = 0;
+        work->adjust[2].vx = 0;
         return 1;
     }
 

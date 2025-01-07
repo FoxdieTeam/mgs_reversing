@@ -65,47 +65,19 @@ typedef struct _WatcherWork
     GV_ACT         actor;
     CONTROL        control;                    //0x20
     OBJECT         body;                       //0x9C
-    int            field_180;                  //0x180
-    void          *kmd;                        //0x184
+    int            has_kmd;                    //0x180
+    DG_DEF        *kmd;                        //0x184
     DG_DEF        *def;                        //0x188
     MOTION_CONTROL m_ctrl;                     //0x18C
-    MOTION_SEGMENT field_1DC[34];              //0x1DC
+    MOTION_SEGMENT m_segs1[17];                //0x1DC
+    MOTION_SEGMENT m_segs2[17];                //???
     SVECTOR        rots[16];                   //0x6A4
-    SVECTOR        field_724;                  //0x724
-    int            field_72C;                  //0x72C
-    int            field_730;                  //0x730
-    short          field_734;                  //0x734
-    short          field_736;                  //0x736
-    char           field_738[0x1C];            //0x738
-    short          field_754;                  //0x754
-    short          field_756;                  //0x756
-    short          field_758;                  //0x756
-    short          field_75A;                  //0x756
-    short          field_75C;                  //0x75C
-    short          field_75E;                  //0x75C
-    char           field_760[0x44];            //0x760
-    OBJECT         field_7A4;                  //0x7A4
-    MATRIX         field_888;                  //0x888
-    int            field_8A8;                  //0x8A8
-    int            field_8AC;                  //0x8AC
-    int            field_8B0;                  //0x8B0
-    int            field_8B4;                  //0x8B4
-    int            field_8B8;                  //0x8B8
-    int            field_8BC;                  //0x8BC
-    int            field_8C0;                  //0x8C0
-    int            field_8C4;                  //0x8C4
-    int            field_8C8;                  //0x8C8
-    int            field_8CC;                  //0x8CC
-    int            field_8D0;                  //0x8D0
-    SVECTOR        field_8D4;                  //0x8D4
-    int            field_8DC;                  //0x8DC
-    short          field_8E0;                  //0x8E0
-    short          field_8E2;                  //0x8E2
-    short          field_8E4;                  //0x8E4
-    short          field_8E6;                  //0x8E6
-    int            field_8E8;                  //0x8E8
-    void*          action;                     //0x8EC
-    void*          action2;                    //0x8F0
+    SVECTOR        adjust[16];                 //0x724
+    OBJECT         weapon;                     //0x7A4
+    MATRIX         light[2];                   //0x888
+    WatcherUnk     unknown;                    //0x8C8
+    void          *action;                     //0x8EC
+    void          *action2;                    //0x8F0
     int            time;                       //0x8F4
     int            time2;                      //0x8F8
     int            actend;                     //0x8FC
@@ -118,8 +90,8 @@ typedef struct _WatcherWork
     short          field_9E2;                  //0x9E2
     short          visible;                    //0x9E4
     short          field_9E6;                  //0x9E6
-    int            field_9E8;                  //0x9E8
-    SVECTOR        nodes[0x20];                //0x9EC
+    int            n_nodes;                    //0x9E8
+    SVECTOR        nodes[32];                  //0x9EC
     int            search_flag;                //0xAEC
     GV_ACT*        field_AF0;                  //0xAF0
     int           *field_AF4;                  //0xAF4
@@ -138,14 +110,14 @@ typedef struct _WatcherWork
     short          field_B4C;                  //0xB4C
     short          field_B4E;                  //0xB4E
     unsigned int   trigger;                    //0xB50
-    GV_ACT*        subweapon;                  //0xB54
+    GV_ACT        *subweapon;                  //0xB54
     short          field_B58;                  //0xB58
     short          field_B5A;                  //0xB5A
     short          field_B5C;                  //0xB5C
     short          field_B5E;                  //0xB5E
-    int            field_B60;                  //0xB60
+    GV_ACT        *mark;                       //0xB60
     int            field_B64;                  //0xB64
-    GV_ACT        *field_B68;                  //0xB68
+    GV_ACT        *mosaic;                     //0xB68
     int            mark_time;                  //0xB6C    //could be wrong
     int            act_status;                 //0xB70
     int            field_B74;                  //0xB74
@@ -212,47 +184,19 @@ typedef struct _ZakoWork
     GV_ACT         actor;
     CONTROL        control;                    //0x20
     OBJECT         body;                       //0x9C
-    int            field_180;                  //0x180
-    void          *kmd;                        //0x184
+    int            has_kmd;                    //0x180
+    DG_DEF        *kmd;                        //0x184
     DG_DEF        *def;                        //0x188
     MOTION_CONTROL m_ctrl;                     //0x18C
-    MOTION_SEGMENT     field_1DC[34];              //0x1DC
+    MOTION_SEGMENT m_segs1[17];                //0x1DC
+    MOTION_SEGMENT m_segs2[17];                //???
     SVECTOR        rots[16];                   //0x6A4
-    SVECTOR        field_724;                  //0x724
-    int            field_72C;                  //0x72C
-    int            field_730;                  //0x730
-    short          field_734;                  //0x734
-    short          field_736;                  //0x736
-    char           field_738[0x1C];            //0x738
-    short          field_754;                  //0x754
-    short          field_756;                  //0x756
-    short          field_758;                  //0x756
-    short          field_75A;                  //0x756
-    short          field_75C;                  //0x75C
-    short          field_75E;                  //0x75C
-    char           field_760[0x44];            //0x760
-    OBJECT         field_7A4;                  //0x7A4
-    MATRIX         field_888;                  //0x888
-    int            field_8A8;                  //0x8A8
-    int            field_8AC;                  //0x8AC
-    int            field_8B0;                  //0x8B0
-    int            field_8B4;                  //0x8B4
-    int            field_8B8;                  //0x8B8
-    int            field_8BC;                  //0x8BC
-    int            field_8C0;                  //0x8C0
-    int            field_8C4;                  //0x8C4
-    int            field_8C8;                  //0x8C8
-    int            field_8CC;                  //0x8CC
-    int            field_8D0;                  //0x8D0
-    SVECTOR        field_8D4;                  //0x8D4
-    int            field_8DC;                  //0x8DC
-    short          field_8E0;                  //0x8E0
-    short          field_8E2;                  //0x8E2
-    short          field_8E4;                  //0x8E4
-    short          field_8E6;                  //0x8E6
-    int            field_8E8;                  //0x8E8
-    void*          action;                     //0x8EC
-    void*          action2;                    //0x8F0
+    SVECTOR        adjust[16];                 //0x724
+    OBJECT         weapon;                     //0x7A4
+    MATRIX         light[2];                   //0x888
+    WatcherUnk     unknown;                    //0x8C8
+    void          *action;                     //0x8EC
+    void          *action2;                    //0x8F0
     int            time;                       //0x8F4
     int            time2;                      //0x8F8
     int            actend;                     //0x8FC
@@ -263,13 +207,13 @@ typedef struct _ZakoWork
     HOMING        *hom;                        //0x9DC
     int            scale;                      //0x9E0
     int            visible;                    //0x9E4
-    int            field_9E8;                  //0x9E8
-    SVECTOR        nodes[0x20];                //0x9EC
+    int            n_nodes;                    //0x9E8
+    SVECTOR        nodes[32];                  //0x9EC
     int            search_flag;                //0xAEC
-    GV_ACT*        field_AF0;                  //0xAF0
-    int           *field_AF4;                  //0xAF4
-    GV_ACT*        field_AF8;                  //0xAF8
-    int           *field_AFC;                  //0xAFC
+    GV_ACT        *shadow;                     //0xAF0
+    int           *shadow_enable;              //0xAF4
+    GV_ACT        *glight;                     //0xAF8
+    int           *glight_enable;              //0xAFC
     void          *field_B00[8];               //0xB00
     short          think1;                     //0xB20
     short          think2;                     //0xB22
@@ -283,13 +227,12 @@ typedef struct _ZakoWork
     short          field_B4C;                  //0xB4C
     short          field_B4E;                  //0xB4E
     unsigned int   trigger;                    //0xB50
-    GV_ACT*        subweapon;                  //0xB54
-
+    GV_ACT        *subweapon;                  //0xB54
     short          field_B58;                  //0xB58
     short          field_B5A;                  //0xB5A
     short          field_B5C;                  //0xB5C
     short          field_B5E;                  //0xB5E
-    int            field_B60;                  //0xB60
+    GV_ACT        *mark;                       //0xB60
     GV_ACT        *field_B64;                  //0xB64
     int            mark_time;                  //0xB68    //could be wrong
     int            act_status;                 //0xB6C
@@ -347,8 +290,8 @@ typedef struct _ZakoWork
     int            field_C38;                  //0xC38
     char           field_C3C;                  //0xC3C //num_set_time
     char           field_C3D[3];               //0xC3D //set_time
-    int            field_C40;                  //0xC40
-    int            field_C44;                  //0xC44
+    GV_ACT        *kogaku_body;                //0xC40
+    GV_ACT        *kogaku_weapon;              //0xC44
     int            field_C48;                  //0xC48
     short          field_C4C;                  //0xC4C
     short          field_C4E;                  //0xC4E
@@ -363,7 +306,8 @@ typedef struct _Zako11FWork
     DG_DEF        *kmd;                        //0x184
     DG_DEF        *def;                        //0x188
     MOTION_CONTROL m_ctrl;                     //0x18C
-    MOTION_SEGMENT m_segs[34];                 //0x1DC
+    MOTION_SEGMENT m_segs1[17];                //0x1DC
+    MOTION_SEGMENT m_segs2[17];                //???
     SVECTOR        rots[16];                   //0x6A4
     SVECTOR        adjust[16];                 //0x724
     OBJECT         weapon;                     //0x7A4
@@ -401,7 +345,7 @@ typedef struct _Zako11FWork
     short          field_B4C;                  //0xB4C
     short          field_B4E;                  //0xB4E
     unsigned int   trigger;                    //0xB50
-    GV_ACT*        subweapon;                  //0xB54 grenade?
+    GV_ACT        *subweapon;                  //0xB54
     short          field_B58;                  //0xB58
     short          field_B5A;                  //0xB5A
     short          field_B5C;                  //0xB5C
@@ -501,13 +445,13 @@ typedef struct _A4_STRUCT
     A4_INNER_STRUCT field_04[8]; //0x04
 } A4_STRUCT;
 
-typedef struct _C8_STRUCT
+typedef struct _WATCHER
 {
-    int          field_00;      //0x00
-    int          field_04;      //0x04
-    int          field_08;      //0x08
-    WatcherWork *watcher;       //0x0C
-} C8_STRUCT;
+    int   field_00; //0x00
+    int   field_04; //0x04
+    int   field_08; //0x08
+    void *watcher;  //0x0C
+} WATCHER;
 
 typedef struct _ENEMY_COMMAND
 {
@@ -535,7 +479,7 @@ typedef struct _ENEMY_COMMAND
     int       field_0x9C;
     MAP      *map;            //0xA0
     A4_STRUCT field_0xA4;
-    C8_STRUCT field_0xC8[8];
+    WATCHER   field_0xC8[8];
     int       field_0x148[8];
     int       field_0x168;
     int       field_0x16C;
@@ -569,7 +513,7 @@ typedef struct _ZAKO_COMMAND
     int       field_0x60;
     MAP*      field_0x64;
     A4_STRUCT field_0x68;
-    C8_STRUCT field_0x8C[8];
+    WATCHER   field_0x8C[8];
     int       field_0x10C;
     int       field_0x110;
     int       field_0x114; //reset_enemy_max
@@ -582,7 +526,7 @@ typedef struct _ZAKO11F_COMMAND
 {
     int       field_0x00;
     int       field_0x04;
-    int       field_0x08;
+    int       n_watchers;
     int       field_0x0C;
     int       field_0x10;
     int       field_0x14;
@@ -593,20 +537,19 @@ typedef struct _ZAKO11F_COMMAND
     int       com_map;
     SVECTOR   com_pos;
     short     n_zones;
-    short     field_0x36;
+    short     reset_zone;
     short     zones[4];
     int       field_0x40[8];
     int       field_0x60;    //enemy_reset_num
     MAP      *map;
     A4_STRUCT field_0x68;
-    C8_STRUCT field_0x8C[8];
+    WATCHER   watchers[8];
     int       field_0x10C;
     short     field_0x110;
     short     field_0x112;
     short     field_0x114; //reset_enemy_max
-    short     field_0x116;
-    int       field_0x118;
-    int       field_0x11C;
+    short     first_damage;
+    SVECTOR   field_0x118;
     int       field_0x120;
     int       field_0x124[8];
 } ZAKO11F_COMMAND;

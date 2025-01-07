@@ -385,7 +385,7 @@ void s00a_command_800CB13C( WatcherWork* work )
     int x;
 
     x = work->next_node + 1;
-    if ( x >= work->field_9E8 )
+    if ( x >= work->n_nodes )
     {
         x = 0;
     }
@@ -814,12 +814,12 @@ int s00a_command_800CBA50( WatcherWork *work )
     patrol = map->hzd->header->routes;
     patrol = &patrol[ work->param_root ];
 
-    work->field_9E8 = patrol->n_points;
+    work->n_nodes = patrol->n_points;
 
-    if ( work->field_9E8 <= 0 ) return -1;
+    if ( work->n_nodes <= 0 ) return -1;
 
     points = patrol->points;
-    for ( i = 0 ; i < work->field_9E8 ; i++ )
+    for ( i = 0 ; i < work->n_nodes ; i++ )
     {
         work->nodes[i].vx  = points->x;
         work->nodes[i].vy  = points->y;
@@ -1832,7 +1832,7 @@ void s00a_command_800CD158( WatcherWork *work )
     if ( work->think3 == 3 && s00a_command_800CB7FC( work ) )
     {
         s00a_command_800CAACC( work );
-        work->next_node = work->field_9E8;
+        work->next_node = work->n_nodes;
         EnemyResetThink_800CB224( work );
         work->pad.mode = 1;
     }
@@ -1862,7 +1862,7 @@ static inline void set_dir( WatcherWork *work )
 static inline void think_reset( WatcherWork *work )
 {
     s00a_command_800CAACC( work );
-    work->next_node = work->field_9E8;
+    work->next_node = work->n_nodes;
     EnemyResetThink_800CB224( work );
 }
 
@@ -2308,7 +2308,7 @@ void s00a_command_800CDB88( WatcherWork *work )
                 }
                 else
                 {
-                    work->field_8E6 = 0;
+                    work->unknown.field_1E = 0;
                     work->pad.dir = work->control.turn.vy;
                 }
                 work->count3 = 0;
@@ -2871,15 +2871,15 @@ void Enemy_Think_800CE99C( WatcherWork* work )
     switch ( work->think1 )
     {
     case 0:
-        work->field_8E6 = 1;
+        work->unknown.field_1E = 1;
         s00a_command_800CE634( work );
         break;
     case 1:
-        work->field_8E6 = 1;
+        work->unknown.field_1E = 1;
         s00a_command_800CE778( work );
         break;
     case 2:
-        work->field_8E6 = 1;
+        work->unknown.field_1E = 1;
         s00a_command_800CE830( work );
         break;
     }

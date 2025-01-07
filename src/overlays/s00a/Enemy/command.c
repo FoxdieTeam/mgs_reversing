@@ -555,7 +555,7 @@ const char aCommandcwhereissnake_800E091C[] = "command.c:  Where Is Snake ????\n
 const char aCom_noisemode_disD_800E0940[] = " COM_NOISEMODE_DIS =%d \n";
 const char aEeeDDDTD_800E095C[] = "eee %d %d %d t %d \n";
 
-void s00a_command_800CF504( C8_STRUCT* struct_c8 , int i )
+void s00a_command_800CF504( WATCHER *struct_c8 , int i )
 {
     int x = struct_c8->field_08;
     switch ( x )
@@ -564,12 +564,12 @@ void s00a_command_800CF504( C8_STRUCT* struct_c8 , int i )
         if ( struct_c8->field_04 == 1 )
         {
             struct_c8->field_08 = 1;
-            struct_c8->field_00 = struct_c8->watcher->field_B78 + 1;
+            struct_c8->field_00 = ((WatcherWork *)(struct_c8->watcher))->field_B78 + 1;
         }
         return;
     case 1:
         struct_c8->field_00--;
-        if ( !struct_c8->field_00 && struct_c8->watcher->field_B81  )
+        if ( !struct_c8->field_00 && ((WatcherWork *)(struct_c8->watcher))->field_B81  )
         {
             struct_c8->field_08 = 2;
             struct_c8->field_00 = 0;
@@ -751,7 +751,7 @@ int s00a_command_800CF9A0( WatcherWork *work, int dis, int idx )
     }
 
 
-    if ( EnemyCommand_800E0D98.field_0xC8[ idx ].watcher->act_status & 0x10000028 )
+    if ( ((WatcherWork *)EnemyCommand_800E0D98.field_0xC8[ idx ].watcher)->act_status & 0x10000028 )
     {
        goto exit;
     }

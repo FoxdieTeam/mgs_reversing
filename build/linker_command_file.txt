@@ -1465,10 +1465,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\l_sight.obj"
     include "{{OBJ_DIR}}\overlays\s00a\Enemy\grnad_e.obj"
 
-    include "{{OBJ_DIR}}\overlays\s11i\overlay3.obj"
 
     include "{{OBJ_DIR}}\overlays\s11i\animal\zako11f\override.obj"
     include "{{OBJ_DIR}}\overlays\s11i\animal\zako11f\zk11fcom.obj"
+    include "{{OBJ_DIR}}\overlays\s11i\overlay3.obj"
 
     include "{{OBJ_DIR}}\overlays\s04a\Takabe\dummy_wl.obj"
     include "{{OBJ_DIR}}\overlays\s16b\Takabe\thing.obj"
