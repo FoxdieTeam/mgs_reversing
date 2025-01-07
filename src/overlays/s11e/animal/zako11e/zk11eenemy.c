@@ -332,7 +332,7 @@ extern void ZAKO11E_ExecPutChar_800D8080( ZakoWork* work );
 
 void Zako11EActionMain_800D8830( ZakoWork *work )
 {
-     if ( work->field_8E0 < 0x31 )
+     if ( work->unknown.last_set < 0x31 )
      {
         s11e_zk11ecom_800D80E0( work );
         s11e_zk11ecom_800D8668( work );
@@ -361,7 +361,7 @@ void Zako11EPushMove_800D889C( ZakoWork *work )
     GV_AddVec3( &target->field_34_vec, &work->control.step, &work->control.step );
     target->damaged &= ~( 0x8 );
 
-    if ( work->field_8E0 - 1 >= 2u )
+    if ( work->unknown.last_set - 1 >= 2u )
     {
         return;
     }
@@ -392,5 +392,5 @@ void Zako11EPushMove_800D889C( ZakoWork *work )
 
     ctrl = &work->control;
     ctrl->turn.vy = s1;
-    ctrl->field_36 = GV_NearExp2( ctrl->field_36, work->field_8E4 );
+    ctrl->field_36 = GV_NearExp2( ctrl->field_36, work->unknown.field_1C );
 }

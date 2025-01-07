@@ -366,7 +366,7 @@ void s00a_command_800C9E68( WatcherWork* work )
 
 void EnemyActionMain_800CA07C( WatcherWork *work )
 {
-     if ( work->field_8E0 < 0x31 )
+     if ( work->unknown.last_set < 0x31 )
      {
         s00a_command_800C9878( work );
         s00a_command_800C9E68(work);
@@ -395,7 +395,7 @@ void EnemyPushMove_800CA0E8( WatcherWork *work )
     GV_AddVec3( &target->field_34_vec, &work->control.step, &work->control.step );
     target->damaged &= ~( 0x8 );
 
-    if ( work->field_8E0 - 1 >= 2u )
+    if ( work->unknown.last_set - 1 >= 2u )
     {
         return;
     }
@@ -426,5 +426,5 @@ void EnemyPushMove_800CA0E8( WatcherWork *work )
 
     ctrl = &work->control;
     ctrl->turn.vy = s1;
-    ctrl->field_36 = GV_NearExp2( ctrl->field_36, work->field_8E4 );
+    ctrl->field_36 = GV_NearExp2( ctrl->field_36, work->unknown.field_1C );
 }

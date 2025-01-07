@@ -1642,7 +1642,7 @@ void s11i_asiato_800CC314(Zako11FWork *work, int time)
     {
         work->visible = 0;
         work->control.mov = ZAKO11F_NO_POINT_800C368C;
-        Zako11FCommand_800D5AF8.field_0x8C[work->field_B74].field_04 = 1;
+        Zako11FCommand_800D5AF8.watchers[work->field_B74].field_04 = 1;
 
         if (work->field_C40 == 0)
         {
