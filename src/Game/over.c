@@ -346,7 +346,7 @@ void over_act_8003721C(OverWork *work)
         {
             if (GM_GameOverVox >= 0)
             {
-                GM_StreamPlayStart_80037D1C();
+                GM_StreamPlayStart();
             }
 
             DG_ReloadPalette();
@@ -431,7 +431,7 @@ void over_act_8003721C(OverWork *work)
         {
             work->field_22_seq = 0x21e;
 
-            if (GM_StreamStatus_80037CD8() == -1)
+            if (GM_StreamStatus() == -1)
             {
                 GV_DestroyActor(&work->actor);
             }
@@ -445,7 +445,7 @@ void over_kill_80037514( OverWork *work )
 
     GV_PauseLevel_800AB928 &= ~1;
     DG_ResetObjectQueue();
-    GM_StreamPlayStop_80037D64();
+    GM_StreamPlayStop();
     GM_GameOverTimer = 0;
     if ( work->field_24_option == OVER_CONTINUE )
     {
@@ -511,7 +511,7 @@ OverWork * over_init_800376F8(int can_continue)
 
         if (GM_GameOverVox >= 0)
         {
-            GM_VoxStream_80037E40(GM_GameOverVox, 0x40000000);
+            GM_VoxStream(GM_GameOverVox, 0x40000000);
         }
     }
 

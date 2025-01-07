@@ -95,7 +95,7 @@ void radio_voice_80047330(menu_chara_struct *unk, unsigned char *pScript)
         unk->field_14_bInExecBlock = 1;
         menu_gcl_exec_block_800478B4(unk, pScript);
         unk->field_14_bInExecBlock = 0;
-        while (GM_StreamStatus_80037CD8() != -1) // wait vox finish ?
+        while (GM_StreamStatus() != -1) // wait vox finish ?
         {
             mts_wait_vbl(2);
         }

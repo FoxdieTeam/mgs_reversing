@@ -158,10 +158,10 @@ void s07c_meryl72_unk2_800CCD98( Meryl72Work *work )
 
         if ( work->count3 == 60 )
         {
-            GM_VoxStream_80037E40( work->voices[ 0 ], 0 ) ;
+            GM_VoxStream( work->voices[ 0 ], 0 ) ;
         }
 
-        if ( work->count3 > 60 && GM_StreamStatus_80037CD8() == -1 )
+        if ( work->count3 > 60 && GM_StreamStatus() == -1 )
         {
             s07c_meryl72_unk2_800CCB2C( work, 0 );
             s07c_meryl72_unk2_800CCB2C( work, 4 );
@@ -185,11 +185,11 @@ void s07c_meryl72_unk2_800CCD98( Meryl72Work *work )
 
 void s07c_meryl72_unk2_800CCEC4(Meryl72Work *work)
 {
-    if (work->count3 > 30 && GM_StreamStatus_80037CD8() == -1)
+    if (work->count3 > 30 && GM_StreamStatus() == -1)
     {
         if (GM_GameOverTimer == 0 && GM_SnakeCurrentHealth > 0)
         {
-            GM_VoxStream_80037E40(work->voices[6], 0);
+            GM_VoxStream(work->voices[6], 0);
         }
 
         work->think3 = 4;
@@ -203,7 +203,7 @@ void s07c_meryl72_unk2_800CCEC4(Meryl72Work *work)
 
 void s07c_meryl72_unk2_800CCF5C(Meryl72Work *work)
 {
-    if (work->count3 > 60 && GM_StreamStatus_80037CD8() == -1)
+    if (work->count3 > 60 && GM_StreamStatus() == -1)
     {
         work->think2 = 1;
         work->think3 = 2;
@@ -253,9 +253,9 @@ void s07c_meryl72_unk2_800CD038(Meryl72Work *work)
         {
             work->pad.press |= 0x1000000;
 
-            if (GM_StreamStatus_80037CD8() == -1)
+            if (GM_StreamStatus() == -1)
             {
-                GM_VoxStream_80037E40(work->voices[12], 0);
+                GM_VoxStream(work->voices[12], 0);
             }
         }
         else
@@ -300,22 +300,22 @@ void s07c_meryl72_unk2_800CD14C(Meryl72Work *work)
         work->think3 = 6;
         work->count3 = 0;
 
-        if (GM_StreamStatus_80037CD8() != -1)
+        if (GM_StreamStatus() != -1)
         {
-            GM_StreamPlayStop_80037D64();
+            GM_StreamPlayStop();
         }
     }
     else
     {
-        if (work->count3 == 0 && GM_StreamStatus_80037CD8() == -1)
+        if (work->count3 == 0 && GM_StreamStatus() == -1)
         {
             tick = GV_Time % 2;
-            GM_VoxStream_80037E40(work->voices[13 + tick], 0);
+            GM_VoxStream(work->voices[13 + tick], 0);
         }
 
         if (work->count3 > 30)
         {
-            if (GM_StreamStatus_80037CD8() == -1)
+            if (GM_StreamStatus() == -1)
             {
                 s07c_meryl72_unk2_800CCA68(work);
                 work->think2 = 2;
@@ -442,9 +442,9 @@ void s07c_meryl72_unk2_800CD474(Meryl72Work *work)
         {
             work->pad.dir = work->sn_dir;
 
-            if (GM_StreamStatus_80037CD8() == -1)
+            if (GM_StreamStatus() == -1)
             {
-                GM_VoxStream_80037E40(work->voices[1], 0);
+                GM_VoxStream(work->voices[1], 0);
             }
 
             s07c_meryl72_unk2_800CCB2C(work, 2);
@@ -461,9 +461,9 @@ void s07c_meryl72_unk2_800CD474(Meryl72Work *work)
             work->pad.press |= 0x2000000;
         }
 
-        if (work->count3 > 60 && GM_StreamStatus_80037CD8() == -1)
+        if (work->count3 > 60 && GM_StreamStatus() == -1)
         {
-            GM_VoxStream_80037E40(work->voices[2], 0);
+            GM_VoxStream(work->voices[2], 0);
             work->count3 = 0;
             work->fAF4 = 2;
             s07c_meryl72_unk2_800CCB2C(work, 3);
@@ -472,9 +472,9 @@ void s07c_meryl72_unk2_800CD474(Meryl72Work *work)
 
         if (GM_GameOverTimer != 0)
         {
-            if (GM_StreamStatus_80037CD8() != -1)
+            if (GM_StreamStatus() != -1)
             {
-                GM_StreamPlayStop_80037D64();
+                GM_StreamPlayStop();
             }
 
             s07c_meryl72_unk2_800CCB2C(work, 4);
@@ -483,18 +483,18 @@ void s07c_meryl72_unk2_800CD474(Meryl72Work *work)
         break;
 
     case 2:
-        if (work->count3 > 60 && GM_StreamStatus_80037CD8() == -1)
+        if (work->count3 > 60 && GM_StreamStatus() == -1)
         {
-            GM_VoxStream_80037E40(work->voices[3], 0);
+            GM_VoxStream(work->voices[3], 0);
             work->count3 = 0;
             work->fAF4 = 3;
         }
 
         if (GM_GameOverTimer != 0)
         {
-            if (GM_StreamStatus_80037CD8() != -1)
+            if (GM_StreamStatus() != -1)
             {
-                GM_StreamPlayStop_80037D64();
+                GM_StreamPlayStop();
             }
 
             s07c_meryl72_unk2_800CCB2C(work, 4);
@@ -503,7 +503,7 @@ void s07c_meryl72_unk2_800CD474(Meryl72Work *work)
         break;
 
     case 3:
-        if (work->count3 > 60 && GM_StreamStatus_80037CD8() == -1)
+        if (work->count3 > 60 && GM_StreamStatus() == -1)
         {
             s07c_meryl72_unk2_800CCB2C(work, 4);
             work->think1 = 1;
@@ -563,7 +563,7 @@ void s07c_meryl72_unk2_800CD80C(Meryl72Work *work)
         return;
     }
 
-    if (GM_StreamStatus_80037CD8() != -1)
+    if (GM_StreamStatus() != -1)
     {
         work->count3 = 0;
     }
@@ -576,7 +576,7 @@ void s07c_meryl72_unk2_800CD80C(Meryl72Work *work)
             {
                 if (GM_GameOverTimer == 0 && GM_SnakeCurrentHealth > 0)
                 {
-                    GM_VoxStream_80037E40(work->voices[4], 0);
+                    GM_VoxStream(work->voices[4], 0);
                 }
 
                 work->fC10[0] = 1800;
@@ -588,7 +588,7 @@ void s07c_meryl72_unk2_800CD80C(Meryl72Work *work)
             {
                 if (GM_GameOverTimer == 0 && GM_SnakeCurrentHealth > 0)
                 {
-                    GM_VoxStream_80037E40(work->voices[5], 0);
+                    GM_VoxStream(work->voices[5], 0);
                 }
 
                 work->fC10[1] = 1800;
@@ -600,7 +600,7 @@ void s07c_meryl72_unk2_800CD80C(Meryl72Work *work)
             {
                 if (GM_GameOverTimer == 0 && GM_SnakeCurrentHealth > 0)
                 {
-                    GM_VoxStream_80037E40(work->voices[5], 0);
+                    GM_VoxStream(work->voices[5], 0);
                 }
 
                 work->fC10[2] = 1800;
@@ -650,9 +650,9 @@ void s07c_meryl72_unk2_800CDA88(Meryl72Work *work)
         work->think3 = 6;
         work->count3 = 0;
 
-        if (GM_StreamStatus_80037CD8() != -1)
+        if (GM_StreamStatus() != -1)
         {
-            GM_StreamPlayStop_80037D64();
+            GM_StreamPlayStop();
         }
 
         return;
@@ -660,11 +660,11 @@ void s07c_meryl72_unk2_800CDA88(Meryl72Work *work)
 
     if (work->count3 == 0)
     {
-        if (GM_StreamStatus_80037CD8() == -1)
+        if (GM_StreamStatus() == -1)
         {
             if (GM_GameOverTimer == 0 && GM_SnakeCurrentHealth > 0)
             {
-                GM_VoxStream_80037E40(work->voices[work->fC0C + 7], 0);
+                GM_VoxStream(work->voices[work->fC0C + 7], 0);
             }
 
             printf(" mitumete voice = %d \n", work->fC0C + 7);
@@ -687,7 +687,7 @@ void s07c_meryl72_unk2_800CDA88(Meryl72Work *work)
         }
     }
 
-    if (work->count3 > 60 && GM_StreamStatus_80037CD8() == -1)
+    if (work->count3 > 60 && GM_StreamStatus() == -1)
     {
         work->think3 = 4;
         work->count3 = 0;
@@ -703,7 +703,7 @@ void s07c_meryl72_unk2_800CDA88(Meryl72Work *work)
 
 void s07c_meryl72_unk2_800CDC34(Meryl72Work *work)
 {
-    if (GM_StreamStatus_80037CD8() != -1)
+    if (GM_StreamStatus() != -1)
     {
         work->count3 = 0;
     }
@@ -724,7 +724,7 @@ void s07c_meryl72_unk2_800CDC34(Meryl72Work *work)
             {
                 if (GM_GameOverTimer == 0 && GM_SnakeCurrentHealth > 0)
                 {
-                    GM_VoxStream_80037E40(work->voices[4], 0);
+                    GM_VoxStream(work->voices[4], 0);
                 }
 
                 work->fC10[0] = 1800;
@@ -736,7 +736,7 @@ void s07c_meryl72_unk2_800CDC34(Meryl72Work *work)
             {
                 if (GM_GameOverTimer == 0 && GM_SnakeCurrentHealth > 0)
                 {
-                    GM_VoxStream_80037E40(work->voices[5], 0);
+                    GM_VoxStream(work->voices[5], 0);
                 }
 
                 work->fC10[1] = 1800;
@@ -748,7 +748,7 @@ void s07c_meryl72_unk2_800CDC34(Meryl72Work *work)
             {
                 if (GM_GameOverTimer == 0 && GM_SnakeCurrentHealth > 0)
                 {
-                    GM_VoxStream_80037E40(work->voices[5], 0);
+                    GM_VoxStream(work->voices[5], 0);
                 }
 
                 work->fC10[2] = 1800;

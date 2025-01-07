@@ -31,7 +31,7 @@ void Cancel_800C3E24(CancelWork *work)
         work->timer = 255;
         DG_FadeScreen(work->step);
 
-        if (GM_StreamStatus_80037CD8() == -1)
+        if (GM_StreamStatus() == -1)
         {
             GV_DestroyActor(&work->actor);
         }
@@ -46,8 +46,8 @@ void CancelAct_800C3EA0(CancelWork *work)
 {
     if (mts_read_pad(1) & work->mask)
     {
-        GM_StreamCancelCallback_80037DB8();
-        GM_StreamPlayStop_80037D64();
+        GM_StreamCancelCallback();
+        GM_StreamPlayStop();
 
         work->actor.act = (GV_ACTFUNC)Cancel_800C3E24;
         DG_UnDrawFrameCount = 0x7FFF0000;

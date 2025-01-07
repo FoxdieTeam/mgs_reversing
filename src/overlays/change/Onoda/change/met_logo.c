@@ -413,7 +413,7 @@ void MetLogoAct_800C57E8( Work *work )
         {
             work->sequence = 542;
 
-            if ( GM_StreamStatus_80037CD8() == -1 )
+            if ( GM_StreamStatus() == -1 )
             {
                 GV_DestroyActor( &( work->actor ) );
             }

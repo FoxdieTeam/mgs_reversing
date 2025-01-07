@@ -136,14 +136,14 @@ void Demodoll_800DE264(DollWork *work, int index)
 {
     printf(" %d = %d \n", index - 16, work->fE18[index - 16]);
 
-    if (GM_StreamStatus_80037CD8() == -1)
+    if (GM_StreamStatus() == -1)
     {
         work->fE38++;
-        GM_VoxStream_80037E40(work->fE18[work->fE38], 0);
+        GM_VoxStream(work->fE18[work->fE38], 0);
     }
     else
     {
-        GM_StreamPlayStart_80037D1C();
+        GM_StreamPlayStart();
     }
 }
 
@@ -312,7 +312,7 @@ int Demodoll_800DE550(DollWork *work)
     {
         if (work->fC0E == 0)
         {
-            if (GM_StreamStatus_80037CD8() == -1)
+            if (GM_StreamStatus() == -1)
             {
                 work->fC08 = 0;
                 return 1;
@@ -322,7 +322,7 @@ int Demodoll_800DE550(DollWork *work)
             return 0;
         }
 
-        if ((work->fE48[work->fC0E - 1] <= jimctrl_80038688()) || (GM_StreamStatus_80037CD8() == -1))
+        if ((work->fE48[work->fC0E - 1] <= jimctrl_80038688()) || (GM_StreamStatus() == -1))
         {
             work->fC08 = 0;
             return 1;
@@ -536,12 +536,12 @@ void Demodoll_800DEA04(DollWork *work)
 
     work->fC20++;
 
-    if (work->fDF8 != 0 && GM_StreamStatus_80037CD8() == -1)
+    if (work->fDF8 != 0 && GM_StreamStatus() == -1)
     {
         if (work->fE18[work->fE38 + 1] != 0)
         {
             work->fE38++;
-            GM_VoxStream_80037E40(work->fE18[work->fE38], 0x40000000);
+            GM_VoxStream(work->fE18[work->fE38], 0x40000000);
         }
     }
 }

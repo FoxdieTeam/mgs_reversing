@@ -1071,7 +1071,7 @@ int sna_act_helper2_helper5_8004FF88(SnaInitWork *work)
             !sna_check_flags1_8004E31C(work, SNA_FLAG1_UNK9) &&
             (GM_SnakeCurrentHealth != 0) &&
             (GM_GameOverTimer == 0) &&
-            (GM_StreamStatus_80037CD8() == -1) &&
+            (GM_StreamStatus() == -1) &&
             (work->field_9C_obj.field_10 == 0))
         {
             pAnim = work->field_9B8_fn_anim;
@@ -7343,9 +7343,9 @@ static inline void sna_init_main_logic_helper5_800596FC(SnaInitWork *work)
 
         if ((work->field_7A0_msg_count == 0) &&
             !GM_CheckPlayerStatusFlag(PLAYER_UNK4) &&
-            (GM_StreamStatus_80037CD8() != 2))
+            (GM_StreamStatus() != 2))
         {
-            GM_StreamPlayStop_80037D64();
+            GM_StreamPlayStop();
             sna_set_flags1_8004E2F4(work, 0x40000);
             GM_GameOverTimer = 1;
         }
@@ -7553,7 +7553,7 @@ void sna_init_main_logic_800596FC(SnaInitWork *work)
 
     sna_init_main_logic_helper6_800596FC(work);
 
-    if ( GM_StreamStatus_80037CD8() == 2 )
+    if ( GM_StreamStatus() == 2 )
     {
         if ( sub_8004EFE4(work, 1) >= 0 )
         {

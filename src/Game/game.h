@@ -318,13 +318,10 @@ int  GM_ConfigMotionControl(OBJECT *object, MOTION_CONTROL *m_ctrl, int name,
 int  GM_ConfigMotionAdjust(OBJECT *object, SVECTOR *adjust);
 
 /* unsorted stuff */
-void               GM_ExitBehindCamera_80030AEC(void);
-void               GM_CheckBehindCamera_80030B3C(HZD_HDL *map, CONTROL *control);
-int                GM_StreamStatus_80037CD8(void);
-void               GM_ReshadeObjs_80031660(DG_OBJS *pObj);
-void               GM_Reset_helper3_80030760();
-StreamCtrlWork    *GM_VoxStream_80037E40(int voxCode, int proc);
-void               GM_StreamPlayStop_80037D64(void);
+void GM_ExitBehindCamera_80030AEC(void);
+void GM_CheckBehindCamera_80030B3C(HZD_HDL *map, CONTROL *control);
+void GM_ReshadeObjs_80031660(DG_OBJS *pObj);
+void GM_Reset_helper3_80030760();
 
 void sub_800309B4(int param_1, int param_2);
 void sub_8002EBE8(SVECTOR *param_1, int param_2); // camera something
