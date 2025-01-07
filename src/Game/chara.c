@@ -25,15 +25,15 @@ void GM_InitChara(void)
 
 void GM_ResetChara(void)
 {
-    int *chara;
+    CHARA *chara;
 
 #ifdef DEV_EXE
     return; // the overlay is embedded in the executable in dev variant
 #endif
 
-    chara = (int *)gOverlayBase_800AB9C8;
-    chara[1] = 0;   // chara->func
-    chara[0] = 0;   // chara->class_id
+    chara = (CHARA *)gOverlayBase_800AB9C8;
+    *((int *)&chara->func) = 0;
+    *((int *)&chara->class_id) = 0;
 }
 
 NEWCHARA GM_GetChara(unsigned char *script)
