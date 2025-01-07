@@ -18,32 +18,25 @@
 
 //------------------------------------------------------------------------------
 // gp
-int SECTION(".sbss") dword_800ABB44;
-int SECTION(".sbss") dword_800ABB48;
-
-DATA_INFO *SECTION(".sbss") dataInfo_800ABB4C;
-
-void *SECTION(".sbss") stack_800ABB50;
-int SECTION(".sbss") dword_800ABB54;
-int SECTION(".sbss") dword_800ABB58;
-int SECTION(".sbss") dword_800ABB5C;
-
-int SECTION(".sbss") mcd_last_check_800ABB60[2];
-MEM_CARD *SECTION(".sbss") mcd_last_file_800ABB68[2];
-
-SELECT_INFO *SECTION(".sbss") dword_800ABB70;
-SELECT_INFO *SECTION(".sbss") dword_800ABB74;
-SELECT_INFO *SECTION(".sbss") dword_800ABB78;
-
+int                         SECTION(".sbss") dword_800ABB44;
+int                         SECTION(".sbss") dword_800ABB48;
+DATA_INFO                  *SECTION(".sbss") dataInfo_800ABB4C;
+void                       *SECTION(".sbss") stack_800ABB50;
+int                         SECTION(".sbss") dword_800ABB54;
+int                         SECTION(".sbss") dword_800ABB58;
+int                         SECTION(".sbss") dword_800ABB5C;
+int                         SECTION(".sbss") mcd_last_check_800ABB60[2];
+MEM_CARD                   *SECTION(".sbss") mcd_last_file_800ABB68[2];
+SELECT_INFO                *SECTION(".sbss") dword_800ABB70;
+SELECT_INFO                *SECTION(".sbss") dword_800ABB74;
+SELECT_INFO                *SECTION(".sbss") dword_800ABB78;
 RadioFileModeStru_800ABB7C *SECTION(".sbss") stru_800ABB7C;
-
-int SECTION(".sbss") dword_800ABB80;
-int SECTION(".sbss") dword_800ABB84;
-SELECT_INFO *SECTION(".sbss") dword_800ABB88;
-int SECTION(".sbss") dword_800ABB8C;
-int SECTION(".sbss") dword_800ABB90;
-int SECTION(".sbss") dword_800ABB94;
-
+int                         SECTION(".sbss") dword_800ABB80;
+int                         SECTION(".sbss") dword_800ABB84;
+SELECT_INFO                *SECTION(".sbss") dword_800ABB88;
+int                         SECTION(".sbss") dword_800ABB8C;
+int                         SECTION(".sbss") dword_800ABB90;
+int                         SECTION(".sbss") dword_800ABB94;
 //------------------------------------------------------------------------------
 
 extern char *MGS_MemoryCardName; /* in main.c */

@@ -20,17 +20,9 @@ STATIC RECT rect_800AB600 = {960, 256, 50, 80};
 
 STATIC short coords_800AB600[2][2] = {{86, 72}, {44, 72}};
 
-// force gp
-extern int dword_800ABAE8;
-int        SECTION(".sbss") dword_800ABAE8;
-
-extern int gSnakeLifeYPos_800ABAF0;
-int        SECTION(".sbss") gSnakeLifeYPos_800ABAF0;
-
-void MENU_ResetWeaponPos(void)
-{
-    dword_800ABAE8 = 0;
-}
+int SECTION(".sbss") dword_800ABAEC;
+int SECTION(".sbss") gSnakeLifeYPos_800ABAF0;
+int SECTION(".sbss") dword_800ABAF4;
 
 /**
  * @brief Updates the displayed health bar value to match the actual health of Snake.
