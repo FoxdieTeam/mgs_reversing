@@ -1132,9 +1132,9 @@ void s07a_meryl_unk_800D8CB4( WatcherWork *work, int time )
         GM_GameOverTimer = -2;
         GM_GameStatus |= STATE_PADRELEASE;
 
-        if ( GM_StreamStatus_80037CD8() == -1 )
+        if ( GM_StreamStatus() == -1 )
         {
-            GM_VoxStream_80037E40( work->field_C40, 0 );
+            GM_VoxStream( work->field_C40, 0 );
         }
     }
 
@@ -1300,7 +1300,7 @@ void s07a_meryl_unk_800D9410( WatcherWork *work, int time )
         }
     }
 
-    if ( time > 450 && GM_StreamStatus_80037CD8() == -1  )
+    if ( time > 450 && GM_StreamStatus() == -1  )
     {
         GM_GameOver();
     }

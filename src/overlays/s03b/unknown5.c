@@ -27,9 +27,9 @@ void s03b_boxall_800C9328(void)
     s03b_dword_800C338C = 0;
     s03b_dword_800C3388 = 0;
 
-    if (GM_StreamStatus_80037CD8() != -1)
+    if (GM_StreamStatus() != -1)
     {
-        GM_StreamPlayStop_80037D64();
+        GM_StreamPlayStop();
     }
 }
 
@@ -69,7 +69,7 @@ void s03b_boxall_800C9404(void)
 
     temp_s1 = s03b_dword_800C3370;
 
-    temp_s2 = GM_StreamStatus_80037CD8();
+    temp_s2 = GM_StreamStatus();
     s03b_dword_800C3370 = temp_s2;
 
     s03b_dword_800C337C = 0;
@@ -86,7 +86,7 @@ void s03b_boxall_800C9404(void)
         {
             timeout = 1;
             printf("timeout %d\n", s03b_dword_800C3374);
-            GM_StreamPlayStop_80037D64();
+            GM_StreamPlayStop();
         }
         else
         {
@@ -116,7 +116,7 @@ void s03b_boxall_800C9404(void)
         s03b_dword_800C3380 = 0;
         s03b_dword_800C3374 = s03b_dword_800D3300[0];
         s03b_dword_800C337D = 1;
-        GM_VoxStream_80037E40(s03b_dword_800C3374, 0);
+        GM_VoxStream(s03b_dword_800C3374, 0);
     }
 }
 

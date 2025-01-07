@@ -646,9 +646,9 @@ void s11e_zk11ecom_800DA85C(void)
     case 0:
         GM_GameStatus |= STATE_PADRELEASE;
 
-        if ( GM_StreamStatus_80037CD8() == 1 )
+        if ( GM_StreamStatus() == 1 )
         {
-            GM_StreamPlayStart_80037D1C();
+            GM_StreamPlayStart();
         }
 
         if ( ZakoCommand_800DF280.field_0x10 > 90 )
@@ -983,7 +983,7 @@ void ZakoCommanderGetResources_800DACA0( ZakoCommanderWork *work, int name, int 
     ZakoCommand_800DF280.field_0x00  = 0;
     ZakoCommand_800DF280.field_0x04  = 0;
     ZakoCommand_800DF280.field_0x110 = 0;
-    GM_VoxStream_80037E40( ZakoCommand_800DF280.field_0x114, 0x40000000 );
+    GM_VoxStream( ZakoCommand_800DF280.field_0x114, 0x40000000 );
 }
 
 //#pragma INCLUDE_ASM("asm/overlays/s11e/NewZakoCommander_800DAF38.s")

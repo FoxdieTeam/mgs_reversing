@@ -179,7 +179,7 @@ void s03c_johnny_800C424C(JohnnyWork *work, TJohnnyFunc func)
         return;
     }
 
-    if (work->unkB38 != s03c_johnny_800C5520 && work->unkB38 != Johnny_800C588C && GM_StreamStatus_80037CD8() == -1 &&
+    if (work->unkB38 != s03c_johnny_800C5520 && work->unkB38 != Johnny_800C588C && GM_StreamStatus() == -1 &&
         GV_Time % 320 == 0)
     {
         work->unkB44 = func;
@@ -1004,13 +1004,13 @@ void s03c_johnny_800C5520(JohnnyWork *work, int action)
     case 0:
         if (work->unkBE0 == work->unkB78[10])
         {
-            if (GM_StreamStatus_80037CD8() == 2)
+            if (GM_StreamStatus() == 2)
             {
                 SetAction(work, 15);
                 work->unkB4C = 1;
             }
         }
-        else if (GM_StreamStatus_80037CD8() == 2 && ++work->unkB4E == 42)
+        else if (GM_StreamStatus() == 2 && ++work->unkB4E == 42)
         {
             SetAction(work, 15);
             work->unkB4C = 1;
@@ -1040,7 +1040,7 @@ void s03c_johnny_800C5520(JohnnyWork *work, int action)
         break;
 
     case 2:
-        if (GM_StreamStatus_80037CD8() == -1)
+        if (GM_StreamStatus() == -1)
         {
             work->unkB4E = 0;
             work->unkB4C = 0;
@@ -1097,7 +1097,7 @@ void Johnny_800C588C(JohnnyWork *work, int arg1)
     }
     if (arg1 > 16)
     {
-        status = GM_StreamStatus_80037CD8();
+        status = GM_StreamStatus();
         if (status == -1)
         {
             work->unkB4E = 0;
@@ -1113,7 +1113,7 @@ void s03c_johnny_800C594C(JohnnyWork *work)
 {
     int index;
 
-    if (GM_StreamStatus_80037CD8() == -1 && GM_NoisePower_800ABA24 != 0)
+    if (GM_StreamStatus() == -1 && GM_NoisePower_800ABA24 != 0)
     {
         index = (GV_Time & 0x1) ? 14 : 16;
         s03b_boxall_800C93AC(work->unkB78[index]);
@@ -1222,7 +1222,7 @@ void s03c_johnny_800C5A7C(JohnnyWork *work, int action)
             GM_ConfigObjectAction(&work->object, 0, 0, 4);
         }
 
-        if ((action >= 512) && (GM_StreamStatus_80037CD8() == -1))
+        if ((action >= 512) && (GM_StreamStatus() == -1))
         {
             work->unkB4C = 3;
             s03b_boxall_800C93AC(work->unkB78[4]);
@@ -1236,7 +1236,7 @@ void s03c_johnny_800C5A7C(JohnnyWork *work, int action)
             GM_ConfigObjectAction(&work->object, 0, 0, 4);
         }
 
-        if ((work->object.action_flag == 0) && (GM_StreamStatus_80037CD8() == -1))
+        if ((work->object.action_flag == 0) && (GM_StreamStatus() == -1))
         {
             work->unkB14 = 2;
             work->unkB1C |= 0x8;
@@ -1313,7 +1313,7 @@ void s03c_johnny_800C5DE4(JohnnyWork *work, int action)
                 return;
             }
 
-            if (GV_RandS(128) > 0 || (work->unkB1C & 0x100000) != 0 || GM_StreamStatus_80037CD8() != -1)
+            if (GV_RandS(128) > 0 || (work->unkB1C & 0x100000) != 0 || GM_StreamStatus() != -1)
             {
                 work->unkB38 = Johnny_800C54A8;
             }
@@ -1358,7 +1358,7 @@ void Johnny_800C6054(JohnnyWork *work, int action)
             work->unkB4C = 1;
         }
     }
-    else if (GM_StreamStatus_80037CD8() == -1)
+    else if (GM_StreamStatus() == -1)
     {
         work->unkB38 = Johnny_800C6268;
         work->unkB4E = 0;
@@ -1440,7 +1440,7 @@ void Johnny_800C631C(JohnnyWork *work, int action)
             work->unkB4C++;
         }
     }
-    if (work->object.action_flag == 0 && GM_StreamStatus_80037CD8() == -1)
+    if (work->object.action_flag == 0 && GM_StreamStatus() == -1)
     {
         work->unkB4C++;
     }
@@ -2304,7 +2304,7 @@ void s03c_johnny_800C7BF8(JohnnyWork *work, int action)
         break;
 
     case 1:
-        if (GM_StreamStatus_80037CD8() == -1)
+        if (GM_StreamStatus() == -1)
         {
             SetAction(work, 33);
 
@@ -2370,7 +2370,7 @@ void s03c_johnny_800C7BF8(JohnnyWork *work, int action)
         break;
 
     case 5:
-        if ((GM_StreamStatus_80037CD8() == -1) && Johnny_800C43D0(0xAE93) && (GM_PlayerStatus_800ABA50 & PLAYER_KNOCKING))
+        if ((GM_StreamStatus() == -1) && Johnny_800C43D0(0xAE93) && (GM_PlayerStatus_800ABA50 & PLAYER_KNOCKING))
         {
             s03b_boxall_800C93F0(work->unkB78[17], 4);
         }
@@ -3164,7 +3164,7 @@ void Johnny_800C949C(JohnnyWork *work, int arg1)
     switch (work->unkB4C)
     {
     case 0:
-        if (GM_StreamStatus_80037CD8() == -1)
+        if (GM_StreamStatus() == -1)
         {
             GM_ConfigMotionAdjust(&work->object, NULL);
             ClearAdjust(work);
@@ -3243,7 +3243,7 @@ void Johnny_800C96F4(JohnnyWork *work, int field_B10)
             }
             s03c_johnny_800C424C(work, Johnny_800C59B8);
             if (work->unkB38 != s03c_johnny_800C5520 && work->unkB38 != Johnny_800C588C && field_B10 >= 480 &&
-                GM_StreamStatus_80037CD8() == -1)
+                GM_StreamStatus() == -1)
             {
                 work->unkB10 = 0;
                 if (work->unkB1C & 0x400000)
@@ -3501,7 +3501,7 @@ void Johnny_800C9D64(JohnnyWork *work)
     }
     field_B38 = work->unkB38;
     field_B3C = work->unkB3C;
-    status = GM_StreamStatus_80037CD8();
+    status = GM_StreamStatus();
     if (status == -1 || status == 2)
     {
         work->unkB3C++;

@@ -38,7 +38,7 @@ void MENU_ResetWeaponPos(void);
 
 void PadDemo_800DCBB0(PadDemoWork *work)
 {
-    if (GM_StreamStatus_80037CD8() == -1)
+    if (GM_StreamStatus() == -1)
     {
         GV_DestroyActor(&work->actor);
     }
@@ -73,9 +73,9 @@ void PadDemo_800DCBE8(PadDemoWork *work)
     {
         work->f44 = 1;
 
-        if (GM_StreamStatus_80037CD8() != -1)
+        if (GM_StreamStatus() != -1)
         {
-            GM_StreamPlayStop_80037D64();
+            GM_StreamPlayStop();
             GM_GameStatus &= ~(STATE_PADDEMO | STATE_NOSLOW);
             GV_DemoPadStatus_800AB958[0] = 0;
             work->actor.act = (GV_ACTFUNC)PadDemo_800DCBB0;
@@ -112,7 +112,7 @@ void PadDemo_800DCBE8(PadDemoWork *work)
 
 void PadDemoAct_800DCD94(PadDemoWork *work)
 {
-    if (GM_StreamStatus_80037CD8() == 0)
+    if (GM_StreamStatus() == 0)
     {
         GV_PauseLevel_800AB928 |= 4;
         GM_GameStatus |= STATE_PADRELEASE;
