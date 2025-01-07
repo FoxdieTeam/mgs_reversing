@@ -36,9 +36,6 @@ u_long                    SECTION(".sbss") dword_800ABADC;
 int                       SECTION(".sbss") dword_800ABAE0;
 Menu_rpk_item           **SECTION(".sbss") gItemFile_table_800ABAE4;
 int                       SECTION(".sbss") dword_800ABAE8;
-int                       SECTION(".sbss") dword_800ABAEC;
-int                       SECTION(".sbss") gSnakeLifeYPos_800ABAF0;
-int                       SECTION(".sbss") dword_800ABAF4;
 
 extern PANEL_TEXTURE gMenuRightItems_800BD888[MENU_WEAPON_COUNT];
 
@@ -1533,4 +1530,9 @@ void menu_weapon_init_8003EC2C(MenuWork *work)
 void menu_weapon_kill_8003ECAC(MenuWork *work)
 {
     work->field_28_flags &= ~0x2;
+}
+
+void MENU_ResetWeaponPos(void)
+{
+    dword_800ABAE8 = 0;
 }

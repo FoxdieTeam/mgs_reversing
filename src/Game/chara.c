@@ -7,7 +7,6 @@
 #include "Game/linkvarbuf.h"
 
 // force gp usage
-extern void *gOverlayBase_800AB9C8;
 void *SECTION(".sbss") gOverlayBase_800AB9C8;
 
 extern GCL_Vars gGcl_vars_800B3CC8;
