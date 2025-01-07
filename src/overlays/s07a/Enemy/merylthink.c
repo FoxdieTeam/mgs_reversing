@@ -254,7 +254,7 @@ void s07a_meryl_unk_800DB804( WatcherWork* work )
     int x;
 
     x = work->next_node + 1;
-    if ( x >= work->field_9E8 )
+    if ( x >= work->n_nodes )
     {
         x = 0;
     }
@@ -710,7 +710,7 @@ void s07a_meryl_unk_800DC18C( WatcherWork* work )
     if ( s07a_meryl_unk_800DCF78( work ) )
     {
         s07a_meryl_unk_800DB340( work );
-        work->next_node = work->field_9E8;
+        work->next_node = work->n_nodes;
     }
 
     work->alert_level = 0;
@@ -725,7 +725,7 @@ void s07a_meryl_unk_800DC214( WatcherWork *work )
     {
         s07a_meryl_unk_800DB340( work );
         printf( (char *)s07a_aOuttoilletgoaddrd_800E300C, work->target_addr );
-        work->next_node = work->field_9E8;
+        work->next_node = work->n_nodes;
         s07a_meryl_unk_800DB8EC( work );
         work->count3 = 0;
 
@@ -974,12 +974,12 @@ int s07a_meryl_unk_800DC7CC( WatcherWork *work )
     patrol = &patrol[ param->root ];
 
     fprintf( 1, s07a_aCrootdrootdpatdnpointsd_800E3038, param->c_root, param->root, patrol, patrol->n_points );
-    work->field_9E8 = patrol->n_points;
+    work->n_nodes = patrol->n_points;
 
-    if ( work->field_9E8 <= 0 ) return -1;
+    if ( work->n_nodes <= 0 ) return -1;
 
     points = patrol->points;
-    for ( i = 0 ; i < work->field_9E8 ; i++ )
+    for ( i = 0 ; i < work->n_nodes ; i++ )
     {
         work->nodes[i].vx  = points->x;
         work->nodes[i].vy  = points->y;
@@ -1874,7 +1874,7 @@ void s07a_meryl_unk_800DDBA8( WatcherWork *work )
     if ( work->think3 == 3 && s07a_meryl_unk_800DC57C( work ) )
     {
         s07a_meryl_unk_800DB340( work );
-        work->next_node = work->field_9E8;
+        work->next_node = work->n_nodes;
         s07a_meryl_unk_800DB8EC( work );
         work->pad.mode = 1;
     }
@@ -1904,7 +1904,7 @@ static inline void set_dir( WatcherWork *work )
 static inline void think_reset( WatcherWork *work )
 {
     s07a_meryl_unk_800DB340( work );
-    work->next_node = work->field_9E8;
+    work->next_node = work->n_nodes;
     s07a_meryl_unk_800DB8EC( work );
 }
 
@@ -2914,19 +2914,19 @@ void MerylThink_800DF3A0( WatcherWork* work )
     switch ( work->think1 )
     {
     case 0:
-        work->field_8E6 = 1;
+        work->unknown.field_1E = 1;
         s07a_meryl_unk_800DF038( work );
         break;
     case 1:
-        work->field_8E6 = 1;
+        work->unknown.field_1E = 1;
         s07a_meryl_unk_800DF17C( work );
         break;
     case 2:
-        work->field_8E6 = 1;
+        work->unknown.field_1E = 1;
         s07a_meryl_unk_800DF234( work );
         break;
     case 3:
-        work->field_8E6 = 1;
+        work->unknown.field_1E = 1;
         s07a_meryl_unk_800DC310( work );
         break;
     }

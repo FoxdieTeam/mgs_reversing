@@ -71,12 +71,12 @@ extern const char *s07a_dword_800C36BC[3];
 static inline void UnsetMode( WatcherWork *work )
 {
     extern short    ActTable_800C3628[];
-    work->field_8E2 = 0;
+    work->unknown.last_unset = 0;
     GM_ConfigObjectOverride( &( work->body ), ActTable_800C3628[ STANDSTILL ], 0, ACTINTERP, 0 );
 
     work->action2 = 0;
     work->time2 = 0;
-    work->field_8E2 = 0;
+    work->unknown.last_unset = 0;
     work->control.turn.vz = 0;
     work->control.turn.vx = 0;
 }
@@ -84,19 +84,19 @@ static inline void UnsetMode( WatcherWork *work )
 static inline void UnsetMode2( WatcherWork *work )
 {
     extern short    ActTable_800C3628[];
-    work->field_8E2 = 0;
+    work->unknown.last_unset = 0;
     GM_ConfigObjectOverride( &( work->body ), ActTable_800C3628[ STANDSTILL ], 0, ACTINTERP, 0 );
 
     work->action2 = 0;
     work->time2 = 0;
-    work->field_8E2 = 0;
+    work->unknown.last_unset = 0;
     work->control.turn.vz = 0;
     work->control.turn.vx = 0;
 
-    if ( work->field_B68 )
+    if ( work->mosaic )
     {
-        GV_DestroyOtherActor( work->field_B68 );
-        work->field_B68 = 0;
+        GV_DestroyOtherActor( work->mosaic );
+        work->mosaic = 0;
     }
 
 }
@@ -104,7 +104,7 @@ static inline void UnsetMode2( WatcherWork *work )
 static inline void SetAction( WatcherWork *work, int n_action, int interp )
 {
     extern short    ActTable_800C3628[];
-    work->field_8E0 = n_action ;
+    work->unknown.last_set = n_action ;
     GM_ConfigObjectAction( &( work->body ), ActTable_800C3628[ n_action ], 0, interp );
 }
 
@@ -112,7 +112,7 @@ static inline void UnsetAction( WatcherWork *work, int n_action )
 {
     extern short    ActTable_800C3628[];
 
-    work->field_8E2 = n_action;
+    work->unknown.last_unset = n_action;
     GM_ConfigObjectOverride( &( work->body ), ActTable_800C3628[ n_action ], 0, ACTINTERP, 0x3FE );
 }
 
@@ -120,7 +120,7 @@ static inline void UnsetActionManual( WatcherWork *work, int n_action, int a4 )
 {
     extern short    ActTable_800C3628[];
 
-    work->field_8E2 = n_action;
+    work->unknown.last_unset = n_action;
     GM_ConfigObjectOverride( &( work->body ), ActTable_800C3628[ n_action ], 0, ACTINTERP, a4 );
 }
 
@@ -128,7 +128,7 @@ static inline void UnsetAction2( WatcherWork *work )
 {
     extern short    ActTable_800C3628[];
 
-    work->field_8E2 = 0;
+    work->unknown.last_unset = 0;
     GM_ConfigObjectOverride( &( work->body ), ActTable_800C3628[ STANDSTILL ], 0, ACTINTERP, 0 );
     GV_DestroyOtherActor( work->subweapon );
 }
@@ -212,10 +212,10 @@ void s07a_meryl_unk_800D71B0( WatcherWork* work, int time )
     dist = -1;
     ctrl = &(work->control );
     dir = work->pad.dir;
-    field_8E0 = work->field_8E0;
+    field_8E0 = work->unknown.last_set;
     svec = work->control.field_60_vecs_ary;
 
-    if ( (work->pad.mode & 0x1) && ( work->field_8E0 != ACTION2 ) )
+    if ( (work->pad.mode & 0x1) && ( work->unknown.last_set != ACTION2 ) )
     {
         SetAction( work, ACTION2, ACTINTERP );
     }
@@ -306,7 +306,7 @@ void s07a_meryl_unk_800D7474( WatcherWork* work, int time )
 {
     if ( time == 0 )
     {
-        work->field_8DC = 3;
+        work->unknown.field_14 = 3;
         SetAction( work, ACTION35, 4 );
     }
 
@@ -453,7 +453,7 @@ void ActReadyGun_800D7924( WatcherWork* work, int time )
         {
             SetAction( work, ACTION5, ACTINTERP );
         }
-        GM_ConfigMotionAdjust( &( work->body ), &work->field_724 ) ;
+        GM_ConfigMotionAdjust( &( work->body ), work->adjust ) ;
     }
 
     ReviseReadyGun_800D6BE4( work );
@@ -505,7 +505,7 @@ void s07a_meryl_unk_800D7A90( WatcherWork* work, int time )
     {
         SetAction( work, ACTION4, 0 ) ;
         ENE_SetPutChar_800D9D6C( work, 3 ) ;
-        GM_ConfigMotionAdjust( &( work->body ), &work->field_724 ) ;
+        GM_ConfigMotionAdjust( &( work->body ), work->adjust ) ;
     }
 
     ReviseReadyGun_800D6BE4( work );
@@ -527,7 +527,7 @@ void s07a_meryl_unk_800D7B48( WatcherWork* work, int time )
 
     if ( time == 0 )
     {
-        GM_ConfigMotionAdjust( &( work->body ), &work->field_724 );
+        GM_ConfigMotionAdjust( &( work->body ), work->adjust );
     }
 
     rot = &work->control.rot;
@@ -662,12 +662,12 @@ void s07a_meryl_unk_800D7F70( WatcherWork* work, int time )
 
     target = work->target;
     ctrl = &work->control;
-    work->field_8E6 = 0;
+    work->unknown.field_1E = 0;
     work->act_status |= 0x08;
 
     if ( time == 0 )
     {
-        work->field_8DC = 6;
+        work->unknown.field_14 = 6;
         SetAction( work, ACTION31, ACTINTERP );
     }
 
@@ -676,7 +676,7 @@ void s07a_meryl_unk_800D7F70( WatcherWork* work, int time )
         s07a_meryl_unk_800D6D7C( work );
     }
 
-    if ( work->field_8E0 == 31 )
+    if ( work->unknown.last_set == 31 )
     {
         if ( time == 22 )
         {
@@ -739,9 +739,9 @@ void s07a_meryl_unk_800D8290( WatcherWork *work, int time )
     TARGET *target;
 
     target = work->target;
-    s2 = work->field_8E0;
+    s2 = work->unknown.last_set;
 
-    work->field_8E6 = 0;
+    work->unknown.field_1E = 0;
     work->act_status |= 0x0C;
 
     if ( time == 0 )
@@ -766,7 +766,7 @@ void s07a_meryl_unk_800D8290( WatcherWork *work, int time )
 
         if ( target->field_26_hp <= 0 )
         {
-            work->field_8DC = 5;
+            work->unknown.field_14 = 5;
             target->side = ENEMY_SIDE;
             SetMode( work, s07a_meryl_unk_800D8CB4 );
             target->field_42 = 0;
@@ -806,13 +806,13 @@ void s07a_meryl_unk_800D8290( WatcherWork *work, int time )
         s07a_meryl_unk_800D8210( work );
         break;
     case 0x27:
-        work->field_8DC = 4;
+        work->unknown.field_14 = 4;
         target->side = ENEMY_SIDE;
         target->field_26_hp = 0;
         SetMode( work, s07a_meryl_unk_800D8CB4 );
         return;
     default:
-        work->field_8DC = 5;
+        work->unknown.field_14 = 5;
         target->side = ENEMY_SIDE;
         SetMode( work, s07a_meryl_unk_800D8CB4 );
         return;
@@ -846,7 +846,7 @@ void s07a_meryl_unk_800D8654( WatcherWork *work, int time )
     int time_offset;
 
     ctrl = &work->control;
-    work->field_8E6 = 0;
+    work->unknown.field_1E = 0;
     work->vision.length = 0;
     work->act_status |= 0x8;
 
@@ -864,7 +864,7 @@ void s07a_meryl_unk_800D8654( WatcherWork *work, int time )
 
     if ( time == time_offset )
     {
-        work->field_8DC = 1;
+        work->unknown.field_14 = 1;
         SetAction( work, ACTION37, ACTINTERP ) ;
     }
     else
@@ -898,9 +898,9 @@ void s07a_meryl_unk_800D8798( WatcherWork *work, int time )
     if ( time == 0 )
     {
 
-        if ( work->field_8DC < 3 )
+        if ( work->unknown.field_14 < 3 )
         {
-            if ( work->field_8DC == 1 )
+            if ( work->unknown.field_14 == 1 )
             {
                 SetAction( work, ACTION41, ACTINTERP );
             }
@@ -955,7 +955,7 @@ void s07a_meryl_unk_800D89D8( WatcherWork *work, int time )
 {
     if ( time == 0 )
     {
-        if ( work->field_8DC < 3 )
+        if ( work->unknown.field_14 < 3 )
         {
             SetAction( work, 0x2E, ACTINTERP );
         }
@@ -979,12 +979,12 @@ void s07a_meryl_unk_800D89D8( WatcherWork *work, int time )
 
 void s07a_meryl_unk_800D8AA0( WatcherWork* work, int time )
 {
-    work->field_8E6 = 0;
+    work->unknown.field_1E = 0;
     work->act_status |= 0x08;
 
     if ( time == 0 )
     {
-        if ( work->field_8DC < 3 )
+        if ( work->unknown.field_14 < 3 )
         {
             if ( work->field_B5A >= 0x5A )
             {
@@ -1018,7 +1018,7 @@ void s07a_meryl_unk_800D8BA4( WatcherWork* work, int time )
 {
     TARGET* target;
 
-    work->field_8E6 = 0;
+    work->unknown.field_1E = 0;
     SetTargetClass( work->target, TARGET_FLAG );
     work->vision.length = COM_EYE_LENGTH_800E0D8C ;
     work->act_status |= 0x08;
@@ -1057,8 +1057,8 @@ void s07a_meryl_unk_800D8CB4( WatcherWork *work, int time )
     CONTROL* ctrl;
     WatcherUnk *unk;
 
-    unk = (WatcherUnk*)&work->field_8C8;
-    work->field_8E6 = 0;
+    unk = &work->unknown;
+    work->unknown.field_1E = 0;
     work->act_status |= 0x8;
     work->control.step = work->target->field_2C_vec;
 
@@ -1205,7 +1205,7 @@ void s07a_meryl_unk_800D8CB4( WatcherWork *work, int time )
 
     if ( work->body.is_end )
     {
-        work->field_8E6 = 1;
+        work->unknown.field_1E = 1;
         work->target->field_2C_vec = DG_ZeroVector;
         if ( work->target->field_26_hp <= 0 )
         {
@@ -1223,12 +1223,12 @@ void s07a_meryl_unk_800D9230( WatcherWork* work, int time )
     CONTROL *ctrl;
 
     ctrl = &work->control;
-    work->field_8E6 = 0;
+    work->unknown.field_1E = 0;
     work->act_status |= 0x8;
 
     ctrl->step = work->target->field_2C_vec;
 
-    if ( time == 0 && work->field_8DC != 2 )
+    if ( time == 0 && work->unknown.field_14 != 2 )
     {
         GM_SeSet( &ctrl->mov, 0xC4 );
     }
@@ -1238,14 +1238,14 @@ void s07a_meryl_unk_800D9230( WatcherWork* work, int time )
         ctrl->step = DG_ZeroVector;
     }
 
-    if ( work->field_8E0 < 39 )
+    if ( work->unknown.last_set < 39 )
     {
 
         if ( work->body.is_end )
         {
-            if ( work->field_8DC < 3 )
+            if ( work->unknown.field_14 < 3 )
             {
-                if ( work->field_8DC == 1 )
+                if ( work->unknown.field_14 == 1 )
                 {
                     SetAction( work, ACTION41, ACTINTERP );
                 }
@@ -1262,7 +1262,7 @@ void s07a_meryl_unk_800D9230( WatcherWork* work, int time )
     }
     else if ( ctrl->field_57 )
     {
-        work->field_8E6 = 1;
+        work->unknown.field_1E = 1;
         work->target->field_2C_vec = DG_ZeroVector;
         GM_SeSet( &ctrl->mov, SE_HIT_FLOOR );
         ENE_PutBlood_800D973C( work, 6, 1 );
@@ -1276,9 +1276,9 @@ void s07a_meryl_unk_800D9410( WatcherWork *work, int time )
     work->act_status |= 0x40;
     if ( time == 0 )
     {
-        if ( work->field_8DC < 3 )
+        if ( work->unknown.field_14 < 3 )
         {
-            if ( work->field_8DC == 1 )
+            if ( work->unknown.field_14 == 1 )
             {
                 SetAction( work, ACTION51, ACTINTERP );
             }
@@ -1328,7 +1328,7 @@ void s07a_meryl_unk_800D952C( WatcherWork *work )
     work->vision.length = 0;
     work->target->class = TARGET_AVAIL;
 
-    unk = (WatcherUnk*)&work->field_8C8;
+    unk = &work->unknown;
 
     work->actend = 0;
     work->act_status = 0;
@@ -1448,7 +1448,7 @@ void ENE_PutItem_800D9810( WatcherWork* work )
     CONTROL *ctrl;
     Item_Info item;
 
-    svec = work->field_8D4;
+    svec = work->unknown.field_0C;
     rand = 10;
     ctrl = &work->control;
     svec.vx += GV_RandU( rand );
@@ -1522,10 +1522,10 @@ void ENE_PutMark_800D998C( WatcherWork *work, int mark )
 
     if ( work->mark_time )
     {
-        GV_DestroyOtherActor( (GV_ACT*)work->field_B60 );
+        GV_DestroyOtherActor( work->mark );
     }
 
-    work->field_B60 = (int)AN_Unknown_800CA1EC( mat , mark ) ;
+    work->mark = AN_Unknown_800CA1EC( mat , mark ) ;
     work->mark_time = 30;
 }
 
@@ -1549,7 +1549,7 @@ void ENE_PutSound_800D9A6C( WatcherWork *work, int mark )
         return;
     }
 
-    a3 = work->field_8E0;
+    a3 = work->unknown.last_set;
     a2 = work->m_ctrl.info1.frame;
 
     if( a3 == 1 )
@@ -1589,7 +1589,7 @@ void ENE_PutBreath_800D9B14( WatcherWork *work, int arg1 )
         return;
     }
 
-    if ( work->field_8E2 == 20 )
+    if ( work->unknown.last_unset == 20 )
     {
         frame = work->m_ctrl.info2.frame;
         if ( frame == 31 )
@@ -1597,7 +1597,7 @@ void ENE_PutBreath_800D9B14( WatcherWork *work, int arg1 )
             AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
         }
     }
-    else if ( work->field_8E2 == 22 )
+    else if ( work->unknown.last_unset == 22 )
     {
         frame = work->m_ctrl.info2.frame;
         if ( ( frame == 15 ) || ( frame == 35 ) || ( frame == 50 ) || ( frame == 60 ) ||
@@ -1606,7 +1606,7 @@ void ENE_PutBreath_800D9B14( WatcherWork *work, int arg1 )
             AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
         }
     }
-    else if ( work->field_8E2 == 19 )
+    else if ( work->unknown.last_unset == 19 )
     {
         frame = work->m_ctrl.info2.frame;
         if ( ( frame == 30  ) || ( frame == 40  ) || ( frame == 50 ) || ( frame == 60 ) ||
@@ -1928,9 +1928,9 @@ void s07a_meryl_unk_800DA610( WatcherWork *work, int time )
     if ( time == 0 )
     {
         UnsetAction( work, ACTION25 );
-        if ( work->field_B68 == NULL )
+        if ( work->mosaic == NULL )
         {
-            work->field_B68 = NewMosaicSet_800DC9F4(&work->body.objs->objs[0].world, 300, 4, -250 );
+            work->mosaic = NewMosaicSet_800DC9F4(&work->body.objs->objs[0].world, 300, 4, -250 );
         }
         GM_SeSet( &work->control.mov, 0xB9 );
     }
@@ -1961,9 +1961,9 @@ void s07a_meryl_unk_800DA75C( WatcherWork *work, int time )
     if ( time == 0 )
     {
         UnsetAction( work, ACTION25 );
-        if ( work->field_B68 == NULL )
+        if ( work->mosaic == NULL )
         {
-            work->field_B68 = NewMosaicSet_800DC9F4(&work->body.objs->objs[0].world, 300, 4, -250 );
+            work->mosaic = NewMosaicSet_800DC9F4(&work->body.objs->objs[0].world, 300, 4, -250 );
         }
     }
 

@@ -243,7 +243,7 @@ int s07c_meryl72_800C6F8C( Meryl72Work *work, int name, int map )
     GM_ConfigMotionControl( body, &work->m_ctrl, motion, work->m_segs1, work->m_segs2, control, work->rots );
     GM_ConfigObjectLight( body, work->light );
 
-    work->homing = GM_AllocHomingTarget( &work->body.objs->objs[6].world, control );
+    work->hom = GM_AllocHomingTarget( &work->body.objs->objs[6].world, control );
 
     GM_InitObject( weapon, GV_StrCode( "desert" ), WEAPON_FLAG, 0 );
     GM_ConfigObjectLight( weapon, work->light );
@@ -253,7 +253,7 @@ int s07c_meryl72_800C6F8C( Meryl72Work *work, int name, int map )
     indices.vy = 6;
     indices.vz = 12;
     indices.pad = 15;
-    work->shadow = (GV_ACT *)NewShadow2_80060384( control, body, indices, &work->enable_shadow );
+    work->shadow = (GV_ACT *)NewShadow2_80060384( control, body, indices, &work->shadow_enable );
 
     ML72_SetPutChar_800CB584( work, 2 );
 
@@ -271,7 +271,7 @@ void s07c_meryl72_800C7194( Meryl72Work *work )
     GCL_ARGS args;
     long     data[4];
 
-    GM_FreeHomingTarget( work->homing );
+    GM_FreeHomingTarget( work->hom );
     GM_FreeControl( &work->control );
     GM_FreeObject( &work->body );
     GM_FreeObject( &work->weapon );
@@ -622,7 +622,7 @@ int Meryl72GetResources_800C7738( Meryl72Work *work, int arg1, int arg2 )
 
     if ( work->fB96 != 0 )
     {
-        work->control.mov = work->f9A4;
+        work->control.mov = work->nodes[ 3 ];
     }
     else
     {

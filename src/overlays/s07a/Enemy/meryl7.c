@@ -142,27 +142,27 @@ void s07a_meryl7_800D53A4( WatcherWork *work )
         {
             if ( GM_GameStatus & (GAME_FLAG_BIT_07 | STATE_BEHIND_CAMERA) || GM_Camera_800B77E8.first_person )
             {
-                if ( work->field_180 != work->field_B7B )
+                if ( work->has_kmd != work->field_B7B )
                 {
-                    work->field_180 = work->field_B7B;
+                    work->has_kmd = work->field_B7B;
                     s07a_meryl7_800D5328( work->body.objs, work->def );
                 }
             }
-            else if ( work->field_180 )
+            else if ( work->has_kmd )
             {
-                work->field_180 = 0;
+                work->has_kmd = 0;
                 s07a_meryl7_800D5328( work->body.objs, work->kmd );
             }
         }
         DG_VisibleObjs( work->body.objs );
-        DG_VisibleObjs( work->field_7A4.objs );
+        DG_VisibleObjs( work->weapon.objs );
         work->field_AF4[0] = 1;
         work->field_AFC[0] = 1;
     }
     else
     {
         DG_InvisibleObjs( work->body.objs );
-        DG_InvisibleObjs( work->field_7A4.objs );
+        DG_InvisibleObjs( work->weapon.objs );
         work->field_AF4[0] = 0;
         work->field_AFC[0] = 0;
     }
@@ -256,9 +256,9 @@ void EnemyMerylAct_800D5638( WatcherWork *work )
         EnemyPushMove_800DB23C( work );
         GM_ActControl( ctrl );
         GM_ActObject2( &( work->body ) );
-        GM_ActObject2( &( work->field_7A4 ) );
+        GM_ActObject2( &( work->weapon ) );
 
-        DG_GetLightMatrix2( &( ctrl->mov ), &( work->field_888 ) );
+        DG_GetLightMatrix2( &( ctrl->mov ), work->light );
 
         EnemyActionMain_800DB1D0( work );
         trgt = work->target;
@@ -316,7 +316,7 @@ void s07a_meryl7_800D5780( WatcherWork *work )
 void s07a_meryl7_800D58AC( WatcherWork* work )
 {
     WatcherUnk *s;
-    s = (WatcherUnk*)&work->field_8C8;
+    s = &work->unknown;
 
     GV_ZeroMemory(s, 0x24);
     s->field_00 = 0;
@@ -358,12 +358,12 @@ int s07a_meryl7_800D5908( WatcherWork* work, int name, int where )
     //ctrl->field_36 = -1;
 
     body  = &work->body;
-    arm = &work->field_7A4;
+    arm = &work->weapon;
 
     GM_InitObject( body, KMD_IPPANHEI, 0x32D, 0xA8A1 ) ;
     GM_ConfigObjectJoint( body ) ;
-    GM_ConfigMotionControl( body, &work->m_ctrl, 0xA8A1, work->field_1DC, &work->field_1DC[17], ctrl, work->rots );
-    GM_ConfigObjectLight( body, &work->field_888 );
+    GM_ConfigMotionControl( body, &work->m_ctrl, 0xA8A1, work->m_segs1, work->m_segs2, ctrl, work->rots );
+    GM_ConfigObjectLight( body, work->light );
 
     work->field_B7B = 0;
 
@@ -377,12 +377,12 @@ int s07a_meryl7_800D5908( WatcherWork* work, int name, int where )
     {
         work->def = body->objs->def;
         work->kmd = GV_GetCache( GV_CacheID( HASH_LOPRYHEI, 'k' ) );
-        work->field_180 = has_kmd;
+        work->has_kmd = has_kmd;
     }
 
     work->hom = GM_AllocHomingTarget( &body->objs->objs[6].world, ctrl );
     GM_InitObject( arm, KMD_FAMAS, 0x6D, 0 );
-    GM_ConfigObjectLight( arm, &work->field_888 ) ;
+    GM_ConfigObjectLight( arm, work->light ) ;
     GM_ConfigObjectRoot( arm, body, 4 );
 
     for ( i = 0 ; i < 0 ; i++ )
@@ -411,7 +411,7 @@ void s07a_meryl7_800D5B28( WatcherWork* work )
     GM_FreeHomingTarget( work->hom );
     GM_FreeControl( &( work->control ) );
     GM_FreeObject( &( work->body ) );
-    GM_FreeObject( &( work->field_7A4 ) );
+    GM_FreeObject( &( work->weapon ) );
     GM_FreeTarget( work->target );
     GV_DestroyOtherActor( work->field_AF8 );
     GV_DestroyOtherActor( work->field_AF0 );
@@ -433,12 +433,12 @@ int s07a_meryl7_800D5BB0( WatcherWork* work )
     patrol = work->control.map->hzd->header->routes;
     patrol = &patrol[ work->param_root ];
 
-    work->field_9E8 = patrol->n_points;
+    work->n_nodes = patrol->n_points;
 
-    if ( work->field_9E8 <= 0 ) return -1;
+    if ( work->n_nodes <= 0 ) return -1;
 
     points = patrol->points;
-    for ( i = 0 ; i < work->field_9E8 ; i++ )
+    for ( i = 0 ; i < work->n_nodes ; i++ )
     {
         work->nodes[i].vx = points->x;
         work->nodes[i].vy = points->y;

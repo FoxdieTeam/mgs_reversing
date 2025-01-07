@@ -374,7 +374,7 @@ extern void s07a_meryl_unk_800D952C( WatcherWork *work );
 
 void EnemyActionMain_800DB1D0( WatcherWork *work )
 {
-     if ( work->field_8E0 < 0x31 )
+     if ( work->unknown.last_set < 0x31 )
      {
         s07a_meryl_unk_800DA948( work );
         s07a_meryl_unk_800DAFD8(work);
@@ -403,7 +403,7 @@ void EnemyPushMove_800DB23C( WatcherWork *work )
     GV_AddVec3( &target->field_34_vec, &work->control.step, &work->control.step );
     target->damaged &= ~( 0x8 );
 
-    if ( work->field_8E0 - 1 >= 2u )
+    if ( work->unknown.last_set - 1 >= 2u )
     {
         return;
     }
@@ -434,5 +434,5 @@ void EnemyPushMove_800DB23C( WatcherWork *work )
 
     ctrl = &work->control;
     ctrl->turn.vy = s1;
-    ctrl->field_36 = GV_NearExp2( ctrl->field_36, work->field_8E4 );
+    ctrl->field_36 = GV_NearExp2( ctrl->field_36, work->unknown.field_1C );
 }
