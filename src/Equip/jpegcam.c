@@ -36,10 +36,7 @@ extern int                 dword_800BDCD0;
 extern UnkCameraStruct     gUnkCameraStruct_800B77B8;
 
 extern short dword_800ABBD4;
-short        SECTION(".sbss") dword_800ABBD4;
-
 extern short dword_800ABBDC;
-short        SECTION(".sbss") dword_800ABBDC;
 
 extern char memoryCardFileName[]; // = "BISLPM-99999        ";
 
