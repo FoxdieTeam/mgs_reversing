@@ -12,12 +12,12 @@
 static inline void UnsetMode( ZakoWork *work )
 {
     extern short    ActTable_800C35EC[];
-    work->field_8E2 = 0;
+    work->unknown.last_unset = 0;
     GM_ConfigObjectOverride( &( work->body ), ActTable_800C35EC[ STANDSTILL ], 0, ACTINTERP, 0 );
 
     work->action2 = 0;
     work->time2 = 0;
-    work->field_8E2 = 0;
+    work->unknown.last_unset = 0;
     work->control.turn.vz = 0;
     work->control.turn.vx = 0;
 }
@@ -25,7 +25,7 @@ static inline void UnsetMode( ZakoWork *work )
 static inline void SetAction( ZakoWork *work, int n_action, int interp )
 {
     extern short    ActTable_800C35EC[];
-    work->field_8E0 = n_action ;
+    work->unknown.last_set = n_action ;
     GM_ConfigObjectAction( &( work->body ), ActTable_800C35EC[ n_action ], 0, interp );
 }
 
@@ -33,7 +33,7 @@ static inline void UnsetAction( ZakoWork *work, int n_action )
 {
     extern short    ActTable_800C35EC[];
 
-    work->field_8E2 = n_action;
+    work->unknown.last_unset = n_action;
     GM_ConfigObjectOverride( &( work->body ), ActTable_800C35EC[ n_action ], 0, ACTINTERP, 0x3FE );
 }
 
@@ -41,7 +41,7 @@ static inline void UnsetActionManual( ZakoWork *work, int n_action, int a4 )
 {
     extern short    ActTable_800C35EC[];
 
-    work->field_8E2 = n_action;
+    work->unknown.last_unset = n_action;
     GM_ConfigObjectOverride( &( work->body ), ActTable_800C35EC[ n_action ], 0, ACTINTERP, a4 );
 }
 
@@ -49,7 +49,7 @@ static inline void UnsetAction2( ZakoWork *work )
 {
     extern short    ActTable_800C35EC[];
 
-    work->field_8E2 = 0;
+    work->unknown.last_unset = 0;
     GM_ConfigObjectOverride( &( work->body ), ActTable_800C35EC[ STANDSTILL ], 0, ACTINTERP, 0 );
     GV_DestroyOtherActor( work->subweapon );
 }
@@ -145,10 +145,10 @@ void s11e_zk11ecom_800D4DD4( ZakoWork* work, int time )
     dist = -1;
     ctrl = &(work->control );
     dir = work->pad.dir;
-    field_8E0 = work->field_8E0;
+    field_8E0 = work->unknown.last_set;
     svec = work->control.field_60_vecs_ary;
 
-    if ( (work->pad.mode & 0x1) && ( work->field_8E0 != ACTION2 ) )
+    if ( (work->pad.mode & 0x1) && ( work->unknown.last_set != ACTION2 ) )
     {
         SetAction( work, ACTION2, ACTINTERP );
     }
@@ -232,7 +232,7 @@ void s11e_zk11ecom_800D506C( ZakoWork* work, int time )
 {
     if ( time == 0 )
     {
-        work->field_8DC = 3;
+        work->unknown.field_14 = 3;
         SetAction( work, ACTION35, 4 );
     }
 
@@ -302,7 +302,7 @@ void ActReadyGun_800D51EC( ZakoWork* work, int time )
         {
             SetAction( work, ACTION5, ACTINTERP );
         }
-        GM_ConfigMotionAdjust( &( work->body ), &work->field_724 ) ;
+        GM_ConfigMotionAdjust( &( work->body ), work->adjust ) ;
     }
 
     ReviseReadyGun_800D4828( work );
@@ -356,7 +356,7 @@ void s11e_zk11ecom_800D5360( ZakoWork* work, int time )
     {
         SetAction( work, ACTION4, 0 ) ;
         ZAKO11E_SetPutChar_800D8004( work, 3 ) ;
-        GM_ConfigMotionAdjust( &( work->body ), &work->field_724 ) ;
+        GM_ConfigMotionAdjust( &( work->body ), work->adjust ) ;
     }
 
     ReviseReadyGun_800D4828( work );
@@ -497,12 +497,12 @@ void s11e_zk11ecom_800D57A0( ZakoWork* work, int time )
 
     target = work->target;
     ctrl = &work->control;
-    work->field_8E6 = 0;
+    work->unknown.field_1E = 0;
     work->act_status |= 0x08;
 
     if ( time == 0 )
     {
-        work->field_8DC = 6;
+        work->unknown.field_14 = 6;
         SetAction( work, ACTION31, ACTINTERP );
     }
 
@@ -511,7 +511,7 @@ void s11e_zk11ecom_800D57A0( ZakoWork* work, int time )
         s11e_zk11ecom_800D49C0( work );
     }
 
-    if ( work->field_8E0 == 31 )
+    if ( work->unknown.last_set == 31 )
     {
         if ( time == 22 )
         {
@@ -600,9 +600,9 @@ void s11e_zk11ecom_800D5B04( ZakoWork *work, int time )
     TARGET *target;
 
     target = work->target;
-    s2 = work->field_8E0;
+    s2 = work->unknown.last_set;
 
-    work->field_8E6 = 0;
+    work->unknown.field_1E = 0;
     work->act_status |= 0x0C;
 
     if ( time == 0 )
@@ -632,7 +632,7 @@ void s11e_zk11ecom_800D5B04( ZakoWork *work, int time )
             {
                 work->field_C4C = v1;
             }
-            work->field_8DC = 5;
+            work->unknown.field_14 = 5;
             target->side = ENEMY_SIDE;
             SetZakoMode( work, s11e_zk11ecom_800D649C );
             target->field_42 = 0;
@@ -673,13 +673,13 @@ void s11e_zk11ecom_800D5B04( ZakoWork *work, int time )
         s11e_zk11ecom_800D5A84( work );
         break;
     case 0x27:
-        work->field_8DC = 4;
+        work->unknown.field_14 = 4;
         target->side = ENEMY_SIDE;
         target->field_26_hp = 0;
         SetZakoMode( work, s11e_zk11ecom_800D649C );
         return;
     default:
-        work->field_8DC = 5;
+        work->unknown.field_14 = 5;
         target->side = ENEMY_SIDE;
         SetZakoMode( work, s11e_zk11ecom_800D649C );
         return;
@@ -713,7 +713,7 @@ void s11e_zk11ecom_800D5EEC( ZakoWork *work, int time )
     int time_offset;
 
     ctrl = &work->control;
-    work->field_8E6 = 0;
+    work->unknown.field_1E = 0;
     work->vision.length = 0;
     work->act_status |= 0x8;
 
@@ -732,7 +732,7 @@ void s11e_zk11ecom_800D5EEC( ZakoWork *work, int time )
 
     if ( time == time_offset )
     {
-        work->field_8DC = 1;
+        work->unknown.field_14 = 1;
         SetAction( work, ACTION37, ACTINTERP ) ;
     }
     else
@@ -769,9 +769,9 @@ void s11e_zk11ecom_800D603C( ZakoWork *work, int time )
     if ( time == 0 )
     {
 
-        if ( work->field_8DC < 3 )
+        if ( work->unknown.field_14 < 3 )
         {
-            if ( work->field_8DC == 1 )
+            if ( work->unknown.field_14 == 1 )
             {
                 SetAction( work, ACTION41, ACTINTERP );
             }
@@ -817,7 +817,7 @@ void s11e_zk11ecom_800D61B4( ZakoWork *work, int time )
 {
     if ( time == 0 )
     {
-        if ( work->field_8DC < 3 )
+        if ( work->unknown.field_14 < 3 )
         {
             SetAction( work, 0x2E, ACTINTERP );
         }
@@ -841,12 +841,12 @@ void s11e_zk11ecom_800D61B4( ZakoWork *work, int time )
 
 void s11e_zk11ecom_800D627C( ZakoWork* work, int time )
 {
-    work->field_8E6 = 0;
+    work->unknown.field_1E = 0;
     work->act_status |= 0x08;
 
     if ( time == 0 )
     {
-        if ( work->field_8DC < 3 )
+        if ( work->unknown.field_14 < 3 )
         {
             if ( work->field_B5A >= 0x96 )
             {
@@ -883,7 +883,7 @@ void s11e_zk11ecom_800D638C( ZakoWork* work, int time )
 {
     TARGET* target;
 
-    work->field_8E6 = 0;
+    work->unknown.field_1E = 0;
     SetTargetClass( work->target, TARGET_FLAG );
     work->vision.length = ZAKO11E_EYE_LENGTH_800C3904 ;
     work->act_status |= 0x08;
@@ -926,8 +926,8 @@ void s11e_zk11ecom_800D649C( ZakoWork *work, int time )
     CONTROL* ctrl;
     WatcherUnk *unk;
 
-    unk = (WatcherUnk*)&work->field_8C8;
-    work->field_8E6 = 0;
+    unk = &work->unknown;
+    work->unknown.field_1E = 0;
     work->act_status |= 0x8;
     work->control.step = work->target->field_2C_vec;
 
@@ -1078,7 +1078,7 @@ void s11e_zk11ecom_800D649C( ZakoWork *work, int time )
 
     if ( work->body.is_end )
     {
-        work->field_8E6 = 1;
+        work->unknown.field_1E = 1;
         work->target->field_2C_vec = DG_ZeroVector;
         if ( work->target->field_26_hp <= 0 )
         {
@@ -1096,12 +1096,12 @@ void s11e_zk11ecom_800D69F8( ZakoWork* work, int time )
     CONTROL *ctrl;
 
     ctrl = &work->control;
-    work->field_8E6 = 0;
+    work->unknown.field_1E = 0;
     work->act_status |= 0x8;
 
     ctrl->step = work->target->field_2C_vec;
 
-    if ( time == 0 && work->field_8DC != 2 )
+    if ( time == 0 && work->unknown.field_14 != 2 )
     {
         GM_SeSet( &ctrl->mov, 0x8E );
     }
@@ -1111,13 +1111,13 @@ void s11e_zk11ecom_800D69F8( ZakoWork* work, int time )
         ctrl->step = DG_ZeroVector;
     }
 
-    if ( work->field_8E0 < 39 )
+    if ( work->unknown.last_set < 39 )
     {
         if ( work->body.is_end )
         {
-            if ( work->field_8DC < 3 )
+            if ( work->unknown.field_14 < 3 )
             {
-                if ( work->field_8DC == 1 )
+                if ( work->unknown.field_14 == 1 )
                 {
                     SetAction( work, ACTION41, ACTINTERP );
                 }
@@ -1134,7 +1134,7 @@ void s11e_zk11ecom_800D69F8( ZakoWork* work, int time )
     }
     else if ( ctrl->field_57 )
     {
-        work->field_8E6 = 1;
+        work->unknown.field_1E = 1;
         work->target->field_2C_vec = DG_ZeroVector;
         GM_SeSet( &ctrl->mov, SE_HIT_FLOOR );
         ZAKO11E_PutBlood_800D7A14( work, 6, 1 );
@@ -1149,9 +1149,9 @@ void s11e_zk11ecom_800D6BD8( ZakoWork *work, int time )
     work->act_status |= 0x40;
     if ( time == 0 )
     {
-        if ( work->field_8DC < 3 )
+        if ( work->unknown.field_14 < 3 )
         {
-            if ( work->field_8DC == 1 )
+            if ( work->unknown.field_14 == 1 )
             {
                 SetAction( work, ACTION51, ACTINTERP );
             }
@@ -1225,7 +1225,7 @@ void s11e_zk11ecom_800D6DDC( ZakoWork *work )
     work->vision.length = 0;
     work->target->class = TARGET_AVAIL;
 
-    unk = (WatcherUnk*)&work->field_8C8;
+    unk = &work->unknown;
 
     work->actend = 0;
     work->act_status = 0;
@@ -1626,7 +1626,7 @@ void ZAKO11E_PutItem_800D7AE8( ZakoWork* work )
     CONTROL *ctrl;
     Item_Info item;
 
-    svec = work->field_8D4;
+    svec = work->unknown.field_0C;
     rand = 10;
     ctrl = &work->control;
     svec.vx += GV_RandU( rand );
@@ -1684,10 +1684,10 @@ void ZAKO11E_PutMark_800D7C10( ZakoWork *work, int mark )
 
     if ( work->mark_time )
     {
-        GV_DestroyActor( (GV_ACT*)work->field_B60 );
+        GV_DestroyActor( work->mark );
     }
 
-    work->field_B60 = (int)AN_Unknown_800CA1EC( mat , mark ) ;
+    work->mark = AN_Unknown_800CA1EC( mat, mark ) ;
     work->mark_time = 30;
 }
 
@@ -1697,7 +1697,7 @@ void ZAKO11E_PutSound_800D7CAC( ZakoWork* work )
     int a2;
     int v1;
 
-    a3 = work->field_8E0;
+    a3 = work->unknown.last_set;
     a2 = work->m_ctrl.info1.frame;
 
     v1 = ( ( work->field_B74 % 4 ) * 2 ) + 0xA0;
@@ -1743,7 +1743,7 @@ void ZAKO11E_PutBreath_800D7D44( ZakoWork *work, int arg1 )
         return;
     }
 
-    if ( work->field_8E2 == 20 )
+    if ( work->unknown.last_unset == 20 )
     {
         frame = work->m_ctrl.info2.frame;
         if ( frame == 31 )
@@ -1751,7 +1751,7 @@ void ZAKO11E_PutBreath_800D7D44( ZakoWork *work, int arg1 )
             AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
         }
     }
-    else if ( work->field_8E2 == 22 )
+    else if ( work->unknown.last_unset == 22 )
     {
         frame = work->m_ctrl.info2.frame;
         if ( ( frame == 15 ) || ( frame == 35 ) || ( frame == 50 ) || ( frame == 60 ) ||
@@ -1760,7 +1760,7 @@ void ZAKO11E_PutBreath_800D7D44( ZakoWork *work, int arg1 )
             AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
         }
     }
-    else if ( work->field_8E2 == 19 )
+    else if ( work->unknown.last_unset == 19 )
     {
         frame = work->m_ctrl.info2.frame;
         if ( ( frame == 30  ) || ( frame == 40  ) || ( frame == 50 ) || ( frame == 60 ) ||

@@ -754,7 +754,7 @@ void Zako11EThink_800D99B8( ZakoWork* work )
 
     if ( work->think1 == 0)
     {
-        work->field_8E6 = 1;
+        work->unknown.field_1E = 1;
         s11e_zk11ecom_800D9928( work );
     }
 
