@@ -152,8 +152,8 @@ void ZAKO11F_PutSound_800CD2C0( Zako11FWork *work )
 
     action = work->unknown.last_set;
     frame = work->m_ctrl.info1.frame;
-    step1 = 160 + (work->field_B74 % 4) * 2;
-    step2 = 160 + (work->field_B74 % 4) * 2 + 1;
+    step1 = 160 + (work->param.index % 4) * 2;
+    step2 = 160 + (work->param.index % 4) * 2 + 1;
 
     if (action == ACTION1)
     {
@@ -222,7 +222,7 @@ void ZAKO11F_PutBreath_800CD358( Zako11FWork *work )
     }
     else
     {
-        if ( ( GV_Time % 64 ) == ( work->field_B74 * 16 ) )
+        if ( ( GV_Time % 64 ) == ( work->param.index * 16 ) )
         {
             AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
         }

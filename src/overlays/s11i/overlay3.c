@@ -1,11 +1,12 @@
 #include "libgcl/libgcl.h"
 
-int s11i_dword_800C34C4 = 0x00001676;
-int s11i_dword_800C34C8 = 0x0000FC18;
-int s11i_dword_800C34CC = 0x0000186A;
-int s11i_dword_800C34D0 = 0x000001F4;
-int s11i_dword_800C34D4 = 0x00001676;
-int s11i_dword_800C34D8 = 0x000007D0;
+SVECTOR s11i_dword_800C34C4[3] =
+{
+    {5750, 0, -1000, 0},
+    {6250, 0, 500, 0},
+    {5750, 0, 2000, 0},
+};
+
 int s11i_dword_800C34DC = 0x00000002;
 int s11i_dword_800C34E0 = 0x00000006;
 int s11i_dword_800C34E4 = 0x00000001;
@@ -54,6 +55,7 @@ int s11i_dword_800C358C = 0x00000000;
 int s11i_dword_800C3590 = 0x00000000;
 int s11i_dword_800C3594 = 0x00000000;
 int s11i_dword_800C3598 = 0x00000000;
+
 int s11i_dword_800C359C = 0x00000001;
 int s11i_dword_800C35A0 = 0x00000001;
 int s11i_dword_800C35A4 = 0x0000000D;
@@ -70,6 +72,7 @@ int s11i_dword_800C35CC = 0x00000000;
 int s11i_dword_800C35D0 = 0x00000000;
 int s11i_dword_800C35D4 = 0x00000000;
 int s11i_dword_800C35D8 = 0x00000000;
+
 int s11i_dword_800C35DC = 0x00000003;
 int s11i_dword_800C35E0 = 0x00000003;
 int s11i_dword_800C35E4 = 0x0000000F;
@@ -86,6 +89,7 @@ int s11i_dword_800C360C = 0x00000000;
 int s11i_dword_800C3610 = 0x00000000;
 int s11i_dword_800C3614 = 0x00000000;
 int s11i_dword_800C3618 = 0x00000000;
+
 int s11i_dword_800C361C = 0x0000000A;
 int s11i_dword_800C3620 = 0x0000000A;
 int s11i_dword_800C3624 = 0x00000011;

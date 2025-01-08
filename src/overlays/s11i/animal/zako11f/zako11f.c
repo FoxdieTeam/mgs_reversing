@@ -32,13 +32,13 @@ void s11i_zako11f_800C8774( Zako11FWork *work )
 {
     if ( work->visible )
     {
-        if ( work->param_low_poly == 1 )
+        if ( work->param.low_poly == 1 )
         {
             if ( GM_GameStatus & (GAME_FLAG_BIT_07 | STATE_BEHIND_CAMERA) || GM_Camera_800B77E8.first_person )
             {
-                if ( work->has_kmd != work->param_low_poly )
+                if ( work->has_kmd != work->param.low_poly )
                 {
-                    work->has_kmd = work->param_low_poly;
+                    work->has_kmd = work->param.low_poly;
                     s11i_zako11f_800C86F8( work->body.objs, work->def );
                 }
             }
@@ -118,7 +118,7 @@ void ZAKO11FAct_800C88AC( Zako11FWork *work )
 
     s11i_zako11f_800C8774( work );
 
-    if ( ZAKO11F_GameFlag_800D5C4C == 0xF && Zako11FCommand_800D5AF8.watchers[work->field_B74].field_04 == 1 )
+    if ( ZAKO11F_GameFlag_800D5C4C == 0xF && Zako11FCommand_800D5AF8.watchers[work->param.index].field_04 == 1 )
     {
          GV_DestroyActor( &( work->actor ) );
     }
@@ -142,8 +142,8 @@ void InitTarget_800C8A10( Zako11FWork *work )
     int faint;
 
     target = work->target;
-    life   = work->param_life;
-    faint  = work->param_faint;
+    life   = work->param.life;
+    faint  = work->param.faint;
 
     GM_SetTarget( target, ( TARGET_FLAG | TARGET_AVAIL ), ENEMY_SIDE, &ZAKO11F_TARGET_SIZE_800C365C );
     GM_Target_8002DCCC( target, 1, -1, life, faint, &ZAKO11F_TARGET_FORCE_800C3664 );
@@ -212,14 +212,14 @@ int s11i_zako11f_800C8B98( Zako11FWork* work, int name, int where )
     GM_ConfigMotionControl( body, &work->m_ctrl, 0xA8A1, work->m_segs1, work->m_segs2, ctrl, work->rots );
     GM_ConfigObjectLight( body, work->light );
 
-    work->param_low_poly = 0;
+    work->param.low_poly = 0;
 
     opt2 = GCL_GetOption( 'y' );
     if ( opt2 ) {
-        work->param_low_poly = GCL_StrToInt( (char*)opt2 );
+        work->param.low_poly = GCL_StrToInt( (char*)opt2 );
     }
 
-    has_kmd = work->param_low_poly;
+    has_kmd = work->param.low_poly;
     if ( has_kmd == 1 )
     {
         work->def = body->objs->def;
@@ -254,7 +254,7 @@ extern void s11i_zk11fcom_800D0C38( int );
 
 void s11i_zako11f_800C8DB8( Zako11FWork* work )
 {
-    s11i_zk11fcom_800D0C38( work->field_B74 );
+    s11i_zk11fcom_800D0C38( work->param.index );
     GM_FreeControl( &( work->control ) );
     GM_FreeObject( &( work->body ) );
     GM_FreeObject( &( work->weapon ) );
@@ -276,7 +276,7 @@ int ReadNodes_800C8E4C( Zako11FWork* work )
     HZD_PTP *points;
 
     patrol = work->control.map->hzd->header->routes;
-    patrol = &patrol[ work->param_root ];
+    patrol = &patrol[ work->param.root ];
 
     work->n_nodes = patrol->n_points;
 
@@ -387,9 +387,9 @@ void Zako11FGetResources_800C9070( Zako11FWork *work, int name, int where )
     SVECTOR svec;
 
     s11i_zako11f_800C8B98( work, name, where ) ;
-    work->field_B74 = s11i_zk11fcom_800D0BF4( work ) ;
+    work->param.index = s11i_zk11fcom_800D0BF4( work ) ;
 
-    if ( work->field_B74  << 24 < 0  )
+    if ( work->param.index  << 24 < 0  )
     {
        printf( "Err not enough work !!\n" ) ;
     }
@@ -397,27 +397,27 @@ void Zako11FGetResources_800C9070( Zako11FWork *work, int name, int where )
     s11i_zako11f_800C8F98( work ) ;
 
     //root
-    work->param_root = 0;
+    work->param.root = 0;
     opt = GCL_GetOption( 'r' );
     if ( opt )
     {
-        work->param_root = GCL_StrToInt( ( char* )opt );
+        work->param.root = GCL_StrToInt( ( char* )opt );
     }
 
     //life
-    work->param_life = 384;
+    work->param.life = 384;
     opt = GCL_GetOption( 'l' );
     if ( opt )
     {
-        work->param_life = GCL_StrToInt( ( char* )opt );
+        work->param.life = GCL_StrToInt( ( char* )opt );
     }
 
     //faint
-    work->param_faint = 7;
+    work->param.faint = 7;
     opt = GCL_GetOption( 'f' );
     if ( opt )
     {
-        work->param_faint = GCL_StrToInt( ( char* )opt );
+        work->param.faint = GCL_StrToInt( ( char* )opt );
     }
 
     work->field_B84 = 64;
@@ -435,29 +435,29 @@ void Zako11FGetResources_800C9070( Zako11FWork *work, int name, int where )
     }
 
 
-    work->param_blood = 65;
+    work->param.blood = 65;
     opt = GCL_GetOption( 'b' );
     if ( opt )
     {
-        work->param_blood = GCL_StrToInt( ( char* )opt );
+        work->param.blood = GCL_StrToInt( ( char* )opt );
     }
 
-    printf( " low[pory=%d\n", work->param_low_poly ) ;
-    work->field_B7D = 0xFF;
+    printf( " low[pory=%d\n", work->param.low_poly ) ;
+    work->param.field_B81 = 0xFF;
 
     opt = GCL_GetOption('g');
     if ( opt )
     {
-        work->field_B7D = GCL_StrToInt( ( char* )opt );
+        work->param.field_B81 = GCL_StrToInt( ( char* )opt );
     }
-    if ( work->param_blood == 'Z' )
+    if ( work->param.blood == 'Z' )
     {
-        work->field_B7D = 0;
+        work->param.field_B81 = 0;
     }
 
-    work->field_BFC = s11i_dword_800C32F0[ work->field_B74 ];
-    work->field_C00 = work->field_B74;
-    work->field_B78 = 0xFF;
+    work->field_BFC = s11i_dword_800C32F0[ work->param.index ];
+    work->field_C00 = work->param.index;
+    work->param.field_B7C = 0xFF;
 
     opt = GCL_GetOption( 'n' );
     if ( opt )
@@ -465,26 +465,26 @@ void Zako11FGetResources_800C9070( Zako11FWork *work, int name, int where )
         GCL_StrToSV( ( char* )opt, &svec );
         if ( svec.vy < 0x7530 )
         {
-            work->field_B78 = HZD_GetAddress( work->control.map->hzd, &svec, -1 );
+            work->param.field_B7C = HZD_GetAddress( work->control.map->hzd, &svec, -1 );
         }
         else
         {
-            work->field_B78 = 0xFF;
+            work->param.field_B7C = 0xFF;
         }
     }
 
-    work->param_area = 'A';
+    work->param.area = 'A';
     opt = GCL_GetOption( 'a' );
     if (opt != 0)
     {
-        work->param_area = GCL_StrToInt( ( char* )opt );
+        work->param.area = GCL_StrToInt( ( char* )opt );
     }
 
-    if ( work->param_area == 'S' ) ZAKO11F_SetPutChar_800CD700( work, PUTBREATH ) ; /* 白い息はく */
+    if ( work->param.area == 'S' ) ZAKO11F_SetPutChar_800CD700( work, PUTBREATH ) ; /* 白い息はく */
     work->scale = 4096 ;            /* スケール */
 
     if ( ( opt = GCL_GetOption( 's' ) ) != NULL ) work->scale += GCL_StrToInt( ( char* )opt );
-    work->param_item = 1;
+    work->param.item = 1;
 
     //fprintf(0,"Life=%d Faint=%d Blood=%c Area=%c \n",
     //  work->param.life, work->param.faint, work->param.blood,work->param.area);
@@ -526,22 +526,22 @@ void Zako11FGetResources_800C9070( Zako11FWork *work, int name, int where )
 
     work->control.mov = work->nodes[ 0 ] ;
     work->field_C40 = 0;
-    work->param_c_root = work->param_root;
-    work->field_B7B = work->field_B78;
+    work->param.c_root = work->param.root;
+    work->param.field_B7F = work->param.field_B7C;
 
     for ( i = 0 ; i <= 7 ; i++ )
     {
         work->modetime[i] = 0;
     }
 
-    work->field_BA3 =  7;
-    work->field_BA0 = -1;
+    work->modetime[7] = 7;
+    work->modetime[4] = -1;
 
     opt = GCL_GetOption( 'c' );
     if ( opt )
     {
         printf( "asiatoooo" );
-        work->field_BA3 |= 0x10;
+        work->modetime[7] |= 0x10;
     }
 
     GM_ConfigControlRadarparam( &work->control , 0, 0x200, ZAKO11F_EYE_LENGTH_800C3694, 0 );
