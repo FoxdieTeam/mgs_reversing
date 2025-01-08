@@ -215,7 +215,6 @@ int s11e_zk11ecom_800D8DC4( ZakoWork* work )
     return 1;
 }
 
-
 //#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D8E64.s")
 int s11e_zk11ecom_800D8E64( ZakoWork* work )
 {
