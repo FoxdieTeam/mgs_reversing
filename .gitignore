@@ -39,3 +39,6 @@ src/.vscode/settings.json
 *.swo
 research/
 .cache/
+.sentry-native
+obj_psx_dev/
+third_party/
