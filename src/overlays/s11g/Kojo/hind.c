@@ -950,7 +950,7 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
         break;
     }
 
-    GM_VoxStream_80037E40(work->field_7FC[0], 0x40000000);
+    GM_VoxStream(work->field_7FC[0], 0x40000000);
 
     for (i = 0; i < 32; i++)
     {

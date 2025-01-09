@@ -11,17 +11,19 @@
 #include "Game/jimctrl.h"
 #include "Kojo/demothrd.h"
 
-//------------------------------------------------------------------------------
+/*---------------------------------------------------------------------------*/
 
 extern StreamCtrlWork   strctrl_800B82B0;
 
-//------------------------------------------------------------------------------
+#define EXEC_LEVEL 1
+
+/*---------------------------------------------------------------------------*/
 
 int str_sector_8009E280 = 0;
 int str_gcl_proc_8009E284 = 0;
 int str_8009E288 = 0;
 
-void strctrl_act_helper_800377EC( StreamCtrlWork *work )
+STATIC void strctrl_act_helper_800377EC( StreamCtrlWork *work )
 {
     if ( !FS_StreamTaskState() )
     {
@@ -29,7 +31,7 @@ void strctrl_act_helper_800377EC( StreamCtrlWork *work )
     }
 }
 
-void strctrl_act_80037820( StreamCtrlWork *work )
+STATIC void strctrl_Act( StreamCtrlWork *work )
 {
     int sd_code;
     int stream_data;
@@ -122,7 +124,7 @@ loop_case3:
     }
 }
 
-void strctrl_kill_80037AE4( StreamCtrlWork *work )
+STATIC void strctrl_Die( StreamCtrlWork *work )
 {
     int cb_proc;
 
@@ -137,12 +139,12 @@ void strctrl_kill_80037AE4( StreamCtrlWork *work )
     }
     if ( str_sector_8009E280 )
     {
-        strctrl_init_80037B64( str_sector_8009E280, str_gcl_proc_8009E284, str_8009E288 );
+        NewStreamControl( str_sector_8009E280, str_gcl_proc_8009E284, str_8009E288 );
         str_sector_8009E280 = 0;
     }
 }
 
-StreamCtrlWork *strctrl_init_80037B64( int stream_code, int gcl_proc, int flags )
+StreamCtrlWork *NewStreamControl( int stream_code, int gcl_proc, int flags )
 {
     printf( "NewStream %d\n", stream_code );
 
@@ -156,7 +158,7 @@ StreamCtrlWork *strctrl_init_80037B64( int stream_code, int gcl_proc, int flags 
                 GCL_ExecProc( str_gcl_proc_8009E284 & 0xFFFF, 0 );
             }
         }
-        GM_StreamPlayStop_80037D64();
+        GM_StreamPlayStop();
         str_sector_8009E280 = stream_code;
         str_gcl_proc_8009E284 = gcl_proc;
         str_8009E288 = flags;
@@ -164,10 +166,10 @@ StreamCtrlWork *strctrl_init_80037B64( int stream_code, int gcl_proc, int flags 
     }
 
     FS_StreamInit( ( void * )0x801E7800, 0x18000 );
-    GV_InitActor( 1, ( GV_ACT * )&strctrl_800B82B0, NULL );
+    GV_InitActor( EXEC_LEVEL, ( GV_ACT * )&strctrl_800B82B0, NULL );
     GV_SetNamedActor( ( GV_ACT * )&strctrl_800B82B0,
-                      ( GV_ACTFUNC )&strctrl_act_80037820,
-                      ( GV_ACTFUNC )&strctrl_kill_80037AE4,
+                      ( GV_ACTFUNC )&strctrl_Act,
+                      ( GV_ACTFUNC )&strctrl_Die,
                       "strctrl.c" );
 
     strctrl_800B82B0.field_20_state = 1;
@@ -190,7 +192,9 @@ StreamCtrlWork *strctrl_init_80037B64( int stream_code, int gcl_proc, int flags 
     return &strctrl_800B82B0;
 }
 
-int GM_StreamStatus_80037CD8( void )
+/*---------------------------------------------------------------------------*/
+
+int GM_StreamStatus( void )
 {
     int state;
 
@@ -202,7 +206,7 @@ int GM_StreamStatus_80037CD8( void )
     return state;
 }
 
-void GM_StreamPlayStart_80037D1C()
+void GM_StreamPlayStart( void )
 {
     // TODO: Probably a switch
     if ( (u_int)(u_short)strctrl_800B82B0.field_20_state - 1 < 2 )
@@ -215,7 +219,7 @@ void GM_StreamPlayStart_80037D1C()
     }
 }
 
-void GM_StreamPlayStop_80037D64()
+void GM_StreamPlayStop( void )
 {
     printf( "GM_StreamPlayStop\n" );
     FS_StreamStop();
@@ -227,29 +231,29 @@ void GM_StreamPlayStop_80037D64()
     }
 }
 
-void GM_StreamCancelCallback_80037DB8( void )
+void GM_StreamCancelCallback( void )
 {
     strctrl_800B82B0.field_38_proc = -1;
 }
 
-int GM_StreamGetLastCode_80037DC8( void )
+int GM_StreamGetLastCode( void )
 {
     return strctrl_800B82B0.field_30_voxStream;
 }
 
 StreamCtrlWork *GM_Command_demo_helper_80037DD8( int base_sector, int gcl_proc )
 {
-    int total_sector; // $s0
+    int total_sector;
 
     strctrl_800B82B0.field_30_voxStream = base_sector;
     GM_GameStatus |= STATE_VOX_STREAM;
     total_sector = base_sector + FS_StreamGetTop( 1 );
     do {} while (0);
     srand( 1 );
-    return strctrl_init_80037B64( total_sector, gcl_proc, 2 );
+    return NewStreamControl( total_sector, gcl_proc, 2 );
 }
 
-StreamCtrlWork *GM_VoxStream_80037E40( int vox_code, int proc )
+StreamCtrlWork *GM_VoxStream( int vox_code, int proc )
 {
     strctrl_800B82B0.field_30_voxStream = vox_code;
     vox_code++; vox_code--;
@@ -263,11 +267,11 @@ StreamCtrlWork *GM_VoxStream_80037E40( int vox_code, int proc )
     {
         GM_GameStatus |= STATE_VOX_STREAM;
     }
-    return strctrl_init_80037B64( vox_code + FS_StreamGetTop(0), proc, 0 );
+    return NewStreamControl( vox_code + FS_StreamGetTop(0), proc, 0 );
 }
 
 StreamCtrlWork *sub_80037EE0(int vox_stream, int gcl_proc)
 {
     strctrl_800B82B0.field_30_voxStream = vox_stream;
-    return strctrl_init_80037B64( vox_stream + FS_StreamGetTop(0), gcl_proc, 1 );
+    return NewStreamControl( vox_stream + FS_StreamGetTop(0), gcl_proc, 1 );
 }

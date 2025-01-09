@@ -444,7 +444,7 @@ STATIC void GM_Act(GameWork *work)
             {
                 if ((GM_GameOverTimer == status))
                 {
-                    if (GM_StreamStatus_80037CD8() == -1)
+                    if (GM_StreamStatus() == -1)
                     {
                         if (over_init_800376F8(1))
                         {
@@ -455,9 +455,9 @@ STATIC void GM_Act(GameWork *work)
                             GV_DestroyActorSystem(4);
                         }
                     }
-                    else if (GM_StreamStatus_80037CD8() == status)
+                    else if (GM_StreamStatus() == status)
                     {
-                        GM_StreamPlayStop_80037D64();
+                        GM_StreamPlayStop();
                     }
                 }
                 else
@@ -478,7 +478,7 @@ STATIC void GM_Act(GameWork *work)
                 GV_DestroyActorSystem(4);
                 GV_PauseLevel_800AB928 &= ~8;
                 GM_FreeMapObjs_80031028();
-                GM_StreamPlayStop_80037D64();
+                GM_StreamPlayStop();
                 work->field_24 = 3;
                 GM_GameStatus |= STATE_PADRELEASE | STATE_ALL_OFF;
 
@@ -541,7 +541,7 @@ STATIC void GM_Act(GameWork *work)
 
         if ((GM_GameStatus < 0) && ((GM_CurrentPadData_800AB91C[2].press & (PAD_START | PAD_CROSS)) != 0))
         {
-            GM_StreamPlayStop_80037D64();
+            GM_StreamPlayStop();
         }
 
         if ((mts_read_pad(2) & PAD_CIRCLE) != 0)
@@ -576,7 +576,7 @@ STATIC void GM_Act(GameWork *work)
 
         if ((--work->field_24 <= 0))
         {
-            if (GM_StreamStatus_80037CD8() == -1)
+            if (GM_StreamStatus() == -1)
             {
                 if ((GV_PauseLevel_800AB928 & 5) == 0)
                 {

@@ -87,7 +87,6 @@ short met_logo_lines_800C32E8[] = {
     0x007d, 0x0024, 0x0087, 0x011a, 0x0087
 };
 
-extern int DG_FrameRate;
 extern int GV_Clock_800AB920;
 
 #define EXEC_LEVEL 1
@@ -413,7 +412,7 @@ void MetLogoAct_800C57E8( Work *work )
         {
             work->sequence = 542;
 
-            if ( GM_StreamStatus_80037CD8() == -1 )
+            if ( GM_StreamStatus() == -1 )
             {
                 GV_DestroyActor( &( work->actor ) );
             }

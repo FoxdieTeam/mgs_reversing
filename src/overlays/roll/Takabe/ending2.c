@@ -60,7 +60,6 @@ typedef struct Ending2Work
 
 #define EXEC_LEVEL 5
 
-extern int DG_FrameRate;
 extern int GV_Clock_800AB920;
 
 // Similar in usage to struct in movie.c
@@ -468,7 +467,7 @@ void Ending2_800C66EC(Ending2Work *work)
     }
     else
     {
-        GM_VoxStream_80037E40(work->field_4C, 0x40000000);
+        GM_VoxStream(work->field_4C, 0x40000000);
         moviework_800C326C.field_0 = 1;
     }
 }
@@ -481,7 +480,7 @@ void Ending2_800C673C(Ending2Work *work)
     }
     else
     {
-        GM_StreamPlayStop_80037D64();
+        GM_StreamPlayStop();
     }
 }
 
@@ -491,13 +490,13 @@ int Ending2_800C677C(Ending2Work *work)
 
     if (work->field_40 != 0)
     {
-        status = GM_StreamStatus_80037CD8();
+        status = GM_StreamStatus();
         switch (moviework_800C326C.field_0)
         {
         case 1:
             if (status == 1)
             {
-                GM_StreamPlayStart_80037D1C();
+                GM_StreamPlayStart();
                 moviework_800C326C.field_0 = 2;
             }
             break;

@@ -4,6 +4,7 @@
 #include <libsn.h>
 #include "common.h"
 #include "mts/mts.h"
+#include "libdg/libdg.h"    // for DG_HikituriFlag
 
 // sbss ===============================================
 
@@ -15,7 +16,6 @@ int    SECTION(".sbss")  GV_PassageTime_800AB924;
 int GV_Time = 0;
 STATIC int GV_LastTickCount = 0;
 
-extern int            DG_HikituriFlag;
 extern int            GV_PauseLevel_800AB928;
 extern const char    *GV_DebugMes;
 extern unsigned char *GV_ResidentMemoryBottom_800AB940;

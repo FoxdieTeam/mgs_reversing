@@ -973,9 +973,9 @@ void s07c_meryl72_unk1_800C9F98( Meryl72Work *work, int time )
         work->fC08 = 1 ;
         SetAction( work, ACTION37, ACTINTERP ) ;
         work->target->field_2A = 0;
-        if ( GM_StreamStatus_80037CD8() != -1 )
+        if ( GM_StreamStatus() != -1 )
         {
-            GM_StreamPlayStop_80037D64();
+            GM_StreamPlayStop();
         }
     }
 
@@ -1299,18 +1299,18 @@ void s07c_meryl72_unk1_800CA538( Meryl72Work *work, int time )
             break;
         }
 
-        if ( GM_StreamStatus_80037CD8() != -1 )
+        if ( GM_StreamStatus() != -1 )
         {
-            GM_StreamPlayStop_80037D64();
+            GM_StreamPlayStop();
         }
     }
 
     if ( time == 2 && work->target->field_26_hp <= 0 )
     {
         GM_GameStatus |= STATE_PADRELEASE;
-        if ( GM_StreamStatus_80037CD8() == -1 )
+        if ( GM_StreamStatus() == -1 )
         {
-            GM_VoxStream_80037E40( work->voices[ s2] , 0 );
+            GM_VoxStream( work->voices[ s2] , 0 );
         }
     }
 
@@ -1385,7 +1385,7 @@ void s07c_meryl72_unk1_800CAA48( Meryl72Work *work, int time )
         work->target->class = TARGET_AVAIL;
     }
 
-    if  ( time > 32 && GM_StreamStatus_80037CD8() == -1 && GM_GameOverTimer == -2 )
+    if  ( time > 32 && GM_StreamStatus() == -1 && GM_GameOverTimer == -2 )
     {
         GM_GameOverTimer = 1;
     }
