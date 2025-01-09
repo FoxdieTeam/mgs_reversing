@@ -30,7 +30,6 @@ extern GV_ACT *NewWaterView_800DBE04(int name, int where, SVECTOR *arg2, CVECTOR
 extern unsigned int     GM_PlayerStatus_800ABA50;
 extern CONTROL         *GM_PlayerControl_800AB9F4;
 extern OBJECT          *GM_PlayerBody_800ABA20;
-extern int              DG_FrameRate;
 extern CONTROL         *tenage_ctrls_800BDD30[16];
 extern int              tenage_ctrls_count_800BDD70;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;

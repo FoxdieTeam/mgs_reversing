@@ -31,9 +31,6 @@ short          SECTION(".sbss") N_ChanlPerfMax_800AB980;
 short          SECTION(".sbss") word_800AB982;
 unsigned short SECTION(".sbss") gCurrentRootCnt_800AB984;
 
-/*** sbss ***/
-extern int       DG_HikituriFlag;
-
 /*** bss ***/
 extern DG_CHANL       DG_Chanls_800B1800[3];
 extern int            dword_800B0630[68];
