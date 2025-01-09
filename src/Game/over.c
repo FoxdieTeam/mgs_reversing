@@ -2,8 +2,8 @@
 #include "common.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
+#include "libdg/libdg.h"
 
-extern int DG_FrameRate;
 extern int GV_Clock_800AB920;
 extern int GV_PauseLevel_800AB928;
 

@@ -12,15 +12,15 @@
 /**data*********************************************************/
 
 int DG_FrameRate = 2;
-int DG_HikituriFlag = 0;
-int DG_HikituriFlagOld = 0;
+int DG_HikituriFlag = 0;        // 引きつり = twitching
+int DG_HikituriFlagOld = 0;     //   〃          〃
+
 STATIC int DG_TickCount = -1;
 
 /***************************************************************/
 
 extern int              dword_800B3790;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
-extern int              DG_FrameRate;
 extern GV_PAD          *GM_CurrentPadData_800AB91C;
 extern GV_PAD           GV_PadData_800B05C0[4];
 

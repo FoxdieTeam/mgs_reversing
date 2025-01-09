@@ -4,9 +4,9 @@
 #include <stdio.h>
 #include "common.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"    // for DG_FrameRate
 #include "SD/sd_cli.h"
 
-extern int              DG_FrameRate;
 extern FS_STAGE_INFO   *gStageInfo_800B5288;
 extern int              gLoaderStartTime_800B528C;
 extern int              gOverlayBinSize_800B5290;

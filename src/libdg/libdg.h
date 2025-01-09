@@ -473,6 +473,10 @@ static inline void DG_GBoundObjs( DG_OBJS *objs )
 typedef void (*DG_CHANLFUNC)(DG_CHANL *chanl, int idx);
 
 /* dgd.c */
+extern int DG_FrameRate;
+extern int DG_HikituriFlag;
+extern int DG_HikituriFlagOld;
+
 int  DG_DrawSyncResetGraph( void );
 void DG_StartFrame( GV_ACT *actor );
 void DG_EndFrame( void );
