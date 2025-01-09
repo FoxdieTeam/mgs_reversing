@@ -44,10 +44,10 @@ typedef struct _VISION
 
 typedef struct _PARAM
 {
-    signed char    field_B78;                  //0xB78
+    signed char    index;                      //0xB78
     signed char    blood;                      //0xB79
     signed char    area;                       //0xB7A
-    signed char    field_B7B;                  //0xB7B
+    signed char    low_poly;                   //0xB7B
     char           field_B7C;                  //0xB7C
     signed char    root;                       //0xB7D
     char           c_root;                     //0xB7E
@@ -56,8 +56,6 @@ typedef struct _PARAM
     char           field_B81;                  //0xB81
     short          life;                       //0xB82
     short          faint;                      //0xB84
-    char           local_data;                 //0xB86
-    char           local_data2;                //0xB87
 } PARAM;
 
 typedef struct _WatcherWork
@@ -328,9 +326,9 @@ typedef struct _Zako11FWork
     int            n_nodes;                    //0x9E8
     SVECTOR        nodes[32];                  //0x9EC
     int            search_flag;                //0xAEC
-    GV_ACT*        shadow;                     //0xAF0
+    GV_ACT        *shadow;                     //0xAF0
     int           *shadow_enable;              //0xAF4
-    GV_ACT*        glight;                     //0xAF8
+    GV_ACT        *glight;                     //0xAF8
     int           *glight_enable;              //0xAFC
     void          *field_B00[8];               //0xB00
     short          think1;                     //0xB20
@@ -355,19 +353,7 @@ typedef struct _Zako11FWork
     int            mark_time;                  //0xB68    //could be wrong
     int            act_status;                 //0xB6C
     int            field_B70;                  //0xB70
-    signed char    field_B74;                  //0xB74
-    signed char    param_blood;                //0xB75  //param.blood (should be struct)
-    signed char    param_area;                 //0xB76  //param.area  (should be struct)
-    signed char    param_low_poly;             //0xB77
-    char           field_B78;                  //0xB78
-    signed char    param_root;                 //0xB79  //used as node index
-    char           param_c_root;               //0xB7A
-    char           field_B7B;                  //0xB7B
-    signed char    param_item;                 //0xB7C  //param.item  (should be struct)
-    char           field_B7D;                  //0xB7D
-    short          param_life;                 //0xB7E  //param.life  (should be struct)
-    short          param_faint;                //0xB80  //param.faint (should be struct)
-//seems right up to here
+    PARAM          param;                      //0xB74
     short          local_data;                 //0xB82
     short          field_B84;                  //0xB84 //z_param
     short          field_B86;                  //0xB86
@@ -376,11 +362,7 @@ typedef struct _Zako11FWork
     short          field_B94;                  //0xB94
     short          field_B96;                  //0xB96
     int            alert_level;                //0xB98
-    signed char    modetime[4];                //0xB9C //change to 8 later
-    signed char    field_BA0;                  //0xBA0
-    char           field_BA1;                  //0xBA1
-    char           field_BA2;                  //0xBA2
-    char           field_BA3;                  //0xBA3
+    signed char    modetime[8];                //0xB9C //change to 8 later
     SVECTOR        field_BA4;                  //0xBA4
     int            field_BAC;                  //0xBAC
     int            field_BB0[8];               //0xBB0 //set_time
@@ -406,8 +388,7 @@ typedef struct _Zako11FWork
     int            sn_dir;                     //0xC30
     int            faseout;                    //0xC34
     int            field_C38;                  //0xC38
-    char           field_C3C;                  //0xC3C //num_set_time
-    char           field_C3D[3];               //0xC3D //set_time
+    int            field_C3C;                  //0xC3C
     short          field_C40;                  //0xC40
     short          field_C42;                  //0xC42
 } Zako11FWork;

@@ -1254,7 +1254,7 @@ void s11i_asiato_800CB678(Zako11FWork *work, int time)
     {
         if (work->target->field_2A <= 0)
         {
-            work->target->field_2A = work->param_faint;
+            work->target->field_2A = work->param.faint;
         }
 
         SetZako11FMode(work, s11i_asiato_800CB8B8);
@@ -1642,7 +1642,7 @@ void s11i_asiato_800CC314(Zako11FWork *work, int time)
     {
         work->visible = 0;
         work->control.mov = ZAKO11F_NO_POINT_800C368C;
-        Zako11FCommand_800D5AF8.watchers[work->field_B74].field_04 = 1;
+        Zako11FCommand_800D5AF8.watchers[work->param.index].field_04 = 1;
 
         if (work->field_C40 == 0)
         {
