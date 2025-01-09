@@ -8,9 +8,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-// kVertexIndexingOrder provides the indexing order for referencing the transformed vertex sections
-STATIC unsigned char kVertexIndexingOrder[] = {0, 1, 3, 2};
-
 STATIC void DG_LinkModelToParent(DG_MDL *pKmdObj, DG_MDL *parent)
 {
     unsigned int uVar2;
@@ -24,6 +21,9 @@ STATIC void DG_LinkModelToParent(DG_MDL *pKmdObj, DG_MDL *parent)
     unsigned short pad;
     int iter;
     int offset;
+
+    // provides the indexing order for referencing the transformed vertex sections
+    static unsigned char kVertexIndexingOrder[] = {0, 1, 3, 2};
 
     vio = pKmdObj->vertices;
     flag = 0;
