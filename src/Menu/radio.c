@@ -35,7 +35,6 @@ STATIC char dword_800AB610[8] = {2, 4, 3, 1, 4, 3, 1, 0};
 
 extern int GM_PlayerStatus_800ABA50;
 extern int GV_PauseLevel_800AB928;
-extern int DG_FrameRate;
 
 extern int FS_DiskNum_800ACBF0;
 
@@ -1277,7 +1276,7 @@ skip_fading:
                 dword_800ABAF8 = 8;
                 pCharaStruct2->field_14_bInExecBlock = 0;
                 pCharaStruct2->field_18 |= 0x100;
-                GM_StreamPlayStop_80037D64();
+                GM_StreamPlayStop();
                 if (pCharaStruct2->field_0_state == 1)
                 {
                     work->field_210_codec_state = 4;
@@ -1385,7 +1384,7 @@ skip_fading:
     case 18:
         if (dword_800ABB14 >= 0)
         {
-            GM_VoxStream_80037E40(dword_800ABB14, 0x40000000);
+            GM_VoxStream(dword_800ABB14, 0x40000000);
             work->field_210_codec_state = 0x11;
             dword_800ABB14 = -1;
         }
@@ -1544,10 +1543,10 @@ STATIC void menu_radio_update_80042198(MenuWork *work, unsigned char *pOt)
                     gRadioIncomingCall_8009E708.field_2_timer = -1;
                 }
                 work->field_214_font = NULL;
-                streamStatus = GM_StreamStatus_80037CD8();
+                streamStatus = GM_StreamStatus();
                 if (streamStatus != -1)
                 {
-                    lastCode = GM_StreamGetLastCode_80037DC8();
+                    lastCode = GM_StreamGetLastCode();
                     dword_800ABB14 = lastCode;
                     printf("GetPotion %d\n", lastCode);
                 }
@@ -1555,7 +1554,7 @@ STATIC void menu_radio_update_80042198(MenuWork *work, unsigned char *pOt)
                 {
                     dword_800ABB14 = streamStatus;
                 }
-                GM_StreamPlayStop_80037D64();
+                GM_StreamPlayStop();
                 DG_UnDrawFrameCount = 2;
                 dword_800AB648 = 3;
                 GM_SetSound(0x01ffff20, 0);
@@ -1609,7 +1608,7 @@ STATIC void menu_radio_update_80042198(MenuWork *work, unsigned char *pOt)
     }
     else if (state == MENU_CODEC_OPEN)
     {
-        if (work->field_210_codec_state == 20 && GM_StreamStatus_80037CD8() != 0)
+        if (work->field_210_codec_state == 20 && GM_StreamStatus() != 0)
         {
             work->field_2A_state = MENU_CLOSED;
             menu_radio_update_helper_80038A6C();

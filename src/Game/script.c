@@ -1057,7 +1057,7 @@ STATIC int GM_Command_func(unsigned char *top)
     }
     if (GCL_GetOption('c'))
     {
-        GM_LastResultFlag = GM_StreamStatus_80037CD8();
+        GM_LastResultFlag = GM_StreamStatus();
     }
     if (GCL_GetOption('n'))
     {

@@ -97,7 +97,7 @@ void SndtstAct_800C32D8( Work *work )
         if ( pPad->press & PAD_CIRCLE )
         {
             work->field_20 = 1;
-            GM_VoxStream_80037E40( work->field_2C_code, 0 );
+            GM_VoxStream( work->field_2C_code, 0 );
         }
 
         MENU_Locate( 160, 120, 0x2 );
@@ -110,13 +110,13 @@ void SndtstAct_800C32D8( Work *work )
 
         if ( pPad->press & PAD_CROSS )
         {
-            GM_StreamPlayStop_80037D64();
+            GM_StreamPlayStop();
         }
 
-        if ( GM_StreamStatus_80037CD8() == -1 )
+        if ( GM_StreamStatus() == -1 )
         {
             work->field_20 = 0;
-            GM_VoxStream_80037E40( work->field_2C_code, 0 );
+            GM_VoxStream( work->field_2C_code, 0 );
         }
 
         pUnk = jimctrl_80038698();

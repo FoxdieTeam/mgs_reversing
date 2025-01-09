@@ -345,7 +345,7 @@ void TobcntAct_800C482C(TobcntWork *work)
 
         if ((work->time == 120) && (work->vox >= 0))
         {
-            GM_StreamPlayStart_80037D1C();
+            GM_StreamPlayStart();
         }
 
         work->time += 3;
@@ -400,7 +400,7 @@ void TobcntAct_800C482C(TobcntWork *work)
         {
             work->time = 542;
 
-            if (GM_StreamStatus_80037CD8() == -1)
+            if (GM_StreamStatus() == -1)
             {
                 GV_DestroyActor(&work->actor);
             }
@@ -416,7 +416,7 @@ void TobcntDie_800C4A64(TobcntWork *work)
     GV_PauseLevel_800AB928 &= ~1;
 
     DG_ResetObjectQueue();
-    GM_StreamPlayStop_80037D64();
+    GM_StreamPlayStop();
 
     GM_SetArea(GV_StrCode(stage_name), stage_name);
 
@@ -485,7 +485,7 @@ GV_ACT *NewTobcnt_800C4BC8(int name, int where, int argc, char **argv)
 
     if (work->vox >= 0)
     {
-        GM_VoxStream_80037E40(work->vox, 0x40000000);
+        GM_VoxStream(work->vox, 0x40000000);
     }
 
     GM_GameStatus |= STATE_GAME_OVER;

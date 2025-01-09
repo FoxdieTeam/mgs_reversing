@@ -290,7 +290,7 @@ void s03b_revolver_800C7574(RevolverWork *work, int arg1)
     uVar7 = work->field_948;
     iVar4 = work->field_950;
 
-    status = GM_StreamStatus_80037CD8();
+    status = GM_StreamStatus();
 
     if (status == -1 || status == 2)
     {
@@ -467,7 +467,7 @@ void s03b_revolver_800C7958(RevolverWork *work, int arg1)
     iVar4 = work->field_96A;
     iVar3 = work->field_950;
     uVar6 = work->field_948;
-    status = GM_StreamStatus_80037CD8();
+    status = GM_StreamStatus();
 
     if (status == -1 || status == 2)
     {
@@ -721,7 +721,7 @@ void s03b_revolver_800C7E88(RevolverWork *work, int arg1)
     uVar8 = work->field_948;
     uVar1 = work->field_96A;
     iVar7 = work->field_950;
-    status = GM_StreamStatus_80037CD8();
+    status = GM_StreamStatus();
 
     if (status == -1 || status == 2)
     {
@@ -869,7 +869,7 @@ void s03b_revolver_800C826C(RevolverWork *work, int arg1)
 
     uVar1 = work->field_96A;
     iVar4 = work->field_950;
-    status = GM_StreamStatus_80037CD8();
+    status = GM_StreamStatus();
 
     if (status == -1 || status == 2)
     {
@@ -918,7 +918,7 @@ void s03b_revolver_800C826C(RevolverWork *work, int arg1)
         break;
 
     case 3:
-        if (GM_StreamStatus_80037CD8() == -1)
+        if (GM_StreamStatus() == -1)
         {
             work->field_950 = 0;
             work->field_96A++;

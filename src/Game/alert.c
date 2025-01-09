@@ -138,7 +138,7 @@ void GM_Command_sound_impl(void)
         {
             proc = GCL_GetNextParamValue() | 0x80000000;
         }
-        GM_VoxStream_80037E40(voxCode, proc);
+        GM_VoxStream(voxCode, proc);
     }
     if (GCL_GetOption('g'))
     {

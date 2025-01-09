@@ -39,7 +39,7 @@ int *Voicesys_800CE278(int unused)
     voicesys_800DBD60.index1 = 0;
     voicesys_800DBD60.field_24 = 0;
     voicesys_800DBD60.field_8 = 5;
-    GM_StreamPlayStop_80037D64();
+    GM_StreamPlayStop();
     return voicesys_800DBD60.voxCodes;
 }
 
@@ -76,13 +76,13 @@ void Voicesys_800CE32C()
         voicesys_800DBD60.field_8--;
         return;
     }
-    status = GM_StreamStatus_80037CD8();
+    status = GM_StreamStatus();
     switch (status)
     {
     case 0:
         if (voicesys_800DBD60.field_24 == 2)
         {
-            GM_StreamPlayStop_80037D64();
+            GM_StreamPlayStop();
             voicesys_800DBD60.field_8 = 1;
         }
         break;
@@ -91,7 +91,7 @@ void Voicesys_800CE32C()
         {
             if (voicesys_800DBD60.field_24 == 2)
             {
-                GM_StreamPlayStop_80037D64();
+                GM_StreamPlayStop();
                 voicesys_800DBD60.field_8 = 0;
             }
             if (!(voicesys_800DBD60.flags & 2))
@@ -99,14 +99,14 @@ void Voicesys_800CE32C()
                 if (voicesys_800DBD60.field_C != 0)
                 {
                     voicesys_800DBD60.field_C--;
-                    GM_StreamPlayStart_80037D1C();
+                    GM_StreamPlayStart();
                     voicesys_800DBD60.voxCode1 = -1;
                 }
             }
             else if (voicesys_800DBD60.field_18 != 0)
             {
                 voicesys_800DBD60.field_18--;
-                GM_StreamPlayStart_80037D1C();
+                GM_StreamPlayStart();
             }
             voicesys_800DBD60.field_24 = 0;
         }
@@ -114,7 +114,7 @@ void Voicesys_800CE32C()
     case 2:
         if (voicesys_800DBD60.field_24 != 0)
         {
-            GM_StreamPlayStop_80037D64();
+            GM_StreamPlayStop();
             voicesys_800DBD60.field_8 = 5;
         }
         else if (voicesys_800DBD60.field_28 == 1)
@@ -130,7 +130,7 @@ void Voicesys_800CE32C()
                 voxCode = voicesys_800DBD60.voxCode2;
                 if (voxCode != -1)
                 {
-                    GM_VoxStream_80037E40(voxCode, 0x40000000);
+                    GM_VoxStream(voxCode, 0x40000000);
                     voicesys_800DBD60.voxCode1 = voxCode;
                     if (!(voicesys_800DBD60.flags & 1))
                     {
@@ -144,7 +144,7 @@ void Voicesys_800CE32C()
                 voicesys_800DBD60.flags &= ~2;
                 if (voxCode != -1)
                 {
-                    GM_VoxStream_80037E40(voxCode, 0x40000000);
+                    GM_VoxStream(voxCode, 0x40000000);
                 }
             }
             else
@@ -152,7 +152,7 @@ void Voicesys_800CE32C()
                 voxCode = voicesys_800DBD60.voxCode3;
                 if (voxCode != -1)
                 {
-                    GM_VoxStream_80037E40(voxCode, 0x40000000);
+                    GM_VoxStream(voxCode, 0x40000000);
                     voicesys_800DBD60.voxCode3 = voicesys_800DBD60.voxCodes[++voicesys_800DBD60.index2];
                 }
             }
@@ -167,7 +167,7 @@ void Voicesys_800CE58C(int index)
 {
     int status;
 
-    status = GM_StreamStatus_80037CD8();
+    status = GM_StreamStatus();
     if (voicesys_800DBD60.field_28 == 0)
     {
         voicesys_800DBD60.field_C = 0;
@@ -175,7 +175,7 @@ void Voicesys_800CE58C(int index)
         voicesys_800DBD60.voxCode2 = voicesys_800DBD60.voxCodes[index];
         if (status != 2)
         {
-            GM_StreamPlayStop_80037D64();
+            GM_StreamPlayStop();
         }
     }
 }
@@ -184,7 +184,7 @@ void Voicesys_800CE5F8(int index, int field_18)
 {
     int status;
 
-    status = GM_StreamStatus_80037CD8();
+    status = GM_StreamStatus();
     if (voicesys_800DBD60.field_28 == 0)
     {
         voicesys_800DBD60.index2 = index;
@@ -192,7 +192,7 @@ void Voicesys_800CE5F8(int index, int field_18)
         voicesys_800DBD60.field_18 = field_18;
         if (status != 2)
         {
-            GM_StreamPlayStop_80037D64();
+            GM_StreamPlayStop();
             voicesys_800DBD60.field_8 = 5;
         }
         voicesys_800DBD60.flags |= 2;
@@ -209,9 +209,9 @@ void Voicesys_800CE6AC(int arg0)
     if (voicesys_800DBD60.field_28 == 0 && (voicesys_800DBD60.flags & 2))
     {
         voicesys_800DBD60.field_18 = 0;
-        if (GM_StreamStatus_80037CD8() != 2)
+        if (GM_StreamStatus() != 2)
         {
-            GM_StreamPlayStop_80037D64();
+            GM_StreamPlayStop();
             voicesys_800DBD60.field_8 = 5;
             return;
         }
@@ -259,7 +259,7 @@ void VoicesysAct_800CE760(VoicesysWork *work)
             Voicesys_800CE300();
             break;
         case HASH_KILL:
-            GM_StreamPlayStop_80037D64();
+            GM_StreamPlayStop();
             GV_DestroyActor(&work->actor);
             return;
         }

@@ -21,7 +21,6 @@ short SECTION(".sbss") DG_ClipMax_800AB970[2];
 /*** sbss ***/
 extern int GV_Clock_800AB920;
 extern int GV_PauseLevel_800AB928;
-extern int DG_HikituriFlagOld;
 
 /*** bss ***/
 extern DISPENV gDispEnv_800B0600;
