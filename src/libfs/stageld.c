@@ -13,12 +13,15 @@ extern int              gOverlayBinSize_800B5290;
 extern int              gSaveCache_800B5294;
 extern char            *gOverlayBase_800AB9C8;
 
-TFsCallback      gFsCallback_8009D4F8 = NULL;
-TFsSoundCallback gFsSoundCallback_8009D4FC = NULL;
-unsigned short   dword_8009D500[] = {0, 0};
-unsigned short   word_8009D504 = 0;
-unsigned short   word_8009D506 = 0;
-unsigned short   word_8009D508 = 0;
+/*---------------------------------------------------------------------------*/
+
+STATIC TFsCallback      gFsCallback_8009D4F8 = NULL;
+STATIC TFsSoundCallback gFsSoundCallback_8009D4FC = NULL;
+
+STATIC unsigned short   dword_8009D500[] = {0, 0};      // *.wvx id
+STATIC unsigned short   word_8009D504 = 0;              // *.wvx index
+STATIC unsigned short   word_8009D506 = 0;              // *.mdx id
+STATIC unsigned short   word_8009D508 = 0;              // *.efx id
 
 STATIC int FS_80022E50( DATACNF_TAG *tag, CDBIOS_TASK *task )
 {

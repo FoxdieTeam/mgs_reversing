@@ -24,8 +24,17 @@ extern struct ActorList gActorsList_800ACC18[ACTOR_LIST_COUNT];
 
 // initialization structure for the actor lists
 // the pause and kill levels are set for each list
-struct PauseKill gPauseKills_8009D308[9] = {{0, 7},  {0, 7},  {9, 4}, {9, 4}, {15, 4},
-                                            {15, 4}, {15, 4}, {9, 4}, {0, 7}};
+STATIC struct PauseKill gPauseKills_8009D308[ACTOR_LIST_COUNT] = {
+    {  0, 7 },  // 0
+    {  0, 7 },  // 1
+    {  9, 4 },  // 2
+    {  9, 4 },  // 3
+    { 15, 4 },  // 4
+    { 15, 4 },  // 5
+    { 15, 4 },  // 6
+    {  9, 4 },  // 7
+    {  0, 7 }   // 8
+};
 
 extern int GM_CurrentMap_800AB9B0;
 

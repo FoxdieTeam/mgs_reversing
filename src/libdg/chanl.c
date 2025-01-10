@@ -8,7 +8,7 @@
 
 /*** data ***/
 
-DG_CHANLFUNC DG_ChanlUnits[] = {
+STATIC DG_CHANLFUNC DG_ChanlUnits[] = {
     DG_ScreenChanl,     // 0: DG_CHANL_SCREEN
     DG_BoundChanl,      // 1: DG_CHANL_BOUND
     DG_TransChanl,      // 2: DG_CHANL_TRANS
