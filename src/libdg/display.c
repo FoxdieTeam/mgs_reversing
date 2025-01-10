@@ -7,7 +7,7 @@
 #include "Menu/menuman.h"
 
 /*** data ***/
-VECTOR SECTION(".data") DG_UpVector = {0, -4096, 0, 0};
+STATIC VECTOR SECTION(".data") DG_UpVector = {0, -4096, 0, 0};
 
 /*** $gp ***/
 int DG_UnDrawFrameCount = 0;
