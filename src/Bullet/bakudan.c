@@ -21,7 +21,7 @@ extern int GM_CurrentMap_800AB9B0;
 
 extern int GM_PlayerMap_800ABA0C;
 
-extern unsigned short GM_ItemTypes_8009D598[];
+extern unsigned short GM_ItemTypes[];
 
 extern SVECTOR GM_PlayerPosition_800ABA10;
 extern BLAST_DATA blast_data_8009F4B8[8];
@@ -111,7 +111,7 @@ STATIC void BakudanAct(BakudanWork *work)
          (GM_CurrentMap_800AB9B0 & GM_PlayerMap_800ABA0C) &&
          !(GM_GameStatus & STATE_PADRELEASE) &&
          !(GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF) &&
-         !(GM_ItemTypes_8009D598[GM_CurrentItemId + 1] & 2)) ||
+         !(GM_ItemTypes[GM_CurrentItemId + 1] & 2)) ||
         dword_8009F434)
 #ifdef VR_EXE
     {

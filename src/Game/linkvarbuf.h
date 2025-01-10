@@ -221,7 +221,7 @@ enum // GM_Items[]
 };
 #define GM_TotalItems 24
 
-enum // GM_ItemTypes_8009D598[]
+enum // GM_ItemTypes[]
 {
     // ...
     ITEMTYPE_CONSUMABLE = 0x2000,

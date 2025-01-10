@@ -268,7 +268,7 @@ typedef struct SnaInitWork
     int                 field_914_trigger;
     short              *field_918_n_bullets;
     int                 field_91C_weapon_idx;
-    int                 field_920_tbl_8009D580;
+    int                 field_920_tbl;
     short               field_924;
     short               field_926;
     DG_TEX             *field_928;

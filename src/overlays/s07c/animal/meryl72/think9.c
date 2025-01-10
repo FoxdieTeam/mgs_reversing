@@ -6,8 +6,8 @@
 
 extern int     GV_Time;
 
-extern unsigned short GM_WeaponTypes_8009D580[];
-extern unsigned short GM_ItemTypes_8009D598[];
+extern unsigned short GM_WeaponTypes[];
+extern unsigned short GM_ItemTypes[];
 extern CONTROL       *GM_PlayerControl_800AB9F4;
 extern SVECTOR        GM_PlayerPosition_800ABA10;
 extern int            GM_PlayerStatus_800ABA50;
@@ -739,13 +739,13 @@ void s07c_meryl72_unk2_800CFD80(Meryl72Work *work)
         work->think3 = 0;
 
         // Unequip item if it changes camera
-        if (GM_ItemTypes_8009D598[GM_CurrentItemId + 1] & 0x2)
+        if (GM_ItemTypes[GM_CurrentItemId + 1] & 0x2)
         {
             GM_CurrentItemId = ITEM_NONE;
         }
 
         // Unequip weapon if it changes camera
-        if (GM_WeaponTypes_8009D580[GM_CurrentWeaponId + 1] & 0x200)
+        if (GM_WeaponTypes[GM_CurrentWeaponId + 1] & 0x200)
         {
             GM_CurrentWeaponId = WEAPON_NONE;
         }

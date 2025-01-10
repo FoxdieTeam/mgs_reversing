@@ -14,7 +14,7 @@ extern int            GM_CurrentMap_800AB9B0;
 extern int            GV_Clock_800AB920;
 extern int            GM_PlayerStatus_800ABA50;
 extern CONTROL       *GM_PlayerControl_800AB9F4;
-extern unsigned short GM_ItemTypes_8009D598[];
+extern unsigned short GM_ItemTypes[];
 extern int            GM_PlayerMap_800ABA0C;
 extern SVECTOR        GM_PlayerPosition_800ABA10;
 
@@ -91,7 +91,7 @@ int item_act_helper_800333F8(int item_id, int param_2)
         return 1;
     }
 
-    item_type = GM_ItemTypes_8009D598[item_id + 1];
+    item_type = GM_ItemTypes[item_id + 1];
 
     if (item_type & 0x4000)
     {
