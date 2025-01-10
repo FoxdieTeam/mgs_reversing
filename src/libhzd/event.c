@@ -8,11 +8,48 @@
 STATIC int dword_8009D548[] = {0, 0x20, 0x40, 8, 0x800, 0x10000, 0x20000, 0x1000, 4, 1};
 STATIC int dword_8009D570[] = {0x20, 0x80, 0x40, 0x10};
 
-unsigned short GM_WeaponTypes_8009D580[] = {0x0110, 0x9042, 0x9043, 0x414C, 0x20C0, 0x2220, 0x4110, 0x4110, 0x414C, 0x414C, 0x9220};
-unsigned short GM_ItemTypes_8009D598[] = {
-    0x0000, 0x8000, 0x8003, 0x8001, 0x8001, 0x8001, 0x8000, 0x8000,
-    0x8000, 0x8000, 0x8000, 0x8000, 0x8000, 0x8003, 0x2000, 0x2000,
-    0x2000, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+// TODO: These two shouldn't belong in libhzd...
+unsigned short GM_WeaponTypes[] = {
+    0x0110,     //  0: NONE
+    0x9042,     //  1: SOCOM
+    0x9043,     //  2: FAMAS
+    0x414C,     //  3: GRENADE
+    0x20C0,     //  4: NIKITA
+    0x2220,     //  5: STINGER
+    0x4110,     //  6: CLAYMORE
+    0x4110,     //  7: C4
+    0x414C,     //  8: STUN G.
+    0x414C,     //  9: CHAFF G.
+    0x9220      // 10: PSG1
+};
+unsigned short GM_ItemTypes[] = {
+    0x0000,     //  0: NONE
+    0x8000,     //  1: CIGS
+    0x8003,     //  2: SCOPE
+    0x8001,     //  3: C.BOX A
+    0x8001,     //  4: C.BOX B
+    0x8001,     //  5: C.BOX C
+    0x8000,     //  6: N.V.G.
+    0x8000,     //  7: THERM G.
+    0x8000,     //  8: GASMASK
+    0x8000,     //  9: B.ARMOR
+    0x8000,     // 10: KETCHUP
+    0x8000,     // 11: STEALTH
+    0x8000,     // 12: BANDANA
+    0x8003,     // 13: CAMERA
+    0x2000,     // 14: RATION
+    0x2000,     // 15: MEDICINE
+    0x2000,     // 16: DIAZEPAM
+    0,          // 17: PAL KEY
+    0,          // 18: CARD
+    0,          // 19: TIMER B.
+    0,          // 20: MINE D.
+    0,          // 21: DISC
+    0,          // 22: ROPE
+    0,          // 23: SCARF
+    0,          // 24: SUPPR
+    0           // 25: ???
+};
 
 extern int    GM_PlayerStatus_800ABA50;
 extern GV_PAD GV_PadData_800B05C0[4];

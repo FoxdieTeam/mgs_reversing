@@ -98,8 +98,8 @@ extern short              GM_WeaponChanged_800AB9D8;
 extern int                GM_AlertMode_800ABA00;
 extern PlayerStatusFlag   GM_PlayerStatus_800ABA50;
 extern GM_Camera          GM_Camera_800B77E8;
-extern unsigned short     GM_WeaponTypes_8009D580[];
-extern unsigned short     GM_ItemTypes_8009D598[];
+extern unsigned short     GM_WeaponTypes[];
+extern unsigned short     GM_ItemTypes[];
 extern void              *dword_8009EEA4[];
 extern int                bakudan_count_8009F42C;
 //extern int                gSnaMoveDir_800ABBA4;
@@ -338,7 +338,7 @@ void sub_8004EB74(SnaInitWork *work)
     work->field_A56 = 0;
     GM_SetPlayerStatusFlag(PLAYER_PREVENT_WEAPON_ITEM_SWITCH | PLAYER_FIRST_PERSON);
 
-    if (!(work->field_920_tbl_8009D580 & 0x200))
+    if (!(work->field_920_tbl & 0x200))
     {
         sd_set_cli(0x01ffff20, 0);
     }
@@ -571,7 +571,7 @@ void sub_8004F14C(SnaInitWork *work)
     }
 
     work->field_908_weapon_actor = 0;
-    work->field_920_tbl_8009D580 = GM_WeaponTypes_8009D580[0];
+    work->field_920_tbl = GM_WeaponTypes[0];
     work->field_918_n_bullets = 0;
     work->field_9B4_action_table = &actions_no_weapon_8009ED70;
     work->field_90C_pWeaponFn = &sna_anim_chokethrow_begin1_80054210;
@@ -601,7 +601,7 @@ void sub_8004F204(SnaInitWork *work)
     work->field_9A4_item_actor = 0;
     work->field_9A8_current_item = ITEM_NONE;
     GM_CurrentItemId = ITEM_NONE;
-    work->field_9AC = GM_ItemTypes_8009D598[0];
+    work->field_9AC = GM_ItemTypes[0];
 
     if (GM_CheckPlayerStatusFlag(PLAYER_INTRUDE) != 0)
     {
@@ -660,7 +660,7 @@ void sub_8004F338(SnaInitWork *work)
                                 PLAYER_GAMEOVER | PLAYER_CB_BOX | PLAYER_INTRUDE |
                                 PLAYER_UNK4 | PLAYER_SQUAT | PLAYER_GROUND;
 
-    if ((work->field_920_tbl_8009D580 & 0x200) != 0)
+    if ((work->field_920_tbl & 0x200) != 0)
     {
         GM_SetPlayerStatusFlag(PLAYER_FIRST_PERSON);
     }
@@ -1094,7 +1094,7 @@ int sna_act_helper2_helper5_8004FF88(SnaInitWork *work)
 int sna_8005009C(SnaInitWork *work)
 {
     GV_PAD *pPad = work->field_9B0_pad_ptr;
-    int tbl = work->field_920_tbl_8009D580;
+    int tbl = work->field_920_tbl;
     unsigned short press = pPad->press;
     unsigned short input = press;
     void *pAnimFn;
@@ -1818,14 +1818,14 @@ static inline int sna_weapon_switching_helper_800511BC(SnaInitWork *work)
         return 0;
     }
 
-    if (!(work->field_920_tbl_8009D580 & 0x200) && GM_CheckPlayerStatusFlag(PLAYER_FIRST_PERSON))
+    if (!(work->field_920_tbl & 0x200) && GM_CheckPlayerStatusFlag(PLAYER_FIRST_PERSON))
     {
         return 0;
     }
 
     if (GM_CheckPlayerStatusFlag(PLAYER_PAD_OFF) || (GM_GameStatus & STATE_PADRELEASE))
     {
-        if (GM_WeaponTypes_8009D580[GM_CurrentWeaponId + 1] & 0x200)
+        if (GM_WeaponTypes[GM_CurrentWeaponId + 1] & 0x200)
         {
             return 0;
         }
@@ -1879,7 +1879,7 @@ static inline int sna_weapon_switching_helper2_800511BC(SnaInitWork *work, int c
         GM_CallSystemCallbackProc(3, GM_CurrentWeaponId);
     }
 
-    work->field_920_tbl_8009D580 = GM_WeaponTypes_8009D580[GM_CurrentWeaponId + 1];
+    work->field_920_tbl = GM_WeaponTypes[GM_CurrentWeaponId + 1];
 
     if (GM_CurrentWeaponId >= 0)
     {
@@ -1916,7 +1916,7 @@ void sna_weapon_switching_800511BC(SnaInitWork *work, int callback)
         return;
     }
 
-    if (!(work->field_920_tbl_8009D580 & 0x1000) && (GM_CurrentWeaponId == work->field_91C_weapon_idx))
+    if (!(work->field_920_tbl & 0x1000) && (GM_CurrentWeaponId == work->field_91C_weapon_idx))
     {
         return;
     }
@@ -1926,7 +1926,7 @@ void sna_weapon_switching_800511BC(SnaInitWork *work, int callback)
         return;
     }
 
-    temp_s1_2 = work->field_920_tbl_8009D580;
+    temp_s1_2 = work->field_920_tbl;
     GM_WeaponChanged_800AB9D8 = 0;
 
     if (temp_s1_2 & 0x200)
@@ -1989,7 +1989,7 @@ static inline int sna_helper_800515BC(SnaInitWork *work)
 
     if ( (GM_CheckPlayerStatusFlag(PLAYER_PAD_OFF) ||
          ((GM_GameStatus & (STATE_PADRELEASE | STATE_PADDEMO)) == STATE_PADRELEASE)) &&
-         ((GM_ItemTypes_8009D598[GM_CurrentItemId + 1] & 2) != 0) )
+         ((GM_ItemTypes[GM_CurrentItemId + 1] & 2) != 0) )
     {
         return 0;
     }
@@ -2017,7 +2017,7 @@ void sna_800515BC(SnaInitWork *work, int a2)
         return;
     }
 
-    itemType = GM_ItemTypes_8009D598[GM_CurrentItemId + 1];
+    itemType = GM_ItemTypes[GM_CurrentItemId + 1];
 
     if ( GM_CheckPlayerStatusFlag(0x300) && ((itemType & 0x8000) != 0) )
     {
@@ -2087,7 +2087,7 @@ void sna_800515BC(SnaInitWork *work, int a2)
     }
     else
     {
-        if ( ((work->field_920_tbl_8009D580 & 0x200) == 0) && ((temp_s4 & 1) != 0) )
+        if ( ((work->field_920_tbl & 0x200) == 0) && ((temp_s4 & 1) != 0) )
         {
             GM_ClearPlayerStatusFlag(PLAYER_MOVING);
 
@@ -2115,7 +2115,7 @@ void sna_800515BC(SnaInitWork *work, int a2)
     {
         sub_8004EB74(work);
         GM_SetPlayerStatusFlag(PLAYER_PREVENT_WEAPON_SWITCH);
-    } else if ( !(work->field_920_tbl_8009D580 & 0x200) &&
+    } else if ( !(work->field_920_tbl & 0x200) &&
                 !GM_CheckPlayerStatusFlag(PLAYER_INTRUDE))
     {
         sna_8004EC00(work);
@@ -3798,7 +3798,7 @@ void sna_anim_dying_80055524(SnaInitWork *work, int time)
                 sub_8004F204(work);
             }
 
-            if ((work->field_920_tbl_8009D580 & 0x200) != 0)
+            if ((work->field_920_tbl & 0x200) != 0)
             {
                 if (GM_GameOverTimer != 0 || unk2->field_9F2 != 0)
                 {
@@ -4022,7 +4022,7 @@ void sna_anim_mini_cutscene_800559D8(SnaInitWork *work, int time)
 
         work->field_A3A = -1;
 
-        if (work->field_920_tbl_8009D580 & 0x200)
+        if (work->field_920_tbl & 0x200)
         {
             work->field_A3A = work->field_91C_weapon_idx;
             sub_8004F14C(work);
@@ -4316,7 +4316,7 @@ void sna_act_unk_helper3_80055DD8(SnaInitWork *work, int time)
 
         work->field_A3A = WEAPON_NONE;
 
-        if (work->field_920_tbl_8009D580 & 0x200)
+        if (work->field_920_tbl & 0x200)
         {
             work->field_A3A = work->field_91C_weapon_idx;
             sub_8004F14C(work);
@@ -5515,7 +5515,7 @@ void sna_anim_shoot_weapon_helper_80057590(SnaInitWork *work, int time)
         work->field_A54.prone_bool_thing = gSnaMoveDir_800ABBA4;
         sna_start_anim_8004E1F4(work, &sub_80053FAC);
     }
-    else if ((status & PAD_CROSS) || (work->field_920_tbl_8009D580 & 8))
+    else if ((status & PAD_CROSS) || (work->field_920_tbl & 8))
     {
         if (work->field_A38_local_data > 0)
         {
@@ -5570,7 +5570,7 @@ void sna_anim_rungun_helper_80057844(SnaInitWork *work, int time)
         return;
     }
 
-    if (gSnaMoveDir_800ABBA4 < 0 || (!(work->field_920_tbl_8009D580 & 8) && !(work->field_9B0_pad_ptr->status & PAD_CROSS)))
+    if (gSnaMoveDir_800ABBA4 < 0 || (!(work->field_920_tbl & 8) && !(work->field_9B0_pad_ptr->status & PAD_CROSS)))
     {
         if (++work->field_A3A >= 5)
         {
@@ -5708,7 +5708,7 @@ void sub_80057BF0(SnaInitWork *work, int time)
     int trg;
 
     var_s4 = GM_CheckPlayerStatusFlag(PLAYER_MOVING) ? 0x3FE : 0xFFFF;
-    temp_s3 = work->field_920_tbl_8009D580;
+    temp_s3 = work->field_920_tbl;
     var_s2 = 0;
 
     if (time == 0)
@@ -7070,7 +7070,7 @@ static inline int sna_init_main_logic_helper4_helper2_800596FC(SnaInitWork *work
 {
     if (sna_check_flags1_8004E31C(work, 2) ||
         GM_CheckPlayerStatusFlag(PLAYER_INTRUDE) ||
-        (work->field_920_tbl_8009D580 & 0x200))
+        (work->field_920_tbl & 0x200))
     {
         return 0;
     }
@@ -7092,7 +7092,7 @@ static inline int sna_init_main_logic_helper4_helper4_800596FC(SnaInitWork *work
 {
     if (sna_check_flags1_8004E31C(work, 2) ||
         GM_CheckPlayerStatusFlag(PLAYER_INTRUDE) ||
-        (work->field_920_tbl_8009D580 & 0x200))
+        (work->field_920_tbl & 0x200))
     {
         return 0;
     }
@@ -7177,7 +7177,7 @@ static inline void sna_init_main_logic_helper4_800596FC(SnaInitWork *work)
                 work->field_9C0 = 0;
                 work->field_A28 = 0x1c2;
 
-                if ((work->field_920_tbl_8009D580 & 0x4) &&
+                if ((work->field_920_tbl & 0x4) &&
                     GM_CheckPlayerStatusFlag(PLAYER_PREVENT_FIRST_PERSON) &&
                     (work->field_924 != 3))
                 {
@@ -7379,7 +7379,7 @@ static inline int sna_init_main_logic_helper6_helper_800596FC(SnaInitWork *work,
 
 static inline int sna_init_main_logic_helper6_helper2_800596FC(SnaInitWork *work)
 {
-    if ((work->field_920_tbl_8009D580 & 0x200) ||
+    if ((work->field_920_tbl & 0x200) ||
         (work->field_9AC & 0x2) ||
         sna_check_flags1_8004E31C(work, 0x4) ||
         sna_sub_8004E358(work, 0x100))
@@ -7392,7 +7392,7 @@ static inline int sna_init_main_logic_helper6_helper2_800596FC(SnaInitWork *work
 
 static inline int sna_init_main_logic_helper6_helper3_800596FC(SnaInitWork *work)
 {
-    if ((work->field_920_tbl_8009D580 & 0x200) ||
+    if ((work->field_920_tbl & 0x200) ||
         (work->field_9AC & 0x2) ||
         sna_check_flags1_8004E31C(work, 0x4) ||
         sna_sub_8004E358(work, 0x100))
@@ -7504,7 +7504,7 @@ void sna_init_main_logic_800596FC(SnaInitWork *work)
 
     if ( !GM_CheckPlayerStatusFlag(0x1304) &&
          ((work->field_9AC & 2) == 0) &&
-         ((work->field_920_tbl_8009D580 & 0x4000) != 0) &&
+         ((work->field_920_tbl & 0x4000) != 0) &&
          (*work->field_918_n_bullets == 0))
     {
         *work->field_918_n_bullets = -1;
@@ -7514,7 +7514,7 @@ void sna_init_main_logic_800596FC(SnaInitWork *work)
         work->field_926 = 0;
         work->field_924 = 0;
         GM_WeaponChanged_800AB9D8 = 1;
-        work->field_920_tbl_8009D580 = GM_WeaponTypes_8009D580[0];
+        work->field_920_tbl = GM_WeaponTypes[0];
         work->field_918_n_bullets = 0;
         GM_ClearPlayerStatusFlag(0x600000);
     }
@@ -7535,7 +7535,7 @@ void sna_init_main_logic_800596FC(SnaInitWork *work)
         work->field_9C8_anim_update_fn_3p(work, frame);
     }
 
-    if ((work->field_920_tbl_8009D580 & 0x40) &&
+    if ((work->field_920_tbl & 0x40) &&
         GM_CheckPlayerStatusFlag(PLAYER_PREVENT_FIRST_PERSON))
     {
         work->field_910++;
@@ -7959,7 +7959,7 @@ static inline void sna_LoadSnake3(SnaInitWork *work)
     stance = work->field_A26_stance = GM_PlayerStance;
     if (stance == 3)
     {
-        t1 = GM_ItemTypes_8009D598[GM_CurrentItemId + 1];
+        t1 = GM_ItemTypes[GM_CurrentItemId + 1];
         t2 = GM_CurrentItemId;
 
         if ((t1 & 2) || ((t2 - 2) < 3u))
@@ -7967,7 +7967,7 @@ static inline void sna_LoadSnake3(SnaInitWork *work)
             GM_CurrentItemId = ITEM_NONE;
         }
 
-        if (GM_WeaponTypes_8009D580[GM_CurrentWeaponId + 1] & 0x200)
+        if (GM_WeaponTypes[GM_CurrentWeaponId + 1] & 0x200)
         {
             GM_CurrentWeaponId = WEAPON_NONE;
         }
@@ -8040,7 +8040,7 @@ static inline void sna_LoadSnake3(SnaInitWork *work)
     {
         var_s0_2 = sna_8004EAA8(work, temp_a1);
 
-        if ((work->field_9AC & 1) || (work->field_920_tbl_8009D580 & 0x20))
+        if ((work->field_9AC & 1) || (work->field_920_tbl & 0x20))
         {
             if ((unsigned int)(work->field_9A8_current_item - 2) < 3)
             {
