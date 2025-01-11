@@ -26,7 +26,7 @@ extern struct ActorList gActorsList_800ACC18[GV_ACTOR_LEVEL];
 // the pause and kill levels are set for each list
 STATIC struct PauseKill gPauseKills_8009D308[GV_ACTOR_LEVEL] = {
     {  0, 7 },  // 0: GV_ACTOR_DAEMON
-    {  0, 7 },  // 1: GV_ACTOR_LEVEL1
+    {  0, 7 },  // 1: GV_ACTOR_MANAGER
     {  9, 4 },  // 2: GV_ACTOR_LEVEL2
     {  9, 4 },  // 3: GV_ACTOR_LEVEL3
     { 15, 4 },  // 4: GV_ACTOR_LEVEL4
