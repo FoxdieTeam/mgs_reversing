@@ -84,7 +84,7 @@ struct PauseKill    // private to libgv/actor.c
 
 enum {
     GV_ACTOR_DAEMON,    // 0
-    GV_ACTOR_LEVEL1,    // 1 todo: rename
+    GV_ACTOR_MANAGER,   // 1
     GV_ACTOR_LEVEL2,    // 2 todo: rename
     GV_ACTOR_LEVEL3,    // 3 todo: rename
     GV_ACTOR_LEVEL4,    // 4 todo: rename
