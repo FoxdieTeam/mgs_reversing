@@ -1,5 +1,6 @@
 #define __BSSDEFINE__
 #include "game.h"
+
 #include <stdio.h>
 #include <sys/types.h>
 #include <libgte.h>
@@ -446,7 +447,7 @@ STATIC void GM_Act(GameWork *work)
                 {
                     if (GM_StreamStatus() == -1)
                     {
-                        if (over_init_800376F8(1))
+                        if (NewGameOver(TRUE))
                         {
                             GM_GameOverTimer = -1;
                         }
