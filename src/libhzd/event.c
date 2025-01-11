@@ -151,7 +151,7 @@ void HZD_ExecBindX( BindStruct *pBind, HZD_EVT *event, int a3, int a4 )
 
     if ( f_10 )
     {
-        GM_DelayedExecCommand_80033230( pBind->field_14_proc_and_block, &gclArgs, f_10 );
+        GM_DelayedExecCommand( pBind->field_14_proc_and_block, &gclArgs, f_10 );
     }
     else if ( ( pBind->field_B_param_e & 0x80 ) != 0 )
     {

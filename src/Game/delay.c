@@ -2,23 +2,26 @@
 
 #include "common.h"
 #include "libgv/libgv.h"
+#include "libgcl/libgcl.h"
 #include "Game/game.h"
 #include "Game/jimctrl.h"
 
-typedef union ProcIdOrScript {
-    int            id;
-    unsigned char *pScript;
-} ProcIdOrScript;
+typedef union GCL_EXEC_UNION {
+    int            proc_id;
+    unsigned char *block_top;
+} GCL_EXEC_UNION;
 
-typedef struct Delay
+typedef struct DelayWork
 {
-    GV_ACT          mBase;
-    ProcIdOrScript mProcIdOrScriptPtr;
-    GCL_ARGS       mGclProcArgs;
-    int            mDelayCounter;
-    int            mActive;
-    long           field_34_args_array[8];
-} Delay;
+    GV_ACT         actor;
+    GCL_EXEC_UNION gcl_exec;
+    GCL_ARGS       args;
+    int            delay_counter;
+    int            active;
+    long           argv_buf[8];
+} DelayWork;
+
+#define EXEC_LEVEL 6
 
 //not sure if this one belongs here
 void sna_act_helper2_helper2_80033054(int id, SVECTOR *vec)
@@ -99,78 +102,78 @@ void sna_act_helper2_helper2_80033054(int id, SVECTOR *vec)
     }
 }
 
-void delay_act_800331A4(Delay *pDelay)
+STATIC void delay_Act(DelayWork *work)
 {
-    if (pDelay->mActive == 0 && GM_GameOverTimer != 0)
+    if (work->active == FALSE && GM_GameOverTimer != 0)
     {
-        GV_DestroyActor(&pDelay->mBase);
+        GV_DestroyActor(&work->actor);
         return;
     }
 
-    pDelay->mDelayCounter--;
-    if (pDelay->mDelayCounter > 0)
+    work->delay_counter--;
+    if (work->delay_counter > 0)
     {
         return;
     }
 
-    if (pDelay->mProcIdOrScriptPtr.id < 0)
+    if (work->gcl_exec.proc_id < 0)
     {
-        GCL_ExecBlock(pDelay->mProcIdOrScriptPtr.pScript, &pDelay->mGclProcArgs);
+        GCL_ExecBlock(work->gcl_exec.block_top, &work->args);
     }
     else
     {
-        GCL_ExecProc(pDelay->mProcIdOrScriptPtr.id, &pDelay->mGclProcArgs);
+        GCL_ExecProc(work->gcl_exec.proc_id, &work->args);
     }
 
-    GV_DestroyActor(&pDelay->mBase);
+    GV_DestroyActor(&work->actor);
 }
 
-GV_ACT *GM_DelayedExecCommand_80033230(int script_pVar, GCL_ARGS *pGCLArgs, int script_tVar)
+GV_ACT *GM_DelayedExecCommand(int proc, GCL_ARGS *args, int time)
 {
-    unsigned short pSrcArgsCount;
-    Delay         *pDelay;
-    int            argCounter;
-    long          *ppDstArgs;
-    long          *ppSrcArgs;
+    unsigned short argc;
+    DelayWork     *work;
+    int            i;
+    long          *dst_args;
+    long          *src_args;
 
-    pDelay = (Delay *)GV_NewActor(6, sizeof(Delay));
-    if (pDelay)
+    work = (DelayWork *)GV_NewActor(EXEC_LEVEL, sizeof(DelayWork));
+    if (work)
     {
-        if (!pGCLArgs)
+        if (!args)
         {
-            pDelay->mGclProcArgs.argc = 0;
+            work->args.argc = 0;
         }
         else
         {
-            ppSrcArgs = pGCLArgs->argv;
+            src_args = args->argv;
 
-            pDelay->mGclProcArgs.argv = pDelay->field_34_args_array;
-            ppDstArgs = pDelay->mGclProcArgs.argv;
+            work->args.argv = work->argv_buf;
+            dst_args = work->args.argv;
 
-            pSrcArgsCount = pGCLArgs->argc;
-            pDelay->mGclProcArgs.argc = pSrcArgsCount;
-            for (argCounter = pSrcArgsCount; argCounter > 0; argCounter--)
+            argc = args->argc;
+            work->args.argc = argc;
+            for (i = argc; i > 0; i--)
             {
-                *ppDstArgs = *ppSrcArgs;
-                ppSrcArgs++;
-                ppDstArgs++;
+                *dst_args = *src_args;
+                src_args++;
+                dst_args++;
             }
         }
 
-        if (script_tVar < 0)
+        if (time < 0)
         {
-            pDelay->mActive = 1;
-            script_tVar = -script_tVar;
+            work->active = TRUE;
+            time = -time;
         }
         else
         {
-            pDelay->mActive = 0;
+            work->active = FALSE;
         }
 
-        pDelay->mDelayCounter = script_tVar;
-        pDelay->mProcIdOrScriptPtr.id = script_pVar;
+        work->delay_counter = time;
+        work->gcl_exec.proc_id = proc;
 
-        GV_SetNamedActor(&pDelay->mBase, (GV_ACTFUNC)delay_act_800331A4, 0, "delay.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)delay_Act, NULL, "delay.c");
     }
-    return &pDelay->mBase;
+    return &work->actor;
 }
