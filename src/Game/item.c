@@ -1,11 +1,18 @@
 #include "item.h"
 
 #include <stdio.h>
+#include <kernel.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "mts/mts.h" // for fprintf
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "libgcl/libgcl.h"
 #include "Game/game.h"
+#include "Game/control.h"
 #include "Game/object.h"
 #include "Game/linkvarbuf.h"
 #include "SD/g_sound.h"
@@ -18,9 +25,39 @@ extern unsigned short GM_ItemTypes[];
 extern int            GM_PlayerMap_800ABA0C;
 extern SVECTOR        GM_PlayerPosition_800ABA10;
 
-//------------------------------------------------------------------------------
+/*---------------------------------------------------------------------------*/
 
-int item_act_try_add_ammo2_8003330C(int weapon_id, short amount)
+typedef struct ItemWork
+{
+    GV_ACT         actor;
+    CONTROL        control;
+    OBJECT_NO_ROTS field_9C_kmd;
+    char           field_C0[8];
+    MATRIX         field_C8_mtx[2];
+    int            field_108_where;
+    short          field_10C_64;
+    short          field_10E;
+    short          field_110_counter;
+    unsigned char  field_112_state;
+    char           field_113;
+    short          field_114_item_id;
+    short          field_116_ammo_amount;
+    const char    *field_118_str;
+    const char    *field_11C_full_str;
+    unsigned char *field_120_pScript;
+    LINE_F4        field_124_lineF4_array[2];
+    DG_PRIM       *field_15C_pPrim;
+    SVECTOR        field_160;
+    SVECTOR        field_168;
+    SVECTOR        field_170;
+    SVECTOR        field_178;
+} ItemWork;
+
+#define EXEC_LEVEL 5
+
+/*---------------------------------------------------------------------------*/
+
+STATIC int item_act_try_add_ammo2_8003330C(int weapon_id, short amount)
 {
     short *pWeapons;
     short *pAmmo, *pMaxAmmo;
@@ -50,7 +87,7 @@ int item_act_try_add_ammo2_8003330C(int weapon_id, short amount)
     return 1;
 }
 
-int item_act_try_add_ammo_80033384(int weapon_id, short amount)
+STATIC int item_act_try_add_ammo_80033384(int weapon_id, short amount)
 {
     short *pWeapons;
     short *pAmmo, *pMaxAmmo;
@@ -80,7 +117,7 @@ int item_act_try_add_ammo_80033384(int weapon_id, short amount)
     return 1;
 }
 
-int item_act_helper_800333F8(int item_id, int param_2)
+STATIC int item_act_helper_800333F8(int item_id, int param_2)
 {
     int item_type;
     int max_capacity;
@@ -123,7 +160,7 @@ int item_act_helper_800333F8(int item_id, int param_2)
     return 1;
 }
 
-void item_all_items_and_weapons_unknown2_80033500()
+void item_all_items_and_weapons_unknown2_80033500(void)
 {
     int    i;
     short *ptr;
@@ -141,7 +178,7 @@ void item_all_items_and_weapons_unknown2_80033500()
     }
 }
 
-void item_all_items_and_weapons_unknown_80033560()
+void item_all_items_and_weapons_unknown_80033560(void)
 {
     int    i;
     short *ptr;
@@ -165,7 +202,7 @@ void item_all_items_and_weapons_unknown_80033560()
     }
 }
 
-int item_act_helper_800335D0(ItemWork *work)
+STATIC int item_act_helper_800335D0(ItemWork *work)
 {
     SVECTOR vec;
     int diff;
@@ -210,7 +247,7 @@ int item_act_helper_800335D0(ItemWork *work)
     return 1;
 }
 
-void item_init_prim_buffer_800336A4(POLY_FT4 *prims, DG_TEX *tex)
+STATIC void item_init_prim_buffer_800336A4(POLY_FT4 *prims, DG_TEX *tex)
 {
     char t_u0; // $a1
     char t_v0; // $v1
@@ -242,7 +279,7 @@ void item_init_prim_buffer_800336A4(POLY_FT4 *prims, DG_TEX *tex)
     prims->clut = tex->clut;
 }
 
-int item_act_helper_80033704(short *pOut, SVECTOR *pIn)
+STATIC int item_act_helper_80033704(short *pOut, SVECTOR *pIn)
 {
     long z;
 
@@ -257,7 +294,7 @@ int item_act_helper_80033704(short *pOut, SVECTOR *pIn)
     return z > 0;
 }
 
-void item_act_80033784(ItemWork *work)
+STATIC void item_Act(ItemWork *work)
 {
     short pos[2];
     SVECTOR position;
@@ -318,7 +355,7 @@ void item_act_80033784(ItemWork *work)
         {
             if (work->field_112_state == 2)
             {
-                GV_DestroyActor(&work->field_0);
+                GV_DestroyActor(&work->actor);
             }
             else if (item_act_helper_800335D0(work))
             {
@@ -359,7 +396,7 @@ void item_act_80033784(ItemWork *work)
 
         if (work->field_10E == 0)
         {
-            GV_DestroyActor(&work->field_0);
+            GV_DestroyActor(&work->actor);
             return;
         }
     }
@@ -567,7 +604,7 @@ void item_act_80033784(ItemWork *work)
     pLine->x2 = pLine->x3 = MENU_Printf("%s", work->field_118_str) + 3;
 }
 
-void item_kill_80033F88(ItemWork *work)
+STATIC void item_Die(ItemWork *work)
 {
     DG_PRIM       *field_15C_pPrim;   // $s0
     unsigned char *field_120_pScript; // $a0
@@ -599,7 +636,7 @@ void item_kill_80033F88(ItemWork *work)
     }
 }
 
-int item_init_helper_helper_80034020( ItemWork *work, int type )
+STATIC int item_init_helper_helper_80034020( ItemWork *work, int type )
 {
     int item_id;
 
@@ -650,7 +687,7 @@ int item_init_helper_helper_80034020( ItemWork *work, int type )
     return 1;
 }
 
-int item_init_helper_800340D0(ItemWork *work, int name, int where)
+STATIC int item_GetResources(ItemWork *work, int name, int where)
 {
     short sVar3;
     int i;
@@ -842,20 +879,22 @@ int item_init_helper_800340D0(ItemWork *work, int name, int where)
     return 1;
 }
 
+/*---------------------------------------------------------------------------*/
+
 GV_ACT *NewItem(int name, int where, int argc, char **argv)
 {
-    ItemWork *work;
+    ItemWork   *work;
     int         inited;
 
-    work = (ItemWork *)GV_NewActor(5, sizeof(ItemWork));
+    work = (ItemWork *)GV_NewActor(EXEC_LEVEL, sizeof(ItemWork));
     if (work)
     {
-        GV_SetNamedActor(&work->field_0,
-                         (GV_ACTFUNC)&item_act_80033784,
-                         (GV_ACTFUNC)&item_kill_80033F88,
+        GV_SetNamedActor(&work->actor,
+                         (GV_ACTFUNC)&item_Act,
+                         (GV_ACTFUNC)&item_Die,
                          "item.c");
         work->field_112_state = 0;
-        inited = item_init_helper_800340D0(work, name, where);
+        inited = item_GetResources(work, name, where);
         if (inited > 0)
         {
             work->field_10E = -1;
@@ -865,10 +904,10 @@ GV_ACT *NewItem(int name, int where, int argc, char **argv)
         }
         else
         {
-            GV_DestroyActor(&work->field_0);
+            GV_DestroyActor(&work->actor);
             if (inited == 0)
             {
-                return &work->field_0;
+                return &work->actor;
             }
             else
             {
@@ -877,10 +916,12 @@ GV_ACT *NewItem(int name, int where, int argc, char **argv)
         }
     }
 
-    return &work->field_0;
+    return &work->actor;
 }
 
-int item_init_helper_800345C0(ItemWork *work, SVECTOR *pPos, SVECTOR *a3, Item_Info *pItemInfo, int where)
+/*---------------------------------------------------------------------------*/
+
+STATIC int item_init_helper_800345C0(ItemWork *work, SVECTOR *pPos, SVECTOR *a3, Item_Info *pItemInfo, int where)
 {
     int type; // $s3
     const char *str_name; // $v0
@@ -926,22 +967,22 @@ int item_init_helper_800345C0(ItemWork *work, SVECTOR *pPos, SVECTOR *a3, Item_I
     return 0;
 }
 
-ItemWork * item_init_80034758(SVECTOR *pPos, SVECTOR *a2, Item_Info *pItemInfo)
+GV_ACT *item_init_80034758(SVECTOR *pPos, SVECTOR *a2, Item_Info *pItemInfo)
 {
-    ItemWork *work;
+    ItemWork   *work;
     int         map;
 
-    work = (ItemWork *)GV_NewActor(5, sizeof(ItemWork));
+    work = (ItemWork *)GV_NewActor(EXEC_LEVEL, sizeof(ItemWork));
     if (work)
     {
-        GV_SetNamedActor(&work->field_0,
-                         (GV_ACTFUNC)&item_act_80033784,
-                         (GV_ACTFUNC)&item_kill_80033F88,
+        GV_SetNamedActor(&work->actor,
+                         (GV_ACTFUNC)&item_Act,
+                         (GV_ACTFUNC)&item_Die,
                          "item.c");
 
         if (item_init_helper_800345C0(work, pPos, a2, pItemInfo, GM_CurrentMap_800AB9B0) < 0)
         {
-            GV_DestroyActor(&work->field_0);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
 
@@ -955,5 +996,5 @@ ItemWork * item_init_80034758(SVECTOR *pPos, SVECTOR *a2, Item_Info *pItemInfo)
         GM_SeSet2(0, 63, SE_SPAWN_ITEM);
     }
 
-    return work;
+    return &work->actor;
 }
