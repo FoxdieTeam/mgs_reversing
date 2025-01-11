@@ -250,8 +250,8 @@ void GV_InitActor(int execLevel, GV_ACT *actor, GV_FREEFUNC free_func)
     actor->next = last;
     actor->prev = last_prev;
 
-    actor->die = 0;
-    actor->act = 0;
+    actor->die = NULL;
+    actor->act = NULL;
     actor->free = free_func;
 }
 
