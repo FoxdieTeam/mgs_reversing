@@ -25,15 +25,15 @@ extern struct ActorList gActorsList_800ACC18[ACTOR_LIST_COUNT];
 // initialization structure for the actor lists
 // the pause and kill levels are set for each list
 STATIC struct PauseKill gPauseKills_8009D308[ACTOR_LIST_COUNT] = {
-    {  0, 7 },  // 0
-    {  0, 7 },  // 1
-    {  9, 4 },  // 2
-    {  9, 4 },  // 3
-    { 15, 4 },  // 4
-    { 15, 4 },  // 5
-    { 15, 4 },  // 6
-    {  9, 4 },  // 7
-    {  0, 7 }   // 8
+    {  0, 7 },  // 0: GV_ACTOR_DAEMON
+    {  0, 7 },  // 1: GV_ACTOR_LEVEL1
+    {  9, 4 },  // 2: GV_ACTOR_LEVEL2
+    {  9, 4 },  // 3: GV_ACTOR_LEVEL3
+    { 15, 4 },  // 4: GV_ACTOR_LEVEL4
+    { 15, 4 },  // 5: GV_ACTOR_LEVEL5
+    { 15, 4 },  // 6: GV_ACTOR_AFTER
+    {  9, 4 },  // 7: GV_ACTOR_AFTER2
+    {  0, 7 }   // 8: GV_ACTOR_DAEMON2
 };
 
 extern int GM_CurrentMap_800AB9B0;
