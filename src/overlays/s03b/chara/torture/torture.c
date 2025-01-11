@@ -1430,7 +1430,7 @@ void s03b_torture_800C5CC8(TortureWork *work, int arg1)
             GM_CallSystemCallbackProc(0, 0);
 
             GM_GameStatus |= STATE_MENU_OFF | STATE_PAUSE_OFF | STATE_RADIO_OFF;
-            over_init_800376F8(0);
+            NewGameOver(FALSE);
         }
         break;
     }
