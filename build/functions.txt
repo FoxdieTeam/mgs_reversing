@@ -1064,7 +1064,7 @@
 8004AE14 40 set_sprt_default_8004AE14
 8004AE3C 108 menu_radio_do_file_mode_helper7_8004AE3C
 8004AEA8 316 sub_8004AEA8
-8004AFE4 188 menu_radio_do_file_mode_helper8_8004AFE4
+8004AFE4 188 show_message_8004AFE4
 8004B0A0 2140 menu_radio_do_file_mode_save_memcard_8004B0A0
 8004B8FC 32 menu_radio_do_file_mode_helper12_helper_8004B8FC
 8004B91C 60 menu_radio_do_file_mode_helper10_8004B91C

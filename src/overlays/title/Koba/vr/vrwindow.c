@@ -177,12 +177,12 @@ int Vrwindow_800D75D8(VrwindowWork *work, int size)
                 GM_SeSet2(0, 63, 179);
             }
 
-            font_draw_string(&work->kcb, 0, i * 18, vrwindow_800D92D4, work->kcb.char_arr[5]);
+            font_draw_string(&work->kcb, 0, i * 18, vrwindow_800D92D4, work->kcb.color);
             font_update(&work->kcb);
             break;
         }
 
-        font_draw_string(&work->kcb, 0, i * 18, work->f44[work->f34 + i], work->kcb.char_arr[5]);
+        font_draw_string(&work->kcb, 0, i * 18, work->f44[work->f34 + i], work->kcb.color);
         font_update(&work->kcb);
 
         size -= len;
