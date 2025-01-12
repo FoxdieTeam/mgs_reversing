@@ -97,24 +97,24 @@ int font_set_kcb(KCB *kcb, int maximum_width, int arg2, int letter_spacing,
 
     if (arg6 >= 0)
     {
-        kcb->char_arr[6] = arg6;
+        kcb->flag = arg6;
     }
     if (arg5 >= 0)
     {
-        kcb->char_arr[4] = arg5;
+        kcb->field_04 = arg5;
     }
     if (letter_spacing >= 0)
     {
-        kcb->char_arr[2] = letter_spacing;
+        kcb->xtop = letter_spacing;
     }
     if (top_padding >= 0)
     {
-        kcb->char_arr[3] = top_padding;
+        kcb->ytop = top_padding;
     }
 
-    quotient0 = (kcb->rect_data->w * 4) / (kcb->char_arr[2] + 12);
+    quotient0 = (kcb->rect_data->w * 4) / (kcb->xtop + 12);
 
-    quotient1 = kcb->rect_data->h / (kcb->char_arr[3] + 12);
+    quotient1 = kcb->rect_data->h / (kcb->ytop + 12);
 
     val0 = quotient0 + 1;
     if ((arg6 & 0x2) == 0)
@@ -124,27 +124,27 @@ int font_set_kcb(KCB *kcb, int maximum_width, int arg2, int letter_spacing,
 
     if (maximum_width > 0 && val0 >= maximum_width)
     {
-        kcb->char_arr[0] = maximum_width;
+        kcb->field_00 = maximum_width;
     }
-    else if (kcb->char_arr[0] != 0)
+    else if (kcb->field_00 != 0)
     {
-        if (val0 < kcb->char_arr[0])
+        if (val0 < kcb->field_00)
         {
-            kcb->char_arr[0] = val0;
+            kcb->field_00 = val0;
         }
     }
     else
     {
-        kcb->char_arr[0] = val0;
+        kcb->field_00 = val0;
     }
 
     if (arg2 > 0 && quotient1 >= arg2)
     {
-        kcb->char_arr[1] = arg2;
+        kcb->field_01 = arg2;
     }
-    else if (kcb->char_arr[1] == 0 || quotient1 < kcb->char_arr[1])
+    else if (kcb->field_01 == 0 || quotient1 < kcb->field_01)
     {
-        kcb->char_arr[1] = quotient1;
+        kcb->field_01 = quotient1;
     }
 
     return 0;
@@ -201,7 +201,7 @@ void font_set_color(KCB *kcb, int code, int fore, int back)
 
 int font_get_buffer_size(KCB *kcb)
 {
-    short val_1 = (kcb->char_arr[2] + 0xc) * kcb->char_arr[0] - kcb->char_arr[2];
+    short val_1 = (kcb->xtop + 0xc) * kcb->field_00 - kcb->xtop;
     int   val_2 = (int)val_1 + 7;
     kcb->short1 = val_1;
     if (val_2 < 0)
@@ -210,7 +210,7 @@ int font_get_buffer_size(KCB *kcb)
     }
 
     kcb->width_info = ((val_2 >> 3) << 2);
-    kcb->height_info = (kcb->char_arr[3] + 12) * kcb->char_arr[1] + 2;
+    kcb->height_info = (kcb->ytop + 12) * kcb->field_01 + 2;
     kcb->font_rect.w = kcb->width_info / 2;
     kcb->font_rect.h = kcb->height_info;
 
@@ -979,7 +979,7 @@ long font_draw_string(KCB *kcb, long xtop, long ytop, const char *string, long c
     font_buffer = kcb->font_buffer;
     height_info = kcb->height_info;
 
-    if (!(kcb->char_arr[6] & 2))
+    if (!(kcb->flag & 2))
     {
         xmax -= 12;
     }
@@ -990,9 +990,9 @@ long font_draw_string(KCB *kcb, long xtop, long ytop, const char *string, long c
     retval = 0;
     flag1 = 0;
     font_palette_800AB6BC = color;
-    kcb->short3 = kcb->char_arr[3] + 0xe;
-    kcb->char_arr[6] = kcb->char_arr[6] & 0xEF;
-    kcb->char_arr[7] = 0;
+    kcb->short3 = kcb->ytop + 0xe;
+    kcb->flag = kcb->flag & 0xEF;
+    kcb->max_width = 0;
     flag2 = 0;
     width_info = kcb->width_info;
     y = ytop;
@@ -1088,9 +1088,9 @@ long font_draw_string(KCB *kcb, long xtop, long ytop, const char *string, long c
                 break;
 
             case MAP_ASCII('W'):
-                if (kcb->char_arr[7] < x)
+                if (kcb->max_width < x)
                 {
-                    kcb->char_arr[7] = x;
+                    kcb->max_width = x;
                 }
                 counter2 = 0;
                 if (flag1)
@@ -1101,7 +1101,7 @@ long font_draw_string(KCB *kcb, long xtop, long ytop, const char *string, long c
 
             case MAP_ASCII('T'):
                 m += 2;
-                if (kcb->char_arr[3] >= 3)
+                if (kcb->ytop >= 3)
                 {
                     dword_800AB6B8 = 1;
                 }
@@ -1181,12 +1181,12 @@ long font_draw_string(KCB *kcb, long xtop, long ytop, const char *string, long c
             case MAP_ASCII('\n'):
                 if (!flag2)
                 {
-                    if (kcb->char_arr[7] < x)
+                    if (kcb->max_width < x)
                     {
-                        kcb->char_arr[7] = x;
+                        kcb->max_width = x;
                     }
                     x = xtop;
-                    coord = kcb->char_arr[3] + 12;
+                    coord = kcb->ytop + 12;
                     y += coord;
                     coord = y + 14;
                     counter1 += 1;
@@ -1196,11 +1196,11 @@ long font_draw_string(KCB *kcb, long xtop, long ytop, const char *string, long c
                         goto error;
                     }
 
-                    if (kcb->char_arr[6] & 1)
+                    if (kcb->flag & 1)
                     {
                         goto error;
                     }
-                    if (counter1 >= kcb->char_arr[1])
+                    if (counter1 >= kcb->field_01)
                     {
                         goto error;
                     }
@@ -1210,8 +1210,8 @@ long font_draw_string(KCB *kcb, long xtop, long ytop, const char *string, long c
                 break;
 
             case MAP_ASCII('\t'):
-                coord = kcb->char_arr[2] + 12;
-                var_a0 = coord * kcb->char_arr[4];
+                coord = kcb->xtop + 12;
+                var_a0 = coord * kcb->field_04;
                 if (var_a0 > 0)
                 {
                     x = (x / var_a0 + 1) * var_a0;
@@ -1235,7 +1235,7 @@ long font_draw_string(KCB *kcb, long xtop, long ytop, const char *string, long c
         if (current_code <= MAP_ASCII(0xFF))
         {
             counter2 = font_draw_ascii_glyph(font_buffer, x, y, width_info, current_code & 0xFF);
-            counter2 += kcb->char_arr[2];
+            counter2 += kcb->xtop;
             if (current_code == MAP_ASCII('!') || current_code == MAP_ASCII('?'))
             {
                 current_code = PEEK_CHAR(m);
@@ -1266,7 +1266,7 @@ long font_draw_string(KCB *kcb, long xtop, long ytop, const char *string, long c
                 ptr = 0;
             }
             font_draw_glyph(font_buffer, x, y, width_info, ptr);
-            coord = kcb->char_arr[2];
+            coord = kcb->xtop;
             counter2 = coord + 0xC;
         }
 
@@ -1281,12 +1281,12 @@ long font_draw_string(KCB *kcb, long xtop, long ytop, const char *string, long c
         if (var_a0 > 0)
         {
             coord += var_a0;
-            d = kcb->char_arr[2];
+            d = kcb->xtop;
             coord += d;
             coord -= 1;
             if (coord >= xmax)
             {
-                if (!(kcb->char_arr[6] & 2))
+                if (!(kcb->flag & 2))
                 {
                     if (current_char & 0x2000)
                     {
@@ -1340,20 +1340,20 @@ long font_draw_string(KCB *kcb, long xtop, long ytop, const char *string, long c
                 retval = 1;
                 flag2 = 1;
 
-                if (x + counter2 > kcb->char_arr[7])
+                if (x + counter2 > kcb->max_width)
                 {
-                    kcb->char_arr[7] = x + counter2;
+                    kcb->max_width = x + counter2;
                 }
 
                 x = xtop;
 
-                coord = kcb->char_arr[3] + 12;
+                coord = kcb->ytop + 12;
                 y += coord;
 
                 counter1 += 1;
                 kcb->short3 = y + 14;
 
-                if (kcb->char_arr[6] & 1 || y + 11 >= height_info || counter1 >= kcb->char_arr[1])
+                if (kcb->flag & 1 || y + 11 >= height_info || counter1 >= kcb->field_01)
                 {
                     if (rubi_flag_800AB6C4)
                     {
@@ -1377,17 +1377,17 @@ long font_draw_string(KCB *kcb, long xtop, long ytop, const char *string, long c
         flag2 = 0;
 
     block_195:
-        if (x > kcb->char_arr[7])
+        if (x > kcb->max_width)
         {
-            kcb->char_arr[7] = x;
+            kcb->max_width = x;
         }
     }
     return retval;
 
 error:
-    if (kcb->char_arr[7] < x)
+    if (kcb->max_width < x)
     {
-        kcb->char_arr[7] = x;
+        kcb->max_width = x;
     }
 
     // return the position where the error happened, with MSB set to signal error.
@@ -1399,7 +1399,7 @@ void font_clear(KCB *kcb)
     int *font_buffer;
     int  i;
 
-    if (!(kcb->char_arr[6] & 0x10))
+    if (!(kcb->flag & 0x10))
     {
         font_buffer = kcb->font_buffer;
         i = (unsigned int)(kcb->width_info * kcb->height_info) / 4;
@@ -1407,7 +1407,7 @@ void font_clear(KCB *kcb)
         {
             *font_buffer++ = 0;
         }
-        kcb->char_arr[6] |= 0x10;
+        kcb->flag |= 0x10;
     }
 }
 
@@ -1424,5 +1424,5 @@ void font_clut_update(KCB *kcb)
 void font_print_string(KCB *kcb, const char *string)
 {
     font_clear(kcb);
-    font_draw_string(kcb, 0, kcb->char_arr[3], string, kcb->char_arr[5]);
+    font_draw_string(kcb, 0, kcb->ytop, string, kcb->color);
 }
