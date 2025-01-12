@@ -740,7 +740,7 @@ void menu_radio_codec_helper_helper14_80040DC4(MenuWork *work, int param_2)
     }
 }
 
-STATIC RECT rect_800AB630 = {960, 260, 63, 76};
+STATIC RECT RADIO_MES_VRAM_POS_800AB630 = {960, 260, 63, 76};
 
 void init_radio_message_board_80040F74(MenuWork *work)
 {
@@ -752,9 +752,9 @@ void init_radio_message_board_80040F74(MenuWork *work)
         KCB *ptr_local_kcb = &local_kcb;
 
         GV_ZeroMemory(ptr_local_kcb, sizeof(KCB));
-        ClearImage(&rect_800AB630, 0, 0, 0);
+        ClearImage(&RADIO_MES_VRAM_POS_800AB630, 0, 0, 0);
 
-        font_init_kcb(ptr_local_kcb, &rect_800AB630, 960, 510);
+        font_init_kcb(ptr_local_kcb, &RADIO_MES_VRAM_POS_800AB630, 960, 510);
         font_set_kcb(ptr_local_kcb, -1, -1, 0, 6, 2, 0);
 
         allocated_kcb = (KCB *)GV_AllocMemory(GV_PACKET_MEMORY0, font_get_buffer_size(ptr_local_kcb) + sizeof(KCB));
@@ -804,12 +804,12 @@ int draw_radio_message(MenuWork *work, unsigned char *pOt)
 
     setRGB0(pPrim, 128, 128, 128);
 
-    pPrim->u0 = (rect_800AB630.x % 64) * 65536 >> 14; // FIXME
-    pPrim->v0 = rect_800AB630.y;
+    pPrim->u0 = (RADIO_MES_VRAM_POS_800AB630.x % 64) * 4;
+    pPrim->v0 = RADIO_MES_VRAM_POS_800AB630.y;
     pPrim->w = 252;
     pPrim->h = 76;
     pPrim->clut = 32700;
-    pPrim->x0 = (320 - kcb->char_arr[7]) / 2;
+    pPrim->x0 = (320 - kcb->max_width) / 2;
     pPrim->y0 = 132;
 
     setSprt(pPrim);
@@ -859,7 +859,7 @@ int menu_radio_codec_helper_helper12_80041280(MenuWork *work, unsigned char *pOt
     var_s7 = 0;
     var_s2 = 0;
     index = 0;
-    ypos = kcb->char_arr[3];
+    ypos = kcb->ytop;
 
     font_clear(kcb);
 
@@ -889,9 +889,9 @@ int menu_radio_codec_helper_helper12_80041280(MenuWork *work, unsigned char *pOt
 
         font_draw_string(kcb, 0, ypos, string, color);
 
-        if (var_s7 < kcb->char_arr[7])
+        if (var_s7 < kcb->max_width)
         {
-            var_s7 = kcb->char_arr[7];
+            var_s7 = kcb->max_width;
         }
 
         ypos += 18;
@@ -905,7 +905,7 @@ int menu_radio_codec_helper_helper12_80041280(MenuWork *work, unsigned char *pOt
 
     font_update(kcb);
 
-    kcb->char_arr[7] = var_s7;
+    kcb->max_width = var_s7;
 
     if (pPad->press & PAD_CIRCLE)
     {

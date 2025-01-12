@@ -7,7 +7,14 @@
 
 typedef struct _KCB
 {
-    char  char_arr[8];
+    char  field_00;
+    char  field_01;
+    char  xtop;
+    char  ytop;
+    char  field_04;
+    char  color;
+    char  flag;
+    char  max_width;
     RECT *rect_data;
     RECT  font_rect;
     void *font_buffer;

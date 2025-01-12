@@ -149,7 +149,7 @@ void option_800C352C(OptionWork *work, int index)
         font_print_string(kcb, string);
         font_update(kcb);
 
-        work->fEC4[ index ].rect.w = kcb->char_arr[7];
+        work->fEC4[ index ].rect.w = kcb->max_width;
         work->fEC4[ index ].rect.h = kcb->short3;
 
         unknown = &dword_800C3218[ index ];
@@ -160,7 +160,7 @@ void option_800C352C(OptionWork *work, int index)
         }
         else if (unknown->num == 1)
         {
-            work->fEC4[index].rect.x = unknown->x - kcb->char_arr[7] / 2;
+            work->fEC4[index].rect.x = unknown->x - kcb->max_width / 2;
             work->fEC4[index].rect.y = unknown->y - kcb->short3 / 2;
         }
 
