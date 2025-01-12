@@ -324,7 +324,7 @@ void DG_BoundEnd(void)
 
 // Possibly a different file.
 
-DG_TEX DG_UnknownTexture = {0};
+STATIC DG_TEX DG_UnknownTexture = {0};
 
 /* Replace the CLUT for this model with a plain white one for thermal goggles */
 STATIC void DG_WriteObjClut(DG_OBJ *obj, int idx)

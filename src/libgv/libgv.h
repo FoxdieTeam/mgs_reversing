@@ -76,12 +76,25 @@ struct ActorList    // private to libgv/actor.c
     short  kill;
 };
 
-#define ACTOR_LIST_COUNT 9
-
 struct PauseKill    // private to libgv/actor.c
 {
     short pause;
     short kill;
+};
+
+enum {
+    GV_ACTOR_DAEMON,    // 0
+    GV_ACTOR_MANAGER,   // 1
+    GV_ACTOR_LEVEL2,    // 2 todo: rename
+    GV_ACTOR_LEVEL3,    // 3 todo: rename
+    GV_ACTOR_LEVEL4,    // 4 todo: rename
+    GV_ACTOR_LEVEL5,    // 5 todo: rename
+//--- memleak ---
+    GV_ACTOR_AFTER,     // 6
+    GV_ACTOR_AFTER2,    // 7
+
+    GV_ACTOR_DAEMON2,   // 8
+    GV_ACTOR_LEVEL      // 9
 };
 
 /* actor.c */
