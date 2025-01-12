@@ -95,7 +95,7 @@ extern void *mts_get_bss_tail(void);
 //  Build Date      Build Time      Product Code    Version
 //-----------------------------------------------------------------------------
 //  "Mar 17 1998"   "20:53:30"      SLPM-80254      METAL GEAR SOLID PILOT DISC
-//   〃  〃  〃      〃 〃 〃       SLPM-80256      METAL GEAR SOLID PILOT DISC
+//   〃  〃  〃      〃 〃 〃       SLPM-80256      ファミ通Wave 創刊号 Vol.1
 //  "Jun 13 1998"   "15:05:16"      SLPM-86098      METAL GEAR SOLID 体験版
 //   〃  〃  〃      〃 〃 〃       PAPX-90044      METAL GEAR SOLID PILOT DISC
 //  "Jun 13 1998"   "15:04:42"      SLUS-90035      METAL GEAR SOLID DEMO (ver.1)
