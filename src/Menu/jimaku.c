@@ -114,7 +114,7 @@ void menu_jimaku_act( MenuWork *work, unsigned int *pOt )
         gUnkJimakuStruct_800BDA70.field_8_w = 256;
         gUnkJimakuStruct_800BDA70.field_38_str = NULL;
         gUnkJimakuStruct_800BDA70.field_0_active = 1;
-        gUnkJimakuStruct_800BDA70.field_4_x = (320 - pFont->char_arr[ 7 ]) / 2;
+        gUnkJimakuStruct_800BDA70.field_4_x = (320 - pFont->max_width) / 2;
         gUnkJimakuStruct_800BDA70.field_A_h = pFont->short3;
         gUnkJimakuStruct_800BDA70.field_6_y = y - (pFont->short3 / 2);
     }
@@ -158,7 +158,7 @@ void MENU_JimakuWrite(char *str, int frames)
 void MENU_JimakuClear(void)
 {
     gUnkJimakuStruct_800BDA70.field_0_active = 0;
-    gUnkJimakuStruct_800BDA70.field_C_font.char_arr[6] &= ~0x80;
+    gUnkJimakuStruct_800BDA70.field_C_font.flag &= ~0x80;
 }
 
 void MENU_AreaNameWrite(char *areaName)
