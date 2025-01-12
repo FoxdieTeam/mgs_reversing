@@ -9,8 +9,8 @@
 #include "radio.h"
 
 extern PANEL_TEXTURE gMenuLeftItems_800BD5A0[];
-extern short         GM_WeaponTypes_8009D580[];
-extern short         GM_ItemTypes_8009D598[];
+extern short         GM_WeaponTypes[];
+extern short         GM_ItemTypes[];
 extern int           GM_PlayerStatus_800ABA50;
 extern int           GV_PauseLevel_800AB928;
 extern int           GM_DisableItem_800ABA28;
@@ -274,7 +274,7 @@ int menu_item_IsItemDisabled_8003B6D0(int item)
     int bit;
 
     // If both the weapon and item use the first person view
-    if ((GM_WeaponTypes_8009D580[GM_CurrentWeaponId + 1] & 0x200) && (GM_ItemTypes_8009D598[item + 1] & 1))
+    if ((GM_WeaponTypes[GM_CurrentWeaponId + 1] & 0x200) && (GM_ItemTypes[item + 1] & 1))
     {
         return 1;
     }
@@ -379,7 +379,7 @@ void menu_item_helper_8003B8F0(MenuWork *work, unsigned int *pOt, int xpos, int 
             }
         }
         // If the item is a consumable, draw the current and max values
-        if (GM_ItemTypes_8009D598[pMenuSub->field_0_current.field_0_id + 1] & ITEMTYPE_CONSUMABLE)
+        if (GM_ItemTypes[pMenuSub->field_0_current.field_0_id + 1] & ITEMTYPE_CONSUMABLE)
         {
             menu_number_draw_number2(work, xpos, ypos + 11, pMenuSub->field_0_current.field_2_num,
                                      GM_ItemsMax[pMenuSub->field_0_current.field_0_id]);

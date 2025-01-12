@@ -484,7 +484,7 @@ STATIC int GM_Command_delay(unsigned char *top)
     }
     if (time && proc)
     {
-        GM_DelayedExecCommand_80033230(proc, 0, time);
+        GM_DelayedExecCommand(proc, NULL, time);
         return 0;
     }
     return -1;

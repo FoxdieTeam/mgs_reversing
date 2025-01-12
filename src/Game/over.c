@@ -1,8 +1,11 @@
 #include "over.h"
+
 #include "common.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
-#include "libdg/libdg.h"
+#include "Game/strctrl.h"
 
 extern int GV_Clock_800AB920;
 extern int GV_PauseLevel_800AB928;
@@ -14,7 +17,30 @@ int GM_GameOverVox = -1;
 
 //------------------------------------------------------------------------------
 
-short game_over_lines_8009DEBC[] = {
+typedef struct _OverWork
+{
+    GV_ACT   actor;
+    short    field_20_seq_anim;     // Sequence value controlling GAME OVER animation
+    short    field_22_seq;          // Sequence value controlling when animations/inputs are enabled
+    short    field_24_option;       // 0 = CONTINUE, 1 = EXIT
+    short    field_26_gradient;     // 64-step sweep controlling color of CONTINUE and EXIT buttons
+    short    field_28_can_continue; // Disables continue if Snake dies during the Ocelot torture sequence
+    short    field_2a_unused;
+    POLY_G4  field_2c_polys[2][12];
+    LINE_G2  field_38c_lines[2][120];
+    DR_TPAGE field_164c_tpages[2];
+    TILE     field_165c_tiles[2];
+    DR_TPAGE field_167c_tpages[2];
+    DVECTOR  field_168c_directions[120];
+} OverWork;
+
+STATIC_ASSERT(sizeof(OverWork) == 0x186C, "sizeof(OverWork) is wrong!");
+
+#define EXEC_LEVEL 0
+
+//------------------------------------------------------------------------------
+
+STATIC short game_over_lines_8009DEBC[] = {
     120, // table length
     37,  88,  25,  104, 25,  104, 31,  121, 31,  121, 40,  121, 40,  121, 32,  135,
     32,  135, 42,  135, 69,  88,  37,  88,  64,  96,  41,  96,  41,  96,  35,  104,
@@ -49,7 +75,7 @@ short game_over_lines_8009DEBC[] = {
 
 //------------------------------------------------------------------------------
 
-char * over_act_helper_80036A10(char *pBuffer, int x, int y, int texture_id, unsigned int color, unsigned int *pOt)
+STATIC char * over_act_helper_80036A10(char *pBuffer, int x, int y, int texture_id, unsigned int color, unsigned int *pOt)
 {
     DG_TEX *pTex = DG_GetTexture(texture_id);
     SPRT *pSprt = (SPRT *)pBuffer;
@@ -73,7 +99,7 @@ char * over_act_helper_80036A10(char *pBuffer, int x, int y, int texture_id, uns
     return pBuffer + sizeof(SPRT) + sizeof(DR_TPAGE);
 }
 
-unsigned int over_act_helper_80036B40( int param_1, int param_2 )
+STATIC unsigned int over_act_helper_80036B40( int param_1, int param_2 )
 {
     int          iVar1;
     unsigned int uVar2;
@@ -103,7 +129,7 @@ unsigned int over_act_helper_80036B40( int param_1, int param_2 )
     return uVar2 | iVar1 << 8 | iVar1 << 16;
 }
 
-void over_act_helper_80036BA4(OverWork *work, int *pOt)
+STATIC void over_act_helper_80036BA4(OverWork *work, int *pOt)
 {
     int       x0, y0;
     int       x1, y1;
@@ -301,7 +327,7 @@ void over_act_helper_80036BA4(OverWork *work, int *pOt)
     }
 }
 
-void over_act_helper_80037128(OverWork *work, unsigned int *pOt, int shade)
+STATIC void over_act_helper_80037128(OverWork *work, unsigned int *pOt, int shade)
 {
     TILE *pTile;
     DR_TPAGE *pTpage;
@@ -325,7 +351,7 @@ void over_act_helper_80037128(OverWork *work, unsigned int *pOt, int shade)
     addPrim(pOt, pTpage);
 }
 
-void over_act_8003721C(OverWork *work)
+STATIC void over_Act(OverWork *work)
 {
     unsigned int *pOt = (unsigned int *)DG_ChanlOTag(1);
     GV_PAD *pPad;
@@ -439,7 +465,7 @@ void over_act_8003721C(OverWork *work)
     }
 }
 
-void over_kill_80037514( OverWork *work )
+STATIC void over_Die( OverWork *work )
 {
     char *stage_name;
 
@@ -468,7 +494,7 @@ void over_kill_80037514( OverWork *work )
     GM_LoadRequest = 0x81;
 }
 
-void over_loader_80037600(OverWork *work)
+STATIC void over_loader_80037600(OverWork *work)
 {
     int i;
     short *pLines;
@@ -494,14 +520,16 @@ void over_loader_80037600(OverWork *work)
     }
 }
 
-OverWork * over_init_800376F8(int can_continue)
+/*---------------------------------------------------------------------------*/
+
+void *NewGameOver(int can_continue)
 {
-    OverWork *work = (OverWork *)GV_NewActor(0, sizeof(OverWork));
+    OverWork *work = (OverWork *)GV_NewActor(EXEC_LEVEL, sizeof(OverWork));
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)&over_act_8003721C,
-                         (GV_ACTFUNC)&over_kill_80037514, "over.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)&over_Act,
+                         (GV_ACTFUNC)&over_Die, "over.c");
 
         work->field_20_seq_anim = 1;
         work->field_22_seq = 0;
@@ -524,5 +552,5 @@ OverWork * over_init_800376F8(int can_continue)
     DG_FrameRate = 3;
     GM_GameStatus |= STATE_GAME_OVER;
 
-    return work;
+    return (void *)work;
 }

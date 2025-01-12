@@ -907,8 +907,8 @@ PANEL_TEXTURE *menu_weapon_get_weapon_rpk_info_8003DED8(int weaponIdx)
     return gMenuRightItems_800BD888 + rpkIdx;
 }
 
-extern unsigned short GM_ItemTypes_8009D598[];
-extern unsigned short GM_WeaponTypes_8009D580[];
+extern unsigned short GM_ItemTypes[];
+extern unsigned short GM_WeaponTypes[];
 
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern int              dword_8009F46C;
@@ -916,7 +916,7 @@ extern unsigned int     GM_DisableWeapon_800AB9E4;
 
 int menu_weapon_isWeaponDisabled_8003DF30(int weaponId)
 {
-    if (((GM_ItemTypes_8009D598[GM_CurrentItemId + 1] & 1) && (GM_WeaponTypes_8009D580[weaponId + 1] & 0x200)))
+    if (((GM_ItemTypes[GM_CurrentItemId + 1] & 1) && (GM_WeaponTypes[weaponId + 1] & 0x200)))
     {
         return 1;
     }
