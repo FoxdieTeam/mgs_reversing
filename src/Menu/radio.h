@@ -54,7 +54,7 @@ typedef struct SELECT_INFO
     short       field_1A;
     KCB        *field_1C_kcb;
     const char *message;
-    MENU_CURPOS curpos[0];
+    MENU_CURPOS menu[0];
 } SELECT_INFO;
 
 struct RadioFileModeUnk1;
@@ -255,7 +255,7 @@ void draw_radio_wait_mark(MenuWork *work, unsigned char *pOt);
 // void menu_radio_do_file_mode_helper15_8004C04C(MenuWork *work, const char **srcs, int cnt, int field_4, const char *field_20, SELECT_INFO *pStru);
 // void menu_radio_do_file_mode_helper16_8004C164(MenuPrim *pGlue, SELECT_INFO *pStru);
 // int menu_radio_do_file_mode_helper13_8004BCF8(GV_PAD *pPad, int *pOut, SELECT_INFO *pStru);
-// void menu_radio_do_file_mode_helper8_8004AFE4(MenuWork *work, char *pOt, SELECT_INFO *pStru);
+// void show_message_8004AFE4(MenuWork *work, char *pOt, SELECT_INFO *pStru);
 // void menu_radio_do_file_mode_helper6_8004AD40(MenuPrim *pGlue);
 // void menu_radio_do_file_mode_save_memcard_8004B0A0(MenuWork *work, char *pOt, SELECT_INFO *pStru);
 // void menu_radio_do_file_mode_helper_8004A858();

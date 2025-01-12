@@ -154,7 +154,7 @@ void demosel_800C373C(DemoselWork *work, int index)
         font_update(kcb);
         font_clut_update(kcb);
 
-        work->f5D0[index].rect.w = kcb->char_arr[7];
+        work->f5D0[index].rect.w = kcb->max_width;
         work->f5D0[index].rect.h = kcb->short3 - 1;
 
         unknown = &dword_800C3218[index];
@@ -166,7 +166,7 @@ void demosel_800C373C(DemoselWork *work, int index)
         }
         else if (unknown->num == 1)
         {
-            work->f5D0[index].rect.x = unknown->x - kcb->char_arr[7] / 2;
+            work->f5D0[index].rect.x = unknown->x - kcb->max_width / 2;
             work->f5D0[index].rect.y = unknown->y - kcb->short3 / 2;
         }
 
