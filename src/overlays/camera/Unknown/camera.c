@@ -466,7 +466,7 @@ void camera_800C5F20(SELECT_INFO *info)
             y = val2;
         }
 
-        name = info->curpos[i + top].mes;
+        name = info->menu[i + top].mes;
         if (name[0] != '\0')
         {
             camera_dword_800D072C->make_menu(mes, name);
@@ -478,7 +478,7 @@ void camera_800C5F20(SELECT_INFO *info)
     font_update(kcb);
 }
 
-// duplicate of menu_radio_do_file_mode_helper8_8004AFE4
+// duplicate of show_message_8004AFE4
 void camera_800C6054(MenuWork *work, char *pOt,
                      SELECT_INFO *info)
 {
@@ -492,7 +492,7 @@ void camera_800C6054(MenuWork *work, char *pOt,
 
     camera_800C5D2C(pPrim);
 
-    xoff = kcb->char_arr[7];
+    xoff = kcb->max_width;
 
     pPrim->y0 = 200;
     pPrim->v0 = 4;
@@ -581,7 +581,7 @@ int camera_800C6A40(MenuWork *work, MEM_CARD *pMemcard, const char *param_3,
     MEM_CARD_FILE       *pMcFile;
     int                  i;
 
-    pIter = info->curpos;
+    pIter = info->menu;
 
     strcpy(camera_dword_800C37F8, MGS_MemoryCardName);
     camera_dword_800C37F8[12] = camera_dword_800D072C->field_0[0];
@@ -607,7 +607,7 @@ int camera_800C6A40(MenuWork *work, MEM_CARD *pMemcard, const char *param_3,
     }
 
     info->field_1C_kcb = work->field_214_font;
-    info->max_num = pIter - info->curpos;
+    info->max_num = pIter - info->menu;
 
     if (camera_dword_800D072C->field_0[0] != 71)
     {
@@ -666,7 +666,7 @@ void camera_800C6E78(MenuWork *work, char *param_2, SELECT_INFO *info)
     int                  bit;
     int                  minusOne;
 
-    infoChild = info->curpos;
+    infoChild = info->menu;
     idx = -1;
     for (memoryCardNo = 0; memoryCardNo < 2; memoryCardNo++)
     {
@@ -681,22 +681,22 @@ void camera_800C6E78(MenuWork *work, char *param_2, SELECT_INFO *info)
             infoChild->field_20 = memoryCardNo;
             if (memoryCardNo == camera_dword_800C3430)
             {
-                idx = infoChild - info->curpos;
+                idx = infoChild - info->menu;
             }
             infoChild++;
         }
     }
 
     idx_copy = idx;
-    if (infoChild == info->curpos)
+    if (infoChild == info->menu)
     {
-        memcpy(&info->curpos[0].mes, camera_aNocard_800D003C, 8);
+        memcpy(&info->menu[0].mes, camera_aNocard_800D003C, 8);
         infoChild->field_20 = 2;
-        infoChild = &info->curpos[1];
+        infoChild = &info->menu[1];
     }
 
     info->field_1C_kcb = work->field_214_font;
-    info->max_num = infoChild - info->curpos;
+    info->max_num = infoChild - info->menu;
 
     if (idx_copy < 0)
     {
@@ -729,7 +729,7 @@ void camera_800C703C(MenuWork *work, const char **srcs, int cnt, int field_4, co
     int                  i;
     MENU_CURPOS *dest;
 
-    dest = info->curpos;
+    dest = info->menu;
     for (i = 0; i < cnt; i++, dest++)
     {
         src = srcs[i];
@@ -739,7 +739,7 @@ void camera_800C703C(MenuWork *work, const char **srcs, int cnt, int field_4, co
 
     kcb = work->field_214_font;
 
-    info->max_num = dest - info->curpos;
+    info->max_num = dest - info->menu;
     info->current_index = field_4;
     info->top = 0;
     info->message = field_20;
@@ -800,7 +800,7 @@ void camera_800C714C(MenuPrim *pGlue, SELECT_INFO *info)
         {
             textConfig.colour = 0x663d482e;
         }
-        _menu_number_draw_string2(pGlue, &textConfig, info->curpos[i].mes);
+        _menu_number_draw_string2(pGlue, &textConfig, info->menu[i].mes);
     }
 }
 

@@ -137,7 +137,7 @@ void Change_800C378C( Work *work, int index )
         font_update( kcb );
         font_clut_update( kcb );
 
-        work->f14C[ index ].rect.w = kcb->char_arr[7];
+        work->f14C[ index ].rect.w = kcb->max_width;
         work->f14C[ index ].rect.h = kcb->short3 - 1;
 
         unknown = &dword_800C3218[ index ];
@@ -149,7 +149,7 @@ void Change_800C378C( Work *work, int index )
         }
         else if ( unknown->num == 1 )
         {
-            work->f14C[ index ].rect.x = unknown->x - kcb->char_arr[7] / 2;
+            work->f14C[ index ].rect.x = unknown->x - kcb->max_width / 2;
             work->f14C[ index ].rect.y = unknown->y - kcb->short3 / 2;
         }
 

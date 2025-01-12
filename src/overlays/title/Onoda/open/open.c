@@ -217,7 +217,7 @@ void Open_800C4674(OpenWork *work, int index)
     font_update(kcb);
     font_clut_update(kcb);
 
-    work->unk[index].rect.w = kcb->char_arr[7];
+    work->unk[index].rect.w = kcb->max_width;
     work->unk[index].rect.h = kcb->short3 - 1;
 
     if (open_800C32B4[index].f0 == 0)
@@ -227,7 +227,7 @@ void Open_800C4674(OpenWork *work, int index)
     }
     else if (open_800C32B4[index].f0 == 1)
     {
-        work->unk[index].rect.x = open_800C32B4[index].f4.vx - kcb->char_arr[7] / 2;
+        work->unk[index].rect.x = open_800C32B4[index].f4.vx - kcb->max_width / 2;
         work->unk[index].rect.y = open_800C32B4[index].f4.vy - kcb->short3 / 2;
     }
 
