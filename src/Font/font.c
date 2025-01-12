@@ -72,7 +72,7 @@ void font_free(void)
 
 int font_init_kcb(KCB *kcb, RECT *rect_data, int x, int y)
 {
-    *kcb = ( KCB ){{ 0 }};
+    memset(kcb, 0, 44);
     kcb->rect_data = rect_data;
     kcb->font_rect = *rect_data;
     kcb->font_clut_rect.w = 16;
