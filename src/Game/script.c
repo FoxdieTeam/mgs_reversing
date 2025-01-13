@@ -21,7 +21,7 @@ extern  GM_Camera       GM_Camera_800B77E8;
 
 
 
-extern  BindStruct      gBindsArray_800b58e0[128];
+extern  HZD_BIND      gBindsArray_800b58e0[128];
 extern  unsigned int    GM_DisableWeapon_800AB9E4;
 extern  int             GM_DisableItem_800ABA28;
 extern  CONTROL        *GM_PlayerControl_800AB9F4;
@@ -298,7 +298,7 @@ STATIC int GM_Command_mapdef(unsigned char *top)
 
 STATIC int GM_Command_trap(unsigned char *top)
 {
-    BindStruct *pBind;
+    HZD_BIND *pBind;
     int         i, arg, code, value;
     int         tmp;
 
@@ -342,7 +342,7 @@ STATIC int GM_Command_trap(unsigned char *top)
     gBindsCount_800ABA64++;
 
     tmp = gBinds_800ABA60;
-    gBindsArray_800b58e0[i].field_6 = (short)tmp;
+    gBindsArray_800b58e0[i].map = (short)tmp;
     HZD_SetBind(0, gBindsArray_800b58e0, gBindsCount_800ABA64);
 
     return 0;
@@ -351,7 +351,7 @@ STATIC int GM_Command_trap(unsigned char *top)
 STATIC int GM_Command_ntrap(unsigned char *top)
 {
     // int bindIdx;
-    BindStruct *pBind;
+    HZD_BIND *pBind;
     int         flags;
     int         arg;
     int         tmp;
@@ -452,7 +452,7 @@ STATIC int GM_Command_ntrap(unsigned char *top)
     pBind->field_B_param_e = flags;
     gBindsCount_800ABA64++;
     tmp = gBinds_800ABA60;
-    pBind->field_6 = (short)tmp;
+    pBind->map = (short)tmp;
     printf("BIND %08X\n", tmp);
     HZD_SetBind(0, gBindsArray_800b58e0, gBindsCount_800ABA64);
     return 0;

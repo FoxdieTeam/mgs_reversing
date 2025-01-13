@@ -69,28 +69,6 @@ typedef struct SaveFile
     SaveGame f008_saveGame;
 } SaveFile;
 
-typedef struct BindStruct
-{
-    short field_0;
-    short field_2_param_m;
-
-    short          field_4;
-    unsigned short field_6;
-
-    unsigned char field_8_param_i_c_flags;
-    unsigned char field_9_param_s;
-    unsigned char field_A_param_b;
-    unsigned char field_B_param_e;
-
-    unsigned short field_C_param_d;
-    unsigned short field_E_param_d_or_512;
-
-    int field_10_every;
-    int field_14_proc_and_block;
-} BindStruct;
-
-STATIC_ASSERT(sizeof(BindStruct) == 0x18, "sizeof(BindStruct) is wrong!");
-
 // Radio codes (radio.dat files)
 #define RDCODE_NULL             0
 #define RDCODE_TALK             1
