@@ -79,18 +79,6 @@ int  HZD_LevelTestFloor(HZD_FLR *floor, SVECTOR *point);
 int  HZD_LevelMaxHeight(void);
 
 /* zone.c */
-int HZD_8005BF84(HZD_ZON *zone, int a2, int a3, int a4);
-int HZD_8005BFDC(HZD_ZON *zone, SVECTOR *svec);
-int HZD_8005C05C(HZD_ZON *zone1, HZD_ZON *zone2, SVECTOR *svec);
-int HZD_8005C140(HZD_HDL *hzd, HZD_ZON *zone, SVECTOR *svec);
-int HZD_8005C1E4(HZD_HDL *hzd, HZD_ZON *zone, SVECTOR *svec);
-int HZD_8005C298(HZD_ZON *zone, SVECTOR *svec, int a3);
-int HZD_8005C354(HZD_HDL *hzd, SVECTOR *svec);
-int HZD_ReachTo_helper(HZD_HDL *hzd, int near_idx, int toFind);
-int HZD_8005C458(HZD_HDL *hzd, int a2, int a3);
-int HZD_8005C498(HZD_HDL *hzd, int idx, int *pOutNear);
-int HZD_8005C4E4(HZD_HDL *hzd, int arg1, int arg2);
-int HZD_8005C5D4(HZD_HDL *hzd, int param_2, int param_3);
 int HZD_GetAddress(HZD_HDL *hzd, SVECTOR *vec, int param_3);
 int HZD_ReachTo(HZD_HDL *hzd, int x, int y);
 int HZD_LinkRoute(HZD_HDL *hzd, int x, int y, SVECTOR *svec);
@@ -102,6 +90,8 @@ int HZD_8005D134(HZD_HDL *hzd, SVECTOR *svec, int idx);
 int HZD_8005D168(HZD_HDL *hzd, int a2, int *a3);
 int HZD_8005D188(HZD_HDL *hzd, int mesh_idx, int a3, int *pBiggest);
 int HZD_8005D288(HZD_HDL *hzd, int mesh_idx, int a3);
+
+#define HZD_NO_ZONE (0xFF)
 
 /* unknown.c */
 int  HZD_80026C68(SVECTOR *vectors, int param_2, int param_3, SVECTOR *param_4);
