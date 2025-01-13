@@ -11,7 +11,7 @@
 typedef struct {
     HZD_HEADER  *header;
     HZD_AREA    *area;
-    short        area_index;
+    short        map;
     short        dynamic_queue_index;
     short        dynamic_floor_index;
     short        n_cameras;
@@ -32,6 +32,21 @@ typedef struct {
     u_short     field_8_array[6];
     SVECTOR     field_14_vec;
 } HZD_EVT;
+
+typedef struct {
+    short       field_0;         // Name of entity entering/leaving the trap
+    short       field_2_param_m; // Mask of event type enter/leave to accept
+    short       field_4;         // Name of the trap being hit
+    u_short     map;
+    u_char      field_8_param_i_c_flags;
+    u_char      field_9_param_s;
+    u_char      field_A_param_b;
+    u_char      field_B_param_e;
+    u_short     field_C_param_d;
+    u_short     field_E_param_d_or_512;
+    int         field_10_every;
+    int         field_14_proc_and_block;
+} HZD_BIND;
 
 static inline int HZD_addr_shift( int addr )
 {
@@ -54,13 +69,11 @@ int  HZD_QueueDynamicFloor(HZD_HDL *hzd, HZD_FLR *floor);
 void HZD_DequeueDynamicFloor(HZD_HDL *hzd, HZD_FLR *floor);
 
 /* event.c */
-struct BindStruct;
-
-void HZD_SetBind(int, struct BindStruct *, int);
+void HZD_SetBind(int, HZD_BIND *, int);
 void HZD_BindMapChange( int mask );
 void HZD_SetEvent( HZD_EVT *event, int name );
-void HZD_ExecBindX( struct BindStruct *, HZD_EVT *, int, int );
-void HZD_80029B9C(HZD_HDL *hzd, HZD_EVT *event, int arg2);
+void HZD_ExecBindX( HZD_BIND *, HZD_EVT *, int, int );
+void HZD_ExecEventRCM(HZD_HDL *hzd, HZD_EVT *event, int arg2);
 void HZD_80029D50(HZD_HDL *hzd, HZD_EVT *event, int arg2);
 void HZD_8002A090(HZD_HDL *hzd, HZD_EVT *event, int flags, int hash);
 void HZD_ReExecEvent(HZD_HDL *hzd, HZD_EVT *event, unsigned int flags);
@@ -79,10 +92,10 @@ int  HZD_LevelTestFloor(HZD_FLR *floor, SVECTOR *point);
 int  HZD_LevelMaxHeight(void);
 
 /* zone.c */
-int HZD_GetAddress(HZD_HDL *hzd, SVECTOR *vec, int param_3);
+int HZD_GetAddress(HZD_HDL *hzd, SVECTOR *point, int param_3);
 int HZD_ReachTo(HZD_HDL *hzd, int x, int y);
-int HZD_LinkRoute(HZD_HDL *hzd, int x, int y, SVECTOR *svec);
-int HZD_8005CB48(HZD_HDL *hzd, int x, int y, void *pControl);
+int HZD_LinkRoute(HZD_HDL *hzd, int x, int y, SVECTOR *point);
+int HZD_8005CB48(HZD_HDL *hzd, int x, int y, SVECTOR *point);
 int HZD_ZoneDistance(HZD_HDL *hzd, int from, int to);
 int HZD_8005CE5C(HZD_HDL *hzd, int from, int to, int max_dist);
 int HZD_8005CFAC(HZD_HDL *hzd, int from, int to, int max_dist);

@@ -148,7 +148,7 @@ HZD_HDL *Map_HZD_Load_80030F38(int resource_name_hashed, int flagsIndex, int bit
     pHzdData = GV_GetCache(name);
     result = HZD_MakeHandler(pHzdData, flagsIndex, default_48, default_24);
 
-    result->area_index = bitIndex;
+    result->map = bitIndex;
     return result;
 }
 
