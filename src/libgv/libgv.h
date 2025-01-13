@@ -68,19 +68,13 @@ typedef struct GV_ACT
     int             field_1C;
 } GV_ACT;
 
-struct ActorList    // private to libgv/actor.c
+typedef struct      // private to libgv/actor.c
 {
     GV_ACT first;
     GV_ACT last;
     short  pause;
     short  kill;
-};
-
-struct PauseKill    // private to libgv/actor.c
-{
-    short pause;
-    short kill;
-};
+} ActorList;
 
 enum {
     GV_ACTOR_DAEMON,    // 0
