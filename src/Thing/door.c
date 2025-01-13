@@ -230,7 +230,7 @@ STATIC int DoorPollMessages_8006EDB8(DoorWork *work)
 
         if (message_type == hash_enter)
         {
-            if (temp_s1_2 == 0x50AE)
+            if (temp_s1_2 == CHARA_RCM)
             {
                 message_type = 0x1AAA;
             }
@@ -286,7 +286,7 @@ STATIC int DoorPollMessages_8006EDB8(DoorWork *work)
                 work->field_E5 = 1;
             }
 
-            if (temp_s1_2 == 0x50AE)
+            if (temp_s1_2 == CHARA_RCM)
             {
                 work->field_E3 = 1;
             }
