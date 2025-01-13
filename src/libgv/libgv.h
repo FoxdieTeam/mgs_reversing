@@ -269,17 +269,17 @@ enum
 
 typedef struct
 {
-    unsigned short status;
-    unsigned short press;
-    unsigned short release;
-    unsigned short quick;
-    short          dir;
+    u_short         status;
+    u_short         press;
+    u_short         release;
+    u_short         quick;
+    short           dir;
 
-    short         analog;
-    unsigned char right_dx;
-    unsigned char right_dy;
-    unsigned char left_dx;
-    unsigned char left_dy;
+    short           analog;
+    unsigned char   right_dx;
+    unsigned char   right_dy;
+    unsigned char   left_dx;
+    unsigned char   left_dy;
 } GV_PAD;
 
 enum
