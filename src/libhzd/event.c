@@ -317,7 +317,7 @@ void HZD_80029D50(HZD_HDL *hdl, HZD_EVT *event, int arg2)
     int           count;
     unsigned char flag;
 
-    if (event->field_0_scriptData_orHashedName == 0x50AE)
+    if (event->field_0_scriptData_orHashedName == CHARA_RCM)
     {
         HZD_80029B9C(hdl, event, arg2);
         return;

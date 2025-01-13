@@ -49,7 +49,7 @@
 // Traps
 //-----------------------------------------------------------------------------
 
-#define HASH_TRAP_ALL           0x14c9
+#define HASH_TRAP_ALL           0x14c9 // GV_StrCode( "？" )
 
 //  Events
 #define HASH_ENTER              0x0dd2 // GV_StrCode( "入る" )
@@ -185,6 +185,7 @@
 #define CHARA_SNAKE             0x21ca // GV_StrCode( "スネーク" )
 #define CHARA_DOOR              0xb997 // GV_StrCode( "ドア" )
 #define CHARA_ITEM              0x8767 // GV_StrCode( "アイテム" )
+#define CHARA_RCM               0x50ae // GV_StrCode( "RCM" )
 
 #define CHARA_SNDTST            0x4efc
 #define CHARA_SELECT            0xd2f6

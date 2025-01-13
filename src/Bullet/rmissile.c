@@ -908,7 +908,7 @@ STATIC int RMissileGetResources(RMissileWork *work, MATRIX *world, int side)
 
     ctrl = &work->control;
 
-    if (GM_InitControl(ctrl, 0x50AE, 0) < 0)
+    if (GM_InitControl(ctrl, CHARA_RCM, 0) < 0)
     {
         return -1;
     }
