@@ -48,7 +48,8 @@ char BSS            SdStack_800AC3F0[2048]; // 0x800 (2048) bytes
 int BSS             FS_DiskNum_800ACBF0; // 0x4 (4) bytes
 int BSS             pad_800ACBF4; // 0x4 (4) bytes
 
-GV_ACT BSS          GV_Daemon_800ACBF8; // 0x20 (32) bytes
+/* libgv/gvd.obj */
+GV_ACT BSS          GV_Work_800ACBF8; // 0x20 (32) bytes
 
 /* libgv/actor.obj */
 ActorList BSS       gActorsList_800ACC18[GV_ACTOR_LEVEL]; // 0x264 (612) bytes
