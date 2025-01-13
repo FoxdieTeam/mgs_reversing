@@ -60,17 +60,17 @@ void GV_InitActorSystem(void)
         GV_ACT *first = &lp->first;
         GV_ACT *last = &lp->last;
 
-        first->prev = 0;
+        first->prev = NULL;
         first->next = last;
 
         last->prev = first;
-        last->next = 0;
+        last->next = NULL;
 
-        first->die = 0;
-        first->act = 0;
+        first->die = NULL;
+        first->act = NULL;
 
-        last->die = 0;
-        last->act = 0;
+        last->die = NULL;
+        last->act = NULL;
 
         lp->pause = gPauseKills_8009D308[i].pause;
         lp->kill = gPauseKills_8009D308[i].kill;
@@ -313,8 +313,8 @@ void GV_DestroyActorQuick(GV_ACT *actor)
     prev->next = next;
 
     // Our prev/next are no longer valid
-    act->prev = 0;
-    act->next = 0;
+    act->prev = NULL;
+    act->next = NULL;
 
     // Same purpose as C++ destructor
     if (act->die)
