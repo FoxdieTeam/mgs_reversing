@@ -6,7 +6,11 @@
 #include "mts/mts.h"
 #include "libdg/libdg.h"    // for DG_HikituriFlag
 
-// sbss ===============================================
+extern int            GV_PauseLevel_800AB928;
+extern const char    *GV_DebugMes; /* in actor.c */
+extern unsigned char *GV_ResidentMemoryBottom_800AB940;
+
+/*---------------------------------------------------------------------------*/
 
 char   SECTION(".sbss") *GM_StageName_800AB918;
 short *SECTION(".sbss")  GM_CurrentPadData_800AB91C;
@@ -16,18 +20,20 @@ int    SECTION(".sbss")  GV_PassageTime_800AB924;
 int GV_Time = 0;
 STATIC int GV_LastTickCount = 0;
 
-extern int            GV_PauseLevel_800AB928;
-extern const char    *GV_DebugMes;
-extern unsigned char *GV_ResidentMemoryBottom_800AB940;
+typedef struct {
+    GV_ACT actor;
+} Work;
 
-extern GV_ACT GV_Daemon_800ACBF8;
+extern Work GV_Work_800ACBF8;
 
-void GV_ExceptionCallback(void)
+/*---------------------------------------------------------------------------*/
+
+STATIC void GV_ExceptionCallback(void)
 {
     printf("HANGUP: %s\n", GV_DebugMes);
 }
 
-STATIC void GV_DaemonAct(GV_ACT *actor)
+STATIC void gvd_Act(Work *work)
 {
     int ticks;
 
@@ -62,7 +68,7 @@ void GV_SetPacketTempMemory(void)
     GV_InitMemorySystem(GV_PACKET_MEMORY1, 0, NULL, 0);
 }
 
-void GV_InitMemory(void)
+STATIC void GV_InitMemory(void)
 {
     GV_InitMemorySystemAll();
     GV_ResetPacketMemory();
@@ -89,9 +95,12 @@ void GV_StartDaemon(void)
     GV_InitLoader();
     GV_InitCacheSystem();
     GV_ResetSystem();
-    GV_InitActor(0, &GV_Daemon_800ACBF8, NULL);
-    GV_SetNamedActor(&GV_Daemon_800ACBF8, GV_DaemonAct, 0, "gvd.c");
+
+    GV_InitActor(GV_ACTOR_DAEMON, &GV_Work_800ACBF8.actor, NULL);
+    GV_SetNamedActor(&GV_Work_800ACBF8.actor, (GV_ACTFUNC)gvd_Act, NULL, "gvd.c");
+
     GV_Clock_800AB920 = 0;
     GV_Time = 0;
+
     mts_set_exception_func(GV_ExceptionCallback);
 }
