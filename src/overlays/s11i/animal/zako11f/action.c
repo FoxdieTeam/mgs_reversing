@@ -1808,7 +1808,7 @@ void s11i_asiato_800CC7F0(Zako11FWork *work, int time)
         GM_SeSet(&work->control.mov, 0x94);
     }
 
-    if (work->body.field_1C != 0 || !(work->pad.press & 0x40))
+    if (work->body.time2 != 0 || !(work->pad.press & 0x40))
     {
         work->pad.time = 0;
         UnsetMode(work);
@@ -1829,7 +1829,7 @@ void s11i_asiato_800CC8A4(Zako11FWork *work, int time)
         GM_SeSet(&work->control.mov, 0x92);
     }
 
-    if ((work->body.field_1C != 0) || !(work->pad.press & 0x80))
+    if ((work->body.time2 != 0) || !(work->pad.press & 0x80))
     {
         work->pad.time = 0;
         UnsetMode(work);
@@ -1843,7 +1843,7 @@ void s11i_asiato_800CC96C(Zako11FWork *work, int time)
         UnsetAction(work, ACTION23);
     }
 
-    if ((work->body.field_1C != 0) || !(work->pad.press & 0x400))
+    if ((work->body.time2 != 0) || !(work->pad.press & 0x400))
     {
         work->pad.time = 0;
         UnsetMode(work);
@@ -1864,7 +1864,7 @@ void s11i_asiato_800CCA10(Zako11FWork *work, int time)
         GM_SeSet(&work->control.mov, 0x92);
     }
 
-    if (work->body.field_1C != 0 || !(work->pad.press & 0x800))
+    if (work->body.time2 != 0 || !(work->pad.press & 0x800))
     {
         work->pad.time = 0;
         UnsetMode(work);
@@ -1999,7 +1999,7 @@ void s11i_asiato_800CCE38(Zako11FWork *work, int time)
         s11i_asiato_800CCCB0(work);
     }
 
-    if ((time > 186 && work->body.field_1C != 0) || !(work->pad.press & 0x1000000))
+    if ((time > 186 && work->body.time2 != 0) || !(work->pad.press & 0x1000000))
     {
         work->pad.time = 0;
         UnsetMode(work);
