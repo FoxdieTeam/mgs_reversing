@@ -42,7 +42,7 @@ typedef struct _OBJECT
     MOTION_CONTROL *m_ctrl;              // 0x14
     short           field_18;            // 0x18
     short           is_end;              // 0x1A must be signed for sna_anim_box_stop_800554B4 to match
-    short           field_1C;            // 0x1C
+    short           time2;               // 0x1C
     unsigned short  field_1E;            // 0x1C
     unsigned long   field_20;            // 0x20
     SVECTOR         rots[DG_MAX_JOINTS]; // 0x24
@@ -60,7 +60,7 @@ typedef struct _OBJECT_NO_ROTS
     MOTION_CONTROL *m_ctrl;      // 0x14
     unsigned short  field_18;    // 0x18
     unsigned short  is_end;      // 0x1A
-    unsigned short  field_1C;    // 0x1C
+    unsigned short  time2;       // 0x1C
     unsigned short  field_1E;    // 0x1E
     unsigned long   field_20;    // 0x20
 } OBJECT_NO_ROTS;

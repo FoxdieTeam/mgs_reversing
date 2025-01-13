@@ -3523,7 +3523,7 @@ void sna_knock_80054D68(SnaInitWork *work, int time)
         }
     }
 
-    if ((work->field_9C_obj.field_1C != 0) || (work->field_9C_obj.field_10 == 0))
+    if ((work->field_9C_obj.time2 != 0) || (work->field_9C_obj.field_10 == 0))
     {
         sna_8004E260(work, 0, 4, 0);
         GM_ClearPlayerStatusFlag(PLAYER_KNOCKING);
@@ -3620,7 +3620,7 @@ void sna_act_helper2_helper_80054EFC(SnaInitWork *work, int pTime)
         }
         return;
     case 1:
-        if (actor->field_9C_obj.field_1C != 0 || status != 0)
+        if (actor->field_9C_obj.time2 != 0 || status != 0)
         {
             sna_clear_flags1_8004E308(actor, SNA_FLAG1_UNK26);
             sna_8004E260(actor, 0, 4, 0);
@@ -5435,7 +5435,7 @@ void sna_80057378(SnaInitWork *work, int time)
         GM_BombSeg_800ABBD8 = dword_800ABBB0;
     }
 
-    if (work->field_9C_obj.field_1C != 0 || work->field_9C_obj.field_10 == 0)
+    if (work->field_9C_obj.time2 != 0 || work->field_9C_obj.field_10 == 0)
     {
         sna_8004E260(work, 0, 4, 0);
         sna_clear_flags1_8004E308(work, SNA_FLAG1_UNK9);
@@ -5678,7 +5678,7 @@ void sna_80057A90(SnaInitWork *work, int time)
         GM_SeSet(&work->control.mov, SE_RELOAD);
     }
 
-    if (work->field_9C_obj.field_1C != 0)
+    if (work->field_9C_obj.time2 != 0)
     {
         if (!(work->field_9B0_pad_ptr->status & PAD_SQUARE))
         {
@@ -5808,7 +5808,7 @@ void sub_80057BF0(SnaInitWork *work, int time)
         break;
 
     case 1:
-        if ( work->field_9C_obj.field_1C != 0 )
+        if ( work->field_9C_obj.time2 != 0 )
         {
             if ( (temp_s3 & 1) == 0 )
             {
@@ -6083,7 +6083,7 @@ void sna_anim_grenade_80058470(SnaInitWork *work, int time)
     switch (work->field_924)
     {
     case 0:
-        if (work->field_9C_obj.field_1C != 0)
+        if (work->field_9C_obj.time2 != 0)
         {
             sna_8004E260(work, work->field_9B4_action_table->still->stand, 1, bits);
             work->field_924 = 1;
@@ -6116,7 +6116,7 @@ void sna_anim_grenade_80058470(SnaInitWork *work, int time)
         }
 
 
-        if (work->field_9C_obj.field_1C != 0)
+        if (work->field_9C_obj.time2 != 0)
         {
             sna_8004E260(work, 0, 4, 0);
             GM_ClearPlayerStatusFlag(PLAYER_PREVENT_FIRST_PERSON | PLAYER_PREVENT_ITEM_SWITCH | PLAYER_PREVENT_WEAPON_SWITCH);
