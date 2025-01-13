@@ -45,35 +45,39 @@ void sub_800348F4(OBJECT *obj)
     ResetSpadStack();
 
     obj->is_end = obj->m_ctrl->info1.time;
-    obj->field_1C = obj->m_ctrl->info2.time;
-
+    obj->time2 = obj->m_ctrl->info2.time;
+//#ifdef DEBUG
     outtime = GetRCnt(RCntCNT1);
     mt_rt2_800ABAB8 += (outtime - intime) & 0xffff;
     mt_count_800ABAC0++;
-
+//#endif
     if (obj->m_ctrl->interp)
-        obj->m_ctrl->interp--;
+        obj->m_ctrl->interp--; /* 補完カウンタ変更 */
     return;
 }
 
-// Initialises an object by zeroing its memory and setting defaults
-void GM_InitObjectNoRots(OBJECT_NO_ROTS *obj, int model, int flag, int motion)
+/*----------------------------------------------------------------*/
+
+void GM_InitObjectNoRots( OBJECT_NO_ROTS *obj, int model, int flag, int motion )
 {
-    GV_ZeroMemory(obj, sizeof(OBJECT_NO_ROTS));
+    //ASSERT( model != 0 );
+    GV_ZeroMemory( obj, sizeof(OBJECT_NO_ROTS) );
     obj->flag = flag;
     obj->light = &DG_LightMatrix;
     obj->map_name = GM_CurrentMap_800AB9B0;
-
-    GM_ConfigObjectModel(obj, model);
+    /*
+        モデル／モーション初期化
+    */
+    GM_ConfigObjectModel( obj, model );
 }
 
-// initialises the rots of an object by zeroing its memory then
-// calls initobjectnorots to init the rest
-void GM_InitObject(OBJECT *obj, int model, int flag, int motion)
+void GM_InitObject( OBJECT *obj, int model, int flag, int motion )
 {
-    GV_ZeroMemory(obj->rots, sizeof(SVECTOR) * DG_MAX_JOINTS);
-    GM_InitObjectNoRots((OBJECT_NO_ROTS *)obj, model, flag, motion);
+    GV_ZeroMemory( obj->rots, sizeof(SVECTOR) * DG_MAX_JOINTS );
+    GM_InitObjectNoRots( (OBJECT_NO_ROTS *)obj, model, flag, motion );
 }
+
+/*--------- M.Sonoyama 実験中 --------------*/
 
 // adds initial step to mutation from another function
 void GM_ActMotion(OBJECT *obj)
@@ -224,7 +228,7 @@ void GM_ConfigObjectOverride(OBJECT *obj, int a1, int motion, int interp, int a4
     }
 
     obj->field_10 = a1;
-    obj->field_1C = 0;
+    obj->time2 = 0;
     obj->m_ctrl->interp = interp;
     obj->m_ctrl->info1.field_8 = a4;
     obj->m_ctrl->info2.field_8 = ~a4;
