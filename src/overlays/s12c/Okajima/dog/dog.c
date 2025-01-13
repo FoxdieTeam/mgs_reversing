@@ -30,17 +30,21 @@ typedef struct DogWork
     int      field_14F8[3];
     char     pad1504[0xC];
     int      field_1510[3];
-    char     pad151C[0xC];
+    int      field_151C[3];
     int      field_1528;
-    char     pad152C[0x30];
+    char     pad152C[0x2];
+    SVECTOR  field_152E[3];
+    char     pad1532[0x16];
     int      field_155C[3];
     char     pad1568[0x24];
     int      field_158C[3];
     char     pad1598[0x24];
     int      field_15BC[3];
-    char     pad15C8[0x38];
+    char     pad15C8[0x34];
+    int      field_15FC;
     int      field_1600;
-    char     pad1604[0xC];
+    int      field_1604;
+    char     pad1608[0x8];
     int      field_1610;
     char     pad1614[0x68];
     DG_PRIM *field_167C[3];
@@ -464,6 +468,7 @@ const char s12c_aDoglow_800DA10C[] = "dog_low";
 extern GV_PAD           GV_PadData_800B05C0[4];
 extern int              GM_PadVibration2_800ABA54;
 extern int              GM_PadVibration_800ABA3C;
+extern int              GM_PlayerMap_800ABA0C;
 extern SVECTOR          GM_PlayerPosition_800ABA10;
 extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
 extern OBJECT          *GM_PlayerBody_800ABA20;
@@ -809,7 +814,81 @@ void s12c_dog_800CB42C(DogWork *work, int index1, int arg2, int arg3, int index2
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CB54C.s")
+int s12c_dog_800CB54C(DogWork* work, int index)
+{
+    int px;
+    int pz;
+    int diff;
+    
+    CONTROL *control;
+    RADAR_CONE *radar_cone;
+    
+    if (!(work->field_1604))
+    {
+        px = GM_PlayerPosition_800ABA10.vx;
+        
+        if (px > -3500)
+        {
+            if(px < 7000)
+            {
+                pz = GM_PlayerPosition_800ABA10.vz;
+                
+                if (pz > 2000)
+                {
+                    if(pz >= 7500)
+                    {
+                        goto block_6;
+                    }
+                return 0;
+
+                }
+            }
+        }
+    }
+
+block_6:
+    control = &work->field_28[index];
+    radar_cone = &control->radar_cone;
+
+    if (control->map->index == GM_PlayerMap_800ABA0C)
+    {
+        if (!(GM_PlayerStatus_800ABA50 & 2)) // PLAYER_INTRUDE ?
+        {
+            if (index != 2)
+            {
+                if (work->field_151C[index] > 1000)
+                {
+                    goto block_12;
+                }
+                goto block_15;
+            }
+
+            if (work->field_151C[2] > 1500)
+            {
+block_12:
+                if (work->field_151C[index] > radar_cone->len)
+                {
+                    return 0;
+                }
+
+                diff = GV_DiffDirAbs(radar_cone->dir, work->field_152E[index].vx);
+                if (radar_cone->ang < diff)
+                {
+                    return 0;
+                }
+            }
+
+block_15:
+            if (HZD_80028454(control->map->hzd, &GM_PlayerPosition_800ABA10, &control->mov, 0xF, 2) == 0)
+            {
+                work->field_15FC = 0x300;
+
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
 
 void Dog_800CB6DC(DogWork *work, int arg1, int arg2)
 {
