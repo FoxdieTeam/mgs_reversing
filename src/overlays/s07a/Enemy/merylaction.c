@@ -1789,7 +1789,7 @@ void s07a_meryl_unk_800DA110( WatcherWork* work, int time )
         GM_SeSet( &work->control.mov, 0x94 );
     }
 
-    if ( work->body.field_1C || !( work->pad.press & 0x40 ) )
+    if ( work->body.time2 || !( work->pad.press & 0x40 ) )
     {
         work->pad.time = 0;
         UnsetMode( work );
@@ -1810,7 +1810,7 @@ void s07a_meryl_unk_800DA1C4( WatcherWork* work, int time )
         GM_SeSet( &work->control.mov, 0x92 );
     }
 
-    if ( work->body.field_1C || !( work->pad.press & 0x80 ) )
+    if ( work->body.time2 || !( work->pad.press & 0x80 ) )
     {
         work->pad.time = 0;
         UnsetMode( work );
@@ -1824,7 +1824,7 @@ void s07a_meryl_unk_800DA28C( WatcherWork* work, int time )
         UnsetAction( work, ACTION23 );
     }
 
-    if ( work->body.field_1C || !( work->pad.press & 0x400 ) )
+    if ( work->body.time2 || !( work->pad.press & 0x400 ) )
     {
         work->pad.time = 0;
         UnsetMode( work );
@@ -1845,7 +1845,7 @@ void s07a_meryl_unk_800DA330( WatcherWork* work, int time )
         GM_SeSet( &work->control.mov, 0x92 );
     }
 
-    if ( work->body.field_1C || !( work->pad.press & 0x800 ) )
+    if ( work->body.time2 || !( work->pad.press & 0x800 ) )
     {
         work->pad.time = 0;
         UnsetMode( work );
@@ -1988,7 +1988,7 @@ void s07a_meryl_unk_800DA75C( WatcherWork *work, int time )
         s07a_meryl_unk_800DA5D0( work );
     }
 
-    if ( ( time > 186 && work->body.field_1C ) || !( work->pad.press & 0x1000000 ) )
+    if ( ( time > 186 && work->body.time2 ) || !( work->pad.press & 0x1000000 ) )
     {
         GM_SeSet( &work->control.mov, 0xB4 );
         work->pad.time = 0;

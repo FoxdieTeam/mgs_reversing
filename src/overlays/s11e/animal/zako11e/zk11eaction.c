@@ -1379,7 +1379,7 @@ void s11e_zk11ecom_800D7230( ZakoWork* work, int time )
         GM_SeSet( &work->control.mov, 0x94 );
     }
 
-    if ( work->body.field_1C || !( work->pad.press & 0x40 ) )
+    if ( work->body.time2 || !( work->pad.press & 0x40 ) )
     {
         work->pad.time = 0;
         UnsetMode( work );
@@ -1400,7 +1400,7 @@ void s11e_zk11ecom_800D72E4( ZakoWork* work, int time )
         GM_SeSet( &work->control.mov, 0x92 );
     }
 
-    if ( work->body.field_1C || !( work->pad.press & 0x80 ) )
+    if ( work->body.time2 || !( work->pad.press & 0x80 ) )
     {
         work->pad.time = 0;
         UnsetMode( work );
@@ -1414,7 +1414,7 @@ void s11e_zk11ecom_800D73AC( ZakoWork* work, int time )
         UnsetAction( work, ACTION23 );
     }
 
-    if ( work->body.field_1C || !( work->pad.press & 0x400 ) )
+    if ( work->body.time2 || !( work->pad.press & 0x400 ) )
     {
         work->pad.time = 0;
         UnsetMode( work );
@@ -1435,7 +1435,7 @@ void s11e_zk11ecom_800D7450( ZakoWork* work, int time )
         GM_SeSet( &work->control.mov, 0x92 );
     }
 
-    if ( work->body.field_1C || !( work->pad.press & 0x800 ) )
+    if ( work->body.time2 || !( work->pad.press & 0x800 ) )
     {
         work->pad.time = 0;
         UnsetMode( work );
@@ -1574,7 +1574,7 @@ void s11e_zk11ecom_800D7878( ZakoWork *work, int time )
         s11e_zk11ecom_800D76F0( work );
     }
 
-    if ( ( time > 186 && work->body.field_1C ) || !( work->pad.press & 0x1000000 ) )
+    if ( ( time > 186 && work->body.time2 ) || !( work->pad.press & 0x1000000 ) )
     {
         work->pad.time = 0;
         UnsetMode( work );
