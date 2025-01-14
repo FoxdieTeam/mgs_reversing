@@ -37,7 +37,7 @@ int      GM_AddMap(int name);
 int      GM_DelMap(int name);
 MAP     *GM_GetMap(int id);
 MAP     *GM_DefineMap(void);
-int      GM_ReloadMap(int num);
+int      GM_ReloadMap(int preshade);
 void     GM_UpdateMap(void);
 void     GM_ResetMap(void);
 HZD_HDL *GM_IterHazard(HZD_HDL *cur);

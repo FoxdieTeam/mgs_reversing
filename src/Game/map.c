@@ -18,7 +18,7 @@ int  SECTION(".sbss") N_StageObjs_800ABAA4;
 int  SECTION(".sbss") gMapCount_800ABAA8;
 int  SECTION(".sbss") gMapsChanged_800ABAAC;
 
-STATIC void GM_LightMap( int a1 )
+STATIC void GM_UpdateMapGroup( int preshade )
 {
     MAP      *map;
     int       group, hzd_group;
@@ -53,7 +53,7 @@ STATIC void GM_LightMap( int a1 )
                 {
                     DG_SetFixedLight( lit->lights, lit->n_lights );
 
-                    if ( a1 )
+                    if ( preshade )
                     {
                         DG_MakePreshade( objs[ 0 ], lit->lights, lit->n_lights );
                     }
@@ -62,7 +62,7 @@ STATIC void GM_LightMap( int a1 )
                 {
                     DG_SetFixedLight( NULL, 0 );
 
-                    if ( a1 )
+                    if ( preshade )
                     {
                         DG_MakePreshade( objs[ 0 ], NULL, 0 );
                     }
@@ -145,7 +145,7 @@ void GM_UpdateMap(void)
 {
     if (gMapsChanged_800ABAAC)
     {
-        GM_LightMap(gMapsChanged_800ABAAC - 1);
+        GM_UpdateMapGroup(gMapsChanged_800ABAAC - 1);
         gMapsChanged_800ABAAC = 0;
     }
 }
@@ -335,7 +335,7 @@ int GM_DelMap(int name)
     return 0;
 }
 
-int GM_ReloadMap(int num)
+int GM_ReloadMap(int preshade)
 {
     MAP    *map;
     int     i;
@@ -354,7 +354,7 @@ int GM_ReloadMap(int num)
         GM_AddMap(name);
     }
 
-    gMapsChanged_800ABAAC = num + 1;
+    gMapsChanged_800ABAAC = preshade + 1;
     return 0;
 }
 
