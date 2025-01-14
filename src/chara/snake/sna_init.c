@@ -342,7 +342,7 @@ void sub_8004EB74(SnaInitWork *work)
         GM_SetPlayerStatusFlag(PLAYER_PREVENT_WEAPON_ITEM_SWITCH);
     }
 
-    sd_set_cli(0x01ffff20, 0);
+    sd_set_cli(0x01ffff20, SD_ASYNC);
 }
 
 void sna_8004EC00(SnaInitWork *work)
@@ -359,7 +359,7 @@ void sna_8004EC00(SnaInitWork *work)
 
     if (!GM_CheckPlayerStatusFlag(PLAYER_INTRUDE))
     {
-        sd_set_cli(0x01ffff21, 0);
+        sd_set_cli(0x01ffff21, SD_ASYNC);
     }
 
     sna_clear_flags2_8004E344(work, (SNA_FLAG2_UNK5 | SNA_FLAG2_UNK6));
@@ -378,7 +378,7 @@ void sna_8004EC8C(SnaInitWork *work)
     work->field_9D0[2] = 320;
     work->field_9D0[4] = v2;
     work->field_9D0[6] = v2;
-    sd_set_cli(0x01ffff20, 0);
+    sd_set_cli(0x01ffff20, SD_ASYNC);
     sna_set_flags2_8004E330(work, SNA_FLAG2_UNK5);
     GM_ClearPlayerStatusFlag(PLAYER_FIRST_PERSON);
 }
@@ -390,7 +390,7 @@ void sub_8004ED08(SnaInitWork *work)
     GM_Camera_800B77E8.first_person = 0; // weapon related?
     work->field_A20 = 6;
     sna_8004EB14(work);
-    sd_set_cli(0x01ffff21, 0);
+    sd_set_cli(0x01ffff21, SD_ASYNC);
     sna_clear_flags2_8004E344(work, (SNA_FLAG2_UNK5 | SNA_FLAG2_UNK6));
 }
 

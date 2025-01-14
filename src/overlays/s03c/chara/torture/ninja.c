@@ -93,7 +93,7 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
         if (timer == 32)
         {
             GM_SeSet(&work->field_7E4, SE_PSG1_SHOT);
-            GM_SetSound(0x01ffff0b, 0);
+            GM_SetSound(0x01ffff0b, SD_ASYNC);
             svec1 = DG_ZeroVector;
             svec1.vx = 1024;
             svec1.vy = -1024;
@@ -118,7 +118,7 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
 
         if (timer == 128)
         {
-            GM_SetSound(0x01000003, 0);
+            GM_SetSound(0x01000003, SD_ASYNC);
             GM_GameStatus &= ~STATE_PADRELEASE;
             GM_PlayerControl_800AB9F4->turn.vy = GV_VecDir2(&svec1);
             GCL_ExecProc(work->procs[2], NULL);
@@ -188,7 +188,7 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
         if (timer == 32)
         {
             GM_SeSetMode(&control->mov, 0xC4, GM_SEMODE_BOMB);
-            GM_SetSound(0x01ffff0b, 0);
+            GM_SetSound(0x01ffff0b, SD_ASYNC);
         }
         if (timer == 38)
         {
@@ -225,7 +225,7 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
             args2.argv = argv2;
             argv2[0] = 1;
             GCL_ExecProc(work->procs[3], &args2);
-            GM_SetSound(0x01000001, 0);
+            GM_SetSound(0x01000001, SD_ASYNC);
             GV_DestroyActor(&work->actor);
         }
         break;

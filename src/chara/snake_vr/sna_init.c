@@ -340,7 +340,7 @@ void sub_8004EB74(SnaInitWork *work)
 
     if (!(work->field_920_tbl & 0x200))
     {
-        sd_set_cli(0x01ffff20, 0);
+        sd_set_cli(0x01ffff20, SD_ASYNC);
     }
 }
 
@@ -359,7 +359,7 @@ void sna_8004EC00(SnaInitWork *work)
 
     if (!GM_CheckPlayerStatusFlag(PLAYER_INTRUDE))
     {
-        sd_set_cli(0x01ffff21, 0);
+        sd_set_cli(0x01ffff21, SD_ASYNC);
     }
 }
 
@@ -375,7 +375,7 @@ void sna_8004EC8C(SnaInitWork *work)
     work->field_9D0[2] = 320;
     work->field_9D0[4] = v2;
     work->field_9D0[6] = v2;
-    sd_set_cli(0x01ffff20, 0);
+    sd_set_cli(0x01ffff20, SD_ASYNC);
 }
 
 void sub_8004ED08(SnaInitWork *work)
@@ -385,7 +385,7 @@ void sub_8004ED08(SnaInitWork *work)
     GM_Camera_800B77E8.first_person = 0; // weapon related?
     work->field_A20 = 6;
     sna_8004EB14(work);
-    sd_set_cli(0x01ffff21, 0);
+    sd_set_cli(0x01ffff21, SD_ASYNC);
 }
 
 void sna_act_helper2_helper3_8004ED6C(SnaInitWork *work)

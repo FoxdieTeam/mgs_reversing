@@ -469,8 +469,8 @@ GV_ACT *NewMetLogo_800C5A90( int *arg0 )
 
         DG_FrameRate = 3;
 
-        GM_SetSound( 0xff0000fe, 0 );
-        GM_SetSound( 0x01ffff0b, 0 );
+        GM_SetSound( 0xff0000fe, SD_ASYNC );
+        GM_SetSound( 0x01ffff0b, SD_ASYNC );
         GM_SeSet2( 0, 63, SE_GAMEOVER );
 
         MetLogoGetResources_800C5998( work );

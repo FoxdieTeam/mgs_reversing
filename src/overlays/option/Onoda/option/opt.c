@@ -1422,11 +1422,11 @@ static inline void SetGameStatusFlags( OptionWork *work )
             GM_SeSet2( 0, 0x3F, 0x21 ) ;
             if ( work->f924[3] == 0 )
             {
-                GM_SetSound( 0xFF000006, 0 ) ;
+                GM_SetSound( 0xFF000006, SD_ASYNC ) ;
             }
             else
             {
-                GM_SetSound( 0xFF000005, 0 ) ;
+                GM_SetSound( 0xFF000005, SD_ASYNC ) ;
             }
             
             if ( work->f924[4] == 1 )

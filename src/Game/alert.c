@@ -37,11 +37,11 @@ void sub_8002E508(int a1)
 {
     if (a1 == 0)
     {
-        GM_SetSound(0x01ffffff, 0);
+        GM_SetSound(0x01ffffff, SD_ASYNC);
     }
     else
     {
-        GM_SetSound(a1 | 0x01000000, 0);
+        GM_SetSound(a1 | 0x01000000, SD_ASYNC);
     }
 }
 
@@ -105,7 +105,7 @@ void GM_Command_sound_impl(void)
     if (GCL_GetOption('c'))
     {
         sdCode = GCL_GetNextParamValue();
-        GM_SetSound(sdCode | 0x01ffff00, 0);
+        GM_SetSound(sdCode | 0x01ffff00, SD_ASYNC);
         if (sdCode == 0x01ffff01 || sdCode + 0xfe0000fd < 3)
         {
             dword_800ABA70 &= ~2;
@@ -122,7 +122,7 @@ void GM_Command_sound_impl(void)
         {
             dword_800ABA70 |= 1;
         }
-        GM_SetSound(xCode, 0);
+        GM_SetSound(xCode, SD_ASYNC);
     }
     if (GCL_GetOption('e'))
     {
@@ -200,16 +200,16 @@ void GM_AlertAct( void )
                     if ( GM_AlertMode_800ABA00 == ALERT_DISABLED )
                     {
                         GM_SeSet2( 0, 0x3F, SE_ALERT_SIREN );
-                        GM_SetSound( 0x01ffff0b, 0 );
+                        GM_SetSound( 0x01ffff0b, SD_ASYNC );
                         sub_8002E508( dword_800ABA78[1] );
                     }
                     else if ( GM_AlertMode_800ABA00 == ALERT_EVASION )
                     {
-                        GM_SetSound( 0x01ffff03, 0 );
+                        GM_SetSound( 0x01ffff03, SD_ASYNC );
                     }
                     break;
                 case RADAR_EVASION:
-                    GM_SetSound( 0x01ffff10, 0 );
+                    GM_SetSound( 0x01ffff10, SD_ASYNC );
                     break;
                 case RADAR_ENABLED:
                     sub_8002E508( dword_800ABA78[0] );
@@ -222,7 +222,7 @@ void GM_AlertAct( void )
     if ( ( GM_AlertMode_800ABA00 == ALERT_EVASION ) && ( dword_800ABA70 == 0 ) &&
          ( GM_AlertLevel_800ABA18 == 0x3C ) )
     {
-        GM_SetSound( 0x01ffff08, 0 );
+        GM_SetSound( 0x01ffff08, SD_ASYNC );
     }
     GM_RadarMode_800ABA80 = -1;
 }

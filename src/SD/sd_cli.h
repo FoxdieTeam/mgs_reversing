@@ -1,8 +1,12 @@
+/*
+ * ref."beatmania APPEND 5thMIX"
+ *  work.5th/include/sd_cli.h (Nov.09,1999)
+ */
 #ifndef _SD_CLI_H_
 #define _SD_CLI_H_
 
-/* sd_main.c */
-void SdMain(void);
+#define SD_SYNC     1
+#define SD_ASYNC    0
 
 /* sd_cli.c */
 int sd_task_active(void);
@@ -18,6 +22,9 @@ void start_xa_sd(void);
 void stop_xa_sd(void);
 int SePlay(int sound_code);
 int get_str_counter(void);
+
+/* sd_main.c */
+void SdMain(void);
 
 /* sd_file.c */
 unsigned char *SD_SngDataLoadInit(unsigned short id);
