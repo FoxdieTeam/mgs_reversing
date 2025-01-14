@@ -20,7 +20,7 @@ typedef struct _FS_DIR_ENTRY {
 } FS_DIR_ENTRY;
 
 typedef struct _FS_DIR_INFO {
-    int             pos;            // LBA position of stage archive
+    int             pos;            // LBA position of the stage archive
     int             table_size;     // size of the directory table
     int             n_stages;       // number of stage directories
     FS_DIR_ENTRY   *table_buf;      // in-memory copy of the dir table
