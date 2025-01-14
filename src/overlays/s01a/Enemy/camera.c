@@ -17,7 +17,7 @@ typedef struct CameraWork
 {
     GV_ACT         actor;
     CONTROL        control;
-    OBJECT_NO_ROTS field_9C;
+    OBJECT_NO_ROTS body;
     OBJECT_NO_ROTS field_C0;
     SVECTOR        field_E4;
     SVECTOR        field_EC;
@@ -30,10 +30,10 @@ typedef struct CameraWork
     int            field_128;
     int            field_12C;
     int            field_130;
-    SVECTOR        field_134_rots[1]; // TODO: are there 2 rots?
+    SVECTOR        rots[1]; // TODO: are there 2 rots?
     int            field_13C;
     int            field_140;
-    MATRIX         field_144;
+    MATRIX         light;
     int            field_164;
     int            field_168;
     int            field_16C;
@@ -53,13 +53,10 @@ typedef struct CameraWork
     SVECTOR        field_1A8;
     int            field_1B0;
     int            field_1B4;
-    short          field_1B8;
-    short          field_1BA;
-    short          field_1BC;
-    short          field_1BE;
+    SVECTOR        lens_shift;
     SVECTOR        field_1C0;
     int            field_1C8;
-    TARGET        *field_1CC;
+    TARGET        *target;
     SVECTOR        field_1D0;
     int            field_1D8;
     int            field_1DC;
@@ -84,8 +81,12 @@ typedef struct CameraWork
     int            field_28C;
 } CameraWork;
 
+#define LENS_DX 0
+#define LENS_DY 175
+#define LENS_DZ 600
+
 RECT    camera_rect_800C3B68 = {120, 120, 240, 240};
-SVECTOR camera_svec1_800C3B70 = {300, 300, 300, 0};
+SVECTOR Size_800C3B70 = {300, 300, 300, 0};
 
 extern char s01a_dword_800E44CC[];
 
@@ -256,7 +257,7 @@ int s01a_camera_800D515C(CameraWork *work)
     if (field_1EC == 15)
     {
         s00a_command_800CEC40(&work->control.mov, 32);
-        AN_Unknown_800CA1EC(&work->field_9C.objs[1].world, 0);
+        AN_Unknown_800CA1EC(&work->body.objs[1].world, 0);
         COM_VibTime_800E0F68 = 10;
         s01a_camera_800D50EC(work);
     }
@@ -591,7 +592,7 @@ void s01a_camera_800D5A68(CameraWork *work)
         ENE_SetGopointLast_800CEB00();
         COM_VibTime_800E0F68 = 0xA;
         s00a_command_800CEC40(&work->control.mov, 0x20);
-        AN_Unknown_800CA1EC(&work->field_9C.objs[1].world, 0);
+        AN_Unknown_800CA1EC(&work->body.objs[1].world, 0);
         s01a_camera_800D50EC(work);
         work->field_1E0 = 1;
         work->field_1E8 = 4;
@@ -698,7 +699,7 @@ void s01a_camera_800D5D1C(CameraWork *work)
         }
     }
 
-    work->field_9C.objs->flag |= 0x80;
+    work->body.objs->flag |= 0x80;
     work->field_C0.objs->flag |= 0x80;
     s01a_camera_800D4CFC(work->field_194, work->field_198, 0, 0, 0);
 
@@ -766,14 +767,14 @@ void CameraAct_800D5F64(CameraWork *work)
     if (work->field_1F0 == 0)
     {
         GM_ActControl(ctrl);
-        GM_ActObject2((OBJECT *)&work->field_9C);
+        GM_ActObject2((OBJECT *)&work->body);
         DG_PutPrim(&work->field_194->world);
-        if (work->field_9C.objs->bound_mode != 0)
+        if (work->body.objs->bound_mode != 0)
         {
-            DG_GetLightMatrix2(&ctrl->mov, &work->field_144);
+            DG_GetLightMatrix2(&ctrl->mov, &work->light);
         }
 
-        target = work->field_1CC;
+        target = work->target;
         GM_MoveTarget(target, &ctrl->mov);
         if (target->damaged & TARGET_POWER)
         {
@@ -950,7 +951,7 @@ int s01a_camera_800D61AC(CameraWork *work, int arg1, int arg2)
     return 0;
 }
 
-int s01a_camera_800D640C(CameraWork *work)
+int InitArm_800D640C(CameraWork *work)
 {
     OBJECT_NO_ROTS *obj;
 
@@ -996,7 +997,7 @@ void s01a_camera_800D648C(POLY_FT4 *poly, DG_TEX *tex, int col)
     poly->clut = (unsigned short)tex->clut;
 }
 
-int s01a_camera_800D6504(CameraWork *work)
+int InitLed_800D6504(CameraWork *work)
 {
     DG_PRIM *prim;
     DG_TEX  *tex;
@@ -1022,11 +1023,11 @@ int s01a_camera_800D6504(CameraWork *work)
 
 int CameraGetResources_800D65EC(CameraWork *work, int arg1, int arg2)
 {
-    TARGET         *target, *target2;
+    TARGET         *target;
     int             type;
     char           *opt;
     CONTROL        *ctrl;
-    OBJECT_NO_ROTS *obj;
+    OBJECT_NO_ROTS *body;
 
     ctrl = &work->control;
     if (GM_InitControl(ctrl, arg1, arg2) < 0)
@@ -1041,7 +1042,7 @@ int CameraGetResources_800D65EC(CameraWork *work, int arg1, int arg2)
     work->control.step = DG_ZeroVector;
 
     type = 0x41;
-    obj = &work->field_9C;
+    body = &work->body;
 
     opt = GCL_GetOption('n');
     if (opt)
@@ -1058,33 +1059,42 @@ int CameraGetResources_800D65EC(CameraWork *work, int arg1, int arg2)
     {
         opt = "s_camera";
     }
-    GM_InitObjectNoRots(obj, GV_StrCode(opt), 0x32D, 0);
+    GM_InitObjectNoRots(body, GV_StrCode(opt), 0x32D, 0);
 
-    obj->objs->rots = work->field_134_rots;
-    GM_ConfigObjectLight((OBJECT *)obj, &work->field_144);
-    GM_ConfigObjectStep((OBJECT *)obj, &work->control.step);
-    DG_GetLightMatrix2(&ctrl->mov, &work->field_144);
+    body->objs->rots = work->rots;
+    GM_ConfigObjectLight((OBJECT *)body, &work->light);
+    GM_ConfigObjectStep((OBJECT *)body, &work->control.step);
+    DG_GetLightMatrix2(&ctrl->mov, &work->light);
 
-    work->field_1BA = 175;
-    work->field_1B8 = 0;
-    work->field_1BC = 600;
+    work->lens_shift.vx = LENS_DX;
+    work->lens_shift.vy = LENS_DY;
+    work->lens_shift.vz = LENS_DZ;
 
-    s01a_camera_800D640C(work);
-    s01a_camera_800D6504(work);
+    InitArm_800D640C(work);
+    InitLed_800D6504(work);
 
-    target = GM_AllocTarget();
-    work->field_1CC = target2 = target;
+/*
+#ifdef DEBUGVIEW
+	InitView( work );
+#endif
+*/
+
+/* ターゲット確保 */
+    work->target = target = GM_AllocTarget();
     if (target)
     {
-        GM_SetTarget(target2, 20, 2, &camera_svec1_800C3B70);
-        work->field_284 = 1;
-        work->field_286 = 0;
-        work->field_288 = 1;
-        work->field_28A = 1;
-        return 0;
+        GM_SetTarget(target, 20, ENEMY_SIDE, &Size_800C3B70);
+    }
+    else
+    {
+        return -1;
     }
 
-    return -1;
+    work->field_284 = 1;
+    work->field_286 = 0;
+    work->field_288 = 1;
+    work->field_28A = 1;
+    return 0;
 }
 
 void CameraDie_800D678C(CameraWork *work)
@@ -1092,7 +1102,7 @@ void CameraDie_800D678C(CameraWork *work)
     DG_PRIM *prim;
 
     GM_FreeControl(&work->control);
-    GM_FreeObject((OBJECT *)&work->field_9C);
+    GM_FreeObject((OBJECT *)&work->body);
     GM_FreeObject((OBJECT *)&work->field_C0);
 
     prim = work->field_194;
@@ -1101,7 +1111,7 @@ void CameraDie_800D678C(CameraWork *work)
         DG_DequeuePrim(prim);
         DG_FreePrim(prim);
     }
-    GM_FreeTarget(work->field_1CC);
+    GM_FreeTarget(work->target);
 }
 
 GV_ACT *NewCamera_800D67F8(int name, int where, int argc, char **argv)
