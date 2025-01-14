@@ -109,11 +109,11 @@ void FS_CdStageFileInit(void *buffer, int sector)
 int FS_CdGetStageFileTop(char *dirname)
 {
     FS_DIR_ENTRY *dir;
-    int count;
+    int i;
 
     dir = fs_dir_info.table_buf;
 
-    for (count = fs_dir_info.n_stages; count > 0; count--)
+    for (i = fs_dir_info.n_stages; i > 0; i--)
     {
         if (strncmp(dir->name, dirname, FS_DIRNAME_MAX) == 0)
         {
