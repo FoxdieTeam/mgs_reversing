@@ -276,7 +276,7 @@ int UjiCheckMessages_800C3EEC(UjiWork *work)
         work->fD7C = 1;
     }
 
-    Map_FromId_800314C0(work->map);
+    GM_GetMap(work->map);
 
     return 0;
 }

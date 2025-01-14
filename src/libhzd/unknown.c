@@ -849,7 +849,7 @@ int HZD_80028454(HZD_HDL *hdl, SVECTOR *a2, SVECTOR *a3, int flags, int flag)
         char *scratchpad;
 
         pNextMap = NULL;
-        while ((pNextMap = Map_Enum_Get_Hzd_80031580(pNextMap)))
+        while ((pNextMap = GM_IterHazard(pNextMap)))
         {
             scratchpad = (char *)SCRPAD_ADDR;
             do
@@ -904,7 +904,7 @@ int HZD_80028454(HZD_HDL *hdl, SVECTOR *a2, SVECTOR *a3, int flags, int flag)
     if (flags & 2)
     {
         pNextMap = NULL;
-        while ((pNextMap = Map_Enum_Get_Hzd_80031580(pNextMap)))
+        while ((pNextMap = GM_IterHazard(pNextMap)))
         {
             ppFloor = pNextMap->dynamic_floors;
             for (count = pNextMap->dynamic_floor_index; count > 0; count--, ppFloor++)

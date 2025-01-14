@@ -320,7 +320,6 @@ int  GM_ConfigMotionAdjust(OBJECT *object, SVECTOR *adjust);
 /* unsorted stuff */
 void GM_ExitBehindCamera_80030AEC(void);
 void GM_CheckBehindCamera_80030B3C(HZD_HDL *map, CONTROL *control);
-void GM_ReshadeObjs_80031660(DG_OBJS *pObj);
 void GM_Reset_helper3_80030760();
 
 void sub_800309B4(int param_1, int param_2);

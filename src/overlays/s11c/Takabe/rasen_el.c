@@ -71,7 +71,7 @@ extern int            rasen_800C3408;
 extern unsigned short rasen_el_800C342C[];
 extern unsigned short rasen_el_800D2CA4[];
 
-void Takabe_ReshadeModel_800DC854(DG_OBJS *objs, LitHeader *lit);
+void Takabe_ReshadeModel_800DC854(DG_OBJS *objs, LIT *lit);
 void Takabe_FreeObjs_800DC820(DG_OBJS *objs);
 
 void s11c_800CCFCC(RasenElWork *, int);
@@ -83,7 +83,7 @@ void s11c_800CDB6C(RasenElWork *work);
 void s11c_800CD120(RasenElWork *work);
 void s11c_800CD17C(OBJECT *, int, int);
 
-DG_OBJS * s00a_unknown3_800DC7DC(int model, LitHeader *lit);
+DG_OBJS * s00a_unknown3_800DC7DC(int model, LIT *lit);
 
 #define EXEC_LEVEL 6
 
@@ -321,7 +321,7 @@ void RasenElAct_800CC454(RasenElWork *work)
     {
         if (work->f238 == 0)
         {
-            map = Map_FromId_800314C0(GM_CurrentMap_800AB9B0);
+            map = GM_GetMap(GM_CurrentMap_800AB9B0);
             Takabe_ReshadeModel_800DC854(work->object.objs, map->lit);
             work->f238 = 1;
         }
@@ -423,8 +423,8 @@ int RasenElGetResources_800CCB9C(RasenElWork *work, int name, int map)
     work->name = name;
     work->f234 = 0;
 
-    work->hzd[0] = Map_FromId_800314C0(rasen_el_800D2CA4[0])->hzd;
-    work->hzd[1] = Map_FromId_800314C0(rasen_el_800D2CA4[1])->hzd;
+    work->hzd[0] = GM_GetMap(rasen_el_800D2CA4[0])->hzd;
+    work->hzd[1] = GM_GetMap(rasen_el_800D2CA4[1])->hzd;
 
     object = &work->object;
 
@@ -615,7 +615,7 @@ void s11c_800CD17C(OBJECT *object, int model, int flag)
 
     object->flag = flag;
     object->map_name = GM_CurrentMap_800AB9B0;
-    object->objs = s00a_unknown3_800DC7DC(model, Map_FromId_800314C0(GM_CurrentMap_800AB9B0)->lit);
+    object->objs = s00a_unknown3_800DC7DC(model, GM_GetMap(GM_CurrentMap_800AB9B0)->lit);
 }
 
 void RasenElExecProc_800CD1E4(int proc, int value)

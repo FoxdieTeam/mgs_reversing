@@ -219,12 +219,12 @@ STATIC int GM_Command_map(unsigned char *top)
 
     if (GCL_GetOption('d'))
     {
-        Map_ScriptLoadMapBlocks_800312D0();
+        GM_DefineMap();
     }
 
     if (GCL_GetOption('s'))
     {
-        Map_ScriptReloadMaps_80031450(1);
+        GM_ReloadMap(1);
         if (!(GM_GameStatus & STATE_DEMO))
         {
             DG_UnDrawFrameCount = 4;
@@ -233,7 +233,7 @@ STATIC int GM_Command_map(unsigned char *top)
 
     if (GCL_GetOption('c'))
     {
-        Map_ScriptReloadMaps_80031450(0);
+        GM_ReloadMap(0);
 
         if (!(GM_GameStatus & STATE_DEMO))
         {
@@ -253,7 +253,7 @@ STATIC int GM_Command_map(unsigned char *top)
         gBinds_800ABA60 = 0;
         while (GCL_GetParamResult())
         {
-            pMapRecord = Map_FindByNum_80031504(GCL_GetNextParamValue());
+            pMapRecord = GM_FindMap(GCL_GetNextParamValue());
             if (pMapRecord == 0)
             {
                 return -1;
@@ -266,7 +266,7 @@ STATIC int GM_Command_map(unsigned char *top)
     {
         while (GCL_GetParamResult())
         {
-            GM_AddMap_80031324(GCL_GetNextParamValue());
+            GM_AddMap(GCL_GetNextParamValue());
         }
     }
 
@@ -274,7 +274,7 @@ STATIC int GM_Command_map(unsigned char *top)
     {
         while (GCL_GetParamResult())
         {
-            GM_DelMap_800313C0(GCL_GetNextParamValue());
+            GM_DelMap(GCL_GetNextParamValue());
         }
     }
 
@@ -289,10 +289,11 @@ STATIC int GM_Command_map(unsigned char *top)
 
 STATIC int GM_Command_mapdef(unsigned char *top)
 {
-    if (!GM_Command_mapdef_impl_800310D0())
+    if (!GM_CreateMap())
     {
         return -1;
     }
+
     return 0;
 }
 
@@ -1045,7 +1046,7 @@ STATIC int GM_Command_func(unsigned char *top)
     }
     if (GCL_GetOption('m')) // map
     {
-        map = Map_FindByNum_80031504(GCL_GetNextParamValue());
+        map = GM_FindMap(GCL_GetNextParamValue());
         if (map && map->used)
         {
             GM_LastResultFlag = 1;
