@@ -76,7 +76,7 @@ int DymcSegGetResources_800C4AC0(DymcSegWork *work, int name, int where)
 
     HZD_SetDynamicSegment(seg, seg);
 
-    work->hzd = Map_FromId_800314C0(where)->hzd;
+    work->hzd = GM_GetMap(where)->hzd;
     HZD_QueueDynamicSegment2(work->hzd, seg, flags);
     return 0;
 }

@@ -49,22 +49,22 @@ void PutObjectDie_800E23B8(PutObjWork *work)
 
 int PutObjectGetResources_800E244C(PutObjWork *work, int name, int where)
 {
-    SVECTOR    svec1, svec2;
-    DG_DEF    *def;
-    DG_OBJS   *createdObjs;
-    DG_OBJS  **workObjs;
-    int        n_models;
-    LitHeader *lit;
-    int        i;
-    DG_OBJ    *objsIter2;
-    DG_OBJ    *objsIter1;
+    SVECTOR   svec1, svec2;
+    DG_DEF   *def;
+    DG_OBJS  *createdObjs;
+    DG_OBJS **workObjs;
+    int       n_models;
+    LIT      *lit;
+    int       i;
+    DG_OBJ   *objsIter2;
+    DG_OBJ   *objsIter1;
 
     GM_CurrentMap_800AB9B0 = where;
     work->field_28 = THING_Gcl_GetInt('m');
 
     def = GV_GetCache(GV_CacheID(work->field_28, 'k'));
     workObjs = work->field_30_objs;
-    lit = Map_FromId_800314C0(where)->lit;
+    lit = GM_GetMap(where)->lit;
     GCL_GetOption('s');
 
     for (i = work->field_2C_count; i > 0; i--)

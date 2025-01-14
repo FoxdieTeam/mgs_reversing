@@ -151,7 +151,7 @@ int s04c_revbullt_800D274C(RevbulltWork *work, MATRIX *world)
     DG_PutVector(s04c_dword_800C35D0, sp18, 2);
 
     ret = 0;
-    if (HZD_80028454(Map_FromId_800314C0(work->map)->hzd, &sp18[0], &sp18[1], 15, 2))
+    if (HZD_80028454(GM_GetMap(work->map)->hzd, &sp18[0], &sp18[1], 15, 2))
     {
         HZD_GetSpadVector(&sp18[1]);
 

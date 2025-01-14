@@ -260,7 +260,7 @@ int DuctmouseGetResources_800DAA1C(DuctmouseWork *work, int name, int where)
 
     work->map = where;
 
-    map = Map_FromId_800314C0(where);
+    map = GM_GetMap(where);
 
     opt = GCL_GetOption('r');
     if (opt != 0)

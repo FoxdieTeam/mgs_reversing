@@ -667,7 +667,7 @@ void CraneAct_800D4C28(CraneWork *work)
 
     GM_CurrentMap_800AB9B0 = work->map;
 
-    hzd = Map_FromId_800314C0(work->map)->hzd;
+    hzd = GM_GetMap(work->map)->hzd;
 
     if (work->status == 2)
     {
@@ -910,7 +910,7 @@ int s13a_crane_800D5394(CraneWork *work, int name)
     HZD_HDL *hzd;
     char    *opt;
 
-    hzd = Map_FromId_800314C0(work->map)->hzd;
+    hzd = GM_GetMap(work->map)->hzd;
 
     s13a_crane_800D5338(work);
 
@@ -1034,7 +1034,7 @@ void CraneDie_800D5724(CraneWork *work)
 {
     HZD_HDL *hzd;
 
-    hzd = Map_FromId_800314C0(work->map)->hzd;
+    hzd = GM_GetMap(work->map)->hzd;
     HZD_DequeueDynamicSegment(hzd, &work->d_hzd_side[1]);
     HZD_DequeueDynamicSegment(hzd, &work->d_hzd_side[3]);
 

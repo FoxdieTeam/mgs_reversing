@@ -46,7 +46,7 @@ unsigned short shuter_msgs_800C3738[] = {0x418B, 0x3A02};
 extern int GM_CurrentMap_800AB9B0;
 extern int GM_AlertMode_800ABA00;
 
-DG_OBJS * s00a_unknown3_800DC7BC(int model, LitHeader *lit);
+DG_OBJS * s00a_unknown3_800DC7BC(int model, LIT *lit);
 void      Takabe_FreeObjs_800DC820(DG_OBJS *objs);
 
 void Shuter_800DFBD8(ShuterWork *);
@@ -215,7 +215,7 @@ int ShuterGetResources_800DF7F4(ShuterWork *work, int name, int map)
 
     work->f198 = 0;
 
-    work->hzd = Map_FromId_800314C0(map)->hzd;
+    work->hzd = GM_GetMap(map)->hzd;
 
     pos = &work->pos;
     THING_Gcl_GetSVector('p', pos);
@@ -483,5 +483,5 @@ void Shuter_800DFF34(OBJECT *object, int model, int flag)
 
     object->flag = flag;
     object->map_name = GM_CurrentMap_800AB9B0;
-    object->objs = s00a_unknown3_800DC7BC(model, Map_FromId_800314C0(GM_CurrentMap_800AB9B0)->lit);
+    object->objs = s00a_unknown3_800DC7BC(model, GM_GetMap(GM_CurrentMap_800AB9B0)->lit);
 }

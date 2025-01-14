@@ -243,7 +243,7 @@ STATIC int DoorPollMessages_8006EDB8(DoorWork *work)
                 {
                     DoorOpen_8006ECB8(work);
 
-                    work->field_F6_map_num = Map_FromId_800314C0(GM_PlayerMap_800ABA0C)->name;
+                    work->field_F6_map_num = GM_GetMap(GM_PlayerMap_800ABA0C)->name;
 
                     if (msg->message_len > 1 && work->field_F4_param_g_v > 0)
                     {
@@ -251,8 +251,8 @@ STATIC int DoorPollMessages_8006EDB8(DoorWork *work)
 
                         if (work->field_F0 == CHARA_SNAKE || (GM_PlayerMap_800ABA0C & work->where))
                         {
-                            GM_AddMap_80031324(work->field_F8_maps[0]);
-                            GM_AddMap_80031324(work->field_F8_maps[1]);
+                            GM_AddMap(work->field_F8_maps[0]);
+                            GM_AddMap(work->field_F8_maps[1]);
                         }
 
                         if (work->field_F0 == CHARA_SNAKE)
@@ -466,11 +466,11 @@ STATIC void DoorAct_8006F318(DoorWork *work)
 
                         for (mapIter = 0; mapIter < 2; mapIter++)
                         {
-                            pMap = Map_FindByNum_80031504(work->field_F8_maps[mapIter]);
+                            pMap = GM_FindMap(work->field_F8_maps[mapIter]);
 
                             if ((pMap->index & door_where_8009F5F4) == 0)
                             {
-                                GM_DelMap_800313C0(pMap->name);
+                                GM_DelMap(pMap->name);
                             }
                         }
                     }
@@ -485,7 +485,7 @@ STATIC void DoorAct_8006F318(DoorWork *work)
 
                             if (map != hash)
                             {
-                                GM_DelMap_800313C0(map);
+                                GM_DelMap(map);
                             }
                         }
                     }
@@ -601,7 +601,7 @@ STATIC void DoorInitHzdSegments_8006F7AC(DoorWork *work, DoorLeafData *leaf, int
 
         for (i = 0; i < count; i++)
         {
-            pMaps[i] = Map_FindByNum_80031504(work->field_F8_maps[i])->hzd;
+            pMaps[i] = GM_FindMap(work->field_F8_maps[i])->hzd;
         }
     }
 
@@ -694,7 +694,7 @@ STATIC int DoorGetResources_8006FA60(DoorWork *work, int name, int where)
     GM_ConfigObjectSlide((OBJECT *)&work->object);
     DG_SetPos2(&pControl->mov, &pControl->rot);
     DG_PutObjs(work->object.objs);
-    GM_ReshadeObjs_80031660(work->object.objs);
+    GM_ReshadeObjs(work->object.objs);
 
     work->field_E6_param_w_v = work->object.objs->def[2].num_bones_0; // is this correct?
 
