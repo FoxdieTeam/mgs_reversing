@@ -80,7 +80,7 @@ loop_case3:
                         {
                             sd_code++;
                         }
-                        GM_SetSound( sd_code, 0 );
+                        GM_SetSound( sd_code, SD_ASYNC );
                         break;
                     }
                     printf( "Double Pcm !!\n" );

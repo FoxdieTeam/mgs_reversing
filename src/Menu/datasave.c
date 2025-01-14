@@ -364,11 +364,11 @@ STATIC int loadFile_80049CE8(MEM_CARD *pMemcard, int idx)
                 GCL_SaveLinkVar(&GM_GameStatusFlag);
                 if (GM_GameStatusFlag & 0x8000)
                 {
-                    GM_SetSound(0xff000005, 0);
+                    GM_SetSound(0xff000005, SD_ASYNC);
                 }
                 else
                 {
-                    GM_SetSound(0xff000006, 0);
+                    GM_SetSound(0xff000006, SD_ASYNC);
                 }
             }
             break;

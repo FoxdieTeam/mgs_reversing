@@ -985,7 +985,7 @@ void Ending2Die_800C76BC(Ending2Work *work)
 
     if (work->field_40 == 0)
     {
-        sd_set_cli(0xffffffed, 0);
+        sd_set_cli(0xffffffed, SD_ASYNC);
     }
 
     DG_FrameRate = 2;
@@ -1092,7 +1092,7 @@ void Ending2GetResources_800C77F8(Ending2Work *work, int field_48)
     if (work->field_40 == 0)
     {
         Ending2_800C665C(work->field_48);
-        sd_set_cli(0xffffffec, 0);
+        sd_set_cli(0xffffffec, SD_ASYNC);
     }
     else
     {

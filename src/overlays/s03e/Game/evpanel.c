@@ -460,7 +460,7 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
 
         DG_UnDrawFrameCount = 0x7fff0000;
 
-        GM_SetSound(0xff0000fe, 0);
+        GM_SetSound(0xff0000fe, SD_ASYNC);
         return;
 
     case 1:

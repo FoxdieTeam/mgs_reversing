@@ -217,7 +217,7 @@ STATIC void GM_CreateLoader(void)
 STATIC void GM_HidePauseScreen(void)
 {
     GV_PauseLevel_800AB928 &= ~2;
-    GM_SetSound(0x01ffff02, 0);
+    GM_SetSound(0x01ffff02, SD_ASYNC);
     MENU_JimakuClear();
     GM_GameStatus &= ~GAME_FLAG_BIT_08;
 }
@@ -228,7 +228,7 @@ STATIC void GM_ShowPauseScreen(void)
 
     areaName = "";
     GV_PauseLevel_800AB928 |= 2;
-    GM_SetSound(0x01ffff01, 0);
+    GM_SetSound(0x01ffff01, SD_ASYNC);
     if (GM_StageName_800AB918)
     {
         areaName = GM_StageName_800AB918;
