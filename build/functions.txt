@@ -1490,11 +1490,11 @@
 80068118 108 RifleDie
 80068184 144 RifleGetResources
 80068214 268 NewRifle
-80068320 92 stnsight_act_helper_helper_80068320
+80068320 92 addPrimEX_80068320
 8006837C 164 stnsight_act_helper_8006837C
 80068420 888 stnsight_act_helper_80068420
 80068798 652 stnsight_act_helper_80068798
-80068A24 464 stnsight_act_helper_80068A24
+80068A24 464 SetMissileRect_80068A24
 80068BF4 280 stnsight_act_helper_80068BF4
 80068D0C 460 StnSightAct
 80068ED8 156 StnSightDie
