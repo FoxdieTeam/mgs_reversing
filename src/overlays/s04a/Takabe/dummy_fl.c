@@ -70,10 +70,10 @@ extern CONTROL *tenage_ctrls_800BDD30[16];
 extern int      tenage_ctrls_count_800BDD70;
 
 void Takabe_FreeObjs_800DC820(DG_OBJS *objs);
-void Takabe_ReshadeModel_800DC854(DG_OBJS *, LitHeader *);
+void Takabe_ReshadeModel_800DC854(DG_OBJS *, LIT *);
 void Takabe_RefreshObjectPacks_800DC854(DG_OBJS *);
 
-DG_OBJS *s00a_unknown3_800DC7BC(int model, LitHeader *lit);
+DG_OBJS *s00a_unknown3_800DC7BC(int model, LIT *lit);
 
 void s01a_800E2364(MATRIX *mtx, SVECTOR *in, VECTOR *out);
 void s16b_800C4874(int arg0, HZD_SEG *arg1, int arg2, HZD_FLR *arg3);
@@ -362,7 +362,7 @@ int DummyFloorGetResources_800D68E4(DummyFloorWork *work, int name, int map)
     ReadRotMatrix(&flaps[0].model);
     ReadRotMatrix(&flaps[0].objs->world);
 
-    Takabe_ReshadeModel_800DC854(flaps[0].objs, Map_FromId_800314C0(map)->lit);
+    Takabe_ReshadeModel_800DC854(flaps[0].objs, GM_GetMap(map)->lit);
 
     flaps[1].pos.vx = flaps[0].f34.vx + flaps[1].f34.vx;
 
@@ -371,7 +371,7 @@ int DummyFloorGetResources_800D68E4(DummyFloorWork *work, int name, int map)
     ReadRotMatrix(&flaps[1].model);
     ReadRotMatrix(&flaps[1].objs->world);
 
-    Takabe_ReshadeModel_800DC854(flaps[1].objs, Map_FromId_800314C0(map)->lit);
+    Takabe_ReshadeModel_800DC854(flaps[1].objs, GM_GetMap(map)->lit);
 
     work->f15C.vx = flaps[0].f34.vx;
     work->f15C.vz = flaps[0].f34.vz / 2;
@@ -427,7 +427,7 @@ int DummyFloorGetResources_800D68E4(DummyFloorWork *work, int name, int map)
         DG_PutVector(flap->bounds, bounds, 4);
         DG_RotVector(&dummy_floor_800C3618, &bounds[4], 1);
 
-        work->hzd = Map_FromId_800314C0(map)->hzd;
+        work->hzd = GM_GetMap(map)->hzd;
         DummyFloor_800D6D38(bounds, &work->floors[i]);
         HZD_QueueDynamicFloor(work->hzd, &work->floors[i]);
 

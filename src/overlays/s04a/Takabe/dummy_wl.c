@@ -55,7 +55,7 @@ SVECTOR s04a_dword_800C3620 = {100, 100, 100};
 
 void     Takabe_FreeObjs_800DC820(DG_OBJS *objs);
 void     s16b_800C49AC(HZD_SEG *seg);
-DG_OBJS *s00a_unknown3_800DC7BC(int model, LitHeader *lit);
+DG_OBJS *s00a_unknown3_800DC7BC(int model, LIT *lit);
 
 extern HITTABLE      c4_actors_800BDD78[C4_COUNT];
 
@@ -217,7 +217,7 @@ int DummyWallGetResources_800D7178(DummyWallWork *work, int name, int where)
     s16b_800C45C4(&work->field_19C, &mat, &svec1, &svec2);
     s16b_800C49AC(&work->field_19C);
 
-    work->field_198 = Map_FromId_800314C0(where)->hzd;
+    work->field_198 = GM_GetMap(where)->hzd;
     HZD_QueueDynamicSegment2(work->field_198, &work->field_19C, param1);
 
     work->field_194 = 1;
@@ -251,7 +251,7 @@ void DummyWall_800D7418(OBJECT *obj, int model, int where, int flag)
     GV_ZeroMemory(obj, sizeof(OBJECT));
     obj->flag = flag;
     obj->map_name = where;
-    obj->objs = s00a_unknown3_800DC7BC(model, Map_FromId_800314C0(where)->lit);
+    obj->objs = s00a_unknown3_800DC7BC(model, GM_GetMap(where)->lit);
     obj->objs->flag = flag;
 }
 

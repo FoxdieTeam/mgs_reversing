@@ -899,7 +899,7 @@ void ZakoCommanderGetResources_800DACA0( ZakoCommanderWork *work, int name, int 
     TOPCOMMAND_800DF3A8.mode = 0;
     TOPCOMMAND_800DF3A8.alert = 0;
 
-    ZakoCommand_800DF280.field_0x64 = Map_FromId_800314C0( where );
+    ZakoCommand_800DF280.field_0x64 = GM_GetMap( where );
 
     ops = GCL_GetOption( 'v' );
     if ( ops )

@@ -402,7 +402,7 @@ GV_ACT *NewClaymore(SVECTOR *noise_position, SVECTOR *new_field_2C, int pCnt, in
     }
 
     // from MAP* to int, back to MAP*: (to get a match)
-    current_map = (int)Map_FromId_800314C0(GM_CurrentMap_800AB9B0);
+    current_map = (int)GM_GetMap(GM_CurrentMap_800AB9B0);
     claymore_MAP_800bdf08 = (MAP *)current_map;
 
     for (i = 0; i < pCnt; i++)

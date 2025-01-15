@@ -182,7 +182,7 @@ int WallGetResources_800C34F0(work, pos, dir, def_model, map)
     DG_SetPos2(&position, dir);
     DG_PutObjs(work->object.objs);
     ScaleMatrix(&work->object.objs->world, &scale);
-    GM_ReshadeObjs_80031660(object->objs);
+    GM_ReshadeObjs(object->objs);
 
     work->f150 = 1;
     work->f156 = 1;

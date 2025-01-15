@@ -590,7 +590,7 @@ int s00a_mouse_800D4B60(MouseWork *work, int name, int unused)
         work->scale = 4096;
     }
 
-    map = Map_FromId_800314C0(work->map);
+    map = GM_GetMap(work->map);
 
     opt = GCL_GetOption('n');
     if (opt != 0)

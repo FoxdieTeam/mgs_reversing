@@ -53,7 +53,7 @@ void PadDemo_800DCBE8(PadDemoWork *work)
         return;
     }
 
-    if (DG_UnDrawFrameCount == 1 && Map_FromId_800314C0(work->map)->used == 1)
+    if (DG_UnDrawFrameCount == 1 && GM_GetMap(work->map)->used == 1)
     {
         work->f28 |= 0x1;
 

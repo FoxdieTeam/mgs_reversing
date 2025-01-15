@@ -213,7 +213,7 @@ void s00a_command_800C55B0( WatcherWork* work )
     ctrl->mov.vy = zone->y + 1000;
     ctrl->mov.vz = zone->z;
 
-    map = Map_FindByZoneId_80031624( 1 << zone->padding );
+    map = GM_FindMapZone( 1 << zone->padding );
 
     if ( map )
     {

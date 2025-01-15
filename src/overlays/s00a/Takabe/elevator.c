@@ -91,8 +91,8 @@ void Elevator_800DA3F8(ElevatorWork *, HZD_AREA *);
 int  Elevator_800DA464(ElevatorWork *, void *);
 void Elevator_800DA57C(int proc, long arg);
 
-void      Takabe_ReshadeModel_800DC854(DG_OBJS *objs, LitHeader *lit);
-DG_OBJS * s00a_unknown3_800DC7DC(int model, LitHeader *lit);
+void      Takabe_ReshadeModel_800DC854(DG_OBJS *objs, LIT *lit);
+DG_OBJS * s00a_unknown3_800DC7DC(int model, LIT *lit);
 void      Takabe_FreeObjs_800DC820(DG_OBJS *objs);
 
 #define EXEC_LEVEL 5
@@ -379,7 +379,7 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
     {
         if (work->f590 == 0)
         {
-            Takabe_ReshadeModel_800DC854(work->object1.objs, Map_FromId_800314C0(GM_CurrentMap_800AB9B0)->lit);
+            Takabe_ReshadeModel_800DC854(work->object1.objs, GM_GetMap(GM_CurrentMap_800AB9B0)->lit);
             work->f590 = 1;
         }
     }
@@ -518,7 +518,7 @@ int ElevatorGetResources_800D98A8(ElevatorWork *work, int name, int where)
     work->name = name;
 
     work->f58C = 0;
-    work->hzd = Map_FromId_800314C0(work->map)->hzd;
+    work->hzd = GM_GetMap(work->map)->hzd;
 
     control = &work->control;
     if (GM_InitControl(control, name, where) < 0)
@@ -972,7 +972,7 @@ void Elevator_800DA4CC(OBJECT *object, int model, int flag)
 
     object->flag = flag;
     object->map_name = GM_CurrentMap_800AB9B0;
-    object->objs = s00a_unknown3_800DC7DC(model, Map_FromId_800314C0(GM_CurrentMap_800AB9B0)->lit);
+    object->objs = s00a_unknown3_800DC7DC(model, GM_GetMap(GM_CurrentMap_800AB9B0)->lit);
 }
 
 void Elevator_800DA534(HZD_VEC *in, SVECTOR *addend, HZD_VEC *out)

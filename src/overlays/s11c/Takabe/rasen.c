@@ -15,9 +15,9 @@ typedef struct _RasenWork
 
 typedef struct _Rasen2Item
 {
-    DG_OBJS   *objs;
-    DG_DEF    *def;
-    LitHeader *lit;
+    DG_OBJS *objs;
+    DG_DEF  *def;
+    LIT     *lit;
 } Rasen2Item;
 
 // Actor created by NewRasen2_800CB008
@@ -73,7 +73,7 @@ unsigned short SECTION("overlay.bss")
 
 void Takabe_FreeObjs_800DC820(DG_OBJS *objs);
 void Takabe_RefreshObjectPacks_800DC854(DG_OBJS *objs);
-void Takabe_ReshadeModel_800DC854(DG_OBJS *objs, LitHeader *lit);
+void Takabe_ReshadeModel_800DC854(DG_OBJS *objs, LIT *lit);
 void s00a_unknown3_800DC918();
 
 extern GM_Camera       GM_Camera_800B77E8;
@@ -308,7 +308,7 @@ void Rasen2Act_800CA79C(Rasen2Work *work)
     {
         mapid = rasen_el_800D2CA4[rasen_800C3404];
         old_map = GM_PlayerControl_800AB9F4->map;
-        new_map = Map_FromId_800314C0(mapid);
+        new_map = GM_GetMap(mapid);
 
         DG_CurrentGroupID_800AB968 = mapid;
         playermap = GM_PlayerMap_800ABA0C;
@@ -421,23 +421,23 @@ int Rasen2GetResources_800CAC64(Rasen2Work *work, int name, int where)
     }
 
     map_index_bit =
-        Map_FindByNum_80031504(GCL_StrToInt(GCL_GetParamResult()))->index;
+        GM_FindMap(GCL_StrToInt(GCL_GetParamResult()))->index;
     rasen_el_800D2CA4[0] = map_index_bit;
     work->field_28 |= map_index_bit;
 
     map_index_bit =
-        Map_FindByNum_80031504(GCL_StrToInt(GCL_GetParamResult()))->index;
+        GM_FindMap(GCL_StrToInt(GCL_GetParamResult()))->index;
     rasen_el_800D2CA4[1] = map_index_bit;
     work->field_28 |= map_index_bit;
 
     map_index_bit =
-        Map_FindByNum_80031504(GCL_StrToInt(GCL_GetParamResult()))->index;
+        GM_FindMap(GCL_StrToInt(GCL_GetParamResult()))->index;
     rasen_el_800D2CA4[2] = map_index_bit;
     work->field_28 |= map_index_bit;
 
     if (GCL_GetOption('m'))
     {
-        map = Map_FindByNum_80031504(GCL_StrToInt(GCL_GetParamResult()))->index;
+        map = GM_FindMap(GCL_StrToInt(GCL_GetParamResult()))->index;
     }
 
     GM_CurrentMap_800AB9B0 = map;
@@ -560,7 +560,7 @@ void Rasen2_800CB150(Rasen2Work *work)
 {
     DG_DEF     *def;
     DG_OBJS    *objs;
-    LitHeader  *lit;
+    LIT        *lit;
     Rasen2Item *item;
     int         i;
 
@@ -770,7 +770,7 @@ void RasenAct_800CB530(RasenWork *work)
         svec5 = gUnkCameraStruct_800B77B8.center;
         svec5.vz += 400;
 
-        if (HZD_LevelTestHazard(Map_FromId_800314C0(rasen_el_800D2CA4[rasen_800C3404])->hzd, &svec5, 3) & 2)
+        if (HZD_LevelTestHazard(GM_GetMap(rasen_el_800D2CA4[rasen_800C3404])->hzd, &svec5, 3) & 2)
         {
             svec5.vy += 6000;
             HZD_LevelMinMaxHeights(levels);
