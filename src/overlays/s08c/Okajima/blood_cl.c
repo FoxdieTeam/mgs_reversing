@@ -11,7 +11,7 @@ typedef struct _BloodClWork
     int      map;
 } BloodClWork;
 
-extern int GM_CurrentMap_800AB9B0;
+extern int GM_CurrentMap;
 
 #define EXEC_LEVEL 4
 
@@ -135,7 +135,7 @@ int BloodClGetResources_800C9A88(BloodClWork *work, int map)
     }
 
     work->map = map;
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
 
     for (i = 0; i < n_prims; i++)
     {

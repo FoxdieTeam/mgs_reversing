@@ -3,7 +3,7 @@
 #include "libdg/libdg.h"
 #include "Game/map.h"
 
-extern int GM_CurrentMap_800AB9B0;
+extern int GM_CurrentMap;
 
 DG_OBJS *s00a_unknown3_800DC724(int model, LIT *lit, int flag)
 {
@@ -24,7 +24,7 @@ DG_OBJS *s00a_unknown3_800DC724(int model, LIT *lit, int flag)
     }
 
     DG_QueueObjs(objs);
-    DG_GroupObjs(objs, GM_CurrentMap_800AB9B0);
+    DG_GroupObjs(objs, GM_CurrentMap);
 
     return objs;
 }

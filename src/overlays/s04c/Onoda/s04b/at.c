@@ -37,7 +37,7 @@ SVECTOR at_bloodpos = {0, 0, 100, 0};
 SVECTOR at_bloodrot = {-1024, 0, 0, 0};
 SVECTOR at_target_size = {400, 900, 400, 0};
 
-extern int     GM_CurrentMap_800AB9B0;
+extern int     GM_CurrentMap;
 
 #define EXEC_LEVEL 5
 
@@ -115,7 +115,7 @@ void s04c_at_800D71A4(AtWork *work)
 void AtAct_800D7324(AtWork *work)
 {
     DG_GetLightMatrix2(&work->control.mov, work->light);
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
     DG_SetPos(&work->body.objs->world);
 
     GM_ActObject2(&work->body);
@@ -214,7 +214,7 @@ int AtGetResources_800D75BC(AtWork *work, int name, int map)
     OBJECT        *body;
     MENU_BAR_CONF *lifebar;
 
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
 
     work->f728 = 0;
 

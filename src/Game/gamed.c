@@ -60,22 +60,22 @@ int          SECTION(".sbss") dword_800AB9D4;
 short        SECTION(".sbss") GM_WeaponChanged_800AB9D8;
 short        SECTION(".sbss") word_800AB9DA;
 int          SECTION(".sbss") GM_ClaymoreMap_800AB9DC;
-int          SECTION(".sbss") GM_AlertMax_800AB9E0;
+int          SECTION(".sbss") GM_AlertMax;
 unsigned int SECTION(".sbss") GM_DisableWeapon_800AB9E4;
 int          SECTION(".sbss") gTotalFrameTime_800AB9E8;
 short        SECTION(".sbss") GM_Magazine_800AB9EC;
 int          SECTION(".sbss") GM_PlayerAddress_800AB9F0;
 CONTROL     *SECTION(".sbss") GM_PlayerControl_800AB9F4;
-SVECTOR      SECTION(".sbss") GM_NoisePosition_800AB9F8; //breaks when added to a file that includes game.h
-int          SECTION(".sbss") GM_AlertMode_800ABA00;
+SVECTOR      SECTION(".sbss") GM_NoisePosition; //breaks when added to a file that includes game.h
+int          SECTION(".sbss") GM_AlertMode;
 int          SECTION(".sbss") GM_Photocode_800ABA04;
 int          SECTION(".sbss") dword_800ABA08;
 int          SECTION(".sbss") GM_PlayerMap_800ABA0C;
 SVECTOR      SECTION(".sbss") GM_PlayerPosition_800ABA10;
-int          SECTION(".sbss") GM_AlertLevel_800ABA18;
+int          SECTION(".sbss") GM_AlertLevel;
 int          SECTION(".sbss") dword_800ABA1C;
 OBJECT      *SECTION(".sbss") GM_PlayerBody_800ABA20;
-int          SECTION(".sbss") GM_NoisePower_800ABA24;
+int          SECTION(".sbss") GM_NoisePower;
 int          SECTION(".sbss") GM_DisableItem_800ABA28;
 short        SECTION(".sbss") GM_MagazineMax_800ABA2C;
 int          SECTION(".sbss") GM_NoiseLength;
@@ -143,12 +143,12 @@ STATIC void GM_InitGameSystem(void)
     GM_GameStatus = 0;
     GM_GameOverTimer = 0;
     GM_PlayerStatus = 0;
-    GM_NoisePower_800ABA24 = 0;
+    GM_NoisePower = 0;
     GM_NoiseLength = 0;
     GM_ClaymoreMap_800AB9DC = 0;
-    GM_AlertLevel_800ABA18 = 0;
-    GM_AlertMax_800AB9E0 = 0;
-    GM_AlertMode_800ABA00 = 0;
+    GM_AlertLevel = 0;
+    GM_AlertMax = 0;
+    GM_AlertMode = 0;
     GM_WeaponChanged_800AB9D8 = 0;
     GM_Magazine_800AB9EC = 0;
     GM_MagazineMax_800ABA2C = 0;
@@ -180,13 +180,13 @@ STATIC void GM_InitNoise(void)
     }
     if (!length)
     {
-        GM_NoisePower_800ABA24 = 0;
+        GM_NoisePower = 0;
     }
 
-    max = GM_AlertMax_800AB9E0;
+    max = GM_AlertMax;
     GM_NoiseLength = length;
-    GM_AlertMax_800AB9E0 = 0;
-    GM_AlertLevel_800ABA18 = max;
+    GM_AlertMax = 0;
+    GM_AlertLevel = max;
 }
 
 STATIC void GM_ResetSystem(void)

@@ -7,7 +7,7 @@
 #include "Game/game.h"
 #include "strcode.h"
 
-extern int          GM_AlertMode_800ABA00;
+extern int          GM_AlertMode;
 extern unsigned int GM_PlayerStatus;
 extern OBJECT      *GM_PlayerBody_800ABA20;
 
@@ -44,7 +44,7 @@ void BreathAct_800C38A0( BreathWork* work )
         }
     }
 
-    if ( work->visible && GM_AlertMode_800ABA00 != 3 && !( GM_PlayerStatus & 0x2013 ) )
+    if ( work->visible && GM_AlertMode != 3 && !( GM_PlayerStatus & 0x2013 ) )
     {
         object = GM_PlayerBody_800ABA20;
         if  ( object != NULL && ( GV_Time % work->time == 0 ) )

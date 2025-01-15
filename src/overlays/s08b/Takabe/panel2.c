@@ -59,7 +59,7 @@ void Panel2Act_800E12B4(Panel2Work *work)
         return;
     }
 
-    GM_CurrentMap_800AB9B0 = work->where;
+    GM_CurrentMap = work->where;
 
     target = work->target;
     if (target != NULL)
@@ -122,7 +122,7 @@ int Panel2GetResources_800E1460(Panel2Work *work, int name, int where)
     unk4C = &work->unk4C;
 
     work->name = name;
-    GM_CurrentMap_800AB9B0 = where;
+    GM_CurrentMap = where;
     work->where = where;
 
     THING_Gcl_GetSVector('p', unk4C);

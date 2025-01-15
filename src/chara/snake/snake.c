@@ -16,8 +16,8 @@ extern short   word_8009EFC0[];
 extern SVECTOR           svector_800AB7CC;
 SVECTOR SECTION(".sbss") svector_800AB7CC;
 
-extern void           *GM_BombSeg_800ABBD8;
-void *SECTION(".sbss") GM_BombSeg_800ABBD8;
+extern void           *GM_BombSeg;
+void *SECTION(".sbss") GM_BombSeg;
 
 extern int           dword_800ABBA8;
 int SECTION(".sbss") dword_800ABBA8;
@@ -276,11 +276,11 @@ int sub_8004E5E8(SnaInitWork *work, int flag)
         {
             if (!flr[i])
             {
-                GM_BombSeg_800ABBD8 = 0;
+                GM_BombSeg = 0;
             }
             else
             {
-                GM_BombSeg_800ABBD8 = (void *)((int)flr[i] & ~0x80000000);
+                GM_BombSeg = (void *)((int)flr[i] & ~0x80000000);
             }
 
             return 1;

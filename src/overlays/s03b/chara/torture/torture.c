@@ -75,7 +75,7 @@ typedef struct _TortureWork
 
 extern int             GV_Clock;
 extern CONTROL        *GM_PlayerControl_800AB9F4;
-extern int             GM_AlertMode_800ABA00;
+extern int             GM_AlertMode;
 extern SVECTOR         GM_PlayerPosition_800ABA10;
 extern OBJECT         *GM_PlayerBody_800ABA20;
 extern int             GM_PlayerStatus;
@@ -2054,7 +2054,7 @@ int TortureGetResources_800C6B3C(TortureWork *work, int name, int map)
     work->body.objs->objs[6].world.t[1] = gUnkCameraStruct_800B77B8.eye.vy;
     work->body.objs->objs[6].world.t[2] = gUnkCameraStruct_800B77B8.eye.vz;
 
-    GM_AlertMode_800ABA00 = 10;
+    GM_AlertMode = 10;
     GM_PlayerStatus |= PLAYER_PREVENT_WEAPON_ITEM_SWITCH;
 
     s03b_boxall_800C9328();

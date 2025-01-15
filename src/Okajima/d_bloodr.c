@@ -5,7 +5,7 @@
 #include "libdg/libdg.h"
 #include "Game/game.h"
 
-extern int              GM_CurrentMap_800AB9B0;
+extern int              GM_CurrentMap;
 extern CONTROL         *GM_PlayerControl_800AB9F4;
 extern OBJECT          *GM_PlayerBody_800ABA20;
 extern PlayerStatusFlag GM_PlayerStatus;

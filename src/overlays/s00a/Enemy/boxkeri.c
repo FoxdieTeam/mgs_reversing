@@ -98,7 +98,7 @@ void BoxKeriAct_800D219C(BoxKeriWork *work)
         break;
     }
 
-    GM_CurrentMap_800AB9B0 = GM_PlayerMap_800ABA0C;
+    GM_CurrentMap = GM_PlayerMap_800ABA0C;
 
     DG_SetPos(&work->field_54);
     DG_MovePos(&work->field_48);
@@ -139,7 +139,7 @@ int BoxKeriGetResources_800D2474(BoxKeriWork *work, MATRIX *arg1, SVECTOR *arg2)
     int             dir;
 
     obj = &work->field_20_obj;
-    GM_CurrentMap_800AB9B0 = GM_PlayerMap_800ABA0C;
+    GM_CurrentMap = GM_PlayerMap_800ABA0C;
     GM_InitObjectNoRots(obj, GV_StrCode(aCbBox), 0x6D, 0);
     GM_ConfigObjectLight((OBJECT *)obj, work->field_7C_mat);
 

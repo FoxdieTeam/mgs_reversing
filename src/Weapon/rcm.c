@@ -13,7 +13,7 @@
 #include "Bullet/rmissile.h"
 #include "SD/g_sound.h"
 
-extern int   GM_CurrentMap_800AB9B0;
+extern int   GM_CurrentMap;
 extern short GM_Magazine_800AB9EC;
 extern short GM_MagazineMax_800ABA2C;
 
@@ -133,7 +133,7 @@ STATIC void RcmAct(RcmWork *work)
     DG_GroupObjs(work->object.objs, DG_CurrentGroupID);
     DG_GroupPrim(work->prim, DG_CurrentGroupID);
 
-    GM_CurrentMap_800AB9B0 = mapBit;
+    GM_CurrentMap = mapBit;
 
     if ((work->parent->objs->flag & DG_FLAG_INVISIBLE) || (GM_PlayerStatus & PLAYER_CB_BOX))
     {

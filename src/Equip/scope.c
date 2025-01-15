@@ -587,7 +587,7 @@ STATIC void ScopeAct(ScopeWork *work)
 
     if (work->field_9C_flags & 0x8000)
     {
-        GM_CurrentMap_800AB9B0 = work->control->map->index;
+        GM_CurrentMap = work->control->map->index;
         DG_GroupObjs(work->object.objs, DG_CurrentGroupID);
 
         if ((GM_PlayerStatus & PLAYER_UNK4000000) != 0)

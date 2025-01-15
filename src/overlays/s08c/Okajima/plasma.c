@@ -36,7 +36,7 @@ typedef struct _PlasmaWork
 } PlasmaWork;
 
 extern int     GV_Clock;
-extern int     GM_CurrentMap_800AB9B0;
+extern int     GM_CurrentMap;
 
 #define EXEC_LEVEL 4
 
@@ -352,7 +352,7 @@ void PlasmaAct_800CC67C(PlasmaWork *work)
     SVECTOR       *base;
     SVECTOR       *verts;
 
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
 
     if (work->f3AC != 255)
     {
@@ -563,7 +563,7 @@ int PlasmaGetResources_800CCD6C(PlasmaWork *work, int name, int map)
     work->name = name;
 
     work->map = map;
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
 
     opt = GCL_GetOption('b');
     if (opt == NULL)
@@ -599,7 +599,7 @@ int PlasmaGetResources_800CCE08(PlasmaWork *work, OBJECT *parent, int arg2, int 
     work->f3BC = 0;
     work->f3B0 = 0;
 
-    work->map = GM_CurrentMap_800AB9B0;
+    work->map = GM_CurrentMap;
 
     work->f3B4 = arg6;
     work->f3A8 = arg4 + GV_RandU(16);
@@ -633,7 +633,7 @@ int PlasmaGetResources_800CCF78(PlasmaWork *work, SVECTOR *arg1, SVECTOR *arg2, 
     work->f3A8 = 1;
     work->f3B0 = 0;
     work->f3A4 = 0;
-    work->map = GM_CurrentMap_800AB9B0;
+    work->map = GM_CurrentMap;
     work->f2F4 = *arg1;
     work->f2FC = *arg2;
     work->f3B4 = arg3;
@@ -651,7 +651,7 @@ int PlasmaGetResources_800CCF78(PlasmaWork *work, SVECTOR *arg1, SVECTOR *arg2, 
 
 int PlasmaGetResources_800CD040(PlasmaWork *work, SVECTOR *arg1, SVECTOR *arg2, int arg3, int arg4)
 {
-    work->map = GM_CurrentMap_800AB9B0;
+    work->map = GM_CurrentMap;
 
     work->f3B0 = 0;
     work->f3A4 = 0;

@@ -15,7 +15,7 @@ typedef struct _SphereWork
     char     pad[0x2];
 } SphereWork;
 
-extern int GM_CurrentMap_800AB9B0;
+extern int GM_CurrentMap;
 extern int GV_Clock;
 
 short SECTION("overlay.bss") sphere_image_width_800E4B28;
@@ -225,7 +225,7 @@ int SphereGetResources_800C6694(SphereWork *work, int map)
     int       index;
     POLY_FT4 *poly;
 
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
 
     opt = GCL_GetOption('c');
     GCL_StrToSV(opt, &color);

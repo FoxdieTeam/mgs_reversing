@@ -37,7 +37,7 @@ typedef struct _GasEfctWork
 
 extern int     GV_Clock;
 extern int     GV_PauseLevel;
-extern int     GM_CurrentMap_800AB9B0;
+extern int     GM_CurrentMap;
 
 unsigned short gas_efct_msgs[] = {HASH_ON2, HASH_OFF2};
 
@@ -263,7 +263,7 @@ GV_ACT *NewGasEffect_800C4EF8(SVECTOR *arg0, int arg1, int arg2)
         work->f44 = 0;
         work->f3C = 0;
         work->name = 0x3B8E;
-        work->map = GM_CurrentMap_800AB9B0;
+        work->map = GM_CurrentMap;
     }
 
     return &work->actor;

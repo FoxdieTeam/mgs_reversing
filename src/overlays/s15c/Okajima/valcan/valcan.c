@@ -153,7 +153,7 @@ extern SVECTOR          svector_8009F478;
 extern SVECTOR          svector_8009F494;
 extern int              dword_8009F46C[];
 extern PlayerStatusFlag GM_PlayerStatus;
-extern int              GM_AlertMode_800ABA00;
+extern int              GM_AlertMode;
 
 void    AN_Breath_800C3AA8(MATRIX *matrix);
 void    AN_Unknown_800CA1EC(MATRIX *world, int index);
@@ -270,7 +270,7 @@ void ValcanAct_800D9088(ValcanWork *work)
     if (work->field_7D4 != 2)
     {
         control = &work->control;
-        GM_CurrentMap_800AB9B0 = work->field_20;
+        GM_CurrentMap = work->field_20;
         Valcan_800D9B5C(work);
         s15c_valcan_800D8ECC(work);
         if (work->field_81C == 0)
@@ -337,7 +337,7 @@ int ValcanGetResources_800D92A8(ValcanWork *work, int name, int where)
     int            k500;
 
     work->field_20 = where;
-    GM_CurrentMap_800AB9B0 = where;
+    GM_CurrentMap = where;
 
     option = (unsigned char *)GCL_GetOption('s');
     if (option)
@@ -1705,5 +1705,5 @@ void Valcan_800DD578(ValcanWork *work)
     work->field_944 = 15000;
     work->field_948 = 1024;
     Valcan_800D9D90(work);
-    GM_AlertMode_800ABA00 = 4;
+    GM_AlertMode = 4;
 }

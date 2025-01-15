@@ -19,7 +19,7 @@ typedef struct _SmktrgtWork
     int     map;
 } SmktrgtWork;
 
-extern int     GM_CurrentMap_800AB9B0;
+extern int     GM_CurrentMap;
 extern int     GM_PlayerMap_800ABA0C;
 
 SVECTOR s13a_800C36FC = {200, 200, 200, 0};
@@ -218,7 +218,7 @@ void SmktrgtAct_800DC19C(SmktrgtWork *work)
 
     if (work->map & GM_PlayerMap_800ABA0C)
     {
-        GM_CurrentMap_800AB9B0 = work->map;
+        GM_CurrentMap = work->map;
 
         for (i = 0; i < work->f920; i++)
         {
@@ -234,7 +234,7 @@ int SmktrgtGetResources_800DC210(SmktrgtWork *work, int name, int map)
     int count;
 
     work->map = map;
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
 
     opt = GCL_GetOption('m');
     if (opt != NULL)

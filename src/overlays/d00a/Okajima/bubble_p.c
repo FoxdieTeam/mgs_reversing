@@ -21,7 +21,7 @@ typedef struct _BubblePWork
 } BubblePWork;
 
 extern int GV_Clock;
-extern int GM_CurrentMap_800AB9B0;
+extern int GM_CurrentMap;
 
 #define EXEC_LEVEL 4
 
@@ -125,7 +125,7 @@ void BubblePUpdatePacks_800D9748(BubblePWork *work)
 
 void BubblePAct_800D9974(BubblePWork *work)
 {
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
 
     work->f7C++;
 
@@ -210,7 +210,7 @@ int BubblePGetResources_800D9B58(BubblePWork *work, SVECTOR *arg1, SVECTOR *arg2
     SVECTOR vec;
     int     i;
 
-    work->map = GM_CurrentMap_800AB9B0;
+    work->map = GM_CurrentMap;
 
     vec = *arg2;
     vec.vx /= 6;

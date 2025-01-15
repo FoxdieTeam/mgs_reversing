@@ -87,7 +87,7 @@ STATIC void GrenadeAct( GrenadeWork *work )
     SVECTOR       tenage_vec2;
     GV_ACT       *tenage;
 
-    GM_CurrentMap_800AB9B0 = work->control->map->index;
+    GM_CurrentMap = work->control->map->index;
     DG_GroupObjs( work->object.objs, DG_CurrentGroupID );
     parent_objs_flag = ( work->parent->objs->flag & 0xFF ) >> 7;
 

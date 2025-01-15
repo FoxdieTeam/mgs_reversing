@@ -41,7 +41,7 @@ GV_ACT *NewCinemaScreen_800DE434(int, int);
 int     NewCinemaScreenClose_800DE4CC(GV_ACT *work);
 GV_ACT *NewSpark2_800CA714(MATRIX *world);
 
-extern int     GM_CurrentMap_800AB9B0;
+extern int     GM_CurrentMap;
 extern int     GM_PadVibration;
 extern int     GM_PadVibration2;
 extern DG_CHANL DG_Chanls_800B1800[3];
@@ -402,7 +402,7 @@ void PLamp_800CD570(PLampWork *work)
 
 void PLampAct_800CD5C0(PLampWork *work)
 {
-    GM_CurrentMap_800AB9B0 = work->where;
+    GM_CurrentMap = work->where;
     PLamp_800CD570(work);
     if (work->field_1D8 == 0 && (work->target->damaged & TARGET_POWER))
     {
@@ -448,7 +448,7 @@ int PLampGetResources_800CD6E4(PLampWork *work, int map, int n_verts)
     work->has_prims = 0;
     work->where = map;
 
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
 
     for (i = 0; i < 16; i++)
     {

@@ -194,7 +194,7 @@ STATIC void TenageAct(TenageWork *work)
 STATIC void TenageDie(TenageWork *work)
 {
     GM_FreeControl(&work->control);
-    GM_ClearBulName_8004FBE4(work->control.name);
+    GM_ClearBulName(work->control.name);
     GM_FreeObject((OBJECT *)&work->object);
 
     if (work->control_index >= 0)

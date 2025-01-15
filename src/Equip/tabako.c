@@ -14,7 +14,7 @@
 #include "Game/map.h"
 #include "Anime/animeconv/anime.h"
 
-extern int              GM_CurrentMap_800AB9B0;
+extern int              GM_CurrentMap;
 extern PlayerStatusFlag GM_PlayerStatus;
 
 /*---------------------------------------------------------------------------*/

@@ -270,7 +270,7 @@ STATIC void sight_act_helper_80071498(SightTextPseudoPrim *textPrim)
 }
 
 extern int GV_Clock;
-extern int GM_CurrentMap_800AB9B0;
+extern int GM_CurrentMap;
 extern int GM_PlayerStatus;
 extern int GV_PauseLevel;
 
@@ -319,7 +319,7 @@ STATIC void sight_act_800714EC(SightWork *work)
 
     work->field_58_clock = GV_Clock;
     sight_act_helper_8007111C(work);
-    work->field_28_currentMap = GM_CurrentMap_800AB9B0;
+    work->field_28_currentMap = GM_CurrentMap;
 
     primBufInfo = work->field_34_primitiveBufferInfo;
     primCount = primBufInfo->field_3_primCount;

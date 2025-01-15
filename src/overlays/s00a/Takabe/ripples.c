@@ -20,11 +20,11 @@ typedef struct RipplesWork
 
 void *NewRipple_800D7F30( MATRIX *, int );
 
-extern int GM_CurrentMap_800AB9B0;
+extern int GM_CurrentMap;
 
 STATIC void RipplesAct_800D85A0(RipplesWork *work)
 {
-    GM_CurrentMap_800AB9B0 = work->field_20;
+    GM_CurrentMap = work->field_20;
     if (--work->field_48 < 0)
     {
         NewRipple_800D7F30(&work->field_28, work->field_4A);

@@ -7,10 +7,10 @@
 
 extern ENEMY_COMMAND EnemyCommand_800E0D98;
 extern SVECTOR       GM_PlayerPosition_800ABA10;
-extern int           GM_AlertLevel_800ABA18;
+extern int           GM_AlertLevel;
 extern int           GM_PlayerStatus;
 extern unsigned int  COM_GameStatus_800E0F3C;
-extern int           GM_NoisePower_800ABA24;
+extern int           GM_NoisePower;
 extern SVECTOR       COM_PlayerPosition_800E0F30;
 extern SVECTOR       COM_PlayerPositionOne_800E0D48[8];
 extern int           COM_PlayerMapOne_800E0F70[8];
@@ -51,7 +51,7 @@ void s07a_meryl_unk_800DB3C0( WatcherWork* work )
     int addr;
     HZD_ZON *zone;
 
-    addr = HZD_GetAddress( GM_WhereList_800B56D0[0]->map->hzd, &GM_NoisePosition_800AB9F8, -1 ) & 0xFF;
+    addr = HZD_GetAddress( GM_WhereList_800B56D0[0]->map->hzd, &GM_NoisePosition, -1 ) & 0xFF;
     work->target_addr = ( addr << 8 ) | addr;
     zone = &GM_WhereList_800B56D0[0]->map->hzd->header->zones[ addr ];
 
@@ -511,7 +511,7 @@ void s07a_meryl_unk_800DBD54( WatcherWork *work )
 
 void s07a_meryl_unk_800DBD90( WatcherWork* work )
 {
-    switch( GM_NoisePower_800ABA24 )
+    switch( GM_NoisePower )
     {
     case 5:
         work->think2 = 1;
@@ -1479,7 +1479,7 @@ int s07a_meryl_unk_800DD310( WatcherWork *work )
 int s07a_meryl_unk_800DD354( WatcherWork *work )
 {
     SVECTOR svec;
-    GV_SubVec3( &GM_NoisePosition_800AB9F8, &work->control.mov, &svec );
+    GV_SubVec3( &GM_NoisePosition, &work->control.mov, &svec );
     work->pad.dir = GV_VecDir2( &svec );
     work->pad.press |= 0x02000000;
 
@@ -2084,7 +2084,7 @@ void s07a_meryl_unk_800DDF14( WatcherWork *work )
 
            if (  work->field_BA1 & 1  )
            {
-                if ( GM_NoisePower_800ABA24 == 200 || GM_NoisePower_800ABA24 == 255  )
+                if ( GM_NoisePower == 200 || GM_NoisePower == 255  )
                 {
                     think_noise_inline( work );
                 }
@@ -2211,9 +2211,9 @@ void s07a_meryl_unk_800DE0C8( WatcherWork *work )
 
     if ( work->field_BA1 & 1 )
     {
-        if ( (GM_NoisePower_800ABA24 != 100) )
+        if ( (GM_NoisePower != 100) )
         {
-            if ( GM_NoisePower_800ABA24 == 255 )
+            if ( GM_NoisePower == 255 )
             {
                 think_noise_inline( work );
                 return;
@@ -2321,7 +2321,7 @@ void s07a_meryl_unk_800DE360( WatcherWork *work )
     }
     else if ( work->field_BA1 & 1 )
     {
-        if ( GM_NoisePower_800ABA24 == 200 || GM_NoisePower_800ABA24 == 255 )
+        if ( GM_NoisePower == 200 || GM_NoisePower == 255 )
         {
             think_noise_inline( work );
         }
@@ -2676,13 +2676,13 @@ void s07a_meryl_unk_800DED40( WatcherWork* work )
     }
 }
 
-extern int GM_AlertLevel_800ABA18;
+extern int GM_AlertLevel;
 
 void s07a_meryl_unk_800DEE14( WatcherWork* work )
 {
     s07a_meryl_unk_800DB378( work );
 
-    if ( s07a_meryl_unk_800DCD58( work ) || ( work->sn_dis < ( work->field_BFC + 500 ) ) || GM_AlertLevel_800ABA18 < 150 )
+    if ( s07a_meryl_unk_800DCD58( work ) || ( work->sn_dis < ( work->field_BFC + 500 ) ) || GM_AlertLevel < 150 )
     {
         work->think2 = 13;
         work->think3 = 34;

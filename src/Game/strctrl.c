@@ -36,7 +36,7 @@ STATIC void strctrl_Act( StreamCtrlWork *work )
     int sd_code;
     int stream_data;
 
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
     FS_StreamSync();
     switch ( work->field_20_state )
     {
@@ -186,7 +186,7 @@ StreamCtrlWork *NewStreamControl( int stream_code, int gcl_proc, int flags )
     }
     strctrl_800B82B0.field_26_flags = flags;
     strctrl_800B82B0.field_24 = 0;
-    strctrl_800B82B0.map = GM_CurrentMap_800AB9B0;
+    strctrl_800B82B0.map = GM_CurrentMap;
 
     FS_StreamTaskStart( stream_code );
     return &strctrl_800B82B0;

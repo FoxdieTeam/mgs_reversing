@@ -60,7 +60,7 @@ void s16d_belong_800C38D0(BelongWork *work)
     s16d_belong_800C37DC(work);
     if (work->field_54 != 1)
     {
-        GM_CurrentMap_800AB9B0 = work->field_20->map->index;
+        GM_CurrentMap = work->field_20->map->index;
         work->field_28.objs->group_id = group_id = DG_CurrentGroupID;
         if (work->field_24->objs->flag & DG_FLAG_INVISIBLE)
         {

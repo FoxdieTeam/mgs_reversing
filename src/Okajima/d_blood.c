@@ -7,7 +7,7 @@
 #include "Game/linkvarbuf.h"
 #include "SD/g_sound.h"
 
-extern int              GM_CurrentMap_800AB9B0;
+extern int              GM_CurrentMap;
 extern PlayerStatusFlag GM_PlayerStatus;
 extern GV_PAD           GV_PadData_800B05C0[4];
 extern CONTROL      *GM_PlayerControl_800AB9F4;
@@ -104,7 +104,7 @@ STATIC int d_blood_loader_helper_80072B24(DBloodWork *work)
 
 STATIC int d_blood_GetResources(DBloodWork *work)
 {
-    work->current_map = GM_CurrentMap_800AB9B0;
+    work->current_map = GM_CurrentMap;
     d_blood_loader_helper_80072B24(work);
     return 0;
 }

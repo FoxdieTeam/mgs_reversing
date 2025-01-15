@@ -69,7 +69,7 @@ STATIC int BoxCheckMessage(BoxWork *work)
 
 STATIC void BoxAct(BoxWork *work)
 {
-    GM_CurrentMap_800AB9B0 =  work->control->map->index;
+    GM_CurrentMap =  work->control->map->index;
 
     DG_GroupObjs(work->object.objs, DG_CurrentGroupID);
 

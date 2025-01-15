@@ -20,7 +20,7 @@ extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 extern int              dword_800BDF98;
 extern int              dword_800BDF9C;
 extern int              dword_800BDFA0;
-extern int              GM_CurrentMap_800AB9B0;
+extern int              GM_CurrentMap;
 extern int              GV_Clock;
 
 /*---------------------------------------------------------------------------*/
@@ -267,13 +267,13 @@ STATIC int chafgrnd_GetResources(ChaffGrdWork *work, MATRIX *world)
     work->field_24 = 0;
     work->field_28 = dword_800BDFA0 - 60;
 
-    work->field_20_map = GM_CurrentMap_800AB9B0;
+    work->field_20_map = GM_CurrentMap;
 
     work->field_2c.vx = world->t[0];
     work->field_2c.vy = world->t[1];
     work->field_2c.vz = world->t[2];
 
-    work->field_20_map = GM_CurrentMap_800AB9B0;
+    work->field_20_map = GM_CurrentMap;
 
     vec1.vx = 0;
     vec1.vy = 0;
@@ -336,7 +336,7 @@ GV_ACT *NewChaffGrd(MATRIX *world)
     vec.vy = world->t[1];
     vec.vz = world->t[2];
 
-    GM_SetCurrentMap(GM_CurrentMap_800AB9B0);
+    GM_SetCurrentMap(GM_CurrentMap);
     AN_Blast_Minimini(&vec);
 
     if (GM_GameStatus & STATE_CHAFF)

@@ -43,7 +43,7 @@ void BreakObjAct_800D5670(BreakObjWork *work)
     int     flag;
     OBJECT *object;
 
-    GM_CurrentMap_800AB9B0 = work->where;
+    GM_CurrentMap = work->where;
 
     flag = THING_Msg_CheckMessage(work->name, 2, breakobj_msgs_800C36E8) == 0;
 
@@ -115,7 +115,7 @@ int BreakObjGetResources_800D5894(BreakObjWork *work, int name, int where)
     svec1 = &work->svec1;
 
     work->name = name;
-    GM_CurrentMap_800AB9B0 = where;
+    GM_CurrentMap = where;
     work->where = where;
 
     THING_Gcl_GetSVector('p', svec1);

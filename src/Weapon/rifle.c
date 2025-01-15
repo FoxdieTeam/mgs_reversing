@@ -18,7 +18,7 @@ extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 extern OBJECT          *GM_PlayerBody_800ABA20;
 
 extern int      DG_CurrentGroupID;
-extern int      GM_CurrentMap_800AB9B0;
+extern int      GM_CurrentMap;
 extern short    GM_Magazine_800AB9EC;
 extern short    GM_MagazineMax_800ABA2C;
 
@@ -113,7 +113,7 @@ STATIC void RifleAct(RifleWork *work)
     int temp_v0_2;
     short zoomLevel;
 
-    GM_CurrentMap_800AB9B0 = work->control->map->index;
+    GM_CurrentMap = work->control->map->index;
     DG_GroupObjs(work->object.objs, DG_CurrentGroupID);
 
     if (!(work->parent->objs->flag & DG_FLAG_INVISIBLE))

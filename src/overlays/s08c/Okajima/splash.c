@@ -15,7 +15,7 @@ typedef struct SplashWork
 RECT rect_800C3420 = {50, 50, 100, 100};
 
 extern int GV_Clock;
-extern int GM_CurrentMap_800AB9B0;
+extern int GM_CurrentMap;
 
 void SplashTransform_800C8808( MATRIX *matrix, SVECTOR *vecs1, SVECTOR *vecs2, int count )
 {
@@ -125,7 +125,7 @@ void SplashAct_800C8BA8(SplashWork *work)
 {
     int time;
 
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
 
     time = --work->time;
     if (work->time <= 0)
@@ -156,7 +156,7 @@ int SplashGetResources_800C8C6C(SplashWork *work, MATRIX *mat, int rgb)
     int       texid;
     DG_TEX   *tex;
 
-    work->map = GM_CurrentMap_800AB9B0;
+    work->map = GM_CurrentMap;
     SplashTransform_800C8808(mat, work->off, work->pos, 16);
     prim = DG_GetPrim(DG_PRIM_POLY_FT4, 16, 0, work->pos, &rect_800C3420);
     work->prim = prim;

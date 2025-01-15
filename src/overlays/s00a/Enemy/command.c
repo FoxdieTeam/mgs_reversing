@@ -67,7 +67,7 @@ int SECTION("overlay.bss") s00a_dword_800E0F6C;
 int SECTION("overlay.bss") COM_PlayerMapOne_800E0F70[8];
 
 extern int       GM_PlayerAddress_800AB9F0;
-extern SVECTOR   GM_NoisePosition_800AB9F8;
+extern SVECTOR   GM_NoisePosition;
 extern int       GM_PlayerMap_800ABA0C;
 extern SVECTOR   GM_PlayerPosition_800ABA10;
 extern OBJECT   *GM_PlayerBody_800ABA20;
@@ -158,8 +158,8 @@ void ENE_SetGopointLast_800CEB00(void)
 
 void s00a_command_800CEB54(void)
 {
-    EnemyCommand_800E0D98.com_addr = HZD_GetAddress( GM_WhereList_800B56D0[0]->map->hzd, &GM_NoisePosition_800AB9F8, -1 );
-    EnemyCommand_800E0D98.com_pos = GM_NoisePosition_800AB9F8;
+    EnemyCommand_800E0D98.com_addr = HZD_GetAddress( GM_WhereList_800B56D0[0]->map->hzd, &GM_NoisePosition, -1 );
+    EnemyCommand_800E0D98.com_pos = GM_NoisePosition;
     EnemyCommand_800E0D98.com_map = GM_PlayerMap_800ABA0C;
 }
 
@@ -745,7 +745,7 @@ int s00a_command_800CF9A0( WatcherWork *work, int dis, int idx )
         goto exit;
     }
 
-    if ( GM_NoisePower_800ABA24 != 0x64 )
+    if ( GM_NoisePower != 0x64 )
     {
         goto exit;
     }
@@ -756,12 +756,12 @@ int s00a_command_800CF9A0( WatcherWork *work, int dis, int idx )
        goto exit;
     }
 
-    if ( GV_DiffVec3( &GM_NoisePosition_800AB9F8, &ctrl->mov ) >= COM_NOISEMODE_DIS_800E0F38 )
+    if ( GV_DiffVec3( &GM_NoisePosition, &ctrl->mov ) >= COM_NOISEMODE_DIS_800E0F38 )
     {
         goto exit;
     }
 
-    x = s00a_command_800CF940( ctrl->map->hzd, &ctrl->mov, &GM_NoisePosition_800AB9F8 );
+    x = s00a_command_800CF940( ctrl->map->hzd, &ctrl->mov, &GM_NoisePosition );
 
     if ( x < 300 && x < dis )
     {
@@ -1044,7 +1044,7 @@ void s00a_command_800D018C( CommanderWork* work )
 
 void s00a_command_800D0218(void)
 {
-    if ( EnemyCommand_800E0D98.field_0x182 && GM_NoisePower_800ABA24 == 0xFF )
+    if ( EnemyCommand_800E0D98.field_0x182 && GM_NoisePower == 0xFF )
     {
         EnemyCommand_800E0D98.field_0x182 = 0;
         EnemyCommand_800E0D98.field_0x180++;

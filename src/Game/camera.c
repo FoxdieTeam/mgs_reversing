@@ -32,9 +32,9 @@ extern GM_Camera        GM_Camera_800B77E8;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B76F0;
-extern int              GM_AlertMode_800ABA00;
+extern int              GM_AlertMode;
 extern CAMERA           GM_CameraList_800B7718[8];
-extern int              GM_NoisePower_800ABA24;
+extern int              GM_NoisePower;
 extern int              GM_NoiseLength;
 
 static const unsigned int dword_80010C60[] =
@@ -580,7 +580,7 @@ void camera_act_helper4_8002F78C(void)
         }
     }
 
-    if (GM_NoisePower_800ABA24 >= 255)
+    if (GM_NoisePower >= 255)
     {
         if (GM_Camera_800B77E8.first_person == 0)
         {
@@ -848,7 +848,7 @@ int camera_act_helper6_80030250(GV_ACT *pActor)
 
     var_a1 = GM_event_camera_flag;
 
-    if (GM_AlertMode_800ABA00 == 3)
+    if (GM_AlertMode == 3)
     {
         if (GM_Camera_800B77E8.field_24_gcl_param_a < 8)
         {
@@ -1094,7 +1094,7 @@ void sub_8003081C()
     gUnkCameraStruct_800B77B8.center = gUnkCameraStruct_800B77B8.eye;
 }
 
-void GM_CameraSetAlertMask_80030850(unsigned int id, unsigned int mask)
+void GM_CameraSetAlertMask(unsigned int id, unsigned int mask)
 {
     if ( mask & 0x2 )
     {
@@ -1134,7 +1134,7 @@ void GM_CameraSetTrack_80030980(int track)
     sub_8002FCF0();
 }
 
-void GM_CameraEventReset_800309A8(void)
+void GM_CameraEventReset(void)
 {
     dword_800ABA90 = 0;
     return;
@@ -1163,12 +1163,12 @@ void sub_80030A30()
     GM_Camera_800B77E8.flags &= ~2;
 }
 
-void GM_CameraBoundTrace_80030AA4(int param_1)
+void GM_CameraBoundTrace(int param_1)
 {
     sub_8002EADC(param_1);
 }
 
-void GM_CameraLimitTrace_80030AC4(int param_1)
+void GM_CameraLimitTrace(int param_1)
 {
     sub_8002EBE8(&GM_Camera_800B77E8.center, param_1);
 }
@@ -1186,13 +1186,13 @@ void GM_ExitBehindCamera_80030AEC(void)
     GM_800AB444 = NULL;
 }
 
-void GM_CheckBehindCamera_80030B3C(HZD_HDL *pHzdMap, CONTROL *pControl)
+void GM_CheckBehindCamera(HZD_HDL *pHzdMap, CONTROL *pControl)
 {
     HZD_TRP *trp;
     CAMERA  *cam;
     short   *name;
 
-    if ((GM_StatusEvent & 0x100 || GM_AlertMode_800ABA00 != 3) &&
+    if ((GM_StatusEvent & 0x100 || GM_AlertMode != 3) &&
         (trp = HZD_CheckBehindTrap(pHzdMap, &pControl->mov)) != NULL)
     {
         if (GM_800AB444 != trp)

@@ -116,7 +116,7 @@ STATIC void goggle_Act(GoggleWork *work)
         new_map = work->control->map->index;
         DG_GroupObjs(work->object.objs, DG_CurrentGroupID);
 
-        GM_CurrentMap_800AB9B0 = new_map;
+        GM_CurrentMap = new_map;
         if (work->parent_obj->objs->flag & DG_FLAG_INVISIBLE)
         {
             DG_InvisibleObjs(work->object.objs);

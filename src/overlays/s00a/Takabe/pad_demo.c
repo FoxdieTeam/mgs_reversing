@@ -26,7 +26,7 @@ typedef struct _PadDemoWork
 
 extern int   GV_PauseLevel;
 extern short GV_DemoPadStatus[2];
-extern int   GM_CurrentMap_800AB9B0;
+extern int   GM_CurrentMap;
 
 // Something to do with setting current/last item to ITEM_NONE
 void sub_8003CC88(void);
@@ -149,7 +149,7 @@ int PadDemoGetResources_800DCE94(PadDemoWork *work, int name, int map)
 {
     int filename;
 
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
 
     work->map = map;
     work->name = name;

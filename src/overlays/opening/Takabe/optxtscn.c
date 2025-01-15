@@ -60,7 +60,7 @@ OpTxtScnUnk opening_dword_800C33E4[2] =
 };
 
 extern int    GV_Clock;
-extern int    GM_CurrentMap_800AB9B0;
+extern int    GM_CurrentMap;
 
 #define EXEC_LEVEL 5
 
@@ -263,7 +263,7 @@ int OptxtscnGetResources_800CD080(OpTxtScnWork *work)
         DG_PutObjs(objs);
         objs->light = work->field_4C_light;
         DG_QueueObjs(objs);
-        DG_GroupObjs(objs, GM_CurrentMap_800AB9B0);
+        DG_GroupObjs(objs, GM_CurrentMap);
 
         tex = DG_GetTexture(def->model[0].materials[0]);
         tex->clut = work->field_2C->clut;

@@ -9,7 +9,7 @@ RedAlrtWork *d03a_dword_800C3270 = NULL;
 
 extern int     GV_Clock;
 extern int     GV_PauseLevel;
-extern int     GM_CurrentMap_800AB9B0;
+extern int     GM_CurrentMap;
 
 #define EXEC_LEVEL 3
 
@@ -81,7 +81,7 @@ void RedAlertAct_800C45E4(RedAlrtWork *work)
     int            found;
     char          *ot;
 
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
 
     if (work->f6C == 1 && --work->f68 < 0)
     {
@@ -207,7 +207,7 @@ int d03a_red_alrt_800C4958(RedAlrtWork *work, int name, int map)
     work->name = name;
     work->map = map;
 
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
 
     opt = GCL_GetOption('t');
     if (opt != 0)
@@ -308,7 +308,7 @@ int d03a_red_alrt_800C4BB0(RedAlrtWork *work, int name, int length, SVECTOR *col
     work->f6C = 1;
     work->name = name;
     work->f60 = length;
-    work->map = GM_CurrentMap_800AB9B0;
+    work->map = GM_CurrentMap;
     work->f68 = arg6;
     work->color1 = *color1;
     work->color2 = *color2;
