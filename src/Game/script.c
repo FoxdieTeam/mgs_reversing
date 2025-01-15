@@ -599,7 +599,7 @@ STATIC int GM_Command_load(unsigned char *top)
         {
             // Hard restart?
             strcpy(dword_800ABA58, GM_GetArea((int)scriptStageName));
-            GV_ResidentHeapReset();
+            GV_InitResidentMemory();
             GV_InitCacheSystem();
             DG_ClearResidentTexture();
             GM_SetArea(GV_StrCode(scriptStageName), scriptStageName);
