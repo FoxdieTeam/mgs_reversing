@@ -21,7 +21,7 @@ typedef struct LoaderWork
 
 #define EXEC_LEVEL 2
 
-STATIC void LoaderAct(LoaderWork *work)
+STATIC void loader_Act(LoaderWork *work)
 {
     work->time++;
 
@@ -47,7 +47,7 @@ STATIC void LoaderAct(LoaderWork *work)
     }
 }
 
-STATIC void LoaderDie(LoaderWork *work)
+STATIC void loader_Die(LoaderWork *work)
 {
     printf("LoadEnd\n");
     FS_LoadStageComplete(work->info);
@@ -67,6 +67,7 @@ void *NewLoader(const char *dir)
 #endif
 
     work = (LoaderWork *)GV_NewActor(EXEC_LEVEL, sizeof(LoaderWork));
+
     printf("LoadReq\n");
     work->info = FS_LoadStageRequest(dir);
 
@@ -75,8 +76,8 @@ void *NewLoader(const char *dir)
         printf("NOT FOUND STAGE %s\n", dir);
     }
 
-    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)LoaderAct,
-                     (GV_ACTFUNC)LoaderDie, "loader.c");
+    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)loader_Act,
+                     (GV_ACTFUNC)loader_Die, "loader.c");
 
     work->reading = TRUE;
     work->type = (GM_LoadRequest & 0x0f);
