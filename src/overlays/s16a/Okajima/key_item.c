@@ -88,7 +88,7 @@ void KeyItemRun_800C8948(int where)
     proc3 = 0;
     proc4 = 0;
     proc5 = 0;
-    map = Map_FromId_800314C0(where);
+    map = GM_GetMap(where);
 
     opt = GCL_GetOption('m');
     if (opt != NULL)

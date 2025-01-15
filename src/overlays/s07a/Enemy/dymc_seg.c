@@ -64,7 +64,7 @@ int s07a_dymc_seg_800D64CC(DymcSegWork *work, int arg1, SVECTOR *min, SVECTOR *m
     seg->p2.h = max_h;
 
     HZD_SetDynamicSegment(seg, seg);
-    work->field_24 = Map_FindByNum_80031504(arg1)->hzd;
+    work->field_24 = GM_FindMap(arg1)->hzd;
     HZD_QueueDynamicSegment2(work->field_24, seg, flag);
 
     return 0;

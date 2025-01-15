@@ -149,7 +149,7 @@ int s11i_zk11fcom_800CFB64( Zako11FWork *work )
                 }
 
                 addr2 = s11i_zk11fcom_800D0D34( work->target_map, control->map->index );
-                control->map = Map_FromId_800314C0( work->target_map );
+                control->map = GM_GetMap( work->target_map );
                 zone = &control->map->hzd->header->zones[ addr2 ];
                 work->control.mov.vx = zone->x;
                 control->mov.vy = zone->y;

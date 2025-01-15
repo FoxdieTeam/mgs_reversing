@@ -968,7 +968,7 @@ int s07a_meryl_unk_800DC7CC( WatcherWork *work )
     HZD_PAT *patrol;
     HZD_PTP *points;
 
-    map = Map_FromId_800314C0( work->start_map );
+    map = GM_GetMap( work->start_map );
     param = ( PARAM * )&work->field_B78;
     patrol = map->hzd->header->routes;
     patrol = &patrol[ param->root ];

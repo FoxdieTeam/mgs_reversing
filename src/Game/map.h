@@ -7,46 +7,45 @@
 #include "libhzd/libhzd.h"
 #include "libdg/libdg.h"
 
-typedef struct LitHeader
+// This is originally a u_long *,
+// with (DG_LIT *)( lit + 1 ) used to access the lights
+typedef struct LIT
 {
     int    n_lights;
     DG_LIT lights[0];
-} LitHeader;
+} LIT;
 
 typedef struct MAP
 {
-    int            index;
-    unsigned short name;
-    unsigned short used;
-    HZD_HDL       *hzd;
-    LitHeader     *lit;
-    int            zone;
+    int      index;
+    u_short  name;
+    u_short  used;
+    HZD_HDL *hzd;
+    LIT     *lit;
+    int      zone;
 } MAP;
 
+// Local to Game/area.c
 #define MAX_HISTORY 8
-
 typedef struct AreaHistory
 {
     short history[MAX_HISTORY];
 } AreaHistory;
 
-MAP     *Map_FindByNum_80031504(int mapNameHash);
-int      GM_AddMap_80031324(int mapName);
-void     Map_KmdLoad_80030E74(int pLitName, MAP *pMap);
-HZD_HDL *Map_HZD_Load_80030F38(int resource_name_hashed, int flagsIndex, int bitIndex, int default_48, int default_24);
-MAP     *Map_GetNextFreeRecord_80030E30(int mapNameHashed);
-MAP     *Map_FromId_800314C0(int id);
-MAP     *Map_ScriptLoadMapBlocks_800312D0();
-int      Map_ScriptReloadMaps_80031450(int a1);
-void     GM_SetMap_80031244(int mapNum, int resourceNameHashed);
-void     Map_light_80030C6C(int a1);
-void     Map_80030FA4();
-void     GM_ResetMapObjs_800310A0();
-HZD_HDL *Map_Enum_Get_Hzd_80031580(HZD_HDL *pPrevious);
-void     GM_DieMap_80030FD0();
-int      GM_DelMap_800313C0(int mapName);
-void     GM_FreeMapObjs_80031028();
-MAP     *Map_FindByZoneId_80031624(int zone_id);
-MAP     *GM_Command_mapdef_impl_800310D0(void);
+MAP     *GM_FindMap(int name);
+int      GM_AddMap(int name);
+int      GM_DelMap(int name);
+MAP     *GM_GetMap(int id);
+MAP     *GM_DefineMap(void);
+int      GM_ReloadMap(int preshade);
+void     GM_UpdateMap(void);
+void     GM_ResetMap(void);
+HZD_HDL *GM_IterHazard(HZD_HDL *cur);
+void     GM_ResetMapHazard(void);
+void     GM_ResetMapModel(void);
+MAP     *GM_FindMapZone(int zone);
+MAP     *GM_CreateMap(void);
+void     GM_ReshadeObjs(DG_OBJS *objs);
+void     GM_ReshadeMapAll(void);
 
 #endif // _MAP_H_

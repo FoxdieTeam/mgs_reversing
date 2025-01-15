@@ -116,7 +116,7 @@ void s00a_command_800CAA2C( WatcherWork *work, int addr )
     work->target_pos.vy = zone->y;
     work->target_pos.vz = zone->z;
 
-    map = Map_FindByZoneId_80031624( 1 << zone->padding );
+    map = GM_FindMapZone( 1 << zone->padding );
     if ( map )
     {
         work->target_map = map->index;
@@ -164,7 +164,7 @@ void s00a_command_800CAB74( WatcherWork* work )
     work->target_pos.vy = zone->y;
     work->target_pos.vz = zone->z;
 
-    map = Map_FindByZoneId_80031624( 1 << zone->padding );
+    map = GM_FindMapZone( 1 << zone->padding );
     if ( map == NULL )
     {
         printf( (char *)aErrnozoneidingcl_800E06C0 );
@@ -255,7 +255,7 @@ void s00a_command_800CAD84( WatcherWork *work )
 
             if ( !s00a_command_800CA898( work , zone2 ) )
             {
-                map = Map_FindByZoneId_80031624( 1 << zone2->padding );
+                map = GM_FindMapZone( 1 << zone2->padding );
                 if ( map )
                 {
                     if ( map->used || zone->padding == zone2->padding )
@@ -810,7 +810,7 @@ int s00a_command_800CBA50( WatcherWork *work )
     HZD_PAT *patrol;
     HZD_PTP *points;
 
-    map = Map_FromId_800314C0( work->start_map );
+    map = GM_GetMap( work->start_map );
     patrol = map->hzd->header->routes;
     patrol = &patrol[ work->param_root ];
 
@@ -1047,7 +1047,7 @@ int s00a_command_800CBF00( WatcherWork *work )
 
     printf( (char *)aBefmapnamed_800E06F4, ctrl->map->index );
 
-    map = Map_FindByZoneId_80031624( 1 << zone->padding );
+    map = GM_FindMapZone( 1 << zone->padding );
     if ( map )
     {
         ctrl->map = map;
