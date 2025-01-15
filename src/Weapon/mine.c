@@ -12,7 +12,7 @@ extern short      GM_Magazine_800AB9EC;
 extern short      GM_MagazineMax_800ABA2C;
 
 extern int        GM_CurrentMap_800AB9B0;
-extern int        DG_CurrentGroupID_800AB968;
+extern int        DG_CurrentGroupID;
 extern int        counter_8009F448;
 extern void      *GM_BombSeg_800ABBD8;
 
@@ -43,7 +43,7 @@ STATIC void MineAct(MineWork *work)
     DG_OBJ *obj;
 
     map = work->control->map->index;
-    DG_GroupObjs(work->object.objs, DG_CurrentGroupID_800AB968);
+    DG_GroupObjs(work->object.objs, DG_CurrentGroupID);
 
     GM_CurrentMap_800AB9B0 = map;
     if ( (work->parent->objs->flag & DG_FLAG_INVISIBLE) != 0 )

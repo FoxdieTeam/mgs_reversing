@@ -13,12 +13,13 @@
 /*-----sbss---------------------------------------*/
 extern int GM_CurrentMap_800AB9B0;
 
-int SECTION(".sbss") fc_rt_800ABAB0;
-int SECTION(".sbss") mt_rt1_800ABAB4;
-int SECTION(".sbss") mt_rt2_800ABAB8;
-int SECTION(".sbss") fc_cnt_800ABABC;
-int SECTION(".sbss") mt_count_800ABAC0;
-int SECTION(".sbss") dword_800ABAC4;
+int SECTION(".sbss") fc_rt;     // Unused?
+int SECTION(".sbss") mt_rt1;    // Unused?
+int SECTION(".sbss") mt_rt2;
+int SECTION(".sbss") fc_cnt;    // Unused?
+int SECTION(".sbss") mt_count;
+
+STATIC int SECTION(".sbss") dword_800ABAC4;
 /*------------------------------------------------*/
 
 //not sure if this one belongs here
@@ -48,8 +49,8 @@ void sub_800348F4(OBJECT *obj)
     obj->time2 = obj->m_ctrl->info2.time;
 //#ifdef DEBUG
     outtime = GetRCnt(RCntCNT1);
-    mt_rt2_800ABAB8 += (outtime - intime) & 0xffff;
-    mt_count_800ABAC0++;
+    mt_rt2 += (outtime - intime) & 0xffff;
+    mt_count++;
 //#endif
     if (obj->m_ctrl->interp)
         obj->m_ctrl->interp--; /* 補完カウンタ変更 */

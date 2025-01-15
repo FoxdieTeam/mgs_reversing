@@ -20,7 +20,7 @@ extern int           dword_8009F440;
 extern int           dword_8009F444;
 extern int           counter_8009F448;
 extern CONTROL   *GM_PlayerControl_800AB9F4;
-extern int           GM_PlayerStatus_800ABA50;
+extern int           GM_PlayerStatus;
 extern int           GM_CurrentMap_800AB9B0;
 extern SVECTOR       GM_PlayerPosition_800ABA10;
 extern HITTABLE stru_800BDE78[8];
@@ -96,7 +96,7 @@ STATIC int jirai_act_helper_8006A8F4(JiraiWork *work)
     CONTROL *p_control;
     SVECTOR  v;
 
-    if ((GM_PlayerStatus_800ABA50 & 0x40) == 0)
+    if ((GM_PlayerStatus & 0x40) == 0)
     {
         return 0;
     }
@@ -315,7 +315,7 @@ STATIC void JiraiAct(JiraiWork *work)
 #else
         (GM_GameStatus & (STATE_PADRELEASE | STATE_PADDEMO | STATE_DEMO))
 #endif
-        || (GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF))
+        || (GM_PlayerStatus & PLAYER_PAD_OFF))
     {
         target2->class &= ~TARGET_PUSH;
         target2->damaged &= ~TARGET_PUSH;
@@ -334,7 +334,7 @@ STATIC void JiraiAct(JiraiWork *work)
             return;
         }
 
-        if ((target2->field_40 & 1) && (GM_PlayerStatus_800ABA50 & (PLAYER_INVULNERABLE | PLAYER_GROUND)))
+        if ((target2->field_40 & 1) && (GM_PlayerStatus & (PLAYER_INVULNERABLE | PLAYER_GROUND)))
         {
             target2->damaged &= ~TARGET_PUSH;
             dword_8009F444 = 0;

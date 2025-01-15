@@ -21,9 +21,9 @@
 extern short         GM_Magazine_800AB9EC;
 extern short         GM_MagazineMax_800ABA2C;
 extern SVECTOR       GM_PlayerPosition_800ABA10;
-extern int           DG_CurrentGroupID_800AB968;
+extern int           DG_CurrentGroupID;
 extern BLAST_DATA    blast_data_8009F4B8[8];
-extern int           GM_PlayerStatus_800ABA50;
+extern int           GM_PlayerStatus;
 
 /*---------------------------------------------------------------------------*/
 // Grenade (frag/stun/chaff)
@@ -88,7 +88,7 @@ STATIC void GrenadeAct( GrenadeWork *work )
     GV_ACT       *tenage;
 
     GM_CurrentMap_800AB9B0 = work->control->map->index;
-    DG_GroupObjs( work->object.objs, DG_CurrentGroupID_800AB968 );
+    DG_GroupObjs( work->object.objs, DG_CurrentGroupID );
     parent_objs_flag = ( work->parent->objs->flag & 0xFF ) >> 7;
 
     if ( !( parent_objs_flag ) )
@@ -163,7 +163,7 @@ STATIC void GrenadeAct( GrenadeWork *work )
                 svector += 3;
             }
             DG_RotVector( svector, &tenage_vec2, 1 );
-            if ( GM_PlayerStatus_800ABA50 & PLAYER_MOVING )
+            if ( GM_PlayerStatus & PLAYER_MOVING )
             {
                 tenage_vec2.vx += ctrl_pos->vx - work->pos.vx;
                 tenage_vec2.vz += ctrl_pos->vz - work->pos.vz;

@@ -3,7 +3,7 @@
 #include "inline_n.h"
 #include "inline_x.h"
 
-extern int GV_Clock_800AB920;
+extern int GV_Clock;
 
 typedef struct _SCRATCH
 {
@@ -419,7 +419,7 @@ void DG_TransChanl( DG_CHANL *chanl, int idx )
             parent = &objs->objs[model->parent];
 
 
-            work->parent_packs = parent->packs[GV_Clock_800AB920];
+            work->parent_packs = parent->packs[GV_Clock];
             work->vertices = model->vertices;
 
             gte_SetRotMatrix(&obj->screen);

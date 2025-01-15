@@ -11,8 +11,8 @@ extern SVECTOR  GM_NoisePosition_800AB9F8;
 extern int      GM_PlayerMap_800ABA0C;
 extern SVECTOR  GM_PlayerPosition_800ABA10;
 extern int      GM_NoisePower_800ABA24;
-extern int      GM_NoiseLength_800ABA30;
-extern int      GM_PlayerStatus_800ABA50;
+extern int      GM_NoiseLength;
+extern int      GM_PlayerStatus;
 extern CONTROL *GM_WhereList_800B56D0[94];
 
 extern ENEMY_COMMAND EnemyCommand_800E0D98;
@@ -66,7 +66,7 @@ void s00a_command_800C98A4( WatcherWork *work )
     if ( flags & 0x80 )
     {
         work->field_94C.damaged &= ~( 0x80 );
-        if ( ( GM_PlayerStatus_800ABA50 & 0x1010 ) == 0x1000 )
+        if ( ( GM_PlayerStatus & 0x1010 ) == 0x1000 )
         {
             return;
         }
@@ -133,7 +133,7 @@ void s00a_command_800C9930( WatcherWork* work )
         if ( work->field_B78 == COM_NoiseMinDisID_800E0D44 )
         {
             work->field_BA1 |= 1;
-            GM_NoiseLength_800ABA30 = 0;
+            GM_NoiseLength = 0;
             GM_NoisePower_800ABA24  = 0;
             return;
         }
@@ -161,7 +161,7 @@ void s00a_command_800C9ACC( WatcherWork *work )
         work->field_BA2 = 0;
     }
 
-    if ( work->vision.field_B92 == 2 && ( ( GM_PlayerStatus_800ABA50 & 0x1010 ) == 0x1000 ) )
+    if ( work->vision.field_B92 == 2 && ( ( GM_PlayerStatus & 0x1010 ) == 0x1000 ) )
     {
         if ( ( GV_DiffVec3( &work->field_BA4, &GM_PlayerPosition_800ABA10 ) > 50 ) || ( work->field_BAC != GM_WhereList_800B56D0[0]->rot.vy ) )
         {
@@ -243,7 +243,7 @@ void s00a_command_800C9D7C( WatcherWork* work )
     switch ( val )
     {
         case 0:
-            if ( work->field_B94 != 2 || GM_PlayerStatus_800ABA50 & 0x02000000 || !( GM_PlayerStatus_800ABA50 & 0x40000002 ) || work->vision.length == 0 )
+            if ( work->field_B94 != 2 || GM_PlayerStatus & 0x02000000 || !( GM_PlayerStatus & 0x40000002 ) || work->vision.length == 0 )
             {
                 work->field_B94 = 0;
                 work->alert_level -= COM_ALERT_DECREMENT_800E0F60;
@@ -302,7 +302,7 @@ void s00a_command_800C9E68( WatcherWork* work )
         diff = work->control.mov.vy - pos->vy;
     }
 
-    if ( !( work->control.map->index & GM_PlayerMap_800ABA0C ) || GM_PlayerStatus_800ABA50 & 0x02000002 )
+    if ( !( work->control.map->index & GM_PlayerMap_800ABA0C ) || GM_PlayerStatus & 0x02000002 )
     {
         work->vision.field_B92 = 0;
         return;

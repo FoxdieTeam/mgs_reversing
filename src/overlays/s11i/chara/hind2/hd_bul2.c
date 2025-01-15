@@ -19,7 +19,7 @@ typedef struct _HdBul2Work
 
 SVECTOR s11i_800C32C8 = {200, 200, 200, 0};
 
-extern int     GV_Clock_800AB920;
+extern int     GV_Clock;
 extern int     GM_CurrentMap_800AB9B0;
 
 #define EXEC_LEVEL 5
@@ -110,7 +110,7 @@ void HdBul2Act( HdBul2Work *work )
         }
     }
 
-    poly = (POLY_FT4 *)work->prim->packs[ GV_Clock_800AB920 ];
+    poly = (POLY_FT4 *)work->prim->packs[ GV_Clock ];
     for ( i = 0; i < 4; i++ )
     {
         setRGB0( poly, 0, 0, 0 );

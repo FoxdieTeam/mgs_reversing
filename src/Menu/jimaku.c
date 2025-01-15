@@ -8,7 +8,7 @@
 
 void *SECTION(".sbss") MENU_JimakuTextBody;
 
-extern int             GV_PauseLevel_800AB928;
+extern int             GV_PauseLevel;
 extern UnkJimakuStruct gUnkJimakuStruct_800BDA70;
 extern GV_PAD          GV_PadData_800B05C0[4];
 
@@ -86,7 +86,7 @@ void menu_jimaku_act( MenuWork *work, unsigned int *pOt )
                     return;
                 }
 
-                GV_PauseLevel_800AB928 &= ~1;
+                GV_PauseLevel &= ~1;
                 DG_ResetObjectQueue();
                 gUnkJimakuStruct_800BDA70.field_2_timer = 1;
 
@@ -169,10 +169,10 @@ void MENU_AreaNameWrite(char *areaName)
 
 void NewJimakuStr(char *str, int int_1)
 {
-  MENU_JimakuWrite(str, -1);
-  GV_PauseLevel_800AB928 |= 1;
-  gUnkJimakuStruct_800BDA70.field_3C = int_1;
-  DG_FreeObjectQueue();
+    MENU_JimakuWrite(str, -1);
+    GV_PauseLevel |= 1;
+    gUnkJimakuStruct_800BDA70.field_3C = int_1;
+    DG_FreeObjectQueue();
 }
 
 void NewJimaku(void)
@@ -193,6 +193,6 @@ void NewJimaku(void)
         gUnkJimakuStruct_800BDA70.field_3C = -1;
     }
 
-    GV_PauseLevel_800AB928 |= 1;
+    GV_PauseLevel |= 1;
     DG_FreeObjectQueue();
 }

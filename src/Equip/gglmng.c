@@ -7,7 +7,7 @@
 #include "Game/linkvarbuf.h"
 
 extern GM_Camera GM_Camera_800B77E8;
-extern int       GM_PlayerStatus_800ABA50;
+extern int       GM_PlayerStatus;
 extern int       dword_8009F46C;
 
 /*---------------------------------------------------------------------------*/
@@ -32,7 +32,7 @@ STATIC void GoggleManagerAct(GoggleManagerWork *work)
         if (GM_CurrentWeaponId == WEAPON_STINGER ||
             GM_CurrentWeaponId == WEAPON_PSG1 ||
             dword_8009F46C == 1 ||
-            (GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000))
+            (GM_PlayerStatus & PLAYER_UNK4000000))
         {
             work->time = 0;
 

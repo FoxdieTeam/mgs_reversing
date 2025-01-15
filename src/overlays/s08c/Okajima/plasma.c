@@ -35,7 +35,7 @@ typedef struct _PlasmaWork
     int      f3BC;
 } PlasmaWork;
 
-extern int     GV_Clock_800AB920;
+extern int     GV_Clock;
 extern int     GM_CurrentMap_800AB9B0;
 
 #define EXEC_LEVEL 4
@@ -230,7 +230,7 @@ void Plasma_800CC258(PlasmaWork *work)
     SVECTOR   rot;
     POLY_FT4 *packs;
 
-    packs = &work->prim->packs[GV_Clock_800AB920]->poly_ft4;
+    packs = &work->prim->packs[GV_Clock]->poly_ft4;
 
     if ((work->f3AC > 3) && (work->f3AC < 6))
     {

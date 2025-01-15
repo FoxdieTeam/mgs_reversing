@@ -5,7 +5,7 @@
 extern int GV_Time;
 
 extern SVECTOR GM_PlayerPosition_800ABA10;
-extern int     GM_PlayerStatus_800ABA50;
+extern int     GM_PlayerStatus;
 
 #define TH1_PHASE0 0
 #define TH1_PHASE1 1
@@ -245,11 +245,11 @@ void s07c_meryl72_unk2_800CD038(Meryl72Work *work)
 
     if (work->count3 == 0)
     {
-        if (GM_PlayerStatus_800ABA50 & (PLAYER_GROUND | PLAYER_SQUAT))
+        if (GM_PlayerStatus & (PLAYER_GROUND | PLAYER_SQUAT))
         {
             work->pad.press |= 0x800000;
         }
-        else if (GM_PlayerStatus_800ABA50 & PLAYER_CB_BOX)
+        else if (GM_PlayerStatus & PLAYER_CB_BOX)
         {
             work->pad.press |= 0x1000000;
 
@@ -523,7 +523,7 @@ int s07c_meryl72_unk2_800CD76C(int xmin, int zmin, int xmax, int zmax)
 {
     int x, z;
 
-    if (!(GM_PlayerStatus_800ABA50 & PLAYER_ON_WALL))
+    if (!(GM_PlayerStatus & PLAYER_ON_WALL))
     {
         return 0;
     }
@@ -771,7 +771,7 @@ void s07c_meryl72_unk2_800CDC34(Meryl72Work *work)
         work->count3 = 0;
         work->fC04 = 0;
     }
-    else if (work->sn_dis > 3000 && !(GM_PlayerStatus_800ABA50 & PLAYER_INTRUDE))
+    else if (work->sn_dis > 3000 && !(GM_PlayerStatus & PLAYER_INTRUDE))
     {
         work->think2 = 1;
         work->think3 = 2;

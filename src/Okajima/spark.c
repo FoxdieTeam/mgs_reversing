@@ -11,7 +11,7 @@
 #include "Game/map.h"
 
 extern int            GM_CurrentMap_800AB9B0;
-extern int            GV_Clock_800AB920;
+extern int            GV_Clock;
 extern unsigned short gSparkRandomTable_800BDF10[];
 
 /*---------------------------------------------------------------------------*/
@@ -243,7 +243,7 @@ STATIC void spark_Act(SparkWork *work)
     else
     {
         spark_act_helper_80074118(work->f028, work->f068, 8);
-        spark_800742F0(&work->prim->packs[GV_Clock_800AB920]->poly_ft4, 8, updated_f170 * 0x10);
+        spark_800742F0(&work->prim->packs[GV_Clock]->poly_ft4, 8, updated_f170 * 0x10);
 
         lightRadius = (updated_f170 - 8) * 0x200;
         if (lightRadius > 0)

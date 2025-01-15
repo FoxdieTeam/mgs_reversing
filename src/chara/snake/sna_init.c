@@ -51,7 +51,7 @@ extern OBJECT  *GM_PlayerBody_800ABA20;
 
 extern short              GM_WeaponChanged_800AB9D8;
 extern int                GM_AlertMode_800ABA00;
-extern PlayerStatusFlag   GM_PlayerStatus_800ABA50;
+extern PlayerStatusFlag   GM_PlayerStatus;
 extern GM_Camera          GM_Camera_800B77E8;
 extern unsigned short     GM_WeaponTypes[];
 extern unsigned short     GM_ItemTypes[];
@@ -84,8 +84,8 @@ extern void              *dword_8009EEB0[];
 extern void              *dword_8009EEB8[];
 extern int                dword_800AB9D4;
 extern short              HzdHeights_8009EEC4[];
-extern int                DG_CurrentGroupID_800AB968;
-extern int                GV_Clock_800AB920;
+extern int                DG_CurrentGroupID;
+extern int                GV_Clock;
 extern char               dword_8009EF1C[];
 extern char               dword_8009EF20[];
 extern TSnakeEquipFuncion gSnakeEquips_8009EF8C[];
@@ -98,7 +98,7 @@ extern char               dword_8009EED8[];
 extern short              snake_weapon_idx_800BDCBA;
 extern short              snake_mag_size_800BDCB8;
 extern short              snake_weapon_max_ammo_800BDCBC;
-extern int                GM_PlayerAction_800ABA40;
+extern int                GM_PlayerAction;
 
 /*
 actions are numbers which are an index to a motion in an oar file
@@ -665,9 +665,9 @@ void sub_8004F338(SnaInitWork *work)
 
     GM_ExitBehindCamera_80030AEC();
 
-    GM_PlayerStatus_800ABA50 &= PLAYER_CAN_USE_CONTROLLER_PORT_2 | PLAYER_UNK4000000 |
-                                PLAYER_GAMEOVER | PLAYER_CB_BOX | PLAYER_INTRUDE |
-                                PLAYER_UNK4 | PLAYER_SQUAT | PLAYER_GROUND;
+    GM_PlayerStatus &= PLAYER_CAN_USE_CONTROLLER_PORT_2 | PLAYER_UNK4000000 |
+                       PLAYER_GAMEOVER | PLAYER_CB_BOX | PLAYER_INTRUDE |
+                       PLAYER_UNK4 | PLAYER_SQUAT | PLAYER_GROUND;
 
     if ((work->field_920_tbl & 0x200) != 0)
     {
@@ -6420,7 +6420,7 @@ void sna_anim_claymore_helper_80058780(SnaInitWork *work, int time)
     {
         sub_8004EEB0(work);
 
-        DG_GroupPrim(work->field_92C, DG_CurrentGroupID_800AB968);
+        DG_GroupPrim(work->field_92C, DG_CurrentGroupID);
         DG_VisiblePrim(work->field_92C);
         DG_PutPrim(&work->field_92C->world);
 
@@ -6452,7 +6452,7 @@ void sna_anim_claymore_helper_80058780(SnaInitWork *work, int time)
     w = x + 63;
     y += work->field_928->off_y;
 
-    pPoly = &work->field_92C->packs[GV_Clock_800AB920]->poly_gt4;
+    pPoly = &work->field_92C->packs[GV_Clock]->poly_gt4;
 
     for ( i = 0; i < 2; i++ )
     {
@@ -7909,7 +7909,7 @@ void sna_init_main_logic_800596FC(SnaInitWork *work)
         }
     }
 
-    GM_PlayerAction_800ABA40 = work->field_9C_obj.action_flag;
+    GM_PlayerAction = work->field_9C_obj.action_flag;
     dword_800AB9D4 = work->field_180.info1.frame;
     GM_PlayerStance = work->field_A26_stance;
 
@@ -7940,7 +7940,7 @@ void sna_init_main_logic_800596FC(SnaInitWork *work)
 
     if ( work->field_9A0 != 0 )
     {
-        addPrim(DG_Chanl(1)->mOrderingTables[GV_Clock_800AB920], &work->field_950[GV_Clock_800AB920]);
+        addPrim(DG_Chanl(1)->mOrderingTables[GV_Clock], &work->field_950[GV_Clock]);
         work->field_9A0--;
     }
 

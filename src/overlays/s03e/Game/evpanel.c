@@ -74,9 +74,9 @@ EvPanelWork *SECTION("overlay.bss") s03e_dword_800CC6B8;
 extern int          GM_CurrentMap_800AB9B0;
 extern GM_Camera    GM_Camera_800B77E8;
 extern OBJECT      *GM_PlayerBody_800ABA20;
-extern int          GM_PlayerStatus_800ABA50;
+extern int          GM_PlayerStatus;
 extern int          GM_AlertMode_800ABA00;
-extern int          GM_CameraShakeOffset_800ABA98;
+extern int          GM_CameraShakeOffset;
 extern GV_PAD       GV_PadData_800B05C0[4];
 
 void s03e_evpanel_800C33E0(DG_PRIM *prim, int texid)
@@ -358,7 +358,7 @@ void s03e_evpanel_800C39F8(EvPanelWork *work)
     GM_Camera_800B77E8.field_2A = 2;
     GM_Camera_800B77E8.interp = 30;
 
-    GM_PlayerStatus_800ABA50 |= PLAYER_PAD_OFF;
+    GM_PlayerStatus |= PLAYER_PAD_OFF;
 
     DG_InvisibleObjs(GM_PlayerBody_800ABA20->objs);
 
@@ -535,9 +535,9 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
         {
             if (GM_AlertMode_800ABA00 == 0)
             {
-                if ((GM_Camera_800B77E8.first_person != 0) || (GM_PlayerStatus_800ABA50 & PLAYER_FIRST_PERSON))
+                if ((GM_Camera_800B77E8.first_person != 0) || (GM_PlayerStatus & PLAYER_FIRST_PERSON))
                 {
-                    if ((GM_UnkFlagBE == 0) || !(GM_PlayerStatus_800ABA50 & PLAYER_UNK40000))
+                    if ((GM_UnkFlagBE == 0) || !(GM_PlayerStatus & PLAYER_UNK40000))
                     {
                         break;
                     }
@@ -648,7 +648,7 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
 
         if ((GM_AlertMode_800ABA00 != 0) ||
             ((message & 0x20) != 0) ||
-            ((GM_PlayerStatus_800ABA50 & PLAYER_UNK100) != 0) ||
+            ((GM_PlayerStatus & PLAYER_UNK100) != 0) ||
             (work->field_44 > 1))
         {
             s03e_evpanel_800C3AD0(work);
@@ -667,13 +667,13 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
         {
             work->field_42 = 2;
             DG_VisibleObjs(GM_PlayerBody_800ABA20->objs);
-            GM_PlayerStatus_800ABA50 &= ~PLAYER_PAD_OFF;
+            GM_PlayerStatus &= ~PLAYER_PAD_OFF;
             work->field_2E = 3;
         }
         break;
 
     case 7:
-        if ((work->field_44 > 1) || (GM_PlayerStatus_800ABA50 & PLAYER_UNK100))
+        if ((work->field_44 > 1) || (GM_PlayerStatus & PLAYER_UNK100))
         {
             s03e_evpanel_800C3AD0(work);
 
@@ -723,11 +723,11 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
             work->field_36--;
             if ((work->field_36 > 2) && (work->field_36 < 10))
             {
-                GM_CameraShakeOffset_800ABA98 = work->field_36 / 2;
+                GM_CameraShakeOffset = work->field_36 / 2;
 
                 if ((work->field_36 & 0x1) != 0)
                 {
-                    GM_CameraShakeOffset_800ABA98 = -GM_CameraShakeOffset_800ABA98;
+                    GM_CameraShakeOffset = -GM_CameraShakeOffset;
                 }
             }
         }

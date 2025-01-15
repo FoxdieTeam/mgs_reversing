@@ -11,8 +11,8 @@
 #include "strcode.h"
 
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
-extern int              GM_PadVibration2_800ABA54;
-extern int              GM_PadVibration_800ABA3C;
+extern int              GM_PadVibration2;
+extern int              GM_PadVibration;
 extern BLAST_DATA       blast_data_8009F4B8[8];
 extern GM_Camera        GM_Camera_800B77E8;
 
@@ -1746,11 +1746,11 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
     case 0x40:
         if (pData->data.variant_0x36.field_14 != 0)
         {
-            GM_PadVibration_800ABA3C = 1;
+            GM_PadVibration = 1;
         }
         if (pData->data.variant_0x36.field_16 != 0)
         {
-            GM_PadVibration2_800ABA54 = pData->data.variant_0x36.field_18;
+            GM_PadVibration2 = pData->data.variant_0x36.field_18;
         }
         break;
     case 0x41:

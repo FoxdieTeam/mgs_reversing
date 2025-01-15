@@ -15,7 +15,7 @@
 #include "Anime/animeconv/anime.h"
 
 extern int              GM_CurrentMap_800AB9B0;
-extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
+extern PlayerStatusFlag GM_PlayerStatus;
 
 /*---------------------------------------------------------------------------*/
 // Cigarettes
@@ -67,7 +67,7 @@ STATIC void TabakoAct(TabakoWork *work)
         vec.vz = rotMtx.t[2];
 
         if (GV_Time % 150 >= 121 && tabako_dword_8009F2C0 == 1 &&
-            (GM_PlayerStatus_800ABA50 & PLAYER_MOVING) == 0)
+            (GM_PlayerStatus & PLAYER_MOVING) == 0)
         {
             NewAnime_8005E6A4(&vec);
         }

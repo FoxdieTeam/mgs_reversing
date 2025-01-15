@@ -7,11 +7,9 @@
 extern GV_HEAP MemorySystems_800AD2F0[GV_MEMORY_MAX];
 /********************************************************************/
 
-/***$gp****************************************************************/
-short          SECTION(".sbss") dword_800AB93C; /* static */
-unsigned char *SECTION(".sbss") GV_ResidentMemoryBottom_800AB940;
-int            SECTION(".sbss") dword_800AB944; /* static */
-/*********************************************************************/
+STATIC short   SECTION(".sbss") dword_800AB93C;
+unsigned char *SECTION(".sbss") GV_ResidentMemoryBottom;
+STATIC int     SECTION(".sbss") dword_800AB944;
 
 extern unsigned char *gOverlayBase_800AB9C8;
 
@@ -889,12 +887,12 @@ void *GV_SplitMemory(int which, void *addr, int size)
 // either this or the next is GV_InitResidentMemory
 void GV_ResidentHeapReset(void)
 {
-    GV_ResidentMemoryBottom_800AB940 = GV_ResidentAreaBottom;
+    GV_ResidentMemoryBottom = GV_ResidentAreaBottom;
 }
 
 void GV_SaveResidentTop(void)
 {
-    GV_ResidentAreaBottom = GV_ResidentMemoryBottom_800AB940;
+    GV_ResidentAreaBottom = GV_ResidentMemoryBottom;
 }
 
 /**
@@ -914,19 +912,19 @@ void *GV_AllocResidentMemory(long size)
     size = (size + 3) & ~3;
 
     // decrement the bottom of the resident memory
-    GV_ResidentMemoryBottom_800AB940 -= size;
+    GV_ResidentMemoryBottom -= size;
 
 #ifdef DEV_EXE
     // dev_exe has to compare to _bss_orgend since the overlay base pointer
     // used by the OG code will be pointing somewhere in the .data section.
-    if (GV_ResidentMemoryBottom_800AB940 < _bss_orgend)
+    if (GV_ResidentMemoryBottom < _bss_orgend)
 #else
     // BUG: the overlay can potentially be alloc'd over with no warning.
-    if (GV_ResidentMemoryBottom_800AB940 < gOverlayBase_800AB9C8)
+    if (GV_ResidentMemoryBottom < gOverlayBase_800AB9C8)
 #endif
     {
         printf("Resident Memory Over !!\n");
     }
 
-    return GV_ResidentMemoryBottom_800AB940;
+    return GV_ResidentMemoryBottom;
 }

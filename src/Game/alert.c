@@ -3,17 +3,16 @@
 #include "libgcl/libgcl.h"
 #include "SD/g_sound.h"
 
-int     SECTION(".sbss") dword_800ABA70;
-int     SECTION(".sbss") dword_800ABA74;
-int     SECTION(".sbss") dword_800ABA78[2];
-short   SECTION(".sbss") GM_RadarMode_800ABA80;
-short   SECTION(".sbss") word_800ABA82;
+STATIC int     SECTION(".sbss") dword_800ABA70;
+STATIC int     SECTION(".sbss") dword_800ABA74;
+STATIC int     SECTION(".sbss") dword_800ABA78[2];
+STATIC short   SECTION(".sbss") GM_RadarMode_800ABA80;
+STATIC short   SECTION(".sbss") word_800ABA82;
 
 char byte_8009D698[] = {0, 0, 1, 2};
 char GM_NoiseSound_800B76E0[4][3];
 
 extern int   GM_GameOverVox;
-extern int   dword_800ABA58;
 extern int   GM_AlertMode_800ABA00;
 extern int   GM_AlertLevel_800ABA18;
 

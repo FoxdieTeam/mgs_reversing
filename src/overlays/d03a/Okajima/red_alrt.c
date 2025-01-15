@@ -7,8 +7,8 @@
 
 RedAlrtWork *d03a_dword_800C3270 = NULL;
 
-extern int     GV_Clock_800AB920;
-extern int     GV_PauseLevel_800AB928;
+extern int     GV_Clock;
+extern int     GV_PauseLevel;
 extern int     GM_CurrentMap_800AB9B0;
 
 #define EXEC_LEVEL 3
@@ -45,7 +45,7 @@ void d03a_red_alrt_800C4414(RedAlrtWork *work)
 {
     SVECTOR color;
 
-    if (GV_PauseLevel_800AB928 != 0)
+    if (GV_PauseLevel != 0)
     {
         return;
     }
@@ -64,7 +64,7 @@ void d03a_red_alrt_800C4414(RedAlrtWork *work)
         color.vz = work->f38.vz;
     }
 
-    setRGB0(&work->prims->tile[GV_Clock_800AB920], color.vx, color.vy, color.vz);
+    setRGB0(&work->prims->tile[GV_Clock], color.vx, color.vy, color.vz);
 }
 
 void d03a_red_alrt_800C45CC(RedAlrtWork *work, int length, short x, short y, short z)
@@ -113,8 +113,8 @@ void RedAlertAct_800C45E4(RedAlrtWork *work)
     if (work->f5C == -1 || work->f5C == 0 || work->f5C == 1)
     {
         ot = DG_ChanlOTag(0);
-        addPrim(ot, &work->prims->tile[GV_Clock_800AB920]);
-        addPrim(ot, &work->prims->tpage[GV_Clock_800AB920]);
+        addPrim(ot, &work->prims->tile[GV_Clock]);
+        addPrim(ot, &work->prims->tpage[GV_Clock]);
 
         d03a_red_alrt_800C4414(work);
 

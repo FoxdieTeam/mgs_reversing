@@ -14,11 +14,11 @@
 #include "Game/linkvarbuf.h"
 #include "strcode.h"
 
-extern int      GV_Clock_800AB920;
+extern int      GV_Clock;
 extern CONTROL *GM_PlayerControl_800AB9F4;
 
-extern int              GV_PauseLevel_800AB928;
-extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
+extern int              GV_PauseLevel;
+extern PlayerStatusFlag GM_PlayerStatus;
 
 extern GV_PAD GV_PadData_800B05C0[4];
 extern int    dword_8009F604;
@@ -72,7 +72,7 @@ STATIC void gglsight_act_helper_80077A24(GoggleSightWork *work)
         return;
     }
 
-    pTile = work->field_40_tile1[GV_Clock_800AB920];
+    pTile = work->field_40_tile1[GV_Clock];
     pOt = DG_ChanlOTag(1);
     // TextConfig_Flags_eCentreAlign_02 | TextConfig_Flags_eSemiTransparent_20 | TextConfig_Flags_eDark_100
     MENU_Locate(0, 0, 0x122);
@@ -186,11 +186,11 @@ STATIC void gglsight_act_helper_80077D24(GoggleSightWork *work)
         return;
     }
 
-    pLine = work->field_280_lineF2[GV_Clock_800AB920];
-    pPoly = work->field_2E0_polyF4[GV_Clock_800AB920];
-    pTpage = &work->field_370_dr_tpage[GV_Clock_800AB920];
+    pLine = work->field_280_lineF2[GV_Clock];
+    pPoly = work->field_2E0_polyF4[GV_Clock];
+    pTpage = &work->field_370_dr_tpage[GV_Clock];
 
-    pOt = DG_Chanl(1)->mOrderingTables[GV_Clock_800AB920];
+    pOt = DG_Chanl(1)->mOrderingTables[GV_Clock];
 
     y = GM_PlayerControl_800AB9F4->rot.vy & 4095;
     y2 = ((y + 1024) & 2047) >> 5;
@@ -299,7 +299,7 @@ STATIC void gglsight_act_helper_80078054(int a1, unsigned short status, DVECTOR 
         return;
     }
 
-    if (GV_PauseLevel_800AB928 || (GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF))
+    if (GV_PauseLevel || (GM_PlayerStatus & PLAYER_PAD_OFF))
     {
         status = 0;
     }
@@ -395,7 +395,7 @@ STATIC void GoggleSightAct(GoggleSightWork *work)
     unsigned short status;
     int f3c;
 
-    if (GM_PlayerStatus_800ABA50 & PLAYER_USING_CONTROLLER_PORT_2)
+    if (GM_PlayerStatus & PLAYER_USING_CONTROLLER_PORT_2)
     {
         status = GV_PadData_800B05C0[1].status;
     }
@@ -423,7 +423,7 @@ STATIC void GoggleSightAct(GoggleSightWork *work)
 
     f3c = work->field_3C++;
 
-    if (!(GM_PlayerStatus_800ABA50 & 8))
+    if (!(GM_PlayerStatus & 8))
     {
         status &= 0xafff;
     }

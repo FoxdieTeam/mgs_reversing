@@ -13,7 +13,7 @@ typedef struct _SubEfctWork
     char     pad[0x4];
 } SubEfctWork;
 
-extern int    GV_Clock_800AB920;
+extern int    GV_Clock;
 
 #define EXEC_LEVEL 0
 
@@ -114,7 +114,7 @@ void SubEfct_800CC914(DG_OBJ *obj)
     POLY_GT4 *packs;
     DG_MDL   *model;
 
-    packs = obj->packs[1 - GV_Clock_800AB920];
+    packs = obj->packs[1 - GV_Clock];
     if (packs == NULL)
     {
         return;

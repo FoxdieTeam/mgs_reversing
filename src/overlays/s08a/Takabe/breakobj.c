@@ -31,8 +31,6 @@ typedef struct BreakObjWork
 unsigned short breakobj_msgs_800C36E8[2] = {0xC39B, 0x881D};
 SVECTOR        s08a_dword_800C36EC = {100, 100, 100};
 
-extern int     GV_Clock_800AB920;
-
 void     Takabe_FreeObjs_800DC820(DG_OBJS *objs);
 DG_OBJS *s00a_unknown3_800DC7BC(int model, LIT *lit);
 

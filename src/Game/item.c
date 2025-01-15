@@ -18,8 +18,8 @@
 #include "SD/g_sound.h"
 
 extern int            GM_CurrentMap_800AB9B0;
-extern int            GV_Clock_800AB920;
-extern int            GM_PlayerStatus_800ABA50;
+extern int            GV_Clock;
+extern int            GM_PlayerStatus;
 extern CONTROL       *GM_PlayerControl_800AB9F4;
 extern unsigned short GM_ItemTypes[];
 extern int            GM_PlayerMap_800ABA0C;
@@ -445,7 +445,7 @@ STATIC void item_Act(ItemWork *work)
                 vx = 80;
             }
 
-            if (GV_Clock_800AB920 & 1)
+            if (GV_Clock & 1)
             {
                 vx = -vx;
             }
@@ -521,7 +521,7 @@ STATIC void item_Act(ItemWork *work)
         return;
     }
 
-    if (!(GM_PlayerStatus_800ABA50 & (PLAYER_INTRUDE | PLAYER_FIRST_PERSON)) || (GM_GameStatus & (STATE_PADRELEASE | STATE_DEMO)))
+    if (!(GM_PlayerStatus & (PLAYER_INTRUDE | PLAYER_FIRST_PERSON)) || (GM_GameStatus & (STATE_PADRELEASE | STATE_DEMO)))
     {
         work->field_110_counter = 0;
         return;
@@ -559,7 +559,7 @@ STATIC void item_Act(ItemWork *work)
     }
 
     pOt = DG_ChanlOTag(1);
-    pLine = &work->field_124_lineF4_array[GV_Clock_800AB920];
+    pLine = &work->field_124_lineF4_array[GV_Clock];
 
     if (!item_act_helper_80033704(&position.vx, &pCtrl->mov))
     {

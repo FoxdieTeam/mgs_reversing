@@ -50,8 +50,8 @@ SVECTOR s11i_800C33FC = {5, -500, 80, 0};
 extern CONTROL *GM_PlayerControl_800AB9F4;
 extern SVECTOR  GM_PlayerPosition_800ABA10;
 extern OBJECT  *GM_PlayerBody_800ABA20;
-extern int      GM_PlayerAction_800ABA40;
-extern int      GM_PlayerStatus_800ABA50;
+extern int      GM_PlayerAction;
+extern int      GM_PlayerStatus;
 
 extern SVECTOR ZAKO11F_TARGET_SIZE_800C365C;
 extern SVECTOR ZAKO11F_TARGET_FORCE_800C3664;
@@ -1091,7 +1091,7 @@ void s11i_asiato_800CB140( Zako11FWork *work, int time )
         }
     }
 
-    switch ( GM_PlayerAction_800ABA40 )
+    switch ( GM_PlayerAction )
     {
     case 7:
     case 13:
@@ -1905,7 +1905,7 @@ void s11i_asiato_800CCAD8(Zako11FWork *work, int time)
 
             GM_SeSet(&work->control.mov, 0x93);
 
-            if (work->sn_dis < 1000 && (GM_PlayerStatus_800ABA50 & PLAYER_FIRST_PERSON) && GV_RandU(12) > 10)
+            if (work->sn_dis < 1000 && (GM_PlayerStatus & PLAYER_FIRST_PERSON) && GV_RandU(12) > 10)
             {
                 work->pad.sound = 240;
             }

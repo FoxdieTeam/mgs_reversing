@@ -28,14 +28,14 @@ extern  CONTROL        *GM_PlayerControl_800AB9F4;
 extern  int             GM_Photocode_800ABA04;
 extern  int             dword_8009F46C;
 extern  SVECTOR         svector_8009F478;
-extern  SVECTOR         GM_PhotoViewPos_800ABA48;
+extern  SVECTOR         GM_PhotoViewPos;
 
-char SECTION(".sbss") dword_800ABA58[8];
-int  SECTION(".sbss") gBinds_800ABA60;
-int  SECTION(".sbss") gBindsCount_800ABA64;
+STATIC char SECTION(".sbss") dword_800ABA58[8];
+STATIC int  SECTION(".sbss") gBinds_800ABA60;
+STATIC int  SECTION(".sbss") gBindsCount_800ABA64;
 
-extern char *GM_StageName_800AB918;
-char         SECTION(".sbss") * GM_StageName_800AB918;
+extern char *GM_StageName;
+char         SECTION(".sbss") * GM_StageName;
 
 STATIC int GM_Command_light(unsigned char *);
 STATIC int GM_Command_camera(unsigned char *);
@@ -794,7 +794,7 @@ STATIC int GM_Command_system(unsigned char *top)
 
     if (GCL_GetOption('s'))
     {
-        GM_StageName_800AB918 = GCL_ReadString(GCL_GetParamResult());
+        GM_StageName = GCL_ReadString(GCL_GetParamResult());
     }
     return 0;
 }
@@ -1037,7 +1037,7 @@ STATIC int GM_Command_func(unsigned char *top)
     if (GCL_GetOption('p')) // photo (used for ghosts easter egg)
     {
         param = GCL_GetNextParamValue();
-        GCL_StrToSV(GCL_GetParamResult(), &GM_PhotoViewPos_800ABA48);
+        GCL_StrToSV(GCL_GetParamResult(), &GM_PhotoViewPos);
         if (GCL_GetNextParamValue() == HASH_LEAVE)
         {
             param = 0;

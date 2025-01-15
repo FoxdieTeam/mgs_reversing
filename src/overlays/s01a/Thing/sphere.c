@@ -16,7 +16,7 @@ typedef struct _SphereWork
 } SphereWork;
 
 extern int GM_CurrentMap_800AB9B0;
-extern int GV_Clock_800AB920;
+extern int GV_Clock;
 
 short SECTION("overlay.bss") sphere_image_width_800E4B28;
 short SECTION("overlay.bss") sphere_image_height_800E4B2A;
@@ -120,7 +120,7 @@ void SphereAct_800C61F0(SphereWork *work)
     tilemap = work->img->tilemap;
     textures = work->textures;
 
-    poly = &work->prim->packs[GV_Clock_800AB920]->poly_ft4;
+    poly = &work->prim->packs[GV_Clock]->poly_ft4;
     for (y = 0; y < sphere_visible_tiles_y_800E4B2E; y++)
     {
         x0 = x0_orig;

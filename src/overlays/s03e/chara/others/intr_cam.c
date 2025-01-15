@@ -18,7 +18,7 @@ typedef struct IntrCamWork
 
 const char s03e_dword_800CBFD0[] = "intr_cam.c";
 
-extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
+extern PlayerStatusFlag GM_PlayerStatus;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 
 void IntrCam_800C5548(IntrCamWork *work)
@@ -58,7 +58,7 @@ void IntrCam_Act_800C5638(IntrCamWork *work)
     int field_28;
 
     IntrCam_800C5548(work);
-    if (!(GM_PlayerStatus_800ABA50 & PLAYER_INTRUDE))
+    if (!(GM_PlayerStatus & PLAYER_INTRUDE))
     {
         work->field_28 = 8;
         return;

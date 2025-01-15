@@ -26,11 +26,11 @@ extern void             NewSplash2_800DB6F0( int angy, SVECTOR *pos, int norippl
 extern void            *NewRipple_800D7F30( MATRIX *, int );
 extern void            *NewWaterView_800DBE04( int name, int where, int argc, char **argv );
 
-extern unsigned int     GM_PlayerStatus_800ABA50;
+extern unsigned int     GM_PlayerStatus;
 extern CONTROL         *GM_PlayerControl_800AB9F4;
 extern OBJECT          *GM_PlayerBody_800ABA20;
 extern SVECTOR          GM_NoisePosition_800AB9F8;
-extern int              GM_NoiseLength_800ABA30;
+extern int              GM_NoiseLength;
 extern int              GM_NoisePower_800ABA24;
 
 //OPEN_MES, CLOSE_MES
@@ -143,7 +143,7 @@ void WaterArea2Act_800CEB10(WaterArea2Work *work)
         work->snake_catch = 0;
     }
 
-    if (GM_PlayerStatus_800ABA50 & 0x42)
+    if (GM_PlayerStatus & 0x42)
     {
         world = &GM_PlayerBody_800ABA20->objs->objs[0].world;
     }
@@ -198,8 +198,7 @@ void WaterArea2Act_800CEB10(WaterArea2Work *work)
         work->field_4C = 0;
     }
 
-    if ((GM_NoisePower_800ABA24 == 0xFF) &&
-        (GM_NoiseLength_800ABA30 == 0x1F) &&
+    if ((GM_NoisePower_800ABA24 == 0xFF) && (GM_NoiseLength == 0x1F) &&
         WaterArea2BoundInCheck_800CEA48(work->bound, &GM_NoisePosition_800AB9F8))
     {
         GM_SeSetMode(&GM_NoisePosition_800AB9F8, 0xB5, GM_SEMODE_BOMB);

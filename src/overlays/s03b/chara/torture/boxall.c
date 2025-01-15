@@ -22,7 +22,7 @@ typedef struct _BoxallWork
     int            proc;
 } BoxallWork;
 
-extern int       GV_Clock_800AB920;
+extern int       GV_Clock;
 extern CONTROL  *GM_PlayerControl_800AB9F4;
 extern SVECTOR   GM_PlayerPosition_800ABA10;
 extern GM_Camera GM_Camera_800B77E8;
@@ -86,7 +86,7 @@ void Boxall_800C9800(BoxallWork *work)
     }
 
     ot = DG_ChanlOTag(1);
-    line = &work->line[GV_Clock_800AB920];
+    line = &work->line[GV_Clock];
 
     pos = work->control.mov;
     pos.vy += 250;

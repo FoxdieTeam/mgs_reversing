@@ -22,7 +22,7 @@ typedef struct _SubRoomWork
     GV_ACT  *txtscn;
 } SubRoomWork;
 
-extern int     GV_Clock_800AB920;
+extern int     GV_Clock;
 extern int     GM_CurrentMap_800AB9B0;
 
 GV_ACT *NewOpTxtScn_800CD29C(void);
@@ -90,7 +90,7 @@ void SubRoom_800C73E4(SubRoomWork *work)
     last = 0;
     mod = work->f5D8 % 16;
 
-    poly = &work->prim2->packs[GV_Clock_800AB920]->poly_ft4;
+    poly = &work->prim2->packs[GV_Clock]->poly_ft4;
 
     for (i = 0; i < 2; i++)
     {
@@ -182,7 +182,7 @@ void SubRoom_800C7678(SubRoomWork *work)
     POLY_FT4 *poly;
     int       i;
 
-    poly = &work->prim4->packs[GV_Clock_800AB920]->poly_ft4;
+    poly = &work->prim4->packs[GV_Clock]->poly_ft4;
 
     for (i = 0; i < 2; i++)
     {

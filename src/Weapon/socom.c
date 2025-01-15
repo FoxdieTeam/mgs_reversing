@@ -22,7 +22,7 @@ extern short GM_Magazine_800AB9EC;
 extern short GM_MagazineMax_800ABA2C;
 extern GM_Camera GM_Camera_800B77E8;
 
-extern int     DG_CurrentGroupID_800AB968;
+extern int     DG_CurrentGroupID;
 extern short   GM_WeaponChanged_800AB9D8;
 
 /*---------------------------------------------------------------------------*/
@@ -242,8 +242,8 @@ STATIC void SocomAct( SocomWork *work )
 
     GM_CurrentMap_800AB9B0 = work->control->map->index;
 
-    DG_GroupObjs( work->object.objs, DG_CurrentGroupID_800AB968 );
-    DG_GroupPrim( work->prim1, DG_CurrentGroupID_800AB968 );
+    DG_GroupObjs( work->object.objs, DG_CurrentGroupID );
+    DG_GroupPrim( work->prim1, DG_CurrentGroupID );
 
     flags = *work->flags;
 

@@ -14,7 +14,7 @@
 #include "SD/g_sound.h"
 
 extern GV_PAD  GV_PadData_800B05C0[4];
-extern int     GM_PlayerStatus_800ABA50;
+extern int     GM_PlayerStatus;
 
 extern HITTABLE c4_actors_800BDD78[C4_COUNT];
 extern int GM_CurrentMap_800AB9B0;
@@ -64,7 +64,7 @@ STATIC void BakudanAct(BakudanWork *work)
     control = &work->control;
     pad = &GV_PadData_800B05C0[0];
 
-    if (GM_PlayerStatus_800ABA50 & PLAYER_USING_CONTROLLER_PORT_2)
+    if (GM_PlayerStatus & PLAYER_USING_CONTROLLER_PORT_2)
     {
         pad = &GV_PadData_800B05C0[1];
     }
@@ -110,7 +110,7 @@ STATIC void BakudanAct(BakudanWork *work)
          (time_last_press_8009F430 != GV_Time) &&
          (GM_CurrentMap_800AB9B0 & GM_PlayerMap_800ABA0C) &&
          !(GM_GameStatus & STATE_PADRELEASE) &&
-         !(GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF) &&
+         !(GM_PlayerStatus & PLAYER_PAD_OFF) &&
          !(GM_ItemTypes[GM_CurrentItemId + 1] & 2)) ||
         dword_8009F434)
 #ifdef VR_EXE

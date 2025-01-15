@@ -14,7 +14,7 @@
 extern ENEMY_COMMAND EnemyCommand_800E0D98;
 extern SVECTOR       GM_PlayerPosition_800ABA10;
 extern int           GM_AlertLevel_800ABA18;
-extern int           GM_PlayerStatus_800ABA50;
+extern int           GM_PlayerStatus;
 extern unsigned int  COM_GameStatus_800E0F3C;
 extern SVECTOR       COM_PlayerPosition_800E0F30;
 extern SVECTOR       COM_PlayerPositionOne_800E0D48[8];
@@ -1717,7 +1717,7 @@ int Think3_AttackSetup_800CCE08( WatcherWork *work )
             */
             if ( work->field_C00   == 0    &&
                  work->alert_level == 255  &&
-                 GM_PlayerStatus_800ABA50 & ( PLAYER_DEADORDYING | PLAYER_INTRUDE )  &&
+                 GM_PlayerStatus & ( PLAYER_DEADORDYING | PLAYER_INTRUDE )  &&
                  work->vision.field_B92  == 0 )
             {
                 return 0x18;
@@ -1726,10 +1726,10 @@ int Think3_AttackSetup_800CCE08( WatcherWork *work )
             if ( work->sn_dis < COM_SHOOTRANGE_800E0D88 && work->vision.field_B92 == 2 )
             {
                 if ( work->sn_dis < 1000 &&                 /* 距離が近かなかったら */
-                !(GM_PlayerStatus_800ABA50 & PLAYER_SQUAT) &&   /* しゃがんでなかったら */
-                !(GM_PlayerStatus_800ABA50 & PLAYER_GROUND) &&  /* 匍匐じゃなかったら */
-                !(GM_PlayerStatus_800ABA50 & PLAYER_CB_BOX) ) { /* 段ボールじゃなかったら */
-                      return TH3_ATTACK_NEAR;
+                    !(GM_PlayerStatus & PLAYER_SQUAT) &&    /* しゃがんでなかったら */
+                    !(GM_PlayerStatus & PLAYER_GROUND) &&   /* 匍匐じゃなかったら */
+                    !(GM_PlayerStatus & PLAYER_CB_BOX) ) {  /* 段ボールじゃなかったら */
+                    return TH3_ATTACK_NEAR;
                 }
                 else
                 {
@@ -1743,10 +1743,10 @@ int Think3_AttackSetup_800CCE08( WatcherWork *work )
         if ( work->sn_dis < COM_SHOOTRANGE_800E0D88 && work->vision.field_B92 == 2 && (work->count3 & 1) )
         {
             if ( work->sn_dis < 1000 &&                 /* 距離が近かなかったら */
-            !(GM_PlayerStatus_800ABA50 & PLAYER_SQUAT) &&   /* しゃがんでなかったら */
-            !(GM_PlayerStatus_800ABA50 & PLAYER_GROUND) &&  /* 匍匐じゃなかったら */
-            !(GM_PlayerStatus_800ABA50 & PLAYER_CB_BOX) ) { /* 段ボールじゃなかったら */
-                  return TH3_ATTACK_NEAR;
+                !(GM_PlayerStatus & PLAYER_SQUAT) &&    /* しゃがんでなかったら */
+                !(GM_PlayerStatus & PLAYER_GROUND) &&   /* 匍匐じゃなかったら */
+                !(GM_PlayerStatus & PLAYER_CB_BOX) ) {  /* 段ボールじゃなかったら */
+                return TH3_ATTACK_NEAR;
             }
             else
             {
@@ -1758,7 +1758,7 @@ int Think3_AttackSetup_800CCE08( WatcherWork *work )
         {
             if ( work->field_C00   == 0    &&
                  work->alert_level == 255  &&
-                 (GM_PlayerStatus_800ABA50 & ( PLAYER_DEADORDYING | PLAYER_INTRUDE ))  &&
+                 (GM_PlayerStatus & ( PLAYER_DEADORDYING | PLAYER_INTRUDE ))  &&
                  work->vision.field_B92  == 0 )
             {
                 return 0x18;

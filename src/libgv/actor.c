@@ -17,8 +17,8 @@
 // 0x0 No pause
 // 0x1 codec
 // 0x2 game paused
-int SECTION(".sbss") GV_PauseLevel_800AB928;
-STATIC int SECTION(".sbss") dword_0x800AB92C; //maybe unused
+int SECTION(".sbss") GV_PauseLevel;
+STATIC int SECTION(".sbss") dword_800AB92C; //maybe unused
 
 extern ActorList gActorsList_800ACC18[GV_ACTOR_LEVEL];
 
@@ -78,7 +78,7 @@ void GV_InitActorSystem(void)
         lp++;
     }
 
-    GV_PauseLevel_800AB928 = 0;
+    GV_PauseLevel = 0;
 }
 
 /**
@@ -169,7 +169,7 @@ void GV_ExecActorSystem(void)
     {
         // don't execute actors when the pause flag matches the
         // current pause level
-        const int pause_level = GV_PauseLevel_800AB928;
+        const int pause_level = GV_PauseLevel;
         if ((lp->pause & pause_level) == 0)
         {
             // iterate over all actors in the list

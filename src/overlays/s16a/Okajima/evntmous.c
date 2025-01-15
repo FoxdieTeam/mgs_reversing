@@ -51,7 +51,7 @@ typedef struct _EventmouseWork
 
 SVECTOR eventmous_vecs[2] = {{48, 0, 96, 0}, {-48, 0, 96, 0}};
 
-extern int     GV_Clock_800AB920;
+extern int     GV_Clock;
 extern int     GM_CurrentMap_800AB9B0;
 extern int     GM_PlayerMap_800ABA0C;
 extern SVECTOR GM_PlayerPosition_800ABA10;
@@ -618,9 +618,9 @@ void EventMouseAct_800C9F14(EventmouseWork *work)
 
     GM_ActControl(control);
 
-    work->body.objs->light[GV_Clock_800AB920].t[0] = 200;
-    work->body.objs->light[GV_Clock_800AB920].t[1] = 200;
-    work->body.objs->light[GV_Clock_800AB920].t[2] = 200;
+    work->body.objs->light[GV_Clock].t[0] = 200;
+    work->body.objs->light[GV_Clock].t[1] = 200;
+    work->body.objs->light[GV_Clock].t[2] = 200;
 
     GM_ActObject2(&work->body);
 

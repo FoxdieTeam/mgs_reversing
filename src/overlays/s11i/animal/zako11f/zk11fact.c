@@ -5,7 +5,7 @@ extern int GV_Time;
 extern int      GM_ClaymoreMap_800AB9DC;
 extern int      GM_PlayerMap_800ABA0C;
 extern SVECTOR  GM_PlayerPosition_800ABA10;
-extern int      GM_PlayerStatus_800ABA50;
+extern int      GM_PlayerStatus;
 extern CONTROL *GM_WhereList_800B56D0[96];
 
 extern int             ZAKO11F_EYE_LENGTH_800C3694;
@@ -42,7 +42,7 @@ void s11i_asiato_800CD808(Zako11FWork *work)
         }
         else if (work->field_94C.damaged & TARGET_TOUCH)
         {
-            if ((GM_PlayerStatus_800ABA50 & (PLAYER_CB_BOX | PLAYER_MOVING)) != PLAYER_CB_BOX)
+            if ((GM_PlayerStatus & (PLAYER_CB_BOX | PLAYER_MOVING)) != PLAYER_CB_BOX)
             {
                 work->modetime[6] |= 0xC;
             }
@@ -113,7 +113,7 @@ void s11i_asiato_800CD8EC(Zako11FWork *work)
              s11i_asiato_800CD88C( control->map->hzd, &control->mov, &GM_NoisePosition_800AB9F8 ) < 300 )
         {
             work->modetime[6] |= 1;
-            GM_NoiseLength_800ABA30 = 0;
+            GM_NoiseLength = 0;
             GM_NoisePower_800ABA24 = 0;
         }
         return;
@@ -137,7 +137,7 @@ void s11i_asiato_800CDA6C( Zako11FWork *work )
         return;
     }
 
-    if ( !( GM_PlayerStatus_800ABA50 & PLAYER_CB_BOX ) )
+    if ( !( GM_PlayerStatus & PLAYER_CB_BOX ) )
     {
         return;
     }
@@ -212,7 +212,7 @@ void s11i_asiato_800CDC94( Zako11FWork *work )
     switch ( work->vision.field_B92 )
     {
     case 0:
-        if ( work->field_B94 != 2 || !( GM_PlayerStatus_800ABA50 & PLAYER_INTRUDE ) || work->vision.length == 0 )
+        if ( work->field_B94 != 2 || !( GM_PlayerStatus & PLAYER_INTRUDE ) || work->vision.length == 0 )
         {
             work->field_B94 = 0;
             work->alert_level -= 4;
@@ -265,7 +265,7 @@ void s11i_asiato_800CDD64( Zako11FWork *work )
         height = work->control.mov.vy - pos->vy;
     }
 
-    if ( !( work->control.map->index & GM_PlayerMap_800ABA0C ) || GM_PlayerStatus_800ABA50 & PLAYER_INTRUDE )
+    if ( !( work->control.map->index & GM_PlayerMap_800ABA0C ) || GM_PlayerStatus & PLAYER_INTRUDE )
     {
         work->vision.field_B92 = 0;
         return;

@@ -6,16 +6,16 @@
 #include "mts/mts.h"
 #include "libdg/libdg.h"    // for DG_HikituriFlag
 
-extern int            GV_PauseLevel_800AB928;
+extern int            GV_PauseLevel;
 extern const char    *GV_DebugMes; /* in actor.c */
-extern unsigned char *GV_ResidentMemoryBottom_800AB940;
+extern unsigned char *GV_ResidentMemoryBottom;
 
 /*---------------------------------------------------------------------------*/
 
-char   SECTION(".sbss") *GM_StageName_800AB918;
-short *SECTION(".sbss")  GM_CurrentPadData_800AB91C;
-int    SECTION(".sbss")  GV_Clock_800AB920;
-int    SECTION(".sbss")  GV_PassageTime_800AB924;
+char   SECTION(".sbss") *GM_StageName;
+short *SECTION(".sbss")  GM_CurrentPadData;
+int    SECTION(".sbss")  GV_Clock;
+int    SECTION(".sbss")  GV_PassageTime;
 
 int GV_Time = 0;
 STATIC int GV_LastTickCount = 0;
@@ -41,16 +41,16 @@ STATIC void gvd_Act(Work *work)
 
     ticks = mts_get_tick_count();
 
-    GV_PassageTime_800AB924 = ticks - GV_LastTickCount;
+    GV_PassageTime = ticks - GV_LastTickCount;
     GV_LastTickCount = ticks;
 
     if (DG_HikituriFlag == 0)
     {
         // Flip active buffer
-        GV_Clock_800AB920 ^= 1;
+        GV_Clock ^= 1;
     }
 
-    if (GV_PauseLevel_800AB928 == 0)
+    if (GV_PauseLevel == 0)
     {
         GV_ClearMessageSystem();
     }
@@ -73,7 +73,7 @@ STATIC void GV_InitMemory(void)
     GV_InitMemorySystemAll();
     GV_ResetPacketMemory();
     GV_InitMemorySystem(GV_NORMAL_MEMORY, 0, GV_NORMAL_MEMORY_TOP, GV_NORMAL_MEMORY_SIZE);
-    printf("RESIDENT TOP %X\n", (unsigned int)GV_ResidentMemoryBottom_800AB940);
+    printf("RESIDENT TOP %X\n", (unsigned int)GV_ResidentMemoryBottom);
 }
 
 void GV_ResetSystem(void)
@@ -99,7 +99,7 @@ void GV_StartDaemon(void)
     GV_InitActor(GV_ACTOR_DAEMON, &GV_Work_800ACBF8.actor, NULL);
     GV_SetNamedActor(&GV_Work_800ACBF8.actor, (GV_ACTFUNC)gvd_Act, NULL, "gvd.c");
 
-    GV_Clock_800AB920 = 0;
+    GV_Clock = 0;
     GV_Time = 0;
 
     mts_set_exception_func(GV_ExceptionCallback);

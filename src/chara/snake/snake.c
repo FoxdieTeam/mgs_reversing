@@ -9,7 +9,7 @@
 #include "Game/linkvarbuf.h"
 #include "Game/object.h"
 
-extern int     GM_PlayerStatus_800ABA50;
+extern int     GM_PlayerStatus;
 extern short   word_8009EFC0[];
 
 //TODO: below defined in sna_init.c, need to remove gp hack
@@ -38,7 +38,7 @@ void sna_start_anim_8004E1F4(SnaInitWork *work, void *pFn)
     work->field_A3A = 0;
     work->field_A38_local_data = 0;
 
-    if ((GM_PlayerStatus_800ABA50 & PLAYER_GROUND) != 0)
+    if ((GM_PlayerStatus & PLAYER_GROUND) != 0)
     {
         vec_x = work->field_A2A;
     }
@@ -65,21 +65,21 @@ void sna_8004E260(SnaInitWork *work, int a2, int interp, int a4)
 
 int GM_CheckPlayerStatusFlag(PlayerStatusFlag arg0)
 {
-    return (GM_PlayerStatus_800ABA50 & arg0) != 0;
+    return (GM_PlayerStatus & arg0) != 0;
 }
 
 int GM_SetPlayerStatusFlag(PlayerStatusFlag arg0)
 {
     int temp_v0;
 
-    temp_v0 = GM_PlayerStatus_800ABA50 | arg0;
-    GM_PlayerStatus_800ABA50 = temp_v0;
+    temp_v0 = GM_PlayerStatus | arg0;
+    GM_PlayerStatus = temp_v0;
     return temp_v0;
 }
 
 void GM_ClearPlayerStatusFlag(PlayerStatusFlag flag)
 {
-    GM_PlayerStatus_800ABA50 &= ~flag;
+    GM_PlayerStatus &= ~flag;
 }
 
 void sna_set_flags1_8004E2F4(SnaInitWork *snake, SnaFlag1 flags)

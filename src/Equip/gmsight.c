@@ -8,7 +8,7 @@
 #include "SD/g_sound.h"
 #include "strcode.h"
 
-extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
+extern PlayerStatusFlag GM_PlayerStatus;
 extern int              dword_8009F604;
 extern short            word_800BDCC0;
 
@@ -30,7 +30,7 @@ STATIC void GasmaskSightAct(GasmaskSightWork *work)
         NewSight_80071CDC(SGT_MASK, SGT_MASK, &word_800BDCC0, 1, NULL);
     }
 
-    if ((++work->time == 45) && !(GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000))
+    if ((++work->time == 45) && !(GM_PlayerStatus & PLAYER_UNK4000000))
     {
         GM_SeSet2(0, 63, SE_GASMASK_BREATH);
         work->time = 0;

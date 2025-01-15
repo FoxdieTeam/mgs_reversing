@@ -13,8 +13,8 @@ extern SVECTOR  GM_NoisePosition_800AB9F8;
 extern int      GM_PlayerMap_800ABA0C;
 extern SVECTOR  GM_PlayerPosition_800ABA10;
 extern int      GM_NoisePower_800ABA24;
-extern int      GM_NoiseLength_800ABA30;
-extern int      GM_PlayerStatus_800ABA50;
+extern int      GM_NoiseLength;
+extern int      GM_PlayerStatus;
 extern CONTROL *GM_WhereList_800B56D0[94];
 
 extern int AsiatoCheck_800D16C0( HZD_HDL*, SVECTOR* );
@@ -31,7 +31,7 @@ void s11e_zk11ecom_800D80E0( ZakoWork* work )
     cone->_pad = 0;
 }
 
-extern int      GM_PlayerStatus_800ABA50;
+extern int      GM_PlayerStatus;
 
 void s11e_zk11ecom_800D810C( ZakoWork *work )
 {
@@ -51,7 +51,7 @@ void s11e_zk11ecom_800D810C( ZakoWork *work )
     flags = work->field_94C.damaged;
     if ( flags & 0x80 )
     {
-        if ( ( GM_PlayerStatus_800ABA50 & 0x1010 ) == 0x1000 )
+        if ( ( GM_PlayerStatus & 0x1010 ) == 0x1000 )
         {
             return;
         }
@@ -125,7 +125,7 @@ void s11e_zk11ecom_800D81F0( ZakoWork* work )
         if ( GV_DiffVec3( &GM_NoisePosition_800AB9F8, &ctrl->mov ) < 8000 && s11e_zk11ecom_800D8190( ctrl->map->hzd, &ctrl->mov, &GM_NoisePosition_800AB9F8 ) < 300  )
         {
             work->field_BA2 |= 1;
-            GM_NoiseLength_800ABA30 = 0;
+            GM_NoiseLength = 0;
             GM_NoisePower_800ABA24  = 0;
             return;
         }
@@ -139,7 +139,7 @@ void s11e_zk11ecom_800D81F0( ZakoWork* work )
 void s11e_zk11ecom_800D8370( ZakoWork *work )
 {
 
-    if ( work->field_BA3 & 2 && work->vision.field_B92 == 2 && ( ( GM_PlayerStatus_800ABA50 & 0x1000 ) == 0x1000 ) )
+    if ( work->field_BA3 & 2 && work->vision.field_B92 == 2 && ( ( GM_PlayerStatus & 0x1000 ) == 0x1000 ) )
     {
         if ( ( GV_DiffVec3( &work->field_BA4, &GM_PlayerPosition_800ABA10 ) > 50 ) || ( work->field_BAC != GM_WhereList_800B56D0[0]->rot.vy ) )
         {
@@ -218,7 +218,7 @@ void s11e_zk11ecom_800D8598( ZakoWork* work )
     switch ( val )
     {
         case 0:
-            if ( work->field_B94 != 2 || !( GM_PlayerStatus_800ABA50 & 2 ) || work->vision.length == 0 )
+            if ( work->field_B94 != 2 || !( GM_PlayerStatus & 2 ) || work->vision.length == 0 )
             {
                 work->field_B94 = 0;
                 work->alert_level -= 4;
@@ -270,7 +270,7 @@ void s11e_zk11ecom_800D8668( ZakoWork* work )
         diff = work->control.mov.vy - pos->vy;
     }
 
-    if ( !( work->control.map->index & GM_PlayerMap_800ABA0C ) || GM_PlayerStatus_800ABA50 & 2 )
+    if ( !( work->control.map->index & GM_PlayerMap_800ABA0C ) || GM_PlayerStatus & 2 )
     {
         work->vision.field_B92 = 0;
         return;

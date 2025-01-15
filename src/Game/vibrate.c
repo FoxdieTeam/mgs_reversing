@@ -5,11 +5,10 @@
 #include "libgcl/libgcl.h"
 #include "strcode.h"
 
-extern int            GV_PassageTime_800AB924;
+extern int            GV_PassageTime;
 extern unsigned char *GCL_NextStrPtr_800AB9A0;
-
-extern int            GM_PadVibration_800ABA3C;
-extern int            GM_PadVibration2_800ABA54;
+extern int            GM_PadVibration;
+extern int            GM_PadVibration2;
 
 /*---------------------------------------------------------------------------*/
 
@@ -53,7 +52,7 @@ STATIC void vibrate_Act(VibrateWork *work)
     int amount;
     int bAlive;
 
-    amount = GV_PassageTime_800AB924;
+    amount = GV_PassageTime;
     if (work->field_22_timer <= 0)
     {
         if (work->field_20_flags & 0x10)
@@ -76,11 +75,11 @@ STATIC void vibrate_Act(VibrateWork *work)
     {
         if (work->field_20_flags & 1)
         {
-            GM_PadVibration_800ABA3C += work->field_21_increment;
+            GM_PadVibration += work->field_21_increment;
         }
         else
         {
-            GM_PadVibration2_800ABA54 += work->field_21_increment;
+            GM_PadVibration2 += work->field_21_increment;
         }
     }
 }

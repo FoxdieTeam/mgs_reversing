@@ -18,7 +18,7 @@ typedef struct _CancelWork
     int    step;
 } CancelWork;
 
-extern int GV_PauseLevel_800AB928;
+extern int GV_PauseLevel;
 
 #define EXEC_LEVEL 3
 
@@ -52,13 +52,13 @@ void CancelAct_800C3EA0(CancelWork *work)
         work->actor.act = (GV_ACTFUNC)Cancel_800C3E24;
         DG_UnDrawFrameCount = 0x7FFF0000;
         work->timer = 0;
-        GV_PauseLevel_800AB928 |= 4;
+        GV_PauseLevel |= 4;
     }
 }
 
 void CancelDie_800C3F18(CancelWork *work)
 {
-    GV_PauseLevel_800AB928 &= ~4;
+    GV_PauseLevel &= ~4;
 
     if (work->proc >= 0)
     {

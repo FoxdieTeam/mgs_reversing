@@ -18,7 +18,7 @@ typedef struct _MgRoom
     int      map;
 } MgRoom;
 
-extern int     GV_Clock_800AB920;
+extern int     GV_Clock;
 extern int     GM_CurrentMap_800AB9B0;
 
 #define EXEC_LEVEL 4
@@ -138,7 +138,7 @@ void MgRoom_800DAF34(MgRoom *work)
     POLY_FT4 *poly;
     int       i;
 
-    poly = &work->prim2->packs[GV_Clock_800AB920]->poly_ft4;
+    poly = &work->prim2->packs[GV_Clock]->poly_ft4;
     for (i = 0; i < 1; i++)
     {
         color = work->color[i];

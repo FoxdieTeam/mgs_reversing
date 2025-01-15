@@ -460,7 +460,7 @@ typedef struct ACTIONPATTERN
 //extern int s11e_dword_800C36CC[ 2 ][ 16 ];
 extern ACTIONPATTERN s11e_dword_800C36CC[ 16 ][ 16 ];
 extern int s11e_dword_800DF3B4;
-extern int GM_PlayerStatus_800ABA50;
+extern int GM_PlayerStatus;
 
 
 #define ATTACKNEAR_DIS 800
@@ -483,7 +483,7 @@ int s11e_zk11ecom_800D937C( ZakoWork *work )
         switch ( nextset )
         {
         case 0:
-            if ( work->sn_dis < ATTACKNEAR_DIS && !( GM_PlayerStatus_800ABA50 & 0x1060 ) )
+            if ( work->sn_dis < ATTACKNEAR_DIS && !( GM_PlayerStatus & 0x1060 ) )
             {
                 return 10;
             }

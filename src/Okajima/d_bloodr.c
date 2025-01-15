@@ -8,7 +8,7 @@
 extern int              GM_CurrentMap_800AB9B0;
 extern CONTROL         *GM_PlayerControl_800AB9F4;
 extern OBJECT          *GM_PlayerBody_800ABA20;
-extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
+extern PlayerStatusFlag GM_PlayerStatus;
 extern SVECTOR          GM_PlayerPosition_800ABA10;
 
 /*---------------------------------------------------------------------------*/
@@ -84,27 +84,27 @@ STATIC void d_bloodr_Act(DBloodWorkr *work)
 
     if ((work->field_D4_sequence < 200) && (++work->field_D4_sequence == 100))
     {
-        GM_PlayerStatus_800ABA50 |= PLAYER_UNK100000;
+        GM_PlayerStatus |= PLAYER_UNK100000;
     }
 
     if (work->field_D4_sequence >= 100)
     {
-        if (GM_PlayerStatus_800ABA50 & PLAYER_GROUND)
+        if (GM_PlayerStatus & PLAYER_GROUND)
         {
             GV_SubVec3(&GM_PlayerPosition_800ABA10, &work->field_A4_positions[0], &diff);
 
             if (GV_VecLen3(&diff) > 640)
             {
-                GM_PlayerStatus_800ABA50 &= ~PLAYER_UNK100000;
+                GM_PlayerStatus &= ~PLAYER_UNK100000;
             }
             else
             {
-                GM_PlayerStatus_800ABA50 |= PLAYER_UNK100000;
+                GM_PlayerStatus |= PLAYER_UNK100000;
             }
         }
         else
         {
-            GM_PlayerStatus_800ABA50 &= ~PLAYER_UNK100000;
+            GM_PlayerStatus &= ~PLAYER_UNK100000;
         }
     }
 }

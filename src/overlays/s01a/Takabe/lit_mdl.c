@@ -61,7 +61,7 @@ DG_DEF litmdl_dg_def =
 };
 
 extern int     GM_CurrentMap_800AB9B0;
-extern int     GV_PauseLevel_800AB928;
+extern int     GV_PauseLevel;
 extern DG_CHANL DG_Chanls_800B1800[3];
 
 void s01a_lit_mdl_800E26EC(LitMdlWork *work)
@@ -169,7 +169,7 @@ void s01a_lit_mdl_800E2928(LitMdlWork *work)
 
     work->field_B0 = work->field_A8->t[1] - work->field_AC;
 
-    if (GV_PauseLevel_800AB928 == 0)
+    if (GV_PauseLevel == 0)
     {
         s01a_lit_mdl_800E26EC(work);
     }
