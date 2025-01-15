@@ -255,7 +255,7 @@ int s00a_command_800CEDE8( char *ops, short *addr, int map_id )
     MAP *map;
     SVECTOR svec;
     unsigned char *res;
-    map = Map_FromId_800314C0( map_id );
+    map = GM_GetMap( map_id );
 
     for ( i = 0; ( res = GCL_GetParamResult() ) && i < 4 ; i++ )
     {
@@ -913,7 +913,7 @@ void s00a_command_800CFDC8( WatcherWork* work, int addr, int idx )
     pos->vy = zone->y;
     pos->vz = zone->z;
 
-    map = Map_FindByZoneId_80031624( 1 << zone->padding );
+    map = GM_FindMapZone( 1 << zone->padding );
 
     if ( map != NULL )
     {
@@ -1175,7 +1175,7 @@ void CommandGetResources_800D04F4( CommanderWork *work, int name, int where )
 
     TOPCOMMAND_800E0F20.mode = 0;
     TOPCOMMAND_800E0F20.alert= 0;
-    EnemyCommand_800E0D98.map = Map_FromId_800314C0( where );
+    EnemyCommand_800E0D98.map = GM_GetMap( where );
 
     ops = GCL_GetOption( 'v' );
     if ( ops )

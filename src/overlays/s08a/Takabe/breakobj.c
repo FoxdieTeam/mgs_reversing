@@ -34,7 +34,7 @@ SVECTOR        s08a_dword_800C36EC = {100, 100, 100};
 extern int     GV_Clock_800AB920;
 
 void     Takabe_FreeObjs_800DC820(DG_OBJS *objs);
-DG_OBJS *s00a_unknown3_800DC7BC(int model, LitHeader *lit);
+DG_OBJS *s00a_unknown3_800DC7BC(int model, LIT *lit);
 
 void BreakObj_800D5AC0(OBJECT *object, int model, int where, int flag);
 
@@ -188,6 +188,6 @@ void BreakObj_800D5AC0(OBJECT *object, int model, int where, int flag)
 
     object->flag = flag;
     object->map_name = where;
-    object->objs = s00a_unknown3_800DC7BC(model, Map_FromId_800314C0(where)->lit);
+    object->objs = s00a_unknown3_800DC7BC(model, GM_GetMap(where)->lit);
     object->objs->flag = flag;
 }

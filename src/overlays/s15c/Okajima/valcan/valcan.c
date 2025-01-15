@@ -169,12 +169,12 @@ int Valcan_800D8D20(CONTROL *control, SVECTOR *svec1)
 
 void ValcanQueueDynamicSegment_800D8D5C(ValcanWork *work, int flag)
 {
-    HZD_QueueDynamicSegment2(Map_FromId_800314C0(work->field_20)->hzd, &work->field_928, flag);
+    HZD_QueueDynamicSegment2(GM_GetMap(work->field_20)->hzd, &work->field_928, flag);
 }
 
 void ValcanDequeueDynamicSegment_800D8DA0(ValcanWork *work)
 {
-    HZD_DequeueDynamicSegment(Map_FromId_800314C0(work->field_20)->hzd, &work->field_928);
+    HZD_DequeueDynamicSegment(GM_GetMap(work->field_20)->hzd, &work->field_928);
 }
 
 void Valcan_800D8DD8(ValcanWork *work)

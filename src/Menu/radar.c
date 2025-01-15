@@ -486,7 +486,7 @@ void drawMap_800391D0(MenuWork *work, unsigned char *ot, int arg2)
             }
             else
             {
-                pHzdMap = Map_Enum_Get_Hzd_80031580(pHzdMap);
+                pHzdMap = GM_IterHazard(pHzdMap);
 
                 if (!pHzdMap)
                 {
