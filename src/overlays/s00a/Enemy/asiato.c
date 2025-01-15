@@ -430,7 +430,7 @@ void AsiatoAct_800D18C8(AsiatoWork *work)
             var_s0 = &GM_PlayerBody_800ABA20->objs->objs[15];
         }
         RecordAsiatoPosition_800D1844();
-        GM_CurrentMap_800AB9B0 = (*GM_WhereList_800B56D0)->map->index;
+        GM_CurrentMap = (*GM_WhereList_800B56D0)->map->index;
         NewAsiatoChar_800D11DC(&var_s0->world, temp_v0, (*GM_WhereList_800B56D0)->levels[0],
                                AsiatoPositions[48].vx - 1, work->field_20);
     }

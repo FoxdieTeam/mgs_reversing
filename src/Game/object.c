@@ -11,7 +11,7 @@
 #include "motion.h"
 
 /*-----sbss---------------------------------------*/
-extern int GM_CurrentMap_800AB9B0;
+extern int GM_CurrentMap;
 
 int SECTION(".sbss") fc_rt;     // Unused?
 int SECTION(".sbss") mt_rt1;    // Unused?
@@ -65,7 +65,7 @@ void GM_InitObjectNoRots( OBJECT_NO_ROTS *obj, int model, int flag, int motion )
     GV_ZeroMemory( obj, sizeof(OBJECT_NO_ROTS) );
     obj->flag = flag;
     obj->light = &DG_LightMatrix;
-    obj->map_name = GM_CurrentMap_800AB9B0;
+    obj->map_name = GM_CurrentMap;
     /*
         モデル／モーション初期化
     */
@@ -99,10 +99,10 @@ void GM_ActObject(OBJECT *obj)
 {
     DG_PutObjs(obj->objs);
 
-    if (obj->map_name != GM_CurrentMap_800AB9B0)
+    if (obj->map_name != GM_CurrentMap)
     {
-        int group_id = GM_CurrentMap_800AB9B0;
-        obj->map_name = GM_CurrentMap_800AB9B0;
+        int group_id = GM_CurrentMap;
+        obj->map_name = GM_CurrentMap;
         obj->objs->group_id = group_id;
     }
 
@@ -119,10 +119,10 @@ void GM_ActObject2(OBJECT *obj)
 {
     DG_PutObjs(obj->objs);
 
-    if (obj->map_name != GM_CurrentMap_800AB9B0)
+    if (obj->map_name != GM_CurrentMap)
     {
-        int group_id = GM_CurrentMap_800AB9B0;
-        obj->map_name = GM_CurrentMap_800AB9B0;
+        int group_id = GM_CurrentMap;
+        obj->map_name = GM_CurrentMap;
         obj->objs->group_id = group_id;
     }
 

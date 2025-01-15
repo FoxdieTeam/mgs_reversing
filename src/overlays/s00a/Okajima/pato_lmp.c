@@ -354,7 +354,7 @@ void PatrolLampAct_800D6678(PatoLmpWork *work)
     short zero;
 
     zero = 0;
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
 
     hashes[0] = GV_StrCode(s00a_dword_800E0ADC);
     hashes[1] = GV_StrCode(s00a_dword_800E0AE4);
@@ -598,7 +598,7 @@ int PatrolLampGetResources_800D6E28(PatoLmpWork *work, int name, int map)
 
     sp328 = 0;
 
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
 
     work->field_1944 = 0;
     work->name = name;

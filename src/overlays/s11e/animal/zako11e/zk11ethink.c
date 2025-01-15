@@ -10,7 +10,7 @@ extern int     ZAKOCOM_PlayerMap_800DF3BC;
 extern ZAKO_COMMAND ZakoCommand_800DF280;
 
 extern SVECTOR  GM_PlayerPosition_800ABA10;
-extern SVECTOR  GM_NoisePosition_800AB9F8;
+extern SVECTOR  GM_NoisePosition;
 extern CONTROL *GM_WhereList_800B56D0[94];
 extern int      GM_PlayerMap_800ABA0C;
 extern int      GM_PlayerAddress_800AB9F0;

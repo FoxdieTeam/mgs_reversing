@@ -56,7 +56,7 @@ SVECTOR SECTION("overlay.bss") rasen_el_800D2CAC;
 SVECTOR SECTION("overlay.bss") rasen_el_800D2CB4;
 int SECTION("overlay.bss") rasen_el_800D2CBC;
 
-extern int             GM_CurrentMap_800AB9B0;
+extern int             GM_CurrentMap;
 extern int             gControlCount_800AB9B4;
 extern CONTROL        *GM_PlayerControl_800AB9F4;
 extern OBJECT         *GM_PlayerBody_800ABA20;
@@ -106,7 +106,7 @@ void RasenElAct_800CC454(RasenElWork *work)
     int       dy;
     int       status;
 
-    GM_CurrentMap_800AB9B0 = rasen_el_800D2CA4[rasen_800C3404];
+    GM_CurrentMap = rasen_el_800D2CA4[rasen_800C3404];
 
     check = 0;
 
@@ -321,7 +321,7 @@ void RasenElAct_800CC454(RasenElWork *work)
     {
         if (work->f238 == 0)
         {
-            map = GM_GetMap(GM_CurrentMap_800AB9B0);
+            map = GM_GetMap(GM_CurrentMap);
             Takabe_ReshadeModel_800DC854(work->object.objs, map->lit);
             work->f238 = 1;
         }
@@ -417,7 +417,7 @@ int RasenElGetResources_800CCB9C(RasenElWork *work, int name, int map)
     int     texid;
     int     f230;
 
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
 
     work->map = map;
     work->name = name;
@@ -614,8 +614,8 @@ void s11c_800CD17C(OBJECT *object, int model, int flag)
     GV_ZeroMemory(object, sizeof(OBJECT));
 
     object->flag = flag;
-    object->map_name = GM_CurrentMap_800AB9B0;
-    object->objs = s00a_unknown3_800DC7DC(model, GM_GetMap(GM_CurrentMap_800AB9B0)->lit);
+    object->map_name = GM_CurrentMap;
+    object->objs = s00a_unknown3_800DC7DC(model, GM_GetMap(GM_CurrentMap)->lit);
 }
 
 void RasenElExecProc_800CD1E4(int proc, int value)

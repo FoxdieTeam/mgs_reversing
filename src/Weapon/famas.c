@@ -56,7 +56,7 @@ STATIC void FamasAct(FamasWork *work)
     MATRIX mtx;
     MATRIX *pMtx;
 
-    GM_CurrentMap_800AB9B0 = work->control->map->index;
+    GM_CurrentMap = work->control->map->index;
     DG_GroupObjs(work->obj.objs, DG_CurrentGroupID);
 
     mp5_flag = work->mp5_flag;

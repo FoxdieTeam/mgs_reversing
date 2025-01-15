@@ -95,7 +95,7 @@ int gRadarRGBTable2_8009E3D4[] = {0x48A000, 0x6E6E, 0xDE, 0x181800};
 //#define CONSOLE_LONG_WIDTH 56
 //#define CONSOLE_TEX_WIDTH  28
 
-typedef enum // GM_AlertMode_800ABA00
+typedef enum // GM_AlertMode
 {
     ALERT_DISABLED = 0,
     ALERT_ENABLED = 1,
@@ -1067,8 +1067,8 @@ void menu_radar_helper_8003ADD8(MenuWork *work, int index)
     SetDrawEnv(&work->field_CC_radar_data.dr_env[index], &drawEnv);
 }
 
-extern int              GM_AlertMode_800ABA00;
-extern int              GM_AlertLevel_800ABA18;
+extern int              GM_AlertMode;
+extern int              GM_AlertLevel;
 
 void draw_radar(MenuWork *work, unsigned char *ot)
 {
@@ -1078,8 +1078,8 @@ void draw_radar(MenuWork *work, unsigned char *ot)
     DR_TPAGE *tpage;
     RECT      clip;
 
-    alertLevel = GM_AlertLevel_800ABA18;
-    alertMode = GM_AlertMode_800ABA00;
+    alertLevel = GM_AlertLevel;
+    alertMode = GM_AlertMode;
 
     if (alertMode >= 4)
     {

@@ -50,7 +50,7 @@ int s11i_dword_800C36B4[] = {0x00011000, 0x0CFE0105, 0xFF010000, 0x00000008, 0x0
 char s11i_dword_800C36C8[] = {0xF}; // FIXME: this is a part of s11i_dword_800C36B4[]
 
 extern SVECTOR          GM_PlayerPosition_800ABA10;
-extern int              GM_CurrentMap_800AB9B0;
+extern int              GM_CurrentMap;
 extern int              GM_PlayerStatus;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 
@@ -203,7 +203,7 @@ void SStormAct_800D478C(SStormWork *work)
     unsigned int   xw;
     int            lhs, rhs;
 
-    GM_CurrentMap_800AB9B0 = work->field_24;
+    GM_CurrentMap = work->field_24;
     work->field_44++;
 
     hashes[0] = GV_StrCode("run");

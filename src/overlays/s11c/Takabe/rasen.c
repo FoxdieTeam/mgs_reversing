@@ -80,8 +80,8 @@ extern GM_Camera       GM_Camera_800B77E8;
 extern CONTROL        *GM_WhereList_800B56D0[96];
 extern int             gControlCount_800AB9B4;
 extern int             bakudan_count_8009F42C;
-extern HITTABLE        c4_actors_800BDD78[C4_COUNT];
-extern HITTABLE   stru_800BDE78[8];
+extern HITTABLE        GM_C4Datas_800BDD78[C4_COUNT];
+extern HITTABLE        GM_ClayDatas_800BDE78[8];
 extern int             counter_8009F448;
 extern CONTROL        *GM_PlayerControl_800AB9F4;
 extern int             DG_CurrentGroupID;
@@ -114,7 +114,7 @@ void Rasen2IterBakudanJirai_800CA3A4(Rasen2Work *work, MAP *oldMap, MAP *newMap)
 
     if (bakudan_count_8009F42C != 0)
     {
-        for (pItem = c4_actors_800BDD78, i = C4_COUNT; i > 0; pItem++, i--)
+        for (pItem = GM_C4Datas_800BDD78, i = C4_COUNT; i > 0; pItem++, i--)
         {
             bakudan = (BakudanWork *)pItem->actor;
             if (bakudan != NULL && bakudan->control.map == oldMap && bakudan->transform == NULL)
@@ -135,7 +135,7 @@ void Rasen2IterBakudanJirai_800CA3A4(Rasen2Work *work, MAP *oldMap, MAP *newMap)
 
     if (counter_8009F448 != 0)
     {
-        for (pItem = stru_800BDE78, i = 8; i > 0; pItem++, i--)
+        for (pItem = GM_ClayDatas_800BDE78, i = 8; i > 0; pItem++, i--)
         {
             jirai = (JiraiWork *)pItem->actor;
             if (jirai != NULL && jirai->control.map == oldMap)
@@ -312,7 +312,7 @@ void Rasen2Act_800CA79C(Rasen2Work *work)
 
         DG_CurrentGroupID = mapid;
         playermap = GM_PlayerMap_800ABA0C;
-        GM_CurrentMap_800AB9B0 = mapid;
+        GM_CurrentMap = mapid;
         GM_PlayerMap_800ABA0C = mapid;
         GM_PlayerControl_800AB9F4->map->used = 0;
         GM_PlayerControl_800AB9F4->map = new_map;
@@ -440,7 +440,7 @@ int Rasen2GetResources_800CAC64(Rasen2Work *work, int name, int where)
         map = GM_FindMap(GCL_StrToInt(GCL_GetParamResult()))->index;
     }
 
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
     work->field_20 = map;
     work->field_24 = name;
 
@@ -608,7 +608,7 @@ DG_OBJS *Rasen2_800CB250(int index, Rasen2Work *work)
     DG_SetPos(&DG_ZeroMatrix);
     DG_PutObjs(new_objs);
     DG_QueueObjs(new_objs);
-    DG_GroupObjs(new_objs, GM_CurrentMap_800AB9B0);
+    DG_GroupObjs(new_objs, GM_CurrentMap);
     return new_objs;
 }
 

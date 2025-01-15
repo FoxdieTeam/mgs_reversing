@@ -875,7 +875,7 @@ int PreMet2GetResources_800C68C4(PreMet2Work *work, int arg1, int *arg2, PreEntr
     POLY_FT4 *poly, *poly2;
     int       i, j, k;
 
-    GM_CurrentMap_800AB9B0 = arg1;
+    GM_CurrentMap = arg1;
     work->field_20 = DG_GetPrim(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 6, 0, NULL, NULL);
     work->field_24 = DG_GetPrim(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 9, 0, NULL, NULL);
 

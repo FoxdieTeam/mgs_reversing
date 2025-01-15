@@ -13,8 +13,8 @@ char byte_8009D698[] = {0, 0, 1, 2};
 char GM_NoiseSound_800B76E0[4][3];
 
 extern int   GM_GameOverVox;
-extern int   GM_AlertMode_800ABA00;
-extern int   GM_AlertLevel_800ABA18;
+extern int   GM_AlertMode;
+extern int   GM_AlertLevel;
 
 typedef enum // GM_RadarMode_800ABA80
 {
@@ -24,7 +24,7 @@ typedef enum // GM_RadarMode_800ABA80
     RADAR_ALERT = 3
 } RadarMode;
 
-typedef enum // GM_AlertMode_800ABA00
+typedef enum // GM_AlertMode
 {
     ALERT_DISABLED = 0,
     ALERT_ENABLED = 1,
@@ -81,7 +81,7 @@ void GM_SoundStart(void)
 {
     if (dword_800ABA70 == 0)
     {
-        sub_8002E508(dword_800ABA78[GM_AlertMode_800ABA00 != 0]);
+        sub_8002E508(dword_800ABA78[GM_AlertMode != 0]);
     }
 }
 
@@ -189,20 +189,20 @@ void GM_AlertAct( void )
 
     if ( GM_RadarMode_800ABA80 >= 0 )
     {
-        if ( GM_RadarMode_800ABA80 != GM_AlertMode_800ABA00 )
+        if ( GM_RadarMode_800ABA80 != GM_AlertMode )
         {
             if ( dword_800ABA70 == 0 )
             {
                 switch ( GM_RadarMode_800ABA80 )
                 {
                 case RADAR_ALERT:
-                    if ( GM_AlertMode_800ABA00 == ALERT_DISABLED )
+                    if ( GM_AlertMode == ALERT_DISABLED )
                     {
                         GM_SeSet2( 0, 0x3F, SE_ALERT_SIREN );
                         GM_SetSound( 0x01ffff0b, SD_ASYNC );
                         sub_8002E508( dword_800ABA78[1] );
                     }
-                    else if ( GM_AlertMode_800ABA00 == ALERT_EVASION )
+                    else if ( GM_AlertMode == ALERT_EVASION )
                     {
                         GM_SetSound( 0x01ffff03, SD_ASYNC );
                     }
@@ -215,11 +215,11 @@ void GM_AlertAct( void )
                     break;
                 }
             }
-            GM_AlertMode_800ABA00 = GM_RadarMode_800ABA80;
+            GM_AlertMode = GM_RadarMode_800ABA80;
         }
     }
-    if ( ( GM_AlertMode_800ABA00 == ALERT_EVASION ) && ( dword_800ABA70 == 0 ) &&
-         ( GM_AlertLevel_800ABA18 == 0x3C ) )
+    if ( ( GM_AlertMode == ALERT_EVASION ) && ( dword_800ABA70 == 0 ) &&
+         ( GM_AlertLevel == 0x3C ) )
     {
         GM_SetSound( 0x01ffff08, SD_ASYNC );
     }

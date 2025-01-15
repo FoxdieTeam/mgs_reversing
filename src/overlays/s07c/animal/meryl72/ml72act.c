@@ -5,11 +5,11 @@
 extern int GV_Time;
 
 extern int      GM_PlayerMap_800ABA0C;
-extern int      GM_NoisePower_800ABA24;
+extern int      GM_NoisePower;
 extern int      GM_NoiseLength;
 extern CONTROL *GM_PlayerControl_800AB9F4;
-extern SVECTOR  GM_NoisePosition_800AB9F8;
-extern int      GM_AlertMode_800ABA00;
+extern SVECTOR  GM_NoisePosition;
+extern int      GM_AlertMode;
 extern SVECTOR  GM_PlayerPosition_800ABA10;
 extern int      GM_PlayerStatus;
 
@@ -76,40 +76,40 @@ void s07c_meryl72_unk1_800CB748(Meryl72Work* work)
         return;
     }
 
-    if (GM_NoisePower_800ABA24 == 0)
+    if (GM_NoisePower == 0)
     {
         return;
     }
 
-    switch (GM_NoisePower_800ABA24)
+    switch (GM_NoisePower)
     {
     case 5:
-        if (GV_DiffVec3(&GM_NoisePosition_800AB9F8, &control->mov) < 500)
+        if (GV_DiffVec3(&GM_NoisePosition, &control->mov) < 500)
         {
             work->modetime[6] |= 0x1;
         }
         break;
 
     case 200:
-        if (GV_DiffVec3(&GM_NoisePosition_800AB9F8, &control->mov) < 4000)
+        if (GV_DiffVec3(&GM_NoisePosition, &control->mov) < 4000)
         {
             work->modetime[6] |= 0x1;
         }
         break;
 
     case 100:
-        dist = GV_DiffVec3(&GM_NoisePosition_800AB9F8, &control->mov);
+        dist = GV_DiffVec3(&GM_NoisePosition, &control->mov);
         fprintf(1, "noise dis  =%d,\n", dist);
 
         if (dist < 4000)
         {
-            dist = s07c_meryl72_unk1_800CB6E8(control->map->hzd, &control->mov, &GM_NoisePosition_800AB9F8);
+            dist = s07c_meryl72_unk1_800CB6E8(control->map->hzd, &control->mov, &GM_NoisePosition);
 
             if (dist < 300)
             {
                 work->modetime[6] |= 0x1;
                 GM_NoiseLength = 0;
-                GM_NoisePower_800ABA24 = 0;
+                GM_NoisePower = 0;
             }
         }
         break;
@@ -130,7 +130,7 @@ void s07c_meryl72_unk1_800CB8DC(Meryl72Work *work)
 
     s07c_meryl72_unk1_800CB748(work);
 
-    if (GM_AlertMode_800ABA00 != 3)
+    if (GM_AlertMode != 3)
     {
         s07c_meryl72_unk1_800CB688(work);
         s07c_meryl72_unk1_800CB8D4(work);

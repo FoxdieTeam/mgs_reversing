@@ -59,7 +59,7 @@ int PutObjectGetResources_800E244C(PutObjWork *work, int name, int where)
     DG_OBJ   *objsIter2;
     DG_OBJ   *objsIter1;
 
-    GM_CurrentMap_800AB9B0 = where;
+    GM_CurrentMap = where;
     work->field_28 = THING_Gcl_GetInt('m');
 
     def = GV_GetCache(GV_CacheID(work->field_28, 'k'));

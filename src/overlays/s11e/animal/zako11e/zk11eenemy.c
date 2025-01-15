@@ -9,10 +9,10 @@ extern ZAKO_COMMAND ZakoCommand_800DF280;
 extern int          ZAKO11E_EYE_LENGTH_800C3904;
 
 extern int      GM_ClaymoreMap_800AB9DC;
-extern SVECTOR  GM_NoisePosition_800AB9F8;
+extern SVECTOR  GM_NoisePosition;
 extern int      GM_PlayerMap_800ABA0C;
 extern SVECTOR  GM_PlayerPosition_800ABA10;
-extern int      GM_NoisePower_800ABA24;
+extern int      GM_NoisePower;
 extern int      GM_NoiseLength;
 extern int      GM_PlayerStatus;
 extern CONTROL *GM_WhereList_800B56D0[94];
@@ -100,21 +100,21 @@ void s11e_zk11ecom_800D81F0( ZakoWork* work )
         return;
     }
 
-    if ( !GM_NoisePower_800ABA24 )
+    if ( !GM_NoisePower )
     {
         return;
     }
 
-    switch ( GM_NoisePower_800ABA24 )
+    switch ( GM_NoisePower )
     {
     case 5:
-        if ( GV_DiffVec3( &GM_NoisePosition_800AB9F8, &ctrl->mov ) < 500 )
+        if ( GV_DiffVec3( &GM_NoisePosition, &ctrl->mov ) < 500 )
         {
             break;
         }
         return;
     case 200:
-        if ( GV_DiffVec3( &GM_NoisePosition_800AB9F8, &ctrl->mov ) < 8000 )
+        if ( GV_DiffVec3( &GM_NoisePosition, &ctrl->mov ) < 8000 )
         {
             break;
         }
@@ -122,11 +122,11 @@ void s11e_zk11ecom_800D81F0( ZakoWork* work )
     case 255:
         break;
     case 100:
-        if ( GV_DiffVec3( &GM_NoisePosition_800AB9F8, &ctrl->mov ) < 8000 && s11e_zk11ecom_800D8190( ctrl->map->hzd, &ctrl->mov, &GM_NoisePosition_800AB9F8 ) < 300  )
+        if ( GV_DiffVec3( &GM_NoisePosition, &ctrl->mov ) < 8000 && s11e_zk11ecom_800D8190( ctrl->map->hzd, &ctrl->mov, &GM_NoisePosition ) < 300  )
         {
             work->field_BA2 |= 1;
             GM_NoiseLength = 0;
-            GM_NoisePower_800ABA24  = 0;
+            GM_NoisePower  = 0;
             return;
         }
         return;

@@ -21,7 +21,7 @@ typedef struct _TracktrpWork
     int     proc[4];
 } TracktrpWork;
 
-extern int     GM_AlertMode_800ABA00;
+extern int     GM_AlertMode;
 extern SVECTOR GM_PlayerPosition_800ABA10;
 extern GV_PAD  GV_PadData_800B05C0[4];
 
@@ -70,7 +70,7 @@ void TracktrpAct_800E1A94(TracktrpWork *work)
             work->pos = GM_PlayerPosition_800ABA10;
         }
 
-        if (GM_AlertMode_800ABA00 != 0)
+        if (GM_AlertMode != 0)
         {
             work->count = 0;
         }

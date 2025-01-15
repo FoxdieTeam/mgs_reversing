@@ -57,7 +57,7 @@ typedef struct _MouseWork
     MouseEntry entries[0];
 } MouseWork;
 
-extern int    GM_CurrentMap_800AB9B0;
+extern int    GM_CurrentMap;
 extern int    GM_PlayerStatus;
 
 #define EXEC_LEVEL 4
@@ -457,7 +457,7 @@ void MouseAct_800D4904(MouseWork *work)
     TARGET     *target;
     OBJECT     *object;
 
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
 
     entry = work->entries;
     for (i = 0; i < work->nentries; i++, entry++)

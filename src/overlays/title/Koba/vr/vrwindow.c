@@ -45,7 +45,7 @@ int vrwindow_800C3780 = 510;
 
 extern int    GV_Clock;
 extern int    GV_PauseLevel;
-extern int    GM_CurrentMap_800AB9B0;
+extern int    GM_CurrentMap;
 extern GV_PAD GV_PadData_800B05C0[4];
 
 extern char vrwindow_800D92D4[];
@@ -387,7 +387,7 @@ int VrwindowGetResources_800D8024(VrwindowWork *work, int map)
 {
     int i;
 
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
 
     work->f188 = 0;
     Vrwindow_800D7F48(&work->kcb, work->f20.w, work->f20.h + 18, work);

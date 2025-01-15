@@ -16,7 +16,7 @@ typedef struct _Splash3Work
 RECT s15b_800C3398 = {100, 100, 200, 200};
 
 extern int GV_Clock;
-extern int GM_CurrentMap_800AB9B0;
+extern int GM_CurrentMap;
 
 #define EXEC_LEVEL 5
 
@@ -88,7 +88,7 @@ void Splash3Act_800C7F1C(Splash3Work *work)
     SVECTOR  *vec;
     int       x, y, z;
 
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
 
     g = --work->time;
     if (work->time <= 0)
@@ -226,7 +226,7 @@ int Splash3GetResources_800C810C(Splash3Work *work, int dir, SVECTOR *pos)
     int       texid;
     DG_TEX   *tex;
 
-    work->map = GM_CurrentMap_800AB9B0;
+    work->map = GM_CurrentMap;
 
     prim = DG_GetPrim(DG_PRIM_POLY_FT4, 32, 0, work->pos, &s15b_800C3398);
     work->prim = prim;

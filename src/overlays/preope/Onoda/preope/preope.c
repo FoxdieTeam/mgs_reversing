@@ -694,7 +694,7 @@ int PreopeGetResources_800C46F8(PreopeWork *work, int map)
     int       i, j;
     int       index;
 
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
 
     work->map = map;
     work->field_A814 = 832;

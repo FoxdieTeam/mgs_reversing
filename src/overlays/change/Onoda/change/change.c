@@ -56,7 +56,7 @@ typedef struct _Work
 } Work;
 
 extern int    GV_Clock;
-extern int    GM_CurrentMap_800AB9B0;
+extern int    GM_CurrentMap;
 extern int    FS_DiskNum_800ACBF0;
 extern GV_PAD GV_PadData_800B05C0[4];
 
@@ -634,7 +634,7 @@ int ChangeGetResources_800C4448( Work *work, int map )
 {
     int i;
 
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
 
     work->pad_data = &GV_PadData_800B05C0[ 2 ];
 

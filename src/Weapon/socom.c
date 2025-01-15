@@ -240,7 +240,7 @@ STATIC void SocomAct( SocomWork *work )
         return;
     }
 
-    GM_CurrentMap_800AB9B0 = work->control->map->index;
+    GM_CurrentMap = work->control->map->index;
 
     DG_GroupObjs( work->object.objs, DG_CurrentGroupID );
     DG_GroupPrim( work->prim1, DG_CurrentGroupID );

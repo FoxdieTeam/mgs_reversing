@@ -21,7 +21,7 @@ typedef struct KatanaWork
 #define EXEC_LEVEL 4
 
 extern int    GV_Clock;
-extern int    GM_CurrentMap_800AB9B0;
+extern int    GM_CurrentMap;
 
 void s08c_katana_800C5040(KatanaWork *work)
 {
@@ -90,7 +90,7 @@ void s08c_katana_800C5100(KatanaWork *work)
 
 void KatanaAct_800C5210(KatanaWork *work)
 {
-    GM_CurrentMap_800AB9B0 = work->where;
+    GM_CurrentMap = work->where;
     s08c_katana_800C5040(work);
     s08c_katana_800C5100(work);
     if (*work->field_40 > 0)
@@ -167,7 +167,7 @@ int KatanaGetResources_800C53E4(KatanaWork *work, MATRIX *pos, SVECTOR *arg2, SV
             s08c_katana_800C5294(&prim->packs[1]->poly_gt4, tex, 1, 128, 128, 128);
             work->field_14C = 0;
             work->field_148 = 0;
-            work->where = GM_CurrentMap_800AB9B0;
+            work->where = GM_CurrentMap;
             return 0;
         }
     }

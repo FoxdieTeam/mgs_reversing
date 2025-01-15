@@ -1037,7 +1037,7 @@ void UpdateEnvironmentalEffects_8003C4EC(void)
                 blastData.field_C = 2000;
                 blastData.field_10 = 10;
 
-                GM_CurrentMap_800AB9B0 = GM_PlayerMap_800ABA0C;
+                GM_CurrentMap = GM_PlayerMap_800ABA0C;
 
                 mtx = DG_ZeroMatrix;
                 mtx.t[0] = GM_PlayerPosition_800ABA10.vx;

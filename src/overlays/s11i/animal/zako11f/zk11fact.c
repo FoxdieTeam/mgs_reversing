@@ -84,22 +84,22 @@ void s11i_asiato_800CD8EC(Zako11FWork *work)
         return;
     }
 
-    if ( GM_NoisePower_800ABA24 == 0 )
+    if ( GM_NoisePower == 0 )
     {
         return;
     }
 
-    switch ( GM_NoisePower_800ABA24 )
+    switch ( GM_NoisePower )
     {
     case 5:
-        if ( GV_DiffVec3( &GM_NoisePosition_800AB9F8, &control->mov ) < 500 )
+        if ( GV_DiffVec3( &GM_NoisePosition, &control->mov ) < 500 )
         {
             break;
         }
         return;
 
     case 200:
-        if ( GV_DiffVec3( &GM_NoisePosition_800AB9F8, &control->mov ) < 8000 )
+        if ( GV_DiffVec3( &GM_NoisePosition, &control->mov ) < 8000 )
         {
             break;
         }
@@ -109,12 +109,12 @@ void s11i_asiato_800CD8EC(Zako11FWork *work)
         break;
 
     case 100:
-        if ( GV_DiffVec3( &GM_NoisePosition_800AB9F8, &control->mov ) < 8000 &&
-             s11i_asiato_800CD88C( control->map->hzd, &control->mov, &GM_NoisePosition_800AB9F8 ) < 300 )
+        if ( GV_DiffVec3( &GM_NoisePosition, &control->mov ) < 8000 &&
+             s11i_asiato_800CD88C( control->map->hzd, &control->mov, &GM_NoisePosition ) < 300 )
         {
             work->modetime[6] |= 1;
             GM_NoiseLength = 0;
-            GM_NoisePower_800ABA24 = 0;
+            GM_NoisePower = 0;
         }
         return;
 

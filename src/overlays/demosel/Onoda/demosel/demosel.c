@@ -103,7 +103,7 @@ signed char text_outline_direction_offsets_800C3290[] = {
 GV_ACT *NewMetLogo_800C5A90( int * );
 
 extern int    GV_Clock;
-extern int    GM_CurrentMap_800AB9B0;
+extern int    GM_CurrentMap;
 extern int    FS_DiskNum_800ACBF0;
 extern GV_PAD GV_PadData_800B05C0[4];
 
@@ -1418,7 +1418,7 @@ int demosel_800C5A78(DemoselWork *work, int map)
     int       i;
     POLY_FT4 *poly2;
 
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
 
     work->fDB8 = 832;
     work->fDBC = 256;

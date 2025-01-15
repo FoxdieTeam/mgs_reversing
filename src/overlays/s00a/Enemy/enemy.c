@@ -7,10 +7,10 @@
 #include "strcode.h"
 
 extern int      GM_ClaymoreMap_800AB9DC;
-extern SVECTOR  GM_NoisePosition_800AB9F8;
+extern SVECTOR  GM_NoisePosition;
 extern int      GM_PlayerMap_800ABA0C;
 extern SVECTOR  GM_PlayerPosition_800ABA10;
-extern int      GM_NoisePower_800ABA24;
+extern int      GM_NoisePower;
 extern int      GM_NoiseLength;
 extern int      GM_PlayerStatus;
 extern CONTROL *GM_WhereList_800B56D0[94];
@@ -88,14 +88,14 @@ void s00a_command_800C9930( WatcherWork* work )
     }
 
     ctrl = &work->control;
-    if ( !GM_NoisePower_800ABA24 )
+    if ( !GM_NoisePower )
     {
         return;
     }
 
 
 
-    if ( GM_NoisePower_800ABA24 == 0xFF )
+    if ( GM_NoisePower == 0xFF )
     {
 
         if ( !( ctrl->map->index & GM_ClaymoreMap_800AB9DC ) &&
@@ -113,16 +113,16 @@ void s00a_command_800C9930( WatcherWork* work )
         }
     }
 
-    switch ( GM_NoisePower_800ABA24 )
+    switch ( GM_NoisePower )
     {
     case 5:
-        if ( GV_DiffVec3( &GM_NoisePosition_800AB9F8, &ctrl->mov ) < 1500 )
+        if ( GV_DiffVec3( &GM_NoisePosition, &ctrl->mov ) < 1500 )
         {
             break;
         }
         return;
     case 200:
-        if ( GV_DiffVec3( &GM_NoisePosition_800AB9F8, &ctrl->mov ) < COM_NOISEMODE_DIS_800E0F38 )
+        if ( GV_DiffVec3( &GM_NoisePosition, &ctrl->mov ) < COM_NOISEMODE_DIS_800E0F38 )
         {
             break;
         }
@@ -134,7 +134,7 @@ void s00a_command_800C9930( WatcherWork* work )
         {
             work->field_BA1 |= 1;
             GM_NoiseLength = 0;
-            GM_NoisePower_800ABA24  = 0;
+            GM_NoisePower  = 0;
             return;
         }
         return;

@@ -672,14 +672,14 @@ static inline char *DG_ChanlOTag(int index)
 
 static inline DG_PRIM *DG_GetPrim( int type, int prim_count, int chanl, SVECTOR *vec, RECT *pRect )
 {
-    extern int  GM_CurrentMap_800AB9B0;
+    extern int  GM_CurrentMap;
     DG_PRIM     *prim;
 
     prim = DG_MakePrim( type, prim_count, chanl, vec, pRect );
     if ( prim )
     {
         DG_QueuePrim( prim );
-        DG_GroupPrim( prim, GM_CurrentMap_800AB9B0 );
+        DG_GroupPrim( prim, GM_CurrentMap );
     }
     return prim;
 }

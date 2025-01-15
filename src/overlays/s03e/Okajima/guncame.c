@@ -95,7 +95,7 @@ extern SVECTOR GM_PlayerPosition_800ABA10;
 extern int     dword_8009F46C[];
 extern int     dword_8009F480;
 extern SVECTOR svector_8009F478;
-extern int     GM_CurrentMap_800AB9B0;
+extern int     GM_CurrentMap;
 extern int     GM_PlayerMap_800ABA0C;
 extern int     GM_PadVibration;
 extern int     GM_PadVibration2;
@@ -793,7 +793,7 @@ void GunCame_Act_800C80F4(GunCameWork *work)
         DG_VisiblePrim(work->field_328);
     }
 
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
 
     work->field_3FC.vx = (work->field_3FC.vx * 15 + work->field_3F4.vx) / 16;
     work->field_3FC.vy = (work->field_3FC.vy * 15 + work->field_3F4.vy) / 16;

@@ -47,7 +47,7 @@ void BubbleDisplaySceneAct_800D87D0(BubDSnWork *work)
     int      i;
     short    pos;
 
-    GM_CurrentMap_800AB9B0 = work->field_20;
+    GM_CurrentMap = work->field_20;
     if (++work->field_24 >= 48)
     {
         GV_DestroyActor(&work->actor);

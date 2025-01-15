@@ -102,7 +102,7 @@ SVECTOR s03c_dword_800C32F4 = {300, 750, 300};
 extern SVECTOR          GM_PlayerPosition_800ABA10;
 extern PlayerStatusFlag GM_PlayerStatus;
 extern CONTROL         *GM_PlayerControl_800AB9F4;
-extern int              GM_AlertLevel_800ABA18;
+extern int              GM_AlertLevel;
 extern int              GM_PlayerAction;
 extern OBJECT          *GM_PlayerBody_800ABA20;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
@@ -733,7 +733,7 @@ void Johnny_800C4F24(JohnnyWork *work, int arg1)
     }
     work->unkB1C &= ~0x10000000;
     GM_AlertModeSet(0);
-    GM_AlertLevel_800ABA18 = 0;
+    GM_AlertLevel = 0;
 }
 
 void Johnny_800C4FAC(JohnnyWork *work)
@@ -1113,7 +1113,7 @@ void s03c_johnny_800C594C(JohnnyWork *work)
 {
     int index;
 
-    if (GM_StreamStatus() == -1 && GM_NoisePower_800ABA24 != 0)
+    if (GM_StreamStatus() == -1 && GM_NoisePower != 0)
     {
         index = (GV_Time & 0x1) ? 14 : 16;
         s03b_boxall_800C93AC(work->unkB78[index]);
@@ -3462,7 +3462,7 @@ void Johnny_800C9D64(JohnnyWork *work)
     }
     if (work->unkB1C & 0x10000000)
     {
-        GM_AlertLevel_800ABA18 = 0xFF;
+        GM_AlertLevel = 0xFF;
     }
     field_B10 = work->unkB10;
     if (work->unkB10 < 16000)

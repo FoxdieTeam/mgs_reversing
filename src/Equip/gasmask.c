@@ -37,7 +37,7 @@ STATIC void GasmaskAct(GasmaskWork *work)
 
     map = work->control->map->index;
     DG_GroupObjs(work->object.objs, DG_CurrentGroupID);
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
 
     if (work->parent->objs->flag & DG_FLAG_INVISIBLE)
     {

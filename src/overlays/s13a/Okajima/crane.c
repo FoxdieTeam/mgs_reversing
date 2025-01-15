@@ -50,7 +50,7 @@ typedef struct _CraneWork
     int     f390;
 } CraneWork;
 
-extern int      GM_CurrentMap_800AB9B0;
+extern int      GM_CurrentMap;
 extern CONTROL *GM_PlayerControl_800AB9F4;
 extern SVECTOR  GM_PlayerPosition_800ABA10;
 extern int      GM_PadVibration;
@@ -665,7 +665,7 @@ void CraneAct_800D4C28(CraneWork *work)
     SVECTOR *rot;
     TARGET  *target;
 
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
 
     hzd = GM_GetMap(work->map)->hzd;
 

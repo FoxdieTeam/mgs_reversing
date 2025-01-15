@@ -188,7 +188,7 @@ STATIC int GM_Command_camera(unsigned char *top)
                 cam->field_0e_alertMask = 0;
             }
 
-            GM_CameraSetAlertMask_80030850(camera_id, cam->field_0e_alertMask);
+            GM_CameraSetAlertMask(camera_id, cam->field_0e_alertMask);
         }
     }
 
@@ -819,7 +819,7 @@ STATIC int GM_Command_demo(unsigned char *top)
         cb_proc = 0;
     }
 
-    GM_CurrentMap_800AB9B0 = gBinds_800ABA60;
+    GM_CurrentMap = gBinds_800ABA60;
 
     if ( code >= 0 )
     {
@@ -1104,8 +1104,8 @@ STATIC int GM_Command_demodebug(unsigned char *top)
     {
         demodebug_finish_proc = -1;
     }
-    tmp = GM_CurrentMap_800AB9B0;
-    GM_CurrentMap_800AB9B0 = gBinds_800ABA60;
+    tmp = GM_CurrentMap;
+    GM_CurrentMap = gBinds_800ABA60;
     if (str)
     {
         demo = DM_ThreadFile_800794E4(flags, (int)str);
@@ -1114,7 +1114,7 @@ STATIC int GM_Command_demodebug(unsigned char *top)
     {
         demo = DM_ThreadStream_80079460(flags, ivar);
     }
-    GM_CurrentMap_800AB9B0 = tmp;
+    GM_CurrentMap = tmp;
     if (!demo)
     {
         printf("Error demo thread\n");

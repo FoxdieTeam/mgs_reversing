@@ -28,7 +28,7 @@ typedef struct _WsurfaceWork
 } WsurfaceWork;
 
 extern int GV_Clock;
-extern int GM_CurrentMap_800AB9B0;
+extern int GM_CurrentMap;
 
 #define EXEC_LEVEL 5
 
@@ -313,7 +313,7 @@ void WsurfaceAct_800DB564(WsurfaceWork *work)
 {
     unsigned short hashes[2];
 
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
 
     hashes[0] = GV_StrCode("実行");
     hashes[1] = GV_StrCode("停止");
@@ -365,7 +365,7 @@ int WsurfaceGetResources_800DB684(WsurfaceWork *work, int name, int map)
     DG_PRIM *prim;
     int      i;
 
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
 
     THING_Gcl_GetSVector('p', &sp18);
 

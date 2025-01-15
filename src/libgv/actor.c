@@ -42,7 +42,7 @@ STATIC PauseKill gPauseKills_8009D308[GV_ACTOR_LEVEL] = {
     {  0, 7 }   // 8: GV_ACTOR_DAEMON2
 };
 
-extern int GM_CurrentMap_800AB9B0;
+extern int GM_CurrentMap;
 
 /*---------------------------------------------------------------------------*/
 
@@ -185,7 +185,7 @@ void GV_ExecActorSystem(void)
                     current->act(current);
                 }
 
-                GM_CurrentMap_800AB9B0 = 0;
+                GM_CurrentMap = 0;
                 // continue to the next actor until we reach the end of the list
                 actor = next;
                 if (!next)

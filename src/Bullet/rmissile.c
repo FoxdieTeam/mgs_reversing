@@ -26,7 +26,7 @@ extern OBJECT *         GM_PlayerBody_800ABA20;
 extern SVECTOR          GM_PlayerPosition_800ABA10;
 extern int              GV_Clock;
 extern BLAST_DATA       blast_data_8009F4B8[8];
-extern int              GM_CurrentMap_800AB9B0;
+extern int              GM_CurrentMap;
 extern PlayerStatusFlag GM_PlayerStatus;
 extern TARGET          *target_800BDF00;
 extern int              dword_8009F604;
@@ -113,7 +113,7 @@ STATIC void rmissile_8006B888(RMissileWork *work)
     GM_event_camera_flag = work->field_2D4;
 
     sub_800309B4(2, 30);
-    GM_CameraEventReset_800309A8();
+    GM_CameraEventReset();
 }
 
 STATIC void rmissile_8006B924(RMissileWork *work)
@@ -460,7 +460,7 @@ STATIC void rmissile_act_helper_8006C114(RMissileWork *work)
         DG_SetPos2(position, &work->control.rot);
         ReadRotMatrix(&rotation);
 
-        GM_CurrentMap_800AB9B0 = work->control.map->index;
+        GM_CurrentMap = work->control.map->index;
 
         if (GM_GameStatus & (STATE_PADRELEASE | STATE_PADDEMO | STATE_DEMO))
         {
@@ -618,7 +618,7 @@ STATIC void RMissileAct(RMissileWork *work)
     {
         if (!work->field_112)
         {
-            GM_CurrentMap_800AB9B0 = work->control.map->index;
+            GM_CurrentMap = work->control.map->index;
             DG_SetPos2(&work->control.mov, &work->control.rot);
             ReadRotMatrix(&rotation);
 

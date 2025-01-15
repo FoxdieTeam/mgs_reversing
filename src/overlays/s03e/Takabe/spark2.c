@@ -27,7 +27,7 @@ typedef struct _Spark2Prim
 } Spark2Prim;
 
 extern int     GV_Clock;
-extern int     GM_CurrentMap_800AB9B0;
+extern int     GM_CurrentMap;
 
 const SVECTOR spark2_light_pos = {0, 0, 500, 0};
 
@@ -151,7 +151,7 @@ void s03e_spark2_800CA428(Spark2Work *work)
     int      old_time;
     int      brightness;
 
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
 
     if (work->time == 32)
     {
@@ -208,7 +208,7 @@ int s03e_spark2_800CA55C(Spark2Work *work, MATRIX *world)
     SVECTOR  light_pos;
     DG_PRIM *prim;
 
-    work->map = GM_CurrentMap_800AB9B0;
+    work->map = GM_CurrentMap;
 
     s03e_spark2_800CA0E8(32);
     s03e_spark2_800CA1CC(work->vecs, work->vecs2, world, 32);

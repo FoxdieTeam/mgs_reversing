@@ -71,7 +71,7 @@ typedef struct _Unknown2
 } Unknown2;
 
 extern int    GV_Clock;
-extern int    GM_CurrentMap_800AB9B0;
+extern int    GM_CurrentMap;
 extern int    GM_PadVibration;
 extern int    GM_PadVibration2;
 extern GV_PAD GV_PadData_800B05C0[4];
@@ -1803,7 +1803,7 @@ int OptionGetResources_800C7F88(OptionWork *work, int map)
     POLY_FT4 *poly;
     int       i;
 
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
 
     work->field_24 = DG_GetPrim(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 27, 0, NULL, NULL);
     work->field_28 = DG_GetPrim(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 9, 0, NULL, NULL);

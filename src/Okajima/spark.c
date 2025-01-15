@@ -10,7 +10,7 @@
 #include "libdg/libdg.h"
 #include "Game/map.h"
 
-extern int            GM_CurrentMap_800AB9B0;
+extern int            GM_CurrentMap;
 extern int            GV_Clock;
 extern unsigned short gSparkRandomTable_800BDF10[];
 
@@ -231,7 +231,7 @@ STATIC void spark_Act(SparkWork *work)
     int updated_f170;
     int lightRadius;
 
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
 
     updated_f170 = work->f170_counter - 1;
     work->f170_counter = updated_f170;
@@ -270,7 +270,7 @@ STATIC int spark_GetResources(struct SparkWork *work, MATRIX *a2, int count)
     DG_TEX  *tex;
     DG_PRIM *prim;
 
-    work->map = GM_CurrentMap_800AB9B0;
+    work->map = GM_CurrentMap;
     InitRandamTable();
     spark_loader3_80073E48(work->f028, work->f068, 8, count);
 

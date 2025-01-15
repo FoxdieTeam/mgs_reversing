@@ -19,7 +19,7 @@ typedef struct _MgRoom
 } MgRoom;
 
 extern int     GV_Clock;
-extern int     GM_CurrentMap_800AB9B0;
+extern int     GM_CurrentMap;
 
 #define EXEC_LEVEL 4
 
@@ -149,7 +149,7 @@ void MgRoom_800DAF34(MgRoom *work)
 
 void MgRoomAct_800DAFAC(MgRoom *work)
 {
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
 
     MgRoom_800DADDC(work);
     MgRoom_800DAF34(work);
@@ -232,7 +232,7 @@ int MgRoomGetResources_800DB218(MgRoom *work)
     DG_TEX  *tex;
 
     work->f88 = 0;
-    work->map = GM_CurrentMap_800AB9B0;
+    work->map = GM_CurrentMap;
 
     prim = DG_GetPrim(DG_PRIM_POLY_FT4, 1, 0, work->vec1[0], NULL);
     work->prim1 = prim;
