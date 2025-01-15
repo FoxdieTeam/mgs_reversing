@@ -170,7 +170,7 @@ enum // GM_GameStatus
 #ifndef __BSSDEFINE__
 extern int     GM_CurrentMap_800AB9B0;
 extern int     GM_NoisePower_800ABA24;
-extern int     GM_NoiseLength_800ABA30;
+extern int     GM_NoiseLength;
 extern SVECTOR GM_NoisePosition_800AB9F8;
 
 static inline void GM_SetNoise( int power, int length, SVECTOR *pos )
@@ -178,11 +178,11 @@ static inline void GM_SetNoise( int power, int length, SVECTOR *pos )
     int old = GM_NoisePower_800ABA24;
     if (power < old)
         return;
-    if (power == old && length < GM_NoiseLength_800ABA30)
+    if (power == old && length < GM_NoiseLength)
         return;
 
     GM_NoisePower_800ABA24 = power;
-    GM_NoiseLength_800ABA30 = length;
+    GM_NoiseLength = length;
     GM_NoisePosition_800AB9F8 = *pos;
 }
 

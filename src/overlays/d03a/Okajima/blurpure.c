@@ -26,7 +26,7 @@ typedef struct BlurPureWork
     int            field_28;
 } BlurPureWork;
 
-extern int GV_Clock_800AB920;
+extern int GV_Clock;
 
 void d03a_blurpure_800C4F68(BlurPureWork *work)
 {
@@ -34,8 +34,8 @@ void d03a_blurpure_800C4F68(BlurPureWork *work)
     DR_STP        *stp;
     unsigned char *pOt;
 
-    pOt = DG_Chanl(0)->mOrderingTables[GV_Clock_800AB920]; // DG_ChanlOTag doesn't work here
-    tile = &work->field_20->tile[GV_Clock_800AB920];
+    pOt = DG_Chanl(0)->mOrderingTables[GV_Clock]; // DG_ChanlOTag doesn't work here
+    tile = &work->field_20->tile[GV_Clock];
 
     setTile(tile);
     tile->x0 = -160;
@@ -47,12 +47,12 @@ void d03a_blurpure_800C4F68(BlurPureWork *work)
     tile->b0 = 0;
     addPrim(pOt + 4 * 0xFF, tile); // TODO: what's this offset 0x3CF = 4 * 0xFF?
 
-    stp = &work->field_20->stp1[GV_Clock_800AB920];
+    stp = &work->field_20->stp1[GV_Clock];
     SetDrawStp(stp, 1);
     addPrim(pOt + 4 * 0xFF, stp); // TODO: what's this offset 0x3CF = 4 * 0xFF?
 
-    pOt = DG_Chanl(1)->mOrderingTables[GV_Clock_800AB920];
-    stp = &work->field_20->stp2[GV_Clock_800AB920];
+    pOt = DG_Chanl(1)->mOrderingTables[GV_Clock];
+    stp = &work->field_20->stp2[GV_Clock];
     SetDrawStp(stp, 1);
     addPrim(pOt, stp);
 }
@@ -100,8 +100,8 @@ void d03a_blurpure_800C51A8(BlurPureWork *work)
     SPRT          *sprt;
     unsigned char *pOt;
 
-    sprt = &work->field_20->sprt1[GV_Clock_800AB920];
-    pOt = DG_Chanl(0)->mOrderingTables[GV_Clock_800AB920];
+    sprt = &work->field_20->sprt1[GV_Clock];
+    pOt = DG_Chanl(0)->mOrderingTables[GV_Clock];
     SetSprt(sprt);
     sprt->r0 = 0x78;
     sprt->g0 = 0x78;
@@ -109,11 +109,11 @@ void d03a_blurpure_800C51A8(BlurPureWork *work)
     setSemiTrans(sprt, 1);
     addPrim(pOt, sprt);
 
-    tpage = &work->field_20->tpage1[GV_Clock_800AB920];
-    SetDrawTPage(tpage, 0, 1, GetTPage(2, 0, ((1 - GV_Clock_800AB920) * 320) + 128, 0));
+    tpage = &work->field_20->tpage1[GV_Clock];
+    SetDrawTPage(tpage, 0, 1, GetTPage(2, 0, ((1 - GV_Clock) * 320) + 128, 0));
     addPrim(pOt, tpage);
 
-    sprt = &work->field_20->sprt2[GV_Clock_800AB920];
+    sprt = &work->field_20->sprt2[GV_Clock];
     SetSprt(sprt);
     sprt->r0 = 0x78;
     sprt->g0 = 0x78;
@@ -121,8 +121,8 @@ void d03a_blurpure_800C51A8(BlurPureWork *work)
     setSemiTrans(sprt, 1);
     addPrim(pOt, sprt);
 
-    tpage = &work->field_20->tpage2[GV_Clock_800AB920];
-    SetDrawTPage(tpage, 0, 1, GetTPage(2, 0, (1 - GV_Clock_800AB920) * 320, 0));
+    tpage = &work->field_20->tpage2[GV_Clock];
+    SetDrawTPage(tpage, 0, 1, GetTPage(2, 0, (1 - GV_Clock) * 320, 0));
     addPrim(pOt, tpage);
 }
 

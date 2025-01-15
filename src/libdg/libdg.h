@@ -666,8 +666,8 @@ static inline DG_CHANL *DG_Chanl( int idx )
 
 static inline char *DG_ChanlOTag(int index)
 {
-    extern int GV_Clock_800AB920;
-    return DG_Chanl(index)->mOrderingTables[GV_Clock_800AB920];
+    extern int GV_Clock;
+    return DG_Chanl(index)->mOrderingTables[GV_Clock];
 }
 
 static inline DG_PRIM *DG_GetPrim( int type, int prim_count, int chanl, SVECTOR *vec, RECT *pRect )

@@ -70,10 +70,10 @@ typedef struct _Unknown2
     int   color;
 } Unknown2;
 
-extern int    GV_Clock_800AB920;
+extern int    GV_Clock;
 extern int    GM_CurrentMap_800AB9B0;
-extern int    GM_PadVibration_800ABA3C;
-extern int    GM_PadVibration2_800ABA54;
+extern int    GM_PadVibration;
+extern int    GM_PadVibration2;
 extern GV_PAD GV_PadData_800B05C0[4];
 
 extern Unknown2 dword_800C3218[];
@@ -195,7 +195,7 @@ void option_800C3664(OptionWork *work, char *ot)
 
             found = 1;
 
-            sprt = &work->fEC4[index].sprt[GV_Clock_800AB920];
+            sprt = &work->fEC4[index].sprt[GV_Clock];
             LSTORE(0x808080, &sprt->r0);
             LCOPY(&work->fEC4[index].rect.x, &sprt->x0);
             LCOPY(&work->fEC4[index].rect.w, &sprt->w);
@@ -205,7 +205,7 @@ void option_800C3664(OptionWork *work, char *ot)
             setSprt(sprt);
             addPrim(ot, sprt);
 
-            sprt2 = work->fEC4[index].sprt2[GV_Clock_800AB920];
+            sprt2 = work->fEC4[index].sprt2[GV_Clock];
             for (k = 0; k < 8; k += 2)
             {
                 *sprt2 = *sprt;
@@ -239,7 +239,7 @@ void option_800C3664(OptionWork *work, char *ot)
 
         found = 1;
 
-        sprt = &work->fEC4[index].sprt[GV_Clock_800AB920];
+        sprt = &work->fEC4[index].sprt[GV_Clock];
         LSTORE(0x808080, &sprt->r0);
         LCOPY(&work->fEC4[index].rect.x, &sprt->x0);
         LCOPY(&work->fEC4[index].rect.w, &sprt->w);
@@ -249,7 +249,7 @@ void option_800C3664(OptionWork *work, char *ot)
         setSprt(sprt);
         addPrim(ot, sprt);
 
-        sprt2 = work->fEC4[index].sprt2[GV_Clock_800AB920];
+        sprt2 = work->fEC4[index].sprt2[GV_Clock];
         for (k = 0; k < 8; k += 2)
         {
             *sprt2 = *sprt;
@@ -294,14 +294,14 @@ void option_800C3B98(OptionWork *work)
     {
         if (work->f924[5] == 0)
         {
-            GM_PadVibration_800ABA3C = 0x1;
+            GM_PadVibration = 0x1;
 
             setRGB0(&polys[15], 100, 160, 135);
             setRGB0(&polys[16], 70, 100, 90);
         }
         else
         {
-            GM_PadVibration2_800ABA54 = 0xFF;
+            GM_PadVibration2 = 0xFF;
 
             setRGB0(&polys[15], 70, 100, 90);
             setRGB0(&polys[16], 100, 160, 135);
@@ -327,7 +327,7 @@ void option_800C3C74(OptionWork *work)
     int       i;
 
     poly_src = work->field_34;
-    poly_dst = &work->field_24->packs[GV_Clock_800AB920]->poly_ft4;
+    poly_dst = &work->field_24->packs[GV_Clock]->poly_ft4;
 
     work->f2A00[20] = 0;
 
@@ -349,7 +349,7 @@ void option_800C3C74(OptionWork *work)
     }
 
     poly_src = work->field_5D4;
-    poly_dst = &work->field_2C->packs[GV_Clock_800AB920]->poly_ft4;
+    poly_dst = &work->field_2C->packs[GV_Clock]->poly_ft4;
 
     for (i = 0; i < 4; poly_dst++, poly_src++, i++)
     {
@@ -369,7 +369,7 @@ void option_800C3C74(OptionWork *work)
     }
 
     poly_src = work->field_674;
-    poly_dst = &work->field_30->packs[GV_Clock_800AB920]->poly_ft4;
+    poly_dst = &work->field_30->packs[GV_Clock]->poly_ft4;
 
     for (i = 0; i < 17; poly_dst++, poly_src++, i++)
     {
@@ -389,7 +389,7 @@ void option_800C3C74(OptionWork *work)
     }
 
     poly_src = work->field_46C;
-    poly_dst = &work->field_28->packs[GV_Clock_800AB920]->poly_ft4;
+    poly_dst = &work->field_28->packs[GV_Clock]->poly_ft4;
 
     for (i = 0; i < 9; poly_dst++, poly_src++, i++)
     {
@@ -1510,8 +1510,8 @@ static inline void SetGameStatusFlags( OptionWork *work )
             work->f2B58 = 0;
 
             //loc_800C675C
-            GM_PadVibration_800ABA3C = 0;
-            GM_PadVibration2_800ABA54 = 0;
+            GM_PadVibration = 0;
+            GM_PadVibration2 = 0;
             mts_set_pad_vibration( 1, 0 );
             mts_set_pad_vibration2( 1, 0 );
             work->f2B50 = 0;    
@@ -1667,8 +1667,8 @@ void option_800C5950( OptionWork *work )
         }
     break;
     case 11:
-        GM_PadVibration_800ABA3C = 0;
-        GM_PadVibration2_800ABA54 = 0;
+        GM_PadVibration = 0;
+        GM_PadVibration2 = 0;
         mts_set_pad_vibration( 1, 0 );
         mts_set_pad_vibration2( 1, 0 );
         work->f2B50 = 0;   
@@ -1741,8 +1741,8 @@ void OptionDie_800C7C8C(OptionWork *work)
         GV_FreeMemory(GV_NORMAL_MEMORY, buf);
     }
 
-    GM_PadVibration_800ABA3C = 0;
-    GM_PadVibration2_800ABA54 = 0;
+    GM_PadVibration = 0;
+    GM_PadVibration2 = 0;
 
     mts_set_pad_vibration(1, 0);
     mts_set_pad_vibration2(1, 0);
@@ -2219,8 +2219,8 @@ int OptionGetResources_800C7F88(OptionWork *work, int map)
         break;
     }
 
-    GM_PadVibration_800ABA3C = 0;
-    GM_PadVibration2_800ABA54 = 0;
+    GM_PadVibration = 0;
+    GM_PadVibration2 = 0;
 
     GM_GameStatusFlag &= ~0x2000;
 

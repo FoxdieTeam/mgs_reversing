@@ -15,7 +15,7 @@ typedef struct _Splash3Work
 
 RECT s15b_800C3398 = {100, 100, 200, 200};
 
-extern int GV_Clock_800AB920;
+extern int GV_Clock;
 extern int GM_CurrentMap_800AB9B0;
 
 #define EXEC_LEVEL 5
@@ -101,7 +101,7 @@ void Splash3Act_800C7F1C(Splash3Work *work)
 
     g *= 10;
 
-    packs = &work->prim->packs[GV_Clock_800AB920]->poly_ft4;
+    packs = &work->prim->packs[GV_Clock]->poly_ft4;
     off = work->off;
     vec = work->pos;
 

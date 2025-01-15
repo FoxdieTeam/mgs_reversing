@@ -55,7 +55,7 @@ typedef struct _Work
     int      f6BC;
 } Work;
 
-extern int    GV_Clock_800AB920;
+extern int    GV_Clock;
 extern int    GM_CurrentMap_800AB9B0;
 extern int    FS_DiskNum_800ACBF0;
 extern GV_PAD GV_PadData_800B05C0[4];
@@ -181,7 +181,7 @@ void Change_800C38D0( Work *work, char *ot )
 
         found = 1;
 
-        sprt = &work->f14C[ index ].sprt[ GV_Clock_800AB920 ];
+        sprt = &work->f14C[ index ].sprt[ GV_Clock ];
         LSTORE( 0x808080, &sprt->r0 );
         LCOPY( &work->f14C[ index ].rect.x, &sprt->x0 );
         LCOPY( &work->f14C[ index ].rect.w, &sprt->w );
@@ -191,7 +191,7 @@ void Change_800C38D0( Work *work, char *ot )
         setSprt( sprt );
         addPrim( ot, sprt );
 
-        sprt2 = work->f14C[ index ].sprt2[ GV_Clock_800AB920 ];
+        sprt2 = work->f14C[ index ].sprt2[ GV_Clock ];
         for ( j = 0; j < 8; j += 2 )
         {
             *sprt2 = *sprt;
@@ -603,7 +603,7 @@ void ChangeAct_800C4324( Work *work )
     }
 
     change_800C3B90( work );
-    Change_800C38D0( work, DG_Chanl(1)->mOrderingTables[ GV_Clock_800AB920 ] );
+    Change_800C38D0( work, DG_Chanl(1)->mOrderingTables[ GV_Clock ] );
     change_800C3CD0( work );
 
     if ( work->f6BC == 0 && work->f6A0 >= 160 )

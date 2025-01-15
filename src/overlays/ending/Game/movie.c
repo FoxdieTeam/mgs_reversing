@@ -43,8 +43,8 @@ typedef struct _MovieWork
 
 static MovieWork movie_work;
 
-extern int GV_Clock_800AB920;
-extern int GV_PauseLevel_800AB928;
+extern int GV_Clock;
+extern int GV_PauseLevel;
 
 static inline int MovieType(void)
 {
@@ -209,7 +209,7 @@ void MovieAct_800C491C(MovieWork *work)
     DrawSync(0);
 
     rect = &work->rect;
-    rect->x = (GV_Clock_800AB920 == 0) ? 304 : -16;
+    rect->x = (GV_Clock == 0) ? 304 : -16;
     rect->y = 24;
     rect->w = 16;
     rect->h = MIN(work->height, 224);
@@ -353,7 +353,7 @@ void MovieDie_800C4D78(MovieWork *work)
 
     GV_ResetPacketMemory();
 
-    GV_PauseLevel_800AB928 &= ~1;
+    GV_PauseLevel &= ~1;
 
     DG_ResetObjectQueue();
     DG_FrameRate = 2;
@@ -407,7 +407,7 @@ GV_ACT *NewMovie_800C4E24(unsigned int code)
     movie_work.proc = -1;
     movie_work.f40 = 11;
 
-    GV_PauseLevel_800AB928 |= 1;
+    GV_PauseLevel |= 1;
 
     movie_work.f42 = frame - 1;
     movie_work.n_frames = 0;

@@ -7,11 +7,11 @@
 #include "Game/linkvarbuf.h"
 #include "Game/strctrl.h"
 
-extern int GV_Clock_800AB920;
-extern int GV_PauseLevel_800AB928;
+extern int GV_Clock;
+extern int GV_PauseLevel;
 
-extern GV_PAD           *GM_CurrentPadData_800AB91C;
-GV_PAD *SECTION(".sbss") GM_CurrentPadData_800AB91C;
+extern GV_PAD           *GM_CurrentPadData;
+GV_PAD *SECTION(".sbss") GM_CurrentPadData;
 
 int GM_GameOverVox = -1;
 
@@ -151,8 +151,8 @@ STATIC void over_act_helper_80036BA4(OverWork *work, int *pOt)
     count = game_over_lines_iter[0];
 
     directions = work->field_168c_directions;
-    pLine = work->field_38c_lines[GV_Clock_800AB920];
-    pPoly = work->field_2c_polys[GV_Clock_800AB920];
+    pLine = work->field_38c_lines[GV_Clock];
+    pPoly = work->field_2c_polys[GV_Clock];
 
     game_over_lines_iter++;
 
@@ -285,7 +285,7 @@ STATIC void over_act_helper_80036BA4(OverWork *work, int *pOt)
         }
     }
 
-    pTpage = &work->field_164c_tpages[GV_Clock_800AB920];
+    pTpage = &work->field_164c_tpages[GV_Clock];
     setDrawTPage(pTpage, 1, 1, getTPage(0, 1, 0, 0));
     addPrim(pOt, pTpage);
 
@@ -300,7 +300,7 @@ STATIC void over_act_helper_80036BA4(OverWork *work, int *pOt)
             color3 = 48 + work->field_26_gradient * 4;
         }
 
-        field_2c_polys = work->field_2c_polys[GV_Clock_800AB920];
+        field_2c_polys = work->field_2c_polys[GV_Clock];
 
         if (work->field_28_can_continue)
         {
@@ -337,7 +337,7 @@ STATIC void over_act_helper_80037128(OverWork *work, unsigned int *pOt, int shad
         shade = 0xff;
     }
 
-    pTile = &work->field_165c_tiles[GV_Clock_800AB920];
+    pTile = &work->field_165c_tiles[GV_Clock];
     LSTORE(shade << 16 | shade << 8 | shade, &pTile->r0);
     setTile(pTile);
     setSemiTrans(pTile, 1);
@@ -346,7 +346,7 @@ STATIC void over_act_helper_80037128(OverWork *work, unsigned int *pOt, int shad
     pTile->h = 240;
     addPrim(pOt, pTile);
 
-    pTpage = &work->field_167c_tpages[GV_Clock_800AB920];
+    pTpage = &work->field_167c_tpages[GV_Clock];
     setDrawTPage(pTpage, 1, 1, getTPage(0, 2, 0, 0));
     addPrim(pOt, pTpage);
 }
@@ -358,7 +358,7 @@ STATIC void over_Act(OverWork *work)
     unsigned short press;
     int shade;
 
-    if (GV_PauseLevel_800AB928 & 8)
+    if (GV_PauseLevel & 8)
     {
         return;
     }
@@ -388,7 +388,7 @@ STATIC void over_Act(OverWork *work)
                 return;
             }
 
-            GV_PauseLevel_800AB928 |= 1;
+            GV_PauseLevel |= 1;
             DG_FreeObjectQueue();
             DG_ReloadPalette();
             DG_SetRGB(0, 0, 0);
@@ -399,7 +399,7 @@ STATIC void over_Act(OverWork *work)
     }
     else if (work->field_22_seq == 0x100)
     {
-        pPad = &GM_CurrentPadData_800AB91C[2];
+        pPad = &GM_CurrentPadData[2];
         over_act_helper_80036BA4(work, pOt);
         GM_GameStatus &= ~(STATE_PADMASK | STATE_PADRELEASE | STATE_PADDEMO);
         press = pPad->press;
@@ -469,7 +469,7 @@ STATIC void over_Die( OverWork *work )
 {
     char *stage_name;
 
-    GV_PauseLevel_800AB928 &= ~1;
+    GV_PauseLevel &= ~1;
     DG_ResetObjectQueue();
     GM_StreamPlayStop();
     GM_GameOverTimer = 0;

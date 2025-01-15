@@ -87,7 +87,7 @@ short met_logo_lines_800C32E8[] = {
     0x007d, 0x0024, 0x0087, 0x011a, 0x0087
 };
 
-extern int GV_Clock_800AB920;
+extern int GV_Clock;
 
 #define EXEC_LEVEL 1
 
@@ -165,8 +165,8 @@ void MetLogo_800C51F4( Work *work, char *ot )
     count = met_logo_lines_800C32E8[ 0 ];
 
     directions = work->directions;
-    line = work->lines[ GV_Clock_800AB920 ];
-    poly = work->polys[ GV_Clock_800AB920 ];
+    line = work->lines[ GV_Clock ];
+    poly = work->polys[ GV_Clock ];
 
     lines++;
 
@@ -306,7 +306,7 @@ void MetLogo_800C51F4( Work *work, char *ot )
         }
     }
 
-    tpage = &work->tpages[ GV_Clock_800AB920 ];
+    tpage = &work->tpages[ GV_Clock ];
     setDrawTPage( tpage, 1, 1, getTPage( 0, 1, 0, 0 ) );
     addPrim( ot, tpage );
 
@@ -330,7 +330,7 @@ void MetLogo_800C51F4( Work *work, char *ot )
         }
 
         color3 = ( shade << 8 ) | ( shade << 16 );
-        MetLogo_800C5060( (char *)work->polys[ GV_Clock_800AB920 ], 106, 126, PCX_MG_SOLID, color3, ot );
+        MetLogo_800C5060( (char *)work->polys[ GV_Clock ], 106, 126, PCX_MG_SOLID, color3, ot );
     }
 }
 
@@ -339,7 +339,7 @@ void MetLogo_800C570C( Work *work, char *ot, int shade )
     TILE     *tile;
     DR_TPAGE *tpage;
 
-    tile = &work->tiles[ GV_Clock_800AB920 ];
+    tile = &work->tiles[ GV_Clock ];
     LSTORE( shade << 16 | shade << 8 | shade, &tile->r0 );
     setTile( tile );
     setSemiTrans( tile, 1 );
@@ -348,7 +348,7 @@ void MetLogo_800C570C( Work *work, char *ot, int shade )
     tile->h = 240;
     addPrim( ot, tile );
 
-    tpage = &work->tpages2[ GV_Clock_800AB920 ];
+    tpage = &work->tpages2[ GV_Clock ];
     setDrawTPage( tpage, 1, 1, getTPage( 0, 2, 0, 0 ) );
     addPrim( ot, tpage );
 }

@@ -14,7 +14,7 @@ typedef struct SplashWork
 
 RECT rect_800C3420 = {50, 50, 100, 100};
 
-extern int GV_Clock_800AB920;
+extern int GV_Clock;
 extern int GM_CurrentMap_800AB9B0;
 
 void SplashTransform_800C8808( MATRIX *matrix, SVECTOR *vecs1, SVECTOR *vecs2, int count )
@@ -135,7 +135,7 @@ void SplashAct_800C8BA8(SplashWork *work)
     }
 
     Splash_800C89F4(work->off, work->pos, 16);
-    SplashShadePacks_800C8B70(&work->prim->packs[GV_Clock_800AB920]->poly_ft4, 16, time * 16);
+    SplashShadePacks_800C8B70(&work->prim->packs[GV_Clock]->poly_ft4, 16, time * 16);
 }
 
 void SplashDie_800C8C30(SplashWork *work)

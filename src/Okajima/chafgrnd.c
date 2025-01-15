@@ -21,7 +21,7 @@ extern int              dword_800BDF98;
 extern int              dword_800BDF9C;
 extern int              dword_800BDFA0;
 extern int              GM_CurrentMap_800AB9B0;
-extern int              GV_Clock_800AB920;
+extern int              GV_Clock;
 
 /*---------------------------------------------------------------------------*/
 
@@ -249,7 +249,7 @@ STATIC void chafgrnd_Act(ChaffGrdWork* work)
         *var_s7 = *var_s4;
     }
 
-    chafgrnd_InitParticleColor(&work->field_a34->packs[GV_Clock_800AB920]->tiles);
+    chafgrnd_InitParticleColor(&work->field_a34->packs[GV_Clock]->tiles);
 }
 
 STATIC int chafgrnd_GetResources(ChaffGrdWork *work, MATRIX *world)

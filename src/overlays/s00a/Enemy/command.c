@@ -71,7 +71,7 @@ extern SVECTOR   GM_NoisePosition_800AB9F8;
 extern int       GM_PlayerMap_800ABA0C;
 extern SVECTOR   GM_PlayerPosition_800ABA10;
 extern OBJECT   *GM_PlayerBody_800ABA20;
-extern int       GM_event_camera_flag_800ABA9C;
+extern int       GM_event_camera_flag;
 extern CONTROL  *GM_WhereList_800B56D0[94];
 extern GM_Camera GM_Camera_800B77E8;
 
@@ -1096,7 +1096,7 @@ void s00a_command_800D0344(void)
         {
             s00a_dword_800E0CB0 = GM_Camera_800B77E8;
             flag = 0x40;
-            if ( !GM_event_camera_flag_800ABA9C )
+            if ( !GM_event_camera_flag )
             {
                 flag = 0x80;
             }

@@ -22,12 +22,12 @@ STATIC DG_CHANLFUNC DG_ChanlUnits[] = {
 STATIC int DG_ObjectQueueVoided = FALSE;
 
 // standard
-int            SECTION(".sbss") dword_800AB974; /* static */
-int            SECTION(".sbss") dword_800AB978; /* static */
+STATIC int SECTION(".sbss") dword_800AB974;
+STATIC int SECTION(".sbss") dword_800AB978;
 
-CVECTOR SECTION(".sbss") DG_BackGroundColor; /* static */
+STATIC CVECTOR SECTION(".sbss") DG_BackGroundColor;
 
-short          SECTION(".sbss") N_ChanlPerfMax_800AB980;
+short          SECTION(".sbss") N_ChanlPerfMax;
 short          SECTION(".sbss") word_800AB982;
 unsigned short SECTION(".sbss") gCurrentRootCnt_800AB984;
 
@@ -239,7 +239,7 @@ void DG_RenderPipeline( int idx )
     {
         // Store the counter and set as 2 valid items
         *pPerfArrayIter = GetRCnt(0xF2000001);
-        N_ChanlPerfMax_800AB980 = 2;
+        N_ChanlPerfMax = 2;
     }
     else
     {
@@ -263,7 +263,7 @@ void DG_RenderPipeline( int idx )
             chanlfunc++;
         }
         *pPerfArrayIter++ = GetRCnt(RCntCNT1);
-        N_ChanlPerfMax_800AB980 = (pPerfArrayIter) - &gOldRootCnt_800B1DC8[0];
+        N_ChanlPerfMax = (pPerfArrayIter) - &gOldRootCnt_800B1DC8[0];
     }
 }
 

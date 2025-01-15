@@ -9,7 +9,7 @@
 #include "Menu/menuman.h"
 #include "Menu/radio.h"
 
-extern short GM_O2_800ABA34;
+extern short GM_O2;
 
 MENU_BAR_CONF gSnakeLifeBarConfig_8009E5F4 = {"LIFE", {0x10, 0x8F, 0x7F}, {0x1F, 0xDF, 0x3F}, 0};
 MENU_BAR_CONF gSnakeO2BarConfig_8009E600 = {"O2", {0x1F, 0x3F, 0xC0}, {0x1F, 0x7F, 0xFF}, 1};
@@ -248,8 +248,8 @@ void menu_life_update_helper2_8003F30C(MenuPrim *prim, MenuMan_MenuBars *pBars)
         menu_draw_bar(prim,
                       pBars->field_2_bar_x,
                       pBars->field_4_bar_y + 12,
-                      GM_O2_800ABA34,
-                      GM_O2_800ABA34,
+                      GM_O2,
+                      GM_O2,
                       1024,
                       &gSnakeO2BarConfig_8009E600);
     }
@@ -318,7 +318,7 @@ void menu_life_update_8003F530(MenuWork *work, unsigned char *unused)
     state = work->field_2A_state;
 
     // if the oxygen is not full
-    if (GM_O2_800ABA34 < 1024)
+    if (GM_O2 < 1024)
     {
         updated = 1;
         pBars->field_1_O2_hp = -106;
@@ -383,7 +383,7 @@ void menu_life_update_8003F530(MenuWork *work, unsigned char *unused)
                 GM_GameStatus = (GM_GameStatus & ~STATE_HIDE_LIFEBAR) | STATE_LIFEBAR_OFF;
             }
             // if oxygen is full then hide the oxygen bar
-            if (GM_O2_800ABA34 == 1024)
+            if (GM_O2 == 1024)
             {
                 pBars->field_1_O2_hp = 0;
             }

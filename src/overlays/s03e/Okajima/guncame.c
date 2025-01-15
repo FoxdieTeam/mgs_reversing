@@ -97,10 +97,10 @@ extern int     dword_8009F480;
 extern SVECTOR svector_8009F478;
 extern int     GM_CurrentMap_800AB9B0;
 extern int     GM_PlayerMap_800ABA0C;
-extern int     GM_PadVibration_800ABA3C;
-extern int     GM_PadVibration2_800ABA54;
+extern int     GM_PadVibration;
+extern int     GM_PadVibration2;
 extern int     s03e_dword_800C32BC;
-extern int     GM_PlayerStatus_800ABA50;
+extern int     GM_PlayerStatus;
 
 void AN_Unknown_800CA1EC(MATRIX *world, int index);
 void AN_Unknown_800D6BCC(SVECTOR *pos, SVECTOR *rot);
@@ -241,7 +241,7 @@ int GunCame_800C7224(GunCameWork *work)
         return 0;
     }
 
-    if (GM_PlayerStatus_800ABA50 & PLAYER_INTRUDE)
+    if (GM_PlayerStatus & PLAYER_INTRUDE)
     {
         return 0;
     }
@@ -804,8 +804,8 @@ void GunCame_Act_800C80F4(GunCameWork *work)
 
     if (work->field_3EC > 0)
     {
-        GM_PadVibration_800ABA3C = 1;
-        GM_PadVibration2_800ABA54 = 255;
+        GM_PadVibration = 1;
+        GM_PadVibration2 = 255;
         work->field_3EC--;
     }
     else

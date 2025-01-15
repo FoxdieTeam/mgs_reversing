@@ -41,7 +41,7 @@ int                         SECTION(".sbss") dword_800ABB94;
 
 extern char *MGS_MemoryCardName; /* in main.c */
 
-extern int GV_Clock_800AB920;
+extern int GV_Clock;
 
 extern char aRequestX[];
 extern char aResultX[];
@@ -1218,7 +1218,7 @@ STATIC void menu_radio_do_file_mode_save_memcard_8004B0A0(MenuWork *work, char *
         addPrim(prim->mPrimBuf.mOt, pTile);
 
         var_a2 = 293;
-        if (GV_Clock_800AB920 == 0)
+        if (GV_Clock == 0)
         {
             var_a2 = 288;
         }

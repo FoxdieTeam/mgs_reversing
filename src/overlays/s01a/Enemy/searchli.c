@@ -67,7 +67,7 @@ typedef struct _SearchlightWork
 
 extern int      GM_PlayerMap_800ABA0C;
 extern SVECTOR  GM_PlayerPosition_800ABA10;
-extern int      GM_PlayerStatus_800ABA50;
+extern int      GM_PlayerStatus;
 extern GV_PAD   GV_PadData_800B05C0[4];
 extern CONTROL *GM_WhereList_800B56D0[96];
 extern OBJECT  *GM_PlayerBody_800ABA20;
@@ -135,7 +135,7 @@ int s01a_searchli_800D73D8(SearchlightWork *work)
         return 0;
     }
 
-    if ((TOPCOMMAND_800E0F20.mode != 1) && (GM_PlayerStatus_800ABA50 & PLAYER_CB_BOX))
+    if ((TOPCOMMAND_800E0F20.mode != 1) && (GM_PlayerStatus & PLAYER_CB_BOX))
     {
         if (work->f290 == 0)
         {

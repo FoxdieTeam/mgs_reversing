@@ -60,7 +60,7 @@ const char s00a_aSeon_800E0AFC[] = "se_on";
 const char s00a_aSeoff_800E0B04[] = "se_off";
 
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
-extern int              GV_Clock_800AB920;
+extern int              GV_Clock;
 
 #define EXEC_LEVEL 4
 
@@ -138,13 +138,13 @@ void s00a_pato_lmp_800D5F38(POLY_FT4 *polys, int count, DG_TEX *tex)
     }
 }
 
-extern int GV_PauseLevel_800AB928;
+extern int GV_PauseLevel;
 
 void s00a_pato_lmp_800D5FC4( PatoLmpWork* work )
 {
     short rgb[3];
 
-    if (GV_PauseLevel_800AB928 )
+    if ( GV_PauseLevel )
     {
         return;
     }
@@ -164,7 +164,7 @@ void s00a_pato_lmp_800D5FC4( PatoLmpWork* work )
         rgb[2] = work->field_1930.vz;
     }
 
-    setRGB0( &work->field_20->tile[GV_Clock_800AB920], rgb[0], rgb[1], rgb[2] );
+    setRGB0( &work->field_20->tile[GV_Clock], rgb[0], rgb[1], rgb[2] );
 
 }
 
@@ -192,7 +192,7 @@ void s00a_pato_lmp_800D6194(PatoLmpWork *work, int arg1, int arg2, int arg3)
     int a3_2;
     union Prim_Union *prim_uni;
 
-    prim_uni = work->field_1008->packs[GV_Clock_800AB920];
+    prim_uni = work->field_1008->packs[GV_Clock];
     a3_2 = arg3 * 4;
     prim_uni = (union Prim_Union*)&prim_uni->poly_ft4_multi[arg1][arg3];
     x = work->field_151C[arg1][arg2].vx;
@@ -477,8 +477,8 @@ void PatrolLampAct_800D6678(PatoLmpWork *work)
         if (work->field_193C == 1 && sp30 < 16384)
         {
             ot = DG_ChanlOTag(0);
-            addPrim(ot, &work->field_20->tile[GV_Clock_800AB920]);
-            addPrim(ot, &work->field_20->tpage[GV_Clock_800AB920]);
+            addPrim(ot, &work->field_20->tile[GV_Clock]);
+            addPrim(ot, &work->field_20->tpage[GV_Clock]);
             s00a_pato_lmp_800D5FC4(work);
             if (work->field_1924 == work->field_1920)
             {

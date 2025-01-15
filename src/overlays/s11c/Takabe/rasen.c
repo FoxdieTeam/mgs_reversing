@@ -84,11 +84,11 @@ extern HITTABLE        c4_actors_800BDD78[C4_COUNT];
 extern HITTABLE   stru_800BDE78[8];
 extern int             counter_8009F448;
 extern CONTROL        *GM_PlayerControl_800AB9F4;
-extern int             DG_CurrentGroupID_800AB968;
+extern int             DG_CurrentGroupID;
 extern int             GM_PlayerMap_800ABA0C;
-extern int             GM_PlayerStatus_800ABA50;
+extern int             GM_PlayerStatus;
 extern UnkCameraStruct gUnkCameraStruct_800B77B8;
-extern int             GV_PauseLevel_800AB928;
+extern int             GV_PauseLevel;
 extern SVECTOR         GM_PlayerPosition_800ABA10;
 
 void Rasen2IterBakudanJirai_800CA3A4(Rasen2Work *work, MAP *oldMap, MAP *newMap)
@@ -310,7 +310,7 @@ void Rasen2Act_800CA79C(Rasen2Work *work)
         old_map = GM_PlayerControl_800AB9F4->map;
         new_map = GM_GetMap(mapid);
 
-        DG_CurrentGroupID_800AB968 = mapid;
+        DG_CurrentGroupID = mapid;
         playermap = GM_PlayerMap_800ABA0C;
         GM_CurrentMap_800AB9B0 = mapid;
         GM_PlayerMap_800ABA0C = mapid;
@@ -345,7 +345,7 @@ void Rasen2Act_800CA79C(Rasen2Work *work)
         }
     }
 
-    if ((GM_PlayerStatus_800ABA50 & PLAYER_FIRST_PERSON) && !(GM_Camera_800B77E8.flags & 0x100))
+    if ((GM_PlayerStatus & PLAYER_FIRST_PERSON) && !(GM_Camera_800B77E8.flags & 0x100))
     {
         if (GM_PlayerMap_800ABA0C & work->field_28)
         {
@@ -695,7 +695,7 @@ void RasenAct_800CB530(RasenWork *work)
     }
 
     rasen_800D2C84.field_1C = 0;
-    if (GV_PauseLevel_800AB928)
+    if (GV_PauseLevel)
     {
         return;
     }

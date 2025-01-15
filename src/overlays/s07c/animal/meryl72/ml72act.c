@@ -6,12 +6,12 @@ extern int GV_Time;
 
 extern int      GM_PlayerMap_800ABA0C;
 extern int      GM_NoisePower_800ABA24;
-extern int      GM_NoiseLength_800ABA30;
+extern int      GM_NoiseLength;
 extern CONTROL *GM_PlayerControl_800AB9F4;
 extern SVECTOR  GM_NoisePosition_800AB9F8;
 extern int      GM_AlertMode_800ABA00;
 extern SVECTOR  GM_PlayerPosition_800ABA10;
-extern int      GM_PlayerStatus_800ABA50;
+extern int      GM_PlayerStatus;
 
 void ML72_ExecPutChar_800CB600(Meryl72Work *);
 void s07c_meryl72_unk1_800CABA0(Meryl72Work *);
@@ -108,7 +108,7 @@ void s07c_meryl72_unk1_800CB748(Meryl72Work* work)
             if (dist < 300)
             {
                 work->modetime[6] |= 0x1;
-                GM_NoiseLength_800ABA30 = 0;
+                GM_NoiseLength = 0;
                 GM_NoisePower_800ABA24 = 0;
             }
         }
@@ -142,7 +142,7 @@ void s07c_meryl72_unk1_800CB928(Meryl72Work *work)
     switch (work->vision.field_06)
     {
     case 0:
-        if (work->fB18 != 255 || !(GM_PlayerStatus_800ABA50 & PLAYER_INTRUDE))
+        if (work->fB18 != 255 || !(GM_PlayerStatus & PLAYER_INTRUDE))
         {
             work->fB18 -= 4;
         }
@@ -177,7 +177,7 @@ void s07c_meryl72_unk1_800CB9DC(Meryl72Work *work)
         break;
 
     case 2:
-        if (GM_PlayerStatus_800ABA50 & PLAYER_FIRST_PERSON)
+        if (GM_PlayerStatus & PLAYER_FIRST_PERSON)
         {
             if (GV_DiffDirAbs(work->sn_dir, GM_PlayerControl_800AB9F4->rot.vy) > 1800)
             {
@@ -228,7 +228,7 @@ void s07c_meryl72_unk1_800CBA9C(Meryl72Work* work)
 
     height = ABS(GM_PlayerPosition_800ABA10.vy - work->control.mov.vy);
 
-    if (!(work->control.map->index & GM_PlayerMap_800ABA0C) || (GM_PlayerStatus_800ABA50 & PLAYER_INTRUDE))
+    if (!(work->control.map->index & GM_PlayerMap_800ABA0C) || (GM_PlayerStatus & PLAYER_INTRUDE))
     {
         work->vision.field_06 = 0;
         return;

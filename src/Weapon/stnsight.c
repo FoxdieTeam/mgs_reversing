@@ -14,10 +14,10 @@
 
 extern int              amissile_alive_8009F490;
 extern SVECTOR          svector_8009F494;
-extern int              GV_Clock_800AB920;
-extern int              GV_PauseLevel_800AB928;
-extern short            N_ChanlPerfMax_800AB980;
-extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
+extern int              GV_Clock;
+extern int              GV_PauseLevel;
+extern short            N_ChanlPerfMax;
+extern PlayerStatusFlag GM_PlayerStatus;
 extern GV_PAD           GV_PadData_800B05C0[4];
 extern unsigned short   gOldRootCnt_800B1DC8[];
 extern TARGET          *target_800BDF00;
@@ -51,7 +51,7 @@ STATIC short word_800AB8EC = 0;
 
 STATIC void addPrimEX_80068320(unsigned int *ot, unsigned int *prim)
 {
-    if (!(GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000))
+    if (!(GM_PlayerStatus & PLAYER_UNK4000000))
     {
         addPrim(ot, prim);
     }
@@ -69,7 +69,7 @@ STATIC void stnsight_act_helper_8006837C(StnSightWork *work)
 
     iVar1 = work->field_84_4Array[1]++;
 
-    if ((GM_PlayerStatus_800ABA50 & 0x4000000) != 0)
+    if ((GM_PlayerStatus & 0x4000000) != 0)
     {
         return;
     }
@@ -102,7 +102,7 @@ STATIC void stnsight_act_helper_80068420(StnSightWork *work, unsigned int *ot)
     pad_status = work->pad_data->status;
     GM_CheckShukanReverse(&pad_status);
 
-    if (GV_PauseLevel_800AB928 || ((GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF) != 0))
+    if (GV_PauseLevel || ((GM_PlayerStatus & PLAYER_PAD_OFF) != 0))
     {
         pad_status = 0;
     }
@@ -148,9 +148,9 @@ STATIC void stnsight_act_helper_80068420(StnSightWork *work, unsigned int *ot)
         }
     }
 
-    lines = work->field_30_lines_2Array[GV_Clock_800AB920];
-    lines2 = work->field_28_lines_2Array[GV_Clock_800AB920];
-    tiles = work->field_48_tiles_2Array[GV_Clock_800AB920];
+    lines = work->field_30_lines_2Array[GV_Clock];
+    lines2 = work->field_28_lines_2Array[GV_Clock];
+    tiles = work->field_48_tiles_2Array[GV_Clock];
     ybase = work->field_58_ybase;
 
     MENU_Color(0x68, 0x6f, 0x74);
@@ -159,7 +159,7 @@ STATIC void stnsight_act_helper_80068420(StnSightWork *work, unsigned int *ot)
     {
         MENU_Locate(0x28, v6 - 2, 1);
 
-        if ((GM_PlayerStatus_800ABA50 & 0x4000000) == 0)
+        if ((GM_PlayerStatus & 0x4000000) == 0)
         {
             if (abs(v7) < 10)
             {
@@ -211,7 +211,7 @@ STATIC void stnsight_act_helper_80068420(StnSightWork *work, unsigned int *ot)
 
 STATIC void stnsight_act_helper_80068798(StnSightWork *work, unsigned int *ot)
 {
-    LINE_F4 *p = work->field_40_lines_2Array[GV_Clock_800AB920];
+    LINE_F4 *p = work->field_40_lines_2Array[GV_Clock];
     DVECTOR *coords = work->field_60_coords_9Array;
     int      ybase = work->field_58_ybase;
     int      xbase = work->field_5C_xbase;
@@ -296,7 +296,7 @@ STATIC void SetMissileRect_80068A24(StnSightWork *work, unsigned int *ot)
             return;
         }
 
-        lines = work->field_38_lines_2Array[GV_Clock_800AB920];
+        lines = work->field_38_lines_2Array[GV_Clock];
 
         DG_Clip(&DG_Chanl(0)->field_5C_clip_rect, DG_Chanl(0)->field_50_clip_distance);
         SetRotMatrix(&DG_Chanl(0)->field_10_eye_inv);
@@ -339,7 +339,7 @@ STATIC void SetMissileRect_80068A24(StnSightWork *work, unsigned int *ot)
         MENU_Locate(sx + 0x8d, sy + 0x7f, 0);
         MENU_Color(0x1d, 0x29, 0x29);
 
-        if ((GM_PlayerStatus_800ABA50 & 0x4000000) == 0)
+        if ((GM_PlayerStatus & 0x4000000) == 0)
         {
             MENU_Printf("%d %d\n", ((ushort)svector_8009F494.vx << 16) >> 20,
                         ((ushort)svector_8009F494.vy << 16) >> 20);
@@ -359,10 +359,10 @@ STATIC void stnsight_act_helper_80068BF4(StnSightWork *work, unsigned int *ot)
     int             v1;
     unsigned short *s4 = gOldRootCnt_800B1DC8;
     int             uVar9 = s4[0];
-    POLY_G4        *poly = work->field_50_polys_2Array[GV_Clock_800AB920]; // s5
+    POLY_G4        *poly = work->field_50_polys_2Array[GV_Clock]; // s5
 
     ++s4;
-    for (x = N_ChanlPerfMax_800AB980 - 1; x > 0; --x)
+    for (x = N_ChanlPerfMax - 1; x > 0; --x)
     {
         s0 = (*s4++ - uVar9) & 0xffff;
 
@@ -399,7 +399,7 @@ STATIC void StnSightAct(StnSightWork *work)
 
     if (work->field_94 > 0)
     {
-        if (!GV_PauseLevel_800AB928)
+        if (!GV_PauseLevel)
         {
             work->field_94--;
         }
@@ -431,7 +431,7 @@ STATIC void StnSightAct(StnSightWork *work)
     stnsight_act_helper_8006837C(work);
     menu_Text_Init_80038B98();
 
-    if (GV_PauseLevel_800AB928 != 0)
+    if (GV_PauseLevel != 0)
     {
         return;
     }

@@ -20,7 +20,7 @@ typedef struct _Work
 void * NewRipple_800D7F30( MATRIX *, int );
 
 extern int    GM_CurrentMap_800AB9B0;
-extern int    GV_Clock_800AB920;
+extern int    GV_Clock;
 
 RECT rect_800C3670 = { 50, 50, 100, 100 };
 
@@ -98,7 +98,7 @@ void Splash2Act_800DAF38( Work *work )
         return;
     }
 
-    poly = &work->prim->packs[GV_Clock_800AB920]->poly_ft4;
+    poly = &work->prim->packs[GV_Clock]->poly_ft4;
 
     timer *= 10;
     color.vx = (work->color.vx * timer) / 256;

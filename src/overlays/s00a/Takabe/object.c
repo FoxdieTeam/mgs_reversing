@@ -3,8 +3,7 @@
 #include "libdg/libdg.h"
 #include "Game/map.h"
 
-extern int    GV_PauseLevel_800AB928;
-extern int    GM_CurrentMap_800AB9B0;
+extern int GM_CurrentMap_800AB9B0;
 
 DG_OBJS *s00a_unknown3_800DC724(int model, LIT *lit, int flag)
 {

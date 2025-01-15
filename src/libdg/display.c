@@ -13,14 +13,14 @@ STATIC VECTOR SECTION(".data") DG_UpVector = {0, -4096, 0, 0};
 int DG_UnDrawFrameCount = 0;
 STATIC int DG_CurrentBuffer = -1;
 
-int   SECTION(".sbss") gClipHeights_800AB960[2]; /* static */
-int   SECTION(".sbss") DG_CurrentGroupID_800AB968;
-short SECTION(".sbss") DG_ClipMin_800AB96C[2];
-short SECTION(".sbss") DG_ClipMax_800AB970[2];
+STATIC int SECTION(".sbss") gClipHeights_800AB960[2];
+int   SECTION(".sbss") DG_CurrentGroupID;
+short SECTION(".sbss") DG_ClipMin[2];
+short SECTION(".sbss") DG_ClipMax[2];
 
 /*** sbss ***/
-extern int GV_Clock_800AB920;
-extern int GV_PauseLevel_800AB928;
+extern int GV_Clock;
+extern int GV_PauseLevel;
 
 /*** bss ***/
 extern DISPENV gDispEnv_800B0600;
@@ -64,14 +64,14 @@ void DG_RenderPipeline_Init(void)
 
 void DG_SwapFrame(void)
 {
-    int activeBuffer = GV_Clock_800AB920;
-    if ((GV_PauseLevel_800AB928 & 8) != 0 || DG_UnDrawFrameCount > 0)
+    int activeBuffer = GV_Clock;
+    if ((GV_PauseLevel & 8) != 0 || DG_UnDrawFrameCount > 0)
     {
         if (DG_CurrentBuffer < 0)
         {
             DG_CurrentBuffer = activeBuffer;
         }
-        if ((GV_PauseLevel_800AB928 & 8) == 0)
+        if ((GV_PauseLevel & 8) == 0)
         {
             --DG_UnDrawFrameCount;
         }
@@ -100,7 +100,7 @@ void DG_SwapFrame(void)
 
 void DG_RenderPipeline_800172A8(void)
 {
-    DG_RenderPipeline(GV_Clock_800AB920);
+    DG_RenderPipeline(GV_Clock);
 }
 
 void DG_LookAt(DG_CHANL *chanl, SVECTOR *eye, SVECTOR *center, int clip_distance)
@@ -174,12 +174,12 @@ void DG_Clip(RECT *clip_rect, int dist)
     gte_SetGeomScreen(dist);
 
     x_tmp = clip_rect->x;
-    DG_ClipMin_800AB96C[0] = x_tmp;
-    DG_ClipMax_800AB970[0] = clip_rect->w + x_tmp - 1;
+    DG_ClipMin[0] = x_tmp;
+    DG_ClipMax[0] = clip_rect->w + x_tmp - 1;
 
     y_tmp = clip_rect->y;
-    DG_ClipMin_800AB96C[1] = y_tmp;
-    DG_ClipMax_800AB970[1] = clip_rect->h + y_tmp - 1;
+    DG_ClipMin[1] = y_tmp;
+    DG_ClipMax[1] = clip_rect->h + y_tmp - 1;
 }
 
 void DG_ApplyMatrix(MATRIX *world, MATRIX *in)

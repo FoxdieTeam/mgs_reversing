@@ -26,7 +26,7 @@ typedef struct _Spark2Prim
     short    x1, y1;
 } Spark2Prim;
 
-extern int     GV_Clock_800AB920;
+extern int     GV_Clock;
 extern int     GM_CurrentMap_800AB9B0;
 
 const SVECTOR spark2_light_pos = {0, 0, 500, 0};
@@ -177,7 +177,7 @@ void s03e_spark2_800CA428(Spark2Work *work)
         brightness = 255;
     }
 
-    s03e_spark2_800CA3F0((Spark2Prim *)prim->packs[GV_Clock_800AB920], 32, brightness);
+    s03e_spark2_800CA3F0((Spark2Prim *)prim->packs[GV_Clock], 32, brightness);
 
     brightness = (old_time - 29) * 512;
     if (brightness > 0)

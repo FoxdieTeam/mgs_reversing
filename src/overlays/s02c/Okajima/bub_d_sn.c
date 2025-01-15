@@ -28,7 +28,7 @@ typedef struct BubDSnWork
     DG_TEX  *field_17C;
 } BubDSnWork;
 
-extern int     GV_Clock_800AB920;
+extern int     GV_Clock;
 extern OBJECT *GM_PlayerBody_800ABA20;
 
 // Duplicate of Splash2ShadePacks_800DAF0C
@@ -98,9 +98,9 @@ void BubbleDisplaySceneAct_800D87D0(BubDSnWork *work)
 
     div2 = (48 - work->field_24) * 255 / 48;
 
-    BubbleDisplayScene_800D87A4(&work->field_28->packs[GV_Clock_800AB920]->poly_ft4, 4, div2, work->field_174);
-    BubbleDisplayScene_800D87A4(&work->field_2C->packs[GV_Clock_800AB920]->poly_ft4, 16, div2, work->field_178);
-    BubbleDisplayScene_800D87A4(&work->field_30->packs[GV_Clock_800AB920]->poly_ft4, 16, div2, work->field_17C);
+    BubbleDisplayScene_800D87A4(&work->field_28->packs[GV_Clock]->poly_ft4, 4, div2, work->field_174);
+    BubbleDisplayScene_800D87A4(&work->field_2C->packs[GV_Clock]->poly_ft4, 16, div2, work->field_178);
+    BubbleDisplayScene_800D87A4(&work->field_30->packs[GV_Clock]->poly_ft4, 16, div2, work->field_17C);
 
     work->field_154 = (work->field_154 * 15) / 16;
     work->field_156 = (work->field_156 * 15) / 16;

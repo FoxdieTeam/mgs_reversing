@@ -29,12 +29,12 @@ int                       SECTION(".sbss") dword_800ABB1C;
 extern PANEL_TEXTURE     dword_800BDA10;
 extern PANEL_TEXTURE     dword_800BDA30;
 extern RadioIncomingCall gRadioIncomingCall_8009E708;
-extern int               GV_Clock_800AB920;
+extern int               GV_Clock;
 
 STATIC char dword_800AB610[8] = {2, 4, 3, 1, 4, 3, 1, 0};
 
-extern int GM_PlayerStatus_800ABA50;
-extern int GV_PauseLevel_800AB928;
+extern int GM_PlayerStatus;
+extern int GV_PauseLevel;
 
 extern int FS_DiskNum_800ACBF0;
 
@@ -594,7 +594,7 @@ void menu_radio_codec_helper_helper14_helper4_800408BC(MenuPrim *pGlue, int x, i
     _NEW_PRIM(pSprt, pGlue);
 
     color2 = 0x808080;
-    if (GV_Clock_800AB920 == 0)
+    if (GV_Clock == 0)
     {
         setDrawTPage(pTpage, 0, 1, 0x120);
         pSprt->u0 = x;
@@ -662,7 +662,7 @@ void menu_radio_codec_helper_helper15_80040B8C(MenuPrim *pGlue)
     _NEW_PRIM(tpage1, pGlue);
     _NEW_PRIM(tpage2, pGlue);
 
-    if (GV_Clock_800AB920 == 0)
+    if (GV_Clock == 0)
     {
         setDrawTPage(tpage1, 0, 1, getTPage(2, 1, 0, 0));
         setDrawTPage(tpage2, 0, 1, getTPage(2, 1, 256, 0));
@@ -1503,13 +1503,13 @@ STATIC void menu_radio_update_80042198(MenuWork *work, unsigned char *pOt)
 
     state = work->field_2A_state;
     pPad = work->field_24_pInput;
-    if (GM_PlayerStatus_800ABA50 & 0x8000)
+    if (GM_PlayerStatus & 0x8000)
     {
         return;
     }
     if (state == MENU_CLOSED)
     {
-        if (!(GM_GameStatus & (STATE_VOX_STREAM | STATE_TAKING_PHOTO | STATE_RADIO_OFF)) && GV_PauseLevel_800AB928 == 0)
+        if (!(GM_GameStatus & (STATE_VOX_STREAM | STATE_TAKING_PHOTO | STATE_RADIO_OFF)) && GV_PauseLevel == 0)
         {
             if ((gRadioIncomingCall_8009E708.field_0 > 0 && gRadioIncomingCall_8009E708.field_2_timer < 0) ||
                 pPad->press & PAD_SELECT)
@@ -1521,7 +1521,7 @@ STATIC void menu_radio_update_80042198(MenuWork *work, unsigned char *pOt)
                 work->field_2A_state = MENU_CODEC_OPEN;
                 menu_radio_update_helper2_80038A7C();
                 MENU_JimakuClear();
-                GV_PauseLevel_800AB928 |= 1;
+                GV_PauseLevel |= 1;
                 DG_FreeObjectQueue();
                 DG_BackGroundBlack();
                 GV_SetPacketTempMemory();
@@ -1614,7 +1614,7 @@ STATIC void menu_radio_update_80042198(MenuWork *work, unsigned char *pOt)
             menu_radio_update_helper_80038A6C();
             menu_radio_update_helper6_80047D40(work);
             GV_ResetPacketMemory();
-            GV_PauseLevel_800AB928 &= ~1;
+            GV_PauseLevel &= ~1;
             DG_ResetObjectQueue();
             menu_radio_init_nullsub_80042190(work);
             DrawSync(0);

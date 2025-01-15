@@ -51,7 +51,7 @@ char s11i_dword_800C36C8[] = {0xF}; // FIXME: this is a part of s11i_dword_800C3
 
 extern SVECTOR          GM_PlayerPosition_800ABA10;
 extern int              GM_CurrentMap_800AB9B0;
-extern int              GM_PlayerStatus_800ABA50;
+extern int              GM_PlayerStatus;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 
 void SStormAct_800D478C(SStormWork *);
@@ -281,7 +281,7 @@ void SStormAct_800D478C(SStormWork *work)
     sp10.vy += GM_PlayerPosition_800ABA10.vy;
     sp10.vz += GM_PlayerPosition_800ABA10.vz;
 
-    if (GM_PlayerStatus_800ABA50 & PLAYER_FIRST_PERSON)
+    if (GM_PlayerStatus & PLAYER_FIRST_PERSON)
     {
         sp20.vx = gUnkCameraStruct2_800B7868.center.vx - gUnkCameraStruct2_800B7868.eye.vx;
         sp20.vy = gUnkCameraStruct2_800B7868.center.vy - gUnkCameraStruct2_800B7868.eye.vy;

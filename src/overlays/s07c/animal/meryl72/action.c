@@ -22,7 +22,7 @@ static inline void UnsetMode( Meryl72Work *work )
 /*********************************************************************************************************/
 
 extern int GM_AlertMode_800ABA00 ;
-extern int GM_PlayerAction_800ABA40 ;
+extern int GM_PlayerAction ;
 extern CONTROL *GM_PlayerControl_800AB9F4 ;
 extern SVECTOR GM_PlayerPosition_800ABA10 ;
 
@@ -884,7 +884,7 @@ void s07c_meryl72_unk1_800C9B30( Meryl72Work* work, int time )
         }
     }
 
-    switch ( GM_PlayerAction_800ABA40 )
+    switch ( GM_PlayerAction )
     {
     case 0x7:
     case 0xD:

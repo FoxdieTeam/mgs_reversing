@@ -8,7 +8,7 @@
 #include "Thing/sight.h"
 #include "strcode.h"
 
-extern int DG_CurrentGroupID_800AB968;
+extern int DG_CurrentGroupID;
 extern int dword_8009F604;
 extern GM_Camera GM_Camera_800B77E8;
 
@@ -71,7 +71,7 @@ STATIC void BoxAct(BoxWork *work)
 {
     GM_CurrentMap_800AB9B0 =  work->control->map->index;
 
-    DG_GroupObjs(work->object.objs, DG_CurrentGroupID_800AB968);
+    DG_GroupObjs(work->object.objs, DG_CurrentGroupID);
 
     BoxCheckMessage(work);
     if ( work->invisible )

@@ -18,7 +18,7 @@ typedef struct _InfoWork
 
 int info_alive = 0;
 
-extern int GV_Clock_800AB920;
+extern int GV_Clock;
 
 #define EXEC_LEVEL 7
 
@@ -40,8 +40,8 @@ void InfoAct_800CA114(InfoWork *work)
 
     ot = DG_ChanlOTag(1);
 
-    poly1 = &work->poly[GV_Clock_800AB920][0];
-    poly2 = &work->poly[GV_Clock_800AB920][1];
+    poly1 = &work->poly[GV_Clock][0];
+    poly2 = &work->poly[GV_Clock][1];
 
     switch (work->f20)
     {

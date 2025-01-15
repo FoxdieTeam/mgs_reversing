@@ -43,8 +43,8 @@ int vrwindow_800C3778 = 256;
 int vrwindow_800C377C = 896;
 int vrwindow_800C3780 = 510;
 
-extern int    GV_Clock_800AB920;
-extern int    GV_PauseLevel_800AB928;
+extern int    GV_Clock;
+extern int    GV_PauseLevel;
 extern int    GM_CurrentMap_800AB9B0;
 extern GV_PAD GV_PadData_800B05C0[4];
 
@@ -54,15 +54,15 @@ extern char vrwindow_800D92D4[];
 
 void Vrwindow_800D73A4(VrwindowWork *work, RECT *rect)
 {
-    setXY0(&work->tiles[GV_Clock_800AB920], rect->x, rect->y);
-    setWH(&work->tiles[GV_Clock_800AB920], rect->w, rect->h);
+    setXY0(&work->tiles[GV_Clock], rect->x, rect->y);
+    setWH(&work->tiles[GV_Clock], rect->w, rect->h);
 
-    setXY3(&work->lines1[GV_Clock_800AB920],
+    setXY3(&work->lines1[GV_Clock],
            rect->x, rect->y,
            rect->x + rect->w, rect->y,
            rect->x + rect->w, rect->y + rect->h);
 
-    setXY3(&work->lines2[GV_Clock_800AB920],
+    setXY3(&work->lines2[GV_Clock],
            rect->x, rect->y,
            rect->x, rect->y + rect->h,
            rect->x + rect->w, rect->y + rect->h);
@@ -209,7 +209,7 @@ void VrwindowAct_800D7818(VrwindowWork *work)
         }
         else if (work->f188 == 10)
         {
-            GV_PauseLevel_800AB928 |= 4;
+            GV_PauseLevel |= 4;
             work->f188++;
         }
     }
@@ -222,7 +222,7 @@ void VrwindowAct_800D7818(VrwindowWork *work)
             work->f38 = 4;
         }
 
-        addPrim(DG_ChanlOTag(1), &work->sprts[GV_Clock_800AB920]);
+        addPrim(DG_ChanlOTag(1), &work->sprts[GV_Clock]);
         Vrwindow_800D7510(work);
         break;
 
@@ -274,7 +274,7 @@ void VrwindowAct_800D7818(VrwindowWork *work)
 
         Vrwindow_800D73A4(work, &work->f28);
 
-        addPrim(DG_ChanlOTag(1), &work->sprts[GV_Clock_800AB920]);
+        addPrim(DG_ChanlOTag(1), &work->sprts[GV_Clock]);
         Vrwindow_800D7510(work);
         break;
 
@@ -310,15 +310,15 @@ void VrwindowAct_800D7818(VrwindowWork *work)
         if (++work->f30 == 3)
         {
             GV_DestroyActor(&work->actor);
-            GV_PauseLevel_800AB928 &= ~4;
+            GV_PauseLevel &= ~4;
         }
         return;
     }
 
-    addPrim(DG_ChanlOTag(1), &work->lines1[GV_Clock_800AB920]);
-    addPrim(DG_ChanlOTag(1), &work->lines2[GV_Clock_800AB920]);
-    addPrim(DG_ChanlOTag(1), &work->tiles[GV_Clock_800AB920]);
-    addPrim(DG_ChanlOTag(1), &work->tpages[GV_Clock_800AB920]);
+    addPrim(DG_ChanlOTag(1), &work->lines1[GV_Clock]);
+    addPrim(DG_ChanlOTag(1), &work->lines2[GV_Clock]);
+    addPrim(DG_ChanlOTag(1), &work->tiles[GV_Clock]);
+    addPrim(DG_ChanlOTag(1), &work->tpages[GV_Clock]);
 }
 
 void Vrwindow_800D7ED8(RECT *rect);

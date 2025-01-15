@@ -11,8 +11,8 @@
 extern PANEL_TEXTURE gMenuLeftItems_800BD5A0[];
 extern short         GM_WeaponTypes[];
 extern short         GM_ItemTypes[];
-extern int           GM_PlayerStatus_800ABA50;
-extern int           GV_PauseLevel_800AB928;
+extern int           GM_PlayerStatus;
+extern int           GV_PauseLevel;
 extern int           GM_DisableItem_800ABA28;
 extern int           dword_8009F46C;
 extern int           GM_PlayerMap_800ABA0C;
@@ -280,7 +280,7 @@ int menu_item_IsItemDisabled_8003B6D0(int item)
     }
 
     // Crawling
-    if (GM_PlayerStatus_800ABA50 & (PLAYER_GROUND | PLAYER_INTRUDE))
+    if (GM_PlayerStatus & (PLAYER_GROUND | PLAYER_INTRUDE))
     {
         if ((item == ITEM_C_BOX_A) || (item == ITEM_C_BOX_B) || (item == ITEM_C_BOX_C))
         {
@@ -724,7 +724,7 @@ void menu_item_update_helper2_8003BF1C(MenuWork *work, unsigned int *pOt)
         {
             work->field_2A_state = MENU_CLOSED;
             // Unpause the gameplay
-            GV_PauseLevel_800AB928 &= ~4;
+            GV_PauseLevel &= ~4;
             menu_8003BBEC(work);
         }
         else
@@ -834,7 +834,7 @@ void UseConsumableItem_8003C24C(Menu_Item_Unknown *pPanels, unsigned short press
         break;
 
     case ITEM_TIMER_B:
-        if ((GM_PlayerStatus_800ABA50 & 0x362) || dword_8009F46C || menu_item_IsItemDisabled_8003B6D0(ITEM_TIMER_B))
+        if ((GM_PlayerStatus & 0x362) || dword_8009F46C || menu_item_IsItemDisabled_8003B6D0(ITEM_TIMER_B))
         {
             GM_SeSet2(0, 63, SE_BUZZER);
         }
@@ -842,7 +842,7 @@ void UseConsumableItem_8003C24C(Menu_Item_Unknown *pPanels, unsigned short press
         {
             pPanel->field_0_id = ITEM_NONE;
             GM_TimerBombFlag = ITEM_NONE;
-            GM_PlayerStatus_800ABA50 |= PLAYER_THROWING;
+            GM_PlayerStatus |= PLAYER_THROWING;
             GM_SeSet2(0, 63, SE_MENU_EXIT);
         }
         return;
@@ -874,7 +874,7 @@ void UpdateEnvironmentalEffects_8003C4EC(void)
     int        speed2;
 
     // If the game is paused, do nothing
-    if (GV_PauseLevel_800AB928)
+    if (GV_PauseLevel)
     {
         return;
     }
@@ -1024,7 +1024,7 @@ void UpdateEnvironmentalEffects_8003C4EC(void)
         // Dectement the timer bomb and check if it has reached 0
         if (--GM_TimerBombFlag <= 0)
         {
-            if (GM_PlayerStatus_800ABA50 & PLAYER_INVULNERABLE)
+            if (GM_PlayerStatus & PLAYER_INVULNERABLE)
             {
                 GM_TimerBombFlag = 1;
             }
@@ -1088,7 +1088,7 @@ void menu_item_update_8003C95C(MenuWork *work, unsigned int *pOt)
         if (!(GM_GameStatus & (STATE_TAKING_PHOTO | STATE_MENU_OFF)))
         {
             // If the player is allowed to use items
-            if (!(GM_PlayerStatus_800ABA50 &
+            if (!(GM_PlayerStatus &
                   (PLAYER_PAD_OFF | PLAYER_PREVENT_ITEM_SWITCH | PLAYER_PREVENT_WEAPON_ITEM_SWITCH)))
             {
                 // Menu button is pressed (L2)
@@ -1098,7 +1098,7 @@ void menu_item_update_8003C95C(MenuWork *work, unsigned int *pOt)
                     {
                         work->field_2A_state = MENU_LEFT_OPEN;
                         // Pause the gameplay while the menu is open
-                        GV_PauseLevel_800AB928 |= 4;
+                        GV_PauseLevel |= 4;
                     }
                 }
                 // Quick item equip (L1)

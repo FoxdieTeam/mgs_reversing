@@ -11,7 +11,7 @@ int SECTION("overlay.bss") s00a_dword_800E0F94;
 
 SVECTOR SECTION("overlay.bss") AsiatoPositions[49];
 
-extern unsigned int GM_PlayerStatus_800ABA50;
+extern unsigned int GM_PlayerStatus;
 extern SVECTOR      GM_PlayerPosition_800ABA10;
 extern int          dword_800AB9D4;
 extern CONTROL     *GM_WhereList_800B56D0[96];
@@ -378,7 +378,7 @@ int s00a_asiato_800D16F8(AsiatoWork *work, HZD_HDL *hdl, SVECTOR *pos)
 int AsiatoIsAllowedOnMove_800D179C()
 {
     // If player is moving and not on wall or prone
-    return (GM_PlayerStatus_800ABA50 & (PLAYER_ON_WALL | PLAYER_MOVING | PLAYER_GROUND)) == PLAYER_MOVING;
+    return (GM_PlayerStatus & (PLAYER_ON_WALL | PLAYER_MOVING | PLAYER_GROUND)) == PLAYER_MOVING;
 }
 
 int s00a_asiato_800D17BC(AsiatoWork *work)

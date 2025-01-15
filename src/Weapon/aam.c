@@ -22,7 +22,7 @@ extern int amissile_alive_8009F490;
 
 extern UnkCameraStruct gUnkCameraStruct_800B77B8;
 
-extern int DG_CurrentGroupID_800AB968;
+extern int DG_CurrentGroupID;
 extern int GM_CurrentMap_800AB9B0;
 
 extern TARGET *target_800BDF00;
@@ -68,7 +68,7 @@ STATIC void AamAct(AamWork *work)
     }
 
     GM_SetCurrentMap(work->control->map->index);
-    DG_GroupObjs(work->object.objs, DG_CurrentGroupID_800AB968);
+    DG_GroupObjs(work->object.objs, DG_CurrentGroupID);
 
     if (work->parent->objs->flag & DG_FLAG_INVISIBLE)
     {

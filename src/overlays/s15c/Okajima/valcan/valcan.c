@@ -152,7 +152,7 @@ extern int              amissile_alive_8009F490;
 extern SVECTOR          svector_8009F478;
 extern SVECTOR          svector_8009F494;
 extern int              dword_8009F46C[];
-extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
+extern PlayerStatusFlag GM_PlayerStatus;
 extern int              GM_AlertMode_800ABA00;
 
 void    AN_Breath_800C3AA8(MATRIX *matrix);
@@ -967,7 +967,7 @@ int Valcan_800DA558(ValcanWork *work, int arg1)
     {
         if (diffdir < 256)
         {
-            if (!(GM_PlayerStatus_800ABA50 & (PLAYER_INVULNERABLE | PLAYER_UNK100 | PLAYER_UNK80)))
+            if (!(GM_PlayerStatus & (PLAYER_INVULNERABLE | PLAYER_UNK100 | PLAYER_UNK80)))
             {
                 GM_SeSet2(0, 0x7F, SE_HIT);
                 Valcan_800DA21C(work);

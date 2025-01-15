@@ -27,7 +27,7 @@ typedef struct _WsurfaceWork
     char     pad2[0x2];
 } WsurfaceWork;
 
-extern int GV_Clock_800AB920;
+extern int GV_Clock;
 extern int GM_CurrentMap_800AB9B0;
 
 #define EXEC_LEVEL 5
@@ -332,7 +332,7 @@ void WsurfaceAct_800DB564(WsurfaceWork *work)
     if (work->f104 == 1)
     {
         Wsurface_800DB1E4(work->ptr2, work->ptr3, work);
-        Wsurface_800DAFE8(&work->prim->packs[GV_Clock_800AB920]->poly_gt4, work->ptr3, work);
+        Wsurface_800DAFE8(&work->prim->packs[GV_Clock]->poly_gt4, work->ptr3, work);
     }
 }
 

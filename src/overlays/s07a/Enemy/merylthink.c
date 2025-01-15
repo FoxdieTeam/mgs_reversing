@@ -8,7 +8,7 @@
 extern ENEMY_COMMAND EnemyCommand_800E0D98;
 extern SVECTOR       GM_PlayerPosition_800ABA10;
 extern int           GM_AlertLevel_800ABA18;
-extern int           GM_PlayerStatus_800ABA50;
+extern int           GM_PlayerStatus;
 extern unsigned int  COM_GameStatus_800E0F3C;
 extern int           GM_NoisePower_800ABA24;
 extern SVECTOR       COM_PlayerPosition_800E0F30;
@@ -2418,7 +2418,7 @@ void s07a_meryl_unk_800DE810( WatcherWork *work )
         {
             if ( work->act_status & 0x01 )
             {
-                if ( GM_PlayerStatus_800ABA50 & 0x1000 )
+                if ( GM_PlayerStatus & 0x1000 )
                 {
                     GM_SeSet( &work->control.mov, 0xC1 );
                 }

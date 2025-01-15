@@ -51,7 +51,7 @@ unsigned short GM_ItemTypes[] = {
     0           // 25: ???
 };
 
-extern int    GM_PlayerStatus_800ABA50;
+extern int    GM_PlayerStatus;
 extern GV_PAD GV_PadData_800B05C0[4];
 
 extern int         gLastBindNum_800AB9B8; //N_BindsLV
@@ -268,14 +268,14 @@ static inline int HZD_helper2_80029D50(HZD_BIND *pBind, HZD_EVT *event)
     {
         if (dword_8009D548[pBind->field_9_param_s])
         {
-            if (!(GM_PlayerStatus_800ABA50 & dword_8009D548[pBind->field_9_param_s]))
+            if (!(GM_PlayerStatus & dword_8009D548[pBind->field_9_param_s]))
             {
                 return 0;
             }
         }
-        else if (GM_PlayerStatus_800ABA50 != 0)
+        else if (GM_PlayerStatus != 0)
         {
-            if ((GM_UnkFlagBE != 0) && !(GM_PlayerStatus_800ABA50 & 0x2))
+            if ((GM_UnkFlagBE != 0) && !(GM_PlayerStatus & 0x2))
             {
                 mask = 0xFFF4C011;
             }
@@ -284,7 +284,7 @@ static inline int HZD_helper2_80029D50(HZD_BIND *pBind, HZD_EVT *event)
                 mask = 0xFFF44010;
             }
 
-            if (GM_PlayerStatus_800ABA50 & ~mask)
+            if (GM_PlayerStatus & ~mask)
             {
                 return 0;
             }
@@ -293,7 +293,7 @@ static inline int HZD_helper2_80029D50(HZD_BIND *pBind, HZD_EVT *event)
 
     if (pBind->field_B_param_e & 0x4)
     {
-        if (GM_PlayerStatus_800ABA50 & 0x80)
+        if (GM_PlayerStatus & 0x80)
         {
             return 0;
         }

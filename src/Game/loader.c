@@ -7,8 +7,8 @@
 #include "libfs/libfs.h"
 #include "Game/game.h"
 
-extern int GM_LoadComplete_800ABA38;
-extern int GM_PadVibration2_800ABA54;
+extern int GM_LoadComplete;
+extern int GM_PadVibration2;
 
 typedef struct LoaderWork
 {
@@ -30,7 +30,7 @@ STATIC void LoaderAct(LoaderWork *work)
         if (work->type == 3)
         {
             DG_OffsetDispEnv(work->time & 2);
-            GM_PadVibration2_800ABA54 = 100;
+            GM_PadVibration2 = 100;
         }
     }
 
@@ -51,7 +51,7 @@ STATIC void LoaderDie(LoaderWork *work)
 {
     printf("LoadEnd\n");
     FS_LoadStageComplete(work->info);
-    GM_LoadComplete_800ABA38 = -1;
+    GM_LoadComplete = -1;
 }
 
 void *NewLoader(const char *dir)
@@ -80,6 +80,6 @@ void *NewLoader(const char *dir)
 
     work->reading = TRUE;
     work->type = (GM_LoadRequest & 0x0f);
-    GM_LoadComplete_800ABA38 = 0;
+    GM_LoadComplete = 0;
     return (void *)work;
 }
