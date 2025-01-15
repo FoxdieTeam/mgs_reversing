@@ -33,13 +33,15 @@ CHARA MainCharacterEntries[] = {
 };
 
 const char *MGS_DiskName[] = {
+#ifdef INTEGRAL
 #ifdef VR_EXE
-    "SLPM_862.49",  // 0: VR-DISC
+    "SLPM_862.49",      // 0: VR-DISC
 #else
-    "SLPM_862.47",  // 0: DISC 1
-    "SLPM_862.48",  // 1: DISC 2
+    "SLPM_862.47",      // 0: DISC 1
+    "SLPM_862.48",      // 1: DISC 2
 #endif
-    NULL            // end-of-list
+#endif
+    NULL                // end-of-list
 };
 const char *MGS_MemoryCardName = "BISLPM-86247";
 
