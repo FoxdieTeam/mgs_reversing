@@ -88,7 +88,7 @@ int GM_InitControl(CONTROL *control, int scriptData, int scriptBinds)
 
     GV_ZeroMemory(control, sizeof(CONTROL));
 
-    pMapRec = Map_FromId_800314C0(mapId);
+    pMapRec = GM_GetMap(mapId);
     control->map = pMapRec;
     if (!pMapRec)
     {
@@ -145,7 +145,7 @@ static inline void GM_ActControl_helper(CONTROL *control)
         {
             if (pMsg->message[0] == map_msg)
             {
-                pMap = Map_FindByNum_80031504(pMsg->message[1]);
+                pMap = GM_FindMap(pMsg->message[1]);
 
                 if (pMap)
                 {

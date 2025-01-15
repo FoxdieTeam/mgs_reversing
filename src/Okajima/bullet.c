@@ -333,7 +333,7 @@ skip_clamp_z:
     work->field_118 = svec2;
 
     i = 0;
-    map = Map_FromId_800314C0(work->field_20);
+    map = GM_GetMap(work->field_20);
 
     while (1)
     {
@@ -402,7 +402,7 @@ STATIC void bullet_Act(BulletWork *work)
     sound = 0;
     GM_SetCurrentMap(work->field_20);
 
-    map = Map_FromId_800314C0(work->field_20);
+    map = GM_GetMap(work->field_20);
     work->field_13C += work->field_15C;
 
     if (work->field_138 < work->field_13C)

@@ -594,7 +594,7 @@ int Crow_800DE890(CrowWork *work, int name, int map)
     CrowEntry *entry;
     TARGET    *target;
 
-    Map_FromId_800314C0(work->map);
+    GM_GetMap(work->map);
 
     for (i = 0; i < work->n_entries; i++)
     {

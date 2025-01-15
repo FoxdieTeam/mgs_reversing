@@ -405,7 +405,7 @@ STATIC void GM_Act(GameWork *work)
             DG_SaveTexureCacheToResidentMem();
         }
 
-        GM_ResetMapObjs_800310A0();
+        GM_ResetMap();
         camera_init_800306A0();
         DG_StorePalette();
         GM_Act_helper2();
@@ -478,7 +478,7 @@ STATIC void GM_Act(GameWork *work)
 
                 GV_DestroyActorSystem(4);
                 GV_PauseLevel_800AB928 &= ~8;
-                GM_FreeMapObjs_80031028();
+                GM_ResetMapModel();
                 GM_StreamPlayStop();
                 work->field_24 = 3;
                 GM_GameStatus |= STATE_PADRELEASE | STATE_ALL_OFF;
@@ -504,7 +504,7 @@ STATIC void GM_Act(GameWork *work)
                 GM_HidePauseScreen();
             }
 
-            Map_80030FA4();
+            GM_UpdateMap();
         }
 
         // 0x90f: PAD_L1 | PAD_L2 | PAD_R1 | PAD_R2 | PAD_START | PAD_SELECT
@@ -583,7 +583,7 @@ STATIC void GM_Act(GameWork *work)
                 {
                     work->status = 0;
                     work->field_24 = 0;
-                    GM_DieMap_80030FD0();
+                    GM_ResetMapHazard();
                     GM_ResetSystem();
                     GM_ActInit(work);
 

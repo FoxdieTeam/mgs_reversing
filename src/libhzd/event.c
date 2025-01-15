@@ -55,10 +55,10 @@ extern int    GM_PlayerStatus_800ABA50;
 extern GV_PAD GV_PadData_800B05C0[4];
 
 extern int         gLastBindNum_800AB9B8; //N_BindsLV
-extern BindStruct *gpBinds_800AB9BC;
+extern HZD_BIND *gpBinds_800AB9BC;
 
 int         SECTION(".sbss") gLastBindNum_800AB9B8;
-BindStruct *SECTION(".sbss") gpBinds_800AB9BC;
+HZD_BIND *SECTION(".sbss") gpBinds_800AB9BC;
 
 /*
 possible function names
@@ -76,27 +76,27 @@ possible function names
  HZD_EnterTrap
 */
 
-void HZD_SetBind( int param_1, BindStruct *param_2, int param_3 )
+void HZD_SetBind( int param_1, HZD_BIND *bind, int n_bind )
 {
-    gLastBindNum_800AB9B8 = param_3;
-    gpBinds_800AB9BC = param_2;
+    gLastBindNum_800AB9B8 = n_bind;
+    gpBinds_800AB9BC = bind;
     return;
 }
 
-void HZD_BindMapChange( int mask )
+void HZD_BindMapChange( int map )
 {
-    int         counter; // $a1
-    BindStruct *pIter;   // $v1
+    HZD_BIND *bind;
+    int       i;
 
-    pIter = gpBinds_800AB9BC;
-
-    for ( counter = gLastBindNum_800AB9B8; counter > 0; counter-- )
+    bind = gpBinds_800AB9BC;
+    for ( i = gLastBindNum_800AB9B8; i > 0; i-- )
     {
-        if ( ( pIter->field_6 & mask ) == 0 )
+        if ( !( bind->map & map ) )
         {
-            pIter->field_8_param_i_c_flags &= ~0x80u;
+            bind->field_8_param_i_c_flags &= ~0x80;
         }
-        pIter++;
+
+        bind++;
     }
 }
 
@@ -122,7 +122,7 @@ void HZD_SetEvent( HZD_EVT *event, int name )
     event->field_14_vec.vx = 0;
 }
 
-void HZD_ExecBindX( BindStruct *pBind, HZD_EVT *event, int a3, int a4 )
+void HZD_ExecBindX( HZD_BIND *pBind, HZD_EVT *event, int a3, int a4 )
 {
     int f_4; // $v1
     int msg_type; // $a0
@@ -169,9 +169,9 @@ static inline int HZD_helper_80029B9C(unsigned short value, unsigned int hash)
 }
 
 //HZD_ExecEventRCM ?
-void HZD_80029B9C( HZD_HDL *hdl, HZD_EVT *event, int arg2 )
+void HZD_ExecEventRCM( HZD_HDL *hdl, HZD_EVT *event, int arg2 )
 {
-    BindStruct  *pBind;
+    HZD_BIND  *pBind;
     unsigned int hash;
     unsigned int name;
     unsigned int trigger;
@@ -194,7 +194,7 @@ void HZD_80029B9C( HZD_HDL *hdl, HZD_EVT *event, int arg2 )
             continue;
         }
 
-        if (!(pBind->field_6 & hdl->area_index))
+        if (!(pBind->map & hdl->map))
         {
             continue;
         }
@@ -239,7 +239,7 @@ void HZD_80029B9C( HZD_HDL *hdl, HZD_EVT *event, int arg2 )
     }
 }
 
-static inline int HZD_helper2_80029D50(BindStruct *pBind, HZD_EVT *event)
+static inline int HZD_helper2_80029D50(HZD_BIND *pBind, HZD_EVT *event)
 {
     int diff;
     int mask;
@@ -310,16 +310,16 @@ static inline int HZD_helper2_80029D50(BindStruct *pBind, HZD_EVT *event)
 // HZD_ExecEventL ?
 void HZD_80029D50(HZD_HDL *hdl, HZD_EVT *event, int arg2)
 {
-    BindStruct   *pBind;
+    HZD_BIND   *pBind;
     unsigned int  hash, hash2;
     unsigned int  name;
     unsigned int  trigger;
     int           count;
     unsigned char flag;
 
-    if (event->field_0_scriptData_orHashedName == 0x50AE)
+    if (event->field_0_scriptData_orHashedName == CHARA_RCM)
     {
-        HZD_80029B9C(hdl, event, arg2);
+        HZD_ExecEventRCM(hdl, event, arg2);
         return;
     }
 
@@ -332,7 +332,7 @@ void HZD_80029D50(HZD_HDL *hdl, HZD_EVT *event, int arg2)
     count = gLastBindNum_800AB9B8;
     for (count--; count >= 0; pBind++, count--)
     {
-        if (!HZD_helper_80029B9C(pBind->field_4, trigger) || !(pBind->field_6 & hdl->area_index))
+        if (!HZD_helper_80029B9C(pBind->field_4, trigger) || !(pBind->map & hdl->map))
         {
             continue;
         }
@@ -384,7 +384,7 @@ void HZD_80029D50(HZD_HDL *hdl, HZD_EVT *event, int arg2)
 //HZD_ExecEventSub ?
 void HZD_8002A090(HZD_HDL *hdl, HZD_EVT *event, int flags, int hash)
 {
-    BindStruct     *pBinds;
+    HZD_BIND     *pBinds;
     int             bindCount;
     int             msgType;
     unsigned short *pArray;
@@ -397,7 +397,7 @@ void HZD_8002A090(HZD_HDL *hdl, HZD_EVT *event, int flags, int hash)
 
     for (bindCount--; bindCount >= 0; pBinds++, bindCount--)
     {
-        if (!(pBinds->field_6 & hdl->area_index))
+        if (!(pBinds->map & hdl->map))
         {
             continue;
         }
