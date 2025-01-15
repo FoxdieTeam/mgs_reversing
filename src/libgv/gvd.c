@@ -91,7 +91,7 @@ void GV_ResetMemory(void)
 void GV_StartDaemon(void)
 {
     GV_InitActorSystem();
-    GV_ResidentHeapReset();
+    GV_InitResidentMemory();
     GV_InitLoader();
     GV_InitCacheSystem();
     GV_ResetSystem();

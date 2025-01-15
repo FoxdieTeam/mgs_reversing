@@ -480,7 +480,7 @@ STATIC void over_Die( OverWork *work )
     }
     if ( ( GM_GameStatusFlag & 0x20 ) || ( GM_DifficultyFlag == DIFFICULTY_VERY_EASY ) )
     {
-        GV_ResidentHeapReset();
+        GV_InitResidentMemory();
         GV_InitCacheSystem();
         DG_ClearResidentTexture();
         stage_name = "init";

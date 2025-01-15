@@ -11,8 +11,7 @@ STATIC int     SECTION(".sbss") dword_800AB944;
 // TODO: hardcoded address
 void *GV_ResidentAreaBottom = GV_NORMAL_MEMORY_TOP;
 
-// either this or the next is GV_InitResidentMemory
-void GV_ResidentHeapReset(void)
+void GV_InitResidentMemory(void)
 {
     GV_ResidentMemoryBottom = GV_ResidentAreaBottom;
 }

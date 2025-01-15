@@ -216,10 +216,9 @@ void  GV_DelayedFree(void *);
 void *GV_GetMaxFreeMemory(int which);
 void *GV_SplitMemory(int which, void *addr, int size);
 
-void  GV_ResidentHeapReset(void);
-void  GV_SaveResidentTop(void);
-
+/* resident.c */
 void  GV_InitResidentMemory(void);
+void  GV_SaveResidentTop(void);
 void *GV_AllocResidentMemory(long size);
 
 /*------ Message Handling ---------------------------------------------------*/
