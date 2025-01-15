@@ -130,7 +130,7 @@ static inline char GetXaAttribute(int dir_record, int name_length, int base_leng
  * of the ISO-9660 directory record.
  *
  * @param[in]       buffer  ISO-9660 directory record table
- * @param[in,out]   finfo   FS_FILE_INFO table to initialized
+ * @param[in,out]   finfo   FS_FILE_INFO table to initialize
  *
  * @retval          -1      on failure
  * @retval          >= 0    disc number (0: Disc 1, 1: Disc 2)
@@ -237,7 +237,7 @@ STATIC int FS_ReadCdDirectory(char *buffer, FS_FILE_INFO *finfo)
  *
  * @param[out]      buffer  temporary load buffer
  *                          (needs to be at least 2048 bytes)
- * @param[in,out]   finfo   FS_FILE_INFO table to initialized
+ * @param[in,out]   finfo   FS_FILE_INFO table to initialize
  *
  * @retval          -1      on failure
  * @retval          >= 0    disc number (0: Disc 1, 1: Disc 2)
