@@ -6,7 +6,7 @@ typedef struct _SCRATCHPAD_UNK {
     int len;
 } SCRATCHPAD_UNK;
 
-extern int           DG_CurrentGroupID_800AB968;
+extern int           DG_CurrentGroupID;
 extern unsigned int *ptr_800B1400[256];
 
 static inline SCRATCHPAD_UNK * get_scratch(void)
@@ -21,7 +21,7 @@ static inline unsigned int ** get_buf(void)
 
 static inline int DG_GetCurrentGroupID(void)
 {
-    return DG_CurrentGroupID_800AB968;
+    return DG_CurrentGroupID;
 }
 
 void DG_SortChanl( DG_CHANL *chanl, int idx )

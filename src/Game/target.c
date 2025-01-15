@@ -56,8 +56,8 @@
 //
 extern TARGET gTargets_800B64E0[TARGET_ARRAY_LENGTH];
 
-int SECTION(".sbss") gTargets_lastSlotUsed_800ABA68;
-int SECTION(".sbss") gTargets_orphanedSlots_800ABA6C;
+STATIC int SECTION(".sbss") gTargets_lastSlotUsed_800ABA68;
+STATIC int SECTION(".sbss") gTargets_orphanedSlots_800ABA6C;
 
 extern int     GM_PlayerMap_800ABA0C;
 
@@ -180,7 +180,7 @@ void GM_FreeTarget(TARGET *target)
 void GM_MoveTarget(TARGET *target, SVECTOR *center)
 {
     target->center = *center;
-    target->map = GM_CurrentMap_800AB9B0;
+    target->map = GM_CurrentMap;
 }
 
 TARGET *GM_CaptureTarget(TARGET *target)
@@ -534,7 +534,7 @@ int GM_PushTarget(TARGET *target)
 
 void GM_SetTarget(TARGET *target, int class, int side, SVECTOR *size)
 {
-    short cur_map = GM_CurrentMap_800AB9B0;
+    short cur_map = GM_CurrentMap;
     target->class = class;
     target->side = side;
     target->damaged = 0;

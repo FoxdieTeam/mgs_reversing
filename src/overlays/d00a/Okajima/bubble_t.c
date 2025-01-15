@@ -17,7 +17,7 @@ typedef struct _BubbleTWork
     int      time;
 } BubbleTWork;
 
-extern int     GM_CurrentMap_800AB9B0;
+extern int     GM_CurrentMap;
 
 GV_ACT *NewRipple_800D7F30(MATRIX *, int);
 
@@ -98,7 +98,7 @@ void BubbleTAct_800DA11C(BubbleTWork *work)
         GV_DestroyActor(&work->actor);
     }
 
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
     BubbleTUpdatePacks_800D9F8C(work);
 }
 
@@ -157,7 +157,7 @@ int BubbleTGetResources_800DA29C(BubbleTWork *work, SVECTOR *pos, int height, in
     work->destroy = destroy;
     work->time = 1;
 
-    work->map = GM_CurrentMap_800AB9B0;
+    work->map = GM_CurrentMap;
 
     if (BubbleTCreatePacks_800DA1AC(work) < 0)
     {

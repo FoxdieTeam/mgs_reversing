@@ -39,7 +39,7 @@ typedef struct _Hind2Work
 
 SVECTOR s11i_800C32C0 = { 0, -2728, 5587, 0 };
 
-extern int     GV_Clock_800AB920;
+extern int     GV_Clock;
 extern SVECTOR GM_PlayerPosition_800ABA10;
 
 void *NewHdBul2( SVECTOR *arg0, SVECTOR *arg1, int enable );
@@ -145,7 +145,7 @@ void Hind2_800C45E4( Hind2Work *work, SVECTOR arg1 )
         y = tex->off_y;
         h = tex->h;
 
-        poly = (POLY_FT4 *)prim->packs[ GV_Clock_800AB920 ];
+        poly = (POLY_FT4 *)prim->packs[ GV_Clock ];
 
         poly->u0 = poly->u2 = x + ( w * rand_w ) / 2;
         poly->u1 = poly->u3 = x + ( w * ( rand_w + 1 ) ) / 2 - 1;

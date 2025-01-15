@@ -59,8 +59,8 @@ OpTxtScnUnk opening_dword_800C33E4[2] =
     {{0, 0, 20, 5},  {0, 128, 32, 70}, opening_dword_800C32C8, opening_dword_800C32C8}
 };
 
-extern int    GV_Clock_800AB920;
-extern int    GM_CurrentMap_800AB9B0;
+extern int    GV_Clock;
+extern int    GM_CurrentMap;
 
 #define EXEC_LEVEL 5
 
@@ -158,7 +158,7 @@ void OptxtscnAct_800CCDE8(OpTxtScnWork *work)
     }
 
     unk = work->field_24;
-    move = work->field_40->move[GV_Clock_800AB920];
+    move = work->field_40->move[GV_Clock];
     ot = DG_ChanlOTag(1);
 
     for (i = 2; i > 0; i--)
@@ -191,7 +191,7 @@ void OptxtscnAct_800CCDE8(OpTxtScnWork *work)
         move++;
     }
 
-    addPrim(ot, &work->field_40->stp[GV_Clock_800AB920]);
+    addPrim(ot, &work->field_40->stp[GV_Clock]);
 
     if (work->field_20 == 2)
     {
@@ -263,7 +263,7 @@ int OptxtscnGetResources_800CD080(OpTxtScnWork *work)
         DG_PutObjs(objs);
         objs->light = work->field_4C_light;
         DG_QueueObjs(objs);
-        DG_GroupObjs(objs, GM_CurrentMap_800AB9B0);
+        DG_GroupObjs(objs, GM_CurrentMap);
 
         tex = DG_GetTexture(def->model[0].materials[0]);
         tex->clut = work->field_2C->clut;

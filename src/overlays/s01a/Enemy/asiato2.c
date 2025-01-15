@@ -301,7 +301,7 @@ void s01a_blink_tx_800DD4AC(Asiato2Work2 *work)
 
     s01a_blink_tx_800DD42C(work);
 
-    GM_CurrentMap_800AB9B0 = work->control->map->index;
+    GM_CurrentMap = work->control->map->index;
 
     NewAsiato2_800DD238(world, which, work->control->levels[0], asiato2_800E4FC0.index - 1, work->f28, work->control->rot.vy, work->f30);
 }

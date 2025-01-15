@@ -8,8 +8,8 @@
 #include "Thing/sight.h"
 #include "chara/snake/sna_init.h"
 
-extern int GV_PauseLevel_800AB928;
-extern int GM_PlayerStatus_800ABA50;
+extern int GV_PauseLevel;
+extern int GM_PlayerStatus;
 extern int dword_8009F604;
 extern GV_PAD GV_PadData_800B05C0[4];
 extern DVECTOR dvector_800BDD18[3];
@@ -44,7 +44,7 @@ STATIC void rfsight_act_helper_80069478(int a1, GV_PAD *pad, DVECTOR *axis, int 
     status = pad->status;
     GM_CheckShukanReverse(&status);
 
-    if (GV_PauseLevel_800AB928 || (GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF))
+    if (GV_PauseLevel || (GM_PlayerStatus & PLAYER_PAD_OFF))
     {
         status = 0;
     }

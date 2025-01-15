@@ -15,7 +15,7 @@ typedef struct _FamaslitWork
 RECT d01a_rect_800C3490 = {40, 40, 80, 80};
 SVECTOR d01a_svec_800C3498 = {0, -400, 60, 0};
 
-extern int GM_CurrentMap_800AB9B0;
+extern int GM_CurrentMap;
 
 void FamaslitAct_800D0B28(FamaslitWork *work);
 void FamaslitDie_800D0B90(FamaslitWork *work);
@@ -45,7 +45,7 @@ GV_ACT *NewFamaslit_800D06F0(MATRIX *world)
     GV_SetNamedActor(&work->actor, (GV_ACTFUNC)FamaslitAct_800D0B28, (GV_ACTFUNC)FamaslitDie_800D0B90, "famaslit.c");
 
     work->world = world;
-    work->map = GM_CurrentMap_800AB9B0;
+    work->map = GM_CurrentMap;
 
     prim = DG_GetPrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 1, 0, &d01a_svec_800C3498, &d01a_rect_800C3490);
     work->prim = prim;

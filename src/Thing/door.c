@@ -53,7 +53,7 @@ typedef struct DoorWork
 extern CONTROL *GM_PlayerControl_800AB9F4;
 extern int      GM_PlayerMap_800ABA0C;
 extern int      dword_8009F470;
-extern int      GM_CurrentMap_800AB9B0;
+extern int      GM_CurrentMap;
 
 int door_where_8009F5F4 = 0;
 
@@ -422,7 +422,7 @@ STATIC void DoorAct_8006F318(DoorWork *work)
     }
 
     GM_ActControl(&work->control);
-    GM_CurrentMap_800AB9B0 = work->where;
+    GM_CurrentMap = work->where;
     GM_ActObject2((OBJECT *)&work->object);
 
     pVecs = work->field_C0;

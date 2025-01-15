@@ -13,7 +13,7 @@ typedef struct FallSplWork
 
 GV_ACT *NewSplash3_800C83D0(int dir, SVECTOR *pos);
 
-extern int GM_CurrentMap_800AB9B0;
+extern int GM_CurrentMap;
 
 int s15b_fall_spl_800C7B0C(char *opt, SVECTOR *out)
 {
@@ -35,7 +35,7 @@ void s15b_fall_spl_800C7B60(FallSplWork *work)
     SVECTOR pos;
     int     rand;
 
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
     rand = GV_RandU(0x100);
     pos.vx = work->limit[0].vx + (work->limit[1].vx - work->limit[0].vx) * rand / 256;
     pos.vy = work->limit[0].vy + (work->limit[1].vy - work->limit[0].vy) * rand / 256;

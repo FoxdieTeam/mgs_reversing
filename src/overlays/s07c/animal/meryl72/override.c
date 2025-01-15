@@ -108,7 +108,7 @@ void s07c_meryl72_unk1_800CAFB8( Meryl72Work* work, int time)
         UnsetAction( work, ACTION27 );
     }
 
-    if ( work->body.field_1C )
+    if ( work->body.time2 )
     {
         UnsetMode( work );
     }
@@ -122,7 +122,7 @@ void s07c_meryl72_unk1_800CB038( Meryl72Work* work, int time)
         UnsetAction( work, ACTION25 );
     }
 
-    if ( work->body.field_1C )
+    if ( work->body.time2 )
     {
         UnsetMode( work );
     }
@@ -135,7 +135,7 @@ void s07c_meryl72_unk1_800CB0B8( Meryl72Work* work, int time)
         UnsetAction( work, ACTION26 );
     }
 
-    if ( work->body.field_1C )
+    if ( work->body.time2 )
     {
         UnsetMode( work );
     }
@@ -149,7 +149,7 @@ void s07c_meryl72_unk1_800CB134( Meryl72Work* work, int time)
         UnsetAction( work, ACTION22 );
     }
 
-    if ( work->body.field_1C )
+    if ( work->body.time2 )
     {
         UnsetMode( work );
     }

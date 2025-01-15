@@ -19,8 +19,8 @@ typedef struct _Work
 
 void * NewRipple_800D7F30( MATRIX *, int );
 
-extern int    GM_CurrentMap_800AB9B0;
-extern int    GV_Clock_800AB920;
+extern int    GM_CurrentMap;
+extern int    GV_Clock;
 
 RECT rect_800C3670 = { 50, 50, 100, 100 };
 
@@ -87,7 +87,7 @@ void Splash2Act_800DAF38( Work *work )
     int       i;
     int       x, y, z;
 
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
 
     timer = --work->timer;
     if ( work->timer <= 0 )
@@ -98,7 +98,7 @@ void Splash2Act_800DAF38( Work *work )
         return;
     }
 
-    poly = &work->prim->packs[GV_Clock_800AB920]->poly_ft4;
+    poly = &work->prim->packs[GV_Clock]->poly_ft4;
 
     timer *= 10;
     color.vx = (work->color.vx * timer) / 256;
@@ -184,7 +184,7 @@ int SplashGetResources_800DB210( Work *work, MATRIX *matrix, int noripple, int r
     POLY_FT4 *polys2;
     int       i;
 
-    work->map = GM_CurrentMap_800AB9B0;
+    work->map = GM_CurrentMap;
 
     Splash2Transform_800DAD68( matrix, work->vecs, work->vecs2, 8 );
 

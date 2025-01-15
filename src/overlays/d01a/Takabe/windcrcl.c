@@ -20,7 +20,7 @@ typedef struct _WindcrclWork
 
 #define EXEC_LEVEL 5
 
-extern int GM_CurrentMap_800AB9B0;
+extern int GM_CurrentMap;
 
 typedef struct WindcrclScratch
 {
@@ -145,7 +145,7 @@ void WindcrclAct_800CF414(WindcrclWork *work)
     int      cosv;
     int      sinv;
 
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
 
     time = --work->time;
     if (time <= 0)
@@ -189,7 +189,7 @@ int WindcrclGetResources_800CF598(WindcrclWork *work, MATRIX *world, int arg2)
     DG_TEX  *tex;
 
     work->f454 = 600;
-    work->map = GM_CurrentMap_800AB9B0;
+    work->map = GM_CurrentMap;
 
     prim = DG_GetPrim(DG_PRIM_POLY_FT4, 32, 0, work->vecs, NULL);
     work->prim = prim;

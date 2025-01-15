@@ -8,11 +8,9 @@ extern GV_CACHE_PAGE GV_CacheSystem_800ACEF0;
 extern GV_LOADFUNC  gFileExtHandlers_800ACE80[MAX_FILE_HANDLERS];
 /*********************************************************************/
 
-/***$gp***************************************************************/
-GV_CACHE_TAG *SECTION(".sbss") GV_CurrentTag_800AB930;
-GV_CACHE_TAG *SECTION(".sbss") GV_ResidentFileRecords_800AB934;
-int           SECTION(".sbss") N_ResidentFileRecords_800AB938;
-/********************************************************************/
+STATIC GV_CACHE_TAG *SECTION(".sbss") GV_CurrentTag_800AB930;
+STATIC GV_CACHE_TAG *SECTION(".sbss") GV_ResidentFileRecords_800AB934;
+STATIC int           SECTION(".sbss") N_ResidentFileRecords_800AB938;
 
 // searches for a cached file from the cache system with a given ID
 GV_CACHE_TAG *GV_FileCacheFind(int id)

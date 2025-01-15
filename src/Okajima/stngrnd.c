@@ -149,7 +149,7 @@ STATIC int stngrnd_GetResources(StunGrenadeWork *work, MATRIX *world)
     sp20[7][0] = 50;
     sp20[7][1] = -9;
 
-    work->map = GM_CurrentMap_800AB9B0;
+    work->map = GM_CurrentMap;
     GM_SetCurrentMap(work->map);
 
     work->field_E0.vx = world->t[0];
@@ -230,7 +230,7 @@ GV_ACT *NewStanBlast(MATRIX *world)
                          (GV_ACTFUNC)stngrnd_Die,
                          "stngrnd.c");
 
-        GM_ClaymoreMap_800AB9DC = GM_CurrentMap_800AB9B0;
+        GM_ClaymoreMap_800AB9DC = GM_CurrentMap;
 
         if ( stngrnd_GetResources(work, world) < 0 )
         {

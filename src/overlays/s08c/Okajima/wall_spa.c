@@ -13,7 +13,7 @@ typedef struct _WallSpaWork
     int     enable;
 } WallSpaWork;
 
-extern int GM_CurrentMap_800AB9B0;
+extern int GM_CurrentMap;
 
 void    NewSpark2_800CA714(MATRIX *);
 GV_ACT *NewPlasma_800CD30C(SVECTOR *arg0, SVECTOR *arg1, int arg2, int arg3);
@@ -102,7 +102,7 @@ void WallSpaAct_800CB300(WallSpaWork *work)
     SVECTOR        speed;
     unsigned short hashes[2];
 
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
 
     hashes[0] = GV_StrCode("はじめ");
     hashes[1] = GV_StrCode("やめ");
@@ -159,7 +159,7 @@ int WallSpaGetResources_800CB428(WallSpaWork *work, int name, int map)
     work->name = name;
 
     work->map = map;
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
 
     opt = GCL_GetOption('b');
     if (opt == NULL)

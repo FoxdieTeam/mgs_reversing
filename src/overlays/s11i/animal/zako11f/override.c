@@ -2,7 +2,7 @@
 #include "Game/linkvarbuf.h"
 
 extern SVECTOR GM_PlayerPosition_800ABA10;
-extern int     GM_PlayerStatus_800ABA50;
+extern int     GM_PlayerStatus;
 
 extern SVECTOR s11i_dword_800C34C4[3];
 extern int     s11i_dword_800C34DC[3][16];
@@ -463,7 +463,7 @@ int s11i_zk11fcom_800D03E4( Zako11FWork *work )
                 return 14;
             }
 
-            if (work->sn_dis < 1000 && !(GM_PlayerStatus_800ABA50 & (PLAYER_CB_BOX | PLAYER_GROUND | PLAYER_SQUAT)))
+            if (work->sn_dis < 1000 && !(GM_PlayerStatus & (PLAYER_CB_BOX | PLAYER_GROUND | PLAYER_SQUAT)))
             {
                 return 10;
             }

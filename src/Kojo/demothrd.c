@@ -29,7 +29,7 @@ int DM_ThreadStream_80079460(int flag, int unused)
                      (GV_ACTFUNC)demothrd_cd_stream_die_800797CC,
                      "demothrd.c");
 
-    pDemoThrd->field_28_map = GM_CurrentMap_800AB9B0;
+    pDemoThrd->field_28_map = GM_CurrentMap;
     FS_StreamOpen();
     return 1;
 }
@@ -57,7 +57,7 @@ int DM_ThreadFile_800794E4(int flag, int demoNameHashed)
                      (GV_ACTFUNC)&demothrd_file_stream_kill_80079960,
                      "demothrd.c");
 
-    work->field_28_map = GM_CurrentMap_800AB9B0;
+    work->field_28_map = GM_CurrentMap;
     FS_EnableMemfile(0, 0);
     work->field_C0_pHeader = (demothrd_0x1C *)0x80200000;
 

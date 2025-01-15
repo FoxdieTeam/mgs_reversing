@@ -26,9 +26,9 @@ typedef struct FadeIoWork
     int          field_38;
 } FadeIoWork;
 
-extern int GV_Clock_800AB920;
-extern int GV_PassageTime_800AB924;
-extern int GV_PauseLevel_800AB928;
+extern int GV_Clock;
+extern int GV_PassageTime;
+extern int GV_PauseLevel;
 
 unsigned short fadeio_msgs[] = {HASH_KILL, 0x71F1};
 
@@ -40,7 +40,7 @@ void FadeIoAct_800C3E7C(FadeIoWork *work)
     char *ot;
     int   shade;
 
-    if (GV_PauseLevel_800AB928 == 0)
+    if (GV_PauseLevel == 0)
     {
         status = THING_Msg_CheckMessage(work->field_20, 2, fadeio_msgs);
         if (status == 0)
@@ -57,8 +57,8 @@ void FadeIoAct_800C3E7C(FadeIoWork *work)
     }
 
     ot = DG_ChanlOTag(1);
-    addPrim(ot, &work->field_24_prims->tile[GV_Clock_800AB920]);
-    addPrim(ot, &work->field_24_prims->tpage[GV_Clock_800AB920]);
+    addPrim(ot, &work->field_24_prims->tile[GV_Clock]);
+    addPrim(ot, &work->field_24_prims->tpage[GV_Clock]);
 
     if (work->field_2c > work->field_28_where)
     {
@@ -71,7 +71,7 @@ void FadeIoAct_800C3E7C(FadeIoWork *work)
         shade = 255 - shade;
     }
 
-    if (GV_PauseLevel_800AB928 == 0)
+    if (GV_PauseLevel == 0)
     {
         if (!(GM_GameStatus & STATE_DEMO))
         {
@@ -79,14 +79,14 @@ void FadeIoAct_800C3E7C(FadeIoWork *work)
         }
         else
         {
-            work->field_38 += GV_PassageTime_800AB924;
+            work->field_38 += GV_PassageTime;
             work->field_2c += work->field_38 >> 1;
             work->field_38 &= 0x1;
         }
     }
 
     work->field_30 = shade;
-    setRGB0(&work->field_24_prims->tile[GV_Clock_800AB920], shade, shade, shade);
+    setRGB0(&work->field_24_prims->tile[GV_Clock], shade, shade, shade);
 
     if ((work->field_34_name & 0x1) && (work->field_2c >= work->field_28_where))
     {

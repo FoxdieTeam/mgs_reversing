@@ -20,7 +20,7 @@ typedef struct GasDamgeWork {
 
 int SECTION("overlay.bss") s02c_dword_800E3F40;
 
-extern short GM_O2_800ABA34;
+extern short GM_O2;
 
 void GasDamageAct_800E1348(GasDamgeWork *work)
 {
@@ -42,11 +42,11 @@ void GasDamageAct_800E1348(GasDamgeWork *work)
             divisor = 1;
         }
         temp_a0 = work->field_28 + work->field_2C / divisor;
-        GM_O2_800ABA34 -= temp_a0 >> 12;
+        GM_O2 -= temp_a0 >> 12;
         work->field_28 = temp_a0 & 0x0FFF;
-        if (GM_O2_800ABA34 < 0)
+        if (GM_O2 < 0)
         {
-            GM_O2_800ABA34 = 0;
+            GM_O2 = 0;
             temp_a0_2 = work->field_30 + work->field_34;
             GM_SnakeCurrentHealth -= temp_a0_2 >> 12;
             work->field_30 = temp_a0_2 & 0x0FFF;
@@ -65,10 +65,10 @@ void GasDamageAct_800E1348(GasDamgeWork *work)
 
         field_3C += field_40;
         work->field_3C = field_3C & 0xFFF;
-        GM_O2_800ABA34 += field_3C >> 0xC;
-        if (GM_O2_800ABA34 > 1024)
+        GM_O2 += field_3C >> 0xC;
+        if (GM_O2 > 1024)
         {
-            GM_O2_800ABA34 = 1024;
+            GM_O2 = 1024;
         }
     }
     s02c_dword_800E3F40 = 0;

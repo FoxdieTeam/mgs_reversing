@@ -95,7 +95,7 @@ PreMet1Unk premet1_800C3250[8] = {
 
 signed char premet1_800C3290[8] = {-1, 0, 1, 0, 0, 1, 0, -1};
 
-extern int    GV_Clock_800AB920;
+extern int    GV_Clock;
 extern GV_PAD GV_PadData_800B05C0[4];
 
 void PreMet1_800C4E40(PreMet1Work *work, int index)
@@ -173,7 +173,7 @@ void PreMet1_800C50D4(PreMet1Work *work, char *pOt)
     {
         if (work->field_464[j].field_1E4 == 1)
         {
-            sprt = &work->field_464[j].field_0[GV_Clock_800AB920];
+            sprt = &work->field_464[j].field_0[GV_Clock];
 
             setSprt(sprt);
 
@@ -204,7 +204,7 @@ void PreMet1_800C50D4(PreMet1Work *work, char *pOt)
     {
         if (work->field_464[j].field_1E4 == 1)
         {
-            sprt = &work->field_464[j].field_C8[GV_Clock_800AB920];
+            sprt = &work->field_464[j].field_C8[GV_Clock];
 
             setSprt(sprt);
 
@@ -235,8 +235,8 @@ void PreMet1_800C50D4(PreMet1Work *work, char *pOt)
     {
         if (work->field_464[j].field_1E4 == 1)
         {
-            sprt2 = work->field_464[j].field_28[GV_Clock_800AB920];
-            sprt = &work->field_464[j].field_0[GV_Clock_800AB920];
+            sprt2 = work->field_464[j].field_28[GV_Clock];
+            sprt = &work->field_464[j].field_0[GV_Clock];
 
             for (k = 0; k < 8; k += 2)
             {
@@ -266,8 +266,8 @@ void PreMet1_800C50D4(PreMet1Work *work, char *pOt)
     {
         if (work->field_464[j].field_1E4 == 1)
         {
-            sprt2 = work->field_464[j].field_F0[GV_Clock_800AB920];
-            sprt = &work->field_464[j].field_C8[GV_Clock_800AB920];
+            sprt2 = work->field_464[j].field_F0[GV_Clock];
+            sprt = &work->field_464[j].field_C8[GV_Clock];
 
             for (k = 0; k < 8; k += 2)
             {
@@ -369,7 +369,7 @@ void PreMet1ShadePacks_800C5A98(PreMet1Work *work)
     int       i;
 
     poly_src = work->field_68;
-    poly_dst = &work->field_20->packs[GV_Clock_800AB920]->poly_ft4;
+    poly_dst = &work->field_20->packs[GV_Clock]->poly_ft4;
 
     for (i = 0; i < 6; poly_dst++, poly_src++, i++)
     {
@@ -394,7 +394,7 @@ void PreMet1ShadePacks_800C5A98(PreMet1Work *work)
     }
 
     poly_src = work->field_158;
-    poly_dst = &work->field_24->packs[GV_Clock_800AB920]->poly_ft4;
+    poly_dst = &work->field_24->packs[GV_Clock]->poly_ft4;
 
     for (i = 0; i < 9; poly_dst++, poly_src++, i++)
     {
@@ -875,7 +875,7 @@ int PreMet1GetResources_800C68C4(PreMet1Work *work, int arg1, int *arg2, PreEntr
     POLY_FT4 *poly, *poly2;
     int       i, j, k;
 
-    GM_CurrentMap_800AB9B0 = arg1;
+    GM_CurrentMap = arg1;
     work->field_20 = DG_GetPrim(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 6, 0, NULL, NULL);
     work->field_24 = DG_GetPrim(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 9, 0, NULL, NULL);
 

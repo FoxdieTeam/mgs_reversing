@@ -5,8 +5,8 @@
 
 extern int      bakudan_count_8009F42C;
 extern int      counter_8009F448;
-extern HITTABLE c4_actors_800BDD78[C4_COUNT];
-extern HITTABLE stru_800BDE78[8];
+extern HITTABLE GM_C4Datas_800BDD78[C4_COUNT];
+extern HITTABLE GM_ClayDatas_800BDE78[8];
 
 int SECTION("overlay.bss") THING_msg_result[2];
 
@@ -219,7 +219,7 @@ void s16b_800C4874(int n_segs, HZD_SEG *segs, int n_flrs, HZD_FLR *flrs)
 
     if (bakudan_count_8009F42C != 0)
     {
-        for (i = C4_COUNT, tag = 0x80000000, iter = c4_actors_800BDD78; i > 0; i--, iter++)
+        for (i = C4_COUNT, tag = 0x80000000, iter = GM_C4Datas_800BDD78; i > 0; i--, iter++)
         {
             if (iter->actor)
             {
@@ -242,7 +242,7 @@ void s16b_800C4874(int n_segs, HZD_SEG *segs, int n_flrs, HZD_FLR *flrs)
 
     if (counter_8009F448 != 0)
     {
-        for (i = 8, iter = stru_800BDE78; i > 0; i--, iter++)
+        for (i = 8, iter = GM_ClayDatas_800BDE78; i > 0; i--, iter++)
         {
             if (iter->actor && s16b_800C4848(iter->data, n_flrs, flrs))
             {

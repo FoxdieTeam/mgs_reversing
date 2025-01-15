@@ -21,7 +21,7 @@ SVECTOR SECTION("overlay.bss") s12c_800DA418;
 int SECTION("overlay.bss") s12c_800DA420;
 int SECTION("overlay.bss") s12c_dword_800DA424;
 
-extern int GM_CurrentMap_800AB9B0;
+extern int GM_CurrentMap;
 
 #define EXEC_LEVEL 5
 
@@ -62,7 +62,7 @@ void WolfEye_800D355C(POLY_FT4 *packs, int n_packs, DG_TEX *tex)
 
 void WolfEyeAct_800D35EC(WolfEyeWork *work)
 {
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
 
     if (--work->timer < 0)
     {
@@ -106,7 +106,7 @@ int WolfEyeGetResources_800D3728(WolfEyeWork *work, MATRIX *root, int *visible)
     DG_PRIM *prim;
 
     work->root = root;
-    work->map = GM_CurrentMap_800AB9B0;
+    work->map = GM_CurrentMap;
 
     tex = DG_GetTexture(GV_StrCode("wolf_eye_r"));
 

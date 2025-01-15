@@ -14,10 +14,10 @@
 #include "SD/g_sound.h"
 
 extern GV_PAD  GV_PadData_800B05C0[4];
-extern int     GM_PlayerStatus_800ABA50;
+extern int     GM_PlayerStatus;
 
-extern HITTABLE c4_actors_800BDD78[C4_COUNT];
-extern int GM_CurrentMap_800AB9B0;
+extern HITTABLE GM_C4Datas_800BDD78[C4_COUNT];
+extern int GM_CurrentMap;
 
 extern int GM_PlayerMap_800ABA0C;
 
@@ -64,7 +64,7 @@ STATIC void BakudanAct(BakudanWork *work)
     control = &work->control;
     pad = &GV_PadData_800B05C0[0];
 
-    if (GM_PlayerStatus_800ABA50 & PLAYER_USING_CONTROLLER_PORT_2)
+    if (GM_PlayerStatus & PLAYER_USING_CONTROLLER_PORT_2)
     {
         pad = &GV_PadData_800B05C0[1];
     }
@@ -79,7 +79,7 @@ STATIC void BakudanAct(BakudanWork *work)
     {
         DG_RotatePos(&model_orientation_8009F438);
         // get the target where the C4 is placed
-        target = c4_actors_800BDD78[work->c4_index].data;
+        target = GM_C4Datas_800BDD78[work->c4_index].data;
         work->map_index = target->map;
 
         // if the target is not alive, destroy the actor
@@ -90,7 +90,7 @@ STATIC void BakudanAct(BakudanWork *work)
         }
     }
 
-    GM_CurrentMap_800AB9B0 = work->map_index;
+    GM_CurrentMap = work->map_index;
 
     GM_ActObject2((OBJECT *)&work->kmd);
     DG_GetLightMatrix(&control->mov, work->light_mtx);
@@ -108,9 +108,9 @@ STATIC void BakudanAct(BakudanWork *work)
     // the player is not holding an item that can't be used with the C4
     if (((work->active_pad->press & PAD_CIRCLE) &&
          (time_last_press_8009F430 != GV_Time) &&
-         (GM_CurrentMap_800AB9B0 & GM_PlayerMap_800ABA0C) &&
+         (GM_CurrentMap & GM_PlayerMap_800ABA0C) &&
          !(GM_GameStatus & STATE_PADRELEASE) &&
-         !(GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF) &&
+         !(GM_PlayerStatus & PLAYER_PAD_OFF) &&
          !(GM_ItemTypes[GM_CurrentItemId + 1] & 2)) ||
         dword_8009F434)
 #ifdef VR_EXE
@@ -161,18 +161,18 @@ STATIC void BakudanAct(BakudanWork *work)
 STATIC void BakudanDie(BakudanWork *work)
 {
     GM_FreeControl(&work->control);
-    GM_ClearBulName_8004FBE4(work->control.name);
+    GM_ClearBulName(work->control.name);
     GM_FreeObject((OBJECT *)&work->kmd);
 
     if (work->c4_index >= 0)
     {
-        c4_actors_800BDD78[work->c4_index].actor = NULL;
+        GM_C4Datas_800BDD78[work->c4_index].actor = NULL;
         bakudan_count_8009F42C--;
     }
 }
 
 /**
- * @brief Find the next free slot in the c4_actors_800BDD78 array.
+ * @brief Find the next free slot in the GM_C4Datas_800BDD78 array.
  *
  * @return int Index of the next free slot, or -1 if no free slot is available.
  */
@@ -181,7 +181,7 @@ STATIC int BakudanNextIndex( void )
     int i;
     for (i = 0; i < C4_COUNT; i++)
     {
-        if (!c4_actors_800BDD78[i].actor)
+        if (!GM_C4Datas_800BDD78[i].actor)
         {
             return i;
         }
@@ -209,7 +209,7 @@ STATIC int BakudanGetResources(BakudanWork *work, MATRIX *world, SVECTOR *pos, i
     int nextItem;
     HITTABLE *item;
 
-    work->map_index = GM_CurrentMap_800AB9B0 = GM_PlayerMap_800ABA0C;
+    work->map_index = GM_CurrentMap = GM_PlayerMap_800ABA0C;
 
     if (GM_InitControl(control, GM_Next_BulName_8004FBA0(), 0) < 0)
     {
@@ -249,7 +249,7 @@ STATIC int BakudanGetResources(BakudanWork *work, MATRIX *world, SVECTOR *pos, i
         return -1;
     }
 
-    item = &c4_actors_800BDD78[nextItem];
+    item = &GM_C4Datas_800BDD78[nextItem];
     item->actor = &work->actor;
     item->control = control;
     item->data = data;

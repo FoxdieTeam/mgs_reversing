@@ -13,7 +13,7 @@ typedef struct SecondWork
 } SecondWork;
 
 extern GV_PAD GV_PadData_800B05C0[4];
-extern int    GM_PlayerStatus_800ABA50;
+extern int    GM_PlayerStatus;
 
 void s07c_second_800C56A0(SecondWork *work)
 {
@@ -46,6 +46,6 @@ GV_ACT *s07c_second_800C5728(int name, int where, int argc, char **argv)
 
 int s07c_second_800C5790(void)
 {
-    GM_PlayerStatus_800ABA50 |= PLAYER_CAN_USE_CONTROLLER_PORT_2;
+    GM_PlayerStatus |= PLAYER_CAN_USE_CONTROLLER_PORT_2;
     return 1;
 }

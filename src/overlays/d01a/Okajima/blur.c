@@ -37,7 +37,7 @@ int    SECTION("overlay.bss") d01a_dword_800D1460;
 int    SECTION("overlay.bss") d01a_dword_800D1464;
 DR_STP SECTION("overlay.bss") d01a_dword_800D1468[2];
 
-extern int GV_Clock_800AB920;
+extern int GV_Clock;
 
 void d01a_blur_800CCB28(void)
 {
@@ -46,9 +46,9 @@ void d01a_blur_800CCB28(void)
     DR_STP       *stp;
     DR_STP       *stp2;
 
-    ot = (unsigned int *)DG_Chanl(0)->mOrderingTables[GV_Clock_800AB920];
+    ot = (unsigned int *)DG_Chanl(0)->mOrderingTables[GV_Clock];
 
-    tile = &d01a_dword_800D1428[GV_Clock_800AB920];
+    tile = &d01a_dword_800D1428[GV_Clock];
     SetTile(tile);
     setSemiTrans(tile, 1);
     setXY0(tile, -160, -112);
@@ -56,13 +56,13 @@ void d01a_blur_800CCB28(void)
     DG_SetBackGroundTile(tile);
     addPrim(&ot[0xFF], tile);
 
-    stp = &d01a_dword_800D1448[GV_Clock_800AB920];
+    stp = &d01a_dword_800D1448[GV_Clock];
     SetDrawStp(stp, 1);
     addPrim(&ot[0xFF], stp);
 
-    ot = (unsigned int *)DG_Chanl(1)->mOrderingTables[GV_Clock_800AB920];
+    ot = (unsigned int *)DG_Chanl(1)->mOrderingTables[GV_Clock];
 
-    stp2 = &d01a_dword_800D1468[GV_Clock_800AB920];
+    stp2 = &d01a_dword_800D1468[GV_Clock];
     SetDrawStp(stp2, 1);
     addPrim(ot, stp2);
 }
@@ -254,7 +254,7 @@ void BlurAct_800CD274(BlurWork *work)
     }
 
     ot = DG_ChanlOTag(1);
-    prim = work->f24[GV_Clock_800AB920].poly;
+    prim = work->f24[GV_Clock].poly;
 
     var_t0 = 1;
     var_t1 = 0;
@@ -277,7 +277,7 @@ void BlurAct_800CD274(BlurWork *work)
         break;
     }
 
-    d01a_blur_800CCCC8(prim, work, 0, GV_Clock_800AB920, var_t1, var_t0);
+    d01a_blur_800CCCC8(prim, work, 0, GV_Clock, var_t1, var_t0);
 
     for (i = 0; i < 4; i++)
     {

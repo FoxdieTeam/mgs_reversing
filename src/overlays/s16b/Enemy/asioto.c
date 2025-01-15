@@ -20,7 +20,7 @@ typedef struct _Work
 extern int      dword_800AB9D4;
 extern CONTROL *GM_PlayerControl_800AB9F4;
 extern SVECTOR  GM_PlayerPosition_800ABA10;
-extern int      GM_PlayerStatus_800ABA50;
+extern int      GM_PlayerStatus;
 
 #define EXEC_LEVEL 4
 
@@ -52,7 +52,7 @@ int asioto_800C392C(Work *work)
 
 int asioto_800C394C()
 {
-    return (GM_PlayerStatus_800ABA50 & (PLAYER_ON_WALL | PLAYER_GROUND | PLAYER_MOVING)) == PLAYER_MOVING;
+    return (GM_PlayerStatus & (PLAYER_ON_WALL | PLAYER_GROUND | PLAYER_MOVING)) == PLAYER_MOVING;
 }
 
 int asioto_800C396C(Work *work)
@@ -93,9 +93,9 @@ void AsiotoAct_800C39E8(Work *work)
 
     do
     {
-        if (GM_PlayerStatus_800ABA50 & PLAYER_INTRUDE)
+        if (GM_PlayerStatus & PLAYER_INTRUDE)
         {
-            if (GM_PlayerStatus_800ABA50 & PLAYER_MOVING)
+            if (GM_PlayerStatus & PLAYER_MOVING)
             {
                 index = asioto_800C39B8();
                 if (index < 0)

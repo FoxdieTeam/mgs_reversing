@@ -910,7 +910,7 @@ PANEL_TEXTURE *menu_weapon_get_weapon_rpk_info_8003DED8(int weaponIdx)
 extern unsigned short GM_ItemTypes[];
 extern unsigned short GM_WeaponTypes[];
 
-extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
+extern PlayerStatusFlag GM_PlayerStatus;
 extern int              dword_8009F46C;
 extern unsigned int     GM_DisableWeapon_800AB9E4;
 
@@ -920,11 +920,11 @@ int menu_weapon_isWeaponDisabled_8003DF30(int weaponId)
     {
         return 1;
     }
-    if ((GM_PlayerStatus_800ABA50 & PLAYER_ON_WALL) && weaponId == WEAPON_PSG1)
+    if ((GM_PlayerStatus & PLAYER_ON_WALL) && weaponId == WEAPON_PSG1)
     {
         return 1;
     }
-    if ((GM_PlayerStatus_800ABA50 & PLAYER_GROUND) && weaponId == WEAPON_STINGER)
+    if ((GM_PlayerStatus & PLAYER_GROUND) && weaponId == WEAPON_STINGER)
     {
         return 1;
     }
@@ -1274,7 +1274,7 @@ int menu_weapon_update_helper_8003E4B8(MenuWork *work)
     return 1;
 }
 
-extern int GV_PauseLevel_800AB928;
+extern int GV_PauseLevel;
 
 void menu_weapon_update_helper2_8003E674(MenuWork *work, unsigned int *pOt)
 {
@@ -1390,7 +1390,7 @@ void menu_weapon_update_helper2_8003E674(MenuWork *work, unsigned int *pOt)
         if (sub_8003D568() != 0)
         {
             work->field_2A_state = MENU_CLOSED;
-            GV_PauseLevel_800AB928 &= ~4;
+            GV_PauseLevel &= ~4;
             menu_weapon_update_helper2_helper2_8003E3B0(work);
         }
         else
@@ -1416,14 +1416,14 @@ void menu_weapon_update_8003E990(MenuWork *work, unsigned char *pOt)
             return;
         }
 
-        if (!(GM_PlayerStatus_800ABA50 & 0x20408000))
+        if (!(GM_PlayerStatus & 0x20408000))
         {
             if (menu_8003DA9C(&work->field_1F0_menu_weapon, pPad))
             {
                 if (menu_weapon_update_helper_8003E4B8(work))
                 {
                     work->field_2A_state = MENU_RIGHT_OPEN;
-                    GV_PauseLevel_800AB928 |= 4;
+                    GV_PauseLevel |= 4;
                     sub_8003D520();
                 }
             }

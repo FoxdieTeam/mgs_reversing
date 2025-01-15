@@ -21,7 +21,7 @@ typedef struct _DBloodsWork
 
 int d00a_dword_800E1650;
 
-extern int GM_CurrentMap_800AB9B0;
+extern int GM_CurrentMap;
 
 #define EXEC_LEVEL 7
 
@@ -43,7 +43,7 @@ void DBloodsAct_800D50B4(DBloodsWork *work)
     int     iVar2;
     int     iVar4;
 
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
 
     switch(work->f8C)
     {
@@ -407,7 +407,7 @@ int DBloods_800D5958(DBloodsWork *work, int arg1)
 
 int DBloodsGetResources_800D5B08(DBloodsWork *work, SVECTOR *arg1, int arg2, int arg3, int arg4)
 {
-    work->map = GM_CurrentMap_800AB9B0;
+    work->map = GM_CurrentMap;
 
     DBloods_800D591C(work, arg1, arg2, arg3, arg4);
 

@@ -7,8 +7,8 @@
 #include "libfs/libfs.h"
 #include "Game/game.h"
 
-extern int GM_LoadComplete_800ABA38;
-extern int GM_PadVibration2_800ABA54;
+extern int GM_LoadComplete;
+extern int GM_PadVibration2;
 
 typedef struct LoaderWork
 {
@@ -21,7 +21,7 @@ typedef struct LoaderWork
 
 #define EXEC_LEVEL 2
 
-STATIC void LoaderAct(LoaderWork *work)
+STATIC void loader_Act(LoaderWork *work)
 {
     work->time++;
 
@@ -30,7 +30,7 @@ STATIC void LoaderAct(LoaderWork *work)
         if (work->type == 3)
         {
             DG_OffsetDispEnv(work->time & 2);
-            GM_PadVibration2_800ABA54 = 100;
+            GM_PadVibration2 = 100;
         }
     }
 
@@ -47,11 +47,11 @@ STATIC void LoaderAct(LoaderWork *work)
     }
 }
 
-STATIC void LoaderDie(LoaderWork *work)
+STATIC void loader_Die(LoaderWork *work)
 {
     printf("LoadEnd\n");
     FS_LoadStageComplete(work->info);
-    GM_LoadComplete_800ABA38 = -1;
+    GM_LoadComplete = -1;
 }
 
 void *NewLoader(const char *dir)
@@ -67,6 +67,7 @@ void *NewLoader(const char *dir)
 #endif
 
     work = (LoaderWork *)GV_NewActor(EXEC_LEVEL, sizeof(LoaderWork));
+
     printf("LoadReq\n");
     work->info = FS_LoadStageRequest(dir);
 
@@ -75,11 +76,11 @@ void *NewLoader(const char *dir)
         printf("NOT FOUND STAGE %s\n", dir);
     }
 
-    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)LoaderAct,
-                     (GV_ACTFUNC)LoaderDie, "loader.c");
+    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)loader_Act,
+                     (GV_ACTFUNC)loader_Die, "loader.c");
 
     work->reading = TRUE;
     work->type = (GM_LoadRequest & 0x0f);
-    GM_LoadComplete_800ABA38 = 0;
+    GM_LoadComplete = 0;
     return (void *)work;
 }

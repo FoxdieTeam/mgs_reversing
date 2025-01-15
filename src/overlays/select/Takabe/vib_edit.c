@@ -42,8 +42,8 @@ typedef struct _VibEditWork
     VibPair        field_8B4_pairs[16];
 } VibEditWork;
 
-extern int    GM_PlayerStatus_800ABA50;
-extern int    GV_Clock_800AB920;
+extern int    GM_PlayerStatus;
+extern int    GV_Clock;
 extern GV_PAD GV_PadData_800B05C0[4];
 
 // VibEditGetResources is calling this with two missing parameters for some reason.
@@ -130,8 +130,8 @@ void select_800C36BC(VibEditWork *work)
     pairs = work->field_4C_pairs;
     x0 = 16;
 
-    tile = work->field_44_prims->tiles1[GV_Clock_800AB920];
-    mOt = DG_Chanl(1)->mOrderingTables[GV_Clock_800AB920];
+    tile = work->field_44_prims->tiles1[GV_Clock];
+    mOt = DG_Chanl(1)->mOrderingTables[GV_Clock];
 
     for (i = 0; i < 16; i++, pairs++, tile++)
     {
@@ -160,7 +160,7 @@ void select_800C36BC(VibEditWork *work)
     pairs = work->field_70_pairs;
     x0 = 16;
 
-    tile = work->field_44_prims->tiles2[GV_Clock_800AB920];
+    tile = work->field_44_prims->tiles2[GV_Clock];
 
     for (i = 0; i < 16; i++, pairs++, tile++)
     {
@@ -186,7 +186,7 @@ void select_800C36BC(VibEditWork *work)
         addPrim(mOt, tile);
     }
 
-    line = work->field_44_prims->lines[GV_Clock_800AB920];
+    line = work->field_44_prims->lines[GV_Clock];
     line[2].x0 = line[2].x1 = work->field_34 + 16;
 
     for (i = 0; i < 3; i++, line++)
@@ -709,7 +709,7 @@ void VibEditDie_800C467C(VibEditWork *work)
     PCclose(fd);
 
     GM_GameStatus &= ~(work->field_20_status & STATE_PAUSE_ONLY);
-    GM_PlayerStatus_800ABA50 &= ~PLAYER_PAD_OFF;
+    GM_PlayerStatus &= ~PLAYER_PAD_OFF;
 }
 
 int VibEditGetResources_800C4720(VibEditWork *work, int flags, int perms)
@@ -728,7 +728,7 @@ int VibEditGetResources_800C4720(VibEditWork *work, int flags, int perms)
     VibEdit_800C3D20(work, work->field_28);
 
     work->field_20_status = GM_GameStatus;
-    GM_PlayerStatus_800ABA50 |= PLAYER_PAD_OFF;
+    GM_PlayerStatus |= PLAYER_PAD_OFF;
 
     return 0;
 }

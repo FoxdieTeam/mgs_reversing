@@ -16,7 +16,7 @@ typedef struct EyeflashWork
 SVECTOR eyeflash_svec = {0, 80, 50, 0};
 const RECT eyeflash_rect = {175, 100, 350, 200};
 
-extern int GV_Clock_800AB920;
+extern int GV_Clock;
 
 void s00a_eyeflash_800D0984(POLY_FT4 *poly, DG_TEX *tex)
 {
@@ -61,7 +61,7 @@ void s00a_eyeflash_800D0A28(EyeflashWork *work)
     }
 
     tex = work->field_3C;
-    poly = &work->field_28->packs[GV_Clock_800AB920]->poly_ft4;
+    poly = &work->field_28->packs[GV_Clock]->poly_ft4;
 
     u0 = tex->off_x + (tex->w + 1) * field_38 / 3;
     u1 = tex->off_x + (tex->w + 1) * (field_38 + 1) / 3 - 1;

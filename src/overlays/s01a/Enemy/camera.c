@@ -95,7 +95,7 @@ extern int               COM_VibTime_800E0F68;
 
 extern int              GM_PlayerMap_800ABA0C;
 extern SVECTOR          GM_PlayerPosition_800ABA10;
-extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
+extern PlayerStatusFlag GM_PlayerStatus;
 extern CONTROL         *GM_WhereList_800B56D0[96];
 
 GV_ACT *NewSpark2_800CA714(MATRIX *world);
@@ -183,7 +183,7 @@ int s01a_camera_800D4E08(CameraWork *work)
     }
     if (TOPCOMMAND_800E0F20.mode != 1)
     {
-        if (GM_PlayerStatus_800ABA50 & PLAYER_CB_BOX)
+        if (GM_PlayerStatus & PLAYER_CB_BOX)
         {
             if (work->field_1DC == 0)
             {

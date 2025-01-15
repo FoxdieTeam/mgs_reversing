@@ -19,7 +19,7 @@ extern TARGET *target_800BDF00;
 
 extern BLAST_DATA       blast_data_8009F4B8[8];
 
-extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
+extern PlayerStatusFlag GM_PlayerStatus;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 
 /*---------------------------------------------------------------------------*/
@@ -339,11 +339,11 @@ STATIC void AMissileAct(AMissileWork *work)
     {
         ReadRotMatrix(&rotation);
 
-        if (GM_GameStatus & (STATE_PADRELEASE | STATE_PADDEMO | STATE_DEMO) || GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF)
+        if (GM_GameStatus & (STATE_PADRELEASE | STATE_PADDEMO | STATE_DEMO) || GM_PlayerStatus & PLAYER_PAD_OFF)
         {
             blast = &blast_data_8009F4B8[7];
 #ifdef VR_EXE
-            if ((GM_GameStatus & STATE_PADDEMO) && !(GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF) && !(GM_GameStatus & STATE_PADRELEASE))
+            if ((GM_GameStatus & STATE_PADDEMO) && !(GM_PlayerStatus & PLAYER_PAD_OFF) && !(GM_GameStatus & STATE_PADRELEASE))
             {
                 blast = &blast_data_8009F4B8[3];
             }

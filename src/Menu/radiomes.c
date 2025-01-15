@@ -117,7 +117,7 @@ void radio_sound_80047414(menu_chara_struct *unk, unsigned char *pScript)
     case 0x00:
         ptr = pScript;
         ptr++;
-        GM_SetSound(MakeVoxCode(ptr), 0);
+        GM_SetSound(MakeVoxCode(ptr), SD_ASYNC);
         break;
 
     case 0x01:

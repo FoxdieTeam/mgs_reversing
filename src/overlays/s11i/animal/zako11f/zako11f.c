@@ -512,7 +512,7 @@ void Zako11FGetResources_800C9070( Zako11FWork *work, int name, int where )
     work->act_status = 0 ;
     work->target_pos = work->nodes[ 0 ] ;
     work->target_addr = HZD_GetAddress( work->control.map->hzd, &( work->target_pos ), -1 ) ;
-    work->target_map  = GM_CurrentMap_800AB9B0;
+    work->target_map  = GM_CurrentMap;
     work->alert_level = 0;
     work->visible = 1;
     work->vision.angle = 0x200;
@@ -546,7 +546,7 @@ void Zako11FGetResources_800C9070( Zako11FWork *work, int name, int where )
 
     GM_ConfigControlRadarparam( &work->control , 0, 0x200, ZAKO11F_EYE_LENGTH_800C3694, 0 );
     work->start_pos = work->nodes[ 0 ] ;
-    work->start_map = GM_CurrentMap_800AB9B0;
+    work->start_map = GM_CurrentMap;
     addr = HZD_GetAddress( work->control.map->hzd, &( work->control.mov ), -1 );
 
     work->start_addr = addr;

@@ -32,11 +32,17 @@ CHARA MainCharacterEntries[] = {
     { 0, NULL }
 };
 
+const char *MGS_DiskName[] = {
+#ifdef INTEGRAL
 #ifdef VR_EXE
-const char *MGS_DiskName[] = {"SLPM_862.49", NULL};
+    "SLPM_862.49",      // 0: VR-DISC
 #else
-const char *MGS_DiskName[] = {"SLPM_862.47", "SLPM_862.48", NULL};
+    "SLPM_862.47",      // 0: DISC 1
+    "SLPM_862.48",      // 1: DISC 2
 #endif
+#endif
+    NULL                // end-of-list
+};
 const char *MGS_MemoryCardName = "BISLPM-86247";
 
 //static long GameStack_800ABBF0[512];

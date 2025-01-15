@@ -16,7 +16,7 @@ typedef struct _DemoasiWork
     int      f64;
 } DemoasiWork;
 
-extern int GM_CurrentMap_800AB9B0;
+extern int GM_CurrentMap;
 
 #define EXEC_LEVEL 4
 
@@ -122,7 +122,7 @@ int DemoasiGetResources_800C3F60(DemoasiWork *work, int which, int height, int a
     }
 
     work->f64 = 0;
-    work->map = GM_CurrentMap_800AB9B0;
+    work->map = GM_CurrentMap;
 
     work->world->t[1] = height;
 

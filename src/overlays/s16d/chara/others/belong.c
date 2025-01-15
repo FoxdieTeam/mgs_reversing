@@ -17,7 +17,7 @@ typedef struct BelongWork
     int            field_54;
 } BelongWork;
 
-extern int      DG_CurrentGroupID_800AB968;
+extern int      DG_CurrentGroupID;
 extern CONTROL *GM_WhereList_800B56D0[96];
 extern int      gControlCount_800AB9B4;
 
@@ -60,8 +60,8 @@ void s16d_belong_800C38D0(BelongWork *work)
     s16d_belong_800C37DC(work);
     if (work->field_54 != 1)
     {
-        GM_CurrentMap_800AB9B0 = work->field_20->map->index;
-        work->field_28.objs->group_id = group_id = DG_CurrentGroupID_800AB968;
+        GM_CurrentMap = work->field_20->map->index;
+        work->field_28.objs->group_id = group_id = DG_CurrentGroupID;
         if (work->field_24->objs->flag & DG_FLAG_INVISIBLE)
         {
             DG_InvisibleObjs(work->field_28.objs);

@@ -23,12 +23,12 @@ short SECTION("overlay.bss") * s12c_800DAA44;
 short SECTION("overlay.bss") * s12c_800DAA48;
 short SECTION("overlay.bss") * s12c_800DAA4C;
 
-extern int           GV_Clock_800AB920;
-extern int           GV_PauseLevel_800AB928;
-extern int           DG_CurrentGroupID_800AB968;
+extern int           GV_Clock;
+extern int           GV_PauseLevel;
+extern int           DG_CurrentGroupID;
 extern unsigned int *ptr_800B1400[256];
-extern short         DG_ClipMin_800AB96C[2];
-extern short         DG_ClipMax_800AB970[2];
+extern short         DG_ClipMin[2];
+extern short         DG_ClipMax[2];
 
 void s12c_800D497C(int arg0, int arg1)
 {
@@ -441,7 +441,7 @@ void FogSortChanl_800D4E98(DG_CHANL *chanl, int idx)
     s12c_800D4CF4(scratch->ot);
 
     mask = 0x1F;
-    if (GV_PauseLevel_800AB928 != 0)
+    if (GV_PauseLevel != 0)
     {
         mask = 0;
     }
@@ -451,7 +451,7 @@ void FogSortChanl_800D4E98(DG_CHANL *chanl, int idx)
     scratch->unk18 = (void *)0x1F800020;
     scratch->unk1C = s12c_800DAA44;
 
-    group_id = DG_CurrentGroupID_800AB968;
+    group_id = DG_CurrentGroupID;
 
     queue = (void **)&chanl->mQueue[chanl->mFreePrimCount];
     for (i = chanl->mTotalQueueSize - chanl->mFreePrimCount; i > 0; i--)
@@ -732,12 +732,12 @@ void FogBoundChanl_800D5500(DG_CHANL *chanl, int idx)
     DG_Clip(&chanl->field_5C_clip_rect, chanl->field_50_clip_distance);
 
     scrpad = (short *)SCRPAD_ADDR;
-    memcpy(scrpad + 0x90 / 2, DG_ClipMax_800AB970, 4);
-    memcpy(scrpad + 0x94 / 2, DG_ClipMin_800AB96C, 4);
+    memcpy(scrpad + 0x90 / 2, DG_ClipMax, 4);
+    memcpy(scrpad + 0x94 / 2, DG_ClipMin, 4);
 
     objs = chanl->mQueue;
     n_objs = chanl->mTotalObjectCount;
-    local_group_id = DG_CurrentGroupID_800AB968;
+    local_group_id = DG_CurrentGroupID;
 
     for (; n_objs > 0; --n_objs)
     {
@@ -1411,7 +1411,7 @@ void FogTransChanl_800D63B0(DG_CHANL *chanl, int idx)
             pMdl = pObj->model;
             pParent = &pObjs->objs[pMdl->parent];
 
-            ((POLY_GT4 **)pScratchpad)[0xfe] = pParent->packs[GV_Clock_800AB920];
+            ((POLY_GT4 **)pScratchpad)[0xfe] = pParent->packs[GV_Clock];
             ((SVECTOR **)pScratchpad)[0xff] = pMdl->vertices;
 
             gte_SetRotMatrix(&pObj->screen);

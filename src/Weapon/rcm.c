@@ -13,16 +13,16 @@
 #include "Bullet/rmissile.h"
 #include "SD/g_sound.h"
 
-extern int   GM_CurrentMap_800AB9B0;
+extern int   GM_CurrentMap;
 extern short GM_Magazine_800AB9EC;
 extern short GM_MagazineMax_800ABA2C;
 
 extern SVECTOR GM_PlayerPosition_800ABA10;
 
-extern int DG_CurrentGroupID_800AB968;
+extern int DG_CurrentGroupID;
 
-extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
-extern int              GV_Clock_800AB920;
+extern PlayerStatusFlag GM_PlayerStatus;
+extern int              GV_Clock;
 
 /*---------------------------------------------------------------------------*/
 // RC-Missile (Nikita)
@@ -108,7 +108,7 @@ STATIC void RcmUpdateLight(RcmWork *work, int flags)
     {
         lightval = 0;
     }
-    prim = work->prim->packs[GV_Clock_800AB920];
+    prim = work->prim->packs[GV_Clock];
     prim->line_g2.r0 = lightval;
     prim->line_g2.g0 = lightval;
     prim->line_g2.b0 = lightval;
@@ -130,12 +130,12 @@ STATIC void RcmAct(RcmWork *work)
 
     mapBit = work->control->map->index;
 
-    DG_GroupObjs(work->object.objs, DG_CurrentGroupID_800AB968);
-    DG_GroupPrim(work->prim, DG_CurrentGroupID_800AB968);
+    DG_GroupObjs(work->object.objs, DG_CurrentGroupID);
+    DG_GroupPrim(work->prim, DG_CurrentGroupID);
 
-    GM_CurrentMap_800AB9B0 = mapBit;
+    GM_CurrentMap = mapBit;
 
-    if ((work->parent->objs->flag & DG_FLAG_INVISIBLE) || (GM_PlayerStatus_800ABA50 & PLAYER_CB_BOX))
+    if ((work->parent->objs->flag & DG_FLAG_INVISIBLE) || (GM_PlayerStatus & PLAYER_CB_BOX))
     {
         DG_InvisibleObjs( work->object.objs );
         DG_InvisiblePrim( work->prim );

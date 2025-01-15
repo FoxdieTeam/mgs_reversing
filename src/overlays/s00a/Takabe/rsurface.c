@@ -29,7 +29,7 @@ typedef struct RSurfaceWork
     short        field_86;
 } RSurfaceWork;
 
-extern int      GM_CurrentMap_800AB9B0;
+extern int      GM_CurrentMap;
 extern CONTROL *GM_WhereList_800B56D0[96];
 extern int      gControlCount_800AB9B4;
 
@@ -43,7 +43,7 @@ void RippleSurfaceAct_800D7FC4(RSurfaceWork *work)
     RSurfaceElem *elem;
     SVECTOR      *field_4;
 
-    GM_CurrentMap_800AB9B0 = work->field_20;
+    GM_CurrentMap = work->field_20;
 
     s00a_rsurface_800D82E0(work);
 
@@ -85,7 +85,7 @@ void RippleSurfaceDie_800D8140(RSurfaceWork *work)
 
 int RippleSurfaceGetResources_800D8148(RSurfaceWork *work, int name, int where)
 {
-    GM_CurrentMap_800AB9B0 = where;
+    GM_CurrentMap = where;
     if (GCL_GetOption('p'))
     {
         GCL_StrToSV(GCL_GetParamResult(), &work->field_68);

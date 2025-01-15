@@ -9,14 +9,14 @@
 #include "mts/mts_pad.h"
 
 extern GV_HEAP MemorySystems_800AD2F0[ GV_MEMORY_MAX ];
-extern int     GV_Clock_800AB920;
+extern int     GV_Clock;
 extern DG_TEX  TexSets_800B1F50[512];
-extern short          N_ChanlPerfMax_800AB980;
+extern short          N_ChanlPerfMax;
 extern unsigned short word_800AB982;
 extern GV_PAD GV_PadData_800B05C0[4];
 extern unsigned short gOldRootCnt_800B1DC8[32];
-extern int GM_PlayerStatus_800ABA50;
-extern int GV_PauseLevel_800AB928;
+extern int GM_PlayerStatus;
+extern int GV_PauseLevel;
 
 unsigned char SECTION(".sbss") menu_current_debug_screen_800ABB20;
 unsigned char SECTION(".sbss") dword_800ABB21;
@@ -153,7 +153,7 @@ STATIC int menu_draw_pow_debug(MenuWork *work, unsigned int *pOt)
     left = 0;
     bottom = 136;
 
-    for (idx = N_ChanlPerfMax_800AB980 - 1; idx > 0; idx--)
+    for (idx = N_ChanlPerfMax - 1; idx > 0; idx--)
     {
         right = (*pCount++ - first_count) & 0xFFFF;
 
@@ -183,14 +183,14 @@ STATIC int menu_draw_pow_debug(MenuWork *work, unsigned int *pOt)
 
     if (GV_PadData_800B05C0[1].press & PAD_L1)
     {
-        dword_800AB668 = (dword_800AB668 + 1) % N_ChanlPerfMax_800AB980;
+        dword_800AB668 = (dword_800AB668 + 1) % N_ChanlPerfMax;
         dword_800AB664 = 0;
         word_800AB660 = 0;
     }
 
     if (dword_800AB668 == 0)
     {
-        delta = gOldRootCnt_800B1DC8[N_ChanlPerfMax_800AB980 - 1] - gOldRootCnt_800B1DC8[1];
+        delta = gOldRootCnt_800B1DC8[N_ChanlPerfMax - 1] - gOldRootCnt_800B1DC8[1];
     }
     else
     {
@@ -207,7 +207,7 @@ STATIC int menu_draw_pow_debug(MenuWork *work, unsigned int *pOt)
     }
 
     menu_number_draw(work, pOt, 300, 168, word_800AB662, 1);
-    dword_800AB670 += (unsigned short)(gOldRootCnt_800B1DC8[N_ChanlPerfMax_800AB980 - 1] - first_count);
+    dword_800AB670 += (unsigned short)(gOldRootCnt_800B1DC8[N_ChanlPerfMax - 1] - first_count);
 
     if (++word_800AB66C >= 128)
     {
@@ -218,7 +218,7 @@ STATIC int menu_draw_pow_debug(MenuWork *work, unsigned int *pOt)
 
     menu_number_draw(work, pOt, 240, 168, word_800AB66E, 1);
     menu_number_draw(work, pOt, 300, 144,
-                     (unsigned short)(gOldRootCnt_800B1DC8[N_ChanlPerfMax_800AB980 - 1] - first_count), 1);
+                     (unsigned short)(gOldRootCnt_800B1DC8[N_ChanlPerfMax - 1] - first_count), 1);
 
     right = (unsigned short)(word_800AB982 - first_count);
     if (right > 511)
@@ -299,7 +299,7 @@ STATIC int menu_draw_ply_debug(MenuWork *work, unsigned int *pOt)
     y_0_1 = 0xa8;
     y_2_3 = 0xa8;
 
-    chnlOt = DG_Chanl(0)->mOrderingTables[1 - GV_Clock_800AB920];
+    chnlOt = DG_Chanl(0)->mOrderingTables[1 - GV_Clock];
     numOTEntries = DG_Chanl(0)->word_6BC374_8 - 4;
 
     NEW_PRIM(lineF2, work);
@@ -621,12 +621,12 @@ void menu_viewer_act(MenuWork *work, unsigned int *pOt)
         menu_draw_pow_debug(work, pOt);
         return;
     }
-    if (!(GM_PlayerStatus_800ABA50 & PLAYER_PREVENT_WEAPON_ITEM_SWITCH) && GV_PauseLevel_800AB928 != 0 &&
+    if (!(GM_PlayerStatus & PLAYER_PREVENT_WEAPON_ITEM_SWITCH) && GV_PauseLevel != 0 &&
         (GV_PadData_800B05C0[0].press & PAD_L1))
     {
         if (menu_current_debug_screen_800ABB20 == 5)
         {
-            GV_PauseLevel_800AB928 &= ~4;
+            GV_PauseLevel &= ~4;
         }
         menu_current_debug_screen_800ABB20++;
         if (menu_current_debug_screen_800ABB20 == 6)
@@ -635,7 +635,7 @@ void menu_viewer_act(MenuWork *work, unsigned int *pOt)
         }
         if (menu_current_debug_screen_800ABB20 == 5)
         {
-            GV_PauseLevel_800AB928 |= 4;
+            GV_PauseLevel |= 4;
         }
     }
     else if (menu_current_debug_screen_800ABB20 != 0)

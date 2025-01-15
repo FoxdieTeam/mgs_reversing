@@ -17,7 +17,7 @@ typedef struct _SepiaWork
     SepiaPrims *prims;
 } SepiaWork;
 
-extern int    GV_Clock_800AB920;
+extern int    GV_Clock;
 extern u_long DG_PaletteBuffer_800B3818[256];
 
 RECT rect_800C3258 = {768, 226, 256, 2};
@@ -89,8 +89,8 @@ void SepiaAct_800C4DC4(SepiaWork *work)
     char *ot;
 
     ot = DG_ChanlOTag(0);
-    addPrim(ot, &work->prims->tile[GV_Clock_800AB920]);
-    addPrim(ot, &work->prims->tpage[GV_Clock_800AB920]);
+    addPrim(ot, &work->prims->tile[GV_Clock]);
+    addPrim(ot, &work->prims->tpage[GV_Clock]);
 }
 
 void SepiaDie_800C4E70(SepiaWork *work)

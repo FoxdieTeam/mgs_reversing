@@ -3,19 +3,18 @@
 #include "libgcl/libgcl.h"
 #include "SD/g_sound.h"
 
-int     SECTION(".sbss") dword_800ABA70;
-int     SECTION(".sbss") dword_800ABA74;
-int     SECTION(".sbss") dword_800ABA78[2];
-short   SECTION(".sbss") GM_RadarMode_800ABA80;
-short   SECTION(".sbss") word_800ABA82;
+STATIC int     SECTION(".sbss") dword_800ABA70;
+STATIC int     SECTION(".sbss") dword_800ABA74;
+STATIC int     SECTION(".sbss") dword_800ABA78[2];
+STATIC short   SECTION(".sbss") GM_RadarMode_800ABA80;
+STATIC short   SECTION(".sbss") word_800ABA82;
 
 char byte_8009D698[] = {0, 0, 1, 2};
 char GM_NoiseSound_800B76E0[4][3];
 
 extern int   GM_GameOverVox;
-extern int   dword_800ABA58;
-extern int   GM_AlertMode_800ABA00;
-extern int   GM_AlertLevel_800ABA18;
+extern int   GM_AlertMode;
+extern int   GM_AlertLevel;
 
 typedef enum // GM_RadarMode_800ABA80
 {
@@ -25,7 +24,7 @@ typedef enum // GM_RadarMode_800ABA80
     RADAR_ALERT = 3
 } RadarMode;
 
-typedef enum // GM_AlertMode_800ABA00
+typedef enum // GM_AlertMode
 {
     ALERT_DISABLED = 0,
     ALERT_ENABLED = 1,
@@ -37,11 +36,11 @@ void sub_8002E508(int a1)
 {
     if (a1 == 0)
     {
-        GM_SetSound(0x01ffffff, 0);
+        GM_SetSound(0x01ffffff, SD_ASYNC);
     }
     else
     {
-        GM_SetSound(a1 | 0x01000000, 0);
+        GM_SetSound(a1 | 0x01000000, SD_ASYNC);
     }
 }
 
@@ -82,7 +81,7 @@ void GM_SoundStart(void)
 {
     if (dword_800ABA70 == 0)
     {
-        sub_8002E508(dword_800ABA78[GM_AlertMode_800ABA00 != 0]);
+        sub_8002E508(dword_800ABA78[GM_AlertMode != 0]);
     }
 }
 
@@ -105,7 +104,7 @@ void GM_Command_sound_impl(void)
     if (GCL_GetOption('c'))
     {
         sdCode = GCL_GetNextParamValue();
-        GM_SetSound(sdCode | 0x01ffff00, 0);
+        GM_SetSound(sdCode | 0x01ffff00, SD_ASYNC);
         if (sdCode == 0x01ffff01 || sdCode + 0xfe0000fd < 3)
         {
             dword_800ABA70 &= ~2;
@@ -122,7 +121,7 @@ void GM_Command_sound_impl(void)
         {
             dword_800ABA70 |= 1;
         }
-        GM_SetSound(xCode, 0);
+        GM_SetSound(xCode, SD_ASYNC);
     }
     if (GCL_GetOption('e'))
     {
@@ -190,39 +189,39 @@ void GM_AlertAct( void )
 
     if ( GM_RadarMode_800ABA80 >= 0 )
     {
-        if ( GM_RadarMode_800ABA80 != GM_AlertMode_800ABA00 )
+        if ( GM_RadarMode_800ABA80 != GM_AlertMode )
         {
             if ( dword_800ABA70 == 0 )
             {
                 switch ( GM_RadarMode_800ABA80 )
                 {
                 case RADAR_ALERT:
-                    if ( GM_AlertMode_800ABA00 == ALERT_DISABLED )
+                    if ( GM_AlertMode == ALERT_DISABLED )
                     {
                         GM_SeSet2( 0, 0x3F, SE_ALERT_SIREN );
-                        GM_SetSound( 0x01ffff0b, 0 );
+                        GM_SetSound( 0x01ffff0b, SD_ASYNC );
                         sub_8002E508( dword_800ABA78[1] );
                     }
-                    else if ( GM_AlertMode_800ABA00 == ALERT_EVASION )
+                    else if ( GM_AlertMode == ALERT_EVASION )
                     {
-                        GM_SetSound( 0x01ffff03, 0 );
+                        GM_SetSound( 0x01ffff03, SD_ASYNC );
                     }
                     break;
                 case RADAR_EVASION:
-                    GM_SetSound( 0x01ffff10, 0 );
+                    GM_SetSound( 0x01ffff10, SD_ASYNC );
                     break;
                 case RADAR_ENABLED:
                     sub_8002E508( dword_800ABA78[0] );
                     break;
                 }
             }
-            GM_AlertMode_800ABA00 = GM_RadarMode_800ABA80;
+            GM_AlertMode = GM_RadarMode_800ABA80;
         }
     }
-    if ( ( GM_AlertMode_800ABA00 == ALERT_EVASION ) && ( dword_800ABA70 == 0 ) &&
-         ( GM_AlertLevel_800ABA18 == 0x3C ) )
+    if ( ( GM_AlertMode == ALERT_EVASION ) && ( dword_800ABA70 == 0 ) &&
+         ( GM_AlertLevel == 0x3C ) )
     {
-        GM_SetSound( 0x01ffff08, 0 );
+        GM_SetSound( 0x01ffff08, SD_ASYNC );
     }
     GM_RadarMode_800ABA80 = -1;
 }

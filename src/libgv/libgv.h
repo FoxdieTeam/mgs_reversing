@@ -68,19 +68,13 @@ typedef struct GV_ACT
     int             field_1C;
 } GV_ACT;
 
-struct ActorList    // private to libgv/actor.c
+typedef struct      // private to libgv/actor.c
 {
     GV_ACT first;
     GV_ACT last;
     short  pause;
     short  kill;
-};
-
-struct PauseKill    // private to libgv/actor.c
-{
-    short pause;
-    short kill;
-};
+} ActorList;
 
 enum {
     GV_ACTOR_DAEMON,    // 0
@@ -222,10 +216,9 @@ void  GV_DelayedFree(void *);
 void *GV_GetMaxFreeMemory(int which);
 void *GV_SplitMemory(int which, void *addr, int size);
 
-void  GV_ResidentHeapReset(void);
-void  GV_SaveResidentTop(void);
-
+/* resident.c */
 void  GV_InitResidentMemory(void);
+void  GV_SaveResidentTop(void);
 void *GV_AllocResidentMemory(long size);
 
 /*------ Message Handling ---------------------------------------------------*/
@@ -275,17 +268,17 @@ enum
 
 typedef struct
 {
-    unsigned short status;
-    unsigned short press;
-    unsigned short release;
-    unsigned short quick;
-    short          dir;
+    u_short         status;
+    u_short         press;
+    u_short         release;
+    u_short         quick;
+    short           dir;
 
-    short         analog;
-    unsigned char right_dx;
-    unsigned char right_dy;
-    unsigned char left_dx;
-    unsigned char left_dy;
+    short           analog;
+    unsigned char   right_dx;
+    unsigned char   right_dy;
+    unsigned char   left_dx;
+    unsigned char   left_dy;
 } GV_PAD;
 
 enum

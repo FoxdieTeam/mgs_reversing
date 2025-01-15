@@ -43,7 +43,7 @@ STATIC void BlastAct(BlastWork *work)
 {
     int time;
 
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
 
     time = ++work->time;
 
@@ -135,7 +135,7 @@ STATIC void blast_8006DDEC(BLAST_DATA *blast_data, BlastWork *work, int side)
 STATIC int BlastGetResources(BLAST_DATA *blast_data, BlastWork *work, MATRIX *world, int side)
 {
     work->time = 0;
-    work->map = GM_CurrentMap_800AB9B0;
+    work->map = GM_CurrentMap;
     work->pos.vx = world->t[0];
     work->pos.vy = world->t[1];
     work->pos.vz = world->t[2];
@@ -152,7 +152,7 @@ GV_ACT *NewBlast(MATRIX *world, BLAST_DATA *blast_data)
     {
         GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BlastAct,
                          (GV_ACTFUNC)BlastDie, "blast.c");
-        GM_ClaymoreMap_800AB9DC = GM_CurrentMap_800AB9B0;
+        GM_ClaymoreMap_800AB9DC = GM_CurrentMap;
 
         if (BlastGetResources(blast_data, work, world, 1) < 0)
         {
@@ -176,7 +176,7 @@ GV_ACT *NewBlast2(MATRIX *world, BLAST_DATA *blast_data, int doSound, int side)
     {
         GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BlastAct,
                          (GV_ACTFUNC)BlastDie, "blast.c");
-        GM_ClaymoreMap_800AB9DC = GM_CurrentMap_800AB9B0;
+        GM_ClaymoreMap_800AB9DC = GM_CurrentMap;
         if (BlastGetResources(blast_data, work, world, side) < 0)
         {
             GV_DestroyActor(&work->actor);

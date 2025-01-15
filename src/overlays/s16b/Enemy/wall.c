@@ -19,7 +19,7 @@ typedef struct _Work
     short   f156;
 } Work;
 
-extern int GM_CurrentMap_800AB9B0;
+extern int GM_CurrentMap;
 
 #define EXEC_LEVEL 5
 
@@ -163,7 +163,7 @@ int WallGetResources_800C34F0(work, pos, dir, def_model, map)
         break;
     }
 
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
     object = &work->object;
 
     if (work->f154 == 0)

@@ -13,13 +13,13 @@
 extern MenuWork      gMenuWork_800BD360;
 extern unsigned char gPrimBackingBuffers_800B9360[2][8192];
 
-extern int GV_Clock_800AB920;
+extern int GV_Clock;
 extern int MENU_PrimUse;
-extern int GV_PauseLevel_800AB928;
-extern int GM_LoadComplete_800ABA38;
+extern int GV_PauseLevel;
+extern int GM_LoadComplete;
 
-extern GV_PAD *GM_CurrentPadData_800AB91C;
-GV_PAD        *GM_CurrentPadData_800AB91C;
+extern GV_PAD *GM_CurrentPadData;
+GV_PAD        *GM_CurrentPadData;
 
 void menu_texture_init_8003CC94(MenuWork *work);
 void menu_radar_init_8003B474(MenuWork *work);
@@ -68,9 +68,9 @@ void menuman_act_800386A4(MenuWork *work)
   int            i;
 
   pOtStart = (&gMenuPrimBuffer_8009E2D0)->mPrimBuf.mOt;
-  work->field_24_pInput = &GM_CurrentPadData_800AB91C[2];
+  work->field_24_pInput = &GM_CurrentPadData[2];
   menu_jimaku_act(work, (unsigned int *)pOtStart);
-  if ( ( !(GV_PauseLevel_800AB928 & 2) && (GM_LoadComplete_800ABA38 > 0) ) &&
+  if ( ( !(GV_PauseLevel & 2) && (GM_LoadComplete > 0) ) &&
        ( !GM_LoadRequest ) )
   {
     idx_as_flag = 1;
@@ -88,7 +88,7 @@ void menuman_act_800386A4(MenuWork *work)
     }
   }
 
-  addPrim(pOtStart, &work->field_4C_drawEnv[GV_Clock_800AB920]);
+  addPrim(pOtStart, &work->field_4C_drawEnv[GV_Clock]);
 }
 
 void menuman_kill_800387E8(MenuWork *work)
@@ -194,9 +194,9 @@ void MENU_ResetSystem(void)
     }
 
     MENU_PrimUse =
-        gMenuPrimBuffer_8009E2D0.mPrimBuf.mFreeLocation - gMenuPrimBuffer_8009E2D0.mPrimPtrs[1 - GV_Clock_800AB920];
+        gMenuPrimBuffer_8009E2D0.mPrimBuf.mFreeLocation - gMenuPrimBuffer_8009E2D0.mPrimPtrs[1 - GV_Clock];
 
-    gMenuPrimBuffer_8009E2D0.mPrimBuf.mFreeLocation = gMenuPrimBuffer_8009E2D0.mPrimPtrs[GV_Clock_800AB920];
+    gMenuPrimBuffer_8009E2D0.mPrimBuf.mFreeLocation = gMenuPrimBuffer_8009E2D0.mPrimPtrs[GV_Clock];
     gMenuPrimBuffer_8009E2D0.mPrimBuf.mOtEnd = gMenuPrimBuffer_8009E2D0.mPrimBuf.mFreeLocation + 0x2000;
     gMenuPrimBuffer_8009E2D0.mPrimBuf.mOt = DG_ChanlOTag(1);
     menu_Text_Init_80038B98();

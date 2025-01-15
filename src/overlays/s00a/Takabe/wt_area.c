@@ -27,7 +27,7 @@ extern void    NewSplash2_800DB4E0( int angy, SVECTOR *pos, int noripple );
 extern void   *NewRipple_800D7F30( MATRIX *, int );
 extern GV_ACT *NewWaterView_800DBE04(int name, int where, SVECTOR *arg2, CVECTOR *color);
 
-extern unsigned int     GM_PlayerStatus_800ABA50;
+extern unsigned int     GM_PlayerStatus;
 extern CONTROL         *GM_PlayerControl_800AB9F4;
 extern OBJECT          *GM_PlayerBody_800ABA20;
 extern CONTROL         *tenage_ctrls_800BDD30[16];
@@ -125,7 +125,7 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
                 GM_SeSet( &snake_pos, 0xB1 );
             }
             work->snake_catch = 1;
-            GM_PlayerStatus_800ABA50 |= PLAYER_UNDERWATER;
+            GM_PlayerStatus |= PLAYER_UNDERWATER;
         }
 
     }
@@ -142,19 +142,19 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
                 GM_SetNoise(0x64, 2, &snake_pos );
             }
             work->snake_catch = 0;
-            GM_PlayerStatus_800ABA50 &= ~( PLAYER_UNDERWATER );
+            GM_PlayerStatus &= ~( PLAYER_UNDERWATER );
         }
 
     }
     snake_pos = GM_PlayerControl_800AB9F4->mov ;
 
-    if ( GM_PlayerStatus_800ABA50 & 2 )
+    if ( GM_PlayerStatus & 2 )
     {
         snake_pos = gUnkCameraStruct_800B77B8.eye;
     }
     else
     {
-        if ( GM_PlayerStatus_800ABA50 & 0x40 )
+        if ( GM_PlayerStatus & 0x40 )
         {
             snake_pos.vy += 0x140;
         }
@@ -199,7 +199,7 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
             GM_SeSet2( 0, 0x3F, 0xB2 );
             ExecProc_800DA644( work->proc_id, 0xF6D8 );
             work->field_4C = 1;
-            if ( !(GM_PlayerStatus_800ABA50 & 2) )
+            if ( !(GM_PlayerStatus & 2) )
             {
                 DG_FrameRate = 3;
             }
@@ -209,7 +209,7 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
     {
         if ( !flag )
         {
-            GM_SetSound( 0xff0000fe, 0 );
+            GM_SetSound( 0xff0000fe, SD_ASYNC );
             ExecProc_800DA644( work->proc_id, 0xBED3 );
             work->field_4C = 0;
             DG_FrameRate = 2;

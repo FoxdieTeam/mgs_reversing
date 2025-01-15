@@ -17,7 +17,7 @@ typedef struct _LifeUpWork
     int    time;
 } LifeUpWork;
 
-extern int GV_PassageTime_800AB924;
+extern int GV_PassageTime;
 
 #define EXEC_LEVEL 2
 
@@ -52,7 +52,7 @@ void LifeUpAct_800DF1A8(LifeUpWork *work)
         GM_SnakeMaxHealth = GM_SnakeCurrentHealth;
     }
 
-    work->time += GV_PassageTime_800AB924;
+    work->time += GV_PassageTime;
     if (work->time >= 12)
     {
         work->time -= 12;

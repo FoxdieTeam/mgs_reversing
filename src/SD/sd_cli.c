@@ -160,7 +160,7 @@ int SePlay(int sound_code)
         {
             se_tmp.pri = se_exp_table_800C0520[sound_code - 128].pri;
             se_tmp.kind = se_exp_table_800C0520[sound_code - 128].kind;
-            se_tmp.addr = se_exp_table_800C0520[sound_code - 128].addr[idx] + se_header_800BF284;
+            se_tmp.addr = (unsigned int)se_exp_table_800C0520[sound_code - 128].addr[idx] + se_header_800BF284;
         }
         priority = 256;
         j = 0;

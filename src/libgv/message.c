@@ -4,11 +4,11 @@
 extern MESSAGE_LIST message_list_800B0320[2];
 
 /*** $gp ***/
-int SECTION(".sbss") which_buffer_800AB948; /* static */
-int SECTION(".sbss") dword_800AB94C; /* static */
+STATIC int SECTION(".sbss") which_buffer;
+STATIC int SECTION(".sbss") dword_800AB94C;
 
 /*** sbss ***/
-extern int GV_PauseLevel_800AB928;
+extern int GV_PauseLevel;
 
 STATIC void GV_ReserveMessage(GV_MSG *ptr, int msg_count)
 {
@@ -26,15 +26,15 @@ void GV_InitMessageSystem(void)
 {
     message_list_800B0320[0].num = 0;
     message_list_800B0320[1].num = 0;
-    which_buffer_800AB948 = 0;
+    which_buffer = 0;
 }
 
 void GV_ClearMessageSystem(void)
 {
     MESSAGE_LIST *list;
-    which_buffer_800AB948 = 1 - which_buffer_800AB948;
+    which_buffer = 1 - which_buffer;
 
-    list = &message_list_800B0320[1 - which_buffer_800AB948];
+    list = &message_list_800B0320[1 - which_buffer];
     list->num = 0;
 }
 
@@ -44,7 +44,7 @@ int GV_SendMessage(GV_MSG *send)
     MESSAGE_LIST *list;
     GV_MSG       *msg;
 
-    list = &message_list_800B0320[1 - which_buffer_800AB948];
+    list = &message_list_800B0320[1 - which_buffer];
 
     n_msg = list->num;
     if (n_msg > 15)
@@ -78,12 +78,12 @@ int GV_ReceiveMessage(int address, GV_MSG **msg_ptr)
     GV_MSG       *msg;
     int           num;
 
-    if (GV_PauseLevel_800AB928)
+    if (GV_PauseLevel)
     {
         return 0;
     }
 
-    list = &message_list_800B0320[which_buffer_800AB948];
+    list = &message_list_800B0320[which_buffer];
     num = list->num;
     if (!num)
     {

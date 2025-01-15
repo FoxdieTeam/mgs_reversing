@@ -37,7 +37,7 @@ extern UnkCameraStruct gUnkCameraStruct_800B77B8;
 extern CONTROL        *GM_PlayerControl_800AB9F4;
 extern GV_PAD          GV_PadData_800B05C0[4];
 extern int             dword_8009F470;
-extern unsigned short  GV_DemoPadStatus_800AB958;
+extern unsigned short  GV_DemoPadStatus;
 extern DG_CHANL        DG_Chanls_800B1800[3];
 
 void FindTrap_callback1_800D7908();
@@ -47,7 +47,7 @@ void s12c_findtrap_800D72E8(FindTrapWork *work)
 {
     int field_22;
 
-    GM_CurrentMap_800AB9B0 = work->field_20;
+    GM_CurrentMap = work->field_20;
     switch (THING_Msg_CheckMessage(work->field_24, 4, findtrap_msgs_800C350C))
     {
     case 0:
@@ -102,7 +102,7 @@ void s12c_findtrap_800D72E8(FindTrapWork *work)
                 {
                     work->field_3C |= 2;
                     GM_GameStatus |= STATE_PADDEMO;
-                    GV_DemoPadStatus_800AB958 = GV_PadData_800B05C0->status & PAD_TRIANGLE;
+                    GV_DemoPadStatus = GV_PadData_800B05C0->status & PAD_TRIANGLE;
                     s12c_dword_800DAA90 = GM_Camera_800B77E8.flags & 0x200;
                     s12c_dword_800DAA94 = GM_Camera_800B77E8.callbacks[0];
                     GM_SetCameraCallbackFunc_8002FD84(0, FindTrap_callback2_800D7870);
@@ -145,7 +145,7 @@ void FindTrapDie_800D7734(FindTrapWork *work)
 int FindTrapGetResources_800D7768(FindTrapWork *work, int name, int where)
 {
     work->field_24 = name;
-    GM_CurrentMap_800AB9B0 = where;
+    GM_CurrentMap = where;
     work->field_20 = where;
     THING_Gcl_GetSVector('p', &work->field_28);
     work->field_38 = THING_Gcl_GetInt('e');

@@ -10,7 +10,7 @@
 #include "Anime/animeconv/anime.h"
 #include "spark.h"
 
-extern int GM_CurrentMap_800AB9B0;
+extern int GM_CurrentMap;
 
 /*---------------------------------------------------------------------------*/
 
@@ -544,7 +544,7 @@ STATIC int bullet_GetResources(BulletWork *work, MATRIX* pMtx, int arg2, int noi
     int test;
 
     work->field_164 = 0;
-    work->field_20 = GM_CurrentMap_800AB9B0;
+    work->field_20 = GM_CurrentMap;
     work->field_24 = *pMtx;
 
     DG_SetPos(pMtx);

@@ -46,8 +46,8 @@ typedef struct _WaterViewWork
     int             n_prims;
 } WaterViewWork;
 
-extern int GV_Clock_800AB920;
-extern int GV_PauseLevel_800AB928;
+extern int GV_Clock;
+extern int GV_PauseLevel;
 extern DG_CHANL DG_Chanls_800B1800[3];
 
 int  WaterViewCreatePrims_800DBEB8(WaterViewWork *work);
@@ -162,14 +162,14 @@ void WaterViewAct_800DB9E8(WaterViewWork *work)
     {
         WaterViewDraw_800DC128(work);
 
-        tile = &work->prims->tile2[GV_Clock_800AB920];
+        tile = &work->prims->tile2[GV_Clock];
         addPrim(&ot[0xFF], tile);
 
-        priority = &work->prims->priority[GV_Clock_800AB920];
+        priority = &work->prims->priority[GV_Clock];
         SetPriority(priority, 0, 1);
         addPrim(&ot[0xFF], priority);
 
-        if (GV_PauseLevel_800AB928 == 0)
+        if (GV_PauseLevel == 0)
         {
             work->n_prims++;
         }
@@ -350,8 +350,8 @@ void WaterViewDraw_800DC128(WaterViewWork *work)
 
     ot = DG_ChanlOTag(0);
 
-    addPrim(ot, &work->prims->tile[GV_Clock_800AB920 * 2 + 0]);
-    addPrim(ot, &work->prims->tile[GV_Clock_800AB920 * 2 + 1]);
+    addPrim(ot, &work->prims->tile[GV_Clock * 2 + 0]);
+    addPrim(ot, &work->prims->tile[GV_Clock * 2 + 1]);
 
     scratch1 = (short *)0x1F800200;
     scratch2 = (short *)0x1F800400;
@@ -389,7 +389,7 @@ void WaterViewDraw_800DC128(WaterViewWork *work)
     scratch5 = scratch2 - 512;
     count1 = scratch3 - scratch5;
 
-    sprt = work->prims->sprt2[GV_Clock_800AB920];
+    sprt = work->prims->sprt2[GV_Clock];
 
     for (i = count2; i > 0; i--)
     {
@@ -440,10 +440,10 @@ void WaterViewDraw_800DC128(WaterViewWork *work)
         sprt++;
     }
 
-    addPrim(ot, &work->prims->tpage[GV_Clock_800AB920 + 2]);
+    addPrim(ot, &work->prims->tpage[GV_Clock + 2]);
 
     scratch1 = scratch3 + 256;
-    sprt = work->prims->sprt[GV_Clock_800AB920];
+    sprt = work->prims->sprt[GV_Clock];
 
     for (i = count2; i > 0; i--)
     {
@@ -495,7 +495,7 @@ void WaterViewDraw_800DC128(WaterViewWork *work)
         sprt++;
     }
 
-    addPrim(ot, &work->prims->tpage[GV_Clock_800AB920]);
+    addPrim(ot, &work->prims->tpage[GV_Clock]);
 
     if (nprims > 16)
     {

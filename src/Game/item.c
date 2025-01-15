@@ -17,9 +17,9 @@
 #include "Game/linkvarbuf.h"
 #include "SD/g_sound.h"
 
-extern int            GM_CurrentMap_800AB9B0;
-extern int            GV_Clock_800AB920;
-extern int            GM_PlayerStatus_800ABA50;
+extern int            GM_CurrentMap;
+extern int            GV_Clock;
+extern int            GM_PlayerStatus;
 extern CONTROL       *GM_PlayerControl_800AB9F4;
 extern unsigned short GM_ItemTypes[];
 extern int            GM_PlayerMap_800ABA0C;
@@ -308,7 +308,7 @@ STATIC void item_Act(ItemWork *work)
     int newx, newy;
 
 
-    GM_CurrentMap_800AB9B0 = work->field_108_where;
+    GM_CurrentMap = work->field_108_where;
 
     if (work->field_11C_full_str)
     {
@@ -433,7 +433,7 @@ STATIC void item_Act(ItemWork *work)
     }
     else
     {
-        GM_CurrentMap_800AB9B0 = pCtrl->map->index;
+        GM_CurrentMap = pCtrl->map->index;
 
         if (work->field_11C_full_str)
         {
@@ -445,7 +445,7 @@ STATIC void item_Act(ItemWork *work)
                 vx = 80;
             }
 
-            if (GV_Clock_800AB920 & 1)
+            if (GV_Clock & 1)
             {
                 vx = -vx;
             }
@@ -521,7 +521,7 @@ STATIC void item_Act(ItemWork *work)
         return;
     }
 
-    if (!(GM_PlayerStatus_800ABA50 & (PLAYER_INTRUDE | PLAYER_FIRST_PERSON)) || (GM_GameStatus & (STATE_PADRELEASE | STATE_DEMO)))
+    if (!(GM_PlayerStatus & (PLAYER_INTRUDE | PLAYER_FIRST_PERSON)) || (GM_GameStatus & (STATE_PADRELEASE | STATE_DEMO)))
     {
         work->field_110_counter = 0;
         return;
@@ -559,7 +559,7 @@ STATIC void item_Act(ItemWork *work)
     }
 
     pOt = DG_ChanlOTag(1);
-    pLine = &work->field_124_lineF4_array[GV_Clock_800AB920];
+    pLine = &work->field_124_lineF4_array[GV_Clock];
 
     if (!item_act_helper_80033704(&position.vx, &pCtrl->mov))
     {
@@ -711,7 +711,7 @@ STATIC int item_GetResources(ItemWork *work, int name, int where)
     SVECTOR *pVec4;
 
     pControl = &work->control;
-    GM_CurrentMap_800AB9B0 = where;
+    GM_CurrentMap = where;
     work->field_108_where = where;
 
     if (GM_InitControl(pControl, name, where) < 0)
@@ -980,14 +980,14 @@ GV_ACT *item_init_80034758(SVECTOR *pPos, SVECTOR *a2, Item_Info *pItemInfo)
                          (GV_ACTFUNC)&item_Die,
                          "item.c");
 
-        if (item_init_helper_800345C0(work, pPos, a2, pItemInfo, GM_CurrentMap_800AB9B0) < 0)
+        if (item_init_helper_800345C0(work, pPos, a2, pItemInfo, GM_CurrentMap) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
         }
 
         work->field_10E = pItemInfo->field_A;
-        map = GM_CurrentMap_800AB9B0;
+        map = GM_CurrentMap;
         work->field_108_where = map;
 
         work->field_112_state = 1;

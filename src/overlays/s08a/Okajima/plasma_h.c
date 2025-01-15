@@ -21,7 +21,7 @@ typedef struct _PlasmaHWork
     int      time;
 } PlasmaHWork;
 
-extern int     GM_CurrentMap_800AB9B0;
+extern int     GM_CurrentMap;
 
 #define EXEC_LEVEL 4
 
@@ -237,7 +237,7 @@ void PlasmaAct_800D16D0(PlasmaHWork *work)
     int      len;
     SVECTOR *iter;
 
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
 
     if (work->count > work->time)
     {
@@ -351,7 +351,7 @@ int s08a_plasma_h_800D19F0(PlasmaHWork *work)
 
 int PlasmaHGetResources_800D1ABC(PlasmaHWork *work, SVECTOR *pos1, SVECTOR *pos2, int time)
 {
-    work->map = GM_CurrentMap_800AB9B0;
+    work->map = GM_CurrentMap;
     work->time = time;
 
     if (s08a_plasma_h_800D19F0(work) < 0)

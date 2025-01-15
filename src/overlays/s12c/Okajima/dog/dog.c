@@ -462,10 +462,10 @@ const char s12c_aShadow_800DA104[] = "shadow";
 const char s12c_aDoglow_800DA10C[] = "dog_low";
 
 extern GV_PAD           GV_PadData_800B05C0[4];
-extern int              GM_PadVibration2_800ABA54;
-extern int              GM_PadVibration_800ABA3C;
+extern int              GM_PadVibration2;
+extern int              GM_PadVibration;
 extern SVECTOR          GM_PlayerPosition_800ABA10;
-extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
+extern PlayerStatusFlag GM_PlayerStatus;
 extern OBJECT          *GM_PlayerBody_800ABA20;
 
 void *AN_Unknown_800CA1EC(MATRIX *mat, int mark);
@@ -547,8 +547,8 @@ void Dog_800CA058(DogWork *work)
 {
     if (work->field_1774 > 0)
     {
-        GM_PadVibration_800ABA3C = 1;
-        GM_PadVibration2_800ABA54 = 0xFF;
+        GM_PadVibration = 1;
+        GM_PadVibration2 = 0xFF;
         work->field_1774--;
     }
     else
@@ -618,7 +618,7 @@ void Dog_800CAB68(DogWork *work, int index, int hp)
 {
     TARGET *target;
 
-    if (GM_PlayerStatus_800ABA50 & (PLAYER_UNK80 | PLAYER_UNK100 | PLAYER_INVULNERABLE))
+    if (GM_PlayerStatus & (PLAYER_UNK80 | PLAYER_UNK100 | PLAYER_INVULNERABLE))
     {
         return;
     }

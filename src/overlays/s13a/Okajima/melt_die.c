@@ -18,7 +18,7 @@ typedef struct MeltDieWork
 
 #define EXEC_LEVEL 5
 
-extern int GM_CurrentMap_800AB9B0;
+extern int GM_CurrentMap;
 
 void AN_Unknown_800DC94C(SVECTOR *pos);
 
@@ -26,7 +26,7 @@ void MeltDieAct_800E0DC8(MeltDieWork *work)
 {
     SVECTOR svec;
 
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
 
     if (--work->counter > 0)
     {
@@ -56,7 +56,7 @@ void MeltDieAct_800E0DC8(MeltDieWork *work)
 
 int MeltDieGetResources_800E0EE8(MeltDieWork *work, SVECTOR *arg1, int arg2)
 {
-    work->map = GM_CurrentMap_800AB9B0;
+    work->map = GM_CurrentMap;
 
     work->svec = *arg1;
 

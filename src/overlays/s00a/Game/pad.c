@@ -4,7 +4,7 @@
 #include "libgcl/libgcl.h"
 #include "strcode.h"
 
-extern unsigned short GV_DemoPadStatus_800AB958;
+extern unsigned short GV_DemoPadStatus;
 
 #define EXEC_LEVEL 5
 
@@ -54,12 +54,12 @@ void PadAct_800C370C( PadWork* work )
 
     --work->unk2;
     GM_GameStatus |= STATE_PADDEMO;
-    GV_DemoPadStatus_800AB958 = work->status;
+    GV_DemoPadStatus = work->status;
 }
 
 void PadDie_800C37A4( PadWork* work )
 {
-    GV_DemoPadStatus_800AB958 = 0 ;
+    GV_DemoPadStatus = 0 ;
     GM_GameStatus &= ~STATE_PADDEMO;
 
     if ( work->unk4 > 0 )

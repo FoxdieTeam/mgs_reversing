@@ -22,8 +22,8 @@ typedef struct _SubRoomWork
     GV_ACT  *txtscn;
 } SubRoomWork;
 
-extern int     GV_Clock_800AB920;
-extern int     GM_CurrentMap_800AB9B0;
+extern int     GV_Clock;
+extern int     GM_CurrentMap;
 
 GV_ACT *NewOpTxtScn_800CD29C(void);
 
@@ -90,7 +90,7 @@ void SubRoom_800C73E4(SubRoomWork *work)
     last = 0;
     mod = work->f5D8 % 16;
 
-    poly = &work->prim2->packs[GV_Clock_800AB920]->poly_ft4;
+    poly = &work->prim2->packs[GV_Clock]->poly_ft4;
 
     for (i = 0; i < 2; i++)
     {
@@ -182,7 +182,7 @@ void SubRoom_800C7678(SubRoomWork *work)
     POLY_FT4 *poly;
     int       i;
 
-    poly = &work->prim4->packs[GV_Clock_800AB920]->poly_ft4;
+    poly = &work->prim4->packs[GV_Clock]->poly_ft4;
 
     for (i = 0; i < 2; i++)
     {
@@ -198,7 +198,7 @@ void SubRoom_800C7678(SubRoomWork *work)
 
 void SubRoomAct_800C7750(SubRoomWork *work)
 {
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
 
     SubRoom_800C73E4(work);
     SubRoom_800C751C(work);
@@ -357,7 +357,7 @@ int SubRoomGetResources_800C7B94(SubRoomWork *work)
     int      off1, off2;
 
     work->f5D8 = 0;
-    work->map = GM_CurrentMap_800AB9B0;
+    work->map = GM_CurrentMap;
 
     prim = DG_GetPrim(DG_PRIM_POLY_FT4, 2, 0, (SVECTOR *)work->verts1, NULL);
     work->prim1 = prim;

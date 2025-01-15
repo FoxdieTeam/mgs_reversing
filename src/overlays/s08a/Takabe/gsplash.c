@@ -19,7 +19,7 @@ typedef struct _GsplashWork
 
 #define EXEC_LEVEL 5
 
-extern int GM_CurrentMap_800AB9B0;
+extern int GM_CurrentMap;
 
 void s08a_gsplash_800D3840(SVECTOR *arg0, SVECTOR *verts, GsplashWork *work, int n_prims)
 {
@@ -184,7 +184,7 @@ void GsplashAct_800D3E14(GsplashWork *work)
     short    shade;
     DG_PRIM *prim;
 
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
 
     time = --work->fAB4;
     if (time <= 0)
@@ -227,7 +227,7 @@ int GsplashGetResources_800D3F14(GsplashWork *work, MATRIX *pos)
     DG_PRIM *prim;
     DG_TEX  *tex;
 
-    work->map = GM_CurrentMap_800AB9B0;
+    work->map = GM_CurrentMap;
 
     s08a_gsplash_800D3840(work->f28, work->verts, work, work->n_prims);
 

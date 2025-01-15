@@ -27,8 +27,8 @@ typedef struct _LiftWork
 
 extern int      bakudan_count_8009F42C;
 extern int      counter_8009F448;
-extern HITTABLE c4_actors_800BDD78[C4_COUNT];
-extern HITTABLE stru_800BDE78[8];
+extern HITTABLE GM_C4Datas_800BDD78[C4_COUNT];
+extern HITTABLE GM_ClayDatas_800BDE78[8];
 
 #define TAG(ptr, tag) ((void *)((unsigned int)ptr | tag))
 
@@ -186,7 +186,7 @@ void LiftAct_800DDBFC(LiftWork *work)
         i = C4_COUNT;
         floor = &work->floor;
         tag = 0x80000000;
-        iter = c4_actors_800BDD78;
+        iter = GM_C4Datas_800BDD78;
         for (; i > 0; iter++, i--)
         {
             if (iter->actor && floor == TAG(iter->data, tag))
@@ -201,7 +201,7 @@ void LiftAct_800DDBFC(LiftWork *work)
         i = 8;
         floor = &work->floor;
         tag2 = 0x80000000;
-        iter = stru_800BDE78;
+        iter = GM_ClayDatas_800BDE78;
         for (; i > 0; iter++, i--)
         {
             if (iter->actor && floor == TAG(iter->data, tag2))

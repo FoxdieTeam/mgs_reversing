@@ -19,7 +19,7 @@ menu_chara_struct *SECTION(".sbss") dword_800ABB38; // force gp
 int SECTION(".sbss") dword_800ABB3C;
 
 
-extern int GV_Clock_800AB920;
+extern int GV_Clock;
 extern menu_0x14 stru_800BDA48[ 2 ];
 
 void sub_80048124()
@@ -218,7 +218,7 @@ void menu_radio_draw_face_helper3_800487DC(menu_chara_struct *pStru, int idx)
     // It looks like this is a trick to quickly get
     // a pseudorandom noise. But, maybe this match is not correct
     // and 0x80010000 should not be hardcoded.
-    LoadImage(&rect, (u_long *)(0x80010000 + (rand() % 32) * 0x2000 + GV_Clock_800AB920 * 0x1000));
+    LoadImage(&rect, (u_long *)(0x80010000 + (rand() % 32) * 0x2000 + GV_Clock * 0x1000));
 }
 
 void menu_radio_draw_face_helper4_80048868(MenuPrim *prim, menu_chara_struct_sub *a2, int idx)
@@ -328,7 +328,7 @@ void menu_radio_draw_face_helper5_8004896C( MenuPrim *pPrim, menu_chara_struct_s
         _NEW_PRIM( pLine, pPrim );
 
         setXY2(pLine, x, dword_800AB6E0 + y, x + w, dword_800AB6E0 + y);
-        LSTORE( ( GV_Clock_800AB920 != 0 ) ? 0x80808 : 0x202020, &pLine->r0 );
+        LSTORE( ( GV_Clock != 0 ) ? 0x80808 : 0x202020, &pLine->r0 );
 
         setLineF2( pLine );
         setSemiTrans( pLine, 1 );

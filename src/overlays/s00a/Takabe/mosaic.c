@@ -33,7 +33,7 @@ typedef struct MosaicWork
 
 unsigned short mosaic_mes_list[] = {HASH_ON2, HASH_OFF2};
 
-extern int GV_PauseLevel_800AB928;
+extern int GV_PauseLevel;
 
 // This actor is probably the naked Johnny censorship (missing in Integral),
 // so a lot of functions here are just stubbed-out and the actor
@@ -52,7 +52,7 @@ void MosaicAct_800DC938(MosaicWork *work)
     char unused[16];
     int  found;
 
-    if (!GV_PauseLevel_800AB928)
+    if (!GV_PauseLevel)
     {
         found = THING_Msg_CheckMessage(work->field_20, 2, mosaic_mes_list);
         switch (found)
