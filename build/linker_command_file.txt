@@ -17,6 +17,7 @@
     include "{{OBJ_DIR}}\libgv\cache.obj"        ;cache.c
     include "{{OBJ_DIR}}\libgv\debug.obj"        ;debug.c
     include "{{OBJ_DIR}}\libgv\memory.obj"       ;memory.c
+    include "{{OBJ_DIR}}\libgv\resident.obj"     ;resident.c
     include "{{OBJ_DIR}}\libgv\message.obj"      ;message.c
     include "{{OBJ_DIR}}\libgv\pad.obj"          ;pad.c
     include "{{OBJ_DIR}}\libgv\strcode.obj"      ;strcode.c
