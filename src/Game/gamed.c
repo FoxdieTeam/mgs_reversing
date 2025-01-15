@@ -80,6 +80,7 @@ int          SECTION(".sbss") GM_DisableItem_800ABA28;
 short        SECTION(".sbss") GM_MagazineMax_800ABA2C;
 int          SECTION(".sbss") GM_NoiseLength;
 short        SECTION(".sbss") GM_O2;
+short        SECTION(".sbss") GM_PDA_ClearRank;
 int          SECTION(".sbss") GM_LoadComplete;
 int          SECTION(".sbss") GM_PadVibration;
 int          SECTION(".sbss") GM_PlayerAction;
