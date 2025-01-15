@@ -815,79 +815,71 @@ void s12c_dog_800CB42C(DogWork *work, int index1, int arg2, int arg3, int index2
 }
 
 int s12c_dog_800CB54C(DogWork* work, int index)
-{
-    int px;
-    int pz;
-    int diff;
-    
-    CONTROL *control;
+{    
+    CONTROL    *control;
     RADAR_CONE *radar_cone;
     
     if (!(work->field_1604))
-    {
-        px = GM_PlayerPosition_800ABA10.vx;
-        
-        if (px > -3500)
+    {        
+        if (GM_PlayerPosition_800ABA10.vx > -3500)
         {
-            if(px < 7000)
-            {
-                pz = GM_PlayerPosition_800ABA10.vz;
-                
-                if (pz > 2000)
+            if(GM_PlayerPosition_800ABA10.vx < 7000)
+            {                
+                if (GM_PlayerPosition_800ABA10.vz > 2000)
                 {
-                    if(pz >= 7500)
+                    if(GM_PlayerPosition_800ABA10.vz < 7500)
                     {
-                        goto block_6;
+                        return 0;
                     }
-                return 0;
-
                 }
             }
         }
     }
 
-block_6:
     control = &work->field_28[index];
     radar_cone = &control->radar_cone;
 
-    if (control->map->index == GM_PlayerMap_800ABA0C)
+    if (control->map->index != GM_PlayerMap_800ABA0C)
     {
-        if (!(GM_PlayerStatus_800ABA50 & 2)) // PLAYER_INTRUDE ?
+        return 0;
+    }
+
+    if (GM_PlayerStatus_800ABA50 & PLAYER_INTRUDE)
+    {
+        return 0;
+    }
+
+    if (index != 2)
+    {
+        if (work->field_151C[index] > 1000)
         {
-            if (index != 2)
+            goto block1;
+        }
+    }
+    else
+    {
+        if (work->field_151C[2] > 1500)
+        {
+block1:
+            if (work->field_151C[index] > radar_cone->len)
             {
-                if (work->field_151C[index] > 1000)
-                {
-                    goto block_12;
-                }
-                goto block_15;
+                return 0;
             }
 
-            if (work->field_151C[2] > 1500)
+            if (GV_DiffDirAbs(radar_cone->dir, work->field_152E[index].vx) > radar_cone->ang)
             {
-block_12:
-                if (work->field_151C[index] > radar_cone->len)
-                {
-                    return 0;
-                }
-
-                diff = GV_DiffDirAbs(radar_cone->dir, work->field_152E[index].vx);
-                if (radar_cone->ang < diff)
-                {
-                    return 0;
-                }
-            }
-
-block_15:
-            if (HZD_80028454(control->map->hzd, &GM_PlayerPosition_800ABA10, &control->mov, 0xF, 2) == 0)
-            {
-                work->field_15FC = 0x300;
-
-                return 1;
+                return 0;
             }
         }
     }
-    return 0;
+
+    if (HZD_80028454(control->map->hzd, &GM_PlayerPosition_800ABA10, &control->mov, 0xF, 2))
+    {
+        return 0;
+    }
+
+    work->field_15FC = 0x300;
+    return 1;
 }
 
 void Dog_800CB6DC(DogWork *work, int arg1, int arg2)
