@@ -180,7 +180,7 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
         }
         if (timer == 16)
         {
-            if (work->object.action_flag != 1)
+            if (work->object.action != 1)
             {
                 GM_ConfigObjectAction(&work->object, 1, 0, 4);
             }
@@ -253,7 +253,7 @@ void NinjaAct_800CC68C(NinjaWork *work)
     GM_ActObject(object);
     DG_GetLightMatrix(&control->mov, work->light);
 
-    work->control.height = work->object.field_18;
+    work->control.height = work->object.height;
 
     timer = work->timer;
     work->timer++;

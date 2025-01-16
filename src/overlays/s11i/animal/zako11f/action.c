@@ -1672,7 +1672,7 @@ void s11i_asiato_800CC39C(Zako11FWork *work)
 
     work->field_C38  = 0;
 
-    control->height = (work->body.field_18 * work->scale) / 4096;
+    control->height = (work->body.height * work->scale) / 4096;
     control->hzd_height = control->levels[0] + 750;
 
     time_prev = work->time;

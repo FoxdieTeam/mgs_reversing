@@ -1352,7 +1352,7 @@ void s00a_command_800C82B0( WatcherWork *work )
     work->act_status = 0;
     work->field_C30  = 0;
 
-    ctrl->height = work->body.field_18;
+    ctrl->height = work->body.height;
     ctrl->hzd_height = ctrl->levels[0] + 750;
 
     unk = &work->unknown;
