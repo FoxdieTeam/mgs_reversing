@@ -28,7 +28,7 @@ char *SECTION(".sbss") dword_800ABBB4;
 extern HZD_FLR           *flr_800ABBB8[2];
 HZD_FLR *SECTION(".sbss") flr_800ABBB8[2];
 
-#define GetAction( work ) (work->field_9C_obj.action_flag)
+#define GetAction( work ) (work->field_9C_obj.action)
 
 void sna_start_anim_8004E1F4(SnaInitWork *work, void *pFn)
 {
@@ -57,7 +57,7 @@ void SetAction_8004E22C(SnaInitWork *work, int action_flag, int interp)
 
 void sna_8004E260(SnaInitWork *work, int a2, int interp, int a4)
 {
-    if (work->field_9C_obj.field_10 != a2)
+    if (work->field_9C_obj.action2 != a2)
     {
         GM_ConfigObjectOverride(&work->field_9C_obj, a2, 0, interp, a4);
     }

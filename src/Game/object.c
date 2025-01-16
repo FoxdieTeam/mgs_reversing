@@ -199,25 +199,28 @@ void GM_ConfigObjectSlide(OBJECT *obj)
 }
 
 // configures the attributes of an objects motion control struct
-void GM_ConfigObjectAction(OBJECT *obj, int action_flag, int motion, int interp)
+void GM_ConfigObjectAction(OBJECT *obj, int action, int frame, int interp)
 {
     if (obj->m_ctrl)
     {
-        sub_8003501C(obj->m_ctrl, action_flag, motion);
-        obj->action_flag = action_flag;
+        sub_8003501C(obj->m_ctrl, action, frame);
+        obj->action = action;
         obj->is_end = 0;
         obj->m_ctrl->interp = interp;
     }
 }
 
 //
-void GM_ConfigObjectOverride(OBJECT *obj, int a1, int motion, int interp, int a4)
+void GM_ConfigObjectOverride(OBJECT *obj, int action, int frame, int interp, u_long mask)
 {
-    if (a4)
+    if (mask != 0)
     {
         if (!obj->m_ctrl)
+        {
             return;
-        sub_800350D4(obj->m_ctrl, a1, motion);
+        }
+
+        sub_800350D4(obj->m_ctrl, action, frame);
     }
     else
     {
@@ -228,17 +231,17 @@ void GM_ConfigObjectOverride(OBJECT *obj, int a1, int motion, int interp, int a4
         }
     }
 
-    obj->field_10 = a1;
+    obj->action2 = action;
     obj->time2 = 0;
     obj->m_ctrl->interp = interp;
-    obj->m_ctrl->info1.field_8 = a4;
-    obj->m_ctrl->info2.field_8 = ~a4;
+    obj->m_ctrl->info1.mask = mask;
+    obj->m_ctrl->info2.mask = ~mask;
 }
 
 // calls configObjectAction with given values
-int GM_ConfigObjectMotion(OBJECT *obj, int action_flag, int motion)
+int GM_ConfigObjectMotion(OBJECT *obj, int action, int interp)
 {
-    GM_ConfigObjectAction(obj, obj->action_flag, 0, motion);
+    GM_ConfigObjectAction(obj, obj->action, 0, interp);
     return 0;
 }
 

@@ -1457,7 +1457,7 @@ void s07c_meryl72_unk1_800CABA0( Meryl72Work *work )
         action( work, time_prev );
     }
 
-    ctrl->height = body->field_18 ;
+    ctrl->height = body->height ;
 
     if ( !unk->field_1C )
     {

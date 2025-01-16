@@ -204,7 +204,7 @@ int s03b_revolver_800C7384(RevolverWork *work, int index)
     s03b_boxall_800C93AC(work->field_8D0[entry]);
     work->field_93C = work->field_8D0[entry];
 
-    if (work->field_9C.action_flag != 0)
+    if (work->field_9C.action != 0)
     {
         GM_ConfigObjectAction(&work->field_9C, 0, 0, 4);
     }
@@ -980,7 +980,7 @@ void Revolver_800C8488(RevolverWork *work, int mode)
         work->control.turn = work->field_9AC;
 
         field_9B4 = work->field_9B4;
-        if (work->field_9C.action_flag != field_9B4)
+        if (work->field_9C.action != field_9B4)
         {
             GM_ConfigObjectAction(&work->field_9C, work->field_9B4, 0, 4);
         }
@@ -1038,7 +1038,7 @@ void s03b_revolver_800C8600(RevolverWork *work)
 
 int Revolver_800C8710(RevolverWork *work, int arg1)
 {
-    if (arg1 == 0 && work->field_9C.action_flag != 12)
+    if (arg1 == 0 && work->field_9C.action != 12)
     {
         GM_ConfigObjectAction(&work->field_9C, 12, 0, 4);
     }
@@ -1046,7 +1046,7 @@ int Revolver_800C8710(RevolverWork *work, int arg1)
     {
         work->control.turn.vy += 2048;
         work->control.rot.vy = work->control.turn.vy;
-        if (work->field_9C.action_flag != 0)
+        if (work->field_9C.action != 0)
         {
             GM_ConfigObjectAction(&work->field_9C, 0, 0, 0);
         }
@@ -1061,7 +1061,7 @@ int Revolver_800C8794(RevolverWork *work, int arg1)
     if (arg1 == 0)
     {
         work->control.turn.vy = 0;
-        if (work->field_9C.action_flag != 8)
+        if (work->field_9C.action != 8)
         {
             GM_ConfigObjectAction(&work->field_9C, 8, 0, 4);
         }
@@ -1075,7 +1075,7 @@ int Revolver_800C8794(RevolverWork *work, int arg1)
 
     if (work->field_9C.is_end)
     {
-        if (work->field_9C.action_flag != 0)
+        if (work->field_9C.action != 0)
         {
             GM_ConfigObjectAction(&work->field_9C, 0, 0, 4);
         }
@@ -1090,7 +1090,7 @@ int Revolver_800C884C(RevolverWork *work, int arg1)
     if (arg1 == 0)
     {
         work->control.turn.vy = 0;
-        if (work->field_9C.action_flag != 9)
+        if (work->field_9C.action != 9)
         {
             GM_ConfigObjectAction(&work->field_9C, 9, 0, 4);
         }
@@ -1104,7 +1104,7 @@ int Revolver_800C884C(RevolverWork *work, int arg1)
 
     if (work->field_9C.is_end)
     {
-        if (work->field_9C.action_flag != 0)
+        if (work->field_9C.action != 0)
         {
             GM_ConfigObjectAction(&work->field_9C, 0, 0, 4);
         }
@@ -1119,7 +1119,7 @@ int Revolver_800C8910(RevolverWork *work, int arg1)
     if (arg1 == 0)
     {
         work->control.turn.vy = 0;
-        if (work->field_9C.action_flag != 10)
+        if (work->field_9C.action != 10)
         {
             GM_ConfigObjectAction(&work->field_9C, 10, 0, 4);
         }
@@ -1133,7 +1133,7 @@ int Revolver_800C8910(RevolverWork *work, int arg1)
 
     if (work->field_9C.is_end)
     {
-        if (work->field_9C.action_flag != 0)
+        if (work->field_9C.action != 0)
         {
             GM_ConfigObjectAction(&work->field_9C, 0, 0, 4);
         }
@@ -1176,7 +1176,7 @@ void s03b_revolver_800C89C8(RevolverWork *work)
         switch (code)
         {
         case HASH_MOTION:
-            work->field_9C.action_flag = -1;
+            work->field_9C.action = -1;
 
             if (action != -1)
             {
@@ -1187,7 +1187,7 @@ void s03b_revolver_800C89C8(RevolverWork *work)
         case HASH_MOVE:
             work->field_8B8 = &work->field_838[action];
 
-            if (work->field_9C.action_flag != flag)
+            if (work->field_9C.action != flag)
             {
                 GM_ConfigObjectAction(&work->field_9C, 1, 0, 4);
             }
@@ -1248,7 +1248,7 @@ void Revolver_800C8B5C(RevolverWork *work)
         if (GV_VecLen3(&svec2) < 0x80)
         {
             work->field_948 = (work->field_948 | 1) & ~0x20;
-            if (work->field_9C.action_flag != 0)
+            if (work->field_9C.action != 0)
             {
                 GM_ConfigObjectAction(&work->field_9C, 0, 0, 4);
             }
@@ -1272,7 +1272,7 @@ void RevolverAct_800C8CE4(RevolverWork *work)
 
     DG_GetLightMatrix(&work->control.mov, work->field_7F0_light);
 
-    work->control.height = work->field_9C.field_18;
+    work->control.height = work->field_9C.height;
 
     Revolver_800C8CA8(work);
 
