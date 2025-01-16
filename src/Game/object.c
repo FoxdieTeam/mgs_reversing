@@ -35,13 +35,13 @@ SVECTOR *sub_80034834(SVECTOR *arg0, SVECTOR *arg1, SVECTOR arg2)
     return arg0;
 }
 
-void sub_800348F4(OBJECT *obj)
+void GM_ActObjectMotion(OBJECT *obj)
 {
     long intime, outtime;
     intime = GetRCnt(RCntCNT1);
 
     SetSpadStack(SPAD_STACK_ADDR);
-    sub_8003556C(obj->m_ctrl); // motion streaming related
+    GM_PlayAction(obj->m_ctrl); // motion streaming related
     ResetSpadStack();
 
     obj->is_end = obj->m_ctrl->info1.time;
@@ -83,7 +83,7 @@ void GM_ActMotion(OBJECT *obj)
     if (obj->m_ctrl)
     {
         step = *obj->m_ctrl->step;
-        sub_800348F4(obj);
+        GM_ActObjectMotion(obj);
         GV_AddVec3(&step, obj->m_ctrl->step, obj->m_ctrl->step);
     }
 }
@@ -96,9 +96,8 @@ void GM_ActObject(OBJECT *obj)
 
     if (obj->map_name != GM_CurrentMap_800AB9B0)
     {
-        int group_id = GM_CurrentMap_800AB9B0;
         obj->map_name = GM_CurrentMap_800AB9B0;
-        obj->objs->group_id = group_id;
+        DG_GroupObjs(obj->objs, GM_CurrentMap_800AB9B0);
     }
 
     if (obj->m_ctrl)
@@ -116,14 +115,13 @@ void GM_ActObject2(OBJECT *obj)
 
     if (obj->map_name != GM_CurrentMap_800AB9B0)
     {
-        int group_id = GM_CurrentMap_800AB9B0;
         obj->map_name = GM_CurrentMap_800AB9B0;
-        obj->objs->group_id = group_id;
+        DG_GroupObjs(obj->objs, GM_CurrentMap_800AB9B0);
     }
 
     if (obj->m_ctrl)
     {
-        sub_800348F4(obj);
+        GM_ActObjectMotion(obj);
     }
 }
 
@@ -198,7 +196,7 @@ void GM_ConfigObjectAction(OBJECT *obj, int action, int frame, int interp)
 {
     if (obj->m_ctrl)
     {
-        sub_8003501C(obj->m_ctrl, action, frame);
+        GM_ConfigAction(obj->m_ctrl, action, frame);
         obj->action = action;
         obj->is_end = 0;
         obj->m_ctrl->interp = interp;
@@ -215,7 +213,7 @@ void GM_ConfigObjectOverride(OBJECT *obj, int action, int frame, int interp, u_l
             return;
         }
 
-        sub_800350D4(obj->m_ctrl, action, frame);
+        GM_ConfigActionOverride(obj->m_ctrl, action, frame);
     }
     else
     {
