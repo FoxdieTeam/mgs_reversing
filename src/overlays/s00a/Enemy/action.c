@@ -562,7 +562,7 @@ void ActGrenade_800C67EC( WatcherWork *work, int time )
     }
     else
     {
-        if (work->body.field_1C)
+        if (work->body.time2)
         {
             check = 1;
         }
@@ -1352,7 +1352,7 @@ void s00a_command_800C82B0( WatcherWork *work )
     work->act_status = 0;
     work->field_C30  = 0;
 
-    ctrl->height = work->body.field_18;
+    ctrl->height = work->body.height;
     ctrl->hzd_height = ctrl->levels[0] + 750;
 
     unk = &work->unknown;
@@ -1497,7 +1497,7 @@ void s00a_command_800C8734( WatcherWork* work, int time )
         GM_SeSet( &work->control.mov, 0x94 );
     }
 
-    if ( work->body.field_1C || !( work->pad.press & 0x40 ) )
+    if ( work->body.time2 || !( work->pad.press & 0x40 ) )
     {
         work->pad.time = 0;
         UnsetMode2( work );
@@ -1518,7 +1518,7 @@ void s00a_command_800C87FC( WatcherWork* work, int time )
         GM_SeSet( &work->control.mov, 0x92 );
     }
 
-    if ( work->body.field_1C || !( work->pad.press & 0x80 ) )
+    if ( work->body.time2 || !( work->pad.press & 0x80 ) )
     {
         work->pad.time = 0;
         UnsetMode2( work );
@@ -1532,7 +1532,7 @@ void s00a_command_800C88D8( WatcherWork* work, int time )
         UnsetAction( work, ACTION23 );
     }
 
-    if ( work->body.field_1C || !( work->pad.press & 0x400 ) )
+    if ( work->body.time2 || !( work->pad.press & 0x400 ) )
     {
         work->pad.time = 0;
         UnsetMode2( work );
@@ -1553,7 +1553,7 @@ void s00a_command_800C8990( WatcherWork* work, int time )
         GM_SeSet( &work->control.mov, 0x92 );
     }
 
-    if ( work->body.field_1C || !( work->pad.press & 0x800 ) )
+    if ( work->body.time2 || !( work->pad.press & 0x800 ) )
     {
         work->pad.time = 0;
         UnsetMode2( work );
@@ -1696,7 +1696,7 @@ void s00a_command_800C8DF8( WatcherWork *work, int time )
         s00a_command_800C8C58( work );
     }
 
-    if ( ( time > 186 && work->body.field_1C ) || !( work->pad.press & 0x1000000 ) )
+    if ( ( time > 186 && work->body.time2 ) || !( work->pad.press & 0x1000000 ) )
     {
         GM_SeSet( &work->control.mov, 0xB4 );
         work->pad.time = 0;
