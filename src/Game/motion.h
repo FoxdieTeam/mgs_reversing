@@ -39,8 +39,8 @@ typedef struct _MOTION_CONTROL
     SVECTOR    *rots;   // pointer to the associated OBJECT's per-joint rots.
 } MOTION_CONTROL;
 
-void sub_8003501C(MOTION_CONTROL *m_ctrl, int action, int frame); // set action
-void sub_800350D4(MOTION_CONTROL *m_ctrl, int action, int frame); // set action override
-int  sub_8003556C(MOTION_CONTROL *m_ctrl);
+void GM_ConfigAction(MOTION_CONTROL *m_ctrl, int action, int frame);
+void GM_ConfigActionOverride(MOTION_CONTROL *m_ctrl, int action, int frame);
+int  GM_PlayAction(MOTION_CONTROL *m_ctrl);
 
 #endif // _MOTION_H_
