@@ -43,7 +43,11 @@ const char *MGS_DiskName[] = {
 #endif
     NULL                // end-of-list
 };
-const char *MGS_MemoryCardName = "BISLPM-86247";
+const char *MGS_MemoryCardName = {
+#ifdef INTEGRAL
+    "BISLPM-86247"
+#endif
+};
 
 //static long GameStack_800ABBF0[512];
 //static long SdStack_800AC3F0[512];
