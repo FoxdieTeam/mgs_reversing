@@ -28,11 +28,9 @@ typedef struct _Rasen2Work
     int            field_24;
     int            field_28;
     int            field_2C;    // count of used items in field_B0, field_30
-    unsigned short field_30[2]; // unknown how large
-    char           pad_34[0x1C];
+    unsigned short field_30[16];
     unsigned short field_50[3][16];
-    Rasen2Item     field_B0[1]; // unknown how large
-    char           pad_BC[0xB4];
+    Rasen2Item     field_B0[16];
     DG_OBJS       *field_170[3][16];
     int            field_230;
     int            field_234;

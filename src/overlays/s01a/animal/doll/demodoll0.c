@@ -401,7 +401,7 @@ void Demodoll_800DDD84(DollWork *work)
         AN_Breath_800C3AA8(&body->objs->objs[work->fE3C].world);
     }
 
-    control->height = body->field_18;
+    control->height = body->height;
     control->field_36 = -1;
 
     if (work->fA78 < 0 && control->field_57 != 0)

@@ -65,8 +65,8 @@ void Snake03c1Act_800CD698(Snake03c1Work *work)
 
     DG_GetLightMatrix(&control->mov, work->light);
 
-    work->control.mov.vy = work->object.field_18;
-    work->control.height = work->object.field_18;
+    work->control.mov.vy = work->object.height;
+    work->control.height = work->object.height;
 
     gUnkCameraStruct_800B77B8.eye = work->control.mov;
 
@@ -86,7 +86,7 @@ void Snake03c1Act_800CD698(Snake03c1Work *work)
         }
         if (--work->field_7EC == 0)
         {
-            if (work->object.action_flag != 1)
+            if (work->object.action != 1)
             {
                 GM_ConfigObjectAction(object, 1, 0, 4);
             }
@@ -112,7 +112,7 @@ void Snake03c1Act_800CD698(Snake03c1Work *work)
         svec.vy = 0;
         if (GV_VecLen3(&svec) < 250)
         {
-            if (work->object.action_flag != 2)
+            if (work->object.action != 2)
             {
                 GM_ConfigObjectAction(object, 2, 0, 4);
             }

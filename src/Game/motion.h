@@ -18,35 +18,29 @@ typedef struct MOTION_INFO
     short           frame;
     short           field_4;
     short           field_6;
-    unsigned int    field_8;
+    u_long          mask;
     MOTION_SEGMENT *m_segs;
-    short           action_flag;
+    short           action;
     short           field_12;
-    short           field_14;
-    unsigned short  time;
+    short           field_14; // 0 = init frame, middle frames = 1, 2 = last frame
+    u_short         time;
 } MOTION_INFO;
 
 typedef struct _MOTION_CONTROL
 {
-    DG_OAR       *oar;
-    MOTION_INFO   info1;
-    MOTION_INFO   info2;
-    SVECTOR      *rot;    // pointer to the associated CONTROL's rot vector.
-    SVECTOR      *step;   // pointer to the associated CONTROL's step vector.
-    short        *height; // pointer to the associated OBJECT's height.
-    unsigned long interp;
-    SVECTOR       waist_rot;
-    SVECTOR      *rots;   // pointer to the associated OBJECT's per-joint rots.
+    DG_OAR     *oar;
+    MOTION_INFO info1;
+    MOTION_INFO info2;
+    SVECTOR    *rot;    // pointer to the associated CONTROL's rot vector.
+    SVECTOR    *step;   // pointer to the associated CONTROL's step vector.
+    short      *height; // pointer to the associated OBJECT's height.
+    u_long      interp;
+    SVECTOR     waist_rot;
+    SVECTOR    *rots;   // pointer to the associated OBJECT's per-joint rots.
 } MOTION_CONTROL;
 
-void sub_8003501C(MOTION_CONTROL *m_ctrl, int action_flag, int motion);
-void sub_800350D4(MOTION_CONTROL *m_ctrl, int action_flag, int motion);
-int  Process_Oar_8003518C(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info, int action_flag);
-void Kmd_Oar_Inflate_800353E4(MOTION_SEGMENT *m_seg);
+void sub_8003501C(MOTION_CONTROL *m_ctrl, int action, int frame); // set action
+void sub_800350D4(MOTION_CONTROL *m_ctrl, int action, int frame); // set action override
 int  sub_8003556C(MOTION_CONTROL *m_ctrl);
-int  oar_related_800356FC(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info);
-void sub_8003603C(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info);
-int  sub_800360EC(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info, int action_flag, int motion);
-int  negate_rots_800366B8(SVECTOR *arg0, SVECTOR *arg1);
 
 #endif // _MOTION_H_

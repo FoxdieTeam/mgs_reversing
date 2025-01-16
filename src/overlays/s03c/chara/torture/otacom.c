@@ -97,7 +97,7 @@ void Otacom_800CB494(OtacomWork *work, int timer)
         {
             work->kogaku = NewKogaku2(control, object, 0);
 
-            if (work->object.action_flag != 1)
+            if (work->object.action != 1)
             {
                 GM_ConfigObjectAction(&work->object, 1, 0, 0);
             }
@@ -111,7 +111,7 @@ void Otacom_800CB494(OtacomWork *work, int timer)
             OtacomSendMessage_800CB3E0(work->bound_where, GV_StrCode("出る")); // 出る = leave (HASH_LEAVE)
             OtacomSendLampOnOffToGomon_800CB420(0);
 
-            if (work->object.action_flag != 0)
+            if (work->object.action != 0)
             {
                 GM_ConfigObjectAction(&work->object, 0, 0, 4);
             }
@@ -128,7 +128,7 @@ void Otacom_800CB494(OtacomWork *work, int timer)
 
         if (sna_act_unk_helper2_helper3_80060684(&work->field_7E4, &work->control.mov) < 250)
         {
-            if (work->object.action_flag != 1)
+            if (work->object.action != 1)
             {
                 GM_ConfigObjectAction(&work->object, 1, 0, 4);
             }
@@ -236,7 +236,7 @@ void Otacom_800CB838(OtacomWork *work, int timer)
 
             GCL_ExecProc(work->procs[1], NULL);
 
-            if (work->object.action_flag != 1)
+            if (work->object.action != 1)
             {
                 GM_ConfigObjectAction(object, 1, 0, 0);
             }
@@ -252,7 +252,7 @@ void Otacom_800CB838(OtacomWork *work, int timer)
         {
             GM_GameStatus &= ~STATE_PADRELEASE;
 
-            if (work->object.action_flag != 0)
+            if (work->object.action != 0)
             {
                 GM_ConfigObjectAction(&work->object, 0, 0, 4);
             }
@@ -292,7 +292,7 @@ void Otacom_800CB838(OtacomWork *work, int timer)
 
         if (sna_act_unk_helper2_helper3_80060684(&work->field_7E4, &work->control.mov) < 250)
         {
-            if (work->object.action_flag != 1)
+            if (work->object.action != 1)
             {
                 GM_ConfigObjectAction(&work->object, 1, 0, 4);
             }
@@ -332,7 +332,7 @@ void Otacom_800CBB20(OtacomWork *work)
     int      footstepsFrame;
     CONTROL *control;
 
-    if (work->object.action_flag == 0)
+    if (work->object.action == 0)
     {
         footstepsFrame = work->motion.info1.frame;
         control = &work->control;
@@ -362,7 +362,7 @@ void OtacomAct_800CBB8C(OtacomWork *work)
     GM_ActObject(object);
     DG_GetLightMatrix(&control->mov, work->light);
 
-    work->control.height = work->object.field_18;
+    work->control.height = work->object.height;
 
     timer = work->timer++;
     switch (work->field_804)

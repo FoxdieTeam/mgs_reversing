@@ -315,7 +315,7 @@ SVECTOR svector_800AB7FC = {0, 0, -300, 0};
 
 #define RIFLE_TEBURE_TIME   90 // delay before camera shake
 #define TEBURE              122
-#define GetAction( work ) (work->field_9C_obj.action_flag)
+#define GetAction( work ) (work->field_9C_obj.action)
 #define EndMotion( work ) (work->field_9C_obj.is_end != 0)
 #define SET                 work->field_9B4_action_table->attack->aim
 #define DispEmpty( work ) (work->field_9A0 = 4)
@@ -504,7 +504,7 @@ int sub_8004EFE4(SnaInitWork *work, int param_2)
     }
     else
     {
-        ret = work->field_9C_obj.field_10;
+        ret = work->field_9C_obj.action2;
     }
 
     if (vec->vx + vec->vy == 1)
@@ -517,10 +517,10 @@ int sub_8004EFE4(SnaInitWork *work, int param_2)
 
 void sna_8004F034(SnaInitWork *work, unsigned int bits)
 {
-    if ( bits != work->field_180.info1.field_8 )
+    if ( bits != work->field_180.info1.mask )
     {
-        work->field_180.info2.field_8 = ~bits;
-        work->field_180.info1.field_8 = bits;
+        work->field_180.info2.mask = ~bits;
+        work->field_180.info1.mask = bits;
         if ( bits == 0xFFFF && sub_8004EFE4(work, 2) >= 0 )
         {
             work->field_180.interp = 4;
@@ -1072,7 +1072,7 @@ int sna_act_helper2_helper5_8004FF88(SnaInitWork *work)
             (GM_SnakeCurrentHealth != 0) &&
             (GM_GameOverTimer == 0) &&
             (GM_StreamStatus() == -1) &&
-            (work->field_9C_obj.field_10 == 0))
+            (work->field_9C_obj.action2 == 0))
         {
             pAnim = work->field_9B8_fn_anim;
 
@@ -3523,7 +3523,7 @@ void sna_knock_80054D68(SnaInitWork *work, int time)
         }
     }
 
-    if ((work->field_9C_obj.field_1C != 0) || (work->field_9C_obj.field_10 == 0))
+    if ((work->field_9C_obj.time2 != 0) || (work->field_9C_obj.action2 == 0))
     {
         sna_8004E260(work, 0, 4, 0);
         GM_ClearPlayerStatusFlag(PLAYER_KNOCKING);
@@ -3620,7 +3620,7 @@ void sna_act_helper2_helper_80054EFC(SnaInitWork *work, int pTime)
         }
         return;
     case 1:
-        if (actor->field_9C_obj.field_1C != 0 || status != 0)
+        if (actor->field_9C_obj.time2 != 0 || status != 0)
         {
             sna_clear_flags1_8004E308(actor, SNA_FLAG1_UNK26);
             sna_8004E260(actor, 0, 4, 0);
@@ -3842,7 +3842,7 @@ void sna_anim_dying_80055524(SnaInitWork *work, int time)
             int   new_height;
             short y_pos;
 
-            new_height = (unsigned short)work->field_9C_obj.field_18 - (-unk2->field_9EE + work->control.levels[0]);
+            new_height = (unsigned short)work->field_9C_obj.height - (-unk2->field_9EE + work->control.levels[0]);
             level = work->control.levels[0];
             work->control.height = new_height;
             y_pos = new_height + level;
@@ -4142,7 +4142,7 @@ static inline void sna_act_unk_helper3_helper_80055DD8(SnaInitWork *work, UnkSna
   int action;
   int field_9E4;
   work2 = work;
-  action = work->field_9C_obj.action_flag;
+  action = work->field_9C_obj.action;
   if (!(((action != work->field_9B4_action_table->trans->crouch) || work->field_9C_obj.is_end) && ((action != work->field_9B4_action_table->trans->stand) || work2->field_9C_obj.is_end)))
   {
       pStr->field_9E4 = 1;
@@ -5435,7 +5435,7 @@ void sna_80057378(SnaInitWork *work, int time)
         GM_BombSeg_800ABBD8 = dword_800ABBB0;
     }
 
-    if (work->field_9C_obj.field_1C != 0 || work->field_9C_obj.field_10 == 0)
+    if (work->field_9C_obj.time2 != 0 || work->field_9C_obj.action2 == 0)
     {
         sna_8004E260(work, 0, 4, 0);
         sna_clear_flags1_8004E308(work, SNA_FLAG1_UNK9);
@@ -5678,7 +5678,7 @@ void sna_80057A90(SnaInitWork *work, int time)
         GM_SeSet(&work->control.mov, SE_RELOAD);
     }
 
-    if (work->field_9C_obj.field_1C != 0)
+    if (work->field_9C_obj.time2 != 0)
     {
         if (!(work->field_9B0_pad_ptr->status & PAD_SQUARE))
         {
@@ -5808,7 +5808,7 @@ void sub_80057BF0(SnaInitWork *work, int time)
         break;
 
     case 1:
-        if ( work->field_9C_obj.field_1C != 0 )
+        if ( work->field_9C_obj.time2 != 0 )
         {
             if ( (temp_s3 & 1) == 0 )
             {
@@ -6083,7 +6083,7 @@ void sna_anim_grenade_80058470(SnaInitWork *work, int time)
     switch (work->field_924)
     {
     case 0:
-        if (work->field_9C_obj.field_1C != 0)
+        if (work->field_9C_obj.time2 != 0)
         {
             sna_8004E260(work, work->field_9B4_action_table->still->stand, 1, bits);
             work->field_924 = 1;
@@ -6116,7 +6116,7 @@ void sna_anim_grenade_80058470(SnaInitWork *work, int time)
         }
 
 
-        if (work->field_9C_obj.field_1C != 0)
+        if (work->field_9C_obj.time2 != 0)
         {
             sna_8004E260(work, 0, 4, 0);
             GM_ClearPlayerStatusFlag(PLAYER_PREVENT_FIRST_PERSON | PLAYER_PREVENT_ITEM_SWITCH | PLAYER_PREVENT_WEAPON_SWITCH);
@@ -6976,7 +6976,7 @@ static inline void sna_init_main_logic_helper3_800596FC(SnaInitWork *work)
         {
             new_var = work->field_9E4.field_9EE;
             iVar9 = work->control.levels[0];
-            iVar8 = (unsigned short)work->field_9C_obj.field_18 - (iVar9 - new_var);
+            iVar8 = (unsigned short)work->field_9C_obj.height - (iVar9 - new_var);
             work->control.height = iVar8;
             iVar8 = iVar8 + iVar9;
             work->control.mov.vy = iVar8;
@@ -6988,7 +6988,7 @@ static inline void sna_init_main_logic_helper3_800596FC(SnaInitWork *work)
             work->control.height = dword_8009EECC[work->field_A26_stance];
         }
 
-        work->field_9C_obj.field_18 = work->control.height;
+        work->field_9C_obj.height = work->control.height;
         sVar5 = work->field_9E4.field_9E8;
 
         if (sVar5 >= 0)
@@ -7013,7 +7013,7 @@ static inline void sna_init_main_logic_helper3_800596FC(SnaInitWork *work)
                 &work->field_698_joint_rotations.field_0_lower_body
             );
 
-            work->field_9C_obj.action_flag = -1;
+            work->field_9C_obj.action = -1;
         }
 
         if ((uVar13 & 0x800) != 0)
@@ -7329,13 +7329,13 @@ static inline void sna_init_main_logic_helper5_800596FC(SnaInitWork *work)
 {
     if (GM_CheckPlayerStatusFlag(PLAYER_GAMEOVER))
     {
-        if (((work->field_9C_obj.action_flag == 128) && (work->field_180.info1.frame == 49)) ||
-            ((work->field_9C_obj.action_flag == 127) && (work->field_180.info1.frame == 72)))
+        if (((work->field_9C_obj.action == 128) && (work->field_180.info1.frame == 49)) ||
+            ((work->field_9C_obj.action == 127) && (work->field_180.info1.frame == 72)))
         {
             NewPadVibration(dword_8009EEF0, 1);
             NewPadVibration(dword_8009EEF4, 2);
 
-            if (work->field_9C_obj.action_flag == 128)
+            if (work->field_9C_obj.action == 128)
             {
                 GM_SeSetMode(&work->control.mov, SE_HIT_FLOOR, GM_SEMODE_BOMB);
             }
@@ -7425,7 +7425,7 @@ void sna_init_main_logic_800596FC(SnaInitWork *work)
 
     work->field_798_p_height = work->control.height;
 
-    vy = work->field_9C_obj.field_18;
+    vy = work->field_9C_obj.height;
     work->control.height = vy;
 
     if ( vy < 500 )
@@ -7570,7 +7570,7 @@ void sna_init_main_logic_800596FC(SnaInitWork *work)
         }
     }
 
-    GM_PlayerAction_800ABA40 = work->field_9C_obj.action_flag;
+    GM_PlayerAction_800ABA40 = work->field_9C_obj.action;
     dword_800AB9D4 = work->field_180.info1.frame;
     GM_PlayerStance = work->field_A26_stance;
 
@@ -7702,7 +7702,7 @@ void sna_act_8005AD10(SnaInitWork *work)
         pTarget->field_34_vec = DG_ZeroVector;
     }
 
-    height = (short)work->field_9C_obj.field_18;
+    height = (short)work->field_9C_obj.height;
 
     GM_ActMotion(&work->field_9C_obj);
     sna_act_helper2_8005AD10(work);
@@ -7754,7 +7754,7 @@ void sna_act_8005AD10(SnaInitWork *work)
 
     if ( work->control.field_36 == -2 )
     {
-        work->control.mov.vy += work->field_9C_obj.field_18 - height;
+        work->control.mov.vy += work->field_9C_obj.height - height;
         DG_SetPos2(&work->control.mov, &work->control.rot);
     }
 
@@ -8058,7 +8058,7 @@ static inline void sna_LoadSnake3(SnaInitWork *work)
     GM_ConfigObjectAction(&work->field_9C_obj, var_v_2, 0, 0);
     GM_ActMotion(&work->field_9C_obj);
 
-    temp_v1_3 = (short)work->field_9C_obj.field_18;
+    temp_v1_3 = (short)work->field_9C_obj.height;
 
     work->field_798_p_height = temp_v1_3;
     work->control.height = temp_v1_3;
