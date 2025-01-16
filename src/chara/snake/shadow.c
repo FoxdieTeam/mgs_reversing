@@ -182,13 +182,10 @@ void ShadowDie_80060190(ShadowWork *work)
 
 int ShadowGetResources_800601B0(ShadowWork *work, CONTROL *control, OBJECT *parent, SVECTOR indices)
 {
-    int map;
-
     GM_InitObjectNoRots(&work->object, GV_StrCode("kage"), SHADOW_FLAG, 0);
     GM_ConfigObjectLight((OBJECT *)&work->object, work->light);
 
-    map = parent->map_name;
-    work->object.objs->group_id = map;
+    DG_GroupObjs(work->object.objs, parent->map_name);
 
     work->light[0].m[1][1] = -0x1000;
     work->light[1].m[0][1] = 0x480;
