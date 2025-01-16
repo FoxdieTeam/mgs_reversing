@@ -32,37 +32,33 @@ typedef struct GameWork     // private to gamed.c
 
 typedef struct _OBJECT
 {
-    DG_OBJS        *objs;                // 0x00
-    unsigned long   flag;                // 0x04
-    MATRIX         *light;               // 0x08
-    unsigned short  map_name;            // 0x0C
-    short           action_flag;         // 0x0E
-    short           field_10;            // 0x10 no match with unsigned in sna_8004E260
-    unsigned short  field_12;            // 0x12
-    MOTION_CONTROL *m_ctrl;              // 0x14
-    short           field_18;            // 0x18
-    short           is_end;              // 0x1A must be signed for sna_anim_box_stop_800554B4 to match
-    short           time2;               // 0x1C
-    unsigned short  field_1E;            // 0x1C
-    unsigned long   field_20;            // 0x20
-    SVECTOR         rots[DG_MAX_JOINTS]; // 0x24
+    DG_OBJS        *objs;
+    u_long          flag;
+    MATRIX         *light;
+    u_short         map_name;
+    short           action;
+    short           action2; // for override actions
+    MOTION_CONTROL *m_ctrl;
+    short           height;
+    short           is_end;
+    short           time2;   // for override actions, why not is_end2?
+    u_long          pad;     // unused
+    SVECTOR         rots[DG_MAX_JOINTS];
 } OBJECT;
 
 typedef struct _OBJECT_NO_ROTS
 {
-    DG_OBJS        *objs;        // 0x00
-    unsigned long   flag;        // 0x04
-    MATRIX         *light;       // 0x08
-    unsigned short  map_name;    // 0x0C
-    unsigned short  action_flag; // 0x0E
-    unsigned short  field_10;    // 0x10
-    unsigned short  field_12;    // 0x12
-    MOTION_CONTROL *m_ctrl;      // 0x14
-    unsigned short  field_18;    // 0x18
-    unsigned short  is_end;      // 0x1A
-    unsigned short  time2;       // 0x1C
-    unsigned short  field_1E;    // 0x1E
-    unsigned long   field_20;    // 0x20
+    DG_OBJS        *objs;
+    u_long          flag;
+    MATRIX         *light;
+    u_short         map_name;
+    short           action;
+    short           action2; // for override actions
+    MOTION_CONTROL *m_ctrl;
+    short           height;
+    short           is_end;
+    short           time2;   // for override actions, why not is_end2?
+    u_long          pad;     // unused
 } OBJECT_NO_ROTS;
 
 typedef int (*TBombFunction)(CONTROL *, int, int *);

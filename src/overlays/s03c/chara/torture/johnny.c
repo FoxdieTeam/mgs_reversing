@@ -146,7 +146,7 @@ static inline void ClearAdjust(JohnnyWork *work)
 
 static inline void SetAction(JohnnyWork *work, int action)
 {
-    if (work->object.action_flag != action)
+    if (work->object.action != action)
     {
         GM_ConfigObjectAction(&work->object, action, 0, 4);
     }
@@ -744,7 +744,7 @@ void Johnny_800C4FAC(JohnnyWork *work)
     frame = work->motion.info1.frame;
     control = &work->control;
 
-    switch (work->object.action_flag)
+    switch (work->object.action)
     {
     case 1:
         if (frame == 0)
@@ -1019,7 +1019,7 @@ void s03c_johnny_800C5520(JohnnyWork *work, int action)
         break;
 
     case 1:
-        if (work->object.action_flag == 15 && work->object.is_end != 0)
+        if (work->object.action == 15 && work->object.is_end != 0)
         {
             if (work->unkB1C & 0x4000)
             {
@@ -1217,7 +1217,7 @@ void s03c_johnny_800C5A7C(JohnnyWork *work, int action)
             SetAction(work, 10);
         }
 
-        if ((work->object.action_flag == 10) && (work->object.is_end != 0))
+        if ((work->object.action == 10) && (work->object.is_end != 0))
         {
             GM_ConfigObjectAction(&work->object, 0, 0, 4);
         }
@@ -1231,12 +1231,12 @@ void s03c_johnny_800C5A7C(JohnnyWork *work, int action)
         break;
 
     case 3:
-        if ((work->object.action_flag == 11) && (work->object.is_end != 0))
+        if ((work->object.action == 11) && (work->object.is_end != 0))
         {
             GM_ConfigObjectAction(&work->object, 0, 0, 4);
         }
 
-        if ((work->object.action_flag == 0) && (GM_StreamStatus() == -1))
+        if ((work->object.action == 0) && (GM_StreamStatus() == -1))
         {
             work->unkB14 = 2;
             work->unkB1C |= 0x8;
@@ -1434,13 +1434,13 @@ void Johnny_800C631C(JohnnyWork *work, int action)
     }
     if (work->object.is_end != 0)
     {
-        if (work->object.action_flag == 10)
+        if (work->object.action == 10)
         {
             GM_ConfigObjectAction(&work->object, 0, 0, 4);
             work->unkB4C++;
         }
     }
-    if (work->object.action_flag == 0 && GM_StreamStatus() == -1)
+    if (work->object.action == 0 && GM_StreamStatus() == -1)
     {
         work->unkB4C++;
     }
@@ -1919,7 +1919,7 @@ void Johnny_800C7160(JohnnyWork *work, int arg1)
         }
     }
 
-    if (work->object.action_flag == 41)
+    if (work->object.action == 41)
     {
         if (arg1 == 16 || arg1 == 22 || arg1 == 28)
         {
@@ -2721,14 +2721,12 @@ void Johnny_800C873C(JohnnyWork *work, int action)
 
 void s03c_johnny_800C88C8(JohnnyWork *work, int action)
 {
-    int action_flag;
-
     if (action == 0)
     {
-        action_flag = (work->unkB50 == 1) ? 25 : 26;
+        action = (work->unkB50 == 1) ? 25 : 26;
         work->unkB50 = 0;
 
-        SetAction(work, action_flag);
+        SetAction(work, action);
     }
 
     if (work->unkB24 & 0x8)
@@ -3530,7 +3528,7 @@ void JohnnyAct_800C9F7C(JohnnyWork *work)
     GM_ActObject(&work->object);
     GM_MoveTarget(work->target, &control->mov);
     DG_GetLightMatrix2(&control->mov, work->light);
-    work->control.height = work->object.field_18;
+    work->control.height = work->object.height;
     work->sna_auto_move.field_0_ivec.vx = HZD_GetAddress(
         work->control.map->hzd, &control->mov, work->sna_auto_move.field_0_ivec.vx);
     Johnny_800C9D64(work);

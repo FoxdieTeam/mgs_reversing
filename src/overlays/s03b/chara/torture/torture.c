@@ -700,7 +700,7 @@ void s03b_torture_800C4AB0(TortureWork *work, int arg1)
         GM_SetSound(0xff0000fe, SD_ASYNC);
         s03b_boxall_800C969C(0, 10000);
 
-        if (work->body.action_flag != 2)
+        if (work->body.action != 2)
         {
             GM_ConfigObjectAction(body, 2, 0, 4);
         }
@@ -714,7 +714,7 @@ void s03b_torture_800C4AB0(TortureWork *work, int arg1)
         work->f80C = 0;
     }
 
-    if (work->body.is_end != 0 && work->body.action_flag == 2)
+    if (work->body.is_end != 0 && work->body.action == 2)
     {
         GM_ConfigObjectAction(&work->body, 3, 0, 4);
     }
@@ -748,7 +748,7 @@ void s03b_torture_800C4C48(TortureWork *work, int arg1)
 
     if (arg1 == 300)
     {
-        if (work->body.action_flag != 0)
+        if (work->body.action != 0)
         {
             GM_ConfigObjectAction(&work->body, 0, 0, 15);
         }
@@ -802,7 +802,7 @@ void s03b_torture_800C4DF0(TortureWork *work, int arg1)
     {
         NewFadeIo_800C4224(1, 128);
 
-        if (work->body.action_flag != 0)
+        if (work->body.action != 0)
         {
             GM_ConfigObjectAction(&work->body, 0, 0, 1);
         }
@@ -822,7 +822,7 @@ void s03b_torture_800C4E64(TortureWork *work, int arg1)
     {
         work->f802 |= 0x2000;
 
-        if (work->body.action_flag != 0)
+        if (work->body.action != 0)
         {
             GM_ConfigObjectAction(&work->body, 0, 0, 4);
         }
@@ -858,7 +858,7 @@ void s03b_torture_800C4F54(TortureWork *work, int arg1)
 {
     if (arg1 == 0)
     {
-        if (work->body.action_flag != 0)
+        if (work->body.action != 0)
         {
             GM_ConfigObjectAction(&work->body, 0, 0, 4);
         }
@@ -918,7 +918,7 @@ void s03b_torture_800C50A8(TortureWork *work, int arg1)
 
         GM_GameStatus |= STATE_PADRELEASE;
 
-        if (work->body.action_flag != 0)
+        if (work->body.action != 0)
         {
             GM_ConfigObjectAction(&work->body, 0, 0, 4);
         }
@@ -1027,7 +1027,7 @@ void s03b_torture_800C53C8(TortureWork *work, int arg1)
     {
         work->f802 &= ~0x2000;
 
-        if (work->body.action_flag != 0)
+        if (work->body.action != 0)
         {
             GM_ConfigObjectAction(&work->body, 0, 0, 4);
         }
@@ -1141,7 +1141,7 @@ void s03b_torture_800C5420(TortureWork *work, int arg1)
                 action = 7;
             }
 
-            if (work->body.action_flag != action)
+            if (work->body.action != action)
             {
                 GM_ConfigObjectAction(&work->body, action, 0, 4);
             }
@@ -1240,7 +1240,7 @@ void s03b_torture_800C59FC(TortureWork *work, int arg1)
     {
         s03b_torture_800C447C(work, HASH_MOTION, 7);
 
-        if (work->body.action_flag != 2)
+        if (work->body.action != 2)
         {
             GM_ConfigObjectAction(&work->body, 2, 0, 4);
         }
@@ -1298,7 +1298,7 @@ void s03b_torture_800C5AF8(TortureWork *work, int arg1)
     f85E = work->f85E;
     if (arg1 == 0)
     {
-        if (work->body.action_flag != 6)
+        if (work->body.action != 6)
         {
             GM_ConfigObjectAction(&work->body, 6, 0, 15);
         }
@@ -1394,7 +1394,7 @@ void s03b_torture_800C5CC8(TortureWork *work, int arg1)
         GM_GameStatus |= STATE_PADRELEASE;
         GM_SeSet2(0, 63, SE_PLAYEROUT);
 
-        if (work->body.action_flag != 4)
+        if (work->body.action != 4)
         {
             GM_ConfigObjectAction(&work->body, 4, 0, 4);
         }
@@ -1414,7 +1414,7 @@ void s03b_torture_800C5CC8(TortureWork *work, int arg1)
         {
             work->f818++;
 
-            if (work->body.action_flag != 5)
+            if (work->body.action != 5)
             {
                 GM_ConfigObjectAction(&work->body, 5, 0, 4);
             }
@@ -1777,7 +1777,7 @@ void TortureAct_800C6600(TortureWork *work)
 
     GM_ActMotion(&work->body);
 
-    work->control.mov.vy += work->body.field_18 - work->control.height;
+    work->control.mov.vy += work->body.height - work->control.height;
 
     GM_ActControl(&work->control);
     GM_ActObject(&work->body);
@@ -1793,7 +1793,7 @@ void TortureAct_800C6600(TortureWork *work)
 
     GM_SnakeCurrentHealth = (work->f804 > 0) ? work->f804 : 0;
 
-    work->control.height = work->body.field_18;
+    work->control.height = work->body.height;
 
     Torture_800C64BC(work);
 
@@ -2061,7 +2061,7 @@ int TortureGetResources_800C6B3C(TortureWork *work, int name, int map)
 
     GM_ActMotion(body);
 
-    work->control.height = work->body.field_18;
+    work->control.height = work->body.height;
 
     GM_ActControl(control);
     GM_ActObject(body);

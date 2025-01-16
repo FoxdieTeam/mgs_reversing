@@ -56,7 +56,7 @@ void Johnny2Act_800CDF84(Johnny2Work *work)
     GM_ActObject(object);
     DG_GetLightMatrix2(&control->mov, work->light);
 
-    work->control.height = work->object.field_18;
+    work->control.height = work->object.height;
 
     if (work->object.is_end != 0)
     {
@@ -66,26 +66,26 @@ void Johnny2Act_800CDF84(Johnny2Work *work)
         rand = GV_RandU(64);
         if (rand < 16)
         {
-            if (work->object.action_flag != 11)
+            if (work->object.action != 11)
             {
                 GM_ConfigObjectAction(object, 11, 0, 4);
             }
         }
         else if (rand < 32)
         {
-            if (work->object.action_flag != 15)
+            if (work->object.action != 15)
             {
                 GM_ConfigObjectAction(object, 15, 0, 4);
             }
         }
         else if (rand < 48)
         {
-            if (work->object.action_flag != 10)
+            if (work->object.action != 10)
             {
                 GM_ConfigObjectAction(object, 10, 0, 4);
             }
         }
-        else if (work->object.action_flag != 9)
+        else if (work->object.action != 9)
         {
             GM_ConfigObjectAction(object, 9, 0, 4);
         }
