@@ -67,8 +67,15 @@ MATRIX matrix_8009DE7C = {{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {0, 0, 0}};
 MATRIX matrix_8009DE9C = {{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {0, 0, 0}};
 
 void sub_80035F34(MOTION_SEGMENT *m_seg, SVECTOR *out);
+void sub_8003603C(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info);
 void sub_80036388(MOTION_SEGMENT *m_seg, int frame);
+int  Process_Oar_8003518C(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info, int action);
+int  sub_800360EC(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info, int action, int frame);
+void Kmd_Oar_Inflate_800353E4(MOTION_SEGMENT *m_seg);
+int  oar_related_800356FC(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info);
+int  negate_rots_800366B8(SVECTOR *arg0, SVECTOR *arg1);
 
+// maybe static
 void sub_80034EAC(SVECTOR *vec)
 {
     vec->vx = FP_Extend(vec->vx);
@@ -79,14 +86,14 @@ void sub_80034EAC(SVECTOR *vec)
 int GM_ConfigMotionControl(OBJECT *object, MOTION_CONTROL *m_ctrl, int name, MOTION_SEGMENT *m_segs1, MOTION_SEGMENT *m_segs2, CONTROL *control, SVECTOR *rots)
 {
     m_ctrl->oar = GV_GetCache(GV_CacheID(name, 'o'));
-    m_ctrl->height = &object->field_18;
+    m_ctrl->height = &object->height;
 
     m_ctrl->info1.frames_left = 0;
     m_ctrl->info1.frame = 0;
     m_ctrl->info1.field_4 = 0;
-    m_ctrl->info1.field_8 = 0;
+    m_ctrl->info1.mask = 0;
     m_ctrl->info1.m_segs = m_segs1;
-    m_ctrl->info1.action_flag = 0;
+    m_ctrl->info1.action = 0;
     m_ctrl->info1.field_12 = 0;
     m_ctrl->info1.field_14 = 0;
     m_ctrl->info1.time = 0;
@@ -94,8 +101,8 @@ int GM_ConfigMotionControl(OBJECT *object, MOTION_CONTROL *m_ctrl, int name, MOT
     m_ctrl->info2.frames_left = 0;
     m_ctrl->info2.frame = 0;
     m_ctrl->info2.field_4 = 0;
-    m_ctrl->info2.field_8 = -1;
-    m_ctrl->info2.action_flag = 0;
+    m_ctrl->info2.mask = 0xffffffff;
+    m_ctrl->info2.action = 0;
     m_ctrl->info2.field_12 = 0;
     m_ctrl->info2.field_14 = 0;
     m_ctrl->info2.time = 0;
@@ -119,7 +126,7 @@ int GM_ConfigMotionAdjust(OBJECT *object, SVECTOR *adjust)
     return 0;
 }
 
-void sub_8003501C(MOTION_CONTROL *m_ctrl, int action_flag, int motion)
+void sub_8003501C(MOTION_CONTROL *m_ctrl, int action, int frame)
 {
     MOTION_INFO *m_info;
     MATRIX       mtx;
@@ -132,30 +139,30 @@ void sub_8003501C(MOTION_CONTROL *m_ctrl, int action_flag, int motion)
         sub_8003603C(m_ctrl, m_info);
     }
 
-    if (motion == 0)
+    if (frame == 0)
     {
-        Process_Oar_8003518C(m_ctrl, m_info, action_flag);
+        Process_Oar_8003518C(m_ctrl, m_info, action);
     }
     else
     {
-        sub_800360EC(m_ctrl, m_info, action_flag, motion);
+        sub_800360EC(m_ctrl, m_info, action, frame);
     }
 
     if (m_info->frames_left == 1)
     {
         m_info->field_14 = 2;
-        m_info->action_flag = action_flag;
+        m_info->action = action;
     }
     else
     {
         m_info->field_14 = 1;
-        m_info->action_flag = action_flag;
+        m_info->action = action;
     }
 
     SetRotMatrix(&mtx);
 }
 
-void sub_800350D4(MOTION_CONTROL *m_ctrl, int action_flag, int motion)
+void sub_800350D4(MOTION_CONTROL *m_ctrl, int action, int frame)
 {
     MOTION_INFO *m_info;
     MATRIX       mtx;
@@ -168,30 +175,30 @@ void sub_800350D4(MOTION_CONTROL *m_ctrl, int action_flag, int motion)
         sub_8003603C(m_ctrl, m_info);
     }
 
-    if (!motion)
+    if (frame == 0)
     {
-        Process_Oar_8003518C(m_ctrl, m_info, action_flag);
+        Process_Oar_8003518C(m_ctrl, m_info, action);
     }
     else
     {
-        sub_800360EC(m_ctrl, m_info, action_flag, motion);
+        sub_800360EC(m_ctrl, m_info, action, frame);
     }
 
     if (m_info->frames_left == 1)
     {
         m_info->field_14 = 2;
-        m_info->action_flag = action_flag;
+        m_info->action = action;
     }
     else
     {
         m_info->field_14 = 1;
-        m_info->action_flag = action_flag;
+        m_info->action = action;
     }
 
     SetRotMatrix(&mtx);
 }
 
-int Process_Oar_8003518C( MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info, int action_flag )
+STATIC int Process_Oar_8003518C( MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info, int action )
 {
     char            unused[16];
     MOTION_SEGMENT     *m_seg;
@@ -210,7 +217,7 @@ int Process_Oar_8003518C( MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info, int actio
     size = n_joint + 2;
     m_seg = m_info->m_segs;
 
-    table = &m_ctrl->oar->table[ size * action_flag ];
+    table = &m_ctrl->oar->table[ size * action ];
 
     n_frame = table[ 0 ];
     table++; //progresses it to the start of the archive offsets
@@ -222,28 +229,28 @@ int Process_Oar_8003518C( MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info, int actio
     archive = &m_ctrl->oar->archive[ table[ 0 ] ]; //start of bitstream vectors
     table++; //progresses to the next offset
 
-    m_seg->field_0.vy = archive[ 0 ];
+    m_seg->base.vy = archive[ 0 ];
     archive++; //progress to next vector
 
     temp1 = archive[ 0 ] + ( archive [ 1 ] << 16 );
 
     archive++; //progress to next vector
 
-    m_seg->field_1D[ 0 ] = 0;
-    m_seg->field_14 = archive;
+    m_seg->bit_offset = 0;
+    m_seg->stream = archive;
 
     temp2 = temp1 & 0xF;
     temp1 &= 0xFFFF;
     temp1 >>= 4;
 
-    m_seg->field_8.vx = temp2;
+    m_seg->delta.vx = temp2;
 
     temp2 = temp1 & 0xF;
     temp1 >>= 4;
     temp1 &= 0xF;
 
-    m_seg->field_8.vy = temp2;
-    m_seg->field_8.vz = temp1;
+    m_seg->delta.vy = temp2;
+    m_seg->delta.vz = temp1;
 
     m_seg++;
 
@@ -253,51 +260,51 @@ int Process_Oar_8003518C( MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info, int actio
 
         temp3 = archive [ 0 ];
 
-        m_seg->field_14 = archive;
+        m_seg->stream = archive;
 
         temp3 &= 0xFFF;
 
-        m_seg->field_1D[0] = 12;
+        m_seg->bit_offset = 12;
 
         temp4 = temp3 & 0xF;
         temp3 >>= 4;
-        m_seg->field_1D[1] = temp4;
+        m_seg->x_size = temp4;
 
         temp4 = temp3 & 0xF;
         temp3 >>= 4;
-        m_seg->field_1D[2] = temp4;
+        m_seg->y_size = temp4;
 
         temp4 = temp3 & 0xF;
         temp3 >>= 4;
-        m_seg->field_1D[3] = temp4;
+        m_seg->z_size = temp4;
 
         Kmd_Oar_Inflate_800353E4( m_seg );
 
         if ( i == 0 )
         {
-            negate_rots_800366B8( &m_seg->field_0, &m_seg->field_8 );
+            negate_rots_800366B8( &m_seg->base, &m_seg->delta );
         }
         else
         {
-            svec = &m_seg->field_8;
-            svec->vx = FP_Subtract_2( svec->vx, m_seg->field_0.vx );
-            svec->vy = FP_Subtract_2( svec->vy, m_seg->field_0.vy );
-            svec->vz = FP_Subtract_2( svec->vz, m_seg->field_0.vz );
+            svec = &m_seg->delta;
+            svec->vx = FP_Subtract_2( svec->vx, m_seg->base.vx );
+            svec->vy = FP_Subtract_2( svec->vy, m_seg->base.vy );
+            svec->vz = FP_Subtract_2( svec->vz, m_seg->base.vz );
         }
     }
 
     return 0;
 }
 
-void Kmd_Oar_Inflate_800353E4(MOTION_SEGMENT *m_seg)
+STATIC void Kmd_Oar_Inflate_800353E4(MOTION_SEGMENT *m_seg)
 {
     unsigned int    val, val2;
     unsigned int    shiftLeft, field_1C;
     char            shiftRight, nextShiftRight;
     unsigned short *field_14;
 
-    shiftRight = m_seg->field_1D[0];
-    field_14 = m_seg->field_14;
+    shiftRight = m_seg->bit_offset;
+    field_14 = m_seg->stream;
 
     nextShiftRight = shiftRight + 8;
     val = (unsigned int)(field_14[0] + (field_14[1] << 16)) >> shiftRight;
@@ -314,14 +321,14 @@ void Kmd_Oar_Inflate_800353E4(MOTION_SEGMENT *m_seg)
     m_seg->field_1C = field_1C & 0xF;
     m_seg->field_18 = val2 - 1;
 
-    shiftLeft = m_seg->field_1D[1];
-    m_seg->field_10 = dword_8009DE1C[m_seg->field_1A];
+    shiftLeft = m_seg->x_size;
+    m_seg->interp = dword_8009DE1C[m_seg->field_1A];
     val = (unsigned int)(field_14[0] + (field_14[1] << 16)) >> shiftRight & ((1 << shiftLeft) - 1);
     if (val & 1 << (shiftLeft - 1))
     {
         val |= ~((1 << shiftLeft) - 1);
     }
-    m_seg->field_8.vx = val;
+    m_seg->delta.vx = val;
     nextShiftRight = shiftRight + shiftLeft;
     shiftRight = nextShiftRight;
     if (nextShiftRight & 0x10)
@@ -330,13 +337,13 @@ void Kmd_Oar_Inflate_800353E4(MOTION_SEGMENT *m_seg)
         shiftRight = nextShiftRight & 0xF;
     }
 
-    shiftLeft = m_seg->field_1D[2];
+    shiftLeft = m_seg->y_size;
     val = (unsigned int)(field_14[0] + (field_14[1] << 16)) >> shiftRight & ((1 << shiftLeft) - 1);
     if (val & 1 << (shiftLeft - 1))
     {
         val |= ~((1 << shiftLeft) - 1);
     }
-    m_seg->field_8.vy = val;
+    m_seg->delta.vy = val;
     nextShiftRight = shiftRight + shiftLeft;
     shiftRight = nextShiftRight;
     if (nextShiftRight & 0x10)
@@ -345,13 +352,13 @@ void Kmd_Oar_Inflate_800353E4(MOTION_SEGMENT *m_seg)
         shiftRight = nextShiftRight & 0xF;
     }
 
-    shiftLeft = m_seg->field_1D[3];
+    shiftLeft = m_seg->z_size;
     val = (unsigned int)(field_14[0] + (field_14[1] << 16)) >> shiftRight & ((1 << shiftLeft) - 1);
     if (val & 1 << (shiftLeft - 1))
     {
         val |= ~((1 << shiftLeft) - 1);
     }
-    m_seg->field_8.vz = val;
+    m_seg->delta.vz = val;
     nextShiftRight = shiftRight + shiftLeft;
     shiftRight = nextShiftRight;
     if (nextShiftRight & 0x10)
@@ -359,8 +366,8 @@ void Kmd_Oar_Inflate_800353E4(MOTION_SEGMENT *m_seg)
         field_14++;
         shiftRight = nextShiftRight & 0xF;
     }
-    m_seg->field_1D[0] = shiftRight;
-    m_seg->field_14 = field_14;
+    m_seg->bit_offset = shiftRight;
+    m_seg->stream = field_14;
 }
 
 int sub_8003556C(MOTION_CONTROL *m_ctrl)
@@ -383,14 +390,14 @@ int sub_8003556C(MOTION_CONTROL *m_ctrl)
         {
             if (m_info->field_14 & 1)
             {
-                Process_Oar_8003518C(m_ctrl, m_info, m_info->action_flag);
+                Process_Oar_8003518C(m_ctrl, m_info, m_info->action);
             }
 
             if (m_info->field_14 & 2)
             {
                 if (m_ctrl->interp != 0)
                 {
-                    Process_Oar_8003518C(m_ctrl, m_info, m_info->action_flag);
+                    Process_Oar_8003518C(m_ctrl, m_info, m_info->action);
                 }
                 else
                 {
@@ -413,14 +420,14 @@ int sub_8003556C(MOTION_CONTROL *m_ctrl)
         {
             if (m_info->field_14 & 1)
             {
-                Process_Oar_8003518C(m_ctrl, m_info, m_info->action_flag);
+                Process_Oar_8003518C(m_ctrl, m_info, m_info->action);
             }
 
             if (m_info->field_14 & 2)
             {
                 if (m_ctrl->interp != 0)
                 {
-                    Process_Oar_8003518C(m_ctrl, m_info, m_info->action_flag);
+                    Process_Oar_8003518C(m_ctrl, m_info, m_info->action);
                 }
                 else
                 {
@@ -508,7 +515,7 @@ static inline unsigned int extract_archive( MOTION_ARCHIVE *archive )
     return archive[0] + (archive[1] << 16);
 }
 
-int oar_related_800356FC(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info)
+STATIC int oar_related_800356FC(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info)
 {
     MATRIX  rotation;
     SVECTOR vec;
@@ -556,40 +563,40 @@ int oar_related_800356FC(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info)
 
     gte_SetLightMatrix(&matrix_8009DE7C);
 
-    if (!(m_info->field_8 & 0x1))
+    if (!(m_info->mask & 0x1))
     {
         if (m_info->field_4 == 0)
         {
-            shift = m_seg->field_1D[0];
-            archive = m_seg->field_14;
+            shift = m_seg->bit_offset;
+            archive = m_seg->stream;
 
             RotMatrix(m_ctrl->rot, &rotation);
             gte_SetRotMatrix(&rotation);
 
             // vx
             vx = extract_archive(archive);
-            Mask_Op(res, vx, m_seg->field_8.vx, shift);
+            Mask_Op(res, vx, m_seg->delta.vx, shift);
 
-            shift_temp = shift + m_seg->field_8.vx;
+            shift_temp = shift + m_seg->delta.vx;
             Shift_Op(shift, shift_temp, archive);
 
             vec.vx = res;
 
             // vy
             vy = extract_archive(archive);
-            Mask_Op(res, vy, m_seg->field_8.vy, shift);
+            Mask_Op(res, vy, m_seg->delta.vy, shift);
 
-            shift_temp = shift + m_seg->field_8.vy;
+            shift_temp = shift + m_seg->delta.vy;
             Shift_Op(shift, shift_temp, archive);
 
-            t0 = res + m_seg->field_0.vy;
+            t0 = res + m_seg->base.vy;
             vec.vy = 0;
 
             // vz
             vz = extract_archive(archive);
-            Mask_Op(res, vz, m_seg->field_8.vz, shift);
+            Mask_Op(res, vz, m_seg->delta.vz, shift);
 
-            shift_temp = shift + m_seg->field_8.vz;
+            shift_temp = shift + m_seg->delta.vz;
             Shift_Op(shift, shift_temp, archive);
 
             vec.vz = res;
@@ -600,8 +607,8 @@ int oar_related_800356FC(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info)
             gte_stsv(m_ctrl->step);
             m_ctrl->step->vy = res;
 
-            m_seg->field_1D[0] = shift;
-            m_seg->field_14 = archive;
+            m_seg->bit_offset = shift;
+            m_seg->stream = archive;
 
             interp = (t0 - *m_ctrl->height) * delta;
             *m_ctrl->height += interp / 4096;
@@ -618,7 +625,7 @@ int oar_related_800356FC(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info)
         ret = -1;
     }
 
-    flags = m_info->field_8;
+    flags = m_info->mask;
     rots = m_ctrl->rots;
 
     m_seg++;
@@ -630,9 +637,9 @@ int oar_related_800356FC(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info)
 
         sub_80035F34(m_seg, (SVECTOR *)&rotation.m[0][0]);
 
-        rotation.m[0][0] = (rotation.m[0][0] + m_seg->field_0.vx) & 0xFFF;
-        rotation.m[0][1] = (rotation.m[0][1] + m_seg->field_0.vy) & 0xFFF;
-        rotation.m[0][2] = (rotation.m[0][2] + m_seg->field_0.vz) & 0xFFF;
+        rotation.m[0][0] = (rotation.m[0][0] + m_seg->base.vx) & 0xFFF;
+        rotation.m[0][1] = (rotation.m[0][1] + m_seg->base.vy) & 0xFFF;
+        rotation.m[0][2] = (rotation.m[0][2] + m_seg->base.vz) & 0xFFF;
 
         FP_Subtract3(b, (SVECTOR*)&rotation.m[0][0]);
 
@@ -649,18 +656,18 @@ int oar_related_800356FC(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info)
     {
         sub_80035F34(m_seg, (SVECTOR *)&rotation.m[1][1]);
 
-        rotation.m[1][1] = (rotation.m[1][1] + m_seg->field_0.vx) & 0xFFF;
-        rotation.m[1][2] = (rotation.m[1][2] + m_seg->field_0.vy) & 0xFFF;
-        rotation.m[2][0] = (rotation.m[2][0] + m_seg->field_0.vz) & 0xFFF;
+        rotation.m[1][1] = (rotation.m[1][1] + m_seg->base.vx) & 0xFFF;
+        rotation.m[1][2] = (rotation.m[1][2] + m_seg->base.vy) & 0xFFF;
+        rotation.m[2][0] = (rotation.m[2][0] + m_seg->base.vz) & 0xFFF;
 
         if (--m_seg->field_18 < 0)
         {
-            m_seg->field_0 = *(SVECTOR *)&rotation.m[1][1];
+            m_seg->base = *(SVECTOR *)&rotation.m[1][1];
 
             if (ret == 0)
             {
                 Kmd_Oar_Inflate_800353E4(m_seg);
-                FP_Subtract3(&m_seg->field_0, (SVECTOR*)&m_seg->field_8);
+                FP_Subtract3(&m_seg->base, (SVECTOR*)&m_seg->delta);
             }
         }
 
@@ -693,11 +700,11 @@ int oar_related_800356FC(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info)
     return ret;
 }
 
-void sub_80035F34(MOTION_SEGMENT *m_seg, SVECTOR *out)
+STATIC void sub_80035F34(MOTION_SEGMENT *m_seg, SVECTOR *out)
 {
     int iVar1;
 
-    iVar1 = m_seg->field_10 * (m_seg->field_1A - m_seg->field_18);
+    iVar1 = m_seg->interp * (m_seg->field_1A - m_seg->field_18);
     iVar1 >>= 10;
 
     if (iVar1 != 64)
@@ -714,22 +721,24 @@ void sub_80035F34(MOTION_SEGMENT *m_seg, SVECTOR *out)
     matrix_8009DE9C.m[2][2] = iVar1;
 
     gte_SetRotMatrix(&matrix_8009DE9C);
-    gte_ldv0(&m_seg->field_8);
+    gte_ldv0(&m_seg->delta);
     gte_rtv0();
     gte_stsv(out);
 }
 
+// maybe static
 void GM_FixMotion_80035FFC(MOTION_CONTROL *m_ctrl)
 {
     sub_8003603C(m_ctrl, &m_ctrl->info1);
 }
 
+// maybe static
 void GM_FixMotion2_8003601C(MOTION_CONTROL *m_ctrl)
 {
     sub_8003603C(m_ctrl, &m_ctrl->info2);
 }
 
-void sub_8003603C(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info)
+STATIC void sub_8003603C(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info)
 {
     SVECTOR     vec;
     MOTION_SEGMENT *m_seg;
@@ -747,13 +756,13 @@ void sub_8003603C(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info)
     for (i = 0; i < n_joints; i++, m_seg++)
     {
         sub_80035F34(m_seg, &vec);
-        m_seg->field_0.vx += vec.vx;
-        m_seg->field_0.vy += vec.vy;
-        m_seg->field_0.vz += vec.vz;
+        m_seg->base.vx += vec.vx;
+        m_seg->base.vy += vec.vy;
+        m_seg->base.vz += vec.vz;
     }
 }
 
-int sub_800360EC(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info, int action_flag, int frame)
+STATIC int sub_800360EC(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info, int action, int frame)
 {
     char            unused[8];
     int             i;
@@ -772,7 +781,7 @@ int sub_800360EC(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info, int action_flag, i
     numRecords = m_ctrl->oar->n_joint;
     m_seg = m_info->m_segs;
 
-    table = &m_ctrl->oar->table[(numRecords + 2) * action_flag];
+    table = &m_ctrl->oar->table[(numRecords + 2) * action];
 
     m_info->frames_left = table[0]; //number of frames
     m_info->frame = 0;
@@ -791,7 +800,7 @@ int sub_800360EC(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info, int action_flag, i
     m_info->field_4 = 0;
 
     archive = &m_ctrl->oar->archive[table[0]];
-    m_seg->field_0.vy = archive[0];
+    m_seg->base.vy = archive[0];
     archive++;
 
     v1 = archive[0] + (archive[1] << 16);
@@ -812,13 +821,13 @@ int sub_800360EC(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info, int action_flag, i
     table++;
     archive++;
 
-    m_seg->field_8.vx = a1;
-    m_seg->field_8.vy = v0;
-    m_seg->field_8.vz = v1;
+    m_seg->delta.vx = a1;
+    m_seg->delta.vy = v0;
+    m_seg->delta.vz = v1;
 
     archive = &archive[(a0 / 16) & 0xF ];
-    m_seg->field_1D[0] = a0 & 0xF;
-    m_seg->field_14 = archive;
+    m_seg->bit_offset = a0 & 0xF;
+    m_seg->stream = archive;
     m_seg++;
 
     for (i = 0; i < numRecords; i++, m_seg++, table++)
@@ -832,23 +841,23 @@ int sub_800360EC(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info, int action_flag, i
         temp4 = temp4 >> 4;
         temp6 = temp6 >> 8;
 
-        m_seg->field_14 = archive;
+        m_seg->stream = archive;
 
-        m_seg->field_1D[0] = 12;
-        m_seg->field_1D[1] = temp3 & 0xF;
-        m_seg->field_1D[2] = temp4 & 0xF;
-        m_seg->field_1D[3] = temp6 & 0xF;
+        m_seg->bit_offset = 12;
+        m_seg->x_size = temp3 & 0xF;
+        m_seg->y_size = temp4 & 0xF;
+        m_seg->z_size = temp6 & 0xF;
 
         m_seg->field_18 = -1;
 
         sub_80036388(m_seg, frame);
-        FP_Subtract3(&m_seg->field_0, &m_seg->field_8);
+        FP_Subtract3(&m_seg->base, &m_seg->delta);
     }
 
     return 0;
 }
 
-void sub_80036388( MOTION_SEGMENT *m_seg, int frame )
+STATIC void sub_80036388( MOTION_SEGMENT *m_seg, int frame )
 {
     MOTION_ARCHIVE *archive;
     MOTION_ARCHIVE *archive2;
@@ -865,8 +874,8 @@ void sub_80036388( MOTION_SEGMENT *m_seg, int frame )
     int temp2;
     int temp;
 
-    shift = m_seg->field_1D[0];
-    archive = m_seg->field_14;
+    shift = m_seg->bit_offset;
+    archive = m_seg->stream;
     t5 = 0;
 
     if (frame < (m_seg->field_18 + 1))
@@ -876,9 +885,9 @@ void sub_80036388( MOTION_SEGMENT *m_seg, int frame )
     }
 
     frame = frame - (m_seg->field_18 + 1);
-    x = m_seg->field_1D[1];
-    y = m_seg->field_1D[2];
-    z = m_seg->field_1D[3];
+    x = m_seg->x_size;
+    y = m_seg->y_size;
+    z = m_seg->z_size;
     t1 = x + y + z;
 
     for (;;)
@@ -914,31 +923,31 @@ void sub_80036388( MOTION_SEGMENT *m_seg, int frame )
     a2 = frame;
 
     m_seg->field_18 = (m_seg->field_1A - a2) - 1;
-    m_seg->field_10 = dword_8009DE1C[m_seg->field_1A];
+    m_seg->interp = dword_8009DE1C[m_seg->field_1A];
 
-    t1 = m_seg->field_1D[1];
+    t1 = m_seg->x_size;
     vx = extract_archive(archive);
-    Mask_Op(m_seg->field_8.vx, vx, t1, shift);
+    Mask_Op(m_seg->delta.vx, vx, t1, shift);
 
     z = shift + t1;
     Shift_Op(shift, z, archive);
 
-    t1 = m_seg->field_1D[2];
+    t1 = m_seg->y_size;
     vy = extract_archive(archive);
-    Mask_Op(m_seg->field_8.vy, vy, t1, shift);
+    Mask_Op(m_seg->delta.vy, vy, t1, shift);
 
     z = shift + t1;
     Shift_Op(shift, z, archive);
 
-    t1 = m_seg->field_1D[3];
+    t1 = m_seg->z_size;
     vz = extract_archive(archive);
-    Mask_Op(m_seg->field_8.vz, vz, t1, shift);
+    Mask_Op(m_seg->delta.vz, vz, t1, shift);
 
     z = shift + t1;
     Shift_Op(shift, z, archive);
 
-    m_seg->field_1D[0] = shift;
-    m_seg->field_14 = archive;
+    m_seg->bit_offset = shift;
+    m_seg->stream = archive;
     if (t5)
     {
         archive2 = &archive2[shift2 / 16];
@@ -946,27 +955,27 @@ void sub_80036388( MOTION_SEGMENT *m_seg, int frame )
         z = (shift2 & 0xF) + 8;
         Shift_Op(shift2, z, archive2);
 
-        t1 = m_seg->field_1D[1];
+        t1 = m_seg->x_size;
         vx2 = extract_archive(archive2);
-        Mask_Op(m_seg->field_8.vx, vx2, t1, shift2);
+        Mask_Op(m_seg->delta.vx, vx2, t1, shift2);
 
         z = shift2 + t1;
         Shift_Op(shift2, z, archive2);
 
-        t1 = m_seg->field_1D[2];
+        t1 = m_seg->y_size;
         vy2 = extract_archive(archive2);
-        Mask_Op(m_seg->field_8.vy, vy2, t1, shift2);
+        Mask_Op(m_seg->delta.vy, vy2, t1, shift2);
 
         z = shift2 + t1;
         Shift_Op(shift2, z, archive2);
 
-        t1 = m_seg->field_1D[3];
+        t1 = m_seg->z_size;
         vz2 = extract_archive(archive2);
-        Mask_Op(m_seg->field_8.vz, vz2, t1, shift2);
+        Mask_Op(m_seg->delta.vz, vz2, t1, shift2);
     }
 }
 
-int negate_rots_800366B8(SVECTOR *arg0, SVECTOR *arg1)
+STATIC int negate_rots_800366B8(SVECTOR *arg0, SVECTOR *arg1)
 {
     SVECTOR  vec1;
     SVECTOR  vec2;

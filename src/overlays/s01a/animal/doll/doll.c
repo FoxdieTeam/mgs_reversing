@@ -600,7 +600,7 @@ void s01a_doll_800DC9FC(DollWork *work)
         GM_ConfigObjectAction(&work->body, 0, 0, 0);
     }
 
-    work->control.height = work->body.field_18;
+    work->control.height = work->body.height;
 }
 
 int DollGetResources_800DCAA4(DollWork *work, int name, int map)
