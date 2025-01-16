@@ -1338,7 +1338,7 @@ void s07a_meryl_unk_800D952C( WatcherWork *work )
 
     work->field_C30  = 0;
 
-    ctrl->height = ( work->body.field_18 * work->scale ) / 4096 ;
+    ctrl->height = ( work->body.height * work->scale ) / 4096 ;
     ctrl->hzd_height = ctrl->levels[0] + 750;
 
     time_prev = work->time;
