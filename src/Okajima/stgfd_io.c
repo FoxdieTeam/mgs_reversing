@@ -8,8 +8,8 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 
-extern int     GV_PauseLevel_800AB928;
-extern int     GV_Clock_800AB920;
+extern int     GV_PauseLevel;
+extern int     GV_Clock;
 
 /*---------------------------------------------------------------------------*/
 
@@ -37,7 +37,7 @@ typedef struct StgfdIoWork
 STATIC void stgfd_io_act_helper_80074DAC(StgfdIoWork *work)
 {
     short rgb[3]; // or RGB struct?
-    if (GV_PauseLevel_800AB928)
+    if (GV_PauseLevel)
     {
         return;
     }
@@ -52,7 +52,7 @@ STATIC void stgfd_io_act_helper_80074DAC(StgfdIoWork *work)
         rgb[2] = work->field_2C.vz +
                  (((work->field_34.vz - work->field_2C.vz) * work->field_28)) / work->field_24;
     }
-    setRGB0(&work->prims->tile[GV_Clock_800AB920], rgb[0], rgb[1], rgb[2]);
+    setRGB0(&work->prims->tile[GV_Clock], rgb[0], rgb[1], rgb[2]);
 }
 
 STATIC void stgfd_io_act_helper_80074F44(StgfdIoWork *work, int a2, int x, int y, int z)
@@ -67,8 +67,8 @@ STATIC void stgfd_io_Act(StgfdIoWork *work)
 {
     unsigned char *pOt = DG_ChanlOTag(0);
 
-    addPrim(pOt, &work->prims->tile[GV_Clock_800AB920]);
-    addPrim(pOt, &work->prims->tpage[GV_Clock_800AB920]);
+    addPrim(pOt, &work->prims->tile[GV_Clock]);
+    addPrim(pOt, &work->prims->tpage[GV_Clock]);
 
     stgfd_io_act_helper_80074DAC(work);
 

@@ -31,8 +31,6 @@ typedef struct BreakObjWork
 unsigned short breakobj_msgs_800C36E8[2] = {0xC39B, 0x881D};
 SVECTOR        s08a_dword_800C36EC = {100, 100, 100};
 
-extern int     GV_Clock_800AB920;
-
 void     Takabe_FreeObjs_800DC820(DG_OBJS *objs);
 DG_OBJS *s00a_unknown3_800DC7BC(int model, LIT *lit);
 
@@ -45,7 +43,7 @@ void BreakObjAct_800D5670(BreakObjWork *work)
     int     flag;
     OBJECT *object;
 
-    GM_CurrentMap_800AB9B0 = work->where;
+    GM_CurrentMap = work->where;
 
     flag = THING_Msg_CheckMessage(work->name, 2, breakobj_msgs_800C36E8) == 0;
 
@@ -117,7 +115,7 @@ int BreakObjGetResources_800D5894(BreakObjWork *work, int name, int where)
     svec1 = &work->svec1;
 
     work->name = name;
-    GM_CurrentMap_800AB9B0 = where;
+    GM_CurrentMap = where;
     work->where = where;
 
     THING_Gcl_GetSVector('p', svec1);

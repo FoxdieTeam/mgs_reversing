@@ -28,14 +28,14 @@ extern  CONTROL        *GM_PlayerControl_800AB9F4;
 extern  int             GM_Photocode_800ABA04;
 extern  int             dword_8009F46C;
 extern  SVECTOR         svector_8009F478;
-extern  SVECTOR         GM_PhotoViewPos_800ABA48;
+extern  SVECTOR         GM_PhotoViewPos;
 
-char SECTION(".sbss") dword_800ABA58[8];
-int  SECTION(".sbss") gBinds_800ABA60;
-int  SECTION(".sbss") gBindsCount_800ABA64;
+STATIC char SECTION(".sbss") dword_800ABA58[8];
+STATIC int  SECTION(".sbss") gBinds_800ABA60;
+STATIC int  SECTION(".sbss") gBindsCount_800ABA64;
 
-extern char *GM_StageName_800AB918;
-char         SECTION(".sbss") * GM_StageName_800AB918;
+extern char *GM_StageName;
+char         SECTION(".sbss") * GM_StageName;
 
 STATIC int GM_Command_light(unsigned char *);
 STATIC int GM_Command_camera(unsigned char *);
@@ -188,7 +188,7 @@ STATIC int GM_Command_camera(unsigned char *top)
                 cam->field_0e_alertMask = 0;
             }
 
-            GM_CameraSetAlertMask_80030850(camera_id, cam->field_0e_alertMask);
+            GM_CameraSetAlertMask(camera_id, cam->field_0e_alertMask);
         }
     }
 
@@ -599,7 +599,7 @@ STATIC int GM_Command_load(unsigned char *top)
         {
             // Hard restart?
             strcpy(dword_800ABA58, GM_GetArea((int)scriptStageName));
-            GV_ResidentHeapReset();
+            GV_InitResidentMemory();
             GV_InitCacheSystem();
             DG_ClearResidentTexture();
             GM_SetArea(GV_StrCode(scriptStageName), scriptStageName);
@@ -794,7 +794,7 @@ STATIC int GM_Command_system(unsigned char *top)
 
     if (GCL_GetOption('s'))
     {
-        GM_StageName_800AB918 = GCL_ReadString(GCL_GetParamResult());
+        GM_StageName = GCL_ReadString(GCL_GetParamResult());
     }
     return 0;
 }
@@ -819,7 +819,7 @@ STATIC int GM_Command_demo(unsigned char *top)
         cb_proc = 0;
     }
 
-    GM_CurrentMap_800AB9B0 = gBinds_800ABA60;
+    GM_CurrentMap = gBinds_800ABA60;
 
     if ( code >= 0 )
     {
@@ -1037,7 +1037,7 @@ STATIC int GM_Command_func(unsigned char *top)
     if (GCL_GetOption('p')) // photo (used for ghosts easter egg)
     {
         param = GCL_GetNextParamValue();
-        GCL_StrToSV(GCL_GetParamResult(), &GM_PhotoViewPos_800ABA48);
+        GCL_StrToSV(GCL_GetParamResult(), &GM_PhotoViewPos);
         if (GCL_GetNextParamValue() == HASH_LEAVE)
         {
             param = 0;
@@ -1104,8 +1104,8 @@ STATIC int GM_Command_demodebug(unsigned char *top)
     {
         demodebug_finish_proc = -1;
     }
-    tmp = GM_CurrentMap_800AB9B0;
-    GM_CurrentMap_800AB9B0 = gBinds_800ABA60;
+    tmp = GM_CurrentMap;
+    GM_CurrentMap = gBinds_800ABA60;
     if (str)
     {
         demo = DM_ThreadFile_800794E4(flags, (int)str);
@@ -1114,7 +1114,7 @@ STATIC int GM_Command_demodebug(unsigned char *top)
     {
         demo = DM_ThreadStream_80079460(flags, ivar);
     }
-    GM_CurrentMap_800AB9B0 = tmp;
+    GM_CurrentMap = tmp;
     if (!demo)
     {
         printf("Error demo thread\n");

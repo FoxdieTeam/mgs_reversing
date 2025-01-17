@@ -7,7 +7,7 @@
 #include "Game/game.h"
 #include "strcode.h"
 
-extern int GM_CurrentMap_800AB9B0;
+extern int GM_CurrentMap;
 
 /*---------------------------------------------------------------------------*/
 
@@ -229,7 +229,7 @@ STATIC int blood_GetResources(BloodWork *work, MATRIX *arg1, int count)
     DG_PRIM *prim;
     DG_TEX  *tex;
 
-    work->field_20_map = GM_CurrentMap_800AB9B0;
+    work->field_20_map = GM_CurrentMap;
 
     if (count < 11)
     {

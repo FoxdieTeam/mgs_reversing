@@ -22,7 +22,7 @@ typedef struct _Envmap3Scratch
 
 MATRIX envmap3_scale = {{{63, 0, 0}, {0, 63, 0}, {0, 0, 63}}, {0, 0, 0}};
 
-extern int GV_Clock_800AB920;
+extern int GV_Clock;
 
 #define EXEC_LEVEL 0
 
@@ -166,7 +166,7 @@ void Envmap3_800CA0E4(DG_OBJ *obj)
 
     dirty = 0;
 
-    packs = obj->packs[1 - GV_Clock_800AB920];
+    packs = obj->packs[1 - GV_Clock];
     if (packs == NULL)
     {
         return;

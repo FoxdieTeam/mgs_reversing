@@ -164,22 +164,22 @@ enum // GM_GameStatus
 
 /*---------------------------------------------------------------------------*/
 #ifndef __BSSDEFINE__
-extern int     GM_CurrentMap_800AB9B0;
-extern int     GM_NoisePower_800ABA24;
-extern int     GM_NoiseLength_800ABA30;
-extern SVECTOR GM_NoisePosition_800AB9F8;
+extern int     GM_CurrentMap;
+extern int     GM_NoisePower;
+extern int     GM_NoiseLength;
+extern SVECTOR GM_NoisePosition;
 
 static inline void GM_SetNoise( int power, int length, SVECTOR *pos )
 {
-    int old = GM_NoisePower_800ABA24;
+    int old = GM_NoisePower;
     if (power < old)
         return;
-    if (power == old && length < GM_NoiseLength_800ABA30)
+    if (power == old && length < GM_NoiseLength)
         return;
 
-    GM_NoisePower_800ABA24 = power;
-    GM_NoiseLength_800ABA30 = length;
-    GM_NoisePosition_800AB9F8 = *pos;
+    GM_NoisePower = power;
+    GM_NoiseLength = length;
+    GM_NoisePosition = *pos;
 }
 
 extern int GM_GameStatus;
@@ -195,13 +195,13 @@ static inline void GM_Sound( int x_pos, int y_pos, int se_id )
             y_pos = 63;
         }
         mask_id = se_id & 0xff;
-        sd_set_cli( (x_pos << 16 | y_pos << 8 | mask_id), 0 );
+        sd_set_cli( (x_pos << 16 | y_pos << 8 | mask_id), SD_ASYNC );
     }
 }
 
 static inline void GM_FreePrim( DG_PRIM *prim )
 {
-    if ( prim != 0  ) {
+    if ( prim != NULL ) {
         DG_DequeuePrim( prim ) ;
         DG_FreePrim( prim ) ;
     }
@@ -214,20 +214,20 @@ static inline void GM_ConfigPrimRoot( DG_PRIM *prim, OBJECT *obj, int unit )
 
 static inline void GM_SetCurrentMap( int map )
 {
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
 }
 
 static inline int GM_GetCurrentMap()
 {
-    return GM_CurrentMap_800AB9B0;
+    return GM_CurrentMap;
 }
 
 static inline void GM_SetAlertMax( int alert )
 {
-    extern int GM_AlertMax_800AB9E0;
-    if ( GM_AlertMax_800AB9E0 < alert )
+    extern int GM_AlertMax;
+    if ( GM_AlertMax < alert )
     {
-        GM_AlertMax_800AB9E0 = alert;
+        GM_AlertMax = alert;
     }
 }
 
@@ -315,7 +315,7 @@ int  GM_ConfigMotionAdjust(OBJECT *object, SVECTOR *adjust);
 
 /* unsorted stuff */
 void GM_ExitBehindCamera_80030AEC(void);
-void GM_CheckBehindCamera_80030B3C(HZD_HDL *map, CONTROL *control);
+void GM_CheckBehindCamera(HZD_HDL *map, CONTROL *control);
 void GM_Reset_helper3_80030760();
 
 void sub_800309B4(int param_1, int param_2);
@@ -323,7 +323,7 @@ void sub_8002EBE8(SVECTOR *param_1, int param_2); // camera something
 void sub_8002EADC(int);
 
 void sub_8002EC8C(SVECTOR*, SVECTOR*, SVECTOR*);
-void GM_CameraEventReset_800309A8(void);
+void GM_CameraEventReset(void);
 
 void            GM_CameraSetBounds_80030888(SVECTOR *vec1, SVECTOR *vec2, int param_3_bool);
 void            GM_CameraSetLimits_800308E0(SVECTOR *vec1, SVECTOR *vec2, int param_3_bool);

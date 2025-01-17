@@ -12,14 +12,14 @@
 #include "Game/target.h"
 #include "SD/g_sound.h"
 
-extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
+extern PlayerStatusFlag GM_PlayerStatus;
 extern int GM_PlayerMap_800ABA0C;
 extern int     dword_8009F46C;
 extern int     amissile_alive_8009F490;
 extern SVECTOR GM_PlayerPosition_800ABA10;
 extern SVECTOR svector_8009F478;
-extern int GV_Clock_800AB920;
-extern int GV_PauseLevel_800AB928;
+extern int GV_Clock;
+extern int GV_PauseLevel;
 extern TARGET *target_800BDF00;
 
 /*---------------------------------------------------------------------------*/
@@ -79,7 +79,7 @@ char byte_8009F5F8[] = {0, 0, 0, 0};
 
 STATIC void sgtrect3_act_helper_helper_80070040(void *ot, void *prim)
 {
-    if (!(GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000))
+    if (!(GM_PlayerStatus & PLAYER_UNK4000000))
     {
         addPrim(ot, prim);
     }
@@ -295,7 +295,7 @@ STATIC void sgtrect3_act_helper_80070568(SgtRect3Work *work, void *ot, LINE_F3 *
         count = 0xc;
     }
 
-    firstLineF4 = work->field_1C3C_lines[GV_Clock_800AB920].field_0;
+    firstLineF4 = work->field_1C3C_lines[GV_Clock].field_0;
     secondLineF4 = firstLineF4 + 1;
     for (index = 0; index < count; index++)
     {
@@ -338,7 +338,7 @@ STATIC void sgtrect3_act_helper_80070568(SgtRect3Work *work, void *ot, LINE_F3 *
         secondLineF4 += 2;
     }
 
-    sgtrect3_act_helper_helper_80070040(ot, &work->field_23B8_prim[GV_Clock_800AB920]);
+    sgtrect3_act_helper_helper_80070040(ot, &work->field_23B8_prim[GV_Clock]);
 }
 
 STATIC void sgtrect3_act_helper_80070820(void *ot, LINE_F3 *lineF3Arr, LINE_F2 *lineF2Arr, DVECTOR *screenCoords,
@@ -431,9 +431,9 @@ STATIC void sgtrect3_act_helper_80070AB0(SgtRect3Work *work, DVECTOR *screenCoor
     rgbFields = &work->field_28_rgb.rgbWord;
     targetCount = work->field_21AC_target_count;
     field_21B4 = work->field_21B4;
-    lineF3Arr = work->field_3C[GV_Clock_800AB920].field_0;
-    lineF2Arr = work->field_C3C[GV_Clock_800AB920].field_0;
-    tPageArr = work->field_21B8[GV_Clock_800AB920].field_0;
+    lineF3Arr = work->field_3C[GV_Clock].field_0;
+    lineF2Arr = work->field_C3C[GV_Clock].field_0;
+    tPageArr = work->field_21B8[GV_Clock].field_0;
     ot = DG_ChanlOTag(1);
     field_30_target = work->field_30_target;
 
@@ -479,7 +479,7 @@ STATIC void sgtrect3_act_helper_80070CAC(SgtRect3Work *work)
     SVECTOR vector2;
     SVECTOR vector;
 
-    if (GV_PauseLevel_800AB928 != 0)
+    if (GV_PauseLevel != 0)
     {
         return;
     }

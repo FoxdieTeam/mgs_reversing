@@ -27,7 +27,7 @@ typedef struct LampWork
 } LampWork;
 
 extern unsigned char *GCL_NextStrPtr_800AB9A0;
-extern int            GM_CurrentMap_800AB9B0;
+extern int            GM_CurrentMap;
 
 void d11c_800C326C(LampWork *work, int textureId)
 {
@@ -273,7 +273,7 @@ int LampGetResources_800C3914(LampWork *work, int map, int name, int a3, int a4)
     int      param4;
     int      param5;
 
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
     GCL_StrToSV(GCL_GetParamResult(), &svec1);
     GCL_StrToSV(GCL_GetParamResult(), &svec2);
     param1 = GCL_GetNextParamValue();

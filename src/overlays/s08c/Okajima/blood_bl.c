@@ -16,7 +16,7 @@ typedef struct _BloodBlWork
     int      map;
 } BloodBlWork;
 
-extern int GM_CurrentMap_800AB9B0;
+extern int GM_CurrentMap;
 
 #define EXEC_LEVEL 4
 
@@ -162,7 +162,7 @@ int BloodBlGetResources_800CD520(BloodBlWork *work, int map)
     }
 
     work->map = map;
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
 
     prim = DG_GetPrim(DG_PRIM_POLY_FT4, 1, 0, work->verts, NULL);
     work->prim = prim;

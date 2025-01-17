@@ -17,7 +17,7 @@ typedef struct _FlrSpaWork
     int     reload;
 } FlrSpaWork;
 
-extern int     GM_CurrentMap_800AB9B0;
+extern int     GM_CurrentMap;
 extern SVECTOR GM_PlayerPosition_800ABA10;
 
 void NewSpark2_800CA714(MATRIX *world);
@@ -165,7 +165,7 @@ void FlrSpaAct_800D0E24(FlrSpaWork *work)
 {
     unsigned short hashes[2];
 
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
 
     hashes[0] = GV_StrCode("はじめ");
     hashes[1] = GV_StrCode("やめ");
@@ -200,7 +200,7 @@ int FlrSpaGetResources_800D0EC8(FlrSpaWork *work, int name, int map)
     work->name = name;
     work->map = map;
 
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
 
     opt = GCL_GetOption('t');
     if (opt != NULL)

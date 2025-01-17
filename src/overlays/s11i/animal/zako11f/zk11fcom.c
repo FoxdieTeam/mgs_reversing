@@ -14,7 +14,7 @@ extern int GM_GameStatus;
 extern int GM_GameOverTimer;
 
 extern int      GM_PlayerAddress_800AB9F0;
-extern SVECTOR  GM_NoisePosition_800AB9F8;
+extern SVECTOR  GM_NoisePosition;
 extern int      GM_PlayerMap_800ABA0C;
 extern SVECTOR  GM_PlayerPosition_800ABA10;
 extern CONTROL *GM_WhereList_800B56D0[96];
@@ -72,8 +72,8 @@ void s11i_zk11fcom_800D0C70( void )
 
 void s11i_zk11fcom_800D0CBC(void)
 {
-    Zako11FCommand_800D5AF8.com_addr = HZD_GetAddress( GM_WhereList_800B56D0[ 0 ]->map->hzd, &GM_NoisePosition_800AB9F8, -1 );
-    Zako11FCommand_800D5AF8.com_pos  = GM_NoisePosition_800AB9F8;
+    Zako11FCommand_800D5AF8.com_addr = HZD_GetAddress( GM_WhereList_800B56D0[ 0 ]->map->hzd, &GM_NoisePosition, -1 );
+    Zako11FCommand_800D5AF8.com_pos  = GM_NoisePosition;
     Zako11FCommand_800D5AF8.com_map  = GM_PlayerMap_800ABA0C;
 }
 

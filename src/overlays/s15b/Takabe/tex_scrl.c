@@ -28,8 +28,8 @@ typedef struct _TexScrollWork
     RECT            rects[0];
 } TexScrollWork;
 
-extern int GV_Clock_800AB920;
-extern int GV_PauseLevel_800AB928;
+extern int GV_Clock;
+extern int GV_PauseLevel;
 
 unsigned short tex_scroll_msgs[] = {0x448B, 0xA8A4};
 
@@ -89,7 +89,7 @@ void TexScrollAct_800C9960(TexScrollWork *work)
     RECT           *rect;
     int             i;
 
-    if (GV_PauseLevel_800AB928 != 0)
+    if (GV_PauseLevel != 0)
     {
         return;
     }
@@ -124,7 +124,7 @@ void TexScrollAct_800C9960(TexScrollWork *work)
     }
 
     ot = (unsigned int *)DG_ChanlOTag(1);
-    prims = work->f38[GV_Clock_800AB920];
+    prims = work->f38[GV_Clock];
     rect = work->rects;
 
     if (work->speed == 0)
@@ -142,7 +142,7 @@ void TexScrollAct_800C9960(TexScrollWork *work)
         prims++;
     }
 
-    addPrim(ot, &work->f34->stp[GV_Clock_800AB920]);
+    addPrim(ot, &work->f34->stp[GV_Clock]);
 }
 
 void TexScrollDie_800C9BAC(TexScrollWork *work)

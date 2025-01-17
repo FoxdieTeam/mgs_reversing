@@ -31,7 +31,7 @@ typedef struct _RevbulltWork
     int      bounces;
 } RevbulltWork;
 
-extern int     GM_CurrentMap_800AB9B0;
+extern int     GM_CurrentMap;
 
 const SVECTOR s04c_dword_800DBAE4 = {0, -750, 0, 0};
 
@@ -188,7 +188,7 @@ void RevbulltAct_800D2864(RevbulltWork *work)
 
     if (work->f140 == 0)
     {
-        GM_CurrentMap_800AB9B0 = work->map;
+        GM_CurrentMap = work->map;
 
         GV_AddVec3(&work->f24, &work->f2C, &sp38);
 
@@ -313,7 +313,7 @@ int RevbulltGetResources_800D2BFC(RevbulltWork *work, MATRIX *world, int arg2, i
 
     sp18 = s04c_dword_800DBAE4;
 
-    work->map = GM_CurrentMap_800AB9B0;
+    work->map = GM_CurrentMap;
 
     work->f3C = *world;
     work->f24.vx = world->t[0];

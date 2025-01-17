@@ -16,9 +16,9 @@ extern int           COM_VibTime_800E0F68;
 extern OBJECT *GM_PlayerBody_800ABA20;
 extern SVECTOR GM_PlayerPosition_800ABA10;
 extern CONTROL *GM_PlayerControl_800AB9F4;
-extern int      GM_PlayerAction_800ABA40;
+extern int      GM_PlayerAction;
 extern int      GM_PlayerMap_800ABA0C;
-extern unsigned int GM_PlayerStatus_800ABA50;
+extern unsigned int GM_PlayerStatus;
 
 extern SVECTOR s07a_dword_800C3694;
 
@@ -772,7 +772,7 @@ void s07a_meryl_unk_800D8290( WatcherWork *work, int time )
             target->field_42 = 0;
         }
     }
-    switch ( GM_PlayerAction_800ABA40 )
+    switch ( GM_PlayerAction )
     {
     case 0x7:
     case 0xD:
@@ -1883,7 +1883,7 @@ void s07a_meryl_unk_800DA3F8( WatcherWork *work, int time )
             AN_Sleep_800CA7DC( &mov );
             GM_SeSet( &work->control.mov, 0x93 );
 
-            if ( work->sn_dis < 1000 && ( GM_PlayerStatus_800ABA50 & 1 ) )
+            if ( work->sn_dis < 1000 && ( GM_PlayerStatus & 1 ) )
             {
                 int res = GV_RandU( 12 );
                 if ( res > 10 )

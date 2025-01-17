@@ -6,7 +6,7 @@
 #include "Game/game.h"
 #include "strcode.h"
 
-extern int GV_Clock_800AB920;
+extern int GV_Clock;
 
 /*---------------------------------------------------------------------------*/
 
@@ -122,7 +122,7 @@ STATIC POLY_GT4 *kogaku2_tpage_uv_update_80060F98(POLY_GT4 *packs, int n_packs)
     int tpage;
     int visible;
 
-    if (GV_Clock_800AB920 != 0)
+    if (GV_Clock != 0)
     {
         tpage = getTPage(2, 0, 0, 0);
     }
@@ -165,7 +165,7 @@ STATIC POLY_GT4 *kogaku2_tpage_uv_rgb_update_800610A4(POLY_GT4 *packs, int n_pac
     int tpage;
     int visible;
 
-    if (GV_Clock_800AB920 != 0)
+    if (GV_Clock != 0)
     {
         tpage = getTPage(2, 0, 0, 0);
     }
@@ -226,7 +226,7 @@ STATIC void kogaku2_update_prims1_80061204(Kogaku2Work *work)
     n_models = objs->n_models;
     for (i = objs->objs; n_models > 0; ++i)
     {
-        pPack = i->packs[1 - GV_Clock_800AB920];
+        pPack = i->packs[1 - GV_Clock];
         if (pPack)
         {
             for (j = i; j; j = j->extend)
@@ -250,7 +250,7 @@ STATIC void kogaku2_update_prims2_800612BC(Kogaku2Work *work)
     n_models = objs->n_models;
     for (i = objs->objs; n_models > 0; ++i)
     {
-        pPack = i->packs[1 - GV_Clock_800AB920];
+        pPack = i->packs[1 - GV_Clock];
         if (pPack)
         {
             for (j = i; j; j = j->extend)

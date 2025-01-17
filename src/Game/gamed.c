@@ -30,11 +30,11 @@
 /*---------------------------------------------------------------------------*/
 
 //both below are defined in gvd.c
-extern char            *GM_StageName_800AB918;
-char                   *GM_StageName_800AB918;
+extern char            *GM_StageName;
+char                   *GM_StageName;
 
-extern GV_PAD                  *GM_CurrentPadData_800AB91C;
-GV_PAD        *SECTION(".sbss") GM_CurrentPadData_800AB91C;
+extern GV_PAD                  *GM_CurrentPadData;
+GV_PAD        *SECTION(".sbss") GM_CurrentPadData;
 
 int GM_GameStatus = 0;
 int GM_LoadRequest = 0;
@@ -60,31 +60,32 @@ int          SECTION(".sbss") dword_800AB9D4;
 short        SECTION(".sbss") GM_WeaponChanged_800AB9D8;
 short        SECTION(".sbss") word_800AB9DA;
 int          SECTION(".sbss") GM_ClaymoreMap_800AB9DC;
-int          SECTION(".sbss") GM_AlertMax_800AB9E0;
+int          SECTION(".sbss") GM_AlertMax;
 unsigned int SECTION(".sbss") GM_DisableWeapon_800AB9E4;
 int          SECTION(".sbss") gTotalFrameTime_800AB9E8;
 short        SECTION(".sbss") GM_Magazine_800AB9EC;
 int          SECTION(".sbss") GM_PlayerAddress_800AB9F0;
 CONTROL     *SECTION(".sbss") GM_PlayerControl_800AB9F4;
-SVECTOR      SECTION(".sbss") GM_NoisePosition_800AB9F8; //breaks when added to a file that includes game.h
-int          SECTION(".sbss") GM_AlertMode_800ABA00;
+SVECTOR      SECTION(".sbss") GM_NoisePosition; //breaks when added to a file that includes game.h
+int          SECTION(".sbss") GM_AlertMode;
 int          SECTION(".sbss") GM_Photocode_800ABA04;
 int          SECTION(".sbss") dword_800ABA08;
 int          SECTION(".sbss") GM_PlayerMap_800ABA0C;
 SVECTOR      SECTION(".sbss") GM_PlayerPosition_800ABA10;
-int          SECTION(".sbss") GM_AlertLevel_800ABA18;
+int          SECTION(".sbss") GM_AlertLevel;
 int          SECTION(".sbss") dword_800ABA1C;
 OBJECT      *SECTION(".sbss") GM_PlayerBody_800ABA20;
-int          SECTION(".sbss") GM_NoisePower_800ABA24;
+int          SECTION(".sbss") GM_NoisePower;
 int          SECTION(".sbss") GM_DisableItem_800ABA28;
 short        SECTION(".sbss") GM_MagazineMax_800ABA2C;
-int          SECTION(".sbss") GM_NoiseLength_800ABA30;
-short        SECTION(".sbss") GM_O2_800ABA34;
-int          SECTION(".sbss") GM_LoadComplete_800ABA38;
-int          SECTION(".sbss") GM_PadVibration_800ABA3C;
-int          SECTION(".sbss") GM_PlayerAction_800ABA40;
-int          SECTION(".sbss") dword_800ABA44;
-SVECTOR      SECTION(".sbss") GM_PhotoViewPos_800ABA48;
+int          SECTION(".sbss") GM_NoiseLength;
+short        SECTION(".sbss") GM_O2;
+short        SECTION(".sbss") GM_PDA_ClearRank;
+int          SECTION(".sbss") GM_LoadComplete;
+int          SECTION(".sbss") GM_PadVibration;
+int          SECTION(".sbss") GM_PlayerAction;
+STATIC int   SECTION(".sbss") dword_800ABA44;
+SVECTOR      SECTION(".sbss") GM_PhotoViewPos;
 
 /**
  * Some known settings via GM_SetPlayerStatusFlag():
@@ -100,8 +101,8 @@ SVECTOR      SECTION(".sbss") GM_PhotoViewPos_800ABA48;
  * |= 0x10020 if Snake crouches while up against a wall from sna_anim_wall_crouch_80052CCC().
  * |= 0x10 from sna_anim_choke_drag_80059054().
  */
-PlayerStatusFlag SECTION(".sbss") GM_PlayerStatus_800ABA50;
-int              SECTION(".sbss") GM_PadVibration2_800ABA54;
+PlayerStatusFlag SECTION(".sbss") GM_PlayerStatus;
+int              SECTION(".sbss") GM_PadVibration2;
 
 extern unsigned short   gSystemCallbackProcs_800B58C0[];
 extern int          str_mute_fg_800BEFF0;
@@ -112,16 +113,16 @@ extern int          str_off_idx_800BF264;
 extern char         exe_name_800B5860[32];
 extern char        *MGS_DiskName[3]; /* in main.c */
 extern int          FS_DiskNum_800ACBF0;
-extern int          GV_PassageTime_800AB924;
+extern int          GV_PassageTime;
 extern int          gSaveCache_800B5294;
-extern int          GV_PauseLevel_800AB928;
+extern int          GV_PauseLevel;
 extern GV_PAD       GV_PadData_800B05C0[4];
 
 extern DG_TEX gMenuTextureRec_800B58B0;
 
 extern GameWork GameWork_800B5880;
 
-extern unsigned char *GV_ResidentMemoryBottom_800AB940;
+extern unsigned char *GV_ResidentMemoryBottom;
 
 extern void *gOverlayBase_800AB9C8;
 extern int gOverlayBinSize_800B5290;
@@ -141,20 +142,20 @@ STATIC void GM_InitGameSystem(void)
     GM_PlayerAddress_800AB9F0 = -1;
     GM_GameStatus = 0;
     GM_GameOverTimer = 0;
-    GM_PlayerStatus_800ABA50 = 0;
-    GM_NoisePower_800ABA24 = 0;
-    GM_NoiseLength_800ABA30 = 0;
+    GM_PlayerStatus = 0;
+    GM_NoisePower = 0;
+    GM_NoiseLength = 0;
     GM_ClaymoreMap_800AB9DC = 0;
-    GM_AlertLevel_800ABA18 = 0;
-    GM_AlertMax_800AB9E0 = 0;
-    GM_AlertMode_800ABA00 = 0;
+    GM_AlertLevel = 0;
+    GM_AlertMax = 0;
+    GM_AlertMode = 0;
     GM_WeaponChanged_800AB9D8 = 0;
     GM_Magazine_800AB9EC = 0;
     GM_MagazineMax_800ABA2C = 0;
     GM_DisableItem_800ABA28 = 0;
     GM_DisableWeapon_800AB9E4 = 0;
-    GM_O2_800ABA34 = 1024;
-    GM_StageName_800AB918 = 0;
+    GM_O2 = 1024;
+    GM_StageName = NULL;
     GM_EnvironTemp = 0;
     GM_PlayerPosition_800ABA10.vx = GM_SnakePosX;
     GM_PlayerPosition_800ABA10.vy = GM_SnakePosY;
@@ -172,20 +173,20 @@ STATIC void GM_InitNoise(void)
     int max;
 
     // isn't this one of the inlines?
-    length = GM_NoiseLength_800ABA30;
-    if (GM_NoiseLength_800ABA30 > 0)
+    length = GM_NoiseLength;
+    if (GM_NoiseLength > 0)
     {
-        length = GM_NoiseLength_800ABA30 - 1;
+        length = GM_NoiseLength - 1;
     }
     if (!length)
     {
-        GM_NoisePower_800ABA24 = 0;
+        GM_NoisePower = 0;
     }
 
-    max = GM_AlertMax_800AB9E0;
-    GM_NoiseLength_800ABA30 = length;
-    GM_AlertMax_800AB9E0 = 0;
-    GM_AlertLevel_800ABA18 = max;
+    max = GM_AlertMax;
+    GM_NoiseLength = length;
+    GM_AlertMax = 0;
+    GM_AlertLevel = max;
 }
 
 STATIC void GM_ResetSystem(void)
@@ -216,8 +217,8 @@ STATIC void GM_CreateLoader(void)
 
 STATIC void GM_HidePauseScreen(void)
 {
-    GV_PauseLevel_800AB928 &= ~2;
-    GM_SetSound(0x01ffff02, 0);
+    GV_PauseLevel &= ~2;
+    GM_SetSound(0x01ffff02, SD_ASYNC);
     MENU_JimakuClear();
     GM_GameStatus &= ~GAME_FLAG_BIT_08;
 }
@@ -227,11 +228,11 @@ STATIC void GM_ShowPauseScreen(void)
     char *areaName;
 
     areaName = "";
-    GV_PauseLevel_800AB928 |= 2;
-    GM_SetSound(0x01ffff01, 0);
-    if (GM_StageName_800AB918)
+    GV_PauseLevel |= 2;
+    GM_SetSound(0x01ffff01, SD_ASYNC);
+    if (GM_StageName)
     {
-        areaName = GM_StageName_800AB918;
+        areaName = GM_StageName;
     }
     MENU_AreaNameWrite(areaName);
 }
@@ -242,7 +243,7 @@ STATIC void GM_TogglePauseScreen(void)
     int var2;
     int ret;
 
-    var1 = GV_PauseLevel_800AB928;
+    var1 = GV_PauseLevel;
     var2 = var1 & ~2;
     ret = var2; // Why this waste?
     // It should always be true because the only caller
@@ -332,7 +333,7 @@ STATIC void GM_Act(GameWork *work)
     if ((GM_GameStatusFlag & (0x2000 | 0x400)) == 0)
     {
         int vibration2;
-        if (GM_PadVibration_800ABA3C != 0)
+        if (GM_PadVibration != 0)
         {
             mts_set_pad_vibration(1, 10);
         }
@@ -341,7 +342,7 @@ STATIC void GM_Act(GameWork *work)
             mts_set_pad_vibration(1, 0);
         }
 
-        vibration2 = GM_PadVibration2_800ABA54;
+        vibration2 = GM_PadVibration2;
         if (vibration2 > 255)
         {
             vibration2 = 255;
@@ -349,14 +350,14 @@ STATIC void GM_Act(GameWork *work)
         mts_set_pad_vibration2(1, vibration2);
     }
 
-    GM_PadVibration2_800ABA54 = 0;
-    GM_PadVibration_800ABA3C = 0;
+    GM_PadVibration2 = 0;
+    GM_PadVibration = 0;
 
-    if ((GV_PauseLevel_800AB928 & 8) != 0)
+    if ((GV_PauseLevel & 8) != 0)
     {
         if (!str_mute_fg_800BEFF0 && CDBIOS_TaskState() != 3)
         {
-            GV_PauseLevel_800AB928 &= ~8;
+            GV_PauseLevel &= ~8;
         }
         else
         {
@@ -365,13 +366,13 @@ STATIC void GM_Act(GameWork *work)
     }
     else if (str_mute_fg_800BEFF0 || CDBIOS_TaskState() == 3)
     {
-        GV_PauseLevel_800AB928 |= 8;
+        GV_PauseLevel |= 8;
     }
 
-    if ((GV_PauseLevel_800AB928 & 2) == 0)
+    if ((GV_PauseLevel & 2) == 0)
     {
         int minutes;
-        gTotalFrameTime_800AB9E8 += GV_PassageTime_800AB924;
+        gTotalFrameTime_800AB9E8 += GV_PassageTime;
         minutes = gTotalFrameTime_800AB9E8 / 60;
         GM_TotalHours = minutes / 3600;
         GM_TotalSeconds = minutes % 3600;
@@ -387,19 +388,19 @@ STATIC void GM_Act(GameWork *work)
     }
     else
     {
-        if (GM_LoadComplete_800ABA38 == 0)
+        if (GM_LoadComplete == 0)
         {
             return;
         }
 
-        GM_LoadComplete_800ABA38 = 1;
+        GM_LoadComplete = 1;
 
         if ((GM_LoadRequest & 0x80) != 0)
         {
             DG_UnDrawFrameCount = 0;
         }
 
-        if (gSaveCache_800B5294 != 0)
+        if (gSaveCache_800B5294 != FALSE)
         {
             GV_ResidentFileCache();
             DG_SaveTexureCacheToResidentMem();
@@ -469,7 +470,7 @@ STATIC void GM_Act(GameWork *work)
         }
         else
         {
-            if (GM_LoadRequest != 0 && (GV_PauseLevel_800AB928 & 2) == 0)
+            if (GM_LoadRequest != 0 && (GV_PauseLevel & 2) == 0)
             {
                 if ((GM_LoadRequest & 0x80) != 0)
                 {
@@ -477,7 +478,7 @@ STATIC void GM_Act(GameWork *work)
                 }
 
                 GV_DestroyActorSystem(4);
-                GV_PauseLevel_800AB928 &= ~8;
+                GV_PauseLevel &= ~8;
                 GM_ResetMapModel();
                 GM_StreamPlayStop();
                 work->field_24 = 3;
@@ -486,7 +487,7 @@ STATIC void GM_Act(GameWork *work)
                 return;
             }
 
-            if (GV_PauseLevel_800AB928 == 0)
+            if (GV_PauseLevel == 0)
             {
                 GM_AlertAct();
             }
@@ -494,12 +495,12 @@ STATIC void GM_Act(GameWork *work)
             if ((GM_GameStatus & (STATE_VOX_STREAM | STATE_PAUSE_OFF | STATE_PADMASK | STATE_PADRELEASE |
                                            STATE_PADDEMO | STATE_DEMO)) == 0)
             {
-                if (((GV_PauseLevel_800AB928 & ~2) == 0) && ((GM_CurrentPadData_800AB91C->press & PAD_START) != 0))
+                if (((GV_PauseLevel & ~2) == 0) && ((GM_CurrentPadData->press & PAD_START) != 0))
                 {
                     GM_TogglePauseScreen();
                 }
             }
-            else if ((GV_PauseLevel_800AB928 & 2) != 0)
+            else if ((GV_PauseLevel & 2) != 0)
             {
                 GM_HidePauseScreen();
             }
@@ -540,7 +541,7 @@ STATIC void GM_Act(GameWork *work)
             dword_800AB9D0 = 0x5a;
         }
 
-        if ((GM_GameStatus < 0) && ((GM_CurrentPadData_800AB91C[2].press & (PAD_START | PAD_CROSS)) != 0))
+        if ((GM_GameStatus < 0) && ((GM_CurrentPadData[2].press & (PAD_START | PAD_CROSS)) != 0))
         {
             GM_StreamPlayStop();
         }
@@ -566,20 +567,20 @@ STATIC void GM_Act(GameWork *work)
             printf("key %08X\n", spu_key);
         }
 
-        if (GV_PauseLevel_800AB928 == 0)
+        if (GV_PauseLevel == 0)
         {
             GM_InitNoise();
         }
     }
     else
     {
-        GV_PauseLevel_800AB928 &= ~8;
+        GV_PauseLevel &= ~8;
 
         if ((--work->field_24 <= 0))
         {
             if (GM_StreamStatus() == -1)
             {
-                if ((GV_PauseLevel_800AB928 & 5) == 0)
+                if ((GV_PauseLevel & 5) == 0)
                 {
                     work->status = 0;
                     work->field_24 = 0;
@@ -604,7 +605,7 @@ STATIC void GM_Act(GameWork *work)
             work->field_24 = status;
         }
 
-        if (GV_PauseLevel_800AB928 == 0)
+        if (GV_PauseLevel == 0)
         {
             GM_InitNoise();
         }
@@ -707,7 +708,7 @@ STATIC int GM_LoadInitBin(unsigned char *buf, int id)
     return 1; // the overlay is embedded in the executable in dev variant
 #endif
 
-    if (((u_char *)gOverlayBase_800AB9C8 + gOverlayBinSize_800B5290) > GV_ResidentMemoryBottom_800AB940)
+    if (((u_char *)gOverlayBase_800AB9C8 + gOverlayBinSize_800B5290) > GV_ResidentMemoryBottom)
     {
         printf("TOO LARGE STAGE BINARY!!\n");
     }
@@ -721,7 +722,7 @@ void GM_StartDaemon(void)
     gTotalFrameTime_800AB9E8 = 0;
     GM_GameOverTimer = 0;
     GM_LoadRequest = 0;
-    GM_LoadComplete_800ABA38 = 0;
+    GM_LoadComplete = 0;
     MENU_StartDeamon();
     GM_InitArea();
     GM_InitChara();
@@ -733,7 +734,7 @@ void GM_StartDaemon(void)
     GM_ResetSystem();
     GM_ActInit(&GameWork_800B5880);
     GM_ResetMemory();
-    GM_CurrentPadData_800AB91C = GV_PadData_800B05C0;
+    GM_CurrentPadData = GV_PadData_800B05C0;
     GM_CurrentDiskFlag = FS_DiskNum_800ACBF0 + 1;
     GV_SaveResidentTop();
     GameWork_800B5880.status = 0;

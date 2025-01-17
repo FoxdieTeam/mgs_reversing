@@ -588,7 +588,7 @@ void s11e_zk11ecom_800D5A84( ZakoWork* work )
 extern unsigned char s11e_dword_800C3658;
 extern unsigned char s11e_dword_800C365C;
 
-extern int GM_PlayerAction_800ABA40;
+extern int GM_PlayerAction;
 
 extern void NewPadVibration( unsigned char *ptr, int flags );
 extern void s11e_zk11ecom_800D649C( ZakoWork *work, int time );
@@ -638,7 +638,7 @@ void s11e_zk11ecom_800D5B04( ZakoWork *work, int time )
             target->field_42 = 0;
         }
     }
-    switch ( GM_PlayerAction_800ABA40 )
+    switch ( GM_PlayerAction )
     {
     case 0x7:
     case 0xD:
@@ -1442,7 +1442,7 @@ void s11e_zk11ecom_800D7450( ZakoWork* work, int time )
     }
 }
 
-extern int GM_PlayerStatus_800ABA50;
+extern int GM_PlayerStatus;
 
 void s11e_zk11ecom_800D7518( ZakoWork *work, int time )
 {
@@ -1474,7 +1474,7 @@ void s11e_zk11ecom_800D7518( ZakoWork *work, int time )
             AN_Sleep_800CA7DC( &mov );
             GM_SeSet( &work->control.mov, 0x93 );
 
-            if ( work->sn_dis < 1000 && ( GM_PlayerStatus_800ABA50 & 1 ) )
+            if ( work->sn_dis < 1000 && ( GM_PlayerStatus & 1 ) )
             {
                 int res = GV_RandU( 12 );
                 if ( res > 10 )

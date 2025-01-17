@@ -666,20 +666,20 @@ static inline DG_CHANL *DG_Chanl( int idx )
 
 static inline char *DG_ChanlOTag(int index)
 {
-    extern int GV_Clock_800AB920;
-    return DG_Chanl(index)->mOrderingTables[GV_Clock_800AB920];
+    extern int GV_Clock;
+    return DG_Chanl(index)->mOrderingTables[GV_Clock];
 }
 
 static inline DG_PRIM *DG_GetPrim( int type, int prim_count, int chanl, SVECTOR *vec, RECT *pRect )
 {
-    extern int  GM_CurrentMap_800AB9B0;
+    extern int  GM_CurrentMap;
     DG_PRIM     *prim;
 
     prim = DG_MakePrim( type, prim_count, chanl, vec, pRect );
     if ( prim )
     {
         DG_QueuePrim( prim );
-        DG_GroupPrim( prim, GM_CurrentMap_800AB9B0 );
+        DG_GroupPrim( prim, GM_CurrentMap );
     }
     return prim;
 }

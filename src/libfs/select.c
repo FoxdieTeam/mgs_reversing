@@ -22,7 +22,7 @@ void FS_CdStageProgBinFix( void )
 
 CdlCB CdReadCallback( CdlCB func )
 {
-    return 0;
+    return NULL;
 }
 
 CdlCB CdReadMode( CdlCB func )
@@ -30,16 +30,15 @@ CdlCB CdReadMode( CdlCB func )
     /* do nothing */
 }
 
-//DslCB DsReadyCallback( DslCB func );
-void DsReadyCallback( void (*func)(u_char, u_char*) )
+typedef void ( *DslCB )( u_char, u_char* );
+DslCB DsReadyCallback( DslCB func )
 {
-    printf( "DsReadyCallback %x\n", func );
+    printf( "DsReadyCallback %x\n", (u_int)func );
 }
 
-//void ( *DsDataCallback( void ( *func )() ) );
-void DsDataCallback( void (*func)(u_char, u_char*) )
+void DsDataCallback( void (*func)() )
 {
-    printf( "DsDataCallback %x\n", func );
+    printf( "DsDataCallback %x\n", (u_int)func );
 }
 
 int PCinit(void)

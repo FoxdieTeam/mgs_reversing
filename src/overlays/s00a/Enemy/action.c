@@ -37,8 +37,8 @@ extern int GV_NearExp4P(int from, int to);
 extern OBJECT      *GM_PlayerBody_800ABA20;
 extern CONTROL     *GM_PlayerControl_800AB9F4;
 extern SVECTOR      GM_PlayerPosition_800ABA10;
-extern unsigned int GM_PlayerStatus_800ABA50;
-extern int          GM_PlayerAction_800ABA40;
+extern unsigned int GM_PlayerStatus;
+extern int          GM_PlayerAction;
 extern int          GM_PlayerMap_800ABA0C;
 
 
@@ -514,7 +514,7 @@ void ActGrenade_800C67EC( WatcherWork *work, int time )
         work->subweapon = NewGrenadeEnemy_800D2138( &(work->control), &(work->body), 9,
                                                     &(work->trigger), &GM_PlayerPosition_800ABA10, ENEMY_SIDE ) ;
 
-        if ( GM_PlayerStatus_800ABA50 & 2 )
+        if ( GM_PlayerStatus & 2 )
         {
             SetAction( work, GRENADE, ACTINTERP );
         }
@@ -781,7 +781,7 @@ void s00a_command_800C6FA8( WatcherWork* work, int time )
             target->field_42 = 0;
         }
     }
-    switch ( GM_PlayerAction_800ABA40 )
+    switch ( GM_PlayerAction )
     {
     case 0x7:
     case 0xD:
@@ -1591,7 +1591,7 @@ void s00a_command_800C8A6C( WatcherWork *work, int time )
             AN_Sleep_800CA7DC( &mov );
             GM_SeSet( &work->control.mov, 0x93 );
 
-            if ( work->sn_dis < 1000 && ( GM_PlayerStatus_800ABA50 & 1 ) )
+            if ( work->sn_dis < 1000 && ( GM_PlayerStatus & 1 ) )
             {
                 int res = GV_RandU( 12 );
                 if ( res > 10 )

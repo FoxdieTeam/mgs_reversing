@@ -13,8 +13,8 @@
 
 extern ENEMY_COMMAND EnemyCommand_800E0D98;
 extern SVECTOR       GM_PlayerPosition_800ABA10;
-extern int           GM_AlertLevel_800ABA18;
-extern int           GM_PlayerStatus_800ABA50;
+extern int           GM_AlertLevel;
+extern int           GM_PlayerStatus;
 extern unsigned int  COM_GameStatus_800E0F3C;
 extern SVECTOR       COM_PlayerPosition_800E0F30;
 extern SVECTOR       COM_PlayerPositionOne_800E0D48[8];
@@ -149,7 +149,7 @@ void s00a_command_800CAB74( WatcherWork* work )
     MAP *map;
     HZD_ZON *zone;
 
-    addr = HZD_GetAddress( GM_WhereList_800B56D0[0]->map->hzd, &GM_NoisePosition_800AB9F8, -1 ) & 0xFF;
+    addr = HZD_GetAddress( GM_WhereList_800B56D0[0]->map->hzd, &GM_NoisePosition, -1 ) & 0xFF;
     zone = &GM_WhereList_800B56D0[0]->map->hzd->header->zones[ addr ];
 
     if ( work->field_C34 && s00a_command_800CA898( work , zone ) )
@@ -567,7 +567,7 @@ void s00a_command_800CB42C( WatcherWork* work )
 
 void s00a_command_800CB504( WatcherWork* work )
 {
-    switch( GM_NoisePower_800ABA24 )
+    switch( GM_NoisePower )
     {
     case 5:
         work->think2 = 1;
@@ -1368,7 +1368,7 @@ int s00a_command_800CC760( WatcherWork *work )
 int s00a_command_800CC7A4( WatcherWork *work )
 {
     SVECTOR svec;
-    GV_SubVec3( &GM_NoisePosition_800AB9F8, &work->control.mov, &svec );
+    GV_SubVec3( &GM_NoisePosition, &work->control.mov, &svec );
     work->pad.dir = GV_VecDir2( &svec );
     work->pad.press |= 0x02000000;
 
@@ -1717,7 +1717,7 @@ int Think3_AttackSetup_800CCE08( WatcherWork *work )
             */
             if ( work->field_C00   == 0    &&
                  work->alert_level == 255  &&
-                 GM_PlayerStatus_800ABA50 & ( PLAYER_DEADORDYING | PLAYER_INTRUDE )  &&
+                 GM_PlayerStatus & ( PLAYER_DEADORDYING | PLAYER_INTRUDE )  &&
                  work->vision.field_B92  == 0 )
             {
                 return 0x18;
@@ -1726,10 +1726,10 @@ int Think3_AttackSetup_800CCE08( WatcherWork *work )
             if ( work->sn_dis < COM_SHOOTRANGE_800E0D88 && work->vision.field_B92 == 2 )
             {
                 if ( work->sn_dis < 1000 &&                 /* 距離が近かなかったら */
-                !(GM_PlayerStatus_800ABA50 & PLAYER_SQUAT) &&   /* しゃがんでなかったら */
-                !(GM_PlayerStatus_800ABA50 & PLAYER_GROUND) &&  /* 匍匐じゃなかったら */
-                !(GM_PlayerStatus_800ABA50 & PLAYER_CB_BOX) ) { /* 段ボールじゃなかったら */
-                      return TH3_ATTACK_NEAR;
+                    !(GM_PlayerStatus & PLAYER_SQUAT) &&    /* しゃがんでなかったら */
+                    !(GM_PlayerStatus & PLAYER_GROUND) &&   /* 匍匐じゃなかったら */
+                    !(GM_PlayerStatus & PLAYER_CB_BOX) ) {  /* 段ボールじゃなかったら */
+                    return TH3_ATTACK_NEAR;
                 }
                 else
                 {
@@ -1743,10 +1743,10 @@ int Think3_AttackSetup_800CCE08( WatcherWork *work )
         if ( work->sn_dis < COM_SHOOTRANGE_800E0D88 && work->vision.field_B92 == 2 && (work->count3 & 1) )
         {
             if ( work->sn_dis < 1000 &&                 /* 距離が近かなかったら */
-            !(GM_PlayerStatus_800ABA50 & PLAYER_SQUAT) &&   /* しゃがんでなかったら */
-            !(GM_PlayerStatus_800ABA50 & PLAYER_GROUND) &&  /* 匍匐じゃなかったら */
-            !(GM_PlayerStatus_800ABA50 & PLAYER_CB_BOX) ) { /* 段ボールじゃなかったら */
-                  return TH3_ATTACK_NEAR;
+                !(GM_PlayerStatus & PLAYER_SQUAT) &&    /* しゃがんでなかったら */
+                !(GM_PlayerStatus & PLAYER_GROUND) &&   /* 匍匐じゃなかったら */
+                !(GM_PlayerStatus & PLAYER_CB_BOX) ) {  /* 段ボールじゃなかったら */
+                return TH3_ATTACK_NEAR;
             }
             else
             {
@@ -1758,7 +1758,7 @@ int Think3_AttackSetup_800CCE08( WatcherWork *work )
         {
             if ( work->field_C00   == 0    &&
                  work->alert_level == 255  &&
-                 (GM_PlayerStatus_800ABA50 & ( PLAYER_DEADORDYING | PLAYER_INTRUDE ))  &&
+                 (GM_PlayerStatus & ( PLAYER_DEADORDYING | PLAYER_INTRUDE ))  &&
                  work->vision.field_B92  == 0 )
             {
                 return 0x18;
@@ -2025,7 +2025,7 @@ void s00a_command_800CD478( WatcherWork *work )
            {
                think_reset2( work );
            }
-           if ( ( work->field_BA1 & 1 ) && ( GM_NoisePower_800ABA24 == 200 || GM_NoisePower_800ABA24 == 255 ) )
+           if ( ( work->field_BA1 & 1 ) && ( GM_NoisePower == 200 || GM_NoisePower == 255 ) )
            {
                 think_noise_inline( work );
            }
@@ -2158,9 +2158,9 @@ void s00a_command_800CD608( WatcherWork *work )
 
     if ( work->field_BA1 & 1 )
     {
-        if ( (GM_NoisePower_800ABA24 != 100) )
+        if ( (GM_NoisePower != 100) )
         {
-            if ( GM_NoisePower_800ABA24 == 255 )
+            if ( GM_NoisePower == 255 )
             {
                 think_noise_inline( work );
                 return;
@@ -2273,7 +2273,7 @@ void s00a_command_800CD8B0( WatcherWork *work )
     }
     else if ( work->field_BA1 & 1 )
     {
-        if ( GM_NoisePower_800ABA24 == 200 || GM_NoisePower_800ABA24 == 255 )
+        if ( GM_NoisePower == 200 || GM_NoisePower == 255 )
         {
             think_noise_inline( work );
         }
@@ -2651,7 +2651,7 @@ void s00a_command_800CE428( WatcherWork* work )
 {
     s00a_command_800CAB04( work );
 
-    if ( s00a_command_800CC064( work ) || ( work->sn_dis < ( work->field_BFC + 500 ) ) || GM_AlertLevel_800ABA18 < 150 )
+    if ( s00a_command_800CC064( work ) || ( work->sn_dis < ( work->field_BFC + 500 ) ) || GM_AlertLevel < 150 )
     {
         work->think2 = 13;
         work->think3 = 34;

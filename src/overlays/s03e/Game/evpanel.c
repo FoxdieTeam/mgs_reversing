@@ -71,12 +71,12 @@ const char s03e_aInitopen_800CBF68[] = "INiTOPEN\n";
 
 EvPanelWork *SECTION("overlay.bss") s03e_dword_800CC6B8;
 
-extern int          GM_CurrentMap_800AB9B0;
+extern int          GM_CurrentMap;
 extern GM_Camera    GM_Camera_800B77E8;
 extern OBJECT      *GM_PlayerBody_800ABA20;
-extern int          GM_PlayerStatus_800ABA50;
-extern int          GM_AlertMode_800ABA00;
-extern int          GM_CameraShakeOffset_800ABA98;
+extern int          GM_PlayerStatus;
+extern int          GM_AlertMode;
+extern int          GM_CameraShakeOffset;
 extern GV_PAD       GV_PadData_800B05C0[4];
 
 void s03e_evpanel_800C33E0(DG_PRIM *prim, int texid)
@@ -358,7 +358,7 @@ void s03e_evpanel_800C39F8(EvPanelWork *work)
     GM_Camera_800B77E8.field_2A = 2;
     GM_Camera_800B77E8.interp = 30;
 
-    GM_PlayerStatus_800ABA50 |= PLAYER_PAD_OFF;
+    GM_PlayerStatus |= PLAYER_PAD_OFF;
 
     DG_InvisibleObjs(GM_PlayerBody_800ABA20->objs);
 
@@ -460,7 +460,7 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
 
         DG_UnDrawFrameCount = 0x7fff0000;
 
-        GM_SetSound(0xff0000fe, 0);
+        GM_SetSound(0xff0000fe, SD_ASYNC);
         return;
 
     case 1:
@@ -492,7 +492,7 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
         s03e_evpanel_800C37FC(work, 2);
         s03e_evpanel_800C3B14(work, message);
 
-        if (GM_AlertMode_800ABA00 != 0)
+        if (GM_AlertMode != 0)
         {
             work->field_38 = 600;
         }
@@ -533,11 +533,11 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
 
         if (message & 0x2)
         {
-            if (GM_AlertMode_800ABA00 == 0)
+            if (GM_AlertMode == 0)
             {
-                if ((GM_Camera_800B77E8.first_person != 0) || (GM_PlayerStatus_800ABA50 & PLAYER_FIRST_PERSON))
+                if ((GM_Camera_800B77E8.first_person != 0) || (GM_PlayerStatus & PLAYER_FIRST_PERSON))
                 {
-                    if ((GM_UnkFlagBE == 0) || !(GM_PlayerStatus_800ABA50 & PLAYER_UNK40000))
+                    if ((GM_UnkFlagBE == 0) || !(GM_PlayerStatus & PLAYER_UNK40000))
                     {
                         break;
                     }
@@ -646,9 +646,9 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
             }
         }
 
-        if ((GM_AlertMode_800ABA00 != 0) ||
+        if ((GM_AlertMode != 0) ||
             ((message & 0x20) != 0) ||
-            ((GM_PlayerStatus_800ABA50 & PLAYER_UNK100) != 0) ||
+            ((GM_PlayerStatus & PLAYER_UNK100) != 0) ||
             (work->field_44 > 1))
         {
             s03e_evpanel_800C3AD0(work);
@@ -667,13 +667,13 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
         {
             work->field_42 = 2;
             DG_VisibleObjs(GM_PlayerBody_800ABA20->objs);
-            GM_PlayerStatus_800ABA50 &= ~PLAYER_PAD_OFF;
+            GM_PlayerStatus &= ~PLAYER_PAD_OFF;
             work->field_2E = 3;
         }
         break;
 
     case 7:
-        if ((work->field_44 > 1) || (GM_PlayerStatus_800ABA50 & PLAYER_UNK100))
+        if ((work->field_44 > 1) || (GM_PlayerStatus & PLAYER_UNK100))
         {
             s03e_evpanel_800C3AD0(work);
 
@@ -723,11 +723,11 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
             work->field_36--;
             if ((work->field_36 > 2) && (work->field_36 < 10))
             {
-                GM_CameraShakeOffset_800ABA98 = work->field_36 / 2;
+                GM_CameraShakeOffset = work->field_36 / 2;
 
                 if ((work->field_36 & 0x1) != 0)
                 {
-                    GM_CameraShakeOffset_800ABA98 = -GM_CameraShakeOffset_800ABA98;
+                    GM_CameraShakeOffset = -GM_CameraShakeOffset;
                 }
             }
         }
@@ -958,7 +958,7 @@ int s03e_evpanel_800C47D0(EvPanelWork *work, DG_PRIM **out, SVECTOR *vec, int n_
 
 int EvPanelGetResources_800C496C(EvPanelWork *work, int map, int name, int button_count)
 {
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
 
     if (!GCL_GetOption('p'))
     {

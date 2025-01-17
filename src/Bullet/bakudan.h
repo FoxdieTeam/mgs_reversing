@@ -22,7 +22,7 @@ typedef struct BakudanWork
     int            detonator_btn_pressed;  // 1 if the detonator button is pressed, 0 otherwise
     int            detonator_frames_count; // number of actor actions to wait before detonate
     GV_PAD        *active_pad;             // pointer to the currently active gamepad
-    int            c4_index;               // the index in the c4_actors_800BDD78 array
+    int            c4_index;               // the index in the GM_C4Datas_800BDD78 array
     int            map_index;              // the current map where the c4 is placed
 } BakudanWork;
 
