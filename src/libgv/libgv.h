@@ -28,9 +28,10 @@
 #include <libgte.h>
 #include <libetc.h>
 
-/* gvd.c */
 extern int GV_Time;
+extern const char *GV_DebugMes;
 
+/* gvd.c */
 void GV_StartDaemon(void);
 void GV_ResetSystem(void);
 
