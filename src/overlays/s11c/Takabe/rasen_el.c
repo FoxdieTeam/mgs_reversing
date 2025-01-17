@@ -56,11 +56,11 @@ SVECTOR SECTION("overlay.bss") rasen_el_800D2CAC;
 SVECTOR SECTION("overlay.bss") rasen_el_800D2CB4;
 int SECTION("overlay.bss") rasen_el_800D2CBC;
 
-extern int             GM_CurrentMap_800AB9B0;
+extern int             GM_CurrentMap;
 extern int             gControlCount_800AB9B4;
 extern CONTROL        *GM_PlayerControl_800AB9F4;
 extern OBJECT         *GM_PlayerBody_800ABA20;
-extern int             GM_PlayerStatus_800ABA50;
+extern int             GM_PlayerStatus;
 extern GV_PAD          GV_PadData_800B05C0[4];
 extern CONTROL        *GM_WhereList_800B56D0[96];
 extern UnkCameraStruct gUnkCameraStruct_800B77B8;
@@ -106,7 +106,7 @@ void RasenElAct_800CC454(RasenElWork *work)
     int       dy;
     int       status;
 
-    GM_CurrentMap_800AB9B0 = rasen_el_800D2CA4[rasen_800C3404];
+    GM_CurrentMap = rasen_el_800D2CA4[rasen_800C3404];
 
     check = 0;
 
@@ -175,7 +175,7 @@ void RasenElAct_800CC454(RasenElWork *work)
 
                         GM_Camera_800B77E8.first_person = 0;
                         GM_Camera_800B77E8.flags &= ~0x200;
-                        GM_PlayerStatus_800ABA50 &= ~PLAYER_PAD_OFF;
+                        GM_PlayerStatus &= ~PLAYER_PAD_OFF;
 
                         DG_VisibleObjs(GM_PlayerBody_800ABA20->objs);
 
@@ -239,7 +239,7 @@ void RasenElAct_800CC454(RasenElWork *work)
 
                     GM_Camera_800B77E8.first_person = 0;
                     GM_Camera_800B77E8.flags &= ~0x200;
-                    GM_PlayerStatus_800ABA50 &= ~PLAYER_PAD_OFF;
+                    GM_PlayerStatus &= ~PLAYER_PAD_OFF;
 
                     DG_VisibleObjs(GM_PlayerBody_800ABA20->objs);
 
@@ -321,7 +321,7 @@ void RasenElAct_800CC454(RasenElWork *work)
     {
         if (work->f238 == 0)
         {
-            map = GM_GetMap(GM_CurrentMap_800AB9B0);
+            map = GM_GetMap(GM_CurrentMap);
             Takabe_ReshadeModel_800DC854(work->object.objs, map->lit);
             work->f238 = 1;
         }
@@ -385,7 +385,7 @@ void RasenElDie_800CCAC4(RasenElWork *work)
         GM_SetCameraCallbackFunc_8002FD84(0, 0);
         GM_Camera_800B77E8.first_person = 0;
         GM_Camera_800B77E8.flags &= ~0x200;
-        GM_PlayerStatus_800ABA50 &= ~PLAYER_PAD_OFF;
+        GM_PlayerStatus &= ~PLAYER_PAD_OFF;
         work->f248 = 3;
     }
 
@@ -417,7 +417,7 @@ int RasenElGetResources_800CCB9C(RasenElWork *work, int name, int map)
     int     texid;
     int     f230;
 
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
 
     work->map = map;
     work->name = name;
@@ -614,8 +614,8 @@ void s11c_800CD17C(OBJECT *object, int model, int flag)
     GV_ZeroMemory(object, sizeof(OBJECT));
 
     object->flag = flag;
-    object->map_name = GM_CurrentMap_800AB9B0;
-    object->objs = s00a_unknown3_800DC7DC(model, GM_GetMap(GM_CurrentMap_800AB9B0)->lit);
+    object->map_name = GM_CurrentMap;
+    object->objs = s00a_unknown3_800DC7DC(model, GM_GetMap(GM_CurrentMap)->lit);
 }
 
 void RasenElExecProc_800CD1E4(int proc, int value)
@@ -665,7 +665,7 @@ void s11c_800CD340(RasenElWork *work, int arg1)
         if (work->f2D4 == 0)
         {
             if (GM_Camera_800B77E8.first_person == 1 &&
-                (GM_UnkFlagBE == 0 || (GM_UnkFlagBE == 1 && !(GM_PlayerStatus_800ABA50 & PLAYER_UNK40000))))
+                (GM_UnkFlagBE == 0 || (GM_UnkFlagBE == 1 && !(GM_PlayerStatus & PLAYER_UNK40000))))
             {
                 printf("cancel\n");
                 work->f2D8 = -1;
@@ -691,7 +691,7 @@ void s11c_800CD340(RasenElWork *work, int arg1)
                 break;
             }
 
-            if (GM_PlayerStatus_800ABA50 & (PLAYER_PREVENT_FIRST_PERSON | PLAYER_UNK100))
+            if (GM_PlayerStatus & (PLAYER_PREVENT_FIRST_PERSON | PLAYER_UNK100))
             {
                 if (!(GM_Camera_800B77E8.flags & 0x200))
                 {
@@ -706,7 +706,7 @@ void s11c_800CD340(RasenElWork *work, int arg1)
 
             GM_SeSet(NULL, SE_ITEM_OPENWINDOW);
 
-            GM_PlayerStatus_800ABA50 |= PLAYER_PAD_OFF;
+            GM_PlayerStatus |= PLAYER_PAD_OFF;
             DG_InvisibleObjs(GM_PlayerBody_800ABA20->objs);
             GM_GameStatus |= STATE_MENU_OFF;
             GM_PlayerControl_800AB9F4->turn.vy = 0;
@@ -794,7 +794,7 @@ void s11c_800CD340(RasenElWork *work, int arg1)
                 work->f2D0 = 2;
             }
         }
-        else if (release & PAD_CROSS || GM_PlayerStatus_800ABA50 & PLAYER_UNK100)
+        else if (release & PAD_CROSS || GM_PlayerStatus & PLAYER_UNK100)
         {
             work->f2D0 = 2;
         }
@@ -811,7 +811,7 @@ void s11c_800CD340(RasenElWork *work, int arg1)
             GM_Camera_800B77E8.first_person = 0;
             GM_Camera_800B77E8.flags &= ~0x200;
             DG_VisibleObjs(GM_PlayerBody_800ABA20->objs);
-            GM_PlayerStatus_800ABA50 &= ~PLAYER_PAD_OFF;
+            GM_PlayerStatus &= ~PLAYER_PAD_OFF;
 
             work->f248 = 3;
             break;

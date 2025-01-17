@@ -17,8 +17,8 @@ extern CONTROL         *GM_PlayerControl_800AB9F4;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 extern OBJECT          *GM_PlayerBody_800ABA20;
 
-extern int      DG_CurrentGroupID_800AB968;
-extern int      GM_CurrentMap_800AB9B0;
+extern int      DG_CurrentGroupID;
+extern int      GM_CurrentMap;
 extern short    GM_Magazine_800AB9EC;
 extern short    GM_MagazineMax_800ABA2C;
 
@@ -113,8 +113,8 @@ STATIC void RifleAct(RifleWork *work)
     int temp_v0_2;
     short zoomLevel;
 
-    GM_CurrentMap_800AB9B0 = work->control->map->index;
-    DG_GroupObjs(work->object.objs, DG_CurrentGroupID_800AB968);
+    GM_CurrentMap = work->control->map->index;
+    DG_GroupObjs(work->object.objs, DG_CurrentGroupID);
 
     if (!(work->parent->objs->flag & DG_FLAG_INVISIBLE))
     {
@@ -133,7 +133,7 @@ STATIC void RifleAct(RifleWork *work)
         (work->parent->objs->flag & DG_FLAG_INVISIBLE))
     {
         work->field_5c = (void *)NewRifleSight(1);
-        sd_set_cli(0x01ffff20, 0);
+        sd_set_cli(0x01ffff20, SD_ASYNC);
     }
 
     if (temp_s2 & 1)
@@ -205,7 +205,7 @@ STATIC void RifleDie(RifleWork *work)
         GM_Camera_800B77E8.zoom = 320;
     }
 
-    sd_set_cli(0x01ffff21, 0);
+    sd_set_cli(0x01ffff21, SD_ASYNC);
 
     if ((GV_ACT *)work->field_5c)
     {

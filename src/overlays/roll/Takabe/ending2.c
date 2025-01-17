@@ -60,7 +60,7 @@ typedef struct Ending2Work
 
 #define EXEC_LEVEL 5
 
-extern int GV_Clock_800AB920;
+extern int GV_Clock;
 
 // Similar in usage to struct in movie.c
 // (but different order of fields)
@@ -583,13 +583,13 @@ void Ending2_800C6968(Ending2Work *work) // TODO: I guessed that it's work
 
     yoff = (work->field_24 + 320) % 320;
 
-    ending2_image_rects_800C9ED0[GV_Clock_800AB920] = ending2_orig_image_rect_800C324C;
-    ending2_image_rects_800C9ED0[GV_Clock_800AB920].w = 320;
-    ending2_image_rects_800C9ED0[GV_Clock_800AB920].h = 2;
-    ending2_image_rects_800C9ED0[GV_Clock_800AB920].y += yoff;
+    ending2_image_rects_800C9ED0[GV_Clock] = ending2_orig_image_rect_800C324C;
+    ending2_image_rects_800C9ED0[GV_Clock].w = 320;
+    ending2_image_rects_800C9ED0[GV_Clock].h = 2;
+    ending2_image_rects_800C9ED0[GV_Clock].y += yoff;
 
     SwEnterCriticalSection();
-    LoadImage(&ending2_image_rects_800C9ED0[GV_Clock_800AB920], (u_long *)&ending2_image_800CA370[GV_Clock_800AB920 * 2560]);
+    LoadImage(&ending2_image_rects_800C9ED0[GV_Clock], (u_long *)&ending2_image_800CA370[GV_Clock * 2560]);
     SwExitCriticalSection();
 
     work->field_24 = (work->field_24 + 2) % 320;
@@ -604,13 +604,13 @@ void roll_ending2_800C6AA4(Ending2Work *work, int count)
     {
         yoff = (work->field_24 + 320 + i) % 320;
 
-        ending2_800C9EE0[GV_Clock_800AB920][i] = ending2_orig_image_rect_800C324C;
-        ending2_800C9EE0[GV_Clock_800AB920][i].w = 320;
-        ending2_800C9EE0[GV_Clock_800AB920][i].h = 1;
-        ending2_800C9EE0[GV_Clock_800AB920][i].y += yoff;
+        ending2_800C9EE0[GV_Clock][i] = ending2_orig_image_rect_800C324C;
+        ending2_800C9EE0[GV_Clock][i].w = 320;
+        ending2_800C9EE0[GV_Clock][i].h = 1;
+        ending2_800C9EE0[GV_Clock][i].y += yoff;
 
         SwEnterCriticalSection();
-        LoadImage(&ending2_800C9EE0[GV_Clock_800AB920][i], (u_long *)&ending2_image_800CA370[GV_Clock_800AB920 * 2560 + i * 320]);
+        LoadImage(&ending2_800C9EE0[GV_Clock][i], (u_long *)&ending2_image_800CA370[GV_Clock * 2560 + i * 320]);
         SwExitCriticalSection();
     }
 
@@ -833,7 +833,7 @@ void Ending2Act_800C71D8(Ending2Work *work)
     default:
         work->field_34++;
         temp_s0 = mts_get_tick_count() - work->field_44;
-        Ending2_800C691C(GV_Clock_800AB920 * 256 * 10, 960);
+        Ending2_800C691C(GV_Clock * 256 * 10, 960);
 
         scratch1 = (void *)SCRPAD_ADDR;
 
@@ -868,7 +868,7 @@ void Ending2Act_800C71D8(Ending2Work *work)
                     work->field_54 = roll_ending2_800C6814(scratch1, var_s1, *work->field_50 / 2);
                     if (!(var_s6 & 0xC0))
                     {
-                        roll_ending2_800C6834(&ending2_image_800CA370[GV_Clock_800AB920 * 2560] + i * 320, scratch1,
+                        roll_ending2_800C6834(&ending2_image_800CA370[GV_Clock * 2560] + i * 320, scratch1,
                                               var_a0_2, roll_dword_800C32B8);
                     }
                 }
@@ -885,7 +885,7 @@ void Ending2Act_800C71D8(Ending2Work *work)
                     work->field_54 = roll_ending2_800C6814(scratch1 + 0x100, var_s1, *work->field_50 / 2);
                     if (!(var_s6 & 0xC0))
                     {
-                        roll_ending2_800C6854(&ending2_image_800CA370[GV_Clock_800AB920 * 2560] + i * 320, scratch1,
+                        roll_ending2_800C6854(&ending2_image_800CA370[GV_Clock * 2560] + i * 320, scratch1,
                                               var_a0_2, roll_dword_800C32B8);
                     }
                     work->field_54 = var_s1;
@@ -937,7 +937,7 @@ void Ending2Act_800C71D8(Ending2Work *work)
             break;
         }
 
-        prims = &work->field_64[GV_Clock_800AB920];
+        prims = &work->field_64[GV_Clock];
         new_framerate = 2;
         pOt = DG_ChanlOTag(1);
         Ending2_800C6E00(prims->field_20, prims, work->field_24, pOt, shade);
@@ -985,7 +985,7 @@ void Ending2Die_800C76BC(Ending2Work *work)
 
     if (work->field_40 == 0)
     {
-        sd_set_cli(0xffffffed, 0);
+        sd_set_cli(0xffffffed, SD_ASYNC);
     }
 
     DG_FrameRate = 2;
@@ -1092,7 +1092,7 @@ void Ending2GetResources_800C77F8(Ending2Work *work, int field_48)
     if (work->field_40 == 0)
     {
         Ending2_800C665C(work->field_48);
-        sd_set_cli(0xffffffec, 0);
+        sd_set_cli(0xffffffec, SD_ASYNC);
     }
     else
     {

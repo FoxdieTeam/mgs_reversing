@@ -22,7 +22,7 @@ typedef struct PipeWork
 unsigned char pipe_vibration1_800C3360[] = {0x7F, 0x02, 0x00, 0x00};
 unsigned char pipe_vibration2_800C3364[] = {0xAF, 0x04, 0x41, 0x04, 0x00, 0x00, 0x00, 0x00};
 
-extern int        GM_CurrentMap_800AB9B0;
+extern int        GM_CurrentMap;
 extern BLAST_DATA blast_data_8009F4B8[8];
 
 // Duplicate of Snake03c2GetRaise_800CDB78
@@ -115,7 +115,7 @@ void PipeAct_800CE2A4(PipeWork *work)
 {
     MATRIX mat;
 
-    GM_CurrentMap_800AB9B0 = work->where;
+    GM_CurrentMap = work->where;
     if (work->counter < 4)
     {
         work->counter++;
@@ -229,7 +229,7 @@ int PipeInitObject_800CE5A4(PipeWork *work)
     ReadRotMatrix(&world);
     work->object.objs->world = world;
 
-    object->map_name = GM_CurrentMap_800AB9B0;
+    object->map_name = GM_CurrentMap;
     for (i = 0; i < object->objs->n_models; i++)
     {
         object->objs->objs[i].raise = 240;
@@ -240,7 +240,7 @@ int PipeInitObject_800CE5A4(PipeWork *work)
 
 int PipeGetResources_800CE6DC(PipeWork *work, int name, int where)
 {
-    GM_CurrentMap_800AB9B0 = where;
+    GM_CurrentMap = where;
 
     if (PipeInitTarget_800CE444(work) < 0)
     {
@@ -253,7 +253,7 @@ int PipeGetResources_800CE6DC(PipeWork *work, int name, int where)
     }
 
     work->counter2 = 0;
-    work->where = GM_CurrentMap_800AB9B0;
+    work->where = GM_CurrentMap;
     return 0;
 }
 

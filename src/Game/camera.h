@@ -88,6 +88,6 @@ void camera_act_helper6_helper_8002FD9C(int, int);
 GV_ACT *camera_init_800306A0(void);
 void sub_8003049C(SVECTOR *a1);
 void sub_8003081C();
-void GM_CameraSetAlertMask_80030850(unsigned int id, unsigned int mask);
+void GM_CameraSetAlertMask(unsigned int id, unsigned int mask);
 
 #endif // _CAMERA_H_

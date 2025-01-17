@@ -18,8 +18,8 @@
 #include "SD/g_sound.h"
 #include "strcode.h"
 
-extern PlayerStatusFlag    GM_PlayerStatus_800ABA50;
-extern int                 DG_CurrentGroupID_800AB968;
+extern PlayerStatusFlag    GM_PlayerStatus;
+extern int                 DG_CurrentGroupID;
 extern GM_Camera           GM_Camera_800B77E8;
 extern CONTROL            *GM_PlayerControl_800AB9F4;
 extern int                 dword_8009F604;
@@ -28,8 +28,8 @@ extern TMat8x8B            gJpegcamMatrix2_800BDCD8;
 extern UnkCameraStruct     gUnkCameraStruct_800B77B8;
 extern OBJECT             *GM_PlayerBody_800ABA20;
 extern int                 GM_Photocode_800ABA04;
-extern SVECTOR             GM_PhotoViewPos_800ABA48;
-extern int                 GV_PauseLevel_800AB928;
+extern SVECTOR             GM_PhotoViewPos;
+extern int                 GV_PauseLevel;
 extern char               *dword_800BDCC8;
 extern int                 dword_800BDCCC;
 extern int                 dword_800BDCD0;
@@ -619,7 +619,7 @@ STATIC void JpegcamProcessInput(JpegcamWork *work)
     GM_CheckShukanReverse(&status);
     GM_CheckShukanReverse(&press);
 
-    if (GV_PauseLevel_800AB928 != 0)
+    if (GV_PauseLevel != 0)
     {
         status = 0;
         press = 0;
@@ -643,7 +643,7 @@ STATIC void JpegcamProcessInput(JpegcamWork *work)
         press = 0;
     }
 
-    if (GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF)
+    if (GM_PlayerStatus & PLAYER_PAD_OFF)
     {
         status = 0;
         press = 0;
@@ -792,7 +792,7 @@ STATIC void JpegcamProcessInput(JpegcamWork *work)
             }
         }
 
-        if (GV_PauseLevel_800AB928 == 0)
+        if (GV_PauseLevel == 0)
         {
             if ((work->field_68 & 0x3) == 0)
             {
@@ -813,9 +813,9 @@ STATIC void JpegcamProcessInput(JpegcamWork *work)
             work->field_68 = 0;
             GM_GameStatus |= STATE_TAKING_PHOTO;
 
-            if (!(GV_PauseLevel_800AB928 & 1))
+            if (!(GV_PauseLevel & 1))
             {
-                GV_PauseLevel_800AB928 |= 4;
+                GV_PauseLevel |= 4;
             }
 
             if (work->field_90_pSight)
@@ -845,7 +845,7 @@ STATIC int JpegcamCheckShinreiSpot(JpegcamWork *work)
         printf("Here is Sinrei Spot!\n");
         printf("GM_Photocode = %d\n", GM_Photocode_800ABA04);
 
-        retval = DG_PointCheckOne((DVECTOR *)&GM_PhotoViewPos_800ABA48);
+        retval = DG_PointCheckOne((DVECTOR *)&GM_PhotoViewPos);
         printf("Point Check\n");
 
         printf("Result = %d\n", retval);
@@ -873,8 +873,8 @@ STATIC void JpegcamTakePhoto(JpegcamWork *work)
     }
     else if (state == 4)
     {
-        GV_PauseLevel_800AB928 &= ~4;
-        GV_PauseLevel_800AB928 |= 1;
+        GV_PauseLevel &= ~4;
+        GV_PauseLevel |= 1;
         DG_FreeObjectQueue();
         GV_SetPacketTempMemory();
         DG_UnDrawFrameCount = 1;
@@ -915,7 +915,7 @@ STATIC void JpegcamTakePhoto(JpegcamWork *work)
         menu_radio_8004D35C();
         GM_GameStatus &= ~STATE_TAKING_PHOTO;
         GV_ResetPacketMemory();
-        GV_PauseLevel_800AB928 &= ~1;
+        GV_PauseLevel &= ~1;
         DG_ResetObjectQueue();
         work->state = 0;
         work->field_90_pSight = NewSight_80071CDC(SGT_CAMERA_2, SGT_CAMERA, &GM_CurrentItemId, 12, 0);
@@ -931,7 +931,7 @@ STATIC void JpegcamAct(JpegcamWork *work)
     OBJECT         *parent;
     OBJECT_NO_ROTS *object;
 
-    if (GM_PlayerStatus_800ABA50 & PLAYER_USING_CONTROLLER_PORT_2)
+    if (GM_PlayerStatus & PLAYER_USING_CONTROLLER_PORT_2)
     {
         work->pad_data = &GV_PadData_800B05C0[3];
     }
@@ -966,9 +966,9 @@ STATIC void JpegcamAct(JpegcamWork *work)
     {
         GM_SetCurrentMap(work->control->map->index);
 
-        DG_GroupObjs(work->goggles.objs, DG_CurrentGroupID_800AB968);
+        DG_GroupObjs(work->goggles.objs, DG_CurrentGroupID);
 
-        if (GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000)
+        if (GM_PlayerStatus & PLAYER_UNK4000000)
         {
             if ( !(work->parent->objs->flag & DG_FLAG_INVISIBLE) )
             {
@@ -985,7 +985,7 @@ STATIC void JpegcamAct(JpegcamWork *work)
     {
         if ((work->field_70 == 1) && (work->state < 4))
         {
-            GV_PauseLevel_800AB928 &= ~4;
+            GV_PauseLevel &= ~4;
         }
 
         GV_DestroyActor(&work->actor);
@@ -1000,7 +1000,7 @@ STATIC void JpegcamAct(JpegcamWork *work)
     switch (work->field_70)
     {
     case 0:
-        if (GV_PauseLevel_800AB928)
+        if (GV_PauseLevel)
         {
             return;
         }
@@ -1014,7 +1014,7 @@ STATIC void JpegcamAct(JpegcamWork *work)
             GM_SeSet2(0, 63, SE_ITEM_OPENWINDOW);
         }
 
-        if ( !(GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000) )
+        if ( !(GM_PlayerStatus & PLAYER_UNK4000000) )
         {
             MENU_Locate(200, 25, 0);
             MENU_Color(192, 144, 128);
@@ -1024,7 +1024,7 @@ STATIC void JpegcamAct(JpegcamWork *work)
         break;
 
     case 1:
-        if ((work->state < 5) && (GV_PauseLevel_800AB928 & 1))
+        if ((work->state < 5) && (GV_PauseLevel & 1))
         {
             work->state = 0;
             return;

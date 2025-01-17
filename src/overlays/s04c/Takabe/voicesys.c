@@ -28,7 +28,7 @@ typedef struct VoiceSysGlobal {
 
 VoiceSysGlobal SECTION("overlay.bss") voicesys_800DBD60;
 
-extern int GV_PauseLevel_800AB928;
+extern int GV_PauseLevel;
 
 int *Voicesys_800CE278(int unused)
 {
@@ -87,7 +87,7 @@ void Voicesys_800CE32C()
         }
         break;
     case 1:
-        if (GV_PauseLevel_800AB928 == 0)
+        if (GV_PauseLevel == 0)
         {
             if (voicesys_800DBD60.field_24 == 2)
             {

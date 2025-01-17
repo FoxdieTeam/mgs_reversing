@@ -13,7 +13,7 @@ typedef struct _BlinkTxWork
     char     pad[0x4];
 } BlinkTxWork;
 
-extern int GM_CurrentMap_800AB9B0;
+extern int GM_CurrentMap;
 
 RECT blink_tx_rect = {1000, 1000, 2000, 2000};
 
@@ -80,7 +80,7 @@ int BlinkTxGetResources_800DEBB4(BlinkTxWork *work, int map, int n_prims)
     int      texid;
     DG_TEX  *tex;
 
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
 
     prim = DG_GetPrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, n_prims, 0, work->pos, &blink_tx_rect);
     work->prim = prim;

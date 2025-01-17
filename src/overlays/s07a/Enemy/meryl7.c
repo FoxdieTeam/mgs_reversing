@@ -721,7 +721,7 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
 
     work->target_pos = work->nodes[ 0 ] ;
     work->target_addr = HZD_GetAddress( work->control.map->hzd, &( work->target_pos ), -1 ) ;
-    work->target_map  = GM_CurrentMap_800AB9B0;
+    work->target_map  = GM_CurrentMap;
 
     work->alert_level = 0;
     work->visible = 1;
@@ -756,7 +756,7 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
 
     GM_ConfigControlRadarparam( &work->control , 0, 0x200, COM_EYE_LENGTH_800E0D8C, 0 );
     work->start_pos = work->nodes[ 0 ] ;
-    work->start_map = GM_CurrentMap_800AB9B0;
+    work->start_map = GM_CurrentMap;
     addr = HZD_GetAddress( work->control.map->hzd, &( work->control.mov ), -1 );
 
     work->start_addr = addr;

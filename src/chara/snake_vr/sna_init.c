@@ -45,7 +45,7 @@ SVECTOR     *SECTION(".sbss") pVec_800ABBC8;
 SVECTOR     *SECTION(".sbss") pVec_800ABBCC;
 int          SECTION(".sbss") dword_800ABBD0;
 short        SECTION(".sbss") dword_800ABBD4;
-void        *SECTION(".sbss") GM_BombSeg_800ABBD8;
+void        *SECTION(".sbss") GM_BombSeg;
 short        SECTION(".sbss") dword_800ABBDC;
 
 /*
@@ -86,8 +86,8 @@ short        SECTION(".sbss") dword_800ABBD4;
 extern void *dword_800ABBB0;
 void *       SECTION(".sbss") dword_800ABBB0;
 
-extern void *GM_BombSeg_800ABBD8;
-void *SECTION(".sbss") GM_BombSeg_800ABBD8;
+extern void *GM_BombSeg;
+void *SECTION(".sbss") GM_BombSeg;
 
 extern SVECTOR *dword_800ABBAC;
 SVECTOR *SECTION(".sbss") dword_800ABBAC;
@@ -95,8 +95,8 @@ SVECTOR *SECTION(".sbss") dword_800ABBAC;
 extern CONTROL *GM_PlayerControl_800AB9F4;
 extern OBJECT  *GM_PlayerBody_800ABA20;
 extern short              GM_WeaponChanged_800AB9D8;
-extern int                GM_AlertMode_800ABA00;
-extern PlayerStatusFlag   GM_PlayerStatus_800ABA50;
+extern int                GM_AlertMode;
+extern PlayerStatusFlag   GM_PlayerStatus;
 extern GM_Camera          GM_Camera_800B77E8;
 extern unsigned short     GM_WeaponTypes[];
 extern unsigned short     GM_ItemTypes[];
@@ -111,8 +111,8 @@ extern SVECTOR            GM_PlayerPosition_800ABA10;
 extern UnkCameraStruct    gUnkCameraStruct_800B77B8;
 extern GV_PAD             GV_PadData_800B05C0[4];
 extern CONTROL        *tenage_ctrls_800BDD30[16];
-extern HITTABLE           c4_actors_800BDD78[C4_COUNT];
-extern HITTABLE      stru_800BDE78[8];
+extern HITTABLE           GM_C4Datas_800BDD78[C4_COUNT];
+extern HITTABLE           GM_ClayDatas_800BDE78[8];
 extern unsigned char      gBulNames_800BDC78[64];
 unsigned char             gBulNames_800BDC78[64];
 extern int                dword_8009F440;
@@ -130,8 +130,8 @@ extern void              *dword_8009EEB0[];
 extern void              *dword_8009EEB8[];
 extern int                dword_800AB9D4;
 extern short              HzdHeights_8009EEC4[];
-extern int                DG_CurrentGroupID_800AB968;
-extern int                GV_Clock_800AB920;
+extern int                DG_CurrentGroupID;
+extern int                GV_Clock;
 extern char               dword_8009EF1C[];
 extern char               dword_8009EF20[];
 extern TSnakeEquipFuncion gSnakeEquips_8009EF8C[];
@@ -144,7 +144,7 @@ extern char               dword_8009EED8[];
 extern short              snake_weapon_idx_800BDCBA;
 extern short              snake_mag_size_800BDCB8;
 extern short              snake_weapon_max_ammo_800BDCBC;
-extern int                GM_PlayerAction_800ABA40;
+extern int                GM_PlayerAction;
 
 ACTMOVE NoneMove     = {12u, 82u, 19u, 23u, 24u, 29u, 30u, 12u, 0u, 0u};
 ACTMOVE SocomMove    = {10u, 8u, 17u, 23u, 24u, 27u, 28u, 80u, 106u, 107u};
@@ -340,7 +340,7 @@ void sub_8004EB74(SnaInitWork *work)
 
     if (!(work->field_920_tbl & 0x200))
     {
-        sd_set_cli(0x01ffff20, 0);
+        sd_set_cli(0x01ffff20, SD_ASYNC);
     }
 }
 
@@ -359,7 +359,7 @@ void sna_8004EC00(SnaInitWork *work)
 
     if (!GM_CheckPlayerStatusFlag(PLAYER_INTRUDE))
     {
-        sd_set_cli(0x01ffff21, 0);
+        sd_set_cli(0x01ffff21, SD_ASYNC);
     }
 }
 
@@ -375,7 +375,7 @@ void sna_8004EC8C(SnaInitWork *work)
     work->field_9D0[2] = 320;
     work->field_9D0[4] = v2;
     work->field_9D0[6] = v2;
-    sd_set_cli(0x01ffff20, 0);
+    sd_set_cli(0x01ffff20, SD_ASYNC);
 }
 
 void sub_8004ED08(SnaInitWork *work)
@@ -385,7 +385,7 @@ void sub_8004ED08(SnaInitWork *work)
     GM_Camera_800B77E8.first_person = 0; // weapon related?
     work->field_A20 = 6;
     sna_8004EB14(work);
-    sd_set_cli(0x01ffff21, 0);
+    sd_set_cli(0x01ffff21, SD_ASYNC);
 }
 
 void sna_act_helper2_helper3_8004ED6C(SnaInitWork *work)
@@ -656,9 +656,9 @@ void sub_8004F338(SnaInitWork *work)
 
     GM_ExitBehindCamera_80030AEC();
 
-    GM_PlayerStatus_800ABA50 &= PLAYER_CAN_USE_CONTROLLER_PORT_2 | PLAYER_UNK4000000 |
-                                PLAYER_GAMEOVER | PLAYER_CB_BOX | PLAYER_INTRUDE |
-                                PLAYER_UNK4 | PLAYER_SQUAT | PLAYER_GROUND;
+    GM_PlayerStatus &= PLAYER_CAN_USE_CONTROLLER_PORT_2 | PLAYER_UNK4000000 |
+                       PLAYER_GAMEOVER | PLAYER_CB_BOX | PLAYER_INTRUDE |
+                       PLAYER_UNK4 | PLAYER_SQUAT | PLAYER_GROUND;
 
     if ((work->field_920_tbl & 0x200) != 0)
     {
@@ -942,7 +942,7 @@ int GM_Next_BulName_8004FBA0()
     return 0;
 }
 
-void GM_ClearBulName_8004FBE4(int idx)
+void GM_ClearBulName(int idx)
 {
     gBulNames_800BDC78[idx] = 0;
 }
@@ -1065,7 +1065,7 @@ int sna_act_helper2_helper5_8004FF88(SnaInitWork *work)
 {
     void *pAnim;
 
-    if (!(GM_GameStatus & (STATE_PADRELEASE | STATE_PADDEMO | STATE_DEMO)) && (GM_AlertMode_800ABA00 != 3))
+    if (!(GM_GameStatus & (STATE_PADRELEASE | STATE_PADDEMO | STATE_DEMO)) && (GM_AlertMode != 3))
     {
         if (!GM_CheckPlayerStatusFlag(0x20001304) &&
             !sna_check_flags1_8004E31C(work, SNA_FLAG1_UNK9) &&
@@ -2163,7 +2163,7 @@ void sna_anim_idle_8005275C(SnaInitWork *work, int time)
         work->field_9C8_anim_update_fn_3p = sna_fn_80052E58;
         work->field_9CC_anim_update_fn_1p = sna_fn_80052120;
 
-        if (GM_AlertMode_800ABA00 >= 3)
+        if (GM_AlertMode >= 3)
         {
             action_flag = work->field_9B4_action_table->still->setup;
         }
@@ -2228,7 +2228,7 @@ void sna_anim_run_8005292C(SnaInitWork *work, int time)
         work->field_9C8_anim_update_fn_3p = sna_80053360;
         work->field_9CC_anim_update_fn_1p = sna_fn_80052120;
         GM_SetPlayerStatusFlag(PLAYER_MOVING);
-        if (GM_AlertMode_800ABA00 >= 3)
+        if (GM_AlertMode >= 3)
         {
             action_flag = work->field_9B4_action_table->move->aim;
         }
@@ -2292,7 +2292,7 @@ void sna_anim_wall_idle_and_c4_80052A5C(SnaInitWork *work, int time)
         SetAction_8004E22C(work, work->field_9B4_action_table->still->against_wall, 4);
     }
 
-    GM_CheckBehindCamera_80030B3C(work->control.map->hzd, &work->control);
+    GM_CheckBehindCamera(work->control.map->hzd, &work->control);
 
     if (work->field_A3A < 8 && pVec_800ABBCC != NULL)
     {
@@ -2373,7 +2373,7 @@ void sna_anim_wall_crouch_80052CCC(SnaInitWork *work, int time)
         work->field_A28 = work->field_91C_weapon_idx != WEAPON_C4 ? 300 : 472;
     }
 
-    GM_CheckBehindCamera_80030B3C(((work->control).map)->hzd, &work->control);
+    GM_CheckBehindCamera(((work->control).map)->hzd, &work->control);
 
     if (work->field_A3A < 8 && pVec_800ABBCC != NULL)
     {
@@ -2399,7 +2399,7 @@ void sna_fn_80052E58(SnaInitWork *work, int time)
         return;
     }
 
-    if (GM_AlertMode_800ABA00 >= 3)
+    if (GM_AlertMode >= 3)
     {
         action = work->field_9B4_action_table->still->setup;
     }
@@ -2603,7 +2603,7 @@ void sna_80053360(SnaInitWork *work, int time)
     work->control.turn.vy = angle;
     sub_8004EA50(work, angle);
 
-    if (GM_AlertMode_800ABA00 >= 3)
+    if (GM_AlertMode >= 3)
     {
         SetAction_8004E22C(work, work->field_9B4_action_table->move->aim, 4);
     }
@@ -2728,7 +2728,7 @@ void sna_anim_wall_move_helper_800538CC(SnaInitWork *work, int time)
         return;
     }
 
-    GM_CheckBehindCamera_80030B3C(work->control.map->hzd, &work->control);
+    GM_CheckBehindCamera(work->control.map->hzd, &work->control);
 
     if ((work->field_9B0_pad_ptr->press & PAD_CROSS) && !sna_check_flags1_8004E31C(work, SNA_FLAG1_UNK9))
     {
@@ -5432,7 +5432,7 @@ void sna_80057378(SnaInitWork *work, int time)
     if ((stance == SNA_STANCE_STANDING && time == 6) || (stance == SNA_STANCE_SQUAT && time == 14))
     {
         work->field_914_trigger = 3;
-        GM_BombSeg_800ABBD8 = dword_800ABBB0;
+        GM_BombSeg = dword_800ABBB0;
     }
 
     if (work->field_9C_obj.time2 != 0 || work->field_9C_obj.action2 == 0)
@@ -6188,7 +6188,7 @@ void sna_anim_claymore_helper_80058780(SnaInitWork *work, int time)
     {
         sub_8004EEB0(work);
 
-        DG_GroupPrim(work->field_92C, DG_CurrentGroupID_800AB968);
+        DG_GroupPrim(work->field_92C, DG_CurrentGroupID);
         DG_VisiblePrim(work->field_92C);
         DG_PutPrim(&work->field_92C->world);
 
@@ -6220,7 +6220,7 @@ void sna_anim_claymore_helper_80058780(SnaInitWork *work, int time)
     w = x + 63;
     y += work->field_928->off_y;
 
-    pPoly = &work->field_92C->packs[GV_Clock_800AB920]->poly_gt4;
+    pPoly = &work->field_92C->packs[GV_Clock]->poly_gt4;
 
     for ( i = 0; i < 2; i++ )
     {
@@ -7570,7 +7570,7 @@ void sna_init_main_logic_800596FC(SnaInitWork *work)
         }
     }
 
-    GM_PlayerAction_800ABA40 = work->field_9C_obj.action;
+    GM_PlayerAction = work->field_9C_obj.action;
     dword_800AB9D4 = work->field_180.info1.frame;
     GM_PlayerStance = work->field_A26_stance;
 
@@ -7601,7 +7601,7 @@ void sna_init_main_logic_800596FC(SnaInitWork *work)
 
     if ( work->field_9A0 != 0 )
     {
-        addPrim(DG_Chanl(1)->mOrderingTables[GV_Clock_800AB920], &work->field_950[GV_Clock_800AB920]);
+        addPrim(DG_Chanl(1)->mOrderingTables[GV_Clock], &work->field_950[GV_Clock]);
         work->field_9A0--;
     }
 
@@ -8171,7 +8171,7 @@ static inline int sna_LoadSnake(SnaInitWork *work, int scriptData, int scriptBin
     work->field_888_pShadow = NewShadow2_80060384(pCtrl, pObject, shadow, &work->field_88C);
 
     dword_800ABA1C = 0;
-    GM_BombSeg_800ABBD8 = 0;
+    GM_BombSeg = 0;
 
     for (i = 0; i < 16; i++)
     {
@@ -8181,7 +8181,7 @@ static inline int sna_LoadSnake(SnaInitWork *work, int scriptData, int scriptBin
     dword_800BDD28 = 0;
     tenage_ctrls_count_800BDD70 = 0;
 
-    pJiraiUnk = c4_actors_800BDD78;
+    pJiraiUnk = GM_C4Datas_800BDD78;
     i = 0;
 
     while (i < C4_COUNT)
@@ -8195,7 +8195,7 @@ static inline int sna_LoadSnake(SnaInitWork *work, int scriptData, int scriptBin
     dword_8009F434 = 0;
     bakudan_count_8009F42C = 0;
 
-    pJiraiUnk = stru_800BDE78;
+    pJiraiUnk = GM_ClayDatas_800BDE78;
     i = 0;
 
     while (i < 8)

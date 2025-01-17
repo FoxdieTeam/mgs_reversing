@@ -21,8 +21,8 @@ typedef struct BlastoffWork
 
 #define EXEC_LEVEL 5
 
-extern int    GV_Clock_800AB920;
-extern int    GM_CurrentMap_800AB9B0;
+extern int    GV_Clock;
+extern int    GM_CurrentMap;
 
 void Blastoff_800DB880(BlastoffWork *work)
 {
@@ -54,7 +54,7 @@ void Blastoff_800DB880(BlastoffWork *work)
         vec->pad += ((GV_RandU(16) + 40) * scale) / 4096;
     }
 
-    pack = &work->prim->packs[GV_Clock_800AB920]->poly_ft4;
+    pack = &work->prim->packs[GV_Clock]->poly_ft4;
     for (i = 16; i > 0; i--)
     {
         m = i & 3;
@@ -78,7 +78,7 @@ void Blastoff_800DB880(BlastoffWork *work)
 
 void BlastoffAct_800DBB60(BlastoffWork *work)
 {
-    GM_CurrentMap_800AB9B0 = work->where;
+    GM_CurrentMap = work->where;
     work->field_2C = work->field_34;
     work->field_34 = *work->field_3C;
 
@@ -173,7 +173,7 @@ void Blastoff_800DBD34(BlastoffWork *work)
 int BlastoffGetResources_800DBE44(BlastoffWork *work, SVECTOR *arg1, int arg2, int arg3, int *arg4)
 {
     work->field_3C = arg1;
-    work->where = GM_CurrentMap_800AB9B0;
+    work->where = GM_CurrentMap;
     work->field_34 = *arg1;
     work->field_2C = *arg1;
     work->field_40 = arg2;

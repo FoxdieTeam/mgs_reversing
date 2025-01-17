@@ -269,10 +269,10 @@ STATIC void sight_act_helper_80071498(SightTextPseudoPrim *textPrim)
     MENU_Printf("%s", textPrim->field_C_text);
 }
 
-extern int GV_Clock_800AB920;
-extern int GM_CurrentMap_800AB9B0;
-extern int GM_PlayerStatus_800ABA50;
-extern int GV_PauseLevel_800AB928;
+extern int GV_Clock;
+extern int GM_CurrentMap;
+extern int GM_PlayerStatus;
+extern int GV_PauseLevel;
 
 STATIC void sight_act_800714EC(SightWork *work)
 {
@@ -311,21 +311,21 @@ STATIC void sight_act_800714EC(SightWork *work)
 
     work->field_54_maybeFlags &= 0xffff7fff;
 
-    if (work->field_58_clock != GV_Clock_800AB920 && (++work->field_5A_maybeFlags & 0xffff) == 2)
+    if (work->field_58_clock != GV_Clock && (++work->field_5A_maybeFlags & 0xffff) == 2)
     {
         work->field_54_maybeFlags |= 0x8000;
         work->field_5A_maybeFlags = 0;
     }
 
-    work->field_58_clock = GV_Clock_800AB920;
+    work->field_58_clock = GV_Clock;
     sight_act_helper_8007111C(work);
-    work->field_28_currentMap = GM_CurrentMap_800AB9B0;
+    work->field_28_currentMap = GM_CurrentMap;
 
     primBufInfo = work->field_34_primitiveBufferInfo;
     primCount = primBufInfo->field_3_primCount;
     ancillaryInfo = primBufInfo->field_4_ancillaryInfo;
 
-    tPageBuf = work->field_44_tPageDoubleBuffer[GV_Clock_800AB920];
+    tPageBuf = work->field_44_tPageDoubleBuffer[GV_Clock];
 
     frameCount = work->field_2C_frameCount;
     field30 = work->field_30;
@@ -333,15 +333,15 @@ STATIC void sight_act_800714EC(SightWork *work)
 
     primOffsetIndicesArray = primBufInfo->field_C_primOffsetIndicesArray;
     primOffsetInfoArray = primBufInfo->field_10_primOffsetInfoArray;
-    primBuf = work->field_38_primitiveDoubleBuffer[GV_Clock_800AB920];
+    primBuf = work->field_38_primitiveDoubleBuffer[GV_Clock];
 
     if (field30 == 0 && primBufInfo->field_2 < work->field_2C_frameCount)
     {
-        flag = (0x100 << GV_Clock_800AB920);
+        flag = (0x100 << GV_Clock);
         if (!(work->field_54_maybeFlags & flag))
         {
             work->field_54_maybeFlags |= flag;
-            sight_act_helper_800713FC(work, GV_Clock_800AB920);
+            sight_act_helper_800713FC(work, GV_Clock);
         }
         if ((work->field_54_maybeFlags & 0x300) == 0x300)
         {
@@ -367,7 +367,7 @@ STATIC void sight_act_800714EC(SightWork *work)
     }
 
     frameCountPositive = 0;
-    if (!(field54Flags & (0x100 << GV_Clock_800AB920)))
+    if (!(field54Flags & (0x100 << GV_Clock)))
     {
         frameCountPositive = (0 < frameCount);
     }
@@ -407,14 +407,14 @@ STATIC void sight_act_800714EC(SightWork *work)
         tag = *(int *)offsetPrimBuf;
         if (tag == 0xff)
         {
-            if (!(dword_8009F608 & 1) && !(GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000))
+            if (!(dword_8009F608 & 1) && !(GM_PlayerStatus & PLAYER_UNK4000000))
             {
                 sight_act_helper_80071498(offsetPrimBuf);
             }
         }
         else
         {
-            if (!(dword_8009F608 & 1) && !(GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000))
+            if (!(dword_8009F608 & 1) && !(GM_PlayerStatus & PLAYER_UNK4000000))
             {
                 addPrim(ot, offsetPrimBuf);
             }
@@ -422,7 +422,7 @@ STATIC void sight_act_800714EC(SightWork *work)
             if ((code & 2) != 0) // Checking for semi-transparency.
             {
                 SetDrawTPage(tPageBuf, 0, 1, ancField1Shifted << 5);
-                if (!(dword_8009F608 & 1) && !(GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000))
+                if (!(dword_8009F608 & 1) && !(GM_PlayerStatus & PLAYER_UNK4000000))
                 {
                     addPrim(ot, tPageBuf);
                 }
@@ -431,7 +431,7 @@ STATIC void sight_act_800714EC(SightWork *work)
         }
     }
 
-    if (work->field_2C_frameCount < 0x7fff0000 && GV_PauseLevel_800AB928 == 0)
+    if (work->field_2C_frameCount < 0x7fff0000 && GV_PauseLevel == 0)
     {
         work->field_2C_frameCount++;
     }
@@ -608,7 +608,7 @@ STATIC int sight_loader_80071A54(SightWork *work, int hashedFileName, short *ite
         work->field_4C_xyOffsetBuffer = xyOffsetBuffer;
         work->field_50 = 0;
         work->field_54_maybeFlags = 0;
-        work->field_58_clock = GV_Clock_800AB920;
+        work->field_58_clock = GV_Clock;
         work->field_5A_maybeFlags = 0;
         return 0;
     }

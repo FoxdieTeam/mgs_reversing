@@ -15,7 +15,7 @@
 #include "SD/g_sound.h"
 #include "strcode.h"
 
-extern int            GM_PlayerStatus_800ABA50;
+extern int            GM_PlayerStatus;
 extern int            dword_800BDD28;
 extern BLAST_DATA     blast_data_8009F4B8[8];
 extern SVECTOR        GM_PlayerPosition_800ABA10;
@@ -100,13 +100,13 @@ STATIC void TenageAct(TenageWork *work)
     GM_ActObject2((OBJECT *)&work->object);
     DG_GetLightMatrix(&control->mov, work->light);
 
-    if (!(GM_GameStatus & (STATE_PADRELEASE | STATE_PADDEMO | STATE_DEMO)) && !(GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF))
+    if (!(GM_GameStatus & (STATE_PADRELEASE | STATE_PADDEMO | STATE_DEMO)) && !(GM_PlayerStatus & PLAYER_PAD_OFF))
     {
         work->fuse_time--;
     }
 
 #ifdef VR_EXE
-    else if ((GM_GameStatus & (STATE_PADRELEASE | STATE_PADDEMO)) == STATE_PADDEMO && !(GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF))
+    else if ((GM_GameStatus & (STATE_PADRELEASE | STATE_PADDEMO)) == STATE_PADDEMO && !(GM_PlayerStatus & PLAYER_PAD_OFF))
     {
         work->fuse_time--;
     }
@@ -194,7 +194,7 @@ STATIC void TenageAct(TenageWork *work)
 STATIC void TenageDie(TenageWork *work)
 {
     GM_FreeControl(&work->control);
-    GM_ClearBulName_8004FBE4(work->control.name);
+    GM_ClearBulName(work->control.name);
     GM_FreeObject((OBJECT *)&work->object);
 
     if (work->control_index >= 0)

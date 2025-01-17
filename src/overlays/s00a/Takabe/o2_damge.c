@@ -28,8 +28,8 @@ typedef struct _O2DamgeWork
     int    f54;
 } O2DamgeWork;
 
-extern short GM_O2_800ABA34;
-extern int   GM_PlayerStatus_800ABA50;
+extern short GM_O2;
+extern int   GM_PlayerStatus;
 
 #define EXEC_LEVEL 5
 
@@ -112,12 +112,12 @@ void O2DamageAct_800DE5B8(O2DamgeWork *work)
             }
 
             temp_a0 = work->f28 + work->f2C / reduction;
-            GM_O2_800ABA34 -= temp_a0 >> 12;
+            GM_O2 -= temp_a0 >> 12;
             work->f28 = temp_a0 & 0xFFF;
 
-            if (GM_O2_800ABA34 < 0)
+            if (GM_O2 < 0)
             {
-                GM_O2_800ABA34 = 0;
+                GM_O2 = 0;
                 damage = work->f34;
                 var_s3 = 1;
             }
@@ -126,11 +126,11 @@ void O2DamageAct_800DE5B8(O2DamgeWork *work)
         {
             temp_v1_2 = work->f40 + work->f44;
             work->f40 = temp_v1_2 & 0xFFF;
-            GM_O2_800ABA34 += temp_v1_2 >> 12;
+            GM_O2 += temp_v1_2 >> 12;
 
-            if (GM_O2_800ABA34 > 1024)
+            if (GM_O2 > 1024)
             {
-                GM_O2_800ABA34 = 1024;
+                GM_O2 = 1024;
             }
         }
 
@@ -161,7 +161,7 @@ void O2DamageAct_800DE5B8(O2DamgeWork *work)
             // "We haven't managed to avoid drowning"
             if ((GM_SnakeCurrentHealth <= 0) && (GM_GameOverTimer == 0) && !sna_ration_available_8004FB4C())
             {
-                ExecProc_800DE580(work->f54, (GM_PlayerStatus_800ABA50 & PLAYER_GROUND) ? 0xEF61 : 0xB9AA);
+                ExecProc_800DE580(work->f54, (GM_PlayerStatus & PLAYER_GROUND) ? 0xEF61 : 0xB9AA);
                 GM_GameOver();
             }
         }

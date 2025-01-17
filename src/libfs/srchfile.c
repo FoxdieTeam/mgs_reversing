@@ -8,17 +8,25 @@
 extern const char *MGS_DiskName[3]; /* in main.c */
 
 /*---------------------------------------------------------------------------*/
-// TODO: these macros expect a little-endian host machine
 
-/* read little-endian 16-bit value */
-#define read_lsb_ushort(p) (p[0] | (p[1] << 8))
-/* read big-endian 16-bit value */
-#define read_msb_ushort(p) (p[1] | (p[0] << 8))
-
-/* read little-endian 32-bit value */
-#define read_lsb_ulong(p) (p[0] | (p[1] << 8) | (p[2] << 16) | (p[3] << 24))
-/* read big-endian 32-bit value */
-#define read_msb_ulong(p) (p[3] | (p[2] << 8) | (p[1] << 16) | (p[0] << 24))
+// Used for reading words LSB (little-endian) or MSB (big-endian) words
+// from the ISO-9660 file system records. The PSX is a little-endian machine
+// so the big-endian implementation is just for future portability.
+#ifdef WORDS_BIGENDIAN
+/* read 16-bit value */
+#define read_lsb_ushort(p)  (p[1] | (p[0] << 8))
+#define read_msb_ushort(p)  (p[0] | (p[1] << 8))
+/* read 32-bit value */
+#define read_lsb_ulong(p)   (p[3] | (p[2] << 8) | (p[1] << 16) | (p[0] << 24))
+#define read_msb_ulong(p)   (p[0] | (p[1] << 8) | (p[2] << 16) | (p[3] << 24))
+#else
+/* read 16-bit value */
+#define read_lsb_ushort(p)  (p[0] | (p[1] << 8))
+#define read_msb_ushort(p)  (p[1] | (p[0] << 8))
+/* read 32-bit value */
+#define read_lsb_ulong(p)   (p[0] | (p[1] << 8) | (p[2] << 16) | (p[3] << 24))
+#define read_msb_ulong(p)   (p[3] | (p[2] << 8) | (p[1] << 16) | (p[0] << 24))
+#endif
 
 /*---------------------------------------------------------------------------*/
 /**
@@ -122,7 +130,7 @@ static inline char GetXaAttribute(int dir_record, int name_length, int base_leng
  * of the ISO-9660 directory record.
  *
  * @param[in]       buffer  ISO-9660 directory record table
- * @param[in,out]   finfo   FS_FILE_INFO table to initialized
+ * @param[in,out]   finfo   FS_FILE_INFO table to initialize
  *
  * @retval          -1      on failure
  * @retval          >= 0    disc number (0: Disc 1, 1: Disc 2)
@@ -229,7 +237,7 @@ STATIC int FS_ReadCdDirectory(char *buffer, FS_FILE_INFO *finfo)
  *
  * @param[out]      buffer  temporary load buffer
  *                          (needs to be at least 2048 bytes)
- * @param[in,out]   finfo   FS_FILE_INFO table to initialized
+ * @param[in,out]   finfo   FS_FILE_INFO table to initialize
  *
  * @retval          -1      on failure
  * @retval          >= 0    disc number (0: Disc 1, 1: Disc 2)

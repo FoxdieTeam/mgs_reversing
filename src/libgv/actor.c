@@ -17,14 +17,20 @@
 // 0x0 No pause
 // 0x1 codec
 // 0x2 game paused
-int SECTION(".sbss") GV_PauseLevel_800AB928;
-STATIC int SECTION(".sbss") dword_0x800AB92C; //maybe unused
+int SECTION(".sbss") GV_PauseLevel;
+STATIC int SECTION(".sbss") dword_800AB92C; //maybe unused
 
-extern struct ActorList gActorsList_800ACC18[GV_ACTOR_LEVEL];
+extern ActorList gActorsList_800ACC18[GV_ACTOR_LEVEL];
+
+typedef struct
+{
+    short pause;
+    short kill;
+} PauseKill;
 
 // initialization structure for the actor lists
 // the pause and kill levels are set for each list
-STATIC struct PauseKill gPauseKills_8009D308[GV_ACTOR_LEVEL] = {
+STATIC PauseKill gPauseKills_8009D308[GV_ACTOR_LEVEL] = {
     {  0, 7 },  // 0: GV_ACTOR_DAEMON
     {  0, 7 },  // 1: GV_ACTOR_MANAGER
     {  9, 4 },  // 2: GV_ACTOR_LEVEL2
@@ -36,7 +42,7 @@ STATIC struct PauseKill gPauseKills_8009D308[GV_ACTOR_LEVEL] = {
     {  0, 7 }   // 8: GV_ACTOR_DAEMON2
 };
 
-extern int GM_CurrentMap_800AB9B0;
+extern int GM_CurrentMap;
 
 /*---------------------------------------------------------------------------*/
 
@@ -46,25 +52,25 @@ extern int GM_CurrentMap_800AB9B0;
  */
 void GV_InitActorSystem(void)
 {
-    int               i;
-    struct ActorList *lp = gActorsList_800ACC18;
+    int         i;
+    ActorList  *lp = gActorsList_800ACC18;
 
     for (i = 0; i < GV_ACTOR_LEVEL; i++)
     {
         GV_ACT *first = &lp->first;
         GV_ACT *last = &lp->last;
 
-        first->prev = 0;
+        first->prev = NULL;
         first->next = last;
 
         last->prev = first;
-        last->next = 0;
+        last->next = NULL;
 
-        first->die = 0;
-        first->act = 0;
+        first->die = NULL;
+        first->act = NULL;
 
-        last->die = 0;
-        last->act = 0;
+        last->die = NULL;
+        last->act = NULL;
 
         lp->pause = gPauseKills_8009D308[i].pause;
         lp->kill = gPauseKills_8009D308[i].kill;
@@ -72,7 +78,7 @@ void GV_InitActorSystem(void)
         lp++;
     }
 
-    GV_PauseLevel_800AB928 = 0;
+    GV_PauseLevel = 0;
 }
 
 /**
@@ -84,7 +90,7 @@ void GV_InitActorSystem(void)
  */
 void GV_ConfigActorSystem(int execLevel, short pause, short kill)
 {
-    struct ActorList *lp = &gActorsList_800ACC18[execLevel];
+    ActorList *lp = &gActorsList_800ACC18[execLevel];
     lp->pause = pause;
     lp->kill = kill;
 }
@@ -96,8 +102,8 @@ void GV_ConfigActorSystem(int execLevel, short pause, short kill)
  */
 void GV_DumpActorSystem(void)
 {
-    int               i;
-    struct ActorList *lp = gActorsList_800ACC18;
+    int         i;
+    ActorList  *lp = gActorsList_800ACC18;
 
     cprintf("--DumpActorSystem--\n");
 
@@ -155,15 +161,15 @@ void GV_DumpActorSystem(void)
  */
 void GV_ExecActorSystem(void)
 {
-    int               i;
-    struct ActorList *lp = gActorsList_800ACC18;
+    int         i;
+    ActorList  *lp = gActorsList_800ACC18;
 
     // for every actor list
     for (i = GV_ACTOR_LEVEL; i > 0; i--)
     {
         // don't execute actors when the pause flag matches the
         // current pause level
-        const int pause_level = GV_PauseLevel_800AB928;
+        const int pause_level = GV_PauseLevel;
         if ((lp->pause & pause_level) == 0)
         {
             // iterate over all actors in the list
@@ -179,7 +185,7 @@ void GV_ExecActorSystem(void)
                     current->act(current);
                 }
 
-                GM_CurrentMap_800AB9B0 = 0;
+                GM_CurrentMap = 0;
                 // continue to the next actor until we reach the end of the list
                 actor = next;
                 if (!next)
@@ -199,8 +205,8 @@ void GV_ExecActorSystem(void)
  */
 void GV_DestroyActorSystem(int execLevel)
 {
-    int               i;
-    struct ActorList *lp = gActorsList_800ACC18;
+    int         i;
+    ActorList  *lp = gActorsList_800ACC18;
 
     // iterate over all actor lists
     for (i = GV_ACTOR_LEVEL; i > 0; i--)
@@ -307,8 +313,8 @@ void GV_DestroyActorQuick(GV_ACT *actor)
     prev->next = next;
 
     // Our prev/next are no longer valid
-    act->prev = 0;
-    act->next = 0;
+    act->prev = NULL;
+    act->next = NULL;
 
     // Same purpose as C++ destructor
     if (act->die)
@@ -336,9 +342,9 @@ void GV_DestroyActor(GV_ACT *actor)
 
 void GV_DestroyOtherActor(GV_ACT *actor)
 {
-    GV_ACT           *next;
-    struct ActorList *lp;
-    int               i;
+    GV_ACT     *next;
+    ActorList  *lp;
+    int         i;
 
     lp = gActorsList_800ACC18;
     for (i = GV_ACTOR_LEVEL; i > 0; i--)

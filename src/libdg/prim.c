@@ -5,8 +5,8 @@
 #include <libgpu.h>
 #include "common.h"
 
-extern int GV_Clock_800AB920;
-extern int DG_CurrentGroupID_800AB968;
+extern int GV_Clock;
+extern int DG_CurrentGroupID;
 
 /*** data *******************************************************/
 
@@ -101,7 +101,7 @@ STATIC void DG_AdjustLaserPrims( DG_PRIM *prim, int type )
 
     if ( type == DG_PRIM_LINE_FT2 )
     {
-        ft2 = (POLY_FT4 *)prim->packs[GV_Clock_800AB920];
+        ft2 = (POLY_FT4 *)prim->packs[GV_Clock];
 
         for (i = prim->n_prims ; i > 0; --i )
         {
@@ -111,7 +111,7 @@ STATIC void DG_AdjustLaserPrims( DG_PRIM *prim, int type )
     }
     else // type == DG_PRIM_LINE_GT2
     {
-        gt2 = (POLY_GT4 *)prim->packs[GV_Clock_800AB920];
+        gt2 = (POLY_GT4 *)prim->packs[GV_Clock];
 
         for (i = prim->n_prims ; i > 0; --i )
         {
@@ -213,7 +213,7 @@ STATIC void DG_TransformPrim( DG_PRIM *prim )
     }
 
     verts = prim->vertices;
-    packs = (char *)prim->packs[ GV_Clock_800AB920 ];
+    packs = (char *)prim->packs[ GV_Clock ];
 
     for ( n_prims = prim->n_prims; n_prims > prim_batch; n_prims -= prim_batch )
     {
@@ -310,7 +310,7 @@ STATIC void DG_TransformPrimOneFace( DG_PRIM *prim )
     }
 
     verts = prim->vertices;
-    packs = (char *)prim->packs[ GV_Clock_800AB920 ];
+    packs = (char *)prim->packs[ GV_Clock ];
 
     for ( n_prims = prim->n_prims; n_prims > prim_batch; n_prims -= prim_batch )
     {
@@ -357,7 +357,7 @@ STATIC void DG_TransformPrimOffsetSingle( DG_PRIM *prim )
     int      n_prims;
 
     verts = prim->vertices;
-    packs = (char *)prim->packs[GV_Clock_800AB920];
+    packs = (char *)prim->packs[GV_Clock];
 
     for ( n_prims = prim->n_prims; n_prims > BATCH_SIZE; n_prims -= BATCH_SIZE )
     {
@@ -461,7 +461,7 @@ STATIC void DG_TransformPrimOffset( DG_PRIM *prim )
     int      n_prims;
 
     verts = prim->vertices;
-    packs = (char *)prim->packs[GV_Clock_800AB920];
+    packs = (char *)prim->packs[GV_Clock];
 
     for ( n_prims = prim->n_prims; n_prims > (BATCH_SIZE - 3); n_prims -= (BATCH_SIZE - 3) )
     {
@@ -479,7 +479,7 @@ STATIC void DG_TransformPrimFreePacks( DG_PRIM *prim )
     POLY_FT4 *packs;
 
     n_prims = prim->n_prims;
-    packs = (POLY_FT4 *)prim->packs[GV_Clock_800AB920];
+    packs = (POLY_FT4 *)prim->packs[GV_Clock];
 
     DG_TransformVertices(prim->vertices, prim->n_vertices);
     prim->handler(prim, packs, n_prims);
@@ -518,7 +518,7 @@ void DG_PrimChanl( DG_CHANL *chanl, int idx )
 
     DG_Clip( clip_rect, chanl->field_50_clip_distance );
 
-    group_id = DG_CurrentGroupID_800AB968;
+    group_id = DG_CurrentGroupID;
     eye = &chanl->field_10_eye_inv;
 
     queue = (DG_PRIM **)&chanl->mQueue[ chanl->mFreePrimCount ];

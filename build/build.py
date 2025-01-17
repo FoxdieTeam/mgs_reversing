@@ -44,11 +44,11 @@ def parse_arguments():
     elif args.variant == 'dev_exe':
         args.obj_directory = 'obj_dev'
 
-    args.defines = []
+    args.defines = ['INTEGRAL']
     if args.variant == 'vr_exe':
-        args.defines = ['VR_EXE']
+        args.defines += ['VR_EXE']
     elif args.variant == 'dev_exe':
-        args.defines = ['DEV_EXE']
+        args.defines += ['DEV_EXE']
 
     print("psyq_path = " + args.psyq_path)
     return args

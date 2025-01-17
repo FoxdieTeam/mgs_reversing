@@ -26,12 +26,12 @@ extern void             NewSplash2_800DB6F0( int angy, SVECTOR *pos, int norippl
 extern void            *NewRipple_800D7F30( MATRIX *, int );
 extern void            *NewWaterView_800DBE04( int name, int where, int argc, char **argv );
 
-extern unsigned int     GM_PlayerStatus_800ABA50;
+extern unsigned int     GM_PlayerStatus;
 extern CONTROL         *GM_PlayerControl_800AB9F4;
 extern OBJECT          *GM_PlayerBody_800ABA20;
-extern SVECTOR          GM_NoisePosition_800AB9F8;
-extern int              GM_NoiseLength_800ABA30;
-extern int              GM_NoisePower_800ABA24;
+extern SVECTOR          GM_NoisePosition;
+extern int              GM_NoiseLength;
+extern int              GM_NoisePower;
 
 //OPEN_MES, CLOSE_MES
 unsigned short mes_list_800C3410[] = { 0x43D3, 0x4235 };
@@ -143,7 +143,7 @@ void WaterArea2Act_800CEB10(WaterArea2Work *work)
         work->snake_catch = 0;
     }
 
-    if (GM_PlayerStatus_800ABA50 & 0x42)
+    if (GM_PlayerStatus & 0x42)
     {
         world = &GM_PlayerBody_800ABA20->objs->objs[0].world;
     }
@@ -193,16 +193,15 @@ void WaterArea2Act_800CEB10(WaterArea2Work *work)
     }
     else if ( !flag )
     {
-        GM_SetSound( 0xff0000fe, 0 );
+        GM_SetSound( 0xff0000fe, SD_ASYNC );
         WaterArea2ExecProc_800CEAD8( work->proc_id, 0xBED3 );
         work->field_4C = 0;
     }
 
-    if ((GM_NoisePower_800ABA24 == 0xFF) &&
-        (GM_NoiseLength_800ABA30 == 0x1F) &&
-        WaterArea2BoundInCheck_800CEA48(work->bound, &GM_NoisePosition_800AB9F8))
+    if ((GM_NoisePower == 0xFF) && (GM_NoiseLength == 0x1F) &&
+        WaterArea2BoundInCheck_800CEA48(work->bound, &GM_NoisePosition))
     {
-        GM_SeSetMode(&GM_NoisePosition_800AB9F8, 0xB5, GM_SEMODE_BOMB);
+        GM_SeSetMode(&GM_NoisePosition, 0xB5, GM_SEMODE_BOMB);
     }
 }
 

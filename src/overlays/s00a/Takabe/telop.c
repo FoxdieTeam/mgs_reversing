@@ -37,9 +37,9 @@ typedef struct _TelopWork2
     int       count;
 } TelopWork2;
 
-extern int GV_Clock_800AB920;
-extern int GV_PassageTime_800AB924;
-extern int GV_PauseLevel_800AB928;
+extern int GV_Clock;
+extern int GV_PassageTime;
+extern int GV_PauseLevel;
 
 #define EXEC_LEVEL 3
 
@@ -93,12 +93,12 @@ void telop_800DD730(char *ot, TelopSub *sub)
 
     shade = 0;
 
-    if (GV_PauseLevel_800AB928 == 0)
+    if (GV_PauseLevel == 0)
     {
         switch (sub->state)
         {
         case 0:
-            sub->timer -= GV_PassageTime_800AB924;
+            sub->timer -= GV_PassageTime;
             if (sub->timer <= 0)
             {
                 shade = 0;
@@ -126,7 +126,7 @@ void telop_800DD730(char *ot, TelopSub *sub)
 
         case 2:
             shade = 0x808080;
-            sub->timer -= GV_PassageTime_800AB924;
+            sub->timer -= GV_PassageTime;
 
             if (sub->timer <= 0)
             {
@@ -163,7 +163,7 @@ void telop_800DD730(char *ot, TelopSub *sub)
 
     if (sub->visible != 0)
     {
-        prims = &sub->prims[GV_Clock_800AB920];
+        prims = &sub->prims[GV_Clock];
         shade |= LLOAD(&prims->sprt1.r0) & 0xFF000000;
         LSTORE(shade, &prims->sprt1.r0);
         LSTORE(shade, &prims->sprt2.r0);

@@ -20,7 +20,7 @@ typedef struct _HiyokoWork
     int      f74;
 } HiyokoWork;
 
-extern int     GM_CurrentMap_800AB9B0;
+extern int     GM_CurrentMap;
 
 #define EXEC_LEVEL 5
 
@@ -58,7 +58,7 @@ void HiyokoAct_800CFD44(HiyokoWork *work)
         work->pos.vz = work->world->t[2];
     }
 
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
 
     rot = DG_ZeroVector;
     rot.vy = GV_Time * 256;
@@ -167,7 +167,7 @@ int HiyokoGetResources_800D0018(HiyokoWork *work, MATRIX *world, int arg2)
     int      i;
     SVECTOR *vec;
 
-    work->map = GM_CurrentMap_800AB9B0;
+    work->map = GM_CurrentMap;
 
     work->world = world;
     work->f74 = arg2;

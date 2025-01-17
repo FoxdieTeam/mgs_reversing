@@ -51,9 +51,9 @@ typedef struct CameraWork
     char          *f49E4;
 } CameraWork;
 
-extern int                         GM_CurrentMap_800AB9B0;
+extern int                         GM_CurrentMap;
 extern GV_PAD                      GV_PadData_800B05C0[4];
-extern int                         GV_Clock_800AB920;
+extern int                         GV_Clock;
 extern RadioFileModeStru_800ABB7C *camera_dword_800D075C;
 extern RECT                        camera_dword_800C389C;
 extern char                       *camera_dword_800D0760;
@@ -916,8 +916,8 @@ void camera_800C85D8(void)
 
 void CameraAct_800CE404(CameraWork *work)
 {
-    work->field_920 = work->field_92C[GV_Clock_800AB920];
-    work->field_924_mOrderingTable = DG_Chanl(1)->mOrderingTables[GV_Clock_800AB920];
+    work->field_920 = work->field_92C[GV_Clock];
+    work->field_924_mOrderingTable = DG_Chanl(1)->mOrderingTables[GV_Clock];
     camera_800CDF18(work);
     camera_800C3ED8(work);
     work->field_4938++;
@@ -1042,7 +1042,7 @@ int CameraGetResources_800CE6EC(CameraWork *work, int map)
     POLY_FT4 *poly;
     int       i;
 
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
 
     work->prim1 = DG_GetPrim(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 4, 0, NULL, NULL);
     work->prim2 = DG_GetPrim(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 9, 0, NULL, NULL);

@@ -46,8 +46,7 @@ typedef struct SETBL
     unsigned char  tracks;
     unsigned char  kind;
     unsigned char  character;
-/*  unsigned char *addr[3]; -- todo */
-    unsigned int   addr[3];
+    unsigned char *addr[3];
 } SETBL;
 
 typedef struct SEPLAYTBL

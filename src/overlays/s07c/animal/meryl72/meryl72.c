@@ -12,7 +12,7 @@
 
 #include "meryl72.h"
 
-extern int              GM_CurrentMap_800AB9B0;
+extern int              GM_CurrentMap;
 extern int              GM_PlayerAddress_800AB9F0;
 extern int              GM_PlayerMap_800ABA0C;
 extern SVECTOR          GM_PlayerPosition_800ABA10;
@@ -605,7 +605,7 @@ int Meryl72GetResources_800C7738( Meryl72Work *work, int arg1, int arg2 )
 
     work->target_pos = work->nodes[ 0 ];
     work->target_addr = HZD_GetAddress( work->control.map->hzd, &work->target_pos, -1 );
-    work->target_map = GM_CurrentMap_800AB9B0;
+    work->target_map = GM_CurrentMap;
 
     work->vision.angle = 2048; //vision length
     work->vision.length = 4000; //vision angle
@@ -646,7 +646,7 @@ int Meryl72GetResources_800C7738( Meryl72Work *work, int arg1, int arg2 )
     GM_ConfigControlRadarparam( control, 0, 4000, 2048, 0 );
 
     work->start_pos = work->nodes[ 0 ];
-    work->start_map = GM_CurrentMap_800AB9B0;
+    work->start_map = GM_CurrentMap;
 
     addr = HZD_GetAddress( work->control.map->hzd, &control->mov, -1 );
     work->start_addr = addr;

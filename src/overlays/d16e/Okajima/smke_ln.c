@@ -20,7 +20,7 @@ typedef struct _SmokeLnWork
     char    f52;
 } SmokeLnWork;
 
-extern int GM_CurrentMap_800AB9B0;
+extern int GM_CurrentMap;
 
 void AN_Smoke_800CE2C4(SVECTOR *pos, SVECTOR *speed, int, int, int, int, int);
 
@@ -31,7 +31,7 @@ void SmokeLnAct_800CDB38(SmokeLnWork *work)
     SVECTOR pos;
     int     rnd;
 
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
 
     if (--work->time < 0)
     {
@@ -110,7 +110,7 @@ void SmokeLnDie_800CDEF0(SmokeLnWork *work)
 
 int SmokeLnGetResources_800CDEF8(SmokeLnWork *work, int arg1, int time, int arg3, SVECTOR *arg4, SVECTOR *arg5, SVECTOR *speed, char arg7, char arg8, char arg9)
 {
-    work->map = GM_CurrentMap_800AB9B0;
+    work->map = GM_CurrentMap;
 
     work->f40 = arg1;
     work->time = time;

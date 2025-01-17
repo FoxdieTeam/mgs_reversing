@@ -7,7 +7,7 @@
 #include "Game/camera.h"
 #include "Game/linkvarbuf.h"
 
-extern int       DG_CurrentGroupID_800AB968;
+extern int       DG_CurrentGroupID;
 extern int       dword_8009F46C;
 extern GM_Camera GM_Camera_800B77E8;
 
@@ -36,8 +36,8 @@ STATIC void GasmaskAct(GasmaskWork *work)
     int map;
 
     map = work->control->map->index;
-    DG_GroupObjs(work->object.objs, DG_CurrentGroupID_800AB968);
-    GM_CurrentMap_800AB9B0 = map;
+    DG_GroupObjs(work->object.objs, DG_CurrentGroupID);
+    GM_CurrentMap = map;
 
     if (work->parent->objs->flag & DG_FLAG_INVISIBLE)
     {

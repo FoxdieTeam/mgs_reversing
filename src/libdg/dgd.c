@@ -20,8 +20,8 @@ STATIC int DG_TickCount = -1;
 /***************************************************************/
 
 extern int              dword_800B3790;
-extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
-extern GV_PAD          *GM_CurrentPadData_800AB91C;
+extern PlayerStatusFlag GM_PlayerStatus;
+extern GV_PAD          *GM_CurrentPadData;
 extern GV_PAD           GV_PadData_800B05C0[4];
 
 int DG_DrawSyncResetGraph(void)
@@ -83,13 +83,13 @@ void DG_StartFrame(GV_ACT *actor)
     DG_SwapFrame();
 
     GV_UpdatePadSystem();
-    GM_CurrentPadData_800AB91C = GV_PadData_800B05C0;
+    GM_CurrentPadData = GV_PadData_800B05C0;
 
-    if ((GM_PlayerStatus_800ABA50 & PLAYER_CAN_USE_CONTROLLER_PORT_2) != 0)
+    if ((GM_PlayerStatus & PLAYER_CAN_USE_CONTROLLER_PORT_2) != 0)
     {
         if (GV_PadData_800B05C0[1].status | GV_PadData_800B05C0[1].release)
         {
-            GM_CurrentPadData_800AB91C = &GV_PadData_800B05C0[1];
+            GM_CurrentPadData = &GV_PadData_800B05C0[1];
         }
     }
 }
@@ -99,14 +99,14 @@ void DG_EndFrame(void)
     DG_RenderPipeline_800172A8();
 }
 
-extern int DG_CurrentGroupID_800AB968;
+extern int DG_CurrentGroupID;
 
 void DG_ResetPipeline(void)
 {
     DG_InitLightSystem();
     DG_RenderPipeline_Init();
 
-    DG_CurrentGroupID_800AB968 = 0;
+    DG_CurrentGroupID = 0;
 
     DG_ReloadPalette();
     DG_ResetPaletteEffect();

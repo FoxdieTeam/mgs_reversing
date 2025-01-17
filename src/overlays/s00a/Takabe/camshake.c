@@ -20,7 +20,7 @@ typedef struct CameraShakeWork
 } CameraShakeWork;
 
 extern SVECTOR GM_PlayerPosition_800ABA10;
-extern int  GM_CameraShakeOffset_800ABA98;
+extern int  GM_CameraShakeOffset;
 
 void CameraShakeAct_800DF4B8( CameraShakeWork* work )
 {
@@ -50,7 +50,7 @@ void CameraShakeAct_800DF4B8( CameraShakeWork* work )
 
     tmp = ( work->radius -  length ) * ( work->count * work->strength / work->time ) / work->radius ;
 
-    GM_CameraShakeOffset_800ABA98 += ( rand() * tmp ) >> 15 ;
+    GM_CameraShakeOffset += ( rand() * tmp ) >> 15 ;
 }
 
 void CameraShakeDie_800DF634( void )

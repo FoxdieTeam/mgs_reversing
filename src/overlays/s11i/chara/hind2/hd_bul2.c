@@ -19,8 +19,8 @@ typedef struct _HdBul2Work
 
 SVECTOR s11i_800C32C8 = {200, 200, 200, 0};
 
-extern int     GV_Clock_800AB920;
-extern int     GM_CurrentMap_800AB9B0;
+extern int     GV_Clock;
+extern int     GM_CurrentMap;
 
 #define EXEC_LEVEL 5
 
@@ -110,7 +110,7 @@ void HdBul2Act( HdBul2Work *work )
         }
     }
 
-    poly = (POLY_FT4 *)work->prim->packs[ GV_Clock_800AB920 ];
+    poly = (POLY_FT4 *)work->prim->packs[ GV_Clock ];
     for ( i = 0; i < 4; i++ )
     {
         setRGB0( poly, 0, 0, 0 );
@@ -359,7 +359,7 @@ int HdBul2GetResources( HdBul2Work *work, SVECTOR *arg1, SVECTOR *arg2 )
 
     GV_LenVec3( &diff, step, len, 2000 );
 
-    work->map = GM_CurrentMap_800AB9B0;
+    work->map = GM_CurrentMap;
 
     if ( HdBul2_800C5DB4( work ) < 0 )
     {

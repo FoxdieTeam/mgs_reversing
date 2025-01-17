@@ -95,6 +95,7 @@ extern void *mts_get_bss_tail(void);
 //  Build Date      Build Time      Product Code    Version
 //-----------------------------------------------------------------------------
 //  "Mar 17 1998"   "20:53:30"      SLPM-80254      METAL GEAR SOLID PILOT DISC
+//   〃  〃  〃      〃 〃 〃       SLPM-80256      ファミ通Wave 創刊号 Vol.1
 //  "Jun 13 1998"   "15:05:16"      SLPM-86098      METAL GEAR SOLID 体験版
 //   〃  〃  〃      〃 〃 〃       PAPX-90044      METAL GEAR SOLID PILOT DISC
 //  "Jun 13 1998"   "15:04:42"      SLUS-90035      METAL GEAR SOLID DEMO (ver.1)
@@ -106,12 +107,14 @@ extern void *mts_get_bss_tail(void);
 //   〃  〃  〃      〃 〃 〃       SLES-01506      METAL GEAR SOLID (PAL, French)
 //   〃  〃  〃      〃 〃 〃       SLPM-86247      METAL GEAR SOLID INTEGRAL
 //   〃  〃  〃      〃 〃 〃       SLPM-86249      METAL GEAR SOLID INTEGRAL VR-DISC
+//  "Aug 28 1998"   "16:35:40"      SCUS-XXXXX      METAL GEAR SOLID DEMO (ver.2)
 //  "Nov 12 1998"   "18:51:44"      SLED-01775      METAL GEAR SOLID DEMO (ver.2)
 //  "Nov 12 1998"   "20:00:47"      SLES-01508      METAL GEAR SOLID (PAL, Italian)
 //   〃  〃  〃      〃 〃 〃       SLES-01734      METAL GEAR SOLID (PAL, Spanish)
 //   〃  〃  〃      〃 〃 〃       SLUS-00957      METAL GEAR SOLID VR MISSIONS
 //   〃  〃  〃      〃 〃 〃       SLES-02136      METAL GEAR SOLID SPECIAL MISSIONS
 //  "Jun 11 1999"   "10:13:47"      SLUS-90062      METAL GEAR SOLID VR MISSIONS DEMO
+//  "Jun 24 1999"   "13:17:49"      SCED-XXXXX      METAL GEAR SOLID SPECIAL MISSIONS DEMO
 //  "Aug 21 2007"   "21:28:42"      (none)          MGS1 (for METAL GEAR SOLID 4)
 //
 // Note that the Jun 13 1998 timestamps are less than one minute apart.

@@ -73,16 +73,16 @@ typedef struct _TortureWork
     GV_ACT        *f900;
 } TortureWork;
 
-extern int             GV_Clock_800AB920;
+extern int             GV_Clock;
 extern CONTROL        *GM_PlayerControl_800AB9F4;
-extern int             GM_AlertMode_800ABA00;
+extern int             GM_AlertMode;
 extern SVECTOR         GM_PlayerPosition_800ABA10;
 extern OBJECT         *GM_PlayerBody_800ABA20;
-extern int             GM_PlayerStatus_800ABA50;
+extern int             GM_PlayerStatus;
 extern GV_PAD          GV_PadData_800B05C0[4];
 extern UnkCameraStruct gUnkCameraStruct_800B77B8;
 extern GM_Camera       GM_Camera_800B77E8;
-extern int             GM_PadVibration2_800ABA54;
+extern int             GM_PadVibration2;
 
 extern char s03b_dword_800C329C[];
 extern char s03b_dword_800C32AC[];
@@ -697,7 +697,7 @@ void s03b_torture_800C4AB0(TortureWork *work, int arg1)
 
         s03b_boxall_800C9328();
         s03b_boxall_800C93F0(work->f87C[2], 4);
-        GM_SetSound(0xff0000fe, 0);
+        GM_SetSound(0xff0000fe, SD_ASYNC);
         s03b_boxall_800C969C(0, 10000);
 
         if (work->body.action != 2)
@@ -998,7 +998,7 @@ void s03b_torture_800C50A8(TortureWork *work, int arg1)
 
         work->control.step.vz = 32;
 
-        dir = (GV_Clock_800AB920 != 0) ? -1 : 1;
+        dir = (GV_Clock != 0) ? -1 : 1;
         gUnkCameraStruct_800B77B8.eye.vy += dir * GV_RandU(8);
 
     case 1:
@@ -1132,7 +1132,7 @@ void s03b_torture_800C5420(TortureWork *work, int arg1)
 
             work->control.mov = work->f824;
 
-            if (GV_Clock_800AB920)
+            if (GV_Clock)
             {
                 action = 1;
             }
@@ -1155,7 +1155,7 @@ void s03b_torture_800C5420(TortureWork *work, int arg1)
 
         if (arg1 == temp_s2 + 136 + work->f860[0][work->f85C])
         {
-            GM_SetSound(0xff0000fe, 0);
+            GM_SetSound(0xff0000fe, SD_ASYNC);
             work->f800 = (unsigned short)work->f800 & ~0x2;
             if (work->f804 <= 0)
             {
@@ -1173,7 +1173,7 @@ void s03b_torture_800C5420(TortureWork *work, int arg1)
             work->f80C = 0;
             return;
         }
-        GM_PadVibration2_800ABA54 = GV_RandU(64) + 192;
+        GM_PadVibration2 = GV_RandU(64) + 192;
         if (work->f81A == 0)
         {
             GM_SeSet2(0, 0x3F, 177);
@@ -1813,7 +1813,7 @@ void TortureDie_800C6774(TortureWork *work)
     GM_FreeControl(&work->control);
     GM_FreeObject(&work->body);
 
-    GM_PlayerStatus_800ABA50 &= ~PLAYER_PREVENT_WEAPON_ITEM_SWITCH;
+    GM_PlayerStatus &= ~PLAYER_PREVENT_WEAPON_ITEM_SWITCH;
 
     s03b_boxall_800C96E8();
     s03b_boxall_800C9328();
@@ -2054,8 +2054,8 @@ int TortureGetResources_800C6B3C(TortureWork *work, int name, int map)
     work->body.objs->objs[6].world.t[1] = gUnkCameraStruct_800B77B8.eye.vy;
     work->body.objs->objs[6].world.t[2] = gUnkCameraStruct_800B77B8.eye.vz;
 
-    GM_AlertMode_800ABA00 = 10;
-    GM_PlayerStatus_800ABA50 |= PLAYER_PREVENT_WEAPON_ITEM_SWITCH;
+    GM_AlertMode = 10;
+    GM_PlayerStatus |= PLAYER_PREVENT_WEAPON_ITEM_SWITCH;
 
     s03b_boxall_800C9328();
 

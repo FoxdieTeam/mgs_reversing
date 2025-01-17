@@ -25,8 +25,8 @@ typedef struct _BubbleSWork
     int      fC4;
 } BubbleSWork;
 
-extern int     GV_Clock_800AB920;
-extern int     GM_CurrentMap_800AB9B0;
+extern int     GV_Clock;
+extern int     GM_CurrentMap;
 extern SVECTOR GM_PlayerPosition_800ABA10;
 extern OBJECT *GM_PlayerBody_800ABA20;
 
@@ -215,7 +215,7 @@ void BubbleSAct_800D57A0(BubbleSWork *work)
     int            interp;
     POLY_FT4      *poly;
 
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
 
     work->fA0++;
 
@@ -298,7 +298,7 @@ void BubbleSAct_800D57A0(BubbleSWork *work)
 
     for (i = 0; i < 4; i++)
     {
-        poly = &work->prim[i]->packs[GV_Clock_800AB920]->poly_ft4;
+        poly = &work->prim[i]->packs[GV_Clock]->poly_ft4;
         if (work->f80[i])
         {
             BubbleSShadePacks_800D5324(poly, 64);
@@ -387,7 +387,7 @@ int BubbleSGetResources_800D5C94(BubbleSWork *work, int name, int map)
     work->name = name;
     work->map = map;
 
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
 
     opt = GCL_GetOption('b');
     if (opt != 0)

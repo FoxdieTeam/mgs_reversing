@@ -14,8 +14,8 @@
 
 extern short GM_Magazine_800AB9EC;
 extern short GM_MagazineMax_800ABA2C;
-extern int   DG_CurrentGroupID_800AB968;
-extern int   GV_Clock_800AB920;
+extern int   DG_CurrentGroupID;
+extern int   GV_Clock;
 
 /*---------------------------------------------------------------------------*/
 
@@ -56,8 +56,8 @@ STATIC void FamasAct(FamasWork *work)
     MATRIX mtx;
     MATRIX *pMtx;
 
-    GM_CurrentMap_800AB9B0 = work->control->map->index;
-    DG_GroupObjs(work->obj.objs, DG_CurrentGroupID_800AB968);
+    GM_CurrentMap = work->control->map->index;
+    DG_GroupObjs(work->obj.objs, DG_CurrentGroupID);
 
     mp5_flag = work->mp5_flag;
 
@@ -76,7 +76,7 @@ STATIC void FamasAct(FamasWork *work)
 
     if (!newSize && (flags & 2))
     {
-        if (GV_Clock_800AB920)
+        if (GV_Clock)
         {
             GM_SeSet(&work->control->mov, SE_KARASHT);
             ctrl1 = work->control;

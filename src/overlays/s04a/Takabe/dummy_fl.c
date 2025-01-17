@@ -63,7 +63,7 @@ char dummy_floor_800C3614[] = {0x50, 0x04, 0x00, 0x00};
 
 SVECTOR dummy_floor_800C3618 = {0, 4096, 0, 0};
 
-extern int      GM_CurrentMap_800AB9B0;
+extern int      GM_CurrentMap;
 extern CONTROL *GM_PlayerControl_800AB9F4;
 extern int      dword_800ABA1C;
 extern CONTROL *tenage_ctrls_800BDD30[16];
@@ -92,7 +92,7 @@ void DummyFloorAct_800D61A4(DummyFloorWork *work)
     int        i;
     DummyFlap *flap;
 
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
 
     s01a_800E2364(&work->f164, &GM_PlayerControl_800AB9F4->mov, &sp10);
 
@@ -333,7 +333,7 @@ int DummyFloorGetResources_800D68E4(DummyFloorWork *work, int name, int map)
     int        xmax, xmin;
     int        zmax, zmin;
 
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
 
     THING_Gcl_GetSVector('p', &pos);
     THING_Gcl_GetSVector('d', &dir);

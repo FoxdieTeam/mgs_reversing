@@ -163,7 +163,7 @@ int DG_LoadInitLit(unsigned char *buf, int id)
 
 /*---------------------------------------------------------------------------*/
 
-extern int GV_Clock_800AB920;
+extern int GV_Clock;
 
 // The size of this buffer is just a guess based on the next address of a
 // variable that IDA knows about.
@@ -323,7 +323,7 @@ int DG_LoadInitPcx(unsigned char *buf, int id)
         width /= 2;
     }
 
-    if (GV_AllocMemory2(GV_Clock_800AB920, width * height + 528, (void **)&images))
+    if (GV_AllocMemory2(GV_Clock, width * height + 528, (void **)&images))
     {
         DG_Image      *imageA;
         DG_Image      *imageB;
@@ -354,7 +354,7 @@ int DG_LoadInitPcx(unsigned char *buf, int id)
         DG_PcxReadPalette(palette, imageB->data, imageB->dim.w);
         LoadImage(&imageB->dim, (u_long *)imageB->data);
         LoadImage(&imageA->dim, (u_long *)imageA->data);
-        GV_FreeMemory2(GV_Clock_800AB920, (void **)&images);
+        GV_FreeMemory2(GV_Clock, (void **)&images);
 
         if (id)
         {

@@ -41,9 +41,9 @@ GV_ACT *NewCinemaScreen_800DE434(int, int);
 int     NewCinemaScreenClose_800DE4CC(GV_ACT *work);
 GV_ACT *NewSpark2_800CA714(MATRIX *world);
 
-extern int     GM_CurrentMap_800AB9B0;
-extern int     GM_PadVibration_800ABA3C;
-extern int     GM_PadVibration2_800ABA54;
+extern int     GM_CurrentMap;
+extern int     GM_PadVibration;
+extern int     GM_PadVibration2;
 extern DG_CHANL DG_Chanls_800B1800[3];
 
 void PLampLookAt_800CC9F4(PLampWork *work, SVECTOR *eye, SVECTOR *center)
@@ -61,8 +61,8 @@ void PLampLookAt_800CC9F4(PLampWork *work, SVECTOR *eye, SVECTOR *center)
     eye->vy += rsin(GV_Time * 822) * work->field_1CC / 512;
     eye->vz += rsin(GV_Time * 603) * work->field_1CC / 512;
 
-    GM_PadVibration_800ABA3C = GV_RandU(2);
-    GM_PadVibration2_800ABA54 = work->field_1CC * 255 / 42;
+    GM_PadVibration = GV_RandU(2);
+    GM_PadVibration2 = work->field_1CC * 255 / 42;
     DG_LookAt(&DG_Chanls_800B1800[1], eye, center, 320);
 }
 
@@ -277,7 +277,7 @@ void PLamp_800CCE6C(PLampWork *work)
         {
             work->field_1C0 = 2;
             work->field_1C4 = 0;
-            GM_PadVibration2_800ABA54 = 0xFF;
+            GM_PadVibration2 = 0xFF;
         }
 
         svec1.vx = GV_RandU(4096);
@@ -374,7 +374,7 @@ void PLamp_800CCE6C(PLampWork *work)
         NewSpark2_800CA714(&mat);
         GM_SeSet2(0, 0x3F, 0xB5);
         work->field_1C0 = 3;
-        GM_PadVibration_800ABA3C = 0;
+        GM_PadVibration = 0;
         work->field_1CC = 128;
 
     case 3:
@@ -382,7 +382,7 @@ void PLamp_800CCE6C(PLampWork *work)
         {
             GV_DestroyActor(&work->actor);
         }
-        GM_PadVibration2_800ABA54 = work->field_1CC = work->field_1CC * 63 / 64 - 1;
+        GM_PadVibration2 = work->field_1CC = work->field_1CC * 63 / 64 - 1;
         break;
     }
 }
@@ -402,7 +402,7 @@ void PLamp_800CD570(PLampWork *work)
 
 void PLampAct_800CD5C0(PLampWork *work)
 {
-    GM_CurrentMap_800AB9B0 = work->where;
+    GM_CurrentMap = work->where;
     PLamp_800CD570(work);
     if (work->field_1D8 == 0 && (work->target->damaged & TARGET_POWER))
     {
@@ -448,7 +448,7 @@ int PLampGetResources_800CD6E4(PLampWork *work, int map, int n_verts)
     work->has_prims = 0;
     work->where = map;
 
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
 
     for (i = 0; i < 16; i++)
     {

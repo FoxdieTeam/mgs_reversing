@@ -9,7 +9,7 @@
 #include "libdg/libdg.h"
 #include "Equip/equip.h"
 
-extern int GV_Clock_800AB920;
+extern int GV_Clock;
 
 /*---------------------------------------------------------------------------*/
 
@@ -41,7 +41,7 @@ STATIC void scn_mask_Act(struct ScnMaskWork *work)
 
     pOt = DG_ChanlOTag(0);
 
-    pTiles = &work->field_20_pPrims->field_40_tile_lines[GV_Clock_800AB920][0];
+    pTiles = &work->field_20_pPrims->field_40_tile_lines[GV_Clock][0];
     for (i = 112; i > 0; i--)
     {
 
@@ -49,9 +49,9 @@ STATIC void scn_mask_Act(struct ScnMaskWork *work)
         pTiles++;
     }
 
-    addPrim(pOt, &work->field_20_pPrims->field_30_unknown2[GV_Clock_800AB920]);
-    addPrim(pOt, &work->field_20_pPrims->field_10_tile_big[GV_Clock_800AB920]);
-    addPrim(pOt, &work->field_20_pPrims->field_0_unknown1[GV_Clock_800AB920]);
+    addPrim(pOt, &work->field_20_pPrims->field_30_unknown2[GV_Clock]);
+    addPrim(pOt, &work->field_20_pPrims->field_10_tile_big[GV_Clock]);
+    addPrim(pOt, &work->field_20_pPrims->field_0_unknown1[GV_Clock]);
 }
 
 STATIC void scn_mask_Die(struct ScnMaskWork *work)

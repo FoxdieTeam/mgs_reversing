@@ -12,8 +12,8 @@
 #include "Game/map.h"
 #include "strcode.h"
 
-extern int     GV_Clock_800AB920;
-extern int     GM_PlayerStatus_800ABA50;
+extern int     GV_Clock;
+extern int     GM_PlayerStatus;
 
 /*---------------------------------------------------------------------------*/
 
@@ -256,8 +256,8 @@ void NewAnime_8005D6BC(MATRIX *arg0, int arg1)
 
     rand = GV_RandU(8);
 
-    if (((rand > 3) && (GM_PlayerStatus_800ABA50 == 0x810)) ||
-        ((((dword_8009F224 % mod2) == 0) || (arg1 != 0)) && (GM_PlayerStatus_800ABA50 != 0x810)))
+    if (((rand > 3) && (GM_PlayerStatus == 0x810)) ||
+        ((((dword_8009F224 % mod2) == 0) || (arg1 != 0)) && (GM_PlayerStatus != 0x810)))
     {
         pPre = &pre;
 
@@ -873,13 +873,13 @@ STATIC void anime_change_prim_8005E7EC(POLY_FT4 *pPrim, DG_TEX *tex, int anim, A
 STATIC void anime_change_polygon_8005E9E0(AnimeWork *work, int idx)
 {
     AnimeItem *item = &work->items[0];
-    if ((work->field_38_active_buff & (GV_Clock_800AB920 + 1)) != 0)
+    if ((work->field_38_active_buff & (GV_Clock + 1)) != 0)
     {
         anime_change_prim_8005E7EC(
-            &((POLY_FT4 *)work->prim->packs[GV_Clock_800AB920])[idx],
+            &((POLY_FT4 *)work->prim->packs[GV_Clock])[idx],
             work->tex, item->s_anim, work
         );
-        work->field_38_active_buff &= ~(GV_Clock_800AB920 + 1);
+        work->field_38_active_buff &= ~(GV_Clock + 1);
     }
 }
 
@@ -1052,7 +1052,7 @@ STATIC void anime_act_helper_8005F094(AnimeWork *work)
     AnimeItem       *pOffIter;
     POLY_FT4         *pPrim;
 
-    pPrimStart = work->prim->packs[GV_Clock_800AB920];
+    pPrimStart = work->prim->packs[GV_Clock];
     pPrim = &pPrimStart->poly_ft4;
     pOffIter = &work->items[0];
 
@@ -1231,7 +1231,7 @@ STATIC void anime_Act(AnimeWork *work)
         ++item;
     }
     anime_act_helper_8005F094(work);
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
     if (work->world)
     {
         DG_SetPos(work->world);

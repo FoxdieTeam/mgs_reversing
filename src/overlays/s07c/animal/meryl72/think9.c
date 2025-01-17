@@ -10,7 +10,7 @@ extern unsigned short GM_WeaponTypes[];
 extern unsigned short GM_ItemTypes[];
 extern CONTROL       *GM_PlayerControl_800AB9F4;
 extern SVECTOR        GM_PlayerPosition_800ABA10;
-extern int            GM_PlayerStatus_800ABA50;
+extern int            GM_PlayerStatus;
 
 int SECTION("overlay.bss") meryl72_800D5300;
 int SECTION("overlay.bss") meryl72_800D5304;
@@ -239,11 +239,11 @@ void s07c_meryl72_unk2_800CF144(Meryl72Work *work)
 
     if (work->count3 == 0)
     {
-        if (GM_PlayerStatus_800ABA50 & (PLAYER_GROUND | PLAYER_SQUAT))
+        if (GM_PlayerStatus & (PLAYER_GROUND | PLAYER_SQUAT))
         {
             work->pad.press |= 0x800000;
         }
-        else if (GM_PlayerStatus_800ABA50 & PLAYER_CB_BOX)
+        else if (GM_PlayerStatus & PLAYER_CB_BOX)
         {
             work->pad.press |= 0x1000000;
 

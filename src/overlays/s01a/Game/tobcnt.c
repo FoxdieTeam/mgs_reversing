@@ -23,8 +23,8 @@ typedef struct _TobcntWork
     DVECTOR  directions[166];
 } TobcntWork;
 
-extern int    GV_Clock_800AB920;
-extern int    GV_PauseLevel_800AB928;
+extern int    GV_Clock;
+extern int    GV_PauseLevel;
 extern GV_PAD GV_PadData_800B05C0[4];
 
 short tobcnt_lines[] = {
@@ -141,8 +141,8 @@ void Tobcnt_800C4204( TobcntWork *work, char *ot )
     count = tobcnt_lines[0];
 
     directions = work->directions;
-    line = work->lines[GV_Clock_800AB920];
-    poly = work->polys[GV_Clock_800AB920];
+    line = work->lines[GV_Clock];
+    poly = work->polys[GV_Clock];
 
     lines++;
 
@@ -292,7 +292,7 @@ void Tobcnt_800C4204( TobcntWork *work, char *ot )
         directions++;
     }
 
-    tpage = &work->tpage[GV_Clock_800AB920];
+    tpage = &work->tpage[GV_Clock];
     setDrawTPage( tpage, 1, 1, getTPage( 0, 1, 0, 0 ) );
     addPrim( ot, tpage );
 
@@ -308,7 +308,7 @@ void Tobcnt_800C4204( TobcntWork *work, char *ot )
         }
 
         color3 = (shade << 8) | (shade << 16);
-        Tobcnt_800C4070( (char *)work->polys[GV_Clock_800AB920], 114, 121, PCX_COMING_SOON, color3, ot );
+        Tobcnt_800C4070( (char *)work->polys[GV_Clock], 114, 121, PCX_COMING_SOON, color3, ot );
     }
 }
 
@@ -317,7 +317,7 @@ void Tobcnt_800C4750(TobcntWork *work, char *ot, int shade)
     TILE     *tile;
     DR_TPAGE *tpage;
 
-    tile = &work->tile[GV_Clock_800AB920];
+    tile = &work->tile[GV_Clock];
     LSTORE((shade << 16) | (shade << 8) | shade, &tile->r0);
     setTile(tile);
     setSemiTrans(tile, 1);
@@ -325,7 +325,7 @@ void Tobcnt_800C4750(TobcntWork *work, char *ot, int shade)
     setWH(tile, 320, 240);
     addPrim(ot, tile);
 
-    tpage = &work->tpage2[GV_Clock_800AB920];
+    tpage = &work->tpage2[GV_Clock];
     setDrawTPage(tpage, 1, 1, getTPage(0, 2, 0, 0));
     addPrim(ot, tpage);
 }
@@ -360,7 +360,7 @@ void TobcntAct_800C482C(TobcntWork *work)
                 work->time = 256;
                 work->timeout = 300;
 
-                GV_PauseLevel_800AB928 |= 1;
+                GV_PauseLevel |= 1;
                 DG_FreeObjectQueue();
                 GM_GameStatus |= STATE_ALL_OFF;
             }
@@ -413,7 +413,7 @@ void TobcntDie_800C4A64(TobcntWork *work)
     char *stage_name;
 
     stage_name = "title";
-    GV_PauseLevel_800AB928 &= ~1;
+    GV_PauseLevel &= ~1;
 
     DG_ResetObjectQueue();
     GM_StreamPlayStop();
@@ -479,8 +479,8 @@ GV_ACT *NewTobcnt_800C4BC8(int name, int where, int argc, char **argv)
         TobcntGetResources_800C4AD0(work);
     }
 
-    GM_SetSound(0xff0000fe, 0);
-    GM_SetSound(0x01ffff0b, 0);
+    GM_SetSound(0xff0000fe, SD_ASYNC);
+    GM_SetSound(0x01ffff0b, SD_ASYNC);
     GM_SeSet3(0, 63, 15);
 
     if (work->vox >= 0)

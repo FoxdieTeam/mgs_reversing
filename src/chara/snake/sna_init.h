@@ -377,7 +377,7 @@ int          sna_8004E808(SnaInitWork *work, int a2, int a3, int a4, int a5);
 // TODO: move these to game.h even though theyre defined in sna_init.c?
 // .. or move the implementation to a static inline in game.h which the definition in sna_init calls?
 int  GM_Next_BulName_8004FBA0();
-void GM_ClearBulName_8004FBE4(int idx);
+void GM_ClearBulName(int idx);
 void GM_CheckShukanReverse(unsigned short *pInput);
 void GM_CheckShukanReverseAnalog(unsigned char *pInput);
 
