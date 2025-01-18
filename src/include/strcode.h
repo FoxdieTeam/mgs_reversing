@@ -26,7 +26,7 @@
 #define HASH_CMD_start          0x9a1f // GV_StrCode( "start" )
 #define HASH_CMD_load           0xc8bb // GV_StrCode( "load" )
 #define HASH_CMD_radio          0x24e1 // GV_StrCode( "radio" )
-#define HASH_CMD_str_status     0xe43c // GV_StrCode( "str_status" )
+#define HASH_CMD_restart        0xe43c // GV_StrCode( "restart" )
 #define HASH_CMD_demo           0xa242 // GV_StrCode( "demo" )
 #define HASH_CMD_ntrap          0xdbab // GV_StrCode( "ntrap" )
 #define HASH_CMD_delay          0x430d // GV_StrCode( "delay" )
