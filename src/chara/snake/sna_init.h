@@ -104,26 +104,6 @@ typedef struct Target_Data
     unsigned int field_1C;
 } Target_Data;
 
-typedef struct Sna_Joint_Rotations
-{
-    SVECTOR field_0_lower_body;
-    SVECTOR field_8_upper_body;
-    SVECTOR field_10_right_shoulder;
-    SVECTOR field_18_right_elbow;
-    SVECTOR field_20_right_wrist;
-    SVECTOR field_28_neck;
-    SVECTOR field_30_neck2;
-    SVECTOR field_38_right_shoulder;
-    SVECTOR field_40_right_elbow;
-    SVECTOR field_48_right_wrist;
-    SVECTOR field_50_right_leg;
-    SVECTOR field_58_right_knee;
-    SVECTOR field_60_right_ankle;
-    SVECTOR field_68_left_leg;
-    SVECTOR field_70_left_knee;
-    SVECTOR field_78_left_ankle;
-} Sna_Joint_Rotations;
-
 typedef struct ACTPACK
 {
     ACTSTILL   *still;       /*  静止モーション      */
