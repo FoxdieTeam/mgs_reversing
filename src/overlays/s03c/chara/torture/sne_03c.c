@@ -310,7 +310,7 @@ void Snake03c2Act_800CDCE8(Snake03c2Work *work)
         }
         return;
     case 1:
-        if (!(GM_PlayerStatus & PLAYER_UNK4))
+        if (!(GM_PlayerStatus & PLAYER_ACT_ONLY))
         {
             GM_SeSet2(0xF0, 0x3F, 0xB8);
             Snake03c2_800CDBC8();
@@ -327,7 +327,7 @@ void Snake03c2Act_800CDCE8(Snake03c2Work *work)
         }
         break;
     case 3:
-        if (!(GM_PlayerStatus & PLAYER_UNK4))
+        if (!(GM_PlayerStatus & PLAYER_ACT_ONLY))
         {
             GM_GameStatus &= ~STATE_PADRELEASE;
             GM_PlayerControl_800AB9F4->turn.vy = 1024;

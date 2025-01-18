@@ -399,7 +399,7 @@ void sna_act_helper2_helper3_8004ED6C(SnaInitWork *work)
             {
                 DG_VisibleObjs(work->field_9C_obj.objs);
 
-                if (!GM_CheckPlayerStatusFlag(PLAYER_UNK4))
+                if (!GM_CheckPlayerStatusFlag(PLAYER_ACT_ONLY))
                 {
                     GM_ClearPlayerStatusFlag(PLAYER_PREVENT_WEAPON_ITEM_SWITCH);
                 }
@@ -658,7 +658,7 @@ void sub_8004F338(SnaInitWork *work)
 
     GM_PlayerStatus &= PLAYER_CAN_USE_CONTROLLER_PORT_2 | PLAYER_UNK4000000 |
                        PLAYER_GAMEOVER | PLAYER_CB_BOX | PLAYER_INTRUDE |
-                       PLAYER_UNK4 | PLAYER_SQUAT | PLAYER_GROUND;
+                       PLAYER_ACT_ONLY | PLAYER_SQUAT | PLAYER_GROUND;
 
     if ((work->field_920_tbl & 0x200) != 0)
     {
@@ -793,7 +793,7 @@ void UpdateLife_8004F6E8(SnaInitWork *work)
     TARGET *target;
     int     health;
 
-    if (GM_CheckPlayerStatusFlag(PLAYER_UNK4))
+    if (GM_CheckPlayerStatusFlag(PLAYER_ACT_ONLY))
     {
         target = work->field_89C_pTarget;
 
@@ -1427,13 +1427,13 @@ void CheckMessage0_80050878(SnaInitWork *work)
     if (GM_CheckPlayerStatusFlag(PLAYER_THROWING) &&
         (GM_SnakeCurrentHealth != 0) &&
         (GM_GameOverTimer == 0) &&
-        !GM_CheckPlayerStatusFlag(PLAYER_UNK4))
+        !GM_CheckPlayerStatusFlag(PLAYER_ACT_ONLY))
     {
         sna_start_anim_8004E1F4(work, &sna_act_helper3_helper_80056650);
         sna_set_invuln_8004F2A0(work, 0);
         sna_act_unk2_80051170(work->field_89C_pTarget);
         GM_ClearPlayerStatusFlag(PLAYER_THROWING);
-        GM_SetPlayerStatusFlag(PLAYER_UNK4);
+        GM_SetPlayerStatusFlag(PLAYER_ACT_ONLY);
         sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK28);
     }
 
@@ -1465,9 +1465,9 @@ void CheckMessage0_80050878(SnaInitWork *work)
 
         if ((id == HASH_MOTION) || (id == HASH_RUN_MOVE) || (id == HASH_STANCE) || (id == HASH_GO_MOTION))
         {
-            if (!GM_CheckPlayerStatusFlag(PLAYER_UNK4))
+            if (!GM_CheckPlayerStatusFlag(PLAYER_ACT_ONLY))
             {
-                GM_SetPlayerStatusFlag(PLAYER_UNK4);
+                GM_SetPlayerStatusFlag(PLAYER_ACT_ONLY);
             }
         }
 
@@ -1519,7 +1519,7 @@ static inline void sna_act_unk_helper_80050A64(SnaInitWork *work, GV_MSG *pMsg, 
 
     if (sna_act_unk_helper4_8004FA3C() && (var_s4 == 0))
     {
-        GM_ClearPlayerStatusFlag(PLAYER_UNK4);
+        GM_ClearPlayerStatusFlag(PLAYER_ACT_ONLY);
         pMsg->message_len = 0;
         printf("force act cancel %d\n", pMsg->message[1]);
     }
@@ -1560,7 +1560,7 @@ static inline void sna_act_unk_helper_80050A64(SnaInitWork *work, GV_MSG *pMsg, 
 
         if (flags & 1)
         {
-            GM_ClearPlayerStatusFlag(2);
+            GM_ClearPlayerStatusFlag(PLAYER_INTRUDE);
             sub_8004ED08(work);
         }
 
@@ -1602,7 +1602,7 @@ static inline void sna_act_unk_helper2_80050A64(SnaInitWork *work, GV_MSG *pMsg)
 
     if (sna_act_unk_helper4_8004FA3C() && !(pStr->field_9EC_flags3 & 0x400))
     {
-        GM_ClearPlayerStatusFlag(PLAYER_UNK4);
+        GM_ClearPlayerStatusFlag(PLAYER_ACT_ONLY);
         pMsg->message_len = 0;
         printf("run move cancel\n");
     }
@@ -1636,7 +1636,7 @@ static inline void sna_act_unk_helper3_80050A64(SnaInitWork *work, GV_MSG *pMsg)
 
     if (GM_CheckPlayerStatusFlag(PLAYER_INTRUDE))
     {
-        GM_ClearPlayerStatusFlag(PLAYER_UNK4);
+        GM_ClearPlayerStatusFlag(PLAYER_ACT_ONLY);
         pMsg->message_len = 0;
     }
     else
@@ -1661,7 +1661,7 @@ static inline void sna_act_unk_helper3_80050A64(SnaInitWork *work, GV_MSG *pMsg)
 
         if (sna_act_unk_helper4_8004FA3C() && !(pStr->field_9EC_flags3 & 0x400))
         {
-            GM_ClearPlayerStatusFlag(PLAYER_UNK4);
+            GM_ClearPlayerStatusFlag(PLAYER_ACT_ONLY);
             pMsg->message_len = 0;
             printf("force stance cancel\n");
         }
@@ -1813,7 +1813,7 @@ static inline int sna_weapon_switching_helper_800511BC(SnaInitWork *work)
         return 0;
     }
 
-    if (GM_CheckPlayerStatusFlag(PLAYER_CB_BOX | PLAYER_UNK200 | PLAYER_UNK100 | PLAYER_UNK4))
+    if (GM_CheckPlayerStatusFlag(PLAYER_CB_BOX | PLAYER_UNK200 | PLAYER_UNK100 | PLAYER_ACT_ONLY))
     {
         return 0;
     }
@@ -1972,7 +1972,7 @@ void sna_weapon_switching_800511BC(SnaInitWork *work, int callback)
 
 static inline int sna_helper_800515BC(SnaInitWork *work)
 {
-    if ( GM_CheckPlayerStatusFlag(PLAYER_UNK4) )
+    if ( GM_CheckPlayerStatusFlag(PLAYER_ACT_ONLY) )
     {
         return 0;
     }
@@ -2055,7 +2055,7 @@ void sna_800515BC(SnaInitWork *work, int a2)
         }
     }
 
-    GM_ClearPlayerStatusFlag(0x401000);
+    GM_ClearPlayerStatusFlag(PLAYER_PREVENT_WEAPON_SWITCH | PLAYER_CB_BOX);
 
     work->field_9A8_current_item = GM_CurrentItemId;
 
@@ -2083,7 +2083,7 @@ void sna_800515BC(SnaInitWork *work, int a2)
             GM_SetPlayerStatusFlag(0x401000);
         }
 
-        GM_ClearPlayerStatusFlag(0x10010);
+        GM_ClearPlayerStatusFlag(PLAYER_ON_WALL | PLAYER_MOVING);
     }
     else
     {
@@ -5786,7 +5786,7 @@ void sub_80057BF0(SnaInitWork *work, int time)
 
             if ( temp_s3 & 0x80 )
             {
-                GM_ClearPlayerStatusFlag(0x810);
+                GM_ClearPlayerStatusFlag(PLAYER_PREVENT_FIRST_PERSON | PLAYER_MOVING);
 
                 if ( dword_8009F470 != 0 )
                 {
@@ -6280,7 +6280,7 @@ void sna_anim_throw_800589C8(SnaInitWork *work, int time)
                 action_flag = work->field_9B4_action_table->still->setup;
             }
         }
-        GM_ClearPlayerStatusFlag(16);
+        GM_ClearPlayerStatusFlag(PLAYER_MOVING);
         SetAction_8004E22C(work, action_flag, 4);
 
         work->field_8FC = work->control.rot;
@@ -7049,7 +7049,7 @@ static inline void sna_init_main_logic_helper3_800596FC(SnaInitWork *work)
         pMsg++;
     }
 
-    GM_ClearPlayerStatusFlag(PLAYER_UNK4);
+    GM_ClearPlayerStatusFlag(PLAYER_ACT_ONLY);
 
 exit:
     sna_clear_flags1_8004E308(work, 0x8200000);
@@ -7342,7 +7342,7 @@ static inline void sna_init_main_logic_helper5_800596FC(SnaInitWork *work)
         }
 
         if ((work->field_7A0_msg_count == 0) &&
-            !GM_CheckPlayerStatusFlag(PLAYER_UNK4) &&
+            !GM_CheckPlayerStatusFlag(PLAYER_ACT_ONLY) &&
             (GM_StreamStatus() != 2))
         {
             GM_StreamPlayStop();
@@ -7516,7 +7516,7 @@ void sna_init_main_logic_800596FC(SnaInitWork *work)
         GM_WeaponChanged_800AB9D8 = 1;
         work->field_920_tbl = GM_WeaponTypes[0];
         work->field_918_n_bullets = 0;
-        GM_ClearPlayerStatusFlag(0x600000);
+        GM_ClearPlayerStatusFlag(PLAYER_PREVENT_WEAPON_SWITCH | PLAYER_PREVENT_ITEM_SWITCH);
     }
 
     sna_act_unk_80050A64(work);
@@ -7579,7 +7579,7 @@ void sna_init_main_logic_800596FC(SnaInitWork *work)
         GM_TranquilizerTimer--;
     }
 
-    GM_ClearPlayerStatusFlag(0x42000000);
+    GM_ClearPlayerStatusFlag(PLAYER_DEADORDYING | PLAYER_UNK2000000);
 
     hzd_count = work->control.event.field_6_count;
     pHzdVal = work->control.event.field_8_array;
