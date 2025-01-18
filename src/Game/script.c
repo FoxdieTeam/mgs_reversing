@@ -49,7 +49,7 @@ STATIC int GM_Command_chara(int argc, char **argv);
 STATIC int GM_Command_start(unsigned char *);
 STATIC int GM_Command_load(unsigned char *);
 STATIC int GM_Command_radio(unsigned char *);
-STATIC int GM_Command_strstatus(unsigned char *);
+STATIC int GM_Command_restart(unsigned char *);
 STATIC int GM_Command_varsave(unsigned char *);
 STATIC int GM_Command_system(unsigned char *);
 STATIC int GM_Command_demo(unsigned char *);
@@ -76,7 +76,7 @@ STATIC GCL_COMMANDLIST Commands[] = {
     { HASH_CMD_start,       GM_Command_start        },  // GV_StrCode("start")
     { HASH_CMD_load,        GM_Command_load         },  // GV_StrCode("load")
     { HASH_CMD_radio,       GM_Command_radio        },  // GV_StrCode("radio")
-    { HASH_CMD_str_status,  GM_Command_strstatus    },  // GV_StrCode("str_status")
+    { HASH_CMD_restart,     GM_Command_restart      },  // GV_StrCode("restart")
     { HASH_CMD_demo,        GM_Command_demo         },  // GV_StrCode("demo")
     { HASH_CMD_ntrap,       GM_Command_ntrap        },  // GV_StrCode("ntrap")
     { HASH_CMD_delay,       GM_Command_delay        },  // GV_StrCode("delay")
@@ -728,27 +728,31 @@ STATIC int GM_Command_radio(unsigned char *top)
     return 0;
 }
 
-STATIC int GM_Command_strstatus(unsigned char *top)
+STATIC int GM_Command_restart(unsigned char *top)
 {
-    int val;
+    int proc_id;
 
-    if (GCL_GetOption('p'))
+    if (GCL_GetOption('p')) // proc
     {
-        val = GCL_GetNextParamValue();
+        proc_id = GCL_GetNextParamValue();
     }
     else
     {
-        val = -1;
+        proc_id = -1;
     }
-    GM_8002B600(val);
-    if (GCL_GetOption('s'))
+
+    GM_SetLoadCallbackProc(proc_id);
+
+    if (GCL_GetOption('s')) // save
     {
-        GM_LoadRequest |= STATE_BEHIND_CAMERA;
+        GM_LoadRequest |= 0x10;
     }
+
     if (GCL_GetOption('a')) // area
     {
         GM_SetArea(GM_CurrentStageFlag, GM_GetArea(0));
     }
+
     return 0;
 }
 

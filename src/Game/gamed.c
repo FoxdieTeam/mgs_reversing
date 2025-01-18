@@ -640,15 +640,16 @@ void GM_CallSystemCallbackProc(int id, int arg)
     }
 }
 
-void GM_8002B600(int param_1)
+void GM_SetLoadCallbackProc(int proc_id)
 {
-    if (param_1 == -1)
+    if (proc_id == -1)
     {
         GM_LoadRequest = 0xc0;
-        return;
     }
-    GM_LoadRequest = param_1 << 16 | 0xe0;
-    return;
+    else
+    {
+        GM_LoadRequest = proc_id << 16 | 0xe0;
+    }
 }
 
 void GM_ContinueStart(void)
@@ -666,7 +667,7 @@ void GM_ContinueStart(void)
     }
     else
     {
-        GM_8002B600(-1);
+        GM_SetLoadCallbackProc(-1);
     }
 
     GM_TotalContinues = total_continues + 1;
