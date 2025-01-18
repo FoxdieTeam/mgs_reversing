@@ -31,7 +31,7 @@ RECT uji_rect = {100, 100, 200, 200};
 const char aUji[] = "uji";
 const char aUjiC[] = "uji.c";
 
-extern int     GM_CurrentMap_800AB9B0;
+extern int     GM_CurrentMap;
 
 #define EXEC_LEVEL 4
 
@@ -125,7 +125,7 @@ void UjiAct_800C3B74(UjiWork *work)
     SVECTOR *vec5;
     int     *vec6;
 
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
 
     work->fD88++;
 
@@ -276,7 +276,7 @@ int UjiCheckMessages_800C3EEC(UjiWork *work)
         work->fD7C = 1;
     }
 
-    Map_FromId_800314C0(work->map);
+    GM_GetMap(work->map);
 
     return 0;
 }
@@ -296,7 +296,7 @@ int UjiGetResources_800C3FC8(UjiWork *work, int map)
     int      index;
 
     work->map = map;
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
 
     UjiCheckMessages_800C3EEC(work);
 

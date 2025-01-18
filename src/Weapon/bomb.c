@@ -10,9 +10,9 @@
 extern short GM_Magazine_800AB9EC;
 extern short GM_MagazineMax_800ABA2C;
 
-extern int   DG_CurrentGroupID_800AB968;
-extern void *GM_BombSeg_800ABBD8;
-extern int   GM_CurrentMap_800AB9B0;
+extern int   DG_CurrentGroupID;
+extern void *GM_BombSeg;
+extern int   GM_CurrentMap;
 extern int   bakudan_count_8009F42C;
 
 /*---------------------------------------------------------------------------*/
@@ -41,8 +41,8 @@ STATIC void BombAct( BombWork *work )
     MATRIX *world;
     DG_OBJS *parent;
 
-    GM_CurrentMap_800AB9B0 = work->control->map->index;
-    DG_GroupObjs( work->object.objs, DG_CurrentGroupID_800AB968 );
+    GM_CurrentMap = work->control->map->index;
+    DG_GroupObjs( work->object.objs, DG_CurrentGroupID );
     if ( work->parent->objs->flag & DG_FLAG_INVISIBLE )
     {
         DG_InvisibleObjs( work->object.objs );
@@ -62,7 +62,7 @@ STATIC void BombAct( BombWork *work )
     {
         if ( flags & 2 )
         {
-            if (NewBakudan(world, NULL, 0, work->which_side, GM_BombSeg_800ABBD8))
+            if (NewBakudan(world, NULL, 0, work->which_side, GM_BombSeg))
             {
                 GM_Weapons[ WEAPON_C4 ] = --ammo;
                 GM_SeSet( &work->control->mov, SE_C4_PUT );

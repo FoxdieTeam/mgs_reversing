@@ -17,7 +17,7 @@ typedef struct DymcSegWork
     HZD_SEG  seg;
 } DymcSegWork;
 
-extern int GM_CurrentMap_800AB9B0;
+extern int GM_CurrentMap;
 
 unsigned short dymc_seg_hashes[] = {HASH_ON2, HASH_OFF2};
 
@@ -25,7 +25,7 @@ unsigned short dymc_seg_hashes[] = {HASH_ON2, HASH_OFF2};
 
 void DymcSegAct_800C4A44(DymcSegWork *work)
 {
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
 
     if (THING_Msg_CheckMessage(work->name, 2, dymc_seg_hashes) == 1)
     {
@@ -46,7 +46,7 @@ int DymcSegGetResources_800C4AC0(DymcSegWork *work, int name, int where)
     HZD_SEG *seg;
     SVECTOR *vec;
 
-    GM_CurrentMap_800AB9B0 = where;
+    GM_CurrentMap = where;
 
     work->map = where;
     work->name = name;
@@ -76,7 +76,7 @@ int DymcSegGetResources_800C4AC0(DymcSegWork *work, int name, int where)
 
     HZD_SetDynamicSegment(seg, seg);
 
-    work->hzd = Map_FromId_800314C0(where)->hzd;
+    work->hzd = GM_GetMap(where)->hzd;
     HZD_QueueDynamicSegment2(work->hzd, seg, flags);
     return 0;
 }

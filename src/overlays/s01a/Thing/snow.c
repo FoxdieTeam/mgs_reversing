@@ -37,8 +37,8 @@ typedef struct _SnowWork
     GV_MSG   *msgs;
 } SnowWork;
 
-extern int              GV_Clock_800AB920;
-extern int              GM_CurrentMap_800AB9B0;
+extern int              GV_Clock;
+extern int              GM_CurrentMap;
 extern CONTROL         *GM_WhereList_800B56D0[96];
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 
@@ -343,7 +343,7 @@ void SnowAct_800C5B2C(SnowWork *work)
 
             if (work->f254C != 0)
             {
-                Snow_800C5234(&entry->prim->packs[GV_Clock_800AB920]->tiles, 32, work->colors);
+                Snow_800C5234(&entry->prim->packs[GV_Clock]->tiles, 32, work->colors);
             }
 
             DG_PutPrim(&entry->prim->world);
@@ -487,7 +487,7 @@ int SnowGetResources_800C5F40(SnowWork *work, int map)
     int        n_entries;
     DG_PRIM   *prim;
 
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
 
     Snow_800C5260(work->colors, 32);
 

@@ -32,7 +32,7 @@ extern char     gDigit7Segment_8009E60C[];
 
 extern MATRIX gRadarScaleMatrix_800BD580;
 
-extern int GV_Clock_800AB920;
+extern int GV_Clock;
 
 // Used for colors of vision cones of soldiers and surveillance cameras in the radar.
 typedef struct visionConeColors
@@ -95,7 +95,7 @@ int gRadarRGBTable2_8009E3D4[] = {0x48A000, 0x6E6E, 0xDE, 0x181800};
 //#define CONSOLE_LONG_WIDTH 56
 //#define CONSOLE_TEX_WIDTH  28
 
-typedef enum // GM_AlertMode_800ABA00
+typedef enum // GM_AlertMode
 {
     ALERT_DISABLED = 0,
     ALERT_ENABLED = 1,
@@ -212,7 +212,7 @@ void drawBorder_800390FC(MenuWork *menuMan, unsigned char *ot)
 // clang-format on
 
 extern CONTROL         *GM_WhereList_800B56D0[96];
-extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
+extern PlayerStatusFlag GM_PlayerStatus;
 extern int              gControlCount_800AB9B4;
 extern int              GM_PlayerMap_800ABA0C;
 
@@ -321,7 +321,7 @@ void drawMap_800391D0(MenuWork *work, unsigned char *ot, int arg2)
         setXY0(pTile1, 0, 0);
         addPrim(ot, pTile1);
 
-        if (GM_PlayerStatus_800ABA50 & PLAYER_FIRST_PERSON)
+        if (GM_PlayerStatus & PLAYER_FIRST_PERSON)
         {
             // Draw Snake's vision cone in first person
             cone.dir = control->rot.vy;
@@ -486,7 +486,7 @@ void drawMap_800391D0(MenuWork *work, unsigned char *ot, int arg2)
             }
             else
             {
-                pHzdMap = Map_Enum_Get_Hzd_80031580(pHzdMap);
+                pHzdMap = GM_IterHazard(pHzdMap);
 
                 if (!pHzdMap)
                 {
@@ -1067,8 +1067,8 @@ void menu_radar_helper_8003ADD8(MenuWork *work, int index)
     SetDrawEnv(&work->field_CC_radar_data.dr_env[index], &drawEnv);
 }
 
-extern int              GM_AlertMode_800ABA00;
-extern int              GM_AlertLevel_800ABA18;
+extern int              GM_AlertMode;
+extern int              GM_AlertLevel;
 
 void draw_radar(MenuWork *work, unsigned char *ot)
 {
@@ -1078,8 +1078,8 @@ void draw_radar(MenuWork *work, unsigned char *ot)
     DR_TPAGE *tpage;
     RECT      clip;
 
-    alertLevel = GM_AlertLevel_800ABA18;
-    alertMode = GM_AlertMode_800ABA00;
+    alertLevel = GM_AlertLevel;
+    alertMode = GM_AlertMode;
 
     if (alertMode >= 4)
     {
@@ -1089,7 +1089,7 @@ void draw_radar(MenuWork *work, unsigned char *ot)
     if (alertMode == ALERT_DISABLED && gFn_radar_800AB48C == NULL)
     {
 
-        if (GM_PlayerStatus_800ABA50 & PLAYER_INTRUDE)
+        if (GM_PlayerStatus & PLAYER_INTRUDE)
         {
             return;
         }
@@ -1101,7 +1101,7 @@ void draw_radar(MenuWork *work, unsigned char *ot)
     }
 
     drawBorder_800390FC(work, ot);
-    addPrim(ot, &work->field_CC_radar_data.org_env[GV_Clock_800AB920]);
+    addPrim(ot, &work->field_CC_radar_data.org_env[GV_Clock]);
 
     if (gFn_radar_800AB48C)
     {
@@ -1209,7 +1209,7 @@ void draw_radar(MenuWork *work, unsigned char *ot)
         work->field_CC_radar_data.prev_mode = alertMode;
     }
 
-    addPrim(ot, &work->field_CC_radar_data.dr_env[GV_Clock_800AB920]);
+    addPrim(ot, &work->field_CC_radar_data.dr_env[GV_Clock]);
 }
 
 void menu_radar_update_8003B350(MenuWork *work, unsigned char *ot)
@@ -1252,7 +1252,7 @@ void menu_radar_update_8003B350(MenuWork *work, unsigned char *ot)
       else
       {
         work->field_CC_radar_data.pos_y = clipY;
-        menu_radar_helper_8003ADD8(work, GV_Clock_800AB920);
+        menu_radar_helper_8003ADD8(work, GV_Clock);
         draw_radar(work, ot);
       }
     }

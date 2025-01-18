@@ -24,9 +24,9 @@ typedef struct _PadDemoWork
     int             f44;
 } PadDemoWork;
 
-extern int   GV_PauseLevel_800AB928;
-extern short GV_DemoPadStatus_800AB958[2];
-extern int   GM_CurrentMap_800AB9B0;
+extern int   GV_PauseLevel;
+extern short GV_DemoPadStatus[2];
+extern int   GM_CurrentMap;
 
 // Something to do with setting current/last item to ITEM_NONE
 void sub_8003CC88(void);
@@ -48,12 +48,12 @@ void PadDemo_800DCBE8(PadDemoWork *work)
 {
     unsigned short status;
 
-    if (GV_PauseLevel_800AB928 & 8)
+    if (GV_PauseLevel & 8)
     {
         return;
     }
 
-    if (DG_UnDrawFrameCount == 1 && Map_FromId_800314C0(work->map)->used == 1)
+    if (DG_UnDrawFrameCount == 1 && GM_GetMap(work->map)->used == 1)
     {
         work->f28 |= 0x1;
 
@@ -77,7 +77,7 @@ void PadDemo_800DCBE8(PadDemoWork *work)
         {
             GM_StreamPlayStop();
             GM_GameStatus &= ~(STATE_PADDEMO | STATE_NOSLOW);
-            GV_DemoPadStatus_800AB958[0] = 0;
+            GV_DemoPadStatus[0] = 0;
             work->actor.act = (GV_ACTFUNC)PadDemo_800DCBB0;
         }
         else
@@ -87,7 +87,7 @@ void PadDemo_800DCBE8(PadDemoWork *work)
     }
 
     status = work->f3C & ~0x200;
-    GV_DemoPadStatus_800AB958[0] = status & ~0xA00;
+    GV_DemoPadStatus[0] = status & ~0xA00;
 
     if (--work->f2C == 0)
     {
@@ -114,7 +114,7 @@ void PadDemoAct_800DCD94(PadDemoWork *work)
 {
     if (GM_StreamStatus() == 0)
     {
-        GV_PauseLevel_800AB928 |= 4;
+        GV_PauseLevel |= 4;
         GM_GameStatus |= STATE_PADRELEASE;
         DG_UnDrawFrameCount = 3;
     }
@@ -124,7 +124,7 @@ void PadDemoAct_800DCD94(PadDemoWork *work)
         work->actor.act = (GV_ACTFUNC)PadDemo_800DCBE8;
         GM_GameStatus |= (STATE_PADRELEASE | GAME_FLAG_BIT_13);
         DG_UnDrawFrameCount = 4;
-        GV_PauseLevel_800AB928 &= ~4;
+        GV_PauseLevel &= ~4;
         PadDemo_800DCBE8(work);
     }
 }
@@ -149,15 +149,15 @@ int PadDemoGetResources_800DCE94(PadDemoWork *work, int name, int map)
 {
     int filename;
 
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
 
     work->map = map;
     work->name = name;
 
     work->f3C = 0;
 
-    GV_DemoPadStatus_800AB958[0] = 0;
-    GV_DemoPadStatus_800AB958[1] = 0;
+    GV_DemoPadStatus[0] = 0;
+    GV_DemoPadStatus[1] = 0;
 
     GM_GameStatus |= STATE_PADRELEASE;
 

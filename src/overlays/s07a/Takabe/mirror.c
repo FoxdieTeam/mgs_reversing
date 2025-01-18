@@ -43,7 +43,7 @@ typedef struct _MirrorWork
     GV_ACT      *kogaku;
 } MirrorWork;
 
-extern int      GM_CurrentMap_800AB9B0;
+extern int      GM_CurrentMap;
 extern int      gControlCount_800AB9B4;
 extern CONTROL *GM_WhereList_800B56D0[96];
 
@@ -78,7 +78,7 @@ void MirrorAct_800DFDDC(MirrorWork *work)
     long         *mtx_temp2;
 
 
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
 
     n_msgs = GV_ReceiveMessage(work->name, &msg);
 
@@ -375,7 +375,7 @@ void MirrorDie_800E0670(MirrorWork *work)
 
 int MirrorGetResources_800E07F8(MirrorWork *work, int name, int map)
 {
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
 
     work->name = name;
     work->map = map;
@@ -460,7 +460,7 @@ void Mirror_800E08F0(MirrorWork *work, int name)
     }
 
     DG_QueueObjs(entry->objs);
-    DG_GroupObjs(entry->objs, GM_CurrentMap_800AB9B0);
+    DG_GroupObjs(entry->objs, GM_CurrentMap);
 }
 
 void Mirror_800E0A88(MirrorEntry *entry)

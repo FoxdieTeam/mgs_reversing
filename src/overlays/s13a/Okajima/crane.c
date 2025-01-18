@@ -50,12 +50,12 @@ typedef struct _CraneWork
     int     f390;
 } CraneWork;
 
-extern int      GM_CurrentMap_800AB9B0;
+extern int      GM_CurrentMap;
 extern CONTROL *GM_PlayerControl_800AB9F4;
 extern SVECTOR  GM_PlayerPosition_800ABA10;
-extern int      GM_PadVibration_800ABA3C;
-extern int      GM_PlayerStatus_800ABA50;
-extern int      GM_PadVibration2_800ABA54;
+extern int      GM_PadVibration;
+extern int      GM_PlayerStatus;
+extern int      GM_PadVibration2;
 
 char crane_800C35F4[] = {0x00, 0x00, 0x00, 0x00};
 char crane_800C35F8[] = {0xAF, 0x04, 0x28, 0x03, 0x23, 0x03, 0x1E, 0x0C, 0x00, 0x00, 0x00, 0x00};
@@ -665,9 +665,9 @@ void CraneAct_800D4C28(CraneWork *work)
     SVECTOR *rot;
     TARGET  *target;
 
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
 
-    hzd = Map_FromId_800314C0(work->map)->hzd;
+    hzd = GM_GetMap(work->map)->hzd;
 
     if (work->status == 2)
     {
@@ -684,8 +684,8 @@ void CraneAct_800D4C28(CraneWork *work)
         case 0:
             if (work->f38C-- > 0)
             {
-                GM_PadVibration_800ABA3C = 1;
-                GM_PadVibration2_800ABA54 = 255;
+                GM_PadVibration = 1;
+                GM_PadVibration2 = 255;
             }
             break;
 
@@ -714,7 +714,7 @@ void CraneAct_800D4C28(CraneWork *work)
     if (work->f378 > 4 &&
         GM_PlayerPosition_800ABA10.vx < -7500 &&
         ((GM_PlayerPosition_800ABA10.vz < -5000 && GM_PlayerPosition_800ABA10.vz > -12500) || GM_PlayerPosition_800ABA10.vz > -2000) &&
-        !(GM_PlayerStatus_800ABA50 & PLAYER_ON_WALL) &&
+        !(GM_PlayerStatus & PLAYER_ON_WALL) &&
         work->f370 != -1)
     {
         if (GM_SnakeCurrentHealth == 0)
@@ -910,7 +910,7 @@ int s13a_crane_800D5394(CraneWork *work, int name)
     HZD_HDL *hzd;
     char    *opt;
 
-    hzd = Map_FromId_800314C0(work->map)->hzd;
+    hzd = GM_GetMap(work->map)->hzd;
 
     s13a_crane_800D5338(work);
 
@@ -1034,7 +1034,7 @@ void CraneDie_800D5724(CraneWork *work)
 {
     HZD_HDL *hzd;
 
-    hzd = Map_FromId_800314C0(work->map)->hzd;
+    hzd = GM_GetMap(work->map)->hzd;
     HZD_DequeueDynamicSegment(hzd, &work->d_hzd_side[1]);
     HZD_DequeueDynamicSegment(hzd, &work->d_hzd_side[3]);
 

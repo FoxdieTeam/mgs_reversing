@@ -16,9 +16,9 @@ extern int           COM_VibTime_800E0F68;
 extern OBJECT *GM_PlayerBody_800ABA20;
 extern SVECTOR GM_PlayerPosition_800ABA10;
 extern CONTROL *GM_PlayerControl_800AB9F4;
-extern int      GM_PlayerAction_800ABA40;
+extern int      GM_PlayerAction;
 extern int      GM_PlayerMap_800ABA0C;
-extern unsigned int GM_PlayerStatus_800ABA50;
+extern unsigned int GM_PlayerStatus;
 
 extern SVECTOR s07a_dword_800C3694;
 
@@ -772,7 +772,7 @@ void s07a_meryl_unk_800D8290( WatcherWork *work, int time )
             target->field_42 = 0;
         }
     }
-    switch ( GM_PlayerAction_800ABA40 )
+    switch ( GM_PlayerAction )
     {
     case 0x7:
     case 0xD:
@@ -1338,7 +1338,7 @@ void s07a_meryl_unk_800D952C( WatcherWork *work )
 
     work->field_C30  = 0;
 
-    ctrl->height = ( work->body.field_18 * work->scale ) / 4096 ;
+    ctrl->height = ( work->body.height * work->scale ) / 4096 ;
     ctrl->hzd_height = ctrl->levels[0] + 750;
 
     time_prev = work->time;
@@ -1789,7 +1789,7 @@ void s07a_meryl_unk_800DA110( WatcherWork* work, int time )
         GM_SeSet( &work->control.mov, 0x94 );
     }
 
-    if ( work->body.field_1C || !( work->pad.press & 0x40 ) )
+    if ( work->body.time2 || !( work->pad.press & 0x40 ) )
     {
         work->pad.time = 0;
         UnsetMode( work );
@@ -1810,7 +1810,7 @@ void s07a_meryl_unk_800DA1C4( WatcherWork* work, int time )
         GM_SeSet( &work->control.mov, 0x92 );
     }
 
-    if ( work->body.field_1C || !( work->pad.press & 0x80 ) )
+    if ( work->body.time2 || !( work->pad.press & 0x80 ) )
     {
         work->pad.time = 0;
         UnsetMode( work );
@@ -1824,7 +1824,7 @@ void s07a_meryl_unk_800DA28C( WatcherWork* work, int time )
         UnsetAction( work, ACTION23 );
     }
 
-    if ( work->body.field_1C || !( work->pad.press & 0x400 ) )
+    if ( work->body.time2 || !( work->pad.press & 0x400 ) )
     {
         work->pad.time = 0;
         UnsetMode( work );
@@ -1845,7 +1845,7 @@ void s07a_meryl_unk_800DA330( WatcherWork* work, int time )
         GM_SeSet( &work->control.mov, 0x92 );
     }
 
-    if ( work->body.field_1C || !( work->pad.press & 0x800 ) )
+    if ( work->body.time2 || !( work->pad.press & 0x800 ) )
     {
         work->pad.time = 0;
         UnsetMode( work );
@@ -1883,7 +1883,7 @@ void s07a_meryl_unk_800DA3F8( WatcherWork *work, int time )
             AN_Sleep_800CA7DC( &mov );
             GM_SeSet( &work->control.mov, 0x93 );
 
-            if ( work->sn_dis < 1000 && ( GM_PlayerStatus_800ABA50 & 1 ) )
+            if ( work->sn_dis < 1000 && ( GM_PlayerStatus & 1 ) )
             {
                 int res = GV_RandU( 12 );
                 if ( res > 10 )
@@ -1988,7 +1988,7 @@ void s07a_meryl_unk_800DA75C( WatcherWork *work, int time )
         s07a_meryl_unk_800DA5D0( work );
     }
 
-    if ( ( time > 186 && work->body.field_1C ) || !( work->pad.press & 0x1000000 ) )
+    if ( ( time > 186 && work->body.time2 ) || !( work->pad.press & 0x1000000 ) )
     {
         GM_SeSet( &work->control.mov, 0xB4 );
         work->pad.time = 0;

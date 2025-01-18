@@ -13,7 +13,7 @@
 #include "Game/map.h"
 #include "strcode.h"
 
-int SECTION(".sbss") GM_CurrentMap_800AB9B0;
+int SECTION(".sbss") GM_CurrentMap;
 int SECTION(".sbss") gControlCount_800AB9B4;
 
 extern CONTROL *GM_WhereList_800B56D0[96];
@@ -83,12 +83,12 @@ void GM_InitWhereSystem(void)
 int GM_InitControl(CONTROL *control, int scriptData, int scriptBinds)
 {
     MAP *pMapRec;
-    const int mapId = scriptBinds ? scriptBinds : GM_CurrentMap_800AB9B0;
-    GM_CurrentMap_800AB9B0 = mapId;
+    const int mapId = scriptBinds ? scriptBinds : GM_CurrentMap;
+    GM_CurrentMap = mapId;
 
     GV_ZeroMemory(control, sizeof(CONTROL));
 
-    pMapRec = Map_FromId_800314C0(mapId);
+    pMapRec = GM_GetMap(mapId);
     control->map = pMapRec;
     if (!pMapRec)
     {
@@ -145,7 +145,7 @@ static inline void GM_ActControl_helper(CONTROL *control)
         {
             if (pMsg->message[0] == map_msg)
             {
-                pMap = Map_FindByNum_80031504(pMsg->message[1]);
+                pMap = GM_FindMap(pMsg->message[1]);
 
                 if (pMap)
                 {
@@ -339,7 +339,7 @@ void GM_ActControl(CONTROL *control)
 
     GM_ActControl_helper(control);
 
-    GM_CurrentMap_800AB9B0 = control->map->index;
+    GM_CurrentMap = control->map->index;
 
     if (control->field_36 > 0)
     {

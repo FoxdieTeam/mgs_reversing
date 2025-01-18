@@ -3,10 +3,9 @@
 #include "libdg/libdg.h"
 #include "Game/map.h"
 
-extern int    GV_PauseLevel_800AB928;
-extern int    GM_CurrentMap_800AB9B0;
+extern int GM_CurrentMap;
 
-DG_OBJS *s00a_unknown3_800DC724(int model, LitHeader *lit, int flag)
+DG_OBJS *s00a_unknown3_800DC724(int model, LIT *lit, int flag)
 {
     DG_DEF  *def;
     DG_OBJS *objs;
@@ -25,17 +24,17 @@ DG_OBJS *s00a_unknown3_800DC724(int model, LitHeader *lit, int flag)
     }
 
     DG_QueueObjs(objs);
-    DG_GroupObjs(objs, GM_CurrentMap_800AB9B0);
+    DG_GroupObjs(objs, GM_CurrentMap);
 
     return objs;
 }
 
-DG_OBJS *s00a_unknown3_800DC7BC(int model, LitHeader *lit)
+DG_OBJS *s00a_unknown3_800DC7BC(int model, LIT *lit)
 {
     return s00a_unknown3_800DC724(model, lit, 0x57);
 }
 
-DG_OBJS *s00a_unknown3_800DC7DC(int model, LitHeader *lit)
+DG_OBJS *s00a_unknown3_800DC7DC(int model, LIT *lit)
 {
     DG_SetPos(&DG_ZeroMatrix);
     return s00a_unknown3_800DC7BC(model, lit);
@@ -50,7 +49,7 @@ void Takabe_FreeObjs_800DC820(DG_OBJS *objs)
 
 void Takabe_RefreshObjectPacks_800DC854(DG_OBJS *objs);
 
-void Takabe_ReshadeModel_800DC854(DG_OBJS *objs, LitHeader *lit)
+void Takabe_ReshadeModel_800DC854(DG_OBJS *objs, LIT *lit)
 {
     DG_MakePreshade(objs, lit->lights, lit->n_lights);
     Takabe_RefreshObjectPacks_800DC854(objs);

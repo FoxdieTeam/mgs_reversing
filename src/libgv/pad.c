@@ -10,16 +10,14 @@ extern int     dword_800B05A8[6];
 extern GV_PAD GV_PadData_800B05C0[4];
 /*********************************************************************/
 
-/***$gp****************************************************************/
 int GV_PadMask = 0;
 STATIC int GV_PadOrigin = 0;
 STATIC int GV_800AB37C = 0;
 
-int SECTION(".sbss") dword_800AB950; /* static */
-int SECTION(".sbss") dword_800AB954; /* static */
-int SECTION(".sbss") GV_DemoPadStatus_800AB958;
-int SECTION(".sbss") GV_DemoPadAnalog_800AB95C;
-/*********************************************************************/
+STATIC int SECTION(".sbss") dword_800AB950;
+STATIC int SECTION(".sbss") dword_800AB954;
+int SECTION(".sbss") GV_DemoPadStatus;
+int SECTION(".sbss") GV_DemoPadAnalog;
 
 STATIC short key_table_8009D32C[] = {
     0x0000, 0x0800, 0x0400, 0x0600, 0x0000, 0x0000, 0x0200, 0x0000,
@@ -29,12 +27,12 @@ STATIC short key_table_8009D32C[] = {
 #ifdef VR_EXE
 STATIC void sub_800165B0(MTS_PAD *data)
 {
-    unsigned short status = GV_DemoPadStatus_800AB958;
+    unsigned short status = GV_DemoPadStatus;
     if (status & 0x400)
     {
         data->capability = MTS_PAD_ANALOG;
-        data->lx = GV_DemoPadAnalog_800AB95C;
-        data->ly = (GV_DemoPadAnalog_800AB95C & 0xFF00) >> 8;
+        data->lx = GV_DemoPadAnalog;
+        data->ly = (GV_DemoPadAnalog & 0xFF00) >> 8;
     }
     else
     {
@@ -169,7 +167,7 @@ void GV_UpdatePadSystem(void)
         {
             if (GM_GameStatus & STATE_PADDEMO)
             {
-                ret = GV_DemoPadStatus_800AB958 & ~0x06000600;
+                ret = GV_DemoPadStatus & ~0x06000600;
                 button = ret;
             }
             else if (GM_GameStatus & STATE_PADRELEASE)

@@ -15,7 +15,7 @@ typedef struct DymcFloorWork
 
 unsigned short dymc_flr_msgs_800C3630[2] = {HASH_ON2, HASH_OFF2};
 
-extern int GM_CurrentMap_800AB9B0;
+extern int GM_CurrentMap;
 
 void s15c_dymc_flr_800E18BC(HZD_FLR *flr, SVECTOR *svec)
 {
@@ -98,7 +98,7 @@ void s15c_dymc_flr_800E18BC(HZD_FLR *flr, SVECTOR *svec)
 
 void s15c_dymc_flr_800E1B00(DymcFloorWork *work)
 {
-    GM_CurrentMap_800AB9B0 = work->name;
+    GM_CurrentMap = work->name;
     if (THING_Msg_CheckMessage(work->where, 2, dymc_flr_msgs_800C3630) == 1)
     {
         GV_DestroyActor(&work->actor);
@@ -116,7 +116,7 @@ int s15c_dymc_flr_800E1B7C(DymcFloorWork *work, int name, int where)
     SVECTOR svecs[4];
     int h;
 
-    GM_CurrentMap_800AB9B0 = where;
+    GM_CurrentMap = where;
     work->name = where;
     work->where = name;
 
@@ -130,7 +130,7 @@ int s15c_dymc_flr_800E1B7C(DymcFloorWork *work, int name, int where)
     h = THING_Gcl_GetInt('s');
 
     s15c_dymc_flr_800E18BC(&work->flr, svecs);
-    work->hdl = Map_FromId_800314C0(where)->hzd;
+    work->hdl = GM_GetMap(where)->hzd;
     HZD_QueueDynamicFloor(work->hdl, &work->flr);
     work->flr.b1.h |= h << 8;
     return 0;

@@ -32,37 +32,33 @@ typedef struct GameWork     // private to gamed.c
 
 typedef struct _OBJECT
 {
-    DG_OBJS        *objs;                // 0x00
-    unsigned long   flag;                // 0x04
-    MATRIX         *light;               // 0x08
-    unsigned short  map_name;            // 0x0C
-    short           action_flag;         // 0x0E
-    short           field_10;            // 0x10 no match with unsigned in sna_8004E260
-    unsigned short  field_12;            // 0x12
-    MOTION_CONTROL *m_ctrl;              // 0x14
-    short           field_18;            // 0x18
-    short           is_end;              // 0x1A must be signed for sna_anim_box_stop_800554B4 to match
-    short           field_1C;            // 0x1C
-    unsigned short  field_1E;            // 0x1C
-    unsigned long   field_20;            // 0x20
-    SVECTOR         rots[DG_MAX_JOINTS]; // 0x24
+    DG_OBJS        *objs;
+    u_long          flag;
+    MATRIX         *light;
+    u_short         map_name;
+    short           action;
+    short           action2; // for override actions
+    MOTION_CONTROL *m_ctrl;
+    short           height;
+    short           is_end;
+    short           time2;   // for override actions, why not is_end2?
+    u_long          pad;     // unused
+    SVECTOR         rots[DG_MAX_JOINTS];
 } OBJECT;
 
 typedef struct _OBJECT_NO_ROTS
 {
-    DG_OBJS        *objs;        // 0x00
-    unsigned long   flag;        // 0x04
-    MATRIX         *light;       // 0x08
-    unsigned short  map_name;    // 0x0C
-    unsigned short  action_flag; // 0x0E
-    unsigned short  field_10;    // 0x10
-    unsigned short  field_12;    // 0x12
-    MOTION_CONTROL *m_ctrl;      // 0x14
-    unsigned short  field_18;    // 0x18
-    unsigned short  is_end;      // 0x1A
-    unsigned short  field_1C;    // 0x1C
-    unsigned short  field_1E;    // 0x1E
-    unsigned long   field_20;    // 0x20
+    DG_OBJS        *objs;
+    u_long          flag;
+    MATRIX         *light;
+    u_short         map_name;
+    short           action;
+    short           action2; // for override actions
+    MOTION_CONTROL *m_ctrl;
+    short           height;
+    short           is_end;
+    short           time2;   // for override actions, why not is_end2?
+    u_long          pad;     // unused
 } OBJECT_NO_ROTS;
 
 typedef int (*TBombFunction)(CONTROL *, int, int *);
@@ -70,12 +66,11 @@ typedef int (*TBombFunction2)(int, CONTROL *, int *);
 typedef int (*TBombFunction3)(TARGET *, int);
 typedef int (*TPlayerActFunction)(GV_ACT *);
 
-// Missing flags with unknown value: PLAYER_ACT_ONLY
 typedef enum
 {
     PLAYER_FIRST_PERSON = 0x1,
     PLAYER_INTRUDE = 0x2, // Crawling in forced first person
-    PLAYER_UNK4 = 0x4, // Likely PLAYER_ACT_ONLY
+    PLAYER_ACT_ONLY = 0x4,
     PLAYER_FIRST_PERSON_CAN_LR_PEEK = 0x8,
     PLAYER_MOVING = 0x10,
     PLAYER_SQUAT = 0x20,
@@ -168,22 +163,22 @@ enum // GM_GameStatus
 
 /*---------------------------------------------------------------------------*/
 #ifndef __BSSDEFINE__
-extern int     GM_CurrentMap_800AB9B0;
-extern int     GM_NoisePower_800ABA24;
-extern int     GM_NoiseLength_800ABA30;
-extern SVECTOR GM_NoisePosition_800AB9F8;
+extern int     GM_CurrentMap;
+extern int     GM_NoisePower;
+extern int     GM_NoiseLength;
+extern SVECTOR GM_NoisePosition;
 
 static inline void GM_SetNoise( int power, int length, SVECTOR *pos )
 {
-    int old = GM_NoisePower_800ABA24;
+    int old = GM_NoisePower;
     if (power < old)
         return;
-    if (power == old && length < GM_NoiseLength_800ABA30)
+    if (power == old && length < GM_NoiseLength)
         return;
 
-    GM_NoisePower_800ABA24 = power;
-    GM_NoiseLength_800ABA30 = length;
-    GM_NoisePosition_800AB9F8 = *pos;
+    GM_NoisePower = power;
+    GM_NoiseLength = length;
+    GM_NoisePosition = *pos;
 }
 
 extern int GM_GameStatus;
@@ -199,13 +194,13 @@ static inline void GM_Sound( int x_pos, int y_pos, int se_id )
             y_pos = 63;
         }
         mask_id = se_id & 0xff;
-        sd_set_cli( (x_pos << 16 | y_pos << 8 | mask_id), 0 );
+        sd_set_cli( (x_pos << 16 | y_pos << 8 | mask_id), SD_ASYNC );
     }
 }
 
 static inline void GM_FreePrim( DG_PRIM *prim )
 {
-    if ( prim != 0  ) {
+    if ( prim != NULL ) {
         DG_DequeuePrim( prim ) ;
         DG_FreePrim( prim ) ;
     }
@@ -218,20 +213,20 @@ static inline void GM_ConfigPrimRoot( DG_PRIM *prim, OBJECT *obj, int unit )
 
 static inline void GM_SetCurrentMap( int map )
 {
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
 }
 
 static inline int GM_GetCurrentMap()
 {
-    return GM_CurrentMap_800AB9B0;
+    return GM_CurrentMap;
 }
 
 static inline void GM_SetAlertMax( int alert )
 {
-    extern int GM_AlertMax_800AB9E0;
-    if ( GM_AlertMax_800AB9E0 < alert )
+    extern int GM_AlertMax;
+    if ( GM_AlertMax < alert )
     {
-        GM_AlertMax_800AB9E0 = alert;
+        GM_AlertMax = alert;
     }
 }
 
@@ -266,7 +261,7 @@ void GM_InitReadError(void);
 void DrawReadError(void);
 void GM_SetSystemCallbackProc(int index, int proc);
 void GM_CallSystemCallbackProc(int id, int arg);
-void GM_8002B600(int);
+void GM_SetLoadCallbackProc(int);
 void GM_ContinueStart(void);
 void GM_GameOver(void);
 void GM_StartDaemon(void);
@@ -319,8 +314,7 @@ int  GM_ConfigMotionAdjust(OBJECT *object, SVECTOR *adjust);
 
 /* unsorted stuff */
 void GM_ExitBehindCamera_80030AEC(void);
-void GM_CheckBehindCamera_80030B3C(HZD_HDL *map, CONTROL *control);
-void GM_ReshadeObjs_80031660(DG_OBJS *pObj);
+void GM_CheckBehindCamera(HZD_HDL *map, CONTROL *control);
 void GM_Reset_helper3_80030760();
 
 void sub_800309B4(int param_1, int param_2);
@@ -328,7 +322,7 @@ void sub_8002EBE8(SVECTOR *param_1, int param_2); // camera something
 void sub_8002EADC(int);
 
 void sub_8002EC8C(SVECTOR*, SVECTOR*, SVECTOR*);
-void GM_CameraEventReset_800309A8(void);
+void GM_CameraEventReset(void);
 
 void            GM_CameraSetBounds_80030888(SVECTOR *vec1, SVECTOR *vec2, int param_3_bool);
 void            GM_CameraSetLimits_800308E0(SVECTOR *vec1, SVECTOR *vec2, int param_3_bool);

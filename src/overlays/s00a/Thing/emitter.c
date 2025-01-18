@@ -13,7 +13,7 @@ typedef struct _Work
 
 RECT rect_800C3320 = { 1000, 1000, 2000, 2000 };
 
-extern int  GM_CurrentMap_800AB9B0;
+extern int  GM_CurrentMap;
 
 #define EXEC_LEVEL 5
 
@@ -75,7 +75,7 @@ int EmitterGetResources_800C3D68( Work *work, int map, int count )
 
     n = 1000;
 
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
 
     work->prim = DG_GetPrim( DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, count, 0, work->vecs, &rect_800C3320 );
     prim = work->prim;

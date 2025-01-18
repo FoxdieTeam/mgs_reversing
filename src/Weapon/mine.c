@@ -11,10 +11,10 @@
 extern short      GM_Magazine_800AB9EC;
 extern short      GM_MagazineMax_800ABA2C;
 
-extern int        GM_CurrentMap_800AB9B0;
-extern int        DG_CurrentGroupID_800AB968;
+extern int        GM_CurrentMap;
+extern int        DG_CurrentGroupID;
 extern int        counter_8009F448;
-extern void      *GM_BombSeg_800ABBD8;
+extern void      *GM_BombSeg;
 
 /*---------------------------------------------------------------------------*/
 // Claymore Mine
@@ -43,9 +43,9 @@ STATIC void MineAct(MineWork *work)
     DG_OBJ *obj;
 
     map = work->control->map->index;
-    DG_GroupObjs(work->object.objs, DG_CurrentGroupID_800AB968);
+    DG_GroupObjs(work->object.objs, DG_CurrentGroupID);
 
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
     if ( (work->parent->objs->flag & DG_FLAG_INVISIBLE) != 0 )
     {
         DG_InvisibleObjs(work->object.objs);
@@ -63,7 +63,7 @@ STATIC void MineAct(MineWork *work)
       && weapon_state > 0
       && (weap_flags & 2) != 0
       && counter_8009F448 < 8
-      && NewJirai(&obj->world, GM_BombSeg_800ABBD8))
+      && NewJirai(&obj->world, GM_BombSeg))
     {
         GM_SeSet(&work->control->mov, SE_C4_PUT);
         GM_Weapons[ WEAPON_CLAYMORE ] = --weapon_state;

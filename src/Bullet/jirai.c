@@ -20,10 +20,10 @@ extern int           dword_8009F440;
 extern int           dword_8009F444;
 extern int           counter_8009F448;
 extern CONTROL   *GM_PlayerControl_800AB9F4;
-extern int           GM_PlayerStatus_800ABA50;
-extern int           GM_CurrentMap_800AB9B0;
+extern int           GM_PlayerStatus;
+extern int           GM_CurrentMap;
 extern SVECTOR       GM_PlayerPosition_800ABA10;
-extern HITTABLE stru_800BDE78[8];
+extern HITTABLE      GM_ClayDatas_800BDE78[8];
 extern SVECTOR       svec_8009F44C;
 extern SVECTOR       svec_8009F454;
 extern SVECTOR       svec_8009F45C;
@@ -96,7 +96,7 @@ STATIC int jirai_act_helper_8006A8F4(JiraiWork *work)
     CONTROL *p_control;
     SVECTOR  v;
 
-    if ((GM_PlayerStatus_800ABA50 & 0x40) == 0)
+    if (!(GM_PlayerStatus & PLAYER_GROUND))
     {
         return 0;
     }
@@ -315,7 +315,7 @@ STATIC void JiraiAct(JiraiWork *work)
 #else
         (GM_GameStatus & (STATE_PADRELEASE | STATE_PADDEMO | STATE_DEMO))
 #endif
-        || (GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF))
+        || (GM_PlayerStatus & PLAYER_PAD_OFF))
     {
         target2->class &= ~TARGET_PUSH;
         target2->damaged &= ~TARGET_PUSH;
@@ -334,7 +334,7 @@ STATIC void JiraiAct(JiraiWork *work)
             return;
         }
 
-        if ((target2->field_40 & 1) && (GM_PlayerStatus_800ABA50 & (PLAYER_INVULNERABLE | PLAYER_GROUND)))
+        if ((target2->field_40 & 1) && (GM_PlayerStatus & (PLAYER_INVULNERABLE | PLAYER_GROUND)))
         {
             target2->damaged &= ~TARGET_PUSH;
             dword_8009F444 = 0;
@@ -430,8 +430,8 @@ STATIC void JiraiDie(JiraiWork *work)
 
     if (work->field_13C_idx >= 0)
     {
-        GM_ClearBulName_8004FBE4(work->control.name);
-        stru_800BDE78[work->field_13C_idx].actor = NULL;
+        GM_ClearBulName(work->control.name);
+        GM_ClayDatas_800BDE78[work->field_13C_idx].actor = NULL;
         counter_8009F448--;
     }
 
@@ -491,7 +491,7 @@ STATIC int jirai_get_free_item_8006B268(void)
     int i;
     for (i = 0; i < 8; i++)
     {
-        if (!stru_800BDE78[i].actor)
+        if (!GM_ClayDatas_800BDE78[i].actor)
         {
             return i;
         }
@@ -514,7 +514,7 @@ STATIC int JiraiGetResources(JiraiWork *work, MATRIX *world, HZD_FLR *floor)
     control = &work->control;
     work->field_138_gcl = -1;
     work->field_13C_idx = -1;
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
     work->map = map;
     if (GM_InitControl(control, GM_Next_BulName_8004FBA0(), 0) < 0)
     {
@@ -555,7 +555,7 @@ STATIC int JiraiGetResources(JiraiWork *work, MATRIX *world, HZD_FLR *floor)
         return -1;
     }
 
-    hittable = &stru_800BDE78[work->field_13C_idx];
+    hittable = &GM_ClayDatas_800BDE78[work->field_13C_idx];
     hittable->actor = &work->actor;
     hittable->control = control;
     hittable->data = floor;

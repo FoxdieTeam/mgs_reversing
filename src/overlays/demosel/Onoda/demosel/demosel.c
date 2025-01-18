@@ -102,8 +102,8 @@ signed char text_outline_direction_offsets_800C3290[] = {
 
 GV_ACT *NewMetLogo_800C5A90( int * );
 
-extern int    GV_Clock_800AB920;
-extern int    GM_CurrentMap_800AB9B0;
+extern int    GV_Clock;
+extern int    GM_CurrentMap;
 extern int    FS_DiskNum_800ACBF0;
 extern GV_PAD GV_PadData_800B05C0[4];
 
@@ -198,7 +198,7 @@ void demosel_800C3880(DemoselWork *work, char *ot)
 
         found = 1;
 
-        text_sprt = &work->f5D0[index].text_sprt[GV_Clock_800AB920];
+        text_sprt = &work->f5D0[index].text_sprt[GV_Clock];
         LSTORE(0x808080, &text_sprt->r0);
         LCOPY(&work->f5D0[index].rect.x, &text_sprt->x0);
         LCOPY(&work->f5D0[index].rect.w, &text_sprt->w);
@@ -211,7 +211,7 @@ void demosel_800C3880(DemoselWork *work, char *ot)
         // There's a subtle black outline around the text (the sprite added a couple lines above).
         // To display it there's a neat trick here: just display the same text sprite but
         // black and shifted by a ~pixel in each direction.
-        text_outline_sprt = work->f5D0[index].text_outline_sprt[GV_Clock_800AB920];
+        text_outline_sprt = work->f5D0[index].text_outline_sprt[GV_Clock];
         for (j = 0; j < 8; j += 2)
         {
             *text_outline_sprt = *text_sprt;
@@ -746,7 +746,7 @@ void demosel_800C46BC(DemoselWork *work)
     int       r0, g0, b0;
 
     src = work->f2C;
-    dst = &work->f24->packs[GV_Clock_800AB920]->poly_ft4;
+    dst = &work->f24->packs[GV_Clock]->poly_ft4;
 
     for (i = 0; i < 8; dst++, src++, i++)
     {
@@ -767,7 +767,7 @@ void demosel_800C46BC(DemoselWork *work)
     }
 
     src = work->f16C;
-    dst = &work->f28->packs[GV_Clock_800AB920]->poly_ft4;
+    dst = &work->f28->packs[GV_Clock]->poly_ft4;
 
     for (i = 0; i < 9; dst++, src++, i++)
     {
@@ -1418,7 +1418,7 @@ int demosel_800C5A78(DemoselWork *work, int map)
     int       i;
     POLY_FT4 *poly2;
 
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
 
     work->fDB8 = 832;
     work->fDBC = 256;

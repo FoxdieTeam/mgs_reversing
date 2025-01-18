@@ -26,8 +26,8 @@ typedef struct _FocusWork
     int         f_range;
 } FocusWork;
 
-extern int GV_Clock_800AB920;
-extern int GV_PauseLevel_800AB928;
+extern int GV_Clock;
+extern int GV_PauseLevel;
 
 void FocusAct_800CEA70(FocusWork *work)
 {
@@ -39,7 +39,7 @@ void FocusAct_800CEA70(FocusWork *work)
     SPRT         *sprt;
     DR_STP       *stp;
 
-    if (GV_PauseLevel_800AB928 == 0)
+    if (GV_PauseLevel == 0)
     {
         if (GV_ReceiveMessage(GV_StrCode("FocusView"), &msg))
         {
@@ -68,19 +68,19 @@ void FocusAct_800CEA70(FocusWork *work)
 
     ot = (unsigned int *)DG_ChanlOTag(0);
 
-    sprt = &work->prims->sprt2[GV_Clock_800AB920];
+    sprt = &work->prims->sprt2[GV_Clock];
     sprt->x0 = -work->xoff;
     sprt->y0 = -112 - work->yoff;
     addPrim(ot, sprt);
-    addPrim(ot, &work->prims->tpage2[GV_Clock_800AB920]);
+    addPrim(ot, &work->prims->tpage2[GV_Clock]);
 
-    sprt = &work->prims->sprt1[GV_Clock_800AB920];
+    sprt = &work->prims->sprt1[GV_Clock];
     sprt->x0 = -160 - work->xoff;
     sprt->y0 = -112 - work->yoff;
     addPrim(ot, sprt);
-    addPrim(ot, &work->prims->tpage1[GV_Clock_800AB920]);
+    addPrim(ot, &work->prims->tpage1[GV_Clock]);
 
-    stp = work->prims->stp[GV_Clock_800AB920];
+    stp = work->prims->stp[GV_Clock];
 
     addPrim(&ot[0], &stp[3]);
     addPrim(&ot[near], &stp[2]);

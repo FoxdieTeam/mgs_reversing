@@ -26,7 +26,7 @@
 #define HASH_CMD_start          0x9a1f // GV_StrCode( "start" )
 #define HASH_CMD_load           0xc8bb // GV_StrCode( "load" )
 #define HASH_CMD_radio          0x24e1 // GV_StrCode( "radio" )
-#define HASH_CMD_str_status     0xe43c // GV_StrCode( "str_status" )
+#define HASH_CMD_restart        0xe43c // GV_StrCode( "restart" )
 #define HASH_CMD_demo           0xa242 // GV_StrCode( "demo" )
 #define HASH_CMD_ntrap          0xdbab // GV_StrCode( "ntrap" )
 #define HASH_CMD_delay          0x430d // GV_StrCode( "delay" )
@@ -49,7 +49,7 @@
 // Traps
 //-----------------------------------------------------------------------------
 
-#define HASH_TRAP_ALL           0x14c9
+#define HASH_TRAP_ALL           0x14c9 // GV_StrCode( "？" )
 
 //  Events
 #define HASH_ENTER              0x0dd2 // GV_StrCode( "入る" )
@@ -185,6 +185,7 @@
 #define CHARA_SNAKE             0x21ca // GV_StrCode( "スネーク" )
 #define CHARA_DOOR              0xb997 // GV_StrCode( "ドア" )
 #define CHARA_ITEM              0x8767 // GV_StrCode( "アイテム" )
+#define CHARA_RCM               0x50ae // GV_StrCode( "RCM" )
 
 #define CHARA_SNDTST            0x4efc
 #define CHARA_SELECT            0xd2f6

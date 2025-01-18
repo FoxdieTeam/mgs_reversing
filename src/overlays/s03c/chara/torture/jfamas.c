@@ -21,7 +21,7 @@ typedef struct JFamasWork
 
 SVECTOR s03c_dword_800C33AC = {5, 65036, 80};
 
-extern int DG_CurrentGroupID_800AB968;
+extern int DG_CurrentGroupID;
 
 void JFamasAct_800CAE30(JFamasWork *work)
 {
@@ -29,7 +29,7 @@ void JFamasAct_800CAE30(JFamasWork *work)
     int    trigger;
 
     GM_SetCurrentMap(work->control->map->index);
-    DG_GroupObjs(work->object.objs, DG_CurrentGroupID_800AB968);
+    DG_GroupObjs(work->object.objs, DG_CurrentGroupID);
 
     trigger = *work->trigger;
 

@@ -10,7 +10,7 @@ extern int     ZAKOCOM_PlayerMap_800DF3BC;
 extern ZAKO_COMMAND ZakoCommand_800DF280;
 
 extern SVECTOR  GM_PlayerPosition_800ABA10;
-extern SVECTOR  GM_NoisePosition_800AB9F8;
+extern SVECTOR  GM_NoisePosition;
 extern CONTROL *GM_WhereList_800B56D0[94];
 extern int      GM_PlayerMap_800ABA0C;
 extern int      GM_PlayerAddress_800AB9F0;
@@ -154,7 +154,7 @@ int s11e_zk11ecom_800D8B04( ZakoWork *work )
                 }
 
                 addr2 = s11e_zk11ecom_800D9B60( work->target_map, ctrl->map->index );
-                ctrl->map = Map_FromId_800314C0( work->target_map );
+                ctrl->map = GM_GetMap( work->target_map );
                 zone = &ctrl->map->hzd->header->zones[ addr2 ];
                 work->control.mov.vx = zone->x;
                 ctrl->mov.vy = zone->y;
@@ -460,7 +460,7 @@ typedef struct ACTIONPATTERN
 //extern int s11e_dword_800C36CC[ 2 ][ 16 ];
 extern ACTIONPATTERN s11e_dword_800C36CC[ 16 ][ 16 ];
 extern int s11e_dword_800DF3B4;
-extern int GM_PlayerStatus_800ABA50;
+extern int GM_PlayerStatus;
 
 
 #define ATTACKNEAR_DIS 800
@@ -483,7 +483,7 @@ int s11e_zk11ecom_800D937C( ZakoWork *work )
         switch ( nextset )
         {
         case 0:
-            if ( work->sn_dis < ATTACKNEAR_DIS && !( GM_PlayerStatus_800ABA50 & 0x1060 ) )
+            if ( work->sn_dis < ATTACKNEAR_DIS && !( GM_PlayerStatus & 0x1060 ) )
             {
                 return 10;
             }

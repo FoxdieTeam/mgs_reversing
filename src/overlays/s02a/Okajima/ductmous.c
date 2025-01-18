@@ -32,7 +32,7 @@ typedef struct _DuctmouseWork
 
 SVECTOR mouse_offsets[2] = {{48, 0, 96, 0}, {-48, 0, 96, 0}};
 
-extern int     GM_CurrentMap_800AB9B0;
+extern int     GM_CurrentMap;
 extern SVECTOR GM_PlayerPosition_800ABA10;
 
 void AN_Unknown_800CA458(MATRIX *, int);
@@ -222,7 +222,7 @@ void Ductmouse_800DA5BC(DuctmouseWork *work)
 
 void DuctmouseAct_800DA978(DuctmouseWork *work)
 {
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
 
     Ductmouse_800DA5BC(work);
 
@@ -260,7 +260,7 @@ int DuctmouseGetResources_800DAA1C(DuctmouseWork *work, int name, int where)
 
     work->map = where;
 
-    map = Map_FromId_800314C0(where);
+    map = GM_GetMap(where);
 
     opt = GCL_GetOption('r');
     if (opt != 0)

@@ -33,7 +33,7 @@ typedef struct Panel2Work
 SVECTOR s08b_dword_800C3650 = {0, 0, 65236};
 
 void     Takabe_FreeObjs_800DC820(DG_OBJS *objs);
-DG_OBJS *s00a_unknown3_800DC7BC(int model, LitHeader *lit);
+DG_OBJS *s00a_unknown3_800DC7BC(int model, LIT *lit);
 
 // Modified BreakObj_800D5AC0 (OBJECT_NO_ROTS instead of OBJECT)
 void Panel2_800E1244(OBJECT_NO_ROTS *object, int model, int where, int flag)
@@ -42,7 +42,7 @@ void Panel2_800E1244(OBJECT_NO_ROTS *object, int model, int where, int flag)
 
     object->flag = flag;
     object->map_name = where;
-    object->objs = s00a_unknown3_800DC7BC(model, Map_FromId_800314C0(where)->lit);
+    object->objs = s00a_unknown3_800DC7BC(model, GM_GetMap(where)->lit);
     object->objs->flag = flag;
 }
 
@@ -59,7 +59,7 @@ void Panel2Act_800E12B4(Panel2Work *work)
         return;
     }
 
-    GM_CurrentMap_800AB9B0 = work->where;
+    GM_CurrentMap = work->where;
 
     target = work->target;
     if (target != NULL)
@@ -122,7 +122,7 @@ int Panel2GetResources_800E1460(Panel2Work *work, int name, int where)
     unk4C = &work->unk4C;
 
     work->name = name;
-    GM_CurrentMap_800AB9B0 = where;
+    GM_CurrentMap = where;
     work->where = where;
 
     THING_Gcl_GetSVector('p', unk4C);

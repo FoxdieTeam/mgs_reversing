@@ -35,9 +35,9 @@ typedef struct _GasEfctWork
     char          pad[0x20];
 } GasEfctWork;
 
-extern int     GV_Clock_800AB920;
-extern int     GV_PauseLevel_800AB928;
-extern int     GM_CurrentMap_800AB9B0;
+extern int     GV_Clock;
+extern int     GV_PauseLevel;
+extern int     GM_CurrentMap;
 
 unsigned short gas_efct_msgs[] = {HASH_ON2, HASH_OFF2};
 
@@ -101,7 +101,7 @@ void GasEffectAct_800C4BBC(GasEfctWork *work_copy)
 
     work = work_copy;
 
-    if (GV_PauseLevel_800AB928 == 0)
+    if (GV_PauseLevel == 0)
     {
         found = THING_Msg_CheckMessage(work->name, 2, gas_efct_msgs);
         message = THING_Msg_GetResult();
@@ -123,7 +123,7 @@ void GasEffectAct_800C4BBC(GasEfctWork *work_copy)
             break;
         }
 
-        if (GV_PauseLevel_800AB928 == 0)
+        if (GV_PauseLevel == 0)
         {
             switch (state)
             {
@@ -139,7 +139,7 @@ void GasEffectAct_800C4BBC(GasEfctWork *work_copy)
                     work->f4C = 0;
                 }
 
-                if (GV_PauseLevel_800AB928 == 0)
+                if (GV_PauseLevel == 0)
                 {
                     work->f4C = GV_NearSpeed(work->f4C, 4096, work->f48);
                 }
@@ -263,7 +263,7 @@ GV_ACT *NewGasEffect_800C4EF8(SVECTOR *arg0, int arg1, int arg2)
         work->f44 = 0;
         work->f3C = 0;
         work->name = 0x3B8E;
-        work->map = GM_CurrentMap_800AB9B0;
+        work->map = GM_CurrentMap;
     }
 
     return &work->actor;
@@ -300,7 +300,7 @@ void d11c_800C5094(GasEfctWork *work, int arg1)
     int      i;
 
     ot = DG_ChanlOTag(0);
-    poly = work->prims->poly[GV_Clock_800AB920];
+    poly = work->prims->poly[GV_Clock];
 
     sp10 = DG_ZeroMatrix;
 
@@ -340,6 +340,6 @@ void d11c_800C5094(GasEfctWork *work, int arg1)
             addPrim(ot, poly);
         }
 
-        addPrim(ot, &work->prims->tpage[GV_Clock_800AB920]);
+        addPrim(ot, &work->prims->tpage[GV_Clock]);
     }
 }

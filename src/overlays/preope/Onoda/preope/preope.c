@@ -75,7 +75,7 @@ signed char text_outline_direction_offsets_800C3248[] = {
      0, -1,
 };
 
-extern int    GV_Clock_800AB920;
+extern int    GV_Clock;
 extern GV_PAD GV_PadData_800B05C0[4];
 
 GV_ACT *NewPreMet1_800C6F20(int, int *, Unknown *);
@@ -175,7 +175,7 @@ void Preope_800C356C(PreopeWork *work, char *ot)
 
         found = 1;
 
-        text_sprt = &work->field_394[index].text_sprt[GV_Clock_800AB920];
+        text_sprt = &work->field_394[index].text_sprt[GV_Clock];
         LSTORE(0x808080, &text_sprt->r0);
         LCOPY(&work->field_394[index].rect.x, &text_sprt->x0);
         LCOPY(&work->field_394[index].rect.w, &text_sprt->w);
@@ -188,7 +188,7 @@ void Preope_800C356C(PreopeWork *work, char *ot)
         // There's a subtle black outline around the text (the sprite added a couple lines above).
         // To display it there's a neat trick here: just display the same text sprite but
         // black and shifted by a ~pixel in each direction.
-        text_outline_sprt = work->field_394[index].text_outline_sprt[GV_Clock_800AB920];
+        text_outline_sprt = work->field_394[index].text_outline_sprt[GV_Clock];
         for (j = 0; j < 8; j += 2)
         {
             *text_outline_sprt = *text_sprt;
@@ -293,7 +293,7 @@ void PreopeShadePacks_800C3B44(PreopeWork *work)
     int       i;
     int       r0, g0, b0;
 
-    poly_dst = &work->field_24->packs[GV_Clock_800AB920]->poly_ft4;
+    poly_dst = &work->field_24->packs[GV_Clock]->poly_ft4;
     poly_src = work->field_2C;
 
     for (i = 0; i < 6; poly_dst++, poly_src++, i++)
@@ -349,7 +349,7 @@ void PreopeShadePacks_800C3B44(PreopeWork *work)
         SSTOREL(work->field_284[i], poly_dst); // some modification of POLY_FT4 tag?
     }
 
-    poly_dst = &work->field_28->packs[GV_Clock_800AB920]->poly_ft4;
+    poly_dst = &work->field_28->packs[GV_Clock]->poly_ft4;
     poly_src = work->button_highlight_parts;
 
     for (i = 0; i < 9; poly_dst++, poly_src++, i++)
@@ -694,7 +694,7 @@ int PreopeGetResources_800C46F8(PreopeWork *work, int map)
     int       i, j;
     int       index;
 
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
 
     work->map = map;
     work->field_A814 = 832;

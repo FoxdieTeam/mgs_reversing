@@ -32,8 +32,8 @@ typedef struct _CinemaScreenWork
     PARAM  params[2]; //0x34
 } CinemaScreenWork;
 
-extern int GV_Clock_800AB920;
-extern int GV_PauseLevel_800AB928;
+extern int GV_Clock;
+extern int GV_PauseLevel;
 
 unsigned short mes_list_800C3680[] = { 0xD420, 0x745D };
 
@@ -44,7 +44,7 @@ void CinemaScreenAct_800DDDA4( CinemaScreenWork* work )
 
     //OPERATOR() ;
 
-    if ( GV_PauseLevel_800AB928 == 0 )
+    if ( GV_PauseLevel == 0 )
     {
         mes = THING_Msg_CheckMessage( work->name, 2, mes_list_800C3680 );
         switch ( mes )
@@ -66,7 +66,7 @@ void CinemaScreenAct_800DDDA4( CinemaScreenWork* work )
         return;
     }
 
-    ot = (unsigned int*)DG_Chanl( 1 )->mOrderingTables[ GV_Clock_800AB920 ] ;
+    ot = (unsigned int*)DG_Chanl( 1 )->mOrderingTables[ GV_Clock ] ;
 
     for ( i = 0 ; i < 2 ; i++ )
     {
@@ -104,7 +104,7 @@ void CinemaScreenAct_800DDDA4( CinemaScreenWork* work )
 
     if ( cols[0] == 0xFFFFFF && cols[1] == 0xFFFFFF )
     {
-        TILE* tile = &work->prims->tile[ GV_Clock_800AB920 ][ 0 ];
+        TILE* tile = &work->prims->tile[ GV_Clock ][ 0 ];
         addPrim (ot, tile );
         addPrim (ot, &tile[1] );
     }
@@ -114,8 +114,8 @@ void CinemaScreenAct_800DDDA4( CinemaScreenWork* work )
         POLY_G4 * poly;
         POLY_G4 * poly2;
         r = cols[ 0 ];
-        poly  = &work->prims->poly[ GV_Clock_800AB920 ][ 0 ];
-        poly2 = &work->prims->poly[ GV_Clock_800AB920 ][ 1 ];
+        poly  = &work->prims->poly[ GV_Clock ][ 0 ];
+        poly2 = &work->prims->poly[ GV_Clock ][ 1 ];
 
         r |= *(int*)&poly->r0 & 0xFF000000;
         *(int*)&poly->r0  = r;
@@ -133,7 +133,7 @@ void CinemaScreenAct_800DDDA4( CinemaScreenWork* work )
         addPrim( ot, poly2 );
     }
 
-    addPrim( ot, &work->prims->tpage[ GV_Clock_800AB920 ] );
+    addPrim( ot, &work->prims->tpage[ GV_Clock ] );
 
     if ( work->mode == 0 )
     {

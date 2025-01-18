@@ -57,8 +57,8 @@ typedef struct _MouseWork
     MouseEntry entries[0];
 } MouseWork;
 
-extern int    GM_CurrentMap_800AB9B0;
-extern int    GM_PlayerStatus_800ABA50;
+extern int    GM_CurrentMap;
+extern int    GM_PlayerStatus;
 
 #define EXEC_LEVEL 4
 
@@ -171,7 +171,7 @@ void s00a_mouse_800D3E9C(MouseWork *work)
     case 0:
         if (entry->object.objs->bound_mode == 2 &&
             GV_RandU(2) == 0 &&
-            GM_PlayerStatus_800ABA50 & (PLAYER_INTRUDE | PLAYER_FIRST_PERSON))
+            GM_PlayerStatus & (PLAYER_INTRUDE | PLAYER_FIRST_PERSON))
         {
             if (work->f1DC != 0)
             {
@@ -457,7 +457,7 @@ void MouseAct_800D4904(MouseWork *work)
     TARGET     *target;
     OBJECT     *object;
 
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
 
     entry = work->entries;
     for (i = 0; i < work->nentries; i++, entry++)
@@ -590,7 +590,7 @@ int s00a_mouse_800D4B60(MouseWork *work, int name, int unused)
         work->scale = 4096;
     }
 
-    map = Map_FromId_800314C0(work->map);
+    map = GM_GetMap(work->map);
 
     opt = GCL_GetOption('n');
     if (opt != 0)

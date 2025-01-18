@@ -100,10 +100,10 @@ SVECTOR s03c_dword_800C32EC = {0, 0, 300};
 SVECTOR s03c_dword_800C32F4 = {300, 750, 300};
 
 extern SVECTOR          GM_PlayerPosition_800ABA10;
-extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
+extern PlayerStatusFlag GM_PlayerStatus;
 extern CONTROL         *GM_PlayerControl_800AB9F4;
-extern int              GM_AlertLevel_800ABA18;
-extern int              GM_PlayerAction_800ABA40;
+extern int              GM_AlertLevel;
+extern int              GM_PlayerAction;
 extern OBJECT          *GM_PlayerBody_800ABA20;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 extern GM_Camera        GM_Camera_800B77E8;
@@ -146,7 +146,7 @@ static inline void ClearAdjust(JohnnyWork *work)
 
 static inline void SetAction(JohnnyWork *work, int action)
 {
-    if (work->object.action_flag != action)
+    if (work->object.action != action)
     {
         GM_ConfigObjectAction(&work->object, action, 0, 4);
     }
@@ -268,7 +268,7 @@ void Johnny_800C4418(JohnnyWork *work)
         }
     }
 
-    if (GM_PlayerStatus_800ABA50 & 2)
+    if (GM_PlayerStatus & 2)
     {
         new_unkB24 |= 1;
     }
@@ -302,9 +302,9 @@ void Johnny_800C4418(JohnnyWork *work)
 
 void Johnny_800C44F8(JohnnyWork *work)
 {
-    if ((work->player_status & PLAYER_UNK100000) != (GM_PlayerStatus_800ABA50 & PLAYER_UNK100000))
+    if ((work->player_status & PLAYER_UNK100000) != (GM_PlayerStatus & PLAYER_UNK100000))
     {
-        if (GM_PlayerStatus_800ABA50 & PLAYER_UNK100000)
+        if (GM_PlayerStatus & PLAYER_UNK100000)
         {
             if (work->unkB1C & 0x20)
             {
@@ -327,7 +327,7 @@ void Johnny_800C44F8(JohnnyWork *work)
             work->unkB1C &= ~0x100;
         }
     }
-    work->player_status = GM_PlayerStatus_800ABA50;
+    work->player_status = GM_PlayerStatus;
 }
 
 void Johnny_800C4588(JohnnyWork *work)
@@ -349,7 +349,7 @@ void s03c_johnny_800C45AC(JohnnyWork* work)
 
     if (work->unkB70 == 2 && !(work->unkB1C & 0x2))
     {
-        if (!(work->unkB1C & 0x20) && GM_Items[ITEM_KETCHUP] == -1 && !(GM_PlayerStatus_800ABA50 & PLAYER_UNK100000))
+        if (!(work->unkB1C & 0x20) && GM_Items[ITEM_KETCHUP] == -1 && !(GM_PlayerStatus & PLAYER_UNK100000))
         {
             work->unkB1C |= 0x80002;
         }
@@ -372,7 +372,7 @@ void s03c_johnny_800C45AC(JohnnyWork* work)
         work->unkB48 = Johnny_800C794C;
     }
 
-    else if (work->unkB1C & 0x2 && GM_PlayerStatus_800ABA50 & 0x100000 && !(work->unkB1C & 0x80000))
+    else if (work->unkB1C & 0x2 && GM_PlayerStatus & 0x100000 && !(work->unkB1C & 0x80000))
     {
         work->unkB1C |= 0x08000000;
         Johnny_800C4588(work);
@@ -733,7 +733,7 @@ void Johnny_800C4F24(JohnnyWork *work, int arg1)
     }
     work->unkB1C &= ~0x10000000;
     GM_AlertModeSet(0);
-    GM_AlertLevel_800ABA18 = 0;
+    GM_AlertLevel = 0;
 }
 
 void Johnny_800C4FAC(JohnnyWork *work)
@@ -744,7 +744,7 @@ void Johnny_800C4FAC(JohnnyWork *work)
     frame = work->motion.info1.frame;
     control = &work->control;
 
-    switch (work->object.action_flag)
+    switch (work->object.action)
     {
     case 1:
         if (frame == 0)
@@ -792,7 +792,7 @@ void s03c_johnny_800C5064(JohnnyWork *work)
 
 void Johnny_800C50D0(JohnnyWork *work)
 {
-    if (!(work->unkB1C & 0x10) || !(GM_PlayerStatus_800ABA50 & PLAYER_INTRUDE))
+    if (!(work->unkB1C & 0x10) || !(GM_PlayerStatus & PLAYER_INTRUDE))
     {
         work->unkB74 = 0;
         return;
@@ -1019,7 +1019,7 @@ void s03c_johnny_800C5520(JohnnyWork *work, int action)
         break;
 
     case 1:
-        if (work->object.action_flag == 15 && work->object.is_end != 0)
+        if (work->object.action == 15 && work->object.is_end != 0)
         {
             if (work->unkB1C & 0x4000)
             {
@@ -1113,7 +1113,7 @@ void s03c_johnny_800C594C(JohnnyWork *work)
 {
     int index;
 
-    if (GM_StreamStatus() == -1 && GM_NoisePower_800ABA24 != 0)
+    if (GM_StreamStatus() == -1 && GM_NoisePower != 0)
     {
         index = (GV_Time & 0x1) ? 14 : 16;
         s03b_boxall_800C93AC(work->unkB78[index]);
@@ -1217,7 +1217,7 @@ void s03c_johnny_800C5A7C(JohnnyWork *work, int action)
             SetAction(work, 10);
         }
 
-        if ((work->object.action_flag == 10) && (work->object.is_end != 0))
+        if ((work->object.action == 10) && (work->object.is_end != 0))
         {
             GM_ConfigObjectAction(&work->object, 0, 0, 4);
         }
@@ -1231,12 +1231,12 @@ void s03c_johnny_800C5A7C(JohnnyWork *work, int action)
         break;
 
     case 3:
-        if ((work->object.action_flag == 11) && (work->object.is_end != 0))
+        if ((work->object.action == 11) && (work->object.is_end != 0))
         {
             GM_ConfigObjectAction(&work->object, 0, 0, 4);
         }
 
-        if ((work->object.action_flag == 0) && (GM_StreamStatus() == -1))
+        if ((work->object.action == 0) && (GM_StreamStatus() == -1))
         {
             work->unkB14 = 2;
             work->unkB1C |= 0x8;
@@ -1434,13 +1434,13 @@ void Johnny_800C631C(JohnnyWork *work, int action)
     }
     if (work->object.is_end != 0)
     {
-        if (work->object.action_flag == 10)
+        if (work->object.action == 10)
         {
             GM_ConfigObjectAction(&work->object, 0, 0, 4);
             work->unkB4C++;
         }
     }
-    if (work->object.action_flag == 0 && GM_StreamStatus() == -1)
+    if (work->object.action == 0 && GM_StreamStatus() == -1)
     {
         work->unkB4C++;
     }
@@ -1759,7 +1759,7 @@ void s03c_johnny_800C6D84(JohnnyWork *work, int action)
     }
 
     len = Johnny_800C4804(work);
-    if (GM_PlayerStatus_800ABA50 & PLAYER_INTRUDE)
+    if (GM_PlayerStatus & PLAYER_INTRUDE)
     {
         pos.vx = -700;
         pos.vz = 8000;
@@ -1775,7 +1775,7 @@ void s03c_johnny_800C6D84(JohnnyWork *work, int action)
 
         SetAction(work, 2);
 
-        if ((len < 2500) && ((GM_PlayerStatus_800ABA50 & PLAYER_INTRUDE) || (Johnny_800C4194(work) < 0)))
+        if ((len < 2500) && ((GM_PlayerStatus & PLAYER_INTRUDE) || (Johnny_800C4194(work) < 0)))
         {
             work->unkB44 = s03c_johnny_800C6D84;
             work->unkB38 = Johnny_800C7160;
@@ -1789,7 +1789,7 @@ void s03c_johnny_800C6D84(JohnnyWork *work, int action)
         work->sna_auto_move.field_0_ivec.vz = -1;
     }
 
-    if (GM_PlayerStatus_800ABA50 & PLAYER_INTRUDE)
+    if (GM_PlayerStatus & PLAYER_INTRUDE)
     {
         pos.vx = -700;
         pos.vz = 8000;
@@ -1804,7 +1804,7 @@ void s03c_johnny_800C6D84(JohnnyWork *work, int action)
 
     sna_unk_helper2_helper_8006070C(&work->sna_auto_move, &work->control);
 
-    if ((len < 1500) && ((GM_PlayerStatus_800ABA50 & PLAYER_INTRUDE) || (Johnny_800C4194(work) < 0)))
+    if ((len < 1500) && ((GM_PlayerStatus & PLAYER_INTRUDE) || (Johnny_800C4194(work) < 0)))
     {
         work->unkB44 = s03c_johnny_800C6D84;
         work->unkB38 = Johnny_800C7160;
@@ -1881,7 +1881,7 @@ void Johnny_800C7160(JohnnyWork *work, int arg1)
     {
         work->unkB1C &= ~0x80000000;
 
-        if (GM_PlayerStatus_800ABA50 & PLAYER_INTRUDE)
+        if (GM_PlayerStatus & PLAYER_INTRUDE)
         {
             work->unkB4E = 1;
             action = 41;
@@ -1919,7 +1919,7 @@ void Johnny_800C7160(JohnnyWork *work, int arg1)
         }
     }
 
-    if (work->object.action_flag == 41)
+    if (work->object.action == 41)
     {
         if (arg1 == 16 || arg1 == 22 || arg1 == 28)
         {
@@ -1940,7 +1940,7 @@ void Johnny_800C7160(JohnnyWork *work, int arg1)
 
     if (work->object.is_end != 0 && work->unkB4C == 1)
     {
-        if (GM_PlayerStatus_800ABA50 & PLAYER_INTRUDE)
+        if (GM_PlayerStatus & PLAYER_INTRUDE)
         {
             work->unkB38 = Johnny_800C7160;
             work->unkB4E = 0;
@@ -2048,7 +2048,7 @@ void s03c_johnny_800C753C(JohnnyWork *work, int action)
             break;
 
         case 2:
-            if (GM_PlayerStatus_800ABA50 & PLAYER_INTRUDE)
+            if (GM_PlayerStatus & PLAYER_INTRUDE)
             {
                 mov.vx = -750;
                 mov.vz = 8000;
@@ -2065,7 +2065,7 @@ void s03c_johnny_800C753C(JohnnyWork *work, int action)
         }
     }
 
-    if (!(GM_PlayerStatus_800ABA50 & PLAYER_UNK100000))
+    if (!(GM_PlayerStatus & PLAYER_UNK100000))
     {
         work->unkB50 = 0;
 
@@ -2370,7 +2370,7 @@ void s03c_johnny_800C7BF8(JohnnyWork *work, int action)
         break;
 
     case 5:
-        if ((GM_StreamStatus() == -1) && Johnny_800C43D0(0xAE93) && (GM_PlayerStatus_800ABA50 & PLAYER_KNOCKING))
+        if ((GM_StreamStatus() == -1) && Johnny_800C43D0(0xAE93) && (GM_PlayerStatus & PLAYER_KNOCKING))
         {
             s03b_boxall_800C93F0(work->unkB78[17], 4);
         }
@@ -2452,7 +2452,7 @@ void s03c_johnny_800C7F78(JohnnyWork *work, int action)
             GV_SendMessage(&msg);
         }
 
-        if ((action > 64) && !(GM_PlayerStatus_800ABA50 & PLAYER_UNK4))
+        if ((action > 64) && !(GM_PlayerStatus & PLAYER_ACT_ONLY))
         {
             work->unkB1C &= ~0x4000000;
 
@@ -2721,14 +2721,12 @@ void Johnny_800C873C(JohnnyWork *work, int action)
 
 void s03c_johnny_800C88C8(JohnnyWork *work, int action)
 {
-    int action_flag;
-
     if (action == 0)
     {
-        action_flag = (work->unkB50 == 1) ? 25 : 26;
+        action = (work->unkB50 == 1) ? 25 : 26;
         work->unkB50 = 0;
 
-        SetAction(work, action_flag);
+        SetAction(work, action);
     }
 
     if (work->unkB24 & 0x8)
@@ -2791,12 +2789,12 @@ int s03c_johnny_800C8A2C(JohnnyWork *work, int action)
         return 1;
     }
 
-    if (GM_PlayerAction_800ABA40 == action)
+    if (GM_PlayerAction == action)
     {
         return 0;
     }
 
-    switch (GM_PlayerAction_800ABA40)
+    switch (GM_PlayerAction)
     {
     case 7:
         work->unkB38 = Johnny_800C8B14;
@@ -3145,7 +3143,7 @@ void Johnny_800C949C(JohnnyWork *work, int arg1)
     s03b_boxall_800C974C();
     if (arg1 == 0)
     {
-        if (GM_PlayerStatus_800ABA50 & PLAYER_UNK100000)
+        if (GM_PlayerStatus & PLAYER_UNK100000)
         {
             work->unkB1C |= 2;
         }
@@ -3462,7 +3460,7 @@ void Johnny_800C9D64(JohnnyWork *work)
     }
     if (work->unkB1C & 0x10000000)
     {
-        GM_AlertLevel_800ABA18 = 0xFF;
+        GM_AlertLevel = 0xFF;
     }
     field_B10 = work->unkB10;
     if (work->unkB10 < 16000)
@@ -3530,7 +3528,7 @@ void JohnnyAct_800C9F7C(JohnnyWork *work)
     GM_ActObject(&work->object);
     GM_MoveTarget(work->target, &control->mov);
     DG_GetLightMatrix2(&control->mov, work->light);
-    work->control.height = work->object.field_18;
+    work->control.height = work->object.height;
     work->sna_auto_move.field_0_ivec.vx = HZD_GetAddress(
         work->control.map->hzd, &control->mov, work->sna_auto_move.field_0_ivec.vx);
     Johnny_800C9D64(work);
@@ -3740,7 +3738,7 @@ void Johnny_800CA304(JohnnyWork *work)
     work->unkB54 = 0;
     work->unkB74 = 0;
     work->unkB1C |= 0x20000000;
-    work->player_status = GM_PlayerStatus_800ABA50 & ~STATE_SHOW_RADAR;
+    work->player_status = GM_PlayerStatus & ~STATE_SHOW_RADAR;
     work->unkB30 = DG_ZeroVector;
     sub_80060548(&work->sna_auto_move, work->control.map->hzd, &work->control.mov);
 }

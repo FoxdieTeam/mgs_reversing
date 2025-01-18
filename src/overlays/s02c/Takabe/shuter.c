@@ -43,10 +43,10 @@ typedef struct _ShuterWork
 
 unsigned short shuter_msgs_800C3738[] = {0x418B, 0x3A02};
 
-extern int GM_CurrentMap_800AB9B0;
-extern int GM_AlertMode_800ABA00;
+extern int GM_CurrentMap;
+extern int GM_AlertMode;
 
-DG_OBJS * s00a_unknown3_800DC7BC(int model, LitHeader *lit);
+DG_OBJS * s00a_unknown3_800DC7BC(int model, LIT *lit);
 void      Takabe_FreeObjs_800DC820(DG_OBJS *objs);
 
 void Shuter_800DFBD8(ShuterWork *);
@@ -63,7 +63,7 @@ void ShuterAct_800DF484(ShuterWork *work)
 {
     int found;
 
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
 
     found = THING_Msg_CheckMessage(work->name, 2, shuter_msgs_800C3738);
     if (found == 0 && work->open != 1)
@@ -95,14 +95,14 @@ void ShuterAct_800DF484(ShuterWork *work)
 
     if (work->alert != 0)
     {
-        if (GM_AlertMode_800ABA00 == 3 && work->open == 1)
+        if (GM_AlertMode == 3 && work->open == 1)
         {
             work->open = 0;
             work->moving = 1;
             work->delay = 5;
             sub_80032BC4(&work->center, SE_SHUTTER_CLOSE2, 2000);
         }
-        else if (GM_AlertMode_800ABA00 == 0 && work->open == 0)
+        else if (GM_AlertMode == 0 && work->open == 0)
         {
             work->open = 1;
             work->moving = 1;
@@ -208,14 +208,14 @@ int ShuterGetResources_800DF7F4(ShuterWork *work, int name, int map)
     int      model;
     DG_MDL  *mdl;
 
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
 
     work->map = map;
     work->name = name;
 
     work->f198 = 0;
 
-    work->hzd = Map_FromId_800314C0(map)->hzd;
+    work->hzd = GM_GetMap(map)->hzd;
 
     pos = &work->pos;
     THING_Gcl_GetSVector('p', pos);
@@ -482,6 +482,6 @@ void Shuter_800DFF34(OBJECT *object, int model, int flag)
     GV_ZeroMemory(object, sizeof(OBJECT));
 
     object->flag = flag;
-    object->map_name = GM_CurrentMap_800AB9B0;
-    object->objs = s00a_unknown3_800DC7BC(model, Map_FromId_800314C0(GM_CurrentMap_800AB9B0)->lit);
+    object->map_name = GM_CurrentMap;
+    object->objs = s00a_unknown3_800DC7BC(model, GM_GetMap(GM_CurrentMap)->lit);
 }

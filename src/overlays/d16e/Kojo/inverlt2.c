@@ -23,7 +23,7 @@ typedef struct _Inverlt2Work
     int      fE8;
 } Inverlt2Work;
 
-extern int GM_CurrentMap_800AB9B0;
+extern int GM_CurrentMap;
 
 #define EXEC_LEVEL 5
 
@@ -56,7 +56,7 @@ GV_ACT *NewInverlt2_800D0FF4(SVECTOR *arg0, int arg1, int arg2, int arg3, int r,
     work->fD8 = arg2;
     work->fDC = arg3;
 
-    work->map = GM_CurrentMap_800AB9B0;
+    work->map = GM_CurrentMap;
 
     work->fE0 = *arg0;
 
@@ -171,7 +171,7 @@ void Inverlt2Act_800D1580(Inverlt2Work *work)
     temp_s3 = work->fD4 - work->fD0;
     temp_lo = ((work->fD8 - temp_s3) * 100) / work->fD8;
 
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
 
     if ((temp_lo == 0) && (work->fE8 == 0))
     {

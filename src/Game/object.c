@@ -11,14 +11,15 @@
 #include "motion.h"
 
 /*-----sbss---------------------------------------*/
-extern int GM_CurrentMap_800AB9B0;
+extern int GM_CurrentMap;
 
-int SECTION(".sbss") fc_rt_800ABAB0;
-int SECTION(".sbss") mt_rt1_800ABAB4;
-int SECTION(".sbss") mt_rt2_800ABAB8;
-int SECTION(".sbss") fc_cnt_800ABABC;
-int SECTION(".sbss") mt_count_800ABAC0;
-int SECTION(".sbss") dword_800ABAC4;
+int SECTION(".sbss") fc_rt;     // Unused?
+int SECTION(".sbss") mt_rt1;    // Unused?
+int SECTION(".sbss") mt_rt2;
+int SECTION(".sbss") fc_cnt;    // Unused?
+int SECTION(".sbss") mt_count;
+
+STATIC int SECTION(".sbss") dword_800ABAC4;
 /*------------------------------------------------*/
 
 //not sure if this one belongs here
@@ -35,45 +36,49 @@ SVECTOR *sub_80034834(SVECTOR *arg0, SVECTOR *arg1, SVECTOR arg2)
     return arg0;
 }
 
-void sub_800348F4(OBJECT *obj)
+void GM_ActObjectMotion(OBJECT *obj)
 {
     long intime, outtime;
     intime = GetRCnt(RCntCNT1);
 
     SetSpadStack(SPAD_STACK_ADDR);
-    sub_8003556C(obj->m_ctrl); // motion streaming related
+    GM_PlayAction(obj->m_ctrl); // motion streaming related
     ResetSpadStack();
 
     obj->is_end = obj->m_ctrl->info1.time;
-    obj->field_1C = obj->m_ctrl->info2.time;
-
+    obj->time2 = obj->m_ctrl->info2.time;
+//#ifdef DEBUG
     outtime = GetRCnt(RCntCNT1);
-    mt_rt2_800ABAB8 += (outtime - intime) & 0xffff;
-    mt_count_800ABAC0++;
-
+    mt_rt2 += (outtime - intime) & 0xffff;
+    mt_count++;
+//#endif
     if (obj->m_ctrl->interp)
-        obj->m_ctrl->interp--;
+        obj->m_ctrl->interp--; /* 補完カウンタ変更 */
     return;
 }
 
-// Initialises an object by zeroing its memory and setting defaults
-void GM_InitObjectNoRots(OBJECT_NO_ROTS *obj, int model, int flag, int motion)
+/*----------------------------------------------------------------*/
+
+void GM_InitObjectNoRots( OBJECT_NO_ROTS *obj, int model, int flag, int motion )
 {
-    GV_ZeroMemory(obj, sizeof(OBJECT_NO_ROTS));
+    //ASSERT( model != 0 );
+    GV_ZeroMemory( obj, sizeof(OBJECT_NO_ROTS) );
     obj->flag = flag;
     obj->light = &DG_LightMatrix;
-    obj->map_name = GM_CurrentMap_800AB9B0;
-
-    GM_ConfigObjectModel(obj, model);
+    obj->map_name = GM_CurrentMap;
+    /*
+        モデル／モーション初期化
+    */
+    GM_ConfigObjectModel( obj, model );
 }
 
-// initialises the rots of an object by zeroing its memory then
-// calls initobjectnorots to init the rest
-void GM_InitObject(OBJECT *obj, int model, int flag, int motion)
+void GM_InitObject( OBJECT *obj, int model, int flag, int motion )
 {
-    GV_ZeroMemory(obj->rots, sizeof(SVECTOR) * DG_MAX_JOINTS);
-    GM_InitObjectNoRots((OBJECT_NO_ROTS *)obj, model, flag, motion);
+    GV_ZeroMemory( obj->rots, sizeof(SVECTOR) * DG_MAX_JOINTS );
+    GM_InitObjectNoRots( (OBJECT_NO_ROTS *)obj, model, flag, motion );
 }
+
+/*--------- M.Sonoyama 実験中 --------------*/
 
 // adds initial step to mutation from another function
 void GM_ActMotion(OBJECT *obj)
@@ -83,7 +88,7 @@ void GM_ActMotion(OBJECT *obj)
     if (obj->m_ctrl)
     {
         step = *obj->m_ctrl->step;
-        sub_800348F4(obj);
+        GM_ActObjectMotion(obj);
         GV_AddVec3(&step, obj->m_ctrl->step, obj->m_ctrl->step);
     }
 }
@@ -94,11 +99,10 @@ void GM_ActObject(OBJECT *obj)
 {
     DG_PutObjs(obj->objs);
 
-    if (obj->map_name != GM_CurrentMap_800AB9B0)
+    if (obj->map_name != GM_CurrentMap)
     {
-        int group_id = GM_CurrentMap_800AB9B0;
-        obj->map_name = GM_CurrentMap_800AB9B0;
-        obj->objs->group_id = group_id;
+        obj->map_name = GM_CurrentMap;
+        DG_GroupObjs(obj->objs, GM_CurrentMap);
     }
 
     if (obj->m_ctrl)
@@ -114,16 +118,15 @@ void GM_ActObject2(OBJECT *obj)
 {
     DG_PutObjs(obj->objs);
 
-    if (obj->map_name != GM_CurrentMap_800AB9B0)
+    if (obj->map_name != GM_CurrentMap)
     {
-        int group_id = GM_CurrentMap_800AB9B0;
-        obj->map_name = GM_CurrentMap_800AB9B0;
-        obj->objs->group_id = group_id;
+        obj->map_name = GM_CurrentMap;
+        DG_GroupObjs(obj->objs, GM_CurrentMap);
     }
 
     if (obj->m_ctrl)
     {
-        sub_800348F4(obj);
+        GM_ActObjectMotion(obj);
     }
 }
 
@@ -194,25 +197,28 @@ void GM_ConfigObjectSlide(OBJECT *obj)
 }
 
 // configures the attributes of an objects motion control struct
-void GM_ConfigObjectAction(OBJECT *obj, int action_flag, int motion, int interp)
+void GM_ConfigObjectAction(OBJECT *obj, int action, int frame, int interp)
 {
     if (obj->m_ctrl)
     {
-        sub_8003501C(obj->m_ctrl, action_flag, motion);
-        obj->action_flag = action_flag;
+        GM_ConfigAction(obj->m_ctrl, action, frame);
+        obj->action = action;
         obj->is_end = 0;
         obj->m_ctrl->interp = interp;
     }
 }
 
 //
-void GM_ConfigObjectOverride(OBJECT *obj, int a1, int motion, int interp, int a4)
+void GM_ConfigObjectOverride(OBJECT *obj, int action, int frame, int interp, u_long mask)
 {
-    if (a4)
+    if (mask != 0)
     {
         if (!obj->m_ctrl)
+        {
             return;
-        sub_800350D4(obj->m_ctrl, a1, motion);
+        }
+
+        GM_ConfigActionOverride(obj->m_ctrl, action, frame);
     }
     else
     {
@@ -223,17 +229,17 @@ void GM_ConfigObjectOverride(OBJECT *obj, int a1, int motion, int interp, int a4
         }
     }
 
-    obj->field_10 = a1;
-    obj->field_1C = 0;
+    obj->action2 = action;
+    obj->time2 = 0;
     obj->m_ctrl->interp = interp;
-    obj->m_ctrl->info1.field_8 = a4;
-    obj->m_ctrl->info2.field_8 = ~a4;
+    obj->m_ctrl->info1.mask = mask;
+    obj->m_ctrl->info2.mask = ~mask;
 }
 
 // calls configObjectAction with given values
-int GM_ConfigObjectMotion(OBJECT *obj, int action_flag, int motion)
+int GM_ConfigObjectMotion(OBJECT *obj, int action, int interp)
 {
-    GM_ConfigObjectAction(obj, obj->action_flag, 0, motion);
+    GM_ConfigObjectAction(obj, obj->action, 0, interp);
     return 0;
 }
 

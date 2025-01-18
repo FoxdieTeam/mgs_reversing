@@ -17,7 +17,7 @@ typedef struct _DeathSpWork
     int    time;
 } DeathSpWork;
 
-extern int     GM_CurrentMap_800AB9B0;
+extern int     GM_CurrentMap;
 extern OBJECT *GM_PlayerBody_800ABA20;
 
 void AN_Smoke_800CE164(SVECTOR *pos, SVECTOR *speed, int index, int script);
@@ -49,7 +49,7 @@ void DeathSpAct_800CFE1C(DeathSpWork *work)
     int     i;
     int     index;
 
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
 
     for (i = 0; i < 2; i++)
     {
@@ -133,7 +133,7 @@ int DeathSpGetResources_800D00F4(DeathSpWork *work, int name, int map)
     work->name = name;
     work->map = map;
 
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
 
     work->s_time = 0;
 

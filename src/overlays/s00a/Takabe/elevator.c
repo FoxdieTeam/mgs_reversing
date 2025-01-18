@@ -67,14 +67,14 @@ typedef struct _ElevatorWork
 
 extern int           bakudan_count_8009F42C;
 extern int           counter_8009F448;
-extern int           GM_CurrentMap_800AB9B0;
+extern int           GM_CurrentMap;
 extern int           gControlCount_800AB9B4;
-extern int           GM_AlertMode_800ABA00;
+extern int           GM_AlertMode;
 extern CONTROL      *GM_WhereList_800B56D0[96];
 extern CONTROL      *tenage_ctrls_800BDD30[16];
 extern int           tenage_ctrls_count_800BDD70;
-extern HITTABLE      c4_actors_800BDD78[C4_COUNT];
-extern HITTABLE stru_800BDE78[8];
+extern HITTABLE      GM_C4Datas_800BDD78[C4_COUNT];
+extern HITTABLE      GM_ClayDatas_800BDE78[8];
 
 unsigned short elevator_hash_800C3634[4] = {0xACDC, 0x085B, 0x804B, 0xDBC9};
 
@@ -91,8 +91,8 @@ void Elevator_800DA3F8(ElevatorWork *, HZD_AREA *);
 int  Elevator_800DA464(ElevatorWork *, void *);
 void Elevator_800DA57C(int proc, long arg);
 
-void      Takabe_ReshadeModel_800DC854(DG_OBJS *objs, LitHeader *lit);
-DG_OBJS * s00a_unknown3_800DC7DC(int model, LitHeader *lit);
+void      Takabe_ReshadeModel_800DC854(DG_OBJS *objs, LIT *lit);
+DG_OBJS * s00a_unknown3_800DC7DC(int model, LIT *lit);
 void      Takabe_FreeObjs_800DC820(DG_OBJS *objs);
 
 #define EXEC_LEVEL 5
@@ -124,12 +124,12 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
     var_s6 = 0;
     var_s5 = 0;
 
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
 
     found = THING_Msg_CheckMessage(work->name, 4, elevator_hash_800C3634);
     message = THING_Msg_GetResult();
 
-    if (GM_AlertMode_800ABA00 != 0)
+    if (GM_AlertMode != 0)
     {
         found = -1;
     }
@@ -307,7 +307,7 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
         // translate the position of the c4 actors if they are on the elevator
         if (bakudan_count_8009F42C != 0)
         {
-            bomb = c4_actors_800BDD78;
+            bomb = GM_C4Datas_800BDD78;
             for (j = C4_COUNT; j > 0; j--)
             {
                 // check if the c4 is on the walls or floors of the elevator
@@ -322,7 +322,7 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
 
         if (counter_8009F448 != 0)
         {
-            mine = stru_800BDE78;
+            mine = GM_ClayDatas_800BDE78;
             for (j = 8; j > 0; j--)
             {
                 if (mine->actor && Elevator_800DA464(work, mine->data))
@@ -379,7 +379,7 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
     {
         if (work->f590 == 0)
         {
-            Takabe_ReshadeModel_800DC854(work->object1.objs, Map_FromId_800314C0(GM_CurrentMap_800AB9B0)->lit);
+            Takabe_ReshadeModel_800DC854(work->object1.objs, GM_GetMap(GM_CurrentMap)->lit);
             work->f590 = 1;
         }
     }
@@ -518,7 +518,7 @@ int ElevatorGetResources_800D98A8(ElevatorWork *work, int name, int where)
     work->name = name;
 
     work->f58C = 0;
-    work->hzd = Map_FromId_800314C0(work->map)->hzd;
+    work->hzd = GM_GetMap(work->map)->hzd;
 
     control = &work->control;
     if (GM_InitControl(control, name, where) < 0)
@@ -971,8 +971,8 @@ void Elevator_800DA4CC(OBJECT *object, int model, int flag)
     GV_ZeroMemory(object, sizeof(OBJECT));
 
     object->flag = flag;
-    object->map_name = GM_CurrentMap_800AB9B0;
-    object->objs = s00a_unknown3_800DC7DC(model, Map_FromId_800314C0(GM_CurrentMap_800AB9B0)->lit);
+    object->map_name = GM_CurrentMap;
+    object->objs = s00a_unknown3_800DC7DC(model, GM_GetMap(GM_CurrentMap)->lit);
 }
 
 void Elevator_800DA534(HZD_VEC *in, SVECTOR *addend, HZD_VEC *out)

@@ -18,7 +18,7 @@ extern SVECTOR ZAKOCOM_PlayerPosition_800DF278;
 extern int     ZAKOCOM_PlayerMap_800DF3BC;
 
 extern SVECTOR  GM_PlayerPosition_800ABA10;
-extern SVECTOR  GM_NoisePosition_800AB9F8;
+extern SVECTOR  GM_NoisePosition;
 extern CONTROL *GM_WhereList_800B56D0[94];
 extern int      GM_PlayerMap_800ABA0C;
 extern int      GM_PlayerAddress_800AB9F0;
@@ -63,8 +63,8 @@ void ZAKO11E_SetGoPointLast_800D9A9C( void )
 
 void s11e_zk11ecom_800D9AE8(void)
 {
-    ZakoCommand_800DF280.com_addr = HZD_GetAddress( GM_WhereList_800B56D0[ 0 ]->map->hzd, &GM_NoisePosition_800AB9F8, -1 );
-    ZakoCommand_800DF280.com_pos  = GM_NoisePosition_800AB9F8;
+    ZakoCommand_800DF280.com_addr = HZD_GetAddress( GM_WhereList_800B56D0[ 0 ]->map->hzd, &GM_NoisePosition, -1 );
+    ZakoCommand_800DF280.com_pos  = GM_NoisePosition;
     ZakoCommand_800DF280.com_map  = GM_PlayerMap_800ABA0C;
 }
 
@@ -899,7 +899,7 @@ void ZakoCommanderGetResources_800DACA0( ZakoCommanderWork *work, int name, int 
     TOPCOMMAND_800DF3A8.mode = 0;
     TOPCOMMAND_800DF3A8.alert = 0;
 
-    ZakoCommand_800DF280.field_0x64 = Map_FromId_800314C0( where );
+    ZakoCommand_800DF280.field_0x64 = GM_GetMap( where );
 
     ops = GCL_GetOption( 'v' );
     if ( ops )

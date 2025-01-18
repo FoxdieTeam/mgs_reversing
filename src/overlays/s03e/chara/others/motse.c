@@ -19,9 +19,9 @@ typedef struct MotseWork
     MotseElem *field_28_elems;
 } MotseWork;
 
-extern int              GM_PlayerAction_800ABA40;
+extern int              GM_PlayerAction;
 extern CONTROL         *GM_PlayerControl_800AB9F4;
-extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
+extern PlayerStatusFlag GM_PlayerStatus;
 extern int              dword_800AB9D4;
 
 void Motse_800C57CC(MotseWork *work)
@@ -29,7 +29,7 @@ void Motse_800C57CC(MotseWork *work)
     MotseElem *elem;
     int        i;
 
-    if ((GM_PlayerStatus_800ABA50 & PLAYER_UNK4) && GM_PlayerAction_800ABA40 == work->field_20)
+    if ((GM_PlayerStatus & PLAYER_ACT_ONLY) && GM_PlayerAction == work->field_20)
     {
         for (i = 0, elem = work->field_28_elems; i < work->field_24_count; i++, elem++)
         {

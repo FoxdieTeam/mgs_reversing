@@ -41,8 +41,8 @@ typedef struct _IrCensWork
     int      f114;
 } IrCensWork;
 
-extern int     GM_CurrentMap_800AB9B0;
-extern int     GM_AlertMode_800ABA00;
+extern int     GM_CurrentMap;
+extern int     GM_AlertMode;
 extern SVECTOR GM_PlayerPosition_800ABA10;
 extern OBJECT *GM_PlayerBody_800ABA20;
 
@@ -295,7 +295,7 @@ void IrCensAct_800D9EF8(IrCensWork *work)
     int      scale;
     int      len;
 
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
 
     switch (THING_Msg_CheckMessage(work->name, 3, s02c_dword_800C3714))
     {
@@ -376,7 +376,7 @@ void IrCensAct_800D9EF8(IrCensWork *work)
             ENE_SetTopCommAL_800CEAE8(0xFF);
             ENE_SetGopointLast_800CEB00();
 
-            if (GM_AlertMode_800ABA00 != 3)
+            if (GM_AlertMode != 3)
             {
                 s00a_command_800CEC40(&GM_PlayerPosition_800ABA10, 128);
             }
@@ -472,7 +472,7 @@ int IrCensGetResources_800DA418(IrCensWork *work, int name, int map)
     DG_PRIM *prim;
     DG_TEX  *tex;
 
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
 
     opt = GCL_GetOption('p');
     if (opt != NULL)

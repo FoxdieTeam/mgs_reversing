@@ -25,7 +25,7 @@ typedef struct _Door2Work
     int      f320;
 } Door2Work;
 
-extern int GM_CurrentMap_800AB9B0;
+extern int GM_CurrentMap;
 
 unsigned short door2_800C37B4[2] = {0x418B, 0x3A02};
 SVECTOR        door2_800C37B8[2] = {{500, 2500, 0, 0}, {-500, 0, 0, 0}};
@@ -181,7 +181,7 @@ void s13a_door2_800DD2EC(POLY_FT4 *packs0, POLY_FT4 *packs1, DG_TEX *tex)
 
 void Door2Act_800DD5C0(Door2Work *work)
 {
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
 
     switch (THING_Msg_CheckMessage(work->name, 2, door2_800C37B4))
     {
@@ -273,7 +273,7 @@ int Door2GetResources_800DD7C8(Door2Work *work, int name, int map)
     DG_PRIM *prim2;
     DG_TEX  *tex;
 
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
 
     THING_Gcl_GetSVector('p', &work->pos);
 
@@ -322,7 +322,7 @@ int Door2GetResources_800DD7C8(Door2Work *work, int name, int map)
     s13a_door2_800DD274(&prim2->packs[0]->poly_ft4, &prim2->packs[1]->poly_ft4, 22, tex);
     s13a_door2_800DD2EC(&prim2->packs[0]->poly_ft4, &prim2->packs[1]->poly_ft4, tex);
 
-    work->hzd = Map_FromId_800314C0(map)->hzd;
+    work->hzd = GM_GetMap(map)->hzd;
 
     s16b_800C45C4(&work->seg, &sp20, &door2_800C37B8[0], &door2_800C37B8[1]);
     s16b_800C49AC(&work->seg);

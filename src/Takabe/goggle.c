@@ -10,7 +10,7 @@
 #include "Equip/equip.h"
 #include "scn_mask.h"
 
-extern int DG_CurrentGroupID_800AB968;
+extern int DG_CurrentGroupID;
 extern u_long DG_PaletteBuffer_800B3818[256];
 
 /*---------------------------------------------------------------------------*/
@@ -114,9 +114,9 @@ STATIC void goggle_Act(GoggleWork *work)
     {
         objs = work->object.objs;
         new_map = work->control->map->index;
-        DG_GroupObjs(work->object.objs, DG_CurrentGroupID_800AB968);
+        DG_GroupObjs(work->object.objs, DG_CurrentGroupID);
 
-        GM_CurrentMap_800AB9B0 = new_map;
+        GM_CurrentMap = new_map;
         if (work->parent_obj->objs->flag & DG_FLAG_INVISIBLE)
         {
             DG_InvisibleObjs(work->object.objs);

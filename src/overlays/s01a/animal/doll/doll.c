@@ -7,7 +7,7 @@
 #include "chara/snake/shadow.h"
 #include "strcode.h"
 
-extern int GM_CurrentMap_800AB9B0;
+extern int GM_CurrentMap;
 
 short s01a_word_800C3CD4[8] = {31000, 15, 30, 60, 90, 32000, 32001, 30000};
 
@@ -600,7 +600,7 @@ void s01a_doll_800DC9FC(DollWork *work)
         GM_ConfigObjectAction(&work->body, 0, 0, 0);
     }
 
-    work->control.height = work->body.field_18;
+    work->control.height = work->body.height;
 }
 
 int DollGetResources_800DCAA4(DollWork *work, int name, int map)
@@ -715,12 +715,12 @@ int DollGetResources_800DCAA4(DollWork *work, int name, int map)
     work->fBA0 = work->fA94[0];
     hzd = HZD_GetAddress(work->control.map->hzd, &work->fBA0, -1);
     work->fBB4 = hzd;
-    work->fBB8 = GM_CurrentMap_800AB9B0;
+    work->fBB8 = GM_CurrentMap;
 
     work->control.mov = work->fA94[0];
 
     work->fB98 = work->fA94[0];
-    work->fBAC = GM_CurrentMap_800AB9B0;
+    work->fBAC = GM_CurrentMap;
     hzd = HZD_GetAddress(work->control.map->hzd, &work->control.mov, -1);
     work->fBA8 = hzd;
     work->fBC4 = hzd;

@@ -15,9 +15,9 @@ typedef struct _RasenWork
 
 typedef struct _Rasen2Item
 {
-    DG_OBJS   *objs;
-    DG_DEF    *def;
-    LitHeader *lit;
+    DG_OBJS *objs;
+    DG_DEF  *def;
+    LIT     *lit;
 } Rasen2Item;
 
 // Actor created by NewRasen2_800CB008
@@ -28,11 +28,9 @@ typedef struct _Rasen2Work
     int            field_24;
     int            field_28;
     int            field_2C;    // count of used items in field_B0, field_30
-    unsigned short field_30[2]; // unknown how large
-    char           pad_34[0x1C];
+    unsigned short field_30[16];
     unsigned short field_50[3][16];
-    Rasen2Item     field_B0[1]; // unknown how large
-    char           pad_BC[0xB4];
+    Rasen2Item     field_B0[16];
     DG_OBJS       *field_170[3][16];
     int            field_230;
     int            field_234;
@@ -73,22 +71,22 @@ unsigned short SECTION("overlay.bss")
 
 void Takabe_FreeObjs_800DC820(DG_OBJS *objs);
 void Takabe_RefreshObjectPacks_800DC854(DG_OBJS *objs);
-void Takabe_ReshadeModel_800DC854(DG_OBJS *objs, LitHeader *lit);
+void Takabe_ReshadeModel_800DC854(DG_OBJS *objs, LIT *lit);
 void s00a_unknown3_800DC918();
 
 extern GM_Camera       GM_Camera_800B77E8;
 extern CONTROL        *GM_WhereList_800B56D0[96];
 extern int             gControlCount_800AB9B4;
 extern int             bakudan_count_8009F42C;
-extern HITTABLE        c4_actors_800BDD78[C4_COUNT];
-extern HITTABLE   stru_800BDE78[8];
+extern HITTABLE        GM_C4Datas_800BDD78[C4_COUNT];
+extern HITTABLE        GM_ClayDatas_800BDE78[8];
 extern int             counter_8009F448;
 extern CONTROL        *GM_PlayerControl_800AB9F4;
-extern int             DG_CurrentGroupID_800AB968;
+extern int             DG_CurrentGroupID;
 extern int             GM_PlayerMap_800ABA0C;
-extern int             GM_PlayerStatus_800ABA50;
+extern int             GM_PlayerStatus;
 extern UnkCameraStruct gUnkCameraStruct_800B77B8;
-extern int             GV_PauseLevel_800AB928;
+extern int             GV_PauseLevel;
 extern SVECTOR         GM_PlayerPosition_800ABA10;
 
 void Rasen2IterBakudanJirai_800CA3A4(Rasen2Work *work, MAP *oldMap, MAP *newMap)
@@ -114,7 +112,7 @@ void Rasen2IterBakudanJirai_800CA3A4(Rasen2Work *work, MAP *oldMap, MAP *newMap)
 
     if (bakudan_count_8009F42C != 0)
     {
-        for (pItem = c4_actors_800BDD78, i = C4_COUNT; i > 0; pItem++, i--)
+        for (pItem = GM_C4Datas_800BDD78, i = C4_COUNT; i > 0; pItem++, i--)
         {
             bakudan = (BakudanWork *)pItem->actor;
             if (bakudan != NULL && bakudan->control.map == oldMap && bakudan->transform == NULL)
@@ -135,7 +133,7 @@ void Rasen2IterBakudanJirai_800CA3A4(Rasen2Work *work, MAP *oldMap, MAP *newMap)
 
     if (counter_8009F448 != 0)
     {
-        for (pItem = stru_800BDE78, i = 8; i > 0; pItem++, i--)
+        for (pItem = GM_ClayDatas_800BDE78, i = 8; i > 0; pItem++, i--)
         {
             jirai = (JiraiWork *)pItem->actor;
             if (jirai != NULL && jirai->control.map == oldMap)
@@ -308,11 +306,11 @@ void Rasen2Act_800CA79C(Rasen2Work *work)
     {
         mapid = rasen_el_800D2CA4[rasen_800C3404];
         old_map = GM_PlayerControl_800AB9F4->map;
-        new_map = Map_FromId_800314C0(mapid);
+        new_map = GM_GetMap(mapid);
 
-        DG_CurrentGroupID_800AB968 = mapid;
+        DG_CurrentGroupID = mapid;
         playermap = GM_PlayerMap_800ABA0C;
-        GM_CurrentMap_800AB9B0 = mapid;
+        GM_CurrentMap = mapid;
         GM_PlayerMap_800ABA0C = mapid;
         GM_PlayerControl_800AB9F4->map->used = 0;
         GM_PlayerControl_800AB9F4->map = new_map;
@@ -345,7 +343,7 @@ void Rasen2Act_800CA79C(Rasen2Work *work)
         }
     }
 
-    if ((GM_PlayerStatus_800ABA50 & PLAYER_FIRST_PERSON) && !(GM_Camera_800B77E8.flags & 0x100))
+    if ((GM_PlayerStatus & PLAYER_FIRST_PERSON) && !(GM_Camera_800B77E8.flags & 0x100))
     {
         if (GM_PlayerMap_800ABA0C & work->field_28)
         {
@@ -421,26 +419,26 @@ int Rasen2GetResources_800CAC64(Rasen2Work *work, int name, int where)
     }
 
     map_index_bit =
-        Map_FindByNum_80031504(GCL_StrToInt(GCL_GetParamResult()))->index;
+        GM_FindMap(GCL_StrToInt(GCL_GetParamResult()))->index;
     rasen_el_800D2CA4[0] = map_index_bit;
     work->field_28 |= map_index_bit;
 
     map_index_bit =
-        Map_FindByNum_80031504(GCL_StrToInt(GCL_GetParamResult()))->index;
+        GM_FindMap(GCL_StrToInt(GCL_GetParamResult()))->index;
     rasen_el_800D2CA4[1] = map_index_bit;
     work->field_28 |= map_index_bit;
 
     map_index_bit =
-        Map_FindByNum_80031504(GCL_StrToInt(GCL_GetParamResult()))->index;
+        GM_FindMap(GCL_StrToInt(GCL_GetParamResult()))->index;
     rasen_el_800D2CA4[2] = map_index_bit;
     work->field_28 |= map_index_bit;
 
     if (GCL_GetOption('m'))
     {
-        map = Map_FindByNum_80031504(GCL_StrToInt(GCL_GetParamResult()))->index;
+        map = GM_FindMap(GCL_StrToInt(GCL_GetParamResult()))->index;
     }
 
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
     work->field_20 = map;
     work->field_24 = name;
 
@@ -560,7 +558,7 @@ void Rasen2_800CB150(Rasen2Work *work)
 {
     DG_DEF     *def;
     DG_OBJS    *objs;
-    LitHeader  *lit;
+    LIT        *lit;
     Rasen2Item *item;
     int         i;
 
@@ -608,7 +606,7 @@ DG_OBJS *Rasen2_800CB250(int index, Rasen2Work *work)
     DG_SetPos(&DG_ZeroMatrix);
     DG_PutObjs(new_objs);
     DG_QueueObjs(new_objs);
-    DG_GroupObjs(new_objs, GM_CurrentMap_800AB9B0);
+    DG_GroupObjs(new_objs, GM_CurrentMap);
     return new_objs;
 }
 
@@ -695,7 +693,7 @@ void RasenAct_800CB530(RasenWork *work)
     }
 
     rasen_800D2C84.field_1C = 0;
-    if (GV_PauseLevel_800AB928)
+    if (GV_PauseLevel)
     {
         return;
     }
@@ -770,7 +768,7 @@ void RasenAct_800CB530(RasenWork *work)
         svec5 = gUnkCameraStruct_800B77B8.center;
         svec5.vz += 400;
 
-        if (HZD_LevelTestHazard(Map_FromId_800314C0(rasen_el_800D2CA4[rasen_800C3404])->hzd, &svec5, 3) & 2)
+        if (HZD_LevelTestHazard(GM_GetMap(rasen_el_800D2CA4[rasen_800C3404])->hzd, &svec5, 3) & 2)
         {
             svec5.vy += 6000;
             HZD_LevelMinMaxHeights(levels);

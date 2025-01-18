@@ -23,7 +23,7 @@ int SECTION("overlay.bss") s12c_800DA42C;
 int SECTION("overlay.bss") s12c_800DA430;
 int SECTION("overlay.bss") s12c_800DA434;
 
-extern int       GM_CurrentMap_800AB9B0;
+extern int       GM_CurrentMap;
 extern GM_Camera GM_Camera_800B77E8;
 
 void s12c_800D497C(int, int);
@@ -40,7 +40,7 @@ void FogAct_800D4074(FogWork *work)
 {
     int scale;
 
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
 
     scale = work->scale;
     scale += (255 - scale) * (GM_Camera_800B77E8.zoom - 360) / 3640;
@@ -62,7 +62,7 @@ int FogGetResources_800D4130(FogWork *work, int name, int map)
 
     work->name = name;
 
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
     work->map = map;
 
     temp_s2 = THING_Gcl_GetIntDefault('s', 50);

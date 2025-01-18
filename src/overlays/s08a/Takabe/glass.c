@@ -27,7 +27,7 @@ typedef struct _GlassWork
     int      proc;
 } GlassWork;
 
-extern int     GM_CurrentMap_800AB9B0;
+extern int     GM_CurrentMap;
 
 void s16b_800C4874(int n_segs, HZD_SEG *segs, int n_flrs, HZD_FLR *flrs);
 void s16b_800C49AC(HZD_SEG *seg);
@@ -81,7 +81,7 @@ void GlassAct_800D302C(GlassWork *work)
     int     check;
     int     size;
 
-    GM_CurrentMap_800AB9B0 = work->map;
+    GM_CurrentMap = work->map;
 
     target = work->target;
     if (target->damaged & TARGET_POWER)
@@ -213,7 +213,7 @@ int GlassGetResources_800D335C(GlassWork *work, int name, int map)
     HZD_SEG *maxb;
     HZD_SEG *minb;
 
-    GM_CurrentMap_800AB9B0 = map;
+    GM_CurrentMap = map;
 
     THING_Gcl_GetSVector('p', &work->pos);
     THING_Gcl_GetSVector('d', &work->dir);
@@ -314,7 +314,7 @@ int GlassGetResources_800D335C(GlassWork *work, int name, int map)
     s16b_800C45C4(minb, &work->world, &max, &min);
     s16b_800C49AC(minb);
 
-    work->hzd = Map_FromId_800314C0(map)->hzd;
+    work->hzd = GM_GetMap(map)->hzd;
     HZD_QueueDynamicSegment2(work->hzd, maxb, hzd_flags);
     HZD_QueueDynamicSegment2(work->hzd, minb, hzd_flags);
     work->has_bounds = 1;

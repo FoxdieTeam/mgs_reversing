@@ -14,13 +14,13 @@
 
 extern OBJECT          *GM_PlayerBody_800ABA20;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
-extern int              GV_PauseLevel_800AB928;
-extern int              GV_Clock_800AB920;
-extern int              DG_CurrentGroupID_800AB968;
+extern int              GV_PauseLevel;
+extern int              GV_Clock;
+extern int              DG_CurrentGroupID;
 extern int              dword_8009F604;
 extern GV_PAD           GV_PadData_800B05C0[4];
 extern GM_Camera        GM_Camera_800B77E8;
-extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
+extern PlayerStatusFlag GM_PlayerStatus;
 extern CONTROL      *GM_PlayerControl_800AB9F4;
 extern short            dword_800ABBDC;
 extern short            dword_800ABBD4;
@@ -64,7 +64,7 @@ SVECTOR svecs_8009F2C8[2] = {{0, 0, 0, 0}, {0, 0, 3200, 0}};
 // Can't give a better name for now.
 STATIC void addLinePrimUnderCondition_80062320(void *ot, void *line)
 {
-    if ((GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000) == 0)
+    if ((GM_PlayerStatus & PLAYER_UNK4000000) == 0)
     {
         addPrim(ot, line);
     }
@@ -156,7 +156,7 @@ STATIC void scope_act_helper_8006258C(ScopeWork *work)
 
     temp = work->field_58;
 
-    if (GV_PauseLevel_800AB928 == 0)
+    if (GV_PauseLevel == 0)
     {
         work->field_58++;
     }
@@ -164,14 +164,14 @@ STATIC void scope_act_helper_8006258C(ScopeWork *work)
     if (temp >= 6)
     {
         temp = 6;
-        work->field_9C_flags |= 1 << GV_Clock_800AB920;
+        work->field_9C_flags |= 1 << GV_Clock;
     }
 
     iVar1 = 12 * temp;
     iVar3 = 320 - iVar1;
 
     ot = DG_ChanlOTag(1);
-    lines = work->field_74_sideLine_F2s[GV_Clock_800AB920];
+    lines = work->field_74_sideLine_F2s[GV_Clock];
 
     for (i = 0; i < 4; i++)
     {
@@ -322,7 +322,7 @@ STATIC void managePadInput_800626D0(ScopeWork *work, unsigned short pad_status)
         work->field_6C_turn_vec.vx = vx;
         work->field_6C_turn_vec.vy = vy;
     }
-    else if (GV_PauseLevel_800AB928 == 0)
+    else if (GV_PauseLevel == 0)
     {
         if (pRectOffset[0] != 0)
         {
@@ -358,8 +358,8 @@ STATIC void manageZoom_80062998(ScopeWork *work, u_char *pOt, int pad_status)
     int      maxDistance;
 
     zoomLevel = GM_Camera_800B77E8.zoom;
-    pSideLine_f2 = work->field_74_sideLine_F2s[GV_Clock_800AB920];
-    pZoomLevelLine_F3 = work->field_90_zoomLevelLine_F3s[GV_Clock_800AB920];
+    pSideLine_f2 = work->field_74_sideLine_F2s[GV_Clock];
+    pZoomLevelLine_F3 = work->field_90_zoomLevelLine_F3s[GV_Clock];
 
     maxZoomLevel = 3200;
 
@@ -428,7 +428,7 @@ STATIC void manageZoom_80062998(ScopeWork *work, u_char *pOt, int pad_status)
         work->field_62 = iVar3;
         work->field_60 = 1;
 
-        if (GV_PauseLevel_800AB928 == 0)
+        if (GV_PauseLevel == 0)
         {
             if ((work->field_98_zoomSoundCounter & 3U) == 0) // When field is 0, 4, 8, 12...
             {
@@ -472,7 +472,7 @@ STATIC void drawMovingRectangle_80062BDC(ScopeWork *work, u_char *pOt)
     short    xRight;
     short    y0;
 
-    pRect = work->field_7C_rect[GV_Clock_800AB920];
+    pRect = work->field_7C_rect[GV_Clock];
     pLeftBorder = (LINE_F2 *)(pRect + 1);
 
     xy = work->field_84_rectOffset[0] + 130;
@@ -511,8 +511,8 @@ STATIC void drawMovingVerticalLines_80062C7C(ScopeWork *work, u_char *pOt)
     u_char  *curPrim;
     int      numOTEntries;
 
-    pLine_F3 = work->field_88_movingLine_F3s[GV_Clock_800AB920];
-    chnlOt = DG_Chanl(0)->mOrderingTables[1 - GV_Clock_800AB920];
+    pLine_F3 = work->field_88_movingLine_F3s[GV_Clock];
+    chnlOt = DG_Chanl(0)->mOrderingTables[1 - GV_Clock];
 
     numOTEntries = DG_Chanl(0)->word_6BC374_8 - 4;
     for (i = 0; i < 16; i++)
@@ -543,7 +543,7 @@ STATIC void drawMovingVerticalLines_80062C7C(ScopeWork *work, u_char *pOt)
 
 STATIC void scope_draw_text_80062DA8(ScopeWork *work)
 {
-    if ( (GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000) == 0 )
+    if ( (GM_PlayerStatus & PLAYER_UNK4000000) == 0 )
     {
         MENU_Locate(20, 34, 0);
         MENU_Color(127, 166, 97);
@@ -587,10 +587,10 @@ STATIC void ScopeAct(ScopeWork *work)
 
     if (work->field_9C_flags & 0x8000)
     {
-        GM_CurrentMap_800AB9B0 = work->control->map->index;
-        DG_GroupObjs(work->object.objs, DG_CurrentGroupID_800AB968);
+        GM_CurrentMap = work->control->map->index;
+        DG_GroupObjs(work->object.objs, DG_CurrentGroupID);
 
-        if ((GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000) != 0)
+        if ((GM_PlayerStatus & PLAYER_UNK4000000) != 0)
         {
             if (!(work->parent->objs->flag & DG_FLAG_INVISIBLE))
             {
@@ -607,7 +607,7 @@ STATIC void ScopeAct(ScopeWork *work)
     // Add some delay before showing the HUD of the scope (don't know why it is needed).
     if (work->field_5C_hudDelay > 0)
     {
-        if (GV_PauseLevel_800AB928 == 0)
+        if (GV_PauseLevel == 0)
         {
             work->field_5C_hudDelay--;
         }
@@ -630,7 +630,7 @@ STATIC void ScopeAct(ScopeWork *work)
     }
 
 
-    if ((GM_PlayerStatus_800ABA50 & PLAYER_USING_CONTROLLER_PORT_2) != 0)
+    if ((GM_PlayerStatus & PLAYER_USING_CONTROLLER_PORT_2) != 0)
     {
         work->field_54_pOldPad = &GV_PadData_800B05C0[3];
     }
@@ -642,7 +642,7 @@ STATIC void ScopeAct(ScopeWork *work)
     pad_status = work->field_54_pOldPad->status;
     GM_CheckShukanReverse(&pad_status);
 
-    if ((GV_PauseLevel_800AB928 != 0) || (GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF) ||
+    if ((GV_PauseLevel != 0) || (GM_PlayerStatus & PLAYER_PAD_OFF) ||
         (GM_GameStatus < 0))
     {
         pad_status = 0;

@@ -2,7 +2,7 @@
 #include "common.h"
 #include "Game/game.h"
 
-extern int DG_CurrentGroupID_800AB968;
+extern int DG_CurrentGroupID;
 
 STATIC void DG_WriteObjClut(DG_OBJ *obj, int idx);
 STATIC void DG_WriteObjClutUV(DG_OBJ *obj, int idx);
@@ -205,7 +205,7 @@ void DG_BoundChanl(DG_CHANL *chanl, int idx)
 
     objs = chanl->mQueue;
     n_objs = chanl->mTotalObjectCount;
-    local_group_id = DG_CurrentGroupID_800AB968;
+    local_group_id = DG_CurrentGroupID;
 
     for (; n_objs > 0; --n_objs)
     {

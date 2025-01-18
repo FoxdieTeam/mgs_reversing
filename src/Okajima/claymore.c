@@ -15,7 +15,7 @@
 #include "spark.h"
 
 extern MAP *claymore_MAP_800bdf08;
-extern int GM_CurrentMap_800AB9B0;
+extern int GM_CurrentMap;
 extern int GM_ClaymoreMap_800AB9DC;
 
 /*---------------------------------------------------------------------------*/
@@ -230,7 +230,7 @@ STATIC void claymore_Act(ClaymoreWork *work)
     {
         int field_10C = work->field_10C;
 
-        GM_CurrentMap_800AB9B0 = work->field_20_map;
+        GM_CurrentMap = work->field_20_map;
         work->field_10C += 1500;
         if (work->field_10C < work->field_108)
         {
@@ -333,7 +333,7 @@ STATIC int claymore_GetResources(ClaymoreWork *work, SVECTOR *new_field_24, SVEC
     int      retval;
 
     work->field_10C = 0;
-    work->field_20_map = GM_CurrentMap_800AB9B0;
+    work->field_20_map = GM_CurrentMap;
     work->field_24 = *new_field_24;
     work->field_2C = *new_field_2C;
     work->field_2C.vy += GV_RandS(0x200);
@@ -402,7 +402,7 @@ GV_ACT *NewClaymore(SVECTOR *noise_position, SVECTOR *new_field_2C, int pCnt, in
     }
 
     // from MAP* to int, back to MAP*: (to get a match)
-    current_map = (int)Map_FromId_800314C0(GM_CurrentMap_800AB9B0);
+    current_map = (int)GM_GetMap(GM_CurrentMap);
     claymore_MAP_800bdf08 = (MAP *)current_map;
 
     for (i = 0; i < pCnt; i++)
@@ -412,7 +412,7 @@ GV_ACT *NewClaymore(SVECTOR *noise_position, SVECTOR *new_field_2C, int pCnt, in
         {
             GV_SetNamedActor(&work->actor, (GV_ACTFUNC)claymore_Act,
                              (GV_ACTFUNC)claymore_Die, "claymore.c");
-            current_map = GM_CurrentMap_800AB9B0;
+            current_map = GM_CurrentMap;
             GM_ClaymoreMap_800AB9DC = current_map;
             if (claymore_GetResources(work, &new_field_24, new_field_2C) < 0)
             {

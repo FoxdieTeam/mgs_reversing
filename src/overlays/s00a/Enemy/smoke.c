@@ -22,8 +22,8 @@ const char aSmokeC[] = "smoke.c";
 
 RECT smoke_rect = {500, 1000, 1000, 2000};
 
-extern int GM_CurrentMap_800AB9B0;
-extern int GV_Clock_800AB920;
+extern int GM_CurrentMap;
+extern int GV_Clock;
 
 int s00a_smoke_800D2694(SmokeWork *work)
 {
@@ -35,7 +35,7 @@ int s00a_smoke_800D2694(SmokeWork *work)
         return 1;
     }
 
-    poly = &work->field_20->packs[GV_Clock_800AB920]->poly_ft4;
+    poly = &work->field_20->packs[GV_Clock]->poly_ft4;
     color = work->field_3C / 2;
     poly->r0 = color;
     poly->g0 = color;
@@ -54,7 +54,7 @@ int s00a_smoke_800D26F0(SmokeWork *work)
         return 1;
     }
 
-    poly = &work->field_20->packs[GV_Clock_800AB920]->poly_ft4;
+    poly = &work->field_20->packs[GV_Clock]->poly_ft4;
     color = 64 - work->field_3C / 2;
     poly->r0 = color;
     poly->g0 = color;
@@ -176,7 +176,7 @@ void s00a_smoke_800D296C(SmokeWork *work)
         }
         break;
     }
-    s00a_smoke_800D2758(&work->field_20->packs[GV_Clock_800AB920]->poly_ft4, work->field_2C, work);
+    s00a_smoke_800D2758(&work->field_20->packs[GV_Clock]->poly_ft4, work->field_2C, work);
 }
 
 void SmokeAct_800D2A80(SmokeWork *work)
@@ -206,7 +206,7 @@ int SmokeGetResources_800D2B0C(SmokeWork *work, int where)
     DG_PRIM *prim;
     DG_TEX  *tex;
 
-    GM_CurrentMap_800AB9B0 = where;
+    GM_CurrentMap = where;
     prim = DG_GetPrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 1, 0, &work->field_24, &smoke_rect);
     work->field_20 = prim;
     if (prim != NULL)

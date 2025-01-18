@@ -22,7 +22,7 @@ typedef struct _EnvSndWork
     char    pad[0x4];
 } EnvSndWork;
 
-extern int GV_PassageTime_800AB924;
+extern int GV_PassageTime;
 
 unsigned short env_snd_hashes[] = { 0xBA27, 0x560E };
 
@@ -35,7 +35,7 @@ void EnvSndAct_800DF1F8(EnvSndWork *work)
 
     GM_SetCurrentMap(work->map);
 
-    time = GV_PassageTime_800AB924;
+    time = GV_PassageTime;
     found = THING_Msg_CheckMessage(work->name, 4, env_snd_hashes);
     THING_Msg_GetResult();
 

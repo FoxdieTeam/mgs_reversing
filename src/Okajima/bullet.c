@@ -10,7 +10,7 @@
 #include "Anime/animeconv/anime.h"
 #include "spark.h"
 
-extern int GM_CurrentMap_800AB9B0;
+extern int GM_CurrentMap;
 
 /*---------------------------------------------------------------------------*/
 
@@ -333,7 +333,7 @@ skip_clamp_z:
     work->field_118 = svec2;
 
     i = 0;
-    map = Map_FromId_800314C0(work->field_20);
+    map = GM_GetMap(work->field_20);
 
     while (1)
     {
@@ -402,7 +402,7 @@ STATIC void bullet_Act(BulletWork *work)
     sound = 0;
     GM_SetCurrentMap(work->field_20);
 
-    map = Map_FromId_800314C0(work->field_20);
+    map = GM_GetMap(work->field_20);
     work->field_13C += work->field_15C;
 
     if (work->field_138 < work->field_13C)
@@ -544,7 +544,7 @@ STATIC int bullet_GetResources(BulletWork *work, MATRIX* pMtx, int arg2, int noi
     int test;
 
     work->field_164 = 0;
-    work->field_20 = GM_CurrentMap_800AB9B0;
+    work->field_20 = GM_CurrentMap;
     work->field_24 = *pMtx;
 
     DG_SetPos(pMtx);

@@ -7,161 +7,150 @@
 #include "libhzd/libhzd.h"
 #include "libgcl/libgcl.h"
 
-extern MAP gMapRecs_800B7910[ 16 ];
-extern DG_OBJS   *StageObjs_800B7890[ 32 ];
-extern int        DG_CurrentGroupID_800AB968;
-extern int        GM_PlayerMap_800ABA0C;
-extern int        HZD_CurrentGroup_800AB9A8;
+extern MAP      gMapRecs_800B7910[ 16 ];
+extern DG_OBJS *StageObjs_800B7890[ 32 ];
+extern int      DG_CurrentGroupID;
+extern int      GM_PlayerMap_800ABA0C;
+extern int      HZD_CurrentGroup_800AB9A8;
 
-MAP* SECTION(".sbss") pHzdIter_800ABAA0;
-int  SECTION(".sbss") N_StageObjs_800ABAA4;
-int  SECTION(".sbss") gMapCount_800ABAA8;
-int  SECTION(".sbss") gMapsChanged_800ABAAC;
+STATIC MAP* SECTION(".sbss") pHzdIter_800ABAA0;
+STATIC int  SECTION(".sbss") N_StageObjs_800ABAA4;
+STATIC int  SECTION(".sbss") gMapCount_800ABAA8;
+STATIC int  SECTION(".sbss") gMapsChanged_800ABAAC;
 
-void Map_light_80030C6C( int a1 )
+STATIC void GM_UpdateMapGroup( int preshade )
 {
-    MAP *pMap;
-    int         mask;
-    int         bitset;
-    DG_OBJS   **pObjs;
-    LitHeader  *lit;
-    int         i, j;
+    MAP      *map;
+    int       group, hzd_group;
+    int       i, j;
+    DG_OBJS **objs;
+    LIT      *lit;
 
-    pMap = gMapRecs_800B7910;
-    mask = 0;
-    bitset = 0;
+    map = gMapRecs_800B7910;
+
+    group = 0;
+    hzd_group = 0;
 
     DG_ResetFixedLight();
 
-    for ( i = gMapCount_800ABAA8; i > 0; pMap++, i-- )
+    for ( i = gMapCount_800ABAA8; i > 0; map++, i-- )
     {
-        if ( !pMap->used )
+        if ( !map->used )
         {
             continue;
         }
 
-        pObjs = StageObjs_800B7890;
-        mask |= pMap->index;
+        objs = StageObjs_800B7890;
+        group |= map->index;
 
         for ( j = N_StageObjs_800ABAA4; j > 0; j-- )
         {
-            if ( pMap->index & pObjs[ 0 ]->group_id )
+            if ( map->index & objs[ 0 ]->group_id )
             {
-                lit = pMap->lit;
+                lit = map->lit;
 
                 if ( lit )
                 {
                     DG_SetFixedLight( lit->lights, lit->n_lights );
 
-                    if ( a1 )
+                    if ( preshade )
                     {
-                        DG_MakePreshade( pObjs[ 0 ], lit->lights, lit->n_lights );
+                        DG_MakePreshade( objs[ 0 ], lit->lights, lit->n_lights );
                     }
                 }
                 else
                 {
                     DG_SetFixedLight( NULL, 0 );
 
-                    if ( a1 )
+                    if ( preshade )
                     {
-                        DG_MakePreshade( pObjs[ 0 ], NULL, 0 );
+                        DG_MakePreshade( objs[ 0 ], NULL, 0 );
                     }
                 }
             }
 
-            pObjs++;
+            objs++;
         }
 
-        bitset |= 1 << ( pMap->hzd->area - pMap->hzd->header->areas );
+        hzd_group |= 1 << ( map->hzd->area - map->hzd->header->areas );
     }
 
-    GM_PlayerMap_800ABA0C = mask;
-    HZD_CurrentGroup_800AB9A8 = bitset;
-    DG_CurrentGroupID_800AB968 = mask;
-    HZD_BindMapChange( mask );
+    GM_PlayerMap_800ABA0C = group;
+    HZD_CurrentGroup_800AB9A8 = hzd_group;
+    DG_CurrentGroupID = group;
+    HZD_BindMapChange( group );
 }
 
-MAP *Map_GetNextFreeRecord_80030E30(int mapNameHashed)
+STATIC MAP *GM_GetNextMap(int name)
 {
-    int                count;
-    MAP *pIter;
+    int  i;
+    MAP *map;
 
-    count = gMapCount_800ABAA8;
-    pIter = gMapRecs_800B7910;
-    while (count > 0)
+    map = gMapRecs_800B7910;
+    for (i = gMapCount_800ABAA8; i > 0; i--)
     {
-        --count;
-        ++pIter;
+        map++;
     }
 
-    pIter->name = (unsigned short)mapNameHashed;
-    pIter->used = 0;
-    pIter->index = 1 << gMapCount_800ABAA8;
+    map->name = name;
+    map->used = 0;
+    map->index = 1 << gMapCount_800ABAA8;
+
     gMapCount_800ABAA8++;
-    return pIter;
+    return map;
 }
 
-void Map_KmdLoad_80030E74(int pLitName, MAP *pMap)
-{
-    int               hashedName; // $v0
-    DG_DEF           *pLitModel;  // $v0
-    DG_OBJS          *pPrim;      // $s0
-    struct LitHeader *lit_file;   // $a1
-    int               numLights;  // $a2
-    DG_LIT         *pLights;    // $a1
-    int               temp;
+#define MAP_FLAG (DG_FLAG_ONEPIECE | DG_FLAG_BOUND | DG_FLAG_TRANS | DG_FLAG_PAINT | DG_FLAG_TEXT)
 
-    hashedName = GV_CacheID(pLitName, 'k');
-    pLitModel = (DG_DEF *)GV_GetCache(hashedName);
-    pPrim = (DG_OBJS *)DG_MakeObjs(pLitModel, 0x57, 0);
+STATIC void GM_LoadMapModel(int name, MAP *map)
+{
+    DG_DEF  *def;
+    DG_OBJS *objs;
+
+    def = GV_GetCache(GV_CacheID(name, 'k'));
+    objs = DG_MakeObjs(def, MAP_FLAG, 0);
+
     DG_SetPos(&DG_ZeroMatrix);
-    DG_PutObjs(pPrim);
-    lit_file = pMap->lit;
-    if (lit_file)
+    DG_PutObjs(objs);
+
+    if (map->lit)
     {
-        numLights = lit_file->n_lights;
-        pLights = lit_file->lights;
-        DG_MakePreshade(pPrim, pLights, numLights);
+        DG_MakePreshade(objs, map->lit->lights, map->lit->n_lights);
     }
     else
     {
-        numLights = 0;
-        pLights = NULL;
-        DG_MakePreshade(pPrim, pLights, numLights);
+        DG_MakePreshade(objs, NULL, 0);
     }
 
-    DG_QueueObjs(pPrim);
+    DG_QueueObjs(objs);
+    DG_GroupObjs(objs, map->index);
 
-    temp = pMap->index;
-    pPrim->group_id = temp;
-    StageObjs_800B7890[N_StageObjs_800ABAA4] = pPrim;
+    StageObjs_800B7890[N_StageObjs_800ABAA4] = objs;
     N_StageObjs_800ABAA4++;
 }
 
-HZD_HDL *Map_HZD_Load_80030F38(int resource_name_hashed, int flagsIndex, int bitIndex, int default_48, int default_24)
+STATIC HZD_HDL *GM_LoadHazard(int name, int area, int index, int dyn_walls, int dyn_floors)
 {
-    int      name;     // $v0
-    void    *pHzdData; // $v0
-    HZD_HDL *result;   // $v0
+    HZD_HEADER *hzm;
+    HZD_HDL    *hzd;
 
-    name = GV_CacheID(resource_name_hashed, 'h');
-    pHzdData = GV_GetCache(name);
-    result = HZD_MakeHandler(pHzdData, flagsIndex, default_48, default_24);
+    hzm = GV_GetCache(GV_CacheID(name, 'h'));
+    hzd = HZD_MakeHandler(hzm, area, dyn_walls, dyn_floors);
+    hzd->map = index;
 
-    result->area_index = bitIndex;
-    return result;
+    return hzd;
 }
 
-void Map_80030FA4()
+void GM_UpdateMap(void)
 {
     if (gMapsChanged_800ABAAC)
     {
-        Map_light_80030C6C(gMapsChanged_800ABAAC - 1);
+        GM_UpdateMapGroup(gMapsChanged_800ABAAC - 1);
         gMapsChanged_800ABAAC = 0;
     }
 }
 
-void GM_DieMap_80030FD0()
+void GM_ResetMapHazard(void)
 {
     int  count; // $s0
     MAP *pIter; // $s1
@@ -176,26 +165,28 @@ void GM_DieMap_80030FD0()
     }
 }
 
-void GM_FreeMapObjs_80031028()
+void GM_ResetMapModel(void)
 {
-    int       counter;  // $s1
-    DG_OBJS **pObjIter; // $s0
+    DG_OBJS **objs;
+    int       i;
 
-    counter = N_StageObjs_800ABAA4;
-    for (pObjIter = StageObjs_800B7890; counter > 0; counter--, pObjIter++)
+    objs = StageObjs_800B7890;
+    for (i = N_StageObjs_800ABAA4; i > 0; i--)
     {
-        if (*pObjIter)
+        if (*objs)
         {
-            DG_DequeueObjs(*pObjIter);
-            DG_FreePreshade(*pObjIter);
-            DG_FreeObjs(*pObjIter);
+            DG_DequeueObjs(*objs);
+            DG_FreePreshade(*objs);
+            DG_FreeObjs(*objs);
         }
-        *pObjIter = NULL;
+
+        *objs++ = NULL;
     }
+
     N_StageObjs_800ABAA4 = 0;
 }
 
-void GM_ResetMapObjs_800310A0()
+void GM_ResetMap(void)
 {
     DG_OBJS **objs;
     int       i;
@@ -211,32 +202,36 @@ void GM_ResetMapObjs_800310A0()
     gMapsChanged_800ABAAC = 0;
 }
 
-MAP *GM_Command_mapdef_impl_800310D0(void)
+MAP *GM_CreateMap(void)
 {
     MAP *map;
-    int         d1, d2;
+    int  dyn_walls;
+    int  dyn_floors;
+    int  name;
+    int  area;
 
-    map = Map_GetNextFreeRecord_80030E30(GCL_GetNextParamValue());
+    map = GM_GetNextMap(GCL_GetNextParamValue());
 
-    if (GCL_GetOption('d'))
+    if (GCL_GetOption('d')) // dynamic
     {
-        d1 = GCL_GetNextParamValue();
-        d2 = GCL_GetNextParamValue();
+        dyn_walls = GCL_GetNextParamValue();
+        dyn_floors = GCL_GetNextParamValue();
     }
     else
     {
-        d1 = 0x30;
-        d2 = 0x18;
+        dyn_walls = 48;
+        dyn_floors = 24;
     }
 
-    if (!GCL_GetOption('h')) // hzm
+    if (!GCL_GetOption('h')) // hzd
     {
         printf("no hzd\n");
-        return 0;
+        return NULL;
     }
 
-    map->hzd = Map_HZD_Load_80030F38(GCL_GetNextParamValue(), GCL_GetNextParamValue(),
-                                             map->index, d1, d2);
+    name = GCL_GetNextParamValue();
+    area = GCL_GetNextParamValue();
+    map->hzd = GM_LoadHazard(name, area, map->index, dyn_walls, dyn_floors);
 
     if (GCL_GetOption('l')) // lit
     {
@@ -244,14 +239,14 @@ MAP *GM_Command_mapdef_impl_800310D0(void)
     }
     else
     {
-        map->lit = 0;
+        map->lit = NULL;
     }
 
     if (GCL_GetOption('k')) // kmd
     {
         while (GCL_GetParamResult())
         {
-            Map_KmdLoad_80030E74(GCL_GetNextParamValue(), map);
+            GM_LoadMapModel(GCL_GetNextParamValue(), map);
         }
     }
 
@@ -267,219 +262,217 @@ MAP *GM_Command_mapdef_impl_800310D0(void)
     return map;
 }
 
-void GM_SetMap_80031244(int mapNum, int resourceNameHashed)
+STATIC void GM_SetMap(int area, int name)
 {
-    MAP *pMapRec; // $s0
-    printf("set map %d\n", mapNum);
-    pMapRec = Map_GetNextFreeRecord_80030E30(mapNum);
-    pMapRec->hzd = Map_HZD_Load_80030F38(resourceNameHashed, 0, pMapRec->index, 48, 24);
-    pMapRec->lit = GV_GetCache(GV_CacheID(resourceNameHashed, 'l'));
-    Map_KmdLoad_80030E74(resourceNameHashed, pMapRec);
+    MAP *map;
+
+    printf("set map %d\n", area);
+
+    map = GM_GetNextMap(area);
+    map->hzd = GM_LoadHazard(name, 0, map->index, 48, 24);
+    map->lit = GV_GetCache(GV_CacheID(name, 'l'));
+    GM_LoadMapModel(name, map);
 }
 
-MAP *Map_ScriptLoadMapBlocks_800312D0()
+MAP *GM_DefineMap(void)
 {
-    int nameHashed; // $v0
-    int mapNum;     // $s0
+    int area;
+    int name;
 
     while (GCL_GetParamResult())
     {
-        mapNum = GCL_GetNextParamValue();
-        nameHashed = GCL_GetNextParamValue();
-        GM_SetMap_80031244(mapNum, nameHashed);
+        area = GCL_GetNextParamValue();
+        name = GCL_GetNextParamValue();
+        GM_SetMap(area, name);
     }
+
     return gMapRecs_800B7910;
 }
 
-int GM_AddMap_80031324(int mapName)
-{
-    int                counter;  // $v1
-    MAP *pRecIter; // $a1
-
-    pRecIter = gMapRecs_800B7910;
-
-    for (counter = gMapCount_800ABAA8; counter > 0; counter--)
-    {
-        if (pRecIter->name == mapName)
-        {
-            printf("add map %d\n", pRecIter->index);
-            pRecIter->used = 1;
-            gMapsChanged_800ABAAC = 1;
-            return 1;
-        }
-
-        pRecIter++;
-    }
-
-    printf("addmap : not found map %d\n", mapName);
-    return 0;
-}
-
-int GM_DelMap_800313C0(int mapName)
-{
-    int                counter;  // $v1
-    MAP *pRecIter; // $a1
-
-    pRecIter = gMapRecs_800B7910;
-
-    for (counter = gMapCount_800ABAA8; counter > 0; counter--)
-    {
-        if (pRecIter->name == mapName)
-        {
-            printf("del map %d\n", pRecIter->index);
-            pRecIter->used = 0;
-            gMapsChanged_800ABAAC = 1;
-            return 1;
-        }
-
-        pRecIter++;
-    }
-
-    printf("delmap: not found map %d\n", mapName);
-    return 0;
-}
-
-int Map_ScriptReloadMaps_80031450(int a1)
-{
-    int                counter;                 // $v1
-    MAP *pIter;                   // $v0
-    unsigned short     NextParamValue_80020AD4; // $v0
-
-    counter = gMapCount_800ABAA8;
-    for (pIter = gMapRecs_800B7910; counter > 0; ++pIter)
-    {
-        pIter->used = 0;
-        --counter;
-    }
-    while (GCL_GetParamResult())
-    {
-        NextParamValue_80020AD4 = GCL_GetNextParamValue();
-        GM_AddMap_80031324(NextParamValue_80020AD4);
-    }
-    gMapsChanged_800ABAAC = a1 + 1;
-    return 0;
-}
-
-MAP *Map_FromId_800314C0(int id)
-{
-    MAP *pRecIter; // $a1
-    int                counter;  // $v1
-    MAP *pFound;   // $a2
-
-    pRecIter = gMapRecs_800B7910;
-    counter = gMapCount_800ABAA8;
-    pFound = 0;
-    while (counter > 0)
-    {
-        if (!id)
-        {
-            break;
-        }
-
-        if ((id & 1) != 0)
-        {
-            pFound = pRecIter;
-        }
-
-        id >>= 1;
-        pRecIter++;
-        counter--;
-    }
-    return pFound;
-}
-
-MAP *Map_FindByNum_80031504(int mapNameHash)
+int GM_AddMap(int name)
 {
     MAP *map;
-    int         i;
+    int  i;
 
     map = gMapRecs_800B7910;
     for (i = gMapCount_800ABAA8; i > 0; i--)
     {
-        if (map->name == mapNameHash)
+        if (map->name == name)
+        {
+            printf("add map %d\n", map->index);
+            map->used = 1;
+            gMapsChanged_800ABAAC = 1;
+            return 1;
+        }
+
+        map++;
+    }
+
+    printf("addmap : not found map %d\n", name);
+    return 0;
+}
+
+int GM_DelMap(int name)
+{
+    MAP *map;
+    int  i;
+
+    map = gMapRecs_800B7910;
+    for (i = gMapCount_800ABAA8; i > 0; i--)
+    {
+        if (map->name == name)
+        {
+            printf("del map %d\n", map->index);
+            map->used = 0;
+            gMapsChanged_800ABAAC = 1;
+            return 1;
+        }
+
+        map++;
+    }
+
+    printf("delmap: not found map %d\n", name);
+    return 0;
+}
+
+int GM_ReloadMap(int preshade)
+{
+    MAP    *map;
+    int     i;
+    u_short name;
+
+    map = gMapRecs_800B7910;
+    for (i = gMapCount_800ABAA8; i > 0; i--)
+    {
+        map->used = 0;
+        map++;
+    }
+
+    while (GCL_GetParamResult())
+    {
+        name = GCL_GetNextParamValue();
+        GM_AddMap(name);
+    }
+
+    gMapsChanged_800ABAAC = preshade + 1;
+    return 0;
+}
+
+MAP *GM_GetMap(int id)
+{
+    MAP *map;
+    MAP *found;
+    int  i;
+
+    map = gMapRecs_800B7910;
+    found = NULL;
+
+    for (i = gMapCount_800ABAA8; i > 0; i--)
+    {
+        if (id == 0)
+        {
+            break;
+        }
+
+        if (id & 0x1)
+        {
+            found = map;
+        }
+
+        id >>= 1;
+        map++;
+    }
+
+    return found;
+}
+
+MAP *GM_FindMap(int name)
+{
+    MAP *map;
+    int  i;
+
+    map = gMapRecs_800B7910;
+    for (i = gMapCount_800ABAA8; i > 0; i--, map++)
+    {
+        if (map->name == name)
         {
             return map;
         }
-        map++;
     }
-    return 0;
+
+    return NULL;
 }
 
-int sub_8003153C(MAP *map)
+int GM_MapUsed(MAP *find)
 {
-    MAP *current_map;
-    int         i;
+    MAP *map;
+    int  i;
 
-    current_map = gMapRecs_800B7910;
+    map = gMapRecs_800B7910;
     for (i = gMapCount_800ABAA8; i > 0; i--)
     {
-        if (current_map == map)
+        if (map == find && map->used)
         {
-            if (current_map->used)
-            {
-                return 1;
-            }
+            return 1;
         }
-        current_map++;
+
+        map++;
     }
+
     return 0;
 }
 
-HZD_HDL * Map_Enum_Get_Hzd_80031580(HZD_HDL *pPrevious)
+HZD_HDL *GM_IterHazard(HZD_HDL *cur)
 {
-    int count; // $v1
+    int i;
 
-    if ( !pPrevious )
+    if ( !cur )
     {
         pHzdIter_800ABAA0 = gMapRecs_800B7910;
     }
     else
     {
         pHzdIter_800ABAA0 = pHzdIter_800ABAA0 + 1;
-
     }
 
-    count = gMapCount_800ABAA8 - (pHzdIter_800ABAA0 - gMapRecs_800B7910);
-
-    while(count > 0)
+    for (i = gMapCount_800ABAA8 - (pHzdIter_800ABAA0 - gMapRecs_800B7910); i > 0; i--)
     {
-        if (pHzdIter_800ABAA0->used )
+        if (pHzdIter_800ABAA0->used)
         {
              return pHzdIter_800ABAA0->hzd;
         }
+
         pHzdIter_800ABAA0++;
-        count--;
-    }
-    return 0;
-}
-
-MAP *Map_FindByZoneId_80031624(int zone_id)
-{
-    MAP *ptr;
-    int         i;
-
-    ptr = (MAP *)&gMapRecs_800B7910;
-    i = gMapCount_800ABAA8;
-
-    while (i > 0)
-    {
-        if (ptr->zone & zone_id)
-        {
-            return ptr;
-        }
-        i--;
-        ptr++;
     }
 
-    return 0;
+    return NULL;
 }
 
-void GM_ReshadeObjs_80031660( DG_OBJS *obj )
+MAP *GM_FindMapZone(int zone)
 {
     MAP *map;
-    LitHeader *lit;
+    int  i;
 
-    map = Map_FromId_800314C0( obj->group_id );
+    map = gMapRecs_800B7910;
+    for (i = gMapCount_800ABAA8; i > 0; i--)
+    {
+        if (map->zone & zone)
+        {
+            return map;
+        }
+
+        map++;
+    }
+
+    return NULL;
+}
+
+void GM_ReshadeObjs( DG_OBJS *obj )
+{
+    MAP *map;
+    LIT *lit;
+
+    map = GM_GetMap( obj->group_id );
     if ( map == NULL )
     {
         printf( "Reshade NULL map\n" );
@@ -492,14 +485,15 @@ void GM_ReshadeObjs_80031660( DG_OBJS *obj )
     }
 }
 
-void GM_ReshadeMapAll_800316C4() // from memleak
+void GM_ReshadeMapAll( void )
 {
     DG_OBJS **obj;
     int       i;
 
     obj = StageObjs_800B7890;
-    for (i = N_StageObjs_800ABAA4; i > 0; obj++, i--)
+    for (i = N_StageObjs_800ABAA4; i > 0; i--)
     {
-        GM_ReshadeObjs_80031660(*obj);
+        GM_ReshadeObjs(*obj);
+        obj++;
     }
 }

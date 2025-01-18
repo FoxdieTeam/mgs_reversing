@@ -48,8 +48,11 @@ char BSS            SdStack_800AC3F0[2048]; // 0x800 (2048) bytes
 int BSS             FS_DiskNum_800ACBF0; // 0x4 (4) bytes
 int BSS             pad_800ACBF4; // 0x4 (4) bytes
 
-GV_ACT BSS          GV_Daemon_800ACBF8; // 0x20 (32) bytes
-struct ActorList BSS gActorsList_800ACC18[GV_ACTOR_LEVEL]; // 0x264 (612) bytes
+/* libgv/gvd.obj */
+GV_ACT BSS          GV_Work_800ACBF8; // 0x20 (32) bytes
+
+/* libgv/actor.obj */
+ActorList BSS       gActorsList_800ACC18[GV_ACTOR_LEVEL]; // 0x264 (612) bytes
 
 gap                                     gap_800ACE7C[0x4]; // 4 bytes
 
@@ -90,7 +93,7 @@ gap                                     gap_800B3794[0x4]; // 4 bytes
 
 unsigned char BSS   pcxBuffer_800B3798[128]; // 0x80 (128) bytes
 u_long BSS          DG_PaletteBuffer_800B3818[256]; // 0x400 (1024) bytes
-GCL_SCRIPT BSS      gGCL_SCRIPT_800B3C18; // 0xC (12) bytes
+GCL_SCRIPT BSS      current_script_800B3C18; // 0xC (12) bytes
 
 gap                                     gap_800B3C24[0x4]; // 4 bytes
 
@@ -161,7 +164,7 @@ unsigned short BSS  gSystemCallbackProcs_800B58C0[6]; // 0xC (12) bytes
 
 gap                                     gap_800B58CC[0x14]; // 20 bytes
 
-BindStruct BSS      gBindsArray_800b58e0[128]; // 0xC00 (3072) bytes
+HZD_BIND BSS      gBindsArray_800b58e0[128]; // 0xC00 (3072) bytes
 TARGET BSS          gTargets_800B64E0[TARGET_ARRAY_LENGTH]; // 0x1200 (4608) bytes
 char BSS            GM_NoiseSound_800B76E0[4][3]; // 0xC (12) bytes
 
@@ -275,8 +278,8 @@ int BSS             tenage_ctrls_count_800BDD70; // 0x4 (4) bytes
 
 gap                                     gap_800BDD74[0x4]; // 4 bytes
 
-HITTABLE BSS        c4_actors_800BDD78[C4_COUNT]; // 0x100 (256) bytes
-HITTABLE BSS   stru_800BDE78[8]; // 0x80 (128) bytes
+HITTABLE BSS        GM_C4Datas_800BDD78[C4_COUNT]; // 0x100 (256) bytes
+HITTABLE BSS        GM_ClayDatas_800BDE78[8]; // 0x80 (128) bytes
 int BSS             dword_800BDEF8[2]; // 0x8 (8) bytes
 TARGET *BSS         target_800BDF00; // 0x4 (4) bytes
 

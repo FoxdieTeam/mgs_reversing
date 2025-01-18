@@ -588,7 +588,7 @@ void s11e_zk11ecom_800D5A84( ZakoWork* work )
 extern unsigned char s11e_dword_800C3658;
 extern unsigned char s11e_dword_800C365C;
 
-extern int GM_PlayerAction_800ABA40;
+extern int GM_PlayerAction;
 
 extern void NewPadVibration( unsigned char *ptr, int flags );
 extern void s11e_zk11ecom_800D649C( ZakoWork *work, int time );
@@ -638,7 +638,7 @@ void s11e_zk11ecom_800D5B04( ZakoWork *work, int time )
             target->field_42 = 0;
         }
     }
-    switch ( GM_PlayerAction_800ABA40 )
+    switch ( GM_PlayerAction )
     {
     case 0x7:
     case 0xD:
@@ -1235,7 +1235,7 @@ void s11e_zk11ecom_800D6DDC( ZakoWork *work )
 
     work->field_C38  = 0;
 
-    ctrl->height = ( work->body.field_18 * work->scale ) / 4096 ;
+    ctrl->height = ( work->body.height * work->scale ) / 4096 ;
     ctrl->hzd_height = ctrl->levels[0] + 750;
 
     time_prev = work->time;
@@ -1379,7 +1379,7 @@ void s11e_zk11ecom_800D7230( ZakoWork* work, int time )
         GM_SeSet( &work->control.mov, 0x94 );
     }
 
-    if ( work->body.field_1C || !( work->pad.press & 0x40 ) )
+    if ( work->body.time2 || !( work->pad.press & 0x40 ) )
     {
         work->pad.time = 0;
         UnsetMode( work );
@@ -1400,7 +1400,7 @@ void s11e_zk11ecom_800D72E4( ZakoWork* work, int time )
         GM_SeSet( &work->control.mov, 0x92 );
     }
 
-    if ( work->body.field_1C || !( work->pad.press & 0x80 ) )
+    if ( work->body.time2 || !( work->pad.press & 0x80 ) )
     {
         work->pad.time = 0;
         UnsetMode( work );
@@ -1414,7 +1414,7 @@ void s11e_zk11ecom_800D73AC( ZakoWork* work, int time )
         UnsetAction( work, ACTION23 );
     }
 
-    if ( work->body.field_1C || !( work->pad.press & 0x400 ) )
+    if ( work->body.time2 || !( work->pad.press & 0x400 ) )
     {
         work->pad.time = 0;
         UnsetMode( work );
@@ -1435,14 +1435,14 @@ void s11e_zk11ecom_800D7450( ZakoWork* work, int time )
         GM_SeSet( &work->control.mov, 0x92 );
     }
 
-    if ( work->body.field_1C || !( work->pad.press & 0x800 ) )
+    if ( work->body.time2 || !( work->pad.press & 0x800 ) )
     {
         work->pad.time = 0;
         UnsetMode( work );
     }
 }
 
-extern int GM_PlayerStatus_800ABA50;
+extern int GM_PlayerStatus;
 
 void s11e_zk11ecom_800D7518( ZakoWork *work, int time )
 {
@@ -1474,7 +1474,7 @@ void s11e_zk11ecom_800D7518( ZakoWork *work, int time )
             AN_Sleep_800CA7DC( &mov );
             GM_SeSet( &work->control.mov, 0x93 );
 
-            if ( work->sn_dis < 1000 && ( GM_PlayerStatus_800ABA50 & 1 ) )
+            if ( work->sn_dis < 1000 && ( GM_PlayerStatus & 1 ) )
             {
                 int res = GV_RandU( 12 );
                 if ( res > 10 )
@@ -1574,7 +1574,7 @@ void s11e_zk11ecom_800D7878( ZakoWork *work, int time )
         s11e_zk11ecom_800D76F0( work );
     }
 
-    if ( ( time > 186 && work->body.field_1C ) || !( work->pad.press & 0x1000000 ) )
+    if ( ( time > 186 && work->body.time2 ) || !( work->pad.press & 0x1000000 ) )
     {
         work->pad.time = 0;
         UnsetMode( work );

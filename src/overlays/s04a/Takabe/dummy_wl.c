@@ -55,9 +55,9 @@ SVECTOR s04a_dword_800C3620 = {100, 100, 100};
 
 void     Takabe_FreeObjs_800DC820(DG_OBJS *objs);
 void     s16b_800C49AC(HZD_SEG *seg);
-DG_OBJS *s00a_unknown3_800DC7BC(int model, LitHeader *lit);
+DG_OBJS *s00a_unknown3_800DC7BC(int model, LIT *lit);
 
-extern HITTABLE      c4_actors_800BDD78[C4_COUNT];
+extern HITTABLE      GM_C4Datas_800BDD78[C4_COUNT];
 
 void DummyWall_800D7418(OBJECT *obj, int model, int where, int flag);
 void DummyWall_800D7488(DummyWallWork *work, DG_MDL *mdl);
@@ -72,7 +72,7 @@ void DummyWallAct_800D6E64(DummyWallWork *work)
     OBJECT        *obj;
 
     target = work->field_148;
-    GM_CurrentMap_800AB9B0 = work->field_20;
+    GM_CurrentMap = work->field_20;
 
     if ((target->damaged & TARGET_POWER || work->field_168 != 0) && work->field_164 == 0)
     {
@@ -91,7 +91,7 @@ void DummyWallAct_800D6E64(DummyWallWork *work)
             HZD_DequeueDynamicSegment(work->field_198, &work->field_19C);
             work->field_194 = 0;
 
-            jirai = c4_actors_800BDD78;
+            jirai = GM_C4Datas_800BDD78;
             for (i = C4_COUNT; i > 0; i--, jirai++)
             {
                 if (jirai->actor && jirai->data == &work->field_19C)
@@ -167,7 +167,7 @@ int DummyWallGetResources_800D7178(DummyWallWork *work, int name, int where)
     OBJECT  *obj;
     int      param1, param2;
 
-    GM_CurrentMap_800AB9B0 = where;
+    GM_CurrentMap = where;
     work->field_20 = where;
 
     svec3 = &work->field_14C;
@@ -217,7 +217,7 @@ int DummyWallGetResources_800D7178(DummyWallWork *work, int name, int where)
     s16b_800C45C4(&work->field_19C, &mat, &svec1, &svec2);
     s16b_800C49AC(&work->field_19C);
 
-    work->field_198 = Map_FromId_800314C0(where)->hzd;
+    work->field_198 = GM_GetMap(where)->hzd;
     HZD_QueueDynamicSegment2(work->field_198, &work->field_19C, param1);
 
     work->field_194 = 1;
@@ -251,7 +251,7 @@ void DummyWall_800D7418(OBJECT *obj, int model, int where, int flag)
     GV_ZeroMemory(obj, sizeof(OBJECT));
     obj->flag = flag;
     obj->map_name = where;
-    obj->objs = s00a_unknown3_800DC7BC(model, Map_FromId_800314C0(where)->lit);
+    obj->objs = s00a_unknown3_800DC7BC(model, GM_GetMap(where)->lit);
     obj->objs->flag = flag;
 }
 

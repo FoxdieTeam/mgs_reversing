@@ -14,10 +14,10 @@
 
 extern int              amissile_alive_8009F490;
 extern SVECTOR          svector_8009F494;
-extern int              GV_Clock_800AB920;
-extern int              GV_PauseLevel_800AB928;
-extern short            N_ChanlPerfMax_800AB980;
-extern PlayerStatusFlag GM_PlayerStatus_800ABA50;
+extern int              GV_Clock;
+extern int              GV_PauseLevel;
+extern short            N_ChanlPerfMax;
+extern PlayerStatusFlag GM_PlayerStatus;
 extern GV_PAD           GV_PadData_800B05C0[4];
 extern unsigned short   gOldRootCnt_800B1DC8[];
 extern TARGET          *target_800BDF00;
@@ -36,7 +36,7 @@ typedef struct _StnSightWork
     LINE_F4    *field_40_lines_2Array[2];
     TILE_1     *field_48_tiles_2Array[2];
     POLY_G4    *field_50_polys_2Array[2];
-    int         field_58_ybase;
+    int         field_58_ybase;             //'delay' in the leaks, but they must mean deltay
     int         field_5C_xbase;
     DVECTOR     field_60_coords_9Array[9];
     int         field_84_4Array[4];
@@ -49,9 +49,9 @@ STATIC short word_800AB8EC = 0;
 
 /*---------------------------------------------------------------------------*/
 
-STATIC void stnsight_act_helper_helper_80068320(unsigned int *ot, unsigned int *prim)
+STATIC void addPrimEX_80068320(unsigned int *ot, unsigned int *prim)
 {
-    if (!(GM_PlayerStatus_800ABA50 & PLAYER_UNK4000000))
+    if (!(GM_PlayerStatus & PLAYER_UNK4000000))
     {
         addPrim(ot, prim);
     }
@@ -69,7 +69,7 @@ STATIC void stnsight_act_helper_8006837C(StnSightWork *work)
 
     iVar1 = work->field_84_4Array[1]++;
 
-    if ((GM_PlayerStatus_800ABA50 & 0x4000000) != 0)
+    if ((GM_PlayerStatus & 0x4000000) != 0)
     {
         return;
     }
@@ -102,7 +102,7 @@ STATIC void stnsight_act_helper_80068420(StnSightWork *work, unsigned int *ot)
     pad_status = work->pad_data->status;
     GM_CheckShukanReverse(&pad_status);
 
-    if (GV_PauseLevel_800AB928 || ((GM_PlayerStatus_800ABA50 & PLAYER_PAD_OFF) != 0))
+    if (GV_PauseLevel || ((GM_PlayerStatus & PLAYER_PAD_OFF) != 0))
     {
         pad_status = 0;
     }
@@ -148,9 +148,9 @@ STATIC void stnsight_act_helper_80068420(StnSightWork *work, unsigned int *ot)
         }
     }
 
-    lines = work->field_30_lines_2Array[GV_Clock_800AB920];
-    lines2 = work->field_28_lines_2Array[GV_Clock_800AB920];
-    tiles = work->field_48_tiles_2Array[GV_Clock_800AB920];
+    lines = work->field_30_lines_2Array[GV_Clock];
+    lines2 = work->field_28_lines_2Array[GV_Clock];
+    tiles = work->field_48_tiles_2Array[GV_Clock];
     ybase = work->field_58_ybase;
 
     MENU_Color(0x68, 0x6f, 0x74);
@@ -159,7 +159,7 @@ STATIC void stnsight_act_helper_80068420(StnSightWork *work, unsigned int *ot)
     {
         MENU_Locate(0x28, v6 - 2, 1);
 
-        if ((GM_PlayerStatus_800ABA50 & 0x4000000) == 0)
+        if ((GM_PlayerStatus & 0x4000000) == 0)
         {
             if (abs(v7) < 10)
             {
@@ -182,7 +182,7 @@ STATIC void stnsight_act_helper_80068420(StnSightWork *work, unsigned int *ot)
         lines->y1 = v6 + 1;
         lines->y3 = v6;
         lines->y2 = v6;
-        stnsight_act_helper_helper_80068320(ot, (unsigned int *)lines);
+        addPrimEX_80068320(ot, (unsigned int *)lines);
         lines++;
 
         if (v7 != 10 * (v7 / 10))
@@ -192,26 +192,26 @@ STATIC void stnsight_act_helper_80068420(StnSightWork *work, unsigned int *ot)
 
         tiles->y0 = v6 + ybase;
 
-        stnsight_act_helper_helper_80068320(ot, (unsigned int *)tiles);
+        addPrimEX_80068320(ot, (unsigned int *)tiles);
         tiles++;
 
         lines2->y1 = v6 + ybase - 4;
         lines2->y0 = v6 + ybase - 4;
         lines2->y3 = v6 + ybase + 4;
         lines2->y2 = v6 + ybase + 4;
-        stnsight_act_helper_helper_80068320(ot, (unsigned int *)lines2);
+        addPrimEX_80068320(ot, (unsigned int *)lines2);
         lines2++;
 
         lines2->y0 = v6 + ybase - 4;
         lines2->y1 = v6 + ybase + 4;
-        stnsight_act_helper_helper_80068320(ot, (unsigned int *)lines2);
+        addPrimEX_80068320(ot, (unsigned int *)lines2);
         lines2++;
     }
 }
 
 STATIC void stnsight_act_helper_80068798(StnSightWork *work, unsigned int *ot)
 {
-    LINE_F4 *p = work->field_40_lines_2Array[GV_Clock_800AB920];
+    LINE_F4 *p = work->field_40_lines_2Array[GV_Clock];
     DVECTOR *coords = work->field_60_coords_9Array;
     int      ybase = work->field_58_ybase;
     int      xbase = work->field_5C_xbase;
@@ -244,7 +244,7 @@ STATIC void stnsight_act_helper_80068798(StnSightWork *work, unsigned int *ot)
     p->y2 += yoff;
     p->x3 += xoff;
     p->y3 += yoff;
-    stnsight_act_helper_helper_80068320(ot, (unsigned int *)p);
+    addPrimEX_80068320(ot, (unsigned int *)p);
     p++;
 
     p->x0 = coords[3].vx;
@@ -255,7 +255,7 @@ STATIC void stnsight_act_helper_80068798(StnSightWork *work, unsigned int *ot)
     p->y0 += yoff;
     p->x1 += xoff;
     p->y1 += yoff;
-    stnsight_act_helper_helper_80068320(ot, (unsigned int *)p);
+    addPrimEX_80068320(ot, (unsigned int *)p);
     p++;
 
     p->x0 = coords[5].vx;
@@ -267,14 +267,7 @@ STATIC void stnsight_act_helper_80068798(StnSightWork *work, unsigned int *ot)
     p->x3 = coords[8].vx;
     p->y3 = coords[8].vy;
 
-    if (work->field_58_ybase > 0)
-    {
-        yoff = ybase;
-    }
-    else
-    {
-        yoff = 0;
-    }
+    yoff = ( work->field_58_ybase > 0 ) ? ybase : 0 ;
 
     p->x0 -= xoff;
     p->y0 += yoff;
@@ -284,13 +277,14 @@ STATIC void stnsight_act_helper_80068798(StnSightWork *work, unsigned int *ot)
     p->y2 += yoff;
     p->x3 -= xoff;
     p->y3 += yoff;
-    stnsight_act_helper_helper_80068320(ot, (unsigned int *)p);
+    addPrimEX_80068320(ot, (unsigned int *)p);
 }
 
-STATIC void stnsight_act_helper_80068A24(StnSightWork *work, unsigned int *ot)
+/* ミサイル照準セット */
+STATIC void SetMissileRect_80068A24(StnSightWork *work, unsigned int *ot)
 {
     LINE_F4        *lines;
-    short           sxy[2];
+    DVECTOR         sxy;
     long            p, flag;
     int             x, sx;
     int             y, sy;
@@ -302,15 +296,15 @@ STATIC void stnsight_act_helper_80068A24(StnSightWork *work, unsigned int *ot)
             return;
         }
 
-        lines = work->field_38_lines_2Array[GV_Clock_800AB920];
+        lines = work->field_38_lines_2Array[GV_Clock];
 
         DG_Clip(&DG_Chanl(0)->field_5C_clip_rect, DG_Chanl(0)->field_50_clip_distance);
         SetRotMatrix(&DG_Chanl(0)->field_10_eye_inv);
         SetTransMatrix(&DG_Chanl(0)->field_10_eye_inv);
         RotTransPers(&svector_8009F494, (long *)&sxy, &p, &flag);
 
-        sx = sxy[0];
-        sy = sxy[1];
+        sx = sxy.vx;
+        sy = sxy.vy;
 
         x = sx + 0xa0;
         y = sy + 0x70;
@@ -328,7 +322,7 @@ STATIC void stnsight_act_helper_80068A24(StnSightWork *work, unsigned int *ot)
         lines->y0 = sy + 0x62;
         lines->y3 = sy + 0x7e;
         lines->y2 = sy + 0x7e;
-        stnsight_act_helper_helper_80068320(ot, (unsigned int *)lines);
+        addPrimEX_80068320(ot, (unsigned int *)lines);
         lines++;
 
         lines->x3 = sx + 0xa1;
@@ -340,12 +334,12 @@ STATIC void stnsight_act_helper_80068A24(StnSightWork *work, unsigned int *ot)
         lines->y3 = sy + 0x7e;
         lines->y2 = sy + 0x7e;
 
-        stnsight_act_helper_helper_80068320(ot, (unsigned int *)lines);
+        addPrimEX_80068320(ot, (unsigned int *)lines);
 
         MENU_Locate(sx + 0x8d, sy + 0x7f, 0);
         MENU_Color(0x1d, 0x29, 0x29);
 
-        if ((GM_PlayerStatus_800ABA50 & 0x4000000) == 0)
+        if ((GM_PlayerStatus & 0x4000000) == 0)
         {
             MENU_Printf("%d %d\n", ((ushort)svector_8009F494.vx << 16) >> 20,
                         ((ushort)svector_8009F494.vy << 16) >> 20);
@@ -365,10 +359,10 @@ STATIC void stnsight_act_helper_80068BF4(StnSightWork *work, unsigned int *ot)
     int             v1;
     unsigned short *s4 = gOldRootCnt_800B1DC8;
     int             uVar9 = s4[0];
-    POLY_G4        *poly = work->field_50_polys_2Array[GV_Clock_800AB920]; // s5
+    POLY_G4        *poly = work->field_50_polys_2Array[GV_Clock]; // s5
 
     ++s4;
-    for (x = N_ChanlPerfMax_800AB980 - 1; x > 0; --x)
+    for (x = N_ChanlPerfMax - 1; x > 0; --x)
     {
         s0 = (*s4++ - uVar9) & 0xffff;
 
@@ -388,7 +382,7 @@ STATIC void stnsight_act_helper_80068BF4(StnSightWork *work, unsigned int *ot)
         poly->x0 = poly->x2 = s2;
         poly->x1 = poly->x3 = v1;
 
-        stnsight_act_helper_helper_80068320(ot, (unsigned int *)poly);
+        addPrimEX_80068320(ot, (unsigned int *)poly);
 
         s2 += s0 + 1;
         poly++;
@@ -405,7 +399,7 @@ STATIC void StnSightAct(StnSightWork *work)
 
     if (work->field_94 > 0)
     {
-        if (!GV_PauseLevel_800AB928)
+        if (!GV_PauseLevel)
         {
             work->field_94--;
         }
@@ -432,12 +426,12 @@ STATIC void StnSightAct(StnSightWork *work)
 
     stnsight_act_helper_80068420(work, uVar1);
     stnsight_act_helper_80068798(work, uVar1);
-    stnsight_act_helper_80068A24(work, uVar1);
+    SetMissileRect_80068A24(work, uVar1);
     stnsight_act_helper_80068BF4(work, uVar1);
     stnsight_act_helper_8006837C(work);
     menu_Text_Init_80038B98();
 
-    if (GV_PauseLevel_800AB928 != 0)
+    if (GV_PauseLevel != 0)
     {
         return;
     }

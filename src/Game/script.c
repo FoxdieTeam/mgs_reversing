@@ -21,21 +21,21 @@ extern  GM_Camera       GM_Camera_800B77E8;
 
 
 
-extern  BindStruct      gBindsArray_800b58e0[128];
+extern  HZD_BIND      gBindsArray_800b58e0[128];
 extern  unsigned int    GM_DisableWeapon_800AB9E4;
 extern  int             GM_DisableItem_800ABA28;
 extern  CONTROL        *GM_PlayerControl_800AB9F4;
 extern  int             GM_Photocode_800ABA04;
 extern  int             dword_8009F46C;
 extern  SVECTOR         svector_8009F478;
-extern  SVECTOR         GM_PhotoViewPos_800ABA48;
+extern  SVECTOR         GM_PhotoViewPos;
 
-char SECTION(".sbss") dword_800ABA58[8];
-int  SECTION(".sbss") gBinds_800ABA60;
-int  SECTION(".sbss") gBindsCount_800ABA64;
+STATIC char SECTION(".sbss") dword_800ABA58[8];
+STATIC int  SECTION(".sbss") gBinds_800ABA60;
+STATIC int  SECTION(".sbss") gBindsCount_800ABA64;
 
-extern char *GM_StageName_800AB918;
-char         SECTION(".sbss") * GM_StageName_800AB918;
+extern char *GM_StageName;
+char         SECTION(".sbss") * GM_StageName;
 
 STATIC int GM_Command_light(unsigned char *);
 STATIC int GM_Command_camera(unsigned char *);
@@ -49,7 +49,7 @@ STATIC int GM_Command_chara(int argc, char **argv);
 STATIC int GM_Command_start(unsigned char *);
 STATIC int GM_Command_load(unsigned char *);
 STATIC int GM_Command_radio(unsigned char *);
-STATIC int GM_Command_strstatus(unsigned char *);
+STATIC int GM_Command_restart(unsigned char *);
 STATIC int GM_Command_varsave(unsigned char *);
 STATIC int GM_Command_system(unsigned char *);
 STATIC int GM_Command_demo(unsigned char *);
@@ -76,7 +76,7 @@ STATIC GCL_COMMANDLIST Commands[] = {
     { HASH_CMD_start,       GM_Command_start        },  // GV_StrCode("start")
     { HASH_CMD_load,        GM_Command_load         },  // GV_StrCode("load")
     { HASH_CMD_radio,       GM_Command_radio        },  // GV_StrCode("radio")
-    { HASH_CMD_str_status,  GM_Command_strstatus    },  // GV_StrCode("str_status")
+    { HASH_CMD_restart,     GM_Command_restart      },  // GV_StrCode("restart")
     { HASH_CMD_demo,        GM_Command_demo         },  // GV_StrCode("demo")
     { HASH_CMD_ntrap,       GM_Command_ntrap        },  // GV_StrCode("ntrap")
     { HASH_CMD_delay,       GM_Command_delay        },  // GV_StrCode("delay")
@@ -188,7 +188,7 @@ STATIC int GM_Command_camera(unsigned char *top)
                 cam->field_0e_alertMask = 0;
             }
 
-            GM_CameraSetAlertMask_80030850(camera_id, cam->field_0e_alertMask);
+            GM_CameraSetAlertMask(camera_id, cam->field_0e_alertMask);
         }
     }
 
@@ -219,12 +219,12 @@ STATIC int GM_Command_map(unsigned char *top)
 
     if (GCL_GetOption('d'))
     {
-        Map_ScriptLoadMapBlocks_800312D0();
+        GM_DefineMap();
     }
 
     if (GCL_GetOption('s'))
     {
-        Map_ScriptReloadMaps_80031450(1);
+        GM_ReloadMap(1);
         if (!(GM_GameStatus & STATE_DEMO))
         {
             DG_UnDrawFrameCount = 4;
@@ -233,7 +233,7 @@ STATIC int GM_Command_map(unsigned char *top)
 
     if (GCL_GetOption('c'))
     {
-        Map_ScriptReloadMaps_80031450(0);
+        GM_ReloadMap(0);
 
         if (!(GM_GameStatus & STATE_DEMO))
         {
@@ -253,7 +253,7 @@ STATIC int GM_Command_map(unsigned char *top)
         gBinds_800ABA60 = 0;
         while (GCL_GetParamResult())
         {
-            pMapRecord = Map_FindByNum_80031504(GCL_GetNextParamValue());
+            pMapRecord = GM_FindMap(GCL_GetNextParamValue());
             if (pMapRecord == 0)
             {
                 return -1;
@@ -266,7 +266,7 @@ STATIC int GM_Command_map(unsigned char *top)
     {
         while (GCL_GetParamResult())
         {
-            GM_AddMap_80031324(GCL_GetNextParamValue());
+            GM_AddMap(GCL_GetNextParamValue());
         }
     }
 
@@ -274,7 +274,7 @@ STATIC int GM_Command_map(unsigned char *top)
     {
         while (GCL_GetParamResult())
         {
-            GM_DelMap_800313C0(GCL_GetNextParamValue());
+            GM_DelMap(GCL_GetNextParamValue());
         }
     }
 
@@ -289,16 +289,17 @@ STATIC int GM_Command_map(unsigned char *top)
 
 STATIC int GM_Command_mapdef(unsigned char *top)
 {
-    if (!GM_Command_mapdef_impl_800310D0())
+    if (!GM_CreateMap())
     {
         return -1;
     }
+
     return 0;
 }
 
 STATIC int GM_Command_trap(unsigned char *top)
 {
-    BindStruct *pBind;
+    HZD_BIND *pBind;
     int         i, arg, code, value;
     int         tmp;
 
@@ -342,7 +343,7 @@ STATIC int GM_Command_trap(unsigned char *top)
     gBindsCount_800ABA64++;
 
     tmp = gBinds_800ABA60;
-    gBindsArray_800b58e0[i].field_6 = (short)tmp;
+    gBindsArray_800b58e0[i].map = (short)tmp;
     HZD_SetBind(0, gBindsArray_800b58e0, gBindsCount_800ABA64);
 
     return 0;
@@ -351,7 +352,7 @@ STATIC int GM_Command_trap(unsigned char *top)
 STATIC int GM_Command_ntrap(unsigned char *top)
 {
     // int bindIdx;
-    BindStruct *pBind;
+    HZD_BIND *pBind;
     int         flags;
     int         arg;
     int         tmp;
@@ -452,7 +453,7 @@ STATIC int GM_Command_ntrap(unsigned char *top)
     pBind->field_B_param_e = flags;
     gBindsCount_800ABA64++;
     tmp = gBinds_800ABA60;
-    pBind->field_6 = (short)tmp;
+    pBind->map = (short)tmp;
     printf("BIND %08X\n", tmp);
     HZD_SetBind(0, gBindsArray_800b58e0, gBindsCount_800ABA64);
     return 0;
@@ -598,7 +599,7 @@ STATIC int GM_Command_load(unsigned char *top)
         {
             // Hard restart?
             strcpy(dword_800ABA58, GM_GetArea((int)scriptStageName));
-            GV_ResidentHeapReset();
+            GV_InitResidentMemory();
             GV_InitCacheSystem();
             DG_ClearResidentTexture();
             GM_SetArea(GV_StrCode(scriptStageName), scriptStageName);
@@ -727,27 +728,31 @@ STATIC int GM_Command_radio(unsigned char *top)
     return 0;
 }
 
-STATIC int GM_Command_strstatus(unsigned char *top)
+STATIC int GM_Command_restart(unsigned char *top)
 {
-    int val;
+    int proc_id;
 
-    if (GCL_GetOption('p'))
+    if (GCL_GetOption('p')) // proc
     {
-        val = GCL_GetNextParamValue();
+        proc_id = GCL_GetNextParamValue();
     }
     else
     {
-        val = -1;
+        proc_id = -1;
     }
-    GM_8002B600(val);
-    if (GCL_GetOption('s'))
+
+    GM_SetLoadCallbackProc(proc_id);
+
+    if (GCL_GetOption('s')) // save
     {
-        GM_LoadRequest |= STATE_BEHIND_CAMERA;
+        GM_LoadRequest |= 0x10;
     }
+
     if (GCL_GetOption('a')) // area
     {
         GM_SetArea(GM_CurrentStageFlag, GM_GetArea(0));
     }
+
     return 0;
 }
 
@@ -793,7 +798,7 @@ STATIC int GM_Command_system(unsigned char *top)
 
     if (GCL_GetOption('s'))
     {
-        GM_StageName_800AB918 = GCL_ReadString(GCL_GetParamResult());
+        GM_StageName = GCL_ReadString(GCL_GetParamResult());
     }
     return 0;
 }
@@ -818,7 +823,7 @@ STATIC int GM_Command_demo(unsigned char *top)
         cb_proc = 0;
     }
 
-    GM_CurrentMap_800AB9B0 = gBinds_800ABA60;
+    GM_CurrentMap = gBinds_800ABA60;
 
     if ( code >= 0 )
     {
@@ -1036,7 +1041,7 @@ STATIC int GM_Command_func(unsigned char *top)
     if (GCL_GetOption('p')) // photo (used for ghosts easter egg)
     {
         param = GCL_GetNextParamValue();
-        GCL_StrToSV(GCL_GetParamResult(), &GM_PhotoViewPos_800ABA48);
+        GCL_StrToSV(GCL_GetParamResult(), &GM_PhotoViewPos);
         if (GCL_GetNextParamValue() == HASH_LEAVE)
         {
             param = 0;
@@ -1045,7 +1050,7 @@ STATIC int GM_Command_func(unsigned char *top)
     }
     if (GCL_GetOption('m')) // map
     {
-        map = Map_FindByNum_80031504(GCL_GetNextParamValue());
+        map = GM_FindMap(GCL_GetNextParamValue());
         if (map && map->used)
         {
             GM_LastResultFlag = 1;
@@ -1103,8 +1108,8 @@ STATIC int GM_Command_demodebug(unsigned char *top)
     {
         demodebug_finish_proc = -1;
     }
-    tmp = GM_CurrentMap_800AB9B0;
-    GM_CurrentMap_800AB9B0 = gBinds_800ABA60;
+    tmp = GM_CurrentMap;
+    GM_CurrentMap = gBinds_800ABA60;
     if (str)
     {
         demo = DM_ThreadFile_800794E4(flags, (int)str);
@@ -1113,7 +1118,7 @@ STATIC int GM_Command_demodebug(unsigned char *top)
     {
         demo = DM_ThreadStream_80079460(flags, ivar);
     }
-    GM_CurrentMap_800AB9B0 = tmp;
+    GM_CurrentMap = tmp;
     if (!demo)
     {
         printf("Error demo thread\n");

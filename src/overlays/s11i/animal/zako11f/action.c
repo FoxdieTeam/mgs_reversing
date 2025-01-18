@@ -50,8 +50,8 @@ SVECTOR s11i_800C33FC = {5, -500, 80, 0};
 extern CONTROL *GM_PlayerControl_800AB9F4;
 extern SVECTOR  GM_PlayerPosition_800ABA10;
 extern OBJECT  *GM_PlayerBody_800ABA20;
-extern int      GM_PlayerAction_800ABA40;
-extern int      GM_PlayerStatus_800ABA50;
+extern int      GM_PlayerAction;
+extern int      GM_PlayerStatus;
 
 extern SVECTOR ZAKO11F_TARGET_SIZE_800C365C;
 extern SVECTOR ZAKO11F_TARGET_FORCE_800C3664;
@@ -1091,7 +1091,7 @@ void s11i_asiato_800CB140( Zako11FWork *work, int time )
         }
     }
 
-    switch ( GM_PlayerAction_800ABA40 )
+    switch ( GM_PlayerAction )
     {
     case 7:
     case 13:
@@ -1672,7 +1672,7 @@ void s11i_asiato_800CC39C(Zako11FWork *work)
 
     work->field_C38  = 0;
 
-    control->height = (work->body.field_18 * work->scale) / 4096;
+    control->height = (work->body.height * work->scale) / 4096;
     control->hzd_height = control->levels[0] + 750;
 
     time_prev = work->time;
@@ -1808,7 +1808,7 @@ void s11i_asiato_800CC7F0(Zako11FWork *work, int time)
         GM_SeSet(&work->control.mov, 0x94);
     }
 
-    if (work->body.field_1C != 0 || !(work->pad.press & 0x40))
+    if (work->body.time2 != 0 || !(work->pad.press & 0x40))
     {
         work->pad.time = 0;
         UnsetMode(work);
@@ -1829,7 +1829,7 @@ void s11i_asiato_800CC8A4(Zako11FWork *work, int time)
         GM_SeSet(&work->control.mov, 0x92);
     }
 
-    if ((work->body.field_1C != 0) || !(work->pad.press & 0x80))
+    if ((work->body.time2 != 0) || !(work->pad.press & 0x80))
     {
         work->pad.time = 0;
         UnsetMode(work);
@@ -1843,7 +1843,7 @@ void s11i_asiato_800CC96C(Zako11FWork *work, int time)
         UnsetAction(work, ACTION23);
     }
 
-    if ((work->body.field_1C != 0) || !(work->pad.press & 0x400))
+    if ((work->body.time2 != 0) || !(work->pad.press & 0x400))
     {
         work->pad.time = 0;
         UnsetMode(work);
@@ -1864,7 +1864,7 @@ void s11i_asiato_800CCA10(Zako11FWork *work, int time)
         GM_SeSet(&work->control.mov, 0x92);
     }
 
-    if (work->body.field_1C != 0 || !(work->pad.press & 0x800))
+    if (work->body.time2 != 0 || !(work->pad.press & 0x800))
     {
         work->pad.time = 0;
         UnsetMode(work);
@@ -1905,7 +1905,7 @@ void s11i_asiato_800CCAD8(Zako11FWork *work, int time)
 
             GM_SeSet(&work->control.mov, 0x93);
 
-            if (work->sn_dis < 1000 && (GM_PlayerStatus_800ABA50 & PLAYER_FIRST_PERSON) && GV_RandU(12) > 10)
+            if (work->sn_dis < 1000 && (GM_PlayerStatus & PLAYER_FIRST_PERSON) && GV_RandU(12) > 10)
             {
                 work->pad.sound = 240;
             }
@@ -1999,7 +1999,7 @@ void s11i_asiato_800CCE38(Zako11FWork *work, int time)
         s11i_asiato_800CCCB0(work);
     }
 
-    if ((time > 186 && work->body.field_1C != 0) || !(work->pad.press & 0x1000000))
+    if ((time > 186 && work->body.time2 != 0) || !(work->pad.press & 0x1000000))
     {
         work->pad.time = 0;
         UnsetMode(work);

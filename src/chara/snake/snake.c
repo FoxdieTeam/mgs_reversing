@@ -9,15 +9,15 @@
 #include "Game/linkvarbuf.h"
 #include "Game/object.h"
 
-extern int     GM_PlayerStatus_800ABA50;
+extern int     GM_PlayerStatus;
 extern short   word_8009EFC0[];
 
 //TODO: below defined in sna_init.c, need to remove gp hack
 extern SVECTOR           svector_800AB7CC;
 SVECTOR SECTION(".sbss") svector_800AB7CC;
 
-extern void           *GM_BombSeg_800ABBD8;
-void *SECTION(".sbss") GM_BombSeg_800ABBD8;
+extern void           *GM_BombSeg;
+void *SECTION(".sbss") GM_BombSeg;
 
 extern int           dword_800ABBA8;
 int SECTION(".sbss") dword_800ABBA8;
@@ -28,7 +28,7 @@ char *SECTION(".sbss") dword_800ABBB4;
 extern HZD_FLR           *flr_800ABBB8[2];
 HZD_FLR *SECTION(".sbss") flr_800ABBB8[2];
 
-#define GetAction( work ) (work->field_9C_obj.action_flag)
+#define GetAction( work ) (work->body.action)
 
 void sna_start_anim_8004E1F4(SnaInitWork *work, void *pFn)
 {
@@ -38,7 +38,7 @@ void sna_start_anim_8004E1F4(SnaInitWork *work, void *pFn)
     work->field_A3A = 0;
     work->field_A38_local_data = 0;
 
-    if ((GM_PlayerStatus_800ABA50 & PLAYER_GROUND) != 0)
+    if ((GM_PlayerStatus & PLAYER_GROUND) != 0)
     {
         vec_x = work->field_A2A;
     }
@@ -51,35 +51,35 @@ void SetAction_8004E22C(SnaInitWork *work, int action_flag, int interp)
 {
     if (GetAction(work) != action_flag)
     {
-        GM_ConfigObjectAction(&work->field_9C_obj, action_flag, 0, interp);
+        GM_ConfigObjectAction(&work->body, action_flag, 0, interp);
     }
 }
 
 void sna_8004E260(SnaInitWork *work, int a2, int interp, int a4)
 {
-    if (work->field_9C_obj.field_10 != a2)
+    if (work->body.action2 != a2)
     {
-        GM_ConfigObjectOverride(&work->field_9C_obj, a2, 0, interp, a4);
+        GM_ConfigObjectOverride(&work->body, a2, 0, interp, a4);
     }
 }
 
-int GM_CheckPlayerStatusFlag(PlayerStatusFlag arg0)
+int GM_CheckPlayerStatusFlag(PlayerStatusFlag arg0) // Status()
 {
-    return (GM_PlayerStatus_800ABA50 & arg0) != 0;
+    return (GM_PlayerStatus & arg0) != 0;
 }
 
 int GM_SetPlayerStatusFlag(PlayerStatusFlag arg0)
 {
     int temp_v0;
 
-    temp_v0 = GM_PlayerStatus_800ABA50 | arg0;
-    GM_PlayerStatus_800ABA50 = temp_v0;
+    temp_v0 = GM_PlayerStatus | arg0;
+    GM_PlayerStatus = temp_v0;
     return temp_v0;
 }
 
 void GM_ClearPlayerStatusFlag(PlayerStatusFlag flag)
 {
-    GM_PlayerStatus_800ABA50 &= ~flag;
+    GM_PlayerStatus &= ~flag;
 }
 
 void sna_set_flags1_8004E2F4(SnaInitWork *snake, SnaFlag1 flags)
@@ -249,9 +249,9 @@ int sub_8004E5E8(SnaInitWork *work, int flag)
     int      levels[2];
     HZD_FLR *flr[2];
 
-    vec.vx = work->field_9C_obj.objs->objs[4].world.t[0];
-    vec.vy = work->field_9C_obj.objs->objs[4].world.t[1];
-    vec.vz = work->field_9C_obj.objs->objs[4].world.t[2];
+    vec.vx = work->body.objs->objs[4].world.t[0];
+    vec.vy = work->body.objs->objs[4].world.t[1];
+    vec.vz = work->body.objs->objs[4].world.t[2];
 
     DG_SetPos2(&vec, &work->control.rot);
     DG_PutVector(&svector_800AB7CC, &vec, 1);
@@ -276,11 +276,11 @@ int sub_8004E5E8(SnaInitWork *work, int flag)
         {
             if (!flr[i])
             {
-                GM_BombSeg_800ABBD8 = 0;
+                GM_BombSeg = 0;
             }
             else
             {
-                GM_BombSeg_800ABBD8 = (void *)((int)flr[i] & ~0x80000000);
+                GM_BombSeg = (void *)((int)flr[i] & ~0x80000000);
             }
 
             return 1;
@@ -399,9 +399,9 @@ void sub_8004E9D0(SnaInitWork *work)
         iVar1 = 0;
     }
 
-    work->field_718[1].vx = GV_NearExp2(work->field_718[1].vx, iVar1);
-    work->field_718[4].vx = GV_NearExp2(work->field_718[4].vx, -iVar1);
-    work->field_718[9].vx = GV_NearExp2(work->field_718[9].vx, -iVar1);
+    work->adjust[1].vx = GV_NearExp2(work->adjust[1].vx, iVar1);
+    work->adjust[4].vx = GV_NearExp2(work->adjust[4].vx, -iVar1);
+    work->adjust[9].vx = GV_NearExp2(work->adjust[9].vx, -iVar1);
 }
 
 void sub_8004EA50(SnaInitWork *work, int param_2)
@@ -424,17 +424,17 @@ int sna_8004EAA8( SnaInitWork *work, int stance )
 {
     if ( stance == SNA_STANCE_STANDING )
     {
-        return work->field_9B4_action_table->still->stand;
+        return work->actpack->still->stand;
     }
 
     if ( stance == SNA_STANCE_SQUAT )
     {
-        return work->field_9B4_action_table->still->squat;
+        return work->actpack->still->squat;
     }
 
     if ( stance == SNA_STANCE_CROUCH )
     {
-        return work->field_9B4_action_table->still->crouch;
+        return work->actpack->still->crouch;
     }
 
     return -1;

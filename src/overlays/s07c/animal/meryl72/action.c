@@ -21,8 +21,8 @@ static inline void UnsetMode( Meryl72Work *work )
 }
 /*********************************************************************************************************/
 
-extern int GM_AlertMode_800ABA00 ;
-extern int GM_PlayerAction_800ABA40 ;
+extern int GM_AlertMode ;
+extern int GM_PlayerAction ;
 extern CONTROL *GM_PlayerControl_800AB9F4 ;
 extern SVECTOR GM_PlayerPosition_800ABA10 ;
 
@@ -884,7 +884,7 @@ void s07c_meryl72_unk1_800C9B30( Meryl72Work* work, int time )
         }
     }
 
-    switch ( GM_PlayerAction_800ABA40 )
+    switch ( GM_PlayerAction )
     {
     case 0x7:
     case 0xD:
@@ -1457,7 +1457,7 @@ void s07c_meryl72_unk1_800CABA0( Meryl72Work *work )
         action( work, time_prev );
     }
 
-    ctrl->height = body->field_18 ;
+    ctrl->height = body->height ;
 
     if ( !unk->field_1C )
     {
@@ -1473,7 +1473,7 @@ void s07c_meryl72_unk1_800CABA0( Meryl72Work *work )
     s07a_meryl_unk_800D9508( work );
 
 
-    if ( GM_AlertMode_800ABA00 == 3 && work->target->class & TARGET_POWER )
+    if ( GM_AlertMode == 3 && work->target->class & TARGET_POWER )
     {
         work->hom->flag = 1;
     }
