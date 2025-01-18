@@ -8128,8 +8128,8 @@ static inline int sna_LoadSnake(SnaInitWork *work, int scriptData, int scriptBin
     GM_ConfigMotionControl(pObject,
                            &work->m_ctrl,
                            OAR_SNAKE,
-                           &work->m_segs1,
-                           &work->m_segs2,
+                           work->m_segs1,
+                           work->m_segs2,
                            pCtrl,
                            work->rots);
     GM_ConfigObjectLight(pObject, &work->field_848_lighting_mtx);
