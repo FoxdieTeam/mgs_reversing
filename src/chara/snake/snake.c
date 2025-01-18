@@ -63,7 +63,7 @@ void sna_8004E260(SnaInitWork *work, int a2, int interp, int a4)
     }
 }
 
-int GM_CheckPlayerStatusFlag(PlayerStatusFlag arg0)
+int GM_CheckPlayerStatusFlag(PlayerStatusFlag arg0) // Status()
 {
     return (GM_PlayerStatus & arg0) != 0;
 }
