@@ -166,18 +166,18 @@ ACTATTACK PSG1Attack     = {44u,  136u, 136u, 136u, 136u, 0u,  0u,  0u,  0u};
 
 //u_char[] special
 Sna_E6 e6_8009ED48[] = {
-    {115u, 133u, 0u, 0u},
-    {112u, 133u, 0u, 0u},
-    {113u, 133u, 0u, 0u},
-    {136u, 136u, 0u, 0u},
-    {114u, 132u, 0u, 0u},
-    {116u, 133u, 0u, 0u},
-    {117u, 133u, 0u, 0u},
-    {118u, 133u, 0u, 0u}
+    {115u, 133u, 0u, 0u}, // none
+    {112u, 133u, 0u, 0u}, // socom
+    {113u, 133u, 0u, 0u}, // famas
+    {136u, 136u, 0u, 0u}, // grenade
+    {114u, 132u, 0u, 0u}, // c4
+    {116u, 133u, 0u, 0u}, // nikita
+    {117u, 133u, 0u, 0u}, // claymore
+    {118u, 133u, 0u, 0u}  // stinger/psg1
 };
 
 //u_char[] special2
-// TODO: Why is this in .data despite fitting into .sdata?
+// Should be part of the above special array
 ACTSPECIAL SECTION(".data") e7_8009ED68 = {7u, 13u, 4u, 14u, 32u, 119u, 124u, 0u};
 
 ACTSTILL NoneStill     = { stand1_fig,   stand2_fig,   squat_fig,   crouch_socom, caution_fig, squat_caution_fig,  cau_punch_r_fig, cau_punch_l_fig };
