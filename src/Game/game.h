@@ -66,12 +66,11 @@ typedef int (*TBombFunction2)(int, CONTROL *, int *);
 typedef int (*TBombFunction3)(TARGET *, int);
 typedef int (*TPlayerActFunction)(GV_ACT *);
 
-// Missing flags with unknown value: PLAYER_ACT_ONLY
 typedef enum
 {
     PLAYER_FIRST_PERSON = 0x1,
     PLAYER_INTRUDE = 0x2, // Crawling in forced first person
-    PLAYER_UNK4 = 0x4, // Likely PLAYER_ACT_ONLY
+    PLAYER_ACT_ONLY = 0x4,
     PLAYER_FIRST_PERSON_CAN_LR_PEEK = 0x8,
     PLAYER_MOVING = 0x10,
     PLAYER_SQUAT = 0x20,
@@ -262,7 +261,7 @@ void GM_InitReadError(void);
 void DrawReadError(void);
 void GM_SetSystemCallbackProc(int index, int proc);
 void GM_CallSystemCallbackProc(int id, int arg);
-void GM_8002B600(int);
+void GM_SetLoadCallbackProc(int);
 void GM_ContinueStart(void);
 void GM_GameOver(void);
 void GM_StartDaemon(void);

@@ -96,7 +96,7 @@ STATIC int jirai_act_helper_8006A8F4(JiraiWork *work)
     CONTROL *p_control;
     SVECTOR  v;
 
-    if ((GM_PlayerStatus & 0x40) == 0)
+    if (!(GM_PlayerStatus & PLAYER_GROUND))
     {
         return 0;
     }

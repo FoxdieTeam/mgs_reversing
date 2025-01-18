@@ -2452,7 +2452,7 @@ void s03c_johnny_800C7F78(JohnnyWork *work, int action)
             GV_SendMessage(&msg);
         }
 
-        if ((action > 64) && !(GM_PlayerStatus & PLAYER_UNK4))
+        if ((action > 64) && !(GM_PlayerStatus & PLAYER_ACT_ONLY))
         {
             work->unkB1C &= ~0x4000000;
 

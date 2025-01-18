@@ -29,7 +29,7 @@ void Motse_800C57CC(MotseWork *work)
     MotseElem *elem;
     int        i;
 
-    if ((GM_PlayerStatus & PLAYER_UNK4) && GM_PlayerAction == work->field_20)
+    if ((GM_PlayerStatus & PLAYER_ACT_ONLY) && GM_PlayerAction == work->field_20)
     {
         for (i = 0, elem = work->field_28_elems; i < work->field_24_count; i++, elem++)
         {

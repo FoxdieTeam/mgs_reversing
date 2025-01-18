@@ -104,26 +104,6 @@ typedef struct Target_Data
     unsigned int field_1C;
 } Target_Data;
 
-typedef struct Sna_Joint_Rotations
-{
-    SVECTOR field_0_lower_body;
-    SVECTOR field_8_upper_body;
-    SVECTOR field_10_right_shoulder;
-    SVECTOR field_18_right_elbow;
-    SVECTOR field_20_right_wrist;
-    SVECTOR field_28_neck;
-    SVECTOR field_30_neck2;
-    SVECTOR field_38_right_shoulder;
-    SVECTOR field_40_right_elbow;
-    SVECTOR field_48_right_wrist;
-    SVECTOR field_50_right_leg;
-    SVECTOR field_58_right_knee;
-    SVECTOR field_60_right_ankle;
-    SVECTOR field_68_left_leg;
-    SVECTOR field_70_left_knee;
-    SVECTOR field_78_left_ankle;
-} Sna_Joint_Rotations;
-
 typedef struct ACTPACK
 {
     ACTSTILL   *still;       /*  静止モーション      */
@@ -231,16 +211,19 @@ typedef struct SnaAutoMove // @ field_A00 in SnaInitWork
 struct SnaInitWork;
 typedef void (*TSnakeFunction)(struct SnaInitWork *, int);
 
+#define SNAKEJOINT_NUM 16
+
 // TODO: Many fields and sub structures are not yet recovered/incorrect
 typedef struct SnaInitWork
 {
     GV_ACT              actor;
     CONTROL             control;
-    OBJECT              field_9C_obj;
-    MOTION_CONTROL      field_180;
-    MOTION_SEGMENT          field_1D0[34]; // bottom half of array is weapon related
-    Sna_Joint_Rotations field_698_joint_rotations;
-    SVECTOR             field_718[16]; // same size as above, related / same struct?
+    OBJECT              body;
+    MOTION_CONTROL      m_ctrl;
+    MOTION_SEGMENT      m_segs1[SNAKEJOINT_NUM + 1];
+    MOTION_SEGMENT      m_segs2[SNAKEJOINT_NUM + 1];
+    SVECTOR             rots[SNAKEJOINT_NUM];
+    SVECTOR             adjust[SNAKEJOINT_NUM];
     int                 field_798_p_height;
     int                 field_79C;
     int                 field_7A0_msg_count;
@@ -283,7 +266,7 @@ typedef struct SnaInitWork
     int                 field_9A8_current_item;
     int                 field_9AC;
     GV_PAD             *field_9B0_pad_ptr;
-    ACTPACK            *field_9B4_action_table;
+    ACTPACK            *actpack;
     TSnakeFunction      field_9B8_fn_anim;
     int                 field_9BC_anim_frame;
     TSnakeFunction      field_9C0;
