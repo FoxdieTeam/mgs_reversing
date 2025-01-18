@@ -262,7 +262,7 @@ void GM_InitReadError(void);
 void DrawReadError(void);
 void GM_SetSystemCallbackProc(int index, int proc);
 void GM_CallSystemCallbackProc(int id, int arg);
-void GM_8002B600(int);
+void GM_SetLoadCallbackProc(int);
 void GM_ContinueStart(void);
 void GM_GameOver(void);
 void GM_StartDaemon(void);

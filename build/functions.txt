@@ -521,7 +521,7 @@
 8002ADBC 1948 GM_Act
 8002B558 24 GM_SetSystemCallbackProc
 8002B570 144 GM_CallSystemCallbackProc
-8002B600 44 GM_8002B600
+8002B600 44 GM_SetLoadCallbackProc
 8002B62C 156 GM_ContinueStart
 8002B6C8 72 GM_GameOver
 8002B710 108 GM_LoadInitBin
@@ -538,7 +538,7 @@
 8002C22C 220 GM_Command_start
 8002C308 416 GM_Command_load
 8002C4A8 508 GM_Command_radio
-8002C6A4 136 GM_Command_strstatus
+8002C6A4 136 GM_Command_restart
 8002C72C 156 GM_Command_varsave
 8002C7C8 200 GM_Command_system
 8002C890 248 GM_Command_demo
