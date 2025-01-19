@@ -666,7 +666,7 @@ void sub_8004F338(SnaInitWork *work)
     GM_ExitBehindCamera_80030AEC();
 
     GM_PlayerStatus &= PLAYER_SECOND_AVAILABLE | PLAYER_NOT_SIGHT |
-                       PLAYER_GAMEOVER | PLAYER_CB_BOX | PLAYER_INTRUDE |
+                       PLAYER_GAME_OVER | PLAYER_CB_BOX | PLAYER_INTRUDE |
                        PLAYER_ACT_ONLY | PLAYER_SQUAT | PLAYER_GROUND;
 
     if ((work->field_920_tbl & 0x200) != 0)
@@ -7585,7 +7585,7 @@ static inline void sna_init_main_logic_helper4_800596FC(SnaInitWork *work)
 
 static inline void sna_init_main_logic_helper5_800596FC(SnaInitWork *work)
 {
-    if (GM_CheckPlayerStatusFlag(PLAYER_GAMEOVER))
+    if (GM_CheckPlayerStatusFlag(PLAYER_GAME_OVER))
     {
         if (((work->body.action == 128) && (work->m_ctrl.info1.frame == 49)) ||
             ((work->body.action == 127) && (work->m_ctrl.info1.frame == 72)))
@@ -7615,7 +7615,7 @@ static inline void sna_init_main_logic_helper5_800596FC(SnaInitWork *work)
         if (GM_GameOverTimer == 2)
         {
             sna_set_flags1_8004E2F4(work, 0x80000);
-            GM_SetPlayerStatusFlag(PLAYER_GAMEOVER);
+            GM_SetPlayerStatusFlag(PLAYER_GAME_OVER);
             sna_set_invuln_8004F2A0(work, 0);
             GM_GameOverTimer = -1;
         }

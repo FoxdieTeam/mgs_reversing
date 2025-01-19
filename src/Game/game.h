@@ -86,7 +86,7 @@ typedef enum
     PLAYER_ATTACK = 0x800,
     PLAYER_CB_BOX = 0x1000,
     // triggers game over when set. could this be the 'dead' flag?
-    PLAYER_GAMEOVER = 0x2000,
+    PLAYER_GAME_OVER = 0x2000,
     // anther first person flag
     PLAYER_INVISIBLE = 0x4000,
     PLAYER_MENU_DISABLE = 0x8000,

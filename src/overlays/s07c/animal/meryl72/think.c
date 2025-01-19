@@ -153,7 +153,7 @@ void s07c_meryl72_unk2_800CCD98( Meryl72Work *work )
         if ( work->count3 == 1 )
         {
             work->pad.dir = work->sn_dir;
-            GM_GameStatus |= ( PLAYER_SECOND_AVAILABLE | PLAYER_WEAPON_DISABLE | PLAYER_TIMERBOMB_THROWN | PLAYER_CHECK_WALL | PLAYER_GAMEOVER ) ;
+            GM_GameStatus |= ( PLAYER_SECOND_AVAILABLE | PLAYER_WEAPON_DISABLE | PLAYER_TIMERBOMB_THROWN | PLAYER_CHECK_WALL | PLAYER_GAME_OVER ) ;
         }
 
         if ( work->count3 == 60 )
