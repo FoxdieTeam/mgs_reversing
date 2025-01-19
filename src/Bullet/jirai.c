@@ -334,7 +334,7 @@ STATIC void JiraiAct(JiraiWork *work)
             return;
         }
 
-        if ((target2->field_40 & 1) && (GM_PlayerStatus & (PLAYER_INVULNERABLE | PLAYER_GROUND)))
+        if ((target2->field_40 & 1) && (GM_PlayerStatus & (PLAYER_INVINCIBLE | PLAYER_GROUND)))
         {
             target2->damaged &= ~TARGET_PUSH;
             dword_8009F444 = 0;

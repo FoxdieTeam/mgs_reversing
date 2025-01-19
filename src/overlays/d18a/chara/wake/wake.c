@@ -153,7 +153,7 @@ void WakeCheckPad_800C5E8C(WakeWork *work)
 
 void WakeAct_800C60BC(WakeWork *work)
 {
-    if (GM_PlayerStatus & PLAYER_USING_CONTROLLER_PORT_2)
+    if (GM_PlayerStatus & PLAYER_SECOND_CONTROLLER)
     {
         work->pad = &GV_PadData_800B05C0[1];
     }
@@ -168,7 +168,7 @@ void WakeAct_800C60BC(WakeWork *work)
 
 void WakeDie_800C6140(WakeWork *work)
 {
-    GM_PlayerStatus &= ~PLAYER_PREVENT_WEAPON_ITEM_SWITCH;
+    GM_PlayerStatus &= ~PLAYER_MENU_DISABLE;
 }
 
 int WakeGetResources_800C615C(WakeWork *work, int where)
@@ -203,7 +203,7 @@ int WakeGetResources_800C615C(WakeWork *work, int where)
     GM_Camera_800B77E8.first_person = 2;
     gUnkCameraStruct_800B77B8.rotate2 = work->field_30;
 
-    GM_PlayerStatus |= PLAYER_PREVENT_WEAPON_ITEM_SWITCH;
+    GM_PlayerStatus |= PLAYER_MENU_DISABLE;
 
     return 0;
 }

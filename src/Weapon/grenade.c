@@ -163,7 +163,7 @@ STATIC void GrenadeAct( GrenadeWork *work )
                 svector += 3;
             }
             DG_RotVector( svector, &tenage_vec2, 1 );
-            if ( GM_PlayerStatus & PLAYER_MOVING )
+            if ( GM_PlayerStatus & PLAYER_MOVE )
             {
                 tenage_vec2.vx += ctrl_pos->vx - work->pos.vx;
                 tenage_vec2.vz += ctrl_pos->vz - work->pos.vz;

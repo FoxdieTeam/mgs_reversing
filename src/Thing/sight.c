@@ -407,14 +407,14 @@ STATIC void sight_act_800714EC(SightWork *work)
         tag = *(int *)offsetPrimBuf;
         if (tag == 0xff)
         {
-            if (!(dword_8009F608 & 1) && !(GM_PlayerStatus & PLAYER_UNK4000000))
+            if (!(dword_8009F608 & 1) && !(GM_PlayerStatus & PLAYER_NOT_SIGHT))
             {
                 sight_act_helper_80071498(offsetPrimBuf);
             }
         }
         else
         {
-            if (!(dword_8009F608 & 1) && !(GM_PlayerStatus & PLAYER_UNK4000000))
+            if (!(dword_8009F608 & 1) && !(GM_PlayerStatus & PLAYER_NOT_SIGHT))
             {
                 addPrim(ot, offsetPrimBuf);
             }
@@ -422,7 +422,7 @@ STATIC void sight_act_800714EC(SightWork *work)
             if ((code & 2) != 0) // Checking for semi-transparency.
             {
                 SetDrawTPage(tPageBuf, 0, 1, ancField1Shifted << 5);
-                if (!(dword_8009F608 & 1) && !(GM_PlayerStatus & PLAYER_UNK4000000))
+                if (!(dword_8009F608 & 1) && !(GM_PlayerStatus & PLAYER_NOT_SIGHT))
                 {
                     addPrim(ot, tPageBuf);
                 }

@@ -79,7 +79,7 @@ char byte_8009F5F8[] = {0, 0, 0, 0};
 
 STATIC void sgtrect3_act_helper_helper_80070040(void *ot, void *prim)
 {
-    if (!(GM_PlayerStatus & PLAYER_UNK4000000))
+    if (!(GM_PlayerStatus & PLAYER_NOT_SIGHT))
     {
         addPrim(ot, prim);
     }

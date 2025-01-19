@@ -46,6 +46,6 @@ GV_ACT *s07c_second_800C5728(int name, int where, int argc, char **argv)
 
 int s07c_second_800C5790(void)
 {
-    GM_PlayerStatus |= PLAYER_CAN_USE_CONTROLLER_PORT_2;
+    GM_PlayerStatus |= PLAYER_SECOND_AVAILABLE;
     return 1;
 }

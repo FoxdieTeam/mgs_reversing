@@ -64,7 +64,7 @@ SVECTOR svecs_8009F2C8[2] = {{0, 0, 0, 0}, {0, 0, 3200, 0}};
 // Can't give a better name for now.
 STATIC void addLinePrimUnderCondition_80062320(void *ot, void *line)
 {
-    if ((GM_PlayerStatus & PLAYER_UNK4000000) == 0)
+    if ((GM_PlayerStatus & PLAYER_NOT_SIGHT) == 0)
     {
         addPrim(ot, line);
     }
@@ -543,7 +543,7 @@ STATIC void drawMovingVerticalLines_80062C7C(ScopeWork *work, u_char *pOt)
 
 STATIC void scope_draw_text_80062DA8(ScopeWork *work)
 {
-    if ( (GM_PlayerStatus & PLAYER_UNK4000000) == 0 )
+    if ( (GM_PlayerStatus & PLAYER_NOT_SIGHT) == 0 )
     {
         MENU_Locate(20, 34, 0);
         MENU_Color(127, 166, 97);
@@ -590,7 +590,7 @@ STATIC void ScopeAct(ScopeWork *work)
         GM_CurrentMap = work->control->map->index;
         DG_GroupObjs(work->object.objs, DG_CurrentGroupID);
 
-        if ((GM_PlayerStatus & PLAYER_UNK4000000) != 0)
+        if ((GM_PlayerStatus & PLAYER_NOT_SIGHT) != 0)
         {
             if (!(work->parent->objs->flag & DG_FLAG_INVISIBLE))
             {
@@ -630,7 +630,7 @@ STATIC void ScopeAct(ScopeWork *work)
     }
 
 
-    if ((GM_PlayerStatus & PLAYER_USING_CONTROLLER_PORT_2) != 0)
+    if ((GM_PlayerStatus & PLAYER_SECOND_CONTROLLER) != 0)
     {
         work->field_54_pOldPad = &GV_PadData_800B05C0[3];
     }

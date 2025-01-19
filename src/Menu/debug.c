@@ -621,7 +621,7 @@ void menu_viewer_act(MenuWork *work, unsigned int *pOt)
         menu_draw_pow_debug(work, pOt);
         return;
     }
-    if (!(GM_PlayerStatus & PLAYER_PREVENT_WEAPON_ITEM_SWITCH) && GV_PauseLevel != 0 &&
+    if (!(GM_PlayerStatus & PLAYER_MENU_DISABLE) && GV_PauseLevel != 0 &&
         (GV_PadData_800B05C0[0].press & PAD_L1))
     {
         if (menu_current_debug_screen_800ABB20 == 5)

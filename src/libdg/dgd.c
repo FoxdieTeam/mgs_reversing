@@ -85,7 +85,7 @@ void DG_StartFrame(GV_ACT *actor)
     GV_UpdatePadSystem();
     GM_CurrentPadData = GV_PadData_800B05C0;
 
-    if ((GM_PlayerStatus & PLAYER_CAN_USE_CONTROLLER_PORT_2) != 0)
+    if ((GM_PlayerStatus & PLAYER_SECOND_AVAILABLE) != 0)
     {
         if (GV_PadData_800B05C0[1].status | GV_PadData_800B05C0[1].release)
         {

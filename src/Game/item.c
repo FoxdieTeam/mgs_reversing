@@ -521,7 +521,7 @@ STATIC void item_Act(ItemWork *work)
         return;
     }
 
-    if (!(GM_PlayerStatus & (PLAYER_INTRUDE | PLAYER_FIRST_PERSON)) || (GM_GameStatus & (STATE_PADRELEASE | STATE_DEMO)))
+    if (!(GM_PlayerStatus & (PLAYER_INTRUDE | PLAYER_WATCH)) || (GM_GameStatus & (STATE_PADRELEASE | STATE_DEMO)))
     {
         work->field_110_counter = 0;
         return;

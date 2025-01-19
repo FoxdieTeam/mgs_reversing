@@ -177,7 +177,7 @@ void s07c_meryl72_unk1_800CB9DC(Meryl72Work *work)
         break;
 
     case 2:
-        if (GM_PlayerStatus & PLAYER_FIRST_PERSON)
+        if (GM_PlayerStatus & PLAYER_WATCH)
         {
             if (GV_DiffDirAbs(work->sn_dir, GM_PlayerControl_800AB9F4->rot.vy) > 1800)
             {

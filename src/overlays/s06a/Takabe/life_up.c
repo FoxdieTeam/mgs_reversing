@@ -23,7 +23,7 @@ extern int GV_PassageTime;
 
 void LifeUpAct_800DF1A8(LifeUpWork *work)
 {
-    GM_GameStatus |= PLAYER_PREVENT_WEAPON_ITEM_SWITCH;
+    GM_GameStatus |= PLAYER_MENU_DISABLE;
 
     if (work->f34 <= 0)
     {
@@ -107,7 +107,7 @@ int LifeUpGetResources_800DF334(LifeUpWork *work, int name, int map)
 
     work->f28 = work->f24;
 
-    GM_GameStatus |= PLAYER_CAN_USE_CONTROLLER_PORT_2 | PLAYER_PREVENT_WEAPON_ITEM_SWITCH;
+    GM_GameStatus |= PLAYER_SECOND_AVAILABLE | PLAYER_MENU_DISABLE;
     return 0;
 }
 

@@ -302,9 +302,9 @@ void Johnny_800C4418(JohnnyWork *work)
 
 void Johnny_800C44F8(JohnnyWork *work)
 {
-    if ((work->player_status & PLAYER_UNK100000) != (GM_PlayerStatus & PLAYER_UNK100000))
+    if ((work->player_status & PLAYER_KETCHUP) != (GM_PlayerStatus & PLAYER_KETCHUP))
     {
-        if (GM_PlayerStatus & PLAYER_UNK100000)
+        if (GM_PlayerStatus & PLAYER_KETCHUP)
         {
             if (work->unkB1C & 0x20)
             {
@@ -349,7 +349,7 @@ void s03c_johnny_800C45AC(JohnnyWork* work)
 
     if (work->unkB70 == 2 && !(work->unkB1C & 0x2))
     {
-        if (!(work->unkB1C & 0x20) && GM_Items[ITEM_KETCHUP] == -1 && !(GM_PlayerStatus & PLAYER_UNK100000))
+        if (!(work->unkB1C & 0x20) && GM_Items[ITEM_KETCHUP] == -1 && !(GM_PlayerStatus & PLAYER_KETCHUP))
         {
             work->unkB1C |= 0x80002;
         }
@@ -2065,7 +2065,7 @@ void s03c_johnny_800C753C(JohnnyWork *work, int action)
         }
     }
 
-    if (!(GM_PlayerStatus & PLAYER_UNK100000))
+    if (!(GM_PlayerStatus & PLAYER_KETCHUP))
     {
         work->unkB50 = 0;
 
@@ -2370,7 +2370,7 @@ void s03c_johnny_800C7BF8(JohnnyWork *work, int action)
         break;
 
     case 5:
-        if ((GM_StreamStatus() == -1) && Johnny_800C43D0(0xAE93) && (GM_PlayerStatus & PLAYER_KNOCKING))
+        if ((GM_StreamStatus() == -1) && Johnny_800C43D0(0xAE93) && (GM_PlayerStatus & PLAYER_CHECK_WALL))
         {
             s03b_boxall_800C93F0(work->unkB78[17], 4);
         }
@@ -3143,7 +3143,7 @@ void Johnny_800C949C(JohnnyWork *work, int arg1)
     s03b_boxall_800C974C();
     if (arg1 == 0)
     {
-        if (GM_PlayerStatus & PLAYER_UNK100000)
+        if (GM_PlayerStatus & PLAYER_KETCHUP)
         {
             work->unkB1C |= 2;
         }

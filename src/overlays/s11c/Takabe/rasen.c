@@ -343,7 +343,7 @@ void Rasen2Act_800CA79C(Rasen2Work *work)
         }
     }
 
-    if ((GM_PlayerStatus & PLAYER_FIRST_PERSON) && !(GM_Camera_800B77E8.flags & 0x100))
+    if ((GM_PlayerStatus & PLAYER_WATCH) && !(GM_Camera_800B77E8.flags & 0x100))
     {
         if (GM_PlayerMap_800ABA0C & work->field_28)
         {
