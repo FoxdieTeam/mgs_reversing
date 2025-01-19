@@ -32,7 +32,7 @@ STATIC void GoggleManagerAct(GoggleManagerWork *work)
         if (GM_CurrentWeaponId == WEAPON_STINGER ||
             GM_CurrentWeaponId == WEAPON_PSG1 ||
             dword_8009F46C == 1 ||
-            (GM_PlayerStatus & PLAYER_UNK4000000))
+            (GM_PlayerStatus & PLAYER_NOT_SIGHT))
         {
             work->time = 0;
 

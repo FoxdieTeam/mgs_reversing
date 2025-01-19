@@ -842,7 +842,7 @@ void UseConsumableItem_8003C24C(Menu_Item_Unknown *pPanels, unsigned short press
         {
             pPanel->field_0_id = ITEM_NONE;
             GM_TimerBombFlag = ITEM_NONE;
-            GM_PlayerStatus |= PLAYER_THROWING;
+            GM_PlayerStatus |= PLAYER_TIMERBOMB_THROWN;
             GM_SeSet2(0, 63, SE_MENU_EXIT);
         }
         return;
@@ -1024,7 +1024,7 @@ void UpdateEnvironmentalEffects_8003C4EC(void)
         // Dectement the timer bomb and check if it has reached 0
         if (--GM_TimerBombFlag <= 0)
         {
-            if (GM_PlayerStatus & PLAYER_INVULNERABLE)
+            if (GM_PlayerStatus & PLAYER_INVINCIBLE)
             {
                 GM_TimerBombFlag = 1;
             }
@@ -1089,7 +1089,7 @@ void menu_item_update_8003C95C(MenuWork *work, unsigned int *pOt)
         {
             // If the player is allowed to use items
             if (!(GM_PlayerStatus &
-                  (PLAYER_PAD_OFF | PLAYER_PREVENT_ITEM_SWITCH | PLAYER_PREVENT_WEAPON_ITEM_SWITCH)))
+                  (PLAYER_PAD_OFF | PLAYER_ITEM_DISABLE | PLAYER_MENU_DISABLE)))
             {
                 // Menu button is pressed (L2)
                 if (menu_8003DA9C(&work->field_1DC_menu_item, pPad))

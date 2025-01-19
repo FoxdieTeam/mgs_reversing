@@ -52,7 +52,7 @@ int asioto_800C392C(Work *work)
 
 int asioto_800C394C()
 {
-    return (GM_PlayerStatus & (PLAYER_ON_WALL | PLAYER_GROUND | PLAYER_MOVING)) == PLAYER_MOVING;
+    return (GM_PlayerStatus & (PLAYER_CAUTION | PLAYER_GROUND | PLAYER_MOVE)) == PLAYER_MOVE;
 }
 
 int asioto_800C396C(Work *work)
@@ -95,7 +95,7 @@ void AsiotoAct_800C39E8(Work *work)
     {
         if (GM_PlayerStatus & PLAYER_INTRUDE)
         {
-            if (GM_PlayerStatus & PLAYER_MOVING)
+            if (GM_PlayerStatus & PLAYER_MOVE)
             {
                 index = asioto_800C39B8();
                 if (index < 0)

@@ -1813,7 +1813,7 @@ void TortureDie_800C6774(TortureWork *work)
     GM_FreeControl(&work->control);
     GM_FreeObject(&work->body);
 
-    GM_PlayerStatus &= ~PLAYER_PREVENT_WEAPON_ITEM_SWITCH;
+    GM_PlayerStatus &= ~PLAYER_MENU_DISABLE;
 
     s03b_boxall_800C96E8();
     s03b_boxall_800C9328();
@@ -2055,7 +2055,7 @@ int TortureGetResources_800C6B3C(TortureWork *work, int name, int map)
     work->body.objs->objs[6].world.t[2] = gUnkCameraStruct_800B77B8.eye.vz;
 
     GM_AlertMode = 10;
-    GM_PlayerStatus |= PLAYER_PREVENT_WEAPON_ITEM_SWITCH;
+    GM_PlayerStatus |= PLAYER_MENU_DISABLE;
 
     s03b_boxall_800C9328();
 

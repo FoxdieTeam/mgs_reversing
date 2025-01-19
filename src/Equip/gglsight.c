@@ -395,7 +395,7 @@ STATIC void GoggleSightAct(GoggleSightWork *work)
     unsigned short status;
     int f3c;
 
-    if (GM_PlayerStatus & PLAYER_USING_CONTROLLER_PORT_2)
+    if (GM_PlayerStatus & PLAYER_SECOND_CONTROLLER)
     {
         status = GV_PadData_800B05C0[1].status;
     }

@@ -931,7 +931,7 @@ STATIC void JpegcamAct(JpegcamWork *work)
     OBJECT         *parent;
     OBJECT_NO_ROTS *object;
 
-    if (GM_PlayerStatus & PLAYER_USING_CONTROLLER_PORT_2)
+    if (GM_PlayerStatus & PLAYER_SECOND_CONTROLLER)
     {
         work->pad_data = &GV_PadData_800B05C0[3];
     }
@@ -968,7 +968,7 @@ STATIC void JpegcamAct(JpegcamWork *work)
 
         DG_GroupObjs(work->goggles.objs, DG_CurrentGroupID);
 
-        if (GM_PlayerStatus & PLAYER_UNK4000000)
+        if (GM_PlayerStatus & PLAYER_NOT_SIGHT)
         {
             if ( !(work->parent->objs->flag & DG_FLAG_INVISIBLE) )
             {
@@ -1014,7 +1014,7 @@ STATIC void JpegcamAct(JpegcamWork *work)
             GM_SeSet2(0, 63, SE_ITEM_OPENWINDOW);
         }
 
-        if ( !(GM_PlayerStatus & PLAYER_UNK4000000) )
+        if ( !(GM_PlayerStatus & PLAYER_NOT_SIGHT) )
         {
             MENU_Locate(200, 25, 0);
             MENU_Color(192, 144, 128);

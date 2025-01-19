@@ -967,7 +967,7 @@ int Valcan_800DA558(ValcanWork *work, int arg1)
     {
         if (diffdir < 256)
         {
-            if (!(GM_PlayerStatus & (PLAYER_INVULNERABLE | PLAYER_UNK100 | PLAYER_UNK80)))
+            if (!(GM_PlayerStatus & (PLAYER_INVINCIBLE | PLAYER_DAMAGED | PLAYER_NOT_PLAYABLE)))
             {
                 GM_SeSet2(0, 0x7F, SE_HIT);
                 Valcan_800DA21C(work);
