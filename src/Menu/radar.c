@@ -321,7 +321,7 @@ void drawMap_800391D0(MenuWork *work, unsigned char *ot, int arg2)
         setXY0(pTile1, 0, 0);
         addPrim(ot, pTile1);
 
-        if (GM_PlayerStatus & PLAYER_FIRST_PERSON)
+        if (GM_PlayerStatus & PLAYER_WATCH)
         {
             // Draw Snake's vision cone in first person
             cone.dir = control->rot.vy;

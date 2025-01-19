@@ -1905,7 +1905,7 @@ void s11i_asiato_800CCAD8(Zako11FWork *work, int time)
 
             GM_SeSet(&work->control.mov, 0x93);
 
-            if (work->sn_dis < 1000 && (GM_PlayerStatus & PLAYER_FIRST_PERSON) && GV_RandU(12) > 10)
+            if (work->sn_dis < 1000 && (GM_PlayerStatus & PLAYER_WATCH) && GV_RandU(12) > 10)
             {
                 work->pad.sound = 240;
             }

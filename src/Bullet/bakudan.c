@@ -64,7 +64,7 @@ STATIC void BakudanAct(BakudanWork *work)
     control = &work->control;
     pad = &GV_PadData_800B05C0[0];
 
-    if (GM_PlayerStatus & PLAYER_USING_CONTROLLER_PORT_2)
+    if (GM_PlayerStatus & PLAYER_SECOND_CONTROLLER)
     {
         pad = &GV_PadData_800B05C0[1];
     }

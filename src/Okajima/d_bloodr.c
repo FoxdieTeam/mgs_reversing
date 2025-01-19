@@ -84,7 +84,7 @@ STATIC void d_bloodr_Act(DBloodWorkr *work)
 
     if ((work->field_D4_sequence < 200) && (++work->field_D4_sequence == 100))
     {
-        GM_PlayerStatus |= PLAYER_UNK100000;
+        GM_PlayerStatus |= PLAYER_KETCHUP;
     }
 
     if (work->field_D4_sequence >= 100)
@@ -95,16 +95,16 @@ STATIC void d_bloodr_Act(DBloodWorkr *work)
 
             if (GV_VecLen3(&diff) > 640)
             {
-                GM_PlayerStatus &= ~PLAYER_UNK100000;
+                GM_PlayerStatus &= ~PLAYER_KETCHUP;
             }
             else
             {
-                GM_PlayerStatus |= PLAYER_UNK100000;
+                GM_PlayerStatus |= PLAYER_KETCHUP;
             }
         }
         else
         {
-            GM_PlayerStatus &= ~PLAYER_UNK100000;
+            GM_PlayerStatus &= ~PLAYER_KETCHUP;
         }
     }
 }

@@ -68,47 +68,47 @@ typedef int (*TPlayerActFunction)(GV_ACT *);
 
 typedef enum
 {
-    PLAYER_FIRST_PERSON = 0x1,
+    PLAYER_WATCH = 0x1,
     PLAYER_INTRUDE = 0x2, // Crawling in forced first person
     PLAYER_ACT_ONLY = 0x4,
-    PLAYER_FIRST_PERSON_CAN_LR_PEEK = 0x8,
-    PLAYER_MOVING = 0x10,
+    PLAYER_NORMAL_WATCH = 0x8, //first person can l r peek
+    PLAYER_MOVE = 0x10,
     PLAYER_SQUAT = 0x20,
     PLAYER_GROUND = 0x40,
     // stops movement and actions. - item/weap switching + pause/radio still available
-    PLAYER_UNK80 = 0x80,
+    PLAYER_NOT_PLAYABLE = 0x80,
     // hit flinch, step on claymore
-    PLAYER_UNK100 = 0x100,
+    PLAYER_DAMAGED = 0x100,
     // knocked down related
-    PLAYER_UNK200 = 0x200,
+    PLAYER_DOWNED = 0x200,
     // cleared leaving first person
-    PLAYER_UNK400 = 0x400,
-    PLAYER_PREVENT_FIRST_PERSON = 0x800,
+    PLAYER_STILL_WATCH = 0x400,
+    PLAYER_ATTACK = 0x800,
     PLAYER_CB_BOX = 0x1000,
     // triggers game over when set. could this be the 'dead' flag?
     PLAYER_GAMEOVER = 0x2000,
     // anther first person flag
-    PLAYER_UNK4000 = 0x4000,
-    PLAYER_PREVENT_WEAPON_ITEM_SWITCH = 0x8000,
-    PLAYER_ON_WALL = 0x10000,
-    PLAYER_KNOCKING = 0x20000,
-    PLAYER_UNK40000 = 0x40000,
-    PLAYER_THROWING = 0x80000,
-    PLAYER_UNK100000 = 0x100000,
-    PLAYER_PREVENT_ITEM_SWITCH = 0x200000,
-    PLAYER_PREVENT_WEAPON_SWITCH = 0x400000,
-    PLAYER_INVULNERABLE = 0x800000,
-    PLAYER_UNDERWATER = 0x1000000,
-    PLAYER_UNK2000000 = 0x2000000,
+    PLAYER_INVISIBLE = 0x4000,
+    PLAYER_MENU_DISABLE = 0x8000,
+    PLAYER_CAUTION = 0x10000, //on wall
+    PLAYER_CHECK_WALL = 0x20000, //knocking
+    PLAYER_MOVE_WATCH = 0x40000,
+    PLAYER_TIMERBOMB_THROWN = 0x80000,
+    PLAYER_KETCHUP = 0x100000,
+    PLAYER_ITEM_DISABLE = 0x200000,
+    PLAYER_WEAPON_DISABLE = 0x400000,
+    PLAYER_INVINCIBLE = 0x800000,
+    PLAYER_IN_THE_WATER = 0x1000000,
+    PLAYER_HIDDEN = 0x2000000,
     // in level transition / mini cutscene, level transition duct
-    PLAYER_UNK4000000 = 0x4000000,
-    PLAYER_USING_CONTROLLER_PORT_2 = 0x8000000,
-    PLAYER_CAN_USE_CONTROLLER_PORT_2 = 0x10000000,
+    PLAYER_NOT_SIGHT = 0x4000000,
+    PLAYER_SECOND_CONTROLLER = 0x8000000, //using second controller
+    PLAYER_SECOND_AVAILABLE = 0x10000000, //can use second controller
     // stops movement, actions, and item/weap switching. - pause/radio still available
     PLAYER_PAD_OFF = 0x20000000,
     // Set from sna_check_dead_8004E384() and sna_anim_dying_80055524().
-    PLAYER_DEADORDYING = 0x40000000,
-    PLAYER_UNK80000000 = 0x80000000,
+    PLAYER_NOHIDDEN = 0x40000000, //dead or dying
+    PLAYER_DEBUG = 0x80000000,
 } PlayerStatusFlag;
 
 enum {

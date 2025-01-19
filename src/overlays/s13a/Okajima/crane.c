@@ -714,7 +714,7 @@ void CraneAct_800D4C28(CraneWork *work)
     if (work->f378 > 4 &&
         GM_PlayerPosition_800ABA10.vx < -7500 &&
         ((GM_PlayerPosition_800ABA10.vz < -5000 && GM_PlayerPosition_800ABA10.vz > -12500) || GM_PlayerPosition_800ABA10.vz > -2000) &&
-        !(GM_PlayerStatus & PLAYER_ON_WALL) &&
+        !(GM_PlayerStatus & PLAYER_CAUTION) &&
         work->f370 != -1)
     {
         if (GM_SnakeCurrentHealth == 0)
