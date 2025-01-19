@@ -177,7 +177,7 @@ STATIC void rmissile_act_helper_helper_8006BA70(RMissileWork *work)
         work->field_168 = 0;
     }
 
-    if (!(GM_PlayerStatus & PLAYER_UNK4000000))
+    if (!(GM_PlayerStatus & PLAYER_NOT_SIGHT))
     {
         MENU_Color(158, 184, 138);
         MENU_Locate(116, 98, 0);
@@ -206,7 +206,7 @@ STATIC void rmissile_act_helper_helper_8006BB10(RMissileWork *work)
     poly->x3 = var_a1 + 31;
     poly->x1 = var_a1 + 31;
 
-    if (GM_PlayerStatus & PLAYER_UNK4000000)
+    if (GM_PlayerStatus & PLAYER_NOT_SIGHT)
     {
         return;
     }
@@ -580,7 +580,7 @@ STATIC void RMissileAct(RMissileWork *work)
 
     pad = &GV_PadData_800B05C0[0];
 
-    if (GM_PlayerStatus & PLAYER_USING_CONTROLLER_PORT_2)
+    if (GM_PlayerStatus & PLAYER_SECOND_CONTROLLER)
     {
         pad = &GV_PadData_800B05C0[1];
     }

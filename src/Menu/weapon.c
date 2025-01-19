@@ -920,7 +920,7 @@ int menu_weapon_isWeaponDisabled_8003DF30(int weaponId)
     {
         return 1;
     }
-    if ((GM_PlayerStatus & PLAYER_ON_WALL) && weaponId == WEAPON_PSG1)
+    if ((GM_PlayerStatus & PLAYER_CAUTION) && weaponId == WEAPON_PSG1)
     {
         return 1;
     }

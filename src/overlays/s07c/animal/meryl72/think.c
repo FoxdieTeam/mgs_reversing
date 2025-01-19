@@ -147,13 +147,13 @@ void s07c_meryl72_unk2_800CCD98( Meryl72Work *work )
         if ( work->count3 == 0 )
         {
             s07c_meryl72_unk2_800CCB2C( work, 1 ) ;
-            GM_GameStatus |= PLAYER_CAN_USE_CONTROLLER_PORT_2;
+            GM_GameStatus |= PLAYER_SECOND_AVAILABLE;
         }
 
         if ( work->count3 == 1 )
         {
             work->pad.dir = work->sn_dir;
-            GM_GameStatus |= ( PLAYER_CAN_USE_CONTROLLER_PORT_2 | PLAYER_PREVENT_WEAPON_SWITCH | PLAYER_THROWING | PLAYER_KNOCKING | PLAYER_GAMEOVER ) ;
+            GM_GameStatus |= ( PLAYER_SECOND_AVAILABLE | PLAYER_WEAPON_DISABLE | PLAYER_TIMERBOMB_THROWN | PLAYER_CHECK_WALL | PLAYER_GAMEOVER ) ;
         }
 
         if ( work->count3 == 60 )
@@ -523,7 +523,7 @@ int s07c_meryl72_unk2_800CD76C(int xmin, int zmin, int xmax, int zmax)
 {
     int x, z;
 
-    if (!(GM_PlayerStatus & PLAYER_ON_WALL))
+    if (!(GM_PlayerStatus & PLAYER_CAUTION))
     {
         return 0;
     }

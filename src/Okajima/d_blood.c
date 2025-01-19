@@ -62,7 +62,7 @@ STATIC void d_blood_Act(DBloodWork *work)
     switch (work->f24_state)
     {
     case 0:
-        if (((GM_PlayerStatus & (PLAYER_INTRUDE | PLAYER_MOVING |
+        if (((GM_PlayerStatus & (PLAYER_INTRUDE | PLAYER_MOVE |
                 PLAYER_GROUND | PLAYER_PAD_OFF)) == PLAYER_GROUND) &&
             (GV_PadData_800B05C0[0].press & PAD_CIRCLE))
         {

@@ -51,7 +51,7 @@ STATIC short word_800AB8EC = 0;
 
 STATIC void addPrimEX_80068320(unsigned int *ot, unsigned int *prim)
 {
-    if (!(GM_PlayerStatus & PLAYER_UNK4000000))
+    if (!(GM_PlayerStatus & PLAYER_NOT_SIGHT))
     {
         addPrim(ot, prim);
     }

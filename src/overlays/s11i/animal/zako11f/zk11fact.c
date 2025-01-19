@@ -42,7 +42,7 @@ void s11i_asiato_800CD808(Zako11FWork *work)
         }
         else if (work->field_94C.damaged & TARGET_TOUCH)
         {
-            if ((GM_PlayerStatus & (PLAYER_CB_BOX | PLAYER_MOVING)) != PLAYER_CB_BOX)
+            if ((GM_PlayerStatus & (PLAYER_CB_BOX | PLAYER_MOVE)) != PLAYER_CB_BOX)
             {
                 work->modetime[6] |= 0xC;
             }

@@ -378,7 +378,7 @@ int s00a_asiato_800D16F8(AsiatoWork *work, HZD_HDL *hdl, SVECTOR *pos)
 int AsiatoIsAllowedOnMove_800D179C()
 {
     // If player is moving and not on wall or prone
-    return (GM_PlayerStatus & (PLAYER_ON_WALL | PLAYER_MOVING | PLAYER_GROUND)) == PLAYER_MOVING;
+    return (GM_PlayerStatus & (PLAYER_CAUTION | PLAYER_MOVE | PLAYER_GROUND)) == PLAYER_MOVE;
 }
 
 int s00a_asiato_800D17BC(AsiatoWork *work)

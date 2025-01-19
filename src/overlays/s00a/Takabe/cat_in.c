@@ -41,7 +41,7 @@ void ZoomCameraAct_800DF740( ZoomCameraWork *cam )
     DG_LookAt( DG_Chanl( 0 ), &cam->eye, &cam->center, cam->clip_distance );
 
     GM_GameStatus |= GAME_FLAG_BIT_07;
-    GM_PlayerStatus |= PLAYER_UNK4000000;
+    GM_PlayerStatus |= PLAYER_NOT_SIGHT;
 
     if ( GM_PlayerBody_800ABA20 )
     {
@@ -111,11 +111,11 @@ void ZoomDie_800DF910( ZoomWork *work )
     }
 
     GM_GameStatus &= ~GAME_FLAG_BIT_07;
-    GM_PlayerStatus &= ~PLAYER_UNK4000000;
+    GM_PlayerStatus &= ~PLAYER_NOT_SIGHT;
 
     if ( GM_PlayerBody_800ABA20 )
     {
-        if ( GM_PlayerStatus & PLAYER_UNK4000 )
+        if ( GM_PlayerStatus & PLAYER_INVISIBLE )
         {
             DG_InvisibleObjs( GM_PlayerBody_800ABA20->objs );
         }

@@ -535,9 +535,9 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
         {
             if (GM_AlertMode == 0)
             {
-                if ((GM_Camera_800B77E8.first_person != 0) || (GM_PlayerStatus & PLAYER_FIRST_PERSON))
+                if ((GM_Camera_800B77E8.first_person != 0) || (GM_PlayerStatus & PLAYER_WATCH))
                 {
-                    if ((GM_UnkFlagBE == 0) || !(GM_PlayerStatus & PLAYER_UNK40000))
+                    if ((GM_UnkFlagBE == 0) || !(GM_PlayerStatus & PLAYER_MOVE_WATCH))
                     {
                         break;
                     }
@@ -648,7 +648,7 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
 
         if ((GM_AlertMode != 0) ||
             ((message & 0x20) != 0) ||
-            ((GM_PlayerStatus & PLAYER_UNK100) != 0) ||
+            ((GM_PlayerStatus & PLAYER_DAMAGED) != 0) ||
             (work->field_44 > 1))
         {
             s03e_evpanel_800C3AD0(work);
@@ -673,7 +673,7 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
         break;
 
     case 7:
-        if ((work->field_44 > 1) || (GM_PlayerStatus & PLAYER_UNK100))
+        if ((work->field_44 > 1) || (GM_PlayerStatus & PLAYER_DAMAGED))
         {
             s03e_evpanel_800C3AD0(work);
 

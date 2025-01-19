@@ -618,7 +618,7 @@ void Dog_800CAB68(DogWork *work, int index, int hp)
 {
     TARGET *target;
 
-    if (GM_PlayerStatus & (PLAYER_UNK80 | PLAYER_UNK100 | PLAYER_INVULNERABLE))
+    if (GM_PlayerStatus & (PLAYER_NOT_PLAYABLE | PLAYER_DAMAGED | PLAYER_INVINCIBLE))
     {
         return;
     }

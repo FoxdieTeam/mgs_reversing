@@ -665,7 +665,7 @@ void s11c_800CD340(RasenElWork *work, int arg1)
         if (work->f2D4 == 0)
         {
             if (GM_Camera_800B77E8.first_person == 1 &&
-                (GM_UnkFlagBE == 0 || (GM_UnkFlagBE == 1 && !(GM_PlayerStatus & PLAYER_UNK40000))))
+                (GM_UnkFlagBE == 0 || (GM_UnkFlagBE == 1 && !(GM_PlayerStatus & PLAYER_MOVE_WATCH))))
             {
                 printf("cancel\n");
                 work->f2D8 = -1;
@@ -691,7 +691,7 @@ void s11c_800CD340(RasenElWork *work, int arg1)
                 break;
             }
 
-            if (GM_PlayerStatus & (PLAYER_PREVENT_FIRST_PERSON | PLAYER_UNK100))
+            if (GM_PlayerStatus & (PLAYER_ATTACK | PLAYER_DAMAGED))
             {
                 if (!(GM_Camera_800B77E8.flags & 0x200))
                 {
@@ -794,7 +794,7 @@ void s11c_800CD340(RasenElWork *work, int arg1)
                 work->f2D0 = 2;
             }
         }
-        else if (release & PAD_CROSS || GM_PlayerStatus & PLAYER_UNK100)
+        else if (release & PAD_CROSS || GM_PlayerStatus & PLAYER_DAMAGED)
         {
             work->f2D0 = 2;
         }

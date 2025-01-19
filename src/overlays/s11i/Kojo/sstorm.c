@@ -281,7 +281,7 @@ void SStormAct_800D478C(SStormWork *work)
     sp10.vy += GM_PlayerPosition_800ABA10.vy;
     sp10.vz += GM_PlayerPosition_800ABA10.vz;
 
-    if (GM_PlayerStatus & PLAYER_FIRST_PERSON)
+    if (GM_PlayerStatus & PLAYER_WATCH)
     {
         sp20.vx = gUnkCameraStruct2_800B7868.center.vx - gUnkCameraStruct2_800B7868.eye.vx;
         sp20.vy = gUnkCameraStruct2_800B7868.center.vy - gUnkCameraStruct2_800B7868.eye.vy;
