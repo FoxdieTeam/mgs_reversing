@@ -95,7 +95,7 @@ extern PlayerStatusFlag GM_PlayerStatus;
 
 int GCL_ExecProc(int proc_id, GCL_ARGS *args)
 {
-    if (GM_LoadRequest || (GM_PlayerStatus & PLAYER_GAMEOVER))
+    if (GM_LoadRequest || (GM_PlayerStatus & PLAYER_GAME_OVER))
     {
         printf("proc %d cancel\n", proc_id);
         return 0;
