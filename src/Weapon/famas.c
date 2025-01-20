@@ -34,6 +34,7 @@ typedef struct _FamasWork
 
 #define EXEC_LEVEL      6
 #define MAGAZINE_SIZE   25
+#define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
 
 STATIC SVECTOR stru_800AB850 = { 5, -500, 80, 0 };
 
@@ -172,7 +173,7 @@ STATIC int FamasGetResources(FamasWork *work, OBJECT *parent, int num_parent, in
     else
         id = GV_StrCode("mpfive");
 
-    GM_InitObjectNoRots(obj, id, WEAPON_FLAG, 0);
+    GM_InitObjectNoRots(obj, id, BODY_FLAG, 0);
 
     if (!obj->objs)
         return -1;

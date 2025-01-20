@@ -38,6 +38,7 @@ extern SVECTOR GM_PlayerPosition_800ABA10;
 void AN_Unknown_800CA458(MATRIX *, int);
 
 #define EXEC_LEVEL 5
+#define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE | DG_FLAG_ONEPIECE )
 
 int Ductmouse_800DA2EC(SVECTOR *a, SVECTOR *b)
 {
@@ -304,7 +305,7 @@ int DuctmouseGetResources_800DAA1C(DuctmouseWork *work, int name, int where)
     work->pos = work->points[0];
 
     body = &work->body;
-    GM_InitObject(body, GV_StrCode("mouse"), BODY_FLAG | DG_FLAG_ONEPIECE, 0);
+    GM_InitObject(body, GV_StrCode("mouse"), BODY_FLAG, 0);
     GM_ConfigObjectJoint(body);
     GM_ConfigObjectLight(body, work->light);
     body->objs->objs[0].raise = 200;

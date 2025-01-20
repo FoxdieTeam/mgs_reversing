@@ -31,6 +31,7 @@ typedef struct _BombWork
 } BombWork;
 
 #define EXEC_LEVEL 6
+#define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
 
 /*---------------------------------------------------------------------------*/
 
@@ -97,7 +98,7 @@ STATIC int BombGetResources(BombWork *work, OBJECT *parent, int num_parent)
 {
     OBJECT_NO_ROTS *obj = &work->object;
 
-    GM_InitObjectNoRots(obj, GV_StrCode("c4_bomb"), WEAPON_FLAG, 0);
+    GM_InitObjectNoRots(obj, GV_StrCode("c4_bomb"), BODY_FLAG, 0);
 
     if (!obj->objs)
         return -1;

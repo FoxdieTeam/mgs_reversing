@@ -87,6 +87,8 @@ typedef struct JohnnyWork
 
 #define EXEC_LEVEL 5
 
+#define TARGET_FLAG ( TARGET_POWER | TARGET_CAPTURE | TARGET_PUSH | TARGET_TOUCH | TARGET_SEEK )
+
 unsigned char johnny_vibration1_800C32C0[] = {0xFF, 0x0A, 0x00, 0x00};
 unsigned char johnny_vibration2_800C32C4[] = {0xFF, 0x04, 0x00, 0x00};
 
@@ -923,7 +925,7 @@ void s03c_johnny_800C5168(JohnnyWork *work)
         Johnny_800C5124(target);
 
         work->unkB1C &= ~0x800;
-        work->target->class &= ~TARGET_DOWN;
+        UnsetTargetClass( work->target, TARGET_DOWN );
 
         s03b_boxall_800C9328();
     }
@@ -2683,7 +2685,7 @@ void Johnny_800C873C(JohnnyWork *work, int action)
     {
         work->control.radar_atr &= ~RADAR_SIGHT;
         work->unkB1C |= 0x200;
-        work->target->class |= TARGET_DOWN;
+        SetTargetClass( work->target, TARGET_DOWN );
         SetAction(work, (work->unkB50 == 1) ? 23 : 24);
     }
 
@@ -2702,7 +2704,7 @@ void Johnny_800C873C(JohnnyWork *work, int action)
             GCL_ExecProc(work->unkBC0[3], NULL);
             work->unkB4E = 1;
             NewHiyoko_800D0210(&work->object.objs->objs[6].world, -1);
-            work->target->class &= ~TARGET_FLAG;
+            UnsetTargetClass( work->target, TARGET_FLAG );
             work->unkB1C |= 0x80000000;
         }
         if (++work->unkB4C == 36)
@@ -2737,7 +2739,7 @@ void s03c_johnny_800C88C8(JohnnyWork *work, int action)
 
     if (work->object.is_end != 0)
     {
-        work->target->class &= ~TARGET_DOWN;
+        UnsetTargetClass( work->target, TARGET_DOWN );
         work->unkB1C &= ~0x200;
 
         if (work->unkB24 & 0x8)
@@ -3005,7 +3007,7 @@ void Johnny_800C8FE4(JohnnyWork *work, int action)
         SetAction(work, action_flag);
         GM_ConfigControlAttribute(&work->control, 0);
 
-        work->target->class |= TARGET_DOWN;
+        SetTargetClass( work->target, TARGET_DOWN );
 
         Johnny_800C4F24(work, 0);
         GCL_ExecProc(work->unkBC0[5], NULL);
@@ -3042,9 +3044,8 @@ void Johnny_800C9144(JohnnyWork *work, int action)
         work->control.radar_atr &= ~RADAR_SIGHT;
 
         SetAction(work, 39);
-
-        work->target->class &= ~TARGET_FLAG;
-        work->target->class |= TARGET_DOWN;
+        UnsetTargetClass( work->target, TARGET_FLAG ) ;
+        SetTargetClass( work->target, TARGET_DOWN ) ;
     }
 
     if (action == 36)

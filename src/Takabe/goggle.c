@@ -31,6 +31,7 @@ typedef struct GoggleWork
 } GoggleWork;
 
 #define EXEC_LEVEL 6
+#define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
 
 /*---------------------------------------------------------------------------*/
 
@@ -168,7 +169,7 @@ STATIC int goggle_GetResources(GoggleWork *work, OBJECT *parent)
     OBJECT_NO_ROTS *obj = &work->object;
     if (parent->objs->n_models >= 7)
     {
-        GM_InitObjectNoRots(obj, GV_StrCode("goggles"), WEAPON_FLAG, 0);
+        GM_InitObjectNoRots(obj, GV_StrCode("goggles"), BODY_FLAG, 0);
         if (!obj->objs)
         {
             return -1;

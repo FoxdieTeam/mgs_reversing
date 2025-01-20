@@ -51,8 +51,6 @@ enum
     ATK_BLAST = 0x2,
 };
 
-#define TARGET_FLAG ( TARGET_POWER | TARGET_CAPTURE | TARGET_PUSH | TARGET_TOUCH | TARGET_SEEK ) // 0x9e
-
 enum
 {
     NO_SIDE = 0,
@@ -63,7 +61,12 @@ enum
 
 static inline void SetTargetClass( TARGET *target, unsigned int flag )
 {
-    target->class |= ( flag | TARGET_AVAIL );
+    target->class |= ( flag );
+}
+
+static inline void UnsetTargetClass( TARGET *target, unsigned int flag )
+{
+    target->class &= ~( flag );
 }
 
 #define TARGET_ARRAY_LENGTH 64
