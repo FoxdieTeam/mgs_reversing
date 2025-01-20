@@ -13,10 +13,10 @@
 /*---------------------------------------------------------------------------*/
 // extern BSS
 
-extern PadReceiveBuffer         padbuf_800C1480[2];     // aka. gMtsPadRecvBuffers
-extern unsigned char            sendbuf_800C14D0[2][8]; // aka. gMtsPadSendBuffers
-extern PadParsedReceiveBuffer   pad_800C14E0[2];        // aka. gMtsPadParsedRecvBuffers
-extern int                      pad_state_800C14F0[2];  // aka. gMtsPadInitStates
+extern PadReceiveBuffer         padbuf_800C1480[2];
+extern unsigned char            sendbuf_800C14D0[2][8];
+extern PadParsedReceiveBuffer   pad_800C14E0[2];
+extern int                      pad_state_800C14F0[2];
 
 /*---------------------------------------------------------------------------*/
 
@@ -42,14 +42,14 @@ STATIC int vibration_enable = 1;
  *
  * @param   channel     0: first pad, 1: second pad
  */
-STATIC void init_expand_pad( int channel ) // aka. mts_init_controller_actuators
+STATIC void init_expand_pad( int channel )
 {
     int port;
     int actuators_count;
     int i;
     int func, subfunc, size;
 
-    extern char param_800C1470[2][6]; // aka. param.2 (gMtsPadActBuffers)
+    extern char param_800C1470[2][6]; // "param.2" (in 5thMix)
 
     port = channel * 0x10;
     // Get the total number of actuators present in the controller
@@ -91,7 +91,7 @@ STATIC void init_expand_pad( int channel ) // aka. mts_init_controller_actuators
     PadSetActAlign(port, param_800C1470[channel]);
 }
 
-STATIC void do_control( void ) // aka. mts_callback_controller
+STATIC void do_control( void )
 {
     int i;
     int state;
