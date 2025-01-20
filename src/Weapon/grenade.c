@@ -43,6 +43,7 @@ typedef struct _GrenadeWork
 } GrenadeWork;
 
 #define EXEC_LEVEL 6
+#define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
 
 unsigned short grenade_model_8009F3E4[] = {
     KMD_GRENADE,    // GV_StrCode("grenade")
@@ -220,7 +221,7 @@ STATIC int GrenadeGetResources( GrenadeWork *work, OBJECT *parent, int num_paren
     OBJECT_NO_ROTS *obj;
 
     obj = &work->object;
-    GM_InitObjectNoRots( obj, grenade_model_8009F3E4[ grd_type ], WEAPON_FLAG, 0 );
+    GM_InitObjectNoRots( obj, grenade_model_8009F3E4[ grd_type ], BODY_FLAG, 0 );
 
     if ( !obj->objs )
         return -1;

@@ -41,7 +41,6 @@ extern unsigned int GM_PlayerStatus;
 extern int          GM_PlayerAction;
 extern int          GM_PlayerMap_800ABA0C;
 
-
 /***Inlines***********************************************************************************************/
 static inline void UnsetMode( WatcherWork *work )
 {

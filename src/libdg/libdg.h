@@ -392,16 +392,8 @@ enum DG_CHANL
     DG_CHANL_SORT,
 };
 
-#define BODY_FLAG   ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE |\
-                    DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE) // 0x32d
-
-#define BODY_FLAG2  ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE) // 0x2d
-
-#define SHADOW_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE |\
-                    DG_FLAG_ONEPIECE | DG_FLAG_AMBIENT) // 0x16d
-
-#define WEAPON_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE |\
-                    DG_FLAG_ONEPIECE) // 0x6d
+//#define WEAPON_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE |\
+//                    DG_FLAG_ONEPIECE) // 0x6d
 
 #define RevisionDir( a )  a &= 4095
 #define INIT_VEC( vec,xx,yy,zz ) { (vec).vx = xx; (vec).vy = yy; (vec).vz = zz; }

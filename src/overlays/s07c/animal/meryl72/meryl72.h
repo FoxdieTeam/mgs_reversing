@@ -149,6 +149,17 @@ typedef struct Meryl72Work
     int            proc_id;
 } Meryl72Work;
 
+//not sure if this goes in c or h but some pa
+#define MOTION_DATA     GV_StrCode( "mel_07a" )     /* ステージ７モーションデータ */
+#define MOTION_DATA2    GV_StrCode( "mel_09a" )     /* ステージ９モーションデータ */
+#define BODY_DATA       GV_StrCode( "meryl" )       /* モデルデータ     */
+#define	WEAPON_DATA     GV_StrCode( "desert" )      /* 初期手持ち武器モデルデータ */
+
+#define TARGET_FLAG     ( TARGET_POWER | TARGET_CAPTURE | TARGET_PUSH | TARGET_TOUCH | TARGET_SEEK )
+#define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE )
+#define WEAPON_FLAG     ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
+//#define SHADOW_PRIM_TYPE ( DG_PRIM_P...
+
 typedef void    ( *ACTION )( Meryl72Work *, int ) ;
 typedef void    ( *PUTFUNC )( Meryl72Work * ) ;
 /*

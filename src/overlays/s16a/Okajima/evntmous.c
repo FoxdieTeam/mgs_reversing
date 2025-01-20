@@ -65,6 +65,7 @@ void * NewCinemaScreen_800DE434( int, int );
 int    NewCinemaScreenClose_800DE4CC( void * );
 
 #define EXEC_LEVEL 5
+#define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE | DG_FLAG_ONEPIECE )
 
 void Eventmouse_800C8E88(EventmouseWork *work, SVECTOR *arg1, int arg2)
 {
@@ -711,7 +712,7 @@ int EventMouseGetResources_800CA370(EventmouseWork *work, HZD_PTP *points, short
 
     body = &work->body;
     model = GV_StrCode("mouse");
-    GM_InitObject(body, model, BODY_FLAG | DG_FLAG_ONEPIECE, 0);
+    GM_InitObject(body, model, BODY_FLAG, 0);
     GM_ConfigObjectJoint(body);
     GM_ConfigObjectLight(body, work->light);
     work->body.objs->objs[0].raise = 200;

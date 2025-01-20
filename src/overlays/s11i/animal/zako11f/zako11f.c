@@ -145,7 +145,7 @@ void InitTarget_800C8A10( Zako11FWork *work )
     life   = work->param.life;
     faint  = work->param.faint;
 
-    GM_SetTarget( target, ( TARGET_FLAG | TARGET_AVAIL ), ENEMY_SIDE, &ZAKO11F_TARGET_SIZE_800C365C );
+    GM_SetTarget( target, TARGET_FLAG, ENEMY_SIDE, &ZAKO11F_TARGET_SIZE_800C365C );
     GM_Target_8002DCCC( target, 1, -1, life, faint, &ZAKO11F_TARGET_FORCE_800C3664 );
     GM_Target_8002DCB4( target, -1, faint, NULL, NULL);
 

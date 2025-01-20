@@ -181,7 +181,7 @@ void s07c_meryl72_800C6E48( Meryl72Work *work )
     GM_Target_8002DCB4( target, -1, faint, NULL, NULL );
     sub_8002DD14( target, &work->body.objs->objs[1].world );
 
-    GM_SetTarget( &work->target2, TARGET_FLAG & ~( TARGET_SEEK | TARGET_PUSH | TARGET_CAPTURE ), PLAYER_SIDE, &s07c_dword_800C3300 );
+    GM_SetTarget( &work->target2, TARGET_POWER | TARGET_TOUCH, PLAYER_SIDE, &s07c_dword_800C3300 );
     GM_Target_8002DCCC( &work->target2, 7, 5, 0, 0, &s07c_dword_800C3308 );
 }
 
@@ -231,21 +231,21 @@ int s07c_meryl72_800C6F8C( Meryl72Work *work, int name, int map )
 
     if ( work->stage == 0 )
     {
-        motion = GV_StrCode( "mel_07a" );
+        motion = MOTION_DATA;
     }
     else
     {
-        motion = GV_StrCode( "mel_09a" );
+        motion = MOTION_DATA2;
     }
 
-    GM_InitObject( body, GV_StrCode( "meryl" ), BODY_FLAG, motion );
+    GM_InitObject( body, BODY_DATA, BODY_FLAG, motion );
     GM_ConfigObjectJoint( body );
     GM_ConfigMotionControl( body, &work->m_ctrl, motion, work->m_segs1, work->m_segs2, control, work->rots );
     GM_ConfigObjectLight( body, work->light );
 
     work->hom = GM_AllocHomingTarget( &work->body.objs->objs[6].world, control );
 
-    GM_InitObject( weapon, GV_StrCode( "desert" ), WEAPON_FLAG, 0 );
+    GM_InitObject( weapon, WEAPON_DATA, WEAPON_FLAG, 0 );
     GM_ConfigObjectLight( weapon, work->light );
     GM_ConfigObjectRoot( weapon, body, 4 );
 
