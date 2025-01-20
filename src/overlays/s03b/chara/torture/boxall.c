@@ -28,6 +28,7 @@ extern SVECTOR   GM_PlayerPosition_800ABA10;
 extern GM_Camera GM_Camera_800B77E8;
 
 #define EXEC_LEVEL 5
+#define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
 
 int Boxall_800C9780(SVECTOR *out, SVECTOR *in)
 {
@@ -341,7 +342,7 @@ int BoxallGetResources_800C9F58(BoxallWork *work, int name, int map)
     work->proc = GCL_StrToInt(GCL_GetOption('e'));
 
     object = &work->object;
-    GM_InitObjectNoRots(object, model, WEAPON_FLAG, 0);
+    GM_InitObjectNoRots(object, model, BODY_FLAG, 0);
     GM_ConfigObjectLight((OBJECT *)object, work->light);
 
     work->f100 = 0;

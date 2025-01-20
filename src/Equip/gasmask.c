@@ -28,6 +28,7 @@ typedef struct GasmaskWork
 } GasmaskWork;
 
 #define EXEC_LEVEL 6
+#define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
 
 /*---------------------------------------------------------------------------*/
 
@@ -92,7 +93,7 @@ STATIC int GasmaskGetResources(GasmaskWork *work, OBJECT *parent, int num_parent
 
     work->time = 0;
 
-    GM_InitObjectNoRots(object, GV_StrCode("gas_mask"), WEAPON_FLAG, 0);
+    GM_InitObjectNoRots(object, GV_StrCode("gas_mask"), BODY_FLAG, 0);
     if (!work->object.objs)
     {
         return -1;

@@ -45,6 +45,7 @@ typedef struct _AamWork
 } AamWork;
 
 #define EXEC_LEVEL 6
+#define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
 
 TARGET *StnTarget = NULL;
 SVECTOR svector_800AB8A4 = {-300, 200, 0, 0};
@@ -159,7 +160,7 @@ STATIC int AamGetResources(AamWork *work, OBJECT *parent, int num_parent)
     work->sight = NULL;
 
     model = GV_StrCode("stinger");
-    GM_InitObjectNoRots(object, model, WEAPON_FLAG, 0);
+    GM_InitObjectNoRots(object, model, BODY_FLAG, 0);
 
     if (!object->objs)
         return -1;

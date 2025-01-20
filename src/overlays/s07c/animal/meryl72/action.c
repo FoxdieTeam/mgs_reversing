@@ -166,7 +166,7 @@ void s07c_meryl72_unk1_800C86EC( Meryl72Work* work, int time )
 
     ctrl->turn.vy = dir;
     work->vision.facedir = GV_NearExp4P( work->vision.facedir, work->control.rot.vy );
-    work->target->class |= TARGET_FLAG;
+    SetTargetClass( work->target, TARGET_FLAG );
 }
 
 extern void s07c_meryl72_unk1_800CA0EC( Meryl72Work* work, int time ) ;
@@ -189,7 +189,7 @@ void s07c_meryl72_unk1_800C88EC( Meryl72Work* work, int time )
 void s07c_meryl72_unk1_800C8970( Meryl72Work* work, int time )
 {
     work->act_status = 1 ;
-    work->target->class |= TARGET_FLAG ;
+    SetTargetClass( work->target, TARGET_FLAG );
     work->vision.length = 4000 ;
 
     if ( time == 0 )
@@ -446,7 +446,7 @@ void s07c_meryl72_unk1_800C9000( Meryl72Work* work, int time )
         {
             work->control.turn.vy = work->sn_dir ;
             work->vision.facedir = work->control.rot.vy ;
-            work->target->class |= TARGET_FLAG ;
+            SetTargetClass( work->target, TARGET_FLAG );
         }
     }
 }
@@ -477,7 +477,7 @@ void s07c_meryl72_unk1_800C90C8( Meryl72Work* work, int time )
         {
             work->control.turn.vy = work->sn_dir;
             work->vision.facedir = work->control.rot.vy;
-            work->target->class |= TARGET_FLAG ;
+            SetTargetClass( work->target, TARGET_FLAG );
         }
     }
 }
@@ -508,7 +508,7 @@ void s07c_meryl72_unk1_800C9190( Meryl72Work* work, int time )
         {
             work->control.turn.vy = work->sn_dir;
             work->vision.facedir = work->control.rot.vy;
-            work->target->class |= TARGET_FLAG ;
+            SetTargetClass( work->target, TARGET_FLAG );
         }
     }
 }
@@ -534,7 +534,7 @@ void s07c_meryl72_unk1_800C9258( Meryl72Work* work, int time )
     {
         work->control.turn.vy = work->sn_dir;
         work->vision.facedir = work->control.rot.vy;
-        work->target->class |= TARGET_FLAG ;
+        SetTargetClass( work->target, TARGET_FLAG );
     }
 }
 
@@ -559,7 +559,7 @@ void s07c_meryl72_unk1_800C9318( Meryl72Work* work, int time )
     {
         work->control.turn.vy = work->sn_dir;
         work->vision.facedir = work->control.rot.vy;
-        work->target->class |= TARGET_FLAG ;
+        SetTargetClass( work->target, TARGET_FLAG );
     }
 }
 
@@ -579,7 +579,7 @@ void ActReadyGun_800C9428( Meryl72Work* work, int time )
 {
     int press;
     work->act_status = 1 ;
-    work->target->class |= TARGET_FLAG ;
+    SetTargetClass( work->target, TARGET_FLAG );
     work->vision.length = 4000 ;
     press = work->pad.press;
 
@@ -643,7 +643,7 @@ void ActReadyGun_800C9428( Meryl72Work* work, int time )
 void s07c_meryl72_unk1_800C9594( Meryl72Work* work, int time )
 {
     work->act_status = 1 ;
-    work->target->class |= TARGET_FLAG ;
+    SetTargetClass( work->target, TARGET_FLAG );
     work->vision.length = 4000 ;
 
     if ( time == 0 )
@@ -668,7 +668,7 @@ void s07c_meryl72_unk1_800C964C( Meryl72Work *work, int time )
     SVECTOR *rot;
 
     work->act_status = 1 ;
-    work->target->class |= TARGET_FLAG ;
+    SetTargetClass( work->target, TARGET_FLAG );
     work->vision.length = 4000 ;
 
     if ( time == 0 )
@@ -709,7 +709,7 @@ void s07c_meryl72_unk1_800C964C( Meryl72Work *work, int time )
 void ActGrenade_800C9790( Meryl72Work* work, int time )
 {
     work->act_status = 1 ;
-    work->target->class |= TARGET_FLAG ;
+    SetTargetClass( work->target, TARGET_FLAG );
     work->vision.length = 4000 ;
 
     if ( time == 0 )
@@ -749,7 +749,7 @@ void ActGrenade_800C9790( Meryl72Work* work, int time )
 
 void s07c_meryl72_unk1_800C98E0( Meryl72Work* work, int time )
 {
-    work->target->class |= TARGET_FLAG ;
+    SetTargetClass( work->target, TARGET_FLAG );
 
     if ( time == 0 )
     {
@@ -993,7 +993,7 @@ void s07c_meryl72_unk1_800C9F98( Meryl72Work *work, int time )
     }
     else
     {
-        work->target->class |= TARGET_FLAG ;
+        SetTargetClass( work->target, TARGET_FLAG );
     }
 
     if ( time == time_offset + 48 )
@@ -1172,7 +1172,7 @@ void s07c_meryl72_unk1_800CA408( Meryl72Work* work, int time )
         printf( " nokezori end!!\n" ) ;
         SetMode( work, ActStandStill_800C8580 ) ;
     }
-    work->target->class |= TARGET_FLAG ;
+    SetTargetClass( work->target, TARGET_FLAG );
 }
 
 void s07c_meryl72_unk1_800CA538( Meryl72Work *work, int time )

@@ -42,6 +42,8 @@ SVECTOR svec_8009F454 = {-500, -250, 750, 0};
 SVECTOR svec_8009F45C = {500, 200, 500, 0};
 SVECTOR svec_8009F464 = {300, 200, 300, 0};
 
+#define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE | DG_FLAG_ONEPIECE )
+
 STATIC MATRIX *jirai_loader_helper_8006A798(MATRIX *arg0, MATRIX *arg1, HZD_FLR *floor)
 {
     MATRIX mtx1;
@@ -529,7 +531,7 @@ STATIC int JiraiGetResources(JiraiWork *work, MATRIX *world, HZD_FLR *floor)
     work->field_144_vec.vz = 0;
     GM_ConfigControlAttribute(control, 0);
     obj = &work->body;
-    GM_InitObjectNoRots(obj, GV_StrCode("claymore"), BODY_FLAG | DG_FLAG_ONEPIECE, 0);
+    GM_InitObjectNoRots(obj, GV_StrCode("claymore"), BODY_FLAG, 0);
     if (!obj->objs)
     {
         return -1;

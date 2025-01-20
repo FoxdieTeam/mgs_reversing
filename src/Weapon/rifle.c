@@ -42,6 +42,7 @@ typedef struct _RifleWork
 
 #define EXEC_LEVEL      6
 #define MAGAZINE_SIZE   5
+#define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
 
 /*---------------------------------------------------------------------------*/
 
@@ -218,7 +219,7 @@ STATIC int RifleGetResources(RifleWork *work, OBJECT *parent, int num_parent)
     OBJECT_NO_ROTS *obj = &work->object;
 
     int id = GV_StrCode("rifle");
-    GM_InitObjectNoRots(obj, id, WEAPON_FLAG, 0);
+    GM_InitObjectNoRots(obj, id, BODY_FLAG, 0);
 
     if (!obj->objs)
         return -1;

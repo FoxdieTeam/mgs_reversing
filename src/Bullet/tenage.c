@@ -41,6 +41,8 @@ typedef struct TenageWork
     int            control_index;
 } TenageWork;
 
+#define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
+
 /*---------------------------------------------------------------------------*/
 
 STATIC void TenageAct(TenageWork *work)
@@ -243,7 +245,7 @@ STATIC int TenageGetResources(TenageWork *work, SVECTOR *pos, SVECTOR *step, int
         }
         GM_ConfigControlVector(control, pos, (SVECTOR *)&DG_ZeroVector);
         work->step = *step;
-        GM_InitObjectNoRots(&work->object, model, WEAPON_FLAG, 0);
+        GM_InitObjectNoRots(&work->object, model, BODY_FLAG, 0);
         if (work->object.objs)
         {
             DG_SetPos2(&control->mov, &control->rot);

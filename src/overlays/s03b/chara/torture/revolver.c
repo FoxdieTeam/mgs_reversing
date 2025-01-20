@@ -58,6 +58,7 @@ typedef struct RevolverWork
 } RevolverWork;
 
 #define EXEC_LEVEL 5
+#define BODY_FLAG  ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE)
 
 extern short s03b_dword_800C32E4[];
 extern int   s03b_dword_800C32FC[];
@@ -1441,7 +1442,7 @@ int RevolverGetResources_800C8FD4(RevolverWork *work, int arg1, int arg2)
 
     object = &work->field_9C;
 
-    GM_InitObject(object, GV_StrCode("rev_v_ct"), BODY_FLAG2, motion);
+    GM_InitObject(object, GV_StrCode("rev_v_ct"), BODY_FLAG, motion);
     GM_ConfigObjectJoint(object);
     GM_ConfigMotionControl(object, &work->field_180, motion, &work->field_1D0, &work->field_458, control,
                            &work->field_6E0);
