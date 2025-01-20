@@ -49,6 +49,7 @@ typedef struct _SocomWork
 
 #define EXEC_LEVEL      6
 #define MAGAZINE_SIZE   12
+#define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
 
 STATIC short word_800AB824 = -215;
 STATIC RECT  stru_800AB828 = {0, 0, 2, 2};
@@ -397,12 +398,12 @@ STATIC int SocomGetResources( SocomWork *actor, OBJECT *parent, int num_parent )
     obj = &actor->object;
     if ( GM_SilencerFlag < 0 )
     {
-        GM_InitObjectNoRots(obj, GV_StrCode( "socom" ), WEAPON_FLAG, 0);
+        GM_InitObjectNoRots(obj, GV_StrCode( "socom" ), BODY_FLAG, 0);
         actor->field_56 = 0;
     }
     else
     {
-        GM_InitObjectNoRots(obj, GV_StrCode( "socom2" ), WEAPON_FLAG, 0);
+        GM_InitObjectNoRots(obj, GV_StrCode( "socom2" ), BODY_FLAG, 0);
         actor->field_56 = 1;
         GM_SilencerFlag = 0;
         if ( GM_CurrentItemId == ITEM_SUPPR )

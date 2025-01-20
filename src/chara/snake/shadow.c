@@ -24,6 +24,8 @@ typedef struct _Shadow_Scratch
     MATRIX  mtx;
 } Shadow_Scratch;
 
+#define SHADOW_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE | DG_FLAG_AMBIENT )
+
 void ShadowRotate_8005FD28(ShadowWork *work)
 {
     MATRIX *pWorld;

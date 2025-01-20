@@ -200,7 +200,7 @@ int AttackForce_800C80DC( Meryl72Work * work, int check )
     size      = size_800D4848;
 
     target = &work->punch;
-    GM_SetTarget( target, 4, ENEMY_SIDE, &size );
+    GM_SetTarget( target, TARGET_POWER, ENEMY_SIDE, &size );
     DG_SetPos2( &work->control.mov, &work->control.rot );
 
     if ( !check )

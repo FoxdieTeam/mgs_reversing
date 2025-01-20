@@ -26,7 +26,7 @@ typedef struct BoxWork
 } BoxWork;
 
 #define EXEC_LEVEL 6
-
+#define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
 /*---------------------------------------------------------------------------*/
 
 STATIC int box_1p_view_flag = 0;
@@ -117,7 +117,7 @@ STATIC int BoxGetResources(BoxWork *work, OBJECT *parent)
     const char    **name;
     int             i;
 
-    GM_InitObjectNoRots(object, GV_StrCode("cb_box"), WEAPON_FLAG, 0);
+    GM_InitObjectNoRots(object, GV_StrCode("cb_box"), BODY_FLAG, 0);
 
     if (!work->object.objs)
     {

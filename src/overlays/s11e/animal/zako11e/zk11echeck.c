@@ -200,22 +200,21 @@ extern OBJECT *GM_PlayerBody_800ABA20;
 void ReviseReadyGun_800D4828( ZakoWork* work )
 {
     int trans;
-    int near;
+    int rotx;
 
     trans = ( ( GM_PlayerBody_800ABA20->objs->objs[6].world.t[1] - work->body.objs->objs[6].world.t[1] ) );
     trans = ratan2( work->sn_dis, trans  )  & 0xFFF;
 
-    near = GV_NearExp8( work->adjust[2].vx, trans - 0x400 );
-    work->adjust[2].vx = near;
-    work->adjust[6].vx = near;
-
-    if ( near < 0 )
+    rotx = GV_NearExp8( work->adjust[2].vx, trans - 0x400 );
+    work->adjust[2].vx = rotx;  /* 右腕 */
+    work->adjust[6].vx = rotx;  /* 頭 */
+    if ( rotx < 0 )             /* 左腕 */
     {
-        work->adjust[7].vx = near * 3 ;
+        work->adjust[7].vx = rotx * 3 ;
     }
     else
     {
-        work->adjust[7].vx = ( near * 3 ) / 2 ;
+        work->adjust[7].vx = ( rotx * 3 ) / 2 ;
     }
 }
 

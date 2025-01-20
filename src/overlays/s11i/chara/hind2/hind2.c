@@ -45,6 +45,7 @@ extern SVECTOR GM_PlayerPosition_800ABA10;
 void *NewHdBul2( SVECTOR *arg0, SVECTOR *arg1, int enable );
 
 #define EXEC_LEVEL 5
+#define BODY_FLAG  ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE )
 
 void Hind2_800C43F0( SVECTOR *a, SVECTOR *b, VECTOR *out )
 {
@@ -669,7 +670,7 @@ int Hind2GetResources( Hind2Work *work, int name, int map )
     work->f1E4.vz = work->control.mov.vz;
 
     body = &work->body;
-    GM_InitObject( body, GCL_StrToInt( model ), BODY_FLAG2, 0 );
+    GM_InitObject( body, GCL_StrToInt( model ), BODY_FLAG, 0 );
     GM_ConfigObjectJoint( body );
     GM_ConfigObjectLight( body, work->light );
 

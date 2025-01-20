@@ -42,6 +42,7 @@ typedef struct AMissileWork
 } AMissileWork;
 
 #define EXEC_LEVEL 6
+#define BODY_FLAG   ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE | DG_FLAG_ONEPIECE )
 
 int amissile_alive_8009F490 = 0;
 SVECTOR svector_8009F494 = {0, 0, 0, 0};
@@ -388,7 +389,7 @@ STATIC void AMissileDie(AMissileWork *work)
 STATIC int AMissileGetResources(AMissileWork *work, MATRIX *world, int side)
 {
     CONTROL *control = &work->control;
-    OBJECT_NO_ROTS *object;
+    OBJECT_NO_ROTS *body;
     DG_OBJS *objs;
     RECT *rect;
     DG_PRIM *prim;
@@ -404,14 +405,14 @@ STATIC int AMissileGetResources(AMissileWork *work, MATRIX *world, int side)
     GM_ConfigControlMatrix(control, world);
     GM_ConfigControlHazard(control, 100, 50, 50);
 
-    object = &work->body;
+    body = &work->body;
 
     control->skip_flag |= CTRL_SKIP_NEAR_CHECK;
     control->field_59 = 8;
 
-    GM_InitObjectNoRots(object, KMD_STN_FR, BODY_FLAG | DG_FLAG_ONEPIECE, 0);
+    GM_InitObjectNoRots(body, KMD_STN_FR, BODY_FLAG, 0);
 
-    objs = object->objs;
+    objs = body->objs;
 
     if (!objs)
     {
@@ -419,9 +420,9 @@ STATIC int AMissileGetResources(AMissileWork *work, MATRIX *world, int side)
     }
 
     objs->world = *world;
-    GM_ConfigObjectLight((OBJECT *)object, work->light);
+    GM_ConfigObjectLight((OBJECT *)body, work->light);
 
-    object->objs->objs[0].raise = -500;
+    body->objs->objs[0].raise = -500;
 
     rect = &work->prim_rect;
     rect->x = rect->y = 30;

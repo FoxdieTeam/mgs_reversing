@@ -566,6 +566,8 @@ void UnsetCameraActCall_800D047C();
 // "low-poly heishi" ?
 #define HASH_LOPRYHEI   0xD7E3 // GV_StrCode("lopryhei")
 
+#define TARGET_FLAG ( TARGET_POWER | TARGET_CAPTURE | TARGET_PUSH | TARGET_TOUCH | TARGET_SEEK | TARGET_AVAIL )
+
 //check.c
 int s00a_command_800C580C( int a, int b );
 int CheckDamage_800C5424( WatcherWork * work ) ;

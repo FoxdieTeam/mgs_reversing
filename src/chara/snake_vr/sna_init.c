@@ -48,50 +48,6 @@ short        SECTION(".sbss") dword_800ABBD4;
 void        *SECTION(".sbss") GM_BombSeg;
 short        SECTION(".sbss") dword_800ABBDC;
 
-/*
-extern int dword_800ABBA8;
-int        SECTION(".sbss") dword_800ABBA8;
-
-extern int gSnaMoveDir_800ABBA4;
-int        SECTION(".sbss") gSnaMoveDir_800ABBA4;
-
-extern char *dword_800ABBB4;
-char *       SECTION(".sbss") dword_800ABBB4;
-
-
-HZD_FLR *flr_800ABBB8[2];
-HZD_FLR *SECTION(".sbss") flr_800ABBB8[2];
-
-extern int           dword_800ABBC0;
-int SECTION(".sbss") dword_800ABBC0;
-
-extern int dword_800ABBC4;
-int        SECTION(".sbss") dword_800ABBC4;
-
-extern SVECTOR *pVec_800ABBC8;
-SVECTOR        *SECTION(".sbss") pVec_800ABBC8;
-
-extern SVECTOR *pVec_800ABBCC;
-SVECTOR        *SECTION(".sbss") pVec_800ABBCC;
-
-extern int dword_800ABBD0;
-int        SECTION(".sbss") dword_800ABBD0;
-
-extern short dword_800ABBDC;
-short        SECTION(".sbss") dword_800ABBDC;
-
-extern short dword_800ABBD4;
-short        SECTION(".sbss") dword_800ABBD4;
-
-extern void *dword_800ABBB0;
-void *       SECTION(".sbss") dword_800ABBB0;
-
-extern void *GM_BombSeg;
-void *SECTION(".sbss") GM_BombSeg;
-
-extern SVECTOR *dword_800ABBAC;
-SVECTOR *SECTION(".sbss") dword_800ABBAC;
-*/
 extern CONTROL *GM_PlayerControl_800AB9F4;
 extern OBJECT  *GM_PlayerBody_800ABA20;
 extern short              GM_WeaponChanged_800AB9D8;
@@ -145,6 +101,9 @@ extern short              snake_weapon_idx_800BDCBA;
 extern short              snake_mag_size_800BDCB8;
 extern short              snake_weapon_max_ammo_800BDCBC;
 extern int                GM_PlayerAction;
+
+#define TARGET_FLAG ( TARGET_POWER | TARGET_CAPTURE | TARGET_PUSH | TARGET_TOUCH | TARGET_SEEK )
+#define BODY_FLAG   ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE )
 
 ACTMOVE NoneMove     = {12u, 82u, 19u, 23u, 24u, 29u, 30u, 12u, 0u, 0u};
 ACTMOVE SocomMove    = {10u, 8u, 17u, 23u, 24u, 27u, 28u, 80u, 106u, 107u};
@@ -8088,7 +8047,7 @@ static inline void sna_LoadSnake4( POLY_FT4 *packs, int n_packs, DG_TEX *tex )
 static inline int sna_LoadSnake(SnaInitWork *work, int scriptData, int scriptBinds)
 {
     CONTROL    *pCtrl;
-    OBJECT        *pObject;
+    OBJECT     *body;
     TARGET *pTarget;
     HITTABLE *pJiraiUnk;
     SVECTOR       shadow;
@@ -8114,7 +8073,7 @@ static inline int sna_LoadSnake(SnaInitWork *work, int scriptData, int scriptBin
     GM_ConfigControlAttribute(pCtrl, tmp);
     GM_ConfigControlTrapCheck(pCtrl);
 
-    pObject = &work->body;
+    body = &work->body;
 
     model = KMD_SNAKE;
     if (GCL_GetOption('m')) // model
@@ -8122,21 +8081,21 @@ static inline int sna_LoadSnake(SnaInitWork *work, int scriptData, int scriptBin
         model = GCL_StrToInt(GCL_GetParamResult());
     }
 
-    GM_InitObject(pObject, model, BODY_FLAG, OAR_SNAKE);
+    GM_InitObject(body, model, BODY_FLAG, OAR_SNAKE);
 
-    GM_ConfigObjectJoint(pObject);
-    GM_ConfigMotionControl(pObject,
+    GM_ConfigObjectJoint(body);
+    GM_ConfigMotionControl(body,
                            &work->m_ctrl,
                            OAR_SNAKE,
                            work->m_segs1,
                            work->m_segs2,
                            pCtrl,
                            work->rots);
-    GM_ConfigObjectLight(pObject, &work->field_848_lighting_mtx);
+    GM_ConfigObjectLight(body, &work->field_848_lighting_mtx);
 
     GM_PlayerControl_800AB9F4 = pCtrl;
     GM_PlayerPosition_800ABA10 = work->control.mov;
-    GM_PlayerBody_800ABA20 = pObject;
+    GM_PlayerBody_800ABA20 = body;
 
     sna_8004EB14(work);
 
@@ -8166,7 +8125,7 @@ static inline int sna_LoadSnake(SnaInitWork *work, int scriptData, int scriptBin
     shadow.vz  = 12;
     shadow.pad = 15;
 
-    work->field_888_pShadow = NewShadow2_80060384(pCtrl, pObject, shadow, &work->field_88C);
+    work->field_888_pShadow = NewShadow2_80060384(pCtrl, body, shadow, &work->field_88C);
 
     dword_800ABA1C = 0;
     GM_BombSeg = 0;

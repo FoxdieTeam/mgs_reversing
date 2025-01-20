@@ -115,6 +115,7 @@ void s03b_torture_800C5AF8(TortureWork *work, int);
 void s03b_torture_800C5E48(TortureWork *work, int);
 
 #define EXEC_LEVEL 5
+#define BODY_FLAG  ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE )
 
 void s03b_torture_800C3E80(TortureWork *work)
 {
@@ -2002,7 +2003,7 @@ int TortureGetResources_800C6B3C(TortureWork *work, int name, int map)
 
     model = GV_StrCode("sne_nude");
     motion = GV_StrCode("sne_03b");
-    GM_InitObject(body, model, BODY_FLAG2, motion);
+    GM_InitObject(body, model, BODY_FLAG, motion);
     GM_ConfigObjectJoint(body);
 
     oar = GV_StrCode("sne_03b");
