@@ -249,20 +249,22 @@ int  GV_ReceiveMessage(int address, GV_MSG **msg_ptr);
 // TODO: typedef enum and use type in GV_PAD?
 enum
 {
-    PAD_UP = PADLup,        //  0x1000
-    PAD_DOWN = PADLdown,    //  0x4000
-    PAD_LEFT = PADLleft,    //  0x8000
-    PAD_RIGHT = PADLright,  //  0x2000
-    PAD_TRIANGLE = PADRup,  //  0x0010
-    PAD_CROSS = PADRdown,   //  0x0040
-    PAD_SQUARE = PADRleft,  //  0x0080
-    PAD_CIRCLE = PADRright, //  0x0020
-    PAD_L1 = PADL1,         //  0x0004
-    PAD_L2 = PADL2,         //  0x0001
-    PAD_R1 = PADR1,         //  0x0008
-    PAD_R2 = PADR2,         //  0x0002
-    PAD_START = PADstart,   //  0x0800
-    PAD_SELECT = PADselect, //  0x0100
+    PAD_UP = PADLup,        // 0x1000 (1<<12)
+    PAD_DOWN = PADLdown,    // 0x4000 (1<<14)
+    PAD_LEFT = PADLleft,    // 0x8000 (1<<15)
+    PAD_RIGHT = PADLright,  // 0x2000 (1<<13)
+    PAD_TRIANGLE = PADRup,  // 0x0010 (1<< 4)
+    PAD_CROSS = PADRdown,   // 0x0040 (1<< 6)
+    PAD_SQUARE = PADRleft,  // 0x0080 (1<< 7)
+    PAD_CIRCLE = PADRright, // 0x0020 (1<< 5)
+    PAD_L1 = PADL1,         // 0x0004 (1<< 2)
+    PAD_L2 = PADL2,         // 0x0001 (1<< 0)
+    PAD_R1 = PADR1,         // 0x0008 (1<< 3)
+    PAD_R2 = PADR2,         // 0x0002 (1<< 1)
+    PAD_START = PADstart,   // 0x0800 (1<<11)
+    PAD_SELECT = PADselect, // 0x0100 (1<< 8)
+    PAD_L3 = PADi,          // 0x0200 (1<< 9)
+    PAD_R3 = PADj,          // 0x0400 (1<<10)
 };
 
 #define PAD_DIR (PAD_LEFT | PAD_DOWN | PAD_RIGHT | PAD_UP) // 0xF000
