@@ -18,7 +18,6 @@
 #include "Game/strctrl.h"
 #include "mts/mts_new.h"
 #include "mts/mts_pad.h"
-#include "mts/receive_buffer.h"
 #include "Game/homing.h"
 #include "Game/hittable.h"
 #include "SD/sd_cli.h"
