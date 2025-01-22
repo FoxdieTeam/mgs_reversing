@@ -76,7 +76,7 @@ typedef struct {
 int  mts_sta_tsk( int tasknr, void (*procedure)(void), void *stack_pointer );
 void mts_ext_tsk( void );
 void mts_send_msg( int dst, int data0, int data1 );
-int  mts_recv_msg( int dst, int *data0, int *data1 );
+int  mts_recv_msg( int src, int *data0, int *data1 );
 
 #define mts_start_task( _tasknr, _procedure, _stack_pointer, _stack_size )\
 {\

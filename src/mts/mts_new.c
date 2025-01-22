@@ -1133,12 +1133,12 @@ void mts_send_msg( int dst, int data0, int data1 )
     mts_send( dst, (unsigned char *)&msg );
 }
 
-int mts_recv_msg( int dst, int *data0, int *data1 )
+int mts_recv_msg( int src, int *data0, int *data1 )
 {
     int msg[4];
     int result;
 
-    result = mts_receive( dst, (unsigned char *)&msg );
+    result = mts_receive( src, (unsigned char *)&msg );
     *data0 = msg[0];
     *data1 = msg[1];
     return result;
