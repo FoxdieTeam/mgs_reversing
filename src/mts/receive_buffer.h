@@ -1,7 +1,7 @@
 #ifndef _PAD_RECEIVE_BUFFER_H
 #define _PAD_RECEIVE_BUFFER_H
 
-// Based on "Table 13-3: Terminal Types" in PsyQ
+// Based on "Table 13-3: Terminal Types" from
 // Run-Time Library Overview 4.4, chapter 13
 enum
 {
@@ -15,7 +15,7 @@ enum
     TERMINAL_TYPE_MULTI_TAP = 8,         // Multi Tap, SCPH-1070
 };
 
-// Based on "Table 13-7: Analog Joystick" in PsyQ
+// Based on "Table 13-7: Analog Joystick" from
 // Run-Time Library Overview 4.4, chapter 13
 //
 // Offset Contents
@@ -35,7 +35,7 @@ typedef struct TerminalDataAnalogJoystick
     unsigned char left_stick_y;  // Position along the Y axis (left stick), 0 to 128 to 255
 } TerminalDataAnalogJoystick;
 
-// Based on "Table 13-5: 16-button Analog" in PsyQ
+// Based on "Table 13-5: 16-button Analog" from
 // Run-Time Library Overview 4.4, chapter 13
 //
 // Offset Contents
@@ -57,7 +57,7 @@ typedef struct TerminalData16ButtonAnalog
 
 #define BUTTON_STATE_NOTHING_PRESSED 0xFFFF
 
-// Based on "Receive Buffer Data Format" in PsyQ
+// Based on "Receive Buffer Data Format" from
 // Run-Time Library Overview 4.4, chapter 13.
 typedef struct PadReceiveBuffer
 {
