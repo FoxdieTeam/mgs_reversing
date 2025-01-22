@@ -348,16 +348,16 @@ long mts_PadRead( int unused )
  * @param   channel     0 for the active pad, 1 for the first pad,
  *                      2 for the second.
  *
- * @return  PadReceiveBuffer*   the receive buffer.
+ * @return  address of the receive buffer.
  */
-PadReceiveBuffer *mts_get_pad_receive_buffer( int channel )
+void *mts_get_controller_data( int channel )
 {
     if (channel == 0)
     {
         channel = GET_ACTIVE_PAD_INDEX();
     }
 
-    return &padbuf_800C1480[channel - 1];
+    return (void *)&padbuf_800C1480[channel - 1];
 }
 
 /**

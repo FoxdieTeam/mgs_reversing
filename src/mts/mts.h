@@ -134,6 +134,7 @@ typedef struct MTS_PAD {
 
 void mts_init_controller( void );
 int mts_get_pad( int channel, MTS_PAD *pad );
+void *mts_get_controller_data( int channel );
 int mts_read_pad( int channel ); /* FIXME: should return unsigned short */
 void mts_set_pad_vibration( int channel, int time );
 void mts_set_pad_vibration2( int channel, int value );
