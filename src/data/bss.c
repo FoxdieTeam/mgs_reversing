@@ -517,5 +517,5 @@ PadReceiveBuffer BSS        padbuf_800C1480[2]; // 0x48 (72) bytes
 gap                                     gap_800C14C8[0x8]; // 8 bytes
 
 unsigned char BSS           sendbuf_800C14D0[2][8]; // 0x10 (16) bytes
-PadParsedReceiveBuffer BSS  pad_800C14E0[2]; // 0x10 (16) bytes
+MTS_PAD_IN BSS              pad_800C14E0[2]; // 0x10 (16) bytes
 int BSS                     pad_state_800C14F0[2]; // 0x8 (8) bytes

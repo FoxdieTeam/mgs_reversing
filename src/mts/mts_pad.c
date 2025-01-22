@@ -15,7 +15,7 @@
 
 extern PadReceiveBuffer         padbuf_800C1480[2];
 extern unsigned char            sendbuf_800C14D0[2][8];
-extern PadParsedReceiveBuffer   pad_800C14E0[2];
+extern MTS_PAD_IN               pad_800C14E0[2];
 extern int                      pad_state_800C14F0[2];
 
 /*---------------------------------------------------------------------------*/
@@ -30,6 +30,9 @@ STATIC int vibration_enable = 1;
 
 #define GET_ACTIVE_PAD_INDEX() \
     (padbuf_800C1480[0].success == 0 ? 1 : 2) // 0 = successful
+
+#define GET_TERMINAL_TYPE(buffer) \
+    ((buffer)->terminal_type_and_size >> 4)
 
 #define PAD_1 0
 #define PAD_2 1
@@ -141,7 +144,7 @@ STATIC void do_control( void )
 
         if (padbuf_800C1480[i].success == 0) // 0 = successful
         {
-            switch (PAD_RECEIVE_BUFFER_GET_TERMINAL_TYPE(&padbuf_800C1480[i]))
+            switch (GET_TERMINAL_TYPE(&padbuf_800C1480[i]))
             {
             case TERMINAL_TYPE_ANALOG_CONTROLLER:
                 capability++; // MTS_PAD_ANALOG
@@ -153,12 +156,12 @@ STATIC void do_control( void )
                 capability++; // MTS_PAD_ANAJOY
 
                 LCOPY(&padbuf_800C1480[i].terminal_data.analog_joystick.right_stick_x,
-                      &pad_800C14E0[i].right_stick_x);
+                      &pad_800C14E0[i].rx);
 
             case TERMINAL_TYPE_16_BUTTON:
                 capability++; // MTS_PAD_DIGITAL
 
-                pad_800C14E0[i].buttons_state =
+                pad_800C14E0[i].button =
                     padbuf_800C1480[i].terminal_data.sixteen_button_analog.button_state_left << 8 |
                     padbuf_800C1480[i].terminal_data.sixteen_button_analog.button_state_right;
                 break;
@@ -250,9 +253,9 @@ int mts_get_pad( int channel, MTS_PAD *pad )
         }
         else if (pad_800C14E0[PAD_1].capability == MTS_PAD_DIGITAL)
         {
-            if (pad_800C14E0[PAD_1].buttons_state == BUTTON_STATE_NOTHING_PRESSED &&
+            if (pad_800C14E0[PAD_1].button == BUTTON_STATE_NOTHING_PRESSED &&
                 pad_800C14E0[PAD_2].capability != MTS_PAD_INACTIVE &&
-                pad_800C14E0[PAD_2].buttons_state != BUTTON_STATE_NOTHING_PRESSED)
+                pad_800C14E0[PAD_2].button != BUTTON_STATE_NOTHING_PRESSED)
             {
                 channel = 2;
             }
@@ -262,13 +265,13 @@ int mts_get_pad( int channel, MTS_PAD *pad )
     if (pad_800C14E0[channel - 1].capability > MTS_PAD_INACTIVE)
     {
         pad->channel = channel;
-        pad->button = ~pad_800C14E0[channel - 1].buttons_state;
+        pad->button = ~pad_800C14E0[channel - 1].button;
 
         capability = pad_800C14E0[channel - 1].capability;
-        pad->capability = capability;
+        pad->flag = capability;
         if (capability >= MTS_PAD_ANAJOY)
         {
-            LCOPY(&pad_800C14E0[channel - 1].right_stick_x, &pad->rx);
+            LCOPY(&pad_800C14E0[channel - 1].rx, &pad->rx);
         }
 
         return 1;
@@ -292,21 +295,21 @@ int mts_read_pad( int channel )
         // The first pad is available
         if (pad_800C14E0[PAD_1].capability != MTS_PAD_INACTIVE)
         {
-            if (pad_800C14E0[PAD_1].buttons_state != BUTTON_STATE_NOTHING_PRESSED ||
+            if (pad_800C14E0[PAD_1].button != BUTTON_STATE_NOTHING_PRESSED ||
                 pad_800C14E0[PAD_2].capability == MTS_PAD_INACTIVE ||
-                pad_800C14E0[PAD_2].buttons_state == BUTTON_STATE_NOTHING_PRESSED)
+                pad_800C14E0[PAD_2].button == BUTTON_STATE_NOTHING_PRESSED)
             {
-                return (unsigned short)~pad_800C14E0[PAD_1].buttons_state;
+                return (unsigned short)~pad_800C14E0[PAD_1].button;
             }
             else
             {
-                return (unsigned short)~pad_800C14E0[PAD_2].buttons_state;
+                return (unsigned short)~pad_800C14E0[PAD_2].button;
             }
         }
         // The second pad is active
         else if (pad_800C14E0[PAD_2].capability != MTS_PAD_INACTIVE)
         {
-            return (unsigned short)~pad_800C14E0[PAD_2].buttons_state;
+            return (unsigned short)~pad_800C14E0[PAD_2].button;
         }
 
         return 0;
@@ -314,7 +317,7 @@ int mts_read_pad( int channel )
     // Return the button state for the specified pad
     if (pad_800C14E0[channel - 1].capability != MTS_PAD_INACTIVE)
     {
-        return (unsigned short)~pad_800C14E0[channel - 1].buttons_state;
+        return (unsigned short)~pad_800C14E0[channel - 1].button;
     }
 
     return 0;
@@ -328,12 +331,12 @@ long mts_PadRead( int unused )
 
     if (pad_800C14E0[PAD_1].capability != MTS_PAD_INACTIVE)
     {
-        ret = ~pad_800C14E0[PAD_1].buttons_state & 0xFFFF;
+        ret = ~pad_800C14E0[PAD_1].button & 0xFFFF;
     }
 
     if (pad_800C14E0[PAD_2].capability != MTS_PAD_INACTIVE)
     {
-        ret |= ~pad_800C14E0[PAD_2].buttons_state << 0x10;
+        ret |= ~pad_800C14E0[PAD_2].button << 0x10;
     }
 
     return ret;
