@@ -7,7 +7,6 @@
 #include "common.h"
 
 #include "mts_pad.h"
-#include "receive_buffer.h"
 #include "mts_new.h"
 
 /*---------------------------------------------------------------------------*/
