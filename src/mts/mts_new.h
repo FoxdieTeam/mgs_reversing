@@ -1,5 +1,5 @@
-#ifndef _MTS_NEW_H
-#define _MTS_NEW_H
+#ifndef _MTS_NEW_H_
+#define _MTS_NEW_H_
 
 #include "mts.h"
 #include <kernel.h>
@@ -130,4 +130,4 @@ extern void *mts_get_bss_tail(void);
 #define MTS_BUILD_TIME  "22:16:33"
 #endif
 
-#endif // _MTS_NEW_H
+#endif // _MTS_NEW_H_
