@@ -76,17 +76,4 @@ typedef struct PadReceiveBuffer
     } terminal_data;
 } PadReceiveBuffer;
 
-#define PAD_RECEIVE_BUFFER_GET_TERMINAL_TYPE(buffer) ((buffer)->terminal_type_and_size >> 4)
-
-typedef struct PadParsedReceiveBuffer
-{
-    short          capability;    // See PAD_CAPABILITY_* enum
-    unsigned short buttons_state; // Stores both left/right button state (pressed or not pressed). See PAD_* enum
-                                  // (PAD_UP/PAD_CIRCLE/...)
-    unsigned char right_stick_x;  // Position along the X axis (right stick), 0 to 128 to 255
-    unsigned char right_stick_y;  // Position along the Y axis (right stick), 0 to 128 to 255
-    unsigned char left_stick_x;   // Position along the X axis (left stick), 0 to 128 to 255
-    unsigned char left_stick_y;   // Position along the Y axis (left stick), 0 to 128 to 255
-} PadParsedReceiveBuffer;
-
 #endif // _PAD_RECEIVE_BUFFER_H
