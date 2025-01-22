@@ -512,7 +512,7 @@ char BSS                    param_800C1470[2][6]; // 0xC (12) bytes
 
 gap                                     gap_800C147C[0x4]; // 4 bytes
 
-PadReceiveBuffer BSS        padbuf_800C1480[2]; // 0x48 (72) bytes
+PAD_RECV_BUF BSS            padbuf_800C1480[2]; // 0x48 (72) bytes
 
 gap                                     gap_800C14C8[0x8]; // 8 bytes
 
