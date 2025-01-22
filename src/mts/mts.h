@@ -118,9 +118,9 @@ typedef struct {
 } MTS_MOUSE;
 */
 
-typedef struct MTS_PAD {
+typedef struct {
     signed char    channel;
-    char           capability; // See MTS_PAD_* flags
+    char           flag;        // See MTS_PAD_* flags
     unsigned short button;
     unsigned char  rx;
     unsigned char  ry;

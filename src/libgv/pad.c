@@ -30,13 +30,13 @@ STATIC void sub_800165B0(MTS_PAD *data)
     unsigned short status = GV_DemoPadStatus;
     if (status & 0x400)
     {
-        data->capability = MTS_PAD_ANALOG;
+        data->flag = MTS_PAD_ANALOG;
         data->lx = GV_DemoPadAnalog;
         data->ly = (GV_DemoPadAnalog & 0xFF00) >> 8;
     }
     else
     {
-        data->capability = MTS_PAD_DIGITAL;
+        data->flag = MTS_PAD_DIGITAL;
     }
 }
 #endif
@@ -198,7 +198,7 @@ void GV_UpdatePadSystem(void)
             if (GM_GameStatus & STATE_PADDEMO)
             {
                 #ifndef VR_EXE
-                    data.capability = MTS_PAD_DIGITAL;
+                    data.flag = MTS_PAD_DIGITAL;
                 #else
                     if (chan == 2)
                     {
@@ -206,13 +206,13 @@ void GV_UpdatePadSystem(void)
                     }
                     else
                     {
-                        data.capability = MTS_PAD_DIGITAL;
+                        data.flag = MTS_PAD_DIGITAL;
                     }
                 #endif
             }
 
             // loc_80016960
-            pad->analog = data.capability - 1;
+            pad->analog = data.flag - 1;
 
             // if ( pad->analog > 0 && ( GM_GameStatus & 0x90000000 && local_gamestatus ) )
             if (pad->analog > 0 && (!(GM_GameStatus & (STATE_PADRELEASE | STATE_DEMO)) || GM_GameStatus & STATE_PADDEMO))
