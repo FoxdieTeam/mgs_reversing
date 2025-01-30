@@ -75,7 +75,7 @@ short tobcnt_lines[] = {
 
 short s01a_dword_800C381A = 0x800C;
 
-#define EXEC_LEVEL 0
+#define EXEC_LEVEL GV_ACTOR_DAEMON
 
 char * Tobcnt_800C4070(char *buf, int x, int y, int name, unsigned int color, char *ot)
 {

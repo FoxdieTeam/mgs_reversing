@@ -15,7 +15,7 @@ typedef struct _SubEfctWork
 
 extern int    GV_Clock;
 
-#define EXEC_LEVEL 0
+#define EXEC_LEVEL GV_ACTOR_DAEMON
 
 #define gte_pop_color(r0) __asm__ volatile ("mfc2   %0, $9;" : "=r"(r0))
 

@@ -24,7 +24,7 @@ MATRIX envmap3_scale = {{{63, 0, 0}, {0, 63, 0}, {0, 0, 63}}, {0, 0, 0}};
 
 extern int GV_Clock;
 
-#define EXEC_LEVEL 0
+#define EXEC_LEVEL GV_ACTOR_DAEMON
 
 // clang-format off
 #define gte_read_normal(x, y, z) __asm__ volatile (             \
