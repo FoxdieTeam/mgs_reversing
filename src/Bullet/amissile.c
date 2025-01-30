@@ -41,7 +41,7 @@ typedef struct AMissileWork
     SVECTOR        vertices[4];
 } AMissileWork;
 
-#define EXEC_LEVEL 6
+#define EXEC_LEVEL  GV_ACTOR_AFTER
 #define BODY_FLAG   ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE | DG_FLAG_ONEPIECE )
 
 int amissile_alive_8009F490 = 0;

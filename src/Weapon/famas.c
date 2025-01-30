@@ -32,7 +32,7 @@ typedef struct _FamasWork
     int            mp5_flag;    // Use H&K MP5 (for VERY EASY)
 } FamasWork;
 
-#define EXEC_LEVEL      6
+#define EXEC_LEVEL      GV_ACTOR_AFTER
 #define MAGAZINE_SIZE   25
 #define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
 

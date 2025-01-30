@@ -49,7 +49,7 @@ typedef struct AnimeWork
     AnimeItem items[0];
 } AnimeWork;
 
-#define EXEC_LEVEL 6
+#define EXEC_LEVEL GV_ACTOR_AFTER
 
 /*---------------------------------------------------------------------------*/
 

@@ -28,7 +28,7 @@ typedef struct _RfSightWork
     rfsight_pfn_t func;
 } RfSightWork;
 
-#define EXEC_LEVEL 6
+#define EXEC_LEVEL GV_ACTOR_AFTER
 
 /*---------------------------------------------------------------------------*/
 

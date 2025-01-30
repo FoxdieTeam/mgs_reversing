@@ -24,7 +24,7 @@ typedef struct _DBloodWork
     int    current_map;
 } DBloodWork;
 
-#define EXEC_LEVEL 6
+#define EXEC_LEVEL GV_ACTOR_AFTER
 
 /*---------------------------------------------------------------------------*/
 

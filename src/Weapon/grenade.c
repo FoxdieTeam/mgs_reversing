@@ -42,7 +42,7 @@ typedef struct _GrenadeWork
     int            has_exploded;
 } GrenadeWork;
 
-#define EXEC_LEVEL 6
+#define EXEC_LEVEL GV_ACTOR_AFTER
 #define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
 
 unsigned short grenade_model_8009F3E4[] = {

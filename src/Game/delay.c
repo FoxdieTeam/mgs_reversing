@@ -21,7 +21,7 @@ typedef struct DelayWork
     long           argv_buf[8];
 } DelayWork;
 
-#define EXEC_LEVEL 6
+#define EXEC_LEVEL GV_ACTOR_AFTER
 
 //not sure if this one belongs here
 void sna_act_helper2_helper2_80033054(int id, SVECTOR *vec)

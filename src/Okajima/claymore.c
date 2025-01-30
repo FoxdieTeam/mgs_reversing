@@ -61,7 +61,7 @@ typedef struct ClaymoreWork
     int       field_128;
 } ClaymoreWork;
 
-#define EXEC_LEVEL 6
+#define EXEC_LEVEL GV_ACTOR_AFTER
 
 /*---------------------------------------------------------------------------*/
 

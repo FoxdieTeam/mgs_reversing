@@ -32,7 +32,7 @@ typedef struct _TabakoWork
     RECT           prim_rect;
 } TabakoWork;
 
-#define EXEC_LEVEL 6
+#define EXEC_LEVEL GV_ACTOR_AFTER
 
 /*---------------------------------------------------------------------------*/
 

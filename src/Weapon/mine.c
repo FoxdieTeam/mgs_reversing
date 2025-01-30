@@ -30,7 +30,7 @@ typedef struct MineWork
     int            counter;
 } MineWork;
 
-#define EXEC_LEVEL 6
+#define EXEC_LEVEL GV_ACTOR_AFTER
 
 /*---------------------------------------------------------------------------*/
 

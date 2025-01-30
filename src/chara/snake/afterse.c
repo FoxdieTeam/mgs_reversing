@@ -11,6 +11,8 @@ typedef struct AfterseWork
   short  time;
 } AfterseWork;
 
+#define EXEC_LEVEL GV_ACTOR_AFTER
+
 extern SVECTOR GM_PlayerPosition_800ABA10;
 
 void AfterseAct_800603EC(AfterseWork *work)
@@ -34,7 +36,7 @@ GV_ACT *NewAfterse_800604C0(short sound, short time)
 
     if (sound != 0 && time != 0)
     {
-        work = (AfterseWork *)GV_NewActor(6, sizeof(AfterseWork));
+        work = (AfterseWork *)GV_NewActor(EXEC_LEVEL, sizeof(AfterseWork));
         if (work)
         {
             GV_SetNamedActor(&work->actor, (GV_ACTFUNC)AfterseAct_800603EC, 0, "afterse.c");

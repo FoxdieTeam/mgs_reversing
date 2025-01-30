@@ -19,6 +19,8 @@ typedef struct MotseWork
     MotseElem *field_28_elems;
 } MotseWork;
 
+#define EXEC_LEVEL GV_ACTOR_AFTER
+
 extern int              GM_PlayerAction;
 extern CONTROL         *GM_PlayerControl_800AB9F4;
 extern PlayerStatusFlag GM_PlayerStatus;
@@ -72,7 +74,7 @@ GV_ACT *NewMotse_800C5944(int name, int where, int argc, char **argv)
 {
     MotseWork *work;
 
-    work = (MotseWork *)GV_NewActor(6, sizeof(MotseWork));
+    work = (MotseWork *)GV_NewActor(EXEC_LEVEL, sizeof(MotseWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, (GV_ACTFUNC)Motse_800C57CC,

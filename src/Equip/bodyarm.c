@@ -12,7 +12,7 @@ typedef struct BodyarmWork
     OBJECT *parent;
 } BodyarmWork;
 
-#define EXEC_LEVEL 6
+#define EXEC_LEVEL GV_ACTOR_AFTER
 
 /*---------------------------------------------------------------------------*/
 

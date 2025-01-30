@@ -17,7 +17,7 @@ extern int GM_ClaymoreMap_800AB9DC;
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL 6
+#define EXEC_LEVEL GV_ACTOR_AFTER
 
 BLAST_DATA blast_data_8009F4B8[8] = {
     { 0x100, 5, 0x3E8, 0x7D0,  2 },

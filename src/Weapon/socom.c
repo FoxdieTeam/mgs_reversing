@@ -47,7 +47,7 @@ typedef struct _SocomWork
     SVECTOR        field_110[2];
 } SocomWork;
 
-#define EXEC_LEVEL      6
+#define EXEC_LEVEL      GV_ACTOR_AFTER
 #define MAGAZINE_SIZE   12
 #define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
 
