@@ -37,7 +37,7 @@ typedef struct _Rasen2Work
     GV_ACT        *field_238;
 } Rasen2Work;
 
-#define EXEC_LEVEL 1
+#define EXEC_LEVEL GV_ACTOR_MANAGER
 
 int rasen_800C3404 = 0;
 int rasen_800C3408 = 0;

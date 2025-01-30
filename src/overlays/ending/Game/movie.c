@@ -393,7 +393,7 @@ GV_ACT *NewMovie_800C4E24(unsigned int code)
         return NULL;
     }
 
-    GV_InitActor(1, &movie_work.actor, NULL);
+    GV_InitActor(GV_ACTOR_MANAGER, &movie_work.actor, NULL);
     GV_SetNamedActor(&movie_work.actor, (GV_ACTFUNC)MovieAct_800C4C00, (GV_ACTFUNC)MovieDie_800C4D78, "movie.c");
 
     movie_work.file = file;

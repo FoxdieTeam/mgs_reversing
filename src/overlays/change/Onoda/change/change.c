@@ -90,7 +90,7 @@ void Safety_800C4714( void );
 
 GV_ACT *NewMetLogo_800C5A90( int * );
 
-#define EXEC_LEVEL 1
+#define EXEC_LEVEL GV_ACTOR_MANAGER
 
 void Change_800C364C( Work *work, int index )
 {

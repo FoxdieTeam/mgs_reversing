@@ -15,7 +15,7 @@
 
 extern StreamCtrlWork   strctrl_800B82B0;
 
-#define EXEC_LEVEL 1
+#define EXEC_LEVEL GV_ACTOR_MANAGER
 
 /*---------------------------------------------------------------------------*/
 

@@ -69,7 +69,7 @@ typedef struct JpegcamWork
     int            field_98;
 } JpegcamWork;
 
-#define EXEC_LEVEL 1
+#define EXEC_LEVEL GV_ACTOR_MANAGER
 
 /*---------------------------------------------------------------------------*/
 

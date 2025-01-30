@@ -90,6 +90,8 @@ extern const char option_aOpkeyconfig_800C9544[];    // = "op_keyconfig"
 extern const char option_aOpexit_800C9554[];         // = "op_exit"
 extern const char option_aIntoplanguage_800C955C[];  // = "int_op_language2"
 
+#define EXEC_LEVEL GV_ACTOR_MANAGER
+
 void option_800C339C(OptionWork *work, int index)
 {
     RECT rect;
@@ -2244,7 +2246,7 @@ GV_ACT *NewOption_800C9344(int name, int where)
 
     GM_GameStatus |= STATE_ALL_OFF;
 
-    work = (OptionWork *)GV_NewActor(1, sizeof(OptionWork));
+    work = (OptionWork *)GV_NewActor(EXEC_LEVEL, sizeof(OptionWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, (GV_ACTFUNC)option_800C6784, (GV_ACTFUNC)OptionDie_800C7C8C, "opt.c");

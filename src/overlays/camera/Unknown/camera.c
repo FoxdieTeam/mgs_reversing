@@ -51,6 +51,8 @@ typedef struct CameraWork
     char          *f49E4;
 } CameraWork;
 
+#define EXEC_LEVEL GV_ACTOR_MANAGER
+
 extern int                         GM_CurrentMap;
 extern GV_PAD                      GV_PadData_800B05C0[4];
 extern int                         GV_Clock;
@@ -1294,7 +1296,7 @@ GV_ACT *NewCamera_800CF388(int name, int where, int argc, char **argv)
     CameraWork *work;
 
     GM_GameStatus |= STATE_ALL_OFF;
-    work = (CameraWork *)GV_NewActor(1, sizeof(CameraWork));
+    work = (CameraWork *)GV_NewActor(EXEC_LEVEL, sizeof(CameraWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, (GV_ACTFUNC)CameraAct_800CE404, (GV_ACTFUNC)CameraDie_800CE470, "camera.c");

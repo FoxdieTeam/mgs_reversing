@@ -161,7 +161,7 @@ extern char *MGS_MemoryCardName; /* in main.c */
 extern int   GV_Clock;
 extern int   FS_DiskNum_800ACBF0;
 
-#define EXEC_LEVEL 1
+#define EXEC_LEVEL GV_ACTOR_MANAGER
 
 void Open_800C4500(OpenWork *work, int index)
 {

@@ -170,7 +170,7 @@ void MENU_ResetTexture(void)
 
 void MENU_StartDeamon(void)
 {
-    GV_InitActor(1, &gMenuWork_800BD360.actor, NULL);
+    GV_InitActor(GV_ACTOR_MANAGER, &gMenuWork_800BD360.actor, NULL);
     GV_SetNamedActor(&gMenuWork_800BD360.actor, NULL, NULL, "menuman.c");
 }
 

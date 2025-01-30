@@ -34,7 +34,7 @@ void sub_8003CC88(void);
 // Something to do with setting current/last weapon to WEAPON_NONE
 void MENU_ResetWeaponPos(void);
 
-#define EXEC_LEVEL 1
+#define EXEC_LEVEL GV_ACTOR_MANAGER
 
 void PadDemo_800DCBB0(PadDemoWork *work)
 {
