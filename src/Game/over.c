@@ -36,7 +36,7 @@ typedef struct _OverWork
 
 STATIC_ASSERT(sizeof(OverWork) == 0x186C, "sizeof(OverWork) is wrong!");
 
-#define EXEC_LEVEL 0
+#define EXEC_LEVEL GV_ACTOR_DAEMON
 
 //------------------------------------------------------------------------------
 
