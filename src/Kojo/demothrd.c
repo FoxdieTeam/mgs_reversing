@@ -15,7 +15,7 @@ void demothrd_file_stream_kill_80079960(DemothrdWork *work);
 
 int DM_ThreadStream_80079460(int flag, int unused)
 {
-    DemothrdWork *pDemoThrd = (DemothrdWork *)GV_NewActor(1, sizeof(DemothrdWork));
+    DemothrdWork *pDemoThrd = (DemothrdWork *)GV_NewActor(GV_ACTOR_MANAGER, sizeof(DemothrdWork));
     if (!pDemoThrd)
     {
         return 0;
@@ -42,7 +42,7 @@ int DM_ThreadFile_800794E4(int flag, int demoNameHashed)
     char           *pHdr;
     int             readRet;
 
-    work = (DemothrdWork *)GV_NewActor(1, sizeof(DemothrdWork));
+    work = (DemothrdWork *)GV_NewActor(GV_ACTOR_MANAGER, sizeof(DemothrdWork));
 
     if ( !work )
     {

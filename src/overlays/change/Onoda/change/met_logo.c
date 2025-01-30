@@ -89,7 +89,7 @@ short met_logo_lines_800C32E8[] = {
 
 extern int GV_Clock;
 
-#define EXEC_LEVEL 1
+#define EXEC_LEVEL GV_ACTOR_MANAGER
 
 char * MetLogo_800C5060( char *buffer, short x, short y, int texture, unsigned int color, char *ot )
 {

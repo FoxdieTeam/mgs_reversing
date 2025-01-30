@@ -81,7 +81,7 @@ extern GV_PAD GV_PadData_800B05C0[4];
 GV_ACT *NewPreMet1_800C6F20(int, int *, Unknown *);
 GV_ACT *NewPreMet2_800C6F20(int, int *, Unknown *);
 
-#define EXEC_LEVEL 1
+#define EXEC_LEVEL GV_ACTOR_MANAGER
 
 // Duplicate of Change_800C364C
 void Preope_800C32E0(PreopeWork *work, int index)

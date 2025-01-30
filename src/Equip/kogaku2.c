@@ -24,7 +24,7 @@ typedef struct Kogaku2Work
     int     field_40_rgb;
 } Kogaku2Work;
 
-#define EXEC_LEVEL 1
+#define EXEC_LEVEL GV_ACTOR_MANAGER
 
 /*---------------------------------------------------------------------------*/
 
