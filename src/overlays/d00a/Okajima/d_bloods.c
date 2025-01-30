@@ -23,7 +23,7 @@ int d00a_dword_800E1650;
 
 extern int GM_CurrentMap;
 
-#define EXEC_LEVEL 7
+#define EXEC_LEVEL GV_ACTOR_AFTER2
 
 void DBloodsDie_800D5078(DBloodsWork *work)
 {

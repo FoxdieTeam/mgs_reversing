@@ -18,7 +18,7 @@ typedef struct BandanaWork
     int     unused2;
 } BandanaWork;
 
-#define EXEC_LEVEL 7
+#define EXEC_LEVEL GV_ACTOR_AFTER2
 
 /*---------------------------------------------------------------------------*/
 

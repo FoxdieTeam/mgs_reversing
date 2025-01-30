@@ -147,7 +147,7 @@ int FocusGetResources_800CEDA4(FocusWork *work, int arg1, int arg2)
     return 0;
 }
 
-#define EXEC_LEVEL 7
+#define EXEC_LEVEL GV_ACTOR_AFTER2
 
 GV_ACT *NewFocus_800CEFF8(int name, int where, int argc, char **argv)
 {

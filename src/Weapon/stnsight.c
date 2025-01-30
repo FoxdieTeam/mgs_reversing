@@ -43,7 +43,7 @@ typedef struct _StnSightWork
     int         field_94;
 } StnSightWork;
 
-#define EXEC_LEVEL 7
+#define EXEC_LEVEL GV_ACTOR_AFTER2
 
 STATIC short word_800AB8EC = 0;
 

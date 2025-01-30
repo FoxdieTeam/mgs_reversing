@@ -26,6 +26,8 @@ typedef struct BlurPureWork
     int            field_28;
 } BlurPureWork;
 
+#define EXEC_LEVEL GV_ACTOR_AFTER2
+
 extern int GV_Clock;
 
 void d03a_blurpure_800C4F68(BlurPureWork *work)
@@ -170,7 +172,7 @@ GV_ACT *NewBlurPure_800C54D4(int name, int where, int argc, char **argv)
 {
     BlurPureWork *work;
 
-    work = (BlurPureWork *)GV_NewActor(7, sizeof(BlurPureWork));
+    work = (BlurPureWork *)GV_NewActor(EXEC_LEVEL, sizeof(BlurPureWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BlurPureAct_800C53E4,
@@ -189,7 +191,7 @@ GV_ACT *NewBlurPure2_800C554C(int name, int where, int argc, char **argv)
 {
     BlurPureWork *work;
 
-    work = (BlurPureWork *)GV_NewActor(7, sizeof(BlurPureWork));
+    work = (BlurPureWork *)GV_NewActor(EXEC_LEVEL, sizeof(BlurPureWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BlurPureAct_800C53E4,
