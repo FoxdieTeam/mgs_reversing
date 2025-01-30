@@ -1006,7 +1006,7 @@ GV_ACT *camera_init_800306A0()
 {
     GV_ACT *pActor;
 
-    pActor = GV_NewActor(2, sizeof(GV_ACT));
+    pActor = GV_NewActor(GV_ACTOR_LEVEL2, sizeof(GV_ACT));
     if (pActor)
     {
         GV_SetNamedActor(pActor, camera_act_8003059C, NULL, "camera.c");

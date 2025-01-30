@@ -19,7 +19,7 @@ typedef struct LoaderWork
     int     time;
 } LoaderWork;
 
-#define EXEC_LEVEL 2
+#define EXEC_LEVEL GV_ACTOR_LEVEL2
 
 STATIC void loader_Act(LoaderWork *work)
 {

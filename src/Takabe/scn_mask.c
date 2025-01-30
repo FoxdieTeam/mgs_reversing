@@ -29,7 +29,7 @@ typedef struct ScnMaskWork
     int              field_28;
 } ScnMaskWork;
 
-#define EXEC_LEVEL 2
+#define EXEC_LEVEL GV_ACTOR_LEVEL2
 
 /*---------------------------------------------------------------------------*/
 
