@@ -85,7 +85,7 @@ void s11c_800CD17C(OBJECT *, int, int);
 
 DG_OBJS * s00a_unknown3_800DC7DC(int model, LIT *lit);
 
-#define EXEC_LEVEL 6
+#define EXEC_LEVEL GV_ACTOR_AFTER
 
 void RasenElAct_800CC454(RasenElWork *work)
 {

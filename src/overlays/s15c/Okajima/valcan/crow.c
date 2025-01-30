@@ -49,7 +49,7 @@ typedef struct _CrowWork
     CrowEntry entries[0];
 } CrowWork;
 
-#define EXEC_LEVEL 6
+#define EXEC_LEVEL GV_ACTOR_AFTER
 
 void Crow_800DD7D8(SVECTOR *from, SVECTOR *to, SVECTOR *out)
 {

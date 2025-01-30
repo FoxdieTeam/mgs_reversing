@@ -29,7 +29,7 @@ extern BLAST_DATA blast_data_8009F4B8[8];
 /*---------------------------------------------------------------------------*/
 // C4 bomb (armed)
 
-#define EXEC_LEVEL 6
+#define EXEC_LEVEL GV_ACTOR_AFTER
 
 int bakudan_count_8009F42C = 0;
 int time_last_press_8009F430 = 0;

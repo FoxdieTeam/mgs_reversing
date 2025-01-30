@@ -664,7 +664,7 @@ STATIC int JiraiGetResources2(JiraiWork *work, MATRIX *world, int map)
 
 GV_ACT *NewScenarioJirai(MATRIX *world, int map)
 {
-    JiraiWork *work = (JiraiWork *)GV_NewActor(6, sizeof(JiraiWork));
+    JiraiWork *work = (JiraiWork *)GV_NewActor(GV_ACTOR_AFTER, sizeof(JiraiWork));
     if (work)
     {
         GV_SetNamedActor(&work->actor, (GV_ACTFUNC)JiraiAct,

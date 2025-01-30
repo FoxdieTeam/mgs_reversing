@@ -21,7 +21,7 @@ typedef struct _GasmaskSightWork
     int    time;
 } GasmaskSightWork;
 
-#define EXEC_LEVEL 6
+#define EXEC_LEVEL GV_ACTOR_AFTER
 
 STATIC void GasmaskSightAct(GasmaskSightWork *work)
 {

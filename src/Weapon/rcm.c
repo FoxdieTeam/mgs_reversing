@@ -41,7 +41,7 @@ typedef struct RcmWork
     int            lightval; // state of the blinking light
 } RcmWork;
 
-#define EXEC_LEVEL 6
+#define EXEC_LEVEL GV_ACTOR_AFTER
 
 STATIC SVECTOR stru_800AB870 = {-100, -800, 80, 0};
 STATIC RECT    rect_800AB878 = {100, 100, 200, 200};

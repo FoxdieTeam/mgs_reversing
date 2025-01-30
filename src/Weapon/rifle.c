@@ -40,7 +40,7 @@ typedef struct _RifleWork
     void          *field_5c;
 } RifleWork;
 
-#define EXEC_LEVEL      6
+#define EXEC_LEVEL      GV_ACTOR_AFTER
 #define MAGAZINE_SIZE   5
 #define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
 

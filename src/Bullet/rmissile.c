@@ -79,7 +79,7 @@ typedef struct RMissileWork
     int             field_324;
 } RMissileWork;
 
-#define EXEC_LEVEL 6
+#define EXEC_LEVEL GV_ACTOR_AFTER
 
 int dword_8009F46C = 0; // FIXME: this is referenced as an array in several places
 int dword_8009F470 = 0;
