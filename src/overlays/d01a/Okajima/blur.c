@@ -344,7 +344,7 @@ int BlurGetResources_800CD418(BlurWork *work, int arg1, int arg2, int arg3)
     return 0;
 }
 
-#define EXEC_LEVEL 7
+#define EXEC_LEVEL GV_ACTOR_AFTER2
 
 GV_ACT *NewBlur_800CD530(int name, int where, int argc, char **argv)
 {

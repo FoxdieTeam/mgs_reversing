@@ -71,7 +71,7 @@ typedef struct SgtRect3Work
     DR_TPAGE       field_23B8_prim[2];
 } SgtRect3Work;
 
-#define EXEC_LEVEL 7
+#define EXEC_LEVEL GV_ACTOR_AFTER2
 
 /*---------------------------------------------------------------------------*/
 

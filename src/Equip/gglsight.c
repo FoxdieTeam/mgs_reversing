@@ -41,7 +41,7 @@ typedef struct GoggleSightWork
     int      field_380;
 } GoggleSightWork;
 
-#define EXEC_LEVEL 7
+#define EXEC_LEVEL GV_ACTOR_AFTER2
 
 short word_8009F714[] = {0, 0};
 

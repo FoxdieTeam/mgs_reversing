@@ -16,6 +16,8 @@ typedef struct IntrCamWork
     SVECTOR field_34;
 } IntrCamWork;
 
+#define EXEC_LEVEL GV_ACTOR_AFTER2
+
 const char s03e_dword_800CBFD0[] = "intr_cam.c";
 
 extern PlayerStatusFlag GM_PlayerStatus;
@@ -100,7 +102,7 @@ GV_ACT *NewIntrCam_800C5748(int name, int where, int argc, char **argv)
 {
     IntrCamWork *work;
 
-    work = (IntrCamWork *)GV_NewActor(7, sizeof(IntrCamWork));
+    work = (IntrCamWork *)GV_NewActor(EXEC_LEVEL, sizeof(IntrCamWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, (GV_ACTFUNC)IntrCam_Act_800C5638,

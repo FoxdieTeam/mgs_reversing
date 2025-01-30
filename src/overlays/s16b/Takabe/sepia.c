@@ -25,7 +25,7 @@ RECT rect_800C3260 = {768, 196, 256, 2};
 RECT rect_800C3268 = {768, 226, 256, 2};
 RECT rect_800C3270 = {768, 196, 256, 2};
 
-#define EXEC_LEVEL 7
+#define EXEC_LEVEL GV_ACTOR_AFTER2
 
 u_short s16b_800C4C60(u_short color)
 {

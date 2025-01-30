@@ -21,7 +21,7 @@ typedef struct GoggleManagerWork
     GV_ACT *sight;
 } GoggleManagerWork;
 
-#define EXEC_LEVEL 7
+#define EXEC_LEVEL GV_ACTOR_AFTER2
 
 /*---------------------------------------------------------------------------*/
 

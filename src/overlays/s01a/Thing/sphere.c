@@ -29,7 +29,7 @@ short SECTION("overlay.bss") sphere_tile_height_800E4B36;
 short SECTION("overlay.bss") sphere_elevation_800E4B38;
 short SECTION("overlay.bss") sphere_word_800E4B3A;
 
-#define EXEC_LEVEL 7
+#define EXEC_LEVEL GV_ACTOR_AFTER2
 
 void Sphere_800C60E0(MATRIX *eye, SVECTOR *out)
 {

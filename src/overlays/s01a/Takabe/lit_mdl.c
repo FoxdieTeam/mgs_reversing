@@ -42,6 +42,8 @@ typedef struct LitMdlWork
     unsigned short field_540_materialOffsets[36];
 } LitMdlWork;
 
+#define EXEC_LEVEL GV_ACTOR_AFTER2
+
 DG_DEF litmdl_dg_def =
 {
     1, 1,
@@ -226,7 +228,7 @@ GV_ACT *s01a_lit_mdl_800E2C88(MATRIX *arg0, int arg1, int arg2, int arg3)
 {
     LitMdlWork *work;
 
-    work = (LitMdlWork *)GV_NewActor(7, sizeof(LitMdlWork));
+    work = (LitMdlWork *)GV_NewActor(EXEC_LEVEL, sizeof(LitMdlWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, (GV_ACTFUNC)s01a_lit_mdl_800E2928,

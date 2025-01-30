@@ -7,6 +7,8 @@
 #include "Menu/menuman.h"
 #include "strcode.h"
 
+#define EXEC_LEVEL GV_ACTOR_AFTER2
+
 short word_8009F5FC = 1;
 int  dword_8009F600 = 0;
 int  dword_8009F604 = -1;
@@ -624,7 +626,7 @@ SightWork *NewSight_80071CDC(int hashedFileName0, int hashedFileName1, short *it
         return work;
     }
 
-    work = (SightWork *)GV_NewActor(7, sizeof(SightWork));
+    work = (SightWork *)GV_NewActor(EXEC_LEVEL, sizeof(SightWork));
     if (work)
     {
         GV_SetNamedActor((GV_ACT *)work, (GV_ACTFUNC)sight_act_800714EC,
@@ -653,7 +655,7 @@ SightWork *sight_init_80071DC8(int hashedFileName, short *xyOffsetBuffer)
         return work;
     }
 
-    work = (SightWork *)GV_NewActor(7, sizeof(SightWork));
+    work = (SightWork *)GV_NewActor(EXEC_LEVEL, sizeof(SightWork));
     if (work)
     {
         GV_SetNamedActor((GV_ACT *)work, (GV_ACTFUNC)sight_act_800714EC,
