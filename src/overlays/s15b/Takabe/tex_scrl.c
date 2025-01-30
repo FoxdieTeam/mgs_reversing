@@ -36,7 +36,7 @@ unsigned short tex_scroll_msgs[] = {0x448B, 0xA8A4};
 #define getTPageX(tp) (((tp) << 6) & 0x3c0)
 #define getTPageY(tp) ((((tp) << 4) & 0x100) + (((tp) >> 2) & 0x200))
 
-#define EXEC_LEVEL 2
+#define EXEC_LEVEL GV_ACTOR_LEVEL2
 
 void TexScrollInitRect_800C97D4(DG_TEX *tex, RECT *rect)
 {

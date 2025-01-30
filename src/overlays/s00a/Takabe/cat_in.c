@@ -33,8 +33,8 @@ extern OBJECT *GM_PlayerBody_800ABA20;
 extern int     GM_PlayerStatus;
 extern GV_PAD  GV_PadData_800B05C0[4];
 
-#define EXEC_LEVEL  2
-#define EXEC_LEVEL2 5
+#define EXEC_LEVEL  GV_ACTOR_LEVEL2
+#define EXEC_LEVEL2 GV_ACTOR_LEVEL5
 
 void ZoomCameraAct_800DF740( ZoomCameraWork *cam )
 {

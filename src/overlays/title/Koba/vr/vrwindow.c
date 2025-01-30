@@ -50,7 +50,7 @@ extern GV_PAD GV_PadData_800B05C0[4];
 
 extern char vrwindow_800D92D4[];
 
-#define EXEC_LEVEL 2
+#define EXEC_LEVEL GV_ACTOR_LEVEL2
 
 void Vrwindow_800D73A4(VrwindowWork *work, RECT *rect)
 {
