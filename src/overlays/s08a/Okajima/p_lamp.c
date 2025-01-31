@@ -32,7 +32,7 @@ typedef struct PLampWork
     GV_ACT  *cinema_screen;
 } PLampWork;
 
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 SVECTOR p_lamp_target_svec_800C353C = {5, 5, 5};
 RECT    p_lamp_prim_rect_800C3544 = {100, 100, 200, 200};

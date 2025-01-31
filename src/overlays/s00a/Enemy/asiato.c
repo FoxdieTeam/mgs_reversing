@@ -42,6 +42,8 @@ typedef struct AsiatoCharWork
     int      field_50;
 } AsiatoCharWork;
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
+
 void AsiatoCharColor_800D0DD4(DG_PRIM *prim, DG_TEX *tex, int r, int g, int b)
 {
     POLY_FT4 *poly;
@@ -172,7 +174,7 @@ GV_ACT *NewAsiatoChar_800D11DC(MATRIX *arg0, int arg1, int arg2, int arg3, int a
 {
     AsiatoCharWork *work;
 
-    work = (AsiatoCharWork *)GV_NewActor(4, sizeof(AsiatoCharWork));
+    work = (AsiatoCharWork *)GV_NewActor(EXEC_LEVEL, sizeof(AsiatoCharWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, (GV_ACTFUNC)AsiatoCharAct_800D0E10,
@@ -461,7 +463,7 @@ GV_ACT *NewAsiato_800D1A14(int name, int where, int argc, char **argv)
 {
     AsiatoWork *work;
 
-    work = (AsiatoWork *)GV_NewActor(4, sizeof(AsiatoWork));
+    work = (AsiatoWork *)GV_NewActor(EXEC_LEVEL, sizeof(AsiatoWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, (GV_ACTFUNC)AsiatoAct_800D18C8,
@@ -477,7 +479,7 @@ GV_ACT *NewAsiatoKun_800D1A70(int name, int where, int argc, char **argv)
     // Identical to NewAsiato_800D1A14
     AsiatoWork *work;
 
-    work = (AsiatoWork *)GV_NewActor(4, sizeof(AsiatoWork));
+    work = (AsiatoWork *)GV_NewActor(EXEC_LEVEL, sizeof(AsiatoWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, (GV_ACTFUNC)AsiatoAct_800D18C8,

@@ -21,7 +21,7 @@ extern int     GM_CurrentMap;
 
 GV_ACT *NewRipple_800D7F30(MATRIX *, int);
 
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 void BubbleTShadePacks_800D9EEC(POLY_FT4 *packs, int shade)
 {

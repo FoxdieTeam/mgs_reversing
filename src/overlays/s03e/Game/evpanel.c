@@ -54,6 +54,8 @@ typedef struct EvPanelWork
     SVECTOR        field_B4[0];
 } EvPanelWork;
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
+
 unsigned short s03e_dword_800C3268[] = {0x121F, 0x8D5C, HASH_ENTER, HASH_LEAVE, 0x8591, 0x6555, 0x2EAB};
 
 char s03e_dword_800C3278[] = {0x7F, 0x02, 0x00, 0x00};
@@ -1018,7 +1020,7 @@ GV_ACT *NewEvPanel_800C4AD8(int name, int where, int argc, char **argv)
     int          button_count;
 
     button_count = THING_Gcl_GetIntDefault('n', 3);
-    work = (EvPanelWork *)GV_NewActor(4, sizeof(EvPanelWork) + sizeof(SVECTOR) * button_count * 4);
+    work = (EvPanelWork *)GV_NewActor(EXEC_LEVEL, sizeof(EvPanelWork) + sizeof(SVECTOR) * button_count * 4);
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, (GV_ACTFUNC)EvPanelAct_800C3B74,

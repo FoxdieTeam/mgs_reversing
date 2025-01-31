@@ -588,11 +588,13 @@ extern void ZakoAct_800D3684();
 extern void ZakoDie_800D3C84();
 extern const char s11e_aZakoec_800DEB68[];
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
+
 void *s11e_zako11e_800D42E0( int name, int where, int argc, char **argv )
 {
     ZakoWork *work ;
 
-    work = (ZakoWork *)GV_NewActor( 4, sizeof( ZakoWork ) ) ;
+    work = (ZakoWork *)GV_NewActor( EXEC_LEVEL, sizeof( ZakoWork ) ) ;
     if ( work != NULL ) {
         GV_SetNamedActor( &( work->actor ), ( GV_ACTFUNC )ZakoAct_800D3684, ( GV_ACTFUNC )ZakoDie_800D3C84, s11e_aZakoec_800DEB68 );
         ZakoGetResources_800D3EC8( work, name, where );

@@ -33,7 +33,7 @@ const char aUjiC[] = "uji.c";
 
 extern int     GM_CurrentMap;
 
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 int UjiGetSvecs_800C39E8(char *opt, SVECTOR *svec)
 {

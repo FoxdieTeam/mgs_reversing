@@ -556,11 +556,13 @@ void Zako11FGetResources_800C9070( Zako11FWork *work, int name, int where )
     work->field_C1C = work->start_pos;
 }
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
+
 void *NewZako11F( int name, int where, int argc, char **argv )
 {
     Zako11FWork *work ;
 
-    work = (Zako11FWork *)GV_NewActor( 4, sizeof( Zako11FWork ) ) ;
+    work = (Zako11FWork *)GV_NewActor( EXEC_LEVEL, sizeof( Zako11FWork ) ) ;
     if ( work != NULL ) {
         GV_SetNamedActor( &( work->actor ), ( GV_ACTFUNC )ZAKO11FAct_800C88AC, ( GV_ACTFUNC )ZAKO11FDie_800C8E2C, "zako11f.c" );
         Zako11FGetResources_800C9070( work, name, where );

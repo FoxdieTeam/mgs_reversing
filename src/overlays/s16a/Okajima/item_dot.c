@@ -14,7 +14,7 @@ typedef struct _ItemDotWork
     int     fA8;
 } ItemDotWork;
 
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 int ItemDotCheckMessages_800CC4C8(unsigned short name, int n_hashes, unsigned short *hashes)
 {

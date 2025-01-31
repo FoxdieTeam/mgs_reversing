@@ -12,7 +12,7 @@ typedef struct _KikenWork
     int    name;
 } KikenWork;
 
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 int KikenCheckMessages_800D6C64(KikenWork *work)
 {

@@ -766,6 +766,7 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
     work->field_C14 = work->start_pos;
 }
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 extern const char s07a_aMeryl7_800E2F04[];
 extern const char s07a_aEnemyworksized_800E2EEC[];
@@ -774,7 +775,7 @@ GV_ACT* NewEnemyMeryl_800D63A4( int name, int where, int argc, char **argv ) {
     WatcherWork *work ;
 
     printf( (char *)s07a_aEnemyworksized_800E2EEC, sizeof( WatcherWork ) );
-    work = (WatcherWork *)GV_NewActor( 4, sizeof( WatcherWork ) ) ;
+    work = (WatcherWork *)GV_NewActor( EXEC_LEVEL, sizeof( WatcherWork ) ) ;
     if ( work != NULL ) {
         GV_SetNamedActor( &( work->actor ), ( GV_ACTFUNC )EnemyMerylAct_800D5638, ( GV_ACTFUNC )EnemyMerylDie_800D5B90, s07a_aMeryl7_800E2F04 );
         EnemyMerylGetResources_800D5F24( work, name, where );

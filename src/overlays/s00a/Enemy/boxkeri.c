@@ -18,6 +18,8 @@ typedef struct BoxKeriWork
     MATRIX         field_7C_mat[2];
 } BoxKeriWork;
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
+
 const char aBoxkeriSnake[] = "スネーク";
 const char sBoxkeriDanbowl[] = "段ボール";
 const char aCbBox[] = "cb_box";
@@ -186,7 +188,7 @@ GV_ACT *NewBoxKeri_800D2600(MATRIX *mat, SVECTOR *svec)
 {
     BoxKeriWork *work;
 
-    work = (BoxKeriWork *)GV_NewActor(4, sizeof(BoxKeriWork));
+    work = (BoxKeriWork *)GV_NewActor(EXEC_LEVEL, sizeof(BoxKeriWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BoxKeriAct_800D219C,

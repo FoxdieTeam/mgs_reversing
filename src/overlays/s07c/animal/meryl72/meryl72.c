@@ -32,7 +32,7 @@ void s07c_meryl72_unk1_800CBCD8( Meryl72Work * );
 void s07c_meryl72_unk2_800D0220( void );
 void s07c_meryl72_unk2_800D025C( void );
 
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 void s07c_meryl72_800C6AF8( Meryl72Work *work )
 {

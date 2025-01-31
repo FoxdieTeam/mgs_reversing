@@ -14,7 +14,7 @@ typedef struct BlastLnWork
     int field_44;
 } BlastLnWork;
 
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 extern int GM_CurrentMap;
 

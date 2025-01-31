@@ -21,7 +21,7 @@ typedef struct _MgRoom
 extern int     GV_Clock;
 extern int     GM_CurrentMap;
 
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 void MgRoom_800DAC98(POLY_FT4 *packs, int n_packs, DG_TEX *tex, SVECTOR *color)
 {

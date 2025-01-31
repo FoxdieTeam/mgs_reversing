@@ -81,6 +81,8 @@ typedef struct CameraWork
     int            field_28C;
 } CameraWork;
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
+
 #define LENS_DX 0
 #define LENS_DY 175
 #define LENS_DZ 600
@@ -1118,7 +1120,7 @@ GV_ACT *NewCamera_800D67F8(int name, int where, int argc, char **argv)
 {
     CameraWork *work;
 
-    work = (CameraWork *)GV_NewActor(4, sizeof(CameraWork));
+    work = (CameraWork *)GV_NewActor(EXEC_LEVEL, sizeof(CameraWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, (GV_ACTFUNC)CameraAct_800D5F64,

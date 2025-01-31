@@ -64,6 +64,8 @@ typedef struct ObjectWork
     int     field_28C;
 } ObjectWork;
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
+
 SVECTOR object_svec1_800C3CAC = {1000, 2000, 1500, 0};
 SVECTOR object_svec2_800C3CB4 = {1500, 2000, 1500, 0};
 
@@ -553,7 +555,7 @@ GV_ACT *NewObjectChara_800DA3A4(int name, int where, int argc, char **argv)
 {
     ObjectWork *work;
 
-    work = (ObjectWork *)GV_NewActor(4, sizeof(ObjectWork));
+    work = (ObjectWork *)GV_NewActor(EXEC_LEVEL, sizeof(ObjectWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, (GV_ACTFUNC)ObjectCharaAct_800D9FE0,

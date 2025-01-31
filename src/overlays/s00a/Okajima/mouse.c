@@ -60,7 +60,7 @@ typedef struct _MouseWork
 extern int    GM_CurrentMap;
 extern int    GM_PlayerStatus;
 
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 void s00a_mouse_800D3B68(MouseWork *work, OBJECT *object)
 {

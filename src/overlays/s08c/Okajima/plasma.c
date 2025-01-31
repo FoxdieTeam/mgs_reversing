@@ -38,7 +38,7 @@ typedef struct _PlasmaWork
 extern int     GV_Clock;
 extern int     GM_CurrentMap;
 
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 // Identical to UjiGetSvecs_800C39E8
 int PlasmaGetSvecs_800CBBEC(char *opt, SVECTOR *svec)
