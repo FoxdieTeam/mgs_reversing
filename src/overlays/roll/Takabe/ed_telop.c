@@ -43,7 +43,7 @@ extern int GV_Clock;
 char * roll_ending2_800C5E54(void *, char *, int);
 void   roll_ending2_800C5EAC(short *, void *, void *, int);
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 int EdTelop_800C4F18(void)
 {

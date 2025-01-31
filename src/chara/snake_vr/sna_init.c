@@ -8201,11 +8201,13 @@ static const char aTrapCheckD[] = "trap check %d\n";
 static const char aPadX[] = "pad %x\n";
 static const char aKaze[] = "kaze \n";
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
+
 GV_ACT *NewSnake(int name, int where, int argc, char **argv)
 {
     SnaInitWork *work;
 
-    work = (SnaInitWork *)GV_NewActor(5, sizeof(SnaInitWork));
+    work = (SnaInitWork *)GV_NewActor(EXEC_LEVEL, sizeof(SnaInitWork));
     if (!work)
     {
         return NULL;

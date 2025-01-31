@@ -86,7 +86,7 @@ STATIC void vibrate_Act(VibrateWork *work)
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 VibrateWork *NewVibration(int pan)
 {

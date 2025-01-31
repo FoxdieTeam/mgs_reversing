@@ -39,7 +39,7 @@ SVECTOR at_target_size = {400, 900, 400, 0};
 
 extern int     GM_CurrentMap;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL      GV_ACTOR_LEVEL5
 #define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE )
 
 void s04c_at_800D7134(AtWork *work, int index, int count)

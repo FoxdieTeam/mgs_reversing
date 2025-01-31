@@ -22,7 +22,7 @@ SVECTOR s11i_800C32C8 = {200, 200, 200, 0};
 extern int     GV_Clock;
 extern int     GM_CurrentMap;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 int HdBul2_800C5920( HdBul2Work *work )
 {

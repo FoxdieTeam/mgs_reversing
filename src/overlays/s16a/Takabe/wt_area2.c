@@ -22,6 +22,8 @@ typedef struct WaterArea2Work
     int     proc_id;      //0x50
 } WaterArea2Work;
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
+
 extern void             NewSplash2_800DB6F0( int angy, SVECTOR *pos, int noripple );
 extern void            *NewRipple_800D7F30( MATRIX *, int );
 extern void            *NewWaterView_800DBE04( int name, int where, int argc, char **argv );
@@ -239,7 +241,7 @@ void *NewWaterArea2_800DACCC( int name, int where, int argc, char **argv )
 {
     WaterArea2Work *work ;
 
-    work = (WaterArea2Work *)GV_NewActor( 5, sizeof( WaterArea2Work ) ) ;
+    work = (WaterArea2Work *)GV_NewActor( EXEC_LEVEL, sizeof( WaterArea2Work ) ) ;
     if ( work != NULL ) {
         GV_SetNamedActor( &( work->actor ), ( GV_ACTFUNC )WaterArea2Act_800CEB10, ( GV_ACTFUNC )WaterArea2Die_800CEF64, "wt_area2.c" );
         if ( WaterArea2GetResources_800CEF6C( work, name, where ) < 0 )

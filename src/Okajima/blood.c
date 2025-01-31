@@ -24,7 +24,7 @@ typedef struct _BloodWork
 
 // STATIC_ASSERT(sizeof(BloodWork) == 0x2B0, "sizeof(BloodWork) is wrong!");
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 /*---------------------------------------------------------------------------*/
 

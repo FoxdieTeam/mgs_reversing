@@ -47,7 +47,7 @@ SVECTOR snow_svec_800C385C = {5000, 8000, 10000, 0};
 SVECTOR snow_svec_800C3864 = {0, -50, 0, 0};
 RECT    snow_rect_800C386C = {0, 0, 2, 2};
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void Snow_800C5234(TILE *packs, int n_packs, int *colors)
 {

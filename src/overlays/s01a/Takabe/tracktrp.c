@@ -27,7 +27,7 @@ extern GV_PAD  GV_PadData_800B05C0[4];
 
 unsigned short tracktrp_hashes[] = {HASH_ENTER, HASH_LEAVE};
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void TracktrpAct_800E1A94(TracktrpWork *work)
 {

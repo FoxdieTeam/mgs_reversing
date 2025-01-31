@@ -11,7 +11,7 @@ typedef struct _PointWork
     CONTROL control;
 } PointWork;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void PointAct_800C5928(PointWork *work)
 {

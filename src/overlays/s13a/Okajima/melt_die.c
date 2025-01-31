@@ -16,7 +16,7 @@ typedef struct MeltDieWork
     int svec_vz;
 } MeltDieWork;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 extern int GM_CurrentMap;
 

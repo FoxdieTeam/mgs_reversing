@@ -57,7 +57,7 @@ typedef struct RevolverWork
     short          field_9B6;
 } RevolverWork;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 #define BODY_FLAG  ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE)
 
 extern short s03b_dword_800C32E4[];

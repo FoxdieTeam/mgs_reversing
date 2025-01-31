@@ -34,7 +34,7 @@ const char door2_800E3334[11] = {0, 2, 1, 2, 1, 2, 1, 2, 1, 2, 3};
 
 void s16b_800C49AC(HZD_SEG *seg);
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void s13a_door2_800DD0FC(SVECTOR *verts, Door2Work *work)
 {

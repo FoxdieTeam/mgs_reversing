@@ -19,6 +19,8 @@ typedef struct CameraShakeWork
     int     field_44; //0x44
 } CameraShakeWork;
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
+
 extern SVECTOR GM_PlayerPosition_800ABA10;
 extern int  GM_CameraShakeOffset;
 
@@ -83,7 +85,7 @@ GV_ACT *NewCameraShake_800DF6AC(int name, int where, int argc, char **argv)
 {
     CameraShakeWork *work ;
 
-    work = (CameraShakeWork *)GV_NewActor( 5, sizeof( CameraShakeWork ) ) ;
+    work = (CameraShakeWork *)GV_NewActor( EXEC_LEVEL, sizeof( CameraShakeWork ) ) ;
     if ( work != NULL ) {
         GV_SetNamedActor( &( work->actor ), ( GV_ACTFUNC )CameraShakeAct_800DF4B8, ( GV_ACTFUNC )CameraShakeDie_800DF634, "camshake.c" );
         if ( CameraShakeGetResources_S_800DF63C( work, name, where ) < 0 )

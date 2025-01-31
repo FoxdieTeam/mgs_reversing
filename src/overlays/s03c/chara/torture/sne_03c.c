@@ -35,7 +35,7 @@ typedef struct Snake03c2Work
     int    procs[4];
 } Snake03c2Work;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 extern PlayerStatusFlag GM_PlayerStatus;
 extern CONTROL         *GM_PlayerControl_800AB9F4;

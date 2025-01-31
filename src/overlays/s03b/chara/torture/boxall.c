@@ -27,7 +27,7 @@ extern CONTROL  *GM_PlayerControl_800AB9F4;
 extern SVECTOR   GM_PlayerPosition_800ABA10;
 extern GM_Camera GM_Camera_800B77E8;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 #define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
 
 int Boxall_800C9780(SVECTOR *out, SVECTOR *in)

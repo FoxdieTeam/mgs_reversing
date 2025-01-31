@@ -53,7 +53,7 @@ typedef struct BulletWork
 
 // STATIC_ASSERT(sizeof(BulletWork) == 0x170, "sizeof(BulletWork) is wrong!");
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 /*---------------------------------------------------------------------------*/
 

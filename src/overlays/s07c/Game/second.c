@@ -12,6 +12,8 @@ typedef struct SecondWork
     char  *field_28;
 } SecondWork;
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
+
 extern GV_PAD GV_PadData_800B05C0[4];
 extern int    GM_PlayerStatus;
 
@@ -34,7 +36,7 @@ GV_ACT *s07c_second_800C5728(int name, int where, int argc, char **argv)
 {
     SecondWork *work;
 
-    work = (SecondWork *)GV_NewActor(5, sizeof(SecondWork));
+    work = (SecondWork *)GV_NewActor(EXEC_LEVEL, sizeof(SecondWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, (GV_ACTFUNC)s07c_second_800C56A0, NULL, "second.c");

@@ -12,6 +12,8 @@ typedef struct SplashWork
     int      time;
 } SplashWork;
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
+
 RECT rect_800C3420 = {50, 50, 100, 100};
 
 extern int GV_Clock;
@@ -183,7 +185,7 @@ GV_ACT *NewSplash_800C8D6C(MATRIX *mat, int rgb)
 {
     SplashWork *work;
 
-    work = (SplashWork *)GV_NewActor(5, sizeof(SplashWork));
+    work = (SplashWork *)GV_NewActor(EXEC_LEVEL, sizeof(SplashWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, (GV_ACTFUNC)SplashAct_800C8BA8, (GV_ACTFUNC)SplashDie_800C8C30, "splash.c");

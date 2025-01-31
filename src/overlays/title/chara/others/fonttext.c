@@ -17,7 +17,7 @@ typedef struct _Work
     RECT    offset;
 } Work;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 extern int fonttext_dword_800C32B0;
 extern const char fonttext_aS[];

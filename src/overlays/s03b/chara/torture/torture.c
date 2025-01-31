@@ -114,7 +114,7 @@ void s03b_torture_800C4C48(TortureWork *work, int);
 void s03b_torture_800C5AF8(TortureWork *work, int);
 void s03b_torture_800C5E48(TortureWork *work, int);
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 #define BODY_FLAG  ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE )
 
 void s03b_torture_800C3E80(TortureWork *work)

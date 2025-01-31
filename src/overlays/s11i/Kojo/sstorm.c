@@ -44,7 +44,7 @@ typedef struct SStormWork
     PRESCRIPT field_BC;
 } SStormWork;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 int s11i_dword_800C36B4[] = {0x00011000, 0x0CFE0105, 0xFF010000, 0x00000008, 0x0D010002};
 char s11i_dword_800C36C8[] = {0xF}; // FIXME: this is a part of s11i_dword_800C36B4[]

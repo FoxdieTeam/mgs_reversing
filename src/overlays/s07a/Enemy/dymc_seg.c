@@ -15,6 +15,8 @@ typedef struct DymcSegWork
     int      field_4C;
 } DymcSegWork;
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
+
 extern char s07a_dword_800E2F10[];
 
 void s07a_dymc_seg_800D6430(DymcSegWork *work)
@@ -74,7 +76,7 @@ GV_ACT *s07a_dymc_seg_800D65C8(int arg0, SVECTOR *min, SVECTOR *max, int min_h, 
 {
     DymcSegWork *work;
 
-    work = (DymcSegWork *)GV_NewActor(5, sizeof(DymcSegWork));
+    work = (DymcSegWork *)GV_NewActor(EXEC_LEVEL, sizeof(DymcSegWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, (GV_ACTFUNC)s07a_dymc_seg_800D6430,

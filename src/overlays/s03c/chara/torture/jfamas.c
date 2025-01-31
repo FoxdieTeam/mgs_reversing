@@ -17,7 +17,7 @@ typedef struct JFamasWork
     int            side;
 } JFamasWork;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 SVECTOR s03c_dword_800C33AC = {5, 65036, 80};
 

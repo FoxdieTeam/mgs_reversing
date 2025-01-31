@@ -276,6 +276,8 @@ typedef struct HindWork
     int       field_A7C;
 } HindWork;
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
+
 SVECTOR s11g_dword_800C3598 = {5000, 3000, 5000, 0};
 SVECTOR s11g_dword_800C35A0 = {100, 0, 0, 0};
 
@@ -319,7 +321,7 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
     int            i;
     unsigned char *param;
 
-    work = (HindWork *)GV_NewActor(5, sizeof(HindWork));
+    work = (HindWork *)GV_NewActor(EXEC_LEVEL, sizeof(HindWork));
     if (work == NULL)
     {
         return NULL;

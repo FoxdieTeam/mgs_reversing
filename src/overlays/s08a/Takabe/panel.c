@@ -31,7 +31,7 @@ int AN_Unknown_800DCE84(SVECTOR *pos);
 
 GV_ACT *NewSpark2_800CA714(MATRIX *world);
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void PanelTexPack_800D1BD0(POLY_GT4 *pack, DG_TEX *tex, int size, PanelWork *work)
 {

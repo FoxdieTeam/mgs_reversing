@@ -43,7 +43,7 @@ static int s04c_dword_800DBE20;
 
 GV_ACT *NewRevbullt_800D2DC8(MATRIX *world, int bounces);
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void s04c_revbullt_800D2378(SVECTOR *verts)
 {

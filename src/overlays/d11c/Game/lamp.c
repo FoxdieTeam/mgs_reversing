@@ -2,12 +2,13 @@
 
 #include <stdio.h>
 #include "common.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "strcode.h"
 #include "lamp.h"
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 typedef struct LampWork
 {

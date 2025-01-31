@@ -30,7 +30,7 @@ typedef struct _CapeWork
 
 extern GV_PAD GV_PadData_800B05C0[4];
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 
 void s04c_cape_800D7938(CapeWork *work)

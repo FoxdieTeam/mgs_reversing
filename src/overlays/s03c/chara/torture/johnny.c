@@ -85,7 +85,7 @@ typedef struct JohnnyWork
     int            unkBE4;
 } JohnnyWork;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 #define TARGET_FLAG ( TARGET_POWER | TARGET_CAPTURE | TARGET_PUSH | TARGET_TOUCH | TARGET_SEEK )
 

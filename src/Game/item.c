@@ -53,7 +53,7 @@ typedef struct ItemWork
     SVECTOR        field_178;
 } ItemWork;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 /*---------------------------------------------------------------------------*/
 

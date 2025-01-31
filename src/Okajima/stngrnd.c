@@ -28,7 +28,7 @@ typedef struct StunGrenadeWork
     int         field_F4;
 } StunGrenadeWork;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 /*---------------------------------------------------------------------------*/
 

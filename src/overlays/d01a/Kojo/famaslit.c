@@ -20,7 +20,7 @@ extern int GM_CurrentMap;
 void FamaslitAct_800D0B28(FamaslitWork *work);
 void FamaslitDie_800D0B90(FamaslitWork *work);
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 GV_ACT *NewFamaslit_800D06F0(MATRIX *world)
 {

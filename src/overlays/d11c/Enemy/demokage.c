@@ -16,7 +16,7 @@ typedef struct _DemokageWork
     int     *f54;    // 54
 } DemokageWork;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 int d11c_800C425C(int a, int b, int c)
 {

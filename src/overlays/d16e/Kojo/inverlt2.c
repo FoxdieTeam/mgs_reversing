@@ -25,7 +25,7 @@ typedef struct _Inverlt2Work
 
 extern int GM_CurrentMap;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void Inverlt2Act_800D1580(Inverlt2Work *work);
 void Inverlt2Die_800D1858(Inverlt2Work *work);

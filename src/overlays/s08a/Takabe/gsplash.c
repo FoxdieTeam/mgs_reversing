@@ -17,7 +17,7 @@ typedef struct _GsplashWork
     int      fAB8;
 } GsplashWork;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 extern int GM_CurrentMap;
 

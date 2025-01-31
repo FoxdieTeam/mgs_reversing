@@ -13,6 +13,8 @@ typedef struct EyeflashWork
     DG_TEX  *field_3C;
 } EyeflashWork;
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
+
 SVECTOR eyeflash_svec = {0, 80, 50, 0};
 const RECT eyeflash_rect = {175, 100, 350, 200};
 
@@ -137,7 +139,7 @@ GV_ACT *NewEyeflash_800D0CF4(MATRIX *arg0, SVECTOR *arg1, int arg2, int arg3)
 {
     EyeflashWork *work;
 
-    work = (EyeflashWork *)GV_NewActor(5, sizeof(EyeflashWork));
+    work = (EyeflashWork *)GV_NewActor(EXEC_LEVEL, sizeof(EyeflashWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, (GV_ACTFUNC)s00a_eyeflash_800D0B18,

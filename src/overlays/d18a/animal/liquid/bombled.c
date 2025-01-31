@@ -12,7 +12,7 @@ typedef struct BombledWork
     int     timer;
 } BombledWork;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void s08c_800C42B0(SVECTOR *pos);
 

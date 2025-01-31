@@ -16,7 +16,7 @@ typedef struct _BedWork
 
 extern OBJECT *GM_PlayerBody_800ABA20;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 #define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
 
 static inline int BedCheckMessages(BedWork *work)

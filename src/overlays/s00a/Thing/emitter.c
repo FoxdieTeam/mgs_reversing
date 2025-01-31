@@ -15,7 +15,7 @@ RECT rect_800C3320 = { 1000, 1000, 2000, 2000 };
 
 extern int  GM_CurrentMap;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void EmitterShadePacks_800C3C08( POLY_FT4 *packs, int n_packs, DG_TEX *unused, char shade )
 {

@@ -13,6 +13,8 @@ typedef struct DymcFloorWork
     HZD_FLR flr;
 } DymcFloorWork;
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
+
 unsigned short dymc_flr_msgs_800C3630[2] = {HASH_ON2, HASH_OFF2};
 
 extern int GM_CurrentMap;
@@ -140,7 +142,7 @@ GV_ACT *s15c_dymc_flr_800E1C70(int name, int where, int argc, char **argv)
 {
     DymcFloorWork *work;
 
-    work = (DymcFloorWork *)GV_NewActor(5, sizeof(DymcFloorWork));
+    work = (DymcFloorWork *)GV_NewActor(EXEC_LEVEL, sizeof(DymcFloorWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, (GV_ACTFUNC)s15c_dymc_flr_800E1B00, (GV_ACTFUNC)s15c_dymc_flr_800E1B54, "dymc_flr.c");

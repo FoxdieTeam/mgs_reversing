@@ -28,6 +28,8 @@ typedef struct BubDSnWork
     DG_TEX  *field_17C;
 } BubDSnWork;
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
+
 extern int     GV_Clock;
 extern OBJECT *GM_PlayerBody_800ABA20;
 
@@ -274,7 +276,7 @@ GV_ACT *NewBubbleDisplayScene_800D90B4(int name, int where, int argc, char **arg
 {
     BubDSnWork *work;
 
-    work = (BubDSnWork *)GV_NewActor(5, sizeof(BubDSnWork));
+    work = (BubDSnWork *)GV_NewActor(EXEC_LEVEL, sizeof(BubDSnWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BubbleDisplaySceneAct_800D87D0,

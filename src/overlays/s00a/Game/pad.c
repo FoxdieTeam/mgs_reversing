@@ -6,7 +6,7 @@
 
 extern unsigned short GV_DemoPadStatus;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 typedef struct _PadWork
 {

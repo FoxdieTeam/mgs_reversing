@@ -27,7 +27,7 @@ typedef struct SparkWork
     int      f170_counter;
 } SparkWork;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 /*---------------------------------------------------------------------------*/
 

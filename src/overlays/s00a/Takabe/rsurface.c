@@ -29,6 +29,8 @@ typedef struct RSurfaceWork
     short        field_86;
 } RSurfaceWork;
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
+
 extern int      GM_CurrentMap;
 extern CONTROL *GM_WhereList_800B56D0[96];
 extern int      gControlCount_800AB9B4;
@@ -110,7 +112,7 @@ GV_ACT *NewRippleSurface_800D8244(int name, int where, int argc, char **argv)
 {
     RSurfaceWork *work;
 
-    work = (RSurfaceWork *)GV_NewActor(5, sizeof(RSurfaceWork));
+    work = (RSurfaceWork *)GV_NewActor(EXEC_LEVEL, sizeof(RSurfaceWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, (GV_ACTFUNC)RippleSurfaceAct_800D7FC4,
