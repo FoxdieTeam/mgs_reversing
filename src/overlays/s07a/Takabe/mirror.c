@@ -52,7 +52,7 @@ void     Mirror_800E0A88(MirrorEntry *entry);
 DG_DEF * Mirror_800E0AD8(DG_DEF *def, int arg1);
 void     Mirror_800E0BDC(DG_OBJS *objs);
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void MirrorAct_800DFDDC(MirrorWork *work)
 {

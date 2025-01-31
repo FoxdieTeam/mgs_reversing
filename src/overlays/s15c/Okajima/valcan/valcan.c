@@ -125,7 +125,7 @@ typedef struct ValcanWork
     int            field_950;
 } ValcanWork;
 
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 SVECTOR s15c_dword_800C3608 = {0, 0, 100};
 SVECTOR s15c_dword_800C3610 = {64512, 0, 0};

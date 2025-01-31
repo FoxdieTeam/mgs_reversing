@@ -48,7 +48,7 @@ typedef struct DoorWork
     DoorLeafData   leaves[1]; // 1 or more leaves
 } DoorWork;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 extern CONTROL *GM_PlayerControl_800AB9F4;
 extern int      GM_PlayerMap_800ABA0C;

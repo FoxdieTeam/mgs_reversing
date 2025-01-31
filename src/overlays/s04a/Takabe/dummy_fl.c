@@ -81,7 +81,7 @@ void s16b_800C4874(int arg0, HZD_SEG *arg1, int arg2, HZD_FLR *arg3);
 void DummyFloor_800D6C94(DummyFloorWork *work, DummyFlap *flap, int model, int map);
 void DummyFloor_800D6D38(SVECTOR *in, HZD_FLR *floor);
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void DummyFloorAct_800D61A4(DummyFloorWork *work)
 {

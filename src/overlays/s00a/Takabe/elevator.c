@@ -95,7 +95,7 @@ void      Takabe_ReshadeModel_800DC854(DG_OBJS *objs, LIT *lit);
 DG_OBJS * s00a_unknown3_800DC7DC(int model, LIT *lit);
 void      Takabe_FreeObjs_800DC820(DG_OBJS *objs);
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void ElevatorAct_800D8EA8(ElevatorWork *work)
 {

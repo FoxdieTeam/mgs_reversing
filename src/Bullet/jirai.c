@@ -579,7 +579,7 @@ GV_ACT *NewJirai(MATRIX *world, HZD_FLR *floor)
         return 0;
     }
 
-    work = (JiraiWork *)GV_NewActor(5, sizeof(JiraiWork));
+    work = (JiraiWork *)GV_NewActor(GV_ACTOR_LEVEL5, sizeof(JiraiWork));
     if (work)
     {
         work->field_104_vec = GM_PlayerControl_800AB9F4->rot;

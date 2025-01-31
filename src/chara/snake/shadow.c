@@ -24,6 +24,7 @@ typedef struct _Shadow_Scratch
     MATRIX  mtx;
 } Shadow_Scratch;
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 #define SHADOW_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE | DG_FLAG_AMBIENT )
 
 void ShadowRotate_8005FD28(ShadowWork *work)
@@ -213,7 +214,7 @@ GV_ACT *NewShadow_800602CC(CONTROL *control, OBJECT *parent, SVECTOR indices)
 {
     ShadowWork *work;
 
-    work = (ShadowWork *)GV_NewActor(5, sizeof(ShadowWork));
+    work = (ShadowWork *)GV_NewActor(EXEC_LEVEL, sizeof(ShadowWork));
     if (work)
     {
         GV_SetNamedActor(&work->actor, (GV_ACTFUNC)ShadowAct_800600E4,

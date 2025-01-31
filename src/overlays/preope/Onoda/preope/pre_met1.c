@@ -78,7 +78,7 @@ typedef struct PreEntries
     PreEntry entries[8];
 } PreEntries;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 typedef struct PreMet1Unk
 {

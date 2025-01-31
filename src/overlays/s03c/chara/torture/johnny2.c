@@ -29,7 +29,7 @@ typedef struct Johnny2Work
     SVECTOR svec_7F8;
 } Johnny2Work;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 extern int s03c_dword_800C33D8;
 

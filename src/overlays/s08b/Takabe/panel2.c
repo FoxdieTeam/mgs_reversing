@@ -28,7 +28,7 @@ typedef struct Panel2Work
     int            unkAC;
 } Panel2Work;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 SVECTOR s08b_dword_800C3650 = {0, 0, 65236};
 

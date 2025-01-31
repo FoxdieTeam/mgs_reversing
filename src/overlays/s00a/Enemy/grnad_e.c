@@ -31,7 +31,7 @@ SVECTOR svec_800C360C[2] = {{0, 80, 80, 0}, {0, 20, 500, 0}};
 
 GV_ACT *NewBlast(MATRIX *);
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void GrenadeEnemyAct_800D1DDC(GrenadeEnemyWork *work)
 {

@@ -5,7 +5,7 @@
 
 void NewEventmouse_800CA6F4(HZD_PTP *points, int n_points, int, int, int, int);
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void KeyItemAct_800C8888(GV_ACT *work)
 {

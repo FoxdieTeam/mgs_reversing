@@ -30,7 +30,7 @@ typedef struct _WsurfaceWork
 extern int GV_Clock;
 extern int GM_CurrentMap;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void Wsurface_800DAC14(POLY_GT4 *poly, DG_TEX *tex, WsurfaceWork *work)
 {

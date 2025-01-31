@@ -58,7 +58,7 @@ typedef struct Ending2Work
     DISPENV      field_325C;
 } Ending2Work;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 extern int GV_Clock;
 

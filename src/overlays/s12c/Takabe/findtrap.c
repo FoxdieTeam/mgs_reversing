@@ -21,6 +21,8 @@ typedef struct FindTrapWork
     int     field_48;
 } FindTrapWork;
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
+
 short findtrap_msgs_800C350C[4] = {HASH_ENTER, HASH_LEAVE, 0x42DC, HASH_KILL};
 
 SVECTOR       SECTION("overlay.bss") s12c_dword_800DAA50;
@@ -158,7 +160,7 @@ GV_ACT *NewFindTrap_800D77DC(int name, int where, int argc, char **argv)
 {
     FindTrapWork *work;
 
-    work = (FindTrapWork *)GV_NewActor(5, sizeof(FindTrapWork));
+    work = (FindTrapWork *)GV_NewActor(EXEC_LEVEL, sizeof(FindTrapWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, (GV_ACTFUNC)s12c_findtrap_800D72E8,

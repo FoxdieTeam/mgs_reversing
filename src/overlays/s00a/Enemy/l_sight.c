@@ -10,7 +10,7 @@ typedef struct _LSightWork
     int      timer;
 } LSightWork;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void LSightInitVecs_800D1ACC(SVECTOR *from, SVECTOR *to, SVECTOR *out)
 {

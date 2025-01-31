@@ -13,7 +13,7 @@ extern OBJECT      *GM_PlayerBody_800ABA20;
 
 extern void AN_Breath_800C3AA8( MATRIX *world );
 
-#define EXEC_LEVEL 5 //goes in libgv.h
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 #define DEFAULT_TIME 0x40
 
 typedef struct _BreathWork

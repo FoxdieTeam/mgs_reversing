@@ -26,7 +26,7 @@ int s16b_800C5728(ShakemdlWork *, short *);
 int s16b_800C57A4(ShakemdlWork *work);
 int s16b_800C5664(ShakemdlWork *work);
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void ShakemdlAct_800C5288(ShakemdlWork *work)
 {

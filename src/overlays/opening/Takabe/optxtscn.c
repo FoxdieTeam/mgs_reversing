@@ -62,7 +62,7 @@ OpTxtScnUnk opening_dword_800C33E4[2] =
 extern int    GV_Clock;
 extern int    GM_CurrentMap;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 #define getTPageX(tp) (((tp) << 6) & 0x3c0)
 #define getTPageY(tp) ((((tp) << 4) & 0x100) + (((tp) >> 2) & 0x200))

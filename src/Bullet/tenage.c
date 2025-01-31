@@ -276,7 +276,7 @@ GV_ACT *NewTenage(SVECTOR *pos, SVECTOR *step, int fuse_time, int type, int mode
         return NULL;
     }
 
-    work = (TenageWork *)GV_NewActor(5, sizeof(TenageWork));
+    work = (TenageWork *)GV_NewActor(GV_ACTOR_LEVEL5, sizeof(TenageWork));
 
     if (work)
     {

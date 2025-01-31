@@ -18,6 +18,8 @@ typedef struct RipplesWork
     short        field_4E;
 } RipplesWork;
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
+
 void *NewRipple_800D7F30( MATRIX *, int );
 
 extern int GM_CurrentMap;
@@ -57,7 +59,7 @@ GV_ACT *NewRipples_800D872C(int name, int where, int argc, char **argv)
 {
     RipplesWork *work;
 
-    work = (RipplesWork *)GV_NewActor(5, sizeof(RipplesWork));
+    work = (RipplesWork *)GV_NewActor(EXEC_LEVEL, sizeof(RipplesWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, (GV_ACTFUNC)RipplesAct_800D85A0, (GV_ACTFUNC)RipplesDie_800D862C, "ripples.c");

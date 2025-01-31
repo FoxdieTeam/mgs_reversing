@@ -17,6 +17,8 @@ typedef struct SmokeWork
     int      field_3C;
 } SmokeWork;
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
+
 const char aSmoke[] = "smoke";
 const char aSmokeC[] = "smoke.c";
 
@@ -230,7 +232,7 @@ GV_ACT *NewSmoke_800D2BEC(int name, int where, int argc, char **argv)
 {
     SmokeWork *work;
 
-    work = (SmokeWork *)GV_NewActor(5, sizeof(SmokeWork));
+    work = (SmokeWork *)GV_NewActor(EXEC_LEVEL, sizeof(SmokeWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, (GV_ACTFUNC)SmokeAct_800D2A80,

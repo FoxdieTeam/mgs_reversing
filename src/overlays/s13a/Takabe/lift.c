@@ -32,7 +32,7 @@ extern HITTABLE GM_ClayDatas_800BDE78[8];
 
 #define TAG(ptr, tag) ((void *)((unsigned int)ptr | tag))
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void s13a_lift_800DDA90(LiftWork *work)
 {

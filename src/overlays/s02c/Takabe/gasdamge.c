@@ -18,6 +18,8 @@ typedef struct GasDamgeWork {
     int    field_40;
 } GasDamgeWork;
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
+
 int SECTION("overlay.bss") s02c_dword_800E3F40;
 
 extern short GM_O2;
@@ -95,7 +97,7 @@ GV_ACT *NewGasDamage_800E14E8(int name, int where, int argc, char **argv)
 {
     GasDamgeWork *work;
 
-    work = (GasDamgeWork *)GV_NewActor(5, sizeof(GasDamgeWork));
+    work = (GasDamgeWork *)GV_NewActor(EXEC_LEVEL, sizeof(GasDamgeWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, (GV_ACTFUNC)GasDamageAct_800E1348, (GV_ACTFUNC)GasDamageDie_800E147C, "gasdamge.c");

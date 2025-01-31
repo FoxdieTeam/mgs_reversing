@@ -37,7 +37,8 @@ typedef struct _Rasen2Work
     GV_ACT        *field_238;
 } Rasen2Work;
 
-#define EXEC_LEVEL GV_ACTOR_MANAGER
+#define EXEC_LEVEL      GV_ACTOR_MANAGER
+#define EXEC_LEVEL2     GV_ACTOR_LEVEL5
 
 int rasen_800C3404 = 0;
 int rasen_800C3408 = 0;
@@ -520,7 +521,7 @@ GV_ACT *NewRasen2_800CB008(int name, int where)
 {
     Rasen2Work *work;
 
-    work = (Rasen2Work *)GV_NewActor(5, sizeof(Rasen2Work));
+    work = (Rasen2Work *)GV_NewActor(EXEC_LEVEL2, sizeof(Rasen2Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, (GV_ACTFUNC)Rasen2Act_800CA79C,

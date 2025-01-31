@@ -31,7 +31,7 @@ typedef struct _O2DamgeWork
 extern short GM_O2;
 extern int   GM_PlayerStatus;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void ExecProc_800DE580(int proc, long arg)
 {

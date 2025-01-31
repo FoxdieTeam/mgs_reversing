@@ -18,6 +18,8 @@ typedef struct PutObjWork
     DG_OBJS *field_30_objs[0];
 } PutObjWork;
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
+
 void PutObjectAct_800E237C(PutObjWork *work)
 {
     if (GM_CheckMessage(&work->actor, work->field_20, HASH_KILL))
@@ -126,7 +128,7 @@ GV_ACT *NewPutObject_800E25C0(int name, int where, int argc, char **argv)
     }
     printf("(put_obj.c) total ojbect : %d \n", total_ojbects);
 
-    work = (PutObjWork *)GV_NewActor(5, sizeof(PutObjWork) + total_ojbects * sizeof(DG_OBJS *));
+    work = (PutObjWork *)GV_NewActor(EXEC_LEVEL, sizeof(PutObjWork) + total_ojbects * sizeof(DG_OBJS *));
     if (work != NULL)
     {
         work->field_20 = name;

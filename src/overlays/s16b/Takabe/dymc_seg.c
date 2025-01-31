@@ -21,7 +21,7 @@ extern int GM_CurrentMap;
 
 unsigned short dymc_seg_hashes[] = {HASH_ON2, HASH_OFF2};
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void DymcSegAct_800C4A44(DymcSegWork *work)
 {

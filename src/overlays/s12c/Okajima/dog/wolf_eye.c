@@ -23,7 +23,7 @@ int SECTION("overlay.bss") s12c_dword_800DA424;
 
 extern int GM_CurrentMap;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void WolfEye_800D3518()
 {

@@ -18,7 +18,7 @@ typedef struct _WindcrclWork
     int      time;
 } WindcrclWork;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 extern int GM_CurrentMap;
 

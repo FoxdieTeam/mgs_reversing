@@ -20,7 +20,7 @@ typedef struct Monitor1Work
     int     proc;
 } Monitor1Work;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 GV_ACT *NewSpark2_800CA714(MATRIX *world);
 void    AN_Unknown_800DCE84(SVECTOR *pos);

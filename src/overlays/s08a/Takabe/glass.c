@@ -34,7 +34,7 @@ void s16b_800C49AC(HZD_SEG *seg);
 
 GV_ACT *NewGsplash_800D4000(MATRIX *pos, SVECTOR *arg1, short arg2, short n_prims);
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 static inline void GlassInitPack(POLY_FT4 *poly, DG_TEX *tex, int size, int which)
 {

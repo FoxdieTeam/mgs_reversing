@@ -44,7 +44,7 @@ typedef struct _ChaffGrdWork
 
 // STATIC_ASSERT(sizeof(ChaffGrdWork) == 0xAA0, "sizeof(ChaffGrdWork) is wrong!");
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 /*---------------------------------------------------------------------------*/
 

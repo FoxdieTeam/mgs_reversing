@@ -31,7 +31,7 @@ extern int     GM_CurrentMap;
 
 const SVECTOR spark2_light_pos = {0, 0, 500, 0};
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void s03e_spark2_800CA0E8(int count)
 {

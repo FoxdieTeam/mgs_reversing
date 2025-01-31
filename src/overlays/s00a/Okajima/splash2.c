@@ -24,7 +24,7 @@ extern int    GV_Clock;
 
 RECT rect_800C3670 = { 50, 50, 100, 100 };
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void Splash2Transform_800DAD68( MATRIX *matrix, SVECTOR *vecs1, SVECTOR *vecs2, int count )
 {

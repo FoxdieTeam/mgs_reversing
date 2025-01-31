@@ -11,6 +11,8 @@ typedef struct FallSplWork
     SVECTOR limit[2];
 } FallSplWork;
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
+
 GV_ACT *NewSplash3_800C83D0(int dir, SVECTOR *pos);
 
 extern int GM_CurrentMap;
@@ -70,7 +72,7 @@ GV_ACT *s15b_fall_spl_800C7CA0(int name, int where, int argc, char **argv)
 {
     FallSplWork *work;
 
-    work = (FallSplWork *)GV_NewActor(5, sizeof(FallSplWork));
+    work = (FallSplWork *)GV_NewActor(EXEC_LEVEL, sizeof(FallSplWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, (GV_ACTFUNC)s15b_fall_spl_800C7B60,

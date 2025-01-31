@@ -21,7 +21,7 @@ typedef struct _Work
 
 extern int GM_CurrentMap;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void asioto_800C3278(Work *work)
 {

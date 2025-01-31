@@ -19,7 +19,7 @@ typedef struct BlastoffWork
     SVECTOR  prim_vecs[16];
 } BlastoffWork;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 extern int    GV_Clock;
 extern int    GM_CurrentMap;

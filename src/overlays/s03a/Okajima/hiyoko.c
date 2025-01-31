@@ -22,7 +22,7 @@ typedef struct _HiyokoWork
 
 extern int     GM_CurrentMap;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 int HiyokoGetSvec_800CFD04(char *opt, SVECTOR *out)
 {
