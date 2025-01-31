@@ -93,7 +93,7 @@ GV_ACT *NewLSight_800D1D2C(SVECTOR *from, SVECTOR *to, int color)
 {
     LSightWork *work;
 
-    work = (LSightWork *)GV_NewActor(EXEC_LEVEL, sizeof(LSightWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(LSightWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, LSightAct_800D1C20, LSightDie_800D1C54, "l_sight.c");

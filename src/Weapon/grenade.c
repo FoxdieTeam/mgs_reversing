@@ -237,7 +237,7 @@ STATIC GV_ACT *InitGrenade( CONTROL *control, OBJECT *parent, int num_parent,
 {
     GrenadeWork *work;
 
-    work = (GrenadeWork *)GV_NewActor( EXEC_LEVEL, sizeof( GrenadeWork ) );
+    work = GV_NewActor( EXEC_LEVEL, sizeof( GrenadeWork ) );
     if ( work )
     {
         GV_SetNamedActor( &work->actor, &GrenadeAct, &GrenadeDie, "grenade.c");

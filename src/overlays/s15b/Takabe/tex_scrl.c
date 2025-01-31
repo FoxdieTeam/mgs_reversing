@@ -214,7 +214,7 @@ GV_ACT *NewTexScroll_800C9D38(int name, int where)
     TexScrollWork *work;
 
     n_entries = THING_Gcl_GetIntDefault('n', 1);
-    work = (TexScrollWork *)GV_NewActor(EXEC_LEVEL, sizeof(TexScrollWork) + sizeof(RECT) * n_entries);
+    work = GV_NewActor(EXEC_LEVEL, sizeof(TexScrollWork) + sizeof(RECT) * n_entries);
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, TexScrollAct_800C9960, TexScrollDie_800C9BAC, "tex_scrl.c");

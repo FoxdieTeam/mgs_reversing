@@ -136,7 +136,7 @@ GV_ACT *GM_DelayedExecCommand(int proc, GCL_ARGS *args, int time)
     long          *dst_args;
     long          *src_args;
 
-    work = (DelayWork *)GV_NewActor(EXEC_LEVEL, sizeof(DelayWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(DelayWork));
     if (work)
     {
         if (!args)

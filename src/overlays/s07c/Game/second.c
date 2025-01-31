@@ -36,7 +36,7 @@ GV_ACT *s07c_second_800C5728(int name, int where, int argc, char **argv)
 {
     SecondWork *work;
 
-    work = (SecondWork *)GV_NewActor(EXEC_LEVEL, sizeof(SecondWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(SecondWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, s07c_second_800C56A0, NULL, "second.c");

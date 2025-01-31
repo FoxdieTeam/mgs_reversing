@@ -85,7 +85,7 @@ GV_ACT *NewCameraShake_800DF6AC(int name, int where, int argc, char **argv)
 {
     CameraShakeWork *work ;
 
-    work = (CameraShakeWork *)GV_NewActor( EXEC_LEVEL, sizeof( CameraShakeWork ) ) ;
+    work = GV_NewActor( EXEC_LEVEL, sizeof( CameraShakeWork ) ) ;
     if ( work != NULL ) {
         GV_SetNamedActor( &( work->actor ), CameraShakeAct_800DF4B8, CameraShakeDie_800DF634, "camshake.c" );
         if ( CameraShakeGetResources_S_800DF63C( work, name, where ) < 0 )

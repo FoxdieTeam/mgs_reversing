@@ -772,7 +772,7 @@ GV_ACT *NewDoor(int name, int where, int argc, char **argv)
         leaf_count = 1;
     }
 
-    work = (DoorWork *)GV_NewActor(EXEC_LEVEL, sizeof(DoorWork) + sizeof(DoorLeafData) * (leaf_count - 1));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(DoorWork) + sizeof(DoorLeafData) * (leaf_count - 1));
 
     door_where_8009F5F4 = 0;
 

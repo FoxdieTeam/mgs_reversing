@@ -193,7 +193,7 @@ GV_ACT *NewWall_800C3688(SVECTOR *pos, SVECTOR *dir)
 {
     Work *work;
 
-    work = (Work *)GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, NULL, WallDie_800C34B0, "wall.c");
@@ -217,7 +217,7 @@ GV_ACT *NewWall_800C3718(int name, int where, int argc, char **argv)
     int     model;
     char   *param;
 
-    work = (Work *)GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, WallAct_800C345C, WallDie_800C34B0, "wall.c");

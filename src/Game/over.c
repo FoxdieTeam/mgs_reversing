@@ -524,7 +524,7 @@ STATIC void over_loader_80037600(OverWork *work)
 
 void *NewGameOver(int can_continue)
 {
-    OverWork *work = (OverWork *)GV_NewActor(EXEC_LEVEL, sizeof(OverWork));
+    OverWork *work = GV_NewActor(EXEC_LEVEL, sizeof(OverWork));
 
     if (work)
     {

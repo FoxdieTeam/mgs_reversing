@@ -886,7 +886,7 @@ GV_ACT *NewItem(int name, int where, int argc, char **argv)
     ItemWork   *work;
     int         inited;
 
-    work = (ItemWork *)GV_NewActor(EXEC_LEVEL, sizeof(ItemWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(ItemWork));
     if (work)
     {
         GV_SetNamedActor(&work->actor, &item_Act, &item_Die, "item.c");
@@ -969,7 +969,7 @@ GV_ACT *item_init_80034758(SVECTOR *pPos, SVECTOR *a2, Item_Info *pItemInfo)
     ItemWork   *work;
     int         map;
 
-    work = (ItemWork *)GV_NewActor(EXEC_LEVEL, sizeof(ItemWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(ItemWork));
     if (work)
     {
         GV_SetNamedActor(&work->actor, &item_Act, &item_Die, "item.c");

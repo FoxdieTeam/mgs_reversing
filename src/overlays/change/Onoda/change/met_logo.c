@@ -455,7 +455,7 @@ GV_ACT *NewMetLogo_800C5A90( int *arg0 )
 {
     Work *work;
 
-    work = (Work *)GV_NewActor( EXEC_LEVEL,  sizeof(Work) );
+    work = GV_NewActor( EXEC_LEVEL,  sizeof(Work) );
     if ( work != NULL )
     {
         GV_SetNamedActor( &( work->actor ), MetLogoAct_800C57E8, MetLogoDie_800C5988, "met_logo.c" );

@@ -372,7 +372,7 @@ GV_ACT *NewNinja_800CC9B4(int scriptData, int scriptBinds)
 {
     NinjaWork *work;
 
-    work = (NinjaWork *)GV_NewActor(EXEC_LEVEL, sizeof(NinjaWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(NinjaWork));
     if (work == NULL)
     {
         return NULL;

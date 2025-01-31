@@ -226,7 +226,7 @@ GV_ACT *NewWaterView_800DBD68(int name, int where, int argc, char **argv)
 {
     WaterViewWork *work;
 
-    work = (WaterViewWork *)GV_NewActor(EXEC_LEVEL, sizeof(WaterViewWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(WaterViewWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, WaterViewAct_800DB9E8, WaterViewDie_800DBBF0, "wt_view.c");
@@ -248,7 +248,7 @@ GV_ACT *NewWaterView_800DBE04(int name, int where, SVECTOR *bounds, CVECTOR *col
 {
     WaterViewWork *work;
 
-    work = (WaterViewWork *)GV_NewActor(EXEC_LEVEL, sizeof(WaterViewWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(WaterViewWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, WaterViewAct_800DB9E8, WaterViewDie_800DBBF0, "wt_view.c");

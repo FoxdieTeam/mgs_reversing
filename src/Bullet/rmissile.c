@@ -962,7 +962,7 @@ GV_ACT *NewRMissile(MATRIX *world, int side)
 {
     RMissileWork *work;
 
-    work = (RMissileWork *)GV_NewActor(EXEC_LEVEL, sizeof(RMissileWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(RMissileWork));
 
     if (work)
     {

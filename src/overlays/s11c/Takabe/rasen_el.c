@@ -533,7 +533,7 @@ GV_ACT *NewRasenEl_800CCF38(int arg0, int arg1)
 {
     RasenElWork *work;
 
-    work = (RasenElWork *)GV_NewActor(EXEC_LEVEL, sizeof(RasenElWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(RasenElWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, RasenElAct_800CC454, RasenElDie_800CCAC4, "rasen_el.c");

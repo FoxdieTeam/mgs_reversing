@@ -255,7 +255,7 @@ GV_ACT *NewGsplash_800D4000(MATRIX *pos, SVECTOR *arg1, short arg2, short n_prim
 {
     GsplashWork *work;
 
-    work = (GsplashWork *)GV_NewActor(EXEC_LEVEL, sizeof(GsplashWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(GsplashWork));
     if (work != NULL)
     {
         work->n_prims = n_prims;

@@ -426,7 +426,7 @@ GV_ACT *NewVrwindow_800D81AC(int name, int where)
     int           i;
     int           width;
 
-    work = (VrwindowWork *)GV_NewActor(EXEC_LEVEL, sizeof(VrwindowWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(VrwindowWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, VrwindowAct_800D7818, VrwindowDie_800D7E10, "vrwindow.c");

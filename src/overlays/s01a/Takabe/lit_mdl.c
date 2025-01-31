@@ -228,7 +228,7 @@ GV_ACT *s01a_lit_mdl_800E2C88(MATRIX *arg0, int arg1, int arg2, int arg3)
 {
     LitMdlWork *work;
 
-    work = (LitMdlWork *)GV_NewActor(EXEC_LEVEL, sizeof(LitMdlWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(LitMdlWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, s01a_lit_mdl_800E2928, s01a_lit_mdl_800E2ABC, "lit_mdl.c");

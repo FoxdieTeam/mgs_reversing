@@ -862,7 +862,7 @@ GV_ACT *NewPreope_800C4DA4(int name, int where, int argc, char **argv)
 
     GM_GameStatus |= STATE_ALL_OFF;
 
-    work = (PreopeWork *)GV_NewActor(EXEC_LEVEL, sizeof(PreopeWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(PreopeWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, PreopeAct_800C4424, PreopeDie_800C449C, "preope.c");

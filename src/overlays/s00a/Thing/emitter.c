@@ -103,7 +103,7 @@ GV_ACT *NewEmitter_800C3E50(int name, int where, int argc, char **argv)
     Work *work;
     int   count;
 
-    work = (Work *)GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
+    work = GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
     if (work != NULL)
     {
         GV_SetNamedActor( &( work->actor ), NULL, EmitterDie_800C3CD8, "emitter.c" );

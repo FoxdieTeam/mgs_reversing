@@ -595,7 +595,7 @@ void *NewSgtRect3(short *param_1, short param_2, unsigned int *rgb2, int param_4
         return NULL;
     }
 
-    work = (SgtRect3Work *)GV_NewActor(EXEC_LEVEL, sizeof(SgtRect3Work));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(SgtRect3Work));
     if (!work)
     {
         return NULL;

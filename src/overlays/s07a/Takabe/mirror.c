@@ -394,7 +394,7 @@ GV_ACT *NewMirror_800E085C(int name, int where)
 {
     MirrorWork *work;
 
-    work = (MirrorWork *)GV_NewActor(EXEC_LEVEL, sizeof(MirrorWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(MirrorWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, MirrorAct_800DFDDC, MirrorDie_800E0670, "mirror.c");

@@ -263,7 +263,7 @@ GV_ACT *NewPipe_800CE73C(int name, int where, int argc, char **argv)
 {
     PipeWork *work;
 
-    work = (PipeWork *)GV_NewActor(EXEC_LEVEL, sizeof(PipeWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(PipeWork));
     if (work == NULL)
     {
         return NULL;

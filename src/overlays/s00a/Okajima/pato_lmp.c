@@ -1005,7 +1005,7 @@ GV_ACT *NewPatrolLamp_800D7A2C(int name, int where, int argc, char **argv)
 {
     PatoLmpWork *work;
 
-    work = (PatoLmpWork *)GV_NewActor(EXEC_LEVEL, sizeof(PatoLmpWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(PatoLmpWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, PatrolLampAct_800D6678,

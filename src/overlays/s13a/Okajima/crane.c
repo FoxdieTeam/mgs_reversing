@@ -1051,7 +1051,7 @@ GV_ACT *NewCrane_800D57A0(int name, int where)
 {
     CraneWork *work;
 
-    work = (CraneWork *)GV_NewActor(EXEC_LEVEL, sizeof(CraneWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(CraneWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, CraneAct_800D4C28, CraneDie_800D5724, "crane.c");

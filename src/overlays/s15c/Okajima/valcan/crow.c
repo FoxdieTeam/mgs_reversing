@@ -732,7 +732,7 @@ GV_ACT *NewCrow_800DED08(int name, int where)
         n_entries = 1;
     }
 
-    work = (CrowWork *)GV_NewActor(EXEC_LEVEL, sizeof(CrowWork) + sizeof(CrowEntry) * n_entries);
+    work = GV_NewActor(EXEC_LEVEL, sizeof(CrowWork) + sizeof(CrowEntry) * n_entries);
     if (work != NULL)
     {
         work->n_entries = n_entries;

@@ -97,7 +97,7 @@ GV_ACT *NewGasDamage_800E14E8(int name, int where, int argc, char **argv)
 {
     GasDamgeWork *work;
 
-    work = (GasDamgeWork *)GV_NewActor(EXEC_LEVEL, sizeof(GasDamgeWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(GasDamgeWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, GasDamageAct_800E1348, GasDamageDie_800E147C, "gasdamge.c");

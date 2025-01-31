@@ -73,7 +73,7 @@ GV_ACT *NewPad_800C37EC(int name, int where, int argc, char **argv)
     char *ops;
     PadWork *work ;
 
-    work = (PadWork *)GV_NewActor( EXEC_LEVEL, sizeof( PadWork ) ) ;
+    work = GV_NewActor( EXEC_LEVEL, sizeof( PadWork ) ) ;
 
     if ( work != NULL ) {
         /* ワークにコールバックを登録する */

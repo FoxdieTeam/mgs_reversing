@@ -348,7 +348,7 @@ GV_ACT *NewChaffGrd(MATRIX *world)
         return NULL;
     }
 
-    work = (ChaffGrdWork *)GV_NewActor(EXEC_LEVEL, sizeof(ChaffGrdWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(ChaffGrdWork));
 
     if (work)
     {

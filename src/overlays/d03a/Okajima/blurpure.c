@@ -172,7 +172,7 @@ GV_ACT *NewBlurPure_800C54D4(int name, int where, int argc, char **argv)
 {
     BlurPureWork *work;
 
-    work = (BlurPureWork *)GV_NewActor(EXEC_LEVEL, sizeof(BlurPureWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(BlurPureWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, BlurPureAct_800C53E4, BlurPureDie_800C545C, "blurpure.c");
@@ -190,7 +190,7 @@ GV_ACT *NewBlurPure2_800C554C(int name, int where, int argc, char **argv)
 {
     BlurPureWork *work;
 
-    work = (BlurPureWork *)GV_NewActor(EXEC_LEVEL, sizeof(BlurPureWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(BlurPureWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, BlurPureAct_800C53E4, BlurPureDie_800C545C, "blurpure.c");

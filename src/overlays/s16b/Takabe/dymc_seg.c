@@ -85,7 +85,7 @@ GV_ACT *NewDymcSeg_800C4BCC(int name, int where, int argc, char **argv)
 {
     DymcSegWork *work;
 
-    work = (DymcSegWork *)GV_NewActor(EXEC_LEVEL, sizeof(DymcSegWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(DymcSegWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, DymcSegAct_800C4A44, DymcSegDie_800C4A98, "dymc_seg.c");

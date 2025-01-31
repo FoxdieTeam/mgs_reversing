@@ -513,7 +513,7 @@ GV_ACT *NewGoggleSight(int type)
     short *arr;
     short *arr2;
 
-    work = (GoggleSightWork *)GV_NewActor(EXEC_LEVEL, sizeof(GoggleSightWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(GoggleSightWork));
 
     if (work)
     {

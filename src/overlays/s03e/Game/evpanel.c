@@ -1020,7 +1020,7 @@ GV_ACT *NewEvPanel_800C4AD8(int name, int where, int argc, char **argv)
     int          button_count;
 
     button_count = THING_Gcl_GetIntDefault('n', 3);
-    work = (EvPanelWork *)GV_NewActor(EXEC_LEVEL, sizeof(EvPanelWork) + sizeof(SVECTOR) * button_count * 4);
+    work = GV_NewActor(EXEC_LEVEL, sizeof(EvPanelWork) + sizeof(SVECTOR) * button_count * 4);
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, EvPanelAct_800C3B74, EvPanelDie_800C457C, "evpanel.c");

@@ -202,7 +202,7 @@ GV_ACT *NewO2Damage_800DE9C8(int name, int where, int argc, char **argv)
 {
     O2DamgeWork *work;
 
-    work = (O2DamgeWork *)GV_NewActor(EXEC_LEVEL, sizeof(O2DamgeWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(O2DamgeWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, O2DamageAct_800DE5B8, O2DamageDie_800DE8F4, "o2_damge.c");

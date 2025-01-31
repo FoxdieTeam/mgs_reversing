@@ -102,7 +102,7 @@ GV_ACT *NewIntrCam_800C5748(int name, int where, int argc, char **argv)
 {
     IntrCamWork *work;
 
-    work = (IntrCamWork *)GV_NewActor(EXEC_LEVEL, sizeof(IntrCamWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(IntrCamWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, IntrCam_Act_800C5638, IntrCam_Die_800C56F0, s03e_dword_800CBFD0);

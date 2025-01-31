@@ -180,7 +180,7 @@ GV_ACT *NewWolfEye_800D3930(MATRIX *root, int *visible)
 {
     WolfEyeWork *work;
 
-    work = (WolfEyeWork *)GV_NewActor(EXEC_LEVEL, sizeof(WolfEyeWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(WolfEyeWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, WolfEyeAct_800D35EC, WolfEyeDie_800D36C0, "wolf_eye.c");

@@ -222,7 +222,7 @@ GV_ACT *NewStanBlast(MATRIX *world)
         return 0;
     }
 
-    work = (StunGrenadeWork *)GV_NewActor(EXEC_LEVEL, sizeof(StunGrenadeWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(StunGrenadeWork));
     if ( work )
     {
         GV_SetNamedActor(&work->actor, stngrnd_Act, stngrnd_Die, "stngrnd.c");

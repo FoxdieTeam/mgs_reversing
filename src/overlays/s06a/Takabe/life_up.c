@@ -115,7 +115,7 @@ GV_ACT *NewLifeUp_800DF428(int name, int where)
 {
     LifeUpWork *work;
 
-    work = (LifeUpWork *)GV_NewActor(EXEC_LEVEL, sizeof(LifeUpWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(LifeUpWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, LifeUpAct_800DF1A8, LifeUpDie_800DF318, "life_up.c");

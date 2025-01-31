@@ -3846,7 +3846,7 @@ GV_ACT *NewJohnny_800CA838(int scriptData, int scriptBinds)
 {
     JohnnyWork *work;
 
-    work = (JohnnyWork *)GV_NewActor(EXEC_LEVEL, sizeof(JohnnyWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(JohnnyWork));
     if (work == NULL)
     {
         return NULL;

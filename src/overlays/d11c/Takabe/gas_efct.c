@@ -225,7 +225,7 @@ GV_ACT *NewGasEffect_800C4E5C(int name, int where, int argc, char **argv)
 {
     GasEfctWork *work;
 
-    work = (GasEfctWork *)GV_NewActor(EXEC_LEVEL, sizeof(GasEfctWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(GasEfctWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, GasEffectAct_800C4BBC, GasEffectDie_800C4D64, "gas_efct.c");
@@ -247,7 +247,7 @@ GV_ACT *NewGasEffect_800C4EF8(SVECTOR *arg0, int arg1, int arg2)
 {
     GasEfctWork *work;
 
-    work = (GasEfctWork *)GV_NewActor(EXEC_LEVEL, sizeof(GasEfctWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(GasEfctWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, GasEffectAct_800C4BBC, GasEffectDie_800C4D64, "gas_efct.c");

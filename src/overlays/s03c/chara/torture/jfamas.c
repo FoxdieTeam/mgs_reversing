@@ -74,7 +74,7 @@ GV_ACT *NewJFamas_800CAFAC(CONTROL *control, OBJECT *parent, int num_parent, int
 {
     JFamasWork *work;
 
-    work = (JFamasWork *)GV_NewActor(EXEC_LEVEL, sizeof(JFamasWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(JFamasWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, JFamasAct_800CAE30, JFamasDie_800CAF20, "jfamas.c");

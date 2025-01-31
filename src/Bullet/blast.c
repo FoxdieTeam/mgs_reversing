@@ -147,7 +147,7 @@ STATIC int BlastGetResources(BLAST_DATA *blast_data, BlastWork *work, MATRIX *wo
 
 GV_ACT *NewBlast(MATRIX *world, BLAST_DATA *blast_data)
 {
-    BlastWork *work = (BlastWork *)GV_NewActor(EXEC_LEVEL, sizeof(BlastWork));
+    BlastWork *work = GV_NewActor(EXEC_LEVEL, sizeof(BlastWork));
     if (work)
     {
         GV_SetNamedActor(&work->actor, BlastAct, BlastDie, "blast.c");
@@ -170,7 +170,7 @@ GV_ACT *NewBlast(MATRIX *world, BLAST_DATA *blast_data)
 
 GV_ACT *NewBlast2(MATRIX *world, BLAST_DATA *blast_data, int doSound, int side)
 {
-    BlastWork *work = (BlastWork *)GV_NewActor(EXEC_LEVEL, sizeof(BlastWork));
+    BlastWork *work = GV_NewActor(EXEC_LEVEL, sizeof(BlastWork));
     if (work)
     {
         GV_SetNamedActor(&work->actor, BlastAct, BlastDie, "blast.c");

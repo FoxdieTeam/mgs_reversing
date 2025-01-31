@@ -184,7 +184,7 @@ GV_ACT *NewSubEfct_800CCB10(OBJECT *parent, SVECTOR *rotation)
     SubEfctWork *work;
     DG_OBJS     *objs;
 
-    work = (SubEfctWork *)GV_NewActor(EXEC_LEVEL, sizeof(SubEfctWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(SubEfctWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, SubEfctAct_800CCAC0, SubEfctDie_800CCAF0, "sub_efct.c");

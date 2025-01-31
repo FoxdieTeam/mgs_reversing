@@ -189,7 +189,7 @@ GV_ACT *NewJohnny2_800CE368()
 {
     Johnny2Work *work;
 
-    work = (Johnny2Work *)GV_NewActor(EXEC_LEVEL, sizeof(Johnny2Work));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Johnny2Work));
     if (work == NULL)
     {
         return NULL;

@@ -312,7 +312,7 @@ GV_ACT *NewSpark(MATRIX *pMatrix, int count)
 
     for (i = 0; i <= count; i++)
     {
-        work = (SparkWork *) GV_NewActor(EXEC_LEVEL, sizeof(SparkWork));
+        work = GV_NewActor(EXEC_LEVEL, sizeof(SparkWork));
         if (work != NULL)
         {
             GV_SetNamedActor(&work->actor, spark_Act, spark_Die, "spark.c");

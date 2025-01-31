@@ -77,7 +77,7 @@ STATIC void BandanaDie(BandanaWork *work)
 
 GV_ACT *NewBandana(CONTROL *control, OBJECT *parent, int num_parent)
 {
-    BandanaWork *work = (BandanaWork *)GV_NewActor(EXEC_LEVEL, sizeof(BandanaWork));
+    BandanaWork *work = GV_NewActor(EXEC_LEVEL, sizeof(BandanaWork));
     if (work)
     {
         GV_SetNamedActor(&work->actor, BandanaAct, BandanaDie, "bandana.c");

@@ -366,7 +366,7 @@ GV_ACT *NewBoxall_800CA088(int name, int where)
 {
     BoxallWork *work;
 
-    work = (BoxallWork *)GV_NewActor(EXEC_LEVEL, sizeof(BoxallWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(BoxallWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, BoxallAct_800C9C58, BoxallDie_800C9D34, "boxall.c");

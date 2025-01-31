@@ -183,7 +183,7 @@ GV_ACT *NewBubbleT_800DA380(SVECTOR *pos, int height, int ripple, int *destroy)
         return NULL;
     }
 
-    work = (BubbleTWork *)GV_NewActor(EXEC_LEVEL, sizeof(BubbleTWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(BubbleTWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, BubbleTAct_800DA11C, BubbleTDie_800DA170, "bubble_t.c");

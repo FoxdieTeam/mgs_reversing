@@ -212,7 +212,7 @@ GV_ACT *NewWake_800C6298(int where)
 {
     WakeWork *work;
 
-    work = (WakeWork *)GV_NewActor(EXEC_LEVEL, sizeof(WakeWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(WakeWork));
     if (work == NULL)
     {
         return NULL;

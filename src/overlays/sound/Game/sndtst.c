@@ -174,7 +174,7 @@ GV_ACT *NewSndtst_800C3594( int name, int where, int argc, char **argv )
 
     GM_GameStatus |= STATE_ALL_OFF;
 
-    work = (Work *)GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
+    work = GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
     if ( work != NULL )
     {
         GV_SetNamedActor( &( work->actor ), SndtstAct_800C32D8, NULL, "sndtst.c" );

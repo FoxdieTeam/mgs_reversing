@@ -8642,7 +8642,7 @@ GV_ACT *NewSnake(int name, int where, int argc, char **argv)
 {
     SnaInitWork *work;
 
-    work = (SnaInitWork *)GV_NewActor(EXEC_LEVEL, sizeof(SnaInitWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(SnaInitWork));
     if (!work)
     {
         return NULL;

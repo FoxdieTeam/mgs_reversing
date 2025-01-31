@@ -102,7 +102,7 @@ GV_ACT *NewCancel_800C3FFC(int name, int where, int argc, char **argv)
 {
     CancelWork *work;
 
-    work = (CancelWork *)GV_NewActor(EXEC_LEVEL, sizeof(CancelWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(CancelWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, CancelAct_800C3EA0, CancelDie_800C3F18, "cancel.c");

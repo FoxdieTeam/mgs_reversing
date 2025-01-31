@@ -369,7 +369,7 @@ GV_ACT *NewRevbullt_800D2DC8(MATRIX *world, int bounces)
 {
     RevbulltWork *work;
 
-    work = (RevbulltWork *)GV_NewActor(EXEC_LEVEL, sizeof(RevbulltWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(RevbulltWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, RevbulltAct_800D2864, RevbulltDie_800D2AEC, "revbullt.c");

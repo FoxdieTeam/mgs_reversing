@@ -180,7 +180,7 @@ GV_ACT *NewInfo_800CA534(unsigned short name1, unsigned short name2, int *abe)
 {
     InfoWork *work;
 
-    work = (InfoWork *)GV_NewActor(EXEC_LEVEL, sizeof(InfoWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(InfoWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, InfoAct_800CA114, InfoDie_800CA314, "info.c");

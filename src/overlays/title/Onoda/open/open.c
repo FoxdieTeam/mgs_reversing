@@ -1500,7 +1500,7 @@ GV_ACT *NewOpen_800D6814(int arg0, int arg1)
 
     GM_GameStatus |= STATE_ALL_OFF;
 
-    work = (OpenWork *)GV_NewActor(EXEC_LEVEL, sizeof(OpenWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(OpenWork));
     title_dword_800D92D0 = 0;
 
     if (work != NULL)

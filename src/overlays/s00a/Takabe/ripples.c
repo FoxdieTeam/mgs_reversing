@@ -59,7 +59,7 @@ GV_ACT *NewRipples_800D872C(int name, int where, int argc, char **argv)
 {
     RipplesWork *work;
 
-    work = (RipplesWork *)GV_NewActor(EXEC_LEVEL, sizeof(RipplesWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(RipplesWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, RipplesAct_800D85A0, RipplesDie_800D862C, "ripples.c");

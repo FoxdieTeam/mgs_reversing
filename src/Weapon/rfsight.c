@@ -195,7 +195,7 @@ STATIC int RifleSightGetResources(RfSightWork *work)
 
 GV_ACT *NewRifleSight(void)
 {
-    RfSightWork *work = (RfSightWork *)GV_NewActor(EXEC_LEVEL, sizeof(RfSightWork));
+    RfSightWork *work = GV_NewActor(EXEC_LEVEL, sizeof(RfSightWork));
 
     if (work)
     {
@@ -216,7 +216,7 @@ GV_ACT *NewRifleSight(void)
 
 GV_ACT *NewRifleSightFast(void)
 {
-    RfSightWork *work = (RfSightWork *)GV_NewActor(EXEC_LEVEL, sizeof(RfSightWork));
+    RfSightWork *work = GV_NewActor(EXEC_LEVEL, sizeof(RfSightWork));
 
     if (work)
     {

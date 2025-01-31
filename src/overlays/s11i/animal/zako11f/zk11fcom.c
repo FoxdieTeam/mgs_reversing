@@ -978,7 +978,7 @@ GV_ACT *NewZakoCommander_800D20D8( int name, int where )
 {
     Zako11FCommanderWork *work ;
 
-    work = (Zako11FCommanderWork *)GV_NewActor( EXEC_LEVEL, sizeof( Zako11FCommanderWork ) ) ;
+    work = GV_NewActor( EXEC_LEVEL, sizeof( Zako11FCommanderWork ) ) ;
     if ( work != NULL ) {
         GV_SetNamedActor( &( work->actor ), ZakoCommanderAct_800D1DB0, ZakoCommanderDie_800D1E30, "zk11fcom.c" );
         ZakoCommanderGetResources_800D1EC8( work, name, where );

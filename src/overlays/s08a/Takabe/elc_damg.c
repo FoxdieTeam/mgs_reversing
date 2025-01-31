@@ -94,7 +94,7 @@ GV_ACT *NewElcDamg_800D4C68(int name, int where)
 {
     ElcDamgWork *work;
 
-    work = (ElcDamgWork *)GV_NewActor(EXEC_LEVEL, sizeof(ElcDamgWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(ElcDamgWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, ElcDamgAct_800D4AE4, ElcDamgDie_800D4BF4, "elc_damg.c");

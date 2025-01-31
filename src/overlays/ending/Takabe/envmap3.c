@@ -263,7 +263,7 @@ GV_ACT *NewEnvmap3_800CA3A4(OBJECT *object, unsigned int name)
     DG_OBJ      *iter;
     int          n_packs;
 
-    work = (Envmap3Work *)GV_NewActor(EXEC_LEVEL, sizeof(Envmap3Work));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Envmap3Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Envmap3Act_800CA2B4, Envmap3Die_800CA384, "envmap3.c");

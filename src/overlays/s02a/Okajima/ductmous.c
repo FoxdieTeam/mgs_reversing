@@ -355,7 +355,7 @@ GV_ACT *NewDuctmouse_800DACC8(int name, int where, int argc, char **argv)
 {
     DuctmouseWork *work;
 
-    work = (DuctmouseWork *)GV_NewActor(EXEC_LEVEL, sizeof(DuctmouseWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(DuctmouseWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, DuctmouseAct_800DA978, DuctmouseDie_800DA9D4, "ductmous.c");

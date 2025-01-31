@@ -229,7 +229,7 @@ GV_ACT *NewDemoKage_800C48A4(OBJECT *parent, SVECTOR arg1, int *arg2, int *arg3,
 {
     DemokageWork *work;
 
-    work = (DemokageWork *)GV_NewActor(EXEC_LEVEL, sizeof(DemokageWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(DemokageWork));
     if (work == NULL)
     {
         return NULL;

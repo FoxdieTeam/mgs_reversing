@@ -285,7 +285,7 @@ GV_ACT *NewOpTxtScn_800CD29C(void)
 {
     OpTxtScnWork *work;
 
-    work = (OpTxtScnWork *)GV_NewActor(EXEC_LEVEL, sizeof(OpTxtScnWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(OpTxtScnWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, OptxtscnAct_800CCDE8, OpTxtScnDie_800CCFFC, "optxtscn.c");

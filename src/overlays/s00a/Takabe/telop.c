@@ -240,7 +240,7 @@ GV_ACT *NewTelopSet_800DDB34(int name, int where, int argc, char **argv)
 {
     TelopWork2 *work;
 
-    work = (TelopWork2 *)GV_NewActor(3, sizeof(TelopWork2));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(TelopWork2));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, TelopSetAct_800DD92C, TelopSetDie_800DD9E8, "telop.c");
@@ -283,7 +283,7 @@ GV_ACT *NewTelop2_800DDC60(int x, int y, int timer, int reload, int arg4, int ar
     DG_TEX    *tex1;
     DG_TEX    *tex2;
 
-    work = (TelopWork *)GV_NewActor(EXEC_LEVEL, sizeof(TelopWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(TelopWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Telop2Act_800DDBC8, telop_800DDC30, "telop.c");

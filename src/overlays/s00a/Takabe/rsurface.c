@@ -112,7 +112,7 @@ GV_ACT *NewRippleSurface_800D8244(int name, int where, int argc, char **argv)
 {
     RSurfaceWork *work;
 
-    work = (RSurfaceWork *)GV_NewActor(EXEC_LEVEL, sizeof(RSurfaceWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(RSurfaceWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, RippleSurfaceAct_800D7FC4,

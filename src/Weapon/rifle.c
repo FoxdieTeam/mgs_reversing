@@ -237,7 +237,7 @@ GV_ACT *NewRifle(CONTROL *control, OBJECT *parent, int num_parent, unsigned int 
     RifleWork  *work;
     int         mag_size, ammo;
 
-    work = (RifleWork *)GV_NewActor(EXEC_LEVEL, sizeof(RifleWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(RifleWork));
     if (work)
     {
         GV_SetNamedActor(&work->actor, &RifleAct, &RifleDie, "rifle.c");

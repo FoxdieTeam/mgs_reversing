@@ -119,7 +119,7 @@ GV_ACT *NewGrenadeEnemy_800D203C(CONTROL *control, OBJECT *parent, int num_paren
 {
     GrenadeEnemyWork *work;
 
-    work = (GrenadeEnemyWork *)GV_NewActor(EXEC_LEVEL, sizeof(GrenadeEnemyWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(GrenadeEnemyWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, GrenadeEnemyAct_800D1DDC, GrenadeEnemyDie_800D1FAC, "grnad_e.c");

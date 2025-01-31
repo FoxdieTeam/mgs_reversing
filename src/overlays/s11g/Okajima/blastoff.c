@@ -188,7 +188,7 @@ GV_ACT *NewBlastoff_800DBED4(SVECTOR *arg0, int arg1, int arg2, int *arg3)
 {
     BlastoffWork *work;
 
-    work = (BlastoffWork *)GV_NewActor(EXEC_LEVEL, sizeof(BlastoffWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(BlastoffWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, BlastoffAct_800DBB60, BlastoffDie_800DBC28, "blastoff.c");

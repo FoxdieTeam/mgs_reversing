@@ -242,7 +242,7 @@ GV_ACT *NewAsioto_800C3E08(int name, int where, int argc, char **argv)
 {
     Work *work;
 
-    work = (Work *)GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, AsiotoAct_800C39E8, AsiotoDie_800C3B8C, "asioto.c");

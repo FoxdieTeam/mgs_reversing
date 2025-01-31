@@ -559,7 +559,7 @@ GV_ACT *NewSubRoom_800C815C(void)
 {
     SubRoomWork *work;
 
-    work = (SubRoomWork *)GV_NewActor(EXEC_LEVEL, sizeof(SubRoomWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(SubRoomWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, SubRoomAct_800C7750, SubRoomDie_800C77D0, "sub_room.c");

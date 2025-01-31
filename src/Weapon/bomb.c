@@ -111,7 +111,7 @@ STATIC int BombGetResources(BombWork *work, OBJECT *parent, int num_parent)
 
 GV_ACT *NewBomb(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side)
 {
-    BombWork *work = (BombWork *)GV_NewActor(EXEC_LEVEL, sizeof(BombWork));
+    BombWork *work = GV_NewActor(EXEC_LEVEL, sizeof(BombWork));
     if (work)
     {
         GV_SetNamedActor(&work->actor, BombAct, BombDie, "bomb.c");

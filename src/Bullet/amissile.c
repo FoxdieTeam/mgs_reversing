@@ -465,7 +465,7 @@ STATIC int AMissileGetResources(AMissileWork *work, MATRIX *world, int side)
 
 GV_ACT *NewAMissile(MATRIX *world, int side)
 {
-    AMissileWork *work = (AMissileWork *)GV_NewActor(EXEC_LEVEL, sizeof(AMissileWork));
+    AMissileWork *work = GV_NewActor(EXEC_LEVEL, sizeof(AMissileWork));
 
     if (work)
     {

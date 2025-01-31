@@ -186,7 +186,7 @@ GV_ACT *NewWallSpa_800CB4A4(int name, int where)
 {
     WallSpaWork *work;
 
-    work = (WallSpaWork *)GV_NewActor(EXEC_LEVEL, sizeof(WallSpaWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(WallSpaWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, WallSpaAct_800CB300, WallSpaDie_800CB420, "wall_spa.c");

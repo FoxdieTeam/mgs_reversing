@@ -217,7 +217,7 @@ STATIC int goggleir_GetResources(GoggleIrWork *work, OBJECT *parent)
 
 GV_ACT *NewGoggleIr(CONTROL *control, OBJECT *parent_obj, int num_parent)
 {
-    GoggleIrWork *work = (GoggleIrWork *)GV_NewActor(EXEC_LEVEL, sizeof(GoggleIrWork));
+    GoggleIrWork *work = GV_NewActor(EXEC_LEVEL, sizeof(GoggleIrWork));
 
     if (work)
     {

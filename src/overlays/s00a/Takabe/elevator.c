@@ -733,7 +733,7 @@ GV_ACT *NewElevator_800D9F30(int name, int where, int argc, char **argv)
 {
     ElevatorWork *work;
 
-    work = (ElevatorWork *)GV_NewActor(EXEC_LEVEL, sizeof(ElevatorWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(ElevatorWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, ElevatorAct_800D8EA8, ElevatorDie_800D97D8, "elevator.c");

@@ -249,7 +249,7 @@ GV_ACT *NewSpark2_800CA714(MATRIX *world)
 {
     Spark2Work *work;
 
-    work = (Spark2Work *)GV_NewActor(EXEC_LEVEL, sizeof(Spark2Work));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Spark2Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, s03e_spark2_800CA428, s03e_spark2_800CA520, "spark2.c");

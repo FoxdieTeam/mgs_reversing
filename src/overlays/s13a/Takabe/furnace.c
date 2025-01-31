@@ -166,7 +166,7 @@ GV_ACT *NewFurnace_800E0D2C(int name, int where, int argc, char **argv)
 {
     FurnaceWork *work;
 
-    work = (FurnaceWork *)GV_NewActor(EXEC_LEVEL, sizeof(FurnaceWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(FurnaceWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, FurnaceAct_800E0974,

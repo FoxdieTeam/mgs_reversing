@@ -115,7 +115,7 @@ GV_ACT *NewKetchap(CONTROL *control, OBJECT *parent_obj, int num_parent)
 {
     DBloodWork *work;
 
-    work = (DBloodWork *)GV_NewActor(EXEC_LEVEL, sizeof(DBloodWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(DBloodWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, &d_blood_Act, &d_blood_Die, "d_blood.c");

@@ -123,7 +123,7 @@ GV_ACT *NewFonttext_800C446C( int name, int where )
 {
     Work *work;
 
-    work = (Work *)GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
+    work = GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
     if ( work != NULL )
     {
         GV_SetNamedActor( &( work->actor ), FonttextAct_800C4290, FonttextDie_800C4350, aFonttextC );

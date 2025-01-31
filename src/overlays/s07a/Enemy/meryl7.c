@@ -775,7 +775,7 @@ GV_ACT* NewEnemyMeryl_800D63A4( int name, int where, int argc, char **argv ) {
     WatcherWork *work ;
 
     printf( (char *)s07a_aEnemyworksized_800E2EEC, sizeof( WatcherWork ) );
-    work = (WatcherWork *)GV_NewActor( EXEC_LEVEL, sizeof( WatcherWork ) ) ;
+    work = GV_NewActor( EXEC_LEVEL, sizeof( WatcherWork ) ) ;
     if ( work != NULL ) {
         GV_SetNamedActor( &( work->actor ), EnemyMerylAct_800D5638, EnemyMerylDie_800D5B90, s07a_aMeryl7_800E2F04 );
         EnemyMerylGetResources_800D5F24( work, name, where );

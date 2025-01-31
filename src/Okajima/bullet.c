@@ -599,7 +599,7 @@ GV_ACT *NewBulletEnemy(MATRIX *arg0, int whichSide, int arg2, int arg3, int arg4
     BulletWork  *work;
     SVECTOR      vec;
 
-    work = (BulletWork *)GV_NewActor( EXEC_LEVEL, sizeof(BulletWork) );
+    work = GV_NewActor( EXEC_LEVEL, sizeof(BulletWork) );
     if ( work != NULL )
     {
         GV_SetNamedActor( &work->actor, &bullet_Act, &bullet_Die, "bullet.c" );
@@ -652,7 +652,7 @@ GV_ACT *NewBullet(MATRIX *pMtx, int whichSide, int a3, int noiseLen)
     SVECTOR vec;
     BulletWork *work;
 
-    work = (BulletWork *)GV_NewActor(EXEC_LEVEL, sizeof(BulletWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(BulletWork));
     if ( work )
     {
         GV_SetNamedActor(&work->actor, &bullet_Act, &bullet_Die, "bullet.c");
@@ -724,7 +724,7 @@ GV_ACT *NewBulletEx(int a1, MATRIX* pMtx, int side, int a4, int a5, int a6, int 
     SVECTOR vec; // [sp+18h] [-28h] BYREF
     MATRIX mtx; // [sp+20h] [-20h] BYREF
 
-    work = (BulletWork*)GV_NewActor(EXEC_LEVEL, sizeof(BulletWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(BulletWork));
     if (!work)
     {
         return NULL;

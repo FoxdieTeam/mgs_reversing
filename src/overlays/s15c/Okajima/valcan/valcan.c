@@ -524,7 +524,7 @@ GV_ACT *NewValcan_800D9864(int name, int where)
 {
     ValcanWork *work;
 
-    work = (ValcanWork *)GV_NewActor(EXEC_LEVEL, sizeof(ValcanWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(ValcanWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, ValcanAct_800D9088, ValcanDie_800D96E8, s15c_dword_800E2E5C);

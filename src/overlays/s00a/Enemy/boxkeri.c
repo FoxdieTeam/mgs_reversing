@@ -188,7 +188,7 @@ GV_ACT *NewBoxKeri_800D2600(MATRIX *mat, SVECTOR *svec)
 {
     BoxKeriWork *work;
 
-    work = (BoxKeriWork *)GV_NewActor(EXEC_LEVEL, sizeof(BoxKeriWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(BoxKeriWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, BoxKeriAct_800D219C, BoxKeriDie_800D23D0, aBoxkeriC);

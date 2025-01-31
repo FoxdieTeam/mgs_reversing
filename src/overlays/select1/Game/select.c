@@ -167,7 +167,7 @@ GV_ACT *NewSelect_800C3434(int name, int where, int argc, char **argv)
 {
     Work *work;
 
-    work = (Work *)GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work)
     {
         GV_SetNamedActor(&work->actor, SelectAct_800C32D8, NULL, "select.c");

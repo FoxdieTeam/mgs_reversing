@@ -706,7 +706,7 @@ GV_ACT *NewSnakeWatcher_800C5034(int name, int where, int argc, char **argv)
 {
     WatcherWork *work ;
 
-    work = (WatcherWork *)GV_NewActor( EXEC_LEVEL, sizeof( WatcherWork ) ) ;
+    work = GV_NewActor( EXEC_LEVEL, sizeof( WatcherWork ) ) ;
     if ( work != NULL ) {
         GV_SetNamedActor( &( work->actor ), WatcherAct_800C430C, WatcherDie_800C487C, aWatcherc_800DFCEC );
         WatcherGetResources_800C4B7C( work, name, where );

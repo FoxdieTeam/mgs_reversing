@@ -126,7 +126,7 @@ GV_ACT *NewShakemdl_800C54E8(int name, int where, int argc, char **argv)
     int           model;
     int           work_2;
 
-    work = (ShakemdlWork *)GV_NewActor(EXEC_LEVEL, sizeof(ShakemdlWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(ShakemdlWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, ShakemdlAct_800C5288, ShakemdlDie_800C5418, "shakemdl.c");
@@ -154,7 +154,7 @@ GV_ACT *NewShakemdl_800c55b0(int arg0, int arg1, int arg2)
 {
     ShakemdlWork *work;
 
-    work = (ShakemdlWork *)GV_NewActor(EXEC_LEVEL, sizeof(ShakemdlWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(ShakemdlWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, ShakemdlAct_800C5288, ShakemdlDie_800C5418, "shakemdl.c");

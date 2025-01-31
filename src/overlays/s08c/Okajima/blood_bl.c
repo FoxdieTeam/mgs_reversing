@@ -204,7 +204,7 @@ GV_ACT *NewBloodBl_800CD7CC(int name, int where)
 {
     BloodBlWork *work;
 
-    work = (BloodBlWork *)GV_NewActor(EXEC_LEVEL, sizeof(BloodBlWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(BloodBlWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, BloodBlAct_800CD450, BloodBlDie_800CD414, "blood_bl.c");

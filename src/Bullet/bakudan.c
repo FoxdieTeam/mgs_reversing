@@ -281,7 +281,7 @@ GV_ACT *NewBakudan(MATRIX *world, SVECTOR *pos, int attached, int unused, void *
         return NULL;
     }
 
-    work = (BakudanWork *)GV_NewActor(EXEC_LEVEL, sizeof(BakudanWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(BakudanWork));
     if (work)
     {
         GV_SetNamedActor(&work->actor, BakudanAct, BakudanDie, "bakudan.c");

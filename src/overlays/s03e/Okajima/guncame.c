@@ -1374,7 +1374,7 @@ GV_ACT *NewGunCame_800C9190(int name, int where, int argc, char **argv)
 {
     GunCameWork *work;
 
-    work = (GunCameWork *)GV_NewActor(EXEC_LEVEL, sizeof(GunCameWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(GunCameWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, GunCame_Act_800C80F4, GunCame_Die_800C911C, "guncame.c");

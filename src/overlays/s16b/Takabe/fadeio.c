@@ -160,7 +160,7 @@ GV_ACT *NewFadeIo_800C4224(int name, int where, int argc, char **argv)
 {
     FadeIoWork *work;
 
-    work = (FadeIoWork *)GV_NewActor(EXEC_LEVEL, sizeof(FadeIoWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(FadeIoWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, FadeIoAct_800C3E7C, FadeIoDie_800C40D0, "fadeio.c");
@@ -179,7 +179,7 @@ GV_ACT *NewFadeIo_800C42BC(int name, int where, int argc, char **argv)
 {
     FadeIoWork *work;
 
-    work = (FadeIoWork *)GV_NewActor(EXEC_LEVEL, sizeof(FadeIoWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(FadeIoWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, FadeIoAct_800C3E7C, FadeIoDie_800C40D0, "fadeio.c");

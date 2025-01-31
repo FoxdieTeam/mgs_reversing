@@ -370,7 +370,7 @@ GV_ACT *NewLamp_800C3B34(int name, int where, int argc, char **argv)
 
     GCL_NextStrPtr_800AB9A0 = nextStrPtr;
 
-    work = (LampWork *)GV_NewActor(EXEC_LEVEL, ((param1 * param2) * sizeof(SVECTOR) * 4) + sizeof(LampWork));
+    work = GV_NewActor(EXEC_LEVEL, ((param1 * param2) * sizeof(SVECTOR) * 4) + sizeof(LampWork));
     if (work)
     {
         GV_SetNamedActor(&work->actor, d11c_800C37A4, d11c_800C37F0, "lamp.c");

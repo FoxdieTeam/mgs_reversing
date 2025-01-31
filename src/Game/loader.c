@@ -66,7 +66,7 @@ void *NewLoader(const char *dir)
     }
 #endif
 
-    work = (LoaderWork *)GV_NewActor(EXEC_LEVEL, sizeof(LoaderWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(LoaderWork));
 
     printf("LoadReq\n");
     work->info = FS_LoadStageRequest(dir);
