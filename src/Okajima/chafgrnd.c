@@ -353,8 +353,7 @@ GV_ACT *NewChaffGrd(MATRIX *world)
     if (work)
     {
         dword_800BDF98 = 0;
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)&chafgrnd_Act,
-                         (GV_ACTFUNC)&chafgrnd_Die, "chafgrnd.c");
+        GV_SetNamedActor(&work->actor, &chafgrnd_Act, &chafgrnd_Die, "chafgrnd.c");
 
         work->field_a3c = 0;
         if (chafgrnd_GetResources(work, world) < 0)

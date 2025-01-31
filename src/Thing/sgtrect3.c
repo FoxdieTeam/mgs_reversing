@@ -601,8 +601,7 @@ void *NewSgtRect3(short *param_1, short param_2, unsigned int *rgb2, int param_4
         return NULL;
     }
 
-    GV_SetNamedActor((GV_ACT *)work, (GV_ACTFUNC)sgtrect3_act_80070E14,
-                     (GV_ACTFUNC)sgtrect3_kill_80070EC0, "sgtrect3.c");
+    GV_SetNamedActor((GV_ACT *)work, sgtrect3_act_80070E14, sgtrect3_kill_80070EC0, "sgtrect3.c");
 
     if (sgtrect3_loader_80070F4C(work, rgb2) < 0)
     {

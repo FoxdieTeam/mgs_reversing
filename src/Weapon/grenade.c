@@ -240,10 +240,7 @@ STATIC GV_ACT *InitGrenade( CONTROL *control, OBJECT *parent, int num_parent,
     work = (GrenadeWork *)GV_NewActor( EXEC_LEVEL, sizeof( GrenadeWork ) );
     if ( work )
     {
-        GV_SetNamedActor( &work->actor,
-                          (GV_ACTFUNC)&GrenadeAct,
-                          (GV_ACTFUNC)&GrenadeDie,
-                          "grenade.c");
+        GV_SetNamedActor( &work->actor, &GrenadeAct, &GrenadeDie, "grenade.c");
         if ( GrenadeGetResources( work, parent, num_parent, grd_type ) < 0 )
         {
             GV_DestroyActor( &work->actor );

@@ -455,10 +455,7 @@ GV_ACT *NewSOCOM( CONTROL *control, OBJECT *parent, int num_parent,  unsigned in
     work = (SocomWork *)GV_NewActor( EXEC_LEVEL, sizeof( SocomWork ) );
     if ( work )
     {
-        GV_SetNamedActor( &work->actor,
-                          (GV_ACTFUNC)SocomAct,
-                          (GV_ACTFUNC)SocomDie,
-                          "socom.c" );
+        GV_SetNamedActor( &work->actor, SocomAct, SocomDie, "socom.c" );
         if ( SocomGetResources( work, parent, num_parent ) < 0 )
         {
             GV_DestroyActor( &work->actor );

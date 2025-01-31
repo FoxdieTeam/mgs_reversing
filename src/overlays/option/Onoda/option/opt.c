@@ -2249,7 +2249,7 @@ GV_ACT *NewOption_800C9344(int name, int where)
     work = (OptionWork *)GV_NewActor(EXEC_LEVEL, sizeof(OptionWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)option_800C6784, (GV_ACTFUNC)OptionDie_800C7C8C, "opt.c");
+        GV_SetNamedActor(&work->actor, option_800C6784, OptionDie_800C7C8C, "opt.c");
 
         if (OptionGetResources_800C7F88(work, where) < 0)
         {

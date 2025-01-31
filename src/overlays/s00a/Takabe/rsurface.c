@@ -115,8 +115,8 @@ GV_ACT *NewRippleSurface_800D8244(int name, int where, int argc, char **argv)
     work = (RSurfaceWork *)GV_NewActor(EXEC_LEVEL, sizeof(RSurfaceWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)RippleSurfaceAct_800D7FC4,
-                         (GV_ACTFUNC)RippleSurfaceDie_800D8140, "rsurface.c");
+        GV_SetNamedActor(&work->actor, RippleSurfaceAct_800D7FC4,
+                         RippleSurfaceDie_800D8140, "rsurface.c");
         if (RippleSurfaceGetResources_800D8148(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);

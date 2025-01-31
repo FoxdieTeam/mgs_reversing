@@ -790,7 +790,7 @@ GV_ACT *NewEventmouse_800CA6F4(HZD_PTP *points, short n_points, int arg2, int ar
     work = (EventmouseWork *)GV_NewActor(EXEC_LEVEL, sizeof(EventmouseWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)EventMouseAct_800C9F14, (GV_ACTFUNC)EventMouseDie_800CA2C4, "evntmous.c");
+        GV_SetNamedActor(&work->actor, EventMouseAct_800C9F14, EventMouseDie_800CA2C4, "evntmous.c");
 
         if (EventMouseGetResources_800CA370(work, points, n_points, arg2, arg3, 1, GM_CurrentMap, arg4, arg5) < 0)
         {

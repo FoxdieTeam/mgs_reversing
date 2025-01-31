@@ -536,7 +536,7 @@ GV_ACT *NewRasenEl_800CCF38(int arg0, int arg1)
     work = (RasenElWork *)GV_NewActor(EXEC_LEVEL, sizeof(RasenElWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)RasenElAct_800CC454, (GV_ACTFUNC)RasenElDie_800CCAC4, "rasen_el.c");
+        GV_SetNamedActor(&work->actor, RasenElAct_800CC454, RasenElDie_800CCAC4, "rasen_el.c");
 
         if (RasenElGetResources_800CCB9C(work, arg0, arg1) < 0)
         {

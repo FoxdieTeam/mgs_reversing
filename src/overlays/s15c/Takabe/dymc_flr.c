@@ -145,7 +145,7 @@ GV_ACT *s15c_dymc_flr_800E1C70(int name, int where, int argc, char **argv)
     work = (DymcFloorWork *)GV_NewActor(EXEC_LEVEL, sizeof(DymcFloorWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)s15c_dymc_flr_800E1B00, (GV_ACTFUNC)s15c_dymc_flr_800E1B54, "dymc_flr.c");
+        GV_SetNamedActor(&work->actor, s15c_dymc_flr_800E1B00, s15c_dymc_flr_800E1B54, "dymc_flr.c");
         if (s15c_dymc_flr_800E1B7C(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);

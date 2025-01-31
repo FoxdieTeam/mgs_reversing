@@ -129,7 +129,7 @@ GV_ACT *NewShakemdl_800C54E8(int name, int where, int argc, char **argv)
     work = (ShakemdlWork *)GV_NewActor(EXEC_LEVEL, sizeof(ShakemdlWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)ShakemdlAct_800C5288, (GV_ACTFUNC)ShakemdlDie_800C5418, "shakemdl.c");
+        GV_SetNamedActor(&work->actor, ShakemdlAct_800C5288, ShakemdlDie_800C5418, "shakemdl.c");
 
         model = THING_Gcl_GetInt('m');
         work->f2C = THING_Gcl_GetInt('a');
@@ -157,7 +157,7 @@ GV_ACT *NewShakemdl_800c55b0(int arg0, int arg1, int arg2)
     work = (ShakemdlWork *)GV_NewActor(EXEC_LEVEL, sizeof(ShakemdlWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)ShakemdlAct_800C5288, (GV_ACTFUNC)ShakemdlDie_800C5418, "shakemdl.c");
+        GV_SetNamedActor(&work->actor, ShakemdlAct_800C5288, ShakemdlDie_800C5418, "shakemdl.c");
 
         work->f2C = arg1;
 

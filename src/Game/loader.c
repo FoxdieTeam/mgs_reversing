@@ -76,8 +76,7 @@ void *NewLoader(const char *dir)
         printf("NOT FOUND STAGE %s\n", dir);
     }
 
-    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)loader_Act,
-                     (GV_ACTFUNC)loader_Die, "loader.c");
+    GV_SetNamedActor(&work->actor, loader_Act, loader_Die, "loader.c");
 
     work->reading = TRUE;
     work->type = (GM_LoadRequest & 0x0f);

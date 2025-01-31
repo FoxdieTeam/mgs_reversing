@@ -235,8 +235,7 @@ GV_ACT *NewSmoke_800D2BEC(int name, int where, int argc, char **argv)
     work = (SmokeWork *)GV_NewActor(EXEC_LEVEL, sizeof(SmokeWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)SmokeAct_800D2A80,
-                         (GV_ACTFUNC)SmokeDie_800D2AA0, aSmokeC);
+        GV_SetNamedActor(&work->actor, SmokeAct_800D2A80, SmokeDie_800D2AA0, aSmokeC);
         s00a_smoke_800D2ADC(&work->field_24);
         if (SmokeGetResources_800D2B0C(work, where) < 0)
         {

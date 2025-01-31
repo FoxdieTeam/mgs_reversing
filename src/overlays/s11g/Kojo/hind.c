@@ -327,8 +327,7 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)HindAct_800D3404,
-                     (GV_ACTFUNC)HindDie_800D45C0, "hind.c");
+    GV_SetNamedActor(&work->actor, HindAct_800D3404, HindDie_800D45C0, "hind.c");
     if (GM_InitControl(&work->control, scriptData, scriptBinds) < 0)
     {
         GV_DestroyActor(&work->actor);

@@ -525,10 +525,7 @@ GV_ACT *NewPLamp_800CD948(int name, int where)
     work = (PLampWork *)GV_NewActor(EXEC_LEVEL, sizeof(PLampWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor,
-                         (GV_ACTFUNC)PLampAct_800CD5C0,
-                         (GV_ACTFUNC)PLampDie_800CCCE0,
-                         "p_lamp.c");
+        GV_SetNamedActor(&work->actor, PLampAct_800CD5C0, PLampDie_800CCCE0, "p_lamp.c");
 
         n_verts = PLampGetSvecs_800CCD44(GCL_GetOption('p'), work->verts);
         if (PLampGetResources_800CD6E4(work, where, n_verts) < 0)

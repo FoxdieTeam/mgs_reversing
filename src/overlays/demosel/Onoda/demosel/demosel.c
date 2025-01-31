@@ -1594,7 +1594,7 @@ GV_ACT *NewDemosel_800C61B0(int arg0, int arg1)
     work = (DemoselWork *)GV_NewActor(EXEC_LEVEL, sizeof(DemoselWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)demosel_800C57BC, (GV_ACTFUNC)demosel_800C581C, "demosel.c");
+        GV_SetNamedActor(&work->actor, demosel_800C57BC, demosel_800C581C, "demosel.c");
 
         if (demosel_800C5A78(work, arg1) < 0)
         {

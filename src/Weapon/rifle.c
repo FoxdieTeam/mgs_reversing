@@ -240,8 +240,7 @@ GV_ACT *NewRifle(CONTROL *control, OBJECT *parent, int num_parent, unsigned int 
     work = (RifleWork *)GV_NewActor(EXEC_LEVEL, sizeof(RifleWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)&RifleAct,
-                         (GV_ACTFUNC)&RifleDie, "rifle.c");
+        GV_SetNamedActor(&work->actor, &RifleAct, &RifleDie, "rifle.c");
 
         if (RifleGetResources(work, parent, num_parent) < 0)
         {

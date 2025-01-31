@@ -199,8 +199,7 @@ GV_ACT *NewRifleSight(void)
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)&RifleSightAct,
-                         (GV_ACTFUNC)&RifleSightDie, "rfsight.c");
+        GV_SetNamedActor(&work->actor, &RifleSightAct, &RifleSightDie, "rfsight.c");
 
         if (RifleSightGetResources(work) < 0)
         {
@@ -221,8 +220,7 @@ GV_ACT *NewRifleSightFast(void)
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)&RifleSightAct,
-                         (GV_ACTFUNC)&RifleSightDie, "rfsight.c");
+        GV_SetNamedActor(&work->actor, &RifleSightAct, &RifleSightDie, "rfsight.c");
 
         if (RifleSightGetResources(work) < 0)
         {

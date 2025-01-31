@@ -77,8 +77,7 @@ GV_ACT *NewMotse_800C5944(int name, int where, int argc, char **argv)
     work = (MotseWork *)GV_NewActor(EXEC_LEVEL, sizeof(MotseWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)Motse_800C57CC,
-                         (GV_ACTFUNC)Motse_800C5864, "motse.c");
+        GV_SetNamedActor(&work->actor, Motse_800C57CC, Motse_800C5864, "motse.c");
         if (Motse_800C5888(work, name) < 0)
         {
             GV_DestroyActor(&work->actor);

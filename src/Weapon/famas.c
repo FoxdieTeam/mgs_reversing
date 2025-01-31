@@ -191,8 +191,7 @@ STATIC GV_ACT *InitFAMAS(CONTROL *control, OBJECT *parent, int num_parent, int *
     FamasWork *work = (FamasWork *)GV_NewActor(EXEC_LEVEL, sizeof(FamasWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)FamasAct,
-                         (GV_ACTFUNC)FamasDie, "famas.c");
+        GV_SetNamedActor(&work->actor, FamasAct, FamasDie, "famas.c");
         if (FamasGetResources(work, parent, num_parent, mp5flag) < 0)
         {
             GV_DestroyActor(&work->actor);

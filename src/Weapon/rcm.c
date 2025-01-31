@@ -279,10 +279,7 @@ GV_ACT *NewRCM(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *f
     work = (RcmWork *)GV_NewActor(EXEC_LEVEL, sizeof(RcmWork));
     if (work != 0)
     {
-        GV_SetNamedActor(&work->actor,
-                         (GV_ACTFUNC)RcmAct,
-                         (GV_ACTFUNC)RcmDie,
-                         "rcm.c");
+        GV_SetNamedActor(&work->actor, RcmAct, RcmDie, "rcm.c");
 
         loadResult = RcmGetResources(work, parent, num_parent);
 

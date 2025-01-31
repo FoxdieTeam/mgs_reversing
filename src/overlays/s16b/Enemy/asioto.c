@@ -245,8 +245,7 @@ GV_ACT *NewAsioto_800C3E08(int name, int where, int argc, char **argv)
     work = (Work *)GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)AsiotoAct_800C39E8,
-                         (GV_ACTFUNC)AsiotoDie_800C3B8C, "asioto.c");
+        GV_SetNamedActor(&work->actor, AsiotoAct_800C39E8, AsiotoDie_800C3B8C, "asioto.c");
         if (AsiotoGetResources_800C3B94(work) < 0)
         {
             GV_DestroyActor(&work->actor);

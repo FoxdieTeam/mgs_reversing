@@ -310,10 +310,7 @@ GV_ACT *NewBlood(MATRIX *arg0, int count)
             continue;
         }
 
-        GV_SetNamedActor(&work->actor,
-                         (GV_ACTFUNC)&blood_Act,
-                         (GV_ACTFUNC)&blood_Die,
-                         "blood.c");
+        GV_SetNamedActor(&work->actor, &blood_Act, &blood_Die, "blood.c");
 
         if (blood_GetResources(work, arg0, count) < 0)
         {

@@ -177,8 +177,7 @@ GV_ACT *NewAsiatoChar_800D11DC(MATRIX *arg0, int arg1, int arg2, int arg3, int a
     work = (AsiatoCharWork *)GV_NewActor(EXEC_LEVEL, sizeof(AsiatoCharWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)AsiatoCharAct_800D0E10,
-                         (GV_ACTFUNC)AsiatoCharDie_800D116C, "asiato.c");
+        GV_SetNamedActor(&work->actor, AsiatoCharAct_800D0E10, AsiatoCharDie_800D116C, "asiato.c");
         work->field_4C = arg3;
         if (AsiatoCharGetResources_800D0F90(work, arg0, arg1, arg2) < 0)
         {
@@ -466,8 +465,7 @@ GV_ACT *NewAsiato_800D1A14(int name, int where, int argc, char **argv)
     work = (AsiatoWork *)GV_NewActor(EXEC_LEVEL, sizeof(AsiatoWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)AsiatoAct_800D18C8,
-                         (GV_ACTFUNC)AsiatoDie_800D1994, "asiato.c");
+        GV_SetNamedActor(&work->actor, AsiatoAct_800D18C8, AsiatoDie_800D1994, "asiato.c");
         AsiatoInit_800D199C(work);
     }
 
@@ -482,8 +480,7 @@ GV_ACT *NewAsiatoKun_800D1A70(int name, int where, int argc, char **argv)
     work = (AsiatoWork *)GV_NewActor(EXEC_LEVEL, sizeof(AsiatoWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)AsiatoAct_800D18C8,
-                                  (GV_ACTFUNC)AsiatoDie_800D1994, "asiato.c");
+        GV_SetNamedActor(&work->actor, AsiatoAct_800D18C8, AsiatoDie_800D1994, "asiato.c");
         AsiatoInit_800D199C(work);
     }
 

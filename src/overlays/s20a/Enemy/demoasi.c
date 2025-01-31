@@ -161,7 +161,7 @@ GV_ACT *NewDemoasi_800C414C(MATRIX *world, int which, int height)
     work = (DemoasiWork *)GV_NewActor(EXEC_LEVEL, sizeof(DemoasiWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)DemoasiAct_800C3DC4, (GV_ACTFUNC)DemoasiDie_800C4110, "demoasi.c");
+        GV_SetNamedActor(&work->actor, DemoasiAct_800C3DC4, DemoasiDie_800C4110, "demoasi.c");
 
         work->world = world;
 
@@ -182,7 +182,7 @@ GV_ACT * NewDemoasi_800C41F4(MATRIX *world, int which, int height, int arg3)
     work = (DemoasiWork *)GV_NewActor(EXEC_LEVEL, sizeof(DemoasiWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)DemoasiAct_800C3DC4, (GV_ACTFUNC)DemoasiDie_800C4110, "demoasi.c");
+        GV_SetNamedActor(&work->actor, DemoasiAct_800C3DC4, DemoasiDie_800C4110, "demoasi.c");
 
         work->world = world;
 

@@ -386,8 +386,8 @@ GV_ACT *jimctrl_init_80038568(u_long flags)
         jimctrl_init_helper_clear_80037FB8();
         GV_InitActor(GV_ACTOR_MANAGER, &work->actor, NULL);
 
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)jimctrl_act_80038070,
-                         (GV_ACTFUNC)jimctrl_kill_8003853C, "jimctrl.c");
+        GV_SetNamedActor(&work->actor, jimctrl_act_80038070,
+                         jimctrl_kill_8003853C, "jimctrl.c");
 
         work->field_24 = flags;
 

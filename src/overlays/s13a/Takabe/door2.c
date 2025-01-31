@@ -339,7 +339,7 @@ GV_ACT *NewDoor2_800DD9E4(int name, int where)
         work->name = name;
         work->map = where;
 
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)Door2Act_800DD5C0, (GV_ACTFUNC)Door2Die_800DD744, "door2.c");
+        GV_SetNamedActor(&work->actor, Door2Act_800DD5C0, Door2Die_800DD744, "door2.c");
 
         if (Door2GetResources_800DD7C8(work, name, where) < 0)
         {

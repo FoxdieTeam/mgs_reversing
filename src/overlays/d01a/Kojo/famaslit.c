@@ -42,7 +42,7 @@ GV_ACT *NewFamaslit_800D06F0(MATRIX *world)
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)FamaslitAct_800D0B28, (GV_ACTFUNC)FamaslitDie_800D0B90, "famaslit.c");
+    GV_SetNamedActor(&work->actor, FamaslitAct_800D0B28, FamaslitDie_800D0B90, "famaslit.c");
 
     work->world = world;
     work->map = GM_CurrentMap;

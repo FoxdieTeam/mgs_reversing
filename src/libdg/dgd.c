@@ -150,9 +150,9 @@ void DG_StartDaemon(void)
 
     // Wait for vsync, swap frame, fetch input
     GV_InitActor(GV_ACTOR_DAEMON, &DG_StartFrameActor_800B3750, NULL);
-    GV_SetNamedActor(&DG_StartFrameActor_800B3750, (GV_ACTFUNC)DG_StartFrame, NULL, "dgd.c");
+    GV_SetNamedActor(&DG_StartFrameActor_800B3750, DG_StartFrame, NULL, "dgd.c");
 
     // Render new frame
     GV_InitActor(GV_ACTOR_DAEMON2, &DG_EndFrameActor_800B3770, NULL);
-    GV_SetNamedActor(&DG_EndFrameActor_800B3770, (GV_ACTFUNC)DG_EndFrame, NULL, "dgd.c");
+    GV_SetNamedActor(&DG_EndFrameActor_800B3770, DG_EndFrame, NULL, "dgd.c");
 }

@@ -353,10 +353,7 @@ GV_ACT *NewBlur_800CD530(int name, int where, int argc, char **argv)
     work = (BlurWork *)GV_NewActor(EXEC_LEVEL, sizeof(BlurWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor,
-                         (GV_ACTFUNC)BlurAct_800CD274,
-                         (GV_ACTFUNC)BlurDie_800CD3E8,
-                         "blur.c");
+        GV_SetNamedActor(&work->actor, BlurAct_800CD274, BlurDie_800CD3E8, "blur.c");
 
         if (BlurGetResources_800CD418(work, name, where, argc) < 0)
         {
@@ -385,10 +382,7 @@ GV_ACT *NewBlur_800CD5D8(int arg0)
     work = (BlurWork *)GV_NewActor(EXEC_LEVEL, sizeof(BlurWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor,
-                         (GV_ACTFUNC)BlurAct_800CD274,
-                         (GV_ACTFUNC)BlurDie_800CD3E8,
-                         "blur.c");
+        GV_SetNamedActor(&work->actor, BlurAct_800CD274, BlurDie_800CD3E8, "blur.c");
 
         opt = GCL_GetOption('d');
         if (opt != NULL)

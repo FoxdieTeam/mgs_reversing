@@ -45,7 +45,7 @@ GV_ACT *NewInverlt2_800D0FF4(SVECTOR *arg0, int arg1, int arg2, int arg3, int r,
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)Inverlt2Act_800D1580, (GV_ACTFUNC)Inverlt2Die_800D1858, "inverlt2.c");
+    GV_SetNamedActor(&work->actor, Inverlt2Act_800D1580, Inverlt2Die_800D1858, "inverlt2.c");
 
     work->fC4 = r;
     work->fC8 = g;

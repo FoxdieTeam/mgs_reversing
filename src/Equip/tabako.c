@@ -176,8 +176,7 @@ GV_ACT *NewTabako(CONTROL *control, OBJECT *parent, int num_parent)
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)TabakoAct,
-                         (GV_ACTFUNC)TabakoDie, "tabako.c");
+        GV_SetNamedActor(&work->actor, TabakoAct, TabakoDie, "tabako.c");
 
         if (TabakoGetResources(work, parent, num_parent) < 0)
         {

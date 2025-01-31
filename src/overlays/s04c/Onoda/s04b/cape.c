@@ -376,7 +376,7 @@ GV_ACT *NewCape_800D92F8(SVECTOR *arg0, SVECTOR *arg1, MATRIX *light, MATRIX *co
     work = (CapeWork *)GV_NewActor(EXEC_LEVEL, sizeof(CapeWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)CapeAct_800D8FF8, (GV_ACTFUNC)CapeDie_800D9040, "cape.c");
+        GV_SetNamedActor(&work->actor, CapeAct_800D8FF8, CapeDie_800D9040, "cape.c");
 
         if (CapeGetResources_800D907C(work, arg0, arg1, light, color) < 0)
         {

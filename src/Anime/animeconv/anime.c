@@ -1429,8 +1429,7 @@ GV_ACT *NewAnime(MATRIX *world, int map, ANIMATION *animation)
     if (work)
     {
         work->vertices = (SVECTOR *)&work->items[count]; // count vectors after the items
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)anime_Act,
-                         (GV_ACTFUNC)anime_Die, "anime.c");
+        GV_SetNamedActor(&work->actor, anime_Act, anime_Die, "anime.c");
         if (anime_GetResources(work, map, animation) < 0)
         {
             GV_DestroyActor(&work->actor);

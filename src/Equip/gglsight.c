@@ -517,8 +517,7 @@ GV_ACT *NewGoggleSight(int type)
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)GoggleSightAct,
-                         (GV_ACTFUNC)GoggleSightDie, "gglsight.c");
+        GV_SetNamedActor(&work->actor, GoggleSightAct, GoggleSightDie, "gglsight.c");
 
         work->type = type;
 

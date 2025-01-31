@@ -1377,8 +1377,7 @@ GV_ACT *NewGunCame_800C9190(int name, int where, int argc, char **argv)
     work = (GunCameWork *)GV_NewActor(EXEC_LEVEL, sizeof(GunCameWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)GunCame_Act_800C80F4,
-                         (GV_ACTFUNC)GunCame_Die_800C911C, "guncame.c");
+        GV_SetNamedActor(&work->actor, GunCame_Act_800C80F4, GunCame_Die_800C911C, "guncame.c");
         if (GunCame_GetResources_800C8F64(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);

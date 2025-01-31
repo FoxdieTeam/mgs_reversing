@@ -115,8 +115,7 @@ GV_ACT *NewGasmask(CONTROL *control, OBJECT *parent, int num_parent)
     GasmaskWork *work = (GasmaskWork *)GV_NewActor(EXEC_LEVEL, sizeof(GasmaskWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)GasmaskAct,
-                         (GV_ACTFUNC)GasmaskDie, "gasmask.c");
+        GV_SetNamedActor(&work->actor, GasmaskAct, GasmaskDie, "gasmask.c");
 
         if (GasmaskGetResources(work, parent, num_parent) < 0)
         {

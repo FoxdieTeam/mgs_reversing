@@ -889,10 +889,7 @@ GV_ACT *NewItem(int name, int where, int argc, char **argv)
     work = (ItemWork *)GV_NewActor(EXEC_LEVEL, sizeof(ItemWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor,
-                         (GV_ACTFUNC)&item_Act,
-                         (GV_ACTFUNC)&item_Die,
-                         "item.c");
+        GV_SetNamedActor(&work->actor, &item_Act, &item_Die, "item.c");
         work->field_112_state = 0;
         inited = item_GetResources(work, name, where);
         if (inited > 0)
@@ -975,10 +972,7 @@ GV_ACT *item_init_80034758(SVECTOR *pPos, SVECTOR *a2, Item_Info *pItemInfo)
     work = (ItemWork *)GV_NewActor(EXEC_LEVEL, sizeof(ItemWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor,
-                         (GV_ACTFUNC)&item_Act,
-                         (GV_ACTFUNC)&item_Die,
-                         "item.c");
+        GV_SetNamedActor(&work->actor, &item_Act, &item_Die, "item.c");
 
         if (item_init_helper_800345C0(work, pPos, a2, pItemInfo, GM_CurrentMap) < 0)
         {

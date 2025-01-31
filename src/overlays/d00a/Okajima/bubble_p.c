@@ -248,7 +248,7 @@ GV_ACT *NewBubbleP_800D9D94(SVECTOR *arg0, SVECTOR *arg1, int arg2)
     work = (BubblePWork *)GV_NewActor(EXEC_LEVEL, sizeof(BubblePWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BubblePAct_800D9974, (GV_ACTFUNC)BubblePDie_800D99CC, "bubble_p.c");
+        GV_SetNamedActor(&work->actor, BubblePAct_800D9974, BubblePDie_800D99CC, "bubble_p.c");
 
         work->f74 = 40;
 
@@ -269,7 +269,7 @@ GV_ACT *NewBubbleP_800D9E40(SVECTOR *arg0, SVECTOR *arg1, int arg2)
     work = (BubblePWork *)GV_NewActor(EXEC_LEVEL, sizeof(BubblePWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BubblePAct_800D9974, (GV_ACTFUNC)BubblePDie_800D99CC, "bubble_p.c");
+        GV_SetNamedActor(&work->actor, BubblePAct_800D9974, BubblePDie_800D99CC, "bubble_p.c");
 
         work->f74 = 8;
 

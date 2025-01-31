@@ -154,7 +154,7 @@ GV_ACT *NewTracktrp_800E1DB0(int name, int where, int argc, char **argv)
     work = (TracktrpWork *)GV_NewActor(EXEC_LEVEL, sizeof(TracktrpWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)TracktrpAct_800E1A94, (GV_ACTFUNC)TracktrpDie_800E1D30, "tracktrp.c");
+        GV_SetNamedActor(&work->actor, TracktrpAct_800E1A94, TracktrpDie_800E1D30, "tracktrp.c");
 
         if (TracktrpGetResources_800E1D38(work, name, where) < 0)
         {

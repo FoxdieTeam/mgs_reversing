@@ -62,7 +62,7 @@ GV_ACT *NewRipples_800D872C(int name, int where, int argc, char **argv)
     work = (RipplesWork *)GV_NewActor(EXEC_LEVEL, sizeof(RipplesWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)RipplesAct_800D85A0, (GV_ACTFUNC)RipplesDie_800D862C, "ripples.c");
+        GV_SetNamedActor(&work->actor, RipplesAct_800D85A0, RipplesDie_800D862C, "ripples.c");
         if (RipplesGetResources_800D8634(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);

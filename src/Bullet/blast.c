@@ -150,8 +150,7 @@ GV_ACT *NewBlast(MATRIX *world, BLAST_DATA *blast_data)
     BlastWork *work = (BlastWork *)GV_NewActor(EXEC_LEVEL, sizeof(BlastWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BlastAct,
-                         (GV_ACTFUNC)BlastDie, "blast.c");
+        GV_SetNamedActor(&work->actor, BlastAct, BlastDie, "blast.c");
         GM_ClaymoreMap_800AB9DC = GM_CurrentMap;
 
         if (BlastGetResources(blast_data, work, world, 1) < 0)
@@ -174,8 +173,7 @@ GV_ACT *NewBlast2(MATRIX *world, BLAST_DATA *blast_data, int doSound, int side)
     BlastWork *work = (BlastWork *)GV_NewActor(EXEC_LEVEL, sizeof(BlastWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BlastAct,
-                         (GV_ACTFUNC)BlastDie, "blast.c");
+        GV_SetNamedActor(&work->actor, BlastAct, BlastDie, "blast.c");
         GM_ClaymoreMap_800AB9DC = GM_CurrentMap;
         if (BlastGetResources(blast_data, work, world, side) < 0)
         {

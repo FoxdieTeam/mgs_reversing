@@ -154,10 +154,7 @@ GV_ACT *NewStnFade(void)
     StgfdIoWork *work = (StgfdIoWork *)GV_NewActor(EXEC_LEVEL, sizeof(StgfdIoWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor,
-                         (GV_ACTFUNC)&stgfd_io_Act,
-                         (GV_ACTFUNC)&stgfd_io_Die,
-                         "stgfd_io.c");
+        GV_SetNamedActor(&work->actor, &stgfd_io_Act, &stgfd_io_Die, "stgfd_io.c");
 
         if (stgfd_io_GetResources(work) < 0)
         {

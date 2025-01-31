@@ -136,7 +136,7 @@ GV_ACT *NewSmokeLn_800CDFA4(int arg0, int arg1, int arg2, SVECTOR *arg3, SVECTOR
     work = (SmokeLnWork *)GV_NewActor(EXEC_LEVEL, sizeof(SmokeLnWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)SmokeLnAct_800CDB38, (GV_ACTFUNC)SmokeLnDie_800CDEF0, "smke_ln.c");
+        GV_SetNamedActor(&work->actor, SmokeLnAct_800CDB38, SmokeLnDie_800CDEF0, "smke_ln.c");
         SmokeLnGetResources_800CDEF8(work, arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
     }
 

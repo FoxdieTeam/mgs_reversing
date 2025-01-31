@@ -75,8 +75,8 @@ GV_ACT *s15b_fall_spl_800C7CA0(int name, int where, int argc, char **argv)
     work = (FallSplWork *)GV_NewActor(EXEC_LEVEL, sizeof(FallSplWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)s15b_fall_spl_800C7B60,
-                         (GV_ACTFUNC)s15b_fall_spl_800C7C98, "fall_spl.c");
+        GV_SetNamedActor(&work->actor, s15b_fall_spl_800C7B60,
+                         s15b_fall_spl_800C7C98, "fall_spl.c");
         if (s15b_fall_spl_800C7C3C(work, where) < 0)
         {
             GV_DestroyActor(&work->actor);

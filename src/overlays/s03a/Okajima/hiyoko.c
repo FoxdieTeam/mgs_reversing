@@ -227,7 +227,7 @@ GV_ACT *NewHiyoko_800D018C(int name, int where, int argc, char **argv)
     work = (HiyokoWork *)GV_NewActor(EXEC_LEVEL, sizeof(HiyokoWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)HiyokoAct_800CFD44, (GV_ACTFUNC)HiyokoDie_800D0150, "hiyoko.c");
+        GV_SetNamedActor(&work->actor, HiyokoAct_800CFD44, HiyokoDie_800D0150, "hiyoko.c");
 
         if (HiyokoGetResources_800CFECC(work, where) < 0)
         {
@@ -246,7 +246,7 @@ GV_ACT *NewHiyoko_800D0210(MATRIX *world, int arg1)
     work = (HiyokoWork *)GV_NewActor(EXEC_LEVEL, sizeof(HiyokoWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)HiyokoAct_800CFD44, (GV_ACTFUNC)HiyokoDie_800D0150, "hiyoko.c");
+        GV_SetNamedActor(&work->actor, HiyokoAct_800CFD44, HiyokoDie_800D0150, "hiyoko.c");
 
         if (HiyokoGetResources_800D0018(work, world, arg1) < 0)
         {

@@ -71,8 +71,7 @@ GV_ACT *NewSStorm_800D43D8(int arg0, int arg1)
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)SStormAct_800D478C,
-                     (GV_ACTFUNC)SStormDie_800D4E90, "sstorm.c");
+    GV_SetNamedActor(&work->actor, SStormAct_800D478C, SStormDie_800D4E90, "sstorm.c");
 
     work->field_40 = 1;
     work->field_38 = 4;

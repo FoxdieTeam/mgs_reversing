@@ -297,7 +297,7 @@ GV_ACT *NewSphere_800C69C0(int name, int where, int argc, char **argv)
     work = (SphereWork *)GV_NewActor(EXEC_LEVEL, sizeof(SphereWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)SphereAct_800C61F0, (GV_ACTFUNC)SphereDie_800C6658, "sphere.c");
+        GV_SetNamedActor(&work->actor, SphereAct_800C61F0, SphereDie_800C6658, "sphere.c");
 
         if (SphereGetResources_800C6694(work, where) < 0)
         {

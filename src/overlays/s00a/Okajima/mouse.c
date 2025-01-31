@@ -836,7 +836,7 @@ GV_ACT *NewMouse_800D5234(int name, int where, int argc, char **argv)
     if (work != NULL)
     {
         work->nentries = nentries;
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)MouseAct_800D4904, (GV_ACTFUNC)MouseDie_800D51A4, "mouse.c");
+        GV_SetNamedActor(&work->actor, MouseAct_800D4904, MouseDie_800D51A4, "mouse.c");
 
         if (MouseGetResources_800D50F4(work, name, where) < 0)
         {

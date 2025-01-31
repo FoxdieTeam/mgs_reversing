@@ -1023,8 +1023,7 @@ GV_ACT *NewEvPanel_800C4AD8(int name, int where, int argc, char **argv)
     work = (EvPanelWork *)GV_NewActor(EXEC_LEVEL, sizeof(EvPanelWork) + sizeof(SVECTOR) * button_count * 4);
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)EvPanelAct_800C3B74,
-                         (GV_ACTFUNC)EvPanelDie_800C457C, "evpanel.c");
+        GV_SetNamedActor(&work->actor, EvPanelAct_800C3B74, EvPanelDie_800C457C, "evpanel.c");
         if (EvPanelGetResources_800C496C(work, where, name, button_count) < 0)
         {
             GV_DestroyActor(&work->actor);

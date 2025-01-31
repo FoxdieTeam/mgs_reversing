@@ -201,8 +201,7 @@ GV_ACT *NewGoggle(CONTROL *control, OBJECT *parent_obj, int num_parent)
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)&goggle_Act,
-                         (GV_ACTFUNC)&goggle_Die, "goggle.c");
+        GV_SetNamedActor(&work->actor, &goggle_Act, &goggle_Die, "goggle.c");
 
         if (goggle_GetResources(work, parent_obj) < 0)
         {

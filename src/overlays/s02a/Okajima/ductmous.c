@@ -358,7 +358,7 @@ GV_ACT *NewDuctmouse_800DACC8(int name, int where, int argc, char **argv)
     work = (DuctmouseWork *)GV_NewActor(EXEC_LEVEL, sizeof(DuctmouseWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)DuctmouseAct_800DA978, (GV_ACTFUNC)DuctmouseDie_800DA9D4, "ductmous.c");
+        GV_SetNamedActor(&work->actor, DuctmouseAct_800DA978, DuctmouseDie_800DA9D4, "ductmous.c");
 
         if (DuctmouseGetResources_800DAA1C(work, name, where) < 0)
         {

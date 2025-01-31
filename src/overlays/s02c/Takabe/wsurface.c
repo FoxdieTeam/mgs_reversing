@@ -455,8 +455,7 @@ GV_ACT *NewWsurface_800DB9BC(int name, int where, int argc, char **argv)
     work = (WsurfaceWork *)GV_NewActor(EXEC_LEVEL, sizeof(WsurfaceWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)WsurfaceAct_800DB564,
-                        (GV_ACTFUNC)WsurfaceDie_800DB630, "wsurface.c");
+        GV_SetNamedActor(&work->actor, WsurfaceAct_800DB564, WsurfaceDie_800DB630, "wsurface.c");
 
         if (WsurfaceGetResources_800DB684(work, name, where) < 0)
         {

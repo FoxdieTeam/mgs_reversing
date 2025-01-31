@@ -9,6 +9,7 @@
 #include "Equip/equip.h"
 #include "SD/g_sound.h"
 
+// "It stands for Otaku Comvention."
 typedef struct OtacomWork
 {
     GV_ACT         actor;
@@ -546,8 +547,7 @@ GV_ACT *NewOtacom_800CC030(int arg0, int arg1)
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)OtacomAct_800CBB8C,
-                     (GV_ACTFUNC)OtacomDie_800CBC50, "otacom.c");
+    GV_SetNamedActor(&work->actor, OtacomAct_800CBB8C, OtacomDie_800CBC50, "otacom.c");
     if (OtacomGetResources_800CBDB4(work, arg0, arg1) < 0)
     {
         GV_DestroyActor(&work->actor);

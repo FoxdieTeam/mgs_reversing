@@ -315,10 +315,7 @@ GV_ACT *NewSpark(MATRIX *pMatrix, int count)
         work = (SparkWork *) GV_NewActor(EXEC_LEVEL, sizeof(SparkWork));
         if (work != NULL)
         {
-            GV_SetNamedActor(&work->actor,
-                             (GV_ACTFUNC)spark_Act,
-                             (GV_ACTFUNC)spark_Die,
-                             "spark.c");
+            GV_SetNamedActor(&work->actor, spark_Act, spark_Die, "spark.c");
 
             SetSpadStack(SPAD_STACK_ADDR);
             if (spark_GetResources(work, pMatrix, count) < 0)

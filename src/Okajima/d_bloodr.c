@@ -240,10 +240,7 @@ GV_ACT *NewKetchap_r(int map)
     work = (DBloodWorkr *)GV_NewActor(EXEC_LEVEL, sizeof(DBloodWorkr));
     if (work)
     {
-        GV_SetNamedActor(&work->actor,
-                         (GV_ACTFUNC)&d_bloodr_Act,
-                         (GV_ACTFUNC)&d_bloodr_Die,
-                         "d_bloodr.c");
+        GV_SetNamedActor(&work->actor, &d_bloodr_Act, &d_bloodr_Die, "d_bloodr.c");
 
         if (d_bloodr_GetResources(work, map) < 0)
         {
