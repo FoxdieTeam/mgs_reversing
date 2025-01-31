@@ -5,6 +5,28 @@
 #include "Takabe/thing.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
+
+extern int    GM_PlayerStatus;
+extern int    GV_Clock;
+extern GV_PAD GV_PadData_800B05C0[4];
+
+/*---------------------------------------------------------------------------*/
+
+// XXX Can't include libsn.h here since PCopen and PCcreat are called with
+// XXX missing parameters for some reason.
+// XXX PCopen and PCcreat's permission flags are ignored, as they're only
+// XXX provided for Unix compatibility and should be set to 0.
+
+extern int PCinit (void);
+extern int PCopen(const char *name /*, int flags, int perms*/);
+extern int PCcreat(char *name /*, int perms */);
+extern int PClseek(int fd, int offset, int mode);
+extern int PCread(int fd, char *buff, int len);
+extern int PCwrite(int fd, char *buff, int len);
+extern int PCclose(int fd);
+
+/*---------------------------------------------------------------------------*/
 
 typedef struct _VibEditPrims
 {
@@ -42,22 +64,9 @@ typedef struct _VibEditWork
     VibPair        field_8B4_pairs[16];
 } VibEditWork;
 
-extern int    GM_PlayerStatus;
-extern int    GV_Clock;
-extern GV_PAD GV_PadData_800B05C0[4];
+#define EXEC_LEVEL      GV_ACTOR_LEVEL3
 
-// VibEditGetResources is calling this with two missing parameters for some reason.
-int PCopen(const char *name /*, int flags, int perms*/);
-int PCread(int fd, char *buff, int len);
-int PCclose(int fd);
-
-// For some reason VibEditDie_800C467C calls this with a missing
-// last argument!? But it's not bad - PsyQ documentation says
-// that argument is ignored anyways...
-int PCcreat(char *name /*, int perms */);
-int PCwrite(int fd, char *buff, int len);
-
-#define EXEC_LEVEL 3
+#define VIB_EDIT_FILE   "VIB_EDIT.DAT"
 
 const char *select_dword_800C3220[4] = {
     "INS PARAM",
@@ -67,10 +76,16 @@ const char *select_dword_800C3220[4] = {
 };
 
 const char *select_dword_800C3230[5] = {
-    "CHANGE BANK", "QUICK SAVE HIGH", "QUICK SAVE LOW", "QUICK LOAD HIGH", "QUICK LOAD LOW",
+    "CHANGE BANK",
+    "QUICK SAVE HIGH",
+    "QUICK SAVE LOW",
+    "QUICK LOAD HIGH",
+    "QUICK LOAD LOW",
 };
 
-void VibEdit_800C34F0(VibEditWork *work)
+/*---------------------------------------------------------------------------*/
+
+STATIC void VibEdit_800C34F0(VibEditWork *work)
 {
     VibEditPrims *prims;
     TILE         *tile1;
@@ -118,7 +133,7 @@ void VibEdit_800C34F0(VibEditWork *work)
     prims->lines[1][2] = *line;
 }
 
-void select_800C36BC(VibEditWork *work)
+STATIC void VibEdit_800C36BC(VibEditWork *work)
 {
     VibPair       *pairs;
     LINE_F2       *line;
@@ -195,7 +210,7 @@ void select_800C36BC(VibEditWork *work)
     }
 }
 
-void select_800C3974(VibEditWork *work)
+STATIC void VibEdit_800C3974(VibEditWork *work)
 {
     int      i;
     VibPair *iter;
@@ -252,7 +267,7 @@ void select_800C3974(VibEditWork *work)
     printf("}\n\n");
 }
 
-void select_800C3BB8(VibPair *ptr, int cnt)
+STATIC void VibEdit_800C3BB8(VibPair *ptr, int cnt)
 {
     int i;
     ptr += cnt;
@@ -263,7 +278,7 @@ void select_800C3BB8(VibPair *ptr, int cnt)
     }
 }
 
-void select_800C3BF4(VibPair *ptr, int cnt)
+STATIC void VibEdit_800C3BF4(VibPair *ptr, int cnt)
 {
     int i;
     for (i = 15 - cnt, ptr += 15; i > 0; i--)
@@ -273,7 +288,7 @@ void select_800C3BF4(VibPair *ptr, int cnt)
     }
 }
 
-void select_800C3C28(VibPair *ptr, int cnt)
+STATIC void VibEdit_800C3C28(VibPair *ptr, int cnt)
 {
     VibPair pair;
 
@@ -287,7 +302,7 @@ void select_800C3C28(VibPair *ptr, int cnt)
     ptr[cnt] = pair;
 }
 
-void select_800C3C74(VibPair *ptr, int cnt)
+STATIC void VibEdit_800C3C74(VibPair *ptr, int cnt)
 {
     VibPair pair;
 
@@ -301,7 +316,7 @@ void select_800C3C74(VibPair *ptr, int cnt)
     ptr[cnt] = pair;
 }
 
-void VibEdit_800C3CBC(VibEditWork *work, int idx)
+STATIC void VibEdit_800C3CBC(VibEditWork *work, int idx)
 {
     VibPair *dst, *src;
     int      i;
@@ -321,7 +336,7 @@ void VibEdit_800C3CBC(VibEditWork *work, int idx)
 }
 
 // VibEdit_800C3CBC but with dst/src swapped:
-void VibEdit_800C3D20(VibEditWork *work, int idx)
+STATIC void VibEdit_800C3D20(VibEditWork *work, int idx)
 {
     VibPair *dst, *src;
     int      i;
@@ -340,7 +355,7 @@ void VibEdit_800C3D20(VibEditWork *work, int idx)
     }
 }
 
-void select_800C3D84(VibPair *src, VibPair *dst)
+STATIC void VibEdit_CopyPairs(VibPair *src, VibPair *dst)
 {
     int i;
     for (i = 16; i > 0; i--)
@@ -349,7 +364,9 @@ void select_800C3D84(VibPair *src, VibPair *dst)
     }
 }
 
-void VibEditAct_800C3DB0(VibEditWork *work)
+/*---------------------------------------------------------------------------*/
+
+STATIC void VibEdit_Act(VibEditWork *work)
 {
     int      i, j, idx;
     int      old_field_28, sum;
@@ -439,7 +456,7 @@ void VibEditAct_800C3DB0(VibEditWork *work)
         }
         if (pad & PAD_SQUARE)
         {
-            select_800C3974(work);
+            VibEdit_800C3974(work);
         }
         if (pad & PAD_CIRCLE)
         {
@@ -512,20 +529,20 @@ void VibEditAct_800C3DB0(VibEditWork *work)
                 switch (work->field_2C)
                 {
                 case 0:
-                    select_800C3BF4(pairs, work->field_38);
+                    VibEdit_800C3BF4(pairs, work->field_38);
                     break;
                 case 1:
-                    select_800C3BB8(pairs, work->field_38);
+                    VibEdit_800C3BB8(pairs, work->field_38);
                     break;
                 case 2:
-                    select_800C3C28(pairs, work->field_38);
+                    VibEdit_800C3C28(pairs, work->field_38);
                     if (work->field_38 < 15)
                     {
                         work->field_38++;
                     }
                     break;
                 case 3:
-                    select_800C3C74(pairs, work->field_38);
+                    VibEdit_800C3C74(pairs, work->field_38);
                     if (work->field_38 > 0)
                     {
                         work->field_38--;
@@ -603,16 +620,16 @@ void VibEditAct_800C3DB0(VibEditWork *work)
                 case 0:
                     break;
                 case 1:
-                    select_800C3D84(work->field_4C_pairs, work->field_894_pairs);
+                    VibEdit_CopyPairs(work->field_4C_pairs, work->field_894_pairs);
                     break;
                 case 2:
-                    select_800C3D84(work->field_70_pairs, work->field_8B4_pairs);
+                    VibEdit_CopyPairs(work->field_70_pairs, work->field_8B4_pairs);
                     break;
                 case 3:
-                    select_800C3D84(work->field_894_pairs, work->field_4C_pairs);
+                    VibEdit_CopyPairs(work->field_894_pairs, work->field_4C_pairs);
                     break;
                 case 4:
-                    select_800C3D84(work->field_8B4_pairs, work->field_70_pairs);
+                    VibEdit_CopyPairs(work->field_8B4_pairs, work->field_70_pairs);
                     break;
                 }
                 work->field_24 = 0;
@@ -683,7 +700,7 @@ void VibEditAct_800C3DB0(VibEditWork *work)
         }
     }
 
-    select_800C36BC(work);
+    VibEdit_800C36BC(work);
 
     if (GV_PadData_800B05C0[0].press & 0x200)
     {
@@ -696,7 +713,8 @@ void VibEditAct_800C3DB0(VibEditWork *work)
 
     GM_GameStatus |= STATE_PAUSE_ONLY;
 }
-void VibEditDie_800C467C(VibEditWork *work)
+
+STATIC void VibEdit_Die(VibEditWork *work)
 {
     int fd;
 
@@ -704,7 +722,9 @@ void VibEditDie_800C467C(VibEditWork *work)
 
     VibEdit_800C3CBC(work, work->field_28);
 
-    fd = PCcreat("VIB_EDIT.DAT");
+    // Should be called like:
+    // fd = PCcreat(VIB_EDIT_FILE, 0);
+    fd = PCcreat(VIB_EDIT_FILE);
     PCwrite(fd, (char *)work->field_94_pairs, sizeof(work->field_94_pairs));
     PCclose(fd);
 
@@ -712,7 +732,7 @@ void VibEditDie_800C467C(VibEditWork *work)
     GM_PlayerStatus &= ~PLAYER_PAD_OFF;
 }
 
-int VibEditGetResources_800C4720(VibEditWork *work, int flags, int perms)
+STATIC int VibEdit_GetResources(VibEditWork *work, int flags, int perms)
 {
     int fd;
 
@@ -720,8 +740,9 @@ int VibEditGetResources_800C4720(VibEditWork *work, int flags, int perms)
 
     VibEdit_800C34F0(work);
 
-    // Should have 3 args
-    fd = PCopen("VIB_EDIT.DAT");
+    // Should be called like:
+    // fd = PCopen(VIB_EDIT_FILE, 0, 0);
+    fd = PCopen(VIB_EDIT_FILE);
     PCread(fd, (char *)work->field_94_pairs, sizeof(work->field_94_pairs));
     PCclose(fd);
 
@@ -733,6 +754,8 @@ int VibEditGetResources_800C4720(VibEditWork *work, int flags, int perms)
     return 0;
 }
 
+/*---------------------------------------------------------------------------*/
+
 GV_ACT *NewVibEdit_800C47B4(int flags, int perms)
 {
     VibEditWork *work;
@@ -740,10 +763,10 @@ GV_ACT *NewVibEdit_800C47B4(int flags, int perms)
     work = (VibEditWork *)GV_NewActor(EXEC_LEVEL, sizeof(VibEditWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)VibEditAct_800C3DB0,
-                         (GV_ACTFUNC)VibEditDie_800C467C, "vib_edit.c");
+        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)VibEdit_Act,
+                         (GV_ACTFUNC)VibEdit_Die, "vib_edit.c");
 
-        if (VibEditGetResources_800C4720(work, flags, perms) < 0)
+        if (VibEdit_GetResources(work, flags, perms) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
