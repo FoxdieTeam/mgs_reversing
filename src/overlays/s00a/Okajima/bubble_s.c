@@ -30,7 +30,7 @@ extern int     GM_CurrentMap;
 extern SVECTOR GM_PlayerPosition_800ABA10;
 extern OBJECT *GM_PlayerBody_800ABA20;
 
-#define EXEC_LEVEL      4
+#define EXEC_LEVEL      GV_ACTOR_LEVEL4
 
 #define UP_SPEED        15
 #define MIN_BUBBLE_SIZE 20

@@ -76,6 +76,8 @@ typedef struct GunCameWork
     int      field_418;
 } GunCameWork;
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
+
 int s03e_dword_800C32B4 = 0x00000000;
 int s03e_dword_800C32B8 = 0x00000000;
 int s03e_dword_800C32BC = 0x00000000;
@@ -1372,7 +1374,7 @@ GV_ACT *NewGunCame_800C9190(int name, int where, int argc, char **argv)
 {
     GunCameWork *work;
 
-    work = (GunCameWork *)GV_NewActor(4, sizeof(GunCameWork));
+    work = (GunCameWork *)GV_NewActor(EXEC_LEVEL, sizeof(GunCameWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, (GV_ACTFUNC)GunCame_Act_800C80F4,

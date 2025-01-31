@@ -18,7 +18,7 @@ typedef struct _DemoasiWork
 
 extern int GM_CurrentMap;
 
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 void Demoasi_800C3D88(DG_PRIM *prim, DG_TEX *tex, int r, int g, int b)
 {

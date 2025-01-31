@@ -96,7 +96,7 @@ void    s01a_800E2364(MATRIX *, SVECTOR *, VECTOR *);
 GV_ACT *s01a_lit_mdl_800E2C88(MATRIX *arg0, int arg1, int arg2, int arg3);
 void    s01a_lit_mdl_800E2D3C(GV_ACT *, int angle);
 
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 void s01a_searchli_800D7320(DG_PRIM *prim, DG_TEX *tex, int r, int g, int b)
 {

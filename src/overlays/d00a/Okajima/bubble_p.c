@@ -23,7 +23,7 @@ typedef struct _BubblePWork
 extern int GV_Clock;
 extern int GM_CurrentMap;
 
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 void BubblePShadePack_800D96AC(POLY_FT4 *packs, int shade, int index)
 {

@@ -25,7 +25,7 @@ void AN_Smoke_800CE164(SVECTOR *pos, SVECTOR *speed, int index, int script);
 GV_ACT *NewPlasma_800CD30C(SVECTOR *arg0, SVECTOR *arg1, int arg2, int arg3);
 GV_ACT *NewSpark2_800CA714(MATRIX *world);
 
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 void DeathSp_800CFDBC(SVECTOR *out, int index)
 {

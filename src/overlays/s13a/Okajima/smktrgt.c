@@ -27,7 +27,7 @@ SVECTOR s13a_800C3704 = {300, 300, 300, 0};
 
 void AN_Unknown_800DC5B4(SVECTOR *pos, SVECTOR *speed, int script);
 
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 int s13a_smktrgt_800DBBC0(SmktrgtWork *work)
 {

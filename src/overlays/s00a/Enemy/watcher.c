@@ -700,11 +700,13 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
     work->field_C14 = work->start_pos;
 }
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
+
 GV_ACT *NewSnakeWatcher_800C5034(int name, int where, int argc, char **argv)
 {
     WatcherWork *work ;
 
-    work = (WatcherWork *)GV_NewActor( 4, sizeof( WatcherWork ) ) ;
+    work = (WatcherWork *)GV_NewActor( EXEC_LEVEL, sizeof( WatcherWork ) ) ;
     if ( work != NULL ) {
         GV_SetNamedActor( &( work->actor ), ( GV_ACTFUNC )WatcherAct_800C430C, ( GV_ACTFUNC )WatcherDie_800C487C, aWatcherc_800DFCEC );
         WatcherGetResources_800C4B7C( work, name, where );

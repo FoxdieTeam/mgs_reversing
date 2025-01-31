@@ -454,7 +454,7 @@ STATIC void GM_Act(GameWork *work)
                         }
                         else
                         {
-                            GV_DestroyActorSystem(4);
+                            GV_DestroyActorSystem(GV_ACTOR_LEVEL4);
                         }
                     }
                     else if (GM_StreamStatus() == status)
@@ -477,7 +477,7 @@ STATIC void GM_Act(GameWork *work)
                     DG_UnDrawFrameCount = 0x7fff0000;
                 }
 
-                GV_DestroyActorSystem(4);
+                GV_DestroyActorSystem(GV_ACTOR_LEVEL4);
                 GV_PauseLevel &= ~8;
                 GM_ResetMapModel();
                 GM_StreamPlayStop();

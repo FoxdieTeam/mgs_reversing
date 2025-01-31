@@ -23,7 +23,7 @@ extern SVECTOR GM_PlayerPosition_800ABA10;
 void NewSpark2_800CA714(MATRIX *world);
 GV_ACT *NewPlasmaH_800D1B2C(SVECTOR *pos1, SVECTOR *pos2, int time);
 
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 int FlrSpaGetSvecs_800D09A4(char *opt, SVECTOR *out)
 {

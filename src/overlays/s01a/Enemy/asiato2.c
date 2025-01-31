@@ -28,7 +28,7 @@ typedef struct _AsiatoUnk
 
 AsiatoUnk SECTION("overlay.bss") asiato2_800E4FC0;
 
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 void s01a_asiato2_800DCE0C(DG_PRIM *prim, DG_TEX *tex, int r, int g, int b)
 {

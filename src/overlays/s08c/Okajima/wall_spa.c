@@ -19,7 +19,7 @@ void    NewSpark2_800CA714(MATRIX *);
 GV_ACT *NewPlasma_800CD30C(SVECTOR *arg0, SVECTOR *arg1, int arg2, int arg3);
 void    AN_Smoke_800CE164(SVECTOR *pos, SVECTOR *speed, int index, int script);
 
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 int WallSpaGetSvecs_800CB080(char *opt, SVECTOR *out)
 {

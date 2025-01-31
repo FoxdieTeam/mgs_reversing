@@ -18,7 +18,7 @@ typedef struct KatanaWork
     int      field_14C;
 } KatanaWork;
 
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 extern int    GV_Clock;
 extern int    GM_CurrentMap;

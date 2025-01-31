@@ -13,7 +13,7 @@ typedef struct _BloodClWork
 
 extern int GM_CurrentMap;
 
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 int BloodClGetSvecs_800C99AC(char *opt, SVECTOR *out)
 {

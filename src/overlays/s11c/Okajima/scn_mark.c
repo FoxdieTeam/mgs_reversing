@@ -18,7 +18,7 @@ extern OBJECT *GM_PlayerBody_800ABA20;
 
 void * AN_Unknown_800CA1EC(MATRIX *pos, int mark);
 
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 int ScnMarkCheckMessages_800C93CC(unsigned short name, int n_hashes, unsigned short *hashes)
 {

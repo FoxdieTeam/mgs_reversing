@@ -103,6 +103,8 @@ const char aKottida_800E0810[] = "kottida !!\n";
 void GM_AlertModeSet( int );
 void NewPadVibration( unsigned char *ptr, int flags );
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
+
 int s00a_command_800CEA2C( WatcherWork *work )
 {
     int i;
@@ -1322,7 +1324,7 @@ GV_ACT *NewCommand_800D0908(int name, int where, int argc, char **argv)
 {
     CommanderWork *work ;
 
-    work = (CommanderWork *)GV_NewActor( 4, sizeof( CommanderWork ) ) ;
+    work = (CommanderWork *)GV_NewActor( EXEC_LEVEL, sizeof( CommanderWork ) ) ;
     if ( work != NULL ) {
         GV_SetNamedActor( &( work->actor ), ( GV_ACTFUNC )CommandAct_800D0258, ( GV_ACTFUNC )CommandDie_800D02EC, "command.c" );
         CommandGetResources_800D04F4( work, name, where );

@@ -28,7 +28,7 @@ extern int               ZAKO11F_GameFlag_800D5C4C;
 extern int               ZAKOCOM_PlayerAddress_800D5C50;
 extern int               ZAKOCOM_PlayerMap_800D5C54;
 
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 int s11i_zk11fcom_800D0BF4( Zako11FWork *watcher ) // SetZako
 {

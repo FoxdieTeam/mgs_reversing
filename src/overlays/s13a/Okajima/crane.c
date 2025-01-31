@@ -67,7 +67,7 @@ SVECTOR crane_800C3614 = {500, 500, 300, 0};
 void AN_Unknown_800CCA40(SVECTOR *pos);
 void AN_Unknown_800CCB84(SVECTOR *pos);
 
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 void s13a_crane_800D3994(HZD_SEG *out, MATRIX *world, SVECTOR *min, SVECTOR *max)
 {

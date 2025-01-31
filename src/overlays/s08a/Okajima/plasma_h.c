@@ -23,7 +23,7 @@ typedef struct _PlasmaHWork
 
 extern int     GM_CurrentMap;
 
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 int s08a_plasma_h_800D100C(SVECTOR *a, SVECTOR *b, SVECTOR *out)
 {
