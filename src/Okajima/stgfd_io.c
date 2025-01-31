@@ -30,7 +30,7 @@ typedef struct StgfdIoWork
     int           state;
 } StgfdIoWork;
 
-#define EXEC_LEVEL 3
+#define EXEC_LEVEL GV_ACTOR_LEVEL3
 
 /*---------------------------------------------------------------------------*/
 

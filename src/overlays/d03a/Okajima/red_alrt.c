@@ -11,7 +11,7 @@ extern int     GV_Clock;
 extern int     GV_PauseLevel;
 extern int     GM_CurrentMap;
 
-#define EXEC_LEVEL 3
+#define EXEC_LEVEL GV_ACTOR_LEVEL3
 
 // Identical to THING_Msg_CheckMessage minus returning the message value.
 int d03a_red_alrt_800C437C(unsigned short name, int nhashes, unsigned short *hashes)

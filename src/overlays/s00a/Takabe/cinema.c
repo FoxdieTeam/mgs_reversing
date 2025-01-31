@@ -32,6 +32,8 @@ typedef struct _CinemaScreenWork
     PARAM  params[2]; //0x34
 } CinemaScreenWork;
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL3
+
 extern int GV_Clock;
 extern int GV_PauseLevel;
 
@@ -262,7 +264,7 @@ void *NewCinemaScreen_800DE434( int time, int event, int argc, char **argv )
 {
     CinemaScreenWork *work ;
 
-    work = (CinemaScreenWork *)GV_NewActor( 3, sizeof( CinemaScreenWork ) ) ;
+    work = (CinemaScreenWork *)GV_NewActor( EXEC_LEVEL, sizeof( CinemaScreenWork ) ) ;
     if ( work != NULL ) {
         GV_SetNamedActor( &work->actor, ( GV_ACTFUNC )CinemaScreenAct_800DDDA4, ( GV_ACTFUNC )CinemaScreenDie_800DE150, "cinema.c" );
         if ( CinemaScreenGetResources_800DE180( work, time, event ) < 0 )
@@ -287,7 +289,7 @@ GV_ACT *NewCinemaScreenSet_800DE4D8(int name, int where, int argc, char **argv)
     int ops, ops2;
     CinemaScreenWork *work ;
 
-    work = (CinemaScreenWork *)GV_NewActor( 3, sizeof( CinemaScreenWork ) ) ;
+    work = (CinemaScreenWork *)GV_NewActor( EXEC_LEVEL, sizeof( CinemaScreenWork ) ) ;
     if ( work != NULL ) {
         GV_SetNamedActor( &work->actor, ( GV_ACTFUNC )CinemaScreenAct_800DDDA4, ( GV_ACTFUNC )CinemaScreenDie_800DE150, "cinema.c" );
         ops  = THING_Gcl_GetInt( 't' );

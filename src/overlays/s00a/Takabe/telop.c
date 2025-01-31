@@ -41,7 +41,7 @@ extern int GV_Clock;
 extern int GV_PassageTime;
 extern int GV_PauseLevel;
 
-#define EXEC_LEVEL 3
+#define EXEC_LEVEL GV_ACTOR_LEVEL3
 
 void telop_800DD550(TelopSub *sub, int x, int y, DG_TEX *arg3, DG_TEX *arg4)
 {

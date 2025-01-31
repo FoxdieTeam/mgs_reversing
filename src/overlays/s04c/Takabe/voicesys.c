@@ -9,7 +9,7 @@ typedef struct VoicesysWork {
     int    game_over;
 } VoicesysWork;
 
-#define EXEC_LEVEL 3
+#define EXEC_LEVEL GV_ACTOR_LEVEL3
 
 typedef struct VoiceSysGlobal {
     int flags;

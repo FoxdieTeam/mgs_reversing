@@ -23,7 +23,7 @@ typedef struct Work
 
 extern GV_PAD GV_PadData_800B05C0[4];
 
-#define EXEC_LEVEL 3
+#define EXEC_LEVEL GV_ACTOR_LEVEL3
 
 #ifdef DEV_EXE
 int isStageSelectionMenu; // Used to print the extended info below only in stage selection menu.
