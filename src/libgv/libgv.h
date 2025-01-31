@@ -48,19 +48,19 @@ void GV_Error( char *, int );
 
 /*------ Actor Management ---------------------------------------------------*/
 
-struct GV_ACT;
+struct _GV_ACT;
 
-typedef void (*GV_ACTFUNC)(struct GV_ACT *);
+typedef void (*GV_ACTFUNC)(struct _GV_ACT *);
 typedef void (*GV_FREEFUNC)(void *);
 
 /**
  * @brief Linked list of game actors.
  * A game actor is an entity with a name and an update function.
  */
-typedef struct GV_ACT
+typedef struct _GV_ACT
 {
-    struct GV_ACT  *prev;
-    struct GV_ACT  *next;
+    struct _GV_ACT *prev;
+    struct _GV_ACT *next;
     GV_ACTFUNC      act;        // update callback
     GV_ACTFUNC      die;        // shutdown callback
     GV_FREEFUNC     free;       // free callback
@@ -93,23 +93,23 @@ enum {
 };
 
 /* actor.c */
-void    GV_InitActorSystem(void);
-void    GV_ConfigActorSystem(int index, short pause, short kill);
-void    GV_DumpActorSystem(void);
-void    GV_ExecActorSystem(void);
-void    GV_DestroyActorSystem(int exec_level);
-void    GV_InitActor(int exec_level, void *actor, GV_FREEFUNC free_func);
-void   *GV_NewActor(int exec_level, int size);
+void GV_InitActorSystem(void);
+void GV_ConfigActorSystem(int index, short pause, short kill);
+void GV_DumpActorSystem(void);
+void GV_ExecActorSystem(void);
+void GV_DestroyActorSystem(int exec_level);
+void GV_InitActor(int exec_level, void *actor, GV_FREEFUNC free_func);
+void *GV_NewActor(int exec_level, int size);
 
-void    GV_SetNamedActor(void *actor, void *act_func, void *die_func,
-                         const char *filename);
+void GV_SetNamedActor(void *actor, void *act_func, void *die_func,
+                      const char *filename);
 
 #define GV_SetActor(_actor, _act, _die) \
     GV_SetNamedActor(_actor, _act, _die, __FILE__)
 
-void    GV_DestroyActor(void *actor);
-void    GV_DestroyActorQuick(void *actor);
-void    GV_DestroyOtherActor(void *actor);
+void GV_DestroyActor(void *actor);
+void GV_DestroyActorQuick(void *actor);
+void GV_DestroyOtherActor(void *actor);
 
 /*------ Cache System -------------------------------------------------------*/
 
