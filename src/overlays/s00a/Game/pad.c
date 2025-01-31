@@ -77,7 +77,7 @@ GV_ACT *NewPad_800C37EC(int name, int where, int argc, char **argv)
 
     if ( work != NULL ) {
         /* ワークにコールバックを登録する */
-        GV_SetNamedActor( &( work->actor ), ( GV_ACTFUNC )PadAct_800C370C, ( GV_ACTFUNC )PadDie_800C37A4, "pad.c" ) ;
+        GV_SetNamedActor( &( work->actor ), PadAct_800C370C, PadDie_800C37A4, "pad.c" ) ;
 
         ops = GCL_GetOption( 's' ) ;
         if ( !ops ) {

@@ -280,8 +280,7 @@ GV_ACT *NewTenage(SVECTOR *pos, SVECTOR *step, int fuse_time, int type, int mode
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)TenageAct,
-                         (GV_ACTFUNC)TenageDie, "tenage.c");
+        GV_SetNamedActor(&work->actor, TenageAct, TenageDie, "tenage.c");
 
         if (TenageGetResources(work, pos, step, type, model, 1, PLAYER_SIDE) < 0)
         {

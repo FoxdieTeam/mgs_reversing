@@ -347,10 +347,7 @@ GV_ACT *NewKogaku2(CONTROL *control, OBJECT *parent, int num_parent)
     work = (Kogaku2Work *) GV_NewActor(EXEC_LEVEL, sizeof(Kogaku2Work));
     if (work)
     {
-        GV_SetNamedActor(&work->actor,
-                        (GV_ACTFUNC)Kogaku2Act,
-                        (GV_ACTFUNC)Kogaku2Die,
-                        "kogaku2.c");
+        GV_SetNamedActor(&work->actor, Kogaku2Act, Kogaku2Die, "kogaku2.c");
 
         work->parent = parent;
         work->num_parent = num_parent;
@@ -402,10 +399,7 @@ GV_ACT *NewKogaku3(CONTROL *control, OBJECT *parent, int num_parent)
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor,
-                         (GV_ACTFUNC)Kogaku2Act,
-                         (GV_ACTFUNC)Kogaku2Die,
-                         "kogaku2.c");
+        GV_SetNamedActor(&work->actor, Kogaku2Act, Kogaku2Die, "kogaku2.c");
 
         work->parent = parent;
         work->num_parent = num_parent;

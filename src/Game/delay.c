@@ -173,7 +173,7 @@ GV_ACT *GM_DelayedExecCommand(int proc, GCL_ARGS *args, int time)
         work->delay_counter = time;
         work->gcl_exec.proc_id = proc;
 
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)delay_Act, NULL, "delay.c");
+        GV_SetNamedActor(&work->actor, delay_Act, NULL, "delay.c");
     }
     return &work->actor;
 }

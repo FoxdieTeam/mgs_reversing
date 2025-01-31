@@ -721,8 +721,7 @@ GV_ACT *NewStnSight(CONTROL *control)
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)StnSightAct,
-                         (GV_ACTFUNC)StnSightDie, "stnsight.c");
+        GV_SetNamedActor(&work->actor, StnSightAct, StnSightDie, "stnsight.c");
 
         if (StnSightGetResources(work, control) < 0)
         {

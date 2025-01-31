@@ -143,7 +143,7 @@ int NewZoomCamera_800DF9BC( ZoomWork *work, int name, int where )
         return -1;
     }
 
-    GV_SetNamedActor( &( cam->actor ), (GV_ACTFUNC)ZoomCameraAct_800DF740, (GV_ACTFUNC)ZoomCameraDie_800DF80C, "cat_in.c" );
+    GV_SetNamedActor( &( cam->actor ), ZoomCameraAct_800DF740, ZoomCameraDie_800DF80C, "cat_in.c" );
 
     ZoomCameraGetResources_800DF81C( cam, name, where );
     cam->timer = &work->timer;
@@ -160,7 +160,7 @@ GV_ACT *NewZoom_800DFA88(int name, int where, int argc, char **argv)
     work = (ZoomWork *)GV_NewActor( EXEC_LEVEL2, sizeof( ZoomWork ) );
     if (work != NULL)
     {
-        GV_SetNamedActor( &work->actor, (GV_ACTFUNC)ZoomAct_800DF89C, (GV_ACTFUNC)ZoomDie_800DF910, "cat_in.c" );
+        GV_SetNamedActor( &work->actor, ZoomAct_800DF89C, ZoomDie_800DF910, "cat_in.c" );
 
         if ( NewZoomCamera_800DF9BC( work, name, where ) < 0 )
         {

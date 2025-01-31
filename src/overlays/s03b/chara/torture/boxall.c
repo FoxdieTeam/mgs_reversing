@@ -369,7 +369,7 @@ GV_ACT *NewBoxall_800CA088(int name, int where)
     work = (BoxallWork *)GV_NewActor(EXEC_LEVEL, sizeof(BoxallWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BoxallAct_800C9C58, (GV_ACTFUNC)BoxallDie_800C9D34, "boxall.c");
+        GV_SetNamedActor(&work->actor, BoxallAct_800C9C58, BoxallDie_800C9D34, "boxall.c");
 
         if (BoxallGetResources_800C9F58(work, name, where) >= 0)
         {

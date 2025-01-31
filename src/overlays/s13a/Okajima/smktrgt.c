@@ -314,7 +314,7 @@ GV_ACT *NewSmktrgt_800DC410(int name, int map)
     work = (SmktrgtWork *)GV_NewActor(EXEC_LEVEL, sizeof(SmktrgtWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)SmktrgtAct_800DC19C, (GV_ACTFUNC)SmktrgtDie_800DC408, "smktrgt.c");
+        GV_SetNamedActor(&work->actor, SmktrgtAct_800DC19C, SmktrgtDie_800DC408, "smktrgt.c");
 
         if (Smktrgt_800DC400(work, map) < 0 || SmktrgtGetResources_800DC210(work, name, map) < 0)
         {

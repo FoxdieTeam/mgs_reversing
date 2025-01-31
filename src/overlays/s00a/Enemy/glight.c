@@ -119,8 +119,7 @@ GV_ACT *NewGunLight_800D3AD4(MATRIX *world, int **pvisible)
     work = (GlightWork *)GV_NewActor(EXEC_LEVEL, sizeof(GlightWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)GunLightAct_800D387C,
-                         (GV_ACTFUNC)GunLightDie_800D3910, "glight.c");
+        GV_SetNamedActor(&work->actor, GunLightAct_800D387C, GunLightDie_800D3910, "glight.c");
 
         if (GunLightGetResources_800D39D0(work, world, pvisible) < 0)
         {

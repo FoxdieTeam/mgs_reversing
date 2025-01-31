@@ -583,8 +583,7 @@ GV_ACT *NewJirai(MATRIX *world, HZD_FLR *floor)
     if (work)
     {
         work->field_104_vec = GM_PlayerControl_800AB9F4->rot;
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)JiraiAct,
-                         (GV_ACTFUNC)JiraiDie, "jirai.c");
+        GV_SetNamedActor(&work->actor, JiraiAct, JiraiDie, "jirai.c");
 
         if (JiraiGetResources(work, world, floor) < 0)
         {
@@ -667,8 +666,7 @@ GV_ACT *NewScenarioJirai(MATRIX *world, int map)
     JiraiWork *work = (JiraiWork *)GV_NewActor(GV_ACTOR_AFTER, sizeof(JiraiWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)JiraiAct,
-                         (GV_ACTFUNC)JiraiDie, "jirai.c");
+        GV_SetNamedActor(&work->actor, JiraiAct, JiraiDie, "jirai.c");
         if (JiraiGetResources2(work, world, map) < 0)
         {
             GV_DestroyActor(&work->actor);

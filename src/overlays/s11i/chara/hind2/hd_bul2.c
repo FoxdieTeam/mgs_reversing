@@ -376,7 +376,7 @@ void *NewHdBul2( SVECTOR *arg0, SVECTOR *arg1, int enable )
     work = (HdBul2Work *)GV_NewActor( EXEC_LEVEL, sizeof(HdBul2Work) );
     if ( work )
     {
-        GV_SetNamedActor( &work->actor, (GV_ACTFUNC)HdBul2Act, (GV_ACTFUNC)HdBul2Die, "hd_bul2.c" );
+        GV_SetNamedActor( &work->actor, HdBul2Act, HdBul2Die, "hd_bul2.c" );
 
         if ( HdBul2GetResources( work, arg0, arg1 ) >= 0 )
         {

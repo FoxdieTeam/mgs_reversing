@@ -736,7 +736,7 @@ void *NewHind2( int name, int where )
     work = (Hind2Work *)GV_NewActor( EXEC_LEVEL, sizeof(Hind2Work) );
     if ( work )
     {
-        GV_SetNamedActor( &work->actor, (GV_ACTFUNC)Hind2Act, (GV_ACTFUNC)Hind2Die, "hind2.c" );
+        GV_SetNamedActor( &work->actor, Hind2Act, Hind2Die, "hind2.c" );
 
         if ( Hind2GetResources( work, name, where ) >= 0 )
         {

@@ -3852,8 +3852,7 @@ GV_ACT *NewJohnny_800CA838(int scriptData, int scriptBinds)
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)JohnnyAct_800C9F7C,
-                     (GV_ACTFUNC)JohnnyDie_800CA048, "johnny.c");
+    GV_SetNamedActor(&work->actor, JohnnyAct_800C9F7C, JohnnyDie_800CA048, "johnny.c");
     if (JohnnyGetResources_800CA664(work, scriptData, scriptBinds) < 0)
     {
         GV_DestroyActor(&work->actor);

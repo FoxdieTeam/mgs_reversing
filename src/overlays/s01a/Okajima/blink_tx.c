@@ -131,7 +131,7 @@ GV_ACT *NewBlinkTx_800DECD8(int name, int where, int argc, char **argv)
     work = (BlinkTxWork *)GV_NewActor(EXEC_LEVEL, sizeof(BlinkTxWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, NULL, (GV_ACTFUNC)BlinkTxDie_800DEB24, "blink_tx.c");
+        GV_SetNamedActor(&work->actor, NULL, BlinkTxDie_800DEB24, "blink_tx.c");
 
         opt = GCL_GetOption('p');
         n_prims = BlinkTxGetSvecs_800DEB60(opt, work->pos);

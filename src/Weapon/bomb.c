@@ -114,8 +114,7 @@ GV_ACT *NewBomb(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *
     BombWork *work = (BombWork *)GV_NewActor(EXEC_LEVEL, sizeof(BombWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BombAct,
-                         (GV_ACTFUNC)BombDie, "bomb.c");
+        GV_SetNamedActor(&work->actor, BombAct, BombDie, "bomb.c");
         if (BombGetResources(work, parent, num_parent) < 0)
         {
             GV_DestroyActor(&work->actor);

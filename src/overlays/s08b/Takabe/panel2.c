@@ -201,8 +201,7 @@ GV_ACT *NewPanel2_800E1728(int name, int where, int argc, char **argv)
     work = (Panel2Work *)GV_NewActor(EXEC_LEVEL, sizeof(Panel2Work));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)Panel2Act_800E12B4,
-                         (GV_ACTFUNC)Panel2Die_800E13B0, "panel2.c");
+        GV_SetNamedActor(&work->actor, Panel2Act_800E12B4, Panel2Die_800E13B0, "panel2.c");
         if (Panel2GetResources_800E1460(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);

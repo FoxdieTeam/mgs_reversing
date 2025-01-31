@@ -546,7 +546,7 @@ GV_ACT *NewIrCens_800DA66C(int name, int where, int argc, char **argv)
     work = (IrCensWork *)GV_NewActor(EXEC_LEVEL, sizeof(IrCensWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)IrCensAct_800D9EF8, (GV_ACTFUNC)IrCensDie_800DA3DC, "ir_cens.c");
+        GV_SetNamedActor(&work->actor, IrCensAct_800D9EF8, IrCensDie_800DA3DC, "ir_cens.c");
 
         if (IrCensGetResources_800DA418(work, name, where) < 0)
         {

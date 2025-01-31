@@ -602,10 +602,7 @@ GV_ACT *NewBulletEnemy(MATRIX *arg0, int whichSide, int arg2, int arg3, int arg4
     work = (BulletWork *)GV_NewActor( EXEC_LEVEL, sizeof(BulletWork) );
     if ( work != NULL )
     {
-        GV_SetNamedActor( &work->actor,
-                          (GV_ACTFUNC)&bullet_Act,
-                          (GV_ACTFUNC)&bullet_Die,
-                          "bullet.c" );
+        GV_SetNamedActor( &work->actor, &bullet_Act, &bullet_Die, "bullet.c" );
         vec.vx = arg0->m[0][0];
         vec.vy = arg0->m[1][0];
         vec.vz = arg0->m[2][0];
@@ -658,10 +655,7 @@ GV_ACT *NewBullet(MATRIX *pMtx, int whichSide, int a3, int noiseLen)
     work = (BulletWork *)GV_NewActor(EXEC_LEVEL, sizeof(BulletWork));
     if ( work )
     {
-        GV_SetNamedActor(&work->actor,
-                         (GV_ACTFUNC)&bullet_Act,
-                         (GV_ACTFUNC)&bullet_Die,
-                         "bullet.c");
+        GV_SetNamedActor(&work->actor, &bullet_Act, &bullet_Die, "bullet.c");
         vec.vx = pMtx->m[0][0];
         vec.vy = pMtx->m[1][0];
         vec.vz = pMtx->m[2][0];
@@ -736,8 +730,7 @@ GV_ACT *NewBulletEx(int a1, MATRIX* pMtx, int side, int a4, int a5, int a6, int 
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)bullet_Act,
-        (GV_ACTFUNC)bullet_Die, "bullet.c");
+    GV_SetNamedActor(&work->actor, bullet_Act, bullet_Die, "bullet.c");
     work->field_14C = a1;
     work->field_150 = a6 / 2;
     work->field_154_hp = a7;

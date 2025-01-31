@@ -469,8 +469,7 @@ GV_ACT *NewAMissile(MATRIX *world, int side)
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)&AMissileAct,
-                         (GV_ACTFUNC)&AMissileDie, "amissile.c");
+        GV_SetNamedActor(&work->actor, &AMissileAct, &AMissileDie, "amissile.c");
 
         if (AMissileGetResources(work, world, side) < 0)
         {

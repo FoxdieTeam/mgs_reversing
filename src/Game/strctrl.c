@@ -167,10 +167,7 @@ StreamCtrlWork *NewStreamControl( int stream_code, int gcl_proc, int flags )
 
     FS_StreamInit( ( void * )0x801E7800, 0x18000 );
     GV_InitActor( EXEC_LEVEL, ( GV_ACT * )&strctrl_800B82B0, NULL );
-    GV_SetNamedActor( ( GV_ACT * )&strctrl_800B82B0,
-                      ( GV_ACTFUNC )&strctrl_Act,
-                      ( GV_ACTFUNC )&strctrl_Die,
-                      "strctrl.c" );
+    GV_SetNamedActor( ( GV_ACT * )&strctrl_800B82B0, &strctrl_Act, &strctrl_Die, "strctrl.c" );
 
     strctrl_800B82B0.field_20_state = 1;
     strctrl_800B82B0.field_38_proc = ( gcl_proc < 0 )

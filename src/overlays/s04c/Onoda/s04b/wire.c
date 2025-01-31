@@ -676,7 +676,7 @@ GV_ACT *NewWire_800D709C(int name, int where)
     work = (WireWork *)GV_NewActor(EXEC_LEVEL, sizeof(WireWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)WireAct_800D36B8, (GV_ACTFUNC)WireDie_800D3DB0, "wire.c");
+        GV_SetNamedActor(&work->actor, WireAct_800D36B8, WireDie_800D3DB0, "wire.c");
 
         if (s04c_wire_800D3FA8(work, name, where) < 0)
         {

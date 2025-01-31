@@ -116,8 +116,7 @@ GV_ACT *d18a_bombled_800C78F8(SVECTOR *arg1)
     work = (BombledWork *)GV_NewActor(EXEC_LEVEL, sizeof(BombledWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BombledAct_800C7728,
-                         (GV_ACTFUNC)BombledDie_800C775C, "bombled.c");
+        GV_SetNamedActor(&work->actor, BombledAct_800C7728, BombledDie_800C775C, "bombled.c");
         if (BombledGetResources_800C7764(work, arg1) < 0)
         {
             GV_DestroyActor(&work->actor);

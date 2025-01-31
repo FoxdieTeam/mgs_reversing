@@ -170,7 +170,7 @@ GV_ACT *NewSelect_800C3434(int name, int where, int argc, char **argv)
     work = (Work *)GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)SelectAct_800C32D8, NULL, "select.c");
+        GV_SetNamedActor(&work->actor, SelectAct_800C32D8, NULL, "select.c");
         if (SelectGetResources_800C33D0(work, where, name) < 0)
         {
             GV_DestroyActor(&work->actor);

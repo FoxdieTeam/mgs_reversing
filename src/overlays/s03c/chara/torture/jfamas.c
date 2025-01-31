@@ -77,8 +77,7 @@ GV_ACT *NewJFamas_800CAFAC(CONTROL *control, OBJECT *parent, int num_parent, int
     work = (JFamasWork *)GV_NewActor(EXEC_LEVEL, sizeof(JFamasWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)JFamasAct_800CAE30,
-                         (GV_ACTFUNC)JFamasDie_800CAF20, "jfamas.c");
+        GV_SetNamedActor(&work->actor, JFamasAct_800CAE30, JFamasDie_800CAF20, "jfamas.c");
         if (JFamasGetResources_800CAF40(work, parent, num_parent) < 0)
         {
             GV_DestroyActor(&work->actor);

@@ -115,8 +115,7 @@ GV_ACT *NewMine(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *
     MineWork *work = (MineWork *)GV_NewActor(EXEC_LEVEL, sizeof(MineWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)MineAct,
-                         (GV_ACTFUNC)MineDie, "mine.c");
+        GV_SetNamedActor(&work->actor, MineAct, MineDie, "mine.c");
         if (MineGetResources(work, parent, num_parent) < 0)
         {
             GV_DestroyActor(&work->actor);

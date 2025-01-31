@@ -738,8 +738,7 @@ GV_ACT *NewCrow_800DED08(int name, int where)
         work->n_entries = n_entries;
         work->f28 = n_entries;
 
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)CrowAct_800DDD08,
-                         (GV_ACTFUNC)CrowDie_800DEC78, "crow.c");
+        GV_SetNamedActor(&work->actor, CrowAct_800DDD08, CrowDie_800DEC78, "crow.c");
 
         if (Crow_800DE93C(work, name, where) < 0 || Crow_800DE890(work, name, where) < 0)
         {

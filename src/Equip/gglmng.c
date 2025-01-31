@@ -76,8 +76,7 @@ GV_ACT *NewGoggleManager(int type)
     work = (GoggleManagerWork *)GV_NewActor(EXEC_LEVEL, sizeof(GoggleManagerWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)GoggleManagerAct,
-                         (GV_ACTFUNC)GoggleManagerDie, "gglmng.c");
+        GV_SetNamedActor(&work->actor, GoggleManagerAct, GoggleManagerDie, "gglmng.c");
         work->type = type;
         work->time = 0;
         work->sight = NULL;

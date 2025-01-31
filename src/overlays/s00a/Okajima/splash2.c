@@ -228,7 +228,7 @@ void *NewSplash2_800DB424( MATRIX *matrix, int noripple, int r, int g, int b )
 
     if (work != NULL)
     {
-        GV_SetNamedActor( &( work->actor ), (GV_ACTFUNC)Splash2Act_800DAF38, (GV_ACTFUNC)Splash2Die_800DB1D4, "splash2.c" );
+        GV_SetNamedActor( &( work->actor ), Splash2Act_800DAF38, Splash2Die_800DB1D4, "splash2.c" );
 
         if ( SplashGetResources_800DB210( work, matrix, noripple, r, g, b ) < 0 )
         {

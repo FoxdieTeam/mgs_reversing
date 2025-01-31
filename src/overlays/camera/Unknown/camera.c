@@ -1299,7 +1299,7 @@ GV_ACT *NewCamera_800CF388(int name, int where, int argc, char **argv)
     work = (CameraWork *)GV_NewActor(EXEC_LEVEL, sizeof(CameraWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)CameraAct_800CE404, (GV_ACTFUNC)CameraDie_800CE470, "camera.c");
+        GV_SetNamedActor(&work->actor, CameraAct_800CE404, CameraDie_800CE470, "camera.c");
 
         if (CameraGetResources_800CE6EC(work, where) < 0)
         {

@@ -221,8 +221,7 @@ GV_ACT *NewGoggleIr(CONTROL *control, OBJECT *parent_obj, int num_parent)
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)&goggleir_Act,
-                         (GV_ACTFUNC)&goggleir_Die, "goggleir.c");
+        GV_SetNamedActor(&work->actor, &goggleir_Act, &goggleir_Die, "goggleir.c");
 
         if (goggleir_GetResources(work, parent_obj) < 0)
         {

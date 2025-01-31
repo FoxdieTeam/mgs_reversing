@@ -426,7 +426,7 @@ GV_ACT *NewDBloods_800D5B70(SVECTOR *arg0, int arg1, int arg2, int arg3)
     work = (DBloodsWork *)GV_NewActor(EXEC_LEVEL, sizeof(DBloodsWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)DBloodsAct_800D50B4, (GV_ACTFUNC)DBloodsDie_800D5078, "d_bloods.c");
+        GV_SetNamedActor(&work->actor, DBloodsAct_800D50B4, DBloodsDie_800D5078, "d_bloods.c");
 
         if (DBloodsGetResources_800D5B08(work, arg0, arg1, arg2, arg3) < 0)
         {

@@ -1008,8 +1008,8 @@ GV_ACT *NewPatrolLamp_800D7A2C(int name, int where, int argc, char **argv)
     work = (PatoLmpWork *)GV_NewActor(EXEC_LEVEL, sizeof(PatoLmpWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)PatrolLampAct_800D6678,
-                         (GV_ACTFUNC)PatrolLampDie_800D6C44, "pato_lmp.c");
+        GV_SetNamedActor(&work->actor, PatrolLampAct_800D6678,
+                         PatrolLampDie_800D6C44, "pato_lmp.c");
 
         if (PatrolLampGetResources_800D6E28(work, name, where) < 0)
         {

@@ -266,7 +266,7 @@ void *NewCinemaScreen_800DE434( int time, int event, int argc, char **argv )
 
     work = (CinemaScreenWork *)GV_NewActor( EXEC_LEVEL, sizeof( CinemaScreenWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor( &work->actor, ( GV_ACTFUNC )CinemaScreenAct_800DDDA4, ( GV_ACTFUNC )CinemaScreenDie_800DE150, "cinema.c" );
+        GV_SetNamedActor( &work->actor, CinemaScreenAct_800DDDA4, CinemaScreenDie_800DE150, "cinema.c" );
         if ( CinemaScreenGetResources_800DE180( work, time, event ) < 0 )
         {
             GV_DestroyActor( &work->actor );
@@ -291,7 +291,7 @@ GV_ACT *NewCinemaScreenSet_800DE4D8(int name, int where, int argc, char **argv)
 
     work = (CinemaScreenWork *)GV_NewActor( EXEC_LEVEL, sizeof( CinemaScreenWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor( &work->actor, ( GV_ACTFUNC )CinemaScreenAct_800DDDA4, ( GV_ACTFUNC )CinemaScreenDie_800DE150, "cinema.c" );
+        GV_SetNamedActor( &work->actor, CinemaScreenAct_800DDDA4, CinemaScreenDie_800DE150, "cinema.c" );
         ops  = THING_Gcl_GetInt( 't' );
         ops2 = THING_Gcl_GetInt( 'e' );
         if ( CinemaScreenGetResources_800DE180( work, ops, ops2 ) < 0 )

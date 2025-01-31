@@ -105,8 +105,7 @@ GV_ACT *NewIntrCam_800C5748(int name, int where, int argc, char **argv)
     work = (IntrCamWork *)GV_NewActor(EXEC_LEVEL, sizeof(IntrCamWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)IntrCam_Act_800C5638,
-                         (GV_ACTFUNC)IntrCam_Die_800C56F0, s03e_dword_800CBFD0);
+        GV_SetNamedActor(&work->actor, IntrCam_Act_800C5638, IntrCam_Die_800C56F0, s03e_dword_800CBFD0);
         if (IntrCam_GetResources_800C56F8(work) < 0)
         {
             GV_DestroyActor(&work->actor);

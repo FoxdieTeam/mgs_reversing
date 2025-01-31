@@ -284,8 +284,7 @@ GV_ACT *NewBakudan(MATRIX *world, SVECTOR *pos, int attached, int unused, void *
     work = (BakudanWork *)GV_NewActor(EXEC_LEVEL, sizeof(BakudanWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BakudanAct,
-                         (GV_ACTFUNC)BakudanDie, "bakudan.c");
+        GV_SetNamedActor(&work->actor, BakudanAct, BakudanDie, "bakudan.c");
         if (BakudanGetResources(work, world, pos, attached, data) < 0)
         {
             GV_DestroyActor(&work->actor);

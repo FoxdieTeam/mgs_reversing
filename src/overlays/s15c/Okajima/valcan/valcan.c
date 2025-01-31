@@ -527,8 +527,7 @@ GV_ACT *NewValcan_800D9864(int name, int where)
     work = (ValcanWork *)GV_NewActor(EXEC_LEVEL, sizeof(ValcanWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)ValcanAct_800D9088,
-                         (GV_ACTFUNC)ValcanDie_800D96E8, s15c_dword_800E2E5C);
+        GV_SetNamedActor(&work->actor, ValcanAct_800D9088, ValcanDie_800D96E8, s15c_dword_800E2E5C);
         if (ValcanGetResources_800D9830(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);

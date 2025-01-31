@@ -410,8 +410,7 @@ GV_ACT *NewClaymore(SVECTOR *noise_position, SVECTOR *new_field_2C, int pCnt, in
         work = (ClaymoreWork *)GV_NewActor(EXEC_LEVEL, sizeof(ClaymoreWork));
         if (work != NULL)
         {
-            GV_SetNamedActor(&work->actor, (GV_ACTFUNC)claymore_Act,
-                             (GV_ACTFUNC)claymore_Die, "claymore.c");
+            GV_SetNamedActor(&work->actor, claymore_Act, claymore_Die, "claymore.c");
             current_map = GM_CurrentMap;
             GM_ClaymoreMap_800AB9DC = current_map;
             if (claymore_GetResources(work, &new_field_24, new_field_2C) < 0)

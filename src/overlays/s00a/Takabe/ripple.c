@@ -140,7 +140,7 @@ void* NewRipple_800D7F30( MATRIX* mat, int scale, int argc, char **argv )
 
     work = (RippleWork *)GV_NewActor( EXEC_LEVEL, sizeof( RippleWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor( &( work->actor ), ( GV_ACTFUNC )RippleAct_800D7D2C, ( GV_ACTFUNC )RippleDie_800D7DDC, "ripple.c" );
+        GV_SetNamedActor( &( work->actor ), RippleAct_800D7D2C, RippleDie_800D7DDC, "ripple.c" );
         if ( RippleGetResources_800D7E18( work, mat, scale ) < 0 )
         {
             GV_DestroyActor( &( work->actor ) );

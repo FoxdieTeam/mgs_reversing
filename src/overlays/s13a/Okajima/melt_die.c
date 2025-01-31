@@ -81,8 +81,7 @@ GV_ACT *NewMeltDie_800E0F5C(SVECTOR *arg1, int arg2)
     work = (MeltDieWork *)GV_NewActor(EXEC_LEVEL, sizeof(MeltDieWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)MeltDieAct_800E0DC8,
-                         (GV_ACTFUNC)MeltDieDie_800E0F54, "melt_die.c");
+        GV_SetNamedActor(&work->actor, MeltDieAct_800E0DC8, MeltDieDie_800E0F54, "melt_die.c");
         if (MeltDieGetResources_800E0EE8(work, arg1, arg2) < 0)
         {
             GV_DestroyActor(&work->actor);

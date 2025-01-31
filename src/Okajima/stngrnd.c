@@ -225,10 +225,7 @@ GV_ACT *NewStanBlast(MATRIX *world)
     work = (StunGrenadeWork *)GV_NewActor(EXEC_LEVEL, sizeof(StunGrenadeWork));
     if ( work )
     {
-        GV_SetNamedActor(&work->actor,
-                         (GV_ACTFUNC)stngrnd_Act,
-                         (GV_ACTFUNC)stngrnd_Die,
-                         "stngrnd.c");
+        GV_SetNamedActor(&work->actor, stngrnd_Act, stngrnd_Die, "stngrnd.c");
 
         GM_ClaymoreMap_800AB9DC = GM_CurrentMap;
 

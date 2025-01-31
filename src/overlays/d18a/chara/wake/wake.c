@@ -218,8 +218,7 @@ GV_ACT *NewWake_800C6298(int where)
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)WakeAct_800C60BC, (GV_ACTFUNC)WakeDie_800C6140,
-                     "wake.c");
+    GV_SetNamedActor(&work->actor, WakeAct_800C60BC, WakeDie_800C6140, "wake.c");
 
     if (WakeGetResources_800C615C(work, where) < 0)
     {

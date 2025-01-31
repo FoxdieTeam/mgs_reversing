@@ -288,8 +288,7 @@ GV_ACT *NewOpTxtScn_800CD29C(void)
     work = (OpTxtScnWork *)GV_NewActor(EXEC_LEVEL, sizeof(OpTxtScnWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)OptxtscnAct_800CCDE8,
-                         (GV_ACTFUNC)OpTxtScnDie_800CCFFC, "optxtscn.c");
+        GV_SetNamedActor(&work->actor, OptxtscnAct_800CCDE8, OpTxtScnDie_800CCFFC, "optxtscn.c");
         if (OptxtscnGetResources_800CD080(work) < 0)
         {
             GV_DestroyActor(&work->actor);

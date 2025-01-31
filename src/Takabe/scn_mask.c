@@ -149,8 +149,7 @@ GV_ACT *NewNightVisionScreen(int type)
     ScnMaskWork *work = (ScnMaskWork *)GV_NewActor(EXEC_LEVEL, sizeof(ScnMaskWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)scn_mask_Act,
-                         (GV_ACTFUNC)scn_mask_Die, "scn_mask.c");
+        GV_SetNamedActor(&work->actor, scn_mask_Act, scn_mask_Die, "scn_mask.c");
 
         if (scn_mask_GetResources(work, type) < 0)
         {

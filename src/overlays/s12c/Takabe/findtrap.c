@@ -163,8 +163,7 @@ GV_ACT *NewFindTrap_800D77DC(int name, int where, int argc, char **argv)
     work = (FindTrapWork *)GV_NewActor(EXEC_LEVEL, sizeof(FindTrapWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)s12c_findtrap_800D72E8,
-                         (GV_ACTFUNC)FindTrapDie_800D7734, "findtrap.c");
+        GV_SetNamedActor(&work->actor, s12c_findtrap_800D72E8, FindTrapDie_800D7734, "findtrap.c");
         if (FindTrapGetResources_800D7768(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);

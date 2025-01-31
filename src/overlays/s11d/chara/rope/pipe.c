@@ -269,8 +269,7 @@ GV_ACT *NewPipe_800CE73C(int name, int where, int argc, char **argv)
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)PipeAct_800CE2A4,
-                     (GV_ACTFUNC)PipeDie_800CE404, "pipe.c");
+    GV_SetNamedActor(&work->actor, PipeAct_800CE2A4, PipeDie_800CE404, "pipe.c");
     if (PipeGetResources_800CE6DC(work, name, where) < 0)
     {
         GV_DestroyActor(&work->actor);

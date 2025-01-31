@@ -462,7 +462,7 @@ GV_ACT *NewTobcnt_800C4BC8(int name, int where, int argc, char **argv)
     work = (TobcntWork *)GV_NewActor(EXEC_LEVEL, sizeof(TobcntWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)TobcntAct_800C482C, (GV_ACTFUNC)TobcntDie_800C4A64, "tobcnt.c");
+        GV_SetNamedActor(&work->actor, TobcntAct_800C482C, TobcntDie_800C4A64, "tobcnt.c");
 
         work->state = 1;
         work->time = 0;

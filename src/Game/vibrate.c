@@ -97,8 +97,7 @@ VibrateWork *NewVibration(int pan)
     work = (VibrateWork *)GV_NewActor(EXEC_LEVEL, sizeof(VibrateWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor,
-            (GV_ACTFUNC)vibrate_Act, NULL, "vibrate.c");
+        GV_SetNamedActor(&work->actor, vibrate_Act, NULL, "vibrate.c");
 
         flags = 2;
         if (pan == HASH_PAN2)
@@ -120,8 +119,7 @@ VibrateWork *NewPadVibration(unsigned char *data, int flags)
     work = (VibrateWork *)GV_NewActor(EXEC_LEVEL, sizeof(VibrateWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor,
-            (GV_ACTFUNC)vibrate_Act, NULL, "vibrate.c");
+        GV_SetNamedActor(&work->actor, vibrate_Act, NULL, "vibrate.c");
 
         work->field_24_pData = data;
         work->field_20_flags = flags | 0x20;

@@ -143,7 +143,7 @@ GV_ACT *NewSepia_800C4F9C(int r, int g, int b)
     work = (SepiaWork *)GV_NewActor(EXEC_LEVEL, sizeof(SepiaWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)SepiaAct_800C4DC4, (GV_ACTFUNC)SepiaDie_800C4E70, "sepia.c");
+        GV_SetNamedActor(&work->actor, SepiaAct_800C4DC4, SepiaDie_800C4E70, "sepia.c");
 
         if (s16b_800C4EAC(work, r, g, b) < 0)
         {
@@ -231,7 +231,7 @@ GV_ACT *NewSepia_800C5214(void)
     work = (SepiaWork *)GV_NewActor(EXEC_LEVEL, sizeof(SepiaWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)SepiaAct_800C51E0, (GV_ACTFUNC)SepiaDie_800C4E70, "sepia.c");
+        GV_SetNamedActor(&work->actor, SepiaAct_800C51E0, SepiaDie_800C4E70, "sepia.c");
 
         if (SepiaGetResources_800C51E8(work) < 0)
         {

@@ -243,7 +243,7 @@ GV_ACT *NewTelopSet_800DDB34(int name, int where, int argc, char **argv)
     work = (TelopWork2 *)GV_NewActor(3, sizeof(TelopWork2));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)TelopSetAct_800DD92C, (GV_ACTFUNC)TelopSetDie_800DD9E8, "telop.c");
+        GV_SetNamedActor(&work->actor, TelopSetAct_800DD92C, TelopSetDie_800DD9E8, "telop.c");
 
         if (TelopGetResources_800DDA18(work, name, where) < 0)
         {
@@ -286,7 +286,7 @@ GV_ACT *NewTelop2_800DDC60(int x, int y, int timer, int reload, int arg4, int ar
     work = (TelopWork *)GV_NewActor(EXEC_LEVEL, sizeof(TelopWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)Telop2Act_800DDBC8, (GV_ACTFUNC)telop_800DDC30, "telop.c");
+        GV_SetNamedActor(&work->actor, Telop2Act_800DDBC8, telop_800DDC30, "telop.c");
 
         work->sub = GV_Malloc(sizeof(TelopSub));
         sub = work->sub;

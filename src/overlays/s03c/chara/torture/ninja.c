@@ -378,8 +378,7 @@ GV_ACT *NewNinja_800CC9B4(int scriptData, int scriptBinds)
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)NinjaAct_800CC68C,
-                     (GV_ACTFUNC)NinjaDie_800CC704, "ninja.c");
+    GV_SetNamedActor(&work->actor, NinjaAct_800CC68C, NinjaDie_800CC704, "ninja.c");
     if (NinjaGetResources_800CC83C(work, scriptData, scriptBinds) < 0)
     {
         GV_DestroyActor(&work->actor);

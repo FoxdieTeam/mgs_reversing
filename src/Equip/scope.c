@@ -840,7 +840,7 @@ GV_ACT *NewScope(CONTROL *control, OBJECT *parent, int num_parent)
     work = (ScopeWork *)GV_NewActor(EXEC_LEVEL, sizeof(ScopeWork));
     if ( work )
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)ScopeAct, (GV_ACTFUNC)ScopeDie, "scope.c");
+        GV_SetNamedActor(&work->actor, ScopeAct, ScopeDie, "scope.c");
         if ( ScopeGetResources(work, control, parent) < 0 )
         {
             GV_DestroyActor(&work->actor);
