@@ -682,7 +682,7 @@ GV_ACT *NewChange_800C455C( int name, int where, int argc, char **argv )
 
     GM_GameStatus |= STATE_ALL_OFF;
 
-    work = (Work *)GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
+    work = GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
     if (work != NULL)
     {
         GV_SetNamedActor( &( work->actor ), ChangeAct_800C4324, ChangeDie_800C43EC, "change.c" );

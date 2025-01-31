@@ -304,7 +304,7 @@ GV_ACT *NewAt_800D78A4(int name, int where)
 {
     AtWork *work;
 
-    work = (AtWork *)GV_NewActor(EXEC_LEVEL, sizeof(AtWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(AtWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, AtAct_800D7324, AtDie_800D7510, "at.c");

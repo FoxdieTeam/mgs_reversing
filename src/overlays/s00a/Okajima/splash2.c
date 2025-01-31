@@ -224,7 +224,7 @@ void *NewSplash2_800DB424( MATRIX *matrix, int noripple, int r, int g, int b )
 {
     Work *work;
 
-    work = (Work *)GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
+    work = GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
 
     if (work != NULL)
     {

@@ -83,7 +83,7 @@ GV_ACT *s11g_blst_ln_800CDAA0(int arg0, int arg1, int arg2, SVECTOR *arg3, SVECT
 {
     BlastLnWork *work;
 
-    work = (BlastLnWork *) GV_NewActor(EXEC_LEVEL, sizeof(BlastLnWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(BlastLnWork));
     if (work)
     {
         GV_SetNamedActor(&work->actor, s11g_blst_ln_800CD7C8, s11g_blst_ln_800CDA28, "blst_ln.c");

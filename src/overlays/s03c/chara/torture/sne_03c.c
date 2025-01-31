@@ -207,7 +207,7 @@ GV_ACT *NewSnake03c1_800CDAEC(int name, int where)
 {
     Snake03c1Work *work;
 
-    work = (Snake03c1Work *)GV_NewActor(EXEC_LEVEL, sizeof(Snake03c1Work));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Snake03c1Work));
     if (work == NULL)
     {
         return NULL;
@@ -377,7 +377,7 @@ GV_ACT *NewSnake03c2_800CDF18()
 {
     Snake03c2Work *work;
 
-    work = (Snake03c2Work *)GV_NewActor(EXEC_LEVEL, sizeof(Snake03c2Work));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Snake03c2Work));
     if (work == NULL)
     {
         return NULL;

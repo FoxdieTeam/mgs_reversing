@@ -562,7 +562,7 @@ void *NewZako11F( int name, int where, int argc, char **argv )
 {
     Zako11FWork *work ;
 
-    work = (Zako11FWork *)GV_NewActor( EXEC_LEVEL, sizeof( Zako11FWork ) ) ;
+    work = GV_NewActor( EXEC_LEVEL, sizeof( Zako11FWork ) ) ;
     if ( work != NULL ) {
         GV_SetNamedActor( &( work->actor ), ZAKO11FAct_800C88AC, ZAKO11FDie_800C8E2C, "zako11f.c" );
         Zako11FGetResources_800C9070( work, name, where );

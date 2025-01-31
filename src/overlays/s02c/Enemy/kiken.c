@@ -64,7 +64,7 @@ GV_ACT *NewKiken_800D6D24(int name, int where, int argc, char **argv)
 {
     KikenWork *work;
 
-    work = (KikenWork *)GV_NewActor(EXEC_LEVEL, sizeof(KikenWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(KikenWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, KikenAct_800D6CC8, KikenDie_800D6D0C, "kiken.c");

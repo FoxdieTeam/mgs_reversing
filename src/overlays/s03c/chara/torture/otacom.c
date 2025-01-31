@@ -541,7 +541,7 @@ GV_ACT *NewOtacom_800CC030(int arg0, int arg1)
 {
     OtacomWork *work;
 
-    work = (OtacomWork *)GV_NewActor(EXEC_LEVEL, sizeof(OtacomWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(OtacomWork));
     if (work == NULL)
     {
         return NULL;

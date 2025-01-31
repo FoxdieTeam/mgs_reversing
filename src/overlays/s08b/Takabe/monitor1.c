@@ -202,7 +202,7 @@ GV_ACT *NewMonitor1_800DCDE0(int arg0, int arg1)
 {
     Monitor1Work *work;
 
-    work = (Monitor1Work *)GV_NewActor(EXEC_LEVEL, sizeof(Monitor1Work));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Monitor1Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Monitor1Act_800DC8BC, Monitor1Die_800DCBB0, "monitor1.c");

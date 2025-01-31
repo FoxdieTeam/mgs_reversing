@@ -446,7 +446,7 @@ GV_ACT *NewDummyFloor_800D6BF8(int name, int where, int argc, char **argv)
 {
     DummyFloorWork *work;
 
-    work = (DummyFloorWork *)GV_NewActor(EXEC_LEVEL, sizeof(DummyFloorWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(DummyFloorWork));
     if (work != NULL)
     {
         work->name = name;

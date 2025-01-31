@@ -382,7 +382,7 @@ GV_ACT *NewUji_800C42F8(int name, int where, int argc, char **argv)
 {
     UjiWork *work;
 
-    work = (UjiWork *)GV_NewActor(EXEC_LEVEL, sizeof(UjiWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(UjiWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, UjiAct_800C3B74, UjiDie_800C3B38, aUjiC);

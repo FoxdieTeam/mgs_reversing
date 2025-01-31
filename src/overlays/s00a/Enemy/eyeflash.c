@@ -139,7 +139,7 @@ GV_ACT *NewEyeflash_800D0CF4(MATRIX *arg0, SVECTOR *arg1, int arg2, int arg3)
 {
     EyeflashWork *work;
 
-    work = (EyeflashWork *)GV_NewActor(EXEC_LEVEL, sizeof(EyeflashWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(EyeflashWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, s00a_eyeflash_800D0B18, s00a_eyeflash_800D0BA4, "eyeflash.c");

@@ -113,7 +113,7 @@ GV_ACT *d18a_bombled_800C78F8(SVECTOR *arg1)
 {
     BombledWork *work;
 
-    work = (BombledWork *)GV_NewActor(EXEC_LEVEL, sizeof(BombledWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(BombledWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, BombledAct_800C7728, BombledDie_800C775C, "bombled.c");

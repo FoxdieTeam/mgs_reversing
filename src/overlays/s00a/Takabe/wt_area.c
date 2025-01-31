@@ -272,7 +272,7 @@ GV_ACT *NewWaterArea_800DACCC(int name, int where, int argc, char **argv)
 {
     WaterAreaWork *work ;
 
-    work = (WaterAreaWork *)GV_NewActor( EXEC_LEVEL, sizeof( WaterAreaWork ) ) ;
+    work = GV_NewActor( EXEC_LEVEL, sizeof( WaterAreaWork ) ) ;
     if ( work != NULL ) {
         GV_SetNamedActor( &( work->actor ), WaterAreaAct_800DA67C, WaterAreaDie_800DABC8, "wt_area.c" );
         if ( WaterAreaGetResources_800DABD0( work, name, where ) < 0 )

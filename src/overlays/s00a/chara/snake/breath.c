@@ -81,7 +81,7 @@ GV_ACT *NewBreath_800C3A1C(int name, int where, int argc, char **argv)
 {
     BreathWork *work ;
 
-    work = (BreathWork *)GV_NewActor( EXEC_LEVEL, sizeof( BreathWork ) ) ;
+    work = GV_NewActor( EXEC_LEVEL, sizeof( BreathWork ) ) ;
     if ( work != NULL ) {
         /* ワークにコールバックを登録する */
         GV_SetNamedActor( &( work->actor ), BreathAct_800C38A0, BreathDie_800C39AC, "breath.c" ) ;

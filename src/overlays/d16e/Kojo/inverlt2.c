@@ -39,7 +39,7 @@ GV_ACT *NewInverlt2_800D0FF4(SVECTOR *arg0, int arg1, int arg2, int arg3, int r,
     int           x, y, w, h;
     int           x2, y2, w2, h2;
 
-    work = (Inverlt2Work *)GV_NewActor(EXEC_LEVEL, sizeof(Inverlt2Work));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Inverlt2Work));
     if (work == NULL)
     {
         return NULL;

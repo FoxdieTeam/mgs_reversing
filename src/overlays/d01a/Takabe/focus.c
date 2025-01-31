@@ -153,7 +153,7 @@ GV_ACT *NewFocus_800CEFF8(int name, int where, int argc, char **argv)
 {
     FocusWork *work;
 
-    work = (FocusWork *)GV_NewActor(EXEC_LEVEL, sizeof(FocusWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(FocusWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, FocusAct_800CEA70, FocusDie_800CED74, "focus.c");

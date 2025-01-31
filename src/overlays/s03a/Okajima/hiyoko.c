@@ -224,7 +224,7 @@ GV_ACT *NewHiyoko_800D018C(int name, int where, int argc, char **argv)
 {
     HiyokoWork *work;
 
-    work = (HiyokoWork *)GV_NewActor(EXEC_LEVEL, sizeof(HiyokoWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(HiyokoWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, HiyokoAct_800CFD44, HiyokoDie_800D0150, "hiyoko.c");
@@ -243,7 +243,7 @@ GV_ACT *NewHiyoko_800D0210(MATRIX *world, int arg1)
 {
     HiyokoWork *work;
 
-    work = (HiyokoWork *)GV_NewActor(EXEC_LEVEL, sizeof(HiyokoWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(HiyokoWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, HiyokoAct_800CFD44, HiyokoDie_800D0150, "hiyoko.c");

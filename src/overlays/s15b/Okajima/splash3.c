@@ -249,7 +249,7 @@ GV_ACT *NewSplash3_800C83D0(int dir, SVECTOR *pos)
 {
     Splash3Work *work;
 
-    work = (Splash3Work *)GV_NewActor(EXEC_LEVEL, sizeof(Splash3Work));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Splash3Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Splash3Act_800C7F1C, Splash3Die_800C80D0, "splash3.c");

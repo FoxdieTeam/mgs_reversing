@@ -234,7 +234,7 @@ GV_ACT *NewDummyWall_800D7384(int name, int where, int argc, char **argv)
 {
     DummyWallWork *work;
 
-    work = (DummyWallWork *)GV_NewActor(EXEC_LEVEL, sizeof(DummyWallWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(DummyWallWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, DummyWallAct_800D6E64, DummyWallDie_800D70A4, "dummy_wl.c");

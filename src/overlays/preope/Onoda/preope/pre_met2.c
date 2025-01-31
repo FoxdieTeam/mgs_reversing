@@ -1016,7 +1016,7 @@ GV_ACT *NewPreMet2_800C6F20(int arg0, int *arg1, PreEntries *arg2)
 {
     PreMet2Work *work;
 
-    work = (PreMet2Work *)GV_NewActor(EXEC_LEVEL, sizeof(PreMet2Work));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(PreMet2Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, PreMet2Act_800C65A8, PreMet2Die_800C6634, "pre_met2.c");

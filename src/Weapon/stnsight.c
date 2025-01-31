@@ -717,7 +717,7 @@ GV_ACT *NewStnSight(CONTROL *control)
         return 0;
     }
 
-    work = (StnSightWork *)GV_NewActor(EXEC_LEVEL, sizeof(StnSightWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(StnSightWork));
 
     if (work)
     {

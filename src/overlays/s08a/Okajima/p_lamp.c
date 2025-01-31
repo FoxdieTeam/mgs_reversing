@@ -522,7 +522,7 @@ GV_ACT *NewPLamp_800CD948(int name, int where)
     PLampWork *work;
     int        n_verts;
 
-    work = (PLampWork *)GV_NewActor(EXEC_LEVEL, sizeof(PLampWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(PLampWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, PLampAct_800CD5C0, PLampDie_800CCCE0, "p_lamp.c");

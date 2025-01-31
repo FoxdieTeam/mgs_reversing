@@ -86,7 +86,7 @@ GV_ACT *NewFog_800D4208(int arg0, int arg1)
 {
     FogWork *work;
 
-    work = (FogWork *)GV_NewActor(EXEC_LEVEL, sizeof(FogWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(FogWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, FogAct_800D4074, FogDie_800D40E0, "fog.c");

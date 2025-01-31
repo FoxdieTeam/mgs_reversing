@@ -162,7 +162,7 @@ GV_ACT *NewItemDot_800CC7D0(int name, int where)
 {
     ItemDotWork *work;
 
-    work = (ItemDotWork *)GV_NewActor(EXEC_LEVEL, sizeof(ItemDotWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(ItemDotWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, ItemDotAct_800CC560, ItemDotDie_800CC7B0, "item_dot.c");

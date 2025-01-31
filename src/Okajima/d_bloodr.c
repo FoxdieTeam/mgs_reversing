@@ -237,7 +237,7 @@ GV_ACT *NewKetchap_r(int map)
 {
     DBloodWorkr *work;
 
-    work = (DBloodWorkr *)GV_NewActor(EXEC_LEVEL, sizeof(DBloodWorkr));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(DBloodWorkr));
     if (work)
     {
         GV_SetNamedActor(&work->actor, &d_bloodr_Act, &d_bloodr_Die, "d_bloodr.c");

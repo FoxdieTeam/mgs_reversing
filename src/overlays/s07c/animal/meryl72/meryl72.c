@@ -667,7 +667,7 @@ GV_ACT *NewMeryl72_800C7BC4( int arg0, int arg1 )
 {
     Meryl72Work *work;
 
-    work = (Meryl72Work *)GV_NewActor( EXEC_LEVEL, sizeof(Meryl72Work) );
+    work = GV_NewActor( EXEC_LEVEL, sizeof(Meryl72Work) );
     if (work)
     {
         GV_SetNamedActor( &work->actor, Meryl72Act_800C6D54, Meryl72Die_800C73AC, "meryl72.c" );

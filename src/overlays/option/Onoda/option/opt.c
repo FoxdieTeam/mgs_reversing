@@ -2246,7 +2246,7 @@ GV_ACT *NewOption_800C9344(int name, int where)
 
     GM_GameStatus |= STATE_ALL_OFF;
 
-    work = (OptionWork *)GV_NewActor(EXEC_LEVEL, sizeof(OptionWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(OptionWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, option_800C6784, OptionDie_800C7C8C, "opt.c");

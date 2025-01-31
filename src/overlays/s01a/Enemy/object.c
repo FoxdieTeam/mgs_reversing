@@ -555,7 +555,7 @@ GV_ACT *NewObjectChara_800DA3A4(int name, int where, int argc, char **argv)
 {
     ObjectWork *work;
 
-    work = (ObjectWork *)GV_NewActor(EXEC_LEVEL, sizeof(ObjectWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(ObjectWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, ObjectCharaAct_800D9FE0, ObjectCharaDie_800DA368, "object.c");

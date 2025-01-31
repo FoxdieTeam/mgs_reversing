@@ -306,7 +306,7 @@ GV_ACT *NewVoicesys_800CE944(int name, int arg1)
 {
     VoicesysWork *work;
 
-    work = (VoicesysWork*) GV_NewActor(EXEC_LEVEL, sizeof(VoicesysWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(VoicesysWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, VoicesysAct_800CE760, VoicesysDie_800CE87C, "voicesys.c");

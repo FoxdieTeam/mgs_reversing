@@ -439,7 +439,7 @@ GV_ACT *NewBubbleS_800D5D9C(int name, int where, int argc, char **argv)
 {
     BubbleSWork *work;
 
-    work = (BubbleSWork *)GV_NewActor(EXEC_LEVEL, sizeof(BubbleSWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(BubbleSWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, BubbleSAct_800D57A0, BubbleSDie_800D5B10, "bubble_s.c");

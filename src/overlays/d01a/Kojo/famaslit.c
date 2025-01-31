@@ -36,7 +36,7 @@ GV_ACT *NewFamaslit_800D06F0(MATRIX *world)
         return NULL;
     }
 
-    work = (FamaslitWork *)GV_NewActor(EXEC_LEVEL, sizeof(FamaslitWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(FamaslitWork));
     if (work == NULL)
     {
         return NULL;

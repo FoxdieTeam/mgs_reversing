@@ -368,7 +368,7 @@ GV_ACT *NewRedAlert_800C4DF0(int name, int where, int argc, char **argv)
 {
     RedAlrtWork *work;
 
-    work = (RedAlrtWork *)GV_NewActor(EXEC_LEVEL, sizeof(RedAlrtWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(RedAlrtWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, RedAlertAct_800C45E4, RedAlertDie_800C48D0, "red_alrt.c");
@@ -387,7 +387,7 @@ GV_ACT *NewRedAlert2_800C4E84(int name, int length, SVECTOR *color1, SVECTOR *co
 {
     RedAlrtWork *work;
 
-    work = (RedAlrtWork *)GV_NewActor(EXEC_LEVEL, sizeof(RedAlrtWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(RedAlrtWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, RedAlertAct_800C45E4, RedAlertDie_800C48D0, "red_alrt.c");

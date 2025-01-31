@@ -301,7 +301,7 @@ GV_ACT *NewMgRoom_800DB458(void)
 {
     MgRoom *work;
 
-    work = (MgRoom *)GV_NewActor(EXEC_LEVEL, sizeof(MgRoom));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(MgRoom));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, MgRoomAct_800DAFAC, MgRoomDie_800DB024, "mg_room.c");

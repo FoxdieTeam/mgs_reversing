@@ -326,7 +326,7 @@ GV_ACT *NewGlass_800D37A4(int name, int where)
 {
     GlassWork *work;
 
-    work = (GlassWork *)GV_NewActor(EXEC_LEVEL, sizeof(GlassWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(GlassWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, GlassAct_800D302C, GlassDie_800D3270, "glass.c");

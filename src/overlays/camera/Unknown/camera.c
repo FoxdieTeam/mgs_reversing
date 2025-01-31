@@ -1296,7 +1296,7 @@ GV_ACT *NewCamera_800CF388(int name, int where, int argc, char **argv)
     CameraWork *work;
 
     GM_GameStatus |= STATE_ALL_OFF;
-    work = (CameraWork *)GV_NewActor(EXEC_LEVEL, sizeof(CameraWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(CameraWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, CameraAct_800CE404, CameraDie_800CE470, "camera.c");

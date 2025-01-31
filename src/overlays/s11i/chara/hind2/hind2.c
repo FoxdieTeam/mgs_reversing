@@ -733,7 +733,7 @@ void *NewHind2( int name, int where )
 {
     Hind2Work *work;
 
-    work = (Hind2Work *)GV_NewActor( EXEC_LEVEL, sizeof(Hind2Work) );
+    work = GV_NewActor( EXEC_LEVEL, sizeof(Hind2Work) );
     if ( work )
     {
         GV_SetNamedActor( &work->actor, Hind2Act, Hind2Die, "hind2.c" );

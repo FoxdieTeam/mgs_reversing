@@ -125,7 +125,7 @@ GV_ACT *NewBed_800C70DC(int name, int where)
 {
     BedWork *work;
 
-    work = (BedWork *)GV_NewActor(EXEC_LEVEL, sizeof(BedWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(BedWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, BedAct_800C6EA8, BedDie_800C6FA8, "bed.c");

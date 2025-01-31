@@ -190,7 +190,7 @@ GV_ACT *NewKatana_800C55A0(MATRIX *pos, SVECTOR *svec1, SVECTOR *svec2, int *fie
 {
     KatanaWork *work;
 
-    work = (KatanaWork *)GV_NewActor(EXEC_LEVEL, sizeof(KatanaWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(KatanaWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, KatanaAct_800C5210, KatanaDie_800C5564, "katana.c");
@@ -210,7 +210,7 @@ GV_ACT *NewKatana_800C5660(MATRIX *pos)
     SVECTOR     svec2;
     KatanaWork *work;
 
-    work = (KatanaWork *)GV_NewActor(EXEC_LEVEL, sizeof(KatanaWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(KatanaWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, (GV_ACTFUNC)KatanaAct_800C5210,

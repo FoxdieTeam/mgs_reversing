@@ -36,7 +36,7 @@ GV_ACT *NewAfterse_800604C0(short sound, short time)
 
     if (sound != 0 && time != 0)
     {
-        work = (AfterseWork *)GV_NewActor(EXEC_LEVEL, sizeof(AfterseWork));
+        work = GV_NewActor(EXEC_LEVEL, sizeof(AfterseWork));
         if (work)
         {
             GV_SetNamedActor(&work->actor, AfterseAct_800603EC, NULL, "afterse.c");

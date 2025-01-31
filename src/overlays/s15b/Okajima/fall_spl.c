@@ -72,7 +72,7 @@ GV_ACT *s15b_fall_spl_800C7CA0(int name, int where, int argc, char **argv)
 {
     FallSplWork *work;
 
-    work = (FallSplWork *)GV_NewActor(EXEC_LEVEL, sizeof(FallSplWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(FallSplWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, s15b_fall_spl_800C7B60,

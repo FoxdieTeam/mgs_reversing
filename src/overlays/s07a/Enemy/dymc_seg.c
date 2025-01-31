@@ -76,7 +76,7 @@ GV_ACT *s07a_dymc_seg_800D65C8(int arg0, SVECTOR *min, SVECTOR *max, int min_h, 
 {
     DymcSegWork *work;
 
-    work = (DymcSegWork *)GV_NewActor(EXEC_LEVEL, sizeof(DymcSegWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(DymcSegWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, s07a_dymc_seg_800D6430,

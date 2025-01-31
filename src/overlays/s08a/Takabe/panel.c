@@ -354,7 +354,7 @@ GV_ACT *NewPanel_800D2680(int name, int where)
 {
     PanelWork *work;
 
-    work = (PanelWork *)GV_NewActor(EXEC_LEVEL, sizeof(PanelWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(PanelWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, PanelAct_800D1E58, PanelDie_800D1F98, "panel.c");

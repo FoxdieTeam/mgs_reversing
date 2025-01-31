@@ -832,7 +832,7 @@ GV_ACT *NewMouse_800D5234(int name, int where, int argc, char **argv)
         nentries = 1;
     }
 
-    work = (MouseWork *)GV_NewActor(EXEC_LEVEL, sizeof(MouseWork) + sizeof(MouseEntry) * nentries);
+    work = GV_NewActor(EXEC_LEVEL, sizeof(MouseWork) + sizeof(MouseEntry) * nentries);
     if (work != NULL)
     {
         work->nentries = nentries;

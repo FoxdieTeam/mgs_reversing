@@ -135,7 +135,7 @@ int NewZoomCamera_800DF9BC( ZoomWork *work, int name, int where )
     work->timer = THING_Gcl_GetInt( 't' );
     work->proc = THING_Gcl_GetInt( 'e' );
 
-    cam = (ZoomCameraWork *)GV_NewActor( EXEC_LEVEL, sizeof( ZoomCameraWork ) );
+    cam = GV_NewActor( EXEC_LEVEL, sizeof( ZoomCameraWork ) );
     work->cam = cam;
 
     if ( cam == NULL )
@@ -157,7 +157,7 @@ GV_ACT *NewZoom_800DFA88(int name, int where, int argc, char **argv)
 {
     ZoomWork *work;
 
-    work = (ZoomWork *)GV_NewActor( EXEC_LEVEL2, sizeof( ZoomWork ) );
+    work = GV_NewActor( EXEC_LEVEL2, sizeof( ZoomWork ) );
     if (work != NULL)
     {
         GV_SetNamedActor( &work->actor, ZoomAct_800DF89C, ZoomDie_800DF910, "cat_in.c" );

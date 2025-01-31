@@ -220,7 +220,7 @@ GV_ACT *NewWindcrcl_800CF6BC(MATRIX *world, int arg1)
 {
     WindcrclWork *work;
 
-    work = (WindcrclWork *)GV_NewActor(EXEC_LEVEL, sizeof(WindcrclWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(WindcrclWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, WindcrclAct_800CF414, WindcrclDie_800CF55C, "windcrcl.c");
@@ -243,7 +243,7 @@ GV_ACT *NewWindcrcl_800CF784(MATRIX *world, int arg1, int arg2, int arg3, int ti
 {
     WindcrclWork *work;
 
-    work = (WindcrclWork *)GV_NewActor(EXEC_LEVEL, sizeof(WindcrclWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(WindcrclWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, WindcrclAct_800CF414, WindcrclDie_800CF55C, "windcrcl.c");

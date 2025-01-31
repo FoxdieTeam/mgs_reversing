@@ -515,7 +515,7 @@ GV_ACT *NewSnow_800C6058(int name, int where, int argc, char **argv)
 {
     SnowWork *work;
 
-    work = (SnowWork *)GV_NewActor(EXEC_LEVEL, sizeof(SnowWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(SnowWork));
     if (work != NULL)
     {
         SnowGetOptions_800C5CD4(work);

@@ -350,7 +350,7 @@ GV_ACT *NewBlur_800CD530(int name, int where, int argc, char **argv)
 {
     BlurWork *work;
 
-    work = (BlurWork *)GV_NewActor(EXEC_LEVEL, sizeof(BlurWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(BlurWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, BlurAct_800CD274, BlurDie_800CD3E8, "blur.c");
@@ -379,7 +379,7 @@ GV_ACT *NewBlur_800CD5D8(int arg0)
     var_s3 = 0;
     var_s2 = 0;
 
-    work = (BlurWork *)GV_NewActor(EXEC_LEVEL, sizeof(BlurWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(BlurWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, BlurAct_800CD274, BlurDie_800CD3E8, "blur.c");

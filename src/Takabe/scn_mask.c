@@ -146,7 +146,7 @@ STATIC int scn_mask_GetResources(struct ScnMaskWork *work, int a2)
  */
 GV_ACT *NewNightVisionScreen(int type)
 {
-    ScnMaskWork *work = (ScnMaskWork *)GV_NewActor(EXEC_LEVEL, sizeof(ScnMaskWork));
+    ScnMaskWork *work = GV_NewActor(EXEC_LEVEL, sizeof(ScnMaskWork));
     if (work)
     {
         GV_SetNamedActor(&work->actor, scn_mask_Act, scn_mask_Die, "scn_mask.c");

@@ -112,7 +112,7 @@ STATIC int MineGetResources(MineWork *work, OBJECT *parent, int num_parent)
 
 GV_ACT *NewMine(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side)
 {
-    MineWork *work = (MineWork *)GV_NewActor(EXEC_LEVEL, sizeof(MineWork));
+    MineWork *work = GV_NewActor(EXEC_LEVEL, sizeof(MineWork));
     if (work)
     {
         GV_SetNamedActor(&work->actor, MineAct, MineDie, "mine.c");

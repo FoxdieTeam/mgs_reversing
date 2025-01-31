@@ -185,7 +185,7 @@ GV_ACT *NewSplash_800C8D6C(MATRIX *mat, int rgb)
 {
     SplashWork *work;
 
-    work = (SplashWork *)GV_NewActor(EXEC_LEVEL, sizeof(SplashWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(SplashWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, SplashAct_800C8BA8, SplashDie_800C8C30, "splash.c");

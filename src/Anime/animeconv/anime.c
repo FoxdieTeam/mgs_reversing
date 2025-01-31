@@ -1425,7 +1425,7 @@ GV_ACT *NewAnime(MATRIX *world, int map, ANIMATION *animation)
     AnimeWork *work;
 
     count = animation->n_vertices;
-    work = (AnimeWork *)GV_NewActor(EXEC_LEVEL, ((sizeof(AnimeItem) + sizeof(SVECTOR)) * count) + sizeof(AnimeWork));
+    work = GV_NewActor(EXEC_LEVEL, ((sizeof(AnimeItem) + sizeof(SVECTOR)) * count) + sizeof(AnimeWork));
     if (work)
     {
         work->vertices = (SVECTOR *)&work->items[count]; // count vectors after the items

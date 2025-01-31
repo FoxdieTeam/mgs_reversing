@@ -626,7 +626,7 @@ SightWork *NewSight_80071CDC(int hashedFileName0, int hashedFileName1, short *it
         return work;
     }
 
-    work = (SightWork *)GV_NewActor(EXEC_LEVEL, sizeof(SightWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(SightWork));
     if (work)
     {
         GV_SetNamedActor((GV_ACT *)work, sight_act_800714EC, sight_kill_800719C8, "sight.c");
@@ -654,7 +654,7 @@ SightWork *sight_init_80071DC8(int hashedFileName, short *xyOffsetBuffer)
         return work;
     }
 
-    work = (SightWork *)GV_NewActor(EXEC_LEVEL, sizeof(SightWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(SightWork));
     if (work)
     {
         GV_SetNamedActor((GV_ACT *)work, sight_act_800714EC, sight_kill_800719C8, "sight.c");
@@ -684,7 +684,7 @@ SightWork *sight_init_80071EA8(int hashedFileName0, int hashedFileName1, short *
         return work;
     }
 
-    work = (SightWork *)GV_NewActor(7, sizeof(SightWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(SightWork));
     if (work)
     {
         GV_SetNamedActor((GV_ACT *)work, sight_act_800714EC, sight_kill_800719C8, "sight.c");
@@ -715,7 +715,7 @@ SightWork *sight_init_80071F98(int hashedFileName, short *xyOffsetBuffer)
     dword_8009F600++;
     dword_8009F604 = hashedFileName;
 
-    work = (SightWork *)GV_NewActor(7, sizeof(SightWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(SightWork));
     if (work)
     {
         GV_SetNamedActor((GV_ACT *)work, sight_act_800714EC, sight_kill_800719C8, "sight.c");

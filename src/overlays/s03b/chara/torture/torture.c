@@ -2080,7 +2080,7 @@ GV_ACT *NewTorture_800C6E1C(int name, int where)
 {
     TortureWork *work;
 
-    work = (TortureWork *)GV_NewActor(EXEC_LEVEL, sizeof(TortureWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(TortureWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, TortureAct_800C6600, TortureDie_800C6774, "torture.c");

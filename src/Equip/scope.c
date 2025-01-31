@@ -837,7 +837,7 @@ GV_ACT *NewScope(CONTROL *control, OBJECT *parent, int num_parent)
         return NULL;
     }
 
-    work = (ScopeWork *)GV_NewActor(EXEC_LEVEL, sizeof(ScopeWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(ScopeWork));
     if ( work )
     {
         GV_SetNamedActor(&work->actor, ScopeAct, ScopeDie, "scope.c");

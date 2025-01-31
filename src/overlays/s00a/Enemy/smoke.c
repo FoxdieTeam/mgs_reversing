@@ -232,7 +232,7 @@ GV_ACT *NewSmoke_800D2BEC(int name, int where, int argc, char **argv)
 {
     SmokeWork *work;
 
-    work = (SmokeWork *)GV_NewActor(EXEC_LEVEL, sizeof(SmokeWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(SmokeWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, SmokeAct_800D2A80, SmokeDie_800D2AA0, aSmokeC);

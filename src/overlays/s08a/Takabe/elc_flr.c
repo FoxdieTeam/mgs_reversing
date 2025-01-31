@@ -111,7 +111,7 @@ GV_ACT *NewElcFlr_800D4A18(int name, int where)
 {
     ElcFlrWork *work;
 
-    work = (ElcFlrWork *)GV_NewActor(EXEC_LEVEL, sizeof(ElcFlrWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(ElcFlrWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, ElcFlrAct_800D47CC, ElcFlrDie_800D4968, "elc_flr.c");

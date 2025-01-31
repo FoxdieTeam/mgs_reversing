@@ -423,7 +423,7 @@ GV_ACT *NewDBloods_800D5B70(SVECTOR *arg0, int arg1, int arg2, int arg3)
 {
     DBloodsWork *work;
 
-    work = (DBloodsWork *)GV_NewActor(EXEC_LEVEL, sizeof(DBloodsWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(DBloodsWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, DBloodsAct_800D50B4, DBloodsDie_800D5078, "d_bloods.c");

@@ -295,7 +295,7 @@ GV_ACT *NewLift_800DE25C(int name, int where)
 {
     LiftWork *work;
 
-    work = (LiftWork *)GV_NewActor(EXEC_LEVEL, sizeof(LiftWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(LiftWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, LiftAct_800DDBFC, LiftDie_800DDF88, "lift.c");

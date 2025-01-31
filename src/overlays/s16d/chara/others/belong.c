@@ -127,7 +127,7 @@ GV_ACT *s16d_belong_800C3AD0(int name, int where, int argc, char **argv)
 {
     BelongWork *work;
 
-    work = (BelongWork *)GV_NewActor(EXEC_LEVEL, sizeof(BelongWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(BelongWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, s16d_belong_800C38D0, s16d_belong_800C3974, "belong.c");

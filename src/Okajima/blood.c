@@ -303,7 +303,7 @@ GV_ACT *NewBlood(MATRIX *arg0, int count)
 
     for (i = 0; i < count; i++)
     {
-        work = (BloodWork *)GV_NewActor(EXEC_LEVEL, sizeof(BloodWork));
+        work = GV_NewActor(EXEC_LEVEL, sizeof(BloodWork));
 
         if (!work)
         {

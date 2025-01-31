@@ -521,7 +521,7 @@ GV_ACT *NewRasen2_800CB008(int name, int where)
 {
     Rasen2Work *work;
 
-    work = (Rasen2Work *)GV_NewActor(EXEC_LEVEL2, sizeof(Rasen2Work));
+    work = GV_NewActor(EXEC_LEVEL2, sizeof(Rasen2Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Rasen2Act_800CA79C, Rasen2Die_800CAB74, "rasen.c");
@@ -802,7 +802,7 @@ GV_ACT *NewRasen_800CBA7C(void)
 {
     RasenWork *work;
 
-    work = (RasenWork *)GV_NewActor(EXEC_LEVEL, sizeof(RasenWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(RasenWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, RasenAct_800CBA54, RasenDie_800CBA74, "rasen.c");

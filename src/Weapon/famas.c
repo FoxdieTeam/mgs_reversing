@@ -188,7 +188,7 @@ STATIC GV_ACT *InitFAMAS(CONTROL *control, OBJECT *parent, int num_parent, int *
 {
     int mag_size;
 
-    FamasWork *work = (FamasWork *)GV_NewActor(EXEC_LEVEL, sizeof(FamasWork));
+    FamasWork *work = GV_NewActor(EXEC_LEVEL, sizeof(FamasWork));
     if (work)
     {
         GV_SetNamedActor(&work->actor, FamasAct, FamasDie, "famas.c");

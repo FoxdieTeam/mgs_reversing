@@ -94,7 +94,7 @@ VibrateWork *NewVibration(int pan)
     char            flags;
     unsigned char   *data;
 
-    work = (VibrateWork *)GV_NewActor(EXEC_LEVEL, sizeof(VibrateWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(VibrateWork));
     if (work)
     {
         GV_SetNamedActor(&work->actor, vibrate_Act, NULL, "vibrate.c");
@@ -116,7 +116,7 @@ VibrateWork *NewPadVibration(unsigned char *data, int flags)
 {
     VibrateWork *work;
 
-    work = (VibrateWork *)GV_NewActor(EXEC_LEVEL, sizeof(VibrateWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(VibrateWork));
     if (work)
     {
         GV_SetNamedActor(&work->actor, vibrate_Act, NULL, "vibrate.c");

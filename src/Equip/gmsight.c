@@ -57,7 +57,7 @@ GV_ACT *NewGasmaskSight(CONTROL *control, OBJECT *parent, int num_parent)
 
     word_800BDCC0 = 0;
 
-    work = (GasmaskSightWork *)GV_NewActor(EXEC_LEVEL, sizeof(GasmaskSightWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(GasmaskSightWork));
     if (work)
     {
         GV_SetNamedActor(&work->actor, &GasmaskSightAct, &GasmaskSightDie, "gmsight.c");

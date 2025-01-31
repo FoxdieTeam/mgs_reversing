@@ -333,7 +333,7 @@ GV_ACT *NewDoor2_800DD9E4(int name, int where)
 {
     Door2Work *work;
 
-    work = (Door2Work *)GV_NewActor(EXEC_LEVEL, sizeof(Door2Work));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Door2Work));
     if (work != NULL)
     {
         work->name = name;

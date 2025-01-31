@@ -174,7 +174,7 @@ GV_ACT *NewAsiatoChar_800D11DC(MATRIX *arg0, int arg1, int arg2, int arg3, int a
 {
     AsiatoCharWork *work;
 
-    work = (AsiatoCharWork *)GV_NewActor(EXEC_LEVEL, sizeof(AsiatoCharWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(AsiatoCharWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, AsiatoCharAct_800D0E10, AsiatoCharDie_800D116C, "asiato.c");
@@ -462,7 +462,7 @@ GV_ACT *NewAsiato_800D1A14(int name, int where, int argc, char **argv)
 {
     AsiatoWork *work;
 
-    work = (AsiatoWork *)GV_NewActor(EXEC_LEVEL, sizeof(AsiatoWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(AsiatoWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, AsiatoAct_800D18C8, AsiatoDie_800D1994, "asiato.c");
@@ -477,7 +477,7 @@ GV_ACT *NewAsiatoKun_800D1A70(int name, int where, int argc, char **argv)
     // Identical to NewAsiato_800D1A14
     AsiatoWork *work;
 
-    work = (AsiatoWork *)GV_NewActor(EXEC_LEVEL, sizeof(AsiatoWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(AsiatoWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, AsiatoAct_800D18C8, AsiatoDie_800D1994, "asiato.c");

@@ -452,7 +452,7 @@ GV_ACT *NewSOCOM( CONTROL *control, OBJECT *parent, int num_parent,  unsigned in
     int mag_size;
     int ammo;
 
-    work = (SocomWork *)GV_NewActor( EXEC_LEVEL, sizeof( SocomWork ) );
+    work = GV_NewActor( EXEC_LEVEL, sizeof( SocomWork ) );
     if ( work )
     {
         GV_SetNamedActor( &work->actor, SocomAct, SocomDie, "socom.c" );

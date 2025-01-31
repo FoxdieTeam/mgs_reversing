@@ -276,7 +276,7 @@ GV_ACT *NewEdTelop_800C563C(int arg0)
 {
     EdTelopWork *work;
 
-    work = (EdTelopWork *)GV_NewActor(EXEC_LEVEL, sizeof(EdTelopWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(EdTelopWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, EdTelopAct_800C525C, EdTelopDie_800C54D4, "ed_telop.c");

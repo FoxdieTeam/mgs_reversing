@@ -1067,7 +1067,7 @@ GV_ACT *NewDog_800D33C8(int arg0, int arg1)
 {
     DogWork *work;
 
-    work = (DogWork *)GV_NewActor(EXEC_LEVEL, sizeof(DogWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(DogWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, s12c_dog_800D1DA0, DogDie_800D2798, "dog.c");

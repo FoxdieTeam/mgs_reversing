@@ -276,7 +276,7 @@ GV_ACT *NewBubbleDisplayScene_800D90B4(int name, int where, int argc, char **arg
 {
     BubDSnWork *work;
 
-    work = (BubDSnWork *)GV_NewActor(EXEC_LEVEL, sizeof(BubDSnWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(BubDSnWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, BubbleDisplaySceneAct_800D87D0,

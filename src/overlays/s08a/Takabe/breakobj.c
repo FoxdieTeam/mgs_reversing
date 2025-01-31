@@ -166,7 +166,7 @@ GV_ACT *NewBreakObj_800D5A2C(int name, int where)
 {
     BreakObjWork *work;
 
-    work = (BreakObjWork *)GV_NewActor(EXEC_LEVEL, sizeof(BreakObjWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(BreakObjWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, BreakObjAct_800D5670, BreakObjDie_800D57C4, "breakobj.c");

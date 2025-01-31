@@ -276,7 +276,7 @@ GV_ACT *NewTenage(SVECTOR *pos, SVECTOR *step, int fuse_time, int type, int mode
         return NULL;
     }
 
-    work = (TenageWork *)GV_NewActor(GV_ACTOR_LEVEL5, sizeof(TenageWork));
+    work = GV_NewActor(GV_ACTOR_LEVEL5, sizeof(TenageWork));
 
     if (work)
     {
@@ -308,7 +308,7 @@ GV_ACT *NewTenage3(SVECTOR *pos, SVECTOR *step, int fuse_time, int type, int mod
 {
     TenageWork *work;
 
-    work = (TenageWork *)GV_NewActor(GV_ACTOR_AFTER, sizeof(TenageWork));
+    work = GV_NewActor(GV_ACTOR_AFTER, sizeof(TenageWork));
     if (work)
     {
         GV_SetNamedActor(&work->actor, (GV_ACTFUNC)TenageAct,

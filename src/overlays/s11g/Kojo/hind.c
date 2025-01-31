@@ -321,7 +321,7 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
     int            i;
     unsigned char *param;
 
-    work = (HindWork *)GV_NewActor(EXEC_LEVEL, sizeof(HindWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(HindWork));
     if (work == NULL)
     {
         return NULL;

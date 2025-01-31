@@ -65,7 +65,7 @@ GV_ACT *NewSStorm_800D43D8(int arg0, int arg1)
     int         xw, xw2;
     char       *param;
 
-    work = (SStormWork *)GV_NewActor(EXEC_LEVEL, sizeof(SStormWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(SStormWork));
     if (work == NULL)
     {
         return NULL;

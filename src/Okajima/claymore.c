@@ -407,7 +407,7 @@ GV_ACT *NewClaymore(SVECTOR *noise_position, SVECTOR *new_field_2C, int pCnt, in
 
     for (i = 0; i < pCnt; i++)
     {
-        work = (ClaymoreWork *)GV_NewActor(EXEC_LEVEL, sizeof(ClaymoreWork));
+        work = GV_NewActor(EXEC_LEVEL, sizeof(ClaymoreWork));
         if (work != NULL)
         {
             GV_SetNamedActor(&work->actor, claymore_Act, claymore_Die, "claymore.c");

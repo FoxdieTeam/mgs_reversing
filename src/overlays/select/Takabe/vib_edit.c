@@ -760,7 +760,7 @@ GV_ACT *NewVibEdit_800C47B4(int flags, int perms)
 {
     VibEditWork *work;
 
-    work = (VibEditWork *)GV_NewActor(EXEC_LEVEL, sizeof(VibEditWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(VibEditWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, VibEdit_Act, VibEdit_Die, "vib_edit.c");

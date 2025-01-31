@@ -83,7 +83,7 @@ GV_ACT *NewPoint_800C5AB4(int name, int where, int argc, char **argv)
 {
     PointWork *work;
 
-    work = (PointWork *)GV_NewActor(EXEC_LEVEL, sizeof(PointWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(PointWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, PointAct_800C5928, PointDie_800C59FC, "point.c");

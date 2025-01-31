@@ -208,7 +208,7 @@ GV_ACT *NewPadDemo_800DCFD4(int name, int where, int argc, char **argv)
 {
     PadDemoWork *work;
 
-    work = (PadDemoWork *)GV_NewActor(EXEC_LEVEL, sizeof(PadDemoWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(PadDemoWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, PadDemoAct_800DCD94, PadDemoDie_800DCE48, "pad_demo.c");

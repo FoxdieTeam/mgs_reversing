@@ -175,7 +175,7 @@ GV_ACT *NewAAM(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *f
 {
     AamWork *work;
 
-    work = (AamWork *)GV_NewActor(EXEC_LEVEL, sizeof(AamWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(AamWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, AamAct, AamDie, "aam.c");

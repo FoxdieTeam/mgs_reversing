@@ -1104,7 +1104,7 @@ GV_ACT *NewEnding2_800C7BE8(int arg0)
 {
     Ending2Work *work;
 
-    work = (Ending2Work *)GV_NewActor(EXEC_LEVEL, sizeof(Ending2Work));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Ending2Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Ending2Act_800C71D8, Ending2Die_800C76BC, "ending2.c");

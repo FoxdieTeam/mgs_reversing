@@ -311,7 +311,7 @@ GV_ACT *NewSmktrgt_800DC410(int name, int map)
 {
     SmktrgtWork *work;
 
-    work = (SmktrgtWork *)GV_NewActor(EXEC_LEVEL, sizeof(SmktrgtWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(SmktrgtWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, SmktrgtAct_800DC19C, SmktrgtDie_800DC408, "smktrgt.c");

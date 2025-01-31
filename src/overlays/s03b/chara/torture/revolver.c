@@ -1505,7 +1505,7 @@ GV_ACT *NewRevolver_800C929C(int arg0, int arg1)
 {
     RevolverWork *work;
 
-    work = (RevolverWork *)GV_NewActor(EXEC_LEVEL, sizeof(RevolverWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(RevolverWork));
     if (work == NULL)
     {
         return NULL;

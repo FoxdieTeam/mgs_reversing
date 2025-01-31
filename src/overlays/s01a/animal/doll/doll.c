@@ -743,7 +743,7 @@ GV_ACT *NewDoll_800DCD78(int name, int where, int argc, char **argv)
 {
     DollWork *work;
 
-    work = (DollWork *)GV_NewActor(EXEC_LEVEL, sizeof(DollWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(DollWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, DollAct_800DBE9C, DollDie_800DC8F0, "doll.c");

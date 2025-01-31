@@ -199,7 +199,7 @@ GV_ACT *NewDeathSp_800D025C(int name, int where)
 {
     DeathSpWork *work;
 
-    work = (DeathSpWork *)GV_NewActor(EXEC_LEVEL, sizeof(DeathSpWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(DeathSpWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, DeathSpAct_800CFE1C, DeathSpDie_800D00EC, "death_sp.c");
