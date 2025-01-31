@@ -98,20 +98,18 @@ void    GV_ConfigActorSystem(int index, short pause, short kill);
 void    GV_DumpActorSystem(void);
 void    GV_ExecActorSystem(void);
 void    GV_DestroyActorSystem(int exec_level);
-void    GV_InitActor(int exec_level, GV_ACT *actor, GV_FREEFUNC free_func);
-GV_ACT *GV_NewActor(int exec_level, int size);
+void    GV_InitActor(int exec_level, void *actor, GV_FREEFUNC free_func);
+void   *GV_NewActor(int exec_level, int size);
+
+void    GV_SetNamedActor(void *actor, void *act_func, void *die_func,
+                         const char *filename);
 
 #define GV_SetActor(_actor, _act, _die) \
     GV_SetNamedActor(_actor, _act, _die, __FILE__)
 
-void    GV_SetNamedActor(GV_ACT *actor,
-                         GV_ACTFUNC act_func,
-                         GV_ACTFUNC die_func,
-                         const char *filename);
-
-void    GV_DestroyActor(GV_ACT *actor);
-void    GV_DestroyActorQuick(GV_ACT *actor);
-void    GV_DestroyOtherActor(GV_ACT *actor);
+void    GV_DestroyActor(void *actor);
+void    GV_DestroyActorQuick(void *actor);
+void    GV_DestroyOtherActor(void *actor);
 
 /*------ Cache System -------------------------------------------------------*/
 
