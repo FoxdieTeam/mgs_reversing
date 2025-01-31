@@ -21,7 +21,7 @@ typedef struct Work
 
 extern GV_PAD GV_PadData_800B05C0[4];
 
-#define EXEC_LEVEL 3
+#define EXEC_LEVEL GV_ACTOR_LEVEL3
 
 void SndtstRunScripts_800C3218( Work *work, int param_2 )
 {

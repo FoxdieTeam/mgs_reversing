@@ -41,7 +41,7 @@ extern int     GM_CurrentMap;
 
 unsigned short gas_efct_msgs[] = {HASH_ON2, HASH_OFF2};
 
-#define EXEC_LEVEL 3
+#define EXEC_LEVEL GV_ACTOR_LEVEL3
 
 void d11c_800C4FFC(GasEfctWork *work);
 void d11c_800C5094(GasEfctWork *work, int arg1);

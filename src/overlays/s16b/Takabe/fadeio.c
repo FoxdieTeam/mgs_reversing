@@ -32,7 +32,7 @@ extern int GV_PauseLevel;
 
 unsigned short fadeio_msgs[] = {HASH_KILL, 0x71F1};
 
-#define EXEC_LEVEL 3
+#define EXEC_LEVEL GV_ACTOR_LEVEL3
 
 void FadeIoAct_800C3E7C(FadeIoWork *work)
 {

@@ -34,7 +34,7 @@ void FogBoundChanl_800D5500(DG_CHANL *chanl, int idx);
 void FogTransChanl_800D63B0(DG_CHANL *chanl, int idx);
 void FogShadeChanl_800D6A04(DG_CHANL *chanl, int idx);
 
-#define EXEC_LEVEL 3
+#define EXEC_LEVEL GV_ACTOR_LEVEL3
 
 void FogAct_800D4074(FogWork *work)
 {

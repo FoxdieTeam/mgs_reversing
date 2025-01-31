@@ -31,6 +31,8 @@ typedef struct MosaicWork
     int    field_68;
 } MosaicWork;
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL3
+
 unsigned short mosaic_mes_list[] = {HASH_ON2, HASH_OFF2};
 
 extern int GV_PauseLevel;
@@ -93,7 +95,7 @@ GV_ACT *NewMosaicSet_800DC9F4(void *arg0, int arg1, int arg2, int arg3)
 {
     MosaicWork *work;
 
-    work = (MosaicWork *)GV_NewActor(3, sizeof(MosaicWork));
+    work = (MosaicWork *)GV_NewActor(EXEC_LEVEL, sizeof(MosaicWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, (GV_ACTFUNC)MosaicAct_800DC938,
@@ -115,7 +117,7 @@ GV_ACT *NewMosaic_800DCABC(int name, int where, int argc, char **argv)
     MosaicWork *work;
     int         s, d;
 
-    work = (MosaicWork *)GV_NewActor(3, sizeof(MosaicWork));
+    work = (MosaicWork *)GV_NewActor(EXEC_LEVEL, sizeof(MosaicWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, (GV_ACTFUNC)MosaicAct_800DC938,

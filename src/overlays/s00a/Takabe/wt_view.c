@@ -56,7 +56,7 @@ void WaterViewDraw_800DC128(WaterViewWork *work);
 
 static short wt_view_sin_table[32];
 
-#define EXEC_LEVEL 3
+#define EXEC_LEVEL GV_ACTOR_LEVEL3
 
 void WaterViewSetupSprites1_800DB800(SPRT *sa, SPRT *sb, CVECTOR *color)
 {
