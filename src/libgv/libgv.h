@@ -97,9 +97,9 @@ void    GV_InitActorSystem(void);
 void    GV_ConfigActorSystem(int index, short pause, short kill);
 void    GV_DumpActorSystem(void);
 void    GV_ExecActorSystem(void);
-void    GV_DestroyActorSystem(int level);
-void    GV_InitActor(int level, GV_ACT *actor, GV_FREEFUNC free_func);
-GV_ACT *GV_NewActor(int level, int memSize);
+void    GV_DestroyActorSystem(int exec_level);
+void    GV_InitActor(int exec_level, GV_ACT *actor, GV_FREEFUNC free_func);
+GV_ACT *GV_NewActor(int exec_level, int size);
 
 #define GV_SetActor(_actor, _act, _die) \
     GV_SetNamedActor(_actor, _act, _die, __FILE__)
