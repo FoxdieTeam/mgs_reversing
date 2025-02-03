@@ -1,6 +1,10 @@
 #include "stngrnd.h"
 #include "stgfd_io.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
@@ -213,13 +217,13 @@ STATIC int stngrnd_GetResources(StunGrenadeWork *work, MATRIX *world)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewStanBlast(MATRIX *world)
+void *NewStanBlast(MATRIX *world)
 {
     StunGrenadeWork *work;
 
     if (GM_GameStatus & STATE_STUN)
     {
-        return 0;
+        return NULL;
     }
 
     work = GV_NewActor(EXEC_LEVEL, sizeof(StunGrenadeWork));
@@ -240,7 +244,7 @@ GV_ACT *NewStanBlast(MATRIX *world)
 
         GM_SetNoise(255, 32, &work->field_E0);
     }
-    return &work->actor;
+    return (void *)work;
 }
 
 /*---------------------------------------------------------------------------*/

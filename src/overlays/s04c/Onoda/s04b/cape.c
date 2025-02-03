@@ -369,7 +369,7 @@ int CapeGetResources_800D907C(CapeWork *work, SVECTOR *arg1, SVECTOR *arg2, MATR
     return 0;
 }
 
-GV_ACT *NewCape_800D92F8(SVECTOR *arg0, SVECTOR *arg1, MATRIX *light, MATRIX *color)
+void *NewCape_800D92F8(SVECTOR *arg0, SVECTOR *arg1, MATRIX *light, MATRIX *color)
 {
     CapeWork *work;
 
@@ -385,5 +385,5 @@ GV_ACT *NewCape_800D92F8(SVECTOR *arg0, SVECTOR *arg1, MATRIX *light, MATRIX *co
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

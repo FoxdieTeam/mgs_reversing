@@ -51,14 +51,10 @@ typedef struct
     int   font_offset;
 } SubtitleHeader;
 
-void                  jimctrl_init_helper_clear_80037FB8(void);
-void                  jimctrl_kill_helper_clear_80038004(JimakuCtrlWork *work);
-void                  jimctrl_kill_8003853C(JimakuCtrlWork *work);
-void                  jimctrl_act_helper_clear_first_80037FE0(int index, int value);
-void                  jimctrl_act_80038070(JimakuCtrlWork *work);
-unsigned int          jimctrl_helper_80037F68(unsigned int);
-void                  jimctrl_act_helper_set_first_80037F2C(int index, int value);
-GV_ACT               *jimctrl_init_80038568(u_long flags);
+unsigned int jimctrl_helper_80037F68(unsigned int);
+
+void *NewJimakuControl(u_long flags);
+
 int                   jimctrl_80038688(void);
 array_800B933C_child *jimctrl_80038698(void);
 

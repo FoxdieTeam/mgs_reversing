@@ -402,7 +402,7 @@ void Rasen2Die_800CAB74(Rasen2Work *work)
 void     Rasen_800CB34C();
 void     Rasen2_800CB150(Rasen2Work *work);
 DG_OBJS *Rasen2_800CB250(int index, Rasen2Work *work);
-GV_ACT  *NewRasen_800CBA7C(void);
+void    *NewRasen_800CBA7C(void);
 
 int Rasen2GetResources_800CAC64(Rasen2Work *work, int name, int where)
 {
@@ -517,7 +517,7 @@ int Rasen2GetResources_800CAC64(Rasen2Work *work, int name, int where)
     return 0;
 }
 
-GV_ACT *NewRasen2_800CB008(int name, int where)
+void *NewRasen2_800CB008(int name, int where)
 {
     Rasen2Work *work;
 
@@ -533,7 +533,7 @@ GV_ACT *NewRasen2_800CB008(int name, int where)
         work->field_230 = 0;
         work->field_234 = 0;
     }
-    return &work->actor;
+    return (void *)work;
 }
 
 void Rasen2_800CB0A4(Rasen2Work *work)
@@ -798,7 +798,7 @@ void RasenDie_800CBA74(RasenWork *work)
 {
 }
 
-GV_ACT *NewRasen_800CBA7C(void)
+void *NewRasen_800CBA7C(void)
 {
     RasenWork *work;
 
@@ -809,5 +809,5 @@ GV_ACT *NewRasen_800CBA7C(void)
     }
 
     GV_ZeroMemory(&rasen_800D2C84, sizeof(rasen_800D2C84));
-    return &work->actor;
+    return (void *)work;
 }

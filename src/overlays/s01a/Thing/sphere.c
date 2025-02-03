@@ -290,7 +290,7 @@ int SphereGetResources_800C6694(SphereWork *work, int map)
     return 0;
 }
 
-GV_ACT *NewSphere_800C69C0(int name, int where, int argc, char **argv)
+void *NewSphere_800C69C0(int name, int where, int argc, char **argv)
 {
     SphereWork *work;
 
@@ -308,5 +308,5 @@ GV_ACT *NewSphere_800C69C0(int name, int where, int argc, char **argv)
         sphere_word_800E4B3A = 0;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

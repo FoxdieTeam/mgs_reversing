@@ -157,7 +157,7 @@ extern int              GM_AlertMode;
 
 void    AN_Breath_800C3AA8(MATRIX *matrix);
 void    AN_Unknown_800CA1EC(MATRIX *world, int index);
-GV_ACT *NewFadeIo_800C4224(int name, int where);
+void   *NewFadeIo_800C4224(int name, int where);
 
 int Valcan_800D8D20(CONTROL *control, SVECTOR *svec1)
 {
@@ -520,7 +520,7 @@ int ValcanGetResources_800D9830(ValcanWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT *NewValcan_800D9864(int name, int where)
+void *NewValcan_800D9864(int name, int where)
 {
     ValcanWork *work;
 
@@ -539,7 +539,7 @@ GV_ACT *NewValcan_800D9864(int name, int where)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
 void Valcan_800D990C(ValcanWork *work)

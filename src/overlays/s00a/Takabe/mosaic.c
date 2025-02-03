@@ -91,7 +91,7 @@ int MosaicGetResources_800DC9D0(MosaicWork *arg0, void *arg1, int arg2, int arg3
     return 0;
 }
 
-GV_ACT *NewMosaicSet_800DC9F4(void *arg0, int arg1, int arg2, int arg3)
+void *NewMosaicSet_800DC9F4(void *arg0, int arg1, int arg2, int arg3)
 {
     MosaicWork *work;
 
@@ -107,10 +107,10 @@ GV_ACT *NewMosaicSet_800DC9F4(void *arg0, int arg1, int arg2, int arg3)
         work->field_60 = 1;
         work->field_20 = GV_StrCode("Mosaic");
     }
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewMosaic_800DCABC(int name, int where, int argc, char **argv)
+void *NewMosaic_800DCABC(int name, int where, int argc, char **argv)
 {
     SVECTOR     vec;
     MosaicWork *work;
@@ -134,5 +134,5 @@ GV_ACT *NewMosaic_800DCABC(int name, int where, int argc, char **argv)
         }
         work->field_20 = name;
     }
-    return &work->actor;
+    return (void *)work;
 }

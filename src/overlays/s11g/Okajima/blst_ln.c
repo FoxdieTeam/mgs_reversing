@@ -79,7 +79,7 @@ int s11g_blst_ln_800CDA30(BlastLnWork *work, int arg1, int arg2, int arg3, SVECT
     return 0;
 }
 
-GV_ACT *s11g_blst_ln_800CDAA0(int arg0, int arg1, int arg2, SVECTOR *arg3, SVECTOR *arg4)
+void *s11g_blst_ln_800CDAA0(int arg0, int arg1, int arg2, SVECTOR *arg3, SVECTOR *arg4)
 {
     BlastLnWork *work;
 
@@ -89,5 +89,5 @@ GV_ACT *s11g_blst_ln_800CDAA0(int arg0, int arg1, int arg2, SVECTOR *arg3, SVECT
         GV_SetNamedActor(&work->actor, s11g_blst_ln_800CD7C8, s11g_blst_ln_800CDA28, "blst_ln.c");
         s11g_blst_ln_800CDA30(work, arg0, arg1, arg2, arg3, arg4);
     }
-    return &work->actor;
+    return (void *)work;
 }

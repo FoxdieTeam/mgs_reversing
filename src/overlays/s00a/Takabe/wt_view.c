@@ -222,7 +222,7 @@ int WaterViewGetResources_800DBCE4(WaterViewWork *work, SVECTOR *bounds, CVECTOR
     return 0;
 }
 
-GV_ACT *NewWaterView_800DBD68(int name, int where, int argc, char **argv)
+void *NewWaterView_800DBD68(int name, int where, int argc, char **argv)
 {
     WaterViewWork *work;
 
@@ -241,10 +241,10 @@ GV_ACT *NewWaterView_800DBD68(int name, int where, int argc, char **argv)
         work->name = name;
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewWaterView_800DBE04(int name, int where, SVECTOR *bounds, CVECTOR *color)
+void *NewWaterView_800DBE04(int name, int where, SVECTOR *bounds, CVECTOR *color)
 {
     WaterViewWork *work;
 
@@ -263,7 +263,7 @@ GV_ACT *NewWaterView_800DBE04(int name, int where, SVECTOR *bounds, CVECTOR *col
         work->name = name;
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
 int WaterViewCreatePrims_800DBEB8(WaterViewWork *work)

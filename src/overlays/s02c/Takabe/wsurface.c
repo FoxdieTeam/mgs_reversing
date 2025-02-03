@@ -448,7 +448,7 @@ int WsurfaceGetResources_800DB684(WsurfaceWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT *NewWsurface_800DB9BC(int name, int where, int argc, char **argv)
+void *NewWsurface_800DB9BC(int name, int where, int argc, char **argv)
 {
     WsurfaceWork *work;
 
@@ -468,5 +468,5 @@ GV_ACT *NewWsurface_800DB9BC(int name, int where, int argc, char **argv)
         work->f104 = 1;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

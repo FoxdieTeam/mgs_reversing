@@ -1,5 +1,9 @@
 #include "famaslit.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
@@ -22,7 +26,7 @@ void FamaslitDie_800D0B90(FamaslitWork *work);
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-GV_ACT *NewFamaslit_800D06F0(MATRIX *world)
+void *NewFamaslit_800D06F0(MATRIX *world)
 {
     DG_TEX       *tex;
     FamaslitWork *work;
@@ -91,7 +95,7 @@ GV_ACT *NewFamaslit_800D06F0(MATRIX *world)
 
 #undef POLY
 
-    return &work->actor;
+    return (void *)work;
 }
 
 void FamaslitAct_800D0B28(FamaslitWork *work)

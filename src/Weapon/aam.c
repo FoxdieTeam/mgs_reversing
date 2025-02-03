@@ -171,7 +171,7 @@ STATIC int AamGetResources(AamWork *work, OBJECT *parent, int num_parent)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewAAM(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side)
+void *NewAAM(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side)
 {
     AamWork *work;
 
@@ -197,5 +197,5 @@ GV_ACT *NewAAM(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *f
     GM_MagazineMax_800ABA2C = 0;
     GM_Magazine_800AB9EC = 0;
 
-    return &work->actor;
+    return (void *)work;
 }

@@ -149,7 +149,7 @@ STATIC int stgfd_io_GetResources(StgfdIoWork *work)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewStnFade(void)
+void *NewStnFade(void)
 {
     StgfdIoWork *work = GV_NewActor(EXEC_LEVEL, sizeof(StgfdIoWork));
     if (work)
@@ -163,5 +163,5 @@ GV_ACT *NewStnFade(void)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

@@ -783,7 +783,7 @@ int EventMouseGetResources_800CA370(EventmouseWork *work, HZD_PTP *points, short
     return 0;
 }
 
-GV_ACT *NewEventmouse_800CA6F4(HZD_PTP *points, short n_points, int arg2, int arg3, int arg4, int arg5)
+void *NewEventmouse_800CA6F4(HZD_PTP *points, short n_points, int arg2, int arg3, int arg4, int arg5)
 {
     EventmouseWork *work;
 
@@ -801,5 +801,5 @@ GV_ACT *NewEventmouse_800CA6F4(HZD_PTP *points, short n_points, int arg2, int ar
         work->map = GM_CurrentMap;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

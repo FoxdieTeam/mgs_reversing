@@ -198,7 +198,7 @@ int O2DamageGetResources_800DE8FC(O2DamgeWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT *NewO2Damage_800DE9C8(int name, int where, int argc, char **argv)
+void *NewO2Damage_800DE9C8(int name, int where, int argc, char **argv)
 {
     O2DamgeWork *work;
 
@@ -217,5 +217,5 @@ GV_ACT *NewO2Damage_800DE9C8(int name, int where, int argc, char **argv)
         work->name = name;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

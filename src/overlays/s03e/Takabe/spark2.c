@@ -245,7 +245,7 @@ int s03e_spark2_800CA55C(Spark2Work *work, MATRIX *world)
     return 0;
 }
 
-GV_ACT *NewSpark2_800CA714(MATRIX *world)
+void *NewSpark2_800CA714(MATRIX *world)
 {
     Spark2Work *work;
 
@@ -261,5 +261,5 @@ GV_ACT *NewSpark2_800CA714(MATRIX *world)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

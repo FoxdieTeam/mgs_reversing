@@ -297,7 +297,7 @@ int MgRoomGetResources_800DB218(MgRoom *work)
     return 0;
 }
 
-GV_ACT *NewMgRoom_800DB458(void)
+void *NewMgRoom_800DB458(void)
 {
     MgRoom *work;
 
@@ -313,5 +313,5 @@ GV_ACT *NewMgRoom_800DB458(void)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

@@ -33,8 +33,8 @@ typedef struct Johnny2Work
 
 extern int s03c_dword_800C33D8;
 
-GV_ACT *NewJFamas_800CAFAC(CONTROL *control, OBJECT *parent, int num_parent, int *arg4);
-GV_ACT *NewGunLight_800D3AD4(MATRIX *world, int **pvisible);
+void *NewJFamas_800CAFAC(CONTROL *control, OBJECT *parent, int num_parent, int *arg4);
+void *NewGunLight_800D3AD4(MATRIX *world, int **pvisible);
 
 void Johnny2Act_800CDF84(Johnny2Work *work)
 {
@@ -185,7 +185,7 @@ int Johnny2GetResources_800CE1D0(Johnny2Work *work)
     return 0;
 }
 
-GV_ACT *NewJohnny2_800CE368()
+void *NewJohnny2_800CE368()
 {
     Johnny2Work *work;
 
@@ -203,5 +203,5 @@ GV_ACT *NewJohnny2_800CE368()
         return NULL;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

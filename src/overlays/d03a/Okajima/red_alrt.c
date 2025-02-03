@@ -1,17 +1,48 @@
 #include "red_alrt.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-
-RedAlrtWork *d03a_dword_800C3270 = NULL;
 
 extern int     GV_Clock;
 extern int     GV_PauseLevel;
 extern int     GM_CurrentMap;
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL3
+
+typedef struct _RedAlrtPrims
+{
+    DR_TPAGE tpage[2];
+    TILE     tile[2];
+} RedAlrtPrims;
+
+typedef struct _RedAlrtWork
+{
+    GV_ACT        actor;
+    RedAlrtPrims *prims;
+    int           f24;
+    int           length;
+    int           time;
+    SVECTOR       f30;
+    SVECTOR       f38;
+    int           f40;
+    SVECTOR       color1;
+    SVECTOR       color2;
+    int           map;
+    int           name;
+    int           f5C;
+    int           f60;
+    int           f64;
+    int           f68;
+    int           f6C;
+} RedAlrtWork;
+
+RedAlrtWork *d03a_dword_800C3270 = NULL;
 
 // Identical to THING_Msg_CheckMessage minus returning the message value.
 int d03a_red_alrt_800C437C(unsigned short name, int nhashes, unsigned short *hashes)
@@ -364,7 +395,7 @@ int d03a_red_alrt_800C4BB0(RedAlrtWork *work, int name, int length, SVECTOR *col
     return 0;
 }
 
-GV_ACT *NewRedAlert_800C4DF0(int name, int where, int argc, char **argv)
+void *NewRedAlert_800C4DF0(int name, int where, int argc, char **argv)
 {
     RedAlrtWork *work;
 
@@ -380,10 +411,10 @@ GV_ACT *NewRedAlert_800C4DF0(int name, int where, int argc, char **argv)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewRedAlert2_800C4E84(int name, int length, SVECTOR *color1, SVECTOR *color2, int arg4, int arg5)
+void *NewRedAlert2_800C4E84(int name, int length, SVECTOR *color1, SVECTOR *color2, int arg4, int arg5)
 {
     RedAlrtWork *work;
 
@@ -399,7 +430,7 @@ GV_ACT *NewRedAlert2_800C4E84(int name, int length, SVECTOR *color1, SVECTOR *co
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
 void RedAlert_800C4F48(void)

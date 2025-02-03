@@ -100,8 +100,8 @@ extern SVECTOR          GM_PlayerPosition_800ABA10;
 extern PlayerStatusFlag GM_PlayerStatus;
 extern CONTROL         *GM_WhereList_800B56D0[96];
 
-GV_ACT *NewSpark2_800CA714(MATRIX *world);
-void    AN_Unknown_800D6EB0(SVECTOR *pos);
+void *NewSpark2_800CA714(MATRIX *world);
+void AN_Unknown_800D6EB0(SVECTOR *pos);
 
 // duplicate of s03e_guncame_800C7118
 void s01a_camera_800D4CFC(DG_PRIM *prim, DG_TEX *tex, int r, int g, int b)
@@ -1116,7 +1116,7 @@ void CameraDie_800D678C(CameraWork *work)
     GM_FreeTarget(work->target);
 }
 
-GV_ACT *NewCamera_800D67F8(int name, int where, int argc, char **argv)
+void *NewCamera_800D67F8(int name, int where, int argc, char **argv)
 {
     CameraWork *work;
 
@@ -1131,5 +1131,5 @@ GV_ACT *NewCamera_800D67F8(int name, int where, int argc, char **argv)
         }
         s01a_camera_800D61AC(work, name, where);
     }
-    return &work->actor;
+    return (void *)work;
 }

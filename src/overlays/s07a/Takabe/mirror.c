@@ -390,7 +390,7 @@ int MirrorGetResources_800E07F8(MirrorWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT *NewMirror_800E085C(int name, int where)
+void *NewMirror_800E085C(int name, int where)
 {
     MirrorWork *work;
 
@@ -406,7 +406,7 @@ GV_ACT *NewMirror_800E085C(int name, int where)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
 void Mirror_800E08F0(MirrorWork *work, int name)

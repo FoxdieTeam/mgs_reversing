@@ -82,7 +82,7 @@ const char s03b_aV_800D2F58[] = "v0";
 
 extern GV_PAD  GV_PadData_800B05C0[4];
 
-GV_ACT *NewFadeIo_800C4224(int name, int where);
+void *NewFadeIo_800C4224(int name, int where);
 
 // Those functions are not actually in boxall, info
 // those are some helper functions (not sure if part of revolver.c)
@@ -1501,7 +1501,7 @@ int RevolverGetResources_800C8FD4(RevolverWork *work, int arg1, int arg2)
     return 0;
 }
 
-GV_ACT *NewRevolver_800C929C(int arg0, int arg1)
+void *NewRevolver_800C929C(int arg0, int arg1)
 {
     RevolverWork *work;
 
@@ -1518,5 +1518,5 @@ GV_ACT *NewRevolver_800C929C(int arg0, int arg1)
         return NULL;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

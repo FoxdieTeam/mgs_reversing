@@ -1,8 +1,6 @@
 #ifndef _PAD_DEMO_H_
 #define _PAD_DEMO_H_
 
-#include "libgv/libgv.h"
-
-GV_ACT *NewPadDemo_800DCFD4(int name, int where, int argc, char **argv);
+void *NewPadDemo_800DCFD4(int name, int where, int argc, char **argv);
 
 #endif // _PAD_DEMO_H_

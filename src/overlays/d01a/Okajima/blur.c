@@ -1,5 +1,9 @@
 #include "blur.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
@@ -346,7 +350,7 @@ int BlurGetResources_800CD418(BlurWork *work, int arg1, int arg2, int arg3)
 
 #define EXEC_LEVEL GV_ACTOR_AFTER2
 
-GV_ACT *NewBlur_800CD530(int name, int where, int argc, char **argv)
+void *NewBlur_800CD530(int name, int where, int argc, char **argv)
 {
     BlurWork *work;
 
@@ -364,10 +368,10 @@ GV_ACT *NewBlur_800CD530(int name, int where, int argc, char **argv)
         work->f20 = -1;
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewBlur_800CD5D8(int arg0)
+void *NewBlur_800CD5D8(int arg0)
 {
     BlurWork *work;
     char     *opt;
@@ -401,5 +405,5 @@ GV_ACT *NewBlur_800CD5D8(int arg0)
         work->f20 = arg0;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

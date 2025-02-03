@@ -18,7 +18,7 @@ typedef struct _PadWork
     int            unk4; //0x2C
 } PadWork;
 
-int PadGetResources_800C3690( PadWork* work )
+STATIC int PadGetResources_800C3690( PadWork* work )
 {
     GCL_SetArgTop( work->unk3 ) ;
 
@@ -39,7 +39,7 @@ int PadGetResources_800C3690( PadWork* work )
     return 0 ;
 }
 
-void PadAct_800C370C( PadWork* work )
+STATIC void PadAct_800C370C( PadWork* work )
 {
     if ( GM_CheckMessage( &work->actor, work->name, HASH_KILL ) )
     {
@@ -57,7 +57,7 @@ void PadAct_800C370C( PadWork* work )
     GV_DemoPadStatus = work->status;
 }
 
-void PadDie_800C37A4( PadWork* work )
+STATIC void PadDie_800C37A4( PadWork* work )
 {
     GV_DemoPadStatus = 0 ;
     GM_GameStatus &= ~STATE_PADDEMO;
@@ -68,7 +68,7 @@ void PadDie_800C37A4( PadWork* work )
     }
 }
 
-GV_ACT *NewPad_800C37EC(int name, int where, int argc, char **argv)
+void *NewPad_800C37EC(int name, int where, int argc, char **argv)
 {
     char *ops;
     PadWork *work ;
@@ -96,5 +96,5 @@ GV_ACT *NewPad_800C37EC(int name, int where, int argc, char **argv)
         }
 
     }
-    return &work->actor;
+    return (void *)work;
 }

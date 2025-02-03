@@ -3,6 +3,6 @@
 
 #include "libgv/libgv.h"
 
-GV_ACT *NewChange_800C455C( int name, int where, int argc, char **argv );
+void *NewChange_800C455C( int name, int where, int argc, char **argv );
 
 #endif // _CHANGE_H_

@@ -1,5 +1,9 @@
 #include "bullet.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
@@ -594,7 +598,7 @@ STATIC int bullet_GetResources(BulletWork *work, MATRIX* pMtx, int arg2, int noi
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewBulletEnemy(MATRIX *arg0, int whichSide, int arg2, int arg3, int arg4)
+void *NewBulletEnemy(MATRIX *arg0, int whichSide, int arg2, int arg3, int arg4)
 {
     BulletWork  *work;
     SVECTOR      vec;
@@ -644,10 +648,10 @@ GV_ACT *NewBulletEnemy(MATRIX *arg0, int whichSide, int arg2, int arg3, int arg4
         work->field_134 = arg2;
         work->field_148_side = whichSide;
     }
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewBullet(MATRIX *pMtx, int whichSide, int a3, int noiseLen)
+void *NewBullet(MATRIX *pMtx, int whichSide, int a3, int noiseLen)
 {
     SVECTOR vec;
     BulletWork *work;
@@ -714,10 +718,10 @@ GV_ACT *NewBullet(MATRIX *pMtx, int whichSide, int a3, int noiseLen)
         work->field_148_side = whichSide;
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewBulletEx(int a1, MATRIX* pMtx, int side, int a4, int a5, int a6, int a7, int a8, int a9)
+void *NewBulletEx(int a1, MATRIX* pMtx, int side, int a4, int a5, int a6, int a7, int a8, int a9)
 {
     BulletWork* work; // $s0
     int flags; // $v1
@@ -793,13 +797,13 @@ GV_ACT *NewBulletEx(int a1, MATRIX* pMtx, int side, int a4, int a5, int a6, int 
         }
 
         ++dword_8009F6A8;
-        return &work->actor;
+        return (void *)work;
     }
 
     return NULL;
 }
 
-GV_ACT *NewBullet2(MATRIX *pMtx, int a2, int a3, int a4, int a5, int a6, int a7, int a8)
+void *NewBullet2(MATRIX *pMtx, int a2, int a3, int a4, int a5, int a6, int a7, int a8)
 {
     SVECTOR vec;
     MATRIX mtx;

@@ -79,7 +79,7 @@ int PointGetResources_800C5A1C(PointWork *work, int where, int name)
     return 1;
 }
 
-GV_ACT *NewPoint_800C5AB4(int name, int where, int argc, char **argv)
+void *NewPoint_800C5AB4(int name, int where, int argc, char **argv)
 {
     PointWork *work;
 
@@ -94,5 +94,5 @@ GV_ACT *NewPoint_800C5AB4(int name, int where, int argc, char **argv)
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

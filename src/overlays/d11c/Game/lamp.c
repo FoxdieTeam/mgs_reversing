@@ -1,12 +1,15 @@
 #include "lamp.h"
 
 #include <stdio.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "strcode.h"
-#include "lamp.h"
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
@@ -349,7 +352,7 @@ int LampGetResources_800C3914(LampWork *work, int map, int name, int a3, int a4)
     return 1;
 }
 
-GV_ACT *NewLamp_800C3B34(int name, int where, int argc, char **argv)
+void *NewLamp_800C3B34(int name, int where, int argc, char **argv)
 {
     LampWork      *work;
     unsigned char *nextStrPtr;
@@ -380,5 +383,5 @@ GV_ACT *NewLamp_800C3B34(int name, int where, int argc, char **argv)
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

@@ -75,7 +75,7 @@ STATIC void BandanaDie(BandanaWork *work)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewBandana(CONTROL *control, OBJECT *parent, int num_parent)
+void *NewBandana(CONTROL *control, OBJECT *parent, int num_parent)
 {
     BandanaWork *work = GV_NewActor(EXEC_LEVEL, sizeof(BandanaWork));
     if (work)
@@ -84,5 +84,5 @@ GV_ACT *NewBandana(CONTROL *control, OBJECT *parent, int num_parent)
         work->parent = parent;
         BandanaSwapTextures(parent);
     }
-    return &work->actor;
+    return (void *)work;
 }

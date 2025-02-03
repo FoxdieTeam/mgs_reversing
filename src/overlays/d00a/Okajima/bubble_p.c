@@ -1,5 +1,9 @@
 #include "bubble_p.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
@@ -241,7 +245,7 @@ int BubblePGetResources_800D9B58(BubblePWork *work, SVECTOR *arg1, SVECTOR *arg2
     return 0;
 }
 
-GV_ACT *NewBubbleP_800D9D94(SVECTOR *arg0, SVECTOR *arg1, int arg2)
+void *NewBubbleP_800D9D94(SVECTOR *arg0, SVECTOR *arg1, int arg2)
 {
     BubblePWork *work;
 
@@ -259,10 +263,10 @@ GV_ACT *NewBubbleP_800D9D94(SVECTOR *arg0, SVECTOR *arg1, int arg2)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewBubbleP_800D9E40(SVECTOR *arg0, SVECTOR *arg1, int arg2)
+void *NewBubbleP_800D9E40(SVECTOR *arg0, SVECTOR *arg1, int arg2)
 {
     BubblePWork *work;
 
@@ -280,5 +284,5 @@ GV_ACT *NewBubbleP_800D9E40(SVECTOR *arg0, SVECTOR *arg1, int arg2)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

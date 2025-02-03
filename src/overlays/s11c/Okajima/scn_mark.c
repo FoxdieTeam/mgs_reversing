@@ -81,7 +81,7 @@ void ScnMarkDie_800C9578(ScnMarkWork *work)
 {
 }
 
-GV_ACT *NewScnMark_800C9580(int name, int where)
+void *NewScnMark_800C9580(int name, int where)
 {
     ScnMarkWork *work;
 
@@ -97,5 +97,5 @@ GV_ACT *NewScnMark_800C9580(int name, int where)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

@@ -506,7 +506,7 @@ STATIC void GoggleSightSetup2(GoggleSightWork *actor)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewGoggleSight(int type)
+void *NewGoggleSight(int type)
 {
     GoggleSightWork *work;
     int status, count;
@@ -568,5 +568,5 @@ GV_ACT *NewGoggleSight(int type)
         }
     }
 
-    return (GV_ACT *)work;
+    return (void *)work;
 }

@@ -41,7 +41,7 @@ SVECTOR s04c_dword_800C35E0 = {100, 100, 100, 0};
 
 static int s04c_dword_800DBE20;
 
-GV_ACT *NewRevbullt_800D2DC8(MATRIX *world, int bounces);
+void *NewRevbullt_800D2DC8(MATRIX *world, int bounces);
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
@@ -365,7 +365,7 @@ int RevbulltGetResources_800D2BFC(RevbulltWork *work, MATRIX *world, int arg2, i
     return 0;
 }
 
-GV_ACT *NewRevbullt_800D2DC8(MATRIX *world, int bounces)
+void *NewRevbullt_800D2DC8(MATRIX *world, int bounces)
 {
     RevbulltWork *work;
 
@@ -388,5 +388,5 @@ GV_ACT *NewRevbullt_800D2DC8(MATRIX *world, int bounces)
         work->f148 = 0;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

@@ -958,7 +958,7 @@ STATIC int RMissileGetResources(RMissileWork *work, MATRIX *world, int side)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewRMissile(MATRIX *world, int side)
+void *NewRMissile(MATRIX *world, int side)
 {
     RMissileWork *work;
 
@@ -989,5 +989,5 @@ GV_ACT *NewRMissile(MATRIX *world, int side)
         Nik_Blast = 0;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

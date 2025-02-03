@@ -551,7 +551,7 @@ void ObjectCharaDie_800DA368(ObjectWork *work)
     GM_FreeTarget(work->field_180);
 }
 
-GV_ACT *NewObjectChara_800DA3A4(int name, int where, int argc, char **argv)
+void *NewObjectChara_800DA3A4(int name, int where, int argc, char **argv)
 {
     ObjectWork *work;
 
@@ -566,5 +566,5 @@ GV_ACT *NewObjectChara_800DA3A4(int name, int where, int argc, char **argv)
         }
         s01a_object_800DA108(work, name, where);
     }
-    return &work->actor;
+    return (void *)work;
 }

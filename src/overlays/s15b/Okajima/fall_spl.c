@@ -13,7 +13,7 @@ typedef struct FallSplWork
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-GV_ACT *NewSplash3_800C83D0(int dir, SVECTOR *pos);
+void *NewSplash3_800C83D0(int dir, SVECTOR *pos);
 
 extern int GM_CurrentMap;
 
@@ -68,7 +68,7 @@ void s15b_fall_spl_800C7C98(FallSplWork *work)
 {
 }
 
-GV_ACT *s15b_fall_spl_800C7CA0(int name, int where, int argc, char **argv)
+void *NewFallSplash(int name, int where, int argc, char **argv)
 {
     FallSplWork *work;
 
@@ -83,5 +83,5 @@ GV_ACT *s15b_fall_spl_800C7CA0(int name, int where, int argc, char **argv)
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

@@ -18,7 +18,7 @@ extern GV_PAD GV_PadData_800B05C0[4];
 // XXX PCopen and PCcreat's permission flags are ignored, as they're only
 // XXX provided for Unix compatibility and should be set to 0.
 
-extern int PCinit (void);
+extern int PCinit(void);
 extern int PCopen(const char *name /*, int flags, int perms*/);
 extern int PCcreat(char *name /*, int perms */);
 extern int PClseek(int fd, int offset, int mode);
@@ -54,7 +54,7 @@ typedef struct _VibEditWork
     int            field_3C;
     int            field_40;
     VibEditPrims  *field_44_prims;
-    VibrateWork   *field_48_vibrate;
+    void          *field_48_vibrate;
     VibPair        field_4C_pairs[16];
     int            field_6C;
     VibPair        field_70_pairs[16];
@@ -756,7 +756,7 @@ STATIC int VibEdit_GetResources(VibEditWork *work, int flags, int perms)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewVibEdit_800C47B4(int flags, int perms)
+void *NewVibEdit_800C47B4(int flags, int perms)
 {
     VibEditWork *work;
 
@@ -772,5 +772,5 @@ GV_ACT *NewVibEdit_800C47B4(int flags, int perms)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

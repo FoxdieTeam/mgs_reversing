@@ -46,7 +46,7 @@ void s03b_boxall_800C969C(int, int);
 void s03b_boxall_800C96E8(void);
 void s03b_boxall_800C974C(void);
 
-GV_ACT *NewFadeIo_800C4224(int name, int where);
+void *NewFadeIo_800C4224(int name, int where);
 
 void Snake03c1Act_800CD698(Snake03c1Work *work)
 {
@@ -203,7 +203,7 @@ int Snake03c1GetResources_800CD98C(Snake03c1Work *work, int arg1, int arg2)
     return 0;
 }
 
-GV_ACT *NewSnake03c1_800CDAEC(int name, int where)
+void *NewSnake03c1_800CDAEC(int name, int where)
 {
     Snake03c1Work *work;
 
@@ -220,7 +220,7 @@ GV_ACT *NewSnake03c1_800CDAEC(int name, int where)
         return NULL;
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
 //
@@ -373,7 +373,7 @@ int Snake03c2GetResources_800CDEF8(Snake03c2Work *work)
     return 0;
 }
 
-GV_ACT *NewSnake03c2_800CDF18()
+void *NewSnake03c2_800CDF18()
 {
     Snake03c2Work *work;
 
@@ -390,5 +390,5 @@ GV_ACT *NewSnake03c2_800CDF18()
         return NULL;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

@@ -6,6 +6,7 @@
 #include <sys/types.h>
 #include <libgte.h>
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 
 typedef struct PRESCRIPT
 {
@@ -31,8 +32,11 @@ typedef struct ANIMATION
     char          *field_18_ptr;
 } ANIMATION;
 
-GV_ACT *NewAnime(MATRIX *pMtx, int map, ANIMATION *pAnimData);
-GV_ACT *NewAnime_8005D604(MATRIX *pMtx);
+void *NewAnime(MATRIX *world, int map, ANIMATION *animation);
+void *NewAnime2(DG_PRIM *prim, int map, ANIMATION *animation);
+
+// TODO: figure out better names for these
+void *NewAnime_8005D604(MATRIX *pMtx);
 
 void NewAnime_8005DF50(SVECTOR *v1, SVECTOR *v2);
 void NewAnime_8005E334(MATRIX *pMtx);

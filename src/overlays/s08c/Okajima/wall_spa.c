@@ -15,9 +15,9 @@ typedef struct _WallSpaWork
 
 extern int GM_CurrentMap;
 
-void    NewSpark2_800CA714(MATRIX *);
-GV_ACT *NewPlasma_800CD30C(SVECTOR *arg0, SVECTOR *arg1, int arg2, int arg3);
-void    AN_Smoke_800CE164(SVECTOR *pos, SVECTOR *speed, int index, int script);
+void NewSpark2_800CA714(MATRIX *);
+void *NewPlasma_800CD30C(SVECTOR *arg0, SVECTOR *arg1, int arg2, int arg3);
+void AN_Smoke_800CE164(SVECTOR *pos, SVECTOR *speed, int index, int script);
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL4
 
@@ -182,7 +182,7 @@ int WallSpaGetResources_800CB428(WallSpaWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT *NewWallSpa_800CB4A4(int name, int where)
+void *NewWallSpa_800CB4A4(int name, int where)
 {
     WallSpaWork *work;
 
@@ -198,5 +198,5 @@ GV_ACT *NewWallSpa_800CB4A4(int name, int where)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

@@ -33,11 +33,9 @@
 #include "overlays/s00a/Okajima/bubble_s.h"
 #include "overlays/s00a/Takabe/o2_damge.h"
 #include "overlays/s16b/Takabe/fadeio.h"
+#include "overlays/s16b/Takabe/sepia.h"
 
-GV_ACT *NewShakemdl_800C54E8(int name, int where, int argc, char **argv);
-GV_ACT *NewSepia_800C4F9C(int name, int where, int argc);
-GV_ACT *NewDymcSeg_800C4BCC(int name, int where, int argc, char **argv);
-GV_ACT *NewVibEdit_800C47B4(int flags, int perms);
+void *NewVibEdit_800C47B4(int flags, int perms);
 
 CHARA _StageCharacterEntries[] =
 {

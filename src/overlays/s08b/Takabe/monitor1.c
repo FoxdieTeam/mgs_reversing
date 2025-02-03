@@ -22,8 +22,8 @@ typedef struct Monitor1Work
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-GV_ACT *NewSpark2_800CA714(MATRIX *world);
-void    AN_Unknown_800DCE84(SVECTOR *pos);
+void *NewSpark2_800CA714(MATRIX *world);
+void AN_Unknown_800DCE84(SVECTOR *pos);
 
 void Monitor1Act_800DC8BC(Monitor1Work *work)
 {
@@ -198,7 +198,7 @@ int Monitor1GetResources_800DCC90(Monitor1Work *work, int arg1, int arg2)
     return 0;
 }
 
-GV_ACT *NewMonitor1_800DCDE0(int arg0, int arg1)
+void *NewMonitor1_800DCDE0(int arg0, int arg1)
 {
     Monitor1Work *work;
 
@@ -215,5 +215,5 @@ GV_ACT *NewMonitor1_800DCDE0(int arg0, int arg1)
         work->flag2 = 0;
         work->vy = work->control.mov.vy;
     }
-    return &work->actor;
+    return (void *)work;
 }

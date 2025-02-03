@@ -204,7 +204,7 @@ int PadDemoGetResources_800DCE94(PadDemoWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT *NewPadDemo_800DCFD4(int name, int where, int argc, char **argv)
+void *NewPadDemo_800DCFD4(int name, int where, int argc, char **argv)
 {
     PadDemoWork *work;
 
@@ -220,5 +220,5 @@ GV_ACT *NewPadDemo_800DCFD4(int name, int where, int argc, char **argv)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

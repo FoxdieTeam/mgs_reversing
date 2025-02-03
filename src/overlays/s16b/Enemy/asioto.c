@@ -238,7 +238,7 @@ int AsiotoGetResources_800C3B94(Work *work)
     return 0;
 }
 
-GV_ACT *NewAsioto_800C3E08(int name, int where, int argc, char **argv)
+void *NewAsioto_800C3E08(int name, int where, int argc, char **argv)
 {
     Work *work;
 
@@ -249,9 +249,9 @@ GV_ACT *NewAsioto_800C3E08(int name, int where, int argc, char **argv)
         if (AsiotoGetResources_800C3B94(work) < 0)
         {
             GV_DestroyActor(&work->actor);
-            return 0;
+            return NULL;
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

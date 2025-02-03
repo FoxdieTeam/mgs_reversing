@@ -109,7 +109,7 @@ int BombledGetResources_800C7764(BombledWork *work, SVECTOR *arg1)
     return 0;
 }
 
-GV_ACT *d18a_bombled_800C78F8(SVECTOR *arg1)
+void *d18a_bombled_800C78F8(SVECTOR *arg1)
 {
     BombledWork *work;
 
@@ -123,5 +123,5 @@ GV_ACT *d18a_bombled_800C78F8(SVECTOR *arg1)
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

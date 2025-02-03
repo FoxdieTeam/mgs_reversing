@@ -2,6 +2,7 @@
 
 #include "common.h"
 #include "Game/game.h"
+#include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "strcode.h"
 
@@ -9,6 +10,17 @@ extern int            GV_PassageTime;
 extern unsigned char *GCL_NextStrPtr_800AB9A0;
 extern int            GM_PadVibration;
 extern int            GM_PadVibration2;
+
+/*---------------------------------------------------------------------------*/
+
+typedef struct      VibrateWork
+{
+    GV_ACT          actor;
+    char            field_20_flags;
+    char            field_21_increment;
+    short           field_22_timer;
+    unsigned char   *field_24_pData;
+} VibrateWork;
 
 /*---------------------------------------------------------------------------*/
 
@@ -88,7 +100,7 @@ STATIC void vibrate_Act(VibrateWork *work)
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-VibrateWork *NewVibration(int pan)
+void *NewVibration(int pan)
 {
     VibrateWork     *work;
     char            flags;
@@ -109,10 +121,10 @@ VibrateWork *NewVibration(int pan)
         work->field_22_timer = 0;
         work->field_24_pData = data;
     }
-    return work;
+    return (void *)work;
 }
 
-VibrateWork *NewPadVibration(unsigned char *data, int flags)
+void *NewPadVibration(unsigned char *data, int flags)
 {
     VibrateWork *work;
 
@@ -125,5 +137,5 @@ VibrateWork *NewPadVibration(unsigned char *data, int flags)
         work->field_20_flags = flags | 0x20;
         work->field_22_timer = 0;
     }
-    return work;
+    return (void *)work;
 }

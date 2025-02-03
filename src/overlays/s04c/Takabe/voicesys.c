@@ -302,7 +302,7 @@ int VoicesysGetResources_800CE89C(VoicesysWork *work, int name, int arg2)
     return 0;
 }
 
-GV_ACT *NewVoicesys_800CE944(int name, int arg1)
+void *NewVoicesys_800CE944(int name, int arg1)
 {
     VoicesysWork *work;
 
@@ -316,5 +316,5 @@ GV_ACT *NewVoicesys_800CE944(int name, int arg1)
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

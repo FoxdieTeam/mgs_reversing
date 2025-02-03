@@ -1063,7 +1063,7 @@ int DogGetInts_800D2904(char *opt, int *out)
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800D295C.s")
 int s12c_dog_800D295C(DogWork *work, int, int);
 
-GV_ACT *NewDog_800D33C8(int arg0, int arg1)
+void *NewDog_800D33C8(int arg0, int arg1)
 {
     DogWork *work;
 
@@ -1077,5 +1077,5 @@ GV_ACT *NewDog_800D33C8(int arg0, int arg1)
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

@@ -1,5 +1,9 @@
 #include "focus.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
@@ -149,7 +153,7 @@ int FocusGetResources_800CEDA4(FocusWork *work, int arg1, int arg2)
 
 #define EXEC_LEVEL GV_ACTOR_AFTER2
 
-GV_ACT *NewFocus_800CEFF8(int name, int where, int argc, char **argv)
+void *NewFocus_800CEFF8(int name, int where, int argc, char **argv)
 {
     FocusWork *work;
 
@@ -165,5 +169,5 @@ GV_ACT *NewFocus_800CEFF8(int name, int where, int argc, char **argv)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

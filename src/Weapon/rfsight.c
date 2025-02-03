@@ -193,7 +193,7 @@ STATIC int RifleSightGetResources(RfSightWork *work)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewRifleSight(void)
+void *NewRifleSight(void)
 {
     RfSightWork *work = GV_NewActor(EXEC_LEVEL, sizeof(RfSightWork));
 
@@ -211,10 +211,10 @@ GV_ACT *NewRifleSight(void)
         work->func = &NewSight_80071CDC;
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewRifleSightFast(void)
+void *NewRifleSightFast(void)
 {
     RfSightWork *work = GV_NewActor(EXEC_LEVEL, sizeof(RfSightWork));
 
@@ -232,5 +232,5 @@ GV_ACT *NewRifleSightFast(void)
         work->func = &sight_init_80071EA8;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

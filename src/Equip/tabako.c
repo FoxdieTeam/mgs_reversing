@@ -170,7 +170,7 @@ STATIC int TabakoGetResources(TabakoWork *work, OBJECT *parent, int num_parent)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewTabako(CONTROL *control, OBJECT *parent, int num_parent)
+void *NewTabako(CONTROL *control, OBJECT *parent, int num_parent)
 {
     TabakoWork *work = GV_NewActor(EXEC_LEVEL, sizeof(TabakoWork));
 
@@ -189,5 +189,5 @@ GV_ACT *NewTabako(CONTROL *control, OBJECT *parent, int num_parent)
         work->num_parent = num_parent;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

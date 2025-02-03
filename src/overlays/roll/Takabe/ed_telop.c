@@ -272,7 +272,7 @@ void EdTelopGetResources_800C5504(EdTelopWork *work)
     }
 }
 
-GV_ACT *NewEdTelop_800C563C(int arg0)
+void *NewEdTelop_800C563C(int arg0)
 {
     EdTelopWork *work;
 
@@ -290,5 +290,5 @@ GV_ACT *NewEdTelop_800C563C(int arg0)
         EdTelopGetResources_800C5504(work);
     }
 
-    return &work->actor;
+    return (void *)work;
 }

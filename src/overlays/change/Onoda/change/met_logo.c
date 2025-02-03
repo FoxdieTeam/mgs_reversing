@@ -451,7 +451,7 @@ void MetLogoGetResources_800C5998( Work *work )
     }
 }
 
-GV_ACT *NewMetLogo_800C5A90( int *arg0 )
+void *NewMetLogo_800C5A90( int *arg0 )
 {
     Work *work;
 
@@ -476,5 +476,5 @@ GV_ACT *NewMetLogo_800C5A90( int *arg0 )
         MetLogoGetResources_800C5998( work );
     }
 
-    return &( work->actor );
+    return (void *)work;
 }

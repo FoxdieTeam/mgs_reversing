@@ -98,7 +98,7 @@ int IntrCam_GetResources_800C56F8(IntrCamWork *work)
     return 0;
 }
 
-GV_ACT *NewIntrCam_800C5748(int name, int where, int argc, char **argv)
+void *NewIntrCam_800C5748(int name, int where, int argc, char **argv)
 {
     IntrCamWork *work;
 
@@ -113,5 +113,5 @@ GV_ACT *NewIntrCam_800C5748(int name, int where, int argc, char **argv)
         }
         work->field_20 = name;
     }
-    return &work->actor;
+    return (void *)work;
 }

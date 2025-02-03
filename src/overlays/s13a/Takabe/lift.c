@@ -291,7 +291,7 @@ int LiftGetResources_800DE070(LiftWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT *NewLift_800DE25C(int name, int where)
+void *NewLift_800DE25C(int name, int where)
 {
     LiftWork *work;
 
@@ -306,5 +306,5 @@ GV_ACT *NewLift_800DE25C(int name, int where)
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

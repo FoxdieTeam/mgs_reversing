@@ -1100,7 +1100,7 @@ void Ending2GetResources_800C77F8(Ending2Work *work, int field_48)
     }
 }
 
-GV_ACT *NewEnding2_800C7BE8(int arg0)
+void *NewEnding2_800C7BE8(int arg0)
 {
     Ending2Work *work;
 
@@ -1121,5 +1121,5 @@ GV_ACT *NewEnding2_800C7BE8(int arg0)
         }
         Ending2GetResources_800C77F8(work, arg0);
     }
-    return &work->actor;
+    return (void *)work;
 }

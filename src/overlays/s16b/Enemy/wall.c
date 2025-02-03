@@ -189,7 +189,7 @@ int WallGetResources_800C34F0(work, pos, dir, def_model, map)
     return 0;
 }
 
-GV_ACT *NewWall_800C3688(SVECTOR *pos, SVECTOR *dir)
+void *NewWall_800C3688(SVECTOR *pos, SVECTOR *dir)
 {
     Work *work;
 
@@ -206,10 +206,10 @@ GV_ACT *NewWall_800C3688(SVECTOR *pos, SVECTOR *dir)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewWall_800C3718(int name, int where, int argc, char **argv)
+void *NewWall_800C3718(int name, int where, int argc, char **argv)
 {
     SVECTOR pos;
     SVECTOR dir;
@@ -276,5 +276,5 @@ GV_ACT *NewWall_800C3718(int name, int where, int argc, char **argv)
         work->hash = name;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

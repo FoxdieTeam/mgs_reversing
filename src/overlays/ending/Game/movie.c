@@ -371,7 +371,7 @@ void MovieDie_800C4D78(MovieWork *work)
     }
 }
 
-GV_ACT *NewMovie_800C4E24(unsigned int code)
+void *NewMovie_800C4E24(unsigned int code)
 {
     FS_MOVIE_FILE *file;
     int            frame;
@@ -413,10 +413,10 @@ GV_ACT *NewMovie_800C4E24(unsigned int code)
     movie_work.n_frames = 0;
     movie_work.f42 = frame - 11;
 
-    return &movie_work.actor;
+    return (void *)&movie_work;
 }
 
-GV_ACT *NewMovie_800C4F34(unsigned int code)
+void *NewMovie_800C4F34(unsigned int code)
 {
     MovieWork *work;
 
@@ -441,5 +441,5 @@ GV_ACT *NewMovie_800C4F34(unsigned int code)
         work->proc = GCL_StrToInt(GCL_GetParamResult());
     }
 
-    return &work->actor;
+    return (void *)work;
 }

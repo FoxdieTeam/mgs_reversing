@@ -184,7 +184,7 @@ int BoxKeriGetResources_800D2474(BoxKeriWork *work, MATRIX *arg1, SVECTOR *arg2)
     return 0;
 }
 
-GV_ACT *NewBoxKeri_800D2600(MATRIX *mat, SVECTOR *svec)
+void *NewBoxKeri_800D2600(MATRIX *mat, SVECTOR *svec)
 {
     BoxKeriWork *work;
 
@@ -198,5 +198,5 @@ GV_ACT *NewBoxKeri_800D2600(MATRIX *mat, SVECTOR *svec)
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

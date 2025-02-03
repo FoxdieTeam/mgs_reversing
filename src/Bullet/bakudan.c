@@ -269,9 +269,9 @@ STATIC int BakudanGetResources(BakudanWork *work, MATRIX *world, SVECTOR *pos, i
  * @param   data        Pointer to the target (used to update the C4 position,
  *                      rotation and to delete the C4 when the target is dead).
  *
- * @return  GV_ACT*     Pointer to the new C4 actor.
+ * @return  void*       Pointer to the new C4 actor.
  */
-GV_ACT *NewBakudan(MATRIX *world, SVECTOR *pos, int attached, int unused, void *data)
+void *NewBakudan(MATRIX *world, SVECTOR *pos, int attached, int unused, void *data)
 {
     BakudanWork *work;
 
@@ -299,5 +299,5 @@ GV_ACT *NewBakudan(MATRIX *world, SVECTOR *pos, int attached, int unused, void *
         time_last_press_8009F430 = 0;
     }
 #endif
-    return &work->actor;
+    return (void *)work;
 }

@@ -140,7 +140,7 @@ STATIC int BoxGetResources(BoxWork *work, OBJECT *parent)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewBox(CONTROL *control, OBJECT *parent, int num_parent)
+void *NewBox(CONTROL *control, OBJECT *parent, int num_parent)
 {
     BoxWork *work = GV_NewActor(EXEC_LEVEL, sizeof(BoxWork));
     if (work)
@@ -157,5 +157,5 @@ GV_ACT *NewBox(CONTROL *control, OBJECT *parent, int num_parent)
         work->parent = parent;
     }
 
-    return (GV_ACT *)work;
+    return (void *)work;
 }

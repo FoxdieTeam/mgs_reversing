@@ -228,7 +228,7 @@ int SmokeGetResources_800D2B0C(SmokeWork *work, int where)
     return -1;
 }
 
-GV_ACT *NewSmoke_800D2BEC(int name, int where, int argc, char **argv)
+void *NewSmoke_800D2BEC(int name, int where, int argc, char **argv)
 {
     SmokeWork *work;
 
@@ -243,5 +243,5 @@ GV_ACT *NewSmoke_800D2BEC(int name, int where, int argc, char **argv)
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

@@ -1,5 +1,9 @@
 #include "demokage.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
@@ -225,7 +229,7 @@ int DemoKageGetResources_800C466C(DemokageWork *work, OBJECT *parent, SVECTOR ar
     return 0;
 }
 
-GV_ACT *NewDemoKage_800C48A4(OBJECT *parent, SVECTOR arg1, int *arg2, int *arg3, char r, char g, char b, int unused)
+void *NewDemoKage_800C48A4(OBJECT *parent, SVECTOR arg1, int *arg2, int *arg3, char r, char g, char b, int unused)
 {
     DemokageWork *work;
 
@@ -243,5 +247,5 @@ GV_ACT *NewDemoKage_800C48A4(OBJECT *parent, SVECTOR arg1, int *arg2, int *arg3,
         return NULL;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

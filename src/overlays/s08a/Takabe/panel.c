@@ -27,9 +27,8 @@ int panel_base_color = 0x3C808080;
 
 extern int     GM_CurrentMap;
 
-int AN_Unknown_800DCE84(SVECTOR *pos);
-
-GV_ACT *NewSpark2_800CA714(MATRIX *world);
+void AN_Unknown_800DCE84(SVECTOR *pos);
+void *NewSpark2_800CA714(MATRIX *world);
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
@@ -350,7 +349,7 @@ int PanelGetResources_800D210C(PanelWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT *NewPanel_800D2680(int name, int where)
+void *NewPanel_800D2680(int name, int where)
 {
     PanelWork *work;
 
@@ -371,5 +370,5 @@ GV_ACT *NewPanel_800D2680(int name, int where)
         work->f80 = 0;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

@@ -1,5 +1,9 @@
 #include "uji.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
@@ -378,7 +382,7 @@ int UjiGetResources_800C3FC8(UjiWork *work, int map)
     return 0;
 }
 
-GV_ACT *NewUji_800C42F8(int name, int where, int argc, char **argv)
+void *NewUji_800C42F8(int name, int where, int argc, char **argv)
 {
     UjiWork *work;
 
@@ -394,5 +398,5 @@ GV_ACT *NewUji_800C42F8(int name, int where, int argc, char **argv)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

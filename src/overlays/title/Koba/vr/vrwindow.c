@@ -420,7 +420,7 @@ int VrwindowGetResources_800D8024(VrwindowWork *work, int map)
     return 0;
 }
 
-GV_ACT *NewVrwindow_800D81AC(int name, int where)
+void *NewVrwindow_800D81AC(int name, int where)
 {
     VrwindowWork *work;
     int           i;
@@ -533,5 +533,5 @@ GV_ACT *NewVrwindow_800D81AC(int name, int where)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

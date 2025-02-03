@@ -55,7 +55,7 @@ STATIC int RipplesGetResources_800D8634(RipplesWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT *NewRipples_800D872C(int name, int where, int argc, char **argv)
+void *NewRipples_800D872C(int name, int where, int argc, char **argv)
 {
     RipplesWork *work;
 
@@ -71,5 +71,5 @@ GV_ACT *NewRipples_800D872C(int name, int where, int argc, char **argv)
         work->field_20 = where;
         work->field_24 = name;
     }
-    return &work->actor;
+    return (void *)work;
 }

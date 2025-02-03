@@ -170,7 +170,7 @@ void AsiatoCharDie_800D116C(AsiatoCharWork *work)
     AsiatoPositions[48].vy--;
 }
 
-GV_ACT *NewAsiatoChar_800D11DC(MATRIX *arg0, int arg1, int arg2, int arg3, int arg4)
+void *NewAsiatoChar_800D11DC(MATRIX *arg0, int arg1, int arg2, int arg3, int arg4)
 {
     AsiatoCharWork *work;
 
@@ -186,7 +186,7 @@ GV_ACT *NewAsiatoChar_800D11DC(MATRIX *arg0, int arg1, int arg2, int arg3, int a
         }
         work->field_48 = arg4;
     }
-    return &work->actor;
+    return (void *)work;
 }
 
 typedef struct AsiatoWork
@@ -458,7 +458,7 @@ void AsiatoInit_800D199C(AsiatoWork *work)
 
 void AsiatoAct_800D18C8(AsiatoWork *work);
 
-GV_ACT *NewAsiato_800D1A14(int name, int where, int argc, char **argv)
+void *NewAsiato_800D1A14(int name, int where, int argc, char **argv)
 {
     AsiatoWork *work;
 
@@ -469,10 +469,10 @@ GV_ACT *NewAsiato_800D1A14(int name, int where, int argc, char **argv)
         AsiatoInit_800D199C(work);
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewAsiatoKun_800D1A70(int name, int where, int argc, char **argv)
+void *NewAsiatoKun_800D1A70(int name, int where, int argc, char **argv)
 {
     // Identical to NewAsiato_800D1A14
     AsiatoWork *work;
@@ -484,5 +484,5 @@ GV_ACT *NewAsiatoKun_800D1A70(int name, int where, int argc, char **argv)
         AsiatoInit_800D199C(work);
     }
 
-    return &work->actor;
+    return (void *)work;
 }

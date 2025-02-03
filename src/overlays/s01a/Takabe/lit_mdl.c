@@ -224,7 +224,7 @@ int s01a_lit_mdl_800E2ADC(LitMdlWork *work, MATRIX *arg2, int arg3, int arg4, in
     return 0;
 }
 
-GV_ACT *s01a_lit_mdl_800E2C88(MATRIX *arg0, int arg1, int arg2, int arg3)
+void *s01a_lit_mdl_800E2C88(MATRIX *arg0, int arg1, int arg2, int arg3)
 {
     LitMdlWork *work;
 
@@ -238,7 +238,7 @@ GV_ACT *s01a_lit_mdl_800E2C88(MATRIX *arg0, int arg1, int arg2, int arg3)
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }
 
 void s01a_lit_mdl_800E2D3C(LitMdlWork *work, int ang)

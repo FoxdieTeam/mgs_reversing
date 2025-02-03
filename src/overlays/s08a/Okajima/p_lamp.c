@@ -37,9 +37,9 @@ typedef struct PLampWork
 SVECTOR p_lamp_target_svec_800C353C = {5, 5, 5};
 RECT    p_lamp_prim_rect_800C3544 = {100, 100, 200, 200};
 
-GV_ACT *NewCinemaScreen_800DE434(int, int);
-int     NewCinemaScreenClose_800DE4CC(GV_ACT *work);
-GV_ACT *NewSpark2_800CA714(MATRIX *world);
+void *NewCinemaScreen_800DE434(int, int);
+int   NewCinemaScreenClose_800DE4CC(void *work);
+void *NewSpark2_800CA714(MATRIX *world);
 
 extern int     GM_CurrentMap;
 extern int     GM_PadVibration;
@@ -517,7 +517,7 @@ int PLampGetResources_800CD6E4(PLampWork *work, int map, int n_verts)
     return 0;
 }
 
-GV_ACT *NewPLamp_800CD948(int name, int where)
+void *NewPLamp_800CD948(int name, int where)
 {
     PLampWork *work;
     int        n_verts;
@@ -537,5 +537,5 @@ GV_ACT *NewPLamp_800CD948(int name, int where)
         PLampGetResources2_800CD6B0(work, name, where);
     }
 
-    return &work->actor;
+    return (void *)work;
 }

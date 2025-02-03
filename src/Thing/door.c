@@ -758,7 +758,7 @@ STATIC int DoorGetResources_8006FA60(DoorWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT *NewDoor(int name, int where, int argc, char **argv)
+void *NewDoor(int name, int where, int argc, char **argv)
 {
     int       leaf_count;
     DoorWork *work;
@@ -788,5 +788,5 @@ GV_ACT *NewDoor(int name, int where, int argc, char **argv)
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

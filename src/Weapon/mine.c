@@ -110,7 +110,7 @@ STATIC int MineGetResources(MineWork *work, OBJECT *parent, int num_parent)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewMine(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side)
+void *NewMine(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side)
 {
     MineWork *work = GV_NewActor(EXEC_LEVEL, sizeof(MineWork));
     if (work)
@@ -132,5 +132,5 @@ GV_ACT *NewMine(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *
     GM_MagazineMax_800ABA2C = 0;
     GM_Magazine_800AB9EC = 0;
 
-    return &work->actor;
+    return (void *)work;
 }

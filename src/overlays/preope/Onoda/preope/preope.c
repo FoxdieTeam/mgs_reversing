@@ -1,3 +1,7 @@
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
@@ -78,8 +82,8 @@ signed char text_outline_direction_offsets_800C3248[] = {
 extern int    GV_Clock;
 extern GV_PAD GV_PadData_800B05C0[4];
 
-GV_ACT *NewPreMet1_800C6F20(int, int *, Unknown *);
-GV_ACT *NewPreMet2_800C6F20(int, int *, Unknown *);
+void *NewPreMet1_800C6F20(int, int *, Unknown *);
+void *NewPreMet2_800C6F20(int, int *, Unknown *);
 
 #define EXEC_LEVEL GV_ACTOR_MANAGER
 
@@ -856,7 +860,7 @@ int PreopeGetResources_800C46F8(PreopeWork *work, int map)
     return 0;
 }
 
-GV_ACT *NewPreope_800C4DA4(int name, int where, int argc, char **argv)
+void *NewPreope_800C4DA4(int name, int where, int argc, char **argv)
 {
     PreopeWork *work;
 
@@ -872,5 +876,5 @@ GV_ACT *NewPreope_800C4DA4(int name, int where, int argc, char **argv)
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

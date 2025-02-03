@@ -62,7 +62,7 @@ STATIC void scn_mask_Die(struct ScnMaskWork *work)
     }
 }
 
-STATIC int scn_mask_GetResources(struct ScnMaskWork *work, int a2)
+STATIC int scn_mask_GetResources(struct ScnMaskWork *work, int type)
 {
     SCN_MASK_PRIMS  *pPrims;
     TILE            *p2nd;
@@ -89,7 +89,7 @@ STATIC int scn_mask_GetResources(struct ScnMaskWork *work, int a2)
 
     pPrims->field_10_tile_big[1] = pPrims->field_10_tile_big[0];
 
-    if (!a2)
+    if (!type)
     {
         // night vision goggles green color
         setRGB0(&pPrims->field_10_tile_big[0], 56, 120, 40);
@@ -142,9 +142,9 @@ STATIC int scn_mask_GetResources(struct ScnMaskWork *work, int a2)
  *
  * @param   type    1 for thermal goggles, 0 for night vision goggles.
  *
- * @return  GV_ACT* the actor for the screen effect.
+ * @return  void*   the actor for the screen effect.
  */
-GV_ACT *NewNightVisionScreen(int type)
+void *NewNightVisionScreen(int type)
 {
     ScnMaskWork *work = GV_NewActor(EXEC_LEVEL, sizeof(ScnMaskWork));
     if (work)
@@ -157,5 +157,5 @@ GV_ACT *NewNightVisionScreen(int type)
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

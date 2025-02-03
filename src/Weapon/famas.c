@@ -184,7 +184,7 @@ STATIC int FamasGetResources(FamasWork *work, OBJECT *parent, int num_parent, in
 
 /*---------------------------------------------------------------------------*/
 
-STATIC GV_ACT *InitFAMAS(CONTROL *control, OBJECT *parent, int num_parent, int *flags, int mp5flag)
+STATIC void *InitFAMAS(CONTROL *control, OBJECT *parent, int num_parent, int *flags, int mp5flag)
 {
     int mag_size;
 
@@ -229,10 +229,10 @@ STATIC GV_ACT *InitFAMAS(CONTROL *control, OBJECT *parent, int num_parent, int *
         GM_MagazineMax_800ABA2C = mag_size;
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewFAMAS(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side)
+void *NewFAMAS(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side)
 {
     return InitFAMAS(control, parent, num_parent, flags, (unsigned int)GM_DifficultyFlag >> 31);
 }

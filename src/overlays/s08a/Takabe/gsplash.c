@@ -251,7 +251,7 @@ int GsplashGetResources_800D3F14(GsplashWork *work, MATRIX *pos)
     return 0;
 }
 
-GV_ACT *NewGsplash_800D4000(MATRIX *pos, SVECTOR *arg1, short arg2, short n_prims)
+void *NewGsplash_800D4000(MATRIX *pos, SVECTOR *arg1, short arg2, short n_prims)
 {
     GsplashWork *work;
 
@@ -279,5 +279,5 @@ GV_ACT *NewGsplash_800D4000(MATRIX *pos, SVECTOR *arg1, short arg2, short n_prim
         work->fAB8 = arg2;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

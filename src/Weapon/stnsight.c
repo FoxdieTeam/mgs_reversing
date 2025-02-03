@@ -281,7 +281,7 @@ STATIC void stnsight_act_helper_80068798(StnSightWork *work, unsigned int *ot)
 }
 
 /* ミサイル照準セット */
-STATIC void SetMissileRect_80068A24(StnSightWork *work, unsigned int *ot)
+STATIC void SetMissileRect(StnSightWork *work, unsigned int *ot)
 {
     LINE_F4        *lines;
     DVECTOR         sxy;
@@ -426,7 +426,7 @@ STATIC void StnSightAct(StnSightWork *work)
 
     stnsight_act_helper_80068420(work, uVar1);
     stnsight_act_helper_80068798(work, uVar1);
-    SetMissileRect_80068A24(work, uVar1);
+    SetMissileRect(work, uVar1);
     stnsight_act_helper_80068BF4(work, uVar1);
     stnsight_act_helper_8006837C(work);
     menu_Text_Init_80038B98();
@@ -708,13 +708,13 @@ STATIC int StnSightGetResources(StnSightWork *work, CONTROL *control)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewStnSight(CONTROL *control)
+void *NewStnSight(CONTROL *control)
 {
     StnSightWork *work;
 
     if (word_800AB8EC != 0)
     {
-        return 0;
+        return NULL;
     }
 
     work = GV_NewActor(EXEC_LEVEL, sizeof(StnSightWork));
@@ -732,5 +732,5 @@ GV_ACT *NewStnSight(CONTROL *control)
         word_800AB8EC = 1;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

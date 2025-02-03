@@ -20,8 +20,8 @@ typedef struct _FlrSpaWork
 extern int     GM_CurrentMap;
 extern SVECTOR GM_PlayerPosition_800ABA10;
 
-void NewSpark2_800CA714(MATRIX *world);
-GV_ACT *NewPlasmaH_800D1B2C(SVECTOR *pos1, SVECTOR *pos2, int time);
+void *NewSpark2_800CA714(MATRIX *world);
+void *NewPlasmaH_800D1B2C(SVECTOR *pos1, SVECTOR *pos2, int time);
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL4
 
@@ -235,7 +235,7 @@ int FlrSpaGetResources_800D0EC8(FlrSpaWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT *NewFlrSpa_800D0F78(int name, int where)
+void *NewFlrSpa_800D0F78(int name, int where)
 {
     FlrSpaWork *work;
 
@@ -250,5 +250,5 @@ GV_ACT *NewFlrSpa_800D0F78(int name, int where)
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

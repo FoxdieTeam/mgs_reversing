@@ -93,10 +93,10 @@ extern char s03b_dword_800C32D8[];
 
 extern char s03b_dword_800D32F0[16];
 
-GV_ACT *NewFadeIo_800C4224(int name, int where);
-GV_ACT *NewPlasma_800CD1A4(OBJECT *, int, int, int, int, int);
-GV_ACT *NewInfo_800CA534(unsigned short name1, unsigned short name2, int *abe);
-GV_ACT *NewBlur_800CD530(int, int, int);
+void *NewFadeIo_800C4224(int name, int where);
+void *NewPlasma_800CD1A4(OBJECT *, int, int, int, int, int);
+void *NewInfo_800CA534(unsigned short name1, unsigned short name2, int *abe);
+void *NewBlur_800CD530(int, int, int);
 
 void InfoKill_800CA5D0(void);
 
@@ -2076,7 +2076,7 @@ int TortureGetResources_800C6B3C(TortureWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT *NewTorture_800C6E1C(int name, int where)
+void *NewTorture_800C6E1C(int name, int where)
 {
     TortureWork *work;
 
@@ -2087,7 +2087,7 @@ GV_ACT *NewTorture_800C6E1C(int name, int where)
 
         if (TortureGetResources_800C6B3C(work, name, where) >= 0)
         {
-            return &work->actor;
+            return (void *)work;
         }
 
         GV_DestroyActor(&work->actor);

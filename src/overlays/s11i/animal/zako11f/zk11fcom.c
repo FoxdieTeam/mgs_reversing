@@ -974,7 +974,7 @@ void ZakoCommanderGetResources_800D1EC8(Zako11FCommanderWork *work, int name, in
     Zako11FCommand_800D5AF8.field_0x110 = 0;
 }
 
-GV_ACT *NewZakoCommander_800D20D8( int name, int where )
+void *NewZakoCommander_800D20D8( int name, int where )
 {
     Zako11FCommanderWork *work ;
 
@@ -983,5 +983,5 @@ GV_ACT *NewZakoCommander_800D20D8( int name, int where )
         GV_SetNamedActor( &( work->actor ), ZakoCommanderAct_800D1DB0, ZakoCommanderDie_800D1E30, "zk11fcom.c" );
         ZakoCommanderGetResources_800D1EC8( work, name, where );
     }
-    return &work->actor;
+    return (void *)work;
 }

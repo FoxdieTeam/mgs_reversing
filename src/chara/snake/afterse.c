@@ -6,16 +6,16 @@
 
 typedef struct AfterseWork
 {
-  GV_ACT actor;
-  short  sound;
-  short  time;
+    GV_ACT  actor;
+    short   sound;
+    short   time;
 } AfterseWork;
 
 #define EXEC_LEVEL GV_ACTOR_AFTER
 
 extern SVECTOR GM_PlayerPosition_800ABA10;
 
-void AfterseAct_800603EC(AfterseWork *work)
+STATIC void AfterseAct_800603EC(AfterseWork *work)
 {
     if ( --work->time == 0 )
     {
@@ -30,7 +30,7 @@ void AfterseAct_800603EC(AfterseWork *work)
     }
 }
 
-GV_ACT *NewAfterse_800604C0(short sound, short time)
+void *NewAfterse_800604C0(short sound, short time)
 {
     AfterseWork *work;
 
@@ -42,7 +42,7 @@ GV_ACT *NewAfterse_800604C0(short sound, short time)
             GV_SetNamedActor(&work->actor, AfterseAct_800603EC, NULL, "afterse.c");
             work->sound = sound;
             work->time = time;
-            return (GV_ACT *)work;
+            return (void *)work;
         }
     }
 

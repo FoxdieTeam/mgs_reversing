@@ -1,5 +1,9 @@
 #include "windcrcl.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
@@ -216,7 +220,7 @@ int WindcrclGetResources_800CF598(WindcrclWork *work, MATRIX *world, int arg2)
     return 0;
 }
 
-GV_ACT *NewWindcrcl_800CF6BC(MATRIX *world, int arg1)
+void *NewWindcrcl_800CF6BC(MATRIX *world, int arg1)
 {
     WindcrclWork *work;
 
@@ -236,10 +240,10 @@ GV_ACT *NewWindcrcl_800CF6BC(MATRIX *world, int arg1)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewWindcrcl_800CF784(MATRIX *world, int arg1, int arg2, int arg3, int time)
+void *NewWindcrcl_800CF784(MATRIX *world, int arg1, int arg2, int arg3, int time)
 {
     WindcrclWork *work;
 
@@ -261,5 +265,5 @@ GV_ACT *NewWindcrcl_800CF784(MATRIX *world, int arg1, int arg2, int arg3, int ti
         work->time = time;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

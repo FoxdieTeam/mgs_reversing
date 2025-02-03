@@ -156,7 +156,7 @@ int FadeIoGetResources_800C4100(FadeIoWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT *NewFadeIo_800C4224(int name, int where, int argc, char **argv)
+void *NewFadeIo_800C4224(int name, int where, int argc, char **argv)
 {
     FadeIoWork *work;
 
@@ -172,10 +172,10 @@ GV_ACT *NewFadeIo_800C4224(int name, int where, int argc, char **argv)
 
         work->field_20 = 0x62FE;
     }
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewFadeIo_800C42BC(int name, int where, int argc, char **argv)
+void *NewFadeIo_800C42BC(int name, int where, int argc, char **argv)
 {
     FadeIoWork *work;
 
@@ -193,5 +193,5 @@ GV_ACT *NewFadeIo_800C42BC(int name, int where, int argc, char **argv)
         work->field_20 = name;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

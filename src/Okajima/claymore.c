@@ -372,17 +372,17 @@ STATIC int claymore_GetResources(ClaymoreWork *work, SVECTOR *new_field_24, SVEC
 
 STATIC const SVECTOR stru_80012EEC = {200, 200, 200, 0};
 
-GV_ACT *NewClaymore(SVECTOR *noise_position, SVECTOR *new_field_2C, int pCnt, int param_4)
+void *NewClaymore(SVECTOR *noise_position, SVECTOR *new_field_2C, int pCnt, int param_4)
 {
     int             i;
     ClaymoreWork   *work;
-    GV_ACT         *null_actor;
+    ClaymoreWork   *dummy;
     SVECTOR         new_field_24;
     SVECTOR         vec2;
     int             current_map;
 
     work = NULL;
-    null_actor = NULL;
+    dummy = NULL;
 
     new_field_24 = stru_80012EEC;
 
@@ -423,9 +423,9 @@ GV_ACT *NewClaymore(SVECTOR *noise_position, SVECTOR *new_field_2C, int pCnt, in
         }
         else
         {
-            return null_actor;
+            return (void *)dummy;
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

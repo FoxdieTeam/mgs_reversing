@@ -269,9 +269,9 @@ STATIC int RcmGetResources(RcmWork *work, OBJECT *parent, int unit)
  * @param   flags       Pointer to flags indicating Nikita state.
  * @param   which_side  Indicates which side the Nikita is on.
  *
- * @return  GV_ACT*     Returns a pointer to the new actor.
+ * @return  void*       Returns a pointer to the new actor.
  */
-GV_ACT *NewRCM(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side)
+void *NewRCM(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side)
 {
     RcmWork *work;
     int      loadResult;
@@ -301,5 +301,5 @@ GV_ACT *NewRCM(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *f
     GM_MagazineMax_800ABA2C = 0;
     GM_Magazine_800AB9EC = 0;
 
-    return &work->actor;
+    return (void *)work;
 }

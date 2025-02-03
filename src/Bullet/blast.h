@@ -3,6 +3,7 @@
 
 #include <sys/types.h>
 #include <libgte.h>
+#include <libgpu.h>
 
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
@@ -29,8 +30,8 @@ typedef struct BlastWork
     TARGET   target;
 } BlastWork;
 
-GV_ACT *NewBlast( MATRIX *world, BLAST_DATA *blast_data );
-GV_ACT *NewBlast2( MATRIX *world, BLAST_DATA *blast_data, int doSound, int side );
+void *NewBlast( MATRIX *world, BLAST_DATA *blast_data );
+void *NewBlast2( MATRIX *world, BLAST_DATA *blast_data, int doSound, int side );
 
 void AN_Blast_Single( SVECTOR *pos );
 void AN_Blast_Mini( SVECTOR *pos );

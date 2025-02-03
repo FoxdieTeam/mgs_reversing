@@ -1,3 +1,7 @@
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
@@ -281,7 +285,7 @@ int OptxtscnGetResources_800CD080(OpTxtScnWork *work)
     return 0;
 }
 
-GV_ACT *NewOpTxtScn_800CD29C(void)
+void *NewOpTxtScn_800CD29C(void)
 {
     OpTxtScnWork *work;
 
@@ -295,5 +299,5 @@ GV_ACT *NewOpTxtScn_800CD29C(void)
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

@@ -123,7 +123,7 @@ int s16d_belong_800C3994(BelongWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT *s16d_belong_800C3AD0(int name, int where, int argc, char **argv)
+void *s16d_belong_800C3AD0(int name, int where, int argc, char **argv)
 {
     BelongWork *work;
 
@@ -137,5 +137,5 @@ GV_ACT *s16d_belong_800C3AD0(int name, int where, int argc, char **argv)
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

@@ -543,7 +543,7 @@ int s07a_meryl7_800D5DD4( WatcherWork *work )
 extern const char s07a_dword_800E2E98[];
 extern const char s07a_dword_800E2EA0[];
 
-extern GV_ACT *s07a_dymc_seg_800D65C8(int arg0, SVECTOR *min, SVECTOR *max, int min_h, int max_h, int flag, void **arg6);
+extern void *s07a_dymc_seg_800D65C8(int arg0, SVECTOR *min, SVECTOR *max, int min_h, int max_h, int flag, void **arg6);
 
 void s07a_meryl7_800D5E34( WatcherWork *work )
 {
@@ -771,7 +771,8 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
 extern const char s07a_aMeryl7_800E2F04[];
 extern const char s07a_aEnemyworksized_800E2EEC[];
 
-GV_ACT* NewEnemyMeryl_800D63A4( int name, int where, int argc, char **argv ) {
+void *NewEnemyMeryl_800D63A4( int name, int where, int argc, char **argv )
+{
     WatcherWork *work ;
 
     printf( (char *)s07a_aEnemyworksized_800E2EEC, sizeof( WatcherWork ) );

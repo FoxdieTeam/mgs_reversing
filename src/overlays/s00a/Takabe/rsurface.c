@@ -108,7 +108,7 @@ int RippleSurfaceGetResources_800D8148(RSurfaceWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT *NewRippleSurface_800D8244(int name, int where, int argc, char **argv)
+void *NewRippleSurface_800D8244(int name, int where, int argc, char **argv)
 {
     RSurfaceWork *work;
 
@@ -125,7 +125,7 @@ GV_ACT *NewRippleSurface_800D8244(int name, int where, int argc, char **argv)
         work->field_20 = where;
         work->field_24 = name;
     }
-    return &work->actor;
+    return (void *)work;
 }
 
 static inline int s00a_rsurface_800D82E0_helper(RSurfaceWork *work, CONTROL *ctrl)

@@ -446,7 +446,7 @@ STATIC int SocomGetResources( SocomWork *actor, OBJECT *parent, int num_parent )
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewSOCOM( CONTROL *control, OBJECT *parent, int num_parent,  unsigned int *flags, int which_side )
+void *NewSOCOM( CONTROL *control, OBJECT *parent, int num_parent,  unsigned int *flags, int which_side )
 {
     SocomWork *work;
     int mag_size;
@@ -486,5 +486,5 @@ GV_ACT *NewSOCOM( CONTROL *control, OBJECT *parent, int num_parent,  unsigned in
     GM_MagazineMax_800ABA2C = mag_size;
     GM_Magazine_800AB9EC = ammo;
 
-    return &work->actor;
+    return (void *)work;
 }

@@ -232,8 +232,8 @@ STATIC int GrenadeGetResources( GrenadeWork *work, OBJECT *parent, int num_paren
 
 /*---------------------------------------------------------------------------*/
 
-STATIC GV_ACT *InitGrenade( CONTROL *control, OBJECT *parent, int num_parent,
-                            int *flags, int which_side, int grd_type )
+STATIC void *InitGrenade( CONTROL *control, OBJECT *parent, int num_parent,
+                          int *flags, int which_side, int grd_type )
 {
     GrenadeWork *work;
 
@@ -244,7 +244,7 @@ STATIC GV_ACT *InitGrenade( CONTROL *control, OBJECT *parent, int num_parent,
         if ( GrenadeGetResources( work, parent, num_parent, grd_type ) < 0 )
         {
             GV_DestroyActor( &work->actor );
-            return 0;
+            return NULL;
         }
 
         work->control = control;
@@ -260,25 +260,25 @@ STATIC GV_ACT *InitGrenade( CONTROL *control, OBJECT *parent, int num_parent,
     GM_MagazineMax_800ABA2C = 0;
     GM_Magazine_800AB9EC = 0;
 
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewGrenade( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side )
+void *NewGrenade( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side )
 {
     return InitGrenade( control, parent, num_parent, flags, which_side, GRD_GRENADE );
 }
 
-GV_ACT *NewStanGrenade( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side )
+void *NewStanGrenade( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side )
 {
     return InitGrenade( control, parent, num_parent, flags, which_side, GRD_STUN );
 }
 
-GV_ACT *NewChaffGrenade( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side )
+void *NewChaffGrenade( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side )
 {
     return InitGrenade( control, parent, num_parent, flags, which_side, GRD_CHAFF );
 }
 
-GV_ACT *NewTimerBomb( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side )
+void *NewTimerBomb( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side )
 {
     return InitGrenade( control, parent, num_parent, flags, which_side, GRD_TBOMB );
 }

@@ -300,7 +300,7 @@ int AtGetResources_800D75BC(AtWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT *NewAt_800D78A4(int name, int where)
+void *NewAt_800D78A4(int name, int where)
 {
     AtWork *work;
 
@@ -316,5 +316,5 @@ GV_ACT *NewAt_800D78A4(int name, int where)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

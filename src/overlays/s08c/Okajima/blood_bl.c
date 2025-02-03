@@ -200,7 +200,7 @@ int BloodBlGetResources_800CD520(BloodBlWork *work, int map)
     return 0;
 }
 
-GV_ACT *NewBloodBl_800CD7CC(int name, int where)
+void *NewBloodBl_800CD7CC(int name, int where)
 {
     BloodBlWork *work;
 
@@ -216,5 +216,5 @@ GV_ACT *NewBloodBl_800CD7CC(int name, int where)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

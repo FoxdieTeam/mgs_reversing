@@ -208,7 +208,7 @@ int WakeGetResources_800C615C(WakeWork *work, int where)
     return 0;
 }
 
-GV_ACT *NewWake_800C6298(int where)
+void *NewWake_800C6298(int where)
 {
     WakeWork *work;
 
@@ -226,5 +226,5 @@ GV_ACT *NewWake_800C6298(int where)
         return NULL;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

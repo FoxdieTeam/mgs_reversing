@@ -119,7 +119,7 @@ int FonttextGetResources_800C4358( Work *work )
     return 0;
 }
 
-GV_ACT *NewFonttext_800C446C( int name, int where )
+void *NewFonttext_800C446C( int name, int where )
 {
     Work *work;
 
@@ -138,5 +138,5 @@ GV_ACT *NewFonttext_800C446C( int name, int where )
         work->hash = name;
     }
 
-    return &( work->actor );
+    return (void *)work;
 }

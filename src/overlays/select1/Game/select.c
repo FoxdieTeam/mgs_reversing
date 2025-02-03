@@ -163,7 +163,7 @@ int SelectGetResources_800C33D0(Work *work, int param_2, int param_3)
     return 0;
 }
 
-GV_ACT *NewSelect_800C3434(int name, int where, int argc, char **argv)
+void *NewSelect_800C3434(int name, int where, int argc, char **argv)
 {
     Work *work;
 
@@ -182,5 +182,5 @@ GV_ACT *NewSelect_800C3434(int name, int where, int argc, char **argv)
     isStageSelectionMenu = name == 10524;
 #endif
 
-    return &work->actor;
+    return (void *)work;
 }

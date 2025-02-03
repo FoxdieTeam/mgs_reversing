@@ -1,3 +1,7 @@
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
@@ -2240,7 +2244,7 @@ int OptionGetResources_800C7F88(OptionWork *work, int map)
     return 0;
 }
 
-GV_ACT *NewOption_800C9344(int name, int where)
+void *NewOption_800C9344(int name, int where)
 {
     OptionWork *work;
 
@@ -2258,5 +2262,5 @@ GV_ACT *NewOption_800C9344(int name, int where)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

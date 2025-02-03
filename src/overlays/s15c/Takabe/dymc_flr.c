@@ -138,7 +138,7 @@ int s15c_dymc_flr_800E1B7C(DymcFloorWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT *s15c_dymc_flr_800E1C70(int name, int where, int argc, char **argv)
+void *s15c_dymc_flr_800E1C70(int name, int where, int argc, char **argv)
 {
     DymcFloorWork *work;
 
@@ -152,6 +152,6 @@ GV_ACT *s15c_dymc_flr_800E1C70(int name, int where, int argc, char **argv)
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }
 

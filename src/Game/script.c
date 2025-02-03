@@ -523,14 +523,14 @@ STATIC int GM_Command_mesg(unsigned char *top)
 STATIC int GM_Command_chara(int argc, char **argv)
 {
     int         ret;
-    int         charaHash;
-    NEWCHARA    pCreateActorFn;
+    int         name;
+    NEWCHARA    func;
 
-    pCreateActorFn = GM_GetChara(GCL_GetParamResult());
-    if (pCreateActorFn)
+    func = GM_GetChara(GCL_GetParamResult());
+    if (func != NULL)
     {
-        charaHash = GCL_StrToInt(GCL_GetParamResult());
-        (*pCreateActorFn)(charaHash, gBinds_800ABA60, argc, argv);
+        name = GCL_StrToInt(GCL_GetParamResult());
+        (*func)(name, gBinds_800ABA60, argc, argv);
         ret = 0;
     }
     else
@@ -1017,9 +1017,9 @@ STATIC int GM_Command_rand(unsigned char *top)
 STATIC int GM_Command_func(unsigned char *top)
 {
     SVECTOR     vec;
-    CONTROL *unkStruct;
+    CONTROL    *control;
     int         param;
-    MAP *map;
+    MAP        *map;
 
     if (GCL_GetOption('v')) // vector
     {
@@ -1028,11 +1028,11 @@ STATIC int GM_Command_func(unsigned char *top)
     }
     if (GCL_GetOption('s'))
     {
-        unkStruct = GM_PlayerControl_800AB9F4;
-        GM_SnakePosX = unkStruct->mov.vx;
-        GM_SnakePosY = unkStruct->mov.vy;
-        GM_SnakePosZ = unkStruct->mov.vz;
-        GM_LastResultFlag = unkStruct->rot.vy;
+        control = GM_PlayerControl_800AB9F4;
+        GM_SnakePosX = control->mov.vx;
+        GM_SnakePosY = control->mov.vy;
+        GM_SnakePosZ = control->mov.vz;
+        GM_LastResultFlag = control->rot.vy;
     }
     if (GCL_GetOption('a')) // area
     {

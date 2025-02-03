@@ -90,11 +90,11 @@ const char aSearchliAngle4D[] = "ANGLE:%4d \n";
 const SVECTOR SearchliCenter_800E46D8 = {0, 0, 3000, 0};
 
 
-void    s00a_command_800CEC40(SVECTOR *, int);
-void    s01a_object_800D9424(CONTROL *, int);
-void    s01a_800E2364(MATRIX *, SVECTOR *, VECTOR *);
-GV_ACT *s01a_lit_mdl_800E2C88(MATRIX *arg0, int arg1, int arg2, int arg3);
-void    s01a_lit_mdl_800E2D3C(GV_ACT *, int angle);
+void s00a_command_800CEC40(SVECTOR *, int);
+void s01a_object_800D9424(CONTROL *, int);
+void s01a_800E2364(MATRIX *, SVECTOR *, VECTOR *);
+void *s01a_lit_mdl_800E2C88(MATRIX *arg0, int arg1, int arg2, int arg3);
+void s01a_lit_mdl_800E2D3C(GV_ACT *, int angle);
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL4
 
@@ -1143,7 +1143,7 @@ void SearchlightDie_800D9274(SearchlightWork *work)
     }
 }
 
-GV_ACT *NewSearchlight_800D92BC(int name, int where, int argc, char **argv)
+void *NewSearchlight_800D92BC(int name, int where, int argc, char **argv)
 {
     SearchlightWork *work;
 
@@ -1164,5 +1164,5 @@ GV_ACT *NewSearchlight_800D92BC(int name, int where, int argc, char **argv)
         work->lit_mdl = s01a_lit_mdl_800E2C88(&work->lit_mtx, work->height, work->f272, 500);
     }
 
-    return &work->actor;
+    return (void *)work;
 }

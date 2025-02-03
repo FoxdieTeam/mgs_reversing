@@ -111,7 +111,7 @@ STATIC int d_blood_GetResources(DBloodWork *work)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewKetchap(CONTROL *control, OBJECT *parent_obj, int num_parent)
+void *NewKetchap(CONTROL *control, OBJECT *parent_obj, int num_parent)
 {
     DBloodWork *work;
 
@@ -127,5 +127,5 @@ GV_ACT *NewKetchap(CONTROL *control, OBJECT *parent_obj, int num_parent)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

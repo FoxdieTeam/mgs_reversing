@@ -272,7 +272,7 @@ void BubbleDisplaySceneDie_800D902C(BubDSnWork *work)
     }
 }
 
-GV_ACT *NewBubbleDisplayScene_800D90B4(int name, int where, int argc, char **argv)
+void *NewBubbleDisplayScene_800D90B4(int name, int where, int argc, char **argv)
 {
     BubDSnWork *work;
 
@@ -287,5 +287,5 @@ GV_ACT *NewBubbleDisplayScene_800D90B4(int name, int where, int argc, char **arg
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

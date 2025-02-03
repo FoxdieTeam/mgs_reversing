@@ -1,5 +1,9 @@
 #include "smke_ln.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 
@@ -129,7 +133,7 @@ int SmokeLnGetResources_800CDEF8(SmokeLnWork *work, int arg1, int time, int arg3
     return 0;
 }
 
-GV_ACT *NewSmokeLn_800CDFA4(int arg0, int arg1, int arg2, SVECTOR *arg3, SVECTOR *arg4, SVECTOR *arg5, char arg6, char arg7, char arg8)
+void *NewSmokeLn_800CDFA4(int arg0, int arg1, int arg2, SVECTOR *arg3, SVECTOR *arg4, SVECTOR *arg5, char arg6, char arg7, char arg8)
 {
     SmokeLnWork *work;
 
@@ -140,5 +144,5 @@ GV_ACT *NewSmokeLn_800CDFA4(int arg0, int arg1, int arg2, SVECTOR *arg3, SVECTOR
         SmokeLnGetResources_800CDEF8(work, arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
     }
 
-    return &work->actor;
+    return (void *)work;
 }

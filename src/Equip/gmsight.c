@@ -51,7 +51,7 @@ STATIC int GasmaskSightGetResources(GasmaskSightWork *work, OBJECT *parent, int 
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewGasmaskSight(CONTROL *control, OBJECT *parent, int num_parent)
+void *NewGasmaskSight(CONTROL *control, OBJECT *parent, int num_parent)
 {
     GasmaskSightWork *work;
 
@@ -69,5 +69,5 @@ GV_ACT *NewGasmaskSight(CONTROL *control, OBJECT *parent, int num_parent)
         }
     }
 
-    return (GV_ACT *)work;
+    return (void *)work;
 }

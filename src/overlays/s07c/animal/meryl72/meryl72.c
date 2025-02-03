@@ -663,7 +663,7 @@ int Meryl72GetResources_800C7738( Meryl72Work *work, int arg1, int arg2 )
     return 0;
 }
 
-GV_ACT *NewMeryl72_800C7BC4( int arg0, int arg1 )
+void *NewMeryl72_800C7BC4( int arg0, int arg1 )
 {
     Meryl72Work *work;
 
@@ -679,5 +679,5 @@ GV_ACT *NewMeryl72_800C7BC4( int arg0, int arg1 )
         }
     }
 
-    return (GV_ACT *)work;
+    return (void *)work;
 }

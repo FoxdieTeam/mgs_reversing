@@ -70,7 +70,7 @@ int JFamasGetResources_800CAF40(JFamasWork *work, OBJECT *parent, int num_parent
     return 0;
 }
 
-GV_ACT *NewJFamas_800CAFAC(CONTROL *control, OBJECT *parent, int num_parent, int *trigger)
+void *NewJFamas_800CAFAC(CONTROL *control, OBJECT *parent, int num_parent, int *trigger)
 {
     JFamasWork *work;
 
@@ -90,5 +90,5 @@ GV_ACT *NewJFamas_800CAFAC(CONTROL *control, OBJECT *parent, int num_parent, int
         work->side = 2;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

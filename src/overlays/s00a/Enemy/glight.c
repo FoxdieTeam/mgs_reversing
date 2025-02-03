@@ -112,7 +112,7 @@ int GunLightGetResources_800D39D0(GlightWork *work, MATRIX *world, int **pvisibl
     return 0;
 }
 
-GV_ACT *NewGunLight_800D3AD4(MATRIX *world, int **pvisible)
+void *NewGunLight_800D3AD4(MATRIX *world, int **pvisible)
 {
     GlightWork *work;
 
@@ -128,5 +128,5 @@ GV_ACT *NewGunLight_800D3AD4(MATRIX *world, int **pvisible)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

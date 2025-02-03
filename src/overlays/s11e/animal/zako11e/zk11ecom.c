@@ -986,15 +986,13 @@ void ZakoCommanderGetResources_800DACA0( ZakoCommanderWork *work, int name, int 
     GM_VoxStream( ZakoCommand_800DF280.field_0x114, 0x40000000 );
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/NewZakoCommander_800DAF38.s")
-
 extern void ZakoCommanderAct_800DABF4();
 extern void ZakoCommanderDie_800DAC5C();
 extern const char s11e_aZkecomc_800DED84[];
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL4
 
-GV_ACT *NewZakoCommander_800DAF38( int name, int where, int argc, char **argv )
+void *NewZakoCommander_800DAF38( int name, int where, int argc, char **argv )
 {
     ZakoCommanderWork *work ;
 
@@ -1003,5 +1001,5 @@ GV_ACT *NewZakoCommander_800DAF38( int name, int where, int argc, char **argv )
         GV_SetNamedActor( &( work->actor ), ZakoCommanderAct_800DABF4, ZakoCommanderDie_800DAC5C, s11e_aZkecomc_800DED84 );
         ZakoCommanderGetResources_800DACA0( work, name, where );
     }
-    return &work->actor;
+    return (void *)work;
 }

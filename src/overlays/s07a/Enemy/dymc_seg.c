@@ -72,7 +72,7 @@ int s07a_dymc_seg_800D64CC(DymcSegWork *work, int arg1, SVECTOR *min, SVECTOR *m
     return 0;
 }
 
-GV_ACT *s07a_dymc_seg_800D65C8(int arg0, SVECTOR *min, SVECTOR *max, int min_h, int max_h, int flag, void **arg6)
+void *s07a_dymc_seg_800D65C8(int arg0, SVECTOR *min, SVECTOR *max, int min_h, int max_h, int flag, void **arg6)
 {
     DymcSegWork *work;
 
@@ -93,5 +93,5 @@ GV_ACT *s07a_dymc_seg_800D65C8(int arg0, SVECTOR *min, SVECTOR *max, int min_h, 
         work->field_48 = 1;
         work->field_4C = 1;
     }
-    return &work->actor;
+    return (void *)work;
 }

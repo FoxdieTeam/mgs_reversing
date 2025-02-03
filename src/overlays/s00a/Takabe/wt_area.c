@@ -25,9 +25,9 @@ typedef struct WaterAreaWork
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-extern void    NewSplash2_800DB4E0( int angy, SVECTOR *pos, int noripple );
-extern void   *NewRipple_800D7F30( MATRIX *, int );
-extern GV_ACT *NewWaterView_800DBE04(int name, int where, SVECTOR *arg2, CVECTOR *color);
+extern void NewSplash2_800DB4E0( int angy, SVECTOR *pos, int noripple );
+extern void *NewRipple_800D7F30( MATRIX *, int );
+extern void *NewWaterView_800DBE04(int name, int where, SVECTOR *arg2, CVECTOR *color);
 
 extern unsigned int     GM_PlayerStatus;
 extern CONTROL         *GM_PlayerControl_800AB9F4;
@@ -268,7 +268,7 @@ int WaterAreaGetResources_800DABD0( WaterAreaWork *work, int name, int where )
     return 0;
 }
 
-GV_ACT *NewWaterArea_800DACCC(int name, int where, int argc, char **argv)
+void *NewWaterArea_800DACCC(int name, int where, int argc, char **argv)
 {
     WaterAreaWork *work ;
 
@@ -283,5 +283,5 @@ GV_ACT *NewWaterArea_800DACCC(int name, int where, int argc, char **argv)
         work->where = where;
         work->name  = name;
     }
-    return &work->actor;
+    return (void *)work;
 }

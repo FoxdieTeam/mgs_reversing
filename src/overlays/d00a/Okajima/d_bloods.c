@@ -419,7 +419,7 @@ int DBloodsGetResources_800D5B08(DBloodsWork *work, SVECTOR *arg1, int arg2, int
     return 0;
 }
 
-GV_ACT *NewDBloods_800D5B70(SVECTOR *arg0, int arg1, int arg2, int arg3)
+void *NewDBloods_800D5B70(SVECTOR *arg0, int arg1, int arg2, int arg3)
 {
     DBloodsWork *work;
 
@@ -435,5 +435,5 @@ GV_ACT *NewDBloods_800D5B70(SVECTOR *arg0, int arg1, int arg2, int arg3)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

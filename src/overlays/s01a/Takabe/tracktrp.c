@@ -147,7 +147,7 @@ int TracktrpGetResources_800E1D38(TracktrpWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT *NewTracktrp_800E1DB0(int name, int where, int argc, char **argv)
+void *NewTracktrp_800E1DB0(int name, int where, int argc, char **argv)
 {
     TracktrpWork *work;
 
@@ -166,5 +166,5 @@ GV_ACT *NewTracktrp_800E1DB0(int name, int where, int argc, char **argv)
         work->name = name;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

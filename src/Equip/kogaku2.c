@@ -339,7 +339,7 @@ STATIC void Kogaku2Die2(Kogaku2Work *work)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewKogaku2(CONTROL *control, OBJECT *parent, int num_parent)
+void *NewKogaku2(CONTROL *control, OBJECT *parent, int num_parent)
 {
     Kogaku2Work *work;
     DG_OBJS *objs;
@@ -373,12 +373,12 @@ GV_ACT *NewKogaku2(CONTROL *control, OBJECT *parent, int num_parent)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewKogaku3(CONTROL *control, OBJECT *parent, int num_parent)
+void *NewKogaku3(CONTROL *control, OBJECT *parent, int num_parent)
 {
     SVECTOR vecs[9];
     long coords[9];
@@ -499,5 +499,5 @@ GV_ACT *NewKogaku3(CONTROL *control, OBJECT *parent, int num_parent)
         }
     }
 
-    return (GV_ACT *)work;
+    return (void *)work;
 }

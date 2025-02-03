@@ -121,7 +121,7 @@ int BedGetResources_800C6FD8(BedWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT *NewBed_800C70DC(int name, int where)
+void *NewBed_800C70DC(int name, int where)
 {
     BedWork *work;
 
@@ -137,5 +137,5 @@ GV_ACT *NewBed_800C70DC(int name, int where)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

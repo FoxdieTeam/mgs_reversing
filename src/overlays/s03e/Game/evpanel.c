@@ -1014,7 +1014,7 @@ int EvPanelGetResources_800C496C(EvPanelWork *work, int map, int name, int butto
     return -1;
 }
 
-GV_ACT *NewEvPanel_800C4AD8(int name, int where, int argc, char **argv)
+void *NewEvPanel_800C4AD8(int name, int where, int argc, char **argv)
 {
     EvPanelWork *work;
     int          button_count;
@@ -1030,5 +1030,5 @@ GV_ACT *NewEvPanel_800C4AD8(int name, int where, int argc, char **argv)
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

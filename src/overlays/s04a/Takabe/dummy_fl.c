@@ -442,7 +442,7 @@ int DummyFloorGetResources_800D68E4(DummyFloorWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT *NewDummyFloor_800D6BF8(int name, int where, int argc, char **argv)
+void *NewDummyFloor_800D6BF8(int name, int where, int argc, char **argv)
 {
     DummyFloorWork *work;
 
@@ -460,7 +460,7 @@ GV_ACT *NewDummyFloor_800D6BF8(int name, int where, int argc, char **argv)
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }
 
 void DummyFloor_800D6C94(DummyFloorWork *work, DummyFlap *flap, int model, int map)

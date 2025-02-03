@@ -327,7 +327,7 @@ STATIC void chafgrnd_Die(ChaffGrdWork *work)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewChaffGrd(MATRIX *world)
+void *NewChaffGrd(MATRIX *world)
 {
     SVECTOR vec;
     ChaffGrdWork *work;
@@ -365,5 +365,5 @@ GV_ACT *NewChaffGrd(MATRIX *world)
         GM_SetNoise(100, 32, &work->field_2c);
     }
 
-    return &work->actor;
+    return (void *)work;
 }

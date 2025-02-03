@@ -22,7 +22,7 @@ extern int      GM_CurrentMap;
 extern short    GM_Magazine_800AB9EC;
 extern short    GM_MagazineMax_800ABA2C;
 
-extern GV_ACT *NewBullet(MATRIX *pMtx, int a2, int a3, int noiseLen);
+extern void *NewBullet(MATRIX *pMtx, int a2, int a3, int noiseLen);
 
 /*---------------------------------------------------------------------------*/
 // PSG1 Rifle
@@ -232,7 +232,7 @@ STATIC int RifleGetResources(RifleWork *work, OBJECT *parent, int num_parent)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewRifle(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side)
+void *NewRifle(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side)
 {
     RifleWork  *work;
     int         mag_size, ammo;
@@ -267,5 +267,5 @@ GV_ACT *NewRifle(CONTROL *control, OBJECT *parent, int num_parent, unsigned int 
     GM_MagazineMax_800ABA2C = mag_size;
     GM_Magazine_800AB9EC = ammo;
 
-    return &work->actor;
+    return (void *)work;
 }

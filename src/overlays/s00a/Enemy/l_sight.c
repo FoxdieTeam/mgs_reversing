@@ -89,7 +89,7 @@ int LSightGetResources_800D1C90(LSightWork *work, int color)
 }
 
 
-GV_ACT *NewLSight_800D1D2C(SVECTOR *from, SVECTOR *to, int color)
+void *NewLSight_800D1D2C(SVECTOR *from, SVECTOR *to, int color)
 {
     LSightWork *work;
 
@@ -108,5 +108,5 @@ GV_ACT *NewLSight_800D1D2C(SVECTOR *from, SVECTOR *to, int color)
         work->timer = 8;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

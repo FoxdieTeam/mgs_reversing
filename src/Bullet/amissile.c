@@ -463,7 +463,7 @@ STATIC int AMissileGetResources(AMissileWork *work, MATRIX *world, int side)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewAMissile(MATRIX *world, int side)
+void *NewAMissile(MATRIX *world, int side)
 {
     AMissileWork *work = GV_NewActor(EXEC_LEVEL, sizeof(AMissileWork));
 
@@ -483,5 +483,5 @@ GV_ACT *NewAMissile(MATRIX *world, int side)
         work->field_12C_svector = DG_ZeroVector;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

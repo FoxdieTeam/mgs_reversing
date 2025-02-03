@@ -176,7 +176,7 @@ int WolfEyeGetResources_800D3728(WolfEyeWork *work, MATRIX *root, int *visible)
     return 0;
 }
 
-GV_ACT *NewWolfEye_800D3930(MATRIX *root, int *visible)
+void *NewWolfEye_800D3930(MATRIX *root, int *visible)
 {
     WolfEyeWork *work;
 
@@ -192,5 +192,5 @@ GV_ACT *NewWolfEye_800D3930(MATRIX *root, int *visible)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

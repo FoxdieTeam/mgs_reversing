@@ -284,7 +284,7 @@ int NewCinemaScreenClose_800DE4CC( CinemaScreenWork *work )
     return 0;
 }
 
-GV_ACT *NewCinemaScreenSet_800DE4D8(int name, int where, int argc, char **argv)
+void *NewCinemaScreenSet_800DE4D8(int name, int where, int argc, char **argv)
 {
     int ops, ops2;
     CinemaScreenWork *work ;
@@ -301,5 +301,5 @@ GV_ACT *NewCinemaScreenSet_800DE4D8(int name, int where, int argc, char **argv)
         }
         work->name = name;
     }
-    return &work->actor;
+    return (void *)work;
 }

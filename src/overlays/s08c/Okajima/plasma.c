@@ -673,7 +673,7 @@ int PlasmaGetResources_800CD040(PlasmaWork *work, SVECTOR *arg1, SVECTOR *arg2, 
     return 0;
 }
 
-GV_ACT *NewPlasma_800CD110(int name, int where)
+void *NewPlasma_800CD110(int name, int where)
 {
     PlasmaWork *work;
 
@@ -689,10 +689,10 @@ GV_ACT *NewPlasma_800CD110(int name, int where)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewPlasma_800CD1A4(OBJECT *parent, int arg1, int arg2, int arg3, int arg4, int arg5)
+void *NewPlasma_800CD1A4(OBJECT *parent, int arg1, int arg2, int arg3, int arg4, int arg5)
 {
     PlasmaWork *work;
 
@@ -708,10 +708,10 @@ GV_ACT *NewPlasma_800CD1A4(OBJECT *parent, int arg1, int arg2, int arg3, int arg
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewPlasma_800CD268(SVECTOR *arg0, SVECTOR *arg1, int arg2)
+void *NewPlasma_800CD268(SVECTOR *arg0, SVECTOR *arg1, int arg2)
 {
     PlasmaWork *work;
 
@@ -727,10 +727,10 @@ GV_ACT *NewPlasma_800CD268(SVECTOR *arg0, SVECTOR *arg1, int arg2)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewPlasma_800CD30C(SVECTOR *arg0, SVECTOR *arg1, int arg2, int arg3)
+void *NewPlasma_800CD30C(SVECTOR *arg0, SVECTOR *arg1, int arg2, int arg3)
 {
     PlasmaWork *work;
 
@@ -746,5 +746,5 @@ GV_ACT *NewPlasma_800CD30C(SVECTOR *arg0, SVECTOR *arg1, int arg2, int arg3)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

@@ -77,7 +77,7 @@ int BreathGetResources_800C39B4( BreathWork *work, int name, int where )
     return 0;
 }
 
-GV_ACT *NewBreath_800C3A1C(int name, int where, int argc, char **argv)
+void *NewBreath_800C3A1C(int name, int where, int argc, char **argv)
 {
     BreathWork *work ;
 

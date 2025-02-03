@@ -124,9 +124,9 @@ void    s03b_boxall_800C93F0(int, int);
 void    s03b_boxall_800C969C(int, int);
 int     s03b_boxall_800C93AC(int arg0);
 int     s03b_boxall_800C95EC(void);
-GV_ACT *NewGunLight_800D3AD4(MATRIX *world, int **pvisible);
-GV_ACT *NewJFamas_800CAFAC(CONTROL *control, OBJECT *parent, int num_parent, int *trigger);
-GV_ACT *NewFadeIo_800C4224(int name, int where);
+void   *NewGunLight_800D3AD4(MATRIX *world, int **pvisible);
+void   *NewJFamas_800CAFAC(CONTROL *control, OBJECT *parent, int num_parent, int *trigger);
+void   *NewFadeIo_800C4224(int name, int where);
 void   *AN_Unknown_800CA1EC(MATRIX *mat, int mark);
 
 void s03c_johnny_800C6FC0(JohnnyWork *work, int arg1);
@@ -3842,7 +3842,7 @@ int JohnnyGetResources_800CA664(JohnnyWork *work, int scriptData, int scriptBind
     return -1;
 }
 
-GV_ACT *NewJohnny_800CA838(int scriptData, int scriptBinds)
+void *NewJohnny_800CA838(int scriptData, int scriptBinds)
 {
     JohnnyWork *work;
 
@@ -3858,5 +3858,5 @@ GV_ACT *NewJohnny_800CA838(int scriptData, int scriptBinds)
         GV_DestroyActor(&work->actor);
         return NULL;
     }
-    return &work->actor;
+    return (void *)work;
 }

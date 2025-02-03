@@ -85,7 +85,7 @@ void camera_get_euler_angles_8002FBC0(SVECTOR *pVec1, SVECTOR *pVec2, SVECTOR *p
 void sub_8002FAAC(SVECTOR *a1, SVECTOR *a2, SVECTOR *a3, int *a4);
 void sub_8002FCF0(void);
 void camera_act_helper6_helper_8002FD9C(int, int);
-GV_ACT *camera_init_800306A0(void);
+void *camera_init_800306A0(void);
 void sub_8003049C(SVECTOR *a1);
 void sub_8003081C();
 void GM_CameraSetAlertMask(unsigned int id, unsigned int mask);

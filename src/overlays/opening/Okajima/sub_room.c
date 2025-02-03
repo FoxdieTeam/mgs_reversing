@@ -1,3 +1,7 @@
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
@@ -25,7 +29,7 @@ typedef struct _SubRoomWork
 extern int     GV_Clock;
 extern int     GM_CurrentMap;
 
-GV_ACT *NewOpTxtScn_800CD29C(void);
+void *NewOpTxtScn_800CD29C(void);
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL4
 
@@ -555,7 +559,7 @@ int SubRoomGetResources_800C7B94(SubRoomWork *work)
     return 0;
 }
 
-GV_ACT *NewSubRoom_800C815C(void)
+void *NewSubRoom_800C815C(void)
 {
     SubRoomWork *work;
 
@@ -571,5 +575,5 @@ GV_ACT *NewSubRoom_800C815C(void)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

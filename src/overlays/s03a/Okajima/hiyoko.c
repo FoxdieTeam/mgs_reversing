@@ -1,5 +1,9 @@
 #include "hiyoko.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
@@ -220,7 +224,7 @@ void HiyokoDie_800D0150(HiyokoWork *work)
     }
 }
 
-GV_ACT *NewHiyoko_800D018C(int name, int where, int argc, char **argv)
+void *NewHiyoko_800D018C(int name, int where, int argc, char **argv)
 {
     HiyokoWork *work;
 
@@ -236,10 +240,10 @@ GV_ACT *NewHiyoko_800D018C(int name, int where, int argc, char **argv)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewHiyoko_800D0210(MATRIX *world, int arg1)
+void *NewHiyoko_800D0210(MATRIX *world, int arg1)
 {
     HiyokoWork *work;
 
@@ -255,5 +259,5 @@ GV_ACT *NewHiyoko_800D0210(MATRIX *world, int arg1)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

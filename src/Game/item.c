@@ -881,7 +881,7 @@ STATIC int item_GetResources(ItemWork *work, int name, int where)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewItem(int name, int where, int argc, char **argv)
+void *NewItem(int name, int where, int argc, char **argv)
 {
     ItemWork   *work;
     int         inited;
@@ -904,7 +904,7 @@ GV_ACT *NewItem(int name, int where, int argc, char **argv)
             GV_DestroyActor(&work->actor);
             if (inited == 0)
             {
-                return &work->actor;
+                return (void *)work;
             }
             else
             {
@@ -913,7 +913,7 @@ GV_ACT *NewItem(int name, int where, int argc, char **argv)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -964,7 +964,7 @@ STATIC int item_init_helper_800345C0(ItemWork *work, SVECTOR *pPos, SVECTOR *a3,
     return 0;
 }
 
-GV_ACT *item_init_80034758(SVECTOR *pPos, SVECTOR *a2, Item_Info *pItemInfo)
+void *item_init_80034758(SVECTOR *pPos, SVECTOR *a2, Item_Info *pItemInfo)
 {
     ItemWork   *work;
     int         map;
@@ -990,5 +990,5 @@ GV_ACT *item_init_80034758(SVECTOR *pPos, SVECTOR *a2, Item_Info *pItemInfo)
         GM_SeSet2(0, 63, SE_SPAWN_ITEM);
     }
 
-    return &work->actor;
+    return (void *)work;
 }
