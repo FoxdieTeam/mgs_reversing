@@ -259,7 +259,7 @@ int PipeGetResources_800CE6DC(PipeWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT *NewPipe_800CE73C(int name, int where, int argc, char **argv)
+void *NewPipe_800CE73C(int name, int where, int argc, char **argv)
 {
     PipeWork *work;
 
@@ -276,5 +276,5 @@ GV_ACT *NewPipe_800CE73C(int name, int where, int argc, char **argv)
         return NULL;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

@@ -1074,7 +1074,7 @@ STATIC int JpegcamGetResources(JpegcamWork *work, CONTROL *control, OBJECT *pare
  * public functions
  */
 
-GV_ACT *NewJpegcam(CONTROL *control, OBJECT *parent, int num_parent)
+void *NewJpegcam(CONTROL *control, OBJECT *parent, int num_parent)
 {
     JpegcamWork *work;
 
@@ -1090,5 +1090,5 @@ GV_ACT *NewJpegcam(CONTROL *control, OBJECT *parent, int num_parent)
         work->control = control;
     }
 
-    return (GV_ACT *)work;
+    return (void *)work;
 }

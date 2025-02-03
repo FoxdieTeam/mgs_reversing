@@ -511,7 +511,7 @@ int SnowGetResources_800C5F40(SnowWork *work, int map)
     return 0;
 }
 
-GV_ACT *NewSnow_800C6058(int name, int where, int argc, char **argv)
+void *NewSnow_800C6058(int name, int where, int argc, char **argv)
 {
     SnowWork *work;
 
@@ -529,5 +529,5 @@ GV_ACT *NewSnow_800C6058(int name, int where, int argc, char **argv)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

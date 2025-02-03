@@ -108,8 +108,8 @@ void AN_Unknown_800CA1EC(MATRIX *world, int index);
 void AN_Unknown_800D6BCC(SVECTOR *pos, SVECTOR *rot);
 void AN_Unknown_800D6EB0(SVECTOR *pos);
 
-GV_ACT *NewSpark2_800CA714(MATRIX *world);
-GV_ACT *NewBulletEx(int, MATRIX *, int, int, int, int, int, int, int);
+void *NewSpark2_800CA714(MATRIX *world);
+void *NewBulletEx(int, MATRIX *, int, int, int, int, int, int, int);
 
 // Identical to d03a_red_alrt_800C437C
 int GunCame_800C6F60(unsigned short name, int nhashes, unsigned short *hashes)
@@ -1370,7 +1370,7 @@ void GunCame_Die_800C911C(GunCameWork *work)
     }
 }
 
-GV_ACT *NewGunCame_800C9190(int name, int where, int argc, char **argv)
+void *NewGunCame_800C9190(int name, int where, int argc, char **argv)
 {
     GunCameWork *work;
 
@@ -1386,5 +1386,5 @@ GV_ACT *NewGunCame_800C9190(int name, int where, int argc, char **argv)
         work->map = where;
         s03e_dword_800C32B4++;
     }
-    return &work->actor;
+    return (void *)work;
 }

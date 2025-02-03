@@ -37,7 +37,7 @@ extern OBJECT *GM_PlayerBody_800ABA20;
 #define MAX_BUBBLE_SIZE 40
 #define RANDAM_WIDTH    16
 
-GV_ACT *NewRipple_800D7F30(MATRIX *, int);
+void *NewRipple_800D7F30(MATRIX *, int);
 
 void BubbleSShadePacks_800D5324(POLY_FT4 *packs, int shade)
 {
@@ -435,7 +435,7 @@ int BubbleSGetResources_800D5C94(BubbleSWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT *NewBubbleS_800D5D9C(int name, int where, int argc, char **argv)
+void *NewBubbleS_800D5D9C(int name, int where, int argc, char **argv)
 {
     BubbleSWork *work;
 
@@ -451,5 +451,5 @@ GV_ACT *NewBubbleS_800D5D9C(int name, int where, int argc, char **argv)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

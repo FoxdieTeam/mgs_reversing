@@ -307,7 +307,7 @@ void SmktrgtDie_800DC408(SmktrgtWork *work)
 {
 }
 
-GV_ACT *NewSmktrgt_800DC410(int name, int map)
+void *NewSmktrgt_800DC410(int name, int map)
 {
     SmktrgtWork *work;
 
@@ -323,5 +323,5 @@ GV_ACT *NewSmktrgt_800DC410(int name, int map)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

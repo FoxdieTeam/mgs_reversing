@@ -8,6 +8,7 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
+#include "libhzd/libhzd.h"
 #include "Game/hittable.h"
 #include "Game/linkvarbuf.h"
 #include "Game/object.h"
@@ -570,13 +571,13 @@ STATIC int JiraiGetResources(JiraiWork *work, MATRIX *world, HZD_FLR *floor)
     return 0;
 }
 
-GV_ACT *NewJirai(MATRIX *world, HZD_FLR *floor)
+void *NewJirai(MATRIX *world, HZD_FLR *floor)
 {
     JiraiWork *work;
 
     if (counter_8009F448 == 8)
     {
-        return 0;
+        return NULL;
     }
 
     work = GV_NewActor(GV_ACTOR_LEVEL5, sizeof(JiraiWork));
@@ -588,11 +589,11 @@ GV_ACT *NewJirai(MATRIX *world, HZD_FLR *floor)
         if (JiraiGetResources(work, world, floor) < 0)
         {
             GV_DestroyActor(&work->actor);
-            return 0;
+            return NULL;
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -661,7 +662,7 @@ STATIC int JiraiGetResources2(JiraiWork *work, MATRIX *world, int map)
     return 0;
 }
 
-GV_ACT *NewScenarioJirai(MATRIX *world, int map)
+void *NewScenarioJirai(MATRIX *world, int map)
 {
     JiraiWork *work = GV_NewActor(GV_ACTOR_AFTER, sizeof(JiraiWork));
     if (work)
@@ -673,5 +674,5 @@ GV_ACT *NewScenarioJirai(MATRIX *world, int map)
             return NULL;
         }
     }
-    return (GV_ACT *)work;
+    return (void *)work;
 }

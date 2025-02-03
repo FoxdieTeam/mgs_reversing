@@ -1291,7 +1291,7 @@ int CameraGetResources_800CE6EC(CameraWork *work, int map)
     return 0;
 }
 
-GV_ACT *NewCamera_800CF388(int name, int where, int argc, char **argv)
+void *NewCamera_800CF388(int name, int where, int argc, char **argv)
 {
     CameraWork *work;
 
@@ -1307,5 +1307,5 @@ GV_ACT *NewCamera_800CF388(int name, int where, int argc, char **argv)
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

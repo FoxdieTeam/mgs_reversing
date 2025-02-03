@@ -208,7 +208,7 @@ int TexScrollGetResources_800C9BDC(TexScrollWork *work, int name, int map, int n
     return 0;
 }
 
-GV_ACT *NewTexScroll_800C9D38(int name, int where)
+void *NewTexScroll_800C9D38(int name, int where)
 {
     int            n_entries;
     TexScrollWork *work;
@@ -226,5 +226,5 @@ GV_ACT *NewTexScroll_800C9D38(int name, int where)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

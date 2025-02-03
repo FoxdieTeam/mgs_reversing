@@ -305,7 +305,7 @@ STATIC int spark_GetResources(struct SparkWork *work, MATRIX *a2, int count)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewSpark(MATRIX *pMatrix, int count)
+void *NewSpark(MATRIX *pMatrix, int count)
 {
     SparkWork *work = NULL;
     int i;
@@ -332,5 +332,5 @@ GV_ACT *NewSpark(MATRIX *pMatrix, int count)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

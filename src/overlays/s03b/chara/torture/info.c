@@ -176,7 +176,7 @@ int InfoGetResources_800CA31C(InfoWork *work, unsigned short name1, unsigned sho
     return 0;
 }
 
-GV_ACT *NewInfo_800CA534(unsigned short name1, unsigned short name2, int *abe)
+void *NewInfo_800CA534(unsigned short name1, unsigned short name2, int *abe)
 {
     InfoWork *work;
 
@@ -187,7 +187,7 @@ GV_ACT *NewInfo_800CA534(unsigned short name1, unsigned short name2, int *abe)
 
         if (InfoGetResources_800CA31C(work, name1, name2, abe) >= 0)
         {
-            return &work->actor;
+            return (void *)work;
         }
 
         GV_DestroyActor(&work->actor);

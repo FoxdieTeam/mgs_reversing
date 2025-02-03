@@ -551,7 +551,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
     MATRIX                     mat1, mat2;
     DemothrdWork_0x78_Chain *pIter;
 
-    GV_ACT *(*funcptr)();
+    void *(*funcptr)();
 
     dmo_model_0x14  *pDmoModel;
     dmo_model_0x1A4 *pModel;

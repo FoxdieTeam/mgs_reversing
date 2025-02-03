@@ -712,7 +712,7 @@ void CrowDie_800DEC78(CrowWork *work)
     }
 }
 
-GV_ACT *NewCrow_800DED08(int name, int where)
+void *NewCrow_800DED08(int name, int where)
 {
     CrowWork *work;
     char     *opt;
@@ -750,5 +750,5 @@ GV_ACT *NewCrow_800DED08(int name, int where)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

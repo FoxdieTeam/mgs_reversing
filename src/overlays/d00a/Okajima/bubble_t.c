@@ -1,5 +1,9 @@
 #include "bubble_t.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
@@ -19,7 +23,7 @@ typedef struct _BubbleTWork
 
 extern int     GM_CurrentMap;
 
-GV_ACT *NewRipple_800D7F30(MATRIX *, int);
+void *NewRipple_800D7F30(MATRIX *, int);
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL4
 
@@ -174,7 +178,7 @@ int BubbleTGetResources_800DA29C(BubbleTWork *work, SVECTOR *pos, int height, in
     return 0;
 }
 
-GV_ACT *NewBubbleT_800DA380(SVECTOR *pos, int height, int ripple, int *destroy)
+void *NewBubbleT_800DA380(SVECTOR *pos, int height, int ripple, int *destroy)
 {
     BubbleTWork *work;
 
@@ -195,5 +199,5 @@ GV_ACT *NewBubbleT_800DA380(SVECTOR *pos, int height, int ripple, int *destroy)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

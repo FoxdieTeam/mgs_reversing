@@ -1796,7 +1796,7 @@ static inline int sna_weapon_switching_helper_800511BC(SnaInitWork *work)
 static inline int sna_weapon_switching_helper2_800511BC(SnaInitWork *work, int callback)
 {
     WeaponCreateEntry *pWeaponEntry;
-    GV_ACT * (*pWeaponCreateFn)(void *, void *, int, void *, int);
+    void *(*pWeaponCreateFn)(void *, void *, int, void *, int);
     GV_ACT *pWeaponActor;
 
     pWeaponActor = work->field_908_weapon_actor;
@@ -8203,7 +8203,7 @@ static const char aKaze[] = "kaze \n";
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-GV_ACT *NewSnake(int name, int where, int argc, char **argv)
+void *NewSnake(int name, int where, int argc, char **argv)
 {
     SnaInitWork *work;
 
@@ -8222,5 +8222,5 @@ GV_ACT *NewSnake(int name, int where, int argc, char **argv)
     }
 
     snainit_actor_800A9424 = work;
-    return &work->actor;
+    return (void *)work;
 }

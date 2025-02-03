@@ -23,7 +23,7 @@ extern GV_PAD GV_PadData_800B05C0[4];
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL3
 
-void SndtstRunScripts_800C3218( Work *work, int param_2 )
+STATIC void SndtstRunScripts_800C3218( Work *work, int param_2 )
 {
     int   i;
     char *pName;
@@ -53,7 +53,7 @@ void SndtstRunScripts_800C3218( Work *work, int param_2 )
     work->field_2C_code = code;
 }
 
-void SndtstAct_800C32D8( Work *work )
+STATIC void SndtstAct_800C32D8( Work *work )
 {
     GV_PAD               *pPad;
     int                   var_s0;
@@ -151,7 +151,7 @@ void SndtstAct_800C32D8( Work *work )
     }
 }
 
-int SndtstGetResources_800C352C( Work *work, int where, int name )
+STATIC int SndtstGetResources_800C352C( Work *work, int where, int name )
 {
     if ( !GCL_GetOption( 's' ) )
     {
@@ -168,7 +168,7 @@ int SndtstGetResources_800C352C( Work *work, int where, int name )
     return 0;
 }
 
-GV_ACT *NewSndtst_800C3594( int name, int where, int argc, char **argv )
+void *NewSndtst_800C3594( int name, int where, int argc, char **argv )
 {
     Work *work;
 
@@ -185,5 +185,5 @@ GV_ACT *NewSndtst_800C3594( int name, int where, int argc, char **argv )
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

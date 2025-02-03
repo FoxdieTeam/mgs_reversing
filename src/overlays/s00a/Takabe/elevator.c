@@ -729,7 +729,7 @@ error:
     return 0;
 }
 
-GV_ACT *NewElevator_800D9F30(int name, int where, int argc, char **argv)
+void *NewElevator_800D9F30(int name, int where, int argc, char **argv)
 {
     ElevatorWork *work;
 
@@ -745,7 +745,7 @@ GV_ACT *NewElevator_800D9F30(int name, int where, int argc, char **argv)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
 void Elevator_800D9FC4(ElevatorWork *work, SVECTOR *offset)

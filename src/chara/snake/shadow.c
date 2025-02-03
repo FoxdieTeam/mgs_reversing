@@ -210,7 +210,7 @@ int ShadowGetResources_800601B0(ShadowWork *work, CONTROL *control, OBJECT *pare
     return 0;
 }
 
-GV_ACT *NewShadow_800602CC(CONTROL *control, OBJECT *parent, SVECTOR indices)
+void *NewShadow_800602CC(CONTROL *control, OBJECT *parent, SVECTOR indices)
 {
     ShadowWork *work;
 
@@ -220,14 +220,14 @@ GV_ACT *NewShadow_800602CC(CONTROL *control, OBJECT *parent, SVECTOR indices)
         GV_SetNamedActor(&work->actor, ShadowAct_800600E4, ShadowDie_80060190, "shadow.c");
         if (ShadowGetResources_800601B0(work, control, parent, indices) >= 0)
         {
-            return (GV_ACT *)work;
+            return (void *)work;
         }
         GV_DestroyActor(&work->actor);
     }
     return NULL;
 }
 
-GV_ACT *NewShadow2_80060384(CONTROL *control, OBJECT *pObj, SVECTOR indices, int **enabled)
+void *NewShadow2_80060384(CONTROL *control, OBJECT *pObj, SVECTOR indices, int **enabled)
 {
     ShadowWork *work;
 
@@ -237,5 +237,5 @@ GV_ACT *NewShadow2_80060384(CONTROL *control, OBJECT *pObj, SVECTOR indices, int
         *enabled = &work->enabled;
     }
 
-    return (GV_ACT *)work;
+    return (void *)work;
 }

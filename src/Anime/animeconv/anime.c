@@ -2,6 +2,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 
 #include "common.h"
 #include "mts/mts.h" // for fprintf
@@ -178,7 +181,7 @@ int dword_8009F224 = 0;
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewAnime_8005D604(MATRIX *pMtx)
+void *NewAnime_8005D604(MATRIX *pMtx)
 {
     ANIMATION *anm;
     PRESCRIPT  pre;
@@ -1419,7 +1422,7 @@ STATIC int anime_GetResources(AnimeWork *work, int map, ANIMATION *animation)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewAnime(MATRIX *world, int map, ANIMATION *animation)
+void *NewAnime(MATRIX *world, int map, ANIMATION *animation)
 {
     int        count;
     AnimeWork *work;
@@ -1441,10 +1444,10 @@ GV_ACT *NewAnime(MATRIX *world, int map, ANIMATION *animation)
         }
     }
 
-    return (GV_ACT *)work;
+    return (void *)work;
 }
 
-GV_ACT *NewAnime2(DG_PRIM *prim, int map, ANIMATION *animation)
+void *NewAnime2(DG_PRIM *prim, int map, ANIMATION *animation)
 {
     AnimeWork *work = (AnimeWork *)NewAnime(NULL, map, animation);
 
@@ -1453,5 +1456,5 @@ GV_ACT *NewAnime2(DG_PRIM *prim, int map, ANIMATION *animation)
         work->prim->world = prim->world;
     }
 
-    return (GV_ACT *)work;
+    return (void *)work;
 }

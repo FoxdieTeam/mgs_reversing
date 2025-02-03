@@ -5,6 +5,7 @@
 #include <libgpu.h>
 
 #include "common.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "Anime/animeconv/anime.h"
 #include "Game/game.h"
@@ -145,7 +146,7 @@ STATIC int BlastGetResources(BLAST_DATA *blast_data, BlastWork *work, MATRIX *wo
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewBlast(MATRIX *world, BLAST_DATA *blast_data)
+void *NewBlast(MATRIX *world, BLAST_DATA *blast_data)
 {
     BlastWork *work = GV_NewActor(EXEC_LEVEL, sizeof(BlastWork));
     if (work)
@@ -165,10 +166,10 @@ GV_ACT *NewBlast(MATRIX *world, BLAST_DATA *blast_data)
         sub_800790E8();
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewBlast2(MATRIX *world, BLAST_DATA *blast_data, int doSound, int side)
+void *NewBlast2(MATRIX *world, BLAST_DATA *blast_data, int doSound, int side)
 {
     BlastWork *work = GV_NewActor(EXEC_LEVEL, sizeof(BlastWork));
     if (work)
@@ -188,7 +189,7 @@ GV_ACT *NewBlast2(MATRIX *world, BLAST_DATA *blast_data, int doSound, int side)
 
         sub_800790E8();
     }
-    return &work->actor;
+    return (void *)work;
 }
 
 /*---------------------------------------------------------------------------*/

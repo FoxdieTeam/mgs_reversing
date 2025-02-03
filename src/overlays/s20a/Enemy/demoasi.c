@@ -154,7 +154,7 @@ void DemoasiDie_800C4110(DemoasiWork *work)
     }
 }
 
-GV_ACT *NewDemoasi_800C414C(MATRIX *world, int which, int height)
+void *NewDemoasi_800C414C(MATRIX *world, int which, int height)
 {
     DemoasiWork *work;
 
@@ -172,10 +172,10 @@ GV_ACT *NewDemoasi_800C414C(MATRIX *world, int which, int height)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT * NewDemoasi_800C41F4(MATRIX *world, int which, int height, int arg3)
+void *NewDemoasi_800C41F4(MATRIX *world, int which, int height, int arg3)
 {
     DemoasiWork *work;
 
@@ -193,5 +193,5 @@ GV_ACT * NewDemoasi_800C41F4(MATRIX *world, int which, int height, int arg3)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

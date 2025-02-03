@@ -105,7 +105,7 @@ int PutObjectGetResources_800E244C(PutObjWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT *NewPutObject_800E25C0(int name, int where, int argc, char **argv)
+void *NewPutObject_800E25C0(int name, int where, int argc, char **argv)
 {
     SVECTOR svec;
 
@@ -141,5 +141,5 @@ GV_ACT *NewPutObject_800E25C0(int name, int where, int argc, char **argv)
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

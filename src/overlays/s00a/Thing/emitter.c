@@ -98,7 +98,7 @@ int EmitterGetResources_800C3D68( Work *work, int map, int count )
     return 0;
 }
 
-GV_ACT *NewEmitter_800C3E50(int name, int where, int argc, char **argv)
+void *NewEmitter_800C3E50(int name, int where, int argc, char **argv)
 {
     Work *work;
     int   count;
@@ -116,5 +116,5 @@ GV_ACT *NewEmitter_800C3E50(int name, int where, int argc, char **argv)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

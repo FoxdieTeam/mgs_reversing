@@ -529,7 +529,7 @@ int RasenElGetResources_800CCB9C(RasenElWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT *NewRasenEl_800CCF38(int arg0, int arg1)
+void *NewRasenEl_800CCF38(int arg0, int arg1)
 {
     RasenElWork *work;
 
@@ -545,7 +545,7 @@ GV_ACT *NewRasenEl_800CCF38(int arg0, int arg1)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
 void s11c_800CCFCC(RasenElWork *work, int height)

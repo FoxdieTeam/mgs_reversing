@@ -236,7 +236,7 @@ int TelopGetResources_800DDA18(TelopWork2 *work, int unused, int unused2)
     return 0;
 }
 
-GV_ACT *NewTelopSet_800DDB34(int name, int where, int argc, char **argv)
+void *NewTelopSet_800DDB34(int name, int where, int argc, char **argv)
 {
     TelopWork2 *work;
 
@@ -252,7 +252,7 @@ GV_ACT *NewTelopSet_800DDB34(int name, int where, int argc, char **argv)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
 void Telop2Act_800DDBC8(TelopWork *work)
@@ -276,7 +276,7 @@ void telop_800DDC30(TelopWork *work)
     }
 }
 
-GV_ACT *NewTelop2_800DDC60(int x, int y, int timer, int reload, int arg4, int arg5)
+void *NewTelop2_800DDC60(int x, int y, int timer, int reload, int arg4, int arg5)
 {
     TelopWork *work;
     TelopSub  *sub;
@@ -313,10 +313,10 @@ GV_ACT *NewTelop2_800DDC60(int x, int y, int timer, int reload, int arg4, int ar
         telop_800DD550(sub, x, y, tex1, tex2);
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewTelop_800DDD7C(int x, int y, int timer, int reload, int tex)
+void *NewTelop_800DDD7C(int x, int y, int timer, int reload, int tex)
 {
     return NewTelop2_800DDC60(x, y, timer, reload, tex, tex);
 }

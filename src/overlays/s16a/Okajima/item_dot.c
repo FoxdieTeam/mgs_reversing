@@ -158,7 +158,7 @@ void ItemDotDie_800CC7B0(ItemDotWork *work)
     GM_FreeControl(&work->control);
 }
 
-GV_ACT *NewItemDot_800CC7D0(int name, int where)
+void *NewItemDot_800CC7D0(int name, int where)
 {
     ItemDotWork *work;
 
@@ -174,5 +174,5 @@ GV_ACT *NewItemDot_800CC7D0(int name, int where)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

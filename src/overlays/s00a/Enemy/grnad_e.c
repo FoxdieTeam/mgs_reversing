@@ -29,7 +29,7 @@ extern int GM_CurrentMap;
 
 SVECTOR svec_800C360C[2] = {{0, 80, 80, 0}, {0, 20, 500, 0}};
 
-GV_ACT *NewBlast(MATRIX *);
+void *NewBlast(MATRIX *);
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
@@ -115,7 +115,7 @@ int GrenadeEnemyGetResources_800D1FCC(GrenadeEnemyWork *work, OBJECT *parent, in
     return 0;
 }
 
-GV_ACT *NewGrenadeEnemy_800D203C(CONTROL *control, OBJECT *parent, int num_parent, int *arg3, int unused, SVECTOR *arg6, int type)
+void *NewGrenadeEnemy_800D203C(CONTROL *control, OBJECT *parent, int num_parent, int *arg3, int unused, SVECTOR *arg6, int type)
 {
     GrenadeEnemyWork *work;
 
@@ -141,7 +141,7 @@ GV_ACT *NewGrenadeEnemy_800D203C(CONTROL *control, OBJECT *parent, int num_paren
         work->f114 = *arg6;
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
 void NewGrenadeEnemy_800D2138(CONTROL *control, OBJECT *parent, int num_parent, int *arg3, SVECTOR *arg4, int arg5)

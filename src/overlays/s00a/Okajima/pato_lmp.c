@@ -1001,7 +1001,7 @@ temp_label_end4:
     return 0;
 }
 
-GV_ACT *NewPatrolLamp_800D7A2C(int name, int where, int argc, char **argv)
+void *NewPatrolLamp_800D7A2C(int name, int where, int argc, char **argv)
 {
     PatoLmpWork *work;
 
@@ -1018,5 +1018,5 @@ GV_ACT *NewPatrolLamp_800D7A2C(int name, int where, int argc, char **argv)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

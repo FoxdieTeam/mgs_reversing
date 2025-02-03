@@ -267,7 +267,7 @@ STATIC int TenageGetResources(TenageWork *work, SVECTOR *pos, SVECTOR *step, int
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewTenage(SVECTOR *pos, SVECTOR *step, int fuse_time, int type, int model)
+void *NewTenage(SVECTOR *pos, SVECTOR *step, int fuse_time, int type, int model)
 {
     TenageWork *work;
 
@@ -295,16 +295,16 @@ GV_ACT *NewTenage(SVECTOR *pos, SVECTOR *step, int fuse_time, int type, int mode
         work->side = PLAYER_SIDE;
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewTenage2(SVECTOR *pos, SVECTOR *step, int fuse_time)
+void *NewTenage2(SVECTOR *pos, SVECTOR *step, int fuse_time)
 {
     return NewTenage(pos, step, fuse_time, GRD_GRENADE, KMD_GRENADE);
 }
 
 // enemy's grenades, probably
-GV_ACT *NewTenage3(SVECTOR *pos, SVECTOR *step, int fuse_time, int type, int model, int do_sound, int player_side)
+void *NewTenage3(SVECTOR *pos, SVECTOR *step, int fuse_time, int type, int model, int do_sound, int player_side)
 {
     TenageWork *work;
 
@@ -327,5 +327,5 @@ GV_ACT *NewTenage3(SVECTOR *pos, SVECTOR *step, int fuse_time, int type, int mod
         work->side = player_side & 1;
     }
 
-    return (GV_ACT *)work;
+    return (void *)work;
 }

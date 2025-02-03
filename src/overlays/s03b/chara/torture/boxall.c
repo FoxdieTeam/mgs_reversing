@@ -362,7 +362,7 @@ int BoxallGetResources_800C9F58(BoxallWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT *NewBoxall_800CA088(int name, int where)
+void *NewBoxall_800CA088(int name, int where)
 {
     BoxallWork *work;
 
@@ -373,7 +373,7 @@ GV_ACT *NewBoxall_800CA088(int name, int where)
 
         if (BoxallGetResources_800C9F58(work, name, where) >= 0)
         {
-            return &work->actor;
+            return (void *)work;
         }
 
         GV_DestroyActor(&work->actor);

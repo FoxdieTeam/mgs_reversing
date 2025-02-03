@@ -245,7 +245,7 @@ int Splash3GetResources_800C810C(Splash3Work *work, int dir, SVECTOR *pos)
     Splash3Init(); // Not sure why this is needed
 }
 
-GV_ACT *NewSplash3_800C83D0(int dir, SVECTOR *pos)
+void *NewSplash3_800C83D0(int dir, SVECTOR *pos)
 {
     Splash3Work *work;
 
@@ -261,5 +261,5 @@ GV_ACT *NewSplash3_800C83D0(int dir, SVECTOR *pos)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

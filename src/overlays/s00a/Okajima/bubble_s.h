@@ -1,8 +1,6 @@
 #ifndef _BUBBLE_S_H_
 #define _BUBBLE_S_H_
 
-#include "libgv/libgv.h"
-
-GV_ACT *NewBubbleS_800D5D9C(int name, int where, int argc, char **argv);
+void *NewBubbleS_800D5D9C(int name, int where, int argc, char **argv);
 
 #endif // _BUBBLE_S_H_

@@ -57,7 +57,7 @@ extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 void SStormAct_800D478C(SStormWork *);
 void SStormDie_800D4E90(SStormWork *);
 
-GV_ACT *NewSStorm_800D43D8(int arg0, int arg1)
+void *NewSStorm_800D43D8(int arg0, int arg1)
 {
     SStormWork *work;
     SVECTOR     svec1, svec2;
@@ -187,7 +187,7 @@ GV_ACT *NewSStorm_800D43D8(int arg0, int arg1)
     work->field_50.field_A = work->field_3C;
     work->field_50.field_10_yh = work->field_50.field_E_xw;
 
-    return &work->actor;
+    return (void *)work;
 }
 
 int SStorm_ReceiveMessage_800D4E98(unsigned short name, int nhashes, unsigned short *hashes);

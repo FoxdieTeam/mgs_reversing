@@ -93,7 +93,7 @@ int GasDamageGetResources_800E1488(GasDamgeWork *work, int arg0, int arg1)
     return 0;
 }
 
-GV_ACT *NewGasDamage_800E14E8(int name, int where, int argc, char **argv)
+void *NewGasDamage_800E14E8(int name, int where, int argc, char **argv)
 {
     GasDamgeWork *work;
 
@@ -109,5 +109,5 @@ GV_ACT *NewGasDamage_800E14E8(int name, int where, int argc, char **argv)
         work->field_20 = where;
         work->field_24 = name;
     }
-    return &work->actor;
+    return (void *)work;
 }

@@ -38,7 +38,7 @@ extern int  Zako11EActionMain_800D8830( ZakoWork *work );
 extern void ZAKO11E_SetPutChar_800D8004( ZakoWork *work, int put );
 
 extern void *NewGunLight_800D3AD4( MATRIX* mat, int **enable );
-extern GV_ACT *NewKogaku2(CONTROL *pCtrl, OBJECT *pObj, int unit);
+extern void *NewKogaku2(CONTROL *pCtrl, OBJECT *pObj, int unit);
 
 void RootFlagCheck_800D34C8( ZakoWork *work )
 {

@@ -69,7 +69,7 @@ STATIC void GoggleManagerDie(GoggleManagerWork *work)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewGoggleManager(int type)
+void *NewGoggleManager(int type)
 {
     GoggleManagerWork *work;
 
@@ -82,5 +82,5 @@ GV_ACT *NewGoggleManager(int type)
         work->sight = NULL;
     }
 
-    return (GV_ACT *)work;
+    return (void *)work;
 }

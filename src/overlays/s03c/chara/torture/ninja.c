@@ -34,7 +34,7 @@ typedef struct NinjaWork
 extern SVECTOR  GM_PlayerPosition_800ABA10;
 extern CONTROL *GM_PlayerControl_800AB9F4;
 
-GV_ACT *NewSpark2_800CA714(MATRIX *world);
+void   *NewSpark2_800CA714(MATRIX *world);
 void    AN_Unknown_800CCA40(SVECTOR *pos);
 void    s03b_boxall_800C969C(int, int);
 void    s03b_boxall_800C96E8(void);
@@ -368,7 +368,7 @@ int NinjaGetResources_800CC83C(NinjaWork *work, int scriptData, int scriptBinds)
     return 0;
 }
 
-GV_ACT *NewNinja_800CC9B4(int scriptData, int scriptBinds)
+void *NewNinja_800CC9B4(int scriptData, int scriptBinds)
 {
     NinjaWork *work;
 
@@ -384,5 +384,5 @@ GV_ACT *NewNinja_800CC9B4(int scriptData, int scriptBinds)
         GV_DestroyActor(&work->actor);
         return NULL;
     }
-    return &work->actor;
+    return (void *)work;
 }

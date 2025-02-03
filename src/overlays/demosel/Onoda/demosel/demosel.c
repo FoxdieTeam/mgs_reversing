@@ -100,7 +100,7 @@ signed char text_outline_direction_offsets_800C3290[] = {
      0, -1,
 };
 
-GV_ACT *NewMetLogo_800C5A90( int * );
+void *NewMetLogo_800C5A90( int * );
 
 extern int    GV_Clock;
 extern int    GM_CurrentMap;
@@ -1585,7 +1585,7 @@ int demosel_800C5A78(DemoselWork *work, int map)
     return 0;
 }
 
-GV_ACT *NewDemosel_800C61B0(int arg0, int arg1)
+void *NewDemosel_800C61B0(int arg0, int arg1)
 {
     DemoselWork *work;
 
@@ -1603,5 +1603,5 @@ GV_ACT *NewDemosel_800C61B0(int arg0, int arg1)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

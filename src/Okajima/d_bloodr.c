@@ -1,5 +1,9 @@
 #include "d_bloodr.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
@@ -233,7 +237,7 @@ STATIC int d_bloodr_GetResources(DBloodWorkr *work, int map)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewKetchap_r(int map)
+void *NewKetchap_r(int map)
 {
     DBloodWorkr *work;
 
@@ -249,5 +253,5 @@ GV_ACT *NewKetchap_r(int map)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

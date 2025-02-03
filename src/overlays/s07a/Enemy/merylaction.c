@@ -54,7 +54,7 @@ extern int AttackForce_800D6C6C( WatcherWork *work );
 
 extern void    NewBlood( MATRIX *, int );
 extern void    AN_Breath_800C3AA8( MATRIX * );
-extern GV_ACT *NewLSight_800D1D2C(SVECTOR *from, SVECTOR *to, int color);
+extern void   *NewLSight_800D1D2C(SVECTOR *from, SVECTOR *to, int color);
 
 extern SVECTOR s07a_dword_800C369C;
 extern SVECTOR s07a_dword_800C36A4;

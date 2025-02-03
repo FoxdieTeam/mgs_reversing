@@ -176,7 +176,7 @@ void Asiato2Die_800DD1C8(AsiatoWork *work)
     asiato2_800E4FC0.total--;
 }
 
-GV_ACT *NewAsiato2_800DD238(MATRIX *world, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6)
+void *NewAsiato2_800DD238(MATRIX *world, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6)
 {
     AsiatoWork *work;
 
@@ -197,7 +197,7 @@ GV_ACT *NewAsiato2_800DD238(MATRIX *world, int arg1, int arg2, int arg3, int arg
         work->f48 = arg4;
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
 typedef struct _Asiato2Work2
@@ -326,7 +326,7 @@ void s01a_blink_tx_800DD594(Asiato2Work2 *work)
     work->f2C = 0;
 }
 
-GV_ACT * s01a_blink_tx_800DD60C(CONTROL *control, OBJECT *object, int arg2, int *arg3)
+void *s01a_blink_tx_800DD60C(CONTROL *control, OBJECT *object, int arg2, int *arg3)
 {
     Asiato2Work2 *work;
 
@@ -343,5 +343,5 @@ GV_ACT * s01a_blink_tx_800DD60C(CONTROL *control, OBJECT *object, int arg2, int 
         s01a_blink_tx_800DD594(work);
     }
 
-    return &work->actor;
+    return (void *)work;
 }

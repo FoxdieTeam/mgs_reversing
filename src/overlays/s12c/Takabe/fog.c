@@ -82,7 +82,7 @@ int FogGetResources_800D4130(FogWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT *NewFog_800D4208(int arg0, int arg1)
+void *NewFog_800D4208(int arg0, int arg1)
 {
     FogWork *work;
 
@@ -98,5 +98,5 @@ GV_ACT *NewFog_800D4208(int arg0, int arg1)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

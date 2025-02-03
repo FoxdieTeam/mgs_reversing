@@ -178,7 +178,7 @@ void s11i_zako11f_800C8B3C( Zako11FWork* work )
 
 extern void *NewGunLight_800D3AD4( MATRIX* mat, int **enable );
 
-extern GV_ACT *NewKogaku2(CONTROL *pCtrl, OBJECT *pObj, int unit);
+extern void *NewKogaku2(CONTROL *pCtrl, OBJECT *pObj, int unit);
 extern void ZAKO11F_SetPutChar_800CD700( Zako11FWork *work, int put );
 
 int s11i_zako11f_800C8B98( Zako11FWork* work, int name, int where )

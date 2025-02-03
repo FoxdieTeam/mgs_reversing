@@ -1,8 +1,6 @@
 #ifndef _IR_CENS_H_
 #define _IR_CENS_H_
 
-#include "libgv/libgv.h"
+void *NewIrCens_800DA66C(int name, int where, int argc, char **argv);
 
-GV_ACT *NewIrCens_800DA66C(int name, int where, int argc, char **argv);
-
-#endif // _WSURFACE_H_
+#endif // _IR_CENS_H_

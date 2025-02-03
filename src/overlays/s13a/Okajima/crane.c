@@ -1047,7 +1047,7 @@ void CraneDie_800D5724(CraneWork *work)
     }
 }
 
-GV_ACT *NewCrane_800D57A0(int name, int where)
+void *NewCrane_800D57A0(int name, int where)
 {
     CraneWork *work;
 
@@ -1065,5 +1065,5 @@ GV_ACT *NewCrane_800D57A0(int name, int where)
         s13a_crane_800D5394(work, name);
     }
 
-    return &work->actor;
+    return (void *)work;
 }

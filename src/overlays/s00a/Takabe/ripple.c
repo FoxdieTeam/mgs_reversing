@@ -134,7 +134,7 @@ int RippleGetResources_800D7E18( RippleWork *work, MATRIX* mat, int scale )
     return 0;
 }
 
-void* NewRipple_800D7F30( MATRIX* mat, int scale, int argc, char **argv )
+void *NewRipple_800D7F30( MATRIX* mat, int scale, int argc, char **argv )
 {
     RippleWork *work ;
 

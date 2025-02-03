@@ -312,7 +312,7 @@ int ShuterGetResources_800DF7F4(ShuterWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT *NewShuter_800DFB44(int name, int where, int argc, char **argv)
+void *NewShuter_800DFB44(int name, int where, int argc, char **argv)
 {
     ShuterWork *work;
 
@@ -328,7 +328,7 @@ GV_ACT *NewShuter_800DFB44(int name, int where, int argc, char **argv)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
 void Shuter_800DFBD8(ShuterWork *work)

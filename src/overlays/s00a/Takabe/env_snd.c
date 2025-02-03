@@ -119,7 +119,7 @@ int EnvSndGetResources_800DF3A4(EnvSndWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT *NewEnvSnd_800DF424(int name, int where, int argc, char **argv)
+void *NewEnvSnd_800DF424(int name, int where, int argc, char **argv)
 {
     EnvSndWork *work;
 
@@ -135,5 +135,5 @@ GV_ACT *NewEnvSnd_800DF424(int name, int where, int argc, char **argv)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

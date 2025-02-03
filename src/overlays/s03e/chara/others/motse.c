@@ -70,7 +70,7 @@ int Motse_800C5888(MotseWork *work, int name)
     return 0;
 }
 
-GV_ACT *NewMotse_800C5944(int name, int where, int argc, char **argv)
+void *NewMotse_800C5944(int name, int where, int argc, char **argv)
 {
     MotseWork *work;
 
@@ -84,5 +84,5 @@ GV_ACT *NewMotse_800C5944(int name, int where, int argc, char **argv)
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

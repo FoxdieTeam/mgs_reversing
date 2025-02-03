@@ -81,5 +81,6 @@ void *NewLoader(const char *dir)
     work->reading = TRUE;
     work->type = (GM_LoadRequest & 0x0f);
     GM_LoadComplete = 0;
+
     return (void *)work;
 }

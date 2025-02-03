@@ -365,7 +365,7 @@ int PlasmaHGetResources_800D1ABC(PlasmaHWork *work, SVECTOR *pos1, SVECTOR *pos2
     return 0;
 }
 
-GV_ACT *NewPlasmaH_800D1B2C(SVECTOR *pos1, SVECTOR *pos2, int time)
+void *NewPlasmaH_800D1B2C(SVECTOR *pos1, SVECTOR *pos2, int time)
 {
     PlasmaHWork *work;
 
@@ -381,5 +381,5 @@ GV_ACT *NewPlasmaH_800D1B2C(SVECTOR *pos1, SVECTOR *pos2, int time)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

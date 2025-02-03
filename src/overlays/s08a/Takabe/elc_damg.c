@@ -90,7 +90,7 @@ int ElcDamgGetResources_800D4BFC(ElcDamgWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT *NewElcDamg_800D4C68(int name, int where)
+void *NewElcDamg_800D4C68(int name, int where)
 {
     ElcDamgWork *work;
 
@@ -104,5 +104,5 @@ GV_ACT *NewElcDamg_800D4C68(int name, int where)
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

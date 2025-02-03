@@ -311,7 +311,7 @@ static inline int max(int a, int b)
     return a > b ? a : b;
 }
 
-GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
+void *NewHind_800D1224(int scriptData, int scriptBinds)
 {
     SVECTOR        svec;
     VECTOR         vec1, vec2, vec3;
@@ -960,7 +960,7 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
 
     work->field_A74 = 0;
 
-    return &work->actor;
+    return (void *)work;
 }
 
 void Hind_LookAt_800D2C1C(SVECTOR *eye, SVECTOR *center)

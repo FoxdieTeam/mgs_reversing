@@ -43,7 +43,7 @@ void s03b_boxall_800C9404(void);
 int  s03b_boxall_800C93AC(int arg0);
 int  s03b_boxall_800C95EC(void);
 
-GV_ACT *NewJohnny2_800CE368();
+void *NewJohnny2_800CE368();
 
 void OtacomSendMessage_800CB3E0(int address, int message)
 {
@@ -537,7 +537,7 @@ int OtacomGetResources_800CBDB4(OtacomWork *work, int arg1, int arg2)
     return 0;
 }
 
-GV_ACT *NewOtacom_800CC030(int arg0, int arg1)
+void *NewOtacom_800CC030(int arg0, int arg1)
 {
     OtacomWork *work;
 
@@ -553,5 +553,5 @@ GV_ACT *NewOtacom_800CC030(int arg0, int arg1)
         GV_DestroyActor(&work->actor);
         return NULL;
     }
-    return &work->actor;
+    return (void *)work;
 }

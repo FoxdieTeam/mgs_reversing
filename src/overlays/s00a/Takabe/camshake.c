@@ -57,8 +57,10 @@ void CameraShakeAct_800DF4B8( CameraShakeWork* work )
 
 void CameraShakeDie_800DF634( void )
 {
-
+    //OPERATOR() ;
 }
+
+/*----------------------------------------------------------------*/
 
 int CameraShakeGetResources_S_800DF63C( CameraShakeWork* work, int name, int where )
 {
@@ -66,7 +68,7 @@ int CameraShakeGetResources_S_800DF63C( CameraShakeWork* work, int name, int whe
     work->map = where ;
     work->name = name ;
 
-    /* オプション処理１ */
+    {/* オプション処理１ */
         /* 開始座標設定 */
         THING_Gcl_GetSVector( 'p', &work->pos );
         /* 減衰半径設定 */
@@ -78,10 +80,11 @@ int CameraShakeGetResources_S_800DF63C( CameraShakeWork* work, int name, int whe
         work->time2         = THING_Gcl_GetInt( 't' );
 
         work->count = work->time;
-        return 0;
+    }
+    return 0;
 }
 
-GV_ACT *NewCameraShake_800DF6AC(int name, int where, int argc, char **argv)
+void *NewCameraShake_800DF6AC(int name, int where, int argc, char **argv)
 {
     CameraShakeWork *work ;
 
@@ -94,5 +97,5 @@ GV_ACT *NewCameraShake_800DF6AC(int name, int where, int argc, char **argv)
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

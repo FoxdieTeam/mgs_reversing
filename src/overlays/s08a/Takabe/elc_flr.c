@@ -107,7 +107,7 @@ int ElcFlrGetResources_800D4988(ElcFlrWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT *NewElcFlr_800D4A18(int name, int where)
+void *NewElcFlr_800D4A18(int name, int where)
 {
     ElcFlrWork *work;
 
@@ -123,5 +123,5 @@ GV_ACT *NewElcFlr_800D4A18(int name, int where)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

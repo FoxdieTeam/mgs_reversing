@@ -74,7 +74,7 @@ void MeltDieDie_800E0F54(MeltDieWork *work)
 {
 }
 
-GV_ACT *NewMeltDie_800E0F5C(SVECTOR *arg1, int arg2)
+void *NewMeltDie_800E0F5C(SVECTOR *arg1, int arg2)
 {
     MeltDieWork *work;
 
@@ -88,5 +88,5 @@ GV_ACT *NewMeltDie_800E0F5C(SVECTOR *arg1, int arg2)
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

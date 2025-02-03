@@ -120,7 +120,7 @@ int ShakemdlGetResources_800C5454(ShakemdlWork *work, int name)
     return 0;
 }
 
-GV_ACT *NewShakemdl_800C54E8(int name, int where, int argc, char **argv)
+void *NewShakemdl_800C54E8(int name, int where, int argc, char **argv)
 {
     ShakemdlWork *work;
     int           model;
@@ -147,10 +147,10 @@ GV_ACT *NewShakemdl_800C54E8(int name, int where, int argc, char **argv)
         work->f30 = work_2;
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewShakemdl_800c55b0(int arg0, int arg1, int arg2)
+void *NewShakemdl_800c55b0(int arg0, int arg1, int arg2)
 {
     ShakemdlWork *work;
 
@@ -173,7 +173,7 @@ GV_ACT *NewShakemdl_800c55b0(int arg0, int arg1, int arg2)
         work->f30 = arg2;
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
 int s16b_800C5664(ShakemdlWork *work)

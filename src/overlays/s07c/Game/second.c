@@ -32,7 +32,7 @@ void s07c_second_800C56A0(SecondWork *work)
     }
 }
 
-GV_ACT *s07c_second_800C5728(int name, int where, int argc, char **argv)
+void *s07c_second_800C5728(int name, int where, int argc, char **argv)
 {
     SecondWork *work;
 
@@ -43,7 +43,7 @@ GV_ACT *s07c_second_800C5728(int name, int where, int argc, char **argv)
         work->field_28 = GCL_ReadString(GCL_GetParamResult());
         work->field_20 = 0;
     }
-    return &work->actor;
+    return (void *)work;
 }
 
 int s07c_second_800C5790(void)

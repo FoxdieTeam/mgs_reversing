@@ -539,7 +539,7 @@ int IrCensGetResources_800DA418(IrCensWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT *NewIrCens_800DA66C(int name, int where, int argc, char **argv)
+void *NewIrCens_800DA66C(int name, int where, int argc, char **argv)
 {
     IrCensWork *work;
 
@@ -559,5 +559,5 @@ GV_ACT *NewIrCens_800DA66C(int name, int where, int argc, char **argv)
         work->fE0 = GV_RandU(128);
     }
 
-    return &work->actor;
+    return (void *)work;
 }

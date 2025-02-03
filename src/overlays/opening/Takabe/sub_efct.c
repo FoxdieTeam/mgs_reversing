@@ -1,3 +1,7 @@
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
@@ -179,7 +183,7 @@ void SubEfctDie_800CCAF0(SubEfctWork *work)
     SubEfct_800CCA58(work);
 }
 
-GV_ACT *NewSubEfct_800CCB10(OBJECT *parent, SVECTOR *rotation)
+void *NewSubEfct_800CCB10(OBJECT *parent, SVECTOR *rotation)
 {
     SubEfctWork *work;
     DG_OBJS     *objs;
@@ -209,5 +213,5 @@ GV_ACT *NewSubEfct_800CCB10(OBJECT *parent, SVECTOR *rotation)
         work->light[1].m[2][0] = 2048;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

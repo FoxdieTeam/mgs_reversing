@@ -3,10 +3,10 @@
 
 #include <sys/types.h>
 #include <libgte.h>
-#include "libgv/libgv.h"
+#include <libgpu.h>
 
 // Anti-Air Missile (Stinger)
 
-GV_ACT *NewAMissile(MATRIX *world, int side);
+void *NewAMissile(MATRIX *world, int side);
 
 #endif // _AMISSILE_H_

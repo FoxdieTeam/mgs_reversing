@@ -329,7 +329,7 @@ int Door2GetResources_800DD7C8(Door2Work *work, int name, int map)
     return 0;
 }
 
-GV_ACT *NewDoor2_800DD9E4(int name, int where)
+void *NewDoor2_800DD9E4(int name, int where)
 {
     Door2Work *work;
 
@@ -353,5 +353,5 @@ GV_ACT *NewDoor2_800DD9E4(int name, int where)
         work->f320 = 0;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

@@ -21,7 +21,7 @@ extern int GV_PassageTime;
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL2
 
-void LifeUpAct_800DF1A8(LifeUpWork *work)
+STATIC void LifeUpAct_800DF1A8(LifeUpWork *work)
 {
     GM_GameStatus |= PLAYER_MENU_DISABLE;
 
@@ -70,12 +70,12 @@ void LifeUpAct_800DF1A8(LifeUpWork *work)
     }
 }
 
-void LifeUpDie_800DF318(LifeUpWork *work)
+STATIC void LifeUpDie_800DF318(LifeUpWork *work)
 {
     GM_GameStatus &= ~(STATE_PADRELEASE | STATE_SHOW_LIFEBAR);
 }
 
-int LifeUpGetResources_800DF334(LifeUpWork *work, int name, int map)
+STATIC int LifeUpGetResources_800DF334(LifeUpWork *work, int name, int map)
 {
     if (GCL_GetOption('m'))
     {
@@ -111,7 +111,7 @@ int LifeUpGetResources_800DF334(LifeUpWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT *NewLifeUp_800DF428(int name, int where)
+void *NewLifeUp_800DF428(int name, int where)
 {
     LifeUpWork *work;
 
@@ -127,5 +127,5 @@ GV_ACT *NewLifeUp_800DF428(int name, int where)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

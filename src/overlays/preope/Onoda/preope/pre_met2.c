@@ -1,6 +1,10 @@
 // CAUTION: this file is nearly identical to pre_met1.c
 // If you make any changes, also modify pre_met1.c
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
@@ -1012,7 +1016,7 @@ int PreMet2GetResources_800C68C4(PreMet2Work *work, int arg1, int *arg2, PreEntr
     return 0;
 }
 
-GV_ACT *NewPreMet2_800C6F20(int arg0, int *arg1, PreEntries *arg2)
+void *NewPreMet2_800C6F20(int arg0, int *arg1, PreEntries *arg2)
 {
     PreMet2Work *work;
 
@@ -1028,5 +1032,5 @@ GV_ACT *NewPreMet2_800C6F20(int arg0, int *arg1, PreEntries *arg2)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

@@ -88,7 +88,7 @@ signed char byte_800C3260[] = {
 int  Safety_800C45F8( int lba, int timeout );
 void Safety_800C4714( void );
 
-GV_ACT *NewMetLogo_800C5A90( int * );
+void *NewMetLogo_800C5A90( int * );
 
 #define EXEC_LEVEL GV_ACTOR_MANAGER
 
@@ -676,7 +676,7 @@ int ChangeGetResources_800C4448( Work *work, int map )
     return 0;
 }
 
-GV_ACT *NewChange_800C455C( int name, int where, int argc, char **argv )
+void *NewChange_800C455C( int name, int where, int argc, char **argv )
 {
     Work *work;
 
@@ -694,5 +694,5 @@ GV_ACT *NewChange_800C455C( int name, int where, int argc, char **argv )
         }
     }
 
-    return &( work->actor );
+    return (void *)work;
 }

@@ -230,7 +230,7 @@ int DummyWallGetResources_800D7178(DummyWallWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT *NewDummyWall_800D7384(int name, int where, int argc, char **argv)
+void *NewDummyWall_800D7384(int name, int where, int argc, char **argv)
 {
     DummyWallWork *work;
 
@@ -244,7 +244,7 @@ GV_ACT *NewDummyWall_800D7384(int name, int where, int argc, char **argv)
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }
 
 void DummyWall_800D7418(OBJECT *obj, int model, int where, int flag)

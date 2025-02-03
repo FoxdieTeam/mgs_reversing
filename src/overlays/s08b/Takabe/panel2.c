@@ -46,8 +46,8 @@ void Panel2_800E1244(OBJECT_NO_ROTS *object, int model, int where, int flag)
     object->objs->flag = flag;
 }
 
-int     AN_Unknown_800DCE84(SVECTOR *);
-GV_ACT *NewSpark2_800CA714(MATRIX *world);
+void AN_Unknown_800DCE84(SVECTOR *);
+void *NewSpark2_800CA714(MATRIX *world);
 
 void Panel2Act_800E12B4(Panel2Work *work)
 {
@@ -194,7 +194,7 @@ int Panel2GetResources_800E1460(Panel2Work *work, int name, int where)
     return 0;
 }
 
-GV_ACT *NewPanel2_800E1728(int name, int where, int argc, char **argv)
+void *NewPanel2_800E1728(int name, int where, int argc, char **argv)
 {
     Panel2Work *work;
 
@@ -208,5 +208,5 @@ GV_ACT *NewPanel2_800E1728(int name, int where, int argc, char **argv)
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

@@ -27,8 +27,8 @@ extern int      dword_8009F49C;
 extern int      amissile_alive_8009F490;
 extern SVECTOR  svector_8009F494;
 
-GV_ACT *NewMeltDie_800E0F5C(SVECTOR *arg1, int arg2);
-GV_ACT *NewWaterView_800DBE04(int name, int where, SVECTOR *arg2, CVECTOR *color);
+void *NewMeltDie_800E0F5C(SVECTOR *arg1, int arg2);
+void *NewWaterView_800DBE04(int name, int where, SVECTOR *arg2, CVECTOR *color);
 
 // Duplicate of WaterArea2BoundInCheck_800CEA48
 int FurnaceBoundInCheck_800E08AC(SVECTOR *bound, SVECTOR *check)
@@ -162,7 +162,7 @@ int FurnaceGetResources_800E0C40(FurnaceWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT *NewFurnace_800E0D2C(int name, int where, int argc, char **argv)
+void *NewFurnace_800E0D2C(int name, int where, int argc, char **argv)
 {
     FurnaceWork *work;
 
@@ -179,5 +179,5 @@ GV_ACT *NewFurnace_800E0D2C(int name, int where, int argc, char **argv)
         work->where = where;
         work->name = name;
     }
-    return &work->actor;
+    return (void *)work;
 }

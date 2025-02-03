@@ -184,7 +184,7 @@ int BlastoffGetResources_800DBE44(BlastoffWork *work, SVECTOR *arg1, int arg2, i
     return 0;
 }
 
-GV_ACT *NewBlastoff_800DBED4(SVECTOR *arg0, int arg1, int arg2, int *arg3)
+void *NewBlastoff_800DBED4(SVECTOR *arg0, int arg1, int arg2, int *arg3)
 {
     BlastoffWork *work;
 
@@ -198,5 +198,5 @@ GV_ACT *NewBlastoff_800DBED4(SVECTOR *arg0, int arg1, int arg2, int *arg3)
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

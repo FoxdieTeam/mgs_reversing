@@ -128,7 +128,7 @@ STATIC void delay_Act(DelayWork *work)
     GV_DestroyActor(&work->actor);
 }
 
-GV_ACT *GM_DelayedExecCommand(int proc, GCL_ARGS *args, int time)
+void *GM_DelayedExecCommand(int proc, GCL_ARGS *args, int time)
 {
     unsigned short argc;
     DelayWork     *work;
@@ -175,5 +175,5 @@ GV_ACT *GM_DelayedExecCommand(int proc, GCL_ARGS *args, int time)
 
         GV_SetNamedActor(&work->actor, delay_Act, NULL, "delay.c");
     }
-    return &work->actor;
+    return (void *)work;
 }

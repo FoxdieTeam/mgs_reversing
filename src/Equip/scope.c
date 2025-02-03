@@ -828,7 +828,7 @@ STATIC int ScopeGetResources(ScopeWork *work, CONTROL *control, OBJECT *parent)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewScope(CONTROL *control, OBJECT *parent, int num_parent)
+void *NewScope(CONTROL *control, OBJECT *parent, int num_parent)
 {
     ScopeWork *work;
 
@@ -849,5 +849,5 @@ GV_ACT *NewScope(CONTROL *control, OBJECT *parent, int num_parent)
         scope_created_8009F2C4 = 1;
     }
 
-    return (GV_ACT *)work;
+    return (void *)work;
 }

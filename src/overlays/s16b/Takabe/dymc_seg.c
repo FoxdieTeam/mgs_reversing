@@ -81,7 +81,7 @@ int DymcSegGetResources_800C4AC0(DymcSegWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT *NewDymcSeg_800C4BCC(int name, int where, int argc, char **argv)
+void *NewDymcSeg_800C4BCC(int name, int where, int argc, char **argv)
 {
     DymcSegWork *work;
 
@@ -97,5 +97,5 @@ GV_ACT *NewDymcSeg_800C4BCC(int name, int where, int argc, char **argv)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

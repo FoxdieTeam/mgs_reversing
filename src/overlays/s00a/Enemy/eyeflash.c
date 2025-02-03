@@ -135,7 +135,7 @@ int s00a_eyeflash_800D0BE0(EyeflashWork *work, int arg1)
     return -1;
 }
 
-GV_ACT *NewEyeflash_800D0CF4(MATRIX *arg0, SVECTOR *arg1, int arg2, int arg3)
+void *NewEyeflash_800D0CF4(MATRIX *arg0, SVECTOR *arg1, int arg2, int arg3)
 {
     EyeflashWork *work;
 
@@ -153,5 +153,5 @@ GV_ACT *NewEyeflash_800D0CF4(MATRIX *arg0, SVECTOR *arg1, int arg2, int arg3)
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

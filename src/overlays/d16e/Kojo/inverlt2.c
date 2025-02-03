@@ -1,5 +1,9 @@
 #include "inverlt2.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
@@ -31,7 +35,7 @@ void Inverlt2Act_800D1580(Inverlt2Work *work);
 void Inverlt2Die_800D1858(Inverlt2Work *work);
 void Inverlt2InitRects_800D18D4(Inverlt2Work *work, int scale);
 
-GV_ACT *NewInverlt2_800D0FF4(SVECTOR *arg0, int arg1, int arg2, int arg3, int r, int g, int b, int arg7, int arg8)
+void *NewInverlt2_800D0FF4(SVECTOR *arg0, int arg1, int arg2, int arg3, int r, int g, int b, int arg7, int arg8)
 {
     Inverlt2Work *work;
     DG_TEX       *tex;
@@ -143,7 +147,7 @@ GV_ACT *NewInverlt2_800D0FF4(SVECTOR *arg0, int arg1, int arg2, int arg3, int r,
 #undef POLY
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
 // Can't match below function without this macro

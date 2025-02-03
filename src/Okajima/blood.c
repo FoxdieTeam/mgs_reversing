@@ -1,5 +1,9 @@
 #include "blood.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
@@ -266,7 +270,7 @@ STATIC int blood_GetResources(BloodWork *work, MATRIX *arg1, int count)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewBlood(MATRIX *arg0, int count)
+void *NewBlood(MATRIX *arg0, int count)
 {
     SVECTOR input;
     SVECTOR speed;
@@ -319,7 +323,7 @@ GV_ACT *NewBlood(MATRIX *arg0, int count)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
 /*---------------------------------------------------------------------------*/

@@ -1,5 +1,9 @@
 #include "blurpure.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
@@ -168,7 +172,7 @@ int BlurPureGetResources_800C548C(BlurPureWork *work)
     return 0;
 }
 
-GV_ACT *NewBlurPure_800C54D4(int name, int where, int argc, char **argv)
+void *NewBlurPure_800C54D4(int name, int where, int argc, char **argv)
 {
     BlurPureWork *work;
 
@@ -183,10 +187,10 @@ GV_ACT *NewBlurPure_800C54D4(int name, int where, int argc, char **argv)
         }
         work->field_28 = -1;
     }
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewBlurPure2_800C554C(int name, int where, int argc, char **argv)
+void *NewBlurPure2_800C554C(int name, int where, int argc, char **argv)
 {
     BlurPureWork *work;
 
@@ -201,5 +205,5 @@ GV_ACT *NewBlurPure2_800C554C(int name, int where, int argc, char **argv)
         }
         work->field_28 = name;
     }
-    return &work->actor;
+    return (void *)work;
 }

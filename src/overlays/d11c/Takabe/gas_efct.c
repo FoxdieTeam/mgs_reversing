@@ -1,5 +1,9 @@
 #include "gas_efct.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
@@ -221,7 +225,7 @@ int GasEffectGetResources_800C4D98(GasEfctWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT *NewGasEffect_800C4E5C(int name, int where, int argc, char **argv)
+void *NewGasEffect_800C4E5C(int name, int where, int argc, char **argv)
 {
     GasEfctWork *work;
 
@@ -240,10 +244,10 @@ GV_ACT *NewGasEffect_800C4E5C(int name, int where, int argc, char **argv)
         work->name = name;
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewGasEffect_800C4EF8(SVECTOR *arg0, int arg1, int arg2)
+void *NewGasEffect_800C4EF8(SVECTOR *arg0, int arg1, int arg2)
 {
     GasEfctWork *work;
 
@@ -266,7 +270,7 @@ GV_ACT *NewGasEffect_800C4EF8(SVECTOR *arg0, int arg1, int arg2)
         work->map = GM_CurrentMap;
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
 void d11c_800C4FFC(GasEfctWork *work)

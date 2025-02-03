@@ -781,7 +781,7 @@ void camera_act_helper6_helper_8002FD9C(int cam1, int cam2)
     }
 }
 
-void camera_act_helper5_80030118(GV_ACT *pActor)
+void camera_act_helper5_80030118(GV_ACT *work)
 {
     GV_MSG *pMsg;
     int msgLen;
@@ -838,7 +838,7 @@ void camera_act_helper5_80030118(GV_ACT *pActor)
     }
 }
 
-int camera_act_helper6_80030250(GV_ACT *pActor)
+int camera_act_helper6_80030250(GV_ACT *work)
 {
     int var_a1;
     int temp_a2;
@@ -958,7 +958,7 @@ void sub_8003049C(SVECTOR *a1)
     GV_AddVec3(&svec_800ABA88, a1, &svec_800ABA88);
 }
 
-void camera_act_8003059C(GV_ACT *pActor)
+void camera_act_8003059C(GV_ACT *work)
 {
     int iVar1;
     int iVar2;
@@ -967,8 +967,8 @@ void camera_act_8003059C(GV_ACT *pActor)
     {
         if (GV_PauseLevel == 0)
         {
-            camera_act_helper5_80030118(pActor);
-            iVar1 = camera_act_helper6_80030250(pActor);
+            camera_act_helper5_80030118(work);
+            iVar1 = camera_act_helper6_80030250(work);
             camera_act_helper3_8002F64C();
 
             if (GM_Camera_800B77E8.first_person == 1)
@@ -1002,14 +1002,14 @@ void camera_act_8003059C(GV_ACT *pActor)
     }
 }
 
-GV_ACT *camera_init_800306A0()
+void *camera_init_800306A0(void)
 {
-    GV_ACT *pActor;
+    GV_ACT *work;
 
-    pActor = GV_NewActor(GV_ACTOR_LEVEL2, sizeof(GV_ACT));
-    if (pActor)
+    work = GV_NewActor(GV_ACTOR_LEVEL2, sizeof(GV_ACT));
+    if (work)
     {
-        GV_SetNamedActor(pActor, camera_act_8003059C, NULL, "camera.c");
+        GV_SetNamedActor(work, camera_act_8003059C, NULL, "camera.c");
     }
 
     GM_Camera_800B77E8.zoom = 320;
@@ -1029,7 +1029,7 @@ GV_ACT *camera_init_800306A0()
     gUnkCameraStruct_800B77B8.rotate2.vy = 2048;
     gUnkCameraStruct_800B77B8.rotate2.vz = 0;
 
-    return pActor;
+    return (void *)work;
 }
 
 void GM_Reset_helper3_80030760()

@@ -453,7 +453,7 @@ void TobcntGetResources_800C4AD0(TobcntWork *work)
     }
 }
 
-GV_ACT *NewTobcnt_800C4BC8(int name, int where, int argc, char **argv)
+void *NewTobcnt_800C4BC8(int name, int where, int argc, char **argv)
 {
     TobcntWork *work;
 
@@ -490,5 +490,5 @@ GV_ACT *NewTobcnt_800C4BC8(int name, int where, int argc, char **argv)
 
     GM_GameStatus |= STATE_GAME_OVER;
 
-    return &work->actor;
+    return (void *)work;
 }

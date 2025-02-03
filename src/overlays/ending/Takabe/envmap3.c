@@ -251,7 +251,7 @@ void Envmap3Die_800CA384(Envmap3Work *work)
     Envmap3_800CA24C(work);
 }
 
-GV_ACT *NewEnvmap3_800CA3A4(OBJECT *object, unsigned int name)
+void *NewEnvmap3_800CA3A4(OBJECT *object, unsigned int name)
 {
     Envmap3Work *work;
     DG_OBJS     *objs;
@@ -316,5 +316,5 @@ GV_ACT *NewEnvmap3_800CA3A4(OBJECT *object, unsigned int name)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

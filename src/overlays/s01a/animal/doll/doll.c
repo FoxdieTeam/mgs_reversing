@@ -11,8 +11,8 @@ extern int GM_CurrentMap;
 
 short s01a_word_800C3CD4[8] = {31000, 15, 30, 60, 90, 32000, 32001, 30000};
 
-GV_ACT *NewGunLight_800D3AD4(MATRIX *world, int **enable);
-GV_ACT *s01a_blink_tx_800DD60C(CONTROL *, OBJECT *, int, int *);
+void *NewGunLight_800D3AD4(MATRIX *world, int **enable);
+void *s01a_blink_tx_800DD60C(CONTROL *, OBJECT *, int, int *);
 
 void Demodoll_800DDEAC(DollWork *);
 void Demodoll_800DDF18(DollWork *);
@@ -739,7 +739,7 @@ int DollGetResources_800DCAA4(DollWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT *NewDoll_800DCD78(int name, int where, int argc, char **argv)
+void *NewDoll_800DCD78(int name, int where, int argc, char **argv)
 {
     DollWork *work;
 
@@ -755,5 +755,5 @@ GV_ACT *NewDoll_800DCD78(int name, int where, int argc, char **argv)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

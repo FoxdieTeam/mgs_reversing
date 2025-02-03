@@ -3,8 +3,10 @@
 
 #include <sys/types.h>
 #include <libgte.h>
+#include <libgpu.h>
 
 #include "libgv/libgv.h"
+#include "libhzd/libhzd.h"
 #include "Game/control.h"
 #include "Game/object.h"
 #include "Game/target.h"
@@ -42,7 +44,7 @@ typedef struct JiraiWork
 #endif
 } JiraiWork;
 
-GV_ACT *NewJirai(MATRIX *world, HZD_FLR *floor);
-GV_ACT *NewScenarioJirai(MATRIX *world, int map);
+void *NewJirai(MATRIX *world, HZD_FLR *floor);
+void *NewScenarioJirai(MATRIX *world, int map);
 
 #endif // _JIRAI_H_

@@ -55,7 +55,7 @@ STATIC void BodyarmDie(BodyarmWork *work)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewBodyarm(CONTROL *control, OBJECT *parent, int num_parent)
+void *NewBodyarm(CONTROL *control, OBJECT *parent, int num_parent)
 {
     BodyarmWork *work = GV_NewActor(EXEC_LEVEL, sizeof(BodyarmWork));
     if (work)
@@ -70,5 +70,5 @@ GV_ACT *NewBodyarm(CONTROL *control, OBJECT *parent, int num_parent)
         }
     }
 
-    return (GV_ACT *)work;
+    return (void *)work;
 }
