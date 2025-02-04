@@ -273,6 +273,11 @@ enum
     PAD_L3 = PADi,          // 0x0200 (1<< 9)
     PAD_R3 = PADj,          // 0x0400 (1<<10)
 };
+/* SNES-style button layout */
+#define PAD_A   PAD_CIRCLE
+#define PAD_B   PAD_CROSS
+#define PAD_X   PAD_TRIANGLE
+#define PAD_Y   PAD_SQUARE
 
 #define PAD_DIR (PAD_LEFT | PAD_DOWN | PAD_RIGHT | PAD_UP) // 0xF000
 
