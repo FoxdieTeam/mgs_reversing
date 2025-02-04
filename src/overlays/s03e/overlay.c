@@ -25,6 +25,6 @@ CHARA _StageCharacterEntries[] =
     { CHARA_FADE_IN_OUT, NewFadeIo_800C42BC },
     { CHARA_INTR_CAM, NewIntrCam_800C5748 },
     { CHARA_CAT_IN, NewZoom_800DFA88 },
-    { CHARA_MOTION_SEQUENCE, NewMotse_800C5944 },
+    { CHARA_MOTION_SE, NewMotionSoundEffect },
     { 0, NULL }
 };

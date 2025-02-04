@@ -33,7 +33,7 @@
 CHARA _StageCharacterEntries[] =
 {
     { CHARA_TOBCNT, NewTobcnt_800C4BC8 },
-    { CHARA_MOTION_SEQUENCE, NewMotse_800C5944 },
+    { CHARA_MOTION_SE, NewMotionSoundEffect },
     { CHARA_CANCEL, NewCancel_800C3FFC },
     { CHARA_CAMERA_SHAKE, NewCameraShake_800DF6AC },
     { CHARA_VIBRATE, (NEWCHARA)NewVibration },
