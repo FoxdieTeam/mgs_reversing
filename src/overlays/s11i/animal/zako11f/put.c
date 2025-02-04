@@ -4,8 +4,6 @@
 #include "Game/linkvarbuf.h"
 #include "Okajima/blood.h"
 
-extern int     GV_Time;
-
 extern SVECTOR s11i_800C33B4;
 extern SVECTOR s11i_800C33BC;
 extern SVECTOR s11i_800C33C4;

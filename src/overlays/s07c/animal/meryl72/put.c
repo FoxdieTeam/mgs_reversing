@@ -1,6 +1,5 @@
 #include "meryl72.h"
 
-extern int   GV_Time;
 extern void  AN_Breath_800C3AA8( MATRIX * ) ;
 extern void  AN_Fog_800CA618( SVECTOR *pos ) ;
 extern void  NewBlood( MATRIX *, int ) ;

@@ -4,8 +4,6 @@
 #include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
 
-extern int     GV_Time;
-
 extern unsigned short GM_WeaponTypes[];
 extern unsigned short GM_ItemTypes[];
 
