@@ -31,8 +31,6 @@ typedef struct _RevbulltWork
     int      bounces;
 } RevbulltWork;
 
-extern int     GM_CurrentMap;
-
 const SVECTOR s04c_dword_800DBAE4 = {0, -750, 0, 0};
 
 SVECTOR s04c_dword_800C35B0[4] = {{15, 0, 0, 0}, {-15, 0, 0, 0}, {0, 0, 15, 0}, {0, 0, -15, 0}};

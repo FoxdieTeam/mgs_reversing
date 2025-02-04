@@ -2,6 +2,7 @@
 #include "strcode.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
+#include "Game/game.h"
 #include "Takabe/thing.h"
 
 typedef struct DymcFloorWork
@@ -16,8 +17,6 @@ typedef struct DymcFloorWork
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 unsigned short dymc_flr_msgs_800C3630[2] = {HASH_ON2, HASH_OFF2};
-
-extern int GM_CurrentMap;
 
 void s15c_dymc_flr_800E18BC(HZD_FLR *flr, SVECTOR *svec)
 {

@@ -27,7 +27,6 @@ typedef struct _Spark2Prim
 } Spark2Prim;
 
 extern int     GV_Clock;
-extern int     GM_CurrentMap;
 
 const SVECTOR spark2_light_pos = {0, 0, 500, 0};
 

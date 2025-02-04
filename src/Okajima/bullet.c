@@ -14,8 +14,6 @@
 #include "Anime/animeconv/anime.h"
 #include "spark.h"
 
-extern int GM_CurrentMap;
-
 /*---------------------------------------------------------------------------*/
 
 // TODO: This type of struct is seen in other places that make use of HZD_FLR.

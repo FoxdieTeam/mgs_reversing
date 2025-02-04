@@ -1,6 +1,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "Game/game.h"
 
 typedef struct _PlasmaHWork
 {
@@ -20,8 +21,6 @@ typedef struct _PlasmaHWork
     int      count;
     int      time;
 } PlasmaHWork;
-
-extern int     GM_CurrentMap;
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL4
 

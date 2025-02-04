@@ -21,8 +21,6 @@ typedef struct _TracktrpWork
     int     proc[4];
 } TracktrpWork;
 
-extern int     GM_AlertMode;
-extern SVECTOR GM_PlayerPosition_800ABA10;
 extern GV_PAD  GV_PadData_800B05C0[4];
 
 unsigned short tracktrp_hashes[] = {HASH_ENTER, HASH_LEAVE};
@@ -41,7 +39,7 @@ void TracktrpAct_800E1A94(TracktrpWork *work)
         work->enter = 1;
         work->item = ITEM_NONE;
         work->count = 0;
-        work->pos = GM_PlayerPosition_800ABA10;
+        work->pos = GM_PlayerPosition;
         break;
 
     case 1:
@@ -59,15 +57,15 @@ void TracktrpAct_800E1A94(TracktrpWork *work)
         if (GV_PadData_800B05C0[0].status & 0xF013)
         {
             work->count = 0;
-            work->pos = GM_PlayerPosition_800ABA10;
+            work->pos = GM_PlayerPosition;
         }
 
-        if ((GM_PlayerPosition_800ABA10.vx != work->pos.vx) ||
-            (GM_PlayerPosition_800ABA10.vy != work->pos.vy) ||
-            (GM_PlayerPosition_800ABA10.vz != work->pos.vz))
+        if ((GM_PlayerPosition.vx != work->pos.vx) ||
+            (GM_PlayerPosition.vy != work->pos.vy) ||
+            (GM_PlayerPosition.vz != work->pos.vz))
         {
             work->count = 0;
-            work->pos = GM_PlayerPosition_800ABA10;
+            work->pos = GM_PlayerPosition;
         }
 
         if (GM_AlertMode != 0)
@@ -125,7 +123,7 @@ void TracktrpAct_800E1A94(TracktrpWork *work)
         }
 
         work->count = 0;
-        work->pos = GM_PlayerPosition_800ABA10;
+        work->pos = GM_PlayerPosition;
     }
 }
 

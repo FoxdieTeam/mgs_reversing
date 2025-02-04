@@ -4,6 +4,7 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
+#include "Game/game.h"
 
 typedef struct _SphereWork
 {
@@ -15,7 +16,6 @@ typedef struct _SphereWork
     char     pad[0x2];
 } SphereWork;
 
-extern int GM_CurrentMap;
 extern int GV_Clock;
 
 short SECTION("overlay.bss") sphere_image_width_800E4B28;

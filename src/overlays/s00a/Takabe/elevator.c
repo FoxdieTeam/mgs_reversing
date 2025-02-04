@@ -67,9 +67,7 @@ typedef struct _ElevatorWork
 
 extern int           bakudan_count_8009F42C;
 extern int           counter_8009F448;
-extern int           GM_CurrentMap;
 extern int           gControlCount_800AB9B4;
-extern int           GM_AlertMode;
 extern CONTROL      *GM_WhereList_800B56D0[96];
 extern CONTROL      *tenage_ctrls_800BDD30[16];
 extern int           tenage_ctrls_count_800BDD70;

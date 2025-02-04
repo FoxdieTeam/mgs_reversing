@@ -55,8 +55,6 @@ typedef struct _WireWork
 } WireWork;
 
 extern BLAST_DATA blast_data_8009F4B8[8];
-extern int        GM_CurrentMap;
-extern SVECTOR    GM_PlayerPosition_800ABA10;
 
 unsigned short s04c_dword_800C35E8[] = {HASH_KILL};
 char           s04c_dword_800C35EC[] = {0x7F, 0x03, 0x00, 0x00};
@@ -72,10 +70,10 @@ void s04c_wire_800D2E7C(WireWork *work)
 
     GM_CurrentMap = work->map;
 
-    px = GM_PlayerPosition_800ABA10.vx;
-    pz = GM_PlayerPosition_800ABA10.vz;
+    px = GM_PlayerPosition.vx;
+    pz = GM_PlayerPosition.vz;
 
-    if (GM_PlayerPosition_800ABA10.vy > 300)
+    if (GM_PlayerPosition.vy > 300)
     {
         if (px <= 0)
         {

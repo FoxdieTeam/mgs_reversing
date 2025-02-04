@@ -31,7 +31,6 @@ typedef struct BubDSnWork
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 extern int     GV_Clock;
-extern OBJECT *GM_PlayerBody_800ABA20;
 
 // Duplicate of Splash2ShadePacks_800DAF0C
 void BubbleDisplayScene_800D87A4(POLY_FT4 *packs, int n_packs, int shade, DG_TEX *tex)
@@ -237,7 +236,7 @@ int BubbleDisplaySceneGetResources_800D8C90(BubDSnWork *work, int where)
         iter3->vz = GV_RandU(32) + 50;
     }
 
-    DG_SetPos(&GM_PlayerBody_800ABA20->objs->objs[6].world);
+    DG_SetPos(&GM_PlayerBody->objs->objs[6].world);
 
     DG_PutVector(work->field_34, work->field_34, 4);
     DG_PutVector(work->field_54, work->field_54, 16);

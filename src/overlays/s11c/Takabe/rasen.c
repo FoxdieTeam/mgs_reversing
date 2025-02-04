@@ -82,13 +82,9 @@ extern int             bakudan_count_8009F42C;
 extern HITTABLE        GM_C4Datas_800BDD78[C4_COUNT];
 extern HITTABLE        GM_ClayDatas_800BDE78[8];
 extern int             counter_8009F448;
-extern CONTROL        *GM_PlayerControl_800AB9F4;
 extern int             DG_CurrentGroupID;
-extern int             GM_PlayerMap_800ABA0C;
-extern int             GM_PlayerStatus;
 extern UnkCameraStruct gUnkCameraStruct_800B77B8;
 extern int             GV_PauseLevel;
-extern SVECTOR         GM_PlayerPosition_800ABA10;
 
 void Rasen2IterBakudanJirai_800CA3A4(Rasen2Work *work, MAP *oldMap, MAP *newMap)
 {
@@ -306,27 +302,27 @@ void Rasen2Act_800CA79C(Rasen2Work *work)
     if (rasen_800C3408 != 0)
     {
         mapid = rasen_el_800D2CA4[rasen_800C3404];
-        old_map = GM_PlayerControl_800AB9F4->map;
+        old_map = GM_PlayerControl->map;
         new_map = GM_GetMap(mapid);
 
         DG_CurrentGroupID = mapid;
-        playermap = GM_PlayerMap_800ABA0C;
+        playermap = GM_PlayerMap;
         GM_CurrentMap = mapid;
-        GM_PlayerMap_800ABA0C = mapid;
-        GM_PlayerControl_800AB9F4->map->used = 0;
-        GM_PlayerControl_800AB9F4->map = new_map;
+        GM_PlayerMap = mapid;
+        GM_PlayerControl->map->used = 0;
+        GM_PlayerControl->map = new_map;
         new_map->used = 1;
 
         DG_ResetFixedLight();
-        DG_SetFixedLight(GM_PlayerControl_800AB9F4->map->lit->lights,
-                         GM_PlayerControl_800AB9F4->map->lit->n_lights);
+        DG_SetFixedLight(GM_PlayerControl->map->lit->lights,
+                         GM_PlayerControl->map->lit->n_lights);
 
         Rasen2IterBakudanJirai_800CA3A4(work, old_map, new_map);
         Rasen2SearchWhereList_800CA568(work, old_map, new_map);
         Rasen2UpdateChnlQueue_800CA678(work, playermap, mapid);
     }
 
-    vy = GM_PlayerControl_800AB9F4->mov.vy;
+    vy = GM_PlayerControl->mov.vy;
     if (vy >= 0)
     {
         vy /= 4000;
@@ -346,7 +342,7 @@ void Rasen2Act_800CA79C(Rasen2Work *work)
 
     if ((GM_PlayerStatus & PLAYER_WATCH) && !(GM_Camera_800B77E8.flags & 0x100))
     {
-        if (GM_PlayerMap_800ABA0C & work->field_28)
+        if (GM_PlayerMap & work->field_28)
         {
             for (i = 0; i < 8; i++)
             {
@@ -359,7 +355,7 @@ void Rasen2Act_800CA79C(Rasen2Work *work)
             }
         }
     }
-    else if (GM_PlayerMap_800ABA0C & work->field_28)
+    else if (GM_PlayerMap & work->field_28)
     {
         for (i = 0; i < 8; i++)
         {
@@ -674,16 +670,16 @@ void RasenAct_800CB530(RasenWork *work)
 
     if (rasen_800D2C84.field_1C != 0)
     {
-        if (gUnkCameraStruct_800B77B8.eye.vy - GM_PlayerControl_800AB9F4->mov.vy >= 0)
+        if (gUnkCameraStruct_800B77B8.eye.vy - GM_PlayerControl->mov.vy >= 0)
         {
-            if (gUnkCameraStruct_800B77B8.eye.vy - GM_PlayerControl_800AB9F4->mov.vy > 20000)
+            if (gUnkCameraStruct_800B77B8.eye.vy - GM_PlayerControl->mov.vy > 20000)
             {
                 goto add_vec; // FIXME: match without goto
             }
         }
         else
         {
-            if (GM_PlayerControl_800AB9F4->mov.vy - gUnkCameraStruct_800B77B8.eye.vy > 20000)
+            if (GM_PlayerControl->mov.vy - gUnkCameraStruct_800B77B8.eye.vy > 20000)
             {
             add_vec:
                 GV_AddVec3(&gUnkCameraStruct_800B77B8.eye, &GM_Camera_800B77E8.pan,
@@ -703,7 +699,7 @@ void RasenAct_800CB530(RasenWork *work)
     {
         if (GM_UnkFlagBE || GM_Camera_800B77E8.first_person == 0 || (GM_Camera_800B77E8.flags & 0x200))
         {
-            level = GM_PlayerControl_800AB9F4->levels[0] + 1100;
+            level = GM_PlayerControl->levels[0] + 1100;
 
             if (level >= 16000 - s11c_dword_800C3410 && rasen_800C3404 < 2)
             {
@@ -712,9 +708,9 @@ void RasenAct_800CB530(RasenWork *work)
                 GM_Camera_800B77E8.pan.pad = 0;
                 rasen_800D2C84.field_1C = 1;
                 rasen_800C3408 = 1;
-                GM_PlayerControl_800AB9F4->mov.vy -= 32000;
+                GM_PlayerControl->mov.vy -= 32000;
                 rasen_800C3404++;
-                GM_PlayerPosition_800ABA10.vy -= 32000;
+                GM_PlayerPosition.vy -= 32000;
             }
             else if (level < -16000 - s11c_dword_800C3410 && rasen_800C3404 > 0)
             {
@@ -723,9 +719,9 @@ void RasenAct_800CB530(RasenWork *work)
                 GM_Camera_800B77E8.pan.pad = 0;
                 rasen_800D2C84.field_1C = 1;
                 rasen_800C3408 = 2;
-                GM_PlayerControl_800AB9F4->mov.vy += 32000;
+                GM_PlayerControl->mov.vy += 32000;
                 rasen_800C3404--;
-                GM_PlayerPosition_800ABA10.vy += 32000;
+                GM_PlayerPosition.vy += 32000;
             }
         }
     }

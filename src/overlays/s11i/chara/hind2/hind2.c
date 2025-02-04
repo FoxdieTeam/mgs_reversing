@@ -40,7 +40,6 @@ typedef struct _Hind2Work
 SVECTOR s11i_800C32C0 = { 0, -2728, 5587, 0 };
 
 extern int     GV_Clock;
-extern SVECTOR GM_PlayerPosition_800ABA10;
 
 void *NewHdBul2( SVECTOR *arg0, SVECTOR *arg1, int enable );
 
@@ -101,7 +100,7 @@ void Hind2_800C44C4( Hind2Work *work )
     work->control.mov.vy = work->f1E4.vy;
     work->control.mov.vz = work->f1E4.vz;
 
-    Hind2_800C43F0( &GM_PlayerPosition_800ABA10, mov, &diff );
+    Hind2_800C43F0( &GM_PlayerPosition, mov, &diff );
 
     work->control.turn.vy = ratan2( diff.vx, diff.vz );
     work->control.turn.vx = -ratan2( diff.vy, SquareRoot0( diff.vx * diff.vx + diff.vz * diff.vz ) );
@@ -194,29 +193,29 @@ int Hind2_800C48CC( Hind2Work *work )
 
     ret = 0;
 
-    GV_SubVec3( &GM_PlayerPosition_800ABA10, &work->control.mov, &diff );
+    GV_SubVec3( &GM_PlayerPosition, &work->control.mov, &diff );
 
     if ( GV_VecLen3( &diff ) >= 10000 )
     {
         ret = 1;
     }
 
-    if ( GM_PlayerPosition_800ABA10.vz >= -10000 )
+    if ( GM_PlayerPosition.vz >= -10000 )
     {
         ret = 2;
     }
 
-    if ( GM_PlayerPosition_800ABA10.vx <= -7250 )
+    if ( GM_PlayerPosition.vx <= -7250 )
     {
         ret = 4;
     }
 
-    if ( work->f1FC == 6 && GM_PlayerPosition_800ABA10.vz <= -10000 )
+    if ( work->f1FC == 6 && GM_PlayerPosition.vz <= -10000 )
     {
         ret = 3;
     }
 
-    if ( work->f1FC == 7 && GM_PlayerPosition_800ABA10.vx >= -7250 )
+    if ( work->f1FC == 7 && GM_PlayerPosition.vx >= -7250 )
     {
         ret = 5;
     }
@@ -265,7 +264,7 @@ void Hind2_800C499C( Hind2Work *work )
     case 0:
         Hind2_800C4468( work, 1 );
 
-        if ( GM_PlayerPosition_800ABA10.vz <= -15000 && work->f234 != 0 )
+        if ( GM_PlayerPosition.vz <= -15000 && work->f234 != 0 )
         {
             DG_VisibleObjs( work->body.objs );
             work->f1FC = 1;
@@ -303,7 +302,7 @@ void Hind2_800C499C( Hind2Work *work )
         if ( work->f200 >= 60 )
         {
             work->f1FC = 3;
-            work->f228 = GM_PlayerPosition_800ABA10;
+            work->f228 = GM_PlayerPosition;
             work->f200 = 0;
 
             if ( work->f2A4 != 0 )
@@ -328,7 +327,7 @@ void Hind2_800C499C( Hind2Work *work )
         sp10.vz = work->f228.vz;
         Hind2_800C45E4( work, sp10 );
 
-        if ( work->f200 > 30 || GM_PlayerPosition_800ABA10.vx <= -7500 )
+        if ( work->f200 > 30 || GM_PlayerPosition.vx <= -7500 )
         {
             work->f1FC = 4;
             work->f200 = 0;
@@ -352,7 +351,7 @@ void Hind2_800C499C( Hind2Work *work )
 
         case 1:
             work->f1FC = 5;
-            work->f230 = ( GM_PlayerPosition_800ABA10.vx - work->control.mov.vx ) / 100;
+            work->f230 = ( GM_PlayerPosition.vx - work->control.mov.vx ) / 100;
             work->f200 = 0;
             break;
 
@@ -379,7 +378,7 @@ void Hind2_800C499C( Hind2Work *work )
         if ( work->f200 >= 80 )
         {
             work->f1FC = 3;
-            work->f228 = GM_PlayerPosition_800ABA10;
+            work->f228 = GM_PlayerPosition;
             work->f200 = 0;
 
             if ( work->f2A4 != 0 )
@@ -404,7 +403,7 @@ void Hind2_800C499C( Hind2Work *work )
         if ( seg == 3 )
         {
             work->f1FC = 3;
-            work->f228 = GM_PlayerPosition_800ABA10;
+            work->f228 = GM_PlayerPosition;
             work->f200 = 0;
 
             if ( work->f2A4 != 0 )
@@ -429,7 +428,7 @@ void Hind2_800C499C( Hind2Work *work )
         if ( seg == 5 )
         {
             work->f1FC = 2;
-            work->f228 = GM_PlayerPosition_800ABA10;
+            work->f228 = GM_PlayerPosition;
             work->f200 = 0;
         }
         break;
@@ -545,9 +544,9 @@ void Hind2Act( Hind2Work *work )
 
     DG_GetLightMatrix( &control->mov, work->light );
 
-    work->f28C.vx = ( GM_PlayerPosition_800ABA10.vx * 3 + work->control.mov.vx ) / 4;
-    work->f28C.vy = ( GM_PlayerPosition_800ABA10.vy * 3 + work->control.mov.vy ) / 4;
-    work->f28C.vz = ( GM_PlayerPosition_800ABA10.vz * 3 + work->control.mov.vz ) / 4;
+    work->f28C.vx = ( GM_PlayerPosition.vx * 3 + work->control.mov.vx ) / 4;
+    work->f28C.vy = ( GM_PlayerPosition.vy * 3 + work->control.mov.vy ) / 4;
+    work->f28C.vz = ( GM_PlayerPosition.vz * 3 + work->control.mov.vz ) / 4;
 
     Hind2_800C5274( work );
 

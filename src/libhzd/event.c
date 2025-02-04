@@ -51,7 +51,6 @@ unsigned short GM_ItemTypes[] = {
     0           // 25: ???
 };
 
-extern int    GM_PlayerStatus;
 extern GV_PAD GV_PadData_800B05C0[4];
 
 extern int         gLastBindNum_800AB9B8; //N_BindsLV

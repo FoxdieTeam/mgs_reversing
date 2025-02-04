@@ -7,7 +7,6 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 
-extern int    GM_PlayerStatus;
 extern int    GV_Clock;
 extern GV_PAD GV_PadData_800B05C0[4];
 

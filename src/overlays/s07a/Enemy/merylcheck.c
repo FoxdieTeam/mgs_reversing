@@ -201,15 +201,13 @@ int s07a_meryl_unk_800D6B90( int dir, int dist )
     return 2 ;
 }
 
-extern OBJECT *GM_PlayerBody_800ABA20;
-
 void ReviseReadyGun_800D6BE4( WatcherWork* work )
 {
 
     int trans;
     int near;
 
-    trans = ( ( GM_PlayerBody_800ABA20->objs->objs[6].world.t[1] - work->body.objs->objs[6].world.t[1] ) );
+    trans = ( ( GM_PlayerBody->objs->objs[6].world.t[1] - work->body.objs->objs[6].world.t[1] ) );
     trans = ratan2( work->sn_dis, trans  )  & 0xFFF;
 
     near = GV_NearExp8( work->adjust[2].vx, trans - 0x400 );

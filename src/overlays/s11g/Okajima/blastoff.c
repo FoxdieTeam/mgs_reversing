@@ -1,6 +1,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "Game/game.h"
 #include "Takabe/prim.h"
 
 typedef struct BlastoffWork
@@ -22,7 +23,6 @@ typedef struct BlastoffWork
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 extern int    GV_Clock;
-extern int    GM_CurrentMap;
 
 void Blastoff_800DB880(BlastoffWork *work)
 {

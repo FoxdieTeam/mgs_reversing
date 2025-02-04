@@ -462,11 +462,6 @@ const char s12c_aShadow_800DA104[] = "shadow";
 const char s12c_aDoglow_800DA10C[] = "dog_low";
 
 extern GV_PAD           GV_PadData_800B05C0[4];
-extern int              GM_PadVibration2;
-extern int              GM_PadVibration;
-extern SVECTOR          GM_PlayerPosition_800ABA10;
-extern PlayerStatusFlag GM_PlayerStatus;
-extern OBJECT          *GM_PlayerBody_800ABA20;
 
 void *AN_Unknown_800CA1EC(MATRIX *mat, int mark);
 void *AN_Unknown_800CA320(MATRIX *mat, int mark);
@@ -628,7 +623,7 @@ void Dog_800CAB68(DogWork *work, int index, int hp)
     target->field_2C_vec.vx = GV_RandU(32);
     target->field_2C_vec.vy = GV_RandU(32);
     target->field_2C_vec.vz = GV_RandU(32);
-    GM_MoveTarget(target, &GM_PlayerPosition_800ABA10);
+    GM_MoveTarget(target, &GM_PlayerPosition);
     GM_PowerTarget(target);
 }
 
@@ -833,7 +828,7 @@ void Dog_800CBBE8(DogWork *work, int index)
     MATRIX  rot;
     SVECTOR pos;
 
-    DG_SetPos(&GM_PlayerBody_800ABA20->objs[1].world);
+    DG_SetPos(&GM_PlayerBody->objs[1].world);
 
     pos.vx = GV_RandU(0x800U);
     pos.vy = GV_RandU(0x1000U);

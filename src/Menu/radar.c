@@ -212,9 +212,7 @@ void drawBorder_800390FC(MenuWork *menuMan, unsigned char *ot)
 // clang-format on
 
 extern CONTROL         *GM_WhereList_800B56D0[96];
-extern PlayerStatusFlag GM_PlayerStatus;
 extern int              gControlCount_800AB9B4;
-extern int              GM_PlayerMap_800ABA0C;
 
 extern int HZD_CurrentGroup_800AB9A8;
 
@@ -339,7 +337,7 @@ void drawMap_800391D0(MenuWork *work, unsigned char *ot, int arg2)
             x = ((control->mov.vx * scale) / 4096) - xoff;
             z = ((control->mov.vz * scale) / 4096) - zoff;
 
-            if ((radar_atr & RADAR_VISIBLE) && ((radar_atr & RADAR_ALL_MAP) || (control->map->index & GM_PlayerMap_800ABA0C)))
+            if ((radar_atr & RADAR_VISIBLE) && ((radar_atr & RADAR_ALL_MAP) || (control->map->index & GM_PlayerMap)))
             {
                 NEW_PRIM(pTile1_2, work);
 
@@ -1066,9 +1064,6 @@ void menu_radar_helper_8003ADD8(MenuWork *work, int index)
     drawEnv.isbg = 0;
     SetDrawEnv(&work->field_CC_radar_data.dr_env[index], &drawEnv);
 }
-
-extern int              GM_AlertMode;
-extern int              GM_AlertLevel;
 
 void draw_radar(MenuWork *work, unsigned char *ot)
 {

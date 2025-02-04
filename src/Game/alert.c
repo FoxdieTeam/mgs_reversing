@@ -13,8 +13,6 @@ char byte_8009D698[] = {0, 0, 1, 2};
 char GM_NoiseSound_800B76E0[4][3];
 
 extern int   GM_GameOverVox;
-extern int   GM_AlertMode;
-extern int   GM_AlertLevel;
 
 typedef enum // GM_RadarMode_800ABA80
 {

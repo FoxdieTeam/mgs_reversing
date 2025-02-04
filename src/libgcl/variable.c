@@ -51,7 +51,6 @@ STATIC unsigned int crc32(int len, unsigned char *ptr)
     return ~crc;
 }
 
-extern int         gTotalFrameTime_800AB9E8;
 extern GCL_Vars    gGcl_memVars_800b4588;
 extern RadioMemory gRadioMemory_800BDB38[RADIO_MEMORY_COUNT];
 
@@ -73,7 +72,7 @@ int GCL_MakeSaveFile(char *saveBuf)
 
     save->f008_version = 0x60;
     save->f00C_version2 = 0x800;
-    save->f010_totalFrameTime = gTotalFrameTime_800AB9E8;
+    save->f010_totalFrameTime = gTotalFrameTime;
 
     GM_LastSaveHours = GM_TotalHours;
     GM_LastSaveSeconds = GM_TotalSeconds;
@@ -123,7 +122,7 @@ int GCL_SetLoadFile(char *saveBuf)
         return 0;
     }
 
-    gTotalFrameTime_800AB9E8 = save->f010_totalFrameTime;
+    gTotalFrameTime = save->f010_totalFrameTime;
     strcpy(gStageName_800B4D88, save->f020_stageName);
     GM_SetAreaHistory(&save->f030_areaHistory);
 

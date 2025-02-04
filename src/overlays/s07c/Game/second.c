@@ -15,7 +15,6 @@ typedef struct SecondWork
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 extern GV_PAD GV_PadData_800B05C0[4];
-extern int    GM_PlayerStatus;
 
 void s07c_second_800C56A0(SecondWork *work)
 {

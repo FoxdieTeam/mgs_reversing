@@ -5,6 +5,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "Game/game.h"
 
 typedef struct _SubRoomWork
 {
@@ -27,7 +28,6 @@ typedef struct _SubRoomWork
 } SubRoomWork;
 
 extern int     GV_Clock;
-extern int     GM_CurrentMap;
 
 void *NewOpTxtScn_800CD29C(void);
 

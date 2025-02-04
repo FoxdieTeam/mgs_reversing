@@ -2,6 +2,7 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
+#include "Game/game.h"
 
 typedef struct _BloodClWork
 {
@@ -10,8 +11,6 @@ typedef struct _BloodClWork
     SVECTOR  vecs[64];
     int      map;
 } BloodClWork;
-
-extern int GM_CurrentMap;
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL4
 

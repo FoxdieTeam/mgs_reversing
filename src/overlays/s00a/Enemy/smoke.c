@@ -2,8 +2,9 @@
 
 #include "common.h"
 #include "libgv/libgv.h"
-#include "libgcl/libgcl.h"
 #include "libdg/libdg.h"
+#include "libgcl/libgcl.h"
+#include "Game/game.h"
 
 typedef struct SmokeWork
 {
@@ -24,7 +25,6 @@ const char aSmokeC[] = "smoke.c";
 
 RECT smoke_rect = {500, 1000, 1000, 2000};
 
-extern int GM_CurrentMap;
 extern int GV_Clock;
 
 int s00a_smoke_800D2694(SmokeWork *work)

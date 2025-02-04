@@ -41,9 +41,6 @@ void *NewCinemaScreen_800DE434(int, int);
 int   NewCinemaScreenClose_800DE4CC(void *work);
 void *NewSpark2_800CA714(MATRIX *world);
 
-extern int     GM_CurrentMap;
-extern int     GM_PadVibration;
-extern int     GM_PadVibration2;
 extern DG_CHANL DG_Chanls_800B1800[3];
 
 void PLampLookAt_800CC9F4(PLampWork *work, SVECTOR *eye, SVECTOR *center)

@@ -63,9 +63,6 @@ char dummy_floor_800C3614[] = {0x50, 0x04, 0x00, 0x00};
 
 SVECTOR dummy_floor_800C3618 = {0, 4096, 0, 0};
 
-extern int      GM_CurrentMap;
-extern CONTROL *GM_PlayerControl_800AB9F4;
-extern int      dword_800ABA1C;
 extern CONTROL *tenage_ctrls_800BDD30[16];
 extern int      tenage_ctrls_count_800BDD70;
 
@@ -94,7 +91,7 @@ void DummyFloorAct_800D61A4(DummyFloorWork *work)
 
     GM_CurrentMap = work->map;
 
-    s01a_800E2364(&work->f164, &GM_PlayerControl_800AB9F4->mov, &sp10);
+    s01a_800E2364(&work->f164, &GM_PlayerControl->mov, &sp10);
 
     sp10.vx = ABS(sp10.vx);
     sp10.vy = ABS(sp10.vy);

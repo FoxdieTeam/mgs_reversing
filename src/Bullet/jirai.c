@@ -9,6 +9,7 @@
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
+#include "Game/game.h"
 #include "Game/hittable.h"
 #include "Game/linkvarbuf.h"
 #include "Game/object.h"
@@ -20,17 +21,11 @@
 extern int           dword_8009F440;
 extern int           dword_8009F444;
 extern int           counter_8009F448;
-extern CONTROL   *GM_PlayerControl_800AB9F4;
-extern int           GM_PlayerStatus;
-extern int           GM_CurrentMap;
-extern SVECTOR       GM_PlayerPosition_800ABA10;
 extern HITTABLE      GM_ClayDatas_800BDE78[8];
 extern SVECTOR       svec_8009F44C;
 extern SVECTOR       svec_8009F454;
 extern SVECTOR       svec_8009F45C;
 extern SVECTOR       svec_8009F464;
-extern int           GM_PlayerMap_800ABA0C;
-extern int           GM_PlayerMap_800ABA0C;
 
 /*---------------------------------------------------------------------------*/
 // Claymore (armed)
@@ -111,7 +106,7 @@ STATIC int jirai_act_helper_8006A8F4(JiraiWork *work)
     {
         return 0;
     }
-    GV_SubVec3(&p_control->mov, &GM_PlayerPosition_800ABA10, &v);
+    GV_SubVec3(&p_control->mov, &GM_PlayerPosition, &v);
     return GV_VecLen3(&v) < 800;
 }
 
@@ -193,7 +188,7 @@ STATIC void JiraiDisplayText(JiraiWork *work, int arg1)
         MENU_Color(255, 48, 48);
     }
 
-    if (work->control.map->index & GM_PlayerMap_800ABA0C)
+    if (work->control.map->index & GM_PlayerMap)
     {
         MENU_Locate(vec.vx + 160, vec.vy + 104, 0x12);
         MENU_Printf(text);
@@ -513,7 +508,7 @@ STATIC int JiraiGetResources(JiraiWork *work, MATRIX *world, HZD_FLR *floor)
     RADAR_CONE     *cone;
     OBJECT_NO_ROTS *obj;
 
-    map = GM_PlayerMap_800ABA0C;
+    map = GM_PlayerMap;
     control = &work->control;
     work->field_138_gcl = -1;
     work->field_13C_idx = -1;
@@ -567,7 +562,7 @@ STATIC int JiraiGetResources(JiraiWork *work, MATRIX *world, HZD_FLR *floor)
     cone->len = 2000;
     cone->ang = 1024;
     ++counter_8009F448;
-    cone->dir = GM_PlayerControl_800AB9F4->rot.vy;
+    cone->dir = GM_PlayerControl->rot.vy;
     return 0;
 }
 
@@ -583,7 +578,7 @@ void *NewJirai(MATRIX *world, HZD_FLR *floor)
     work = GV_NewActor(GV_ACTOR_LEVEL5, sizeof(JiraiWork));
     if (work)
     {
-        work->field_104_vec = GM_PlayerControl_800AB9F4->rot;
+        work->field_104_vec = GM_PlayerControl->rot;
         GV_SetNamedActor(&work->actor, JiraiAct, JiraiDie, "jirai.c");
 
         if (JiraiGetResources(work, world, floor) < 0)

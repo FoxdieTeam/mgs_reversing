@@ -17,7 +17,6 @@ extern SVECTOR          svector_8009F494;
 extern int              GV_Clock;
 extern int              GV_PauseLevel;
 extern short            N_ChanlPerfMax;
-extern PlayerStatusFlag GM_PlayerStatus;
 extern GV_PAD           GV_PadData_800B05C0[4];
 extern unsigned short   gOldRootCnt_800B1DC8[];
 extern TARGET          *target_800BDF00;

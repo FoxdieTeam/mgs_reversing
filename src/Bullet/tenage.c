@@ -15,10 +15,8 @@
 #include "SD/g_sound.h"
 #include "strcode.h"
 
-extern int            GM_PlayerStatus;
 extern int            dword_800BDD28;
 extern BLAST_DATA     blast_data_8009F4B8[8];
-extern SVECTOR        GM_PlayerPosition_800ABA10;
 extern CONTROL       *tenage_ctrls_800BDD30[16];
 extern int            tenage_ctrls_count_800BDD70;
 
@@ -239,7 +237,7 @@ STATIC int TenageGetResources(TenageWork *work, SVECTOR *pos, SVECTOR *step, int
         control->field_59 = 4;
         if (side == PLAYER_SIDE)
         {
-            control->mov = GM_PlayerPosition_800ABA10;
+            control->mov = GM_PlayerPosition;
             GM_ConfigControlTrapCheck(control);
             GM_ActControl(control);
         }

@@ -11,8 +11,6 @@
 #include "strcode.h"
 
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
-extern int              GM_PadVibration2;
-extern int              GM_PadVibration;
 extern BLAST_DATA       blast_data_8009F4B8[8];
 extern GM_Camera        GM_Camera_800B77E8;
 

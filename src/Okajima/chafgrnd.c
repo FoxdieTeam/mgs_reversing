@@ -15,12 +15,10 @@
 #include "SD/g_sound.h"
 #include "strcode.h"
 
-extern int              GM_PlayerMap_800ABA0C;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 extern int              dword_800BDF98;
 extern int              dword_800BDF9C;
 extern int              dword_800BDFA0;
-extern int              GM_CurrentMap;
 extern int              GV_Clock;
 
 /*---------------------------------------------------------------------------*/
@@ -132,9 +130,9 @@ STATIC void chafgrnd_Act(ChaffGrdWork* work)
     }
 
     GM_GameStatus |= STATE_CHAFF;
-    GM_SetCurrentMap(GM_PlayerMap_800ABA0C);
+    GM_SetCurrentMap(GM_PlayerMap);
 
-    work->field_a34->group_id = GM_PlayerMap_800ABA0C;
+    work->field_a34->group_id = GM_PlayerMap;
 
     if (dword_800BDF98 == 1)
     {

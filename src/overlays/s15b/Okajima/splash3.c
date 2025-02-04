@@ -1,6 +1,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "Game/game.h"
 
 typedef struct _Splash3Work
 {
@@ -16,7 +17,6 @@ typedef struct _Splash3Work
 RECT s15b_800C3398 = {100, 100, 200, 200};
 
 extern int GV_Clock;
-extern int GM_CurrentMap;
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 

@@ -33,7 +33,6 @@ const char aWatcharcactionpointerr_800DFCCC[] = "watchar.c : action point Err\n"
 const char aWatcherc_800DFCEC[] = "watcher.c";
 
 extern GM_Camera      GM_Camera_800B77E8;
-extern int            GM_PlayerMap_800ABA0C;
 
 extern void *NewGunLight_800D3AD4( MATRIX* mat, int **enable );
 
@@ -173,7 +172,7 @@ void s00a_watcher_800C41B4( WatcherWork *work )
         DG_VisibleObjs( work->weapon.objs );
         work->field_AF4[0] = 1;
 
-        if ( work->control.map->index & GM_PlayerMap_800ABA0C )
+        if ( work->control.map->index & GM_PlayerMap )
         {
             work->field_AFC[0] = 1;
         }

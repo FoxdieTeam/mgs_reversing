@@ -1,6 +1,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "Game/game.h"
 
 typedef struct _WolfEyeWork
 {
@@ -20,8 +21,6 @@ int SECTION("overlay.bss") s12c_dword_800DA414;
 SVECTOR SECTION("overlay.bss") s12c_800DA418;
 int SECTION("overlay.bss") s12c_800DA420;
 int SECTION("overlay.bss") s12c_dword_800DA424;
-
-extern int GM_CurrentMap;
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 

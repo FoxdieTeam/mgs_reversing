@@ -1,17 +1,9 @@
 #include "meryl72.h"
 #include "libhzd/libhzd.h"
 #include "mts/mts.h"
+#include "Game/game.h"
 
 extern int GV_Time;
-
-extern int      GM_PlayerMap_800ABA0C;
-extern int      GM_NoisePower;
-extern int      GM_NoiseLength;
-extern CONTROL *GM_PlayerControl_800AB9F4;
-extern SVECTOR  GM_NoisePosition;
-extern int      GM_AlertMode;
-extern SVECTOR  GM_PlayerPosition_800ABA10;
-extern int      GM_PlayerStatus;
 
 void ML72_ExecPutChar_800CB600(Meryl72Work *);
 void s07c_meryl72_unk1_800CABA0(Meryl72Work *);
@@ -71,7 +63,7 @@ void s07c_meryl72_unk1_800CB748(Meryl72Work* work)
         return;
     }
 
-    if (!(control->map->index & GM_PlayerMap_800ABA0C))
+    if (!(control->map->index & GM_PlayerMap))
     {
         return;
     }
@@ -179,7 +171,7 @@ void s07c_meryl72_unk1_800CB9DC(Meryl72Work *work)
     case 2:
         if (GM_PlayerStatus & PLAYER_WATCH)
         {
-            if (GV_DiffDirAbs(work->sn_dir, GM_PlayerControl_800AB9F4->rot.vy) > 1800)
+            if (GV_DiffDirAbs(work->sn_dir, GM_PlayerControl->rot.vy) > 1800)
             {
                 work->fC0A++;
             }
@@ -217,7 +209,7 @@ void s07c_meryl72_unk1_800CBA9C(Meryl72Work* work)
     pad = &work->vision.field_06;
 
     mov = &work->control.mov;
-    GV_SubVec3(&GM_PlayerPosition_800ABA10, mov, &sn_diff);
+    GV_SubVec3(&GM_PlayerPosition, mov, &sn_diff);
     sn_diff.vy = 0;
 
     sn_dir = GV_VecDir2(&sn_diff);
@@ -226,9 +218,9 @@ void s07c_meryl72_unk1_800CBA9C(Meryl72Work* work)
     sn_dis = GV_VecLen3(&sn_diff);
     work->sn_dis = sn_dis;
 
-    height = ABS(GM_PlayerPosition_800ABA10.vy - work->control.mov.vy);
+    height = ABS(GM_PlayerPosition.vy - work->control.mov.vy);
 
-    if (!(work->control.map->index & GM_PlayerMap_800ABA0C) || (GM_PlayerStatus & PLAYER_INTRUDE))
+    if (!(work->control.map->index & GM_PlayerMap) || (GM_PlayerStatus & PLAYER_INTRUDE))
     {
         work->vision.field_06 = 0;
         return;
@@ -246,8 +238,8 @@ void s07c_meryl72_unk1_800CBA9C(Meryl72Work* work)
     }
 
     map = work->control.map;
-    if (HZD_80028454(map->hzd, &GM_PlayerPosition_800ABA10, mov, 0xF, 0x4) ||
-        sub_8002E2A8(mov, &GM_PlayerPosition_800ABA10, map->index, &sn_diff))
+    if (HZD_80028454(map->hzd, &GM_PlayerPosition, mov, 0xF, 0x4) ||
+        sub_8002E2A8(mov, &GM_PlayerPosition, map->index, &sn_diff))
     {
         work->vision.field_06 = 0;
     }

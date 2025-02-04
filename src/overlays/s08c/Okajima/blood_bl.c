@@ -2,6 +2,7 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
+#include "Game/game.h"
 
 typedef struct _BloodBlWork
 {
@@ -15,8 +16,6 @@ typedef struct _BloodBlWork
     int      time;
     int      map;
 } BloodBlWork;
-
-extern int GM_CurrentMap;
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL4
 

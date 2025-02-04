@@ -19,9 +19,7 @@ typedef struct WakeWork
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-extern PlayerStatusFlag GM_PlayerStatus;
 extern GV_PAD           GV_PadData_800B05C0[4];
-extern SVECTOR          GM_PlayerPosition_800ABA10;
 extern GM_Camera        GM_Camera_800B77E8;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 
@@ -163,7 +161,7 @@ void WakeAct_800C60BC(WakeWork *work)
     }
     WakePollMessages_800C5D78(work);
     WakeCheckPad_800C5E8C(work);
-    GM_PlayerPosition_800ABA10 = work->player_pos;
+    GM_PlayerPosition = work->player_pos;
 }
 
 void WakeDie_800C6140(WakeWork *work)

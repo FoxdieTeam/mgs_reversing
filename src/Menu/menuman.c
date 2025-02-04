@@ -16,7 +16,6 @@ extern unsigned char gPrimBackingBuffers_800B9360[2][8192];
 extern int GV_Clock;
 extern int MENU_PrimUse;
 extern int GV_PauseLevel;
-extern int GM_LoadComplete;
 
 extern GV_PAD *GM_CurrentPadData;
 GV_PAD        *GM_CurrentPadData;

@@ -62,7 +62,6 @@ DG_DEF litmdl_dg_def =
     }
 };
 
-extern int     GM_CurrentMap;
 extern int     GV_PauseLevel;
 extern DG_CHANL DG_Chanls_800B1800[3];
 

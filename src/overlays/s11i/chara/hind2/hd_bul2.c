@@ -20,7 +20,6 @@ typedef struct _HdBul2Work
 SVECTOR s11i_800C32C8 = {200, 200, 200, 0};
 
 extern int     GV_Clock;
-extern int     GM_CurrentMap;
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 

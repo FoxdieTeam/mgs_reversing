@@ -41,7 +41,6 @@ typedef struct _GasEfctWork
 
 extern int     GV_Clock;
 extern int     GV_PauseLevel;
-extern int     GM_CurrentMap;
 
 unsigned short gas_efct_msgs[] = {HASH_ON2, HASH_OFF2};
 

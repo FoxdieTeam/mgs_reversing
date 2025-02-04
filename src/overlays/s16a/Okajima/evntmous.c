@@ -52,10 +52,6 @@ typedef struct _EventmouseWork
 SVECTOR eventmous_vecs[2] = {{48, 0, 96, 0}, {-48, 0, 96, 0}};
 
 extern int     GV_Clock;
-extern int     GM_CurrentMap;
-extern int     GM_PlayerMap_800ABA0C;
-extern SVECTOR GM_PlayerPosition_800ABA10;
-extern int     GM_NoisePower;
 
 void   AN_Unknown_800CA320( MATRIX *, int );
 void * NewRipple_800D7F30( MATRIX *, int );
@@ -315,7 +311,7 @@ void Eventmouse_800C96A8(EventmouseWork *work)
 
 int Eventmouse_800C9828(EventmouseWork *work)
 {
-    if (!(work->map & GM_PlayerMap_800ABA0C))
+    if (!(work->map & GM_PlayerMap))
     {
         return 0;
     }
@@ -408,7 +404,7 @@ void Eventmouse_800C98F0(EventmouseWork *work)
             return;
         }
 
-        dist = Eventmouse_800C9140(&control->mov, &GM_PlayerPosition_800ABA10);
+        dist = Eventmouse_800C9140(&control->mov, &GM_PlayerPosition);
 
         DG_VisiblePrim(work->prim);
         Eventmouse_800C96A8(work);

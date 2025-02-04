@@ -7,6 +7,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "Game/game.h"
 
 typedef struct _FamaslitWork
 {
@@ -18,8 +19,6 @@ typedef struct _FamaslitWork
 
 RECT d01a_rect_800C3490 = {40, 40, 80, 80};
 SVECTOR d01a_svec_800C3498 = {0, -400, 60, 0};
-
-extern int GM_CurrentMap;
 
 void FamaslitAct_800D0B28(FamaslitWork *work);
 void FamaslitDie_800D0B90(FamaslitWork *work);

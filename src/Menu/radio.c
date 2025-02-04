@@ -33,7 +33,6 @@ extern int               GV_Clock;
 
 STATIC char dword_800AB610[8] = {2, 4, 3, 1, 4, 3, 1, 0};
 
-extern int GM_PlayerStatus;
 extern int GV_PauseLevel;
 
 extern int FS_DiskNum_800ACBF0;

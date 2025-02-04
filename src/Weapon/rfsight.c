@@ -9,7 +9,6 @@
 #include "chara/snake/sna_init.h"
 
 extern int GV_PauseLevel;
-extern int GM_PlayerStatus;
 extern int dword_8009F604;
 extern GV_PAD GV_PadData_800B05C0[4];
 extern DVECTOR dvector_800BDD18[3];

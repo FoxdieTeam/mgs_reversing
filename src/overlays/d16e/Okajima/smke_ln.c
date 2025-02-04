@@ -6,6 +6,7 @@
 
 #include "common.h"
 #include "libgv/libgv.h"
+#include "Game/game.h"
 
 typedef struct _SmokeLnWork
 {
@@ -23,8 +24,6 @@ typedef struct _SmokeLnWork
     char    f51;
     char    f52;
 } SmokeLnWork;
-
-extern int GM_CurrentMap;
 
 void AN_Smoke_800CE2C4(SVECTOR *pos, SVECTOR *speed, int, int, int, int, int);
 

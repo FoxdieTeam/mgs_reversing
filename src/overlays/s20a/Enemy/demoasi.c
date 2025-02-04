@@ -1,6 +1,7 @@
 #include "common.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
+#include "Game/game.h"
 #include "strcode.h"
 
 typedef struct _DemoasiWork
@@ -15,8 +16,6 @@ typedef struct _DemoasiWork
     int      f60;
     int      f64;
 } DemoasiWork;
-
-extern int GM_CurrentMap;
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL4
 

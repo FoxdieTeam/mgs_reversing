@@ -41,11 +41,6 @@ typedef struct _IrCensWork
     int      f114;
 } IrCensWork;
 
-extern int     GM_CurrentMap;
-extern int     GM_AlertMode;
-extern SVECTOR GM_PlayerPosition_800ABA10;
-extern OBJECT *GM_PlayerBody_800ABA20;
-
 unsigned short s02c_dword_800C3714[] = {HASH_KILL, 0xDCFC, 0xE102};
 const SVECTOR  s02c_dword_800E3900 = {0, 512, 1024, 0};
 
@@ -378,7 +373,7 @@ void IrCensAct_800D9EF8(IrCensWork *work)
 
             if (GM_AlertMode != 3)
             {
-                s00a_command_800CEC40(&GM_PlayerPosition_800ABA10, 128);
+                s00a_command_800CEC40(&GM_PlayerPosition, 128);
             }
 
             GV_SubVec3(&sp18, &sp20, &sp18);
@@ -412,7 +407,7 @@ void IrCensAct_800D9EF8(IrCensWork *work)
     {
         sp40 = s02c_dword_800E3900;
 
-        DG_SetPos(&GM_PlayerBody_800ABA20->objs->objs[6].world);
+        DG_SetPos(&GM_PlayerBody->objs->objs[6].world);
         DG_PutVector(&sp40, &sp38, 1);
 
         IrCens_800D99A4(work, &sp38);

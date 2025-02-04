@@ -43,7 +43,6 @@ typedef struct _MirrorWork
     GV_ACT      *kogaku;
 } MirrorWork;
 
-extern int      GM_CurrentMap;
 extern int      gControlCount_800AB9B4;
 extern CONTROL *GM_WhereList_800B56D0[96];
 

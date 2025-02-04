@@ -4,6 +4,7 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
+#include "Game/game.h"
 #include "Game/control.h"
 
 typedef struct RSurfaceElem
@@ -31,7 +32,6 @@ typedef struct RSurfaceWork
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-extern int      GM_CurrentMap;
 extern CONTROL *GM_WhereList_800B56D0[96];
 extern int      gControlCount_800AB9B4;
 

@@ -21,11 +21,6 @@ static inline void UnsetMode( Meryl72Work *work )
 }
 /*********************************************************************************************************/
 
-extern int GM_AlertMode ;
-extern int GM_PlayerAction ;
-extern CONTROL *GM_PlayerControl_800AB9F4 ;
-extern SVECTOR GM_PlayerPosition_800ABA10 ;
-
 extern void s07c_meryl72_unk1_800C86EC( Meryl72Work* work, int time ) ;
 
 short ActTable_800C3310[58] =
@@ -227,7 +222,7 @@ void s07c_meryl72_unk1_800C8A30( Meryl72Work* work, int time )
     if ( time == 1 )
     {
         dir = work->sn_dir;
-        GM_PlayerControl_800AB9F4->turn.vy = ( dir + 0x800 ) & 0xFFF ;
+        GM_PlayerControl->turn.vy = ( dir + 0x800 ) & 0xFFF ;
     }
 
     if ( time == 98 )
@@ -319,7 +314,7 @@ void s07c_meryl72_unk1_800C8C7C( Meryl72Work* work, int time )
     if ( time == 95 )
     {
         int dir = work->sn_dir;
-        GM_PlayerControl_800AB9F4->turn.vy = ( dir + 0x800 ) & 0xFFF ;
+        GM_PlayerControl->turn.vy = ( dir + 0x800 ) & 0xFFF ;
     }
 
     local_time = 95;
@@ -717,7 +712,7 @@ void ActGrenade_800C9790( Meryl72Work* work, int time )
         extern  void    *NewGrenadeEnemy_800D2138( CONTROL *, OBJECT *, int, unsigned int *, SVECTOR *, int ) ;
 
         SetAction( work, GRENADE, ACTINTERP ) ;
-        work->subweapon = NewGrenadeEnemy_800D2138( &(work->control), &(work->body), 9, &(work->trigger), &GM_PlayerPosition_800ABA10, ENEMY_SIDE ) ;
+        work->subweapon = NewGrenadeEnemy_800D2138( &(work->control), &(work->body), 9, &(work->trigger), &GM_PlayerPosition, ENEMY_SIDE ) ;
     }
 
     if ( time > ACTINTERP )
@@ -810,8 +805,8 @@ void s07c_meryl72_unk1_800C9AB0( Meryl72Work* work )
 {
     SVECTOR  svec;
 
-    work->control.turn = GM_PlayerControl_800AB9F4->rot;
-    DG_SetPos2( &GM_PlayerPosition_800ABA10, &GM_PlayerControl_800AB9F4->rot ) ;
+    work->control.turn = GM_PlayerControl->rot;
+    DG_SetPos2( &GM_PlayerPosition, &GM_PlayerControl->rot ) ;
     DG_PutVector( &s07c_dword_800C338C, &svec, 1 );
     GV_SubVec3( &svec, &work->control.mov, &work->control.step );
 }
@@ -905,7 +900,7 @@ void s07c_meryl72_unk1_800C9B30( Meryl72Work* work, int time )
             NewPadVibration(s07c_dword_800C3384, 1);
             NewPadVibration(s07c_dword_800C3388, 2);
         }
-        work->control.turn = GM_PlayerControl_800AB9F4->rot;
+        work->control.turn = GM_PlayerControl->rot;
         s07c_meryl72_unk1_800C9AB0( work );
         work->fAEC++;
         break;
@@ -915,7 +910,7 @@ void s07c_meryl72_unk1_800C9B30( Meryl72Work* work, int time )
             target->side = PLAYER_SIDE;
             SetAction( work, ACTION33, ACTINTERP );
         }
-        work->control.turn = GM_PlayerControl_800AB9F4->rot;
+        work->control.turn = GM_PlayerControl->rot;
         s07c_meryl72_unk1_800C9AB0( work );
         break;
     case 0x27:

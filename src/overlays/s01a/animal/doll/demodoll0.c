@@ -6,9 +6,6 @@
 #include "chara/snake/sna_init.h"
 #include "Game/jimctrl.h"
 
-extern SVECTOR GM_PlayerPosition_800ABA10;
-extern OBJECT *GM_PlayerBody_800ABA20;
-
 short s01a_dword_800C3CE4[] = {
     0x0000, 0x0001, 0x0002, 0x0003,
     0x0004, 0x0005, 0x0006, 0x0007,
@@ -44,7 +41,7 @@ void Demodoll_800DD6E0(DollWork *work)
     int dy;
     int ang;
 
-    dy = GM_PlayerBody_800ABA20->objs->objs[6].world.t[1] - work->body.objs->objs[6].world.t[1];
+    dy = GM_PlayerBody->objs->objs[6].world.t[1] - work->body.objs->objs[6].world.t[1];
     ang = (ratan2(work->fE0C, dy) & 0xFFF) - 1024;
 
     work->adjust[2].vx = ang;
@@ -426,7 +423,7 @@ void Demodoll_800DDEC8(DollWork *work)
 {
     SVECTOR diff;
 
-    GV_SubVec3(&GM_PlayerPosition_800ABA10, &work->control.mov, &diff);
+    GV_SubVec3(&GM_PlayerPosition, &work->control.mov, &diff);
     diff.vy = 0;
 
     work->fE08 = GV_VecDir2(&diff);

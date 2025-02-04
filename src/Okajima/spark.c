@@ -8,9 +8,9 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "Game/game.h"
 #include "Game/map.h"
 
-extern int            GM_CurrentMap;
 extern int            GV_Clock;
 extern unsigned short gSparkRandomTable_800BDF10[];
 

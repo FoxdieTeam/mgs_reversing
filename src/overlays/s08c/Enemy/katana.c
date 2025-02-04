@@ -2,6 +2,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "Game/game.h"
 
 typedef struct KatanaWork
 {
@@ -21,7 +22,6 @@ typedef struct KatanaWork
 #define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 extern int    GV_Clock;
-extern int    GM_CurrentMap;
 
 void s08c_katana_800C5040(KatanaWork *work)
 {

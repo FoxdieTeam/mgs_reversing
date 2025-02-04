@@ -36,7 +36,6 @@ typedef struct _PlasmaWork
 } PlasmaWork;
 
 extern int     GV_Clock;
-extern int     GM_CurrentMap;
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL4
 

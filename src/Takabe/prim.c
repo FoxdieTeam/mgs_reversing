@@ -12,7 +12,6 @@
 #include "libdg/libdg.h"
 
 extern DG_CHANL DG_Chanls_800B1800[3];
-extern int      GM_CurrentMap;
 
 /*---------------------------------------------------------------------------*/
 

@@ -9,12 +9,6 @@
 #include "libdg/libdg.h"
 #include "Game/game.h"
 
-extern int              GM_CurrentMap;
-extern CONTROL         *GM_PlayerControl_800AB9F4;
-extern OBJECT          *GM_PlayerBody_800ABA20;
-extern PlayerStatusFlag GM_PlayerStatus;
-extern SVECTOR          GM_PlayerPosition_800ABA10;
-
 /*---------------------------------------------------------------------------*/
 
 typedef struct _DBloodWorkr
@@ -95,7 +89,7 @@ STATIC void d_bloodr_Act(DBloodWorkr *work)
     {
         if (GM_PlayerStatus & PLAYER_GROUND)
         {
-            GV_SubVec3(&GM_PlayerPosition_800ABA10, &work->field_A4_positions[0], &diff);
+            GV_SubVec3(&GM_PlayerPosition, &work->field_A4_positions[0], &diff);
 
             if (GV_VecLen3(&diff) > 640)
             {
@@ -175,9 +169,9 @@ STATIC int d_bloodr_loader_helper_80072EFC(DBloodWorkr *work)
 
     for (i = 0; i < 4; i++)
     {
-        work->field_A4_positions[i].vx = GM_PlayerBody_800ABA20->objs->objs[indices[i]].world.t[0];
-        work->field_A4_positions[i].vy = GM_PlayerBody_800ABA20->objs->objs[0].world.t[1] - work->field_D8;
-        work->field_A4_positions[i].vz = GM_PlayerBody_800ABA20->objs->objs[indices[i]].world.t[2];
+        work->field_A4_positions[i].vx = GM_PlayerBody->objs->objs[indices[i]].world.t[0];
+        work->field_A4_positions[i].vy = GM_PlayerBody->objs->objs[0].world.t[1] - work->field_D8;
+        work->field_A4_positions[i].vz = GM_PlayerBody->objs->objs[indices[i]].world.t[2];
 
         vecs[0].vx = 0;
         vecs[0].vy = 0;
@@ -223,7 +217,7 @@ STATIC int d_bloodr_GetResources(DBloodWorkr *work, int map)
 {
     work->field_CC_map = map;
     work->field_D4_sequence = 0;
-    work->field_D8 = GM_PlayerControl_800AB9F4->height;
+    work->field_D8 = GM_PlayerControl->height;
 
     GM_SetCurrentMap(map);
 

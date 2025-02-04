@@ -1,6 +1,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "Game/game.h"
 
 typedef struct SplashWork
 {
@@ -17,7 +18,6 @@ typedef struct SplashWork
 RECT rect_800C3420 = {50, 50, 100, 100};
 
 extern int GV_Clock;
-extern int GM_CurrentMap;
 
 void SplashTransform_800C8808( MATRIX *matrix, SVECTOR *vecs1, SVECTOR *vecs2, int count )
 {

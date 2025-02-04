@@ -7,6 +7,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "Game/game.h"
 
 typedef struct _BubbleTWork
 {
@@ -20,8 +21,6 @@ typedef struct _BubbleTWork
     int     *destroy;
     int      time;
 } BubbleTWork;
-
-extern int     GM_CurrentMap;
 
 void *NewRipple_800D7F30(MATRIX *, int);
 

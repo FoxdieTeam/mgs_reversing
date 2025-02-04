@@ -15,7 +15,6 @@ extern short          N_ChanlPerfMax;
 extern unsigned short word_800AB982;
 extern GV_PAD GV_PadData_800B05C0[4];
 extern unsigned short gOldRootCnt_800B1DC8[32];
-extern int GM_PlayerStatus;
 extern int GV_PauseLevel;
 
 unsigned char SECTION(".sbss") menu_current_debug_screen_800ABB20;

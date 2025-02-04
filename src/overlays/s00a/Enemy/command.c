@@ -11,6 +11,7 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
+#include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "Game/map.h"
 #include "SD/g_sound.h"
@@ -66,11 +67,6 @@ int SECTION("overlay.bss") s00a_dword_800E0F6C;
 
 int SECTION("overlay.bss") COM_PlayerMapOne_800E0F70[8];
 
-extern int       GM_PlayerAddress_800AB9F0;
-extern SVECTOR   GM_NoisePosition;
-extern int       GM_PlayerMap_800ABA0C;
-extern SVECTOR   GM_PlayerPosition_800ABA10;
-extern OBJECT   *GM_PlayerBody_800ABA20;
 extern int       GM_event_camera_flag;
 extern CONTROL  *GM_WhereList_800B56D0[94];
 extern GM_Camera GM_Camera_800B77E8;
@@ -162,7 +158,7 @@ void s00a_command_800CEB54(void)
 {
     EnemyCommand_800E0D98.com_addr = HZD_GetAddress( GM_WhereList_800B56D0[0]->map->hzd, &GM_NoisePosition, -1 );
     EnemyCommand_800E0D98.com_pos = GM_NoisePosition;
-    EnemyCommand_800E0D98.com_map = GM_PlayerMap_800ABA0C;
+    EnemyCommand_800E0D98.com_map = GM_PlayerMap;
 }
 
 int s00a_command_800CEBCC( int map_id, int val )
@@ -304,11 +300,11 @@ void s00a_command_800CEE98(void)
         zone = &EnemyCommand_800E0D98.map->hzd->header->zones[ EnemyCommand_800E0D98.field_0x58[ s0 ] ];
 
         svec.vx = zone->x;
-        svec.vy = GM_PlayerPosition_800ABA10.vy;
+        svec.vy = GM_PlayerPosition.vy;
         svec.vz = zone->z;
 
         dist1 =  10000;
-        dist2 = GV_DiffVec3( &svec, &GM_PlayerPosition_800ABA10 );
+        dist2 = GV_DiffVec3( &svec, &GM_PlayerPosition );
         if ( dist1 < dist2 )
         {
             reset_pos = s0;
@@ -432,7 +428,7 @@ void s00a_command_800CF200(void)
     {
        if ( EnemyCommand_800E0D98.field_0x17A && GM_CurrentWeaponId != WEAPON_PSG1 )
        {
-           GM_SeSetMode( &GM_PlayerPosition_800ABA10, SE_HEARTBEAT, GM_SEMODE_REAL );
+           GM_SeSetMode( &GM_PlayerPosition, SE_HEARTBEAT, GM_SEMODE_REAL );
        }
        EnemyCommand_800E0D98.field_0x174 = mts_get_tick_count();
     }
@@ -936,14 +932,14 @@ void s00a_command_800CFEA8( void )
     int ret_addr;
     WatcherWork *work;
 
-    addr = GM_PlayerAddress_800AB9F0 & 0xFF;
-    addr2 = ( GM_PlayerAddress_800AB9F0 >> 8 ) & 0xFF;
+    addr = GM_PlayerAddress & 0xFF;
+    addr2 = ( GM_PlayerAddress >> 8 ) & 0xFF;
 
     if ( addr == addr2 && addr != 0xFF )
     {
-        COM_PlayerAddress_800E0D90  = GM_PlayerAddress_800AB9F0;
-        COM_PlayerPosition_800E0F30 = GM_PlayerPosition_800ABA10;
-        COM_PlayerMap_800E0F1C      = GM_PlayerMap_800ABA0C;
+        COM_PlayerAddress_800E0D90  = GM_PlayerAddress;
+        COM_PlayerPosition_800E0F30 = GM_PlayerPosition;
+        COM_PlayerMap_800E0F1C      = GM_PlayerMap;
     }
 
     if ( addr == 0xFF || addr2 == 0xFF )
@@ -970,9 +966,9 @@ void s00a_command_800CFEA8( void )
 
             if ( check )
             {
-                COM_PlayerAddressOne_800E0F40[ i ]  = GM_PlayerAddress_800AB9F0;
-                COM_PlayerPositionOne_800E0D48[ i ] = GM_PlayerPosition_800ABA10;
-                COM_PlayerMapOne_800E0F70[ i ]      = GM_PlayerMap_800ABA0C;
+                COM_PlayerAddressOne_800E0F40[ i ]  = GM_PlayerAddress;
+                COM_PlayerPositionOne_800E0D48[ i ] = GM_PlayerPosition;
+                COM_PlayerMapOne_800E0F70[ i ]      = GM_PlayerMap;
             }
         }
 
@@ -1078,7 +1074,7 @@ void CommandDie_800D02EC( void )
 
 void s00a_command_800D02F4(void)
 {
-    if ( GM_PlayerBody_800ABA20->objs->bound_mode == 2 )
+    if ( GM_PlayerBody->objs->bound_mode == 2 )
     {
         GM_Camera_800B77E8.track = GV_NearExp8( GM_Camera_800B77E8.track, 4000 );
     }

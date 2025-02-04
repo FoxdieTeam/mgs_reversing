@@ -25,8 +25,6 @@ typedef struct _GrenadeEnemyWork
     int      type;
 } GrenadeEnemyWork;
 
-extern int GM_CurrentMap;
-
 SVECTOR svec_800C360C[2] = {{0, 80, 80, 0}, {0, 20, 500, 0}};
 
 void *NewBlast(MATRIX *);

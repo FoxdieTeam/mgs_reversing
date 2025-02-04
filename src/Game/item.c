@@ -17,13 +17,8 @@
 #include "Game/linkvarbuf.h"
 #include "SD/g_sound.h"
 
-extern int            GM_CurrentMap;
 extern int            GV_Clock;
-extern int            GM_PlayerStatus;
-extern CONTROL       *GM_PlayerControl_800AB9F4;
 extern unsigned short GM_ItemTypes[];
-extern int            GM_PlayerMap_800ABA0C;
-extern SVECTOR        GM_PlayerPosition_800ABA10;
 
 /*---------------------------------------------------------------------------*/
 
@@ -208,12 +203,12 @@ STATIC int item_act_helper_800335D0(ItemWork *work)
     int diff;
     unsigned short vy;
 
-    if (!(work->field_108_where & GM_PlayerMap_800ABA0C))
+    if (!(work->field_108_where & GM_PlayerMap))
     {
         return 0;
     }
 
-    vec = GM_PlayerPosition_800ABA10;
+    vec = GM_PlayerPosition;
 
     diff = work->control.mov.vy - vec.vy;
 
@@ -527,21 +522,21 @@ STATIC void item_Act(ItemWork *work)
         return;
     }
 
-    x = GM_PlayerControl_800AB9F4->mov.vx - pCtrl->mov.vx;
+    x = GM_PlayerControl->mov.vx - pCtrl->mov.vx;
 
     if (x < 0)
     {
         x = -x;
     }
 
-    y = GM_PlayerControl_800AB9F4->mov.vy - pCtrl->mov.vy;
+    y = GM_PlayerControl->mov.vy - pCtrl->mov.vy;
 
     if (y < 0)
     {
         y = -y;
     }
 
-    z = GM_PlayerControl_800AB9F4->mov.vz - pCtrl->mov.vz;
+    z = GM_PlayerControl->mov.vz - pCtrl->mov.vz;
 
     if (z < 0)
     {

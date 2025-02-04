@@ -34,13 +34,6 @@ extern int               COM_VibTime_800E0F68;
 
 extern int GV_NearExp4P(int from, int to);
 
-extern OBJECT      *GM_PlayerBody_800ABA20;
-extern CONTROL     *GM_PlayerControl_800AB9F4;
-extern SVECTOR      GM_PlayerPosition_800ABA10;
-extern unsigned int GM_PlayerStatus;
-extern int          GM_PlayerAction;
-extern int          GM_PlayerMap_800ABA0C;
-
 /***Inlines***********************************************************************************************/
 static inline void UnsetMode( WatcherWork *work )
 {
@@ -383,11 +376,11 @@ void s00a_command_800C6320( WatcherWork *work, int time )
 
     if ( time == 78 ) {
         extern  void    *NewBoxKeri_800D2600( MATRIX    *, SVECTOR  * ) ;
-        NewBoxKeri_800D2600( &(GM_PlayerBody_800ABA20->objs[ 0 ].world), &( work->control.mov ) ) ;
+        NewBoxKeri_800D2600( &(GM_PlayerBody->objs[ 0 ].world), &( work->control.mov ) ) ;
     }
 
     if ( time == 100 ) {
-        //AN_HeadMarkMini( &(GM_PlayerBody_800ABA20->objs->objs[ 1 ].world), 2 ) ;
+        //AN_HeadMarkMini( &(GM_PlayerBody->objs->objs[ 1 ].world), 2 ) ;
         SetAction( work, DANBOWLPOSE, ACTINTERP ) ;
     }
 
@@ -511,7 +504,7 @@ void ActGrenade_800C67EC( WatcherWork *work, int time )
         extern  void     *NewGrenadeEnemy_800D2138( CONTROL *, OBJECT *, int, unsigned int *, SVECTOR *, int ) ;
 
         work->subweapon = NewGrenadeEnemy_800D2138( &(work->control), &(work->body), 9,
-                                                    &(work->trigger), &GM_PlayerPosition_800ABA10, ENEMY_SIDE ) ;
+                                                    &(work->trigger), &GM_PlayerPosition, ENEMY_SIDE ) ;
 
         if ( GM_PlayerStatus & 2 )
         {
@@ -721,12 +714,12 @@ void s00a_command_800C6EC8( WatcherWork* work )
     SVECTOR  svec;
 
     ctrl = &work->control;
-    work->control.turn = GM_PlayerControl_800AB9F4->rot;
-    DG_SetPos2(&GM_PlayerPosition_800ABA10, &GM_PlayerControl_800AB9F4->rot);
+    work->control.turn = GM_PlayerControl->rot;
+    DG_SetPos2(&GM_PlayerPosition, &GM_PlayerControl->rot);
     DG_PutVector(&s00a_dword_800C33C4, &svec, 1);
     GV_SubVec3(&svec, &ctrl->mov, &work->control.step);
 
-    if ( !( ctrl->map->index & GM_PlayerMap_800ABA0C ) )
+    if ( !( ctrl->map->index & GM_PlayerMap ) )
     {
         printf(" map change \n");
         work->control.step = DG_ZeroVector;
@@ -800,7 +793,7 @@ void s00a_command_800C6FA8( WatcherWork* work, int time )
         {
             COM_VibTime_800E0F68 = 4;
         }
-        work->control.turn = GM_PlayerControl_800AB9F4->rot;
+        work->control.turn = GM_PlayerControl->rot;
         s00a_command_800C6EC8( work );
         work->field_B5C++;
         break;
@@ -810,7 +803,7 @@ void s00a_command_800C6FA8( WatcherWork* work, int time )
             target->side = PLAYER_SIDE;
             SetAction( work, ACTION28, ACTINTERP );
         }
-        work->control.turn = GM_PlayerControl_800AB9F4->rot;
+        work->control.turn = GM_PlayerControl->rot;
         s00a_command_800C6EC8( work );
         break;
     case 0x27:
@@ -826,17 +819,17 @@ void s00a_command_800C6FA8( WatcherWork* work, int time )
         return;
     }
 
-    a0 = GM_PlayerPosition_800ABA10.vy - work->control.mov.vy;
+    a0 = GM_PlayerPosition.vy - work->control.mov.vy;
     if ( a0 < 0 )
     {
-        a0 = work->control.mov.vy - GM_PlayerPosition_800ABA10.vy;
+        a0 = work->control.mov.vy - GM_PlayerPosition.vy;
     }
 
     if ( work->sn_dis > 800 || a0 > 500  )
     {
         target->field_42 = 0;
     }
-    if ( !( work->control.map->index & GM_PlayerMap_800ABA0C ) )
+    if ( !( work->control.map->index & GM_PlayerMap ) )
     {
         target->field_42 = 0;
     }
@@ -1703,10 +1696,6 @@ void s00a_command_800C8DF8( WatcherWork *work, int time )
     }
 }
 
-extern SVECTOR DG_ZeroVector;
-extern int     GM_PlayerMap_800ABA0C;
-extern SVECTOR GM_PlayerPosition_800ABA10;
-
 SVECTOR s00a_dword_800C33D4 = { 0,     0, 100 };
 SVECTOR s00a_dword_800C33DC = { -1024, 0,   0 };
 SVECTOR s00a_dword_800C33E4 = { 0,     0, 100 };
@@ -1890,7 +1879,7 @@ void ENE_PutItem_800C90CC( WatcherWork *work )
 void ENE_PutMark_800C9378( WatcherWork *work, int mark )
 {
     MATRIX *mat;
-    if ( !( work->control.map->index & GM_PlayerMap_800ABA0C ) )
+    if ( !( work->control.map->index & GM_PlayerMap ) )
     {
         return;
     }
@@ -1955,7 +1944,7 @@ void ENE_PutBreath_800C94B8( WatcherWork *work, int arg1 )
         return;
     }
 
-    if ( !( work->control.map->index & GM_PlayerMap_800ABA0C ) )
+    if ( !( work->control.map->index & GM_PlayerMap ) )
     {
         return;
     }
@@ -2000,7 +1989,7 @@ void ENE_PutLSight_800C9600( WatcherWork* work )
 {
     if ( work->vision.field_B92 == 2 )
     {
-        NewLSight_800D1D2C( &GM_PlayerPosition_800ABA10, &work->control.mov, 0x00008F );
+        NewLSight_800D1D2C( &GM_PlayerPosition, &work->control.mov, 0x00008F );
     }
 }
 

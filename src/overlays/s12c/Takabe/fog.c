@@ -1,6 +1,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "Game/game.h"
 #include "Game/camera.h"
 #include "Takabe/thing.h"
 
@@ -23,7 +24,6 @@ int SECTION("overlay.bss") s12c_800DA42C;
 int SECTION("overlay.bss") s12c_800DA430;
 int SECTION("overlay.bss") s12c_800DA434;
 
-extern int       GM_CurrentMap;
 extern GM_Camera GM_Camera_800B77E8;
 
 void s12c_800D497C(int, int);

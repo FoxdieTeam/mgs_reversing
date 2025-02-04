@@ -16,7 +16,6 @@
 #include "strcode.h"
 
 extern int     GV_Clock;
-extern int     GM_PlayerStatus;
 
 /*---------------------------------------------------------------------------*/
 

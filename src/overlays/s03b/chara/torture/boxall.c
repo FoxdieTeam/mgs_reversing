@@ -23,8 +23,6 @@ typedef struct _BoxallWork
 } BoxallWork;
 
 extern int       GV_Clock;
-extern CONTROL  *GM_PlayerControl_800AB9F4;
-extern SVECTOR   GM_PlayerPosition_800ABA10;
 extern GM_Camera GM_Camera_800B77E8;
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
@@ -64,13 +62,13 @@ void Boxall_800C9800(BoxallWork *work)
 
     mov = &work->control.mov;
 
-    dx = GM_PlayerControl_800AB9F4->mov.vx - mov->vx;
+    dx = GM_PlayerControl->mov.vx - mov->vx;
     if (dx < 0)
     {
         dx = -dx;
     }
 
-    dz = GM_PlayerControl_800AB9F4->mov.vz - mov->vz;
+    dz = GM_PlayerControl->mov.vz - mov->vz;
     if (dz < 0)
     {
         dz = -dz;
@@ -178,13 +176,13 @@ int Boxall_800C9B94(BoxallWork *work)
     pos = work->control.mov;
     pos.vy = 0;
 
-    player = GM_PlayerPosition_800ABA10;
+    player = GM_PlayerPosition;
     player.vy = 0;
 
     GV_SubVec3(&pos, &player, &diff);
     dist = GV_VecLen3(&diff);
 
-    py = GM_PlayerPosition_800ABA10.vy;
+    py = GM_PlayerPosition.vy;
     y = work->control.mov.vy;
 
     dy = py - y;

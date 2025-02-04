@@ -26,9 +26,6 @@ typedef struct _BubbleSWork
 } BubbleSWork;
 
 extern int     GV_Clock;
-extern int     GM_CurrentMap;
-extern SVECTOR GM_PlayerPosition_800ABA10;
-extern OBJECT *GM_PlayerBody_800ABA20;
 
 #define EXEC_LEVEL      GV_ACTOR_LEVEL4
 
@@ -137,10 +134,10 @@ void BubbleSPrimsRectSet_800D5414(BubbleSWork *work, int i)
         return;
     }
 
-    dis = work->pos[i].vy - GM_PlayerPosition_800ABA10.vy;
+    dis = work->pos[i].vy - GM_PlayerPosition.vy;
     if ( dis < 0 )
     {
-        dis = GM_PlayerPosition_800ABA10.vy - work->pos[i].vy;
+        dis = GM_PlayerPosition.vy - work->pos[i].vy;
     }
 
     if ( dis > 3000)
@@ -232,9 +229,9 @@ void BubbleSAct_800D57A0(BubbleSWork *work)
         return;
     }
 
-    headpos.vx = GM_PlayerBody_800ABA20->objs->objs[6].world.t[0];
-    headpos.vy = GM_PlayerBody_800ABA20->objs->objs[6].world.t[1];
-    headpos.vz = GM_PlayerBody_800ABA20->objs->objs[6].world.t[2];
+    headpos.vx = GM_PlayerBody->objs->objs[6].world.t[0];
+    headpos.vy = GM_PlayerBody->objs->objs[6].world.t[1];
+    headpos.vz = GM_PlayerBody->objs->objs[6].world.t[2];
 
     if (work->fC4 == 0)
     {

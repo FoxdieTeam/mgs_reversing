@@ -9,6 +9,7 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
+#include "Game/game.h"
 #include "strcode.h"
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
@@ -31,7 +32,6 @@ typedef struct LampWork
 } LampWork;
 
 extern unsigned char *GCL_NextStrPtr_800AB9A0;
-extern int            GM_CurrentMap;
 
 void d11c_800C326C(LampWork *work, int textureId)
 {

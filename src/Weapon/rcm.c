@@ -13,15 +13,8 @@
 #include "Bullet/rmissile.h"
 #include "SD/g_sound.h"
 
-extern int   GM_CurrentMap;
-extern short GM_Magazine_800AB9EC;
-extern short GM_MagazineMax_800ABA2C;
-
-extern SVECTOR GM_PlayerPosition_800ABA10;
-
 extern int DG_CurrentGroupID;
 
-extern PlayerStatusFlag GM_PlayerStatus;
 extern int              GV_Clock;
 
 /*---------------------------------------------------------------------------*/
@@ -185,7 +178,7 @@ STATIC void RcmAct(RcmWork *work)
             DG_MovePos(&stru_800AB870);
             ReadRotMatrix(&mt2);
 
-            mt2.t[1] = GM_PlayerPosition_800ABA10.vy + 320;
+            mt2.t[1] = GM_PlayerPosition.vy + 320;
 
             mt1.t[0] = mt2.t[0];
             mt1.t[1] = mt2.t[1];
@@ -298,8 +291,8 @@ void *NewRCM(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *fla
         work->counter = 0;
     }
 
-    GM_MagazineMax_800ABA2C = 0;
-    GM_Magazine_800AB9EC = 0;
+    GM_MagazineMax = 0;
+    GM_Magazine = 0;
 
     return (void *)work;
 }

@@ -75,9 +75,6 @@ typedef struct _Unknown2
 } Unknown2;
 
 extern int    GV_Clock;
-extern int    GM_CurrentMap;
-extern int    GM_PadVibration;
-extern int    GM_PadVibration2;
 extern GV_PAD GV_PadData_800B05C0[4];
 
 extern Unknown2 dword_800C3218[];
