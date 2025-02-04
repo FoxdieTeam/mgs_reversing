@@ -60,8 +60,6 @@ typedef struct Ending2Work
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-extern int GV_Clock;
-
 // Similar in usage to struct in movie.c
 // (but different order of fields)
 typedef struct _Ending2MovieWork

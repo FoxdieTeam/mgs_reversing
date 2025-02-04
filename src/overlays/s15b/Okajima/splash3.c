@@ -16,8 +16,6 @@ typedef struct _Splash3Work
 
 RECT s15b_800C3398 = {100, 100, 200, 200};
 
-extern int GV_Clock;
-
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void Splash3InitVecs_800C7D24(MATRIX *world, SVECTOR *vec1, SVECTOR *vec2, int n_vecs, int n_matrices)

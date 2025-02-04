@@ -29,11 +29,8 @@ int                       SECTION(".sbss") dword_800ABB1C;
 extern PANEL_TEXTURE     dword_800BDA10;
 extern PANEL_TEXTURE     dword_800BDA30;
 extern RadioIncomingCall gRadioIncomingCall_8009E708;
-extern int               GV_Clock;
 
 STATIC char dword_800AB610[8] = {2, 4, 3, 1, 4, 3, 1, 0};
-
-extern int GV_PauseLevel;
 
 extern int FS_DiskNum_800ACBF0;
 

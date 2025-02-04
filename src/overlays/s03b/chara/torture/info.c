@@ -18,8 +18,6 @@ typedef struct _InfoWork
 
 int info_alive = 0;
 
-extern int GV_Clock;
-
 #define EXEC_LEVEL GV_ACTOR_AFTER2
 
 void InfoAct_800CA114(InfoWork *work)

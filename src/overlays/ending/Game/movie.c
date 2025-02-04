@@ -43,9 +43,6 @@ typedef struct _MovieWork
 
 static MovieWork movie_work;
 
-extern int GV_Clock;
-extern int GV_PauseLevel;
-
 static inline int MovieType(void)
 {
     if (GM_GameStatusFlag & 0x100)

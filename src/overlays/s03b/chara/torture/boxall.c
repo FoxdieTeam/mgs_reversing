@@ -22,7 +22,6 @@ typedef struct _BoxallWork
     int            proc;
 } BoxallWork;
 
-extern int       GV_Clock;
 extern GM_Camera GM_Camera_800B77E8;
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5

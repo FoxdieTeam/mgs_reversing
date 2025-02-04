@@ -1,3 +1,4 @@
+#define __GVD_SBSS__
 #include "libgv.h"
 
 #include <stdio.h>
@@ -6,7 +7,6 @@
 #include "mts/mts.h"
 #include "libdg/libdg.h"    // for DG_HikituriFlag
 
-extern int            GV_PauseLevel;
 extern const char    *GV_DebugMes; /* in actor.c */
 extern unsigned char *GV_ResidentMemoryBottom;
 

@@ -163,8 +163,6 @@ int DG_LoadInitLit(unsigned char *buf, int id)
 
 /*---------------------------------------------------------------------------*/
 
-extern int GV_Clock;
-
 // The size of this buffer is just a guess based on the next address of a
 // variable that IDA knows about.
 extern unsigned char pcxBuffer_800B3798[128];

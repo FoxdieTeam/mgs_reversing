@@ -84,7 +84,6 @@ extern HITTABLE        GM_ClayDatas_800BDE78[8];
 extern int             counter_8009F448;
 extern int             DG_CurrentGroupID;
 extern UnkCameraStruct gUnkCameraStruct_800B77B8;
-extern int             GV_PauseLevel;
 
 void Rasen2IterBakudanJirai_800CA3A4(Rasen2Work *work, MAP *oldMap, MAP *newMap)
 {

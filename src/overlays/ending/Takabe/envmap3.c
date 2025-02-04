@@ -22,8 +22,6 @@ typedef struct _Envmap3Scratch
 
 MATRIX envmap3_scale = {{{63, 0, 0}, {0, 63, 0}, {0, 0, 63}}, {0, 0, 0}};
 
-extern int GV_Clock;
-
 #define EXEC_LEVEL GV_ACTOR_DAEMON
 
 // clang-format off

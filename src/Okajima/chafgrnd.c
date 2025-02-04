@@ -19,7 +19,6 @@ extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 extern int              dword_800BDF98;
 extern int              dword_800BDF9C;
 extern int              dword_800BDFA0;
-extern int              GV_Clock;
 
 /*---------------------------------------------------------------------------*/
 

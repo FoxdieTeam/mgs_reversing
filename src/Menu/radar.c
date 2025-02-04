@@ -32,8 +32,6 @@ extern char     gDigit7Segment_8009E60C[];
 
 extern MATRIX gRadarScaleMatrix_800BD580;
 
-extern int GV_Clock;
-
 // Used for colors of vision cones of soldiers and surveillance cameras in the radar.
 typedef struct visionConeColors
 {

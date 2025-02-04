@@ -22,7 +22,6 @@
 #include "strcode.h"
 
 extern GV_PAD           GV_PadData_800B05C0[4];
-extern int              GV_Clock;
 extern BLAST_DATA       blast_data_8009F4B8[8];
 extern TARGET          *target_800BDF00;
 extern int              dword_8009F604;

@@ -9,13 +9,11 @@
 #include "mts/mts_pad.h"
 
 extern GV_HEAP MemorySystems_800AD2F0[ GV_MEMORY_MAX ];
-extern int     GV_Clock;
 extern DG_TEX  TexSets_800B1F50[512];
 extern short          N_ChanlPerfMax;
 extern unsigned short word_800AB982;
 extern GV_PAD GV_PadData_800B05C0[4];
 extern unsigned short gOldRootCnt_800B1DC8[32];
-extern int GV_PauseLevel;
 
 unsigned char SECTION(".sbss") menu_current_debug_screen_800ABB20;
 unsigned char SECTION(".sbss") dword_800ABB21;

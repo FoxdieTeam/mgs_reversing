@@ -43,8 +43,6 @@ int vrwindow_800C3778 = 256;
 int vrwindow_800C377C = 896;
 int vrwindow_800C3780 = 510;
 
-extern int    GV_Clock;
-extern int    GV_PauseLevel;
 extern GV_PAD GV_PadData_800B05C0[4];
 
 extern char vrwindow_800D92D4[];

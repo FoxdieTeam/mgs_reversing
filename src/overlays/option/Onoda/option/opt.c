@@ -74,7 +74,6 @@ typedef struct _Unknown2
     int   color;
 } Unknown2;
 
-extern int    GV_Clock;
 extern GV_PAD GV_PadData_800B05C0[4];
 
 extern Unknown2 dword_800C3218[];

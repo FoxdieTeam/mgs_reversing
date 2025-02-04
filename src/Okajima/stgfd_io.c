@@ -8,9 +8,6 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 
-extern int     GV_PauseLevel;
-extern int     GV_Clock;
-
 /*---------------------------------------------------------------------------*/
 
 typedef struct StgfdIoPrims

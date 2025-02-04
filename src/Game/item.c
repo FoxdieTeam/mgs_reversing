@@ -17,7 +17,6 @@
 #include "Game/linkvarbuf.h"
 #include "SD/g_sound.h"
 
-extern int            GV_Clock;
 extern unsigned short GM_ItemTypes[];
 
 /*---------------------------------------------------------------------------*/

@@ -28,9 +28,6 @@ typedef struct _TexScrollWork
     RECT            rects[0];
 } TexScrollWork;
 
-extern int GV_Clock;
-extern int GV_PauseLevel;
-
 unsigned short tex_scroll_msgs[] = {0x448B, 0xA8A4};
 
 #define getTPageX(tp) (((tp) << 6) & 0x3c0)

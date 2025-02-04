@@ -99,7 +99,6 @@ PreMet1Unk premet1_800C3250[8] = {
 
 signed char premet1_800C3290[8] = {-1, 0, 1, 0, 0, 1, 0, -1};
 
-extern int    GV_Clock;
 extern GV_PAD GV_PadData_800B05C0[4];
 
 void PreMet1_800C4E40(PreMet1Work *work, int index)

@@ -73,7 +73,6 @@ typedef struct _TortureWork
     GV_ACT        *f900;
 } TortureWork;
 
-extern int             GV_Clock;
 extern GV_PAD          GV_PadData_800B05C0[4];
 extern UnkCameraStruct gUnkCameraStruct_800B77B8;
 extern GM_Camera       GM_Camera_800B77E8;

@@ -1,3 +1,4 @@
+#define __GV_PAD_SBSS__
 #include "libgv.h"
 
 #include "mts/mts.h"

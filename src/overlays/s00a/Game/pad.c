@@ -4,8 +4,6 @@
 #include "libgcl/libgcl.h"
 #include "strcode.h"
 
-extern unsigned short GV_DemoPadStatus;
-
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 typedef struct _PadWork
@@ -54,12 +52,12 @@ STATIC void PadAct_800C370C( PadWork* work )
 
     --work->unk2;
     GM_GameStatus |= STATE_PADDEMO;
-    GV_DemoPadStatus = work->status;
+    GV_DemoPadStatus[0] = work->status;
 }
 
 STATIC void PadDie_800C37A4( PadWork* work )
 {
-    GV_DemoPadStatus = 0 ;
+    GV_DemoPadStatus[0] = 0 ;
     GM_GameStatus &= ~STATE_PADDEMO;
 
     if ( work->unk4 > 0 )

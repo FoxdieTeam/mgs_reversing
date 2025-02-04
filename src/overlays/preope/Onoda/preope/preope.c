@@ -79,7 +79,6 @@ signed char text_outline_direction_offsets_800C3248[] = {
      0, -1,
 };
 
-extern int    GV_Clock;
 extern GV_PAD GV_PadData_800B05C0[4];
 
 void *NewPreMet1_800C6F20(int, int *, Unknown *);

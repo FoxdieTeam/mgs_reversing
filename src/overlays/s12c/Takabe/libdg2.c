@@ -23,8 +23,6 @@ short SECTION("overlay.bss") * s12c_800DAA44;
 short SECTION("overlay.bss") * s12c_800DAA48;
 short SECTION("overlay.bss") * s12c_800DAA4C;
 
-extern int           GV_Clock;
-extern int           GV_PauseLevel;
 extern int           DG_CurrentGroupID;
 extern unsigned int *ptr_800B1400[256];
 extern short         DG_ClipMin[2];

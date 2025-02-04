@@ -39,9 +39,6 @@ typedef struct _GasEfctWork
     char          pad[0x20];
 } GasEfctWork;
 
-extern int     GV_Clock;
-extern int     GV_PauseLevel;
-
 unsigned short gas_efct_msgs[] = {HASH_ON2, HASH_OFF2};
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL3

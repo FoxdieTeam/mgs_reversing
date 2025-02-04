@@ -39,7 +39,6 @@ extern GM_Camera       GM_Camera_800B77E8;
 extern UnkCameraStruct gUnkCameraStruct_800B77B8;
 extern GV_PAD          GV_PadData_800B05C0[4];
 extern int             dword_8009F470;
-extern unsigned short  GV_DemoPadStatus;
 extern DG_CHANL        DG_Chanls_800B1800[3];
 
 void FindTrap_callback1_800D7908();
@@ -104,7 +103,7 @@ void s12c_findtrap_800D72E8(FindTrapWork *work)
                 {
                     work->field_3C |= 2;
                     GM_GameStatus |= STATE_PADDEMO;
-                    GV_DemoPadStatus = GV_PadData_800B05C0->status & PAD_TRIANGLE;
+                    GV_DemoPadStatus[0] = GV_PadData_800B05C0->status & PAD_TRIANGLE;
                     s12c_dword_800DAA90 = GM_Camera_800B77E8.flags & 0x200;
                     s12c_dword_800DAA94 = GM_Camera_800B77E8.callbacks[0];
                     GM_SetCameraCallbackFunc_8002FD84(0, FindTrap_callback2_800D7870);

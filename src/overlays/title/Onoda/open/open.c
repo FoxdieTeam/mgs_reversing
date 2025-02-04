@@ -158,7 +158,6 @@ extern const char title_aNo_800D9024[];                  // = "NO"
 extern const char aOpenC[];                              // = "open.c"
 
 extern char *MGS_MemoryCardName; /* in main.c */
-extern int   GV_Clock;
 extern int   FS_DiskNum_800ACBF0;
 
 #define EXEC_LEVEL GV_ACTOR_MANAGER

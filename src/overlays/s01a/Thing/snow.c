@@ -37,7 +37,6 @@ typedef struct _SnowWork
     GV_MSG   *msgs;
 } SnowWork;
 
-extern int              GV_Clock;
 extern CONTROL         *GM_WhereList_800B56D0[96];
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 

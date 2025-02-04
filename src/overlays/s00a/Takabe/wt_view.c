@@ -46,8 +46,6 @@ typedef struct _WaterViewWork
     int             n_prims;
 } WaterViewWork;
 
-extern int GV_Clock;
-extern int GV_PauseLevel;
 extern DG_CHANL DG_Chanls_800B1800[3];
 
 int  WaterViewCreatePrims_800DBEB8(WaterViewWork *work);

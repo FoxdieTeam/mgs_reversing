@@ -62,7 +62,6 @@ DG_DEF litmdl_dg_def =
     }
 };
 
-extern int     GV_PauseLevel;
 extern DG_CHANL DG_Chanls_800B1800[3];
 
 void s01a_lit_mdl_800E26EC(LitMdlWork *work)

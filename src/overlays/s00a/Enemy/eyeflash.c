@@ -18,8 +18,6 @@ typedef struct EyeflashWork
 SVECTOR eyeflash_svec = {0, 80, 50, 0};
 const RECT eyeflash_rect = {175, 100, 350, 200};
 
-extern int GV_Clock;
-
 void s00a_eyeflash_800D0984(POLY_FT4 *poly, DG_TEX *tex)
 {
     int u0, u1;

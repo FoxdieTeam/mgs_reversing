@@ -6,8 +6,6 @@
 #include "Game/game.h"
 #include "strcode.h"
 
-extern int GV_Clock;
-
 /*---------------------------------------------------------------------------*/
 
 typedef struct Kogaku2Work

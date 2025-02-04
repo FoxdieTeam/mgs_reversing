@@ -113,9 +113,7 @@ extern int          str_off_idx_800BF264;
 extern char         exe_name_800B5860[32];
 extern char        *MGS_DiskName[3]; /* in main.c */
 extern int          FS_DiskNum_800ACBF0;
-extern int          GV_PassageTime;
 extern int          gSaveCache_800B5294;
-extern int          GV_PauseLevel;
 extern GV_PAD       GV_PadData_800B05C0[4];
 
 extern DG_TEX gMenuTextureRec_800B58B0;

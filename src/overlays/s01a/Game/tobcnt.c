@@ -23,8 +23,6 @@ typedef struct _TobcntWork
     DVECTOR  directions[166];
 } TobcntWork;
 
-extern int    GV_Clock;
-extern int    GV_PauseLevel;
 extern GV_PAD GV_PadData_800B05C0[4];
 
 short tobcnt_lines[] = {

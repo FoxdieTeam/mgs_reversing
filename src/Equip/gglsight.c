@@ -14,10 +14,6 @@
 #include "Game/linkvarbuf.h"
 #include "strcode.h"
 
-extern int      GV_Clock;
-
-extern int              GV_PauseLevel;
-
 extern GV_PAD GV_PadData_800B05C0[4];
 extern int    dword_8009F604;
 

@@ -9,8 +9,6 @@
 #include "libdg/libdg.h"
 #include "Equip/equip.h"
 
-extern int GV_Clock;
-
 /*---------------------------------------------------------------------------*/
 
 typedef struct SCN_MASK_PRIMS

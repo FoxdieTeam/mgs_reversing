@@ -22,8 +22,6 @@ typedef struct _EnvSndWork
     char    pad[0x4];
 } EnvSndWork;
 
-extern int GV_PassageTime;
-
 unsigned short env_snd_hashes[] = { 0xBA27, 0x560E };
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5

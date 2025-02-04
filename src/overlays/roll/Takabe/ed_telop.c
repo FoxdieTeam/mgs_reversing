@@ -38,8 +38,6 @@ unsigned short ed_telop_hashes_800C3240[] = {0x29B9};
 static EdTelopPrims ed_telop_prims_800C9BC8[2];
 static u_long       ed_telop_800C9C38[160];
 
-extern int GV_Clock;
-
 char * roll_ending2_800C5E54(void *, char *, int);
 void   roll_ending2_800C5EAC(short *, void *, void *, int);
 

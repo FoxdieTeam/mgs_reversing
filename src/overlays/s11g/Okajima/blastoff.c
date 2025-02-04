@@ -22,8 +22,6 @@ typedef struct BlastoffWork
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-extern int    GV_Clock;
-
 void Blastoff_800DB880(BlastoffWork *work)
 {
     SVECTOR  *vec;

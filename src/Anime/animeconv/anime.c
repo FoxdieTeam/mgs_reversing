@@ -15,8 +15,6 @@
 #include "Game/map.h"
 #include "strcode.h"
 
-extern int     GV_Clock;
-
 /*---------------------------------------------------------------------------*/
 
 typedef struct AnimeItem

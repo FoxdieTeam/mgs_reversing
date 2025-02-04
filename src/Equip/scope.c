@@ -13,8 +13,6 @@
 #include "strcode.h"
 
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
-extern int              GV_PauseLevel;
-extern int              GV_Clock;
 extern int              DG_CurrentGroupID;
 extern int              dword_8009F604;
 extern GV_PAD           GV_PadData_800B05C0[4];

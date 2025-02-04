@@ -15,8 +15,6 @@
 extern int     dword_8009F46C;
 extern int     amissile_alive_8009F490;
 extern SVECTOR svector_8009F478;
-extern int GV_Clock;
-extern int GV_PauseLevel;
 extern TARGET *target_800BDF00;
 
 /*---------------------------------------------------------------------------*/
