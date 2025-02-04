@@ -415,7 +415,7 @@ void TobcntDie_800C4A64(TobcntWork *work)
     stage_name = "title";
     GV_PauseLevel &= ~1;
 
-    DG_ResetObjectQueue();
+    DG_RestartMainChanlSystem();
     GM_StreamPlayStop();
 
     GM_SetArea(GV_StrCode(stage_name), stage_name);

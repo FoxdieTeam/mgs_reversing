@@ -470,7 +470,7 @@ STATIC void over_Die( OverWork *work )
     char *stage_name;
 
     GV_PauseLevel &= ~1;
-    DG_ResetObjectQueue();
+    DG_RestartMainChanlSystem();
     GM_StreamPlayStop();
     GM_GameOverTimer = 0;
     if ( work->field_24_option == OVER_CONTINUE )

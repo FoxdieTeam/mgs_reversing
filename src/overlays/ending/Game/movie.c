@@ -355,7 +355,8 @@ void MovieDie_800C4D78(MovieWork *work)
 
     GV_PauseLevel &= ~1;
 
-    DG_ResetObjectQueue();
+    DG_RestartMainChanlSystem();
+
     DG_FrameRate = 2;
 
     work->file = NULL;
