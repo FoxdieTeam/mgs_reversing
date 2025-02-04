@@ -1,3 +1,6 @@
+#define __HZD_EVENT_SBSS__
+#include "libhzd.h"
+
 #include "common.h"
 #include "libgcl/libgcl.h"
 #include "Game/game.h"

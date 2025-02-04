@@ -750,8 +750,6 @@ void HZD_80027F10(HZD_FLR *floor)
 //inclucde unknown.h
 //split here
 
-extern int HZD_CurrentGroup_800AB9A8;
-
 static inline void CopySvector(SVECTOR *dst, SVECTOR *src)
 {
     struct copy_struct
@@ -789,7 +787,7 @@ int HZD_80028454(HZD_HDL *hdl, SVECTOR *a2, SVECTOR *a3, int flags, int flag)
     char     *pFlagsEnd2;
     HZD_HDL  *pNextMap;
 
-    current_group = HZD_CurrentGroup_800AB9A8;
+    current_group = HZD_CurrentGroup;
 
     CopySvectorToSpad(6, a2);
 

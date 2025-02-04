@@ -212,8 +212,6 @@ void drawBorder_800390FC(MenuWork *menuMan, unsigned char *ot)
 extern CONTROL         *GM_WhereList_800B56D0[96];
 extern int              gControlCount_800AB9B4;
 
-extern int HZD_CurrentGroup_800AB9A8;
-
 #define RGB(r, g, b) ((r) | (g << 8) | (b << 16))
 
 // Couldn't test it, but it should be the appropriate function name.
@@ -452,7 +450,7 @@ void drawMap_800391D0(MenuWork *work, unsigned char *ot, int arg2)
         pWallDst = getScratchAddr2(int, 0x20);
         pWallDst2 = getScratchAddr2(int, 0x24);
         scratchShort = (short *)svec;
-        area_bits = HZD_CurrentGroup_800AB9A8;
+        area_bits = HZD_CurrentGroup;
 
         area_mask = 1 << pMap->hzd->header->n_areas;
         areas = pMap->hzd->header->n_areas * 24;
