@@ -7,6 +7,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "Game/game.h"
 #include "Okajima/stngrnd.h"
 
 typedef struct _Inverlt2Work
@@ -26,8 +27,6 @@ typedef struct _Inverlt2Work
     SVECTOR  fE0;
     int      fE8;
 } Inverlt2Work;
-
-extern int GM_CurrentMap;
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 

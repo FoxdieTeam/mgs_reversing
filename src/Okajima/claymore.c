@@ -15,8 +15,6 @@
 #include "spark.h"
 
 extern MAP *claymore_MAP_800bdf08;
-extern int GM_CurrentMap;
-extern int GM_ClaymoreMap_800AB9DC;
 
 /*---------------------------------------------------------------------------*/
 
@@ -412,7 +410,7 @@ void *NewClaymore(SVECTOR *noise_position, SVECTOR *new_field_2C, int pCnt, int 
         {
             GV_SetNamedActor(&work->actor, claymore_Act, claymore_Die, "claymore.c");
             current_map = GM_CurrentMap;
-            GM_ClaymoreMap_800AB9DC = current_map;
+            GM_ClaymoreMap = current_map;
             if (claymore_GetResources(work, &new_field_24, new_field_2C) < 0)
             {
                 GV_DestroyActor(&work->actor);

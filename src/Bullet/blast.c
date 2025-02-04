@@ -14,8 +14,6 @@
 #include "SD/g_sound.h"
 #include "strcode.h"
 
-extern int GM_ClaymoreMap_800AB9DC;
-
 /*---------------------------------------------------------------------------*/
 
 #define EXEC_LEVEL GV_ACTOR_AFTER
@@ -152,7 +150,7 @@ void *NewBlast(MATRIX *world, BLAST_DATA *blast_data)
     if (work)
     {
         GV_SetNamedActor(&work->actor, BlastAct, BlastDie, "blast.c");
-        GM_ClaymoreMap_800AB9DC = GM_CurrentMap;
+        GM_ClaymoreMap = GM_CurrentMap;
 
         if (BlastGetResources(blast_data, work, world, 1) < 0)
         {
@@ -175,7 +173,7 @@ void *NewBlast2(MATRIX *world, BLAST_DATA *blast_data, int doSound, int side)
     if (work)
     {
         GV_SetNamedActor(&work->actor, BlastAct, BlastDie, "blast.c");
-        GM_ClaymoreMap_800AB9DC = GM_CurrentMap;
+        GM_ClaymoreMap = GM_CurrentMap;
         if (BlastGetResources(blast_data, work, world, side) < 0)
         {
             GV_DestroyActor(&work->actor);

@@ -7,10 +7,7 @@
 #include "Game/linkvarbuf.h"
 #include "SD/g_sound.h"
 
-extern int              GM_CurrentMap;
-extern PlayerStatusFlag GM_PlayerStatus;
 extern GV_PAD           GV_PadData_800B05C0[4];
-extern CONTROL      *GM_PlayerControl_800AB9F4;
 
 /*---------------------------------------------------------------------------*/
 
@@ -38,7 +35,7 @@ STATIC int d_blood_act_helper_800729B4(void)
     unsigned short *pArray;
     int i;
 
-    control = GM_PlayerControl_800AB9F4;
+    control = GM_PlayerControl;
     if (!control)
     {
         return 0;

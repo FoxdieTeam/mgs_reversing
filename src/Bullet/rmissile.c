@@ -22,16 +22,11 @@
 #include "strcode.h"
 
 extern GV_PAD           GV_PadData_800B05C0[4];
-extern OBJECT *         GM_PlayerBody_800ABA20;
-extern SVECTOR          GM_PlayerPosition_800ABA10;
 extern int              GV_Clock;
 extern BLAST_DATA       blast_data_8009F4B8[8];
-extern int              GM_CurrentMap;
-extern PlayerStatusFlag GM_PlayerStatus;
 extern TARGET          *target_800BDF00;
 extern int              dword_8009F604;
 extern int              dword_800BDEF8[];
-extern CONTROL         *GM_PlayerControl_800AB9F4;
 extern int              GM_CameraTrackSave;
 extern SVECTOR          GM_CameraRotateSave;
 extern int              GM_event_camera_flag;
@@ -127,7 +122,7 @@ STATIC void rmissile_8006B924(RMissileWork *work)
     GM_GameStatus &= ~GAME_FLAG_BIT_07;
     HZD_8002A258(ctrl->map->hzd, &ctrl->event);
 
-    ctrl = GM_PlayerControl_800AB9F4;
+    ctrl = GM_PlayerControl;
 
     if (ctrl)
     {
@@ -645,9 +640,9 @@ STATIC void RMissileAct(RMissileWork *work)
 
         dword_8009F480 = 0;
 
-        if (GM_Camera_800B77E8.first_person && GM_PlayerBody_800ABA20)
+        if (GM_Camera_800B77E8.first_person && GM_PlayerBody)
         {
-            DG_InvisibleObjs(GM_PlayerBody_800ABA20->objs);
+            DG_InvisibleObjs(GM_PlayerBody->objs);
         }
 
         work->field_11C = -1;
@@ -665,7 +660,7 @@ STATIC void RMissileAct(RMissileWork *work)
         else
         {
             vector = work->field_16C_svector;
-            GV_NearTimeV(&work->field_16C_svector.vx, &GM_PlayerPosition_800ABA10.vx, work->field_16A, 3);
+            GV_NearTimeV(&work->field_16C_svector.vx, &GM_PlayerPosition.vx, work->field_16A, 3);
             gUnkCameraStruct_800B77B8.eye = work->field_16C_svector;
 
             if (work->field_16A > 0)
@@ -696,9 +691,9 @@ STATIC void RMissileAct(RMissileWork *work)
 
             if (!work->field_117 && !work->field_110)
             {
-                if (GM_PlayerBody_800ABA20)
+                if (GM_PlayerBody)
                 {
-                    DG_VisibleObjs(GM_PlayerBody_800ABA20->objs);
+                    DG_VisibleObjs(GM_PlayerBody->objs);
                 }
 
                 if (!work->field_113)
@@ -917,9 +912,9 @@ STATIC int RMissileGetResources(RMissileWork *work, MATRIX *world, int side)
 
     work->field_100_svector = ctrl->mov;
     work->field_110 = 8;
-    ctrl->mov = GM_PlayerPosition_800ABA10;
-    work->field_108_svector = GM_PlayerPosition_800ABA10;
-    svector_8009F478 = GM_PlayerPosition_800ABA10;
+    ctrl->mov = GM_PlayerPosition;
+    work->field_108_svector = GM_PlayerPosition;
+    svector_8009F478 = GM_PlayerPosition;
 
     GM_ConfigControlHazard(ctrl, 400, 0xC8, 0xC8);
     ctrl->field_59 = RMissileGetEight();

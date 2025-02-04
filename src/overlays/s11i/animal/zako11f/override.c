@@ -1,9 +1,6 @@
 #include "../../../s00a/Enemy/enemy.h"
 #include "Game/linkvarbuf.h"
 
-extern SVECTOR GM_PlayerPosition_800ABA10;
-extern int     GM_PlayerStatus;
-
 extern SVECTOR s11i_dword_800C34C4[3];
 extern int     s11i_dword_800C34DC[3][16];
 extern int     s11i_dword_800C359C[3][16];
@@ -396,7 +393,7 @@ int s11i_zk11fcom_800D02BC( Zako11FWork *work )
 
     work->pad.dir = work->sn_dir;
 
-    if (GM_PlayerPosition_800ABA10.vz > 10500 && (GM_PlayerPosition_800ABA10.vx < 5500 || GM_PlayerPosition_800ABA10.vx > 7500))
+    if (GM_PlayerPosition.vz > 10500 && (GM_PlayerPosition.vx < 5500 || GM_PlayerPosition.vx > 7500))
     {
         work->pad.dir &= 0xFFF;
 
@@ -440,7 +437,7 @@ int s11i_zk11fcom_800D03E4( Zako11FWork *work )
 
     work->pad.dir = work->sn_dir & 0xFFF;
 
-    if (GM_PlayerPosition_800ABA10.vz > 10500 && (GM_PlayerPosition_800ABA10.vx < 5500 || GM_PlayerPosition_800ABA10.vx > 7500))
+    if (GM_PlayerPosition.vz > 10500 && (GM_PlayerPosition.vx < 5500 || GM_PlayerPosition.vx > 7500))
     {
         if (work->pad.dir > 38 && work->pad.dir < 1024)
         {

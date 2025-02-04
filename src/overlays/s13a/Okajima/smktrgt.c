@@ -19,9 +19,6 @@ typedef struct _SmktrgtWork
     int     map;
 } SmktrgtWork;
 
-extern int     GM_CurrentMap;
-extern int     GM_PlayerMap_800ABA0C;
-
 SVECTOR s13a_800C36FC = {200, 200, 200, 0};
 SVECTOR s13a_800C3704 = {300, 300, 300, 0};
 
@@ -216,7 +213,7 @@ void SmktrgtAct_800DC19C(SmktrgtWork *work)
 {
     int i;
 
-    if (work->map & GM_PlayerMap_800ABA0C)
+    if (work->map & GM_PlayerMap)
     {
         GM_CurrentMap = work->map;
 

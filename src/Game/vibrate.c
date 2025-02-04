@@ -8,8 +8,6 @@
 
 extern int            GV_PassageTime;
 extern unsigned char *GCL_NextStrPtr_800AB9A0;
-extern int            GM_PadVibration;
-extern int            GM_PadVibration2;
 
 /*---------------------------------------------------------------------------*/
 

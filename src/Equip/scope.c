@@ -12,7 +12,6 @@
 #include "SD/g_sound.h"
 #include "strcode.h"
 
-extern OBJECT          *GM_PlayerBody_800ABA20;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 extern int              GV_PauseLevel;
 extern int              GV_Clock;
@@ -20,8 +19,6 @@ extern int              DG_CurrentGroupID;
 extern int              dword_8009F604;
 extern GV_PAD           GV_PadData_800B05C0[4];
 extern GM_Camera        GM_Camera_800B77E8;
-extern PlayerStatusFlag GM_PlayerStatus;
-extern CONTROL      *GM_PlayerControl_800AB9F4;
 extern short            dword_800ABBDC;
 extern short            dword_800ABBD4;
 
@@ -87,9 +84,9 @@ STATIC int getMaxZoomLevel_8006237C(ScopeWork *work)
     }
     else
     {
-        objs = GM_PlayerBody_800ABA20->objs;
+        objs = GM_PlayerBody->objs;
         pMtx = &mtx;
-        mtx = GM_PlayerBody_800ABA20->objs->world;
+        mtx = GM_PlayerBody->objs->world;
         mtx.t[0] = gUnkCameraStruct_800B77B8.eye.vx;
         mtx.t[1] = gUnkCameraStruct_800B77B8.eye.vy;
         mtx.t[2] = gUnkCameraStruct_800B77B8.eye.vz;
@@ -199,7 +196,7 @@ STATIC void managePadInput_800626D0(ScopeWork *work, unsigned short pad_status)
     zoomLevel = GM_Camera_800B77E8.zoom;
     pRectOffset = work->field_84_rectOffset;
 
-    if (GM_PlayerControl_800AB9F4)
+    if (GM_PlayerControl)
     {
         vx = work->field_6C_turn_vec.vx;
 
@@ -222,9 +219,9 @@ STATIC void managePadInput_800626D0(ScopeWork *work, unsigned short pad_status)
 
         vec = work->field_64_vec;
 
-        if (GM_PlayerControl_800AB9F4)
+        if (GM_PlayerControl)
         {
-            vec.vx = GM_PlayerControl_800AB9F4->turn.vx;
+            vec.vx = GM_PlayerControl->turn.vx;
         }
 
         if (zoomLevel <= 1023)
@@ -246,7 +243,7 @@ STATIC void managePadInput_800626D0(ScopeWork *work, unsigned short pad_status)
         vxMin = vec.vx - 512;
         vxMax = vec.vx + 512;
 
-        if (GM_PlayerControl_800AB9F4)
+        if (GM_PlayerControl)
         {
             if (vxMin < dword_800ABBDC)
             {
@@ -337,7 +334,7 @@ STATIC void managePadInput_800626D0(ScopeWork *work, unsigned short pad_status)
         }
     }
 
-    control = GM_PlayerControl_800AB9F4;
+    control = GM_PlayerControl;
 
     if (control)
     {

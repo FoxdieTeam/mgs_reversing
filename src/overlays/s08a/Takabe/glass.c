@@ -27,8 +27,6 @@ typedef struct _GlassWork
     int      proc;
 } GlassWork;
 
-extern int     GM_CurrentMap;
-
 void s16b_800C4874(int n_segs, HZD_SEG *segs, int n_flrs, HZD_FLR *flrs);
 void s16b_800C49AC(HZD_SEG *seg);
 

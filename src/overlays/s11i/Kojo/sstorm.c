@@ -49,9 +49,6 @@ typedef struct SStormWork
 int s11i_dword_800C36B4[] = {0x00011000, 0x0CFE0105, 0xFF010000, 0x00000008, 0x0D010002};
 char s11i_dword_800C36C8[] = {0xF}; // FIXME: this is a part of s11i_dword_800C36B4[]
 
-extern SVECTOR          GM_PlayerPosition_800ABA10;
-extern int              GM_CurrentMap;
-extern int              GM_PlayerStatus;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 
 void SStormAct_800D478C(SStormWork *);
@@ -276,9 +273,9 @@ void SStormAct_800D478C(SStormWork *work)
         }
     }
 
-    sp10.vx += GM_PlayerPosition_800ABA10.vx;
-    sp10.vy += GM_PlayerPosition_800ABA10.vy;
-    sp10.vz += GM_PlayerPosition_800ABA10.vz;
+    sp10.vx += GM_PlayerPosition.vx;
+    sp10.vy += GM_PlayerPosition.vy;
+    sp10.vz += GM_PlayerPosition.vz;
 
     if (GM_PlayerStatus & PLAYER_WATCH)
     {

@@ -3,16 +3,10 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "Anime/animeconv/anime.h"
+#include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "strcode.h"
 
-extern int      GM_ClaymoreMap_800AB9DC;
-extern SVECTOR  GM_NoisePosition;
-extern int      GM_PlayerMap_800ABA0C;
-extern SVECTOR  GM_PlayerPosition_800ABA10;
-extern int      GM_NoisePower;
-extern int      GM_NoiseLength;
-extern int      GM_PlayerStatus;
 extern CONTROL *GM_WhereList_800B56D0[94];
 
 extern ENEMY_COMMAND EnemyCommand_800E0D98;
@@ -98,16 +92,16 @@ void s00a_command_800C9930( WatcherWork* work )
     if ( GM_NoisePower == 0xFF )
     {
 
-        if ( !( ctrl->map->index & GM_ClaymoreMap_800AB9DC ) &&
-           ( !( ctrl->map->index & GM_PlayerMap_800ABA0C ) ||
-             !( GM_ClaymoreMap_800AB9DC & GM_PlayerMap_800ABA0C ) ) )
+        if ( !( ctrl->map->index & GM_ClaymoreMap ) &&
+           ( !( ctrl->map->index & GM_PlayerMap ) ||
+             !( GM_ClaymoreMap & GM_PlayerMap ) ) )
         {
             return;
         }
     }
     else
     {
-        if ( !( ctrl->map->index & GM_PlayerMap_800ABA0C ) )
+        if ( !( ctrl->map->index & GM_PlayerMap ) )
         {
             return;
         }
@@ -163,11 +157,11 @@ void s00a_command_800C9ACC( WatcherWork *work )
 
     if ( work->vision.field_B92 == 2 && ( ( GM_PlayerStatus & 0x1010 ) == 0x1000 ) )
     {
-        if ( ( GV_DiffVec3( &work->field_BA4, &GM_PlayerPosition_800ABA10 ) > 50 ) || ( work->field_BAC != GM_WhereList_800B56D0[0]->rot.vy ) )
+        if ( ( GV_DiffVec3( &work->field_BA4, &GM_PlayerPosition ) > 50 ) || ( work->field_BAC != GM_WhereList_800B56D0[0]->rot.vy ) )
         {
             if ( EnemyCommand_800E0D98.mode != TOP_COMM_ALERT )
             {
-                work->field_BA4 = GM_PlayerPosition_800ABA10;
+                work->field_BA4 = GM_PlayerPosition;
                 work->field_BAC = GM_WhereList_800B56D0[0]->rot.vy;
                 work->field_BA1 |= 0x2;
             }
@@ -179,7 +173,7 @@ void s00a_command_800C9ACC( WatcherWork *work )
         }
         else
         {
-            if ( GV_DiffVec3( &work->control.mov, &GM_PlayerPosition_800ABA10 ) < 1500 )
+            if ( GV_DiffVec3( &work->control.mov, &GM_PlayerPosition ) < 1500 )
             {
                 work->field_BA2 |= 0x40;
             }
@@ -283,7 +277,7 @@ void s00a_command_800C9E68( WatcherWork* work )
 
     flag = &work->vision.field_B92;
     ctrl = &work->control;
-    pos = &GM_PlayerPosition_800ABA10;
+    pos = &GM_PlayerPosition;
     GV_SubVec3( pos, &ctrl->mov, &svec );
 
     dir = GV_VecDir2( &svec );
@@ -302,7 +296,7 @@ void s00a_command_800C9E68( WatcherWork* work )
         diff = work->control.mov.vy - pos->vy;
     }
 
-    if ( !( work->control.map->index & GM_PlayerMap_800ABA0C ) || GM_PlayerStatus & 0x02000002 )
+    if ( !( work->control.map->index & GM_PlayerMap ) || GM_PlayerStatus & 0x02000002 )
     {
         work->vision.field_B92 = 0;
         return;

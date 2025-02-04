@@ -4,6 +4,7 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
+#include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "Game/object.h"
 #include "Okajima/blood.h"
@@ -56,9 +57,6 @@ typedef struct _MouseWork
     int        f1DC;
     MouseEntry entries[0];
 } MouseWork;
-
-extern int    GM_CurrentMap;
-extern int    GM_PlayerStatus;
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL4
 

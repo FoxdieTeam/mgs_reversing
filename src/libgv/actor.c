@@ -42,8 +42,6 @@ STATIC PauseKill gPauseKills_8009D308[GV_ACTOR_LEVEL] = {
     {  0, 7 }   // 8: GV_ACTOR_DAEMON2
 };
 
-extern int GM_CurrentMap;
-
 /*---------------------------------------------------------------------------*/
 
 /**
@@ -161,6 +159,8 @@ void GV_DumpActorSystem(void)
  */
 void GV_ExecActorSystem(void)
 {
+    extern int GM_CurrentMap;
+
     int         i;
     ActorList  *lp = gActorsList_800ACC18;
 

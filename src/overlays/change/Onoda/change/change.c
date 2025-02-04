@@ -56,7 +56,6 @@ typedef struct _Work
 } Work;
 
 extern int    GV_Clock;
-extern int    GM_CurrentMap;
 extern int    FS_DiskNum_800ACBF0;
 extern GV_PAD GV_PadData_800B05C0[4];
 

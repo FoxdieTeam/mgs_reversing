@@ -8,6 +8,7 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
+#include "Game/game.h"
 #include "Takabe/prim.h"
 
 typedef struct _HiyokoWork
@@ -23,8 +24,6 @@ typedef struct _HiyokoWork
     MATRIX  *world;
     int      f74;
 } HiyokoWork;
-
-extern int     GM_CurrentMap;
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 

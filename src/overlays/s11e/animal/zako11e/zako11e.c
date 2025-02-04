@@ -19,7 +19,6 @@ extern SVECTOR       COM_NO_POINT_800C35D4;
 extern int           COM_EYE_LENGTH_800E0D8C;
 
 extern GM_Camera      GM_Camera_800B77E8;
-extern int            GM_PlayerMap_800ABA0C;
 */
 
 extern SVECTOR ZAKO_TARGET_SIZE_800C38CC;
@@ -63,7 +62,6 @@ void s11e_zako11e_800D34D0( DG_OBJS* objs, DG_DEF* def )
 }
 
 extern GM_Camera GM_Camera_800B77E8;
-extern int GM_PlayerMap_800ABA0C;
 
 void s11e_zako11e_800D354C( ZakoWork *work )
 {

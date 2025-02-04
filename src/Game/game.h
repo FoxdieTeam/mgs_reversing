@@ -162,7 +162,7 @@ enum // GM_GameStatus
 #define STATE_PAUSE_ONLY ( STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF | STATE_RADIO_OFF )                    // 0x4A2000
 
 /*---------------------------------------------------------------------------*/
-#ifndef __BSSDEFINE__
+#ifndef __GAMED_SBSS__
 extern int     GM_CurrentMap;
 extern int     GM_NoisePower;
 extern int     GM_NoiseLength;
@@ -240,7 +240,7 @@ int                     alert ;
 }
 */
 
-#endif // __BSSDEFINE__
+#endif // __GAMED_SBSS__
 /*---------------------------------------------------------------------------*/
 
 /* gamed.c */
@@ -256,6 +256,41 @@ extern TBombFunction  GM_lpfnBombHoming;
 extern TBombFunction2 GM_lpfnBombBound;
 extern TBombFunction3 GM_lpfnBombExplosion;
 extern int GM_PadResetDisable;
+
+#ifndef __GAMED_SBSS__
+//extern char    *GM_StageName;
+//extern GV_PAD  *GM_CurrentPadData;
+extern int      dword_800AB9D4;
+extern short    GM_WeaponChanged;
+extern int      GM_ClaymoreMap;
+extern int      GM_AlertMax;
+extern unsigned int GM_DisableWeapon;
+extern int      gTotalFrameTime;
+extern short    GM_Magazine;
+extern int      GM_PlayerAddress;
+extern CONTROL *GM_PlayerControl;
+extern SVECTOR  GM_NoisePosition;
+extern int      GM_AlertMode;
+extern int      GM_Photocode;
+//extern int dword_800ABA08;
+extern int      GM_PlayerMap;
+extern SVECTOR  GM_PlayerPosition;
+extern int      GM_AlertLevel;
+extern int      dword_800ABA1C;
+extern OBJECT  *GM_PlayerBody;
+extern int      GM_NoisePower;
+extern int      GM_DisableItem;
+extern short    GM_MagazineMax;
+extern int      GM_NoiseLength;
+extern short    GM_O2;
+extern short    GM_PDA_ClearRank;
+extern int      GM_LoadComplete;
+extern int      GM_PadVibration;
+extern int      GM_PlayerAction;
+extern SVECTOR  GM_PhotoViewPos;
+extern PlayerStatusFlag GM_PlayerStatus;
+extern int      GM_PadVibration2;
+#endif // __GAMED_SBSS__
 
 void GM_InitReadError(void);
 void DrawReadError(void);

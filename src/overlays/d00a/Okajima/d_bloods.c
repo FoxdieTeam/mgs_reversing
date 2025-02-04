@@ -3,6 +3,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "Game/game.h"
 
 typedef struct _DBloodsWork
 {
@@ -20,8 +21,6 @@ typedef struct _DBloodsWork
 } DBloodsWork;
 
 int d00a_dword_800E1650;
-
-extern int GM_CurrentMap;
 
 #define EXEC_LEVEL GV_ACTOR_AFTER2
 

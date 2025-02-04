@@ -1,5 +1,6 @@
 #include "common.h"
 #include "libgv/libgv.h"
+#include "Game/game.h"
 
 typedef struct MeltDieWork
 {
@@ -17,8 +18,6 @@ typedef struct MeltDieWork
 } MeltDieWork;
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
-
-extern int GM_CurrentMap;
 
 void AN_Unknown_800DC94C(SVECTOR *pos);
 

@@ -7,9 +7,6 @@
 #include "libfs/libfs.h"
 #include "Game/game.h"
 
-extern int GM_LoadComplete;
-extern int GM_PadVibration2;
-
 typedef struct LoaderWork
 {
     GV_ACT  actor;

@@ -8,10 +8,6 @@
 #include "Game/linkvarbuf.h"
 #include "SD/g_sound.h"
 
-extern short      GM_Magazine_800AB9EC;
-extern short      GM_MagazineMax_800ABA2C;
-
-extern int        GM_CurrentMap;
 extern int        DG_CurrentGroupID;
 extern int        counter_8009F448;
 extern void      *GM_BombSeg;
@@ -129,8 +125,8 @@ void *NewMine(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *fl
         work->counter = 0;
     }
 
-    GM_MagazineMax_800ABA2C = 0;
-    GM_Magazine_800AB9EC = 0;
+    GM_MagazineMax = 0;
+    GM_Magazine = 0;
 
     return (void *)work;
 }

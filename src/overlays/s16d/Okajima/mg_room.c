@@ -1,6 +1,7 @@
 #include "common.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
+#include "Game/game.h"
 
 typedef struct _MgRoom
 {
@@ -19,7 +20,6 @@ typedef struct _MgRoom
 } MgRoom;
 
 extern int     GV_Clock;
-extern int     GM_CurrentMap;
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL4
 

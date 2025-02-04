@@ -2,7 +2,7 @@
 
 #include "common.h"
 #include "Bullet/jirai.h"
-#include "Game/target.h"
+#include "Game/game.h"
 #include "Takabe/thing.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
@@ -16,8 +16,6 @@ typedef struct DymcSegWork
     HZD_HDL *hzd;
     HZD_SEG  seg;
 } DymcSegWork;
-
-extern int GM_CurrentMap;
 
 unsigned short dymc_seg_hashes[] = {HASH_ON2, HASH_OFF2};
 

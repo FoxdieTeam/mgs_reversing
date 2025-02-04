@@ -32,9 +32,6 @@ typedef struct _DuctmouseWork
 
 SVECTOR mouse_offsets[2] = {{48, 0, 96, 0}, {-48, 0, 96, 0}};
 
-extern int     GM_CurrentMap;
-extern SVECTOR GM_PlayerPosition_800ABA10;
-
 void AN_Unknown_800CA458(MATRIX *, int);
 
 #define EXEC_LEVEL      GV_ACTOR_LEVEL5
@@ -123,7 +120,7 @@ void Ductmouse_800DA5BC(DuctmouseWork *work)
 
     work->f15C++;
 
-    len = Ductmouse_800DA2EC(&work->pos, &GM_PlayerPosition_800ABA10);
+    len = Ductmouse_800DA2EC(&work->pos, &GM_PlayerPosition);
 
     Ductmouse_800DA3DC(work);
 
@@ -155,7 +152,7 @@ void Ductmouse_800DA5BC(DuctmouseWork *work)
 
         work->f188--;
 
-        Ductmouse_800DA35C(&sp10, &GM_PlayerPosition_800ABA10, &work->rot);
+        Ductmouse_800DA35C(&sp10, &GM_PlayerPosition, &work->rot);
         work->rot.vy -= 512;
         return;
     }

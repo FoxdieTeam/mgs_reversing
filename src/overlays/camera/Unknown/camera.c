@@ -53,7 +53,6 @@ typedef struct CameraWork
 
 #define EXEC_LEVEL GV_ACTOR_MANAGER
 
-extern int                         GM_CurrentMap;
 extern GV_PAD                      GV_PadData_800B05C0[4];
 extern int                         GV_Clock;
 extern RadioFileModeStru_800ABB7C *camera_dword_800D075C;

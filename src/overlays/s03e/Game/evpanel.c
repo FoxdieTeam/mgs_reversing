@@ -73,11 +73,7 @@ const char s03e_aInitopen_800CBF68[] = "INiTOPEN\n";
 
 EvPanelWork *SECTION("overlay.bss") s03e_dword_800CC6B8;
 
-extern int          GM_CurrentMap;
 extern GM_Camera    GM_Camera_800B77E8;
-extern OBJECT      *GM_PlayerBody_800ABA20;
-extern int          GM_PlayerStatus;
-extern int          GM_AlertMode;
 extern int          GM_CameraShakeOffset;
 extern GV_PAD       GV_PadData_800B05C0[4];
 
@@ -362,7 +358,7 @@ void s03e_evpanel_800C39F8(EvPanelWork *work)
 
     GM_PlayerStatus |= PLAYER_PAD_OFF;
 
-    DG_InvisibleObjs(GM_PlayerBody_800ABA20->objs);
+    DG_InvisibleObjs(GM_PlayerBody->objs);
 
     if (((1 << GM_CurrentItemId) & 0x101E) != 0)
     {
@@ -572,7 +568,7 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
     case 6:
         work->field_38 = 100;
 
-        DG_InvisibleObjs(GM_PlayerBody_800ABA20->objs);
+        DG_InvisibleObjs(GM_PlayerBody->objs);
 
         if (work->field_2E == 5)
         {
@@ -668,7 +664,7 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
         if (GM_Camera_800B77E8.interp < 24)
         {
             work->field_42 = 2;
-            DG_VisibleObjs(GM_PlayerBody_800ABA20->objs);
+            DG_VisibleObjs(GM_PlayerBody->objs);
             GM_PlayerStatus &= ~PLAYER_PAD_OFF;
             work->field_2E = 3;
         }
@@ -699,7 +695,7 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
             work->field_36 = 30;
 
             GM_GameStatus |= STATE_ALL_OFF | STATE_ENEMY_OFF;
-            DG_InvisibleObjs(GM_PlayerBody_800ABA20->objs);
+            DG_InvisibleObjs(GM_PlayerBody->objs);
 
             if (work->current_button_idx < work->field_34)
             {
@@ -720,7 +716,7 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
     case 8:
         if (work->field_36 >= 1)
         {
-            DG_InvisibleObjs(GM_PlayerBody_800ABA20->objs);
+            DG_InvisibleObjs(GM_PlayerBody->objs);
 
             work->field_36--;
             if ((work->field_36 > 2) && (work->field_36 < 10))
@@ -741,7 +737,7 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
                 work->field_50 = 0;
             }
 
-            DG_InvisibleObjs(GM_PlayerBody_800ABA20->objs);
+            DG_InvisibleObjs(GM_PlayerBody->objs);
         }
         break;
 

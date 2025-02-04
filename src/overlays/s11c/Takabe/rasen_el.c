@@ -56,11 +56,7 @@ SVECTOR SECTION("overlay.bss") rasen_el_800D2CAC;
 SVECTOR SECTION("overlay.bss") rasen_el_800D2CB4;
 int SECTION("overlay.bss") rasen_el_800D2CBC;
 
-extern int             GM_CurrentMap;
 extern int             gControlCount_800AB9B4;
-extern CONTROL        *GM_PlayerControl_800AB9F4;
-extern OBJECT         *GM_PlayerBody_800ABA20;
-extern int             GM_PlayerStatus;
 extern GV_PAD          GV_PadData_800B05C0[4];
 extern CONTROL        *GM_WhereList_800B56D0[96];
 extern UnkCameraStruct gUnkCameraStruct_800B77B8;
@@ -177,7 +173,7 @@ void RasenElAct_800CC454(RasenElWork *work)
                         GM_Camera_800B77E8.flags &= ~0x200;
                         GM_PlayerStatus &= ~PLAYER_PAD_OFF;
 
-                        DG_VisibleObjs(GM_PlayerBody_800ABA20->objs);
+                        DG_VisibleObjs(GM_PlayerBody->objs);
 
                         work->f248 = 3;
                     }
@@ -241,7 +237,7 @@ void RasenElAct_800CC454(RasenElWork *work)
                     GM_Camera_800B77E8.flags &= ~0x200;
                     GM_PlayerStatus &= ~PLAYER_PAD_OFF;
 
-                    DG_VisibleObjs(GM_PlayerBody_800ABA20->objs);
+                    DG_VisibleObjs(GM_PlayerBody->objs);
 
                     work->f248 = 3;
                 }
@@ -707,9 +703,9 @@ void s11c_800CD340(RasenElWork *work, int arg1)
             GM_SeSet(NULL, SE_ITEM_OPENWINDOW);
 
             GM_PlayerStatus |= PLAYER_PAD_OFF;
-            DG_InvisibleObjs(GM_PlayerBody_800ABA20->objs);
+            DG_InvisibleObjs(GM_PlayerBody->objs);
             GM_GameStatus |= STATE_MENU_OFF;
-            GM_PlayerControl_800AB9F4->turn.vy = 0;
+            GM_PlayerControl->turn.vy = 0;
 
             GM_SetCameraCallbackFunc_8002FD84(0, s11c_800CD21C);
 
@@ -720,25 +716,25 @@ void s11c_800CD340(RasenElWork *work, int arg1)
 
             if (arg1 == 0)
             {
-                work->f2E8.vx = GM_PlayerBody_800ABA20->objs->objs[6].world.t[0];
-                work->f2E8.vy = GM_PlayerBody_800ABA20->objs->objs[6].world.t[1] + 16250;
-                work->f2E8.vz = GM_PlayerBody_800ABA20->objs->objs[6].world.t[2];
+                work->f2E8.vx = GM_PlayerBody->objs->objs[6].world.t[0];
+                work->f2E8.vy = GM_PlayerBody->objs->objs[6].world.t[1] + 16250;
+                work->f2E8.vz = GM_PlayerBody->objs->objs[6].world.t[2];
                 work->f2F4 = 15;
             }
             else
             {
-                work->f2E8.vx = GM_PlayerBody_800ABA20->objs->objs[6].world.t[0];
-                work->f2E8.vy = GM_PlayerBody_800ABA20->objs->objs[6].world.t[1] + 16000;
-                work->f2E8.vz = GM_PlayerBody_800ABA20->objs->objs[6].world.t[2];
+                work->f2E8.vx = GM_PlayerBody->objs->objs[6].world.t[0];
+                work->f2E8.vy = GM_PlayerBody->objs->objs[6].world.t[1] + 16000;
+                work->f2E8.vz = GM_PlayerBody->objs->objs[6].world.t[2];
                 work->f2F4 = 15;
             }
         }
 
         GM_Camera_800B77E8.first_person = 1;
-        DG_InvisibleObjs(GM_PlayerBody_800ABA20->objs);
+        DG_InvisibleObjs(GM_PlayerBody->objs);
 
-        GM_PlayerControl_800AB9F4->turn.vy = 0;
-        rasen_el_800D2CB4 = GM_PlayerControl_800AB9F4->rot;
+        GM_PlayerControl->turn.vy = 0;
+        rasen_el_800D2CB4 = GM_PlayerControl->rot;
 
         if (work->f2D4 > 20)
         {
@@ -751,7 +747,7 @@ void s11c_800CD340(RasenElWork *work, int arg1)
 
     case 1:
         GM_Camera_800B77E8.first_person = 1;
-        DG_InvisibleObjs(GM_PlayerBody_800ABA20->objs);
+        DG_InvisibleObjs(GM_PlayerBody->objs);
 
         press = GV_PadData_800B05C0[0].press;
         release = GV_PadData_800B05C0[0].release;
@@ -786,8 +782,8 @@ void s11c_800CD340(RasenElWork *work, int arg1)
             {
                 work->f2D8 = 1;
                 work->f2D0 = 2;
-                GM_PlayerControl_800AB9F4->mov.vx = 500;
-                GM_PlayerControl_800AB9F4->mov.vz = 0;
+                GM_PlayerControl->mov.vx = 500;
+                GM_PlayerControl->mov.vz = 0;
             }
             else
             {
@@ -810,7 +806,7 @@ void s11c_800CD340(RasenElWork *work, int arg1)
 
             GM_Camera_800B77E8.first_person = 0;
             GM_Camera_800B77E8.flags &= ~0x200;
-            DG_VisibleObjs(GM_PlayerBody_800ABA20->objs);
+            DG_VisibleObjs(GM_PlayerBody->objs);
             GM_PlayerStatus &= ~PLAYER_PAD_OFF;
 
             work->f248 = 3;

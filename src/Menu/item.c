@@ -11,12 +11,8 @@
 extern PANEL_TEXTURE gMenuLeftItems_800BD5A0[];
 extern short         GM_WeaponTypes[];
 extern short         GM_ItemTypes[];
-extern int           GM_PlayerStatus;
 extern int           GV_PauseLevel;
-extern int           GM_DisableItem_800ABA28;
 extern int           dword_8009F46C;
-extern int           GM_PlayerMap_800ABA0C;
-extern SVECTOR       GM_PlayerPosition_800ABA10;
 
 int SECTION(".sbss") dword_800ABAD0;
 int SECTION(".sbss") dword_800ABAD4;
@@ -299,7 +295,7 @@ int menu_item_IsItemDisabled_8003B6D0(int item)
 
     bit = 1 << item;
     // If the items are explicitly disabled (e.g from gcl command MENU)
-    return (GM_DisableItem_800ABA28 & bit) != 0;
+    return (GM_DisableItem & bit) != 0;
 }
 
 void menu_drawPalKey_8003B794(MenuWork *work, unsigned int *pOt, int id)
@@ -1037,12 +1033,12 @@ void UpdateEnvironmentalEffects_8003C4EC(void)
                 blastData.field_C = 2000;
                 blastData.field_10 = 10;
 
-                GM_CurrentMap = GM_PlayerMap_800ABA0C;
+                GM_CurrentMap = GM_PlayerMap;
 
                 mtx = DG_ZeroMatrix;
-                mtx.t[0] = GM_PlayerPosition_800ABA10.vx;
-                mtx.t[1] = GM_PlayerPosition_800ABA10.vy;
-                mtx.t[2] = GM_PlayerPosition_800ABA10.vz;
+                mtx.t[0] = GM_PlayerPosition.vx;
+                mtx.t[1] = GM_PlayerPosition.vy;
+                mtx.t[2] = GM_PlayerPosition.vz;
                 NewBlast(&mtx, &blastData);
 
                 GM_CurrentItemId = ITEM_NONE;

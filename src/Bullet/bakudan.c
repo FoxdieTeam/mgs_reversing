@@ -14,16 +14,11 @@
 #include "SD/g_sound.h"
 
 extern GV_PAD  GV_PadData_800B05C0[4];
-extern int     GM_PlayerStatus;
 
 extern HITTABLE GM_C4Datas_800BDD78[C4_COUNT];
-extern int GM_CurrentMap;
-
-extern int GM_PlayerMap_800ABA0C;
 
 extern unsigned short GM_ItemTypes[];
 
-extern SVECTOR GM_PlayerPosition_800ABA10;
 extern BLAST_DATA blast_data_8009F4B8[8];
 
 /*---------------------------------------------------------------------------*/
@@ -108,7 +103,7 @@ STATIC void BakudanAct(BakudanWork *work)
     // the player is not holding an item that can't be used with the C4
     if (((work->active_pad->press & PAD_CIRCLE) &&
          (time_last_press_8009F430 != GV_Time) &&
-         (GM_CurrentMap & GM_PlayerMap_800ABA0C) &&
+         (GM_CurrentMap & GM_PlayerMap) &&
          !(GM_GameStatus & STATE_PADRELEASE) &&
          !(GM_PlayerStatus & PLAYER_PAD_OFF) &&
          !(GM_ItemTypes[GM_CurrentItemId + 1] & 2)) ||
@@ -124,7 +119,7 @@ STATIC void BakudanAct(BakudanWork *work)
 
         if (work->active_pad->press & PAD_CIRCLE)
         {
-            GM_SeSetMode(&GM_PlayerPosition_800ABA10, SE_C4_SWITCH, GM_SEMODE_BOMB);
+            GM_SeSetMode(&GM_PlayerPosition, SE_C4_SWITCH, GM_SEMODE_BOMB);
         }
 
         time_last_press_8009F430 = GV_Time;
@@ -209,7 +204,7 @@ STATIC int BakudanGetResources(BakudanWork *work, MATRIX *world, SVECTOR *pos, i
     int nextItem;
     HITTABLE *item;
 
-    work->map_index = GM_CurrentMap = GM_PlayerMap_800ABA0C;
+    work->map_index = GM_CurrentMap = GM_PlayerMap;
 
     if (GM_InitControl(control, GM_Next_BulName_8004FBA0(), 0) < 0)
     {

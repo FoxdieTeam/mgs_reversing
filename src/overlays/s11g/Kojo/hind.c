@@ -281,7 +281,6 @@ typedef struct HindWork
 SVECTOR s11g_dword_800C3598 = {5000, 3000, 5000, 0};
 SVECTOR s11g_dword_800C35A0 = {100, 0, 0, 0};
 
-extern SVECTOR          GM_PlayerPosition_800ABA10;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 extern DG_CHANL         DG_Chanls_800B1800[3];
 extern GM_Camera        GM_Camera_800B77E8;
@@ -535,7 +534,7 @@ void *NewHind_800D1224(int scriptData, int scriptBinds)
         {
             if (GCL_StrToInt(param) == 1)
             {
-                work->field_490 = &GM_PlayerPosition_800ABA10;
+                work->field_490 = &GM_PlayerPosition;
             }
         }
     }

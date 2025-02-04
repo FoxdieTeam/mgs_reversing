@@ -26,7 +26,6 @@ void s11i_zako11f_800C86F8( DG_OBJS* objs, DG_DEF* def )
 }
 
 extern GM_Camera GM_Camera_800B77E8;
-extern int GM_PlayerMap_800ABA0C;
 
 void s11i_zako11f_800C8774( Zako11FWork *work )
 {

@@ -5,6 +5,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "Game/game.h"
 #include "Takabe/thing.h"
 
 typedef struct OpTxtScnUnk
@@ -64,7 +65,6 @@ OpTxtScnUnk opening_dword_800C33E4[2] =
 };
 
 extern int    GV_Clock;
-extern int    GM_CurrentMap;
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 

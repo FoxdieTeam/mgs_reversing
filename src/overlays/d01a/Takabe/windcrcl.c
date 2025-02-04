@@ -7,6 +7,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "Game/game.h"
 
 typedef struct _WindcrclWork
 {
@@ -23,8 +24,6 @@ typedef struct _WindcrclWork
 } WindcrclWork;
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
-
-extern int GM_CurrentMap;
 
 typedef struct WindcrclScratch
 {

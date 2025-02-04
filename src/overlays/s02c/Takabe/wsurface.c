@@ -4,6 +4,7 @@
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
+#include "Game/game.h"
 #include "Takabe/thing.h"
 
 typedef struct _WsurfaceWork
@@ -28,7 +29,6 @@ typedef struct _WsurfaceWork
 } WsurfaceWork;
 
 extern int GV_Clock;
-extern int GM_CurrentMap;
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 

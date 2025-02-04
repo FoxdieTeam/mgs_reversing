@@ -21,7 +21,6 @@ typedef struct CameraShakeWork
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-extern SVECTOR GM_PlayerPosition_800ABA10;
 extern int  GM_CameraShakeOffset;
 
 void CameraShakeAct_800DF4B8( CameraShakeWork* work )
@@ -40,7 +39,7 @@ void CameraShakeAct_800DF4B8( CameraShakeWork* work )
         return;
     }
 
-    target_pos = &GM_PlayerPosition_800ABA10;
+    target_pos = &GM_PlayerPosition;
 
     diff.vx = tmp = ( target_pos->vx - work->pos.vx ) >> 2 ; length = tmp * tmp ;
     diff.vy = tmp = ( target_pos->vy - work->pos.vy ) >> 2 ; length += tmp * tmp ;

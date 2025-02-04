@@ -95,9 +95,6 @@ extern char s01a_dword_800E44CC[];
 extern TOPCOMMAND_STRUCT TOPCOMMAND_800E0F20;
 extern int               COM_VibTime_800E0F68;
 
-extern int              GM_PlayerMap_800ABA0C;
-extern SVECTOR          GM_PlayerPosition_800ABA10;
-extern PlayerStatusFlag GM_PlayerStatus;
 extern CONTROL         *GM_WhereList_800B56D0[96];
 
 void *NewSpark2_800CA714(MATRIX *world);
@@ -159,25 +156,25 @@ int s01a_camera_800D4E08(CameraWork *work)
     }
 
     ctrl = &work->control;
-    if (!(ctrl->map->index & GM_PlayerMap_800ABA0C))
+    if (!(ctrl->map->index & GM_PlayerMap))
     {
         work->field_1DC = 0;
         return 0;
     }
 
-    s01a_camera_800D4D7C(ctrl, &GM_PlayerPosition_800ABA10, &svec);
+    s01a_camera_800D4D7C(ctrl, &GM_PlayerPosition, &svec);
     dir = GV_DiffDirAbs(svec.vy, ctrl->rot.vy);
     dir2 = GV_DiffDirAbs(svec.vx, ctrl->rot.vx);
 
     if (work->field_280 < dir2 || work->field_280 < dir ||
-        GV_DiffVec3(&ctrl->mov, &GM_PlayerPosition_800ABA10) > work->field_27E)
+        GV_DiffVec3(&ctrl->mov, &GM_PlayerPosition) > work->field_27E)
     {
         work->field_1DC = 0;
         return 0;
     }
     if (work->field_1C8 != 0)
     {
-        if (HZD_80028454(ctrl->map->hzd, &ctrl->mov, &GM_PlayerPosition_800ABA10, 15, 2) != 0)
+        if (HZD_80028454(ctrl->map->hzd, &ctrl->mov, &GM_PlayerPosition, 15, 2) != 0)
         {
             work->field_1DC = 0;
             return 0;
@@ -189,12 +186,12 @@ int s01a_camera_800D4E08(CameraWork *work)
         {
             if (work->field_1DC == 0)
             {
-                work->field_1D0 = GM_PlayerPosition_800ABA10;
+                work->field_1D0 = GM_PlayerPosition;
                 work->field_1D8 = GM_WhereList_800B56D0[0]->rot.vy;
                 work->field_1DC = 1;
                 return 0;
             }
-            if (GV_DiffVec3(&work->field_1D0, &GM_PlayerPosition_800ABA10) < 50)
+            if (GV_DiffVec3(&work->field_1D0, &GM_PlayerPosition) < 50)
             {
                 if (work->field_1D8 == GM_WhereList_800B56D0[0]->rot.vy)
                 {
@@ -234,13 +231,13 @@ void s01a_camera_800D4FE8(SVECTOR *arg0, SVECTOR *arg1, int arg2)
 
 void s01a_camera_800D509C(CameraWork *work)
 {
-    s01a_camera_800D4D7C(&work->control, &GM_PlayerPosition_800ABA10, &work->control.turn);
+    s01a_camera_800D4D7C(&work->control, &GM_PlayerPosition, &work->control.turn);
     s01a_camera_800D4FE8(&work->field_1C0, &work->control.turn, work->field_282);
 }
 
 void s01a_camera_800D50EC(CameraWork *work)
 {
-    s01a_camera_800D4D7C(&work->control, &GM_PlayerPosition_800ABA10, &work->control.turn);
+    s01a_camera_800D4D7C(&work->control, &GM_PlayerPosition, &work->control.turn);
     s01a_camera_800D4FE8(&work->field_1C0, &work->control.turn, work->field_282);
     work->control.rot = work->control.turn;
 }

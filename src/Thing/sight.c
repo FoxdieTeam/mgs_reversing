@@ -272,8 +272,6 @@ STATIC void sight_act_helper_80071498(SightTextPseudoPrim *textPrim)
 }
 
 extern int GV_Clock;
-extern int GM_CurrentMap;
-extern int GM_PlayerStatus;
 extern int GV_PauseLevel;
 
 STATIC void sight_act_800714EC(SightWork *work)

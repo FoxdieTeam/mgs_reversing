@@ -7,12 +7,8 @@
 #include "Game/map.h"
 #include "SD/g_sound.h"
 
-extern short GM_Magazine_800AB9EC;
-extern short GM_MagazineMax_800ABA2C;
-
 extern int   DG_CurrentGroupID;
 extern void *GM_BombSeg;
-extern int   GM_CurrentMap;
 extern int   bakudan_count_8009F42C;
 
 /*---------------------------------------------------------------------------*/
@@ -129,8 +125,8 @@ void *NewBomb(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *fl
         work->which_side = which_side;
     }
 
-    GM_MagazineMax_800ABA2C = 0;
-    GM_Magazine_800AB9EC = 0;
+    GM_MagazineMax = 0;
+    GM_Magazine = 0;
 
     return (void *)work;
 }

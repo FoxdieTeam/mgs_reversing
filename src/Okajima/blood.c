@@ -11,8 +11,6 @@
 #include "Game/game.h"
 #include "strcode.h"
 
-extern int GM_CurrentMap;
-
 /*---------------------------------------------------------------------------*/
 
 typedef struct _BloodWork

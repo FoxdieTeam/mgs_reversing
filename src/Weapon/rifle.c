@@ -13,14 +13,9 @@
 
 extern GM_Camera GM_Camera_800B77E8;
 
-extern CONTROL         *GM_PlayerControl_800AB9F4;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
-extern OBJECT          *GM_PlayerBody_800ABA20;
 
 extern int      DG_CurrentGroupID;
-extern int      GM_CurrentMap;
-extern short    GM_Magazine_800AB9EC;
-extern short    GM_MagazineMax_800ABA2C;
 
 extern void *NewBullet(MATRIX *pMtx, int a2, int a3, int noiseLen);
 
@@ -59,14 +54,14 @@ STATIC int RifleGetZoomLength(void)
     int var_s2;
     int length;
 
-    if ((GM_GameStatus < 0) || !GM_PlayerControl_800AB9F4)
+    if ((GM_GameStatus < 0) || !GM_PlayerControl)
     {
         pMtx = &DG_Chanl(0)->field_30_eye;
     }
     else
     {
         pMtx = &mtx;
-        mtx = GM_PlayerBody_800ABA20->objs->world;
+        mtx = GM_PlayerBody->objs->world;
         mtx.t[0] = gUnkCameraStruct_800B77B8.eye.vx;
         mtx.t[1] = gUnkCameraStruct_800B77B8.eye.vy;
         mtx.t[2] = gUnkCameraStruct_800B77B8.eye.vz;
@@ -77,7 +72,7 @@ STATIC int RifleGetZoomLength(void)
 
     var_s2 = 0;
 
-    if (HZD_80028454(GM_PlayerControl_800AB9F4->map->hzd, &vec[0], &vec[1], 15, 4))
+    if (HZD_80028454(GM_PlayerControl->map->hzd, &vec[0], &vec[1], 15, 4))
     {
         HZD_GetSpadVector(&vec[1]);
         var_s2 = 1;
@@ -163,7 +158,7 @@ STATIC void RifleAct(RifleWork *work)
         }
     }
 
-    temp_s1 = GM_Magazine_800AB9EC;
+    temp_s1 = GM_Magazine;
 
     if (!temp_s1 && (temp_s2 & 2))
     {
@@ -192,7 +187,7 @@ STATIC void RifleAct(RifleWork *work)
         GM_SeSet2(0, 63, SE_PSG1_SHOT);
         GM_SetNoise(100, 2, &work->control->mov);
 
-        GM_Magazine_800AB9EC = --temp_s1;
+        GM_Magazine = --temp_s1;
         GM_Weapons[WEAPON_PSG1]--;
     }
 }
@@ -256,7 +251,7 @@ void *NewRifle(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *f
         work->field_58 = 0;
     }
 
-    mag_size = GM_Magazine_800AB9EC ? (MAGAZINE_SIZE + 1) : MAGAZINE_SIZE;
+    mag_size = GM_Magazine ? (MAGAZINE_SIZE + 1) : MAGAZINE_SIZE;
     ammo = GM_Weapons[WEAPON_PSG1];
 
     if (mag_size > 0 && mag_size < ammo)
@@ -264,8 +259,8 @@ void *NewRifle(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *f
         ammo = mag_size;
     }
 
-    GM_MagazineMax_800ABA2C = mag_size;
-    GM_Magazine_800AB9EC = ammo;
+    GM_MagazineMax = mag_size;
+    GM_Magazine = ammo;
 
     return (void *)work;
 }

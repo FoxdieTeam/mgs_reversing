@@ -5,9 +5,10 @@
 #include <libgpu.h>
 
 #include "common.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "libgv/libgv.h"
+#include "Game/game.h"
 
 typedef struct _UjiWork
 {
@@ -34,8 +35,6 @@ RECT uji_rect = {100, 100, 200, 200};
 
 const char aUji[] = "uji";
 const char aUjiC[] = "uji.c";
-
-extern int     GM_CurrentMap;
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL4
 

@@ -47,12 +47,6 @@ void *PutFuncList_800C33E0[5] = {
 SVECTOR s11i_800C33F4 = {5, -500, 80, 0};
 SVECTOR s11i_800C33FC = {5, -500, 80, 0};
 
-extern CONTROL *GM_PlayerControl_800AB9F4;
-extern SVECTOR  GM_PlayerPosition_800ABA10;
-extern OBJECT  *GM_PlayerBody_800ABA20;
-extern int      GM_PlayerAction;
-extern int      GM_PlayerStatus;
-
 extern SVECTOR ZAKO11F_TARGET_SIZE_800C365C;
 extern SVECTOR ZAKO11F_TARGET_FORCE_800C3664;
 extern SVECTOR ZAKO11F_ATTACK_SIZE_800C366C;
@@ -327,7 +321,7 @@ void ReviseReadyGun_800C9C34( Zako11FWork *work )
     int trans;
     int near;
 
-    trans = ( ( GM_PlayerBody_800ABA20->objs->objs[6].world.t[1] - work->body.objs->objs[6].world.t[1] ) );
+    trans = ( ( GM_PlayerBody->objs->objs[6].world.t[1] - work->body.objs->objs[6].world.t[1] ) );
     trans = ratan2( work->sn_dis, trans ) & 0xFFF;
 
     near = GV_NearExp8( work->adjust[2].vx, trans - 1024 );
@@ -349,7 +343,7 @@ void ReviseReadyGun2_800C9CBC( Zako11FWork *work )
     int trans;
     int near;
 
-    trans = ( ( GM_PlayerBody_800ABA20->objs->objs[6].world.t[1] - work->body.objs->objs[6].world.t[1] ) );
+    trans = ( ( GM_PlayerBody->objs->objs[6].world.t[1] - work->body.objs->objs[6].world.t[1] ) );
     trans = ratan2( work->sn_dis, trans ) & 0xFFF;
 
     near = trans - 1024;
@@ -842,7 +836,7 @@ void ActGrenade_800CAA54( Zako11FWork *work, int time )
         extern  void    *NewGrenadeEnemy_800D2138( CONTROL *, OBJECT *, int, unsigned int *, SVECTOR *, int ) ;
 
         SetAction(work, GRENADE, ACTINTERP);
-        work->subweapon = NewGrenadeEnemy_800D2138(&work->control, &work->body, 9, &work->trigger, &GM_PlayerPosition_800ABA10, ENEMY_SIDE);
+        work->subweapon = NewGrenadeEnemy_800D2138(&work->control, &work->body, 9, &work->trigger, &GM_PlayerPosition, ENEMY_SIDE);
     }
 
     if ( time > ACTINTERP )
@@ -1037,9 +1031,9 @@ void s11i_asiato_800CB0C0( Zako11FWork *work )
 {
     SVECTOR to;
 
-    work->control.turn = GM_PlayerControl_800AB9F4->rot;
+    work->control.turn = GM_PlayerControl->rot;
 
-    DG_SetPos2(&GM_PlayerPosition_800ABA10, &GM_PlayerControl_800AB9F4->rot);
+    DG_SetPos2(&GM_PlayerPosition, &GM_PlayerControl->rot);
     DG_PutVector(&s11i_800C33A4, &to, 1);
     GV_SubVec3(&to, &work->control.mov, &work->control.step);
 }
@@ -1113,7 +1107,7 @@ void s11i_asiato_800CB140( Zako11FWork *work, int time )
             NewPadVibration(s11i_800C33A0, 2);
         }
 
-        work->control.turn = GM_PlayerControl_800AB9F4->rot;
+        work->control.turn = GM_PlayerControl->rot;
         s11i_asiato_800CB0C0( work );
 
         work->field_B5C++;
@@ -1126,7 +1120,7 @@ void s11i_asiato_800CB140( Zako11FWork *work, int time )
             SetAction( work, ACTION28, ACTINTERP );
         }
 
-        work->control.turn = GM_PlayerControl_800AB9F4->rot;
+        work->control.turn = GM_PlayerControl->rot;
         s11i_asiato_800CB0C0( work );
         break;
 

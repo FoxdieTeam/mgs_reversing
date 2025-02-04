@@ -19,7 +19,6 @@ extern SVECTOR       COM_NO_POINT_800C35D4;
 extern unsigned short COM_EYE_LENGTH_800E0D8C;
 
 extern GM_Camera      GM_Camera_800B77E8;
-extern int            GM_PlayerMap_800ABA0C;
 
 extern void *NewGunLight_800D3AD4( MATRIX* mat, int **enable );
 
@@ -203,8 +202,6 @@ int s07a_meryl7_800D5564( SVECTOR* svec )
 extern int *s07a_dword_800E3650;
 extern int *s07a_dword_800E3654;
 
-extern SVECTOR GM_PlayerPosition_800ABA10;
-
 void s07a_meryl7_800D55A8(WatcherWork *work )
 {
     if ( s07a_meryl7_800D54DC( &work->control.mov ) != 0 )
@@ -215,7 +212,7 @@ void s07a_meryl7_800D55A8(WatcherWork *work )
         *s07a_dword_800E3650 = 1;
     }
 
-    if ( s07a_meryl7_800D5564( &GM_PlayerPosition_800ABA10 ) != 0)
+    if ( s07a_meryl7_800D5564( &GM_PlayerPosition ) != 0)
     {
         *s07a_dword_800E3654 = 0;
     }
@@ -227,7 +224,7 @@ void s07a_meryl7_800D55A8(WatcherWork *work )
 
 int s07a_meryl7_800D5614( WatcherWork *work )
 {
-    return s07a_meryl7_800D5520( &GM_PlayerPosition_800ABA10 );
+    return s07a_meryl7_800D5520( &GM_PlayerPosition );
 }
 
 void EnemyPushMove_800DB23C( WatcherWork *work ); // EnemyPushMove_800CA0E8

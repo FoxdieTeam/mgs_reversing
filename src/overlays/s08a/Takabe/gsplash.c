@@ -2,6 +2,7 @@
 #include "common.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
+#include "Game/game.h"
 
 typedef struct _GsplashWork
 {
@@ -18,8 +19,6 @@ typedef struct _GsplashWork
 } GsplashWork;
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
-
-extern int GM_CurrentMap;
 
 void s08a_gsplash_800D3840(SVECTOR *arg0, SVECTOR *verts, GsplashWork *work, int n_prims)
 {

@@ -12,8 +12,6 @@
 #include "Okajima/bullet.h"
 #include "SD/g_sound.h"
 
-extern short GM_Magazine_800AB9EC;
-extern short GM_MagazineMax_800ABA2C;
 extern int   DG_CurrentGroupID;
 extern int   GV_Clock;
 
@@ -73,7 +71,7 @@ STATIC void FamasAct(FamasWork *work)
 
     flags = *work->flags;
 
-    newSize = GM_Magazine_800AB9EC;
+    newSize = GM_Magazine;
 
     if (!newSize && (flags & 2))
     {
@@ -96,8 +94,8 @@ STATIC void FamasAct(FamasWork *work)
                 DG_MovePos(&stru_800AB850);
                 ReadRotMatrix(&mtx);
 
-                GM_Magazine_800AB9EC = newSize;
-                GM_MagazineMax_800ABA2C = MAGAZINE_SIZE;
+                GM_Magazine = newSize;
+                GM_MagazineMax = MAGAZINE_SIZE;
 
                 if ( !mp5_flag )
                 {
@@ -208,7 +206,7 @@ STATIC void *InitFAMAS(CONTROL *control, OBJECT *parent, int num_parent, int *fl
     }
 
     mag_size = MAGAZINE_SIZE;
-    if (GM_Magazine_800AB9EC)
+    if (GM_Magazine)
         mag_size = MAGAZINE_SIZE + 1;   /* +1 in the chamber */
 
     if (mp5flag == 0)
@@ -220,13 +218,13 @@ STATIC void *InitFAMAS(CONTROL *control, OBJECT *parent, int num_parent, int *fl
             temp = (short)mag_size;
         }
 
-        GM_MagazineMax_800ABA2C = mag_size;
-        GM_Magazine_800AB9EC = temp;
+        GM_MagazineMax = mag_size;
+        GM_Magazine = temp;
     }
     else
     {
-        GM_Magazine_800AB9EC = mag_size;
-        GM_MagazineMax_800ABA2C = mag_size;
+        GM_Magazine = mag_size;
+        GM_MagazineMax = mag_size;
     }
 
     return (void *)work;

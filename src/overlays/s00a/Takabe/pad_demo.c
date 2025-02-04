@@ -26,7 +26,6 @@ typedef struct _PadDemoWork
 
 extern int   GV_PauseLevel;
 extern short GV_DemoPadStatus[2];
-extern int   GM_CurrentMap;
 
 // Something to do with setting current/last item to ITEM_NONE
 void sub_8003CC88(void);

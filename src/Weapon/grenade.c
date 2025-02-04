@@ -18,12 +18,8 @@
 #include "Game/map.h"
 #include "strcode.h"
 
-extern short         GM_Magazine_800AB9EC;
-extern short         GM_MagazineMax_800ABA2C;
-extern SVECTOR       GM_PlayerPosition_800ABA10;
 extern int           DG_CurrentGroupID;
 extern BLAST_DATA    blast_data_8009F4B8[8];
-extern int           GM_PlayerStatus;
 
 /*---------------------------------------------------------------------------*/
 // Grenade (frag/stun/chaff)
@@ -71,7 +67,7 @@ STATIC void grenade_800663A0( void )
     pos.vx = 250;
     GM_SetTarget( &target, 4, NO_SIDE, &pos );
     GM_Target_8002DCCC( &target, 3, 1, TARGET_C4, -1, (SVECTOR *)&DG_ZeroVector );
-    GM_MoveTarget( &target, &GM_PlayerPosition_800ABA10 );
+    GM_MoveTarget( &target, &GM_PlayerPosition );
     GM_PowerTarget( &target );
 }
 
@@ -257,8 +253,8 @@ STATIC void *InitGrenade( CONTROL *control, OBJECT *parent, int num_parent,
         work->pos = control->mov;
     }
 
-    GM_MagazineMax_800ABA2C = 0;
-    GM_Magazine_800AB9EC = 0;
+    GM_MagazineMax = 0;
+    GM_Magazine = 0;
 
     return (void *)work;
 }

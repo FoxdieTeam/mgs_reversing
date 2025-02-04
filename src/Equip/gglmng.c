@@ -7,7 +7,6 @@
 #include "Game/linkvarbuf.h"
 
 extern GM_Camera GM_Camera_800B77E8;
-extern int       GM_PlayerStatus;
 extern int       dword_8009F46C;
 
 /*---------------------------------------------------------------------------*/

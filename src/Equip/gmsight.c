@@ -8,7 +8,6 @@
 #include "SD/g_sound.h"
 #include "strcode.h"
 
-extern PlayerStatusFlag GM_PlayerStatus;
 extern int              dword_8009F604;
 extern short            word_800BDCC0;
 

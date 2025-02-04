@@ -11,8 +11,6 @@
 #include "motion.h"
 
 /*-----sbss---------------------------------------*/
-extern int GM_CurrentMap;
-
 int SECTION(".sbss") fc_rt;     // Unused?
 int SECTION(".sbss") mt_rt1;    // Unused?
 int SECTION(".sbss") mt_rt2;

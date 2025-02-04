@@ -4,6 +4,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "Game/game.h"
 #include "Takabe/thing.h"
 
 typedef struct RipplesWork
@@ -21,8 +22,6 @@ typedef struct RipplesWork
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void *NewRipple_800D7F30( MATRIX *, int );
-
-extern int GM_CurrentMap;
 
 STATIC void RipplesAct_800D85A0(RipplesWork *work)
 {

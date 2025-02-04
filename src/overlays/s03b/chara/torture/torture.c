@@ -74,15 +74,9 @@ typedef struct _TortureWork
 } TortureWork;
 
 extern int             GV_Clock;
-extern CONTROL        *GM_PlayerControl_800AB9F4;
-extern int             GM_AlertMode;
-extern SVECTOR         GM_PlayerPosition_800ABA10;
-extern OBJECT         *GM_PlayerBody_800ABA20;
-extern int             GM_PlayerStatus;
 extern GV_PAD          GV_PadData_800B05C0[4];
 extern UnkCameraStruct gUnkCameraStruct_800B77B8;
 extern GM_Camera       GM_Camera_800B77E8;
-extern int             GM_PadVibration2;
 
 extern char s03b_dword_800C329C[];
 extern char s03b_dword_800C32AC[];
@@ -1785,7 +1779,7 @@ void TortureAct_800C6600(TortureWork *work)
 
     DG_GetLightMatrix(&work->control.mov, work->light);
 
-    GM_PlayerPosition_800ABA10 = work->control.mov;
+    GM_PlayerPosition = work->control.mov;
 
     cam = &gUnkCameraStruct_800B77B8;
     cam->eye.vx = work->body.objs->objs[6].world.t[0];
@@ -1821,14 +1815,14 @@ void TortureDie_800C6774(TortureWork *work)
 
     GM_SnakeCurrentHealth = GM_SnakeMaxHealth;
 
-    if (GM_PlayerControl_800AB9F4 == &work->control)
+    if (GM_PlayerControl == &work->control)
     {
-        GM_PlayerControl_800AB9F4 = NULL;
+        GM_PlayerControl = NULL;
     }
 
-    if (GM_PlayerBody_800ABA20 == &work->body)
+    if (GM_PlayerBody == &work->body)
     {
-        GM_PlayerBody_800ABA20 = NULL;
+        GM_PlayerBody = NULL;
     }
 }
 
@@ -2045,8 +2039,8 @@ int TortureGetResources_800C6B3C(TortureWork *work, int name, int map)
     s03b_torture_800C45E4(work);
     Torture_800C695C(work);
 
-    GM_PlayerControl_800AB9F4 = control;
-    GM_PlayerBody_800ABA20 = body;
+    GM_PlayerControl = control;
+    GM_PlayerBody = body;
 
     gUnkCameraStruct_800B77B8.rotate2 = control->rot;
     gUnkCameraStruct_800B77B8.eye = control->mov;

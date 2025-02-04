@@ -7,6 +7,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "Game/game.h"
 
 typedef struct _BubblePWork
 {
@@ -25,7 +26,6 @@ typedef struct _BubblePWork
 } BubblePWork;
 
 extern int GV_Clock;
-extern int GM_CurrentMap;
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL4
 

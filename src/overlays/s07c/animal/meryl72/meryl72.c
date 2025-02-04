@@ -12,10 +12,6 @@
 
 #include "meryl72.h"
 
-extern int              GM_CurrentMap;
-extern int              GM_PlayerAddress_800AB9F0;
-extern int              GM_PlayerMap_800ABA0C;
-extern SVECTOR          GM_PlayerPosition_800ABA10;
 extern GM_Camera        GM_Camera_800B77E8;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 
@@ -38,14 +34,14 @@ void s07c_meryl72_800C6AF8( Meryl72Work *work )
 {
     int lo, hi;
 
-    lo = GM_PlayerAddress_800AB9F0 & 0xFF;
-    hi = ( GM_PlayerAddress_800AB9F0 >> 8 ) & 0xFF;
+    lo = GM_PlayerAddress & 0xFF;
+    hi = ( GM_PlayerAddress >> 8 ) & 0xFF;
 
     if ( lo == hi && lo != 0xFF )
     {
-        work->player_addr = GM_PlayerAddress_800AB9F0;
-        work->player_pos  = GM_PlayerPosition_800ABA10;
-        work->player_map  = GM_PlayerMap_800ABA0C;
+        work->player_addr = GM_PlayerAddress;
+        work->player_pos  = GM_PlayerPosition;
+        work->player_map  = GM_PlayerMap;
     }
 }
 

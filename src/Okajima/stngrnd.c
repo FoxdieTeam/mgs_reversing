@@ -14,7 +14,6 @@
 #include "strcode.h"
 
 extern SVECTOR stru_800BDF90;
-extern int GM_ClaymoreMap_800AB9DC;
 
 /*---------------------------------------------------------------------------*/
 
@@ -231,7 +230,7 @@ void *NewStanBlast(MATRIX *world)
     {
         GV_SetNamedActor(&work->actor, stngrnd_Act, stngrnd_Die, "stngrnd.c");
 
-        GM_ClaymoreMap_800AB9DC = GM_CurrentMap;
+        GM_ClaymoreMap = GM_CurrentMap;
 
         if ( stngrnd_GetResources(work, world) < 0 )
         {

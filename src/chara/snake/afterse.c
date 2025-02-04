@@ -13,17 +13,15 @@ typedef struct AfterseWork
 
 #define EXEC_LEVEL GV_ACTOR_AFTER
 
-extern SVECTOR GM_PlayerPosition_800ABA10;
-
 STATIC void AfterseAct_800603EC(AfterseWork *work)
 {
     if ( --work->time == 0 )
     {
         // Play the sound
-        GM_SeSetMode(&GM_PlayerPosition_800ABA10, work->sound, GM_SEMODE_BOMB);
+        GM_SeSetMode(&GM_PlayerPosition, work->sound, GM_SEMODE_BOMB);
 
         // Allow soliders/chavs/whatever to hear it
-        GM_SetNoise(100, 16, &GM_PlayerPosition_800ABA10);
+        GM_SetNoise(100, 16, &GM_PlayerPosition);
 
         // Die now we've done our stuff
         GV_DestroyActor(&work->actor);

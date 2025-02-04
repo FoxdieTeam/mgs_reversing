@@ -14,8 +14,6 @@ typedef struct _BedWork
     SVECTOR        pos;
 } BedWork;
 
-extern OBJECT *GM_PlayerBody_800ABA20;
-
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 #define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
 
@@ -67,9 +65,9 @@ void BedAct_800C6EA8(BedWork *work)
     {
         DG_MovePos(&work->pos);
 
-        if (GM_PlayerBody_800ABA20)
+        if (GM_PlayerBody)
         {
-            DG_PutObjs(GM_PlayerBody_800ABA20->objs);
+            DG_PutObjs(GM_PlayerBody->objs);
         }
     }
 }

@@ -1,6 +1,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "Game/game.h"
 
 typedef struct _Work
 {
@@ -19,7 +20,6 @@ typedef struct _Work
 
 void * NewRipple_800D7F30( MATRIX *, int );
 
-extern int    GM_CurrentMap;
 extern int    GV_Clock;
 
 RECT rect_800C3670 = { 50, 50, 100, 100 };

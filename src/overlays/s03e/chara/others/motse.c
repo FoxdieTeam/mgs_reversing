@@ -21,11 +21,6 @@ typedef struct MotseWork
 
 #define EXEC_LEVEL GV_ACTOR_AFTER
 
-extern int              GM_PlayerAction;
-extern CONTROL         *GM_PlayerControl_800AB9F4;
-extern PlayerStatusFlag GM_PlayerStatus;
-extern int              dword_800AB9D4;
-
 void Motse_800C57CC(MotseWork *work)
 {
     MotseElem *elem;
@@ -37,7 +32,7 @@ void Motse_800C57CC(MotseWork *work)
         {
             if (elem->param1 == dword_800AB9D4)
             {
-                GM_SeSetMode(&GM_PlayerControl_800AB9F4->mov, elem->param2, GM_SEMODE_BOMB);
+                GM_SeSetMode(&GM_PlayerControl->mov, elem->param2, GM_SEMODE_BOMB);
                 return;
             }
         }

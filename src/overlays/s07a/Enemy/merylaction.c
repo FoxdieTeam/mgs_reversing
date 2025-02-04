@@ -13,13 +13,6 @@ extern unsigned int  COM_GameStatus_800E0F3C;
 extern int           COM_EYE_LENGTH_800E0D8C;
 extern int           COM_VibTime_800E0F68;
 
-extern OBJECT *GM_PlayerBody_800ABA20;
-extern SVECTOR GM_PlayerPosition_800ABA10;
-extern CONTROL *GM_PlayerControl_800AB9F4;
-extern int      GM_PlayerAction;
-extern int      GM_PlayerMap_800ABA0C;
-extern unsigned int GM_PlayerStatus;
-
 extern SVECTOR s07a_dword_800C3694;
 
 extern int CheckPad_800D6DE4( WatcherWork *work );
@@ -414,7 +407,7 @@ void s07a_meryl_unk_800D76CC( WatcherWork *work, int time )
 
     if ( time == 78 ) {
         extern  void    *NewBoxKeri_800D2600( MATRIX    *, SVECTOR  * ) ;
-        NewBoxKeri_800D2600( &( GM_PlayerBody_800ABA20->objs[ 0 ].world ), &( work->control.mov ) ) ;
+        NewBoxKeri_800D2600( &( GM_PlayerBody->objs[ 0 ].world ), &( work->control.mov ) ) ;
     }
 
     if ( time == 100 ) {
@@ -571,7 +564,7 @@ void ActGrenade_800D7C98( WatcherWork* work, int time )
         extern  void    *NewGrenadeEnemy_800D2138( CONTROL *, OBJECT *, int, unsigned int *, SVECTOR *, int ) ;
 
         SetAction( work, GRENADE, ACTINTERP ) ;
-        work->subweapon = NewGrenadeEnemy_800D2138( &(work->control), &(work->body), 9, &(work->trigger), &GM_PlayerPosition_800ABA10, ENEMY_SIDE ) ;
+        work->subweapon = NewGrenadeEnemy_800D2138( &(work->control), &(work->body), 9, &(work->trigger), &GM_PlayerPosition, ENEMY_SIDE ) ;
     }
 
     if ( time > ACTINTERP )
@@ -727,8 +720,8 @@ void s07a_meryl_unk_800D8210( WatcherWork* work )
 {
     SVECTOR  svec;
 
-    work->control.turn = GM_PlayerControl_800AB9F4->rot;
-    DG_SetPos2(&GM_PlayerPosition_800ABA10, &GM_PlayerControl_800AB9F4->rot);
+    work->control.turn = GM_PlayerControl->rot;
+    DG_SetPos2(&GM_PlayerPosition, &GM_PlayerControl->rot);
     DG_PutVector(&s07a_dword_800C3694, &svec, 1);
     GV_SubVec3(&svec, &work->control.mov, &work->control.step);
 }
@@ -792,7 +785,7 @@ void s07a_meryl_unk_800D8290( WatcherWork *work, int time )
         {
             COM_VibTime_800E0F68 = 4;
         }
-        work->control.turn = GM_PlayerControl_800AB9F4->rot;
+        work->control.turn = GM_PlayerControl->rot;
         s07a_meryl_unk_800D8210( work );
         work->field_B5C++;
         break;
@@ -802,7 +795,7 @@ void s07a_meryl_unk_800D8290( WatcherWork *work, int time )
             target->side = PLAYER_SIDE;
             SetAction( work, ACTION28, ACTINTERP );
         }
-        work->control.turn = GM_PlayerControl_800AB9F4->rot;
+        work->control.turn = GM_PlayerControl->rot;
         s07a_meryl_unk_800D8210( work );
         break;
     case 0x27:
@@ -1399,7 +1392,7 @@ void s07a_meryl_unk_800D952C( WatcherWork *work )
 
     if ( s07a_meryl_unk_800D66F4( &ctrl->mov ) )
     {
-        if ( s07a_meryl_unk_800D66F4( &GM_PlayerPosition_800ABA10 ) || s07a_meryl_unk_800D66B0( &ctrl->mov ) )
+        if ( s07a_meryl_unk_800D66F4( &GM_PlayerPosition ) || s07a_meryl_unk_800D66B0( &ctrl->mov ) )
         {
             work->visible = 0;
             sub_8002DD14( work->target, 0 );
@@ -1509,7 +1502,7 @@ void ENE_PutItem_800D9810( WatcherWork* work )
 void ENE_PutMark_800D998C( WatcherWork *work, int mark )
 {
     MATRIX *mat;
-    if ( !( work->control.map->index & GM_PlayerMap_800ABA0C ) )
+    if ( !( work->control.map->index & GM_PlayerMap ) )
     {
         return;
     }
@@ -1544,7 +1537,7 @@ void ENE_PutSound_800D9A6C( WatcherWork *work, int mark )
     int a3;
     int a2;
 
-    if ( s07a_meryl_unk_800D9A28( &work->control.mov ) && s07a_meryl_unk_800D9A28( &GM_PlayerPosition_800ABA10 ) )
+    if ( s07a_meryl_unk_800D9A28( &work->control.mov ) && s07a_meryl_unk_800D9A28( &GM_PlayerPosition ) )
     {
         return;
     }
@@ -1584,7 +1577,7 @@ void ENE_PutBreath_800D9B14( WatcherWork *work, int arg1 )
         return;
     }
 
-    if ( !( work->control.map->index & GM_PlayerMap_800ABA0C ) )
+    if ( !( work->control.map->index & GM_PlayerMap ) )
     {
         return;
     }
@@ -1629,7 +1622,7 @@ void ENE_PutLSight_800D9C5C( WatcherWork* work )
 {
     if ( work->vision.field_B92 == 2 )
     {
-        NewLSight_800D1D2C( &GM_PlayerPosition_800ABA10, &work->control.mov, 0x00008F );
+        NewLSight_800D1D2C( &GM_PlayerPosition, &work->control.mov, 0x00008F );
     }
 }
 

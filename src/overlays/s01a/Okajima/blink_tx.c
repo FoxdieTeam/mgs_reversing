@@ -1,9 +1,10 @@
 #include "blink_tx.h"
 
 #include "common.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "libgv/libgv.h"
+#include "Game/game.h"
 
 typedef struct _BlinkTxWork
 {
@@ -12,8 +13,6 @@ typedef struct _BlinkTxWork
     SVECTOR  pos[8];
     char     pad[0x4];
 } BlinkTxWork;
-
-extern int GM_CurrentMap;
 
 RECT blink_tx_rect = {1000, 1000, 2000, 2000};
 

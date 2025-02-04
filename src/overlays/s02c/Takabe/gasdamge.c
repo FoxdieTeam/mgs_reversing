@@ -2,6 +2,7 @@
 
 #include "common.h"
 #include "libgv/libgv.h"
+#include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "Takabe/thing.h"
 
@@ -21,8 +22,6 @@ typedef struct GasDamgeWork {
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 int SECTION("overlay.bss") s02c_dword_800E3F40;
-
-extern short GM_O2;
 
 void GasDamageAct_800E1348(GasDamgeWork *work)
 {

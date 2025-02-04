@@ -22,13 +22,8 @@ extern  GM_Camera       GM_Camera_800B77E8;
 
 
 extern  HZD_BIND      gBindsArray_800b58e0[128];
-extern  unsigned int    GM_DisableWeapon_800AB9E4;
-extern  int             GM_DisableItem_800ABA28;
-extern  CONTROL        *GM_PlayerControl_800AB9F4;
-extern  int             GM_Photocode_800ABA04;
 extern  int             dword_8009F46C;
 extern  SVECTOR         svector_8009F478;
-extern  SVECTOR         GM_PhotoViewPos;
 
 STATIC char SECTION(".sbss") dword_800ABA58[8];
 STATIC int  SECTION(".sbss") gBinds_800ABA60;
@@ -540,8 +535,6 @@ STATIC int GM_Command_chara(int argc, char **argv)
     return ret;
 }
 
-extern int gTotalFrameTime_800AB9E8;
-
 STATIC int GM_Command_start(unsigned char *top)
 {
     if (GCL_GetOption('s'))
@@ -564,7 +557,7 @@ STATIC int GM_Command_start(unsigned char *top)
     {
         GCL_InitVar();
         MENU_InitRadioMemory();
-        gTotalFrameTime_800AB9E8 = 0;
+        gTotalFrameTime = 0;
     }
 
     if (GCL_GetOption('d')) // demo (1 to use demo.gcx instead of scenerio.gcx)
@@ -576,7 +569,7 @@ STATIC int GM_Command_start(unsigned char *top)
     {
         GCL_InitClearVar();
         MENU_InitRadioMemory();
-        gTotalFrameTime_800AB9E8 = 0;
+        gTotalFrameTime = 0;
     }
     return 0;
 }
@@ -993,12 +986,12 @@ STATIC int GM_Command_menu(unsigned char *top)
 
     if (GCL_GetOption('w')) // weapon
     {
-        GM_DisableWeapon_800AB9E4 = GM_Command_menu_helper();
+        GM_DisableWeapon = GM_Command_menu_helper();
     }
 
     if (GCL_GetOption('i')) // item
     {
-        GM_DisableItem_800ABA28 = GM_Command_menu_helper();
+        GM_DisableItem = GM_Command_menu_helper();
     }
     return 0;
 }
@@ -1028,7 +1021,7 @@ STATIC int GM_Command_func(unsigned char *top)
     }
     if (GCL_GetOption('s'))
     {
-        control = GM_PlayerControl_800AB9F4;
+        control = GM_PlayerControl;
         GM_SnakePosX = control->mov.vx;
         GM_SnakePosY = control->mov.vy;
         GM_SnakePosZ = control->mov.vz;
@@ -1046,7 +1039,7 @@ STATIC int GM_Command_func(unsigned char *top)
         {
             param = 0;
         }
-        GM_Photocode_800ABA04 = param;
+        GM_Photocode = param;
     }
     if (GCL_GetOption('m')) // map
     {

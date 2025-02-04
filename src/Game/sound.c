@@ -5,7 +5,6 @@
 #include "libgv/libgv.h"
 #include "Game/camera.h"
 
-extern SVECTOR          GM_PlayerPosition_800ABA10;
 extern GM_Camera        GM_Camera_800B77E8;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 
@@ -37,7 +36,7 @@ STATIC int sub_800321F8(SVECTOR *pos, int param_2, DVECTOR *out)
     int     vy;
     SVECTOR vec;
 
-    diffvec = GV_DiffVec3(&GM_PlayerPosition_800ABA10, pos) - param_2;
+    diffvec = GV_DiffVec3(&GM_PlayerPosition, pos) - param_2;
     if (diffvec < 0)
     {
         diffvec = 0;
@@ -61,7 +60,7 @@ STATIC int sub_800321F8(SVECTOR *pos, int param_2, DVECTOR *out)
         }
     }
 
-    GV_SubVec3(pos, &GM_PlayerPosition_800ABA10, &vec);
+    GV_SubVec3(pos, &GM_PlayerPosition, &vec);
     vecdir = GV_VecDir2(&vec) + 1024;
 
     out->vx = sub_800321AC(vecdir - gUnkCameraStruct2_800B7868.rotate.vy, diffvec * 31 / 7300);
@@ -130,7 +129,7 @@ STATIC int sub_80032420(SVECTOR *pos, int param_2, DVECTOR *out)
     int     vy;
     SVECTOR vec;
 
-    diffvec = GV_DiffVec3(&GM_PlayerPosition_800ABA10, pos) - param_2;
+    diffvec = GV_DiffVec3(&GM_PlayerPosition, pos) - param_2;
     if (diffvec < 0)
     {
         diffvec = 0;
@@ -154,7 +153,7 @@ STATIC int sub_80032420(SVECTOR *pos, int param_2, DVECTOR *out)
         }
     }
 
-    GV_SubVec3(pos, &GM_PlayerPosition_800ABA10, &vec);
+    GV_SubVec3(pos, &GM_PlayerPosition, &vec);
     vecdir = GV_VecDir2(&vec) + 1024;
 
     out->vx = sub_800321AC(vecdir - gUnkCameraStruct2_800B7868.rotate.vy, diffvec * 31 / 7700);

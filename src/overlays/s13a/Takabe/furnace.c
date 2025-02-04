@@ -18,7 +18,6 @@ typedef struct FurnaceWork
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-extern CONTROL *GM_PlayerControl_800AB9F4;
 extern CONTROL *GM_WhereList_800B56D0[96];
 extern int      gControlCount_800AB9B4;
 extern int      tenage_ctrls_count_800BDD70;
@@ -79,10 +78,10 @@ void FurnaceAct_800E0974(FurnaceWork *work)
     int       inbounds;
     int       i;
 
-    inbounds = FurnaceBoundInCheck_800E08AC(work->bound, &GM_PlayerControl_800AB9F4->mov);
+    inbounds = FurnaceBoundInCheck_800E08AC(work->bound, &GM_PlayerControl->mov);
     if (GM_GameOverTimer == 0 && inbounds)
     {
-        svec = GM_PlayerControl_800AB9F4->mov;
+        svec = GM_PlayerControl->mov;
         svec.vy = work->bound[1].vy;
 
         NewMeltDie_800E0F5C(&svec, 60);

@@ -3,6 +3,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
+#include "Game/game.h"
 #include "Game/camera.h"
 #include "Takabe/thing.h"
 #include "strcode.h"
@@ -36,7 +37,6 @@ TGMCameraFunc SECTION("overlay.bss") s12c_dword_800DAA94;
 
 extern GM_Camera       GM_Camera_800B77E8;
 extern UnkCameraStruct gUnkCameraStruct_800B77B8;
-extern CONTROL        *GM_PlayerControl_800AB9F4;
 extern GV_PAD          GV_PadData_800B05C0[4];
 extern int             dword_8009F470;
 extern unsigned short  GV_DemoPadStatus;
@@ -118,7 +118,7 @@ void s12c_findtrap_800D72E8(FindTrapWork *work)
                     gUnkCameraStruct_800B77B8.rotate2.vy &= 0xFFF;
                     field_40 = work->field_40;
                     s12c_dword_800DAA60 = gUnkCameraStruct_800B77B8.rotate2;
-                    s12c_dword_800DAA68 = GM_PlayerControl_800AB9F4->rot;
+                    s12c_dword_800DAA68 = GM_PlayerControl->rot;
                     s12c_dword_800DAA70[0] = GV_PadData_800B05C0[0];
                     s12c_dword_800DAA70[1] = GV_PadData_800B05C0[1];
                     s12c_dword_800DAA58 = field_40;
@@ -207,7 +207,7 @@ void FindTrap_callback1_800D7908()
         GM_Camera_800B77E8.rotate.vx &= 0xFFF;
         GV_NearTimePV(&GM_Camera_800B77E8.rotate.vx, &gUnkCameraStruct_800B77B8.rotate2.vx, temp_a3, 3);
     }
-    GM_PlayerControl_800AB9F4->rot = s12c_dword_800DAA68;
+    GM_PlayerControl->rot = s12c_dword_800DAA68;
     GM_Camera_800B77E8.field_28 = 1;
     if (--s12c_dword_800DAA58 < 0)
     {

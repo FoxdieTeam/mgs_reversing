@@ -1,4 +1,5 @@
 #include "libgv/libgv.h"
+#include "Game/game.h"
 #include "Bullet/blast.h"
 
 typedef struct BlastLnWork
@@ -15,8 +16,6 @@ typedef struct BlastLnWork
 } BlastLnWork;
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL4
-
-extern int GM_CurrentMap;
 
 void s11g_blst_ln_800CD7C8(BlastLnWork *work)
 {

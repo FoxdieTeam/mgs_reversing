@@ -12,10 +12,6 @@ typedef struct _ScnMarkWork
     char   pad2[0x4];
 } ScnMarkWork;
 
-extern int     GM_CurrentMap;
-extern int     GM_PlayerMap_800ABA0C;
-extern OBJECT *GM_PlayerBody_800ABA20;
-
 void * AN_Unknown_800CA1EC(MATRIX *pos, int mark);
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL4
@@ -52,7 +48,7 @@ void ScnMarkAct_800C9464(ScnMarkWork *work)
     unsigned short hashes[7];
     int            found;
 
-    GM_CurrentMap = GM_PlayerMap_800ABA0C;
+    GM_CurrentMap = GM_PlayerMap;
 
     hashes[0] = GV_StrCode("B_MARK");
     hashes[1] = GV_StrCode("Q_MARK");
@@ -65,7 +61,7 @@ void ScnMarkAct_800C9464(ScnMarkWork *work)
 
     if (found != -1)
     {
-        AN_Unknown_800CA1EC(&GM_PlayerBody_800ABA20->objs->objs[6].world, found % 7);
+        AN_Unknown_800CA1EC(&GM_PlayerBody->objs->objs[6].world, found % 7);
     }
 }
 

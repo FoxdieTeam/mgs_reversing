@@ -25,10 +25,6 @@ const char sBoxkeriDanbowl[] = "段ボール";
 const char aCbBox[] = "cb_box";
 const char aBoxkeriC[] = "boxkeri.c";
 
-extern CONTROL   *GM_PlayerControl_800AB9F4;
-extern SVECTOR    GM_PlayerPosition_800ABA10;
-extern int        GM_PlayerMap_800ABA0C;
-
 void BoxKeriAct_800D219C(BoxKeriWork *work)
 {
     int field_74;
@@ -100,13 +96,13 @@ void BoxKeriAct_800D219C(BoxKeriWork *work)
         break;
     }
 
-    GM_CurrentMap = GM_PlayerMap_800ABA0C;
+    GM_CurrentMap = GM_PlayerMap;
 
     DG_SetPos(&work->field_54);
     DG_MovePos(&work->field_48);
     DG_RotatePos(&work->field_44);
     DG_PutObjs(work->field_20_obj.objs);
-    DG_GetLightMatrix2(&GM_PlayerPosition_800ABA10, work->field_7C_mat);
+    DG_GetLightMatrix2(&GM_PlayerPosition, work->field_7C_mat);
 
     work->field_74++;
 }
@@ -141,7 +137,7 @@ int BoxKeriGetResources_800D2474(BoxKeriWork *work, MATRIX *arg1, SVECTOR *arg2)
     int             dir;
 
     obj = &work->field_20_obj;
-    GM_CurrentMap = GM_PlayerMap_800ABA0C;
+    GM_CurrentMap = GM_PlayerMap;
     GM_InitObjectNoRots(obj, GV_StrCode(aCbBox), 0x6D, 0);
     GM_ConfigObjectLight((OBJECT *)obj, work->field_7C_mat);
 
@@ -153,8 +149,8 @@ int BoxKeriGetResources_800D2474(BoxKeriWork *work, MATRIX *arg1, SVECTOR *arg2)
     work->field_78 = 0;
     work->field_7A = 0;
 
-    dir = GV_DiffDirU(GM_PlayerControl_800AB9F4->rot.vy,
-                               s00a_boxkeri_800D2440(&GM_PlayerPosition_800ABA10, arg2));
+    dir = GV_DiffDirU(GM_PlayerControl->rot.vy,
+                      s00a_boxkeri_800D2440(&GM_PlayerPosition, arg2));
     if (dir < 512 || dir >= 3607)
     {
         work->field_76 = 0;

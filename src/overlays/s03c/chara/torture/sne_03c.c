@@ -37,9 +37,6 @@ typedef struct Snake03c2Work
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-extern PlayerStatusFlag GM_PlayerStatus;
-extern CONTROL         *GM_PlayerControl_800AB9F4;
-extern OBJECT          *GM_PlayerBody_800ABA20;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 
 void s03b_boxall_800C969C(int, int);
@@ -252,7 +249,7 @@ int Snake03c2_800CDBC8()
     DG_OBJS *playerBodyObjs;
     int      count;
 
-    playerBodyObjs = GM_PlayerBody_800ABA20->objs;
+    playerBodyObjs = GM_PlayerBody->objs;
     count = playerBodyObjs->n_models;
     obj = playerBodyObjs->objs;
     for (; count > 0; count--, obj++)
@@ -329,7 +326,7 @@ void Snake03c2Act_800CDCE8(Snake03c2Work *work)
         if (!(GM_PlayerStatus & PLAYER_ACT_ONLY))
         {
             GM_GameStatus &= ~STATE_PADRELEASE;
-            GM_PlayerControl_800AB9F4->turn.vy = 1024;
+            GM_PlayerControl->turn.vy = 1024;
             s03b_boxall_800C96E8();
             GCL_ExecProc(work->procs[3], NULL);
             GV_DestroyActor(&work->actor);

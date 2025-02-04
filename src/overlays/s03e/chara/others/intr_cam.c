@@ -20,7 +20,6 @@ typedef struct IntrCamWork
 
 const char s03e_dword_800CBFD0[] = "intr_cam.c";
 
-extern PlayerStatusFlag GM_PlayerStatus;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 
 void IntrCam_800C5548(IntrCamWork *work)

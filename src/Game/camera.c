@@ -32,10 +32,7 @@ extern GM_Camera        GM_Camera_800B77E8;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B76F0;
-extern int              GM_AlertMode;
 extern CAMERA           GM_CameraList_800B7718[8];
-extern int              GM_NoisePower;
-extern int              GM_NoiseLength;
 
 static const unsigned int dword_80010C60[] =
 {

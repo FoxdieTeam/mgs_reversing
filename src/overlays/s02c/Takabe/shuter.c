@@ -43,9 +43,6 @@ typedef struct _ShuterWork
 
 unsigned short shuter_msgs_800C3738[] = {0x418B, 0x3A02};
 
-extern int GM_CurrentMap;
-extern int GM_AlertMode;
-
 DG_OBJS * s00a_unknown3_800DC7BC(int model, LIT *lit);
 void      Takabe_FreeObjs_800DC820(DG_OBJS *objs);
 

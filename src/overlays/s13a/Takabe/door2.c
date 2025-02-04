@@ -25,8 +25,6 @@ typedef struct _Door2Work
     int      f320;
 } Door2Work;
 
-extern int GM_CurrentMap;
-
 unsigned short door2_800C37B4[2] = {0x418B, 0x3A02};
 SVECTOR        door2_800C37B8[2] = {{500, 2500, 0, 0}, {-500, 0, 0, 0}};
 

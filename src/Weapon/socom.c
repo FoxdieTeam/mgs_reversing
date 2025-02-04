@@ -18,12 +18,9 @@
 #include "SD/g_sound.h"
 #include "strcode.h"
 
-extern short GM_Magazine_800AB9EC;
-extern short GM_MagazineMax_800ABA2C;
 extern GM_Camera GM_Camera_800B77E8;
 
 extern int     DG_CurrentGroupID;
-extern short   GM_WeaponChanged_800AB9D8;
 
 /*---------------------------------------------------------------------------*/
 
@@ -237,7 +234,7 @@ STATIC void SocomAct( SocomWork *work )
 
     if ( GM_SilencerFlag > 0 )
     {
-        GM_WeaponChanged_800AB9D8 = 1;
+        GM_WeaponChanged = 1;
         return;
     }
 
@@ -332,7 +329,7 @@ STATIC void SocomAct( SocomWork *work )
         socom_act_helper_800653B8( work );
     }
 
-    mag_size = GM_Magazine_800AB9EC;
+    mag_size = GM_Magazine;
 
     if ( ( mag_size == 0 ) && ( flags & 2 ) )
     {
@@ -361,8 +358,8 @@ STATIC void SocomAct( SocomWork *work )
             NewAnime_8005D988( world, &MStack48, 1 );
         }
 
-        GM_Magazine_800AB9EC = --mag_size;
-        GM_MagazineMax_800ABA2C = MAGAZINE_SIZE;
+        GM_Magazine = --mag_size;
+        GM_MagazineMax = MAGAZINE_SIZE;
         --GM_Weapons[ WEAPON_SOCOM ];
     }
 }
@@ -473,7 +470,7 @@ void *NewSOCOM( CONTROL *control, OBJECT *parent, int num_parent,  unsigned int 
     }
 
     mag_size = MAGAZINE_SIZE;
-    if ( GM_Magazine_800AB9EC )
+    if ( GM_Magazine )
     {
         mag_size++;
     }
@@ -483,8 +480,8 @@ void *NewSOCOM( CONTROL *control, OBJECT *parent, int num_parent,  unsigned int 
         ammo = mag_size;
     }
 
-    GM_MagazineMax_800ABA2C = mag_size;
-    GM_Magazine_800AB9EC = ammo;
+    GM_MagazineMax = mag_size;
+    GM_Magazine = ammo;
 
     return (void *)work;
 }

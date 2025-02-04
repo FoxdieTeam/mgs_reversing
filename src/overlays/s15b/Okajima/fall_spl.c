@@ -1,6 +1,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
+#include "Game/game.h"
 
 typedef struct FallSplWork
 {
@@ -14,8 +15,6 @@ typedef struct FallSplWork
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void *NewSplash3_800C83D0(int dir, SVECTOR *pos);
-
-extern int GM_CurrentMap;
 
 int s15b_fall_spl_800C7B0C(char *opt, SVECTOR *out)
 {

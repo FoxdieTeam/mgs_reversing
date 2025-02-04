@@ -1,9 +1,9 @@
 #include "equip.h"
 
 #include "common.h"
+#include "Game/game.h"
 #include "Game/linkvarbuf.h"
 
-extern short GM_Magazine_800AB9EC;
 extern short snake_weapon_idx_800BDCBA;
 extern short snake_weapon_max_ammo_800BDCBC;
 extern short snake_mag_size_800BDCB8;
@@ -60,10 +60,10 @@ STATIC void BandanaAct(BandanaWork *work)
             GM_Weapons[snake_weapon_idx_800BDCBA] = snake_weapon_max_ammo_800BDCBC;
         }
 
-        ammo = GM_Magazine_800AB9EC;
+        ammo = GM_Magazine;
         if (ammo < snake_mag_size_800BDCB8)
         {
-            GM_Magazine_800AB9EC = snake_mag_size_800BDCB8;
+            GM_Magazine = snake_mag_size_800BDCB8;
         }
     }
 }

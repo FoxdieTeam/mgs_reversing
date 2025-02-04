@@ -10,11 +10,9 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libhzd/libhzd.h"
+#include "Game/game.h"
 
 extern ENEMY_COMMAND EnemyCommand_800E0D98;
-extern SVECTOR       GM_PlayerPosition_800ABA10;
-extern int           GM_AlertLevel;
-extern int           GM_PlayerStatus;
 extern unsigned int  COM_GameStatus_800E0F3C;
 extern SVECTOR       COM_PlayerPosition_800E0F30;
 extern SVECTOR       COM_PlayerPositionOne_800E0D48[8];
@@ -768,7 +766,7 @@ int s00a_command_800CB838( WatcherWork *work )
             addr3 = HZD_8005CB48( hzd, addr2, addr, &ctrl->mov );
             zone = &hzd->header->zones[ addr3 ];
 
-            if ( GM_PlayerPosition_800ABA10.vx & 1 )
+            if ( GM_PlayerPosition.vx & 1 )
             {
                 work->field_C14.vx = zone->x + 230;
             }
@@ -777,7 +775,7 @@ int s00a_command_800CB838( WatcherWork *work )
                  work->field_C14.vx = zone->x - 230;
             }
 
-            if ( GM_PlayerPosition_800ABA10.vz & 1 )
+            if ( GM_PlayerPosition.vz & 1 )
             {
                 work->field_C14.vz = zone->z + 230;
             }
