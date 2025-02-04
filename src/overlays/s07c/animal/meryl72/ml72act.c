@@ -3,8 +3,6 @@
 #include "mts/mts.h"
 #include "Game/game.h"
 
-extern int GV_Time;
-
 void ML72_ExecPutChar_800CB600(Meryl72Work *);
 void s07c_meryl72_unk1_800CABA0(Meryl72Work *);
 

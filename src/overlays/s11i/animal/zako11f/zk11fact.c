@@ -1,7 +1,5 @@
 #include "../../../s00a/Enemy/enemy.h"
 
-extern int GV_Time;
-
 extern CONTROL *GM_WhereList_800B56D0[96];
 
 extern int             ZAKO11F_EYE_LENGTH_800C3694;

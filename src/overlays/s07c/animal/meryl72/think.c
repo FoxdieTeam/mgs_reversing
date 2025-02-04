@@ -2,8 +2,6 @@
 
 #include "meryl72.h"
 
-extern int GV_Time;
-
 #define TH1_PHASE0 0
 #define TH1_PHASE1 1
 #define TH1_PHASE2 2
