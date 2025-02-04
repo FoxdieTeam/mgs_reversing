@@ -87,7 +87,7 @@ void menu_jimaku_act( MenuWork *work, unsigned int *pOt )
                 }
 
                 GV_PauseLevel &= ~1;
-                DG_ResetObjectQueue();
+                DG_RestartMainChanlSystem();
                 gUnkJimakuStruct_800BDA70.field_2_timer = 1;
 
                 if ( gUnkJimakuStruct_800BDA70.field_3C != -1 )

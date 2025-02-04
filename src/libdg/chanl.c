@@ -9,13 +9,13 @@
 /*** data ***/
 
 STATIC DG_CHANLFUNC DG_ChanlUnits[] = {
-    DG_ScreenChanl,     // 0: DG_CHANL_SCREEN
-    DG_BoundChanl,      // 1: DG_CHANL_BOUND
-    DG_TransChanl,      // 2: DG_CHANL_TRANS
-    DG_ShadeChanl,      // 3: DG_CHANL_SHADE
-    DG_PrimChanl,       // 4: DG_CHANL_PRIM
-    DG_DivideChanl,     // 5: DG_CHANL_DIVIDE
-    DG_SortChanl        // 6: DG_CHANL_SORT
+    DG_ScreenChanl,     // 0: DG_SCREEN_CHANL
+    DG_BoundChanl,      // 1: DG_BOUND_CHANL
+    DG_TransChanl,      // 2: DG_TRANS_CHANL
+    DG_ShadeChanl,      // 3: DG_SHADE_CHANL
+    DG_PrimChanl,       // 4: DG_PRIM_CHANL
+    DG_DivideChanl,     // 5: DG_DIVIDE_CHANEL
+    DG_SortChanl        // 6: DG_SORT_CHANL
 };
 
 /*** $gp ***/
@@ -416,7 +416,7 @@ void DG_FreeObjectQueue( void )
     }
 }
 
-void DG_ResetObjectQueue( void )
+void DG_RestartMainChanlSystem( void )
 {
     DG_ObjectQueueVoided = FALSE;
     DG_UnDrawFrameCount = 1;

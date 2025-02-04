@@ -911,7 +911,7 @@ STATIC void JpegcamTakePhoto(JpegcamWork *work)
         GM_GameStatus &= ~STATE_TAKING_PHOTO;
         GV_ResetPacketMemory();
         GV_PauseLevel &= ~1;
-        DG_ResetObjectQueue();
+        DG_RestartMainChanlSystem();
         work->state = 0;
         work->field_90_pSight = NewSight_80071CDC(SGT_CAMERA_2, SGT_CAMERA, &GM_CurrentItemId, 12, 0);
     }

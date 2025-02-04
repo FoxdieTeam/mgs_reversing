@@ -430,11 +430,11 @@ void Ending2_800C65C4(Ending2Work *work)
         moviework_800C326C.field_20 = 1;
         mts_wait_vbl(1);
     }
-    DecDCToutCallback(0);
+    DecDCToutCallback(NULL);
     StUnSetRing();
     CdControlB(CdlPause, NULL, NULL);
     GV_ResetPacketMemory();
-    DG_ResetObjectQueue();
+    DG_RestartMainChanlSystem();
     moviework_800C326C.file = NULL;
     DG_UnDrawFrameCount = 0x7FFF0000;
 }

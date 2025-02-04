@@ -383,13 +383,14 @@ enum DG_PRIM_TYPE
 
 enum DG_CHANL
 {
-    DG_CHANL_SCREEN,
-    DG_CHANL_BOUND,
-    DG_CHANL_TRANS,
-    DG_CHANL_SHADE,
-    DG_CHANL_PRIM,
-    DG_CHANL_DIVIDE,
-    DG_CHANL_SORT,
+    DG_SCREEN_CHANL,
+    DG_BOUND_CHANL,
+    DG_TRANS_CHANL,
+    DG_SHADE_CHANL,
+    DG_PRIM_CHANL,
+    DG_DIVIDE_CHANEL,
+    DG_SORT_CHANL,
+    DG_CHANL_UNIT_MAX
 };
 
 //#define WEAPON_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE |\
@@ -493,7 +494,7 @@ int  DG_QueuePrim( DG_PRIM *prim );
 void DG_DequeuePrim( DG_PRIM *prim );
 void DG_InitDrawEnv( DRAWENV *pDrawEnv, int clipX1, int clipY1, int clipX2, int clipY2 );
 void DG_FreeObjectQueue( void );
-void DG_ResetObjectQueue( void );
+void DG_RestartMainChanlSystem( void );
 void DG_SetBackgroundRGB( int r, int g, int b );
 void DG_SetRGB( int r, int b, int g );
 void DG_BackGroundBlack( void );
