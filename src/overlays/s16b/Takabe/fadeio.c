@@ -26,10 +26,6 @@ typedef struct FadeIoWork
     int          field_38;
 } FadeIoWork;
 
-extern int GV_Clock;
-extern int GV_PassageTime;
-extern int GV_PauseLevel;
-
 unsigned short fadeio_msgs[] = {HASH_KILL, 0x71F1};
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL3

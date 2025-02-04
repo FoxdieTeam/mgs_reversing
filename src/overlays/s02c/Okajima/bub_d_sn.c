@@ -30,8 +30,6 @@ typedef struct BubDSnWork
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-extern int     GV_Clock;
-
 // Duplicate of Splash2ShadePacks_800DAF0C
 void BubbleDisplayScene_800D87A4(POLY_FT4 *packs, int n_packs, int shade, DG_TEX *tex)
 {

@@ -76,7 +76,6 @@ extern void              *dword_8009EEB0[];
 extern void              *dword_8009EEB8[];
 extern short              HzdHeights_8009EEC4[];
 extern int                DG_CurrentGroupID;
-extern int                GV_Clock;
 extern char               dword_8009EF1C[];
 extern char               dword_8009EF20[];
 extern TSnakeEquipFuncion gSnakeEquips_8009EF8C[];

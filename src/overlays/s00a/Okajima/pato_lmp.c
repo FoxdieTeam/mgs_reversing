@@ -60,7 +60,6 @@ const char s00a_aSeon_800E0AFC[] = "se_on";
 const char s00a_aSeoff_800E0B04[] = "se_off";
 
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
-extern int              GV_Clock;
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL4
 
@@ -137,8 +136,6 @@ void s00a_pato_lmp_800D5F38(POLY_FT4 *polys, int count, DG_TEX *tex)
         polys++;
     }
 }
-
-extern int GV_PauseLevel;
 
 void s00a_pato_lmp_800D5FC4( PatoLmpWork* work )
 {

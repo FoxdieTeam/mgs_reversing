@@ -32,6 +32,11 @@ extern int GV_Time;
 extern const char *GV_DebugMes;
 
 /* gvd.c */
+#ifndef __GVD_SBSS__
+extern int GV_Clock;
+extern int GV_PassageTime;
+#endif
+
 void GV_StartDaemon(void);
 void GV_ResetSystem(void);
 
@@ -93,6 +98,10 @@ enum {
 };
 
 /* actor.c */
+#ifndef __GV_ACTOR_SBSS__
+extern int GV_PauseLevel;
+#endif
+
 void GV_InitActorSystem(void);
 void GV_ConfigActorSystem(int index, short pause, short kill);
 void GV_DumpActorSystem(void);
@@ -290,6 +299,10 @@ enum
 };
 
 /* pad.c */
+#ifndef __GV_PAD_SBSS__
+extern u_short  GV_DemoPadStatus[2];
+extern u_long   GV_DemoPadAnalog;
+#endif
 extern int GV_PadMask;
 
 void GV_InitPadSystem(void);

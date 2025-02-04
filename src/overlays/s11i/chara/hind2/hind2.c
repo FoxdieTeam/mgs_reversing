@@ -39,8 +39,6 @@ typedef struct _Hind2Work
 
 SVECTOR s11i_800C32C0 = { 0, -2728, 5587, 0 };
 
-extern int     GV_Clock;
-
 void *NewHdBul2( SVECTOR *arg0, SVECTOR *arg1, int enable );
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5

@@ -21,8 +21,6 @@ typedef struct KatanaWork
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL4
 
-extern int    GV_Clock;
-
 void s08c_katana_800C5040(KatanaWork *work)
 {
     int old_index, new_index;

@@ -102,7 +102,6 @@ signed char text_outline_direction_offsets_800C3290[] = {
 
 void *NewMetLogo_800C5A90( int * );
 
-extern int    GV_Clock;
 extern int    FS_DiskNum_800ACBF0;
 extern GV_PAD GV_PadData_800B05C0[4];
 

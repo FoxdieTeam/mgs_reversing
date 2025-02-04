@@ -41,8 +41,6 @@ int    SECTION("overlay.bss") d01a_dword_800D1460;
 int    SECTION("overlay.bss") d01a_dword_800D1464;
 DR_STP SECTION("overlay.bss") d01a_dword_800D1468[2];
 
-extern int GV_Clock;
-
 void d01a_blur_800CCB28(void)
 {
     unsigned int *ot;

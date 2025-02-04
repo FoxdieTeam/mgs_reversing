@@ -27,8 +27,6 @@ typedef struct _SubRoomWork
     GV_ACT  *txtscn;
 } SubRoomWork;
 
-extern int     GV_Clock;
-
 void *NewOpTxtScn_800CD29C(void);
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL4

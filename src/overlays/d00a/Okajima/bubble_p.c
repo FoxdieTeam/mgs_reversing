@@ -25,8 +25,6 @@ typedef struct _BubblePWork
     int      f80;
 } BubblePWork;
 
-extern int GV_Clock;
-
 #define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 void BubblePShadePack_800D96AC(POLY_FT4 *packs, int shade, int index)

@@ -35,8 +35,6 @@ typedef struct MosaicWork
 
 unsigned short mosaic_mes_list[] = {HASH_ON2, HASH_OFF2};
 
-extern int GV_PauseLevel;
-
 // This actor is probably the naked Johnny censorship (missing in Integral),
 // so a lot of functions here are just stubbed-out and the actor
 // doesn't do anything meaningful.

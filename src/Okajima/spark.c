@@ -11,7 +11,6 @@
 #include "Game/game.h"
 #include "Game/map.h"
 
-extern int            GV_Clock;
 extern unsigned short gSparkRandomTable_800BDF10[];
 
 /*---------------------------------------------------------------------------*/

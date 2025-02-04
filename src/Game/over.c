@@ -7,9 +7,6 @@
 #include "Game/linkvarbuf.h"
 #include "Game/strctrl.h"
 
-extern int GV_Clock;
-extern int GV_PauseLevel;
-
 extern GV_PAD           *GM_CurrentPadData;
 GV_PAD *SECTION(".sbss") GM_CurrentPadData;
 

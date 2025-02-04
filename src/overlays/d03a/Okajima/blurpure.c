@@ -32,8 +32,6 @@ typedef struct BlurPureWork
 
 #define EXEC_LEVEL GV_ACTOR_AFTER2
 
-extern int GV_Clock;
-
 void d03a_blurpure_800C4F68(BlurPureWork *work)
 {
     TILE          *tile;

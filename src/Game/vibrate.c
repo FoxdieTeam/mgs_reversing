@@ -6,7 +6,6 @@
 #include "libgcl/libgcl.h"
 #include "strcode.h"
 
-extern int            GV_PassageTime;
 extern unsigned char *GCL_NextStrPtr_800AB9A0;
 
 /*---------------------------------------------------------------------------*/

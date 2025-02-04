@@ -18,8 +18,6 @@ typedef struct _CancelWork
     int    step;
 } CancelWork;
 
-extern int GV_PauseLevel;
-
 #define EXEC_LEVEL GV_ACTOR_LEVEL3
 
 void Cancel_800C3E24(CancelWork *work)

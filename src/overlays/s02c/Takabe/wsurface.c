@@ -28,8 +28,6 @@ typedef struct _WsurfaceWork
     char     pad2[0x2];
 } WsurfaceWork;
 
-extern int GV_Clock;
-
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void Wsurface_800DAC14(POLY_GT4 *poly, DG_TEX *tex, WsurfaceWork *work)

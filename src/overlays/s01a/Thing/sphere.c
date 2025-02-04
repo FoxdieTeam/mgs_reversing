@@ -16,8 +16,6 @@ typedef struct _SphereWork
     char     pad[0x2];
 } SphereWork;
 
-extern int GV_Clock;
-
 short SECTION("overlay.bss") sphere_image_width_800E4B28;
 short SECTION("overlay.bss") sphere_image_height_800E4B2A;
 short SECTION("overlay.bss") sphere_visible_tiles_x_800E4B2C;

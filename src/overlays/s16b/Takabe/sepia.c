@@ -17,7 +17,6 @@ typedef struct _SepiaWork
     SepiaPrims *prims;
 } SepiaWork;
 
-extern int    GV_Clock;
 extern u_long DG_PaletteBuffer_800B3818[256];
 
 RECT rect_800C3258 = {768, 226, 256, 2};

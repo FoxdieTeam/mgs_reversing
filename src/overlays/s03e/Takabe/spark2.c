@@ -26,8 +26,6 @@ typedef struct _Spark2Prim
     short    x1, y1;
 } Spark2Prim;
 
-extern int     GV_Clock;
-
 const SVECTOR spark2_light_pos = {0, 0, 500, 0};
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5

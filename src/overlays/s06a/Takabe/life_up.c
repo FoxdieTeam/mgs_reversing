@@ -17,8 +17,6 @@ typedef struct _LifeUpWork
     int    time;
 } LifeUpWork;
 
-extern int GV_PassageTime;
-
 #define EXEC_LEVEL GV_ACTOR_LEVEL2
 
 STATIC void LifeUpAct_800DF1A8(LifeUpWork *work)

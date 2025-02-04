@@ -10,9 +10,6 @@
 #include "libgcl/libgcl.h"
 #include "Game/game.h"
 
-extern int     GV_Clock;
-extern int     GV_PauseLevel;
-
 #define EXEC_LEVEL GV_ACTOR_LEVEL3
 
 typedef struct _RedAlrtPrims

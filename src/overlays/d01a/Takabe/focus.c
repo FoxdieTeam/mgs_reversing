@@ -30,9 +30,6 @@ typedef struct _FocusWork
     int         f_range;
 } FocusWork;
 
-extern int GV_Clock;
-extern int GV_PauseLevel;
-
 void FocusAct_800CEA70(FocusWork *work)
 {
     GV_MSG       *msg;

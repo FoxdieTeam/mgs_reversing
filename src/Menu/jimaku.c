@@ -2,13 +2,13 @@
 
 #include <stdio.h>
 #include "common.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "Game/linkvarbuf.h"
 
 void *SECTION(".sbss") MENU_JimakuTextBody;
 
-extern int             GV_PauseLevel;
 extern UnkJimakuStruct gUnkJimakuStruct_800BDA70;
 extern GV_PAD          GV_PadData_800B05C0[4];
 

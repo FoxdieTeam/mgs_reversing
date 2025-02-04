@@ -1267,8 +1267,6 @@ int menu_weapon_update_helper_8003E4B8(MenuWork *work)
     return 1;
 }
 
-extern int GV_PauseLevel;
-
 void menu_weapon_update_helper2_8003E674(MenuWork *work, unsigned int *pOt)
 {
     unsigned short     anim_frame;

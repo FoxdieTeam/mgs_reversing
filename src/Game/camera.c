@@ -6,6 +6,7 @@
 #include <libgpu.h>
 
 #include "common.h"
+#include "libgv/libgv.h"
 #include "libhzd/libhzd.h"
 #include "linkvarbuf.h"
 #include "strcode.h"
@@ -27,7 +28,6 @@ STATIC int      GM_CameraFlagsOrg = 0;
 STATIC HZD_TRP *GM_800AB444 = NULL;
 STATIC int      GM_800AB448 = 0;
 
-extern int              GV_PauseLevel;
 extern GM_Camera        GM_Camera_800B77E8;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;

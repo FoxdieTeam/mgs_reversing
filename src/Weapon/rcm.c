@@ -15,8 +15,6 @@
 
 extern int DG_CurrentGroupID;
 
-extern int              GV_Clock;
-
 /*---------------------------------------------------------------------------*/
 // RC-Missile (Nikita)
 

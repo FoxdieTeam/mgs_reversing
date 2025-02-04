@@ -25,8 +25,6 @@ const char aSmokeC[] = "smoke.c";
 
 RECT smoke_rect = {500, 1000, 1000, 2000};
 
-extern int GV_Clock;
-
 int s00a_smoke_800D2694(SmokeWork *work)
 {
     int       color;

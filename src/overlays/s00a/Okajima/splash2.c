@@ -20,8 +20,6 @@ typedef struct _Work
 
 void * NewRipple_800D7F30( MATRIX *, int );
 
-extern int    GV_Clock;
-
 RECT rect_800C3670 = { 50, 50, 100, 100 };
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5

@@ -34,9 +34,6 @@ typedef struct _CinemaScreenWork
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL3
 
-extern int GV_Clock;
-extern int GV_PauseLevel;
-
 unsigned short mes_list_800C3680[] = { 0xD420, 0x745D };
 
 void CinemaScreenAct_800DDDA4( CinemaScreenWork* work )

@@ -51,8 +51,6 @@ typedef struct _EventmouseWork
 
 SVECTOR eventmous_vecs[2] = {{48, 0, 96, 0}, {-48, 0, 96, 0}};
 
-extern int     GV_Clock;
-
 void   AN_Unknown_800CA320( MATRIX *, int );
 void * NewRipple_800D7F30( MATRIX *, int );
 void   NewSplash2_800DB6F0( int, SVECTOR *, int );

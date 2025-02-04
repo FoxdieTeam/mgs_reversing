@@ -13,7 +13,6 @@
 #include "SD/g_sound.h"
 
 extern int   DG_CurrentGroupID;
-extern int   GV_Clock;
 
 /*---------------------------------------------------------------------------*/
 

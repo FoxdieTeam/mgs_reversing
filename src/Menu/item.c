@@ -11,7 +11,6 @@
 extern PANEL_TEXTURE gMenuLeftItems_800BD5A0[];
 extern short         GM_WeaponTypes[];
 extern short         GM_ItemTypes[];
-extern int           GV_PauseLevel;
 extern int           dword_8009F46C;
 
 int SECTION(".sbss") dword_800ABAD0;

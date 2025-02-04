@@ -7,6 +7,7 @@
 #include <libgpu.h>
 
 #include "common.h"
+#include "libgv/libgv.h"
 #include "chara/snake/sna_init.h"
 #include "Game/game.h"
 #include "Game/camera.h"
@@ -24,7 +25,6 @@ extern int                 dword_8009F604;
 extern GV_PAD              GV_PadData_800B05C0[4];
 extern TMat8x8B            gJpegcamMatrix2_800BDCD8;
 extern UnkCameraStruct     gUnkCameraStruct_800B77B8;
-extern int                 GV_PauseLevel;
 extern char               *dword_800BDCC8;
 extern int                 dword_800BDCCC;
 extern int                 dword_800BDCD0;

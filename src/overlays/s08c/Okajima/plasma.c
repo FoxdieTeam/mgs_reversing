@@ -35,8 +35,6 @@ typedef struct _PlasmaWork
     int      f3BC;
 } PlasmaWork;
 
-extern int     GV_Clock;
-
 #define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 // Identical to UjiGetSvecs_800C39E8

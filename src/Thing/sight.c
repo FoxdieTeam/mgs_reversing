@@ -271,9 +271,6 @@ STATIC void sight_act_helper_80071498(SightTextPseudoPrim *textPrim)
     MENU_Printf("%s", textPrim->field_C_text);
 }
 
-extern int GV_Clock;
-extern int GV_PauseLevel;
-
 STATIC void sight_act_800714EC(SightWork *work)
 {
     SightPrimitiveBufferInfo *primBufInfo;

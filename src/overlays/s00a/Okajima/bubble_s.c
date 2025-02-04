@@ -25,8 +25,6 @@ typedef struct _BubbleSWork
     int      fC4;
 } BubbleSWork;
 
-extern int     GV_Clock;
-
 #define EXEC_LEVEL      GV_ACTOR_LEVEL4
 
 #define UP_SPEED        15
