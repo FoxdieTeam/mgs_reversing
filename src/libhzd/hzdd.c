@@ -1,4 +1,4 @@
-#ifndef __HZDD_SBSS__
+#define __HZDD_SBSS__
 #include "libhzd.h"
 
 #include <stdio.h>
