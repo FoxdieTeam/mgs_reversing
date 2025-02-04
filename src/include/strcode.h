@@ -217,7 +217,7 @@
 #define CHARA_O2_DAMAGE         0x5d64 // o2_damge.c
 #define CHARA_FADE_IN_OUT       0xa12e // fadeio.c
 #define CHARA_TOBCNT            0xaefb
-#define CHARA_MOTION_SEQUENCE   0x0fad // motse.c
+#define CHARA_MOTION_SE         0x0fad // motse.c
 #define CHARA_CANCEL            0xb4e6
 #define CHARA_GAS_EFFECT        0x5a50 // gas_efct
 #define CHARA_DOLL              0xe97e
