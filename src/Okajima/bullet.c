@@ -11,7 +11,7 @@
 #include "Game/game.h"
 #include "Game/target.h"
 #include "Game/linkvarbuf.h"
-#include "Anime/animeconv/anime.h"
+#include "Anime/animconv/anime.h"
 #include "spark.h"
 
 /*---------------------------------------------------------------------------*/
