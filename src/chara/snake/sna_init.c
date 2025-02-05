@@ -21,7 +21,7 @@
 #include "Game/homing.h"
 #include "Game/vibrate.h"
 #include "Game/camera.h"
-#include "Anime/animeconv/anime.h"
+#include "Anime/animconv/anime.h"
 #include "Equip/equip.h"
 #include "Okajima/d_blood.h"
 #include "Takabe/goggle.h"
