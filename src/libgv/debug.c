@@ -3,6 +3,8 @@
 #include "libgv.h"
 #include <stdio.h>
 
+const char *GV_DebugMes = "none";
+
 void GV_Assert(char *filename, int line)
 {
     printf("Assertion failed: %s, line %d\n", filename, line);
