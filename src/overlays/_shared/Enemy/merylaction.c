@@ -5,7 +5,7 @@
 #include "libdg/libdg.h"
 #include "Game/item.h"
 #include "Game/linkvarbuf.h"
-#include "Anime/animeconv/anime.h"
+#include "Anime/animconv/anime.h"
 #include "SD/g_sound.h"
 
 extern ENEMY_COMMAND EnemyCommand_800E0D98;

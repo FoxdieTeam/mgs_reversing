@@ -1,6 +1,6 @@
 #include "common.h"
 #include "libdg/libdg.h"
-#include "Anime/animeconv/anime.h"
+#include "Anime/animconv/anime.h"
 #include "strcode.h"
 
 const char anim_data_800CC124[] = {0x0, 0x1d, 0x3, 0x0};

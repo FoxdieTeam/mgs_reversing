@@ -5,7 +5,7 @@
 #include "Game/game.h"
 #include "Game/object.h"
 #include "Takabe/thing.h"
-#include "Anime/animeconv/anime.h"
+#include "Anime/animconv/anime.h"
 
 typedef struct BreakObjWork
 {

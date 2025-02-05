@@ -4,7 +4,7 @@
 #include "overlays/_shared/Enemy/asioto.h"
 #include "overlays/_shared/Takabe/fadeio.h"
 #include "overlays/_shared/Game/select.h"
-#include "Anime/animeconv/anime.h"
+#include "Anime/animconv/anime.h"
 #include "overlays/_shared/Takabe/ripples.h"
 #include "overlays/_shared/Game/pad.h"
 #include "Game/vibrate.h"

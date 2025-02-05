@@ -6,7 +6,7 @@
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "Okajima/spark.h"
-#include "Anime/animeconv/anime.h"
+#include "Anime/animconv/anime.h"
 #include "Bullet/blast.h"
 
 typedef struct PLampWork
