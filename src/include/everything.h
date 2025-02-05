@@ -57,7 +57,7 @@
 #include "chara/snake/shadow.h"
 #include "chara/snake/sna_hzd.h"
 #include "chara/snake/sna_init.h"
-#include "Anime/animeconv/anime.h"
+#include "Anime/animconv/anime.h"
 #include "Bullet/bullet.h"
 #include "Equip/equip.h"
 #include "Weapon/weapon.h"

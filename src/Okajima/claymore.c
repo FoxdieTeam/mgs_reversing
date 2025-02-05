@@ -10,7 +10,7 @@
 #include "Game/game.h"
 #include "Game/map.h"
 #include "Game/target.h"
-#include "Anime/animeconv/anime.h"
+#include "Anime/animconv/anime.h"
 #include "SD/g_sound.h"
 #include "spark.h"
 

@@ -5,7 +5,7 @@
 #include <libgpu.h>
 
 #include "common.h"
-#include "Anime/animeconv/anime.h"
+#include "Anime/animconv/anime.h"
 #include "Game/object.h"
 #include "Game/map.h"
 #include "Game/linkvarbuf.h"

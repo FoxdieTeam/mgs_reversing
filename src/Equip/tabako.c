@@ -12,7 +12,7 @@
 #include "Game/object.h"
 #include "Game/linkvarbuf.h"
 #include "Game/map.h"
-#include "Anime/animeconv/anime.h"
+#include "Anime/animconv/anime.h"
 
 /*---------------------------------------------------------------------------*/
 // Cigarettes
