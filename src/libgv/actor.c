@@ -368,5 +368,3 @@ void GV_DestroyOtherActor(void *actor)
 
     printf("#");
 }
-
-const char *GV_DebugMes = "none";
