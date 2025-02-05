@@ -1,7 +1,7 @@
 #include "common.h"
 #include "charadef.h"
 
-#include "Anime/animeconv/anime.h"
+#include "Anime/animconv/anime.h"
 #include "../_shared/Okajima/pato_lmp.h"
 #include "../_shared/Thing/sphere.h"
 #include "../_shared/Enemy/smoke.h"
@@ -11,7 +11,7 @@
 #include "../_shared/Thing/snow.h"
 #include "../_shared/Takabe/cinema.h"
 #include "../_shared/Takabe/fadeio.h"
-// #include "../_shared/Anime/animeconv/breath.c" AN_Breath_800C3AA8
+// #include "../_shared/Anime/animconv/breath.c" AN_Breath_800C3AA8
 #include "../_shared/Enemy/demokage.h"
 #include "../_shared/Takabe/windcrcl.h"
 #include "../_shared/Takabe/focus.h"

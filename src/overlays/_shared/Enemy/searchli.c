@@ -5,7 +5,7 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "Anime/animeconv/anime.h"
+#include "Anime/animconv/anime.h"
 #include "Game/control.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"

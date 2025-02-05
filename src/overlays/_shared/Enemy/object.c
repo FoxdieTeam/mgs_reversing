@@ -7,7 +7,7 @@
 #include "libdg/libdg.h"
 #include "Game/control.h"
 #include "Game/object.h"
-#include "Anime/animeconv/anime.h"
+#include "Anime/animconv/anime.h"
 
 typedef struct ObjectWork
 {

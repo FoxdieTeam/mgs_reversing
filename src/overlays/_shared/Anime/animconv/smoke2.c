@@ -1,6 +1,6 @@
 #include "common.h"
 #include "libgv/libgv.h"
-#include "Anime/animeconv/anime.h"
+#include "Anime/animconv/anime.h"
 #include "strcode.h"
 
 const char s03c_dword_800D7B34[] = {

@@ -6,7 +6,7 @@
 #include "Game/object.h"
 #include "Game/linkvarbuf.h"
 #include "Game/vibrate.h"
-#include "Anime/animeconv/anime.h"
+#include "Anime/animconv/anime.h"
 #include "Weapon/weapon.h"
 
 typedef struct _PARAM

@@ -1,6 +1,6 @@
 #include "common.h"
 #include "libdg/libdg.h"
-#include "Anime/animeconv/anime.h"
+#include "Anime/animconv/anime.h"
 #include "strcode.h"
 
 const char anim_data_800D13CC[] = {0x0, '#',  0x2, 0x0,  0x7,  0x0,  0x1a, 0x2, 0x0, 0x1, 0x8, 'j', 'j', 'j', 0xc,

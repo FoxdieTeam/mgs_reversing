@@ -1,7 +1,7 @@
 #include "common.h"
 #include "charadef.h"
 
-#include "Anime/animeconv/anime.h"
+#include "Anime/animconv/anime.h"
 #include "../_shared/Takabe/ripples.h"
 #include "../_shared/Game/pad.h"
 #include "Game/vibrate.h"

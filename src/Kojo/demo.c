@@ -4,7 +4,7 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "demothrd.h"
-#include "Anime/animeconv/anime.h"
+#include "Anime/animconv/anime.h"
 #include "Bullet/blast.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"

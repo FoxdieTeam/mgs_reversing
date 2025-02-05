@@ -2,7 +2,7 @@
 
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "Anime/animeconv/anime.h"
+#include "Anime/animconv/anime.h"
 #include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "strcode.h"

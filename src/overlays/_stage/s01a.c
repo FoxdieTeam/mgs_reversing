@@ -1,7 +1,7 @@
 #include "common.h"
 #include "charadef.h"
 
-#include "Anime/animeconv/anime.h"
+#include "Anime/animconv/anime.h"
 #include "../_shared/Game/tobcnt.h"
 #include "../_shared/chara/others/motse.h"
 #include "../_shared/Game/cancel.h"

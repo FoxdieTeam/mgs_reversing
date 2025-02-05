@@ -3,7 +3,7 @@
 #include "Game/control.h"
 #include "Game/object.h"
 #include "Okajima/bullet.h"
-#include "Anime/animeconv/anime.h"
+#include "Anime/animconv/anime.h"
 #include "SD/g_sound.h"
 
 typedef struct JFamasWork

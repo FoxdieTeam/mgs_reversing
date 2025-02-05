@@ -1,6 +1,6 @@
 #include "common.h"
 #include "libdg/libdg.h"
-#include "Anime/animeconv/anime.h"
+#include "Anime/animconv/anime.h"
 #include "strcode.h"
 
 const char s08b_dword_800E4150[] = {0x0, '3', 0x1, 0x0};
