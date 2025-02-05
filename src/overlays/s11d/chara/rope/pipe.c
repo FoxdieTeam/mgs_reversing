@@ -19,10 +19,11 @@ typedef struct PipeWork
     int            counter2;
 } PipeWork;
 
+#define EXEC_LEVEL GV_ACTOR_AFTER
+
 unsigned char pipe_vibration1_800C3360[] = {0x7F, 0x02, 0x00, 0x00};
 unsigned char pipe_vibration2_800C3364[] = {0xAF, 0x04, 0x41, 0x04, 0x00, 0x00, 0x00, 0x00};
 
-extern int        GM_CurrentMap;
 extern BLAST_DATA blast_data_8009F4B8[8];
 
 // Duplicate of Snake03c2GetRaise_800CDB78
@@ -257,23 +258,22 @@ int PipeGetResources_800CE6DC(PipeWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT *NewPipe_800CE73C(int name, int where, int argc, char **argv)
+void *NewPipe_800CE73C(int name, int where, int argc, char **argv)
 {
     PipeWork *work;
 
-    work = (PipeWork *)GV_NewActor(6, sizeof(PipeWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(PipeWork));
     if (work == NULL)
     {
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)PipeAct_800CE2A4,
-                     (GV_ACTFUNC)PipeDie_800CE404, "pipe.c");
+    GV_SetNamedActor(&work->actor, PipeAct_800CE2A4, PipeDie_800CE404, "pipe.c");
     if (PipeGetResources_800CE6DC(work, name, where) < 0)
     {
         GV_DestroyActor(&work->actor);
         return NULL;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

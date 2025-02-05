@@ -1,8 +1,13 @@
 #include "bubble_p.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "Game/game.h"
 
 typedef struct _BubblePWork
 {
@@ -20,10 +25,7 @@ typedef struct _BubblePWork
     int      f80;
 } BubblePWork;
 
-extern int GV_Clock;
-extern int GM_CurrentMap;
-
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 void BubblePShadePack_800D96AC(POLY_FT4 *packs, int shade, int index)
 {
@@ -241,14 +243,14 @@ int BubblePGetResources_800D9B58(BubblePWork *work, SVECTOR *arg1, SVECTOR *arg2
     return 0;
 }
 
-GV_ACT *NewBubbleP_800D9D94(SVECTOR *arg0, SVECTOR *arg1, int arg2)
+void *NewBubbleP_800D9D94(SVECTOR *arg0, SVECTOR *arg1, int arg2)
 {
     BubblePWork *work;
 
-    work = (BubblePWork *)GV_NewActor(EXEC_LEVEL, sizeof(BubblePWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(BubblePWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BubblePAct_800D9974, (GV_ACTFUNC)BubblePDie_800D99CC, "bubble_p.c");
+        GV_SetNamedActor(&work->actor, BubblePAct_800D9974, BubblePDie_800D99CC, "bubble_p.c");
 
         work->f74 = 40;
 
@@ -259,17 +261,17 @@ GV_ACT *NewBubbleP_800D9D94(SVECTOR *arg0, SVECTOR *arg1, int arg2)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewBubbleP_800D9E40(SVECTOR *arg0, SVECTOR *arg1, int arg2)
+void *NewBubbleP_800D9E40(SVECTOR *arg0, SVECTOR *arg1, int arg2)
 {
     BubblePWork *work;
 
-    work = (BubblePWork *)GV_NewActor(EXEC_LEVEL, sizeof(BubblePWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(BubblePWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BubblePAct_800D9974, (GV_ACTFUNC)BubblePDie_800D99CC, "bubble_p.c");
+        GV_SetNamedActor(&work->actor, BubblePAct_800D9974, BubblePDie_800D99CC, "bubble_p.c");
 
         work->f74 = 8;
 
@@ -280,5 +282,5 @@ GV_ACT *NewBubbleP_800D9E40(SVECTOR *arg0, SVECTOR *arg1, int arg2)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

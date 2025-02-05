@@ -41,15 +41,10 @@ typedef struct _IrCensWork
     int      f114;
 } IrCensWork;
 
-extern int     GM_CurrentMap;
-extern int     GM_AlertMode;
-extern SVECTOR GM_PlayerPosition_800ABA10;
-extern OBJECT *GM_PlayerBody_800ABA20;
-
 unsigned short s02c_dword_800C3714[] = {HASH_KILL, 0xDCFC, 0xE102};
 const SVECTOR  s02c_dword_800E3900 = {0, 512, 1024, 0};
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void IrCens_800D97E8(POLY_GT4 *poly, DG_TEX *tex, int arg2)
 {
@@ -378,7 +373,7 @@ void IrCensAct_800D9EF8(IrCensWork *work)
 
             if (GM_AlertMode != 3)
             {
-                s00a_command_800CEC40(&GM_PlayerPosition_800ABA10, 128);
+                s00a_command_800CEC40(&GM_PlayerPosition, 128);
             }
 
             GV_SubVec3(&sp18, &sp20, &sp18);
@@ -412,7 +407,7 @@ void IrCensAct_800D9EF8(IrCensWork *work)
     {
         sp40 = s02c_dword_800E3900;
 
-        DG_SetPos(&GM_PlayerBody_800ABA20->objs->objs[6].world);
+        DG_SetPos(&GM_PlayerBody->objs->objs[6].world);
         DG_PutVector(&sp40, &sp38, 1);
 
         IrCens_800D99A4(work, &sp38);
@@ -539,14 +534,14 @@ int IrCensGetResources_800DA418(IrCensWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT *NewIrCens_800DA66C(int name, int where, int argc, char **argv)
+void *NewIrCens_800DA66C(int name, int where, int argc, char **argv)
 {
     IrCensWork *work;
 
-    work = (IrCensWork *)GV_NewActor(EXEC_LEVEL, sizeof(IrCensWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(IrCensWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)IrCensAct_800D9EF8, (GV_ACTFUNC)IrCensDie_800DA3DC, "ir_cens.c");
+        GV_SetNamedActor(&work->actor, IrCensAct_800D9EF8, IrCensDie_800DA3DC, "ir_cens.c");
 
         if (IrCensGetResources_800DA418(work, name, where) < 0)
         {
@@ -559,5 +554,5 @@ GV_ACT *NewIrCens_800DA66C(int name, int where, int argc, char **argv)
         work->fE0 = GV_RandU(128);
     }
 
-    return &work->actor;
+    return (void *)work;
 }

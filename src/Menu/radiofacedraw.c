@@ -19,7 +19,6 @@ menu_chara_struct *SECTION(".sbss") dword_800ABB38; // force gp
 int SECTION(".sbss") dword_800ABB3C;
 
 
-extern int GV_Clock;
 extern menu_0x14 stru_800BDA48[ 2 ];
 
 void sub_80048124()

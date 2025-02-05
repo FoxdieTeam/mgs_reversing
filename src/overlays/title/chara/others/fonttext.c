@@ -17,7 +17,7 @@ typedef struct _Work
     RECT    offset;
 } Work;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 extern int fonttext_dword_800C32B0;
 extern const char fonttext_aS[];
@@ -119,14 +119,14 @@ int FonttextGetResources_800C4358( Work *work )
     return 0;
 }
 
-GV_ACT *NewFonttext_800C446C( int name, int where )
+void *NewFonttext_800C446C( int name, int where )
 {
     Work *work;
 
-    work = (Work *)GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
+    work = GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
     if ( work != NULL )
     {
-        GV_SetNamedActor( &( work->actor ), (GV_ACTFUNC)FonttextAct_800C4290, (GV_ACTFUNC)FonttextDie_800C4350, aFonttextC );
+        GV_SetNamedActor( &( work->actor ), FonttextAct_800C4290, FonttextDie_800C4350, aFonttextC );
 
         if ( FonttextGetResources_800C4358( work ) < 0 )
         {
@@ -138,5 +138,5 @@ GV_ACT *NewFonttext_800C446C( int name, int where )
         work->hash = name;
     }
 
-    return &( work->actor );
+    return (void *)work;
 }

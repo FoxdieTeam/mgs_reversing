@@ -8,10 +8,6 @@
 #include "Game/linkvarbuf.h"
 #include "SD/g_sound.h"
 
-extern short      GM_Magazine_800AB9EC;
-extern short      GM_MagazineMax_800ABA2C;
-
-extern int        GM_CurrentMap;
 extern int        DG_CurrentGroupID;
 extern int        counter_8009F448;
 extern void      *GM_BombSeg;
@@ -30,7 +26,7 @@ typedef struct MineWork
     int            counter;
 } MineWork;
 
-#define EXEC_LEVEL 6
+#define EXEC_LEVEL GV_ACTOR_AFTER
 
 /*---------------------------------------------------------------------------*/
 
@@ -110,13 +106,12 @@ STATIC int MineGetResources(MineWork *work, OBJECT *parent, int num_parent)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewMine(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side)
+void *NewMine(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side)
 {
-    MineWork *work = (MineWork *)GV_NewActor(EXEC_LEVEL, sizeof(MineWork));
+    MineWork *work = GV_NewActor(EXEC_LEVEL, sizeof(MineWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)MineAct,
-                         (GV_ACTFUNC)MineDie, "mine.c");
+        GV_SetNamedActor(&work->actor, MineAct, MineDie, "mine.c");
         if (MineGetResources(work, parent, num_parent) < 0)
         {
             GV_DestroyActor(&work->actor);
@@ -130,8 +125,8 @@ GV_ACT *NewMine(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *
         work->counter = 0;
     }
 
-    GM_MagazineMax_800ABA2C = 0;
-    GM_Magazine_800AB9EC = 0;
+    GM_MagazineMax = 0;
+    GM_Magazine = 0;
 
-    return &work->actor;
+    return (void *)work;
 }

@@ -51,6 +51,8 @@ typedef struct DummyWallWork
     HZD_SEG  field_19C;
 } DummyWallWork;
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
+
 SVECTOR s04a_dword_800C3620 = {100, 100, 100};
 
 void     Takabe_FreeObjs_800DC820(DG_OBJS *objs);
@@ -228,22 +230,21 @@ int DummyWallGetResources_800D7178(DummyWallWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT *NewDummyWall_800D7384(int name, int where, int argc, char **argv)
+void *NewDummyWall_800D7384(int name, int where, int argc, char **argv)
 {
     DummyWallWork *work;
 
-    work = (DummyWallWork *)GV_NewActor(5, sizeof(DummyWallWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(DummyWallWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)DummyWallAct_800D6E64,
-                         (GV_ACTFUNC)DummyWallDie_800D70A4, "dummy_wl.c");
+        GV_SetNamedActor(&work->actor, DummyWallAct_800D6E64, DummyWallDie_800D70A4, "dummy_wl.c");
         if (DummyWallGetResources_800D7178(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }
 
 void DummyWall_800D7418(OBJECT *obj, int model, int where, int flag)

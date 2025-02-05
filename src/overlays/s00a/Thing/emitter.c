@@ -13,9 +13,7 @@ typedef struct _Work
 
 RECT rect_800C3320 = { 1000, 1000, 2000, 2000 };
 
-extern int  GM_CurrentMap;
-
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void EmitterShadePacks_800C3C08( POLY_FT4 *packs, int n_packs, DG_TEX *unused, char shade )
 {
@@ -98,15 +96,15 @@ int EmitterGetResources_800C3D68( Work *work, int map, int count )
     return 0;
 }
 
-GV_ACT *NewEmitter_800C3E50(int name, int where, int argc, char **argv)
+void *NewEmitter_800C3E50(int name, int where, int argc, char **argv)
 {
     Work *work;
     int   count;
 
-    work = (Work *)GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
+    work = GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
     if (work != NULL)
     {
-        GV_SetNamedActor( &( work->actor ), NULL, (GV_ACTFUNC)EmitterDie_800C3CD8, "emitter.c" );
+        GV_SetNamedActor( &( work->actor ), NULL, EmitterDie_800C3CD8, "emitter.c" );
 
         count = EmitterGetVecs_800C3D14( GCL_GetOption( 'p' ), work->vecs );
         if ( EmitterGetResources_800C3D68( work, where, count ) < 0 )
@@ -116,5 +114,5 @@ GV_ACT *NewEmitter_800C3E50(int name, int where, int argc, char **argv)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

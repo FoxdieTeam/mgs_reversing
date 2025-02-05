@@ -9,7 +9,7 @@ typedef struct VoicesysWork {
     int    game_over;
 } VoicesysWork;
 
-#define EXEC_LEVEL 3
+#define EXEC_LEVEL GV_ACTOR_LEVEL3
 
 typedef struct VoiceSysGlobal {
     int flags;
@@ -27,8 +27,6 @@ typedef struct VoiceSysGlobal {
 } VoiceSysGlobal;
 
 VoiceSysGlobal SECTION("overlay.bss") voicesys_800DBD60;
-
-extern int GV_PauseLevel;
 
 int *Voicesys_800CE278(int unused)
 {
@@ -302,19 +300,19 @@ int VoicesysGetResources_800CE89C(VoicesysWork *work, int name, int arg2)
     return 0;
 }
 
-GV_ACT *NewVoicesys_800CE944(int name, int arg1)
+void *NewVoicesys_800CE944(int name, int arg1)
 {
     VoicesysWork *work;
 
-    work = (VoicesysWork*) GV_NewActor(EXEC_LEVEL, sizeof(VoicesysWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(VoicesysWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)VoicesysAct_800CE760, (GV_ACTFUNC)VoicesysDie_800CE87C, "voicesys.c");
+        GV_SetNamedActor(&work->actor, VoicesysAct_800CE760, VoicesysDie_800CE87C, "voicesys.c");
         if (VoicesysGetResources_800CE89C(work, name, arg1) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

@@ -2,6 +2,7 @@
 #include "strcode.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
+#include "Game/game.h"
 #include "Takabe/thing.h"
 
 typedef struct DymcFloorWork
@@ -13,9 +14,9 @@ typedef struct DymcFloorWork
     HZD_FLR flr;
 } DymcFloorWork;
 
-unsigned short dymc_flr_msgs_800C3630[2] = {HASH_ON2, HASH_OFF2};
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-extern int GM_CurrentMap;
+unsigned short dymc_flr_msgs_800C3630[2] = {HASH_ON2, HASH_OFF2};
 
 void s15c_dymc_flr_800E18BC(HZD_FLR *flr, SVECTOR *svec)
 {
@@ -136,20 +137,20 @@ int s15c_dymc_flr_800E1B7C(DymcFloorWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT *s15c_dymc_flr_800E1C70(int name, int where, int argc, char **argv)
+void *s15c_dymc_flr_800E1C70(int name, int where, int argc, char **argv)
 {
     DymcFloorWork *work;
 
-    work = (DymcFloorWork *)GV_NewActor(5, sizeof(DymcFloorWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(DymcFloorWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)s15c_dymc_flr_800E1B00, (GV_ACTFUNC)s15c_dymc_flr_800E1B54, "dymc_flr.c");
+        GV_SetNamedActor(&work->actor, s15c_dymc_flr_800E1B00, s15c_dymc_flr_800E1B54, "dymc_flr.c");
         if (s15c_dymc_flr_800E1B7C(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }
 

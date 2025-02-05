@@ -50,7 +50,7 @@ CHARA _StageCharacterEntries[] =
     { CHARA_PAD_CBF8, NewPad_800C37EC },
     { CHARA_INTR_CAM, NewIntrCam_800C5748 },
     { CHARA_CAT_IN, NewZoom_800DFA88 },
-    { CHARA_MOTION_SEQUENCE, NewMotse_800C5944 },
+    { CHARA_MOTION_SE, NewMotionSoundEffect },
     { CHARA_FADEIO, NewFadeIo_800C4224 },
     { CHARA_FADEIO_0004, NewFadeIo_800C4224 },
     { CHARA_BULLET, (NEWCHARA)NewBulletEx },

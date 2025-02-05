@@ -25,19 +25,14 @@ typedef struct _BubbleSWork
     int      fC4;
 } BubbleSWork;
 
-extern int     GV_Clock;
-extern int     GM_CurrentMap;
-extern SVECTOR GM_PlayerPosition_800ABA10;
-extern OBJECT *GM_PlayerBody_800ABA20;
-
-#define EXEC_LEVEL      4
+#define EXEC_LEVEL      GV_ACTOR_LEVEL4
 
 #define UP_SPEED        15
 #define MIN_BUBBLE_SIZE 20
 #define MAX_BUBBLE_SIZE 40
 #define RANDAM_WIDTH    16
 
-GV_ACT *NewRipple_800D7F30(MATRIX *, int);
+void *NewRipple_800D7F30(MATRIX *, int);
 
 void BubbleSShadePacks_800D5324(POLY_FT4 *packs, int shade)
 {
@@ -137,10 +132,10 @@ void BubbleSPrimsRectSet_800D5414(BubbleSWork *work, int i)
         return;
     }
 
-    dis = work->pos[i].vy - GM_PlayerPosition_800ABA10.vy;
+    dis = work->pos[i].vy - GM_PlayerPosition.vy;
     if ( dis < 0 )
     {
-        dis = GM_PlayerPosition_800ABA10.vy - work->pos[i].vy;
+        dis = GM_PlayerPosition.vy - work->pos[i].vy;
     }
 
     if ( dis > 3000)
@@ -232,9 +227,9 @@ void BubbleSAct_800D57A0(BubbleSWork *work)
         return;
     }
 
-    headpos.vx = GM_PlayerBody_800ABA20->objs->objs[6].world.t[0];
-    headpos.vy = GM_PlayerBody_800ABA20->objs->objs[6].world.t[1];
-    headpos.vz = GM_PlayerBody_800ABA20->objs->objs[6].world.t[2];
+    headpos.vx = GM_PlayerBody->objs->objs[6].world.t[0];
+    headpos.vy = GM_PlayerBody->objs->objs[6].world.t[1];
+    headpos.vz = GM_PlayerBody->objs->objs[6].world.t[2];
 
     if (work->fC4 == 0)
     {
@@ -435,14 +430,14 @@ int BubbleSGetResources_800D5C94(BubbleSWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT *NewBubbleS_800D5D9C(int name, int where, int argc, char **argv)
+void *NewBubbleS_800D5D9C(int name, int where, int argc, char **argv)
 {
     BubbleSWork *work;
 
-    work = (BubbleSWork *)GV_NewActor(EXEC_LEVEL, sizeof(BubbleSWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(BubbleSWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BubbleSAct_800D57A0, (GV_ACTFUNC)BubbleSDie_800D5B10, "bubble_s.c");
+        GV_SetNamedActor(&work->actor, BubbleSAct_800D57A0, BubbleSDie_800D5B10, "bubble_s.c");
 
         if (BubbleSGetResources_800D5C94(work, name, where) < 0)
         {
@@ -451,5 +446,5 @@ GV_ACT *NewBubbleS_800D5D9C(int name, int where, int argc, char **argv)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

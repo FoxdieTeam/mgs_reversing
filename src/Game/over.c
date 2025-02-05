@@ -7,9 +7,6 @@
 #include "Game/linkvarbuf.h"
 #include "Game/strctrl.h"
 
-extern int GV_Clock;
-extern int GV_PauseLevel;
-
 extern GV_PAD           *GM_CurrentPadData;
 GV_PAD *SECTION(".sbss") GM_CurrentPadData;
 
@@ -36,7 +33,7 @@ typedef struct _OverWork
 
 STATIC_ASSERT(sizeof(OverWork) == 0x186C, "sizeof(OverWork) is wrong!");
 
-#define EXEC_LEVEL 0
+#define EXEC_LEVEL GV_ACTOR_DAEMON
 
 //------------------------------------------------------------------------------
 
@@ -470,7 +467,7 @@ STATIC void over_Die( OverWork *work )
     char *stage_name;
 
     GV_PauseLevel &= ~1;
-    DG_ResetObjectQueue();
+    DG_RestartMainChanlSystem();
     GM_StreamPlayStop();
     GM_GameOverTimer = 0;
     if ( work->field_24_option == OVER_CONTINUE )
@@ -524,12 +521,11 @@ STATIC void over_loader_80037600(OverWork *work)
 
 void *NewGameOver(int can_continue)
 {
-    OverWork *work = (OverWork *)GV_NewActor(EXEC_LEVEL, sizeof(OverWork));
+    OverWork *work = GV_NewActor(EXEC_LEVEL, sizeof(OverWork));
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)&over_Act,
-                         (GV_ACTFUNC)&over_Die, "over.c");
+        GV_SetNamedActor(&work->actor, &over_Act, &over_Die, "over.c");
 
         work->field_20_seq_anim = 1;
         work->field_22_seq = 0;

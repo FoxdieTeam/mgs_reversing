@@ -36,7 +36,7 @@ typedef struct GoggleIrWork
 
 // STATIC_ASSERT(sizeof(GoggleIrWork) == 0x6C, "sizeof(GoggleIrWork) is wrong!");
 
-#define EXEC_LEVEL 6
+#define EXEC_LEVEL GV_ACTOR_AFTER
 
 /*---------------------------------------------------------------------------*/
 
@@ -215,14 +215,13 @@ STATIC int goggleir_GetResources(GoggleIrWork *work, OBJECT *parent)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewGoggleIr(CONTROL *control, OBJECT *parent_obj, int num_parent)
+void *NewGoggleIr(CONTROL *control, OBJECT *parent_obj, int num_parent)
 {
-    GoggleIrWork *work = (GoggleIrWork *)GV_NewActor(EXEC_LEVEL, sizeof(GoggleIrWork));
+    GoggleIrWork *work = GV_NewActor(EXEC_LEVEL, sizeof(GoggleIrWork));
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)&goggleir_Act,
-                         (GV_ACTFUNC)&goggleir_Die, "goggleir.c");
+        GV_SetNamedActor(&work->actor, &goggleir_Act, &goggleir_Die, "goggleir.c");
 
         if (goggleir_GetResources(work, parent_obj) < 0)
         {
@@ -234,5 +233,5 @@ GV_ACT *NewGoggleIr(CONTROL *control, OBJECT *parent_obj, int num_parent)
     work->control = control;
     work->field_50 = 0;
 
-    return &work->actor;
+    return (void *)work;
 }

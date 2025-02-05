@@ -1,6 +1,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "Game/game.h"
 
 typedef struct _Work
 {
@@ -19,12 +20,9 @@ typedef struct _Work
 
 void * NewRipple_800D7F30( MATRIX *, int );
 
-extern int    GM_CurrentMap;
-extern int    GV_Clock;
-
 RECT rect_800C3670 = { 50, 50, 100, 100 };
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void Splash2Transform_800DAD68( MATRIX *matrix, SVECTOR *vecs1, SVECTOR *vecs2, int count )
 {
@@ -224,11 +222,11 @@ void *NewSplash2_800DB424( MATRIX *matrix, int noripple, int r, int g, int b )
 {
     Work *work;
 
-    work = (Work *)GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
+    work = GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
 
     if (work != NULL)
     {
-        GV_SetNamedActor( &( work->actor ), (GV_ACTFUNC)Splash2Act_800DAF38, (GV_ACTFUNC)Splash2Die_800DB1D4, "splash2.c" );
+        GV_SetNamedActor( &( work->actor ), Splash2Act_800DAF38, Splash2Die_800DB1D4, "splash2.c" );
 
         if ( SplashGetResources_800DB210( work, matrix, noripple, r, g, b ) < 0 )
         {

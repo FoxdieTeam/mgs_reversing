@@ -1,6 +1,11 @@
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "Game/game.h"
 #include "Takabe/thing.h"
 
 typedef struct OpTxtScnUnk
@@ -59,10 +64,7 @@ OpTxtScnUnk opening_dword_800C33E4[2] =
     {{0, 0, 20, 5},  {0, 128, 32, 70}, opening_dword_800C32C8, opening_dword_800C32C8}
 };
 
-extern int    GV_Clock;
-extern int    GM_CurrentMap;
-
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 #define getTPageX(tp) (((tp) << 6) & 0x3c0)
 #define getTPageY(tp) ((((tp) << 4) & 0x100) + (((tp) >> 2) & 0x200))
@@ -281,20 +283,19 @@ int OptxtscnGetResources_800CD080(OpTxtScnWork *work)
     return 0;
 }
 
-GV_ACT *NewOpTxtScn_800CD29C(void)
+void *NewOpTxtScn_800CD29C(void)
 {
     OpTxtScnWork *work;
 
-    work = (OpTxtScnWork *)GV_NewActor(EXEC_LEVEL, sizeof(OpTxtScnWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(OpTxtScnWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)OptxtscnAct_800CCDE8,
-                         (GV_ACTFUNC)OpTxtScnDie_800CCFFC, "optxtscn.c");
+        GV_SetNamedActor(&work->actor, OptxtscnAct_800CCDE8, OpTxtScnDie_800CCFFC, "optxtscn.c");
         if (OptxtscnGetResources_800CD080(work) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

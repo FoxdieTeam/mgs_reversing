@@ -1,8 +1,13 @@
 #include "windcrcl.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "Game/game.h"
 
 typedef struct _WindcrclWork
 {
@@ -18,9 +23,7 @@ typedef struct _WindcrclWork
     int      time;
 } WindcrclWork;
 
-#define EXEC_LEVEL 5
-
-extern int GM_CurrentMap;
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 typedef struct WindcrclScratch
 {
@@ -216,14 +219,14 @@ int WindcrclGetResources_800CF598(WindcrclWork *work, MATRIX *world, int arg2)
     return 0;
 }
 
-GV_ACT *NewWindcrcl_800CF6BC(MATRIX *world, int arg1)
+void *NewWindcrcl_800CF6BC(MATRIX *world, int arg1)
 {
     WindcrclWork *work;
 
-    work = (WindcrclWork *)GV_NewActor(EXEC_LEVEL, sizeof(WindcrclWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(WindcrclWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)WindcrclAct_800CF414, (GV_ACTFUNC)WindcrclDie_800CF55C, "windcrcl.c");
+        GV_SetNamedActor(&work->actor, WindcrclAct_800CF414, WindcrclDie_800CF55C, "windcrcl.c");
 
         work->f448 = arg1 / 2;
         work->f44C = work->f448 / 5;
@@ -236,17 +239,17 @@ GV_ACT *NewWindcrcl_800CF6BC(MATRIX *world, int arg1)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewWindcrcl_800CF784(MATRIX *world, int arg1, int arg2, int arg3, int time)
+void *NewWindcrcl_800CF784(MATRIX *world, int arg1, int arg2, int arg3, int time)
 {
     WindcrclWork *work;
 
-    work = (WindcrclWork *)GV_NewActor(EXEC_LEVEL, sizeof(WindcrclWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(WindcrclWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)WindcrclAct_800CF414, (GV_ACTFUNC)WindcrclDie_800CF55C, "windcrcl.c");
+        GV_SetNamedActor(&work->actor, WindcrclAct_800CF414, WindcrclDie_800CF55C, "windcrcl.c");
 
         work->f448 = arg1 / 2;
         work->f450 = arg2;
@@ -261,5 +264,5 @@ GV_ACT *NewWindcrcl_800CF784(MATRIX *world, int arg1, int arg2, int arg3, int ti
         work->time = time;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

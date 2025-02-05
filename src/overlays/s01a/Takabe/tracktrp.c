@@ -21,13 +21,11 @@ typedef struct _TracktrpWork
     int     proc[4];
 } TracktrpWork;
 
-extern int     GM_AlertMode;
-extern SVECTOR GM_PlayerPosition_800ABA10;
 extern GV_PAD  GV_PadData_800B05C0[4];
 
 unsigned short tracktrp_hashes[] = {HASH_ENTER, HASH_LEAVE};
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void TracktrpAct_800E1A94(TracktrpWork *work)
 {
@@ -41,7 +39,7 @@ void TracktrpAct_800E1A94(TracktrpWork *work)
         work->enter = 1;
         work->item = ITEM_NONE;
         work->count = 0;
-        work->pos = GM_PlayerPosition_800ABA10;
+        work->pos = GM_PlayerPosition;
         break;
 
     case 1:
@@ -59,15 +57,15 @@ void TracktrpAct_800E1A94(TracktrpWork *work)
         if (GV_PadData_800B05C0[0].status & 0xF013)
         {
             work->count = 0;
-            work->pos = GM_PlayerPosition_800ABA10;
+            work->pos = GM_PlayerPosition;
         }
 
-        if ((GM_PlayerPosition_800ABA10.vx != work->pos.vx) ||
-            (GM_PlayerPosition_800ABA10.vy != work->pos.vy) ||
-            (GM_PlayerPosition_800ABA10.vz != work->pos.vz))
+        if ((GM_PlayerPosition.vx != work->pos.vx) ||
+            (GM_PlayerPosition.vy != work->pos.vy) ||
+            (GM_PlayerPosition.vz != work->pos.vz))
         {
             work->count = 0;
-            work->pos = GM_PlayerPosition_800ABA10;
+            work->pos = GM_PlayerPosition;
         }
 
         if (GM_AlertMode != 0)
@@ -125,7 +123,7 @@ void TracktrpAct_800E1A94(TracktrpWork *work)
         }
 
         work->count = 0;
-        work->pos = GM_PlayerPosition_800ABA10;
+        work->pos = GM_PlayerPosition;
     }
 }
 
@@ -147,14 +145,14 @@ int TracktrpGetResources_800E1D38(TracktrpWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT *NewTracktrp_800E1DB0(int name, int where, int argc, char **argv)
+void *NewTracktrp_800E1DB0(int name, int where, int argc, char **argv)
 {
     TracktrpWork *work;
 
-    work = (TracktrpWork *)GV_NewActor(EXEC_LEVEL, sizeof(TracktrpWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(TracktrpWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)TracktrpAct_800E1A94, (GV_ACTFUNC)TracktrpDie_800E1D30, "tracktrp.c");
+        GV_SetNamedActor(&work->actor, TracktrpAct_800E1A94, TracktrpDie_800E1D30, "tracktrp.c");
 
         if (TracktrpGetResources_800E1D38(work, name, where) < 0)
         {
@@ -166,5 +164,5 @@ GV_ACT *NewTracktrp_800E1DB0(int name, int where, int argc, char **argv)
         work->name = name;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

@@ -51,12 +51,6 @@ typedef struct _EventmouseWork
 
 SVECTOR eventmous_vecs[2] = {{48, 0, 96, 0}, {-48, 0, 96, 0}};
 
-extern int     GV_Clock;
-extern int     GM_CurrentMap;
-extern int     GM_PlayerMap_800ABA0C;
-extern SVECTOR GM_PlayerPosition_800ABA10;
-extern int     GM_NoisePower;
-
 void   AN_Unknown_800CA320( MATRIX *, int );
 void * NewRipple_800D7F30( MATRIX *, int );
 void   NewSplash2_800DB6F0( int, SVECTOR *, int );
@@ -64,7 +58,7 @@ void   NewSplash2_800DB6F0( int, SVECTOR *, int );
 void * NewCinemaScreen_800DE434( int, int );
 int    NewCinemaScreenClose_800DE4CC( void * );
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL      GV_ACTOR_LEVEL5
 #define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE | DG_FLAG_ONEPIECE )
 
 void Eventmouse_800C8E88(EventmouseWork *work, SVECTOR *arg1, int arg2)
@@ -315,7 +309,7 @@ void Eventmouse_800C96A8(EventmouseWork *work)
 
 int Eventmouse_800C9828(EventmouseWork *work)
 {
-    if (!(work->map & GM_PlayerMap_800ABA0C))
+    if (!(work->map & GM_PlayerMap))
     {
         return 0;
     }
@@ -408,7 +402,7 @@ void Eventmouse_800C98F0(EventmouseWork *work)
             return;
         }
 
-        dist = Eventmouse_800C9140(&control->mov, &GM_PlayerPosition_800ABA10);
+        dist = Eventmouse_800C9140(&control->mov, &GM_PlayerPosition);
 
         DG_VisiblePrim(work->prim);
         Eventmouse_800C96A8(work);
@@ -783,14 +777,14 @@ int EventMouseGetResources_800CA370(EventmouseWork *work, HZD_PTP *points, short
     return 0;
 }
 
-GV_ACT *NewEventmouse_800CA6F4(HZD_PTP *points, short n_points, int arg2, int arg3, int arg4, int arg5)
+void *NewEventmouse_800CA6F4(HZD_PTP *points, short n_points, int arg2, int arg3, int arg4, int arg5)
 {
     EventmouseWork *work;
 
-    work = (EventmouseWork *)GV_NewActor(EXEC_LEVEL, sizeof(EventmouseWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(EventmouseWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)EventMouseAct_800C9F14, (GV_ACTFUNC)EventMouseDie_800CA2C4, "evntmous.c");
+        GV_SetNamedActor(&work->actor, EventMouseAct_800C9F14, EventMouseDie_800CA2C4, "evntmous.c");
 
         if (EventMouseGetResources_800CA370(work, points, n_points, arg2, arg3, 1, GM_CurrentMap, arg4, arg5) < 0)
         {
@@ -801,5 +795,5 @@ GV_ACT *NewEventmouse_800CA6F4(HZD_PTP *points, short n_points, int arg2, int ar
         work->map = GM_CurrentMap;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

@@ -1,6 +1,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "Game/game.h"
 #include "Game/camera.h"
 #include "Takabe/thing.h"
 
@@ -23,7 +24,6 @@ int SECTION("overlay.bss") s12c_800DA42C;
 int SECTION("overlay.bss") s12c_800DA430;
 int SECTION("overlay.bss") s12c_800DA434;
 
-extern int       GM_CurrentMap;
 extern GM_Camera GM_Camera_800B77E8;
 
 void s12c_800D497C(int, int);
@@ -34,7 +34,7 @@ void FogBoundChanl_800D5500(DG_CHANL *chanl, int idx);
 void FogTransChanl_800D63B0(DG_CHANL *chanl, int idx);
 void FogShadeChanl_800D6A04(DG_CHANL *chanl, int idx);
 
-#define EXEC_LEVEL 3
+#define EXEC_LEVEL GV_ACTOR_LEVEL3
 
 void FogAct_800D4074(FogWork *work)
 {
@@ -49,10 +49,10 @@ void FogAct_800D4074(FogWork *work)
 
 void FogDie_800D40E0(FogWork *work)
 {
-    DG_SetChanlSystemUnits(DG_CHANL_BOUND, work->bound);
-    DG_SetChanlSystemUnits(DG_CHANL_TRANS, work->trans);
-    DG_SetChanlSystemUnits(DG_CHANL_SHADE, work->shade);
-    DG_SetChanlSystemUnits(DG_CHANL_SORT,  work->sort);
+    DG_SetChanlSystemUnits(DG_BOUND_CHANL, work->bound);
+    DG_SetChanlSystemUnits(DG_TRANS_CHANL, work->trans);
+    DG_SetChanlSystemUnits(DG_SHADE_CHANL, work->shade);
+    DG_SetChanlSystemUnits(DG_SORT_CHANL,  work->sort);
 }
 
 int FogGetResources_800D4130(FogWork *work, int name, int map)
@@ -73,23 +73,23 @@ int FogGetResources_800D4130(FogWork *work, int name, int map)
     s12c_800D497C(temp_s2, temp_s1);
     work->scale = temp_s2;
 
-    work->bound = DG_SetChanlSystemUnits(DG_CHANL_BOUND, FogBoundChanl_800D5500);
-    work->trans = DG_SetChanlSystemUnits(DG_CHANL_TRANS, FogTransChanl_800D63B0);
-    work->shade = DG_SetChanlSystemUnits(DG_CHANL_SHADE, FogShadeChanl_800D6A04);
-    work->sort  = DG_SetChanlSystemUnits(DG_CHANL_SORT,  FogSortChanl_800D4E98);
+    work->bound = DG_SetChanlSystemUnits(DG_BOUND_CHANL, FogBoundChanl_800D5500);
+    work->trans = DG_SetChanlSystemUnits(DG_TRANS_CHANL, FogTransChanl_800D63B0);
+    work->shade = DG_SetChanlSystemUnits(DG_SHADE_CHANL, FogShadeChanl_800D6A04);
+    work->sort  = DG_SetChanlSystemUnits(DG_SORT_CHANL,  FogSortChanl_800D4E98);
     work->f40 = 1;
 
     return 0;
 }
 
-GV_ACT *NewFog_800D4208(int arg0, int arg1)
+void *NewFog_800D4208(int arg0, int arg1)
 {
     FogWork *work;
 
-    work = (FogWork *)GV_NewActor(EXEC_LEVEL, sizeof(FogWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(FogWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)FogAct_800D4074, (GV_ACTFUNC)FogDie_800D40E0, "fog.c");
+        GV_SetNamedActor(&work->actor, FogAct_800D4074, FogDie_800D40E0, "fog.c");
 
         if (FogGetResources_800D4130(work, arg0, arg1) < 0)
         {
@@ -98,5 +98,5 @@ GV_ACT *NewFog_800D4208(int arg0, int arg1)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

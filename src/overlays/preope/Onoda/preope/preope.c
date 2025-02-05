@@ -1,3 +1,7 @@
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
@@ -75,13 +79,12 @@ signed char text_outline_direction_offsets_800C3248[] = {
      0, -1,
 };
 
-extern int    GV_Clock;
 extern GV_PAD GV_PadData_800B05C0[4];
 
-GV_ACT *NewPreMet1_800C6F20(int, int *, Unknown *);
-GV_ACT *NewPreMet2_800C6F20(int, int *, Unknown *);
+void *NewPreMet1_800C6F20(int, int *, Unknown *);
+void *NewPreMet2_800C6F20(int, int *, Unknown *);
 
-#define EXEC_LEVEL 1
+#define EXEC_LEVEL GV_ACTOR_MANAGER
 
 // Duplicate of Change_800C364C
 void Preope_800C32E0(PreopeWork *work, int index)
@@ -856,22 +859,21 @@ int PreopeGetResources_800C46F8(PreopeWork *work, int map)
     return 0;
 }
 
-GV_ACT *NewPreope_800C4DA4(int name, int where, int argc, char **argv)
+void *NewPreope_800C4DA4(int name, int where, int argc, char **argv)
 {
     PreopeWork *work;
 
     GM_GameStatus |= STATE_ALL_OFF;
 
-    work = (PreopeWork *)GV_NewActor(EXEC_LEVEL, sizeof(PreopeWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(PreopeWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)PreopeAct_800C4424,
-                         (GV_ACTFUNC)PreopeDie_800C449C, "preope.c");
+        GV_SetNamedActor(&work->actor, PreopeAct_800C4424, PreopeDie_800C449C, "preope.c");
         if (PreopeGetResources_800C46F8(work, where) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

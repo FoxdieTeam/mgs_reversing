@@ -2,6 +2,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "Game/game.h"
 
 typedef struct KatanaWork
 {
@@ -18,10 +19,7 @@ typedef struct KatanaWork
     int      field_14C;
 } KatanaWork;
 
-#define EXEC_LEVEL 4
-
-extern int    GV_Clock;
-extern int    GM_CurrentMap;
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 void s08c_katana_800C5040(KatanaWork *work)
 {
@@ -186,15 +184,14 @@ void KatanaDie_800C5564(KatanaWork *work)
     }
 }
 
-GV_ACT *NewKatana_800C55A0(MATRIX *pos, SVECTOR *svec1, SVECTOR *svec2, int *field_44)
+void *NewKatana_800C55A0(MATRIX *pos, SVECTOR *svec1, SVECTOR *svec2, int *field_44)
 {
     KatanaWork *work;
 
-    work = (KatanaWork *)GV_NewActor(EXEC_LEVEL, sizeof(KatanaWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(KatanaWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)KatanaAct_800C5210,
-                         (GV_ACTFUNC)KatanaDie_800C5564, "katana.c");
+        GV_SetNamedActor(&work->actor, KatanaAct_800C5210, KatanaDie_800C5564, "katana.c");
         if (KatanaGetResources_800C53E4(work, pos, svec1, svec2, field_44) < 0)
         {
             printf(" Katana Init Err !! \n");
@@ -202,16 +199,16 @@ GV_ACT *NewKatana_800C55A0(MATRIX *pos, SVECTOR *svec1, SVECTOR *svec2, int *fie
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewKatana_800C5660(MATRIX *pos)
+void *NewKatana_800C5660(MATRIX *pos)
 {
     SVECTOR     svec1;
     SVECTOR     svec2;
     KatanaWork *work;
 
-    work = (KatanaWork *)GV_NewActor(EXEC_LEVEL, sizeof(KatanaWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(KatanaWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, (GV_ACTFUNC)KatanaAct_800C5210,
@@ -230,5 +227,5 @@ GV_ACT *NewKatana_800C5660(MATRIX *pos)
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

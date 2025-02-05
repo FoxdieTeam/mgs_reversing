@@ -18,7 +18,7 @@ typedef struct ElcDamgWork
     int    proc_id;
 } ElcDamgWork;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 unsigned short s08a_dword_800C36E0[2] = {HASH_ON2, HASH_OFF2};
 
@@ -90,20 +90,19 @@ int ElcDamgGetResources_800D4BFC(ElcDamgWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT *NewElcDamg_800D4C68(int name, int where)
+void *NewElcDamg_800D4C68(int name, int where)
 {
     ElcDamgWork *work;
 
-    work = (ElcDamgWork *)GV_NewActor(EXEC_LEVEL, sizeof(ElcDamgWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(ElcDamgWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)ElcDamgAct_800D4AE4,
-                         (GV_ACTFUNC)ElcDamgDie_800D4BF4, "elc_damg.c");
+        GV_SetNamedActor(&work->actor, ElcDamgAct_800D4AE4, ElcDamgDie_800D4BF4, "elc_damg.c");
         if (ElcDamgGetResources_800D4BFC(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

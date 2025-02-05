@@ -20,10 +20,10 @@ typedef struct Monitor1Work
     int     proc;
 } Monitor1Work;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-GV_ACT *NewSpark2_800CA714(MATRIX *world);
-void    AN_Unknown_800DCE84(SVECTOR *pos);
+void *NewSpark2_800CA714(MATRIX *world);
+void AN_Unknown_800DCE84(SVECTOR *pos);
 
 void Monitor1Act_800DC8BC(Monitor1Work *work)
 {
@@ -198,15 +198,14 @@ int Monitor1GetResources_800DCC90(Monitor1Work *work, int arg1, int arg2)
     return 0;
 }
 
-GV_ACT *NewMonitor1_800DCDE0(int arg0, int arg1)
+void *NewMonitor1_800DCDE0(int arg0, int arg1)
 {
     Monitor1Work *work;
 
-    work = (Monitor1Work *)GV_NewActor(EXEC_LEVEL, sizeof(Monitor1Work));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Monitor1Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)Monitor1Act_800DC8BC,
-                         (GV_ACTFUNC)Monitor1Die_800DCBB0, "monitor1.c");
+        GV_SetNamedActor(&work->actor, Monitor1Act_800DC8BC, Monitor1Die_800DCBB0, "monitor1.c");
         if (Monitor1GetResources_800DCC90(work, arg0, arg1) < 0)
         {
             GV_DestroyActor(&work->actor);
@@ -216,5 +215,5 @@ GV_ACT *NewMonitor1_800DCDE0(int arg0, int arg1)
         work->flag2 = 0;
         work->vy = work->control.mov.vy;
     }
-    return &work->actor;
+    return (void *)work;
 }

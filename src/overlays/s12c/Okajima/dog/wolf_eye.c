@@ -1,6 +1,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "Game/game.h"
 
 typedef struct _WolfEyeWork
 {
@@ -21,9 +22,7 @@ SVECTOR SECTION("overlay.bss") s12c_800DA418;
 int SECTION("overlay.bss") s12c_800DA420;
 int SECTION("overlay.bss") s12c_dword_800DA424;
 
-extern int GM_CurrentMap;
-
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void WolfEye_800D3518()
 {
@@ -176,14 +175,14 @@ int WolfEyeGetResources_800D3728(WolfEyeWork *work, MATRIX *root, int *visible)
     return 0;
 }
 
-GV_ACT *NewWolfEye_800D3930(MATRIX *root, int *visible)
+void *NewWolfEye_800D3930(MATRIX *root, int *visible)
 {
     WolfEyeWork *work;
 
-    work = (WolfEyeWork *)GV_NewActor(EXEC_LEVEL, sizeof(WolfEyeWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(WolfEyeWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)WolfEyeAct_800D35EC, (GV_ACTFUNC)WolfEyeDie_800D36C0, "wolf_eye.c");
+        GV_SetNamedActor(&work->actor, WolfEyeAct_800D35EC, WolfEyeDie_800D36C0, "wolf_eye.c");
 
         if (WolfEyeGetResources_800D3728(work, root, visible) < 0)
         {
@@ -192,5 +191,5 @@ GV_ACT *NewWolfEye_800D3930(MATRIX *root, int *visible)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

@@ -16,9 +16,10 @@ typedef struct IntrCamWork
     SVECTOR field_34;
 } IntrCamWork;
 
+#define EXEC_LEVEL GV_ACTOR_AFTER2
+
 const char s03e_dword_800CBFD0[] = "intr_cam.c";
 
-extern PlayerStatusFlag GM_PlayerStatus;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 
 void IntrCam_800C5548(IntrCamWork *work)
@@ -96,15 +97,14 @@ int IntrCam_GetResources_800C56F8(IntrCamWork *work)
     return 0;
 }
 
-GV_ACT *NewIntrCam_800C5748(int name, int where, int argc, char **argv)
+void *NewIntrCam_800C5748(int name, int where, int argc, char **argv)
 {
     IntrCamWork *work;
 
-    work = (IntrCamWork *)GV_NewActor(7, sizeof(IntrCamWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(IntrCamWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)IntrCam_Act_800C5638,
-                         (GV_ACTFUNC)IntrCam_Die_800C56F0, s03e_dword_800CBFD0);
+        GV_SetNamedActor(&work->actor, IntrCam_Act_800C5638, IntrCam_Die_800C56F0, s03e_dword_800CBFD0);
         if (IntrCam_GetResources_800C56F8(work) < 0)
         {
             GV_DestroyActor(&work->actor);
@@ -112,5 +112,5 @@ GV_ACT *NewIntrCam_800C5748(int name, int where, int argc, char **argv)
         }
         work->field_20 = name;
     }
-    return &work->actor;
+    return (void *)work;
 }

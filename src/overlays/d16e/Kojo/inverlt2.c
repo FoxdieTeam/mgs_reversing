@@ -1,8 +1,13 @@
 #include "inverlt2.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "Game/game.h"
 #include "Okajima/stngrnd.h"
 
 typedef struct _Inverlt2Work
@@ -23,15 +28,13 @@ typedef struct _Inverlt2Work
     int      fE8;
 } Inverlt2Work;
 
-extern int GM_CurrentMap;
-
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void Inverlt2Act_800D1580(Inverlt2Work *work);
 void Inverlt2Die_800D1858(Inverlt2Work *work);
 void Inverlt2InitRects_800D18D4(Inverlt2Work *work, int scale);
 
-GV_ACT *NewInverlt2_800D0FF4(SVECTOR *arg0, int arg1, int arg2, int arg3, int r, int g, int b, int arg7, int arg8)
+void *NewInverlt2_800D0FF4(SVECTOR *arg0, int arg1, int arg2, int arg3, int r, int g, int b, int arg7, int arg8)
 {
     Inverlt2Work *work;
     DG_TEX       *tex;
@@ -39,13 +42,13 @@ GV_ACT *NewInverlt2_800D0FF4(SVECTOR *arg0, int arg1, int arg2, int arg3, int r,
     int           x, y, w, h;
     int           x2, y2, w2, h2;
 
-    work = (Inverlt2Work *)GV_NewActor(EXEC_LEVEL, sizeof(Inverlt2Work));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Inverlt2Work));
     if (work == NULL)
     {
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)Inverlt2Act_800D1580, (GV_ACTFUNC)Inverlt2Die_800D1858, "inverlt2.c");
+    GV_SetNamedActor(&work->actor, Inverlt2Act_800D1580, Inverlt2Die_800D1858, "inverlt2.c");
 
     work->fC4 = r;
     work->fC8 = g;
@@ -143,7 +146,7 @@ GV_ACT *NewInverlt2_800D0FF4(SVECTOR *arg0, int arg1, int arg2, int arg3, int r,
 #undef POLY
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
 // Can't match below function without this macro

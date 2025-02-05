@@ -1,4 +1,4 @@
-#define __BSSDEFINE__
+#define __GAMED_SBSS__
 #include "game.h"
 
 #include <stdio.h>
@@ -57,27 +57,27 @@ int GM_PadResetDisable = FALSE;
 int          SECTION(".sbss") dword_800AB9CC;
 int          SECTION(".sbss") dword_800AB9D0;
 int          SECTION(".sbss") dword_800AB9D4;
-short        SECTION(".sbss") GM_WeaponChanged_800AB9D8;
+short        SECTION(".sbss") GM_WeaponChanged;
 short        SECTION(".sbss") word_800AB9DA;
-int          SECTION(".sbss") GM_ClaymoreMap_800AB9DC;
+int          SECTION(".sbss") GM_ClaymoreMap;
 int          SECTION(".sbss") GM_AlertMax;
-unsigned int SECTION(".sbss") GM_DisableWeapon_800AB9E4;
-int          SECTION(".sbss") gTotalFrameTime_800AB9E8;
-short        SECTION(".sbss") GM_Magazine_800AB9EC;
-int          SECTION(".sbss") GM_PlayerAddress_800AB9F0;
-CONTROL     *SECTION(".sbss") GM_PlayerControl_800AB9F4;
-SVECTOR      SECTION(".sbss") GM_NoisePosition; //breaks when added to a file that includes game.h
+unsigned int SECTION(".sbss") GM_DisableWeapon;
+int          SECTION(".sbss") gTotalFrameTime;
+short        SECTION(".sbss") GM_Magazine;
+int          SECTION(".sbss") GM_PlayerAddress;
+CONTROL     *SECTION(".sbss") GM_PlayerControl;
+SVECTOR      SECTION(".sbss") GM_NoisePosition;
 int          SECTION(".sbss") GM_AlertMode;
-int          SECTION(".sbss") GM_Photocode_800ABA04;
+int          SECTION(".sbss") GM_Photocode;
 int          SECTION(".sbss") dword_800ABA08;
-int          SECTION(".sbss") GM_PlayerMap_800ABA0C;
-SVECTOR      SECTION(".sbss") GM_PlayerPosition_800ABA10;
+int          SECTION(".sbss") GM_PlayerMap;
+SVECTOR      SECTION(".sbss") GM_PlayerPosition;
 int          SECTION(".sbss") GM_AlertLevel;
 int          SECTION(".sbss") dword_800ABA1C;
-OBJECT      *SECTION(".sbss") GM_PlayerBody_800ABA20;
+OBJECT      *SECTION(".sbss") GM_PlayerBody;
 int          SECTION(".sbss") GM_NoisePower;
-int          SECTION(".sbss") GM_DisableItem_800ABA28;
-short        SECTION(".sbss") GM_MagazineMax_800ABA2C;
+int          SECTION(".sbss") GM_DisableItem;
+short        SECTION(".sbss") GM_MagazineMax;
 int          SECTION(".sbss") GM_NoiseLength;
 short        SECTION(".sbss") GM_O2;
 short        SECTION(".sbss") GM_PDA_ClearRank;
@@ -113,9 +113,7 @@ extern int          str_off_idx_800BF264;
 extern char         exe_name_800B5860[32];
 extern char        *MGS_DiskName[3]; /* in main.c */
 extern int          FS_DiskNum_800ACBF0;
-extern int          GV_PassageTime;
 extern int          gSaveCache_800B5294;
-extern int          GV_PauseLevel;
 extern GV_PAD       GV_PadData_800B05C0[4];
 
 extern DG_TEX gMenuTextureRec_800B58B0;
@@ -139,27 +137,27 @@ STATIC void GM_InitGameSystem(void)
 {
     int i;
 
-    GM_PlayerAddress_800AB9F0 = -1;
+    GM_PlayerAddress = -1;
     GM_GameStatus = 0;
     GM_GameOverTimer = 0;
     GM_PlayerStatus = 0;
     GM_NoisePower = 0;
     GM_NoiseLength = 0;
-    GM_ClaymoreMap_800AB9DC = 0;
+    GM_ClaymoreMap = 0;
     GM_AlertLevel = 0;
     GM_AlertMax = 0;
     GM_AlertMode = 0;
-    GM_WeaponChanged_800AB9D8 = 0;
-    GM_Magazine_800AB9EC = 0;
-    GM_MagazineMax_800ABA2C = 0;
-    GM_DisableItem_800ABA28 = 0;
-    GM_DisableWeapon_800AB9E4 = 0;
+    GM_WeaponChanged = 0;
+    GM_Magazine = 0;
+    GM_MagazineMax = 0;
+    GM_DisableItem = 0;
+    GM_DisableWeapon = 0;
     GM_O2 = 1024;
     GM_StageName = NULL;
     GM_EnvironTemp = 0;
-    GM_PlayerPosition_800ABA10.vx = GM_SnakePosX;
-    GM_PlayerPosition_800ABA10.vy = GM_SnakePosY;
-    GM_PlayerPosition_800ABA10.vz = GM_SnakePosZ;
+    GM_PlayerPosition.vx = GM_SnakePosX;
+    GM_PlayerPosition.vy = GM_SnakePosY;
+    GM_PlayerPosition.vz = GM_SnakePosZ;
 
     for (i = 5; i >= 0; i--)
     {
@@ -372,8 +370,8 @@ STATIC void GM_Act(GameWork *work)
     if ((GV_PauseLevel & 2) == 0)
     {
         int minutes;
-        gTotalFrameTime_800AB9E8 += GV_PassageTime;
-        minutes = gTotalFrameTime_800AB9E8 / 60;
+        gTotalFrameTime += GV_PassageTime;
+        minutes = gTotalFrameTime / 60;
         GM_TotalHours = minutes / 3600;
         GM_TotalSeconds = minutes % 3600;
     }
@@ -454,7 +452,7 @@ STATIC void GM_Act(GameWork *work)
                         }
                         else
                         {
-                            GV_DestroyActorSystem(4);
+                            GV_DestroyActorSystem(GV_ACTOR_LEVEL4);
                         }
                     }
                     else if (GM_StreamStatus() == status)
@@ -477,7 +475,7 @@ STATIC void GM_Act(GameWork *work)
                     DG_UnDrawFrameCount = 0x7fff0000;
                 }
 
-                GV_DestroyActorSystem(4);
+                GV_DestroyActorSystem(GV_ACTOR_LEVEL4);
                 GV_PauseLevel &= ~8;
                 GM_ResetMapModel();
                 GM_StreamPlayStop();
@@ -621,10 +619,10 @@ void GM_CallSystemCallbackProc(int id, int arg)
 {
     int proc;
 
-    if (id == 4 && GM_PlayerControl_800AB9F4 != NULL)
+    if (id == 4 && GM_PlayerControl != NULL)
     {
-        HZD_ReExecEvent(GM_PlayerControl_800AB9F4->map->hzd,
-                        &GM_PlayerControl_800AB9F4->event, 0x301);
+        HZD_ReExecEvent(GM_PlayerControl->map->hzd,
+                        &GM_PlayerControl->event, 0x301);
     }
 
     proc = gSystemCallbackProcs_800B58C0[id];
@@ -720,7 +718,7 @@ STATIC int GM_LoadInitBin(unsigned char *buf, int id)
 
 void GM_StartDaemon(void)
 {
-    gTotalFrameTime_800AB9E8 = 0;
+    gTotalFrameTime = 0;
     GM_GameOverTimer = 0;
     GM_LoadRequest = 0;
     GM_LoadComplete = 0;
@@ -730,8 +728,8 @@ void GM_StartDaemon(void)
     GM_InitScript();
     GV_SetLoader('b', GM_LoadInitBin);
     GM_ClearWeaponAndItem();
-    GV_InitActor(1, &GameWork_800B5880.actor, NULL);
-    GV_SetNamedActor(&GameWork_800B5880.actor, (GV_ACTFUNC)GM_Act, NULL, "gamed.c");
+    GV_InitActor(GV_ACTOR_MANAGER, &GameWork_800B5880.actor, NULL);
+    GV_SetNamedActor(&GameWork_800B5880.actor, GM_Act, NULL, "gamed.c");
     GM_ResetSystem();
     GM_ActInit(&GameWork_800B5880);
     GM_ResetMemory();

@@ -1,5 +1,9 @@
 #include "gas_efct.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
@@ -35,13 +39,9 @@ typedef struct _GasEfctWork
     char          pad[0x20];
 } GasEfctWork;
 
-extern int     GV_Clock;
-extern int     GV_PauseLevel;
-extern int     GM_CurrentMap;
-
 unsigned short gas_efct_msgs[] = {HASH_ON2, HASH_OFF2};
 
-#define EXEC_LEVEL 3
+#define EXEC_LEVEL GV_ACTOR_LEVEL3
 
 void d11c_800C4FFC(GasEfctWork *work);
 void d11c_800C5094(GasEfctWork *work, int arg1);
@@ -221,14 +221,14 @@ int GasEffectGetResources_800C4D98(GasEfctWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT *NewGasEffect_800C4E5C(int name, int where, int argc, char **argv)
+void *NewGasEffect_800C4E5C(int name, int where, int argc, char **argv)
 {
     GasEfctWork *work;
 
-    work = (GasEfctWork *)GV_NewActor(EXEC_LEVEL, sizeof(GasEfctWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(GasEfctWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)GasEffectAct_800C4BBC, (GV_ACTFUNC)GasEffectDie_800C4D64, "gas_efct.c");
+        GV_SetNamedActor(&work->actor, GasEffectAct_800C4BBC, GasEffectDie_800C4D64, "gas_efct.c");
 
         if (GasEffectGetResources_800C4D98(work, name, where) < 0)
         {
@@ -240,17 +240,17 @@ GV_ACT *NewGasEffect_800C4E5C(int name, int where, int argc, char **argv)
         work->name = name;
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewGasEffect_800C4EF8(SVECTOR *arg0, int arg1, int arg2)
+void *NewGasEffect_800C4EF8(SVECTOR *arg0, int arg1, int arg2)
 {
     GasEfctWork *work;
 
-    work = (GasEfctWork *)GV_NewActor(EXEC_LEVEL, sizeof(GasEfctWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(GasEfctWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)GasEffectAct_800C4BBC, (GV_ACTFUNC)GasEffectDie_800C4D64, "gas_efct.c");
+        GV_SetNamedActor(&work->actor, GasEffectAct_800C4BBC, GasEffectDie_800C4D64, "gas_efct.c");
         work->f48 = 4096;
         work->f50 = 410;
         work->f2C = DG_ZeroVector;
@@ -266,7 +266,7 @@ GV_ACT *NewGasEffect_800C4EF8(SVECTOR *arg0, int arg1, int arg2)
         work->map = GM_CurrentMap;
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
 void d11c_800C4FFC(GasEfctWork *work)

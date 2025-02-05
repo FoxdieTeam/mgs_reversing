@@ -5,6 +5,7 @@
 #include <libgpu.h>
 
 #include "common.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "Anime/animeconv/anime.h"
 #include "Game/game.h"
@@ -13,11 +14,9 @@
 #include "SD/g_sound.h"
 #include "strcode.h"
 
-extern int GM_ClaymoreMap_800AB9DC;
-
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL 6
+#define EXEC_LEVEL GV_ACTOR_AFTER
 
 BLAST_DATA blast_data_8009F4B8[8] = {
     { 0x100, 5, 0x3E8, 0x7D0,  2 },
@@ -145,14 +144,13 @@ STATIC int BlastGetResources(BLAST_DATA *blast_data, BlastWork *work, MATRIX *wo
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewBlast(MATRIX *world, BLAST_DATA *blast_data)
+void *NewBlast(MATRIX *world, BLAST_DATA *blast_data)
 {
-    BlastWork *work = (BlastWork *)GV_NewActor(EXEC_LEVEL, sizeof(BlastWork));
+    BlastWork *work = GV_NewActor(EXEC_LEVEL, sizeof(BlastWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BlastAct,
-                         (GV_ACTFUNC)BlastDie, "blast.c");
-        GM_ClaymoreMap_800AB9DC = GM_CurrentMap;
+        GV_SetNamedActor(&work->actor, BlastAct, BlastDie, "blast.c");
+        GM_ClaymoreMap = GM_CurrentMap;
 
         if (BlastGetResources(blast_data, work, world, 1) < 0)
         {
@@ -166,17 +164,16 @@ GV_ACT *NewBlast(MATRIX *world, BLAST_DATA *blast_data)
         sub_800790E8();
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewBlast2(MATRIX *world, BLAST_DATA *blast_data, int doSound, int side)
+void *NewBlast2(MATRIX *world, BLAST_DATA *blast_data, int doSound, int side)
 {
-    BlastWork *work = (BlastWork *)GV_NewActor(EXEC_LEVEL, sizeof(BlastWork));
+    BlastWork *work = GV_NewActor(EXEC_LEVEL, sizeof(BlastWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BlastAct,
-                         (GV_ACTFUNC)BlastDie, "blast.c");
-        GM_ClaymoreMap_800AB9DC = GM_CurrentMap;
+        GV_SetNamedActor(&work->actor, BlastAct, BlastDie, "blast.c");
+        GM_ClaymoreMap = GM_CurrentMap;
         if (BlastGetResources(blast_data, work, world, side) < 0)
         {
             GV_DestroyActor(&work->actor);
@@ -190,7 +187,7 @@ GV_ACT *NewBlast2(MATRIX *world, BLAST_DATA *blast_data, int doSound, int side)
 
         sub_800790E8();
     }
-    return &work->actor;
+    return (void *)work;
 }
 
 /*---------------------------------------------------------------------------*/

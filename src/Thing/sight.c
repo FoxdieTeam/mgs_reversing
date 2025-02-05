@@ -7,6 +7,8 @@
 #include "Menu/menuman.h"
 #include "strcode.h"
 
+#define EXEC_LEVEL GV_ACTOR_AFTER2
+
 short word_8009F5FC = 1;
 int  dword_8009F600 = 0;
 int  dword_8009F604 = -1;
@@ -268,11 +270,6 @@ STATIC void sight_act_helper_80071498(SightTextPseudoPrim *textPrim)
     MENU_Color(textPrim->field_4_r, textPrim->field_5_g, textPrim->field_6_b);
     MENU_Printf("%s", textPrim->field_C_text);
 }
-
-extern int GV_Clock;
-extern int GM_CurrentMap;
-extern int GM_PlayerStatus;
-extern int GV_PauseLevel;
 
 STATIC void sight_act_800714EC(SightWork *work)
 {
@@ -624,11 +621,10 @@ SightWork *NewSight_80071CDC(int hashedFileName0, int hashedFileName1, short *it
         return work;
     }
 
-    work = (SightWork *)GV_NewActor(7, sizeof(SightWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(SightWork));
     if (work)
     {
-        GV_SetNamedActor((GV_ACT *)work, (GV_ACTFUNC)sight_act_800714EC,
-                         (GV_ACTFUNC)sight_kill_800719C8, "sight.c");
+        GV_SetNamedActor((GV_ACT *)work, sight_act_800714EC, sight_kill_800719C8, "sight.c");
         work->field_54_maybeFlags = 0;
 
         if (sight_loader_80071A54(work, hashedFileName0, itemEquippedIndicator, itemId, xyOffsetBuffer) < 0)
@@ -653,11 +649,10 @@ SightWork *sight_init_80071DC8(int hashedFileName, short *xyOffsetBuffer)
         return work;
     }
 
-    work = (SightWork *)GV_NewActor(7, sizeof(SightWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(SightWork));
     if (work)
     {
-        GV_SetNamedActor((GV_ACT *)work, (GV_ACTFUNC)sight_act_800714EC,
-                         (GV_ACTFUNC)sight_kill_800719C8, "sight.c");
+        GV_SetNamedActor((GV_ACT *)work, sight_act_800714EC, sight_kill_800719C8, "sight.c");
         work->field_54_maybeFlags = 0;
 
         if (sight_loader_80071A54(work, hashedFileName, &word_8009F5FC, 1, xyOffsetBuffer) < 0)
@@ -684,11 +679,10 @@ SightWork *sight_init_80071EA8(int hashedFileName0, int hashedFileName1, short *
         return work;
     }
 
-    work = (SightWork *)GV_NewActor(7, sizeof(SightWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(SightWork));
     if (work)
     {
-        GV_SetNamedActor((GV_ACT *)work, (GV_ACTFUNC)sight_act_800714EC,
-                         (GV_ACTFUNC)sight_kill_800719C8, "sight.c");
+        GV_SetNamedActor((GV_ACT *)work, sight_act_800714EC, sight_kill_800719C8, "sight.c");
         work->field_54_maybeFlags = 2;
 
         if (sight_loader_80071A54(work, hashedFileName0, itemEquippedIndicator, itemId, xyOffsetBuffer) < 0)
@@ -716,11 +710,10 @@ SightWork *sight_init_80071F98(int hashedFileName, short *xyOffsetBuffer)
     dword_8009F600++;
     dword_8009F604 = hashedFileName;
 
-    work = (SightWork *)GV_NewActor(7, sizeof(SightWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(SightWork));
     if (work)
     {
-        GV_SetNamedActor((GV_ACT *)work, (GV_ACTFUNC)sight_act_800714EC,
-                         (GV_ACTFUNC)sight_kill_800719C8, "sight.c");
+        GV_SetNamedActor((GV_ACT *)work, sight_act_800714EC, sight_kill_800719C8, "sight.c");
         work->field_54_maybeFlags = 2;
 
         if (sight_loader_80071A54(work, hashedFileName, &word_8009F5FC, 1, xyOffsetBuffer) < 0)

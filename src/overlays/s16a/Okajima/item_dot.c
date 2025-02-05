@@ -14,7 +14,7 @@ typedef struct _ItemDotWork
     int     fA8;
 } ItemDotWork;
 
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 int ItemDotCheckMessages_800CC4C8(unsigned short name, int n_hashes, unsigned short *hashes)
 {
@@ -158,14 +158,14 @@ void ItemDotDie_800CC7B0(ItemDotWork *work)
     GM_FreeControl(&work->control);
 }
 
-GV_ACT *NewItemDot_800CC7D0(int name, int where)
+void *NewItemDot_800CC7D0(int name, int where)
 {
     ItemDotWork *work;
 
-    work = (ItemDotWork *)GV_NewActor(EXEC_LEVEL, sizeof(ItemDotWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(ItemDotWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)ItemDotAct_800CC560, (GV_ACTFUNC)ItemDotDie_800CC7B0, "item_dot.c");
+        GV_SetNamedActor(&work->actor, ItemDotAct_800CC560, ItemDotDie_800CC7B0, "item_dot.c");
 
         if (ItemDotGetResources_800CC6DC(work, name, where) < 0)
         {
@@ -174,5 +174,5 @@ GV_ACT *NewItemDot_800CC7D0(int name, int where)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

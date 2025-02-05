@@ -4,9 +4,7 @@
 #include <sys/types.h>
 #include <libgte.h>
 #include <libgpu.h>
-
 #include "common.h"
-#include "libgv/libgv.h"
 
 typedef struct Item_Info
 {
@@ -17,8 +15,8 @@ typedef struct Item_Info
     short       field_A;
 } Item_Info;
 
-GV_ACT *NewItem(int name, int where, int argc, char **argv);
-GV_ACT *item_init_80034758(SVECTOR *pPos, SVECTOR *a2, Item_Info *pItemInfo);
+void *NewItem(int name, int where, int argc, char **argv);
+void *item_init_80034758(SVECTOR *pPos, SVECTOR *a2, Item_Info *pItemInfo);
 
 void item_all_items_and_weapons_unknown2_80033500(void);
 void item_all_items_and_weapons_unknown_80033560(void);

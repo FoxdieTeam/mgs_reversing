@@ -26,13 +26,9 @@ typedef struct FadeIoWork
     int          field_38;
 } FadeIoWork;
 
-extern int GV_Clock;
-extern int GV_PassageTime;
-extern int GV_PauseLevel;
-
 unsigned short fadeio_msgs[] = {HASH_KILL, 0x71F1};
 
-#define EXEC_LEVEL 3
+#define EXEC_LEVEL GV_ACTOR_LEVEL3
 
 void FadeIoAct_800C3E7C(FadeIoWork *work)
 {
@@ -156,15 +152,14 @@ int FadeIoGetResources_800C4100(FadeIoWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT *NewFadeIo_800C4224(int name, int where, int argc, char **argv)
+void *NewFadeIo_800C4224(int name, int where, int argc, char **argv)
 {
     FadeIoWork *work;
 
-    work = (FadeIoWork *)GV_NewActor(EXEC_LEVEL, sizeof(FadeIoWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(FadeIoWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)FadeIoAct_800C3E7C,
-                         (GV_ACTFUNC)FadeIoDie_800C40D0, "fadeio.c");
+        GV_SetNamedActor(&work->actor, FadeIoAct_800C3E7C, FadeIoDie_800C40D0, "fadeio.c");
         if (FadeIoGetResources_800C4100(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);
@@ -173,18 +168,17 @@ GV_ACT *NewFadeIo_800C4224(int name, int where, int argc, char **argv)
 
         work->field_20 = 0x62FE;
     }
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewFadeIo_800C42BC(int name, int where, int argc, char **argv)
+void *NewFadeIo_800C42BC(int name, int where, int argc, char **argv)
 {
     FadeIoWork *work;
 
-    work = (FadeIoWork *)GV_NewActor(EXEC_LEVEL, sizeof(FadeIoWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(FadeIoWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)FadeIoAct_800C3E7C,
-                         (GV_ACTFUNC)FadeIoDie_800C40D0, "fadeio.c");
+        GV_SetNamedActor(&work->actor, FadeIoAct_800C3E7C, FadeIoDie_800C40D0, "fadeio.c");
 
         if (FadeIoGetResources_800C4100(work, THING_Gcl_GetInt('m'), THING_Gcl_GetInt('s')) < 0)
         {
@@ -195,5 +189,5 @@ GV_ACT *NewFadeIo_800C42BC(int name, int where, int argc, char **argv)
         work->field_20 = name;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

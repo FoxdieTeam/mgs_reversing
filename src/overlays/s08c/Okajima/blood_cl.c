@@ -2,6 +2,7 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
+#include "Game/game.h"
 
 typedef struct _BloodClWork
 {
@@ -11,9 +12,7 @@ typedef struct _BloodClWork
     int      map;
 } BloodClWork;
 
-extern int GM_CurrentMap;
-
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 int BloodClGetSvecs_800C99AC(char *opt, SVECTOR *out)
 {
@@ -201,15 +200,14 @@ int BloodClGetResources_800C9A88(BloodClWork *work, int map)
     return 0;
 }
 
-GV_ACT *NewBloodCl_800C9DF0(int name, int where)
+void *NewBloodCl_800C9DF0(int name, int where)
 {
     BloodClWork *work;
 
-    work = (BloodClWork *)GV_NewActor(EXEC_LEVEL, sizeof(BloodClWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(BloodClWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BloodClAct_800C9A80,
-                         (GV_ACTFUNC)BloodClDie_800C9A44, "blood_cl.c");
+        GV_SetNamedActor(&work->actor, BloodClAct_800C9A80, BloodClDie_800C9A44, "blood_cl.c");
 
         if (BloodClGetResources_800C9A88(work, where) < 0)
         {
@@ -218,5 +216,5 @@ GV_ACT *NewBloodCl_800C9DF0(int name, int where)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

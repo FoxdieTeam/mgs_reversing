@@ -125,7 +125,7 @@ typedef struct ValcanWork
     int            field_950;
 } ValcanWork;
 
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 SVECTOR s15c_dword_800C3608 = {0, 0, 100};
 SVECTOR s15c_dword_800C3610 = {64512, 0, 0};
@@ -147,17 +147,14 @@ extern char s15c_aRaven_800E2E68[];
 extern SVECTOR s15c_dword_800C35F0;
 extern SVECTOR s15c_dword_800C35F8;
 
-extern SVECTOR          GM_PlayerPosition_800ABA10;
 extern int              amissile_alive_8009F490;
 extern SVECTOR          svector_8009F478;
 extern SVECTOR          svector_8009F494;
 extern int              dword_8009F46C[];
-extern PlayerStatusFlag GM_PlayerStatus;
-extern int              GM_AlertMode;
 
 void    AN_Breath_800C3AA8(MATRIX *matrix);
 void    AN_Unknown_800CA1EC(MATRIX *world, int index);
-GV_ACT *NewFadeIo_800C4224(int name, int where);
+void   *NewFadeIo_800C4224(int name, int where);
 
 int Valcan_800D8D20(CONTROL *control, SVECTOR *svec1)
 {
@@ -313,7 +310,7 @@ void ValcanAct_800D9088(ValcanWork *work)
     ValcanDequeueDynamicSegment_800D8DA0(work);
     Valcan_800D8DD8(work);
     if (GV_DiffDirAbs(work->control.rot.vy,
-                               Valcan_800D8D20(&work->control, &GM_PlayerPosition_800ABA10)) < 1024)
+                      Valcan_800D8D20(&work->control, &GM_PlayerPosition)) < 1024)
     {
         ValcanQueueDynamicSegment_800D8D5C(work, 223);
     }
@@ -455,7 +452,7 @@ int ValcanGetResources_800D92A8(ValcanWork *work, int name, int where)
         setRGB0(&prim->packs[0]->poly_ft4, 150, 150, 150);
         setRGB0(&prim->packs[1]->poly_ft4, 150, 150, 150);
 
-        work->field_878 = GM_PlayerPosition_800ABA10;
+        work->field_878 = GM_PlayerPosition;
 
         NewFadeIo_800C4224(1, 20);
     }
@@ -520,15 +517,14 @@ int ValcanGetResources_800D9830(ValcanWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT *NewValcan_800D9864(int name, int where)
+void *NewValcan_800D9864(int name, int where)
 {
     ValcanWork *work;
 
-    work = (ValcanWork *)GV_NewActor(EXEC_LEVEL, sizeof(ValcanWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(ValcanWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)ValcanAct_800D9088,
-                         (GV_ACTFUNC)ValcanDie_800D96E8, s15c_dword_800E2E5C);
+        GV_SetNamedActor(&work->actor, ValcanAct_800D9088, ValcanDie_800D96E8, s15c_dword_800E2E5C);
         if (ValcanGetResources_800D9830(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);
@@ -540,7 +536,7 @@ GV_ACT *NewValcan_800D9864(int name, int where)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
 void Valcan_800D990C(ValcanWork *work)
@@ -723,7 +719,7 @@ int Valcan_800D9DC0(ValcanWork *work, int param_2)
 
     if (param_2)
     {
-        pos = GM_PlayerPosition_800ABA10;
+        pos = GM_PlayerPosition;
     }
     else
     {
@@ -779,7 +775,7 @@ void Valcan_800D9F8C(ValcanWork *work)
         return;
     }
     work->field_838 = 0;
-    work->field_51C = GM_PlayerPosition_800ABA10;
+    work->field_51C = GM_PlayerPosition;
 }
 
 void Valcan_800DA044(ValcanWork *work)
@@ -863,8 +859,8 @@ void Valcan_800DA21C(ValcanWork *work) // it possibly returns a BulletWork*
     MATRIX  rotmat;
     SVECTOR svec;
 
-    Valcan_800D9EBC(&work->control.mov, &GM_PlayerPosition_800ABA10, &svec);
-    DG_SetPos2(&GM_PlayerPosition_800ABA10, &svec);
+    Valcan_800D9EBC(&work->control.mov, &GM_PlayerPosition, &svec);
+    DG_SetPos2(&GM_PlayerPosition, &svec);
     ReadRotMatrix(&rotmat);
     NewBulletEx(2048, &rotmat, 2, 0, 0, 30, 90, 30000, 100);
 }
@@ -902,12 +898,12 @@ int Valcan_800DA558(ValcanWork *work, int arg1)
     {
         if (HZD_80028454(work->control.map->hzd, &svec1, &work->field_51C, 12, 2) == 0)
         {
-            if (HZD_80028454(work->control.map->hzd, &svec1, &GM_PlayerPosition_800ABA10, 12, 2) == 0)
+            if (HZD_80028454(work->control.map->hzd, &svec1, &GM_PlayerPosition, 12, 2) == 0)
             {
                 var_s0 = Valcan_800D9DC0(work, 1);
                 if (var_s0 < work->field_68C)
                 {
-                    work->field_51C = GM_PlayerPosition_800ABA10;
+                    work->field_51C = GM_PlayerPosition;
                     flag = 1;
                 }
             }
@@ -917,11 +913,11 @@ int Valcan_800DA558(ValcanWork *work, int arg1)
                 return 1;
             }
         }
-        else if (HZD_80028454(work->control.map->hzd, &svec1, &GM_PlayerPosition_800ABA10, 12, 2) == 0)
+        else if (HZD_80028454(work->control.map->hzd, &svec1, &GM_PlayerPosition, 12, 2) == 0)
         {
             var_s0 = Valcan_800D9DC0(work, 1);
             flag = 1;
-            work->field_51C = GM_PlayerPosition_800ABA10;
+            work->field_51C = GM_PlayerPosition;
         }
         else
         {
@@ -929,7 +925,7 @@ int Valcan_800DA558(ValcanWork *work, int arg1)
             return 0;
         }
     }
-    else if (HZD_80028454(work->control.map->hzd, &svec1, &GM_PlayerPosition_800ABA10, 12, 2) != 0)
+    else if (HZD_80028454(work->control.map->hzd, &svec1, &GM_PlayerPosition, 12, 2) != 0)
     {
         work->field_788 = 0;
         return 0;

@@ -19,7 +19,6 @@ extern SVECTOR       COM_NO_POINT_800C35D4;
 extern unsigned short COM_EYE_LENGTH_800E0D8C;
 
 extern GM_Camera      GM_Camera_800B77E8;
-extern int            GM_PlayerMap_800ABA0C;
 
 extern void *NewGunLight_800D3AD4( MATRIX* mat, int **enable );
 
@@ -203,8 +202,6 @@ int s07a_meryl7_800D5564( SVECTOR* svec )
 extern int *s07a_dword_800E3650;
 extern int *s07a_dword_800E3654;
 
-extern SVECTOR GM_PlayerPosition_800ABA10;
-
 void s07a_meryl7_800D55A8(WatcherWork *work )
 {
     if ( s07a_meryl7_800D54DC( &work->control.mov ) != 0 )
@@ -215,7 +212,7 @@ void s07a_meryl7_800D55A8(WatcherWork *work )
         *s07a_dword_800E3650 = 1;
     }
 
-    if ( s07a_meryl7_800D5564( &GM_PlayerPosition_800ABA10 ) != 0)
+    if ( s07a_meryl7_800D5564( &GM_PlayerPosition ) != 0)
     {
         *s07a_dword_800E3654 = 0;
     }
@@ -227,7 +224,7 @@ void s07a_meryl7_800D55A8(WatcherWork *work )
 
 int s07a_meryl7_800D5614( WatcherWork *work )
 {
-    return s07a_meryl7_800D5520( &GM_PlayerPosition_800ABA10 );
+    return s07a_meryl7_800D5520( &GM_PlayerPosition );
 }
 
 void EnemyPushMove_800DB23C( WatcherWork *work ); // EnemyPushMove_800CA0E8
@@ -543,7 +540,7 @@ int s07a_meryl7_800D5DD4( WatcherWork *work )
 extern const char s07a_dword_800E2E98[];
 extern const char s07a_dword_800E2EA0[];
 
-extern GV_ACT *s07a_dymc_seg_800D65C8(int arg0, SVECTOR *min, SVECTOR *max, int min_h, int max_h, int flag, void **arg6);
+extern void *s07a_dymc_seg_800D65C8(int arg0, SVECTOR *min, SVECTOR *max, int min_h, int max_h, int flag, void **arg6);
 
 void s07a_meryl7_800D5E34( WatcherWork *work )
 {
@@ -766,17 +763,19 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
     work->field_C14 = work->start_pos;
 }
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 extern const char s07a_aMeryl7_800E2F04[];
 extern const char s07a_aEnemyworksized_800E2EEC[];
 
-GV_ACT* NewEnemyMeryl_800D63A4( int name, int where, int argc, char **argv ) {
+void *NewEnemyMeryl_800D63A4( int name, int where, int argc, char **argv )
+{
     WatcherWork *work ;
 
     printf( (char *)s07a_aEnemyworksized_800E2EEC, sizeof( WatcherWork ) );
-    work = (WatcherWork *)GV_NewActor( 4, sizeof( WatcherWork ) ) ;
+    work = GV_NewActor( EXEC_LEVEL, sizeof( WatcherWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor( &( work->actor ), ( GV_ACTFUNC )EnemyMerylAct_800D5638, ( GV_ACTFUNC )EnemyMerylDie_800D5B90, s07a_aMeryl7_800E2F04 );
+        GV_SetNamedActor( &( work->actor ), EnemyMerylAct_800D5638, EnemyMerylDie_800D5B90, s07a_aMeryl7_800E2F04 );
         EnemyMerylGetResources_800D5F24( work, name, where );
     }
     return (void *)work ;

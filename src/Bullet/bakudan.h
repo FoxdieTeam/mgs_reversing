@@ -3,6 +3,7 @@
 
 #include <sys/types.h>
 #include <libgte.h>
+#include <libgpu.h>
 
 #include "libgv/libgv.h"
 #include "Game/control.h"
@@ -28,6 +29,6 @@ typedef struct BakudanWork
 
 #define C4_COUNT 16
 
-GV_ACT *NewBakudan(MATRIX *world, SVECTOR *pos, int attached, int unused, void *data);
+void *NewBakudan(MATRIX *world, SVECTOR *pos, int attached, int unused, void *data);
 
 #endif // _BAKUDAN_H_

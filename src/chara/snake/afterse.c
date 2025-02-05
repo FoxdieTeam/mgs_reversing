@@ -6,41 +6,41 @@
 
 typedef struct AfterseWork
 {
-  GV_ACT actor;
-  short  sound;
-  short  time;
+    GV_ACT  actor;
+    short   sound;
+    short   time;
 } AfterseWork;
 
-extern SVECTOR GM_PlayerPosition_800ABA10;
+#define EXEC_LEVEL GV_ACTOR_AFTER
 
-void AfterseAct_800603EC(AfterseWork *work)
+STATIC void AfterseAct_800603EC(AfterseWork *work)
 {
     if ( --work->time == 0 )
     {
         // Play the sound
-        GM_SeSetMode(&GM_PlayerPosition_800ABA10, work->sound, GM_SEMODE_BOMB);
+        GM_SeSetMode(&GM_PlayerPosition, work->sound, GM_SEMODE_BOMB);
 
         // Allow soliders/chavs/whatever to hear it
-        GM_SetNoise(100, 16, &GM_PlayerPosition_800ABA10);
+        GM_SetNoise(100, 16, &GM_PlayerPosition);
 
         // Die now we've done our stuff
         GV_DestroyActor(&work->actor);
     }
 }
 
-GV_ACT *NewAfterse_800604C0(short sound, short time)
+void *NewAfterse_800604C0(short sound, short time)
 {
     AfterseWork *work;
 
     if (sound != 0 && time != 0)
     {
-        work = (AfterseWork *)GV_NewActor(6, sizeof(AfterseWork));
+        work = GV_NewActor(EXEC_LEVEL, sizeof(AfterseWork));
         if (work)
         {
-            GV_SetNamedActor(&work->actor, (GV_ACTFUNC)AfterseAct_800603EC, 0, "afterse.c");
+            GV_SetNamedActor(&work->actor, AfterseAct_800603EC, NULL, "afterse.c");
             work->sound = sound;
             work->time = time;
-            return (GV_ACT *)work;
+            return (void *)work;
         }
     }
 

@@ -50,13 +50,6 @@ typedef struct _CraneWork
     int     f390;
 } CraneWork;
 
-extern int      GM_CurrentMap;
-extern CONTROL *GM_PlayerControl_800AB9F4;
-extern SVECTOR  GM_PlayerPosition_800ABA10;
-extern int      GM_PadVibration;
-extern int      GM_PlayerStatus;
-extern int      GM_PadVibration2;
-
 char crane_800C35F4[] = {0x00, 0x00, 0x00, 0x00};
 char crane_800C35F8[] = {0xAF, 0x04, 0x28, 0x03, 0x23, 0x03, 0x1E, 0x0C, 0x00, 0x00, 0x00, 0x00};
 char crane_800C3604[] = {0x7F, 0x01, 0x00, 0x00};
@@ -67,7 +60,7 @@ SVECTOR crane_800C3614 = {500, 500, 300, 0};
 void AN_Unknown_800CCA40(SVECTOR *pos);
 void AN_Unknown_800CCB84(SVECTOR *pos);
 
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 void s13a_crane_800D3994(HZD_SEG *out, MATRIX *world, SVECTOR *min, SVECTOR *max)
 {
@@ -712,15 +705,15 @@ void CraneAct_800D4C28(CraneWork *work)
     }
 
     if (work->f378 > 4 &&
-        GM_PlayerPosition_800ABA10.vx < -7500 &&
-        ((GM_PlayerPosition_800ABA10.vz < -5000 && GM_PlayerPosition_800ABA10.vz > -12500) || GM_PlayerPosition_800ABA10.vz > -2000) &&
+        GM_PlayerPosition.vx < -7500 &&
+        ((GM_PlayerPosition.vz < -5000 && GM_PlayerPosition.vz > -12500) || GM_PlayerPosition.vz > -2000) &&
         !(GM_PlayerStatus & PLAYER_CAUTION) &&
         work->f370 != -1)
     {
         if (GM_SnakeCurrentHealth == 0)
         {
             GM_GameOverTimer = 0;
-            GM_PlayerControl_800AB9F4->skip_flag &= ~CTRL_SKIP_TRAP;
+            GM_PlayerControl->skip_flag &= ~CTRL_SKIP_TRAP;
             GM_SnakeCurrentHealth = 1;
         }
 
@@ -832,14 +825,14 @@ void CraneAct_800D4C28(CraneWork *work)
             if (target->damaged & TARGET_PUSH)
             {
                 if (((work->think2 > 0 && work->think2 < 3 && work->f314 > 0 &&
-                    ((work->mov.vz - GM_PlayerPosition_800ABA10.vz) * work->f318) < 0) ||
-                    ABS(work->mov.vz - GM_PlayerPosition_800ABA10.vz) < 400) &&
+                    ((work->mov.vz - GM_PlayerPosition.vz) * work->f318) < 0) ||
+                    ABS(work->mov.vz - GM_PlayerPosition.vz) < 400) &&
                     work->f370 != -1)
                 {
                     if (GM_SnakeCurrentHealth == 0)
                     {
                         GM_GameOverTimer = 0;
-                        GM_PlayerControl_800AB9F4->skip_flag &= ~CTRL_SKIP_TRAP;
+                        GM_PlayerControl->skip_flag &= ~CTRL_SKIP_TRAP;
                         GM_SnakeCurrentHealth = 1;
                     }
 
@@ -1047,14 +1040,14 @@ void CraneDie_800D5724(CraneWork *work)
     }
 }
 
-GV_ACT *NewCrane_800D57A0(int name, int where)
+void *NewCrane_800D57A0(int name, int where)
 {
     CraneWork *work;
 
-    work = (CraneWork *)GV_NewActor(EXEC_LEVEL, sizeof(CraneWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(CraneWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)CraneAct_800D4C28, (GV_ACTFUNC)CraneDie_800D5724, "crane.c");
+        GV_SetNamedActor(&work->actor, CraneAct_800D4C28, CraneDie_800D5724, "crane.c");
 
         if (CraneGetResources_800D5620(work, where) < 0)
         {
@@ -1065,5 +1058,5 @@ GV_ACT *NewCrane_800D57A0(int name, int where)
         s13a_crane_800D5394(work, name);
     }
 
-    return &work->actor;
+    return (void *)work;
 }

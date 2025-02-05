@@ -19,7 +19,6 @@ extern TARGET *target_800BDF00;
 
 extern BLAST_DATA       blast_data_8009F4B8[8];
 
-extern PlayerStatusFlag GM_PlayerStatus;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 
 /*---------------------------------------------------------------------------*/
@@ -41,7 +40,7 @@ typedef struct AMissileWork
     SVECTOR        vertices[4];
 } AMissileWork;
 
-#define EXEC_LEVEL 6
+#define EXEC_LEVEL  GV_ACTOR_AFTER
 #define BODY_FLAG   ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE | DG_FLAG_ONEPIECE )
 
 int amissile_alive_8009F490 = 0;
@@ -463,14 +462,13 @@ STATIC int AMissileGetResources(AMissileWork *work, MATRIX *world, int side)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewAMissile(MATRIX *world, int side)
+void *NewAMissile(MATRIX *world, int side)
 {
-    AMissileWork *work = (AMissileWork *)GV_NewActor(EXEC_LEVEL, sizeof(AMissileWork));
+    AMissileWork *work = GV_NewActor(EXEC_LEVEL, sizeof(AMissileWork));
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)&AMissileAct,
-                         (GV_ACTFUNC)&AMissileDie, "amissile.c");
+        GV_SetNamedActor(&work->actor, &AMissileAct, &AMissileDie, "amissile.c");
 
         if (AMissileGetResources(work, world, side) < 0)
         {
@@ -484,5 +482,5 @@ GV_ACT *NewAMissile(MATRIX *world, int side)
         work->field_12C_svector = DG_ZeroVector;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

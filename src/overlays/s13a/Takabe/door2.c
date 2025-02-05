@@ -25,8 +25,6 @@ typedef struct _Door2Work
     int      f320;
 } Door2Work;
 
-extern int GM_CurrentMap;
-
 unsigned short door2_800C37B4[2] = {0x418B, 0x3A02};
 SVECTOR        door2_800C37B8[2] = {{500, 2500, 0, 0}, {-500, 0, 0, 0}};
 
@@ -34,7 +32,7 @@ const char door2_800E3334[11] = {0, 2, 1, 2, 1, 2, 1, 2, 1, 2, 3};
 
 void s16b_800C49AC(HZD_SEG *seg);
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void s13a_door2_800DD0FC(SVECTOR *verts, Door2Work *work)
 {
@@ -329,17 +327,17 @@ int Door2GetResources_800DD7C8(Door2Work *work, int name, int map)
     return 0;
 }
 
-GV_ACT *NewDoor2_800DD9E4(int name, int where)
+void *NewDoor2_800DD9E4(int name, int where)
 {
     Door2Work *work;
 
-    work = (Door2Work *)GV_NewActor(EXEC_LEVEL, sizeof(Door2Work));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Door2Work));
     if (work != NULL)
     {
         work->name = name;
         work->map = where;
 
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)Door2Act_800DD5C0, (GV_ACTFUNC)Door2Die_800DD744, "door2.c");
+        GV_SetNamedActor(&work->actor, Door2Act_800DD5C0, Door2Die_800DD744, "door2.c");
 
         if (Door2GetResources_800DD7C8(work, name, where) < 0)
         {
@@ -353,5 +351,5 @@ GV_ACT *NewDoor2_800DD9E4(int name, int where)
         work->f320 = 0;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

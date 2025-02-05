@@ -3,6 +3,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "Game/game.h"
 
 typedef struct _DBloodsWork
 {
@@ -21,9 +22,7 @@ typedef struct _DBloodsWork
 
 int d00a_dword_800E1650;
 
-extern int GM_CurrentMap;
-
-#define EXEC_LEVEL 7
+#define EXEC_LEVEL GV_ACTOR_AFTER2
 
 void DBloodsDie_800D5078(DBloodsWork *work)
 {
@@ -419,14 +418,14 @@ int DBloodsGetResources_800D5B08(DBloodsWork *work, SVECTOR *arg1, int arg2, int
     return 0;
 }
 
-GV_ACT *NewDBloods_800D5B70(SVECTOR *arg0, int arg1, int arg2, int arg3)
+void *NewDBloods_800D5B70(SVECTOR *arg0, int arg1, int arg2, int arg3)
 {
     DBloodsWork *work;
 
-    work = (DBloodsWork *)GV_NewActor(EXEC_LEVEL, sizeof(DBloodsWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(DBloodsWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)DBloodsAct_800D50B4, (GV_ACTFUNC)DBloodsDie_800D5078, "d_bloods.c");
+        GV_SetNamedActor(&work->actor, DBloodsAct_800D50B4, DBloodsDie_800D5078, "d_bloods.c");
 
         if (DBloodsGetResources_800D5B08(work, arg0, arg1, arg2, arg3) < 0)
         {
@@ -435,5 +434,5 @@ GV_ACT *NewDBloods_800D5B70(SVECTOR *arg0, int arg1, int arg2, int arg3)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

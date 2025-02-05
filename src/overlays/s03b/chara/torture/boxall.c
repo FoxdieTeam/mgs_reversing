@@ -22,12 +22,9 @@ typedef struct _BoxallWork
     int            proc;
 } BoxallWork;
 
-extern int       GV_Clock;
-extern CONTROL  *GM_PlayerControl_800AB9F4;
-extern SVECTOR   GM_PlayerPosition_800ABA10;
 extern GM_Camera GM_Camera_800B77E8;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 #define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
 
 int Boxall_800C9780(SVECTOR *out, SVECTOR *in)
@@ -64,13 +61,13 @@ void Boxall_800C9800(BoxallWork *work)
 
     mov = &work->control.mov;
 
-    dx = GM_PlayerControl_800AB9F4->mov.vx - mov->vx;
+    dx = GM_PlayerControl->mov.vx - mov->vx;
     if (dx < 0)
     {
         dx = -dx;
     }
 
-    dz = GM_PlayerControl_800AB9F4->mov.vz - mov->vz;
+    dz = GM_PlayerControl->mov.vz - mov->vz;
     if (dz < 0)
     {
         dz = -dz;
@@ -178,13 +175,13 @@ int Boxall_800C9B94(BoxallWork *work)
     pos = work->control.mov;
     pos.vy = 0;
 
-    player = GM_PlayerPosition_800ABA10;
+    player = GM_PlayerPosition;
     player.vy = 0;
 
     GV_SubVec3(&pos, &player, &diff);
     dist = GV_VecLen3(&diff);
 
-    py = GM_PlayerPosition_800ABA10.vy;
+    py = GM_PlayerPosition.vy;
     y = work->control.mov.vy;
 
     dy = py - y;
@@ -362,18 +359,18 @@ int BoxallGetResources_800C9F58(BoxallWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT *NewBoxall_800CA088(int name, int where)
+void *NewBoxall_800CA088(int name, int where)
 {
     BoxallWork *work;
 
-    work = (BoxallWork *)GV_NewActor(EXEC_LEVEL, sizeof(BoxallWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(BoxallWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BoxallAct_800C9C58, (GV_ACTFUNC)BoxallDie_800C9D34, "boxall.c");
+        GV_SetNamedActor(&work->actor, BoxallAct_800C9C58, BoxallDie_800C9D34, "boxall.c");
 
         if (BoxallGetResources_800C9F58(work, name, where) >= 0)
         {
-            return &work->actor;
+            return (void *)work;
         }
 
         GV_DestroyActor(&work->actor);

@@ -64,6 +64,8 @@ typedef struct ObjectWork
     int     field_28C;
 } ObjectWork;
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
+
 SVECTOR object_svec1_800C3CAC = {1000, 2000, 1500, 0};
 SVECTOR object_svec2_800C3CB4 = {1500, 2000, 1500, 0};
 
@@ -549,15 +551,14 @@ void ObjectCharaDie_800DA368(ObjectWork *work)
     GM_FreeTarget(work->field_180);
 }
 
-GV_ACT *NewObjectChara_800DA3A4(int name, int where, int argc, char **argv)
+void *NewObjectChara_800DA3A4(int name, int where, int argc, char **argv)
 {
     ObjectWork *work;
 
-    work = (ObjectWork *)GV_NewActor(4, sizeof(ObjectWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(ObjectWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)ObjectCharaAct_800D9FE0,
-                         (GV_ACTFUNC)ObjectCharaDie_800DA368, "object.c");
+        GV_SetNamedActor(&work->actor, ObjectCharaAct_800D9FE0, ObjectCharaDie_800DA368, "object.c");
         if (ObjectGetResources_800DA1E8(work, where) < 0)
         {
             GV_DestroyActor(&work->actor);
@@ -565,5 +566,5 @@ GV_ACT *NewObjectChara_800DA3A4(int name, int where, int argc, char **argv)
         }
         s01a_object_800DA108(work, name, where);
     }
-    return &work->actor;
+    return (void *)work;
 }

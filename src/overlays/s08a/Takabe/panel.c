@@ -25,13 +25,10 @@ typedef struct _PanelWork
 
 int panel_base_color = 0x3C808080;
 
-extern int     GM_CurrentMap;
+void AN_Unknown_800DCE84(SVECTOR *pos);
+void *NewSpark2_800CA714(MATRIX *world);
 
-int AN_Unknown_800DCE84(SVECTOR *pos);
-
-GV_ACT *NewSpark2_800CA714(MATRIX *world);
-
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void PanelTexPack_800D1BD0(POLY_GT4 *pack, DG_TEX *tex, int size, PanelWork *work)
 {
@@ -350,15 +347,14 @@ int PanelGetResources_800D210C(PanelWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT *NewPanel_800D2680(int name, int where)
+void *NewPanel_800D2680(int name, int where)
 {
     PanelWork *work;
 
-    work = (PanelWork *)GV_NewActor(EXEC_LEVEL, sizeof(PanelWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(PanelWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)PanelAct_800D1E58,
-                         (GV_ACTFUNC)PanelDie_800D1F98, "panel.c");
+        GV_SetNamedActor(&work->actor, PanelAct_800D1E58, PanelDie_800D1F98, "panel.c");
 
         if (PanelGetResources_800D210C(work, name, where) < 0)
         {
@@ -372,5 +368,5 @@ GV_ACT *NewPanel_800D2680(int name, int where)
         work->f80 = 0;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

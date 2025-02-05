@@ -1,13 +1,18 @@
 #include "lamp.h"
 
 #include <stdio.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
+#include "Game/game.h"
 #include "strcode.h"
-#include "lamp.h"
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 typedef struct LampWork
 {
@@ -27,7 +32,6 @@ typedef struct LampWork
 } LampWork;
 
 extern unsigned char *GCL_NextStrPtr_800AB9A0;
-extern int            GM_CurrentMap;
 
 void d11c_800C326C(LampWork *work, int textureId)
 {
@@ -348,7 +352,7 @@ int LampGetResources_800C3914(LampWork *work, int map, int name, int a3, int a4)
     return 1;
 }
 
-GV_ACT *NewLamp_800C3B34(int name, int where, int argc, char **argv)
+void *NewLamp_800C3B34(int name, int where, int argc, char **argv)
 {
     LampWork      *work;
     unsigned char *nextStrPtr;
@@ -369,15 +373,15 @@ GV_ACT *NewLamp_800C3B34(int name, int where, int argc, char **argv)
 
     GCL_NextStrPtr_800AB9A0 = nextStrPtr;
 
-    work = (LampWork *)GV_NewActor(EXEC_LEVEL, ((param1 * param2) * sizeof(SVECTOR) * 4) + sizeof(LampWork));
+    work = GV_NewActor(EXEC_LEVEL, ((param1 * param2) * sizeof(SVECTOR) * 4) + sizeof(LampWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)d11c_800C37A4, (GV_ACTFUNC)d11c_800C37F0, "lamp.c");
+        GV_SetNamedActor(&work->actor, d11c_800C37A4, d11c_800C37F0, "lamp.c");
         if (LampGetResources_800C3914(work, where, name, param1, param2) == 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

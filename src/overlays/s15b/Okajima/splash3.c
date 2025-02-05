@@ -1,6 +1,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "Game/game.h"
 
 typedef struct _Splash3Work
 {
@@ -15,10 +16,7 @@ typedef struct _Splash3Work
 
 RECT s15b_800C3398 = {100, 100, 200, 200};
 
-extern int GV_Clock;
-extern int GM_CurrentMap;
-
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void Splash3InitVecs_800C7D24(MATRIX *world, SVECTOR *vec1, SVECTOR *vec2, int n_vecs, int n_matrices)
 {
@@ -245,14 +243,14 @@ int Splash3GetResources_800C810C(Splash3Work *work, int dir, SVECTOR *pos)
     Splash3Init(); // Not sure why this is needed
 }
 
-GV_ACT *NewSplash3_800C83D0(int dir, SVECTOR *pos)
+void *NewSplash3_800C83D0(int dir, SVECTOR *pos)
 {
     Splash3Work *work;
 
-    work = (Splash3Work *)GV_NewActor(EXEC_LEVEL, sizeof(Splash3Work));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Splash3Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)Splash3Act_800C7F1C, (GV_ACTFUNC)Splash3Die_800C80D0, "splash3.c");
+        GV_SetNamedActor(&work->actor, Splash3Act_800C7F1C, Splash3Die_800C80D0, "splash3.c");
 
         if (Splash3GetResources_800C810C(work, dir, pos) < 0)
         {
@@ -261,5 +259,5 @@ GV_ACT *NewSplash3_800C83D0(int dir, SVECTOR *pos)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

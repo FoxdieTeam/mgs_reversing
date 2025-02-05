@@ -1,7 +1,12 @@
 #include "smke_ln.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
+#include "Game/game.h"
 
 typedef struct _SmokeLnWork
 {
@@ -20,11 +25,9 @@ typedef struct _SmokeLnWork
     char    f52;
 } SmokeLnWork;
 
-extern int GM_CurrentMap;
-
 void AN_Smoke_800CE2C4(SVECTOR *pos, SVECTOR *speed, int, int, int, int, int);
 
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 void SmokeLnAct_800CDB38(SmokeLnWork *work)
 {
@@ -129,16 +132,16 @@ int SmokeLnGetResources_800CDEF8(SmokeLnWork *work, int arg1, int time, int arg3
     return 0;
 }
 
-GV_ACT *NewSmokeLn_800CDFA4(int arg0, int arg1, int arg2, SVECTOR *arg3, SVECTOR *arg4, SVECTOR *arg5, char arg6, char arg7, char arg8)
+void *NewSmokeLn_800CDFA4(int arg0, int arg1, int arg2, SVECTOR *arg3, SVECTOR *arg4, SVECTOR *arg5, char arg6, char arg7, char arg8)
 {
     SmokeLnWork *work;
 
-    work = (SmokeLnWork *)GV_NewActor(EXEC_LEVEL, sizeof(SmokeLnWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(SmokeLnWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)SmokeLnAct_800CDB38, (GV_ACTFUNC)SmokeLnDie_800CDEF0, "smke_ln.c");
+        GV_SetNamedActor(&work->actor, SmokeLnAct_800CDB38, SmokeLnDie_800CDEF0, "smke_ln.c");
         SmokeLnGetResources_800CDEF8(work, arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
     }
 
-    return &work->actor;
+    return (void *)work;
 }

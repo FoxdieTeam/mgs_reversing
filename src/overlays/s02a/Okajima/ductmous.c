@@ -32,12 +32,9 @@ typedef struct _DuctmouseWork
 
 SVECTOR mouse_offsets[2] = {{48, 0, 96, 0}, {-48, 0, 96, 0}};
 
-extern int     GM_CurrentMap;
-extern SVECTOR GM_PlayerPosition_800ABA10;
-
 void AN_Unknown_800CA458(MATRIX *, int);
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL      GV_ACTOR_LEVEL5
 #define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE | DG_FLAG_ONEPIECE )
 
 int Ductmouse_800DA2EC(SVECTOR *a, SVECTOR *b)
@@ -123,7 +120,7 @@ void Ductmouse_800DA5BC(DuctmouseWork *work)
 
     work->f15C++;
 
-    len = Ductmouse_800DA2EC(&work->pos, &GM_PlayerPosition_800ABA10);
+    len = Ductmouse_800DA2EC(&work->pos, &GM_PlayerPosition);
 
     Ductmouse_800DA3DC(work);
 
@@ -155,7 +152,7 @@ void Ductmouse_800DA5BC(DuctmouseWork *work)
 
         work->f188--;
 
-        Ductmouse_800DA35C(&sp10, &GM_PlayerPosition_800ABA10, &work->rot);
+        Ductmouse_800DA35C(&sp10, &GM_PlayerPosition, &work->rot);
         work->rot.vy -= 512;
         return;
     }
@@ -351,14 +348,14 @@ int DuctmouseGetResources_800DAA1C(DuctmouseWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT *NewDuctmouse_800DACC8(int name, int where, int argc, char **argv)
+void *NewDuctmouse_800DACC8(int name, int where, int argc, char **argv)
 {
     DuctmouseWork *work;
 
-    work = (DuctmouseWork *)GV_NewActor(EXEC_LEVEL, sizeof(DuctmouseWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(DuctmouseWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)DuctmouseAct_800DA978, (GV_ACTFUNC)DuctmouseDie_800DA9D4, "ductmous.c");
+        GV_SetNamedActor(&work->actor, DuctmouseAct_800DA978, DuctmouseDie_800DA9D4, "ductmous.c");
 
         if (DuctmouseGetResources_800DAA1C(work, name, where) < 0)
         {
@@ -367,5 +364,5 @@ GV_ACT *NewDuctmouse_800DACC8(int name, int where, int argc, char **argv)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

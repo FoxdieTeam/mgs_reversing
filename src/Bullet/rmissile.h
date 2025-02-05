@@ -3,10 +3,10 @@
 
 #include <sys/types.h>
 #include <libgte.h>
-#include "libgv/libgv.h"
+#include <libgpu.h>
 
 // RC Missile (Nikita)
 
-GV_ACT *NewRMissile(MATRIX *world, int side);
+void *NewRMissile(MATRIX *world, int side);
 
 #endif // _RMISSILE_H_

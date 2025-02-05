@@ -55,6 +55,10 @@ static inline int HZD_addr_shift( int addr )
 }
 
 /* hzdd.c */
+#ifndef __HZDD_SBSS__
+extern int HZD_CurrentGroup;
+#endif
+
 void HZD_StartDaemon(void);
 int  HZD_LoadInitHzd(void *buf, int id);
 HZD_HDL *HZD_MakeHandler(HZD_HEADER *hzd, int areaIndex, int dynamic_segments, int dynamic_floors);

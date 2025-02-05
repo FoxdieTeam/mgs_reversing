@@ -14,9 +14,7 @@ typedef struct _BedWork
     SVECTOR        pos;
 } BedWork;
 
-extern OBJECT *GM_PlayerBody_800ABA20;
-
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 #define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
 
 static inline int BedCheckMessages(BedWork *work)
@@ -67,9 +65,9 @@ void BedAct_800C6EA8(BedWork *work)
     {
         DG_MovePos(&work->pos);
 
-        if (GM_PlayerBody_800ABA20)
+        if (GM_PlayerBody)
         {
-            DG_PutObjs(GM_PlayerBody_800ABA20->objs);
+            DG_PutObjs(GM_PlayerBody->objs);
         }
     }
 }
@@ -121,14 +119,14 @@ int BedGetResources_800C6FD8(BedWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT *NewBed_800C70DC(int name, int where)
+void *NewBed_800C70DC(int name, int where)
 {
     BedWork *work;
 
-    work = (BedWork *)GV_NewActor(EXEC_LEVEL, sizeof(BedWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(BedWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BedAct_800C6EA8, (GV_ACTFUNC)BedDie_800C6FA8, "bed.c");
+        GV_SetNamedActor(&work->actor, BedAct_800C6EA8, BedDie_800C6FA8, "bed.c");
 
         if (BedGetResources_800C6FD8(work, name, where) < 0)
         {
@@ -137,5 +135,5 @@ GV_ACT *NewBed_800C70DC(int name, int where)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

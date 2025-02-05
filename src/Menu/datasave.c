@@ -41,8 +41,6 @@ int                         SECTION(".sbss") dword_800ABB94;
 
 extern char *MGS_MemoryCardName; /* in main.c */
 
-extern int GV_Clock;
-
 extern char aRequestX[];
 extern char aResultX[];
 

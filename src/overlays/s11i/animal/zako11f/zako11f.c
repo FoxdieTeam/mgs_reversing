@@ -26,7 +26,6 @@ void s11i_zako11f_800C86F8( DG_OBJS* objs, DG_DEF* def )
 }
 
 extern GM_Camera GM_Camera_800B77E8;
-extern int GM_PlayerMap_800ABA0C;
 
 void s11i_zako11f_800C8774( Zako11FWork *work )
 {
@@ -178,7 +177,7 @@ void s11i_zako11f_800C8B3C( Zako11FWork* work )
 
 extern void *NewGunLight_800D3AD4( MATRIX* mat, int **enable );
 
-extern GV_ACT *NewKogaku2(CONTROL *pCtrl, OBJECT *pObj, int unit);
+extern void *NewKogaku2(CONTROL *pCtrl, OBJECT *pObj, int unit);
 extern void ZAKO11F_SetPutChar_800CD700( Zako11FWork *work, int put );
 
 int s11i_zako11f_800C8B98( Zako11FWork* work, int name, int where )
@@ -556,13 +555,15 @@ void Zako11FGetResources_800C9070( Zako11FWork *work, int name, int where )
     work->field_C1C = work->start_pos;
 }
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
+
 void *NewZako11F( int name, int where, int argc, char **argv )
 {
     Zako11FWork *work ;
 
-    work = (Zako11FWork *)GV_NewActor( 4, sizeof( Zako11FWork ) ) ;
+    work = GV_NewActor( EXEC_LEVEL, sizeof( Zako11FWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor( &( work->actor ), ( GV_ACTFUNC )ZAKO11FAct_800C88AC, ( GV_ACTFUNC )ZAKO11FDie_800C8E2C, "zako11f.c" );
+        GV_SetNamedActor( &( work->actor ), ZAKO11FAct_800C88AC, ZAKO11FDie_800C8E2C, "zako11f.c" );
         Zako11FGetResources_800C9070( work, name, where );
     }
     return (void *)work ;

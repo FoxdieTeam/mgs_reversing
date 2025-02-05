@@ -14,10 +14,7 @@
 
 extern int              amissile_alive_8009F490;
 extern SVECTOR          svector_8009F494;
-extern int              GV_Clock;
-extern int              GV_PauseLevel;
 extern short            N_ChanlPerfMax;
-extern PlayerStatusFlag GM_PlayerStatus;
 extern GV_PAD           GV_PadData_800B05C0[4];
 extern unsigned short   gOldRootCnt_800B1DC8[];
 extern TARGET          *target_800BDF00;
@@ -43,7 +40,7 @@ typedef struct _StnSightWork
     int         field_94;
 } StnSightWork;
 
-#define EXEC_LEVEL 7
+#define EXEC_LEVEL GV_ACTOR_AFTER2
 
 STATIC short word_800AB8EC = 0;
 
@@ -281,7 +278,7 @@ STATIC void stnsight_act_helper_80068798(StnSightWork *work, unsigned int *ot)
 }
 
 /* ミサイル照準セット */
-STATIC void SetMissileRect_80068A24(StnSightWork *work, unsigned int *ot)
+STATIC void SetMissileRect(StnSightWork *work, unsigned int *ot)
 {
     LINE_F4        *lines;
     DVECTOR         sxy;
@@ -426,7 +423,7 @@ STATIC void StnSightAct(StnSightWork *work)
 
     stnsight_act_helper_80068420(work, uVar1);
     stnsight_act_helper_80068798(work, uVar1);
-    SetMissileRect_80068A24(work, uVar1);
+    SetMissileRect(work, uVar1);
     stnsight_act_helper_80068BF4(work, uVar1);
     stnsight_act_helper_8006837C(work);
     menu_Text_Init_80038B98();
@@ -708,21 +705,20 @@ STATIC int StnSightGetResources(StnSightWork *work, CONTROL *control)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewStnSight(CONTROL *control)
+void *NewStnSight(CONTROL *control)
 {
     StnSightWork *work;
 
     if (word_800AB8EC != 0)
     {
-        return 0;
+        return NULL;
     }
 
-    work = (StnSightWork *)GV_NewActor(EXEC_LEVEL, sizeof(StnSightWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(StnSightWork));
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)StnSightAct,
-                         (GV_ACTFUNC)StnSightDie, "stnsight.c");
+        GV_SetNamedActor(&work->actor, StnSightAct, StnSightDie, "stnsight.c");
 
         if (StnSightGetResources(work, control) < 0)
         {
@@ -733,5 +729,5 @@ GV_ACT *NewStnSight(CONTROL *control)
         word_800AB8EC = 1;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

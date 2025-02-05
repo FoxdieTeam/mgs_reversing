@@ -55,8 +55,6 @@ typedef struct _Work
     int      f6BC;
 } Work;
 
-extern int    GV_Clock;
-extern int    GM_CurrentMap;
 extern int    FS_DiskNum_800ACBF0;
 extern GV_PAD GV_PadData_800B05C0[4];
 
@@ -88,9 +86,9 @@ signed char byte_800C3260[] = {
 int  Safety_800C45F8( int lba, int timeout );
 void Safety_800C4714( void );
 
-GV_ACT *NewMetLogo_800C5A90( int * );
+void *NewMetLogo_800C5A90( int * );
 
-#define EXEC_LEVEL 1
+#define EXEC_LEVEL GV_ACTOR_MANAGER
 
 void Change_800C364C( Work *work, int index )
 {
@@ -676,16 +674,16 @@ int ChangeGetResources_800C4448( Work *work, int map )
     return 0;
 }
 
-GV_ACT *NewChange_800C455C( int name, int where, int argc, char **argv )
+void *NewChange_800C455C( int name, int where, int argc, char **argv )
 {
     Work *work;
 
     GM_GameStatus |= STATE_ALL_OFF;
 
-    work = (Work *)GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
+    work = GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
     if (work != NULL)
     {
-        GV_SetNamedActor( &( work->actor ), (GV_ACTFUNC)ChangeAct_800C4324, (GV_ACTFUNC)ChangeDie_800C43EC, "change.c" );
+        GV_SetNamedActor( &( work->actor ), ChangeAct_800C4324, ChangeDie_800C43EC, "change.c" );
 
         if ( ChangeGetResources_800C4448( work, where ) < 0 )
         {
@@ -694,5 +692,5 @@ GV_ACT *NewChange_800C455C( int name, int where, int argc, char **argv )
         }
     }
 
-    return &( work->actor );
+    return (void *)work;
 }

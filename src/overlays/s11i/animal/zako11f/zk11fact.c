@@ -1,11 +1,5 @@
 #include "../../../s00a/Enemy/enemy.h"
 
-extern int GV_Time;
-
-extern int      GM_ClaymoreMap_800AB9DC;
-extern int      GM_PlayerMap_800ABA0C;
-extern SVECTOR  GM_PlayerPosition_800ABA10;
-extern int      GM_PlayerStatus;
 extern CONTROL *GM_WhereList_800B56D0[96];
 
 extern int             ZAKO11F_EYE_LENGTH_800C3694;
@@ -79,7 +73,7 @@ void s11i_asiato_800CD8EC(Zako11FWork *work)
 
     control = &work->control;
 
-    if ( !( control->map->index & GM_PlayerMap_800ABA0C ) )
+    if ( !( control->map->index & GM_PlayerMap ) )
     {
         return;
     }
@@ -142,18 +136,18 @@ void s11i_asiato_800CDA6C( Zako11FWork *work )
         return;
     }
 
-    if ( ( GV_DiffVec3( &work->field_BA4, &GM_PlayerPosition_800ABA10 ) > 50 ) || ( work->field_BAC != GM_WhereList_800B56D0[0]->rot.vy ) )
+    if ( ( GV_DiffVec3( &work->field_BA4, &GM_PlayerPosition ) > 50 ) || ( work->field_BAC != GM_WhereList_800B56D0[0]->rot.vy ) )
     {
         if ( Zako11FCommand_800D5AF8.mode == TOP_COMM_ALERT )
         {
             return;
         }
 
-        work->field_BA4 = GM_PlayerPosition_800ABA10;
+        work->field_BA4 = GM_PlayerPosition;
         work->field_BAC = GM_WhereList_800B56D0[0]->rot.vy;
         work->modetime[6] |= 0x2;
     }
-    else if ( GV_DiffVec3( &work->control.mov, &GM_PlayerPosition_800ABA10 ) < 1500 )
+    else if ( GV_DiffVec3( &work->control.mov, &GM_PlayerPosition ) < 1500 )
     {
         work->modetime[6] |= 0x40;
     }
@@ -250,7 +244,7 @@ void s11i_asiato_800CDD64( Zako11FWork *work )
     MAP     *map;
 
     mov = &work->control.mov;
-    pos = &GM_PlayerPosition_800ABA10;
+    pos = &GM_PlayerPosition;
     GV_SubVec3( pos, mov, &diff );
 
     dir = ratan2( pos->vx - work->control.mov.vx, pos->vz - work->control.mov.vz ) & 0xfff;
@@ -265,7 +259,7 @@ void s11i_asiato_800CDD64( Zako11FWork *work )
         height = work->control.mov.vy - pos->vy;
     }
 
-    if ( !( work->control.map->index & GM_PlayerMap_800ABA0C ) || GM_PlayerStatus & PLAYER_INTRUDE )
+    if ( !( work->control.map->index & GM_PlayerMap ) || GM_PlayerStatus & PLAYER_INTRUDE )
     {
         work->vision.field_B92 = 0;
         return;

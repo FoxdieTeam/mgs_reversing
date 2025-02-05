@@ -4,10 +4,6 @@
 #include "Game/linkvarbuf.h"
 #include "Okajima/blood.h"
 
-extern int     GV_Time;
-extern int     GM_PlayerMap_800ABA0C;
-extern SVECTOR GM_PlayerPosition_800ABA10;
-
 extern SVECTOR s11i_800C33B4;
 extern SVECTOR s11i_800C33BC;
 extern SVECTOR s11i_800C33C4;
@@ -123,7 +119,7 @@ void ZAKO11F_PutMark_800CD224( Zako11FWork *work, int mark )
 {
     MATRIX *world;
 
-    if (!(work->control.map->index & GM_PlayerMap_800ABA0C))
+    if (!(work->control.map->index & GM_PlayerMap))
     {
         return;
     }
@@ -188,7 +184,7 @@ void ZAKO11F_PutBreath_800CD358( Zako11FWork *work )
         return;
     }
 
-    if ( !( work->control.map->index & GM_PlayerMap_800ABA0C ) )
+    if ( !( work->control.map->index & GM_PlayerMap ) )
     {
         return;
     }
@@ -233,7 +229,7 @@ void ZAKO11F_PutLSight_800CD4A0( Zako11FWork *work )
 {
     if ( work->vision.field_B92 == 2 )
     {
-        NewLSight_800D1D2C( &GM_PlayerPosition_800ABA10, &work->control.mov, 0x00008F );
+        NewLSight_800D1D2C( &GM_PlayerPosition, &work->control.mov, 0x00008F );
     }
 }
 

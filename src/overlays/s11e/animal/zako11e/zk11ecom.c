@@ -17,11 +17,7 @@ extern int     ZAKOCOM_PlayerAddress_800DF3B8;
 extern SVECTOR ZAKOCOM_PlayerPosition_800DF278;
 extern int     ZAKOCOM_PlayerMap_800DF3BC;
 
-extern SVECTOR  GM_PlayerPosition_800ABA10;
-extern SVECTOR  GM_NoisePosition;
 extern CONTROL *GM_WhereList_800B56D0[94];
-extern int      GM_PlayerMap_800ABA0C;
-extern int      GM_PlayerAddress_800AB9F0;
 
 int s11e_zk11ecom_800D9A20( ZakoWork *work )
 {
@@ -65,7 +61,7 @@ void s11e_zk11ecom_800D9AE8(void)
 {
     ZakoCommand_800DF280.com_addr = HZD_GetAddress( GM_WhereList_800B56D0[ 0 ]->map->hzd, &GM_NoisePosition, -1 );
     ZakoCommand_800DF280.com_pos  = GM_NoisePosition;
-    ZakoCommand_800DF280.com_map  = GM_PlayerMap_800ABA0C;
+    ZakoCommand_800DF280.com_map  = GM_PlayerMap;
 }
 
 int s11e_zk11ecom_800D9B60( int map_id, int val )
@@ -133,11 +129,11 @@ void s11e_zk11ecom_800D9C8C( void )
         zone = &ZakoCommand_800DF280.field_0x64->hzd->header->zones[ ZakoCommand_800DF280.field_0x38[ i ] ];
 
         svec.vx = zone->x;
-        svec.vy = GM_PlayerPosition_800ABA10.vy;
+        svec.vy = GM_PlayerPosition.vy;
         svec.vz = zone->z;
 
 
-        dist2 = GV_DiffVec3( &svec, &GM_PlayerPosition_800ABA10 );
+        dist2 = GV_DiffVec3( &svec, &GM_PlayerPosition );
         if ( dist1 < dist2 )
         {
             dist1 = dist2;
@@ -596,14 +592,14 @@ void s11e_zk11ecom_800DA784( void )
     int addr;
     int addr2;
 
-    addr = GM_PlayerAddress_800AB9F0 & 0xFF;
-    addr2 = ( GM_PlayerAddress_800AB9F0 >> 8 ) & 0xFF;
+    addr = GM_PlayerAddress & 0xFF;
+    addr2 = ( GM_PlayerAddress >> 8 ) & 0xFF;
 
     if ( addr == addr2 && addr != 0xFF )
     {
-        ZAKOCOM_PlayerAddress_800DF3B8  = GM_PlayerAddress_800AB9F0;
-        ZAKOCOM_PlayerPosition_800DF278 = GM_PlayerPosition_800ABA10;
-        ZAKOCOM_PlayerMap_800DF3BC      = GM_PlayerMap_800ABA0C;
+        ZAKOCOM_PlayerAddress_800DF3B8  = GM_PlayerAddress;
+        ZAKOCOM_PlayerPosition_800DF278 = GM_PlayerPosition;
+        ZAKOCOM_PlayerMap_800DF3BC      = GM_PlayerMap;
     }
 }
 
@@ -986,20 +982,20 @@ void ZakoCommanderGetResources_800DACA0( ZakoCommanderWork *work, int name, int 
     GM_VoxStream( ZakoCommand_800DF280.field_0x114, 0x40000000 );
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/NewZakoCommander_800DAF38.s")
-
 extern void ZakoCommanderAct_800DABF4();
 extern void ZakoCommanderDie_800DAC5C();
 extern const char s11e_aZkecomc_800DED84[];
 
-GV_ACT *NewZakoCommander_800DAF38( int name, int where, int argc, char **argv )
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
+
+void *NewZakoCommander_800DAF38( int name, int where, int argc, char **argv )
 {
     ZakoCommanderWork *work ;
 
-    work = (ZakoCommanderWork *)GV_NewActor( 4, sizeof( ZakoCommanderWork ) ) ;
+    work = GV_NewActor( EXEC_LEVEL, sizeof( ZakoCommanderWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor( &( work->actor ), ( GV_ACTFUNC )ZakoCommanderAct_800DABF4, ( GV_ACTFUNC )ZakoCommanderDie_800DAC5C, s11e_aZkecomc_800DED84 );
+        GV_SetNamedActor( &( work->actor ), ZakoCommanderAct_800DABF4, ZakoCommanderDie_800DAC5C, s11e_aZkecomc_800DED84 );
         ZakoCommanderGetResources_800DACA0( work, name, where );
     }
-    return &work->actor;
+    return (void *)work;
 }

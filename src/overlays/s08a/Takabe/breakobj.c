@@ -162,22 +162,21 @@ int BreakObjGetResources_800D5894(BreakObjWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT *NewBreakObj_800D5A2C(int name, int where)
+void *NewBreakObj_800D5A2C(int name, int where)
 {
     BreakObjWork *work;
 
-    work = (BreakObjWork *)GV_NewActor(EXEC_LEVEL, sizeof(BreakObjWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(BreakObjWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BreakObjAct_800D5670,
-                         (GV_ACTFUNC)BreakObjDie_800D57C4, "breakobj.c");
+        GV_SetNamedActor(&work->actor, BreakObjAct_800D5670, BreakObjDie_800D57C4, "breakobj.c");
         if (BreakObjGetResources_800D5894(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }
 
 void BreakObj_800D5AC0(OBJECT *object, int model, int where, int flag)

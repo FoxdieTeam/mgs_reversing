@@ -19,15 +19,12 @@ typedef struct _SmktrgtWork
     int     map;
 } SmktrgtWork;
 
-extern int     GM_CurrentMap;
-extern int     GM_PlayerMap_800ABA0C;
-
 SVECTOR s13a_800C36FC = {200, 200, 200, 0};
 SVECTOR s13a_800C3704 = {300, 300, 300, 0};
 
 void AN_Unknown_800DC5B4(SVECTOR *pos, SVECTOR *speed, int script);
 
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 int s13a_smktrgt_800DBBC0(SmktrgtWork *work)
 {
@@ -216,7 +213,7 @@ void SmktrgtAct_800DC19C(SmktrgtWork *work)
 {
     int i;
 
-    if (work->map & GM_PlayerMap_800ABA0C)
+    if (work->map & GM_PlayerMap)
     {
         GM_CurrentMap = work->map;
 
@@ -307,14 +304,14 @@ void SmktrgtDie_800DC408(SmktrgtWork *work)
 {
 }
 
-GV_ACT *NewSmktrgt_800DC410(int name, int map)
+void *NewSmktrgt_800DC410(int name, int map)
 {
     SmktrgtWork *work;
 
-    work = (SmktrgtWork *)GV_NewActor(EXEC_LEVEL, sizeof(SmktrgtWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(SmktrgtWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)SmktrgtAct_800DC19C, (GV_ACTFUNC)SmktrgtDie_800DC408, "smktrgt.c");
+        GV_SetNamedActor(&work->actor, SmktrgtAct_800DC19C, SmktrgtDie_800DC408, "smktrgt.c");
 
         if (Smktrgt_800DC400(work, map) < 0 || SmktrgtGetResources_800DC210(work, name, map) < 0)
         {
@@ -323,5 +320,5 @@ GV_ACT *NewSmktrgt_800DC410(int name, int map)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

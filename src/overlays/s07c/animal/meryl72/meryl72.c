@@ -12,10 +12,6 @@
 
 #include "meryl72.h"
 
-extern int              GM_CurrentMap;
-extern int              GM_PlayerAddress_800AB9F0;
-extern int              GM_PlayerMap_800ABA0C;
-extern SVECTOR          GM_PlayerPosition_800ABA10;
 extern GM_Camera        GM_Camera_800B77E8;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 
@@ -32,20 +28,20 @@ void s07c_meryl72_unk1_800CBCD8( Meryl72Work * );
 void s07c_meryl72_unk2_800D0220( void );
 void s07c_meryl72_unk2_800D025C( void );
 
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 void s07c_meryl72_800C6AF8( Meryl72Work *work )
 {
     int lo, hi;
 
-    lo = GM_PlayerAddress_800AB9F0 & 0xFF;
-    hi = ( GM_PlayerAddress_800AB9F0 >> 8 ) & 0xFF;
+    lo = GM_PlayerAddress & 0xFF;
+    hi = ( GM_PlayerAddress >> 8 ) & 0xFF;
 
     if ( lo == hi && lo != 0xFF )
     {
-        work->player_addr = GM_PlayerAddress_800AB9F0;
-        work->player_pos  = GM_PlayerPosition_800ABA10;
-        work->player_map  = GM_PlayerMap_800ABA0C;
+        work->player_addr = GM_PlayerAddress;
+        work->player_pos  = GM_PlayerPosition;
+        work->player_map  = GM_PlayerMap;
     }
 }
 
@@ -663,17 +659,14 @@ int Meryl72GetResources_800C7738( Meryl72Work *work, int arg1, int arg2 )
     return 0;
 }
 
-GV_ACT *NewMeryl72_800C7BC4( int arg0, int arg1 )
+void *NewMeryl72_800C7BC4( int arg0, int arg1 )
 {
     Meryl72Work *work;
 
-    work = (Meryl72Work *)GV_NewActor( EXEC_LEVEL, sizeof(Meryl72Work) );
+    work = GV_NewActor( EXEC_LEVEL, sizeof(Meryl72Work) );
     if (work)
     {
-        GV_SetNamedActor( &work->actor,
-                          (GV_ACTFUNC)Meryl72Act_800C6D54,
-                          (GV_ACTFUNC)Meryl72Die_800C73AC,
-                          "meryl72.c" );
+        GV_SetNamedActor( &work->actor, Meryl72Act_800C6D54, Meryl72Die_800C73AC, "meryl72.c" );
 
         if ( Meryl72GetResources_800C7738( work, arg0, arg1 ) < 0 )
         {
@@ -682,5 +675,5 @@ GV_ACT *NewMeryl72_800C7BC4( int arg0, int arg1 )
         }
     }
 
-    return (GV_ACT *)work;
+    return (void *)work;
 }

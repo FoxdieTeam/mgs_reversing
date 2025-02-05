@@ -19,7 +19,7 @@
 typedef struct _MovieWork
 {
     GV_ACT         actor;
-    FS_MOVIE_FILE *file;
+    FS_MOVIE_FILE *info;
     RECT           rect;
     int            f2C;
     int            ticks;
@@ -31,7 +31,7 @@ typedef struct _MovieWork
     short          n_frames;
     short          f40;
     short          f42;
-    int            proc;
+    int            end_proc;
     void          *font;
     int           *jimaku;
     int            jimaku_length;
@@ -42,9 +42,6 @@ typedef struct _MovieWork
 } MovieWork;
 
 static MovieWork movie_work;
-
-extern int GV_Clock;
-extern int GV_PauseLevel;
 
 static inline int MovieType(void)
 {
@@ -66,7 +63,7 @@ static inline void int_to_loc(int pos, CdlLOC *loc)
     loc->minute = itob(seconds / 60);
 }
 
-void Movie_800C4484(int pos)
+STATIC void Movie_800C4484(int pos)
 {
     CdlLOC loc;
 
@@ -77,7 +74,7 @@ void Movie_800C4484(int pos)
     } while (CdRead2(CdlModeStream2 | CdlModeSpeed | CdlModeRT) == 0);
 }
 
-int Movie_800C45F4(MovieWork *work)
+STATIC int Movie_800C45F4(MovieWork *work)
 {
     u_long   *addr;
     StHEADER *header;
@@ -106,7 +103,7 @@ int Movie_800C45F4(MovieWork *work)
         {
             work->n_frames = header->frameCount;
 
-            if ((work->file->frame - 2) >= header->frameCount)
+            if ((work->info->frame - 2) >= header->frameCount)
             {
                 work->width = header->width;
                 work->height = header->height;
@@ -156,7 +153,7 @@ free:
     return ret;
 }
 
-void Movie_800C47E8(void)
+STATIC void Movie_800C47E8(void)
 {
     movie_work.rect.x += 16;
     LoadImage(&movie_work.rect, movie_work.dctout[movie_work.dctout_index]);
@@ -172,7 +169,7 @@ void Movie_800C47E8(void)
     movie_work.f2C = 1;
 }
 
-void Movie_800C4878(int shade)
+STATIC void set_fade(int fade)
 {
     TILE      tile;
     DR_TPAGE  tpage;
@@ -184,8 +181,8 @@ void Movie_800C4878(int shade)
     DrawPrim(tpagep);
 
     tilep = &tile;
-    shade = CLAMP(shade, 0, 255);
-    LSTORE((shade << 16) | (shade << 8) | shade, &tilep->r0);
+    fade = CLAMP(fade, 0, 255);
+    LSTORE((fade << 16) | (fade << 8) | fade, &tilep->r0);
     setTile(tilep);
     setSemiTrans(tilep, 1);
     setXY0(tilep, 0, 24);
@@ -195,16 +192,16 @@ void Movie_800C4878(int shade)
     DrawSync(0);
 }
 
-void MovieAct_800C491C(MovieWork *work)
+STATIC void MovieAct_800C491C(MovieWork *work)
 {
     RECT *rect;
-    int   status;
+    int   res_flag;
     int   start;
     int   elapsed;
     int  *jimaku;
     int   skip;
     int   div;
-    int   shade;
+    int   fade;
 
     DrawSync(0);
 
@@ -220,16 +217,16 @@ void MovieAct_800C491C(MovieWork *work)
     DecDCTout(work->dctout[work->dctout_index], work->height * 8);
     DecDCTin(work->dctin[work->dctin_index], 2);
 
-    while ((status = Movie_800C45F4(work)) < 0);
+    while ((res_flag = Movie_800C45F4(work)) < 0);
 
-    if (status != 0)
+    if (res_flag != 0)
     {
         start = VSync(-1);
         while (work->f2C == 0)
         {
             if ((VSync(-1) - start) > 120)
             {
-                status = 0;
+                res_flag = 0;
                 break;
             }
         }
@@ -267,32 +264,32 @@ void MovieAct_800C491C(MovieWork *work)
 
     if (work->f40 > work->n_frames)
     {
-        shade = ((work->f40 - work->n_frames) * 255) / work->f40;
-        Movie_800C4878(shade);
+        fade = ((work->f40 - work->n_frames) * 255) / work->f40;
+        set_fade(fade);
     }
     else if (work->f42 < work->n_frames)
     {
-        div = work->file->frame - 1;
+        div = work->info->frame - 1;
         div -= work->f42;
-        shade = ((work->n_frames - work->f42) * 255) / div;
-        Movie_800C4878(shade);
+        fade = ((work->n_frames - work->f42) * 255) / div;
+        set_fade(fade);
     }
 
     if (mts_read_pad(0) & PAD_CROSS)
     {
-        status = 0;
+        res_flag = 0;
     }
 
-    if (status == 0)
+    if (res_flag == 0)
     {
         stop_xa_sd();
-        DecDCToutCallback(0);
+        DecDCToutCallback(NULL);
         GV_DestroyActor(&work->actor);
         DG_UnDrawFrameCount = 2;
     }
 }
 
-void MovieAct_800C4C00(MovieWork *work)
+STATIC void MovieAct_800C4C00(MovieWork *work)
 {
     int i;
     int status;
@@ -321,7 +318,7 @@ void MovieAct_800C4C00(MovieWork *work)
     StSetRing(work->ring, 32);
     StSetStream(0, 0, 0xFFFFFFFF, NULL, NULL);
 
-    Movie_800C4484(work->file->pos);
+    Movie_800C4484(work->info->pos);
 
     DecDCTvlcBuild(work->vlc);
 
@@ -345,7 +342,7 @@ void MovieAct_800C4C00(MovieWork *work)
     }
 }
 
-void MovieDie_800C4D78(MovieWork *work)
+STATIC void MovieDie_800C4D78(MovieWork *work)
 {
     DecDCToutCallback(NULL);
     StUnSetRing();
@@ -355,30 +352,31 @@ void MovieDie_800C4D78(MovieWork *work)
 
     GV_PauseLevel &= ~1;
 
-    DG_ResetObjectQueue();
+    DG_RestartMainChanlSystem();
+
     DG_FrameRate = 2;
 
-    work->file = NULL;
+    work->info = NULL;
 
     MENU_JimakuClear();
 
     DG_UnDrawFrameCount = 0x7FFF0000;
     GM_GameStatus &= ~STATE_DEMO;
 
-    if (work->proc >= 0)
+    if (work->end_proc >= 0)
     {
-        GCL_ExecProc(work->proc, NULL);
+        GCL_ExecProc(work->end_proc, NULL);
     }
 }
 
-GV_ACT *NewMovie_800C4E24(unsigned int code)
+void *NewMovie_800C4E24(unsigned int code)
 {
     FS_MOVIE_FILE *file;
     int            frame;
 
     GM_GameStatus |= STATE_DEMO;
 
-    if (movie_work.file != NULL)
+    if (movie_work.info != NULL)
     {
         return NULL;
     }
@@ -393,10 +391,10 @@ GV_ACT *NewMovie_800C4E24(unsigned int code)
         return NULL;
     }
 
-    GV_InitActor(1, &movie_work.actor, NULL);
-    GV_SetNamedActor(&movie_work.actor, (GV_ACTFUNC)MovieAct_800C4C00, (GV_ACTFUNC)MovieDie_800C4D78, "movie.c");
+    GV_InitActor(GV_ACTOR_MANAGER, &movie_work.actor, NULL);
+    GV_SetNamedActor(&movie_work.actor, MovieAct_800C4C00, MovieDie_800C4D78, "movie.c");
 
-    movie_work.file = file;
+    movie_work.info = file;
     movie_work.f2C = 1;
     movie_work.f40 = 1;
 
@@ -404,7 +402,7 @@ GV_ACT *NewMovie_800C4E24(unsigned int code)
 
     DG_UnDrawFrameCount = 1;
 
-    movie_work.proc = -1;
+    movie_work.end_proc = -1;
     movie_work.f40 = 11;
 
     GV_PauseLevel |= 1;
@@ -413,10 +411,10 @@ GV_ACT *NewMovie_800C4E24(unsigned int code)
     movie_work.n_frames = 0;
     movie_work.f42 = frame - 11;
 
-    return &movie_work.actor;
+    return (void *)&movie_work;
 }
 
-GV_ACT *NewMovie_800C4F34(unsigned int code)
+void *NewMovie_800C4F34(unsigned int code)
 {
     MovieWork *work;
 
@@ -438,8 +436,8 @@ GV_ACT *NewMovie_800C4F34(unsigned int code)
 
     if (GCL_GetOption('p'))
     {
-        work->proc = GCL_StrToInt(GCL_GetParamResult());
+        work->end_proc = GCL_StrToInt(GCL_GetParamResult());
     }
 
-    return &work->actor;
+    return (void *)work;
 }

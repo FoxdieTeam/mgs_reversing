@@ -10,7 +10,7 @@ typedef struct _LSightWork
     int      timer;
 } LSightWork;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void LSightInitVecs_800D1ACC(SVECTOR *from, SVECTOR *to, SVECTOR *out)
 {
@@ -89,14 +89,14 @@ int LSightGetResources_800D1C90(LSightWork *work, int color)
 }
 
 
-GV_ACT *NewLSight_800D1D2C(SVECTOR *from, SVECTOR *to, int color)
+void *NewLSight_800D1D2C(SVECTOR *from, SVECTOR *to, int color)
 {
     LSightWork *work;
 
-    work = (LSightWork *)GV_NewActor(EXEC_LEVEL, sizeof(LSightWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(LSightWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)LSightAct_800D1C20, (GV_ACTFUNC)LSightDie_800D1C54, "l_sight.c");
+        GV_SetNamedActor(&work->actor, LSightAct_800D1C20, LSightDie_800D1C54, "l_sight.c");
 
         if (LSightGetResources_800D1C90(work, color) < 0)
         {
@@ -108,5 +108,5 @@ GV_ACT *NewLSight_800D1D2C(SVECTOR *from, SVECTOR *to, int color)
         work->timer = 8;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

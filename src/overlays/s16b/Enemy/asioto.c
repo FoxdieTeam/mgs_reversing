@@ -17,12 +17,7 @@ typedef struct _Work
     int    noise[4];
 } Work;
 
-extern int      dword_800AB9D4;
-extern CONTROL *GM_PlayerControl_800AB9F4;
-extern SVECTOR  GM_PlayerPosition_800ABA10;
-extern int      GM_PlayerStatus;
-
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 int asioto_800C38AC(Work *work)
 {
@@ -30,7 +25,7 @@ int asioto_800C38AC(Work *work)
     int      i;
     int      j;
 
-    event = &GM_PlayerControl_800AB9F4->event;
+    event = &GM_PlayerControl->event;
     for (i = 0; i < event->field_6_count; i++)
     {
         for (j = 0; j < work->count; j++)
@@ -86,7 +81,7 @@ void AsiotoAct_800C39E8(Work *work)
     int bank;
     int bank2;
 
-    if (!GM_PlayerControl_800AB9F4)
+    if (!GM_PlayerControl)
     {
         return;
     }
@@ -103,8 +98,8 @@ void AsiotoAct_800C39E8(Work *work)
                     return;
                 }
 
-                bank = GM_PlayerControl_800AB9F4->field_60_vecs_ary[0].pad & 3;
-                GM_SeSet(&GM_PlayerPosition_800ABA10, work->se_duct[bank][index]);
+                bank = GM_PlayerControl->field_60_vecs_ary[0].pad & 3;
+                GM_SeSet(&GM_PlayerPosition, work->se_duct[bank][index]);
             }
         }
         else
@@ -118,17 +113,17 @@ void AsiotoAct_800C39E8(Work *work)
             bank2 = asioto_800C392C(work);
             if (bank2 >= 0)
             {
-                GM_SeSet(&GM_PlayerPosition_800ABA10, work->se[bank2][index]);
+                GM_SeSet(&GM_PlayerPosition, work->se[bank2][index]);
 
                 if (work->noise[bank2] != 0)
                 {
-                    GM_SetNoise(100, 4, &GM_PlayerPosition_800ABA10);
+                    GM_SetNoise(100, 4, &GM_PlayerPosition);
                 }
             }
             else
             {
-                bank = GM_PlayerControl_800AB9F4->field_60_vecs_ary[0].pad & 3;
-                GM_SeSet(&GM_PlayerPosition_800ABA10, work->se2[bank][index]);
+                bank = GM_PlayerControl->field_60_vecs_ary[0].pad & 3;
+                GM_SeSet(&GM_PlayerPosition, work->se2[bank][index]);
             }
         }
     } while (0);
@@ -238,21 +233,20 @@ int AsiotoGetResources_800C3B94(Work *work)
     return 0;
 }
 
-GV_ACT *NewAsioto_800C3E08(int name, int where, int argc, char **argv)
+void *NewAsioto_800C3E08(int name, int where, int argc, char **argv)
 {
     Work *work;
 
-    work = (Work *)GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)AsiotoAct_800C39E8,
-                         (GV_ACTFUNC)AsiotoDie_800C3B8C, "asioto.c");
+        GV_SetNamedActor(&work->actor, AsiotoAct_800C39E8, AsiotoDie_800C3B8C, "asioto.c");
         if (AsiotoGetResources_800C3B94(work) < 0)
         {
             GV_DestroyActor(&work->actor);
-            return 0;
+            return NULL;
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

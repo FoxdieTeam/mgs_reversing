@@ -15,15 +15,11 @@
 #include "Bullet/amissile.h"
 #include "SD/g_sound.h"
 
-extern short GM_Magazine_800AB9EC;
-extern short GM_MagazineMax_800ABA2C;
-
 extern int amissile_alive_8009F490;
 
 extern UnkCameraStruct gUnkCameraStruct_800B77B8;
 
 extern int DG_CurrentGroupID;
-extern int GM_CurrentMap;
 
 extern TARGET *target_800BDF00;
 extern int dword_800AB8A4;
@@ -44,7 +40,7 @@ typedef struct _AamWork
     GV_ACT         *sight;
 } AamWork;
 
-#define EXEC_LEVEL 6
+#define EXEC_LEVEL GV_ACTOR_AFTER
 #define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
 
 TARGET *StnTarget = NULL;
@@ -171,14 +167,14 @@ STATIC int AamGetResources(AamWork *work, OBJECT *parent, int num_parent)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewAAM(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side)
+void *NewAAM(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side)
 {
     AamWork *work;
 
-    work = (AamWork *)GV_NewActor(EXEC_LEVEL, sizeof(AamWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(AamWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)AamAct, (GV_ACTFUNC)AamDie, "aam.c");
+        GV_SetNamedActor(&work->actor, AamAct, AamDie, "aam.c");
 
         if (AamGetResources(work, parent, num_parent) < 0)
         {
@@ -194,8 +190,8 @@ GV_ACT *NewAAM(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *f
         work->cooldown = 0;
     }
 
-    GM_MagazineMax_800ABA2C = 0;
-    GM_Magazine_800AB9EC = 0;
+    GM_MagazineMax = 0;
+    GM_Magazine = 0;
 
-    return &work->actor;
+    return (void *)work;
 }

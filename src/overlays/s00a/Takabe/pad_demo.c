@@ -24,17 +24,13 @@ typedef struct _PadDemoWork
     int             f44;
 } PadDemoWork;
 
-extern int   GV_PauseLevel;
-extern short GV_DemoPadStatus[2];
-extern int   GM_CurrentMap;
-
 // Something to do with setting current/last item to ITEM_NONE
 void sub_8003CC88(void);
 
 // Something to do with setting current/last weapon to WEAPON_NONE
 void MENU_ResetWeaponPos(void);
 
-#define EXEC_LEVEL 1
+#define EXEC_LEVEL GV_ACTOR_MANAGER
 
 void PadDemo_800DCBB0(PadDemoWork *work)
 {
@@ -204,14 +200,14 @@ int PadDemoGetResources_800DCE94(PadDemoWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT *NewPadDemo_800DCFD4(int name, int where, int argc, char **argv)
+void *NewPadDemo_800DCFD4(int name, int where, int argc, char **argv)
 {
     PadDemoWork *work;
 
-    work = (PadDemoWork *)GV_NewActor(EXEC_LEVEL, sizeof(PadDemoWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(PadDemoWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)PadDemoAct_800DCD94, (GV_ACTFUNC)PadDemoDie_800DCE48, "pad_demo.c");
+        GV_SetNamedActor(&work->actor, PadDemoAct_800DCD94, PadDemoDie_800DCE48, "pad_demo.c");
 
         if (PadDemoGetResources_800DCE94(work, name, where) < 0)
         {
@@ -220,5 +216,5 @@ GV_ACT *NewPadDemo_800DCFD4(int name, int where, int argc, char **argv)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

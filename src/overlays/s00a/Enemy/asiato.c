@@ -11,11 +11,7 @@ int SECTION("overlay.bss") s00a_dword_800E0F94;
 
 SVECTOR SECTION("overlay.bss") AsiatoPositions[49];
 
-extern unsigned int GM_PlayerStatus;
-extern SVECTOR      GM_PlayerPosition_800ABA10;
-extern int          dword_800AB9D4;
 extern CONTROL     *GM_WhereList_800B56D0[96];
-extern OBJECT      *GM_PlayerBody_800ABA20;
 
 // The second half of this file uses another Work struct
 // (NewAsiatoChar allocates more than NewAsiato)
@@ -41,6 +37,8 @@ typedef struct AsiatoCharWork
     int      field_4C;
     int      field_50;
 } AsiatoCharWork;
+
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 void AsiatoCharColor_800D0DD4(DG_PRIM *prim, DG_TEX *tex, int r, int g, int b)
 {
@@ -168,15 +166,14 @@ void AsiatoCharDie_800D116C(AsiatoCharWork *work)
     AsiatoPositions[48].vy--;
 }
 
-GV_ACT *NewAsiatoChar_800D11DC(MATRIX *arg0, int arg1, int arg2, int arg3, int arg4)
+void *NewAsiatoChar_800D11DC(MATRIX *arg0, int arg1, int arg2, int arg3, int arg4)
 {
     AsiatoCharWork *work;
 
-    work = (AsiatoCharWork *)GV_NewActor(4, sizeof(AsiatoCharWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(AsiatoCharWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)AsiatoCharAct_800D0E10,
-                         (GV_ACTFUNC)AsiatoCharDie_800D116C, "asiato.c");
+        GV_SetNamedActor(&work->actor, AsiatoCharAct_800D0E10, AsiatoCharDie_800D116C, "asiato.c");
         work->field_4C = arg3;
         if (AsiatoCharGetResources_800D0F90(work, arg0, arg1, arg2) < 0)
         {
@@ -185,7 +182,7 @@ GV_ACT *NewAsiatoChar_800D11DC(MATRIX *arg0, int arg1, int arg2, int arg3, int a
         }
         work->field_48 = arg4;
     }
-    return &work->actor;
+    return (void *)work;
 }
 
 typedef struct AsiatoWork
@@ -386,7 +383,7 @@ int s00a_asiato_800D17BC(AsiatoWork *work)
     HZD_HDL *hdl;
 
     hdl = GM_WhereList_800B56D0[0]->map->hzd;
-    if (!AsiatoIsAllowedOnMove_800D179C() || !s00a_asiato_800D16F8(work, hdl, &GM_PlayerPosition_800ABA10))
+    if (!AsiatoIsAllowedOnMove_800D179C() || !s00a_asiato_800D16F8(work, hdl, &GM_PlayerPosition))
     {
         return 0;
     }
@@ -403,7 +400,7 @@ void RecordAsiatoPosition_800D1844()
     SVECTOR *svec;
 
     svec = &AsiatoPositions[AsiatoPositions[48].vx];
-    *svec = GM_PlayerPosition_800ABA10;
+    *svec = GM_PlayerPosition;
     AsiatoPositions[AsiatoPositions[48].vx].pad = 1;
     AsiatoPositions[48].vy++;
     AsiatoPositions[48].vx++;
@@ -423,11 +420,11 @@ void AsiatoAct_800D18C8(AsiatoWork *work)
     {
         if (temp_v0 == 1)
         {
-            var_s0 = &GM_PlayerBody_800ABA20->objs->objs[12];
+            var_s0 = &GM_PlayerBody->objs->objs[12];
         }
         else
         {
-            var_s0 = &GM_PlayerBody_800ABA20->objs->objs[15];
+            var_s0 = &GM_PlayerBody->objs->objs[15];
         }
         RecordAsiatoPosition_800D1844();
         GM_CurrentMap = (*GM_WhereList_800B56D0)->map->index;
@@ -457,33 +454,31 @@ void AsiatoInit_800D199C(AsiatoWork *work)
 
 void AsiatoAct_800D18C8(AsiatoWork *work);
 
-GV_ACT *NewAsiato_800D1A14(int name, int where, int argc, char **argv)
+void *NewAsiato_800D1A14(int name, int where, int argc, char **argv)
 {
     AsiatoWork *work;
 
-    work = (AsiatoWork *)GV_NewActor(4, sizeof(AsiatoWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(AsiatoWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)AsiatoAct_800D18C8,
-                         (GV_ACTFUNC)AsiatoDie_800D1994, "asiato.c");
+        GV_SetNamedActor(&work->actor, AsiatoAct_800D18C8, AsiatoDie_800D1994, "asiato.c");
         AsiatoInit_800D199C(work);
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewAsiatoKun_800D1A70(int name, int where, int argc, char **argv)
+void *NewAsiatoKun_800D1A70(int name, int where, int argc, char **argv)
 {
     // Identical to NewAsiato_800D1A14
     AsiatoWork *work;
 
-    work = (AsiatoWork *)GV_NewActor(4, sizeof(AsiatoWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(AsiatoWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)AsiatoAct_800D18C8,
-                                  (GV_ACTFUNC)AsiatoDie_800D1994, "asiato.c");
+        GV_SetNamedActor(&work->actor, AsiatoAct_800D18C8, AsiatoDie_800D1994, "asiato.c");
         AsiatoInit_800D199C(work);
     }
 
-    return &work->actor;
+    return (void *)work;
 }

@@ -910,9 +910,7 @@ PANEL_TEXTURE *menu_weapon_get_weapon_rpk_info_8003DED8(int weaponIdx)
 extern unsigned short GM_ItemTypes[];
 extern unsigned short GM_WeaponTypes[];
 
-extern PlayerStatusFlag GM_PlayerStatus;
 extern int              dword_8009F46C;
-extern unsigned int     GM_DisableWeapon_800AB9E4;
 
 int menu_weapon_isWeaponDisabled_8003DF30(int weaponId)
 {
@@ -939,7 +937,7 @@ int menu_weapon_isWeaponDisabled_8003DF30(int weaponId)
         return 1;
     }
 
-    return (GM_DisableWeapon_800AB9E4 & (1 << weaponId)) > 0;
+    return (GM_DisableWeapon & (1 << weaponId)) > 0;
 }
 
 // Also see dword_8009E3E4, dword_8009E444.
@@ -1059,9 +1057,6 @@ void menu_weapon_printDescription_8003E030(int wpn_id)
     menu_printDescription_8003F97C(weaponDescription);
 }
 
-extern short GM_MagazineMax_800ABA2C;
-extern short GM_Magazine_800AB9EC;
-
 void menu_weapon_init_helper_8003E0E8(MenuWork *work, unsigned int *pOt, int off_x, int off_y, PANEL *pPanel)
 {
     PANEL_TEXTURE        *pTexture;
@@ -1113,11 +1108,11 @@ void menu_weapon_init_helper_8003E0E8(MenuWork *work, unsigned int *pOt, int off
             addPrim(pOt, pPrim);
         }
 
-        if (pPanel->field_6_current && GM_MagazineMax_800ABA2C > 0)
+        if (pPanel->field_6_current && GM_MagazineMax > 0)
         {
             pSubCnt2 = (GM_CurrentWeaponId == WEAPON_FAMAS ? 3 : 0);
-            menu_number_draw_magazine(work, pOt, offset_x + 45, off_y + 20, GM_Magazine_800AB9EC,
-                                      GM_MagazineMax_800ABA2C, pSubCnt2);
+            menu_number_draw_magazine(work, pOt, offset_x + 45, off_y + 20, GM_Magazine,
+                                      GM_MagazineMax, pSubCnt2);
         }
         else
         {
@@ -1142,8 +1137,6 @@ void menu_weapon_init_helper_8003E0E8(MenuWork *work, unsigned int *pOt, int off
                                           (pPanel->field_4_pos == 0 && pPanel->field_6_current == 0));
 }
 
-extern short GM_WeaponChanged_800AB9D8;
-
 void menu_weapon_update_helper2_helper2_8003E3B0(MenuWork *work)
 {
     Menu_Item_Unknown *pItemUnknown;
@@ -1162,7 +1155,7 @@ void menu_weapon_update_helper2_helper2_8003E3B0(MenuWork *work)
     if (id >= 0 && !menu_weapon_isWeaponDisabled_8003DF30(id))
     {
         GM_CurrentWeaponId = work->field_1F0_menu_weapon.field_0_current.field_0_id;
-        GM_WeaponChanged_800AB9D8 = 1;
+        GM_WeaponChanged = 1;
         if (GM_CurrentWeaponId >= 0)
         {
             sub_8003CFE0(
@@ -1179,7 +1172,7 @@ void menu_weapon_update_helper2_helper2_8003E3B0(MenuWork *work)
         }
         GM_CurrentWeaponId = -1;
         work->field_1F0_menu_weapon.field_0_current.field_0_id = -1;
-        GM_WeaponChanged_800AB9D8 = 1;
+        GM_WeaponChanged = 1;
     }
 
     work->field_1F0_menu_weapon.field_12_flashingAnimationFrame = 10;
@@ -1274,8 +1267,6 @@ int menu_weapon_update_helper_8003E4B8(MenuWork *work)
     return 1;
 }
 
-extern int GV_PauseLevel;
-
 void menu_weapon_update_helper2_8003E674(MenuWork *work, unsigned int *pOt)
 {
     unsigned short     anim_frame;
@@ -1317,7 +1308,7 @@ void menu_weapon_update_helper2_8003E674(MenuWork *work, unsigned int *pOt)
             {
                 last_id = GM_CurrentWeaponId;
                 GM_CurrentWeaponId = WEAPON_NONE;
-                GM_WeaponChanged_800AB9D8 = 1;
+                GM_WeaponChanged = 1;
                 work->field_1F0_menu_weapon.field_12_flashingAnimationFrame = 19;
                 dword_800ABAE8 = last_id;
                 break;
@@ -1326,7 +1317,7 @@ void menu_weapon_update_helper2_8003E674(MenuWork *work, unsigned int *pOt)
             if (GM_CurrentWeaponId != work->field_1F0_menu_weapon.field_0_current.field_0_id)
             {
                 switched_weapon = 1;
-                GM_WeaponChanged_800AB9D8 = 1;
+                GM_WeaponChanged = 1;
                 printf("HERE %d\n", work->field_1F0_menu_weapon.field_0_current.field_0_id);
 
                 if (work->field_1F0_menu_weapon.field_0_current.field_0_id != -1)
@@ -1447,7 +1438,7 @@ void menu_weapon_update_8003E990(MenuWork *work, unsigned char *pOt)
 
                 if (weapon_id != GM_CurrentWeaponId)
                 {
-                    GM_WeaponChanged_800AB9D8 = 1;
+                    GM_WeaponChanged = 1;
                     GM_SeSet2(0, 63, SE_ITEM_EQUIP);
                 }
             }

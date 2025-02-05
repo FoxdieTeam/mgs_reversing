@@ -1,5 +1,9 @@
 #include "blur.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
@@ -36,8 +40,6 @@ DR_STP SECTION("overlay.bss") d01a_dword_800D1448[2];
 int    SECTION("overlay.bss") d01a_dword_800D1460;
 int    SECTION("overlay.bss") d01a_dword_800D1464;
 DR_STP SECTION("overlay.bss") d01a_dword_800D1468[2];
-
-extern int GV_Clock;
 
 void d01a_blur_800CCB28(void)
 {
@@ -344,19 +346,16 @@ int BlurGetResources_800CD418(BlurWork *work, int arg1, int arg2, int arg3)
     return 0;
 }
 
-#define EXEC_LEVEL 7
+#define EXEC_LEVEL GV_ACTOR_AFTER2
 
-GV_ACT *NewBlur_800CD530(int name, int where, int argc, char **argv)
+void *NewBlur_800CD530(int name, int where, int argc, char **argv)
 {
     BlurWork *work;
 
-    work = (BlurWork *)GV_NewActor(EXEC_LEVEL, sizeof(BlurWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(BlurWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor,
-                         (GV_ACTFUNC)BlurAct_800CD274,
-                         (GV_ACTFUNC)BlurDie_800CD3E8,
-                         "blur.c");
+        GV_SetNamedActor(&work->actor, BlurAct_800CD274, BlurDie_800CD3E8, "blur.c");
 
         if (BlurGetResources_800CD418(work, name, where, argc) < 0)
         {
@@ -367,10 +366,10 @@ GV_ACT *NewBlur_800CD530(int name, int where, int argc, char **argv)
         work->f20 = -1;
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewBlur_800CD5D8(int arg0)
+void *NewBlur_800CD5D8(int arg0)
 {
     BlurWork *work;
     char     *opt;
@@ -382,13 +381,10 @@ GV_ACT *NewBlur_800CD5D8(int arg0)
     var_s3 = 0;
     var_s2 = 0;
 
-    work = (BlurWork *)GV_NewActor(EXEC_LEVEL, sizeof(BlurWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(BlurWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor,
-                         (GV_ACTFUNC)BlurAct_800CD274,
-                         (GV_ACTFUNC)BlurDie_800CD3E8,
-                         "blur.c");
+        GV_SetNamedActor(&work->actor, BlurAct_800CD274, BlurDie_800CD3E8, "blur.c");
 
         opt = GCL_GetOption('d');
         if (opt != NULL)
@@ -407,5 +403,5 @@ GV_ACT *NewBlur_800CD5D8(int arg0)
         work->f20 = arg0;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

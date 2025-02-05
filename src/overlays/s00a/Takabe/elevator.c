@@ -67,9 +67,7 @@ typedef struct _ElevatorWork
 
 extern int           bakudan_count_8009F42C;
 extern int           counter_8009F448;
-extern int           GM_CurrentMap;
 extern int           gControlCount_800AB9B4;
-extern int           GM_AlertMode;
 extern CONTROL      *GM_WhereList_800B56D0[96];
 extern CONTROL      *tenage_ctrls_800BDD30[16];
 extern int           tenage_ctrls_count_800BDD70;
@@ -95,7 +93,7 @@ void      Takabe_ReshadeModel_800DC854(DG_OBJS *objs, LIT *lit);
 DG_OBJS * s00a_unknown3_800DC7DC(int model, LIT *lit);
 void      Takabe_FreeObjs_800DC820(DG_OBJS *objs);
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void ElevatorAct_800D8EA8(ElevatorWork *work)
 {
@@ -729,14 +727,14 @@ error:
     return 0;
 }
 
-GV_ACT *NewElevator_800D9F30(int name, int where, int argc, char **argv)
+void *NewElevator_800D9F30(int name, int where, int argc, char **argv)
 {
     ElevatorWork *work;
 
-    work = (ElevatorWork *)GV_NewActor(EXEC_LEVEL, sizeof(ElevatorWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(ElevatorWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)ElevatorAct_800D8EA8, (GV_ACTFUNC)ElevatorDie_800D97D8, "elevator.c");
+        GV_SetNamedActor(&work->actor, ElevatorAct_800D8EA8, ElevatorDie_800D97D8, "elevator.c");
 
         if (ElevatorGetResources_800D98A8(work, name, where) < 0)
         {
@@ -745,7 +743,7 @@ GV_ACT *NewElevator_800D9F30(int name, int where, int argc, char **argv)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
 void Elevator_800D9FC4(ElevatorWork *work, SVECTOR *offset)

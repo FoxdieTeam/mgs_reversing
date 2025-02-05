@@ -1,5 +1,9 @@
 #include "bullet.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
@@ -9,8 +13,6 @@
 #include "Game/linkvarbuf.h"
 #include "Anime/animeconv/anime.h"
 #include "spark.h"
-
-extern int GM_CurrentMap;
 
 /*---------------------------------------------------------------------------*/
 
@@ -53,7 +55,7 @@ typedef struct BulletWork
 
 // STATIC_ASSERT(sizeof(BulletWork) == 0x170, "sizeof(BulletWork) is wrong!");
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 /*---------------------------------------------------------------------------*/
 
@@ -594,18 +596,15 @@ STATIC int bullet_GetResources(BulletWork *work, MATRIX* pMtx, int arg2, int noi
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewBulletEnemy(MATRIX *arg0, int whichSide, int arg2, int arg3, int arg4)
+void *NewBulletEnemy(MATRIX *arg0, int whichSide, int arg2, int arg3, int arg4)
 {
     BulletWork  *work;
     SVECTOR      vec;
 
-    work = (BulletWork *)GV_NewActor( EXEC_LEVEL, sizeof(BulletWork) );
+    work = GV_NewActor( EXEC_LEVEL, sizeof(BulletWork) );
     if ( work != NULL )
     {
-        GV_SetNamedActor( &work->actor,
-                          (GV_ACTFUNC)&bullet_Act,
-                          (GV_ACTFUNC)&bullet_Die,
-                          "bullet.c" );
+        GV_SetNamedActor( &work->actor, &bullet_Act, &bullet_Die, "bullet.c" );
         vec.vx = arg0->m[0][0];
         vec.vy = arg0->m[1][0];
         vec.vz = arg0->m[2][0];
@@ -647,21 +646,18 @@ GV_ACT *NewBulletEnemy(MATRIX *arg0, int whichSide, int arg2, int arg3, int arg4
         work->field_134 = arg2;
         work->field_148_side = whichSide;
     }
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewBullet(MATRIX *pMtx, int whichSide, int a3, int noiseLen)
+void *NewBullet(MATRIX *pMtx, int whichSide, int a3, int noiseLen)
 {
     SVECTOR vec;
     BulletWork *work;
 
-    work = (BulletWork *)GV_NewActor(EXEC_LEVEL, sizeof(BulletWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(BulletWork));
     if ( work )
     {
-        GV_SetNamedActor(&work->actor,
-                         (GV_ACTFUNC)&bullet_Act,
-                         (GV_ACTFUNC)&bullet_Die,
-                         "bullet.c");
+        GV_SetNamedActor(&work->actor, &bullet_Act, &bullet_Die, "bullet.c");
         vec.vx = pMtx->m[0][0];
         vec.vy = pMtx->m[1][0];
         vec.vz = pMtx->m[2][0];
@@ -720,24 +716,23 @@ GV_ACT *NewBullet(MATRIX *pMtx, int whichSide, int a3, int noiseLen)
         work->field_148_side = whichSide;
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewBulletEx(int a1, MATRIX* pMtx, int side, int a4, int a5, int a6, int a7, int a8, int a9)
+void *NewBulletEx(int a1, MATRIX* pMtx, int side, int a4, int a5, int a6, int a7, int a8, int a9)
 {
     BulletWork* work; // $s0
     int flags; // $v1
     SVECTOR vec; // [sp+18h] [-28h] BYREF
     MATRIX mtx; // [sp+20h] [-20h] BYREF
 
-    work = (BulletWork*)GV_NewActor(EXEC_LEVEL, sizeof(BulletWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(BulletWork));
     if (!work)
     {
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)bullet_Act,
-        (GV_ACTFUNC)bullet_Die, "bullet.c");
+    GV_SetNamedActor(&work->actor, bullet_Act, bullet_Die, "bullet.c");
     work->field_14C = a1;
     work->field_150 = a6 / 2;
     work->field_154_hp = a7;
@@ -800,13 +795,13 @@ GV_ACT *NewBulletEx(int a1, MATRIX* pMtx, int side, int a4, int a5, int a6, int 
         }
 
         ++dword_8009F6A8;
-        return &work->actor;
+        return (void *)work;
     }
 
     return NULL;
 }
 
-GV_ACT *NewBullet2(MATRIX *pMtx, int a2, int a3, int a4, int a5, int a6, int a7, int a8)
+void *NewBullet2(MATRIX *pMtx, int a2, int a3, int a4, int a5, int a6, int a7, int a8)
 {
     SVECTOR vec;
     MATRIX mtx;

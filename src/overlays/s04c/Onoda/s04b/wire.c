@@ -55,15 +55,13 @@ typedef struct _WireWork
 } WireWork;
 
 extern BLAST_DATA blast_data_8009F4B8[8];
-extern int        GM_CurrentMap;
-extern SVECTOR    GM_PlayerPosition_800ABA10;
 
 unsigned short s04c_dword_800C35E8[] = {HASH_KILL};
 char           s04c_dword_800C35EC[] = {0x7F, 0x03, 0x00, 0x00};
 SVECTOR        s04c_dword_800C35F0 = {2000, 2000, 2000, 0};
 SVECTOR        s04c_dword_800C35F8 = {2500, 10000, 2500, 0};
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void s04c_wire_800D2E7C(WireWork *work)
 {
@@ -72,10 +70,10 @@ void s04c_wire_800D2E7C(WireWork *work)
 
     GM_CurrentMap = work->map;
 
-    px = GM_PlayerPosition_800ABA10.vx;
-    pz = GM_PlayerPosition_800ABA10.vz;
+    px = GM_PlayerPosition.vx;
+    pz = GM_PlayerPosition.vz;
 
-    if (GM_PlayerPosition_800ABA10.vy > 300)
+    if (GM_PlayerPosition.vy > 300)
     {
         if (px <= 0)
         {
@@ -669,14 +667,14 @@ const char s04c_aBc_800DBBB0[] = "04b_c4";
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_wire_800D3FA8.s")
 int s04c_wire_800D3FA8(WireWork *work, int name, int map);
 
-GV_ACT *NewWire_800D709C(int name, int where)
+void *NewWire_800D709C(int name, int where)
 {
     WireWork *work;
 
-    work = (WireWork *)GV_NewActor(EXEC_LEVEL, sizeof(WireWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(WireWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)WireAct_800D36B8, (GV_ACTFUNC)WireDie_800D3DB0, "wire.c");
+        GV_SetNamedActor(&work->actor, WireAct_800D36B8, WireDie_800D3DB0, "wire.c");
 
         if (s04c_wire_800D3FA8(work, name, where) < 0)
         {
@@ -687,5 +685,5 @@ GV_ACT *NewWire_800D709C(int name, int where)
         work->name = name;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

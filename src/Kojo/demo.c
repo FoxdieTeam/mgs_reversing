@@ -11,8 +11,6 @@
 #include "strcode.h"
 
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
-extern int              GM_PadVibration2;
-extern int              GM_PadVibration;
 extern BLAST_DATA       blast_data_8009F4B8[8];
 extern GM_Camera        GM_Camera_800B77E8;
 
@@ -38,7 +36,7 @@ int CreateDemo_80079B50(DemothrdWork* pThis, demothrd_0x1C* pDmoData)
     dmo_hind* pHindData; // $v0
     MATRIX* mtx;
 
-    pOldRendFunc = DG_SetChanlSystemUnits(DG_CHANL_SCREEN, demothrd_Screen_Chanl_80080D48);
+    pOldRendFunc = DG_SetChanlSystemUnits(DG_SCREEN_CHANL, demothrd_Screen_Chanl_80080D48);
 
     pThis->field_270_pOldRenderFn = pOldRendFunc;
     pThis->field_274_old_game_state_flags = GM_GameStatus;
@@ -365,7 +363,7 @@ int DestroyDemo_8007A66C(DemothrdWork *work)
   }
   field_270_pOldRenderFn = work->field_270_pOldRenderFn;
   GM_GameStatus &= ~STATE_DEMO;
-  DG_SetChanlSystemUnits(DG_CHANL_SCREEN, field_270_pOldRenderFn);
+  DG_SetChanlSystemUnits(DG_SCREEN_CHANL, field_270_pOldRenderFn);
   GM_GameStatus = work->field_274_old_game_state_flags;
   GM_Camera_800B77E8 = work->field_278;
   GM_CurrentItemId = work->field_2F4_old_equipped_item;
@@ -551,7 +549,7 @@ int demothrd_make_chara_8007AE10(DemothrdWork *work, dmo_data_0x36 *pData, Demot
     MATRIX                     mat1, mat2;
     DemothrdWork_0x78_Chain *pIter;
 
-    GV_ACT *(*funcptr)();
+    void *(*funcptr)();
 
     dmo_model_0x14  *pDmoModel;
     dmo_model_0x1A4 *pModel;

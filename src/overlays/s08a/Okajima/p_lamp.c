@@ -32,18 +32,15 @@ typedef struct PLampWork
     GV_ACT  *cinema_screen;
 } PLampWork;
 
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 SVECTOR p_lamp_target_svec_800C353C = {5, 5, 5};
 RECT    p_lamp_prim_rect_800C3544 = {100, 100, 200, 200};
 
-GV_ACT *NewCinemaScreen_800DE434(int, int);
-int     NewCinemaScreenClose_800DE4CC(GV_ACT *work);
-GV_ACT *NewSpark2_800CA714(MATRIX *world);
+void *NewCinemaScreen_800DE434(int, int);
+int   NewCinemaScreenClose_800DE4CC(void *work);
+void *NewSpark2_800CA714(MATRIX *world);
 
-extern int     GM_CurrentMap;
-extern int     GM_PadVibration;
-extern int     GM_PadVibration2;
 extern DG_CHANL DG_Chanls_800B1800[3];
 
 void PLampLookAt_800CC9F4(PLampWork *work, SVECTOR *eye, SVECTOR *center)
@@ -517,18 +514,15 @@ int PLampGetResources_800CD6E4(PLampWork *work, int map, int n_verts)
     return 0;
 }
 
-GV_ACT *NewPLamp_800CD948(int name, int where)
+void *NewPLamp_800CD948(int name, int where)
 {
     PLampWork *work;
     int        n_verts;
 
-    work = (PLampWork *)GV_NewActor(EXEC_LEVEL, sizeof(PLampWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(PLampWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor,
-                         (GV_ACTFUNC)PLampAct_800CD5C0,
-                         (GV_ACTFUNC)PLampDie_800CCCE0,
-                         "p_lamp.c");
+        GV_SetNamedActor(&work->actor, PLampAct_800CD5C0, PLampDie_800CCCE0, "p_lamp.c");
 
         n_verts = PLampGetSvecs_800CCD44(GCL_GetOption('p'), work->verts);
         if (PLampGetResources_800CD6E4(work, where, n_verts) < 0)
@@ -540,5 +534,5 @@ GV_ACT *NewPLamp_800CD948(int name, int where)
         PLampGetResources2_800CD6B0(work, name, where);
     }
 
-    return &work->actor;
+    return (void *)work;
 }

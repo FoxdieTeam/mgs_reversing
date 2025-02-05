@@ -12,7 +12,7 @@ typedef struct _KikenWork
     int    name;
 } KikenWork;
 
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 int KikenCheckMessages_800D6C64(KikenWork *work)
 {
@@ -60,14 +60,14 @@ int KikenGetResources_800D6D14(KikenWork *work, int name)
     return 0;
 }
 
-GV_ACT *NewKiken_800D6D24(int name, int where, int argc, char **argv)
+void *NewKiken_800D6D24(int name, int where, int argc, char **argv)
 {
     KikenWork *work;
 
-    work = (KikenWork *)GV_NewActor(EXEC_LEVEL, sizeof(KikenWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(KikenWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)KikenAct_800D6CC8, (GV_ACTFUNC)KikenDie_800D6D0C, "kiken.c");
+        GV_SetNamedActor(&work->actor, KikenAct_800D6CC8, KikenDie_800D6D0C, "kiken.c");
 
         if (KikenGetResources_800D6D14(work, name) < 0)
         {
@@ -76,5 +76,5 @@ GV_ACT *NewKiken_800D6D24(int name, int where, int argc, char **argv)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

@@ -29,12 +29,10 @@ typedef struct _ZoomWork
 
 unsigned short cat_in_mes_list[] = { HASH_KILL };
 
-extern OBJECT *GM_PlayerBody_800ABA20;
-extern int     GM_PlayerStatus;
 extern GV_PAD  GV_PadData_800B05C0[4];
 
-#define EXEC_LEVEL  2
-#define EXEC_LEVEL2 5
+#define EXEC_LEVEL  GV_ACTOR_LEVEL2
+#define EXEC_LEVEL2 GV_ACTOR_LEVEL5
 
 void ZoomCameraAct_800DF740( ZoomCameraWork *cam )
 {
@@ -43,9 +41,9 @@ void ZoomCameraAct_800DF740( ZoomCameraWork *cam )
     GM_GameStatus |= GAME_FLAG_BIT_07;
     GM_PlayerStatus |= PLAYER_NOT_SIGHT;
 
-    if ( GM_PlayerBody_800ABA20 )
+    if ( GM_PlayerBody )
     {
-        DG_VisibleObjs( GM_PlayerBody_800ABA20->objs );
+        DG_VisibleObjs( GM_PlayerBody->objs );
     }
 
     if ( cam->enable_input == 1 )
@@ -113,15 +111,15 @@ void ZoomDie_800DF910( ZoomWork *work )
     GM_GameStatus &= ~GAME_FLAG_BIT_07;
     GM_PlayerStatus &= ~PLAYER_NOT_SIGHT;
 
-    if ( GM_PlayerBody_800ABA20 )
+    if ( GM_PlayerBody )
     {
         if ( GM_PlayerStatus & PLAYER_INVISIBLE )
         {
-            DG_InvisibleObjs( GM_PlayerBody_800ABA20->objs );
+            DG_InvisibleObjs( GM_PlayerBody->objs );
         }
         else
         {
-            DG_VisibleObjs( GM_PlayerBody_800ABA20->objs );
+            DG_VisibleObjs( GM_PlayerBody->objs );
         }
     }
 }
@@ -135,7 +133,7 @@ int NewZoomCamera_800DF9BC( ZoomWork *work, int name, int where )
     work->timer = THING_Gcl_GetInt( 't' );
     work->proc = THING_Gcl_GetInt( 'e' );
 
-    cam = (ZoomCameraWork *)GV_NewActor( EXEC_LEVEL, sizeof( ZoomCameraWork ) );
+    cam = GV_NewActor( EXEC_LEVEL, sizeof( ZoomCameraWork ) );
     work->cam = cam;
 
     if ( cam == NULL )
@@ -143,7 +141,7 @@ int NewZoomCamera_800DF9BC( ZoomWork *work, int name, int where )
         return -1;
     }
 
-    GV_SetNamedActor( &( cam->actor ), (GV_ACTFUNC)ZoomCameraAct_800DF740, (GV_ACTFUNC)ZoomCameraDie_800DF80C, "cat_in.c" );
+    GV_SetNamedActor( &( cam->actor ), ZoomCameraAct_800DF740, ZoomCameraDie_800DF80C, "cat_in.c" );
 
     ZoomCameraGetResources_800DF81C( cam, name, where );
     cam->timer = &work->timer;
@@ -153,14 +151,14 @@ int NewZoomCamera_800DF9BC( ZoomWork *work, int name, int where )
     return 0;
 }
 
-GV_ACT *NewZoom_800DFA88(int name, int where, int argc, char **argv)
+void *NewZoom_800DFA88(int name, int where, int argc, char **argv)
 {
     ZoomWork *work;
 
-    work = (ZoomWork *)GV_NewActor( EXEC_LEVEL2, sizeof( ZoomWork ) );
+    work = GV_NewActor( EXEC_LEVEL2, sizeof( ZoomWork ) );
     if (work != NULL)
     {
-        GV_SetNamedActor( &work->actor, (GV_ACTFUNC)ZoomAct_800DF89C, (GV_ACTFUNC)ZoomDie_800DF910, "cat_in.c" );
+        GV_SetNamedActor( &work->actor, ZoomAct_800DF89C, ZoomDie_800DF910, "cat_in.c" );
 
         if ( NewZoomCamera_800DF9BC( work, name, where ) < 0 )
         {
@@ -169,5 +167,5 @@ GV_ACT *NewZoom_800DFA88(int name, int where, int argc, char **argv)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

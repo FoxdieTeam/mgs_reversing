@@ -63,9 +63,6 @@ char dummy_floor_800C3614[] = {0x50, 0x04, 0x00, 0x00};
 
 SVECTOR dummy_floor_800C3618 = {0, 4096, 0, 0};
 
-extern int      GM_CurrentMap;
-extern CONTROL *GM_PlayerControl_800AB9F4;
-extern int      dword_800ABA1C;
 extern CONTROL *tenage_ctrls_800BDD30[16];
 extern int      tenage_ctrls_count_800BDD70;
 
@@ -81,7 +78,7 @@ void s16b_800C4874(int arg0, HZD_SEG *arg1, int arg2, HZD_FLR *arg3);
 void DummyFloor_800D6C94(DummyFloorWork *work, DummyFlap *flap, int model, int map);
 void DummyFloor_800D6D38(SVECTOR *in, HZD_FLR *floor);
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void DummyFloorAct_800D61A4(DummyFloorWork *work)
 {
@@ -94,7 +91,7 @@ void DummyFloorAct_800D61A4(DummyFloorWork *work)
 
     GM_CurrentMap = work->map;
 
-    s01a_800E2364(&work->f164, &GM_PlayerControl_800AB9F4->mov, &sp10);
+    s01a_800E2364(&work->f164, &GM_PlayerControl->mov, &sp10);
 
     sp10.vx = ABS(sp10.vx);
     sp10.vy = ABS(sp10.vy);
@@ -442,18 +439,17 @@ int DummyFloorGetResources_800D68E4(DummyFloorWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT *NewDummyFloor_800D6BF8(int name, int where, int argc, char **argv)
+void *NewDummyFloor_800D6BF8(int name, int where, int argc, char **argv)
 {
     DummyFloorWork *work;
 
-    work = (DummyFloorWork *)GV_NewActor(EXEC_LEVEL, sizeof(DummyFloorWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(DummyFloorWork));
     if (work != NULL)
     {
         work->name = name;
         work->map = where;
 
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)DummyFloorAct_800D61A4,
-                         (GV_ACTFUNC)DummyFloorDie_800D61A4, "dummy_fl.c");
+        GV_SetNamedActor(&work->actor, DummyFloorAct_800D61A4, DummyFloorDie_800D61A4, "dummy_fl.c");
 
         if (DummyFloorGetResources_800D68E4(work, name, where) < 0)
         {
@@ -461,7 +457,7 @@ GV_ACT *NewDummyFloor_800D6BF8(int name, int where, int argc, char **argv)
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }
 
 void DummyFloor_800D6C94(DummyFloorWork *work, DummyFlap *flap, int model, int map)

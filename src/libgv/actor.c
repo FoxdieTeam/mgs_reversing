@@ -9,6 +9,7 @@
  * functions for memory allocation and initialization.
  */
 
+#define __GV_ACTOR_SBSS__
 #include <stdio.h>
 #include <libsn.h>
 #include "libgv.h"
@@ -41,8 +42,6 @@ STATIC PauseKill gPauseKills_8009D308[GV_ACTOR_LEVEL] = {
     {  9, 4 },  // 7: GV_ACTOR_AFTER2
     {  0, 7 }   // 8: GV_ACTOR_DAEMON2
 };
-
-extern int GM_CurrentMap;
 
 /*---------------------------------------------------------------------------*/
 
@@ -84,13 +83,13 @@ void GV_InitActorSystem(void)
 /**
  * @brief Set the pause and kill levels for an actor list.
  *
- * @param execLevel of the actor list
+ * @param exec_level of the actor list
  * @param pause level to set for the pause flag
  * @param kill level to set for the kill flag
  */
-void GV_ConfigActorSystem(int execLevel, short pause, short kill)
+void GV_ConfigActorSystem(int exec_level, short pause, short kill)
 {
-    ActorList *lp = &gActorsList_800ACC18[execLevel];
+    ActorList *lp = &gActorsList_800ACC18[exec_level];
     lp->pause = pause;
     lp->kill = kill;
 }
@@ -161,6 +160,8 @@ void GV_DumpActorSystem(void)
  */
 void GV_ExecActorSystem(void)
 {
+    extern int GM_CurrentMap;
+
     int         i;
     ActorList  *lp = gActorsList_800ACC18;
 
@@ -201,9 +202,9 @@ void GV_ExecActorSystem(void)
 /**
  * @brief Deferred destruction of actors in the actor system.
  *
- * @param execLevel The level at which to destroy actors.
+ * @param exec_level The level at which to destroy actors.
  */
-void GV_DestroyActorSystem(int execLevel)
+void GV_DestroyActorSystem(int exec_level)
 {
     int         i;
     ActorList  *lp = gActorsList_800ACC18;
@@ -212,7 +213,7 @@ void GV_DestroyActorSystem(int execLevel)
     for (i = GV_ACTOR_LEVEL; i > 0; i--)
     {
         // check only for lists with a specific kill level
-        if (lp->kill <= execLevel)
+        if (lp->kill <= exec_level)
         {
             GV_ACT *actor = &lp->first;
             for (;;)
@@ -241,52 +242,55 @@ void GV_DestroyActorSystem(int execLevel)
 /**
  * @brief Initialize an actor and add it at the end of the selected list
  *
- * @param execLevel The id of the list where the actor will be added.
+ * @param exec_level The id of the list where the actor will be added.
  * @param actor The actor to add.
  * @param free_func The function to call when freeing the actor.
  */
-void GV_InitActor(int execLevel, GV_ACT *actor, GV_FREEFUNC free_func)
+void GV_InitActor(int exec_level, void *actor, GV_FREEFUNC free_func)
 {
-    GV_ACT *last = &gActorsList_800ACC18[execLevel].last;
+    GV_ACT *act = (GV_ACT *)actor;
+    GV_ACT *last = &gActorsList_800ACC18[exec_level].last;
     GV_ACT *last_prev = last->prev;
 
-    last->prev = actor;
-    last_prev->next = actor;
+    last->prev = act;
+    last_prev->next = act;
 
-    actor->next = last;
-    actor->prev = last_prev;
+    act->next = last;
+    act->prev = last_prev;
 
-    actor->die = NULL;
-    actor->act = NULL;
-    actor->free = free_func;
+    act->die = NULL;
+    act->act = NULL;
+    act->free = free_func;
 }
 
 /**
  * @brief Allocate memory for an actor and initialize it.
  *
- * @param execLevel The id of the execution list where the actor will be added.
- * @param memSize The size of the actor.
+ * @param exec_level The id of the execution list where the actor will be added.
+ * @param size The size of the actor.
  * @return GV_ACT* The allocated actor.
  */
-GV_ACT *GV_NewActor(int execLevel, int memSize)
+void *GV_NewActor(int exec_level, int size)
 {
-    GV_ACT *actor = GV_Malloc(memSize);
+    GV_ACT *actor = GV_Malloc(size);
     if (actor)
     {
-        GV_ZeroMemory(actor, memSize);
-        GV_InitActor(execLevel, actor, GV_Free);
+        GV_ZeroMemory(actor, size);
+        GV_InitActor(exec_level, actor, GV_Free);
     }
-    return actor;
+    return (void *)actor;
 }
 
-void GV_SetNamedActor(GV_ACT *actor, GV_ACTFUNC act_func,
-                      GV_ACTFUNC die_func, const char *filename)
+void GV_SetNamedActor(void *actor, void *act_func,
+                      void *die_func, const char *filename)
 {
-    actor->act = act_func;
-    actor->die = die_func;
-    actor->filename = filename;
-    actor->field_1C = 0;
-    actor->field_18 = 0;
+    GV_ACT *act = (GV_ACT *)actor;
+
+    act->act = (GV_ACTFUNC)act_func;
+    act->die = (GV_ACTFUNC)die_func;
+    act->filename = filename;
+    act->field_1C = 0;
+    act->field_18 = 0;
 }
 
 // Removes from linked list and calls shutdown/free funcs
@@ -296,9 +300,9 @@ void GV_SetNamedActor(GV_ACT *actor, GV_ACTFUNC act_func,
  *
  * @param actor Pointer to the actor to be destroyed.
  */
-void GV_DestroyActorQuick(GV_ACT *actor)
+void GV_DestroyActorQuick(void *actor)
 {
-    GV_ACT *act = actor;
+    GV_ACT *act = (GV_ACT *)actor;
     GV_ACT *prev;
     GV_ACT *next;
 
@@ -335,12 +339,12 @@ void GV_DestroyActorQuick(GV_ACT *actor)
  *
  * @param actor The actor to destroy.
  */
-void GV_DestroyActor(GV_ACT *actor)
+void GV_DestroyActor(void *actor)
 {
-    actor->act = GV_DestroyActorQuick;
+    ((GV_ACT *)actor)->act = (GV_ACTFUNC)GV_DestroyActorQuick;
 }
 
-void GV_DestroyOtherActor(GV_ACT *actor)
+void GV_DestroyOtherActor(void *actor)
 {
     GV_ACT     *next;
     ActorList  *lp;
@@ -364,5 +368,3 @@ void GV_DestroyOtherActor(GV_ACT *actor)
 
     printf("#");
 }
-
-const char *GV_DebugMes = "none";

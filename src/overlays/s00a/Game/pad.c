@@ -4,9 +4,7 @@
 #include "libgcl/libgcl.h"
 #include "strcode.h"
 
-extern unsigned short GV_DemoPadStatus;
-
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 typedef struct _PadWork
 {
@@ -18,7 +16,7 @@ typedef struct _PadWork
     int            unk4; //0x2C
 } PadWork;
 
-int PadGetResources_800C3690( PadWork* work )
+STATIC int PadGetResources_800C3690( PadWork* work )
 {
     GCL_SetArgTop( work->unk3 ) ;
 
@@ -39,7 +37,7 @@ int PadGetResources_800C3690( PadWork* work )
     return 0 ;
 }
 
-void PadAct_800C370C( PadWork* work )
+STATIC void PadAct_800C370C( PadWork* work )
 {
     if ( GM_CheckMessage( &work->actor, work->name, HASH_KILL ) )
     {
@@ -54,12 +52,12 @@ void PadAct_800C370C( PadWork* work )
 
     --work->unk2;
     GM_GameStatus |= STATE_PADDEMO;
-    GV_DemoPadStatus = work->status;
+    GV_DemoPadStatus[0] = work->status;
 }
 
-void PadDie_800C37A4( PadWork* work )
+STATIC void PadDie_800C37A4( PadWork* work )
 {
-    GV_DemoPadStatus = 0 ;
+    GV_DemoPadStatus[0] = 0 ;
     GM_GameStatus &= ~STATE_PADDEMO;
 
     if ( work->unk4 > 0 )
@@ -68,16 +66,16 @@ void PadDie_800C37A4( PadWork* work )
     }
 }
 
-GV_ACT *NewPad_800C37EC(int name, int where, int argc, char **argv)
+void *NewPad_800C37EC(int name, int where, int argc, char **argv)
 {
     char *ops;
     PadWork *work ;
 
-    work = (PadWork *)GV_NewActor( EXEC_LEVEL, sizeof( PadWork ) ) ;
+    work = GV_NewActor( EXEC_LEVEL, sizeof( PadWork ) ) ;
 
     if ( work != NULL ) {
         /* ワークにコールバックを登録する */
-        GV_SetNamedActor( &( work->actor ), ( GV_ACTFUNC )PadAct_800C370C, ( GV_ACTFUNC )PadDie_800C37A4, "pad.c" ) ;
+        GV_SetNamedActor( &( work->actor ), PadAct_800C370C, PadDie_800C37A4, "pad.c" ) ;
 
         ops = GCL_GetOption( 's' ) ;
         if ( !ops ) {
@@ -96,5 +94,5 @@ GV_ACT *NewPad_800C37EC(int name, int where, int argc, char **argv)
         }
 
     }
-    return &work->actor;
+    return (void *)work;
 }

@@ -8,10 +8,9 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "Game/game.h"
 #include "Game/map.h"
 
-extern int            GM_CurrentMap;
-extern int            GV_Clock;
 extern unsigned short gSparkRandomTable_800BDF10[];
 
 /*---------------------------------------------------------------------------*/
@@ -27,7 +26,7 @@ typedef struct SparkWork
     int      f170_counter;
 } SparkWork;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 /*---------------------------------------------------------------------------*/
 
@@ -305,20 +304,17 @@ STATIC int spark_GetResources(struct SparkWork *work, MATRIX *a2, int count)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewSpark(MATRIX *pMatrix, int count)
+void *NewSpark(MATRIX *pMatrix, int count)
 {
     SparkWork *work = NULL;
     int i;
 
     for (i = 0; i <= count; i++)
     {
-        work = (SparkWork *) GV_NewActor(EXEC_LEVEL, sizeof(SparkWork));
+        work = GV_NewActor(EXEC_LEVEL, sizeof(SparkWork));
         if (work != NULL)
         {
-            GV_SetNamedActor(&work->actor,
-                             (GV_ACTFUNC)spark_Act,
-                             (GV_ACTFUNC)spark_Die,
-                             "spark.c");
+            GV_SetNamedActor(&work->actor, spark_Act, spark_Die, "spark.c");
 
             SetSpadStack(SPAD_STACK_ADDR);
             if (spark_GetResources(work, pMatrix, count) < 0)
@@ -335,5 +331,5 @@ GV_ACT *NewSpark(MATRIX *pMatrix, int count)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

@@ -1,6 +1,10 @@
 // CAUTION: this file is nearly identical to pre_met1.c
 // If you make any changes, also modify pre_met1.c
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
@@ -78,7 +82,7 @@ typedef struct PreEntries
     PreEntry entries[8];
 } PreEntries;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 typedef struct PreMet2Unk
 {
@@ -95,7 +99,6 @@ PreMet2Unk premet2_800C3250[8] = {
 
 signed char premet2_800C3290[8] = {-1, 0, 1, 0, 0, 1, 0, -1};
 
-extern int    GV_Clock;
 extern GV_PAD GV_PadData_800B05C0[4];
 
 void PreMet2_800C4E40(PreMet2Work *work, int index)
@@ -1012,15 +1015,14 @@ int PreMet2GetResources_800C68C4(PreMet2Work *work, int arg1, int *arg2, PreEntr
     return 0;
 }
 
-GV_ACT *NewPreMet2_800C6F20(int arg0, int *arg1, PreEntries *arg2)
+void *NewPreMet2_800C6F20(int arg0, int *arg1, PreEntries *arg2)
 {
     PreMet2Work *work;
 
-    work = (PreMet2Work *)GV_NewActor(EXEC_LEVEL, sizeof(PreMet2Work));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(PreMet2Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)PreMet2Act_800C65A8,
-                         (GV_ACTFUNC)PreMet2Die_800C6634, "pre_met2.c");
+        GV_SetNamedActor(&work->actor, PreMet2Act_800C65A8, PreMet2Die_800C6634, "pre_met2.c");
 
         if (PreMet2GetResources_800C68C4(work, arg0, arg1, arg2) < 0)
         {
@@ -1029,5 +1031,5 @@ GV_ACT *NewPreMet2_800C6F20(int arg0, int *arg1, PreEntries *arg2)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

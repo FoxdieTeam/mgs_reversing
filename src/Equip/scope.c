@@ -12,16 +12,11 @@
 #include "SD/g_sound.h"
 #include "strcode.h"
 
-extern OBJECT          *GM_PlayerBody_800ABA20;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
-extern int              GV_PauseLevel;
-extern int              GV_Clock;
 extern int              DG_CurrentGroupID;
 extern int              dword_8009F604;
 extern GV_PAD           GV_PadData_800B05C0[4];
 extern GM_Camera        GM_Camera_800B77E8;
-extern PlayerStatusFlag GM_PlayerStatus;
-extern CONTROL      *GM_PlayerControl_800AB9F4;
 extern short            dword_800ABBDC;
 extern short            dword_800ABBD4;
 
@@ -53,7 +48,7 @@ typedef struct ScopeWork
     int            field_9C_flags;
 } ScopeWork;
 
-#define EXEC_LEVEL 7
+#define EXEC_LEVEL GV_ACTOR_AFTER2
 
 /*---------------------------------------------------------------------------*/
 
@@ -87,9 +82,9 @@ STATIC int getMaxZoomLevel_8006237C(ScopeWork *work)
     }
     else
     {
-        objs = GM_PlayerBody_800ABA20->objs;
+        objs = GM_PlayerBody->objs;
         pMtx = &mtx;
-        mtx = GM_PlayerBody_800ABA20->objs->world;
+        mtx = GM_PlayerBody->objs->world;
         mtx.t[0] = gUnkCameraStruct_800B77B8.eye.vx;
         mtx.t[1] = gUnkCameraStruct_800B77B8.eye.vy;
         mtx.t[2] = gUnkCameraStruct_800B77B8.eye.vz;
@@ -199,7 +194,7 @@ STATIC void managePadInput_800626D0(ScopeWork *work, unsigned short pad_status)
     zoomLevel = GM_Camera_800B77E8.zoom;
     pRectOffset = work->field_84_rectOffset;
 
-    if (GM_PlayerControl_800AB9F4)
+    if (GM_PlayerControl)
     {
         vx = work->field_6C_turn_vec.vx;
 
@@ -222,9 +217,9 @@ STATIC void managePadInput_800626D0(ScopeWork *work, unsigned short pad_status)
 
         vec = work->field_64_vec;
 
-        if (GM_PlayerControl_800AB9F4)
+        if (GM_PlayerControl)
         {
-            vec.vx = GM_PlayerControl_800AB9F4->turn.vx;
+            vec.vx = GM_PlayerControl->turn.vx;
         }
 
         if (zoomLevel <= 1023)
@@ -246,7 +241,7 @@ STATIC void managePadInput_800626D0(ScopeWork *work, unsigned short pad_status)
         vxMin = vec.vx - 512;
         vxMax = vec.vx + 512;
 
-        if (GM_PlayerControl_800AB9F4)
+        if (GM_PlayerControl)
         {
             if (vxMin < dword_800ABBDC)
             {
@@ -337,7 +332,7 @@ STATIC void managePadInput_800626D0(ScopeWork *work, unsigned short pad_status)
         }
     }
 
-    control = GM_PlayerControl_800AB9F4;
+    control = GM_PlayerControl;
 
     if (control)
     {
@@ -828,7 +823,7 @@ STATIC int ScopeGetResources(ScopeWork *work, CONTROL *control, OBJECT *parent)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewScope(CONTROL *control, OBJECT *parent, int num_parent)
+void *NewScope(CONTROL *control, OBJECT *parent, int num_parent)
 {
     ScopeWork *work;
 
@@ -837,10 +832,10 @@ GV_ACT *NewScope(CONTROL *control, OBJECT *parent, int num_parent)
         return NULL;
     }
 
-    work = (ScopeWork *)GV_NewActor(EXEC_LEVEL, sizeof(ScopeWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(ScopeWork));
     if ( work )
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)ScopeAct, (GV_ACTFUNC)ScopeDie, "scope.c");
+        GV_SetNamedActor(&work->actor, ScopeAct, ScopeDie, "scope.c");
         if ( ScopeGetResources(work, control, parent) < 0 )
         {
             GV_DestroyActor(&work->actor);
@@ -849,5 +844,5 @@ GV_ACT *NewScope(CONTROL *control, OBJECT *parent, int num_parent)
         scope_created_8009F2C4 = 1;
     }
 
-    return (GV_ACT *)work;
+    return (void *)work;
 }

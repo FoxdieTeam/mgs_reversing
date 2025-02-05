@@ -4,8 +4,7 @@
 #include <sys/types.h>
 #include <libgte.h>
 #include <libgpu.h>
-#include "libgv/libgv.h"
 
-GV_ACT *NewChaffGrd(MATRIX *world);
+void *NewChaffGrd(MATRIX *world);
 
 #endif // _CHAFGRND_H_

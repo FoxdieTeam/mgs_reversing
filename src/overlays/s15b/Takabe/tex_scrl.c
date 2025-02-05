@@ -28,15 +28,12 @@ typedef struct _TexScrollWork
     RECT            rects[0];
 } TexScrollWork;
 
-extern int GV_Clock;
-extern int GV_PauseLevel;
-
 unsigned short tex_scroll_msgs[] = {0x448B, 0xA8A4};
 
 #define getTPageX(tp) (((tp) << 6) & 0x3c0)
 #define getTPageY(tp) ((((tp) << 4) & 0x100) + (((tp) >> 2) & 0x200))
 
-#define EXEC_LEVEL 2
+#define EXEC_LEVEL GV_ACTOR_LEVEL2
 
 void TexScrollInitRect_800C97D4(DG_TEX *tex, RECT *rect)
 {
@@ -208,16 +205,16 @@ int TexScrollGetResources_800C9BDC(TexScrollWork *work, int name, int map, int n
     return 0;
 }
 
-GV_ACT *NewTexScroll_800C9D38(int name, int where)
+void *NewTexScroll_800C9D38(int name, int where)
 {
     int            n_entries;
     TexScrollWork *work;
 
     n_entries = THING_Gcl_GetIntDefault('n', 1);
-    work = (TexScrollWork *)GV_NewActor(EXEC_LEVEL, sizeof(TexScrollWork) + sizeof(RECT) * n_entries);
+    work = GV_NewActor(EXEC_LEVEL, sizeof(TexScrollWork) + sizeof(RECT) * n_entries);
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)TexScrollAct_800C9960, (GV_ACTFUNC)TexScrollDie_800C9BAC, "tex_scrl.c");
+        GV_SetNamedActor(&work->actor, TexScrollAct_800C9960, TexScrollDie_800C9BAC, "tex_scrl.c");
 
         if (TexScrollGetResources_800C9BDC(work, name, where, n_entries) < 0)
         {
@@ -226,5 +223,5 @@ GV_ACT *NewTexScroll_800C9D38(int name, int where)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

@@ -8,9 +8,6 @@ extern int s07c_meryl72_unk1_800C7C9C( Meryl72Work* work ) ;
 extern int s07c_meryl72_unk1_800C7F14( Meryl72Work* work ) ;
 extern void sna_act_helper2_helper2_80033054(int id, SVECTOR *vec);
 
-extern int GM_PlayerMap_800ABA0C ;
-extern OBJECT  *GM_PlayerBody_800ABA20 ;
-
 void ExecProc_800C7C58( Meryl72Work *work, int mode )
 {
     GCL_ARGS    args ;
@@ -116,7 +113,7 @@ int s07c_meryl72_unk1_800C7D1C( Meryl72Work *work )
 
 int s07c_meryl72_unk1_800C7F14(Meryl72Work* work)
 {
-    if ( GM_GameStatus & 2 && work->control.map->index & GM_PlayerMap_800ABA0C)
+    if ( GM_GameStatus & 2 && work->control.map->index & GM_PlayerMap)
     {
         SetMode(work, s07c_meryl72_unk1_800C9F98);
         return 1;
@@ -152,7 +149,7 @@ void ReviseReadyGun_800C8020( Meryl72Work* work )
     int trans;
     int near;
 
-    trans = ( ( GM_PlayerBody_800ABA20->objs->objs[6].world.t[1] - work->body.objs->objs[6].world.t[1] ) );
+    trans = ( ( GM_PlayerBody->objs->objs[6].world.t[1] - work->body.objs->objs[6].world.t[1] ) );
     trans = ( ratan2( work->sn_dis, trans  )  & 0xFFF ) - 0x400;
 
     if (trans > 0x100)

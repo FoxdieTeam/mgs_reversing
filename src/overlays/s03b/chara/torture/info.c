@@ -18,9 +18,7 @@ typedef struct _InfoWork
 
 int info_alive = 0;
 
-extern int GV_Clock;
-
-#define EXEC_LEVEL 7
+#define EXEC_LEVEL GV_ACTOR_AFTER2
 
 void InfoAct_800CA114(InfoWork *work)
 {
@@ -176,18 +174,18 @@ int InfoGetResources_800CA31C(InfoWork *work, unsigned short name1, unsigned sho
     return 0;
 }
 
-GV_ACT *NewInfo_800CA534(unsigned short name1, unsigned short name2, int *abe)
+void *NewInfo_800CA534(unsigned short name1, unsigned short name2, int *abe)
 {
     InfoWork *work;
 
-    work = (InfoWork *)GV_NewActor(EXEC_LEVEL, sizeof(InfoWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(InfoWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)InfoAct_800CA114, (GV_ACTFUNC)InfoDie_800CA314, "info.c");
+        GV_SetNamedActor(&work->actor, InfoAct_800CA114, InfoDie_800CA314, "info.c");
 
         if (InfoGetResources_800CA31C(work, name1, name2, abe) >= 0)
         {
-            return &work->actor;
+            return (void *)work;
         }
 
         GV_DestroyActor(&work->actor);

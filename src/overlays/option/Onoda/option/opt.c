@@ -1,3 +1,7 @@
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
@@ -70,10 +74,6 @@ typedef struct _Unknown2
     int   color;
 } Unknown2;
 
-extern int    GV_Clock;
-extern int    GM_CurrentMap;
-extern int    GM_PadVibration;
-extern int    GM_PadVibration2;
 extern GV_PAD GV_PadData_800B05C0[4];
 
 extern Unknown2 dword_800C3218[];
@@ -89,6 +89,8 @@ extern const char option_aOpscreen_800C9538[];       // = "op_screen"
 extern const char option_aOpkeyconfig_800C9544[];    // = "op_keyconfig"
 extern const char option_aOpexit_800C9554[];         // = "op_exit"
 extern const char option_aIntoplanguage_800C955C[];  // = "int_op_language2"
+
+#define EXEC_LEVEL GV_ACTOR_MANAGER
 
 void option_800C339C(OptionWork *work, int index)
 {
@@ -2238,16 +2240,16 @@ int OptionGetResources_800C7F88(OptionWork *work, int map)
     return 0;
 }
 
-GV_ACT *NewOption_800C9344(int name, int where)
+void *NewOption_800C9344(int name, int where)
 {
     OptionWork *work;
 
     GM_GameStatus |= STATE_ALL_OFF;
 
-    work = (OptionWork *)GV_NewActor(1, sizeof(OptionWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(OptionWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)option_800C6784, (GV_ACTFUNC)OptionDie_800C7C8C, "opt.c");
+        GV_SetNamedActor(&work->actor, option_800C6784, OptionDie_800C7C8C, "opt.c");
 
         if (OptionGetResources_800C7F88(work, where) < 0)
         {
@@ -2256,5 +2258,5 @@ GV_ACT *NewOption_800C9344(int name, int where)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

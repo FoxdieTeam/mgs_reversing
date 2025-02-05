@@ -77,17 +77,13 @@
     ;game
     include "{{OBJ_DIR}}\Game\area.obj"          ;area.c
     include "{{OBJ_DIR}}\Game\chara.obj"         ;chara.c
-
     include "{{OBJ_DIR}}\Game\gamed.obj"         ;gamed.c
-
     include "{{OBJ_DIR}}\Game\script.obj"        ;script.c
-
     include "{{OBJ_DIR}}\Game\target.obj"        ;target.c
     include "{{OBJ_DIR}}\Game\loader.obj"        ;loader.c
     include "{{OBJ_DIR}}\Game\alert.obj"         ;alert.c
     include "{{OBJ_DIR}}\Game\camera.obj"        ;camera.c
     include "{{OBJ_DIR}}\Game\map.obj"           ;map.c
-    
 
     ;libdg
     include "{{OBJ_DIR}}\libdg\obj.obj"          ;obj.c
@@ -103,7 +99,6 @@
     include "{{OBJ_DIR}}\Game\over.obj"          ;over.c
     include "{{OBJ_DIR}}\Game\strctrl.obj"       ;strctrl.c
     include "{{OBJ_DIR}}\Game\jimctrl.obj"       ;jimctrl.c
-    
 
     ;Menu
     include "{{OBJ_DIR}}\Menu\menuman.obj"       ;menuman.c
@@ -119,7 +114,7 @@
 
     ;Menu
     include "{{OBJ_DIR}}\Menu\radiotex.obj"      ;radiotex.c
-    include "{{OBJ_DIR}}\Menu\radioanim.obj"     ;radioanim.c    
+    include "{{OBJ_DIR}}\Menu\radioanim.obj"     ;radioanim.c
 
     include "{{OBJ_DIR}}\Menu\radiomes.obj"      ;radiomes.c
     include "{{OBJ_DIR}}\Menu\radiofacedraw.obj" ;radiofacedraw.c
@@ -199,7 +194,6 @@
 {% if not VR_EXE %}
     include "{{OBJ_DIR}}\Equip\jpegcam.obj"
 {% endif %}
-    
 
     ;weapon
     include "{{OBJ_DIR}}\Weapon\socom.obj"

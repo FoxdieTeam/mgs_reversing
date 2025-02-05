@@ -16,7 +16,7 @@ typedef struct _ElcFlrWork
     int    f150;
 } ElcFlrWork;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 unsigned short elc_flr_800C36DC[] = {HASH_ON2, HASH_OFF2};
 
@@ -107,15 +107,14 @@ int ElcFlrGetResources_800D4988(ElcFlrWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT *NewElcFlr_800D4A18(int name, int where)
+void *NewElcFlr_800D4A18(int name, int where)
 {
     ElcFlrWork *work;
 
-    work = (ElcFlrWork *)GV_NewActor(EXEC_LEVEL, sizeof(ElcFlrWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(ElcFlrWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)ElcFlrAct_800D47CC,
-                         (GV_ACTFUNC)ElcFlrDie_800D4968, "elc_flr.c");
+        GV_SetNamedActor(&work->actor, ElcFlrAct_800D47CC, ElcFlrDie_800D4968, "elc_flr.c");
 
         if (ElcFlrGetResources_800D4988(work, name, where) < 0)
         {
@@ -124,5 +123,5 @@ GV_ACT *NewElcFlr_800D4A18(int name, int where)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

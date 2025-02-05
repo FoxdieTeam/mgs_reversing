@@ -18,14 +18,12 @@ typedef struct BoxKeriWork
     MATRIX         field_7C_mat[2];
 } BoxKeriWork;
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
+
 const char aBoxkeriSnake[] = "スネーク";
 const char sBoxkeriDanbowl[] = "段ボール";
 const char aCbBox[] = "cb_box";
 const char aBoxkeriC[] = "boxkeri.c";
-
-extern CONTROL   *GM_PlayerControl_800AB9F4;
-extern SVECTOR    GM_PlayerPosition_800ABA10;
-extern int        GM_PlayerMap_800ABA0C;
 
 void BoxKeriAct_800D219C(BoxKeriWork *work)
 {
@@ -98,13 +96,13 @@ void BoxKeriAct_800D219C(BoxKeriWork *work)
         break;
     }
 
-    GM_CurrentMap = GM_PlayerMap_800ABA0C;
+    GM_CurrentMap = GM_PlayerMap;
 
     DG_SetPos(&work->field_54);
     DG_MovePos(&work->field_48);
     DG_RotatePos(&work->field_44);
     DG_PutObjs(work->field_20_obj.objs);
-    DG_GetLightMatrix2(&GM_PlayerPosition_800ABA10, work->field_7C_mat);
+    DG_GetLightMatrix2(&GM_PlayerPosition, work->field_7C_mat);
 
     work->field_74++;
 }
@@ -139,7 +137,7 @@ int BoxKeriGetResources_800D2474(BoxKeriWork *work, MATRIX *arg1, SVECTOR *arg2)
     int             dir;
 
     obj = &work->field_20_obj;
-    GM_CurrentMap = GM_PlayerMap_800ABA0C;
+    GM_CurrentMap = GM_PlayerMap;
     GM_InitObjectNoRots(obj, GV_StrCode(aCbBox), 0x6D, 0);
     GM_ConfigObjectLight((OBJECT *)obj, work->field_7C_mat);
 
@@ -151,8 +149,8 @@ int BoxKeriGetResources_800D2474(BoxKeriWork *work, MATRIX *arg1, SVECTOR *arg2)
     work->field_78 = 0;
     work->field_7A = 0;
 
-    dir = GV_DiffDirU(GM_PlayerControl_800AB9F4->rot.vy,
-                               s00a_boxkeri_800D2440(&GM_PlayerPosition_800ABA10, arg2));
+    dir = GV_DiffDirU(GM_PlayerControl->rot.vy,
+                      s00a_boxkeri_800D2440(&GM_PlayerPosition, arg2));
     if (dir < 512 || dir >= 3607)
     {
         work->field_76 = 0;
@@ -182,20 +180,19 @@ int BoxKeriGetResources_800D2474(BoxKeriWork *work, MATRIX *arg1, SVECTOR *arg2)
     return 0;
 }
 
-GV_ACT *NewBoxKeri_800D2600(MATRIX *mat, SVECTOR *svec)
+void *NewBoxKeri_800D2600(MATRIX *mat, SVECTOR *svec)
 {
     BoxKeriWork *work;
 
-    work = (BoxKeriWork *)GV_NewActor(4, sizeof(BoxKeriWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(BoxKeriWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BoxKeriAct_800D219C,
-                         (GV_ACTFUNC)BoxKeriDie_800D23D0, aBoxkeriC);
+        GV_SetNamedActor(&work->actor, BoxKeriAct_800D219C, BoxKeriDie_800D23D0, aBoxkeriC);
         if (BoxKeriGetResources_800D2474(work, mat, svec) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

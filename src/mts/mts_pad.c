@@ -7,16 +7,15 @@
 #include "common.h"
 
 #include "mts_pad.h"
-#include "receive_buffer.h"
 #include "mts_new.h"
 
 /*---------------------------------------------------------------------------*/
-// extern BSS
+// TODO: these externs were originally static local to mts_pad.c
 
-extern PadReceiveBuffer         padbuf_800C1480[2];     // aka. gMtsPadRecvBuffers
-extern unsigned char            sendbuf_800C14D0[2][8]; // aka. gMtsPadSendBuffers
-extern PadParsedReceiveBuffer   pad_800C14E0[2];        // aka. gMtsPadParsedRecvBuffers
-extern int                      pad_state_800C14F0[2];  // aka. gMtsPadInitStates
+extern PAD_RECV_BUF     padbuf_800C1480[2];
+extern unsigned char    sendbuf_800C14D0[2][8];
+extern MTS_PAD_IN       pad_800C14E0[2];
+extern int              pad_state_800C14F0[2];
 
 /*---------------------------------------------------------------------------*/
 
@@ -29,10 +28,13 @@ STATIC int vibration_count[] = {0, 0};
 STATIC int vibration_enable = 1;
 
 #define GET_ACTIVE_PAD_INDEX() \
-    (padbuf_800C1480[0].success == 0 ? 1 : 2) // 0 = successful
+    (padbuf_800C1480[0].result == 0 ? 1 : 2) // 0 = successful
 
-#define PAD_1 0
-#define PAD_2 1
+#define GET_TERMINAL_TYPE(buffer)   ((buffer)->type_size >> 4)
+#define GET_TERMINAL_SIZE(buffer)   (((buffer)->type_size & 0x0f) * 2)
+
+#define PORT1 0
+#define PORT2 1
 
 /**
  * @brief   Initialize actuator buffers for the controller by querying the
@@ -42,14 +44,14 @@ STATIC int vibration_enable = 1;
  *
  * @param   channel     0: first pad, 1: second pad
  */
-STATIC void init_expand_pad( int channel ) // aka. mts_init_controller_actuators
+STATIC void init_expand_pad( int channel )
 {
     int port;
     int actuators_count;
     int i;
     int func, subfunc, size;
 
-    extern char param_800C1470[2][6]; // aka. param.2 (gMtsPadActBuffers)
+    extern char param_800C1470[2][6]; // "param.2" (in 5thMix)
 
     port = channel * 0x10;
     // Get the total number of actuators present in the controller
@@ -91,7 +93,7 @@ STATIC void init_expand_pad( int channel ) // aka. mts_init_controller_actuators
     PadSetActAlign(port, param_800C1470[channel]);
 }
 
-STATIC void do_control( void ) // aka. mts_callback_controller
+STATIC void do_control( void )
 {
     int i;
     int state;
@@ -119,7 +121,7 @@ STATIC void do_control( void ) // aka. mts_callback_controller
                 init_expand_pad(i);
 
                 pad_state_800C14F0[i] = PAD_STATE_ACTUATORS_READY;
-                pad_800C14E0[i].capability = capability;
+                pad_800C14E0[i].flag = capability;
                 continue;
             }
 
@@ -135,37 +137,37 @@ STATIC void do_control( void ) // aka. mts_callback_controller
 
         // otherwise continue
         default:
-            pad_800C14E0[i].capability = capability;
+            pad_800C14E0[i].flag = capability;
             continue;
         }
 
-        if (padbuf_800C1480[i].success == 0) // 0 = successful
+        if (padbuf_800C1480[i].result == 0) // 0 = successful
         {
-            switch (PAD_RECEIVE_BUFFER_GET_TERMINAL_TYPE(&padbuf_800C1480[i]))
+            switch (GET_TERMINAL_TYPE(&padbuf_800C1480[i]))
             {
-            case TERMINAL_TYPE_ANALOG_CONTROLLER:
+            case TERMINAL_TYPE_ANALOG:
                 capability++; // MTS_PAD_ANALOG
 
             // You can add support for a mouse by adding this here:
             // case TERMINAL_TYPE_MOUSE:
 
-            case TERMINAL_TYPE_ANALOG_JOYSTICK:
+            case TERMINAL_TYPE_ANAJOY:
                 capability++; // MTS_PAD_ANAJOY
 
-                LCOPY(&padbuf_800C1480[i].terminal_data.analog_joystick.right_stick_x,
-                      &pad_800C14E0[i].right_stick_x);
+                LCOPY(&padbuf_800C1480[i].data.anajoy.rx,
+                      &pad_800C14E0[i].rx);
 
-            case TERMINAL_TYPE_16_BUTTON:
+            case TERMINAL_TYPE_DIGITAL:
                 capability++; // MTS_PAD_DIGITAL
 
-                pad_800C14E0[i].buttons_state =
-                    padbuf_800C1480[i].terminal_data.sixteen_button_analog.button_state_left << 8 |
-                    padbuf_800C1480[i].terminal_data.sixteen_button_analog.button_state_right;
+                pad_800C14E0[i].button =
+                    padbuf_800C1480[i].data.digital.button_hi << 8 |
+                    padbuf_800C1480[i].data.digital.button_lo;
                 break;
             }
         }
 
-        pad_800C14E0[i].capability = capability;
+        pad_800C14E0[i].flag = capability;
 
         if (vibration_count[i] != 0)
         {
@@ -207,11 +209,11 @@ void mts_init_controller( void )
 {
     if (pad_init_flag == 0)
     {
-        //Initialize controller environment
+        // Initialize controller environment
         PadInitDirect((unsigned char *)&padbuf_800C1480[0],
                       (unsigned char *)&padbuf_800C1480[1]);
         // Set the transmit buffers for the actuators
-        PadSetAct(0, sendbuf_800C14D0[0], 8);
+        PadSetAct(0x00, sendbuf_800C14D0[0], 8);
         PadSetAct(0x10, sendbuf_800C14D0[1], 8);
         // Initate the controller communication
         PadStartCom();
@@ -238,37 +240,37 @@ void mts_stop_controller( void )
 
 int mts_get_pad( int channel, MTS_PAD *pad )
 {
-    char capability;
+    char flag;
 
     if (channel == 0)
     {
         channel = 1;
 
-        if (pad_800C14E0[PAD_1].capability <= MTS_PAD_INACTIVE)
+        if (pad_800C14E0[PORT1].flag <= MTS_PAD_INACTIVE)
         {
             channel = 2;
         }
-        else if (pad_800C14E0[PAD_1].capability == MTS_PAD_DIGITAL)
+        else if (pad_800C14E0[PORT1].flag == MTS_PAD_DIGITAL)
         {
-            if (pad_800C14E0[PAD_1].buttons_state == BUTTON_STATE_NOTHING_PRESSED &&
-                pad_800C14E0[PAD_2].capability != MTS_PAD_INACTIVE &&
-                pad_800C14E0[PAD_2].buttons_state != BUTTON_STATE_NOTHING_PRESSED)
+            if (pad_800C14E0[PORT1].button == BUTTON_STATE_NOTHING_PRESSED &&
+                pad_800C14E0[PORT2].flag != MTS_PAD_INACTIVE &&
+                pad_800C14E0[PORT2].button != BUTTON_STATE_NOTHING_PRESSED)
             {
                 channel = 2;
             }
         }
     }
 
-    if (pad_800C14E0[channel - 1].capability > MTS_PAD_INACTIVE)
+    if (pad_800C14E0[channel - 1].flag > MTS_PAD_INACTIVE)
     {
         pad->channel = channel;
-        pad->button = ~pad_800C14E0[channel - 1].buttons_state;
+        pad->button = ~pad_800C14E0[channel - 1].button;
 
-        capability = pad_800C14E0[channel - 1].capability;
-        pad->capability = capability;
-        if (capability >= MTS_PAD_ANAJOY)
+        flag = pad_800C14E0[channel - 1].flag;
+        pad->flag = flag;
+        if (flag >= MTS_PAD_ANAJOY)
         {
-            LCOPY(&pad_800C14E0[channel - 1].right_stick_x, &pad->rx);
+            LCOPY(&pad_800C14E0[channel - 1].rx, &pad->rx);
         }
 
         return 1;
@@ -281,8 +283,10 @@ int mts_get_pad( int channel, MTS_PAD *pad )
 /**
  * @brief Return the button state of a controller.
  *
- * @param channel 1 or 2 for a specific gamepad or 0 for the active one.
- * @return int the button state.
+ * @param   channel     0 for the active pad, 1 for the first pad,
+ *                      2 for the second.
+ *
+ * @return  the button state.
  */
 int mts_read_pad( int channel )
 {
@@ -290,31 +294,31 @@ int mts_read_pad( int channel )
     if (channel == 0)
     {
         // The first pad is available
-        if (pad_800C14E0[PAD_1].capability != MTS_PAD_INACTIVE)
+        if (pad_800C14E0[PORT1].flag != MTS_PAD_INACTIVE)
         {
-            if (pad_800C14E0[PAD_1].buttons_state != BUTTON_STATE_NOTHING_PRESSED ||
-                pad_800C14E0[PAD_2].capability == MTS_PAD_INACTIVE ||
-                pad_800C14E0[PAD_2].buttons_state == BUTTON_STATE_NOTHING_PRESSED)
+            if (pad_800C14E0[PORT1].button != BUTTON_STATE_NOTHING_PRESSED ||
+                pad_800C14E0[PORT2].flag == MTS_PAD_INACTIVE ||
+                pad_800C14E0[PORT2].button == BUTTON_STATE_NOTHING_PRESSED)
             {
-                return (unsigned short)~pad_800C14E0[PAD_1].buttons_state;
+                return (unsigned short)~pad_800C14E0[PORT1].button;
             }
             else
             {
-                return (unsigned short)~pad_800C14E0[PAD_2].buttons_state;
+                return (unsigned short)~pad_800C14E0[PORT2].button;
             }
         }
         // The second pad is active
-        else if (pad_800C14E0[PAD_2].capability != MTS_PAD_INACTIVE)
+        else if (pad_800C14E0[PORT2].flag != MTS_PAD_INACTIVE)
         {
-            return (unsigned short)~pad_800C14E0[PAD_2].buttons_state;
+            return (unsigned short)~pad_800C14E0[PORT2].button;
         }
 
         return 0;
     }
     // Return the button state for the specified pad
-    if (pad_800C14E0[channel - 1].capability != MTS_PAD_INACTIVE)
+    if (pad_800C14E0[channel - 1].flag != MTS_PAD_INACTIVE)
     {
-        return (unsigned short)~pad_800C14E0[channel - 1].buttons_state;
+        return (unsigned short)~pad_800C14E0[channel - 1].button;
     }
 
     return 0;
@@ -326,42 +330,44 @@ long mts_PadRead( int unused )
 
     ret = 0;
 
-    if (pad_800C14E0[PAD_1].capability != MTS_PAD_INACTIVE)
+    if (pad_800C14E0[PORT1].flag != MTS_PAD_INACTIVE)
     {
-        ret = ~pad_800C14E0[PAD_1].buttons_state & 0xFFFF;
+        ret = ~pad_800C14E0[PORT1].button & 0xFFFF;
     }
 
-    if (pad_800C14E0[PAD_2].capability != MTS_PAD_INACTIVE)
+    if (pad_800C14E0[PORT2].flag != MTS_PAD_INACTIVE)
     {
-        ret |= ~pad_800C14E0[PAD_2].buttons_state << 0x10;
+        ret |= ~pad_800C14E0[PORT2].button << 16;
     }
 
     return ret;
 }
 
 /**
- * @brief Return the receive buffer for a specific controller.
+ * @brief   Return the receive buffer for a specific controller.
  *
  * @param   channel     0 for the active pad, 1 for the first pad,
  *                      2 for the second.
  *
- * @return  PadReceiveBuffer*   the receive buffer.
+ * @return  address of the receive buffer.
  */
-PadReceiveBuffer *mts_get_pad_receive_buffer( int channel )
+void *mts_get_controller_data( int channel )
 {
     if (channel == 0)
     {
         channel = GET_ACTIVE_PAD_INDEX();
     }
 
-    return &padbuf_800C1480[channel - 1];
+    return (void *)&padbuf_800C1480[channel - 1];
 }
 
 /**
- * @brief Set the vibration enable flag.
+ * @brief   Set the vibration enable flag.
  *
  * @param   enable      0 to disable vibration, >= 1 to enable.
- * @return  int         the previous vibration enable flag.
+ *                      No change if enable is negative.
+ *
+ * @return  the previous vibration enable flag.
  */
 int mts_control_vibration( int enable )
 {
@@ -378,7 +384,7 @@ int mts_control_vibration( int enable )
 }
 
 /**
- * @brief Set the number of frames to vibrate for a specific controller.
+ * @brief   Set the number of frames to vibrate for a specific controller.
  *
  * @param   channel     0 for the active pad, 1 for the first pad,
  *                      2 for the second.
@@ -400,7 +406,7 @@ void mts_set_pad_vibration( int channel, int time )
 }
 
 /**
- * @brief Set the vibration level for a specific controller.
+ * @brief   Set the vibration level for a specific controller.
  *
  * @param   channel     0 for the active pad, 1 for the first pad,
  *                      2 for the second.
@@ -425,12 +431,12 @@ void mts_set_pad_vibration2( int channel, int value )
 }
 
 /**
- * @brief Get the vibration type for a specific controller.
+ * @brief   Get the vibration type for a specific controller.
  *
  * @param   channel     0 for the active pad, 1 for the first pad,
  *                      2 for the second.
  *
- * @return  int         the vibration type.
+ * @return  the vibration type.
  */
 int mts_get_pad_vibration_type( int channel )
 {
@@ -441,7 +447,7 @@ int mts_get_pad_vibration_type( int channel )
 
     if (pad_state_800C14F0[channel - 1] == PAD_STATE_IDENTIFIED)
     {
-        return pad_800C14E0[channel - 1].capability == MTS_PAD_ANALOG ? 2 : 0;
+        return pad_800C14E0[channel - 1].flag == MTS_PAD_ANALOG ? 2 : 0;
     }
 
     if (pad_state_800C14F0[channel - 1] == PAD_STATE_ACTUATORS_READY)
@@ -456,7 +462,7 @@ int mts_get_pad_vibration_type( int channel )
 
 STATIC int graph_reset_flag = 0;
 
-void mts_reset_graph(void)
+void mts_reset_graph( void )
 {
     if (graph_reset_flag == 0)
     {

@@ -10,13 +10,8 @@ typedef struct _Zako11FCommanderWork
     char   pad[0x4];
 } Zako11FCommanderWork;
 
-extern int GM_GameStatus;
 extern int GM_GameOverTimer;
 
-extern int      GM_PlayerAddress_800AB9F0;
-extern SVECTOR  GM_NoisePosition;
-extern int      GM_PlayerMap_800ABA0C;
-extern SVECTOR  GM_PlayerPosition_800ABA10;
 extern CONTROL *GM_WhereList_800B56D0[96];
 
 extern int               s11i_dword_800C3698;
@@ -28,7 +23,7 @@ extern int               ZAKO11F_GameFlag_800D5C4C;
 extern int               ZAKOCOM_PlayerAddress_800D5C50;
 extern int               ZAKOCOM_PlayerMap_800D5C54;
 
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 int s11i_zk11fcom_800D0BF4( Zako11FWork *watcher ) // SetZako
 {
@@ -74,7 +69,7 @@ void s11i_zk11fcom_800D0CBC(void)
 {
     Zako11FCommand_800D5AF8.com_addr = HZD_GetAddress( GM_WhereList_800B56D0[ 0 ]->map->hzd, &GM_NoisePosition, -1 );
     Zako11FCommand_800D5AF8.com_pos  = GM_NoisePosition;
-    Zako11FCommand_800D5AF8.com_map  = GM_PlayerMap_800ABA0C;
+    Zako11FCommand_800D5AF8.com_map  = GM_PlayerMap;
 }
 
 int s11i_zk11fcom_800D0D34( int map_id, int val )
@@ -170,10 +165,10 @@ void s11i_zk11fcom_800D0EBC( void )
         zone = &Zako11FCommand_800D5AF8.map->hzd->header->zones[ Zako11FCommand_800D5AF8.zones[ i ] ];
 
         dest.vx = zone->x;
-        dest.vy = GM_PlayerPosition_800ABA10.vy;
+        dest.vy = GM_PlayerPosition.vy;
         dest.vz = zone->z;
 
-        dist = GV_DiffVec3( &dest, &GM_PlayerPosition_800ABA10 );
+        dist = GV_DiffVec3( &dest, &GM_PlayerPosition );
         if ( max < dist )
         {
             max = dist;
@@ -547,14 +542,14 @@ void s11i_zk11fcom_800D185C(void)
 {
     int lo, hi;
 
-    lo = GM_PlayerAddress_800AB9F0 & 0xFF;
-    hi = ( GM_PlayerAddress_800AB9F0 >> 8 ) & 0xFF;
+    lo = GM_PlayerAddress & 0xFF;
+    hi = ( GM_PlayerAddress >> 8 ) & 0xFF;
 
     if ( lo == hi && lo != 0xFF )
     {
-        ZAKOCOM_PlayerAddress_800D5C50 = GM_PlayerAddress_800AB9F0;
-        ZAKOCOM_PlayerPosition_800D5AF0 = GM_PlayerPosition_800ABA10;
-        ZAKOCOM_PlayerMap_800D5C54 = GM_PlayerMap_800ABA0C;
+        ZAKOCOM_PlayerAddress_800D5C50 = GM_PlayerAddress;
+        ZAKOCOM_PlayerPosition_800D5AF0 = GM_PlayerPosition;
+        ZAKOCOM_PlayerMap_800D5C54 = GM_PlayerMap;
     }
 }
 
@@ -579,22 +574,22 @@ int s11i_zk11fcom_800D18D0( char *opt )
 
 int s11i_zk11fcom_800D1934(int arg0)
 {
-    if (GM_PlayerPosition_800ABA10.vx < 4500)
+    if (GM_PlayerPosition.vx < 4500)
     {
         return 0;
     }
 
-    if (GM_PlayerPosition_800ABA10.vx > 7500)
+    if (GM_PlayerPosition.vx > 7500)
     {
         return 0;
     }
 
-    if (GM_PlayerPosition_800ABA10.vz < -16000)
+    if (GM_PlayerPosition.vz < -16000)
     {
         return 0;
     }
 
-    if (arg0 == 1 && GM_PlayerPosition_800ABA10.vz > 6000)
+    if (arg0 == 1 && GM_PlayerPosition.vz > 6000)
     {
         return 0;
     }
@@ -606,14 +601,14 @@ int s11i_zk11fcom_800D1990(int arg0)
 {
     if (arg0 == 0)
     {
-        if (GM_PlayerPosition_800ABA10.vz > -15000)
+        if (GM_PlayerPosition.vz > -15000)
         {
             return 0;
         }
     }
     else
     {
-        if (GM_PlayerPosition_800ABA10.vz > -13000)
+        if (GM_PlayerPosition.vz > -13000)
         {
             return 0;
         }
@@ -974,14 +969,14 @@ void ZakoCommanderGetResources_800D1EC8(Zako11FCommanderWork *work, int name, in
     Zako11FCommand_800D5AF8.field_0x110 = 0;
 }
 
-GV_ACT *NewZakoCommander_800D20D8( int name, int where )
+void *NewZakoCommander_800D20D8( int name, int where )
 {
     Zako11FCommanderWork *work ;
 
-    work = (Zako11FCommanderWork *)GV_NewActor( EXEC_LEVEL, sizeof( Zako11FCommanderWork ) ) ;
+    work = GV_NewActor( EXEC_LEVEL, sizeof( Zako11FCommanderWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor( &( work->actor ), ( GV_ACTFUNC )ZakoCommanderAct_800D1DB0, ( GV_ACTFUNC )ZakoCommanderDie_800D1E30, "zk11fcom.c" );
+        GV_SetNamedActor( &( work->actor ), ZakoCommanderAct_800D1DB0, ZakoCommanderDie_800D1E30, "zk11fcom.c" );
         ZakoCommanderGetResources_800D1EC8( work, name, where );
     }
-    return &work->actor;
+    return (void *)work;
 }

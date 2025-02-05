@@ -54,7 +54,7 @@ typedef struct DogWork
     char     pad17B8[0x30];
 } DogWork;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 int s12c_dword_800C3430 = 0x000001F4;
 int s12c_dword_800C3434 = 0x000003E8;
@@ -462,11 +462,6 @@ const char s12c_aShadow_800DA104[] = "shadow";
 const char s12c_aDoglow_800DA10C[] = "dog_low";
 
 extern GV_PAD           GV_PadData_800B05C0[4];
-extern int              GM_PadVibration2;
-extern int              GM_PadVibration;
-extern SVECTOR          GM_PlayerPosition_800ABA10;
-extern PlayerStatusFlag GM_PlayerStatus;
-extern OBJECT          *GM_PlayerBody_800ABA20;
 
 void *AN_Unknown_800CA1EC(MATRIX *mat, int mark);
 void *AN_Unknown_800CA320(MATRIX *mat, int mark);
@@ -628,7 +623,7 @@ void Dog_800CAB68(DogWork *work, int index, int hp)
     target->field_2C_vec.vx = GV_RandU(32);
     target->field_2C_vec.vy = GV_RandU(32);
     target->field_2C_vec.vz = GV_RandU(32);
-    GM_MoveTarget(target, &GM_PlayerPosition_800ABA10);
+    GM_MoveTarget(target, &GM_PlayerPosition);
     GM_PowerTarget(target);
 }
 
@@ -833,7 +828,7 @@ void Dog_800CBBE8(DogWork *work, int index)
     MATRIX  rot;
     SVECTOR pos;
 
-    DG_SetPos(&GM_PlayerBody_800ABA20->objs[1].world);
+    DG_SetPos(&GM_PlayerBody->objs[1].world);
 
     pos.vx = GV_RandU(0x800U);
     pos.vy = GV_RandU(0x1000U);
@@ -1063,20 +1058,19 @@ int DogGetInts_800D2904(char *opt, int *out)
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800D295C.s")
 int s12c_dog_800D295C(DogWork *work, int, int);
 
-GV_ACT *NewDog_800D33C8(int arg0, int arg1)
+void *NewDog_800D33C8(int arg0, int arg1)
 {
     DogWork *work;
 
-    work = (DogWork *)GV_NewActor(EXEC_LEVEL, sizeof(DogWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(DogWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)s12c_dog_800D1DA0,
-                         (GV_ACTFUNC)DogDie_800D2798, "dog.c");
+        GV_SetNamedActor(&work->actor, s12c_dog_800D1DA0, DogDie_800D2798, "dog.c");
         if (s12c_dog_800D295C(work, arg0, arg1) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

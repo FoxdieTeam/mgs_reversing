@@ -17,6 +17,8 @@ typedef struct BelongWork
     int            field_54;
 } BelongWork;
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
+
 extern int      DG_CurrentGroupID;
 extern CONTROL *GM_WhereList_800B56D0[96];
 extern int      gControlCount_800AB9B4;
@@ -121,20 +123,19 @@ int s16d_belong_800C3994(BelongWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT *s16d_belong_800C3AD0(int name, int where, int argc, char **argv)
+void *s16d_belong_800C3AD0(int name, int where, int argc, char **argv)
 {
     BelongWork *work;
 
-    work = (BelongWork *)GV_NewActor(5, sizeof(BelongWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(BelongWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)s16d_belong_800C38D0,
-                         (GV_ACTFUNC)s16d_belong_800C3974, "belong.c");
+        GV_SetNamedActor(&work->actor, s16d_belong_800C38D0, s16d_belong_800C3974, "belong.c");
         if (s16d_belong_800C3994(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

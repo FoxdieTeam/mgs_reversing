@@ -1,9 +1,14 @@
 #include "hiyoko.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
+#include "Game/game.h"
 #include "Takabe/prim.h"
 
 typedef struct _HiyokoWork
@@ -20,9 +25,7 @@ typedef struct _HiyokoWork
     int      f74;
 } HiyokoWork;
 
-extern int     GM_CurrentMap;
-
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 int HiyokoGetSvec_800CFD04(char *opt, SVECTOR *out)
 {
@@ -220,14 +223,14 @@ void HiyokoDie_800D0150(HiyokoWork *work)
     }
 }
 
-GV_ACT *NewHiyoko_800D018C(int name, int where, int argc, char **argv)
+void *NewHiyoko_800D018C(int name, int where, int argc, char **argv)
 {
     HiyokoWork *work;
 
-    work = (HiyokoWork *)GV_NewActor(EXEC_LEVEL, sizeof(HiyokoWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(HiyokoWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)HiyokoAct_800CFD44, (GV_ACTFUNC)HiyokoDie_800D0150, "hiyoko.c");
+        GV_SetNamedActor(&work->actor, HiyokoAct_800CFD44, HiyokoDie_800D0150, "hiyoko.c");
 
         if (HiyokoGetResources_800CFECC(work, where) < 0)
         {
@@ -236,17 +239,17 @@ GV_ACT *NewHiyoko_800D018C(int name, int where, int argc, char **argv)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewHiyoko_800D0210(MATRIX *world, int arg1)
+void *NewHiyoko_800D0210(MATRIX *world, int arg1)
 {
     HiyokoWork *work;
 
-    work = (HiyokoWork *)GV_NewActor(EXEC_LEVEL, sizeof(HiyokoWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(HiyokoWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)HiyokoAct_800CFD44, (GV_ACTFUNC)HiyokoDie_800D0150, "hiyoko.c");
+        GV_SetNamedActor(&work->actor, HiyokoAct_800CFD44, HiyokoDie_800D0150, "hiyoko.c");
 
         if (HiyokoGetResources_800D0018(work, world, arg1) < 0)
         {
@@ -255,5 +258,5 @@ GV_ACT *NewHiyoko_800D0210(MATRIX *world, int arg1)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

@@ -195,14 +195,12 @@ int s11e_zk11ecom_800D47D4( int dir, int dist )
     return 2 ;
 }
 
-extern OBJECT *GM_PlayerBody_800ABA20;
-
 void ReviseReadyGun_800D4828( ZakoWork* work )
 {
     int trans;
     int rotx;
 
-    trans = ( ( GM_PlayerBody_800ABA20->objs->objs[6].world.t[1] - work->body.objs->objs[6].world.t[1] ) );
+    trans = ( ( GM_PlayerBody->objs->objs[6].world.t[1] - work->body.objs->objs[6].world.t[1] ) );
     trans = ratan2( work->sn_dis, trans  )  & 0xFFF;
 
     rotx = GV_NearExp8( work->adjust[2].vx, trans - 0x400 );

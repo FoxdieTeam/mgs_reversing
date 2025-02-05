@@ -42,6 +42,8 @@ typedef struct LitMdlWork
     unsigned short field_540_materialOffsets[36];
 } LitMdlWork;
 
+#define EXEC_LEVEL GV_ACTOR_AFTER2
+
 DG_DEF litmdl_dg_def =
 {
     1, 1,
@@ -60,8 +62,6 @@ DG_DEF litmdl_dg_def =
     }
 };
 
-extern int     GM_CurrentMap;
-extern int     GV_PauseLevel;
 extern DG_CHANL DG_Chanls_800B1800[3];
 
 void s01a_lit_mdl_800E26EC(LitMdlWork *work)
@@ -222,22 +222,21 @@ int s01a_lit_mdl_800E2ADC(LitMdlWork *work, MATRIX *arg2, int arg3, int arg4, in
     return 0;
 }
 
-GV_ACT *s01a_lit_mdl_800E2C88(MATRIX *arg0, int arg1, int arg2, int arg3)
+void *s01a_lit_mdl_800E2C88(MATRIX *arg0, int arg1, int arg2, int arg3)
 {
     LitMdlWork *work;
 
-    work = (LitMdlWork *)GV_NewActor(7, sizeof(LitMdlWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(LitMdlWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)s01a_lit_mdl_800E2928,
-                         (GV_ACTFUNC)s01a_lit_mdl_800E2ABC, "lit_mdl.c");
+        GV_SetNamedActor(&work->actor, s01a_lit_mdl_800E2928, s01a_lit_mdl_800E2ABC, "lit_mdl.c");
         if (s01a_lit_mdl_800E2ADC(work, arg0, arg1, arg2, arg3) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }
 
 void s01a_lit_mdl_800E2D3C(LitMdlWork *work, int ang)

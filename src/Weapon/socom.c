@@ -18,12 +18,9 @@
 #include "SD/g_sound.h"
 #include "strcode.h"
 
-extern short GM_Magazine_800AB9EC;
-extern short GM_MagazineMax_800ABA2C;
 extern GM_Camera GM_Camera_800B77E8;
 
 extern int     DG_CurrentGroupID;
-extern short   GM_WeaponChanged_800AB9D8;
 
 /*---------------------------------------------------------------------------*/
 
@@ -47,7 +44,7 @@ typedef struct _SocomWork
     SVECTOR        field_110[2];
 } SocomWork;
 
-#define EXEC_LEVEL      6
+#define EXEC_LEVEL      GV_ACTOR_AFTER
 #define MAGAZINE_SIZE   12
 #define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
 
@@ -237,7 +234,7 @@ STATIC void SocomAct( SocomWork *work )
 
     if ( GM_SilencerFlag > 0 )
     {
-        GM_WeaponChanged_800AB9D8 = 1;
+        GM_WeaponChanged = 1;
         return;
     }
 
@@ -332,7 +329,7 @@ STATIC void SocomAct( SocomWork *work )
         socom_act_helper_800653B8( work );
     }
 
-    mag_size = GM_Magazine_800AB9EC;
+    mag_size = GM_Magazine;
 
     if ( ( mag_size == 0 ) && ( flags & 2 ) )
     {
@@ -361,8 +358,8 @@ STATIC void SocomAct( SocomWork *work )
             NewAnime_8005D988( world, &MStack48, 1 );
         }
 
-        GM_Magazine_800AB9EC = --mag_size;
-        GM_MagazineMax_800ABA2C = MAGAZINE_SIZE;
+        GM_Magazine = --mag_size;
+        GM_MagazineMax = MAGAZINE_SIZE;
         --GM_Weapons[ WEAPON_SOCOM ];
     }
 }
@@ -446,19 +443,16 @@ STATIC int SocomGetResources( SocomWork *actor, OBJECT *parent, int num_parent )
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewSOCOM( CONTROL *control, OBJECT *parent, int num_parent,  unsigned int *flags, int which_side )
+void *NewSOCOM( CONTROL *control, OBJECT *parent, int num_parent,  unsigned int *flags, int which_side )
 {
     SocomWork *work;
     int mag_size;
     int ammo;
 
-    work = (SocomWork *)GV_NewActor( EXEC_LEVEL, sizeof( SocomWork ) );
+    work = GV_NewActor( EXEC_LEVEL, sizeof( SocomWork ) );
     if ( work )
     {
-        GV_SetNamedActor( &work->actor,
-                          (GV_ACTFUNC)SocomAct,
-                          (GV_ACTFUNC)SocomDie,
-                          "socom.c" );
+        GV_SetNamedActor( &work->actor, SocomAct, SocomDie, "socom.c" );
         if ( SocomGetResources( work, parent, num_parent ) < 0 )
         {
             GV_DestroyActor( &work->actor );
@@ -476,7 +470,7 @@ GV_ACT *NewSOCOM( CONTROL *control, OBJECT *parent, int num_parent,  unsigned in
     }
 
     mag_size = MAGAZINE_SIZE;
-    if ( GM_Magazine_800AB9EC )
+    if ( GM_Magazine )
     {
         mag_size++;
     }
@@ -486,8 +480,8 @@ GV_ACT *NewSOCOM( CONTROL *control, OBJECT *parent, int num_parent,  unsigned in
         ammo = mag_size;
     }
 
-    GM_MagazineMax_800ABA2C = mag_size;
-    GM_Magazine_800AB9EC = ammo;
+    GM_MagazineMax = mag_size;
+    GM_Magazine = ammo;
 
-    return &work->actor;
+    return (void *)work;
 }

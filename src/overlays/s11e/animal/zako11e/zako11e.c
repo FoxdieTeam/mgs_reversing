@@ -19,7 +19,6 @@ extern SVECTOR       COM_NO_POINT_800C35D4;
 extern int           COM_EYE_LENGTH_800E0D8C;
 
 extern GM_Camera      GM_Camera_800B77E8;
-extern int            GM_PlayerMap_800ABA0C;
 */
 
 extern SVECTOR ZAKO_TARGET_SIZE_800C38CC;
@@ -38,7 +37,7 @@ extern int  Zako11EActionMain_800D8830( ZakoWork *work );
 extern void ZAKO11E_SetPutChar_800D8004( ZakoWork *work, int put );
 
 extern void *NewGunLight_800D3AD4( MATRIX* mat, int **enable );
-extern GV_ACT *NewKogaku2(CONTROL *pCtrl, OBJECT *pObj, int unit);
+extern void *NewKogaku2(CONTROL *pCtrl, OBJECT *pObj, int unit);
 
 void RootFlagCheck_800D34C8( ZakoWork *work )
 {
@@ -63,7 +62,6 @@ void s11e_zako11e_800D34D0( DG_OBJS* objs, DG_DEF* def )
 }
 
 extern GM_Camera GM_Camera_800B77E8;
-extern int GM_PlayerMap_800ABA0C;
 
 void s11e_zako11e_800D354C( ZakoWork *work )
 {
@@ -588,13 +586,15 @@ extern void ZakoAct_800D3684();
 extern void ZakoDie_800D3C84();
 extern const char s11e_aZakoec_800DEB68[];
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
+
 void *s11e_zako11e_800D42E0( int name, int where, int argc, char **argv )
 {
     ZakoWork *work ;
 
-    work = (ZakoWork *)GV_NewActor( 4, sizeof( ZakoWork ) ) ;
+    work = GV_NewActor( EXEC_LEVEL, sizeof( ZakoWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor( &( work->actor ), ( GV_ACTFUNC )ZakoAct_800D3684, ( GV_ACTFUNC )ZakoDie_800D3C84, s11e_aZakoec_800DEB68 );
+        GV_SetNamedActor( &( work->actor ), ZakoAct_800D3684, ZakoDie_800D3C84, s11e_aZakoec_800DEB68 );
         ZakoGetResources_800D3EC8( work, name, where );
     }
     return (void *)work ;

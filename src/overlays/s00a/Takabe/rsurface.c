@@ -4,6 +4,7 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
+#include "Game/game.h"
 #include "Game/control.h"
 
 typedef struct RSurfaceElem
@@ -29,7 +30,8 @@ typedef struct RSurfaceWork
     short        field_86;
 } RSurfaceWork;
 
-extern int      GM_CurrentMap;
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
+
 extern CONTROL *GM_WhereList_800B56D0[96];
 extern int      gControlCount_800AB9B4;
 
@@ -106,15 +108,15 @@ int RippleSurfaceGetResources_800D8148(RSurfaceWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT *NewRippleSurface_800D8244(int name, int where, int argc, char **argv)
+void *NewRippleSurface_800D8244(int name, int where, int argc, char **argv)
 {
     RSurfaceWork *work;
 
-    work = (RSurfaceWork *)GV_NewActor(5, sizeof(RSurfaceWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(RSurfaceWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)RippleSurfaceAct_800D7FC4,
-                         (GV_ACTFUNC)RippleSurfaceDie_800D8140, "rsurface.c");
+        GV_SetNamedActor(&work->actor, RippleSurfaceAct_800D7FC4,
+                         RippleSurfaceDie_800D8140, "rsurface.c");
         if (RippleSurfaceGetResources_800D8148(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);
@@ -123,7 +125,7 @@ GV_ACT *NewRippleSurface_800D8244(int name, int where, int argc, char **argv)
         work->field_20 = where;
         work->field_24 = name;
     }
-    return &work->actor;
+    return (void *)work;
 }
 
 static inline int s00a_rsurface_800D82E0_helper(RSurfaceWork *work, CONTROL *ctrl)

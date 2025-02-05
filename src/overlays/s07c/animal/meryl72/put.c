@@ -1,13 +1,11 @@
 #include "meryl72.h"
 
-extern int   GV_Time;
-extern int   GM_PlayerMap_800ABA0C ;
 extern void  AN_Breath_800C3AA8( MATRIX * ) ;
 extern void  AN_Fog_800CA618( SVECTOR *pos ) ;
 extern void  NewBlood( MATRIX *, int ) ;
 extern void *AN_Unknown_800CA1EC( MATRIX* mat, int mark );
 
-extern GV_ACT *NewBullet(MATRIX *pMtx, int whichSide, int a3, int noiseLen);
+extern void *NewBullet(MATRIX *pMtx, int whichSide, int a3, int noiseLen);
 
 SVECTOR s07c_dword_800C3394 = { 0, 0, 100, 0 };
 SVECTOR s07c_dword_800C339C = { -1024, 0, 0 };
@@ -44,7 +42,7 @@ void ML72_PutBreath_800CB35C( Meryl72Work *work )
 
 void ML72_PutMark_800CB3C0( Meryl72Work* work, int mark )
 {
-    if ( work->control.map->index & GM_PlayerMap_800ABA0C )
+    if ( work->control.map->index & GM_PlayerMap )
     {
         AN_Unknown_800CA1EC( &work->body.objs->objs[6].world , mark );
     }

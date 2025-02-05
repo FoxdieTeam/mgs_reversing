@@ -17,11 +17,9 @@ typedef struct WakeWork
     int     where;
 } WakeWork;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-extern PlayerStatusFlag GM_PlayerStatus;
 extern GV_PAD           GV_PadData_800B05C0[4];
-extern SVECTOR          GM_PlayerPosition_800ABA10;
 extern GM_Camera        GM_Camera_800B77E8;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 
@@ -163,7 +161,7 @@ void WakeAct_800C60BC(WakeWork *work)
     }
     WakePollMessages_800C5D78(work);
     WakeCheckPad_800C5E8C(work);
-    GM_PlayerPosition_800ABA10 = work->player_pos;
+    GM_PlayerPosition = work->player_pos;
 }
 
 void WakeDie_800C6140(WakeWork *work)
@@ -208,18 +206,17 @@ int WakeGetResources_800C615C(WakeWork *work, int where)
     return 0;
 }
 
-GV_ACT *NewWake_800C6298(int where)
+void *NewWake_800C6298(int where)
 {
     WakeWork *work;
 
-    work = (WakeWork *)GV_NewActor(EXEC_LEVEL, sizeof(WakeWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(WakeWork));
     if (work == NULL)
     {
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)WakeAct_800C60BC, (GV_ACTFUNC)WakeDie_800C6140,
-                     "wake.c");
+    GV_SetNamedActor(&work->actor, WakeAct_800C60BC, WakeDie_800C6140, "wake.c");
 
     if (WakeGetResources_800C615C(work, where) < 0)
     {
@@ -227,5 +224,5 @@ GV_ACT *NewWake_800C6298(int where)
         return NULL;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

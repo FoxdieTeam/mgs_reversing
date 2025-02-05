@@ -13,10 +13,7 @@
 extern MenuWork      gMenuWork_800BD360;
 extern unsigned char gPrimBackingBuffers_800B9360[2][8192];
 
-extern int GV_Clock;
 extern int MENU_PrimUse;
-extern int GV_PauseLevel;
-extern int GM_LoadComplete;
 
 extern GV_PAD *GM_CurrentPadData;
 GV_PAD        *GM_CurrentPadData;
@@ -143,8 +140,8 @@ void menu_init_subsystems_8003884C(MenuWork *work)
 
 void menuman_init_80038954(void)
 {
-    GV_SetNamedActor(&gMenuWork_800BD360.actor, (GV_ACTFUNC)menuman_act_800386A4,
-                     (GV_ACTFUNC)menuman_kill_800387E8, "menuman.c");
+    GV_SetNamedActor(&gMenuWork_800BD360.actor, menuman_act_800386A4,
+                     menuman_kill_800387E8, "menuman.c");
     menu_init_subsystems_8003884C(&gMenuWork_800BD360);
     MENU_InitRadioTable();
 }
@@ -170,7 +167,7 @@ void MENU_ResetTexture(void)
 
 void MENU_StartDeamon(void)
 {
-    GV_InitActor(1, &gMenuWork_800BD360.actor, NULL);
+    GV_InitActor(GV_ACTOR_MANAGER, &gMenuWork_800BD360.actor, NULL);
     GV_SetNamedActor(&gMenuWork_800BD360.actor, NULL, NULL, "menuman.c");
 }
 

@@ -38,12 +38,10 @@ unsigned short ed_telop_hashes_800C3240[] = {0x29B9};
 static EdTelopPrims ed_telop_prims_800C9BC8[2];
 static u_long       ed_telop_800C9C38[160];
 
-extern int GV_Clock;
-
 char * roll_ending2_800C5E54(void *, char *, int);
 void   roll_ending2_800C5EAC(short *, void *, void *, int);
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 int EdTelop_800C4F18(void)
 {
@@ -272,14 +270,14 @@ void EdTelopGetResources_800C5504(EdTelopWork *work)
     }
 }
 
-GV_ACT *NewEdTelop_800C563C(int arg0)
+void *NewEdTelop_800C563C(int arg0)
 {
     EdTelopWork *work;
 
-    work = (EdTelopWork *)GV_NewActor(EXEC_LEVEL, sizeof(EdTelopWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(EdTelopWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)EdTelopAct_800C525C, (GV_ACTFUNC)EdTelopDie_800C54D4, "ed_telop.c");
+        GV_SetNamedActor(&work->actor, EdTelopAct_800C525C, EdTelopDie_800C54D4, "ed_telop.c");
 
         work->f20 = arg0;
         work->proc = THING_Gcl_GetInt('p');
@@ -290,5 +288,5 @@ GV_ACT *NewEdTelop_800C563C(int arg0)
         EdTelopGetResources_800C5504(work);
     }
 
-    return &work->actor;
+    return (void *)work;
 }

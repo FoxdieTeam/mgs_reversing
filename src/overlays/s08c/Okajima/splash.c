@@ -1,6 +1,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "Game/game.h"
 
 typedef struct SplashWork
 {
@@ -12,10 +13,9 @@ typedef struct SplashWork
     int      time;
 } SplashWork;
 
-RECT rect_800C3420 = {50, 50, 100, 100};
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-extern int GV_Clock;
-extern int GM_CurrentMap;
+RECT rect_800C3420 = {50, 50, 100, 100};
 
 void SplashTransform_800C8808( MATRIX *matrix, SVECTOR *vecs1, SVECTOR *vecs2, int count )
 {
@@ -179,19 +179,19 @@ int SplashGetResources_800C8C6C(SplashWork *work, MATRIX *mat, int rgb)
     return 0;
 }
 
-GV_ACT *NewSplash_800C8D6C(MATRIX *mat, int rgb)
+void *NewSplash_800C8D6C(MATRIX *mat, int rgb)
 {
     SplashWork *work;
 
-    work = (SplashWork *)GV_NewActor(5, sizeof(SplashWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(SplashWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)SplashAct_800C8BA8, (GV_ACTFUNC)SplashDie_800C8C30, "splash.c");
+        GV_SetNamedActor(&work->actor, SplashAct_800C8BA8, SplashDie_800C8C30, "splash.c");
         if (SplashGetResources_800C8C6C(work, mat, rgb) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

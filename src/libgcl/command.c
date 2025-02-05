@@ -91,8 +91,6 @@ void GCL_ForceExecProc(int proc_id, GCL_ARGS *args)
     GCL_ExecBlock(get_proc_block(proc_id) + 3, args);
 }
 
-extern PlayerStatusFlag GM_PlayerStatus;
-
 int GCL_ExecProc(int proc_id, GCL_ARGS *args)
 {
     if (GM_LoadRequest || (GM_PlayerStatus & PLAYER_GAME_OVER))

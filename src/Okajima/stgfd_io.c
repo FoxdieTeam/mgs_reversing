@@ -8,9 +8,6 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 
-extern int     GV_PauseLevel;
-extern int     GV_Clock;
-
 /*---------------------------------------------------------------------------*/
 
 typedef struct StgfdIoPrims
@@ -30,7 +27,7 @@ typedef struct StgfdIoWork
     int           state;
 } StgfdIoWork;
 
-#define EXEC_LEVEL 3
+#define EXEC_LEVEL GV_ACTOR_LEVEL3
 
 /*---------------------------------------------------------------------------*/
 
@@ -149,15 +146,12 @@ STATIC int stgfd_io_GetResources(StgfdIoWork *work)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewStnFade(void)
+void *NewStnFade(void)
 {
-    StgfdIoWork *work = (StgfdIoWork *)GV_NewActor(EXEC_LEVEL, sizeof(StgfdIoWork));
+    StgfdIoWork *work = GV_NewActor(EXEC_LEVEL, sizeof(StgfdIoWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor,
-                         (GV_ACTFUNC)&stgfd_io_Act,
-                         (GV_ACTFUNC)&stgfd_io_Die,
-                         "stgfd_io.c");
+        GV_SetNamedActor(&work->actor, &stgfd_io_Act, &stgfd_io_Die, "stgfd_io.c");
 
         if (stgfd_io_GetResources(work) < 0)
         {
@@ -166,5 +160,5 @@ GV_ACT *NewStnFade(void)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

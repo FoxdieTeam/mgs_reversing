@@ -1,5 +1,9 @@
 #include "demokage.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
@@ -16,7 +20,7 @@ typedef struct _DemokageWork
     int     *f54;    // 54
 } DemokageWork;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 int d11c_800C425C(int a, int b, int c)
 {
@@ -225,17 +229,17 @@ int DemoKageGetResources_800C466C(DemokageWork *work, OBJECT *parent, SVECTOR ar
     return 0;
 }
 
-GV_ACT *NewDemoKage_800C48A4(OBJECT *parent, SVECTOR arg1, int *arg2, int *arg3, char r, char g, char b, int unused)
+void *NewDemoKage_800C48A4(OBJECT *parent, SVECTOR arg1, int *arg2, int *arg3, char r, char g, char b, int unused)
 {
     DemokageWork *work;
 
-    work = (DemokageWork *)GV_NewActor(EXEC_LEVEL, sizeof(DemokageWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(DemokageWork));
     if (work == NULL)
     {
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)DemoKageAct_800C45AC, (GV_ACTFUNC)DemoKageDie_800C4630, "demokage.c");
+    GV_SetNamedActor(&work->actor, DemoKageAct_800C45AC, DemoKageDie_800C4630, "demokage.c");
 
     if (DemoKageGetResources_800C466C(work, parent, arg1, arg2, arg3, r, g, b, unused) < 0)
     {
@@ -243,5 +247,5 @@ GV_ACT *NewDemoKage_800C48A4(OBJECT *parent, SVECTOR arg1, int *arg2, int *arg3,
         return NULL;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

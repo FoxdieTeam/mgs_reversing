@@ -12,13 +12,9 @@ typedef struct _ScnMarkWork
     char   pad2[0x4];
 } ScnMarkWork;
 
-extern int     GM_CurrentMap;
-extern int     GM_PlayerMap_800ABA0C;
-extern OBJECT *GM_PlayerBody_800ABA20;
-
 void * AN_Unknown_800CA1EC(MATRIX *pos, int mark);
 
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 int ScnMarkCheckMessages_800C93CC(unsigned short name, int n_hashes, unsigned short *hashes)
 {
@@ -52,7 +48,7 @@ void ScnMarkAct_800C9464(ScnMarkWork *work)
     unsigned short hashes[7];
     int            found;
 
-    GM_CurrentMap = GM_PlayerMap_800ABA0C;
+    GM_CurrentMap = GM_PlayerMap;
 
     hashes[0] = GV_StrCode("B_MARK");
     hashes[1] = GV_StrCode("Q_MARK");
@@ -65,7 +61,7 @@ void ScnMarkAct_800C9464(ScnMarkWork *work)
 
     if (found != -1)
     {
-        AN_Unknown_800CA1EC(&GM_PlayerBody_800ABA20->objs->objs[6].world, found % 7);
+        AN_Unknown_800CA1EC(&GM_PlayerBody->objs->objs[6].world, found % 7);
     }
 }
 
@@ -81,14 +77,14 @@ void ScnMarkDie_800C9578(ScnMarkWork *work)
 {
 }
 
-GV_ACT *NewScnMark_800C9580(int name, int where)
+void *NewScnMark_800C9580(int name, int where)
 {
     ScnMarkWork *work;
 
-    work = (ScnMarkWork *)GV_NewActor(EXEC_LEVEL, sizeof(ScnMarkWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(ScnMarkWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)ScnMarkAct_800C9464, (GV_ACTFUNC)ScnMarkDie_800C9578, "scn_mark.c");
+        GV_SetNamedActor(&work->actor, ScnMarkAct_800C9464, ScnMarkDie_800C9578, "scn_mark.c");
 
         if (ScnMarkGetResources_800C9564(work, where, name) < 0)
         {
@@ -97,5 +93,5 @@ GV_ACT *NewScnMark_800C9580(int name, int where)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

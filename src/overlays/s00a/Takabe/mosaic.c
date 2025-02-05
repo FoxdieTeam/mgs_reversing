@@ -31,9 +31,9 @@ typedef struct MosaicWork
     int    field_68;
 } MosaicWork;
 
-unsigned short mosaic_mes_list[] = {HASH_ON2, HASH_OFF2};
+#define EXEC_LEVEL GV_ACTOR_LEVEL3
 
-extern int GV_PauseLevel;
+unsigned short mosaic_mes_list[] = {HASH_ON2, HASH_OFF2};
 
 // This actor is probably the naked Johnny censorship (missing in Integral),
 // so a lot of functions here are just stubbed-out and the actor
@@ -89,15 +89,14 @@ int MosaicGetResources_800DC9D0(MosaicWork *arg0, void *arg1, int arg2, int arg3
     return 0;
 }
 
-GV_ACT *NewMosaicSet_800DC9F4(void *arg0, int arg1, int arg2, int arg3)
+void *NewMosaicSet_800DC9F4(void *arg0, int arg1, int arg2, int arg3)
 {
     MosaicWork *work;
 
-    work = (MosaicWork *)GV_NewActor(3, sizeof(MosaicWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(MosaicWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)MosaicAct_800DC938,
-                         (GV_ACTFUNC)MosaicDie_800DC9A0, "mosaic.c");
+        GV_SetNamedActor(&work->actor, MosaicAct_800DC938, MosaicDie_800DC9A0, "mosaic.c");
         if (MosaicGetResources_800DC9D0(work, arg0, arg1, arg2, arg3) < 0)
         {
             GV_DestroyActor(&work->actor);
@@ -106,20 +105,19 @@ GV_ACT *NewMosaicSet_800DC9F4(void *arg0, int arg1, int arg2, int arg3)
         work->field_60 = 1;
         work->field_20 = GV_StrCode("Mosaic");
     }
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewMosaic_800DCABC(int name, int where, int argc, char **argv)
+void *NewMosaic_800DCABC(int name, int where, int argc, char **argv)
 {
     SVECTOR     vec;
     MosaicWork *work;
     int         s, d;
 
-    work = (MosaicWork *)GV_NewActor(3, sizeof(MosaicWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(MosaicWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)MosaicAct_800DC938,
-                         (GV_ACTFUNC)MosaicDie_800DC9A0, "mosaic.c");
+        GV_SetNamedActor(&work->actor, MosaicAct_800DC938, MosaicDie_800DC9A0, "mosaic.c");
         s = THING_Gcl_GetIntDefault('s', 500);
         d = THING_Gcl_GetIntDefault('d', 4);
         work->field_60 = THING_Gcl_GetInt('f');
@@ -134,5 +132,5 @@ GV_ACT *NewMosaic_800DCABC(int name, int where, int argc, char **argv)
         }
         work->field_20 = name;
     }
-    return &work->actor;
+    return (void *)work;
 }

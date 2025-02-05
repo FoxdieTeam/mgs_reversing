@@ -14,9 +14,6 @@
 #include "Game/map.h"
 #include "Anime/animeconv/anime.h"
 
-extern int              GM_CurrentMap;
-extern PlayerStatusFlag GM_PlayerStatus;
-
 /*---------------------------------------------------------------------------*/
 // Cigarettes
 
@@ -32,7 +29,7 @@ typedef struct _TabakoWork
     RECT           prim_rect;
 } TabakoWork;
 
-#define EXEC_LEVEL 6
+#define EXEC_LEVEL GV_ACTOR_AFTER
 
 /*---------------------------------------------------------------------------*/
 
@@ -170,14 +167,13 @@ STATIC int TabakoGetResources(TabakoWork *work, OBJECT *parent, int num_parent)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewTabako(CONTROL *control, OBJECT *parent, int num_parent)
+void *NewTabako(CONTROL *control, OBJECT *parent, int num_parent)
 {
-    TabakoWork *work = (TabakoWork *)GV_NewActor(EXEC_LEVEL, sizeof(TabakoWork));
+    TabakoWork *work = GV_NewActor(EXEC_LEVEL, sizeof(TabakoWork));
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)TabakoAct,
-                         (GV_ACTFUNC)TabakoDie, "tabako.c");
+        GV_SetNamedActor(&work->actor, TabakoAct, TabakoDie, "tabako.c");
 
         if (TabakoGetResources(work, parent, num_parent) < 0)
         {
@@ -190,5 +186,5 @@ GV_ACT *NewTabako(CONTROL *control, OBJECT *parent, int num_parent)
         work->num_parent = num_parent;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

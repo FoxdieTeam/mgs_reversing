@@ -18,9 +18,7 @@ typedef struct _CancelWork
     int    step;
 } CancelWork;
 
-extern int GV_PauseLevel;
-
-#define EXEC_LEVEL 3
+#define EXEC_LEVEL GV_ACTOR_LEVEL3
 
 void Cancel_800C3E24(CancelWork *work)
 {
@@ -98,14 +96,14 @@ int CancelGetResources_800C3F54(CancelWork *work)
     return 0;
 }
 
-GV_ACT *NewCancel_800C3FFC(int name, int where, int argc, char **argv)
+void *NewCancel_800C3FFC(int name, int where, int argc, char **argv)
 {
     CancelWork *work;
 
-    work = (CancelWork *)GV_NewActor(EXEC_LEVEL, sizeof(CancelWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(CancelWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)CancelAct_800C3EA0, (GV_ACTFUNC)CancelDie_800C3F18, "cancel.c");
+        GV_SetNamedActor(&work->actor, CancelAct_800C3EA0, CancelDie_800C3F18, "cancel.c");
 
         if (CancelGetResources_800C3F54(work) < 0)
         {
@@ -114,5 +112,5 @@ GV_ACT *NewCancel_800C3FFC(int name, int where, int argc, char **argv)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

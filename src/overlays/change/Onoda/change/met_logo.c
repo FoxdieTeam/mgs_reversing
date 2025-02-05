@@ -87,9 +87,7 @@ short met_logo_lines_800C32E8[] = {
     0x007d, 0x0024, 0x0087, 0x011a, 0x0087
 };
 
-extern int GV_Clock;
-
-#define EXEC_LEVEL 1
+#define EXEC_LEVEL GV_ACTOR_MANAGER
 
 char * MetLogo_800C5060( char *buffer, short x, short y, int texture, unsigned int color, char *ot )
 {
@@ -451,14 +449,14 @@ void MetLogoGetResources_800C5998( Work *work )
     }
 }
 
-GV_ACT *NewMetLogo_800C5A90( int *arg0 )
+void *NewMetLogo_800C5A90( int *arg0 )
 {
     Work *work;
 
-    work = (Work *)GV_NewActor( EXEC_LEVEL,  sizeof(Work) );
+    work = GV_NewActor( EXEC_LEVEL,  sizeof(Work) );
     if ( work != NULL )
     {
-        GV_SetNamedActor( &( work->actor ), (GV_ACTFUNC)MetLogoAct_800C57E8, (GV_ACTFUNC)MetLogoDie_800C5988, "met_logo.c" );
+        GV_SetNamedActor( &( work->actor ), MetLogoAct_800C57E8, MetLogoDie_800C5988, "met_logo.c" );
 
         work->step = 1;
         work->sequence = 0;
@@ -476,5 +474,5 @@ GV_ACT *NewMetLogo_800C5A90( int *arg0 )
         MetLogoGetResources_800C5998( work );
     }
 
-    return &( work->actor );
+    return (void *)work;
 }

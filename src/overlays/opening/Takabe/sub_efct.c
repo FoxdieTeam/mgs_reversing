@@ -1,3 +1,7 @@
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
@@ -13,9 +17,7 @@ typedef struct _SubEfctWork
     char     pad[0x4];
 } SubEfctWork;
 
-extern int    GV_Clock;
-
-#define EXEC_LEVEL 0
+#define EXEC_LEVEL GV_ACTOR_DAEMON
 
 #define gte_pop_color(r0) __asm__ volatile ("mfc2   %0, $9;" : "=r"(r0))
 
@@ -179,15 +181,15 @@ void SubEfctDie_800CCAF0(SubEfctWork *work)
     SubEfct_800CCA58(work);
 }
 
-GV_ACT *NewSubEfct_800CCB10(OBJECT *parent, SVECTOR *rotation)
+void *NewSubEfct_800CCB10(OBJECT *parent, SVECTOR *rotation)
 {
     SubEfctWork *work;
     DG_OBJS     *objs;
 
-    work = (SubEfctWork *)GV_NewActor(EXEC_LEVEL, sizeof(SubEfctWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(SubEfctWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)SubEfctAct_800CCAC0, (GV_ACTFUNC)SubEfctDie_800CCAF0, "sub_efct.c");
+        GV_SetNamedActor(&work->actor, SubEfctAct_800CCAC0, SubEfctDie_800CCAF0, "sub_efct.c");
 
         work->parent = parent;
         work->rotation = rotation;
@@ -209,5 +211,5 @@ GV_ACT *NewSubEfct_800CCB10(OBJECT *parent, SVECTOR *rotation)
         work->light[1].m[2][0] = 2048;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

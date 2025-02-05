@@ -29,12 +29,12 @@ typedef struct Johnny2Work
     SVECTOR svec_7F8;
 } Johnny2Work;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 extern int s03c_dword_800C33D8;
 
-GV_ACT *NewJFamas_800CAFAC(CONTROL *control, OBJECT *parent, int num_parent, int *arg4);
-GV_ACT *NewGunLight_800D3AD4(MATRIX *world, int **pvisible);
+void *NewJFamas_800CAFAC(CONTROL *control, OBJECT *parent, int num_parent, int *arg4);
+void *NewGunLight_800D3AD4(MATRIX *world, int **pvisible);
 
 void Johnny2Act_800CDF84(Johnny2Work *work)
 {
@@ -185,18 +185,17 @@ int Johnny2GetResources_800CE1D0(Johnny2Work *work)
     return 0;
 }
 
-GV_ACT *NewJohnny2_800CE368()
+void *NewJohnny2_800CE368()
 {
     Johnny2Work *work;
 
-    work = (Johnny2Work *)GV_NewActor(EXEC_LEVEL, sizeof(Johnny2Work));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Johnny2Work));
     if (work == NULL)
     {
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)Johnny2Act_800CDF84,
-                     (GV_ACTFUNC)Johnny2Die_800CE0DC, "johnny2.c");
+    GV_SetNamedActor(&work->actor, Johnny2Act_800CDF84, Johnny2Die_800CE0DC, "johnny2.c");
 
     if (Johnny2GetResources_800CE1D0(work) < 0)
     {
@@ -204,5 +203,5 @@ GV_ACT *NewJohnny2_800CE368()
         return NULL;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

@@ -3,7 +3,6 @@
 
 #include "Game/game.h"      // for OBJECT
 #include "Game/control.h"   // for CONTROL
-#include "libgv/libgv.h"    // for GV_ACT
 
 #define WEAPON_TAKE     1
 #define WEAPON_TRIG     2
@@ -17,25 +16,25 @@ enum GRENADE_TYPE
     GRD_TBOMB   = 3
 };
 
-GV_ACT *NewSOCOM( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side );
-GV_ACT *NewFAMAS( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side );
+void *NewSOCOM( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side );
+void *NewFAMAS( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side );
 
-GV_ACT *NewGrenade( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side );
-GV_ACT *NewStanGrenade( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side );
-GV_ACT *NewChaffGrenade( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side );
-GV_ACT *NewTimerBomb( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side );
+void *NewGrenade( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side );
+void *NewStanGrenade( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side );
+void *NewChaffGrenade( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side );
+void *NewTimerBomb( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side );
 
-GV_ACT *NewRCM( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side );
-GV_ACT *NewAAM( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side );
+void *NewRCM( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side );
+void *NewAAM( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side );
 
-GV_ACT *NewMine( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side );
-GV_ACT *NewBomb( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side );
+void *NewMine( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side );
+void *NewBomb( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side );
 
-GV_ACT *NewRifle( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side );
+void *NewRifle( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side );
 
-GV_ACT *NewStnSight( CONTROL *control );
+void *NewStnSight( CONTROL *control );
 
-GV_ACT *NewRifleSight();
-GV_ACT *NewRifleSightFast();
+void *NewRifleSight();
+void *NewRifleSightFast();
 
 #endif // _WEAPON_H_

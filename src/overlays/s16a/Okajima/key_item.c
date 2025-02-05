@@ -3,15 +3,19 @@
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 
-void NewEventmouse_800CA6F4(HZD_PTP *points, int n_points, int, int, int, int);
+void *NewEventmouse_800CA6F4(HZD_PTP *points, int n_points, int, int, int, int);
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-void KeyItemAct_800C8888(GV_ACT *work)
+typedef struct _Work {
+    GV_ACT actor;
+} Work;
+
+void KeyItemAct_800C8888(Work *work)
 {
 }
 
-void KeyItemDie_800C8890(GV_ACT *work)
+void KeyItemDie_800C8890(Work *work)
 {
 }
 
@@ -240,17 +244,17 @@ void KeyItemRun_800C8948(int where)
     }
 }
 
-GV_ACT *NewKeyItem_800C8E18(int name, int where)
+void *NewKeyItem_800C8E18(int name, int where)
 {
-    GV_ACT *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(GV_ACT));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(work, KeyItemAct_800C8888, KeyItemDie_800C8890, "key_item.c");
+        GV_SetNamedActor(&work->actor, KeyItemAct_800C8888, KeyItemDie_800C8890, "key_item.c");
         KeyItemRun_800C8948(where);
-        GV_DestroyActor(work);
+        GV_DestroyActor(&work->actor);
     }
 
-    return work;
+    return (void *)work;
 }

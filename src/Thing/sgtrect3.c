@@ -12,14 +12,9 @@
 #include "Game/target.h"
 #include "SD/g_sound.h"
 
-extern PlayerStatusFlag GM_PlayerStatus;
-extern int GM_PlayerMap_800ABA0C;
 extern int     dword_8009F46C;
 extern int     amissile_alive_8009F490;
-extern SVECTOR GM_PlayerPosition_800ABA10;
 extern SVECTOR svector_8009F478;
-extern int GV_Clock;
-extern int GV_PauseLevel;
 extern TARGET *target_800BDF00;
 
 /*---------------------------------------------------------------------------*/
@@ -71,7 +66,7 @@ typedef struct SgtRect3Work
     DR_TPAGE       field_23B8_prim[2];
 } SgtRect3Work;
 
-#define EXEC_LEVEL 7
+#define EXEC_LEVEL GV_ACTOR_AFTER2
 
 /*---------------------------------------------------------------------------*/
 
@@ -123,7 +118,7 @@ STATIC unsigned int sgtrect3_act_helper_helper_800700E0(TARGET *target, DVECTOR 
 
 STATIC int sgtrect3_act_helper_800701A8(TARGET *target)
 {
-    if (!((((target->class & 0xfffe) != 0 && (target->map & GM_PlayerMap_800ABA0C) != 0) &&
+    if (!((((target->class & 0xfffe) != 0 && (target->map & GM_PlayerMap) != 0) &&
            target->side == 2) &&
           target->damaged == 0 && ((target->class & 0x220) == 0)))
     {
@@ -157,7 +152,7 @@ STATIC void sgtrect3_act_helper_8007020C(SgtRect3Work *work, DVECTOR *outScreenC
     {
         TARGET *lastTarget;
 
-        vector = (dword_8009F46C != 0) ? svector_8009F478 : GM_PlayerPosition_800ABA10;
+        vector = (dword_8009F46C != 0) ? svector_8009F478 : GM_PlayerPosition;
 
         targetCount = 0;
         shortestVecLen = -1;
@@ -491,7 +486,7 @@ STATIC void sgtrect3_act_helper_80070CAC(SgtRect3Work *work)
             return;
         }
 
-        vector = (dword_8009F46C != 0) ? svector_8009F478 : GM_PlayerPosition_800ABA10;
+        vector = (dword_8009F46C != 0) ? svector_8009F478 : GM_PlayerPosition;
 
         GV_SubVec3(&work->field_30_target->center, &vector, &vector2);
         vecLen = GV_VecLen3(&vector2);
@@ -595,14 +590,13 @@ void *NewSgtRect3(short *param_1, short param_2, unsigned int *rgb2, int param_4
         return NULL;
     }
 
-    work = (SgtRect3Work *)GV_NewActor(EXEC_LEVEL, sizeof(SgtRect3Work));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(SgtRect3Work));
     if (!work)
     {
         return NULL;
     }
 
-    GV_SetNamedActor((GV_ACT *)work, (GV_ACTFUNC)sgtrect3_act_80070E14,
-                     (GV_ACTFUNC)sgtrect3_kill_80070EC0, "sgtrect3.c");
+    GV_SetNamedActor((GV_ACT *)work, sgtrect3_act_80070E14, sgtrect3_kill_80070EC0, "sgtrect3.c");
 
     if (sgtrect3_loader_80070F4C(work, rgb2) < 0)
     {

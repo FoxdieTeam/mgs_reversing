@@ -19,7 +19,8 @@ typedef struct CameraShakeWork
     int     field_44; //0x44
 } CameraShakeWork;
 
-extern SVECTOR GM_PlayerPosition_800ABA10;
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
+
 extern int  GM_CameraShakeOffset;
 
 void CameraShakeAct_800DF4B8( CameraShakeWork* work )
@@ -38,7 +39,7 @@ void CameraShakeAct_800DF4B8( CameraShakeWork* work )
         return;
     }
 
-    target_pos = &GM_PlayerPosition_800ABA10;
+    target_pos = &GM_PlayerPosition;
 
     diff.vx = tmp = ( target_pos->vx - work->pos.vx ) >> 2 ; length = tmp * tmp ;
     diff.vy = tmp = ( target_pos->vy - work->pos.vy ) >> 2 ; length += tmp * tmp ;
@@ -55,8 +56,10 @@ void CameraShakeAct_800DF4B8( CameraShakeWork* work )
 
 void CameraShakeDie_800DF634( void )
 {
-
+    //OPERATOR() ;
 }
+
+/*----------------------------------------------------------------*/
 
 int CameraShakeGetResources_S_800DF63C( CameraShakeWork* work, int name, int where )
 {
@@ -64,7 +67,7 @@ int CameraShakeGetResources_S_800DF63C( CameraShakeWork* work, int name, int whe
     work->map = where ;
     work->name = name ;
 
-    /* オプション処理１ */
+    {/* オプション処理１ */
         /* 開始座標設定 */
         THING_Gcl_GetSVector( 'p', &work->pos );
         /* 減衰半径設定 */
@@ -76,21 +79,22 @@ int CameraShakeGetResources_S_800DF63C( CameraShakeWork* work, int name, int whe
         work->time2         = THING_Gcl_GetInt( 't' );
 
         work->count = work->time;
-        return 0;
+    }
+    return 0;
 }
 
-GV_ACT *NewCameraShake_800DF6AC(int name, int where, int argc, char **argv)
+void *NewCameraShake_800DF6AC(int name, int where, int argc, char **argv)
 {
     CameraShakeWork *work ;
 
-    work = (CameraShakeWork *)GV_NewActor( 5, sizeof( CameraShakeWork ) ) ;
+    work = GV_NewActor( EXEC_LEVEL, sizeof( CameraShakeWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor( &( work->actor ), ( GV_ACTFUNC )CameraShakeAct_800DF4B8, ( GV_ACTFUNC )CameraShakeDie_800DF634, "camshake.c" );
+        GV_SetNamedActor( &( work->actor ), CameraShakeAct_800DF4B8, CameraShakeDie_800DF634, "camshake.c" );
         if ( CameraShakeGetResources_S_800DF63C( work, name, where ) < 0 )
         {
             GV_DestroyActor( &( work->actor ) );
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

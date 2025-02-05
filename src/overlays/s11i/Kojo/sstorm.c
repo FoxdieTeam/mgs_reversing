@@ -44,20 +44,17 @@ typedef struct SStormWork
     PRESCRIPT field_BC;
 } SStormWork;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 int s11i_dword_800C36B4[] = {0x00011000, 0x0CFE0105, 0xFF010000, 0x00000008, 0x0D010002};
 char s11i_dword_800C36C8[] = {0xF}; // FIXME: this is a part of s11i_dword_800C36B4[]
 
-extern SVECTOR          GM_PlayerPosition_800ABA10;
-extern int              GM_CurrentMap;
-extern int              GM_PlayerStatus;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 
 void SStormAct_800D478C(SStormWork *);
 void SStormDie_800D4E90(SStormWork *);
 
-GV_ACT *NewSStorm_800D43D8(int arg0, int arg1)
+void *NewSStorm_800D43D8(int arg0, int arg1)
 {
     SStormWork *work;
     SVECTOR     svec1, svec2;
@@ -65,14 +62,13 @@ GV_ACT *NewSStorm_800D43D8(int arg0, int arg1)
     int         xw, xw2;
     char       *param;
 
-    work = (SStormWork *)GV_NewActor(EXEC_LEVEL, sizeof(SStormWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(SStormWork));
     if (work == NULL)
     {
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)SStormAct_800D478C,
-                     (GV_ACTFUNC)SStormDie_800D4E90, "sstorm.c");
+    GV_SetNamedActor(&work->actor, SStormAct_800D478C, SStormDie_800D4E90, "sstorm.c");
 
     work->field_40 = 1;
     work->field_38 = 4;
@@ -188,7 +184,7 @@ GV_ACT *NewSStorm_800D43D8(int arg0, int arg1)
     work->field_50.field_A = work->field_3C;
     work->field_50.field_10_yh = work->field_50.field_E_xw;
 
-    return &work->actor;
+    return (void *)work;
 }
 
 int SStorm_ReceiveMessage_800D4E98(unsigned short name, int nhashes, unsigned short *hashes);
@@ -277,9 +273,9 @@ void SStormAct_800D478C(SStormWork *work)
         }
     }
 
-    sp10.vx += GM_PlayerPosition_800ABA10.vx;
-    sp10.vy += GM_PlayerPosition_800ABA10.vy;
-    sp10.vz += GM_PlayerPosition_800ABA10.vz;
+    sp10.vx += GM_PlayerPosition.vx;
+    sp10.vy += GM_PlayerPosition.vy;
+    sp10.vz += GM_PlayerPosition.vz;
 
     if (GM_PlayerStatus & PLAYER_WATCH)
     {

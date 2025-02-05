@@ -2,7 +2,7 @@
 
 #include "common.h"
 #include "Bullet/jirai.h"
-#include "Game/target.h"
+#include "Game/game.h"
 #include "Takabe/thing.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
@@ -17,11 +17,9 @@ typedef struct DymcSegWork
     HZD_SEG  seg;
 } DymcSegWork;
 
-extern int GM_CurrentMap;
-
 unsigned short dymc_seg_hashes[] = {HASH_ON2, HASH_OFF2};
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void DymcSegAct_800C4A44(DymcSegWork *work)
 {
@@ -81,14 +79,14 @@ int DymcSegGetResources_800C4AC0(DymcSegWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT *NewDymcSeg_800C4BCC(int name, int where, int argc, char **argv)
+void *NewDymcSeg_800C4BCC(int name, int where, int argc, char **argv)
 {
     DymcSegWork *work;
 
-    work = (DymcSegWork *)GV_NewActor(EXEC_LEVEL, sizeof(DymcSegWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(DymcSegWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)DymcSegAct_800C4A44, (GV_ACTFUNC)DymcSegDie_800C4A98, "dymc_seg.c");
+        GV_SetNamedActor(&work->actor, DymcSegAct_800C4A44, DymcSegDie_800C4A98, "dymc_seg.c");
 
         if (DymcSegGetResources_800C4AC0(work, name, where) < 0)
         {
@@ -97,5 +95,5 @@ GV_ACT *NewDymcSeg_800C4BCC(int name, int where, int argc, char **argv)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

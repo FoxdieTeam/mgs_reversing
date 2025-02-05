@@ -60,8 +60,6 @@ extern SVECTOR ZAKO11E_NO_POINT_800C38FC;
 extern int     ZAKO11E_EYE_LENGTH_800C3904;
 extern         ZAKO_COMMAND ZakoCommand_800DF280;
 
-extern SVECTOR GM_PlayerPosition_800ABA10;
-
 extern int CheckPad_800D4A28( ZakoWork *work );
 extern int CheckDamage_800D46A0( ZakoWork * work );
 
@@ -399,7 +397,7 @@ void ActGrenade_800D54C8( ZakoWork* work, int time )
         extern  void    *NewGrenadeEnemy_800D2138( CONTROL *, OBJECT *, int, unsigned int *, SVECTOR *, int ) ;
 
         SetAction( work, GRENADE, ACTINTERP ) ;
-        work->subweapon = NewGrenadeEnemy_800D2138( &(work->control), &(work->body), 9, &(work->trigger), &GM_PlayerPosition_800ABA10, ENEMY_SIDE ) ;
+        work->subweapon = NewGrenadeEnemy_800D2138( &(work->control), &(work->body), 9, &(work->trigger), &GM_PlayerPosition, ENEMY_SIDE ) ;
     }
 
     if ( time > ACTINTERP )
@@ -571,24 +569,20 @@ void s11e_zk11ecom_800D57A0( ZakoWork* work, int time )
     }
 }
 
-extern CONTROL *GM_PlayerControl_800AB9F4;
-
 extern SVECTOR s11e_dword_800C3660;
 
 void s11e_zk11ecom_800D5A84( ZakoWork* work )
 {
     SVECTOR  svec;
 
-    work->control.turn = GM_PlayerControl_800AB9F4->rot;
-    DG_SetPos2(&GM_PlayerPosition_800ABA10, &GM_PlayerControl_800AB9F4->rot);
+    work->control.turn = GM_PlayerControl->rot;
+    DG_SetPos2(&GM_PlayerPosition, &GM_PlayerControl->rot);
     DG_PutVector(&s11e_dword_800C3660, &svec, 1);
     GV_SubVec3(&svec, &work->control.mov, &work->control.step);
 }
 
 extern unsigned char s11e_dword_800C3658;
 extern unsigned char s11e_dword_800C365C;
-
-extern int GM_PlayerAction;
 
 extern void NewPadVibration( unsigned char *ptr, int flags );
 extern void s11e_zk11ecom_800D649C( ZakoWork *work, int time );
@@ -659,7 +653,7 @@ void s11e_zk11ecom_800D5B04( ZakoWork *work, int time )
             NewPadVibration( &s11e_dword_800C3658, 1);
             NewPadVibration( &s11e_dword_800C365C, 2);
         }
-        work->control.turn = GM_PlayerControl_800AB9F4->rot;
+        work->control.turn = GM_PlayerControl->rot;
         s11e_zk11ecom_800D5A84( work );
         work->field_B5C++;
         break;
@@ -669,7 +663,7 @@ void s11e_zk11ecom_800D5B04( ZakoWork *work, int time )
             target->side = PLAYER_SIDE;
             SetAction( work, ACTION28, ACTINTERP );
         }
-        work->control.turn = GM_PlayerControl_800AB9F4->rot;
+        work->control.turn = GM_PlayerControl->rot;
         s11e_zk11ecom_800D5A84( work );
         break;
     case 0x27:
@@ -1442,8 +1436,6 @@ void s11e_zk11ecom_800D7450( ZakoWork* work, int time )
     }
 }
 
-extern int GM_PlayerStatus;
-
 void s11e_zk11ecom_800D7518( ZakoWork *work, int time )
 {
     SVECTOR mov;
@@ -1666,12 +1658,10 @@ void ZAKO11E_PutItem_800D7AE8( ZakoWork* work )
     item_init_80034758( &ctrl->mov, &svec, &item );
 }
 
-extern int GM_PlayerMap_800ABA0C;
-
 void ZAKO11E_PutMark_800D7C10( ZakoWork *work, int mark )
 {
     MATRIX *mat;
-    if ( !( work->control.map->index & GM_PlayerMap_800ABA0C ) )
+    if ( !( work->control.map->index & GM_PlayerMap ) )
     {
         return;
     }
@@ -1738,7 +1728,7 @@ void ZAKO11E_PutBreath_800D7D44( ZakoWork *work, int arg1 )
         return;
     }
 
-    if ( !( work->control.map->index & GM_PlayerMap_800ABA0C ) )
+    if ( !( work->control.map->index & GM_PlayerMap ) )
     {
         return;
     }
@@ -1783,7 +1773,7 @@ void s11e_zk11ecom_800D7E8C( ZakoWork* work )
 {
     if ( work->vision.field_B92 == 2 )
     {
-        NewLSight_800D1D2C( &GM_PlayerPosition_800ABA10, &work->control.mov, 0x00008F );
+        NewLSight_800D1D2C( &GM_PlayerPosition, &work->control.mov, 0x00008F );
     }
 }
 

@@ -43,9 +43,6 @@ typedef struct _ShuterWork
 
 unsigned short shuter_msgs_800C3738[] = {0x418B, 0x3A02};
 
-extern int GM_CurrentMap;
-extern int GM_AlertMode;
-
 DG_OBJS * s00a_unknown3_800DC7BC(int model, LIT *lit);
 void      Takabe_FreeObjs_800DC820(DG_OBJS *objs);
 
@@ -57,7 +54,7 @@ void Shuter_800DFDD0(ShuterWork *work);
 void Shuter_800DFE24(ShuterWork *work);
 void Shuter_800DFF34(OBJECT *, int, int);
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void ShuterAct_800DF484(ShuterWork *work)
 {
@@ -312,14 +309,14 @@ int ShuterGetResources_800DF7F4(ShuterWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT *NewShuter_800DFB44(int name, int where, int argc, char **argv)
+void *NewShuter_800DFB44(int name, int where, int argc, char **argv)
 {
     ShuterWork *work;
 
-    work = (ShuterWork *)GV_NewActor(EXEC_LEVEL, sizeof(ShuterWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(ShuterWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)ShuterAct_800DF484, (GV_ACTFUNC)ShuterDie_800DF774, "shuter.c");
+        GV_SetNamedActor(&work->actor, ShuterAct_800DF484, ShuterDie_800DF774, "shuter.c");
 
         if (ShuterGetResources_800DF7F4(work, name, where) < 0)
         {
@@ -328,7 +325,7 @@ GV_ACT *NewShuter_800DFB44(int name, int where, int argc, char **argv)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
 void Shuter_800DFBD8(ShuterWork *work)

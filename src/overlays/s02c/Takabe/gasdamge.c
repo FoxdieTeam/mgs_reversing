@@ -2,6 +2,7 @@
 
 #include "common.h"
 #include "libgv/libgv.h"
+#include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "Takabe/thing.h"
 
@@ -18,9 +19,9 @@ typedef struct GasDamgeWork {
     int    field_40;
 } GasDamgeWork;
 
-int SECTION("overlay.bss") s02c_dword_800E3F40;
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-extern short GM_O2;
+int SECTION("overlay.bss") s02c_dword_800E3F40;
 
 void GasDamageAct_800E1348(GasDamgeWork *work)
 {
@@ -91,14 +92,14 @@ int GasDamageGetResources_800E1488(GasDamgeWork *work, int arg0, int arg1)
     return 0;
 }
 
-GV_ACT *NewGasDamage_800E14E8(int name, int where, int argc, char **argv)
+void *NewGasDamage_800E14E8(int name, int where, int argc, char **argv)
 {
     GasDamgeWork *work;
 
-    work = (GasDamgeWork *)GV_NewActor(5, sizeof(GasDamgeWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(GasDamgeWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)GasDamageAct_800E1348, (GV_ACTFUNC)GasDamageDie_800E147C, "gasdamge.c");
+        GV_SetNamedActor(&work->actor, GasDamageAct_800E1348, GasDamageDie_800E147C, "gasdamge.c");
         if (GasDamageGetResources_800E1488(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);
@@ -107,5 +108,5 @@ GV_ACT *NewGasDamage_800E14E8(int name, int where, int argc, char **argv)
         work->field_20 = where;
         work->field_24 = name;
     }
-    return &work->actor;
+    return (void *)work;
 }

@@ -19,9 +19,7 @@ typedef struct _Work
     short   f156;
 } Work;
 
-extern int GM_CurrentMap;
-
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void asioto_800C3278(Work *work)
 {
@@ -189,14 +187,14 @@ int WallGetResources_800C34F0(work, pos, dir, def_model, map)
     return 0;
 }
 
-GV_ACT *NewWall_800C3688(SVECTOR *pos, SVECTOR *dir)
+void *NewWall_800C3688(SVECTOR *pos, SVECTOR *dir)
 {
     Work *work;
 
-    work = (Work *)GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, NULL, (GV_ACTFUNC)WallDie_800C34B0, "wall.c");
+        GV_SetNamedActor(&work->actor, NULL, WallDie_800C34B0, "wall.c");
 
         // Why? WallGetResources_800C34F0 is missing two last arguments, leading to nasty UB
         if (WallGetResources_800C34F0(work, pos, dir) < 0)
@@ -206,10 +204,10 @@ GV_ACT *NewWall_800C3688(SVECTOR *pos, SVECTOR *dir)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewWall_800C3718(int name, int where, int argc, char **argv)
+void *NewWall_800C3718(int name, int where, int argc, char **argv)
 {
     SVECTOR pos;
     SVECTOR dir;
@@ -217,10 +215,10 @@ GV_ACT *NewWall_800C3718(int name, int where, int argc, char **argv)
     int     model;
     char   *param;
 
-    work = (Work *)GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)WallAct_800C345C, (GV_ACTFUNC)WallDie_800C34B0, "wall.c");
+        GV_SetNamedActor(&work->actor, WallAct_800C345C, WallDie_800C34B0, "wall.c");
 
         param = GCL_GetOption('t');
         if (param != 0)
@@ -276,5 +274,5 @@ GV_ACT *NewWall_800C3718(int name, int where, int argc, char **argv)
         work->hash = name;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

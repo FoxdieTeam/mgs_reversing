@@ -2,6 +2,7 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
+#include "Game/game.h"
 
 typedef struct _BloodBlWork
 {
@@ -16,9 +17,7 @@ typedef struct _BloodBlWork
     int      map;
 } BloodBlWork;
 
-extern int GM_CurrentMap;
-
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 int BloodBlGetSvecs_800CD3C0(char *opt, SVECTOR *out)
 {
@@ -200,15 +199,14 @@ int BloodBlGetResources_800CD520(BloodBlWork *work, int map)
     return 0;
 }
 
-GV_ACT *NewBloodBl_800CD7CC(int name, int where)
+void *NewBloodBl_800CD7CC(int name, int where)
 {
     BloodBlWork *work;
 
-    work = (BloodBlWork *)GV_NewActor(EXEC_LEVEL, sizeof(BloodBlWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(BloodBlWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BloodBlAct_800CD450,
-                         (GV_ACTFUNC)BloodBlDie_800CD414, "blood_bl.c");
+        GV_SetNamedActor(&work->actor, BloodBlAct_800CD450, BloodBlDie_800CD414, "blood_bl.c");
 
         if (BloodBlGetResources_800CD520(work, where) < 0)
         {
@@ -217,5 +215,5 @@ GV_ACT *NewBloodBl_800CD7CC(int name, int where)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

@@ -1970,7 +1970,7 @@
 8008C170 236 mts_get_pad
 8008C25C 200 mts_read_pad
 8008C324 92 mts_PadRead
-8008C380 60 mts_get_pad_receive_buffer
+8008C380 60 mts_get_controller_data
 8008C3BC 76 mts_control_vibration
 8008C408 76 mts_set_pad_vibration
 8008C454 104 mts_set_pad_vibration2
