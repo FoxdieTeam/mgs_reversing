@@ -17,13 +17,10 @@ typedef struct _FlrSpaWork
     int     reload;
 } FlrSpaWork;
 
-extern int     GM_CurrentMap;
-extern SVECTOR GM_PlayerPosition_800ABA10;
+void *NewSpark2_800CA714(MATRIX *world);
+void *NewPlasmaH_800D1B2C(SVECTOR *pos1, SVECTOR *pos2, int time);
 
-void NewSpark2_800CA714(MATRIX *world);
-GV_ACT *NewPlasmaH_800D1B2C(SVECTOR *pos1, SVECTOR *pos2, int time);
-
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 int FlrSpaGetSvecs_800D09A4(char *opt, SVECTOR *out)
 {
@@ -88,7 +85,7 @@ void FlrSpaMain_800D0A90(FlrSpaWork *work)
         work->pos1.vy = work->bounds[0].vy;
         work->pos1.vz = LERP(work->bounds[0].vz, work->bounds[1].vz, t);
 
-        if (GM_PlayerPosition_800ABA10.vz > -6000)
+        if (GM_PlayerPosition.vz > -6000)
         {
             GM_SeSet(&work->pos1, 179);
         }
@@ -139,7 +136,7 @@ void FlrSpaMain_800D0A90(FlrSpaWork *work)
         work->pos2 = pos2;
         NewPlasmaH_800D1B2C(&work->pos1, &work->pos2, work->timer);
 
-        if (GM_PlayerPosition_800ABA10.vz > -6000)
+        if (GM_PlayerPosition.vz > -6000)
         {
             GM_SeSet(&work->pos1, 179);
 
@@ -235,14 +232,14 @@ int FlrSpaGetResources_800D0EC8(FlrSpaWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT *NewFlrSpa_800D0F78(int name, int where)
+void *NewFlrSpa_800D0F78(int name, int where)
 {
     FlrSpaWork *work;
 
-    work = (FlrSpaWork *)GV_NewActor(EXEC_LEVEL, sizeof(FlrSpaWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(FlrSpaWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)FlrSpaAct_800D0E24, (GV_ACTFUNC)FlrSpaDie_800D0EC0, "flr_spa.c");
+        GV_SetNamedActor(&work->actor, FlrSpaAct_800D0E24, FlrSpaDie_800D0EC0, "flr_spa.c");
 
         if (FlrSpaGetResources_800D0EC8(work, name, where) < 0)
         {
@@ -250,5 +247,5 @@ GV_ACT *NewFlrSpa_800D0F78(int name, int where)
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

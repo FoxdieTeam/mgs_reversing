@@ -12,6 +12,8 @@ typedef struct _RippleWork
     int      timer;   //0x148
 } RippleWork;
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
+
 void s00a_ripple_800D7AC0( SVECTOR* pos, int n_vec, int scale )
 {
     SVECTOR wave_pos[4];
@@ -132,13 +134,13 @@ int RippleGetResources_800D7E18( RippleWork *work, MATRIX* mat, int scale )
     return 0;
 }
 
-void* NewRipple_800D7F30( MATRIX* mat, int scale, int argc, char **argv )
+void *NewRipple_800D7F30( MATRIX* mat, int scale, int argc, char **argv )
 {
     RippleWork *work ;
 
-    work = (RippleWork *)GV_NewActor( 5, sizeof( RippleWork ) ) ;
+    work = GV_NewActor( EXEC_LEVEL, sizeof( RippleWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor( &( work->actor ), ( GV_ACTFUNC )RippleAct_800D7D2C, ( GV_ACTFUNC )RippleDie_800D7DDC, "ripple.c" );
+        GV_SetNamedActor( &( work->actor ), RippleAct_800D7D2C, RippleDie_800D7DDC, "ripple.c" );
         if ( RippleGetResources_800D7E18( work, mat, scale ) < 0 )
         {
             GV_DestroyActor( &( work->actor ) );

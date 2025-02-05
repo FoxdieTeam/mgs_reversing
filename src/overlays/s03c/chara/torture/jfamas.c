@@ -17,7 +17,7 @@ typedef struct JFamasWork
     int            side;
 } JFamasWork;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 SVECTOR s03c_dword_800C33AC = {5, 65036, 80};
 
@@ -70,15 +70,14 @@ int JFamasGetResources_800CAF40(JFamasWork *work, OBJECT *parent, int num_parent
     return 0;
 }
 
-GV_ACT *NewJFamas_800CAFAC(CONTROL *control, OBJECT *parent, int num_parent, int *trigger)
+void *NewJFamas_800CAFAC(CONTROL *control, OBJECT *parent, int num_parent, int *trigger)
 {
     JFamasWork *work;
 
-    work = (JFamasWork *)GV_NewActor(EXEC_LEVEL, sizeof(JFamasWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(JFamasWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)JFamasAct_800CAE30,
-                         (GV_ACTFUNC)JFamasDie_800CAF20, "jfamas.c");
+        GV_SetNamedActor(&work->actor, JFamasAct_800CAE30, JFamasDie_800CAF20, "jfamas.c");
         if (JFamasGetResources_800CAF40(work, parent, num_parent) < 0)
         {
             GV_DestroyActor(&work->actor);
@@ -91,5 +90,5 @@ GV_ACT *NewJFamas_800CAFAC(CONTROL *control, OBJECT *parent, int num_parent, int
         work->side = 2;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

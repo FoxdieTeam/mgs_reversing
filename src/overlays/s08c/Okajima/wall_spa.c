@@ -13,13 +13,11 @@ typedef struct _WallSpaWork
     int     enable;
 } WallSpaWork;
 
-extern int GM_CurrentMap;
+void NewSpark2_800CA714(MATRIX *);
+void *NewPlasma_800CD30C(SVECTOR *arg0, SVECTOR *arg1, int arg2, int arg3);
+void AN_Smoke_800CE164(SVECTOR *pos, SVECTOR *speed, int index, int script);
 
-void    NewSpark2_800CA714(MATRIX *);
-GV_ACT *NewPlasma_800CD30C(SVECTOR *arg0, SVECTOR *arg1, int arg2, int arg3);
-void    AN_Smoke_800CE164(SVECTOR *pos, SVECTOR *speed, int index, int script);
-
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 int WallSpaGetSvecs_800CB080(char *opt, SVECTOR *out)
 {
@@ -182,14 +180,14 @@ int WallSpaGetResources_800CB428(WallSpaWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT *NewWallSpa_800CB4A4(int name, int where)
+void *NewWallSpa_800CB4A4(int name, int where)
 {
     WallSpaWork *work;
 
-    work = (WallSpaWork *)GV_NewActor(EXEC_LEVEL, sizeof(WallSpaWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(WallSpaWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)WallSpaAct_800CB300, (GV_ACTFUNC)WallSpaDie_800CB420, "wall_spa.c");
+        GV_SetNamedActor(&work->actor, WallSpaAct_800CB300, WallSpaDie_800CB420, "wall_spa.c");
 
         if (WallSpaGetResources_800CB428(work, name, where) < 0)
         {
@@ -198,5 +196,5 @@ GV_ACT *NewWallSpa_800CB4A4(int name, int where)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

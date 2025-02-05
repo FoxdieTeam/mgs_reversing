@@ -10,6 +10,8 @@ typedef struct GlightWork
     int      visible;
 } GlightWork;
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
+
 RECT glight_rect = {40, 40, 80, 80};
 SVECTOR glight_svec = {0, 65136, 60, 0};
 
@@ -110,15 +112,14 @@ int GunLightGetResources_800D39D0(GlightWork *work, MATRIX *world, int **pvisibl
     return 0;
 }
 
-GV_ACT *NewGunLight_800D3AD4(MATRIX *world, int **pvisible)
+void *NewGunLight_800D3AD4(MATRIX *world, int **pvisible)
 {
     GlightWork *work;
 
-    work = (GlightWork *)GV_NewActor(5, sizeof(GlightWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(GlightWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)GunLightAct_800D387C,
-                         (GV_ACTFUNC)GunLightDie_800D3910, "glight.c");
+        GV_SetNamedActor(&work->actor, GunLightAct_800D387C, GunLightDie_800D3910, "glight.c");
 
         if (GunLightGetResources_800D39D0(work, world, pvisible) < 0)
         {
@@ -127,5 +128,5 @@ GV_ACT *NewGunLight_800D3AD4(MATRIX *world, int **pvisible)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

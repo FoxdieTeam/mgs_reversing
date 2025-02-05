@@ -4,6 +4,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "Game/game.h"
 #include "Takabe/thing.h"
 
 typedef struct RipplesWork
@@ -18,9 +19,9 @@ typedef struct RipplesWork
     short        field_4E;
 } RipplesWork;
 
-void *NewRipple_800D7F30( MATRIX *, int );
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-extern int GM_CurrentMap;
+void *NewRipple_800D7F30( MATRIX *, int );
 
 STATIC void RipplesAct_800D85A0(RipplesWork *work)
 {
@@ -53,14 +54,14 @@ STATIC int RipplesGetResources_800D8634(RipplesWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT *NewRipples_800D872C(int name, int where, int argc, char **argv)
+void *NewRipples_800D872C(int name, int where, int argc, char **argv)
 {
     RipplesWork *work;
 
-    work = (RipplesWork *)GV_NewActor(5, sizeof(RipplesWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(RipplesWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)RipplesAct_800D85A0, (GV_ACTFUNC)RipplesDie_800D862C, "ripples.c");
+        GV_SetNamedActor(&work->actor, RipplesAct_800D85A0, RipplesDie_800D862C, "ripples.c");
         if (RipplesGetResources_800D8634(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);
@@ -69,5 +70,5 @@ GV_ACT *NewRipples_800D872C(int name, int where, int argc, char **argv)
         work->field_20 = where;
         work->field_24 = name;
     }
-    return &work->actor;
+    return (void *)work;
 }

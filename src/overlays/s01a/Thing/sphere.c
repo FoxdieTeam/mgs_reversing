@@ -4,6 +4,7 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
+#include "Game/game.h"
 
 typedef struct _SphereWork
 {
@@ -14,9 +15,6 @@ typedef struct _SphereWork
     short    f68;
     char     pad[0x2];
 } SphereWork;
-
-extern int GM_CurrentMap;
-extern int GV_Clock;
 
 short SECTION("overlay.bss") sphere_image_width_800E4B28;
 short SECTION("overlay.bss") sphere_image_height_800E4B2A;
@@ -29,7 +27,7 @@ short SECTION("overlay.bss") sphere_tile_height_800E4B36;
 short SECTION("overlay.bss") sphere_elevation_800E4B38;
 short SECTION("overlay.bss") sphere_word_800E4B3A;
 
-#define EXEC_LEVEL 7
+#define EXEC_LEVEL GV_ACTOR_AFTER2
 
 void Sphere_800C60E0(MATRIX *eye, SVECTOR *out)
 {
@@ -290,14 +288,14 @@ int SphereGetResources_800C6694(SphereWork *work, int map)
     return 0;
 }
 
-GV_ACT *NewSphere_800C69C0(int name, int where, int argc, char **argv)
+void *NewSphere_800C69C0(int name, int where, int argc, char **argv)
 {
     SphereWork *work;
 
-    work = (SphereWork *)GV_NewActor(EXEC_LEVEL, sizeof(SphereWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(SphereWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)SphereAct_800C61F0, (GV_ACTFUNC)SphereDie_800C6658, "sphere.c");
+        GV_SetNamedActor(&work->actor, SphereAct_800C61F0, SphereDie_800C6658, "sphere.c");
 
         if (SphereGetResources_800C6694(work, where) < 0)
         {
@@ -308,5 +306,5 @@ GV_ACT *NewSphere_800C69C0(int name, int where, int argc, char **argv)
         sphere_word_800E4B3A = 0;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

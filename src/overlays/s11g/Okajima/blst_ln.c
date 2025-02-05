@@ -1,4 +1,5 @@
 #include "libgv/libgv.h"
+#include "Game/game.h"
 #include "Bullet/blast.h"
 
 typedef struct BlastLnWork
@@ -14,9 +15,7 @@ typedef struct BlastLnWork
     int field_44;
 } BlastLnWork;
 
-#define EXEC_LEVEL 4
-
-extern int GM_CurrentMap;
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 void s11g_blst_ln_800CD7C8(BlastLnWork *work)
 {
@@ -79,15 +78,15 @@ int s11g_blst_ln_800CDA30(BlastLnWork *work, int arg1, int arg2, int arg3, SVECT
     return 0;
 }
 
-GV_ACT *s11g_blst_ln_800CDAA0(int arg0, int arg1, int arg2, SVECTOR *arg3, SVECTOR *arg4)
+void *s11g_blst_ln_800CDAA0(int arg0, int arg1, int arg2, SVECTOR *arg3, SVECTOR *arg4)
 {
     BlastLnWork *work;
 
-    work = (BlastLnWork *) GV_NewActor(EXEC_LEVEL, sizeof(BlastLnWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(BlastLnWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)s11g_blst_ln_800CD7C8, (GV_ACTFUNC)s11g_blst_ln_800CDA28, "blst_ln.c");
+        GV_SetNamedActor(&work->actor, s11g_blst_ln_800CD7C8, s11g_blst_ln_800CDA28, "blst_ln.c");
         s11g_blst_ln_800CDA30(work, arg0, arg1, arg2, arg3, arg4);
     }
-    return &work->actor;
+    return (void *)work;
 }

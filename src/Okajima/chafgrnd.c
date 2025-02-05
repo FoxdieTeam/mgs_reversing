@@ -15,13 +15,10 @@
 #include "SD/g_sound.h"
 #include "strcode.h"
 
-extern int              GM_PlayerMap_800ABA0C;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 extern int              dword_800BDF98;
 extern int              dword_800BDF9C;
 extern int              dword_800BDFA0;
-extern int              GM_CurrentMap;
-extern int              GV_Clock;
 
 /*---------------------------------------------------------------------------*/
 
@@ -44,7 +41,7 @@ typedef struct _ChaffGrdWork
 
 // STATIC_ASSERT(sizeof(ChaffGrdWork) == 0xAA0, "sizeof(ChaffGrdWork) is wrong!");
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 /*---------------------------------------------------------------------------*/
 
@@ -132,9 +129,9 @@ STATIC void chafgrnd_Act(ChaffGrdWork* work)
     }
 
     GM_GameStatus |= STATE_CHAFF;
-    GM_SetCurrentMap(GM_PlayerMap_800ABA0C);
+    GM_SetCurrentMap(GM_PlayerMap);
 
-    work->field_a34->group_id = GM_PlayerMap_800ABA0C;
+    work->field_a34->group_id = GM_PlayerMap;
 
     if (dword_800BDF98 == 1)
     {
@@ -327,7 +324,7 @@ STATIC void chafgrnd_Die(ChaffGrdWork *work)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewChaffGrd(MATRIX *world)
+void *NewChaffGrd(MATRIX *world)
 {
     SVECTOR vec;
     ChaffGrdWork *work;
@@ -348,13 +345,12 @@ GV_ACT *NewChaffGrd(MATRIX *world)
         return NULL;
     }
 
-    work = (ChaffGrdWork *)GV_NewActor(EXEC_LEVEL, sizeof(ChaffGrdWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(ChaffGrdWork));
 
     if (work)
     {
         dword_800BDF98 = 0;
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)&chafgrnd_Act,
-                         (GV_ACTFUNC)&chafgrnd_Die, "chafgrnd.c");
+        GV_SetNamedActor(&work->actor, &chafgrnd_Act, &chafgrnd_Die, "chafgrnd.c");
 
         work->field_a3c = 0;
         if (chafgrnd_GetResources(work, world) < 0)
@@ -366,5 +362,5 @@ GV_ACT *NewChaffGrd(MATRIX *world)
         GM_SetNoise(100, 32, &work->field_2c);
     }
 
-    return &work->actor;
+    return (void *)work;
 }

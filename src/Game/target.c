@@ -59,8 +59,6 @@ extern TARGET gTargets_800B64E0[TARGET_ARRAY_LENGTH];
 STATIC int SECTION(".sbss") gTargets_lastSlotUsed_800ABA68;
 STATIC int SECTION(".sbss") gTargets_orphanedSlots_800ABA6C;
 
-extern int     GM_PlayerMap_800ABA0C;
-
 static inline int BoundContains(int asize, int bsize, int apos, int bpos)
 {
     int size;
@@ -71,7 +69,7 @@ static inline int BoundContains(int asize, int bsize, int apos, int bpos)
 
 static inline int MapContains(int a, int b)
 {
-    return (GM_PlayerMap_800ABA0C & a) && (GM_PlayerMap_800ABA0C & b);
+    return (GM_PlayerMap & a) && (GM_PlayerMap & b);
 }
 
 // Checks if two targets intersect.

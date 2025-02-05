@@ -27,14 +27,12 @@ typedef struct _GlassWork
     int      proc;
 } GlassWork;
 
-extern int     GM_CurrentMap;
-
 void s16b_800C4874(int n_segs, HZD_SEG *segs, int n_flrs, HZD_FLR *flrs);
 void s16b_800C49AC(HZD_SEG *seg);
 
-GV_ACT *NewGsplash_800D4000(MATRIX *pos, SVECTOR *arg1, short arg2, short n_prims);
+void *NewGsplash_800D4000(MATRIX *pos, SVECTOR *arg1, short arg2, short n_prims);
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 static inline void GlassInitPack(POLY_FT4 *poly, DG_TEX *tex, int size, int which)
 {
@@ -322,15 +320,14 @@ int GlassGetResources_800D335C(GlassWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT *NewGlass_800D37A4(int name, int where)
+void *NewGlass_800D37A4(int name, int where)
 {
     GlassWork *work;
 
-    work = (GlassWork *)GV_NewActor(EXEC_LEVEL, sizeof(GlassWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(GlassWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)GlassAct_800D302C,
-                         (GV_ACTFUNC)GlassDie_800D3270, "glass.c");
+        GV_SetNamedActor(&work->actor, GlassAct_800D302C, GlassDie_800D3270, "glass.c");
 
         if (GlassGetResources_800D335C(work, name, where) < 0)
         {
@@ -342,5 +339,5 @@ GV_ACT *NewGlass_800D37A4(int name, int where)
         work->map = where;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

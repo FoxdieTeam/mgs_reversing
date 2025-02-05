@@ -57,7 +57,7 @@ typedef struct RevolverWork
     short          field_9B6;
 } RevolverWork;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 #define BODY_FLAG  ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE)
 
 extern short s03b_dword_800C32E4[];
@@ -82,7 +82,7 @@ const char s03b_aV_800D2F58[] = "v0";
 
 extern GV_PAD  GV_PadData_800B05C0[4];
 
-GV_ACT *NewFadeIo_800C4224(int name, int where);
+void *NewFadeIo_800C4224(int name, int where);
 
 // Those functions are not actually in boxall, info
 // those are some helper functions (not sure if part of revolver.c)
@@ -1501,23 +1501,22 @@ int RevolverGetResources_800C8FD4(RevolverWork *work, int arg1, int arg2)
     return 0;
 }
 
-GV_ACT *NewRevolver_800C929C(int arg0, int arg1)
+void *NewRevolver_800C929C(int arg0, int arg1)
 {
     RevolverWork *work;
 
-    work = (RevolverWork *)GV_NewActor(EXEC_LEVEL, sizeof(RevolverWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(RevolverWork));
     if (work == NULL)
     {
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)RevolverAct_800C8CE4, (GV_ACTFUNC)RevolverDie_800C8D8C,
-                     "revolver.c");
+    GV_SetNamedActor(&work->actor, RevolverAct_800C8CE4, RevolverDie_800C8D8C, "revolver.c");
     if (RevolverGetResources_800C8FD4(work, arg0, arg1) < 0)
     {
         GV_DestroyActor(&work->actor);
         return NULL;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

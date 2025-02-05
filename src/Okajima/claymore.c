@@ -15,8 +15,6 @@
 #include "spark.h"
 
 extern MAP *claymore_MAP_800bdf08;
-extern int GM_CurrentMap;
-extern int GM_ClaymoreMap_800AB9DC;
 
 /*---------------------------------------------------------------------------*/
 
@@ -61,7 +59,7 @@ typedef struct ClaymoreWork
     int       field_128;
 } ClaymoreWork;
 
-#define EXEC_LEVEL 6
+#define EXEC_LEVEL GV_ACTOR_AFTER
 
 /*---------------------------------------------------------------------------*/
 
@@ -372,17 +370,17 @@ STATIC int claymore_GetResources(ClaymoreWork *work, SVECTOR *new_field_24, SVEC
 
 STATIC const SVECTOR stru_80012EEC = {200, 200, 200, 0};
 
-GV_ACT *NewClaymore(SVECTOR *noise_position, SVECTOR *new_field_2C, int pCnt, int param_4)
+void *NewClaymore(SVECTOR *noise_position, SVECTOR *new_field_2C, int pCnt, int param_4)
 {
     int             i;
     ClaymoreWork   *work;
-    GV_ACT         *null_actor;
+    ClaymoreWork   *dummy;
     SVECTOR         new_field_24;
     SVECTOR         vec2;
     int             current_map;
 
     work = NULL;
-    null_actor = NULL;
+    dummy = NULL;
 
     new_field_24 = stru_80012EEC;
 
@@ -407,13 +405,12 @@ GV_ACT *NewClaymore(SVECTOR *noise_position, SVECTOR *new_field_2C, int pCnt, in
 
     for (i = 0; i < pCnt; i++)
     {
-        work = (ClaymoreWork *)GV_NewActor(EXEC_LEVEL, sizeof(ClaymoreWork));
+        work = GV_NewActor(EXEC_LEVEL, sizeof(ClaymoreWork));
         if (work != NULL)
         {
-            GV_SetNamedActor(&work->actor, (GV_ACTFUNC)claymore_Act,
-                             (GV_ACTFUNC)claymore_Die, "claymore.c");
+            GV_SetNamedActor(&work->actor, claymore_Act, claymore_Die, "claymore.c");
             current_map = GM_CurrentMap;
-            GM_ClaymoreMap_800AB9DC = current_map;
+            GM_ClaymoreMap = current_map;
             if (claymore_GetResources(work, &new_field_24, new_field_2C) < 0)
             {
                 GV_DestroyActor(&work->actor);
@@ -424,9 +421,9 @@ GV_ACT *NewClaymore(SVECTOR *noise_position, SVECTOR *new_field_2C, int pCnt, in
         }
         else
         {
-            return null_actor;
+            return (void *)dummy;
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

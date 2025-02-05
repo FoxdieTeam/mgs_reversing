@@ -7,7 +7,6 @@
 #include "Game/linkvarbuf.h"
 
 extern GM_Camera GM_Camera_800B77E8;
-extern int       GM_PlayerStatus;
 extern int       dword_8009F46C;
 
 /*---------------------------------------------------------------------------*/
@@ -21,7 +20,7 @@ typedef struct GoggleManagerWork
     GV_ACT *sight;
 } GoggleManagerWork;
 
-#define EXEC_LEVEL 7
+#define EXEC_LEVEL GV_ACTOR_AFTER2
 
 /*---------------------------------------------------------------------------*/
 
@@ -69,19 +68,18 @@ STATIC void GoggleManagerDie(GoggleManagerWork *work)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewGoggleManager(int type)
+void *NewGoggleManager(int type)
 {
     GoggleManagerWork *work;
 
-    work = (GoggleManagerWork *)GV_NewActor(EXEC_LEVEL, sizeof(GoggleManagerWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(GoggleManagerWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)GoggleManagerAct,
-                         (GV_ACTFUNC)GoggleManagerDie, "gglmng.c");
+        GV_SetNamedActor(&work->actor, GoggleManagerAct, GoggleManagerDie, "gglmng.c");
         work->type = type;
         work->time = 0;
         work->sight = NULL;
     }
 
-    return (GV_ACT *)work;
+    return (void *)work;
 }

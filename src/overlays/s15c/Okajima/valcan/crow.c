@@ -49,7 +49,7 @@ typedef struct _CrowWork
     CrowEntry entries[0];
 } CrowWork;
 
-#define EXEC_LEVEL 6
+#define EXEC_LEVEL GV_ACTOR_AFTER
 
 void Crow_800DD7D8(SVECTOR *from, SVECTOR *to, SVECTOR *out)
 {
@@ -712,7 +712,7 @@ void CrowDie_800DEC78(CrowWork *work)
     }
 }
 
-GV_ACT *NewCrow_800DED08(int name, int where)
+void *NewCrow_800DED08(int name, int where)
 {
     CrowWork *work;
     char     *opt;
@@ -732,14 +732,13 @@ GV_ACT *NewCrow_800DED08(int name, int where)
         n_entries = 1;
     }
 
-    work = (CrowWork *)GV_NewActor(EXEC_LEVEL, sizeof(CrowWork) + sizeof(CrowEntry) * n_entries);
+    work = GV_NewActor(EXEC_LEVEL, sizeof(CrowWork) + sizeof(CrowEntry) * n_entries);
     if (work != NULL)
     {
         work->n_entries = n_entries;
         work->f28 = n_entries;
 
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)CrowAct_800DDD08,
-                         (GV_ACTFUNC)CrowDie_800DEC78, "crow.c");
+        GV_SetNamedActor(&work->actor, CrowAct_800DDD08, CrowDie_800DEC78, "crow.c");
 
         if (Crow_800DE93C(work, name, where) < 0 || Crow_800DE890(work, name, where) < 0)
         {
@@ -751,5 +750,5 @@ GV_ACT *NewCrow_800DED08(int name, int where)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

@@ -1,10 +1,11 @@
+#define __HZDD_SBSS__
 #include "libhzd.h"
 
 #include <stdio.h>
 #include "libgv/libgv.h"
 
 int SECTION(".sbss") dword_800AB9A4; // unused
-int SECTION(".sbss") HZD_CurrentGroup_800AB9A8;
+int SECTION(".sbss") HZD_CurrentGroup;
 int SECTION(".sbss") dword_800AB9AC; // unused
 
 //------------------------------------------------------------------------------

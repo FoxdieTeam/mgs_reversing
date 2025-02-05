@@ -16,9 +16,8 @@ typedef struct FurnaceWork
     int     proc_id;
 } FurnaceWork;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-extern CONTROL *GM_PlayerControl_800AB9F4;
 extern CONTROL *GM_WhereList_800B56D0[96];
 extern int      gControlCount_800AB9B4;
 extern int      tenage_ctrls_count_800BDD70;
@@ -27,8 +26,8 @@ extern int      dword_8009F49C;
 extern int      amissile_alive_8009F490;
 extern SVECTOR  svector_8009F494;
 
-GV_ACT *NewMeltDie_800E0F5C(SVECTOR *arg1, int arg2);
-GV_ACT *NewWaterView_800DBE04(int name, int where, SVECTOR *arg2, CVECTOR *color);
+void *NewMeltDie_800E0F5C(SVECTOR *arg1, int arg2);
+void *NewWaterView_800DBE04(int name, int where, SVECTOR *arg2, CVECTOR *color);
 
 // Duplicate of WaterArea2BoundInCheck_800CEA48
 int FurnaceBoundInCheck_800E08AC(SVECTOR *bound, SVECTOR *check)
@@ -79,10 +78,10 @@ void FurnaceAct_800E0974(FurnaceWork *work)
     int       inbounds;
     int       i;
 
-    inbounds = FurnaceBoundInCheck_800E08AC(work->bound, &GM_PlayerControl_800AB9F4->mov);
+    inbounds = FurnaceBoundInCheck_800E08AC(work->bound, &GM_PlayerControl->mov);
     if (GM_GameOverTimer == 0 && inbounds)
     {
-        svec = GM_PlayerControl_800AB9F4->mov;
+        svec = GM_PlayerControl->mov;
         svec.vy = work->bound[1].vy;
 
         NewMeltDie_800E0F5C(&svec, 60);
@@ -162,15 +161,15 @@ int FurnaceGetResources_800E0C40(FurnaceWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT *NewFurnace_800E0D2C(int name, int where, int argc, char **argv)
+void *NewFurnace_800E0D2C(int name, int where, int argc, char **argv)
 {
     FurnaceWork *work;
 
-    work = (FurnaceWork *)GV_NewActor(EXEC_LEVEL, sizeof(FurnaceWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(FurnaceWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)FurnaceAct_800E0974,
-                         (GV_ACTFUNC)FurnaceDie_800E0C38, "furnace.c");
+        GV_SetNamedActor(&work->actor, FurnaceAct_800E0974,
+                         FurnaceDie_800E0C38, "furnace.c");
         if (FurnaceGetResources_800E0C40(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);
@@ -179,5 +178,5 @@ GV_ACT *NewFurnace_800E0D2C(int name, int where, int argc, char **argv)
         work->where = where;
         work->name = name;
     }
-    return &work->actor;
+    return (void *)work;
 }

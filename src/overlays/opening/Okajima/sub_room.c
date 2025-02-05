@@ -1,6 +1,11 @@
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "Game/game.h"
 
 typedef struct _SubRoomWork
 {
@@ -22,12 +27,9 @@ typedef struct _SubRoomWork
     GV_ACT  *txtscn;
 } SubRoomWork;
 
-extern int     GV_Clock;
-extern int     GM_CurrentMap;
+void *NewOpTxtScn_800CD29C(void);
 
-GV_ACT *NewOpTxtScn_800CD29C(void);
-
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 void SubRoomShadePacks_800C729C(POLY_FT4 *packs, int n_packs, DG_TEX *tex, SVECTOR *color)
 {
@@ -555,14 +557,14 @@ int SubRoomGetResources_800C7B94(SubRoomWork *work)
     return 0;
 }
 
-GV_ACT *NewSubRoom_800C815C(void)
+void *NewSubRoom_800C815C(void)
 {
     SubRoomWork *work;
 
-    work = (SubRoomWork *)GV_NewActor(EXEC_LEVEL, sizeof(SubRoomWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(SubRoomWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)SubRoomAct_800C7750, (GV_ACTFUNC)SubRoomDie_800C77D0, "sub_room.c");
+        GV_SetNamedActor(&work->actor, SubRoomAct_800C7750, SubRoomDie_800C77D0, "sub_room.c");
 
         if (SubRoomGetResources_800C7B94(work) < 0)
         {
@@ -571,5 +573,5 @@ GV_ACT *NewSubRoom_800C815C(void)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

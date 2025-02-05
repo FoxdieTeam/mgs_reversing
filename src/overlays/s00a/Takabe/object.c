@@ -1,9 +1,8 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "Game/game.h"
 #include "Game/map.h"
-
-extern int GM_CurrentMap;
 
 DG_OBJS *s00a_unknown3_800DC724(int model, LIT *lit, int flag)
 {

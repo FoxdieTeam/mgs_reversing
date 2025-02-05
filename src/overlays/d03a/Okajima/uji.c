@@ -1,9 +1,14 @@
 #include "uji.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "libgv/libgv.h"
+#include "Game/game.h"
 
 typedef struct _UjiWork
 {
@@ -31,9 +36,7 @@ RECT uji_rect = {100, 100, 200, 200};
 const char aUji[] = "uji";
 const char aUjiC[] = "uji.c";
 
-extern int     GM_CurrentMap;
-
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 int UjiGetSvecs_800C39E8(char *opt, SVECTOR *svec)
 {
@@ -378,14 +381,14 @@ int UjiGetResources_800C3FC8(UjiWork *work, int map)
     return 0;
 }
 
-GV_ACT *NewUji_800C42F8(int name, int where, int argc, char **argv)
+void *NewUji_800C42F8(int name, int where, int argc, char **argv)
 {
     UjiWork *work;
 
-    work = (UjiWork *)GV_NewActor(EXEC_LEVEL, sizeof(UjiWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(UjiWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)UjiAct_800C3B74, (GV_ACTFUNC)UjiDie_800C3B38, aUjiC);
+        GV_SetNamedActor(&work->actor, UjiAct_800C3B74, UjiDie_800C3B38, aUjiC);
 
         if (UjiGetResources_800C3FC8(work, where) < 0)
         {
@@ -394,5 +397,5 @@ GV_ACT *NewUji_800C42F8(int name, int where, int argc, char **argv)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

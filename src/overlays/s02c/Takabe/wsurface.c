@@ -4,6 +4,7 @@
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
+#include "Game/game.h"
 #include "Takabe/thing.h"
 
 typedef struct _WsurfaceWork
@@ -27,10 +28,7 @@ typedef struct _WsurfaceWork
     char     pad2[0x2];
 } WsurfaceWork;
 
-extern int GV_Clock;
-extern int GM_CurrentMap;
-
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void Wsurface_800DAC14(POLY_GT4 *poly, DG_TEX *tex, WsurfaceWork *work)
 {
@@ -448,15 +446,14 @@ int WsurfaceGetResources_800DB684(WsurfaceWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT *NewWsurface_800DB9BC(int name, int where, int argc, char **argv)
+void *NewWsurface_800DB9BC(int name, int where, int argc, char **argv)
 {
     WsurfaceWork *work;
 
-    work = (WsurfaceWork *)GV_NewActor(EXEC_LEVEL, sizeof(WsurfaceWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(WsurfaceWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)WsurfaceAct_800DB564,
-                        (GV_ACTFUNC)WsurfaceDie_800DB630, "wsurface.c");
+        GV_SetNamedActor(&work->actor, WsurfaceAct_800DB564, WsurfaceDie_800DB630, "wsurface.c");
 
         if (WsurfaceGetResources_800DB684(work, name, where) < 0)
         {
@@ -469,5 +466,5 @@ GV_ACT *NewWsurface_800DB9BC(int name, int where, int argc, char **argv)
         work->f104 = 1;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

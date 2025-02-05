@@ -2,6 +2,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 
 #include "common.h"
 #include "mts/mts.h" // for fprintf
@@ -11,9 +14,6 @@
 #include "Game/game.h"
 #include "Game/map.h"
 #include "strcode.h"
-
-extern int     GV_Clock;
-extern int     GM_PlayerStatus;
 
 /*---------------------------------------------------------------------------*/
 
@@ -49,7 +49,7 @@ typedef struct AnimeWork
     AnimeItem items[0];
 } AnimeWork;
 
-#define EXEC_LEVEL 6
+#define EXEC_LEVEL GV_ACTOR_AFTER
 
 /*---------------------------------------------------------------------------*/
 
@@ -178,7 +178,7 @@ int dword_8009F224 = 0;
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewAnime_8005D604(MATRIX *pMtx)
+void *NewAnime_8005D604(MATRIX *pMtx)
 {
     ANIMATION *anm;
     PRESCRIPT  pre;
@@ -1419,18 +1419,17 @@ STATIC int anime_GetResources(AnimeWork *work, int map, ANIMATION *animation)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewAnime(MATRIX *world, int map, ANIMATION *animation)
+void *NewAnime(MATRIX *world, int map, ANIMATION *animation)
 {
     int        count;
     AnimeWork *work;
 
     count = animation->n_vertices;
-    work = (AnimeWork *)GV_NewActor(EXEC_LEVEL, ((sizeof(AnimeItem) + sizeof(SVECTOR)) * count) + sizeof(AnimeWork));
+    work = GV_NewActor(EXEC_LEVEL, ((sizeof(AnimeItem) + sizeof(SVECTOR)) * count) + sizeof(AnimeWork));
     if (work)
     {
         work->vertices = (SVECTOR *)&work->items[count]; // count vectors after the items
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)anime_Act,
-                         (GV_ACTFUNC)anime_Die, "anime.c");
+        GV_SetNamedActor(&work->actor, anime_Act, anime_Die, "anime.c");
         if (anime_GetResources(work, map, animation) < 0)
         {
             GV_DestroyActor(&work->actor);
@@ -1442,10 +1441,10 @@ GV_ACT *NewAnime(MATRIX *world, int map, ANIMATION *animation)
         }
     }
 
-    return (GV_ACT *)work;
+    return (void *)work;
 }
 
-GV_ACT *NewAnime2(DG_PRIM *prim, int map, ANIMATION *animation)
+void *NewAnime2(DG_PRIM *prim, int map, ANIMATION *animation)
 {
     AnimeWork *work = (AnimeWork *)NewAnime(NULL, map, animation);
 
@@ -1454,5 +1453,5 @@ GV_ACT *NewAnime2(DG_PRIM *prim, int map, ANIMATION *animation)
         work->prim->world = prim->world;
     }
 
-    return (GV_ACT *)work;
+    return (void *)work;
 }

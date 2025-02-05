@@ -4,6 +4,7 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
+#include "Game/game.h"
 #include "Game/linkvarbuf.h"
 #include "Game/object.h"
 #include "Okajima/blood.h"
@@ -57,10 +58,7 @@ typedef struct _MouseWork
     MouseEntry entries[0];
 } MouseWork;
 
-extern int    GM_CurrentMap;
-extern int    GM_PlayerStatus;
-
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 void s00a_mouse_800D3B68(MouseWork *work, OBJECT *object)
 {
@@ -811,7 +809,7 @@ void MouseDie_800D51A4(MouseWork *work)
     }
 }
 
-GV_ACT *NewMouse_800D5234(int name, int where, int argc, char **argv)
+void *NewMouse_800D5234(int name, int where, int argc, char **argv)
 {
     char      *opt;
     int        nentries;
@@ -832,11 +830,11 @@ GV_ACT *NewMouse_800D5234(int name, int where, int argc, char **argv)
         nentries = 1;
     }
 
-    work = (MouseWork *)GV_NewActor(EXEC_LEVEL, sizeof(MouseWork) + sizeof(MouseEntry) * nentries);
+    work = GV_NewActor(EXEC_LEVEL, sizeof(MouseWork) + sizeof(MouseEntry) * nentries);
     if (work != NULL)
     {
         work->nentries = nentries;
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)MouseAct_800D4904, (GV_ACTFUNC)MouseDie_800D51A4, "mouse.c");
+        GV_SetNamedActor(&work->actor, MouseAct_800D4904, MouseDie_800D51A4, "mouse.c");
 
         if (MouseGetResources_800D50F4(work, name, where) < 0)
         {
@@ -847,5 +845,5 @@ GV_ACT *NewMouse_800D5234(int name, int where, int argc, char **argv)
         s00a_mouse_800D4B60(work, name, where);
     }
 
-    return &work->actor;
+    return (void *)work;
 }

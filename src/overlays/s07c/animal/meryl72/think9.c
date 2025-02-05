@@ -4,13 +4,8 @@
 #include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
 
-extern int     GV_Time;
-
 extern unsigned short GM_WeaponTypes[];
 extern unsigned short GM_ItemTypes[];
-extern CONTROL       *GM_PlayerControl_800AB9F4;
-extern SVECTOR        GM_PlayerPosition_800ABA10;
-extern int            GM_PlayerStatus;
 
 int SECTION("overlay.bss") meryl72_800D5300;
 int SECTION("overlay.bss") meryl72_800D5304;
@@ -187,7 +182,7 @@ void s07c_meryl72_unk2_800CEF98(Meryl72Work *work)
     else if (GM_StreamStatus() == -1 && work->act_status & 0x1)
     {
         dir = work->sn_dir + 2048;
-        GM_PlayerControl_800AB9F4->turn.vy = dir & 0xFFF;
+        GM_PlayerControl->turn.vy = dir & 0xFFF;
 
         work->think3 = 4;
         work->fC38 = 0;
@@ -373,7 +368,7 @@ void s07c_meryl72_unk2_800CF4C0(Meryl72Work *work)
 {
     CONTROL *control;
 
-    if (s07c_meryl72_unk2_800CEC64(&GM_PlayerPosition_800ABA10))
+    if (s07c_meryl72_unk2_800CEC64(&GM_PlayerPosition))
     {
         work->pad.press |= 0x10000;
     }
@@ -440,7 +435,7 @@ void s07c_meryl72_unk2_800CF67C(Meryl72Work *work)
 {
     work->fC0A = 0;
 
-    if (s07c_meryl72_unk2_800CEC64(&GM_PlayerPosition_800ABA10) && work->fC08 == 1)
+    if (s07c_meryl72_unk2_800CEC64(&GM_PlayerPosition) && work->fC08 == 1)
     {
         work->think2 = 3;
         work->think3 = 6;
@@ -499,7 +494,7 @@ void s07c_meryl72_unk2_800CF824(Meryl72Work *work)
 {
     CONTROL *control;
 
-    if (s07c_meryl72_unk2_800CEC64(&GM_PlayerPosition_800ABA10))
+    if (s07c_meryl72_unk2_800CEC64(&GM_PlayerPosition))
     {
         work->pad.press |= 0x10000;
     }
@@ -516,7 +511,7 @@ void s07c_meryl72_unk2_800CF824(Meryl72Work *work)
         work->count3 = 0;
     }
 
-    if (s07c_meryl72_unk2_800CEC64(&GM_PlayerPosition_800ABA10) && work->fC08 == 1)
+    if (s07c_meryl72_unk2_800CEC64(&GM_PlayerPosition) && work->fC08 == 1)
     {
         work->think2 = 3;
         work->think3 = 6;
@@ -526,7 +521,7 @@ void s07c_meryl72_unk2_800CF824(Meryl72Work *work)
 
     if (work->fC04 > 5400)
     {
-        if (s07c_meryl72_unk2_800CECB4(&GM_PlayerPosition_800ABA10))
+        if (s07c_meryl72_unk2_800CECB4(&GM_PlayerPosition))
         {
             if (GM_StreamStatus() == -1 && GM_GameOverTimer == 0 && GM_SnakeCurrentHealth > 0)
             {
@@ -590,7 +585,7 @@ void s07c_meryl72_unk2_800CFA28(Meryl72Work *work)
 
 void s07c_meryl72_unk2_800CFA98(Meryl72Work *work)
 {
-    if (s07c_meryl72_unk2_800CEC64(&GM_PlayerPosition_800ABA10) && work->fC08 == 1)
+    if (s07c_meryl72_unk2_800CEC64(&GM_PlayerPosition) && work->fC08 == 1)
     {
         work->think2 = 3;
         work->think3 = 6;
@@ -616,7 +611,7 @@ void s07c_meryl72_unk2_800CFB14(Meryl72Work *work)
         work->think3 = 3;
         work->count3 = 0;
     }
-    else if (!s07c_meryl72_unk2_800CEC64(&GM_PlayerPosition_800ABA10))
+    else if (!s07c_meryl72_unk2_800CEC64(&GM_PlayerPosition))
     {
         work->think3 = 9;
         work->count3 = 0;
@@ -640,7 +635,7 @@ void s07c_meryl72_unk2_800CFB14(Meryl72Work *work)
 
 void s07c_meryl72_unk2_800CFBBC(Meryl72Work *work)
 {
-    if (s07c_meryl72_unk2_800CEC64(&GM_PlayerPosition_800ABA10) && work->fC08 == 1)
+    if (s07c_meryl72_unk2_800CEC64(&GM_PlayerPosition) && work->fC08 == 1)
     {
         work->think2 = 3;
         work->think3 = 6;
@@ -732,7 +727,7 @@ void s07c_meryl72_unk2_800CFD80(Meryl72Work *work)
         break;
     }
 
-    if (s07c_meryl72_unk2_800CECB4(&GM_PlayerPosition_800ABA10))
+    if (s07c_meryl72_unk2_800CECB4(&GM_PlayerPosition))
     {
         work->think1 = 1;
         work->think2 = 0;

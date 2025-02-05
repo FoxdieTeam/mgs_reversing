@@ -37,8 +37,6 @@ typedef struct _SnowWork
     GV_MSG   *msgs;
 } SnowWork;
 
-extern int              GV_Clock;
-extern int              GM_CurrentMap;
 extern CONTROL         *GM_WhereList_800B56D0[96];
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 
@@ -47,7 +45,7 @@ SVECTOR snow_svec_800C385C = {5000, 8000, 10000, 0};
 SVECTOR snow_svec_800C3864 = {0, -50, 0, 0};
 RECT    snow_rect_800C386C = {0, 0, 2, 2};
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void Snow_800C5234(TILE *packs, int n_packs, int *colors)
 {
@@ -511,16 +509,16 @@ int SnowGetResources_800C5F40(SnowWork *work, int map)
     return 0;
 }
 
-GV_ACT *NewSnow_800C6058(int name, int where, int argc, char **argv)
+void *NewSnow_800C6058(int name, int where, int argc, char **argv)
 {
     SnowWork *work;
 
-    work = (SnowWork *)GV_NewActor(EXEC_LEVEL, sizeof(SnowWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(SnowWork));
     if (work != NULL)
     {
         SnowGetOptions_800C5CD4(work);
 
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)SnowAct_800C5B2C, (GV_ACTFUNC)SnowDie_800C5C6C, "snow.c");
+        GV_SetNamedActor(&work->actor, SnowAct_800C5B2C, SnowDie_800C5C6C, "snow.c");
 
         if (SnowGetResources_800C5F40(work, where) < 0)
         {
@@ -529,5 +527,5 @@ GV_ACT *NewSnow_800C6058(int name, int where, int argc, char **argv)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

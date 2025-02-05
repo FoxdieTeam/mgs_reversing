@@ -31,8 +31,6 @@ typedef struct _RevbulltWork
     int      bounces;
 } RevbulltWork;
 
-extern int     GM_CurrentMap;
-
 const SVECTOR s04c_dword_800DBAE4 = {0, -750, 0, 0};
 
 SVECTOR s04c_dword_800C35B0[4] = {{15, 0, 0, 0}, {-15, 0, 0, 0}, {0, 0, 15, 0}, {0, 0, -15, 0}};
@@ -41,9 +39,9 @@ SVECTOR s04c_dword_800C35E0 = {100, 100, 100, 0};
 
 static int s04c_dword_800DBE20;
 
-GV_ACT *NewRevbullt_800D2DC8(MATRIX *world, int bounces);
+void *NewRevbullt_800D2DC8(MATRIX *world, int bounces);
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void s04c_revbullt_800D2378(SVECTOR *verts)
 {
@@ -365,14 +363,14 @@ int RevbulltGetResources_800D2BFC(RevbulltWork *work, MATRIX *world, int arg2, i
     return 0;
 }
 
-GV_ACT *NewRevbullt_800D2DC8(MATRIX *world, int bounces)
+void *NewRevbullt_800D2DC8(MATRIX *world, int bounces)
 {
     RevbulltWork *work;
 
-    work = (RevbulltWork *)GV_NewActor(EXEC_LEVEL, sizeof(RevbulltWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(RevbulltWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)RevbulltAct_800D2864, (GV_ACTFUNC)RevbulltDie_800D2AEC, "revbullt.c");
+        GV_SetNamedActor(&work->actor, RevbulltAct_800D2864, RevbulltDie_800D2AEC, "revbullt.c");
 
         if (RevbulltGetResources_800D2BFC(work, world, 1, 0) < 0)
         {
@@ -388,5 +386,5 @@ GV_ACT *NewRevbullt_800D2DC8(MATRIX *world, int bounces)
         work->f148 = 0;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

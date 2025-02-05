@@ -23,8 +23,6 @@ typedef struct _TobcntWork
     DVECTOR  directions[166];
 } TobcntWork;
 
-extern int    GV_Clock;
-extern int    GV_PauseLevel;
 extern GV_PAD GV_PadData_800B05C0[4];
 
 short tobcnt_lines[] = {
@@ -75,7 +73,7 @@ short tobcnt_lines[] = {
 
 short s01a_dword_800C381A = 0x800C;
 
-#define EXEC_LEVEL 0
+#define EXEC_LEVEL GV_ACTOR_DAEMON
 
 char * Tobcnt_800C4070(char *buf, int x, int y, int name, unsigned int color, char *ot)
 {
@@ -415,7 +413,7 @@ void TobcntDie_800C4A64(TobcntWork *work)
     stage_name = "title";
     GV_PauseLevel &= ~1;
 
-    DG_ResetObjectQueue();
+    DG_RestartMainChanlSystem();
     GM_StreamPlayStop();
 
     GM_SetArea(GV_StrCode(stage_name), stage_name);
@@ -453,16 +451,16 @@ void TobcntGetResources_800C4AD0(TobcntWork *work)
     }
 }
 
-GV_ACT *NewTobcnt_800C4BC8(int name, int where, int argc, char **argv)
+void *NewTobcnt_800C4BC8(int name, int where, int argc, char **argv)
 {
     TobcntWork *work;
 
     GM_GameStatus |= STATE_ALL_OFF;
 
-    work = (TobcntWork *)GV_NewActor(EXEC_LEVEL, sizeof(TobcntWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(TobcntWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)TobcntAct_800C482C, (GV_ACTFUNC)TobcntDie_800C4A64, "tobcnt.c");
+        GV_SetNamedActor(&work->actor, TobcntAct_800C482C, TobcntDie_800C4A64, "tobcnt.c");
 
         work->state = 1;
         work->time = 0;
@@ -490,5 +488,5 @@ GV_ACT *NewTobcnt_800C4BC8(int name, int where, int argc, char **argv)
 
     GM_GameStatus |= STATE_GAME_OVER;
 
-    return &work->actor;
+    return (void *)work;
 }

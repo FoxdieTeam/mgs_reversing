@@ -15,10 +15,8 @@
 #include "SD/g_sound.h"
 #include "strcode.h"
 
-extern int            GM_PlayerStatus;
 extern int            dword_800BDD28;
 extern BLAST_DATA     blast_data_8009F4B8[8];
-extern SVECTOR        GM_PlayerPosition_800ABA10;
 extern CONTROL       *tenage_ctrls_800BDD30[16];
 extern int            tenage_ctrls_count_800BDD70;
 
@@ -239,7 +237,7 @@ STATIC int TenageGetResources(TenageWork *work, SVECTOR *pos, SVECTOR *step, int
         control->field_59 = 4;
         if (side == PLAYER_SIDE)
         {
-            control->mov = GM_PlayerPosition_800ABA10;
+            control->mov = GM_PlayerPosition;
             GM_ConfigControlTrapCheck(control);
             GM_ActControl(control);
         }
@@ -267,7 +265,7 @@ STATIC int TenageGetResources(TenageWork *work, SVECTOR *pos, SVECTOR *step, int
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewTenage(SVECTOR *pos, SVECTOR *step, int fuse_time, int type, int model)
+void *NewTenage(SVECTOR *pos, SVECTOR *step, int fuse_time, int type, int model)
 {
     TenageWork *work;
 
@@ -276,12 +274,11 @@ GV_ACT *NewTenage(SVECTOR *pos, SVECTOR *step, int fuse_time, int type, int mode
         return NULL;
     }
 
-    work = (TenageWork *)GV_NewActor(5, sizeof(TenageWork));
+    work = GV_NewActor(GV_ACTOR_LEVEL5, sizeof(TenageWork));
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)TenageAct,
-                         (GV_ACTFUNC)TenageDie, "tenage.c");
+        GV_SetNamedActor(&work->actor, TenageAct, TenageDie, "tenage.c");
 
         if (TenageGetResources(work, pos, step, type, model, 1, PLAYER_SIDE) < 0)
         {
@@ -296,20 +293,20 @@ GV_ACT *NewTenage(SVECTOR *pos, SVECTOR *step, int fuse_time, int type, int mode
         work->side = PLAYER_SIDE;
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewTenage2(SVECTOR *pos, SVECTOR *step, int fuse_time)
+void *NewTenage2(SVECTOR *pos, SVECTOR *step, int fuse_time)
 {
     return NewTenage(pos, step, fuse_time, GRD_GRENADE, KMD_GRENADE);
 }
 
 // enemy's grenades, probably
-GV_ACT *NewTenage3(SVECTOR *pos, SVECTOR *step, int fuse_time, int type, int model, int do_sound, int player_side)
+void *NewTenage3(SVECTOR *pos, SVECTOR *step, int fuse_time, int type, int model, int do_sound, int player_side)
 {
     TenageWork *work;
 
-    work = (TenageWork *)GV_NewActor(6, sizeof(TenageWork));
+    work = GV_NewActor(GV_ACTOR_AFTER, sizeof(TenageWork));
     if (work)
     {
         GV_SetNamedActor(&work->actor, (GV_ACTFUNC)TenageAct,
@@ -328,5 +325,5 @@ GV_ACT *NewTenage3(SVECTOR *pos, SVECTOR *step, int fuse_time, int type, int mod
         work->side = player_side & 1;
     }
 
-    return (GV_ACT *)work;
+    return (void *)work;
 }

@@ -33,7 +33,6 @@ const char aWatcharcactionpointerr_800DFCCC[] = "watchar.c : action point Err\n"
 const char aWatcherc_800DFCEC[] = "watcher.c";
 
 extern GM_Camera      GM_Camera_800B77E8;
-extern int            GM_PlayerMap_800ABA0C;
 
 extern void *NewGunLight_800D3AD4( MATRIX* mat, int **enable );
 
@@ -173,7 +172,7 @@ void s00a_watcher_800C41B4( WatcherWork *work )
         DG_VisibleObjs( work->weapon.objs );
         work->field_AF4[0] = 1;
 
-        if ( work->control.map->index & GM_PlayerMap_800ABA0C )
+        if ( work->control.map->index & GM_PlayerMap )
         {
             work->field_AFC[0] = 1;
         }
@@ -700,14 +699,16 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
     work->field_C14 = work->start_pos;
 }
 
-GV_ACT *NewSnakeWatcher_800C5034(int name, int where, int argc, char **argv)
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
+
+void *NewSnakeWatcher_800C5034(int name, int where, int argc, char **argv)
 {
     WatcherWork *work ;
 
-    work = (WatcherWork *)GV_NewActor( 4, sizeof( WatcherWork ) ) ;
+    work = GV_NewActor( EXEC_LEVEL, sizeof( WatcherWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor( &( work->actor ), ( GV_ACTFUNC )WatcherAct_800C430C, ( GV_ACTFUNC )WatcherDie_800C487C, aWatcherc_800DFCEC );
+        GV_SetNamedActor( &( work->actor ), WatcherAct_800C430C, WatcherDie_800C487C, aWatcherc_800DFCEC );
         WatcherGetResources_800C4B7C( work, name, where );
     }
-    return &work->actor;
+    return (void *)work;
 }

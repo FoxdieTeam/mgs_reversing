@@ -17,21 +17,18 @@ typedef struct _DeathSpWork
     int    time;
 } DeathSpWork;
 
-extern int     GM_CurrentMap;
-extern OBJECT *GM_PlayerBody_800ABA20;
-
 void AN_Smoke_800CE164(SVECTOR *pos, SVECTOR *speed, int index, int script);
 
-GV_ACT *NewPlasma_800CD30C(SVECTOR *arg0, SVECTOR *arg1, int arg2, int arg3);
-GV_ACT *NewSpark2_800CA714(MATRIX *world);
+void *NewPlasma_800CD30C(SVECTOR *arg0, SVECTOR *arg1, int arg2, int arg3);
+void *NewSpark2_800CA714(MATRIX *world);
 
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 void DeathSp_800CFDBC(SVECTOR *out, int index)
 {
     OBJECT *body;
 
-    body = GM_PlayerBody_800ABA20;
+    body = GM_PlayerBody;
     out->vx = body->objs->objs[index].world.t[0];
     out->vy = body->objs->objs[index].world.t[1];
     out->vz = body->objs->objs[index].world.t[2];
@@ -88,9 +85,9 @@ void DeathSpAct_800CFE1C(DeathSpWork *work)
         RotMatrix_gte(&rot, &world);
 
         index = GV_RandU(16);
-        world.t[0] = GM_PlayerBody_800ABA20->objs->objs[index].world.t[0];
-        world.t[1] = GM_PlayerBody_800ABA20->objs->objs[index].world.t[1];
-        world.t[2] = GM_PlayerBody_800ABA20->objs->objs[index].world.t[2];
+        world.t[0] = GM_PlayerBody->objs->objs[index].world.t[0];
+        world.t[1] = GM_PlayerBody->objs->objs[index].world.t[1];
+        world.t[2] = GM_PlayerBody->objs->objs[index].world.t[2];
 
         scale.vx = scale.vy = scale.vz = GV_RandU(512) + 1024;
         ScaleMatrix(&world, &scale);
@@ -99,9 +96,9 @@ void DeathSpAct_800CFE1C(DeathSpWork *work)
     }
 
     index = GV_RandU(16);
-    pos.vx = GM_PlayerBody_800ABA20->objs->objs[index].world.t[0];
-    pos.vy = GM_PlayerBody_800ABA20->objs->objs[index].world.t[1];
-    pos.vz = GM_PlayerBody_800ABA20->objs->objs[index].world.t[2];
+    pos.vx = GM_PlayerBody->objs->objs[index].world.t[0];
+    pos.vy = GM_PlayerBody->objs->objs[index].world.t[1];
+    pos.vz = GM_PlayerBody->objs->objs[index].world.t[2];
 
     speed.vx = 0;
     speed.vy = 10;
@@ -195,14 +192,14 @@ int DeathSpGetResources_800D00F4(DeathSpWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT *NewDeathSp_800D025C(int name, int where)
+void *NewDeathSp_800D025C(int name, int where)
 {
     DeathSpWork *work;
 
-    work = (DeathSpWork *)GV_NewActor(EXEC_LEVEL, sizeof(DeathSpWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(DeathSpWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)DeathSpAct_800CFE1C, (GV_ACTFUNC)DeathSpDie_800D00EC, "death_sp.c");
+        GV_SetNamedActor(&work->actor, DeathSpAct_800CFE1C, DeathSpDie_800D00EC, "death_sp.c");
 
         if (DeathSpGetResources_800D00F4(work, name, where) < 0)
         {
@@ -211,5 +208,5 @@ GV_ACT *NewDeathSp_800D025C(int name, int where)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

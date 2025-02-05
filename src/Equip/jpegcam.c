@@ -7,6 +7,7 @@
 #include <libgpu.h>
 
 #include "common.h"
+#include "libgv/libgv.h"
 #include "chara/snake/sna_init.h"
 #include "Game/game.h"
 #include "Game/camera.h"
@@ -18,18 +19,12 @@
 #include "SD/g_sound.h"
 #include "strcode.h"
 
-extern PlayerStatusFlag    GM_PlayerStatus;
 extern int                 DG_CurrentGroupID;
 extern GM_Camera           GM_Camera_800B77E8;
-extern CONTROL            *GM_PlayerControl_800AB9F4;
 extern int                 dword_8009F604;
 extern GV_PAD              GV_PadData_800B05C0[4];
 extern TMat8x8B            gJpegcamMatrix2_800BDCD8;
 extern UnkCameraStruct     gUnkCameraStruct_800B77B8;
-extern OBJECT             *GM_PlayerBody_800ABA20;
-extern int                 GM_Photocode_800ABA04;
-extern SVECTOR             GM_PhotoViewPos;
-extern int                 GV_PauseLevel;
 extern char               *dword_800BDCC8;
 extern int                 dword_800BDCCC;
 extern int                 dword_800BDCD0;
@@ -69,7 +64,7 @@ typedef struct JpegcamWork
     int            field_98;
 } JpegcamWork;
 
-#define EXEC_LEVEL 1
+#define EXEC_LEVEL GV_ACTOR_MANAGER
 
 /*---------------------------------------------------------------------------*/
 
@@ -576,7 +571,7 @@ STATIC int JpegcamGetZoomLimit(JpegcamWork *work)
     }
     else
     {
-        world = GM_PlayerBody_800ABA20->objs->world;
+        world = GM_PlayerBody->objs->world;
         world.t[0] = gUnkCameraStruct_800B77B8.eye.vx;
         world.t[1] = gUnkCameraStruct_800B77B8.eye.vy;
         world.t[2] = gUnkCameraStruct_800B77B8.eye.vz;
@@ -625,7 +620,7 @@ STATIC void JpegcamProcessInput(JpegcamWork *work)
         press = 0;
     }
 
-    if (!(GM_PlayerBody_800ABA20->objs->flag & DG_FLAG_INVISIBLE))
+    if (!(GM_PlayerBody->objs->flag & DG_FLAG_INVISIBLE))
     {
         status = 0;
         press = 0;
@@ -651,7 +646,7 @@ STATIC void JpegcamProcessInput(JpegcamWork *work)
 
     zoom = GM_Camera_800B77E8.zoom;
 
-    if (GM_PlayerControl_800AB9F4)
+    if (GM_PlayerControl)
     {
         vx = work->field_5C_ang.vx;
 
@@ -674,9 +669,9 @@ STATIC void JpegcamProcessInput(JpegcamWork *work)
 
         vec = work->field_54_vec;
 
-        if (GM_PlayerControl_800AB9F4)
+        if (GM_PlayerControl)
         {
-            vec.vx = GM_PlayerControl_800AB9F4->turn.vx;
+            vec.vx = GM_PlayerControl->turn.vx;
         }
 
         if (zoom >= 1024)
@@ -696,7 +691,7 @@ STATIC void JpegcamProcessInput(JpegcamWork *work)
         xmin = vec.vx - 512;
         xmax = vec.vx + 512;
 
-        if (GM_PlayerControl_800AB9F4)
+        if (GM_PlayerControl)
         {
             if (xmin < dword_800ABBDC)
             {
@@ -840,10 +835,10 @@ STATIC int JpegcamCheckShinreiSpot(JpegcamWork *work)
     int retval;
 
     printf("Sinrei Syasin Check Start\n");  // 心霊写真 (lit. "ghost photo")
-    if (GM_Photocode_800ABA04 != 0)
+    if (GM_Photocode != 0)
     {
         printf("Here is Sinrei Spot!\n");
-        printf("GM_Photocode = %d\n", GM_Photocode_800ABA04);
+        printf("GM_Photocode = %d\n", GM_Photocode);
 
         retval = DG_PointCheckOne((DVECTOR *)&GM_PhotoViewPos);
         printf("Point Check\n");
@@ -890,7 +885,7 @@ STATIC void JpegcamTakePhoto(JpegcamWork *work)
 
         if (JpegcamCheckShinreiSpot(work) == 1)
         {
-            dword_800BDCD0 = GM_Photocode_800ABA04;
+            dword_800BDCD0 = GM_Photocode;
         }
         else
         {
@@ -916,7 +911,7 @@ STATIC void JpegcamTakePhoto(JpegcamWork *work)
         GM_GameStatus &= ~STATE_TAKING_PHOTO;
         GV_ResetPacketMemory();
         GV_PauseLevel &= ~1;
-        DG_ResetObjectQueue();
+        DG_RestartMainChanlSystem();
         work->state = 0;
         work->field_90_pSight = NewSight_80071CDC(SGT_CAMERA_2, SGT_CAMERA, &GM_CurrentItemId, 12, 0);
     }
@@ -1036,8 +1031,8 @@ STATIC void JpegcamAct(JpegcamWork *work)
 
     work->state++;
 
-    GM_PlayerControl_800AB9F4->rot = work->field_5C_ang;
-    GM_PlayerControl_800AB9F4->turn = work->field_5C_ang;
+    GM_PlayerControl->rot = work->field_5C_ang;
+    GM_PlayerControl->turn = work->field_5C_ang;
 }
 
 STATIC void JpegcamDie(JpegcamWork *work)
@@ -1074,15 +1069,14 @@ STATIC int JpegcamGetResources(JpegcamWork *work, CONTROL *control, OBJECT *pare
  * public functions
  */
 
-GV_ACT *NewJpegcam(CONTROL *control, OBJECT *parent, int num_parent)
+void *NewJpegcam(CONTROL *control, OBJECT *parent, int num_parent)
 {
     JpegcamWork *work;
 
-    work = (JpegcamWork *)GV_NewActor(EXEC_LEVEL, sizeof(JpegcamWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(JpegcamWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)JpegcamAct,
-                         (GV_ACTFUNC)JpegcamDie, "jpegcam.c");
+        GV_SetNamedActor(&work->actor, JpegcamAct, JpegcamDie, "jpegcam.c");
         if (JpegcamGetResources(work, control, parent) < 0)
         {
             GV_DestroyActor(&work->actor);
@@ -1091,5 +1085,5 @@ GV_ACT *NewJpegcam(CONTROL *control, OBJECT *parent, int num_parent)
         work->control = control;
     }
 
-    return (GV_ACT *)work;
+    return (void *)work;
 }

@@ -11,7 +11,7 @@ typedef struct _PointWork
     CONTROL control;
 } PointWork;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void PointAct_800C5928(PointWork *work)
 {
@@ -79,14 +79,14 @@ int PointGetResources_800C5A1C(PointWork *work, int where, int name)
     return 1;
 }
 
-GV_ACT *NewPoint_800C5AB4(int name, int where, int argc, char **argv)
+void *NewPoint_800C5AB4(int name, int where, int argc, char **argv)
 {
     PointWork *work;
 
-    work = (PointWork *)GV_NewActor(EXEC_LEVEL, sizeof(PointWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(PointWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)PointAct_800C5928, (GV_ACTFUNC)PointDie_800C59FC, "point.c");
+        GV_SetNamedActor(&work->actor, PointAct_800C5928, PointDie_800C59FC, "point.c");
 
         if (!PointGetResources_800C5A1C(work, where, name))
         {
@@ -94,5 +94,5 @@ GV_ACT *NewPoint_800C5AB4(int name, int where, int argc, char **argv)
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

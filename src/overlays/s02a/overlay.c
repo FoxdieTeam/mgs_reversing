@@ -31,7 +31,7 @@
 
 CHARA _StageCharacterEntries[] = 
 {
-    { CHARA_MOTION_SEQUENCE, NewMotse_800C5944 },
+    { CHARA_MOTION_SE, NewMotionSoundEffect },
     { CHARA_INTR_CAM, NewIntrCam_800C5748 },
     { CHARA_DYNAMIC_SEGMENT, NewDymcSeg_800C4BCC },
     { CHARA_BUB_D_SN, NewBubbleDisplayScene_800D90B4 },

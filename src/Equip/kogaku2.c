@@ -6,8 +6,6 @@
 #include "Game/game.h"
 #include "strcode.h"
 
-extern int GV_Clock;
-
 /*---------------------------------------------------------------------------*/
 
 typedef struct Kogaku2Work
@@ -24,7 +22,7 @@ typedef struct Kogaku2Work
     int     field_40_rgb;
 } Kogaku2Work;
 
-#define EXEC_LEVEL 1
+#define EXEC_LEVEL GV_ACTOR_MANAGER
 
 /*---------------------------------------------------------------------------*/
 
@@ -339,18 +337,15 @@ STATIC void Kogaku2Die2(Kogaku2Work *work)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewKogaku2(CONTROL *control, OBJECT *parent, int num_parent)
+void *NewKogaku2(CONTROL *control, OBJECT *parent, int num_parent)
 {
     Kogaku2Work *work;
     DG_OBJS *objs;
 
-    work = (Kogaku2Work *) GV_NewActor(EXEC_LEVEL, sizeof(Kogaku2Work));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Kogaku2Work));
     if (work)
     {
-        GV_SetNamedActor(&work->actor,
-                        (GV_ACTFUNC)Kogaku2Act,
-                        (GV_ACTFUNC)Kogaku2Die,
-                        "kogaku2.c");
+        GV_SetNamedActor(&work->actor, Kogaku2Act, Kogaku2Die, "kogaku2.c");
 
         work->parent = parent;
         work->num_parent = num_parent;
@@ -376,12 +371,12 @@ GV_ACT *NewKogaku2(CONTROL *control, OBJECT *parent, int num_parent)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewKogaku3(CONTROL *control, OBJECT *parent, int num_parent)
+void *NewKogaku3(CONTROL *control, OBJECT *parent, int num_parent)
 {
     SVECTOR vecs[9];
     long coords[9];
@@ -398,14 +393,11 @@ GV_ACT *NewKogaku3(CONTROL *control, OBJECT *parent, int num_parent)
     long *coord_iter;
     int y;
 
-    work = (Kogaku2Work *)GV_NewActor(EXEC_LEVEL, sizeof(Kogaku2Work));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Kogaku2Work));
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor,
-                         (GV_ACTFUNC)Kogaku2Act,
-                         (GV_ACTFUNC)Kogaku2Die,
-                         "kogaku2.c");
+        GV_SetNamedActor(&work->actor, Kogaku2Act, Kogaku2Die, "kogaku2.c");
 
         work->parent = parent;
         work->num_parent = num_parent;
@@ -505,5 +497,5 @@ GV_ACT *NewKogaku3(CONTROL *control, OBJECT *parent, int num_parent)
         }
     }
 
-    return (GV_ACT *)work;
+    return (void *)work;
 }

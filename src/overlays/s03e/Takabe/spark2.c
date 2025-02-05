@@ -26,12 +26,9 @@ typedef struct _Spark2Prim
     short    x1, y1;
 } Spark2Prim;
 
-extern int     GV_Clock;
-extern int     GM_CurrentMap;
-
 const SVECTOR spark2_light_pos = {0, 0, 500, 0};
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void s03e_spark2_800CA0E8(int count)
 {
@@ -245,15 +242,14 @@ int s03e_spark2_800CA55C(Spark2Work *work, MATRIX *world)
     return 0;
 }
 
-GV_ACT *NewSpark2_800CA714(MATRIX *world)
+void *NewSpark2_800CA714(MATRIX *world)
 {
     Spark2Work *work;
 
-    work = (Spark2Work *)GV_NewActor(EXEC_LEVEL, sizeof(Spark2Work));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Spark2Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)s03e_spark2_800CA428,
-                         (GV_ACTFUNC)s03e_spark2_800CA520, "spark2.c");
+        GV_SetNamedActor(&work->actor, s03e_spark2_800CA428, s03e_spark2_800CA520, "spark2.c");
 
         if (s03e_spark2_800CA55C(work, world) < 0)
         {
@@ -262,5 +258,5 @@ GV_ACT *NewSpark2_800CA714(MATRIX *world)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

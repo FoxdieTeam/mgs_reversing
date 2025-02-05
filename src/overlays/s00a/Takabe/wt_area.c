@@ -23,13 +23,12 @@ typedef struct WaterAreaWork
     int proc_id;          //0x50
 } WaterAreaWork;
 
-extern void    NewSplash2_800DB4E0( int angy, SVECTOR *pos, int noripple );
-extern void   *NewRipple_800D7F30( MATRIX *, int );
-extern GV_ACT *NewWaterView_800DBE04(int name, int where, SVECTOR *arg2, CVECTOR *color);
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-extern unsigned int     GM_PlayerStatus;
-extern CONTROL         *GM_PlayerControl_800AB9F4;
-extern OBJECT          *GM_PlayerBody_800ABA20;
+extern void NewSplash2_800DB4E0( int angy, SVECTOR *pos, int noripple );
+extern void *NewRipple_800D7F30( MATRIX *, int );
+extern void *NewWaterView_800DBE04(int name, int where, SVECTOR *arg2, CVECTOR *color);
+
 extern CONTROL         *tenage_ctrls_800BDD30[16];
 extern int              tenage_ctrls_count_800BDD70;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
@@ -99,20 +98,20 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
         break ;
     }
 
-    if ( GM_PlayerControl_800AB9F4 == NULL ) return ;
+    if ( GM_PlayerControl == NULL ) return ;
 
-    flag = BoundInCheck_800DA5B4( work->bound, &GM_PlayerControl_800AB9F4->mov );
+    flag = BoundInCheck_800DA5B4( work->bound, &GM_PlayerControl->mov );
 
     if ( work->snake_catch == 0  )
     {
         if ( flag )
         {
             /* スネーク中心部の水中バウンドチェック */
-            snake_pos = GM_PlayerControl_800AB9F4->mov ;
+            snake_pos = GM_PlayerControl->mov ;
             snake_pos.vy = work->bound[1].vy; /* 水面に座標を合わせる */
             if ( work->splash_flag )
             {
-                NewSplash2_800DB4E0( GM_PlayerControl_800AB9F4->rot.vy + 2048, &snake_pos, 0 );
+                NewSplash2_800DB4E0( GM_PlayerControl->rot.vy + 2048, &snake_pos, 0 );
                 GM_SeSet( &snake_pos, 0xB0 );
                 if ( work->field_44 == NULL )
                 {
@@ -134,7 +133,7 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
         if ( !flag )
         {
             /* スネーク中心部の水中バウンドチェック */
-            snake_pos = GM_PlayerControl_800AB9F4->mov ;
+            snake_pos = GM_PlayerControl->mov ;
             snake_pos.vy = work->bound[1].vy; /* 水面に座標を合わせる */
             GM_SeSet( &snake_pos, 0xB1 );
             if ( work->field_44 == NULL )
@@ -146,7 +145,7 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
         }
 
     }
-    snake_pos = GM_PlayerControl_800AB9F4->mov ;
+    snake_pos = GM_PlayerControl->mov ;
 
     if ( GM_PlayerStatus & 2 )
     {
@@ -160,7 +159,7 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
         }
         else
         {
-            snake_pos.vy = GM_PlayerBody_800ABA20->objs->objs[6].world.m[3][3];
+            snake_pos.vy = GM_PlayerBody->objs->objs[6].world.m[3][3];
         }
     }
 
@@ -178,7 +177,7 @@ void WaterAreaAct_800DA67C( WaterAreaWork *work )
     {
         if ( !flag && !GM_GameOverTimer )
         {
-            DG_SetPos2( &snake_pos, &GM_PlayerControl_800AB9F4->rot );
+            DG_SetPos2( &snake_pos, &GM_PlayerControl->rot );
             DG_PutVector( &mouth_offset_800C3668, &snake_pos, 1 );
             GM_SeSet( &snake_pos, 0xB3 );
             ExecProc_800DA644( work->proc_id, 0xF26E );
@@ -266,13 +265,13 @@ int WaterAreaGetResources_800DABD0( WaterAreaWork *work, int name, int where )
     return 0;
 }
 
-GV_ACT *NewWaterArea_800DACCC(int name, int where, int argc, char **argv)
+void *NewWaterArea_800DACCC(int name, int where, int argc, char **argv)
 {
     WaterAreaWork *work ;
 
-    work = (WaterAreaWork *)GV_NewActor( 5, sizeof( WaterAreaWork ) ) ;
+    work = GV_NewActor( EXEC_LEVEL, sizeof( WaterAreaWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor( &( work->actor ), ( GV_ACTFUNC )WaterAreaAct_800DA67C, ( GV_ACTFUNC )WaterAreaDie_800DABC8, "wt_area.c" );
+        GV_SetNamedActor( &( work->actor ), WaterAreaAct_800DA67C, WaterAreaDie_800DABC8, "wt_area.c" );
         if ( WaterAreaGetResources_800DABD0( work, name, where ) < 0 )
         {
             GV_DestroyActor( &( work->actor ) );
@@ -281,5 +280,5 @@ GV_ACT *NewWaterArea_800DACCC(int name, int where, int argc, char **argv)
         work->where = where;
         work->name  = name;
     }
-    return &work->actor;
+    return (void *)work;
 }

@@ -14,12 +14,6 @@
 #include "Game/linkvarbuf.h"
 #include "strcode.h"
 
-extern int      GV_Clock;
-extern CONTROL *GM_PlayerControl_800AB9F4;
-
-extern int              GV_PauseLevel;
-extern PlayerStatusFlag GM_PlayerStatus;
-
 extern GV_PAD GV_PadData_800B05C0[4];
 extern int    dword_8009F604;
 
@@ -41,7 +35,7 @@ typedef struct GoggleSightWork
     int      field_380;
 } GoggleSightWork;
 
-#define EXEC_LEVEL 7
+#define EXEC_LEVEL GV_ACTOR_AFTER2
 
 short word_8009F714[] = {0, 0};
 
@@ -94,7 +88,7 @@ STATIC void gglsight_act_helper_80077A24(GoggleSightWork *work)
     MENU_Color(r, g, b);
 
     // PlayerHeading
-    a1 = GM_PlayerControl_800AB9F4->rot.vy & 0xfff;
+    a1 = GM_PlayerControl->rot.vy & 0xfff;
     a2 = a1 / 64;
     a3 = a1 % 64;
     a4 = ((a3 * 24) / 64) + 160;
@@ -166,7 +160,7 @@ STATIC void gglsight_act_helper_80077C6C(GoggleSightWork *work)
             b = 74;
         }
         MENU_Color(r, g, b);
-        vy = GM_PlayerControl_800AB9F4->rot.vy;
+        vy = GM_PlayerControl->rot.vy;
         MENU_Printf("%ld\n", 8 * (vy & 2047));
         MENU_Printf("%ld\n", 4 * (vy & 4095));
         MENU_Printf("%ld\n", 16 * (vy & 1023));
@@ -192,7 +186,7 @@ STATIC void gglsight_act_helper_80077D24(GoggleSightWork *work)
 
     pOt = DG_Chanl(1)->mOrderingTables[GV_Clock];
 
-    y = GM_PlayerControl_800AB9F4->rot.vy & 4095;
+    y = GM_PlayerControl->rot.vy & 4095;
     y2 = ((y + 1024) & 2047) >> 5;
 
     if (y2 < 32)
@@ -506,19 +500,18 @@ STATIC void GoggleSightSetup2(GoggleSightWork *actor)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewGoggleSight(int type)
+void *NewGoggleSight(int type)
 {
     GoggleSightWork *work;
     int status, count;
     short *arr;
     short *arr2;
 
-    work = (GoggleSightWork *)GV_NewActor(EXEC_LEVEL, sizeof(GoggleSightWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(GoggleSightWork));
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)GoggleSightAct,
-                         (GV_ACTFUNC)GoggleSightDie, "gglsight.c");
+        GV_SetNamedActor(&work->actor, GoggleSightAct, GoggleSightDie, "gglsight.c");
 
         work->type = type;
 
@@ -569,5 +562,5 @@ GV_ACT *NewGoggleSight(int type)
         }
     }
 
-    return (GV_ACT *)work;
+    return (void *)work;
 }

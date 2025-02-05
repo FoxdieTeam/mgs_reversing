@@ -2,8 +2,9 @@
 
 #include "common.h"
 #include "libgv/libgv.h"
-#include "libgcl/libgcl.h"
 #include "libdg/libdg.h"
+#include "libgcl/libgcl.h"
+#include "Game/game.h"
 
 typedef struct SmokeWork
 {
@@ -17,13 +18,12 @@ typedef struct SmokeWork
     int      field_3C;
 } SmokeWork;
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
+
 const char aSmoke[] = "smoke";
 const char aSmokeC[] = "smoke.c";
 
 RECT smoke_rect = {500, 1000, 1000, 2000};
-
-extern int GM_CurrentMap;
-extern int GV_Clock;
 
 int s00a_smoke_800D2694(SmokeWork *work)
 {
@@ -226,15 +226,14 @@ int SmokeGetResources_800D2B0C(SmokeWork *work, int where)
     return -1;
 }
 
-GV_ACT *NewSmoke_800D2BEC(int name, int where, int argc, char **argv)
+void *NewSmoke_800D2BEC(int name, int where, int argc, char **argv)
 {
     SmokeWork *work;
 
-    work = (SmokeWork *)GV_NewActor(5, sizeof(SmokeWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(SmokeWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)SmokeAct_800D2A80,
-                         (GV_ACTFUNC)SmokeDie_800D2AA0, aSmokeC);
+        GV_SetNamedActor(&work->actor, SmokeAct_800D2A80, SmokeDie_800D2AA0, aSmokeC);
         s00a_smoke_800D2ADC(&work->field_24);
         if (SmokeGetResources_800D2B0C(work, where) < 0)
         {
@@ -242,5 +241,5 @@ GV_ACT *NewSmoke_800D2BEC(int name, int where, int argc, char **argv)
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

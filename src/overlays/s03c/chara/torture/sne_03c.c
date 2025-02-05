@@ -35,18 +35,15 @@ typedef struct Snake03c2Work
     int    procs[4];
 } Snake03c2Work;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-extern PlayerStatusFlag GM_PlayerStatus;
-extern CONTROL         *GM_PlayerControl_800AB9F4;
-extern OBJECT          *GM_PlayerBody_800ABA20;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 
 void s03b_boxall_800C969C(int, int);
 void s03b_boxall_800C96E8(void);
 void s03b_boxall_800C974C(void);
 
-GV_ACT *NewFadeIo_800C4224(int name, int where);
+void *NewFadeIo_800C4224(int name, int where);
 
 void Snake03c1Act_800CD698(Snake03c1Work *work)
 {
@@ -203,25 +200,24 @@ int Snake03c1GetResources_800CD98C(Snake03c1Work *work, int arg1, int arg2)
     return 0;
 }
 
-GV_ACT *NewSnake03c1_800CDAEC(int name, int where)
+void *NewSnake03c1_800CDAEC(int name, int where)
 {
     Snake03c1Work *work;
 
-    work = (Snake03c1Work *)GV_NewActor(EXEC_LEVEL, sizeof(Snake03c1Work));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Snake03c1Work));
     if (work == NULL)
     {
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)Snake03c1Act_800CD698,
-                     (GV_ACTFUNC)Snake03c1Die_800CD8CC, "sne_03c.c");
+    GV_SetNamedActor(&work->actor, Snake03c1Act_800CD698, Snake03c1Die_800CD8CC, "sne_03c.c");
     if (Snake03c1GetResources_800CD98C(work, name, where) < 0)
     {
         GV_DestroyActor(&work->actor);
         return NULL;
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
 //
@@ -253,7 +249,7 @@ int Snake03c2_800CDBC8()
     DG_OBJS *playerBodyObjs;
     int      count;
 
-    playerBodyObjs = GM_PlayerBody_800ABA20->objs;
+    playerBodyObjs = GM_PlayerBody->objs;
     count = playerBodyObjs->n_models;
     obj = playerBodyObjs->objs;
     for (; count > 0; count--, obj++)
@@ -330,7 +326,7 @@ void Snake03c2Act_800CDCE8(Snake03c2Work *work)
         if (!(GM_PlayerStatus & PLAYER_ACT_ONLY))
         {
             GM_GameStatus &= ~STATE_PADRELEASE;
-            GM_PlayerControl_800AB9F4->turn.vy = 1024;
+            GM_PlayerControl->turn.vy = 1024;
             s03b_boxall_800C96E8();
             GCL_ExecProc(work->procs[3], NULL);
             GV_DestroyActor(&work->actor);
@@ -374,23 +370,22 @@ int Snake03c2GetResources_800CDEF8(Snake03c2Work *work)
     return 0;
 }
 
-GV_ACT *NewSnake03c2_800CDF18()
+void *NewSnake03c2_800CDF18()
 {
     Snake03c2Work *work;
 
-    work = (Snake03c2Work *)GV_NewActor(EXEC_LEVEL, sizeof(Snake03c2Work));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Snake03c2Work));
     if (work == NULL)
     {
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)Snake03c2Act_800CDCE8,
-                     (GV_ACTFUNC)Snake03c2Die_800CDE78, "sne_03c.c");
+    GV_SetNamedActor(&work->actor, Snake03c2Act_800CDCE8, Snake03c2Die_800CDE78, "sne_03c.c");
     if (Snake03c2GetResources_800CDEF8(work) < 0)
     {
         GV_DestroyActor(&work->actor);
         return NULL;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

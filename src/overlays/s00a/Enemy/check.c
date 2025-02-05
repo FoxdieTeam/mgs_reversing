@@ -24,8 +24,6 @@ extern SVECTOR           COM_NO_POINT_800C35D4;
 extern int               COM_EYE_LENGTH_800E0D8C;
 extern int               COM_PlayerAddressOne_800E0F40[8];
 
-extern OBJECT *GM_PlayerBody_800ABA20;
-
 int s00a_command_800C50B0( WatcherWork *work )
 {
     TARGET *target;
@@ -285,7 +283,7 @@ void s00a_command_800C5860( WatcherWork* work )
     int trans;
     int near;
 
-    trans = ( ( GM_PlayerBody_800ABA20->objs->objs[6].world.t[1] - work->body.objs->objs[6].world.t[1] ) );
+    trans = ( ( GM_PlayerBody->objs->objs[6].world.t[1] - work->body.objs->objs[6].world.t[1] ) );
     trans = ratan2( work->sn_dis, trans  )  & 0xFFF;
 
     near = GV_NearExp8( work->adjust[2].vx, trans - 0x400 );

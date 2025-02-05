@@ -48,11 +48,6 @@ short        SECTION(".sbss") dword_800ABBD4;
 void        *SECTION(".sbss") GM_BombSeg;
 short        SECTION(".sbss") dword_800ABBDC;
 
-extern CONTROL *GM_PlayerControl_800AB9F4;
-extern OBJECT  *GM_PlayerBody_800ABA20;
-extern short              GM_WeaponChanged_800AB9D8;
-extern int                GM_AlertMode;
-extern PlayerStatusFlag   GM_PlayerStatus;
 extern GM_Camera          GM_Camera_800B77E8;
 extern unsigned short     GM_WeaponTypes[];
 extern unsigned short     GM_ItemTypes[];
@@ -60,10 +55,7 @@ extern void              *dword_8009EEA4[];
 extern int                bakudan_count_8009F42C;
 //extern int                gSnaMoveDir_800ABBA4;
 extern int                counter_8009F448;
-extern int                dword_800ABA1C;
 extern int                tabako_dword_8009F2C0;
-extern int                GM_PlayerAddress_800AB9F0;
-extern SVECTOR            GM_PlayerPosition_800ABA10;
 extern UnkCameraStruct    gUnkCameraStruct_800B77B8;
 extern GV_PAD             GV_PadData_800B05C0[4];
 extern CONTROL        *tenage_ctrls_800BDD30[16];
@@ -80,14 +72,10 @@ extern TARGET *target_800BDF00;
 extern int                dword_800BDD28;
 extern int                tenage_ctrls_count_800BDD70;
 extern int                dword_8009F434;
-extern short              GM_Magazine_800AB9EC;
-extern short              GM_MagazineMax_800ABA2C;
 extern void              *dword_8009EEB0[];
 extern void              *dword_8009EEB8[];
-extern int                dword_800AB9D4;
 extern short              HzdHeights_8009EEC4[];
 extern int                DG_CurrentGroupID;
-extern int                GV_Clock;
 extern char               dword_8009EF1C[];
 extern char               dword_8009EF20[];
 extern TSnakeEquipFuncion gSnakeEquips_8009EF8C[];
@@ -100,7 +88,6 @@ extern char               dword_8009EED8[];
 extern short              snake_weapon_idx_800BDCBA;
 extern short              snake_mag_size_800BDCB8;
 extern short              snake_weapon_max_ammo_800BDCBC;
-extern int                GM_PlayerAction;
 
 #define TARGET_FLAG ( TARGET_POWER | TARGET_CAPTURE | TARGET_PUSH | TARGET_TOUCH | TARGET_SEEK )
 #define BODY_FLAG   ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE )
@@ -1796,7 +1783,7 @@ static inline int sna_weapon_switching_helper_800511BC(SnaInitWork *work)
 static inline int sna_weapon_switching_helper2_800511BC(SnaInitWork *work, int callback)
 {
     WeaponCreateEntry *pWeaponEntry;
-    GV_ACT * (*pWeaponCreateFn)(void *, void *, int, void *, int);
+    void *(*pWeaponCreateFn)(void *, void *, int, void *, int);
     GV_ACT *pWeaponActor;
 
     pWeaponActor = work->field_908_weapon_actor;
@@ -1862,10 +1849,10 @@ void sna_weapon_switching_800511BC(SnaInitWork *work, int callback)
 
     if (GM_CurrentWeaponId != work->field_91C_weapon_idx)
     {
-        GM_WeaponChanged_800AB9D8 = 1;
+        GM_WeaponChanged = 1;
     }
 
-    if (!GM_WeaponChanged_800AB9D8)
+    if (!GM_WeaponChanged)
     {
         return;
     }
@@ -1886,7 +1873,7 @@ void sna_weapon_switching_800511BC(SnaInitWork *work, int callback)
     }
 
     temp_s1_2 = work->field_920_tbl;
-    GM_WeaponChanged_800AB9D8 = 0;
+    GM_WeaponChanged = 0;
 
     if (temp_s1_2 & 0x200)
     {
@@ -3908,7 +3895,7 @@ void sna_anim_dying_80055524(SnaInitWork *work, int time)
                     if (fa3a >= 0)
                     {
                         GM_CurrentWeaponId = fa3a;
-                        GM_WeaponChanged_800AB9D8 = 1;
+                        GM_WeaponChanged = 1;
 
                         if (fa3a == WEAPON_PSG1)
                         {
@@ -3948,8 +3935,8 @@ void sna_anim_mini_cutscene_800559D8(SnaInitWork *work, int time)
         GM_ClearPlayerStatusFlag(PLAYER_GROUND | PLAYER_SQUAT);
 
         work->field_A00.field_0_ivec.vz = -1;
-        work->field_A00.field_0_ivec.vx = GM_PlayerAddress_800AB9F0;
-        work->field_A00.field_0_ivec.pad = GM_PlayerAddress_800AB9F0;
+        work->field_A00.field_0_ivec.vx = GM_PlayerAddress;
+        work->field_A00.field_0_ivec.pad = GM_PlayerAddress;
 
         sna_act_unk_helper2_helper2_800605DC(&work->field_A00, work->control.map->hzd, &work->field_9E4.field_9F4);
         temp_v0 = HZD_GetAddress(work->control.map->hzd, &work->field_9E4.field_9F4,  work->field_A00.field_0_ivec.vy);
@@ -4012,7 +3999,7 @@ void sna_anim_mini_cutscene_800559D8(SnaInitWork *work, int time)
 
     if (!(pStr->field_9EC_flags3 & 0x200))
     {
-        work->field_A00.field_0_ivec.vx = GM_PlayerAddress_800AB9F0;
+        work->field_A00.field_0_ivec.vx = GM_PlayerAddress;
         sna_unk_helper2_helper_8006070C(&work->field_A00, &work->control);
     }
 
@@ -4051,7 +4038,7 @@ void sna_anim_mini_cutscene_800559D8(SnaInitWork *work, int time)
             if (weapon >= 0)
             {
                 GM_CurrentWeaponId = weapon;
-                GM_WeaponChanged_800AB9D8 = 1;
+                GM_WeaponChanged = 1;
 
                 if (weapon == WEAPON_PSG1)
                 {
@@ -4410,7 +4397,7 @@ void sna_act_unk_helper3_80055DD8(SnaInitWork *work, int time)
             if (weapon >= 0)
             {
                 GM_CurrentWeaponId = weapon;
-                GM_WeaponChanged_800AB9D8 = 1;
+                GM_WeaponChanged = 1;
 
                 if (weapon == WEAPON_PSG1)
                 {
@@ -5618,7 +5605,7 @@ void sna_80057A90(SnaInitWork *work, int time)
         NewAnime_8005DDE0(&work->body.objs->objs[4].world);
         sna_8004E260(work, work->actpack->attack->reload, 4, bits);
 
-        ammo = GM_MagazineMax_800ABA2C;
+        ammo = GM_MagazineMax;
         magSize = GM_Weapons[work->field_91C_weapon_idx];
 
         if (ammo > 0 && ammo < magSize)
@@ -5626,8 +5613,8 @@ void sna_80057A90(SnaInitWork *work, int time)
             magSize = ammo;
         }
 
-        GM_MagazineMax_800ABA2C = ammo;
-        GM_Magazine_800AB9EC = magSize;
+        GM_MagazineMax = ammo;
+        GM_Magazine = magSize;
     }
 
     sna_8004F034(work, bits);
@@ -5686,7 +5673,7 @@ void sub_80057BF0(SnaInitWork *work, int time)
 
     sna_8004F034(work, var_s4);
 
-    if ( (GM_Magazine_800AB9EC == 0) && (GM_MagazineMax_800ABA2C != 0) && (GM_Weapons[work->field_91C_weapon_idx] > 0) )
+    if ( (GM_Magazine == 0) && (GM_MagazineMax != 0) && (GM_Weapons[work->field_91C_weapon_idx] > 0) )
     {
         work->field_90C_pWeaponFn = &sna_80057A90;
         work->field_910 = 0;
@@ -5841,11 +5828,11 @@ void sna_anim_psg1_helper_80057FD4(SnaInitWork* work, int time)
             ammo = mag_size;
         }
 
-        GM_MagazineMax_800ABA2C = mag_size;
-        GM_Magazine_800AB9EC = ammo;
+        GM_MagazineMax = mag_size;
+        GM_Magazine = ammo;
     }
 
-    if ( (GM_Magazine_800AB9EC == 0) && (GM_Weapons[WEAPON_PSG1] > 0) )
+    if ( (GM_Magazine == 0) && (GM_Weapons[WEAPON_PSG1] > 0) )
     {
         work->field_A34 = 24;
         return;
@@ -7472,7 +7459,7 @@ void sna_init_main_logic_800596FC(SnaInitWork *work)
         work->field_910 = 0;
         work->field_926 = 0;
         work->field_924 = 0;
-        GM_WeaponChanged_800AB9D8 = 1;
+        GM_WeaponChanged = 1;
         work->field_920_tbl = GM_WeaponTypes[0];
         work->field_918_n_bullets = 0;
         GM_ClearPlayerStatusFlag(PLAYER_WEAPON_DISABLE | PLAYER_ITEM_DISABLE);
@@ -7564,7 +7551,7 @@ void sna_init_main_logic_800596FC(SnaInitWork *work)
 
     snake_weapon_idx_800BDCBA = work->field_91C_weapon_idx;
     snake_weapon_max_ammo_800BDCBC = *work->field_918_n_bullets;
-    snake_mag_size_800BDCB8 = GM_Magazine_800AB9EC;
+    snake_mag_size_800BDCB8 = GM_Magazine;
 }
 
 static inline int sna_act_helper_8005AD10(SnaInitWork *work)
@@ -7754,16 +7741,16 @@ void sna_act_8005AD10(SnaInitWork *work)
         gUnkCameraStruct_800B77B8.eye = vec2;
     }
 
-    GM_PlayerPosition_800ABA10 = vec = work->control.mov;
+    GM_PlayerPosition = vec = work->control.mov;
 
     if ( sna_check_flags1_8004E31C(work, SNA_FLAG1_UNK16) )
     {
-        GM_PlayerPosition_800ABA10 = work->field_A60;
+        GM_PlayerPosition = work->field_A60;
         GM_MoveTarget(work->field_89C_pTarget, &work->field_A60);
     }
 
     vec.vy = level = work->control.levels[0];
-    GM_PlayerAddress_800AB9F0 = work->field_844 = HZD_GetAddress(work->control.map->hzd, &vec, work->field_844);
+    GM_PlayerAddress = work->field_844 = HZD_GetAddress(work->control.map->hzd, &vec, work->field_844);
 
     if ( GM_CheckPlayerStatusFlag(PLAYER_INTRUDE) )
     {
@@ -7825,14 +7812,14 @@ void sna_kill_8005B52C(SnaInitWork *work)
         GV_DestroyOtherActor(pItem);
     }
 
-    if (GM_PlayerControl_800AB9F4 == pCtrl)
+    if (GM_PlayerControl == pCtrl)
     {
-        GM_PlayerControl_800AB9F4 = 0;
+        GM_PlayerControl = 0;
     }
 
-    if (GM_PlayerBody_800ABA20 == &work->body)
+    if (GM_PlayerBody == &work->body)
     {
-        GM_PlayerBody_800ABA20 = 0;
+        GM_PlayerBody = 0;
     }
 
     snainit_actor_800A9424 = NULL;
@@ -8093,9 +8080,9 @@ static inline int sna_LoadSnake(SnaInitWork *work, int scriptData, int scriptBin
                            work->rots);
     GM_ConfigObjectLight(body, &work->field_848_lighting_mtx);
 
-    GM_PlayerControl_800AB9F4 = pCtrl;
-    GM_PlayerPosition_800ABA10 = work->control.mov;
-    GM_PlayerBody_800ABA20 = body;
+    GM_PlayerControl = pCtrl;
+    GM_PlayerPosition = work->control.mov;
+    GM_PlayerBody = body;
 
     sna_8004EB14(work);
 
@@ -8201,20 +8188,19 @@ static const char aTrapCheckD[] = "trap check %d\n";
 static const char aPadX[] = "pad %x\n";
 static const char aKaze[] = "kaze \n";
 
-GV_ACT *NewSnake(int name, int where, int argc, char **argv)
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
+
+void *NewSnake(int name, int where, int argc, char **argv)
 {
     SnaInitWork *work;
 
-    work = (SnaInitWork *)GV_NewActor(5, sizeof(SnaInitWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(SnaInitWork));
     if (!work)
     {
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor,
-                     (GV_ACTFUNC)&sna_act_8005AD10,
-                     (GV_ACTFUNC)&sna_kill_8005B52C,
-                     "../snake_vr/sna_init.c");
+    GV_SetNamedActor(&work->actor, &sna_act_8005AD10, &sna_kill_8005B52C, "../snake_vr/sna_init.c");
 
     if (sna_LoadSnake(work, name, where) < 0)
     {
@@ -8223,5 +8209,5 @@ GV_ACT *NewSnake(int name, int where, int argc, char **argv)
     }
 
     snainit_actor_800A9424 = work;
-    return &work->actor;
+    return (void *)work;
 }

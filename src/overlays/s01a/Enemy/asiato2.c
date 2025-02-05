@@ -28,7 +28,7 @@ typedef struct _AsiatoUnk
 
 AsiatoUnk SECTION("overlay.bss") asiato2_800E4FC0;
 
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 void s01a_asiato2_800DCE0C(DG_PRIM *prim, DG_TEX *tex, int r, int g, int b)
 {
@@ -176,14 +176,14 @@ void Asiato2Die_800DD1C8(AsiatoWork *work)
     asiato2_800E4FC0.total--;
 }
 
-GV_ACT *NewAsiato2_800DD238(MATRIX *world, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6)
+void *NewAsiato2_800DD238(MATRIX *world, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6)
 {
     AsiatoWork *work;
 
-    work = (AsiatoWork *)GV_NewActor(EXEC_LEVEL, sizeof(AsiatoWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(AsiatoWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)Asiato2Act_800DCE48, (GV_ACTFUNC)Asiato2Die_800DD1C8, "asiato2.c");
+        GV_SetNamedActor(&work->actor, Asiato2Act_800DCE48, Asiato2Die_800DD1C8, "asiato2.c");
 
         work->f4C = arg3;
         work->f54 = arg6;
@@ -197,7 +197,7 @@ GV_ACT *NewAsiato2_800DD238(MATRIX *world, int arg1, int arg2, int arg3, int arg
         work->f48 = arg4;
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
 typedef struct _Asiato2Work2
@@ -326,17 +326,14 @@ void s01a_blink_tx_800DD594(Asiato2Work2 *work)
     work->f2C = 0;
 }
 
-GV_ACT * s01a_blink_tx_800DD60C(CONTROL *control, OBJECT *object, int arg2, int *arg3)
+void *s01a_blink_tx_800DD60C(CONTROL *control, OBJECT *object, int arg2, int *arg3)
 {
     Asiato2Work2 *work;
 
-    work = (Asiato2Work2 *)GV_NewActor(4, sizeof(Asiato2Work2));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Asiato2Work2));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor,
-                         (GV_ACTFUNC)s01a_blink_tx_800DD4AC,
-                         (GV_ACTFUNC)s01a_blink_tx_800DD58C,
-                         "asiato2.c");
+        GV_SetNamedActor(&work->actor, s01a_blink_tx_800DD4AC, s01a_blink_tx_800DD58C, "asiato2.c");
 
         work->control = control;
         work->object = object;
@@ -346,5 +343,5 @@ GV_ACT * s01a_blink_tx_800DD60C(CONTROL *control, OBJECT *object, int arg2, int 
         s01a_blink_tx_800DD594(work);
     }
 
-    return &work->actor;
+    return (void *)work;
 }

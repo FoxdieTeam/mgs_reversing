@@ -25,13 +25,11 @@ typedef struct _GrenadeEnemyWork
     int      type;
 } GrenadeEnemyWork;
 
-extern int GM_CurrentMap;
-
 SVECTOR svec_800C360C[2] = {{0, 80, 80, 0}, {0, 20, 500, 0}};
 
-GV_ACT *NewBlast(MATRIX *);
+void *NewBlast(MATRIX *);
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void GrenadeEnemyAct_800D1DDC(GrenadeEnemyWork *work)
 {
@@ -115,14 +113,14 @@ int GrenadeEnemyGetResources_800D1FCC(GrenadeEnemyWork *work, OBJECT *parent, in
     return 0;
 }
 
-GV_ACT *NewGrenadeEnemy_800D203C(CONTROL *control, OBJECT *parent, int num_parent, int *arg3, int unused, SVECTOR *arg6, int type)
+void *NewGrenadeEnemy_800D203C(CONTROL *control, OBJECT *parent, int num_parent, int *arg3, int unused, SVECTOR *arg6, int type)
 {
     GrenadeEnemyWork *work;
 
-    work = (GrenadeEnemyWork *)GV_NewActor(EXEC_LEVEL, sizeof(GrenadeEnemyWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(GrenadeEnemyWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)GrenadeEnemyAct_800D1DDC, (GV_ACTFUNC)GrenadeEnemyDie_800D1FAC, "grnad_e.c");
+        GV_SetNamedActor(&work->actor, GrenadeEnemyAct_800D1DDC, GrenadeEnemyDie_800D1FAC, "grnad_e.c");
 
         if (GrenadeEnemyGetResources_800D1FCC(work, parent, num_parent, type) < 0)
         {
@@ -141,7 +139,7 @@ GV_ACT *NewGrenadeEnemy_800D203C(CONTROL *control, OBJECT *parent, int num_paren
         work->f114 = *arg6;
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
 void NewGrenadeEnemy_800D2138(CONTROL *control, OBJECT *parent, int num_parent, int *arg3, SVECTOR *arg4, int arg5)

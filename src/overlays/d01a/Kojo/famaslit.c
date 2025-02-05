@@ -1,8 +1,13 @@
 #include "famaslit.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "Game/game.h"
 
 typedef struct _FamaslitWork
 {
@@ -15,14 +20,12 @@ typedef struct _FamaslitWork
 RECT d01a_rect_800C3490 = {40, 40, 80, 80};
 SVECTOR d01a_svec_800C3498 = {0, -400, 60, 0};
 
-extern int GM_CurrentMap;
-
 void FamaslitAct_800D0B28(FamaslitWork *work);
 void FamaslitDie_800D0B90(FamaslitWork *work);
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-GV_ACT *NewFamaslit_800D06F0(MATRIX *world)
+void *NewFamaslit_800D06F0(MATRIX *world)
 {
     DG_TEX       *tex;
     FamaslitWork *work;
@@ -36,13 +39,13 @@ GV_ACT *NewFamaslit_800D06F0(MATRIX *world)
         return NULL;
     }
 
-    work = (FamaslitWork *)GV_NewActor(EXEC_LEVEL, sizeof(FamaslitWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(FamaslitWork));
     if (work == NULL)
     {
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)FamaslitAct_800D0B28, (GV_ACTFUNC)FamaslitDie_800D0B90, "famaslit.c");
+    GV_SetNamedActor(&work->actor, FamaslitAct_800D0B28, FamaslitDie_800D0B90, "famaslit.c");
 
     work->world = world;
     work->map = GM_CurrentMap;
@@ -91,7 +94,7 @@ GV_ACT *NewFamaslit_800D06F0(MATRIX *world)
 
 #undef POLY
 
-    return &work->actor;
+    return (void *)work;
 }
 
 void FamaslitAct_800D0B28(FamaslitWork *work)

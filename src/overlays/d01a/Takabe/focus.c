@@ -1,5 +1,9 @@
 #include "focus.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
@@ -25,9 +29,6 @@ typedef struct _FocusWork
     int         f_target;
     int         f_range;
 } FocusWork;
-
-extern int GV_Clock;
-extern int GV_PauseLevel;
 
 void FocusAct_800CEA70(FocusWork *work)
 {
@@ -147,16 +148,16 @@ int FocusGetResources_800CEDA4(FocusWork *work, int arg1, int arg2)
     return 0;
 }
 
-#define EXEC_LEVEL 7
+#define EXEC_LEVEL GV_ACTOR_AFTER2
 
-GV_ACT *NewFocus_800CEFF8(int name, int where, int argc, char **argv)
+void *NewFocus_800CEFF8(int name, int where, int argc, char **argv)
 {
     FocusWork *work;
 
-    work = (FocusWork *)GV_NewActor(EXEC_LEVEL, sizeof(FocusWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(FocusWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)FocusAct_800CEA70, (GV_ACTFUNC)FocusDie_800CED74, "focus.c");
+        GV_SetNamedActor(&work->actor, FocusAct_800CEA70, FocusDie_800CED74, "focus.c");
 
         if (FocusGetResources_800CEDA4(work, name, where) < 0)
         {
@@ -165,5 +166,5 @@ GV_ACT *NewFocus_800CEFF8(int name, int where, int argc, char **argv)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

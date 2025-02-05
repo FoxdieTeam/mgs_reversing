@@ -1,3 +1,4 @@
+#define __GV_PAD_SBSS__
 #include "libgv.h"
 
 #include "mts/mts.h"
@@ -16,12 +17,26 @@ STATIC int GV_800AB37C = 0;
 
 STATIC int SECTION(".sbss") dword_800AB950;
 STATIC int SECTION(".sbss") dword_800AB954;
-int SECTION(".sbss") GV_DemoPadStatus;
-int SECTION(".sbss") GV_DemoPadAnalog;
+u_long SECTION(".sbss") GV_DemoPadStatus;
+u_long SECTION(".sbss") GV_DemoPadAnalog;
 
-STATIC short key_table_8009D32C[] = {
-    0x0000, 0x0800, 0x0400, 0x0600, 0x0000, 0x0000, 0x0200, 0x0000,
-    0x0C00, 0x0A00, 0x0000, 0x0000, 0x0E00, 0x0000, 0x0000, 0x0000
+STATIC short dir_table[16] = {
+    0x0000, /*  0: (NONE)                               */
+    0x0800, /*  1: UP                                   */
+    0x0400, /*  2: RIGHT                                */
+    0x0600, /*  3: RIGHT + UP                           */
+    0x0000, /*  4: DOWN                                 */
+    0x0000, /*  5: DOWN + UP                (INVALID)   */
+    0x0200, /*  6: DOWN + RIGHT                         */
+    0x0000, /*  7: DOWN + RIGHT + UP        (INVALID)   */
+    0x0C00, /*  8: LEFT                                 */
+    0x0A00, /*  9: LEFT + UP                            */
+    0x0000, /* 10: LEFT + RIGHT             (INVALID)   */
+    0x0000, /* 11: LEFT + RIGHT + UP        (INVALID)   */
+    0x0E00, /* 12: LEFT + DOWN                          */
+    0x0000, /* 13: LEFT + DOWN + UP         (INVALID)   */
+    0x0000, /* 14: LEFT + DOWN + RIGHT      (INVALID)   */
+    0x0000  /* 15: LEFT + DOWN + RIGHT + UP (INVALID)   */
 };
 
 #ifdef VR_EXE
@@ -30,13 +45,13 @@ STATIC void sub_800165B0(MTS_PAD *data)
     unsigned short status = GV_DemoPadStatus;
     if (status & 0x400)
     {
-        data->capability = MTS_PAD_ANALOG;
+        data->flag = MTS_PAD_ANALOG;
         data->lx = GV_DemoPadAnalog;
         data->ly = (GV_DemoPadAnalog & 0xFF00) >> 8;
     }
     else
     {
-        data->capability = MTS_PAD_DIGITAL;
+        data->flag = MTS_PAD_DIGITAL;
     }
 }
 #endif
@@ -197,22 +212,22 @@ void GV_UpdatePadSystem(void)
             // int local_gamestatus = GM_GameStatus & 0x40000000;
             if (GM_GameStatus & STATE_PADDEMO)
             {
-                #ifndef VR_EXE
-                    data.capability = MTS_PAD_DIGITAL;
-                #else
-                    if (chan == 2)
-                    {
-                        sub_800165B0(&data);
-                    }
-                    else
-                    {
-                        data.capability = MTS_PAD_DIGITAL;
-                    }
-                #endif
+            #ifndef VR_EXE
+                data.flag = MTS_PAD_DIGITAL;
+            #else
+                if (chan == 2)
+                {
+                    sub_800165B0(&data);
+                }
+                else
+                {
+                    data.flag = MTS_PAD_DIGITAL;
+                }
+            #endif
             }
 
             // loc_80016960
-            pad->analog = data.capability - 1;
+            pad->analog = data.flag - 1;
 
             // if ( pad->analog > 0 && ( GM_GameStatus & 0x90000000 && local_gamestatus ) )
             if (pad->analog > 0 && (!(GM_GameStatus & (STATE_PADRELEASE | STATE_DEMO)) || GM_GameStatus & STATE_PADDEMO))
@@ -221,7 +236,7 @@ void GV_UpdatePadSystem(void)
                 if (button & PAD_DIR)
                 {
                     // loc_800169A0
-                    int v0 = key_table_8009D32C[(button & PAD_DIR) >> 12];
+                    int v0 = dir_table[(button & PAD_DIR) >> 12];
                     v0 += GV_PadOrigin;
                     pad->dir = v0 & 0x0FFF;
                     pad->analog = 0;
@@ -295,7 +310,7 @@ void GV_UpdatePadSystem(void)
                 else
                 {
                     check >>= 12;
-                    val = (key_table_8009D32C[check] + GV_PadOrigin) & 0x0FFF;
+                    val = (dir_table[check] + GV_PadOrigin) & 0x0FFF;
                 }
                 pad->dir = val;
             }
@@ -391,7 +406,7 @@ int GV_GetPadDirNoPadOrg(unsigned int button)
     value = -1;
     if (button & PAD_DIR)
     {
-        value = (key_table_8009D32C[(button & PAD_DIR) >> 12] + GV_PadOrigin) & ~PAD_DIR & 0xFFFF;
+        value = (dir_table[(button & PAD_DIR) >> 12] + GV_PadOrigin) & ~PAD_DIR & 0xFFFF;
     }
 
     return value - GV_PadOrigin;

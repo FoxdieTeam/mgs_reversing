@@ -4,13 +4,10 @@
 #include "mts/mts.h" // for fprintf
 #include "libgv/libgv.h"
 #include "libhzd/libhzd.h"
+#include "Game/game.h"
 
 extern ENEMY_COMMAND EnemyCommand_800E0D98;
-extern SVECTOR       GM_PlayerPosition_800ABA10;
-extern int           GM_AlertLevel;
-extern int           GM_PlayerStatus;
 extern unsigned int  COM_GameStatus_800E0F3C;
-extern int           GM_NoisePower;
 extern SVECTOR       COM_PlayerPosition_800E0F30;
 extern SVECTOR       COM_PlayerPositionOne_800E0D48[8];
 extern int           COM_PlayerMapOne_800E0F70[8];
@@ -625,14 +622,13 @@ int s07a_meryl_unk_800DBFC8(SVECTOR* vec) {
     return 1;
 }
 
-extern SVECTOR GM_PlayerPosition_800ABA10;
 extern const char s07a_aKroekroekrokeorkdd_800E2FF0[];// = " kroekroekrokeork %d %d\n";
 
 int s07a_meryl_unk_800DC00C( WatcherWork *work )
 {
     int count3 = work->count3;
 
-    if ( ToiletArea_800DBF40( &GM_PlayerPosition_800ABA10 ) || s07a_meryl_unk_800DBF84( &GM_PlayerPosition_800ABA10  ) )
+    if ( ToiletArea_800DBF40( &GM_PlayerPosition ) || s07a_meryl_unk_800DBF84( &GM_PlayerPosition  ) )
     {
         work->count3 = 0;
     }
@@ -731,7 +727,7 @@ void s07a_meryl_unk_800DC214( WatcherWork *work )
 
     }
 
-    if ( ToiletArea_800DBF40( &GM_PlayerPosition_800ABA10 ) || s07a_meryl_unk_800DBF84( &GM_PlayerPosition_800ABA10  ) || work->alert_level > 1 )
+    if ( ToiletArea_800DBF40( &GM_PlayerPosition ) || s07a_meryl_unk_800DBF84( &GM_PlayerPosition  ) || work->alert_level > 1 )
     {
         work->count3 = 0;
         s07a_meryl_unk_800DBAB4( work );
@@ -923,7 +919,7 @@ int s07a_meryl_unk_800DC5B0( WatcherWork *work )
             addr3 = HZD_8005CB48( hzd, addr2, addr, &ctrl->mov );
             zone = &hzd->header->zones[ addr3 ];
 
-            if ( GM_PlayerPosition_800ABA10.vx & 1 )
+            if ( GM_PlayerPosition.vx & 1 )
             {
                 work->field_C14.vx = zone->x + 250;
             }
@@ -932,7 +928,7 @@ int s07a_meryl_unk_800DC5B0( WatcherWork *work )
                  work->field_C14.vx = zone->x - 250;
             }
 
-            if ( GM_PlayerPosition_800ABA10.vz & 1 )
+            if ( GM_PlayerPosition.vz & 1 )
             {
                 work->field_C14.vz = zone->z + 250;
             }
@@ -2676,8 +2672,6 @@ void s07a_meryl_unk_800DED40( WatcherWork* work )
     }
 }
 
-extern int GM_AlertLevel;
-
 void s07a_meryl_unk_800DEE14( WatcherWork* work )
 {
     s07a_meryl_unk_800DB378( work );
@@ -2902,7 +2896,7 @@ void MerylThink_800DF3A0( WatcherWork* work )
     work->pad.dir = -1;
     work->pad.press = 0;
 
-    if ( ToiletArea_800DBF40( &GM_PlayerPosition_800ABA10 ) )
+    if ( ToiletArea_800DBF40( &GM_PlayerPosition ) )
     {
         work->control.radar_atr = RADAR_SIGHT | RADAR_ALL_MAP ;
     }

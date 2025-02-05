@@ -1,6 +1,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "Game/game.h"
 
 typedef struct _PlasmaHWork
 {
@@ -21,9 +22,7 @@ typedef struct _PlasmaHWork
     int      time;
 } PlasmaHWork;
 
-extern int     GM_CurrentMap;
-
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 int s08a_plasma_h_800D100C(SVECTOR *a, SVECTOR *b, SVECTOR *out)
 {
@@ -365,14 +364,14 @@ int PlasmaHGetResources_800D1ABC(PlasmaHWork *work, SVECTOR *pos1, SVECTOR *pos2
     return 0;
 }
 
-GV_ACT *NewPlasmaH_800D1B2C(SVECTOR *pos1, SVECTOR *pos2, int time)
+void *NewPlasmaH_800D1B2C(SVECTOR *pos1, SVECTOR *pos2, int time)
 {
     PlasmaHWork *work;
 
-    work = (PlasmaHWork *)GV_NewActor(EXEC_LEVEL, sizeof(PlasmaHWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(PlasmaHWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)PlasmaAct_800D16D0, (GV_ACTFUNC)PlasmaDie_800D19B4, "plasma_h.c");
+        GV_SetNamedActor(&work->actor, PlasmaAct_800D16D0, PlasmaDie_800D19B4, "plasma_h.c");
 
         if (PlasmaHGetResources_800D1ABC(work, pos1, pos2, time) < 0)
         {
@@ -381,5 +380,5 @@ GV_ACT *NewPlasmaH_800D1B2C(SVECTOR *pos1, SVECTOR *pos2, int time)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

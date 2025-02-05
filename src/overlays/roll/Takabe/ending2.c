@@ -58,9 +58,7 @@ typedef struct Ending2Work
     DISPENV      field_325C;
 } Ending2Work;
 
-#define EXEC_LEVEL 5
-
-extern int GV_Clock;
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 // Similar in usage to struct in movie.c
 // (but different order of fields)
@@ -430,11 +428,11 @@ void Ending2_800C65C4(Ending2Work *work)
         moviework_800C326C.field_20 = 1;
         mts_wait_vbl(1);
     }
-    DecDCToutCallback(0);
+    DecDCToutCallback(NULL);
     StUnSetRing();
     CdControlB(CdlPause, NULL, NULL);
     GV_ResetPacketMemory();
-    DG_ResetObjectQueue();
+    DG_RestartMainChanlSystem();
     moviework_800C326C.file = NULL;
     DG_UnDrawFrameCount = 0x7FFF0000;
 }
@@ -1100,15 +1098,14 @@ void Ending2GetResources_800C77F8(Ending2Work *work, int field_48)
     }
 }
 
-GV_ACT *NewEnding2_800C7BE8(int arg0)
+void *NewEnding2_800C7BE8(int arg0)
 {
     Ending2Work *work;
 
-    work = (Ending2Work *)GV_NewActor(EXEC_LEVEL, sizeof(Ending2Work));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Ending2Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)Ending2Act_800C71D8,
-                         (GV_ACTFUNC)Ending2Die_800C76BC, "ending2.c");
+        GV_SetNamedActor(&work->actor, Ending2Act_800C71D8, Ending2Die_800C76BC, "ending2.c");
         work->field_5C = THING_Gcl_GetInt('p');
         work->field_30 = THING_Gcl_GetIntDefault('w', 660);
         work->field_4C = THING_Gcl_GetInt('v');
@@ -1122,5 +1119,5 @@ GV_ACT *NewEnding2_800C7BE8(int arg0)
         }
         Ending2GetResources_800C77F8(work, arg0);
     }
-    return &work->actor;
+    return (void *)work;
 }

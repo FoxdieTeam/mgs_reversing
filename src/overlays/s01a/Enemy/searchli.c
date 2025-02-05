@@ -65,14 +65,8 @@ typedef struct _SearchlightWork
     MATRIX         lit_mtx;
 } SearchlightWork;
 
-extern int      GM_PlayerMap_800ABA0C;
-extern SVECTOR  GM_PlayerPosition_800ABA10;
-extern int      GM_PlayerStatus;
 extern GV_PAD   GV_PadData_800B05C0[4];
 extern CONTROL *GM_WhereList_800B56D0[96];
-extern OBJECT  *GM_PlayerBody_800ABA20;
-extern int      dword_800ABA1C;
-extern CONTROL *GM_PlayerControl_800AB9F4;
 extern int     COM_VibTime_800E0F68;
 
 extern ENEMY_COMMAND     EnemyCommand_800E0D98;
@@ -90,13 +84,13 @@ const char aSearchliAngle4D[] = "ANGLE:%4d \n";
 const SVECTOR SearchliCenter_800E46D8 = {0, 0, 3000, 0};
 
 
-void    s00a_command_800CEC40(SVECTOR *, int);
-void    s01a_object_800D9424(CONTROL *, int);
-void    s01a_800E2364(MATRIX *, SVECTOR *, VECTOR *);
-GV_ACT *s01a_lit_mdl_800E2C88(MATRIX *arg0, int arg1, int arg2, int arg3);
-void    s01a_lit_mdl_800E2D3C(GV_ACT *, int angle);
+void s00a_command_800CEC40(SVECTOR *, int);
+void s01a_object_800D9424(CONTROL *, int);
+void s01a_800E2364(MATRIX *, SVECTOR *, VECTOR *);
+void *s01a_lit_mdl_800E2C88(MATRIX *arg0, int arg1, int arg2, int arg3);
+void s01a_lit_mdl_800E2D3C(GV_ACT *, int angle);
 
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 void s01a_searchli_800D7320(DG_PRIM *prim, DG_TEX *tex, int r, int g, int b)
 {
@@ -129,7 +123,7 @@ void s01a_searchli_800D734C(SVECTOR *from, SVECTOR *to, SVECTOR *out)
 
 int s01a_searchli_800D73D8(SearchlightWork *work)
 {
-    if (!(work->control.map->index & GM_PlayerMap_800ABA0C) || (work->f2A4 == 0))
+    if (!(work->control.map->index & GM_PlayerMap) || (work->f2A4 == 0))
     {
         work->f290 = 0;
         return 0;
@@ -139,13 +133,13 @@ int s01a_searchli_800D73D8(SearchlightWork *work)
     {
         if (work->f290 == 0)
         {
-            work->f284 = GM_PlayerPosition_800ABA10;
+            work->f284 = GM_PlayerPosition;
             work->f28C = GM_WhereList_800B56D0[0]->rot.vy;
             work->f290 = 1;
             return 0;
         }
 
-        if ((GV_DiffVec3(&work->f284, &GM_PlayerPosition_800ABA10) < 50) &&
+        if ((GV_DiffVec3(&work->f284, &GM_PlayerPosition) < 50) &&
             (work->f28C == GM_WhereList_800B56D0[0]->rot.vy))
         {
             work->f290 = 1;
@@ -185,7 +179,7 @@ void s01a_searchli_800D75C0(SearchlightWork *work)
 {
     SVECTOR player;
 
-    player = GM_PlayerPosition_800ABA10;
+    player = GM_PlayerPosition;
     player.vy = work->height;
 
     s01a_searchli_800D734C(&work->control.mov, &player, &work->control.turn);
@@ -201,7 +195,7 @@ int s01a_searchli_800D763C(SearchlightWork *work)
     pos = &work->control.mov;
     rot = &work->control.turn;
 
-    player = GM_PlayerPosition_800ABA10;
+    player = GM_PlayerPosition;
     player.vy = work->height;
 
     s01a_searchli_800D734C(pos, &player, rot);
@@ -657,7 +651,7 @@ void Searchli_800D80BC(SearchlightWork *work)
     {
         return;
     }
-    var_s4 = GM_PlayerBody_800ABA20->objs->objs[6].world.t[1] - work->height;
+    var_s4 = GM_PlayerBody->objs->objs[6].world.t[1] - work->height;
 
     if (var_s4 < 300)
     {
@@ -691,9 +685,9 @@ void Searchli_800D80BC(SearchlightWork *work)
         return;
     }
 
-    dx = GM_PlayerPosition_800ABA10.vx - work->control.mov.vx;
-    dy = GM_PlayerBody_800ABA20->objs->objs[6].world.t[1] - work->control.mov.vy;
-    dz = GM_PlayerPosition_800ABA10.vz - work->control.mov.vz;
+    dx = GM_PlayerPosition.vx - work->control.mov.vx;
+    dy = GM_PlayerBody->objs->objs[6].world.t[1] - work->control.mov.vy;
+    dz = GM_PlayerPosition.vz - work->control.mov.vz;
 
     target = 1024;
 
@@ -710,8 +704,8 @@ void Searchli_800D80BC(SearchlightWork *work)
 
     temp_t0->vy = ratan2(dx, dz);
 
-    sp18 = GM_PlayerPosition_800ABA10;
-    sp18.vy = GM_PlayerBody_800ABA20->objs->objs[6].world.t[1];
+    sp18 = GM_PlayerPosition;
+    sp18.vy = GM_PlayerBody->objs->objs[6].world.t[1];
 
     s01a_800E2364(&work->lit_mtx, &sp18, &sp20);
 
@@ -743,7 +737,7 @@ void Searchli_800D80BC(SearchlightWork *work)
 
     Searchli_800D80AC(temp_s0_8, temp_a1, 0, temp_a1);
 
-    *temp_fp = GM_PlayerPosition_800ABA10;
+    *temp_fp = GM_PlayerPosition;
     temp_fp->vy = var_s4;
 
     temp_t0->vy = (temp_t0->vy + 1536) & 0xFFF;
@@ -756,15 +750,15 @@ void Searchli_800D80BC(SearchlightWork *work)
 
     pos = s01a_svec_800E4660;
 
-    dx2 = GM_PlayerPosition_800ABA10.vx - work->control.mov.vx;
-    dy2 = GM_PlayerPosition_800ABA10.vy - work->control.mov.vy;
-    dz2 = GM_PlayerPosition_800ABA10.vz - work->control.mov.vz;
+    dx2 = GM_PlayerPosition.vx - work->control.mov.vx;
+    dy2 = GM_PlayerPosition.vy - work->control.mov.vy;
+    dz2 = GM_PlayerPosition.vz - work->control.mov.vz;
 
     rot.vx = ratan2(dy2, SquareRoot0(dx2 * dx2 + dz2 * dz2)) + 1024;
     rot.vy = work->control.rot.vy;
     rot.vz = 0;
 
-    DG_SetPos2(&GM_PlayerControl_800AB9F4->mov, &rot);
+    DG_SetPos2(&GM_PlayerControl->mov, &rot);
     DG_PutVector(&pos, &pos, 1);
     DG_SetTmpLight(&pos, 1024, 2000);
 }
@@ -791,8 +785,8 @@ void SearchlightAct_800D86F0(SearchlightWork *work)
     else
     {
         // Snake detected by searchlight logic
-        pos.vx = GM_PlayerPosition_800ABA10.vx;
-        pos.vz = GM_PlayerPosition_800ABA10.vz;
+        pos.vx = GM_PlayerPosition.vx;
+        pos.vz = GM_PlayerPosition.vz;
         pos.vy = work->height;
 
         s01a_800E2364(&work->lit_mtx, &pos, &sp18);
@@ -1143,15 +1137,14 @@ void SearchlightDie_800D9274(SearchlightWork *work)
     }
 }
 
-GV_ACT *NewSearchlight_800D92BC(int name, int where, int argc, char **argv)
+void *NewSearchlight_800D92BC(int name, int where, int argc, char **argv)
 {
     SearchlightWork *work;
 
-    work = (SearchlightWork *)GV_NewActor(EXEC_LEVEL, sizeof(SearchlightWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(SearchlightWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)SearchlightAct_800D86F0,
-                         (GV_ACTFUNC)SearchlightDie_800D9274, "searchli.c");
+        GV_SetNamedActor(&work->actor, SearchlightAct_800D86F0, SearchlightDie_800D9274, "searchli.c");
 
         if (SearchlightGetResources_800D91B0(work, name, where) < 0)
         {
@@ -1165,5 +1158,5 @@ GV_ACT *NewSearchlight_800D92BC(int name, int where, int argc, char **argv)
         work->lit_mdl = s01a_lit_mdl_800E2C88(&work->lit_mtx, work->height, work->f272, 500);
     }
 
-    return &work->actor;
+    return (void *)work;
 }

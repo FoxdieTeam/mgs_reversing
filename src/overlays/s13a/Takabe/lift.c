@@ -32,7 +32,7 @@ extern HITTABLE GM_ClayDatas_800BDE78[8];
 
 #define TAG(ptr, tag) ((void *)((unsigned int)ptr | tag))
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void s13a_lift_800DDA90(LiftWork *work)
 {
@@ -291,14 +291,14 @@ int LiftGetResources_800DE070(LiftWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT *NewLift_800DE25C(int name, int where)
+void *NewLift_800DE25C(int name, int where)
 {
     LiftWork *work;
 
-    work = (LiftWork *)GV_NewActor(EXEC_LEVEL, sizeof(LiftWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(LiftWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)LiftAct_800DDBFC, (GV_ACTFUNC)LiftDie_800DDF88, "lift.c");
+        GV_SetNamedActor(&work->actor, LiftAct_800DDBFC, LiftDie_800DDF88, "lift.c");
 
         if (LiftGetResources_800DE070(work, name, where) < 0)
         {
@@ -306,5 +306,5 @@ GV_ACT *NewLift_800DE25C(int name, int where)
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

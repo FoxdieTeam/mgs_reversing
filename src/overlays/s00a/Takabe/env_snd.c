@@ -22,11 +22,9 @@ typedef struct _EnvSndWork
     char    pad[0x4];
 } EnvSndWork;
 
-extern int GV_PassageTime;
-
 unsigned short env_snd_hashes[] = { 0xBA27, 0x560E };
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void EnvSndAct_800DF1F8(EnvSndWork *work)
 {
@@ -119,14 +117,14 @@ int EnvSndGetResources_800DF3A4(EnvSndWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT *NewEnvSnd_800DF424(int name, int where, int argc, char **argv)
+void *NewEnvSnd_800DF424(int name, int where, int argc, char **argv)
 {
     EnvSndWork *work;
 
-    work = (EnvSndWork *)GV_NewActor(EXEC_LEVEL, sizeof(EnvSndWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(EnvSndWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)EnvSndAct_800DF1F8, (GV_ACTFUNC)EnvSndDie_800DF39C, "env_snd.c");
+        GV_SetNamedActor(&work->actor, EnvSndAct_800DF1F8, EnvSndDie_800DF39C, "env_snd.c");
 
         if (EnvSndGetResources_800DF3A4(work, name, where) < 0)
         {
@@ -135,5 +133,5 @@ GV_ACT *NewEnvSnd_800DF424(int name, int where, int argc, char **argv)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

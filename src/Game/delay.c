@@ -21,7 +21,7 @@ typedef struct DelayWork
     long           argv_buf[8];
 } DelayWork;
 
-#define EXEC_LEVEL 6
+#define EXEC_LEVEL GV_ACTOR_AFTER
 
 //not sure if this one belongs here
 void sna_act_helper2_helper2_80033054(int id, SVECTOR *vec)
@@ -128,7 +128,7 @@ STATIC void delay_Act(DelayWork *work)
     GV_DestroyActor(&work->actor);
 }
 
-GV_ACT *GM_DelayedExecCommand(int proc, GCL_ARGS *args, int time)
+void *GM_DelayedExecCommand(int proc, GCL_ARGS *args, int time)
 {
     unsigned short argc;
     DelayWork     *work;
@@ -136,7 +136,7 @@ GV_ACT *GM_DelayedExecCommand(int proc, GCL_ARGS *args, int time)
     long          *dst_args;
     long          *src_args;
 
-    work = (DelayWork *)GV_NewActor(EXEC_LEVEL, sizeof(DelayWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(DelayWork));
     if (work)
     {
         if (!args)
@@ -173,7 +173,7 @@ GV_ACT *GM_DelayedExecCommand(int proc, GCL_ARGS *args, int time)
         work->delay_counter = time;
         work->gcl_exec.proc_id = proc;
 
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)delay_Act, NULL, "delay.c");
+        GV_SetNamedActor(&work->actor, delay_Act, NULL, "delay.c");
     }
-    return &work->actor;
+    return (void *)work;
 }

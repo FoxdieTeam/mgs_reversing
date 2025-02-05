@@ -9,6 +9,7 @@
 #include "Equip/equip.h"
 #include "SD/g_sound.h"
 
+// "It stands for Otaku Comvention."
 typedef struct OtacomWork
 {
     GV_ACT         actor;
@@ -31,18 +32,15 @@ typedef struct OtacomWork
     int            procs[3];
 } OtacomWork;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 int s03c_dword_800C33D8 = 0;
-
-extern SVECTOR  GM_PlayerPosition_800ABA10;
-extern CONTROL *GM_PlayerControl_800AB9F4;
 
 void s03b_boxall_800C9404(void);
 int  s03b_boxall_800C93AC(int arg0);
 int  s03b_boxall_800C95EC(void);
 
-GV_ACT *NewJohnny2_800CE368();
+void *NewJohnny2_800CE368();
 
 void OtacomSendMessage_800CB3E0(int address, int message)
 {
@@ -146,8 +144,8 @@ void Otacom_800CB494(OtacomWork *work, int timer)
 
         if (s03b_boxall_800C95EC() != 0)
         {
-            GV_SubVec3(&work->control.mov, &GM_PlayerPosition_800ABA10, &svec4);
-            GM_PlayerControl_800AB9F4->turn.vy = GV_VecDir2(&svec4);
+            GV_SubVec3(&work->control.mov, &GM_PlayerPosition, &svec4);
+            GM_PlayerControl->turn.vy = GV_VecDir2(&svec4);
 
             GCL_ExecProc(work->procs[1], NULL);
 
@@ -192,15 +190,15 @@ void Otacom_800CB494(OtacomWork *work, int timer)
         svec2 = work->control.mov;
         svec2.vy = 0;
 
-        svec3 = GM_PlayerPosition_800ABA10;
+        svec3 = GM_PlayerPosition;
         svec3.vy = 0;
 
         GV_SubVec3(&svec2, &svec3, &svec1);
 
         if (GV_VecLen3(&svec1) < 1500)
         {
-            GV_SubVec3(&work->control.mov, &GM_PlayerPosition_800ABA10, &svec1);
-            GM_PlayerControl_800AB9F4->turn.vy = GV_VecDir2(&svec1);
+            GV_SubVec3(&work->control.mov, &GM_PlayerPosition, &svec1);
+            GM_PlayerControl->turn.vy = GV_VecDir2(&svec1);
 
             GCL_ExecProc(work->procs[2], NULL);
             GCL_ExecProc(work->procs[0], NULL);
@@ -536,22 +534,21 @@ int OtacomGetResources_800CBDB4(OtacomWork *work, int arg1, int arg2)
     return 0;
 }
 
-GV_ACT *NewOtacom_800CC030(int arg0, int arg1)
+void *NewOtacom_800CC030(int arg0, int arg1)
 {
     OtacomWork *work;
 
-    work = (OtacomWork *)GV_NewActor(EXEC_LEVEL, sizeof(OtacomWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(OtacomWork));
     if (work == NULL)
     {
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)OtacomAct_800CBB8C,
-                     (GV_ACTFUNC)OtacomDie_800CBC50, "otacom.c");
+    GV_SetNamedActor(&work->actor, OtacomAct_800CBB8C, OtacomDie_800CBC50, "otacom.c");
     if (OtacomGetResources_800CBDB4(work, arg0, arg1) < 0)
     {
         GV_DestroyActor(&work->actor);
         return NULL;
     }
-    return &work->actor;
+    return (void *)work;
 }

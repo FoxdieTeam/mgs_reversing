@@ -1,9 +1,10 @@
 #include "blink_tx.h"
 
 #include "common.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "libgv/libgv.h"
+#include "Game/game.h"
 
 typedef struct _BlinkTxWork
 {
@@ -13,11 +14,9 @@ typedef struct _BlinkTxWork
     char     pad[0x4];
 } BlinkTxWork;
 
-extern int GM_CurrentMap;
-
 RECT blink_tx_rect = {1000, 1000, 2000, 2000};
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void BlinkTxShadePacks_800DEA9C(POLY_FT4 *packs, int n_packs, DG_TEX *tex, int shade)
 {
@@ -122,16 +121,16 @@ int BlinkTxGetResources_800DEBB4(BlinkTxWork *work, int map, int n_prims)
     return 0;
 }
 
-GV_ACT *NewBlinkTx_800DECD8(int name, int where, int argc, char **argv)
+void *NewBlinkTx_800DECD8(int name, int where, int argc, char **argv)
 {
     BlinkTxWork *work;
     char        *opt;
     int          n_prims;
 
-    work = (BlinkTxWork *)GV_NewActor(EXEC_LEVEL, sizeof(BlinkTxWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(BlinkTxWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, NULL, (GV_ACTFUNC)BlinkTxDie_800DEB24, "blink_tx.c");
+        GV_SetNamedActor(&work->actor, NULL, BlinkTxDie_800DEB24, "blink_tx.c");
 
         opt = GCL_GetOption('p');
         n_prims = BlinkTxGetSvecs_800DEB60(opt, work->pos);
@@ -143,5 +142,5 @@ GV_ACT *NewBlinkTx_800DECD8(int name, int where, int argc, char **argv)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

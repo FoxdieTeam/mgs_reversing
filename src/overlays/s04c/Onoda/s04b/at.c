@@ -37,9 +37,7 @@ SVECTOR at_bloodpos = {0, 0, 100, 0};
 SVECTOR at_bloodrot = {-1024, 0, 0, 0};
 SVECTOR at_target_size = {400, 900, 400, 0};
 
-extern int     GM_CurrentMap;
-
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL      GV_ACTOR_LEVEL5
 #define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE )
 
 void s04c_at_800D7134(AtWork *work, int index, int count)
@@ -300,14 +298,14 @@ int AtGetResources_800D75BC(AtWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT *NewAt_800D78A4(int name, int where)
+void *NewAt_800D78A4(int name, int where)
 {
     AtWork *work;
 
-    work = (AtWork *)GV_NewActor(EXEC_LEVEL, sizeof(AtWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(AtWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)AtAct_800D7324, (GV_ACTFUNC)AtDie_800D7510, "at.c");
+        GV_SetNamedActor(&work->actor, AtAct_800D7324, AtDie_800D7510, "at.c");
 
         if (AtGetResources_800D75BC(work, name, where) < 0)
         {
@@ -316,5 +314,5 @@ GV_ACT *NewAt_800D78A4(int name, int where)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

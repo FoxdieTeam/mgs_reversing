@@ -17,13 +17,7 @@
 #include "Game/linkvarbuf.h"
 #include "SD/g_sound.h"
 
-extern int            GM_CurrentMap;
-extern int            GV_Clock;
-extern int            GM_PlayerStatus;
-extern CONTROL       *GM_PlayerControl_800AB9F4;
 extern unsigned short GM_ItemTypes[];
-extern int            GM_PlayerMap_800ABA0C;
-extern SVECTOR        GM_PlayerPosition_800ABA10;
 
 /*---------------------------------------------------------------------------*/
 
@@ -53,7 +47,7 @@ typedef struct ItemWork
     SVECTOR        field_178;
 } ItemWork;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 /*---------------------------------------------------------------------------*/
 
@@ -208,12 +202,12 @@ STATIC int item_act_helper_800335D0(ItemWork *work)
     int diff;
     unsigned short vy;
 
-    if (!(work->field_108_where & GM_PlayerMap_800ABA0C))
+    if (!(work->field_108_where & GM_PlayerMap))
     {
         return 0;
     }
 
-    vec = GM_PlayerPosition_800ABA10;
+    vec = GM_PlayerPosition;
 
     diff = work->control.mov.vy - vec.vy;
 
@@ -527,21 +521,21 @@ STATIC void item_Act(ItemWork *work)
         return;
     }
 
-    x = GM_PlayerControl_800AB9F4->mov.vx - pCtrl->mov.vx;
+    x = GM_PlayerControl->mov.vx - pCtrl->mov.vx;
 
     if (x < 0)
     {
         x = -x;
     }
 
-    y = GM_PlayerControl_800AB9F4->mov.vy - pCtrl->mov.vy;
+    y = GM_PlayerControl->mov.vy - pCtrl->mov.vy;
 
     if (y < 0)
     {
         y = -y;
     }
 
-    z = GM_PlayerControl_800AB9F4->mov.vz - pCtrl->mov.vz;
+    z = GM_PlayerControl->mov.vz - pCtrl->mov.vz;
 
     if (z < 0)
     {
@@ -881,18 +875,15 @@ STATIC int item_GetResources(ItemWork *work, int name, int where)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewItem(int name, int where, int argc, char **argv)
+void *NewItem(int name, int where, int argc, char **argv)
 {
     ItemWork   *work;
     int         inited;
 
-    work = (ItemWork *)GV_NewActor(EXEC_LEVEL, sizeof(ItemWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(ItemWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor,
-                         (GV_ACTFUNC)&item_Act,
-                         (GV_ACTFUNC)&item_Die,
-                         "item.c");
+        GV_SetNamedActor(&work->actor, &item_Act, &item_Die, "item.c");
         work->field_112_state = 0;
         inited = item_GetResources(work, name, where);
         if (inited > 0)
@@ -907,7 +898,7 @@ GV_ACT *NewItem(int name, int where, int argc, char **argv)
             GV_DestroyActor(&work->actor);
             if (inited == 0)
             {
-                return &work->actor;
+                return (void *)work;
             }
             else
             {
@@ -916,7 +907,7 @@ GV_ACT *NewItem(int name, int where, int argc, char **argv)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -967,18 +958,15 @@ STATIC int item_init_helper_800345C0(ItemWork *work, SVECTOR *pPos, SVECTOR *a3,
     return 0;
 }
 
-GV_ACT *item_init_80034758(SVECTOR *pPos, SVECTOR *a2, Item_Info *pItemInfo)
+void *item_init_80034758(SVECTOR *pPos, SVECTOR *a2, Item_Info *pItemInfo)
 {
     ItemWork   *work;
     int         map;
 
-    work = (ItemWork *)GV_NewActor(EXEC_LEVEL, sizeof(ItemWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(ItemWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor,
-                         (GV_ACTFUNC)&item_Act,
-                         (GV_ACTFUNC)&item_Die,
-                         "item.c");
+        GV_SetNamedActor(&work->actor, &item_Act, &item_Die, "item.c");
 
         if (item_init_helper_800345C0(work, pPos, a2, pItemInfo, GM_CurrentMap) < 0)
         {
@@ -996,5 +984,5 @@ GV_ACT *item_init_80034758(SVECTOR *pPos, SVECTOR *a2, Item_Info *pItemInfo)
         GM_SeSet2(0, 63, SE_SPAWN_ITEM);
     }
 
-    return &work->actor;
+    return (void *)work;
 }

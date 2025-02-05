@@ -276,10 +276,11 @@ typedef struct HindWork
     int       field_A7C;
 } HindWork;
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
+
 SVECTOR s11g_dword_800C3598 = {5000, 3000, 5000, 0};
 SVECTOR s11g_dword_800C35A0 = {100, 0, 0, 0};
 
-extern SVECTOR          GM_PlayerPosition_800ABA10;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 extern DG_CHANL         DG_Chanls_800B1800[3];
 extern GM_Camera        GM_Camera_800B77E8;
@@ -309,7 +310,7 @@ static inline int max(int a, int b)
     return a > b ? a : b;
 }
 
-GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
+void *NewHind_800D1224(int scriptData, int scriptBinds)
 {
     SVECTOR        svec;
     VECTOR         vec1, vec2, vec3;
@@ -319,14 +320,13 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
     int            i;
     unsigned char *param;
 
-    work = (HindWork *)GV_NewActor(5, sizeof(HindWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(HindWork));
     if (work == NULL)
     {
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, (GV_ACTFUNC)HindAct_800D3404,
-                     (GV_ACTFUNC)HindDie_800D45C0, "hind.c");
+    GV_SetNamedActor(&work->actor, HindAct_800D3404, HindDie_800D45C0, "hind.c");
     if (GM_InitControl(&work->control, scriptData, scriptBinds) < 0)
     {
         GV_DestroyActor(&work->actor);
@@ -534,7 +534,7 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
         {
             if (GCL_StrToInt(param) == 1)
             {
-                work->field_490 = &GM_PlayerPosition_800ABA10;
+                work->field_490 = &GM_PlayerPosition;
             }
         }
     }
@@ -959,7 +959,7 @@ GV_ACT *NewHind_800D1224(int scriptData, int scriptBinds)
 
     work->field_A74 = 0;
 
-    return &work->actor;
+    return (void *)work;
 }
 
 void Hind_LookAt_800D2C1C(SVECTOR *eye, SVECTOR *center)

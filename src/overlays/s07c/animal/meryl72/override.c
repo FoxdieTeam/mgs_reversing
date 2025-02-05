@@ -20,8 +20,6 @@ static inline void UnsetMode( Meryl72Work *work )
 }
 /*********************************************************************************************************/
 
-extern int GM_PlayerMap_800ABA0C;
-
 void s07c_meryl72_unk1_800CAD30( Meryl72Work* work, int time )
 {
     if ( time == 0 )
@@ -165,7 +163,7 @@ void s07c_meryl72_unk1_800CB1B4( Meryl72Work *work, int time )
     if ( time == 0 )
     {
         UnsetAction( work, ACTION23 );
-        if ( work->control.map->index & GM_PlayerMap_800ABA0C && GV_RandU( 12 ) > 4 )
+        if ( work->control.map->index & GM_PlayerMap && GV_RandU( 12 ) > 4 )
         {
             work->pad.sound = 0xF0;
         }

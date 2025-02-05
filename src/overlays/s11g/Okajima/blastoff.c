@@ -1,6 +1,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "Game/game.h"
 #include "Takabe/prim.h"
 
 typedef struct BlastoffWork
@@ -19,10 +20,7 @@ typedef struct BlastoffWork
     SVECTOR  prim_vecs[16];
 } BlastoffWork;
 
-#define EXEC_LEVEL 5
-
-extern int    GV_Clock;
-extern int    GM_CurrentMap;
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void Blastoff_800DB880(BlastoffWork *work)
 {
@@ -184,20 +182,19 @@ int BlastoffGetResources_800DBE44(BlastoffWork *work, SVECTOR *arg1, int arg2, i
     return 0;
 }
 
-GV_ACT *NewBlastoff_800DBED4(SVECTOR *arg0, int arg1, int arg2, int *arg3)
+void *NewBlastoff_800DBED4(SVECTOR *arg0, int arg1, int arg2, int *arg3)
 {
     BlastoffWork *work;
 
-    work = (BlastoffWork *)GV_NewActor(EXEC_LEVEL, sizeof(BlastoffWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(BlastoffWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BlastoffAct_800DBB60,
-                         (GV_ACTFUNC)BlastoffDie_800DBC28, "blastoff.c");
+        GV_SetNamedActor(&work->actor, BlastoffAct_800DBB60, BlastoffDie_800DBC28, "blastoff.c");
         if (BlastoffGetResources_800DBE44(work, arg0, arg1, arg2, arg3) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

@@ -7,13 +7,9 @@
 #include "Game/game.h"
 #include "strcode.h"
 
-extern int          GM_AlertMode;
-extern unsigned int GM_PlayerStatus;
-extern OBJECT      *GM_PlayerBody_800ABA20;
-
 extern void AN_Breath_800C3AA8( MATRIX *world );
 
-#define EXEC_LEVEL 5 //goes in libgv.h
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 #define DEFAULT_TIME 0x40
 
 typedef struct _BreathWork
@@ -46,7 +42,7 @@ void BreathAct_800C38A0( BreathWork* work )
 
     if ( work->visible && GM_AlertMode != 3 && !( GM_PlayerStatus & 0x2013 ) )
     {
-        object = GM_PlayerBody_800ABA20;
+        object = GM_PlayerBody;
         if  ( object != NULL && ( GV_Time % work->time == 0 ) )
         {
             AN_Breath_800C3AA8( &object->objs->objs[6].world );
@@ -77,14 +73,14 @@ int BreathGetResources_800C39B4( BreathWork *work, int name, int where )
     return 0;
 }
 
-GV_ACT *NewBreath_800C3A1C(int name, int where, int argc, char **argv)
+void *NewBreath_800C3A1C(int name, int where, int argc, char **argv)
 {
     BreathWork *work ;
 
-    work = (BreathWork *)GV_NewActor( EXEC_LEVEL, sizeof( BreathWork ) ) ;
+    work = GV_NewActor( EXEC_LEVEL, sizeof( BreathWork ) ) ;
     if ( work != NULL ) {
         /* ワークにコールバックを登録する */
-        GV_SetNamedActor( &( work->actor ), ( GV_ACTFUNC )BreathAct_800C38A0, ( GV_ACTFUNC )BreathDie_800C39AC, "breath.c" ) ;
+        GV_SetNamedActor( &( work->actor ), BreathAct_800C38A0, BreathDie_800C39AC, "breath.c" ) ;
         if ( BreathGetResources_800C39B4( work, name, where ) >= 0 ) {
             return (void *)work ;
         }

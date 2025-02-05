@@ -76,6 +76,8 @@ typedef struct GunCameWork
     int      field_418;
 } GunCameWork;
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
+
 int s03e_dword_800C32B4 = 0x00000000;
 int s03e_dword_800C32B8 = 0x00000000;
 int s03e_dword_800C32BC = 0x00000000;
@@ -91,23 +93,17 @@ extern int     s03e_dword_800C32B4;
 extern SVECTOR guncame_svec;
 extern int     s03e_dword_800C32B4;
 extern RECT    guncame_rect;
-extern SVECTOR GM_PlayerPosition_800ABA10;
 extern int     dword_8009F46C[];
 extern int     dword_8009F480;
 extern SVECTOR svector_8009F478;
-extern int     GM_CurrentMap;
-extern int     GM_PlayerMap_800ABA0C;
-extern int     GM_PadVibration;
-extern int     GM_PadVibration2;
 extern int     s03e_dword_800C32BC;
-extern int     GM_PlayerStatus;
 
 void AN_Unknown_800CA1EC(MATRIX *world, int index);
 void AN_Unknown_800D6BCC(SVECTOR *pos, SVECTOR *rot);
 void AN_Unknown_800D6EB0(SVECTOR *pos);
 
-GV_ACT *NewSpark2_800CA714(MATRIX *world);
-GV_ACT *NewBulletEx(int, MATRIX *, int, int, int, int, int, int, int);
+void *NewSpark2_800CA714(MATRIX *world);
+void *NewBulletEx(int, MATRIX *, int, int, int, int, int, int, int);
 
 // Identical to d03a_red_alrt_800C437C
 int GunCame_800C6F60(unsigned short name, int nhashes, unsigned short *hashes)
@@ -153,7 +149,7 @@ void GunCame_800C6FF8(GunCameWork *work)
 void GunCame_800C7068(GunCameWork *work)
 {
     work->field_3A0 = 1;
-    work->field_3AC[0] = GM_PlayerPosition_800ABA10;
+    work->field_3AC[0] = GM_PlayerPosition;
 
     if (dword_8009F46C[0] == 1)
     {
@@ -162,7 +158,7 @@ void GunCame_800C7068(GunCameWork *work)
     }
     else
     {
-        work->field_3AC[1] = GM_PlayerPosition_800ABA10;
+        work->field_3AC[1] = GM_PlayerPosition;
         work->field_3A4 = 0;
         dword_8009F480 = 0;
         work->field_3C4 = 0;
@@ -771,7 +767,7 @@ void GunCame_Act_800C80F4(GunCameWork *work)
 
     control = &work->control;
 
-    if (((work->map & GM_PlayerMap_800ABA0C) == 0) || (work->field_410 != 0))
+    if (((work->map & GM_PlayerMap) == 0) || (work->field_410 != 0))
     {
         DG_InvisibleObjs(work->field_9C.objs);
         DG_InvisibleObjs(work->field_1F4.objs);
@@ -1368,15 +1364,14 @@ void GunCame_Die_800C911C(GunCameWork *work)
     }
 }
 
-GV_ACT *NewGunCame_800C9190(int name, int where, int argc, char **argv)
+void *NewGunCame_800C9190(int name, int where, int argc, char **argv)
 {
     GunCameWork *work;
 
-    work = (GunCameWork *)GV_NewActor(4, sizeof(GunCameWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(GunCameWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)GunCame_Act_800C80F4,
-                         (GV_ACTFUNC)GunCame_Die_800C911C, "guncame.c");
+        GV_SetNamedActor(&work->actor, GunCame_Act_800C80F4, GunCame_Die_800C911C, "guncame.c");
         if (GunCame_GetResources_800C8F64(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);
@@ -1385,5 +1380,5 @@ GV_ACT *NewGunCame_800C9190(int name, int where, int argc, char **argv)
         work->map = where;
         s03e_dword_800C32B4++;
     }
-    return &work->actor;
+    return (void *)work;
 }

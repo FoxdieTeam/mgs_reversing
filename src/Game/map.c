@@ -6,12 +6,11 @@
 #include "libdg/libdg.h"
 #include "libhzd/libhzd.h"
 #include "libgcl/libgcl.h"
+#include "game.h"
 
 extern MAP      gMapRecs_800B7910[ 16 ];
 extern DG_OBJS *StageObjs_800B7890[ 32 ];
 extern int      DG_CurrentGroupID;
-extern int      GM_PlayerMap_800ABA0C;
-extern int      HZD_CurrentGroup_800AB9A8;
 
 STATIC MAP* SECTION(".sbss") pHzdIter_800ABAA0;
 STATIC int  SECTION(".sbss") N_StageObjs_800ABAA4;
@@ -75,8 +74,8 @@ STATIC void GM_UpdateMapGroup( int preshade )
         hzd_group |= 1 << ( map->hzd->area - map->hzd->header->areas );
     }
 
-    GM_PlayerMap_800ABA0C = group;
-    HZD_CurrentGroup_800AB9A8 = hzd_group;
+    GM_PlayerMap = group;
+    HZD_CurrentGroup = hzd_group;
     DG_CurrentGroupID = group;
     HZD_BindMapChange( group );
 }

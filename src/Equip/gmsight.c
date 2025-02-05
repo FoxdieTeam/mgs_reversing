@@ -8,7 +8,6 @@
 #include "SD/g_sound.h"
 #include "strcode.h"
 
-extern PlayerStatusFlag GM_PlayerStatus;
 extern int              dword_8009F604;
 extern short            word_800BDCC0;
 
@@ -21,7 +20,7 @@ typedef struct _GasmaskSightWork
     int    time;
 } GasmaskSightWork;
 
-#define EXEC_LEVEL 6
+#define EXEC_LEVEL GV_ACTOR_AFTER
 
 STATIC void GasmaskSightAct(GasmaskSightWork *work)
 {
@@ -51,17 +50,16 @@ STATIC int GasmaskSightGetResources(GasmaskSightWork *work, OBJECT *parent, int 
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewGasmaskSight(CONTROL *control, OBJECT *parent, int num_parent)
+void *NewGasmaskSight(CONTROL *control, OBJECT *parent, int num_parent)
 {
     GasmaskSightWork *work;
 
     word_800BDCC0 = 0;
 
-    work = (GasmaskSightWork *)GV_NewActor(EXEC_LEVEL, sizeof(GasmaskSightWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(GasmaskSightWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)&GasmaskSightAct,
-                         (GV_ACTFUNC)&GasmaskSightDie, "gmsight.c");
+        GV_SetNamedActor(&work->actor, &GasmaskSightAct, &GasmaskSightDie, "gmsight.c");
 
         if (GasmaskSightGetResources(work, parent, num_parent) < 0)
         {
@@ -70,5 +68,5 @@ GV_ACT *NewGasmaskSight(CONTROL *control, OBJECT *parent, int num_parent)
         }
     }
 
-    return (GV_ACT *)work;
+    return (void *)work;
 }

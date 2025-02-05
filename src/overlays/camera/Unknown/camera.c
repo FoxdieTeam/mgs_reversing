@@ -51,9 +51,9 @@ typedef struct CameraWork
     char          *f49E4;
 } CameraWork;
 
-extern int                         GM_CurrentMap;
+#define EXEC_LEVEL GV_ACTOR_MANAGER
+
 extern GV_PAD                      GV_PadData_800B05C0[4];
-extern int                         GV_Clock;
 extern RadioFileModeStru_800ABB7C *camera_dword_800D075C;
 extern RECT                        camera_dword_800C389C;
 extern char                       *camera_dword_800D0760;
@@ -1289,15 +1289,15 @@ int CameraGetResources_800CE6EC(CameraWork *work, int map)
     return 0;
 }
 
-GV_ACT *NewCamera_800CF388(int name, int where, int argc, char **argv)
+void *NewCamera_800CF388(int name, int where, int argc, char **argv)
 {
     CameraWork *work;
 
     GM_GameStatus |= STATE_ALL_OFF;
-    work = (CameraWork *)GV_NewActor(1, sizeof(CameraWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(CameraWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)CameraAct_800CE404, (GV_ACTFUNC)CameraDie_800CE470, "camera.c");
+        GV_SetNamedActor(&work->actor, CameraAct_800CE404, CameraDie_800CE470, "camera.c");
 
         if (CameraGetResources_800CE6EC(work, where) < 0)
         {
@@ -1305,5 +1305,5 @@ GV_ACT *NewCamera_800CF388(int name, int where, int argc, char **argv)
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

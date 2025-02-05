@@ -1,6 +1,7 @@
 #include "common.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
+#include "Game/game.h"
 #include "strcode.h"
 
 typedef struct _DemoasiWork
@@ -16,9 +17,7 @@ typedef struct _DemoasiWork
     int      f64;
 } DemoasiWork;
 
-extern int GM_CurrentMap;
-
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 void Demoasi_800C3D88(DG_PRIM *prim, DG_TEX *tex, int r, int g, int b)
 {
@@ -154,14 +153,14 @@ void DemoasiDie_800C4110(DemoasiWork *work)
     }
 }
 
-GV_ACT *NewDemoasi_800C414C(MATRIX *world, int which, int height)
+void *NewDemoasi_800C414C(MATRIX *world, int which, int height)
 {
     DemoasiWork *work;
 
-    work = (DemoasiWork *)GV_NewActor(EXEC_LEVEL, sizeof(DemoasiWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(DemoasiWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)DemoasiAct_800C3DC4, (GV_ACTFUNC)DemoasiDie_800C4110, "demoasi.c");
+        GV_SetNamedActor(&work->actor, DemoasiAct_800C3DC4, DemoasiDie_800C4110, "demoasi.c");
 
         work->world = world;
 
@@ -172,17 +171,17 @@ GV_ACT *NewDemoasi_800C414C(MATRIX *world, int which, int height)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT * NewDemoasi_800C41F4(MATRIX *world, int which, int height, int arg3)
+void *NewDemoasi_800C41F4(MATRIX *world, int which, int height, int arg3)
 {
     DemoasiWork *work;
 
-    work = (DemoasiWork *)GV_NewActor(EXEC_LEVEL, sizeof(DemoasiWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(DemoasiWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)DemoasiAct_800C3DC4, (GV_ACTFUNC)DemoasiDie_800C4110, "demoasi.c");
+        GV_SetNamedActor(&work->actor, DemoasiAct_800C3DC4, DemoasiDie_800C4110, "demoasi.c");
 
         work->world = world;
 
@@ -193,5 +192,5 @@ GV_ACT * NewDemoasi_800C41F4(MATRIX *world, int which, int height, int arg3)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

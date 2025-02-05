@@ -17,7 +17,6 @@ typedef struct _SepiaWork
     SepiaPrims *prims;
 } SepiaWork;
 
-extern int    GV_Clock;
 extern u_long DG_PaletteBuffer_800B3818[256];
 
 RECT rect_800C3258 = {768, 226, 256, 2};
@@ -25,7 +24,7 @@ RECT rect_800C3260 = {768, 196, 256, 2};
 RECT rect_800C3268 = {768, 226, 256, 2};
 RECT rect_800C3270 = {768, 196, 256, 2};
 
-#define EXEC_LEVEL 7
+#define EXEC_LEVEL GV_ACTOR_AFTER2
 
 u_short s16b_800C4C60(u_short color)
 {
@@ -136,14 +135,14 @@ int s16b_800C4EAC(SepiaWork *work, short r, short g, short b)
     return 0;
 }
 
-GV_ACT *NewSepia_800C4F9C(int r, int g, int b)
+void *NewSepia_800C4F9C(int r, int g, int b)
 {
     SepiaWork *work;
 
-    work = (SepiaWork *)GV_NewActor(EXEC_LEVEL, sizeof(SepiaWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(SepiaWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)SepiaAct_800C4DC4, (GV_ACTFUNC)SepiaDie_800C4E70, "sepia.c");
+        GV_SetNamedActor(&work->actor, SepiaAct_800C4DC4, SepiaDie_800C4E70, "sepia.c");
 
         if (s16b_800C4EAC(work, r, g, b) < 0)
         {
@@ -152,10 +151,10 @@ GV_ACT *NewSepia_800C4F9C(int r, int g, int b)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewSepia2_800C504C(void)
+void *NewSepia2_800C504C(void)
 {
     return NewSepia_800C4F9C(64, 32, 0);
 }
@@ -224,14 +223,14 @@ int SepiaGetResources_800C51E8(SepiaWork *work)
     return 0;
 }
 
-GV_ACT *NewSepia_800C5214(void)
+void *NewSepia_800C5214(void)
 {
     SepiaWork *work;
 
-    work = (SepiaWork *)GV_NewActor(EXEC_LEVEL, sizeof(SepiaWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(SepiaWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)SepiaAct_800C51E0, (GV_ACTFUNC)SepiaDie_800C4E70, "sepia.c");
+        GV_SetNamedActor(&work->actor, SepiaAct_800C51E0, SepiaDie_800C4E70, "sepia.c");
 
         if (SepiaGetResources_800C51E8(work) < 0)
         {
@@ -240,5 +239,5 @@ GV_ACT *NewSepia_800C5214(void)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

@@ -19,10 +19,7 @@ typedef struct _HdBul2Work
 
 SVECTOR s11i_800C32C8 = {200, 200, 200, 0};
 
-extern int     GV_Clock;
-extern int     GM_CurrentMap;
-
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 int HdBul2_800C5920( HdBul2Work *work )
 {
@@ -373,10 +370,10 @@ void *NewHdBul2( SVECTOR *arg0, SVECTOR *arg1, int enable )
 {
     HdBul2Work *work;
 
-    work = (HdBul2Work *)GV_NewActor( EXEC_LEVEL, sizeof(HdBul2Work) );
+    work = GV_NewActor( EXEC_LEVEL, sizeof(HdBul2Work) );
     if ( work )
     {
-        GV_SetNamedActor( &work->actor, (GV_ACTFUNC)HdBul2Act, (GV_ACTFUNC)HdBul2Die, "hd_bul2.c" );
+        GV_SetNamedActor( &work->actor, HdBul2Act, HdBul2Die, "hd_bul2.c" );
 
         if ( HdBul2GetResources( work, arg0, arg1 ) >= 0 )
         {

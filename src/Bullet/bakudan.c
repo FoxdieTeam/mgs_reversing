@@ -14,22 +14,17 @@
 #include "SD/g_sound.h"
 
 extern GV_PAD  GV_PadData_800B05C0[4];
-extern int     GM_PlayerStatus;
 
 extern HITTABLE GM_C4Datas_800BDD78[C4_COUNT];
-extern int GM_CurrentMap;
-
-extern int GM_PlayerMap_800ABA0C;
 
 extern unsigned short GM_ItemTypes[];
 
-extern SVECTOR GM_PlayerPosition_800ABA10;
 extern BLAST_DATA blast_data_8009F4B8[8];
 
 /*---------------------------------------------------------------------------*/
 // C4 bomb (armed)
 
-#define EXEC_LEVEL 6
+#define EXEC_LEVEL GV_ACTOR_AFTER
 
 int bakudan_count_8009F42C = 0;
 int time_last_press_8009F430 = 0;
@@ -108,7 +103,7 @@ STATIC void BakudanAct(BakudanWork *work)
     // the player is not holding an item that can't be used with the C4
     if (((work->active_pad->press & PAD_CIRCLE) &&
          (time_last_press_8009F430 != GV_Time) &&
-         (GM_CurrentMap & GM_PlayerMap_800ABA0C) &&
+         (GM_CurrentMap & GM_PlayerMap) &&
          !(GM_GameStatus & STATE_PADRELEASE) &&
          !(GM_PlayerStatus & PLAYER_PAD_OFF) &&
          !(GM_ItemTypes[GM_CurrentItemId + 1] & 2)) ||
@@ -124,7 +119,7 @@ STATIC void BakudanAct(BakudanWork *work)
 
         if (work->active_pad->press & PAD_CIRCLE)
         {
-            GM_SeSetMode(&GM_PlayerPosition_800ABA10, SE_C4_SWITCH, GM_SEMODE_BOMB);
+            GM_SeSetMode(&GM_PlayerPosition, SE_C4_SWITCH, GM_SEMODE_BOMB);
         }
 
         time_last_press_8009F430 = GV_Time;
@@ -209,7 +204,7 @@ STATIC int BakudanGetResources(BakudanWork *work, MATRIX *world, SVECTOR *pos, i
     int nextItem;
     HITTABLE *item;
 
-    work->map_index = GM_CurrentMap = GM_PlayerMap_800ABA0C;
+    work->map_index = GM_CurrentMap = GM_PlayerMap;
 
     if (GM_InitControl(control, GM_Next_BulName_8004FBA0(), 0) < 0)
     {
@@ -269,9 +264,9 @@ STATIC int BakudanGetResources(BakudanWork *work, MATRIX *world, SVECTOR *pos, i
  * @param   data        Pointer to the target (used to update the C4 position,
  *                      rotation and to delete the C4 when the target is dead).
  *
- * @return  GV_ACT*     Pointer to the new C4 actor.
+ * @return  void*       Pointer to the new C4 actor.
  */
-GV_ACT *NewBakudan(MATRIX *world, SVECTOR *pos, int attached, int unused, void *data)
+void *NewBakudan(MATRIX *world, SVECTOR *pos, int attached, int unused, void *data)
 {
     BakudanWork *work;
 
@@ -281,11 +276,10 @@ GV_ACT *NewBakudan(MATRIX *world, SVECTOR *pos, int attached, int unused, void *
         return NULL;
     }
 
-    work = (BakudanWork *)GV_NewActor(EXEC_LEVEL, sizeof(BakudanWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(BakudanWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BakudanAct,
-                         (GV_ACTFUNC)BakudanDie, "bakudan.c");
+        GV_SetNamedActor(&work->actor, BakudanAct, BakudanDie, "bakudan.c");
         if (BakudanGetResources(work, world, pos, attached, data) < 0)
         {
             GV_DestroyActor(&work->actor);
@@ -300,5 +294,5 @@ GV_ACT *NewBakudan(MATRIX *world, SVECTOR *pos, int attached, int unused, void *
         time_last_press_8009F430 = 0;
     }
 #endif
-    return &work->actor;
+    return (void *)work;
 }

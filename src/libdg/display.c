@@ -4,6 +4,7 @@
 
 #include "libdg.h"
 #include "common.h"
+#include "libgv/libgv.h"
 #include "Menu/menuman.h"
 
 /*** data ***/
@@ -17,10 +18,6 @@ STATIC int SECTION(".sbss") gClipHeights_800AB960[2];
 int   SECTION(".sbss") DG_CurrentGroupID;
 short SECTION(".sbss") DG_ClipMin[2];
 short SECTION(".sbss") DG_ClipMax[2];
-
-/*** sbss ***/
-extern int GV_Clock;
-extern int GV_PauseLevel;
 
 /*** bss ***/
 extern DISPENV gDispEnv_800B0600;

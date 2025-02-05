@@ -24,6 +24,7 @@ typedef struct _Shadow_Scratch
     MATRIX  mtx;
 } Shadow_Scratch;
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 #define SHADOW_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE | DG_FLAG_AMBIENT )
 
 void ShadowRotate_8005FD28(ShadowWork *work)
@@ -209,25 +210,24 @@ int ShadowGetResources_800601B0(ShadowWork *work, CONTROL *control, OBJECT *pare
     return 0;
 }
 
-GV_ACT *NewShadow_800602CC(CONTROL *control, OBJECT *parent, SVECTOR indices)
+void *NewShadow_800602CC(CONTROL *control, OBJECT *parent, SVECTOR indices)
 {
     ShadowWork *work;
 
-    work = (ShadowWork *)GV_NewActor(5, sizeof(ShadowWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(ShadowWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)ShadowAct_800600E4,
-                         (GV_ACTFUNC)ShadowDie_80060190, "shadow.c");
+        GV_SetNamedActor(&work->actor, ShadowAct_800600E4, ShadowDie_80060190, "shadow.c");
         if (ShadowGetResources_800601B0(work, control, parent, indices) >= 0)
         {
-            return (GV_ACT *)work;
+            return (void *)work;
         }
         GV_DestroyActor(&work->actor);
     }
     return NULL;
 }
 
-GV_ACT *NewShadow2_80060384(CONTROL *control, OBJECT *pObj, SVECTOR indices, int **enabled)
+void *NewShadow2_80060384(CONTROL *control, OBJECT *pObj, SVECTOR indices, int **enabled)
 {
     ShadowWork *work;
 
@@ -237,5 +237,5 @@ GV_ACT *NewShadow2_80060384(CONTROL *control, OBJECT *pObj, SVECTOR indices, int
         *enabled = &work->enabled;
     }
 
-    return (GV_ACT *)work;
+    return (void *)work;
 }

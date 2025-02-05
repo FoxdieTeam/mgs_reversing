@@ -316,7 +316,7 @@ typedef struct SnaInitWork
     int            field_A70;
 } SnaInitWork;
 
-typedef GV_ACT * (*TSnakeEquipFuncion)(CONTROL *, OBJECT *, int);
+typedef void * (*TSnakeEquipFuncion)(CONTROL *, OBJECT *, int);
 
 void         sna_start_anim_8004E1F4(SnaInitWork *work, void *pFn);
 void         SetAction_8004E22C(SnaInitWork *work, int action_flag, int interp);
@@ -486,7 +486,7 @@ void sna_act_unk_helper2_helper2_800605DC(SnaAutoMove *autoMove, HZD_HDL *pHzd, 
 int  sna_unk_helper2_helper_8006070C(SnaAutoMove *pAutoMove, CONTROL *pControl);
 void sna_80057A90(SnaInitWork *work, int time);
 void sna_8004EF14(SnaInitWork *work);
-GV_ACT *NewSnake(int name, int where, int argc, char **argv);
+void *NewSnake(int name, int where, int argc, char **argv);
 int sna_act_unk_helper2_helper_helper_8005C974(HZD_HDL *pHzd, int, int, CONTROL *pControl);
 void sna_act_helper2_helper2_80033054(int id, SVECTOR *vec);
 int sna_ration_available_8004FB4C(void);

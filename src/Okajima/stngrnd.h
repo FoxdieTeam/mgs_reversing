@@ -1,9 +1,11 @@
 #ifndef _STNGRND_H_
 #define _STNGRND_H_
 
-#include "libgv/libgv.h"
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 
-GV_ACT *NewStanBlast( MATRIX *world );
+void *NewStanBlast( MATRIX *world );
 void AN_Stn_G_Sonic( SVECTOR *pos );
 void AN_Stn_G_Center( SVECTOR *pos );
 

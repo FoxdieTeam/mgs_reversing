@@ -7,12 +7,8 @@
 #include "Game/map.h"
 #include "SD/g_sound.h"
 
-extern short GM_Magazine_800AB9EC;
-extern short GM_MagazineMax_800ABA2C;
-
 extern int   DG_CurrentGroupID;
 extern void *GM_BombSeg;
-extern int   GM_CurrentMap;
 extern int   bakudan_count_8009F42C;
 
 /*---------------------------------------------------------------------------*/
@@ -30,7 +26,7 @@ typedef struct _BombWork
     int            which_side;
 } BombWork;
 
-#define EXEC_LEVEL 6
+#define EXEC_LEVEL GV_ACTOR_AFTER
 #define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
 
 /*---------------------------------------------------------------------------*/
@@ -109,13 +105,12 @@ STATIC int BombGetResources(BombWork *work, OBJECT *parent, int num_parent)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewBomb(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side)
+void *NewBomb(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side)
 {
-    BombWork *work = (BombWork *)GV_NewActor(EXEC_LEVEL, sizeof(BombWork));
+    BombWork *work = GV_NewActor(EXEC_LEVEL, sizeof(BombWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BombAct,
-                         (GV_ACTFUNC)BombDie, "bomb.c");
+        GV_SetNamedActor(&work->actor, BombAct, BombDie, "bomb.c");
         if (BombGetResources(work, parent, num_parent) < 0)
         {
             GV_DestroyActor(&work->actor);
@@ -130,8 +125,8 @@ GV_ACT *NewBomb(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *
         work->which_side = which_side;
     }
 
-    GM_MagazineMax_800ABA2C = 0;
-    GM_Magazine_800AB9EC = 0;
+    GM_MagazineMax = 0;
+    GM_Magazine = 0;
 
-    return &work->actor;
+    return (void *)work;
 }

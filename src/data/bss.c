@@ -18,7 +18,6 @@
 #include "Game/strctrl.h"
 #include "mts/mts_new.h"
 #include "mts/mts_pad.h"
-#include "mts/receive_buffer.h"
 #include "Game/homing.h"
 #include "Game/hittable.h"
 #include "SD/sd_cli.h"
@@ -512,10 +511,10 @@ char BSS                    param_800C1470[2][6]; // 0xC (12) bytes
 
 gap                                     gap_800C147C[0x4]; // 4 bytes
 
-PadReceiveBuffer BSS        padbuf_800C1480[2]; // 0x48 (72) bytes
+PAD_RECV_BUF BSS            padbuf_800C1480[2]; // 0x48 (72) bytes
 
 gap                                     gap_800C14C8[0x8]; // 8 bytes
 
 unsigned char BSS           sendbuf_800C14D0[2][8]; // 0x10 (16) bytes
-PadParsedReceiveBuffer BSS  pad_800C14E0[2]; // 0x10 (16) bytes
+MTS_PAD_IN BSS              pad_800C14E0[2]; // 0x10 (16) bytes
 int BSS                     pad_state_800C14F0[2]; // 0x8 (8) bytes

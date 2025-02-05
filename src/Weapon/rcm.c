@@ -13,16 +13,7 @@
 #include "Bullet/rmissile.h"
 #include "SD/g_sound.h"
 
-extern int   GM_CurrentMap;
-extern short GM_Magazine_800AB9EC;
-extern short GM_MagazineMax_800ABA2C;
-
-extern SVECTOR GM_PlayerPosition_800ABA10;
-
 extern int DG_CurrentGroupID;
-
-extern PlayerStatusFlag GM_PlayerStatus;
-extern int              GV_Clock;
 
 /*---------------------------------------------------------------------------*/
 // RC-Missile (Nikita)
@@ -41,7 +32,7 @@ typedef struct RcmWork
     int            lightval; // state of the blinking light
 } RcmWork;
 
-#define EXEC_LEVEL 6
+#define EXEC_LEVEL GV_ACTOR_AFTER
 
 STATIC SVECTOR stru_800AB870 = {-100, -800, 80, 0};
 STATIC RECT    rect_800AB878 = {100, 100, 200, 200};
@@ -185,7 +176,7 @@ STATIC void RcmAct(RcmWork *work)
             DG_MovePos(&stru_800AB870);
             ReadRotMatrix(&mt2);
 
-            mt2.t[1] = GM_PlayerPosition_800ABA10.vy + 320;
+            mt2.t[1] = GM_PlayerPosition.vy + 320;
 
             mt1.t[0] = mt2.t[0];
             mt1.t[1] = mt2.t[1];
@@ -269,20 +260,17 @@ STATIC int RcmGetResources(RcmWork *work, OBJECT *parent, int unit)
  * @param   flags       Pointer to flags indicating Nikita state.
  * @param   which_side  Indicates which side the Nikita is on.
  *
- * @return  GV_ACT*     Returns a pointer to the new actor.
+ * @return  void*       Returns a pointer to the new actor.
  */
-GV_ACT *NewRCM(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side)
+void *NewRCM(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side)
 {
     RcmWork *work;
     int      loadResult;
 
-    work = (RcmWork *)GV_NewActor(EXEC_LEVEL, sizeof(RcmWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(RcmWork));
     if (work != 0)
     {
-        GV_SetNamedActor(&work->actor,
-                         (GV_ACTFUNC)RcmAct,
-                         (GV_ACTFUNC)RcmDie,
-                         "rcm.c");
+        GV_SetNamedActor(&work->actor, RcmAct, RcmDie, "rcm.c");
 
         loadResult = RcmGetResources(work, parent, num_parent);
 
@@ -301,8 +289,8 @@ GV_ACT *NewRCM(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *f
         work->counter = 0;
     }
 
-    GM_MagazineMax_800ABA2C = 0;
-    GM_Magazine_800AB9EC = 0;
+    GM_MagazineMax = 0;
+    GM_Magazine = 0;
 
-    return &work->actor;
+    return (void *)work;
 }

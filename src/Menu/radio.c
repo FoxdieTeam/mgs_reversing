@@ -29,12 +29,8 @@ int                       SECTION(".sbss") dword_800ABB1C;
 extern PANEL_TEXTURE     dword_800BDA10;
 extern PANEL_TEXTURE     dword_800BDA30;
 extern RadioIncomingCall gRadioIncomingCall_8009E708;
-extern int               GV_Clock;
 
 STATIC char dword_800AB610[8] = {2, 4, 3, 1, 4, 3, 1, 0};
-
-extern int GM_PlayerStatus;
-extern int GV_PauseLevel;
 
 extern int FS_DiskNum_800ACBF0;
 
@@ -1615,7 +1611,7 @@ STATIC void menu_radio_update_80042198(MenuWork *work, unsigned char *pOt)
             menu_radio_update_helper6_80047D40(work);
             GV_ResetPacketMemory();
             GV_PauseLevel &= ~1;
-            DG_ResetObjectQueue();
+            DG_RestartMainChanlSystem();
             menu_radio_init_nullsub_80042190(work);
             DrawSync(0);
             sub_8003CB98(work);

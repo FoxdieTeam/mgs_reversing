@@ -28,7 +28,7 @@ typedef struct Panel2Work
     int            unkAC;
 } Panel2Work;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 SVECTOR s08b_dword_800C3650 = {0, 0, 65236};
 
@@ -46,8 +46,8 @@ void Panel2_800E1244(OBJECT_NO_ROTS *object, int model, int where, int flag)
     object->objs->flag = flag;
 }
 
-int     AN_Unknown_800DCE84(SVECTOR *);
-GV_ACT *NewSpark2_800CA714(MATRIX *world);
+void AN_Unknown_800DCE84(SVECTOR *);
+void *NewSpark2_800CA714(MATRIX *world);
 
 void Panel2Act_800E12B4(Panel2Work *work)
 {
@@ -194,20 +194,19 @@ int Panel2GetResources_800E1460(Panel2Work *work, int name, int where)
     return 0;
 }
 
-GV_ACT *NewPanel2_800E1728(int name, int where, int argc, char **argv)
+void *NewPanel2_800E1728(int name, int where, int argc, char **argv)
 {
     Panel2Work *work;
 
-    work = (Panel2Work *)GV_NewActor(EXEC_LEVEL, sizeof(Panel2Work));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Panel2Work));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)Panel2Act_800E12B4,
-                         (GV_ACTFUNC)Panel2Die_800E13B0, "panel2.c");
+        GV_SetNamedActor(&work->actor, Panel2Act_800E12B4, Panel2Die_800E13B0, "panel2.c");
         if (Panel2GetResources_800E1460(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

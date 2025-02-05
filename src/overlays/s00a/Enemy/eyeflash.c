@@ -13,10 +13,10 @@ typedef struct EyeflashWork
     DG_TEX  *field_3C;
 } EyeflashWork;
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
+
 SVECTOR eyeflash_svec = {0, 80, 50, 0};
 const RECT eyeflash_rect = {175, 100, 350, 200};
-
-extern int GV_Clock;
 
 void s00a_eyeflash_800D0984(POLY_FT4 *poly, DG_TEX *tex)
 {
@@ -133,15 +133,14 @@ int s00a_eyeflash_800D0BE0(EyeflashWork *work, int arg1)
     return -1;
 }
 
-GV_ACT *NewEyeflash_800D0CF4(MATRIX *arg0, SVECTOR *arg1, int arg2, int arg3)
+void *NewEyeflash_800D0CF4(MATRIX *arg0, SVECTOR *arg1, int arg2, int arg3)
 {
     EyeflashWork *work;
 
-    work = (EyeflashWork *)GV_NewActor(5, sizeof(EyeflashWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(EyeflashWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)s00a_eyeflash_800D0B18,
-                         (GV_ACTFUNC)s00a_eyeflash_800D0BA4, "eyeflash.c");
+        GV_SetNamedActor(&work->actor, s00a_eyeflash_800D0B18, s00a_eyeflash_800D0BA4, "eyeflash.c");
         work->field_20 = *arg1;
         work->field_38 = 6;
         work->field_2C = arg0;
@@ -152,5 +151,5 @@ GV_ACT *NewEyeflash_800D0CF4(MATRIX *arg0, SVECTOR *arg1, int arg2, int arg3)
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

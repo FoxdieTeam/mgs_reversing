@@ -158,10 +158,9 @@ extern const char title_aNo_800D9024[];                  // = "NO"
 extern const char aOpenC[];                              // = "open.c"
 
 extern char *MGS_MemoryCardName; /* in main.c */
-extern int   GV_Clock;
 extern int   FS_DiskNum_800ACBF0;
 
-#define EXEC_LEVEL 1
+#define EXEC_LEVEL GV_ACTOR_MANAGER
 
 void Open_800C4500(OpenWork *work, int index)
 {
@@ -1494,18 +1493,18 @@ void title_open_800D4464(OpenWork *work, int name, POLY_GT4 *poly, int x0, int y
 #pragma INCLUDE_ASM("asm/overlays/title/OpenGetResources_800D4584.s")
 int  OpenGetResources_800D4584(OpenWork *work, int);
 
-GV_ACT *NewOpen_800D6814(int arg0, int arg1)
+void *NewOpen_800D6814(int arg0, int arg1)
 {
     OpenWork *work;
 
     GM_GameStatus |= STATE_ALL_OFF;
 
-    work = (OpenWork *)GV_NewActor(EXEC_LEVEL, sizeof(OpenWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(OpenWork));
     title_dword_800D92D0 = 0;
 
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)OpenAct_800D37F4, (GV_ACTFUNC)OpenDie_800D4098, aOpenC);
+        GV_SetNamedActor(&work->actor, OpenAct_800D37F4, OpenDie_800D4098, aOpenC);
 
         if (OpenGetResources_800D4584(work, arg1) < 0)
         {
@@ -1514,5 +1513,5 @@ GV_ACT *NewOpen_800D6814(int arg0, int arg1)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

@@ -20,7 +20,6 @@ STATIC int DG_TickCount = -1;
 /***************************************************************/
 
 extern int              dword_800B3790;
-extern PlayerStatusFlag GM_PlayerStatus;
 extern GV_PAD          *GM_CurrentPadData;
 extern GV_PAD           GV_PadData_800B05C0[4];
 
@@ -149,10 +148,10 @@ void DG_StartDaemon(void)
     GV_SetLoader('s', DG_LoadInitSgt);      // *.sgt format
 
     // Wait for vsync, swap frame, fetch input
-    GV_InitActor(0, &DG_StartFrameActor_800B3750, NULL);
-    GV_SetNamedActor(&DG_StartFrameActor_800B3750, (GV_ACTFUNC)DG_StartFrame, NULL, "dgd.c");
+    GV_InitActor(GV_ACTOR_DAEMON, &DG_StartFrameActor_800B3750, NULL);
+    GV_SetNamedActor(&DG_StartFrameActor_800B3750, DG_StartFrame, NULL, "dgd.c");
 
     // Render new frame
-    GV_InitActor(8, &DG_EndFrameActor_800B3770, NULL);
-    GV_SetNamedActor(&DG_EndFrameActor_800B3770, (GV_ACTFUNC)DG_EndFrame, NULL, "dgd.c");
+    GV_InitActor(GV_ACTOR_DAEMON2, &DG_EndFrameActor_800B3770, NULL);
+    GV_SetNamedActor(&DG_EndFrameActor_800B3770, DG_EndFrame, NULL, "dgd.c");
 }

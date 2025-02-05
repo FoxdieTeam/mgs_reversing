@@ -1,6 +1,10 @@
 #include "stngrnd.h"
 #include "stgfd_io.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
@@ -10,7 +14,6 @@
 #include "strcode.h"
 
 extern SVECTOR stru_800BDF90;
-extern int GM_ClaymoreMap_800AB9DC;
 
 /*---------------------------------------------------------------------------*/
 
@@ -28,7 +31,7 @@ typedef struct StunGrenadeWork
     int         field_F4;
 } StunGrenadeWork;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 /*---------------------------------------------------------------------------*/
 
@@ -213,24 +216,21 @@ STATIC int stngrnd_GetResources(StunGrenadeWork *work, MATRIX *world)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewStanBlast(MATRIX *world)
+void *NewStanBlast(MATRIX *world)
 {
     StunGrenadeWork *work;
 
     if (GM_GameStatus & STATE_STUN)
     {
-        return 0;
+        return NULL;
     }
 
-    work = (StunGrenadeWork *)GV_NewActor(EXEC_LEVEL, sizeof(StunGrenadeWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(StunGrenadeWork));
     if ( work )
     {
-        GV_SetNamedActor(&work->actor,
-                         (GV_ACTFUNC)stngrnd_Act,
-                         (GV_ACTFUNC)stngrnd_Die,
-                         "stngrnd.c");
+        GV_SetNamedActor(&work->actor, stngrnd_Act, stngrnd_Die, "stngrnd.c");
 
-        GM_ClaymoreMap_800AB9DC = GM_CurrentMap;
+        GM_ClaymoreMap = GM_CurrentMap;
 
         if ( stngrnd_GetResources(work, world) < 0 )
         {
@@ -243,7 +243,7 @@ GV_ACT *NewStanBlast(MATRIX *world)
 
         GM_SetNoise(255, 32, &work->field_E0);
     }
-    return &work->actor;
+    return (void *)work;
 }
 
 /*---------------------------------------------------------------------------*/

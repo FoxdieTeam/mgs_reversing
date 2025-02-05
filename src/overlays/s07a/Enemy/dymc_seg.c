@@ -15,6 +15,8 @@ typedef struct DymcSegWork
     int      field_4C;
 } DymcSegWork;
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
+
 extern char s07a_dword_800E2F10[];
 
 void s07a_dymc_seg_800D6430(DymcSegWork *work)
@@ -70,15 +72,15 @@ int s07a_dymc_seg_800D64CC(DymcSegWork *work, int arg1, SVECTOR *min, SVECTOR *m
     return 0;
 }
 
-GV_ACT *s07a_dymc_seg_800D65C8(int arg0, SVECTOR *min, SVECTOR *max, int min_h, int max_h, int flag, void **arg6)
+void *s07a_dymc_seg_800D65C8(int arg0, SVECTOR *min, SVECTOR *max, int min_h, int max_h, int flag, void **arg6)
 {
     DymcSegWork *work;
 
-    work = (DymcSegWork *)GV_NewActor(5, sizeof(DymcSegWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(DymcSegWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)s07a_dymc_seg_800D6430,
-                         (GV_ACTFUNC)s07a_dymc_seg_800D64A4, s07a_dword_800E2F10);
+        GV_SetNamedActor(&work->actor, s07a_dymc_seg_800D6430,
+                         s07a_dymc_seg_800D64A4, s07a_dword_800E2F10);
         if (s07a_dymc_seg_800D64CC(work, arg0, min, max, min_h, max_h, flag) < 0)
         {
             GV_DestroyActor(&work->actor);
@@ -91,5 +93,5 @@ GV_ACT *s07a_dymc_seg_800D65C8(int arg0, SVECTOR *min, SVECTOR *max, int min_h, 
         work->field_48 = 1;
         work->field_4C = 1;
     }
-    return &work->actor;
+    return (void *)work;
 }

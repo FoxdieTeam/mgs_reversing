@@ -26,7 +26,7 @@ int s16b_800C5728(ShakemdlWork *, short *);
 int s16b_800C57A4(ShakemdlWork *work);
 int s16b_800C5664(ShakemdlWork *work);
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void ShakemdlAct_800C5288(ShakemdlWork *work)
 {
@@ -120,16 +120,16 @@ int ShakemdlGetResources_800C5454(ShakemdlWork *work, int name)
     return 0;
 }
 
-GV_ACT *NewShakemdl_800C54E8(int name, int where, int argc, char **argv)
+void *NewShakemdl_800C54E8(int name, int where, int argc, char **argv)
 {
     ShakemdlWork *work;
     int           model;
     int           work_2;
 
-    work = (ShakemdlWork *)GV_NewActor(EXEC_LEVEL, sizeof(ShakemdlWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(ShakemdlWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)ShakemdlAct_800C5288, (GV_ACTFUNC)ShakemdlDie_800C5418, "shakemdl.c");
+        GV_SetNamedActor(&work->actor, ShakemdlAct_800C5288, ShakemdlDie_800C5418, "shakemdl.c");
 
         model = THING_Gcl_GetInt('m');
         work->f2C = THING_Gcl_GetInt('a');
@@ -147,17 +147,17 @@ GV_ACT *NewShakemdl_800C54E8(int name, int where, int argc, char **argv)
         work->f30 = work_2;
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewShakemdl_800c55b0(int arg0, int arg1, int arg2)
+void *NewShakemdl_800c55b0(int arg0, int arg1, int arg2)
 {
     ShakemdlWork *work;
 
-    work = (ShakemdlWork *)GV_NewActor(EXEC_LEVEL, sizeof(ShakemdlWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(ShakemdlWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)ShakemdlAct_800C5288, (GV_ACTFUNC)ShakemdlDie_800C5418, "shakemdl.c");
+        GV_SetNamedActor(&work->actor, ShakemdlAct_800C5288, ShakemdlDie_800C5418, "shakemdl.c");
 
         work->f2C = arg1;
 
@@ -173,7 +173,7 @@ GV_ACT *NewShakemdl_800c55b0(int arg0, int arg1, int arg2)
         work->f30 = arg2;
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
 int s16b_800C5664(ShakemdlWork *work)

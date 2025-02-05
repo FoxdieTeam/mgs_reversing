@@ -12,7 +12,7 @@ typedef struct BombledWork
     int     timer;
 } BombledWork;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void s08c_800C42B0(SVECTOR *pos);
 
@@ -109,20 +109,19 @@ int BombledGetResources_800C7764(BombledWork *work, SVECTOR *arg1)
     return 0;
 }
 
-GV_ACT *d18a_bombled_800C78F8(SVECTOR *arg1)
+void *d18a_bombled_800C78F8(SVECTOR *arg1)
 {
     BombledWork *work;
 
-    work = (BombledWork *)GV_NewActor(EXEC_LEVEL, sizeof(BombledWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(BombledWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BombledAct_800C7728,
-                         (GV_ACTFUNC)BombledDie_800C775C, "bombled.c");
+        GV_SetNamedActor(&work->actor, BombledAct_800C7728, BombledDie_800C775C, "bombled.c");
         if (BombledGetResources_800C7764(work, arg1) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

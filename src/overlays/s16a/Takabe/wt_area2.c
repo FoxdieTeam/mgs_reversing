@@ -22,16 +22,11 @@ typedef struct WaterArea2Work
     int     proc_id;      //0x50
 } WaterArea2Work;
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
+
 extern void             NewSplash2_800DB6F0( int angy, SVECTOR *pos, int noripple );
 extern void            *NewRipple_800D7F30( MATRIX *, int );
 extern void            *NewWaterView_800DBE04( int name, int where, int argc, char **argv );
-
-extern unsigned int     GM_PlayerStatus;
-extern CONTROL         *GM_PlayerControl_800AB9F4;
-extern OBJECT          *GM_PlayerBody_800ABA20;
-extern SVECTOR          GM_NoisePosition;
-extern int              GM_NoiseLength;
-extern int              GM_NoisePower;
 
 //OPEN_MES, CLOSE_MES
 unsigned short mes_list_800C3410[] = { 0x43D3, 0x4235 };
@@ -99,10 +94,10 @@ void WaterArea2Act_800CEB10(WaterArea2Work *work)
         break ;
     }
 
-    if ( GM_PlayerControl_800AB9F4 == NULL ) return ;
+    if ( GM_PlayerControl == NULL ) return ;
     /* スネーク中心部の水中バウンドチェック */
-    snake_floor = GM_PlayerControl_800AB9F4->mov ;
-    snake_floor.vy -= GM_PlayerControl_800AB9F4->height / 2;
+    snake_floor = GM_PlayerControl->mov ;
+    snake_floor.vy -= GM_PlayerControl->height / 2;
 
     flag = WaterArea2BoundInCheck_800CEA48( work->bound, &snake_floor );
 
@@ -116,7 +111,7 @@ void WaterArea2Act_800CEB10(WaterArea2Work *work)
 
             if (work->splash_flag)
             {
-                NewSplash2_800DB6F0( GM_PlayerControl_800AB9F4->rot.vy + 2048, &snake_pos, 0 );
+                NewSplash2_800DB6F0( GM_PlayerControl->rot.vy + 2048, &snake_pos, 0 );
                 work->splash_flag = 0;
             }
 
@@ -145,11 +140,11 @@ void WaterArea2Act_800CEB10(WaterArea2Work *work)
 
     if (GM_PlayerStatus & 0x42)
     {
-        world = &GM_PlayerBody_800ABA20->objs->objs[0].world;
+        world = &GM_PlayerBody->objs->objs[0].world;
     }
     else
     {
-        world = &GM_PlayerBody_800ABA20->objs->objs[6].world;
+        world = &GM_PlayerBody->objs->objs[6].world;
     }
 
     snake_pos.vx = world->t[0];
@@ -168,7 +163,7 @@ void WaterArea2Act_800CEB10(WaterArea2Work *work)
     }
     else if ( !flag && !GM_GameOverTimer )
     {
-        DG_SetPos2( &snake_pos, &GM_PlayerControl_800AB9F4->rot );
+        DG_SetPos2( &snake_pos, &GM_PlayerControl->rot );
         DG_PutVector( &mouth_offset_800C3414, &snake_pos, 1 );
         GM_SeSet( &snake_pos, 0xB3 );
         WaterArea2ExecProc_800CEAD8( work->proc_id, 0xF26E );
@@ -239,9 +234,9 @@ void *NewWaterArea2_800DACCC( int name, int where, int argc, char **argv )
 {
     WaterArea2Work *work ;
 
-    work = (WaterArea2Work *)GV_NewActor( 5, sizeof( WaterArea2Work ) ) ;
+    work = GV_NewActor( EXEC_LEVEL, sizeof( WaterArea2Work ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor( &( work->actor ), ( GV_ACTFUNC )WaterArea2Act_800CEB10, ( GV_ACTFUNC )WaterArea2Die_800CEF64, "wt_area2.c" );
+        GV_SetNamedActor( &( work->actor ), WaterArea2Act_800CEB10, WaterArea2Die_800CEF64, "wt_area2.c" );
         if ( WaterArea2GetResources_800CEF6C( work, name, where ) < 0 )
         {
             GV_DestroyActor( &( work->actor ) );

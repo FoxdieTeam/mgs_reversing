@@ -9,7 +9,6 @@
 #include "Game/linkvarbuf.h"
 #include "Game/object.h"
 
-extern int     GM_PlayerStatus;
 extern short   word_8009EFC0[];
 
 //TODO: below defined in sna_init.c, need to remove gp hack

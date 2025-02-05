@@ -1,9 +1,9 @@
 #include "equip.h"
 
 #include "common.h"
+#include "Game/game.h"
 #include "Game/linkvarbuf.h"
 
-extern short GM_Magazine_800AB9EC;
 extern short snake_weapon_idx_800BDCBA;
 extern short snake_weapon_max_ammo_800BDCBC;
 extern short snake_mag_size_800BDCB8;
@@ -18,7 +18,7 @@ typedef struct BandanaWork
     int     unused2;
 } BandanaWork;
 
-#define EXEC_LEVEL 7
+#define EXEC_LEVEL GV_ACTOR_AFTER2
 
 /*---------------------------------------------------------------------------*/
 
@@ -60,10 +60,10 @@ STATIC void BandanaAct(BandanaWork *work)
             GM_Weapons[snake_weapon_idx_800BDCBA] = snake_weapon_max_ammo_800BDCBC;
         }
 
-        ammo = GM_Magazine_800AB9EC;
+        ammo = GM_Magazine;
         if (ammo < snake_mag_size_800BDCB8)
         {
-            GM_Magazine_800AB9EC = snake_mag_size_800BDCB8;
+            GM_Magazine = snake_mag_size_800BDCB8;
         }
     }
 }
@@ -75,15 +75,14 @@ STATIC void BandanaDie(BandanaWork *work)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewBandana(CONTROL *control, OBJECT *parent, int num_parent)
+void *NewBandana(CONTROL *control, OBJECT *parent, int num_parent)
 {
-    BandanaWork *work = (BandanaWork *)GV_NewActor(EXEC_LEVEL, sizeof(BandanaWork));
+    BandanaWork *work = GV_NewActor(EXEC_LEVEL, sizeof(BandanaWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BandanaAct,
-                         (GV_ACTFUNC)BandanaDie, "bandana.c");
+        GV_SetNamedActor(&work->actor, BandanaAct, BandanaDie, "bandana.c");
         work->parent = parent;
         BandanaSwapTextures(parent);
     }
-    return &work->actor;
+    return (void *)work;
 }

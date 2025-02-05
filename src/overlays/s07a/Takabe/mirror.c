@@ -43,7 +43,6 @@ typedef struct _MirrorWork
     GV_ACT      *kogaku;
 } MirrorWork;
 
-extern int      GM_CurrentMap;
 extern int      gControlCount_800AB9B4;
 extern CONTROL *GM_WhereList_800B56D0[96];
 
@@ -52,7 +51,7 @@ void     Mirror_800E0A88(MirrorEntry *entry);
 DG_DEF * Mirror_800E0AD8(DG_DEF *def, int arg1);
 void     Mirror_800E0BDC(DG_OBJS *objs);
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void MirrorAct_800DFDDC(MirrorWork *work)
 {
@@ -390,14 +389,14 @@ int MirrorGetResources_800E07F8(MirrorWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT *NewMirror_800E085C(int name, int where)
+void *NewMirror_800E085C(int name, int where)
 {
     MirrorWork *work;
 
-    work = (MirrorWork *)GV_NewActor(EXEC_LEVEL, sizeof(MirrorWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(MirrorWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)MirrorAct_800DFDDC, (GV_ACTFUNC)MirrorDie_800E0670, "mirror.c");
+        GV_SetNamedActor(&work->actor, MirrorAct_800DFDDC, MirrorDie_800E0670, "mirror.c");
 
         if (MirrorGetResources_800E07F8(work, name, where) < 0)
         {
@@ -406,7 +405,7 @@ GV_ACT *NewMirror_800E085C(int name, int where)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
 void Mirror_800E08F0(MirrorWork *work, int name)

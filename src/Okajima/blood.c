@@ -1,13 +1,15 @@
 #include "blood.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "Anime/animeconv/anime.h"
 #include "Game/game.h"
 #include "strcode.h"
-
-extern int GM_CurrentMap;
 
 /*---------------------------------------------------------------------------*/
 
@@ -24,7 +26,7 @@ typedef struct _BloodWork
 
 // STATIC_ASSERT(sizeof(BloodWork) == 0x2B0, "sizeof(BloodWork) is wrong!");
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 /*---------------------------------------------------------------------------*/
 
@@ -266,7 +268,7 @@ STATIC int blood_GetResources(BloodWork *work, MATRIX *arg1, int count)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewBlood(MATRIX *arg0, int count)
+void *NewBlood(MATRIX *arg0, int count)
 {
     SVECTOR input;
     SVECTOR speed;
@@ -303,17 +305,14 @@ GV_ACT *NewBlood(MATRIX *arg0, int count)
 
     for (i = 0; i < count; i++)
     {
-        work = (BloodWork *)GV_NewActor(EXEC_LEVEL, sizeof(BloodWork));
+        work = GV_NewActor(EXEC_LEVEL, sizeof(BloodWork));
 
         if (!work)
         {
             continue;
         }
 
-        GV_SetNamedActor(&work->actor,
-                         (GV_ACTFUNC)&blood_Act,
-                         (GV_ACTFUNC)&blood_Die,
-                         "blood.c");
+        GV_SetNamedActor(&work->actor, &blood_Act, &blood_Die, "blood.c");
 
         if (blood_GetResources(work, arg0, count) < 0)
         {
@@ -322,7 +321,7 @@ GV_ACT *NewBlood(MATRIX *arg0, int count)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
 /*---------------------------------------------------------------------------*/

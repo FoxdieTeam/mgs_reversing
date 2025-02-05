@@ -7,9 +7,6 @@ extern MESSAGE_LIST message_list_800B0320[2];
 STATIC int SECTION(".sbss") which_buffer;
 STATIC int SECTION(".sbss") dword_800AB94C;
 
-/*** sbss ***/
-extern int GV_PauseLevel;
-
 STATIC void GV_ReserveMessage(GV_MSG *ptr, int msg_count)
 {
     // Move everything after msg to the left to erase msg

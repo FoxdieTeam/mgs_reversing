@@ -18,12 +18,8 @@
 #include "Game/map.h"
 #include "strcode.h"
 
-extern short         GM_Magazine_800AB9EC;
-extern short         GM_MagazineMax_800ABA2C;
-extern SVECTOR       GM_PlayerPosition_800ABA10;
 extern int           DG_CurrentGroupID;
 extern BLAST_DATA    blast_data_8009F4B8[8];
-extern int           GM_PlayerStatus;
 
 /*---------------------------------------------------------------------------*/
 // Grenade (frag/stun/chaff)
@@ -42,7 +38,7 @@ typedef struct _GrenadeWork
     int            has_exploded;
 } GrenadeWork;
 
-#define EXEC_LEVEL 6
+#define EXEC_LEVEL GV_ACTOR_AFTER
 #define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
 
 unsigned short grenade_model_8009F3E4[] = {
@@ -71,7 +67,7 @@ STATIC void grenade_800663A0( void )
     pos.vx = 250;
     GM_SetTarget( &target, 4, NO_SIDE, &pos );
     GM_Target_8002DCCC( &target, 3, 1, TARGET_C4, -1, (SVECTOR *)&DG_ZeroVector );
-    GM_MoveTarget( &target, &GM_PlayerPosition_800ABA10 );
+    GM_MoveTarget( &target, &GM_PlayerPosition );
     GM_PowerTarget( &target );
 }
 
@@ -232,22 +228,19 @@ STATIC int GrenadeGetResources( GrenadeWork *work, OBJECT *parent, int num_paren
 
 /*---------------------------------------------------------------------------*/
 
-STATIC GV_ACT *InitGrenade( CONTROL *control, OBJECT *parent, int num_parent,
-                            int *flags, int which_side, int grd_type )
+STATIC void *InitGrenade( CONTROL *control, OBJECT *parent, int num_parent,
+                          int *flags, int which_side, int grd_type )
 {
     GrenadeWork *work;
 
-    work = (GrenadeWork *)GV_NewActor( EXEC_LEVEL, sizeof( GrenadeWork ) );
+    work = GV_NewActor( EXEC_LEVEL, sizeof( GrenadeWork ) );
     if ( work )
     {
-        GV_SetNamedActor( &work->actor,
-                          (GV_ACTFUNC)&GrenadeAct,
-                          (GV_ACTFUNC)&GrenadeDie,
-                          "grenade.c");
+        GV_SetNamedActor( &work->actor, &GrenadeAct, &GrenadeDie, "grenade.c");
         if ( GrenadeGetResources( work, parent, num_parent, grd_type ) < 0 )
         {
             GV_DestroyActor( &work->actor );
-            return 0;
+            return NULL;
         }
 
         work->control = control;
@@ -260,28 +253,28 @@ STATIC GV_ACT *InitGrenade( CONTROL *control, OBJECT *parent, int num_parent,
         work->pos = control->mov;
     }
 
-    GM_MagazineMax_800ABA2C = 0;
-    GM_Magazine_800AB9EC = 0;
+    GM_MagazineMax = 0;
+    GM_Magazine = 0;
 
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewGrenade( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side )
+void *NewGrenade( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side )
 {
     return InitGrenade( control, parent, num_parent, flags, which_side, GRD_GRENADE );
 }
 
-GV_ACT *NewStanGrenade( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side )
+void *NewStanGrenade( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side )
 {
     return InitGrenade( control, parent, num_parent, flags, which_side, GRD_STUN );
 }
 
-GV_ACT *NewChaffGrenade( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side )
+void *NewChaffGrenade( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side )
 {
     return InitGrenade( control, parent, num_parent, flags, which_side, GRD_CHAFF );
 }
 
-GV_ACT *NewTimerBomb( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side )
+void *NewTimerBomb( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side )
 {
     return InitGrenade( control, parent, num_parent, flags, which_side, GRD_TBOMB );
 }

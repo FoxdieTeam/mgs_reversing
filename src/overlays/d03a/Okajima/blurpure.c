@@ -1,5 +1,9 @@
 #include "blurpure.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
@@ -26,7 +30,7 @@ typedef struct BlurPureWork
     int            field_28;
 } BlurPureWork;
 
-extern int GV_Clock;
+#define EXEC_LEVEL GV_ACTOR_AFTER2
 
 void d03a_blurpure_800C4F68(BlurPureWork *work)
 {
@@ -166,15 +170,14 @@ int BlurPureGetResources_800C548C(BlurPureWork *work)
     return 0;
 }
 
-GV_ACT *NewBlurPure_800C54D4(int name, int where, int argc, char **argv)
+void *NewBlurPure_800C54D4(int name, int where, int argc, char **argv)
 {
     BlurPureWork *work;
 
-    work = (BlurPureWork *)GV_NewActor(7, sizeof(BlurPureWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(BlurPureWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BlurPureAct_800C53E4,
-                         (GV_ACTFUNC)BlurPureDie_800C545C, "blurpure.c");
+        GV_SetNamedActor(&work->actor, BlurPureAct_800C53E4, BlurPureDie_800C545C, "blurpure.c");
         if (BlurPureGetResources_800C548C(work) < 0)
         {
             GV_DestroyActor(&work->actor);
@@ -182,18 +185,17 @@ GV_ACT *NewBlurPure_800C54D4(int name, int where, int argc, char **argv)
         }
         work->field_28 = -1;
     }
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewBlurPure2_800C554C(int name, int where, int argc, char **argv)
+void *NewBlurPure2_800C554C(int name, int where, int argc, char **argv)
 {
     BlurPureWork *work;
 
-    work = (BlurPureWork *)GV_NewActor(7, sizeof(BlurPureWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(BlurPureWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BlurPureAct_800C53E4,
-                         (GV_ACTFUNC)BlurPureDie_800C545C, "blurpure.c");
+        GV_SetNamedActor(&work->actor, BlurPureAct_800C53E4, BlurPureDie_800C545C, "blurpure.c");
         if (BlurPureGetResources_800C548C(work) < 0)
         {
             GV_DestroyActor(&work->actor);
@@ -201,5 +203,5 @@ GV_ACT *NewBlurPure2_800C554C(int name, int where, int argc, char **argv)
         }
         work->field_28 = name;
     }
-    return &work->actor;
+    return (void *)work;
 }

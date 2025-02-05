@@ -37,11 +37,7 @@ typedef struct _TelopWork2
     int       count;
 } TelopWork2;
 
-extern int GV_Clock;
-extern int GV_PassageTime;
-extern int GV_PauseLevel;
-
-#define EXEC_LEVEL 3
+#define EXEC_LEVEL GV_ACTOR_LEVEL3
 
 void telop_800DD550(TelopSub *sub, int x, int y, DG_TEX *arg3, DG_TEX *arg4)
 {
@@ -236,14 +232,14 @@ int TelopGetResources_800DDA18(TelopWork2 *work, int unused, int unused2)
     return 0;
 }
 
-GV_ACT *NewTelopSet_800DDB34(int name, int where, int argc, char **argv)
+void *NewTelopSet_800DDB34(int name, int where, int argc, char **argv)
 {
     TelopWork2 *work;
 
-    work = (TelopWork2 *)GV_NewActor(3, sizeof(TelopWork2));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(TelopWork2));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)TelopSetAct_800DD92C, (GV_ACTFUNC)TelopSetDie_800DD9E8, "telop.c");
+        GV_SetNamedActor(&work->actor, TelopSetAct_800DD92C, TelopSetDie_800DD9E8, "telop.c");
 
         if (TelopGetResources_800DDA18(work, name, where) < 0)
         {
@@ -252,7 +248,7 @@ GV_ACT *NewTelopSet_800DDB34(int name, int where, int argc, char **argv)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
 void Telop2Act_800DDBC8(TelopWork *work)
@@ -276,17 +272,17 @@ void telop_800DDC30(TelopWork *work)
     }
 }
 
-GV_ACT *NewTelop2_800DDC60(int x, int y, int timer, int reload, int arg4, int arg5)
+void *NewTelop2_800DDC60(int x, int y, int timer, int reload, int arg4, int arg5)
 {
     TelopWork *work;
     TelopSub  *sub;
     DG_TEX    *tex1;
     DG_TEX    *tex2;
 
-    work = (TelopWork *)GV_NewActor(EXEC_LEVEL, sizeof(TelopWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(TelopWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)Telop2Act_800DDBC8, (GV_ACTFUNC)telop_800DDC30, "telop.c");
+        GV_SetNamedActor(&work->actor, Telop2Act_800DDBC8, telop_800DDC30, "telop.c");
 
         work->sub = GV_Malloc(sizeof(TelopSub));
         sub = work->sub;
@@ -313,10 +309,10 @@ GV_ACT *NewTelop2_800DDC60(int x, int y, int timer, int reload, int arg4, int ar
         telop_800DD550(sub, x, y, tex1, tex2);
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewTelop_800DDD7C(int x, int y, int timer, int reload, int tex)
+void *NewTelop_800DDD7C(int x, int y, int timer, int reload, int tex)
 {
     return NewTelop2_800DDC60(x, y, timer, reload, tex, tex);
 }

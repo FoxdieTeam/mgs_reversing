@@ -27,7 +27,7 @@ typedef struct GasmaskWork
     short          saved_raise;
 } GasmaskWork;
 
-#define EXEC_LEVEL 6
+#define EXEC_LEVEL GV_ACTOR_AFTER
 #define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
 
 /*---------------------------------------------------------------------------*/
@@ -110,13 +110,12 @@ STATIC int GasmaskGetResources(GasmaskWork *work, OBJECT *parent, int num_parent
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewGasmask(CONTROL *control, OBJECT *parent, int num_parent)
+void *NewGasmask(CONTROL *control, OBJECT *parent, int num_parent)
 {
-    GasmaskWork *work = (GasmaskWork *)GV_NewActor(EXEC_LEVEL, sizeof(GasmaskWork));
+    GasmaskWork *work = GV_NewActor(EXEC_LEVEL, sizeof(GasmaskWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)GasmaskAct,
-                         (GV_ACTFUNC)GasmaskDie, "gasmask.c");
+        GV_SetNamedActor(&work->actor, GasmaskAct, GasmaskDie, "gasmask.c");
 
         if (GasmaskGetResources(work, parent, num_parent) < 0)
         {
@@ -127,5 +126,5 @@ GV_ACT *NewGasmask(CONTROL *control, OBJECT *parent, int num_parent)
         work->control = control;
     }
 
-    return (GV_ACT *)work;
+    return (void *)work;
 }

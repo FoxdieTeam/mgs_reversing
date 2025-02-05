@@ -60,9 +60,8 @@ const char s00a_aSeon_800E0AFC[] = "se_on";
 const char s00a_aSeoff_800E0B04[] = "se_off";
 
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
-extern int              GV_Clock;
 
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 int s00a_pato_lmp_800D5E30( unsigned short name, int hash_count, unsigned short* hashes )
 {
@@ -137,8 +136,6 @@ void s00a_pato_lmp_800D5F38(POLY_FT4 *polys, int count, DG_TEX *tex)
         polys++;
     }
 }
-
-extern int GV_PauseLevel;
 
 void s00a_pato_lmp_800D5FC4( PatoLmpWork* work )
 {
@@ -1001,15 +998,15 @@ temp_label_end4:
     return 0;
 }
 
-GV_ACT *NewPatrolLamp_800D7A2C(int name, int where, int argc, char **argv)
+void *NewPatrolLamp_800D7A2C(int name, int where, int argc, char **argv)
 {
     PatoLmpWork *work;
 
-    work = (PatoLmpWork *)GV_NewActor(EXEC_LEVEL, sizeof(PatoLmpWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(PatoLmpWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)PatrolLampAct_800D6678,
-                         (GV_ACTFUNC)PatrolLampDie_800D6C44, "pato_lmp.c");
+        GV_SetNamedActor(&work->actor, PatrolLampAct_800D6678,
+                         PatrolLampDie_800D6C44, "pato_lmp.c");
 
         if (PatrolLampGetResources_800D6E28(work, name, where) < 0)
         {
@@ -1018,5 +1015,5 @@ GV_ACT *NewPatrolLamp_800D7A2C(int name, int where, int argc, char **argv)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

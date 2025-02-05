@@ -4,8 +4,8 @@
 #include <libgte.h>
 #include <libgpu.h>
 #include "common.h"
+#include "libgv/libgv.h"
 
-extern int GV_Clock;
 extern int DG_CurrentGroupID;
 
 /*** data *******************************************************/

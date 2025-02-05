@@ -2,6 +2,7 @@
 #include "common.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
+#include "Game/game.h"
 
 typedef struct _GsplashWork
 {
@@ -17,9 +18,7 @@ typedef struct _GsplashWork
     int      fAB8;
 } GsplashWork;
 
-#define EXEC_LEVEL 5
-
-extern int GM_CurrentMap;
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void s08a_gsplash_800D3840(SVECTOR *arg0, SVECTOR *verts, GsplashWork *work, int n_prims)
 {
@@ -251,11 +250,11 @@ int GsplashGetResources_800D3F14(GsplashWork *work, MATRIX *pos)
     return 0;
 }
 
-GV_ACT *NewGsplash_800D4000(MATRIX *pos, SVECTOR *arg1, short arg2, short n_prims)
+void *NewGsplash_800D4000(MATRIX *pos, SVECTOR *arg1, short arg2, short n_prims)
 {
     GsplashWork *work;
 
-    work = (GsplashWork *)GV_NewActor(EXEC_LEVEL, sizeof(GsplashWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(GsplashWork));
     if (work != NULL)
     {
         work->n_prims = n_prims;
@@ -267,8 +266,7 @@ GV_ACT *NewGsplash_800D4000(MATRIX *pos, SVECTOR *arg1, short arg2, short n_prim
         work->fAA8.vx = arg1->vx - 64;
         work->fAA8.vy = arg1->vy - 64;
 
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)GsplashAct_800D3E14,
-                         (GV_ACTFUNC)GsplashDie_800D3ED8, "gsplash.c");
+        GV_SetNamedActor(&work->actor, GsplashAct_800D3E14, GsplashDie_800D3ED8, "gsplash.c");
 
         if (GsplashGetResources_800D3F14(work, pos) < 0)
         {
@@ -280,5 +278,5 @@ GV_ACT *NewGsplash_800D4000(MATRIX *pos, SVECTOR *arg1, short arg2, short n_prim
         work->fAB8 = arg2;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

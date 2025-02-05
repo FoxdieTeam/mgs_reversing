@@ -100,14 +100,12 @@ signed char text_outline_direction_offsets_800C3290[] = {
      0, -1,
 };
 
-GV_ACT *NewMetLogo_800C5A90( int * );
+void *NewMetLogo_800C5A90( int * );
 
-extern int    GV_Clock;
-extern int    GM_CurrentMap;
 extern int    FS_DiskNum_800ACBF0;
 extern GV_PAD GV_PadData_800B05C0[4];
 
-#define EXEC_LEVEL 1
+#define EXEC_LEVEL GV_ACTOR_MANAGER
 
 void demosel_800C35FC(DemoselWork *work, int index)
 {
@@ -1585,16 +1583,16 @@ int demosel_800C5A78(DemoselWork *work, int map)
     return 0;
 }
 
-GV_ACT *NewDemosel_800C61B0(int arg0, int arg1)
+void *NewDemosel_800C61B0(int arg0, int arg1)
 {
     DemoselWork *work;
 
     GM_GameStatus |= STATE_ALL_OFF;
 
-    work = (DemoselWork *)GV_NewActor(EXEC_LEVEL, sizeof(DemoselWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(DemoselWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)demosel_800C57BC, (GV_ACTFUNC)demosel_800C581C, "demosel.c");
+        GV_SetNamedActor(&work->actor, demosel_800C57BC, demosel_800C581C, "demosel.c");
 
         if (demosel_800C5A78(work, arg1) < 0)
         {
@@ -1603,5 +1601,5 @@ GV_ACT *NewDemosel_800C61B0(int arg0, int arg1)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

@@ -4,20 +4,20 @@
 #include "Enemy/wall.h"
 #include "Enemy/asioto.h"
 #include "Takabe/fadeio.h"
+#include "Takabe/sepia.h"
 
-GV_ACT *NewShakemdl_800C54E8(int name, int where, int argc, char **argv);
-GV_ACT *NewSepia_800C4F9C(int name, int where, int argc);
-GV_ACT *NewDymcSeg_800C4BCC(int name, int where, int argc, char **argv);
+void *NewShakemdl_800C54E8(int name, int where, int argc, char **argv);
+void *NewDymcSeg_800C4BCC(int name, int where, int argc, char **argv);
 
 CHARA _StageCharacterEntries[] =
 {
-    { 0xBA52, NewShakemdl_800C54E8 },
-    { 0xEC77, NewWall_800C3718 },
-    { 0x92BC, NewAsioto_800C3E08 },
-    { 0xA12E, NewFadeIo_800C42BC },
-    { 0xB103, NewDymcSeg_800C4BCC },
-    { 0x0003, NewFadeIo_800C4224 },
-    { 0x0004, NewFadeIo_800C4224 },
+    { 0xBA52, (NEWCHARA)NewShakemdl_800C54E8 },
+    { 0xEC77, (NEWCHARA)NewWall_800C3718 },
+    { 0x92BC, (NEWCHARA)NewAsioto_800C3E08 },
+    { 0xA12E, (NEWCHARA)NewFadeIo_800C42BC },
+    { 0xB103, (NEWCHARA)NewDymcSeg_800C4BCC },
+    { 0x0003, (NEWCHARA)NewFadeIo_800C4224 },
+    { 0x0004, (NEWCHARA)NewFadeIo_800C4224 },
     { 0x001F, (NEWCHARA)NewSepia_800C4F9C },
     { 0, NULL }
 };

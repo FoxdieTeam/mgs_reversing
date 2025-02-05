@@ -8,8 +8,6 @@
 #include "Thing/sight.h"
 #include "chara/snake/sna_init.h"
 
-extern int GV_PauseLevel;
-extern int GM_PlayerStatus;
 extern int dword_8009F604;
 extern GV_PAD GV_PadData_800B05C0[4];
 extern DVECTOR dvector_800BDD18[3];
@@ -28,7 +26,7 @@ typedef struct _RfSightWork
     rfsight_pfn_t func;
 } RfSightWork;
 
-#define EXEC_LEVEL 6
+#define EXEC_LEVEL GV_ACTOR_AFTER
 
 /*---------------------------------------------------------------------------*/
 
@@ -193,14 +191,13 @@ STATIC int RifleSightGetResources(RfSightWork *work)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewRifleSight(void)
+void *NewRifleSight(void)
 {
-    RfSightWork *work = (RfSightWork *)GV_NewActor(EXEC_LEVEL, sizeof(RfSightWork));
+    RfSightWork *work = GV_NewActor(EXEC_LEVEL, sizeof(RfSightWork));
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)&RifleSightAct,
-                         (GV_ACTFUNC)&RifleSightDie, "rfsight.c");
+        GV_SetNamedActor(&work->actor, &RifleSightAct, &RifleSightDie, "rfsight.c");
 
         if (RifleSightGetResources(work) < 0)
         {
@@ -212,17 +209,16 @@ GV_ACT *NewRifleSight(void)
         work->func = &NewSight_80071CDC;
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewRifleSightFast(void)
+void *NewRifleSightFast(void)
 {
-    RfSightWork *work = (RfSightWork *)GV_NewActor(EXEC_LEVEL, sizeof(RfSightWork));
+    RfSightWork *work = GV_NewActor(EXEC_LEVEL, sizeof(RfSightWork));
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)&RifleSightAct,
-                         (GV_ACTFUNC)&RifleSightDie, "rfsight.c");
+        GV_SetNamedActor(&work->actor, &RifleSightAct, &RifleSightDie, "rfsight.c");
 
         if (RifleSightGetResources(work) < 0)
         {
@@ -234,5 +230,5 @@ GV_ACT *NewRifleSightFast(void)
         work->func = &sight_init_80071EA8;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

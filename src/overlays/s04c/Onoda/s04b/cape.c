@@ -30,7 +30,7 @@ typedef struct _CapeWork
 
 extern GV_PAD GV_PadData_800B05C0[4];
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 
 void s04c_cape_800D7938(CapeWork *work)
@@ -369,14 +369,14 @@ int CapeGetResources_800D907C(CapeWork *work, SVECTOR *arg1, SVECTOR *arg2, MATR
     return 0;
 }
 
-GV_ACT *NewCape_800D92F8(SVECTOR *arg0, SVECTOR *arg1, MATRIX *light, MATRIX *color)
+void *NewCape_800D92F8(SVECTOR *arg0, SVECTOR *arg1, MATRIX *light, MATRIX *color)
 {
     CapeWork *work;
 
-    work = (CapeWork *)GV_NewActor(EXEC_LEVEL, sizeof(CapeWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(CapeWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)CapeAct_800D8FF8, (GV_ACTFUNC)CapeDie_800D9040, "cape.c");
+        GV_SetNamedActor(&work->actor, CapeAct_800D8FF8, CapeDie_800D9040, "cape.c");
 
         if (CapeGetResources_800D907C(work, arg0, arg1, light, color) < 0)
         {
@@ -385,5 +385,5 @@ GV_ACT *NewCape_800D92F8(SVECTOR *arg0, SVECTOR *arg1, MATRIX *light, MATRIX *co
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

@@ -43,14 +43,11 @@ int vrwindow_800C3778 = 256;
 int vrwindow_800C377C = 896;
 int vrwindow_800C3780 = 510;
 
-extern int    GV_Clock;
-extern int    GV_PauseLevel;
-extern int    GM_CurrentMap;
 extern GV_PAD GV_PadData_800B05C0[4];
 
 extern char vrwindow_800D92D4[];
 
-#define EXEC_LEVEL 2
+#define EXEC_LEVEL GV_ACTOR_LEVEL2
 
 void Vrwindow_800D73A4(VrwindowWork *work, RECT *rect)
 {
@@ -420,16 +417,16 @@ int VrwindowGetResources_800D8024(VrwindowWork *work, int map)
     return 0;
 }
 
-GV_ACT *NewVrwindow_800D81AC(int name, int where)
+void *NewVrwindow_800D81AC(int name, int where)
 {
     VrwindowWork *work;
     int           i;
     int           width;
 
-    work = (VrwindowWork *)GV_NewActor(EXEC_LEVEL, sizeof(VrwindowWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(VrwindowWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)VrwindowAct_800D7818, (GV_ACTFUNC)VrwindowDie_800D7E10, "vrwindow.c");
+        GV_SetNamedActor(&work->actor, VrwindowAct_800D7818, VrwindowDie_800D7E10, "vrwindow.c");
 
         work->f38 = 1;
         work->f30 = 0;
@@ -533,5 +530,5 @@ GV_ACT *NewVrwindow_800D81AC(int name, int where)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

@@ -32,6 +32,11 @@ extern int GV_Time;
 extern const char *GV_DebugMes;
 
 /* gvd.c */
+#ifndef __GVD_SBSS__
+extern int GV_Clock;
+extern int GV_PassageTime;
+#endif
+
 void GV_StartDaemon(void);
 void GV_ResetSystem(void);
 
@@ -48,19 +53,19 @@ void GV_Error( char *, int );
 
 /*------ Actor Management ---------------------------------------------------*/
 
-struct GV_ACT;
+struct _GV_ACT;
 
-typedef void (*GV_ACTFUNC)(struct GV_ACT *);
+typedef void (*GV_ACTFUNC)(struct _GV_ACT *);
 typedef void (*GV_FREEFUNC)(void *);
 
 /**
  * @brief Linked list of game actors.
  * A game actor is an entity with a name and an update function.
  */
-typedef struct GV_ACT
+typedef struct _GV_ACT
 {
-    struct GV_ACT  *prev;
-    struct GV_ACT  *next;
+    struct _GV_ACT *prev;
+    struct _GV_ACT *next;
     GV_ACTFUNC      act;        // update callback
     GV_ACTFUNC      die;        // shutdown callback
     GV_FREEFUNC     free;       // free callback
@@ -93,25 +98,27 @@ enum {
 };
 
 /* actor.c */
-void    GV_InitActorSystem(void);
-void    GV_ConfigActorSystem(int index, short pause, short kill);
-void    GV_DumpActorSystem(void);
-void    GV_ExecActorSystem(void);
-void    GV_DestroyActorSystem(int level);
-void    GV_InitActor(int level, GV_ACT *actor, GV_FREEFUNC free_func);
-GV_ACT *GV_NewActor(int level, int memSize);
+#ifndef __GV_ACTOR_SBSS__
+extern int GV_PauseLevel;
+#endif
+
+void GV_InitActorSystem(void);
+void GV_ConfigActorSystem(int index, short pause, short kill);
+void GV_DumpActorSystem(void);
+void GV_ExecActorSystem(void);
+void GV_DestroyActorSystem(int exec_level);
+void GV_InitActor(int exec_level, void *actor, GV_FREEFUNC free_func);
+void *GV_NewActor(int exec_level, int size);
+
+void GV_SetNamedActor(void *actor, void *act_func, void *die_func,
+                      const char *filename);
 
 #define GV_SetActor(_actor, _act, _die) \
     GV_SetNamedActor(_actor, _act, _die, __FILE__)
 
-void    GV_SetNamedActor(GV_ACT *actor,
-                         GV_ACTFUNC act_func,
-                         GV_ACTFUNC die_func,
-                         const char *filename);
-
-void    GV_DestroyActor(GV_ACT *actor);
-void    GV_DestroyActorQuick(GV_ACT *actor);
-void    GV_DestroyOtherActor(GV_ACT *actor);
+void GV_DestroyActor(void *actor);
+void GV_DestroyActorQuick(void *actor);
+void GV_DestroyOtherActor(void *actor);
 
 /*------ Cache System -------------------------------------------------------*/
 
@@ -249,21 +256,28 @@ int  GV_ReceiveMessage(int address, GV_MSG **msg_ptr);
 // TODO: typedef enum and use type in GV_PAD?
 enum
 {
-    PAD_UP = PADLup,        //  0x1000
-    PAD_DOWN = PADLdown,    //  0x4000
-    PAD_LEFT = PADLleft,    //  0x8000
-    PAD_RIGHT = PADLright,  //  0x2000
-    PAD_TRIANGLE = PADRup,  //  0x0010
-    PAD_CROSS = PADRdown,   //  0x0040
-    PAD_SQUARE = PADRleft,  //  0x0080
-    PAD_CIRCLE = PADRright, //  0x0020
-    PAD_L1 = PADL1,         //  0x0004
-    PAD_L2 = PADL2,         //  0x0001
-    PAD_R1 = PADR1,         //  0x0008
-    PAD_R2 = PADR2,         //  0x0002
-    PAD_START = PADstart,   //  0x0800
-    PAD_SELECT = PADselect, //  0x0100
+    PAD_UP = PADLup,        // 0x1000 (1<<12)
+    PAD_DOWN = PADLdown,    // 0x4000 (1<<14)
+    PAD_LEFT = PADLleft,    // 0x8000 (1<<15)
+    PAD_RIGHT = PADLright,  // 0x2000 (1<<13)
+    PAD_TRIANGLE = PADRup,  // 0x0010 (1<< 4)
+    PAD_CROSS = PADRdown,   // 0x0040 (1<< 6)
+    PAD_SQUARE = PADRleft,  // 0x0080 (1<< 7)
+    PAD_CIRCLE = PADRright, // 0x0020 (1<< 5)
+    PAD_L1 = PADL1,         // 0x0004 (1<< 2)
+    PAD_L2 = PADL2,         // 0x0001 (1<< 0)
+    PAD_R1 = PADR1,         // 0x0008 (1<< 3)
+    PAD_R2 = PADR2,         // 0x0002 (1<< 1)
+    PAD_START = PADstart,   // 0x0800 (1<<11)
+    PAD_SELECT = PADselect, // 0x0100 (1<< 8)
+    PAD_L3 = PADi,          // 0x0200 (1<< 9)
+    PAD_R3 = PADj,          // 0x0400 (1<<10)
 };
+/* SNES-style button layout */
+#define PAD_A   PAD_CIRCLE
+#define PAD_B   PAD_CROSS
+#define PAD_X   PAD_TRIANGLE
+#define PAD_Y   PAD_SQUARE
 
 #define PAD_DIR (PAD_LEFT | PAD_DOWN | PAD_RIGHT | PAD_UP) // 0xF000
 
@@ -290,6 +304,10 @@ enum
 };
 
 /* pad.c */
+#ifndef __GV_PAD_SBSS__
+extern u_short  GV_DemoPadStatus[2];
+extern u_long   GV_DemoPadAnalog;
+#endif
 extern int GV_PadMask;
 
 void GV_InitPadSystem(void);

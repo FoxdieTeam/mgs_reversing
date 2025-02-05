@@ -5,57 +5,58 @@
 #include "Game/control.h"
 #include "Game/game.h"
 
+/*---------------------------------------------------------------------------*/
+
+#define EXEC_LEVEL GV_ACTOR_AFTER
+
 typedef struct MotseElem
 {
     int param1;
     int param2;
 } MotseElem;
 
-typedef struct MotseWork
+typedef struct _Work
 {
     GV_ACT     actor;
-    int        field_20;
-    int        field_24_count;
-    MotseElem *field_28_elems;
-} MotseWork;
+    int        m_opt;
+    int        n_elems;
+    MotseElem *elems;
+} Work;
 
-extern int              GM_PlayerAction;
-extern CONTROL         *GM_PlayerControl_800AB9F4;
-extern PlayerStatusFlag GM_PlayerStatus;
-extern int              dword_800AB9D4;
+/*---------------------------------------------------------------------------*/
 
-void Motse_800C57CC(MotseWork *work)
+STATIC void motse_Act(Work *work)
 {
     MotseElem *elem;
     int        i;
 
-    if ((GM_PlayerStatus & PLAYER_ACT_ONLY) && GM_PlayerAction == work->field_20)
+    if ((GM_PlayerStatus & PLAYER_ACT_ONLY) && GM_PlayerAction == work->m_opt)
     {
-        for (i = 0, elem = work->field_28_elems; i < work->field_24_count; i++, elem++)
+        for (i = 0, elem = work->elems; i < work->n_elems; i++, elem++)
         {
             if (elem->param1 == dword_800AB9D4)
             {
-                GM_SeSetMode(&GM_PlayerControl_800AB9F4->mov, elem->param2, GM_SEMODE_BOMB);
+                GM_SeSetMode(&GM_PlayerControl->mov, elem->param2, GM_SEMODE_BOMB);
                 return;
             }
         }
     }
 }
 
-void Motse_800C5864(MotseWork *work)
+STATIC void motse_Die(Work *work)
 {
-    GV_DelayedFree(work->field_28_elems);
+    GV_DelayedFree(work->elems);
 }
 
-int Motse_800C5888(MotseWork *work, int name)
+STATIC int motse_GetResources(Work *work, int name)
 {
     int            i, count;
     unsigned char *param;
     MotseElem     *elems;
 
-    work->field_20 = GCL_StrToInt(GCL_GetOption('m'));
-    work->field_24_count = count = GCL_StrToInt(GCL_GetOption('n'));
-    work->field_28_elems = elems = GV_Malloc(count * sizeof(MotseElem));
+    work->m_opt = GCL_StrToInt(GCL_GetOption('m'));
+    work->n_elems = count = GCL_StrToInt(GCL_GetOption('n'));
+    work->elems = elems = GV_Malloc(count * sizeof(MotseElem));
 
     GCL_GetOption('s');
 
@@ -68,20 +69,21 @@ int Motse_800C5888(MotseWork *work, int name)
     return 0;
 }
 
-GV_ACT *NewMotse_800C5944(int name, int where, int argc, char **argv)
-{
-    MotseWork *work;
+/*---------------------------------------------------------------------------*/
 
-    work = (MotseWork *)GV_NewActor(6, sizeof(MotseWork));
+void *NewMotionSoundEffect(int name, int where, int argc, char **argv)
+{
+    Work *work;
+
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)Motse_800C57CC,
-                         (GV_ACTFUNC)Motse_800C5864, "motse.c");
-        if (Motse_800C5888(work, name) < 0)
+        GV_SetNamedActor(&work->actor, motse_Act, motse_Die, "motse.c");
+        if (motse_GetResources(work, name) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

@@ -48,12 +48,9 @@ typedef struct DoorWork
     DoorLeafData   leaves[1]; // 1 or more leaves
 } DoorWork;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-extern CONTROL *GM_PlayerControl_800AB9F4;
-extern int      GM_PlayerMap_800ABA0C;
 extern int      dword_8009F470;
-extern int      GM_CurrentMap;
 
 int door_where_8009F5F4 = 0;
 
@@ -103,7 +100,7 @@ STATIC void DoorOpen_8006ECB8(DoorWork *work)
     fprintf(1, " open!! \n");
     pos = &work->control.mov;
 
-    if ((GM_PlayerMap_800ABA0C & work->where) && work->field_E2_maybe_state != 4 && work->field_FE_sound_effect != 0 &&
+    if ((GM_PlayerMap & work->where) && work->field_E2_maybe_state != 4 && work->field_FE_sound_effect != 0 &&
         work->field_C0[0].vx == 0)
     {
         GM_SeSet(pos, work->field_FE_sound_effect);
@@ -120,7 +117,7 @@ STATIC void DoorClose_8006ED48(DoorWork *work)
     work->field_E2_maybe_state = 1;
     pos = &work->control.mov;
 
-    if ((GM_PlayerMap_800ABA0C & work->where) != 0)
+    if ((GM_PlayerMap & work->where) != 0)
     {
         if (work->field_FE_sound_effect != 0)
         {
@@ -243,13 +240,13 @@ STATIC int DoorPollMessages_8006EDB8(DoorWork *work)
                 {
                     DoorOpen_8006ECB8(work);
 
-                    work->field_F6_map_num = GM_GetMap(GM_PlayerMap_800ABA0C)->name;
+                    work->field_F6_map_num = GM_GetMap(GM_PlayerMap)->name;
 
                     if (msg->message_len > 1 && work->field_F4_param_g_v > 0)
                     {
                         work->field_F0 = temp_s1_2;
 
-                        if (work->field_F0 == CHARA_SNAKE || (GM_PlayerMap_800ABA0C & work->where))
+                        if (work->field_F0 == CHARA_SNAKE || (GM_PlayerMap & work->where))
                         {
                             GM_AddMap(work->field_F8_maps[0]);
                             GM_AddMap(work->field_F8_maps[1]);
@@ -353,26 +350,26 @@ STATIC int door_act_helper_8006F290(CONTROL *pControl, int param_h)
 
     param_h_50 = param_h + 50;
 
-    if (!GM_PlayerControl_800AB9F4)
+    if (!GM_PlayerControl)
     {
         return 0;
     }
 
-    diff = GM_PlayerControl_800AB9F4->mov.vx - pControl->mov.vx;
+    diff = GM_PlayerControl->mov.vx - pControl->mov.vx;
 
     if ((diff < -param_h_50) || (param_h_50 < diff))
     {
         return 0;
     }
 
-    diff = GM_PlayerControl_800AB9F4->mov.vz - pControl->mov.vz;
+    diff = GM_PlayerControl->mov.vz - pControl->mov.vz;
 
     if ((diff < -param_h_50) || (param_h_50 < diff))
     {
         return 0;
     }
 
-    diff = GM_PlayerControl_800AB9F4->mov.vy - pControl->mov.vy;
+    diff = GM_PlayerControl->mov.vy - pControl->mov.vy;
 
     if ((diff > 2500) || (diff < 0))
     {
@@ -451,7 +448,7 @@ STATIC void DoorAct_8006F318(DoorWork *work)
     {
         if (work->field_E2_maybe_state != 3)
         {
-            if ((pVecs->vx != var_s3) && (GM_PlayerMap_800ABA0C & work->where) && work->field_FF_e_param_v2)
+            if ((pVecs->vx != var_s3) && (GM_PlayerMap & work->where) && work->field_FF_e_param_v2)
             {
                 GM_SeSet(&work->control.mov, work->field_FF_e_param_v2);
             }
@@ -477,7 +474,7 @@ STATIC void DoorAct_8006F318(DoorWork *work)
                     else
                     {
                         printf("CLOSE door %X\n", door_where_8009F5F4);
-                        hash = GM_PlayerControl_800AB9F4->map->name;
+                        hash = GM_PlayerControl->map->name;
 
                         for (mapIter2 = 0; mapIter2 < 2; mapIter2++)
                         {
@@ -758,7 +755,7 @@ STATIC int DoorGetResources_8006FA60(DoorWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT *NewDoor(int name, int where, int argc, char **argv)
+void *NewDoor(int name, int where, int argc, char **argv)
 {
     int       leaf_count;
     DoorWork *work;
@@ -772,14 +769,13 @@ GV_ACT *NewDoor(int name, int where, int argc, char **argv)
         leaf_count = 1;
     }
 
-    work = (DoorWork *)GV_NewActor(EXEC_LEVEL, sizeof(DoorWork) + sizeof(DoorLeafData) * (leaf_count - 1));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(DoorWork) + sizeof(DoorLeafData) * (leaf_count - 1));
 
     door_where_8009F5F4 = 0;
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)DoorAct_8006F318,
-                         (GV_ACTFUNC)DoorDie_8006F718, "door.c");
+        GV_SetNamedActor(&work->actor, DoorAct_8006F318, DoorDie_8006F718, "door.c");
 
         work->leaf_count = leaf_count;
 
@@ -789,5 +785,5 @@ GV_ACT *NewDoor(int name, int where, int argc, char **argv)
             return NULL;
         }
     }
-    return &work->actor;
+    return (void *)work;
 }

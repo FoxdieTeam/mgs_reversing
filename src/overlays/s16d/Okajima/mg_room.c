@@ -1,6 +1,7 @@
 #include "common.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
+#include "Game/game.h"
 
 typedef struct _MgRoom
 {
@@ -18,10 +19,7 @@ typedef struct _MgRoom
     int      map;
 } MgRoom;
 
-extern int     GV_Clock;
-extern int     GM_CurrentMap;
-
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 void MgRoom_800DAC98(POLY_FT4 *packs, int n_packs, DG_TEX *tex, SVECTOR *color)
 {
@@ -297,14 +295,14 @@ int MgRoomGetResources_800DB218(MgRoom *work)
     return 0;
 }
 
-GV_ACT *NewMgRoom_800DB458(void)
+void *NewMgRoom_800DB458(void)
 {
     MgRoom *work;
 
-    work = (MgRoom *)GV_NewActor(EXEC_LEVEL, sizeof(MgRoom));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(MgRoom));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)MgRoomAct_800DAFAC, (GV_ACTFUNC)MgRoomDie_800DB024, "mg_room.c");
+        GV_SetNamedActor(&work->actor, MgRoomAct_800DAFAC, MgRoomDie_800DB024, "mg_room.c");
 
         if (MgRoomGetResources_800DB218(work) < 0)
         {
@@ -313,5 +311,5 @@ GV_ACT *NewMgRoom_800DB458(void)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

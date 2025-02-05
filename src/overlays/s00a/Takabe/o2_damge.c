@@ -28,10 +28,7 @@ typedef struct _O2DamgeWork
     int    f54;
 } O2DamgeWork;
 
-extern short GM_O2;
-extern int   GM_PlayerStatus;
-
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void ExecProc_800DE580(int proc, long arg)
 {
@@ -198,14 +195,14 @@ int O2DamageGetResources_800DE8FC(O2DamgeWork *work, int name, int where)
     return 0;
 }
 
-GV_ACT *NewO2Damage_800DE9C8(int name, int where, int argc, char **argv)
+void *NewO2Damage_800DE9C8(int name, int where, int argc, char **argv)
 {
     O2DamgeWork *work;
 
-    work = (O2DamgeWork *)GV_NewActor(EXEC_LEVEL, sizeof(O2DamgeWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(O2DamgeWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)O2DamageAct_800DE5B8, (GV_ACTFUNC)O2DamageDie_800DE8F4, "o2_damge.c");
+        GV_SetNamedActor(&work->actor, O2DamageAct_800DE5B8, O2DamageDie_800DE8F4, "o2_damge.c");
 
         if (O2DamageGetResources_800DE8FC(work, name, where) < 0)
         {
@@ -217,5 +214,5 @@ GV_ACT *NewO2Damage_800DE9C8(int name, int where, int argc, char **argv)
         work->name = name;
     }
 
-    return &work->actor;
+    return (void *)work;
 }

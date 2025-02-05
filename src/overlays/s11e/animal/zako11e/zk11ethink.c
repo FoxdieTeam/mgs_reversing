@@ -9,11 +9,7 @@ extern SVECTOR ZAKOCOM_PlayerPosition_800DF278;
 extern int     ZAKOCOM_PlayerMap_800DF3BC;
 extern ZAKO_COMMAND ZakoCommand_800DF280;
 
-extern SVECTOR  GM_PlayerPosition_800ABA10;
-extern SVECTOR  GM_NoisePosition;
 extern CONTROL *GM_WhereList_800B56D0[94];
-extern int      GM_PlayerMap_800ABA0C;
-extern int      GM_PlayerAddress_800AB9F0;
 
 
 //#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D89A0.s")
@@ -97,7 +93,6 @@ int s11e_zk11ecom_800D8ACC( SVECTOR* arg0, SVECTOR* arg1 )
 
 
 //#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D8B04.s")
-extern SVECTOR GM_PlayerPosition_800ABA10;
 
 extern int s11e_zk11ecom_800D9B60( int map_id, int val );
 
@@ -460,7 +455,6 @@ typedef struct ACTIONPATTERN
 //extern int s11e_dword_800C36CC[ 2 ][ 16 ];
 extern ACTIONPATTERN s11e_dword_800C36CC[ 16 ][ 16 ];
 extern int s11e_dword_800DF3B4;
-extern int GM_PlayerStatus;
 
 
 #define ATTACKNEAR_DIS 800

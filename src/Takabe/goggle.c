@@ -30,7 +30,7 @@ typedef struct GoggleWork
     short          saved_rise;
 } GoggleWork;
 
-#define EXEC_LEVEL 6
+#define EXEC_LEVEL GV_ACTOR_AFTER
 #define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
 
 /*---------------------------------------------------------------------------*/
@@ -195,14 +195,13 @@ STATIC int goggle_GetResources(GoggleWork *work, OBJECT *parent)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewGoggle(CONTROL *control, OBJECT *parent_obj, int num_parent)
+void *NewGoggle(CONTROL *control, OBJECT *parent_obj, int num_parent)
 {
-    GoggleWork *work = (GoggleWork *)GV_NewActor(EXEC_LEVEL, sizeof(GoggleWork));
+    GoggleWork *work = GV_NewActor(EXEC_LEVEL, sizeof(GoggleWork));
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)&goggle_Act,
-                         (GV_ACTFUNC)&goggle_Die, "goggle.c");
+        GV_SetNamedActor(&work->actor, &goggle_Act, &goggle_Die, "goggle.c");
 
         if (goggle_GetResources(work, parent_obj) < 0)
         {
@@ -214,5 +213,5 @@ GV_ACT *NewGoggle(CONTROL *control, OBJECT *parent_obj, int num_parent)
     work->control = control;
     work->field_50 = 0;
 
-    return &work->actor;
+    return (void *)work;
 }

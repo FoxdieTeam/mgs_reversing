@@ -7,10 +7,7 @@
 #include "Game/linkvarbuf.h"
 #include "SD/g_sound.h"
 
-extern int              GM_CurrentMap;
-extern PlayerStatusFlag GM_PlayerStatus;
 extern GV_PAD           GV_PadData_800B05C0[4];
-extern CONTROL      *GM_PlayerControl_800AB9F4;
 
 /*---------------------------------------------------------------------------*/
 
@@ -24,7 +21,7 @@ typedef struct _DBloodWork
     int    current_map;
 } DBloodWork;
 
-#define EXEC_LEVEL 6
+#define EXEC_LEVEL GV_ACTOR_AFTER
 
 /*---------------------------------------------------------------------------*/
 
@@ -38,7 +35,7 @@ STATIC int d_blood_act_helper_800729B4(void)
     unsigned short *pArray;
     int i;
 
-    control = GM_PlayerControl_800AB9F4;
+    control = GM_PlayerControl;
     if (!control)
     {
         return 0;
@@ -111,17 +108,14 @@ STATIC int d_blood_GetResources(DBloodWork *work)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewKetchap(CONTROL *control, OBJECT *parent_obj, int num_parent)
+void *NewKetchap(CONTROL *control, OBJECT *parent_obj, int num_parent)
 {
     DBloodWork *work;
 
-    work = (DBloodWork *)GV_NewActor(EXEC_LEVEL, sizeof(DBloodWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(DBloodWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor,
-                         (GV_ACTFUNC)&d_blood_Act,
-                         (GV_ACTFUNC)&d_blood_Die,
-                         "d_blood.c");
+        GV_SetNamedActor(&work->actor, &d_blood_Act, &d_blood_Die, "d_blood.c");
 
         if (d_blood_GetResources(work) < 0)
         {
@@ -130,5 +124,5 @@ GV_ACT *NewKetchap(CONTROL *control, OBJECT *parent_obj, int num_parent)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

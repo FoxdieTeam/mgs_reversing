@@ -2,11 +2,6 @@
 
 #include "meryl72.h"
 
-extern int GV_Time;
-
-extern SVECTOR GM_PlayerPosition_800ABA10;
-extern int     GM_PlayerStatus;
-
 #define TH1_PHASE0 0
 #define TH1_PHASE1 1
 #define TH1_PHASE2 2
@@ -426,7 +421,7 @@ void s07c_meryl72_unk2_800CD474(Meryl72Work *work)
             GM_GameStatus &= ~(STATE_PADRELEASE | STATE_PAUSE_ONLY);
         }
 
-        if (s07c_meryl72_unk2_800CD380(&GM_PlayerPosition_800ABA10) && GM_SnakeCurrentHealth != 0)
+        if (s07c_meryl72_unk2_800CD380(&GM_PlayerPosition) && GM_SnakeCurrentHealth != 0)
         {
             s07c_meryl72_unk2_800CD408();
             s03b_boxall_800C969C(0, 60000);
@@ -438,7 +433,7 @@ void s07c_meryl72_unk2_800CD474(Meryl72Work *work)
         break;
 
     case 100:
-        if (work->count3 > 30 && (s07c_meryl72_unk2_800CD3C4(&GM_PlayerPosition_800ABA10) || work->count3 > 120) && work->act_status & 0x1)
+        if (work->count3 > 30 && (s07c_meryl72_unk2_800CD3C4(&GM_PlayerPosition) || work->count3 > 120) && work->act_status & 0x1)
         {
             work->pad.dir = work->sn_dir;
 
@@ -528,8 +523,8 @@ int s07c_meryl72_unk2_800CD76C(int xmin, int zmin, int xmax, int zmax)
         return 0;
     }
 
-    x = GM_PlayerPosition_800ABA10.vx;
-    z = GM_PlayerPosition_800ABA10.vz;
+    x = GM_PlayerPosition.vx;
+    z = GM_PlayerPosition.vz;
 
     if (x < xmin || x > xmax || z < zmin  || z > zmax)
     {
@@ -541,9 +536,9 @@ int s07c_meryl72_unk2_800CD76C(int xmin, int zmin, int xmax, int zmax)
 
 int s07c_meryl72_unk2_800CD7C4(void)
 {
-    if (GM_PlayerPosition_800ABA10.vz < -14000 &&
-        GM_PlayerPosition_800ABA10.vx > -6000 &&
-        GM_PlayerPosition_800ABA10.vx < -4000)
+    if (GM_PlayerPosition.vz < -14000 &&
+        GM_PlayerPosition.vx > -6000 &&
+        GM_PlayerPosition.vx < -4000)
     {
         return 1;
     }

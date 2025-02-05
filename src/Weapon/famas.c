@@ -12,10 +12,7 @@
 #include "Okajima/bullet.h"
 #include "SD/g_sound.h"
 
-extern short GM_Magazine_800AB9EC;
-extern short GM_MagazineMax_800ABA2C;
 extern int   DG_CurrentGroupID;
-extern int   GV_Clock;
 
 /*---------------------------------------------------------------------------*/
 
@@ -32,7 +29,7 @@ typedef struct _FamasWork
     int            mp5_flag;    // Use H&K MP5 (for VERY EASY)
 } FamasWork;
 
-#define EXEC_LEVEL      6
+#define EXEC_LEVEL      GV_ACTOR_AFTER
 #define MAGAZINE_SIZE   25
 #define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
 
@@ -73,7 +70,7 @@ STATIC void FamasAct(FamasWork *work)
 
     flags = *work->flags;
 
-    newSize = GM_Magazine_800AB9EC;
+    newSize = GM_Magazine;
 
     if (!newSize && (flags & 2))
     {
@@ -96,8 +93,8 @@ STATIC void FamasAct(FamasWork *work)
                 DG_MovePos(&stru_800AB850);
                 ReadRotMatrix(&mtx);
 
-                GM_Magazine_800AB9EC = newSize;
-                GM_MagazineMax_800ABA2C = MAGAZINE_SIZE;
+                GM_Magazine = newSize;
+                GM_MagazineMax = MAGAZINE_SIZE;
 
                 if ( !mp5_flag )
                 {
@@ -184,15 +181,14 @@ STATIC int FamasGetResources(FamasWork *work, OBJECT *parent, int num_parent, in
 
 /*---------------------------------------------------------------------------*/
 
-STATIC GV_ACT *InitFAMAS(CONTROL *control, OBJECT *parent, int num_parent, int *flags, int mp5flag)
+STATIC void *InitFAMAS(CONTROL *control, OBJECT *parent, int num_parent, int *flags, int mp5flag)
 {
     int mag_size;
 
-    FamasWork *work = (FamasWork *)GV_NewActor(EXEC_LEVEL, sizeof(FamasWork));
+    FamasWork *work = GV_NewActor(EXEC_LEVEL, sizeof(FamasWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)FamasAct,
-                         (GV_ACTFUNC)FamasDie, "famas.c");
+        GV_SetNamedActor(&work->actor, FamasAct, FamasDie, "famas.c");
         if (FamasGetResources(work, parent, num_parent, mp5flag) < 0)
         {
             GV_DestroyActor(&work->actor);
@@ -209,7 +205,7 @@ STATIC GV_ACT *InitFAMAS(CONTROL *control, OBJECT *parent, int num_parent, int *
     }
 
     mag_size = MAGAZINE_SIZE;
-    if (GM_Magazine_800AB9EC)
+    if (GM_Magazine)
         mag_size = MAGAZINE_SIZE + 1;   /* +1 in the chamber */
 
     if (mp5flag == 0)
@@ -221,19 +217,19 @@ STATIC GV_ACT *InitFAMAS(CONTROL *control, OBJECT *parent, int num_parent, int *
             temp = (short)mag_size;
         }
 
-        GM_MagazineMax_800ABA2C = mag_size;
-        GM_Magazine_800AB9EC = temp;
+        GM_MagazineMax = mag_size;
+        GM_Magazine = temp;
     }
     else
     {
-        GM_Magazine_800AB9EC = mag_size;
-        GM_MagazineMax_800ABA2C = mag_size;
+        GM_Magazine = mag_size;
+        GM_MagazineMax = mag_size;
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewFAMAS(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side)
+void *NewFAMAS(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side)
 {
     return InitFAMAS(control, parent, num_parent, flags, (unsigned int)GM_DifficultyFlag >> 31);
 }

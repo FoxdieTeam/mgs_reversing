@@ -73,16 +73,9 @@ typedef struct _TortureWork
     GV_ACT        *f900;
 } TortureWork;
 
-extern int             GV_Clock;
-extern CONTROL        *GM_PlayerControl_800AB9F4;
-extern int             GM_AlertMode;
-extern SVECTOR         GM_PlayerPosition_800ABA10;
-extern OBJECT         *GM_PlayerBody_800ABA20;
-extern int             GM_PlayerStatus;
 extern GV_PAD          GV_PadData_800B05C0[4];
 extern UnkCameraStruct gUnkCameraStruct_800B77B8;
 extern GM_Camera       GM_Camera_800B77E8;
-extern int             GM_PadVibration2;
 
 extern char s03b_dword_800C329C[];
 extern char s03b_dword_800C32AC[];
@@ -93,10 +86,10 @@ extern char s03b_dword_800C32D8[];
 
 extern char s03b_dword_800D32F0[16];
 
-GV_ACT *NewFadeIo_800C4224(int name, int where);
-GV_ACT *NewPlasma_800CD1A4(OBJECT *, int, int, int, int, int);
-GV_ACT *NewInfo_800CA534(unsigned short name1, unsigned short name2, int *abe);
-GV_ACT *NewBlur_800CD530(int, int, int);
+void *NewFadeIo_800C4224(int name, int where);
+void *NewPlasma_800CD1A4(OBJECT *, int, int, int, int, int);
+void *NewInfo_800CA534(unsigned short name1, unsigned short name2, int *abe);
+void *NewBlur_800CD530(int, int, int);
 
 void InfoKill_800CA5D0(void);
 
@@ -114,7 +107,7 @@ void s03b_torture_800C4C48(TortureWork *work, int);
 void s03b_torture_800C5AF8(TortureWork *work, int);
 void s03b_torture_800C5E48(TortureWork *work, int);
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 #define BODY_FLAG  ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE )
 
 void s03b_torture_800C3E80(TortureWork *work)
@@ -1785,7 +1778,7 @@ void TortureAct_800C6600(TortureWork *work)
 
     DG_GetLightMatrix(&work->control.mov, work->light);
 
-    GM_PlayerPosition_800ABA10 = work->control.mov;
+    GM_PlayerPosition = work->control.mov;
 
     cam = &gUnkCameraStruct_800B77B8;
     cam->eye.vx = work->body.objs->objs[6].world.t[0];
@@ -1821,14 +1814,14 @@ void TortureDie_800C6774(TortureWork *work)
 
     GM_SnakeCurrentHealth = GM_SnakeMaxHealth;
 
-    if (GM_PlayerControl_800AB9F4 == &work->control)
+    if (GM_PlayerControl == &work->control)
     {
-        GM_PlayerControl_800AB9F4 = NULL;
+        GM_PlayerControl = NULL;
     }
 
-    if (GM_PlayerBody_800ABA20 == &work->body)
+    if (GM_PlayerBody == &work->body)
     {
-        GM_PlayerBody_800ABA20 = NULL;
+        GM_PlayerBody = NULL;
     }
 }
 
@@ -2045,8 +2038,8 @@ int TortureGetResources_800C6B3C(TortureWork *work, int name, int map)
     s03b_torture_800C45E4(work);
     Torture_800C695C(work);
 
-    GM_PlayerControl_800AB9F4 = control;
-    GM_PlayerBody_800ABA20 = body;
+    GM_PlayerControl = control;
+    GM_PlayerBody = body;
 
     gUnkCameraStruct_800B77B8.rotate2 = control->rot;
     gUnkCameraStruct_800B77B8.eye = control->mov;
@@ -2076,19 +2069,18 @@ int TortureGetResources_800C6B3C(TortureWork *work, int name, int map)
     return 0;
 }
 
-GV_ACT *NewTorture_800C6E1C(int name, int where)
+void *NewTorture_800C6E1C(int name, int where)
 {
     TortureWork *work;
 
-    work = (TortureWork *)GV_NewActor(EXEC_LEVEL, sizeof(TortureWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(TortureWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)TortureAct_800C6600,
-                         (GV_ACTFUNC)TortureDie_800C6774, "torture.c");
+        GV_SetNamedActor(&work->actor, TortureAct_800C6600, TortureDie_800C6774, "torture.c");
 
         if (TortureGetResources_800C6B3C(work, name, where) >= 0)
         {
-            return &work->actor;
+            return (void *)work;
         }
 
         GV_DestroyActor(&work->actor);

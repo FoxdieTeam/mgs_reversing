@@ -25,7 +25,7 @@ typedef struct BoxWork
     int            unused;
 } BoxWork;
 
-#define EXEC_LEVEL 6
+#define EXEC_LEVEL GV_ACTOR_AFTER
 #define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
 /*---------------------------------------------------------------------------*/
 
@@ -140,13 +140,12 @@ STATIC int BoxGetResources(BoxWork *work, OBJECT *parent)
 
 /*---------------------------------------------------------------------------*/
 
-GV_ACT *NewBox(CONTROL *control, OBJECT *parent, int num_parent)
+void *NewBox(CONTROL *control, OBJECT *parent, int num_parent)
 {
-    BoxWork *work = (BoxWork *)GV_NewActor(EXEC_LEVEL, sizeof(BoxWork));
+    BoxWork *work = GV_NewActor(EXEC_LEVEL, sizeof(BoxWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BoxAct,
-                         (GV_ACTFUNC)BoxDie, "box.c");
+        GV_SetNamedActor(&work->actor, BoxAct, BoxDie, "box.c");
 
         if (BoxGetResources(work, parent) < 0)
         {
@@ -158,5 +157,5 @@ GV_ACT *NewBox(CONTROL *control, OBJECT *parent, int num_parent)
         work->parent = parent;
     }
 
-    return (GV_ACT *)work;
+    return (void *)work;
 }

@@ -1,8 +1,13 @@
 #include "bubble_t.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "Game/game.h"
 
 typedef struct _BubbleTWork
 {
@@ -17,11 +22,9 @@ typedef struct _BubbleTWork
     int      time;
 } BubbleTWork;
 
-extern int     GM_CurrentMap;
+void *NewRipple_800D7F30(MATRIX *, int);
 
-GV_ACT *NewRipple_800D7F30(MATRIX *, int);
-
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 void BubbleTShadePacks_800D9EEC(POLY_FT4 *packs, int shade)
 {
@@ -174,7 +177,7 @@ int BubbleTGetResources_800DA29C(BubbleTWork *work, SVECTOR *pos, int height, in
     return 0;
 }
 
-GV_ACT *NewBubbleT_800DA380(SVECTOR *pos, int height, int ripple, int *destroy)
+void *NewBubbleT_800DA380(SVECTOR *pos, int height, int ripple, int *destroy)
 {
     BubbleTWork *work;
 
@@ -183,10 +186,10 @@ GV_ACT *NewBubbleT_800DA380(SVECTOR *pos, int height, int ripple, int *destroy)
         return NULL;
     }
 
-    work = (BubbleTWork *)GV_NewActor(EXEC_LEVEL, sizeof(BubbleTWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(BubbleTWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)BubbleTAct_800DA11C, (GV_ACTFUNC)BubbleTDie_800DA170, "bubble_t.c");
+        GV_SetNamedActor(&work->actor, BubbleTAct_800DA11C, BubbleTDie_800DA170, "bubble_t.c");
 
         if (BubbleTGetResources_800DA29C(work, pos, height, ripple, destroy) < 0)
         {
@@ -195,5 +198,5 @@ GV_ACT *NewBubbleT_800DA380(SVECTOR *pos, int height, int ripple, int *destroy)
         }
     }
 
-    return &work->actor;
+    return (void *)work;
 }

@@ -23,7 +23,7 @@ typedef struct Work
 
 extern GV_PAD GV_PadData_800B05C0[4];
 
-#define EXEC_LEVEL 3
+#define EXEC_LEVEL GV_ACTOR_LEVEL3
 
 #ifdef DEV_EXE
 int isStageSelectionMenu; // Used to print the extended info below only in stage selection menu.
@@ -163,14 +163,14 @@ int SelectGetResources_800C33D0(Work *work, int param_2, int param_3)
     return 0;
 }
 
-GV_ACT *NewSelect_800C3434(int name, int where, int argc, char **argv)
+void *NewSelect_800C3434(int name, int where, int argc, char **argv)
 {
     Work *work;
 
-    work = (Work *)GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)SelectAct_800C32D8, NULL, "select.c");
+        GV_SetNamedActor(&work->actor, SelectAct_800C32D8, NULL, "select.c");
         if (SelectGetResources_800C33D0(work, where, name) < 0)
         {
             GV_DestroyActor(&work->actor);
@@ -182,5 +182,5 @@ GV_ACT *NewSelect_800C3434(int name, int where, int argc, char **argv)
     isStageSelectionMenu = name == 10524;
 #endif
 
-    return &work->actor;
+    return (void *)work;
 }

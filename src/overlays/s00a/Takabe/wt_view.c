@@ -46,8 +46,6 @@ typedef struct _WaterViewWork
     int             n_prims;
 } WaterViewWork;
 
-extern int GV_Clock;
-extern int GV_PauseLevel;
 extern DG_CHANL DG_Chanls_800B1800[3];
 
 int  WaterViewCreatePrims_800DBEB8(WaterViewWork *work);
@@ -56,7 +54,7 @@ void WaterViewDraw_800DC128(WaterViewWork *work);
 
 static short wt_view_sin_table[32];
 
-#define EXEC_LEVEL 3
+#define EXEC_LEVEL GV_ACTOR_LEVEL3
 
 void WaterViewSetupSprites1_800DB800(SPRT *sa, SPRT *sb, CVECTOR *color)
 {
@@ -222,15 +220,14 @@ int WaterViewGetResources_800DBCE4(WaterViewWork *work, SVECTOR *bounds, CVECTOR
     return 0;
 }
 
-GV_ACT *NewWaterView_800DBD68(int name, int where, int argc, char **argv)
+void *NewWaterView_800DBD68(int name, int where, int argc, char **argv)
 {
     WaterViewWork *work;
 
-    work = (WaterViewWork *)GV_NewActor(EXEC_LEVEL, sizeof(WaterViewWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(WaterViewWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)WaterViewAct_800DB9E8,
-                         (GV_ACTFUNC)WaterViewDie_800DBBF0, "wt_view.c");
+        GV_SetNamedActor(&work->actor, WaterViewAct_800DB9E8, WaterViewDie_800DBBF0, "wt_view.c");
 
         if (WaterViewGetResources_800DBC20(work, name, where) < 0)
         {
@@ -242,18 +239,17 @@ GV_ACT *NewWaterView_800DBD68(int name, int where, int argc, char **argv)
         work->name = name;
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
-GV_ACT *NewWaterView_800DBE04(int name, int where, SVECTOR *bounds, CVECTOR *color)
+void *NewWaterView_800DBE04(int name, int where, SVECTOR *bounds, CVECTOR *color)
 {
     WaterViewWork *work;
 
-    work = (WaterViewWork *)GV_NewActor(EXEC_LEVEL, sizeof(WaterViewWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(WaterViewWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)WaterViewAct_800DB9E8,
-                         (GV_ACTFUNC)WaterViewDie_800DBBF0, "wt_view.c");
+        GV_SetNamedActor(&work->actor, WaterViewAct_800DB9E8, WaterViewDie_800DBBF0, "wt_view.c");
 
         if (WaterViewGetResources_800DBCE4(work, bounds, color) < 0)
         {
@@ -265,7 +261,7 @@ GV_ACT *NewWaterView_800DBE04(int name, int where, SVECTOR *bounds, CVECTOR *col
         work->name = name;
     }
 
-    return &work->actor;
+    return (void *)work;
 }
 
 int WaterViewCreatePrims_800DBEB8(WaterViewWork *work)
