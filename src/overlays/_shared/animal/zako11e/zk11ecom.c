@@ -624,9 +624,6 @@ int s11e_zk11ecom_800DA7F8( char *arg0 )
     return i;
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA85C.s")
-//extern void s11e_zk11ecom_800DA85C( void );
-
 void s11e_zk11ecom_800DA85C(void)
 {
     int i;

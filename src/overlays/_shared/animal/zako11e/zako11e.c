@@ -274,7 +274,6 @@ int s11e_zako11e_800D3990( ZakoWork* work, int name, int where )
     return 0;
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zako11e_800D3BD8.s")
 extern void s11e_zk11ecom_800D9A64( int );
 
 void s11e_zako11e_800D3BD8( ZakoWork* work )
