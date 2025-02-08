@@ -257,13 +257,11 @@ typedef struct
 
 typedef struct _MENU_BAR_CONF
 {
-    const char   *field_0_text;
-    unsigned char field_4_rgb_left[3];
-    unsigned char field_7_rgb_right[3];
-    short         field_A_bar_height;
+    const char   *name;
+    unsigned char left[3];
+    unsigned char right[3];
+    short         height;
 } MENU_BAR_CONF;
-
-
 
 enum MenuStatBarsState {
     BAR_STATE_HIDDEN = 0,
