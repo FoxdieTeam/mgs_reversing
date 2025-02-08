@@ -227,9 +227,9 @@ int s11e_zako11e_800D3990( ZakoWork* work, int name, int where )
     body  = &work->body;
     arm = &work->weapon;
 
-    GM_InitObject( body, KMD_IPPANHEI, 0x32D, 0xA8A1 ) ;
+    GM_InitObject( body, KMD_IPPANHEI, 0x32D, OAR_ENEMY ) ;
     GM_ConfigObjectJoint( body ) ;
-    GM_ConfigMotionControl( body, &work->m_ctrl, 0xA8A1, work->m_segs1, work->m_segs2, ctrl, work->rots );
+    GM_ConfigMotionControl( body, &work->m_ctrl, OAR_ENEMY, work->m_segs1, work->m_segs2, ctrl, work->rots );
     GM_ConfigObjectLight( body, work->light );
 
     work->param_low_poly = 0;
