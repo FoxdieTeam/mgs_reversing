@@ -34,12 +34,13 @@ typedef struct Wolf2Work
     int            f6A4;
     int            f6A8;
     int            f6AC;
-    char           pad6[0xC];
+    int            f6B0;
+    char           pad6[0x8];
     int            f6BC;
     char           pad33[0x20];
     int            f6E0;
-    char           pad21[0x8];
-    int            voices[1];
+    char           pad21[0x8]; // 6E4
+    int            voices[1];  // 6EC
     char           pad7[0xC];
     int            f6FC;
     int            f700;
@@ -48,7 +49,18 @@ typedef struct Wolf2Work
     char           pad23[0x24];
     DG_PRIM       *lsight_prim;
     DG_TEX        *lsight_tex;
-    SVECTOR        lsight_verts[16];
+    SVECTOR        lsight_verts[3]; // wrong size
+    char           pad38[0x4];
+    int            f770;
+    int            f774;
+    int            f778;
+    char           pad34[0x8];
+    int            f784;
+    int            f788;
+    int            f78C;
+    char           pad35[0x14];
+    int            f7A4;
+    char           pad36[0x2C];
     int            f7D4;
     int            f7D8;
     int            f7DC;
