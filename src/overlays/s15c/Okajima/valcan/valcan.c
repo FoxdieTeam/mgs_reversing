@@ -577,16 +577,16 @@ void Valcan_800D99F0(ValcanWork *work)
 
     work->field_904 = (work->field_900 << 10) / work->field_6A8 / 8 * 8;
     memcpy(s15c_dword_800E347C, s15c_aRaven_800E2E68, 6); // 6 == strlen("RAVEN") + 1
-    work->lifebar_8F4.field_0_text = s15c_dword_800E347C;
+    work->lifebar_8F4.name = s15c_dword_800E347C;
 
     // Set the left and right RGB values for the health bar gradient
     bar = &work->lifebar_8F4;
-    bar->field_4_rgb_left[0] = 16;
-    bar->field_4_rgb_left[1] = 111;
-    bar->field_4_rgb_left[2] = 159;
-    bar->field_7_rgb_right[0] = 31;
-    bar->field_7_rgb_right[1] = 223;
-    bar->field_7_rgb_right[2] = 127;
+    bar->left[0] = 16;
+    bar->left[1] = 111;
+    bar->left[2] = 159;
+    bar->right[0] = 31;
+    bar->right[1] = 223;
+    bar->right[2] = 127;
 }
 
 void Valcan_800D9AB8(ValcanWork *work)

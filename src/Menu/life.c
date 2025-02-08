@@ -82,7 +82,7 @@ int menu_life_update_helper_8003ECCC(MenuMan_MenuBars *pBars)
  * @param rest Value for portion of the bar that will be removed.
  * @param now The current value to be displayed on the bar.
  * @param max The maximum value of the bar.
- * @param pConfig Pointer to the bar's configuration (such as text and colors).
+ * @param bconf Pointer to the bar's configuration (such as text and colors).
  */
 void menu_draw_bar(MenuPrim *prim, long x, long y, long rest, long now, long max, MENU_BAR_CONF *bconf)
 {
@@ -107,7 +107,7 @@ void menu_draw_bar(MenuPrim *prim, long x, long y, long rest, long now, long max
 
     pOt = prim->mPrimBuf.mOt;
 
-    sp2C = 5 - bconf->field_A_bar_height;
+    sp2C = 5 - bconf->height;
     y_with_offset = y + 1;
     scaled_max_val = max / 8;
 
@@ -130,7 +130,7 @@ void menu_draw_bar(MenuPrim *prim, long x, long y, long rest, long now, long max
         text_config.colour = 0x64FFFFFF;
     }
 
-    _menu_number_draw_string(prim, &text_config, bconf->field_0_text);
+    _menu_number_draw_string(prim, &text_config, bconf->name);
 
     width = text_config.xpos - x_text + 2;
     pTile = menu_render_rect_8003DB2C(prim, x_text - 1, text_config.ypos - 1, width, 7, 0);
@@ -170,18 +170,18 @@ void menu_draw_bar(MenuPrim *prim, long x, long y, long rest, long now, long max
 
     // Set the color of the bar as gradient fill. The color is interpolated
     // between the left and right color.
-    pPoly->r0 = bconf->field_4_rgb_left[0];
-    pPoly->g0 = bconf->field_4_rgb_left[1];
-    pPoly->b0 = bconf->field_4_rgb_left[2];
-    pPoly->r1 = bconf->field_4_rgb_left[0] + ((bconf->field_7_rgb_right[0] - bconf->field_4_rgb_left[0]) * (pPoly->x1 - pPoly->x0)) / 128;
-    pPoly->g1 = bconf->field_4_rgb_left[1] + ((bconf->field_7_rgb_right[1] - bconf->field_4_rgb_left[1]) * (pPoly->x1 - pPoly->x0)) / 128;
-    pPoly->b1 = bconf->field_4_rgb_left[2] + ((bconf->field_7_rgb_right[2] - bconf->field_4_rgb_left[2]) * (pPoly->x1 - pPoly->x0)) / 128;
-    pPoly->r2 = bconf->field_4_rgb_left[0] + ((bconf->field_7_rgb_right[0] - bconf->field_4_rgb_left[0]) * (pPoly->x2 - pPoly->x0)) / 128;
-    pPoly->g2 = bconf->field_4_rgb_left[1] + ((bconf->field_7_rgb_right[1] - bconf->field_4_rgb_left[1]) * (pPoly->x2 - pPoly->x0)) / 128;
-    pPoly->b2 = bconf->field_4_rgb_left[2] + ((bconf->field_7_rgb_right[2] - bconf->field_4_rgb_left[2]) * (pPoly->x2 - pPoly->x0)) / 128;
-    pPoly->r3 = bconf->field_4_rgb_left[0] + ((bconf->field_7_rgb_right[0] - bconf->field_4_rgb_left[0]) * (pPoly->x3 - pPoly->x0)) / 128;
-    pPoly->g3 = bconf->field_4_rgb_left[1] + ((bconf->field_7_rgb_right[1] - bconf->field_4_rgb_left[1]) * (pPoly->x3 - pPoly->x0)) / 128;
-    pPoly->b3 = bconf->field_4_rgb_left[2] + ((bconf->field_7_rgb_right[2] - bconf->field_4_rgb_left[2]) * (pPoly->x3 - pPoly->x0)) / 128;
+    pPoly->r0 = bconf->left[0];
+    pPoly->g0 = bconf->left[1];
+    pPoly->b0 = bconf->left[2];
+    pPoly->r1 = bconf->left[0] + ((bconf->right[0] - bconf->left[0]) * (pPoly->x1 - pPoly->x0)) / 128;
+    pPoly->g1 = bconf->left[1] + ((bconf->right[1] - bconf->left[1]) * (pPoly->x1 - pPoly->x0)) / 128;
+    pPoly->b1 = bconf->left[2] + ((bconf->right[2] - bconf->left[2]) * (pPoly->x1 - pPoly->x0)) / 128;
+    pPoly->r2 = bconf->left[0] + ((bconf->right[0] - bconf->left[0]) * (pPoly->x2 - pPoly->x0)) / 128;
+    pPoly->g2 = bconf->left[1] + ((bconf->right[1] - bconf->left[1]) * (pPoly->x2 - pPoly->x0)) / 128;
+    pPoly->b2 = bconf->left[2] + ((bconf->right[2] - bconf->left[2]) * (pPoly->x2 - pPoly->x0)) / 128;
+    pPoly->r3 = bconf->left[0] + ((bconf->right[0] - bconf->left[0]) * (pPoly->x3 - pPoly->x0)) / 128;
+    pPoly->g3 = bconf->left[1] + ((bconf->right[1] - bconf->left[1]) * (pPoly->x3 - pPoly->x0)) / 128;
+    pPoly->b3 = bconf->left[2] + ((bconf->right[2] - bconf->left[2]) * (pPoly->x3 - pPoly->x0)) / 128;
 
     setPolyG4(pPoly);
     addPrim(pOt, pPoly);
