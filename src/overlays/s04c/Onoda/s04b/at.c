@@ -255,15 +255,15 @@ int AtGetResources_800D75BC(AtWork *work, int name, int map)
     }
 
     lifebar = &work->lifebar;
-    lifebar->field_0_text = at_lifebar_name;
+    lifebar->name = at_lifebar_name;
     // Set the left and right RGB values for the health bar gradient
-    lifebar->field_4_rgb_left[0] = 31;
-    lifebar->field_4_rgb_left[1] = 191;
-    lifebar->field_4_rgb_left[2] = 95;
-    lifebar->field_7_rgb_right[0] = 31;
-    lifebar->field_7_rgb_right[1] = 191;
-    lifebar->field_7_rgb_right[2] = 95;
-    lifebar->field_A_bar_height = 1;
+    lifebar->left[0] = 31;
+    lifebar->left[1] = 191;
+    lifebar->left[2] = 95;
+    lifebar->right[0] = 31;
+    lifebar->right[1] = 191;
+    lifebar->right[2] = 95;
+    lifebar->height = 1;
 
     work->f724 = (work->f738 * 1024) / work->f73C;
     work->f720 = (work->f738 * 1024) / work->f73C;

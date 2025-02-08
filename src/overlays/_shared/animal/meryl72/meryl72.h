@@ -18,7 +18,7 @@ typedef struct _PARAM
     char        defends[4];
     signed char roots[4];
     short       life;
-    short       max_life;
+    short       max_life; // for the red damage bar
     short       faint;
 } PARAM;
 
