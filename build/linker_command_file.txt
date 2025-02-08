@@ -1792,9 +1792,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s12a\Okajima\wolf\wolf2.obj"
     include "{{OBJ_DIR}}\overlays\s12a\overlay2.obj"
 
-    include "{{OBJ_DIR}}\overlays\s12a\s12a_wolf2_800CECB4.obj"
-    include "{{OBJ_DIR}}\overlays\s12a\s12a_wolf2_800CED18.obj"
-    include "{{OBJ_DIR}}\overlays\s12a\s12a_wolf2_800CED38.obj"
     include "{{OBJ_DIR}}\overlays\s12a\s12a_wolf2_800CED64.obj"
     include "{{OBJ_DIR}}\overlays\s12a\s12a_wolf2_800CEDC0.obj"
     include "{{OBJ_DIR}}\overlays\s12a\s12a_wolf2_800CEE1C.obj"
@@ -1833,14 +1830,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\_shared\Anime\animconv\rcm.obj"
     include "{{OBJ_DIR}}\overlays\s12a\overlay3.obj"
 
-    include "{{OBJ_DIR}}\overlays\s12a\s12a_wolf2_800D3540.obj"
-    include "{{OBJ_DIR}}\overlays\s12a\s12a_wolf2_800D35A0.obj"
-    include "{{OBJ_DIR}}\overlays\s12a\s12a_wolf2_800D35EC.obj"
-    include "{{OBJ_DIR}}\overlays\s12a\s12a_wolf2_800D36D8.obj"
-    include "{{OBJ_DIR}}\overlays\s12a\s12a_wolf2_800D3704.obj"
-    include "{{OBJ_DIR}}\overlays\s12a\s12a_wolf2_800D375C.obj" ; todo
-    include "{{OBJ_DIR}}\overlays\s12a\s12a_wolf2_800D3D44.obj" ; todo
-    include "{{OBJ_DIR}}\overlays\s12a\s12a_wolf2_800D3D54.obj"
+    include "{{OBJ_DIR}}\overlays\s12a\Okajima\wolf\action.obj"
 
     include "{{OBJ_DIR}}\overlays\_shared\Okajima\d_bloods.obj"
     include "{{OBJ_DIR}}\overlays\_shared\Okajima\d_bloods_bss_pad.obj"
