@@ -439,8 +439,8 @@ void s03b_torture_800C44D0(TortureWork *work, int arg1, int arg2)
 
     if (max > 1024)
     {
-        work->time_conf.field_7_rgb_right[1] = (0x10000 / max) + 63;
-        work->time_conf.field_7_rgb_right[2] = (0xFC00 / max) - 64;
+        work->time_conf.right[1] = (0x10000 / max) + 63;
+        work->time_conf.right[2] = (0xFC00 / max) - 64;
     }
 
     MENU_DrawBar2(28, now, now, max, &work->time_conf);
@@ -453,17 +453,17 @@ int s03b_torture_800C45E4(TortureWork *work)
     memcpy(s03b_dword_800D32F0, "Time", 5);
 
     conf = &work->time_conf;
-    conf->field_0_text = s03b_dword_800D32F0;
+    conf->name = s03b_dword_800D32F0;
     // Set the left and right RGB values for the torture time bar gradient
-    conf->field_4_rgb_left[0] = 31;
-    conf->field_4_rgb_left[1] = 63;
-    conf->field_4_rgb_left[2] = 192;
+    conf->left[0] = 31;
+    conf->left[1] = 63;
+    conf->left[2] = 192;
 
-    conf->field_7_rgb_right[0] = 31;
-    conf->field_7_rgb_right[1] = 127;
-    conf->field_7_rgb_right[2] = 255;
+    conf->right[0] = 31;
+    conf->right[1] = 127;
+    conf->right[2] = 255;
 
-    conf->field_A_bar_height = 1;
+    conf->height = 1;
     return 0;
 }
 
