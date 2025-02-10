@@ -172,6 +172,7 @@
 // Animation files (.oar)
 //-----------------------------------------------------------------------------
 #define OAR_SNAKE               0x992d // GV_StrCode( "snake" )
+#define OAR_ENEMY               0xa8a1 // GV_StrCode( "enemy" )
 
 //-----------------------------------------------------------------------------
 // Sprites files (.pcc)
