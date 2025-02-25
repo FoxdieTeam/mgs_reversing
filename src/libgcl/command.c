@@ -17,22 +17,22 @@ int GCL_AddCommMulti(GCL_COMMANDDEF *def)
     return 0;
 }
 
-STATIC GCL_COMMANDLIST *GCL_FindCommand(int id)
+STATIC GCL_COMMANDLIST *FindCommand(int id)
 {
-    GCL_COMMANDLIST *list;
-    int              n_commands;
-    GCL_COMMANDDEF  *def;
+    GCL_COMMANDDEF *def;
 
     for (def = commdef; def != NULL; def = def->next)
     {
-        list = def->commlist;
-        for (n_commands = def->n_commlist; 0 < n_commands; n_commands--)
+        int i;
+        GCL_COMMANDLIST *cl = def->commlist;
+
+        for (i = def->n_commlist; 0 < i; i--)
         {
-            if (list->id == id)
+            if (cl->id == id)
             {
-                return list;
+                return cl;
             }
-            list++;
+            cl++;
         }
     }
     printf("command not found\n");
