@@ -36,7 +36,7 @@ STATIC GCL_COMMANDLIST *GCL_FindCommand(int id)
         }
     }
     printf("command not found\n");
-    return 0;
+    return NULL;
 }
 
 int GCL_Command(unsigned char *ptr)
@@ -83,7 +83,7 @@ STATIC unsigned char *get_proc_block(int proc_id)
         }
     }
     printf("PROC %X NOT FOUND\n", proc_id);
-    return 0;
+    return NULL;
 }
 
 void GCL_ForceExecProc(int proc_id, GCL_ARGS *args)
