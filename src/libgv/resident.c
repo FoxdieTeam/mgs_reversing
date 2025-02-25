@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "common.h"
 
-extern void *StageCharacterEntries;
+extern unsigned char *StageCharacterEntries;
 
 unsigned char *SECTION(".sbss") GV_ResidentMemoryBottom;
 STATIC int     SECTION(".sbss") dword_800AB944;
