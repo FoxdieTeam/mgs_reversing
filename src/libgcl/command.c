@@ -20,13 +20,13 @@ int GCL_AddCommMulti(GCL_COMMANDDEF *def)
 STATIC GCL_COMMANDLIST *GCL_FindCommand(int id)
 {
     GCL_COMMANDLIST *list;
-    int              commandCount;
+    int              n_commands;
     GCL_COMMANDDEF  *def;
 
     for (def = commdef; def != NULL; def = def->next)
     {
         list = def->commlist;
-        for (commandCount = def->n_commlist; 0 < commandCount; commandCount--)
+        for (n_commands = def->n_commlist; 0 < n_commands; n_commands--)
         {
             if (list->id == id)
             {
@@ -41,9 +41,9 @@ STATIC GCL_COMMANDLIST *GCL_FindCommand(int id)
 
 int GCL_Command(unsigned char *ptr)
 {
-    int commandRet;
+    int cmd_ret;
 
-    GCL_COMMANDLIST *pFoundCommand = GCL_FindCommand((unsigned short)GCL_GetShort(ptr));
+    GCL_COMMANDLIST *cmd = GCL_FindCommand((unsigned short)GCL_GetShort(ptr));
     GCL_AdvanceShort(ptr);
 
     GCL_SetCommandLine(ptr + GCL_GetByte(ptr));
@@ -51,11 +51,11 @@ int GCL_Command(unsigned char *ptr)
 
     GCL_SetArgTop(ptr); // save command return address?
 
-    commandRet = pFoundCommand->function(ptr);
+    cmd_ret = cmd->function(ptr);
 
     GCL_UnsetCommandLine();
 
-    return commandRet;
+    return cmd_ret;
 }
 
 STATIC GCL_PROC_TABLE *set_proc_table(GCL_PROC_TABLE *proc_table)
@@ -158,7 +158,7 @@ int GCL_LoadScript(unsigned char *datatop)
 
 int GCL_ExecBlock(unsigned char *top, GCL_ARGS *args)
 {
-    int *pOldStack = GCL_SetArgStack(args);
+    int *old_stack = GCL_SetArgStack(args);
     while (top)
     {
         switch (*top)
@@ -187,7 +187,7 @@ int GCL_ExecBlock(unsigned char *top, GCL_ARGS *args)
             break;
 
         case GCLCODE_NULL:
-            GCL_UnsetArgStack(pOldStack);
+            GCL_UnsetArgStack(old_stack);
             return 0;
 
         default:
