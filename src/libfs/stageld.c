@@ -11,7 +11,7 @@ extern FS_STAGE_INFO   *gStageInfo_800B5288;
 extern int              gLoaderStartTime_800B528C;
 extern int              gOverlayBinSize_800B5290;
 extern int              gSaveCache_800B5294;
-extern char            *gOverlayBase_800AB9C8;
+extern void            *StageCharacterEntries;
 
 /*---------------------------------------------------------------------------*/
 
@@ -46,7 +46,8 @@ STATIC int FS_80022E50( DATACNF_TAG *tag, CDBIOS_TASK *task )
         switch ( tag->ext )
         {
         case 'b': // *.bin
-            task->buffer = gOverlayBase_800AB9C8;
+            /* set the overlay's load address */
+            task->buffer = StageCharacterEntries;
         #ifdef DEV_EXE
             task->buffer = NULL; // no overlay in the dev variant
         #endif

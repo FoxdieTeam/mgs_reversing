@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "common.h"
 
-extern unsigned char *gOverlayBase_800AB9C8;
+extern void *StageCharacterEntries;
 
 unsigned char *SECTION(".sbss") GV_ResidentMemoryBottom;
 STATIC int     SECTION(".sbss") dword_800AB944;
@@ -48,7 +48,7 @@ void *GV_AllocResidentMemory(long size)
     if (GV_ResidentMemoryBottom < _bss_orgend)
 #else
     // BUG: the overlay can potentially be alloc'd over with no warning.
-    if (GV_ResidentMemoryBottom < gOverlayBase_800AB9C8)
+    if (GV_ResidentMemoryBottom < StageCharacterEntries)
 #endif
     {
         printf("Resident Memory Over !!\n");
