@@ -41,9 +41,9 @@ STATIC GCL_COMMANDLIST *FindCommand(int id)
 
 int GCL_Command(unsigned char *ptr)
 {
-    int cmd_ret;
+    int ret;
 
-    GCL_COMMANDLIST *cmd = GCL_FindCommand((unsigned short)GCL_GetShort(ptr));
+    GCL_COMMANDLIST *cmd = FindCommand((unsigned short)GCL_GetShort(ptr));
     GCL_AdvanceShort(ptr);
 
     GCL_SetCommandLine(ptr + GCL_GetByte(ptr));
@@ -51,11 +51,11 @@ int GCL_Command(unsigned char *ptr)
 
     GCL_SetArgTop(ptr); // save command return address?
 
-    cmd_ret = cmd->function(ptr);
+    ret = cmd->function(ptr);
 
     GCL_UnsetCommandLine();
 
-    return cmd_ret;
+    return ret;
 }
 
 STATIC GCL_PROC_TABLE *set_proc_table(GCL_PROC_TABLE *proc_table)
