@@ -293,7 +293,7 @@ void s00a_mouse_800D4430(MouseWork *work)
         {
             GM_SeSet2(0, 127, 191);
         }
-        else if (GM_CurrentStageFlag != HASH_s00a)
+        else if (GM_CurrentStageFlag != STAGE_s00a)
         {
             GM_SeSet2(0, 127, 176);
         }
