@@ -17,7 +17,7 @@ CHARA _StageCharacterEntries[] =
 {
     { CHARA_ASIOTO, NewAsioto_800C3E08 },
     { CHARA_CINEMA, NewCinemaScreenSet_800DE4D8 },
-    { CHARA_OBSTACLE, NewWall_800C3718 },
+    { CHARA_WALL, NewWall_800C3718 },
     { CHARA_ELEVATOR_PANEL, NewEvPanel_800C4AD8 },
     { CHARA_UJI, NewUji_800C42F8 },
     { CHARA_LAMP, NewLamp_800C3B34 },

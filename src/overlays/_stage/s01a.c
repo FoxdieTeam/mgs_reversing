@@ -57,7 +57,7 @@ CHARA _StageCharacterEntries[] =
     { CHARA_OBJECT, NewObjectChara_800DA3A4 },
     { CHARA_SEARCH_LIGHT, NewSearchlight_800D92BC },
     { CHARA_SNOW, NewSnow_800C6058 },
-    { CHARA_OBSTACLE, NewWall_800C3718 },
+    { CHARA_WALL, NewWall_800C3718 },
     { CHARA_FADE_IN_OUT, NewFadeIo_800C42BC },
     { 0, NULL }
 };
