@@ -38,7 +38,7 @@ CHARA _StageCharacterEntries[] =
     { CHARA_VIBRATE, (NEWCHARA)NewVibration },
     { CHARA_GAS_EFFECT, NewGasEffect_800C4E5C },
     { CHARA_PUT_OBJECT, NewPutObject_800E25C0 },
-    { CHARA_OBSTACLE, NewWall_800C3718 },
+    { CHARA_WALL, NewWall_800C3718 },
     { CHARA_SHAKE_MODEL, NewShakemdl_800C54E8 },
     { CHARA_DUCTMOUS, NewDuctmouse_800DACC8 },
     { CHARA_CAT_IN, NewZoom_800DFA88 },
@@ -56,7 +56,7 @@ CHARA _StageCharacterEntries[] =
     { CHARA_O2_DAMAGE, NewO2Damage_800DE9C8 },
     { CHARA_FADEIO_0004, NewFadeIo_800C4224 },
     { CHARA_DEMOKAGE, (NEWCHARA)NewDemoKage_800C48A4 },
-    { CHARA_SUB_EFCT, NewFocus_800CEFF8 },
+    { CHARA_FOCUS, NewFocus_800CEFF8 },
     { CHARA_BLOOD_BL, NewBlur_800CD530 },
     { CHARA_FAMASLIT, (NEWCHARA)NewFamaslit_800D06F0 },
     { 0, NULL }
