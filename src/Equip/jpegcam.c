@@ -632,7 +632,7 @@ STATIC void JpegcamProcessInput(JpegcamWork *work)
         press = 0;
     }
 
-    if (dword_8009F604 != HASH_CMD_camera)
+    if (dword_8009F604 != CMD_camera)
     {
         status = 0;
         press = 0;
