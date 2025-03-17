@@ -52,9 +52,9 @@ typedef struct _Work
     int             n_prims;
 } Work;
 
-int  WaterViewCreatePrims(Work *work);
-void WaterViewInitSinTable(void);
-void WaterViewDraw(Work *work);
+static int  WaterViewCreatePrims(Work *work);
+static void WaterViewInitSinTable(void);
+static void WaterViewDraw(Work *work);
 
 static short wt_view_sin_table[32];
 
