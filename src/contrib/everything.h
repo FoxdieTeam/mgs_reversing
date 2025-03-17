@@ -15,7 +15,7 @@
 #include <libpress.h>
 #include <libspu.h>
 #include <libsn.h>
-#include "psxsdk.h"
+#include "psxdefs.h"
 
 #include "common.h"
 #include "inline_n.h"
