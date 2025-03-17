@@ -13,7 +13,12 @@
 #include "Game/game.h"
 #include "SD/g_sound.h"
 
-#define PAGE_COUNT 9
+extern GV_PAD GV_PadData_800B05C0[4];
+
+/*---------------------------------------------------------------------------*/
+
+#define EXEC_LEVEL  GV_ACTOR_LEVEL5
+#define PAGE_COUNT  9
 
 typedef struct PreMet1Prims
 {
@@ -41,7 +46,7 @@ typedef struct PreMet1Prims
     unsigned short field_202;
 } PreMet1Prims;
 
-typedef struct _PreMet1Work
+typedef struct _Work
 {
     GV_ACT       actor;
     DG_PRIM     *field_20;
@@ -68,7 +73,7 @@ typedef struct _PreMet1Work
     int          field_9590;
     int          field_9594;
     int          field_9598;
-} PreMet1Work;
+} Work;
 
 typedef struct PreEntry
 {
@@ -82,8 +87,6 @@ typedef struct PreEntries
     PreEntry entries[8];
 } PreEntries;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
-
 typedef struct PreMet1Unk
 {
     short field_0;
@@ -91,17 +94,20 @@ typedef struct PreMet1Unk
     int   fore_color;
 } PreMet1Unk;
 
-PreMet1Unk premet1_800C3250[8] = {
-    {0x0010, 0x0023, 0x00000000}, {0x0010, 0x0036, 0x00000000}, {0x0010, 0x0049, 0x00000000},
-    {0x0010, 0x005C, 0x00000000}, {0x0010, 0x006F, 0x00000000}, {0x0010, 0x0082, 0x00000000},
-    {0x0010, 0x0095, 0x00000000}, {0x0010, 0x00A8, 0x00000000},
+static PreMet1Unk premet1_800C3250[8] = {
+    {0x0010, 0x0023, 0x00000000},
+    {0x0010, 0x0036, 0x00000000},
+    {0x0010, 0x0049, 0x00000000},
+    {0x0010, 0x005C, 0x00000000},
+    {0x0010, 0x006F, 0x00000000},
+    {0x0010, 0x0082, 0x00000000},
+    {0x0010, 0x0095, 0x00000000},
+    {0x0010, 0x00A8, 0x00000000},
 };
 
-signed char premet1_800C3290[8] = {-1, 0, 1, 0, 0, 1, 0, -1};
+static signed char premet1_800C3290[8] = {-1, 0, 1, 0, 0, 1, 0, -1};
 
-extern GV_PAD GV_PadData_800B05C0[4];
-
-void PreMet1_800C4E40(PreMet1Work *work, int index)
+static void PreMet1_800C4E40(Work *work, int index)
 {
     RECT rect;
     KCB *kcb;
@@ -122,7 +128,7 @@ void PreMet1_800C4E40(PreMet1Work *work, int index)
     font_clut_update(kcb);
 }
 
-void PreMet1_800C4F58(PreMet1Work *work, int index)
+static void PreMet1_800C4F58(Work *work, int index)
 {
     work->field_464[index].field_1F4 = work->field_9584;
     work->field_464[index].field_1F6 = work->field_9588;
@@ -134,7 +140,7 @@ void PreMet1_800C4F58(PreMet1Work *work, int index)
     work->field_9590 += 21;
 }
 
-void PreMet1_800C4FD4(PreMet1Work *work, int index)
+static void PreMet1_800C4FD4(Work *work, int index)
 {
     KCB *kcb;
     int  i;
@@ -162,7 +168,7 @@ void PreMet1_800C4FD4(PreMet1Work *work, int index)
     }
 }
 
-void PreMet1_800C50D4(PreMet1Work *work, char *pOt)
+static void PreMet1_800C50D4(Work *work, char *pOt)
 {
     int       i, j, k;
     int       page_number;
@@ -296,7 +302,7 @@ void PreMet1_800C50D4(PreMet1Work *work, char *pOt)
     addPrim(pOt, tpage);
 }
 
-void PreMet1SetColor_800C5738(PreMet1Work *work, int index, int fore)
+static void PreMet1SetColor_800C5738(Work *work, int index, int fore)
 {
     KCB *kcb;
 
@@ -305,12 +311,12 @@ void PreMet1SetColor_800C5738(PreMet1Work *work, int index, int fore)
     font_clut_update(kcb);
 }
 
-void *PreMet1GetClutBuffer_800C5788(KCB *kcb)
+static void *PreMet1GetClutBuffer_800C5788(KCB *kcb)
 {
     return kcb->font_clut_buffer;
 }
 
-void PreMet1_800C5794(PreMet1Work *work)
+static void PreMet1_800C5794(Work *work)
 {
     int i;
     for (i = 8; i >= 0; i--)
@@ -320,7 +326,7 @@ void PreMet1_800C5794(PreMet1Work *work)
 }
 
 // Identical to title_open_800C4C38
-void PreMet1_800C57B4(PreMet1Work *work, int x0, int y0, int xsize, int ysize, int color, int mode)
+static void PreMet1_800C57B4(Work *work, int x0, int y0, int xsize, int ysize, int color, int mode)
 {
     POLY_FT4 *polys;
     int       i;
@@ -365,7 +371,7 @@ void PreMet1_800C57B4(PreMet1Work *work, int x0, int y0, int xsize, int ysize, i
     }
 }
 
-void PreMet1ShadePacks_800C5A98(PreMet1Work *work)
+static void PreMet1ShadePacks_800C5A98(Work *work)
 {
     POLY_FT4 *poly_dst, *poly_src;
     int       r0, g0, b0;
@@ -411,13 +417,13 @@ static inline int get_color(int shade)
     return (shade << 10) | (shade << 5) | shade;
 }
 
-static inline int get_shade(PreMet1Work *work)
+static inline int get_shade(Work *work)
 {
     int shade = work->field_64 * 25;
     return shade / 16;
 }
 
-void PreMet1_800C5CE4(PreMet1Work *work)
+static void PreMet1_800C5CE4(Work *work)
 {
     int            i;
     unsigned short press;
@@ -674,7 +680,7 @@ void PreMet1_800C5CE4(PreMet1Work *work)
     }
 }
 
-void PreMet1_800C62B0(PreMet1Work *work)
+static void PreMet1_800C62B0(Work *work)
 {
     int color;
     int shade, shade2;
@@ -710,7 +716,7 @@ void PreMet1_800C62B0(PreMet1Work *work)
     }
 }
 
-void PreMet1_800C63B4(PreMet1Work *work)
+static void PreMet1_800C63B4(Work *work)
 {
     int r, g, b;
 
@@ -746,7 +752,7 @@ void PreMet1_800C63B4(PreMet1Work *work)
     MENU_Printf("%d", PAGE_COUNT);
 }
 
-void PreMet1Act_800C65A8(PreMet1Work *work)
+static void Act(Work *work)
 {
     if (*work->field_2C4 == 0)
     {
@@ -759,7 +765,7 @@ void PreMet1Act_800C65A8(PreMet1Work *work)
     work->field_64++;
 }
 
-void PreMet1Die_800C6634(PreMet1Work *work)
+static void Die(Work *work)
 {
     DG_PRIM *prim;
     int      i;
@@ -785,30 +791,29 @@ void PreMet1Die_800C6634(PreMet1Work *work)
 }
 
 // Duplicate of camera_800CE4F8
-void PreMet1_800C66D0(PreMet1Work *work, POLY_FT4 *pPoly, int x0, int y0, int x1, int y1, int semiTrans)
+static void PreMet1_800C66D0(Work *work, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int semiTrans)
 {
-    setPolyFT4(pPoly);
-    pPoly->r0 = 0x80;
-    pPoly->g0 = 0x80;
-    pPoly->b0 = 0x80;
-    pPoly->x0 = x0;
-    pPoly->y0 = y0;
-    pPoly->y1 = y0;
-    pPoly->x2 = x0;
-    pPoly->x1 = x1;
-    pPoly->y2 = y1;
-    pPoly->x3 = x1;
-    pPoly->y3 = y1;
-    SetSemiTrans(pPoly, semiTrans);
+    setPolyFT4(poly);
+    poly->r0 = 0x80;
+    poly->g0 = 0x80;
+    poly->b0 = 0x80;
+    poly->x0 = x0;
+    poly->y0 = y0;
+    poly->y1 = y0;
+    poly->x2 = x0;
+    poly->x1 = x1;
+    poly->y2 = y1;
+    poly->x3 = x1;
+    poly->y3 = y1;
+    SetSemiTrans(poly, semiTrans);
 }
 
 // Duplicate of camera_800CE568
-void PreMet1_800C6740(PreMet1Work *work, int hashCode, POLY_FT4 *pPoly, int x0, int y0, int x1, int y1, int semiTrans,
-                      int arg9)
+static void PreMet1_800C6740(Work *work, int texid, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int semiTrans, int arg9)
 {
     DG_TEX *tex;
-    PreMet1_800C66D0(work, pPoly, x0, y0, x1, y1, semiTrans);
-    tex = DG_GetTexture(hashCode);
+    PreMet1_800C66D0(work, poly, x0, y0, x1, y1, semiTrans);
+    tex = DG_GetTexture(texid);
 
     if (arg9 == 0)
     {
@@ -821,11 +826,10 @@ void PreMet1_800C6740(PreMet1Work *work, int hashCode, POLY_FT4 *pPoly, int x0, 
         offx3 = offx2 + 1;
         offy2 = offy + tex->h + 1;
 
-        setUV4(pPoly, offx, offy, offx3, offy, offx, offy2, offx3, offy2);
-        pPoly->tpage = tex->tpage;
-        pPoly->clut = tex->clut;
+        setUV4(poly, offx, offy, offx3, offy, offx, offy2, offx3, offy2);
+        poly->tpage = tex->tpage;
+        poly->clut = tex->clut;
     }
-
     else if (arg9 == 1)
     {
         int offx, offx2, offx3;
@@ -837,11 +841,10 @@ void PreMet1_800C6740(PreMet1Work *work, int hashCode, POLY_FT4 *pPoly, int x0, 
         offx3 = offx2 + 1;
         offy2 = offy + tex->h;
 
-        setUV4(pPoly, offx, offy, offx3, offy, offx, offy2, offx3, offy2);
-        pPoly->tpage = tex->tpage;
-        pPoly->clut = tex->clut;
+        setUV4(poly, offx, offy, offx3, offy, offx, offy2, offx3, offy2);
+        poly->tpage = tex->tpage;
+        poly->clut = tex->clut;
     }
-
     else if (arg9 == 2)
     {
         int offx, offx2;
@@ -852,11 +855,10 @@ void PreMet1_800C6740(PreMet1Work *work, int hashCode, POLY_FT4 *pPoly, int x0, 
         offy = tex->off_y;
         offy2 = offy + tex->h + 1;
 
-        setUV4(pPoly, offx, offy, offx2, offy, offx, offy2, offx2, offy2);
-        pPoly->tpage = tex->tpage;
-        pPoly->clut = tex->clut;
+        setUV4(poly, offx, offy, offx2, offy, offx, offy2, offx2, offy2);
+        poly->tpage = tex->tpage;
+        poly->clut = tex->clut;
     }
-
     else if (arg9 == 3)
     {
         int offx, offx2;
@@ -867,13 +869,13 @@ void PreMet1_800C6740(PreMet1Work *work, int hashCode, POLY_FT4 *pPoly, int x0, 
         offy = tex->off_y;
         offy2 = offy + tex->h;
 
-        setUV4(pPoly, offx, offy, offx2, offy, offx, offy2, offx2, offy2);
-        pPoly->tpage = tex->tpage;
-        pPoly->clut = tex->clut;
+        setUV4(poly, offx, offy, offx2, offy, offx, offy2, offx2, offy2);
+        poly->tpage = tex->tpage;
+        poly->clut = tex->clut;
     }
 }
 
-int PreMet1GetResources_800C68C4(PreMet1Work *work, int arg1, int *arg2, PreEntries *arg3)
+static int GetResources(Work *work, int arg1, int *arg2, PreEntries *arg3)
 {
     POLY_FT4 *poly, *poly2;
     int       i, j, k;
@@ -1015,21 +1017,22 @@ int PreMet1GetResources_800C68C4(PreMet1Work *work, int arg1, int *arg2, PreEntr
     return 0;
 }
 
-void *NewPreMet1_800C6F20(int arg0, int *arg1, PreEntries *arg2)
-{
-    PreMet1Work *work;
+/*---------------------------------------------------------------------------*/
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(PreMet1Work));
+void *NewPreOpeMetal1(int arg0, int *arg1, PreEntries *arg2)
+{
+    Work *work;
+
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, PreMet1Act_800C65A8, PreMet1Die_800C6634, "pre_met1.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "pre_met1.c");
 
-        if (PreMet1GetResources_800C68C4(work, arg0, arg1, arg2) < 0)
+        if (GetResources(work, arg0, arg1, arg2) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
         }
     }
-
     return (void *)work;
 }
