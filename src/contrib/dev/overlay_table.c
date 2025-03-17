@@ -65,7 +65,7 @@ CHARA _StageCharacterEntries[] =
     { CHARA_SHAKE_MODEL, NewShakemdl_800C54E8 },
     { CHARA_PATO_LAMP, NewPatrolLamp_800D7A2C },
     { CHARA_COMMAND, NewCommand_800D0908 },
-    { CHARA_WT_AREA, NewWaterArea_800DACCC },
+    { CHARA_WT_AREA, NewWaterArea },
     { CHARA_WATCHER, NewSnakeWatcher_800C5034 },
     { CHARA_SMOKE, NewSmoke_800D2BEC },
     { CHARA_EMITTER, NewEmitter },

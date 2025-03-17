@@ -50,7 +50,7 @@ CHARA _StageCharacterEntries[] =
     { CHARA_WSURFACE, NewWsurface_800DB9BC },
     { CHARA_COMMAND, NewCommand_800D0908 },
     { CHARA_WATCHER, NewSnakeWatcher_800C5034 },
-    { CHARA_WT_AREA, NewWaterArea_800DACCC },
+    { CHARA_WT_AREA, NewWaterArea },
     { CHARA_BUBBLE_S, NewBubbleS_800D5D9C },
     { CHARA_RSURFACE, NewRippleSurface_800D8244 },
     { CHARA_CAMERA, NewCamera_800D67F8 },
