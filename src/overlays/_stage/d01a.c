@@ -23,7 +23,7 @@ void AN_Breath_800C3AA8( MATRIX *matrix );
 CHARA _StageCharacterEntries[] =
 {
     { CHARA_PATO_LAMP, NewPatrolLamp_800D7A2C },
-    { CHARA_SPHERE, NewSphere_800C69C0 },
+    { CHARA_SPHERE, NewSphere },
     { CHARA_SMOKE, NewSmoke_800D2BEC },
     { CHARA_EMITTER, NewEmitter },
     { CHARA_OBJECT, NewObjectChara_800DA3A4 },
