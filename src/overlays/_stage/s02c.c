@@ -38,7 +38,7 @@ CHARA _StageCharacterEntries[] =
     { CHARA_BUB_D_SN, NewBubbleDisplayScene_800D90B4 },
     { CHARA_KIKEN, NewKiken_800D6D24 },
     { CHARA_VIBRATE, (NEWCHARA)NewVibration },
-    { CHARA_CAMERA_SHAKE, NewCameraShake_800DF6AC },
+    { CHARA_CAMERA_SHAKE, NewCameraShake },
     { CHARA_CINEMA, NewCinemaScreenSet_800DE4D8 },
     { CHARA_GAS_EFFECT, NewGasEffect_800C4E5C },
     { CHARA_SHAKE_MODEL, NewShakemdl_800C54E8 },
