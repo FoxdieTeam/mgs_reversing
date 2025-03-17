@@ -100,7 +100,7 @@ signed char text_outline_direction_offsets_800C3290[] = {
      0, -1,
 };
 
-void *NewMetLogo_800C5A90( int * );
+void *NewMetalLogo( int * );
 
 extern int    FS_DiskNum_800ACBF0;
 extern GV_PAD GV_PadData_800B05C0[4];
@@ -1328,7 +1328,7 @@ void demosel_800C4880(DemoselWork *work)
             demosel_800C434C(work);
             work->fDD0 = 0;
             work->fDF8 = 0;
-            work->metlogo_actor = NewMetLogo_800C5A90(&work->fDF8);
+            work->metlogo_actor = NewMetalLogo(&work->fDF8);
         }
         demosel_800C4214(work);
         break;
