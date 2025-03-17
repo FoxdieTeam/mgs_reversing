@@ -87,8 +87,8 @@ static signed char text_outline_direction_offsets_800C3248[] = {
 
 /*---------------------------------------------------------------------------*/
 
-void *NewPreMet1_800C6F20(int, int *, Unknown *);
-void *NewPreMet2_800C6F20(int, int *, Unknown *);
+extern void *NewPreOpeMetal1(int, int *, Unknown *);
+extern void *NewPreOpeMetal2(int, int *, Unknown *);
 
 // Duplicate of Change_800C364C
 static void Preope_800C32E0(Work *work, int index)
@@ -501,7 +501,7 @@ static void Preope_800C41D4(Work *work)
             {
                 Preope_800C3820(work);
                 work->field_A838 = 0;
-                work->field_A830 = NewPreMet1_800C6F20(work->map, &work->field_A838, work->field_714);
+                work->field_A830 = NewPreOpeMetal1(work->map, &work->field_A838, work->field_714);
                 work->field_A828 = 1;
             }
             break;
@@ -542,7 +542,7 @@ static void Preope_800C41D4(Work *work)
             {
                 Preope_800C3820(work);
                 work->field_A83C = 0;
-                work->field_A834 = NewPreMet2_800C6F20(work->map, &work->field_A83C, work->field_4614);
+                work->field_A834 = NewPreOpeMetal2(work->map, &work->field_A83C, work->field_4614);
                 work->field_A82C = 1;
             }
             break;
