@@ -1,7 +1,14 @@
 #include "emitter.h"
 
 #include "common.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
+#include "libgcl/libgcl.h"
 #include "Game/game.h"
+
+/*---------------------------------------------------------------------------*/
+
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 typedef struct _Work
 {
@@ -11,11 +18,11 @@ typedef struct _Work
     char     pad[0x4];
 } Work;
 
-RECT rect_800C3320 = { 1000, 1000, 2000, 2000 };
+/*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+static RECT rect_800C3320 = { 1000, 1000, 2000, 2000 };
 
-void EmitterShadePacks_800C3C08( POLY_FT4 *packs, int n_packs, DG_TEX *unused, char shade )
+static void ShadePacks( POLY_FT4 *packs, int n_packs, DG_TEX *unused, char shade )
 {
     DG_TEX *tex;
 
@@ -37,12 +44,12 @@ void EmitterShadePacks_800C3C08( POLY_FT4 *packs, int n_packs, DG_TEX *unused, c
     }
 }
 
-void EmitterDie_800C3CD8( Work *work )
+static void Die( Work *work )
 {
     GM_FreePrim( work->prim ) ;
 }
 
-int EmitterGetVecs_800C3D14( char *param, SVECTOR *out )
+static int GetVecs( char *param, SVECTOR *out )
 {
     int   count;
     char *res;
@@ -65,7 +72,7 @@ int EmitterGetVecs_800C3D14( char *param, SVECTOR *out )
     return count;
 }
 
-int EmitterGetResources_800C3D68( Work *work, int map, int count )
+static int GetResources( Work *work, int map, int count )
 {
     int n;
     DG_PRIM *prim;
@@ -90,13 +97,15 @@ int EmitterGetResources_800C3D68( Work *work, int map, int count )
         return -1;
     }
 
-    EmitterShadePacks_800C3C08( &prim->packs[0]->poly_ft4, count, tex, 64 );
-    EmitterShadePacks_800C3C08( &prim->packs[1]->poly_ft4, count, tex, 72 );
+    ShadePacks( &prim->packs[0]->poly_ft4, count, tex, 64 );
+    ShadePacks( &prim->packs[1]->poly_ft4, count, tex, 72 );
 
     return 0;
 }
 
-void *NewEmitter_800C3E50(int name, int where, int argc, char **argv)
+/*---------------------------------------------------------------------------*/
+
+void *NewEmitter( int name, int where, int argc, char **argv )
 {
     Work *work;
     int   count;
@@ -104,10 +113,10 @@ void *NewEmitter_800C3E50(int name, int where, int argc, char **argv)
     work = GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
     if (work != NULL)
     {
-        GV_SetNamedActor( &( work->actor ), NULL, EmitterDie_800C3CD8, "emitter.c" );
+        GV_SetNamedActor( &( work->actor ), NULL, Die, "emitter.c" );
 
-        count = EmitterGetVecs_800C3D14( GCL_GetOption( 'p' ), work->vecs );
-        if ( EmitterGetResources_800C3D68( work, where, count ) < 0 )
+        count = GetVecs( GCL_GetOption( 'p' ), work->vecs );
+        if ( GetResources( work, where, count ) < 0 )
         {
             GV_DestroyActor( &( work->actor ) );
             return NULL;

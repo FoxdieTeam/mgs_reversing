@@ -25,7 +25,7 @@ CHARA _StageCharacterEntries[] =
     { CHARA_PATO_LAMP, NewPatrolLamp_800D7A2C },
     { CHARA_SPHERE, NewSphere_800C69C0 },
     { CHARA_SMOKE, NewSmoke_800D2BEC },
-    { CHARA_EMITTER, NewEmitter_800C3E50 },
+    { CHARA_EMITTER, NewEmitter },
     { CHARA_OBJECT, NewObjectChara_800DA3A4 },
     { CHARA_SEARCH_LIGHT, NewSearchlight_800D92BC },
     { CHARA_SNOW, NewSnow_800C6058 },
