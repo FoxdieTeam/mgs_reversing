@@ -31,7 +31,7 @@ CHARA _StageCharacterEntries[] =
     { CHARA_VIBRATE, (NEWCHARA)NewVibration },
     { CHARA_PAD, NewPad_800C37EC },
     { CHARA_MOTION_SE, NewMotionSoundEffect },
-    { CHARA_INTR_CAM, NewIntrCam_800C5748 },
+    { CHARA_INTR_CAM, NewIntrudeCamera },
     { CHARA_GAS_EFFECT, NewGasEffect_800C4E5C },
     { CHARA_SHAKE_MODEL, NewShakemdl_800C54E8 },
     { CHARA_CAT_IN, NewZoom_800DFA88 },

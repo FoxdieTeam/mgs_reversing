@@ -23,7 +23,7 @@ CHARA _StageCharacterEntries[] =
     { CHARA_LAMP, NewLamp_800C3B34 },
     { CHARA_GUNCAME, NewGunCame_800C9190 },
     { CHARA_FADE_IN_OUT, NewFadeIo_800C42BC },
-    { CHARA_INTR_CAM, NewIntrCam_800C5748 },
+    { CHARA_INTR_CAM, NewIntrudeCamera },
     { CHARA_CAT_IN, NewZoom_800DFA88 },
     { CHARA_MOTION_SE, NewMotionSoundEffect },
     { 0, NULL }
