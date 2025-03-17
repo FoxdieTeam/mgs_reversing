@@ -68,7 +68,7 @@ CHARA _StageCharacterEntries[] =
     { CHARA_WT_AREA, NewWaterArea_800DACCC },
     { CHARA_WATCHER, NewSnakeWatcher_800C5034 },
     { CHARA_SMOKE, NewSmoke_800D2BEC },
-    { CHARA_EMITTER, NewEmitter_800C3E50 },
+    { CHARA_EMITTER, NewEmitter },
     { CHARA_ELEVATOR, NewElevator_800D9F30 },
     { CHARA_ELEVATOR_PANEL, NewEvPanel_800C4AD8 },
     { CHARA_MOUSE, NewMouse_800D5234 },
