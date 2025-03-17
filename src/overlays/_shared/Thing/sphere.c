@@ -6,7 +6,11 @@
 #include "libgcl/libgcl.h"
 #include "Game/game.h"
 
-typedef struct _SphereWork
+/*---------------------------------------------------------------------------*/
+
+#define EXEC_LEVEL GV_ACTOR_AFTER2
+
+typedef struct _Work
 {
     GV_ACT   actor;
     DG_PRIM *prim;
@@ -14,22 +18,22 @@ typedef struct _SphereWork
     DG_TEX  *textures[16];
     short    f68;
     char     pad[0x2];
-} SphereWork;
+} Work;
 
-short SECTION("overlay.bss") sphere_image_width_800E4B28;
-short SECTION("overlay.bss") sphere_image_height_800E4B2A;
-short SECTION("overlay.bss") sphere_visible_tiles_x_800E4B2C;
-short SECTION("overlay.bss") sphere_visible_tiles_y_800E4B2E;
-short SECTION("overlay.bss") sphere_tiles_x_800E4B30;
-short SECTION("overlay.bss") sphere_tiles_y_800E4B32;
-short SECTION("overlay.bss") sphere_tile_width_800E4B34;
-short SECTION("overlay.bss") sphere_tile_height_800E4B36;
-short SECTION("overlay.bss") sphere_elevation_800E4B38;
-short SECTION("overlay.bss") sphere_word_800E4B3A;
+/*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL GV_ACTOR_AFTER2
+static short SECTION("overlay.bss") sphere_image_width_800E4B28;
+static short SECTION("overlay.bss") sphere_image_height_800E4B2A;
+static short SECTION("overlay.bss") sphere_visible_tiles_x_800E4B2C;
+static short SECTION("overlay.bss") sphere_visible_tiles_y_800E4B2E;
+static short SECTION("overlay.bss") sphere_tiles_x_800E4B30;
+static short SECTION("overlay.bss") sphere_tiles_y_800E4B32;
+static short SECTION("overlay.bss") sphere_tile_width_800E4B34;
+static short SECTION("overlay.bss") sphere_tile_height_800E4B36;
+static short SECTION("overlay.bss") sphere_elevation_800E4B38;
+static short SECTION("overlay.bss") sphere_word_800E4B3A;
 
-void Sphere_800C60E0(MATRIX *eye, SVECTOR *out)
+static void Sphere_800C60E0(MATRIX *eye, SVECTOR *out)
 {
     SVECTOR sp10;
     int     m12;
@@ -48,7 +52,7 @@ void Sphere_800C60E0(MATRIX *eye, SVECTOR *out)
     out->vy -= sphere_elevation_800E4B38;
 }
 
-void SphereAct_800C61F0(SphereWork *work)
+static void Act(Work *work)
 {
     POLY_FT4      *poly;
     SVECTOR        svec;
@@ -198,7 +202,7 @@ void SphereAct_800C61F0(SphereWork *work)
     }
 }
 
-void SphereDie_800C6658(SphereWork *work)
+static void Die(Work *work)
 {
     DG_PRIM *prim;
 
@@ -210,7 +214,7 @@ void SphereDie_800C6658(SphereWork *work)
     }
 }
 
-int SphereGetResources_800C6694(SphereWork *work, int map)
+static int GetResources(Work *work, int map)
 {
     SVECTOR   color;
     char     *opt;
@@ -288,16 +292,18 @@ int SphereGetResources_800C6694(SphereWork *work, int map)
     return 0;
 }
 
-void *NewSphere_800C69C0(int name, int where, int argc, char **argv)
-{
-    SphereWork *work;
+/*---------------------------------------------------------------------------*/
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(SphereWork));
+void *NewSphere(int name, int where, int argc, char **argv)
+{
+    Work *work;
+
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, SphereAct_800C61F0, SphereDie_800C6658, "sphere.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "sphere.c");
 
-        if (SphereGetResources_800C6694(work, where) < 0)
+        if (GetResources(work, where) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

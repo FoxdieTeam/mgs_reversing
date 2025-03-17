@@ -51,7 +51,7 @@ CHARA _StageCharacterEntries[] =
     { CHARA_PAD_DEMO, NewPadDemo_800DCFD4 },
     { CHARA_COMMAND, NewCommand_800D0908 },
     { CHARA_WATCHER, NewSnakeWatcher_800C5034 },
-    { CHARA_SPHERE, NewSphere_800C69C0 },
+    { CHARA_SPHERE, NewSphere },
     { CHARA_SMOKE, NewSmoke_800D2BEC },
     { CHARA_BLINK_TX, NewBlinkTx_800DECD8 },
     { CHARA_OBJECT, NewObjectChara_800DA3A4 },
