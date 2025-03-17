@@ -45,7 +45,7 @@ CHARA _StageCharacterEntries[] =
     { CHARA_FADE_IN_OUT, NewFadeIo_800C42BC },
     { CHARA_ASIOTO, NewAsioto_800C3E08 },
     { CHARA_CINEMA, NewCinemaScreenSet_800DE4D8 },
-    { CHARA_WT_AREA, NewWaterArea_800DACCC },
+    { CHARA_WT_AREA, NewWaterArea },
     { CHARA_BUBBLE_S, NewBubbleS_800D5D9C },
     { CHARA_RSURFACE, NewRippleSurface_800D8244 },
     { CHARA_ELEVATOR_PANEL, NewEvPanel_800C4AD8 },
