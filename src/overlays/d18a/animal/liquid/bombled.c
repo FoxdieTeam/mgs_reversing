@@ -2,21 +2,25 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 
-typedef struct BombledWork
-{
-    GV_ACT  actor;
-    int     unused1;
-    SVECTOR svecs[5];
-    int     unused2;
-    int     unused3;
-    int     timer;
-} BombledWork;
+extern void s08c_800C42B0(SVECTOR *pos);
+
+/*---------------------------------------------------------------------------*/
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-void s08c_800C42B0(SVECTOR *pos);
+typedef struct _Work
+{
+    GV_ACT  actor;
+    int     unused1;
+    SVECTOR led_pos[5];
+    int     unused2;
+    int     unused3;
+    int     timer;
+} Work;
 
-void Bombled_800C7660(BombledWork *work)
+/*---------------------------------------------------------------------------*/
+
+static void UpdateBombLed(Work *work)
 {
     int index;
 
@@ -57,23 +61,23 @@ void Bombled_800C7660(BombledWork *work)
         break;
     }
 
-    s08c_800C42B0(&work->svecs[index]);
+    s08c_800C42B0(&work->led_pos[index]);
 }
 
-void BombledAct_800C7728(BombledWork *work)
+static void Act(Work *work)
 {
-    Bombled_800C7660(work);
+    UpdateBombLed(work);
     work->timer++;
 }
 
-void BombledDie_800C775C(BombledWork *work)
+static void Die(Work *work)
 {
 }
 
 const SVECTOR d18a_dword_800DA370 = {65436, 50, 65466};
 const SVECTOR d18a_dword_800DA378 = {100, 50, 65466};
 
-int BombledGetResources_800C7764(BombledWork *work, SVECTOR *arg1)
+static int GetResources(Work *work, SVECTOR *pos)
 {
     MATRIX  rot;
     SVECTOR svec1;
@@ -82,42 +86,44 @@ int BombledGetResources_800C7764(BombledWork *work, SVECTOR *arg1)
 
     svec1 = d18a_dword_800DA370;
     svec2 = d18a_dword_800DA378;
-    DG_SetPos2(arg1, &DG_ZeroVector);
+    DG_SetPos2(pos, &DG_ZeroVector);
     DG_MovePos(&svec1);
 
     ReadRotMatrix(&rot);
-    work->svecs[0].vx = rot.t[0];
-    work->svecs[0].vy = rot.t[1];
-    work->svecs[0].vz = rot.t[2];
-    DG_SetPos2(arg1, &DG_ZeroVector);
+    work->led_pos[0].vx = rot.t[0];
+    work->led_pos[0].vy = rot.t[1];
+    work->led_pos[0].vz = rot.t[2];
+    DG_SetPos2(pos, &DG_ZeroVector);
     DG_MovePos(&svec2);
 
     ReadRotMatrix(&rot);
-    work->svecs[4].vx = rot.t[0];
-    work->svecs[4].vy = rot.t[1];
-    work->svecs[4].vz = rot.t[2];
-    GV_SubVec3(&work->svecs[4], &work->svecs[0], &svec3);
+    work->led_pos[4].vx = rot.t[0];
+    work->led_pos[4].vy = rot.t[1];
+    work->led_pos[4].vz = rot.t[2];
+    GV_SubVec3(&work->led_pos[4], &work->led_pos[0], &svec3);
 
     svec3.vx /= 4;
     svec3.vy /= 4;
     svec3.vz /= 4;
-    GV_AddVec3(&work->svecs[0], &svec3, &work->svecs[1]);
-    GV_AddVec3(&work->svecs[1], &svec3, &work->svecs[2]);
-    GV_AddVec3(&work->svecs[2], &svec3, &work->svecs[3]);
+    GV_AddVec3(&work->led_pos[0], &svec3, &work->led_pos[1]);
+    GV_AddVec3(&work->led_pos[1], &svec3, &work->led_pos[2]);
+    GV_AddVec3(&work->led_pos[2], &svec3, &work->led_pos[3]);
 
     work->timer = 0;
     return 0;
 }
 
-void *d18a_bombled_800C78F8(SVECTOR *arg1)
-{
-    BombledWork *work;
+/*---------------------------------------------------------------------------*/
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(BombledWork));
+void *NewBombLed(SVECTOR *pos)
+{
+    Work *work;
+
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, BombledAct_800C7728, BombledDie_800C775C, "bombled.c");
-        if (BombledGetResources_800C7764(work, arg1) < 0)
+        GV_SetNamedActor(&work->actor, Act, Die, "bombled.c");
+        if (GetResources(work, pos) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
