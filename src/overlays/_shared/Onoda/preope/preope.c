@@ -64,7 +64,7 @@ typedef struct _Unknown2
     int   color;
 } Unknown2;
 
-Unknown2 dword_800C3218[4] = {
+static Unknown2 dword_800C3218[4] = {
     {1, 160, 195, 0x6739},
     {1, 160, 185, 0x6739},
     {1, 160, 205, 0x6739},
