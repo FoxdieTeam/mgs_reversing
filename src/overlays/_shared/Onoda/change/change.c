@@ -16,6 +16,11 @@
 #include "Game/game.h"
 #include "SD/g_sound.h"
 
+extern int    FS_DiskNum_800ACBF0;
+extern GV_PAD GV_PadData_800B05C0[4];
+
+/*---------------------------------------------------------------------------*/
+
 // FIXME: it's the same struct as in preope.c (in preope overlay)
 typedef struct _Unknown
 {
@@ -55,9 +60,6 @@ typedef struct _Work
     int      f6BC;
 } Work;
 
-extern int    FS_DiskNum_800ACBF0;
-extern GV_PAD GV_PadData_800B05C0[4];
-
 // FIXME: it's the same struct (but different data) as in preope.c (in preope overlay)
 typedef struct _Unknown2
 {
@@ -83,14 +85,16 @@ signed char byte_800C3260[] = {
      0, -1,
 };
 
+/*---------------------------------------------------------------------------*/
+
 int  Safety_800C45F8( int lba, int timeout );
 void Safety_800C4714( void );
 
-void *NewMetLogo_800C5A90( int * );
+void *NewMetalLogo( int * );
 
 #define EXEC_LEVEL GV_ACTOR_MANAGER
 
-void Change_800C364C( Work *work, int index )
+static void Change_800C364C( Work *work, int index )
 {
     RECT rect;
     KCB *kcb;
@@ -119,7 +123,7 @@ void Change_800C364C( Work *work, int index )
     font_clut_update( kcb );
 }
 
-void Change_800C378C( Work *work, int index )
+static void Change_800C378C( Work *work, int index )
 {
     KCB      *kcb;
     char     *string;
@@ -156,7 +160,7 @@ void Change_800C378C( Work *work, int index )
     }
 }
 
-void Change_800C38D0( Work *work, char *ot )
+static void Change_800C38D0( Work *work, char *ot )
 {
     int       found;
     int       index;
@@ -211,7 +215,7 @@ void Change_800C38D0( Work *work, char *ot )
     }
 }
 
-void change_800C3B34( Work *work, int index, int color )
+static void change_800C3B34( Work *work, int index, int color )
 {
     KCB *kcb;
 
@@ -220,12 +224,12 @@ void change_800C3B34( Work *work, int index, int color )
     font_clut_update( kcb );
 }
 
-void * Change_800C3B84( KCB *kcb )
+static void *Change_800C3B84( KCB *kcb )
 {
     return kcb->font_clut_buffer;
 }
 
-void change_800C3B90( Work *work )
+static void change_800C3B90( Work *work )
 {
     int i;
     int shade;
@@ -281,7 +285,7 @@ void change_800C3B90( Work *work )
     }
 }
 
-void change_800C3CD0( Work *work )
+static void change_800C3CD0( Work *work )
 {
     char   result[8];
     char   result2[8];
@@ -593,7 +597,9 @@ void change_800C3CD0( Work *work )
     }
 }
 
-void ChangeAct_800C4324( Work *work )
+/*---------------------------------------------------------------------------*/
+
+static void Act( Work *work )
 {
     if ( work->f6AC != 0 )
     {
@@ -618,7 +624,7 @@ void ChangeAct_800C4324( Work *work )
     }
 }
 
-void ChangeDie_800C43EC( Work *work )
+static void Die( Work *work )
 {
     int i;
 
@@ -628,7 +634,7 @@ void ChangeDie_800C43EC( Work *work )
     }
 }
 
-int ChangeGetResources_800C4448( Work *work, int map )
+static int GetResources( Work *work, int map )
 {
     int i;
 
@@ -663,7 +669,7 @@ int ChangeGetResources_800C4448( Work *work, int map )
     }
 
     work->f6B4 = 0;
-    work->f69C = NewMetLogo_800C5A90( &work->f6B4 );
+    work->f69C = NewMetalLogo( &work->f6B4 );
     work->f6A0 = 0;
     work->f6AC = 0;
     work->f6A4 = 0;
@@ -674,7 +680,9 @@ int ChangeGetResources_800C4448( Work *work, int map )
     return 0;
 }
 
-void *NewChange_800C455C( int name, int where, int argc, char **argv )
+/*---------------------------------------------------------------------------*/
+
+void *NewChange( int name, int where, int argc, char **argv )
 {
     Work *work;
 
@@ -683,9 +691,9 @@ void *NewChange_800C455C( int name, int where, int argc, char **argv )
     work = GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
     if (work != NULL)
     {
-        GV_SetNamedActor( &( work->actor ), ChangeAct_800C4324, ChangeDie_800C43EC, "change.c" );
+        GV_SetNamedActor( &( work->actor ), Act, Die, "change.c" );
 
-        if ( ChangeGetResources_800C4448( work, where ) < 0 )
+        if ( GetResources( work, where ) < 0 )
         {
             GV_DestroyActor( &( work->actor ) );
             return NULL;
