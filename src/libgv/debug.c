@@ -8,6 +8,9 @@ const char *GV_DebugMes = "none";
 void GV_Assert(char *filename, int line)
 {
     printf("Assertion failed: %s, line %d\n", filename, line);
+#ifdef DEV_EXE
+    HANGUP();
+#endif
 }
 
 void GV_Warning(char *format, int id)
