@@ -64,7 +64,7 @@ void GV_Error( char *, int );
         GV_Assert(__FILE__, __LINE__);                          \
         /* HANGUP */                                            \
     }
-/*  */
+/* Unused, but should be correct. */
 #define XASSERT(cond, mesg)                                     \
     if (!(cond)) {                                              \
         GV_DebugMes = mesg;                                     \
