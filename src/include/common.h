@@ -37,6 +37,31 @@ typedef int             BOOL;
 
 /*---------------------------------------------------------------------------*/
 
+// This will crash the program with the intention of invoking
+// the MTS exception handler screen (which was stubbed out).
+#define HANGUP()        (*(int *)1 = 0)
+
+// TODO: Should these be wrapped with 'do {} while (0)'?
+#ifdef DEV_EXE
+#define ASSERT(cond)                                            \
+    if (!(cond)) {                                              \
+        printf("Assertion failed: %s, line %d\n", __FILE__, __LINE__); \
+        HANGUP();                                               \
+    }
+#define XASSERT(cond, mesg ...)                                 \
+    if (!(cond)) {                                              \
+        printf("Assertion failed: %s, line %d\n", __FILE__, __LINE__); \
+        printf(mesg);                                           \
+        HANGUP();                                               \
+    }
+#else
+/* Assertions were disabled for the "MASTER" builds. */
+#define ASSERT(cond)            ((void)0)
+#define XASSERT(cond, mesg)     ((void)0)
+#endif
+
+/*---------------------------------------------------------------------------*/
+
 // #define USE_STATIC_KEYWORD
 #ifdef USE_STATIC_KEYWORD
 #define STATIC          static
