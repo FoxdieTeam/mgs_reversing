@@ -11,7 +11,7 @@
 #include "Menu/menuman.h"
 #include "Thing/sight.h"
 #include "chara/snake/sna_init.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "strcode.h"
 
 extern GV_PAD GV_PadData_800B05C0[4];

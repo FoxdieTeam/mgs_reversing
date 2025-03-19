@@ -3,7 +3,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Takabe/thing.h"
 
 typedef struct GasDamgeWork {

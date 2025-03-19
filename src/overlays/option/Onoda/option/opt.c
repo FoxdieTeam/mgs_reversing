@@ -10,7 +10,7 @@
 #include "mts/mts_pad.h"
 #include "Font/font.h"
 #include "Game/game.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "SD/g_sound.h"
 
 // FIXME: it's the same struct as in change.c (in change overlay)

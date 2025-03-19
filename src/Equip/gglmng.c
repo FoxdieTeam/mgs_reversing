@@ -4,7 +4,7 @@
 #include "libgv/libgv.h"
 #include "Game/game.h"
 #include "Game/camera.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 
 extern GM_Camera GM_Camera_800B77E8;
 extern int       dword_8009F46C;

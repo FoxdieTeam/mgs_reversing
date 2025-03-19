@@ -3,7 +3,7 @@
 #include "common.h"
 #include "Bullet/bakudan.h"
 #include "Game/object.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Game/map.h"
 #include "SD/g_sound.h"
 

@@ -9,7 +9,7 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "Game/item.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "SD/g_sound.h"
 
 short ActTable_800C3358[54] =

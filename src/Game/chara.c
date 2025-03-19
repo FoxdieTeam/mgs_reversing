@@ -4,7 +4,7 @@
 #include "game.h"
 #include "charadef.h"
 #include "libgcl/libgcl.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 
 extern GCL_Vars gGcl_vars_800B3CC8;
 

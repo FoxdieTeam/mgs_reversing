@@ -11,7 +11,7 @@
 #include "Game/object.h"
 #include "Game/target.h"
 #include "Game/vibrate.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Bullet/amissile.h"
 #include "SD/g_sound.h"
 

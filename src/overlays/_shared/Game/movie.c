@@ -11,7 +11,7 @@
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "Game/game.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "SD/sd_cli.h"
 #include "mts/mts.h"
 #include "mts/mts_pad.h"

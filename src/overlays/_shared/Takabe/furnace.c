@@ -3,7 +3,7 @@
 #include "libgcl/libgcl.h"
 #include "Game/control.h"
 #include "Game/game.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Takabe/thing.h"
 
 extern CONTROL *GM_WhereList_800B56D0[96];

@@ -3,7 +3,7 @@
 #include "libgv/libgv.h"
 #include "Game/game.h"
 #include "Game/homing.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Game/object.h"
 #include "Okajima/blood.h"
 #include "SD/g_sound.h"

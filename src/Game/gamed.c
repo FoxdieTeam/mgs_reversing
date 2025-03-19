@@ -18,7 +18,7 @@
 #include "libgcl/libgcl.h"
 #include "memcard/memcard.h"
 
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Game/loader.h"
 #include "Game/target.h"
 #include "Game/homing.h"

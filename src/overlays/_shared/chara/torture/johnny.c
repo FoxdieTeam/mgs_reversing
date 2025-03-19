@@ -7,7 +7,7 @@
 #include "Game/game.h"
 #include "Game/homing.h"
 #include "Game/object.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Game/vibrate.h"
 #include "chara/snake/shadow.h"
 #include "chara/snake/sna_init.h"

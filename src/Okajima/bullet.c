@@ -10,7 +10,7 @@
 #include "libhzd/libhzd.h"
 #include "Game/game.h"
 #include "Game/target.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Anime/animconv/anime.h"
 #include "spark.h"
 

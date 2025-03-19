@@ -11,7 +11,7 @@
 #include "libhzd/libhzd.h"
 #include "Game/game.h"
 #include "Game/hittable.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Game/object.h"
 #include "Game/map.h"
 #include "Okajima/claymore.h"

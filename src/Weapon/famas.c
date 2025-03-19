@@ -8,7 +8,7 @@
 #include "Anime/animconv/anime.h"
 #include "Game/object.h"
 #include "Game/map.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Okajima/bullet.h"
 #include "SD/g_sound.h"
 

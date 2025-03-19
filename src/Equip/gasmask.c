@@ -5,7 +5,7 @@
 #include "Game/object.h"
 #include "Game/map.h"
 #include "Game/camera.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 
 extern int       DG_CurrentGroupID;
 extern int       dword_8009F46C;

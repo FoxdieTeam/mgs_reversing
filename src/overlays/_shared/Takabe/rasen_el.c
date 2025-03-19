@@ -4,7 +4,7 @@
 #include "libdg/libdg.h"
 #include "Game/camera.h"
 #include "Game/game.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Game/object.h"
 #include "Takabe/thing.h"
 #include "SD/g_sound.h"

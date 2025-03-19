@@ -6,7 +6,7 @@
 #include "Game/game.h"
 #include "Game/camera.h"
 #include "Game/object.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Menu/menuman.h"
 
 typedef struct HindWork

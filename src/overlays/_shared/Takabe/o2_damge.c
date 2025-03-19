@@ -5,7 +5,7 @@
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Takabe/thing.h"
 #include "SD/g_sound.h"
 

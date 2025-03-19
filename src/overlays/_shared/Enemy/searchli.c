@@ -8,7 +8,7 @@
 #include "Anime/animconv/anime.h"
 #include "Game/control.h"
 #include "Game/game.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "overlays/_shared/Enemy/enemy.h"
 #include "strcode.h"
 

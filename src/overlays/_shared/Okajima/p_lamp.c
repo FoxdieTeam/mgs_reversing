@@ -4,7 +4,7 @@
 #include "libgcl/libgcl.h"
 #include "Game/target.h"
 #include "Game/game.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Okajima/spark.h"
 #include "Anime/animconv/anime.h"
 #include "Bullet/blast.h"

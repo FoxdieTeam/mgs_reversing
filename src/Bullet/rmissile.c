@@ -14,7 +14,7 @@
 #include "Game/camera.h"
 #include "Game/object.h"
 #include "Game/map.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Menu/menuman.h"
 #include "Thing/sgtrect3.h"
 #include "Thing/sight.h"

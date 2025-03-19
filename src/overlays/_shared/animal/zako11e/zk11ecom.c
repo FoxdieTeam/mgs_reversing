@@ -5,7 +5,7 @@
 #include "mts/mts.h" // for fprintf
 #include "libhzd/libhzd.h"
 #include "Game/game.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 
 extern ZAKO_COMMAND ZakoCommand_800DF280;
 extern TOPCOMMAND_STRUCT TOPCOMMAND_800DF3A8;

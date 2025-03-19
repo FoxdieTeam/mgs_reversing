@@ -5,7 +5,7 @@
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "Game/game.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Game/object.h"
 #include "Okajima/blood.h"
 #include "SD/g_sound.h"

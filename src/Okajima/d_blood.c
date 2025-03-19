@@ -4,7 +4,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "SD/g_sound.h"
 
 extern GV_PAD           GV_PadData_800B05C0[4];

@@ -2,7 +2,7 @@
 #include "common.h"
 #include "Bullet/blast.h"
 #include "Game/game.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Game/object.h"
 #include "Game/vibrate.h"
 #include "Takabe/thing.h"
