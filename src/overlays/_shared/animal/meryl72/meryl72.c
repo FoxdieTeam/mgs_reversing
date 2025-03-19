@@ -7,7 +7,7 @@
 #include "Game/camera.h"
 #include "Game/game.h"
 
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "strcode.h"
 
 #include "meryl72.h"

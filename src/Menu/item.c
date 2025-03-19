@@ -4,7 +4,7 @@
 #include "libdg/libdg.h"
 #include "Bullet/blast.h"
 #include "Game/game.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "SD/g_sound.h"
 #include "radio.h"
 

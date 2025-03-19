@@ -1,6 +1,6 @@
 #include "mts/mts.h"
 #include "Game/camera.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "wolf2.h"
 
 extern int              dword_8009F46C[];

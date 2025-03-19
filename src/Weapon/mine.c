@@ -5,7 +5,7 @@
 #include "Game/target.h"
 #include "Game/object.h"
 #include "Bullet/jirai.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "SD/g_sound.h"
 
 extern int        DG_CurrentGroupID;

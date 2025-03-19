@@ -1,5 +1,5 @@
-#ifndef _LINKVARBUF_H_
-#define _LINKVARBUF_H_
+#ifndef _LINKVAR_H_
+#define _LINKVAR_H_
 
 extern short       linkvarbuf_800B4D98[0x60];
 #define linkvarbuf linkvarbuf_800B4D98
@@ -234,4 +234,4 @@ enum // GM_ItemTypes[]
 #define GM_CurrentWeapon          (GM_Weapons[ GM_CurrentWeaponId ])
 #define GM_CurrentItem            (GM_Items[ GM_CurrentItemId ])
 
-#endif
+#endif // _LINKVAR_H_

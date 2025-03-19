@@ -4,7 +4,7 @@
 #include "libdg/libdg.h"
 #include "Anime/animconv/anime.h"
 #include "Game/game.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "strcode.h"
 
 extern CONTROL *GM_WhereList_800B56D0[94];

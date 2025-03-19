@@ -3,7 +3,7 @@
 #include "Game/game.h"
 #include "Game/object.h"
 #include "Game/target.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 
 typedef struct _CrowEntry
 {

@@ -1,7 +1,7 @@
 #include "../../../_shared/Enemy/enemy.h"
 
 #include "libhzd/libhzd.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "SD/g_sound.h"
 
 extern int     ZAKOCOM_PlayerAddress_800DF3B8;

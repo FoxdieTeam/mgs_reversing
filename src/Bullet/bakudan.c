@@ -9,7 +9,7 @@
 #include "chara/snake/sna_init.h"
 #include "Game/game.h"
 #include "Game/hittable.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Game/object.h"
 #include "SD/g_sound.h"
 

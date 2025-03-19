@@ -1,7 +1,7 @@
 #include "../../../_shared/Enemy/enemy.h"
 #include "Anime/animconv/anime.h"
 #include "Game/item.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Okajima/blood.h"
 
 extern SVECTOR s11i_800C33B4;

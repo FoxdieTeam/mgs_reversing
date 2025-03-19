@@ -4,7 +4,7 @@
 #include "libgv/libgv.h"
 #include "Game/control.h"
 #include "Game/game.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Game/map.h"
 #include "Game/object.h"
 #include "Equip/equip.h"

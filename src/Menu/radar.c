@@ -6,7 +6,7 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "Game/game.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "SD/g_sound.h"
 
 int MENU_RadarScale = 13;

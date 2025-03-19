@@ -5,7 +5,7 @@
 #include "Bullet/jirai.h"
 #include "Game/camera.h"
 #include "Game/hittable.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 
 // Actor created by NewRasen_800CBA7C
 typedef struct _RasenWork

@@ -3,7 +3,7 @@
 #include "libgv/libgv.h"
 #include "Game/control.h"
 #include "Game/object.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Okajima/bullet.h"
 #include "Okajima/blood.h"
 #include "SD/g_sound.h"

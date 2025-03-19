@@ -12,7 +12,7 @@
 #include "Menu/menuman.h"
 #include "motion.h"
 #include "strctrl.h"
-//#include "linkvarbuf.h"
+//#include "linkvar.h"
 #include "SD/sd_cli.h"
 #include "SD/g_sound.h"
 

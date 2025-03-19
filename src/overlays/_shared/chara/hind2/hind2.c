@@ -3,7 +3,7 @@
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Game/object.h"
 
 typedef struct _Hind2Work

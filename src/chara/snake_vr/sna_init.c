@@ -16,7 +16,7 @@
 #include "Game/object.h"
 #include "Kojo/demothrd.h"
 #include "Game/game.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Okajima/blood.h"
 #include "Bullet/bakudan.h"
 #include "Game/hittable.h"

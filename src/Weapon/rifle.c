@@ -8,7 +8,7 @@
 #include "Game/object.h"
 #include "Game/game.h"
 #include "Game/camera.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "SD/g_sound.h"
 
 extern GM_Camera GM_Camera_800B77E8;

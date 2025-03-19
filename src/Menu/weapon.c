@@ -8,7 +8,7 @@
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "Game/game.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Game/camera.h"
 #include "Menu/radio.h"
 #include "SD/g_sound.h"

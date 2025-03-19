@@ -9,7 +9,7 @@
 #include "Game/control.h"
 #include "Game/game.h"
 #include "Game/camera.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Game/item.h"
 #include "Game/delay.h"
 #include "Menu/menuman.h"

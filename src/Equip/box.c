@@ -2,7 +2,7 @@
 
 #include "common.h"
 #include "Game/camera.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Game/map.h"
 #include "Game/object.h"
 #include "Thing/sight.h"
