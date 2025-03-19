@@ -55,25 +55,25 @@ extern short       linkvarbuf_800B4D98[0x60];
 #define GM_LandMineMax        linkvarbuf[ 32 ]
 #define GM_BombMax            linkvarbuf[ 33 ]
 #define GM_StunGrenadeMax     linkvarbuf[ 34 ]
-#define GM_ChaffGrenadeMax    linkvarbuf[ 35 ]
-#define GM_RifleMax           linkvarbuf[ 36 ]
+#define GM_ChaffGrenadeMax    linkvarbuf[ 35 ]  // $w:チャフグレネード弾数
+#define GM_RifleMax           linkvarbuf[ 36 ]  // $w:ライフル弾数
 
 //------------------------------------------------------------------------------
 #define GM_Items              (&linkvarbuf[ 37 ])
 
 // 0x4a Items (Use GM_Items[] instead)
 //      value -1 = not in inventory
-#define GM_TabakoFlag         linkvarbuf[ 37 ]
-#define GM_ScopeFlag          linkvarbuf[ 38 ]
-#define GM_CardboardBoxAFlag  linkvarbuf[ 39 ]
-#define GM_CardboardBoxBFlag  linkvarbuf[ 40 ]
-#define GM_CardboardBoxCFlag  linkvarbuf[ 41 ]
-#define GM_NightVisionFlag    linkvarbuf[ 42 ]
-#define GM_ThermalVisionFlag  linkvarbuf[ 43 ]
-#define GM_GasMaskFlag        linkvarbuf[ 44 ]
-#define GM_BodyArmorFlag      linkvarbuf[ 45 ]
-#define GM_KetchupFlag        linkvarbuf[ 46 ]
-#define GM_StealthFlag        linkvarbuf[ 47 ]
+#define GM_TabakoFlag         linkvarbuf[ 37 ]  // $w:たばこ
+#define GM_ScopeFlag          linkvarbuf[ 38 ]  // $w:双眼鏡
+#define GM_CardboardBoxAFlag  linkvarbuf[ 39 ]  // $w:段ボールヘリポート
+#define GM_CardboardBoxBFlag  linkvarbuf[ 40 ]  // $w:段ボール核保存庫
+#define GM_CardboardBoxCFlag  linkvarbuf[ 41 ]  // $w:段ボール大雪原
+#define GM_NightVisionFlag    linkvarbuf[ 42 ]  // $w:暗視ゴーグル
+#define GM_ThermalVisionFlag  linkvarbuf[ 43 ]  // $w:赤外線ゴーグル
+#define GM_GasMaskFlag        linkvarbuf[ 44 ]  // $w:ガスマスク
+#define GM_BodyArmorFlag      linkvarbuf[ 45 ]  // $w:ボディアーマー
+#define GM_KetchupFlag        linkvarbuf[ 46 ]  // $w:ケチャップ
+#define GM_StealthFlag        linkvarbuf[ 47 ]  // $w:光学迷彩
 #define GM_BandanaFlag        linkvarbuf[ 48 ]
 #define GM_CameraFlag         linkvarbuf[ 49 ]
 #define GM_RationFlag         linkvarbuf[ 50 ] // > 0 = ration ammount
