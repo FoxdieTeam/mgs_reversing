@@ -46,7 +46,7 @@ extern int ENE_ClearPutChar_800D9DB4( WatcherWork *work, void *func );
 extern int AttackForce_800D6C6C( WatcherWork *work );
 
 extern void    NewBlood( MATRIX *, int );
-extern void    AN_Breath_800C3AA8( MATRIX * );
+extern void    AN_Breath( MATRIX * );
 extern void   *NewLSight_800D1D2C(SVECTOR *from, SVECTOR *to, int color);
 
 extern SVECTOR s07a_dword_800C369C;
@@ -917,7 +917,7 @@ void s07a_meryl_unk_800D8798( WatcherWork *work, int time )
             svec.vz = work->body.objs->objs[6].world.t[2];
             if ( !( s07a_meryl_unk_800D66F4( &work->control.mov ) ) )
             {
-                s00a_command_800CA69C( &svec );
+                AN_Piyopiyo( &svec );
             }
         }
         else
@@ -1431,7 +1431,7 @@ void ENE_PutFog_800D97AC(WatcherWork *work )
     svec.vy = mat.t[ 1 ];
     svec.vz = mat.t[ 2 ];
 
-    AN_Fog_800CA618( &svec );
+    AN_Fog( &svec );
 }
 
 void ENE_PutItem_800D9810( WatcherWork* work )
@@ -1587,7 +1587,7 @@ void ENE_PutBreath_800D9B14( WatcherWork *work, int arg1 )
         frame = work->m_ctrl.info2.frame;
         if ( frame == 31 )
         {
-            AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
+            AN_Breath( &work->body.objs->objs[6].world );
         }
     }
     else if ( work->unknown.last_unset == 22 )
@@ -1596,7 +1596,7 @@ void ENE_PutBreath_800D9B14( WatcherWork *work, int arg1 )
         if ( ( frame == 15 ) || ( frame == 35 ) || ( frame == 50 ) || ( frame == 60 ) ||
              ( frame == 70 ) || ( frame == 74 ) || ( frame == 78 ) )
         {
-            AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
+            AN_Breath( &work->body.objs->objs[6].world );
         }
     }
     else if ( work->unknown.last_unset == 19 )
@@ -1606,14 +1606,14 @@ void ENE_PutBreath_800D9B14( WatcherWork *work, int arg1 )
              ( frame == 70  ) || ( frame == 80  ) || ( frame == 90 ) || ( frame == 95 ) ||
              ( frame == 100 ) || ( frame == 105 ) )
         {
-            AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
+            AN_Breath( &work->body.objs->objs[6].world );
         }
     }
     else
     {
         if ( ( GV_Time % 64 ) == ( work->field_B78 * 16 ) )
         {
-            AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
+            AN_Breath( &work->body.objs->objs[6].world );
         }
     }
 }
@@ -1873,7 +1873,7 @@ void s07a_meryl_unk_800DA3F8( WatcherWork *work, int time )
         {
             mov = work->control.mov;
             mov.vy += 500;
-            AN_Sleep_800CA7DC( &mov );
+            AN_Sleep( &mov );
             GM_SeSet( &work->control.mov, 0x93 );
 
             if ( work->sn_dis < 1000 && ( GM_PlayerStatus & 1 ) )

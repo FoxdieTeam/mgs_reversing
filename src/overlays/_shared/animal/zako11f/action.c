@@ -60,7 +60,7 @@ extern int ZAKO11F_EYE_LENGTH_800C3694;
 extern ZAKO11F_COMMAND Zako11FCommand_800D5AF8;
 
 void AN_Unknown_800C3B7C( MATRIX *matrix );
-void AN_Sleep_800CA7DC( SVECTOR *pos );
+void AN_Sleep( SVECTOR *pos );
 
 // action
 void s11i_asiato_800CA25C( Zako11FWork *work, int time );
@@ -1895,7 +1895,7 @@ void s11i_asiato_800CCAD8(Zako11FWork *work, int time)
             pos = work->control.mov;
             pos.vy += 500;
 
-            AN_Sleep_800CA7DC(&pos);
+            AN_Sleep(&pos);
 
             GM_SeSet(&work->control.mov, 0x93);
 

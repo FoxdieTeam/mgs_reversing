@@ -11,16 +11,6 @@ extern CONTROL *GM_WhereList_800B56D0[94];
 
 extern ENEMY_COMMAND EnemyCommand_800E0D98;
 
-extern ANIMATION s00a_dword_800C3418;
-extern ANIMATION s00a_dword_800C3434;
-extern ANIMATION s00a_dword_800C3450;
-extern ANIMATION s00a_dword_800C346C;
-extern short     s00a_dword_800C3488;
-extern short     s00a_dword_800C348A;
-extern short     s00a_dword_800C348C;
-extern ANIMATION s00a_dword_800C3490;
-extern ANIMATION s00a_dword_800C34AC;
-extern ANIMATION s00a_dword_800C34E4;
 extern int       COM_NOISEMODE_DIS_800E0F38;
 extern int       COM_NoiseMinDisID_800E0D44;
 extern int       COM_ALERT_DECREMENT_800E0F60;

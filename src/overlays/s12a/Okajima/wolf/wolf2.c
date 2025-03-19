@@ -12,7 +12,7 @@ extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 RECT        wolf2_800C3490 = {0, 0, 2, 2};
 extern char wolf2_800DD6B8[5];
 
-void   AN_Breath_800C3AA8(MATRIX *world);
+void   AN_Breath(MATRIX *world);
 void * NewCinemaScreen_800DE434(int, int);
 int    NewCinemaScreenClose_800DE4CC(void *);
 
@@ -350,7 +350,7 @@ void wolf2_Act(Wolf2Work *work)
 
     if ((GV_Time % 128) == 0)
     {
-        AN_Breath_800C3AA8(&work->body.objs->objs[6].world);
+        AN_Breath(&work->body.objs->objs[6].world);
 
         if (work->f6FC <= 0 && dword_8009F46C[0] == 1 && (GV_PadData_800B05C0[2].status & PAD_TRIANGLE))
         {

@@ -152,7 +152,7 @@ extern SVECTOR          svector_8009F478;
 extern SVECTOR          svector_8009F494;
 extern int              dword_8009F46C[];
 
-void    AN_Breath_800C3AA8(MATRIX *matrix);
+void    AN_Breath(MATRIX *matrix);
 void    AN_Unknown_800CA1EC(MATRIX *world, int index);
 void   *NewFadeIo_800C4224(int name, int where);
 
@@ -262,7 +262,7 @@ void ValcanAct_800D9088(ValcanWork *work)
     }
     if (!(GV_Time & 3))
     {
-        AN_Breath_800C3AA8(&work->field_A0.objs->objs[6].world);
+        AN_Breath(&work->field_A0.objs->objs[6].world);
     }
     if (work->field_7D4 != 2)
     {
