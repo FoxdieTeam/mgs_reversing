@@ -1007,7 +1007,7 @@ void s07c_meryl72_unk1_800C9F98( Meryl72Work *work, int time )
     }
 }
 
-extern void s00a_command_800CA69C( SVECTOR *pos ) ;
+extern void AN_Piyopiyo( SVECTOR *pos ) ;
 
 void s07c_meryl72_unk1_800CA0EC( Meryl72Work *work, int time )
 {
@@ -1037,7 +1037,7 @@ void s07c_meryl72_unk1_800CA0EC( Meryl72Work *work, int time )
             svec.vx = work->body.objs->objs[6].world.t[0];
             svec.vy = work->body.objs->objs[6].world.t[1];
             svec.vz = work->body.objs->objs[6].world.t[2];
-            s00a_command_800CA69C( &svec ) ; //smoke anim
+            AN_Piyopiyo( &svec ) ;
             work->fAEA = 0x96;
         }
         else

@@ -7,7 +7,7 @@
 #include "Game/game.h"
 #include "strcode.h"
 
-extern void AN_Breath_800C3AA8( MATRIX *world );
+extern void AN_Breath( MATRIX *world );
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 #define DEFAULT_TIME 0x40
@@ -45,7 +45,7 @@ void BreathAct_800C38A0( BreathWork* work )
         object = GM_PlayerBody;
         if  ( object != NULL && ( GV_Time % work->time == 0 ) )
         {
-            AN_Breath_800C3AA8( &object->objs->objs[6].world );
+            AN_Breath( &object->objs->objs[6].world );
         }
     }
 }
