@@ -71,7 +71,7 @@ STATIC void gglsight_act_helper_80077A24(GoggleSightWork *work)
     // TextConfig_Flags_eCentreAlign_02 | TextConfig_Flags_eSemiTransparent_20 | TextConfig_Flags_eDark_100
     MENU_Locate(0, 0, 0x122);
 
-    if (work->type == ITEM_N_V_G)
+    if (work->type == IT_NVG)
     {
         r = 255;
         g = 0;
@@ -147,7 +147,7 @@ STATIC void gglsight_act_helper_80077C6C(GoggleSightWork *work)
     {
         MENU_Locate(40, 56, 0x120);
 
-        if (work->type == ITEM_N_V_G)
+        if (work->type == IT_NVG)
         {
             r = 255;
             g = 0;
@@ -248,7 +248,7 @@ STATIC void gglsight_act_helper_80077F70(GoggleSightWork *work)
         old_380 = work->field_380;
         //  TextConfig_Flags_eLargeFont_10 | TextConfig_Flags_eSemiTransparent_20 | TextConfig_Flags_eDark_100
         MENU_Locate(41, 42, 304);
-        if (work->type == ITEM_N_V_G)
+        if (work->type == IT_NVG)
         {
             r = 255;
             g = 0;
@@ -275,7 +275,7 @@ STATIC void gglsight_act_helper_80077F70(GoggleSightWork *work)
 
         MENU_Locate(137, 42, 304);
 
-        if (work->type == ITEM_N_V_G)
+        if (work->type == IT_NVG)
         {
             MENU_Printf("MODE - B"); // MODE - B
         }
@@ -402,7 +402,7 @@ STATIC void GoggleSightAct(GoggleSightWork *work)
 
     ptr[0] = 1;
 
-    if (type == ITEM_N_V_G && dword_8009F604 != f24)
+    if (type == IT_NVG && dword_8009F604 != f24)
     {
         NewSight_80071CDC(SGT_NV_GGLE1, f24, ptr, 1, 0);
         NewSight_80071CDC(SGT_NV_GGLE2, f24, ptr, 1, (short *)&work->field_2C_4Array[1]);
@@ -515,12 +515,12 @@ void *NewGoggleSight(int type)
 
         work->type = type;
 
-        if (type == ITEM_N_V_G)
+        if (type == IT_NVG)
         {
             work->field_24 = 0x9c26;
             work->color = 0xff;
         }
-        else if (type == ITEM_THERM_G)
+        else if (type == IT_ThermG)
         {
             work->field_24 = 0x5425;
             work->color = 0x4aa041;

@@ -6,7 +6,7 @@
 
 typedef struct HITTABLE
 {
-    int      type;    // Not read from, set as either WEAPON_CLAYMORE or WEAPON_C4
+    int      type;    // Not read from, set as either WP_Claymore or WP_C4
     GV_ACT  *actor;
     CONTROL *control;
     void    *data;    // The thing being collided with, can be walls, floors, targets

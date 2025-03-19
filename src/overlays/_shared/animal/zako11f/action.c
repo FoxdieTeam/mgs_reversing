@@ -1390,7 +1390,7 @@ void s11i_asiato_800CBACC(Zako11FWork *work, int time)
             SetAction(work, ACTION37, ACTINTERP);
             if (work->target->field_26_hp <= 0)
             {
-                if (GM_CurrentWeaponId == WEAPON_PSG1)
+                if (GM_CurrentWeaponId == WP_Rifle)
                 {
                     ZAKO11F_PutBlood_800CCFD4(work, 6, 2);
                 }

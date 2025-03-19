@@ -345,7 +345,7 @@ void s03c_johnny_800C45AC(JohnnyWork* work)
 
     if (work->unkB70 == 2 && !(work->unkB1C & 0x2))
     {
-        if (!(work->unkB1C & 0x20) && GM_Items[ITEM_KETCHUP] == -1 && !(GM_PlayerStatus & PLAYER_KETCHUP))
+        if (!(work->unkB1C & 0x20) && GM_Items[IT_Ketchup] == -1 && !(GM_PlayerStatus & PLAYER_KETCHUP))
         {
             work->unkB1C |= 0x80002;
         }

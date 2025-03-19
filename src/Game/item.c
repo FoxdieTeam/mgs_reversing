@@ -116,7 +116,7 @@ STATIC int item_act_helper_800333F8(int item_id, int param_2)
     int item_type;
     int max_capacity;
 
-    if (item_id == (char)ITEM_NONE)
+    if (item_id == (char)IT_None)
     {
         item_all_items_and_weapons_unknown_80033560();
         return 1;
@@ -635,7 +635,7 @@ STATIC int item_init_helper_helper_80034020( ItemWork *work, int type )
     int item_id;
 
     item_id = work->field_114_item_id;
-    if ( item_id == (char)ITEM_NONE )
+    if ( item_id == (char)IT_None )
     {
         return 1;
     }
@@ -644,7 +644,7 @@ STATIC int item_init_helper_helper_80034020( ItemWork *work, int type )
     {
         case 2:
         case 3:
-            if ( (GM_DifficultyFlag == DIFFICULTY_VERY_EASY) && (item_id == ITEM_SCOPE) )
+            if ( (GM_DifficultyFlag == DIFFICULTY_VERY_EASY) && (item_id == IT_Scope) )
             {
                 return 0;
             }
@@ -664,7 +664,7 @@ STATIC int item_init_helper_helper_80034020( ItemWork *work, int type )
             break;
 
         case 4:
-            if ( item_id != ITEM_RATION )
+            if ( item_id != IT_Ration )
             {
                 return 0;
             }
@@ -784,7 +784,7 @@ STATIC int item_GetResources(ItemWork *work, int name, int where)
         return 0;
     }
 
-    if ((GM_DifficultyFlag == DIFFICULTY_EXTREME) && (type == 4) && (work->field_114_item_id == ITEM_RATION))
+    if ((GM_DifficultyFlag == DIFFICULTY_EXTREME) && (type == 4) && (work->field_114_item_id == IT_Ration))
     {
         return 0;
     }

@@ -277,7 +277,7 @@ void ValcanAct_800D9088(ValcanWork *work)
             GM_MoveTarget(work->field_664, &control->mov);
             GM_MoveTarget(work->field_668, &control->mov);
             GM_PushTarget(work->field_668);
-            if (GM_CurrentItemId == ITEM_THERM_G)
+            if (GM_CurrentItemId == IT_ThermG)
             {
                 DG_AmbientObjs(work->field_A0.objs);
             }
@@ -644,7 +644,7 @@ void Valcan_800D9B5C(ValcanWork *work)
     work->field_184.objs->root = &work->field_A0.objs->objs[4].world;
     GM_ActObject2(&work->field_184);
 
-    if (GM_CurrentItemId == ITEM_THERM_G)
+    if (GM_CurrentItemId == IT_ThermG)
     {
         DG_AmbientObjs(work->field_184.objs);
     }

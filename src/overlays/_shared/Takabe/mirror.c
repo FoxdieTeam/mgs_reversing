@@ -156,7 +156,7 @@ void MirrorAct_800DFDDC(MirrorWork *work)
     {
         if (entry->name == CHARA_SNAKE)
         {
-            if (GM_CurrentItemId == ITEM_STEALTH)
+            if (GM_CurrentItemId == IT_Stealth)
             {
                 if (!(work->snake_flags & 0x1))
                 {
@@ -173,7 +173,7 @@ void MirrorAct_800DFDDC(MirrorWork *work)
 
             prev_flags = work->snake_flags;
 
-            if (GM_CurrentItemId == ITEM_B_ARMOR)
+            if (GM_CurrentItemId == IT_BodyArmor)
             {
                 work->snake_flags |= 0x4;
             }
@@ -182,7 +182,7 @@ void MirrorAct_800DFDDC(MirrorWork *work)
                 work->snake_flags &= ~0x4;
             }
 
-            if (GM_CurrentItemId == ITEM_BANDANA)
+            if (GM_CurrentItemId == IT_Bandana)
             {
                 work->snake_flags |= 0x8;
             }

@@ -52,7 +52,7 @@ STATIC void MineAct(MineWork *work)
     }
     obj = &work->parent->objs->objs[work->num_parent];
 
-    weapon_state = GM_Weapons[ WEAPON_CLAYMORE ];
+    weapon_state = GM_Weapons[ WP_Claymore ];
     weap_flags = *work->flags;
 
     if ((weap_flags & 1) != 0
@@ -62,7 +62,7 @@ STATIC void MineAct(MineWork *work)
       && NewJirai(&obj->world, GM_BombSeg))
     {
         GM_SeSet(&work->control->mov, SE_C4_PUT);
-        GM_Weapons[ WEAPON_CLAYMORE ] = --weapon_state;
+        GM_Weapons[ WP_Claymore ] = --weapon_state;
 
         work->counter = 21;
         DG_InvisibleObjs(work->object.objs);

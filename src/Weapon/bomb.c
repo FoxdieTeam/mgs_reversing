@@ -49,7 +49,7 @@ STATIC void BombAct( BombWork *work )
         DG_VisibleObjs( work->object.objs );
     }
 
-    ammo = GM_Weapons[ WEAPON_C4 ];
+    ammo = GM_Weapons[ WP_C4 ];
     parent = work->parent->objs;
     world = &parent->objs[ work->num_parent ].world;
 
@@ -61,7 +61,7 @@ STATIC void BombAct( BombWork *work )
         {
             if (NewBakudan(world, NULL, 0, work->which_side, GM_BombSeg))
             {
-                GM_Weapons[ WEAPON_C4 ] = --ammo;
+                GM_Weapons[ WP_C4 ] = --ammo;
                 GM_SeSet( &work->control->mov, SE_C4_PUT );
                 work->f54 = 0x18;
                 DG_InvisibleObjs( work->object.objs );
@@ -70,7 +70,7 @@ STATIC void BombAct( BombWork *work )
         }
         else if ( flags & 4 )
         {
-            GM_Weapons[ WEAPON_C4 ] = --ammo;
+            GM_Weapons[ WP_C4 ] = --ammo;
             work->f54 = 0x18;
             DG_InvisibleObjs( work->object.objs );
         }

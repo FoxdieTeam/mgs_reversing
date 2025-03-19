@@ -94,9 +94,9 @@ void s04c_wire_800D2E7C(WireWork *work)
                             printf("Wire Cut!!\n");
                             GM_GameOverTimer = -2;
 
-                            if (GM_CurrentItemId == ITEM_CAMERA || GM_CurrentItemId == ITEM_SCOPE)
+                            if (GM_CurrentItemId == IT_Camera || GM_CurrentItemId == IT_Scope)
                             {
-                                GM_CurrentItemId = ITEM_NONE;
+                                GM_CurrentItemId = IT_None;
                             }
                         }
 
@@ -119,9 +119,9 @@ void s04c_wire_800D2E7C(WireWork *work)
                             printf("Wire Cut!!\n");
                             GM_GameOverTimer = -2;
 
-                            if (GM_CurrentItemId == ITEM_CAMERA || GM_CurrentItemId == ITEM_SCOPE)
+                            if (GM_CurrentItemId == IT_Camera || GM_CurrentItemId == IT_Scope)
                             {
-                                GM_CurrentItemId = ITEM_NONE;
+                                GM_CurrentItemId = IT_None;
                             }
                         }
 
@@ -144,9 +144,9 @@ void s04c_wire_800D2E7C(WireWork *work)
                             printf("Wire Cut!!\n");
                             GM_GameOverTimer = -2;
 
-                            if (GM_CurrentItemId == ITEM_CAMERA || GM_CurrentItemId == ITEM_SCOPE)
+                            if (GM_CurrentItemId == IT_Camera || GM_CurrentItemId == IT_Scope)
                             {
-                                GM_CurrentItemId = ITEM_NONE;
+                                GM_CurrentItemId = IT_None;
                             }
                         }
 
@@ -169,9 +169,9 @@ void s04c_wire_800D2E7C(WireWork *work)
                             printf("Wire Cut!!\n");
                             GM_GameOverTimer = -2;
 
-                            if (GM_CurrentItemId == ITEM_CAMERA || GM_CurrentItemId == ITEM_SCOPE)
+                            if (GM_CurrentItemId == IT_Camera || GM_CurrentItemId == IT_Scope)
                             {
-                                GM_CurrentItemId = ITEM_NONE;
+                                GM_CurrentItemId = IT_None;
                             }
                         }
 
@@ -194,9 +194,9 @@ void s04c_wire_800D2E7C(WireWork *work)
                             printf("Wire Cut!!\n");
                             GM_GameOverTimer = -2;
 
-                            if (GM_CurrentItemId == ITEM_CAMERA || GM_CurrentItemId == ITEM_SCOPE)
+                            if (GM_CurrentItemId == IT_Camera || GM_CurrentItemId == IT_Scope)
                             {
-                                GM_CurrentItemId = ITEM_NONE;
+                                GM_CurrentItemId = IT_None;
                             }
                         }
 
@@ -217,9 +217,9 @@ void s04c_wire_800D2E7C(WireWork *work)
                         printf("Wire Cut!!\n");
                         GM_GameOverTimer = -2;
 
-                        if (GM_CurrentItemId == ITEM_CAMERA || GM_CurrentItemId == ITEM_SCOPE)
+                        if (GM_CurrentItemId == IT_Camera || GM_CurrentItemId == IT_Scope)
                         {
-                            GM_CurrentItemId = ITEM_NONE;
+                            GM_CurrentItemId = IT_None;
                         }
                     }
 
@@ -244,9 +244,9 @@ void s04c_wire_800D2E7C(WireWork *work)
                 printf("Wire Cut by HOFUKU!!\n");
                 GM_GameOverTimer = -2;
 
-                if (GM_CurrentItemId == ITEM_CAMERA || GM_CurrentItemId == ITEM_SCOPE)
+                if (GM_CurrentItemId == IT_Camera || GM_CurrentItemId == IT_Scope)
                 {
-                    GM_CurrentItemId = ITEM_NONE;
+                    GM_CurrentItemId = IT_None;
                 }
             }
 
@@ -311,9 +311,9 @@ void s04c_wire_800D2E7C(WireWork *work)
             printf("Wire Cut by BAKUFUU!!\n");
             GM_GameOverTimer = -2;
 
-            if (GM_CurrentItemId == ITEM_CAMERA || GM_CurrentItemId == ITEM_SCOPE)
+            if (GM_CurrentItemId == IT_Camera || GM_CurrentItemId == IT_Scope)
             {
-                GM_CurrentItemId = ITEM_NONE;
+                GM_CurrentItemId = IT_None;
             }
         }
 

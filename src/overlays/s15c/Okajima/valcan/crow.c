@@ -257,7 +257,7 @@ void CrowAct_800DDD08(CrowWork *work)
         GM_ActControl(&entry->control);
         GM_ActObject2(&entry->body);
 
-        if (GM_CurrentItemId == ITEM_THERM_G)
+        if (GM_CurrentItemId == IT_ThermG)
         {
             DG_AmbientObjs(entry->body.objs);
         }
@@ -573,7 +573,7 @@ void CrowAct_800DDD08(CrowWork *work)
             GM_ActControl(&entry->control);
             GM_ActObject2(&entry->body);
 
-            if (GM_CurrentItemId == ITEM_THERM_G)
+            if (GM_CurrentItemId == IT_ThermG)
             {
                 DG_AmbientObjs(entry->body.objs);
             }

@@ -736,13 +736,13 @@ void s07c_meryl72_unk2_800CFD80(Meryl72Work *work)
         // Unequip item if it changes camera
         if (GM_ItemTypes[GM_CurrentItemId + 1] & 0x2)
         {
-            GM_CurrentItemId = ITEM_NONE;
+            GM_CurrentItemId = IT_None;
         }
 
         // Unequip weapon if it changes camera
         if (GM_WeaponTypes[GM_CurrentWeaponId + 1] & 0x200)
         {
-            GM_CurrentWeaponId = WEAPON_NONE;
+            GM_CurrentWeaponId = WP_None;
         }
 
         work->fC38 = 0;

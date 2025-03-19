@@ -904,7 +904,7 @@ menu_weapon_rpk_info SECTION(".data") gMenuWeaponRpkInfo_8009E57C[] = {
 PANEL_TEXTURE *menu_weapon_get_weapon_rpk_info_8003DED8(int weaponIdx)
 {
     int rpkIdx;
-    if (weaponIdx == WEAPON_SOCOM && !GM_SilencerFlag)
+    if (weaponIdx == WP_Socom && !GM_SilencerFlag)
     {
         rpkIdx = 2;
     }
@@ -925,25 +925,25 @@ int menu_weapon_isWeaponDisabled_8003DF30(int weaponId)
 {
     if (((GM_ItemTypes[GM_CurrentItemId + 1] & 1) && (GM_WeaponTypes[weaponId + 1] & 0x200)))
     {
-        return 1;
+        return TRUE;
     }
-    if ((GM_PlayerStatus & PLAYER_CAUTION) && weaponId == WEAPON_PSG1)
+    if ((GM_PlayerStatus & PLAYER_CAUTION) && weaponId == WP_Rifle)
     {
-        return 1;
+        return TRUE;
     }
-    if ((GM_PlayerStatus & PLAYER_GROUND) && weaponId == WEAPON_STINGER)
+    if ((GM_PlayerStatus & PLAYER_GROUND) && weaponId == WP_Stinger)
     {
-        return 1;
-    }
-
-    if ((GM_GameStatus & (STATE_CHAFF | STATE_JAMMING)) && weaponId == WEAPON_NIKITA)
-    {
-        return 1;
+        return TRUE;
     }
 
-    if (dword_8009F46C && (weaponId == WEAPON_STINGER || weaponId == WEAPON_PSG1))
+    if ((GM_GameStatus & (STATE_CHAFF | STATE_JAMMING)) && weaponId == WP_Nikita)
     {
-        return 1;
+        return TRUE;
+    }
+
+    if (dword_8009F46C && (weaponId == WP_Stinger || weaponId == WP_Rifle))
+    {
+        return TRUE;
     }
 
     return (GM_DisableWeapon & (1 << weaponId)) > 0;
@@ -994,14 +994,14 @@ char *wpn_descriptions_8009E5CC[] = {
              0x81,0x27,0x90,0x95,0x90,0x96,0x90,0x97,0x90,0x98,0xD0,0x02,0x80,0x23,0x90,0x1D,
              0x82,0x3C,0x82,0x1F,0x82,0x53,0x81,0x52,0x90,0x7B,0x81,0x19,0x81,0x28,0x90,0x7E,
              0x90,0x8C,0xD0,0x03,0x00,0x00,0x00,0x00},
-    /* WP_LandMine */
+    /* WP_Claymore */
     (char[]){0xB0,0x14,0x82,0x0F,0x82,0x4C,0x82,0x04,0x82,0x42,0x82,0x02,0xD0,0x15,0x80,0x7C,
              0x90,0x91,0x90,0x99,0x90,0x9A,0x90,0x9B,0x90,0x9C,0x90,0x6A,0x90,0x6B,0xD0,0x03,
              0x80,0x23,0x90,0x1D,0x82,0x3C,0x82,0x1F,0x82,0x53,0x81,0x27,0x90,0x9D,0x90,0x9E,
              0xD0,0x03,0x90,0x9D,0x90,0x9E,0x90,0xDC,0x81,0x2B,0x90,0xED,0x90,0xEE,0x81,0x15,
              0x81,0x4C,0x81,0x4B,0x90,0xA2,0x90,0x7E,0x90,0xFD,0x90,0xC8,0x81,0x2B,0x90,0xAC,
              0x81,0x4B,0x81,0x28,0x90,0xA2,0x90,0x7E,0x81,0x19,0x81,0x4B,0xD0,0x03,0x00,0x00},
-    /* WP_Bomb */
+    /* WP_C4 */
     (char[]){0xB0,0x14,0x43,0x80,0x34,0x90,0xA2,0x90,0x85,0xD0,0x15,0x80,0x7C,0x82,0x37,0x82,
              0x49,0x82,0x19,0x82,0x21,0xC2,0x23,0x82,0x0F,0x90,0xA2,0x90,0x85,0xD0,0x03,0x80,
              0x23,0x90,0x1D,0x82,0x3C,0x82,0x1F,0x82,0x53,0x81,0x27,0x90,0x9D,0x90,0x9E,0xD0,
@@ -1052,22 +1052,22 @@ void menu_weapon_printDescription_8003E030(int wpn_id)
     char *weaponDescription;
 
     weaponDescription = wpn_descriptions_8009E5CC[wpn_id];
-    if (wpn_id == WEAPON_SOCOM)
+    if (wpn_id == WP_Socom)
     {
         if (GM_SilencerFlag == 0)
         {
-            wpn_descriptions_8009E5CC[WEAPON_SOCOM][0x70] = 0xd0;
-            wpn_descriptions_8009E5CC[WEAPON_SOCOM][0x71] = 3;
-            wpn_descriptions_8009E5CC[WEAPON_SOCOM][0x72] = 0;
+            wpn_descriptions_8009E5CC[WP_Socom][0x70] = 0xd0;
+            wpn_descriptions_8009E5CC[WP_Socom][0x71] = 0x03;
+            wpn_descriptions_8009E5CC[WP_Socom][0x72] = 0x00;
         }
         else
         {
-            wpn_descriptions_8009E5CC[WEAPON_SOCOM][0x70] = 0x90;
-            wpn_descriptions_8009E5CC[WEAPON_SOCOM][0x71] = 0xb6;
-            wpn_descriptions_8009E5CC[WEAPON_SOCOM][0x72] = 0x91;
+            wpn_descriptions_8009E5CC[WP_Socom][0x70] = 0x90;
+            wpn_descriptions_8009E5CC[WP_Socom][0x71] = 0xb6;
+            wpn_descriptions_8009E5CC[WP_Socom][0x72] = 0x91;
         }
     }
-    else if (GM_DifficultyFlag == DIFFICULTY_VERY_EASY && wpn_id == WEAPON_FAMAS)
+    else if (GM_DifficultyFlag == DIFFICULTY_VERY_EASY && wpn_id == WP_Famas)
     {
         weaponDescription = wpn_mp5_description_800AB5CC;
     }
@@ -1127,13 +1127,13 @@ void menu_weapon_init_helper_8003E0E8(MenuWork *work, unsigned int *pOt, int off
 
         if (pPanel->field_6_current && GM_MagazineMax > 0)
         {
-            pSubCnt2 = (GM_CurrentWeaponId == WEAPON_FAMAS ? 3 : 0);
+            pSubCnt2 = (GM_CurrentWeaponId == WP_Famas ? 3 : 0);
             menu_number_draw_magazine(work, pOt, offset_x + 45, off_y + 20, GM_Magazine,
                                       GM_MagazineMax, pSubCnt2);
         }
         else
         {
-            if (weaponIdxCopy == WEAPON_FAMAS && GM_DifficultyFlag == DIFFICULTY_VERY_EASY)
+            if (weaponIdxCopy == WP_Famas && GM_DifficultyFlag == DIFFICULTY_VERY_EASY)
             {
                 str = "MP 5 SD";
             }
@@ -1324,7 +1324,7 @@ void menu_weapon_update_helper2_8003E674(MenuWork *work, unsigned int *pOt)
             if (menu_weapon_isWeaponDisabled_8003DF30(GM_CurrentWeaponId))
             {
                 last_id = GM_CurrentWeaponId;
-                GM_CurrentWeaponId = WEAPON_NONE;
+                GM_CurrentWeaponId = WP_None;
                 GM_WeaponChanged = 1;
                 work->field_1F0_menu_weapon.field_12_flashingAnimationFrame = 19;
                 dword_800ABAE8 = last_id;
@@ -1439,15 +1439,15 @@ void menu_weapon_update_8003E990(MenuWork *work, unsigned char *pOt)
             {
                 weapon_id = GM_CurrentWeaponId;
 
-                if (GM_CurrentWeaponId > WEAPON_NONE)
+                if (GM_CurrentWeaponId > WP_None)
                 {
-                    GM_CurrentWeaponId = WEAPON_NONE;
+                    GM_CurrentWeaponId = WP_None;
                 }
                 else if (!menu_weapon_isWeaponDisabled_8003DF30(work->field_1F0_menu_weapon.field_11))
                 {
                     selected_id = work->field_1F0_menu_weapon.field_11;
 
-                    if (GM_Weapons[selected_id] > WEAPON_NONE)
+                    if (GM_Weapons[selected_id] > WP_None)
                     {
                         GM_CurrentWeaponId = selected_id;
                     }
@@ -1485,7 +1485,7 @@ void menu_weapon_update_8003E990(MenuWork *work, unsigned char *pOt)
     }
     else
     {
-        if (GM_CurrentWeaponId > WEAPON_NONE)
+        if (GM_CurrentWeaponId > WP_None)
         {
             xoffset = sub_8003D52C();
 

@@ -669,13 +669,13 @@ void s11c_800CD340(RasenElWork *work, int arg1)
                 break;
             }
 
-            if (GM_CurrentItemId == ITEM_SCOPE ||
-                GM_CurrentItemId == ITEM_CAMERA ||
-                GM_CurrentWeaponId == WEAPON_STINGER ||
-                GM_CurrentWeaponId == WEAPON_PSG1 ||
-                GM_CurrentItemId == ITEM_C_BOX_A ||
-                GM_CurrentItemId == ITEM_C_BOX_B ||
-                GM_CurrentItemId == ITEM_C_BOX_C)
+            if (GM_CurrentItemId == IT_Scope ||
+                GM_CurrentItemId == IT_Camera ||
+                GM_CurrentWeaponId == WP_Stinger ||
+                GM_CurrentWeaponId == WP_Rifle ||
+                GM_CurrentItemId == IT_Box1 ||
+                GM_CurrentItemId == IT_Box2 ||
+                GM_CurrentItemId == IT_Box3)
             {
                 if (!(GM_Camera_800B77E8.flags & 0x200))
                 {

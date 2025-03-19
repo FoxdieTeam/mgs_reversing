@@ -129,8 +129,8 @@ extern int gOverlayBinSize_800B5290;
 
 STATIC void GM_ClearWeaponAndItem(void)
 {
-    GM_CurrentWeaponId = WEAPON_NONE;
-    GM_CurrentItemId = WEAPON_NONE;
+    GM_CurrentWeaponId = WP_None;
+    GM_CurrentItemId = IT_None;
 }
 
 STATIC void GM_InitGameSystem(void)

@@ -184,7 +184,7 @@ STATIC int goggle_GetResources(GoggleWork *work, OBJECT *parent)
         work->head_hidden = TRUE;
     }
 
-    work->manager = NewGoggleManager(ITEM_N_V_G);
+    work->manager = NewGoggleManager(IT_NVG);
     if (!work->manager)
     {
         return -1;
