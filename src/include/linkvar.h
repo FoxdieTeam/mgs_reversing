@@ -1,6 +1,10 @@
 #ifndef _LINKVAR_H_
 #define _LINKVAR_H_
 
+// This file was probably auto-generated in the original source.
+// (The memleak shows exactly two tabs between each identifier and definition,
+// and no tabstop setting will align them properly).
+
 extern short       linkvarbuf_800B4D98[0x60];
 #define linkvarbuf linkvarbuf_800B4D98
 
