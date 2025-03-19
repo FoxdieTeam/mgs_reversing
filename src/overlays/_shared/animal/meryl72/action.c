@@ -1216,7 +1216,7 @@ void s07c_meryl72_unk1_800CA538( Meryl72Work *work, int time )
                 {
                     GM_SeSet( &ctrl->mov, 0xC3);
                 }
-                if ( GM_CurrentWeaponId == WEAPON_PSG1 )
+                if ( GM_CurrentWeaponId == WP_Rifle )
                 {
                     ML72_PutBlood_800CB2EC( work, 6, 2 );
                 }

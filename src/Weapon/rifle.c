@@ -188,7 +188,7 @@ STATIC void RifleAct(RifleWork *work)
         GM_SetNoise(100, 2, &work->control->mov);
 
         GM_Magazine = --temp_s1;
-        GM_Weapons[WEAPON_PSG1]--;
+        GM_Weapons[WP_Rifle]--;
     }
 }
 
@@ -196,7 +196,7 @@ STATIC void RifleDie(RifleWork *work)
 {
     GM_FreeObject((OBJECT *)&work->object);
 
-    if (GM_CurrentWeaponId != WEAPON_PSG1)
+    if (GM_CurrentWeaponId != WP_Rifle)
     {
         GM_Camera_800B77E8.zoom = 320;
     }
@@ -252,7 +252,7 @@ void *NewRifle(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *f
     }
 
     mag_size = GM_Magazine ? (MAGAZINE_SIZE + 1) : MAGAZINE_SIZE;
-    ammo = GM_Weapons[WEAPON_PSG1];
+    ammo = GM_Weapons[WP_Rifle];
 
     if (mag_size > 0 && mag_size < ammo)
     {

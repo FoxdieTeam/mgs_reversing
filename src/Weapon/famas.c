@@ -114,7 +114,7 @@ STATIC void FamasAct(FamasWork *work)
                     }
 
                     NewBullet(pMtx, f54, v9, v10);
-                    --GM_Weapons[WEAPON_FAMAS];
+                    --GM_Weapons[WP_Famas];
 
                     GM_SeSet(&work->control->mov, SE_FAMAS_SHOT);
                     ctrl2 = work->control;
@@ -210,7 +210,7 @@ STATIC void *InitFAMAS(CONTROL *control, OBJECT *parent, int num_parent, int *fl
 
     if (mp5flag == 0)
     {
-        int temp = GM_Weapons[WEAPON_FAMAS];
+        int temp = GM_Weapons[WP_Famas];
 
         if ((mag_size > 0) && (mag_size < temp))
         {

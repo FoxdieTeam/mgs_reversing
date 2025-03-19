@@ -144,7 +144,7 @@ STATIC void RcmAct(RcmWork *work)
     // update the blinking light
     RcmUpdateLight(work, p_flags);
 
-    ammo_count = GM_Weapons[WEAPON_NIKITA];
+    ammo_count = GM_Weapons[WP_Nikita];
     // if no ammo and the button is released, play a sound effect
     if (!ammo_count && (p_flags & 2))
     {
@@ -184,7 +184,7 @@ STATIC void RcmAct(RcmWork *work)
 
             if (NewRMissile(&mt1, work->which_side))
             {
-                GM_Weapons[WEAPON_NIKITA] = --ammo_count;
+                GM_Weapons[WP_Nikita] = --ammo_count;
                 GM_SeSet(&work->control->mov, SE_MISSILE_FIRED);
                 GM_SetNoise(100, 2, &work->control->mov);
             }

@@ -415,7 +415,7 @@ void s07a_meryl_unk_800D76CC( WatcherWork *work, int time )
     }
 
     if ( time == 130 ) {
-        GM_CurrentItemId = ITEM_NONE ;
+        GM_CurrentItemId = IT_None ;
     }
 
     if ( time > 150  ) {
@@ -1072,7 +1072,7 @@ void s07a_meryl_unk_800D8CB4( WatcherWork *work, int time )
             SetAction( work, ACTION37, ACTINTERP );
             if ( work->target->field_26_hp <= 0 )
             {
-                if ( GM_CurrentWeaponId == WEAPON_PSG1 )
+                if ( GM_CurrentWeaponId == WP_Rifle )
                 {
                     ENE_PutBlood_800D973C( work, 6, 2 );
                 }
@@ -1455,7 +1455,7 @@ void ENE_PutItem_800D9810( WatcherWork* work )
     case 0:
     case 1:
         item.field_4_type   = 4;
-        item.field_6_id     = ITEM_RATION;
+        item.field_6_id     = IT_Ration;
         item.field_8_amount = 1;
         item.field_0_pName  = s07a_dword_800C36BC[0];
         break;
@@ -1464,7 +1464,7 @@ void ENE_PutItem_800D9810( WatcherWork* work )
         if ( GM_SocomFlag < 0 )
         {
             item.field_4_type   = 4;
-            item.field_6_id     = ITEM_RATION;
+            item.field_6_id     = IT_Ration;
             item.field_8_amount = 1;
             item.field_0_pName  = s07a_dword_800C36BC[0];
         }
@@ -1472,7 +1472,7 @@ void ENE_PutItem_800D9810( WatcherWork* work )
         {
             //Socom bullets
             item.field_4_type = 2;
-            item.field_6_id = WEAPON_SOCOM;
+            item.field_6_id = WP_Socom;
             item.field_8_amount = 12;
             item.field_0_pName  = s07a_dword_800C36BC[1];
         }
@@ -1482,13 +1482,13 @@ void ENE_PutItem_800D9810( WatcherWork* work )
         if ( GM_FamasFlag < 0  )
         {
             item.field_4_type   = 4;
-            item.field_6_id     = ITEM_RATION;
+            item.field_6_id     = IT_Ration;
             item.field_8_amount = 1;
             item.field_0_pName  = s07a_dword_800C36BC[0];
         }
         else
         {
-            item.field_6_id     = WEAPON_FAMAS;
+            item.field_6_id     = WP_Famas;
             item.field_4_type   = 2;
             item.field_8_amount = 25;
             item.field_0_pName  = s07a_dword_800C36BC[2];

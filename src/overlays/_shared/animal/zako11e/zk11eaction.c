@@ -942,7 +942,7 @@ void s11e_zk11ecom_800D649C( ZakoWork *work, int time )
             SetAction( work, ACTION37, ACTINTERP );
             if ( work->target->field_26_hp <= 0 )
             {
-                if ( GM_CurrentWeaponId == WEAPON_PSG1 )
+                if ( GM_CurrentWeaponId == WP_Rifle )
                 {
                     ZAKO11E_PutBlood_800D7A14( work, 6, 2 );
                 }
@@ -1631,7 +1631,7 @@ void ZAKO11E_PutItem_800D7AE8( ZakoWork* work )
     {
     case 0:
         item.field_4_type   = 4;
-        item.field_6_id     = ITEM_RATION;
+        item.field_6_id     = IT_Ration;
         item.field_8_amount = 1;
         item.field_0_pName  = s11e_dword_800C3690[0];
         break;
@@ -1642,13 +1642,13 @@ void ZAKO11E_PutItem_800D7AE8( ZakoWork* work )
             {
                 item.field_4_type   = 2;
                 item.field_0_pName  = s11e_dword_800C3690[1];
-                item.field_6_id     = WEAPON_SOCOM;
+                item.field_6_id     = WP_Socom;
                 item.field_8_amount = 12;
             }
             else
             {
                 item.field_4_type = 2;
-                item.field_6_id = WEAPON_FAMAS;
+                item.field_6_id = WP_Famas;
                 item.field_0_pName  = s11e_dword_800C3690[2];
                 item.field_8_amount = 25;
             }

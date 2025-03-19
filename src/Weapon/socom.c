@@ -360,7 +360,7 @@ STATIC void SocomAct( SocomWork *work )
 
         GM_Magazine = --mag_size;
         GM_MagazineMax = MAGAZINE_SIZE;
-        --GM_Weapons[ WEAPON_SOCOM ];
+        --GM_Weapons[ WP_Socom ];
     }
 }
 
@@ -403,9 +403,9 @@ STATIC int SocomGetResources( SocomWork *actor, OBJECT *parent, int num_parent )
         GM_InitObjectNoRots(obj, GV_StrCode( "socom2" ), BODY_FLAG, 0);
         actor->field_56 = 1;
         GM_SilencerFlag = 0;
-        if ( GM_CurrentItemId == ITEM_SUPPR )
+        if ( GM_CurrentItemId == IT_Suppressor )
         {
-            GM_CurrentItemId = ITEM_NONE;
+            GM_CurrentItemId = IT_None;
         }
     }
     if ( obj->objs )
@@ -474,7 +474,7 @@ void *NewSOCOM( CONTROL *control, OBJECT *parent, int num_parent,  unsigned int 
     {
         mag_size++;
     }
-    ammo = GM_Weapons[ WEAPON_SOCOM ];
+    ammo = GM_Weapons[ WP_Socom ];
     if ( mag_size > 0 && mag_size < ammo )
     {
         ammo = mag_size;

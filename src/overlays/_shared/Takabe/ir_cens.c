@@ -364,7 +364,7 @@ void IrCensAct_800D9EF8(IrCensWork *work)
     GV_AddVec3(&work->fB0, &sp30, &sp20);
     GV_AddVec3(&work->fB8, &sp30, &sp28);
 
-    if (work->fF0 != 0 && GM_CurrentItemId != ITEM_STEALTH)
+    if (work->fF0 != 0 && GM_CurrentItemId != IT_Stealth)
     {
         if (GM_Target_8002E1B8(&sp20, &sp28, work->map, &sp18, ENEMY_SIDE))
         {
@@ -403,7 +403,7 @@ void IrCensAct_800D9EF8(IrCensWork *work)
 
     IrCens_800D9C7C(work, &sp20, len);
 
-    if (GM_CurrentItemId == ITEM_CIGS && work->fF0 != 0)
+    if (GM_CurrentItemId == IT_Cigs && work->fF0 != 0)
     {
         sp40 = s02c_dword_800E3900;
 

@@ -362,12 +362,12 @@ void s03e_evpanel_800C39F8(EvPanelWork *work)
 
     if (((1 << GM_CurrentItemId) & 0x101E) != 0)
     {
-        GM_CurrentItemId = ITEM_NONE;
+        GM_CurrentItemId = IT_None;
     }
 
     if (((1 << GM_CurrentWeaponId) & 0x210) != 0)
     {
-        GM_CurrentWeaponId = WEAPON_NONE;
+        GM_CurrentWeaponId = WP_None;
     }
 }
 

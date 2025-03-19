@@ -96,7 +96,7 @@ STATIC void AamAct(AamWork *work)
     {
         work->cooldown = 30;
 
-        ammo = GM_Weapons[WEAPON_STINGER];
+        ammo = GM_Weapons[WP_Stinger];
 
         if (ammo > 0)
         {
@@ -125,7 +125,7 @@ STATIC void AamAct(AamWork *work)
 
             if (NewAMissile(&world, work->which_side))
             {
-                GM_Weapons[WEAPON_STINGER] = --ammo;
+                GM_Weapons[WP_Stinger] = --ammo;
 
                 GM_SeSet(&work->control->mov, SE_MISSILE_FIRED);
                 GM_SetNoise(200, 2, &work->control->mov);

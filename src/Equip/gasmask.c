@@ -51,8 +51,8 @@ STATIC void GasmaskAct(GasmaskWork *work)
 
     if (GM_Camera_800B77E8.first_person &&
         (work->parent->objs->flag & DG_FLAG_INVISIBLE) &&
-        GM_CurrentWeaponId != WEAPON_STINGER &&
-        GM_CurrentWeaponId != WEAPON_PSG1 &&
+        GM_CurrentWeaponId != WP_Stinger &&
+        GM_CurrentWeaponId != WP_Rifle &&
         dword_8009F46C != 1)
     {
         work->time++;

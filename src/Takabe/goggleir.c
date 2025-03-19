@@ -205,7 +205,7 @@ STATIC int goggleir_GetResources(GoggleIrWork *work, OBJECT *parent)
         work->head_hidden = TRUE;
     }
 
-    work->manager2 = NewGoggleManager(ITEM_THERM_G);
+    work->manager2 = NewGoggleManager(IT_ThermG);
     if (!work->manager2)
     {
         return -1;

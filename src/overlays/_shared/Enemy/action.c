@@ -385,7 +385,7 @@ void s00a_command_800C6320( WatcherWork *work, int time )
     }
 
     if ( time == 130 ) {
-        GM_CurrentItemId = ITEM_NONE ; //Actually should be named GM_Item and IT_None
+        GM_CurrentItemId = IT_None ; //Actually should be named GM_Item and IT_None
     }
 
     if ( time > 150  ) {
@@ -1054,7 +1054,7 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
             SetAction( work, ACTION37, ACTINTERP );
             if ( work->target->field_26_hp <= 0 )
             {
-                if ( GM_CurrentWeaponId == WEAPON_PSG1 )
+                if ( GM_CurrentWeaponId == WP_Rifle )
                 {
                     ENE_PutBlood_800C8FF8( work, 6, 2 );
                 }
@@ -1802,7 +1802,7 @@ void ENE_PutItem_800C90CC( WatcherWork *work )
     case 0:
         //ration
         item.field_4_type   = 4;
-        item.field_6_id     = ITEM_RATION;
+        item.field_6_id     = IT_Ration;
         item.field_8_amount = 1;
         item.field_0_pName  = s00a_off_800C33F4[0];
         break;
@@ -1819,7 +1819,7 @@ void ENE_PutItem_800C90CC( WatcherWork *work )
         {
             //Socom bullets
             item.field_4_type = 2;
-            item.field_6_id = WEAPON_SOCOM;
+            item.field_6_id = WP_Socom;
             if ( work->local_data2 == 0 )
             {
                 item.field_8_amount = 12;

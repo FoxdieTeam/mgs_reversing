@@ -342,7 +342,7 @@ void s00a_command_800C9E68( WatcherWork* work )
         }
     }
 
-    if ( sna_current_item_8004FB38() == ITEM_STEALTH && work->param_blood != 83 )
+    if ( sna_current_item_8004FB38() == IT_Stealth && work->param_blood != 83 )
     {
         flag[0] = 0;
     }

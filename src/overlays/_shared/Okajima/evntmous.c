@@ -114,15 +114,15 @@ void Eventmouse_800C8E88(EventmouseWork *work, SVECTOR *arg1, int arg2)
     work->item = GM_CurrentItemId;
     work->weapon = GM_CurrentWeaponId;
 
-    if ((GM_CurrentItemId == ITEM_SCOPE) || (GM_CurrentItemId == ITEM_CAMERA) ||
-        (GM_CurrentItemId == ITEM_N_V_G) || (GM_CurrentItemId == ITEM_THERM_G))
+    if ((GM_CurrentItemId == IT_Scope) || (GM_CurrentItemId == IT_Camera) ||
+        (GM_CurrentItemId == IT_NVG) || (GM_CurrentItemId == IT_ThermG))
     {
-        GM_CurrentItemId = ITEM_NONE;
+        GM_CurrentItemId = IT_None;
     }
 
-    if ((GM_CurrentWeaponId == WEAPON_PSG1) || (GM_CurrentWeaponId == WEAPON_STINGER))
+    if ((GM_CurrentWeaponId == WP_Rifle) || (GM_CurrentWeaponId == WP_Stinger))
     {
-        GM_CurrentWeaponId = WEAPON_NONE;
+        GM_CurrentWeaponId = WP_None;
     }
 
     GM_GameStatus |= STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF;
@@ -522,13 +522,13 @@ void EventMouseAct_800C9F14(EventmouseWork *work)
 
         if (work->f68C == 0)
         {
-            if ((work->weapon == WEAPON_PSG1) || (work->weapon == WEAPON_STINGER))
+            if ((work->weapon == WP_Rifle) || (work->weapon == WP_Stinger))
             {
                 GM_CurrentWeaponId = work->weapon;
             }
 
-            if ((work->item == ITEM_SCOPE) || (work->item == ITEM_CAMERA) ||
-                (work->item == ITEM_N_V_G) || (work->item == ITEM_THERM_G))
+            if ((work->item == IT_Scope) || (work->item == IT_Camera) ||
+                (work->item == IT_NVG) || (work->item == IT_ThermG))
             {
                 GM_CurrentItemId = work->item;
             }
@@ -553,7 +553,7 @@ void EventMouseAct_800C9F14(EventmouseWork *work)
         return;
     }
 
-    if ((work->f208 == 0) && (GM_CurrentItemId == ITEM_MINE_D))
+    if ((work->f208 == 0) && (GM_CurrentItemId == IT_MineDetector))
     {
         GM_ConfigControlAttribute(control, RADAR_VISIBLE);
     }

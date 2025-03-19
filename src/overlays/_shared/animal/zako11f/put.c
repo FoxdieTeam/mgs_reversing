@@ -71,7 +71,7 @@ void ZAKO11F_PutItem_800CD0A8( Zako11FWork *work )
     case 0:
     case 1:
         item.field_4_type   = 4;
-        item.field_6_id     = ITEM_RATION;
+        item.field_6_id     = IT_Ration;
         item.field_8_amount = 1;
         item.field_0_pName  = s11i_dword_800C33D4[0];
         break;
@@ -80,7 +80,7 @@ void ZAKO11F_PutItem_800CD0A8( Zako11FWork *work )
         if ( GM_SocomFlag < 0 )
         {
             item.field_4_type   = 4;
-            item.field_6_id     = ITEM_RATION;
+            item.field_6_id     = IT_Ration;
             item.field_8_amount = 1;
             item.field_0_pName  = s11i_dword_800C33D4[0];
         }
@@ -88,7 +88,7 @@ void ZAKO11F_PutItem_800CD0A8( Zako11FWork *work )
         {
             //Socom bullets
             item.field_4_type = 2;
-            item.field_6_id = WEAPON_SOCOM;
+            item.field_6_id = WP_Socom;
             item.field_8_amount = 12;
             item.field_0_pName  = s11i_dword_800C33D4[1];
         }
@@ -98,13 +98,13 @@ void ZAKO11F_PutItem_800CD0A8( Zako11FWork *work )
         if ( GM_FamasFlag < 0  )
         {
             item.field_4_type   = 4;
-            item.field_6_id     = ITEM_RATION;
+            item.field_6_id     = IT_Ration;
             item.field_8_amount = 1;
             item.field_0_pName  = s11i_dword_800C33D4[0];
         }
         else
         {
-            item.field_6_id     = WEAPON_FAMAS;
+            item.field_6_id     = WP_Famas;
             item.field_4_type   = 2;
             item.field_8_amount = 25;
             item.field_0_pName  = s11i_dword_800C33D4[2];

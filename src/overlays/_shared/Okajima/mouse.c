@@ -500,7 +500,7 @@ void MouseAct_800D4904(MouseWork *work)
 
         s00a_mouse_800D3B68(work, object);
 
-        if (GM_CurrentItemId == ITEM_THERM_G)
+        if (GM_CurrentItemId == IT_ThermG)
         {
             DG_AmbientObjs(object->objs);
             DG_GetLightMatrix2(&sp30, entry->light);

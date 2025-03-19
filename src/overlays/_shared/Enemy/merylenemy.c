@@ -356,7 +356,7 @@ void s07a_meryl_unk_800DAFD8( WatcherWork* work )
         }
     }
 
-    if ( GM_CurrentItemId == ITEM_STEALTH )
+    if ( GM_CurrentItemId == IT_Stealth )
     {
         flag[0] = 0;
     }

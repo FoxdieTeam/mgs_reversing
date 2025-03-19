@@ -28,8 +28,8 @@ STATIC void GoggleManagerAct(GoggleManagerWork *work)
 {
     if (GM_Camera_800B77E8.first_person != 0)
     {
-        if (GM_CurrentWeaponId == WEAPON_STINGER ||
-            GM_CurrentWeaponId == WEAPON_PSG1 ||
+        if (GM_CurrentWeaponId == WP_Stinger ||
+            GM_CurrentWeaponId == WP_Rifle ||
             dword_8009F46C == 1 ||
             (GM_PlayerStatus & PLAYER_NOT_SIGHT))
         {

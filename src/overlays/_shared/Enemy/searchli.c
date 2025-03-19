@@ -777,7 +777,7 @@ void SearchlightAct_800D86F0(SearchlightWork *work)
     DG_SetPos2(&work->control.mov, &work->control.rot);
     ReadRotMatrix(&work->lit_mtx);
 
-    if (GM_CurrentItemId == ITEM_STEALTH)
+    if (GM_CurrentItemId == IT_Stealth)
     {
         work->f2A4 = 0;
         work->f2B4 = 0;

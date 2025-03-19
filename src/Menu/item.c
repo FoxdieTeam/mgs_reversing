@@ -262,9 +262,9 @@ void menu_item_printDescription_8003B614(int itemIndex)
 
     if (GM_FrozenItemsState == 1)
     {
-        if (itemIndex != ITEM_KETCHUP)
+        if (itemIndex != IT_Ketchup)
         {
-            if (itemIndex == ITEM_RATION)
+            if (itemIndex == IT_Ration)
             {
                 itemDescription = frozenItemsDescriptions_8009E444[0];
             }
@@ -275,12 +275,12 @@ void menu_item_printDescription_8003B614(int itemIndex)
         }
     }
 
-    if (itemIndex == ITEM_CARD)
+    if (itemIndex == IT_Card)
     {
         itemDescription[46] = GM_CardFlag + 48;
     }
 
-    if (itemIndex == ITEM_MINE_D && GM_DifficultyFlag >= DIFFICULTY_HARD)
+    if (itemIndex == IT_MineDetector && GM_DifficultyFlag >= DIFFICULTY_HARD)
     {
         itemDescription = (char *)mineDetectorUnusable_8009E44C;
     }
@@ -304,24 +304,24 @@ int menu_item_IsItemDisabled_8003B6D0(int item)
     // If both the weapon and item use the first person view
     if ((GM_WeaponTypes[GM_CurrentWeaponId + 1] & 0x200) && (GM_ItemTypes[item + 1] & 1))
     {
-        return 1;
+        return TRUE;
     }
 
     // Crawling
     if (GM_PlayerStatus & (PLAYER_GROUND | PLAYER_INTRUDE))
     {
-        if ((item == ITEM_C_BOX_A) || (item == ITEM_C_BOX_B) || (item == ITEM_C_BOX_C))
+        if ((item == IT_Box1) || (item == IT_Box2) || (item == IT_Box3))
         {
-            return 1;
+            return TRUE;
         }
     }
     // If a Nikita missile is in flight
     if (dword_8009F46C != 0)
     {
-        if ((item == ITEM_SCOPE) || (item == ITEM_C_BOX_A) || (item == ITEM_C_BOX_B) || (item == ITEM_C_BOX_C) ||
-            (item == ITEM_CAMERA))
+        if ((item == IT_Scope) || (item == IT_Box1) || (item == IT_Box2) || (item == IT_Box3) ||
+            (item == IT_Camera))
         {
-            return 1;
+            return TRUE;
         }
     }
 
@@ -400,8 +400,8 @@ void menu_item_helper_8003B8F0(MenuWork *work, unsigned int *pOt, int xpos, int 
         }
         if (GM_FrozenItemsState == 1)
         {
-            if (pMenuSub->field_0_current.field_0_id == ITEM_RATION ||
-                pMenuSub->field_0_current.field_0_id == ITEM_KETCHUP)
+            if (pMenuSub->field_0_current.field_0_id == IT_Ration ||
+                pMenuSub->field_0_current.field_0_id == IT_Ketchup)
             {
                 menu_draw_frozen(work->field_20_otBuf, xpos, ypos);
             }
@@ -412,7 +412,7 @@ void menu_item_helper_8003B8F0(MenuWork *work, unsigned int *pOt, int xpos, int 
             menu_number_draw_number2(work, xpos, ypos + 11, pMenuSub->field_0_current.field_2_num,
                                      GM_ItemsMax[pMenuSub->field_0_current.field_0_id]);
         }
-        else if (pMenuSub->field_0_current.field_0_id == ITEM_CARD)
+        else if (pMenuSub->field_0_current.field_0_id == IT_Card)
         {
             // Draw the card level text
             textConfig.xpos = xpos;
@@ -421,11 +421,11 @@ void menu_item_helper_8003B8F0(MenuWork *work, unsigned int *pOt, int xpos, int 
             textConfig.colour = 0x64808080;
             _menu_number_draw_string(work->field_20_otBuf, &textConfig, "LV.");
             textConfig.ypos -= 2;
-            _menu_number_draw(work->field_20_otBuf, &textConfig, GM_Items[ITEM_CARD]);
+            _menu_number_draw(work->field_20_otBuf, &textConfig, GM_Items[IT_Card]);
         }
-        else if (pMenuSub->field_0_current.field_0_id == ITEM_TIMER_B)
+        else if (pMenuSub->field_0_current.field_0_id == IT_TimerBomb)
         {
-            menu_number_draw(work, pOt, xpos + 10, ypos + 10, GM_Items[ITEM_TIMER_B], 0);
+            menu_number_draw(work, pOt, xpos + 10, ypos + 10, GM_Items[IT_TimerBomb], 0);
         }
 
         // Draw the item icon
@@ -481,7 +481,7 @@ void menu_8003BBEC(MenuWork *work)
 
     if (work->field_1DC_menu_item.field_0_current.field_2_num <= 0)
     {
-        work->field_1DC_menu_item.field_0_current.field_0_id = ITEM_NONE;
+        work->field_1DC_menu_item.field_0_current.field_0_id = IT_None;
     }
 
     index = work->field_1DC_menu_item.field_0_current.field_0_id;
@@ -495,13 +495,13 @@ void menu_8003BBEC(MenuWork *work)
     }
     else
     {
-        if (index != ITEM_NONE)
+        if (index != IT_None)
         {
             dword_800ABAD0 = index;
         }
 
-        GM_CurrentItemId = ITEM_NONE;
-        work->field_1DC_menu_item.field_0_current.field_0_id = ITEM_NONE;
+        GM_CurrentItemId = IT_None;
+        work->field_1DC_menu_item.field_0_current.field_0_id = IT_None;
     }
 
     work->field_1DC_menu_item.field_12_flashingAnimationFrame = 10;
@@ -543,7 +543,7 @@ int menu_item_update_helper_8003BCD4(MenuWork *work)
             return 0;
         }
 
-        if ((GM_CurrentItemId != ITEM_NONE) && (GM_CurrentItemId != ITEM_CARD))
+        if ((GM_CurrentItemId != IT_None) && (GM_CurrentItemId != IT_Card))
         {
             dword_800ABAD0 = GM_CurrentItemId;
         }
@@ -565,15 +565,15 @@ int menu_item_update_helper_8003BCD4(MenuWork *work)
         {
             if (i == dword_800ABAD0)
             {
-                AssignXY_8003D1A8(&pPanels->field_20_array[panelIndex], ITEM_NONE, 1);
+                AssignXY_8003D1A8(&pPanels->field_20_array[panelIndex], IT_None, 1);
 
                 panelIndex++;
 
                 if (cardVal == 0)
                 {
-                    if (GM_CurrentItemId == ITEM_NONE)
+                    if (GM_CurrentItemId == IT_None)
                     {
-                        AssignXY_8003D1A8(&pPanels->field_20_array[panelIndex], ITEM_CARD, GM_Items[ITEM_CARD]);
+                        AssignXY_8003D1A8(&pPanels->field_20_array[panelIndex], IT_Card, GM_Items[IT_Card]);
                         panelIndex++;
                     }
                     else
@@ -583,7 +583,7 @@ int menu_item_update_helper_8003BCD4(MenuWork *work)
                 }
             }
 
-            if ((GM_Items[i] > 0) && (i != ITEM_CARD))
+            if ((GM_Items[i] > 0) && (i != IT_Card))
             {
                 AssignXY_8003D1A8(&pPanels->field_20_array[panelIndex], i, GM_Items[i]);
                 panelIndex++;
@@ -591,7 +591,7 @@ int menu_item_update_helper_8003BCD4(MenuWork *work)
 
             if (cardVal > 0)
             {
-                AssignXY_8003D1A8(&pPanels->field_20_array[panelIndex], ITEM_CARD, GM_Items[ITEM_CARD]);
+                AssignXY_8003D1A8(&pPanels->field_20_array[panelIndex], IT_Card, GM_Items[IT_Card]);
                 panelIndex++;
                 cardVal = 0;
             }
@@ -607,7 +607,7 @@ int menu_item_update_helper_8003BCD4(MenuWork *work)
             return 0;
         }
 
-        AssignXY_8003D1A8(&pPanels->field_20_array[0], ITEM_NONE, 1);
+        AssignXY_8003D1A8(&pPanels->field_20_array[0], IT_None, 1);
     }
 
     if (!sub_8003F84C(0))
@@ -666,7 +666,7 @@ void menu_item_update_helper2_8003BF1C(MenuWork *work, unsigned int *pOt)
             if (menu_item_IsItemDisabled_8003B6D0(GM_CurrentItemId))
             {
                 last_id = GM_CurrentItemId;
-                GM_CurrentItemId = ITEM_NONE;
+                GM_CurrentItemId = IT_None;
                 work->field_1DC_menu_item.field_12_flashingAnimationFrame = 19;
                 dword_800ABAD0 = last_id;
                 break;
@@ -676,8 +676,8 @@ void menu_item_update_helper2_8003BF1C(MenuWork *work, unsigned int *pOt)
             {
                 switched_weapon = 1;
 
-                if (work->field_1DC_menu_item.field_0_current.field_0_id != ITEM_NONE &&
-                    work->field_1DC_menu_item.field_0_current.field_0_id != ITEM_CARD)
+                if (work->field_1DC_menu_item.field_0_current.field_0_id != IT_None &&
+                    work->field_1DC_menu_item.field_0_current.field_0_id != IT_Card)
                 {
                     dword_800ABAD0 = work->field_1DC_menu_item.field_0_current.field_0_id;
                 }
@@ -736,7 +736,7 @@ void menu_item_update_helper2_8003BF1C(MenuWork *work, unsigned int *pOt)
 
         if (dword_800AB578 != 0)
         {
-            if (pPanel->field_0_id == ITEM_PAL_KEY)
+            if (pPanel->field_0_id == IT_PalKey)
             {
                 menu_drawPalKey_8003B794(work, pOt, GM_ShapeKeyState);
             }
@@ -790,8 +790,8 @@ void UseConsumableItem_8003C24C(Menu_Item_Unknown *pPanels, unsigned short press
 
     switch (pPanel->field_0_id)
     {
-    case ITEM_KETCHUP:
-    case ITEM_RATION:
+    case IT_Ketchup:
+    case IT_Ration:
         if (GM_FrozenItemsState != 0)
         {
             GM_SeSet2(0, 63, SE_RATION_FROZEN);
@@ -804,7 +804,7 @@ void UseConsumableItem_8003C24C(Menu_Item_Unknown *pPanels, unsigned short press
             return;
         }
 
-        if (pPanel->field_0_id == ITEM_RATION)
+        if (pPanel->field_0_id == IT_Ration)
         {
             if (GM_DifficultyFlag == DIFFICULTY_VERY_EASY)
             {
@@ -822,7 +822,7 @@ void UseConsumableItem_8003C24C(Menu_Item_Unknown *pPanels, unsigned short press
         else
         {
             heal_amount = 64;
-            pPanel->field_0_id = ITEM_NONE;
+            pPanel->field_0_id = IT_None;
             GM_KetchupFlag = 0;
         }
 
@@ -837,7 +837,7 @@ void UseConsumableItem_8003C24C(Menu_Item_Unknown *pPanels, unsigned short press
         GM_SeSet2(0, 63, SE_RECOVER_LIFE);
         break;
 
-    case ITEM_MEDICINE:
+    case IT_ColdMedicine:
         if (GM_StatusEvent & EV_CommonCold) // Snake has a cold :(
         {
             GM_StatusEvent &= ~EV_CommonCold;
@@ -848,7 +848,7 @@ void UseConsumableItem_8003C24C(Menu_Item_Unknown *pPanels, unsigned short press
         GM_SeSet2(0, 63, SE_ITEM_MEDICINE);
         break;
 
-    case ITEM_DIAZEPAM:
+    case IT_Diazepam:
         GM_StatusEvent |= EV_Tranquilizer;
 
         if (GM_TranquilizerTimer < 0)
@@ -861,15 +861,15 @@ void UseConsumableItem_8003C24C(Menu_Item_Unknown *pPanels, unsigned short press
         GM_SeSet2(0, 63, SE_ITEM_MEDICINE);
         break;
 
-    case ITEM_TIMER_B:
-        if ((GM_PlayerStatus & 0x362) || dword_8009F46C || menu_item_IsItemDisabled_8003B6D0(ITEM_TIMER_B))
+    case IT_TimerBomb:
+        if ((GM_PlayerStatus & 0x362) || dword_8009F46C || menu_item_IsItemDisabled_8003B6D0(IT_TimerBomb))
         {
             GM_SeSet2(0, 63, SE_BUZZER);
         }
         else
         {
-            pPanel->field_0_id = ITEM_NONE;
-            GM_TimerBombFlag = ITEM_NONE;
+            pPanel->field_0_id = IT_None;
+            GM_TimerBombFlag = IT_None;
             GM_PlayerStatus |= PLAYER_TIMERBOMB_THROWN;
             GM_SeSet2(0, 63, SE_MENU_EXIT);
         }
@@ -925,7 +925,7 @@ void UpdateEnvironmentalEffects_8003C4EC(void)
         }
         // If the player is holding a ration, assumes that the body temperature
         // influences the speed of the freezing process
-        if (GM_CurrentItemId == ITEM_RATION)
+        if (GM_CurrentItemId == IT_Ration)
         {
             if (speed > 0)
             {
@@ -960,7 +960,7 @@ void UpdateEnvironmentalEffects_8003C4EC(void)
         {
             GM_FrozenItemsState = 0;
 
-            if (GM_CurrentItemId == ITEM_RATION || GM_CurrentItemId == ITEM_KETCHUP)
+            if (GM_CurrentItemId == IT_Ration || GM_CurrentItemId == IT_Ketchup)
             {
                 GM_SeSet2(0, 63, SE_SIGNAL04); // Unfreeze sound (also used by Nikita)
             }
@@ -1045,7 +1045,7 @@ void UpdateEnvironmentalEffects_8003C4EC(void)
             break;
         }
 
-        if (menu_item_IsItemDisabled_8003B6D0(ITEM_TIMER_B))
+        if (menu_item_IsItemDisabled_8003B6D0(IT_TimerBomb))
         {
             break;
         }
@@ -1073,11 +1073,11 @@ void UpdateEnvironmentalEffects_8003C4EC(void)
                 mtx.t[2] = GM_PlayerPosition.vz;
                 NewBlast(&mtx, &blastData);
 
-                GM_CurrentItemId = ITEM_NONE;
+                GM_CurrentItemId = IT_None;
                 GM_StatusEvent |= EV_BlownUp;
             }
         }
-        else if (GM_CurrentItemId == ITEM_TIMER_B)
+        else if (GM_CurrentItemId == IT_TimerBomb)
         {
             GM_SeSet2(0, 63, SE_TIMEBOMB_TICK);
         }
@@ -1137,7 +1137,7 @@ void menu_item_update_8003C95C(MenuWork *work, unsigned int *pOt)
                     // Unequip the current item if it is equipped
                     if (itemid >= 0)
                     {
-                        GM_CurrentItemId = ITEM_NONE;
+                        GM_CurrentItemId = IT_None;
                     }
                     else if (!menu_item_IsItemDisabled_8003B6D0(work->field_1DC_menu_item.field_11))
                     {
@@ -1206,8 +1206,8 @@ void sub_8003CB98(MenuWork *work)
 
     menu_restore_nouse();
     field_0_item_id_idx = work->field_1DC_menu_item.field_0_current.field_0_id;
-    if (field_0_item_id_idx != ITEM_NONE ||
-        (field_0_item_id_idx = work->field_1DC_menu_item.field_11, field_0_item_id_idx != ITEM_NONE))
+    if (field_0_item_id_idx != IT_None ||
+        (field_0_item_id_idx = work->field_1DC_menu_item.field_11, field_0_item_id_idx != IT_None))
     {
         pItem = menu_rpk_8003B5E0(field_0_item_id_idx);
         sub_8003CFE0(pItem, 0);

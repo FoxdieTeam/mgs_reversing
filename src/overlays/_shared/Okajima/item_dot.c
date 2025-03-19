@@ -72,7 +72,7 @@ void ItemDotAct_800CC560(ItemDotWork *work)
         return;
     }
 
-    if (GM_CurrentItemId == ITEM_MINE_D)
+    if (GM_CurrentItemId == IT_MineDetector)
     {
         if (work->fA4 == 0)
         {

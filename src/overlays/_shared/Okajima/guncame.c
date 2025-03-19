@@ -245,9 +245,9 @@ int GunCame_800C7224(GunCameWork *work)
     index = 0;
     success = 0;
 
-    if ((GM_CurrentItemId != ITEM_STEALTH) || (work->field_3A4 != 0))
+    if ((GM_CurrentItemId != IT_Stealth) || (work->field_3A4 != 0))
     {
-        if (GM_CurrentItemId == ITEM_STEALTH)
+        if (GM_CurrentItemId == IT_Stealth)
         {
             index = 1;
         }
@@ -874,7 +874,7 @@ void GunCame_Act_800C80F4(GunCameWork *work)
             GM_ActControl(control);
         }
 
-        if (GM_CurrentItemId == ITEM_THERM_G)
+        if (GM_CurrentItemId == IT_ThermG)
         {
             work->field_3D8 = 1;
 
