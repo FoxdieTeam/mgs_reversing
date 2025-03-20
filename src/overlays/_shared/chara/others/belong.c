@@ -6,30 +6,34 @@
 #include "Game/object.h"
 #include "strcode.h"
 
-typedef struct BelongWork
-{
-    GV_ACT         actor;
-    CONTROL       *field_20;
-    OBJECT        *field_24;
-    OBJECT_NO_ROTS field_28;
-    int            field_4C;
-    int            field_50;
-    int            field_54;
-} BelongWork;
-
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
-
 extern int      DG_CurrentGroupID;
 extern CONTROL *GM_WhereList_800B56D0[96];
 extern int      gControlCount_800AB9B4;
 
-void s16d_belong_800C37DC(BelongWork *work)
+/*---------------------------------------------------------------------------*/
+
+typedef struct _Work
+{
+    GV_ACT         actor;
+    CONTROL       *control;
+    OBJECT        *field_24;
+    OBJECT_NO_ROTS field_28;
+    int            field_4C;
+    int            name;
+    int            field_54;
+} Work;
+
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
+
+/*---------------------------------------------------------------------------*/
+
+static void CheckMessage(Work *work)
 {
     GV_MSG *msg;
     int     count;
     int     i;
 
-    i = count = GV_ReceiveMessage(work->field_50, &msg);
+    i = count = GV_ReceiveMessage(work->name, &msg);
     if (count <= 0)
     {
         return;
@@ -55,14 +59,14 @@ void s16d_belong_800C37DC(BelongWork *work)
     }
 }
 
-void s16d_belong_800C38D0(BelongWork *work)
+static void Act(Work *work)
 {
     int group_id;
 
-    s16d_belong_800C37DC(work);
+    CheckMessage(work);
     if (work->field_54 != 1)
     {
-        GM_CurrentMap = work->field_20->map->index;
+        GM_CurrentMap = work->control->map->index;
         work->field_28.objs->group_id = group_id = DG_CurrentGroupID;
         if (work->field_24->objs->flag & DG_FLAG_INVISIBLE)
         {
@@ -75,12 +79,12 @@ void s16d_belong_800C38D0(BelongWork *work)
     }
 }
 
-void s16d_belong_800C3974(BelongWork *work)
+static void Die(Work *work)
 {
     GM_FreeObject((OBJECT *)&work->field_28);
 }
 
-int s16d_belong_800C3994(BelongWork *work, int name, int where)
+static int GetResources(Work *work, int name, int where)
 {
     CONTROL       **whereListIter;
     CONTROL        *control;
@@ -94,7 +98,7 @@ int s16d_belong_800C3994(BelongWork *work, int name, int where)
     model = GCL_StrToInt(GCL_GetOption('m'));
     num_parent = work->field_4C = GCL_StrToInt(GCL_GetOption('u'));
     name_opt = GCL_StrToInt(GCL_GetOption('c'));
-    work->field_20 = NULL;
+    work->control = NULL;
     work->field_24 = NULL;
 
     whereListIter = GM_WhereList_800B56D0;
@@ -105,33 +109,35 @@ int s16d_belong_800C3994(BelongWork *work, int name, int where)
 
         if (control->name == name_opt)
         {
-            work->field_20 = control;
+            work->control = control;
             parent_obj = work->field_24 = (OBJECT *)(control + 1);
             break;
         }
     }
     obj = &work->field_28;
-    if (work->field_20 == NULL)
+    if (work->control == NULL)
     {
         printf("name %d is not exist\n", name_opt);
         return -1;
     }
     GM_InitObjectNoRots(obj, model, 0x6D, 0);
     GM_ConfigObjectRoot((OBJECT *)obj, parent_obj, num_parent);
-    work->field_50 = name;
+    work->name = name;
     work->field_54 = 0;
     return 0;
 }
 
-void *s16d_belong_800C3AD0(int name, int where, int argc, char **argv)
-{
-    BelongWork *work;
+/*---------------------------------------------------------------------------*/
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(BelongWork));
+void *NewBelong(int name, int where, int argc, char **argv)
+{
+    Work *work;
+
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, s16d_belong_800C38D0, s16d_belong_800C3974, "belong.c");
-        if (s16d_belong_800C3994(work, name, where) < 0)
+        GV_SetNamedActor(&work->actor, Act, Die, "belong.c");
+        if (GetResources(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

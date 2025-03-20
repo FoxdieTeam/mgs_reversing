@@ -24,7 +24,7 @@
 #include "../_shared/Okajima/blurpure.h"
 #include "../_shared/Kojo/famaslit.h"
 
-void AN_Breath_800C3AA8(MATRIX *matrix);
+void AN_Breath(MATRIX *matrix);
 
 CHARA _StageCharacterEntries[] = 
 {
@@ -32,10 +32,10 @@ CHARA _StageCharacterEntries[] =
     { CHARA_SHAKE_MODEL, NewShakemdl_800C54E8 },
     { CHARA_PATO_LAMP, NewPatrolLamp_800D7A2C },
     { CHARA_COMMAND, NewCommand_800D0908 },
-    { CHARA_WT_VIEW, NewWaterView_800DBD68 },
+    { CHARA_WT_VIEW, NewWaterView },
     { CHARA_WATCHER, NewSnakeWatcher_800C5034 },
     { CHARA_SMOKE, NewSmoke_800D2BEC },
-    { CHARA_EMITTER, NewEmitter_800C3E50 },
+    { CHARA_EMITTER, NewEmitter },
     { CHARA_ELEVATOR, NewElevator_800D9F30 },
     { CHARA_MOUSE, NewMouse_800D5234 },
     { CHARA_RSURFACE, NewRippleSurface_800D8244 },
@@ -45,7 +45,7 @@ CHARA _StageCharacterEntries[] =
     { CHARA_FADEIO_0003, NewFadeIo_800C4224 },
     { CHARA_FADEIO_0004, NewFadeIo_800C4224 },
     { CHARA_TELOP_0005, (NEWCHARA)NewTelop_800DDD7C },
-    { CHARA_UNKNOWN_000E, (NEWCHARA)AN_Breath_800C3AA8 },
+    { CHARA_UNKNOWN_000E, (NEWCHARA)AN_Breath },
     { CHARA_DEMOKAGE, (NEWCHARA)NewDemoKage_800C48A4 },
     { CHARA_BUBBLE_T, (NEWCHARA)NewBubbleT_800DA380 },
     { CHARA_BUBBLE_P, (NEWCHARA)NewBubbleP_800D9D94 },

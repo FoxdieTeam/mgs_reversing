@@ -17,7 +17,7 @@
 #include "Menu/radio.h"
 #include "memcard/memcard.h"
 #include "Game/game.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "mts/mts.h"
 #include "mts/taskid.h"
 #include "SD/g_sound.h"

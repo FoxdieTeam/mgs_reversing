@@ -263,7 +263,7 @@
 8001FCDC 72 GCL_StartDaemon
 8001FD24 8 GCL_ResetSystem
 8001FD2C 20 GCL_AddCommMulti
-8001FD40 112 GCL_FindCommand
+8001FD40 112 FindCommand
 8001FDB0 120 GCL_Command
 8001FE28 88 set_proc_table
 8001FE80 124 get_proc_block

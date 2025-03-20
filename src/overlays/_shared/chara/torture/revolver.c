@@ -5,7 +5,7 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "Game/control.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Game/object.h"
 
 typedef struct RevolverWork

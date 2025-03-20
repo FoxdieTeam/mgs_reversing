@@ -5,6 +5,10 @@
 #include "SD/g_sound.h"
 #include "strcode.h"
 
+/*---------------------------------------------------------------------------*/
+
+#define EXEC_LEVEL GV_ACTOR_MANAGER
+
 typedef struct _Work
 {
     GV_ACT   actor;
@@ -21,7 +25,9 @@ typedef struct _Work
     int     *f165C;
 } Work;
 
-short met_logo_lines_800C32E8[] = {
+/*---------------------------------------------------------------------------*/
+
+static short met_logo_lines_800C32E8[] = {
     108, // table length
     0x0023, 0x0058, 0x0019, 0x0087, 0x0019, 0x0087, 0x0021,
     0x0087, 0x0023, 0x0058, 0x002e, 0x0058, 0x002e, 0x0058,
@@ -87,9 +93,9 @@ short met_logo_lines_800C32E8[] = {
     0x007d, 0x0024, 0x0087, 0x011a, 0x0087
 };
 
-#define EXEC_LEVEL GV_ACTOR_MANAGER
+/*---------------------------------------------------------------------------*/
 
-char * MetLogo_800C5060( char *buffer, short x, short y, int texture, unsigned int color, char *ot )
+static char *MetLogo_800C5060( char *buffer, short x, short y, int texture, unsigned int color, char *ot )
 {
     DG_TEX   *tex;
     SPRT     *sprt;
@@ -116,7 +122,7 @@ char * MetLogo_800C5060( char *buffer, short x, short y, int texture, unsigned i
     return buffer + sizeof(SPRT) + sizeof(DR_TPAGE);
 }
 
-int MetLogo_800C5190( int shade, int step )
+static int MetLogo_800C5190( int shade, int step )
 {
     int r, gb;
 
@@ -141,7 +147,7 @@ int MetLogo_800C5190( int shade, int step )
     return r | gb << 8 | gb << 16;
 }
 
-void MetLogo_800C51F4( Work *work, char *ot )
+static void MetLogo_800C51F4( Work *work, char *ot )
 {
     int       x0, y0;
     int       x1, y1;
@@ -332,7 +338,7 @@ void MetLogo_800C51F4( Work *work, char *ot )
     }
 }
 
-void MetLogo_800C570C( Work *work, char *ot, int shade )
+static void MetLogo_800C570C( Work *work, char *ot, int shade )
 {
     TILE     *tile;
     DR_TPAGE *tpage;
@@ -351,7 +357,9 @@ void MetLogo_800C570C( Work *work, char *ot, int shade )
     addPrim( ot, tpage );
 }
 
-void MetLogoAct_800C57E8( Work *work )
+/*---------------------------------------------------------------------------*/
+
+static void Act( Work *work )
 {
     char *ot;
     int   shade;
@@ -418,12 +426,12 @@ void MetLogoAct_800C57E8( Work *work )
     }
 }
 
-void MetLogoDie_800C5988( Work *work )
+static void Die( Work *work )
 {
     DG_FrameRate = 2;
 }
 
-void MetLogoGetResources_800C5998( Work *work )
+static void GetResources( Work *work )
 {
     int      i;
     short   *lines;
@@ -449,14 +457,16 @@ void MetLogoGetResources_800C5998( Work *work )
     }
 }
 
-void *NewMetLogo_800C5A90( int *arg0 )
+/*---------------------------------------------------------------------------*/
+
+void *NewMetalLogo( int *arg0 )
 {
     Work *work;
 
-    work = GV_NewActor( EXEC_LEVEL,  sizeof(Work) );
+    work = GV_NewActor( EXEC_LEVEL, sizeof(Work) );
     if ( work != NULL )
     {
-        GV_SetNamedActor( &( work->actor ), MetLogoAct_800C57E8, MetLogoDie_800C5988, "met_logo.c" );
+        GV_SetNamedActor( &( work->actor ), Act, Die, "met_logo.c" );
 
         work->step = 1;
         work->sequence = 0;
@@ -471,7 +481,7 @@ void *NewMetLogo_800C5A90( int *arg0 )
         GM_SetSound( 0x01ffff0b, SD_ASYNC );
         GM_SeSet2( 0, 63, SE_GAMEOVER );
 
-        MetLogoGetResources_800C5998( work );
+        GetResources( work );
     }
 
     return (void *)work;

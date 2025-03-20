@@ -6,28 +6,30 @@
 #include "Game/camera.h"
 #include "strcode.h"
 
-typedef struct IntrCamWork
+extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
+
+/*---------------------------------------------------------------------------*/
+
+typedef struct _Work
 {
     GV_ACT  actor;
-    int     field_20;
-    int     field_24;
-    int     field_28;
-    SVECTOR field_2C;
-    SVECTOR field_34;
-} IntrCamWork;
+    int     name;
+    int     state;
+    int     interp;
+    SVECTOR pos;
+    SVECTOR eye;
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_AFTER2
 
-const char s03e_dword_800CBFD0[] = "intr_cam.c";
+/*---------------------------------------------------------------------------*/
 
-extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
-
-void IntrCam_800C5548(IntrCamWork *work)
+static void CheckMessage(Work *work)
 {
     GV_MSG *msgs;
     int     count;
 
-    count = GV_ReceiveMessage(work->field_20, &msgs);
+    count = GV_ReceiveMessage(work->name, &msgs);
     if (count <= 0)
     {
         return;
@@ -38,79 +40,81 @@ void IntrCam_800C5548(IntrCamWork *work)
         switch (msgs->message[0])
         {
         case HASH_KILL:
-            work->field_24 = 3;
+            work->state = 3;
             break;
 
         case HASH_ON:
-            work->field_24 = 1;
-            work->field_34 = gUnkCameraStruct_800B77B8.eye;
+            work->state = 1;
+            work->eye = gUnkCameraStruct_800B77B8.eye;
             break;
 
         case HASH_OFF:
-            work->field_24 = 2;
+            work->state = 2;
             break;
         }
         msgs++;
     }
 }
 
-void IntrCam_Act_800C5638(IntrCamWork *work)
+static void Act(Work *work)
 {
-    int field_28;
+    int interp;
 
-    IntrCam_800C5548(work);
+    CheckMessage(work);
     if (!(GM_PlayerStatus & PLAYER_INTRUDE))
     {
-        work->field_28 = 8;
+        work->interp = 8;
         return;
     }
 
-    if (work->field_24 >= 2)
+    if (work->state >= 2)
     {
-        if (work->field_24 == 3)
+        if (work->state == 3)
         {
             GV_DestroyActor(&work->actor);
         }
-        work->field_28 = 8;
+        work->interp = 8;
         return;
     }
 
-    field_28 = work->field_28;
-    if (work->field_28 > 0)
+    interp = work->interp;
+    if (work->interp > 0)
     {
-        work->field_28--;
+        work->interp--;
     }
-    GV_NearTimeV(&work->field_34.vx, &work->field_2C.vx, field_28, 3);
-    gUnkCameraStruct_800B77B8.eye = work->field_34;
+    GV_NearTimeV(&work->eye.vx, &work->pos.vx, interp, 3);
+    gUnkCameraStruct_800B77B8.eye = work->eye;
 }
 
-void IntrCam_Die_800C56F0(IntrCamWork *work)
+static void Die(Work *work)
 {
 }
 
-int IntrCam_GetResources_800C56F8(IntrCamWork *work)
+static int GetResources(Work *work)
 {
     GCL_GetOption('p');
-    GCL_StrToSV(GCL_GetParamResult(), &work->field_2C);
-    work->field_24 = 2;
-    work->field_28 = 8;
+    GCL_StrToSV(GCL_GetParamResult(), &work->pos);
+    work->state = 2;
+    work->interp = 8;
     return 0;
 }
 
-void *NewIntrCam_800C5748(int name, int where, int argc, char **argv)
-{
-    IntrCamWork *work;
+/*---------------------------------------------------------------------------*/
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(IntrCamWork));
+void *NewIntrudeCamera(int name, int where, int argc, char **argv)
+{
+    Work *work;
+
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, IntrCam_Act_800C5638, IntrCam_Die_800C56F0, s03e_dword_800CBFD0);
-        if (IntrCam_GetResources_800C56F8(work) < 0)
+        GV_SetNamedActor(&work->actor, Act, Die, "intr_cam.c");
+        if (GetResources(work) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
         }
-        work->field_20 = name;
+        work->name = name;
     }
     return (void *)work;
 }

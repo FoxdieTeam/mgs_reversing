@@ -25,7 +25,7 @@ typedef struct _Work
 
 /*---------------------------------------------------------------------------*/
 
-STATIC void motse_Act(Work *work)
+static void Act(Work *work)
 {
     MotseElem *elem;
     int        i;
@@ -43,12 +43,12 @@ STATIC void motse_Act(Work *work)
     }
 }
 
-STATIC void motse_Die(Work *work)
+static void Die(Work *work)
 {
     GV_DelayedFree(work->elems);
 }
 
-STATIC int motse_GetResources(Work *work, int name)
+static int GetResources(Work *work, int name)
 {
     int            i, count;
     unsigned char *param;
@@ -78,8 +78,8 @@ void *NewMotionSoundEffect(int name, int where, int argc, char **argv)
     work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, motse_Act, motse_Die, "motse.c");
-        if (motse_GetResources(work, name) < 0)
+        GV_SetNamedActor(&work->actor, Act, Die, "motse.c");
+        if (GetResources(work, name) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

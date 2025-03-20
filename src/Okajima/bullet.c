@@ -10,7 +10,7 @@
 #include "libhzd/libhzd.h"
 #include "Game/game.h"
 #include "Game/target.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Anime/animconv/anime.h"
 #include "spark.h"
 
@@ -486,7 +486,7 @@ STATIC void bullet_Act(BulletWork *work)
 
         if (sound != 0)
         {
-            if (GM_CurrentWeaponId == WEAPON_PSG1)
+            if (GM_CurrentWeaponId == WP_Rifle)
             {
                 GM_SeSet2(0, 63, sound);
             }
@@ -667,7 +667,7 @@ void *NewBullet(MATRIX *pMtx, int whichSide, int a3, int noiseLen)
         if ( whichSide == 1 )
         {
 
-            if ( GM_CurrentWeaponId == WEAPON_PSG1 )
+            if ( GM_CurrentWeaponId == WP_Rifle )
             {
                 work->field_154_hp = 256;
             }

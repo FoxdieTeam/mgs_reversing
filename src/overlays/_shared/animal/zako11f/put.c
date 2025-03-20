@@ -1,7 +1,7 @@
 #include "../../../_shared/Enemy/enemy.h"
 #include "Anime/animconv/anime.h"
 #include "Game/item.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Okajima/blood.h"
 
 extern SVECTOR s11i_800C33B4;
@@ -16,7 +16,7 @@ extern void       *PutFuncList_800C33E0[5];
 
 extern ZAKO11F_COMMAND Zako11FCommand_800D5AF8;
 
-void  AN_Breath_800C3AA8( MATRIX *world );
+void  AN_Breath( MATRIX *world );
 void  NewLSight_800D1D2C( SVECTOR *from, SVECTOR *to, int color );
 void *NewBulletEx( int, MATRIX *, int, int, int, int, int, int, int );
 
@@ -47,7 +47,7 @@ void ZAKO11F_PutFog_800CD044(Zako11FWork *work)
     pos.vy = world.t[ 1 ];
     pos.vz = world.t[ 2 ];
 
-    AN_Fog_800CA618( &pos );
+    AN_Fog( &pos );
 }
 
 void ZAKO11F_PutItem_800CD0A8( Zako11FWork *work )
@@ -71,7 +71,7 @@ void ZAKO11F_PutItem_800CD0A8( Zako11FWork *work )
     case 0:
     case 1:
         item.field_4_type   = 4;
-        item.field_6_id     = ITEM_RATION;
+        item.field_6_id     = IT_Ration;
         item.field_8_amount = 1;
         item.field_0_pName  = s11i_dword_800C33D4[0];
         break;
@@ -80,7 +80,7 @@ void ZAKO11F_PutItem_800CD0A8( Zako11FWork *work )
         if ( GM_SocomFlag < 0 )
         {
             item.field_4_type   = 4;
-            item.field_6_id     = ITEM_RATION;
+            item.field_6_id     = IT_Ration;
             item.field_8_amount = 1;
             item.field_0_pName  = s11i_dword_800C33D4[0];
         }
@@ -88,7 +88,7 @@ void ZAKO11F_PutItem_800CD0A8( Zako11FWork *work )
         {
             //Socom bullets
             item.field_4_type = 2;
-            item.field_6_id = WEAPON_SOCOM;
+            item.field_6_id = WP_Socom;
             item.field_8_amount = 12;
             item.field_0_pName  = s11i_dword_800C33D4[1];
         }
@@ -98,13 +98,13 @@ void ZAKO11F_PutItem_800CD0A8( Zako11FWork *work )
         if ( GM_FamasFlag < 0  )
         {
             item.field_4_type   = 4;
-            item.field_6_id     = ITEM_RATION;
+            item.field_6_id     = IT_Ration;
             item.field_8_amount = 1;
             item.field_0_pName  = s11i_dword_800C33D4[0];
         }
         else
         {
-            item.field_6_id     = WEAPON_FAMAS;
+            item.field_6_id     = WP_Famas;
             item.field_4_type   = 2;
             item.field_8_amount = 25;
             item.field_0_pName  = s11i_dword_800C33D4[2];
@@ -194,7 +194,7 @@ void ZAKO11F_PutBreath_800CD358( Zako11FWork *work )
         frame = work->m_ctrl.info2.frame;
         if ( frame == 31 )
         {
-            AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
+            AN_Breath( &work->body.objs->objs[6].world );
         }
     }
     else if ( work->unknown.last_unset == ACTION22 )
@@ -203,7 +203,7 @@ void ZAKO11F_PutBreath_800CD358( Zako11FWork *work )
         if ( ( frame == 15 ) || ( frame == 35 ) || ( frame == 50 ) || ( frame == 60 ) ||
              ( frame == 70 ) || ( frame == 74 ) || ( frame == 78 ) )
         {
-            AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
+            AN_Breath( &work->body.objs->objs[6].world );
         }
     }
     else if ( work->unknown.last_unset == ACTION19 )
@@ -213,14 +213,14 @@ void ZAKO11F_PutBreath_800CD358( Zako11FWork *work )
              ( frame == 70  ) || ( frame == 80  ) || ( frame == 90 ) || ( frame == 95 ) ||
              ( frame == 100 ) || ( frame == 105 ) )
         {
-            AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
+            AN_Breath( &work->body.objs->objs[6].world );
         }
     }
     else
     {
         if ( ( GV_Time % 64 ) == ( work->param.index * 16 ) )
         {
-            AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
+            AN_Breath( &work->body.objs->objs[6].world );
         }
     }
 }

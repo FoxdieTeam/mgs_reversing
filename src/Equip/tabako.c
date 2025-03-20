@@ -10,7 +10,7 @@
 #include "Game/game.h"
 #include "Game/control.h"
 #include "Game/object.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Game/map.h"
 #include "Anime/animconv/anime.h"
 

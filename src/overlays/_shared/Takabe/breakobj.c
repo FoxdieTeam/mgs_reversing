@@ -7,7 +7,12 @@
 #include "Takabe/thing.h"
 #include "Anime/animconv/anime.h"
 
-typedef struct BreakObjWork
+void     Takabe_FreeObjs_800DC820(DG_OBJS *objs);
+DG_OBJS *s00a_unknown3_800DC7BC(int model, LIT *lit);
+
+/*---------------------------------------------------------------------------*/
+
+typedef struct _Work
 {
     GV_ACT  actor;
     int     where;
@@ -24,19 +29,20 @@ typedef struct BreakObjWork
     int     model;
     short   unused1;
     short   unused2;
-} BreakObjWork;
+} Work;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-unsigned short breakobj_msgs_800C36E8[2] = {0xC39B, 0x881D};
-SVECTOR        s08a_dword_800C36EC = {100, 100, 100};
+/*---------------------------------------------------------------------------*/
 
-void     Takabe_FreeObjs_800DC820(DG_OBJS *objs);
-DG_OBJS *s00a_unknown3_800DC7BC(int model, LIT *lit);
+static unsigned short breakobj_msgs_800C36E8[2] = {0xC39B, 0x881D};
+static SVECTOR        breakobj_svec_800C36EC = {100, 100, 100};
 
 void BreakObj_800D5AC0(OBJECT *object, int model, int where, int flag);
 
-void BreakObjAct_800D5670(BreakObjWork *work)
+/*---------------------------------------------------------------------------*/
+
+static void Act(Work *work)
 {
     SVECTOR svec;
     TARGET *target;
@@ -81,7 +87,7 @@ void BreakObjAct_800D5670(BreakObjWork *work)
     GM_ActObject2(&work->object);
 }
 
-void BreakObjDie_800D57C4(BreakObjWork *work)
+static void Die(Work *work)
 {
     if (work->flag2)
     {
@@ -90,20 +96,22 @@ void BreakObjDie_800D57C4(BreakObjWork *work)
     Takabe_FreeObjs_800DC820(work->object.objs);
 }
 
-void BreakObj_800D580C(BreakObjWork *work)
+/*---------------------------------------------------------------------------*/
+
+static void InitBreakTarget(Work *work)
 {
     TARGET *target;
 
     if (work->flag2)
     {
         work->target = target = GM_AllocTarget();
-        GM_SetTarget(target, 4, 2, &s08a_dword_800C36EC);
+        GM_SetTarget(target, 4, 2, &breakobj_svec_800C36EC);
         GM_Target_8002DCCC(target, 1, -1, 0, 0, &DG_ZeroVector);
         target->damaged = 0;
     }
 }
 
-int BreakObjGetResources_800D5894(BreakObjWork *work, int name, int where)
+static int GetResources(Work *work, int name, int where)
 {
     DG_DEF  *def;
     OBJECT  *object;
@@ -135,7 +143,7 @@ int BreakObjGetResources_800D5894(BreakObjWork *work, int name, int where)
     BreakObj_800D5AC0(object, model, work->where, 0x57);
 
     GM_ConfigObjectLight(object, work->light);
-    BreakObj_800D580C(work);
+    InitBreakTarget(work);
 
     def = work->object.objs->def;
     svec3 = &work->svec3;
@@ -162,15 +170,17 @@ int BreakObjGetResources_800D5894(BreakObjWork *work, int name, int where)
     return 0;
 }
 
-void *NewBreakObj_800D5A2C(int name, int where)
-{
-    BreakObjWork *work;
+/*---------------------------------------------------------------------------*/
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(BreakObjWork));
+void *NewBreakObject(int name, int where)
+{
+    Work *work;
+
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, BreakObjAct_800D5670, BreakObjDie_800D57C4, "breakobj.c");
-        if (BreakObjGetResources_800D5894(work, name, where) < 0)
+        GV_SetNamedActor(&work->actor, Act, Die, "breakobj.c");
+        if (GetResources(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

@@ -1,7 +1,7 @@
 #include "meryl72.h"
 
-extern void  AN_Breath_800C3AA8( MATRIX * ) ;
-extern void  AN_Fog_800CA618( SVECTOR *pos ) ;
+extern void  AN_Breath( MATRIX * ) ;
+extern void  AN_Fog( SVECTOR *pos ) ;
 extern void  NewBlood( MATRIX *, int ) ;
 extern void *AN_Unknown_800CA1EC( MATRIX* mat, int mark );
 
@@ -37,7 +37,7 @@ void ML72_PutBreath_800CB35C( Meryl72Work *work )
     svec.vy = mat.t[ 1 ];
     svec.vz = mat.t[ 2 ];
 
-    AN_Fog_800CA618( &svec );
+    AN_Fog( &svec );
 }
 
 void ML72_PutMark_800CB3C0( Meryl72Work* work, int mark )
@@ -56,7 +56,7 @@ void ML72_PutBreath_800CB414( Meryl72Work* work )
 {
     if ( ( GV_Time % 64 ) == ( work->param.fAF8 * 16 ) )
     {
-        AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
+        AN_Breath( &work->body.objs->objs[6].world );
     }
 }
 

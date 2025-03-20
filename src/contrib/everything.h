@@ -15,7 +15,7 @@
 #include <libpress.h>
 #include <libspu.h>
 #include <libsn.h>
-#include "psxsdk.h"
+#include "psxdefs.h"
 
 #include "common.h"
 #include "inline_n.h"
@@ -40,7 +40,7 @@
 #include "Game/control.h"
 #include "Game/camera.h"
 #include "Game/delay.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Game/homing.h"
 #include "Game/item.h"
 #include "Game/jimctrl.h"

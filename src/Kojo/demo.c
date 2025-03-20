@@ -7,7 +7,7 @@
 #include "Anime/animconv/anime.h"
 #include "Bullet/blast.h"
 #include "Game/game.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "strcode.h"
 
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;

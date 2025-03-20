@@ -21,7 +21,7 @@ CHARA _StageCharacterEntries[] =
     { CHARA_ELEVATOR_PANEL, NewEvPanel_800C4AD8 },
     { CHARA_COMMAND, NewCommand_800D0908 },
     { CHARA_WATCHER, NewSnakeWatcher_800C5034 },
-    { CHARA_EMITTER, NewEmitter_800C3E50 },
+    { CHARA_EMITTER, NewEmitter },
     { CHARA_WALL, NewWall_800C3718 },
     { CHARA_DUMMY_WALL, NewDummyWall_800D7384 },
     { CHARA_INFRARED_SENSOR, NewIrCens_800DA66C },

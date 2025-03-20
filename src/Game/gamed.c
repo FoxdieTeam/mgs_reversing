@@ -18,7 +18,7 @@
 #include "libgcl/libgcl.h"
 #include "memcard/memcard.h"
 
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Game/loader.h"
 #include "Game/target.h"
 #include "Game/homing.h"
@@ -122,15 +122,15 @@ extern GameWork GameWork_800B5880;
 
 extern unsigned char *GV_ResidentMemoryBottom;
 
-extern void *gOverlayBase_800AB9C8;
+extern void *StageCharacterEntries;
 extern int gOverlayBinSize_800B5290;
 
 /*---------------------------------------------------------------------------*/
 
 STATIC void GM_ClearWeaponAndItem(void)
 {
-    GM_CurrentWeaponId = WEAPON_NONE;
-    GM_CurrentItemId = WEAPON_NONE;
+    GM_CurrentWeaponId = WP_None;
+    GM_CurrentItemId = IT_None;
 }
 
 STATIC void GM_InitGameSystem(void)
@@ -707,12 +707,12 @@ STATIC int GM_LoadInitBin(unsigned char *buf, int id)
     return 1; // the overlay is embedded in the executable in dev variant
 #endif
 
-    if (((u_char *)gOverlayBase_800AB9C8 + gOverlayBinSize_800B5290) > GV_ResidentMemoryBottom)
+    if (((u_char *)StageCharacterEntries + gOverlayBinSize_800B5290) > GV_ResidentMemoryBottom)
     {
         printf("TOO LARGE STAGE BINARY!!\n");
     }
 
-    memcpy(gOverlayBase_800AB9C8, buf, gOverlayBinSize_800B5290);
+    memcpy(StageCharacterEntries, buf, gOverlayBinSize_800B5290);
     return 1;
 }
 

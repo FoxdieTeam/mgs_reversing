@@ -3,6 +3,6 @@
 #include "../_shared/Onoda/change/change.h"
 
 CHARA _StageCharacterEntries[] = {
-    { CHARA_CHANGE, NewChange_800C455C },
+    { CHARA_CHANGE, NewChange },
     { 0, NULL }
 };

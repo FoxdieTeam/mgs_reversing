@@ -1,7 +1,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "Takabe/thing.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Game/game.h"
 #include "chara/snake/sna_init.h"
 

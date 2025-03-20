@@ -4,7 +4,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "SD/g_sound.h"
 
 extern GV_PAD           GV_PadData_800B05C0[4];
@@ -82,8 +82,8 @@ STATIC void d_blood_Act(DBloodWork *work)
         {
             work->f24_state = 2;
             GM_GameStatus &= ~STATE_PADRELEASE;
-            GM_CurrentItemId = ITEM_NONE;
-            GM_Items[ITEM_KETCHUP] = ITEM_NONE;
+            GM_CurrentItemId = IT_None;
+            GM_Items[IT_Ketchup] = IT_None;
         }
         break;
 

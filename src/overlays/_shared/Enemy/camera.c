@@ -6,7 +6,7 @@
 #include "libdg/libdg.h"
 #include "Game/game.h"
 #include "Game/object.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Bullet/blast.h"
 #include "Okajima/spark.h"
 #include "overlays/_shared/Enemy/enemy.h"
@@ -149,7 +149,7 @@ int s01a_camera_800D4E08(CameraWork *work)
     int      dir;
     int      dir2;
 
-    if (GM_CurrentItemId == ITEM_STEALTH)
+    if (GM_CurrentItemId == IT_Stealth)
     {
         work->field_1DC = 0;
         return 0;

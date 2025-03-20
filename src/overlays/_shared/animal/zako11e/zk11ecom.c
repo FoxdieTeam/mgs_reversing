@@ -5,7 +5,7 @@
 #include "mts/mts.h" // for fprintf
 #include "libhzd/libhzd.h"
 #include "Game/game.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 
 extern ZAKO_COMMAND ZakoCommand_800DF280;
 extern TOPCOMMAND_STRUCT TOPCOMMAND_800DF3A8;
@@ -623,9 +623,6 @@ int s11e_zk11ecom_800DA7F8( char *arg0 )
     }
     return i;
 }
-
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800DA85C.s")
-//extern void s11e_zk11ecom_800DA85C( void );
 
 void s11e_zk11ecom_800DA85C(void)
 {

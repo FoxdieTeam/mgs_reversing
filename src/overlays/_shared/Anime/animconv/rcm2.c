@@ -3,12 +3,47 @@
 #include "Anime/animconv/anime.h"
 #include "strcode.h"
 
-const char anim_data_800D13CC[] = {0x0, '#',  0x2, 0x0,  0x7,  0x0,  0x1a, 0x2, 0x0, 0x1, 0x8, 'j', 'j', 'j', 0xc,
-                                   0x0, '\n', 0x8, 0xf6, 0xf6, 0xf6, 0x2,  0x0, 0x1, 0xd, 0xf, 0x8, 'j', 'j', 'j',
-                                   0xc, 0x0,  0x5, 0x8,  0xec, 0xec, 0xec, 0x2, 0x0, 0x1, 0xd, 0xf};
+/*---------------------------------------------------------------------------*/
 
-ANIMATION anm_800C32F0 = {PCX_RCM_L, 1, 1, 1, 1, 250, 1, 40, 40, 255, NULL, (char *)anim_data_800D13CC};
-ANIMATION anm_800C330C = {PCX_RCM_L, 1, 1, 1, 1, 2500, 1, 40, 40, 255, NULL, (char *)anim_data_800D13CC};
+static const char anim_data_800D13CC[] = {
+    0x00,0x23,0x02,0x00, 0x07,0x00,0x1a,0x02,
+    0x00,0x01,0x08,0x6a, 0x6a,0x6a,0x0c,0x00,
+    0x0a,0x08,0xf6,0xf6, 0xf6,0x02,0x00,0x01,
+    0x0d,0x0f,0x08,0x6a, 0x6a,0x6a,0x0c,0x00,
+    0x05,0x08,0xec,0xec, 0xec,0x02,0x00,0x01,
+    0x0d,0x0f
+};
+
+static ANIMATION anm_800C32F0 = {
+    PCX_RCM_L,                  // field_0_texture_hash
+    1,                          // field_2
+    1,                          // field_4
+    1,                          // n_anims
+    1,                          // n_vertices
+    250,                        // field_A
+    1,                          // field_C
+    40,                         // field_E_xw
+    40,                         // field_10_yh
+    255,                        // field_12_rgb
+    NULL,                       // pre_script
+    (char *)anim_data_800D13CC  // field_18_ptr
+};
+static ANIMATION anm_800C330C = {
+    PCX_RCM_L,                  // field_0_texture_hash
+    1,                          // field_2
+    1,                          // field_4
+    1,                          // n_anims
+    1,                          // n_vertices
+    2500,                       // field_A
+    1,                          // field_C
+    40,                         // field_E_xw
+    40,                         // field_10_yh
+    255,                        // field_12_rgb
+    NULL,                       // pre_script
+    (char *)anim_data_800D13CC  // field_18_ptr
+};
+
+/*---------------------------------------------------------------------------*/
 
 void s08c_800C4194(MATRIX *pos)
 {

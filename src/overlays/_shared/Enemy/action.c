@@ -9,7 +9,7 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "Game/item.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "SD/g_sound.h"
 
 short ActTable_800C3358[54] =
@@ -385,7 +385,7 @@ void s00a_command_800C6320( WatcherWork *work, int time )
     }
 
     if ( time == 130 ) {
-        GM_CurrentItemId = ITEM_NONE ; //Actually should be named GM_Item and IT_None
+        GM_CurrentItemId = IT_None ; //Actually should be named GM_Item and IT_None
     }
 
     if ( time > 150  ) {
@@ -920,7 +920,7 @@ void s00a_command_800C7498( WatcherWork* work, int time )
             svec.vx = work->body.objs->objs[6].world.t[0];
             svec.vy = work->body.objs->objs[6].world.t[1];
             svec.vz = work->body.objs->objs[6].world.t[2];
-            s00a_command_800CA69C( &svec );
+            AN_Piyopiyo( &svec );
         }
         else
         {
@@ -1054,7 +1054,7 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
             SetAction( work, ACTION37, ACTINTERP );
             if ( work->target->field_26_hp <= 0 )
             {
-                if ( GM_CurrentWeaponId == WEAPON_PSG1 )
+                if ( GM_CurrentWeaponId == WP_Rifle )
                 {
                     ENE_PutBlood_800C8FF8( work, 6, 2 );
                 }
@@ -1580,7 +1580,7 @@ void s00a_command_800C8A6C( WatcherWork *work, int time )
         {
             mov = work->control.mov;
             mov.vy += 500;
-            AN_Sleep_800CA7DC( &mov );
+            AN_Sleep( &mov );
             GM_SeSet( &work->control.mov, 0x93 );
 
             if ( work->sn_dis < 1000 && ( GM_PlayerStatus & 1 ) )
@@ -1728,7 +1728,7 @@ extern void  NewAnime_8005D604( MATRIX * );
 extern void *NewBulletEx( int, MATRIX*, int, int, int, int, int, int, int );
 extern void  NewBlood( MATRIX *, int );
 extern void  NewLSight_800D1D2C( SVECTOR *from, SVECTOR *to, int color ) ;
-extern void  AN_Breath_800C3AA8( MATRIX * );
+extern void  AN_Breath( MATRIX * );
 
 void ENE_PutBlood_800C8FF8( WatcherWork* work, int obj_idx, int count )
 {
@@ -1754,7 +1754,7 @@ void ENE_PutFog_800C9068( WatcherWork* work )
     svec.vy = mat.t[ 1 ];
     svec.vz = mat.t[ 2 ];
 
-    AN_Fog_800CA618( &svec );
+    AN_Fog( &svec );
 }
 
 void ENE_PutItem_800C90CC( WatcherWork *work )
@@ -1802,7 +1802,7 @@ void ENE_PutItem_800C90CC( WatcherWork *work )
     case 0:
         //ration
         item.field_4_type   = 4;
-        item.field_6_id     = ITEM_RATION;
+        item.field_6_id     = IT_Ration;
         item.field_8_amount = 1;
         item.field_0_pName  = s00a_off_800C33F4[0];
         break;
@@ -1819,7 +1819,7 @@ void ENE_PutItem_800C90CC( WatcherWork *work )
         {
             //Socom bullets
             item.field_4_type = 2;
-            item.field_6_id = WEAPON_SOCOM;
+            item.field_6_id = WP_Socom;
             if ( work->local_data2 == 0 )
             {
                 item.field_8_amount = 12;
@@ -1954,7 +1954,7 @@ void ENE_PutBreath_800C94B8( WatcherWork *work, int arg1 )
         frame = work->m_ctrl.info2.frame;
         if ( frame == 31 )
         {
-            AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
+            AN_Breath( &work->body.objs->objs[6].world );
         }
     }
     else if ( work->unknown.last_unset == 22 )
@@ -1963,7 +1963,7 @@ void ENE_PutBreath_800C94B8( WatcherWork *work, int arg1 )
         if ( ( frame == 15 ) || ( frame == 35 ) || ( frame == 50 ) || ( frame == 60 ) ||
              ( frame == 70 ) || ( frame == 74 ) || ( frame == 78 ) )
         {
-            AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
+            AN_Breath( &work->body.objs->objs[6].world );
         }
     }
     else if ( work->unknown.last_unset == 19 )
@@ -1973,14 +1973,14 @@ void ENE_PutBreath_800C94B8( WatcherWork *work, int arg1 )
              ( frame == 70  ) || ( frame == 80  ) || ( frame == 90 ) || ( frame == 95 ) ||
              ( frame == 100 ) || ( frame == 105 ) )
         {
-            AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
+            AN_Breath( &work->body.objs->objs[6].world );
         }
     }
     else
     {
         if ( ( GV_Time % 64 ) == ( work->field_B78 * 16 ) )
         {
-            AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
+            AN_Breath( &work->body.objs->objs[6].world );
         }
     }
 }

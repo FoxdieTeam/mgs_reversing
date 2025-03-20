@@ -153,7 +153,7 @@ void s07c_meryl72_unk1_800CB134( Meryl72Work* work, int time)
     }
 }
 
-extern void AN_Sleep_800CA7DC( SVECTOR *pos ) ;
+extern void AN_Sleep( SVECTOR *pos ) ;
 
 void s07c_meryl72_unk1_800CB1B4( Meryl72Work *work, int time )
 {
@@ -173,7 +173,7 @@ void s07c_meryl72_unk1_800CB1B4( Meryl72Work *work, int time )
     {
             mov = work->control.mov;
             mov.vy += 500;
-            AN_Sleep_800CA7DC( &mov );
+            AN_Sleep( &mov );
     }
 
     if ( work->pad.press & 0x1000 )

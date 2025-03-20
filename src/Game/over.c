@@ -4,7 +4,7 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "Game/game.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Game/strctrl.h"
 
 extern GV_PAD           *GM_CurrentPadData;

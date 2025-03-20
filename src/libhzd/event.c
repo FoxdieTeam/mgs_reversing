@@ -5,7 +5,7 @@
 #include "libgcl/libgcl.h"
 #include "Game/game.h"
 #include "Game/delay.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "strcode.h"
 
 STATIC int dword_8009D548[] = {0, 0x20, 0x40, 8, 0x800, 0x10000, 0x20000, 0x1000, 4, 1};

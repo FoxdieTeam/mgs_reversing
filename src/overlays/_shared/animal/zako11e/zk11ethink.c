@@ -1,7 +1,7 @@
 #include "../../../_shared/Enemy/enemy.h"
 
 #include "libhzd/libhzd.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "SD/g_sound.h"
 
 extern int     ZAKOCOM_PlayerAddress_800DF3B8;
@@ -12,7 +12,6 @@ extern ZAKO_COMMAND ZakoCommand_800DF280;
 extern CONTROL *GM_WhereList_800B56D0[94];
 
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D89A0.s")
 void s11e_zk11ecom_800D89A0( ZakoWork* work )
 {
     work->target_addr = ZAKOCOM_PlayerAddress_800DF3B8;
@@ -20,7 +19,6 @@ void s11e_zk11ecom_800D89A0( ZakoWork* work )
     work->target_map  = ZAKOCOM_PlayerMap_800DF3BC;
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D89E8.s")
 void s11e_zk11ecom_800D89E8( ZakoWork* work )
 {
     int v0, v1, a2;
@@ -49,7 +47,6 @@ void s11e_zk11ecom_800D89E8( ZakoWork* work )
     work->target_map = work->start_map;
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D8A44.s")
 void s11e_zk11ecom_800D8A44( ZakoWork* work )
 {
     if ( work->field_B78 == 0xFF )
@@ -70,7 +67,6 @@ void s11e_zk11ecom_800D8A44( ZakoWork* work )
 }
 
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D8AB0.s")
 void s11e_zk11ecom_800D8AB0( ZakoWork* work )
 {
 
@@ -81,7 +77,6 @@ void s11e_zk11ecom_800D8AB0( ZakoWork* work )
     work->pad.mode = TOP_COMM_ALERT;
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D8ACC.s")
 int s11e_zk11ecom_800D8ACC( SVECTOR* arg0, SVECTOR* arg1 )
 {
     SVECTOR svec;
@@ -90,9 +85,6 @@ int s11e_zk11ecom_800D8ACC( SVECTOR* arg0, SVECTOR* arg1 )
     svec.vy = 0;
     return GV_VecDir2(&svec);
 }
-
-
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D8B04.s")
 
 extern int s11e_zk11ecom_800D9B60( int map_id, int val );
 
@@ -210,7 +202,6 @@ int s11e_zk11ecom_800D8DC4( ZakoWork* work )
     return 1;
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D8E64.s")
 int s11e_zk11ecom_800D8E64( ZakoWork* work )
 {
     if ( work->count3 == 0 )
@@ -228,7 +219,6 @@ int s11e_zk11ecom_800D8E64( ZakoWork* work )
     return 0;
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D8ECC.s")
 int s11e_zk11ecom_800D8ECC( ZakoWork  *work)
 {
 
@@ -253,7 +243,6 @@ int s11e_zk11ecom_800D8ECC( ZakoWork  *work)
     return 0;
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/DirectTrace_800D8F3C.s")
 int DirectTrace_800D8F3C( ZakoWork* work, int a1 )
 {
     int x, z;
@@ -273,7 +262,6 @@ int DirectTrace_800D8F3C( ZakoWork* work, int a1 )
     return 1;
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D8FC4.s")
 int s11e_zk11ecom_800D8FC4( ZakoWork *work )
 {
     MAP *map;
@@ -298,7 +286,6 @@ int s11e_zk11ecom_800D8FC4( ZakoWork *work )
     return DirectTrace_800D8F3C( work, 1500 );
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9058.s")
 int s11e_zk11ecom_800D9058( ZakoWork *work )
 {
     int count;
@@ -328,7 +315,6 @@ int s11e_zk11ecom_800D9058( ZakoWork *work )
     return 0;
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D90F4.s")
 int s11e_zk11ecom_800D90F4( ZakoWork *work )
 {
     int count;
@@ -350,7 +336,6 @@ int s11e_zk11ecom_800D90F4( ZakoWork *work )
     return 0;
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9150.s")
 extern SVECTOR s11e_dword_800C36B4[];
 
 int s11e_zk11ecom_800D9150( ZakoWork *work )
@@ -372,7 +357,6 @@ int s11e_zk11ecom_800D9150( ZakoWork *work )
     return 0;
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9214.s")
 int s11e_zk11ecom_800D9214( ZakoWork *work )
 {
     work->pad.press |= 0x10000;
@@ -394,7 +378,6 @@ int s11e_zk11ecom_800D9214( ZakoWork *work )
     return 0;
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9280.s")
 int s11e_zk11ecom_800D9280( ZakoWork *work )
 {
     int count = work->count3;
@@ -417,7 +400,6 @@ int s11e_zk11ecom_800D9280( ZakoWork *work )
     return 0;
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D92EC.s")
 int s11e_zk11ecom_800D92EC( ZakoWork* work )
 {
     int count = work->count3;
@@ -432,7 +414,6 @@ int s11e_zk11ecom_800D92EC( ZakoWork* work )
     return 0;
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9334.s")
 int s11e_zk11ecom_800D9334( ZakoWork *work )
 {
     if ( work->sn_dis < 800 )
@@ -445,7 +426,6 @@ int s11e_zk11ecom_800D9334( ZakoWork *work )
     work->count3++;
     return 0;
 }
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D937C.s")
 
 typedef struct ACTIONPATTERN
 {
@@ -504,7 +484,6 @@ int s11e_zk11ecom_800D937C( ZakoWork *work )
 
 extern ACTIONPATTERN s11e_dword_800C37CC[ 16 ][ 16 ];
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D94C0.s")
 int s11e_zk11ecom_800D94C0( ZakoWork *work )
 {
     work->pad.press |= 0x10000;
@@ -513,13 +492,11 @@ int s11e_zk11ecom_800D94C0( ZakoWork *work )
     return 15;
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9510.s")
 void s11e_zk11ecom_800D9510( ZakoWork* work )
 {
     s11e_zk11ecom_800D8A44( work );
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9530.s")
 void s11e_zk11ecom_800D9530( ZakoWork* work )
 {
     if ( !work->think3 )
@@ -528,7 +505,6 @@ void s11e_zk11ecom_800D9530( ZakoWork* work )
     }
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9560.s")
 void s11e_zk11ecom_800D9560( ZakoWork *work )
 {
     switch( work->think3 )
@@ -572,7 +548,6 @@ void s11e_zk11ecom_800D9560( ZakoWork *work )
 
 extern int ZAKO11E_SetGoPointLast_800D9A9C();
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9654.s")
 void s11e_zk11ecom_800D9654( ZakoWork *work ) {
     int res;
     short x;
@@ -658,7 +633,6 @@ void s11e_zk11ecom_800D9654( ZakoWork *work ) {
     }
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D97D8.s")
 void s11e_zk11ecom_800D97D8( ZakoWork *work )
 {
     int res;
@@ -705,7 +679,6 @@ void s11e_zk11ecom_800D97D8( ZakoWork *work )
     ZAKO11E_SetGoPointLast_800D9A9C();
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D98D8.s")
 void s11e_zk11ecom_800D98D8( ZakoWork* work )
 {
     if ( (work->think3 == 16 ) && s11e_zk11ecom_800D8ECC( work ) )
@@ -716,7 +689,6 @@ void s11e_zk11ecom_800D98D8( ZakoWork* work )
     }
 }
 
-//#pragma INCLUDE_ASM("asm/overlays/s11e/s11e_zk11ecom_800D9928.s")
 void s11e_zk11ecom_800D9928( ZakoWork *work )
 {
     switch ( work->think2 )

@@ -5,7 +5,7 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "Game/map.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Game/object.h"
 #include "Equip/equip.h"
 #include "scn_mask.h"
@@ -205,7 +205,7 @@ STATIC int goggleir_GetResources(GoggleIrWork *work, OBJECT *parent)
         work->head_hidden = TRUE;
     }
 
-    work->manager2 = NewGoggleManager(ITEM_THERM_G);
+    work->manager2 = NewGoggleManager(IT_ThermG);
     if (!work->manager2)
     {
         return -1;

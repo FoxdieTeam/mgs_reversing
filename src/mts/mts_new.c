@@ -4,7 +4,7 @@
 #include <kernel.h>
 #include <libapi.h>
 #include <libetc.h>
-#include "psxsdk.h"
+#include "psxdefs.h"
 
 #include "common.h"
 #include "mts_new.h"

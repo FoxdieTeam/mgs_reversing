@@ -7,7 +7,7 @@
 #include "libhzd/libhzd.h"
 #include "Game/control.h"
 #include "Game/game.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Game/vibrate.h"
 #include "Takabe/thing.h"
 
