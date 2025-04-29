@@ -9,6 +9,16 @@
 #define offsetof(type, member)  ((size_t)&(((type *)0)->member))
 #endif
 
+/* MSVC defines _countof as an extension to stdlib.h */
+#ifndef _countof
+#define _countof(array) (sizeof(array)/sizeof(array[0]))
+#endif
+/* alternate names without the leading underscore */
+#define countof(array)  _countof(array)
+#define COUNTOF(array)  _countof(array)
+
+/*---------------------------------------------------------------------------*/
+
 #ifndef MIN
 #define MIN(x, y)       (((x) < (y)) ? (x) : (y))
 #endif
@@ -21,10 +31,6 @@
 
 #ifndef CLAMP
 #define CLAMP(x, min, max) (MAX(MIN(x, max), min))
-#endif
-
-#ifndef COUNTOF
-#define COUNTOF(array)  (sizeof(array) / sizeof(array[0]))
 #endif
 
 typedef int             BOOL;
