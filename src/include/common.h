@@ -4,6 +4,11 @@
 #include <stddef.h>     // for NULL
 #include <sys/types.h>
 
+/* omitted from the PSX Runtime Library's stddef.h */
+#ifndef offsetof
+#define offsetof(type, member)  ((size_t)&(((type *)0)->member))
+#endif
+
 #ifndef MIN
 #define MIN(x, y)       (((x) < (y)) ? (x) : (y))
 #endif
@@ -20,10 +25,6 @@
 
 #ifndef COUNTOF
 #define COUNTOF(array)  (sizeof(array) / sizeof(array[0]))
-#endif
-
-#ifndef offsetof
-#define offsetof(type, member)  ((size_t)&(((type *)0)->member))
 #endif
 
 typedef int             BOOL;
