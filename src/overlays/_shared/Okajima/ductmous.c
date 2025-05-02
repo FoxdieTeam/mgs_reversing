@@ -231,16 +231,8 @@ void DuctmouseAct_800DA978(DuctmouseWork *work)
 
 void DuctmouseDie_800DA9D4(DuctmouseWork *work)
 {
-    DG_PRIM *prim;
-
     GM_FreeObject(&work->body);
-
-    prim = work->prim;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->prim);
 }
 
 int DuctmouseGetResources_800DAA1C(DuctmouseWork *work, int name, int where)

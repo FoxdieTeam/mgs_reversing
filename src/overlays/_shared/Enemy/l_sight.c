@@ -1,6 +1,7 @@
 #include "common.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
+#include "Game/game.h"
 
 typedef struct _LSightWork
 {
@@ -61,14 +62,7 @@ void LSightAct_800D1C20(LSightWork *work)
 
 void LSightDie_800D1C54(LSightWork *work)
 {
-    DG_PRIM *prim;
-
-    prim = work->prim;
-    if (prim)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->prim);
 }
 
 int LSightGetResources_800D1C90(LSightWork *work, int color)

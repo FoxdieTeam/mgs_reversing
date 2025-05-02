@@ -245,28 +245,9 @@ int BubbleDisplaySceneGetResources_800D8C90(BubDSnWork *work, int where)
 
 void BubbleDisplaySceneDie_800D902C(BubDSnWork *work)
 {
-    DG_PRIM *prim1;
-    DG_PRIM *prim2;
-    DG_PRIM *prim3;
-
-    prim1 = work->field_28;
-    if (prim1)
-    {
-        DG_DequeuePrim(prim1);
-        DG_FreePrim(prim1);
-    }
-    prim2 = work->field_2C;
-    if (prim2)
-    {
-        DG_DequeuePrim(prim2);
-        DG_FreePrim(prim2);
-    }
-    prim3 = work->field_30;
-    if (prim3)
-    {
-        DG_DequeuePrim(prim3);
-        DG_FreePrim(prim3);
-    }
+    GM_FreePrim(work->field_28);
+    GM_FreePrim(work->field_2C);
+    GM_FreePrim(work->field_30);
 }
 
 void *NewBubbleDisplayScene_800D90B4(int name, int where, int argc, char **argv)

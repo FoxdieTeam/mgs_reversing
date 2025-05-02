@@ -1705,37 +1705,13 @@ void option_800C6784(OptionWork *work);
 
 void OptionDie_800C7C8C(OptionWork *work)
 {
-    DG_PRIM *prim;
     int      i;
     void    *buf;
 
-    prim = work->field_24;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
-
-    prim = work->field_2C;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
-
-    prim = work->field_30;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
-
-    prim = work->field_28;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->field_24);
+    GM_FreePrim(work->field_2C);
+    GM_FreePrim(work->field_30);
+    GM_FreePrim(work->field_28);
 
     for (i = 0; i < 31; i++)
     {

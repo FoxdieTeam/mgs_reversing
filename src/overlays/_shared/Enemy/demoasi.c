@@ -143,14 +143,7 @@ int DemoasiGetResources_800C3F60(DemoasiWork *work, int which, int height, int a
 
 void DemoasiDie_800C4110(DemoasiWork *work)
 {
-    DG_PRIM *prim;
-
-    prim = work->prim;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->prim);
 }
 
 void *NewDemoasi_800C414C(MATRIX *world, int which, int height)

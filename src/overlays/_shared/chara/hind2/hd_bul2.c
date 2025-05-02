@@ -119,16 +119,8 @@ void HdBul2Act( HdBul2Work *work )
 
 void HdBul2Die( HdBul2Work *work )
 {
-    DG_PRIM *prim;
-
     GM_FreeControl( &work->control );
-
-    prim = work->prim;
-    if ( prim )
-    {
-        DG_DequeuePrim( prim );
-        DG_FreePrim( prim );
-    }
+    GM_FreePrim( work->prim );
 }
 
 int HdBul2_800C5C68( HdBul2Work *work, SVECTOR *arg1 )

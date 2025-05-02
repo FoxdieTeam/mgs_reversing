@@ -163,14 +163,7 @@ int Asiato2GetResources_800DCFF4(AsiatoWork *work, MATRIX *world, int arg2, int 
 
 void Asiato2Die_800DD1C8(AsiatoWork *work)
 {
-    DG_PRIM *prim;
-
-    prim = work->prim;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->prim);
 
     asiato2_800E4FC0.vec[work->f4C].pad = 0;
     asiato2_800E4FC0.total--;

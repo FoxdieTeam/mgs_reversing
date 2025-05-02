@@ -811,20 +811,8 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
 
 void EvPanelDie_800C457C(EvPanelWork *work)
 {
-    DG_PRIM *prim;
-
-    prim = work->field_20;
-    if (prim)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
-    prim = work->field_24;
-    if (prim)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->field_20);
+    GM_FreePrim(work->field_24);
 }
 
 void s03e_evpanel_800C45E4(POLY_FT4 *packs, DG_TEX *tex, int n_packs)

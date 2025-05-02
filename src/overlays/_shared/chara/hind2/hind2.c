@@ -564,17 +564,9 @@ void Hind2Act( Hind2Work *work )
 
 void Hind2Die( Hind2Work *work )
 {
-    DG_PRIM *prim;
-
     GM_FreeControl( &work->control );
     GM_FreeObject( &work->body );
-
-    prim = work->prim;
-    if ( prim )
-    {
-        DG_DequeuePrim( prim );
-        DG_FreePrim( prim );
-    }
+    GM_FreePrim( work->prim );
 }
 
 int Hind2_800C54C8( Hind2Work *work )

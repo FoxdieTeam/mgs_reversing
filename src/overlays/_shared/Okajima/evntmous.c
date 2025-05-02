@@ -638,19 +638,11 @@ void EventMouseAct_800C9F14(EventmouseWork *work)
 
 void EventMouseDie_800CA2C4(EventmouseWork *work)
 {
-    DG_PRIM *prim;
-
     GM_FreeControl(&work->control);
     GM_FreeObject(&work->body);
     GM_FreeTarget(work->target);
     GM_FreeHomingTarget(work->hom);
-
-    prim = work->prim;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->prim);
 
     if (work->f690 != NULL)
     {

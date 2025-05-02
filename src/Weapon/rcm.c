@@ -199,15 +199,8 @@ STATIC void RcmAct(RcmWork *work)
  */
 STATIC void RcmDie(RcmWork *work)
 {
-    DG_PRIM *prim;
-
     GM_FreeObject((OBJECT *)&work->object);
-    prim = work->prim;
-    if (prim)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->prim);
 }
 
 /**

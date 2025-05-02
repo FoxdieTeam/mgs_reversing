@@ -767,22 +767,10 @@ static void Act(Work *work)
 
 static void Die(Work *work)
 {
-    DG_PRIM *prim;
-    int      i;
+    int i;
 
-    prim = work->field_20;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
-
-    prim = work->field_24;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->field_20);
+    GM_FreePrim(work->field_24);
 
     for (i = 0; i < 8; i++)
     {

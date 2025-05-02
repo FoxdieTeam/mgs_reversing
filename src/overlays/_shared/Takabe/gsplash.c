@@ -211,14 +211,7 @@ void GsplashAct_800D3E14(GsplashWork *work)
 
 void GsplashDie_800D3ED8(GsplashWork *work)
 {
-    DG_PRIM *prim;
-
-    prim = work->prim;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->prim);
 }
 
 int GsplashGetResources_800D3F14(GsplashWork *work, MATRIX *pos)

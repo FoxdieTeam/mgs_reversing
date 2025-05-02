@@ -509,16 +509,10 @@ void PatrolLampAct_800D6678(PatoLmpWork *work)
 
 void PatrolLampDie_800D6C44(PatoLmpWork *work)
 {
-    DG_PRIM *prim;
     void    *allocated;
     int      i;
 
-    prim = work->field_1008;
-    if (prim)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->field_1008);
     for (i = 0; i < work->field_1004; i++)
     {
         GM_FreeObject(&work->field_24[i]);

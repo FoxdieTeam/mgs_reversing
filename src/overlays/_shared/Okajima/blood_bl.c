@@ -38,14 +38,7 @@ int BloodBlGetSvecs_800CD3C0(char *opt, SVECTOR *out)
 
 void BloodBlDie_800CD414(BloodBlWork *work)
 {
-    DG_PRIM *prim;
-
-    prim = work->prim;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->prim);
 }
 
 void BloodBlAct_800CD450(BloodBlWork *work)

@@ -600,18 +600,11 @@ STATIC void item_Act(ItemWork *work)
 
 STATIC void item_Die(ItemWork *work)
 {
-    DG_PRIM       *field_15C_pPrim;   // $s0
     unsigned char *field_120_pScript; // $a0
 
     GM_FreeControl(&work->control);
     GM_FreeObject((OBJECT *)&work->field_9C_kmd);
-
-    field_15C_pPrim = work->field_15C_pPrim;
-    if (field_15C_pPrim)
-    {
-        DG_DequeuePrim(work->field_15C_pPrim);
-        DG_FreePrim(field_15C_pPrim);
-    }
+    GM_FreePrim(work->field_15C_pPrim);
 
     if (work->field_112_state == 2)
     {

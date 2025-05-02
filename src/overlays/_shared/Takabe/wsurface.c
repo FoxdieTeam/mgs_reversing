@@ -336,15 +336,7 @@ void WsurfaceAct_800DB564(WsurfaceWork *work)
 
 void WsurfaceDie_800DB630(WsurfaceWork *work)
 {
-    DG_PRIM *prim;
-
-    prim = work->prim;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
-
+    GM_FreePrim(work->prim);
     GV_Free(work->ptr);
 }
 

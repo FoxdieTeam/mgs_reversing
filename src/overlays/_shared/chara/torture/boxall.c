@@ -228,17 +228,9 @@ void BoxallAct_800C9C58(BoxallWork *work)
 
 void BoxallDie_800C9D34(BoxallWork *work)
 {
-    DG_PRIM *prim;
-
     GM_FreeControl(&work->control);
     GM_FreeObject((OBJECT *)&work->object);
-
-    prim = work->prim;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->prim);
 }
 
 int Boxall_800C9D84(BoxallWork *work)

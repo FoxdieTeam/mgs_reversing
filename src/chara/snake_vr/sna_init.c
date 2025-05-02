@@ -7775,7 +7775,6 @@ void sna_act_8005AD10(SnaInitWork *work)
 void sna_kill_8005B52C(SnaInitWork *work)
 {
     CONTROL     *pCtrl;
-    DG_PRIM     *pPrims;
     GV_ACT      *pShadow;
     GV_ACT      *pWeapon;
     GV_ACT      *pItem;
@@ -7784,13 +7783,7 @@ void sna_kill_8005B52C(SnaInitWork *work)
     GM_FreeControl(&work->control);
     GM_FreeObject(&work->body);
     GM_FreeTarget(work->field_89C_pTarget);
-
-    pPrims = work->field_92C;
-    if (pPrims)
-    {
-        DG_DequeuePrim(pPrims);
-        DG_FreePrim(pPrims);
-    }
+    GM_FreePrim(work->field_92C);
 
     GM_PlayerStance = work->field_A26_stance;
 

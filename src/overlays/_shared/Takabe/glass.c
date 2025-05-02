@@ -146,8 +146,6 @@ void GlassAct_800D302C(GlassWork *work)
 
 void GlassDie_800D3270(GlassWork *work)
 {
-    DG_PRIM* prim;
-
     if (work->has_bounds != 0)
     {
         HZD_DequeueDynamicSegment(work->hzd, &work->bounds[0]);
@@ -155,13 +153,7 @@ void GlassDie_800D3270(GlassWork *work)
     }
 
     GM_FreeTarget(work->target);
-
-    prim = work->prim;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->prim);
 }
 
 void GlassCreateTarget_800D32E4(GlassWork *work, SVECTOR *size)

@@ -190,14 +190,7 @@ void s03e_spark2_800CA428(Spark2Work *work)
 
 void s03e_spark2_800CA520(Spark2Work *work)
 {
-    DG_PRIM *prim;
-
-    prim = work->prim;
-    if (prim)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->prim);
 }
 
 int s03e_spark2_800CA55C(Spark2Work *work, MATRIX *world)

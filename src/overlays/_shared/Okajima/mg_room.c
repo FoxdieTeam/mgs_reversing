@@ -160,21 +160,8 @@ void MgRoomAct_800DAFAC(MgRoom *work)
 
 void MgRoomDie_800DB024(MgRoom *work)
 {
-    DG_PRIM *prim;
-
-    prim = work->prim1;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
-
-    prim = work->prim2;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->prim1);
+    GM_FreePrim(work->prim2);
 }
 
 void MgRoom_800DB08C(MgRoom *work, int index, SVECTOR *pos, SVECTOR *rot, int x, int y)
