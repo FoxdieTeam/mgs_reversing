@@ -148,7 +148,6 @@ void PanelAct_800D1E58(PanelWork *work)
 
 void PanelDie_800D1F98(PanelWork *work)
 {
-    DG_PRIM *prim;
     TARGET  *target;
 
     target = work->target;
@@ -157,12 +156,7 @@ void PanelDie_800D1F98(PanelWork *work)
         GM_FreeTarget(target);
     }
 
-    prim = work->prim;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->prim);
 }
 
 void PanelCreateTarget_800D1FF0(PanelWork *work)

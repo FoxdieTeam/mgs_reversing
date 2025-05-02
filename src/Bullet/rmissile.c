@@ -727,8 +727,6 @@ STATIC void RMissileAct(RMissileWork *work)
 
 STATIC void RMissileDie(RMissileWork *work)
 {
-    DG_PRIM *prim;
-
     GM_FreeControl(&work->control);
     GM_FreeObject((OBJECT *)&work->object);
 
@@ -745,12 +743,7 @@ STATIC void RMissileDie(RMissileWork *work)
     dword_8009F470 = 0;
     Nik_Blast = 0;
 
-    prim = work->field_2D8_prim;
-    if (prim)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->field_2D8_prim);
 
     if (!work->field_117)
     {

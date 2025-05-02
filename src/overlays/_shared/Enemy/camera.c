@@ -1098,18 +1098,10 @@ int CameraGetResources_800D65EC(CameraWork *work, int arg1, int arg2)
 
 void CameraDie_800D678C(CameraWork *work)
 {
-    DG_PRIM *prim;
-
     GM_FreeControl(&work->control);
     GM_FreeObject((OBJECT *)&work->body);
     GM_FreeObject((OBJECT *)&work->field_C0);
-
-    prim = work->field_194;
-    if (prim)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->field_194);
     GM_FreeTarget(work->target);
 }
 

@@ -239,8 +239,7 @@ void Inverlt2Act_800D1580(Inverlt2Work *work)
 
 void Inverlt2Die_800D1858(Inverlt2Work *work)
 {
-    int      i;
-    DG_PRIM *prim;
+    int i;
 
     if (work->fE8 == 1)
     {
@@ -249,12 +248,7 @@ void Inverlt2Die_800D1858(Inverlt2Work *work)
 
     for (i = 0; i < 8; i++)
     {
-        prim = work->prim[i];
-        if (prim != NULL)
-        {
-            DG_DequeuePrim(prim);
-            DG_FreePrim(prim);
-        }
+        GM_FreePrim(work->prim[i]);
     }
 }
 

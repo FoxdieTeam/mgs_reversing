@@ -311,15 +311,9 @@ STATIC int chafgrnd_GetResources(ChaffGrdWork *work, MATRIX *world)
 
 STATIC void chafgrnd_Die(ChaffGrdWork *work)
 {
-    DG_PRIM *prim = work->field_a34;
-
     GM_GameStatus &= ~STATE_CHAFF;
 
-    if (prim)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->field_a34);
 }
 
 /*---------------------------------------------------------------------------*/

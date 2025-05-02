@@ -366,23 +366,9 @@ STATIC void SocomAct( SocomWork *work )
 
 STATIC void SocomDie( SocomWork *work )
 {
-    DG_PRIM *prim1;
-    DG_PRIM *prim2;
-
     GM_FreeObject( (OBJECT *)&work->object );
-    prim1 = work->prim1;
-    if ( prim1 )
-    {
-        DG_DequeuePrim( prim1 );
-        DG_FreePrim( prim1 );
-    }
-
-    prim2 = work->prim2;
-    if ( prim2 )
-    {
-        DG_DequeuePrim( prim2 );
-        DG_FreePrim( prim2 );
-    }
+    GM_FreePrim( work->prim1 );
+    GM_FreePrim( work->prim2 );
 }
 
 STATIC int SocomGetResources( SocomWork *actor, OBJECT *parent, int num_parent )

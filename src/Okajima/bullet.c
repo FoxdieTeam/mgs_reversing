@@ -507,14 +507,7 @@ STATIC void bullet_Act(BulletWork *work)
 
 STATIC void bullet_Die(BulletWork *work)
 {
-    DG_PRIM *prim;
-
-    prim = work->field_8C_pPrim;
-    if (prim)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->field_8C_pPrim);
 }
 
 STATIC int bullet_SetTarget( BulletWork *work, int side )

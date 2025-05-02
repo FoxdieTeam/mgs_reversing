@@ -463,17 +463,10 @@ int ValcanGetResources_800D92A8(ValcanWork *work, int name, int where)
 
 void ValcanDie_800D96E8(ValcanWork *work)
 {
-    DG_PRIM *prim;
-
     GM_FreeControl(&work->control);
     GM_FreeObject(&work->field_A0);
     GM_FreeObject(&work->field_184);
-    prim = work->field_6F4;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->field_6F4);
     GM_FreeTarget(work->field_664);
     GM_FreeTarget(work->field_668);
     GCL_ExecProc(work->field_8D0, NULL);

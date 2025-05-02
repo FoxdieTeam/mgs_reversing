@@ -449,14 +449,7 @@ void IrCensAct_800D9EF8(IrCensWork *work)
 
 void IrCensDie_800DA3DC(IrCensWork *work)
 {
-    DG_PRIM *prim;
-
-    prim = work->prim;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->prim);
 }
 
 int IrCensGetResources_800DA418(IrCensWork *work, int name, int map)

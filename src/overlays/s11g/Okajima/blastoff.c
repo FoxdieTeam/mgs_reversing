@@ -99,14 +99,7 @@ void BlastoffAct_800DBB60(BlastoffWork *work)
 
 void BlastoffDie_800DBC28(BlastoffWork *work)
 {
-    DG_PRIM *prim;
-
-    prim = work->prim;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->prim);
 }
 
 void Blastoff_800DBC64(POLY_FT4 *polys, DG_TEX *tex, int count)

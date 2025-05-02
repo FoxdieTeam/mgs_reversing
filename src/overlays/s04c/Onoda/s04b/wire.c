@@ -590,8 +590,6 @@ void WireAct_800D36B8(WireWork *work)
 
 void WireDie_800D3DB0(WireWork *work)
 {
-    DG_PRIM *prim;
-
     GM_FreeObject(&work->objects[0]);
     GM_FreeObject(&work->objects[3]);
     GM_FreeObject(&work->objects[2]);
@@ -618,12 +616,7 @@ void WireDie_800D3DB0(WireWork *work)
     GM_FreeObject(&work->objects[17]);
     GM_FreeObject(&work->objects[16]);
 
-    prim = work->f1668;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->f1668);
 
     GM_FreeTarget(work->f203C);
     GM_FreeTarget(work->f20D4);

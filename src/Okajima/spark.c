@@ -254,14 +254,7 @@ STATIC void spark_Act(SparkWork *work)
 
 STATIC void spark_Die(SparkWork *work)
 {
-    DG_PRIM *prim;
-
-    prim = work->prim;
-    if (prim)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->prim);
 }
 
 STATIC int spark_GetResources(struct SparkWork *work, MATRIX *a2, int count)

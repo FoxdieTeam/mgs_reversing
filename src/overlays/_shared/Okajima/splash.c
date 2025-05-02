@@ -140,14 +140,7 @@ void SplashAct_800C8BA8(SplashWork *work)
 
 void SplashDie_800C8C30(SplashWork *work)
 {
-    DG_PRIM *prim;
-
-    prim = work->prim;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->prim);
 }
 
 int SplashGetResources_800C8C6C(SplashWork *work, MATRIX *mat, int rgb)

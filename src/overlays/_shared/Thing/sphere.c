@@ -204,14 +204,7 @@ static void Act(Work *work)
 
 static void Die(Work *work)
 {
-    DG_PRIM *prim;
-
-    prim = work->prim;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->prim);
 }
 
 static int GetResources(Work *work, int map)

@@ -374,8 +374,6 @@ void RasenElAct_800CC454(RasenElWork *work)
 
 void RasenElDie_800CCAC4(RasenElWork *work)
 {
-    DG_PRIM *prim;
-
     if (GM_Camera_800B77E8.flags & 0x200)
     {
         GM_SetCameraCallbackFunc_8002FD84(0, 0);
@@ -396,12 +394,7 @@ void RasenElDie_800CCAC4(RasenElWork *work)
         GM_FreeObject(&work->object);
     }
 
-    prim = work->f24C;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->f24C);
 }
 
 int RasenElGetResources_800CCB9C(RasenElWork *work, int name, int map)

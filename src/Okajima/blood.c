@@ -216,14 +216,7 @@ STATIC void blood_Act(BloodWork *work)
 
 STATIC void blood_Die(BloodWork *work)
 {
-    DG_PRIM *prim;
-
-    prim = work->field_24_prims;
-    if (prim)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->field_24_prims);
 }
 
 STATIC int blood_GetResources(BloodWork *work, MATRIX *arg1, int count)

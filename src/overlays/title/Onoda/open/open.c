@@ -1352,37 +1352,13 @@ void OpenAct_800D37F4(OpenWork *work);
 
 void OpenDie_800D4098(OpenWork *work)
 {
-    DG_PRIM *prim;
     int      i;
     void    *buf;
 
-    prim = work->prim[0];
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
-
-    prim = work->prim[2];
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
-
-    prim = work->prim[3];
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
-
-    prim = work->prim[1];
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->prim[0]);
+    GM_FreePrim(work->prim[2]);
+    GM_FreePrim(work->prim[3]);
+    GM_FreePrim(work->prim[1]);
 
     for (i = 0; i < 24; i++)
     {

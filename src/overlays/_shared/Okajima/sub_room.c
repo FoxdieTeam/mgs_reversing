@@ -214,35 +214,10 @@ void SubRoomAct_800C7750(SubRoomWork *work)
 
 void SubRoomDie_800C77D0(SubRoomWork *work)
 {
-    DG_PRIM *prim;
-
-    prim = work->prim2;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
-
-    prim = work->prim1;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
-
-    prim = work->prim3;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
-
-    prim = work->prim4;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->prim2);
+    GM_FreePrim(work->prim1);
+    GM_FreePrim(work->prim3);
+    GM_FreePrim(work->prim4);
 
     GV_DestroyOtherActor(work->txtscn);
 }

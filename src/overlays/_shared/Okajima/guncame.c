@@ -1348,20 +1348,13 @@ int GunCame_GetResources_800C8F64(GunCameWork *work, int name, int where)
 
 void GunCame_Die_800C911C(GunCameWork *work)
 {
-    DG_PRIM *prim;
-
     s03e_dword_800C32B8 = 0;
     dword_8009F480 = 0;
     GM_FreeObject(&work->field_9C);
     GM_FreeObject(&work->field_1F4);
     GM_FreeTarget(work->target);
     GM_FreeControl(&work->control);
-    prim = work->field_328;
-    if (prim)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->field_328);
 }
 
 void *NewGunCame_800C9190(int name, int where, int argc, char **argv)

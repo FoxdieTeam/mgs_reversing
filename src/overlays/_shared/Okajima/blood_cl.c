@@ -44,14 +44,7 @@ void BloodClGetInts_800C9A00(char *opt, int *out)
 
 void BloodClDie_800C9A44(BloodClWork *work)
 {
-    DG_PRIM *prim;
-
-    prim = work->prim;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->prim);
 }
 
 void BloodClAct_800C9A80(BloodClWork *work)

@@ -675,7 +675,6 @@ int wolf2_GetResources2(Wolf2Work *work, int name, int where)
 
 void wolf2_Die(Wolf2Work *work)
 {
-    DG_PRIM    *prim;
     Wolf2Alloc *alloc;
 
     GM_GameStatus &= ~STATE_PADRELEASE;
@@ -685,20 +684,8 @@ void wolf2_Die(Wolf2Work *work)
     GM_FreeObject(&work->weapon);
     GM_FreeTarget(work->f65C);
     GM_FreeTarget(work->f660);
-
-    prim = work->lsight_prim;
-    if (prim)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
-
-    prim = work->f7E0;
-    if (prim)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->lsight_prim);
+    GM_FreePrim(work->f7E0);
 
     alloc = work->alloc;
     if (alloc)

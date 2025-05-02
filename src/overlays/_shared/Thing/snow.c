@@ -360,19 +360,13 @@ static void Die(Work *work)
 {
     int        n_entries;
     SnowEntry *entry;
-    DG_PRIM   *prim;
 
     n_entries = work->n_entries;
     entry = work->entries;
 
     while (n_entries > 0)
     {
-        prim = entry->prim;
-        if (prim != NULL)
-        {
-            DG_DequeuePrim(prim);
-            DG_FreePrim(prim);
-        }
+        GM_FreePrim(entry->prim);
 
         n_entries--;
         entry++;

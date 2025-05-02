@@ -281,14 +281,7 @@ void CapeAct_800D8FF8(CapeWork *work)
 
 void CapeDie_800D9040(CapeWork* work)
 {
-    DG_PRIM *prim;
-
-    prim = work->prim;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->prim);
 }
 
 static inline void CapeInitPack(POLY_GT4 *poly, DG_TEX *tex)
