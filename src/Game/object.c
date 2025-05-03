@@ -59,7 +59,7 @@ void GM_ActObjectMotion(OBJECT *obj)
 
 void GM_InitObjectNoRots( OBJECT_NO_ROTS *obj, int model, int flag, int motion )
 {
-    //ASSERT( model != 0 );
+    ASSERT( model != 0 );
     GV_ZeroMemory( obj, sizeof(OBJECT_NO_ROTS) );
     obj->flag = flag;
     obj->light = &DG_LightMatrix;

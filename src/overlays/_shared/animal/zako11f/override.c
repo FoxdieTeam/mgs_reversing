@@ -1,5 +1,5 @@
 #include "../../../_shared/Enemy/enemy.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 
 extern SVECTOR s11i_dword_800C34C4[3];
 extern int     s11i_dword_800C34DC[3][16];

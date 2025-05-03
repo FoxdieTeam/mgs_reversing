@@ -1,6 +1,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "Game/game.h"
 
 typedef struct EyeflashWork
 {
@@ -97,14 +98,7 @@ void s00a_eyeflash_800D0B18(EyeflashWork *work)
 
 void s00a_eyeflash_800D0BA4(EyeflashWork *work)
 {
-    DG_PRIM *prim;
-
-    prim = work->field_28;
-    if (prim)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->field_28);
 }
 
 int s00a_eyeflash_800D0BE0(EyeflashWork *work, int arg1)

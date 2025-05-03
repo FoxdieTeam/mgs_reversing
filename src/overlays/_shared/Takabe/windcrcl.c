@@ -176,14 +176,7 @@ void WindcrclAct_800CF414(WindcrclWork *work)
 
 void WindcrclDie_800CF55C(WindcrclWork *work)
 {
-    DG_PRIM *prim;
-
-    prim = work->prim;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->prim);
 }
 
 int WindcrclGetResources_800CF598(WindcrclWork *work, MATRIX *world, int arg2)

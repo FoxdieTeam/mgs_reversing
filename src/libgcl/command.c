@@ -17,33 +17,33 @@ int GCL_AddCommMulti(GCL_COMMANDDEF *def)
     return 0;
 }
 
-STATIC GCL_COMMANDLIST *GCL_FindCommand(int id)
+STATIC GCL_COMMANDLIST *FindCommand(int id)
 {
-    GCL_COMMANDLIST *list;
-    int              commandCount;
-    GCL_COMMANDDEF  *def;
+    GCL_COMMANDDEF *def;
 
     for (def = commdef; def != NULL; def = def->next)
     {
-        list = def->commlist;
-        for (commandCount = def->n_commlist; 0 < commandCount; commandCount--)
+        int i;
+        GCL_COMMANDLIST *cl = def->commlist;
+
+        for (i = def->n_commlist; 0 < i; i--)
         {
-            if (list->id == id)
+            if (cl->id == id)
             {
-                return list;
+                return cl;
             }
-            list++;
+            cl++;
         }
     }
     printf("command not found\n");
-    return 0;
+    return NULL;
 }
 
 int GCL_Command(unsigned char *ptr)
 {
-    int commandRet;
+    int ret;
 
-    GCL_COMMANDLIST *pFoundCommand = GCL_FindCommand((unsigned short)GCL_GetShort(ptr));
+    GCL_COMMANDLIST *cmd = FindCommand((unsigned short)GCL_GetShort(ptr));
     GCL_AdvanceShort(ptr);
 
     GCL_SetCommandLine(ptr + GCL_GetByte(ptr));
@@ -51,11 +51,11 @@ int GCL_Command(unsigned char *ptr)
 
     GCL_SetArgTop(ptr); // save command return address?
 
-    commandRet = pFoundCommand->function(ptr);
+    ret = cmd->function(ptr);
 
     GCL_UnsetCommandLine();
 
-    return commandRet;
+    return ret;
 }
 
 STATIC GCL_PROC_TABLE *set_proc_table(GCL_PROC_TABLE *proc_table)
@@ -83,7 +83,7 @@ STATIC unsigned char *get_proc_block(int proc_id)
         }
     }
     printf("PROC %X NOT FOUND\n", proc_id);
-    return 0;
+    return NULL;
 }
 
 void GCL_ForceExecProc(int proc_id, GCL_ARGS *args)
@@ -158,7 +158,7 @@ int GCL_LoadScript(unsigned char *datatop)
 
 int GCL_ExecBlock(unsigned char *top, GCL_ARGS *args)
 {
-    int *pOldStack = GCL_SetArgStack(args);
+    int *old_stack = GCL_SetArgStack(args);
     while (top)
     {
         switch (*top)
@@ -187,7 +187,7 @@ int GCL_ExecBlock(unsigned char *top, GCL_ARGS *args)
             break;
 
         case GCLCODE_NULL:
-            GCL_UnsetArgStack(pOldStack);
+            GCL_UnsetArgStack(old_stack);
             return 0;
 
         default:

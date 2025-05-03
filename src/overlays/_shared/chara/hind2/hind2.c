@@ -3,7 +3,7 @@
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Game/object.h"
 
 typedef struct _Hind2Work
@@ -458,7 +458,7 @@ void Hind2_800C499C( Hind2Work *work )
         break;
     }
 
-    if ( work->f1FC >= 2 && work->f1FC != 8 && work->f1FC != 9 && GM_CurrentWeaponId == WEAPON_STINGER )
+    if ( work->f1FC >= 2 && work->f1FC != 8 && work->f1FC != 9 && GM_CurrentWeaponId == WP_Stinger )
     {
         work->f1FC = 8;
         work->f200 = 0;
@@ -564,17 +564,9 @@ void Hind2Act( Hind2Work *work )
 
 void Hind2Die( Hind2Work *work )
 {
-    DG_PRIM *prim;
-
     GM_FreeControl( &work->control );
     GM_FreeObject( &work->body );
-
-    prim = work->prim;
-    if ( prim )
-    {
-        DG_DequeuePrim( prim );
-        DG_FreePrim( prim );
-    }
+    GM_FreePrim( work->prim );
 }
 
 int Hind2_800C54C8( Hind2Work *work )

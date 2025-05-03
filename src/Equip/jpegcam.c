@@ -12,7 +12,7 @@
 #include "Game/game.h"
 #include "Game/camera.h"
 #include "Game/object.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Menu/menuman.h"
 #include "memcard/memcard.h"
 #include "Thing/sight.h"

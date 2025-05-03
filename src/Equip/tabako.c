@@ -10,7 +10,7 @@
 #include "Game/game.h"
 #include "Game/control.h"
 #include "Game/object.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Game/map.h"
 #include "Anime/animconv/anime.h"
 
@@ -80,17 +80,8 @@ STATIC void TabakoAct(TabakoWork *work)
 
 STATIC void TabakoDie(TabakoWork *work)
 {
-    DG_PRIM *pPrims;
-
     GM_FreeObject((OBJECT *)&work->object);
-
-    pPrims = work->prim;
-
-    if (pPrims)
-    {
-        DG_DequeuePrim(pPrims);
-        DG_FreePrim(pPrims);
-    }
+    GM_FreePrim(work->prim);
 }
 
 STATIC int TabakoGetResources(TabakoWork *work, OBJECT *parent, int num_parent)

@@ -298,14 +298,7 @@ STATIC void claymore_Act(ClaymoreWork *work)
 
 STATIC void claymore_Die(ClaymoreWork *work)
 {
-    DG_PRIM *prim;
-
-    prim = work->field_84_pPrim;
-    if (prim)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->field_84_pPrim);
 }
 
 STATIC void claymore_loader_80073930(ClaymoreWork *work)

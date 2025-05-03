@@ -4,7 +4,7 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "Game/item.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "SD/g_sound.h"
 
 /*** Inlines *****************************************************************/
@@ -942,7 +942,7 @@ void s11e_zk11ecom_800D649C( ZakoWork *work, int time )
             SetAction( work, ACTION37, ACTINTERP );
             if ( work->target->field_26_hp <= 0 )
             {
-                if ( GM_CurrentWeaponId == WEAPON_PSG1 )
+                if ( GM_CurrentWeaponId == WP_Rifle )
                 {
                     ZAKO11E_PutBlood_800D7A14( work, 6, 2 );
                 }
@@ -1463,7 +1463,7 @@ void s11e_zk11ecom_800D7518( ZakoWork *work, int time )
         {
             mov = work->control.mov;
             mov.vy += 500;
-            AN_Sleep_800CA7DC( &mov );
+            AN_Sleep( &mov );
             GM_SeSet( &work->control.mov, 0x93 );
 
             if ( work->sn_dis < 1000 && ( GM_PlayerStatus & 1 ) )
@@ -1606,7 +1606,7 @@ void ZAKO11E_PutFog_800D7A84( ZakoWork *work )
     svec.vy = mat.t[ 1 ];
     svec.vz = mat.t[ 2 ];
 
-    AN_Fog_800CA618( &svec );
+    AN_Fog( &svec );
 }
 
 extern const char *s11e_dword_800C3690[3];
@@ -1631,7 +1631,7 @@ void ZAKO11E_PutItem_800D7AE8( ZakoWork* work )
     {
     case 0:
         item.field_4_type   = 4;
-        item.field_6_id     = ITEM_RATION;
+        item.field_6_id     = IT_Ration;
         item.field_8_amount = 1;
         item.field_0_pName  = s11e_dword_800C3690[0];
         break;
@@ -1642,13 +1642,13 @@ void ZAKO11E_PutItem_800D7AE8( ZakoWork* work )
             {
                 item.field_4_type   = 2;
                 item.field_0_pName  = s11e_dword_800C3690[1];
-                item.field_6_id     = WEAPON_SOCOM;
+                item.field_6_id     = WP_Socom;
                 item.field_8_amount = 12;
             }
             else
             {
                 item.field_4_type = 2;
-                item.field_6_id = WEAPON_FAMAS;
+                item.field_6_id = WP_Famas;
                 item.field_0_pName  = s11e_dword_800C3690[2];
                 item.field_8_amount = 25;
             }
@@ -1718,7 +1718,7 @@ void ZAKO11E_PutSound_800D7CAC( ZakoWork* work )
 }
 
 extern void  NewLSight_800D1D2C( SVECTOR *from, SVECTOR *to, int color ) ;
-extern void  AN_Breath_800C3AA8( MATRIX * );
+extern void  AN_Breath( MATRIX * );
 
 void ZAKO11E_PutBreath_800D7D44( ZakoWork *work, int arg1 )
 {
@@ -1738,7 +1738,7 @@ void ZAKO11E_PutBreath_800D7D44( ZakoWork *work, int arg1 )
         frame = work->m_ctrl.info2.frame;
         if ( frame == 31 )
         {
-            AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
+            AN_Breath( &work->body.objs->objs[6].world );
         }
     }
     else if ( work->unknown.last_unset == 22 )
@@ -1747,7 +1747,7 @@ void ZAKO11E_PutBreath_800D7D44( ZakoWork *work, int arg1 )
         if ( ( frame == 15 ) || ( frame == 35 ) || ( frame == 50 ) || ( frame == 60 ) ||
              ( frame == 70 ) || ( frame == 74 ) || ( frame == 78 ) )
         {
-            AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
+            AN_Breath( &work->body.objs->objs[6].world );
         }
     }
     else if ( work->unknown.last_unset == 19 )
@@ -1757,14 +1757,14 @@ void ZAKO11E_PutBreath_800D7D44( ZakoWork *work, int arg1 )
              ( frame == 70  ) || ( frame == 80  ) || ( frame == 90 ) || ( frame == 95 ) ||
              ( frame == 100 ) || ( frame == 105 ) )
         {
-            AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
+            AN_Breath( &work->body.objs->objs[6].world );
         }
     }
     else
     {
         if ( ( GV_Time % 64 ) == ( work->field_B74 * 16 ) )
         {
-            AN_Breath_800C3AA8( &work->body.objs->objs[6].world );
+            AN_Breath( &work->body.objs->objs[6].world );
         }
     }
 }

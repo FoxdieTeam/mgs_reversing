@@ -186,14 +186,7 @@ void SmokeAct_800D2A80(SmokeWork *work)
 
 void SmokeDie_800D2AA0(SmokeWork *work)
 {
-    DG_PRIM *prim;
-
-    prim = work->field_20;
-    if (prim)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->field_20);
 }
 
 void s00a_smoke_800D2ADC(SVECTOR *svec)

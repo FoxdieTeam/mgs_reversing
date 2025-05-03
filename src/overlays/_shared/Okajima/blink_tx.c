@@ -44,14 +44,7 @@ void BlinkTxShadePacks_800DEA9C(POLY_FT4 *packs, int n_packs, DG_TEX *tex, int s
 
 void BlinkTxDie_800DEB24(BlinkTxWork *work)
 {
-    DG_PRIM *prim;
-
-    prim = work->prim;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->prim);
 }
 
 int BlinkTxGetSvecs_800DEB60(char *opt, SVECTOR *out)

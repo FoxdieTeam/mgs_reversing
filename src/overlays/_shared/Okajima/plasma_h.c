@@ -311,14 +311,7 @@ void PlasmaAct_800D16D0(PlasmaHWork *work)
 
 void PlasmaDie_800D19B4(PlasmaHWork *work)
 {
-    DG_PRIM *prim;
-
-    prim = work->prim;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->prim);
 }
 
 int s08a_plasma_h_800D19F0(PlasmaHWork *work)

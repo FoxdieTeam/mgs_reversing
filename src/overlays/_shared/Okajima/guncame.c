@@ -6,7 +6,7 @@
 #include "Bullet/blast.h"
 #include "Game/control.h"
 #include "Game/game.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Game/object.h"
 #include "SD/g_sound.h"
 
@@ -245,9 +245,9 @@ int GunCame_800C7224(GunCameWork *work)
     index = 0;
     success = 0;
 
-    if ((GM_CurrentItemId != ITEM_STEALTH) || (work->field_3A4 != 0))
+    if ((GM_CurrentItemId != IT_Stealth) || (work->field_3A4 != 0))
     {
-        if (GM_CurrentItemId == ITEM_STEALTH)
+        if (GM_CurrentItemId == IT_Stealth)
         {
             index = 1;
         }
@@ -874,7 +874,7 @@ void GunCame_Act_800C80F4(GunCameWork *work)
             GM_ActControl(control);
         }
 
-        if (GM_CurrentItemId == ITEM_THERM_G)
+        if (GM_CurrentItemId == IT_ThermG)
         {
             work->field_3D8 = 1;
 
@@ -1348,20 +1348,13 @@ int GunCame_GetResources_800C8F64(GunCameWork *work, int name, int where)
 
 void GunCame_Die_800C911C(GunCameWork *work)
 {
-    DG_PRIM *prim;
-
     s03e_dword_800C32B8 = 0;
     dword_8009F480 = 0;
     GM_FreeObject(&work->field_9C);
     GM_FreeObject(&work->field_1F4);
     GM_FreeTarget(work->target);
     GM_FreeControl(&work->control);
-    prim = work->field_328;
-    if (prim)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->field_328);
 }
 
 void *NewGunCame_800C9190(int name, int where, int argc, char **argv)

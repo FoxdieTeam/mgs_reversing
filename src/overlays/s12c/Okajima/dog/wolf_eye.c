@@ -82,21 +82,8 @@ void WolfEyeAct_800D35EC(WolfEyeWork *work)
 
 void WolfEyeDie_800D36C0(WolfEyeWork *work)
 {
-    DG_PRIM *prim;
-
-    prim = work->prim_right;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
-
-    prim = work->prim_left;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->prim_right);
+    GM_FreePrim(work->prim_left);
 }
 
 int WolfEyeGetResources_800D3728(WolfEyeWork *work, MATRIX *root, int *visible)

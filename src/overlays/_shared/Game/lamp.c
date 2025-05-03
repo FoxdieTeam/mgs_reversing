@@ -217,14 +217,7 @@ void d11c_800C37A4(LampWork *work)
 
 void d11c_800C37F0(LampWork *work)
 {
-    DG_PRIM *prim;
-
-    prim = work->field_20_prim;
-    if (prim)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->field_20_prim);
 }
 
 void d11c_800C382C(SVECTOR *vecs, int arg1, int arg2, int len2, int len1)

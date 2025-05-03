@@ -3,7 +3,7 @@
 
 #include "mts/mts.h"
 #include "mts/mts_pad.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Game/game.h"
 
 /***bss****************************************************************/

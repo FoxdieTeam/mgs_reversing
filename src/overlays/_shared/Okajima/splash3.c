@@ -142,14 +142,7 @@ void Splash3Act_800C7F1C(Splash3Work *work)
 
 void Splash3Die_800C80D0(Splash3Work *work)
 {
-    DG_PRIM *prim;
-
-    prim = work->prim;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->prim);
 }
 
 static inline void Splash3InitPack(POLY_FT4 *pack, DG_TEX *tex)

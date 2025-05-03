@@ -14,6 +14,15 @@
 #include "Game/game.h"
 #include "SD/g_sound.h"
 
+extern int    FS_DiskNum_800ACBF0;
+extern GV_PAD GV_PadData_800B05C0[4];
+
+void *NewMetalLogo( int * );
+
+/*---------------------------------------------------------------------------*/
+
+#define EXEC_LEVEL GV_ACTOR_MANAGER
+
 // FIXME: it's the same struct as in change.c (in change overlay)
 typedef struct _Unknown
 {
@@ -29,7 +38,7 @@ typedef struct _Unknown
     short f6;
 } Unknown;
 
-typedef struct _DemoselWork
+typedef struct _Work
 {
     GV_ACT   actor;
     GV_PAD  *pad;
@@ -64,7 +73,7 @@ typedef struct _DemoselWork
     GV_ACT  *metlogo_actor;
     int      fDF8;
     long     argv[3];
-} DemoselWork;
+} Work;
 
 // FIXME: it's the same struct (but different data) as in change.c (in change overlay)
 typedef struct _Unknown2
@@ -79,7 +88,7 @@ typedef struct _Unknown2
 #define GET_COLOR(s) (((s) << 10) | ((s) << 5) | (s))
 #define GET_SHADE(s) ((s) * 25 / 64)
 
-Unknown2 dword_800C3218[10] = {
+static Unknown2 dword_800C3218[10] = {
     {1, 160, 190, GET_COLOR(GET_SHADE(64))},
     {1, 160, 190, GET_COLOR(GET_SHADE(64))},
     {1, 160, 210, GET_COLOR(GET_SHADE(64))},
@@ -93,21 +102,16 @@ Unknown2 dword_800C3218[10] = {
 };
 
 // Same as byte_800C3260 in change overlay
-signed char text_outline_direction_offsets_800C3290[] = {
+static signed char text_outline_direction_offsets_800C3290[] = {
     -1,  0,
      1,  0,
      0,  1,
      0, -1,
 };
 
-void *NewMetLogo_800C5A90( int * );
+/*---------------------------------------------------------------------------*/
 
-extern int    FS_DiskNum_800ACBF0;
-extern GV_PAD GV_PadData_800B05C0[4];
-
-#define EXEC_LEVEL GV_ACTOR_MANAGER
-
-void demosel_800C35FC(DemoselWork *work, int index)
+static void demosel_800C35FC(Work *work, int index)
 {
     RECT rect;
     KCB *kcb;
@@ -136,7 +140,7 @@ void demosel_800C35FC(DemoselWork *work, int index)
     font_clut_update(kcb);
 }
 
-void demosel_800C373C(DemoselWork *work, int index)
+static void demosel_800C373C(Work *work, int index)
 {
     char     *string;
     KCB      *kcb;
@@ -173,7 +177,7 @@ void demosel_800C373C(DemoselWork *work, int index)
     }
 }
 
-void demosel_800C3880(DemoselWork *work, char *ot)
+static void demosel_800C3880(Work *work, char *ot)
 {
     int       found;
     int       index;
@@ -231,7 +235,7 @@ void demosel_800C3880(DemoselWork *work, char *ot)
     }
 }
 
-void demosel_800C3AE4(DemoselWork *work, int index, int fore)
+static void demosel_800C3AE4(Work *work, int index, int fore)
 {
     KCB *kcb;
 
@@ -240,7 +244,7 @@ void demosel_800C3AE4(DemoselWork *work, int index, int fore)
     font_clut_update(kcb);
 }
 
-void demosel_800C3B34(DemoselWork *work)
+static void demosel_800C3B34(Work *work)
 {
     int i;
     int shade;
@@ -292,7 +296,7 @@ void demosel_800C3B34(DemoselWork *work)
     }
 }
 
-void demosel_800C3C74(DemoselWork *work)
+static void demosel_800C3C74(Work *work)
 {
     char   result[8];
     char   result2[8];
@@ -610,7 +614,7 @@ void demosel_800C3C74(DemoselWork *work)
     }
 }
 
-void demosel_800C4214(DemoselWork *work)
+static void demosel_800C4214(Work *work)
 {
     GCL_ARGS args;
     long     data[3];
@@ -667,7 +671,7 @@ void demosel_800C4214(DemoselWork *work)
     }
 }
 
-void demosel_800C434C(DemoselWork *work)
+static void demosel_800C434C(Work *work)
 {
     int i;
 
@@ -677,7 +681,7 @@ void demosel_800C434C(DemoselWork *work)
     }
 }
 
-void demosel_800C436C(DemoselWork *work)
+static void demosel_800C436C(Work *work)
 {
     int i;
 
@@ -687,7 +691,7 @@ void demosel_800C436C(DemoselWork *work)
     }
 }
 
-void demosel_800C438C(DemoselWork *work)
+static void demosel_800C438C(Work *work)
 {
     int i;
 
@@ -697,7 +701,7 @@ void demosel_800C438C(DemoselWork *work)
     }
 }
 
-void demosel_800C43D8(DemoselWork *work, int x0, int y0, int x1, int y1, int shade, int type)
+static void demosel_800C43D8(Work *work, int x0, int y0, int x1, int y1, int shade, int type)
 {
     POLY_FT4 *poly;
     int       i;
@@ -736,7 +740,7 @@ void demosel_800C43D8(DemoselWork *work, int x0, int y0, int x1, int y1, int sha
     }
 }
 
-void demosel_800C46BC(DemoselWork *work)
+static void demosel_800C46BC(Work *work)
 {
     POLY_FT4 *src;
     POLY_FT4 *dst;
@@ -774,7 +778,7 @@ void demosel_800C46BC(DemoselWork *work)
     }
 }
 
-void demosel_800C4880(DemoselWork *work)
+static void demosel_800C4880(Work *work)
 {
     GCL_ARGS args;
     POLY_FT4 *polys;
@@ -1328,14 +1332,16 @@ void demosel_800C4880(DemoselWork *work)
             demosel_800C434C(work);
             work->fDD0 = 0;
             work->fDF8 = 0;
-            work->metlogo_actor = NewMetLogo_800C5A90(&work->fDF8);
+            work->metlogo_actor = NewMetalLogo(&work->fDF8);
         }
         demosel_800C4214(work);
         break;
     }
 }
 
-void demosel_800C57BC(DemoselWork *work)
+/*---------------------------------------------------------------------------*/
+
+static void Act(Work *work)
 {
     demosel_800C4880(work);
     demosel_800C3880(work, DG_ChanlOTag(1));
@@ -1343,26 +1349,15 @@ void demosel_800C57BC(DemoselWork *work)
     work->fDC8++;
 }
 
-void demosel_800C581C(DemoselWork *work)
+static void Die(Work *work)
 {
-    DG_PRIM *prim;
-
-    prim = work->f24;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
-
-    prim = work->f28;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->f24);
+    GM_FreePrim(work->f28);
 }
 
-void demosel_800C5884(DemoselWork *work, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int abe)
+/*---------------------------------------------------------------------------*/
+
+static void demosel_800C5884(Work *work, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int abe)
 {
     setPolyFT4(poly);
     setRGB0(poly, 128, 128, 128);
@@ -1385,7 +1380,7 @@ static inline void demosel_helper_800C58F4(POLY_FT4 *poly, DG_TEX *tex, int uo, 
     poly->clut = tex->clut;
 }
 
-void demosel_800C58F4(DemoselWork *work, int name, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int abe, int type)
+static void demosel_800C58F4(Work *work, int name, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int abe, int type)
 {
     DG_TEX *tex;
 
@@ -1410,7 +1405,7 @@ void demosel_800C58F4(DemoselWork *work, int name, POLY_FT4 *poly, int x0, int y
     }
 }
 
-int demosel_800C5A78(DemoselWork *work, int map)
+static int GetResources(Work *work, int map)
 {
     POLY_FT4 *poly;
     int       i;
@@ -1583,18 +1578,20 @@ int demosel_800C5A78(DemoselWork *work, int map)
     return 0;
 }
 
-void *NewDemosel_800C61B0(int arg0, int arg1)
+/*---------------------------------------------------------------------------*/
+
+void *NewDemoSelect(int arg0, int arg1)
 {
-    DemoselWork *work;
+    Work *work;
 
     GM_GameStatus |= STATE_ALL_OFF;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(DemoselWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, demosel_800C57BC, demosel_800C581C, "demosel.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "demosel.c");
 
-        if (demosel_800C5A78(work, arg1) < 0)
+        if (GetResources(work, arg1) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

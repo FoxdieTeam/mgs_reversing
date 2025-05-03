@@ -10,11 +10,12 @@ STATIC short SECTION(".sbss") dword_800AB93C;
 /*---------------------------------------------------------------------------*/
 
 /**
- * @brief Find in a specific heap the allocation that contains the address.
+ * @brief   Find in a specific heap the allocation that contains the address.
  *
- * @param heap heap to search in
- * @param addr address to search for
- * @return GV_ALLOC* the allocation block that contains the address
+ * @param   heap    heap to search in
+ * @param   addr    address to search for
+ *
+ * @return  the allocation block that contains the address
  */
 void *GV_FindAllocation(GV_HEAP *heap, void *addr)
 {
@@ -52,18 +53,19 @@ void *GV_FindAllocation(GV_HEAP *heap, void *addr)
 }
 
 /**
- * @brief Finds a free memory allocation in the heap that can accommodate a
- * specified size.
+ * @brief   Finds a free memory allocation in the heap that can accommodate
+ *          a specified size.
  *
  * This function iterates through the memory allocations in the specified heap
  * to find a free block that is large enough to accommodate the requested size.
  * If such a block is found, it returns a pointer to the memory allocation.
  * Otherwise, it returns NULL.
  *
- * @param heap Pointer to the heap structure.
- * @param size The size of the memory block to find.
- * @return GV_ALLOC* Pointer to the found memory allocation,
- *         or NULL if no suitable block is found.
+ * @param   heap    pointer to the heap structure
+ * @param   size    size of the memory block to find
+ *
+ * @return  Pointer to the found memory allocation,
+ *          or NULL if no suitable block is found.
  */
 GV_ALLOC *GV_FindFreeMemory(GV_HEAP *heap, int size)
 {
@@ -107,8 +109,8 @@ GV_ALLOC *GV_FindFreeMemory(GV_HEAP *heap, int size)
  * shifting existing allocations to make space for the new allocation.
  * It updates the heap's unit count accordingly.
  *
- * @param heap Pointer to the heap structure.
- * @param alloc Pointer to the memory allocation to be inserted.
+ * @param   heap    pointer to the heap structure
+ * @param   alloc   pointer to the memory allocation to be inserted
  */
 void GV_SplitAllocation(GV_HEAP *heap, GV_ALLOC *alloc)
 {
@@ -141,9 +143,9 @@ void GV_SplitAllocation(GV_HEAP *heap, GV_ALLOC *alloc)
  * This function merges adjacent free memory blocks in the specified heap by
  * shifting memory allocations and updating the heap's unit count.
  *
- * @param heap Pointer to the heap structure.
- * @param alloc Pointer to the memory allocation to start merging from.
- * @param n_unit The number of units to merge.
+ * @param   heap    pointer to the heap structure
+ * @param   alloc   pointer to the memory allocation to start merging from
+ * @param   n_unit  number of units to merge
  */
 void GV_MergeMemory(GV_HEAP *heap, GV_ALLOC *alloc, int n_unit)
 {
@@ -175,11 +177,13 @@ void GV_MergeMemory(GV_HEAP *heap, GV_ALLOC *alloc, int n_unit)
  *
  * This function iterates through the memory allocations in the specified heap
  * and compacts voided (free) memory blocks.
+ *
  * It ensures that all valid allocations are moved to the start of the heap,
  * and any voided blocks are merged into a single free block.
+ *
  * Updates the heap's unit count.
  *
- * @param heap Pointer to the heap structure.
+ * @param   heap    pointer to the heap structure
  */
 void GV_ResetVoidedMemorySystem(GV_HEAP *heap)
 {
@@ -223,10 +227,11 @@ void GV_ResetVoidedMemorySystem(GV_HEAP *heap)
  *
  * This function compacts the memory allocations in the heap by moving them to
  * the start address of the heap.
+ *
  * It iterates through the memory allocations, copying them to the new location
  * if necessary, and updates the allocation metadata.
  *
- * @param heap Pointer to the heap structure.
+ * @param   heap    Pointer to the heap structure.
  */
 void GV_ResetDynamicMemorySystem(GV_HEAP *heap)
 {
@@ -302,10 +307,10 @@ void GV_InitMemorySystemAll(void)
  * structure, aligns the end pointer, and marks the initial memory allocations
  * as free and used.
  *
- * @param which The index of the heap to initialize.
- * @param dynamic A flag indicating whether the heap is dynamic.
- * @param memory Pointer to the start of the memory block.
- * @param size The size of the memory block.
+ * @param   which       index of the heap to initialize
+ * @param   dynamic     flag indicating whether the heap is dynamic
+ * @param   memory      pointer to the start of the memory block
+ * @param   size        size of the memory block
  */
 void GV_InitMemorySystem(int which, int dynamic, void *memory, int size)
 {
@@ -341,7 +346,7 @@ void GV_InitMemorySystem(int which, int dynamic, void *memory, int size)
  * necessary reset operations if the heap has failed or contains voided memory
  * blocks. It resets the heap's flags accordingly.
  *
- * @param which The index of the heap to clear.
+ * @param   which   index of the heap to clear
  */
 void GV_ClearMemorySystem(int which)
 {
@@ -379,7 +384,7 @@ void GV_ClearMemorySystem(int which)
  * It also calculates and prints the total free memory, total voided memory,
  * and the size of the largest free block.
  *
- * @param which The index of the heap to check.
+ * @param   which   index of the heap to check
  */
 void GV_CheckMemorySystem(int which)
 {
@@ -461,7 +466,7 @@ void GV_CheckMemorySystem(int which)
  * Helper function to print information about the memory allocations in the
  * specified heap.
  *
- * @param which The index of the heap.
+ * @param   which   index of the heap to dump
  */
 void GV_DumpMemorySystem(int which)
 {
@@ -541,8 +546,8 @@ void *GV_AllocMemory(int which, int size)
 }
 
 /**
- * @brief Allocates memory from the specified heap with a start pointer for
- *        dynamic allocations.
+ * @brief   Allocates memory from the specified heap with a start pointer
+ *          for dynamic allocations.
  *
  * This function allocates a block of memory from the specified heap. It aligns
  * the requested size to a 16-byte boundary, finds a suitable free block, and
@@ -550,12 +555,13 @@ void *GV_AllocMemory(int which, int size)
  * successful, it returns a pointer to the start of the allocated memory block.
  * If the allocation fails, it sets the heap's failed flag and returns NULL.
  *
- * @param which The index of the heap to allocate memory from.
- * @param size The size of the memory block to allocate.
- * @param pstart GV_ALLOC_STATE_USED for GV_AllocMemory, or a pointer to
- *               receive the start address otherwise.
- * @return void* Pointer to the start of the allocated memory block,
- *               or NULL if the allocation fails.
+ * @param   which   index of the heap to allocate memory from
+ * @param   size    size of the memory block to allocate
+ * @param   pstart  GV_ALLOC_STATE_USED for GV_AllocMemory, or a pointer to
+ *                  receive the start address otherwise
+ *
+ * @return  pointer to the start of the allocated memory block,
+ *          or NULL if the allocation fails
  */
 void *GV_AllocMemory2(int which, int size, void **pstart)
 {
@@ -619,8 +625,8 @@ void *GV_AllocMemory2(int which, int size, void **pstart)
  * in the specified heap and marks it as free. It also handles merging adjacent
  * free blocks and updating the heap's state.
  *
- * @param which The index of the heap.
- * @param addr The address of the memory block to be freed.
+ * @param   which   index of the heap
+ * @param   addr    address of the memory block to be freed
  */
 void GV_FreeMemory(int which, void *addr)
 {
@@ -629,9 +635,7 @@ void GV_FreeMemory(int which, void *addr)
     GV_ALLOC *merge;
     int       units;
 
-    // Get the heap
     heap = &MemorySystems_800AD2F0[which];
-    // Find the memory allocation corresponding to the given address
     alloc = GV_FindAllocation(heap, addr);
 
     // Return if the allocation is not found or already free
@@ -673,8 +677,8 @@ void GV_FreeMemory(int which, void *addr)
  * in the specified heap and marks it as voided. It also sets the heap's flag to
  * indicate that it contains voided allocations.
  *
- * @param which The index of the heap.
- * @param addr Pointer to the address of the memory block to be voided.
+ * @param   which   index of the heap.
+ * @param   addr    pointer to the address of the memory block to be voided
  */
 void GV_FreeMemory2(int which, void **addr)
 {
@@ -694,22 +698,22 @@ void GV_FreeMemory2(int which, void **addr)
 /**
  * @brief Copies a block of memory from one location to another.
  *
- * This function copies a block of memory from the source address `from` to the
- * destination address `to`. It optimizes the copying process by using a
+ * This function copies a block of memory from the source address to the
+ * destination address. It optimizes the copying process by using a
  * structure to copy multiple bytes at a time when possible.
  *
- * @param from Pointer to the source memory block.
- * @param to Pointer to the destination memory block.
- * @param size The size of the memory block in bytes.
+ * @param[in]   from    pointer to the source memory block
+ * @param[out]  to      pointer to the destination memory block
+ * @param[in]   size    size of the memory block in bytes
  */
-void GV_CopyMemory(void *from, void *to, int size)
+void GV_CopyMemory( void *from, void *to, int size )
 {
     typedef struct { long d0, d1, d2, d3; } Unit;
-    int   i, i2;
-    Unit *u0;
-    Unit *u1;
-    char *c0;
-    char *c1;
+    int     i, i2;
+    Unit    *u0;
+    Unit    *u1;
+    char    *c0;
+    char    *c1;
 
     c0 = (char *)from;
     c1 = (char *)to;
@@ -719,101 +723,91 @@ void GV_CopyMemory(void *from, void *to, int size)
     i2 = 3 & (long)to;
 
     // If the alignments are different, copy byte by byte
-    if (i2 != i)
-    {
-        for (i = size; i > 0; --i)
-        {
+    if (i2 != i) {
+        for (i = size; i > 0; --i) {
             *(c1++) = *(c0++);
         }
-    }
-    else
-    {
+    } else {
         // Adjust size to account for initial unaligned bytes
         size = size - i;
-        for (; i > 0; --i)
-        {
+        for (; i > 0; --i) {
             *(c1++) = *(c0++);
         }
         // Copy using the Unit structure for larger chunks
         u0 = (Unit *)c0;
         u1 = (Unit *)c1;
-        for (i = size / sizeof(Unit); i > 0; --i)
-        {
+        for (i = size / sizeof(Unit); i > 0; --i) {
             *(u1++) = *(u0++);
         }
         // Copy any remaining bytes
         c0 = (char *)u0;
         c1 = (char *)u1;
-        for (i = (sizeof(Unit) - 1) & size; i > 0; --i)
-        {
+        for (i = (sizeof(Unit) - 1) & size; i > 0; --i) {
             *(c1++) = *(c0++);
         }
     }
 }
 
-// from leaked original MGS source code
 /**
  * @brief Sets a block of memory to zero.
  *
  * This function sets a block of memory to zero, optimizing the process by
  * using a structure to zero out multiple bytes at a time when possible.
  *
- * @param to Pointer to the start of the memory block to be zeroed.
- * @param size The size of the memory block in bytes.
+ * @param[out]  to      pointer to the memory block to be zeroed
+ * @param[in]   size    size of the memory block in bytes
  */
-void GV_ZeroMemory(void *to, int size)
+// clang-format off
+void GV_ZeroMemory( void *to, int size )
 {
     typedef struct { long d0, d1, d2, d3; } Unit;
-    Unit *u;
-    char *c;
-    int   i;
-    // align the start of the memory block
+    Unit    *u;
+    char    *c;
+    int     i;
+
     c = (char *)to;
     i = 3 & (long)to;
     size -= i;
-    for (; i > 0; --i)
-    {
+    for (; i > 0; --i) {
         *(c++) = 0;
     }
-    // use the Unit structure to zero out larger chunks
     u = (Unit *)c;
-    for (i = size / sizeof(Unit); i > 0; --i)
-    {
+    for (i = size / sizeof(Unit); i > 0; --i) {
         u->d0 = 0;
         u->d1 = 0;
         u->d2 = 0;
         u->d3 = 0;
         u++;
     }
-    // zero out any remaining bytes
     c = (char *)u;
-    for (i = (sizeof(Unit) - 1) & size; i > 0; --i)
-    {
+    for (i = (sizeof(Unit) - 1) & size; i > 0; --i) {
         *(c++) = 0;
     }
 }
+// clang-format on
 
-void *GV_Malloc(int size)
+void *GV_Malloc( int size )
 {
-    return GV_AllocMemory(GV_NORMAL_MEMORY, size);
+    return GV_AllocMemory( GV_NORMAL_MEMORY, size );
 }
 
-void GV_Free(void *addr)
+void GV_Free( void *addr )
 {
-    GV_FreeMemory(GV_NORMAL_MEMORY, addr);
+    GV_FreeMemory( GV_NORMAL_MEMORY, addr );
 }
 
-void GV_DelayedFree(void *addr)
+void GV_DelayedFree( void *addr )
 {
-    GV_FreeMemory2(GV_NORMAL_MEMORY, &addr);
+    GV_FreeMemory2( GV_NORMAL_MEMORY, &addr );
 }
 
 /**
- * @brief Finds and allocates the largest contiguous free memory block in the
- * specified heap.
+ * @brief   Finds and allocates the largest contiguous free memory block
+ *          in the specified heap.
  *
- * @param which The index of the heap to search.
- * @return void* Pointer to the allocated memory block.
+ * @param   which   index of the heap to search
+ *
+ * @return  pointer to the allocated memory block
  */
 void *GV_GetMaxFreeMemory(int which)
 {
@@ -847,12 +841,13 @@ void *GV_GetMaxFreeMemory(int which)
 }
 
 /**
- * @brief Resizes an existing memory allocation in the specified heap.
+ * @brief   Resizes an existing memory allocation in the specified heap.
  *
- * @param which The index of the heap.
- * @param addr The address of the memory block to resize.
- * @param size The new size of the memory block.
- * @return void* Pointer to the resized memory block, or 0 if resizing fails.
+ * @param   which   index of the heap
+ * @param   addr    address of the memory block to resize
+ * @param   size    new size of the memory block
+ *
+ * @return  pointer to the resized memory block, or NULL if resizing fails
  */
 void *GV_SplitMemory(int which, void *addr, int size)
 {

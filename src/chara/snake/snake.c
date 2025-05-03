@@ -6,7 +6,7 @@
 #include "chara/snake/sna_init.h"
 #endif
 
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Game/object.h"
 
 extern short   word_8009EFC0[];

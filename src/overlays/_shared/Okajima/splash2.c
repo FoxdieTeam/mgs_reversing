@@ -151,14 +151,7 @@ void Splash2Act_800DAF38( Work *work )
 
 void Splash2Die_800DB1D4( Work *work )
 {
-    DG_PRIM *prim;
-
-    prim = work->prim;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->prim);
 }
 
 static inline void InitPacks( POLY_FT4 *pack, DG_TEX *tex, int r, int g, int b )

@@ -174,14 +174,7 @@ int KatanaGetResources_800C53E4(KatanaWork *work, MATRIX *pos, SVECTOR *arg2, SV
 
 void KatanaDie_800C5564(KatanaWork *work)
 {
-    DG_PRIM *prim;
-
-    prim = work->prim;
-    if (prim)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->prim);
 }
 
 void *NewKatana_800C55A0(MATRIX *pos, SVECTOR *svec1, SVECTOR *svec2, int *field_44)

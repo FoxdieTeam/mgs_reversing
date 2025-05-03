@@ -3,7 +3,7 @@
 #include "libdg/libdg.h"
 #include "Anime/animconv/anime.h"
 #include "Game/game.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Game/target.h"
 #include "Okajima/spark.h"
 #include "SD/g_sound.h"
@@ -266,14 +266,7 @@ void RevbulltAct_800D2864(RevbulltWork *work)
 
 void RevbulltDie_800D2AEC(RevbulltWork *work)
 {
-    DG_PRIM *prim;
-
-    prim = work->prim;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->prim);
 }
 
 void Revbullt_800D2B28(RevbulltWork *work, int side)

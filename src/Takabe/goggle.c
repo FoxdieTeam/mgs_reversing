@@ -4,7 +4,7 @@
 #include "libgv/libgv.h"
 #include "Game/control.h"
 #include "Game/game.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Game/map.h"
 #include "Game/object.h"
 #include "Equip/equip.h"
@@ -184,7 +184,7 @@ STATIC int goggle_GetResources(GoggleWork *work, OBJECT *parent)
         work->head_hidden = TRUE;
     }
 
-    work->manager = NewGoggleManager(ITEM_N_V_G);
+    work->manager = NewGoggleManager(IT_NVG);
     if (!work->manager)
     {
         return -1;

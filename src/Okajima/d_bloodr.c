@@ -30,14 +30,7 @@ typedef struct _DBloodWorkr
 
 STATIC void d_bloodr_Die(DBloodWorkr *work)
 {
-    DG_PRIM *prim;
-
-    prim = work->field_20_prims;
-    if (prim)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->field_20_prims);
 }
 
 STATIC void d_bloodr_Act(DBloodWorkr *work)

@@ -156,14 +156,7 @@ void DemoKageAct_800C45AC(DemokageWork *work)
 
 void DemoKageDie_800C4630(DemokageWork *work)
 {
-    DG_PRIM *prim;
-
-    prim = work->prim;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->prim);
 }
 
 int DemoKageGetResources_800C466C(DemokageWork *work, OBJECT *parent, SVECTOR arg2, int *arg3, int *arg4, char r, char g, char b, int unused)

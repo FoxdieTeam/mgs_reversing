@@ -104,16 +104,10 @@ STATIC void stngrnd_Act(StunGrenadeWork *work)
 STATIC void stngrnd_FreePrims(StunGrenadeWork *work, int count)
 {
     int i;
-    DG_PRIM *prim;
 
     for (i = 0; i < count; i++)
     {
-        prim = work->field_60_pPrims[i];
-        if (prim)
-        {
-            DG_DequeuePrim(prim);
-            DG_FreePrim(prim);
-        }
+        GM_FreePrim(work->field_60_pPrims[i]);
     }
 }
 

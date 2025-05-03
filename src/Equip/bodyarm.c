@@ -2,7 +2,7 @@
 
 #include "common.h"
 #include "libdg/libdg.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 
 /*---------------------------------------------------------------------------*/
 

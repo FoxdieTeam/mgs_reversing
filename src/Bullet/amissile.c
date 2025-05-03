@@ -363,18 +363,9 @@ STATIC void AMissileAct(AMissileWork *work)
 
 STATIC void AMissileDie(AMissileWork *work)
 {
-    DG_PRIM *prim;
-
     GM_FreeControl(&work->control);
     GM_FreeObject((OBJECT *)&work->body);
-
-    prim = work->prim;
-
-    if (prim)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->prim);
 
     if (target_800BDF00)
     {

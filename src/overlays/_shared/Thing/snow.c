@@ -9,6 +9,13 @@
 #include "Game/camera.h"
 #include "strcode.h"
 
+extern CONTROL         *GM_WhereList_800B56D0[96];
+extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
+
+/*---------------------------------------------------------------------------*/
+
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
+
 typedef struct _SnowEntry
 {
     SVECTOR  pos;
@@ -19,7 +26,7 @@ typedef struct _SnowEntry
     SVECTOR  vecs[32];
 } SnowEntry;
 
-typedef struct _SnowWork
+typedef struct _Work
 {
     GV_ACT    actor;
     SVECTOR   min;
@@ -35,19 +42,16 @@ typedef struct _SnowWork
     int       f2550;
     int       f2554;
     GV_MSG   *msgs;
-} SnowWork;
+} Work;
 
-extern CONTROL         *GM_WhereList_800B56D0[96];
-extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
+/*---------------------------------------------------------------------------*/
 
-SVECTOR snow_svec_800C3854 = {-5000, 0, -10000, 0};
-SVECTOR snow_svec_800C385C = {5000, 8000, 10000, 0};
-SVECTOR snow_svec_800C3864 = {0, -50, 0, 0};
-RECT    snow_rect_800C386C = {0, 0, 2, 2};
+static SVECTOR snow_svec_800C3854 = {-5000, 0, -10000, 0};
+static SVECTOR snow_svec_800C385C = {5000, 8000, 10000, 0};
+static SVECTOR snow_svec_800C3864 = {0, -50, 0, 0};
+static RECT    snow_rect_800C386C = {0, 0, 2, 2};
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
-
-void Snow_800C5234(TILE *packs, int n_packs, int *colors)
+static void Snow_800C5234(TILE *packs, int n_packs, int *colors)
 {
     while (--n_packs >= 0)
     {
@@ -56,7 +60,7 @@ void Snow_800C5234(TILE *packs, int n_packs, int *colors)
     }
 }
 
-void Snow_800C5260(int *colors, int n_colors)
+static void Snow_800C5260(int *colors, int n_colors)
 {
     TILE tile;
     int  color;
@@ -72,7 +76,7 @@ void Snow_800C5260(int *colors, int n_colors)
     }
 }
 
-void Snow_800C52F0(TILE *packs1, TILE *packs2, int n_packs, int *colors)
+static void Snow_800C52F0(TILE *packs1, TILE *packs2, int n_packs, int *colors)
 {
     int rnd;
 
@@ -94,21 +98,21 @@ void Snow_800C52F0(TILE *packs1, TILE *packs2, int n_packs, int *colors)
     }
 }
 
-void Snow_800C53A0(SVECTOR *dst, int x0, int x1, int y0, int y1, int z0, int z1)
+static void Snow_800C53A0(SVECTOR *dst, int x0, int x1, int y0, int y1, int z0, int z1)
 {
     dst->vx = ((rand() & 0xFF) * (x1 - x0)) / 256 + x0;
     dst->vy = ((rand() & 0xFF) * (y1 - y0)) / 256 + y0;
     dst->vz = ((rand() & 0xFF) * (z1 - z0)) / 256 + z0;
 }
 
-void Snow_800C547C(SVECTOR *dst, SVECTOR *src, SVECTOR *scale)
+static void Snow_800C547C(SVECTOR *dst, SVECTOR *src, SVECTOR *scale)
 {
     dst->vx = src->vx + ((rand() & 0xFF) * scale->vx) / 256;
     dst->vy = src->vy + ((rand() & 0xFF) * scale->vy) / 256;
     dst->vz = src->vz + ((rand() & 0xFF) * scale->vz) / 256;
 }
 
-void Snow_800C5544(SnowWork *work, SnowEntry *entry, int arg2, SVECTOR *target)
+static void Snow_800C5544(Work *work, SnowEntry *entry, int arg2, SVECTOR *target)
 {
     SVECTOR  wind;
     int      s0;
@@ -235,7 +239,7 @@ void Snow_800C5544(SnowWork *work, SnowEntry *entry, int arg2, SVECTOR *target)
     }
 }
 
-void Snow_800C592C(SnowWork *work)
+static void Snow_800C592C(Work *work)
 {
     int     n_msgs;
     GV_MSG *msg;
@@ -268,7 +272,7 @@ void Snow_800C592C(SnowWork *work)
     }
 }
 
-int Snow_800C59C8(SnowWork *work, SnowEntry *entry)
+static int Snow_800C59C8(Work *work, SnowEntry *entry)
 {
     SVECTOR  target;
     SVECTOR  scaled;
@@ -300,7 +304,7 @@ int Snow_800C59C8(SnowWork *work, SnowEntry *entry)
     return 1;
 }
 
-void SnowAct_800C5B2C(SnowWork *work)
+static void Act(Work *work)
 {
     SnowEntry *entry;
     int        n_entries;
@@ -352,30 +356,24 @@ void SnowAct_800C5B2C(SnowWork *work)
     }
 }
 
-void SnowDie_800C5C6C(SnowWork *work)
+static void Die(Work *work)
 {
     int        n_entries;
     SnowEntry *entry;
-    DG_PRIM   *prim;
 
     n_entries = work->n_entries;
     entry = work->entries;
 
     while (n_entries > 0)
     {
-        prim = entry->prim;
-        if (prim != NULL)
-        {
-            DG_DequeuePrim(prim);
-            DG_FreePrim(prim);
-        }
+        GM_FreePrim(entry->prim);
 
         n_entries--;
         entry++;
     }
 }
 
-void SnowGetOptions_800C5CD4(SnowWork *work)
+static void GetOptions(Work *work)
 {
     char *opt;
     int n_entries;
@@ -479,7 +477,7 @@ void SnowGetOptions_800C5CD4(SnowWork *work)
     work->f44 = var_a2 * 2 + (z > 0);
 }
 
-int SnowGetResources_800C5F40(SnowWork *work, int map)
+static int GetResources(Work *work, int map)
 {
     SnowEntry *entry;
     int        n_entries;
@@ -509,18 +507,20 @@ int SnowGetResources_800C5F40(SnowWork *work, int map)
     return 0;
 }
 
-void *NewSnow_800C6058(int name, int where, int argc, char **argv)
-{
-    SnowWork *work;
+/*---------------------------------------------------------------------------*/
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(SnowWork));
+void *NewSnow(int name, int where, int argc, char **argv)
+{
+    Work *work;
+
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        SnowGetOptions_800C5CD4(work);
+        GetOptions(work);
 
-        GV_SetNamedActor(&work->actor, SnowAct_800C5B2C, SnowDie_800C5C6C, "snow.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "snow.c");
 
-        if (SnowGetResources_800C5F40(work, where) < 0)
+        if (GetResources(work, where) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

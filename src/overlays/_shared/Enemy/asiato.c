@@ -154,14 +154,8 @@ int AsiatoCharGetResources_800D0F90(AsiatoCharWork *work, MATRIX *mat, int arg2,
 
 void AsiatoCharDie_800D116C(AsiatoCharWork *work)
 {
-    DG_PRIM *prim;
+    GM_FreePrim(work->field_20);
 
-    prim = work->field_20;
-    if (prim != 0)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
     AsiatoPositions[work->field_4C].pad = 0;
     AsiatoPositions[48].vy--;
 }

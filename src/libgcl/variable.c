@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "common.h"
 #include "Game/game.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 
 extern short sv_linkvarbuf_800B44C8[0x60];
 

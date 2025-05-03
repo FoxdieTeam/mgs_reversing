@@ -5,7 +5,7 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 
 void *SECTION(".sbss") MENU_JimakuTextBody;
 

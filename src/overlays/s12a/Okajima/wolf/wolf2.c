@@ -1,6 +1,6 @@
 #include "mts/mts.h"
 #include "Game/camera.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "wolf2.h"
 
 extern int              dword_8009F46C[];
@@ -12,7 +12,7 @@ extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 RECT        wolf2_800C3490 = {0, 0, 2, 2};
 extern char wolf2_800DD6B8[5];
 
-void   AN_Breath_800C3AA8(MATRIX *world);
+void   AN_Breath(MATRIX *world);
 void * NewCinemaScreen_800DE434(int, int);
 int    NewCinemaScreenClose_800DE4CC(void *);
 
@@ -258,7 +258,7 @@ void wolf2_Act(Wolf2Work *work)
     GM_ActObject2(&work->body);
     GM_ActObject2(&work->weapon);
 
-    if (GM_CurrentItemId == ITEM_THERM_G)
+    if (GM_CurrentItemId == IT_ThermG)
     {
         DG_AmbientObjs(work->body.objs);
     }
@@ -307,14 +307,14 @@ void wolf2_Act(Wolf2Work *work)
         {
             if (GM_PlayerPosition.vz < -14000 && work->fA28 == 0)
             {
-                GM_CurrentWeaponId = WEAPON_NONE;
+                GM_CurrentWeaponId = WP_None;
                 GM_GameStatus |= (STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF);
 
-                if (GM_CurrentItemId != ITEM_C_BOX_A &&
-                    GM_CurrentItemId != ITEM_C_BOX_B &&
-                    GM_CurrentItemId != ITEM_C_BOX_C)
+                if (GM_CurrentItemId != IT_Box1 &&
+                    GM_CurrentItemId != IT_Box2 &&
+                    GM_CurrentItemId != IT_Box3)
                 {
-                    GM_CurrentItemId = ITEM_NONE;
+                    GM_CurrentItemId = IT_None;
                 }
 
                 work->cinema_screen = NewCinemaScreen_800DE434(2000000000, 0);
@@ -350,7 +350,7 @@ void wolf2_Act(Wolf2Work *work)
 
     if ((GV_Time % 128) == 0)
     {
-        AN_Breath_800C3AA8(&work->body.objs->objs[6].world);
+        AN_Breath(&work->body.objs->objs[6].world);
 
         if (work->f6FC <= 0 && dword_8009F46C[0] == 1 && (GV_PadData_800B05C0[2].status & PAD_TRIANGLE))
         {
@@ -675,7 +675,6 @@ int wolf2_GetResources2(Wolf2Work *work, int name, int where)
 
 void wolf2_Die(Wolf2Work *work)
 {
-    DG_PRIM    *prim;
     Wolf2Alloc *alloc;
 
     GM_GameStatus &= ~STATE_PADRELEASE;
@@ -685,20 +684,8 @@ void wolf2_Die(Wolf2Work *work)
     GM_FreeObject(&work->weapon);
     GM_FreeTarget(work->f65C);
     GM_FreeTarget(work->f660);
-
-    prim = work->lsight_prim;
-    if (prim)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
-
-    prim = work->f7E0;
-    if (prim)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->lsight_prim);
+    GM_FreePrim(work->f7E0);
 
     alloc = work->alloc;
     if (alloc)

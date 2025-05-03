@@ -4,7 +4,7 @@
 #include "libgcl/libgcl.h"
 #include "Game/target.h"
 #include "Game/game.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Okajima/spark.h"
 #include "Anime/animconv/anime.h"
 #include "Bullet/blast.h"
@@ -93,17 +93,11 @@ void PLamp_800CCBA8(POLY_FT4 *poly, DG_TEX *tex, int r, int g, int b)
 
 void PLampFreePrims_800CCC6C(PLampWork *work, int count)
 {
-    int      i;
-    DG_PRIM *prim;
+    int i;
 
     for (i = 0; i < count; i++)
     {
-        prim = work->prims[i];
-        if (prim != NULL)
-        {
-            DG_DequeuePrim(prim);
-            DG_FreePrim(prim);
-        }
+        GM_FreePrim(work->prims[i]);
     }
 }
 
@@ -183,7 +177,6 @@ void PLamp_800CCE6C(PLampWork *work)
     SVECTOR  svec1;
     SVECTOR  svec2;
     MATRIX   mat;
-    DG_PRIM *prim;
     int      i;
     int      mult;
 
@@ -205,12 +198,7 @@ void PLamp_800CCE6C(PLampWork *work)
 
         for (i = 0; i < 32; i++)
         {
-            prim = work->prims[i];
-            if (prim != NULL)
-            {
-                DG_DequeuePrim(prim);
-                DG_FreePrim(prim);
-            }
+            GM_FreePrim(work->prims[i]);
         }
 
         work->center.vx = -4700;

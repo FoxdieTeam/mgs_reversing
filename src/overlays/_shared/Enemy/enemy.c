@@ -4,23 +4,13 @@
 #include "libdg/libdg.h"
 #include "Anime/animconv/anime.h"
 #include "Game/game.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "strcode.h"
 
 extern CONTROL *GM_WhereList_800B56D0[94];
 
 extern ENEMY_COMMAND EnemyCommand_800E0D98;
 
-extern ANIMATION s00a_dword_800C3418;
-extern ANIMATION s00a_dword_800C3434;
-extern ANIMATION s00a_dword_800C3450;
-extern ANIMATION s00a_dword_800C346C;
-extern short     s00a_dword_800C3488;
-extern short     s00a_dword_800C348A;
-extern short     s00a_dword_800C348C;
-extern ANIMATION s00a_dword_800C3490;
-extern ANIMATION s00a_dword_800C34AC;
-extern ANIMATION s00a_dword_800C34E4;
 extern int       COM_NOISEMODE_DIS_800E0F38;
 extern int       COM_NoiseMinDisID_800E0D44;
 extern int       COM_ALERT_DECREMENT_800E0F60;
@@ -352,7 +342,7 @@ void s00a_command_800C9E68( WatcherWork* work )
         }
     }
 
-    if ( sna_current_item_8004FB38() == ITEM_STEALTH && work->param_blood != 83 )
+    if ( sna_current_item_8004FB38() == IT_Stealth && work->param_blood != 83 )
     {
         flag[0] = 0;
     }

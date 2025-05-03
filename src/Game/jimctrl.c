@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include "common.h"
 #include "libfs/libfs.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Menu/menuman.h"
 #include "SD/sd_cli.h"
 

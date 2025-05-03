@@ -13,7 +13,7 @@ short s01a_dword_800C3CE4[] = {
     0x000C, 0x000D, 0x000E,
 };
 
-void AN_Breath_800C3AA8(MATRIX *world);
+void AN_Breath(MATRIX *world);
 
 void Demodoll_800DD860(DollWork *work, int);
 void Demodoll_800DDB18(DollWork *work, int);
@@ -395,7 +395,7 @@ void Demodoll_800DDD84(DollWork *work)
 
     if ((work->fE3E != 0) && ((GV_Time % 64) == (work->fE3E * 16)))
     {
-        AN_Breath_800C3AA8(&body->objs->objs[work->fE3C].world);
+        AN_Breath(&body->objs->objs[work->fE3C].world);
     }
 
     control->height = body->height;
