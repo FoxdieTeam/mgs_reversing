@@ -17,7 +17,7 @@
 #include "Menu/radio.h"
 #include "memcard/memcard.h"
 #include "Game/game.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "mts/mts.h"
 #include "mts/taskid.h"
 #include "SD/g_sound.h"
@@ -925,28 +925,9 @@ void CameraAct_800CE404(CameraWork *work)
 
 void CameraDie_800CE470(CameraWork *work)
 {
-    DG_PRIM *prim1;
-    DG_PRIM *prim2;
-    DG_PRIM *prim3;
-
-    prim1 = work->prim1;
-    if (prim1)
-    {
-        DG_DequeuePrim(prim1);
-        DG_FreePrim(prim1);
-    }
-    prim2 = work->prim2;
-    if (prim2)
-    {
-        DG_DequeuePrim(prim2);
-        DG_FreePrim(prim2);
-    }
-    prim3 = work->prim3;
-    if (prim3)
-    {
-        DG_DequeuePrim(prim3);
-        DG_FreePrim(prim3);
-    }
+    GM_FreePrim(work->prim1);
+    GM_FreePrim(work->prim2);
+    GM_FreePrim(work->prim3);
 }
 
 int camera_800CE6EC(CameraWork *work, int where);

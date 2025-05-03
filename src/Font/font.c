@@ -7,7 +7,7 @@
 
 #include "common.h"
 #include "libgv/libgv.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 
 STATIC char    *gFontBegin = NULL;
 STATIC char    *gFontEnd = NULL;

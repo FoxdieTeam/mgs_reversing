@@ -24,10 +24,10 @@ typedef struct _PadDemoWork
     int             f44;
 } PadDemoWork;
 
-// Something to do with setting current/last item to ITEM_NONE
+// Something to do with setting current/last item to IT_None
 void sub_8003CC88(void);
 
-// Something to do with setting current/last weapon to WEAPON_NONE
+// Something to do with setting current/last weapon to WP_None
 void MENU_ResetWeaponPos(void);
 
 #define EXEC_LEVEL GV_ACTOR_MANAGER

@@ -4,7 +4,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "Game/camera.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Game/vibrate.h"
 #include "Takabe/thing.h"
 #include "SD/g_sound.h"
@@ -362,12 +362,12 @@ void s03e_evpanel_800C39F8(EvPanelWork *work)
 
     if (((1 << GM_CurrentItemId) & 0x101E) != 0)
     {
-        GM_CurrentItemId = ITEM_NONE;
+        GM_CurrentItemId = IT_None;
     }
 
     if (((1 << GM_CurrentWeaponId) & 0x210) != 0)
     {
-        GM_CurrentWeaponId = WEAPON_NONE;
+        GM_CurrentWeaponId = WP_None;
     }
 }
 
@@ -811,20 +811,8 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
 
 void EvPanelDie_800C457C(EvPanelWork *work)
 {
-    DG_PRIM *prim;
-
-    prim = work->field_20;
-    if (prim)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
-    prim = work->field_24;
-    if (prim)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->field_20);
+    GM_FreePrim(work->field_24);
 }
 
 void s03e_evpanel_800C45E4(POLY_FT4 *packs, DG_TEX *tex, int n_packs)

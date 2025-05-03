@@ -6,22 +6,6 @@
 
 extern DG_LitVertex DG_LitVertices_800B7A50[84];
 
-//there are a few of these that are close to gte_MulMatrix0 but with the first part changed
-// clang-format off
-#define gte_Unknown(r1, r2)                                     \
-    {                                                           \
-        gte_ldclmv(r1);                                         \
-        gte_rtir();                                             \
-        gte_stclmv(r2);                                         \
-        gte_ldclmv((char *)r1 + 2);                             \
-        gte_rtir();                                             \
-        gte_stclmv((char *)r2 + 2);                             \
-        gte_ldclmv((char *)r1 + 4);                             \
-        gte_rtir();                                             \
-        gte_stclmv((char *)r2 + 4);                             \
-    }
-// clang-format on
-
 STATIC void prim_lighting( SVECTOR *pVerts, int numVerts, DG_LitVertex *pOut, DG_LIT *light, int n_lights )
 {
     VECTOR distance;
@@ -185,7 +169,7 @@ STATIC CVECTOR *DG_MakePreshade_helper( DG_MDL *mdl, CVECTOR *cvec, DG_OBJS *obj
         *(SVECTOR *)&light.m[2] = pLitVertex->intensity[1];
 
         gte_SetRotMatrix(&light);
-        gte_Unknown(&objs->world, &world_light);
+        DG_MulRotMatrix0(&objs->world, &world_light);
         gte_SetLightMatrix(&world_light);
 
         color.m[0][1] = pLitVertex->color[0].r << 4;

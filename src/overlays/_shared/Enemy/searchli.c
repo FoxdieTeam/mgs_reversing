@@ -8,7 +8,7 @@
 #include "Anime/animconv/anime.h"
 #include "Game/control.h"
 #include "Game/game.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "overlays/_shared/Enemy/enemy.h"
 #include "strcode.h"
 
@@ -777,7 +777,7 @@ void SearchlightAct_800D86F0(SearchlightWork *work)
     DG_SetPos2(&work->control.mov, &work->control.rot);
     ReadRotMatrix(&work->lit_mtx);
 
-    if (GM_CurrentItemId == ITEM_STEALTH)
+    if (GM_CurrentItemId == IT_Stealth)
     {
         work->f2A4 = 0;
         work->f2B4 = 0;
@@ -1125,16 +1125,8 @@ int SearchlightGetResources_800D91B0(SearchlightWork *work, int name, int map)
 
 void SearchlightDie_800D9274(SearchlightWork *work)
 {
-    DG_PRIM *prim;
-
     GM_FreeControl(&work->control);
-
-    prim = work->fFC.prim;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->fFC.prim);
 }
 
 void *NewSearchlight_800D92BC(int name, int where, int argc, char **argv)

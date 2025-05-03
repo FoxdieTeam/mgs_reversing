@@ -11,7 +11,7 @@
 #include "libhzd/libhzd.h"
 #include "Game/game.h"
 #include "Game/hittable.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Game/object.h"
 #include "Game/map.h"
 #include "Okajima/claymore.h"
@@ -142,7 +142,7 @@ STATIC void JiraiDisplayText(JiraiWork *work, int arg1)
 
         if (temp_a2 == 1)
         {
-            if (GM_Weapons[WEAPON_CLAYMORE] >= GM_WeaponsMax[WEAPON_CLAYMORE])
+            if (GM_Weapons[WP_Claymore] >= GM_WeaponsMax[WP_Claymore])
             {
                 var_a1 = SE_ITEM_FULL;
                 work->field_150 = temp_a2;
@@ -152,12 +152,12 @@ STATIC void JiraiDisplayText(JiraiWork *work, int arg1)
                 work->control.radar_atr = RADAR_OFF;
                 var_a1 = SE_ITEM_GET;
 
-                if (GM_Weapons[WEAPON_CLAYMORE] < 0)
+                if (GM_Weapons[WP_Claymore] < 0)
                 {
-                    GM_Weapons[WEAPON_CLAYMORE] = 0;
+                    GM_Weapons[WP_Claymore] = 0;
                 }
 
-                GM_Weapons[WEAPON_CLAYMORE]++;
+                GM_Weapons[WP_Claymore]++;
 
                 work->field_140 = temp_a2;
                 work->field_150 = 0;
@@ -298,7 +298,7 @@ STATIC void JiraiAct(JiraiWork *work)
         DG_InvisibleObjs(work->body.objs);
     }
 
-    if (GM_CurrentItemId == ITEM_MINE_D)
+    if (GM_CurrentItemId == IT_MineDetector)
     {
         GM_ConfigControlAttribute(control, 0x202D);
     }

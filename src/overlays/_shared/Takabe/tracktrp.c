@@ -4,7 +4,7 @@
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "Game/game.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Takabe/thing.h"
 #include "strcode.h"
 
@@ -37,7 +37,7 @@ void TracktrpAct_800E1A94(TracktrpWork *work)
     {
     case 0:
         work->enter = 1;
-        work->item = ITEM_NONE;
+        work->item = IT_None;
         work->count = 0;
         work->pos = GM_PlayerPosition;
         break;
@@ -52,7 +52,7 @@ void TracktrpAct_800E1A94(TracktrpWork *work)
         return;
     }
 
-    if (GM_CurrentItemId == work->item && GM_CurrentItemId != ITEM_NONE)
+    if (GM_CurrentItemId == work->item && GM_CurrentItemId != IT_None)
     {
         if (GV_PadData_800B05C0[0].status & 0xF013)
         {
@@ -111,9 +111,9 @@ void TracktrpAct_800E1A94(TracktrpWork *work)
     }
     else
     {
-        if (GM_CurrentItemId == ITEM_C_BOX_A ||
-            GM_CurrentItemId == ITEM_C_BOX_B ||
-            GM_CurrentItemId == ITEM_C_BOX_C)
+        if (GM_CurrentItemId == IT_Box1 ||
+            GM_CurrentItemId == IT_Box2 ||
+            GM_CurrentItemId == IT_Box3)
         {
             work->item = GM_CurrentItemId;
         }

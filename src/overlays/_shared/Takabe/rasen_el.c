@@ -4,7 +4,7 @@
 #include "libdg/libdg.h"
 #include "Game/camera.h"
 #include "Game/game.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Game/object.h"
 #include "Takabe/thing.h"
 #include "SD/g_sound.h"
@@ -374,8 +374,6 @@ void RasenElAct_800CC454(RasenElWork *work)
 
 void RasenElDie_800CCAC4(RasenElWork *work)
 {
-    DG_PRIM *prim;
-
     if (GM_Camera_800B77E8.flags & 0x200)
     {
         GM_SetCameraCallbackFunc_8002FD84(0, 0);
@@ -396,12 +394,7 @@ void RasenElDie_800CCAC4(RasenElWork *work)
         GM_FreeObject(&work->object);
     }
 
-    prim = work->f24C;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->f24C);
 }
 
 int RasenElGetResources_800CCB9C(RasenElWork *work, int name, int map)
@@ -669,13 +662,13 @@ void s11c_800CD340(RasenElWork *work, int arg1)
                 break;
             }
 
-            if (GM_CurrentItemId == ITEM_SCOPE ||
-                GM_CurrentItemId == ITEM_CAMERA ||
-                GM_CurrentWeaponId == WEAPON_STINGER ||
-                GM_CurrentWeaponId == WEAPON_PSG1 ||
-                GM_CurrentItemId == ITEM_C_BOX_A ||
-                GM_CurrentItemId == ITEM_C_BOX_B ||
-                GM_CurrentItemId == ITEM_C_BOX_C)
+            if (GM_CurrentItemId == IT_Scope ||
+                GM_CurrentItemId == IT_Camera ||
+                GM_CurrentWeaponId == WP_Stinger ||
+                GM_CurrentWeaponId == WP_Rifle ||
+                GM_CurrentItemId == IT_Box1 ||
+                GM_CurrentItemId == IT_Box2 ||
+                GM_CurrentItemId == IT_Box3)
             {
                 if (!(GM_Camera_800B77E8.flags & 0x200))
                 {

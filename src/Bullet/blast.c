@@ -64,19 +64,12 @@ STATIC void BlastAct(BlastWork *work)
 
 STATIC void BlastDie(BlastWork *blast)
 {
-    DG_PRIM *prim;
-
     if (blast->time < 2)
     {
         sub_8007913C();
     }
 
-    prim = blast->prim;
-    if (prim)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(blast->prim);
 }
 
 STATIC void blast_8006DDEC(BLAST_DATA *blast_data, BlastWork *work, int side)

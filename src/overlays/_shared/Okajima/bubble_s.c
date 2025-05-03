@@ -308,29 +308,16 @@ void BubbleSAct_800D57A0(BubbleSWork *work)
 
 void BubbleSDestroyPrim_800D5ACC(BubbleSWork *work, int index)
 {
-    DG_PRIM *prim;
-
-    prim = work->prim[index];
-    if (prim)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->prim[index]);
 }
 
 void BubbleSDie_800D5B10(BubbleSWork *work)
 {
-    int      i;
-    DG_PRIM *prim;
+    int i;
 
     for (i = 0; i < 4; i++)
     {
-        prim = work->prim[i];
-        if (prim)
-        {
-            DG_DequeuePrim(prim);
-            DG_FreePrim(prim);
-        }
+        GM_FreePrim(work->prim[i]);
     }
 }
 

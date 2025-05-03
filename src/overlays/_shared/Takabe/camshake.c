@@ -1,29 +1,38 @@
 #include "camshake.h"
 
 #include <stdlib.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
+#include "libgv/libgv.h"
 #include "Game/game.h"
 #include "Takabe/thing.h"
 
-typedef struct CameraShakeWork
-{
-    GV_ACT  actor;
-    int     map;      //0x20
-    int     name;     //0x24
-    SVECTOR pos;      //0x28
-    int     radius;   //0x30
-    int     strength; //0x34
-    int     time;     //0x38
-    int     time2;    //0x3C
-    int     count;    //0x40
-    int     field_44; //0x44
-} CameraShakeWork;
+extern int  GM_CameraShakeOffset;
+
+/*----------------------------------------------------------------*/
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-extern int  GM_CameraShakeOffset;
+typedef struct _Work
+{
+    GV_ACT  actor;
+    int     map;        //0x20
+    int     name;       //0x24
+    SVECTOR pos;        //0x28
+    int     radius;     //0x30
+    int     strength;   //0x34
+    int     time;       //0x38
+    int     time2;      //0x3C
+    int     count;      //0x40
+    int     pad;        //0x44
+} Work;
 
-void CameraShakeAct_800DF4B8( CameraShakeWork* work )
+/*----------------------------------------------------------------*/
+
+static void Act( Work *work )
 {
     int tmp;
     int length;
@@ -54,14 +63,14 @@ void CameraShakeAct_800DF4B8( CameraShakeWork* work )
     GM_CameraShakeOffset += ( rand() * tmp ) >> 15 ;
 }
 
-void CameraShakeDie_800DF634( void )
+static void Die( void )
 {
     //OPERATOR() ;
 }
 
 /*----------------------------------------------------------------*/
 
-int CameraShakeGetResources_S_800DF63C( CameraShakeWork* work, int name, int where )
+static int GetResources_S( Work *work, int name, int where )
 {
     /* 初期化 */
     work->map = where ;
@@ -83,14 +92,16 @@ int CameraShakeGetResources_S_800DF63C( CameraShakeWork* work, int name, int whe
     return 0;
 }
 
-void *NewCameraShake_800DF6AC(int name, int where, int argc, char **argv)
-{
-    CameraShakeWork *work ;
+/*----------------------------------------------------------------*/
 
-    work = GV_NewActor( EXEC_LEVEL, sizeof( CameraShakeWork ) ) ;
+void *NewCameraShake(int name, int where, int argc, char **argv)
+{
+    Work *work ;
+
+    work = GV_NewActor( EXEC_LEVEL, sizeof( Work ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor( &( work->actor ), CameraShakeAct_800DF4B8, CameraShakeDie_800DF634, "camshake.c" );
-        if ( CameraShakeGetResources_S_800DF63C( work, name, where ) < 0 )
+        GV_SetNamedActor( &( work->actor ), Act, Die, "camshake.c" );
+        if ( GetResources_S( work, name, where ) < 0 )
         {
             GV_DestroyActor( &( work->actor ) );
             return NULL;

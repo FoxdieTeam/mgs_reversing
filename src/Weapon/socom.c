@@ -12,7 +12,7 @@
 #include "Game/game.h"
 #include "Game/object.h"
 #include "Game/target.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Game/map.h"
 #include "Okajima/bullet.h"
 #include "SD/g_sound.h"
@@ -360,29 +360,15 @@ STATIC void SocomAct( SocomWork *work )
 
         GM_Magazine = --mag_size;
         GM_MagazineMax = MAGAZINE_SIZE;
-        --GM_Weapons[ WEAPON_SOCOM ];
+        --GM_Weapons[ WP_Socom ];
     }
 }
 
 STATIC void SocomDie( SocomWork *work )
 {
-    DG_PRIM *prim1;
-    DG_PRIM *prim2;
-
     GM_FreeObject( (OBJECT *)&work->object );
-    prim1 = work->prim1;
-    if ( prim1 )
-    {
-        DG_DequeuePrim( prim1 );
-        DG_FreePrim( prim1 );
-    }
-
-    prim2 = work->prim2;
-    if ( prim2 )
-    {
-        DG_DequeuePrim( prim2 );
-        DG_FreePrim( prim2 );
-    }
+    GM_FreePrim( work->prim1 );
+    GM_FreePrim( work->prim2 );
 }
 
 STATIC int SocomGetResources( SocomWork *actor, OBJECT *parent, int num_parent )
@@ -403,9 +389,9 @@ STATIC int SocomGetResources( SocomWork *actor, OBJECT *parent, int num_parent )
         GM_InitObjectNoRots(obj, GV_StrCode( "socom2" ), BODY_FLAG, 0);
         actor->field_56 = 1;
         GM_SilencerFlag = 0;
-        if ( GM_CurrentItemId == ITEM_SUPPR )
+        if ( GM_CurrentItemId == IT_Suppressor )
         {
-            GM_CurrentItemId = ITEM_NONE;
+            GM_CurrentItemId = IT_None;
         }
     }
     if ( obj->objs )
@@ -474,7 +460,7 @@ void *NewSOCOM( CONTROL *control, OBJECT *parent, int num_parent,  unsigned int 
     {
         mag_size++;
     }
-    ammo = GM_Weapons[ WEAPON_SOCOM ];
+    ammo = GM_Weapons[ WP_Socom ];
     if ( mag_size > 0 && mag_size < ammo )
     {
         ammo = mag_size;

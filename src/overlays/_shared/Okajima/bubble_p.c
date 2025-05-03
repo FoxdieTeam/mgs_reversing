@@ -141,14 +141,7 @@ void BubblePAct_800D9974(BubblePWork *work)
 
 void BubblePDie_800D99CC(BubblePWork *work)
 {
-    DG_PRIM *prim;
-
-    prim = work->prim;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->prim);
 }
 
 int BubblePCreatePacks_800D9A08(BubblePWork *work)

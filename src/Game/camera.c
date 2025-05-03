@@ -8,7 +8,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libhzd/libhzd.h"
-#include "linkvarbuf.h"
+#include "linkvar.h"
 #include "strcode.h"
 
 STATIC int     SECTION(".sbss") dword_800ABA84;

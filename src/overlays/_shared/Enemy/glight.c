@@ -1,6 +1,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "Game/game.h"
 
 typedef struct GlightWork
 {
@@ -31,14 +32,7 @@ void GunLightAct_800D387C(GlightWork *work)
 
 void GunLightDie_800D3910(GlightWork *work)
 {
-    DG_PRIM *prim;
-
-    prim = work->prim;
-    if (prim)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->prim);
 }
 
 void GunLightInitPacks_800D394C(POLY_FT4 *poly, DG_TEX *tex, int color)

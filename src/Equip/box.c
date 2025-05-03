@@ -2,7 +2,7 @@
 
 #include "common.h"
 #include "Game/camera.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Game/map.h"
 #include "Game/object.h"
 #include "Thing/sight.h"
@@ -127,7 +127,7 @@ STATIC int BoxGetResources(BoxWork *work, OBJECT *parent)
     work->object.objs->objs[0].raise = 250;
     GM_ConfigObjectRoot((OBJECT *)object, parent, 0);
 
-    name = &box_texture_names[(GM_CurrentItemId - ITEM_C_BOX_A) * 2];
+    name = &box_texture_names[(GM_CurrentItemId - IT_Box1) * 2];
     work->names = name;
 
     for (i = 0; i < 2; i++)

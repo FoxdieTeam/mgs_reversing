@@ -4,7 +4,7 @@
 #include "libgv/libgv.h"
 #include "Game/game.h"
 #include "Game/camera.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 
 extern GM_Camera GM_Camera_800B77E8;
 extern int       dword_8009F46C;
@@ -28,8 +28,8 @@ STATIC void GoggleManagerAct(GoggleManagerWork *work)
 {
     if (GM_Camera_800B77E8.first_person != 0)
     {
-        if (GM_CurrentWeaponId == WEAPON_STINGER ||
-            GM_CurrentWeaponId == WEAPON_PSG1 ||
+        if (GM_CurrentWeaponId == WP_Stinger ||
+            GM_CurrentWeaponId == WP_Rifle ||
             dword_8009F46C == 1 ||
             (GM_PlayerStatus & PLAYER_NOT_SIGHT))
         {

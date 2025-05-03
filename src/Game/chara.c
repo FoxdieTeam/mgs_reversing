@@ -4,22 +4,23 @@
 #include "game.h"
 #include "charadef.h"
 #include "libgcl/libgcl.h"
-#include "Game/linkvarbuf.h"
-
-// force gp usage
-void *SECTION(".sbss") gOverlayBase_800AB9C8;
+#include "linkvar.h"
 
 extern GCL_Vars gGcl_vars_800B3CC8;
-extern CHARA MainCharacterEntries[]; /* in main.c */
+
+extern CHARA MainCharacterEntries[];    /* in main.c */
+extern CHARA _StageCharacterEntries[];  /* only visible when built-in */
+
+// force gp usage
+void *SECTION(".sbss") StageCharacterEntries;
 
 void GM_InitChara(void)
 {
 #ifdef DEV_EXE
-    extern CHARA _StageCharacterEntries[];
-    gOverlayBase_800AB9C8 = &_StageCharacterEntries[0];
+    StageCharacterEntries = &_StageCharacterEntries[0];
 #else
     extern void *mts_get_bss_tail(void);
-    gOverlayBase_800AB9C8 = mts_get_bss_tail();
+    StageCharacterEntries = mts_get_bss_tail();
 #endif
 }
 
@@ -27,13 +28,12 @@ void GM_ResetChara(void)
 {
     CHARA *chara;
 
-#ifdef DEV_EXE
-    return; // the overlay is embedded in the executable in dev variant
-#endif
-
-    chara = (CHARA *)gOverlayBase_800AB9C8;
+#ifndef DEV_EXE
+    chara = (CHARA *)StageCharacterEntries;
+    // overwrite the first entry with the end-of-table marker
     *((int *)&chara->func) = 0;
     *((int *)&chara->class_id) = 0;
+#endif
 }
 
 NEWCHARA GM_GetChara(unsigned char *script)
@@ -52,7 +52,7 @@ NEWCHARA GM_GetCharaID(int chara_id)
         if (i != 0)
         {
             // Then look at the dynamically loaded commands
-            chara_table = (CHARA *)gOverlayBase_800AB9C8;
+            chara_table = (CHARA *)StageCharacterEntries;
         }
 
         if (chara_table->func)

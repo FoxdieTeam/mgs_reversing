@@ -6,7 +6,7 @@
 #include "libdg/libdg.h"
 #include "Game/game.h"
 #include "Game/object.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Bullet/blast.h"
 #include "Okajima/spark.h"
 #include "overlays/_shared/Enemy/enemy.h"
@@ -149,7 +149,7 @@ int s01a_camera_800D4E08(CameraWork *work)
     int      dir;
     int      dir2;
 
-    if (GM_CurrentItemId == ITEM_STEALTH)
+    if (GM_CurrentItemId == IT_Stealth)
     {
         work->field_1DC = 0;
         return 0;
@@ -1098,18 +1098,10 @@ int CameraGetResources_800D65EC(CameraWork *work, int arg1, int arg2)
 
 void CameraDie_800D678C(CameraWork *work)
 {
-    DG_PRIM *prim;
-
     GM_FreeControl(&work->control);
     GM_FreeObject((OBJECT *)&work->body);
     GM_FreeObject((OBJECT *)&work->field_C0);
-
-    prim = work->field_194;
-    if (prim)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->field_194);
     GM_FreeTarget(work->target);
 }
 

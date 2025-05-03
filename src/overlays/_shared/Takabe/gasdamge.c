@@ -3,7 +3,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Takabe/thing.h"
 
 typedef struct GasDamgeWork {
@@ -34,7 +34,7 @@ void GasDamageAct_800E1348(GasDamgeWork *work)
 
     if (s02c_dword_800E3F40 != 0)
     {
-        if (GM_CurrentItemId == ITEM_GASMASK)
+        if (GM_CurrentItemId == IT_GasMask)
         {
             divisor = work->field_38;
         }

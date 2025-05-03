@@ -5,7 +5,7 @@
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 #include "Game/game.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Takabe/thing.h"
 #include "SD/g_sound.h"
 
@@ -99,7 +99,7 @@ void O2DamageAct_800DE5B8(O2DamgeWork *work)
     {
         if (work->f48 != 0)
         {
-            if (GM_CurrentItemId == ITEM_GASMASK)
+            if (GM_CurrentItemId == IT_GasMask)
             {
                 reduction = work->f3C;
             }

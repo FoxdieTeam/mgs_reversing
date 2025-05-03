@@ -107,14 +107,7 @@ void BubbleTAct_800DA11C(BubbleTWork *work)
 
 void BubbleTDie_800DA170(BubbleTWork *work)
 {
-    DG_PRIM *prim;
-
-    prim = work->prim;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->prim);
 }
 
 int BubbleTCreatePacks_800DA1AC(BubbleTWork *work)

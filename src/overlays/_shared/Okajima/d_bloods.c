@@ -26,14 +26,7 @@ int d00a_dword_800E1650;
 
 void DBloodsDie_800D5078(DBloodsWork *work)
 {
-    DG_PRIM *prim;
-
-    prim = work->prim;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->prim);
 }
 
 void DBloodsAct_800D50B4(DBloodsWork *work)

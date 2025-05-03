@@ -9,7 +9,7 @@
 #include "libdg/libdg.h"
 #include "Game/map.h"
 #include "Game/object.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Bullet/rmissile.h"
 #include "SD/g_sound.h"
 
@@ -144,7 +144,7 @@ STATIC void RcmAct(RcmWork *work)
     // update the blinking light
     RcmUpdateLight(work, p_flags);
 
-    ammo_count = GM_Weapons[WEAPON_NIKITA];
+    ammo_count = GM_Weapons[WP_Nikita];
     // if no ammo and the button is released, play a sound effect
     if (!ammo_count && (p_flags & 2))
     {
@@ -184,7 +184,7 @@ STATIC void RcmAct(RcmWork *work)
 
             if (NewRMissile(&mt1, work->which_side))
             {
-                GM_Weapons[WEAPON_NIKITA] = --ammo_count;
+                GM_Weapons[WP_Nikita] = --ammo_count;
                 GM_SeSet(&work->control->mov, SE_MISSILE_FIRED);
                 GM_SetNoise(100, 2, &work->control->mov);
             }
@@ -199,15 +199,8 @@ STATIC void RcmAct(RcmWork *work)
  */
 STATIC void RcmDie(RcmWork *work)
 {
-    DG_PRIM *prim;
-
     GM_FreeObject((OBJECT *)&work->object);
-    prim = work->prim;
-    if (prim)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->prim);
 }
 
 /**

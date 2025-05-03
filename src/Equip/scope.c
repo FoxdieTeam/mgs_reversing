@@ -8,7 +8,7 @@
 #include "Thing/sight.h"
 #include "chara/snake/sna_init.h"
 #include "Game/object.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "SD/g_sound.h"
 #include "strcode.h"
 

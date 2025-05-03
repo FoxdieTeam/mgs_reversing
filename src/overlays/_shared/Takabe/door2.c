@@ -239,26 +239,13 @@ void Door2Act_800DD5C0(Door2Work *work)
 
 void Door2Die_800DD744(Door2Work *work)
 {
-    DG_PRIM *prim;
-
     if (work->f320 != 0)
     {
         HZD_DequeueDynamicSegment(work->hzd, &work->seg);
     }
 
-    prim = work->prim1;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
-
-    prim = work->prim2;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->prim1);
+    GM_FreePrim(work->prim2);
 }
 
 int Door2GetResources_800DD7C8(Door2Work *work, int name, int map)

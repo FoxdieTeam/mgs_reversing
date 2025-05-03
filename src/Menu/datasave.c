@@ -7,7 +7,7 @@
 #include "common.h"
 #include "Game/game.h"
 #include "Menu/radio.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"

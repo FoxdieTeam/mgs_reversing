@@ -28,10 +28,8 @@
 #include <libgte.h>
 #include <libetc.h>
 
-extern int GV_Time;
-extern const char *GV_DebugMes;
-
 /* gvd.c */
+extern int GV_Time;
 #ifndef __GVD_SBSS__
 extern int GV_Clock;
 extern int GV_PassageTime;
@@ -46,10 +44,39 @@ void GV_ResetPacketMemory(void);
 /* strcode.c */
 int GV_StrCode( const char *string );
 
+/*---------------------------------------------------------------------------*/
+
 /* debug.c */
+extern const char *GV_DebugMes;
+
 void GV_Assert( char *, int );
 void GV_Warning( char *, int );
 void GV_Error( char *, int );
+
+// This will crash the program with the intention of invoking
+// the MTS exception handler screen (which was stubbed out).
+#define HANGUP()        (*(int *)1 = 0)
+
+// TODO: Should these be wrapped with 'do {} while (0)'?
+#ifdef DEV_EXE
+#define ASSERT(cond)                                            \
+    if (!(cond)) {                                              \
+        GV_Assert(__FILE__, __LINE__);                          \
+        /* HANGUP */                                            \
+    }
+/* Unused, but should be correct. */
+#define XASSERT(cond, mesg)                                     \
+    if (!(cond)) {                                              \
+        GV_DebugMes = mesg;                                     \
+        GV_Assert(__FILE__, __LINE__);                          \
+        /* HANGUP */                                            \
+    }
+#else
+// NOTE: Assertions were disabled for INTEGRAL, but the US release
+// (and possibly others) were compiled with assertions still enabled.
+#define ASSERT(cond)            ((void)0)
+#define XASSERT(cond, mesg)     ((void)0)
+#endif
 
 /*------ Actor Management ---------------------------------------------------*/
 

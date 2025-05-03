@@ -1,5 +1,9 @@
-#ifndef _LINKVARBUF_H_
-#define _LINKVARBUF_H_
+#ifndef _LINKVAR_H_
+#define _LINKVAR_H_
+
+// This file was probably auto-generated in the original source.
+// (The memleak shows exactly two tabs between each identifier and definition,
+// and no tabstop setting will align them properly).
 
 extern short       linkvarbuf_800B4D98[0x60];
 #define linkvarbuf linkvarbuf_800B4D98
@@ -55,25 +59,25 @@ extern short       linkvarbuf_800B4D98[0x60];
 #define GM_LandMineMax        linkvarbuf[ 32 ]
 #define GM_BombMax            linkvarbuf[ 33 ]
 #define GM_StunGrenadeMax     linkvarbuf[ 34 ]
-#define GM_ChaffGrenadeMax    linkvarbuf[ 35 ]
-#define GM_RifleMax           linkvarbuf[ 36 ]
+#define GM_ChaffGrenadeMax    linkvarbuf[ 35 ]  // $w:チャフグレネード弾数
+#define GM_RifleMax           linkvarbuf[ 36 ]  // $w:ライフル弾数
 
 //------------------------------------------------------------------------------
 #define GM_Items              (&linkvarbuf[ 37 ])
 
 // 0x4a Items (Use GM_Items[] instead)
 //      value -1 = not in inventory
-#define GM_TabakoFlag         linkvarbuf[ 37 ]
-#define GM_ScopeFlag          linkvarbuf[ 38 ]
-#define GM_CardboardBoxAFlag  linkvarbuf[ 39 ]
-#define GM_CardboardBoxBFlag  linkvarbuf[ 40 ]
-#define GM_CardboardBoxCFlag  linkvarbuf[ 41 ]
-#define GM_NightVisionFlag    linkvarbuf[ 42 ]
-#define GM_ThermalVisionFlag  linkvarbuf[ 43 ]
-#define GM_GasMaskFlag        linkvarbuf[ 44 ]
-#define GM_BodyArmorFlag      linkvarbuf[ 45 ]
-#define GM_KetchupFlag        linkvarbuf[ 46 ]
-#define GM_StealthFlag        linkvarbuf[ 47 ]
+#define GM_TabakoFlag         linkvarbuf[ 37 ]  // $w:たばこ
+#define GM_ScopeFlag          linkvarbuf[ 38 ]  // $w:双眼鏡
+#define GM_CardboardBoxAFlag  linkvarbuf[ 39 ]  // $w:段ボールヘリポート
+#define GM_CardboardBoxBFlag  linkvarbuf[ 40 ]  // $w:段ボール核保存庫
+#define GM_CardboardBoxCFlag  linkvarbuf[ 41 ]  // $w:段ボール大雪原
+#define GM_NightVisionFlag    linkvarbuf[ 42 ]  // $w:暗視ゴーグル
+#define GM_ThermalVisionFlag  linkvarbuf[ 43 ]  // $w:赤外線ゴーグル
+#define GM_GasMaskFlag        linkvarbuf[ 44 ]  // $w:ガスマスク
+#define GM_BodyArmorFlag      linkvarbuf[ 45 ]  // $w:ボディアーマー
+#define GM_KetchupFlag        linkvarbuf[ 46 ]  // $w:ケチャップ
+#define GM_StealthFlag        linkvarbuf[ 47 ]  // $w:光学迷彩
 #define GM_BandanaFlag        linkvarbuf[ 48 ]
 #define GM_CameraFlag         linkvarbuf[ 49 ]
 #define GM_RationFlag         linkvarbuf[ 50 ] // > 0 = ration ammount
@@ -177,47 +181,47 @@ enum // GM_PlayerStance
 
 enum // GM_Weapons[]
 {
-    WEAPON_NONE       = -1,
-    WEAPON_SOCOM      = 0,
-    WEAPON_FAMAS      = 1,
-    WEAPON_GRENADE    = 2,
-    WEAPON_NIKITA     = 3,
-    WEAPON_STINGER    = 4,
-    WEAPON_CLAYMORE   = 5,
-    WEAPON_C4         = 6,
-    WEAPON_STUN_G     = 7,
-    WEAPON_CHAFF_G    = 8,
-    WEAPON_PSG1       = 9,
+    WP_None             = -1,
+    WP_Socom            = 0,
+    WP_Famas            = 1,
+    WP_Grenade          = 2,
+    WP_Nikita           = 3,
+    WP_Stinger          = 4,
+    WP_Claymore         = 5,
+    WP_C4               = 6,
+    WP_StunGrenade      = 7,
+    WP_ChaffGrenade     = 8,
+    WP_Rifle            = 9,
 };
 #define GM_TotalWeapons 10
 
 enum // GM_Items[]
 {
-    ITEM_NONE       = -1, // types:
-    ITEM_CIGS       = 0,  // 0x8000
-    ITEM_SCOPE      = 1,  // 0x8003
-    ITEM_C_BOX_A    = 2,  // 0x8001
-    ITEM_C_BOX_B    = 3,  // 0x8001
-    ITEM_C_BOX_C    = 4,  // 0x8001
-    ITEM_N_V_G      = 5,  // 0x8000
-    ITEM_THERM_G    = 6,  // 0x8000
-    ITEM_GASMASK    = 7,  // 0x8000
-    ITEM_B_ARMOR    = 8,  // 0x8000
-    ITEM_KETCHUP    = 9,  // 0x8000
-    ITEM_STEALTH    = 10, // 0x8000
-    ITEM_BANDANA    = 11, // 0x8000
-    ITEM_CAMERA     = 12, // 0x8003
-    ITEM_RATION     = 13, // 0x2000
-    ITEM_MEDICINE   = 14, // 0x2000
-    ITEM_DIAZEPAM   = 15, // 0x2000
-    ITEM_PAL_KEY    = 16, // 0
-    ITEM_CARD       = 17, // 0
-    ITEM_TIMER_B    = 18, // 0
-    ITEM_MINE_D     = 19, // 0
-    ITEM_DISC       = 20, // 0
-    ITEM_ROPE       = 21, // 0
-    ITEM_SCARF      = 22, // 0
-    ITEM_SUPPR      = 23  // 0
+    IT_None             = -1,   // types:
+    IT_Cigs             = 0,    // 0x8000
+    IT_Scope            = 1,    // 0x8003
+    IT_Box1             = 2,    // 0x8001
+    IT_Box2             = 3,    // 0x8001
+    IT_Box3             = 4,    // 0x8001
+    IT_NVG              = 5,    // 0x8000
+    IT_ThermG           = 6,    // 0x8000
+    IT_GasMask          = 7,    // 0x8000
+    IT_BodyArmor        = 8,    // 0x8000
+    IT_Ketchup          = 9,    // 0x8000
+    IT_Stealth          = 10,   // 0x8000
+    IT_Bandana          = 11,   // 0x8000
+    IT_Camera           = 12,   // 0x8003
+    IT_Ration           = 13,   // 0x2000
+    IT_ColdMedicine     = 14,   // 0x2000
+    IT_Diazepam         = 15,   // 0x2000
+    IT_PalKey           = 16,   // 0
+    IT_Card             = 17,   // 0
+    IT_TimerBomb        = 18,   // 0
+    IT_MineDetector     = 19,   // 0
+    IT_Disk             = 20,   // 0
+    IT_Rope             = 21,   // 0
+    IT_Handkerchief     = 22,   // 0
+    IT_Suppressor       = 23    // 0
 };
 #define GM_TotalItems 24
 
@@ -234,4 +238,4 @@ enum // GM_ItemTypes[]
 #define GM_CurrentWeapon          (GM_Weapons[ GM_CurrentWeaponId ])
 #define GM_CurrentItem            (GM_Items[ GM_CurrentItemId ])
 
-#endif
+#endif // _LINKVAR_H_

@@ -8,6 +8,12 @@
 #include "Game/game.h"
 #include "SD/g_sound.h"
 
+extern GV_PAD GV_PadData_800B05C0[4];
+
+/*---------------------------------------------------------------------------*/
+
+#define EXEC_LEVEL GV_ACTOR_MANAGER
+
 // FIXME: it's the same struct as in change.c (in change overlay)
 typedef struct _Unknown
 {
@@ -23,7 +29,7 @@ typedef struct _Unknown
     short f6;
 } Unknown;
 
-typedef struct PreopeWork
+typedef struct Work
 {
     GV_ACT   actor;
     GV_PAD  *pad;
@@ -53,7 +59,7 @@ typedef struct PreopeWork
     int      field_A838;
     int      field_A83C;
     int      map;
-} PreopeWork;
+} Work;
 
 // FIXME: it's the same struct (but different data) as in change.c (in change overlay)
 typedef struct _Unknown2
@@ -64,7 +70,7 @@ typedef struct _Unknown2
     int   color;
 } Unknown2;
 
-Unknown2 dword_800C3218[4] = {
+static Unknown2 dword_800C3218[4] = {
     {1, 160, 195, 0x6739},
     {1, 160, 185, 0x6739},
     {1, 160, 205, 0x6739},
@@ -72,22 +78,20 @@ Unknown2 dword_800C3218[4] = {
 };
 
 // Same as byte_800C3260 in change overlay
-signed char text_outline_direction_offsets_800C3248[] = {
+static signed char text_outline_direction_offsets_800C3248[] = {
     -1,  0,
      1,  0,
      0,  1,
      0, -1,
 };
 
-extern GV_PAD GV_PadData_800B05C0[4];
+/*---------------------------------------------------------------------------*/
 
-void *NewPreMet1_800C6F20(int, int *, Unknown *);
-void *NewPreMet2_800C6F20(int, int *, Unknown *);
-
-#define EXEC_LEVEL GV_ACTOR_MANAGER
+extern void *NewPreOpeMetal1(int, int *, Unknown *);
+extern void *NewPreOpeMetal2(int, int *, Unknown *);
 
 // Duplicate of Change_800C364C
-void Preope_800C32E0(PreopeWork *work, int index)
+static void Preope_800C32E0(Work *work, int index)
 {
     RECT rect;
     KCB *kcb;
@@ -117,7 +121,7 @@ void Preope_800C32E0(PreopeWork *work, int index)
 }
 
 // Duplicate of Change_800C378C
-void Preope_800C3428(PreopeWork *work, int index)
+static void Preope_800C3428(Work *work, int index)
 {
     KCB      *kcb;
     char     *string;
@@ -155,7 +159,7 @@ void Preope_800C3428(PreopeWork *work, int index)
 }
 
 // Duplicate of Change_800C38D0
-void Preope_800C356C(PreopeWork *work, char *ot)
+static void Preope_800C356C(Work *work, char *ot)
 {
     int       found;
     int       index;
@@ -214,7 +218,7 @@ void Preope_800C356C(PreopeWork *work, char *ot)
 }
 
 // Duplicate of PreMet1SetColor_800C5738
-void PreopeSetColor_800C37D0(PreopeWork *work, int index, int fore)
+static void PreopeSetColor_800C37D0(Work *work, int index, int fore)
 {
     KCB *kcb;
 
@@ -224,7 +228,7 @@ void PreopeSetColor_800C37D0(PreopeWork *work, int index, int fore)
 }
 
 // Similar to PreMet1_800C5794
-void Preope_800C3820(PreopeWork *work)
+static void Preope_800C3820(Work *work)
 {
     int i;
     for (i = 5; i >= 0; i--)
@@ -234,7 +238,7 @@ void Preope_800C3820(PreopeWork *work)
 }
 
 // Similar to PreMet1_800C5794
-void PreopeHideButtonHighlight_800C3840(PreopeWork *work)
+static void PreopeHideButtonHighlight_800C3840(Work *work)
 {
     int i;
     for (i = 8; i >= 0; i--)
@@ -244,7 +248,7 @@ void PreopeHideButtonHighlight_800C3840(PreopeWork *work)
 }
 
 // Identical to title_open_800C4C38
-void PreopeMoveButtonHighlight_800C3860(PreopeWork *work, int x0, int y0, int xsize, int ysize, int color, int mode)
+static void PreopeMoveButtonHighlight_800C3860(Work *work, int x0, int y0, int xsize, int ysize, int color, int mode)
 {
     POLY_FT4 *polys;
     int       i;
@@ -289,7 +293,7 @@ void PreopeMoveButtonHighlight_800C3860(PreopeWork *work, int x0, int y0, int xs
     }
 }
 
-void PreopeShadePacks_800C3B44(PreopeWork *work)
+static void PreopeShadePacks_800C3B44(Work *work)
 {
     POLY_FT4 *poly_dst;
     POLY_FT4 *poly_src;
@@ -367,7 +371,7 @@ static inline int get_color(int shade)
     return (shade << 10) | (shade << 5) | shade;
 }
 
-void Preope_800C3F34(PreopeWork *work)
+static void Preope_800C3F34(Work *work)
 {
     int i;
 
@@ -391,7 +395,7 @@ void Preope_800C3F34(PreopeWork *work)
     }
 }
 
-void PreopeProcessPad_800C3FE0(PreopeWork *work)
+static void PreopeProcessPad_800C3FE0(Work *work)
 {
     int press;
 
@@ -485,7 +489,7 @@ void PreopeProcessPad_800C3FE0(PreopeWork *work)
     }
 }
 
-void Preope_800C41D4(PreopeWork *work)
+static void Preope_800C41D4(Work *work)
 {
     switch (work->field_2C4)
     {
@@ -497,7 +501,7 @@ void Preope_800C41D4(PreopeWork *work)
             {
                 Preope_800C3820(work);
                 work->field_A838 = 0;
-                work->field_A830 = NewPreMet1_800C6F20(work->map, &work->field_A838, work->field_714);
+                work->field_A830 = NewPreOpeMetal1(work->map, &work->field_A838, work->field_714);
                 work->field_A828 = 1;
             }
             break;
@@ -538,7 +542,7 @@ void Preope_800C41D4(PreopeWork *work)
             {
                 Preope_800C3820(work);
                 work->field_A83C = 0;
-                work->field_A834 = NewPreMet2_800C6F20(work->map, &work->field_A83C, work->field_4614);
+                work->field_A834 = NewPreOpeMetal2(work->map, &work->field_A83C, work->field_4614);
                 work->field_A82C = 1;
             }
             break;
@@ -574,7 +578,9 @@ void Preope_800C41D4(PreopeWork *work)
     }
 }
 
-void PreopeAct_800C4424(PreopeWork *work)
+/*---------------------------------------------------------------------------*/
+
+static void Act(Work *work)
 {
     PreopeProcessPad_800C3FE0(work);
     Preope_800C41D4(work);
@@ -584,27 +590,16 @@ void PreopeAct_800C4424(PreopeWork *work)
     work->fadeout_timer++;
 }
 
-void PreopeDie_800C449C(PreopeWork *work)
+static void Die(Work *work)
 {
-    DG_PRIM *prim;
-
-    prim = work->field_24;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
-
-    prim = work->field_28;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->field_24);
+    GM_FreePrim(work->field_28);
 }
 
+/*---------------------------------------------------------------------------*/
+
 // Duplicate of camera_800CE4F8
-void PreopeSetPolyFT4_800C4504(PreopeWork *work, POLY_FT4 *pPoly, int x0, int y0, int x1, int y1, int semiTrans)
+static void PreopeSetPolyFT4_800C4504(Work *work, POLY_FT4 *pPoly, int x0, int y0, int x1, int y1, int semiTrans)
 {
     setPolyFT4(pPoly);
     pPoly->r0 = 0x80;
@@ -622,7 +617,7 @@ void PreopeSetPolyFT4_800C4504(PreopeWork *work, POLY_FT4 *pPoly, int x0, int y0
 }
 
 // Duplicate of camera_800CE568
-void PreopeInitRes_800C4574(PreopeWork *work, int hashCode, POLY_FT4 *pPoly, int x0, int y0, int x1, int y1, int semiTrans, int arg9)
+static void PreopeInitRes_800C4574(Work *work, int hashCode, POLY_FT4 *pPoly, int x0, int y0, int x1, int y1, int semiTrans, int arg9)
 {
     DG_TEX *tex;
     PreopeSetPolyFT4_800C4504(work, pPoly, x0, y0, x1, y1, semiTrans);
@@ -691,7 +686,7 @@ void PreopeInitRes_800C4574(PreopeWork *work, int hashCode, POLY_FT4 *pPoly, int
     }
 }
 
-int PreopeGetResources_800C46F8(PreopeWork *work, int map)
+static int GetResources(Work *work, int map)
 {
     POLY_FT4 *poly, *poly2;
     int       i, j;
@@ -859,17 +854,19 @@ int PreopeGetResources_800C46F8(PreopeWork *work, int map)
     return 0;
 }
 
-void *NewPreope_800C4DA4(int name, int where, int argc, char **argv)
+/*---------------------------------------------------------------------------*/
+
+void *NewPreviousOperation(int name, int where, int argc, char **argv)
 {
-    PreopeWork *work;
+    Work *work;
 
     GM_GameStatus |= STATE_ALL_OFF;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(PreopeWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, PreopeAct_800C4424, PreopeDie_800C449C, "preope.c");
-        if (PreopeGetResources_800C46F8(work, where) < 0)
+        GV_SetNamedActor(&work->actor, Act, Die, "preope.c");
+        if (GetResources(work, where) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

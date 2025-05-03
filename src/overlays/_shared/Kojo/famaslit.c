@@ -105,12 +105,5 @@ void FamaslitAct_800D0B28(FamaslitWork *work)
 
 void FamaslitDie_800D0B90(FamaslitWork *work)
 {
-    DG_PRIM *prim;
-
-    prim = work->prim;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->prim);
 }

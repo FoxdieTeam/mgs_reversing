@@ -513,14 +513,7 @@ void PlasmaAct_800CC67C(PlasmaWork *work)
 
 void PlasmaDie_800CCC64(PlasmaWork *work)
 {
-    DG_PRIM *prim;
-
-    prim = work->prim;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->prim);
 }
 
 int Plasma_800CCCA0(PlasmaWork *work)

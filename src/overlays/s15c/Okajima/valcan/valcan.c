@@ -3,7 +3,7 @@
 #include "libgv/libgv.h"
 #include "Game/control.h"
 #include "Game/object.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Okajima/bullet.h"
 #include "Okajima/blood.h"
 #include "SD/g_sound.h"
@@ -152,7 +152,7 @@ extern SVECTOR          svector_8009F478;
 extern SVECTOR          svector_8009F494;
 extern int              dword_8009F46C[];
 
-void    AN_Breath_800C3AA8(MATRIX *matrix);
+void    AN_Breath(MATRIX *matrix);
 void    AN_Unknown_800CA1EC(MATRIX *world, int index);
 void   *NewFadeIo_800C4224(int name, int where);
 
@@ -262,7 +262,7 @@ void ValcanAct_800D9088(ValcanWork *work)
     }
     if (!(GV_Time & 3))
     {
-        AN_Breath_800C3AA8(&work->field_A0.objs->objs[6].world);
+        AN_Breath(&work->field_A0.objs->objs[6].world);
     }
     if (work->field_7D4 != 2)
     {
@@ -277,7 +277,7 @@ void ValcanAct_800D9088(ValcanWork *work)
             GM_MoveTarget(work->field_664, &control->mov);
             GM_MoveTarget(work->field_668, &control->mov);
             GM_PushTarget(work->field_668);
-            if (GM_CurrentItemId == ITEM_THERM_G)
+            if (GM_CurrentItemId == IT_ThermG)
             {
                 DG_AmbientObjs(work->field_A0.objs);
             }
@@ -463,17 +463,10 @@ int ValcanGetResources_800D92A8(ValcanWork *work, int name, int where)
 
 void ValcanDie_800D96E8(ValcanWork *work)
 {
-    DG_PRIM *prim;
-
     GM_FreeControl(&work->control);
     GM_FreeObject(&work->field_A0);
     GM_FreeObject(&work->field_184);
-    prim = work->field_6F4;
-    if (prim != NULL)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->field_6F4);
     GM_FreeTarget(work->field_664);
     GM_FreeTarget(work->field_668);
     GCL_ExecProc(work->field_8D0, NULL);
@@ -644,7 +637,7 @@ void Valcan_800D9B5C(ValcanWork *work)
     work->field_184.objs->root = &work->field_A0.objs->objs[4].world;
     GM_ActObject2(&work->field_184);
 
-    if (GM_CurrentItemId == ITEM_THERM_G)
+    if (GM_CurrentItemId == IT_ThermG)
     {
         DG_AmbientObjs(work->field_184.objs);
     }

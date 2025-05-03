@@ -985,19 +985,13 @@ void s12c_dog_800D1DA0(DogWork *work);
 void DogDie_800D2798(DogWork *work)
 {
     // https://i.kym-cdn.com/photos/images/newsfeed/001/464/596/d38.jpg
-    DG_PRIM *prim;
-    int      i;
+    int i;
 
     for (i = 0; i < work->field_1278 + 1; i++)
     {
         GM_FreeControl(&work->field_28[i]);
         GM_FreeObject(&work->field_19C[i]);
-        prim = work->field_167C[i];
-        if (prim != NULL)
-        {
-            DG_DequeuePrim(prim);
-            DG_FreePrim(prim);
-        }
+        GM_FreePrim(work->field_167C[i]);
         GM_FreeTarget(work->field_1188[i]);
         GM_FreeHomingTarget(work->field_126C[i]);
     }

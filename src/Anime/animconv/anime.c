@@ -1241,12 +1241,7 @@ STATIC void anime_Act(AnimeWork *work)
 
 STATIC void anime_Die(AnimeWork *anime)
 {
-    DG_PRIM *prim = anime->prim;
-    if (prim)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(anime->prim);
 }
 
 STATIC int anime_loader_helper_8005F644(AnimeWork *work, ANIMATION *animation)

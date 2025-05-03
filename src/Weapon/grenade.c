@@ -12,7 +12,7 @@
 #include "Bullet/tenage.h"
 #include "Game/object.h"
 #include "Game/target.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Okajima/chafgrnd.h"
 #include "Okajima/stngrnd.h"
 #include "Game/map.h"

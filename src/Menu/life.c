@@ -4,7 +4,7 @@
 #include "libgcl/libgcl.h"
 #include "libdg/libdg.h"
 #include "Game/game.h"
-#include "Game/linkvarbuf.h"
+#include "linkvar.h"
 #include "Font/font.h"
 #include "Menu/menuman.h"
 #include "Menu/radio.h"
