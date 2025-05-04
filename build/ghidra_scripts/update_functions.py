@@ -40,7 +40,7 @@ with open(root_dir + '/obj/asm.map') as mapfile:
 analyzed_funcs = []
 
 with open(root_dir + '/build/ghidra_scripts/update_functions.log', 'w') as logfile:
-    for root, subdirs, files in os.walk(root_dir + '/src'):
+    for root, subdirs, files in os.walk(root_dir + '/source'):
         for filename in files:
             filepath = os.path.join(root, filename)
             
