@@ -807,8 +807,8 @@ void *NewHind_800D1224(int scriptData, int scriptBinds)
     work->field_56C = -26200;
     work->field_570 = -26200;
 
-    walls = work->control.map->hzd->area->walls;
-    for (i = 0; i < work->control.map->hzd->area->n_walls; i++, walls++)
+    walls = work->control.map->hzd->group->walls;
+    for (i = 0; i < work->control.map->hzd->group->n_walls; i++, walls++)
     {
         work->field_558 = min(work->field_558, walls->p1.x);
         work->field_55C = min(work->field_55C, walls->p1.y);
@@ -827,8 +827,8 @@ void *NewHind_800D1224(int scriptData, int scriptBinds)
         work->field_570 = max(work->field_570, walls->p2.z + walls->p2.h);
     }
 
-    floors = work->control.map->hzd->area->floors;
-    for (i = 0; i < work->control.map->hzd->area->n_floors; i++, floors++)
+    floors = work->control.map->hzd->group->floors;
+    for (i = 0; i < work->control.map->hzd->group->n_floors; i++, floors++)
     {
         work->field_558 = min(work->field_558, floors->b1.x);
         work->field_55C = min(work->field_55C, floors->b1.y);

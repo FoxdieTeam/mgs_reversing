@@ -240,7 +240,7 @@ int DuctmouseGetResources_800DAA1C(DuctmouseWork *work, int name, int where)
     MAP        *map;
     char       *opt;
     int         route_index;
-    HZD_HEADER *hzd;
+    HZD_MAP *hzd;
     HZD_PAT    *route;
     HZD_PTP    *point;
     int         i;
