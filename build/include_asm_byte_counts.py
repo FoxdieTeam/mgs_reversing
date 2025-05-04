@@ -7,7 +7,7 @@ from include_asm_preprocess import FUNC_SIZES
 # appends comment with byte size of func to all INCLUDE_ASM pragmas
 
 PRAGMA_RE = r'^#pragma\s+INCLUDE_ASM\s*\(\s*"([^"]+)"\s*\).*$'
-sources = glob('../src/**/*.c', recursive=True)
+sources = glob('../source/**/*.c', recursive=True)
 
 for c in sources:
     processed = []

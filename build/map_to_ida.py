@@ -15,7 +15,7 @@ def is_src_file(file):
 def get_all_source_files():
     global root
     srcFiles = []
-    for root, dirs, files in os.walk(root + "\\src"):
+    for root, dirs, files in os.walk(root + "\\source"):
         for file in files:
             if is_src_file(file):
                 srcFiles.append(os.path.join(root, file))

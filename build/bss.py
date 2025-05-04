@@ -17,8 +17,8 @@ BSS_START = 0x800ABBF0
 BSS_SIZE = 0x17618
 
 ASM = '../obj/data/bss.asm'
-IN =  '../src/data/bss.c'
-OUT = '../src/data/bss.c'
+IN =  '../source/data/bss.c'
+OUT = '../source/data/bss.c'
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--psyq_path', type=str, default=os.environ.get('PSYQ_SDK') or '../../psyq_sdk',
@@ -39,7 +39,7 @@ def cc1():
         '-D__GNUC__=2',
         '-D__OPTIMIZE__',
         '-I', os.path.join(args.psyq_path, 'psyq_4.4/include'),
-        '-I', '../src',
+        '-I', '../source',
         '-lang-c',
         '-Dmips',
         '-D__mips__', '-D__mips',

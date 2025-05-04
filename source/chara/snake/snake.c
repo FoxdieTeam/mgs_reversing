@@ -1,0 +1,445 @@
+#include "common.h"
+
+#ifdef VR_EXE
+#include "chara/snake_vr/sna_init.h"
+#else
+#include "chara/snake/sna_init.h"
+#endif
+
+#include "linkvar.h"
+#include "game/object.h"
+
+extern short   word_8009EFC0[];
+
+//TODO: below defined in sna_init.c, need to remove gp hack
+extern SVECTOR           svector_800AB7CC;
+SVECTOR SECTION(".sbss") svector_800AB7CC;
+
+extern void           *GM_BombSeg;
+void *SECTION(".sbss") GM_BombSeg;
+
+extern int           dword_800ABBA8;
+int SECTION(".sbss") dword_800ABBA8;
+
+extern char           *dword_800ABBB4;
+char *SECTION(".sbss") dword_800ABBB4;
+
+extern HZD_FLR           *flr_800ABBB8[2];
+HZD_FLR *SECTION(".sbss") flr_800ABBB8[2];
+
+#define GetAction( work ) (work->body.action)
+
+void sna_start_anim_8004E1F4(SnaInitWork *work, void *pFn)
+{
+    short vec_x = 0;
+    work->field_9B8_fn_anim = pFn;
+    work->field_9BC_anim_frame = 0;
+    work->field_A3A = 0;
+    work->field_A38_local_data = 0;
+
+    if ((GM_PlayerStatus & PLAYER_GROUND) != 0)
+    {
+        vec_x = work->field_A2A;
+    }
+
+    work->control.turn.vx = vec_x;
+    work->control.turn.vz = 0;
+}
+
+void SetAction_8004E22C(SnaInitWork *work, int action_flag, int interp)
+{
+    if (GetAction(work) != action_flag)
+    {
+        GM_ConfigObjectAction(&work->body, action_flag, 0, interp);
+    }
+}
+
+void sna_8004E260(SnaInitWork *work, int a2, int interp, int a4)
+{
+    if (work->body.action2 != a2)
+    {
+        GM_ConfigObjectOverride(&work->body, a2, 0, interp, a4);
+    }
+}
+
+int GM_CheckPlayerStatusFlag(PlayerStatusFlag arg0) // Status()
+{
+    return (GM_PlayerStatus & arg0) != 0;
+}
+
+int GM_SetPlayerStatusFlag(PlayerStatusFlag arg0)
+{
+    int temp_v0;
+
+    temp_v0 = GM_PlayerStatus | arg0;
+    GM_PlayerStatus = temp_v0;
+    return temp_v0;
+}
+
+void GM_ClearPlayerStatusFlag(PlayerStatusFlag flag)
+{
+    GM_PlayerStatus &= ~flag;
+}
+
+void sna_set_flags1_8004E2F4(SnaInitWork *snake, SnaFlag1 flags)
+{
+    snake->field_894_flags1 |= flags;
+}
+
+void sna_clear_flags1_8004E308(SnaInitWork *snake, SnaFlag1 flags)
+{
+    snake->field_894_flags1 &= ~flags;
+}
+
+int sna_check_flags1_8004E31C(SnaInitWork *snake, SnaFlag1 flags)
+{
+    return (snake->field_894_flags1 & flags) != 0;
+}
+
+#ifndef VR_EXE
+void sna_set_flags2_8004E330(SnaInitWork *snake, SnaFlag2 flag)
+{
+    snake->field_898_flags2 |= flag;
+}
+
+void sna_clear_flags2_8004E344(SnaInitWork *snake, SnaFlag2 flags)
+{
+    snake->field_898_flags2 &= ~flags;
+}
+
+unsigned int sna_sub_8004E358(SnaInitWork *snake, SnaFlag2 param_2)
+{
+    unsigned int result = 0;
+
+    if (GM_UnkFlagBE != 0)
+    {
+        result = (((unsigned int)snake->field_898_flags2 & param_2) != result);
+    }
+
+    return result;
+}
+#endif
+
+void CheckSnakeDead_8004E384(SnaInitWork *snake)
+{
+    if ((GM_SnakeCurrentHealth == 0) || (GM_GameOverTimer != 0))
+    {
+        snake->control.skip_flag |= CTRL_SKIP_TRAP;
+        GM_SetPlayerStatusFlag(PLAYER_PAD_OFF | PLAYER_MENU_DISABLE);
+        sna_set_flags1_8004E2F4(snake, SNA_FLAG1_UNK23);
+        GM_GameStatus |= (STATE_MENU_OFF | STATE_PADRELEASE);
+
+        if (GM_GameOverTimer != -2)
+        {
+            sna_set_flags1_8004E2F4(snake, (SNA_FLAG1_UNK5 | SNA_FLAG1_UNK6));
+        }
+    }
+}
+
+void sna_sub_8004E41C(SnaInitWork *snake, unsigned short flags)
+{
+    TARGET *target = snake->field_8E8_pTarget;
+
+    if (target != NULL)
+    {
+        target->damaged &= ~flags;
+        snake->field_8E8_pTarget = 0;
+        snake->field_A54.choke_count = 0;
+        snake->field_89C_pTarget->size.vx = 300;
+    }
+}
+
+// ... categorize move/turn direction by angle?
+// param_1: snake->control.turn.vy
+// param_2: gSnaMoveDir_800ABBA4
+int sub_8004E458(short param_1, int param_2)
+{
+    short uVar2;
+
+    if (param_2 < 0)
+    {
+        return 0;
+    }
+
+    uVar2 = (param_2 - param_1) & 0xFFF;
+
+    if (uVar2 < 0x800)
+    {
+        if (uVar2 < 0x100)
+        {
+            return 1;
+        }
+        else if (uVar2 > 0x500)
+        {
+            return 3;
+        }
+
+        return 4;
+    }
+    else
+    {
+        if (uVar2 > 0xF00)
+        {
+            return 1;
+        }
+        else if (uVar2 < 0xB00)
+        {
+            return 3;
+        }
+
+        return 2;
+    }
+}
+
+int sub_8004E4C0(SnaInitWork *work, int param_2)
+{
+    int iVar1;
+
+    if (-1 < dword_800ABBA8)
+    {
+        if ((*dword_800ABBB4 & 0x40) != 0)
+        {
+            return param_2;
+        }
+        iVar1 = (param_2 - dword_800ABBA8) & 0xfff;
+        if (iVar1 < 0x400)
+        {
+            param_2 = dword_800ABBA8 + 0x400;
+        }
+        if (iVar1 > 0xc00)
+        {
+            param_2 = dword_800ABBA8 - 0x400;
+        }
+    }
+    return param_2;
+}
+
+int sub_8004E51C(SVECTOR *param_1, void *param_2, int param_3, int param_4)
+{
+    if (HZD_80028454(param_2, param_1, &param_1[1], param_3, param_4) == 0)
+    {
+        return -1;
+    }
+    HZD_GetSpadVector(&param_1[1]);
+    GV_SubVec3(&param_1[1], param_1, param_1);
+    return GV_VecLen3(param_1);
+}
+
+void sub_8004E588(HZD_HDL *param_1, SVECTOR *param_2, int *levels)
+{
+    unsigned int uVar1;
+
+    uVar1 = HZD_LevelTestHazard(param_1, param_2, 3);
+    HZD_LevelMinMaxHeights(levels);
+    if ((uVar1 & 1) == 0)
+    {
+        levels[0] = -32767;
+    }
+    if ((uVar1 & 2) == 0)
+    {
+        levels[1] = 32767;
+    }
+}
+
+int sub_8004E5E8(SnaInitWork *work, int flag)
+{
+    int      i;
+    SVECTOR  vec;
+    int      levels[2];
+    HZD_FLR *flr[2];
+
+    vec.vx = work->body.objs->objs[4].world.t[0];
+    vec.vy = work->body.objs->objs[4].world.t[1];
+    vec.vz = work->body.objs->objs[4].world.t[2];
+
+    DG_SetPos2(&vec, &work->control.rot);
+    DG_PutVector(&svector_800AB7CC, &vec, 1);
+    sub_8004E588(work->control.map->hzd, &vec, levels);
+
+    i = -1;
+
+    if ((HZD_LevelMaxHeight() & flag) == 0)
+    {
+        HZD_LevelMinMaxFloors(flr);
+
+        if (vec.vy - levels[0] < 350)
+        {
+            i = 0;
+        }
+        else if (levels[1] - vec.vy < 125)
+        {
+            i = 1;
+        }
+
+        if (i >= 0)
+        {
+            if (!flr[i])
+            {
+                GM_BombSeg = 0;
+            }
+            else
+            {
+                GM_BombSeg = (void *)((int)flr[i] & ~0x80000000);
+            }
+
+            return 1;
+        }
+    }
+
+    return 2;
+}
+
+int sna_8004E71C(int a1, HZD_HDL *pHzd, SVECTOR *pVec, int a4)
+{
+    int     levels[2];
+    SVECTOR vec, vec_saved;
+    MATRIX  mtx;
+
+    pVec->vz = a1;
+    pVec->vy = 0;
+    pVec->vx = 0;
+
+    DG_PutVector(pVec, pVec, 1);
+    ReadRotMatrix(&mtx);
+
+    vec.vx = mtx.t[0];
+    vec.vy = mtx.t[1];
+    vec.vz = mtx.t[2];
+
+    vec_saved = *pVec;
+
+    if ( sub_8004E51C(&vec, pHzd, 12, 1) >= 0 )
+    {
+        *pVec = vec_saved;
+    }
+
+    sub_8004E588(pHzd, pVec, levels);
+    return (levels[1] - pVec->vy) < a4;
+}
+
+int sna_8004E808(SnaInitWork *work, int a2, int a3, int a4, int a5)
+{
+    CONTROL *pCtrl = &work->control;
+    int bVar1 = 0;
+    SVECTOR SStack48;
+    SVECTOR auStack40;
+
+    if (sna_8004E71C(a3, pCtrl->map->hzd, &SStack48, a5))
+    {
+        return 1;
+    }
+
+    if (a2 == 0)
+    {
+        return 0;
+    }
+
+    if (sna_8004E71C(a4, pCtrl->map->hzd, &auStack40, a5))
+    {
+        if (!flr_800ABBB8[0] || (flr_800ABBB8[0]->b1.h == 2))
+        {
+            return 1;
+        }
+
+        if (sub_8004E51C(&SStack48, work->control.map->hzd, 3, 1) < 0)
+        {
+            return 1;
+        }
+
+        bVar1 = 1;
+    }
+
+    if ((!bVar1) && sna_8004E71C((a3 + a4) / 2, pCtrl->map->hzd, &SStack48, a5))
+    {
+        return 1;
+    }
+
+    return 0;
+}
+
+int sub_8004E930(SnaInitWork *snake, int arg1)
+{
+    int     int0;
+    int     int1;
+    SVECTOR vec0;
+    SVECTOR vec1;
+
+    vec0.vy = 0;
+    vec0.vx = 0;
+    vec0.vz = (short)arg1;
+    DG_PutVector(&vec0, &vec0, 1);
+
+    int1 = HZD_LevelFloorHeight(&vec0, flr_800ABBB8[0]);
+    int1 -= snake->control.levels[0];
+
+    vec1.vx = int1;
+    vec1.vz = SquareRoot0(arg1 * arg1 - int1 * int1);
+    int0 = -GV_VecDir2(&vec1);
+
+    if (int0 < -0x800)
+    {
+        int0 += 0x1000;
+    }
+
+    return int0;
+}
+
+void sub_8004E9D0(SnaInitWork *work)
+{
+    int iVar1;
+
+    if (flr_800ABBB8[0])
+    {
+        iVar1 = sub_8004E930(work, 500);
+        iVar1 = iVar1 / 2;
+    }
+    else
+    {
+        iVar1 = 0;
+    }
+
+    work->adjust[1].vx = GV_NearExp2(work->adjust[1].vx, iVar1);
+    work->adjust[4].vx = GV_NearExp2(work->adjust[4].vx, -iVar1);
+    work->adjust[9].vx = GV_NearExp2(work->adjust[9].vx, -iVar1);
+}
+
+void sub_8004EA50(SnaInitWork *work, int param_2)
+{
+    int iVar1 = GV_DiffDirS(param_2, work->control.rot.vy);
+
+    if (iVar1 > 128)
+    {
+        iVar1 = 128;
+    }
+    else if (iVar1 < -128)
+    {
+        iVar1 = -128;
+    }
+
+    work->control.turn.vz = iVar1;
+}
+
+int sna_8004EAA8( SnaInitWork *work, int stance )
+{
+    if ( stance == SNA_STANCE_STANDING )
+    {
+        return work->actpack->still->stand;
+    }
+
+    if ( stance == SNA_STANCE_SQUAT )
+    {
+        return work->actpack->still->squat;
+    }
+
+    if ( stance == SNA_STANCE_CROUCH )
+    {
+        return work->actpack->still->crouch;
+    }
+
+    return -1;
+}
+
+void sna_8004EB14(SnaInitWork *work)
+{
+    memcpy(&work->field_9D0, &word_8009EFC0, sizeof(work->field_9D0));
+}
