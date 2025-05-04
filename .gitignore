@@ -33,7 +33,7 @@ build/statcov.txt
 build/obj_tool/Release
 .vs
 build/include_asm_tmp
-src/.vscode/settings.json
+source/.vscode/settings.json
 *.log
 *.swp
 *.swo
