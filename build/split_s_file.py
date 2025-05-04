@@ -71,7 +71,7 @@ def main():
         f.writelines(l.replace(f"{prefix}_{original_addr}", f"{prefix}_{split_address:08X}") for l in header)
         f.writelines(part2)
 
-    for f in glob('../src/**/*', recursive=True):
+    for f in glob('../source/**/*', recursive=True):
         patch_file(f, f"{prefix}_{original_addr}", f"{prefix}_{split_address:08X}")
 
     for f in glob('../build/linker_command_file.txt'):

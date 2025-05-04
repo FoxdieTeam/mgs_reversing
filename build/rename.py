@@ -39,7 +39,7 @@ def main():
     for f in glob('../asm/**/*', recursive=True):
         file_replace(f, before, after)
 
-    for f in glob('../src/**/*', recursive=True):
+    for f in glob('../source/**/*', recursive=True):
         file_replace(f, before, after)
 
     for f in glob('../build/linker_command_file.txt'):
