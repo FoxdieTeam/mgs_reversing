@@ -5,7 +5,7 @@ import sys
 import re
 
 # merge a range of lines in linker_command_file.txt into one .c file using INCLUDE_ASM for .s
-# args: <linker line first> <linker line last> <../src/file.c>
+# args: <linker line first> <linker line last> <../source/file.c>
 
 ADDR_RE = r'_([0-9A-F]{8})\.'
 INCLUDE_RE = r'^\s*include\s*"([^"]+)".*$'
@@ -48,7 +48,7 @@ for i in range(start_line_no, end_line_no+1):
     print("Process line: " + stripped)
 
     path = m.group(1)
-    c = path.replace('.obj', '.c').replace('obj\\', 'src\\')
+    c = path.replace('.obj', '.c').replace('obj\\', 'source\\')
     s = path.replace('.obj', '.s').replace('obj\\', 'asm\\')
 
     c = c.replace('\\', '/')
@@ -91,7 +91,7 @@ for i in reversed(range(start_line_no+1, end_line_no+1)):
 
 out_file_obj = '..\\obj\\{}.obj'.format(out_file.replace('/', '\\'))
 out_file_obj = out_file_obj.replace(".c.obj", ".obj")
-out_file_obj = out_file_obj.replace("..\\src\\", "")
+out_file_obj = out_file_obj.replace("..\\source\\", "")
 
 lines[start_line_no] = '\n    include "{}"\n'.format(out_file_obj)
 

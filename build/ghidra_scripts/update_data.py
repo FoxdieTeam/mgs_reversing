@@ -17,26 +17,26 @@ Instructions:
    
    to create a new profile that you can call psx.prf.
 
-   Remove all the source files and options, then individually add each header file in src and its subfolders to the
+   Remove all the source files and options, then individually add each header file in source and its subfolders to the
    list of source files to parse and use the following parse options, replacing Path/to/ as appropriate and adding any
    folders that might be missing from the list. Note that on Linux, you might be required to make all the filenames in
    the PsyQ INCLUDE and INCLUDE/SYS folders lowercase, as well as the INCLUDE/SYS folder name itself.
    
-        -IPath/to/mgs_reversing/src
-        -IPath/to/mgs_reversing/src/Equip
-        -IPath/to/mgs_reversing/src/Font
-        -IPath/to/mgs_reversing/src/Game
-        -IPath/to/mgs_reversing/src/libdg
-        -IPath/to/mgs_reversing/src/libgcl
-        -IPath/to/mgs_reversing/src/libgv
-        -IPath/to/mgs_reversing/src/map
-        -IPath/to/mgs_reversing/src/memcard
-        -IPath/to/mgs_reversing/src/Menu
-        -IPath/to/mgs_reversing/src/mts
-        -IPath/to/mgs_reversing/src/Okajima
-        -IPath/to/mgs_reversing/src/Thing
-        -IPath/to/mgs_reversing/src/util
-        -IPath/to/mgs_reversing/src/Weapon
+        -IPath/to/mgs_reversing/source
+        -IPath/to/mgs_reversing/source/equip
+        -IPath/to/mgs_reversing/source/font
+        -IPath/to/mgs_reversing/source/game
+        -IPath/to/mgs_reversing/source/libdg
+        -IPath/to/mgs_reversing/source/libgcl
+        -IPath/to/mgs_reversing/source/libgv
+        -IPath/to/mgs_reversing/source/libhzd
+        -IPath/to/mgs_reversing/source/memcard
+        -IPath/to/mgs_reversing/source/menu
+        -IPath/to/mgs_reversing/source/mts
+        -IPath/to/mgs_reversing/source/okajima
+        -IPath/to/mgs_reversing/source/takabe
+        -IPath/to/mgs_reversing/source/thing
+        -IPath/to/mgs_reversing/source/weapon
         -IPath/to/psyq_sdk/psyq_4.3/include
         -Dmips1
         -D__GNUC__
@@ -97,7 +97,7 @@ def strip_braces(string):
 defined_data_ranges = []
 updated_keys = set()
 
-for root, subdirs, files in os.walk(root_dir + '/src'):
+for root, subdirs, files in os.walk(root_dir + '/source'):
 
     for filename in files:
         file_path = os.path.join(root, filename)

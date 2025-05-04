@@ -186,7 +186,7 @@ ninja.newline()
 ninja.variable("psyq_psylink_overlay_fopen_mod_exe", prefix("wibo", "$psyq_path/psyq_4.4/bin/psylink_overlay_fopen_mod.exe"))
 ninja.newline()
 
-ninja.variable("src_dir", "../src")
+ninja.variable("src_dir", "../source")
 ninja.newline()
 
 if args.variant == 'vr_exe':
@@ -295,21 +295,21 @@ def get_files_recursive(path, ext):
     return collectedFiles
 
 def get_file_global_size(file):
-    if "overlays/" in file or "mts/" in file or "SD/" in file:
+    if "overlays/" in file or "mts/" in file or "sd/" in file:
         return "0"
 
     g0_list = [
-        "/Equip/",
-        "/Bullet/",
-        "/Thing/",
-        "/Okajima/",
-        "Game/item.c", # todo figure out if correct, why not all .c files in this dir ??
+        "/equip/",
+        "/bullet/",
+        "/thing/",
+        "/okajima/",
+        "game/item.c", # todo figure out if correct, why not all .c files in this dir ??
         "anime.c", # ditto
         "vibrate.c",
-        "/Takabe/",
+        "/takabe/",
         "/libfs/",
-        "Kojo/demo.c",
-        "Kojo/demothrd.c",
+        "kojo/demo.c",
+        "kojo/demothrd.c",
         "strctrl.c",
         "jimctrl.c",
         "memcard.c",
@@ -328,7 +328,7 @@ def gen_build_target(targetName):
     asmFiles = get_files_recursive("../asm", ".s")
     print("Got " + str(len(asmFiles)) + " asm files")
 
-    cFiles = get_files_recursive("../src", ".c")
+    cFiles = get_files_recursive("../source", ".c")
     print("Got " + str(len(cFiles)) + " source files")
 
     linkerDeps = []
@@ -348,7 +348,7 @@ def gen_build_target(targetName):
     # build .c files
     for cFile in cFiles:
         cFile = cFile.replace("\\", "/")
-        cOFile = cFile.replace("/src/", f"/{args.obj_directory}/")
+        cOFile = cFile.replace("/source/", f"/{args.obj_directory}/")
         cPreProcHeadersFile = cOFile.replace(".c", ".c.preproc.headers")
         cPreProcHeadersFixedFile = cOFile.replace(".c", ".c.preproc.headers_fixed")
         cConvertedFile = cOFile.replace(".c", ".c.eucjp")
@@ -365,7 +365,7 @@ def gen_build_target(targetName):
         ninja.build(cPreProcHeadersFixedFile, "header_deps", cPreProcHeadersFile)
 
         compiler = "psyq_cc_44"
-        if "mts/" in cFile or "SD/" in cFile:
+        if "mts/" in cFile or "sd/" in cFile:
             compiler = "psyq_cc_43"
 
         aspsx = "psyq_aspsx_assemble_44"
@@ -374,7 +374,7 @@ def gen_build_target(targetName):
                 aspsx = "psyq_aspsx_assemble_2_81_overlays"
             else:
                 aspsx = "psyq_aspsx_assemble_44_overlays"
-        elif "mts/" in cFile or "SD/" in cFile:
+        elif "mts/" in cFile or "sd/" in cFile:
             aspsx = "psyq_aspsx_assemble_2_56"
         elif args.variant == 'vr_exe':
             aspsx = "psyq_aspsx_assemble_2_81"
