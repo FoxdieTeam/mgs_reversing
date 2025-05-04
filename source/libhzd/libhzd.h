@@ -9,8 +9,8 @@
 #define OFFSET_TO_PTR(ptr, offset) (*(int *)offset = (int)ptr + *(int *)offset)
 
 typedef struct {
-    HZD_HEADER  *header;
-    HZD_AREA    *area;
+    HZD_MAP     *header;
+    HZD_GRP     *group;
     short        map;
     short        dynamic_queue_index;
     short        dynamic_floor_index;
@@ -61,9 +61,9 @@ extern int HZD_CurrentGroup;
 
 void HZD_StartDaemon(void);
 int  HZD_LoadInitHzd(void *buf, int id);
-HZD_HDL *HZD_MakeHandler(HZD_HEADER *hzd, int areaIndex, int dynamic_segments, int dynamic_floors);
+HZD_HDL *HZD_MakeHandler(HZD_MAP *hzd, int areaIndex, int dynamic_segments, int dynamic_floors);
 void HZD_FreeHandler(void *ptr);
-void HZD_MakeRoute(HZD_HEADER *hzd, char *arg1);
+void HZD_MakeRoute(HZD_MAP *hzd, char *arg1);
 
 /* dynamic.c */
 int  HZD_QueueDynamicSegment2(HZD_HDL *hzd, HZD_SEG *seg, int a_param_with_flag);

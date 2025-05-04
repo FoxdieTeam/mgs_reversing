@@ -486,7 +486,7 @@ static inline int HZD_8002A27C_helper2(unsigned short *ptrIn, unsigned int targe
 
 void HZD_8002A27C(HZD_HDL *hdl, HZD_EVT *event)
 {
-    HZD_AREA       *pArea;
+    HZD_GRP       *pArea;
     HZD_TRG        *pTrigger;
     int             count;
     int             i, j;
@@ -495,7 +495,7 @@ void HZD_8002A27C(HZD_HDL *hdl, HZD_EVT *event)
     unsigned short *ptr;
     int             a1;
 
-    pArea = hdl->area;
+    pArea = hdl->group;
     pTrigger = pArea->triggers;
 
     event->field_2_name_hash = HASH_ENTER;

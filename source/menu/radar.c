@@ -268,7 +268,7 @@ void drawMap_800391D0(MenuWork *work, unsigned char *ot, int arg2)
     char *pWallFlags;
     char *pWallFlags2;
 
-    HZD_AREA *pArea;
+    HZD_GRP *pArea;
     HZD_SEG  *pWall;
     HZD_HDL  *pHzdMap;
 
@@ -452,8 +452,8 @@ void drawMap_800391D0(MenuWork *work, unsigned char *ot, int arg2)
         scratchShort = (short *)svec;
         area_bits = HZD_CurrentGroup;
 
-        area_mask = 1 << pMap->hzd->header->n_areas;
-        areas = pMap->hzd->header->n_areas * 24;
+        area_mask = 1 << pMap->hzd->header->n_groups;
+        areas = pMap->hzd->header->n_groups * 24;
 
         while (1)
         {
@@ -472,7 +472,7 @@ void drawMap_800391D0(MenuWork *work, unsigned char *ot, int arg2)
                     continue;
                 }
 
-                pArea = (HZD_AREA *)((char *)pMap->hzd->header->areas + areas);
+                pArea = (HZD_GRP *)((char *)pMap->hzd->header->groups + areas);
                 pWallFlags = pArea->wallsFlags;
                 pWallFlags2 = (char *)pArea->wallsFlags + pArea->n_walls;
                 pWalls = pArea->walls;
