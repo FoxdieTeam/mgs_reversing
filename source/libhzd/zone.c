@@ -215,7 +215,7 @@ STATIC int HZD_FindClosestZone(HZD_HDL *hzd, SVECTOR *point)
 {
     int         min_zone;
     int         min_dist;
-    HZD_HEADER *header;
+    HZD_MAP *header;
     int         n_zones;
     HZD_ZON    *zone;
     int         dist;
@@ -349,7 +349,7 @@ STATIC int HZD_8005C4E4(HZD_HDL *hzd, int arg1, int arg2)
 
 STATIC int HZD_8005C5D4(HZD_HDL *hzd, int param_2, int param_3)
 {
-    HZD_HEADER    *hzdHeader;
+    HZD_MAP    *hzdHeader;
     int            n_zones;
     unsigned char *nears;
     int            cur_near;
@@ -701,7 +701,7 @@ int HZD_8005CB48(HZD_HDL *hzd, int x, int y, SVECTOR *point)
 
 int HZD_ZoneDistance(HZD_HDL *hzd, int from, int to)
 {
-    HZD_HEADER *hzdHeader;
+    HZD_MAP *hzdHeader;
     HZD_ZON    *hzdZon;
     int         next;
     int         cur_near;
@@ -755,7 +755,7 @@ int HZD_ZoneDistance(HZD_HDL *hzd, int from, int to)
 
 int HZD_8005CE5C(HZD_HDL *hzd, int from, int to, int max_dist)
 {
-    HZD_HEADER *hzdHeader;
+    HZD_MAP *hzdHeader;
     HZD_ZON    *hzdZon;
     int         next;
     int         cur_near;
@@ -811,7 +811,7 @@ int HZD_8005CE5C(HZD_HDL *hzd, int from, int to, int max_dist)
 
 int HZD_8005CFAC(HZD_HDL *hzd, int from, int to, int max_dist)
 {
-    HZD_HEADER *hzdHeader;
+    HZD_MAP *hzdHeader;
     HZD_ZON    *hzdZon;
     int         next;
     int         cur_near;

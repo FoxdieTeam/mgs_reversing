@@ -774,7 +774,7 @@ int HZD_80028454(HZD_HDL *hdl, SVECTOR *a2, SVECTOR *a3, int flags, int flag)
     int       count;
     int       n_areas, n_areas2;
     int       bit1, bit2;
-    HZD_AREA *pArea;
+    HZD_GRP *pArea;
     int       current_group;
     HZD_FLR  *pFloor;
     HZD_SEG  *pWall;
@@ -812,8 +812,8 @@ int HZD_80028454(HZD_HDL *hdl, SVECTOR *a2, SVECTOR *a3, int flags, int flag)
         char *scratchpad;
 
         bit2 = 1;
-        pArea = hdl->header->areas;
-        for (n_areas2 = hdl->header->n_areas; n_areas2 > 0; n_areas2--, bit2 <<= 1, pArea++)
+        pArea = hdl->header->groups;
+        for (n_areas2 = hdl->header->n_groups; n_areas2 > 0; n_areas2--, bit2 <<= 1, pArea++)
         {
             if (current_group & bit2)
             {
@@ -822,7 +822,7 @@ int HZD_80028454(HZD_HDL *hdl, SVECTOR *a2, SVECTOR *a3, int flags, int flag)
                     pWall = pArea->walls;
                     pFlags = pArea->wallsFlags;
                     do {} while (0);
-                    n_unknown = pArea->n_unknown;
+                    n_unknown = pArea->n_flat_walls;
                     pFlagsEnd = pFlags + 2 * pArea->n_walls;
                     scratchpad = (char *)SCRPAD_ADDR;
                     *((short *)(scratchpad + 0x6A)) = 0;
@@ -884,8 +884,8 @@ int HZD_80028454(HZD_HDL *hdl, SVECTOR *a2, SVECTOR *a3, int flags, int flag)
     if (flags & 1)
     {
         bit1 = 1;
-        pArea = hdl->header->areas;
-        for (n_areas = hdl->header->n_areas; n_areas > 0; n_areas--, bit1 <<= 1, pArea++)
+        pArea = hdl->header->groups;
+        for (n_areas = hdl->header->n_groups; n_areas > 0; n_areas--, bit1 <<= 1, pArea++)
         {
             if (current_group & bit1)
             {
@@ -1241,7 +1241,7 @@ static inline void sub_helper_80029098(void)
 
 int HZD_80029098(HZD_HDL *hdl, SVECTOR *pos, int delta, int flags, unsigned int mask)
 {
-    HZD_AREA *pArea;
+    HZD_GRP *pArea;
     int       n_unknown;
     HZD_SEG  *pWalls;
     char     *pFlags;
@@ -1253,7 +1253,7 @@ int HZD_80029098(HZD_HDL *hdl, SVECTOR *pos, int delta, int flags, unsigned int 
     int       idx;
     int       queue_size;
 
-    pArea = hdl->area;
+    pArea = hdl->group;
 
     HZD_CopyVector(pos, (SVECTOR *)0x1F80000C);
     HZD_800288E0((SVECTOR *)0x1F80000C, delta);
@@ -1262,7 +1262,7 @@ int HZD_80029098(HZD_HDL *hdl, SVECTOR *pos, int delta, int flags, unsigned int 
 
     if (flags & 0x4)
     {
-        n_unknown = pArea->n_unknown;
+        n_unknown = pArea->n_flat_walls;
 
         *(int *)0x1F800088 = delta * delta;
         *(int *)0x1F80006C = delta * delta;

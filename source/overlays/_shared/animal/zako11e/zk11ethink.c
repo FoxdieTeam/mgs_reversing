@@ -25,7 +25,7 @@ void s11e_zk11ecom_800D89E8( ZakoWork* work )
     HZD_HDL *hzd;
     void *a1;
     MAP *map;
-    HZD_HEADER *hdr;
+    HZD_MAP *hdr;
 
     v0 = work->field_B78;
     do {} while (0);

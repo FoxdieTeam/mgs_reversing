@@ -195,14 +195,14 @@ static inline int HZD_PointInBounds(HZD_FLR *floor, HZD_VEC *point)
 
 int HZD_LevelTestHazard(HZD_HDL *hdl, SVECTOR *point, int flags)
 {
-    HZD_AREA *pArea;
+    HZD_GRP *pArea;
     int      *pScr;
     HZD_FLR  *floor;
     int       count;
     HZD_FLR **ppFloors;
     int      *pScr2;
 
-    pArea = hdl->area;
+    pArea = hdl->group;
 
     HZD_CopyVector2(point, &POINT);
 

@@ -44,7 +44,7 @@ STATIC void HZD_ProcessTraps(HZD_TRG *trap, int n_traps)
     }
 }
 
-STATIC void HZD_ProcessRoutes(HZD_PAT *routes, int n_routes, HZD_HEADER *hzm)
+STATIC void HZD_ProcessRoutes(HZD_PAT *routes, int n_routes, HZD_MAP *hzm)
 {
     HZD_PTP *points;
     int      i;
@@ -59,11 +59,11 @@ STATIC void HZD_ProcessRoutes(HZD_PAT *routes, int n_routes, HZD_HEADER *hzm)
 
 int HZD_LoadInitHzd(void *buf, int id)
 {
-    HZD_HEADER *hzm;
-    HZD_AREA   *area;
+    HZD_MAP *hzm;
+    HZD_GRP   *area;
     int         i;
 
-    hzm = (HZD_HEADER *)buf;
+    hzm = (HZD_MAP *)buf;
     if (hzm->version < 2)
     {
         printf("Warning:old version hzm\n");
@@ -71,14 +71,14 @@ int HZD_LoadInitHzd(void *buf, int id)
 
     hzm->ptr_access[0] = 0;
 
-    OFFSET_TO_PTR(hzm, &hzm->areas);
+    OFFSET_TO_PTR(hzm, &hzm->groups);
     OFFSET_TO_PTR(hzm, &hzm->zones);
     OFFSET_TO_PTR(hzm, &hzm->routes);
 
     HZD_ProcessRoutes(hzm->routes, hzm->n_routes, hzm);
 
-    area = hzm->areas;
-    for (i = hzm->n_areas; i > 0; i--)
+    area = hzm->groups;
+    for (i = hzm->n_groups; i > 0; i--)
     {
         OFFSET_TO_PTR(hzm, &area->walls);
         OFFSET_TO_PTR(hzm, &area->floors);
@@ -92,7 +92,7 @@ int HZD_LoadInitHzd(void *buf, int id)
     return 1;
 }
 
-HZD_HDL *HZD_MakeHandler(HZD_HEADER *hzd, int areaIndex, int dynamic_segments, int dynamic_floors)
+HZD_HDL *HZD_MakeHandler(HZD_MAP *hzd, int areaIndex, int dynamic_segments, int dynamic_floors)
 {
     short    n_zones;
     void    *zones;
@@ -121,13 +121,13 @@ HZD_HDL *HZD_MakeHandler(HZD_HEADER *hzd, int areaIndex, int dynamic_segments, i
         hzdMap->max_dynamic_segments = dynamic_segments;
         hzdMap->max_dynamic_floors = dynamic_floors;
         hzdMap->header = hzd;
-        hzdMap->area = &hzd->areas[areaIndex];
+        hzdMap->group = &hzd->groups[areaIndex];
         hzdMap->dynamic_queue_index = 0;
         hzdMap->dynamic_floor_index = 0;
         (int)hzdMap->zones = *(int *)hzd;
 
-        trig = hzdMap->area->triggers;
-        for (i = hzdMap->area->n_triggers; i > 0; i--)
+        trig = hzdMap->group->triggers;
+        for (i = hzdMap->group->n_triggers; i > 0; i--)
         {
             // stop when we find a camera (traps are stored after cameras)
             if (trig->trap.id2 == (char)-1)
@@ -216,7 +216,7 @@ STATIC void HZD_MakeRoute_helper(HZD_ZON *zone, int n_zone, int cur_zone, char *
     }
 }
 
-void HZD_MakeRoute(HZD_HEADER *hzd, char *arg1)
+void HZD_MakeRoute(HZD_MAP *hzd, char *arg1)
 {
     HZD_ZON *zones;
     char    *buf, *argbuf;

@@ -127,26 +127,25 @@ typedef struct {
     short       n_triggers;
     short       n_walls;
     short       n_floors;
-    short       n_unknown;      // some specific walls ?
+    short       n_flat_walls;
     HZD_SEG     *walls;
     HZD_FLR     *floors;
     HZD_TRG     *triggers;
     char        *wallsFlags;
-} HZD_AREA;
+} HZD_GRP;
 
-// TODO: Should be HZD_MDL?
 typedef struct {
     void        *ptr_access[0];
     short       version;
     short       min_x, min_y;
     short       max_x, max_y;
-    short       n_areas;
+    short       n_groups;
     short       n_zones;
     short       n_routes;
-    HZD_AREA    *areas;
+    HZD_GRP     *groups;
     HZD_ZON     *zones;
     HZD_PAT     *routes;
-} HZD_HEADER;
+} HZD_MAP;
 
 // clang-format on
 #endif // _FMT_HZD_H_
