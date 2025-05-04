@@ -1,8 +1,8 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
-#include "Game/control.h"
-#include "Game/game.h"
+#include "game/control.h"
+#include "game/game.h"
 #include "strcode.h"
 
 typedef struct _PointWork

@@ -1,11 +1,11 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "Game/target.h"
-#include "Game/game.h"
-#include "Game/object.h"
-#include "Takabe/thing.h"
-#include "Anime/animconv/anime.h"
+#include "game/target.h"
+#include "game/game.h"
+#include "game/object.h"
+#include "takabe/thing.h"
+#include "anime/animconv/anime.h"
 
 void     Takabe_FreeObjs_800DC820(DG_OBJS *objs);
 DG_OBJS *s00a_unknown3_800DC7BC(int model, LIT *lit);

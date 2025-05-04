@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include "../../../_shared/Enemy/enemy.h"
+#include "../../../_shared/enemy/enemy.h"
 #include "mts/mts.h"
 
 typedef struct _Zako11FCommanderWork

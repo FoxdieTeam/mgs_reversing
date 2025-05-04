@@ -1,22 +1,22 @@
 #include "common.h"
 #include "charadef.h"
 
-#include "Anime/animconv/anime.h"
-#include "../_shared/Okajima/pato_lmp.h"
-#include "../_shared/Thing/sphere.h"
-#include "../_shared/Enemy/smoke.h"
-#include "../_shared/Thing/emitter.h"
-#include "../_shared/Enemy/object.h"
-#include "../_shared/Enemy/searchli.h"
-#include "../_shared/Thing/snow.h"
-#include "../_shared/Takabe/cinema.h"
-#include "../_shared/Takabe/fadeio.h"
-// #include "../_shared/Anime/animconv/breath.c" AN_Breath
-#include "../_shared/Enemy/demokage.h"
-#include "../_shared/Takabe/windcrcl.h"
-#include "../_shared/Takabe/focus.h"
-#include "../_shared/Okajima/blur.h"
-#include "../_shared/Kojo/famaslit.h"
+#include "anime/animconv/anime.h"
+#include "../_shared/okajima/pato_lmp.h"
+#include "../_shared/thing/sphere.h"
+#include "../_shared/enemy/smoke.h"
+#include "../_shared/thing/emitter.h"
+#include "../_shared/enemy/object.h"
+#include "../_shared/enemy/searchli.h"
+#include "../_shared/thing/snow.h"
+#include "../_shared/takabe/cinema.h"
+#include "../_shared/takabe/fadeio.h"
+// #include "../_shared/anime/animconv/breath.c" AN_Breath
+#include "../_shared/enemy/demokage.h"
+#include "../_shared/takabe/windcrcl.h"
+#include "../_shared/takabe/focus.h"
+#include "../_shared/okajima/blur.h"
+#include "../_shared/kojo/famaslit.h"
 
 void AN_Breath( MATRIX *matrix );
 

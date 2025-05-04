@@ -1,5 +1,5 @@
 #include "common.h"
-#include "Menu/menuman.h"
+#include "menu/menuman.h"
 #include "game.h"
 
 extern AreaHistory      gAreaHistory_800B5850;

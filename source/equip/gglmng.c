@@ -2,8 +2,8 @@
 
 #include "common.h"
 #include "libgv/libgv.h"
-#include "Game/game.h"
-#include "Game/camera.h"
+#include "game/game.h"
+#include "game/camera.h"
 #include "linkvar.h"
 
 extern GM_Camera GM_Camera_800B77E8;

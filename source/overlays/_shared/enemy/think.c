@@ -10,7 +10,7 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libhzd/libhzd.h"
-#include "Game/game.h"
+#include "game/game.h"
 
 extern ENEMY_COMMAND EnemyCommand_800E0D98;
 extern unsigned int  COM_GameStatus_800E0F3C;

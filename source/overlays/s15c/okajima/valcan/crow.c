@@ -1,8 +1,8 @@
 #include "common.h"
-#include "Game/control.h"
-#include "Game/game.h"
-#include "Game/object.h"
-#include "Game/target.h"
+#include "game/control.h"
+#include "game/game.h"
+#include "game/object.h"
+#include "game/target.h"
 #include "linkvar.h"
 
 typedef struct _CrowEntry

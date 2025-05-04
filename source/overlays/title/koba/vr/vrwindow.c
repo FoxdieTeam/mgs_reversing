@@ -6,8 +6,8 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "Game/game.h"
-#include "SD/g_sound.h"
+#include "game/game.h"
+#include "sd/g_sound.h"
 
 typedef struct VrwindowWork
 {

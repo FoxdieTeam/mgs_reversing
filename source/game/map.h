@@ -25,7 +25,7 @@ typedef struct MAP
     int      zone;
 } MAP;
 
-// Local to Game/area.c
+// Local to game/area.c
 #define MAX_HISTORY 8
 typedef struct AreaHistory
 {

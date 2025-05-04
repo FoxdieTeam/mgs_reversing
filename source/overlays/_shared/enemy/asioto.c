@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include "common.h"
 #include "libgv/libgv.h"
-#include "Game/game.h"
+#include "game/game.h"
 #include "asioto.h"
 
 typedef struct _Work

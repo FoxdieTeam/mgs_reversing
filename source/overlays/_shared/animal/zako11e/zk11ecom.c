@@ -1,10 +1,10 @@
-#include "../../../_shared/Enemy/enemy.h"
+#include "../../../_shared/enemy/enemy.h"
 
 #include <stdio.h>
 #include "common.h"
 #include "mts/mts.h" // for fprintf
 #include "libhzd/libhzd.h"
-#include "Game/game.h"
+#include "game/game.h"
 #include "linkvar.h"
 
 extern ZAKO_COMMAND ZakoCommand_800DF280;

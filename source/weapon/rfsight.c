@@ -5,7 +5,7 @@
 #include <libgpu.h>
 
 #include "common.h"
-#include "Thing/sight.h"
+#include "thing/sight.h"
 #include "chara/snake/sna_init.h"
 
 extern int dword_8009F604;

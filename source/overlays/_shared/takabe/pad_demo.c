@@ -4,7 +4,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
-#include "Game/game.h"
+#include "game/game.h"
 #include "mts/mts.h"
 #include "mts/mts_pad.h"
 

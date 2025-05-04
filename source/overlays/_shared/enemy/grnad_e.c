@@ -5,11 +5,11 @@
 
 #include "common.h"
 #include "libgv/libgv.h"
-#include "Bullet/tenage.h"
-#include "Game/control.h"
-#include "Game/game.h"
-#include "Game/object.h"
-#include "Weapon/weapon.h"
+#include "bullet/tenage.h"
+#include "game/control.h"
+#include "game/game.h"
+#include "game/object.h"
+#include "weapon/weapon.h"
 #include "strcode.h"
 
 typedef struct _GrenadeEnemyWork

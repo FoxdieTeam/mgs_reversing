@@ -1,4 +1,4 @@
-#include "../../_shared/Enemy/enemy.h"
+#include "../../_shared/enemy/enemy.h"
 
 #define COM_ST_DANBOWL 0x2000
 #define SP_DANBOWLKERI 0x400000

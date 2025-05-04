@@ -1,12 +1,12 @@
 #include "common.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
-#include "Game/game.h"
-#include "Game/homing.h"
+#include "game/game.h"
+#include "game/homing.h"
 #include "linkvar.h"
-#include "Game/object.h"
-#include "Okajima/blood.h"
-#include "SD/g_sound.h"
+#include "game/object.h"
+#include "okajima/blood.h"
+#include "sd/g_sound.h"
 
 typedef struct _EventmouseWork
 {

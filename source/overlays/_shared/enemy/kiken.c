@@ -2,7 +2,7 @@
 
 #include "common.h"
 #include "libgv/libgv.h"
-#include "overlays/_shared/Enemy/enemy.h"
+#include "overlays/_shared/enemy/enemy.h"
 #include "strcode.h"
 
 typedef struct _KikenWork

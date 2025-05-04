@@ -7,11 +7,11 @@
 
 #include "common.h"
 #include "chara/snake/sna_init.h"
-#include "Game/game.h"
-#include "Game/hittable.h"
+#include "game/game.h"
+#include "game/hittable.h"
 #include "linkvar.h"
-#include "Game/object.h"
-#include "SD/g_sound.h"
+#include "game/object.h"
+#include "sd/g_sound.h"
 
 extern GV_PAD  GV_PadData_800B05C0[4];
 

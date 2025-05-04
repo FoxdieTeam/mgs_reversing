@@ -1,15 +1,15 @@
 #include "common.h"
 #include "charadef.h"
 
-#include "Thing/door.h"
-#include "../_shared/Okajima/uji.h"
-#include "../_shared/Takabe/cinema.h"
-#include "../_shared/Takabe/fadeio.h"
-#include "../_shared/Enemy/demokage.h"
-#include "../_shared/Takabe/sepia.h"
-#include "../_shared/Okajima/red_alrt.h"
-#include "../_shared/Takabe/gas_efct.h"
-#include "../_shared/Okajima/blurpure.h"
+#include "thing/door.h"
+#include "../_shared/okajima/uji.h"
+#include "../_shared/takabe/cinema.h"
+#include "../_shared/takabe/fadeio.h"
+#include "../_shared/enemy/demokage.h"
+#include "../_shared/takabe/sepia.h"
+#include "../_shared/okajima/red_alrt.h"
+#include "../_shared/takabe/gas_efct.h"
+#include "../_shared/okajima/blurpure.h"
 
 CHARA _StageCharacterEntries[] =
 {

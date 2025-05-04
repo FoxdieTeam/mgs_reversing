@@ -5,10 +5,10 @@
 #include <libgte.h>
 #include <libgpu.h>
 #include "libgv/libgv.h"
-#include "Game/control.h"
-#include "Game/game.h"
-#include "Game/object.h"
-#include "Game/camera.h"
+#include "game/control.h"
+#include "game/game.h"
+#include "game/object.h"
+#include "game/camera.h"
 
 typedef struct dmo_model_0x14
 {

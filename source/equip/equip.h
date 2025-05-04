@@ -1,8 +1,8 @@
 #ifndef _EQUIP_H_
 #define _EQUIP_H_
 
-#include "Game/game.h"      // for OBJECT
-#include "Game/control.h"   // for CONTROL
+#include "game/game.h"      // for OBJECT
+#include "game/control.h"   // for CONTROL
 
 void *NewBandana( CONTROL *control, OBJECT *parent, int num_parent );
 void *NewBodyarm( CONTROL *control, OBJECT *parent, int num_parent );

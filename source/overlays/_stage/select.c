@@ -1,6 +1,6 @@
 #include "common.h"
 #include "charadef.h"
-#include "../_shared/Game/select.h"
+#include "../_shared/game/select.h"
 
 void *NewVibEdit_800C47B4(int flags, int perms);
 

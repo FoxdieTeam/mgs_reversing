@@ -1,12 +1,12 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "Anime/animconv/anime.h"
-#include "Game/game.h"
+#include "anime/animconv/anime.h"
+#include "game/game.h"
 #include "linkvar.h"
-#include "Game/target.h"
-#include "Okajima/spark.h"
-#include "SD/g_sound.h"
+#include "game/target.h"
+#include "okajima/spark.h"
+#include "sd/g_sound.h"
 
 typedef struct _RevbulltWork
 {

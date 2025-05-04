@@ -5,12 +5,12 @@
 #include <libgpu.h>
 
 #include "common.h"
-#include "Anime/animconv/anime.h"
-#include "Game/object.h"
-#include "Game/map.h"
+#include "anime/animconv/anime.h"
+#include "game/object.h"
+#include "game/map.h"
 #include "linkvar.h"
-#include "Okajima/bullet.h"
-#include "SD/g_sound.h"
+#include "okajima/bullet.h"
+#include "sd/g_sound.h"
 
 extern int   DG_CurrentGroupID;
 

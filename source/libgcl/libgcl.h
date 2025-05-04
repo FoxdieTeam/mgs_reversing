@@ -2,8 +2,8 @@
 #define _LIBGCL_H_
 
 #include "common.h"
-#include "Menu/menuman.h"
-#include "Game/map.h"
+#include "menu/menuman.h"
+#include "game/map.h"
 
 /*---------------------------------------------------------------------------*/
 

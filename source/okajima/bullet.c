@@ -8,10 +8,10 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libhzd/libhzd.h"
-#include "Game/game.h"
-#include "Game/target.h"
+#include "game/game.h"
+#include "game/target.h"
 #include "linkvar.h"
-#include "Anime/animconv/anime.h"
+#include "anime/animconv/anime.h"
 #include "spark.h"
 
 /*---------------------------------------------------------------------------*/

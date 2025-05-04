@@ -6,11 +6,11 @@
 
 #include "common.h"
 #include "libdg/libdg.h"
-#include "Game/game.h"
-#include "Menu/menuman.h"
+#include "game/game.h"
+#include "menu/menuman.h"
 #include "chara/snake/sna_init.h"
-#include "Thing/sgtrect3.h"
-#include "Thing/sight.h"
+#include "thing/sgtrect3.h"
+#include "thing/sight.h"
 
 extern int              amissile_alive_8009F490;
 extern SVECTOR          svector_8009F494;

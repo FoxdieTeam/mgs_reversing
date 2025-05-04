@@ -1,11 +1,11 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "Game/control.h"
-#include "Game/game.h"
-#include "Game/object.h"
-#include "Equip/equip.h"
-#include "SD/g_sound.h"
+#include "game/control.h"
+#include "game/game.h"
+#include "game/object.h"
+#include "equip/equip.h"
+#include "sd/g_sound.h"
 
 typedef struct NinjaWork
 {

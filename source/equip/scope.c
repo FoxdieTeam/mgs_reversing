@@ -2,14 +2,14 @@
 
 #include "common.h"
 #include "libgv/libgv.h"
-#include "Menu/menuman.h"
-#include "Game/camera.h"
-#include "Game/object.h"
-#include "Thing/sight.h"
+#include "menu/menuman.h"
+#include "game/camera.h"
+#include "game/object.h"
+#include "thing/sight.h"
 #include "chara/snake/sna_init.h"
-#include "Game/object.h"
+#include "game/object.h"
 #include "linkvar.h"
-#include "SD/g_sound.h"
+#include "sd/g_sound.h"
 #include "strcode.h"
 
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;

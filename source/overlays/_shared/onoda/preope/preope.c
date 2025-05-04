@@ -5,8 +5,8 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
-#include "Game/game.h"
-#include "SD/g_sound.h"
+#include "game/game.h"
+#include "sd/g_sound.h"
 
 extern GV_PAD GV_PadData_800B05C0[4];
 

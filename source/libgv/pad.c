@@ -4,7 +4,7 @@
 #include "mts/mts.h"
 #include "mts/mts_pad.h"
 #include "linkvar.h"
-#include "Game/game.h"
+#include "game/game.h"
 
 /***bss****************************************************************/
 extern int     dword_800B05A8[6];

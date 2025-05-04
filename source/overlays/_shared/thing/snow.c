@@ -5,8 +5,8 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "Game/game.h"
-#include "Game/camera.h"
+#include "game/game.h"
+#include "game/camera.h"
 #include "strcode.h"
 
 extern CONTROL         *GM_WhereList_800B56D0[96];

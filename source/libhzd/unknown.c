@@ -4,7 +4,7 @@
 #include "libhzd/libhzd.h"
 #include "inline_n.h"
 #include "inline_x.h"
-#include "Game/map.h"
+#include "game/map.h"
 
 /* scratch pad address 0x1f800000 - 0x1f800400 */
 #define getScratchAddr2(type, offset)   ((type *)(0x1f800000+(offset)))

@@ -1,7 +1,7 @@
 #include "game.h"
 #include "common.h"
 #include "libgcl/libgcl.h"
-#include "SD/g_sound.h"
+#include "sd/g_sound.h"
 
 STATIC int     SECTION(".sbss") dword_800ABA70;
 STATIC int     SECTION(".sbss") dword_800ABA74;

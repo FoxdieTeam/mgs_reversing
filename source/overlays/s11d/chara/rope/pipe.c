@@ -1,10 +1,10 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "Game/game.h"
-#include "Game/object.h"
-#include "Game/vibrate.h"
-#include "Bullet/blast.h"
+#include "game/game.h"
+#include "game/object.h"
+#include "game/vibrate.h"
+#include "bullet/blast.h"
 
 typedef struct PipeWork
 {

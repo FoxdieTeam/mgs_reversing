@@ -1,12 +1,12 @@
-#include "../../_shared/Enemy/enemy.h"
+#include "../../_shared/enemy/enemy.h"
 
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "Game/item.h"
+#include "game/item.h"
 #include "linkvar.h"
-#include "Anime/animconv/anime.h"
-#include "SD/g_sound.h"
+#include "anime/animconv/anime.h"
+#include "sd/g_sound.h"
 
 extern ENEMY_COMMAND EnemyCommand_800E0D98;
 extern unsigned int  COM_GameStatus_800E0F3C;

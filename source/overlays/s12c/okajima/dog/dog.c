@@ -2,11 +2,11 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "Game/target.h"
-#include "Game/game.h"
-#include "Game/homing.h"
-#include "Game/object.h"
-#include "Okajima/blood.h"
+#include "game/target.h"
+#include "game/game.h"
+#include "game/homing.h"
+#include "game/object.h"
+#include "okajima/blood.h"
 
 typedef struct DogWork
 {

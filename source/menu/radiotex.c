@@ -4,8 +4,8 @@
 #include <libgpu.h>
 
 #include "common.h"
-#include "Game/game.h"
-#include "Menu/menuman.h"
+#include "game/game.h"
+#include "menu/menuman.h"
 
 STATIC RECT rect_800AB6C8 = {768, 256, 256, 4};
 STATIC RECT rect_800AB6D0 = {896, 336, 64, 96};

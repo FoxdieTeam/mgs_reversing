@@ -1,6 +1,6 @@
 #include "libgv/libgv.h"
-#include "Game/game.h"
-#include "Bullet/blast.h"
+#include "game/game.h"
+#include "bullet/blast.h"
 
 typedef struct BlastLnWork
 {

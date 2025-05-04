@@ -1,9 +1,9 @@
 #include "dymc_seg.h"
 
 #include "common.h"
-#include "Bullet/jirai.h"
-#include "Game/game.h"
-#include "Takabe/thing.h"
+#include "bullet/jirai.h"
+#include "game/game.h"
+#include "takabe/thing.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 #include "libhzd/libhzd.h"

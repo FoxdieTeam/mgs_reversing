@@ -5,8 +5,8 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "Game/object.h"
-#include "Game/camera.h"
+#include "game/object.h"
+#include "game/camera.h"
 
 typedef struct _PatoLmpPrims
 {

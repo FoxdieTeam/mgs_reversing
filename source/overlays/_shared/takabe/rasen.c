@@ -1,10 +1,10 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "Bullet/bakudan.h"
-#include "Bullet/jirai.h"
-#include "Game/camera.h"
-#include "Game/hittable.h"
+#include "bullet/bakudan.h"
+#include "bullet/jirai.h"
+#include "game/camera.h"
+#include "game/hittable.h"
 #include "linkvar.h"
 
 // Actor created by NewRasen_800CBA7C

@@ -1,7 +1,7 @@
 #include "target.h"
 
 #include "common.h"
-#include "Game/game.h"
+#include "game/game.h"
 
 // Instead of dynamically allocating TARGETs,
 // the game uses the big TARGET array gTargets_800B64E0.

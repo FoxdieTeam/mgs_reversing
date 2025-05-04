@@ -5,8 +5,8 @@
 #include <string.h>
 
 #include "common.h"
-#include "Game/game.h"
-#include "Menu/radio.h"
+#include "game/game.h"
+#include "menu/radio.h"
 #include "linkvar.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
@@ -14,7 +14,7 @@
 #include "memcard/memcard.h"
 #include "mts/mts.h"
 #include "mts/taskid.h"
-#include "SD/g_sound.h"
+#include "sd/g_sound.h"
 
 //------------------------------------------------------------------------------
 // gp

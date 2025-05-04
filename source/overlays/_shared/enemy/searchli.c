@@ -5,11 +5,11 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "Anime/animconv/anime.h"
-#include "Game/control.h"
-#include "Game/game.h"
+#include "anime/animconv/anime.h"
+#include "game/control.h"
+#include "game/game.h"
 #include "linkvar.h"
-#include "overlays/_shared/Enemy/enemy.h"
+#include "overlays/_shared/enemy/enemy.h"
 #include "strcode.h"
 
 // Strange

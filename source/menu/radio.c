@@ -11,9 +11,9 @@
 #include "radar.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "Game/game.h"
+#include "game/game.h"
 #include "linkvar.h"
-#include "SD/g_sound.h"
+#include "sd/g_sound.h"
 
 int                       SECTION(".sbss") dword_800ABAF8;
 int                       SECTION(".sbss") gRadioClut_800ABAFC;

@@ -1,12 +1,12 @@
 #include "weapon.h"
 
 #include "common.h"
-#include "Game/map.h"
-#include "Game/target.h"
-#include "Game/object.h"
-#include "Bullet/jirai.h"
+#include "game/map.h"
+#include "game/target.h"
+#include "game/object.h"
+#include "bullet/jirai.h"
 #include "linkvar.h"
-#include "SD/g_sound.h"
+#include "sd/g_sound.h"
 
 extern int        DG_CurrentGroupID;
 extern int        counter_8009F448;

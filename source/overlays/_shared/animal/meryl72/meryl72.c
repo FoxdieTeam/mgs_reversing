@@ -4,8 +4,8 @@
 #include "chara/snake/shadow.h"
 #include "libgv/libgv.h"
 #include "libhzd/libhzd.h"
-#include "Game/camera.h"
-#include "Game/game.h"
+#include "game/camera.h"
+#include "game/game.h"
 
 #include "linkvar.h"
 #include "strcode.h"

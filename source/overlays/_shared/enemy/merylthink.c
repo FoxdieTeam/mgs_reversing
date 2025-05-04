@@ -1,10 +1,10 @@
-#include "../../_shared/Enemy/enemy.h"
+#include "../../_shared/enemy/enemy.h"
 
 #include <stdio.h>
 #include "mts/mts.h" // for fprintf
 #include "libgv/libgv.h"
 #include "libhzd/libhzd.h"
-#include "Game/game.h"
+#include "game/game.h"
 
 extern ENEMY_COMMAND EnemyCommand_800E0D98;
 extern unsigned int  COM_GameStatus_800E0F3C;

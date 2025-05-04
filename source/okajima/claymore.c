@@ -7,11 +7,11 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "Game/game.h"
-#include "Game/map.h"
-#include "Game/target.h"
-#include "Anime/animconv/anime.h"
-#include "SD/g_sound.h"
+#include "game/game.h"
+#include "game/map.h"
+#include "game/target.h"
+#include "anime/animconv/anime.h"
+#include "sd/g_sound.h"
 #include "spark.h"
 
 extern MAP *claymore_MAP_800bdf08;

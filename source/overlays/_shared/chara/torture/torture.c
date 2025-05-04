@@ -3,14 +3,14 @@
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "Game/camera.h"
-#include "Game/control.h"
-#include "Game/game.h"
+#include "game/camera.h"
+#include "game/control.h"
+#include "game/game.h"
 #include "linkvar.h"
-#include "Game/object.h"
-#include "Game/over.h"
-#include "Game/vibrate.h"
-#include "SD/g_sound.h"
+#include "game/object.h"
+#include "game/over.h"
+#include "game/vibrate.h"
+#include "sd/g_sound.h"
 
 struct _TortureWork;
 typedef void (*TTortureFn)(struct _TortureWork *, int);

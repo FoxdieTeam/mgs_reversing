@@ -4,7 +4,7 @@
 #include <sys/types.h>
 #include <libgte.h>
 #include <libgpu.h>
-#include "Game/control.h"
+#include "game/control.h"
 
 #ifdef VR_EXE
 #define HOMING_ARRAY_LENGTH 64

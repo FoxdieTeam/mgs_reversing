@@ -4,10 +4,10 @@
 #include "chara/snake/sna_init.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
-#include "Game/game.h"
+#include "game/game.h"
 #include "linkvar.h"
-#include "Takabe/thing.h"
-#include "SD/g_sound.h"
+#include "takabe/thing.h"
+#include "sd/g_sound.h"
 
 typedef struct _O2DamgeWork
 {

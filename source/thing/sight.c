@@ -3,8 +3,8 @@
 #include "common.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
-#include "Game/game.h"
-#include "Menu/menuman.h"
+#include "game/game.h"
+#include "menu/menuman.h"
 #include "strcode.h"
 
 #define EXEC_LEVEL GV_ACTOR_AFTER2

@@ -3,8 +3,8 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
-#include "Game/game.h"
-#include "Game/jimctrl.h"
+#include "game/game.h"
+#include "game/jimctrl.h"
 
 typedef union GCL_EXEC_UNION {
     int            proc_id;

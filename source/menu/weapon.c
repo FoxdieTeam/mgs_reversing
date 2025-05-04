@@ -7,11 +7,11 @@
 #include "menuman.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
-#include "Game/game.h"
+#include "game/game.h"
 #include "linkvar.h"
-#include "Game/camera.h"
-#include "Menu/radio.h"
-#include "SD/g_sound.h"
+#include "game/camera.h"
+#include "menu/radio.h"
+#include "sd/g_sound.h"
 
 // TODO: Move to correct header
 // Functions of signature TMenuItemUnknownFn:

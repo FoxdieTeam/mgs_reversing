@@ -4,10 +4,10 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "Game/map.h"
+#include "game/map.h"
 #include "linkvar.h"
-#include "Game/object.h"
-#include "Equip/equip.h"
+#include "game/object.h"
+#include "equip/equip.h"
 #include "scn_mask.h"
 
 extern int DG_CurrentGroupID;

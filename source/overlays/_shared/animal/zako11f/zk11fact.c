@@ -1,4 +1,4 @@
-#include "../../../_shared/Enemy/enemy.h"
+#include "../../../_shared/enemy/enemy.h"
 
 extern CONTROL *GM_WhereList_800B56D0[96];
 

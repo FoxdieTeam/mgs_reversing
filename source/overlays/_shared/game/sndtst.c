@@ -3,8 +3,8 @@
 #include <stdio.h>
 #include "common.h"
 #include "libgv/libgv.h"
-#include "Game/game.h"
-#include "Game/jimctrl.h"
+#include "game/game.h"
+#include "game/jimctrl.h"
 
 typedef struct Work
 {

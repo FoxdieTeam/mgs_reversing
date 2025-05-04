@@ -2,11 +2,11 @@
 #define _ENEMY_H_
 
 #include "common.h"
-#include "Game/game.h"
-#include "Game/object.h"
-#include "Game/camera.h"
-#include "Weapon/weapon.h"
-#include "Game/homing.h"
+#include "game/game.h"
+#include "game/object.h"
+#include "game/camera.h"
+#include "weapon/weapon.h"
+#include "game/homing.h"
 
 typedef struct _WatcherPad
 {

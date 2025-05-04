@@ -1,9 +1,9 @@
 #include "common.h"
-#include "Game/game.h"
-#include "Game/hittable.h"
-#include "Game/object.h"
-#include "Takabe/thing.h"
-#include "Bullet/bakudan.h"
+#include "game/game.h"
+#include "game/hittable.h"
+#include "game/object.h"
+#include "takabe/thing.h"
+#include "bullet/bakudan.h"
 
 typedef struct _LiftWork
 {

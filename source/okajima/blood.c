@@ -7,8 +7,8 @@
 #include "common.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
-#include "Anime/animconv/anime.h"
-#include "Game/game.h"
+#include "anime/animconv/anime.h"
+#include "game/game.h"
 #include "strcode.h"
 
 /*---------------------------------------------------------------------------*/

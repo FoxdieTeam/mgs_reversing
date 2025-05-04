@@ -1,8 +1,8 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "Game/control.h"
-#include "Game/object.h"
+#include "game/control.h"
+#include "game/object.h"
 #include "chara/snake/shadow.h"
 
 typedef struct Johnny2Work

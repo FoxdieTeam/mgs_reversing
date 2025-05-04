@@ -5,7 +5,7 @@
 #include <libgte.h>
 #include <libgpu.h>
 
-#include "Game/object.h"
+#include "game/object.h"
 
 void *NewDemoKage_800C48A4(OBJECT *parent, SVECTOR arg1, int *arg2, int *arg3, char r, char g, char b, int unused);
 

@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include "common.h"
 #include "libgv/libgv.h"
-#include "Game/control.h"
-#include "Game/game.h"
-#include "Game/object.h"
+#include "game/control.h"
+#include "game/game.h"
+#include "game/object.h"
 #include "strcode.h"
 
 extern int      DG_CurrentGroupID;

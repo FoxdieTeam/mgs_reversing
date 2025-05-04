@@ -4,8 +4,8 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "Game/game.h"
-#include "Takabe/thing.h"
+#include "game/game.h"
+#include "takabe/thing.h"
 
 extern void NewSplash2_800DB6F0( int angy, SVECTOR *pos, int noripple );
 extern void *NewRipple_800D7F30( MATRIX *, int );

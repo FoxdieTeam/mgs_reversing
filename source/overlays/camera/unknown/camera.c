@@ -1,5 +1,5 @@
 // Note that there are two "camera.c" actors,
-// this is probably not the Enemy/camera.c actor.
+// this is probably not the enemy/camera.c actor.
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -13,14 +13,14 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "Menu/menuman.h"
-#include "Menu/radio.h"
+#include "menu/menuman.h"
+#include "menu/radio.h"
 #include "memcard/memcard.h"
-#include "Game/game.h"
+#include "game/game.h"
 #include "linkvar.h"
 #include "mts/mts.h"
 #include "mts/taskid.h"
-#include "SD/g_sound.h"
+#include "sd/g_sound.h"
 
 typedef struct CameraWork
 {

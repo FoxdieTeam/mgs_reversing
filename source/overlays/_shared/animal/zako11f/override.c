@@ -1,4 +1,4 @@
-#include "../../../_shared/Enemy/enemy.h"
+#include "../../../_shared/enemy/enemy.h"
 #include "linkvar.h"
 
 extern SVECTOR s11i_dword_800C34C4[3];

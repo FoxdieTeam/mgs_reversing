@@ -10,9 +10,9 @@
 #include "libdg/libdg.h"
 #include "libfs/libfs.h"
 #include "libgcl/libgcl.h"
-#include "Font/font.h"
-#include "Game/game.h"
-#include "SD/g_sound.h"
+#include "font/font.h"
+#include "game/game.h"
+#include "sd/g_sound.h"
 
 extern int    FS_DiskNum_800ACBF0;
 extern GV_PAD GV_PadData_800B05C0[4];

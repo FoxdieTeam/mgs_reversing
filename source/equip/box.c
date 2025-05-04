@@ -1,11 +1,11 @@
 #include "equip.h"
 
 #include "common.h"
-#include "Game/camera.h"
+#include "game/camera.h"
 #include "linkvar.h"
-#include "Game/map.h"
-#include "Game/object.h"
-#include "Thing/sight.h"
+#include "game/map.h"
+#include "game/object.h"
+#include "thing/sight.h"
 #include "strcode.h"
 
 extern int DG_CurrentGroupID;

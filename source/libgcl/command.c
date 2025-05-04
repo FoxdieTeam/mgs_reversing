@@ -2,7 +2,7 @@
 
 #include <stdio.h>
 #include "common.h"
-#include "Game/game.h"
+#include "game/game.h"
 
 STATIC GCL_COMMANDDEF *commdef = 0;
 

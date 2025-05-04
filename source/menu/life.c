@@ -3,11 +3,11 @@
 #include "common.h"
 #include "libgcl/libgcl.h"
 #include "libdg/libdg.h"
-#include "Game/game.h"
+#include "game/game.h"
 #include "linkvar.h"
-#include "Font/font.h"
-#include "Menu/menuman.h"
-#include "Menu/radio.h"
+#include "font/font.h"
+#include "menu/menuman.h"
+#include "menu/radio.h"
 
 MENU_BAR_CONF gSnakeLifeBarConfig_8009E5F4 = {"LIFE", {0x10, 0x8F, 0x7F}, {0x1F, 0xDF, 0x3F}, 0};
 MENU_BAR_CONF gSnakeO2BarConfig_8009E600 = {"O2", {0x1F, 0x3F, 0xC0}, {0x1F, 0x7F, 0xFF}, 1};

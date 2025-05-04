@@ -5,7 +5,7 @@
 #include <libgte.h>
 #include <libgpu.h>
 #include "libgv/libgv.h"
-#include "Font/font.h"
+#include "font/font.h"
 #include "face.h"
 #include "memcard/memcard.h"
 

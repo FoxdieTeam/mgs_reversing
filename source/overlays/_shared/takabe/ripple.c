@@ -1,5 +1,5 @@
 #include "common.h"
-#include "Game/game.h"
+#include "game/game.h"
 #include "libdg/libdg.h"
 
 typedef struct _RippleWork

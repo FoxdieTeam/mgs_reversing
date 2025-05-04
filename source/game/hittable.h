@@ -2,7 +2,7 @@
 #define _HITTABLE_H_
 
 #include "libgv/libgv.h"
-#include "Game/control.h"
+#include "game/control.h"
 
 typedef struct HITTABLE
 {

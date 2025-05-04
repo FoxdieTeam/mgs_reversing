@@ -33,7 +33,7 @@ typedef struct _KCB
 // ".res" or ".rpk" file. It looks like different
 // ".res" files could have different data structure,
 // for example "rubi.res" file has a different structure
-// and it is not the same as ResHeader in Menu/.
+// and it is not the same as ResHeader in menu/.
 //
 typedef struct RubiRes
 {

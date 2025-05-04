@@ -3,13 +3,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "common.h"
-#include "SD/sd_cli.h"
+#include "sd/sd_cli.h"
 #include "libdg/libdg.h"
 #include "libfs/libfs.h"
 #include "libgcl/libgcl.h"
-#include "Game/game.h"
-#include "Game/jimctrl.h"
-#include "Kojo/demothrd.h"
+#include "game/game.h"
+#include "game/jimctrl.h"
+#include "kojo/demothrd.h"
 
 /*---------------------------------------------------------------------------*/
 

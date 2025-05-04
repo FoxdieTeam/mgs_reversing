@@ -1,5 +1,5 @@
-#include "SD/sd_incl.h"
-#include "SD/sd_ext.h"
+#include "sd/sd_incl.h"
+#include "sd/sd_ext.h"
 
 void rest_set(void)
 {

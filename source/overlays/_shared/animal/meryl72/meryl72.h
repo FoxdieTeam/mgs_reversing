@@ -1,13 +1,13 @@
 
 
 #include "common.h"
-#include "Game/homing.h"
-#include "Game/game.h"
-#include "Game/object.h"
+#include "game/homing.h"
+#include "game/game.h"
+#include "game/object.h"
 #include "linkvar.h"
-#include "Game/vibrate.h"
-#include "Anime/animconv/anime.h"
-#include "Weapon/weapon.h"
+#include "game/vibrate.h"
+#include "anime/animconv/anime.h"
+#include "weapon/weapon.h"
 
 typedef struct _PARAM
 {

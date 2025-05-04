@@ -1,14 +1,14 @@
 #include "common.h"
 #include "charadef.h"
 
-#include "../_shared/Game/lamp.h"
-#include "Thing/door.h"
-#include "../_shared/Takabe/cinema.h"
-#include "../_shared/Enemy/wall.h"
-#include "../_shared/Takabe/gas_efct.h"
-#include "../_shared/Takabe/fadeio.h"
-#include "Equip/equip.h"
-#include "../_shared/Enemy/demokage.h"
+#include "../_shared/game/lamp.h"
+#include "thing/door.h"
+#include "../_shared/takabe/cinema.h"
+#include "../_shared/enemy/wall.h"
+#include "../_shared/takabe/gas_efct.h"
+#include "../_shared/takabe/fadeio.h"
+#include "equip/equip.h"
+#include "../_shared/enemy/demokage.h"
 
 CHARA _StageCharacterEntries[] =
 {

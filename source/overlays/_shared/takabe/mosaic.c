@@ -3,8 +3,8 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "Game/map.h"
-#include "Takabe/thing.h"
+#include "game/map.h"
+#include "takabe/thing.h"
 #include "strcode.h"
 
 typedef struct MosaicWork

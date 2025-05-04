@@ -6,7 +6,7 @@
 
 #include "common.h"
 #include "libgv/libgv.h"
-#include "Game/game.h"
+#include "game/game.h"
 
 typedef struct _SmokeLnWork
 {

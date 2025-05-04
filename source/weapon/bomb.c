@@ -1,11 +1,11 @@
 #include "weapon.h"
 
 #include "common.h"
-#include "Bullet/bakudan.h"
-#include "Game/object.h"
+#include "bullet/bakudan.h"
+#include "game/object.h"
 #include "linkvar.h"
-#include "Game/map.h"
-#include "SD/g_sound.h"
+#include "game/map.h"
+#include "sd/g_sound.h"
 
 extern int   DG_CurrentGroupID;
 extern void *GM_BombSeg;
