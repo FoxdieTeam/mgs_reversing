@@ -1,7 +1,7 @@
 #include "common.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
-#include "Game/game.h"
+#include "game/game.h"
 #include "linkvar.h"
 
 typedef struct _ItemDotWork

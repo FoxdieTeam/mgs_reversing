@@ -1,7 +1,7 @@
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "Bullet/bakudan.h"
-#include "Game/hittable.h"
+#include "bullet/bakudan.h"
+#include "game/hittable.h"
 
 extern int      bakudan_count_8009F42C;
 extern int      counter_8009F448;

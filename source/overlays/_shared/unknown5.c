@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "Game/game.h"
+#include "game/game.h"
 
 static int s03b_dword_800D3300[6];
 

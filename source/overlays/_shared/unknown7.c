@@ -1,4 +1,4 @@
-#include "Game/camera.h"
+#include "game/camera.h"
 
 extern GM_Camera GM_Camera_800B77E8;
 

@@ -5,7 +5,7 @@
 #include <libgte.h>
 #include <libgpu.h>
 #include "common.h"
-#include "Game/game.h"
+#include "game/game.h"
 #include "libgv/libgv.h"
 
 typedef struct CAMERA

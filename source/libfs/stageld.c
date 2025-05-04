@@ -5,7 +5,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"    // for DG_FrameRate
-#include "SD/sd_cli.h"
+#include "sd/sd_cli.h"
 
 extern FS_STAGE_INFO   *gStageInfo_800B5288;
 extern int              gLoaderStartTime_800B528C;

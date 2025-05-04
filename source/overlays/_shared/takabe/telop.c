@@ -4,7 +4,7 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "Takabe/thing.h"
+#include "takabe/thing.h"
 
 typedef struct _TelopPrims
 {

@@ -4,8 +4,8 @@
 #include "common.h"
 #include "libfs/libfs.h"
 #include "linkvar.h"
-#include "Menu/menuman.h"
-#include "SD/sd_cli.h"
+#include "menu/menuman.h"
+#include "sd/sd_cli.h"
 
 extern array_800B933C_child array_800B933C[array_800B933C_SIZE];
 

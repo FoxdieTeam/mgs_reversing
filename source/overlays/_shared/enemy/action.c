@@ -8,9 +8,9 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "Game/item.h"
+#include "game/item.h"
 #include "linkvar.h"
-#include "SD/g_sound.h"
+#include "sd/g_sound.h"
 
 short ActTable_800C3358[54] =
 {

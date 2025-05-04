@@ -3,9 +3,9 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
-#include "Game/game.h"
+#include "game/game.h"
 #include "linkvar.h"
-#include "Takabe/thing.h"
+#include "takabe/thing.h"
 #include "strcode.h"
 
 typedef struct _TracktrpWork

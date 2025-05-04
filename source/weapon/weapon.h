@@ -1,8 +1,8 @@
 #ifndef _WEAPON_H_
 #define _WEAPON_H_
 
-#include "Game/game.h"      // for OBJECT
-#include "Game/control.h"   // for CONTROL
+#include "game/game.h"      // for OBJECT
+#include "game/control.h"   // for CONTROL
 
 #define WEAPON_TAKE     1
 #define WEAPON_TRIG     2

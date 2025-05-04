@@ -2,7 +2,7 @@
 
 #include "common.h"
 #include "radio.h"
-#include "Game/game.h"
+#include "game/game.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "mts/mts.h"

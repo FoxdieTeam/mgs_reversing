@@ -7,10 +7,10 @@
 
 #include "common.h"
 #include "libgv/libgv.h"
-#include "Game/game.h"
-#include "Game/control.h"
-#include "Game/target.h"
-#include "SD/g_sound.h"
+#include "game/game.h"
+#include "game/control.h"
+#include "game/target.h"
+#include "sd/g_sound.h"
 
 extern int     dword_8009F46C;
 extern int     amissile_alive_8009F490;

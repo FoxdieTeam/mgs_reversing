@@ -1,10 +1,10 @@
-#include "../../../_shared/Enemy/enemy.h"
+#include "../../../_shared/enemy/enemy.h"
 
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libhzd/libhzd.h"
-#include "Game/game.h"
+#include "game/game.h"
 
 extern ZAKO_COMMAND ZakoCommand_800DF280;
 extern int          ZAKO11E_EYE_LENGTH_800C3904;

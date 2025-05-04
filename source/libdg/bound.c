@@ -1,6 +1,6 @@
 #include "libdg.h"
 #include "common.h"
-#include "Game/game.h"
+#include "game/game.h"
 
 extern int DG_CurrentGroupID;
 

@@ -6,9 +6,9 @@
 #include <libgpu.h>
 
 #include "common.h"
-#include "Game/game.h"
-#include "Game/control.h"
-#include "Game/map.h"
+#include "game/game.h"
+#include "game/control.h"
+#include "game/map.h"
 #include "libdg/libdg.h"
 
 extern DG_CHANL DG_Chanls_800B1800[3];

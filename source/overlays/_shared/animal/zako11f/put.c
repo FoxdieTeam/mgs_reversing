@@ -1,8 +1,8 @@
-#include "../../../_shared/Enemy/enemy.h"
-#include "Anime/animconv/anime.h"
-#include "Game/item.h"
+#include "../../../_shared/enemy/enemy.h"
+#include "anime/animconv/anime.h"
+#include "game/item.h"
 #include "linkvar.h"
-#include "Okajima/blood.h"
+#include "okajima/blood.h"
 
 extern SVECTOR s11i_800C33B4;
 extern SVECTOR s11i_800C33BC;

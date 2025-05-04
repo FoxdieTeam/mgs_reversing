@@ -1,7 +1,7 @@
 #include "sepia.h"
 
 #include "common.h"
-#include "Takabe/goggle.h"
+#include "takabe/goggle.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 

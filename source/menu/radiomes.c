@@ -11,9 +11,9 @@
 #include "libfs/libfs.h"
 #include "libgcl/libgcl.h"
 #include "menuman.h"
-#include "Game/game.h"
+#include "game/game.h"
 #include "linkvar.h"
-#include "SD/g_sound.h"
+#include "sd/g_sound.h"
 #include "strcode.h"
 
 #define MakeVoxCode(x)  ((unsigned int)x[0] << 24) | \

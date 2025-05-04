@@ -2,12 +2,12 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "Game/target.h"
-#include "Game/game.h"
+#include "game/target.h"
+#include "game/game.h"
 #include "linkvar.h"
-#include "Okajima/spark.h"
-#include "Anime/animconv/anime.h"
-#include "Bullet/blast.h"
+#include "okajima/spark.h"
+#include "anime/animconv/anime.h"
+#include "bullet/blast.h"
 
 typedef struct PLampWork
 {

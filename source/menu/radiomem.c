@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include "common.h"
 #include "menuman.h"
-#include "Game/game.h"
-#include "Menu/radio.h"
-#include "SD/g_sound.h"
+#include "game/game.h"
+#include "menu/radio.h"
+#include "sd/g_sound.h"
 
 extern RadioMemory gRadioMemory_800BDB38[ RADIO_MEMORY_COUNT ];
 

@@ -2,12 +2,12 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "Game/control.h"
-#include "Game/game.h"
-#include "Game/camera.h"
-#include "Game/object.h"
+#include "game/control.h"
+#include "game/game.h"
+#include "game/camera.h"
+#include "game/object.h"
 #include "linkvar.h"
-#include "Menu/menuman.h"
+#include "menu/menuman.h"
 
 typedef struct HindWork
 {

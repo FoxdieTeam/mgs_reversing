@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include "common.h"
-#include "Game/game.h"
-#include "Game/vibrate.h"
-#include "Takabe/thing.h"
+#include "game/game.h"
+#include "game/vibrate.h"
+#include "takabe/thing.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"

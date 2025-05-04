@@ -7,7 +7,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "Equip/equip.h"
+#include "equip/equip.h"
 
 /*---------------------------------------------------------------------------*/
 

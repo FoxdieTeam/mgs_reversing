@@ -4,9 +4,9 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "Game/camera.h"
-#include "Game/game.h"
-#include "Takabe/thing.h"
+#include "game/camera.h"
+#include "game/game.h"
+#include "takabe/thing.h"
 
 extern CONTROL         *tenage_ctrls_800BDD30[16];
 extern int              tenage_ctrls_count_800BDD70;

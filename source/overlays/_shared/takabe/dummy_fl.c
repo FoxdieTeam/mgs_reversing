@@ -5,11 +5,11 @@
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
-#include "Game/control.h"
-#include "Game/game.h"
+#include "game/control.h"
+#include "game/game.h"
 #include "linkvar.h"
-#include "Game/vibrate.h"
-#include "Takabe/thing.h"
+#include "game/vibrate.h"
+#include "takabe/thing.h"
 
 typedef struct _DummyFlap
 {

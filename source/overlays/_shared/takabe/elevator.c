@@ -4,12 +4,12 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libhzd/libhzd.h"
-#include "Game/game.h"
-#include "Game/hittable.h"
-#include "Game/object.h"
-#include "Game/vibrate.h"
-#include "Takabe/thing.h"
-#include "Bullet/bakudan.h"
+#include "game/game.h"
+#include "game/hittable.h"
+#include "game/object.h"
+#include "game/vibrate.h"
+#include "takabe/thing.h"
+#include "bullet/bakudan.h"
 #include "strcode.h"
 
 typedef struct _ElevatorWork

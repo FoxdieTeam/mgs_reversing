@@ -1,8 +1,8 @@
 #ifndef _GOGGLEIR_H_
 #define _GOGGLEIR_H_
 
-#include "Game/game.h"
-#include "Game/control.h"
+#include "game/game.h"
+#include "game/control.h"
 
 // thermal goggles (screen effect)
 

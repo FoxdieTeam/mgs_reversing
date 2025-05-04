@@ -1,12 +1,12 @@
 #include "common.h"
 #include "mts/mts.h"
 #include "libgv/libgv.h"
-#include "Game/control.h"
-#include "Game/object.h"
+#include "game/control.h"
+#include "game/object.h"
 #include "linkvar.h"
-#include "Okajima/bullet.h"
-#include "Okajima/blood.h"
-#include "SD/g_sound.h"
+#include "okajima/bullet.h"
+#include "okajima/blood.h"
+#include "sd/g_sound.h"
 
 typedef struct ValcanWork
 {

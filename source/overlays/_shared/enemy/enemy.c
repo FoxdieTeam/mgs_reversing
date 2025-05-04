@@ -2,8 +2,8 @@
 
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "Anime/animconv/anime.h"
-#include "Game/game.h"
+#include "anime/animconv/anime.h"
+#include "game/game.h"
 #include "linkvar.h"
 #include "strcode.h"
 

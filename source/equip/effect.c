@@ -1,6 +1,6 @@
 #include "common.h"
 #include "libdg/libdg.h"
-#include "Game/game.h"
+#include "game/game.h"
 
 #define TEX_COPY_SIZE   (sizeof(DG_TEX) - offsetof(DG_TEX, used))
 

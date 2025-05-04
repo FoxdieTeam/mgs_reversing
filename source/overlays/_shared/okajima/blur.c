@@ -8,7 +8,7 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "Game/game.h"
+#include "game/game.h"
 #include "strcode.h"
 
 typedef struct _BlurSub

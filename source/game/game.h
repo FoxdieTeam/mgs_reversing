@@ -9,12 +9,12 @@
 #include "libhzd/libhzd.h"
 #include "control.h"
 #include "target.h"
-#include "Menu/menuman.h"
+#include "menu/menuman.h"
 #include "motion.h"
 #include "strctrl.h"
 //#include "linkvar.h"
-#include "SD/sd_cli.h"
-#include "SD/g_sound.h"
+#include "sd/sd_cli.h"
+#include "sd/g_sound.h"
 
 enum GAMED_STATE {          // private to gamed.c
     WAIT_LOAD   = 0,

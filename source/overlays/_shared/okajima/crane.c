@@ -1,10 +1,10 @@
 #include "common.h"
 #include "mts/mts.h"
-#include "Game/game.h"
+#include "game/game.h"
 #include "linkvar.h"
-#include "Game/object.h"
-#include "Game/vibrate.h"
-#include "SD/g_sound.h"
+#include "game/object.h"
+#include "game/vibrate.h"
+#include "sd/g_sound.h"
 
 typedef struct _CraneWork
 {

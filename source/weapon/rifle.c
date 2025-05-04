@@ -5,11 +5,11 @@
 #include <libgpu.h>
 
 #include "common.h"
-#include "Game/object.h"
-#include "Game/game.h"
-#include "Game/camera.h"
+#include "game/object.h"
+#include "game/game.h"
+#include "game/camera.h"
 #include "linkvar.h"
-#include "SD/g_sound.h"
+#include "sd/g_sound.h"
 
 extern GM_Camera GM_Camera_800B77E8;
 

@@ -8,7 +8,7 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "Game/game.h"
+#include "game/game.h"
 
 extern MenuWork      gMenuWork_800BD360;
 extern unsigned char gPrimBackingBuffers_800B9360[2][8192];

@@ -1,8 +1,8 @@
 #include "common.h"
 #include "libgv/libgv.h"
-#include "Takabe/thing.h"
+#include "takabe/thing.h"
 #include "linkvar.h"
-#include "Game/game.h"
+#include "game/game.h"
 #include "chara/snake/sna_init.h"
 
 typedef struct ElcDamgWork

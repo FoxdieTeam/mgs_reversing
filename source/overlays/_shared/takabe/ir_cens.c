@@ -4,10 +4,10 @@
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
-#include "overlays/_shared/Enemy/enemy.h"
-#include "Game/game.h"
+#include "overlays/_shared/enemy/enemy.h"
+#include "game/game.h"
 #include "linkvar.h"
-#include "Takabe/thing.h"
+#include "takabe/thing.h"
 #include "strcode.h"
 
 typedef struct _IrCensWork

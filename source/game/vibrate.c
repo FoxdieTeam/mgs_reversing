@@ -1,7 +1,7 @@
 #include "vibrate.h"
 
 #include "common.h"
-#include "Game/game.h"
+#include "game/game.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "strcode.h"

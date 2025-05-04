@@ -5,7 +5,7 @@
 #include "libdg.h"
 #include "common.h"
 #include "libgv/libgv.h"
-#include "Menu/menuman.h"
+#include "menu/menuman.h"
 
 /*** data ***/
 STATIC VECTOR SECTION(".data") DG_UpVector = {0, -4096, 0, 0};

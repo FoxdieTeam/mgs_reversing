@@ -1,5 +1,5 @@
 #include "mts/mts.h"
-#include "Game/camera.h"
+#include "game/camera.h"
 #include "linkvar.h"
 #include "wolf2.h"
 

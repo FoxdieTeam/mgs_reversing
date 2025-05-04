@@ -5,7 +5,7 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libfs/libfs.h"
-#include "Game/game.h"
+#include "game/game.h"
 
 typedef struct LoaderWork
 {

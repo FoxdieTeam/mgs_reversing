@@ -7,13 +7,13 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "Game/camera.h"
-#include "Game/object.h"
-#include "Game/target.h"
-#include "Game/vibrate.h"
+#include "game/camera.h"
+#include "game/object.h"
+#include "game/target.h"
+#include "game/vibrate.h"
 #include "linkvar.h"
-#include "Bullet/amissile.h"
-#include "SD/g_sound.h"
+#include "bullet/amissile.h"
+#include "sd/g_sound.h"
 
 extern int amissile_alive_8009F490;
 

@@ -4,9 +4,9 @@
 #include "chara/snake/shadow.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "Game/control.h"
+#include "game/control.h"
 #include "linkvar.h"
-#include "Game/object.h"
+#include "game/object.h"
 
 typedef struct RevolverWork
 {

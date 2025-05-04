@@ -7,8 +7,8 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "Game/game.h"
-#include "Okajima/stngrnd.h"
+#include "game/game.h"
+#include "okajima/stngrnd.h"
 
 typedef struct _Inverlt2Work
 {

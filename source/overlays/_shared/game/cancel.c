@@ -4,8 +4,8 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "Game/game.h"
-#include "Game/strctrl.h"
+#include "game/game.h"
+#include "game/strctrl.h"
 #include "mts/mts.h"
 #include "mts/mts_pad.h"
 

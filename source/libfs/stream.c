@@ -8,7 +8,7 @@
 
 #include "common.h"
 #include "mts/mts.h"
-#include "SD/sd_cli.h"
+#include "sd/sd_cli.h"
 
 extern int          fs_stream_ref_count_800B5298;
 extern int          fs_dword_800B529C;

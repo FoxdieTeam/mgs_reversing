@@ -3,9 +3,9 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
-#include "Game/game.h"
-#include "Game/camera.h"
-#include "Takabe/thing.h"
+#include "game/game.h"
+#include "game/camera.h"
+#include "takabe/thing.h"
 #include "strcode.h"
 
 typedef struct FindTrapWork

@@ -1,9 +1,9 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
-#include "Game/game.h"
-#include "Game/object.h"
-#include "Game/camera.h"
+#include "game/game.h"
+#include "game/object.h"
+#include "game/camera.h"
 
 // There are two actors in this file
 

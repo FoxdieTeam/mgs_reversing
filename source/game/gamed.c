@@ -19,13 +19,13 @@
 #include "memcard/memcard.h"
 
 #include "linkvar.h"
-#include "Game/loader.h"
-#include "Game/target.h"
-#include "Game/homing.h"
-#include "Game/over.h"
-#include "Game/map.h"
-#include "Game/camera.h"
-#include "Menu/menuman.h"
+#include "game/loader.h"
+#include "game/target.h"
+#include "game/homing.h"
+#include "game/over.h"
+#include "game/map.h"
+#include "game/camera.h"
+#include "menu/menuman.h"
 
 /*---------------------------------------------------------------------------*/
 

@@ -2,10 +2,10 @@
 
 #include "common.h"
 #include "libdg/libdg.h"
-#include "Bullet/blast.h"
-#include "Game/game.h"
+#include "bullet/blast.h"
+#include "game/game.h"
 #include "linkvar.h"
-#include "SD/g_sound.h"
+#include "sd/g_sound.h"
 #include "radio.h"
 
 extern PANEL_TEXTURE gMenuLeftItems_800BD5A0[];

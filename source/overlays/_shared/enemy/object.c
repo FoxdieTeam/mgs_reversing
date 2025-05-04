@@ -5,9 +5,9 @@
 #include "mts/mts.h" // for fprintf
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "Game/control.h"
-#include "Game/object.h"
-#include "Anime/animconv/anime.h"
+#include "game/control.h"
+#include "game/object.h"
+#include "anime/animconv/anime.h"
 
 typedef struct ObjectWork
 {

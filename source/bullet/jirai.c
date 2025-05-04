@@ -9,14 +9,14 @@
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
-#include "Game/game.h"
-#include "Game/hittable.h"
+#include "game/game.h"
+#include "game/hittable.h"
 #include "linkvar.h"
-#include "Game/object.h"
-#include "Game/map.h"
-#include "Okajima/claymore.h"
+#include "game/object.h"
+#include "game/map.h"
+#include "okajima/claymore.h"
 #include "chara/snake/sna_init.h"
-#include "SD/g_sound.h"
+#include "sd/g_sound.h"
 
 extern int           dword_8009F440;
 extern int           dword_8009F444;

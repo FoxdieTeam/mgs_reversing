@@ -7,7 +7,7 @@
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "mts/mts.h"
-#include "Game/game.h"
+#include "game/game.h"
 
 /**data*********************************************************/
 

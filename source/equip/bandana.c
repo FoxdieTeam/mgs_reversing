@@ -1,7 +1,7 @@
 #include "equip.h"
 
 #include "common.h"
-#include "Game/game.h"
+#include "game/game.h"
 #include "linkvar.h"
 
 extern short snake_weapon_idx_800BDCBA;

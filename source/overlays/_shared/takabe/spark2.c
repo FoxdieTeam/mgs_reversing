@@ -1,8 +1,8 @@
 #include "common.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
-#include "Game/game.h"
-#include "SD/g_sound.h"
+#include "game/game.h"
+#include "sd/g_sound.h"
 
 typedef struct _Spark2Work
 {

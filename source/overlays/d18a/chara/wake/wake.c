@@ -1,7 +1,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
-#include "Game/game.h"
-#include "Game/camera.h"
+#include "game/game.h"
+#include "game/camera.h"
 #include "chara/snake/sna_init.h"
 
 typedef struct WakeWork

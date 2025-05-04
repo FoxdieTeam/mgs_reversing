@@ -7,8 +7,8 @@
 #include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
 #include "mts/mts.h" // for fprintf
-#include "Game/object.h"
-#include "Game/map.h"
+#include "game/object.h"
+#include "game/map.h"
 #include "strcode.h"
 
 // Doors can have multiple moveable leaves (wings),

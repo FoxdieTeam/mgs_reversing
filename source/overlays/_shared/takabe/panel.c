@@ -1,9 +1,9 @@
 #include "common.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
-#include "Game/game.h"
-#include "Takabe/thing.h"
-#include "SD/g_sound.h"
+#include "game/game.h"
+#include "takabe/thing.h"
+#include "sd/g_sound.h"
 
 typedef struct _PanelWork
 {

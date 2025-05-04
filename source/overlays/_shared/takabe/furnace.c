@@ -1,10 +1,10 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
-#include "Game/control.h"
-#include "Game/game.h"
+#include "game/control.h"
+#include "game/game.h"
 #include "linkvar.h"
-#include "Takabe/thing.h"
+#include "takabe/thing.h"
 
 extern CONTROL *GM_WhereList_800B56D0[96];
 extern int      gControlCount_800AB9B4;

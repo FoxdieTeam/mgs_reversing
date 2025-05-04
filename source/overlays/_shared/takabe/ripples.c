@@ -4,8 +4,8 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "Game/game.h"
-#include "Takabe/thing.h"
+#include "game/game.h"
+#include "takabe/thing.h"
 
 typedef struct RipplesWork
 {

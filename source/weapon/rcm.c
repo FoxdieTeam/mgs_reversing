@@ -7,11 +7,11 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "Game/map.h"
-#include "Game/object.h"
+#include "game/map.h"
+#include "game/object.h"
 #include "linkvar.h"
-#include "Bullet/rmissile.h"
-#include "SD/g_sound.h"
+#include "bullet/rmissile.h"
+#include "sd/g_sound.h"
 
 extern int DG_CurrentGroupID;
 

@@ -4,11 +4,11 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "Game/game.h"
+#include "game/game.h"
 #include "linkvar.h"
-#include "Game/object.h"
-#include "Okajima/blood.h"
-#include "SD/g_sound.h"
+#include "game/object.h"
+#include "okajima/blood.h"
+#include "sd/g_sound.h"
 #include "strcode.h"
 
 typedef struct _MouseEntry

@@ -4,8 +4,8 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "Game/game.h"
-#include "Game/control.h"
+#include "game/game.h"
+#include "game/control.h"
 
 typedef struct RSurfaceElem
 {

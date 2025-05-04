@@ -4,9 +4,9 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "Game/game.h"
-#include "Game/object.h"
-#include "SD/g_sound.h"
+#include "game/game.h"
+#include "game/object.h"
+#include "sd/g_sound.h"
 
 typedef struct _DuctmouseWork
 {

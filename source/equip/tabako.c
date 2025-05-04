@@ -7,12 +7,12 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "Game/game.h"
-#include "Game/control.h"
-#include "Game/object.h"
+#include "game/game.h"
+#include "game/control.h"
+#include "game/object.h"
 #include "linkvar.h"
-#include "Game/map.h"
-#include "Anime/animconv/anime.h"
+#include "game/map.h"
+#include "anime/animconv/anime.h"
 
 /*---------------------------------------------------------------------------*/
 // Cigarettes

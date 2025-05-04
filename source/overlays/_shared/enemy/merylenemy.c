@@ -1,9 +1,9 @@
-#include "../../_shared/Enemy/enemy.h"
+#include "../../_shared/enemy/enemy.h"
 
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libhzd/libhzd.h"
-#include "Game/game.h"
+#include "game/game.h"
 #include "linkvar.h"
 
 extern CONTROL *GM_WhereList_800B56D0[94];

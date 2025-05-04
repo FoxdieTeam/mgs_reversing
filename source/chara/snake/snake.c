@@ -7,7 +7,7 @@
 #endif
 
 #include "linkvar.h"
-#include "Game/object.h"
+#include "game/object.h"
 
 extern short   word_8009EFC0[];
 

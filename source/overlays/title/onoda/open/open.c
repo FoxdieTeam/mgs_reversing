@@ -6,11 +6,11 @@
 #include "common.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
-#include "Font/font.h"
-#include "Menu/menuman.h"
-#include "Game/game.h"
-#include "SD/sd_cli.h"
-#include "SD/g_sound.h"
+#include "font/font.h"
+#include "menu/menuman.h"
+#include "game/game.h"
+#include "sd/sd_cli.h"
+#include "sd/g_sound.h"
 
 typedef struct _Unknown
 {

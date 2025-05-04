@@ -1,8 +1,8 @@
 #include "libdg/libdg.h"
-#include "Game/control.h"
-#include "Game/game.h"
-#include "Game/object.h"
-#include "Menu/menuman.h"
+#include "game/control.h"
+#include "game/game.h"
+#include "game/object.h"
+#include "menu/menuman.h"
 
 typedef struct Wolf2Alloc
 {

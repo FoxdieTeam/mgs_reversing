@@ -4,10 +4,10 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libhzd/libhzd.h"
-#include "Game/game.h"
-#include "Game/object.h"
-#include "Takabe/thing.h"
-#include "SD/g_sound.h"
+#include "game/game.h"
+#include "game/object.h"
+#include "takabe/thing.h"
+#include "sd/g_sound.h"
 
 typedef struct _ShuterWork
 {

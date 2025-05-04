@@ -1,10 +1,10 @@
 #include "common.h"
 #include "libgv/libgv.h"
-#include "Game/control.h"
-#include "Game/object.h"
-#include "Okajima/bullet.h"
-#include "Anime/animconv/anime.h"
-#include "SD/g_sound.h"
+#include "game/control.h"
+#include "game/object.h"
+#include "okajima/bullet.h"
+#include "anime/animconv/anime.h"
+#include "sd/g_sound.h"
 
 typedef struct JFamasWork
 {

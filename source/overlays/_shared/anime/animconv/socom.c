@@ -1,7 +1,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "Anime/animconv/anime.h"
+#include "anime/animconv/anime.h"
 #include "strcode.h"
 
 /*---------------------------------------------------------------------------*/

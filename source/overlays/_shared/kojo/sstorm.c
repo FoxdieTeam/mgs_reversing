@@ -3,9 +3,9 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
-#include "Anime/animconv/anime.h"
-#include "Game/game.h"
-#include "Game/camera.h"
+#include "anime/animconv/anime.h"
+#include "game/game.h"
+#include "game/camera.h"
 
 typedef struct SStormWork
 {

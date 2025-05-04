@@ -3,12 +3,12 @@
 #include <stdlib.h>
 #include "common.h"
 #include "mts/mts.h"
-#include "Game/game.h"
-#include "Game/jimctrl.h"
+#include "game/game.h"
+#include "game/jimctrl.h"
 #include "libdg/libdg.h"
-#include "Menu/menuman.h"
+#include "menu/menuman.h"
 #include "mts/taskid.h"
-#include "SD/g_sound.h"
+#include "sd/g_sound.h"
 
 STATIC RECT rect_800AB6D8 = {1008, 432, 5, 20};
 STATIC int  dword_800AB6E0 = 0;

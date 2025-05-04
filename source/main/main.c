@@ -7,7 +7,7 @@
 
 #include "mts/mts.h"
 #include "mts/taskid.h"
-#include "SD/sd_cli.h"
+#include "sd/sd_cli.h"
 
 #include "libgv/libgv.h"
 #include "libfs/libfs.h"
@@ -17,10 +17,10 @@
 #include "memcard/memcard.h"
 
 #include "strcode.h"
-#include "Game/game.h"
-#include "Game/item.h"
+#include "game/game.h"
+#include "game/item.h"
 #include "chara/snake/sna_init.h"
-#include "Thing/door.h"
+#include "thing/door.h"
 
 unsigned int _ramsize = 0x200000; //  2MB ram size
 unsigned int _stacksize = 0x8000; // 32KB stack size

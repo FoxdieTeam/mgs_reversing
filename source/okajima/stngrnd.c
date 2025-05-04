@@ -8,9 +8,9 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "Anime/animconv/anime.h"
-#include "Game/game.h"
-#include "SD/g_sound.h"
+#include "anime/animconv/anime.h"
+#include "game/game.h"
+#include "sd/g_sound.h"
 #include "strcode.h"
 
 extern SVECTOR stru_800BDF90;

@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "common.h"
-#include "Game/game.h"
-#include "Menu/menuman.h"
+#include "game/game.h"
+#include "menu/menuman.h"
 #include "mts/mts.h"
 #include "mts/taskid.h"
 

@@ -4,7 +4,7 @@
 #include <sys/types.h>
 #include <libgte.h>
 #include "libgv/libgv.h"
-#include "Game/map.h"
+#include "game/map.h"
 
 enum
 {

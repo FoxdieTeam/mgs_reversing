@@ -4,7 +4,7 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "chara/snake/sna_init.h"
-#include "Game/jimctrl.h"
+#include "game/jimctrl.h"
 
 short s01a_dword_800C3CE4[] = {
     0x0000, 0x0001, 0x0002, 0x0003,

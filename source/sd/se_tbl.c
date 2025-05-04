@@ -1,4 +1,4 @@
-#include "SD/sd_incl.h"
+#include "sd/sd_incl.h"
 
 /* data definition */
 #include "se_data/blob.h"

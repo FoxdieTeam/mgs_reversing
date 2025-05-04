@@ -7,11 +7,11 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "Anime/animconv/anime.h"
-#include "Game/game.h"
-#include "Game/map.h"
-#include "Game/target.h"
-#include "SD/g_sound.h"
+#include "anime/animconv/anime.h"
+#include "game/game.h"
+#include "game/map.h"
+#include "game/target.h"
+#include "sd/g_sound.h"
 #include "strcode.h"
 
 /*---------------------------------------------------------------------------*/

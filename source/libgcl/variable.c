@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "common.h"
-#include "Game/game.h"
+#include "game/game.h"
 #include "linkvar.h"
 
 extern short sv_linkvarbuf_800B44C8[0x60];

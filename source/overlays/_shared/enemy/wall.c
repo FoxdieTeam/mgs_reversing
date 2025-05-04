@@ -2,8 +2,8 @@
 
 #include <stdio.h>
 #include "common.h"
-#include "Game/game.h"
-#include "Game/object.h"
+#include "game/game.h"
+#include "game/object.h"
 #include "libgv/libgv.h"
 #include "strcode.h"
 

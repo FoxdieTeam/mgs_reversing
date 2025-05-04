@@ -1,11 +1,11 @@
-#include "../../_shared/Enemy/enemy.h"
+#include "../../_shared/enemy/enemy.h"
 
 #include <stdio.h>
 #include "common.h"
 #include "mts/mts.h" // for fprintf
 #include "libhzd/libhzd.h"
 #include "chara/snake/shadow.h"
-#include "Game/camera.h"
+#include "game/camera.h"
 #include "strcode.h"
 
 extern ENEMY_COMMAND EnemyCommand_800E0D98;

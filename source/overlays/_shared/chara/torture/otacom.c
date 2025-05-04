@@ -1,13 +1,13 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "Game/control.h"
-#include "Game/object.h"
+#include "game/control.h"
+#include "game/object.h"
 #include "chara/snake/sna_init.h"
 #include "chara/snake/sna_hzd.h"
 #include "chara/snake/shadow.h"
-#include "Equip/equip.h"
-#include "SD/g_sound.h"
+#include "equip/equip.h"
+#include "sd/g_sound.h"
 
 // "It stands for Otaku Comvention."
 typedef struct OtacomWork

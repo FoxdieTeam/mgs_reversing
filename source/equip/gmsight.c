@@ -2,10 +2,10 @@
 
 #include "common.h"
 #include "libgv/libgv.h"
-#include "Game/game.h"
-#include "Game/control.h"
-#include "Thing/sight.h"
-#include "SD/g_sound.h"
+#include "game/game.h"
+#include "game/control.h"
+#include "thing/sight.h"
+#include "sd/g_sound.h"
 #include "strcode.h"
 
 extern int              dword_8009F604;

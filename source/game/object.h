@@ -1,7 +1,7 @@
 #ifndef _OBJECT_H_
 #define _OBJECT_H_
 
-#include "Game/game.h"
+#include "game/game.h"
 
 void GM_InitObjectNoRots(OBJECT_NO_ROTS *obj, int model, int flag, int motion);
 void GM_InitObject(OBJECT *obj, int model, int flag, int motion);

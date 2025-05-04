@@ -6,13 +6,13 @@
 
 #include "common.h"
 #include "chara/snake/sna_init.h"
-#include "Bullet/blast.h"
-#include "Game/object.h"
-#include "Game/control.h"
-#include "Okajima/chafgrnd.h"
-#include "Okajima/stngrnd.h"
-#include "Weapon/weapon.h"
-#include "SD/g_sound.h"
+#include "bullet/blast.h"
+#include "game/object.h"
+#include "game/control.h"
+#include "okajima/chafgrnd.h"
+#include "okajima/stngrnd.h"
+#include "weapon/weapon.h"
+#include "sd/g_sound.h"
 #include "strcode.h"
 
 extern int            dword_800BDD28;

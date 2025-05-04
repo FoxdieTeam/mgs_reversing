@@ -10,7 +10,7 @@
 #include "mts/mts.h" // for fprintf
 #include "libhzd/libhzd.h"
 #include "chara/snake/shadow.h"
-#include "Game/camera.h"
+#include "game/camera.h"
 #include "strcode.h"
 
 int s00a_dword_800C3328[8]  = { 2500, 3500, 4000, 5000, 5500, 5600, 5700, 5800 };

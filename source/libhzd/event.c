@@ -3,8 +3,8 @@
 
 #include "common.h"
 #include "libgcl/libgcl.h"
-#include "Game/game.h"
-#include "Game/delay.h"
+#include "game/game.h"
+#include "game/delay.h"
 #include "linkvar.h"
 #include "strcode.h"
 

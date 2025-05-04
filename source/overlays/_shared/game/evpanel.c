@@ -3,11 +3,11 @@
 #include <stdio.h>
 #include "common.h"
 #include "libgv/libgv.h"
-#include "Game/camera.h"
+#include "game/camera.h"
 #include "linkvar.h"
-#include "Game/vibrate.h"
-#include "Takabe/thing.h"
-#include "SD/g_sound.h"
+#include "game/vibrate.h"
+#include "takabe/thing.h"
+#include "sd/g_sound.h"
 #include "strcode.h"
 
 typedef struct EvPanelWork

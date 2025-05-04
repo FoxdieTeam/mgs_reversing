@@ -1,10 +1,10 @@
 #include "common.h"
 #include "charadef.h"
 
-#include "../_shared/Enemy/wall.h"
-#include "../_shared/Enemy/asioto.h"
-#include "../_shared/Takabe/fadeio.h"
-#include "../_shared/Takabe/sepia.h"
+#include "../_shared/enemy/wall.h"
+#include "../_shared/enemy/asioto.h"
+#include "../_shared/takabe/fadeio.h"
+#include "../_shared/takabe/sepia.h"
 
 void *NewShakemdl_800C54E8(int name, int where, int argc, char **argv);
 void *NewDymcSeg_800C4BCC(int name, int where, int argc, char **argv);

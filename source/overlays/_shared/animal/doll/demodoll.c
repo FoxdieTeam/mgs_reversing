@@ -6,7 +6,7 @@
 #include "libdg/libdg.h"
 #include "libhzd/libhzd.h"
 #include "chara/snake/sna_init.h"
-#include "Game/jimctrl.h"
+#include "game/jimctrl.h"
 
 int s01a_dword_800C3D04[] = {
     0x00000000, 0x00000001, 0x00000002, 0x00000004,
