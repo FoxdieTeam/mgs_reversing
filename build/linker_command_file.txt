@@ -1828,10 +1828,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s12a\s12a_wolf2_800D2E0C.obj"
 
     include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\rcm.obj"
-    include "{{OBJ_DIR}}\overlays\s12a\overlay3.obj"
-
     include "{{OBJ_DIR}}\overlays\s12a\okajima\wolf\action.obj"
-
     include "{{OBJ_DIR}}\overlays\_shared\okajima\d_bloods.obj"
     include "{{OBJ_DIR}}\overlays\_shared\okajima\d_bloods_bss_pad.obj"
     include "{{OBJ_DIR}}\overlays\_shared\takabe\spark2.obj"

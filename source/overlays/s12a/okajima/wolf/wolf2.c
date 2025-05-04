@@ -12,9 +12,10 @@ extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 RECT        wolf2_800C3490 = {0, 0, 2, 2};
 extern char wolf2_800DD6B8[5];
 
-void   AN_Breath(MATRIX *world);
-void * NewCinemaScreen_800DE434(int, int);
-int    NewCinemaScreenClose_800DE4CC(void *);
+void  AN_Breath(MATRIX *world);
+
+void *NewCinemaScreen_800DE434(int, int);
+int   NewCinemaScreenClose_800DE4CC(void *);
 
 void s12a_wolf2_800CED18(Wolf2Work *work);
 void s12a_wolf2_800CED38(Wolf2Work *work);
@@ -26,11 +27,11 @@ void s12a_wolf2_800D2E0C(Wolf2Work *work);
 #define MOTION_DATA     GV_StrCode("sniper")
 #define BODY_DATA       GV_StrCode("sniper")
 #define BODY_DATA2      GV_StrCode("snp_cold")
-#define	WEAPON_DATA     GV_StrCode( "rifle" )
+#define WEAPON_DATA     GV_StrCode("rifle")
 
-#define TARGET_FLAG     ( TARGET_SEEK )
-#define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_IRTEXTURE )
-#define WEAPON_FLAG     ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
+#define TARGET_FLAG     (TARGET_SEEK)
+#define BODY_FLAG       (DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_IRTEXTURE)
+#define WEAPON_FLAG     (DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE)
 
 void wolf2_ExecProcC(Wolf2Work *work)
 {
@@ -85,8 +86,21 @@ void wolf2_InitTiles(TILE *tile)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s12a/s12a_wolf2_800CD8DC.s")
-void s12a_wolf2_800CD8DC(POLY_FT4 *poly, DG_TEX *tex, int yoff);
+void wolf2_InitTexcoords(POLY_FT4 *poly, DG_TEX *tex, int y)
+{
+    int x;
+    int i;
+
+    x = tex->off_x;
+    y = tex->off_y + (y & 0x3F);
+
+    for (i = 8; i > 0; i--)
+    {
+        setUVWH(poly, x, y, 7, 0);
+        x += 8;
+        poly++;
+    }
+}
 
 void wolf2_InitTexpacks(POLY_FT4 *poly, DG_TEX *tex)
 {
@@ -275,8 +289,8 @@ void wolf2_Act(Wolf2Work *work)
     }
 
     yoff = work->f7DC += work->f7D8;
-    s12a_wolf2_800CD8DC(&work->lsight_prim->packs[0]->poly_ft4, work->lsight_tex, yoff);
-    s12a_wolf2_800CD8DC(&work->lsight_prim->packs[1]->poly_ft4, work->lsight_tex, yoff);
+    wolf2_InitTexcoords(&work->lsight_prim->packs[0]->poly_ft4, work->lsight_tex, yoff);
+    wolf2_InitTexcoords(&work->lsight_prim->packs[1]->poly_ft4, work->lsight_tex, yoff);
 
     shade = work->body.objs->objs[4].screen.m[2][1] / 16;
     shade = MAX(shade, 1);
