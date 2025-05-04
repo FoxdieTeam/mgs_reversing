@@ -344,7 +344,7 @@ void s00a_command_800CB0E0( WatcherWork* work )
     HZD_HDL *hzd;
     void *a1;
     MAP *map;
-    HZD_HEADER *hdr;
+    HZD_MAP *hdr;
 
     v0 = work->field_B7C;
     do {} while (0);

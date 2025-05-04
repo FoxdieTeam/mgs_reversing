@@ -14,55 +14,55 @@
 
 typedef struct _ElevatorWork
 {
-    GV_ACT      actor;
-    int         map;
-    int         name;
-    CONTROL     control;
-    OBJECT      object1; // OBJECT[2] ???
-    OBJECT      object2;
-    MATRIX      light[2];
-    HZD_HEADER *hzm;     // HZD_HEADER[5] ???
-    HZD_HEADER *hzm1;
-    HZD_HEADER *hzm2;
-    HZD_HEADER *hzm3;
-    HZD_HEADER *hzm4;
-    HZD_AREA   *areas;   // HZD_AREA[5] ???
-    HZD_AREA   *areas1;
-    HZD_AREA   *areas2;
-    HZD_AREA   *areas3;
-    HZD_AREA   *areas4;
-    HZD_HDL    *hzd;
-    int         n_floors;
-    int         n_walls;
-    HZD_FLR     floors[8];
-    HZD_SEG     walls[16];
-    SVECTOR     f560;
-    SVECTOR     f568;
-    SVECTOR     f570;
-    SVECTOR     f578;
-    int         f580;
-    int         f584;
-    int         f588;
-    int         f58C;
-    int         f590;
-    int         f594;
-    int         f598;
-    int         f59C;
-    int         f5A0;
-    int         f5A4;
-    int         f5A8;
-    int         f5AC;
-    int         f5B0;
-    short       f5B4;
-    short       f5B6;
-    short       f5B8;
-    short       f5BA;
-    int         f5BC;
-    int         f5C0;
-    int         f5C4;
-    int         f5C8;
-    int         f5CC;
-    int         f5D0;
+    GV_ACT   actor;
+    int      map;
+    int      name;
+    CONTROL  control;
+    OBJECT   object1; // OBJECT[2] ???
+    OBJECT   object2;
+    MATRIX   light[2];
+    HZD_MAP *hzm;     // HZD_MAP[5] ???
+    HZD_MAP *hzm1;
+    HZD_MAP *hzm2;
+    HZD_MAP *hzm3;
+    HZD_MAP *hzm4;
+    HZD_GRP *groups;   // HZD_GRP[5] ???
+    HZD_GRP *groups1;
+    HZD_GRP *groups2;
+    HZD_GRP *groups3;
+    HZD_GRP *groups4;
+    HZD_HDL *hzd;
+    int      n_floors;
+    int      n_walls;
+    HZD_FLR  floors[8];
+    HZD_SEG  walls[16];
+    SVECTOR  f560;
+    SVECTOR  f568;
+    SVECTOR  f570;
+    SVECTOR  f578;
+    int      f580;
+    int      f584;
+    int      f588;
+    int      f58C;
+    int      f590;
+    int      f594;
+    int      f598;
+    int      f59C;
+    int      f5A0;
+    int      f5A4;
+    int      f5A8;
+    int      f5AC;
+    int      f5B0;
+    short    f5B4;
+    short    f5B6;
+    short    f5B8;
+    short    f5BA;
+    int      f5BC;
+    int      f5C0;
+    int      f5C4;
+    int      f5C8;
+    int      f5CC;
+    int      f5D0;
 } ElevatorWork;
 
 extern int           bakudan_count_8009F42C;
@@ -84,8 +84,8 @@ char elevator_vib_800C365C[] = {0xA5, 0x06, 0x4B, 0x08, 0x2D, 0x0C, 0x00, 0x00};
 void Elevator_800D9FC4(ElevatorWork *, SVECTOR *);
 void Elevator_800DA140(ElevatorWork *);
 void Elevator_800DA268(ElevatorWork *);
-void Elevator_800DA358(ElevatorWork *, HZD_AREA *);
-void Elevator_800DA3F8(ElevatorWork *, HZD_AREA *);
+void Elevator_800DA358(ElevatorWork *, HZD_GRP *);
+void Elevator_800DA3F8(ElevatorWork *, HZD_GRP *);
 int  Elevator_800DA464(ElevatorWork *, void *);
 void Elevator_800DA57C(int proc, long arg);
 
@@ -139,8 +139,8 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
         {
             work->f5C0 = 1;
             Elevator_800DA57C(work->f5D0, 0x361E);
-            Elevator_800DA3F8(work, work->areas4);
-            Elevator_800DA358(work, work->areas3);
+            Elevator_800DA3F8(work, work->groups4);
+            Elevator_800DA358(work, work->groups3);
             Elevator_800DA140(work);
 
             if (found == 2)
@@ -187,8 +187,8 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
             work->f58C &= ~0x4;
 
             Elevator_800DA57C(work->f5D0, 0xADBF);
-            Elevator_800DA3F8(work, work->areas1);
-            Elevator_800DA358(work, work->areas2);
+            Elevator_800DA3F8(work, work->groups1);
+            Elevator_800DA358(work, work->groups2);
             Elevator_800DA268(work);
 
             work->f5A8 = 1;
@@ -201,8 +201,8 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
             work->f5C0 = 3;
 
             Elevator_800DA57C(work->f5D0, 0xF624);
-            Elevator_800DA3F8(work, work->areas2);
-            Elevator_800DA358(work, work->areas1);
+            Elevator_800DA3F8(work, work->groups2);
+            Elevator_800DA358(work, work->groups1);
             Elevator_800DA140(work);
 
             if (found == 3)
@@ -250,8 +250,8 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
             work->f58C &= ~0x4;
 
             Elevator_800DA57C(work->f5D0, 0xEDB8);
-            Elevator_800DA3F8(work, work->areas3);
-            Elevator_800DA358(work, work->areas4);
+            Elevator_800DA3F8(work, work->groups3);
+            Elevator_800DA358(work, work->groups4);
             Elevator_800DA268(work);
 
             work->f5A8 = 1;
@@ -462,11 +462,11 @@ void Elevator_800D9FC4(ElevatorWork *, SVECTOR *);
 void Elevator_800DA534(HZD_VEC *, SVECTOR *, HZD_VEC *);
 void Elevator_800DA140(ElevatorWork *);
 void Elevator_800DA1F0(ElevatorWork *);
-void Elevator_800DA358(ElevatorWork *, HZD_AREA *);
+void Elevator_800DA358(ElevatorWork *, HZD_GRP *);
 void Elevator_800DA4CC(OBJECT *, int, int);
 void Elevator_800DA268(ElevatorWork *);
 void Elevator_800DA2E0(ElevatorWork *);
-void Elevator_800DA3F8(ElevatorWork *, HZD_AREA *);
+void Elevator_800DA3F8(ElevatorWork *, HZD_GRP *);
 
 void ElevatorDie_800D97D8(ElevatorWork *work)
 {
@@ -494,10 +494,10 @@ void ElevatorDie_800D97D8(ElevatorWork *work)
         }
     }
 
-    Elevator_800DA3F8(work, work->areas1);
-    Elevator_800DA3F8(work, work->areas2);
-    Elevator_800DA3F8(work, work->areas3);
-    Elevator_800DA3F8(work, work->areas4);
+    Elevator_800DA3F8(work, work->groups1);
+    Elevator_800DA3F8(work, work->groups2);
+    Elevator_800DA3F8(work, work->groups3);
+    Elevator_800DA3F8(work, work->groups4);
 }
 
 int ElevatorGetResources_800D98A8(ElevatorWork *work, int name, int where)
@@ -595,15 +595,15 @@ error:
     if (filename != 0)
     {
         work->hzm = GV_GetCache(GV_CacheID(filename, 'h'));
-        work->areas = work->hzm->areas;
+        work->groups = work->hzm->groups;
 
-        work->n_floors = work->areas->n_floors;
+        work->n_floors = work->groups->n_floors;
         if (work->n_floors > 8)
         {
             work->n_floors = 8;
         }
 
-        work->n_walls = work->areas->n_walls;
+        work->n_walls = work->groups->n_walls;
         if (work->n_walls > 16)
         {
             work->n_walls = 16;
@@ -628,13 +628,13 @@ error:
         filename = GCL_StrToInt(GCL_GetParamResult());
         work->hzm2 = GV_GetCache(GV_CacheID(filename, 'h'));
 
-        work->areas3 = work->hzm3->areas;
-        work->areas4 = work->hzm4->areas;
-        work->areas1 = work->hzm1->areas;
-        work->areas2 = work->hzm2->areas;
+        work->groups3 = work->hzm3->groups;
+        work->groups4 = work->hzm4->groups;
+        work->groups1 = work->hzm1->groups;
+        work->groups2 = work->hzm2->groups;
 
-        Elevator_800DA358(work, work->areas3);
-        Elevator_800DA358(work, work->areas1);
+        Elevator_800DA358(work, work->groups3);
+        Elevator_800DA358(work, work->groups1);
     }
 
     Elevator_800D9FC4(work, &DG_ZeroVector);
@@ -748,7 +748,7 @@ void *NewElevator_800D9F30(int name, int where, int argc, char **argv)
 
 void Elevator_800D9FC4(ElevatorWork *work, SVECTOR *offset)
 {
-    HZD_AREA *areas;
+    HZD_GRP *areas;
     HZD_FLR  *floor;
     HZD_FLR  *flooro;
     int       i;
@@ -760,7 +760,7 @@ void Elevator_800D9FC4(ElevatorWork *work, SVECTOR *offset)
         return;
     }
 
-    areas = work->areas;
+    areas = work->groups;
 
     floor = areas->floors;
     flooro = work->floors;
@@ -809,8 +809,8 @@ void Elevator_800DA140(ElevatorWork *work)
     }
 
     wall = work->walls;
-    flags_lo = work->areas->wallsFlags;
-    flags_hi = flags_lo + work->areas->n_walls;
+    flags_lo = work->groups->wallsFlags;
+    flags_hi = flags_lo + work->groups->n_walls;
 
     for (i = 0; i < work->n_walls; i++)
     {
@@ -875,7 +875,7 @@ void Elevator_800DA2E0(ElevatorWork *work)
     }
 }
 
-void Elevator_800DA358(ElevatorWork *work, HZD_AREA *area)
+void Elevator_800DA358(ElevatorWork *work, HZD_GRP *area)
 {
     HZD_SEG *wall;
     char    *flags_lo;
@@ -900,7 +900,7 @@ void Elevator_800DA358(ElevatorWork *work, HZD_AREA *area)
     }
 }
 
-void Elevator_800DA3F8(ElevatorWork *work, HZD_AREA *area)
+void Elevator_800DA3F8(ElevatorWork *work, HZD_GRP *area)
 {
     HZD_SEG *wall;
     int      i;

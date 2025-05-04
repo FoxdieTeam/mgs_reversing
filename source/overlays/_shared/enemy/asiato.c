@@ -278,9 +278,9 @@ int s00a_asiato_800D1500( HZD_HDL *hzd, SVECTOR *pos, int name )
     int test;
     HZD_TRG  *triggers;
 
-    triggers = hzd->area->triggers;
+    triggers = hzd->group->triggers;
 
-    for ( i = 0 ; i < hzd->area->n_triggers ; i++ )
+    for ( i = 0 ; i < hzd->group->n_triggers ; i++ )
     {
             if ( triggers->trap.name_id == name )
             {
@@ -310,9 +310,9 @@ int s00a_asiato_800D15D8( HZD_HDL *hzd, SVECTOR *pos )
     int test;
     HZD_TRG  *triggers;
 
-    triggers = hzd->area->triggers;
+    triggers = hzd->group->triggers;
 
-    for ( i = 0 ; i < hzd->area->n_triggers ; i++ )
+    for ( i = 0 ; i < hzd->group->n_triggers ; i++ )
     {
             if ( triggers->trap.name_id == HASH_ASIATO || triggers->trap.name_id == HASH_POOLATO )
             {

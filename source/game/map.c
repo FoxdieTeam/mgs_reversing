@@ -71,7 +71,7 @@ STATIC void GM_UpdateMapGroup( int preshade )
             objs++;
         }
 
-        hzd_group |= 1 << ( map->hzd->area - map->hzd->header->areas );
+        hzd_group |= 1 << ( map->hzd->group - map->hzd->header->groups );
     }
 
     GM_PlayerMap = group;
@@ -130,7 +130,7 @@ STATIC void GM_LoadMapModel(int name, MAP *map)
 
 STATIC HZD_HDL *GM_LoadHazard(int name, int area, int index, int dyn_walls, int dyn_floors)
 {
-    HZD_HEADER *hzm;
+    HZD_MAP *hzm;
     HZD_HDL    *hzd;
 
     hzm = GV_GetCache(GV_CacheID(name, 'h'));
