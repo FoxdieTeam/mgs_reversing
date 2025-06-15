@@ -167,30 +167,30 @@ unsigned char VIBX_TBL[32] = {
 
 int sound_sub(void)
 {
-    int          fade2_shifted; // $a0
-    unsigned int tmpd;          // $a1
+    int          fade2_shifted;
+    unsigned int tmpd;
 
-    key_fg_800BF1B0 = 0;
-    sptr_800C057C->tmpd += sptr_800C057C->tmp;
-    if ((unsigned int)mtrack_800BF1EC < 0xD)
+    key_fg = 0;
+    sptr->tmpd += sptr->tmp;
+    if ((unsigned int)mtrack < 0xD)
     {
-        if (sng_fade_in_2_800C0BC0)
+        if (sng_kaihi_time)
         {
-            fade2_shifted = sng_fade_in_2_800C0BC0 >> 5;
-            if (fade2_shifted < (unsigned char)sptr_800C057C->tmp)
+            fade2_shifted = sng_kaihi_time >> 5;
+            if (fade2_shifted < (unsigned char)sptr->tmp)
             {
-                sptr_800C057C->tmpd -= fade2_shifted;
+                sptr->tmpd -= fade2_shifted;
             }
         }
     }
 
-    tmpd = sptr_800C057C->tmpd;
+    tmpd = sptr->tmpd;
     if (tmpd >= 256)
     {
-        sptr_800C057C->tmpd = tmpd & 0xff;
-        --sptr_800C057C->ngc;
+        sptr->tmpd = tmpd & 0xff;
+        --sptr->ngc;
 
-        if (sptr_800C057C->ngc)
+        if (sptr->ngc)
         {
             keych();
         }
@@ -208,7 +208,7 @@ int sound_sub(void)
         note_cntl();
     }
 
-    if (key_fg_800BF1B0)
+    if (key_fg)
     {
         keyon();
         return 0;
@@ -218,8 +218,8 @@ int sound_sub(void)
 
 int tx_read(void)
 {
-    int read_fg; // $s0
-    int loop_count; // $s1
+    int read_fg;
+    int loop_count;
 
     loop_count = 0;
     read_fg = 1;
@@ -231,37 +231,37 @@ int tx_read(void)
             return 1;
         }
 
-        mdata1_800BF0D0 = mptr_800C0570[3];
-        if (!mdata1_800BF0D0)
+        mdata1 = mptr[3];
+        if (!mdata1)
         {
             return 1;
         }
-        mdata2_800BF0D4 = mptr_800C0570[2];
-        mdata3_800BF0D8 = mptr_800C0570[1];
-        mdata4_800BF0DC = mptr_800C0570[0];
-        mptr_800C0570 += 4;
+        mdata2 = mptr[2];
+        mdata3 = mptr[1];
+        mdata4 = mptr[0];
+        mptr += 4;
 
-        if ((char)mdata1_800BF0D0 >= 128)
+        if ((char)mdata1 >= 128)
         {
-            cntl_tbl[mdata1_800BF0D0 - 128]();
-            if (mdata1_800BF0D0 == 0xF2 || mdata1_800BF0D0 == 0xF3 || mdata1_800BF0D0 == 0xFF)
+            cntl_tbl[mdata1 - 128]();
+            if (mdata1 == 0xF2 || mdata1 == 0xF3 || mdata1 == 0xFF)
             {
                 read_fg = 0;
             }
 
-            if (mdata1_800BF0D0 == 0xFF)
+            if (mdata1 == 0xFF)
             {
                 return 1;
             }
         }
         else
         {
-            if ((unsigned char)sptr_800C057C->ngg < 0x64 && mdata4_800BF0DC)
+            if ((unsigned char)sptr->ngg < 0x64 && mdata4)
             {
-                key_fg_800BF1B0 = 1;
+                key_fg = 1;
             }
             read_fg = 0;
-            sptr_800C057C->rest_fg = 0;
+            sptr->rest_fg = 0;
             note_set();
         }
     }
@@ -272,24 +272,24 @@ void note_set(void)
 {
     unsigned int x;
 
-    sptr_800C057C->ngs = mdata2_800BF0D4;
-    sptr_800C057C->ngg = mdata3_800BF0D8;
-    sptr_800C057C->vol = (mdata4_800BF0DC & 0x7F);
+    sptr->ngs = mdata2;
+    sptr->ngg = mdata3;
+    sptr->vol = (mdata4 & 0x7F);
     note_compute();
-    sptr_800C057C->ngc = sptr_800C057C->ngs;
-    x = (sptr_800C057C->ngg * sptr_800C057C->ngc) / 100;
+    sptr->ngc = sptr->ngs;
+    x = (sptr->ngg * sptr->ngc) / 100;
 
     if (!x)
     {
         x = 1;
     }
-    sptr_800C057C->ngo = x;
+    sptr->ngo = x;
 }
 
 void adsr_reset(void)
 {
-    spu_tr_wk_800C0658[mtrack_800BF1EC].rr = sptr_800C057C->rrd;
-    spu_tr_wk_800C0658[mtrack_800BF1EC].env3_fg = 1;
+    spu_tr_wk[mtrack].rr = sptr->rrd;
+    spu_tr_wk[mtrack].env3_fg = 1;
 }
 
 void note_compute(void)
@@ -298,82 +298,82 @@ void note_compute(void)
     int      swp_ex;
     SOUND_W *pSound;
 
-    if (mdata1_800BF0D0 >= 0x48)
+    if (mdata1 >= 0x48)
     {
-        drum_set(mdata1_800BF0D0);
+        drum_set(mdata1);
         x = 0x24;
     }
     else
     {
-        x = mdata1_800BF0D0;
+        x = mdata1;
     }
 
-    x += sptr_800C057C->ptps;
-    x = (x << 8) + sptr_800C057C->tund;
-    x = x + sptr_800C057C->lp1_freq + sptr_800C057C->lp2_freq;
+    x += sptr->ptps;
+    x = (x << 8) + sptr->tund;
+    x = x + sptr->lp1_freq + sptr->lp2_freq;
 
     while (x >= 0x6000)
     {
         x -= 0x6000;
     }
 
-    swp_ex = sptr_800C057C->swpd;
+    swp_ex = sptr->swpd;
 
-    pSound = sptr_800C057C;
+    pSound = sptr;
     pSound->vibcc = 0;
     pSound->vibhc = 0;
     pSound->swpd = x;
 
-    sptr_800C057C->vib_tmp_cnt = 0;
-    sptr_800C057C->vib_tbl_cnt = 0;
+    sptr->vib_tmp_cnt = 0;
+    sptr->vib_tbl_cnt = 0;
 
-    pSound = sptr_800C057C;
+    pSound = sptr;
     pSound->trehc = 0;
     pSound->trec = 0;
     pSound->vibd = 0;
 
-    spu_tr_wk_800C0658[mtrack_800BF1EC].rr = sptr_800C057C->rrd;
-    spu_tr_wk_800C0658[mtrack_800BF1EC].env3_fg = 1;
+    spu_tr_wk[mtrack].rr = sptr->rrd;
+    spu_tr_wk[mtrack].env3_fg = 1;
 
-    sptr_800C057C->swpc = sptr_800C057C->swsc;
+    sptr->swpc = sptr->swsc;
 
-    if (sptr_800C057C->swpc != 0)
+    if (sptr->swpc != 0)
     {
-        sptr_800C057C->swphc = sptr_800C057C->swshc;
+        sptr->swphc = sptr->swshc;
 
-        if (sptr_800C057C->swsk == 0)
+        if (sptr->swsk == 0)
         {
-            x = sptr_800C057C->swpd;
+            x = sptr->swpd;
 
-            if (sptr_800C057C->swss >= 0x7F01)
+            if (sptr->swss >= 0x7F01)
             {
-                sptr_800C057C->swpd += 0x10000 - (sptr_800C057C->swss & 0xFFFF);
+                sptr->swpd += 0x10000 - (sptr->swss & 0xFFFF);
             }
             else
             {
-                sptr_800C057C->swpd -= sptr_800C057C->swss;
+                sptr->swpd -= sptr->swss;
             }
 
             swpadset(x);
         }
         else
         {
-            sptr_800C057C->swpm = sptr_800C057C->swpd;
-            sptr_800C057C->swpd = swp_ex;
+            sptr->swpm = sptr->swpd;
+            sptr->swpd = swp_ex;
         }
     }
 
-    freq_set(sptr_800C057C->swpd);
+    freq_set(sptr->swpd);
 }
 
 inline void swpadset(int xfreq)
 {
-    unsigned int flame_dat; // $lo
+    unsigned int flame_dat;
 
-    if (sptr_800C057C->swpc)
+    if (sptr->swpc)
     {
-        flame_dat = sptr_800C057C->swpc << 8;
-        flame_dat = flame_dat / sptr_800C057C->tmp;
+        flame_dat = sptr->swpc << 8;
+        flame_dat = flame_dat / sptr->tmp;
         if (xfreq < 0)
         {
             xfreq = 0;
@@ -383,18 +383,18 @@ inline void swpadset(int xfreq)
             xfreq = 0x5FFF;
         }
 
-        sptr_800C057C->swpm = xfreq;
+        sptr->swpm = xfreq;
 
-        xfreq -= sptr_800C057C->swpd;
+        xfreq -= sptr->swpd;
 
         if (xfreq < 0)
         {
             xfreq = -xfreq / flame_dat;
-            sptr_800C057C->swpad = -xfreq;
+            sptr->swpad = -xfreq;
         }
         else
         {
-            sptr_800C057C->swpad = xfreq / flame_dat;
+            sptr->swpad = xfreq / flame_dat;
         }
     }
 }
@@ -404,33 +404,33 @@ void vol_compute(void)
     int          mult;
     unsigned int depth;
 
-    if (sptr_800C057C->pvoc != 0)
+    if (sptr->pvoc != 0)
     {
-        if (--sptr_800C057C->pvoc == 0)
+        if (--sptr->pvoc == 0)
         {
-            sptr_800C057C->pvod = sptr_800C057C->pvom << 8;
+            sptr->pvod = sptr->pvom << 8;
         }
         else
         {
-            sptr_800C057C->pvod += sptr_800C057C->pvoad;
+            sptr->pvod += sptr->pvoad;
         }
     }
 
-    if (sptr_800C057C->vol != 0)
+    if (sptr->vol != 0)
     {
-        if (sptr_800C057C->tred == 0)
+        if (sptr->tred == 0)
         {
             depth = 0;
         }
         else
         {
-            if (sptr_800C057C->trehs == sptr_800C057C->trehc)
+            if (sptr->trehs == sptr->trehc)
             {
-                sptr_800C057C->trec += sptr_800C057C->trecad;
-                mult = sptr_800C057C->trec;
+                sptr->trec += sptr->trecad;
+                mult = sptr->trec;
                 if (mult < 0)
                 {
-                    depth = sptr_800C057C->tred * -mult;
+                    depth = sptr->tred * -mult;
                 }
                 else if (mult == 0)
                 {
@@ -438,12 +438,12 @@ void vol_compute(void)
                 }
                 else
                 {
-                    depth = sptr_800C057C->tred * mult;
+                    depth = sptr->tred * mult;
                 }
             }
             else
             {
-                sptr_800C057C->trehc++;
+                sptr->trehc++;
                 depth = 0;
             }
         }
@@ -454,50 +454,50 @@ void vol_compute(void)
 
 void pan_generate(void)
 {
-    if (sptr_800C057C->panc)
+    if (sptr->panc)
     {
-        if (!--sptr_800C057C->panc)
+        if (!--sptr->panc)
         {
-            sptr_800C057C->pand = sptr_800C057C->panm;
+            sptr->pand = sptr->panm;
         }
         else
         {
-            sptr_800C057C->pand += sptr_800C057C->panad;
+            sptr->pand += sptr->panad;
         }
-        sptr_800C057C->panf = sptr_800C057C->pand >> 8;
+        sptr->panf = sptr->pand >> 8;
     }
 }
 
 void key_cut_off(void)
 {
-    if (sptr_800C057C->rrd > 7)
+    if (sptr->rrd > 7)
     {
-        spu_tr_wk_800C0658[mtrack_800BF1EC].rr = 7;
-        spu_tr_wk_800C0658[mtrack_800BF1EC].env3_fg = 1;
+        spu_tr_wk[mtrack].rr = 7;
+        spu_tr_wk[mtrack].env3_fg = 1;
     }
 }
 
 void keych(void)
 {
-    int swpc;   // $a0
-    int set_fg; // $s1
-    int swphc;  // $v0
-    int vibdm; // $a1
-    int vib_data;       // $s0
-    int vibhc; // $v1
-    int rdm_data;       // $v0
+    int swpc;
+    int set_fg;
+    int swphc;
+    int vibdm;
+    int vib_data;
+    int vibhc;
+    int rdm_data;
 
-    if ((unsigned char)sptr_800C057C->ngg < 0x64u && sptr_800C057C->ngc == 1 &&
-         (unsigned short)sptr_800C057C->rrd >= 8u)
+    if ((unsigned char)sptr->ngg < 0x64u && sptr->ngc == 1 &&
+         (unsigned short)sptr->rrd >= 8u)
     {
-        spu_tr_wk_800C0658[mtrack_800BF1EC].rr = 7;
-        spu_tr_wk_800C0658[mtrack_800BF1EC].env3_fg = 1;
+        spu_tr_wk[mtrack].rr = 7;
+        spu_tr_wk[mtrack].env3_fg = 1;
     }
 
-    if (sptr_800C057C->ngo)
+    if (sptr->ngo)
     {
-        sptr_800C057C->ngo--;
-        if (!sptr_800C057C->ngo)
+        sptr->ngo--;
+        if (!sptr->ngo)
         {
             keyoff();
         }
@@ -505,26 +505,26 @@ void keych(void)
 
     set_fg = 0;
 
-    swpc = sptr_800C057C->swpc;
+    swpc = sptr->swpc;
     if (swpc)
     {
-        swphc = (unsigned char)sptr_800C057C->swphc;
+        swphc = (unsigned char)sptr->swphc;
         if (swphc)
         {
-            sptr_800C057C->swphc--;
+            sptr->swphc--;
         }
         else
         {
-            if (!sptr_800C057C->swsk)
+            if (!sptr->swsk)
             {
-                sptr_800C057C->swpc = swpc - 1;
+                sptr->swpc = swpc - 1;
                 if (!((swpc - 1) & 0xFF))
                 {
-                    sptr_800C057C->swpd = sptr_800C057C->swpm;
+                    sptr->swpd = sptr->swpm;
                 }
                 else
                 {
-                    sptr_800C057C->swpd += sptr_800C057C->swpad;
+                    sptr->swpd += sptr->swpad;
                 }
             }
             else
@@ -535,40 +535,40 @@ void keych(void)
         }
     }
 
-    vibdm = sptr_800C057C->vibdm;
+    vibdm = sptr->vibdm;
     vib_data = 0;
 
     if (vibdm)
     {
-        vibhc = (unsigned char)sptr_800C057C->vibhc;
-        if (vibhc != (unsigned char)sptr_800C057C->vibhs)
+        vibhc = (unsigned char)sptr->vibhc;
+        if (vibhc != (unsigned char)sptr->vibhs)
         {
-            sptr_800C057C->vibhc = vibhc + 1;
+            sptr->vibhc = vibhc + 1;
         }
         else
         {
-            if (sptr_800C057C->vibcc == sptr_800C057C->vibcs)
+            if (sptr->vibcc == sptr->vibcs)
             {
-                sptr_800C057C->vibd = vibdm;
+                sptr->vibd = vibdm;
             }
             else
             {
-                if (sptr_800C057C->vibcc)
+                if (sptr->vibcc)
                 {
-                    sptr_800C057C->vibd =
-                        sptr_800C057C->vibd + sptr_800C057C->vibad;
+                    sptr->vibd =
+                        sptr->vibd + sptr->vibad;
                 }
                 else
                 {
-                    sptr_800C057C->vibd = sptr_800C057C->vibad;
+                    sptr->vibd = sptr->vibad;
                 }
-                ++sptr_800C057C->vibcc;
+                ++sptr->vibcc;
             }
-            sptr_800C057C->vib_tmp_cnt =
-                sptr_800C057C->vib_tmp_cnt + sptr_800C057C->vibcad;
-            if ((unsigned)sptr_800C057C->vib_tmp_cnt >= 256)
+            sptr->vib_tmp_cnt =
+                sptr->vib_tmp_cnt + sptr->vibcad;
+            if ((unsigned)sptr->vib_tmp_cnt >= 256)
             {
-                sptr_800C057C->vib_tmp_cnt = sptr_800C057C->vib_tmp_cnt & 0xFF;
+                sptr->vib_tmp_cnt = sptr->vib_tmp_cnt & 0xFF;
                 vib_data = vib_compute();
                 set_fg = 1;
             }
@@ -584,24 +584,24 @@ void keych(void)
 
     if (set_fg)
     {
-        freq_set(sptr_800C057C->swpd + vib_data);
+        freq_set(sptr->swpd + vib_data);
     }
 }
 
 inline void por_compute(void)
 {
-    int          por_freq; // $a1
+    int          por_freq;
     unsigned int pfreq_h;
     unsigned int pfreq_l;
 
-    por_freq = sptr_800C057C->swpm - sptr_800C057C->swpd;
+    por_freq = sptr->swpm - sptr->swpd;
     if (por_freq < 0)
     {
         por_freq = -por_freq;
         pfreq_l = por_freq & 0xFF;
         pfreq_h = por_freq >> 8;
-        pfreq_l = (pfreq_l * sptr_800C057C->swsc) >> 8;
-        pfreq_h *= sptr_800C057C->swsc;
+        pfreq_l = (pfreq_l * sptr->swsc) >> 8;
+        pfreq_h *= sptr->swsc;
         por_freq = pfreq_h + pfreq_l;
 
         if (por_freq == 0)
@@ -612,14 +612,14 @@ inline void por_compute(void)
     }
     else if (por_freq == 0)
     {
-        sptr_800C057C->swpc = 0;
+        sptr->swpc = 0;
     }
     else
     {
         pfreq_l = por_freq & 0xFF;
         pfreq_h = por_freq >> 8;
-        pfreq_l = (pfreq_l * sptr_800C057C->swsc) >> 8;
-        pfreq_h *= sptr_800C057C->swsc;
+        pfreq_l = (pfreq_l * sptr->swsc) >> 8;
+        pfreq_h *= sptr->swsc;
         por_freq = pfreq_h + pfreq_l;
 
         if (por_freq == 0)
@@ -628,20 +628,20 @@ inline void por_compute(void)
         }
     }
 
-    sptr_800C057C->swpd += por_freq;
+    sptr->swpd += por_freq;
 }
 
 inline int vib_compute(void)
 {
-    unsigned int tmp;  // $a0
-    int          tbl_data; // $a1
-    unsigned int vib_data; // $v1
+    unsigned int tmp;
+    int          tbl_data;
+    unsigned int vib_data;
 
-    sptr_800C057C->vib_tbl_cnt += sptr_800C057C->vib_tc_ofst;
-    sptr_800C057C->vib_tbl_cnt &= 0x3Fu;
-    tbl_data = VIBX_TBL[sptr_800C057C->vib_tbl_cnt & 0x1F];
+    sptr->vib_tbl_cnt += sptr->vib_tc_ofst;
+    sptr->vib_tbl_cnt &= 0x3Fu;
+    tbl_data = VIBX_TBL[sptr->vib_tbl_cnt & 0x1F];
 
-    tmp = sptr_800C057C->vibd;
+    tmp = sptr->vibd;
     if (0x7FFF >= tmp)
     {
         vib_data = ((tmp >> 7) & 0xFE);
@@ -653,7 +653,7 @@ inline int vib_compute(void)
         vib_data = (vib_data * tbl_data) >> 1;
     }
 
-    if ((unsigned char)sptr_800C057C->vib_tbl_cnt >= 32u)
+    if ((unsigned char)sptr->vib_tbl_cnt >= 32u)
     {
         vib_data = -vib_data;
     }
@@ -673,7 +673,7 @@ int vib_generate(int cnt)
         {
             vib_char = -vib_char;
         }
-        vib_data = ((char*)&sptr_800C057C->vibd)[1] * (vib_char / 4);
+        vib_data = ((sptr->vibd >> 8) & 0xff) * (vib_char / 4);
         vib_data = -vib_data;
     }
     else
@@ -683,9 +683,9 @@ int vib_generate(int cnt)
         {
             vib_char = -vib_char;
         }
-        vib_data = ((char*)&sptr_800C057C->vibd)[1] * (vib_char / 4);
+        vib_data = ((sptr->vibd >> 8) & 0xff) * (vib_char / 4);
     }
-    if (*(unsigned int *)&sptr_800C057C->vibdm < 0x8000)
+    if (sptr->vibdm < 0x8000)
     {
         vib_data >>= 2;
     }
@@ -696,18 +696,18 @@ void bendch(void)
 {
     int bend_frq;
 
-    if (!sptr_800C057C->swpc)
+    if (!sptr->swpc)
     {
-        mdata1_800BF0D0 = mptr_800C0570[3];
-        if (mdata1_800BF0D0 == 0xe4)
+        mdata1 = mptr[3];
+        if (mdata1 == 0xe4)
         {
-            sptr_800C057C->swphc = mptr_800C0570[2];
-            sptr_800C057C->swpc = mptr_800C0570[1];
-            bend_frq = mptr_800C0570[0];
-            mptr_800C0570 += 4;
+            sptr->swphc = mptr[2];
+            sptr->swpc = mptr[1];
+            bend_frq = mptr[0];
+            mptr += 4;
 
-            bend_frq = (bend_frq + sptr_800C057C->ptps) << 8;
-            bend_frq += sptr_800C057C->tund;
+            bend_frq = (bend_frq + sptr->ptps) << 8;
+            bend_frq += sptr->tund;
 
             swpadset(bend_frq);
         }
@@ -721,53 +721,53 @@ void note_cntl(void)
     unsigned int   depth;
     int            frq_data;
 
-    if (sptr_800C057C->vol != 0 && sptr_800C057C->tred != 0 &&
-        sptr_800C057C->trehs == sptr_800C057C->trehc)
+    if (sptr->vol != 0 && sptr->tred != 0 &&
+        sptr->trehs == sptr->trehc)
     {
-        sptr_800C057C->trec +=
-            (unsigned)(sptr_800C057C->trecad * (char)sptr_800C057C->tmpd) >> 8;
+        sptr->trec +=
+            (unsigned)(sptr->trecad * (char)sptr->tmpd) >> 8;
 
-        if (sptr_800C057C->trec < 0)
+        if (sptr->trec < 0)
         {
-            depth = sptr_800C057C->tred * -sptr_800C057C->trec;
+            depth = sptr->tred * -sptr->trec;
         }
-        else if (sptr_800C057C->trec == 0)
+        else if (sptr->trec == 0)
         {
             depth = 1;
         }
         else
         {
-            depth = sptr_800C057C->tred * sptr_800C057C->trec;
+            depth = sptr->tred * sptr->trec;
         }
 
         volxset(depth >> 8);
     }
 
     fset_fg = 0;
-    frq_data = sptr_800C057C->swpd;
+    frq_data = sptr->swpd;
 
-    if (sptr_800C057C->swpc != 0 && sptr_800C057C->swphc == 0)
+    if (sptr->swpc != 0 && sptr->swphc == 0)
     {
         fset_fg = 1;
 
-        if (sptr_800C057C->swsk == 0)
+        if (sptr->swsk == 0)
         {
-            sptr_800C057C->swpd += sptr_800C057C->swpad;
+            sptr->swpd += sptr->swpad;
         }
         else
         {
             por_compute();
         }
 
-        frq_data = sptr_800C057C->swpd;
+        frq_data = sptr->swpd;
     }
 
-    if (sptr_800C057C->vibd != 0 && sptr_800C057C->vibhs == sptr_800C057C->vibhc)
+    if (sptr->vibd != 0 && sptr->vibhs == sptr->vibhc)
     {
-        sptr_800C057C->vib_tmp_cnt += sptr_800C057C->vibcad;
-        if ((unsigned)sptr_800C057C->vib_tmp_cnt >= 256)
+        sptr->vib_tmp_cnt += sptr->vibcad;
+        if ((unsigned)sptr->vib_tmp_cnt >= 256)
         {
-            sptr_800C057C->vib_tmp_cnt &= 0xFF;
+            sptr->vib_tmp_cnt &= 0xFF;
             frq_data += vib_compute();
             fset_fg = 1;
         }
@@ -789,21 +789,21 @@ void note_cntl(void)
 
 unsigned int random(void)
 {
-    unsigned int  frq_dt = 0; // $a1
+    unsigned int  frq_dt = 0;
     unsigned char temp2;
 
-    if (sptr_800C057C->rdms)
+    if (sptr->rdms)
     {
-        sptr_800C057C->rdmc += sptr_800C057C->rdms;
-        if (sptr_800C057C->rdmc > 256)
+        sptr->rdmc += sptr->rdms;
+        if (sptr->rdmc > 256)
         {
-            sptr_800C057C->rdmc &= 255;
-            sptr_800C057C->rdmo++;
-            sptr_800C057C->rdmo &= 0x7F;
-            temp2 = rdm_tbl[sptr_800C057C->rdmo];
-            frq_dt = rdm_tbl[sptr_800C057C->rdmo + 1] << 8;
+            sptr->rdmc &= 255;
+            sptr->rdmo++;
+            sptr->rdmo &= 0x7F;
+            temp2 = rdm_tbl[sptr->rdmo];
+            frq_dt = rdm_tbl[sptr->rdmo + 1] << 8;
             frq_dt += temp2;
-            frq_dt &= sptr_800C057C->rdmd;
+            frq_dt &= sptr->rdmd;
         }
     }
     return frq_dt;
@@ -811,29 +811,29 @@ unsigned int random(void)
 
 void tempo_ch(void)
 {
-    if (sptr_800C057C->tmpc)
+    if (sptr->tmpc)
     {
-        if (!--sptr_800C057C->tmpc)
+        if (!--sptr->tmpc)
         {
-            sptr_800C057C->tmpw = (unsigned char)sptr_800C057C->tmpm << 8;
+            sptr->tmpw = (unsigned char)sptr->tmpm << 8;
         }
         else
         {
-            sptr_800C057C->tmpw += sptr_800C057C->tmpad;
+            sptr->tmpw += sptr->tmpad;
         }
-        sptr_800C057C->tmp = (unsigned int)sptr_800C057C->tmpw >> 8;
+        sptr->tmp = (unsigned int)sptr->tmpw >> 8;
     }
 }
 
 void volxset(unsigned char depth)
 {
-    int vol_data; // $a1
+    int vol_data;
     int pvod_w;
 
-    vol_data = sptr_800C057C->vol;
+    vol_data = sptr->vol;
     vol_data -= depth;
-    vol_data += sptr_800C057C->lp1_vol;
-    vol_data += sptr_800C057C->lp2_vol;
+    vol_data += sptr->lp1_vol;
+    vol_data += sptr->lp2_vol;
     if (vol_data < 0)
     {
         vol_data = 0;
@@ -842,6 +842,6 @@ void volxset(unsigned char depth)
     {
         vol_data = 127;
     }
-    pvod_w = (sptr_800C057C->pvod >> 8) & 0xFF;
+    pvod_w = (sptr->pvod >> 8) & 0xFF;
     vol_set(((pvod_w * vol_data) >> 8) & 0xFF);
 }
