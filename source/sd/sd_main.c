@@ -8,7 +8,7 @@
 #include "mts/taskid.h"
 #include "libfs/libfs.h"
 
-extern unsigned char *se_exp_table_800C0520;
+extern unsigned char *se_header;
 
 /* todo: should be declared static */
 extern char sd_main_stack_800BDFC8[SD_MAIN_STACK_SIZE];
@@ -63,9 +63,9 @@ void SdMain(void)
             }
         }
 
-        if (str_fout_fg_800BF26C == 1)
+        if (str_fout_fg == 1)
         {
-            str_fout_fg_800BF26C = 2;
+            str_fout_fg = 2;
         }
 
         if (dword_800BEFCC)
@@ -312,27 +312,27 @@ void keyOn(unsigned int ch)
 
 int sd_mem_alloc(void)
 {
-    sng_data_800C0420 = (unsigned char *)0x801E0000;
-    printf("sng_data %X\n", (unsigned int)sng_data_800C0420);
+    sng_data = (unsigned char *)0x801E0000;
+    printf("sng_data %X\n", (unsigned int)sng_data);
 
-    wave_header_800BF1E0 = (WAVE_W *)(sng_data_800C0420 + 0x4000);
-    printf("wave_header %X\n", (unsigned int)sng_data_800C0420 + 0x4000);
+    wave_header = (WAVE_W *)(sng_data + 0x4000);
+    printf("wave_header %X\n", (unsigned int)sng_data + 0x4000);
 
-    voice_tbl_800C0530 = wave_header_800BF1E0;
-    printf("voice_tbl %X\n", (unsigned int)wave_header_800BF1E0);
+    voice_tbl = wave_header;
+    printf("voice_tbl %X\n", (unsigned int)wave_header);
 
-    se_exp_table_800C0520 = (unsigned char *)&wave_header_800BF1E0[256];
-    printf("se_header %X\n", (unsigned int)se_exp_table_800C0520);
+    se_header = (unsigned char *)&wave_header[256];
+    printf("se_header %X\n", (unsigned int)se_header);
 
-    se_header_800BF284 = se_exp_table_800C0520 + 0x800;
-    printf("se_data %X\n", (unsigned int)se_header_800BF284);
+    se_data = se_header + 0x800;
+    printf("se_data %X\n", (unsigned int)se_data);
 
-    cdload_buf_800BF010 = se_header_800BF284 + 0x2000;
-    printf("CDLOAD_BUF %X %X %X\n", (unsigned int)cdload_buf_800BF010, 0x18000, (unsigned int)cdload_buf_800BF010 + 0x18000);
+    cdload_buf = se_data + 0x2000;
+    printf("CDLOAD_BUF %X %X %X\n", (unsigned int)cdload_buf, 0x18000, (unsigned int)cdload_buf + 0x18000);
 
-    str_header_800BF058 = cdload_buf_800BF010 + 0x18000;
-    printf("str_header %X\n", (unsigned int)str_header_800BF058);
+    str_header = cdload_buf + 0x18000;
+    printf("str_header %X\n", (unsigned int)str_header);
 
-    str_trans_buf_800C0514 = cdload_buf_800BF010;
+    str_trans_buf_800C0514 = cdload_buf;
     return 0;
 }

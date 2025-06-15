@@ -65,63 +65,63 @@ int StrFadeOutStop(unsigned int fade_speed)
 
 int StartStream(void)
 {
-    if (!str_fadein_fg_800C04EC)
+    if (!str_fadein_fg)
     {
         str_fadein_time_800BF0CC = 0;
         str_fade_value_800C0584 = 0;
         str_fade_time_800C04F4 = 0;
     }
-    str_fout_fg_800BF26C = 0;
+    str_fout_fg = 0;
     dword_8009F7B4 = -1;
     FS_StreamOpen();
 
-    str_header_800BF058 = FS_StreamGetData(2);
+    str_header = FS_StreamGetData(2);
 
-    if (!str_header_800BF058)
+    if (!str_header)
     {
         printf("Stream:File Pos Error\n");
         FS_StreamClose();
         return -1;
     }
 
-    // Consume big-endian int from str_header_800BF058
-    str_wave_size_800C051C = str_header_800BF058[0] << 24;
-    str_wave_size_800C051C |= str_header_800BF058[1] << 16;
-    str_wave_size_800C051C |= str_header_800BF058[2] << 8;
-    str_wave_size_800C051C |= str_header_800BF058[3];
+    // Consume big-endian int from str_header
+    str_wave_size_800C051C = str_header[0] << 24;
+    str_wave_size_800C051C |= str_header[1] << 16;
+    str_wave_size_800C051C |= str_header[2] << 8;
+    str_wave_size_800C051C |= str_header[3];
 
     str_unplay_size_800BF1AC = str_unload_size_800BF168 = str_wave_size_800C051C;
 
-    // Consume big-endian short from str_header_800BF058
-    str_volume_800BF15C = str_header_800BF058[4] << 8;
-    str_volume_800BF15C |= str_header_800BF058[5];
+    // Consume big-endian short from str_header
+    str_volume_800BF15C = str_header[4] << 8;
+    str_volume_800BF15C |= str_header[5];
 
-    // Consume big-endian short from str_header_800BF058
-    str_freq_800C0504 = str_header_800BF058[6] << 8;
-    str_freq_800C0504 |= str_header_800BF058[7];
+    // Consume big-endian short from str_header
+    str_freq_800C0504 = str_header[6] << 8;
+    str_freq_800C0504 |= str_header[7];
 
-    // Consume byte from str_header_800BF058
-    if (str_header_800BF058[8] == 1)
+    // Consume byte from str_header
+    if (str_header[8] == 1)
     {
-        str_mono_fg_800BF268 = str_header_800BF058[8];
+        str_mono_fg = str_header[8];
     }
     else
     {
-        str_mono_fg_800BF268 = 0;
+        str_mono_fg = 0;
     }
 
-    // Consume byte from str_header_800BF058
-    dword_800C0580 = str_header_800BF058[9];
+    // Consume byte from str_header
+    dword_800C0580 = str_header[9];
 
     printf("StartStream(%x:vol=%x)\n", str_load_code_800C04F0, str_volume_800BF15C);
-    if (str_fadein_fg_800C04EC)
+    if (str_fadein_fg)
     {
         StrFadeWkSet();
     }
 
     keyOff(SPU_21CH | SPU_22CH);
-    str_mute_fg_800BEFF0 = NULL;
-    FS_StreamClear(str_header_800BF058);
+    str_mute_fg = NULL;
+    FS_StreamClear(str_header);
     str_mute_ctr_800C0418 = NULL;
     str_mute_status_800BF1DC = NULL;
     return 0;
@@ -256,7 +256,7 @@ int StrSpuTransWithNoLoop(void)
                 SpuSetTransferStartAddr(spu_bgm_start_ptr_r_800BF0C8);
                 SpuWrite(stream_data_ptr_800BEFE4, 4096);
 
-                if (str_mono_fg_800BF268 == 0)
+                if (str_mono_fg == 0)
                 {
                     str_play_offset_800BF164 = 4096;
                     str_unplay_size_800BF1AC -= 4096;
@@ -279,7 +279,7 @@ int StrSpuTransWithNoLoop(void)
             str_play_offset_800BF164 += 4096;
             str_unplay_size_800BF1AC -= 4096;
 
-            if (str_mono_fg_800BF268 == 0)
+            if (str_mono_fg == 0)
             {
                 dword_8009F7B8 = stream_data_ptr_800BEFE4;
                 stream_data_ptr_800BEFE4 = FS_StreamGetData(1);
@@ -312,7 +312,7 @@ int StrSpuTransWithNoLoop(void)
             SpuSetTransferStartAddr(spu_bgm_start_ptr_r_800BF0C8 + 4096);
             SpuWrite(stream_data_ptr_800BEFE4 + str_play_offset_800BF164, 4096);
 
-            if (str_mono_fg_800BF268 == 0)
+            if (str_mono_fg == 0)
             {
                 str_play_offset_800BF164 += 4096;
                 str_unplay_size_800BF1AC -= 4096;
@@ -408,10 +408,10 @@ int StrSpuTransWithNoLoop(void)
 
             if ((stream_data_ptr_800BEFE4) && (mute_l_r_fg == 0))
             {
-                str_mute_fg_800BEFF0 = 0;
+                str_mute_fg = 0;
                 bVar1 = 0;
 
-                if (str_mono_fg_800BF268 != 0)
+                if (str_mono_fg != 0)
                 {
                     str_mono_offset_800BEFE8 = 0;
                 }
@@ -429,7 +429,7 @@ int StrSpuTransWithNoLoop(void)
                         dword_800BF1A4 = 0;
                         str_next_idx_800C0414 = (str_next_idx_800C0414 + 4096) & 0x1fff;
 
-                        if (str_mono_fg_800BF268 == 0)
+                        if (str_mono_fg == 0)
                         {
                             bVar1 = 1;
                         }
@@ -455,7 +455,7 @@ int StrSpuTransWithNoLoop(void)
                         SpuSetTransferStartAddr(spu_bgm_start_ptr_l_800BF060 + 4096);
                         bVar1 = 1;
 
-                        if (str_mono_fg_800BF268 != 0)
+                        if (str_mono_fg != 0)
                         {
                             str_mono_offset_800BEFE8 = 1;
                         }
@@ -466,7 +466,7 @@ int StrSpuTransWithNoLoop(void)
 
                 SpuWrite(stream_data_ptr_800BEFE4 + str_play_offset_800BF164, 4096);
 
-                if (str_mono_fg_800BF268 != 0)
+                if (str_mono_fg != 0)
                 {
                     if (str_mono_offset_800BEFE8 != 0)
                     {
@@ -526,7 +526,7 @@ int StrSpuTransWithNoLoop(void)
             }
             else
             {
-                str_mute_fg_800BEFF0 = 1;
+                str_mute_fg = 1;
                 printf("*");
 
                 if (dword_800BF270 >= 4096u)
@@ -637,7 +637,7 @@ void StrSpuTransClose(void)
         dword_8009F7B8 = NULL;
     }
 
-    str_mute_fg_800BEFF0 = 0;
+    str_mute_fg = 0;
     FS_StreamClose();
 }
 
