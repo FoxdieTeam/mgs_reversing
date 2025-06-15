@@ -35,7 +35,7 @@ void IntSdMain(void)
     {
         // Pause
         case 0x01FFFF01:
-            sng_pause_fg_800BF298 = 1;
+            sng_pause_fg = 1;
             sng_pause();
             printf("SongPauseOn\n");
             break;
@@ -43,7 +43,7 @@ void IntSdMain(void)
         // Unpause
         case 0x01FFFF02:
             sng_pause_off();
-            sng_pause_fg_800BF298 = 0;
+            sng_pause_fg = 0;
             printf("SongPauseOff\n");
             break;
 
@@ -53,17 +53,17 @@ void IntSdMain(void)
         case 0x01FFFF05:
             if (sng_play_code_800C04F8 != 0xFFFFFFFF)
             {
-                sng_fout_fg_800BF25C = 0;
+                sng_fout_fg = 0;
                 if (sng_status_800BF158 < 3)
                 {
-                    sng_fadein_fg_800C041C = temp;
+                    sng_fadein_fg = temp;
                 }
                 else
                 {
                     SngFadeIn(temp);
                 }
-                sng_kaihi_fg_800BF290 = 0;
-                sng_fade_in_2_800C0BC0 = 0;
+                sng_kaihi_fg = 0;
+                sng_kaihi_time = 0;
             }
             printf("SongFadein\n");
             break;
@@ -94,13 +94,13 @@ void IntSdMain(void)
 
         // First Person Mode
         case 0x01FFFF20:
-            sng_syukan_fg_800C0510 = 1;
+            sng_syukan_fg = 1;
             printf("SongSyukanMode On\n");
             break;
 
         // Exit first person
         case 0x01FFFF21:
-            sng_syukan_fg_800C0510 = 0;
+            sng_syukan_fg = 0;
             printf("SongSyukanMode Off\n");
             break;
 
@@ -123,7 +123,7 @@ void IntSdMain(void)
             {
                 if (sng_status_800BF158 >= 2)
                 {
-                    pSngData = sng_data_800C0420[0];
+                    pSngData = sng_data[0];
                     if (pSngData < (temp & 0xF))
                     {
                         printf("ERROR:SNG PLAY CODE(%x/%x)\n", temp, pSngData);
@@ -143,9 +143,9 @@ void IntSdMain(void)
                         }
                         sng_play_code_800C04F8 = temp;
                         sng_off();
-                        sng_pause_fg_800BF298 = 0;
-                        sng_kaihi_fg_800BF290 = 0;
-                        sng_fade_in_2_800C0BC0 = 0;
+                        sng_pause_fg = 0;
+                        sng_kaihi_fg = 0;
+                        sng_kaihi_time = 0;
                     }
                 }
                 else
@@ -195,12 +195,12 @@ void IntSdMain(void)
         case 3:
             if (dword_800BEFF8)
             {
-                if ((dword_800BEFF8 & 0x1FFF) != (song_end_800C04E8 & 0x1FFF))
+                if ((dword_800BEFF8 & 0x1FFF) != (song_end & 0x1FFF))
                 {
                     printf("*** SOUND WORK IS BROKEN !!! ***\n");
                     printf("*** SOUND WORK IS BROKEN !!! ***\n");
                     printf("*** song_end:%x -> %x        ***\n",
-                        song_end_800C04E8 & 0x1FFF, dword_800BEFF8 & 0x1FFF);
+                        song_end & 0x1FFF, dword_800BEFF8 & 0x1FFF);
                     printf("*** SOUND WORK IS BROKEN !!! ***\n");
                     printf("*** SOUND WORK IS BROKEN !!! ***\n");
                 }
@@ -213,26 +213,26 @@ void IntSdMain(void)
 
             do
             {
-                keyd_800C0524 = spu_ch_tbl[mtrack_800BF1EC + 1];
-                if ((song_end_800C04E8 & keyd_800C0524) == 0)
+                keyd = spu_ch_tbl[mtrack_800BF1EC + 1];
+                if ((song_end & keyd) == 0)
                 {
-                    sptr_800C057C = &sound_w_800BF2A8[mtrack_800BF1EC];
-                    mptr = sptr_800C057C->mpointer;
+                    sptr = &sound_w[mtrack_800BF1EC];
+                    mptr = sptr->mpointer;
                     if (!mptr)
                     {
-                        song_end_800C04E8 |= keyd_800C0524;
+                        song_end |= keyd;
                     }
                     else
                     {
-                         mptr_800C0570 = mptr;
+                         mptr = mptr;
                         if (sound_sub())
                         {
-                            song_end_800C04E8 |= keyd_800C0524;
-                            sptr_800C057C->mpointer = 0;
+                            song_end |= keyd;
+                            sptr->mpointer = 0;
                         }
                         else
                         {
-                            sptr_800C057C->mpointer = mptr_800C0570;
+                            sptr->mpointer = mptr;
                         }
                     }
                 }
@@ -240,8 +240,8 @@ void IntSdMain(void)
             }
             while ((unsigned int)mtrack_800BF1EC < 13);
 
-            dword_800BEFF8 = song_end_800C04E8;
-            if ((song_end_800C04E8 & 0x1FFF) == 0x1FFF)
+            dword_800BEFF8 = song_end;
+            if ((song_end & 0x1FFF) == 0x1FFF)
             {
                 new_sng_status = 4;
                 sng_status_800BF158 = new_sng_status;
@@ -267,27 +267,27 @@ void IntSdMain(void)
         }
         else
         {
-            keyd_800C0524 = spu_ch_tbl[mtrack_800BF1EC + 1];
-            if ((song_end_800C04E8 & keyd_800C0524) == 0)
+            keyd = spu_ch_tbl[mtrack_800BF1EC + 1];
+            if ((song_end & keyd) == 0)
             {
-                wTmp = &sound_w_800BF2A8[mtrack_800BF1EC];
+                wTmp = &sound_w[mtrack_800BF1EC];
                 track_ptr = wTmp->mpointer;
-                sptr_800C057C = wTmp;
+                sptr = wTmp;
                 if (!track_ptr)
                 {
-                    song_end_800C04E8 |= keyd_800C0524;
+                    song_end |= keyd;
                 }
                 else
                 {
-                    mptr_800C0570 = track_ptr;
+                    mptr = track_ptr;
                     if (sound_sub())
                     {
-                        song_end_800C04E8 |= keyd_800C0524;
-                        sptr_800C057C->mpointer = 0;
+                        song_end |= keyd;
+                        sptr->mpointer = 0;
                     }
                     else
                     {
-                        sptr_800C057C->mpointer = mptr_800C0570;
+                        sptr->mpointer = mptr;
                     }
 
                 }
@@ -452,7 +452,7 @@ int SngKaihiP(void)
         }
 
         sng_fadein_time_800BF05C = 0;
-        sng_kaihi_fg_800BF290 = 1;
+        sng_kaihi_fg = 1;
         return 0;
     }
 
@@ -463,7 +463,7 @@ void SngFadeWkSet(void)
 {
     int i;
 
-    if (sng_fadein_fg_800C041C == 0)
+    if (sng_fadein_fg == 0)
     {
          sng_fadein_time_800BF05C = 0;
 
@@ -478,28 +478,28 @@ void SngFadeWkSet(void)
         }
 
         sng_fout_term_800C0518 = 0;
-        sng_fout_fg_800BF25C = 0;
+        sng_fout_fg = 0;
         return;
     }
 
-    switch (sng_fadein_fg_800C041C)
+    switch (sng_fadein_fg)
     {
     case 0x01FFFF03: /* fallthrough */
     case 0x01FFFF04: /* fallthrough */
     case 0x01FFFF05:
-        SngFadeIn_helper(sng_fadein_fg_800C041C);
+        SngFadeIn_helper(sng_fadein_fg);
 
         for (i = 0; i < 13; i++)
         {
             sng_fade_value_800C0538[i] = 65536;
         }
 
-        sng_fadein_fg_800C041C = 0;
+        sng_fadein_fg = 0;
         break;
     }
 
     sng_fout_term_800C0518 = 0;
-    sng_fout_fg_800BF25C = 0;
+    sng_fout_fg = 0;
 }
 
 void SngFadeInt(void)
@@ -551,12 +551,12 @@ void SngFadeInt(void)
                 }
                 else
                 {
-                    sng_fout_fg_800BF25C = 1;
+                    sng_fout_fg = 1;
                 }
             }
             else
             {
-                sng_fout_fg_800BF25C = 0;
+                sng_fout_fg = 0;
             }
         }
     }
@@ -610,7 +610,7 @@ void SngFadeInt(void)
         }
     }
 
-    if (sng_syukan_fg_800C0510 != 0)
+    if (sng_syukan_fg != 0)
     {
         if (dword_800BF008 < 0x5000)
         {
@@ -672,22 +672,22 @@ void SngFadeInt(void)
 
 void SngTempoInt(void)
 {
-    if (sng_kaihi_fg_800BF290 != 0)
+    if (sng_kaihi_fg != 0)
     {
-        if (sng_fade_in_2_800C0BC0 < 256)
+        if (sng_kaihi_time < 256)
         {
-            sng_fade_in_2_800C0BC0++;
+            sng_kaihi_time++;
         }
     }
-    else if (sng_fade_in_2_800C0BC0 != 0)
+    else if (sng_kaihi_time != 0)
     {
-        if (sng_fade_in_2_800C0BC0 <= 16)
+        if (sng_kaihi_time <= 16)
         {
-            sng_fade_in_2_800C0BC0 = 0;
+            sng_kaihi_time = 0;
         }
         else
         {
-            sng_fade_in_2_800C0BC0 -= 16;
+            sng_kaihi_time -= 16;
         }
     }
 }
@@ -705,7 +705,7 @@ int LoadSngData(void)
     }
     else
     {
-        PcmRead(sng_fp_800BF1D8, sng_data_800C0420, 0x4000);
+        PcmRead(sng_fp_800BF1D8, sng_data, 0x4000);
         PcmClose(sng_fp_800BF1D8, 3);
         sng_fp_800BF1D8 = 0;
         printf("CompletedLoadSong(%x)\n", sng_load_code_800C0428);
@@ -719,8 +719,8 @@ void init_sng_work(void)
 
     for (mtrack_800BF1EC = 0; mtrack_800BF1EC < 21; mtrack_800BF1EC++)
     {
-        ptr = &sound_w_800BF2A8[mtrack_800BF1EC];
-        sptr_800C057C = ptr;
+        ptr = &sound_w[mtrack_800BF1EC];
+        sptr = ptr;
         ptr->mpointer = 0;
         ptr->lp3_addr = 0;
         ptr->lp2_addr = 0;
@@ -728,8 +728,8 @@ void init_sng_work(void)
         sng_track_init(ptr);
     }
 
-    keyons_800BF260 = 0;
-    keyoffs_800BF29C = 0;
+    keyons = 0;
+    keyoffs = 0;
     sng_play_code_800C04F8 = 0;
     sng_load_code_800C0428 = 0;
 }
@@ -740,29 +740,29 @@ void sng_adrs_set(int idx)
     int addr;
     int addr2;
 
-    addr = sng_data_800C0420[(idx & 0xF) * 4 + 1] << 8;
-    addr += sng_data_800C0420[(idx & 0xF) * 4];
+    addr = sng_data[(idx & 0xF) * 4 + 1] << 8;
+    addr += sng_data[(idx & 0xF) * 4];
 
-    song_end_800C04E8 &= ~0x1fff;
+    song_end &= ~0x1fff;
 
     for (i = 0; i < 13; i++)
     {
-        addr2 =  sng_data_800C0420[addr + i * 4 + 2] << 16;
-        addr2 += sng_data_800C0420[addr + i * 4 + 1] << 8;
-        addr2 += sng_data_800C0420[addr + i * 4];
+        addr2 =  sng_data[addr + i * 4 + 2] << 16;
+        addr2 += sng_data[addr + i * 4 + 1] << 8;
+        addr2 += sng_data[addr + i * 4];
 
         if (addr2 != 0)
         {
-            sound_w_800BF2A8[i].mpointer = &sng_data_800C0420[addr2];
-            sng_track_init(&sound_w_800BF2A8[i]);
+            sound_w[i].mpointer = &sng_data[addr2];
+            sng_track_init(&sound_w[i]);
         }
         else
         {
-            song_end_800C04E8 |= 1 << i;
+            song_end |= 1 << i;
         }
     }
 
-    keyons_800BF260 &= ~0x1fff;
+    keyons &= ~0x1fff;
 }
 
 void se_adrs_set(int idx)
@@ -777,16 +777,16 @@ void se_adrs_set(int idx)
     se_request_800BF0E0[idx].pri = 0;
     se_request_800BF0E0[idx].character = 0;
 
-    sng_track_init(&sound_w_800BF2A8[idx + 13]);
+    sng_track_init(&sound_w[idx + 13]);
 
     se_vol_800BF1F0[idx] = 2 * (se_playing_800BF068[idx].code & 0x3f00);
 
-    song_end_800C04E8 &= ~(1 << (idx + 13));
-    keyons_800BF260 &= ~(1 << (idx + 13));
+    song_end &= ~(1 << (idx + 13));
+    keyons &= ~(1 << (idx + 13));
     se_pan_800BF1B8[idx] = ((se_playing_800BF068[idx].code >> 16) + 32) & 0x3f;
-    keyoffs_800BF29C = keyoffs_800BF29C & ~(1 << (idx + 13));
+    keyoffs = keyoffs & ~(1 << (idx + 13));
 
-    sound_w_800BF2A8[idx + 13].mpointer = se_playing_800BF068[idx].addr;
+    sound_w[idx + 13].mpointer = se_playing_800BF068[idx].addr;
 
     if (se_playing_800BF068[idx].kind)
     {

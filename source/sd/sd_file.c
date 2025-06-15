@@ -7,7 +7,7 @@
 #include "mts/mts.h"
 #include "libfs/libfs.h"
 
-extern unsigned char *se_exp_table_800C0520;
+extern unsigned char *se_header;
 
 int LoadSeFile(void)
 {
@@ -27,7 +27,7 @@ int LoadSeFile(void)
     }
     else
     {
-        PcmRead(se_fp_800BF014, se_exp_table_800C0520, 0x2800);
+        PcmRead(se_fp_800BF014, se_header, 0x2800);
         PcmClose(se_fp_800BF014, 4);
         se_load_code_800BF28C = 0;
         se_fp_800BF014 = 0;
@@ -59,23 +59,23 @@ int LoadWaveHeader(void)
         return -1;
     }
 
-    PcmRead(wave_data_800BF294, cdload_buf_800BF010, 0x18000);
+    PcmRead(wave_data_800BF294, cdload_buf, 0x18000);
     wavs_800C056C = 0x4F;
 
-    offset =  cdload_buf_800BF010[0] << 24;
-    offset |= cdload_buf_800BF010[1] << 16;
-    offset |= cdload_buf_800BF010[2] << 8;
-    offset |= cdload_buf_800BF010[3];
+    offset =  cdload_buf[0] << 24;
+    offset |= cdload_buf[1] << 16;
+    offset |= cdload_buf[2] << 8;
+    offset |= cdload_buf[3];
 
-    size =  cdload_buf_800BF010[4] << 24;
-    size |= cdload_buf_800BF010[5] << 16;
-    size |= cdload_buf_800BF010[6] << 8;
-    size |= cdload_buf_800BF010[7];
+    size =  cdload_buf[4] << 24;
+    size |= cdload_buf[5] << 16;
+    size |= cdload_buf[6] << 8;
+    size |= cdload_buf[7];
 
     printf("SUP OFFSET=%x:SIZE=%x\n", offset, size);
 
-    wave_load_ptr_800C0508 = cdload_buf_800BF010 + 16;
-    dst_ptr = (char *)wave_header_800BF1E0 + offset;
+    wave_load_ptr_800C0508 = cdload_buf + 16;
+    dst_ptr = (char *)wave_header + offset;
     memcpy(dst_ptr, wave_load_ptr_800C0508, size);
 
     printf("    SRC=%x:DST=%x\n", (unsigned int)wave_load_ptr_800C0508, (unsigned int)dst_ptr);
@@ -117,20 +117,20 @@ void WaveCdLoad(void)
 
     if (wave_unload_size_800BF274 > 0x18000U)
     {
-        PcmRead(wave_data_800BF294, cdload_buf_800BF010, 0x18000);
+        PcmRead(wave_data_800BF294, cdload_buf, 0x18000);
         wave_load_size_800C0650 = 0x18000;
         dword_800BF27C = 2;
-        wave_load_ptr_800C0508 = cdload_buf_800BF010;
+        wave_load_ptr_800C0508 = cdload_buf;
         wave_unload_size_800BF274 -= 0x18000U;
         return;
     }
     if (wave_unload_size_800BF274 != 0)
     {
-        PcmRead(wave_data_800BF294, cdload_buf_800BF010, wave_unload_size_800BF274);
+        PcmRead(wave_data_800BF294, cdload_buf, wave_unload_size_800BF274);
         temp = wave_unload_size_800BF274;
         wave_unload_size_800BF274 = 0;
         dword_800BF27C = 2;
-        wave_load_ptr_800C0508 = cdload_buf_800BF010;
+        wave_load_ptr_800C0508 = cdload_buf;
         wave_load_size_800C0650 = temp;
         return;
     }
@@ -165,20 +165,20 @@ void StrFadeWkSet(void)
 {
     unsigned int amount; // $a0
 
-    if (str_fadein_fg_800C04EC == 0xFF0000F8)
+    if (str_fadein_fg == 0xFF0000F8)
     {
         amount = 100;
     }
     else
     {
         amount = 400;
-        if (str_fadein_fg_800C04EC != 0xFF0000F9)
+        if (str_fadein_fg != 0xFF0000F9)
         {
             return;
         }
     }
     StrFadeIn(amount);
-    str_fadein_fg_800C04EC = 0;
+    str_fadein_fg = 0;
     str_fade_value_800C0584 = str_volume_800BF15C;
 }
 
@@ -205,7 +205,7 @@ int StrFadeInt(void)
             }
             else
             {
-                str_fout_fg_800BF26C = 1;
+                str_fout_fg = 1;
             }
 
             str_fade_time_800C04F4 = 0;
@@ -213,7 +213,7 @@ int StrFadeInt(void)
         }
         else
         {
-            str_fout_fg_800BF26C = 0;
+            str_fout_fg = 0;
         }
     }
 
@@ -227,7 +227,7 @@ int StrFadeInt(void)
         attr.volume.left = 0;
         attr.volume.right = 0;
     }
-    else if (sound_mono_fg_800C050C != 0)
+    else if (sound_mono_fg != 0)
     {
         attr.volume.left = (diff * 0xA6) >> 8;
         attr.volume.right = (diff * 0xA6) >> 8;
@@ -248,7 +248,7 @@ int StrFadeInt(void)
         attr.volume.left = 0;
         attr.volume.right = 0;
     }
-    else if (sound_mono_fg_800C050C != 0)
+    else if (sound_mono_fg != 0)
     {
         attr.volume.left = (diff * 0xA6) >> 8;
         attr.volume.right = (diff * 0xA6) >> 8;
@@ -358,7 +358,7 @@ unsigned char *SD_SngDataLoadInit(unsigned short id)
     sng_status_800BF158 = 0;
     sng_off();
     printf("SD_SngDataLoadInit\n");
-    return sng_data_800C0420;
+    return sng_data;
 }
 
 void SD_80083ED4(void)
@@ -368,7 +368,7 @@ void SD_80083ED4(void)
 
 unsigned char *SD_SeDataLoadInit(unsigned short id)
 {
-    return se_exp_table_800C0520;
+    return se_header;
 }
 
 void SD_80083EF8(void)
@@ -385,7 +385,7 @@ char *SD_WavDataLoadInit(unsigned short id)
         printf("LoadInit %d\n", dword_800BF27C);
         *(int *)1 = 0;
     }
-    ret = cdload_buf_800BF010;
+    ret = cdload_buf;
     dword_800BF27C = 1;
     return ret;
 }
@@ -400,21 +400,21 @@ int SD_80083F54(char *end)
 
     wavs_800C056C = 0x4F;
 
-    src_ptr = cdload_buf_800BF010 + 16;
+    src_ptr = cdload_buf + 16;
 
-    offset =  cdload_buf_800BF010[0] << 24;
-    offset |= cdload_buf_800BF010[1] << 16;
-    offset |= cdload_buf_800BF010[2] << 8;
-    offset |= cdload_buf_800BF010[3];
+    offset =  cdload_buf[0] << 24;
+    offset |= cdload_buf[1] << 16;
+    offset |= cdload_buf[2] << 8;
+    offset |= cdload_buf[3];
 
-    dst_ptr = (char *)wave_header_800BF1E0 + offset;
+    dst_ptr = (char *)wave_header + offset;
 
-    size =  cdload_buf_800BF010[4] << 24;
-    size |= cdload_buf_800BF010[5] << 16;
-    size |= cdload_buf_800BF010[6] << 8;
-    size |= cdload_buf_800BF010[7];
+    size =  cdload_buf[4] << 24;
+    size |= cdload_buf[5] << 16;
+    size |= cdload_buf[6] << 8;
+    size |= cdload_buf[7];
 
-    wave_load_ptr_800C0508 = cdload_buf_800BF010 + 16;
+    wave_load_ptr_800C0508 = cdload_buf + 16;
 
     if (((unsigned int)src_ptr + size) >= (unsigned int)end)
     {
@@ -437,7 +437,7 @@ int SD_80083F54(char *end)
 
     wave_load_ptr_800C0508 += 16;
 
-    used = (end - cdload_buf_800BF010) - (size + 32);
+    used = (end - cdload_buf) - (size + 32);
     if (used < wave_unload_size_800BF274)
     {
         wave_load_size_800C0650 = used;
@@ -487,10 +487,10 @@ char *SD_WavLoadBuf(char *arg0)
         break;
 
     case 3:
-        buf = cdload_buf_800BF010 + 0x18000;
+        buf = cdload_buf + 0x18000;
         if (wave_load_ptr_800C0508 == buf)
         {
-            wave_load_ptr_800C0508 = cdload_buf_800BF010;
+            wave_load_ptr_800C0508 = cdload_buf;
         }
         else if (buf < wave_load_ptr_800C0508)
         {
@@ -499,7 +499,7 @@ char *SD_WavLoadBuf(char *arg0)
         }
         if (arg0 < wave_load_ptr_800C0508)
         {
-            wave_load_size_800C0650 = 0x18000 + cdload_buf_800BF010 - (wave_load_ptr_800C0508);
+            wave_load_size_800C0650 = 0x18000 + cdload_buf - (wave_load_ptr_800C0508);
         }
         else
         {
@@ -513,9 +513,9 @@ char *SD_WavLoadBuf(char *arg0)
         break;
     }
 
-    if (arg0 >= cdload_buf_800BF010 + 0x18000)
+    if (arg0 >= cdload_buf + 0x18000)
     {
-        arg0 = cdload_buf_800BF010;
+        arg0 = cdload_buf;
     }
     return arg0;
 }
@@ -524,9 +524,9 @@ void SD_WavUnload(void)
 {
     if (wave_unload_size_800BF274)
     {
-        if (wave_load_ptr_800C0508 == cdload_buf_800BF010 + 0x18000)
+        if (wave_load_ptr_800C0508 == cdload_buf + 0x18000)
         {
-            wave_load_ptr_800C0508 = cdload_buf_800BF010;
+            wave_load_ptr_800C0508 = cdload_buf;
         }
         SpuSetTransferStartAddr(spu_wave_start_ptr_800C052C + spu_load_offset_800BF140);
         SpuWrite(wave_load_ptr_800C0508, wave_unload_size_800BF274);

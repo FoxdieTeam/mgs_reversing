@@ -105,7 +105,7 @@ PlayerStatusFlag SECTION(".sbss") GM_PlayerStatus;
 int              SECTION(".sbss") GM_PadVibration2;
 
 extern unsigned short   gSystemCallbackProcs_800B58C0[];
-extern int          str_mute_fg_800BEFF0;
+extern int          str_mute_fg;
 extern unsigned int str_status_800BF16C;
 extern int          dword_800BF1A8;
 extern int          dword_800BF270;
@@ -353,7 +353,7 @@ STATIC void GM_Act(GameWork *work)
 
     if ((GV_PauseLevel & 8) != 0)
     {
-        if (!str_mute_fg_800BEFF0 && CDBIOS_TaskState() != 3)
+        if (!str_mute_fg && CDBIOS_TaskState() != 3)
         {
             GV_PauseLevel &= ~8;
         }
@@ -362,7 +362,7 @@ STATIC void GM_Act(GameWork *work)
             DrawReadError();
         }
     }
-    else if (str_mute_fg_800BEFF0 || CDBIOS_TaskState() == 3)
+    else if (str_mute_fg || CDBIOS_TaskState() == 3)
     {
         GV_PauseLevel |= 8;
     }
