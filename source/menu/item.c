@@ -862,7 +862,8 @@ void UseConsumableItem_8003C24C(Menu_Item_Unknown *pPanels, unsigned short press
         break;
 
     case IT_TimerBomb:
-        if ((GM_PlayerStatus & 0x362) || dword_8009F46C || menu_item_IsItemDisabled_8003B6D0(IT_TimerBomb))
+        if ((GM_PlayerStatus & (PLAYER_INTRUDE | PLAYER_SQUAT | PLAYER_GROUND | PLAYER_DAMAGED | PLAYER_DOWNED)) ||
+            dword_8009F46C || menu_item_IsItemDisabled_8003B6D0(IT_TimerBomb))
         {
             GM_SeSet2(0, 63, SE_BUZZER);
         }

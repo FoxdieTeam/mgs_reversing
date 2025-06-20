@@ -43,7 +43,7 @@ void s11e_zk11ecom_800D810C( ZakoWork *work )
     flags = work->field_94C.damaged;
     if ( flags & 0x80 )
     {
-        if ( ( GM_PlayerStatus & 0x1010 ) == 0x1000 )
+        if ( ( GM_PlayerStatus & ( PLAYER_MOVE | PLAYER_CB_BOX ) ) == PLAYER_CB_BOX )
         {
             return;
         }
@@ -128,7 +128,7 @@ void s11e_zk11ecom_800D81F0( ZakoWork* work )
 void s11e_zk11ecom_800D8370( ZakoWork *work )
 {
 
-    if ( work->field_BA3 & 2 && work->vision.field_B92 == 2 && ( ( GM_PlayerStatus & 0x1000 ) == 0x1000 ) )
+    if ( work->field_BA3 & 2 && work->vision.field_B92 == 2 && ( ( GM_PlayerStatus & PLAYER_CB_BOX ) == PLAYER_CB_BOX ) )
     {
         if ( ( GV_DiffVec3( &work->field_BA4, &GM_PlayerPosition ) > 50 ) || ( work->field_BAC != GM_WhereList_800B56D0[0]->rot.vy ) )
         {
@@ -207,7 +207,7 @@ void s11e_zk11ecom_800D8598( ZakoWork* work )
     switch ( val )
     {
         case 0:
-            if ( work->field_B94 != 2 || !( GM_PlayerStatus & 2 ) || work->vision.length == 0 )
+            if ( work->field_B94 != 2 || !( GM_PlayerStatus & PLAYER_INTRUDE ) || work->vision.length == 0 )
             {
                 work->field_B94 = 0;
                 work->alert_level -= 4;
@@ -259,7 +259,7 @@ void s11e_zk11ecom_800D8668( ZakoWork* work )
         diff = work->control.mov.vy - pos->vy;
     }
 
-    if ( !( work->control.map->index & GM_PlayerMap ) || GM_PlayerStatus & 2 )
+    if ( !( work->control.map->index & GM_PlayerMap ) || GM_PlayerStatus & PLAYER_INTRUDE )
     {
         work->vision.field_B92 = 0;
         return;

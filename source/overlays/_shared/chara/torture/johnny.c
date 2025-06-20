@@ -264,7 +264,7 @@ void Johnny_800C4418(JohnnyWork *work)
         }
     }
 
-    if (GM_PlayerStatus & 2)
+    if (GM_PlayerStatus & PLAYER_INTRUDE)
     {
         new_unkB24 |= 1;
     }
@@ -368,7 +368,7 @@ void s03c_johnny_800C45AC(JohnnyWork* work)
         work->unkB48 = Johnny_800C794C;
     }
 
-    else if (work->unkB1C & 0x2 && GM_PlayerStatus & 0x100000 && !(work->unkB1C & 0x80000))
+    else if (work->unkB1C & 0x2 && GM_PlayerStatus & PLAYER_KETCHUP && !(work->unkB1C & 0x80000))
     {
         work->unkB1C |= 0x08000000;
         Johnny_800C4588(work);

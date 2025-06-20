@@ -2412,7 +2412,7 @@ void s07a_meryl_unk_800DE810( WatcherWork *work )
         {
             if ( work->act_status & 0x01 )
             {
-                if ( GM_PlayerStatus & 0x1000 )
+                if ( GM_PlayerStatus & PLAYER_CB_BOX )
                 {
                     GM_SeSet( &work->control.mov, 0xC1 );
                 }
