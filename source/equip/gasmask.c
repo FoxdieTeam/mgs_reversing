@@ -110,7 +110,7 @@ STATIC int GasmaskGetResources(GasmaskWork *work, OBJECT *parent, int num_parent
 
 /*---------------------------------------------------------------------------*/
 
-void *NewGasmask(CONTROL *control, OBJECT *parent, int num_parent)
+void *NewGasMask(CONTROL *control, OBJECT *parent, int num_parent)
 {
     GasmaskWork *work = GV_NewActor(EXEC_LEVEL, sizeof(GasmaskWork));
     if (work)
