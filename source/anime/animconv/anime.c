@@ -256,8 +256,8 @@ void NewAnime_8005D6BC(MATRIX *arg0, int arg1)
 
     rand = GV_RandU(8);
 
-    if (((rand > 3) && (GM_PlayerStatus == 0x810)) ||
-        ((((dword_8009F224 % mod2) == 0) || (arg1 != 0)) && (GM_PlayerStatus != 0x810)))
+    if (((rand > 3) && (GM_PlayerStatus == (PLAYER_MOVE | PLAYER_ATTACK))) ||
+        ((((dword_8009F224 % mod2) == 0) || (arg1 != 0)) && (GM_PlayerStatus != (PLAYER_MOVE | PLAYER_ATTACK))))
     {
         pPre = &pre;
 

@@ -1424,7 +1424,7 @@ void menu_weapon_update_8003E990(MenuWork *work, unsigned char *pOt)
             return;
         }
 
-        if (!(GM_PlayerStatus & 0x20408000))
+        if (!(GM_PlayerStatus & (PLAYER_MENU_DISABLE | PLAYER_WEAPON_DISABLE | PLAYER_PAD_OFF)))
         {
             if (menu_8003DA9C(&work->field_1F0_menu_weapon, pPad))
             {
