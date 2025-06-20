@@ -267,8 +267,8 @@ TSnakeEquipFuncion gSnakeEquips_8009EF8C[] = {
     NewBox,         // 4
     NewGoggle,      // 5
     NewGoggleIr,    // 6
-    NewGasmask,     // 7
-    NewBodyarm,     // 8
+    NewGasMask,     // 7
+    NewBodyArmor,   // 8
     NewKetchap,     // 9
     NewKogaku2,     // 10
     NewBandana,     // 11

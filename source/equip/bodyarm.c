@@ -55,7 +55,7 @@ STATIC void BodyarmDie(BodyarmWork *work)
 
 /*---------------------------------------------------------------------------*/
 
-void *NewBodyarm(CONTROL *control, OBJECT *parent, int num_parent)
+void *NewBodyArmor(CONTROL *control, OBJECT *parent, int num_parent)
 {
     BodyarmWork *work = GV_NewActor(EXEC_LEVEL, sizeof(BodyarmWork));
     if (work)
