@@ -5507,8 +5507,8 @@ void sna_anim_stinger_800570C0(SnaInitWork *work, int time)
 {
     if (time == 0)
     {
-        work->field_9C8_anim_update_fn_3p = OP_ShootStinger_80058378;
-        work->field_9CC_anim_update_fn_1p = OP_ShootStinger_80058378;
+        work->field_9C8_anim_update_fn_3p = OP_ShootStinger;
+        work->field_9CC_anim_update_fn_1p = OP_ShootStinger;
         SetAction_8004E22C(work, SET, 4);
         work->field_A26_stance = SNA_STANCE_STANDING;
         GM_ClearPlayerStatusFlag(PLAYER_MENU_DISABLE | PLAYER_GROUND |
@@ -6233,7 +6233,7 @@ void sna_anim_psg1_helper_80057FD4(SnaInitWork* work, int time)
     }
 }
 
-void OP_ShootStinger_80058378(SnaInitWork *work, int time)
+STATIC void OP_ShootStinger(SnaInitWork *work, int time)
 {
     short *ws; // WATCH_SET *ws
     int    trg;
