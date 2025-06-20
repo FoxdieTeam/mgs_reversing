@@ -1876,7 +1876,7 @@ void s07a_meryl_unk_800DA3F8( WatcherWork *work, int time )
             AN_Sleep( &mov );
             GM_SeSet( &work->control.mov, 0x93 );
 
-            if ( work->sn_dis < 1000 && ( GM_PlayerStatus & 1 ) )
+            if ( work->sn_dis < 1000 && ( GM_PlayerStatus & PLAYER_WATCH ) )
             {
                 int res = GV_RandU( 12 );
                 if ( res > 10 )
