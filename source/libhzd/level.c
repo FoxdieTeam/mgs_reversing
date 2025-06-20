@@ -263,7 +263,7 @@ void HZD_LevelMinMaxHeights(int *levels)
     levels[1] = scrpad->min_level;
 }
 
-int HZD_LevelFloorHeight(SVECTOR *point, HZD_FLR *floor)
+int HZD_SlopeFloorLevel(SVECTOR *point, HZD_FLR *floor)
 {
     HZD_CopyVector2(point, &POINT);
     return HZD_LevelHeight(floor);
