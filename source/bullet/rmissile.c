@@ -19,7 +19,6 @@
 #include "thing/sgtrect3.h"
 #include "thing/sight.h"
 #include "sd/g_sound.h"
-#include "strcode.h"
 
 extern GV_PAD           GV_PadData_800B05C0[4];
 extern BLAST_DATA       blast_data_8009F4B8[8];
@@ -36,44 +35,60 @@ extern CAMERA           GM_CameraList_800B7718[8];
 /*---------------------------------------------------------------------------*/
 // RC Missile (Nikita)
 
-typedef struct RMissileWork
+#define EXEC_LEVEL      GV_ACTOR_AFTER
+
+#define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | \
+                          DG_FLAG_GBOUND | DG_FLAG_ONEPIECE | \
+                          DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE )
+
+#define NIKITA_SIGHT    0x15a9  // GV_StrCode("nikita")
+#define NIKITA_MSG      0x15a9  // GV_StrCode("nikita")
+
+#define MISSILE_SPEED_SLOW      50
+#define MISSILE_SPEED_FAST      200
+
+#define FUEL_BAR_XOFFSET        31
+#define FUEL_BAR_YOFFSET        39
+#define FUEL_BAR_HEIGHT         10
+
+typedef struct _Work
 {
     GV_ACT          actor;
     CONTROL         control;
     OBJECT_NO_ROTS  object;
     MATRIX          light[2];
-    SVECTOR         field_100_svector;
-    SVECTOR         field_108_svector;
+    SVECTOR         field_100_svector;  // work->control.mov
+    SVECTOR         field_108_svector;  // work->control.mov
     char            field_110;
-    char            field_111;
+    char            boost_delay;
     char            field_112;
-    char            field_113;
-    char            field_114;
+    char            fpv_mode;
+    char            hud_delay;
     char            field_115;
     char            field_116;
     char            field_117;
     short           field_118;
-    short           field_11A;
+    short           speed;
     int             field_11C;
     TARGET          target;
-    short           field_168;
-    short           field_16A;
-    SVECTOR         field_16C_svector;
-    POLY_F4        *field_174_polys_2Array[2];
-    GM_Camera       field_17C_camera;
-    UnkCameraStruct field_1F8;
-    CAMERA          field_228_camera[8];
-    int             field_2C8;
-    SVECTOR         field_2CC_svector;
-    int             field_2D4;
-    DG_PRIM        *field_2D8_prim;
-    DG_TEX         *field_2DC_tex;
+    short           enemy_time;
+    short           cam_interp;
+    SVECTOR         cam_pos;
+    POLY_F4        *fuel_bar[2];
+    GM_Camera       save_camera;
+    UnkCameraStruct save_camera_unk;
+    CAMERA          save_camera_list[8];
+    int             save_camera_track;
+    SVECTOR         save_camera_rotate;
+    int             save_camera_event;
+    DG_PRIM        *flame;
+    DG_TEX         *flame_tex;
     char            field_2E0_pad[4];
-    SVECTOR         field_2E4_svector_8Array[8];
-    int             field_324;
-} RMissileWork;
+    SVECTOR         flame_vec[8];
+    int             flame_delay;
+} Work;
 
-#define EXEC_LEVEL GV_ACTOR_AFTER
+/*---------------------------------------------------------------------------*/
 
 int dword_8009F46C = 0; // FIXME: this is referenced as an array in several places
 int dword_8009F470 = 0;
@@ -85,39 +100,39 @@ SVECTOR svector_8009F488 = {100, 100, 100, 0};
 
 /*---------------------------------------------------------------------------*/
 
-STATIC void rmissile_loader_helper4_8006B800(RMissileWork *work)
+STATIC void rmissile_SaveCameraState(Work *work)
 {
-    GV_CopyMemory(&GM_Camera_800B77E8,        &work->field_17C_camera,  sizeof(work->field_17C_camera));
-    GV_CopyMemory(&gUnkCameraStruct_800B77B8, &work->field_1F8,         sizeof(work->field_1F8));
-    GV_CopyMemory(GM_CameraList_800B7718,     &work->field_228_camera,  sizeof(work->field_228_camera));
-    GV_CopyMemory(&GM_CameraRotateSave,       &work->field_2CC_svector, sizeof(work->field_2CC_svector));
+    GV_CopyMemory(&GM_Camera_800B77E8,        &work->save_camera,        sizeof(work->save_camera));
+    GV_CopyMemory(&gUnkCameraStruct_800B77B8, &work->save_camera_unk,    sizeof(work->save_camera_unk));
+    GV_CopyMemory(GM_CameraList_800B7718,     &work->save_camera_list,   sizeof(work->save_camera_list));
+    GV_CopyMemory(&GM_CameraRotateSave,       &work->save_camera_rotate, sizeof(work->save_camera_rotate));
 
-    work->field_2C8 = GM_CameraTrackSave;
-    work->field_2D4 = GM_event_camera_flag;
+    work->save_camera_track = GM_CameraTrackSave;
+    work->save_camera_event = GM_event_camera_flag;
 }
 
-STATIC void rmissile_8006B888(RMissileWork *work)
+STATIC void rmissile_ResetCameraState(Work *work)
 {
-    GV_CopyMemory(&work->field_17C_camera,  &GM_Camera_800B77E8,        sizeof(work->field_17C_camera));
-    GV_CopyMemory(&work->field_1F8,         &gUnkCameraStruct_800B77B8, sizeof(work->field_1F8));
-    GV_CopyMemory(&work->field_228_camera,  &GM_CameraList_800B7718,    sizeof(work->field_228_camera));
-    GV_CopyMemory(&work->field_2CC_svector, &GM_CameraRotateSave,       sizeof(work->field_2CC_svector));
+    GV_CopyMemory(&work->save_camera,        &GM_Camera_800B77E8,        sizeof(work->save_camera));
+    GV_CopyMemory(&work->save_camera_unk,    &gUnkCameraStruct_800B77B8, sizeof(work->save_camera_unk));
+    GV_CopyMemory(&work->save_camera_list,   &GM_CameraList_800B7718,    sizeof(work->save_camera_list));
+    GV_CopyMemory(&work->save_camera_rotate, &GM_CameraRotateSave,       sizeof(work->save_camera_rotate));
 
-    GM_CameraTrackSave = work->field_2C8;
-    GM_event_camera_flag = work->field_2D4;
+    GM_CameraTrackSave = work->save_camera_track;
+    GM_event_camera_flag = work->save_camera_event;
 
     sub_800309B4(2, 30);
     GM_CameraEventReset();
 }
 
-STATIC void rmissile_8006B924(RMissileWork *work)
+STATIC void rmissile_8006B924(Work *work)
 {
     CONTROL *ctrl;
 
     ctrl = &work->control;
     ctrl->skip_flag |= CTRL_SKIP_TRAP;
 
-    rmissile_8006B888(work);
+    rmissile_ResetCameraState(work);
     GM_GameStatus &= ~GAME_FLAG_BIT_07;
     HZD_8002A258(ctrl->map->hzd, &ctrl->event);
 
@@ -129,46 +144,45 @@ STATIC void rmissile_8006B924(RMissileWork *work)
     }
 }
 
-STATIC void rmissile_act_helper_helper_8006B9B0(RMissileWork *work)
+STATIC void rmissile_SetFirstPersonView(Work *work)
 {
     Nik_Blast = 1;
 
-    if (dword_8009F604 != SGT_NIKITA)
+    if (dword_8009F604 != NIKITA_SIGHT)
     {
-        NewSight_80071CDC(SGT_NIKITA, SGT_NIKITA, &Nik_Blast, 1, 0);
+        NewSight(NIKITA_SIGHT, NIKITA_SIGHT, &Nik_Blast, 1, 0);
     }
 
     GM_Camera_800B77E8.first_person = 1;
 
-    if (work->field_113 == 0)
+    if (work->fpv_mode == FALSE)
     {
-        work->field_113 = 1;
-        dword_800BDEF8[0] = 0x5A875D;
-        dword_800BDEF8[1] = 0xC1A80;
+        work->fpv_mode = TRUE;
+        dword_800BDEF8[0] = 0x5A875D;   // dark green
+        dword_800BDEF8[1] = 0x0C1A80;   // dark red
         NewSgtRect3(&Nik_Blast, 1, dword_800BDEF8, 0);
         GM_SeSet2(0, 0x3F, SE_ITEM_OPENWINDOW);
     }
 }
 
-STATIC void rmissile_act_helper_helper_8006BA70(RMissileWork *work)
+STATIC void rmissile_DrawEnemyText(Work *work)
 {
     if (!target_800BDF00)
     {
-        work->field_168 = 0;
+        work->enemy_time = 0;
         return;
     }
 
-    work->field_168++;
+    work->enemy_time++;
 
-    if (work->field_168 <= 16)
+    if (work->enemy_time <= 16)
     {
         return;
-
     }
 
-    if (work->field_168 == 32)
+    if (work->enemy_time == 32)
     {
-        work->field_168 = 0;
+        work->enemy_time = 0;
     }
 
     if (!(GM_PlayerStatus & PLAYER_NOT_SIGHT))
@@ -180,34 +194,36 @@ STATIC void rmissile_act_helper_helper_8006BA70(RMissileWork *work)
     }
 }
 
-STATIC void rmissile_act_helper_helper_8006BB10(RMissileWork *work)
+STATIC void rmissile_DrawMissileHud(Work *work)
 {
-    int var_a1;
-    unsigned int *ot;
-    POLY_F4 *poly;
+    int width;
+    u_long *ot;
+    POLY_F4 *bar;
     CONTROL ctrl;
 
-    var_a1 = ((1000 - work->field_118) * 60) / 1000;
+    width = ((1000 - work->field_118) * 60) / 1000;
 
-    ot = (unsigned int *)DG_ChanlOTag(1);
-    poly = work->field_174_polys_2Array[GV_Clock];
+    ot = (u_long *)DG_ChanlOTag(1);
+    bar = work->fuel_bar[GV_Clock];
 
-    if (var_a1 > 60)
+    if (width > 60)
     {
-        var_a1 = 60;
+        width = 60;
     }
 
-    poly->x3 = var_a1 + 31;
-    poly->x1 = var_a1 + 31;
+    /* update fuel gauge */
+    bar->x3 = width + FUEL_BAR_XOFFSET;
+    bar->x1 = width + FUEL_BAR_XOFFSET;
 
     if (GM_PlayerStatus & PLAYER_NOT_SIGHT)
     {
         return;
     }
 
-    if (var_a1 < 15)
+    if (width < 15)
     {
-        setRGB0(poly, 212, 78, 78);
+        /* low fuel remaining */
+        setRGB0(bar, 212, 78, 78);
 
         if (!(work->field_118 % 15))
         {
@@ -215,7 +231,9 @@ STATIC void rmissile_act_helper_helper_8006BB10(RMissileWork *work)
         }
     }
 
-    addPrim(ot, poly);
+    addPrim(ot, bar);
+
+    /* print missile XYZ position */
     ctrl = work->control;
 
     MENU_Locate(8, 136, 0);
@@ -230,7 +248,7 @@ STATIC void rmissile_act_helper_helper_8006BB10(RMissileWork *work)
     menu_Text_Init_80038B98();
 }
 
-STATIC void rmissile_act_helper_8006BD24(RMissileWork *work, int pad_status)
+STATIC void rmissile_act_helper_8006BD24(Work *work, int pad_status)
 {
     if (work->field_112 || work->field_117 || work->field_110)
     {
@@ -239,7 +257,7 @@ STATIC void rmissile_act_helper_8006BD24(RMissileWork *work, int pad_status)
 
     if (pad_status & PAD_TRIANGLE)
     {
-        rmissile_act_helper_helper_8006B9B0(work);
+        rmissile_SetFirstPersonView(work);
 
         gUnkCameraStruct_800B77B8.rotate2.vx = 0;
         gUnkCameraStruct_800B77B8.rotate2.vy = work->control.rot.vy;
@@ -249,24 +267,24 @@ STATIC void rmissile_act_helper_8006BD24(RMissileWork *work, int pad_status)
 
         work->field_11C = -2;
 
-        if (work->field_114 < 16)
+        if (work->hud_delay < 16)
         {
-            work->field_114++;
+            work->hud_delay++;
             return;
         }
 
-        rmissile_act_helper_helper_8006BB10(work);
-        rmissile_act_helper_helper_8006BA70(work);
+        rmissile_DrawMissileHud(work);
+        rmissile_DrawEnemyText(work);
         return;
     }
 
-    if (work->field_113 != 0)
+    if (work->fpv_mode)
     {
         work->field_115 = 5;
     }
 
-    work->field_114 = 0;
-    work->field_113 = 0;
+    work->hud_delay = 0;
+    work->fpv_mode = FALSE;
 
     GM_Camera_800B77E8.first_person = 0;
     Nik_Blast = 0;
@@ -275,62 +293,63 @@ STATIC void rmissile_act_helper_8006BD24(RMissileWork *work, int pad_status)
     {
         work->field_115--;
 
-        if (!work->field_115)
+        if (work->field_115 == 0)
         {
             DG_VisibleObjs(work->object.objs);
         }
     }
 }
 
-STATIC void rmissile_act_helper_8006BE50(RMissileWork *work, int arg1)
+STATIC void rmissile_SetMissileDir3P(Work *work, int pad_dir)
 {
     if (GM_PlayerStatus & PLAYER_PAD_OFF)
     {
         return;
     }
 
-    if (arg1 >= 0 && work->control.turn.vy != arg1)
+    if (pad_dir >= 0 && work->control.turn.vy != pad_dir)
     {
-        work->field_111 = 30;
-        work->control.turn.vy = arg1;
+        work->boost_delay = 30;
+        work->control.turn.vy = pad_dir;
     }
 }
 
-STATIC void rmissile_act_helper_8006BE90(RMissileWork *work, int arg1)
+STATIC void rmissile_SetMissileDir1P(Work *work, int pad_status)
 {
     if (GM_PlayerStatus & PLAYER_PAD_OFF)
     {
         return;
     }
 
-    if (arg1 & 0x8000)
+    if (pad_status & PAD_LEFT)
     {
-        work->field_111 = 30;
+        work->boost_delay = 30;
         work->control.turn.vy += 64;
-        work->control.turn.vy &= 0xFFF;
+        work->control.turn.vy &= 0x0FFF;
     }
 
-    if (arg1 & 0x2000)
+    if (pad_status & PAD_RIGHT)
     {
-        work->field_111 = 30;
+        work->boost_delay = 30;
         work->control.turn.vy -= 64;
-        work->control.turn.vy &= 0xFFF;
+        work->control.turn.vy &= 0x0FFF;
     }
 }
 
-STATIC void rmissile_act_helper_8006BEEC(RMissileWork *work)
+STATIC void rmissile_act_helper_8006BEEC(Work *work)
 {
     if (work->field_117)
     {
         return;
     }
 
-    if (GM_PlayerStatus & 0x2100 || dword_8009F474 == 1 || GM_GameStatus & (STATE_CHAFF | STATE_JAMMING))
+    if (GM_PlayerStatus & (PLAYER_DAMAGED | PLAYER_GAME_OVER) ||
+        dword_8009F474 == 1 || GM_GameStatus & (STATE_CHAFF | STATE_JAMMING))
     {
         work->field_117 = 1;
-        work->field_16A = 15;
-        work->field_16C_svector = work->control.mov;
-        work->field_113 = 0;
+        work->cam_interp = 15;
+        work->cam_pos = work->control.mov;
+        work->fpv_mode = FALSE;
 
         GM_Camera_800B77E8.first_person = 0;
         Nik_Blast = 0;
@@ -345,19 +364,19 @@ STATIC void rmissile_act_helper_8006BEEC(RMissileWork *work)
     }
 }
 
-STATIC void rmissile_act_helper_8006BFD4(RMissileWork *work)
+STATIC void rmissile_act_helper_8006BFD4(Work *work)
 {
-    if (work->field_111)
+    if (work->boost_delay)
     {
-        work->field_111--;
+        work->boost_delay--;
 
-        if (!work->field_111)
+        if (work->boost_delay == 0)
         {
             GM_SeSet2(0, 63, SE_MISSILE_BOOST);
             work->field_116 = 12;
         }
 
-        work->field_11A = 50;
+        work->speed = MISSILE_SPEED_SLOW;
 
         if (!work->field_112)
         {
@@ -372,7 +391,7 @@ STATIC void rmissile_act_helper_8006BFD4(RMissileWork *work)
             gUnkCameraStruct_800B77B8.eye.vy += GV_RandS(512) * work->field_116 / 32;
         }
 
-        work->field_11A = 200;
+        work->speed = MISSILE_SPEED_FAST;
 
         if (!work->field_112)
         {
@@ -381,31 +400,29 @@ STATIC void rmissile_act_helper_8006BFD4(RMissileWork *work)
     }
 }
 
-STATIC int rmissile_act_helper_helper_8006C0A4(void)
+STATIC int rmissile_CheckMessage(void)
 {
-    GV_MSG *message;
-    int length;
+    GV_MSG *msg;
+    int     len;
 
-    length = GV_ReceiveMessage(0x15A9, &message);
-
-    if (length > 0)
+    len = GV_ReceiveMessage(NIKITA_MSG, &msg);
+    if (len > 0)
     {
-        for (length--; length >= 0; message++, length--)
+        for (len--; len >= 0; msg++, len--)
         {
-            if (message->message[0] == HASH_KILL)
+            if (msg->message[0] == HASH_KILL)
             {
                 return 1;
             }
         }
     }
-
     return 0;
 }
 
-STATIC void rmissile_act_helper_8006C114(RMissileWork *work)
+STATIC void rmissile_act_helper_8006C114(Work *work)
 {
     SVECTOR *position;
-    int found;
+    int result;
     MATRIX rotation;
     BLAST_DATA *blast;
 
@@ -415,13 +432,13 @@ STATIC void rmissile_act_helper_8006C114(RMissileWork *work)
     }
 
     position = &work->control.mov;
-    found = rmissile_act_helper_helper_8006C0A4();
+    result = rmissile_CheckMessage();
 
     if (work->control.field_58 <= 0 && !(work->control.field_57 & 2))
     {
         if (position->vy - work->field_108_svector.vy < 200)
         {
-            if (++work->field_118 != 1000 && !GM_PowerTarget(&work->target) && !dword_8009F480 && !found)
+            if (++work->field_118 != 1000 && !GM_PowerTarget(&work->target) && !dword_8009F480 && !result)
             {
                 if (!HZD_80029098(work->control.map->hzd, position, 250, 15, 8))
                 {
@@ -440,16 +457,16 @@ STATIC void rmissile_act_helper_8006C114(RMissileWork *work)
         Nik_Blast = 0;
     }
 
-    work->field_113 = 0;
+    work->fpv_mode = FALSE;
     dword_8009F480 = 0;
     work->field_112 = 1;
-    work->field_118 = found ? 28 : 0;
+    work->field_118 = result ? 28 : 0;
     work->control.step = DG_ZeroVector;
     DG_InvisibleObjs(work->object.objs);
     work->object.objs->group_id = 0;
     work->field_11C = -2;
 
-    if (!found)
+    if (!result)
     {
         DG_SetPos2(position, &work->control.rot);
         ReadRotMatrix(&rotation);
@@ -476,7 +493,7 @@ STATIC void rmissile_act_helper_8006C114(RMissileWork *work)
     }
 }
 
-STATIC void rmissile_act_helper_8006C37C(RMissileWork *work)
+STATIC void rmissile_act_helper_8006C37C(Work *work)
 {
     SVECTOR   vecs[8];
     POLY_FT4 *poly;
@@ -502,14 +519,14 @@ STATIC void rmissile_act_helper_8006C37C(RMissileWork *work)
         y = 120;
     }
 
-    poly = &work->field_2D8_prim->packs[GV_Clock]->poly_ft4;
+    poly = &work->flame->packs[GV_Clock]->poly_ft4;
 
     for (i = 0; i < 8; i++, poly++)
     {
         if (work->field_11C && (i == 0))
         {
-            poly->tpage &= ~0x60;
-            poly->tpage |= 0x20;
+            poly->tpage &= ~0x0060;
+            poly->tpage |= 0x0020;
         }
         else
         {
@@ -529,17 +546,17 @@ STATIC void rmissile_act_helper_8006C37C(RMissileWork *work)
 
         vecs[i].vz = 0;
 
-        work->field_2E4_svector_8Array[i].pad = y;
+        work->flame_vec[i].pad = y;
         y = 15 * y / 16;
 
 
         rand1 = GV_RandU(4) & 1;
         rand2 = GV_RandU(4);
 
-        tex = work->field_2DC_tex;
+        tex = work->flame_tex;
 
-        offx = work->field_2DC_tex->off_x;
-        width = work->field_2DC_tex->w + 1;
+        offx = work->flame_tex->off_x;
+        width = work->flame_tex->w + 1;
 
         poly->u3 = offx + (width << rand1) / 2 - 1;
         poly->u1 = offx + (width << rand1) / 2 - 1;
@@ -548,8 +565,8 @@ STATIC void rmissile_act_helper_8006C37C(RMissileWork *work)
         poly->u0 = offx + ((width * rand1) >> 1);
 
 
-        offy = work->field_2DC_tex->off_y;
-        height = work->field_2DC_tex->h + 1;
+        offy = work->flame_tex->off_y;
+        height = work->flame_tex->h + 1;
 
         poly->v1 = offy + (height * (rand2 / 2)) / 2;
         poly->v0 = offy + (height * (rand2 / 2)) / 2;
@@ -561,10 +578,10 @@ STATIC void rmissile_act_helper_8006C37C(RMissileWork *work)
     }
 
     DG_SetPos2(&work->control.mov, &work->control.rot);
-    DG_PutVector(vecs, work->field_2E4_svector_8Array, 8);
+    DG_PutVector(vecs, work->flame_vec, 8);
 }
 
-STATIC void RMissileAct(RMissileWork *work)
+STATIC void rmissile_Act(Work *work)
 {
     GV_PAD *pad;
     BLAST_DATA *blast;
@@ -579,13 +596,13 @@ STATIC void RMissileAct(RMissileWork *work)
         pad = &GV_PadData_800B05C0[1];
     }
 
-    if (work->field_324-- > 0 || (work->field_11C < 0 && work->field_11C > -3))
+    if (work->flame_delay-- > 0 || (work->field_11C < 0 && work->field_11C > -3))
     {
-        DG_InvisiblePrim(work->field_2D8_prim);
+        DG_InvisiblePrim(work->flame);
     }
     else
     {
-        DG_VisiblePrim(work->field_2D8_prim);
+        DG_VisiblePrim(work->flame);
         rmissile_act_helper_8006C37C(work);
     }
 
@@ -610,6 +627,7 @@ STATIC void RMissileAct(RMissileWork *work)
 
     if (GM_CurrentWeaponId != 3)
     {
+        /* player has unequipped the Nikita launcher */
         if (!work->field_112)
         {
             GM_CurrentMap = work->control.map->index;
@@ -658,13 +676,13 @@ STATIC void RMissileAct(RMissileWork *work)
         }
         else
         {
-            vector = work->field_16C_svector;
-            GV_NearTimeV(&work->field_16C_svector.vx, &GM_PlayerPosition.vx, work->field_16A, 3);
-            gUnkCameraStruct_800B77B8.eye = work->field_16C_svector;
+            vector = work->cam_pos;
+            GV_NearTimeV(&work->cam_pos.vx, &GM_PlayerPosition.vx, work->cam_interp, 3);
+            gUnkCameraStruct_800B77B8.eye = work->cam_pos;
 
-            if (work->field_16A > 0)
+            if (work->cam_interp > 0)
             {
-                work->field_16A--;
+                work->cam_interp--;
             }
         }
 
@@ -695,13 +713,13 @@ STATIC void RMissileAct(RMissileWork *work)
                     DG_VisibleObjs(GM_PlayerBody->objs);
                 }
 
-                if (!work->field_113)
+                if (work->fpv_mode == FALSE)
                 {
-                    rmissile_act_helper_8006BE50(work, pad->dir);
+                    rmissile_SetMissileDir3P(work, pad->dir);
                 }
                 else
                 {
-                    rmissile_act_helper_8006BE90(work, pad->status);
+                    rmissile_SetMissileDir1P(work, pad->status);
                 }
             }
 
@@ -718,21 +736,23 @@ STATIC void RMissileAct(RMissileWork *work)
                 work->control.rot.vy += GV_RandS(128);
             }
 
-            GV_DirVec2(work->control.rot.vy, work->field_11A, &work->control.step);
+            GV_DirVec2(work->control.rot.vy, work->speed, &work->control.step);
             rmissile_act_helper_8006BD24(work, pad->status);
             GM_MoveTarget(&work->target, &vector2);
         }
     }
 }
 
-STATIC void RMissileDie(RMissileWork *work)
+/*---------------------------------------------------------------------------*/
+
+STATIC void rmissile_Die(Work *work)
 {
     GM_FreeControl(&work->control);
     GM_FreeObject((OBJECT *)&work->object);
 
-    if (work->field_174_polys_2Array[0])
+    if (work->fuel_bar[0])
     {
-        GV_DelayedFree(work->field_174_polys_2Array[0]);
+        GV_DelayedFree(work->fuel_bar[0]);
         dword_8009F46C = 0;
     }
     else
@@ -743,7 +763,7 @@ STATIC void RMissileDie(RMissileWork *work)
     dword_8009F470 = 0;
     Nik_Blast = 0;
 
-    GM_FreePrim(work->field_2D8_prim);
+    GM_FreePrim(work->flame);
 
     if (!work->field_117)
     {
@@ -751,7 +771,9 @@ STATIC void RMissileDie(RMissileWork *work)
     }
 }
 
-STATIC int RMissileInitTarget(RMissileWork *work, int side)
+/*---------------------------------------------------------------------------*/
+
+STATIC int rmissile_InitTarget(Work *work, int side)
 {
     TARGET *target = &work->target;
 
@@ -761,47 +783,52 @@ STATIC int RMissileInitTarget(RMissileWork *work, int side)
     return 0;
 }
 
-STATIC int RMissileInitPolys(RMissileWork *work)
+STATIC int rmissile_InitFuelBar(Work *work)
 {
-    POLY_F4 *poly;
+    POLY_F4 *poly1;
     POLY_F4 *poly2;
 
-    work->field_174_polys_2Array[0] = poly = GV_Malloc(sizeof(POLY_F4) * 2);
+    work->fuel_bar[0] = poly1 = GV_Malloc(sizeof(POLY_F4) * 2);
 
-    if (!poly)
+    if (poly1 == NULL)
     {
         return -1;
     }
 
-    work->field_174_polys_2Array[1] = poly + 1;
+    work->fuel_bar[1] = &poly1[1];
 
-    LSTORE(0x008ab89e, &poly[0].r0);
-    LSTORE(0x008ab89e, &poly[1].r0);
+    LSTORE(0x008ab89e, &poly1[0].r0);
+    LSTORE(0x008ab89e, &poly1[1].r0);
 
-    poly2 = poly + 1;
+    poly2 = &poly1[1];
 
-    SetPolyF4(poly);
+    SetPolyF4(poly1);
     SetPolyF4(poly2);
-    SetSemiTrans(poly, 1);
+    SetSemiTrans(poly1, 1);
     SetSemiTrans(poly2, 1);
 
-    poly2->x2 = 31;
-    poly2->x0 = 31;
-    poly->x2 = 31;
-    poly->x0 = 31;
-    poly2->y1 = 39;
-    poly2->y0 = 39;
-    poly->y1 = 39;
-    poly->y0 = 39;
-    poly2->y3 = 49;
-    poly2->y2 = 49;
-    poly->y3 = 49;
-    poly->y2 = 49;
+    /* left side screen coordinates */
+    poly2->x2 = FUEL_BAR_XOFFSET;
+    poly2->x0 = FUEL_BAR_XOFFSET;
+    poly1->x2 = FUEL_BAR_XOFFSET;
+    poly1->x0 = FUEL_BAR_XOFFSET;
+
+    /* top side screen coordinates */
+    poly2->y1 = FUEL_BAR_YOFFSET;
+    poly2->y0 = FUEL_BAR_YOFFSET;
+    poly1->y1 = FUEL_BAR_YOFFSET;
+    poly1->y0 = FUEL_BAR_YOFFSET;
+
+    /* bottom side screen coordinates */
+    poly2->y3 = (FUEL_BAR_YOFFSET + FUEL_BAR_HEIGHT);
+    poly2->y2 = (FUEL_BAR_YOFFSET + FUEL_BAR_HEIGHT);
+    poly1->y3 = (FUEL_BAR_YOFFSET + FUEL_BAR_HEIGHT);
+    poly1->y2 = (FUEL_BAR_YOFFSET + FUEL_BAR_HEIGHT);
 
     return 0;
 }
 
-static inline void rmissile_loader_helper_helper_8006CD1C_set_poly(POLY_FT4 *poly, DG_TEX *tex)
+static inline void set_poly_tex(POLY_FT4 *poly, DG_TEX *tex)
 {
     int u, v, w, h;
 
@@ -828,10 +855,10 @@ static inline void rmissile_loader_helper_helper_8006CD1C_set_poly(POLY_FT4 *pol
     poly->clut = tex->clut;
 }
 
-STATIC void rmissile_loader_helper_helper_8006CD1C(POLY_FT4 *poly, DG_TEX *tex, int n_poly)
+STATIC void rmissile_SetPolyTexture(POLY_FT4 *poly, DG_TEX *tex, int n_poly)
 {
-    rmissile_loader_helper_helper_8006CD1C_set_poly(poly, tex);
-    poly->tpage = (poly->tpage & 0xff9f) | 0x20;
+    set_poly_tex(poly, tex);
+    poly->tpage = (poly->tpage & ~0x0060) | 0x20;
 
     poly->r0 = 0;
     poly->g0 = 0;
@@ -842,8 +869,8 @@ STATIC void rmissile_loader_helper_helper_8006CD1C(POLY_FT4 *poly, DG_TEX *tex, 
 
     while (n_poly-- != 0)
     {
-        rmissile_loader_helper_helper_8006CD1C_set_poly(poly, tex);
-        poly->tpage |= 0x60;
+        set_poly_tex(poly, tex);
+        poly->tpage |= 0x0060;
 
         setRGB0(poly, 0, 0, 0);
 
@@ -851,39 +878,37 @@ STATIC void rmissile_loader_helper_helper_8006CD1C(POLY_FT4 *poly, DG_TEX *tex, 
     }
 }
 
-STATIC void rmissile_loader_helper_8006CE54(RMissileWork *work)
+STATIC void rmissile_InitMissileFlame(Work *work)
 {
-    int hash;
     DG_TEX *tex;
     SVECTOR *vec;
     DG_PRIM *prim;
     int count;
 
-    hash = GV_StrCode("socom_f");
-    tex = DG_GetTexture(hash);
+    tex = DG_GetTexture(GV_StrCode("socom_f"));
 
-    work->field_2DC_tex = tex;
-    prim = work->field_2D8_prim = Takabe_MakeIndividualRect3DPrim(8, work->field_2E4_svector_8Array);
+    work->flame_tex = tex;
+    prim = work->flame = Takabe_MakeIndividualRect3DPrim(8, work->flame_vec);
 
-    rmissile_loader_helper_helper_8006CD1C(&prim->packs[0]->poly_ft4, tex, 8);
-    rmissile_loader_helper_helper_8006CD1C(&prim->packs[1]->poly_ft4, tex, 8);
+    rmissile_SetPolyTexture(&prim->packs[0]->poly_ft4, tex, 8);
+    rmissile_SetPolyTexture(&prim->packs[1]->poly_ft4, tex, 8);
 
     prim->world = DG_ZeroMatrix;
     prim->field_2E_k500 = 100;
 
-    vec = work->field_2E4_svector_8Array;
+    vec = work->flame_vec;
     for (count = 8; count > 0; vec++, count--)
     {
         vec->pad = 0;
     }
 }
 
-static inline int RMissileGetEight(void)
+static inline int rmissile_GetEight(void)
 {
     return 8;   // what???
 }
 
-STATIC int RMissileGetResources(RMissileWork *work, MATRIX *world, int side)
+STATIC int rmissile_GetResources(Work *work, MATRIX *world, int side)
 {
     CONTROL        *ctrl;
     OBJECT_NO_ROTS *object;
@@ -891,7 +916,7 @@ STATIC int RMissileGetResources(RMissileWork *work, MATRIX *world, int side)
     dword_8009F46C = 1;
     dword_8009F470 = 1;
 
-    rmissile_loader_helper4_8006B800(work);
+    rmissile_SaveCameraState(work);
 
     ctrl = &work->control;
 
@@ -909,7 +934,7 @@ STATIC int RMissileGetResources(RMissileWork *work, MATRIX *world, int side)
     svector_8009F478 = GM_PlayerPosition;
 
     GM_ConfigControlHazard(ctrl, 400, 0xC8, 0xC8);
-    ctrl->field_59 = RMissileGetEight();
+    ctrl->field_59 = rmissile_GetEight();
     GM_ConfigControlTrapCheck(ctrl);
 
     object = &work->object;
@@ -917,7 +942,7 @@ STATIC int RMissileGetResources(RMissileWork *work, MATRIX *world, int side)
     ctrl->rot.vz = 0;
     ctrl->skip_flag |= CTRL_SKIP_NEAR_CHECK;
 
-    GM_InitObjectNoRots(object, 0x9A90, 0x36D, 0);
+    GM_InitObjectNoRots(object, KMD_NIK_MIS, BODY_FLAG, 0);
 
     if (!object->objs)
     {
@@ -926,20 +951,20 @@ STATIC int RMissileGetResources(RMissileWork *work, MATRIX *world, int side)
 
     GM_ConfigObjectLight((OBJECT *)object, work->light);
 
-    if (RMissileInitTarget(work, side) < 0)
+    if (rmissile_InitTarget(work, side) < 0)
     {
         return -1;
     }
 
-    if (RMissileInitPolys(work) < 0)
+    if (rmissile_InitFuelBar(work) < 0)
     {
         return -1;
     }
 
     DG_InvisibleObjs(work->object.objs);
     work->field_11C = -1;
-    work->field_324 = 10;
-    rmissile_loader_helper_8006CE54(work);
+    work->flame_delay = 10;
+    rmissile_InitMissileFlame(work);
     return 0;
 }
 
@@ -947,32 +972,32 @@ STATIC int RMissileGetResources(RMissileWork *work, MATRIX *world, int side)
 
 void *NewRMissile(MATRIX *world, int side)
 {
-    RMissileWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(RMissileWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, RMissileAct, RMissileDie, "rmissile.c");
+        GV_SetNamedActor(&work->actor, rmissile_Act, rmissile_Die, "rmissile.c");
 
-        if (RMissileGetResources(work, world, side) < 0)
+        if (rmissile_GetResources(work, world, side) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
         }
 
-        work->field_111 = 30;
+        work->boost_delay = 30;
         work->field_112 = 0;
-        work->field_113 = 0;
+        work->fpv_mode = FALSE;
         work->field_117 = 0;
-        work->field_114 = 0;
+        work->hud_delay = 0;
         work->field_115 = 0;
         work->field_116 = 0;
         dword_8009F480 = 0;
         work->field_118 = 0;
-        work->field_11A = 0;
+        work->speed = 0;
         work->field_11C = 0;
-        work->field_168 = 0;
+        work->enemy_time = 0;
         Nik_Blast = 0;
     }
 
