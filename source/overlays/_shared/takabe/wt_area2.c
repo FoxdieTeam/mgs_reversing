@@ -126,7 +126,7 @@ static void Act( Work *work )
         work->snake_catch = 0;
     }
 
-    if (GM_PlayerStatus & 0x42)
+    if (GM_PlayerStatus & (PLAYER_INTRUDE | PLAYER_GROUND))
     {
         world = &GM_PlayerBody->objs->objs[0].world;
     }

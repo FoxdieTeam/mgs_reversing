@@ -457,7 +457,7 @@ int s11e_zk11ecom_800D937C( ZakoWork *work )
         switch ( nextset )
         {
         case 0:
-            if ( work->sn_dis < ATTACKNEAR_DIS && !( GM_PlayerStatus & 0x1060 ) )
+            if ( work->sn_dis < ATTACKNEAR_DIS && !( GM_PlayerStatus & ( PLAYER_SQUAT | PLAYER_GROUND | PLAYER_CB_BOX ) ) )
             {
                 return 10;
             }
