@@ -32,6 +32,7 @@ extern int    dword_8009F604;
 #define IR_GOGGLE_SIGHT3    0x84dd  // GV_StrCode("ir_ggle3")
 
 #define HUD_DISP_DELAY      6
+#define HUD_MOVE_DELAY      10
 
 #define NV_HUD_COLOR_R      255
 #define NV_HUD_COLOR_G      0
@@ -301,9 +302,9 @@ STATIC void gglsight_DrawHudText(Work *work)
     }
 }
 
-STATIC void gglsight_act_helper_80078054(int a1, u_short status, DVECTOR *axis, int dir, short sens, short max)
+STATIC void gglsight_MoveSightElement(int time, u_short status, DVECTOR *axis, int dir, short sens, short max)
 {
-    if (a1 < 10)
+    if (time < HUD_MOVE_DELAY)
     {
         return;
     }
@@ -437,8 +438,8 @@ STATIC void GoggleSightAct(Work *work)
         status &= ~(PAD_UP | PAD_DOWN);
     }
 
-    gglsight_act_helper_80078054(time, status, &work->field_2C_4Array[1], 3, 2, 20);
-    gglsight_act_helper_80078054(time, status, &work->field_2C_4Array[2], 5, 1, 12);
+    gglsight_MoveSightElement(time, status, &work->field_2C_4Array[1], 3, 2, 20);
+    gglsight_MoveSightElement(time, status, &work->field_2C_4Array[2], 5, 1, 12);
 
     // Draw the horizontal lines of heading numbers
     gglsight_DrawHudNumbers(work);
