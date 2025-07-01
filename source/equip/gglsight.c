@@ -12,7 +12,6 @@
 #include "thing/sight.h"
 #include "chara/snake/sna_init.h"
 #include "linkvar.h"
-#include "strcode.h"
 
 extern GV_PAD GV_PadData_800B05C0[4];
 extern int    dword_8009F604;
@@ -20,24 +19,44 @@ extern int    dword_8009F604;
 /*---------------------------------------------------------------------------*/
 // Night Vision/Thermal Goggles sight
 
-typedef struct GoggleSightWork
+#define EXEC_LEVEL GV_ACTOR_AFTER2
+
+#define NV_GOGGLE_ID        0x9c26  // GV_StrCode("nv_ggle")
+#define NV_GOGGLE_SIGHT1    0x8504  // GV_StrCode("nv_ggle1")
+#define NV_GOGGLE_SIGHT2    0x8505  // GV_StrCode("nv_ggle2")
+#define NV_GOGGLE_SIGHT3    0x8506  // GV_StrCode("nv_ggle3")
+
+#define IR_GOGGLE_ID        0x5425  // GV_StrCode("ir_ggle")
+#define IR_GOGGLE_SIGHT1    0x84db  // GV_StrCode("ir_ggle1")
+#define IR_GOGGLE_SIGHT2    0x84dc  // GV_StrCode("ir_ggle2")
+#define IR_GOGGLE_SIGHT3    0x84dd  // GV_StrCode("ir_ggle3")
+
+#define HUD_DISP_DELAY      6
+
+#define NV_HUD_COLOR_R      255
+#define NV_HUD_COLOR_G      0
+#define NV_HUD_COLOR_B      0
+
+#define IR_HUD_COLOR_R      65
+#define IR_HUD_COLOR_G      160
+#define IR_HUD_COLOR_B      74
+
+typedef struct _Work
 {
     GV_ACT   actor;
     int      type;
     int      field_24;
     int      color;
     DVECTOR  field_2C_4Array[4];
-    int      field_3C;
+    int      timer;
     TILE_1   field_40_tile1[2][24];
     LINE_F2  field_280_lineF2[2][3];
     POLY_F4  field_2E0_polyF4[2][3];
     DR_TPAGE field_370_dr_tpage[2];
-    int      field_380;
-} GoggleSightWork;
+    int      scan_timer;
+} Work;
 
-#define EXEC_LEVEL GV_ACTOR_AFTER2
-
-short word_8009F714[] = {0, 0};
+STATIC short word_8009F714[] = {0, 0};
 
 /*---------------------------------------------------------------------------*/
 
@@ -46,11 +65,11 @@ short word_8009F714[] = {0, 0};
  *
  * @param work The goggles sight actor.
  */
-STATIC void gglsight_act_helper_80077A24(GoggleSightWork *work)
+STATIC void gglsight_DrawHudNumbers(Work *work)
 {
     int r, g, b;
-    TILE_1 *pTile;
-    unsigned char *pOt;
+    TILE_1 *tile;
+    u_long *ot;
 
     short a1;
     short a2;
@@ -61,27 +80,27 @@ STATIC void gglsight_act_helper_80077A24(GoggleSightWork *work)
     short var_s1;
     short x;
 
-    if (work->field_3C < 6)
+    if (work->timer < HUD_DISP_DELAY)
     {
         return;
     }
 
-    pTile = work->field_40_tile1[GV_Clock];
-    pOt = DG_ChanlOTag(1);
+    tile = work->field_40_tile1[GV_Clock];
+    ot = (u_long *)DG_ChanlOTag(1);
     // TextConfig_Flags_eCentreAlign_02 | TextConfig_Flags_eSemiTransparent_20 | TextConfig_Flags_eDark_100
     MENU_Locate(0, 0, 0x122);
 
     if (work->type == IT_NVG)
     {
-        r = 255;
-        g = 0;
-        b = 0;
+        r = NV_HUD_COLOR_R;
+        g = NV_HUD_COLOR_G;
+        b = NV_HUD_COLOR_B;
     }
     else // thermal goggles
     {
-        r = 65;
-        g = 160;
-        b = 74;
+        r = IR_HUD_COLOR_R;
+        g = IR_HUD_COLOR_G;
+        b = IR_HUD_COLOR_B;
     }
 
     // set the color of the first person overlay menu
@@ -121,9 +140,9 @@ STATIC void gglsight_act_helper_80077A24(GoggleSightWork *work)
             MENU_Locate(x, 148, 0x122);
             MENU_Printf("%02d", var_s0);
 
-            pTile->x0 = x;
-            addPrim(pOt, pTile);
-            pTile++;
+            tile->x0 = x;
+            addPrim(ot, tile);
+            tile++;
         }
 
         x += 24;
@@ -136,55 +155,53 @@ STATIC void gglsight_act_helper_80077A24(GoggleSightWork *work)
  *
  * @param work the goggles sight work actor.
  */
-STATIC void gglsight_act_helper_80077C6C(GoggleSightWork *work)
+STATIC void gglsight_DrawHudVector(Work *work)
 {
-    int r;  // $a0
-    int g;  // $a1
-    int b;  // $a2
-    int vy; // $s0
+    int r, g, b;
+    int vy;
 
-    if (work->field_3C >= 6)
+    if (work->timer >= HUD_DISP_DELAY)
     {
         MENU_Locate(40, 56, 0x120);
 
         if (work->type == IT_NVG)
         {
-            r = 255;
-            g = 0;
-            b = 0;
+            r = NV_HUD_COLOR_R;
+            g = NV_HUD_COLOR_G;
+            b = NV_HUD_COLOR_B;
         }
         else
         {
-            r = 65;
-            g = 160;
-            b = 74;
+            r = IR_HUD_COLOR_R;
+            g = IR_HUD_COLOR_G;
+            b = IR_HUD_COLOR_B;
         }
         MENU_Color(r, g, b);
         vy = GM_PlayerControl->rot.vy;
-        MENU_Printf("%ld\n", 8 * (vy & 2047));
-        MENU_Printf("%ld\n", 4 * (vy & 4095));
-        MENU_Printf("%ld\n", 16 * (vy & 1023));
+        MENU_Printf("%ld\n",  8 * (vy & 0x07ff));
+        MENU_Printf("%ld\n",  4 * (vy & 0x0fff));
+        MENU_Printf("%ld\n", 16 * (vy & 0x03ff));
     }
 }
 
-STATIC void gglsight_act_helper_80077D24(GoggleSightWork *work)
+STATIC void gglsight_DrawHudBarGraph(Work *work)
 {
-    LINE_F2 *pLine;
-    POLY_F4 *pPoly;
-    DR_TPAGE *pTpage;
-    unsigned char *pOt;
+    LINE_F2 *line;
+    POLY_F4 *poly;
+    DR_TPAGE *tpage;
+    u_long *ot;
     int y, y2;
 
-    if (work->field_3C < 6)
+    if (work->timer < HUD_DISP_DELAY)
     {
         return;
     }
 
-    pLine = work->field_280_lineF2[GV_Clock];
-    pPoly = work->field_2E0_polyF4[GV_Clock];
-    pTpage = &work->field_370_dr_tpage[GV_Clock];
+    line = work->field_280_lineF2[GV_Clock];
+    poly = work->field_2E0_polyF4[GV_Clock];
+    tpage = &work->field_370_dr_tpage[GV_Clock];
 
-    pOt = DG_Chanl(1)->mOrderingTables[GV_Clock];
+    ot = (u_long *)DG_Chanl(1)->mOrderingTables[GV_Clock];
 
     y = GM_PlayerControl->rot.vy & 4095;
     y2 = ((y + 1024) & 2047) >> 5;
@@ -194,13 +211,13 @@ STATIC void gglsight_act_helper_80077D24(GoggleSightWork *work)
         y2 = 64 - y2;
     }
 
-    pPoly->y0 = pPoly->y1 = pLine->y0 = pLine->y1 = 140 - y2;
+    poly->y0 = poly->y1 = line->y0 = line->y1 = 140 - y2;
 
-    addPrim(pOt, pLine);
-    addPrim(pOt, pPoly);
+    addPrim(ot, line);
+    addPrim(ot, poly);
 
-    pLine++;
-    pPoly++;
+    line++;
+    poly++;
 
     y2 = (unsigned int)y >> 6;
 
@@ -209,13 +226,13 @@ STATIC void gglsight_act_helper_80077D24(GoggleSightWork *work)
         y2 = 64 - y2;
     }
 
-    pPoly->y0 = pPoly->y1 = pLine->y0 = pLine->y1 = 140 - y2;
+    poly->y0 = poly->y1 = line->y0 = line->y1 = 140 - y2;
 
-    addPrim(pOt, pLine);
-    addPrim(pOt, pPoly);
+    addPrim(ot, line);
+    addPrim(ot, poly);
 
-    pLine++;
-    pPoly++;
+    line++;
+    poly++;
 
     y2 = ((y - 1024) & 1023) >> 4;
 
@@ -224,11 +241,11 @@ STATIC void gglsight_act_helper_80077D24(GoggleSightWork *work)
         y2 = 64 - y2;
     }
 
-    pPoly->y0 = pPoly->y1 = pLine->y0 = pLine->y1 = 140 - y2;
+    poly->y0 = poly->y1 = line->y0 = line->y1 = 140 - y2;
 
-    addPrim(pOt, pLine);
-    addPrim(pOt, pPoly);
-    addPrim(pOt, pTpage);
+    addPrim(ot, line);
+    addPrim(ot, poly);
+    addPrim(ot, tpage);
 }
 
 /**
@@ -236,57 +253,55 @@ STATIC void gglsight_act_helper_80077D24(GoggleSightWork *work)
  *
  * @param work The goggles sight actor.
  */
-STATIC void gglsight_act_helper_80077F70(GoggleSightWork *work)
+STATIC void gglsight_DrawHudText(Work *work)
 {
-    int old_380; // $s1
-    int r;       // $a0
-    int g;       // $a1
-    int b;       // $a2
+    int time;
+    int r, g, b;
 
-    if (work->field_3C >= 6)
+    if (work->timer >= HUD_DISP_DELAY)
     {
-        old_380 = work->field_380;
+        time = work->scan_timer;
         //  TextConfig_Flags_eLargeFont_10 | TextConfig_Flags_eSemiTransparent_20 | TextConfig_Flags_eDark_100
         MENU_Locate(41, 42, 304);
         if (work->type == IT_NVG)
         {
-            r = 255;
-            g = 0;
-            b = 0;
+            r = NV_HUD_COLOR_R;
+            g = NV_HUD_COLOR_G;
+            b = NV_HUD_COLOR_B;
         }
         else
         {
-            r = 65;
-            g = 160;
-            b = 74;
+            r = IR_HUD_COLOR_R;
+            g = IR_HUD_COLOR_G;
+            b = IR_HUD_COLOR_B;
         }
         MENU_Color(r, g, b);
 
-        work->field_380++;
-        if (work->field_380 >= 17)
+        work->scan_timer++;
+        if (work->scan_timer >= 17)
         {
-            work->field_380 = -16;
+            work->scan_timer = -16;
         }
 
-        if (old_380 > 0)
+        if (time > 0)
         {
-            MENU_Printf("SCAN"); // scan
+            MENU_Printf("SCAN");
         }
 
         MENU_Locate(137, 42, 304);
 
         if (work->type == IT_NVG)
         {
-            MENU_Printf("MODE - B"); // MODE - B
+            MENU_Printf("MODE - B");
         }
         else
         {
-            MENU_Printf("MODE - A"); // MODE - A
+            MENU_Printf("MODE - A");
         }
     }
 }
 
-STATIC void gglsight_act_helper_80078054(int a1, unsigned short status, DVECTOR *axis, int dir, short sens, short max)
+STATIC void gglsight_act_helper_80078054(int a1, u_short status, DVECTOR *axis, int dir, short sens, short max)
 {
     if (a1 < 10)
     {
@@ -381,13 +396,13 @@ STATIC void gglsight_act_helper_80078054(int a1, unsigned short status, DVECTOR 
 
 /*---------------------------------------------------------------------------*/
 
-STATIC void GoggleSightAct(GoggleSightWork *work)
+STATIC void GoggleSightAct(Work *work)
 {
     short *ptr = word_8009F714;
     int type = work->type;
     int f24 = work->field_24;
-    unsigned short status;
-    int f3c;
+    u_short status;
+    int time;
 
     if (GM_PlayerStatus & PLAYER_SECOND_CONTROLLER)
     {
@@ -404,43 +419,43 @@ STATIC void GoggleSightAct(GoggleSightWork *work)
 
     if (type == IT_NVG && dword_8009F604 != f24)
     {
-        NewSight_80071CDC(SGT_NV_GGLE1, f24, ptr, 1, 0);
-        NewSight_80071CDC(SGT_NV_GGLE2, f24, ptr, 1, (short *)&work->field_2C_4Array[1]);
-        NewSight_80071CDC(SGT_NV_GGLE3, f24, ptr, 1, (short *)&work->field_2C_4Array[2]);
+        NewSight(NV_GOGGLE_SIGHT1, f24, ptr, 1, NULL);
+        NewSight(NV_GOGGLE_SIGHT2, f24, ptr, 1, (short *)&work->field_2C_4Array[1]);
+        NewSight(NV_GOGGLE_SIGHT3, f24, ptr, 1, (short *)&work->field_2C_4Array[2]);
     }
     else if (dword_8009F604 != f24)
     {
-        NewSight_80071CDC(SGT_IR_GGLE1, f24, ptr, 1, 0);
-        NewSight_80071CDC(SGT_IR_GGLE2, f24, ptr, 1, (short *)&work->field_2C_4Array[1]);
-        NewSight_80071CDC(SGT_IR_GGLE3, f24, ptr, 1, (short *)&work->field_2C_4Array[2]);
+        NewSight(IR_GOGGLE_SIGHT1, f24, ptr, 1, NULL);
+        NewSight(IR_GOGGLE_SIGHT2, f24, ptr, 1, (short *)&work->field_2C_4Array[1]);
+        NewSight(IR_GOGGLE_SIGHT3, f24, ptr, 1, (short *)&work->field_2C_4Array[2]);
     }
 
-    f3c = work->field_3C++;
+    time = work->timer++;
 
-    if (!(GM_PlayerStatus & 8))
+    if (!(GM_PlayerStatus & PLAYER_NORMAL_WATCH))
     {
-        status &= 0xafff;
+        status &= ~(PAD_UP | PAD_DOWN);
     }
 
-    gglsight_act_helper_80078054(f3c, status, &work->field_2C_4Array[1], 3, 2, 20);
-    gglsight_act_helper_80078054(f3c, status, &work->field_2C_4Array[2], 5, 1, 12);
+    gglsight_act_helper_80078054(time, status, &work->field_2C_4Array[1], 3, 2, 20);
+    gglsight_act_helper_80078054(time, status, &work->field_2C_4Array[2], 5, 1, 12);
 
     // Draw the horizontal lines of heading numbers
-    gglsight_act_helper_80077A24(work);
+    gglsight_DrawHudNumbers(work);
     // Draw the SCAN and MODE text
-    gglsight_act_helper_80077F70(work);
+    gglsight_DrawHudText(work);
     // Draw the 3 heading integer indicators
-    gglsight_act_helper_80077C6C(work);
+    gglsight_DrawHudVector(work);
     // Draw the 3 heading vertical lines
-    gglsight_act_helper_80077D24(work);
+    gglsight_DrawHudBarGraph(work);
 }
 
-STATIC void GoggleSightDie(GoggleSightWork *work)
+STATIC void GoggleSightDie(Work *work)
 {
     word_8009F714[0] = 0;
 }
 
-STATIC void GoggleSightSetup1(GoggleSightWork *work)
+STATIC void GoggleSightSetup1(Work *work)
 {
     int     i;
     TILE_1 *tile = &work->field_40_tile1[0][0];
@@ -454,7 +469,7 @@ STATIC void GoggleSightSetup1(GoggleSightWork *work)
     }
 }
 
-STATIC void GoggleSightSetup2(GoggleSightWork *actor)
+STATIC void GoggleSightSetup2(Work *actor)
 {
     int pos, count;
 
@@ -502,12 +517,12 @@ STATIC void GoggleSightSetup2(GoggleSightWork *actor)
 
 void *NewGoggleSight(int type)
 {
-    GoggleSightWork *work;
+    Work *work;
     int status, count;
     short *arr;
     short *arr2;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(GoggleSightWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
 
     if (work)
     {
@@ -517,13 +532,13 @@ void *NewGoggleSight(int type)
 
         if (type == IT_NVG)
         {
-            work->field_24 = 0x9c26;
-            work->color = 0xff;
+            work->field_24 = NV_GOGGLE_ID;
+            work->color = (NV_HUD_COLOR_R | (NV_HUD_COLOR_G << 8) | (NV_HUD_COLOR_B << 16));
         }
         else if (type == IT_ThermG)
         {
-            work->field_24 = 0x5425;
-            work->color = 0x4aa041;
+            work->field_24 = IR_GOGGLE_ID;
+            work->color = (IR_HUD_COLOR_R | (IR_HUD_COLOR_G << 8) | (IR_HUD_COLOR_B << 16));
         }
         else
         {
@@ -547,8 +562,8 @@ void *NewGoggleSight(int type)
             arr2 = arr;
         }
 
-        work->field_380 = -0x10;
-        work->field_3C = 0;
+        work->scan_timer = -16;
+        work->timer = 0;
 
         word_8009F714[0] = 0;
 
