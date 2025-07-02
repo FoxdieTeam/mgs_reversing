@@ -44,7 +44,7 @@ typedef union {
     char         rgbChars[4]; // 4th is padding.
 } rgbUnion;
 
-typedef struct SgtRect3Work
+typedef struct _Work
 {
     GV_ACT         actor;
     short         *field_20;
@@ -64,13 +64,13 @@ typedef struct SgtRect3Work
     int            field_21B4;
     sgtrect3_0x100 field_21B8[2];
     DR_TPAGE       field_23B8_prim[2];
-} SgtRect3Work;
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_AFTER2
 
 /*---------------------------------------------------------------------------*/
 
-char byte_8009F5F8[] = {0, 0, 0, 0};
+STATIC char byte_8009F5F8[] = {0, 0, 0, 0};
 
 STATIC void sgtrect3_act_helper_helper_80070040(void *ot, void *prim)
 {
@@ -80,7 +80,7 @@ STATIC void sgtrect3_act_helper_helper_80070040(void *ot, void *prim)
     }
 }
 
-STATIC void sgtrect3_act_helper_8007009C()
+STATIC void sgtrect3_act_helper_8007009C(void)
 {
     DG_Clip(&DG_Chanl(0)->field_5C_clip_rect, DG_Chanl(0)->field_50_clip_distance);
     SetRotMatrix(&DG_Chanl(0)->field_10_eye_inv);
@@ -128,8 +128,8 @@ STATIC int sgtrect3_act_helper_800701A8(TARGET *target)
     return 1;
 }
 
-STATIC void sgtrect3_act_helper_8007020C(SgtRect3Work *work, DVECTOR *outScreenCoordsArray, TARGET **outTargetsArray,
-                                  ushort *outResultsArray)
+STATIC void sgtrect3_act_helper_8007020C(Work *work, DVECTOR *outScreenCoordsArray, TARGET **outTargetsArray,
+                                  u_short *outResultsArray)
 {
     int         downCount;
     TARGET *targets, *currentTarget;
@@ -143,8 +143,8 @@ STATIC void sgtrect3_act_helper_8007020C(SgtRect3Work *work, DVECTOR *outScreenC
     int         vecLen;
     int         vx, vy;
     DVECTOR    *outScreenCoordsIter;
-    TARGET **outTargetsIter;
-    ushort     *outResultsIter;
+    TARGET    **outTargetsIter;
+    u_short    *outResultsIter;
 
     targets = NULL;
     GM_Target_8002E374(&downCount, &targets);
@@ -266,7 +266,7 @@ STATIC void sgtrect3_act_helper_8007020C(SgtRect3Work *work, DVECTOR *outScreenC
     }
 }
 
-STATIC void sgtrect3_act_helper_80070568(SgtRect3Work *work, void *ot, LINE_F3 *lineF3Arr)
+STATIC void sgtrect3_act_helper_80070568(Work *work, void *ot, LINE_F3 *lineF3Arr)
 {
     int count;
     int index;
@@ -337,7 +337,7 @@ STATIC void sgtrect3_act_helper_80070568(SgtRect3Work *work, void *ot, LINE_F3 *
 }
 
 STATIC void sgtrect3_act_helper_80070820(void *ot, LINE_F3 *lineF3Arr, LINE_F2 *lineF2Arr, DVECTOR *screenCoords,
-                                  ushort currentOffset, unsigned int rgb)
+                                  u_short currentOffset, unsigned int rgb)
 {
     short sVar1;
 
@@ -405,7 +405,7 @@ STATIC void sgtrect3_act_helper_80070820(void *ot, LINE_F3 *lineF3Arr, LINE_F2 *
     sgtrect3_act_helper_helper_80070040(ot, secondLineF2);
 }
 
-STATIC void sgtrect3_act_helper_80070AB0(SgtRect3Work *work, DVECTOR *screenCoordsArray, TARGET **inTargets,
+STATIC void sgtrect3_act_helper_80070AB0(Work *work, DVECTOR *screenCoordsArray, TARGET **inTargets,
                                   unsigned short *offsets)
 {
     unsigned int  rgb;
@@ -468,7 +468,7 @@ STATIC void sgtrect3_act_helper_80070AB0(SgtRect3Work *work, DVECTOR *screenCoor
     }
 }
 
-STATIC void sgtrect3_act_helper_80070CAC(SgtRect3Work *work)
+STATIC void sgtrect3_act_helper_80070CAC(Work *work)
 {
     int     vecLen;
     SVECTOR vector2;
@@ -507,11 +507,11 @@ STATIC void sgtrect3_act_helper_80070CAC(SgtRect3Work *work)
     GM_SeSet2(0, 0x3f, SE_STINGER_LOCKON);
 }
 
-STATIC void sgtrect3_act_80070E14(SgtRect3Work *work)
+STATIC void sgtrect3_Act(Work *work)
 {
-    DVECTOR    screenCoords[32];
+    DVECTOR screenCoords[32];
     TARGET *targets[32];
-    ushort     offsets[32];
+    u_short offsets[32];
 
     if (work->field_24 != *work->field_20)
     {
@@ -527,12 +527,12 @@ STATIC void sgtrect3_act_80070E14(SgtRect3Work *work)
     target_800BDF00 = work->field_30_target;
 }
 
-STATIC void sgtrect3_kill_80070EC0(SgtRect3Work *actor_sgtrect3)
+STATIC void sgtrect3_Die(Work *work)
 {
     byte_8009F5F8[0] = 0;
 }
 
-STATIC void sgtrect3_loader_helper_80070ECC(SgtRect3Work *work, unsigned int rgb)
+STATIC void sgtrect3_loader_helper_80070ECC(Work *work, unsigned int rgb)
 {
     int      index;
     int      lineIndex;
@@ -555,7 +555,7 @@ STATIC void sgtrect3_loader_helper_80070ECC(SgtRect3Work *work, unsigned int rgb
     }
 }
 
-STATIC int sgtrect3_loader_80070F4C(SgtRect3Work *work, unsigned int *rgb2)
+STATIC int sgtrect3_GetResources(Work *work, unsigned int *rgb2)
 {
     int       outerIndex;
     int       innerIndex;
@@ -581,24 +581,26 @@ STATIC int sgtrect3_loader_80070F4C(SgtRect3Work *work, unsigned int *rgb2)
     return 0;
 }
 
+/*---------------------------------------------------------------------------*/
+
 void *NewSgtRect3(short *param_1, short param_2, unsigned int *rgb2, int param_4)
 {
-    SgtRect3Work *work;
+    Work *work;
 
     if (byte_8009F5F8[0])
     {
         return NULL;
     }
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(SgtRect3Work));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (!work)
     {
         return NULL;
     }
 
-    GV_SetNamedActor((GV_ACT *)work, sgtrect3_act_80070E14, sgtrect3_kill_80070EC0, "sgtrect3.c");
+    GV_SetNamedActor((GV_ACT *)work, sgtrect3_Act, sgtrect3_Die, "sgtrect3.c");
 
-    if (sgtrect3_loader_80070F4C(work, rgb2) < 0)
+    if (sgtrect3_GetResources(work, rgb2) < 0)
     {
         GV_DestroyActor((GV_ACT *)work);
         return NULL;
