@@ -54,7 +54,16 @@ extern TARGET          *target_800BDF00;
 /*---------------------------------------------------------------------------*/
 // Stinger Sight
 
-#define EXEC_LEVEL GV_ACTOR_AFTER2
+#define EXEC_LEVEL      GV_ACTOR_AFTER2
+
+#define STINGER_SIGHT   GV_StrCode("stinger")
+
+#define HUD_DARK_CYAN_R 46
+#define HUD_DARK_CYAN_G 65
+#define HUD_DARK_CYAN_B 65
+
+#define HUD_DARK_CYAN   (( 46) | ( 65 << 8) | ( 65 << 16))
+#define HUD_BRIGHT_RED  ((246) | ( 61 << 8) | ( 41 << 16))
 
 typedef struct _Work
 {
@@ -108,8 +117,8 @@ STATIC void stnsight_act_helper_8006837C( Work *work )
         return;
     }
 
-    MENU_Color(0x2e, 0x41, 0x41);
-    MENU_Locate(0xb4, 0x10, 0);
+    MENU_Color(HUD_DARK_CYAN_R, HUD_DARK_CYAN_G, HUD_DARK_CYAN_B);
+    MENU_Locate(180, 16, 0);
     MENU_Printf("LOCK_ON\n");
     menu_Text_Init_80038B98();
 }
@@ -382,7 +391,7 @@ STATIC void stnsight_act_helper_80068BF4( Work *work, u_long *ot )
     }
 }
 
-STATIC void StnSightAct( Work *work )
+STATIC void stnsight_Act( Work *work )
 {
     u_long *ot;
     int     iVar3;
@@ -404,13 +413,13 @@ STATIC void StnSightAct( Work *work )
     {
         // TODO: fix data
         work->field_84_4Array[2] =
-            (int)NewSight(GV_StrCode("stinger"), GV_StrCode("stinger"), &word_800AB8EC, 1, 0);
+            (int)NewSight(STINGER_SIGHT, STINGER_SIGHT, &word_800AB8EC, 1, 0);
     }
 
     if (work->field_84_4Array[3] == 0)
     {
-        local_20[0] = 0x41412e;
-        local_20[1] = 0x293df6;
+        local_20[0] = HUD_DARK_CYAN;
+        local_20[1] = HUD_BRIGHT_RED;
         // todo: fix data.
         work->field_84_4Array[3] = (int)NewSgtRect3(&word_800AB8EC, 1, local_20, 1);
     }
@@ -461,7 +470,7 @@ STATIC void StnSightAct( Work *work )
     }
 }
 
-STATIC void StnSightDie( Work *work )
+STATIC void stnsight_Die( Work *work )
 {
     if (work->field_28_lines_2Array[0])
     {
@@ -519,7 +528,7 @@ STATIC int stnsight_init_helper_helper_80068F74( Work *work )
 
     for (count = 0; count < 14; count++)
     {
-        *(int *)&lines->r0 = 0x41412e;
+        *(int *)&lines->r0 = HUD_DARK_CYAN;
         lines->x3 = 18;
         lines->x0 = 18;
         lines->x2 = 41;
@@ -527,7 +536,7 @@ STATIC int stnsight_init_helper_helper_80068F74( Work *work )
         setLineF4(lines);
         lines++;
 
-        *(int *)&lines->r0 = 0x41412e;
+        *(int *)&lines->r0 = HUD_DARK_CYAN;
         lines->x1 = 18;
         lines->x0 = 18;
         setLineF2(lines);
@@ -536,7 +545,7 @@ STATIC int stnsight_init_helper_helper_80068F74( Work *work )
 
     for (count = 0; count < 28; count++)
     {
-        *(int *)&lines->r0 = 0x41412e;
+        *(int *)&lines->r0 = HUD_DARK_CYAN;
         lines->x2 = 42;
         lines->x1 = 42;
         lines->x0 = 42;
@@ -574,7 +583,7 @@ STATIC int stnsight_init_helper_helper_80069100( Work *work )
 
     for (count = 0; count < 4; count++)
     {
-        *(int *)&lines->r0 = 0x41412e;
+        *(int *)&lines->r0 = HUD_DARK_CYAN;
         setLineF4(lines);
         lines++;
     }
@@ -630,10 +639,10 @@ STATIC int stnsight_init_helper_helper_80069234( Work *work )
 
     for (count = 0; count < 64; count++)
     {
-        *(int *)&polys->r0 = 0x41412e;
-        *(int *)&polys->r1 = 0x41412e;
-        *(int *)&polys->r2 = 0x41412e;
-        *(int *)&polys->r3 = 0x41412e;
+        *(int *)&polys->r0 = HUD_DARK_CYAN;
+        *(int *)&polys->r1 = HUD_DARK_CYAN;
+        *(int *)&polys->r2 = HUD_DARK_CYAN;
+        *(int *)&polys->r3 = HUD_DARK_CYAN;
         setPolyG4(polys);
         setSemiTrans(polys, 1);
         polys->y1 = 20;
@@ -646,7 +655,7 @@ STATIC int stnsight_init_helper_helper_80069234( Work *work )
     return 0;
 }
 
-STATIC int StnSightGetResources( Work *work, CONTROL *control )
+STATIC int stnsight_GetResources( Work *work, CONTROL *control )
 {
     if (stnsight_init_helper_helper_80068F74(work) < 0)
     {
@@ -713,9 +722,9 @@ void *NewStnSight( CONTROL *control )
     work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, StnSightAct, StnSightDie, "stnsight.c");
+        GV_SetNamedActor(&work->actor, stnsight_Act, stnsight_Die, "stnsight.c");
 
-        if (StnSightGetResources(work, control) < 0)
+        if (stnsight_GetResources(work, control) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
