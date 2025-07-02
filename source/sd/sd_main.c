@@ -280,7 +280,7 @@ void KeyOffStr(void)
     StrSpuTransClose();
 }
 
-void KeyOnStr(void)
+void KeyOffStr2(void)
 {
     switch (SpuGetKeyStatus(SPU_21CH | SPU_22CH))
     {
