@@ -293,16 +293,6 @@ typedef struct DG_DivideMem         // private to libdg/divide.c
     DG_RVECTOR          *rvec;       // 0x34
 } DG_DivideMem;
 
-typedef struct SgtFile
-{
-    unsigned int   unknown0;
-    unsigned char *unknown1;
-    unsigned char *unknown2;
-    unsigned char *unknown3;
-    unsigned char *unknown4;
-    unsigned char *unknown5;
-} SgtFile;
-
 typedef struct DG_CHANL
 {
     unsigned char *mOrderingTables[ 2 ]; // 257 pointers? // One for each active buffer
