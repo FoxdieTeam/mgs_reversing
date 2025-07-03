@@ -1238,7 +1238,7 @@ void menu_item_kill_8003CC74(MenuWork *work)
     work->field_28_flags &= ~4u;
 }
 
-void sub_8003CC88()
+void MENU_ResetItemPos(void)
 {
     dword_800ABAD0 = 0;
 }
