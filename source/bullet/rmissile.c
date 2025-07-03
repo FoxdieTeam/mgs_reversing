@@ -51,6 +51,11 @@ extern CAMERA           GM_CameraList_800B7718[8];
 #define FUEL_BAR_YOFFSET        39
 #define FUEL_BAR_HEIGHT         10
 
+#define COLOR_LIGHT_GREEN       MAKE_RGB0(158,184,138)
+#define COLOR_DARK_GREEN        MAKE_RGB0( 93,135, 90)
+#define COLOR_LIGHT_RED         MAKE_RGB0(212, 78, 78)
+#define COLOR_DARK_RED          MAKE_RGB0(128, 26, 12)
+
 typedef struct _Work
 {
     GV_ACT          actor;
@@ -158,8 +163,8 @@ STATIC void rmissile_SetFirstPersonView(Work *work)
     if (work->fpv_mode == FALSE)
     {
         work->fpv_mode = TRUE;
-        dword_800BDEF8[0] = 0x5A875D;   // dark green
-        dword_800BDEF8[1] = 0x0C1A80;   // dark red
+        dword_800BDEF8[0] = COLOR_DARK_GREEN;
+        dword_800BDEF8[1] = COLOR_DARK_RED;
         NewSgtRect3(&Nik_Blast, 1, dword_800BDEF8, 0);
         GM_SeSet2(0, 0x3F, SE_ITEM_OPENWINDOW);
     }
@@ -442,7 +447,9 @@ STATIC void rmissile_act_helper_8006C114(Work *work)
             {
                 if (!HZD_80029098(work->control.map->hzd, position, 250, 15, 8))
                 {
-                    if (abs(position->vx) <= 30000 && abs(position->vy) <= 30000 && abs(position->vz) <= 30000)
+                    if (abs(position->vx) <= 30000 &&
+                        abs(position->vy) <= 30000 &&
+                        abs(position->vz) <= 30000)
                     {
                         return;
                     }
@@ -797,8 +804,8 @@ STATIC int rmissile_InitFuelBar(Work *work)
 
     work->fuel_bar[1] = &poly1[1];
 
-    LSTORE(0x008ab89e, &poly1[0].r0);
-    LSTORE(0x008ab89e, &poly1[1].r0);
+    LSTORE(COLOR_LIGHT_GREEN, &poly1[0].r0);
+    LSTORE(COLOR_LIGHT_GREEN, &poly1[1].r0);
 
     poly2 = &poly1[1];
 
