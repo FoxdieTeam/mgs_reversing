@@ -357,7 +357,7 @@ void sna_8004EC00(SnaInitWork *work)
 
 void sna_8004EC8C(SnaInitWork *work)
 {
-    ushort v2; // $v1
+    u_short v2; // $v1
 
     sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK12);
     work->field_A28 = 460;
@@ -893,7 +893,7 @@ void sna_8004FA74(SnaInitWork *param_1)
 
 void sub_8004FA9C(SnaInitWork *snake)
 {
-    ushort action = snake->field_9B0_pad_ptr->status;
+    u_short action = snake->field_9B0_pad_ptr->status;
     sna_80051FD0(snake);
     if (action & PAD_DOWN)
     {
@@ -2389,7 +2389,7 @@ void sna_80051DA0(SnaInitWork *work)
 void sna_80051FD0(SnaInitWork *work)
 {
     int          iVar1;
-    ushort       uVar2;
+    u_short      uVar2;
     unsigned int uVar3;
     short        sVar4;
     short        sVar5;
