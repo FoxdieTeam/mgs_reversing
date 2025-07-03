@@ -1,31 +1,115 @@
 #include "sight.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "game/game.h"
 #include "menu/menuman.h"
-#include "strcode.h"
+
+/*---------------------------------------------------------------------------*/
 
 #define EXEC_LEVEL GV_ACTOR_AFTER2
 
-short word_8009F5FC = 1;
-int  dword_8009F600 = 0;
-int  dword_8009F604 = -1;
-int  dword_8009F608 = 0;
-
-STATIC void sight_act_helper_8007111C(SightWork *work)
+typedef struct SightPrimOffsetIndices
 {
-    int     message_result;
-    GV_MSG *message;
+    char indices[4];
+} SightPrimOffsetIndices;
 
-    message_result = GV_ReceiveMessage(0x30da, &message);
+typedef struct SightPrimOffsetInfo
+{
+    char        nextFrame;
+    char        prevFrame;
+    signed char xOffsetMultiplier;
+    signed char yOffsetMultiplier;
+} SightPrimOffsetInfo;
 
-    if (message_result > 0)
+typedef struct SightPrimBufInfoStruct
+{
+    char           offsetIndicesIndex;
+    char           tPageInfo;
+    unsigned short primOffset;
+} SightPrimBufInfoStruct;
+
+typedef struct SightPrimBufInfo_0x14
+{
+    char field_0;
+    char field_1;
+    char field_2[2];
+} SightPrimBufInfo_0x14;
+
+// TODO: this is describing the same data as SgtFile
+// Contains the information necessary to obtain and animate the primitives for a certain aspect of the HUD.
+typedef struct SightPrimitiveBufferInfo
+{
+    unsigned short          primitiveBufferSize;
+    char                    field_2;
+    char                    primCount;
+    SightPrimBufInfoStruct *ancillaryInfo;
+    void                   *primitiveBuffer; // This is copied into a Sight actor's double buffer.
+    SightPrimOffsetIndices *primOffsetIndicesArray;
+    SightPrimOffsetInfo    *primOffsetInfoArray;
+    SightPrimBufInfo_0x14  *field_14_array;
+} SightPrimitiveBufferInfo;
+
+// Text pseudo-primitive
+//
+// The game uses the same memory to render primitives and text, executing the logic for the latter if the first field,
+// which would normally be the primitive's tag, is equal to 0xff. This is presumably the structure of the text
+// pseudo-primitive, unless the game is hijacking an actual primitive.
+typedef struct SightTextPseudoPrim
+{
+    int   tag;
+    char  r;
+    char  g;
+    char  b;
+    char  code;
+    short posX;
+    short posY;
+    char  text[16];
+} SightTextPseudoPrim;
+
+typedef struct _Work
+{
+    GV_ACT                    actor;
+    int                       itemId;
+    short                    *itemEquippedIndicator;
+    int                       currentMap;
+    int                       frameCount;
+    int                       field_30;
+    SightPrimitiveBufferInfo *primitiveBufferInfo;
+    void                     *primitiveDoubleBuffer[2];
+    int                       field_40;
+    DR_TPAGE                 *tPageDoubleBuffer[2];
+    short                    *xyOffsetBuffer;
+    int                       field_50;
+    int                       field_54_maybeFlags;
+    unsigned short            clock;
+    short                     field_5A_maybeFlags;
+} Work;
+
+/*---------------------------------------------------------------------------*/
+
+short word_8009F5FC = 1;    // static ?
+int dword_8009F600 = 0;     // static ?
+int dword_8009F604 = -1;
+int dword_8009F608 = 0;     // static ?
+
+STATIC void sight_CheckMessage(Work *work)
+{
+    int     len;
+    GV_MSG *msg;
+
+    len = GV_ReceiveMessage(0x30da, &msg);
+
+    if (len > 0)
     {
-        while (--message_result >= 0)
+        while (--len >= 0)
         {
-            switch (message->message[0])
+            switch (msg->message[0])
             {
             case HASH_ON:
                 dword_8009F608 &= ~1;
@@ -36,7 +120,7 @@ STATIC void sight_act_helper_8007111C(SightWork *work)
                 break;
             }
 
-            message++;
+            msg++;
         }
     }
 }
@@ -56,7 +140,7 @@ static inline int calc(int diff, int offset)
 // Handles the animation of the HUD when transitioning into the scope view or the box or gas mask's first-person view.
 // Various permutations show the logic is sound but getting it to match is hard and is essentially forced here by the
 // use of absurd intermediates.
-STATIC void sight_800711C0(SightWork *work, int frameCount, void *primitive, int primOffsetIndicesIndex,
+STATIC void sight_800711C0(Work *work, int frameCount, void *primitive, int primOffsetIndicesIndex,
                     SightPrimOffsetIndices *primOffsetIndices, SightPrimOffsetInfo *primOffsetInfo, int primOffset,
                     unsigned int flags)
 {
@@ -88,7 +172,7 @@ STATIC void sight_800711C0(SightWork *work, int frameCount, void *primitive, int
     gouraudShaded = (code >> 2) & 4;
     step = gouraudShaded + 4;
 
-    primBuf = work->field_34_primitiveBufferInfo->field_8_primitiveBuffer + primOffset + 8;
+    primBuf = work->primitiveBufferInfo->primitiveBuffer + primOffset + 8;
 
     for (; index < 4; primBuf += step, currentPrimY += step, currentPrimX += step, index++)
     {
@@ -98,29 +182,29 @@ STATIC void sight_800711C0(SightWork *work, int frameCount, void *primitive, int
             currentPrimOffsetInfo = &primOffsetInfo[currentPrimOffsetIndex - 1];
             if (frameCount == invalid)
             {
-                diff = currentPrimOffsetInfo->field_0_nextFrame - currentPrimOffsetInfo->field_1_prevFrame;
+                diff = currentPrimOffsetInfo->nextFrame - currentPrimOffsetInfo->prevFrame;
             }
             else
             {
-                if (currentPrimOffsetInfo->field_0_nextFrame >= frameCount)
+                if (currentPrimOffsetInfo->nextFrame >= frameCount)
                 {
                     continue;
                 }
-                if ((currentPrimOffsetInfo->field_1_prevFrame + 1 < frameCount) && ((flags & 0x8000) != 0))
+                if ((currentPrimOffsetInfo->prevFrame + 1 < frameCount) && ((flags & 0x8000) != 0))
                 {
                     continue;
                 }
 
                 *(int *)currentPrimX = *(int *)primBuf;
-                diff = *(frameCountPtr = &frameCount) - currentPrimOffsetInfo->field_1_prevFrame;
+                diff = *(frameCountPtr = &frameCount) - currentPrimOffsetInfo->prevFrame;
                 if (diff >= 0)
                 {
                     continue;
                 }
             }
 
-            localXY.vx = calc(diff, currentPrimOffsetInfo->field_2_xOffsetMultiplier);
-            localXY.vy = calc(diff, currentPrimOffsetInfo->field_3_yOffsetMultiplier);
+            localXY.vx = calc(diff, currentPrimOffsetInfo->xOffsetMultiplier);
+            localXY.vy = calc(diff, currentPrimOffsetInfo->yOffsetMultiplier);
 
             *(short *)currentPrimX += localXY.vx;
             *(short *)currentPrimY += localXY.vy;
@@ -129,7 +213,7 @@ STATIC void sight_800711C0(SightWork *work, int frameCount, void *primitive, int
 }
 
 // Called every frame when in the first-person view with the thermal goggles or night-vision goggles.
-STATIC void sight_act_helper_80071320(SightWork *work, void *targetPrim, short *xyOffsetBuffer, int primOffset)
+STATIC void sight_act_helper_80071320(Work *work, void *targetPrim, short *xyOffsetBuffer, int primOffset)
 {
     void *posX;
     void *posY;
@@ -147,7 +231,7 @@ STATIC void sight_act_helper_80071320(SightWork *work, void *targetPrim, short *
     posX = targetPrim + 8;
     if (work->field_50 < 3)
     {
-        primBuf = work->field_34_primitiveBufferInfo->field_8_primitiveBuffer;
+        primBuf = work->primitiveBufferInfo->primitiveBuffer;
         copiedPrim = primBuf + primOffset;
 
         code = getcode(targetPrim);
@@ -222,7 +306,7 @@ STATIC void sight_act_helper_80071320(SightWork *work, void *targetPrim, short *
 }
 
 // Called when transitioning into the first-person view with any relevant items.
-STATIC void sight_act_helper_800713FC(SightWork *work, int clock)
+STATIC void sight_act_helper_800713FC(Work *work, int clock)
 {
     void                     *primBuf;
     unsigned int             *primBufIter;
@@ -236,14 +320,14 @@ STATIC void sight_act_helper_800713FC(SightWork *work, int clock)
     void                     *currentPrim;
     int                       tag;
 
-    primBuf = work->field_38_primitiveDoubleBuffer[clock];
+    primBuf = work->primitiveDoubleBuffer[clock];
     primBufIter = primBuf;
 
-    primBufInfo = work->field_34_primitiveBufferInfo;
-    ancillaryInfo = primBufInfo->field_4_ancillaryInfo;
-    numPrims = primBufInfo->field_3_primCount;
-    primBufSize = primBufInfo->field_0_primitiveBufferSize;
-    origBuf = primBufInfo->field_8_primitiveBuffer;
+    primBufInfo = work->primitiveBufferInfo;
+    ancillaryInfo = primBufInfo->ancillaryInfo;
+    numPrims = primBufInfo->primCount;
+    primBufSize = primBufInfo->primitiveBufferSize;
+    origBuf = primBufInfo->primitiveBuffer;
 
     for (index = 0; index < (primBufSize / 4); index++)
     {
@@ -252,7 +336,7 @@ STATIC void sight_act_helper_800713FC(SightWork *work, int clock)
 
     while (--numPrims >= 0)
     {
-        primOffset = ancillaryInfo->field_2_primOffset;
+        primOffset = ancillaryInfo->primOffset;
         currentPrim = (char *)primBuf + primOffset;
         tag = *(int *)currentPrim;
         if (tag != 0xff)
@@ -266,12 +350,14 @@ STATIC void sight_act_helper_800713FC(SightWork *work, int clock)
 // Called every frame to display the scope's text pseudo-primitives.
 STATIC void sight_act_helper_80071498(SightTextPseudoPrim *textPrim)
 {
-    MENU_Locate(textPrim->field_8_posX, textPrim->field_A_posY, 0);
-    MENU_Color(textPrim->field_4_r, textPrim->field_5_g, textPrim->field_6_b);
-    MENU_Printf("%s", textPrim->field_C_text);
+    MENU_Locate(textPrim->posX, textPrim->posY, 0);
+    MENU_Color(textPrim->r, textPrim->g, textPrim->b);
+    MENU_Printf("%s", textPrim->text);
 }
 
-STATIC void sight_act_800714EC(SightWork *work)
+/*---------------------------------------------------------------------------*/
+
+STATIC void sight_Act(Work *work)
 {
     SightPrimitiveBufferInfo *primBufInfo;
     SightPrimBufInfoStruct   *ancillaryInfo;
@@ -300,7 +386,7 @@ STATIC void sight_act_800714EC(SightWork *work)
     char                      code;
     short                    *xyOffsetBuffer;
 
-    if (work->field_20_itemId != *work->field_24_itemEquippedIndicator)
+    if (work->itemId != *work->itemEquippedIndicator)
     {
         GV_DestroyActor((GV_ACT *)work);
         return;
@@ -308,31 +394,31 @@ STATIC void sight_act_800714EC(SightWork *work)
 
     work->field_54_maybeFlags &= 0xffff7fff;
 
-    if (work->field_58_clock != GV_Clock && (++work->field_5A_maybeFlags & 0xffff) == 2)
+    if (work->clock != GV_Clock && (++work->field_5A_maybeFlags & 0xffff) == 2)
     {
         work->field_54_maybeFlags |= 0x8000;
         work->field_5A_maybeFlags = 0;
     }
 
-    work->field_58_clock = GV_Clock;
-    sight_act_helper_8007111C(work);
-    work->field_28_currentMap = GM_CurrentMap;
+    work->clock = GV_Clock;
+    sight_CheckMessage(work);
+    work->currentMap = GM_CurrentMap;
 
-    primBufInfo = work->field_34_primitiveBufferInfo;
-    primCount = primBufInfo->field_3_primCount;
-    ancillaryInfo = primBufInfo->field_4_ancillaryInfo;
+    primBufInfo = work->primitiveBufferInfo;
+    primCount = primBufInfo->primCount;
+    ancillaryInfo = primBufInfo->ancillaryInfo;
 
-    tPageBuf = work->field_44_tPageDoubleBuffer[GV_Clock];
+    tPageBuf = work->tPageDoubleBuffer[GV_Clock];
 
-    frameCount = work->field_2C_frameCount;
+    frameCount = work->frameCount;
     field30 = work->field_30;
     ot = DG_ChanlOTag(1);
 
-    primOffsetIndicesArray = primBufInfo->field_C_primOffsetIndicesArray;
-    primOffsetInfoArray = primBufInfo->field_10_primOffsetInfoArray;
-    primBuf = work->field_38_primitiveDoubleBuffer[GV_Clock];
+    primOffsetIndicesArray = primBufInfo->primOffsetIndicesArray;
+    primOffsetInfoArray = primBufInfo->primOffsetInfoArray;
+    primBuf = work->primitiveDoubleBuffer[GV_Clock];
 
-    if (field30 == 0 && primBufInfo->field_2 < work->field_2C_frameCount)
+    if (field30 == 0 && primBufInfo->field_2 < work->frameCount)
     {
         flag = (0x100 << GV_Clock);
         if (!(work->field_54_maybeFlags & flag))
@@ -346,7 +432,7 @@ STATIC void sight_act_800714EC(SightWork *work)
         }
     }
 
-    xyOffsetBuffer = work->field_4C_xyOffsetBuffer;
+    xyOffsetBuffer = work->xyOffsetBuffer;
     field54Flags = work->field_54_maybeFlags;
     if (xyOffsetBuffer != (short *)0x0)
     {
@@ -371,9 +457,9 @@ STATIC void sight_act_800714EC(SightWork *work)
 
     while (--primCount >= 0)
     {
-        primOffset = ancillaryInfo->field_2_primOffset;                 // 0x1(s5)
-        tPageInfo = ancillaryInfo->field_1_tPageInfo;                   // 0x0(s5)
-        offsetIndicesIndex = ancillaryInfo->field_0_offsetIndicesIndex; // 0x0(t0)
+        primOffset = ancillaryInfo->primOffset;                 // 0x1(s5)
+        tPageInfo = ancillaryInfo->tPageInfo;                   // 0x0(s5)
+        offsetIndicesIndex = ancillaryInfo->offsetIndicesIndex; // 0x0(t0)
 
         ancillaryInfo++;
         offsetPrimBuf = primBuf + primOffset;
@@ -388,9 +474,9 @@ STATIC void sight_act_800714EC(SightWork *work)
 
         if (ancField1Anded != 0)
         {
-            infoField14 = &work->field_34_primitiveBufferInfo->field_14_array[ancField1Anded - 1];
+            infoField14 = &work->primitiveBufferInfo->field_14_array[ancField1Anded - 1];
             infoField14Field0 = infoField14->field_0;
-            frameCountMod = work->field_2C_frameCount % infoField14Field0;
+            frameCountMod = work->frameCount % infoField14Field0;
             infoField14Field1 = infoField14->field_1;
             if (frameCountMod < infoField14Field1)
             {
@@ -428,24 +514,26 @@ STATIC void sight_act_800714EC(SightWork *work)
         }
     }
 
-    if (work->field_2C_frameCount < 0x7fff0000 && GV_PauseLevel == 0)
+    if (work->frameCount < 0x7fff0000 && GV_PauseLevel == 0)
     {
-        work->field_2C_frameCount++;
+        work->frameCount++;
     }
 
     menu_Text_Init_80038B98();
 }
 
-STATIC void sight_kill_800719C8(SightWork *work)
+/*---------------------------------------------------------------------------*/
+
+STATIC void sight_Die(Work *work)
 {
-    if (*work->field_38_primitiveDoubleBuffer)
+    if (*work->primitiveDoubleBuffer)
     {
-        GV_DelayedFree(*work->field_38_primitiveDoubleBuffer);
+        GV_DelayedFree(*work->primitiveDoubleBuffer);
     }
 
-    if (*work->field_44_tPageDoubleBuffer)
+    if (*work->tPageDoubleBuffer)
     {
-        GV_DelayedFree(*work->field_44_tPageDoubleBuffer);
+        GV_DelayedFree(*work->tPageDoubleBuffer);
     }
 
     if ((0 < dword_8009F600) && (--dword_8009F600 == 0))
@@ -456,7 +544,9 @@ STATIC void sight_kill_800719C8(SightWork *work)
     dword_8009F608 &= ~1;
 }
 
-STATIC int sight_loader_80071A54(SightWork *work, int hashedFileName, short *itemEquippedIndicator, short itemId,
+/*---------------------------------------------------------------------------*/
+
+STATIC int sight_GetResources(Work *work, int hashedFileName, short *itemEquippedIndicator, short itemId,
                           short *xyOffsetBuffer)
 {
     // Primitive buffer info.
@@ -495,21 +585,21 @@ STATIC int sight_loader_80071A54(SightWork *work, int hashedFileName, short *ite
     flags = work->field_54_maybeFlags;
     cacheId = GV_CacheID(hashedFileName, 's');
     info = (SightPrimitiveBufferInfo *)GV_GetCache(cacheId);
-    work->field_34_primitiveBufferInfo = info;
+    work->primitiveBufferInfo = info;
 
     if (!info)
     {
         return -1;
     }
 
-    ancillaryInfo = info->field_4_ancillaryInfo;
-    primitiveBufferSize = info->field_0_primitiveBufferSize;
-    primCount = info->field_3_primCount;
-    primOffsetIndices = info->field_C_primOffsetIndicesArray;
+    ancillaryInfo = info->ancillaryInfo;
+    primitiveBufferSize = info->primitiveBufferSize;
+    primCount = info->primCount;
+    primOffsetIndices = info->primOffsetIndicesArray;
     tPageCount = 0;
-    primOffsetInfo = info->field_10_primOffsetInfoArray;
+    primOffsetInfo = info->primOffsetInfoArray;
     primitiveBuffer = (unsigned int *)GV_Malloc(primitiveBufferSize * 2);
-    work->field_38_primitiveDoubleBuffer[0] = primitiveBuffer;
+    work->primitiveDoubleBuffer[0] = primitiveBuffer;
 
     if (!primitiveBuffer)
     {
@@ -517,8 +607,8 @@ STATIC int sight_loader_80071A54(SightWork *work, int hashedFileName, short *ite
     }
     else
     {
-        work->field_38_primitiveDoubleBuffer[1] = (unsigned int *)(((char *)primitiveBuffer) + primitiveBufferSize);
-        originBuffer = work->field_34_primitiveBufferInfo->field_8_primitiveBuffer;
+        work->primitiveDoubleBuffer[1] = (unsigned int *)(((char *)primitiveBuffer) + primitiveBufferSize);
+        originBuffer = work->primitiveBufferInfo->primitiveBuffer;
         targetBuffer = primitiveBuffer;
         firstPrimitiveBuffer = targetBuffer;
         firstPrimitiveBufferCopy = firstPrimitiveBuffer;
@@ -529,7 +619,7 @@ STATIC int sight_loader_80071A54(SightWork *work, int hashedFileName, short *ite
 
         while (--primCount >= 0)
         {
-            primOffset = ancillaryInfo->field_2_primOffset;
+            primOffset = ancillaryInfo->primOffset;
             currentPrimitive = (unsigned int *)(((char *)firstPrimitiveBufferCopy) + primOffset);
             tag = *currentPrimitive;
 
@@ -540,13 +630,13 @@ STATIC int sight_loader_80071A54(SightWork *work, int hashedFileName, short *ite
 
             if ((flags & 2) == 0)
             {
-                offsetIndicesIndex = ancillaryInfo->field_0_offsetIndicesIndex;
+                offsetIndicesIndex = ancillaryInfo->offsetIndicesIndex;
 
                 if (offsetIndicesIndex != 0)
                 {
                     // Handle the animation of the HUD when transitioning into the scope view or the box or gas mask's
                     // first-person view.
-                    sight_800711C0(work, -1, currentPrimitive, ancillaryInfo->field_0_offsetIndicesIndex,
+                    sight_800711C0(work, -1, currentPrimitive, ancillaryInfo->offsetIndicesIndex,
                                    primOffsetIndices, primOffsetInfo, 0, 0);
                 }
             }
@@ -570,22 +660,22 @@ STATIC int sight_loader_80071A54(SightWork *work, int hashedFileName, short *ite
 
         if ((flags & 2) != 0)
         {
-            work->field_2C_frameCount = (work->field_34_primitiveBufferInfo->field_2) + 2;
+            work->frameCount = (work->primitiveBufferInfo->field_2) + 2;
         }
 
         else
         {
-            work->field_2C_frameCount = 0;
+            work->frameCount = 0;
         }
 
         work->field_30 = (flags >> 1) & 1;
-        work->field_20_itemId = itemId ^ 0;
-        work->field_24_itemEquippedIndicator = itemEquippedIndicator;
+        work->itemId = itemId ^ 0;
+        work->itemEquippedIndicator = itemEquippedIndicator;
 
         if (tPageCount == 0)
         {
-            work->field_44_tPageDoubleBuffer[0] = (DR_TPAGE *)0x0;
-            work->field_44_tPageDoubleBuffer[1] = (DR_TPAGE *)0x0;
+            work->tPageDoubleBuffer[0] = (DR_TPAGE *)0x0;
+            work->tPageDoubleBuffer[1] = (DR_TPAGE *)0x0;
         }
 
         else
@@ -597,68 +687,71 @@ STATIC int sight_loader_80071A54(SightWork *work, int hashedFileName, short *ite
                 return -1;
             }
 
-            work->field_44_tPageDoubleBuffer[0] = tPageMem;
-            work->field_44_tPageDoubleBuffer[1] = tPageMem + tPageCount;
+            work->tPageDoubleBuffer[0] = tPageMem;
+            work->tPageDoubleBuffer[1] = tPageMem + tPageCount;
         }
 
         work->field_40 = tPageCount;
-        work->field_4C_xyOffsetBuffer = xyOffsetBuffer;
+        work->xyOffsetBuffer = xyOffsetBuffer;
         work->field_50 = 0;
         work->field_54_maybeFlags = 0;
-        work->field_58_clock = GV_Clock;
+        work->clock = GV_Clock;
         work->field_5A_maybeFlags = 0;
         return 0;
     }
 }
 
-SightWork *NewSight_80071CDC(int hashedFileName0, int hashedFileName1, short *itemEquippedIndicator, short itemId,
-                             short *xyOffsetBuffer)
+/*---------------------------------------------------------------------------*/
+
+void *NewSight(int hashedFileName0, int hashedFileName1,
+               short *itemEquippedIndicator, short itemId,
+               short *xyOffsetBuffer)
 {
-    SightWork *work = (SightWork *)NULL;
+    Work *work = (Work *)NULL;
 
     if (dword_8009F604 != -1 && dword_8009F604 != hashedFileName1)
     {
-        return work;
+        return (void *)work;
     }
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(SightWork));
-    if (work)
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    if (work != NULL)
     {
-        GV_SetNamedActor((GV_ACT *)work, sight_act_800714EC, sight_kill_800719C8, "sight.c");
+        GV_SetNamedActor((GV_ACT *)work, sight_Act, sight_Die, "sight.c");
         work->field_54_maybeFlags = 0;
 
-        if (sight_loader_80071A54(work, hashedFileName0, itemEquippedIndicator, itemId, xyOffsetBuffer) < 0)
+        if (sight_GetResources(work, hashedFileName0, itemEquippedIndicator, itemId, xyOffsetBuffer) < 0)
         {
             GV_DestroyActor((GV_ACT *)work);
-            return 0;
+            return NULL;
         }
 
         dword_8009F600++;
         dword_8009F604 = hashedFileName1;
     }
 
-    return work;
+    return (void *)work;
 }
 
-SightWork *sight_init_80071DC8(int hashedFileName, short *xyOffsetBuffer)
+void *sight_init_80071DC8(int hashedFileName, short *xyOffsetBuffer)
 {
-    SightWork *work = (SightWork *)NULL;
+    Work *work = (Work *)NULL;
 
     if (dword_8009F604 != -1 && dword_8009F604 != hashedFileName)
     {
-        return work;
+        return (void *)work;
     }
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(SightWork));
-    if (work)
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    if (work != NULL)
     {
-        GV_SetNamedActor((GV_ACT *)work, sight_act_800714EC, sight_kill_800719C8, "sight.c");
+        GV_SetNamedActor((GV_ACT *)work, sight_Act, sight_Die, "sight.c");
         work->field_54_maybeFlags = 0;
 
-        if (sight_loader_80071A54(work, hashedFileName, &word_8009F5FC, 1, xyOffsetBuffer) < 0)
+        if (sight_GetResources(work, hashedFileName, &word_8009F5FC, 1, xyOffsetBuffer) < 0)
         {
             GV_DestroyActor((GV_ACT *)work);
-            return 0;
+            return NULL;
         }
 
         dword_8009F600++;
@@ -666,69 +759,72 @@ SightWork *sight_init_80071DC8(int hashedFileName, short *xyOffsetBuffer)
         word_8009F5FC = 1;
     }
 
-    return work;
+    return (void *)work;
 }
 
-SightWork *sight_init_80071EA8(int hashedFileName0, int hashedFileName1, short *itemEquippedIndicator, short itemId,
-                               short *xyOffsetBuffer)
+void *NewSightFast(int hashedFileName0, int hashedFileName1,
+                   short *itemEquippedIndicator, short itemId,
+                   short *xyOffsetBuffer)
 {
-    SightWork *work = (SightWork *)NULL;
+    Work *work = (Work *)NULL;
 
     if (dword_8009F604 != -1 && dword_8009F604 != hashedFileName1)
     {
-        return work;
+        return (void *)work;
     }
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(SightWork));
-    if (work)
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    if (work != NULL)
     {
-        GV_SetNamedActor((GV_ACT *)work, sight_act_800714EC, sight_kill_800719C8, "sight.c");
+        GV_SetNamedActor((GV_ACT *)work, sight_Act, sight_Die, "sight.c");
         work->field_54_maybeFlags = 2;
 
-        if (sight_loader_80071A54(work, hashedFileName0, itemEquippedIndicator, itemId, xyOffsetBuffer) < 0)
+        if (sight_GetResources(work, hashedFileName0, itemEquippedIndicator, itemId, xyOffsetBuffer) < 0)
         {
             GV_DestroyActor((GV_ACT *)work);
-            return 0;
+            return NULL;
         }
 
         dword_8009F600++;
         dword_8009F604 = hashedFileName1;
     }
 
-    return work;
+    return (void *)work;
 }
 
-SightWork *sight_init_80071F98(int hashedFileName, short *xyOffsetBuffer)
+void *sight_init_80071F98(int hashedFileName, short *xyOffsetBuffer)
 {
-    SightWork *work = (SightWork *)NULL;
+    Work *work = (Work *)NULL;
 
     if (dword_8009F604 != -1 && dword_8009F604 != hashedFileName)
     {
-        return work;
+        return (void *)work;
     }
 
     dword_8009F600++;
     dword_8009F604 = hashedFileName;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(SightWork));
-    if (work)
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    if (work != NULL)
     {
-        GV_SetNamedActor((GV_ACT *)work, sight_act_800714EC, sight_kill_800719C8, "sight.c");
+        GV_SetNamedActor((GV_ACT *)work, sight_Act, sight_Die, "sight.c");
         work->field_54_maybeFlags = 2;
 
-        if (sight_loader_80071A54(work, hashedFileName, &word_8009F5FC, 1, xyOffsetBuffer) < 0)
+        if (sight_GetResources(work, hashedFileName, &word_8009F5FC, 1, xyOffsetBuffer) < 0)
         {
             GV_DestroyActor((GV_ACT *)work);
-            return 0;
+            return NULL;
         }
 
         word_8009F5FC = 1;
     }
 
-    return work;
+    return (void *)work;
 }
 
-void sub_80072074()
+/*---------------------------------------------------------------------------*/
+
+void sub_80072074(void)
 {
     word_8009F5FC = 0;
 }

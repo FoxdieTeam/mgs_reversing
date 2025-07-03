@@ -139,13 +139,13 @@ static void Act( Work *work )
     }
     snake_pos = GM_PlayerControl->mov ;
 
-    if ( GM_PlayerStatus & 2 )
+    if ( GM_PlayerStatus & PLAYER_INTRUDE )
     {
         snake_pos = gUnkCameraStruct_800B77B8.eye;
     }
     else
     {
-        if ( GM_PlayerStatus & 0x40 )
+        if ( GM_PlayerStatus & PLAYER_GROUND )
         {
             snake_pos.vy += 0x140;
         }
@@ -190,7 +190,7 @@ static void Act( Work *work )
             GM_SeSet2( 0, 0x3F, 0xB2 );
             ExecProc( work->proc_id, 0xF6D8 );
             work->field_4C = 1;
-            if ( !(GM_PlayerStatus & 2) )
+            if ( !(GM_PlayerStatus & PLAYER_INTRUDE) )
             {
                 DG_FrameRate = 3;
             }

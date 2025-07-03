@@ -5,9 +5,9 @@
 #include "game/control.h"   // for CONTROL
 
 void *NewBandana( CONTROL *control, OBJECT *parent, int num_parent );
-void *NewBodyarm( CONTROL *control, OBJECT *parent, int num_parent );
+void *NewBodyArmor( CONTROL *control, OBJECT *parent, int num_parent );
 void *NewBox( CONTROL *control, OBJECT *parent, int num_parent );
-void *NewGasmask( CONTROL *control, OBJECT *parent, int num_parent );
+void *NewGasMask( CONTROL *control, OBJECT *parent, int num_parent );
 void *NewKogaku2( CONTROL *control, OBJECT *object, int num_parent );
 void *NewKogaku3( CONTROL *control, OBJECT *object, int num_parent );
 void *NewScope( CONTROL *control, OBJECT *parent, int num_parent );

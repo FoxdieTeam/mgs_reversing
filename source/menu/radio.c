@@ -1499,7 +1499,7 @@ STATIC void menu_radio_update_80042198(MenuWork *work, unsigned char *pOt)
 
     state = work->field_2A_state;
     pPad = work->field_24_pInput;
-    if (GM_PlayerStatus & 0x8000)
+    if (GM_PlayerStatus & PLAYER_MENU_DISABLE)
     {
         return;
     }

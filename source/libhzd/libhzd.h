@@ -91,7 +91,7 @@ HZD_TRP *HZD_CheckBehindTrap(HZD_HDL *hzd, SVECTOR *svec);
 int  HZD_LevelTestHazard(HZD_HDL *hzd, SVECTOR *point, int flags);
 void HZD_LevelMinMaxFloors(HZD_FLR **floors);
 void HZD_LevelMinMaxHeights(int *levels);
-int  HZD_LevelFloorHeight(SVECTOR *point, HZD_FLR *floor);
+int  HZD_SlopeFloorLevel(SVECTOR *point, HZD_FLR *floor);
 int  HZD_LevelTestFloor(HZD_FLR *floor, SVECTOR *point);
 int  HZD_LevelMaxHeight(void);
 

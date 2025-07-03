@@ -17,7 +17,6 @@
 #include "memcard/memcard.h"
 #include "thing/sight.h"
 #include "sd/g_sound.h"
-#include "strcode.h"
 
 extern int                 DG_CurrentGroupID;
 extern GM_Camera           GM_Camera_800B77E8;
@@ -37,7 +36,12 @@ extern char memoryCardFileName[]; // = "BISLPM-99999        ";
 
 /*---------------------------------------------------------------------------*/
 
-typedef struct JpegcamWork
+#define EXEC_LEVEL GV_ACTOR_MANAGER
+
+#define CAMERA_SIGHT    0xeee9  // GV_StrCode("camera")
+#define CAMERA_SIGHT2   0xb3cd  // GV_StrCode("camera_2")
+
+typedef struct _Work
 {
     GV_ACT         actor;
     CONTROL       *control;
@@ -59,12 +63,10 @@ typedef struct JpegcamWork
     char          *field_84;
     char          *field_88;
     int            field_8C_size;
-    SightWork     *field_90_pSight;
+    void          *field_90_pSight;
     int            field_94_bMakeVisible;
     int            field_98;
-} JpegcamWork;
-
-#define EXEC_LEVEL GV_ACTOR_MANAGER
+} Work;
 
 /*---------------------------------------------------------------------------*/
 
@@ -180,7 +182,7 @@ STATIC void jpegcam_unk3_800638B4(int *arg0)
  * JPEG encoding functions
  */
 
-STATIC void JpegInitMatrix(JpegcamWork *work)
+STATIC void JpegInitMatrix(Work *work)
 {
     // Copy matrix gJpegcamMatrix1_8009F36C transposed to gJpegcamMatrix2_800BDCD8
 
@@ -279,7 +281,7 @@ STATIC void JpegDownsampleChroma420(char *pInU, char *pInV, char *pOutU, char *p
     }
 }
 
-STATIC void JpegApplyDCT(JpegcamWork *work, char *pIn, int *pOut)
+STATIC void JpegApplyDCT(Work *work, char *pIn, int *pOut)
 {
     int      *field_84;
     int      *field_84_ptr;
@@ -347,7 +349,7 @@ STATIC void JpegQuantizeZigzagMatrix(int *pIn, int *pOut, int q_scale)
     }
 }
 
-STATIC int JpegRLEStream(JpegcamWork *work, int *pData, int q_scale)
+STATIC int JpegRLEStream(Work *work, int *pData, int q_scale)
 {
     int count;
     int i;
@@ -413,7 +415,7 @@ STATIC int JpegRLEStream(JpegcamWork *work, int *pData, int q_scale)
     do { return end + 1; } while (0);
 }
 
-STATIC int JpegCompressMacroblock(JpegcamWork *work, char *pStream, int q_scale)
+STATIC int JpegCompressMacroblock(Work *work, char *pStream, int q_scale)
 {
     char *pY1;
     char *pY2;
@@ -468,7 +470,7 @@ STATIC int JpegCompressMacroblock(JpegcamWork *work, char *pStream, int q_scale)
 
 #define ROUND(x, a) ((((x) / (a)) + 1) * (a)) /* Round up `x` to next multiple of `a` */
 
-STATIC int JpegCompressFrame(JpegcamWork *work, RECT *pRect, int q_scale)
+STATIC int JpegCompressFrame(Work *work, RECT *pRect, int q_scale)
 {
     RECT rect;
     int processed;
@@ -519,7 +521,7 @@ STATIC int JpegCompressFrame(JpegcamWork *work, RECT *pRect, int q_scale)
     return processed * 2;
 }
 
-STATIC void JpegTryCompressFrame(JpegcamWork *work)
+STATIC void JpegTryCompressFrame(Work *work)
 {
     int q_scale;
     int iteration;
@@ -557,7 +559,7 @@ STATIC void JpegTryCompressFrame(JpegcamWork *work)
  * camera item logic
  */
 
-STATIC int JpegcamGetZoomLimit(JpegcamWork *work)
+STATIC int JpegcamGetZoomLimit(Work *work)
 {
     MATRIX  world;
     SVECTOR vector1;
@@ -596,7 +598,7 @@ STATIC int JpegcamGetZoomLimit(JpegcamWork *work)
     return retval;
 }
 
-STATIC void JpegcamProcessInput(JpegcamWork *work)
+STATIC void JpegcamProcessInput(Work *work)
 {
     SVECTOR vec;
     u_short status;
@@ -815,7 +817,7 @@ STATIC void JpegcamProcessInput(JpegcamWork *work)
 
             if (work->field_90_pSight)
             {
-                GV_DestroyActor(&work->field_90_pSight->actor);
+                GV_DestroyActor(work->field_90_pSight);
             }
         }
         else
@@ -830,7 +832,7 @@ STATIC void JpegcamProcessInput(JpegcamWork *work)
 /**
  * Check if the player is standing in a ghost photo spot.
  */
-STATIC int JpegcamCheckShinreiSpot(JpegcamWork *work)
+STATIC int JpegcamCheckShinreiSpot(Work *work)
 {
     int retval;
 
@@ -853,7 +855,7 @@ STATIC int JpegcamCheckShinreiSpot(JpegcamWork *work)
     return retval;
 }
 
-STATIC void JpegcamTakePhoto(JpegcamWork *work)
+STATIC void JpegcamTakePhoto(Work *work)
 {
     int state = work->state;
 
@@ -913,7 +915,7 @@ STATIC void JpegcamTakePhoto(JpegcamWork *work)
         GV_PauseLevel &= ~1;
         DG_RestartMainChanlSystem();
         work->state = 0;
-        work->field_90_pSight = NewSight_80071CDC(SGT_CAMERA_2, SGT_CAMERA, &GM_CurrentItemId, 12, 0);
+        work->field_90_pSight = NewSight(CAMERA_SIGHT2, CAMERA_SIGHT, &GM_CurrentItemId, 12, 0);
     }
 }
 
@@ -921,7 +923,7 @@ STATIC void JpegcamTakePhoto(JpegcamWork *work)
  * standard actor functions
  */
 
-STATIC void JpegcamAct(JpegcamWork *work)
+STATIC void JpegcamAct(Work *work)
 {
     OBJECT         *parent;
     OBJECT_NO_ROTS *object;
@@ -1002,10 +1004,10 @@ STATIC void JpegcamAct(JpegcamWork *work)
 
         JpegcamProcessInput(work);
 
-        if (dword_8009F604 != SGT_CAMERA)
+        if (dword_8009F604 != CAMERA_SIGHT)
         {
-            NewSight_80071CDC(SGT_CAMERA, SGT_CAMERA, &GM_CurrentItemId, 12, 0);
-            work->field_90_pSight = NewSight_80071CDC(SGT_CAMERA_2, SGT_CAMERA, &GM_CurrentItemId, 12, 0);
+            NewSight(CAMERA_SIGHT, CAMERA_SIGHT, &GM_CurrentItemId, 12, 0);
+            work->field_90_pSight = NewSight(CAMERA_SIGHT2, CAMERA_SIGHT, &GM_CurrentItemId, 12, 0);
             GM_SeSet2(0, 63, SE_ITEM_OPENWINDOW);
         }
 
@@ -1035,7 +1037,7 @@ STATIC void JpegcamAct(JpegcamWork *work)
     GM_PlayerControl->turn = work->field_5C_ang;
 }
 
-STATIC void JpegcamDie(JpegcamWork *work)
+STATIC void JpegcamDie(Work *work)
 {
     GM_Camera_800B77E8.zoom = 320;
     gUnkCameraStruct_800B77B8.rotate2 = work->field_54_vec;
@@ -1050,7 +1052,7 @@ STATIC void JpegcamDie(JpegcamWork *work)
     }
 }
 
-STATIC int JpegcamGetResources(JpegcamWork *work, CONTROL *control, OBJECT *parent)
+STATIC int JpegcamGetResources(Work *work, CONTROL *control, OBJECT *parent)
 {
     work->parent = parent;
     work->pad_data = &GV_PadData_800B05C0[2];
@@ -1071,9 +1073,9 @@ STATIC int JpegcamGetResources(JpegcamWork *work, CONTROL *control, OBJECT *pare
 
 void *NewJpegcam(CONTROL *control, OBJECT *parent, int num_parent)
 {
-    JpegcamWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(JpegcamWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, JpegcamAct, JpegcamDie, "jpegcam.c");

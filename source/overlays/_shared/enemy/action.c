@@ -506,7 +506,7 @@ void ActGrenade_800C67EC( WatcherWork *work, int time )
         work->subweapon = NewGrenadeEnemy_800D2138( &(work->control), &(work->body), 9,
                                                     &(work->trigger), &GM_PlayerPosition, ENEMY_SIDE ) ;
 
-        if ( GM_PlayerStatus & 2 )
+        if ( GM_PlayerStatus & PLAYER_INTRUDE )
         {
             SetAction( work, GRENADE, ACTINTERP );
         }
@@ -1583,7 +1583,7 @@ void s00a_command_800C8A6C( WatcherWork *work, int time )
             AN_Sleep( &mov );
             GM_SeSet( &work->control.mov, 0x93 );
 
-            if ( work->sn_dis < 1000 && ( GM_PlayerStatus & 1 ) )
+            if ( work->sn_dis < 1000 && ( GM_PlayerStatus & PLAYER_WATCH ) )
             {
                 int res = GV_RandU( 12 );
                 if ( res > 10 )

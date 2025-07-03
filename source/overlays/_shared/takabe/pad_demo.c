@@ -8,6 +8,11 @@
 #include "mts/mts.h"
 #include "mts/mts_pad.h"
 
+extern void MENU_ResetItemPos(void);
+extern void MENU_ResetWeaponPos(void);
+
+/*---------------------------------------------------------------------------*/
+
 typedef struct _PadDemoWork
 {
     GV_ACT          actor;
@@ -23,12 +28,6 @@ typedef struct _PadDemoWork
     int             proc;
     int             f44;
 } PadDemoWork;
-
-// Something to do with setting current/last item to IT_None
-void sub_8003CC88(void);
-
-// Something to do with setting current/last weapon to WP_None
-void MENU_ResetWeaponPos(void);
 
 #define EXEC_LEVEL GV_ACTOR_MANAGER
 
@@ -183,7 +182,7 @@ int PadDemoGetResources_800DCE94(PadDemoWork *work, int name, int map)
         work->f34 = 1;
     }
 
-    sub_8003CC88();
+    MENU_ResetItemPos();
     MENU_ResetWeaponPos();
 
     if (GCL_GetOption('f'))

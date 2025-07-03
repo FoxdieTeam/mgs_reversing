@@ -280,7 +280,7 @@ void KeyOffStr(void)
     StrSpuTransClose();
 }
 
-void sub_800820EC(void)
+void KeyOffStr2(void)
 {
     switch (SpuGetKeyStatus(SPU_21CH | SPU_22CH))
     {
