@@ -103,7 +103,7 @@ void DG_SortChanl( DG_CHANL *chanl, int idx )
 
         while (--prim_count >= 0)
         {
-            index2 = *((ushort *)prim);
+            index2 = *((u_short *)prim);
 
             if (index2 > 0)
             {
