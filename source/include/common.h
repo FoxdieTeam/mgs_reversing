@@ -73,7 +73,7 @@ typedef int             BOOL;
 
 #define COLOR_BLACK     MAKE_RGB0(  0,  0,  0)
 #define COLOR_WHITE     MAKE_RGB0(255,255,255)
-#define COLOR_GRAY      MAKE_RGB0(127,127,127)
+#define COLOR_GRAY      MAKE_RGB0(128,128,128)
 #define COLOR_RED       MAKE_RGB0(255,  0,  0)
 #define COLOR_GREEN     MAKE_RGB0(  0,255,  0)
 #define COLOR_BLUE      MAKE_RGB0(  0,  0,255)
