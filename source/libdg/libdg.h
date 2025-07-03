@@ -386,6 +386,7 @@ enum DG_CHANL
 //#define WEAPON_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE |\
 //                    DG_FLAG_ONEPIECE) // 0x6d
 
+// TODO: these belong to takabe/paper.c
 #define RevisionDir( a )  a &= 4095
 #define INIT_VEC( vec,xx,yy,zz ) { (vec).vx = xx; (vec).vy = yy; (vec).vz = zz; }
 
