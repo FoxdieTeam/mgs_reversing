@@ -29,9 +29,9 @@ extern short            dword_800ABBD4;
 
 #define HUD_DISP_DELAY  16
 
-#define HUD_DARK_CYAN   (( 46) | ( 65 << 8) | ( 65 << 16))
-#define HUD_LIGHT_GREEN ((135) | (177 << 8) | (104 << 16))
-#define HUD_DARK_GREEN  (( 71) | (113 << 8) | ( 40 << 16))
+#define COLOR_DARK_CYAN     MAKE_RGB0( 46, 65, 65)
+#define COLOR_LIGHT_GREEN   MAKE_RGB0(135,177,104)
+#define COLOR_DARK_GREEN    MAKE_RGB0( 71,113, 40)
 
 typedef struct _Work
 {
@@ -702,7 +702,7 @@ STATIC void scope_InitSideLines(LINE_F2 *lines)
 
     for (i = 0; i < 16; i++)
     {
-        LSTORE(HUD_DARK_CYAN, &lines->r0);
+        LSTORE(COLOR_DARK_CYAN, &lines->r0);
         setLineF2(lines);
         setSemiTrans(lines, 1);
         lines++;
@@ -715,11 +715,11 @@ STATIC void scope_InitMovingRectangle(LINE_F4 *lines)
 
     for (i = 0; i < 2; i++)
     {
-        LSTORE(HUD_LIGHT_GREEN, &lines->r0); // Top, right and bottom borders.
+        LSTORE(COLOR_LIGHT_GREEN, &lines->r0); // Top, right and bottom borders.
         setLineF4(lines);
         lines++;
 
-        LSTORE(HUD_LIGHT_GREEN, &lines->r0); // Left border.
+        LSTORE(COLOR_LIGHT_GREEN, &lines->r0); // Left border.
         setLineF2(lines);
         lines++;
     }
@@ -739,7 +739,7 @@ STATIC void scope_InitMovingBarGraph(Work *work)
             line->x2 = 76 + j * 12;
             line->x1 = 76 + j * 12;
 
-            LSTORE(HUD_DARK_GREEN, &line->r0);
+            LSTORE(COLOR_DARK_GREEN, &line->r0);
 
             setLineF3(line);
             setSemiTrans(line, 1);
@@ -756,7 +756,7 @@ STATIC void scope_InitZoomLevelLine(LINE_F3 *pZoomLevelLine)
 
     for (i = 0; i < 2; i++)
     {
-        LSTORE(HUD_DARK_GREEN, &pZoomLevelLine->r0);
+        LSTORE(COLOR_DARK_GREEN, &pZoomLevelLine->r0);
         setLineF3(pZoomLevelLine);
         pZoomLevelLine->x0 = pZoomLevelLine->x1 = pZoomLevelLine->x2 = 48;
         pZoomLevelLine->y0 = pZoomLevelLine->y1 = 46;

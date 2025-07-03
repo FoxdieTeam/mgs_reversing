@@ -58,12 +58,14 @@ extern TARGET          *target_800BDF00;
 
 #define STINGER_SIGHT   GV_StrCode("stinger")
 
-#define HUD_DARK_CYAN_R 46
-#define HUD_DARK_CYAN_G 65
-#define HUD_DARK_CYAN_B 65
+#define COLOR_DARK_CYAN     MAKE_RGB0( 46, 65, 65)
+#define COLOR_BRIGHT_RED    MAKE_RGB0(246, 61, 41)
+#define COLOR_LIGHT_GREEN   MAKE_RGB0(135,177,104)
+#define COLOR_STONE_GRAY    MAKE_RGB0(114,121,127)
 
-#define HUD_DARK_CYAN   (( 46) | ( 65 << 8) | ( 65 << 16))
-#define HUD_BRIGHT_RED  ((246) | ( 61 << 8) | ( 41 << 16))
+#define COLOR_DARK_CYAN_R   GET_R_FROM_RGBA( COLOR_DARK_CYAN )
+#define COLOR_DARK_CYAN_G   GET_B_FROM_RGBA( COLOR_DARK_CYAN )
+#define COLOR_DARK_CYAN_B   GET_G_FROM_RGBA( COLOR_DARK_CYAN )
 
 typedef struct _Work
 {
@@ -117,7 +119,7 @@ STATIC void stnsight_act_helper_8006837C( Work *work )
         return;
     }
 
-    MENU_Color(HUD_DARK_CYAN_R, HUD_DARK_CYAN_G, HUD_DARK_CYAN_B);
+    MENU_Color(COLOR_DARK_CYAN_R, COLOR_DARK_CYAN_G, COLOR_DARK_CYAN_B);
     MENU_Locate(180, 16, 0);
     MENU_Printf("LOCK_ON\n");
     menu_Text_Init_80038B98();
@@ -191,7 +193,7 @@ STATIC void stnsight_act_helper_80068420( Work *work, u_long *ot )
     tiles = work->field_48_tiles_2Array[GV_Clock];
     deltay = work->delay;
 
-    MENU_Color(0x68, 0x6f, 0x74);
+    MENU_Color(104, 111, 116);
 
     for (; v6 < 210; v6 += 16, v7 -= 5)
     {
@@ -339,7 +341,7 @@ STATIC void SetMissileRect( Work *work, u_long *ot )
         addPrimEX( ot, lines );
 
         MENU_Locate(sx + 0x8d, sy + 0x7f, 0);
-        MENU_Color(0x1d, 0x29, 0x29);
+        MENU_Color(29, 41, 41);
 
         if ((GM_PlayerStatus & PLAYER_NOT_SIGHT) == 0)
         {
@@ -418,8 +420,8 @@ STATIC void stnsight_Act( Work *work )
 
     if (work->field_84_4Array[3] == 0)
     {
-        local_20[0] = HUD_DARK_CYAN;
-        local_20[1] = HUD_BRIGHT_RED;
+        local_20[0] = COLOR_DARK_CYAN;
+        local_20[1] = COLOR_BRIGHT_RED;
         // todo: fix data.
         work->field_84_4Array[3] = (int)NewSgtRect3(&word_800AB8EC, 1, local_20, 1);
     }
@@ -528,7 +530,7 @@ STATIC int stnsight_init_helper_helper_80068F74( Work *work )
 
     for (count = 0; count < 14; count++)
     {
-        *(int *)&lines->r0 = HUD_DARK_CYAN;
+        *(int *)&lines->r0 = COLOR_DARK_CYAN;
         lines->x3 = 18;
         lines->x0 = 18;
         lines->x2 = 41;
@@ -536,7 +538,7 @@ STATIC int stnsight_init_helper_helper_80068F74( Work *work )
         setLineF4(lines);
         lines++;
 
-        *(int *)&lines->r0 = HUD_DARK_CYAN;
+        *(int *)&lines->r0 = COLOR_DARK_CYAN;
         lines->x1 = 18;
         lines->x0 = 18;
         setLineF2(lines);
@@ -545,7 +547,7 @@ STATIC int stnsight_init_helper_helper_80068F74( Work *work )
 
     for (count = 0; count < 28; count++)
     {
-        *(int *)&lines->r0 = HUD_DARK_CYAN;
+        *(int *)&lines->r0 = COLOR_DARK_CYAN;
         lines->x2 = 42;
         lines->x1 = 42;
         lines->x0 = 42;
@@ -558,7 +560,7 @@ STATIC int stnsight_init_helper_helper_80068F74( Work *work )
 
     for (count = 0; count < 14; count++)
     {
-        *(int *)&tiles->r0 = 0x68b187;
+        *(int *)&tiles->r0 = COLOR_LIGHT_GREEN;
         tiles->x0 = 47;
         setTile1(tiles);
         tiles++;
@@ -583,7 +585,7 @@ STATIC int stnsight_init_helper_helper_80069100( Work *work )
 
     for (count = 0; count < 4; count++)
     {
-        *(int *)&lines->r0 = HUD_DARK_CYAN;
+        *(int *)&lines->r0 = COLOR_DARK_CYAN;
         setLineF4(lines);
         lines++;
     }
@@ -607,15 +609,15 @@ STATIC int stnsight_init_helper_helper_80069184( Work *work )
 
     for (count = 0; count < 2; count++)
     {
-        *(int *)&lines->r0 = 0x7f7972;
+        *(int *)&lines->r0 = COLOR_STONE_GRAY;
         setLineF4(lines);
         lines++;
 
-        *(int *)&lines->r0 = 0x7f7972;
+        *(int *)&lines->r0 = COLOR_STONE_GRAY;
         setLineF2(lines);
         lines++;
 
-        *(int *)&lines->r0 = 0x7f7972;
+        *(int *)&lines->r0 = COLOR_STONE_GRAY;
         setLineF4(lines);
         lines++;
     }
@@ -639,10 +641,10 @@ STATIC int stnsight_init_helper_helper_80069234( Work *work )
 
     for (count = 0; count < 64; count++)
     {
-        *(int *)&polys->r0 = HUD_DARK_CYAN;
-        *(int *)&polys->r1 = HUD_DARK_CYAN;
-        *(int *)&polys->r2 = HUD_DARK_CYAN;
-        *(int *)&polys->r3 = HUD_DARK_CYAN;
+        *(int *)&polys->r0 = COLOR_DARK_CYAN;
+        *(int *)&polys->r1 = COLOR_DARK_CYAN;
+        *(int *)&polys->r2 = COLOR_DARK_CYAN;
+        *(int *)&polys->r3 = COLOR_DARK_CYAN;
         setPolyG4(polys);
         setSemiTrans(polys, 1);
         polys->y1 = 20;
