@@ -55,6 +55,7 @@ ActorList BSS       gActorsList_800ACC18[GV_ACTOR_LEVEL]; // 0x264 (612) bytes
 
 gap                                     gap_800ACE7C[0x4]; // 4 bytes
 
+/* libgv/cache.obj */
 GV_LOADFUNC BSS     gFileExtHandlers_800ACE80[MAX_FILE_HANDLERS]; // 0x68 (104) bytes
 
 gap                                     gap_800ACEE8[0x8]; // 8 bytes
@@ -92,6 +93,8 @@ gap                                     gap_800B3794[0x4]; // 4 bytes
 
 unsigned char BSS   pcxBuffer_800B3798[128]; // 0x80 (128) bytes
 u_long BSS          DG_PaletteBuffer_800B3818[256]; // 0x400 (1024) bytes
+
+/* libgcl.lib */
 GCL_SCRIPT BSS      current_script_800B3C18; // 0xC (12) bytes
 
 gap                                     gap_800B3C24[0x4]; // 4 bytes
@@ -103,6 +106,8 @@ short BSS           sv_linkvarbuf_800B44C8[0x60]; // 0xC0 (192) bytes
 GCL_Vars BSS        gGcl_memVars_800b4588; // 0x800 (2048) bytes
 char BSS            gStageName_800B4D88[16]; // 0x10 (16) bytes
 short BSS           linkvarbuf_800B4D98[0x60]; // 0xC0 (192) bytes
+
+/* cdbios.obj */
 CDBIOS_TASK BSS     cd_bios_task_800B4E58; // 0x24 (36) bytes
 
 gap                                     gap_800B4E7C[0xC]; // 12 bytes
@@ -144,6 +149,7 @@ volatile long BSS   gMemCard_io_size_800B5648; // 0x4 (4) bytes
 
 gap                                     gap_800B564C[0x4]; // 4 bytes
 
+/* game/control.obj */
 CONTROL BSS         gDefaultControl_800B5650; // 0x7C (124) bytes
 
 gap                                     gap_800B56CC[0x4]; // 4 bytes
