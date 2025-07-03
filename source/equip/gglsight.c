@@ -34,13 +34,8 @@ extern int    dword_8009F604;
 #define HUD_DISP_DELAY      6
 #define HUD_MOVE_DELAY      10
 
-#define NV_HUD_COLOR_R      255
-#define NV_HUD_COLOR_G      0
-#define NV_HUD_COLOR_B      0
-
-#define IR_HUD_COLOR_R      65
-#define IR_HUD_COLOR_G      160
-#define IR_HUD_COLOR_B      74
+#define NV_HUD_COLOR        COLOR_RED
+#define IR_HUD_COLOR        MAKE_RGB0(65,160,74)
 
 typedef struct _Work
 {
@@ -93,15 +88,15 @@ STATIC void gglsight_DrawHudNumbers(Work *work)
 
     if (work->type == IT_NVG)
     {
-        r = NV_HUD_COLOR_R;
-        g = NV_HUD_COLOR_G;
-        b = NV_HUD_COLOR_B;
+        r = GET_R_FROM_RGBA(NV_HUD_COLOR);
+        g = GET_G_FROM_RGBA(NV_HUD_COLOR);
+        b = GET_B_FROM_RGBA(NV_HUD_COLOR);
     }
     else // thermal goggles
     {
-        r = IR_HUD_COLOR_R;
-        g = IR_HUD_COLOR_G;
-        b = IR_HUD_COLOR_B;
+        r = GET_R_FROM_RGBA(IR_HUD_COLOR);
+        g = GET_G_FROM_RGBA(IR_HUD_COLOR);
+        b = GET_B_FROM_RGBA(IR_HUD_COLOR);
     }
 
     // set the color of the first person overlay menu
@@ -167,15 +162,15 @@ STATIC void gglsight_DrawHudVector(Work *work)
 
         if (work->type == IT_NVG)
         {
-            r = NV_HUD_COLOR_R;
-            g = NV_HUD_COLOR_G;
-            b = NV_HUD_COLOR_B;
+            r = GET_R_FROM_RGBA(NV_HUD_COLOR);
+            g = GET_G_FROM_RGBA(NV_HUD_COLOR);
+            b = GET_B_FROM_RGBA(NV_HUD_COLOR);
         }
         else
         {
-            r = IR_HUD_COLOR_R;
-            g = IR_HUD_COLOR_G;
-            b = IR_HUD_COLOR_B;
+            r = GET_R_FROM_RGBA(IR_HUD_COLOR);
+            g = GET_G_FROM_RGBA(IR_HUD_COLOR);
+            b = GET_B_FROM_RGBA(IR_HUD_COLOR);
         }
         MENU_Color(r, g, b);
         vy = GM_PlayerControl->rot.vy;
@@ -266,15 +261,15 @@ STATIC void gglsight_DrawHudText(Work *work)
         MENU_Locate(41, 42, 304);
         if (work->type == IT_NVG)
         {
-            r = NV_HUD_COLOR_R;
-            g = NV_HUD_COLOR_G;
-            b = NV_HUD_COLOR_B;
+            r = GET_R_FROM_RGBA(NV_HUD_COLOR);
+            g = GET_G_FROM_RGBA(NV_HUD_COLOR);
+            b = GET_B_FROM_RGBA(NV_HUD_COLOR);
         }
         else
         {
-            r = IR_HUD_COLOR_R;
-            g = IR_HUD_COLOR_G;
-            b = IR_HUD_COLOR_B;
+            r = GET_R_FROM_RGBA(IR_HUD_COLOR);
+            g = GET_G_FROM_RGBA(IR_HUD_COLOR);
+            b = GET_B_FROM_RGBA(IR_HUD_COLOR);
         }
         MENU_Color(r, g, b);
 
@@ -534,12 +529,12 @@ void *NewGoggleSight(int type)
         if (type == IT_NVG)
         {
             work->field_24 = NV_GOGGLE_ID;
-            work->color = (NV_HUD_COLOR_R | (NV_HUD_COLOR_G << 8) | (NV_HUD_COLOR_B << 16));
+            work->color = NV_HUD_COLOR;
         }
         else if (type == IT_ThermG)
         {
             work->field_24 = IR_GOGGLE_ID;
-            work->color = (IR_HUD_COLOR_R | (IR_HUD_COLOR_G << 8) | (IR_HUD_COLOR_B << 16));
+            work->color = IR_HUD_COLOR;
         }
         else
         {
