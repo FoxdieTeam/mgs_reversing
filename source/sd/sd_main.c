@@ -8,29 +8,29 @@
 #include "mts/taskid.h"
 #include "libfs/libfs.h"
 
-extern unsigned char *se_exp_table_800C0520;
+extern unsigned char *se_header;
 
 /* todo: should be declared static */
-extern char sd_main_stack_800BDFC8[SD_MAIN_STACK_SIZE];
-extern char sd_int_stack_800BE7C8[SD_INT_STACK_SIZE];
+extern char sd_main_stack[SD_MAIN_STACK_SIZE];
+extern char sd_int_stack[SD_INT_STACK_SIZE];
 
 void sound_main(int argc, const char *argv[])
 {
     int i;
 
-    sd_debug_mode_800BEFD4 = 0;
+    sd_debug_mode = 0;
     printf("SOUND_LAUNCH(argc:%d)\n", argc);
 
     for (i = 0; i < argc; ++i)
     {
         if (argv[i][0] == '-' && argv[i][1] == 'd')
         {
-            sd_debug_mode_800BEFD4 = 1;
+            sd_debug_mode = 1;
         }
         printf("ARG%d:[%s]\n", i, argv[i]);
     }
 
-    mts_start_task(MTSID_SOUND_MAIN, SdMain, STACK_BOTTOM(sd_main_stack_800BDFC8), SD_MAIN_STACK_SIZE);
+    mts_start_task(MTSID_SOUND_MAIN, SdMain, STACK_BOTTOM(sd_main_stack), SD_MAIN_STACK_SIZE);
 }
 
 void sub_80081A10(int *arg0, int arg1, int arg2)
@@ -40,32 +40,32 @@ void sub_80081A10(int *arg0, int arg1, int arg2)
 
 void SdMain(void)
 {
-    sd_task_status_800C0BFC = 0;
+    sd_task_status = 0;
     printf("Start Task:SdMain\n");
     sd_mem_alloc();
 
-    mts_start_task(MTSID_SOUND_INT, SdInt, STACK_BOTTOM(sd_int_stack_800BE7C8), SD_INT_STACK_SIZE);
+    mts_start_task(MTSID_SOUND_INT, SdInt, STACK_BOTTOM(sd_int_stack), SD_INT_STACK_SIZE);
     mts_slp_tsk();
 
-    sd_task_status_800C0BFC = 128;
+    sd_task_status = 128;
     while (1)
     {
         mts_slp_tsk();
-        if (sng_status_800BF158 == 1)
+        if (sng_status == 1)
         {
             if (LoadSngData())
             {
-                sng_status_800BF158 = 0;
+                sng_status = 0;
             }
             else
             {
-                sng_status_800BF158 = 2;
+                sng_status = 2;
             }
         }
 
-        if (str_fout_fg_800BF26C == 1)
+        if (str_fout_fg == 1)
         {
-            str_fout_fg_800BF26C = 2;
+            str_fout_fg = 2;
         }
 
         if (dword_800BEFCC)
@@ -74,16 +74,16 @@ void SdMain(void)
             dword_800BEFCC = 0;
         }
 
-        switch (str_status_800BF16C)
+        switch (str_status)
         {
         case 1:
             if (StartStream())
             {
-                str_status_800BF16C = 0;
+                str_status = 0;
             }
             else
             {
-                str_status_800BF16C = 2;
+                str_status = 2;
                 dword_800BF1A4 = 0;
             }
             break;
@@ -105,7 +105,7 @@ void SdMain(void)
             break;
         }
 
-        if (se_load_code_800BF28C)
+        if (se_load_code)
         {
             LoadSeFile();
         }
@@ -146,7 +146,7 @@ void sd_init(void)
     SpuReverbAttr r_attr;
 
     SpuInit();
-    SpuInitMalloc(24, spu_malloc_rec_800C0588);
+    SpuInitMalloc(24, spu_malloc_rec);
     c_attr.mask = SPU_COMMON_MVOLL | SPU_COMMON_MVOLR;
     c_attr.mvol.left = 0;
     c_attr.mvol.right = 0;
@@ -155,14 +155,14 @@ void sd_init(void)
     SpuSetNoiseVoice(SPU_OFF, SPU_ALLCH);
     SpuSetReverb(SPU_OFF);
     SpuSetTransferMode(SPU_TRANSFER_BY_DMA);
-    blank_data_addr_800BF00C = SpuMalloc(512);
-    printf("blank_data_addr=%x\n", blank_data_addr_800BF00C);
-    spu_wave_start_ptr_800C052C = SpuMalloc(0x73E00);
-    printf("spu_wave_start_ptr=%x\n", spu_wave_start_ptr_800C052C);
-    spu_bgm_start_ptr_r_800BF0C8 = SpuMalloc(0x2000);
-    printf("spu_bgm_start_ptr_r=%x\n", spu_bgm_start_ptr_r_800BF0C8);
+    blank_data_addr = SpuMalloc(512);
+    printf("blank_data_addr=%x\n", blank_data_addr);
+    spu_wave_start_ptr = SpuMalloc(0x73E00);
+    printf("spu_wave_start_ptr=%x\n", spu_wave_start_ptr);
+    spu_bgm_start_ptr_r = SpuMalloc(0x2000);
+    printf("spu_bgm_start_ptr_r=%x\n", spu_bgm_start_ptr_r);
     spuMem = SpuMalloc(0x2000);
-    spu_bgm_start_ptr_l_800BF060 = spuMem;
+    spu_bgm_start_ptr_l = spuMem;
     if (spuMem == -1)
     {
         printf("SPU Buffer Over!!\n");
@@ -185,41 +185,41 @@ void sd_init(void)
     r_attr.depth.right = 0x4000;
     SpuSetReverbDepth(&r_attr);
     SpuSetReverb(SPU_ON);
-    dword_800BF210 = 0;
-    dword_800BF064 = 0x1FFF;
+    eoffs = 0;
+    eons = 0x1FFF;
     SpuSetReverbVoice(SPU_ON, SPU_13CH - 1); // channels 0-12
     init_sng_work();
     dword_800BF27C = 0;
-    str_status_800BF16C = 0;
+    str_status = 0;
     for (i = 0; i < 8; i++)
     {
-        se_playing_800BF068[i].code = 0;
+        se_playing[i].code = 0;
     }
-    SpuSetTransferStartAddr(blank_data_addr_800BF00C);
+    SpuSetTransferStartAddr(blank_data_addr);
     SpuWrite(blank_data, 512);
     SpuIsTransferCompleted(SPU_TRANSFER_WAIT);
     SpuSetIRQ(SPU_OFF);
-    SpuSetIRQAddr(blank_data_addr_800BF00C);
+    SpuSetIRQAddr(blank_data_addr);
     dword_800BF1A8 = 0;
     SpuSetIRQCallback(UserSpuIRQProc);
     SpuSetIRQ(SPU_ON);
-    s_attr_800BF218.mask = SPU_VOICE_VOLL | SPU_VOICE_VOLR | SPU_VOICE_PITCH | SPU_VOICE_WDSA |
+    sd_blank_attr.mask = SPU_VOICE_VOLL | SPU_VOICE_VOLR | SPU_VOICE_PITCH | SPU_VOICE_WDSA |
                            SPU_VOICE_ADSR_AMODE | SPU_VOICE_ADSR_SMODE | SPU_VOICE_ADSR_RMODE | SPU_VOICE_ADSR_AR |
                            SPU_VOICE_ADSR_DR | SPU_VOICE_ADSR_SR | SPU_VOICE_ADSR_RR | SPU_VOICE_ADSR_SL;
-    s_attr_800BF218.voice = SPU_23CH;
-    s_attr_800BF218.pitch = 4096;
-    s_attr_800BF218.a_mode = SPU_VOICE_LINEARIncN;
-    s_attr_800BF218.s_mode = SPU_VOICE_LINEARIncN;
-    s_attr_800BF218.volume.left = 0;
-    s_attr_800BF218.volume.right = 0;
-    s_attr_800BF218.r_mode = SPU_VOICE_LINEARDecN;
-    s_attr_800BF218.ar = 0;
-    s_attr_800BF218.dr = 0;
-    s_attr_800BF218.sr = 0;
-    s_attr_800BF218.rr = 0;
-    s_attr_800BF218.sl = 15;
-    s_attr_800BF218.addr = blank_data_addr_800BF00C;
-    SpuSetVoiceAttr(&s_attr_800BF218);
+    sd_blank_attr.voice = SPU_23CH;
+    sd_blank_attr.pitch = 4096;
+    sd_blank_attr.a_mode = SPU_VOICE_LINEARIncN;
+    sd_blank_attr.s_mode = SPU_VOICE_LINEARIncN;
+    sd_blank_attr.volume.left = 0;
+    sd_blank_attr.volume.right = 0;
+    sd_blank_attr.r_mode = SPU_VOICE_LINEARDecN;
+    sd_blank_attr.ar = 0;
+    sd_blank_attr.dr = 0;
+    sd_blank_attr.sr = 0;
+    sd_blank_attr.rr = 0;
+    sd_blank_attr.sl = 15;
+    sd_blank_attr.addr = blank_data_addr;
+    SpuSetVoiceAttr(&sd_blank_attr);
     keyOn(SPU_23CH);
     c_attr.mask = SPU_COMMON_MVOLL | SPU_COMMON_MVOLR;
     c_attr.mvol.left = 0x3FFF;
@@ -269,14 +269,14 @@ void KeyOffStr(void)
     }
 
     dword_800C0580 = 0;
-    str_load_code_800C04F0 = 0;
+    str_load_code = 0;
 
-    if (str_fp_800BF258)
+    if (str_fp)
     {
-        PcmClose(str_fp_800BF258, 1);
-        str_fp_800BF258 = 0;
+        PcmClose(str_fp, 1);
+        str_fp = 0;
     }
-    str_status_800BF16C = 0;
+    str_status = 0;
     StrSpuTransClose();
 }
 
@@ -297,12 +297,12 @@ void sub_800820EC(void)
     }
 
     dword_800C0580 = 0;
-    if (str_fp_800BF258)
+    if (str_fp)
     {
-        PcmClose(str_fp_800BF258, 1);
-        str_fp_800BF258 = 0;
+        PcmClose(str_fp, 1);
+        str_fp = 0;
     }
-    str_status_800BF16C = 0;
+    str_status = 0;
 }
 
 void keyOn(unsigned int ch)
@@ -312,27 +312,27 @@ void keyOn(unsigned int ch)
 
 int sd_mem_alloc(void)
 {
-    sng_data_800C0420 = (unsigned char *)0x801E0000;
-    printf("sng_data %X\n", (unsigned int)sng_data_800C0420);
+    sng_data = (unsigned char *)0x801E0000;
+    printf("sng_data %X\n", (unsigned int)sng_data);
 
-    wave_header_800BF1E0 = (WAVE_W *)(sng_data_800C0420 + 0x4000);
-    printf("wave_header %X\n", (unsigned int)sng_data_800C0420 + 0x4000);
+    wave_header = (WAVE_W *)(sng_data + 0x4000);
+    printf("wave_header %X\n", (unsigned int)sng_data + 0x4000);
 
-    voice_tbl_800C0530 = wave_header_800BF1E0;
-    printf("voice_tbl %X\n", (unsigned int)wave_header_800BF1E0);
+    voice_tbl = wave_header;
+    printf("voice_tbl %X\n", (unsigned int)wave_header);
 
-    se_exp_table_800C0520 = (unsigned char *)&wave_header_800BF1E0[256];
-    printf("se_header %X\n", (unsigned int)se_exp_table_800C0520);
+    se_header = (unsigned char *)&wave_header[256];
+    printf("se_header %X\n", (unsigned int)se_header);
 
-    se_header_800BF284 = se_exp_table_800C0520 + 0x800;
-    printf("se_data %X\n", (unsigned int)se_header_800BF284);
+    se_data = se_header + 0x800;
+    printf("se_data %X\n", (unsigned int)se_data);
 
-    cdload_buf_800BF010 = se_header_800BF284 + 0x2000;
-    printf("CDLOAD_BUF %X %X %X\n", (unsigned int)cdload_buf_800BF010, 0x18000, (unsigned int)cdload_buf_800BF010 + 0x18000);
+    cdload_buf = se_data + 0x2000;
+    printf("CDLOAD_BUF %X %X %X\n", (unsigned int)cdload_buf, 0x18000, (unsigned int)cdload_buf + 0x18000);
 
-    str_header_800BF058 = cdload_buf_800BF010 + 0x18000;
-    printf("str_header %X\n", (unsigned int)str_header_800BF058);
+    str_header = cdload_buf + 0x18000;
+    printf("str_header %X\n", (unsigned int)str_header);
 
-    str_trans_buf_800C0514 = cdload_buf_800BF010;
+    str_trans_buf = cdload_buf;
     return 0;
 }
