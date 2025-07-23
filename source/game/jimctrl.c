@@ -11,7 +11,7 @@ extern array_800B933C_child array_800B933C[array_800B933C_SIZE];
 
 extern JimakuCtrlWork jimCtrlActor_800B82F0;
 
-extern int str_status_800BF16C;
+extern int str_status;
 extern int dword_800B9358;
 
 char *dword_8009E28C = NULL;
@@ -245,7 +245,7 @@ STATIC void jimctrl_Act(JimakuCtrlWork *work)
     }
 
     str_counter = get_str_counter();
-    if ((str_counter < 0) || (str_status_800BF16C == 0))
+    if ((str_counter < 0) || (str_status == 0))
     {
         if (work->field_30 < 0)
         {

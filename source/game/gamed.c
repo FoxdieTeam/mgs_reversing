@@ -105,11 +105,11 @@ PlayerStatusFlag SECTION(".sbss") GM_PlayerStatus;
 int              SECTION(".sbss") GM_PadVibration2;
 
 extern unsigned short   gSystemCallbackProcs_800B58C0[];
-extern int          str_mute_fg_800BEFF0;
-extern unsigned int str_status_800BF16C;
+extern int          str_mute_fg;
+extern unsigned int str_status;
 extern int          dword_800BF1A8;
 extern int          dword_800BF270;
-extern int          str_off_idx_800BF264;
+extern int          str_off_idx;
 extern char         exe_name_800B5860[32];
 extern char        *MGS_DiskName[3]; /* in main.c */
 extern int          FS_DiskNum_800ACBF0;
@@ -353,7 +353,7 @@ STATIC void GM_Act(GameWork *work)
 
     if ((GV_PauseLevel & 8) != 0)
     {
-        if (!str_mute_fg_800BEFF0 && CDBIOS_TaskState() != 3)
+        if (!str_mute_fg && CDBIOS_TaskState() != 3)
         {
             GV_PauseLevel &= ~8;
         }
@@ -362,7 +362,7 @@ STATIC void GM_Act(GameWork *work)
             DrawReadError();
         }
     }
-    else if (str_mute_fg_800BEFF0 || CDBIOS_TaskState() == 3)
+    else if (str_mute_fg || CDBIOS_TaskState() == 3)
     {
         GV_PauseLevel |= 8;
     }
@@ -560,8 +560,8 @@ STATIC void GM_Act(GameWork *work)
                 spu_key |= spu_stat & 1;
             }
 
-            printf("str_status %d irq %x %X %X\n", str_status_800BF16C, dword_800BF1A8, dword_800BF270,
-                   str_off_idx_800BF264);
+            printf("str_status %d irq %x %X %X\n", str_status, dword_800BF1A8, dword_800BF270,
+                   str_off_idx);
             printf("key %08X\n", spu_key);
         }
 
