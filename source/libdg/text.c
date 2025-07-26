@@ -210,7 +210,7 @@ void DG_ClearResidentTexture( void )
     gResidentTextureCacheCopy_800AB98C = 0;
 }
 
-void DG_SaveTexureCacheToResidentMem( void )
+void DG_SaveResidentTextureCache( void )
 {
     DG_TEX *tex;
     int     recordCount;

@@ -55,11 +55,11 @@ ActorList BSS       gActorsList_800ACC18[GV_ACTOR_LEVEL]; // 0x264 (612) bytes
 
 gap                                     gap_800ACE7C[0x4]; // 4 bytes
 
-GV_LOADFUNC BSS     gFileExtHandlers_800ACE80[MAX_FILE_HANDLERS]; // 0x68 (104) bytes
+GV_LOADFUNC BSS     GV_LoaderFunctions[MAX_LOADERS]; // 0x68 (104) bytes
 
 gap                                     gap_800ACEE8[0x8]; // 8 bytes
 
-GV_CACHE_PAGE BSS   GV_CacheSystem_800ACEF0; // 0x400 (1024) bytes
+GV_CACHE_PAGE BSS   GV_CacheSystem; // 0x400 (1024) bytes
 GV_HEAP BSS         MemorySystems_800AD2F0[3]; // 0x3030 (12336) bytes
 MESSAGE_LIST BSS    message_list_800B0320[2]; // 0x288 (648) bytes
 int BSS             dword_800B05A8[6]; // 0x18 (24) bytes
@@ -111,7 +111,7 @@ char BSS            cd_bios_stack_800B4E88[1024]; // 0x400 (1024) bytes
 FS_STAGE_INFO *BSS  gStageInfo_800B5288; // 0x4 (4) bytes
 int BSS             gLoaderStartTime_800B528C; // 0x4 (4) bytes
 int BSS             gOverlayBinSize_800B5290; // 0x4 (4) bytes
-int BSS             gSaveCache_800B5294; // 0x4 (4) bytes
+int BSS             FS_ResidentCacheDirty; // 0x4 (4) bytes
 int BSS             fs_stream_ref_count_800B5298; // 0x4 (4) bytes
 int BSS             fs_dword_800B529C; // 0x4 (4) bytes
 int BSS             fs_dword_800B52A0; // 0x4 (4) bytes
