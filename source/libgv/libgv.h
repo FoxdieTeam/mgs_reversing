@@ -169,22 +169,22 @@ typedef struct GV_CACHE_PAGE
     GV_CACHE_TAG tags[MAX_CACHE_TAGS];
 } GV_CACHE_PAGE;
 
-#define MAX_FILE_HANDLERS 26    // from 'a' to 'z'
+#define MAX_LOADERS 26    // from 'a' to 'z'
 
 typedef int (*GV_LOADFUNC)(unsigned char *data, int id);
 
 /* cache.c */
-int   GV_CacheID(int strcode, int extID);
-int   GV_CacheID2(const char *fileName, int extID);
-int   GV_CacheID3(char *string);
+int   GV_CacheID(int name, int ext);
+int   GV_CacheID2(const char *name, int ext);
+int   GV_CacheID3(char *filename);
 void *GV_GetCache(int id);
-int   GV_SetCache(int id, void *buf);
-void  GV_SetLoader(int fileExtChar, GV_LOADFUNC func);
+int   GV_SetCache(int id, void *ptr);
+void  GV_SetLoader(int ext, GV_LOADFUNC func);
 void  GV_InitLoader(void);
 void  GV_InitCacheSystem(void);
-void  GV_ResidentFileCache(void);
+void  GV_SaveResidentFileCache(void);
 void  GV_FreeCacheSystem(void);
-int   GV_LoadInit(void *buf, int id, int region);
+int   GV_LoadInit(void *ptr, int id, int region);
 
 /*------ Memory Management --------------------------------------------------*/
 
