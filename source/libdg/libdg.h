@@ -630,7 +630,7 @@ void DG_SetTexture( int hash, int tp, int abr, DG_Image *a, DG_Image *b, int col
 void DG_GetTextureRect( DG_TEX *tex, RECT *rect );
 void DG_GetClutRect( DG_TEX *tex, RECT *rect );
 void DG_ClearResidentTexture( void );
-void DG_SaveTexureCacheToResidentMem( void );
+void DG_SaveResidentTextureCache( void );
 void DG_ResetResidentTexture( void );
 
 /* trans.c */
