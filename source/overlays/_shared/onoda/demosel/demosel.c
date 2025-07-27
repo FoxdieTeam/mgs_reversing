@@ -201,7 +201,7 @@ static void demosel_800C3880(Work *work, char *ot)
         found = 1;
 
         text_sprt = &work->f5D0[index].text_sprt[GV_Clock];
-        LSTORE(0x808080, &text_sprt->r0);
+        LSTORE(COLOR_GRAY, &text_sprt->r0);
         LCOPY(&work->f5D0[index].rect.x, &text_sprt->x0);
         LCOPY(&work->f5D0[index].rect.w, &text_sprt->w);
         text_sprt->u0 = 0;

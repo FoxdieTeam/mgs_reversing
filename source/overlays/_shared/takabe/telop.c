@@ -121,7 +121,7 @@ void telop_800DD730(char *ot, TelopSub *sub)
             break;
 
         case 2:
-            shade = 0x808080;
+            shade = COLOR_GRAY;
             sub->timer -= GV_PassageTime;
 
             if (sub->timer <= 0)

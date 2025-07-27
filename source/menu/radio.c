@@ -589,7 +589,7 @@ void menu_radio_codec_helper_helper14_helper4_800408BC(MenuPrim *pGlue, int x, i
     _NEW_PRIM(pTpage, pGlue);
     _NEW_PRIM(pSprt, pGlue);
 
-    color2 = 0x808080;
+    color2 = COLOR_GRAY;
     if (GV_Clock == 0)
     {
         setDrawTPage(pTpage, 0, 1, 0x120);

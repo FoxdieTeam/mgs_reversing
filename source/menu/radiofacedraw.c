@@ -334,7 +334,7 @@ void menu_radio_draw_face_helper5_8004896C( MenuPrim *pPrim, menu_chara_struct_s
         addPrim( pPrim->mPrimBuf.mOt, pLine );
     }
 
-    color = 0x808080;
+    color = COLOR_GRAY;
 
     if ( pChara->field_A > 0 )
     {

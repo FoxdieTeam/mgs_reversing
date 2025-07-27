@@ -7851,10 +7851,10 @@ static inline int sna_LoadSnake2(SnaInitWork *work)
 
         for (j = 0; j < 2; j++)
         {
-            LSTORE(0, &pPoly->r0);
-            LSTORE(0x808080, &pPoly->r1);
-            LSTORE(0, &pPoly->r2);
-            LSTORE(0x808080, &pPoly->r3);
+            LSTORE(COLOR_BLACK, &pPoly->r0);
+            LSTORE(COLOR_GRAY, &pPoly->r1);
+            LSTORE(COLOR_BLACK, &pPoly->r2);
+            LSTORE(COLOR_GRAY, &pPoly->r3);
             setPolyGT4(pPoly);
             setSemiTrans(pPoly, 1);
             pPoly->tpage = pTex->tpage;

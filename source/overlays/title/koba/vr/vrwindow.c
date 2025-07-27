@@ -393,7 +393,7 @@ int VrwindowGetResources_800D8024(VrwindowWork *work, int map)
     {
         setDrawTPage(&work->tpages[i], 1, 0, getTPage(0, 0, 896, 256));
 
-        LSTORE(0x808080, &work->sprts[i].r0);
+        LSTORE(COLOR_GRAY, &work->sprts[i].r0);
         LCOPY(&work->f20.x, &work->sprts[i].x0);
         LCOPY(&work->f20.w, &work->sprts[i].w);
         setSprt(&work->sprts[i]);
