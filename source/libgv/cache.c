@@ -4,163 +4,169 @@
 #define RESIDENT_REGION_FLAG 0x1000000
 
 /**bss****************************************************************/
-extern GV_CACHE_PAGE GV_CacheSystem_800ACEF0;
-extern GV_LOADFUNC  gFileExtHandlers_800ACE80[MAX_FILE_HANDLERS];
+extern GV_CACHE_PAGE GV_CacheSystem;
+extern GV_LOADFUNC   GV_LoaderFunctions[MAX_LOADERS];
 /*********************************************************************/
 
-STATIC GV_CACHE_TAG *SECTION(".sbss") GV_CurrentTag_800AB930;
-STATIC GV_CACHE_TAG *SECTION(".sbss") GV_ResidentFileRecords_800AB934;
-STATIC int           SECTION(".sbss") N_ResidentFileRecords_800AB938;
+STATIC GV_CACHE_TAG *SECTION(".sbss") GV_CurrentTag;
+STATIC GV_CACHE_TAG *SECTION(".sbss") GV_ResidentCache;
+STATIC int           SECTION(".sbss") GV_ResidentCacheSize;
 
 // searches for a cached file from the cache system with a given ID
-GV_CACHE_TAG *GV_FileCacheFind(int id)
+STATIC GV_CACHE_TAG *GV_FileCacheFind(int id)
 {
-    int             i;
-    int             pos;
-    int             cacheID;
-    int             remainder;
-    GV_CACHE_TAG   *tag;
-    GV_CACHE_TAG   *selectedTag;
+    GV_CACHE_TAG *current;
+    int           start;
+    GV_CACHE_TAG *tag;
+    int           left;
+    int           i;
+    int           current_id;
 
-    selectedTag = 0;
-    pos = id % 0x80;
-    tag = &GV_CacheSystem_800ACEF0.tags[pos];
+    current = NULL;
+    start = id % MAX_CACHE_TAGS;
+    tag = &GV_CacheSystem.tags[start];
+    left = MAX_CACHE_TAGS - start;
 
-    remainder = 0x80 - pos;
-    i = 0x80;
-
-    while (i > 0)
+    for (i = MAX_CACHE_TAGS; i > 0; i--)
     {
-        cacheID = tag->id & 0xFFFFFF;
+        current_id = tag->id & 0xFFFFFF;
 
-        if (!cacheID)
+        if (current_id == 0)
         {
-            if (selectedTag == 0)
+            if (!current)
             {
-                selectedTag = tag;
+                current = tag;
             }
+
             break;
         }
-        else
-        {
-            remainder--;
 
-            if (cacheID == id)
-            {
-                return tag;
-            }
-            else
-            {
-                tag++;
-                if (!remainder)
-                {
-                    tag = GV_CacheSystem_800ACEF0.tags;
-                }
-                i--;
-            }
+        left--;
+
+        if (current_id == id)
+        {
+            return tag;
+        }
+
+        tag++;
+
+        if (left == 0)
+        {
+            tag = GV_CacheSystem.tags;
         }
     }
 
-    GV_CurrentTag_800AB930 = selectedTag;
-    return 0;
+    GV_CurrentTag = current;
+    return NULL;
 }
 
 // returns a file's cache id using the file id and ext id.
-int GV_CacheID(int strcode, int extID)
+int GV_CacheID(int name, int ext)
 {
-    extID -= 'a';
+    ext -= 'a';
 
-    if (extID > 0x19)
+    if (ext > 25)
     {
-        extID += 0x20;
+        ext += 32;
     }
 
-    return strcode + (extID << 16);
+    return name + (ext << 16);
 }
 
 // takes the file name to create strcode which is used
 // to call cacheID along with the ext id.
-int GV_CacheID2(const char *fileName, int extID)
+int GV_CacheID2(const char *name, int ext)
 {
-    int strcode = GV_StrCode(fileName);
-    return GV_CacheID(strcode, extID);
+    int hash;
+
+    hash = GV_StrCode(name);
+    return GV_CacheID(hash, ext);
 }
 
 // iterates the string to grab the filename up to the period.
 // uses the first chracter after the period as the file ext id.
 // calls CacheID2 with this information.
-int GV_CacheID3(char *string)
+int GV_CacheID3(char *filename)
 {
-    char  filename[32];
-    char *pFilename = filename;
-    char  pIterator = *string++;
+    char  stem[32];
+    char *iter;
+    char  c;
 
-    if (pIterator == '.')
+    iter = stem;
+    c = *filename++;
+
+    // won't match with a real loop
+    if (c == '.')
     {
-        *filename = 0;
+        *stem = '\0';
     }
     else
     {
-    LOOP:
-        *pFilename++ = pIterator;
-        if (pIterator)
+loop:
+        *iter++ = c;
+        if (c == '\0')
         {
-            pIterator = *string++;
-            if (pIterator != '.')
-            {
-                goto LOOP;
-            }
-            *pFilename = 0;
+            goto exit;
         }
+            
+        c = *filename++;
+        if (c == '.')
+        {
+            *iter = '\0';
+            goto exit;
+        }
+
+        goto loop;
     }
-    return GV_CacheID2(filename, (int)*string);
+
+exit:
+    return GV_CacheID2(stem, *filename);
 }
 
 // returns cached file for a given id
 void *GV_GetCache(int id)
 {
-    GV_CACHE_TAG *tag = GV_FileCacheFind(id);
+    GV_CACHE_TAG *tag;
+
+    tag = GV_FileCacheFind(id);
     if (tag)
     {
         return tag->ptr;
     }
+
     return NULL;
 }
 
 // sets currently active cached file if it can be found
-int GV_SetCache(int id, void *buf)
+int GV_SetCache(int id, void *ptr)
 {
-    if (!GV_FileCacheFind(id))
+    if (!GV_FileCacheFind(id) && GV_CurrentTag)
     {
-        if (GV_CurrentTag_800AB930)
-        {
-            GV_CurrentTag_800AB930->id = id;
-            GV_CurrentTag_800AB930->ptr = buf;
-            return 0;
-        }
+        GV_CurrentTag->id = id;
+        GV_CurrentTag->ptr = ptr;
+        return 0;
     }
 
     return -1;
 }
 
 // sets the loadfunc in the loader table. It is mapped to a char id
-void GV_SetLoader(int fileExtChar, GV_LOADFUNC func)
+void GV_SetLoader(int ext, GV_LOADFUNC func)
 {
-    const int idx = fileExtChar - 'a';
-    gFileExtHandlers_800ACE80[idx] = func;
+    ext -= 'a';
+    GV_LoaderFunctions[ext] = func;
 }
 
 // initialises the loader table by setting all values to 0
 void GV_InitLoader(void)
 {
-    GV_LOADFUNC     *pExtIter;
-    int              i;
+    GV_LOADFUNC *loader;
+    int          i;
 
-    pExtIter = &gFileExtHandlers_800ACE80[0];
-    for (i = MAX_FILE_HANDLERS; i > 0; i--)
+    loader = GV_LoaderFunctions;
+    for (i = MAX_LOADERS; i > 0; i--)
     {
-        *pExtIter = 0;
-        pExtIter++;
+        *loader++ = NULL;
     }
 }
 
@@ -168,58 +174,56 @@ void GV_InitLoader(void)
 // also sets the resident caches info to 0 as well
 void GV_InitCacheSystem(void)
 {
-    int            i;
-    GV_CACHE_TAG  *tag = GV_CacheSystem_800ACEF0.tags;
+    GV_CACHE_TAG *tag;
+    int           i;
 
+    tag = GV_CacheSystem.tags;
     for (i = MAX_CACHE_TAGS; i > 0; i--)
     {
         tag->id = 0;
         tag++;
     }
 
-    GV_ResidentFileRecords_800AB934 = 0;
-    N_ResidentFileRecords_800AB938 = 0;
+    GV_ResidentCache = NULL;
+    GV_ResidentCacheSize = 0;
 }
 
-// GV_InitResidentCacheSystem?
 // Iterates all the records in the cache system and checks the
 // region flag to see if it should be placed in the resident area
-void GV_ResidentFileCache(void)
+void GV_SaveResidentFileCache(void)
 {
-    int              i;
-    int              n_resident_tags;
-    GV_CACHE_TAG    *tag;
-    GV_CACHE_TAG    *temp_tag;
-    tag = (GV_CACHE_TAG *)&GV_CacheSystem_800ACEF0.tags;
-    n_resident_tags = 0;
+    GV_CACHE_TAG *tag;
+    int           size;
+    int           i;
+    GV_CACHE_TAG *resident;
 
+    tag = GV_CacheSystem.tags;
+    size = 0;
     for (i = MAX_CACHE_TAGS; i > 0; i--)
     {
-
         if (tag->id & RESIDENT_REGION_FLAG)
         {
-            n_resident_tags++;
+            size++;
         }
+
         tag++;
     }
 
-    temp_tag = (GV_CACHE_TAG *)&GV_CacheSystem_800ACEF0.tags;
-
-    if (n_resident_tags)
+    if (size)
     {
-        GV_CACHE_TAG *resident_tag = GV_AllocResidentMemory(n_resident_tags * sizeof(GV_CACHE_TAG));
-        tag = temp_tag;
+        resident = GV_AllocResidentMemory(size * sizeof(GV_CACHE_TAG));
 
-        GV_ResidentFileRecords_800AB934 = resident_tag;
-        N_ResidentFileRecords_800AB938 = n_resident_tags;
+        GV_ResidentCache = resident;
+        GV_ResidentCacheSize = size;
 
+        tag = GV_CacheSystem.tags;
         for (i = MAX_CACHE_TAGS; i > 0; i--)
         {
             if (tag->id & RESIDENT_REGION_FLAG)
             {
-                *resident_tag = *tag;
-                resident_tag++;
+                *resident++ = *tag;
             }
+
             tag++;
         }
     }
@@ -230,87 +234,94 @@ void GV_ResidentFileCache(void)
 // file records and
 void GV_FreeCacheSystem(void)
 {
-    int            i;
-    GV_CACHE_TAG  *tag;
-    tag = GV_CacheSystem_800ACEF0.tags;
+    GV_CACHE_TAG *tag;
+    int           i;
 
+    tag = GV_CacheSystem.tags;
     for (i = MAX_CACHE_TAGS; i > 0; i--)
     {
         tag->id = 0;
         tag++;
     }
 
-    tag = GV_ResidentFileRecords_800AB934;
-
-    if (!tag)
-        return;
-
-    for (i = N_ResidentFileRecords_800AB938; i > 0; i--)
+    tag = GV_ResidentCache;
+    if (tag)
     {
-        GV_SetCache(tag->id, tag->ptr);
-        tag++;
+        for (i = GV_ResidentCacheSize; i > 0; i--)
+        {
+            GV_SetCache(tag->id, tag->ptr);
+            tag++;
+        }
     }
 }
 
 // inline function to set tag for a specific region, was required to
 // match below function, should be moved to libgv.h
-static inline void GV_SetCurrentTag(int id, int region)
+static inline void GV_SetCurrentTag(void *ptr, int id, int region)
 {
     if (region != GV_REGION_CACHE)
     {
         id |= RESIDENT_REGION_FLAG;
     }
 
-    GV_CurrentTag_800AB930->id = id;
+    GV_CurrentTag->id = id;
+    GV_CurrentTag->ptr = ptr;
 }
 
 // inline function to return the file handler function for a given ID
 static inline GV_LOADFUNC GV_GetLoadFunc(int id)
 {
-    GV_LOADFUNC *lt = gFileExtHandlers_800ACE80;
+    GV_LOADFUNC *loader;
+
+    loader = GV_LoaderFunctions;
+
     if (id < 0)
+    {
         id += 0xFFFF;
-    return lt[id >> 16];
+    }
+
+    return loader[id >> 16];
 }
 
 // loads given init function
-int GV_LoadInit(void *buf, int id, int region)
+int GV_LoadInit(void *ptr, int id, int region)
 {
-    int             ret;
-    GV_LOADFUNC     func;
-    GV_CACHE_TAG   *current_tag;
+    GV_LOADFUNC   func;
+    int           ret;
+    GV_CACHE_TAG *tag;
 
     if (region == GV_REGION_NOCACHE)
     {
         func = GV_GetLoadFunc(id);
         if (func)
         {
-            ret = func(buf, id);
+            ret = func(ptr, id);
             if (ret <= 0)
-                return ret;
+            {
+                return ret;   
+            }
         }
     }
     else
     {
-        if (GV_FileCacheFind(id) || !GV_CurrentTag_800AB930)
+        if (GV_FileCacheFind(id) || !GV_CurrentTag)
         {
             printf("id conflict\n");
             return -1;
         }
 
-        current_tag = GV_CurrentTag_800AB930;
-
-        GV_SetCurrentTag(id, region);
-        current_tag->ptr = buf;
+        tag = GV_CurrentTag;
+        GV_SetCurrentTag(ptr, id, region);
 
         func = GV_GetLoadFunc(id);
         if (func)
         {
-            ret = func(buf, id);
-            if (ret > 0)
-                return 1;
-            current_tag->id = 0;
-            return ret;
+            ret = func(ptr, id);
+            if (ret <= 0)
+            {
+                tag->id = 0;
+                return ret;
+            }
         }
     }
 
