@@ -197,7 +197,7 @@ STATIC void GM_ResetSystem(void)
 
 STATIC void GM_ResetMemory(void)
 {
-    DG_TextureCacheInit();
+    DG_ResetTextureCache();
     GV_ResetMemory();
     GM_ResetChara();
 }
