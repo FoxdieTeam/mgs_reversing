@@ -33,6 +33,9 @@
 #define CLAMP(x, min, max) (MAX(MIN(x, max), min))
 #endif
 
+/*---------------------------------------------------------------------------*/
+// NOTE: (bool)0.5 evaluates to true, whereas (int)0.5 evaluates to 0.
+
 typedef int             BOOL;
 
 #ifndef FALSE
