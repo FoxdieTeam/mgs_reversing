@@ -56,7 +56,7 @@ ActorList BSS       gActorsList_800ACC18[GV_ACTOR_LEVEL]; // 0x264 (612) bytes
 gap                                     gap_800ACE7C[0x4]; // 4 bytes
 
 /* libgv/cache.obj */
-GV_LOADFUNC BSS     GV_LoaderFunctions[MAX_LOADERS]; // 0x68 (104) bytes
+GV_LOADFUNC BSS     GV_LoaderFunctions[GV_MAX_LOADERS]; // 0x68 (104) bytes
 
 gap                                     gap_800ACEE8[0x8]; // 8 bytes
 
