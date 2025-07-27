@@ -47,7 +47,6 @@ STATIC PauseKill gPauseKills_8009D308[GV_ACTOR_LEVEL] = {
 
 /**
  * @brief Initialize the actors lists and set the pause and kill levels.
- *
  */
 void GV_InitActorSystem(void)
 {
