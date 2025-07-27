@@ -14,7 +14,11 @@ STATIC GV_CACHE_TAG *SECTION(".sbss") GV_ResidentCache;
 STATIC int           SECTION(".sbss") GV_ResidentCacheSize;
 
 /**
- * Searches for a cached file from the cache system with a given ID.
+ * @brief Searches the cache for an entry matching a given ID and returns the
+ * tag of a matching entry if found.
+ * GV_CurrentTag is also set to the first free cache entry if one is found.
+ *
+ * @param id The ID to search for in the cache.
  */
 static GV_CACHE_TAG *GetCacheTag(int id)
 {
@@ -64,12 +68,10 @@ static GV_CACHE_TAG *GetCacheTag(int id)
 }
 
 /**
- * Gets a file's cache ID from a given StrCode and extension ID.
+ * @brief Returns the cache ID of a file using its hashed name and extension.
  *
- * @param   name    StrCode of the filename (without extension)
- * @param   ext     ASCII character ('a' through 'z')
- *
- * @returns Cache ID of the requested file.
+ * @param   name    strcode hash of the filename (without extension).
+ * @param   ext     The first character of the file extension.
  */
 int GV_CacheID(int name, int ext)
 {
@@ -84,12 +86,10 @@ int GV_CacheID(int name, int ext)
 }
 
 /**
- * Gets the file's cache ID using the filename and extension ID.
+ * @brief Returns the cache ID of a file using its name and extension.
  *
- * @param   filename    ASCII filename (without extension)
- * @param   extid       ASCII character ('a' through 'z')
- *
- * @returns Cache ID of the requested file.
+ * @param   name    The name of the file (without extension).
+ * @param   ext     The first character of the file extension.
  */
 int GV_CacheID2(const char *name, int ext)
 {
@@ -100,14 +100,10 @@ int GV_CacheID2(const char *name, int ext)
 }
 
 /**
- * Gets the file's cache ID using the complete filename.
+ * @brief Returns the cache ID of a file using its full file name as a string.
+ * The character found after the first '.' is considered the extension.
  *
- * The first character found after the '.' is considered the extension
- * and gets passed to GV_CacheID2.
- *
- * @param   filename    ASCII filename (with extension)
- *
- * @returns Cache ID of the requested file.
+ * @param   filename    The full name of the file with extension.
  */
 int GV_CacheID3(char *filename)
 {
@@ -118,13 +114,13 @@ int GV_CacheID3(char *filename)
     iter = buf;
     c = *filename++;
 
-    // won't match with a real loop
     if (c == '.')
     {
         *iter = '\0';
         goto exit;
     }
 
+    // won't match with a real loop
 loop:
     *iter++ = c;
     if (c == '\0')
@@ -146,12 +142,11 @@ exit:
 }
 
 /**
- * Gets a cached file's in-memory address from its ID.
+ * @brief Returns the data pointer of a cache entry given its ID.
  *
- * @param   id      Cache ID of the file to search for.
+ * @param   id      The ID to search for in the cache.
  *
- * @retval  non-NULL    pointer to the file data in memory
- * @retval  NULL        file was not found
+ * @returns NULL if the file couldn't be found.
  */
 void *GV_GetCache(int id)
 {
@@ -166,7 +161,12 @@ void *GV_GetCache(int id)
     return NULL;
 }
 
-// sets currently active cached file if it can be found
+/**
+ * @brief Sets the data pointer of a cache entry given its ID.
+ *
+ * @param id The ID to search for in the cache.
+ * @param ptr The data pointer to be written into the cache entry.
+ */
 int GV_SetCache(int id, void *ptr)
 {
     if (!GetCacheTag(id) && GV_CurrentTag)
@@ -178,14 +178,21 @@ int GV_SetCache(int id, void *ptr)
     return -1;
 }
 
-// sets the loadfunc in the loader table. It is mapped to a char id
+/**
+ * @brief Sets the loader callback for a given file extension.
+ *
+ * @param ext The file extension to set a loader callback for.
+ * @param func The function pointer to the loader callback.
+ */
 void GV_SetLoader(int ext, GV_LOADFUNC func)
 {
     ext -= 'a';
     GV_LoaderFunctions[ext] = func;
 }
 
-// initialises the loader table by setting all values to 0
+/**
+ * @brief Initialises the loader callbacks by setting them all to NULL.
+ */
 void GV_InitLoader(void)
 {
     GV_LOADFUNC *loader;
@@ -198,8 +205,10 @@ void GV_InitLoader(void)
     }
 }
 
-// initialises cache system by setting all entries to 0
-// also sets the resident caches info to 0 as well
+/**
+ * @brief Initialises the cache system by marking all entries as unused.
+ * Also initialises the resident cache as empty.
+ */
 void GV_InitCacheSystem(void)
 {
     GV_CACHE_TAG *tag;
@@ -216,8 +225,9 @@ void GV_InitCacheSystem(void)
     GV_ResidentCacheSize = 0;
 }
 
-// Iterates all the records in the cache system and checks the
-// region flag to see if it should be placed in the resident area
+/**
+ * @brief Saves all cache entries marked as resident to GV_ResidentCache.
+ */
 void GV_SaveResidentFileCache(void)
 {
     GV_CACHE_TAG *tag;
@@ -257,9 +267,10 @@ void GV_SaveResidentFileCache(void)
     }
 }
 
-// iterates through all entries in the cache system and
-// sets all ID's to 0. Then iterates through all resident
-// file records and
+/**
+ * @brief Frees the cache system by marking all entries as unused.
+ * Then loads all resident entries from GV_ResidentCache.
+ */
 void GV_FreeCacheSystem(void)
 {
     GV_CACHE_TAG *tag;
@@ -283,8 +294,13 @@ void GV_FreeCacheSystem(void)
     }
 }
 
-// inline function to set tag for a specific region, was required to
-// match below function, should be moved to libgv.h
+/**
+ * @brief Sets the current free cache tag.
+ *
+ * @param ptr The data pointer of the file to write.
+ * @param id The ID of the file to write.
+ * @param region The region of the file to write.
+ */
 static inline void SetCurrentTag(void *ptr, int id, int region)
 {
     if (region != GV_REGION_CACHE)
@@ -296,7 +312,11 @@ static inline void SetCurrentTag(void *ptr, int id, int region)
     GV_CurrentTag->ptr = ptr;
 }
 
-// inline function to return the file handler function for a given ID
+/**
+ * @brief Returns the loader function for a file given its ID.
+ *
+ * @param id The ID of the file to return the loader function for.
+ */
 static inline GV_LOADFUNC GetLoadFunc(int id)
 {
     GV_LOADFUNC *loader;
@@ -311,7 +331,14 @@ static inline GV_LOADFUNC GetLoadFunc(int id)
     return loader[id >> 16];
 }
 
-// loads given init function
+/**
+ * @brief Loads a given file by calling its loader function.
+ * Also inserts the file into the file cache depending on the region.
+ *
+ * @param ptr The data pointer of the file being loaded.
+ * @param id The ID of the file being loaded.
+ * @param region The region of the file being loaded.
+ */
 int GV_LoadInit(void *ptr, int id, int region)
 {
     GV_LOADFUNC   func;
