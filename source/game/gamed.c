@@ -113,7 +113,7 @@ extern int          str_off_idx;
 extern char         exe_name_800B5860[32];
 extern char        *MGS_DiskName[3]; /* in main.c */
 extern int          FS_DiskNum_800ACBF0;
-extern int          gSaveCache_800B5294;
+extern int          FS_ResidentCacheDirty;
 extern GV_PAD       GV_PadData_800B05C0[4];
 
 extern DG_TEX gMenuTextureRec_800B58B0;
@@ -398,10 +398,10 @@ STATIC void GM_Act(GameWork *work)
             DG_UnDrawFrameCount = 0;
         }
 
-        if (gSaveCache_800B5294 != FALSE)
+        if (FS_ResidentCacheDirty)
         {
-            GV_ResidentFileCache();
-            DG_SaveTexureCacheToResidentMem();
+            GV_SaveResidentFileCache();
+            DG_SaveResidentTextureCache();
         }
 
         GM_ResetMap();

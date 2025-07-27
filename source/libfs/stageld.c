@@ -10,7 +10,7 @@
 extern FS_STAGE_INFO   *gStageInfo_800B5288;
 extern int              gLoaderStartTime_800B528C;
 extern int              gOverlayBinSize_800B5290;
-extern int              gSaveCache_800B5294;
+extern int              FS_ResidentCacheDirty;
 extern void            *StageCharacterEntries;
 
 /*---------------------------------------------------------------------------*/
@@ -99,7 +99,7 @@ STATIC int FS_80022E50( DATACNF_TAG *tag, CDBIOS_TASK *task )
         return 1;
 
     case 'r': // .resident
-        gSaveCache_800B5294 = 1;
+        FS_ResidentCacheDirty = 1;
 
     case 'n': // .nocache
         if ( tag->size <= 0x13FFF )
@@ -419,7 +419,7 @@ void *FS_LoadStageRequest( const char *dirname )
     DG_FrameRate = 1;
     printf( "load %s\n", dirname );
     gLoaderStartTime_800B528C = VSync( -1 );
-    gSaveCache_800B5294 = 0;
+    FS_ResidentCacheDirty = 0;
     sector = FS_CdGetStageFileTop( (char *)dirname );
     if ( sector < 0 )
     {

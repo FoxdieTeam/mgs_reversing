@@ -38,7 +38,7 @@
 80015418 28 GV_SetLoader
 80015434 36 GV_InitLoader
 80015458 44 GV_InitCacheSystem
-80015484 188 GV_ResidentFileCache
+80015484 188 GV_SaveResidentFileCache
 80015540 124 GV_FreeCacheSystem
 800155BC 300 GV_LoadInit
 800156E8 48 GV_Assert
@@ -223,7 +223,7 @@
 8001D9EC 188 DG_GetTextureRect
 8001DAA8 104 DG_GetClutRect
 8001DB10 16 DG_ClearResidentTexture
-8001DB20 204 DG_SaveTexureCacheToResidentMem
+8001DB20 204 DG_SaveResidentTextureCache
 8001DBEC 156 DG_ResetResidentTexture
 8001DC88 8 DG_TransStart
 8001DC90 256 DG_WriteObjVerticesIndirect
