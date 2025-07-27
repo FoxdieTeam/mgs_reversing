@@ -184,7 +184,7 @@ static void Change_800C38D0( Work *work, char *ot )
         found = 1;
 
         sprt = &work->f14C[ index ].sprt[ GV_Clock ];
-        LSTORE( 0x808080, &sprt->r0 );
+        LSTORE( COLOR_GRAY, &sprt->r0 );
         LCOPY( &work->f14C[ index ].rect.x, &sprt->x0 );
         LCOPY( &work->f14C[ index ].rect.w, &sprt->w );
         sprt->u0 = 0;

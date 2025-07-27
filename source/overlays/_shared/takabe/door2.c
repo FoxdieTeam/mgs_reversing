@@ -86,10 +86,10 @@ void s13a_door2_800DD274(POLY_FT4 *packs0, POLY_FT4 *packs1, int n_packs, DG_TEX
     while (--n_packs >= 0)
     {
         setPolyFT4(packs0);
-        LSTORE((LLOAD(&packs0->r0) & 0xff000000) | 0x808080, &packs0->r0);
+        LSTORE((LLOAD(&packs0->r0) & 0xff000000) | COLOR_GRAY, &packs0->r0);
 
         setPolyFT4(packs1);
-        LSTORE((LLOAD(&packs1->r0) & 0xff000000) | 0x808080, &packs1->r0);
+        LSTORE((LLOAD(&packs1->r0) & 0xff000000) | COLOR_GRAY, &packs1->r0);
         setSemiTrans(packs1, 0);
 
         packs0++;

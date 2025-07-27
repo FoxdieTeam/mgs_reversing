@@ -125,7 +125,7 @@ STATIC int TabakoGetResources(TabakoWork *work, OBJECT *parent, int num_parent)
     {
         pPoly = &pPrim->packs[i]->poly_ft4;
 
-        LSTORE(0x808080, &pPoly->r0);
+        LSTORE(COLOR_GRAY, &pPoly->r0);
 
         setPolyFT4(pPoly);
         setSemiTrans(pPoly, 1);

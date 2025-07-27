@@ -244,16 +244,16 @@ void EvPanelUpdateHighlightedButton_800C3778(EvPanelWork *work)
             if (j == work->current_button_idx)
             {
                 // Highlighted
-                poly->r0 = 255;
-                poly->g0 = 255;
-                poly->b0 = 255;
+                poly->r0 = GET_R_FROM_RGBA(COLOR_WHITE); // 255;
+                poly->g0 = GET_G_FROM_RGBA(COLOR_WHITE); // 255;
+                poly->b0 = GET_B_FROM_RGBA(COLOR_WHITE); // 255;
             }
             else
             {
                 // Not highlighted
-                poly->r0 = 128;
-                poly->g0 = 128;
-                poly->b0 = 128;
+                poly->r0 = GET_R_FROM_RGBA(COLOR_GRAY); // 128;
+                poly->g0 = GET_G_FROM_RGBA(COLOR_GRAY); // 128;
+                poly->b0 = GET_B_FROM_RGBA(COLOR_GRAY); // 128;
             }
 
             poly++;
