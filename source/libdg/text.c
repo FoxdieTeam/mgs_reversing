@@ -2,110 +2,140 @@
 #include "common.h"
 
 /*** bss ***/
-extern DG_TEX TexSets_800B1F50[512];
+extern DG_TEX DG_TextureCache[DG_MAX_TEXTURES];
 
 /*** data ***/
 STATIC DG_TEX DG_NullTexture = {};
 
 /*** $gp ***/
-int     SECTION(".sbss") gTextureCacheSize_800AB988;
-DG_TEX *SECTION(".sbss") gResidentTextureCacheCopy_800AB98C;
+int     SECTION(".sbss") DG_ResidentTextureCacheSize;
+DG_TEX *SECTION(".sbss") DG_ResidentTextureCache;
 
 /*** sdata ***/
-STATIC int last_searched_texture_name = -1;
+STATIC int DG_LastMissingTexture = -1;
 
-int DG_SearchTexture( int hash, DG_TEX **ppFound )
+/**
+ * @brief Searches the cache for an entry matching a given ID.
+ * Also returns an empty texture if one is found first.
+ *
+ * @param id The ID to search for in the cache.
+ * @param found The pointer to write the found texture pointer to.
+ */
+STATIC int FindTexture( int id, DG_TEX **found )
 {
-    int start;
+    int     start;
     DG_TEX *record;
-    int index;
-    int record_hash;
+    int     index;
+    int     record_id;
 
-    start = hash % 512;
-    record = &TexSets_800B1F50[start];
+    start = id % DG_MAX_TEXTURES;
+    record = &DG_TextureCache[start];
+
     index = start;
-
     do
     {
-        record_hash = record->id;
+        record_id = record->id;
 
-        if (record_hash == 0)
+        if (record_id == 0)
         {
-            *ppFound = record;
+            *found = record;
             return 0;
         }
 
-        if (record_hash == hash)
+        if (record_id == id)
         {
-            *ppFound = record;
+            *found = record;
             return 1;
         }
 
         index++;
         record++;
 
-        if (index == 512)
+        if (index == DG_MAX_TEXTURES)
         {
-            record = TexSets_800B1F50;
+            record = DG_TextureCache;
             index = 0;
         }
     } while(index != start);
 
-    *ppFound = 0;
+    *found = NULL;
     return 0;
 }
 
-
+/**
+ * @brief Initialises the texture cache by marking all entries as unused.
+ */
 void DG_InitTextureSystem( void )
 {
     DG_TEX *tex;
     int     i;
 
-    tex = TexSets_800B1F50;
-    for (i = 512; i > 0; tex++, i--)
+    tex = DG_TextureCache;
+    for (i = DG_MAX_TEXTURES; i > 0; i--)
     {
         tex->id = 0;
         tex->used = 0;
+        tex++;
     }
 }
 
-DG_TEX *DG_GetTexture( int name )
+/**
+ * @brief Searches the cache for an entry matching a given ID and returns a
+ * matching entry if found.
+ * Returns an empty texture if no texture with a matching ID was found.
+ * Also sets DG_LastMissingTexture to the given ID if it was not found.
+ *
+ * @param id The ID to search for in the cache.
+ */
+DG_TEX *DG_GetTexture( int id )
 {
-    DG_TEX *pFound;
-    if (!DG_SearchTexture(name, &pFound))
+    DG_TEX *found;
+
+    if (!FindTexture(id, &found))
     {
-        if (name != last_searched_texture_name)
+        if (id != DG_LastMissingTexture)
         {
-            last_searched_texture_name = name;
+            DG_LastMissingTexture = id;
         }
-        pFound = &DG_NullTexture;
+
+        found = &DG_NullTexture;
     }
-    return pFound;
+
+    return found;
 }
 
-void DG_SetTexture( int hash, int tp, int abr, DG_Image *a, DG_Image *b, int col )
+/**
+ * @brief Sets a texture given its ID and parameters.
+ *
+ * @param id The ID of the texture to set.
+ * @param tp The bitdepth of the texture (0: 4bpp, 1: 8bpp).
+ * @param abr The blend rate of the texture (see libgpu.h).
+ * @param tex The RECT describing the texture data.
+ * @param pal The RECT describing the palette data.
+ * @param col The number of palette entries.
+ */
+void DG_SetTexture( int id, int tp, int abr, RECT *img, RECT *pal, int col )
 {
     DG_TEX *tex;
+    int     x, y, w, h;
+    int     cx, cy;
+    int     tpage;
+    int     temp;
 
-    int x, y, w, h;
-    int cx, cy;
-    int tpage;
-    int temp;
-
-    if (DG_SearchTexture(hash, &tex) && tex->used)
+    if (FindTexture(id, &tex) && tex->used)
     {
         tex->id = 0;
     }
 
-    tex->id = hash;
+    tex->id = id;
     tex->col = col;
     tex->used = 0;
 
-    x = a->dim.x;
-    y = a->dim.y;
+    x = img->x;
+    y = img->y;
 
-    cx = b->dim.x;
-    cy = b->dim.y;
+    cx = pal->x;
+    cy = pal->y;
 
     // They didn't use the LIBGPU macros :(
     temp = x;
@@ -116,8 +146,8 @@ void DG_SetTexture( int hash, int tp, int abr, DG_Image *a, DG_Image *b, int col
 
     x %= 64;
 
-    w = a->dim.w;
-    h = a->dim.h;
+    w = img->w;
+    h = img->h;
 
     if (tp == 0)
     {
@@ -138,12 +168,16 @@ void DG_SetTexture( int hash, int tp, int abr, DG_Image *a, DG_Image *b, int col
     tex->h = temp - 1;
 }
 
-void DG_GetTextureRect( DG_TEX* tex, RECT* rect )
+/**
+ * @brief Gets the RECT describing the given texture's extents.
+ *
+ * @param tex The texture to get the RECT for.
+ * @param rect The RECT to write the texture's extents to.
+ */
+void DG_GetTextureRect( DG_TEX *tex, RECT *rect )
 {
-    short tpage;
-    int x;
-    int y;
-    int w;
+    int tpage;
+    int x, y, w;
 
     tpage = tex->tpage;
     x = ( tpage & 0x0F ) << 6;
@@ -161,102 +195,118 @@ void DG_GetTextureRect( DG_TEX* tex, RECT* rect )
 
     rect->y = tex->off_y + y;
     rect->h = tex->h + 1;
-    w = tex->w + 1;
 
+    w = tex->w + 1;
 
     switch ( tpage & 0x180 )
     {
     case 0:
-        w = w / 2;
+        w /= 2;
     case 0x80:
-        w = w / 2;
+        w /= 2;
         break;
     }
 
     rect->w = w;
 }
 
-void DG_GetClutRect( DG_TEX* tex, RECT* rect )
+/**
+ * @brief Gets the RECT describing the given texture's palette extents.
+ *
+ * @param tex The texture to get the RECT for.
+ * @param rect The RECT to write the texture's palette extents to.
+ */
+void DG_GetClutRect( DG_TEX *tex, RECT *rect )
 {
-    short clut;
-    int v1;
-    int x, y, w;
+    int clut;
+    int x, y, y2, w;
 
     clut = tex->clut;
-    v1 = ( clut & 0x7FC0 );
-    x =  ( clut & 0x003F ) << 4;
-    y = v1 / 64;
+
+    y = ( clut & 0x7FC0 );
+    x = ( clut & 0x003F ) << 4;
+    y2 = y / 64;
+
     w = 0;
 
     switch ( tex->tpage & 0x180 )
     {
     case 0:
-        w = 0x10;
+        w = 16;
         break;
     case 1:
-        w = 0x100;
+        w = 256;
         break;
     }
 
     rect->x = x;
-    rect->y = y;
+    rect->y = y2;
     rect->w = w;
     rect->h = 1;
 }
 
-void DG_ClearResidentTexture( void )
+/**
+ * @brief Initialises the resident texture cache as empty.
+ */
+void DG_InitResidentTextureCache( void )
 {
-    gTextureCacheSize_800AB988 = 0;
-    gResidentTextureCacheCopy_800AB98C = 0;
+    DG_ResidentTextureCacheSize = 0;
+    DG_ResidentTextureCache = NULL;
 }
 
+/**
+ * @brief Saves all texture cache entries to the resident texture cache.
+ */
 void DG_SaveResidentTextureCache( void )
 {
     DG_TEX *tex;
-    int     recordCount;
+    int     size;
     int     i;
-    DG_TEX *resident_copy;
+    DG_TEX *resident;
 
-    tex = TexSets_800B1F50;
-    recordCount = 0;
-    for (i = 512; i > 0; tex++, i--)
+    tex = DG_TextureCache;
+    size = 0;
+    for (i = DG_MAX_TEXTURES; i > 0; tex++, i--)
     {
-        if (tex->id)
+        if (tex->id != 0)
         {
-            recordCount++;
+            size++;
         }
     }
 
-    if (recordCount)
+    if (size)
     {
-        gTextureCacheSize_800AB988 = recordCount;
+        DG_ResidentTextureCacheSize = size;
+        DG_ResidentTextureCache = resident = GV_AllocResidentMemory(size * sizeof(DG_TEX));
 
-        resident_copy = GV_AllocResidentMemory(recordCount * sizeof(DG_TEX));
-        gResidentTextureCacheCopy_800AB98C = resident_copy;
-
-        tex = TexSets_800B1F50;
-        for (i = 512; i > 0; tex++, i--)
+        tex = DG_TextureCache;
+        for (i = DG_MAX_TEXTURES; i > 0; i--)
         {
-            if (tex->id)
+            if (tex->id != 0)
             {
-                *resident_copy++ = *tex;
+                *resident++ = *tex;
             }
+
+            tex++;
         }
     }
 }
 
-void DG_ResetResidentTexture( void )
+/**
+ * @brief Loads all resident texture cache entries into the main texture cache.
+ */
+void DG_LoadResidentTextureCache( void )
 {
-    int     i;
     DG_TEX *tex;
+    int     i;
+    DG_TEX *found;
 
-    if (gResidentTextureCacheCopy_800AB98C)
+    if (DG_ResidentTextureCache)
     {
-        tex = gResidentTextureCacheCopy_800AB98C;
-        for (i = gTextureCacheSize_800AB988; i > 0; i--)
+        tex = DG_ResidentTextureCache;
+        for (i = DG_ResidentTextureCacheSize; i > 0; i--)
         {
-            DG_TEX *found;
-            DG_SearchTexture(tex->id, &found);
+            FindTexture(tex->id, &found);
             *found = *tex++;
             found->used = 1;
         }

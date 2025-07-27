@@ -44,6 +44,8 @@ typedef struct DG_PVECTOR
 
 /*---------------------------------------------------------------------------*/
 
+#define DG_MAX_TEXTURES 512
+
 typedef struct DG_TEX
 {
     u_short id;
@@ -474,7 +476,7 @@ int  DG_DrawSyncResetGraph( void );
 void DG_StartFrame( GV_ACT *actor );
 void DG_EndFrame( void );
 void DG_ResetPipeline( void );
-void DG_TextureCacheInit( void );
+void DG_ResetTextureCache( void );
 void DG_StartDaemon(void);
 
 /* bound.c */
@@ -623,15 +625,14 @@ void DG_ShadeEnd( void );
 void DG_SortChanl( DG_CHANL *chanl, int idx );
 
 /* text.c */
-int  DG_SearchTexture( int hash, DG_TEX **ppFound );
 void DG_InitTextureSystem( void );
-DG_TEX *DG_GetTexture( int name );
-void DG_SetTexture( int hash, int tp, int abr, DG_Image *a, DG_Image *b, int col );
+DG_TEX *DG_GetTexture( int id );
+void DG_SetTexture( int id, int tp, int abr, RECT *img, RECT *pal, int col );
 void DG_GetTextureRect( DG_TEX *tex, RECT *rect );
 void DG_GetClutRect( DG_TEX *tex, RECT *rect );
-void DG_ClearResidentTexture( void );
+void DG_InitResidentTextureCache( void );
 void DG_SaveResidentTextureCache( void );
-void DG_ResetResidentTexture( void );
+void DG_LoadResidentTextureCache( void );
 
 /* trans.c */
 void DG_TransStart( void );
