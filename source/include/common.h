@@ -78,7 +78,7 @@ typedef int             BOOL;
 #define COLOR_GREEN     MAKE_RGB0(  0,255,  0)
 #define COLOR_BLUE      MAKE_RGB0(  0,  0,255)
 #define COLOR_CYAN      MAKE_RGB0(  0,255,255)
-#define COLOR_MAGENTA   MAKE_RGB0(255,   ,255)
+#define COLOR_MAGENTA   MAKE_RGB0(255,  0,255)
 #define COLOR_YELLOW    MAKE_RGB0(255,255,  0)
 
 /*---------------------------------------------------------------------------*/
