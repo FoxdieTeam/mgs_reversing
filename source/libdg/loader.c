@@ -357,7 +357,7 @@ int DG_LoadInitPcx(unsigned char *buf, int id)
         if (id)
         {
             DG_SetTexture((unsigned short)id, flags & 1, (flags & 0x30) >> 4,
-                          imageA, imageB, imageB->dim.w);
+                          &imageA->dim, &imageB->dim, imageB->dim.w);
         }
         return 1;
     }
