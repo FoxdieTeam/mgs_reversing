@@ -71,15 +71,16 @@ typedef int             BOOL;
 #define GET_B_FROM_RGBA(_rgba)  (((_rgba) >> RGBA_B_SHIFT) & 0xff)
 #define GET_A_FROM_RGBA(_rgba)  (((_rgba) >> RGBA_A_SHIFT) & 0xff)
 
-#define COLOR_BLACK     MAKE_RGB0(  0,  0,  0)
-#define COLOR_WHITE     MAKE_RGB0(255,255,255)
-#define COLOR_GRAY      MAKE_RGB0(128,128,128)
-#define COLOR_RED       MAKE_RGB0(255,  0,  0)
-#define COLOR_GREEN     MAKE_RGB0(  0,255,  0)
-#define COLOR_BLUE      MAKE_RGB0(  0,  0,255)
-#define COLOR_CYAN      MAKE_RGB0(  0,255,255)
-#define COLOR_MAGENTA   MAKE_RGB0(255,  0,255)
-#define COLOR_YELLOW    MAKE_RGB0(255,255,  0)
+/* common colors */
+#define COLOR_BLACK     MAKE_RGB0(  0,  0,  0)  // 0x00000000
+#define COLOR_WHITE     MAKE_RGB0(255,255,255)  // 0x00ffffff
+#define COLOR_GRAY      MAKE_RGB0(128,128,128)  // 0x00808080
+#define COLOR_RED       MAKE_RGB0(255,  0,  0)  // 0x000000ff
+#define COLOR_GREEN     MAKE_RGB0(  0,255,  0)  // 0x0000ff00
+#define COLOR_BLUE      MAKE_RGB0(  0,  0,255)  // 0x00ff0000
+#define COLOR_CYAN      MAKE_RGB0(  0,255,255)  // 0x00ffff00
+#define COLOR_MAGENTA   MAKE_RGB0(255,  0,255)  // 0x00ff00ff
+#define COLOR_YELLOW    MAKE_RGB0(255,255,  0)  // 0x0000ffff
 
 /*---------------------------------------------------------------------------*/
 
