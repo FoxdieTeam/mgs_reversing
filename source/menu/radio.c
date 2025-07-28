@@ -390,31 +390,29 @@ void menu_radio_codec_helper_helper14_helper5_800402A0(MenuPrim *pGlue, int xoff
 
 void menu_RadioCall_helper_800403E4(void)
 {
-    int        id;
-    ResHeader *pRes;
-    RECT       clut_rect;
-    char      *buf;
-    RECT      *pRect;
+    TIM  *tim;
+    RECT  clut_rect;
+    char *pixel_data;
+    RECT *pixel_rect;
 
-    id = GV_CacheID2("call", 'r');
-    pRes = GV_GetCache(id);
+    tim = GV_GetCache(GV_CacheID2("call", 'r'));
 
     clut_rect.x = 960;
     clut_rect.y = 371;
     clut_rect.w = 16;
     clut_rect.h = 1;
 
-    LoadImage(&clut_rect, (u_long *)pRes->field_14);
+    LoadImage(&clut_rect, (u_long *)tim->clut_data);
 
-    buf = (char *)&pRes->field_14[pRes->field_8 >> 1];
-    pRect = (RECT *)(buf - 8);
+    pixel_data = (char *)&tim->clut_data[tim->clut.bnum >> 1];
+    pixel_rect = (RECT *)(pixel_data - 8);
 
     gRadioClut_800ABAFC = getClut(clut_rect.x, clut_rect.y);
 
-    pRect->x = 960;
-    pRect->y = 372;
+    pixel_rect->x = 960;
+    pixel_rect->y = 372;
 
-    LoadImage(pRect, (u_long *)buf);
+    LoadImage(pixel_rect, (u_long *)pixel_data);
 }
 
 void menu_radio_update_helper3_80040498(MenuPrim *pGlue)
@@ -1729,46 +1727,49 @@ extern SPRT gRadioNumberSprt2_800bd9d0;
 
 void menu_number_init(MenuWork *work)
 {
-    RECT       rect1, rect2;
-    ResHeader *pRes;
-    SPRT      *pSprt;
+    RECT  texture_rect;
+    RECT  clut_rect;
+    TIM  *tim;
+    SPRT *sprt;
 
-    rect1 = rect_800AB64C[0];
+    texture_rect = rect_800AB64C[0];
 
     // Loads "num.res" (c70e.r) file:
-    pRes = GV_GetCache(GV_CacheID2("num", 'r'));
+    tim = GV_GetCache(GV_CacheID2("num", 'r'));
 
-    pRes->field_14[0] = 0; // TODO: Why zero out the first pixel of image?
+    // The first CLUT entry must be transparent
+    tim->clut_data[0] = 0;
 
-    rect2.x = 960;
-    rect2.y = 511;
-    rect2.w = 16;
-    rect2.h = 1;
+    clut_rect.x = 960;
+    clut_rect.y = 511;
+    clut_rect.w = 16;
+    clut_rect.h = 1;
 
-    LoadImage(&rect2, (u_long *)pRes->field_14);
-    LoadImage(&rect1, (u_long *)&pRes->field_14[pRes->field_8 >> 1]);
+    LoadImage(&clut_rect, (u_long *)tim->clut_data);
+    LoadImage(&texture_rect, (u_long *)&tim->clut_data[tim->clut.bnum >> 1]);
 
-    pSprt = &gRadioNumberSprt_800bd9b0;
-    setSprt(pSprt);
-    pSprt->r0 = 128;
-    pSprt->g0 = 128;
-    pSprt->b0 = 128;
-    pSprt->u0 = 0x9c;
-    pSprt->v0 = 0xe8;
-    pSprt->w = 6;
-    pSprt->h = 7;
-    pSprt->clut = 0x7ffc;
+    sprt = &gRadioNumberSprt_800bd9b0;
+    setSprt(sprt);
+    sprt->r0 = 128;
+    sprt->g0 = 128;
+    sprt->b0 = 128;
+    sprt->u0 = 0x9c;
+    sprt->v0 = 0xe8;
+    sprt->w = 6;
+    sprt->h = 7;
+    sprt->clut = 0x7ffc;
 
-    pSprt = &gRadioNumberSprt2_800bd9d0;
-    setSprt(pSprt);
-    pSprt->r0 = 128;
-    pSprt->g0 = 128;
-    pSprt->b0 = 128;
-    pSprt->u0 = 0;
-    pSprt->v0 = 0xed;
-    pSprt->w = 6;
-    pSprt->h = 5;
-    pSprt->clut = 0x7ffc;
+    sprt = &gRadioNumberSprt2_800bd9d0;
+    setSprt(sprt);
+    sprt->r0 = 128;
+    sprt->g0 = 128;
+    sprt->b0 = 128;
+    sprt->u0 = 0;
+    sprt->v0 = 0xed;
+    sprt->w = 6;
+    sprt->h = 5;
+    sprt->clut = 0x7ffc;
+
     menu_set_string2();
 }
 

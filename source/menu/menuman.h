@@ -234,26 +234,23 @@ typedef struct MenuPrim
     unsigned char *mPrimPtrs[2];
 } MenuPrim;
 
-typedef struct _Menu_rpk_item
+typedef struct RPK_ITEM
 {
-    char   field_0_x;
-    char   field_1_y;
-    char   field_2_w;
-    char   field_3_h;
-    u_long field_4_pixel_ptr[0];
-} Menu_rpk_item;
+    char   x, y, w, h;
+    u_long data[0];
+} RPK_ITEM;
 
 // This struct describes the structure of
 // ".rpk" files (".rpk", 'r', 0x72). Note
 // that 'r' (0x72) can be either a ".rar",
 // ".res" or ".rpk" file.
-typedef struct
+typedef struct RPK // resource pack?
 {
-    unsigned char  field_0_count1;
-    unsigned char  field_1_count2;
-    short          pad;
-    Menu_rpk_item *items[0]; // pointers ??
-} RpkHeader;
+    u_char    palettes;
+    u_char    images;
+    short     pad;
+    RPK_ITEM *items[0];
+} RPK;
 
 typedef struct _MENU_BAR_CONF
 {
@@ -398,26 +395,25 @@ typedef struct Menu_Triangle
 } Menu_Triangle;
 
 PANEL_TEXTURE *menu_weapon_get_weapon_rpk_info_8003DED8(int weaponIdx);
-Menu_rpk_item            **menu_rpk_init_8003DD1C(const char *pFileName);
-void                       menu_restore_nouse(void);
+RPK_ITEM     **menu_rpk_init_8003DD1C(const char *pFileName);
+void           menu_restore_nouse(void);
 PANEL_TEXTURE *menu_rpk_8003B5E0(int idx);
-void         sub_8003CB98(struct MenuWork *a1);
-int          menu_radio_do_file_mode(MenuWork *work, GV_PAD *pPad);
-void         sub_8003CFE0(PANEL_TEXTURE *images, int index);
-void         draw_life_defaultX_8003F408(MenuPrim *prim, long y, long rest, long now, long max, MENU_BAR_CONF *bconf);
-void         draw_life_8003F464(MenuPrim *prim, long x, long y, long rest, long now, long max, MENU_BAR_CONF *bconf);
-void         menu_draw_bar(MenuPrim *prim, long x, long y, long rest, long now, long max, MENU_BAR_CONF *bconf);
-void         MENU_InitRadioTable(void);
-// void         set_sprt_default_8004AE14(SPRT *pSprt);
-void         move_coord(int *arr, int len);
-void         MENU_ResetSystem(void);
-void         MENU_SetRadarScale(int);
-void         MENU_StartDeamon(void);
-void         menu_Text_Init_80038B98(void);
-void         menu_Text_PrimUnknown_80038BB4(void);
-void         menu_init_nouse(void);
-void         menu_init_rpk_item_8003DDCC(PANEL_TEXTURE *pUnk, int imgIdx, int palIdx);
-int          menu_draw_num(int number);
+void           sub_8003CB98(struct MenuWork *a1);
+int            menu_radio_do_file_mode(MenuWork *work, GV_PAD *pPad);
+void           sub_8003CFE0(PANEL_TEXTURE *images, int index);
+void           draw_life_defaultX_8003F408(MenuPrim *prim, long y, long rest, long now, long max, MENU_BAR_CONF *bconf);
+void           draw_life_8003F464(MenuPrim *prim, long x, long y, long rest, long now, long max, MENU_BAR_CONF *bconf);
+void           menu_draw_bar(MenuPrim *prim, long x, long y, long rest, long now, long max, MENU_BAR_CONF *bconf);
+void           MENU_InitRadioTable(void);
+void           move_coord(int *arr, int len);
+void           MENU_ResetSystem(void);
+void           MENU_SetRadarScale(int);
+void           MENU_StartDeamon(void);
+void           menu_Text_Init_80038B98(void);
+void           menu_Text_PrimUnknown_80038BB4(void);
+void           menu_init_nouse(void);
+void           menu_init_rpk_item_8003DDCC(PANEL_TEXTURE *pUnk, int imgIdx, int palIdx);
+int            menu_draw_num(int number);
 
 void menu_radio_draw_face_helper_800470F4(int idx);
 void menu_radio_draw_face_helper2_800486F4(menu_chara_struct_sub *pSub, int idx);
@@ -475,8 +471,8 @@ void MENU_SetRadioOverCall(int contactFrequency, int radioTableCode);
 void MENU_InitRadioMemory(void);
 void menu_radio_update_helper_80038A6C(void);
 TILE          *menu_render_rect_8003DB2C(MenuPrim *pOt, int x, int y, int w, int h, int rgb);
-Menu_rpk_item *menu_rpk_get_img_8003DDB4(int id);
-Menu_rpk_item *menu_rpk_get_pal_8003DD9C(int id);
+RPK_ITEM      *menu_rpk_get_img_8003DDB4(int id);
+RPK_ITEM      *menu_rpk_get_pal_8003DD9C(int id);
 void           MENU_JimakuClear(void);
 void           MENU_Locate(int xpos, int ypos, int flags);
 void           MENU_Color(int r, int g, int b);

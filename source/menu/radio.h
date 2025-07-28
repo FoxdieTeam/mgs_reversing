@@ -167,22 +167,21 @@ typedef struct Radio_8009E664
 // and it is not described by those structs.
 //
 // TODO: Is radio.h the right header file for this?
-typedef struct ResHeader_Sub
+typedef struct TIM_DATA
 {
-    int  field_0;
-    RECT field_4;
-} ResHeader_Sub;
+    u_int   bnum;
+    RECT    rect;
+    u_short data[0];
+} TIM_DATA;
 
-typedef struct ResHeader
+typedef struct TIM
 {
-    int           field_0;
-    int           field_4;
-    unsigned int  field_8;
-    int           field_C;
-    int           field_10;
-    short         field_14[16];
-    ResHeader_Sub field_34;
-} ResHeader;
+    int      id;
+    int      flag;
+    TIM_DATA clut;
+    u_short  clut_data[16];
+    TIM_DATA pixel;
+} TIM;
 
 void           sub_8004D580(int pressed);
 void           sub_8004124C(MenuWork *work);
