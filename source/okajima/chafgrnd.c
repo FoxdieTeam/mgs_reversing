@@ -15,6 +15,7 @@
 #include "sd/g_sound.h"
 #include "strcode.h"
 
+// okajima_CHAF_LIFE (?)
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 extern int              dword_800BDF98;
 extern int              dword_800BDF9C;
