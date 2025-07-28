@@ -85,7 +85,7 @@ gap                                     gap_800B1DC4[0x4]; // 4 bytes
 unsigned short BSS  gOldRootCnt_800B1DC8[32]; // 0x40 (64) bytes
 DG_FixedLight BSS   gFixedLights_800B1E08[8]; // 0x40 (64) bytes
 DG_TmpLightList BSS LightSystems_800B1E48[2]; // 0x108 (264) bytes
-DG_TEX BSS          TexSets_800B1F50[512]; // 0x1800 (6144) bytes
+DG_TEX BSS          DG_TextureCache[DG_MAX_TEXTURES]; // 0x1800 (6144) bytes
 GV_ACT BSS          DG_StartFrameActor_800B3750; // 0x20 (32) bytes
 GV_ACT BSS          DG_EndFrameActor_800B3770; // 0x20 (32) bytes
 int BSS             dword_800B3790; // 0x4 (4) bytes

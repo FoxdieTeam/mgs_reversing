@@ -118,10 +118,10 @@ void DG_ResetPipeline(void)
     DG_Chanl(0)->mFreePrimCount = DG_Chanl(0)->mTotalQueueSize;
 }
 
-void DG_TextureCacheInit(void)
+void DG_ResetTextureCache(void)
 {
     DG_InitTextureSystem();
-    DG_ResetResidentTexture();
+    DG_LoadResidentTextureCache();
 }
 
 extern GV_ACT DG_StartFrameActor_800B3750;
@@ -135,7 +135,7 @@ void DG_StartDaemon(void)
 
     DG_InitDispEnv(0, 0, 320, 240, 320);
     DG_InitChanlSystem(320);
-    DG_ClearResidentTexture();
+    DG_InitResidentTextureCache();
     DG_ResetPipeline();
 
     GV_SetLoader('p', DG_LoadInitPcx);      // *.pcx format
