@@ -222,9 +222,9 @@
 8001D880 364 DG_SetTexture
 8001D9EC 188 DG_GetTextureRect
 8001DAA8 104 DG_GetClutRect
-8001DB10 16 DG_ClearResidentTexture
+8001DB10 16 DG_InitResidentTextureCache
 8001DB20 204 DG_SaveResidentTextureCache
-8001DBEC 156 DG_ResetResidentTexture
+8001DBEC 156 DG_LoadResidentTextureCache
 8001DC88 8 DG_TransStart
 8001DC90 256 DG_WriteObjVerticesIndirect
 8001DD90 440 DG_WriteObjVertices
@@ -242,7 +242,7 @@
 8001F078 324 DG_StartFrame
 8001F1BC 32 DG_EndFrame
 8001F1DC 128 DG_ResetPipeline
-8001F25C 40 DG_TextureCacheInit
+8001F25C 40 DG_ResetTextureCache
 8001F284 328 DG_StartDaemon
 8001F3CC 288 DG_LinkModelToParent
 8001F4EC 268 DG_LoadInitKmd

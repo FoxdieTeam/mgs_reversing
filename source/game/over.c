@@ -479,7 +479,7 @@ STATIC void over_Die( OverWork *work )
     {
         GV_InitResidentMemory();
         GV_InitCacheSystem();
-        DG_ClearResidentTexture();
+        DG_InitResidentTextureCache();
         stage_name = "init";
         GM_GameStatusFlag &= ~0x20;
     }
