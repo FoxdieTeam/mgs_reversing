@@ -24,8 +24,8 @@ STATIC short inactive7segmentColors_800AB4A8[4] = {0x8023, 0x8023, 0x8023, 0x000
 STATIC int cons_current_y_800AB4B0 = 0;
 STATIC int cons_current_x_800AB4B4 = 0;
 
-Menu_rpk_item *SECTION(".sbss") gRadar_rpk_800ABAC8;
-int            SECTION(".sbss") dword_800ABACC;
+RPK_ITEM *SECTION(".sbss") gRadar_rpk_800ABAC8;
+int       SECTION(".sbss") dword_800ABACC;
 
 extern short    image_8009E338[];
 extern char     gDigit7Segment_8009E60C[];
@@ -1020,8 +1020,8 @@ void menu_radar_load_rpk_8003AD64()
 
     rect.x = 992;
     rect.y = 336;
-    rect.w = gRadar_rpk_800ABAC8->field_2_w;
-    rect.h = gRadar_rpk_800ABAC8->field_3_h;
+    rect.w = gRadar_rpk_800ABAC8->w;
+    rect.h = gRadar_rpk_800ABAC8->h;
     LoadImage(&rect, (u_long *)&gRadar_rpk_800ABAC8[1]);
 }
 
