@@ -104,6 +104,14 @@ typedef int             BOOL;
 
 /*---------------------------------------------------------------------------*/
 
+#define SCREEN_WIDTH    (320)
+#define SCREEN_HEIGHT   (240)
+
+#define FRAME_WIDTH     (320)
+#define FRAME_HEIGHT    (224)   /* 240 minus 16-pixel overscan area */
+
+/*---------------------------------------------------------------------------*/
+
 #define SCRPAD_ADDR     0x1f800000
 #define SCRPAD_SIZE     0x400
 
