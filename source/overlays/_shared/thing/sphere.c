@@ -22,16 +22,16 @@ typedef struct _Work
 
 /*---------------------------------------------------------------------------*/
 
-static short SECTION("overlay.bss") sphere_image_width_800E4B28;
-static short SECTION("overlay.bss") sphere_image_height_800E4B2A;
-static short SECTION("overlay.bss") sphere_visible_tiles_x_800E4B2C;
-static short SECTION("overlay.bss") sphere_visible_tiles_y_800E4B2E;
-static short SECTION("overlay.bss") sphere_tiles_x_800E4B30;
-static short SECTION("overlay.bss") sphere_tiles_y_800E4B32;
-static short SECTION("overlay.bss") sphere_tile_width_800E4B34;
-static short SECTION("overlay.bss") sphere_tile_height_800E4B36;
-static short SECTION("overlay.bss") sphere_elevation_800E4B38;
-static short SECTION("overlay.bss") sphere_word_800E4B3A;
+static short SECTION("overlay.bss") sphere_image_width;
+static short SECTION("overlay.bss") sphere_image_height;
+static short SECTION("overlay.bss") sphere_visible_tiles_x;
+static short SECTION("overlay.bss") sphere_visible_tiles_y;
+static short SECTION("overlay.bss") sphere_tiles_x;
+static short SECTION("overlay.bss") sphere_tiles_y;
+static short SECTION("overlay.bss") sphere_tile_width;
+static short SECTION("overlay.bss") sphere_tile_height;
+static short SECTION("overlay.bss") sphere_elevation;
+static short SECTION("overlay.bss") sphere_word;
 
 static void Sphere_800C60E0(MATRIX *eye, SVECTOR *out)
 {
@@ -47,9 +47,9 @@ static void Sphere_800C60E0(MATRIX *eye, SVECTOR *out)
     sp10.vx = eye->m[0][2];
     sp10.vz = eye->m[2][2];
 
-    yaw = (GV_VecDir2(&sp10) * sphere_image_width_800E4B28) / 4096 + 1;
-    out->vx = sphere_image_width_800E4B28 - yaw;
-    out->vy -= sphere_elevation_800E4B38;
+    yaw = (GV_VecDir2(&sp10) * sphere_image_width) / 4096 + 1;
+    out->vx = sphere_image_width - yaw;
+    out->vy -= sphere_elevation;
 }
 
 static void Act(Work *work)
@@ -72,25 +72,25 @@ static void Act(Work *work)
 
     if (work->f68 > 0)
     {
-        svec.vx += (sphere_image_width_800E4B28 - 1) & (sphere_word_800E4B3A++ & 0xFFFF) / work->f68;
+        svec.vx += (sphere_image_width - 1) & (sphere_word++ & 0xFFFF) / work->f68;
     }
     else if (work->f68 < 0)
     {
-        svec.vx += (sphere_image_width_800E4B28 - 1) & -work->f68 * (sphere_word_800E4B3A++ & 0xFFFF);
+        svec.vx += (sphere_image_width - 1) & -work->f68 * (sphere_word++ & 0xFFFF);
     }
 
-    if (svec.vx >= sphere_image_width_800E4B28)
+    if (svec.vx >= sphere_image_width)
     {
-        svec.vx -= sphere_image_width_800E4B28;
+        svec.vx -= sphere_image_width;
     }
 
     x_tile_iter = svec.vx - 160;
     if (x_tile_iter < 0)
     {
-        x_tile_iter += sphere_image_width_800E4B28;
+        x_tile_iter += sphere_image_width;
     }
 
-    y_tile_iter = svec.vy + (sphere_image_height_800E4B2A >> 1) - 112;
+    y_tile_iter = svec.vy + (sphere_image_height >> 1) - 112;
     var_a2 = 0;
     if (y_tile_iter < 0)
     {
@@ -98,18 +98,18 @@ static void Act(Work *work)
         y_tile_iter = 0;
     }
 
-    x0 = -(x_tile_iter % sphere_tile_width_800E4B34) - 160;
-    y0 = var_a2 - 112 - y_tile_iter % sphere_tile_height_800E4B36;
-    x_tile_iter = x_tile_iter / sphere_tile_width_800E4B34;
-    if (x_tile_iter >= sphere_tiles_x_800E4B30)
+    x0 = -(x_tile_iter % sphere_tile_width) - 160;
+    y0 = var_a2 - 112 - y_tile_iter % sphere_tile_height;
+    x_tile_iter = x_tile_iter / sphere_tile_width;
+    if (x_tile_iter >= sphere_tiles_x)
     {
         x_tile_iter = 0;
     }
 
-    y_tile_iter = y_tile_iter / sphere_tile_height_800E4B36;
-    if (y_tile_iter >= sphere_tiles_y_800E4B32)
+    y_tile_iter = y_tile_iter / sphere_tile_height;
+    if (y_tile_iter >= sphere_tiles_y)
     {
-        y_tile_iter = sphere_tiles_y_800E4B32 - 1;
+        y_tile_iter = sphere_tiles_y - 1;
     }
 
     last_texid = -1;
@@ -123,14 +123,14 @@ static void Act(Work *work)
     textures = work->textures;
 
     poly = &work->prim->packs[GV_Clock]->poly_ft4;
-    for (y = 0; y < sphere_visible_tiles_y_800E4B2E; y++)
+    for (y = 0; y < sphere_visible_tiles_y; y++)
     {
         x0 = x0_orig;
         x_tile_iter = x_tile_iter_orig;
 
-        map_idx = y_tile_iter * sphere_tiles_x_800E4B30 + x_tile_iter;
+        map_idx = y_tile_iter * sphere_tiles_x + x_tile_iter;
 
-        for (x = 0; x < sphere_visible_tiles_x_800E4B2C; x++)
+        for (x = 0; x < sphere_visible_tiles_x; x++)
         {
             tag = 63000;
             if (last_tile != tilemap[map_idx])
@@ -148,9 +148,9 @@ static void Act(Work *work)
                 }
 
                 u0 = attrib->xoff + xoff;
-                u1 = u0 + sphere_tile_width_800E4B34;
+                u1 = u0 + sphere_tile_width;
                 v0 = attrib->yoff + yoff;
-                v1 = v0 + sphere_tile_height_800E4B36;
+                v1 = v0 + sphere_tile_height;
                 if (u1 > 255)
                 {
                     u1 = 255;
@@ -163,8 +163,8 @@ static void Act(Work *work)
 
             x_tile_iter++;
 
-            x1 = sphere_tile_width_800E4B34 + x0;
-            y1 = sphere_tile_height_800E4B36 + y0;
+            x1 = sphere_tile_width + x0;
+            y1 = sphere_tile_height + y0;
 
             poly->tpage = tpage;
             poly->clut = clut;
@@ -182,20 +182,20 @@ static void Act(Work *work)
             poly_tag = (short *)poly;
             *poly_tag = tag;
 
-            tile_width = sphere_tile_width_800E4B34;
+            tile_width = sphere_tile_width;
             x0 += tile_width;
 
             map_idx++;
-            if (x_tile_iter >= sphere_tiles_x_800E4B30)
+            if (x_tile_iter >= sphere_tiles_x)
             {
-                map_idx -= sphere_tiles_x_800E4B30;
+                map_idx -= sphere_tiles_x;
                 x_tile_iter = 0;
             }
             poly++;
         }
-        tile_height = sphere_tile_height_800E4B36;
+        tile_height = sphere_tile_height;
         y0 += tile_height;
-        if (++y_tile_iter >= sphere_tiles_y_800E4B32)
+        if (++y_tile_iter >= sphere_tiles_y)
         {
             y_tile_iter--;
         }
@@ -226,7 +226,7 @@ static int GetResources(Work *work, int map)
     GCL_StrToSV(opt, &color);
 
     opt = GCL_GetOption('y');
-    sphere_elevation_800E4B38 = GCL_StrToInt(opt);
+    sphere_elevation = GCL_StrToInt(opt);
 
     opt = GCL_GetOption('m');
     model = GCL_StrToInt(opt);
@@ -236,12 +236,12 @@ static int GetResources(Work *work, int map)
         return -1;
     }
 
-    sphere_image_width_800E4B28 = work->img->image_width;
-    sphere_image_height_800E4B2A = work->img->image_height;
-    sphere_tile_width_800E4B34 = work->img->tile_width;
-    sphere_tile_height_800E4B36 = work->img->tile_height;
-    sphere_tiles_x_800E4B30 = sphere_image_width_800E4B28 / sphere_tile_width_800E4B34;
-    sphere_tiles_y_800E4B32 = sphere_image_height_800E4B2A / sphere_tile_height_800E4B36;
+    sphere_image_width = work->img->image_width;
+    sphere_image_height = work->img->image_height;
+    sphere_tile_width = work->img->tile_width;
+    sphere_tile_height = work->img->tile_height;
+    sphere_tiles_x = sphere_image_width / sphere_tile_width;
+    sphere_tiles_y = sphere_image_height / sphere_tile_height;
 
     textures = work->textures;
     for (i = 0; i < work->img->textures[0]; i++)
@@ -250,9 +250,9 @@ static int GetResources(Work *work, int map)
         *textures++ = DG_GetTexture(name);
     }
 
-    sphere_visible_tiles_x_800E4B2C = (320 / sphere_tile_width_800E4B34) + 1;
-    sphere_visible_tiles_y_800E4B2E = (224 / sphere_tile_height_800E4B36) + 1;
-    n_prims = sphere_visible_tiles_y_800E4B2E * sphere_visible_tiles_x_800E4B2C;
+    sphere_visible_tiles_x = (320 / sphere_tile_width) + 1;
+    sphere_visible_tiles_y = (224 / sphere_tile_height) + 1;
+    n_prims = sphere_visible_tiles_y * sphere_visible_tiles_x;
 
     prim = DG_GetPrim(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, n_prims, 0, NULL, NULL);
     work->prim = prim;
@@ -302,7 +302,7 @@ void *NewSphere(int name, int where, int argc, char **argv)
             return NULL;
         }
 
-        sphere_word_800E4B3A = 0;
+        sphere_word = 0;
     }
 
     return (void *)work;
