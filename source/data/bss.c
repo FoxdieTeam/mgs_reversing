@@ -299,7 +299,7 @@ short BSS           gSparkRandomTable_800BDF10[0x40]; // 0x80 (128) bytes
 SVECTOR BSS         stru_800BDF90; // 0x8 (8) bytes
 int BSS             dword_800BDF98; // 0x4 (4) bytes
 int BSS             dword_800BDF9C; // 0x4 (4) bytes
-int BSS             dword_800BDFA0; // 0x4 (4) bytes
+int BSS             okajima_CHAF_LIFE; // 0x4 (4) bytes
 
 gap                                     gap_800BDFA4[0x4]; // 4 bytes
 
