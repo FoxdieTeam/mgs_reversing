@@ -353,10 +353,7 @@ void GM_CheckBehindCamera(HZD_HDL *map, CONTROL *control);
 void GM_Reset_helper3_80030760();
 
 void sub_800309B4(int param_1, int param_2);
-void sub_8002EBE8(SVECTOR *param_1, int param_2); // camera something
-void sub_8002EADC(int);
 
-void sub_8002EC8C(SVECTOR*, SVECTOR*, SVECTOR*);
 void GM_CameraEventReset(void);
 
 void            GM_CameraSetBounds_80030888(SVECTOR *vec1, SVECTOR *vec2, int param_3_bool);
