@@ -26,9 +26,9 @@ extern volatile int    gSwCardLastOp_800B52F0;
 extern volatile int    gHwCardLastOp_800B52F4;
 extern volatile long   gMemCard_io_size_800B5648;
 
-STATIC void memcard_hwcard_do_op(int op);
-STATIC void memcard_swcard_do_op(int op);
-STATIC int memcard_dummy(int state);
+static void memcard_hwcard_do_op(int op);
+static void memcard_swcard_do_op(int op);
+static int memcard_dummy(int state);
 
 static inline void memcard_access_wait(void)
 {
@@ -45,63 +45,63 @@ static inline void memcard_access_wait(void)
     gSwCardLastOp_800B52F0 = 0;
 }
 
-STATIC void memcard_hwcard_do_op(int op)
+static void memcard_hwcard_do_op(int op)
 {
     gHwCardLastOp_800B52F4 = op;
 }
 
-STATIC void memcard_swcard_do_op(int op)
+static void memcard_swcard_do_op(int op)
 {
     gSwCardLastOp_800B52F0 = op;
 }
 
-STATIC void memcard_hwcard_end_io()
+static void memcard_hwcard_end_io()
 {
     gHwCard_do_op_800B52E8(1);
 }
 
-STATIC void memcard_hwcard_end_write()
+static void memcard_hwcard_end_write()
 {
     printf("*** hw card error\n");
     gHwCard_do_op_800B52E8(2);
 }
 
-STATIC void memcard_hwcard_timeout()
+static void memcard_hwcard_timeout()
 {
     printf("[C.H.T.O]");
     gHwCard_do_op_800B52E8(3);
 }
 
-STATIC void memcard_hwcard_new()
+static void memcard_hwcard_new()
 {
     printf("*** hw card new\n");
     gHwCard_do_op_800B52E8(4);
 }
 
-STATIC void memcard_swcard_end_io()
+static void memcard_swcard_end_io()
 {
     gSwCard_do_op_800B52EC(1);
 }
 
-STATIC void memcard_swcard_end_write()
+static void memcard_swcard_end_write()
 {
     printf("*** sw card error\n");
     gSwCard_do_op_800B52EC(2);
 }
 
-STATIC void memcard_swcard_timeout()
+static void memcard_swcard_timeout()
 {
     printf("[C.S.T.O]");
     gSwCard_do_op_800B52EC(3);
 }
 
-STATIC void memcard_swcard_new()
+static void memcard_swcard_new()
 {
     printf("*** sw card new\n");
     gSwCard_do_op_800B52EC(4);
 }
 
-STATIC void memcard_set_sw_hw_card_fns(void)
+static void memcard_set_sw_hw_card_fns(void)
 {
     gHwCard_do_op_800B52E8 = memcard_hwcard_do_op;
     gSwCard_do_op_800B52EC = memcard_swcard_do_op;
@@ -124,7 +124,7 @@ STATIC void memcard_set_sw_hw_card_fns(void)
  * - 5 if the memory card is unformatted.
  * - 2 if an error occurred.
  */
-STATIC int memcard_easy_format_test(int port)
+static int memcard_easy_format_test(int port)
 {
     char buffer[128];
 
@@ -178,7 +178,7 @@ STATIC int memcard_easy_format_test(int port)
  *
  * @return The number of files contained in the memory card.
  */
-STATIC int memcard_loaddir(int port, int *pUsedBlocksCount)
+static int memcard_loaddir(int port, int *pUsedBlocksCount)
 {
     struct DIRENTRY dir;
     char name[32];
@@ -223,7 +223,7 @@ STATIC int memcard_loaddir(int port, int *pUsedBlocksCount)
  *
  * @param port The memory card port: 0 for port 1, 1 for port 2.
  */
-STATIC void memcard_load_files(int port)
+static void memcard_load_files(int port)
 {
     int pUsedBlocksCount;
     gMemCards_800B52F8[port].card_idx = port;
@@ -234,7 +234,7 @@ STATIC void memcard_load_files(int port)
 
 // Pure function whose return value is never used
 // (as of the current decompilation status).
-STATIC int memcard_dummy(int state)
+static int memcard_dummy(int state)
 {
     switch (state)
     {
@@ -573,7 +573,7 @@ int memcard_delete(int port, const char *filename)
     return 0;
 }
 
-STATIC void memcard_hwcard_read_write_handler(int op)
+static void memcard_hwcard_read_write_handler(int op)
 {
     if (op == 1)
     {
@@ -590,7 +590,7 @@ STATIC void memcard_hwcard_read_write_handler(int op)
     }
 }
 
-STATIC void memcard_swcard_read_write_handler(int op)
+static void memcard_swcard_read_write_handler(int op)
 {
     if (op == 1)
     {
@@ -603,7 +603,7 @@ STATIC void memcard_swcard_read_write_handler(int op)
     gSwCard_do_op_800B52EC = (TMemCardFunc)memcard_swcard_do_op;
 }
 
-STATIC void memcard_set_read_write(int fileSize)
+static void memcard_set_read_write(int fileSize)
 {
     gHwCard_do_op_800B52E8 = memcard_hwcard_read_write_handler;
     gSwCard_do_op_800B52EC = memcard_swcard_read_write_handler;
