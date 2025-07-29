@@ -1182,7 +1182,7 @@ void menu_weapon_update_helper2_helper2_8003E3B0(MenuWork *work)
     }
     else
     {
-        if (id != -1)
+        if (id != WP_None)
         {
             dword_800ABAE8 = id;
             work->field_1F0_menu_weapon.field_11 = id;
