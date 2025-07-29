@@ -291,25 +291,34 @@ TARGET *BSS         target_800BDF00; // 0x4 (4) bytes
 
 gap                                     gap_800BDF04[0x4]; // 4 bytes
 
+/* okajima/claymore.obj */
 MAP *BSS     claymore_MAP_800bdf08; // 0x4 (4) bytes
 
 gap                                     gap_800BDF0C[0x4]; // 4 bytes
 
+/* okajima/spark.obj */
 short BSS           gSparkRandomTable_800BDF10[0x40]; // 0x80 (128) bytes
+
+/* okajima/stngrnd.obj */
 SVECTOR BSS         stru_800BDF90; // 0x8 (8) bytes
+
+/* okajima/chafgrnd.obj */
 int BSS             dword_800BDF98; // 0x4 (4) bytes
 int BSS             dword_800BDF9C; // 0x4 (4) bytes
 int BSS             okajima_CHAF_LIFE; // 0x4 (4) bytes
 
 gap                                     gap_800BDFA4[0x4]; // 4 bytes
 
+/* takabe/goggleir.obj */
 int BSS             dword_800BDFA8; // 0x4 (4) bytes
 
 gap                                     gap_800BDFAC[0x4]; // 4 bytes
 
+/* takabe/palette.obj */
 void BSS            (*pfn_800BDFB0)(); // 0x4 (4) bytes
 unsigned short BSS (*pfn_800BDFB4)(unsigned short); // 0x4 (4) bytes
 
+/* libfs/memfile.obj */
 int BSS         dword_800BDFB8; // 0x4 (4) bytes
 int BSS         dword_800BDFBC; // 0x4 (4) bytes
 FS_MEMFILE *BSS dword_800BDFC0; // 0x4 (4) bytes
