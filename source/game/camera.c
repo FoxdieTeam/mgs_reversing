@@ -23,7 +23,7 @@ int      GM_CameraTrackSave = 10000;
 SVECTOR  GM_CameraRotateSave = { 640, 2048, 0, 0 };
 int      GM_CameraTrackOrg = 10000;
 
-STATIC int      GM_800AB43C = 0;
+STATIC int      GM_CameraFirstPersonOrg = 0;
 STATIC int      GM_CameraFlagsOrg = 0;
 STATIC HZD_TRP *GM_800AB444 = NULL;
 STATIC int      GM_800AB448 = 0;
@@ -58,6 +58,12 @@ Camera Attributes:
  TYPE: UNSIGNED INT (FLAG);
 */
 
+void camera_get_euler_angles_8002FBC0(SVECTOR *eye, SVECTOR *center, SVECTOR *rotate, int *track);
+void sub_8002FC58(SVECTOR *param_1, SVECTOR *param_2, SVECTOR *param_3, int *param_4);
+void sub_8002FCA4(SVECTOR *param_1, SVECTOR *param_2, SVECTOR *param_3, int *param_4);
+void sub_8002FCF0(void);
+void sub_800303E0(SVECTOR *arg0);
+
 static inline int camera_clamp(int val, int min, int max)
 {
     if (val < min)
@@ -73,7 +79,7 @@ static inline int camera_clamp(int val, int min, int max)
     return val;
 }
 
-void sub_8002EADC(int index)
+STATIC void sub_8002EADC(int index)
 {
     SVECTOR *pBase;
     SVECTOR *pVec;
@@ -86,7 +92,7 @@ void sub_8002EADC(int index)
     GM_Camera_800B77E8.eye.vz = camera_clamp(GM_Camera_800B77E8.eye.vz, pVec[9].vx,  pVec[7].vx);
 }
 
-void sub_8002EB80(SVECTOR *vec_1, SVECTOR *vec_2)
+STATIC void sub_8002EB80(SVECTOR *vec_1, SVECTOR *vec_2)
 {
     int iVar1;
 
@@ -99,7 +105,7 @@ void sub_8002EB80(SVECTOR *vec_1, SVECTOR *vec_2)
     vec_1->vy = (short)iVar1;
 }
 
-void sub_8002EBE8(SVECTOR *arg0, int index)
+STATIC void sub_8002EBE8(SVECTOR *arg0, int index)
 {
     SVECTOR *pBase;
     SVECTOR *pVec;
@@ -113,7 +119,7 @@ void sub_8002EBE8(SVECTOR *arg0, int index)
 
 }
 
-void sub_8002EC8C(SVECTOR *a1, SVECTOR *a2, SVECTOR *a3)
+STATIC void sub_8002EC8C(SVECTOR *a1, SVECTOR *a2, SVECTOR *a3)
 {
     short *a;
     short *b;
@@ -148,7 +154,7 @@ void sub_8002EC8C(SVECTOR *a1, SVECTOR *a2, SVECTOR *a3)
     }
 }
 
-void sub_8002ECE4(SVECTOR *a, SVECTOR *b, SVECTOR *c)
+STATIC void sub_8002ECE4(SVECTOR *a, SVECTOR *b, SVECTOR *c)
 {
     short *av;
     short *bv;
@@ -190,7 +196,7 @@ static inline int CheckFlag(int mask)
     return GM_Camera_800B77E8.flags & mask;
 }
 
-int camera_act_helper3_helper_8002ED3C(void)
+STATIC int camera_act_helper3_helper_8002ED3C(void)
 {
     int uVar1;
     int uVar2;
@@ -205,7 +211,7 @@ int camera_act_helper3_helper_8002ED3C(void)
     return uVar1;
 }
 
-void sub_8002ED68(int arg0)
+STATIC void sub_8002ED68(int arg0)
 {
     switch (gUnkCameraStruct2_800B76F0.eye.pad & 3)
     {
@@ -231,7 +237,7 @@ void sub_8002ED68(int arg0)
     }
 }
 
-void sub_8002EE04()
+STATIC void sub_8002EE04(void)
 {
     GM_Camera_800B77E8.eye = gUnkCameraStruct2_800B76F0.eye;
     GM_Camera_800B77E8.center = gUnkCameraStruct2_800B76F0.center;
@@ -239,7 +245,7 @@ void sub_8002EE04()
     sub_8002ED68(0);
 }
 
-void sub_8002EE80(void)
+STATIC void sub_8002EE80(void)
 {
     gUnkCameraStruct2_800B76F0.center.vz = gUnkCameraStruct_800B77B8.center.vz;
     GM_Camera_800B77E8.eye = gUnkCameraStruct2_800B76F0.eye;
@@ -248,7 +254,7 @@ void sub_8002EE80(void)
     GV_OriginPadSystem(0);
 }
 
-void sub_8002EF08()
+STATIC void sub_8002EF08(void)
 {
     GM_Camera_800B77E8.eye = gUnkCameraStruct2_800B76F0.eye;
     GM_Camera_800B77E8.center = gUnkCameraStruct_800B77B8.center;
@@ -256,7 +262,7 @@ void sub_8002EF08()
     sub_8002ED68(1);
 }
 
-void sub_8002EF88()
+STATIC void sub_8002EF88(void)
 {
     int unused[2]; (void)unused;
     GM_Camera_800B77E8.center = gUnkCameraStruct_800B77B8.center;
@@ -266,7 +272,7 @@ void sub_8002EF88()
     GV_OriginPadSystem(0);
 }
 
-void camera_act_helper_helper_8002F008()
+STATIC void camera_act_helper_helper_8002F008()
 {
     GM_Camera_800B77E8.eye = gUnkCameraStruct_800B77B8.eye;
     GM_Camera_800B77E8.track = 1000;
@@ -275,7 +281,7 @@ void camera_act_helper_helper_8002F008()
     GV_OriginPadSystem(gUnkCameraStruct_800B77B8.rotate2.vy + 2048);
 }
 
-void camera_act_helper_helper2_8002F094(int param_1)
+STATIC void camera_act_helper_helper2_8002F094(int param_1)
 {
     int iVar1;
     SVECTOR vec;
@@ -303,7 +309,7 @@ void camera_act_helper_helper2_8002F094(int param_1)
     GV_OriginPadSystem(0);
 }
 
-void camera_act_helper_8002F1C8(void)
+STATIC void camera_act_helper_8002F1C8(void)
 {
     if (GM_Camera_800B77E8.flags & 0x100)
     {
@@ -329,7 +335,7 @@ void camera_act_helper_8002F1C8(void)
     gUnkCameraStruct_800B77B8.interp++;
 }
 
-int sub_8002F274(void)
+STATIC int sub_8002F274(void)
 {
     if (GM_Camera_800B77E8.pan.pad == 1)
     {
@@ -387,7 +393,7 @@ int sub_8002F274(void)
 
 }
 
-int camera_act_helper2_helper_8002F384(int arg0)
+STATIC int camera_act_helper2_helper_8002F384(int arg0)
 {
     SVECTOR vec;
     SVECTOR vec2;
@@ -457,7 +463,7 @@ int camera_act_helper2_helper_8002F384(int arg0)
     return temp_s3;
 }
 
-int camera_act_helper2_8002F5C4(void)
+STATIC int camera_act_helper2_8002F5C4(void)
 {
     int ret;
 
@@ -479,9 +485,9 @@ int camera_act_helper2_8002F5C4(void)
     return sub_8002F274();
 }
 
-void camera_act_helper3_8002F64C(void)
+STATIC void camera_act_helper3_8002F64C(void)
 {
-    if (GM_Camera_800B77E8.first_person != GM_800AB43C)
+    if (GM_Camera_800B77E8.first_person != GM_CameraFirstPersonOrg)
     {
         gUnkCameraStruct_800B77B8.interp = 0;
         GM_Camera_800B77E8.field_2A = 0;
@@ -520,11 +526,11 @@ void camera_act_helper3_8002F64C(void)
         gUnkCameraStruct_800B77B8.interp = 0;
     }
 
-    GM_800AB43C = GM_Camera_800B77E8.first_person;
+    GM_CameraFirstPersonOrg = GM_Camera_800B77E8.first_person;
     GM_CameraFlagsOrg = GM_Camera_800B77E8.flags;
 }
 
-void camera_act_helper4_8002F78C(void)
+STATIC void camera_act_helper4_8002F78C(void)
 {
     SVECTOR vec;
 
@@ -601,7 +607,7 @@ void camera_act_helper4_8002F78C(void)
     }
 }
 
-void sub_8002FAAC(SVECTOR *eye, SVECTOR *center, SVECTOR *rotate, int *track)
+STATIC void sub_8002FAAC(SVECTOR *eye, SVECTOR *center, SVECTOR *rotate, int *track)
 {
     if ( gUnkCameraStruct2_800B7868.type == 0 )
     {
@@ -612,7 +618,7 @@ void sub_8002FAAC(SVECTOR *eye, SVECTOR *center, SVECTOR *rotate, int *track)
     }
 }
 
-void camera_act_helper7_8002FB54()
+STATIC void camera_act_helper7_8002FB54()
 {
     switch (GM_Camera_800B77E8.field_28)
     {
@@ -623,14 +629,13 @@ void camera_act_helper7_8002FB54()
                      &GM_Camera_800B77E8.track);
         break;
     case 2:
-
         sub_8002FCA4(&GM_Camera_800B77E8.eye, &GM_Camera_800B77E8.center, &GM_Camera_800B77E8.rotate,
                      &GM_Camera_800B77E8.track);
         break;
     }
 }
 
-void camera_get_euler_angles_8002FBC0(SVECTOR *eye, SVECTOR *center, SVECTOR *rotate, int *track)
+STATIC void camera_get_euler_angles_8002FBC0(SVECTOR *eye, SVECTOR *center, SVECTOR *rotate, int *track)
 {
     SVECTOR forward;
 
@@ -642,14 +647,14 @@ void camera_get_euler_angles_8002FBC0(SVECTOR *eye, SVECTOR *center, SVECTOR *ro
     rotate->vx = ratan2(-forward.vy, SquareRoot0(forward.vx * forward.vx + forward.vz * forward.vz));
 }
 
-void sub_8002FC58(SVECTOR *param_1, SVECTOR *param_2, SVECTOR *param_3, int *param_4)
+STATIC void sub_8002FC58(SVECTOR *param_1, SVECTOR *param_2, SVECTOR *param_3, int *param_4)
 {
     SVECTOR vec;
     GV_DirVec3(param_3, *param_4, &vec);
     sub_8002EC8C(param_1, &vec, param_2);
 }
 
-void sub_8002FCA4(SVECTOR *param_1, SVECTOR *param_2, SVECTOR *param_3, int *param_4)
+STATIC void sub_8002FCA4(SVECTOR *param_1, SVECTOR *param_2, SVECTOR *param_3, int *param_4)
 {
     SVECTOR vec;
 
@@ -657,7 +662,7 @@ void sub_8002FCA4(SVECTOR *param_1, SVECTOR *param_2, SVECTOR *param_3, int *par
     sub_8002ECE4(param_2, &vec, param_1);
 }
 
-void sub_8002FCF0(void)
+STATIC void sub_8002FCF0(void)
 {
     if (!(GM_Camera_800B77E8.flags & 0x20))
     {
@@ -676,14 +681,15 @@ void GM_SetCameraCallbackFunc_8002FD84(int index, TGMCameraFunc func)
     GM_Camera_800B77E8.callbacks[index] = func;
 }
 
-void camera_act_helper6_helper_8002FD9C(int cam1, int cam2)
+STATIC void ChangeCamera(int new, int old)
 {
-    CAMERA *pCamera;
+    CAMERA *camera;
+
     int cam_param1;
 
     GM_Camera_800B77E8.flags &= ~0x3C;
 
-    if (cam1 == -1)
+    if (new == -1)
     {
         if (!(GM_Camera_800B77E8.flags & 2))
         {
@@ -692,57 +698,57 @@ void camera_act_helper6_helper_8002FD9C(int cam1, int cam2)
     }
     else
     {
-        pCamera = &GM_CameraList_800B7718[cam1];
-        cam_param1 = pCamera->field_10_param1;
+        camera = &GM_CameraList_800B7718[new];
+        cam_param1 = camera->field_10_param1;
 
-        if (pCamera->field_10_param1 == 0)
+        if (camera->field_10_param1 == 0)
         {
             GM_Camera_800B77E8.flags |= 0x20;
 
-            gUnkCameraStruct_800B77B8.rotate.vx = pCamera->trg[0];
-            gUnkCameraStruct_800B77B8.rotate.vy = pCamera->trg[1];
+            gUnkCameraStruct_800B77B8.rotate.vx = camera->trg[0];
+            gUnkCameraStruct_800B77B8.rotate.vy = camera->trg[1];
             gUnkCameraStruct_800B77B8.rotate.vz = 0;
 
             gUnkCameraStruct2_800B76F0.center = gUnkCameraStruct_800B77B8.center;
             gUnkCameraStruct2_800B76F0.rotate = gUnkCameraStruct_800B77B8.rotate;
-            gUnkCameraStruct2_800B76F0.track = gUnkCameraStruct_800B77B8.track = pCamera->trg[2];
+            gUnkCameraStruct2_800B76F0.track = gUnkCameraStruct_800B77B8.track = camera->trg[2];
 
             sub_8002FCA4(&gUnkCameraStruct2_800B76F0.eye, &gUnkCameraStruct2_800B76F0.center, &gUnkCameraStruct2_800B76F0.rotate, &gUnkCameraStruct2_800B76F0.track);
         }
         else
         {
-            switch (pCamera->field_12_param3)
+            switch (camera->field_12_param3)
             {
             case 0:
-                gUnkCameraStruct2_800B76F0.eye = pCamera->pos;
-                gUnkCameraStruct2_800B76F0.center = *(SVECTOR *)pCamera->trg;
+                gUnkCameraStruct2_800B76F0.eye = camera->pos;
+                gUnkCameraStruct2_800B76F0.center = *(SVECTOR *)camera->trg;
                 camera_get_euler_angles_8002FBC0(&gUnkCameraStruct2_800B76F0.eye, &gUnkCameraStruct2_800B76F0.center, &gUnkCameraStruct2_800B76F0.rotate, &gUnkCameraStruct2_800B76F0.track);
                 break;
 
             case 1:
-                gUnkCameraStruct2_800B76F0.eye = pCamera->pos;
+                gUnkCameraStruct2_800B76F0.eye = camera->pos;
 
-                gUnkCameraStruct2_800B76F0.rotate.vx = pCamera->trg[0];
-                gUnkCameraStruct2_800B76F0.rotate.vy = pCamera->trg[1];
+                gUnkCameraStruct2_800B76F0.rotate.vx = camera->trg[0];
+                gUnkCameraStruct2_800B76F0.rotate.vy = camera->trg[1];
                 gUnkCameraStruct2_800B76F0.rotate.vz = 0;
-                gUnkCameraStruct2_800B76F0.track = pCamera->trg[2];
+                gUnkCameraStruct2_800B76F0.track = camera->trg[2];
 
                 sub_8002FC58(&gUnkCameraStruct2_800B76F0.eye, &gUnkCameraStruct2_800B76F0.center, &gUnkCameraStruct2_800B76F0.rotate, &gUnkCameraStruct2_800B76F0.track);
                 break;
 
             case 2:
-                gUnkCameraStruct2_800B76F0.center = pCamera->pos;
+                gUnkCameraStruct2_800B76F0.center = camera->pos;
 
-                gUnkCameraStruct2_800B76F0.rotate.vx = pCamera->trg[0];
-                gUnkCameraStruct2_800B76F0.rotate.vy = pCamera->trg[1];
+                gUnkCameraStruct2_800B76F0.rotate.vx = camera->trg[0];
+                gUnkCameraStruct2_800B76F0.rotate.vy = camera->trg[1];
                 gUnkCameraStruct2_800B76F0.rotate.vz = 0;
-                gUnkCameraStruct2_800B76F0.track = pCamera->trg[2];
+                gUnkCameraStruct2_800B76F0.track = camera->trg[2];
 
                 sub_8002FCA4(&gUnkCameraStruct2_800B76F0.eye, &gUnkCameraStruct2_800B76F0.center, &gUnkCameraStruct2_800B76F0.rotate, &gUnkCameraStruct2_800B76F0.track);
                 break;
             }
 
-            gUnkCameraStruct2_800B76F0.eye.pad = pCamera->field_13_param_p | ((unsigned short)pCamera->pos.pad * 4);
+            gUnkCameraStruct2_800B76F0.eye.pad = camera->field_13_param_p | ((unsigned short)camera->pos.pad * 4);
             gUnkCameraStruct2_800B76F0.type = 0;
 
             if (cam_param1 == 1)
@@ -765,43 +771,42 @@ void camera_act_helper6_helper_8002FD9C(int cam1, int cam2)
         GM_Camera_800B77E8.field_2A = 0;
         GM_Camera_800B77E8.interp = -1;
     }
-    else if (cam2 < 0)
+    else if (old < 0)
     {
         GM_Camera_800B77E8.field_2A = 2;
         GM_Camera_800B77E8.interp = 30;
     }
     else
     {
-        pCamera = &GM_CameraList_800B7718[cam2];
-        GM_Camera_800B77E8.field_2A = dword_80010C60[pCamera->field_11_param2];
-        GM_Camera_800B77E8.interp = dword_80010C60[pCamera->field_11_param2] >> 16;
+        camera = &GM_CameraList_800B7718[old];
+        GM_Camera_800B77E8.field_2A = dword_80010C60[camera->field_11_param2];
+        GM_Camera_800B77E8.interp = dword_80010C60[camera->field_11_param2] >> 16;
     }
 }
 
-void camera_act_helper5_80030118(GV_ACT *work)
+STATIC void CheckMessages(GV_ACT *work)
 {
-    GV_MSG *pMsg;
-    int msgLen;
-    int bitmap;
-    GV_MSG *pMsgIter;
-    int i;
-    int index;
-    int type;
+    GV_MSG *msg;
+    int     n_msg;
+    int     bitmap;
+    GV_MSG *iter;
+    int     i;
+    int     index;
+    int     type;
 
-    msgLen = GV_ReceiveMessage(0xC356, &pMsg);
-
-    if (!msgLen)
+    n_msg = GV_ReceiveMessage(0xC356, &msg);
+    if (n_msg == 0)
     {
         return;
     }
 
     bitmap = 0;
 
-    pMsgIter = pMsg;
-    for (i = msgLen; i > 0; i--)
+    iter = msg;
+    for (i = n_msg; i > 0; i--)
     {
-        index = pMsgIter->message[0];
-        type = pMsgIter->message[1];
+        index = iter->message[0];
+        type = iter->message[1];
 
         if (type == HASH_LEAVE)
         {
@@ -810,14 +815,14 @@ void camera_act_helper5_80030118(GV_ACT *work)
             printf("[%d]cam out %d\n", GV_Time, index);
         }
 
-        pMsgIter++;
+        iter++;
     }
 
-    pMsgIter = pMsg;
-    for (i = msgLen; i > 0; i--)
+    iter = msg;
+    for (i = n_msg; i > 0; i--)
     {
-        index = pMsgIter->message[0];
-        type = pMsgIter->message[1];
+        index = iter->message[0];
+        type = iter->message[1];
 
         if (type == HASH_ENTER)
         {
@@ -831,56 +836,56 @@ void camera_act_helper5_80030118(GV_ACT *work)
             printf("[%d]cam in %d\n", GV_Time, index);
         }
 
-        pMsgIter++;
+        iter++;
     }
 }
 
-int camera_act_helper6_80030250(GV_ACT *work)
+STATIC int CheckEvents(GV_ACT *work)
 {
-    int var_a1;
-    int temp_a2;
+    int event;
+    int changed;
+
     unsigned int mask;
     int i;
     int old_i;
 
-    var_a1 = GM_event_camera_flag;
+    event = GM_event_camera_flag;
 
     if (GM_AlertMode == 3)
     {
-        if (GM_Camera_800B77E8.field_24_gcl_param_a < 8)
+        if (GM_Camera_800B77E8.alert_mask < 8)
         {
-            var_a1 &= -(1 << GM_Camera_800B77E8.field_24_gcl_param_a);
+            event &= ~((1 << GM_Camera_800B77E8.alert_mask) - 1);
         }
 
         if (dword_800ABA94 != 0)
         {
-            var_a1 &= ~dword_800ABA94;
+            event &= ~dword_800ABA94;
         }
     }
 
-    temp_a2 = var_a1 ^ dword_800ABA90;
-
-    if (temp_a2 == 0)
+    changed = event ^ dword_800ABA90;
+    if (changed == 0)
     {
         return 0;
     }
 
-    dword_800ABA90 = var_a1;
+    dword_800ABA90 = event;
 
     for (mask = 1, i = 0; i < 7; i++, mask <<= 1)
     {
-        if (temp_a2 & mask)
+        if (changed & mask)
         {
             break;
         }
     }
 
-    temp_a2 = var_a1;
+    changed = event;
     old_i = i;
 
     for (mask = 0x80, i = 7; i >= 0; i--, mask >>= 1)
     {
-        if (temp_a2 & mask)
+        if (changed & mask)
         {
             if (GM_CameraList_800B7718[i].field_10_param1 != -1)
             {
@@ -893,7 +898,7 @@ int camera_act_helper6_80030250(GV_ACT *work)
 
 
     sub_8002FAAC(&GM_Camera_800B77E8.eye, &GM_Camera_800B77E8.center, &GM_Camera_800B77E8.rotate, &GM_Camera_800B77E8.track);
-    camera_act_helper6_helper_8002FD9C(i, old_i);
+    ChangeCamera(i, old_i);
     printf("[%d]change camera %d\n", GV_Time, i);
 
     GM_GameStatus &= ~GAME_FLAG_BIT_07;
@@ -906,7 +911,7 @@ int camera_act_helper6_80030250(GV_ACT *work)
     return 1;
 }
 
-void sub_800303E0(SVECTOR *arg0)
+STATIC void sub_800303E0(SVECTOR *arg0)
 {
     SVECTOR          vec;
     UnkCameraStruct *pUnkCamera;
@@ -955,17 +960,19 @@ void sub_8003049C(SVECTOR *a1)
     GV_AddVec3(&svec_800ABA88, a1, &svec_800ABA88);
 }
 
-void camera_act_8003059C(GV_ACT *work)
+STATIC void camera_act_8003059C(GV_ACT *work)
 {
-    int iVar1;
+    int changed;
+
     int iVar2;
 
     if (GM_GameStatus >= 0)
     {
         if (GV_PauseLevel == 0)
         {
-            camera_act_helper5_80030118(work);
-            iVar1 = camera_act_helper6_80030250(work);
+            CheckMessages(work);
+            changed = CheckEvents(work);
+
             camera_act_helper3_8002F64C();
 
             if (GM_Camera_800B77E8.first_person == 1)
@@ -984,7 +991,7 @@ void camera_act_8003059C(GV_ACT *work)
                 }
             }
 
-            if (iVar1)
+            if (changed)
             {
                 svec_800ABA88 = GM_Camera_800B77E8.eye;
             }
@@ -1016,7 +1023,7 @@ void *camera_init_800306A0(void)
     gUnkCameraStruct2_800B7868.zoom = 320;
     dword_800ABA90 = 0;
     GM_event_camera_flag = 0;
-    GM_800AB43C = 0;
+    GM_CameraFirstPersonOrg = 0;
     GM_CameraFlagsOrg = 0;
     gUnkCameraStruct_800B77B8.track = 10000;
     GM_Camera_800B77E8.track = 10000;
@@ -1043,7 +1050,7 @@ void GM_Reset_helper3_80030760()
     cameraListIter = cameraList + 7;
 
     gmCamera = &GM_Camera_800B77E8;
-    gmCamera->field_24_gcl_param_a = 100;
+    gmCamera->alert_mask = 100;
 
     gmCamera->bounds[0][0].vx = 0x7fff;
     gmCamera->bounds[0][0].vy = 0x7fff;
