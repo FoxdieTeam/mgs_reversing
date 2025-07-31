@@ -194,7 +194,7 @@ STATIC int GM_Command_camera(unsigned char *top)
 
     if (GCL_GetOption('a'))
     {
-        GM_Camera_800B77E8.field_24_gcl_param_a = GCL_GetNextParamValue();
+        GM_Camera_800B77E8.alert_mask = GCL_GetNextParamValue();
     }
 
     if (GCL_GetOption('c'))
