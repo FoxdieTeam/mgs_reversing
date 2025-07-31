@@ -5,6 +5,8 @@
 #include <libgpu.h>
 
 #include "common.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "anime/animconv/anime.h"
 #include "game/object.h"
 #include "game/map.h"
@@ -16,7 +18,17 @@ extern int   DG_CurrentGroupID;
 
 /*---------------------------------------------------------------------------*/
 
-typedef struct _FamasWork
+#define EXEC_LEVEL      GV_ACTOR_AFTER
+
+#define FAMAS_MODEL     GV_StrCode("famas")
+#define MP5SD_MODEL     GV_StrCode("mpfive")
+
+#define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE \
+                        | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE )
+
+#define MAGAZINE_SIZE   25
+
+typedef struct _Work
 {
     GV_ACT         actor;
     OBJECT_NO_ROTS obj;
@@ -27,17 +39,13 @@ typedef struct _FamasWork
     int            field_54;
     int            counter;
     int            mp5_flag;    // Use H&K MP5 (for VERY EASY)
-} FamasWork;
-
-#define EXEC_LEVEL      GV_ACTOR_AFTER
-#define MAGAZINE_SIZE   25
-#define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
+} Work;
 
 STATIC SVECTOR stru_800AB850 = { 5, -500, 80, 0 };
 
 /*---------------------------------------------------------------------------*/
 
-STATIC void FamasAct(FamasWork *work)
+static void Act(Work *work)
 {
     int mp5_flag;
     int flags;
@@ -155,20 +163,20 @@ STATIC void FamasAct(FamasWork *work)
     }
 }
 
-STATIC void FamasDie(FamasWork *work)
+static void Die(Work *work)
 {
     GM_FreeObject((OBJECT *)&work->obj);
 }
 
-STATIC int FamasGetResources(FamasWork *work, OBJECT *parent, int num_parent, int mp5flag)
+static int GetResources(Work *work, OBJECT *parent, int num_parent, int mp5flag)
 {
     OBJECT_NO_ROTS *obj = &work->obj;
     int id;
 
     if (mp5flag == 0)
-        id = GV_StrCode("famas");
+        id = FAMAS_MODEL;
     else
-        id = GV_StrCode("mpfive");
+        id = MP5SD_MODEL;
 
     GM_InitObjectNoRots(obj, id, BODY_FLAG, 0);
 
@@ -181,15 +189,15 @@ STATIC int FamasGetResources(FamasWork *work, OBJECT *parent, int num_parent, in
 
 /*---------------------------------------------------------------------------*/
 
-STATIC void *InitFAMAS(CONTROL *control, OBJECT *parent, int num_parent, int *flags, int mp5flag)
+static void *InitFAMAS(CONTROL *control, OBJECT *parent, int num_parent, int *flags, int mp5flag)
 {
     int mag_size;
 
-    FamasWork *work = GV_NewActor(EXEC_LEVEL, sizeof(FamasWork));
+    Work *work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, FamasAct, FamasDie, "famas.c");
-        if (FamasGetResources(work, parent, num_parent, mp5flag) < 0)
+        GV_SetNamedActor(&work->actor, Act, Die, "famas.c");
+        if (GetResources(work, parent, num_parent, mp5flag) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

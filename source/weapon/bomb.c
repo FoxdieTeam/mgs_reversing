@@ -1,6 +1,8 @@
 #include "weapon.h"
 
 #include "common.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "bullet/bakudan.h"
 #include "game/object.h"
 #include "linkvar.h"
@@ -14,7 +16,14 @@ extern int   bakudan_count_8009F42C;
 /*---------------------------------------------------------------------------*/
 // C4 Bomb
 
-typedef struct _BombWork
+#define EXEC_LEVEL      GV_ACTOR_AFTER
+
+#define C4BOMB_MODEL    GV_StrCode("c4_bomb")
+
+#define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE \
+                        | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE )
+
+typedef struct _Work
 {
     GV_ACT         actor;
     CONTROL       *control;
@@ -24,14 +33,11 @@ typedef struct _BombWork
     int           *flags;
     int            f54;
     int            which_side;
-} BombWork;
-
-#define EXEC_LEVEL GV_ACTOR_AFTER
-#define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
+} Work;
 
 /*---------------------------------------------------------------------------*/
 
-STATIC void BombAct( BombWork *work )
+static void Act( Work *work )
 {
     int ammo;
     int flags;
@@ -85,16 +91,16 @@ STATIC void BombAct( BombWork *work )
     }
 }
 
-STATIC void BombDie(BombWork *work)
+static void Die(Work *work)
 {
     GM_FreeObject((OBJECT *)&work->object);
 }
 
-STATIC int BombGetResources(BombWork *work, OBJECT *parent, int num_parent)
+static int GetResources(Work *work, OBJECT *parent, int num_parent)
 {
     OBJECT_NO_ROTS *obj = &work->object;
 
-    GM_InitObjectNoRots(obj, GV_StrCode("c4_bomb"), BODY_FLAG, 0);
+    GM_InitObjectNoRots(obj, C4BOMB_MODEL, BODY_FLAG, 0);
 
     if (!obj->objs)
         return -1;
@@ -107,11 +113,11 @@ STATIC int BombGetResources(BombWork *work, OBJECT *parent, int num_parent)
 
 void *NewBomb(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side)
 {
-    BombWork *work = GV_NewActor(EXEC_LEVEL, sizeof(BombWork));
-    if (work)
+    Work *work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, BombAct, BombDie, "bomb.c");
-        if (BombGetResources(work, parent, num_parent) < 0)
+        GV_SetNamedActor(&work->actor, Act, Die, "bomb.c");
+        if (GetResources(work, parent, num_parent) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
