@@ -37,8 +37,8 @@ typedef struct PLampWork
 SVECTOR p_lamp_target_svec_800C353C = {5, 5, 5};
 RECT    p_lamp_prim_rect_800C3544 = {100, 100, 200, 200};
 
-void *NewCinemaScreen_800DE434(int, int);
-int   NewCinemaScreenClose_800DE4CC(void *work);
+void *NewCinemaScreen( int, int );
+void *NewCinemaScreenClose( void *addr );
 void *NewSpark2_800CA714(MATRIX *world);
 
 extern DG_CHANL DG_Chanls_800B1800[3];
@@ -106,7 +106,7 @@ void PLampDie_800CCCE0(PLampWork *work)
     if (work->cinema_screen)
     {
         GM_GameStatus &= ~(STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF);
-        NewCinemaScreenClose_800DE4CC(work->cinema_screen);
+        NewCinemaScreenClose(work->cinema_screen);
     }
 
     if (work->has_prims == 1)
@@ -189,7 +189,7 @@ void PLamp_800CCE6C(PLampWork *work)
         }
 
         GM_GameStatus |= STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF;
-        work->cinema_screen = NewCinemaScreen_800DE434(2000000000, 0);
+        work->cinema_screen = NewCinemaScreen(2000000000, 0);
         work->field_1C4 = 0;
         work->field_1C8 = 0;
         work->field_1C0 = 1;
