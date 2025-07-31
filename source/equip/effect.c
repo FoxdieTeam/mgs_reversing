@@ -4,7 +4,7 @@
 
 #define TEX_COPY_SIZE   (sizeof(DG_TEX) - offsetof(DG_TEX, used))
 
-STATIC void EQ_MoveTexture(u_short *src, u_short *dst)
+static void EQ_MoveTexture(u_short *src, u_short *dst)
 {
     u_short i;
 

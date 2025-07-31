@@ -6,6 +6,7 @@
 #include "game/control.h"
 #include "thing/sight.h"
 #include "sd/g_sound.h"
+#include "linkvar.h"
 
 extern int              dword_8009F604;
 extern short            word_800BDCC0;
@@ -26,11 +27,11 @@ typedef struct _Work
 
 /*---------------------------------------------------------------------------*/
 
-STATIC void gmsight_Act(Work *work)
+static void Act(Work *work)
 {
     if (dword_8009F604 != MASK_SIGHT)
     {
-        NewSight(MASK_SIGHT, MASK_SIGHT, &word_800BDCC0, 1, NULL);
+        NewSight(MASK_SIGHT, MASK_SIGHT, &word_800BDCC0, IT_Scope, NULL);
     }
 
     if ((++work->time == BREATH_DELAY) && !(GM_PlayerStatus & PLAYER_NOT_SIGHT))
@@ -40,12 +41,12 @@ STATIC void gmsight_Act(Work *work)
     }
 }
 
-STATIC void gmsight_Die(Work *work)
+static void Die(Work *work)
 {
     word_800BDCC0 = 0;
 }
 
-STATIC int gmsight_GetResources(Work *work, OBJECT *parent, int num_parent)
+static int GetResources(Work *work, OBJECT *parent, int num_parent)
 {
     word_800BDCC0 = 1;
     work->time = 0;
@@ -63,9 +64,9 @@ void *NewGasmaskSight(CONTROL *control, OBJECT *parent, int num_parent)
     work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, &gmsight_Act, &gmsight_Die, "gmsight.c");
+        GV_SetNamedActor(&work->actor, &Act, &Die, "gmsight.c");
 
-        if (gmsight_GetResources(work, parent, num_parent) < 0)
+        if (GetResources(work, parent, num_parent) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

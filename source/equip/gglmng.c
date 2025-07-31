@@ -12,19 +12,19 @@ extern int       dword_8009F46C;
 /*---------------------------------------------------------------------------*/
 // Goggle Manager
 
-typedef struct GoggleManagerWork
+#define EXEC_LEVEL GV_ACTOR_AFTER2
+
+typedef struct _Work
 {
     GV_ACT  actor;
     int     type; // type of goggles (5 = night vision, 6 = thermal)
     int     time;
     GV_ACT *sight;
-} GoggleManagerWork;
-
-#define EXEC_LEVEL GV_ACTOR_AFTER2
+} Work;
 
 /*---------------------------------------------------------------------------*/
 
-STATIC void GoggleManagerAct(GoggleManagerWork *work)
+static void Act(Work *work)
 {
     if (GM_Camera_800B77E8.first_person != 0)
     {
@@ -58,7 +58,7 @@ STATIC void GoggleManagerAct(GoggleManagerWork *work)
     }
 }
 
-STATIC void GoggleManagerDie(GoggleManagerWork *work)
+static void Die(Work *work)
 {
     if (work->sight)
     {
@@ -70,12 +70,12 @@ STATIC void GoggleManagerDie(GoggleManagerWork *work)
 
 void *NewGoggleManager(int type)
 {
-    GoggleManagerWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(GoggleManagerWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, GoggleManagerAct, GoggleManagerDie, "gglmng.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "gglmng.c");
         work->type = type;
         work->time = 0;
         work->sight = NULL;
