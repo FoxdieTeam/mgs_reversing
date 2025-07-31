@@ -351,6 +351,7 @@ void *NewJimakuControl(u_long flags)
     int           *seekResult;
     u_long         toSeek = 4;
     JimakuCtrlWork *work = &jimCtrlActor_800B82F0;
+
     if (flags & 0x80)
     {
         toSeek = 7;
