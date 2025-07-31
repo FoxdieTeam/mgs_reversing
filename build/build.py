@@ -91,7 +91,7 @@ def ninja_run():
         r'font\.c:\d+: warning: `m2\' might be used uninitialized in this function',
         r'radar\.c:\d+: warning: `pWalls\' might be used uninitialized in this function',
         r'radar\.c:\d+: warning: `ppWalls\' might be used uninitialized in this function',
-        r'sndtst\.c:\d+: warning: `pName\' might be used uninitialized in this function',
+        r'sndtst\.c:\d+: warning: `name\' might be used uninitialized in this function',
         r'sndtst\.c:\d+: warning: `code\' might be used uninitialized in this function',
         r'select\.c:\d+: warning: `proc_id\' might be used uninitialized in this function',
         r'select\.c:\d+: warning: `entry_name\' might be used uninitialized in this function',
