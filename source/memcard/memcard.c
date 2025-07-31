@@ -377,7 +377,7 @@ exit:
 
 void memcard_init(void)
 {
-    int port; // $s1
+    int port;
 
     if (!memcard_initialized)
     {
