@@ -49,7 +49,7 @@ typedef struct _Work
     int      f690;
     int      clut_x;
     int      clut_y;
-    GV_ACT  *f69C;
+    GV_ACT  *mgslogo_actor;
     int      f6A0;
     int      f6A4;
     int      f6A8;
@@ -90,7 +90,7 @@ signed char byte_800C3260[] = {
 int  Safety_800C45F8( int lba, int timeout );
 void Safety_800C4714( void );
 
-void *NewMetalLogo( int * );
+void *NewMetalGearLogo( int * );
 
 #define EXEC_LEVEL GV_ACTOR_MANAGER
 
@@ -669,7 +669,7 @@ static int GetResources( Work *work, int map )
     }
 
     work->f6B4 = 0;
-    work->f69C = NewMetalLogo( &work->f6B4 );
+    work->mgslogo_actor = NewMetalGearLogo( &work->f6B4 );
     work->f6A0 = 0;
     work->f6AC = 0;
     work->f6A4 = 0;
