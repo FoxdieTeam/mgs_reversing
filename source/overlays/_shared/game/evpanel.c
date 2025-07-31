@@ -10,6 +10,17 @@
 #include "sd/g_sound.h"
 #include "strcode.h"
 
+extern GM_Camera    GM_Camera_800B77E8;
+extern int          GM_CameraShakeOffset;
+extern GV_PAD       GV_PadData_800B05C0[4];
+
+/*---------------------------------------------------------------------------*/
+
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
+
+//  #61808a  97,128,138
+//  #202020  32, 32, 32
+
 typedef struct EvPanelWork
 {
     GV_ACT         actor;
@@ -54,9 +65,17 @@ typedef struct EvPanelWork
     SVECTOR        field_B4[0];
 } EvPanelWork;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL4
+/*---------------------------------------------------------------------------*/
 
-unsigned short s03e_dword_800C3268[] = {0x121F, 0x8D5C, HASH_ENTER, HASH_LEAVE, 0x8591, 0x6555, 0x2EAB};
+unsigned short s03e_dword_800C3268[] = {
+    0x121F,
+    0x8D5C,
+    HASH_ENTER,     // GV_StrCode("入る")
+    HASH_LEAVE,     // GV_StrCode("出る")
+    0x8591,
+    0x6555,
+    0x2EAB
+};
 
 char s03e_dword_800C3278[] = {0x7F, 0x02, 0x00, 0x00};
 char s03e_dword_800C327C[] = {0x55, 0x02, 0x6E, 0x02, 0x1E, 0x0E, 0x41, 0x04, 0x7D, 0x06, 0x5F, 0x06, 0x46, 0x08, 0x37, 0x0A, 0x2D, 0x0C, 0x00, 0x00};
@@ -73,11 +92,9 @@ const char s03e_aInitopen_800CBF68[] = "INiTOPEN\n";
 
 EvPanelWork *SECTION("overlay.bss") s03e_dword_800CC6B8;
 
-extern GM_Camera    GM_Camera_800B77E8;
-extern int          GM_CameraShakeOffset;
-extern GV_PAD       GV_PadData_800B05C0[4];
+/*---------------------------------------------------------------------------*/
 
-void s03e_evpanel_800C33E0(DG_PRIM *prim, int texid)
+static void s03e_evpanel_800C33E0(DG_PRIM *prim, int texid)
 {
     int       i;
     POLY_FT4 *poly;
@@ -100,7 +117,7 @@ void s03e_evpanel_800C33E0(DG_PRIM *prim, int texid)
     }
 }
 
-int s03e_evpanel_800C3488(EvPanelWork *work)
+static int s03e_evpanel_800C3488(EvPanelWork *work)
 {
     GV_MSG      *msg;
     int          n_msgs;
@@ -198,7 +215,7 @@ int s03e_evpanel_800C3488(EvPanelWork *work)
     return message;
 }
 
-void s03e_evpanel_800C36B0(EvPanelWork *work)
+static void s03e_evpanel_800C36B0(EvPanelWork *work)
 {
     GCL_ARGS args;
     int      code;
@@ -230,7 +247,7 @@ void s03e_evpanel_800C36B0(EvPanelWork *work)
     }
 }
 
-void EvPanelUpdateHighlightedButton_800C3778(EvPanelWork *work)
+static void EvPanelUpdateHighlightedButton_800C3778(EvPanelWork *work)
 {
     int       i, j;
     POLY_FT4 *poly;
@@ -261,7 +278,7 @@ void EvPanelUpdateHighlightedButton_800C3778(EvPanelWork *work)
     }
 }
 
-void s03e_evpanel_800C37FC(EvPanelWork *work, int index)
+static void s03e_evpanel_800C37FC(EvPanelWork *work, int index)
 {
     int       i;
     POLY_FT4 *poly;
@@ -290,7 +307,7 @@ void s03e_evpanel_800C37FC(EvPanelWork *work, int index)
     }
 }
 
-void s03e_evpanel_800C3898(EvPanelWork *work)
+static void s03e_evpanel_800C3898(EvPanelWork *work)
 {
     GV_MSG msg;
 
@@ -305,7 +322,7 @@ void s03e_evpanel_800C3898(EvPanelWork *work)
     work->field_38 = 0x258;
 }
 
-void s03e_evpanel_800C38F4(EvPanelWork *work)
+static void s03e_evpanel_800C38F4(EvPanelWork *work)
 {
     GV_MSG msg;
 
@@ -320,7 +337,7 @@ void s03e_evpanel_800C38F4(EvPanelWork *work)
     work->field_42 = 1;
 }
 
-void s03e_evpanel_800C3950(EvPanelWork *work, short arg1)
+static void s03e_evpanel_800C3950(EvPanelWork *work, short arg1)
 {
     GV_MSG msg;
 
@@ -335,14 +352,14 @@ void s03e_evpanel_800C3950(EvPanelWork *work, short arg1)
     }
 }
 
-void s03e_evpanel_800C3994(void)
+static void s03e_evpanel_800C3994(void)
 {
     GM_Camera_800B77E8.eye = s03e_dword_800CC6B8->f84;
     GM_Camera_800B77E8.rotate = s03e_dword_800CC6B8->f8C;
     GM_Camera_800B77E8.field_28 = 1;
 }
 
-void s03e_evpanel_800C39F8(EvPanelWork *work)
+static void s03e_evpanel_800C39F8(EvPanelWork *work)
 {
     s03e_dword_800CC6B8 = work;
 
@@ -371,7 +388,7 @@ void s03e_evpanel_800C39F8(EvPanelWork *work)
     }
 }
 
-void s03e_evpanel_800C3AD0(EvPanelWork *work)
+static void s03e_evpanel_800C3AD0(EvPanelWork *work)
 {
     GM_Camera_800B77E8.flags = work->field_4C;
     GM_Camera_800B77E8.field_2A = 2;
@@ -380,7 +397,7 @@ void s03e_evpanel_800C3AD0(EvPanelWork *work)
     GM_SetCameraCallbackFunc_8002FD84(1, NULL);
 }
 
-void s03e_evpanel_800C3B14(EvPanelWork *work, int message)
+static void s03e_evpanel_800C3B14(EvPanelWork *work, int message)
 {
     if ((message & 0x104) == 0x104)
     {
@@ -395,7 +412,7 @@ void s03e_evpanel_800C3B14(EvPanelWork *work, int message)
     }
 }
 
-void EvPanelAct_800C3B74(EvPanelWork *work)
+static void Act(EvPanelWork *work)
 {
     int message;
     int release;
@@ -809,13 +826,17 @@ void EvPanelAct_800C3B74(EvPanelWork *work)
     }
 }
 
-void EvPanelDie_800C457C(EvPanelWork *work)
+/*---------------------------------------------------------------------------*/
+
+static void Die(EvPanelWork *work)
 {
     GM_FreePrim(work->field_20);
     GM_FreePrim(work->field_24);
 }
 
-void s03e_evpanel_800C45E4(POLY_FT4 *packs, DG_TEX *tex, int n_packs)
+/*---------------------------------------------------------------------------*/
+
+static void s03e_evpanel_800C45E4(POLY_FT4 *packs, DG_TEX *tex, int n_packs)
 {
     int i;
     int x, y, w, h;
@@ -852,7 +873,7 @@ void s03e_evpanel_800C45E4(POLY_FT4 *packs, DG_TEX *tex, int n_packs)
     }
 }
 
-void s03e_evpanel_800C470C(SVECTOR *vecs, int n_vecs, int x, int y)
+static void s03e_evpanel_800C470C(SVECTOR *vecs, int n_vecs, int x, int y)
 {
     int height;
     int top;
@@ -879,7 +900,7 @@ void s03e_evpanel_800C470C(SVECTOR *vecs, int n_vecs, int x, int y)
     }
 }
 
-int s03e_evpanel_800C47D0(EvPanelWork *work, DG_PRIM **out, SVECTOR *vec, int n_prims)
+static int s03e_evpanel_800C47D0(EvPanelWork *work, DG_PRIM **out, SVECTOR *vec, int n_prims)
 {
     MATRIX   pos;
     SVECTOR  trans;
@@ -942,7 +963,7 @@ int s03e_evpanel_800C47D0(EvPanelWork *work, DG_PRIM **out, SVECTOR *vec, int n_
     return 1;
 }
 
-int EvPanelGetResources_800C496C(EvPanelWork *work, int map, int name, int button_count)
+static int GetResources(EvPanelWork *work, int map, int name, int button_count)
 {
     GM_CurrentMap = map;
 
@@ -998,7 +1019,9 @@ int EvPanelGetResources_800C496C(EvPanelWork *work, int map, int name, int butto
     return -1;
 }
 
-void *NewEvPanel_800C4AD8(int name, int where, int argc, char **argv)
+/*---------------------------------------------------------------------------*/
+
+void *NewEvPanel(int name, int where, int argc, char **argv)
 {
     EvPanelWork *work;
     int          button_count;
@@ -1007,8 +1030,8 @@ void *NewEvPanel_800C4AD8(int name, int where, int argc, char **argv)
     work = GV_NewActor(EXEC_LEVEL, sizeof(EvPanelWork) + sizeof(SVECTOR) * button_count * 4);
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, EvPanelAct_800C3B74, EvPanelDie_800C457C, "evpanel.c");
-        if (EvPanelGetResources_800C496C(work, where, name, button_count) < 0)
+        GV_SetNamedActor(&work->actor, Act, Die, "evpanel.c");
+        if (GetResources(work, where, name, button_count) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
