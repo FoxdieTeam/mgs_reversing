@@ -10,85 +10,83 @@ extern unsigned char *GCL_NextStrPtr_800AB9A0;
 
 /*---------------------------------------------------------------------------*/
 
-typedef struct      VibrateWork
+typedef struct _Work
 {
     GV_ACT          actor;
-    char            field_20_flags;
-    char            field_21_increment;
-    short           field_22_timer;
-    unsigned char   *field_24_pData;
-} VibrateWork;
+    char            flags;
+    char            increment;
+    short           timer;
+    unsigned char   *data;
+} Work;
 
 /*---------------------------------------------------------------------------*/
 
-STATIC int vibrate_act_helper_8005D358(VibrateWork *work)
+static int vibrate_act_helper_8005D358(Work *work)
 {
     unsigned char *data;
 
-    data = work->field_24_pData;
-    work->field_21_increment = data[0];
-    work->field_22_timer = 2 * data[1];
-    if (!work->field_21_increment && !work->field_22_timer)
+    data = work->data;
+    work->increment = data[0];
+    work->timer = 2 * data[1];
+
+    if (!work->increment && !work->timer)
     {
         return 0;
     }
 
-    work->field_24_pData = &data[2];
+    work->data = &data[2];
     return 1;
 }
 
-STATIC int vibrate_act_helper_8005D3A4(VibrateWork *work)
+static int vibrate_act_helper_8005D3A4(Work *work)
 {
-    GCL_SetArgTop(work->field_24_pData);
+    GCL_SetArgTop(work->data);
 
-    if (!work->field_24_pData || !GCL_GetParamResult())
+    if (!work->data || !GCL_GetParamResult())
     {
         return 0;
     }
 
-    work->field_21_increment =
-        GCL_StrToInt(GCL_GetParamResult());
-    work->field_22_timer =
-        2 * GCL_StrToInt(GCL_GetParamResult());
-    work->field_24_pData =
-        GCL_GetParamResult();
+    work->increment = GCL_StrToInt(GCL_GetParamResult());
+    work->timer = 2 * GCL_StrToInt(GCL_GetParamResult());
+    work->data = GCL_GetParamResult();
 
     return 1;
 }
 
-STATIC void vibrate_Act(VibrateWork *work)
+static void Act(Work *work)
 {
     int amount;
-    int bAlive;
+    int result;
 
     amount = GV_PassageTime;
-    if (work->field_22_timer <= 0)
+    if (work->timer <= 0)
     {
-        if (work->field_20_flags & 0x10)
+        if (work->flags & 0x10)
         {
-            bAlive = vibrate_act_helper_8005D3A4(work);
+            result = vibrate_act_helper_8005D3A4(work);
         }
         else
         {
-            bAlive = vibrate_act_helper_8005D358(work);
+            result = vibrate_act_helper_8005D358(work);
         }
 
-        if (!bAlive)
+        if (!result)
         {
             GV_DestroyActor(&work->actor);
         }
     }
 
-    work->field_22_timer -= amount;
+    work->timer -= amount;
     if ((GM_GameStatus & STATE_GAME_OVER) == 0)
     {
-        if (work->field_20_flags & 1)
+        if (work->flags & 1)
         {
-            GM_PadVibration += work->field_21_increment;
+            GM_PadVibration += work->increment;
         }
         else
         {
-            GM_PadVibration2 += work->field_21_increment;
+            GM_PadVibration2 += work->increment;
         }
     }
 }
@@ -99,14 +97,14 @@ STATIC void vibrate_Act(VibrateWork *work)
 
 void *NewVibration(int pan)
 {
-    VibrateWork     *work;
-    char            flags;
-    unsigned char   *data;
+    Work *work;
+    char flags;
+    unsigned char *data;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(VibrateWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, vibrate_Act, NULL, "vibrate.c");
+        GV_SetNamedActor(&work->actor, Act, NULL, "vibrate.c");
 
         flags = 2;
         if (pan == HASH_PAN2)
@@ -114,25 +112,25 @@ void *NewVibration(int pan)
             flags = 1;
         }
         data = GCL_NextStrPtr_800AB9A0;
-        work->field_20_flags = flags | 0x10;
-        work->field_22_timer = 0;
-        work->field_24_pData = data;
+        work->flags = flags | 0x10;
+        work->timer = 0;
+        work->data = data;
     }
     return (void *)work;
 }
 
 void *NewPadVibration(unsigned char *data, int flags)
 {
-    VibrateWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(VibrateWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, vibrate_Act, NULL, "vibrate.c");
+        GV_SetNamedActor(&work->actor, Act, NULL, "vibrate.c");
 
-        work->field_24_pData = data;
-        work->field_20_flags = flags | 0x20;
-        work->field_22_timer = 0;
+        work->data = data;
+        work->flags = flags | 0x20;
+        work->timer = 0;
     }
     return (void *)work;
 }

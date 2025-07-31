@@ -127,13 +127,13 @@ extern int gOverlayBinSize_800B5290;
 
 /*---------------------------------------------------------------------------*/
 
-STATIC void GM_ClearWeaponAndItem(void)
+static void GM_ClearWeaponAndItem(void)
 {
     GM_CurrentWeaponId = WP_None;
     GM_CurrentItemId = IT_None;
 }
 
-STATIC void GM_InitGameSystem(void)
+static void GM_InitGameSystem(void)
 {
     int i;
 
@@ -165,7 +165,7 @@ STATIC void GM_InitGameSystem(void)
     }
 }
 
-STATIC void GM_InitNoise(void)
+static void GM_InitNoise(void)
 {
     int length;
     int max;
@@ -187,7 +187,7 @@ STATIC void GM_InitNoise(void)
     GM_AlertLevel = max;
 }
 
-STATIC void GM_ResetSystem(void)
+static void GM_ResetSystem(void)
 {
     menuman_Reset();
     GV_ResetSystem();
@@ -195,7 +195,7 @@ STATIC void GM_ResetSystem(void)
     GCL_ResetSystem();
 }
 
-STATIC void GM_ResetMemory(void)
+static void GM_ResetMemory(void)
 {
     DG_ResetTextureCache();
     GV_ResetMemory();
@@ -203,7 +203,7 @@ STATIC void GM_ResetMemory(void)
 }
 
 // GM_InitStage?
-STATIC void GM_CreateLoader(void)
+static void GM_CreateLoader(void)
 {
     char *stage = "init";
     if (GM_CurrentStageFlag != 0)
@@ -213,7 +213,7 @@ STATIC void GM_CreateLoader(void)
     NewLoader(stage);
 }
 
-STATIC void GM_HidePauseScreen(void)
+static void GM_HidePauseScreen(void)
 {
     GV_PauseLevel &= ~2;
     GM_SetSound(0x01ffff02, SD_ASYNC);
@@ -221,7 +221,7 @@ STATIC void GM_HidePauseScreen(void)
     GM_GameStatus &= ~GAME_FLAG_BIT_08;
 }
 
-STATIC void GM_ShowPauseScreen(void)
+static void GM_ShowPauseScreen(void)
 {
     char *areaName;
 
@@ -235,7 +235,7 @@ STATIC void GM_ShowPauseScreen(void)
     MENU_AreaNameWrite(areaName);
 }
 
-STATIC void GM_TogglePauseScreen(void)
+static void GM_TogglePauseScreen(void)
 {
     int var1;
     int var2;
@@ -257,7 +257,7 @@ STATIC void GM_TogglePauseScreen(void)
     }
 }
 
-STATIC void GM_ActInit(GameWork *work)
+static void GM_ActInit(GameWork *work)
 {
     GM_Reset_helper3_80030760();
     GM_InitWhereSystem();
@@ -267,6 +267,10 @@ STATIC void GM_ActInit(GameWork *work)
     GM_InitGameSystem();
     GM_AlertModeInit();
 }
+
+/*---------------------------------------------------------------------------*/
+
+#define PCC_READ    0xa0be  // GV_StrCode("read")
 
 void GM_InitReadError(void)
 {
@@ -312,7 +316,9 @@ void DrawReadError(void)
     DrawPrim(&sprt);
 }
 
-STATIC void GM_Act(GameWork *work)
+/*---------------------------------------------------------------------------*/
+
+static void Act(GameWork *work)
 {
     int load_request;
     int status;
@@ -652,8 +658,8 @@ void GM_SetLoadCallbackProc(int proc_id)
 
 void GM_ContinueStart(void)
 {
-    int total_continues; // $s2
-    int current_stage;   // $s1
+    int total_continues;
+    int current_stage;
 
     GM_CallSystemCallbackProc(1, 0);
     total_continues = GM_TotalContinues;
@@ -701,7 +707,7 @@ void GM_GameOver(void)
  *  @retval     1       on success
  *  @retval     <= 0    on failure (but this can't happen)
  */
-STATIC int GM_LoadInitBin(unsigned char *buf, int id)
+static int GM_LoadInitBin(unsigned char *buf, int id)
 {
 #ifdef DEV_EXE
     return 1; // the overlay is embedded in the executable in dev variant
@@ -729,7 +735,7 @@ void GM_StartDaemon(void)
     GV_SetLoader('b', GM_LoadInitBin);
     GM_ClearWeaponAndItem();
     GV_InitActor(GV_ACTOR_MANAGER, &GameWork_800B5880.actor, NULL);
-    GV_SetNamedActor(&GameWork_800B5880.actor, GM_Act, NULL, "gamed.c");
+    GV_SetNamedActor(&GameWork_800B5880.actor, Act, NULL, "gamed.c");
     GM_ResetSystem();
     GM_ActInit(&GameWork_800B5880);
     GM_ResetMemory();

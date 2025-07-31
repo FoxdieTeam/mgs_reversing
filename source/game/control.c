@@ -519,9 +519,9 @@ void GM_ConfigControlTrapCheck(CONTROL *control)
 GV_MSG *GM_CheckMessage(GV_ACT *actor, int msgType, int toFind)
 {
     GV_MSG *msg;
-    int     foundCount;
+    int     len;
 
-    for (foundCount = GV_ReceiveMessage(msgType, &msg) - 1; foundCount >= 0; foundCount--)
+    for (len = GV_ReceiveMessage(msgType, &msg) - 1; len >= 0; len--)
     {
         if (msg->message[0] == toFind)
         {

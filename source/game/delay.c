@@ -11,7 +11,7 @@ typedef union GCL_EXEC_UNION {
     unsigned char *block_top;
 } GCL_EXEC_UNION;
 
-typedef struct DelayWork
+typedef struct _Work
 {
     GV_ACT         actor;
     GCL_EXEC_UNION gcl_exec;
@@ -19,7 +19,7 @@ typedef struct DelayWork
     int            delay_counter;
     int            active;
     long           argv_buf[8];
-} DelayWork;
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_AFTER
 
@@ -102,7 +102,7 @@ void sna_act_helper2_helper2_80033054(int id, SVECTOR *vec)
     }
 }
 
-STATIC void delay_Act(DelayWork *work)
+static void Act(Work *work)
 {
     if (work->active == FALSE && GM_GameOverTimer != 0)
     {
@@ -131,12 +131,12 @@ STATIC void delay_Act(DelayWork *work)
 void *GM_DelayedExecCommand(int proc, GCL_ARGS *args, int time)
 {
     unsigned short argc;
-    DelayWork     *work;
+    Work          *work;
     int            i;
     long          *dst_args;
     long          *src_args;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(DelayWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work)
     {
         if (!args)
@@ -173,7 +173,7 @@ void *GM_DelayedExecCommand(int proc, GCL_ARGS *args, int time)
         work->delay_counter = time;
         work->gcl_exec.proc_id = proc;
 
-        GV_SetNamedActor(&work->actor, delay_Act, NULL, "delay.c");
+        GV_SetNamedActor(&work->actor, Act, NULL, "delay.c");
     }
     return (void *)work;
 }
