@@ -8,7 +8,7 @@
 #include "mts/taskid.h"
 #include "libfs/libfs.h"
 
-int dword_8009F7B4 = -1;
+int str_tick_count = -1;
 char *dword_8009F7B8 = 0;
 
 void StrFadeIn(unsigned int fade_speed)
@@ -72,7 +72,7 @@ int StartStream(void)
         str_fade_time = 0;
     }
     str_fout_fg = 0;
-    dword_8009F7B4 = -1;
+    str_tick_count = -1;
     FS_StreamOpen();
 
     str_header = FS_StreamGetData(2);
@@ -263,7 +263,7 @@ int StrSpuTransWithNoLoop(void)
                 }
 
                 dword_800BF1A4 = 1;
-                dword_8009F7B4 = -1;
+                str_tick_count = -1;
             }
             else
             {
@@ -377,7 +377,7 @@ int StrSpuTransWithNoLoop(void)
         keyOn(SPU_21CH | SPU_22CH);
         str_next_idx = 4096;
         mute_l_r_fg = 0;
-        dword_8009F7B4 = 0;
+        str_tick_count = 0;
         str_status++;
 
         if ((str_unplay_size == 0) || (str_unplay_size < 0))
@@ -398,7 +398,7 @@ int StrSpuTransWithNoLoop(void)
     case 5:
         if (str_data_ptr && (mute_l_r_fg == 0))
         {
-            dword_8009F7B4++;
+            str_tick_count++;
         }
 
         if (((str_next_idx == (dword_800BF270 & 4096)) || (dword_800BF1A4 != 0)) ||
@@ -606,17 +606,17 @@ int StrSpuTransWithNoLoop(void)
             SpuSetVoiceAttr(&attr);
 
             keyOff(SPU_21CH | SPU_22CH);
-            dword_8009F7B4 = -1;
+            str_tick_count = -1;
             str_status++;
         }
         else
         {
-            dword_8009F7B4++;
+            str_tick_count++;
         }
         break;
 
     case 7:
-        dword_8009F7B4 = -1;
+        str_tick_count = -1;
         break;
     }
 

@@ -193,11 +193,11 @@ STATIC int StageFileReadyCallback(CDBIOS_TASK *task)
 
     if (gFsCallback_8009D4F8)
     {
-        task->buffer = gFsCallback_8009D4F8(task->buffer + task->field_C * 4);
+        task->buffer = gFsCallback_8009D4F8(task->buffer + task->buffer_size * 4);
         return 2;
     }
 
-    info->tag_end2 = task->buffer + task->field_C * 4;
+    info->tag_end2 = task->buffer + task->buffer_size * 4;
     return 1;
 }
 

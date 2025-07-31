@@ -24,7 +24,7 @@ void keyOn(unsigned int ch);
 int sd_mem_alloc(void);
 
 /* sd_str.c */
-extern int dword_8009F7B4;
+extern int str_tick_count;
 extern char *dword_8009F7B8;
 
 void StrFadeIn(unsigned int fade_speed);

@@ -140,17 +140,17 @@ FS_STAGE_INFO *BSS  gStageInfo_800B5288; // 0x4 (4) bytes
 int BSS             gLoaderStartTime_800B528C; // 0x4 (4) bytes
 int BSS             gOverlayBinSize_800B5290; // 0x4 (4) bytes
 int BSS             FS_ResidentCacheDirty; // 0x4 (4) bytes
-int BSS             fs_stream_ref_count_800B5298; // 0x4 (4) bytes
-int BSS             fs_dword_800B529C; // 0x4 (4) bytes
-int BSS             fs_dword_800B52A0; // 0x4 (4) bytes
-void *BSS           fs_stream_heap_800B52A4; // 0x4 (4) bytes
-char *BSS           fs_stream_heap_end_800B52A8; // 0x4 (4) bytes
-int BSS             fs_stream_heapSize_800B52AC; // 0x4 (4) bytes
-int BSS             fs_dword_800B52B0; // 0x4 (4) bytes
-char *BSS           fs_ptr_800B52B4; // 0x4 (4) bytes
-int *BSS            fs_ptr_800B52B8; // 0x4 (4) bytes
-char *BSS           fs_ptr_800B52BC; // 0x4 (4) bytes
-unsigned int BSS    fs_stream_task_state_800B52C0; // 0x4 (4) bytes
+int BSS             fs_stream_ref_count; // 0x4 (4) bytes
+int BSS             fs_stream_read; // 0x4 (4) bytes
+int BSS             fs_stream_sector; // 0x4 (4) bytes
+void *BSS           fs_stream_heap; // 0x4 (4) bytes
+char *BSS           fs_stream_heap_end; // 0x4 (4) bytes
+int BSS             fs_stream_heap_size; // 0x4 (4) bytes
+int BSS             fs_stream_unused; // 0x4 (4) bytes
+char *BSS           fs_stream_top; // 0x4 (4) bytes
+int *BSS            fs_stream_write_ptr;; // 0x4 (4) bytes
+char *BSS           fs_stream_bottom; // 0x4 (4) bytes
+unsigned int BSS    fs_stream_task_state; // 0x4 (4) bytes
 
 gap                                     gap_800B52C4[0x4]; // 4 bytes
 
