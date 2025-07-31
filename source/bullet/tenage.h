@@ -5,7 +5,7 @@
 #include <libgte.h>
 #include <libgpu.h>
 
-// the projectile for all types of grenades
+// 手投げ弾 (en: hand grenade)
 
 void *NewTenage(SVECTOR *pos, SVECTOR *step, int fuse_time, int type, int model);
 void *NewTenage2(SVECTOR *pos, SVECTOR *step, int fuse_time);

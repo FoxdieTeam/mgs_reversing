@@ -18,6 +18,20 @@
 
 #define EXEC_LEVEL GV_ACTOR_AFTER
 
+typedef struct _Work
+{
+    GV_ACT   actor;
+    int      map;
+    SVECTOR  pos;
+    DG_PRIM *prim;
+    int      unused1;
+    int      unused2;
+    int      time;
+    TARGET   target;
+} Work;
+
+/*---------------------------------------------------------------------------*/
+
 BLAST_DATA blast_data_8009F4B8[8] = {
     { 0x100, 5, 0x3E8, 0x7D0,  2 },
     { 0x100, 5, 0x3E8, 0x7D0,  6 },
@@ -29,7 +43,9 @@ BLAST_DATA blast_data_8009F4B8[8] = {
     {     0, 0,     1,     1, -1 }
 };
 
-SVECTOR svector_8009F558[2] = {
+/*---------------------------------------------------------------------------*/
+
+STATIC SVECTOR svector_8009F558[2] = {
 #ifndef VR_EXE
     {100, 0, 0, 0},
 #else
@@ -38,7 +54,7 @@ SVECTOR svector_8009F558[2] = {
     {2000, 2000, 4000, 4000}
 };
 
-STATIC void BlastAct(BlastWork *work)
+static void Act(Work *work)
 {
     int time;
 
@@ -62,7 +78,7 @@ STATIC void BlastAct(BlastWork *work)
     }
 }
 
-STATIC void BlastDie(BlastWork *blast)
+static void Die(Work *blast)
 {
     if (blast->time < 2)
     {
@@ -72,7 +88,9 @@ STATIC void BlastDie(BlastWork *blast)
     GM_FreePrim(blast->prim);
 }
 
-STATIC void blast_8006DDEC(BLAST_DATA *blast_data, BlastWork *work, int side)
+/*---------------------------------------------------------------------------*/
+
+static void InitBlastTarget(BLAST_DATA *blast_data, Work *work, int side)
 {
     TARGET *target = &work->target;
     SVECTOR size;
@@ -124,14 +142,14 @@ STATIC void blast_8006DDEC(BLAST_DATA *blast_data, BlastWork *work, int side)
     }
 }
 
-STATIC int BlastGetResources(BLAST_DATA *blast_data, BlastWork *work, MATRIX *world, int side)
+static int GetResources(BLAST_DATA *blast_data, Work *work, MATRIX *world, int side)
 {
     work->time = 0;
     work->map = GM_CurrentMap;
     work->pos.vx = world->t[0];
     work->pos.vy = world->t[1];
     work->pos.vz = world->t[2];
-    blast_8006DDEC(blast_data, work, side);
+    InitBlastTarget(blast_data, work, side);
     return 0;
 }
 
@@ -139,13 +157,15 @@ STATIC int BlastGetResources(BLAST_DATA *blast_data, BlastWork *work, MATRIX *wo
 
 void *NewBlast(MATRIX *world, BLAST_DATA *blast_data)
 {
-    BlastWork *work = GV_NewActor(EXEC_LEVEL, sizeof(BlastWork));
+    Work *work;
+
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, BlastAct, BlastDie, "blast.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "blast.c");
         GM_ClaymoreMap = GM_CurrentMap;
 
-        if (BlastGetResources(blast_data, work, world, 1) < 0)
+        if (GetResources(blast_data, work, world, 1) < 0)
         {
 
             GV_DestroyActor(&work->actor);
@@ -162,12 +182,14 @@ void *NewBlast(MATRIX *world, BLAST_DATA *blast_data)
 
 void *NewBlast2(MATRIX *world, BLAST_DATA *blast_data, int doSound, int side)
 {
-    BlastWork *work = GV_NewActor(EXEC_LEVEL, sizeof(BlastWork));
+    Work *work;
+
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, BlastAct, BlastDie, "blast.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "blast.c");
         GM_ClaymoreMap = GM_CurrentMap;
-        if (BlastGetResources(blast_data, work, world, side) < 0)
+        if (GetResources(blast_data, work, world, side) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

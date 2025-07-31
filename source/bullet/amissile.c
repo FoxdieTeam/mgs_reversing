@@ -15,16 +15,23 @@
 #include "sd/g_sound.h"
 #include "strcode.h"
 
-extern TARGET *target_800BDF00;
-
+extern TARGET          *target_800BDF00;
 extern BLAST_DATA       blast_data_8009F4B8[8];
-
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 
 /*---------------------------------------------------------------------------*/
 // Anti-Air Missile (Stinger)
 
-typedef struct AMissileWork
+#define EXEC_LEVEL      GV_ACTOR_AFTER
+
+#define STINGER_MSG     0x57f8  // GV_StrCode("stinger")
+#define STINGER_MODEL   0x76ab  // GV_StrCode("stn_fr")
+
+#define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE \
+                        | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE \
+                        | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE )
+
+typedef struct _Work
 {
     GV_ACT         actor;
     CONTROL        control;
@@ -38,12 +45,11 @@ typedef struct AMissileWork
     DG_PRIM       *prim;
     RECT           prim_rect;
     SVECTOR        vertices[4];
-} AMissileWork;
+} Work;
 
-#define EXEC_LEVEL  GV_ACTOR_AFTER
-#define BODY_FLAG   ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE | DG_FLAG_ONEPIECE )
+/*---------------------------------------------------------------------------*/
 
-int amissile_alive_8009F490 = 0;
+int amissile_alive_8009F490 = FALSE;
 SVECTOR svector_8009F494 = {0, 0, 0, 0};
 int dword_8009F49C = 0;
 SVECTOR svector_8009F4A0 = {0, -800, 0, 0};
@@ -52,7 +58,7 @@ SVECTOR svector_8009F4B0 = {0, -100, -70, 0};
 
 /*---------------------------------------------------------------------------*/
 
-STATIC void amissile_loader_helper_8006D1F4(POLY_FT4 *poly, DG_TEX *tex)
+static void amissile_loader_helper_8006D1F4(POLY_FT4 *poly, DG_TEX *tex)
 {
     int i;
     char rgb;
@@ -81,7 +87,7 @@ STATIC void amissile_loader_helper_8006D1F4(POLY_FT4 *poly, DG_TEX *tex)
     }
 }
 
-STATIC void amissile_act_helper_8006D2A0(AMissileWork *work, SVECTOR input)
+static void amissile_act_helper_8006D2A0(Work *work, SVECTOR input)
 {
     SVECTOR position = work->control.mov;
     SVECTOR result;
@@ -104,7 +110,7 @@ STATIC void amissile_act_helper_8006D2A0(AMissileWork *work, SVECTOR input)
     DG_RotVector(&rotation, &work->vertices[0], 1);
 }
 
-STATIC void amissile_act_helper_8006D37C(AMissileWork *work)
+static void amissile_act_helper_8006D37C(Work *work)
 {
     SVECTOR diff;
     SVECTOR result;
@@ -189,30 +195,28 @@ STATIC void amissile_act_helper_8006D37C(AMissileWork *work)
     }
 }
 
-STATIC int AMissileCheckMessage(void)
+static int CheckMessage(void)
 {
 #ifdef VR_EXE
     GV_MSG *msg;
-    int     count;
+    int     len;
 
-    count = GV_ReceiveMessage(KMD_STINGER, &msg);
-    if (count > 0)
+    len = GV_ReceiveMessage(STINGER_MSG, &msg);
+    if (len > 0)
     {
-        for (count--; count >= 0; count--)
+        for (len--; len >= 0; msg++, len--)
         {
             if (msg->message[0] == HASH_KILL)
             {
                 return 1;
             }
-
-            msg++;
         }
     }
 #endif
     return 0;
 }
 
-STATIC void AMissileAct(AMissileWork *work)
+static void Act(Work *work)
 {
     MATRIX rotation;
     SVECTOR position;
@@ -243,7 +247,7 @@ STATIC void AMissileAct(AMissileWork *work)
         amissile_act_helper_8006D2A0(work, position);
     }
 
-    amissile_alive_8009F490 = 1;
+    amissile_alive_8009F490 = TRUE;
     svector_8009F494 = control->mov;
 
     if (work->field_120 == 0)
@@ -280,15 +284,14 @@ STATIC void AMissileAct(AMissileWork *work)
     control = &work->control;
     GV_AddVec3(&control->mov, &control->step, &addition);
 
-    result = AMissileCheckMessage();
+    result = CheckMessage();
 
     // this is probably also an inline
     if (work->control.field_58 <= 0 && !work->control.field_57)
     {
         if (++work->field_120 != 90 &&
-            !GM_Target_8002E1B8(&control->mov, &addition,
-                                work->control.map->index, &addition, 1) &&
-                                !dword_8009F49C)
+            !GM_Target_8002E1B8(&control->mov, &addition, work->control.map->index, &addition, 1) &&
+            !dword_8009F49C)
         {
             if (!result)
             {
@@ -343,7 +346,9 @@ STATIC void AMissileAct(AMissileWork *work)
         {
             blast = &blast_data_8009F4B8[7];
 #ifdef VR_EXE
-            if ((GM_GameStatus & STATE_PADDEMO) && !(GM_PlayerStatus & PLAYER_PAD_OFF) && !(GM_GameStatus & STATE_PADRELEASE))
+            if ((GM_GameStatus & STATE_PADDEMO) &&
+                !(GM_PlayerStatus & PLAYER_PAD_OFF) &&
+                !(GM_GameStatus & STATE_PADRELEASE))
             {
                 blast = &blast_data_8009F4B8[3];
             }
@@ -357,11 +362,11 @@ STATIC void AMissileAct(AMissileWork *work)
         NewBlast(&rotation, blast);
     }
 
-    amissile_alive_8009F490 = 0;
+    amissile_alive_8009F490 = FALSE;
     GV_DestroyActor(&work->actor);
 }
 
-STATIC void AMissileDie(AMissileWork *work)
+static void Die(Work *work)
 {
     GM_FreeControl(&work->control);
     GM_FreeObject((OBJECT *)&work->body);
@@ -372,11 +377,10 @@ STATIC void AMissileDie(AMissileWork *work)
         target_800BDF00 = 0;
     }
 
-    amissile_alive_8009F490 = 0;
+    amissile_alive_8009F490 = FALSE;
 }
 
-
-STATIC int AMissileGetResources(AMissileWork *work, MATRIX *world, int side)
+static int GetResources(Work *work, MATRIX *world, int side)
 {
     CONTROL *control = &work->control;
     OBJECT_NO_ROTS *body;
@@ -400,7 +404,7 @@ STATIC int AMissileGetResources(AMissileWork *work, MATRIX *world, int side)
     control->skip_flag |= CTRL_SKIP_NEAR_CHECK;
     control->field_59 = 8;
 
-    GM_InitObjectNoRots(body, KMD_STN_FR, BODY_FLAG, 0);
+    GM_InitObjectNoRots(body, STINGER_MODEL, BODY_FLAG, 0);
 
     objs = body->objs;
 
@@ -455,13 +459,13 @@ STATIC int AMissileGetResources(AMissileWork *work, MATRIX *world, int side)
 
 void *NewAMissile(MATRIX *world, int side)
 {
-    AMissileWork *work = GV_NewActor(EXEC_LEVEL, sizeof(AMissileWork));
+    Work *work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, &AMissileAct, &AMissileDie, "amissile.c");
+        GV_SetNamedActor(&work->actor, &Act, &Die, "amissile.c");
 
-        if (AMissileGetResources(work, world, side) < 0)
+        if (GetResources(work, world, side) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
