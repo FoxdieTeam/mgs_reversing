@@ -5,15 +5,19 @@
 #include "game/game.h"
 #include "strcode.h"
 
-typedef struct _PointWork
-{
-    GV_ACT  actor;
-    CONTROL control;
-} PointWork;
+/*---------------------------------------------------------------------------*/
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-void PointAct_800C5928(PointWork *work)
+typedef struct _Work
+{
+    GV_ACT  actor;
+    CONTROL control;
+} Work;
+
+/*---------------------------------------------------------------------------*/
+
+static void Act(Work *work)
 {
     CONTROL *control;
     int      n_msgs;
@@ -50,12 +54,16 @@ void PointAct_800C5928(PointWork *work)
     }
 }
 
-void PointDie_800C59FC(PointWork *work)
+/*---------------------------------------------------------------------------*/
+
+static void Die(Work *work)
 {
     GM_FreeControl(&work->control);
 }
 
-int PointGetResources_800C5A1C(PointWork *work, int where, int name)
+/*---------------------------------------------------------------------------*/
+
+static int GetResources(Work *work, int where, int name)
 {
     char *pos, *dir;
     int color;
@@ -79,16 +87,18 @@ int PointGetResources_800C5A1C(PointWork *work, int where, int name)
     return 1;
 }
 
-void *NewPoint_800C5AB4(int name, int where, int argc, char **argv)
-{
-    PointWork *work;
+/*---------------------------------------------------------------------------*/
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(PointWork));
+void *NewPoint(int name, int where, int argc, char **argv)
+{
+    Work *work;
+
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, PointAct_800C5928, PointDie_800C59FC, "point.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "point.c");
 
-        if (!PointGetResources_800C5A1C(work, where, name))
+        if (!GetResources(work, where, name))
         {
             GV_DestroyActor(&work->actor);
             return NULL;
