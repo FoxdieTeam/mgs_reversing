@@ -11,6 +11,10 @@
 #include "game/map.h"
 #include "strcode.h"
 
+extern int dword_8009F470;
+
+/*---------------------------------------------------------------------------*/
+
 // Doors can have multiple moveable leaves (wings),
 // for example elevator doors have 2 leaves (left part, right part),
 // while most typical doors in MGS have only a single leaf (the entire door).
@@ -20,7 +24,7 @@ typedef struct DoorLeafData
     SVECTOR field_30;
 } DoorLeafData;
 
-typedef struct DoorWork
+typedef struct _Work
 {
     GV_ACT         actor;
     CONTROL        control;
@@ -46,26 +50,26 @@ typedef struct DoorWork
     char           field_FF_e_param_v2;
     int            field_100_param_f_v;
     DoorLeafData   leaves[1]; // 1 or more leaves
-} DoorWork;
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-extern int      dword_8009F470;
+/*---------------------------------------------------------------------------*/
 
 int door_where_8009F5F4 = 0;
 
-STATIC void door_send_msg_8006EC10(unsigned short addr, unsigned short a2)
+static void SendMessage(unsigned short addr, unsigned short map)
 {
     GV_MSG msg;
 
     msg.address = addr;
     msg.message[0] = HASH_MAP;
-    msg.message[1] = a2;
+    msg.message[1] = map;
     msg.message_len = 2;
     GV_SendMessage(&msg);
 }
 
-STATIC void door_act_helper_8006EC48(DoorWork *work)
+static void ExecProc(Work *work)
 {
     int      message_type;
     GCL_ARGS args;
@@ -93,7 +97,7 @@ STATIC void door_act_helper_8006EC48(DoorWork *work)
     }
 }
 
-STATIC void DoorOpen_8006ECB8(DoorWork *work)
+static void OpenDoor(Work *work)
 {
     SVECTOR *pos;
 
@@ -109,7 +113,7 @@ STATIC void DoorOpen_8006ECB8(DoorWork *work)
     work->field_E2_maybe_state = 2;
 }
 
-STATIC void DoorClose_8006ED48(DoorWork *work)
+static void CloseDoor(Work *work)
 {
     SVECTOR *pos;
 
@@ -128,7 +132,7 @@ STATIC void DoorClose_8006ED48(DoorWork *work)
     work->field_E3 = 0;
 }
 
-STATIC int DoorPollMessages_8006EDB8(DoorWork *work)
+static int PollMessages(Work *work)
 {
     int hash_enter = HASH_ENTER; // open
     int hash_leave = HASH_LEAVE; // close
@@ -183,7 +187,7 @@ STATIC int DoorPollMessages_8006EDB8(DoorWork *work)
                 }
 
                 work->field_F6_map_num = work->field_F8_maps[var_v0];
-                door_send_msg_8006EC10(temp_s1, work->field_F6_map_num);
+                SendMessage(temp_s1, work->field_F6_map_num);
             }
 
             if (msg->message[1] > 0 && msg->message[1] < 64)
@@ -238,7 +242,7 @@ STATIC int DoorPollMessages_8006EDB8(DoorWork *work)
 
                 if (++work->field_F2_door_counter > 0)
                 {
-                    DoorOpen_8006ECB8(work);
+                    OpenDoor(work);
 
                     work->field_F6_map_num = GM_GetMap(GM_PlayerMap)->name;
 
@@ -260,7 +264,7 @@ STATIC int DoorPollMessages_8006EDB8(DoorWork *work)
                         }
                     }
 
-                    door_act_helper_8006EC48(work);
+                    ExecProc(work);
                 }
 
                 continue;
@@ -273,7 +277,7 @@ STATIC int DoorPollMessages_8006EDB8(DoorWork *work)
 
             if (work->field_E2_maybe_state != 0)
             {
-                DoorOpen_8006ECB8(work);
+                OpenDoor(work);
             }
 
             if (msg->message[1] == CHARA_SNAKE)
@@ -298,7 +302,7 @@ STATIC int DoorPollMessages_8006EDB8(DoorWork *work)
     return 0;
 }
 
-STATIC void door_act_helper_8006F184(DoorWork *work, int arg1)
+static void door_act_helper_8006F184(Work *work, int arg1)
 {
     SVECTOR       dir;
     int           i, j;
@@ -338,7 +342,7 @@ STATIC void door_act_helper_8006F184(DoorWork *work, int arg1)
     }
 }
 
-STATIC int door_act_helper_8006F290(CONTROL *pControl, int param_h)
+static int door_act_helper_8006F290(CONTROL *pControl, int param_h)
 {
     int param_h_50; // $a1
     int diff;       // $v1
@@ -379,7 +383,7 @@ STATIC int door_act_helper_8006F290(CONTROL *pControl, int param_h)
     return 1;
 }
 
-STATIC void DoorAct_8006F318(DoorWork *work)
+static void Act(Work *work)
 {
     SVECTOR       *pVecs;
     int            temp_s5;
@@ -395,7 +399,7 @@ STATIC void DoorAct_8006F318(DoorWork *work)
     int            i;
     int            temp_t2;
 
-    if (!DoorPollMessages_8006EDB8(work))
+    if (!PollMessages(work))
     {
         if (work->field_E2_maybe_state == 4 && (!work->field_E3 || dword_8009F470 == 0))
         {
@@ -407,7 +411,7 @@ STATIC void DoorAct_8006F318(DoorWork *work)
                 }
                 else
                 {
-                    DoorClose_8006ED48(work);
+                    CloseDoor(work);
                 }
             }
         }
@@ -494,7 +498,7 @@ STATIC void DoorAct_8006F318(DoorWork *work)
                 }
 
                 work->field_E5 = 0;
-                door_act_helper_8006EC48(work);
+                ExecProc(work);
             }
         }
 
@@ -537,7 +541,9 @@ STATIC void DoorAct_8006F318(DoorWork *work)
     }
 }
 
-STATIC void DoorDie_8006F718(DoorWork *work)
+/*---------------------------------------------------------------------------*/
+
+static void Die(Work *work)
 {
     char pad[8]; // unused stack...
 
@@ -545,7 +551,9 @@ STATIC void DoorDie_8006F718(DoorWork *work)
     GM_FreeObject((OBJECT *)&work->object);
 }
 
-STATIC void door_loader_t_param_sub_8006F748(HZD_SEG *pSeg, SVECTOR *pVec1, SVECTOR *pVec2, int param_v)
+/*---------------------------------------------------------------------------*/
+
+static void door_loader_t_param_sub_8006F748(HZD_SEG *pSeg, SVECTOR *pVec1, SVECTOR *pVec2, int param_v)
 {
     pSeg->p1.x = pVec1->vx;
     pSeg->p1.z = pVec1->vz;
@@ -561,7 +569,7 @@ STATIC void door_loader_t_param_sub_8006F748(HZD_SEG *pSeg, SVECTOR *pVec1, SVEC
     HZD_SetDynamicSegment(pSeg, pSeg);
 }
 
-STATIC void DoorInitHzdSegments_8006F7AC(DoorWork *work, DoorLeafData *leaf, int arg2, int arg3, int flags)
+static void DoorInitHzdSegments_8006F7AC(Work *work, DoorLeafData *leaf, int arg2, int arg3, int flags)
 {
     SVECTOR   vecs[4];
     HZD_HDL  *pMaps[2];
@@ -623,7 +631,7 @@ STATIC void DoorInitHzdSegments_8006F7AC(DoorWork *work, DoorLeafData *leaf, int
     }
 }
 
-STATIC void door_loader_param_h_8006F978(DoorWork *work, int a_param_v)
+static void door_loader_param_h_8006F978(Work *work, int a_param_v)
 {
     int           param_w_alternating;
     int           i;
@@ -644,7 +652,7 @@ STATIC void door_loader_param_h_8006F978(DoorWork *work, int a_param_v)
 }
 
 // Poor man's THING_Gcl_GetIntDefault
-STATIC int Door_Gcl_GetIntDefault_8006FA28(unsigned char param, int def)
+static int Door_Gcl_GetIntDefault(unsigned char param, int def)
 {
     if (GCL_GetOption(param))
     {
@@ -653,7 +661,7 @@ STATIC int Door_Gcl_GetIntDefault_8006FA28(unsigned char param, int def)
     return def;
 }
 
-STATIC int DoorGetResources_8006FA60(DoorWork *work, int name, int where)
+static int GetResources(Work *work, int name, int where)
 {
     SVECTOR         vec;
     CONTROL        *pControl;
@@ -695,14 +703,14 @@ STATIC int DoorGetResources_8006FA60(DoorWork *work, int name, int where)
 
     work->field_E6_param_w_v = work->object.objs->def[2].num_bones_0; // is this correct?
 
-    work->field_E6_param_w_v = Door_Gcl_GetIntDefault_8006FA28('w', 1000);
-    work->field_E8_param_s_v = Door_Gcl_GetIntDefault_8006FA28('s', 100);
-    work->field_FC_param_u_v = Door_Gcl_GetIntDefault_8006FA28('u', 0);
-    work->field_EA_param_h_v = Door_Gcl_GetIntDefault_8006FA28('h', 0);
-    work->field_100_param_f_v = Door_Gcl_GetIntDefault_8006FA28('f', -1);
-    work->field_EC_param_v_v = Door_Gcl_GetIntDefault_8006FA28('v', 2500);
+    work->field_E6_param_w_v = Door_Gcl_GetIntDefault('w', 1000);
+    work->field_E8_param_s_v = Door_Gcl_GetIntDefault('s', 100);
+    work->field_FC_param_u_v = Door_Gcl_GetIntDefault('u', 0);
+    work->field_EA_param_h_v = Door_Gcl_GetIntDefault('h', 0);
+    work->field_100_param_f_v = Door_Gcl_GetIntDefault('f', -1);
+    work->field_EC_param_v_v = Door_Gcl_GetIntDefault('v', 2500);
 
-    a_param_v = Door_Gcl_GetIntDefault_8006FA28('a', 16);
+    a_param_v = Door_Gcl_GetIntDefault('a', 16);
     have_c_param = GCL_GetOption('c') != 0;
 
     if (GCL_GetOption('g'))
@@ -755,10 +763,12 @@ STATIC int DoorGetResources_8006FA60(DoorWork *work, int name, int where)
     return 0;
 }
 
+/*---------------------------------------------------------------------------*/
+
 void *NewDoor(int name, int where, int argc, char **argv)
 {
-    int       leaf_count;
-    DoorWork *work;
+    int     leaf_count;
+    Work    *work;
 
     if (GCL_GetOption('t'))
     {
@@ -769,17 +779,17 @@ void *NewDoor(int name, int where, int argc, char **argv)
         leaf_count = 1;
     }
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(DoorWork) + sizeof(DoorLeafData) * (leaf_count - 1));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work) + sizeof(DoorLeafData) * (leaf_count - 1));
 
     door_where_8009F5F4 = 0;
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, DoorAct_8006F318, DoorDie_8006F718, "door.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "door.c");
 
         work->leaf_count = leaf_count;
 
-        if (DoorGetResources_8006FA60(work, name, where) < 0)
+        if (GetResources(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
