@@ -95,7 +95,7 @@ void DG_SwapFrame(void)
     DG_ClearTmpLight();
 }
 
-void DG_RenderPipeline_800172A8(void)
+void DG_RenderFrame(void)
 {
     DG_RenderPipeline(GV_Clock);
 }

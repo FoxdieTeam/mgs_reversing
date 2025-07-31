@@ -502,7 +502,7 @@ void DG_InitDispEnv( int x, short y, short w, short h, int clipH );
 void DG_ChangeReso( int );
 void DG_RenderPipeline_Init( void );
 void DG_SwapFrame( void );
-void DG_RenderPipeline_800172A8( void );
+void DG_RenderFrame( void );
 void DG_LookAt( DG_CHANL *chanl, SVECTOR *eye, SVECTOR *center, int clip_distance );
 void DG_AdjustOverscan( MATRIX *matrix );
 void DG_Clip( RECT *clip_rect, int dist );
