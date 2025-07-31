@@ -1,8 +1,10 @@
 #include "common.h"
 #include "charadef.h"
 
+extern void *NewDemoSelect();
+
 CHARA _StageCharacterEntries[] = 
 {
-    { 0x3686, (NEWCHARA)0x800C61B0 },
+    { CHARA_DEMOSEL, (NEWCHARA)NewDemoSelect },
     { 0, NULL }
 };
