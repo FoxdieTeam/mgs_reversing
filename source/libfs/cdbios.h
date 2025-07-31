@@ -8,7 +8,7 @@ typedef struct _CDBIOS_TASK {
     int state;
     int sector;
     void *buffer;
-    int field_C;
+    int buffer_size;
     int ticks;
     int sectors_delivered;
     int size;
