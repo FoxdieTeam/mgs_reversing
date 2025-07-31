@@ -106,12 +106,12 @@ loop_case3:
                 goto loop_case3;
             }
         }
-        if ( work->field_22_sub_state == 2 && !FS_StreamIsEnd() )
+        if ( work->field_22_sub_state == 2 && !FS_StreamClosed() )
         {
             work->field_22_sub_state = 0;
         }
         if ( ( !work->field_22_sub_state || FS_StreamIsForceStop() )
-            && FS_StreamIsEnd() && !FS_StreamSync() )
+            && FS_StreamClosed() && !FS_StreamSync() )
         {
             printf( "StreamPlay end\n" );
             if ( work->field_24 )
