@@ -4,19 +4,23 @@
 #include "libgcl/libgcl.h"
 #include "strcode.h"
 
+/*---------------------------------------------------------------------------*/
+
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-typedef struct _PadWork
+typedef struct _Work
 {
-    GV_ACT         actor;
-    int            name; //0x20
-    unsigned short status; //0x24
-    short          unk2; //0x26
-    char*          unk3; //0x28
-    int            unk4; //0x2C
-} PadWork;
+    GV_ACT  actor;
+    int     name;   //0x20
+    u_short status; //0x24
+    short   unk2;   //0x26
+    char*   unk3;   //0x28
+    int     unk4;   //0x2C
+} Work;
 
-STATIC int PadGetResources_800C3690( PadWork* work )
+/*---------------------------------------------------------------------------*/
+
+static int GetResources( Work *work )
 {
     GCL_SetArgTop( work->unk3 ) ;
 
@@ -37,7 +41,7 @@ STATIC int PadGetResources_800C3690( PadWork* work )
     return 0 ;
 }
 
-STATIC void PadAct_800C370C( PadWork* work )
+static void Act( Work *work )
 {
     if ( GM_CheckMessage( &work->actor, work->name, HASH_KILL ) )
     {
@@ -45,7 +49,7 @@ STATIC void PadAct_800C370C( PadWork* work )
         return;
     }
 
-    if ( (work->unk2 <= 0) && ( PadGetResources_800C3690( work ) == 0) )
+    if ( (work->unk2 <= 0) && ( GetResources( work ) == 0) )
     {
         GV_DestroyActor( &work->actor );
     }
@@ -55,7 +59,7 @@ STATIC void PadAct_800C370C( PadWork* work )
     GV_DemoPadStatus[0] = work->status;
 }
 
-STATIC void PadDie_800C37A4( PadWork* work )
+static void Die( Work *work )
 {
     GV_DemoPadStatus[0] = 0 ;
     GM_GameStatus &= ~STATE_PADDEMO;
@@ -66,16 +70,18 @@ STATIC void PadDie_800C37A4( PadWork* work )
     }
 }
 
-void *NewPad_800C37EC(int name, int where, int argc, char **argv)
+/*---------------------------------------------------------------------------*/
+
+void *NewPad(int name, int where, int argc, char **argv)
 {
     char *ops;
-    PadWork *work ;
+    Work *work ;
 
-    work = GV_NewActor( EXEC_LEVEL, sizeof( PadWork ) ) ;
+    work = GV_NewActor( EXEC_LEVEL, sizeof( Work ) ) ;
 
     if ( work != NULL ) {
         /* ワークにコールバックを登録する */
-        GV_SetNamedActor( &( work->actor ), PadAct_800C370C, PadDie_800C37A4, "pad.c" ) ;
+        GV_SetNamedActor( &( work->actor ), Act, Die, "pad.c" ) ;
 
         ops = GCL_GetOption( 's' ) ;
         if ( !ops ) {
