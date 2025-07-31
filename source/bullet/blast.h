@@ -18,18 +18,6 @@ typedef struct BLAST_DATA
     int field_10;  // TARGET->field_44
 } BLAST_DATA;
 
-typedef struct BlastWork
-{
-    GV_ACT   actor;
-    int      map;
-    SVECTOR  pos;
-    DG_PRIM *prim;
-    int      unused1;
-    int      unused2;
-    int      time;
-    TARGET   target;
-} BlastWork;
-
 void *NewBlast( MATRIX *world, BLAST_DATA *blast_data );
 void *NewBlast2( MATRIX *world, BLAST_DATA *blast_data, int doSound, int side );
 

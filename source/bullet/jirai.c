@@ -18,17 +18,17 @@
 #include "chara/snake/sna_init.h"
 #include "sd/g_sound.h"
 
-extern int           dword_8009F440;
-extern int           dword_8009F444;
-extern int           counter_8009F448;
-extern HITTABLE      GM_ClayDatas_800BDE78[8];
-extern SVECTOR       svec_8009F44C;
-extern SVECTOR       svec_8009F454;
-extern SVECTOR       svec_8009F45C;
-extern SVECTOR       svec_8009F464;
+extern HITTABLE GM_ClayDatas_800BDE78[8];
 
 /*---------------------------------------------------------------------------*/
 // Claymore (armed)
+
+#define CLAYMORE_NAME   GV_StrCode("claymore")
+#define CLAYMORE_MODEL  GV_StrCode("claymore")
+
+#define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | \
+                          DG_FLAG_GBOUND | DG_FLAG_ONEPIECE | \
+                          DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE )
 
 int dword_8009F440 = 0;
 int dword_8009F444 = 0;
@@ -38,9 +38,9 @@ SVECTOR svec_8009F454 = {-500, -250, 750, 0};
 SVECTOR svec_8009F45C = {500, 200, 500, 0};
 SVECTOR svec_8009F464 = {300, 200, 300, 0};
 
-#define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE | DG_FLAG_ONEPIECE )
+/*---------------------------------------------------------------------------*/
 
-STATIC MATRIX *jirai_loader_helper_8006A798(MATRIX *arg0, MATRIX *arg1, HZD_FLR *floor)
+static MATRIX *jirai_loader_helper_8006A798(MATRIX *arg0, MATRIX *arg1, HZD_FLR *floor)
 {
     MATRIX mtx1;
     MATRIX mtx2;
@@ -88,7 +88,7 @@ STATIC MATRIX *jirai_loader_helper_8006A798(MATRIX *arg0, MATRIX *arg1, HZD_FLR 
     return arg0;
 }
 
-STATIC int jirai_act_helper_8006A8F4(JiraiWork *work)
+static int jirai_act_helper_8006A8F4(JiraiWork *work)
 {
     int      local_10E;
     CONTROL *p_control;
@@ -110,7 +110,7 @@ STATIC int jirai_act_helper_8006A8F4(JiraiWork *work)
     return GV_VecLen3(&v) < 800;
 }
 
-STATIC void JiraiDisplayText(JiraiWork *work, int arg1)
+static void JiraiDisplayText(JiraiWork *work, int arg1)
 {
     SVECTOR vec;
     MATRIX *matrix;
@@ -201,7 +201,7 @@ STATIC void JiraiDisplayText(JiraiWork *work, int arg1)
     }
 }
 
-STATIC void JiraiAct(JiraiWork *work)
+static void Act(JiraiWork *work)
 {
     TARGET   target;
     CONTROL *control;
@@ -398,23 +398,25 @@ STATIC void JiraiAct(JiraiWork *work)
     }
 }
 
+/*---------------------------------------------------------------------------*/
+
 // A different version of ExecProc is used here, which checks for a proccess ID less than zero.
-#define ExecProc(proc_id, mode)            \
-{                                          \
-    GCL_ARGS args;                         \
-    long data;                             \
-                                           \
-    if (proc_id < 0) goto skip;            \
-                                           \
-    args.argc = 1;                         \
-    args.argv = &data;                     \
-    data = mode;                           \
-    do {} while (0);                       \
-    GCL_ExecProc(proc_id, &args);          \
-skip:                                      \
+#define ExecProc(proc_id, mode)                 \
+{                                               \
+    GCL_ARGS args;                              \
+    long data;                                  \
+                                                \
+    if (proc_id < 0) goto skip;                 \
+                                                \
+    args.argc = 1;                              \
+    args.argv = &data;                          \
+    data = mode;                                \
+    do {} while (0);                            \
+    GCL_ExecProc(proc_id, &args);               \
+skip:                                           \
 }
 
-STATIC void JiraiDie(JiraiWork *work)
+static void Die(JiraiWork *work)
 {
 #ifdef VR_EXE
     if (work->field_154)
@@ -439,7 +441,9 @@ STATIC void JiraiDie(JiraiWork *work)
     dword_8009F440 = 0;
 }
 
-STATIC int jirai_loader_helper_8006B124(JiraiWork *work, MATRIX *pMtx, int a3)
+/*---------------------------------------------------------------------------*/
+
+static int InitJiraiTarget(JiraiWork *work, MATRIX *pMtx, int a3)
 {
     TARGET  *target;
     SVECTOR  v12;
@@ -484,7 +488,7 @@ STATIC int jirai_loader_helper_8006B124(JiraiWork *work, MATRIX *pMtx, int a3)
     return 0;
 }
 
-STATIC int jirai_get_free_item_8006B268(void)
+static int GetNextClayData(void)
 {
     int i;
     for (i = 0; i < 8; i++)
@@ -497,9 +501,7 @@ STATIC int jirai_get_free_item_8006B268(void)
     return -1;
 }
 
-/*---------------------------------------------------------------------------*/
-
-STATIC int JiraiGetResources(JiraiWork *work, MATRIX *world, HZD_FLR *floor)
+static int GetResources(JiraiWork *work, MATRIX *world, HZD_FLR *floor)
 {
     int             map;
     CONTROL        *control;
@@ -527,7 +529,7 @@ STATIC int JiraiGetResources(JiraiWork *work, MATRIX *world, HZD_FLR *floor)
     work->field_144_vec.vz = 0;
     GM_ConfigControlAttribute(control, 0);
     obj = &work->body;
-    GM_InitObjectNoRots(obj, GV_StrCode("claymore"), BODY_FLAG, 0);
+    GM_InitObjectNoRots(obj, CLAYMORE_MODEL, BODY_FLAG, 0);
     if (!obj->objs)
     {
         return -1;
@@ -542,12 +544,12 @@ STATIC int JiraiGetResources(JiraiWork *work, MATRIX *world, HZD_FLR *floor)
     work->field_134_gcl_arg = 0;
     work->field_140 = 0;
 
-    if (jirai_loader_helper_8006B124(work, world, 0) < 0)
+    if (InitJiraiTarget(work, world, 0) < 0)
     {
         return -1;
     }
 
-    work->field_13C_idx = jirai_get_free_item_8006B268();
+    work->field_13C_idx = GetNextClayData();
     if (work->field_13C_idx < 0)
     {
         return -1;
@@ -566,6 +568,8 @@ STATIC int JiraiGetResources(JiraiWork *work, MATRIX *world, HZD_FLR *floor)
     return 0;
 }
 
+/*---------------------------------------------------------------------------*/
+
 void *NewJirai(MATRIX *world, HZD_FLR *floor)
 {
     JiraiWork *work;
@@ -579,9 +583,9 @@ void *NewJirai(MATRIX *world, HZD_FLR *floor)
     if (work)
     {
         work->field_104_vec = GM_PlayerControl->rot;
-        GV_SetNamedActor(&work->actor, JiraiAct, JiraiDie, "jirai.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "jirai.c");
 
-        if (JiraiGetResources(work, world, floor) < 0)
+        if (GetResources(work, world, floor) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
@@ -593,7 +597,7 @@ void *NewJirai(MATRIX *world, HZD_FLR *floor)
 
 /*---------------------------------------------------------------------------*/
 
-STATIC int JiraiGetResources2(JiraiWork *work, MATRIX *world, int map)
+static int GetResources2(JiraiWork *work, MATRIX *world, int map)
 {
     MATRIX          matrix;
     CONTROL        *ctrl;
@@ -603,7 +607,7 @@ STATIC int JiraiGetResources2(JiraiWork *work, MATRIX *world, int map)
     work->map = map;
 
     ctrl =  &work->control;
-    if (GM_InitControl(ctrl, GV_StrCode("claymore"), map) < 0)
+    if (GM_InitControl(ctrl, CLAYMORE_NAME, map) < 0)
     {
         return -1;
     }
@@ -614,7 +618,7 @@ STATIC int JiraiGetResources2(JiraiWork *work, MATRIX *world, int map)
 
     work->field_144_vec = ctrl->rot;
     obj = &work->body;
-    GM_InitObjectNoRots(obj, GV_StrCode("claymore"), 877, 0);
+    GM_InitObjectNoRots(obj, CLAYMORE_MODEL, BODY_FLAG, 0);
     GM_ConfigObjectLight((OBJECT *)obj, work->light);
 
     work->field_104_vec = ctrl->rot;
@@ -627,7 +631,7 @@ STATIC int JiraiGetResources2(JiraiWork *work, MATRIX *world, int map)
 
     ReadRotMatrix(&matrix);
 
-    if (jirai_loader_helper_8006B124(work, &matrix, 1) < 0)
+    if (InitJiraiTarget(work, &matrix, 1) < 0)
     {
         return -1;
     }
@@ -659,11 +663,13 @@ STATIC int JiraiGetResources2(JiraiWork *work, MATRIX *world, int map)
 
 void *NewScenarioJirai(MATRIX *world, int map)
 {
-    JiraiWork *work = GV_NewActor(GV_ACTOR_AFTER, sizeof(JiraiWork));
+    JiraiWork *work;
+
+    work = GV_NewActor(GV_ACTOR_AFTER, sizeof(JiraiWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, JiraiAct, JiraiDie, "jirai.c");
-        if (JiraiGetResources2(work, world, map) < 0)
+        GV_SetNamedActor(&work->actor, Act, Die, "jirai.c");
+        if (GetResources2(work, world, map) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

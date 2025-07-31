@@ -21,9 +21,14 @@ extern CONTROL       *tenage_ctrls_800BDD30[16];
 extern int            tenage_ctrls_count_800BDD70;
 
 /*---------------------------------------------------------------------------*/
-// the projectile for all types of grenades
+// 手投げ弾 (en: hand grenade)
 
-typedef struct TenageWork
+#define GRENADE_MODEL   0x3b88  // GV_StrCode("grenade")
+
+#define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE \
+                        | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE )
+
+typedef struct _Work
 {
     GV_ACT         actor;
     CONTROL        control;
@@ -37,13 +42,11 @@ typedef struct TenageWork
     int            do_sound;
     int            side;
     int            control_index;
-} TenageWork;
-
-#define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
+} Work;
 
 /*---------------------------------------------------------------------------*/
 
-STATIC void TenageAct(TenageWork *work)
+static void Act(Work *work)
 {
     MATRIX rotation;
     SVECTOR vec;
@@ -104,7 +107,6 @@ STATIC void TenageAct(TenageWork *work)
     {
         work->fuse_time--;
     }
-
 #ifdef VR_EXE
     else if ((GM_GameStatus & (STATE_PADRELEASE | STATE_PADDEMO)) == STATE_PADDEMO && !(GM_PlayerStatus & PLAYER_PAD_OFF))
     {
@@ -191,7 +193,7 @@ STATIC void TenageAct(TenageWork *work)
     }
 }
 
-STATIC void TenageDie(TenageWork *work)
+static void Die(Work *work)
 {
     GM_FreeControl(&work->control);
     GM_ClearBulName(work->control.name);
@@ -204,7 +206,7 @@ STATIC void TenageDie(TenageWork *work)
     }
 }
 
-STATIC int TenageGetNextControl(void)
+static int GetNextControl(void)
 {
     int i;
 
@@ -219,7 +221,7 @@ STATIC int TenageGetNextControl(void)
     return -1;
 }
 
-STATIC int TenageGetResources(TenageWork *work, SVECTOR *pos, SVECTOR *step, int type, int model, int int_5, int side)
+static int GetResources(Work *work, SVECTOR *pos, SVECTOR *step, int type, int model, int int_5, int side)
 {
     CONTROL *control;
 
@@ -250,7 +252,7 @@ STATIC int TenageGetResources(TenageWork *work, SVECTOR *pos, SVECTOR *step, int
             DG_PutObjs((work->object).objs);
             GM_ConfigObjectLight((OBJECT *)&work->object, work->light);
 
-            work->control_index = TenageGetNextControl();
+            work->control_index = GetNextControl();
             if (work->control_index >= 0)
             {
                 tenage_ctrls_800BDD30[work->control_index] = control;
@@ -267,20 +269,20 @@ STATIC int TenageGetResources(TenageWork *work, SVECTOR *pos, SVECTOR *step, int
 
 void *NewTenage(SVECTOR *pos, SVECTOR *step, int fuse_time, int type, int model)
 {
-    TenageWork *work;
+    Work *work;
 
     if (tenage_ctrls_count_800BDD70 == 16)
     {
         return NULL;
     }
 
-    work = GV_NewActor(GV_ACTOR_LEVEL5, sizeof(TenageWork));
+    work = GV_NewActor(GV_ACTOR_LEVEL5, sizeof(Work));
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, TenageAct, TenageDie, "tenage.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "tenage.c");
 
-        if (TenageGetResources(work, pos, step, type, model, 1, PLAYER_SIDE) < 0)
+        if (GetResources(work, pos, step, type, model, 1, PLAYER_SIDE) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
@@ -289,7 +291,7 @@ void *NewTenage(SVECTOR *pos, SVECTOR *step, int fuse_time, int type, int model)
         work->fuse_time = fuse_time;
         work->bounces = 0;
         work->type = type;
-        work->do_sound = 1;
+        work->do_sound = TRUE;
         work->side = PLAYER_SIDE;
     }
 
@@ -298,21 +300,20 @@ void *NewTenage(SVECTOR *pos, SVECTOR *step, int fuse_time, int type, int model)
 
 void *NewTenage2(SVECTOR *pos, SVECTOR *step, int fuse_time)
 {
-    return NewTenage(pos, step, fuse_time, GRD_GRENADE, KMD_GRENADE);
+    return NewTenage(pos, step, fuse_time, GRD_GRENADE, GRENADE_MODEL);
 }
 
 // enemy's grenades, probably
 void *NewTenage3(SVECTOR *pos, SVECTOR *step, int fuse_time, int type, int model, int do_sound, int player_side)
 {
-    TenageWork *work;
+    Work *work;
 
-    work = GV_NewActor(GV_ACTOR_AFTER, sizeof(TenageWork));
+    work = GV_NewActor(GV_ACTOR_AFTER, sizeof(Work));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, (GV_ACTFUNC)TenageAct,
-                         (GV_ACTFUNC)TenageDie, "tenage.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "tenage.c");
 
-        if (TenageGetResources(work, pos, step, type, model, 0, ENEMY_SIDE) < 0)
+        if (GetResources(work, pos, step, type, model, 0, ENEMY_SIDE) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
