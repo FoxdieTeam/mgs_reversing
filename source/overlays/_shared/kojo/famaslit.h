@@ -5,6 +5,6 @@
 #include <libgte.h>
 #include <libgpu.h>
 
-void *NewFamaslit_800D06F0(MATRIX *world);
+void *NewFamasLight(MATRIX *world);
 
 #endif // _FAMASLIT_H_

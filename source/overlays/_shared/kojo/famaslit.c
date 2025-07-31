@@ -9,26 +9,30 @@
 #include "libdg/libdg.h"
 #include "game/game.h"
 
-typedef struct _FamaslitWork
+/*---------------------------------------------------------------------------*/
+
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
+
+typedef struct _Work
 {
     GV_ACT   actor;
     int      map;
     DG_PRIM *prim;
     MATRIX  *world;
-} FamaslitWork;
+} Work;
 
-RECT d01a_rect_800C3490 = {40, 40, 80, 80};
-SVECTOR d01a_svec_800C3498 = {0, -400, 60, 0};
+static RECT     famaslit_rect = {40, 40, 80, 80};
+static SVECTOR  famaslit_svec = {0, -400, 60, 0};
 
-void FamaslitAct_800D0B28(FamaslitWork *work);
-void FamaslitDie_800D0B90(FamaslitWork *work);
+/*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+static void Act(Work *work);
+static void Die(Work *work);
 
-void *NewFamaslit_800D06F0(MATRIX *world)
+void *NewFamasLight(MATRIX *world)
 {
     DG_TEX       *tex;
-    FamaslitWork *work;
+    Work         *work;
     DG_PRIM      *prim;
     int           x, y, w, h;
     int           x2, y2, w2, h2;
@@ -39,18 +43,18 @@ void *NewFamaslit_800D06F0(MATRIX *world)
         return NULL;
     }
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(FamaslitWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work == NULL)
     {
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, FamaslitAct_800D0B28, FamaslitDie_800D0B90, "famaslit.c");
+    GV_SetNamedActor(&work->actor, Act, Die, "famaslit.c");
 
     work->world = world;
     work->map = GM_CurrentMap;
 
-    prim = DG_GetPrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 1, 0, &d01a_svec_800C3498, &d01a_rect_800C3490);
+    prim = DG_GetPrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 1, 0, &famaslit_svec, &famaslit_rect);
     work->prim = prim;
 
     DG_GroupPrim(prim, 0);
@@ -97,13 +101,15 @@ void *NewFamaslit_800D06F0(MATRIX *world)
     return (void *)work;
 }
 
-void FamaslitAct_800D0B28(FamaslitWork *work)
+/*---------------------------------------------------------------------------*/
+
+static void Act(Work *work)
 {
     work->prim->world = *work->world;
     DG_VisiblePrim(work->prim);
 }
 
-void FamaslitDie_800D0B90(FamaslitWork *work)
+static void Die(Work *work)
 {
     GM_FreePrim(work->prim);
 }
