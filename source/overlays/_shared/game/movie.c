@@ -16,6 +16,8 @@
 #include "mts/mts.h"
 #include "mts/mts_pad.h"
 
+/*---------------------------------------------------------------------------*/
+
 typedef struct _MovieWork
 {
     GV_ACT         actor;
@@ -43,6 +45,8 @@ typedef struct _MovieWork
 
 static MovieWork movie_work;
 
+/*---------------------------------------------------------------------------*/
+
 static inline int MovieType(void)
 {
     if (GM_GameStatusFlag & 0x100)
@@ -63,7 +67,9 @@ static inline void int_to_loc(int pos, CdlLOC *loc)
     loc->minute = itob(seconds / 60);
 }
 
-STATIC void Movie_800C4484(int pos)
+/*---------------------------------------------------------------------------*/
+
+static void Movie_800C4484(int pos)
 {
     CdlLOC loc;
 
@@ -74,7 +80,7 @@ STATIC void Movie_800C4484(int pos)
     } while (CdRead2(CdlModeStream2 | CdlModeSpeed | CdlModeRT) == 0);
 }
 
-STATIC int Movie_800C45F4(MovieWork *work)
+static int Movie_800C45F4(MovieWork *work)
 {
     u_long   *addr;
     StHEADER *header;
@@ -153,7 +159,7 @@ free:
     return ret;
 }
 
-STATIC void Movie_800C47E8(void)
+static void Movie_800C47E8(void)
 {
     movie_work.rect.x += 16;
     LoadImage(&movie_work.rect, movie_work.dctout[movie_work.dctout_index]);
@@ -169,7 +175,7 @@ STATIC void Movie_800C47E8(void)
     movie_work.f2C = 1;
 }
 
-STATIC void set_fade(int fade)
+static void set_fade(int fade)
 {
     TILE      tile;
     DR_TPAGE  tpage;
@@ -192,7 +198,7 @@ STATIC void set_fade(int fade)
     DrawSync(0);
 }
 
-STATIC void MovieAct_800C491C(MovieWork *work)
+static void Act2(MovieWork *work)
 {
     RECT *rect;
     int   res_flag;
@@ -289,7 +295,7 @@ STATIC void MovieAct_800C491C(MovieWork *work)
     }
 }
 
-STATIC void MovieAct_800C4C00(MovieWork *work)
+static void Act(MovieWork *work)
 {
     int i;
     int status;
@@ -322,7 +328,7 @@ STATIC void MovieAct_800C4C00(MovieWork *work)
 
     DecDCTvlcBuild(work->vlc);
 
-    work->actor.act = (GV_ACTFUNC)MovieAct_800C491C;
+    work->actor.act = (GV_ACTFUNC)Act2;
     work->dctin_index = 0;
     work->dctout_index = 0;
 
@@ -342,7 +348,9 @@ STATIC void MovieAct_800C4C00(MovieWork *work)
     }
 }
 
-STATIC void MovieDie_800C4D78(MovieWork *work)
+/*---------------------------------------------------------------------------*/
+
+static void Die(MovieWork *work)
 {
     DecDCToutCallback(NULL);
     StUnSetRing();
@@ -360,7 +368,7 @@ STATIC void MovieDie_800C4D78(MovieWork *work)
 
     MENU_JimakuClear();
 
-    DG_UnDrawFrameCount = 0x7FFF0000;
+    DG_UnDrawFrameCount = 0x7fff0000;
     GM_GameStatus &= ~STATE_DEMO;
 
     if (work->end_proc >= 0)
@@ -369,7 +377,9 @@ STATIC void MovieDie_800C4D78(MovieWork *work)
     }
 }
 
-void *NewMovie_800C4E24(unsigned int code)
+/*---------------------------------------------------------------------------*/
+
+void *NewMovie(unsigned int code)
 {
     FS_MOVIE_FILE *file;
     int            frame;
@@ -392,7 +402,7 @@ void *NewMovie_800C4E24(unsigned int code)
     }
 
     GV_InitActor(GV_ACTOR_MANAGER, &movie_work.actor, NULL);
-    GV_SetNamedActor(&movie_work.actor, MovieAct_800C4C00, MovieDie_800C4D78, "movie.c");
+    GV_SetNamedActor(&movie_work.actor, Act, Die, "movie.c");
 
     movie_work.info = file;
     movie_work.f2C = 1;
@@ -414,11 +424,11 @@ void *NewMovie_800C4E24(unsigned int code)
     return (void *)&movie_work;
 }
 
-void *NewMovie_800C4F34(unsigned int code)
+void *NewMovieGCL(unsigned int code)
 {
     MovieWork *work;
 
-    work = (MovieWork *)NewMovie_800C4E24(code);
+    work = (MovieWork *)NewMovie(code);
     if (work == NULL)
     {
         return NULL;
