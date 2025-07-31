@@ -3,6 +3,8 @@
 #include "libgcl/libgcl.h"
 #include "takabe/thing.h"
 
+/*---------------------------------------------------------------------------*/
+
 typedef struct _TexScrollPrims
 {
     DR_MOVE move[3];
@@ -14,7 +16,7 @@ typedef struct _TexScrollEntry
     TexScrollPrims prims[0];
 } TexScrollEntry;
 
-typedef struct _TexScrollWork
+typedef struct _Work
 {
     GV_ACT          actor;
     int             map;
@@ -26,7 +28,7 @@ typedef struct _TexScrollWork
     int             speed;
     int             n_entries;
     RECT            rects[0];
-} TexScrollWork;
+} Work;
 
 unsigned short tex_scroll_msgs[] = {0x448B, 0xA8A4};
 
@@ -35,7 +37,9 @@ unsigned short tex_scroll_msgs[] = {0x448B, 0xA8A4};
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL2
 
-void TexScrollInitRect_800C97D4(DG_TEX *tex, RECT *rect)
+/*---------------------------------------------------------------------------*/
+
+static void TexScrollInitRect_800C97D4(DG_TEX *tex, RECT *rect)
 {
     rect->x = getTPageX(tex->tpage) + tex->off_x / 4;
     rect->y = getTPageY(tex->tpage) + tex->off_y;
@@ -43,7 +47,7 @@ void TexScrollInitRect_800C97D4(DG_TEX *tex, RECT *rect)
     rect->h = tex->h;
 }
 
-void TexScrollMoveRects_800C9834(DR_MOVE *moves, RECT *arg1, RECT *arg2, int speed)
+static void TexScrollMoveRects_800C9834(DR_MOVE *moves, RECT *arg1, RECT *arg2, int speed)
 {
     RECT r;
 
@@ -76,7 +80,7 @@ void TexScrollMoveRects_800C9834(DR_MOVE *moves, RECT *arg1, RECT *arg2, int spe
     SetDrawMove(&moves[0], &r, arg1->x, (arg1->y + arg1->h) - speed);
 }
 
-void TexScrollAct_800C9960(TexScrollWork *work)
+static void Act(Work *work)
 {
     GV_MSG         *msg;
     int             n_msgs;
@@ -142,7 +146,7 @@ void TexScrollAct_800C9960(TexScrollWork *work)
     addPrim(ot, &work->f34->stp[GV_Clock]);
 }
 
-void TexScrollDie_800C9BAC(TexScrollWork *work)
+static void Die(Work *work)
 {
     void *ptr;
 
@@ -153,7 +157,7 @@ void TexScrollDie_800C9BAC(TexScrollWork *work)
     }
 }
 
-int TexScrollGetResources_800C9BDC(TexScrollWork *work, int name, int map, int n_entries)
+static int GetResources(Work *work, int name, int map, int n_entries)
 {
     int     i;
     DG_TEX *tex;
@@ -205,18 +209,20 @@ int TexScrollGetResources_800C9BDC(TexScrollWork *work, int name, int map, int n
     return 0;
 }
 
-void *NewTexScroll_800C9D38(int name, int where)
+/*---------------------------------------------------------------------------*/
+
+void *NewTexScroll(int name, int where)
 {
-    int            n_entries;
-    TexScrollWork *work;
+    int     n_entries;
+    Work   *work;
 
     n_entries = THING_Gcl_GetIntDefault('n', 1);
-    work = GV_NewActor(EXEC_LEVEL, sizeof(TexScrollWork) + sizeof(RECT) * n_entries);
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work) + sizeof(RECT) * n_entries);
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, TexScrollAct_800C9960, TexScrollDie_800C9BAC, "tex_scrl.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "tex_scrl.c");
 
-        if (TexScrollGetResources_800C9BDC(work, name, where, n_entries) < 0)
+        if (GetResources(work, name, where, n_entries) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
