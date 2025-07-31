@@ -1,6 +1,6 @@
-#ifndef _TRACK_TRP_H_
-#define _TRACK_TRP_H_
+#ifndef _TRACKTRP_H_
+#define _TRACKTRP_H_
 
-void *NewTracktrp_800E1DB0(int name, int where, int argc, char **argv);
+void *NewTruckTrap(int name, int where, int argc, char **argv);
 
-#endif // _TRACK_TRP_H_
+#endif // _TRACKTRP_H_
