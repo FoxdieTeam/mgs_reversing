@@ -1,35 +1,35 @@
 #include "common.h"
 #include "charadef.h"
 
-#include "game/vibrate.h"
-#include "../_shared/game/pad.h"
-#include "../_shared/chara/others/motse.h"
 #include "../_shared/chara/others/intr_cam.h"
-#include "../_shared/takabe/gas_efct.h"
-#include "../_shared/takabe/shakemdl.h"
+#include "../_shared/chara/others/motse.h"
+#include "../_shared/enemy/asioto.h"
+#include "../_shared/enemy/camera.h"
+#include "../_shared/enemy/command.h"
+#include "../_shared/enemy/wall.h"
+#include "../_shared/enemy/watcher.h"
+#include "../_shared/game/evpanel.h"
+#include "../_shared/game/lamp.h"
+#include "../_shared/game/pad.h"
+#include "game/vibrate.h"
+#include "../_shared/okajima/bubble_s.h"
 #include "../_shared/takabe/cat_in.h"
 #include "../_shared/takabe/fadeio.h"
-#include "../_shared/takabe/put_obj.h"
-#include "../_shared/enemy/wall.h"
-#include "../_shared/enemy/asioto.h"
-#include "../_shared/takabe/wsurface.h"
-#include "../_shared/enemy/command.h"
-#include "../_shared/enemy/watcher.h"
-#include "../_shared/takabe/wt_area.h"
-#include "../_shared/okajima/bubble_s.h"
-#include "../_shared/takabe/rsurface.h"
-#include "../_shared/enemy/camera.h"
-#include "../_shared/game/lamp.h"
-#include "../_shared/takabe/o2_damge.h"
-#include "../_shared/takabe/ir_cens.h"
+#include "../_shared/takabe/gas_efct.h"
 #include "../_shared/takabe/gasdamge.h"
-#include "../_shared/game/evpanel.h"
+#include "../_shared/takabe/ir_cens.h"
+#include "../_shared/takabe/o2_damge.h"
+#include "../_shared/takabe/put_obj.h"
+#include "../_shared/takabe/rsurface.h"
+#include "../_shared/takabe/shakemdl.h"
 #include "../_shared/takabe/shuter.h"
+#include "../_shared/takabe/wsurface.h"
+#include "../_shared/takabe/wt_area.h"
 
 CHARA _StageCharacterEntries[] = 
 {
     { CHARA_VIBRATE, (NEWCHARA)NewVibration },
-    { CHARA_PAD, NewPad_800C37EC },
+    { CHARA_PAD, NewPad },
     { CHARA_MOTION_SE, NewMotionSoundEffect },
     { CHARA_INTR_CAM, NewIntrudeCamera },
     { CHARA_GAS_EFFECT, NewGasEffect_800C4E5C },
@@ -46,12 +46,12 @@ CHARA _StageCharacterEntries[] =
     { CHARA_BUBBLE_S, NewBubbleS_800D5D9C },
     { CHARA_RSURFACE, NewRippleSurface_800D8244 },
     { CHARA_CAMERA, NewCamera_800D67F8 },
-    { CHARA_LAMP, NewLamp_800C3B34 },
+    { CHARA_LAMP, NewLamp },
     { CHARA_O2_DAMAGE, NewO2Damage_800DE9C8 },
-    { CHARA_INFRARED_SENSOR, NewIrCens_800DA66C },
+    { CHARA_CENSOR, NewIrCens_800DA66C },
     { CHARA_GAS_EFFECT, NewGasEffect_800C4E5C },
     { CHARA_GAS_DAMAGE, NewGasDamage_800E14E8 },
-    { CHARA_ELEVATOR_PANEL, NewEvPanel_800C4AD8 },
+    { CHARA_ELEVATOR_PANEL, NewEvPanel },
     { CHARA_SHUTER, NewShuter_800DFB44 },
     { 0, NULL }
 };

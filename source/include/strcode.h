@@ -266,7 +266,7 @@
 #define CHARA_METAL_GEAR_ROOM   0x004b  // source/okajima/mg_room.c
 #define CHARA_TELOP_004C        0x004c  // source/takabe/telop.c
 #define CHARA_MOSAIC            0x0065  // GV_StrCode("モザイク") source/takabe/mosaic.c
-#define CHARA_ASIATO            0x02c4  // GV_StrCode("足跡君") source/enemy/asiato.c
+#define CHARA_ASIATOKUN         0x02c4  // GV_StrCode("足跡君") source/enemy/asiato.c
 #define CHARA_UNKNOWN_03BF      0x03bf  // ??? (PC-ONLY)
 #define CHARA_SHUTER            0x03d9  // GV_StrCode("シャッター") source/takabe/shuter.c
 #define CHARA_RANK              0x04f2  // source/onoda/rank/rank.c
@@ -331,7 +331,7 @@
 #define CHARA_WAKE              0x41a3  // source/chara/wake/wake.c
 #define CHARA_LIFT              0x425f  // GV_StrCode("リフト") source/takabe/lift.c
 #define CHARA_HIYOKO            0x42e4  // source/okajima/hiyoko.c
-#define CHARA_INFRARED_SENSOR   0x43a0  // GV_StrCode("赤外線センサー") source/takabe/ir_cens.c
+#define CHARA_CENSOR            0x43a0  // GV_StrCode("赤外線センサー") source/takabe/ir_cens.c
 #define CHARA_HAIR_M            0x450f  // source/chara/others/hair_m.c
 #define CHARA_MGREX             0x4754  // source/kojo/mgrex.c
 #define CHARA_OBJECT            0x4811  // source/enemy/object.c
@@ -356,7 +356,7 @@
 #define CHARA_VRTITLE           0x5667  // GV_StrCode("ＶＲタイトル") source/chara/vrtitle/vrtitle.c
 #define CHARA_ABST              0x566f  // GV_StrCode("アブスト") source/onoda/abst/abst.c
 #define CHARA_CAMERA2           0x56cc  // GV_StrCode("カメラ２") source/enemy/camera2.c
-#define CHARA_DUMMY_WALL        0x58f0  // source/takabe/dummy_wl.c
+#define CHARA_DMYWALL           0x58f0  // GV_StrCode("塗り壁") source/takabe/dummy_wl.c
 #define CHARA_GAS_EFFECT        0x5a50  // source/takabe/gas_efct.c
 #define CHARA_O2_DAMAGE         0x5d64  // source/takabe/o2_damge.c
 #define CHARA_ZK11ACOM          0x5efa  // GV_StrCode("ざこ１１ａコマンダー") source/animal/zako11a/zk11acom.c
@@ -430,7 +430,7 @@
 #define CHARA_ELE_CROW          0x9ab9  // source/okajima/valcan/ele_crow.c
 #define CHARA_PLASMA_9BC2       0x9bc2  // GV_StrCode("プラズマ") source/okajima/plasma.c
 #define CHARA_PK_GATE           0x9c6c  // source/takabe/pk_gate.c
-#define CHARA_DUMMY_FLOOR       0x9d00  // source/takabe/dummy_fl.c
+#define CHARA_DMYFLOOR          0x9d00  // GV_StrCode("落とし穴") source/takabe/dummy_fl.c
 #define CHARA_M1E1              0x9d71  // source/kojo/m1e1.c
 #define CHARA_GODZCOM           0x9eb7  // GV_StrCode("ゴジラコマンダ") source/animal/godzila/godzcom.c
 #define CHARA_DISPLAY           0x9f7d  // source/chara/pocket/display/display.c
