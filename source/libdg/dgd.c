@@ -95,7 +95,7 @@ void DG_StartFrame(GV_ACT *actor)
 
 void DG_EndFrame(void)
 {
-    DG_RenderPipeline_800172A8();
+    DG_RenderFrame();
 }
 
 extern int DG_CurrentGroupID;
