@@ -17,7 +17,7 @@
 extern int    FS_DiskNum_800ACBF0;
 extern GV_PAD GV_PadData_800B05C0[4];
 
-void *NewMetalLogo( int * );
+void *NewMetalGearLogo( int * );
 
 /*---------------------------------------------------------------------------*/
 
@@ -70,7 +70,7 @@ typedef struct _Work
     int      fDE8;
     int      fDEC;
     int      fDF0;
-    GV_ACT  *metlogo_actor;
+    GV_ACT  *mgslogo_actor;
     int      fDF8;
     long     argv[3];
 } Work;
@@ -1332,7 +1332,7 @@ static void demosel_800C4880(Work *work)
             demosel_800C434C(work);
             work->fDD0 = 0;
             work->fDF8 = 0;
-            work->metlogo_actor = NewMetalLogo(&work->fDF8);
+            work->mgslogo_actor = NewMetalGearLogo(&work->fDF8);
         }
         demosel_800C4214(work);
         break;
