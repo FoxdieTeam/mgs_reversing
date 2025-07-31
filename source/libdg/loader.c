@@ -5,6 +5,7 @@
 #include "libdg.h"
 #include "common.h"
 #include "libgv/libgv.h"
+#include "fmt_sgt.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -148,11 +149,11 @@ int DG_LoadInitImg(unsigned char *buf, int id)
 int DG_LoadInitSgt(unsigned char *buf, int id)
 {
     SgtFile *sgt = (SgtFile *)buf;
-    sgt->unknown1 = (unsigned char *)sgt + (unsigned int)sgt->unknown1;
-    sgt->unknown2 = (unsigned char *)sgt + (unsigned int)sgt->unknown2;
-    sgt->unknown3 = (unsigned char *)sgt + (unsigned int)sgt->unknown3;
-    sgt->unknown4 = (unsigned char *)sgt + (unsigned int)sgt->unknown4;
-    sgt->unknown5 = (unsigned char *)sgt + (unsigned int)sgt->unknown5;
+    sgt->unknown1 = (u_char *)sgt + (u_int)sgt->unknown1;
+    sgt->unknown2 = (u_char *)sgt + (u_int)sgt->unknown2;
+    sgt->unknown3 = (u_char *)sgt + (u_int)sgt->unknown3;
+    sgt->unknown4 = (u_char *)sgt + (u_int)sgt->unknown4;
+    sgt->unknown5 = (u_char *)sgt + (u_int)sgt->unknown5;
     return 1;
 }
 

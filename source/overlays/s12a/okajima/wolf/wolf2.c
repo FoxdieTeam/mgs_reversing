@@ -14,8 +14,8 @@ extern char wolf2_800DD6B8[5];
 
 void  AN_Breath(MATRIX *world);
 
-void *NewCinemaScreen_800DE434(int, int);
-int   NewCinemaScreenClose_800DE4CC(void *);
+void *NewCinemaScreen( int, int );
+void *NewCinemaScreenClose( void *addr );
 
 void s12a_wolf2_800CED18(Wolf2Work *work);
 void s12a_wolf2_800CED38(Wolf2Work *work);
@@ -331,7 +331,7 @@ void wolf2_Act(Wolf2Work *work)
                     GM_CurrentItemId = IT_None;
                 }
 
-                work->cinema_screen = NewCinemaScreen_800DE434(2000000000, 0);
+                work->cinema_screen = NewCinemaScreen(2000000000, 0);
                 work->fA28 = 1;
 
                 if (work->control.mov.vx > GM_PlayerPosition.vx)
@@ -352,7 +352,7 @@ void wolf2_Act(Wolf2Work *work)
             (work->f9DC == 1 && work->control.mov.vx <= GM_PlayerPosition.vx))
         {
             GM_GameStatus &= ~STATE_PADRELEASE;
-            NewCinemaScreenClose_800DE4CC(work->cinema_screen);
+            NewCinemaScreenClose(work->cinema_screen);
             work->cinema_screen = NULL;
             GV_DestroyActor(work);
         }

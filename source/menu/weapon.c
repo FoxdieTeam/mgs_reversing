@@ -1185,7 +1185,7 @@ void menu_weapon_update_helper2_helper2_8003E3B0(MenuWork *work)
     }
     else
     {
-        if (id != -1)
+        if (id != WP_None)
         {
             dword_800ABAE8 = id;
             work->field_1F0_menu_weapon.field_11 = id;
@@ -1427,7 +1427,7 @@ void menu_weapon_update_8003E990(MenuWork *work, unsigned char *pOt)
             return;
         }
 
-        if (!(GM_PlayerStatus & 0x20408000))
+        if (!(GM_PlayerStatus & (PLAYER_MENU_DISABLE | PLAYER_WEAPON_DISABLE | PLAYER_PAD_OFF)))
         {
             if (menu_8003DA9C(&work->field_1F0_menu_weapon, pPad))
             {

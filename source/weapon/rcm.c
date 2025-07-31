@@ -18,7 +18,15 @@ extern int DG_CurrentGroupID;
 /*---------------------------------------------------------------------------*/
 // RC-Missile (Nikita)
 
-typedef struct RcmWork
+#define EXEC_LEVEL      GV_ACTOR_AFTER
+
+#define NIKITA_MODEL    GV_StrCode("nikita")
+#define LIGHT_TEXTURE   GV_StrCode("rcm_l")
+
+#define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE \
+                        | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE )
+
+typedef struct _Work
 {
     GV_ACT         actor;
     OBJECT_NO_ROTS object;
@@ -30,9 +38,7 @@ typedef struct RcmWork
     int            counter;
     DG_PRIM       *prim;
     int            lightval; // state of the blinking light
-} RcmWork;
-
-#define EXEC_LEVEL GV_ACTOR_AFTER
+} Work;
 
 STATIC SVECTOR stru_800AB870 = {-100, -800, 80, 0};
 STATIC RECT    rect_800AB878 = {100, 100, 200, 200};
@@ -40,7 +46,7 @@ STATIC SVECTOR svector_800AB880 = {-50, -300, 100, 0};
 
 /*---------------------------------------------------------------------------*/
 
-STATIC void RcmSetLightTexture(POLY_FT4 *poly, DG_TEX *tex)
+static void SetLightTexture(POLY_FT4 *poly, DG_TEX *tex)
 {
     u_char offx;
     u_char offy;
@@ -68,10 +74,10 @@ STATIC void RcmSetLightTexture(POLY_FT4 *poly, DG_TEX *tex)
  * based on the provided flags. It modifies the brightness of the light
  * to create a fading effect when the action button is pressed.
  *
- * @param   work    Pointer to the RcmWork structure containing missile data.
+ * @param   work    Pointer to the Work structure containing missile data.
  * @param   flags   Integer flags indicating the current state or input.
  */
-STATIC void RcmUpdateLight(RcmWork *work, int flags)
+static void UpdateLight(Work *work, int flags)
 {
     int lightval;
     union Prim_Union *prim;
@@ -110,7 +116,7 @@ STATIC void RcmUpdateLight(RcmWork *work, int flags)
  *
  * @param work The Nikita actor data.
  */
-STATIC void RcmAct(RcmWork *work)
+static void Act(Work *work)
 {
     int     mapBit;
     int     p_flags;
@@ -142,7 +148,7 @@ STATIC void RcmAct(RcmWork *work)
     p_flags = *work->flags;
 
     // update the blinking light
-    RcmUpdateLight(work, p_flags);
+    UpdateLight(work, p_flags);
 
     ammo_count = GM_Weapons[WP_Nikita];
     // if no ammo and the button is released, play a sound effect
@@ -197,7 +203,7 @@ STATIC void RcmAct(RcmWork *work)
  *
  * @param   work    The Nikita actor data.
  */
-STATIC void RcmDie(RcmWork *work)
+static void Die(Work *work)
 {
     GM_FreeObject((OBJECT *)&work->object);
     GM_FreePrim(work->prim);
@@ -206,17 +212,17 @@ STATIC void RcmDie(RcmWork *work)
 /**
  * @brief Loads resources for the Nikita launcher.
  *
- * @param   work    The RcmWork structure to initialize.
+ * @param   work    The Work structure to initialize.
  * @param   parent  The parent OBJECT structure.
  */
-STATIC int RcmGetResources(RcmWork *work, OBJECT *parent, int unit)
+static int GetResources(Work *work, OBJECT *parent, int unit)
 {
     DG_PRIM        *prim;
     DG_TEX         *tex;
     OBJECT_NO_ROTS *obj;
 
     obj = &work->object;
-    GM_InitObjectNoRots(obj, GV_StrCode("nikita"), 109, 0);
+    GM_InitObjectNoRots(obj, NIKITA_MODEL, BODY_FLAG, 0);
     if (!obj->objs)
     {
         return -1;
@@ -229,11 +235,11 @@ STATIC int RcmGetResources(RcmWork *work, OBJECT *parent, int unit)
 
     if (prim)
     {
-        tex = DG_GetTexture(GV_StrCode("rcm_l"));
+        tex = DG_GetTexture(LIGHT_TEXTURE);
         if (tex)
         {
-            RcmSetLightTexture(&prim->packs[0]->poly_ft4, tex);
-            RcmSetLightTexture(&prim->packs[1]->poly_ft4, tex);
+            SetLightTexture(&prim->packs[0]->poly_ft4, tex);
+            SetLightTexture(&prim->packs[1]->poly_ft4, tex);
             prim->root = &parent->objs->objs[unit].world;
             return 0;
         }
@@ -253,21 +259,18 @@ STATIC int RcmGetResources(RcmWork *work, OBJECT *parent, int unit)
  * @param   flags       Pointer to flags indicating Nikita state.
  * @param   which_side  Indicates which side the Nikita is on.
  *
- * @return  void*       Returns a pointer to the new actor.
+ * @returns The actor's work area.
  */
 void *NewRCM(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side)
 {
-    RcmWork *work;
-    int      loadResult;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(RcmWork));
-    if (work != 0)
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, RcmAct, RcmDie, "rcm.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "rcm.c");
 
-        loadResult = RcmGetResources(work, parent, num_parent);
-
-        if (loadResult < 0)
+        if (GetResources(work, parent, num_parent) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

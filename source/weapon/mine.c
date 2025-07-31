@@ -1,6 +1,8 @@
 #include "weapon.h"
 
 #include "common.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "game/map.h"
 #include "game/target.h"
 #include "game/object.h"
@@ -15,7 +17,15 @@ extern void      *GM_BombSeg;
 /*---------------------------------------------------------------------------*/
 // Claymore Mine
 
-typedef struct MineWork
+#define EXEC_LEVEL      GV_ACTOR_AFTER
+
+#define CLAYMORE_MODEL  GV_StrCode("claymore")
+
+#define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE \
+                        | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE \
+                        | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE )
+
+typedef struct _Work
 {
     GV_ACT         actor;
     CONTROL       *control;
@@ -24,18 +34,16 @@ typedef struct MineWork
     int            num_parent;
     int           *flags;
     int            counter;
-} MineWork;
-
-#define EXEC_LEVEL GV_ACTOR_AFTER
+} Work;
 
 /*---------------------------------------------------------------------------*/
 
-STATIC void MineAct(MineWork *work)
+static void Act(Work *work)
 {
-    int map; // $v1
-    int weapon_state; // $s1
-    int weap_flags; // $a0
-    int local_54; // $v0
+    int map;
+    int weapon_state;
+    int weapon_flags;
+    int local_54;
     DG_OBJ *obj;
 
     map = work->control->map->index;
@@ -53,11 +61,11 @@ STATIC void MineAct(MineWork *work)
     obj = &work->parent->objs->objs[work->num_parent];
 
     weapon_state = GM_Weapons[ WP_Claymore ];
-    weap_flags = *work->flags;
+    weapon_flags = *work->flags;
 
-    if ((weap_flags & 1) != 0
+    if ((weapon_flags & 1) != 0
       && weapon_state > 0
-      && (weap_flags & 2) != 0
+      && (weapon_flags & 2) != 0
       && counter_8009F448 < 8
       && NewJirai(&obj->world, GM_BombSeg))
     {
@@ -85,17 +93,16 @@ STATIC void MineAct(MineWork *work)
     }
 }
 
-STATIC void MineDie(MineWork *work)
+static void Die(Work *work)
 {
     GM_FreeObject((OBJECT *)&work->object);
 }
 
-STATIC int MineGetResources(MineWork *work, OBJECT *parent, int num_parent)
+static int GetResources(Work *work, OBJECT *parent, int num_parent)
 {
     OBJECT_NO_ROTS *obj = &work->object;
 
-    int id = GV_StrCode("claymore");
-    GM_InitObjectNoRots(obj, id, 0x36d, 0);
+    GM_InitObjectNoRots(obj, CLAYMORE_MODEL, BODY_FLAG, 0);
 
     if (!obj->objs)
         return -1;
@@ -108,11 +115,13 @@ STATIC int MineGetResources(MineWork *work, OBJECT *parent, int num_parent)
 
 void *NewMine(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side)
 {
-    MineWork *work = GV_NewActor(EXEC_LEVEL, sizeof(MineWork));
-    if (work)
+    Work *work;
+
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, MineAct, MineDie, "mine.c");
-        if (MineGetResources(work, parent, num_parent) < 0)
+        GV_SetNamedActor(&work->actor, Act, Die, "mine.c");
+        if (GetResources(work, parent, num_parent) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

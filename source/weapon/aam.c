@@ -16,18 +16,22 @@
 #include "sd/g_sound.h"
 
 extern int amissile_alive_8009F490;
-
 extern UnkCameraStruct gUnkCameraStruct_800B77B8;
-
 extern int DG_CurrentGroupID;
-
 extern TARGET *target_800BDF00;
 extern int dword_800AB8A4;
 
 /*---------------------------------------------------------------------------*/
 // Anti-Air Missile (Stinger)
 
-typedef struct _AamWork
+#define EXEC_LEVEL      GV_ACTOR_AFTER
+
+#define STINGER_MODEL   GV_StrCode("stinger")
+
+#define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE \
+                        | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE )
+
+typedef struct _Work
 {
     GV_ACT          actor;
     OBJECT_NO_ROTS  object;
@@ -38,10 +42,7 @@ typedef struct _AamWork
     int             which_side;
     int             cooldown;
     GV_ACT         *sight;
-} AamWork;
-
-#define EXEC_LEVEL GV_ACTOR_AFTER
-#define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
+} Work;
 
 TARGET *StnTarget = NULL;
 SVECTOR svector_800AB8A4 = {-300, 200, 0, 0};
@@ -51,7 +52,7 @@ char byte_8009F414[] = {145, 4, 75, 10, 0};
 
 /*---------------------------------------------------------------------------*/
 
-STATIC void AamAct(AamWork *work)
+static void Act(Work *work)
 {
     MATRIX       world;
     MATRIX       pos;
@@ -106,7 +107,7 @@ STATIC void AamAct(AamWork *work)
             }
             else
             {
-                StnTarget = 0;
+                StnTarget = NULL;
             }
 
             rot.vx = work->control->rot.vx - 1024;
@@ -137,7 +138,7 @@ STATIC void AamAct(AamWork *work)
     }
 }
 
-STATIC void AamDie(AamWork *work)
+static void Die(Work *work)
 {
     GM_FreeObject((OBJECT *)&work->object);
 
@@ -147,16 +148,14 @@ STATIC void AamDie(AamWork *work)
     }
 }
 
-STATIC int AamGetResources(AamWork *work, OBJECT *parent, int num_parent)
+static int GetResources(Work *work, OBJECT *parent, int num_parent)
 {
     OBJECT_NO_ROTS *object;
-    int             model;
 
     object = &work->object;
     work->sight = NULL;
 
-    model = GV_StrCode("stinger");
-    GM_InitObjectNoRots(object, model, BODY_FLAG, 0);
+    GM_InitObjectNoRots(object, STINGER_MODEL, BODY_FLAG, 0);
 
     if (!object->objs)
         return -1;
@@ -169,14 +168,14 @@ STATIC int AamGetResources(AamWork *work, OBJECT *parent, int num_parent)
 
 void *NewAAM(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side)
 {
-    AamWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(AamWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, AamAct, AamDie, "aam.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "aam.c");
 
-        if (AamGetResources(work, parent, num_parent) < 0)
+        if (GetResources(work, parent, num_parent) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

@@ -598,6 +598,8 @@ STATIC void item_Act(ItemWork *work)
     pLine->x2 = pLine->x3 = MENU_Printf("%s", work->field_118_str) + 3;
 }
 
+/*---------------------------------------------------------------------------*/
+
 STATIC void item_Die(ItemWork *work)
 {
     unsigned char *field_120_pScript; // $a0
@@ -622,6 +624,8 @@ STATIC void item_Die(ItemWork *work)
         }
     }
 }
+
+/*---------------------------------------------------------------------------*/
 
 STATIC int item_init_helper_helper_80034020( ItemWork *work, int type )
 {
@@ -905,7 +909,7 @@ void *NewItem(int name, int where, int argc, char **argv)
 
 /*---------------------------------------------------------------------------*/
 
-STATIC int item_init_helper_800345C0(ItemWork *work, SVECTOR *pPos, SVECTOR *a3, Item_Info *pItemInfo, int where)
+STATIC int item_GetResources2(ItemWork *work, SVECTOR *pPos, SVECTOR *a3, Item_Info *pItemInfo, int where)
 {
     int type; // $s3
     const char *str_name; // $v0
@@ -961,7 +965,7 @@ void *item_init_80034758(SVECTOR *pPos, SVECTOR *a2, Item_Info *pItemInfo)
     {
         GV_SetNamedActor(&work->actor, &item_Act, &item_Die, "item.c");
 
-        if (item_init_helper_800345C0(work, pPos, a2, pItemInfo, GM_CurrentMap) < 0)
+        if (item_GetResources2(work, pPos, a2, pItemInfo, GM_CurrentMap) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

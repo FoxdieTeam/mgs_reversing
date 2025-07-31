@@ -1,7 +1,9 @@
 #ifndef _THING_H_
 #define _THING_H_
 
-#include "libdg/libdg.h"
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 #include "libhzd/libhzd.h"
 
 int            THING_Gcl_GetIntDefault(char param, int def);

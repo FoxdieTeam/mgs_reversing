@@ -5,6 +5,12 @@
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 
+extern GV_PAD GV_PadData_800B05C0[4];
+
+/*---------------------------------------------------------------------------*/
+
+#define EXEC_LEVEL GV_ACTOR_LEVEL3
+
 typedef struct Work
 {
     GV_ACT         actor;
@@ -20,10 +26,6 @@ typedef struct Work
 
     int            previous_dir;
 } Work;
-
-extern GV_PAD GV_PadData_800B05C0[4];
-
-#define EXEC_LEVEL GV_ACTOR_LEVEL3
 
 #ifdef DEV_EXE
 int isStageSelectionMenu; // Used to print the extended info below only in stage selection menu.
@@ -46,9 +48,11 @@ char* extendedInfo[] = {
     "%s: ARMORY SOUTH - VS OCELOT [ %d ]", // S04B
     "%s [ %d ]" // RETURN
 };
-#endif
+#endif // DEV_EXE
 
-void SelectUpdateCurrentEntry_800C3218(Work *work, int dir)
+/*---------------------------------------------------------------------------*/
+
+static void SelectUpdateCurrentEntry(Work *work, int dir)
 {
     int   i;
     int   proc_id;
@@ -89,7 +93,7 @@ void SelectUpdateCurrentEntry_800C3218(Work *work, int dir)
 }
 
 // See also menu_radio_do_file_mode_helper13_8004BCF8() in datasave.c
-void SelectAct_800C32D8(Work *work)
+static void Act(Work *work)
 {
     int     dir;
     GV_PAD *pPad;
@@ -110,13 +114,13 @@ void SelectAct_800C32D8(Work *work)
         {
             if (--work->movement_delay_remaining < 0)
             {
-                SelectUpdateCurrentEntry_800C3218(work, dir);
+                SelectUpdateCurrentEntry(work, dir);
                 work->movement_delay_remaining = 2;
             }
         }
         else
         {
-            SelectUpdateCurrentEntry_800C3218(work, dir);
+            SelectUpdateCurrentEntry(work, dir);
             work->movement_delay_remaining = 10;
             work->previous_dir = dir;
         }
@@ -148,7 +152,7 @@ void SelectAct_800C32D8(Work *work)
 #endif
 }
 
-int SelectGetResources_800C33D0(Work *work, int param_2, int param_3)
+static int GetResources(Work *work, int where, int name)
 {
     if (!GCL_GetOption('s'))
     {
@@ -159,19 +163,21 @@ int SelectGetResources_800C33D0(Work *work, int param_2, int param_3)
     work->gcl_menu_entries = GCL_GetParamResult();
     work->current_idx = 0;
     work->previous_dir = 0;
-    SelectUpdateCurrentEntry_800C3218(work, 0);
+    SelectUpdateCurrentEntry(work, 0);
     return 0;
 }
 
-void *NewSelect_800C3434(int name, int where, int argc, char **argv)
+/*---------------------------------------------------------------------------*/
+
+void *NewSelect(int name, int where, int argc, char **argv)
 {
     Work *work;
 
     work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, SelectAct_800C32D8, NULL, "select.c");
-        if (SelectGetResources_800C33D0(work, where, name) < 0)
+        GV_SetNamedActor(&work->actor, Act, NULL, "select.c");
+        if (GetResources(work, where, name) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

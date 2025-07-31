@@ -6,13 +6,13 @@
 
 /*---------------------------------------------------------------------------*/
 
-typedef struct BodyarmWork
+#define EXEC_LEVEL GV_ACTOR_AFTER
+
+typedef struct _Work
 {
     GV_ACT  actor;
     OBJECT *parent;
-} BodyarmWork;
-
-#define EXEC_LEVEL GV_ACTOR_AFTER
+} Work;
 
 /*---------------------------------------------------------------------------*/
 
@@ -29,7 +29,7 @@ STATIC const char *bodyarm_new_tex[4] = {
     "sna_armer4"
 };
 
-STATIC void BodyarmSwapTextures(OBJECT *a1)
+static void SwapTextures(OBJECT *a1)
 {
     int i;
 
@@ -45,28 +45,28 @@ STATIC void BodyarmSwapTextures(OBJECT *a1)
     }
 }
 
-STATIC void BodyarmDie(BodyarmWork *work)
+static void Die(Work *work)
 {
     if (!(GM_GameStatusFlag & 0x20))
     {
-        BodyarmSwapTextures(work->parent);
+        SwapTextures(work->parent);
     }
 }
 
 /*---------------------------------------------------------------------------*/
 
-void *NewBodyarm(CONTROL *control, OBJECT *parent, int num_parent)
+void *NewBodyArmor(CONTROL *control, OBJECT *parent, int num_parent)
 {
-    BodyarmWork *work = GV_NewActor(EXEC_LEVEL, sizeof(BodyarmWork));
+    Work *work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, NULL, BodyarmDie, "bodyarm.c");
+        GV_SetNamedActor(&work->actor, NULL, Die, "bodyarm.c");
 
         work->parent = parent;
 
         if (!(GM_GameStatusFlag & 0x20))
         {
-            BodyarmSwapTextures(parent);
+            SwapTextures(parent);
         }
     }
 

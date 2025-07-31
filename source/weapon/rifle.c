@@ -5,6 +5,8 @@
 #include <libgpu.h>
 
 #include "common.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "game/object.h"
 #include "game/game.h"
 #include "game/camera.h"
@@ -12,9 +14,7 @@
 #include "sd/g_sound.h"
 
 extern GM_Camera GM_Camera_800B77E8;
-
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
-
 extern int      DG_CurrentGroupID;
 
 extern void *NewBullet(MATRIX *pMtx, int a2, int a3, int noiseLen);
@@ -22,7 +22,16 @@ extern void *NewBullet(MATRIX *pMtx, int a2, int a3, int noiseLen);
 /*---------------------------------------------------------------------------*/
 // PSG1 Rifle
 
-typedef struct _RifleWork
+#define EXEC_LEVEL      GV_ACTOR_AFTER
+
+#define RIFLE_MODEL     GV_StrCode("rifle")
+
+#define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE \
+                        | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE )
+
+#define MAGAZINE_SIZE   5
+
+typedef struct _Work
 {
     GV_ACT         actor;
     OBJECT_NO_ROTS object;
@@ -33,22 +42,18 @@ typedef struct _RifleWork
     int            which_side;
     int            field_58;
     void          *field_5c;
-} RifleWork;
-
-#define EXEC_LEVEL      GV_ACTOR_AFTER
-#define MAGAZINE_SIZE   5
-#define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
+} Work;
 
 /*---------------------------------------------------------------------------*/
 
-SVECTOR dword_8009F41C[2] = {
+STATIC SVECTOR dword_8009F41C[2] = {
     { 0, 0,    0, 0 },
     { 0, 0, 3000, 0 }
 };
 
-STATIC int RifleGetZoomLength(void)
+static int GetZoomLimit(void)
 {
-    MATRIX *pMtx;
+    MATRIX *eye;
     MATRIX mtx;
     SVECTOR vec[2];
     int var_s2;
@@ -56,18 +61,18 @@ STATIC int RifleGetZoomLength(void)
 
     if ((GM_GameStatus < 0) || !GM_PlayerControl)
     {
-        pMtx = &DG_Chanl(0)->field_30_eye;
+        eye = &DG_Chanl(0)->field_30_eye;
     }
     else
     {
-        pMtx = &mtx;
+        eye = &mtx;
         mtx = GM_PlayerBody->objs->world;
         mtx.t[0] = gUnkCameraStruct_800B77B8.eye.vx;
         mtx.t[1] = gUnkCameraStruct_800B77B8.eye.vy;
         mtx.t[2] = gUnkCameraStruct_800B77B8.eye.vz;
     }
 
-    DG_SetPos(pMtx);
+    DG_SetPos(eye);
     DG_PutVector(dword_8009F41C, vec, 2);
 
     var_s2 = 0;
@@ -98,7 +103,7 @@ STATIC int RifleGetZoomLength(void)
 
 STATIC SVECTOR svector_800AB8D4 = { 5, 300, 80, 0 };
 
-STATIC void RifleAct(RifleWork *work)
+static void Act(Work *work)
 {
     MATRIX mtx, mtx2;
     SVECTOR vec;
@@ -139,7 +144,7 @@ STATIC void RifleAct(RifleWork *work)
 
         if (temp_v0 >= 9)
         {
-            temp_v0_2 = RifleGetZoomLength();
+            temp_v0_2 = GetZoomLimit();
             zoomLevel = GM_Camera_800B77E8.zoom;
 
             if (zoomLevel < temp_v0_2)
@@ -192,7 +197,7 @@ STATIC void RifleAct(RifleWork *work)
     }
 }
 
-STATIC void RifleDie(RifleWork *work)
+static void Die(Work *work)
 {
     GM_FreeObject((OBJECT *)&work->object);
 
@@ -209,12 +214,11 @@ STATIC void RifleDie(RifleWork *work)
     }
 }
 
-STATIC int RifleGetResources(RifleWork *work, OBJECT *parent, int num_parent)
+static int GetResources(Work *work, OBJECT *parent, int num_parent)
 {
     OBJECT_NO_ROTS *obj = &work->object;
 
-    int id = GV_StrCode("rifle");
-    GM_InitObjectNoRots(obj, id, BODY_FLAG, 0);
+    GM_InitObjectNoRots(obj, RIFLE_MODEL, BODY_FLAG, 0);
 
     if (!obj->objs)
         return -1;
@@ -229,15 +233,15 @@ STATIC int RifleGetResources(RifleWork *work, OBJECT *parent, int num_parent)
 
 void *NewRifle(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side)
 {
-    RifleWork  *work;
-    int         mag_size, ammo;
+    Work *work;
+    int mag_size, ammo;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(RifleWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, &RifleAct, &RifleDie, "rifle.c");
+        GV_SetNamedActor(&work->actor, &Act, &Die, "rifle.c");
 
-        if (RifleGetResources(work, parent, num_parent) < 0)
+        if (GetResources(work, parent, num_parent) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

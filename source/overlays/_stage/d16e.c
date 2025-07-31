@@ -1,32 +1,32 @@
 #include "common.h"
 #include "charadef.h"
 
-#include "../_shared/takabe/cinema.h"
-#include "../_shared/enemy/wall.h"
 #include "../_shared/animal/doll/doll.h"
-#include "../_shared/takabe/dymc_seg.h"
-#include "../_shared/takabe/fadeio.h"
 #include "../_shared/enemy/asioto.h"
 #include "../_shared/enemy/camera.h"
-#include "../_shared/takabe/focus.h"
-#include "../_shared/okajima/blur.h"
-#include "../_shared/takabe/sepia.h"
-#include "../_shared/okajima/smke_ln.h"
-#include "../_shared/okajima/red_alrt.h"
+#include "../_shared/enemy/wall.h"
 #include "../_shared/kojo/inverlt2.h"
+#include "../_shared/okajima/blur.h"
 #include "../_shared/okajima/blurpure.h"
+#include "../_shared/okajima/red_alrt.h"
+#include "../_shared/okajima/smke_ln.h"
+#include "../_shared/takabe/cinema.h"
+#include "../_shared/takabe/dymc_seg.h"
+#include "../_shared/takabe/fadeio.h"
+#include "../_shared/takabe/focus.h"
+#include "../_shared/takabe/sepia.h"
 
-void *NewSpark2_800CA714(MATRIX *world);
-void *NewSpark(MATRIX *pMatrix, int pCnt);
+extern void *NewSpark2_800CA714();
+extern void *NewSpark();
 
 CHARA _StageCharacterEntries[] = 
 {
-    { CHARA_CINEMA, NewCinemaScreenSet_800DE4D8 },
+    { CHARA_CINEMA, NewCinemaScreenSet },
     { CHARA_WALL, NewWall_800C3718 },
     { CHARA_DOLL, NewDoll_800DCD78 },
     { CHARA_DYNAMIC_SEGMENT, NewDymcSeg_800C4BCC },
     { CHARA_FADE_IN_OUT, NewFadeIo_800C42BC },
-    { CHARA_CINEMA, NewCinemaScreenSet_800DE4D8 },
+    { CHARA_CINEMA, NewCinemaScreenSet },
     { CHARA_ASIOTO, NewAsioto_800C3E08 },
     { CHARA_CAMERA, NewCamera_800D67F8 },
     { CHARA_FADEIO_0003, NewFadeIo_800C4224 },

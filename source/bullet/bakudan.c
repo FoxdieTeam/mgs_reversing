@@ -14,17 +14,21 @@
 #include "sd/g_sound.h"
 
 extern GV_PAD  GV_PadData_800B05C0[4];
-
 extern HITTABLE GM_C4Datas_800BDD78[C4_COUNT];
-
 extern unsigned short GM_ItemTypes[];
-
 extern BLAST_DATA blast_data_8009F4B8[8];
 
 /*---------------------------------------------------------------------------*/
 // C4 bomb (armed)
 
-#define EXEC_LEVEL GV_ACTOR_AFTER
+#define EXEC_LEVEL      GV_ACTOR_AFTER
+
+#define C4BOMB_MODEL    0xf83d  // GV_StrCode("c4_bomb")
+
+#define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE \
+                        | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE )
+
+/*---------------------------------------------------------------------------*/
 
 int bakudan_count_8009F42C = 0;
 int time_last_press_8009F430 = 0;
@@ -32,14 +36,14 @@ int dword_8009F434 = 0; // unused variable
 
 // default orientation for C4 object when placed on a moving target
 // (probably to keep it upright because the 3d model is not oriented correctly)
-SVECTOR model_orientation_8009F438 = {3072, 0, 0, 0};
+STATIC SVECTOR model_orientation_8009F438 = {3072, 0, 0, 0};
 
 /**
  * @brief Main function for the C4 actor. Handles the logic for the C4's behavior.
  *
  * @param work Pointer to the BakudanWork structure.
  */
-STATIC void BakudanAct(BakudanWork *work)
+static void Act(BakudanWork *work)
 {
     MATRIX rotation;
     CONTROL *control;
@@ -95,18 +99,12 @@ STATIC void BakudanAct(BakudanWork *work)
     // of the condition below to a temporary variable!?
     cond = 0;
 #endif
-    // check if the circle button was pressed
-    // the frame counter is different from the last time the circle button was
-    // pressed to prevent counting multiple presses in the same frame
-    // the player is in the same map as the C4
-    // the player has not released the pad
-    // the player is not holding an item that can't be used with the C4
-    if (((work->active_pad->press & PAD_CIRCLE) &&
-         (time_last_press_8009F430 != GV_Time) &&
-         (GM_CurrentMap & GM_PlayerMap) &&
-         !(GM_GameStatus & STATE_PADRELEASE) &&
-         !(GM_PlayerStatus & PLAYER_PAD_OFF) &&
-         !(GM_ItemTypes[GM_CurrentItemId + 1] & 2)) ||
+    if (((work->active_pad->press & PAD_CIRCLE) &&      /* if the circle button was pressed */
+         (time_last_press_8009F430 != GV_Time) &&       /* and it's not on the same frame */
+         (GM_CurrentMap & GM_PlayerMap) &&              /* and the player is on the same map as the C4 */
+         !(GM_GameStatus & STATE_PADRELEASE) &&         /* and the player has not released the button */
+         !(GM_PlayerStatus & PLAYER_PAD_OFF) &&         /* and pad input isn't disabled */
+         !(GM_ItemTypes[GM_CurrentItemId + 1] & 2)) ||  /* and the player hasn't equipped an incompatible item */
         dword_8009F434)
 #ifdef VR_EXE
     {
@@ -153,7 +151,7 @@ STATIC void BakudanAct(BakudanWork *work)
  *
  * @param work Pointer to the BakudanWork structure.
  */
-STATIC void BakudanDie(BakudanWork *work)
+static void Die(BakudanWork *work)
 {
     GM_FreeControl(&work->control);
     GM_ClearBulName(work->control.name);
@@ -171,7 +169,7 @@ STATIC void BakudanDie(BakudanWork *work)
  *
  * @return int Index of the next free slot, or -1 if no free slot is available.
  */
-STATIC int BakudanNextIndex( void )
+static int GetNextC4Data( void )
 {
     int i;
     for (i = 0; i < C4_COUNT; i++)
@@ -197,7 +195,7 @@ STATIC int BakudanNextIndex( void )
  *
  * @return int      0 on success, -1 on failure.
  */
-STATIC int BakudanGetResources(BakudanWork *work, MATRIX *world, SVECTOR *pos, int attached, void *data)
+static int GetResources(BakudanWork *work, MATRIX *world, SVECTOR *pos, int attached, void *data)
 {
     CONTROL *control = &work->control;
     OBJECT_NO_ROTS *object;
@@ -226,7 +224,7 @@ STATIC int BakudanGetResources(BakudanWork *work, MATRIX *world, SVECTOR *pos, i
     }
 
     object = &work->kmd;
-    GM_InitObjectNoRots(object, 0xf83d, 0x6d, 0);
+    GM_InitObjectNoRots(object, C4BOMB_MODEL, BODY_FLAG, 0);
 
     if (!object->objs)
     {
@@ -237,7 +235,7 @@ STATIC int BakudanGetResources(BakudanWork *work, MATRIX *world, SVECTOR *pos, i
     GM_ConfigObjectLight((OBJECT *)object, work->light_mtx);
     object->objs->objs[0].raise = 200;
 
-    work->c4_index = nextItem = BakudanNextIndex();
+    work->c4_index = nextItem = GetNextC4Data();
 
     if (nextItem < 0)
     {
@@ -264,7 +262,7 @@ STATIC int BakudanGetResources(BakudanWork *work, MATRIX *world, SVECTOR *pos, i
  * @param   data        Pointer to the target (used to update the C4 position,
  *                      rotation and to delete the C4 when the target is dead).
  *
- * @return  void*       Pointer to the new C4 actor.
+ * @returns The C4 actor's work area.
  */
 void *NewBakudan(MATRIX *world, SVECTOR *pos, int attached, int unused, void *data)
 {
@@ -279,8 +277,8 @@ void *NewBakudan(MATRIX *world, SVECTOR *pos, int attached, int unused, void *da
     work = GV_NewActor(EXEC_LEVEL, sizeof(BakudanWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, BakudanAct, BakudanDie, "bakudan.c");
-        if (BakudanGetResources(work, world, pos, attached, data) < 0)
+        GV_SetNamedActor(&work->actor, Act, Die, "bakudan.c");
+        if (GetResources(work, world, pos, attached, data) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

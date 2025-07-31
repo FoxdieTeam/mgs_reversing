@@ -9,18 +9,22 @@
 #include "mts/mts.h"
 #include "mts/mts_pad.h"
 
-typedef struct _CancelWork
+/*---------------------------------------------------------------------------*/
+
+#define EXEC_LEVEL GV_ACTOR_LEVEL3
+
+typedef struct _Work
 {
     GV_ACT actor;
     int    proc;
     int    mask;
     int    timer;
     int    step;
-} CancelWork;
+} Work;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL3
+/*---------------------------------------------------------------------------*/
 
-void Cancel_800C3E24(CancelWork *work)
+static void Act2(Work *work)
 {
     work->timer += work->step;
 
@@ -40,21 +44,21 @@ void Cancel_800C3E24(CancelWork *work)
     }
 }
 
-void CancelAct_800C3EA0(CancelWork *work)
+static void Act(Work *work)
 {
     if (mts_read_pad(1) & work->mask)
     {
         GM_StreamCancelCallback();
         GM_StreamPlayStop();
 
-        work->actor.act = (GV_ACTFUNC)Cancel_800C3E24;
+        work->actor.act = (GV_ACTFUNC)Act2;
         DG_UnDrawFrameCount = 0x7FFF0000;
         work->timer = 0;
         GV_PauseLevel |= 4;
     }
 }
 
-void CancelDie_800C3F18(CancelWork *work)
+static void Die(Work *work)
 {
     GV_PauseLevel &= ~4;
 
@@ -64,7 +68,7 @@ void CancelDie_800C3F18(CancelWork *work)
     }
 }
 
-int CancelGetResources_800C3F54(CancelWork *work)
+static int GetResources(Work *work)
 {
     if (GCL_GetOption('p'))
     {
@@ -96,16 +100,18 @@ int CancelGetResources_800C3F54(CancelWork *work)
     return 0;
 }
 
-void *NewCancel_800C3FFC(int name, int where, int argc, char **argv)
-{
-    CancelWork *work;
+/*---------------------------------------------------------------------------*/
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(CancelWork));
+void *NewCancel(int name, int where, int argc, char **argv)
+{
+    Work *work;
+
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, CancelAct_800C3EA0, CancelDie_800C3F18, "cancel.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "cancel.c");
 
-        if (CancelGetResources_800C3F54(work) < 0)
+        if (GetResources(work) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

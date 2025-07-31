@@ -18,9 +18,13 @@
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 extern int              dword_800BDF98;
 extern int              dword_800BDF9C;
-extern int              dword_800BDFA0;
+extern int              okajima_CHAF_LIFE;
 
 /*---------------------------------------------------------------------------*/
+
+#define EXEC_LEVEL      GV_ACTOR_LEVEL5
+
+#define CHAFF_LIFETIME  300
 
 typedef struct _ChaffGrdWork
 {
@@ -38,10 +42,6 @@ typedef struct _ChaffGrdWork
     char     field_a40[64];
     MATRIX   field_a80;
 } ChaffGrdWork;
-
-// STATIC_ASSERT(sizeof(ChaffGrdWork) == 0xAA0, "sizeof(ChaffGrdWork) is wrong!");
-
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 /*---------------------------------------------------------------------------*/
 
@@ -133,9 +133,9 @@ STATIC void chafgrnd_Act(ChaffGrdWork* work)
 
     work->field_a34->group_id = GM_PlayerMap;
 
-    if (dword_800BDF98 == 1)
+    if (dword_800BDF98 == TRUE)
     {
-        dword_800BDF98 = 0;
+        dword_800BDF98 = FALSE;
 
         work->field_a38 = 64;
 
@@ -145,7 +145,7 @@ STATIC void chafgrnd_Act(ChaffGrdWork* work)
         }
     }
 
-    if (--dword_800BDFA0 < 0)
+    if (--okajima_CHAF_LIFE < 0)
     {
         GM_GameStatus &= ~STATE_CHAFF;
         GV_DestroyActor(&work->actor);
@@ -167,7 +167,7 @@ STATIC void chafgrnd_Act(ChaffGrdWork* work)
 
     unused.vz = 0;
 
-    temp_v0_2 = dword_800BDFA0 % 2;
+    temp_v0_2 = okajima_CHAF_LIFE % 2;
     var_s5 = work->field_34[temp_v0_2];
     var_s4 = work->field_434[temp_v0_2];
 
@@ -175,7 +175,7 @@ STATIC void chafgrnd_Act(ChaffGrdWork* work)
 
     sp20 = 0;
 
-    if ((dword_800BDFA0 < work->field_28) || (work->field_24 == 1))
+    if ((okajima_CHAF_LIFE < work->field_28) || (work->field_24 == 1))
     {
         work->field_24 = 1;
 
@@ -193,10 +193,10 @@ STATIC void chafgrnd_Act(ChaffGrdWork* work)
         work->field_a34->root = &work->field_a80;
     }
 
-    if (dword_800BDFA0 == work->field_a38)
+    if (okajima_CHAF_LIFE == work->field_a38)
     {
-        work->field_a38 = dword_800BDFA0 - 1;
-        work->field_a40[dword_800BDFA0 - 1] = 1;
+        work->field_a38 = okajima_CHAF_LIFE - 1;
+        work->field_a40[okajima_CHAF_LIFE - 1] = 1;
     }
 
     for (i = 0; i < 64; i++, var_s5++, var_s4++, var_s7++)
@@ -257,12 +257,12 @@ STATIC int chafgrnd_GetResources(ChaffGrdWork *work, MATRIX *world)
     int i;
     int j;
 
-    dword_800BDFA0 = 300;
+    okajima_CHAF_LIFE = CHAFF_LIFETIME;
     dword_800BDF9C = mts_get_tick_count();
 
     work->field_a38 = 64;
     work->field_24 = 0;
-    work->field_28 = dword_800BDFA0 - 60;
+    work->field_28 = okajima_CHAF_LIFE - 60;
 
     work->field_20_map = GM_CurrentMap;
 
@@ -332,8 +332,8 @@ void *NewChaffGrd(MATRIX *world)
 
     if (GM_GameStatus & STATE_CHAFF)
     {
-        dword_800BDFA0 = 300;
-        dword_800BDF98 = 1;
+        okajima_CHAF_LIFE = CHAFF_LIFETIME;
+        dword_800BDF98 = TRUE;
         GM_SeSetMode(&vec, SE_CHAFF_EXPLODE, GM_SEMODE_BOMB);
         GM_SetNoise(100, 32, &vec);
         return NULL;
@@ -343,7 +343,7 @@ void *NewChaffGrd(MATRIX *world)
 
     if (work)
     {
-        dword_800BDF98 = 0;
+        dword_800BDF98 = FALSE;
         GV_SetNamedActor(&work->actor, &chafgrnd_Act, &chafgrnd_Die, "chafgrnd.c");
 
         work->field_a3c = 0;

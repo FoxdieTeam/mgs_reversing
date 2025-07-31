@@ -18,12 +18,11 @@
 
 extern  CAMERA          GM_CameraList_800B7718[8];
 extern  GM_Camera       GM_Camera_800B77E8;
-
-
-
-extern  HZD_BIND      gBindsArray_800b58e0[128];
+extern  HZD_BIND        gBindsArray_800b58e0[128];
 extern  int             dword_8009F46C;
 extern  SVECTOR         svector_8009F478;
+
+/*---------------------------------------------------------------------------*/
 
 STATIC char SECTION(".sbss") dword_800ABA58[8];
 STATIC int  SECTION(".sbss") gBinds_800ABA60;
@@ -31,6 +30,8 @@ STATIC int  SECTION(".sbss") gBindsCount_800ABA64;
 
 extern char *GM_StageName;
 char         SECTION(".sbss") * GM_StageName;
+
+/*---------------------------------------------------------------------------*/
 
 STATIC int GM_Command_light(unsigned char *);
 STATIC int GM_Command_camera(unsigned char *);
@@ -89,6 +90,8 @@ STATIC GCL_COMMANDLIST Commands[] = {
 
 STATIC GCL_COMMANDDEF script_commands = { 0, COUNTOF(Commands), Commands };
 
+/*---------------------------------------------------------------------------*/
+
 STATIC int GM_Command_light(unsigned char *top)
 {
     char *light_dir;
@@ -113,6 +116,8 @@ STATIC int GM_Command_light(unsigned char *top)
     }
     return 0;
 }
+
+/*---------------------------------------------------------------------------*/
 
 /*
 proc AGL_FIRST_VF {
@@ -207,6 +212,8 @@ STATIC int GM_Command_camera(unsigned char *top)
     return 0;
 }
 
+/*---------------------------------------------------------------------------*/
+
 STATIC int GM_Command_map(unsigned char *top)
 {
     MAP *pMapRecord;
@@ -282,6 +289,8 @@ STATIC int GM_Command_map(unsigned char *top)
     return 0;
 }
 
+/*---------------------------------------------------------------------------*/
+
 STATIC int GM_Command_mapdef(unsigned char *top)
 {
     if (!GM_CreateMap())
@@ -291,6 +300,8 @@ STATIC int GM_Command_mapdef(unsigned char *top)
 
     return 0;
 }
+
+/*---------------------------------------------------------------------------*/
 
 STATIC int GM_Command_trap(unsigned char *top)
 {
@@ -343,6 +354,8 @@ STATIC int GM_Command_trap(unsigned char *top)
 
     return 0;
 }
+
+/*---------------------------------------------------------------------------*/
 
 STATIC int GM_Command_ntrap(unsigned char *top)
 {
@@ -454,6 +467,8 @@ STATIC int GM_Command_ntrap(unsigned char *top)
     return 0;
 }
 
+/*---------------------------------------------------------------------------*/
+
 STATIC int GM_Command_delay(unsigned char *top)
 {
     int time = 0;
@@ -486,6 +501,8 @@ STATIC int GM_Command_delay(unsigned char *top)
     return -1;
 }
 
+/*---------------------------------------------------------------------------*/
+
 STATIC int GM_Command_mesg(unsigned char *top)
 {
     unsigned char *uParm1;
@@ -515,6 +532,8 @@ STATIC int GM_Command_mesg(unsigned char *top)
     return ret;
 }
 
+/*---------------------------------------------------------------------------*/
+
 STATIC int GM_Command_chara(int argc, char **argv)
 {
     int         ret;
@@ -534,6 +553,8 @@ STATIC int GM_Command_chara(int argc, char **argv)
     }
     return ret;
 }
+
+/*---------------------------------------------------------------------------*/
 
 STATIC int GM_Command_start(unsigned char *top)
 {
@@ -573,6 +594,8 @@ STATIC int GM_Command_start(unsigned char *top)
     }
     return 0;
 }
+
+/*---------------------------------------------------------------------------*/
 
 STATIC int GM_Command_load(unsigned char *top)
 {
@@ -646,6 +669,8 @@ STATIC int GM_Command_load(unsigned char *top)
 
     return 0;
 }
+
+/*---------------------------------------------------------------------------*/
 
 STATIC int GM_Command_radio(unsigned char *top)
 {
@@ -721,6 +746,8 @@ STATIC int GM_Command_radio(unsigned char *top)
     return 0;
 }
 
+/*---------------------------------------------------------------------------*/
+
 STATIC int GM_Command_restart(unsigned char *top)
 {
     int proc_id;
@@ -749,6 +776,8 @@ STATIC int GM_Command_restart(unsigned char *top)
     return 0;
 }
 
+/*---------------------------------------------------------------------------*/
+
 STATIC int GM_Command_varsave(unsigned char *top)
 {
     unsigned char *param;
@@ -769,6 +798,8 @@ STATIC int GM_Command_varsave(unsigned char *top)
     }
     return 0;
 }
+
+/*---------------------------------------------------------------------------*/
 
 STATIC int GM_Command_system(unsigned char *top)
 {
@@ -795,6 +826,8 @@ STATIC int GM_Command_system(unsigned char *top)
     }
     return 0;
 }
+
+/*---------------------------------------------------------------------------*/
 
 STATIC int GM_Command_demo(unsigned char *top)
 {
@@ -848,6 +881,8 @@ STATIC int GM_Command_demo(unsigned char *top)
     return 0;
 }
 
+/*---------------------------------------------------------------------------*/
+
 STATIC int GM_Command_pad(unsigned char *top)
 {
     if (GCL_GetOption('m'))
@@ -867,11 +902,15 @@ STATIC int GM_Command_pad(unsigned char *top)
     return 0;
 }
 
+/*---------------------------------------------------------------------------*/
+
 STATIC int GM_Command_sound(unsigned char *top)
 {
     GM_Command_sound_impl();
     return 0;
 }
+
+/*---------------------------------------------------------------------------*/
 
 STATIC unsigned int GM_Command_menu_helper(void)
 {
@@ -996,6 +1035,8 @@ STATIC int GM_Command_menu(unsigned char *top)
     return 0;
 }
 
+/*---------------------------------------------------------------------------*/
+
 STATIC int GM_Command_rand(unsigned char *top)
 {
     int param;
@@ -1006,6 +1047,8 @@ STATIC int GM_Command_rand(unsigned char *top)
     GM_LastResultFlag = randValue % param;
     return 0;
 }
+
+/*---------------------------------------------------------------------------*/
 
 STATIC int GM_Command_func(unsigned char *top)
 {
@@ -1067,6 +1110,8 @@ STATIC int GM_Command_func(unsigned char *top)
     return 0;
 }
 
+/*---------------------------------------------------------------------------*/
+
 int demodebug_finish_proc = -1;
 
 STATIC int GM_Command_demodebug(unsigned char *top)
@@ -1119,6 +1164,8 @@ STATIC int GM_Command_demodebug(unsigned char *top)
     return 0;
 }
 
+/*---------------------------------------------------------------------------*/
+
 STATIC int GM_Command_print(unsigned char *top)
 {
     int code;
@@ -1141,11 +1188,15 @@ STATIC int GM_Command_print(unsigned char *top)
     return 0;
 }
 
+/*---------------------------------------------------------------------------*/
+
 STATIC int GM_Command_jimaku(unsigned char *top)
 {
     NewJimaku();
     return 0;
 }
+
+/*---------------------------------------------------------------------------*/
 
 int GM_InitBinds(void)
 {

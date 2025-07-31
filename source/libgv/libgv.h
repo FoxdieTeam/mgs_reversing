@@ -169,7 +169,7 @@ typedef struct GV_CACHE_PAGE
     GV_CACHE_TAG tags[MAX_CACHE_TAGS];
 } GV_CACHE_PAGE;
 
-#define MAX_LOADERS 26    // from 'a' to 'z'
+#define GV_MAX_LOADERS  26  // 'a'～'z'
 
 typedef int (*GV_LOADFUNC)(unsigned char *data, int id);
 

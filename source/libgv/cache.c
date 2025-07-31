@@ -1,12 +1,13 @@
 #include "libgv.h"
 #include <stdio.h>
+#include <stddef.h>
 
-#define RESIDENT_REGION_FLAG 0x1000000
-
-/**bss****************************************************************/
 extern GV_CACHE_PAGE GV_CacheSystem;
-extern GV_LOADFUNC   GV_LoaderFunctions[MAX_LOADERS];
-/*********************************************************************/
+extern GV_LOADFUNC  GV_LoaderFunctions[GV_MAX_LOADERS];
+
+/*---------------------------------------------------------------------------*/
+
+#define RESIDENT_FLAG   0x01000000
 
 STATIC GV_CACHE_TAG *SECTION(".sbss") GV_CurrentTag;
 STATIC GV_CACHE_TAG *SECTION(".sbss") GV_ResidentCache;
@@ -19,7 +20,7 @@ STATIC int           SECTION(".sbss") GV_ResidentCacheSize;
  *
  * @param id The ID to search for in the cache.
  */
-STATIC GV_CACHE_TAG *GV_FileCacheFind(int id)
+static GV_CACHE_TAG *GetCacheTag(int id)
 {
     GV_CACHE_TAG *current;
     int           start;
@@ -69,8 +70,8 @@ STATIC GV_CACHE_TAG *GV_FileCacheFind(int id)
 /**
  * @brief Returns the cache ID of a file using its hashed name and extension.
  *
- * @param name The hashed name of the file.
- * @param ext The first character of the file extension.
+ * @param   name    strcode hash of the filename (without extension).
+ * @param   ext     The first character of the file extension.
  */
 int GV_CacheID(int name, int ext)
 {
@@ -87,8 +88,8 @@ int GV_CacheID(int name, int ext)
 /**
  * @brief Returns the cache ID of a file using its name and extension.
  *
- * @param name The name of the file.
- * @param ext The first character of the file extension.
+ * @param   name    The name of the file (without extension).
+ * @param   ext     The first character of the file extension.
  */
 int GV_CacheID2(const char *name, int ext)
 {
@@ -100,21 +101,22 @@ int GV_CacheID2(const char *name, int ext)
 
 /**
  * @brief Returns the cache ID of a file using its full file name as a string.
+ * The character found after the first '.' is considered the extension.
  *
- * @param filename The full name of the file with extension.
+ * @param   filename    The full name of the file with extension.
  */
 int GV_CacheID3(char *filename)
 {
-    char  stem[32];
+    char  buf[32];
     char *iter;
     char  c;
 
-    iter = stem;
+    iter = buf;
     c = *filename++;
 
     if (c == '.')
     {
-        *stem = '\0';
+        *iter = '\0';
         goto exit;
     }
 
@@ -136,19 +138,21 @@ loop:
     goto loop;
 
 exit:
-    return GV_CacheID2(stem, *filename);
+    return GV_CacheID2(buf, *filename);
 }
 
 /**
  * @brief Returns the data pointer of a cache entry given its ID.
  *
- * @param id The ID to search for in the cache.
+ * @param   id      The ID to search for in the cache.
+ *
+ * @returns NULL if the file couldn't be found.
  */
 void *GV_GetCache(int id)
 {
     GV_CACHE_TAG *tag;
 
-    tag = GV_FileCacheFind(id);
+    tag = GetCacheTag(id);
     if (tag)
     {
         return tag->ptr;
@@ -165,13 +169,12 @@ void *GV_GetCache(int id)
  */
 int GV_SetCache(int id, void *ptr)
 {
-    if (!GV_FileCacheFind(id) && GV_CurrentTag)
+    if (!GetCacheTag(id) && GV_CurrentTag)
     {
         GV_CurrentTag->id = id;
         GV_CurrentTag->ptr = ptr;
         return 0;
     }
-
     return -1;
 }
 
@@ -196,7 +199,7 @@ void GV_InitLoader(void)
     int          i;
 
     loader = GV_LoaderFunctions;
-    for (i = MAX_LOADERS; i > 0; i--)
+    for (i = GV_MAX_LOADERS; i > 0; i--)
     {
         *loader++ = NULL;
     }
@@ -236,7 +239,7 @@ void GV_SaveResidentFileCache(void)
     size = 0;
     for (i = MAX_CACHE_TAGS; i > 0; i--)
     {
-        if (tag->id & RESIDENT_REGION_FLAG)
+        if (tag->id & RESIDENT_FLAG)
         {
             size++;
         }
@@ -254,7 +257,7 @@ void GV_SaveResidentFileCache(void)
         tag = GV_CacheSystem.tags;
         for (i = MAX_CACHE_TAGS; i > 0; i--)
         {
-            if (tag->id & RESIDENT_REGION_FLAG)
+            if (tag->id & RESIDENT_FLAG)
             {
                 *resident++ = *tag;
             }
@@ -298,11 +301,11 @@ void GV_FreeCacheSystem(void)
  * @param id The ID of the file to write.
  * @param region The region of the file to write.
  */
-static inline void GV_SetCurrentTag(void *ptr, int id, int region)
+static inline void SetCurrentTag(void *ptr, int id, int region)
 {
     if (region != GV_REGION_CACHE)
     {
-        id |= RESIDENT_REGION_FLAG;
+        id |= RESIDENT_FLAG;
     }
 
     GV_CurrentTag->id = id;
@@ -314,7 +317,7 @@ static inline void GV_SetCurrentTag(void *ptr, int id, int region)
  *
  * @param id The ID of the file to return the loader function for.
  */
-static inline GV_LOADFUNC GV_GetLoadFunc(int id)
+static inline GV_LOADFUNC GetLoadFunc(int id)
 {
     GV_LOADFUNC *loader;
 
@@ -344,28 +347,28 @@ int GV_LoadInit(void *ptr, int id, int region)
 
     if (region == GV_REGION_NOCACHE)
     {
-        func = GV_GetLoadFunc(id);
+        func = GetLoadFunc(id);
         if (func)
         {
             ret = func(ptr, id);
             if (ret <= 0)
             {
-                return ret;   
+                return ret;
             }
         }
     }
     else
     {
-        if (GV_FileCacheFind(id) || !GV_CurrentTag)
+        if (GetCacheTag(id) || !GV_CurrentTag)
         {
             printf("id conflict\n");
             return -1;
         }
 
         tag = GV_CurrentTag;
-        GV_SetCurrentTag(ptr, id, region);
+        SetCurrentTag(ptr, id, region);
 
-        func = GV_GetLoadFunc(id);
+        func = GetLoadFunc(id);
         if (func)
         {
             ret = func(ptr, id);
@@ -376,6 +379,5 @@ int GV_LoadInit(void *ptr, int id, int region)
             }
         }
     }
-
     return 1;
 }

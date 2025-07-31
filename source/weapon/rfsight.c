@@ -5,8 +5,11 @@
 #include <libgpu.h>
 
 #include "common.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "thing/sight.h"
 #include "chara/snake/sna_init.h"
+#include "linkvar.h"
 
 extern int dword_8009F604;
 extern GV_PAD GV_PadData_800B05C0[4];
@@ -15,26 +18,32 @@ extern DVECTOR dvector_800BDD18[3];
 /*---------------------------------------------------------------------------*/
 // PSG1 Rifle Sight
 
-typedef SightWork *(*rfsight_pfn_t)(int, int, short *, short, short *);
+#define EXEC_LEVEL      GV_ACTOR_AFTER
 
-typedef struct _RfSightWork
+#define RIFLE_SIGHT1    0xa796  // GV_StrCode("rifle1")
+#define RIFLE_SIGHT2    0xa797  // GV_StrCode("rifle2")
+#define RIFLE_SIGHT3    0xa798  // GV_StrCode("rifle3")
+
+#define HUD_MOVE_DELAY  10
+
+typedef void *(*newsight_t)(int, int, short *, short, short *);
+
+typedef struct _Work
 {
     GV_ACT        actor;
     DVECTOR      *field_20;
     int           field_24;
-    int           field_28;
-    rfsight_pfn_t func;
-} RfSightWork;
-
-#define EXEC_LEVEL GV_ACTOR_AFTER
+    int           timer;
+    newsight_t    func;
+} Work;
 
 /*---------------------------------------------------------------------------*/
 
-STATIC void rfsight_act_helper_80069478(int a1, GV_PAD *pad, DVECTOR *axis, int dir, short sens, short max)
+static void MoveSightElement(int time, GV_PAD *pad, DVECTOR *axis, int dir, short sens, short max)
 {
-    unsigned short status;
+    u_short status;
 
-    if (a1 < 10)
+    if (time < HUD_MOVE_DELAY)
     {
         return;
     }
@@ -128,14 +137,16 @@ STATIC void rfsight_act_helper_80069478(int a1, GV_PAD *pad, DVECTOR *axis, int 
     }
 }
 
+/*---------------------------------------------------------------------------*/
+
 static short rfsight_flag_800ABBE0[4];
 
-STATIC void RifleSightAct(RfSightWork *work)
+static void Act(Work *work)
 {
     GV_PAD *pad;
     int i;
-    rfsight_pfn_t pfn;
-    int f28;
+    newsight_t func;
+    int time;
 
     if (work->field_24 < 16000)
     {
@@ -151,30 +162,30 @@ STATIC void RifleSightAct(RfSightWork *work)
             work->field_20[i].vx = work->field_20[i].vy = 0;
         }
 
-        work->field_28 = 0;
+        work->timer = 0;
 
-        pfn = work->func;
-        pfn(42902, GV_StrCode("rifle"), rfsight_flag_800ABBE0, 1, (short *)&work->field_20[0]);
-        pfn(42904, GV_StrCode("rifle"), rfsight_flag_800ABBE0, 1, (short *)&work->field_20[1]);
-        pfn(42903, GV_StrCode("rifle"), rfsight_flag_800ABBE0, 1, 0);
+        func = work->func;
+        func(RIFLE_SIGHT1, GV_StrCode("rifle"), rfsight_flag_800ABBE0, IT_Scope, (short *)&work->field_20[0]);
+        func(RIFLE_SIGHT3, GV_StrCode("rifle"), rfsight_flag_800ABBE0, IT_Scope, (short *)&work->field_20[1]);
+        func(RIFLE_SIGHT2, GV_StrCode("rifle"), rfsight_flag_800ABBE0, IT_Scope, NULL);
     }
     else
     {
-        f28 = work->field_28++;
-        work->field_28 = f28 + 1;
+        time = work->timer++;
+        work->timer = time + 1;
 
-        rfsight_act_helper_80069478(f28, pad, &work->field_20[0], 3, 1, 8);
-        rfsight_act_helper_80069478(f28, pad, &work->field_20[1], 3, 1, 8);
+        MoveSightElement(time, pad, &work->field_20[0], 3, 1, 8);
+        MoveSightElement(time, pad, &work->field_20[1], 3, 1, 8);
     }
 }
 
-STATIC void RifleSightDie(RfSightWork *work)
+static void Die(Work *work)
 {
     rfsight_flag_800ABBE0[0] = 0;
     work->field_24 = 0;
 }
 
-STATIC int RifleSightGetResources(RfSightWork *work)
+static int GetResources(Work *work)
 {
     int i;
 
@@ -185,7 +196,7 @@ STATIC int RifleSightGetResources(RfSightWork *work)
         work->field_20[i].vx = work->field_20[i].vy = 0;
     }
 
-    work->field_28 = 0;
+    work->timer = 0;
     return 0;
 }
 
@@ -193,20 +204,20 @@ STATIC int RifleSightGetResources(RfSightWork *work)
 
 void *NewRifleSight(void)
 {
-    RfSightWork *work = GV_NewActor(EXEC_LEVEL, sizeof(RfSightWork));
+    Work *work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, &RifleSightAct, &RifleSightDie, "rfsight.c");
+        GV_SetNamedActor(&work->actor, &Act, &Die, "rfsight.c");
 
-        if (RifleSightGetResources(work) < 0)
+        if (GetResources(work) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
         }
 
         rfsight_flag_800ABBE0[0] = 1;
-        work->func = &NewSight_80071CDC;
+        work->func = &NewSight;
     }
 
     return (void *)work;
@@ -214,20 +225,20 @@ void *NewRifleSight(void)
 
 void *NewRifleSightFast(void)
 {
-    RfSightWork *work = GV_NewActor(EXEC_LEVEL, sizeof(RfSightWork));
+    Work *work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, &RifleSightAct, &RifleSightDie, "rfsight.c");
+        GV_SetNamedActor(&work->actor, &Act, &Die, "rfsight.c");
 
-        if (RifleSightGetResources(work) < 0)
+        if (GetResources(work) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
         }
 
         rfsight_flag_800ABBE0[0] = 1;
-        work->func = &sight_init_80071EA8;
+        work->func = &NewSightFast;
     }
 
     return (void *)work;

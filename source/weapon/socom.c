@@ -19,12 +19,22 @@
 #include "strcode.h"
 
 extern GM_Camera GM_Camera_800B77E8;
-
 extern int     DG_CurrentGroupID;
 
 /*---------------------------------------------------------------------------*/
 
-typedef struct _SocomWork
+#define EXEC_LEVEL      GV_ACTOR_AFTER
+
+#define SOCOM_MODEL     GV_StrCode("socom")
+#define SOCOM_MODEL2    GV_StrCode("socom2")    /* w/ suppressor */
+#define LASER_TEXTURE   GV_StrCode("lsight")
+
+#define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE \
+                        | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE )
+
+#define MAGAZINE_SIZE   12
+
+typedef struct _Work
 {
     GV_ACT         actor;
     OBJECT_NO_ROTS object;
@@ -42,22 +52,18 @@ typedef struct _SocomWork
     int            field_108;
     DG_PRIM       *prim2;
     SVECTOR        field_110[2];
-} SocomWork;
-
-#define EXEC_LEVEL      GV_ACTOR_AFTER
-#define MAGAZINE_SIZE   12
-#define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
+} Work;
 
 STATIC short word_800AB824 = -215;
 STATIC RECT  stru_800AB828 = {0, 0, 2, 2};
 
-SVECTOR stru_8009F3BC[] = {{20, -370, 60, 0}};
-SVECTOR stru_8009F3C4[2] = {{0, -215, 32, 0}, {0, -10455, 32, 0}};
-SVECTOR stru_8009F3D4[2] = {{0, 600, 32, 0}, {0, -9640, 32, 0}};
+STATIC SVECTOR stru_8009F3BC[] = {{20, -370, 60, 0}};
+STATIC SVECTOR stru_8009F3C4[2] = {{0, -215, 32, 0}, {0, -10455, 32, 0}};
+STATIC SVECTOR stru_8009F3D4[2] = {{0, 600, 32, 0}, {0, -9640, 32, 0}};
 
 /*---------------------------------------------------------------------------*/
 
-STATIC void SocomSetPolyTexture( POLY_FT4 *poly, DG_TEX *tex )
+static void SocomSetPolyTexture( POLY_FT4 *poly, DG_TEX *tex )
 {
     int       i;
     POLY_FT4 *pft4 = poly;
@@ -73,11 +79,11 @@ STATIC void SocomSetPolyTexture( POLY_FT4 *poly, DG_TEX *tex )
     }
 }
 
-STATIC void SocomSetPolyUVs( POLY_FT4 *poly, DG_TEX *tex, int a3 )
+static void SocomSetPolyUVs( POLY_FT4 *poly, DG_TEX *tex, int a3 )
 {
     char offy = tex->off_y + ( a3 & 0x3f );
     char offx = tex->off_x;
-    int  i; // $t0
+    int  i;
 
     for ( i = 10; i > 0; i-- )
     {
@@ -93,7 +99,7 @@ STATIC void SocomSetPolyUVs( POLY_FT4 *poly, DG_TEX *tex, int a3 )
     }
 }
 
-STATIC void SocomInitVectors( SocomWork *work )
+static void SocomInitVectors( Work *work )
 {
     int      i;
     SVECTOR *vp;
@@ -108,7 +114,7 @@ STATIC void SocomInitVectors( SocomWork *work )
     }
 }
 
-STATIC void socom_act_helper_8006528C(SocomWork *work)
+static void socom_act_helper_8006528C(Work *work)
 {
     int primsOrig =  work->field_100;
     int prims;
@@ -148,7 +154,7 @@ STATIC void socom_act_helper_8006528C(SocomWork *work)
     pVec[-1].vy = word_800AB824 - primsOrig;
 }
 
-STATIC void SocomInitLight( TILE *packs )
+static void SocomInitLight( TILE *packs )
 {
     int i;
 
@@ -161,7 +167,7 @@ STATIC void SocomInitLight( TILE *packs )
     }
 }
 
-STATIC void SocomSetTilesColor( TILE *tile, int color )
+static void SocomSetTilesColor( TILE *tile, int color )
 {
     tile[ 0 ].r0 = color;
     tile[ 0 ].g0 = color / 4;
@@ -171,7 +177,7 @@ STATIC void SocomSetTilesColor( TILE *tile, int color )
     tile[ 1 ].b0 = 63;
 }
 
-STATIC void socom_act_helper_800653B8( SocomWork *socom )
+static void socom_act_helper_800653B8( Work *socom )
 {
     int local_var = socom->field_100;
 
@@ -188,7 +194,7 @@ STATIC void socom_act_helper_800653B8( SocomWork *socom )
     }
 }
 
-STATIC int socom_act_helper_80065408( SocomWork *work )
+static int socom_act_helper_80065408( Work *work )
 {
     int         bCalcLen;
     MAP        *map;
@@ -223,7 +229,7 @@ STATIC int socom_act_helper_80065408( SocomWork *work )
 
 /*---------------------------------------------------------------------------*/
 
-STATIC void SocomAct( SocomWork *work )
+static void Act( Work *work )
 {
     int color;
     unsigned int flags;
@@ -364,14 +370,14 @@ STATIC void SocomAct( SocomWork *work )
     }
 }
 
-STATIC void SocomDie( SocomWork *work )
+static void Die( Work *work )
 {
     GM_FreeObject( (OBJECT *)&work->object );
     GM_FreePrim( work->prim1 );
     GM_FreePrim( work->prim2 );
 }
 
-STATIC int SocomGetResources( SocomWork *actor, OBJECT *parent, int num_parent )
+static int GetResources( Work *actor, OBJECT *parent, int num_parent )
 {
     DG_TEX         *tex;
     DG_PRIM        *newprim;
@@ -381,12 +387,12 @@ STATIC int SocomGetResources( SocomWork *actor, OBJECT *parent, int num_parent )
     obj = &actor->object;
     if ( GM_SilencerFlag < 0 )
     {
-        GM_InitObjectNoRots(obj, GV_StrCode( "socom" ), BODY_FLAG, 0);
+        GM_InitObjectNoRots(obj, SOCOM_MODEL, BODY_FLAG, 0);
         actor->field_56 = 0;
     }
     else
     {
-        GM_InitObjectNoRots(obj, GV_StrCode( "socom2" ), BODY_FLAG, 0);
+        GM_InitObjectNoRots(obj, SOCOM_MODEL2, BODY_FLAG, 0);
         actor->field_56 = 1;
         GM_SilencerFlag = 0;
         if ( GM_CurrentItemId == IT_Suppressor )
@@ -402,7 +408,7 @@ STATIC int SocomGetResources( SocomWork *actor, OBJECT *parent, int num_parent )
         prim = newprim;
         if ( newprim )
         {
-            tex = DG_GetTexture( GV_StrCode( "lsight" ) );
+            tex = DG_GetTexture( LASER_TEXTURE );
             actor->tex = tex;
             if ( tex )
             {
@@ -431,15 +437,15 @@ STATIC int SocomGetResources( SocomWork *actor, OBJECT *parent, int num_parent )
 
 void *NewSOCOM( CONTROL *control, OBJECT *parent, int num_parent,  unsigned int *flags, int which_side )
 {
-    SocomWork *work;
+    Work *work;
     int mag_size;
     int ammo;
 
-    work = GV_NewActor( EXEC_LEVEL, sizeof( SocomWork ) );
+    work = GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
     if ( work )
     {
-        GV_SetNamedActor( &work->actor, SocomAct, SocomDie, "socom.c" );
-        if ( SocomGetResources( work, parent, num_parent ) < 0 )
+        GV_SetNamedActor( &work->actor, Act, Die, "socom.c" );
+        if ( GetResources( work, parent, num_parent ) < 0 )
         {
             GV_DestroyActor( &work->actor );
             return NULL;

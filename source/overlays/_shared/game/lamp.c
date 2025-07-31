@@ -12,9 +12,13 @@
 #include "game/game.h"
 #include "strcode.h"
 
+extern unsigned char *GCL_NextStrPtr_800AB9A0;
+
+/*---------------------------------------------------------------------------*/
+
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-typedef struct LampWork
+typedef struct _Work
 {
     GV_ACT         actor;
     DG_PRIM       *field_20_prim;
@@ -29,11 +33,11 @@ typedef struct LampWork
     unsigned char *field_38;
     unsigned char *field_3C;
     SVECTOR        field_40_children[0];
-} LampWork;
+} Work;
 
-extern unsigned char *GCL_NextStrPtr_800AB9A0;
+/*---------------------------------------------------------------------------*/
 
-void d11c_800C326C(LampWork *work, int textureId)
+static void d11c_800C326C(Work *work, int textureId)
 {
     DG_PRIM  *prim;
     DG_TEX   *tex;
@@ -80,7 +84,7 @@ void d11c_800C326C(LampWork *work, int textureId)
     }
 }
 
-unsigned char *d11c_800C34C4(LampWork *work, int arg1)
+static unsigned char *d11c_800C34C4(Work *work, int arg1)
 {
     unsigned char *strptr;
 
@@ -96,7 +100,7 @@ unsigned char *d11c_800C34C4(LampWork *work, int arg1)
     return NULL;
 }
 
-void d11c_800C3518(LampWork *work, int arg1)
+static void d11c_800C3518(Work *work, int arg1)
 {
     unsigned char *temp_v0;
 
@@ -107,18 +111,18 @@ void d11c_800C3518(LampWork *work, int arg1)
     work->loops = -1;
 }
 
-void d11c_800C3550(LampWork *work)
+static void CheckMessage(Work *work)
 {
-    GV_MSG *message;
-    int     message_result;
+    GV_MSG *msg;
+    int     len;
 
-    message_result = GV_ReceiveMessage(work->field_28_name, &message);
-    for (; message_result > 0; message_result--, message++)
+    len = GV_ReceiveMessage(work->field_28_name, &msg);
+    for (; len > 0; len--, msg++)
     {
-        switch (message->message[0])
+        switch (msg->message[0])
         {
         case HASH_ON:
-            d11c_800C326C(work, message->message[1]);
+            d11c_800C326C(work, msg->message[1]);
             work->field_3C = 0;
             break;
 
@@ -128,13 +132,13 @@ void d11c_800C3550(LampWork *work)
             break;
 
         case 0xBCD2:
-            d11c_800C3518(work, message->message[1]);
+            d11c_800C3518(work, msg->message[1]);
             break;
         }
     }
 }
 
-void d11c_800C361C(LampWork *work)
+static void d11c_800C361C(Work *work)
 {
     int param1, param2, loops;
     int type;
@@ -201,9 +205,9 @@ void d11c_800C361C(LampWork *work)
     }
 }
 
-void d11c_800C37A4(LampWork *work)
+static void Act(Work *work)
 {
-    d11c_800C3550(work);
+    CheckMessage(work);
     if (work->field_30 >= 0)
     {
         if (work->field_30 > 0)
@@ -215,12 +219,16 @@ void d11c_800C37A4(LampWork *work)
     }
 }
 
-void d11c_800C37F0(LampWork *work)
+/*---------------------------------------------------------------------------*/
+
+static void Die(Work *work)
 {
     GM_FreePrim(work->field_20_prim);
 }
 
-void d11c_800C382C(SVECTOR *vecs, int arg1, int arg2, int len2, int len1)
+/*---------------------------------------------------------------------------*/
+
+static void d11c_800C382C(SVECTOR *vecs, int arg1, int arg2, int len2, int len1)
 {
     SVECTOR *vecsIter;
     int      i, j;
@@ -255,7 +263,7 @@ void d11c_800C382C(SVECTOR *vecs, int arg1, int arg2, int len2, int len1)
     }
 }
 
-int LampGetResources_800C3914(LampWork *work, int map, int name, int a3, int a4)
+static int GetResources(Work *work, int map, int name, int a3, int a4)
 {
     MATRIX   mat;
     SVECTOR  svec1;
@@ -345,9 +353,11 @@ int LampGetResources_800C3914(LampWork *work, int map, int name, int a3, int a4)
     return 1;
 }
 
-void *NewLamp_800C3B34(int name, int where, int argc, char **argv)
+/*---------------------------------------------------------------------------*/
+
+void *NewLamp(int name, int where, int argc, char **argv)
 {
-    LampWork      *work;
+    Work          *work;
     unsigned char *nextStrPtr;
     int            param1, param2;
 
@@ -366,11 +376,11 @@ void *NewLamp_800C3B34(int name, int where, int argc, char **argv)
 
     GCL_NextStrPtr_800AB9A0 = nextStrPtr;
 
-    work = GV_NewActor(EXEC_LEVEL, ((param1 * param2) * sizeof(SVECTOR) * 4) + sizeof(LampWork));
+    work = GV_NewActor(EXEC_LEVEL, ((param1 * param2) * sizeof(SVECTOR) * 4) + sizeof(Work));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, d11c_800C37A4, d11c_800C37F0, "lamp.c");
-        if (LampGetResources_800C3914(work, where, name, param1, param2) == 0)
+        GV_SetNamedActor(&work->actor, Act, Die, "lamp.c");
+        if (GetResources(work, where, name, param1, param2) == 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

@@ -33,6 +33,9 @@
 #define CLAMP(x, min, max) (MAX(MIN(x, max), min))
 #endif
 
+/*---------------------------------------------------------------------------*/
+// NOTE: (bool)0.5 evaluates to true, whereas (int)0.5 evaluates to 0.
+
 typedef int             BOOL;
 
 #ifndef FALSE
@@ -41,6 +44,46 @@ typedef int             BOOL;
 #ifndef TRUE
 #define TRUE            (!FALSE)
 #endif
+
+/*---------------------------------------------------------------------------*/
+
+/* RGBA8888 format */
+#ifdef WORDS_BIGENDIAN
+#define RGBA_R_SHIFT    24
+#define RGBA_G_SHIFT    16
+#define RGBA_B_SHIFT    8
+#define RGBA_A_SHIFT    0
+#else
+#define RGBA_R_SHIFT    0
+#define RGBA_G_SHIFT    8
+#define RGBA_B_SHIFT    16
+#define RGBA_A_SHIFT    24
+#endif
+
+#define MAKE_RGBA(_r,_g,_b,_a)                                  \
+        ((unsigned int)((((_r) & 0xff) << RGBA_R_SHIFT)|        \
+                        (((_g) & 0xff) << RGBA_G_SHIFT)|        \
+                        (((_b) & 0xff) << RGBA_B_SHIFT)|        \
+                        (((_a) & 0xff) << RGBA_A_SHIFT)))
+
+#define MAKE_RGB0(_r,_g,_b)     MAKE_RGBA(_r,_g,_b,0x00)
+#define MAKE_RGBX(_r,_g,_b)     MAKE_RGBA(_r,_g,_b,0xff)
+
+#define GET_R_FROM_RGBA(_rgba)  (((_rgba) >> RGBA_R_SHIFT) & 0xff)
+#define GET_G_FROM_RGBA(_rgba)  (((_rgba) >> RGBA_G_SHIFT) & 0xff)
+#define GET_B_FROM_RGBA(_rgba)  (((_rgba) >> RGBA_B_SHIFT) & 0xff)
+#define GET_A_FROM_RGBA(_rgba)  (((_rgba) >> RGBA_A_SHIFT) & 0xff)
+
+/* common colors */
+#define COLOR_BLACK     MAKE_RGB0(  0,  0,  0)  // 0x00000000
+#define COLOR_WHITE     MAKE_RGB0(255,255,255)  // 0x00ffffff
+#define COLOR_GRAY      MAKE_RGB0(128,128,128)  // 0x00808080
+#define COLOR_RED       MAKE_RGB0(255,  0,  0)  // 0x000000ff
+#define COLOR_GREEN     MAKE_RGB0(  0,255,  0)  // 0x0000ff00
+#define COLOR_BLUE      MAKE_RGB0(  0,  0,255)  // 0x00ff0000
+#define COLOR_CYAN      MAKE_RGB0(  0,255,255)  // 0x00ffff00
+#define COLOR_MAGENTA   MAKE_RGB0(255,  0,255)  // 0x00ff00ff
+#define COLOR_YELLOW    MAKE_RGB0(255,255,  0)  // 0x0000ffff
 
 /*---------------------------------------------------------------------------*/
 
@@ -58,6 +101,14 @@ typedef int             BOOL;
 
 #define STATIC_ASSERT(cond, msg) \
     typedef char CATSTR(__static_assert_t_, __LINE__)[(cond)?1:-1]
+
+/*---------------------------------------------------------------------------*/
+
+#define SCREEN_WIDTH    (320)
+#define SCREEN_HEIGHT   (240)
+
+#define FRAME_WIDTH     (320)
+#define FRAME_HEIGHT    (224)   /* 240 minus 16-pixel overscan area */
 
 /*---------------------------------------------------------------------------*/
 

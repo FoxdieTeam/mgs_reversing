@@ -6,6 +6,12 @@
 #include "game/game.h"
 #include "game/jimctrl.h"
 
+extern GV_PAD GV_PadData_800B05C0[4];
+
+/*---------------------------------------------------------------------------*/
+
+#define EXEC_LEVEL GV_ACTOR_LEVEL3
+
 typedef struct Work
 {
     GV_ACT actor;
@@ -19,14 +25,12 @@ typedef struct Work
     int    field_3C[6];
 } Work;
 
-extern GV_PAD GV_PadData_800B05C0[4];
+/*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL3
-
-STATIC void SndtstRunScripts_800C3218( Work *work, int param_2 )
+static void RunScripts( Work *work, int param_2 )
 {
     int   i;
-    char *pName;
+    char *name;
     int   code;
 
     work->field_30 += param_2;
@@ -45,31 +49,33 @@ STATIC void SndtstRunScripts_800C3218( Work *work, int param_2 )
             break;
         }
 
-        pName = GCL_ReadString( GCL_GetParamResult() );
+        name = GCL_ReadString( GCL_GetParamResult() );
         code = GCL_StrToInt( GCL_GetParamResult() );
     }
 
-    work->field_28_name = pName;
+    work->field_28_name = name;
     work->field_2C_code = code;
 }
 
-STATIC void SndtstAct_800C32D8( Work *work )
+/*---------------------------------------------------------------------------*/
+
+static void Act( Work *work )
 {
-    GV_PAD               *pPad;
+    GV_PAD               *pad;
     int                   var_s0;
     array_800B933C_child *pUnk;
     char                  symbol;
     int                   i;
 
-    pPad = &GV_PadData_800B05C0[0];
+    pad = &GV_PadData_800B05C0[0];
 
     if ( work->field_20 == 0 )
     {
-        if ( pPad->status & (PAD_DOWN | PAD_UP) )
+        if ( pad->status & (PAD_DOWN | PAD_UP) )
         {
-            var_s0 = (pPad->status & PAD_UP) ? -1 : 1;
+            var_s0 = (pad->status & PAD_UP) ? -1 : 1;
 
-            if ( pPad->status & PAD_L1 )
+            if ( pad->status & PAD_L1 )
             {
                 var_s0 *= 10;
             }
@@ -78,13 +84,13 @@ STATIC void SndtstAct_800C32D8( Work *work )
             {
                 if ( --work->field_34 < 0 )
                 {
-                    SndtstRunScripts_800C3218( work, var_s0 );
+                    RunScripts( work, var_s0 );
                     work->field_34 = 2;
                 }
             }
             else
             {
-                SndtstRunScripts_800C3218( work, var_s0 );
+                RunScripts( work, var_s0 );
                 work->field_34 = 10;
                 work->field_38 = var_s0;
             }
@@ -94,7 +100,7 @@ STATIC void SndtstAct_800C32D8( Work *work )
             work->field_38 = 0;
         }
 
-        if ( pPad->press & PAD_CIRCLE )
+        if ( pad->press & PAD_CIRCLE )
         {
             work->field_20 = 1;
             GM_VoxStream( work->field_2C_code, 0 );
@@ -108,7 +114,7 @@ STATIC void SndtstAct_800C32D8( Work *work )
         MENU_Locate( 160, 120, 0x2 );
         MENU_Printf( "PLAYING" );
 
-        if ( pPad->press & PAD_CROSS )
+        if ( pad->press & PAD_CROSS )
         {
             GM_StreamPlayStop();
         }
@@ -151,7 +157,9 @@ STATIC void SndtstAct_800C32D8( Work *work )
     }
 }
 
-STATIC int SndtstGetResources_800C352C( Work *work, int where, int name )
+/*---------------------------------------------------------------------------*/
+
+static int GetResources( Work *work, int where, int name )
 {
     if ( !GCL_GetOption( 's' ) )
     {
@@ -162,13 +170,15 @@ STATIC int SndtstGetResources_800C352C( Work *work, int where, int name )
     work->field_24 = GCL_GetParamResult();
     work->field_30 = 0;
     work->field_38 = 0;
-    SndtstRunScripts_800C3218( work, 0 );
+    RunScripts( work, 0 );
     work->field_20 = 0;
 
     return 0;
 }
 
-void *NewSndtst_800C3594( int name, int where, int argc, char **argv )
+/*---------------------------------------------------------------------------*/
+
+void *NewSoundTest( int name, int where, int argc, char **argv )
 {
     Work *work;
 
@@ -177,8 +187,8 @@ void *NewSndtst_800C3594( int name, int where, int argc, char **argv )
     work = GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
     if ( work != NULL )
     {
-        GV_SetNamedActor( &( work->actor ), SndtstAct_800C32D8, NULL, "sndtst.c" );
-        if (SndtstGetResources_800C352C( work, where, name ) < 0)
+        GV_SetNamedActor( &( work->actor ), Act, NULL, "sndtst.c" );
+        if (GetResources( work, where, name ) < 0)
         {
             GV_DestroyActor( &work->actor );
             return NULL;

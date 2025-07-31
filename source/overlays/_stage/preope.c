@@ -1,9 +1,11 @@
 #include "common.h"
 #include "charadef.h"
 
-CHARA _StageCharacterEntries[] = 
+extern void *NewPreviousOperation();
+
+CHARA _StageCharacterEntries[] =
 {
-    { 0x6D1B, (NEWCHARA)0x800C4DA4 },
+    { CHARA_PREOPE, (NEWCHARA)NewPreviousOperation },
     { 0, NULL }
 };
 

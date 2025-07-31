@@ -1,5 +1,6 @@
 #include "common.h"
 #include "charadef.h"
+
 #include "overlays/_shared/enemy/enemy.h"
 
 CHARA _StageCharacterEntries[] = 

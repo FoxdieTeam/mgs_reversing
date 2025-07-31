@@ -6,6 +6,7 @@
 #include <libpad.h>
 #include "common.h"
 
+#include "terminal.h"
 #include "mts_pad.h"
 #include "mts_new.h"
 

@@ -429,7 +429,7 @@ void sna_80057378(SnaInitWork *work, int time);
 void sna_anim_shoot_weapon_helper_80057590(SnaInitWork *work, int time);
 void sna_anim_rungun_begin_helper_800577B4(SnaInitWork *work, int time);
 void sna_auto_aim_800579A0(SnaInitWork *work);
-void OP_ShootStinger_80058378(SnaInitWork *work, int time);
+STATIC void OP_ShootStinger(SnaInitWork *work, int time);
 void sub_80058644(SnaInitWork *work, int time);
 void sna_anim_punch_80058C10(SnaInitWork *work, int time);
 void sna_anim_chokethrow_begin2_80058C80(SnaInitWork *work, int time);

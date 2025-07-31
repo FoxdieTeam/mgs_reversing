@@ -1,11 +1,11 @@
 #include "common.h"
 #include "charadef.h"
 
-void *NewCamera_800CF388(int name, int where, int argc, char **argv);
+extern void *NewCamera_800CF388();
 
 CHARA _StageCharacterEntries[] =
 {
-    { CHARA_CAMERA_JPEG, NewCamera_800CF388 },
+    { CHARA_CAMERA_JPEG, (NEWCHARA)NewCamera_800CF388 },
     { 0, NULL }
 };
 

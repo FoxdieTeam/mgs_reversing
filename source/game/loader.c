@@ -7,18 +7,18 @@
 #include "libfs/libfs.h"
 #include "game/game.h"
 
-typedef struct LoaderWork
+typedef struct _Work
 {
     GV_ACT  actor;
     void   *info;
     int     type;
     int     reading;
     int     time;
-} LoaderWork;
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL2
 
-STATIC void loader_Act(LoaderWork *work)
+static void Act(Work *work)
 {
     work->time++;
 
@@ -44,7 +44,7 @@ STATIC void loader_Act(LoaderWork *work)
     }
 }
 
-STATIC void loader_Die(LoaderWork *work)
+static void Die(Work *work)
 {
     printf("LoadEnd\n");
     FS_LoadStageComplete(work->info);
@@ -53,7 +53,7 @@ STATIC void loader_Die(LoaderWork *work)
 
 void *NewLoader(const char *dir)
 {
-    LoaderWork *work;
+    Work *work;
 
 #ifdef DEV_EXE
     // force load some overlay in dev variant
@@ -63,7 +63,7 @@ void *NewLoader(const char *dir)
     }
 #endif
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(LoaderWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
 
     printf("LoadReq\n");
     work->info = FS_LoadStageRequest(dir);
@@ -73,7 +73,7 @@ void *NewLoader(const char *dir)
         printf("NOT FOUND STAGE %s\n", dir);
     }
 
-    GV_SetNamedActor(&work->actor, loader_Act, loader_Die, "loader.c");
+    GV_SetNamedActor(&work->actor, Act, Die, "loader.c");
 
     work->reading = TRUE;
     work->type = (GM_LoadRequest & 0x0f);

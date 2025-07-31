@@ -222,8 +222,8 @@ TSnakeEquipFuncion gSnakeEquips_8009EF8C[] = {
     NewBox,         // 4
     NewGoggle,      // 5
     NewGoggleIr,    // 6
-    NewGasmask,     // 7
-    NewBodyarm,     // 8
+    NewGasMask,     // 7
+    NewBodyArmor,   // 8
     NewKetchap,     // 9
     NewKogaku2,     // 10
     NewBandana,     // 11
@@ -311,7 +311,7 @@ void sna_8004EC00(SnaInitWork *work)
 
 void sna_8004EC8C(SnaInitWork *work)
 {
-    ushort v2; // $v1
+    u_short v2; // $v1
 
     sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK12);
     work->field_A28 = 460;
@@ -4831,7 +4831,7 @@ void sna_80051DA0(SnaInitWork *work)
 void sna_80051FD0(SnaInitWork *work)
 {
     int          iVar1;
-    ushort       uVar2;
+    u_short      uVar2;
     unsigned int uVar3;
     short        sVar4;
     short        sVar5;
@@ -5270,8 +5270,8 @@ void sna_anim_stinger_800570C0(SnaInitWork *work, int time)
 {
     if (time == 0)
     {
-        work->field_9C8_anim_update_fn_3p = OP_ShootStinger_80058378;
-        work->field_9CC_anim_update_fn_1p = OP_ShootStinger_80058378;
+        work->field_9C8_anim_update_fn_3p = OP_ShootStinger;
+        work->field_9CC_anim_update_fn_1p = OP_ShootStinger;
         SetAction_8004E22C(work, SET, 4);
         work->field_A26_stance = SNA_STANCE_STANDING;
         GM_ClearPlayerStatusFlag(PLAYER_MENU_DISABLE | PLAYER_GROUND |
@@ -5958,7 +5958,7 @@ void sna_anim_psg1_helper_80057FD4(SnaInitWork* work, int time)
     }
 }
 
-void OP_ShootStinger_80058378(SnaInitWork *work, int time)
+STATIC void OP_ShootStinger(SnaInitWork *work, int time)
 {
     short *ws; // WATCH_SET *ws
     int    trg;
@@ -7851,10 +7851,10 @@ static inline int sna_LoadSnake2(SnaInitWork *work)
 
         for (j = 0; j < 2; j++)
         {
-            LSTORE(0, &pPoly->r0);
-            LSTORE(0x808080, &pPoly->r1);
-            LSTORE(0, &pPoly->r2);
-            LSTORE(0x808080, &pPoly->r3);
+            LSTORE(COLOR_BLACK, &pPoly->r0);
+            LSTORE(COLOR_GRAY, &pPoly->r1);
+            LSTORE(COLOR_BLACK, &pPoly->r2);
+            LSTORE(COLOR_GRAY, &pPoly->r3);
             setPolyGT4(pPoly);
             setSemiTrans(pPoly, 1);
             pPoly->tpage = pTex->tpage;

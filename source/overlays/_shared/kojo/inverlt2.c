@@ -10,7 +10,9 @@
 #include "game/game.h"
 #include "okajima/stngrnd.h"
 
-typedef struct _Inverlt2Work
+/*---------------------------------------------------------------------------*/
+
+typedef struct _Work
 {
     GV_ACT   actor;
     int      map;
@@ -26,29 +28,31 @@ typedef struct _Inverlt2Work
     int      fDC;
     SVECTOR  fE0;
     int      fE8;
-} Inverlt2Work;
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-void Inverlt2Act_800D1580(Inverlt2Work *work);
-void Inverlt2Die_800D1858(Inverlt2Work *work);
-void Inverlt2InitRects_800D18D4(Inverlt2Work *work, int scale);
+/*---------------------------------------------------------------------------*/
+
+static void Act(Work *work);
+static void Die(Work *work);
+static void InitRects(Work *work, int scale);
 
 void *NewInverlt2_800D0FF4(SVECTOR *arg0, int arg1, int arg2, int arg3, int r, int g, int b, int arg7, int arg8)
 {
-    Inverlt2Work *work;
+    Work         *work;
     DG_TEX       *tex;
     int           i;
     int           x, y, w, h;
     int           x2, y2, w2, h2;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Inverlt2Work));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work == NULL)
     {
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, Inverlt2Act_800D1580, Inverlt2Die_800D1858, "inverlt2.c");
+    GV_SetNamedActor(&work->actor, Act, Die, "inverlt2.c");
 
     work->fC4 = r;
     work->fC8 = g;
@@ -109,7 +113,7 @@ void *NewInverlt2_800D0FF4(SVECTOR *arg0, int arg1, int arg2, int arg3, int r, i
     work->vec[6].vz = 320;
     work->vec[7].vz = 320;
 
-    Inverlt2InitRects_800D18D4(work, 100);
+    InitRects(work, 100);
 
     tex = DG_GetTexture(GV_StrCode("refrection6"));
 
@@ -149,19 +153,18 @@ void *NewInverlt2_800D0FF4(SVECTOR *arg0, int arg1, int arg2, int arg3, int r, i
     return (void *)work;
 }
 
+/*---------------------------------------------------------------------------*/
+
 // Can't match below function without this macro
-#define EXIT_IF(cond)                           \
-do                                              \
-{                                               \
-    if (cond)                                   \
-    {                                           \
+#define ACTASSERT(cond)                         \
+do {                                            \
+    if (cond) {                                 \
         GV_DestroyActor(&work->actor);          \
         return;                                 \
     }                                           \
-}                                               \
-while (0)
+} while (0)
 
-void Inverlt2Act_800D1580(Inverlt2Work *work)
+static void Act(Work *work)
 {
     int temp_s3;
     int temp_lo;
@@ -169,7 +172,7 @@ void Inverlt2Act_800D1580(Inverlt2Work *work)
     int r, g, b;
     int i;
 
-    EXIT_IF(work->fD0 <= 0);
+    ACTASSERT(work->fD0 <= 0);
 
     temp_s3 = work->fD4 - work->fD0;
     temp_lo = ((work->fD8 - temp_s3) * 100) / work->fD8;
@@ -189,7 +192,7 @@ void Inverlt2Act_800D1580(Inverlt2Work *work)
         sub_8007913C();
     }
 
-    Inverlt2InitRects_800D18D4(work, temp_lo);
+    InitRects(work, temp_lo);
 
     if (work->fDC < temp_s3)
     {
@@ -237,7 +240,7 @@ void Inverlt2Act_800D1580(Inverlt2Work *work)
     work->fD0--;
 }
 
-void Inverlt2Die_800D1858(Inverlt2Work *work)
+static void Die(Work *work)
 {
     int i;
 
@@ -252,7 +255,7 @@ void Inverlt2Die_800D1858(Inverlt2Work *work)
     }
 }
 
-void Inverlt2InitRects_800D18D4(Inverlt2Work *work, int scale)
+static void InitRects(Work *work, int scale)
 {
     SVECTOR sxy;
     SVECTOR sp18;

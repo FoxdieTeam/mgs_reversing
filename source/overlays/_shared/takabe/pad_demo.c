@@ -8,6 +8,11 @@
 #include "mts/mts.h"
 #include "mts/mts_pad.h"
 
+extern void MENU_ResetItemPos(void);
+extern void MENU_ResetWeaponPos(void);
+
+/*---------------------------------------------------------------------------*/
+
 typedef struct _PadDemoWork
 {
     GV_ACT          actor;
@@ -24,15 +29,11 @@ typedef struct _PadDemoWork
     int             f44;
 } PadDemoWork;
 
-// Something to do with setting current/last item to IT_None
-void sub_8003CC88(void);
-
-// Something to do with setting current/last weapon to WP_None
-void MENU_ResetWeaponPos(void);
-
 #define EXEC_LEVEL GV_ACTOR_MANAGER
 
-void PadDemo_800DCBB0(PadDemoWork *work)
+/*---------------------------------------------------------------------------*/
+
+static void PadDemo_800DCBB0(PadDemoWork *work)
 {
     if (GM_StreamStatus() == -1)
     {
@@ -40,7 +41,7 @@ void PadDemo_800DCBB0(PadDemoWork *work)
     }
 }
 
-void PadDemo_800DCBE8(PadDemoWork *work)
+static void PadDemo_800DCBE8(PadDemoWork *work)
 {
     unsigned short status;
 
@@ -65,9 +66,9 @@ void PadDemo_800DCBE8(PadDemoWork *work)
         return;
     }
 
-    if (work->f44 != 0 && mts_read_pad(1) & PAD_CROSS)
+    if (work->f44 != FALSE && mts_read_pad(1) & PAD_CROSS)
     {
-        work->f44 = 1;
+        work->f44 = TRUE;
 
         if (GM_StreamStatus() != -1)
         {
@@ -100,13 +101,15 @@ void PadDemo_800DCBE8(PadDemoWork *work)
 
     if (status & 0x800)
     {
-        work->f44 = 0;
+        work->f44 = FALSE;
         GM_GameStatus &= ~(STATE_PADDEMO | STATE_NOSLOW | STATE_PADRELEASE | GAME_FLAG_BIT_13);
         GV_DestroyActor(&work->actor);
     }
 }
 
-void PadDemoAct_800DCD94(PadDemoWork *work)
+/*---------------------------------------------------------------------------*/
+
+static void Act(PadDemoWork *work)
 {
     if (GM_StreamStatus() == 0)
     {
@@ -125,23 +128,23 @@ void PadDemoAct_800DCD94(PadDemoWork *work)
     }
 }
 
-void PadDemoDie_800DCE48(PadDemoWork *work)
+static void Die(PadDemoWork *work)
 {
     GCL_ARGS args;
-    long     val;
+    long     data;
 
     if (work->proc > 0)
     {
         args.argc = 1;
-        args.argv = &val;
+        args.argv = &data;
 
-        val = work->f44;
+        data = work->f44;
 
         GCL_ExecProc(work->proc, &args);
     }
 }
 
-int PadDemoGetResources_800DCE94(PadDemoWork *work, int name, int map)
+static int GetResources(PadDemoWork *work, int name, int map)
 {
     int filename;
 
@@ -183,7 +186,7 @@ int PadDemoGetResources_800DCE94(PadDemoWork *work, int name, int map)
         work->f34 = 1;
     }
 
-    sub_8003CC88();
+    MENU_ResetItemPos();
     MENU_ResetWeaponPos();
 
     if (GCL_GetOption('f'))
@@ -200,16 +203,18 @@ int PadDemoGetResources_800DCE94(PadDemoWork *work, int name, int map)
     return 0;
 }
 
-void *NewPadDemo_800DCFD4(int name, int where, int argc, char **argv)
+/*---------------------------------------------------------------------------*/
+
+void *NewPadDemo(int name, int where, int argc, char **argv)
 {
     PadDemoWork *work;
 
     work = GV_NewActor(EXEC_LEVEL, sizeof(PadDemoWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, PadDemoAct_800DCD94, PadDemoDie_800DCE48, "pad_demo.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "pad_demo.c");
 
-        if (PadDemoGetResources_800DCE94(work, name, where) < 0)
+        if (GetResources(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

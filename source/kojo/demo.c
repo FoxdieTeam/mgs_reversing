@@ -15,7 +15,7 @@ extern BLAST_DATA       blast_data_8009F4B8[8];
 extern GM_Camera        GM_Camera_800B77E8;
 
 void demothrd_Screen_Chanl_80080D48(DG_CHANL *chanl, int idx);
-void InitChain_8007F338(DemothrdWork_0x78_Chain *pSub);
+void InitChain(DemothrdWork_0x78_Chain *pSub);
 void Chain_Remove_8007F394(DemothrdWork_0x78_Chain *pRoot, DemothrdWork_0x78_Chain *pRemove);
 void demothrd_hind_8007D9C8(DemothrdWork *work, dmo_data_0x18 *pDmoData0x18, dmo_model_0x14 *p0x14, dmo_model_0x1A4 *p0x1A4);
 void demothrd_m1e1_8007D404(DemothrdWork *work, dmo_data_0x18 *p0x18, dmo_model_0x14 *p0x14, dmo_model_0x1A4 *p0x1A4);
@@ -47,7 +47,7 @@ int CreateDemo_80079B50(DemothrdWork* pThis, demothrd_0x1C* pDmoData)
 
     pDmoData->field_14_pMaps = (Dmo_Map8*)(((char*)pDmoData) + (int)pDmoData->field_14_pMaps);
     pDmoData->field_18_pModels = (dmo_model_0x14*)((int)pDmoData->field_18_pModels + (char*)pDmoData);
-    InitChain_8007F338(&pThis->field_38);
+    InitChain(&pThis->field_38);
     pHdr = (demothrd_0x1C*)GV_Malloc(sizeof(demothrd_0x1C));
     pThis->field_30_dmo_header = pHdr;
     if (!pHdr) {
@@ -2875,7 +2875,7 @@ VECTOR * sub_8007F1DC(VECTOR *out, DG_VECTOR *arg1, VECTOR *arg2)
     return out;
 }
 
-void InitChain_8007F338(DemothrdWork_0x78_Chain *pSub)
+void InitChain(DemothrdWork_0x78_Chain *pSub)
 {
     if (pSub)
     {
@@ -2924,7 +2924,7 @@ void Chain_Remove_8007F394(DemothrdWork_0x78_Chain *pRoot, DemothrdWork_0x78_Cha
             pRemove->field_0_pPrev->field_4_pNext = pRemove->field_4_pNext;
         }
         pRemove->field_4_pNext->field_0_pPrev = pRemove->field_0_pPrev;
-        InitChain_8007F338(pRemove);
+        InitChain(pRemove);
     }
 }
 
