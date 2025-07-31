@@ -31,11 +31,11 @@ STATIC PANEL_CONF *dword_800AB584 = NULL;
 
 extern int dword_8009E544[];
 
-u_long                    SECTION(".sbss") dword_800ABAD8;
-u_long                    SECTION(".sbss") dword_800ABADC;
-int                       SECTION(".sbss") dword_800ABAE0;
-Menu_rpk_item           **SECTION(".sbss") gItemFile_table_800ABAE4;
-int                       SECTION(".sbss") dword_800ABAE8;
+u_long     SECTION(".sbss") dword_800ABAD8;
+u_long     SECTION(".sbss") dword_800ABADC;
+int        SECTION(".sbss") dword_800ABAE0;
+RPK_ITEM **SECTION(".sbss") gItemFile_table_800ABAE4;
+int        SECTION(".sbss") dword_800ABAE8;
 
 extern PANEL_TEXTURE gMenuRightItems_800BD888[MENU_WEAPON_COUNT];
 
@@ -156,7 +156,7 @@ void sub_8003CE84()
 /**
  * @brief Draw the item/weapon panel
 
- * @param pPanelTex 
+ * @param pPanelTex
  */
 void menu_draw_texture_8003CEF8(PANEL_TEXTURE *pPanelTex)
 {
@@ -212,20 +212,21 @@ void sub_8003CFE0(PANEL_TEXTURE *pPanelTex, int index)
     LoadImage(&elem->field_10_rect2, pPanelTex->field_4_word_ptr_pixels);
 }
 
-void sub_8003D070(PANEL_TEXTURE *pPanelTex, ResHeader *pRes)
+void sub_8003D070(PANEL_TEXTURE *pPanelTex, TIM *tim)
 {
-    ResHeader_Sub *pSub;
+    TIM_DATA *pixel;
 
-    pRes->field_14[0] = 0;
+    // The first CLUT entry must be transparent
+    tim->clut_data[0] = 0;
 
-    pSub = &pRes->field_34;
+    pixel = &tim->pixel;
 
-    pPanelTex->field_9_xofs = pSub->field_4.x;
-    pPanelTex->field_A_yofs = pSub->field_4.y;
-    pPanelTex->field_10_w = pSub->field_4.w << 2;
-    pPanelTex->field_12_h = pSub->field_4.h;
-    pPanelTex->field_4_word_ptr_pixels = (u_long *)pRes->field_14;
-    pPanelTex->field_0_pixels = (u_long *)&pRes->field_14[pRes->field_8 >> 1];
+    pPanelTex->field_9_xofs = pixel->rect.x;
+    pPanelTex->field_A_yofs = pixel->rect.y;
+    pPanelTex->field_10_w = pixel->rect.w << 2;
+    pPanelTex->field_12_h = pixel->rect.h;
+    pPanelTex->field_4_word_ptr_pixels = (u_long *)tim->clut_data;
+    pPanelTex->field_0_pixels = (u_long *)&tim->clut_data[tim->clut.bnum >> 1];
 }
 
 void menu_init_sprt_8003D0D0(SPRT *pPrim, PANEL_TEXTURE *pPanelTex, int offset_x, int offset_y)
@@ -818,58 +819,60 @@ void Menu_item_render_frame_rects_8003DBAC(MenuPrim *pGlue, int x, int y, int tr
     addPrim(pGlue->mPrimBuf.mOt, tpage);
 }
 
-Menu_rpk_item **menu_rpk_init_8003DD1C(const char *pFileName)
+RPK_ITEM **menu_rpk_init_8003DD1C(const char *pFileName)
 {
-    Menu_rpk_item **pEnd;
-    Menu_rpk_item **pIter;
-    int             i;
-    int             count;
+    RPK       *rpk;
+    int        count;
+    RPK_ITEM  *data;
+    RPK_ITEM **item;
+    int        i;
 
     // At the start of the game, "item.rpk" file is loaded (5d43.r)
-    RpkHeader *pFileData = GV_GetCache(GV_CacheID2(pFileName, 'r'));
-    if (!pFileData)
+    rpk = GV_GetCache(GV_CacheID2(pFileName, 'r'));
+    if (!rpk)
     {
-        return 0;
+        return NULL;
     }
 
-    count = pFileData->field_0_count1 + pFileData->field_1_count2;
-    pEnd = pFileData->items + count;
+    count = rpk->palettes + rpk->images;
+    data = (RPK_ITEM *)(rpk->items + count);
 
-    gItemFile_table_800ABAE4 = pFileData->items;
+    gItemFile_table_800ABAE4 = rpk->items;
 
-    pIter = pFileData->items;
+    // Offset the item table pointers by the data section start
+    item = rpk->items;
     for (i = 0; i < count; i++)
     {
-        OffsetToPointer(pIter, pEnd);
-        pIter++;
+        OffsetToPointer(item, data);
+        item++;
     }
 
     return gItemFile_table_800ABAE4;
 }
 
-Menu_rpk_item *menu_rpk_get_pal_8003DD9C(int id)
+RPK_ITEM *menu_rpk_get_pal_8003DD9C(int id)
 {
     return gItemFile_table_800ABAE4[id];
 }
 
-Menu_rpk_item *menu_rpk_get_img_8003DDB4(int id)
+RPK_ITEM *menu_rpk_get_img_8003DDB4(int id)
 {
     return gItemFile_table_800ABAE4[id];
 }
 
 void menu_init_rpk_item_8003DDCC(PANEL_TEXTURE *pPanelTex, int imgIdx, int palIdx)
 {
-    Menu_rpk_item *pPal;
-    Menu_rpk_item *pImg;
+    RPK_ITEM *pPal;
+    RPK_ITEM *pImg;
 
     pPal = menu_rpk_get_pal_8003DD9C(palIdx);
     pImg = menu_rpk_get_img_8003DDB4(imgIdx);
-    pPanelTex->field_9_xofs = pImg->field_0_x - 2;
-    pPanelTex->field_A_yofs = pImg->field_1_y - 2;
-    pPanelTex->field_10_w = pImg->field_2_w * 4;
-    pPanelTex->field_12_h = pImg->field_3_h;
-    pPanelTex->field_0_pixels = &pImg->field_4_pixel_ptr[0];
-    pPanelTex->field_4_word_ptr_pixels = &pPal->field_4_pixel_ptr[0];
+    pPanelTex->field_9_xofs = pImg->x - 2;
+    pPanelTex->field_A_yofs = pImg->y - 2;
+    pPanelTex->field_10_w = pImg->w * 4;
+    pPanelTex->field_12_h = pImg->h;
+    pPanelTex->field_0_pixels = &pImg->data[0];
+    pPanelTex->field_4_word_ptr_pixels = &pPal->data[0];
 }
 
 void menu_inventory_right_init_items_8003DE50(void)
