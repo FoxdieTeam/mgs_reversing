@@ -5,12 +5,14 @@
 #include <libgpu.h>
 
 #include "common.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "game/game.h"
 #include "menu/menuman.h"
 #include "chara/snake/sna_init.h"
 #include "thing/sgtrect3.h"
 #include "thing/sight.h"
+#include "linkvar.h"
 
 extern int              amissile_alive_8009F490;
 extern SVECTOR          svector_8009F494;
@@ -89,7 +91,7 @@ STATIC short word_800AB8EC = 0;
 
 /*---------------------------------------------------------------------------*/
 
-STATIC void addPrimEX( u_long *ot, void *prim )
+static void addPrimEX( u_long *ot, void *prim )
 {
     if (!(GM_PlayerStatus & PLAYER_NOT_SIGHT))
     {
@@ -97,7 +99,7 @@ STATIC void addPrimEX( u_long *ot, void *prim )
     }
 }
 
-STATIC void stnsight_act_helper_8006837C( Work *work )
+static void stnsight_act_helper_8006837C( Work *work )
 {
     int iVar1;
 
@@ -125,7 +127,7 @@ STATIC void stnsight_act_helper_8006837C( Work *work )
     menu_Text_Init_80038B98();
 }
 
-STATIC void stnsight_act_helper_80068420( Work *work, u_long *ot )
+static void stnsight_act_helper_80068420( Work *work, u_long *ot )
 {
     u_short  pad_status;
     LINE_F4 *lines;
@@ -133,11 +135,11 @@ STATIC void stnsight_act_helper_80068420( Work *work, u_long *ot )
     TILE_1  *tiles;
     int      deltay;
 
-    int v3; // $a2
-    int v4; // $a1
-    int v5; // $v1
-    int v6; // $s4
-    int v7; // $s3
+    int v3;
+    int v4;
+    int v5;
+    int v6;
+    int v7;
 
     pad_status = work->pad_data->status;
     GM_CheckShukanReverse(&pad_status);
@@ -197,7 +199,7 @@ STATIC void stnsight_act_helper_80068420( Work *work, u_long *ot )
 
     for (; v6 < 210; v6 += 16, v7 -= 5)
     {
-        MENU_Locate(0x28, v6 - 2, 1);
+        MENU_Locate(40, v6 - 2, 1);
 
         if ((GM_PlayerStatus & PLAYER_NOT_SIGHT) == 0)
         {
@@ -249,7 +251,7 @@ STATIC void stnsight_act_helper_80068420( Work *work, u_long *ot )
     }
 }
 
-STATIC void stnsight_act_helper_80068798( Work *work, u_long *ot )
+static void stnsight_act_helper_80068798( Work *work, u_long *ot )
 {
     LINE_F4 *lines = work->field_40_lines_2Array[GV_Clock];
     DVECTOR *pos = work->pos;
@@ -285,7 +287,7 @@ STATIC void stnsight_act_helper_80068798( Work *work, u_long *ot )
 }
 
 /* ミサイル照準セット */
-STATIC void SetMissileRect( Work *work, u_long *ot )
+static void SetMissileRect( Work *work, u_long *ot )
 {
     LINE_F4        *lines;
     DVECTOR         sxy;
@@ -355,7 +357,7 @@ STATIC void SetMissileRect( Work *work, u_long *ot )
     }
 }
 
-STATIC void stnsight_act_helper_80068BF4( Work *work, u_long *ot )
+static void stnsight_act_helper_80068BF4( Work *work, u_long *ot )
 {
     int             x;
     int             s0;
@@ -393,7 +395,7 @@ STATIC void stnsight_act_helper_80068BF4( Work *work, u_long *ot )
     }
 }
 
-STATIC void stnsight_Act( Work *work )
+static void Act( Work *work )
 {
     u_long *ot;
     int     iVar3;
@@ -415,7 +417,7 @@ STATIC void stnsight_Act( Work *work )
     {
         // TODO: fix data
         work->field_84_4Array[2] =
-            (int)NewSight(STINGER_SIGHT, STINGER_SIGHT, &word_800AB8EC, 1, 0);
+            (int)NewSight(STINGER_SIGHT, STINGER_SIGHT, &word_800AB8EC, IT_Scope, NULL);
     }
 
     if (work->field_84_4Array[3] == 0)
@@ -472,7 +474,9 @@ STATIC void stnsight_Act( Work *work )
     }
 }
 
-STATIC void stnsight_Die( Work *work )
+/*---------------------------------------------------------------------------*/
+
+static void Die( Work *work )
 {
     if (work->field_28_lines_2Array[0])
     {
@@ -502,7 +506,9 @@ STATIC void stnsight_Die( Work *work )
     word_800AB8EC = 0;
 }
 
-STATIC int stnsight_init_helper_helper_80068F74( Work *work )
+/*---------------------------------------------------------------------------*/
+
+static int stnsight_init_helper_helper_80068F74( Work *work )
 {
     LINE_F4 *lines;
     TILE_1  *tiles;
@@ -569,7 +575,7 @@ STATIC int stnsight_init_helper_helper_80068F74( Work *work )
     return 0;
 }
 
-STATIC int stnsight_init_helper_helper_80069100( Work *work )
+static int stnsight_init_helper_helper_80069100( Work *work )
 {
     LINE_F4 *lines;
     int      count;
@@ -593,7 +599,7 @@ STATIC int stnsight_init_helper_helper_80069100( Work *work )
     return 0;
 }
 
-STATIC int stnsight_init_helper_helper_80069184( Work *work )
+static int stnsight_init_helper_helper_80069184( Work *work )
 {
     LINE_F4 *lines;
     int      count;
@@ -625,7 +631,7 @@ STATIC int stnsight_init_helper_helper_80069184( Work *work )
     return 0;
 }
 
-STATIC int stnsight_init_helper_helper_80069234( Work *work )
+static int stnsight_init_helper_helper_80069234( Work *work )
 {
     POLY_G4 *polys;
     int      count;
@@ -657,7 +663,7 @@ STATIC int stnsight_init_helper_helper_80069234( Work *work )
     return 0;
 }
 
-STATIC int stnsight_GetResources( Work *work, CONTROL *control )
+static int GetResources( Work *work, CONTROL *control )
 {
     if (stnsight_init_helper_helper_80068F74(work) < 0)
     {
@@ -724,9 +730,9 @@ void *NewStnSight( CONTROL *control )
     work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, stnsight_Act, stnsight_Die, "stnsight.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "stnsight.c");
 
-        if (stnsight_GetResources(work, control) < 0)
+        if (GetResources(work, control) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
