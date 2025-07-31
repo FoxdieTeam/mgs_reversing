@@ -23,13 +23,13 @@ STATIC unsigned short   word_8009D504 = 0;              // *.wvx index
 STATIC unsigned short   word_8009D506 = 0;              // *.mdx id
 STATIC unsigned short   word_8009D508 = 0;              // *.efx id
 
-STATIC int FS_80022E50( DATACNF_TAG *tag, CDBIOS_TASK *task )
+STATIC int SetupNextFile( DATACNF_TAG *tag, CDBIOS_TASK *task )
 {
-    unsigned char   region;
-    FS_STAGE_INFO  *info;
-    void           *tmp;
-    DATACNF_TAG    *tagptr;
-    DATACNF_TAG    *looptag;
+    unsigned char  region;
+    FS_STAGE_INFO *info;
+    void          *tmp;
+    DATACNF_TAG   *tagptr;
+    DATACNF_TAG   *looptag;
 
     info = gStageInfo_800B5288;
     if ( gFsSoundCallback_8009D4FC )
@@ -163,7 +163,7 @@ STATIC int FS_80022E50( DATACNF_TAG *tag, CDBIOS_TASK *task )
     return 1;
 }
 
-STATIC int StageLoadCallback_helper(CDBIOS_TASK *task)
+STATIC int StageFileReadyCallback(CDBIOS_TASK *task)
 {
     FS_STAGE_INFO *info;
     int result;
@@ -173,7 +173,7 @@ STATIC int StageLoadCallback_helper(CDBIOS_TASK *task)
 
     if (info->size <= 0)
     {
-        if (!FS_80022E50(info->tag_start1, task))
+        if (!SetupNextFile(info->tag_start1, task))
         {
             if (task->remaining > 0)
             {
@@ -201,7 +201,7 @@ STATIC int StageLoadCallback_helper(CDBIOS_TASK *task)
     return 1;
 }
 
-STATIC int StageLoadCallback( CDBIOS_TASK *task )
+STATIC int StageConfigReadyCallback( CDBIOS_TASK *task )
 {
     FS_STAGE_INFO   *info;
     DATACNF         *datacnf;
@@ -234,10 +234,10 @@ STATIC int StageLoadCallback( CDBIOS_TASK *task )
     tag++;
 
     info->tag_end2 = info->tag_end1 = tag;
-    task->callback = &StageLoadCallback_helper;
+    task->callback = &StageFileReadyCallback;
     info->tag = info->tag_start1 = info->tags;
 
-    FS_80022E50( info->tag_start1, task );
+    SetupNextFile( info->tag_start1, task );
     info->tag_start1++;
 
     return 2;
@@ -248,7 +248,7 @@ static inline int get_cache_id( DATACNF_TAG *tag )
     return ( tag->ext - 'a' ) << 16 | tag->id;
 }
 
-STATIC int FS_8002336C( FS_STAGE_INFO *info, int unused )
+STATIC int LoadCacheSection( FS_STAGE_INFO *info, int unused )
 {
     DATACNF_TAG *next_tag;
     DATACNF_TAG *tag;
@@ -290,7 +290,7 @@ STATIC int FS_8002336C( FS_STAGE_INFO *info, int unused )
     return 1;
 }
 
-STATIC int FS_80023460( FS_STAGE_INFO *info )
+STATIC int LoadDataArchives( FS_STAGE_INFO *info )
 {
     DARFILE_TAG  *ntag;     // "now tag"?
     DARFILE_TAG  *limit;
@@ -369,7 +369,7 @@ STATIC int FS_80023460( FS_STAGE_INFO *info )
     return 0;
 }
 
-STATIC int FS_80023624( FS_STAGE_INFO *info )
+STATIC int LoadStageFiles( FS_STAGE_INFO *info )
 {
     int status;
 
@@ -385,7 +385,7 @@ STATIC int FS_80023624( FS_STAGE_INFO *info )
         switch ( info->tag->mode & 0xff )
         {
         case 'c': // cache
-            if ( FS_8002336C( info, status ) )
+            if ( LoadCacheSection( info, status ) )
             {
                 return 0;
             }
@@ -399,7 +399,7 @@ STATIC int FS_80023624( FS_STAGE_INFO *info )
             return 0;
 
         default:
-            status = FS_80023460( info );
+            status = LoadDataArchives( info );
             break;
         }
     }
@@ -443,7 +443,7 @@ void *FS_LoadStageRequest( const char *dirname )
     info->mode = 0;
     info->tag = NULL;
     word_8009D504 = 0;
-    CDBIOS_ReadRequest( buffer, sector, FS_SECTOR_SIZE, StageLoadCallback );
+    CDBIOS_ReadRequest( buffer, sector, FS_SECTOR_SIZE, StageConfigReadyCallback );
 
     return (void *)info;
 }
@@ -451,7 +451,7 @@ void *FS_LoadStageRequest( const char *dirname )
 int FS_LoadStageSync( void *info )
 {
     int ret = 0;
-    if ( FS_80023624( (FS_STAGE_INFO *)info ) != 0 || CDBIOS_ReadSync() > 0 )
+    if ( LoadStageFiles( info ) != 0 || CDBIOS_ReadSync() > 0 )
     {
         ret = 1;
     }
