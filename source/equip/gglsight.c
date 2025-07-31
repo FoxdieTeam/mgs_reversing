@@ -6,6 +6,7 @@
 
 #include "common.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "game/control.h"
 #include "game/game.h"
 #include "menu/menuman.h"
@@ -61,7 +62,7 @@ STATIC short word_8009F714[] = {0, 0};
  *
  * @param work The goggles sight actor.
  */
-STATIC void gglsight_DrawHudNumbers(Work *work)
+static void DrawHudNumbers(Work *work)
 {
     int r, g, b;
     TILE_1 *tile;
@@ -151,7 +152,7 @@ STATIC void gglsight_DrawHudNumbers(Work *work)
  *
  * @param work the goggles sight work actor.
  */
-STATIC void gglsight_DrawHudVector(Work *work)
+static void DrawHudVector(Work *work)
 {
     int r, g, b;
     int vy;
@@ -180,7 +181,7 @@ STATIC void gglsight_DrawHudVector(Work *work)
     }
 }
 
-STATIC void gglsight_DrawHudBarGraph(Work *work)
+static void DrawHudBarGraph(Work *work)
 {
     LINE_F2 *line;
     POLY_F4 *poly;
@@ -249,7 +250,7 @@ STATIC void gglsight_DrawHudBarGraph(Work *work)
  *
  * @param work The goggles sight actor.
  */
-STATIC void gglsight_DrawHudText(Work *work)
+static void DrawHudText(Work *work)
 {
     int time;
     int r, g, b;
@@ -297,7 +298,7 @@ STATIC void gglsight_DrawHudText(Work *work)
     }
 }
 
-STATIC void gglsight_MoveSightElement(int time, u_short status, DVECTOR *axis, int dir, short sens, short max)
+static void MoveSightElement(int time, u_short status, DVECTOR *axis, int dir, short sens, short max)
 {
     if (time < HUD_MOVE_DELAY)
     {
@@ -392,7 +393,7 @@ STATIC void gglsight_MoveSightElement(int time, u_short status, DVECTOR *axis, i
 
 /*---------------------------------------------------------------------------*/
 
-STATIC void GoggleSightAct(Work *work)
+static void Act(Work *work)
 {
     short *ptr = word_8009F714;
     int type = work->type;
@@ -415,15 +416,15 @@ STATIC void GoggleSightAct(Work *work)
 
     if (type == IT_NVG && dword_8009F604 != f24)
     {
-        NewSight(NV_GOGGLE_SIGHT1, f24, ptr, 1, NULL);
-        NewSight(NV_GOGGLE_SIGHT2, f24, ptr, 1, (short *)&work->field_2C_4Array[1]);
-        NewSight(NV_GOGGLE_SIGHT3, f24, ptr, 1, (short *)&work->field_2C_4Array[2]);
+        NewSight(NV_GOGGLE_SIGHT1, f24, ptr, IT_Scope, NULL);
+        NewSight(NV_GOGGLE_SIGHT2, f24, ptr, IT_Scope, (short *)&work->field_2C_4Array[1]);
+        NewSight(NV_GOGGLE_SIGHT3, f24, ptr, IT_Scope, (short *)&work->field_2C_4Array[2]);
     }
     else if (dword_8009F604 != f24)
     {
-        NewSight(IR_GOGGLE_SIGHT1, f24, ptr, 1, NULL);
-        NewSight(IR_GOGGLE_SIGHT2, f24, ptr, 1, (short *)&work->field_2C_4Array[1]);
-        NewSight(IR_GOGGLE_SIGHT3, f24, ptr, 1, (short *)&work->field_2C_4Array[2]);
+        NewSight(IR_GOGGLE_SIGHT1, f24, ptr, IT_Scope, NULL);
+        NewSight(IR_GOGGLE_SIGHT2, f24, ptr, IT_Scope, (short *)&work->field_2C_4Array[1]);
+        NewSight(IR_GOGGLE_SIGHT3, f24, ptr, IT_Scope, (short *)&work->field_2C_4Array[2]);
     }
 
     time = work->timer++;
@@ -433,25 +434,29 @@ STATIC void GoggleSightAct(Work *work)
         status &= ~(PAD_UP | PAD_DOWN);
     }
 
-    gglsight_MoveSightElement(time, status, &work->field_2C_4Array[1], 3, 2, 20);
-    gglsight_MoveSightElement(time, status, &work->field_2C_4Array[2], 5, 1, 12);
+    MoveSightElement(time, status, &work->field_2C_4Array[1], 3, 2, 20);
+    MoveSightElement(time, status, &work->field_2C_4Array[2], 5, 1, 12);
 
     // Draw the horizontal lines of heading numbers
-    gglsight_DrawHudNumbers(work);
+    DrawHudNumbers(work);
     // Draw the SCAN and MODE text
-    gglsight_DrawHudText(work);
+    DrawHudText(work);
     // Draw the 3 heading integer indicators
-    gglsight_DrawHudVector(work);
+    DrawHudVector(work);
     // Draw the 3 heading vertical lines
-    gglsight_DrawHudBarGraph(work);
+    DrawHudBarGraph(work);
 }
 
-STATIC void GoggleSightDie(Work *work)
+/*---------------------------------------------------------------------------*/
+
+static void Die(Work *work)
 {
     word_8009F714[0] = 0;
 }
 
-STATIC void GoggleSightSetup1(Work *work)
+/*---------------------------------------------------------------------------*/
+
+static void GoggleSightSetup1(Work *work)
 {
     int     i;
     TILE_1 *tile = &work->field_40_tile1[0][0];
@@ -465,7 +470,7 @@ STATIC void GoggleSightSetup1(Work *work)
     }
 }
 
-STATIC void GoggleSightSetup2(Work *actor)
+static void GoggleSightSetup2(Work *actor)
 {
     int pos, count;
 
@@ -522,7 +527,7 @@ void *NewGoggleSight(int type)
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, GoggleSightAct, GoggleSightDie, "gglsight.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "gglsight.c");
 
         work->type = type;
 

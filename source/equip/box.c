@@ -1,6 +1,8 @@
 #include "equip.h"
 
 #include "common.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "game/camera.h"
 #include "linkvar.h"
 #include "game/map.h"
@@ -43,7 +45,7 @@ STATIC const char *box_texture_names[8] = {
     "cb_box41", "cb_box42"
 };
 
-STATIC int BoxCheckMessage(Work *work)
+static int CheckMessage(Work *work)
 {
     CONTROL *control = work->control;
     GV_MSG  *msg;
@@ -72,13 +74,13 @@ STATIC int BoxCheckMessage(Work *work)
     return 0;
 }
 
-STATIC void BoxAct(Work *work)
+static void Act(Work *work)
 {
     GM_CurrentMap =  work->control->map->index;
 
     DG_GroupObjs(work->object.objs, DG_CurrentGroupID);
 
-    BoxCheckMessage(work);
+    CheckMessage(work);
     if ( work->invisible )
     {
         DG_InvisibleObjs(work->object.objs);
@@ -90,7 +92,7 @@ STATIC void BoxAct(Work *work)
         if ( dword_8009F604 != CB_BOX_SIGHT )
         {
             box_1p_view_flag = TRUE;
-            NewSight(CB_BOX_SIGHT, CB_BOX_SIGHT, (short*)&box_1p_view_flag, 1, NULL);
+            NewSight(CB_BOX_SIGHT, CB_BOX_SIGHT, (short*)&box_1p_view_flag, IT_Scope, NULL);
         }
     }
     else
@@ -100,7 +102,7 @@ STATIC void BoxAct(Work *work)
     }
 }
 
-STATIC void BoxDie(Work *work)
+static void Die(Work *work)
 {
     const char **name;
     int          i;
@@ -116,7 +118,7 @@ STATIC void BoxDie(Work *work)
     box_1p_view_flag = FALSE;
 }
 
-STATIC int BoxGetResources(Work *work, OBJECT *parent)
+static int GetResources(Work *work, OBJECT *parent)
 {
     OBJECT_NO_ROTS *object = &work->object;
     const char    **name;
@@ -150,9 +152,9 @@ void *NewBox(CONTROL *control, OBJECT *parent, int num_parent)
     Work *work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, BoxAct, BoxDie, "box.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "box.c");
 
-        if (BoxGetResources(work, parent) < 0)
+        if (GetResources(work, parent) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

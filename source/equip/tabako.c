@@ -17,7 +17,7 @@
 /*---------------------------------------------------------------------------*/
 // Cigarettes
 
-typedef struct _TabakoWork
+typedef struct _Work
 {
     GV_ACT         actor;
     OBJECT_NO_ROTS object;
@@ -27,7 +27,7 @@ typedef struct _TabakoWork
     DG_PRIM       *prim;
     SVECTOR        vertex;
     RECT           prim_rect;
-} TabakoWork;
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_AFTER
 
@@ -35,7 +35,7 @@ typedef struct _TabakoWork
 
 int tabako_dword_8009F2C0 = 0;
 
-STATIC void TabakoAct(TabakoWork *work)
+static void Act(Work *work)
 {
     OBJECT_NO_ROTS *object = &work->object;
     SVECTOR         vec;
@@ -78,13 +78,13 @@ STATIC void TabakoAct(TabakoWork *work)
     }
 }
 
-STATIC void TabakoDie(TabakoWork *work)
+static void Die(Work *work)
 {
     GM_FreeObject((OBJECT *)&work->object);
     GM_FreePrim(work->prim);
 }
 
-STATIC int TabakoGetResources(TabakoWork *work, OBJECT *parent, int num_parent)
+static int GetResources(Work *work, OBJECT *parent, int num_parent)
 {
     OBJECT_NO_ROTS *object = &work->object;
     RECT *pRect;
@@ -160,13 +160,13 @@ STATIC int TabakoGetResources(TabakoWork *work, OBJECT *parent, int num_parent)
 
 void *NewTabako(CONTROL *control, OBJECT *parent, int num_parent)
 {
-    TabakoWork *work = GV_NewActor(EXEC_LEVEL, sizeof(TabakoWork));
+    Work *work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, TabakoAct, TabakoDie, "tabako.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "tabako.c");
 
-        if (TabakoGetResources(work, parent, num_parent) < 0)
+        if (GetResources(work, parent, num_parent) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

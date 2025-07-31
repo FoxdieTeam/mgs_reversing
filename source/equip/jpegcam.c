@@ -8,6 +8,7 @@
 
 #include "common.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "chara/snake/sna_init.h"
 #include "game/game.h"
 #include "game/camera.h"
@@ -70,9 +71,9 @@ typedef struct _Work
 
 /*---------------------------------------------------------------------------*/
 
-STATIC void jpegcam_unk1_80063704(char *buf, MEM_CARD *pMemcard, int arg2, int arg3);
-STATIC void jpegcam_unk2_80063888(char *param_1, int param_2);
-STATIC void jpegcam_unk3_800638B4(int *arg0);
+static void jpegcam_unk1_80063704(char *buf, MEM_CARD *pMemcard, int arg2, int arg3);
+static void jpegcam_unk2_80063888(char *param_1, int param_2);
+static void jpegcam_unk3_800638B4(int *arg0);
 
 STATIC DATA_INFO stru_8009F2D8 = {
     {67, 4}, 0, 2, "SAVE PHOTO",
@@ -123,7 +124,7 @@ STATIC SVECTOR dword_8009F3AC[2] = {
  * photo save functions
  */
 
-STATIC void jpegcam_unk1_80063704(char *buf, MEM_CARD *pMemcard, int arg2, int arg3)
+static void jpegcam_unk1_80063704(char *buf, MEM_CARD *pMemcard, int arg2, int arg3)
 {
     char photo_id[8];
     unsigned int blocks_avail;
@@ -164,12 +165,12 @@ STATIC void jpegcam_unk1_80063704(char *buf, MEM_CARD *pMemcard, int arg2, int a
     sprintf(buf, "%s%s%s%s", "\x82\x6C\x82\x66\x82\x72\x81\xE7", "\x81\x40", "\x82\x6F\x82\x67\x82\x6E\x82\x73\x82\x6E", photo_id);
 }
 
-STATIC void jpegcam_unk2_80063888(char *param_1, int param_2)
+static void jpegcam_unk2_80063888(char *param_1, int param_2)
 {
     sprintf(param_1, "PHOTO %02d\n", *(char *)(param_2 + 6) - 0x40);
 }
 
-STATIC void jpegcam_unk3_800638B4(int *arg0)
+static void jpegcam_unk3_800638B4(int *arg0)
 {
     dword_800BDCD0 = (char)dword_800BDCD0 | 0x80808000;
     printf("save header = %x\n", dword_800BDCD0);
@@ -182,7 +183,7 @@ STATIC void jpegcam_unk3_800638B4(int *arg0)
  * JPEG encoding functions
  */
 
-STATIC void JpegInitMatrix(Work *work)
+static void JpegInitMatrix(Work *work)
 {
     // Copy matrix gJpegcamMatrix1_8009F36C transposed to gJpegcamMatrix2_800BDCD8
 
@@ -196,7 +197,7 @@ STATIC void JpegInitMatrix(Work *work)
     }
 }
 
-STATIC void JpegColorCvt_XBGR1555_to_BGRX8888(unsigned short *src, char *dst)
+static void JpegColorCvt_XBGR1555_to_BGRX8888(unsigned short *src, char *dst)
 {
     int i;
 
@@ -208,7 +209,7 @@ STATIC void JpegColorCvt_XBGR1555_to_BGRX8888(unsigned short *src, char *dst)
     }
 }
 
-STATIC void JpegMacroblock_RGB_to_YUV(char *stream, char *y_out, char *u_out, char *v_out)
+static void JpegMacroblock_RGB_to_YUV(char *stream, char *y_out, char *u_out, char *v_out)
 {
     int i;
     int r, g, b;
@@ -225,7 +226,7 @@ STATIC void JpegMacroblock_RGB_to_YUV(char *stream, char *y_out, char *u_out, ch
     }
 }
 
-STATIC void JpegSplitLumaBlocks(TMat16x16B *pSrcY, TMat8x8B *pY1, TMat8x8B *pY2, TMat8x8B *pY3, TMat8x8B *pY4)
+static void JpegSplitLumaBlocks(TMat16x16B *pSrcY, TMat8x8B *pY1, TMat8x8B *pY2, TMat8x8B *pY3, TMat8x8B *pY4)
 {
     // Given a "16 by 16B" luma matrix, copy its four quadrants into four "8 by 8B" matrices
     int i, j;
@@ -242,7 +243,7 @@ STATIC void JpegSplitLumaBlocks(TMat16x16B *pSrcY, TMat8x8B *pY1, TMat8x8B *pY2,
     }
 }
 
-STATIC void JpegDownsampleChroma420(char *pInU, char *pInV, char *pOutU, char *pOutV)
+static void JpegDownsampleChroma420(char *pInU, char *pInV, char *pOutU, char *pOutV)
 {
     int i, j;
 
@@ -281,7 +282,7 @@ STATIC void JpegDownsampleChroma420(char *pInU, char *pInV, char *pOutU, char *p
     }
 }
 
-STATIC void JpegApplyDCT(Work *work, char *pIn, int *pOut)
+static void JpegApplyDCT(Work *work, char *pIn, int *pOut)
 {
     int      *field_84;
     int      *field_84_ptr;
@@ -335,7 +336,7 @@ STATIC void JpegApplyDCT(Work *work, char *pIn, int *pOut)
     }
 }
 
-STATIC void JpegQuantizeZigzagMatrix(int *pIn, int *pOut, int q_scale)
+static void JpegQuantizeZigzagMatrix(int *pIn, int *pOut, int q_scale)
 {
     signed char *pZigzag;
     int i;
@@ -349,7 +350,7 @@ STATIC void JpegQuantizeZigzagMatrix(int *pIn, int *pOut, int q_scale)
     }
 }
 
-STATIC int JpegRLEStream(Work *work, int *pData, int q_scale)
+static int JpegRLEStream(Work *work, int *pData, int q_scale)
 {
     int count;
     int i;
@@ -415,7 +416,7 @@ STATIC int JpegRLEStream(Work *work, int *pData, int q_scale)
     do { return end + 1; } while (0);
 }
 
-STATIC int JpegCompressMacroblock(Work *work, char *pStream, int q_scale)
+static int JpegCompressMacroblock(Work *work, char *pStream, int q_scale)
 {
     char *pY1;
     char *pY2;
@@ -470,7 +471,7 @@ STATIC int JpegCompressMacroblock(Work *work, char *pStream, int q_scale)
 
 #define ROUND(x, a) ((((x) / (a)) + 1) * (a)) /* Round up `x` to next multiple of `a` */
 
-STATIC int JpegCompressFrame(Work *work, RECT *pRect, int q_scale)
+static int JpegCompressFrame(Work *work, RECT *pRect, int q_scale)
 {
     RECT rect;
     int processed;
@@ -521,7 +522,7 @@ STATIC int JpegCompressFrame(Work *work, RECT *pRect, int q_scale)
     return processed * 2;
 }
 
-STATIC void JpegTryCompressFrame(Work *work)
+static void JpegTryCompressFrame(Work *work)
 {
     int q_scale;
     int iteration;
@@ -559,7 +560,7 @@ STATIC void JpegTryCompressFrame(Work *work)
  * camera item logic
  */
 
-STATIC int JpegcamGetZoomLimit(Work *work)
+static int JpegcamGetZoomLimit(Work *work)
 {
     MATRIX  world;
     SVECTOR vector1;
@@ -598,7 +599,7 @@ STATIC int JpegcamGetZoomLimit(Work *work)
     return retval;
 }
 
-STATIC void JpegcamProcessInput(Work *work)
+static void JpegcamProcessInput(Work *work)
 {
     SVECTOR vec;
     u_short status;
@@ -832,7 +833,7 @@ STATIC void JpegcamProcessInput(Work *work)
 /**
  * Check if the player is standing in a ghost photo spot.
  */
-STATIC int JpegcamCheckShinreiSpot(Work *work)
+static int JpegcamCheckShinreiSpot(Work *work)
 {
     int retval;
 
@@ -855,7 +856,7 @@ STATIC int JpegcamCheckShinreiSpot(Work *work)
     return retval;
 }
 
-STATIC void JpegcamTakePhoto(Work *work)
+static void JpegcamTakePhoto(Work *work)
 {
     int state = work->state;
 
@@ -915,7 +916,7 @@ STATIC void JpegcamTakePhoto(Work *work)
         GV_PauseLevel &= ~1;
         DG_RestartMainChanlSystem();
         work->state = 0;
-        work->field_90_pSight = NewSight(CAMERA_SIGHT2, CAMERA_SIGHT, &GM_CurrentItemId, 12, 0);
+        work->field_90_pSight = NewSight(CAMERA_SIGHT2, CAMERA_SIGHT, &GM_CurrentItemId, IT_Camera, NULL);
     }
 }
 
@@ -923,7 +924,7 @@ STATIC void JpegcamTakePhoto(Work *work)
  * standard actor functions
  */
 
-STATIC void JpegcamAct(Work *work)
+static void Act(Work *work)
 {
     OBJECT         *parent;
     OBJECT_NO_ROTS *object;
@@ -1006,8 +1007,8 @@ STATIC void JpegcamAct(Work *work)
 
         if (dword_8009F604 != CAMERA_SIGHT)
         {
-            NewSight(CAMERA_SIGHT, CAMERA_SIGHT, &GM_CurrentItemId, 12, 0);
-            work->field_90_pSight = NewSight(CAMERA_SIGHT2, CAMERA_SIGHT, &GM_CurrentItemId, 12, 0);
+            NewSight(CAMERA_SIGHT, CAMERA_SIGHT, &GM_CurrentItemId, IT_Camera, NULL);
+            work->field_90_pSight = NewSight(CAMERA_SIGHT2, CAMERA_SIGHT, &GM_CurrentItemId, IT_Camera, NULL);
             GM_SeSet2(0, 63, SE_ITEM_OPENWINDOW);
         }
 
@@ -1037,7 +1038,7 @@ STATIC void JpegcamAct(Work *work)
     GM_PlayerControl->turn = work->field_5C_ang;
 }
 
-STATIC void JpegcamDie(Work *work)
+static void Die(Work *work)
 {
     GM_Camera_800B77E8.zoom = 320;
     gUnkCameraStruct_800B77B8.rotate2 = work->field_54_vec;
@@ -1052,7 +1053,7 @@ STATIC void JpegcamDie(Work *work)
     }
 }
 
-STATIC int JpegcamGetResources(Work *work, CONTROL *control, OBJECT *parent)
+static int GetResources(Work *work, CONTROL *control, OBJECT *parent)
 {
     work->parent = parent;
     work->pad_data = &GV_PadData_800B05C0[2];
@@ -1078,8 +1079,8 @@ void *NewJpegcam(CONTROL *control, OBJECT *parent, int num_parent)
     work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, JpegcamAct, JpegcamDie, "jpegcam.c");
-        if (JpegcamGetResources(work, control, parent) < 0)
+        GV_SetNamedActor(&work->actor, Act, Die, "jpegcam.c");
+        if (GetResources(work, control, parent) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

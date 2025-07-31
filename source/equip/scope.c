@@ -68,7 +68,7 @@ STATIC SVECTOR svecs_8009F2C8[2] = {
     { 0, 0, 3200, 0 }
 };
 
-STATIC void addPrimEX_80062320(u_long *ot, void *prim)
+static void addPrimEX(u_long *ot, void *prim)
 {
     if ((GM_PlayerStatus & PLAYER_NOT_SIGHT) == 0)
     {
@@ -78,7 +78,7 @@ STATIC void addPrimEX_80062320(u_long *ot, void *prim)
 
 // If the scope is zoomed in and you move the view towards an object which is
 // closer than the zoom level, then the zoom is automatically decreased.
-STATIC int scope_GetMaxZoomLevel(Work *work)
+static int GetZoomLimit(Work *work)
 {
     MATRIX *eye;
     DG_OBJS *objs;
@@ -119,7 +119,7 @@ STATIC int scope_GetMaxZoomLevel(Work *work)
     return vecLen;
 }
 
-STATIC void scope_SetSideLinesPairPosition(LINE_F2 *lines, int x, int y)
+static void SetSideLinesPairPosition(LINE_F2 *lines, int x, int y)
 {
     int offsetIndex;
     lines->x1 = x;
@@ -133,7 +133,7 @@ STATIC void scope_SetSideLinesPairPosition(LINE_F2 *lines, int x, int y)
     lines->y1 = 240 - y;
 }
 
-STATIC void scope_DrawSideLines(LINE_F2 *lines, int param_2)
+static void DrawSideLines(LINE_F2 *lines, int param_2)
 {
     int i;
     int x;
@@ -144,14 +144,14 @@ STATIC void scope_DrawSideLines(LINE_F2 *lines, int param_2)
 
     for (i = 0; i < 4; i++)
     {
-        scope_SetSideLinesPairPosition(lines, x, y);
+        SetSideLinesPairPosition(lines, x, y);
         lines++;
         x += 15;
         y -= 9;
     }
 }
 
-STATIC void scope_act_helper_8006258C(Work *work)
+static void scope_act_helper_8006258C(Work *work)
 {
     int      iVar1;
     int      iVar3;
@@ -181,16 +181,16 @@ STATIC void scope_act_helper_8006258C(Work *work)
 
     for (i = 0; i < 4; i++)
     {
-        scope_SetSideLinesPairPosition(lines, iVar3, 66 - (((iVar3 - 258) * 9) / 15));
-        addPrimEX_80062320(ot, lines);
-        addPrimEX_80062320(ot, lines + 4);
+        SetSideLinesPairPosition(lines, iVar3, 66 - (((iVar3 - 258) * 9) / 15));
+        addPrimEX(ot, lines);
+        addPrimEX(ot, lines + 4);
 
         iVar3 += iVar1 / 4;
         lines++;
     }
 }
 
-STATIC void scope_ManagePadInput(Work *work, unsigned short pad_status)
+static void ManagePadInput(Work *work, unsigned short pad_status)
 {
     SVECTOR vec;
     int zoomLevel;
@@ -352,7 +352,7 @@ STATIC void scope_ManagePadInput(Work *work, unsigned short pad_status)
     }
 }
 
-STATIC void scope_ManageZoom(Work *work, u_long *ot, int pad_status)
+static void ManageZoom(Work *work, u_long *ot, int pad_status)
 {
     short    zoomLineLength;
     int      iVar3;
@@ -371,7 +371,7 @@ STATIC void scope_ManageZoom(Work *work, u_long *ot, int pad_status)
 
     if (pad_status & (PAD_UP | PAD_DOWN | PAD_LEFT | PAD_RIGHT | PAD_CROSS | PAD_CIRCLE))
     {
-        maxDistance = scope_GetMaxZoomLevel(work);
+        maxDistance = GetZoomLimit(work);
 
         if (maxDistance < 3200)
         {
@@ -430,7 +430,7 @@ STATIC void scope_ManageZoom(Work *work, u_long *ot, int pad_status)
             }
         }
 
-        scope_DrawSideLines(pSideLine_f2, iVar3);
+        DrawSideLines(pSideLine_f2, iVar3);
         work->field_62 = iVar3;
         work->field_60 = 1;
 
@@ -446,7 +446,7 @@ STATIC void scope_ManageZoom(Work *work, u_long *ot, int pad_status)
     }
     else
     {
-        scope_DrawSideLines(pSideLine_f2, iVar3);
+        DrawSideLines(pSideLine_f2, iVar3);
         work->field_60 = 0;
         work->zoom_counter = 0;
     }
@@ -460,17 +460,17 @@ STATIC void scope_ManageZoom(Work *work, u_long *ot, int pad_status)
 
     pZoomLevelLine_F3->x2 = zoomLineLength;
     pZoomLevelLine_F3->x1 = zoomLineLength;
-    addPrimEX_80062320(ot, pZoomLevelLine_F3);
+    addPrimEX(ot, pZoomLevelLine_F3);
     for (i = 0; i < 8; i++)
     {
-        addPrimEX_80062320(ot, pSideLine_f2);
+        addPrimEX(ot, pSideLine_f2);
         pSideLine_f2++;
     }
 
     GM_Camera_800B77E8.zoom = zoomLevel;
 }
 
-STATIC void scope_DrawMovingRectangle(Work *work, u_long *ot)
+static void DrawMovingRectangle(Work *work, u_long *ot)
 {
     LINE_F4 *pRect; // Top, right and bottom border.
     LINE_F2 *pLeftBorder;
@@ -502,11 +502,11 @@ STATIC void scope_DrawMovingRectangle(Work *work, u_long *ot)
     pRect->y3 = y0; // Bottom left corner.
     pRect->y2 = y0; // Bottom right corner.
 
-    addPrimEX_80062320(ot, pRect);
-    addPrimEX_80062320(ot, pLeftBorder);
+    addPrimEX(ot, pRect);
+    addPrimEX(ot, pLeftBorder);
 }
 
-STATIC void scope_DrawMovingBarGraph(Work *work, u_long *ot)
+static void DrawMovingBarGraph(Work *work, u_long *ot)
 {
     short    lineHeight;
     int      primCount;
@@ -542,12 +542,12 @@ STATIC void scope_DrawMovingBarGraph(Work *work, u_long *ot)
         lineHeight = 178 - primCount;
         pLine_F3->y1 = lineHeight;
         pLine_F3->y0 = lineHeight;
-        addPrimEX_80062320(ot, pLine_F3);
+        addPrimEX(ot, pLine_F3);
         pLine_F3++;
     }
 }
 
-STATIC void scope_DrawHudText(Work *work)
+static void DrawHudText(Work *work)
 {
     if ( (GM_PlayerStatus & PLAYER_NOT_SIGHT) == 0 )
     {
@@ -561,7 +561,7 @@ STATIC void scope_DrawHudText(Work *work)
     }
 }
 
-STATIC void scope_Act(Work *work)
+static void Act(Work *work)
 {
     int             model;
     OBJECT         *parent_obj;
@@ -622,7 +622,7 @@ STATIC void scope_Act(Work *work)
 
     if (dword_8009F604 != SCOPE_SIGHT)
     {
-        NewSight(SCOPE_SIGHT, SCOPE_SIGHT, &GM_CurrentItemId, 1, 0);
+        NewSight(SCOPE_SIGHT, SCOPE_SIGHT, &GM_CurrentItemId, IT_Scope, NULL);
         GM_SeSet2(0, 63, SE_ITEM_OPENWINDOW);
     }
 
@@ -652,16 +652,16 @@ STATIC void scope_Act(Work *work)
 
     ot = (u_long *)DG_ChanlOTag(1);
 
-    scope_ManagePadInput(work, pad_status);
-    scope_ManageZoom(work, ot, pad_status);
-    scope_DrawMovingRectangle(work, ot);
-    scope_DrawMovingBarGraph(work, ot);
-    scope_DrawHudText(work);
+    ManagePadInput(work, pad_status);
+    ManageZoom(work, ot, pad_status);
+    DrawMovingRectangle(work, ot);
+    DrawMovingBarGraph(work, ot);
+    DrawHudText(work);
 }
 
 /*---------------------------------------------------------------------------*/
 
-STATIC void scope_Die(Work *work)
+static void Die(Work *work)
 {
     if ( work->side_lines[0] )
     {
@@ -696,7 +696,7 @@ STATIC void scope_Die(Work *work)
 
 /*---------------------------------------------------------------------------*/
 
-STATIC void scope_InitSideLines(LINE_F2 *lines)
+static void InitSideLines(LINE_F2 *lines)
 {
     int i;
 
@@ -709,7 +709,7 @@ STATIC void scope_InitSideLines(LINE_F2 *lines)
     }
 }
 
-STATIC void scope_InitMovingRectangle(LINE_F4 *lines)
+static void InitMovingRectangle(LINE_F4 *lines)
 {
     int i;
 
@@ -725,7 +725,7 @@ STATIC void scope_InitMovingRectangle(LINE_F4 *lines)
     }
 }
 
-STATIC void scope_InitMovingBarGraph(Work *work)
+static void InitMovingBarGraph(Work *work)
 {
     LINE_F3 *line;
     int i, j;
@@ -750,7 +750,7 @@ STATIC void scope_InitMovingBarGraph(Work *work)
     }
 }
 
-STATIC void scope_InitZoomLevelLine(LINE_F3 *pZoomLevelLine)
+static void InitZoomLevelLine(LINE_F3 *pZoomLevelLine)
 {
     int i;
 
@@ -765,7 +765,7 @@ STATIC void scope_InitZoomLevelLine(LINE_F3 *pZoomLevelLine)
     }
 }
 
-STATIC int scope_GetResources(Work *work, CONTROL *control, OBJECT *parent)
+static int GetResources(Work *work, CONTROL *control, OBJECT *parent)
 {
     MAP *map;
 
@@ -802,10 +802,10 @@ STATIC int scope_GetResources(Work *work, CONTROL *control, OBJECT *parent)
 
     work->zoom_line[1] = work->zoom_line[0] + 1;
 
-    scope_InitSideLines(work->side_lines[0]);
-    scope_InitMovingRectangle(work->rect_lines[0]);
-    scope_InitMovingBarGraph(work);
-    scope_InitZoomLevelLine(work->zoom_line[0]);
+    InitSideLines(work->side_lines[0]);
+    InitMovingRectangle(work->rect_lines[0]);
+    InitMovingBarGraph(work);
+    InitZoomLevelLine(work->zoom_line[0]);
 
     work->old_pad = &GV_PadData_800B05C0[2];
     work->hud_delay = HUD_DISP_DELAY;
@@ -846,8 +846,8 @@ void *NewScope(CONTROL *control, OBJECT *parent, int num_parent)
     work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if ( work )
     {
-        GV_SetNamedActor(&work->actor, scope_Act, scope_Die, "scope.c");
-        if ( scope_GetResources(work, control, parent) < 0 )
+        GV_SetNamedActor(&work->actor, Act, Die, "scope.c");
+        if ( GetResources(work, control, parent) < 0 )
         {
             GV_DestroyActor(&work->actor);
             return NULL;
