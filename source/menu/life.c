@@ -121,7 +121,7 @@ void menu_draw_bar(MenuPrim *prim, long x, long y, long rest, long now, long max
 
     if ( !((int)bconf & 0x80000000) )
     {
-        // Blue color of the O2 bar text
+        // Red flashing text when taking smoking or O2 damage
         text_config.colour = 0x643030FF;
     }
     else

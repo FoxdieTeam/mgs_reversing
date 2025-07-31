@@ -332,11 +332,11 @@ int menu_item_IsItemDisabled_8003B6D0(int item)
 
 void menu_drawPalKey_8003B794(MenuWork *work, unsigned int *pOt, int id)
 {
-    RECT           pal_rect;
-    RECT           img_rect;
-    Menu_rpk_item *pPalItem;
-    Menu_rpk_item *pImgItem;
-    SPRT          *pSprt;
+    RECT      pal_rect;
+    RECT      img_rect;
+    RPK_ITEM *pPalItem;
+    RPK_ITEM *pImgItem;
+    SPRT     *pSprt;
 
     pPalItem = menu_rpk_get_pal_8003DD9C(id * 2 + 33);
     pImgItem = menu_rpk_get_img_8003DDB4(id * 2 + 34);
@@ -345,13 +345,13 @@ void menu_drawPalKey_8003B794(MenuWork *work, unsigned int *pOt, int id)
     pal_rect.y = 336;
     pal_rect.w = 16;
     pal_rect.h = 1;
-    LoadImage(&pal_rect, pPalItem->field_4_pixel_ptr);
+    LoadImage(&pal_rect, pPalItem->data);
 
     img_rect.x = 960;
     img_rect.y = 337;
-    img_rect.w = pImgItem->field_2_w;
-    img_rect.h = pImgItem->field_3_h;
-    LoadImage(&img_rect, pImgItem->field_4_pixel_ptr);
+    img_rect.w = pImgItem->w;
+    img_rect.h = pImgItem->h;
+    LoadImage(&img_rect, pImgItem->data);
 
     NEW_PRIM(pSprt, work);
 
@@ -359,8 +359,8 @@ void menu_drawPalKey_8003B794(MenuWork *work, unsigned int *pOt, int id)
     pSprt->x0 = 230;
     pSprt->u0 = 0;
     pSprt->y0 = 116;
-    pSprt->w = pImgItem->field_2_w * 4;
-    pSprt->h = pImgItem->field_3_h;
+    pSprt->w = pImgItem->w * 4;
+    pSprt->h = pImgItem->h;
     LSTORE(0x80808080, &pSprt->r0);
     pSprt->clut = getClut(pal_rect.x, pal_rect.y);
     setSprt(pSprt);
