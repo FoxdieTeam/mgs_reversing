@@ -251,7 +251,7 @@ int SePlay(int sound_code)
 
 int get_str_counter(void)
 {
-    return dword_8009F7B4;
+    return str_tick_count;
 }
 
 void sd_set(int sound_code)

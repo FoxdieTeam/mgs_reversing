@@ -132,7 +132,7 @@ STATIC void CDBIOS_ReadyCallback(u_char status, u_char *result)
             }
 
             task->remaining -= size;
-            task->field_C = size;
+            task->buffer_size = size;
 
             if (task->callback)
             {

@@ -10,123 +10,130 @@
 #include "mts/mts.h"
 #include "sd/sd_cli.h"
 
-extern int          fs_stream_ref_count_800B5298;
-extern int          fs_dword_800B529C;
-extern int          fs_dword_800B52A0;
-extern void         *fs_stream_heap_800B52A4;
-extern char         *fs_stream_heap_end_800B52A8;
-extern int          fs_stream_heapSize_800B52AC;
-extern void         *fs_dword_800B52B0;
-extern char         *fs_ptr_800B52B4;
-extern int          *fs_ptr_800B52B8;
-extern char         *fs_ptr_800B52BC;
-extern int          fs_stream_task_state_800B52C0;
+extern int   fs_stream_ref_count;
+extern int   fs_stream_read;
+extern int   fs_stream_sector;
+extern void *fs_stream_heap;
+extern char *fs_stream_heap_end;
+extern int   fs_stream_heap_size;
+extern void *fs_stream_unused;
+extern char *fs_stream_top;
+extern int  *fs_stream_write_ptr;
+extern char *fs_stream_bottom;
+extern int   fs_stream_task_state;
 
-STATIC int  fs_stream_tick_start_8009D510 = -1;
-STATIC int  fs_dword_8009D514 = 0;
-STATIC int  fs_stream_is_force_stop_8009D518 = 0;
-STATIC int  fs_stream_end_flag_8009D51C = 1;
-STATIC int *fs_dword_8009D520 = NULL;
+STATIC int  fs_stream_last_time = -1;
+STATIC int  fs_stream_next_time = 0;
+STATIC int  fs_stream_stop = 0;
+STATIC int  fs_stream_end = 1;
+STATIC int *fs_stream_unread = NULL;
 
-STATIC int FS_800239E8( CDBIOS_TASK *task )
+STATIC int StreamReadyCallback( CDBIOS_TASK *task )
 {
-    char *charPtr1, *charPtr2;
+    int retval;
+
+    char *charPtr1;
+    int   size;
+    char *charPtr2;
+
     char *streamHeap, *streamHeapEnd;
     int  *memcpySrc, *memcpyDst;
     int   ptrDiff1, ptrDiff2, ptrDiff3;
-    int   heapOffset;
-    int   retval;
 
     retval = 1;
-    fs_ptr_800B52B8 = task->buffer + task->field_C * 4;
 
-    if (fs_stream_is_force_stop_8009D518 == 0 && fs_stream_end_flag_8009D51C == 0)
+    fs_stream_write_ptr = task->buffer + task->buffer_size * 4;
+
+    if (fs_stream_stop == 0 && fs_stream_end == 0)
     {
-        charPtr1 = fs_ptr_800B52BC;
-        for (;; fs_ptr_800B52BC = charPtr1)
-        {
-            heapOffset = *(int *)charPtr1 >> 8;
-            charPtr2 = charPtr1 + heapOffset;
+        charPtr1 = fs_stream_bottom;
 
-            if ((char *)&fs_ptr_800B52B8[-1] >= charPtr2)
+        for (;; fs_stream_bottom = charPtr1)
+        {
+            size = *(int *)charPtr1 >> 8;
+            charPtr2 = charPtr1 + size;
+
+            if ((char *)&fs_stream_write_ptr[-1] >= charPtr2)
             {
                 charPtr1 = charPtr2;
+
                 if (*charPtr2 != 0xF0)
                 {
                     continue;
                 }
-                fs_stream_end_flag_8009D51C = 1;
-                fs_ptr_800B52BC = charPtr2;
+
+                fs_stream_end = 1;
+                fs_stream_bottom = charPtr2;
                 goto exit;
             }
 
-            if (fs_stream_heap_end_800B52A8 >= charPtr2 &&
-                fs_stream_heap_end_800B52A8 >= (char *)(fs_ptr_800B52B8 + 2048 / sizeof(int)))
+            if (fs_stream_heap_end >= charPtr2 &&
+                fs_stream_heap_end >= (char *)(fs_stream_write_ptr + 2048 / sizeof(int)))
             {
                 break;
             }
 
-            ptrDiff1 = (char *)fs_stream_heap_800B52A4 + heapOffset - charPtr1;
+            ptrDiff1 = (char *)fs_stream_heap + size - charPtr1;
             if (ptrDiff1 < 0)
             {
-                ptrDiff1 = ptrDiff1 + fs_stream_heapSize_800B52AC;
+                ptrDiff1 = ptrDiff1 + fs_stream_heap_size;
             }
 
-            ptrDiff2 = (char *)fs_ptr_800B52B4 - charPtr1;
+            ptrDiff2 = (char *)fs_stream_top - charPtr1;
             if (ptrDiff2 < 0)
             {
-                ptrDiff2 += fs_stream_heapSize_800B52AC;
+                ptrDiff2 += fs_stream_heap_size;
             }
 
             if (ptrDiff2 < ptrDiff1)
             {
-                fs_dword_8009D520 = (int *)charPtr1;
+                fs_stream_unread = (int *)charPtr1;
                 goto exit;
             }
 
-            memcpyDst = fs_stream_heap_800B52A4;
+            memcpyDst = fs_stream_heap;
             memcpySrc = (int *)charPtr1;
-            while (memcpySrc < fs_ptr_800B52B8)
+            while (memcpySrc < fs_stream_write_ptr)
             {
                 *memcpyDst = *memcpySrc;
                 memcpySrc++;
                 memcpyDst++;
             }
 
-            streamHeap = fs_stream_heap_800B52A4;
+            streamHeap = fs_stream_heap;
             task->buffer = memcpyDst;
 
             *(int *)charPtr1 = -1;
             retval = 2;
 
-            fs_ptr_800B52B8 = memcpyDst;
-            fs_stream_heap_end_800B52A8 =
-                (char *)memcpyDst + ((fs_stream_heapSize_800B52AC - ((char *)memcpyDst - streamHeap)) & ~0x7FF);
-            fs_ptr_800B52BC = streamHeap;
+            fs_stream_write_ptr = memcpyDst;
+            fs_stream_heap_end =
+                (char *)memcpyDst + ((fs_stream_heap_size - ((char *)memcpyDst - streamHeap)) & ~0x7FF);
+            fs_stream_bottom = streamHeap;
             goto skip_heap_end_adjustment;
         }
 
-        if ((char *)fs_ptr_800B52B8 >= fs_stream_heap_end_800B52A8)
+        if ((char *)fs_stream_write_ptr >= fs_stream_heap_end)
         {
-            streamHeapEnd = (char *)fs_stream_heap_800B52A4 + fs_stream_heapSize_800B52AC;
-            if ((int)fs_ptr_800B52B8 < (unsigned)streamHeapEnd)
+            streamHeapEnd = (char *)fs_stream_heap + fs_stream_heap_size;
+            if ((int)fs_stream_write_ptr < (unsigned)streamHeapEnd)
             {
-                *fs_ptr_800B52B8 = -1;
+                *fs_stream_write_ptr = -1;
             }
 
             retval = 2;
-            fs_stream_heap_end_800B52A8 = streamHeapEnd;
+            fs_stream_heap_end = streamHeapEnd;
 
-            task->buffer = fs_stream_heap_800B52A4;
-            fs_ptr_800B52BC = fs_stream_heap_800B52A4;
-            fs_ptr_800B52B8 = fs_stream_heap_800B52A4;
+            task->buffer = fs_stream_heap;
+            fs_stream_bottom = fs_stream_heap;
+            fs_stream_write_ptr = fs_stream_heap;
         }
 
     skip_heap_end_adjustment:
-        ptrDiff3 = -(int)fs_ptr_800B52B8 + (int)fs_ptr_800B52B4;
+        ptrDiff3 = -(int)fs_stream_write_ptr + (int)fs_stream_top;
         if (ptrDiff3 < 0)
         {
-            ptrDiff3 = ptrDiff3 + fs_stream_heapSize_800B52AC;
+            ptrDiff3 = ptrDiff3 + fs_stream_heap_size;
         }
         if (ptrDiff3 > 2048)
         {
@@ -135,12 +142,12 @@ STATIC int FS_800239E8( CDBIOS_TASK *task )
     }
 
 exit:
-    fs_dword_800B529C = 0;
-    fs_dword_800B52A0 = task->sector + 1;
+    fs_stream_read = 0;
+    fs_stream_sector = task->sector + 1;
     return 0;
 }
 
-STATIC void FS_80023C40( void )
+STATIC void StartRead( void )
 {
     int temp_a0;
     int var_v1;
@@ -149,22 +156,22 @@ STATIC void FS_80023C40( void )
     int* var_v1_2;
     int new_var;
 
-    if (fs_dword_8009D520 != 0)
+    if (fs_stream_unread != NULL)
     {
-        temp_v0 = fs_dword_8009D520;
+        temp_v0 = fs_stream_unread;
 
-        var_v1 = (int)(fs_stream_heap_800B52A4 + (temp_v0[0] >> 8)) - (int)temp_v0;
+        var_v1 = (int)(fs_stream_heap + (temp_v0[0] >> 8)) - (int)temp_v0;
 
         if (var_v1 < 0)
         {
-            var_v1 += fs_stream_heapSize_800B52AC;
+            var_v1 += fs_stream_heap_size;
         }
 
-        temp_a0 = (int)fs_ptr_800B52B4 - (int)temp_v0;
+        temp_a0 = (int)fs_stream_top - (int)temp_v0;
 
         if (temp_a0 < 0)
         {
-            temp_a0 += fs_stream_heapSize_800B52AC;
+            temp_a0 += fs_stream_heap_size;
         }
 
         if (temp_a0 < var_v1)
@@ -174,52 +181,52 @@ STATIC void FS_80023C40( void )
 
         SwEnterCriticalSection();
 
-        var_a1 = fs_stream_heap_800B52A4;
+        var_a1 = fs_stream_heap;
         var_v1_2 = temp_v0;
 
-        while (var_v1_2 < (int *)fs_ptr_800B52B8)
+        while (var_v1_2 < (int *)fs_stream_write_ptr)
         {
             *var_a1++ = *var_v1_2++;
         }
 
-        fs_ptr_800B52B8 = var_a1;
+        fs_stream_write_ptr = var_a1;
         *temp_v0 = -1;
-        fs_dword_8009D520 = NULL;
-        new_var = (fs_stream_heapSize_800B52AC - ((int)var_a1 - (int)fs_stream_heap_800B52A4)) & ~0x7FF;
-        fs_stream_heap_end_800B52A8 = (char *)var_a1 + new_var;
-        fs_ptr_800B52BC = fs_stream_heap_800B52A4;
+        fs_stream_unread = NULL;
+        new_var = (fs_stream_heap_size - ((int)var_a1 - (int)fs_stream_heap)) & ~0x7FF;
+        fs_stream_heap_end = (char *)var_a1 + new_var;
+        fs_stream_bottom = fs_stream_heap;
 
         SwExitCriticalSection();
     }
 
-    fs_dword_800B529C = 1;
-    CDBIOS_ReadRequest(fs_ptr_800B52B8, fs_dword_800B52A0, 0, &FS_800239E8);
+    fs_stream_read = 1;
+    CDBIOS_ReadRequest(fs_stream_write_ptr, fs_stream_sector, 0, &StreamReadyCallback);
 }
 
-void FS_StreamTaskStart( int param_1 )
+void FS_StreamTaskStart( int sector )
 {
-    fs_stream_end_flag_8009D51C = 0;
-    fs_stream_is_force_stop_8009D518 = 0;
+    fs_stream_end = 0;
+    fs_stream_stop = 0;
 
-    fs_dword_800B52A0 = param_1;
+    fs_stream_sector = sector;
 
-    fs_stream_tick_start_8009D510 = -1;
+    fs_stream_last_time = -1;
+    fs_stream_next_time = 0;
 
-    fs_dword_8009D514 = 0;
-    fs_dword_8009D520 = NULL;
+    fs_stream_unread = NULL;
 
-    fs_stream_task_state_800B52C0 = -1;
+    fs_stream_task_state = -1;
 
-    fs_ptr_800B52B4 = fs_stream_heap_800B52A4;
-    fs_ptr_800B52BC = fs_stream_heap_800B52A4;
-    fs_ptr_800B52B8 = fs_stream_heap_800B52A4;
+    fs_stream_top = fs_stream_heap;
+    fs_stream_bottom = fs_stream_heap;
+    fs_stream_write_ptr = fs_stream_heap;
 
-    FS_80023C40();
+    StartRead();
 }
 
 int FS_StreamTaskState( void )
 {
-    return fs_stream_task_state_800B52C0;
+    return fs_stream_task_state;
 }
 
 void FS_StreamTaskInit( void )
@@ -229,52 +236,50 @@ void FS_StreamTaskInit( void )
 
 int FS_StreamSync( void )
 {
-    int temp_t2;
-    int temp_t3;
-    int temp_v0;
-    int temp_v1_2;
-    int var_a0_2;
-    char *var_a0;
+    int   stream_read;
+    int   stream_end;
+    char *ptr;
+    int   type;
+    int   size;
+    int   remaining;
 
-    temp_t2 = fs_dword_800B529C;
-    temp_t3 = fs_stream_end_flag_8009D51C;
+    stream_read = fs_stream_read;
+    stream_end = fs_stream_end;
 
-    if ((temp_t3 != 0) || (fs_stream_is_force_stop_8009D518 != 0))
+    if ((stream_end != 0) || (fs_stream_stop != 0))
     {
-        fs_stream_task_state_800B52C0 = 0;
+        fs_stream_task_state = 0;
         return 0;
     }
 
-    if (fs_stream_task_state_800B52C0 == -1)
+    if (fs_stream_task_state == -1)
     {
-        if (temp_t2 == 1)
+        if (stream_read == 1)
         {
             return 1;
         }
 
-        fs_stream_task_state_800B52C0 = 1;
-        fs_dword_800B52B0 = fs_stream_heap_800B52A4;
+        fs_stream_task_state = 1;
+        fs_stream_unused = fs_stream_heap;
     }
 
-    var_a0 = fs_ptr_800B52B4;
-
-    while (var_a0 != fs_ptr_800B52BC)
+    ptr = fs_stream_top;
+    while (ptr != fs_stream_bottom)
     {
-        temp_v0 = *(int *)var_a0;
-        temp_v1_2 = temp_v0 & 0xFF;
-        temp_v0 >>= 8;
+        type = *(int *)ptr & 0xFF;
+        size = *(int *)ptr >> 8;
 
-        if (temp_v1_2 == 0xFF)
+        if (type == 0xFF)
         {
-            var_a0 = fs_stream_heap_800B52A4;
+            ptr = fs_stream_heap;
         }
-        else if (temp_v1_2 == 0)
+        else if (type == 0)
         {
-            var_a0 += temp_v0;
+            ptr += size;
 
-            if (var_a0 == (fs_stream_heap_800B52A4 + fs_stream_heapSize_800B52AC))
+            if (ptr == (fs_stream_heap + fs_stream_heap_size))
             {
-                var_a0 = fs_stream_heap_800B52A4;
+                ptr = fs_stream_heap;
             }
         }
         else
@@ -282,24 +287,20 @@ int FS_StreamSync( void )
             break;
         }
     }
+    fs_stream_top = ptr;
 
-    fs_ptr_800B52B4 = var_a0;
-
-    if (temp_t2 == 0)
+    if (stream_read == 0 && stream_end == 0)
     {
-        if (temp_t3 == 0)
+        remaining = (char *)fs_stream_write_ptr - fs_stream_top;
+
+        if (remaining < 0)
         {
-            var_a0_2 = (char *)fs_ptr_800B52B8 - var_a0;
+            remaining += fs_stream_heap_size;
+        }
 
-            if (var_a0_2 < 0)
-            {
-                var_a0_2 += fs_stream_heapSize_800B52AC;
-            }
-
-            if (var_a0_2 < ((fs_stream_heapSize_800B52AC * 2) / 3))
-            {
-                FS_80023C40();
-            }
+        if (remaining < ((fs_stream_heap_size * 2) / 3))
+        {
+            StartRead();
         }
     }
 
@@ -329,69 +330,71 @@ int FS_StreamGetTop( int is_demo )
         file_id = FS_FILEID_DEMO;
         break;
     }
+
     return fs_file_info[file_id].pos;
 }
 
-int FS_StreamInit( void *pHeap, int heapSize )
+int FS_StreamInit( void *heap, int size )
 {
-    fs_stream_heap_800B52A4 = pHeap;
-    fs_stream_heapSize_800B52AC = heapSize;
-    fs_stream_heap_end_800B52A8 = pHeap + heapSize;
-    printf("stream init %X %X\n", (unsigned int)pHeap, heapSize);
-    fs_stream_ref_count_800B5298 = 0;
+    fs_stream_heap = heap;
+    fs_stream_heap_size = size;
+    fs_stream_heap_end = heap + size;
+    printf("stream init %X %X\n", (unsigned int)heap, size);
+    fs_stream_ref_count = 0;
     return 1;
 }
 
 void FS_StreamStop( void )
 {
-    fs_stream_is_force_stop_8009D518 = 1;
-    fs_stream_end_flag_8009D51C = 1;
-    fs_stream_task_state_800B52C0 = 0;
+    fs_stream_stop = 1;
+    fs_stream_end = 1;
+    fs_stream_task_state = 0;
     CDBIOS_ForceStop();
 }
 
 void FS_StreamOpen( void )
 {
     mts_lock_sem(1);
-    ++fs_stream_ref_count_800B5298;
+    ++fs_stream_ref_count;
     mts_unlock_sem(1);
 }
 
 void FS_StreamClose( void )
 {
     mts_lock_sem(1);
-    --fs_stream_ref_count_800B5298;
+    --fs_stream_ref_count;
     mts_unlock_sem(1);
 }
 
-int FS_StreamIsEnd( void )
+int FS_StreamClosed( void )
 {
-    return fs_stream_ref_count_800B5298 == 0;
+    return fs_stream_ref_count == 0;
 }
 
-void *FS_StreamGetData( int param_1 )
+void *FS_StreamGetData( int target_type )
 {
     char *ptr;
-    int type;
-    int size;
+    int   type;
+    int   size;
 
-    if (fs_stream_is_force_stop_8009D518 != 0)
+    if (fs_stream_stop != 0)
     {
         return NULL;
     }
 
-    for (ptr = fs_ptr_800B52B4; ptr != fs_ptr_800B52BC;)
+    ptr = fs_stream_top;
+    while (ptr != fs_stream_bottom)
     {
-        type = *(int*)ptr & 0xFF;
-        size = *(int*)ptr >> 8;
+        type = *(int *)ptr & 0xFF;
+        size = *(int *)ptr >> 8;
 
         if (type == 0xff)
         {
-            ptr = fs_stream_heap_800B52A4;
+            ptr = fs_stream_heap;
         }
         else
         {
-            if (type == param_1)
+            if (type == target_type)
             {
                 *ptr = type | 0x80;
                 return ptr + 4;
@@ -399,9 +402,9 @@ void *FS_StreamGetData( int param_1 )
 
             ptr += size;
 
-            if (ptr >= (char *)fs_stream_heap_800B52A4 + fs_stream_heapSize_800B52AC)
+            if (ptr >= (char *)fs_stream_heap + fs_stream_heap_size)
             {
-                ptr = fs_stream_heap_800B52A4;
+                ptr = fs_stream_heap;
             }
         }
     }
@@ -409,48 +412,57 @@ void *FS_StreamGetData( int param_1 )
     return NULL;
 }
 
-int FS_StreamGetSize( int *ptr )
+int FS_StreamGetSize( void *stream )
 {
-    return ptr[-1] >> 8;
+    int *tag;
+
+    tag = (int *)((char *)stream - 4);
+    return *tag >> 8;
 }
 
-void FS_StreamUngetData( int addr )
+void FS_StreamUngetData( void *stream )
 {
-    int *ptr = (int*)(addr - 4);
-    int val = *ptr;
+    int *tag;
+    int  val;
 
-    if ((val & 0x80) != 0)
+    tag = (int *)((char *)stream - 4);
+    val = *tag;
+
+    if (val & 0x80)
     {
-        *(char *)ptr = val & ~0x80;
+        *(char *)tag = val & ~0x80;
     }
 }
 
 void FS_StreamClear( void *stream )
 {
-    ((int *)stream)[-1] &= ~0xff;
+    int *tag;
+
+    tag = (int *)((char *)stream - 4);
+    *tag &= ~0xff;
 }
 
-void FS_StreamClearType( void *stream, int find )
+void FS_StreamClearType( void *stream, int target_type )
 {
     char *ptr;
-    char *ptr2;
-    int size;
-    int type;
+    char *end;
+    int   size;
+    int   type;
 
-    if (fs_stream_is_force_stop_8009D518 != 0)
+    if (fs_stream_stop != 0)
     {
         return;
     }
 
-    ptr = fs_ptr_800B52B4;
-    ptr2 = (char *)stream - 4;
+    ptr = fs_stream_top;
+    end = (char *)stream - 4;
 
-    while ((ptr != ptr2) && (ptr != fs_ptr_800B52BC))
+    while ((ptr != end) && (ptr != fs_stream_bottom))
     {
         size = *(int *)ptr >> 8;
         type = *(int *)ptr & 0xF;
 
-        if (type == find)
+        if (type == target_type)
         {
             ptr[0] = 0;
             printf("clear %X\n", size);
@@ -458,32 +470,32 @@ void FS_StreamClearType( void *stream, int find )
 
         ptr += size;
 
-        if (ptr == (fs_stream_heap_800B52A4 + fs_stream_heapSize_800B52AC))
+        if (ptr == (fs_stream_heap + fs_stream_heap_size))
         {
-            ptr = fs_stream_heap_800B52A4;
+            ptr = fs_stream_heap;
         }
     }
 }
 
-void FS_800242A4( void )
+void FS_StreamDump( void )
 {
     char *ptr;
-    int type;
-    int size;
+    int   type;
+    int   size;
 
-    ptr = fs_ptr_800B52B4;
+    ptr = fs_stream_top;
 
-    printf("now_data_top %X loaded_header %X\n", (unsigned int)ptr, (unsigned int)fs_ptr_800B52BC);
+    printf("now_data_top %X loaded_header %X\n", (unsigned int)ptr, (unsigned int)fs_stream_bottom);
     printf("Tick %d\n", FS_StreamGetTick());
 
-    while (ptr != fs_ptr_800B52BC)
+    while (ptr != fs_stream_bottom)
     {
         type = *(int *)ptr & 0xFF;
         size = *(int *)ptr >> 8;
 
         if (type == 0xFF)
         {
-            ptr = fs_stream_heap_800B52A4;
+            ptr = fs_stream_heap;
         }
         else
         {
@@ -498,9 +510,9 @@ void FS_800242A4( void )
 
             ptr += size;
 
-            if (ptr == (fs_stream_heap_800B52A4 + fs_stream_heapSize_800B52AC))
+            if (ptr == (fs_stream_heap + fs_stream_heap_size))
             {
-                ptr = fs_stream_heap_800B52A4;
+                ptr = fs_stream_heap;
             }
         }
     }
@@ -508,19 +520,19 @@ void FS_800242A4( void )
 
 int FS_StreamGetEndFlag( void )
 {
-    return fs_stream_end_flag_8009D51C;
+    return fs_stream_end;
 }
 
 int FS_StreamIsForceStop( void )
 {
-    return fs_stream_is_force_stop_8009D518;
+    return fs_stream_stop;
 }
 
 // TODO: the var might be part of a struct and the code
 // takes a ptr to that struct, unknown currently
 static inline int *GetTicksPtr( void )
 {
-    return &fs_stream_tick_start_8009D510;
+    return &fs_stream_last_time;
 }
 
 void FS_StreamTickStart( void )
@@ -531,33 +543,33 @@ void FS_StreamTickStart( void )
 // for some reason no ptr access here
 void FS_StreamSoundMode( void )
 {
-    fs_stream_tick_start_8009D510 = -1;
-    fs_dword_8009D514 = 1;
+    fs_stream_last_time = -1;
+    fs_stream_next_time = 1;
 }
 
 int FS_StreamGetTick( void )
 {
-    int current = mts_get_tick_count();
-    int iVar2;
+    int now = mts_get_tick_count();
+    int ticks;
 
-    if (fs_dword_8009D514 != 0)
+    if (fs_stream_next_time != 0)
     {
-        iVar2 = get_str_counter();
+        ticks = get_str_counter();
 
-        if (iVar2 < 0)
+        if (ticks < 0)
         {
-            if (fs_stream_tick_start_8009D510 < 0)
+            if (fs_stream_last_time < 0)
             {
                 return -1;
             }
 
-            return current - fs_stream_tick_start_8009D510 + fs_dword_8009D514;
+            return now - fs_stream_last_time + fs_stream_next_time;
         }
 
-        fs_stream_tick_start_8009D510 = current;
-        fs_dword_8009D514 = (iVar2 * 64) / 105 + 1;
-        return (iVar2 * 64) / 105 + 1;
+        fs_stream_last_time = now;
+        fs_stream_next_time = (ticks * 64) / 105 + 1;
+        return fs_stream_next_time;
     }
 
-    return current - fs_stream_tick_start_8009D510;
+    return now - fs_stream_last_time;
 }

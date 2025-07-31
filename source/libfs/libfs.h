@@ -96,7 +96,7 @@ int FS_WriteMemfile( int id, int **buf_ptr, int size );
 int FS_ReadMemfile( int id, int **buf_ptr );
 
 /* stream.c */
-void FS_StreamTaskStart(int);
+void FS_StreamTaskStart(int sector);
 int  FS_StreamTaskState(void);
 void FS_StreamTaskInit(void);
 int  FS_StreamSync(void);
@@ -106,12 +106,12 @@ int  FS_StreamInit(void *pHeap, int heapSize);
 void FS_StreamStop(void);
 void FS_StreamOpen(void);
 void FS_StreamClose(void);
-int  FS_StreamIsEnd(void);
-void *FS_StreamGetData(int);
-int  FS_StreamGetSize(int *ptr);
-void FS_StreamUngetData(int addr);
+int  FS_StreamClosed(void);
+void *FS_StreamGetData(int target_type);
+int  FS_StreamGetSize(void *stream);
+void FS_StreamUngetData(void *stream);
 void FS_StreamClear(void *stream);
-void FS_StreamClearType( void *stream, int find );
+void FS_StreamClearType( void *stream, int target_type );
 int  FS_StreamGetEndFlag(void);
 int  FS_StreamIsForceStop(void);
 void FS_StreamTickStart(void);
