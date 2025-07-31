@@ -5,7 +5,7 @@
 
 typedef struct PCXINFO
 {
-    unsigned short  magic;      /* always 1234 */
+    unsigned short  magic;      /* always 12345 */
     unsigned short  flags;
     unsigned short  px, py;     /* pixel X/Y coords */
     unsigned short  cx, cy;     /* CLUT  X/Y coords */

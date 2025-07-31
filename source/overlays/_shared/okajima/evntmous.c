@@ -55,8 +55,8 @@ void   AN_Unknown_800CA320( MATRIX *, int );
 void * NewRipple_800D7F30( MATRIX *, int );
 void   NewSplash2_800DB6F0( int, SVECTOR *, int );
 
-void * NewCinemaScreen_800DE434( int, int );
-int    NewCinemaScreenClose_800DE4CC( void * );
+void *NewCinemaScreen( int, int );
+void *NewCinemaScreenClose( void *addr );
 
 #define EXEC_LEVEL      GV_ACTOR_LEVEL5
 #define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE | DG_FLAG_ONEPIECE )
@@ -128,7 +128,7 @@ void Eventmouse_800C8E88(EventmouseWork *work, SVECTOR *arg1, int arg2)
     GM_GameStatus |= STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF;
     GM_GameStatus |= STATE_PADRELEASE;
 
-    work->f690 = NewCinemaScreen_800DE434(2000000000, 1);
+    work->f690 = NewCinemaScreen(2000000000, 1);
 }
 
 void Eventmouse_800C90E4(int proc_id, SVECTOR *vec)
@@ -535,7 +535,7 @@ void EventMouseAct_800C9F14(EventmouseWork *work)
 
             if (work->f690 != 0)
             {
-                NewCinemaScreenClose_800DE4CC(work->f690);
+                NewCinemaScreenClose(work->f690);
             }
 
             GM_GameStatus &= ~(STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF);
@@ -646,7 +646,7 @@ void EventMouseDie_800CA2C4(EventmouseWork *work)
 
     if (work->f690 != NULL)
     {
-        NewCinemaScreenClose_800DE4CC(work->f690);
+        NewCinemaScreenClose(work->f690);
     }
 
     GM_GameStatus &= ~(STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF);

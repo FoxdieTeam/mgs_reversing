@@ -13,7 +13,12 @@ extern GM_Camera GM_Camera_800B77E8;
 
 /*---------------------------------------------------------------------------*/
 
-typedef struct GasmaskWork
+#define EXEC_LEVEL      GV_ACTOR_AFTER
+#define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
+
+#define GASMASK_MODEL   GV_StrCode("gas_mask")
+
+typedef struct _Work
 {
     GV_ACT         actor;
     OBJECT_NO_ROTS object;
@@ -25,14 +30,11 @@ typedef struct GasmaskWork
     short          unused;
     short          saved_packs;
     short          saved_raise;
-} GasmaskWork;
-
-#define EXEC_LEVEL GV_ACTOR_AFTER
-#define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
+} Work;
 
 /*---------------------------------------------------------------------------*/
 
-STATIC void GasmaskAct(GasmaskWork *work)
+static void Act(Work *work)
 {
     int map;
 
@@ -73,7 +75,7 @@ STATIC void GasmaskAct(GasmaskWork *work)
     }
 }
 
-STATIC void GasmaskDie(GasmaskWork *work)
+static void Die(Work *work)
 {
     GM_FreeObject((OBJECT *)&work->object);
     EQ_VisibleHead(work->parent, &work->saved_packs, &work->saved_raise);
@@ -84,7 +86,7 @@ STATIC void GasmaskDie(GasmaskWork *work)
     }
 }
 
-STATIC int GasmaskGetResources(GasmaskWork *work, OBJECT *parent, int num_parent)
+static int GetResources(Work *work, OBJECT *parent, int num_parent)
 {
     OBJECT_NO_ROTS *object = &work->object;
 
@@ -93,7 +95,7 @@ STATIC int GasmaskGetResources(GasmaskWork *work, OBJECT *parent, int num_parent
 
     work->time = 0;
 
-    GM_InitObjectNoRots(object, GV_StrCode("gas_mask"), BODY_FLAG, 0);
+    GM_InitObjectNoRots(object, GASMASK_MODEL, BODY_FLAG, 0);
     if (!work->object.objs)
     {
         return -1;
@@ -110,14 +112,14 @@ STATIC int GasmaskGetResources(GasmaskWork *work, OBJECT *parent, int num_parent
 
 /*---------------------------------------------------------------------------*/
 
-void *NewGasmask(CONTROL *control, OBJECT *parent, int num_parent)
+void *NewGasMask(CONTROL *control, OBJECT *parent, int num_parent)
 {
-    GasmaskWork *work = GV_NewActor(EXEC_LEVEL, sizeof(GasmaskWork));
+    Work *work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, GasmaskAct, GasmaskDie, "gasmask.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "gasmask.c");
 
-        if (GasmaskGetResources(work, parent, num_parent) < 0)
+        if (GetResources(work, parent, num_parent) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

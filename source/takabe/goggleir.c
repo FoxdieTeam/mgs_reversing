@@ -17,48 +17,50 @@ extern u_long DG_PaletteBuffer_800B3818[256];
 /*---------------------------------------------------------------------------*/
 // thermal goggles (screen effect)
 
-typedef struct GoggleIrWork
+#define EXEC_LEVEL      GV_ACTOR_AFTER
+
+#define GOGGLES_MODEL   GV_StrCode("goggles")
+#define MODEL_FLAGS     ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE \
+                        | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE \
+                        | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE )
+
+typedef struct _Work
 {
     GV_ACT         actor;
     OBJECT_NO_ROTS object;
     CONTROL       *control;
     OBJECT        *parent_obj;
     int            head_hidden;
-    int            field_50;
-    GV_ACT        *scn_mask; // thermal goggles screen effect
-    GV_ACT        *manager;
+    int            counter;
+    GV_ACT        *screen_mask;     // NewNightVisionScreen
+    GV_ACT        *manager;         // NewGoggleManager
     int            field_5C;
     int            field_60;
-    GV_ACT        *manager2;
+    GV_ACT        *manager2;        // NewGoggleManager
     short          saved_n_packs;
     short          saved_raise;
-} GoggleIrWork;
-
-// STATIC_ASSERT(sizeof(GoggleIrWork) == 0x6C, "sizeof(GoggleIrWork) is wrong!");
-
-#define EXEC_LEVEL GV_ACTOR_AFTER
+} Work;
 
 /*---------------------------------------------------------------------------*/
 
 STATIC RECT rect_8009F718 = {768, 226, 256, 2};
 STATIC RECT rect_8009F720 = {768, 196, 256, 2};
 
-STATIC u_short goggleir_PaletteConvert(u_short base)
+// Uses RGBA5551 format
+static u_short PaletteConvert(u_short base)
 {
-    int r, r2;
-    int g;
-    int b;
-    int a;
+    int r,g,b,a;
+    int r2;
 
     if ((base & 0x7fff) == 0)
     {
         return base;
     }
 
-    r = base & 31;
+    r = base & 0x001f;
     r2 = r;
 
-    g = ((base & 0x3E0) >> 5) & 31;
+    g = ((base & 0x03E0) >> 5) & 31;
     if (g > r2) r2 = g;
 
     b = ((base & 0x7C00) >> 10) & 31;
@@ -80,41 +82,36 @@ STATIC u_short goggleir_PaletteConvert(u_short base)
     return r | g << 5 | b << 10 | a;
 }
 
-STATIC void goggleir_PaletteCallback(void)
+static void PaletteCallback(void)
 {
-    int     iVar1;
-    u_short *puVar2;
-    int     iVar3;
-    u_short uVar4;
+    int i, j;
+    u_short *ptr;
+    u_short color;
 
-    iVar1 = 15;
+    rect_8009F718.y = 226;
+    rect_8009F720.y = 196;
 
-    rect_8009F718.y = 0xe2;
-    rect_8009F720.y = 0xc4;
-
-    for (; iVar1 > 0; iVar1--)
+    for (i = 15; i > 0; i--)
     {
         DrawSync(0);
         StoreImage2(&rect_8009F720, DG_PaletteBuffer_800B3818);
         DrawSync(0);
 
-        puVar2 = (u_short *)DG_PaletteBuffer_800B3818;
-        iVar3 = 0x200;
+        ptr = (u_short *)DG_PaletteBuffer_800B3818;
 
-        for (; iVar3 > 0; iVar3--)
+        for (j = 512; j > 0; j--)
         {
-            *puVar2++ = goggleir_PaletteConvert(*puVar2);
+            *ptr++ = PaletteConvert(*ptr);
         }
 
-        if (iVar1 == 1)
+        if (i == 1)
         {
-            uVar4 = goggleir_PaletteConvert(0xffff);
-            puVar2 = (u_short *)&DG_PaletteBuffer_800B3818[248];
-            iVar3 = 0x10;
+            color = PaletteConvert(0xffff);
+            ptr = (u_short *)&DG_PaletteBuffer_800B3818[248];
 
-            for (; iVar3 > 0; iVar3--)
+            for (j = 16; j > 0; j--)
             {
-                *puVar2++ = uVar4;
+                *ptr++ = color;
             }
         }
 
@@ -125,9 +122,10 @@ STATIC void goggleir_PaletteCallback(void)
     }
 }
 
-STATIC void goggleir_Act(GoggleIrWork *work)
+static void Act(Work *work)
 {
     int new_map;
+
     if (work->head_hidden)
     {
         new_map = work->control->map->index;
@@ -143,28 +141,28 @@ STATIC void goggleir_Act(GoggleIrWork *work)
         }
     }
 
-    if (work->field_50 == 3)
+    if (work->counter == 3)
     {
-        DG_SetExtPaletteMakeFunc(goggleir_PaletteCallback, goggleir_PaletteConvert);
+        DG_SetExtPaletteMakeFunc(PaletteCallback, PaletteConvert);
         GM_GameStatus |= STATE_THERMG;
         dword_800BDFA8 = 1;
-        work->scn_mask = (GV_ACT *)NewNightVisionScreen(1);
+        work->screen_mask = NewNightVisionScreen(SCREEN_MASK_IR_MODE);
     }
 
-    if (work->field_50 < 11)
+    if (work->counter < 11)
     {
-        work->field_50++;
+        work->counter++;
     }
 }
 
-STATIC void goggleir_Die(GoggleIrWork *work)
+static void Die(Work *work)
 {
     GM_GameStatus &= ~STATE_THERMG;
     DG_ResetExtPaletteMakeFunc();
 
-    if (work->scn_mask)
+    if (work->screen_mask)
     {
-        GV_DestroyOtherActor(work->scn_mask);
+        GV_DestroyOtherActor(work->screen_mask);
     }
 
     if (work->manager)
@@ -184,13 +182,13 @@ STATIC void goggleir_Die(GoggleIrWork *work)
     }
 }
 
-STATIC int goggleir_GetResources(GoggleIrWork *work, OBJECT *parent)
+static int GetResources(Work *work, OBJECT *parent)
 {
     OBJECT_NO_ROTS *obj = &work->object;
 
     if (parent->objs->n_models >= 7)
     {
-        GM_InitObjectNoRots(obj, GV_StrCode("goggles"), 877, 0);
+        GM_InitObjectNoRots(obj, GOGGLES_MODEL, MODEL_FLAGS, 0);
         if (!obj->objs)
         {
             return -1;
@@ -217,13 +215,13 @@ STATIC int goggleir_GetResources(GoggleIrWork *work, OBJECT *parent)
 
 void *NewGoggleIr(CONTROL *control, OBJECT *parent_obj, int num_parent)
 {
-    GoggleIrWork *work = GV_NewActor(EXEC_LEVEL, sizeof(GoggleIrWork));
+    Work *work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, &goggleir_Act, &goggleir_Die, "goggleir.c");
+        GV_SetNamedActor(&work->actor, &Act, &Die, "goggleir.c");
 
-        if (goggleir_GetResources(work, parent_obj) < 0)
+        if (GetResources(work, parent_obj) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
@@ -231,7 +229,7 @@ void *NewGoggleIr(CONTROL *control, OBJECT *parent_obj, int num_parent)
     }
 
     work->control = control;
-    work->field_50 = 0;
+    work->counter = 0;
 
     return (void *)work;
 }

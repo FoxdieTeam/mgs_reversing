@@ -27,12 +27,12 @@ extern Work GV_Work_800ACBF8;
 
 /*---------------------------------------------------------------------------*/
 
-STATIC void GV_ExceptionCallback(void)
+static void GV_ExceptionCallback(void)
 {
     printf("HANGUP: %s\n", GV_DebugMes);
 }
 
-STATIC void gvd_Act(Work *work)
+static void Act(Work *work)
 {
     int ticks;
 
@@ -67,7 +67,7 @@ void GV_SetPacketTempMemory(void)
     GV_InitMemorySystem(GV_PACKET_MEMORY1, 0, NULL, 0);
 }
 
-STATIC void GV_InitMemory(void)
+static void GV_InitMemory(void)
 {
     GV_InitMemorySystemAll();
     GV_ResetPacketMemory();
@@ -96,7 +96,7 @@ void GV_StartDaemon(void)
     GV_ResetSystem();
 
     GV_InitActor(GV_ACTOR_DAEMON, &GV_Work_800ACBF8.actor, NULL);
-    GV_SetNamedActor(&GV_Work_800ACBF8.actor, gvd_Act, NULL, "gvd.c");
+    GV_SetNamedActor(&GV_Work_800ACBF8.actor, Act, NULL, "gvd.c");
 
     GV_Clock = 0;
     GV_Time = 0;

@@ -8,26 +8,29 @@
 
 /*---------------------------------------------------------------------------*/
 
-typedef struct Kogaku2Work
+#define EXEC_LEVEL      GV_ACTOR_MANAGER
+
+#define SNAKE_COLOR     MAKE_RGBA(128,160, 96,0x3C)  // 0x3C = POLY_GT4
+#define NINJA_COLOR     MAKE_RGBA(128,128,128,0x3C)  // 0x3C = POLY_GT4
+
+typedef struct _Work
 {
     GV_ACT  actor;
     OBJECT *parent;
     int     num_parent;
-    int     field_28_obj_old_flag;
-    int     field_2C_ypos2;
-    int     field_30_ypos1;
-    int     field_34_ypos3_ninja;
-    int     field_38_ninja_var;
-    int     field_3C_msg_is_8650;
-    int     field_40_rgb;
-} Kogaku2Work;
-
-#define EXEC_LEVEL GV_ACTOR_MANAGER
+    int     saved_objs_flag;
+    int     ypos2;              // TODO: rename?
+    int     ypos1;              // TODO: rename?
+    int     ypos3_ninja;        // TODO: rename?
+    int     ninja_var;          // TODO: rename?
+    int     player_flag;        // Set but not used.
+    int     color;              // RGB + primitive code
+} Work;
 
 /*---------------------------------------------------------------------------*/
 
 // TODO: Originally mistaken for EQ_InvisibleUnit, give it a better name
-STATIC void EQ_InvisibleUnit2(DG_OBJS *objs, unsigned int color, int arg2)
+static void EQ_InvisibleUnit2(DG_OBJS *objs, unsigned int color, int arg2)
 {
     int       i;
     int       n_models;
@@ -73,7 +76,7 @@ STATIC void EQ_InvisibleUnit2(DG_OBJS *objs, unsigned int color, int arg2)
 }
 
 // TODO: Originally mistaken for EQ_VisibleUnit, give it a better name
-STATIC int EQ_VisibleUnit2(short *arg0, char *arg1)
+static int EQ_VisibleUnit2(short *arg0, char *arg1)
 {
     int adjust;
     int x, y;
@@ -112,10 +115,7 @@ STATIC int EQ_VisibleUnit2(short *arg0, char *arg1)
 
 /*---------------------------------------------------------------------------*/
 
-STATIC void Kogaku2Act2(Kogaku2Work *work);
-STATIC void Kogaku2Die2(Kogaku2Work *work);
-
-STATIC POLY_GT4 *kogaku2_tpage_uv_update_80060F98(POLY_GT4 *packs, int n_packs)
+static POLY_GT4 *TPageUVUpdate(POLY_GT4 *packs, int n_packs)
 {
     int tpage;
     int visible;
@@ -158,7 +158,7 @@ STATIC POLY_GT4 *kogaku2_tpage_uv_update_80060F98(POLY_GT4 *packs, int n_packs)
     return packs;
 }
 
-STATIC POLY_GT4 *kogaku2_tpage_uv_rgb_update_800610A4(POLY_GT4 *packs, int n_packs, int ypos)
+static POLY_GT4 *TPageUVRGBUpdate(POLY_GT4 *packs, int n_packs, int ypos)
 {
     int tpage;
     int visible;
@@ -178,10 +178,10 @@ STATIC POLY_GT4 *kogaku2_tpage_uv_rgb_update_800610A4(POLY_GT4 *packs, int n_pac
         {
             if ((packs->tpage & 0x180) != getTPage(2, 0, 0, 0))
             {
-                LSTORE(0x3C808080, &packs->r0);
-                LSTORE(0x3C808080, &packs->r1);
-                LSTORE(0x3C808080, &packs->r2);
-                LSTORE(0x3C808080, &packs->r3);
+                LSTORE(NINJA_COLOR, &packs->r0);
+                LSTORE(NINJA_COLOR, &packs->r1);
+                LSTORE(NINJA_COLOR, &packs->r2);
+                LSTORE(NINJA_COLOR, &packs->r3);
             }
 
             if ((packs->tag & 0xff000000) != 0)
@@ -212,7 +212,7 @@ STATIC POLY_GT4 *kogaku2_tpage_uv_rgb_update_800610A4(POLY_GT4 *packs, int n_pac
     return packs;
 }
 
-STATIC void kogaku2_update_prims1_80061204(Kogaku2Work *work)
+static void UpdatePrims1(Work *work)
 {
     DG_OBJS  *objs;     // $v0
     int       n_models; // $s2
@@ -229,14 +229,14 @@ STATIC void kogaku2_update_prims1_80061204(Kogaku2Work *work)
         {
             for (j = i; j; j = j->extend)
             {
-                pPack = kogaku2_tpage_uv_update_80060F98(pPack, j->n_packs);
+                pPack = TPageUVUpdate(pPack, j->n_packs);
             }
         }
         --n_models;
     }
 }
 
-STATIC void kogaku2_update_prims2_800612BC(Kogaku2Work *work)
+static void UpdatePrims2(Work *work)
 {
     DG_OBJS  *objs;     // $v0
     int       n_models; // $s2
@@ -253,84 +253,87 @@ STATIC void kogaku2_update_prims2_800612BC(Kogaku2Work *work)
         {
             for (j = i; j; j = j->extend)
             {
-                pPack = kogaku2_tpage_uv_rgb_update_800610A4(pPack, j->n_packs, work->field_2C_ypos2);
+                pPack = TPageUVRGBUpdate(pPack, j->n_packs, work->ypos2);
             }
         }
         --n_models;
     }
 }
 
-STATIC void kogaku2_kill_helper_80061384(Kogaku2Work *work)
+static void RestoreModelFlags(Work *work)
 {
-    DG_OBJS *objs;     // $a2
-    DG_OBJ  *pIter;    // $s0
-    int      n_models; // $s1
+    DG_OBJS *objs;
+    DG_OBJ  *obj;
+    int      n_models;
 
     objs = work->parent->objs;
-    pIter = objs->objs;
+    obj = objs->objs;
     n_models = objs->n_models;
-    objs->flag = (objs->flag & DG_FLAG_INVISIBLE) | (work->field_28_obj_old_flag & ~DG_FLAG_INVISIBLE);
+    objs->flag = (objs->flag & DG_FLAG_INVISIBLE) | (work->saved_objs_flag & ~DG_FLAG_INVISIBLE);
     while (n_models > 0)
     {
-        DG_WriteObjPacketUV(pIter, 0);
-        DG_WriteObjPacketUV(pIter, 1);
-        ++pIter;
+        DG_WriteObjPacketUV(obj, 0);
+        DG_WriteObjPacketUV(obj, 1);
+        ++obj;
         --n_models;
     }
 }
 
-STATIC void Kogaku2Act(Kogaku2Work *work)
-{
-    int ypos2 = work->field_2C_ypos2;
-    if (work->field_30_ypos1 < ypos2)
-    {
-        work->field_2C_ypos2 = ypos2 - work->field_38_ninja_var;
-        kogaku2_update_prims2_800612BC(work);
+static void Act2(Work *work);
+static void Die2(Work *work);
 
-        ypos2 = work->field_2C_ypos2;
-        if (work->field_30_ypos1 >= ypos2)
+static void Act(Work *work)
+{
+    int ypos2 = work->ypos2;
+    if (work->ypos1 < ypos2)
+    {
+        work->ypos2 = ypos2 - work->ninja_var;
+        UpdatePrims2(work);
+
+        ypos2 = work->ypos2;
+        if (work->ypos1 >= ypos2)
         {
-            EQ_InvisibleUnit2(work->parent->objs, work->field_40_rgb, 0);
+            EQ_InvisibleUnit2(work->parent->objs, work->color, 0);
         }
     }
     else
     {
-        EQ_InvisibleUnit2(work->parent->objs, work->field_40_rgb, 1);
-        kogaku2_update_prims1_80061204(work);
+        EQ_InvisibleUnit2(work->parent->objs, work->color, 1);
+        UpdatePrims1(work);
     }
     if (GM_GameStatus & STATE_THERMG)
     {
-        work->parent->objs->flag = work->field_28_obj_old_flag;
+        work->parent->objs->flag = work->saved_objs_flag;
         DG_FreeObjsPacket(work->parent->objs, 0);
         DG_FreeObjsPacket(work->parent->objs, 1);
-        work->actor.act = (GV_ACTFUNC)Kogaku2Act2;
-        work->actor.die = (GV_ACTFUNC)Kogaku2Die2;
+        work->actor.act = (GV_ACTFUNC)Act2;
+        work->actor.die = (GV_ACTFUNC)Die2;
     }
 }
 
-STATIC void Kogaku2Die(Kogaku2Work *work)
+static void Die(Work *work)
 {
-    kogaku2_kill_helper_80061384(work);
+    RestoreModelFlags(work);
 }
 
-STATIC void Kogaku2Act2(Kogaku2Work *work)
+static void Act2(Work *work)
 {
     if (!(GM_GameStatus & STATE_THERMG))
     {
         work->parent->objs->flag &= ~DG_FLAG_SHADE;
         work->parent->objs->flag &= ~DG_FLAG_BOUND;
         work->parent->objs->flag |= DG_FLAG_GBOUND;
-        EQ_InvisibleUnit2(work->parent->objs, work->field_40_rgb, 0);
-        work->actor.act = (GV_ACTFUNC)Kogaku2Act;
-        work->actor.die = (GV_ACTFUNC)Kogaku2Die;
+        EQ_InvisibleUnit2(work->parent->objs, work->color, 0);
+        work->actor.act = (GV_ACTFUNC)Act;
+        work->actor.die = (GV_ACTFUNC)Die;
     }
     else
     {
-        work->field_2C_ypos2 = work->field_30_ypos1;
+        work->ypos2 = work->ypos1;
     }
 }
 
-STATIC void Kogaku2Die2(Kogaku2Work *work)
+static void Die2(Work *work)
 {
     /* do nothing */
 }
@@ -339,35 +342,35 @@ STATIC void Kogaku2Die2(Kogaku2Work *work)
 
 void *NewKogaku2(CONTROL *control, OBJECT *parent, int num_parent)
 {
-    Kogaku2Work *work;
+    Work *work;
     DG_OBJS *objs;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Kogaku2Work));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, Kogaku2Act, Kogaku2Die, "kogaku2.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "kogaku2.c");
 
         work->parent = parent;
         work->num_parent = num_parent;
-        work->field_2C_ypos2 = 0;
-        work->field_30_ypos1 = 1;
+        work->ypos2 = 0;
+        work->ypos1 = 1;
         objs = work->parent->objs;
 
-        work->field_28_obj_old_flag = objs->flag;
+        work->saved_objs_flag = objs->flag;
         DG_UnShadeObjs(objs);
         DG_UnBoundObjs(objs);
         DG_GBoundObjs(objs);
 
         if (control->name == CHARA_SNAKE)
         {
-            work->field_3C_msg_is_8650 = 1;
-            work->field_40_rgb = 0x3C60A080;
-            EQ_InvisibleUnit2(objs, work->field_40_rgb , 0);
+            work->player_flag = 1;
+            work->color = SNAKE_COLOR;
+            EQ_InvisibleUnit2(objs, work->color , 0);
         }
         else
         {
-            work->field_40_rgb = 0x3C808080;
-            EQ_InvisibleUnit2(objs, work->field_40_rgb , 0);
+            work->color = NINJA_COLOR;
+            EQ_InvisibleUnit2(objs, work->color , 0);
         }
     }
 
@@ -382,7 +385,7 @@ void *NewKogaku3(CONTROL *control, OBJECT *parent, int num_parent)
     long coords[9];
     long unused;
 
-    Kogaku2Work *work;
+    Work *work;
     DG_OBJS *objs;
     DG_DEF *def;
     int maxx, maxy, maxz;
@@ -393,11 +396,11 @@ void *NewKogaku3(CONTROL *control, OBJECT *parent, int num_parent)
     long *coord_iter;
     int y;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Kogaku2Work));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
 
     if (work)
     {
-        GV_SetNamedActor(&work->actor, Kogaku2Act, Kogaku2Die, "kogaku2.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "kogaku2.c");
 
         work->parent = parent;
         work->num_parent = num_parent;
@@ -476,24 +479,24 @@ void *NewKogaku3(CONTROL *control, OBJECT *parent, int num_parent)
             coord_iter++;
         }
 
-        work->field_2C_ypos2 = max;
-        work->field_34_ypos3_ninja = max;
-        work->field_30_ypos1 = min;
-        work->field_38_ninja_var = (max - min) / 10;
+        work->ypos2 = max;
+        work->ypos3_ninja = max;
+        work->ypos1 = min;
+        work->ninja_var = (max - min) / 10;
 
-        if (work->field_38_ninja_var == 0)
+        if (work->ninja_var == 0)
         {
-            work->field_38_ninja_var = 1;
+            work->ninja_var = 1;
         }
 
         if (control->name == CHARA_SNAKE)
         {
-            work->field_3C_msg_is_8650 = 1;
-            work->field_40_rgb = 0x3C60A080;
+            work->player_flag = 1;
+            work->color = SNAKE_COLOR;
         }
         else
         {
-            work->field_40_rgb = 0x3C808080;
+            work->color = NINJA_COLOR;
         }
     }
 

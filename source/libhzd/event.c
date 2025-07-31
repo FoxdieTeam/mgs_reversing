@@ -295,7 +295,7 @@ static inline int HZD_helper2_80029D50(HZD_BIND *pBind, HZD_EVT *event)
 
     if (pBind->field_B_param_e & 0x4)
     {
-        if (GM_PlayerStatus & 0x80)
+        if (GM_PlayerStatus & PLAYER_NOT_PLAYABLE)
         {
             return 0;
         }

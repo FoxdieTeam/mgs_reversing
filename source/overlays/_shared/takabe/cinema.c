@@ -6,6 +6,11 @@
 #include "game/game.h"
 #include "takabe/thing.h"
 
+/*---------------------------------------------------------------------------*/
+
+#define EXEC_LEVEL  GV_ACTOR_LEVEL3
+#define CHARA_NAME  CHARA_CINEMA
+
 typedef struct _PRIMS
 {
     DR_TPAGE tpage[2];   //0x00
@@ -21,7 +26,7 @@ typedef struct _PARAM
     int col;          //0x0C
 } PARAM;
 
-typedef struct _CinemaScreenWork
+typedef struct _Work
 {
     GV_ACT actor;
     int    name;      //0x20
@@ -30,16 +35,16 @@ typedef struct _CinemaScreenWork
     int    once;      //0x2C
     PRIMS *prims;     //0x30
     PARAM  params[2]; //0x34
-} CinemaScreenWork;
+} Work;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL3
+/*---------------------------------------------------------------------------*/
 
 unsigned short mes_list_800C3680[] = { 0xD420, 0x745D };
 
-void CinemaScreenAct_800DDDA4( CinemaScreenWork* work )
+static void Act( Work *work )
 {
-    unsigned int *ot ;
-    int           i, cols[2], mes ;
+    u_long *ot ;
+    int     i, cols[2], mes ;
 
     //OPERATOR() ;
 
@@ -65,7 +70,7 @@ void CinemaScreenAct_800DDDA4( CinemaScreenWork* work )
         return;
     }
 
-    ot = (unsigned int*)DG_Chanl( 1 )->mOrderingTables[ GV_Clock ] ;
+    ot = (u_long *)DG_Chanl( 1 )->mOrderingTables[ GV_Clock ] ;
 
     for ( i = 0 ; i < 2 ; i++ )
     {
@@ -104,8 +109,8 @@ void CinemaScreenAct_800DDDA4( CinemaScreenWork* work )
     if ( cols[0] == 0xFFFFFF && cols[1] == 0xFFFFFF )
     {
         TILE* tile = &work->prims->tile[ GV_Clock ][ 0 ];
-        addPrim (ot, tile );
-        addPrim (ot, &tile[1] );
+        addPrim( ot, tile );
+        addPrim( ot, &tile[1] );
     }
     else
     {
@@ -158,7 +163,7 @@ void CinemaScreenAct_800DDDA4( CinemaScreenWork* work )
     }
 }
 
-void CinemaScreenDie_800DE150( CinemaScreenWork *work )
+static void Die( Work *work )
 {
     if ( work->prims )
     {
@@ -166,7 +171,7 @@ void CinemaScreenDie_800DE150( CinemaScreenWork *work )
     }
 }
 
-int CinemaScreenGetResources_800DE180( CinemaScreenWork *work, int time, int event )
+static int GetResources( Work *work, int time, int event )
 {
     int      col;
     int      h1;
@@ -199,7 +204,6 @@ int CinemaScreenGetResources_800DE180( CinemaScreenWork *work, int time, int eve
     poly->y2 = h1;
     poly->y3 = h1;
 
-
     colour &= 0xFF000000;
     *(int*)&poly->r0 = colour;
     *(int*)&poly->r1 = colour;
@@ -223,9 +227,7 @@ int CinemaScreenGetResources_800DE180( CinemaScreenWork *work, int time, int eve
     tile->x0 = 0;
     tile->y0 = 0;
     tile->h = h1;
-    tile->r0 = 0;
-    tile->g0 = 0;
-    tile->b0 = 0;
+    setRGB0(tile, 0, 0, 0);
 
     params = work->params;
     prims->tile[0][1] = prims->tile[0][0];
@@ -257,43 +259,46 @@ int CinemaScreenGetResources_800DE180( CinemaScreenWork *work, int time, int eve
     return 0;
 }
 
-void *NewCinemaScreen_800DE434( int time, int event, int argc, char **argv )
-{
-    CinemaScreenWork *work ;
+/*---------------------------------------------------------------------------*/
 
-    work = GV_NewActor( EXEC_LEVEL, sizeof( CinemaScreenWork ) ) ;
+void *NewCinemaScreen( int time, int event, int argc, char **argv )
+{
+    Work *work ;
+
+    //OPERATOR();
+    work = GV_NewActor( EXEC_LEVEL, sizeof( Work ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor( &work->actor, CinemaScreenAct_800DDDA4, CinemaScreenDie_800DE150, "cinema.c" );
-        if ( CinemaScreenGetResources_800DE180( work, time, event ) < 0 )
-        {
-            GV_DestroyActor( &work->actor );
+        GV_SetNamedActor( &work->actor, Act, Die, "cinema.c" );
+        if ( GetResources( work, time, event ) < 0 ) {
+            GV_DestroyActor( work );
             return NULL;
         }
-        work->name = CHARA_CINEMA;
+        work->name = CHARA_NAME;
     }
-    return (void *)work ;
+    return (void *)work;
 }
 
-
-int NewCinemaScreenClose_800DE4CC( CinemaScreenWork *work )
+void *NewCinemaScreenClose( void *addr )
 {
-    work->time = 0;
-    return 0;
+    Work *work = (Work *)addr;
+    work->time = 0;     /* 強制的に終了時間にしてしまう */
+    return ( NULL );
 }
 
-void *NewCinemaScreenSet_800DE4D8(int name, int where, int argc, char **argv)
+void *NewCinemaScreenSet( int name, int where, int argc, char **argv )
 {
-    int ops, ops2;
-    CinemaScreenWork *work ;
+    Work *work;
+    int time, event;
 
-    work = GV_NewActor( EXEC_LEVEL, sizeof( CinemaScreenWork ) ) ;
+    //OPERATOR();
+    work = GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
     if ( work != NULL ) {
-        GV_SetNamedActor( &work->actor, CinemaScreenAct_800DDDA4, CinemaScreenDie_800DE150, "cinema.c" );
-        ops  = THING_Gcl_GetInt( 't' );
-        ops2 = THING_Gcl_GetInt( 'e' );
-        if ( CinemaScreenGetResources_800DE180( work, ops, ops2 ) < 0 )
+        GV_SetNamedActor( &work->actor, Act, Die, "cinema.c" );
+        time  = THING_Gcl_GetInt( 't' );
+        event = THING_Gcl_GetInt( 'e' );
+        if ( GetResources( work, time, event ) < 0 )
         {
-            GV_DestroyActor( &work->actor );
+            GV_DestroyActor( work );
             return NULL;
         }
         work->name = name;

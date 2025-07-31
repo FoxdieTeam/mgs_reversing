@@ -295,16 +295,6 @@ typedef struct DG_DivideMem         // private to libdg/divide.c
     DG_RVECTOR          *rvec;       // 0x34
 } DG_DivideMem;
 
-typedef struct SgtFile
-{
-    unsigned int   unknown0;
-    unsigned char *unknown1;
-    unsigned char *unknown2;
-    unsigned char *unknown3;
-    unsigned char *unknown4;
-    unsigned char *unknown5;
-} SgtFile;
-
 typedef struct DG_CHANL
 {
     unsigned char *mOrderingTables[ 2 ]; // 257 pointers? // One for each active buffer
@@ -398,6 +388,7 @@ enum DG_CHANL
 //#define WEAPON_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE |\
 //                    DG_FLAG_ONEPIECE) // 0x6d
 
+// TODO: these belong to takabe/paper.c
 #define RevisionDir( a )  a &= 4095
 #define INIT_VEC( vec,xx,yy,zz ) { (vec).vx = xx; (vec).vy = yy; (vec).vz = zz; }
 

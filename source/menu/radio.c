@@ -587,7 +587,7 @@ void menu_radio_codec_helper_helper14_helper4_800408BC(MenuPrim *pGlue, int x, i
     _NEW_PRIM(pTpage, pGlue);
     _NEW_PRIM(pSprt, pGlue);
 
-    color2 = 0x808080;
+    color2 = COLOR_GRAY;
     if (GV_Clock == 0)
     {
         setDrawTPage(pTpage, 0, 1, 0x120);
@@ -1497,7 +1497,7 @@ STATIC void menu_radio_update_80042198(MenuWork *work, unsigned char *pOt)
 
     state = work->field_2A_state;
     pPad = work->field_24_pInput;
-    if (GM_PlayerStatus & 0x8000)
+    if (GM_PlayerStatus & PLAYER_MENU_DISABLE)
     {
         return;
     }

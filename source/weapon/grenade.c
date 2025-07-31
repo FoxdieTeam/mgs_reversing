@@ -24,7 +24,16 @@ extern BLAST_DATA    blast_data_8009F4B8[8];
 /*---------------------------------------------------------------------------*/
 // Grenade (frag/stun/chaff)
 
-typedef struct _GrenadeWork
+#define EXEC_LEVEL      GV_ACTOR_AFTER
+
+#define GRENADE_MODEL   0x3b88  // GV_StrCode("grenade")
+#define CANISTER_MODEL  0x7a64  // GV_StrCode("can_gren")
+#define C4BOMB_MODEL    0xf83d  // GV_StrCode("c4_bomb")
+
+#define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE \
+                        | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE )
+
+typedef struct _Work
 {
     GV_ACT         actor;
     CONTROL       *control;
@@ -36,28 +45,27 @@ typedef struct _GrenadeWork
     int            timer;
     int            grenade_type;
     int            has_exploded;
-} GrenadeWork;
+} Work;
 
-#define EXEC_LEVEL GV_ACTOR_AFTER
-#define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
+/*---------------------------------------------------------------------------*/
 
-unsigned short grenade_model_8009F3E4[] = {
-    KMD_GRENADE,    // GV_StrCode("grenade")
-    KMD_CAN_GREN,   // GV_StrCode("can_gren")
-    KMD_CAN_GREN,   // GV_StrCode("stn_ba")
-    KMD_C4_BOMB     // GV_StrCode("c4_bomb")
+STATIC unsigned short grenade_model_8009F3E4[] = {
+    GRENADE_MODEL,      // 0: GRD_GRENADE
+    CANISTER_MODEL,     // 1: GRD_STUN
+    CANISTER_MODEL,     // 2: GRD_CHAFF
+    C4BOMB_MODEL        // 3: GRD_TBOMB
 };
 
-SVECTOR dword_8009F3EC[] = {
-    { 0, 128, 150, 0 },
-    { 0,  50, 200, 0 },
-    { 0,  32,  32, 0 },
-    { 0, 280,  80, 0 }
+STATIC SVECTOR dword_8009F3EC[] = {
+    { 0, 128, 150, 0 }, // 0: GRD_GRENADE
+    { 0,  50, 200, 0 }, // 1: GRD_STUN
+    { 0,  32,  32, 0 }, // 2: GRD_CHAFF
+    { 0, 280,  80, 0 }  // 3: GRD_TBOMB
 };
 
 /*---------------------------------------------------------------------------*/
 
-STATIC void grenade_800663A0( void )
+static void SetGrenadeTarget( void )
 {
     TARGET target;
     SVECTOR pos;
@@ -71,7 +79,7 @@ STATIC void grenade_800663A0( void )
     GM_PowerTarget( &target );
 }
 
-STATIC void GrenadeAct( GrenadeWork *work )
+static void Act( Work *work )
 {
     unsigned int  parent_objs_flag;
     SVECTOR      *svector;
@@ -110,11 +118,11 @@ STATIC void GrenadeAct( GrenadeWork *work )
                 break;
             case GRD_STUN:
                 NewStanBlast( world );
-                grenade_800663A0();
+                SetGrenadeTarget();
                 break;
             case GRD_CHAFF:
                 NewChaffGrd( world );
-                grenade_800663A0();
+                SetGrenadeTarget();
                 break;
             default:
             }
@@ -207,12 +215,12 @@ STATIC void GrenadeAct( GrenadeWork *work )
     work->pos = work->control->mov;
 }
 
-STATIC void GrenadeDie( GrenadeWork *work )
+static void Die( Work *work )
 {
     GM_FreeObject( (OBJECT *)&work->object );
 }
 
-STATIC int GrenadeGetResources( GrenadeWork *work, OBJECT *parent, int num_parent, int grd_type )
+static int GetResources( Work *work, OBJECT *parent, int num_parent, int grd_type )
 {
     OBJECT_NO_ROTS *obj;
 
@@ -228,16 +236,16 @@ STATIC int GrenadeGetResources( GrenadeWork *work, OBJECT *parent, int num_paren
 
 /*---------------------------------------------------------------------------*/
 
-STATIC void *InitGrenade( CONTROL *control, OBJECT *parent, int num_parent,
+static void *InitGrenade( CONTROL *control, OBJECT *parent, int num_parent,
                           int *flags, int which_side, int grd_type )
 {
-    GrenadeWork *work;
+    Work *work;
 
-    work = GV_NewActor( EXEC_LEVEL, sizeof( GrenadeWork ) );
+    work = GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
     if ( work )
     {
-        GV_SetNamedActor( &work->actor, &GrenadeAct, &GrenadeDie, "grenade.c");
-        if ( GrenadeGetResources( work, parent, num_parent, grd_type ) < 0 )
+        GV_SetNamedActor( &work->actor, &Act, &Die, "grenade.c");
+        if ( GetResources( work, parent, num_parent, grd_type ) < 0 )
         {
             GV_DestroyActor( &work->actor );
             return NULL;

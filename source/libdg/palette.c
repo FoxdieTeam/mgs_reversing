@@ -4,16 +4,16 @@
 #include <libgpu.h>
 #include "common.h"
 
-STATIC RECT rect_800AB3A8 = { 768, 226, 256, 30 };
-STATIC RECT rect_800AB3B0 = { 768, 196, 256, 30 };
+STATIC RECT palette1 = { 768, 226, 256, 30 };
+STATIC RECT palette2 = { 768, 196, 256, 30 };
 
 void DG_StorePalette(void)
 {
-    MoveImage(&rect_800AB3A8, rect_800AB3B0.x, rect_800AB3B0.y);
+    MoveImage(&palette1, palette2.x, palette2.y);
 }
 
 void DG_ReloadPalette(void)
 {
-    MoveImage(&rect_800AB3B0, rect_800AB3A8.x, rect_800AB3A8.y);
+    MoveImage(&palette2, palette1.x, palette1.y);
 }
 

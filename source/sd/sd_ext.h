@@ -19,7 +19,7 @@ void sd_init(void);
 void SdTerm(void);
 void keyOff(unsigned int ch);
 void KeyOffStr(void);
-void sub_800820EC(void);
+void KeyOffStr2(void);
 void keyOn(unsigned int ch);
 int sd_mem_alloc(void);
 

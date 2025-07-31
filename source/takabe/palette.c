@@ -11,21 +11,22 @@ extern u_long DG_PaletteBuffer_800B3818[256];
 /*---------------------------------------------------------------------------*/
 
 STATIC int dword_8009F728 = 0;
-STATIC RECT rect_8009F72C = {768, 226, 256, 2};
-STATIC RECT rect_8009F734 = {768, 196, 256, 2};
+
+STATIC RECT takabe_palette1 = { 768, 226, 256, 2 };
+STATIC RECT takabe_palette2 = { 768, 196, 256, 2 };
 
 void DG_StorePalette2(void)
 {
-    StoreImage(&rect_8009F734, DG_PaletteBuffer_800B3818);
+    StoreImage(&takabe_palette2, DG_PaletteBuffer_800B3818);
 }
 
 void DG_StorePaletteEffect(void)
 {
-    RECT rect1 = rect_8009F72C;
-    RECT rect2 = rect_8009F734;
-    int count;
+    RECT rect1 = takabe_palette1;
+    RECT rect2 = takabe_palette2;
+    int i;
 
-    for (count = 15; count > 0; count--)
+    for (i = 15; i > 0; i--)
     {
         DrawSync(0);
         StoreImage2(&rect2, DG_PaletteBuffer_800B3818);
@@ -57,22 +58,19 @@ static inline u_short modify_data(u_short data, u_short param_2)
 
 void sub_80079004(u_short param_1)
 {
-    RECT    rect = rect_8009F72C;
-    int     count, count2;
+    RECT    rect = takabe_palette1;
+    int     i, j;
     u_short *ptr;
 
-    count = 15;
-
-    for (; count > 0; count--)
+    for (i = 15; i > 0; i--)
     {
         DrawSync(0);
         StoreImage2(&rect, DG_PaletteBuffer_800B3818);
         DrawSync(0);
 
         ptr = (u_short *)DG_PaletteBuffer_800B3818;
-        count2 = 512;
 
-        for (; count2 > 0; count2--)
+        for (j = 512; j > 0; j--)
         {
             *ptr++ = modify_data(*ptr, param_1);
         }

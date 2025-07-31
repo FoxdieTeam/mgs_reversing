@@ -183,7 +183,7 @@ static void Preope_800C356C(Work *work, char *ot)
         found = 1;
 
         text_sprt = &work->field_394[index].text_sprt[GV_Clock];
-        LSTORE(0x808080, &text_sprt->r0);
+        LSTORE(COLOR_GRAY, &text_sprt->r0);
         LCOPY(&work->field_394[index].rect.x, &text_sprt->x0);
         LCOPY(&work->field_394[index].rect.w, &text_sprt->w);
         text_sprt->u0 = 0;

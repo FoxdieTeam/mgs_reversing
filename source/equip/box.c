@@ -1,12 +1,13 @@
 #include "equip.h"
 
 #include "common.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "game/camera.h"
 #include "linkvar.h"
 #include "game/map.h"
 #include "game/object.h"
 #include "thing/sight.h"
-#include "strcode.h"
 
 extern int DG_CurrentGroupID;
 extern int dword_8009F604;
@@ -14,7 +15,15 @@ extern GM_Camera GM_Camera_800B77E8;
 
 /*---------------------------------------------------------------------------*/
 
-typedef struct BoxWork
+#define EXEC_LEVEL      GV_ACTOR_AFTER
+#define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
+
+#define CB_BOX_SIGHT    0xe2a9  // GV_StrCode("cb_box")
+
+#define CB_BOX_MODEL    GV_StrCode("cb_box")
+#define CB_BOX_MSG      GV_StrCode("段ボール")
+
+typedef struct _Work
 {
     GV_ACT         actor;
     OBJECT_NO_ROTS object;
@@ -23,13 +32,11 @@ typedef struct BoxWork
     int            invisible;
     const char   **names;
     int            unused;
-} BoxWork;
+} Work;
 
-#define EXEC_LEVEL GV_ACTOR_AFTER
-#define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
 /*---------------------------------------------------------------------------*/
 
-STATIC int box_1p_view_flag = 0;
+STATIC int box_1p_view_flag = FALSE;
 
 STATIC const char *box_texture_names[8] = {
     "cb_box11", "cb_box12",
@@ -38,7 +45,7 @@ STATIC const char *box_texture_names[8] = {
     "cb_box41", "cb_box42"
 };
 
-STATIC int BoxCheckMessage(BoxWork *work)
+static int CheckMessage(Work *work)
 {
     CONTROL *control = work->control;
     GV_MSG  *msg;
@@ -50,13 +57,13 @@ STATIC int BoxCheckMessage(BoxWork *work)
 
     for (n_msgs = control->field_56; n_msgs > 0; n_msgs--)
     {
-        if (GV_StrCode("段ボール") == msg->message[0])
+        if (CB_BOX_MSG == msg->message[0])
         {
             code = msg->message[1];
 
             if (code == 1)
             {
-                work->invisible = 1;
+                work->invisible = TRUE;
                 return 1;
             }
         }
@@ -67,13 +74,13 @@ STATIC int BoxCheckMessage(BoxWork *work)
     return 0;
 }
 
-STATIC void BoxAct(BoxWork *work)
+static void Act(Work *work)
 {
     GM_CurrentMap =  work->control->map->index;
 
     DG_GroupObjs(work->object.objs, DG_CurrentGroupID);
 
-    BoxCheckMessage(work);
+    CheckMessage(work);
     if ( work->invisible )
     {
         DG_InvisibleObjs(work->object.objs);
@@ -82,20 +89,20 @@ STATIC void BoxAct(BoxWork *work)
     {
         DG_InvisibleObjs(work->object.objs);
 
-        if ( dword_8009F604 != SGT_CB_BOX )
+        if ( dword_8009F604 != CB_BOX_SIGHT )
         {
-            box_1p_view_flag = 1;
-            NewSight_80071CDC(SGT_CB_BOX, SGT_CB_BOX, (short*)&box_1p_view_flag, 1, NULL);
+            box_1p_view_flag = TRUE;
+            NewSight(CB_BOX_SIGHT, CB_BOX_SIGHT, (short*)&box_1p_view_flag, IT_Scope, NULL);
         }
     }
     else
     {
-        box_1p_view_flag = 0;
+        box_1p_view_flag = FALSE;
         DG_VisibleObjs(work->object.objs);
     }
 }
 
-STATIC void BoxDie(BoxWork *work)
+static void Die(Work *work)
 {
     const char **name;
     int          i;
@@ -108,16 +115,16 @@ STATIC void BoxDie(BoxWork *work)
         EQ_ChangeTexture(name[i], box_texture_names[i]);
     }
 
-    box_1p_view_flag = 0;
+    box_1p_view_flag = FALSE;
 }
 
-STATIC int BoxGetResources(BoxWork *work, OBJECT *parent)
+static int GetResources(Work *work, OBJECT *parent)
 {
     OBJECT_NO_ROTS *object = &work->object;
     const char    **name;
     int             i;
 
-    GM_InitObjectNoRots(object, GV_StrCode("cb_box"), BODY_FLAG, 0);
+    GM_InitObjectNoRots(object, CB_BOX_MODEL, BODY_FLAG, 0);
 
     if (!work->object.objs)
     {
@@ -142,12 +149,12 @@ STATIC int BoxGetResources(BoxWork *work, OBJECT *parent)
 
 void *NewBox(CONTROL *control, OBJECT *parent, int num_parent)
 {
-    BoxWork *work = GV_NewActor(EXEC_LEVEL, sizeof(BoxWork));
+    Work *work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, BoxAct, BoxDie, "box.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "box.c");
 
-        if (BoxGetResources(work, parent) < 0)
+        if (GetResources(work, parent) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

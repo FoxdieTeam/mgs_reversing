@@ -10,15 +10,15 @@ extern short snake_mag_size_800BDCB8;
 
 /*---------------------------------------------------------------------------*/
 
-typedef struct BandanaWork
+#define EXEC_LEVEL GV_ACTOR_AFTER2
+
+typedef struct _Work
 {
     GV_ACT  actor;
     OBJECT *parent;
     int     unused1;
     int     unused2;
-} BandanaWork;
-
-#define EXEC_LEVEL GV_ACTOR_AFTER2
+} Work;
 
 /*---------------------------------------------------------------------------*/
 
@@ -33,7 +33,7 @@ STATIC const char *bandana_new_tex[3] = {
     "sna_mf3"
 };
 
-STATIC void BandanaSwapTextures(OBJECT *parent)
+static void SwapTextures(OBJECT *parent)
 {
     int i;
 
@@ -48,7 +48,7 @@ STATIC void BandanaSwapTextures(OBJECT *parent)
     }
 }
 
-STATIC void BandanaAct(BandanaWork *work)
+static void Act(Work *work)
 {
     int ammo;
 
@@ -68,21 +68,21 @@ STATIC void BandanaAct(BandanaWork *work)
     }
 }
 
-STATIC void BandanaDie(BandanaWork *work)
+static void Die(Work *work)
 {
-    BandanaSwapTextures(work->parent);
+    SwapTextures(work->parent);
 }
 
 /*---------------------------------------------------------------------------*/
 
 void *NewBandana(CONTROL *control, OBJECT *parent, int num_parent)
 {
-    BandanaWork *work = GV_NewActor(EXEC_LEVEL, sizeof(BandanaWork));
+    Work *work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, BandanaAct, BandanaDie, "bandana.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "bandana.c");
         work->parent = parent;
-        BandanaSwapTextures(parent);
+        SwapTextures(parent);
     }
     return (void *)work;
 }

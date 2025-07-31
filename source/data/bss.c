@@ -18,6 +18,7 @@
 #include "game/strctrl.h"
 #include "mts/mts_new.h"
 #include "mts/mts_pad.h"
+#include "mts/terminal.h"
 #include "game/homing.h"
 #include "game/hittable.h"
 #include "sd/sd_cli.h"
@@ -55,20 +56,31 @@ ActorList BSS       gActorsList_800ACC18[GV_ACTOR_LEVEL]; // 0x264 (612) bytes
 
 gap                                     gap_800ACE7C[0x4]; // 4 bytes
 
-GV_LOADFUNC BSS     GV_LoaderFunctions[MAX_LOADERS]; // 0x68 (104) bytes
+/* libgv/cache.obj */
+GV_LOADFUNC BSS     GV_LoaderFunctions[GV_MAX_LOADERS]; // 0x68 (104) bytes
 
 gap                                     gap_800ACEE8[0x8]; // 8 bytes
 
 GV_CACHE_PAGE BSS   GV_CacheSystem; // 0x400 (1024) bytes
+
+/* libgv/memory.obj */
 GV_HEAP BSS         MemorySystems_800AD2F0[3]; // 0x3030 (12336) bytes
+
+/* libgv/message.obj */
 MESSAGE_LIST BSS    message_list_800B0320[2]; // 0x288 (648) bytes
+
+/* libgv/pad.obj */
 int BSS             dword_800B05A8[6]; // 0x18 (24) bytes
 GV_PAD BSS          GV_PadData_800B05C0[4]; // 0x40 (64) bytes
+
+/* libdg/display.c */
 DISPENV BSS         gDispEnv_800B0600; // 0x14 (20) bytes
 
 gap                                     gap_800B0614[0xC]; // 12 bytes
 
 VECTOR BSS          DG_RightVector_800B0620; // 0x10 (16) bytes
+
+/* libdg/chanl.obj */
 int BSS             dword_800B0630[68]; // 0x110 (272) bytes
 int BSS             dword_800B0740[516]; // 0x810 (2064) bytes
 int BSS             dword_800B0F50[4]; // 0x10 (16) bytes
@@ -81,28 +93,44 @@ DG_CHANL BSS        DG_Chanls_800B1800[3]; // 0x5C4 (1476) bytes
 gap                                     gap_800B1DC4[0x4]; // 4 bytes
 
 unsigned short BSS  gOldRootCnt_800B1DC8[32]; // 0x40 (64) bytes
+
+/* libdg/light.obj */
 DG_FixedLight BSS   gFixedLights_800B1E08[8]; // 0x40 (64) bytes
 DG_TmpLightList BSS LightSystems_800B1E48[2]; // 0x108 (264) bytes
+
+/* libdg/text.obj */
 DG_TEX BSS          DG_TextureCache[DG_MAX_TEXTURES]; // 0x1800 (6144) bytes
+
+/* libdg/dgd.obj */
 GV_ACT BSS          DG_StartFrameActor_800B3750; // 0x20 (32) bytes
 GV_ACT BSS          DG_EndFrameActor_800B3770; // 0x20 (32) bytes
 int BSS             dword_800B3790; // 0x4 (4) bytes
 
 gap                                     gap_800B3794[0x4]; // 4 bytes
 
+/* libdg/loader.obj */
 unsigned char BSS   pcxBuffer_800B3798[128]; // 0x80 (128) bytes
+
+/* libdg/palette.obj (?) */
 u_long BSS          DG_PaletteBuffer_800B3818[256]; // 0x400 (1024) bytes
+
+/* libgcl/command.obj */
 GCL_SCRIPT BSS      current_script_800B3C18; // 0xC (12) bytes
 
 gap                                     gap_800B3C24[0x4]; // 4 bytes
 
+/* libgcl/parse.obj */
 int BSS             argstack_800B3C28[32]; // 0x80 (128) bytes
 unsigned char *BSS  commandlines_800B3CA8[8]; // 0x20 (32) bytes
+
+/* libgcl/variable.obj */
 GCL_Vars BSS        gGcl_vars_800B3CC8; // 0x800 (2048) bytes
 short BSS           sv_linkvarbuf_800B44C8[0x60]; // 0xC0 (192) bytes
 GCL_Vars BSS        gGcl_memVars_800b4588; // 0x800 (2048) bytes
 char BSS            gStageName_800B4D88[16]; // 0x10 (16) bytes
 short BSS           linkvarbuf_800B4D98[0x60]; // 0xC0 (192) bytes
+
+/* libfs/cdbios.obj */
 CDBIOS_TASK BSS     cd_bios_task_800B4E58; // 0x24 (36) bytes
 
 gap                                     gap_800B4E7C[0xC]; // 12 bytes
@@ -126,7 +154,7 @@ unsigned int BSS    fs_stream_task_state_800B52C0; // 0x4 (4) bytes
 
 gap                                     gap_800B52C4[0x4]; // 4 bytes
 
-/* memcard.obj */
+/* memcard/memcard.obj */
 long BSS            gHardware_end_io_800B52C8; // 0x4 (4) bytes
 long BSS            gHardware_end_write_800B52CC; // 0x4 (4) bytes
 long BSS            gHardware_timeout_800B52D0; // 0x4 (4) bytes
@@ -144,6 +172,7 @@ volatile long BSS   gMemCard_io_size_800B5648; // 0x4 (4) bytes
 
 gap                                     gap_800B564C[0x4]; // 4 bytes
 
+/* game/control.obj */
 CONTROL BSS         gDefaultControl_800B5650; // 0x7C (124) bytes
 
 gap                                     gap_800B56CC[0x4]; // 4 bytes
@@ -256,7 +285,7 @@ short BSS           word_800BDCC0; // 0x2 (2) bytes
 gap                                     gap_800BDCC4[0x4]; // 4 bytes
 
 #ifndef VR_EXE
-/* jpegcam.c */
+/* equip/jpegcam.obj */
 int BSS             dword_800BDCC8; // 0x4 (4) bytes
 int BSS             dword_800BDCCC; // 0x4 (4) bytes
 int BSS             dword_800BDCD0; // 0x4 (4) bytes
@@ -264,10 +293,12 @@ gap                                     gap_800BDCD4[0x4]; // 4 bytes
 TMat8x8B BSS        gJpegcamMatrix2_800BDCD8; // 0x40 (64) bytes
 #endif
 
+/* weapon/rfsight.obj */
 DVECTOR BSS         dvector_800BDD18[3]; // 0xC (12) bytes
 
 gap                                     gap_800BDD24[0x4]; // 4 bytes
 
+/* bullet/tenage.obj */
 int BSS             dword_800BDD28; // 0x4 (4) bytes
 
 gap                                     gap_800BDD2C[0x4]; // 4 bytes
@@ -277,32 +308,48 @@ int BSS             tenage_ctrls_count_800BDD70; // 0x4 (4) bytes
 
 gap                                     gap_800BDD74[0x4]; // 4 bytes
 
+/* bullet/bakudan.obj */
 HITTABLE BSS        GM_C4Datas_800BDD78[C4_COUNT]; // 0x100 (256) bytes
+
+/* bullet/jirai.obj */
 HITTABLE BSS        GM_ClayDatas_800BDE78[8]; // 0x80 (128) bytes
+
+/* bullet/rmissile.obj */
 int BSS             dword_800BDEF8[2]; // 0x8 (8) bytes
+
+/* ??? */
 TARGET *BSS         target_800BDF00; // 0x4 (4) bytes
 
 gap                                     gap_800BDF04[0x4]; // 4 bytes
 
+/* okajima/claymore.obj */
 MAP *BSS     claymore_MAP_800bdf08; // 0x4 (4) bytes
 
 gap                                     gap_800BDF0C[0x4]; // 4 bytes
 
+/* okajima/spark.obj */
 short BSS           gSparkRandomTable_800BDF10[0x40]; // 0x80 (128) bytes
+
+/* okajima/stngrnd.obj */
 SVECTOR BSS         stru_800BDF90; // 0x8 (8) bytes
+
+/* okajima/chafgrnd.obj */
 int BSS             dword_800BDF98; // 0x4 (4) bytes
 int BSS             dword_800BDF9C; // 0x4 (4) bytes
-int BSS             dword_800BDFA0; // 0x4 (4) bytes
+int BSS             okajima_CHAF_LIFE; // 0x4 (4) bytes
 
 gap                                     gap_800BDFA4[0x4]; // 4 bytes
 
+/* takabe/goggleir.obj */
 int BSS             dword_800BDFA8; // 0x4 (4) bytes
 
 gap                                     gap_800BDFAC[0x4]; // 4 bytes
 
+/* takabe/palette.obj */
 void BSS            (*pfn_800BDFB0)(); // 0x4 (4) bytes
 unsigned short BSS (*pfn_800BDFB4)(unsigned short); // 0x4 (4) bytes
 
+/* libfs/memfile.obj */
 int BSS         dword_800BDFB8; // 0x4 (4) bytes
 int BSS         dword_800BDFBC; // 0x4 (4) bytes
 FS_MEMFILE *BSS dword_800BDFC0; // 0x4 (4) bytes

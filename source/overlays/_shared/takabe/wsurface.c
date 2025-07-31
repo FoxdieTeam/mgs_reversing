@@ -57,10 +57,10 @@ void Wsurface_800DAC14(POLY_GT4 *poly, DG_TEX *tex, WsurfaceWork *work)
             poly->tpage = tex->tpage;
             poly->clut = tex->clut;
 
-            LSTORE((LLOAD(&poly->r0) & 0xFF000000) | 0x808080, &poly->r0);
-            LSTORE((LLOAD(&poly->r1) & 0xFF000000) | 0x808080, &poly->r1);
-            LSTORE((LLOAD(&poly->r2) & 0xFF000000) | 0x808080, &poly->r2);
-            LSTORE((LLOAD(&poly->r3) & 0xFF000000) | 0x808080, &poly->r3);
+            LSTORE((LLOAD(&poly->r0) & 0xFF000000) | COLOR_GRAY, &poly->r0);
+            LSTORE((LLOAD(&poly->r1) & 0xFF000000) | COLOR_GRAY, &poly->r1);
+            LSTORE((LLOAD(&poly->r2) & 0xFF000000) | COLOR_GRAY, &poly->r2);
+            LSTORE((LLOAD(&poly->r3) & 0xFF000000) | COLOR_GRAY, &poly->r3);
 
             poly++;
         }

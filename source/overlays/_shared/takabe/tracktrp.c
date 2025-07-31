@@ -8,7 +8,15 @@
 #include "takabe/thing.h"
 #include "strcode.h"
 
-typedef struct _TracktrpWork
+extern GV_PAD GV_PadData_800B05C0[4];
+
+/*---------------------------------------------------------------------------*/
+
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
+
+#define DEFAULT_TIME 90
+
+typedef struct _Work
 {
     GV_ACT  actor;
     int     map;
@@ -19,20 +27,21 @@ typedef struct _TracktrpWork
     SVECTOR pos;
     int     item;
     int     proc[4];
-} TracktrpWork;
+} Work;
 
-extern GV_PAD  GV_PadData_800B05C0[4];
+static unsigned short mes_list[] = {
+    HASH_ENTER,     // GV_StrCode("入る")
+    HASH_LEAVE      // GV_StrCode("出る")
+};
 
-unsigned short tracktrp_hashes[] = {HASH_ENTER, HASH_LEAVE};
+/*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
-
-void TracktrpAct_800E1A94(TracktrpWork *work)
+static void Act(Work *work)
 {
     int found;
     int proc;
 
-    found = THING_Msg_CheckMessage(work->name, 2, tracktrp_hashes);
+    found = THING_Msg_CheckMessage(work->name, 2, mes_list);
     switch (found)
     {
     case 0:
@@ -84,15 +93,15 @@ void TracktrpAct_800E1A94(TracktrpWork *work)
 
             switch (work->item)
             {
-            case 2:
+            case IT_Box1:
                 proc = work->proc[0];
                 break;
 
-            case 3:
+            case IT_Box2:
                 proc = work->proc[1];
                 break;
 
-            case 4:
+            case IT_Box3:
                 proc = work->proc[2];
                 break;
             }
@@ -119,7 +128,7 @@ void TracktrpAct_800E1A94(TracktrpWork *work)
         }
         else
         {
-            work->item = -1;
+            work->item = IT_None;
         }
 
         work->count = 0;
@@ -127,13 +136,13 @@ void TracktrpAct_800E1A94(TracktrpWork *work)
     }
 }
 
-void TracktrpDie_800E1D30(TracktrpWork *work)
+static void Die(Work *work)
 {
 }
 
-int TracktrpGetResources_800E1D38(TracktrpWork *work, int name, int map)
+static int GetResources(Work *work, int name, int map)
 {
-    work->time = THING_Gcl_GetIntDefault('t', 90);
+    work->time = THING_Gcl_GetIntDefault('t', DEFAULT_TIME);
 
     if (GCL_GetOption('e'))
     {
@@ -145,16 +154,18 @@ int TracktrpGetResources_800E1D38(TracktrpWork *work, int name, int map)
     return 0;
 }
 
-void *NewTracktrp_800E1DB0(int name, int where, int argc, char **argv)
-{
-    TracktrpWork *work;
+/*---------------------------------------------------------------------------*/
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(TracktrpWork));
+void *NewTruckTrap(int name, int where, int argc, char **argv)
+{
+    Work *work;
+
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, TracktrpAct_800E1A94, TracktrpDie_800E1D30, "tracktrp.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "tracktrp.c");
 
-        if (TracktrpGetResources_800E1D38(work, name, where) < 0)
+        if (GetResources(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
