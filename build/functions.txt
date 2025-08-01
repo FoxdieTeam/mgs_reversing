@@ -744,9 +744,9 @@
 80036388 816 SkipToKeyframe
 800366B8 856 CorrectWaistRotation
 80036A10 304 over_SetOptionPrim
-80036B40 100 over_act_helper_80036B40
-80036BA4 1412 over_act_helper_80036BA4
-80037128 244 over_act_helper_80037128
+80036B40 100 over_GetLineColor
+80036BA4 1412 over_DrawAnimation
+80037128 244 over_DrawBackgroundFade
 8003721C 760 over_Act
 80037514 236 over_Die
 80037600 248 over_GetResources
