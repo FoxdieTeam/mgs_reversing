@@ -99,7 +99,7 @@ DG_FixedLight BSS   gFixedLights_800B1E08[8]; // 0x40 (64) bytes
 DG_TmpLightList BSS LightSystems_800B1E48[2]; // 0x108 (264) bytes
 
 /* libdg/text.obj */
-DG_TEX BSS          DG_TextureCache[DG_MAX_TEXTURES]; // 0x1800 (6144) bytes
+DG_TEX BSS          TexSets[DG_MAX_TEXTURES]; // 0x1800 (6144) bytes
 
 /* libdg/dgd.obj */
 GV_ACT BSS          DG_StartFrameActor_800B3750; // 0x20 (32) bytes

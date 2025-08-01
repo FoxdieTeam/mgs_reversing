@@ -2,7 +2,7 @@
 #include "common.h"
 
 /*** bss ***/
-extern DG_TEX DG_TextureCache[DG_MAX_TEXTURES];
+extern DG_TEX TexSets[DG_MAX_TEXTURES];
 
 /*** data ***/
 STATIC DG_TEX DG_NullTexture = {};
@@ -29,7 +29,7 @@ STATIC int FindTexture( int id, DG_TEX **found )
     int     record_id;
 
     start = id % DG_MAX_TEXTURES;
-    record = &DG_TextureCache[start];
+    record = &TexSets[start];
 
     index = start;
     do
@@ -53,7 +53,7 @@ STATIC int FindTexture( int id, DG_TEX **found )
 
         if (index == DG_MAX_TEXTURES)
         {
-            record = DG_TextureCache;
+            record = TexSets;
             index = 0;
         }
     } while(index != start);
@@ -70,7 +70,7 @@ void DG_InitTextureSystem( void )
     DG_TEX *tex;
     int     i;
 
-    tex = DG_TextureCache;
+    tex = TexSets;
     for (i = DG_MAX_TEXTURES; i > 0; i--)
     {
         tex->id = 0;
@@ -264,7 +264,7 @@ void DG_SaveResidentTextureCache( void )
     int     i;
     DG_TEX *resident;
 
-    tex = DG_TextureCache;
+    tex = TexSets;
     size = 0;
     for (i = DG_MAX_TEXTURES; i > 0; tex++, i--)
     {
@@ -279,7 +279,7 @@ void DG_SaveResidentTextureCache( void )
         DG_ResidentTextureCacheSize = size;
         DG_ResidentTextureCache = resident = GV_AllocResidentMemory(size * sizeof(DG_TEX));
 
-        tex = DG_TextureCache;
+        tex = TexSets;
         for (i = DG_MAX_TEXTURES; i > 0; i--)
         {
             if (tex->id != 0)
