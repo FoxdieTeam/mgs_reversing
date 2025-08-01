@@ -1170,7 +1170,7 @@ void menu_weapon_update_helper2_helper2_8003E3B0(MenuWork *work)
                              &pItemUnknown->field_20_array[pItemUnknown->field_0_main.field_4_selected_idx]);
 
     id = work->field_1F0_menu_weapon.field_0_current.field_0_id;
-    varbuf = linkvarbuf_800B4D98;
+    varbuf = linkvarbuf;
 
     if (id >= 0 && !menu_weapon_isWeaponDisabled_8003DF30(id))
     {
