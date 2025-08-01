@@ -16,7 +16,7 @@
 #include "kojo/demothrd.h"
 #include "strcode.h"
 
-extern  CAMERA          GM_CameraList_800B7718[8];
+extern  CAMERA          GM_CameraList[8];
 extern  GM_Camera       GM_Camera_800B77E8;
 extern  HZD_BIND        gBindsArray_800b58e0[128];
 extern  int             dword_8009F46C;
@@ -169,7 +169,7 @@ STATIC int GM_Command_camera(unsigned char *top)
         if (camera_id < 8)
         {
             printf("set camera %d\n", camera_id);
-            cam = &GM_CameraList_800B7718[camera_id];
+            cam = &GM_CameraList[camera_id];
 
             cam->field_10_param1 = GCL_GetNextParamValue();
             cam->field_11_param2 = GCL_GetNextParamValue();

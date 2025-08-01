@@ -29,7 +29,7 @@ extern SVECTOR          GM_CameraRotateSave;
 extern int              GM_event_camera_flag;
 extern GM_Camera        GM_Camera_800B77E8;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
-extern CAMERA           GM_CameraList_800B7718[8];
+extern CAMERA           GM_CameraList[8];
 
 /*---------------------------------------------------------------------------*/
 // RC Missile (Nikita)
@@ -110,7 +110,7 @@ static void SaveCameraState(Work *work)
 {
     GV_CopyMemory(&GM_Camera_800B77E8,        &work->saved_camera,        sizeof(work->saved_camera));
     GV_CopyMemory(&gUnkCameraStruct_800B77B8, &work->saved_camera_unk,    sizeof(work->saved_camera_unk));
-    GV_CopyMemory(GM_CameraList_800B7718,     &work->saved_camera_list,   sizeof(work->saved_camera_list));
+    GV_CopyMemory(GM_CameraList,              &work->saved_camera_list,   sizeof(work->saved_camera_list));
     GV_CopyMemory(&GM_CameraRotateSave,       &work->saved_camera_rotate, sizeof(work->saved_camera_rotate));
 
     work->saved_camera_track = GM_CameraTrackSave;
@@ -121,7 +121,7 @@ static void ResetCameraState(Work *work)
 {
     GV_CopyMemory(&work->saved_camera,        &GM_Camera_800B77E8,        sizeof(work->saved_camera));
     GV_CopyMemory(&work->saved_camera_unk,    &gUnkCameraStruct_800B77B8, sizeof(work->saved_camera_unk));
-    GV_CopyMemory(&work->saved_camera_list,   &GM_CameraList_800B7718,    sizeof(work->saved_camera_list));
+    GV_CopyMemory(&work->saved_camera_list,   &GM_CameraList,             sizeof(work->saved_camera_list));
     GV_CopyMemory(&work->saved_camera_rotate, &GM_CameraRotateSave,       sizeof(work->saved_camera_rotate));
 
     GM_CameraTrackSave = work->saved_camera_track;
