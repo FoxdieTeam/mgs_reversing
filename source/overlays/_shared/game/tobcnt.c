@@ -31,9 +31,9 @@ typedef struct _Work
     int      vox;
     POLY_G4  polys[2][12];
     LINE_G2  lines[2][NUM_LINES];
-    DR_TPAGE tpage[2];
+    DR_TPAGE anim_tpage[2];
     TILE     tile[2];
-    DR_TPAGE tpage2[2];
+    DR_TPAGE fade_tpage[2];
     DVECTOR  directions[NUM_LINES];
 } Work;
 
@@ -259,7 +259,7 @@ static int GetLineColor( int shade, int step )
 
 /*---------------------------------------------------------------------------*/
 
-static void Tobcnt_800C4204( Work *work, u_long *ot )
+static void DrawAnimation( Work *work, u_long *ot )
 {
     int       x0, y0;
     int       x1, y1;
@@ -424,7 +424,7 @@ static void Tobcnt_800C4204( Work *work, u_long *ot )
         directions++;
     }
 
-    tpage = &work->tpage[GV_Clock];
+    tpage = &work->anim_tpage[GV_Clock];
     setDrawTPage( tpage, 1, 1, getTPage( 0, 1, 0, 0 ) );
     addPrim( ot, tpage );
 
@@ -444,7 +444,7 @@ static void Tobcnt_800C4204( Work *work, u_long *ot )
     }
 }
 
-static void Tobcnt_800C4750(Work *work, u_long *ot, int shade)
+static void DrawBackgroundFade(Work *work, u_long *ot, int shade)
 {
     TILE     *tile;
     DR_TPAGE *tpage;
@@ -457,7 +457,7 @@ static void Tobcnt_800C4750(Work *work, u_long *ot, int shade)
     setWH(tile, 320, 240);
     addPrim(ot, tile);
 
-    tpage = &work->tpage2[GV_Clock];
+    tpage = &work->fade_tpage[GV_Clock];
     setDrawTPage(tpage, 1, 1, getTPage(0, 2, 0, 0));
     addPrim(ot, tpage);
 }
@@ -474,8 +474,8 @@ static void Act( Work *work )
 
     if (work->time < 256)
     {
-        Tobcnt_800C4204(work, ot);
-        Tobcnt_800C4750(work, ot, work->time);
+        DrawAnimation(work, ot);
+        DrawBackgroundFade(work, ot, work->time);
 
         if ((work->time == 120) && (work->vox >= 0))
         {
@@ -502,7 +502,7 @@ static void Act( Work *work )
     }
     else if (work->time == 256)
     {
-        Tobcnt_800C4204(work, ot);
+        DrawAnimation(work, ot);
 
         pad = &GV_PadData[0];
         GM_GameStatus &= ~(STATE_PADRELEASE | STATE_PADMASK);
@@ -527,8 +527,8 @@ static void Act( Work *work )
     else
     {
         shade = MIN(work->time - 256, 255);
-        Tobcnt_800C4750(work, ot, shade);
-        Tobcnt_800C4204(work, ot);
+        DrawBackgroundFade(work, ot, shade);
+        DrawAnimation(work, ot);
 
         work->time += 4;
         if (work->time > 542)
