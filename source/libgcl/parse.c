@@ -4,17 +4,17 @@
 #include "common.h"
 
 /*** $gp ***/
-int            *SECTION(".sbss") GCL_ArgStackP_800AB998;
-unsigned char **SECTION(".sbss") GCL_CommandLineP_800AB99C;
-unsigned char  *SECTION(".sbss") GCL_NextStrPtr_800AB9A0;
+int            *SECTION(".sbss") argstack_p;
+unsigned char **SECTION(".sbss") commandline_p;
+unsigned char  *SECTION(".sbss") next_str_ptr;
 
 /*** bss ***/
-extern int            argstack_800B3C28[32];
-extern unsigned char *commandlines_800B3CA8[8];
+extern int            argbuffer[32];
+extern unsigned char *commandlines[8];
 
 void GCL_SetArgTop(unsigned char *top)
 {
-    GCL_NextStrPtr_800AB9A0 = top;
+    next_str_ptr = top;
 }
 
 unsigned char *GCL_GetNextValue(unsigned char *top, int *type_p, int *value_p)
@@ -96,13 +96,13 @@ unsigned char *GCL_GetNextValue(unsigned char *top, int *type_p, int *value_p)
         printf("GCL:WRONG CODE %x\n", gcl_code);
         break;
     }
-    GCL_NextStrPtr_800AB9A0 = ptr;
+    next_str_ptr = ptr;
     return ptr;
 }
 
 static void GCL_InitArgStack(void)
 {
-    GCL_ArgStackP_800AB998 = argstack_800B3C28;
+    argstack_p = argbuffer;
 }
 
 int *GCL_SetArgStack(GCL_ARGS *args)
@@ -120,23 +120,23 @@ int *GCL_SetArgStack(GCL_ARGS *args)
 
     argv = (int *)&args->argv[args->argc - 1];
     i = args->argc;
-    org = GCL_ArgStackP_800AB998;
+    org = argstack_p;
 
     while (i > 0)
     {
         // stack push
-        sp = GCL_ArgStackP_800AB998;
+        sp = argstack_p;
         *sp = *argv;
-        GCL_ArgStackP_800AB998 = sp + 1;
+        argstack_p = sp + 1;
 
         argv--;
         i--;
     }
 
     // stack push
-    sp2 = GCL_ArgStackP_800AB998;
+    sp2 = argstack_p;
     *sp2 = args->argc;
-    GCL_ArgStackP_800AB998 = sp2 + 1;
+    argstack_p = sp2 + 1;
 
     return org;
 }
@@ -145,31 +145,31 @@ void GCL_UnsetArgStack(void *stack)
 {
     if (stack)
     {
-        GCL_ArgStackP_800AB998 = stack;
+        argstack_p = stack;
     }
 }
 
 int GCL_GetArgs(int argno)
 {
-    return GCL_ArgStackP_800AB998[~argno];
+    return argstack_p[~argno];
 }
 
 static void GCL_InitCommandLineBuffer(void)
 {
-    GCL_CommandLineP_800AB99C = commandlines_800B3CA8;
+    commandline_p = commandlines;
 }
 
 void GCL_SetCommandLine(unsigned char *argtop)
 {
-    unsigned char **pStackTmp = GCL_CommandLineP_800AB99C;
+    unsigned char **pStackTmp = commandline_p;
     (*pStackTmp) = argtop;
     pStackTmp++;
-    GCL_CommandLineP_800AB99C = pStackTmp;
+    commandline_p = pStackTmp;
 }
 
 void GCL_UnsetCommandLine(void)
 {
-    GCL_CommandLineP_800AB99C--;
+    commandline_p--;
 }
 
 char *GCL_GetOption(char c)
@@ -178,7 +178,7 @@ char *GCL_GetOption(char c)
     int            code;
     char          *value;
 
-    pScript = *(GCL_CommandLineP_800AB99C - 1);
+    pScript = *(commandline_p - 1);
     do
     {
         pScript = GCL_GetNextValue(pScript, &code, (int*)&value);
@@ -188,7 +188,7 @@ char *GCL_GetOption(char c)
         }
     } while (!GCL_IsParam(code) || (code >> 16 != (c & 0xff)));
 
-    GCL_NextStrPtr_800AB9A0 = value; // TODO: Union/any type return ??
+    next_str_ptr = value; // TODO: Union/any type return ??
     return value;
 }
 
@@ -197,7 +197,7 @@ int GCL_StrToInt(unsigned char *pScript)
 {
     int code;
     int value;
-    GCL_NextStrPtr_800AB9A0 = GCL_GetNextValue(pScript, &code, &value);
+    next_str_ptr = GCL_GetNextValue(pScript, &code, &value);
     return value;
 }
 
@@ -216,7 +216,7 @@ int GCL_StrToSV(unsigned char *pInScript, SVECTOR *pOut3Words)
         pOutIter++;
     } while (counter < 3);
 
-    GCL_NextStrPtr_800AB9A0 = pScript;
+    next_str_ptr = pScript;
     return 0;
 }
 
@@ -226,7 +226,7 @@ char *GCL_ReadString(char *ptr)
     int value;
 
     ptr = GCL_GetNextValue(ptr, &type, &value);
-    GCL_NextStrPtr_800AB9A0 = ptr;
+    next_str_ptr = ptr;
 
     if (ptr)
     {
@@ -240,12 +240,12 @@ char *GCL_ReadString(char *ptr)
 
 unsigned char *GCL_GetParamResult(void)
 {
-    if (!*GCL_NextStrPtr_800AB9A0 || GCL_IsParam(*GCL_NextStrPtr_800AB9A0))
+    if (!*next_str_ptr || GCL_IsParam(*next_str_ptr))
     {
         return NULL;
     }
 
-    return GCL_NextStrPtr_800AB9A0;
+    return next_str_ptr;
 }
 
 int GCL_GetNextParamValue(void)
