@@ -32,17 +32,16 @@ int GM_GameOverVox = -1;
 typedef struct _Work
 {
     GV_ACT   actor;
-    short    step;          // Sequence value controlling GAME OVER animation
-    short    sequence;      // Sequence value controlling when animations/inputs are enabled
+    short    step;          // Step value controlling GAME OVER animation
+    short    count;         // Count value controlling when animations/inputs are enabled
     short    option;        // 0 = CONTINUE, 1 = EXIT
     short    gradient;      // 64-step sweep controlling color of CONTINUE and EXIT buttons
     short    can_continue;  // Disables the CONTINUE option (e.g. when Snake dies during the torture sequence)
-    short    unused0;
     POLY_G4  polys[2][12];
     LINE_G2  lines[2][NUM_LINES];
-    DR_TPAGE tpages[2];
+    DR_TPAGE anim_tpage[2];
     TILE     tiles[2];
-    DR_TPAGE tpages2[2];
+    DR_TPAGE fade_tpage[2];
     DVECTOR  directions[NUM_LINES];
 } Work;
 
@@ -220,7 +219,7 @@ static int GetLineColor( int shade, int step )
 
 /*---------------------------------------------------------------------------*/
 
-static void over_80036BA4(Work *work, u_long *ot)
+static void DrawAnimation(Work *work, u_long *ot)
 {
     int       x0, y0;
     int       x1, y1;
@@ -368,7 +367,7 @@ static void over_80036BA4(Work *work, u_long *ot)
         }
     }
 
-    tpage = &work->tpages[GV_Clock];
+    tpage = &work->anim_tpage[GV_Clock];
     setDrawTPage(tpage, 1, 1, getTPage(0, 1, 0, 0));
     addPrim(ot, tpage);
 
@@ -410,7 +409,7 @@ static void over_80036BA4(Work *work, u_long *ot)
     }
 }
 
-static void over_80037128(Work *work, u_long *ot, int shade)
+static void DrawBackgroundFade(Work *work, u_long *ot, int shade)
 {
     TILE     *tile;
     DR_TPAGE *tpage;
@@ -428,7 +427,7 @@ static void over_80037128(Work *work, u_long *ot, int shade)
     setWH(tile, 320, 240);
     addPrim(ot, tile);
 
-    tpage = &work->tpages2[GV_Clock];
+    tpage = &work->fade_tpage[GV_Clock];
     setDrawTPage(tpage, 1, 1, getTPage(0, 2, 0, 0));
     addPrim(ot, tpage);
 }
@@ -449,12 +448,12 @@ static void Act( Work *work )
         return;
     }
 
-    if (work->sequence < 256)
+    if (work->count < 256)
     {
-        over_80036BA4(work, ot);
-        over_80037128(work, ot, work->sequence * 2);
+        DrawAnimation(work, ot);
+        DrawBackgroundFade(work, ot, work->count * 2);
 
-        if (work->sequence == NUM_LINES)
+        if (work->count == NUM_LINES)
         {
             if (GM_GameOverVox >= 0)
             {
@@ -464,13 +463,13 @@ static void Act( Work *work )
             DG_ReloadPalette();
         }
 
-        work->sequence += 3;
+        work->count += 3;
 
-        if (work->sequence >= 256)
+        if (work->count >= 256)
         {
             if (work->step > 0)
             {
-                work->sequence = 255;
+                work->count = 255;
                 return;
             }
 
@@ -479,20 +478,20 @@ static void Act( Work *work )
             DG_ReloadPalette();
             DG_SetRGB(0, 0, 0);
             DG_FrameRate = 2;
-            work->sequence = 256;
+            work->count = 256;
             GM_GameStatus |= STATE_ALL_OFF;
         }
     }
-    else if (work->sequence == 256)
+    else if (work->count == 256)
     {
         pad = &GM_CurrentPadData[2];
-        over_80036BA4(work, ot);
+        DrawAnimation(work, ot);
         GM_GameStatus &= ~(STATE_PADMASK | STATE_PADRELEASE | STATE_PADDEMO);
         press = pad->press;
 
         if (press & (PAD_START | PAD_CIRCLE))
         {
-            work->sequence = 257;
+            work->count = 257;
             work->gradient = 32;
 
             if (work->option == OPTION_CONTINUE)
@@ -527,15 +526,15 @@ static void Act( Work *work )
     }
     else
     {
-        shade = MIN(work->sequence - 256, 255);
-        over_80037128(work, ot, shade);
-        over_80036BA4(work, ot);
+        shade = MIN(work->count - 256, 255);
+        DrawBackgroundFade(work, ot, shade);
+        DrawAnimation(work, ot);
 
-        work->sequence += 4;
+        work->count += 4;
 
-        if (work->sequence > 542)
+        if (work->count > 542)
         {
-            work->sequence = 542;
+            work->count = 542;
 
             if (GM_StreamStatus() == -1)
             {
@@ -612,7 +611,7 @@ void *NewGameOver(int can_continue)
         GV_SetNamedActor(&work->actor, &Act, &Die, "over.c");
 
         work->step = 1;
-        work->sequence = 0;
+        work->count = 0;
         work->can_continue = can_continue;
 
         GetResources(work);
