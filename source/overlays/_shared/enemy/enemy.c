@@ -7,7 +7,7 @@
 #include "linkvar.h"
 #include "strcode.h"
 
-extern CONTROL *GM_WhereList_800B56D0[94];
+extern CONTROL *GM_WhereList[94];
 
 extern ENEMY_COMMAND EnemyCommand_800E0D98;
 
@@ -147,12 +147,12 @@ void s00a_command_800C9ACC( WatcherWork *work )
 
     if ( work->vision.field_B92 == 2 && ( ( GM_PlayerStatus & ( PLAYER_MOVE | PLAYER_CB_BOX ) ) == PLAYER_CB_BOX ) )
     {
-        if ( ( GV_DiffVec3( &work->field_BA4, &GM_PlayerPosition ) > 50 ) || ( work->field_BAC != GM_WhereList_800B56D0[0]->rot.vy ) )
+        if ( ( GV_DiffVec3( &work->field_BA4, &GM_PlayerPosition ) > 50 ) || ( work->field_BAC != GM_WhereList[0]->rot.vy ) )
         {
             if ( EnemyCommand_800E0D98.mode != TOP_COMM_ALERT )
             {
                 work->field_BA4 = GM_PlayerPosition;
-                work->field_BAC = GM_WhereList_800B56D0[0]->rot.vy;
+                work->field_BAC = GM_WhereList[0]->rot.vy;
                 work->field_BA1 |= 0x2;
             }
             else

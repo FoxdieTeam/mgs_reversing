@@ -1,6 +1,6 @@
 #include "../../../_shared/enemy/enemy.h"
 
-extern CONTROL *GM_WhereList_800B56D0[96];
+extern CONTROL *GM_WhereList[96];
 
 extern int             ZAKO11F_EYE_LENGTH_800C3694;
 extern ZAKO11F_COMMAND Zako11FCommand_800D5AF8;
@@ -136,7 +136,7 @@ void s11i_asiato_800CDA6C( Zako11FWork *work )
         return;
     }
 
-    if ( ( GV_DiffVec3( &work->field_BA4, &GM_PlayerPosition ) > 50 ) || ( work->field_BAC != GM_WhereList_800B56D0[0]->rot.vy ) )
+    if ( ( GV_DiffVec3( &work->field_BA4, &GM_PlayerPosition ) > 50 ) || ( work->field_BAC != GM_WhereList[0]->rot.vy ) )
     {
         if ( Zako11FCommand_800D5AF8.mode == TOP_COMM_ALERT )
         {
@@ -144,7 +144,7 @@ void s11i_asiato_800CDA6C( Zako11FWork *work )
         }
 
         work->field_BA4 = GM_PlayerPosition;
-        work->field_BAC = GM_WhereList_800B56D0[0]->rot.vy;
+        work->field_BAC = GM_WhereList[0]->rot.vy;
         work->modetime[6] |= 0x2;
     }
     else if ( GV_DiffVec3( &work->control.mov, &GM_PlayerPosition ) < 1500 )

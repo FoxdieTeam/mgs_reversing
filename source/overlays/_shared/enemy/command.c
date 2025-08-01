@@ -68,7 +68,7 @@ int SECTION("overlay.bss") s00a_dword_800E0F6C;
 int SECTION("overlay.bss") COM_PlayerMapOne_800E0F70[8];
 
 extern int       GM_event_camera_flag;
-extern CONTROL  *GM_WhereList_800B56D0[94];
+extern CONTROL  *GM_WhereList[94];
 extern GM_Camera GM_Camera_800B77E8;
 
 SVECTOR ENEMY_TARGET_SIZE_800C35A4  = { 300, 1000, 300 };
@@ -156,7 +156,7 @@ void ENE_SetGopointLast_800CEB00(void)
 
 void s00a_command_800CEB54(void)
 {
-    EnemyCommand_800E0D98.com_addr = HZD_GetAddress( GM_WhereList_800B56D0[0]->map->hzd, &GM_NoisePosition, -1 );
+    EnemyCommand_800E0D98.com_addr = HZD_GetAddress( GM_WhereList[0]->map->hzd, &GM_NoisePosition, -1 );
     EnemyCommand_800E0D98.com_pos = GM_NoisePosition;
     EnemyCommand_800E0D98.com_map = GM_PlayerMap;
 }
