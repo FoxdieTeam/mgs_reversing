@@ -15,7 +15,6 @@
 #include "sd/g_sound.h"
 
 extern int    FS_DiskNum_800ACBF0;
-extern GV_PAD GV_PadData_800B05C0[4];
 
 void *NewMetalGearLogo( int * );
 
@@ -1571,7 +1570,7 @@ static int GetResources(Work *work, int map)
         demosel_800C3AE4(work, i, GET_COLOR(GET_SHADE(0)));
     }
 
-    work->pad = &GV_PadData_800B05C0[2];
+    work->pad = &GV_PadData[2];
 
     work->f320 = 0;
     work->fDC8 = 0;

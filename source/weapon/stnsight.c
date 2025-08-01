@@ -17,7 +17,6 @@
 extern int              amissile_alive_8009F490;
 extern SVECTOR          svector_8009F494;
 extern short            N_ChanlPerfMax;
-extern GV_PAD           GV_PadData_800B05C0[4];
 extern unsigned short   gOldRootCnt_800B1DC8[];
 extern TARGET          *target_800BDF00;
 
@@ -703,7 +702,7 @@ static int GetResources( Work *work, CONTROL *control )
     work->pos[7].vy = 123;
     work->pos[8].vx = 174;
     work->pos[8].vy = 120;
-    work->pad_data = GV_PadData_800B05C0;
+    work->pad_data = GV_PadData;
     work->deltax = 0;
     work->delay = 0;
     work->control = control;

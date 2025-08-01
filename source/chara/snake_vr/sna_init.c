@@ -57,7 +57,6 @@ extern int                bakudan_count_8009F42C;
 extern int                counter_8009F448;
 extern int                tabako_dword_8009F2C0;
 extern UnkCameraStruct    gUnkCameraStruct_800B77B8;
-extern GV_PAD             GV_PadData_800B05C0[4];
 extern CONTROL        *tenage_ctrls_800BDD30[16];
 extern HITTABLE           GM_C4Datas_800BDD78[C4_COUNT];
 extern HITTABLE           GM_ClayDatas_800BDE78[8];
@@ -7621,20 +7620,20 @@ void sna_act_8005AD10(SnaInitWork *work)
 
     if ( GM_CheckPlayerStatusFlag(PLAYER_SECOND_AVAILABLE) )
     {
-        if ( ((GV_PadData_800B05C0 + 1)->status | (GV_PadData_800B05C0 + 1)->release) != 0 )
+        if ( ((GV_PadData + 1)->status | (GV_PadData + 1)->release) != 0 )
         {
             GM_SetPlayerStatusFlag(PLAYER_SECOND_CONTROLLER);
-            work->field_9B0_pad_ptr = &GV_PadData_800B05C0[1];
+            work->field_9B0_pad_ptr = &GV_PadData[1];
         }
-        else if ( (GV_PadData_800B05C0->status | GV_PadData_800B05C0->release) != 0 )
+        else if ( (GV_PadData->status | GV_PadData->release) != 0 )
         {
             GM_ClearPlayerStatusFlag(PLAYER_SECOND_CONTROLLER);
-            work->field_9B0_pad_ptr = &GV_PadData_800B05C0[0];
+            work->field_9B0_pad_ptr = &GV_PadData[0];
         }
     }
     else
     {
-        work->field_9B0_pad_ptr = &GV_PadData_800B05C0[0];
+        work->field_9B0_pad_ptr = &GV_PadData[0];
     }
 
     pTarget = work->field_89C_pTarget;
@@ -8000,7 +7999,7 @@ static inline void sna_LoadSnake3(SnaInitWork *work)
     work->field_798_p_height = temp_v1_3;
     work->control.height = temp_v1_3;
 
-    work->field_9B0_pad_ptr = GV_PadData_800B05C0;
+    work->field_9B0_pad_ptr = GV_PadData;
 }
 
 static inline void sna_LoadSnake4( POLY_FT4 *packs, int n_packs, DG_TEX *tex )

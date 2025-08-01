@@ -13,8 +13,6 @@
 #include "game/game.h"
 #include "sd/g_sound.h"
 
-extern GV_PAD GV_PadData_800B05C0[4];
-
 /*---------------------------------------------------------------------------*/
 
 #define EXEC_LEVEL  GV_ACTOR_LEVEL5
@@ -960,7 +958,7 @@ static int GetResources(Work *work, int arg1, int *arg2, PreEntries *arg3)
     i++;
 
     work->field_2C4 = arg2;
-    work->field_2C0 = &GV_PadData_800B05C0[2];
+    work->field_2C0 = &GV_PadData[2];
     work->field_2C8 = 0;
     work->current_page_number = 1;
     work->field_64 = 0;

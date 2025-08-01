@@ -19,7 +19,6 @@ typedef struct WakeWork
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-extern GV_PAD           GV_PadData_800B05C0[4];
 extern GM_Camera        GM_Camera_800B77E8;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 
@@ -153,11 +152,11 @@ void WakeAct_800C60BC(WakeWork *work)
 {
     if (GM_PlayerStatus & PLAYER_SECOND_CONTROLLER)
     {
-        work->pad = &GV_PadData_800B05C0[1];
+        work->pad = &GV_PadData[1];
     }
     else
     {
-        work->pad = &GV_PadData_800B05C0[0];
+        work->pad = &GV_PadData[0];
     }
     WakePollMessages_800C5D78(work);
     WakeCheckPad_800C5E8C(work);

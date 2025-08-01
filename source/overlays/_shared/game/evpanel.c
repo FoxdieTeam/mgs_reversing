@@ -12,7 +12,6 @@
 
 extern GM_Camera    GM_Camera_800B77E8;
 extern int          GM_CameraShakeOffset;
-extern GV_PAD       GV_PadData_800B05C0[4];
 
 /*---------------------------------------------------------------------------*/
 
@@ -589,19 +588,19 @@ static void Act(EvPanelWork *work)
 
         if (work->field_2E == 5)
         {
-            if (!(GV_PadData_800B05C0[0].status & (PAD_SQUARE | PAD_CROSS | PAD_CIRCLE | PAD_TRIANGLE)))
+            if (!(GV_PadData[0].status & (PAD_SQUARE | PAD_CROSS | PAD_CIRCLE | PAD_TRIANGLE)))
             {
                 work->field_2E = 6;
             }
         }
         else
         {
-            release = GV_PadData_800B05C0[0].release;
-            status = GV_PadData_800B05C0[0].status;
+            release = GV_PadData[0].release;
+            status = GV_PadData[0].status;
 
-            if (GV_PadData_800B05C0[0].press & (PAD_DOWN | PAD_UP))
+            if (GV_PadData[0].press & (PAD_DOWN | PAD_UP))
             {
-                if (GV_PadData_800B05C0[0].press & PAD_UP)
+                if (GV_PadData[0].press & PAD_UP)
                 {
                     addend = -1 + work->button_count; // + modulo so that we don't go into negative numbers
                 }

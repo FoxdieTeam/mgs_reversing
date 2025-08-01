@@ -57,7 +57,6 @@ SVECTOR SECTION("overlay.bss") rasen_el_800D2CB4;
 int SECTION("overlay.bss") rasen_el_800D2CBC;
 
 extern int             gControlCount_800AB9B4;
-extern GV_PAD          GV_PadData_800B05C0[4];
 extern CONTROL        *GM_WhereList_800B56D0[96];
 extern UnkCameraStruct gUnkCameraStruct_800B77B8;
 extern GM_Camera       GM_Camera_800B77E8;
@@ -357,7 +356,7 @@ void RasenElAct_800CC454(RasenElWork *work)
         gUnkCameraStruct_800B77B8.eye = rasen_el_800D2CAC;
     }
 
-    status = GV_PadData_800B05C0[0].status;
+    status = GV_PadData[0].status;
 
     if ((status & PAD_LEFT) != 0 && rasen_el_800D2CBC < 200)
     {
@@ -742,8 +741,8 @@ void s11c_800CD340(RasenElWork *work, int arg1)
         GM_Camera_800B77E8.first_person = 1;
         DG_InvisibleObjs(GM_PlayerBody->objs);
 
-        press = GV_PadData_800B05C0[0].press;
-        release = GV_PadData_800B05C0[0].release;
+        press = GV_PadData[0].press;
+        release = GV_PadData[0].release;
 
         if (press & PAD_UP)
         {

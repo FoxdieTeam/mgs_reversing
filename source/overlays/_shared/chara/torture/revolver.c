@@ -80,8 +80,6 @@ const char s03b_aV_800D2F50[] = "v2";
 const char s03b_aV_800D2F54[] = "v1";
 const char s03b_aV_800D2F58[] = "v0";
 
-extern GV_PAD  GV_PadData_800B05C0[4];
-
 void *NewFadeIo_800C4224(int name, int where);
 
 // Those functions are not actually in boxall, info
@@ -310,7 +308,7 @@ void s03b_revolver_800C7574(RevolverWork *work, int arg1)
         work->field_958++;
     }
 
-    if ((GV_PadData_800B05C0[2].press & PAD_CROSS) != 0)
+    if ((GV_PadData[2].press & PAD_CROSS) != 0)
     {
         work->field_944 = 5;
 
@@ -487,7 +485,7 @@ void s03b_revolver_800C7958(RevolverWork *work, int arg1)
         work->field_958++;
     }
 
-    if (iVar4 > 1 && (GV_PadData_800B05C0[2].press & PAD_CROSS) != 0)
+    if (iVar4 > 1 && (GV_PadData[2].press & PAD_CROSS) != 0)
     {
         work->field_944 = 5;
 
@@ -700,7 +698,7 @@ void s03b_revolver_800C7E88(RevolverWork *work, int arg1)
         work->field_9B6 = 0;
     }
 
-    if ((GV_PadData_800B05C0[2].press & PAD_CROSS) != 0)
+    if ((GV_PadData[2].press & PAD_CROSS) != 0)
     {
         s03b_boxall_800C9328();
         GM_GameStatus |= STATE_PADRELEASE;

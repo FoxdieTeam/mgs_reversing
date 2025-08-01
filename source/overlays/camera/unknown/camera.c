@@ -53,7 +53,6 @@ typedef struct CameraWork
 
 #define EXEC_LEVEL GV_ACTOR_MANAGER
 
-extern GV_PAD                      GV_PadData_800B05C0[4];
 extern RadioFileModeStru_800ABB7C *camera_dword_800D075C;
 extern RECT                        camera_dword_800C389C;
 extern char                       *camera_dword_800D0760;
@@ -1255,7 +1254,7 @@ int CameraGetResources_800CE6EC(CameraWork *work, int map)
         work->f49E4 = GCL_ReadString(GCL_GetParamResult());
     }
 
-    work->pad = &GV_PadData_800B05C0[2];
+    work->pad = &GV_PadData[2];
     work->f28 = 0;
 
     work->f720 = &work->field_920;

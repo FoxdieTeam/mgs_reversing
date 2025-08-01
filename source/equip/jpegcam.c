@@ -22,7 +22,6 @@
 extern int                 DG_CurrentGroupID;
 extern GM_Camera           GM_Camera_800B77E8;
 extern int                 dword_8009F604;
-extern GV_PAD              GV_PadData_800B05C0[4];
 extern TMat8x8B            gJpegcamMatrix2_800BDCD8;
 extern UnkCameraStruct     gUnkCameraStruct_800B77B8;
 extern char               *dword_800BDCC8;
@@ -931,11 +930,11 @@ static void Act(Work *work)
 
     if (GM_PlayerStatus & PLAYER_SECOND_CONTROLLER)
     {
-        work->pad_data = &GV_PadData_800B05C0[3];
+        work->pad_data = &GV_PadData[3];
     }
     else
     {
-        work->pad_data = &GV_PadData_800B05C0[2];
+        work->pad_data = &GV_PadData[2];
     }
 
     if (work->field_98 < 16)
@@ -1056,7 +1055,7 @@ static void Die(Work *work)
 static int GetResources(Work *work, CONTROL *control, OBJECT *parent)
 {
     work->parent = parent;
-    work->pad_data = &GV_PadData_800B05C0[2];
+    work->pad_data = &GV_PadData[2];
     work->field_54_vec = control->rot;
     work->field_5C_ang = work->field_54_vec;
     work->state = 0;

@@ -17,7 +17,6 @@
 #include "sd/g_sound.h"
 
 extern int    FS_DiskNum_800ACBF0;
-extern GV_PAD GV_PadData_800B05C0[4];
 
 /*---------------------------------------------------------------------------*/
 
@@ -640,7 +639,7 @@ static int GetResources( Work *work, int map )
 
     GM_CurrentMap = map;
 
-    work->pad_data = &GV_PadData_800B05C0[ 2 ];
+    work->pad_data = &GV_PadData[ 2 ];
 
     work->f68C = 832;
     work->f690 = 256;

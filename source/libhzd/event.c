@@ -2,6 +2,7 @@
 #include "libhzd.h"
 
 #include "common.h"
+#include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "game/delay.h"
@@ -53,8 +54,6 @@ unsigned short GM_ItemTypes[] = {
     0,          // 24: SUPPR
     0           // 25: ???
 };
-
-extern GV_PAD GV_PadData_800B05C0[4];
 
 extern int         gLastBindNum_800AB9B8; //N_BindsLV
 extern HZD_BIND *gpBinds_800AB9BC;
@@ -300,7 +299,7 @@ static inline int HZD_helper2_80029D50(HZD_BIND *pBind, HZD_EVT *event)
             return 0;
         }
 
-        if (!(GV_PadData_800B05C0[0].press & dword_8009D570[pBind->field_A_param_b]))
+        if (!(GV_PadData[0].press & dword_8009D570[pBind->field_A_param_b]))
         {
             return 0;
         }
