@@ -144,7 +144,7 @@ static void Die( StreamCtrlWork *work )
     }
 }
 
-StreamCtrlWork *NewStreamControl( int stream_code, int gcl_proc, int flags )
+void *NewStreamControl( int stream_code, int gcl_proc, int flags )
 {
     printf( "NewStream %d\n", stream_code );
 
@@ -162,7 +162,7 @@ StreamCtrlWork *NewStreamControl( int stream_code, int gcl_proc, int flags )
         str_sector_8009E280 = stream_code;
         str_gcl_proc_8009E284 = gcl_proc;
         str_8009E288 = flags;
-        return &strctrl_work;
+        return (void *)&strctrl_work;
     }
 
     FS_StreamInit( ( void * )0x801E7800, FS_CDLOAD_BUF_SIZE );
@@ -184,7 +184,7 @@ StreamCtrlWork *NewStreamControl( int stream_code, int gcl_proc, int flags )
     strctrl_work.map = GM_CurrentMap;
 
     FS_StreamTaskStart( stream_code );
-    return &strctrl_work;
+    return (void *)&strctrl_work;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -236,7 +236,7 @@ int GM_StreamGetLastCode( void )
     return strctrl_work.field_30_voxStream;
 }
 
-StreamCtrlWork *GM_DemoStream( int base_sector, int gcl_proc )
+void *GM_DemoStream( int base_sector, int gcl_proc )
 {
     int total_sector;
 
@@ -248,7 +248,7 @@ StreamCtrlWork *GM_DemoStream( int base_sector, int gcl_proc )
     return NewStreamControl( total_sector, gcl_proc, 2 );
 }
 
-StreamCtrlWork *GM_VoxStream( int vox_code, int proc )
+void *GM_VoxStream( int vox_code, int proc )
 {
     strctrl_work.field_30_voxStream = vox_code;
     vox_code++; vox_code--;
@@ -265,7 +265,7 @@ StreamCtrlWork *GM_VoxStream( int vox_code, int proc )
     return NewStreamControl( vox_code + FS_StreamGetTop(0), proc, 0 );
 }
 
-StreamCtrlWork *sub_80037EE0(int vox_stream, int gcl_proc)
+void *sub_80037EE0( int vox_stream, int gcl_proc )
 {
     strctrl_work.field_30_voxStream = vox_stream;
     return NewStreamControl( vox_stream + FS_StreamGetTop(0), gcl_proc, 1 );
