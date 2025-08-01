@@ -17,7 +17,7 @@ int GCL_AddCommMulti(GCL_COMMANDDEF *def)
     return 0;
 }
 
-STATIC GCL_COMMANDLIST *FindCommand(int id)
+static GCL_COMMANDLIST *FindCommand(int id)
 {
     GCL_COMMANDDEF *def;
 
@@ -58,7 +58,7 @@ int GCL_Command(unsigned char *ptr)
     return ret;
 }
 
-STATIC GCL_PROC_TABLE *set_proc_table(GCL_PROC_TABLE *proc_table)
+static GCL_PROC_TABLE *set_proc_table(GCL_PROC_TABLE *proc_table)
 {
     GCL_PROC_TABLE *pt = proc_table;
     while (*(int *)pt)
@@ -72,7 +72,7 @@ STATIC GCL_PROC_TABLE *set_proc_table(GCL_PROC_TABLE *proc_table)
 
 extern GCL_SCRIPT current_script_800B3C18;
 
-STATIC unsigned char *get_proc_block(int proc_id)
+static unsigned char *get_proc_block(int proc_id)
 {
     GCL_PROC_TABLE *pt;
     for (pt = current_script_800B3C18.proc_table; *(int *)pt; pt++)
@@ -103,7 +103,7 @@ int GCL_ExecProc(int proc_id, GCL_ARGS *args)
 
 #define GCL_MakeShort(b1, b2) ((b1) | (b2 << 8))
 
-STATIC int GCL_Proc(unsigned char *ptr)
+static int GCL_Proc(unsigned char *ptr)
 {
     long     argbuf[8];
     GCL_ARGS args;

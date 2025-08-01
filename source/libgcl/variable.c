@@ -16,7 +16,7 @@ void GCL_SaveLinkVar(short *gameVar)
 }
 
 // Used for save files
-STATIC unsigned int crc32(int len, unsigned char *ptr)
+static unsigned int crc32(int len, unsigned char *ptr)
 {
     unsigned int  crc;
     int           counter;

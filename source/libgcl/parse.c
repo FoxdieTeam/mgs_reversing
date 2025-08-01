@@ -100,7 +100,7 @@ unsigned char *GCL_GetNextValue(unsigned char *top, int *type_p, int *value_p)
     return ptr;
 }
 
-STATIC void GCL_InitArgStack(void)
+static void GCL_InitArgStack(void)
 {
     GCL_ArgStackP_800AB998 = argstack_800B3C28;
 }
@@ -154,7 +154,7 @@ int GCL_GetArgs(int argno)
     return GCL_ArgStackP_800AB998[~argno];
 }
 
-STATIC void GCL_InitCommandLineBuffer(void)
+static void GCL_InitCommandLineBuffer(void)
 {
     GCL_CommandLineP_800AB99C = commandlines_800B3CA8;
 }
