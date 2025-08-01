@@ -3,7 +3,13 @@
 #include "game/game.h"
 #include "linkvar.h"
 
+extern short linkvarbuf[0x60];
 extern short sv_linkvarbuf[0x60];
+
+extern GCL_Vars     gGcl_vars_800B3CC8;
+extern GCL_Vars     gGcl_memVars_800b4588;
+extern char         gStageName_800B4D88[16];
+extern RadioMemory  gRadioMemory_800BDB38[RADIO_MEMORY_COUNT];
 
 void GCL_SaveLinkVar(short *gameVar)
 {
@@ -51,11 +57,6 @@ static unsigned int crc32(int len, unsigned char *ptr)
     return ~crc;
 }
 
-extern GCL_Vars    gGcl_memVars_800b4588;
-extern RadioMemory gRadioMemory_800BDB38[RADIO_MEMORY_COUNT];
-
-extern char gStageName_800B4D88[16];
-
 int GCL_MakeSaveFile(char *saveBuf)
 {
     typedef struct
@@ -94,9 +95,6 @@ int GCL_MakeSaveFile(char *saveBuf)
 
     return saveFile->f000_size;
 }
-
-extern char        gStageName_800B4D88[16];
-extern GCL_Vars    gGcl_vars_800B3CC8;
 
 int GCL_SetLoadFile(char *saveBuf)
 {
