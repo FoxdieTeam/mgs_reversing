@@ -3,14 +3,14 @@
 #include "game/game.h"
 #include "linkvar.h"
 
-extern short sv_linkvarbuf_800B44C8[0x60];
+extern short sv_linkvarbuf[0x60];
 
 void GCL_SaveLinkVar(short *gameVar)
 {
     char *addr;
     int   offset;
 
-    addr = (char *)sv_linkvarbuf_800B44C8;
+    addr = (char *)sv_linkvarbuf;
     offset = (char *)gameVar - (char *)linkvarbuf;
     *(short *)(addr + offset) = *gameVar;
 }
@@ -56,8 +56,6 @@ extern RadioMemory gRadioMemory_800BDB38[RADIO_MEMORY_COUNT];
 
 extern char gStageName_800B4D88[16];
 
-extern short sv_linkvarbuf_800B44C8[0x60];
-
 int GCL_MakeSaveFile(char *saveBuf)
 {
     typedef struct
@@ -76,9 +74,9 @@ int GCL_MakeSaveFile(char *saveBuf)
 
     GM_LastSaveHours = GM_TotalHours;
     GM_LastSaveSeconds = GM_TotalSeconds;
-    GM_LinkVar(sv_linkvarbuf_800B44C8, GM_LastSaveHours) = GM_TotalHours;
-    GM_LinkVar(sv_linkvarbuf_800B44C8, GM_LastSaveSeconds) = GM_TotalSeconds;
-    GM_LinkVar(sv_linkvarbuf_800B44C8, GM_TotalSaves) = GM_TotalSaves;
+    GM_LinkVar(sv_linkvarbuf, GM_LastSaveHours) = GM_TotalHours;
+    GM_LinkVar(sv_linkvarbuf, GM_LastSaveSeconds) = GM_TotalSeconds;
+    GM_LinkVar(sv_linkvarbuf, GM_TotalSaves) = GM_TotalSaves;
 
     save->f014_padding[0] = 0;
     save->f014_padding[1] = 0;
@@ -87,7 +85,7 @@ int GCL_MakeSaveFile(char *saveBuf)
     strcpy(save->f020_stageName, gStageName_800B4D88);
     GM_GetAreaHistory(&save->f030_areaHistory);
 
-    memcpy(save->f040_varbuf, sv_linkvarbuf_800B44C8, 0xC0);
+    memcpy(save->f040_varbuf, sv_linkvarbuf, 0xC0);
     save->f100_gcl_vars = gGcl_memVars_800b4588;
     *(RdMem *)&save->f900_radio_memory = *(RdMem *)&gRadioMemory_800BDB38;
 
@@ -126,7 +124,7 @@ int GCL_SetLoadFile(char *saveBuf)
     strcpy(gStageName_800B4D88, save->f020_stageName);
     GM_SetAreaHistory(&save->f030_areaHistory);
 
-    memcpy(sv_linkvarbuf_800B44C8, save->f040_varbuf, 0xC0);
+    memcpy(sv_linkvarbuf, save->f040_varbuf, 0xC0);
     gGcl_memVars_800b4588 = save->f100_gcl_vars;
     memcpy(linkvarbuf, save->f040_varbuf, 0xC0);
     gGcl_vars_800B3CC8 = save->f100_gcl_vars;
@@ -157,14 +155,14 @@ void GCL_InitClearVar(void)
 
 void GCL_SaveVar(void)
 {
-    memcpy(sv_linkvarbuf_800B44C8, linkvarbuf, 0xC0);
+    memcpy(sv_linkvarbuf, linkvarbuf, 0xC0);
     gGcl_memVars_800b4588 = gGcl_vars_800B3CC8;
     strcpy(gStageName_800B4D88, GM_GetArea(0));
 }
 
 void GCL_RestoreVar(void)
 {
-    memcpy(linkvarbuf, sv_linkvarbuf_800B44C8, 0x9C);
+    memcpy(linkvarbuf, sv_linkvarbuf, 0x9C);
     gGcl_vars_800B3CC8 = gGcl_memVars_800b4588;
 
     GM_SetArea(GV_StrCode(gStageName_800B4D88), gStageName_800B4D88);
@@ -285,7 +283,7 @@ unsigned char *GCL_VarSaveBuffer(unsigned char *top)
     gcl_code = GCL_GetVarTypeCode(gcl_var);
     if (GCL_IsGameStateVar(gcl_var))
     {
-        ptr = (char *)sv_linkvarbuf_800B44C8;
+        ptr = (char *)sv_linkvarbuf;
     }
     else
     {

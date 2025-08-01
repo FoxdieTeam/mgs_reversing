@@ -130,7 +130,7 @@ unsigned char *BSS  commandlines_800B3CA8[8]; // 0x20 (32) bytes
 
 /* libgcl/variable.obj */
 GCL_Vars BSS        gGcl_vars_800B3CC8; // 0x800 (2048) bytes
-short BSS           sv_linkvarbuf_800B44C8[0x60]; // 0xC0 (192) bytes
+short BSS           sv_linkvarbuf[0x60]; // 0xC0 (192) bytes
 GCL_Vars BSS        gGcl_memVars_800b4588; // 0x800 (2048) bytes
 char BSS            gStageName_800B4D88[16]; // 0x10 (16) bytes
 short BSS           linkvarbuf[0x60]; // 0xC0 (192) bytes
