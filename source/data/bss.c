@@ -178,7 +178,11 @@ CONTROL BSS         gDefaultControl_800B5650; // 0x7C (124) bytes
 gap                                     gap_800B56CC[0x4]; // 4 bytes
 
 CONTROL *BSS        GM_WhereList[96]; // 0x180 (384) bytes
+
+/* game/area.obj */
 AreaHistory BSS     gAreaHistory_800B5850; // 0x10 (16) bytes
+
+/* game/gamed.obj */
 char BSS            exe_name_800B5860[32]; // 0x20 (32) bytes
 GameWork BSS        GameWork_800B5880; // 0x28 (40) bytes
 
@@ -192,12 +196,18 @@ unsigned short BSS  GM_SystemCallbackProc[6]; // 0xC (12) bytes
 
 gap                                     gap_800B58CC[0x14]; // 20 bytes
 
+/* game/script.obj */
 HZD_BIND BSS      gBindsArray_800b58e0[128]; // 0xC00 (3072) bytes
+
+/* game/target.obj */
 TARGET BSS          gTargets_800B64E0[TARGET_ARRAY_LENGTH]; // 0x1200 (4608) bytes
+
+/* game/alert.obj */
 char BSS            GM_NoiseSound_800B76E0[4][3]; // 0xC (12) bytes
 
 gap                                     gap_800B76EC[0x4]; // 4 bytes
 
+/* game/camera.obj */
 UnkCameraStruct2 BSS gUnkCameraStruct2_800B76F0; // 0x24 (36) bytes
 
 gap                                     gap_800B7714[0x4]; // 4 bytes
@@ -212,24 +222,39 @@ UnkCameraStruct2 BSS gUnkCameraStruct2_800B7868; // 0x24 (36) bytes
 
 gap                                     gap_800B788C[0x4]; // 4 bytes
 
+/* game/map.obj */
 DG_OBJS *BSS        StageObjs_800B7890[32]; // 0x80 (128) bytes
 MAP BSS      gMapRecs_800B7910[16]; // 0x140 (320) bytes
+
+/* libdg/pshade.obj */
 DG_LitVertex BSS    DG_LitVertices_800B7A50[84]; // 0x7E0 (2016) bytes
+
+/* game/homing.obj */
 HOMING BSS   gHomingTargets_800B8230[HOMING_ARRAY_LENGTH];
+
+/* game/strctrl.obj */
 StreamCtrlWork BSS  strctrl_800B82B0; // 0x40 (64) bytes
+
+/* game/jimctrl.obj */
 JimakuCtrlWork BSS  jimCtrlActor_800B82F0; // 0x104C (4172) bytes
 array_800B933C_child BSS array_800B933C[array_800B933C_SIZE]; // 0x1C (28) bytes
 int BSS             dword_800B9358; // 0x4 (4) bytes
 
 gap                                     gap_800B935C[0x4]; // 4 bytes
 
+/* menu/menuman.obj */
 unsigned char BSS   gPrimBackingBuffers_800B9360[2][8192]; // 0x4000 (16384) bytes
 MenuWork BSS        gMenuWork_800BD360; // 0x220 (544) bytes
+
+/* menu/radar.obj */
 MATRIX BSS          gRadarScaleMatrix_800BD580; // 0x20 (32) bytes
+
+/* menu/item.obj */
 PANEL_TEXTURE BSS   gMenuLeftItems_800BD5A0[MENU_ITEM_COUNT]; // 0x1A4 (420) bytes
 
 gap                                     gap_800BD744[0x4]; // 4 bytes
 
+/* menu/weapon.obj */
 array_800BD748_child BSS array_800BD748[9]; // 0xD8 (216) bytes
 
 gap                                     gap_800BD820[0x8]; // 8 bytes
@@ -239,6 +264,7 @@ PANEL_TEXTURE BSS   gMenuRightItems_800BD888[MENU_WEAPON_COUNT]; // 0xDC (220) b
 
 gap                                     gap_800BD964[0x4]; // 4 bytes
 
+/* menu/life.obj */
 KCB BSS             font_800BD968; // 0x2C (44) bytes
 
 gap                                     gap_800BD994[0x4]; // 4 bytes
@@ -247,6 +273,7 @@ SPRT BSS            gMenuSprt_800bd998; // 0x14 (20) bytes
 
 gap                                     gap_800BD9AC[0x4]; // 4 bytes
 
+/* menu/radio.obj */
 SPRT BSS            gRadioNumberSprt_800bd9b0; // 0x14 (20) bytes
 
 gap                                     gap_800BD9C4[0xC]; // 12 bytes
@@ -267,14 +294,22 @@ PANEL_TEXTURE BSS   dword_800BDA30; // 0x14 (20) bytes
 
 gap                                     gap_800BDA44[0x4]; // 4 bytes
 
+/* menu/radioanim.obj */
 menu_0x14 BSS       stru_800BDA48[2]; // 0x28 (40) bytes
+
+/* menu/jimaku.obj */
 UnkJimakuStruct BSS gUnkJimakuStruct_800BDA70; // 0x44 (68) bytes
 
 gap                                     gap_800BDAB4[0x4]; // 4 bytes
 
+/* menu/radiotable.obj */
 radio_table BSS     gRadioBaseTable_800BDAB8; // 0x40 (64) bytes
 radio_table BSS     gRadioOverTable_800BDAF8; // 0x40 (64) bytes
+
+/* menu/radiomem.obj */
 RadioMemory BSS     gRadioMemory_800BDB38[RADIO_MEMORY_COUNT]; // 0x140 (320) bytes
+
+/* chara/snake/sna_init.obj */
 unsigned char BSS   gBulNames_800BDC78[64]; // 0x40 (64) bytes
 short BSS           snake_mag_size_800BDCB8; // 0x2 (2) bytes
 short BSS           snake_weapon_idx_800BDCBA; // 0x2 (2) bytes
