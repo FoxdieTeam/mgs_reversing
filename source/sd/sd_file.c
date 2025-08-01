@@ -59,7 +59,7 @@ int LoadWaveHeader(void)
         return -1;
     }
 
-    PcmRead(wave_data, cdload_buf, 0x18000);
+    PcmRead(wave_data, cdload_buf, CDLOAD_BUF_SIZE);
     wavs = 0x4F;
 
     offset =  cdload_buf[0] << 24;
@@ -115,13 +115,13 @@ void WaveCdLoad(void)
 {
     int temp;
 
-    if (wave_unload_size > 0x18000U)
+    if (wave_unload_size > CDLOAD_BUF_SIZE)
     {
-        PcmRead(wave_data, cdload_buf, 0x18000);
-        wave_load_size = 0x18000;
+        PcmRead(wave_data, cdload_buf, CDLOAD_BUF_SIZE);
+        wave_load_size = CDLOAD_BUF_SIZE;
         dword_800BF27C = 2;
         wave_load_ptr = cdload_buf;
-        wave_unload_size -= 0x18000U;
+        wave_unload_size -= CDLOAD_BUF_SIZE;
         return;
     }
     if (wave_unload_size != 0)
@@ -487,7 +487,7 @@ char *SD_WavLoadBuf(char *arg0)
         break;
 
     case 3:
-        buf = cdload_buf + 0x18000;
+        buf = cdload_buf + CDLOAD_BUF_SIZE;
         if (wave_load_ptr == buf)
         {
             wave_load_ptr = cdload_buf;
@@ -499,7 +499,7 @@ char *SD_WavLoadBuf(char *arg0)
         }
         if (arg0 < wave_load_ptr)
         {
-            wave_load_size = 0x18000 + cdload_buf - (wave_load_ptr);
+            wave_load_size = CDLOAD_BUF_SIZE + cdload_buf - (wave_load_ptr);
         }
         else
         {
@@ -513,7 +513,7 @@ char *SD_WavLoadBuf(char *arg0)
         break;
     }
 
-    if (arg0 >= cdload_buf + 0x18000)
+    if (arg0 >= cdload_buf + CDLOAD_BUF_SIZE)
     {
         arg0 = cdload_buf;
     }
@@ -524,7 +524,7 @@ void SD_WavUnload(void)
 {
     if (wave_unload_size)
     {
-        if (wave_load_ptr == cdload_buf + 0x18000)
+        if (wave_load_ptr == cdload_buf + CDLOAD_BUF_SIZE)
         {
             wave_load_ptr = cdload_buf;
         }
