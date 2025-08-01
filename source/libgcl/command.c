@@ -4,6 +4,8 @@
 #include "common.h"
 #include "game/game.h"
 
+extern GCL_SCRIPT current_script;
+
 STATIC GCL_COMMANDDEF *commdef = 0;
 
 int GCL_AddCommMulti(GCL_COMMANDDEF *def)
@@ -70,16 +72,14 @@ static GCL_PROC_TABLE *set_proc_table(GCL_PROC_TABLE *proc_table)
     return pt + 1;
 }
 
-extern GCL_SCRIPT current_script_800B3C18;
-
 static unsigned char *get_proc_block(int proc_id)
 {
     GCL_PROC_TABLE *pt;
-    for (pt = current_script_800B3C18.proc_table; *(int *)pt; pt++)
+    for (pt = current_script.proc_table; *(int *)pt; pt++)
     {
         if (pt->proc_id == proc_id)
         {
-            return current_script_800B3C18.proc_body + pt->offset;
+            return current_script.proc_body + pt->offset;
         }
     }
     printf("PROC %X NOT FOUND\n", proc_id);
@@ -145,13 +145,13 @@ int GCL_LoadScript(unsigned char *datatop)
     proc_table = (GCL_PROC_TABLE *)(datatop + sizeof(int));
 
     len = GCL_GetLong(datatop);
-    current_script_800B3C18.proc_table = proc_table;
-    current_script_800B3C18.proc_body = (char *)set_proc_table(proc_table);
-    tmp = ((char *)current_script_800B3C18.proc_table) + len;
-    current_script_800B3C18.script_body = tmp + sizeof(int);
+    current_script.proc_table = proc_table;
+    current_script.proc_body = (char *)set_proc_table(proc_table);
+    tmp = ((char *)current_script.proc_table) + len;
+    current_script.script_body = tmp + sizeof(int);
 
     // Points to script data end
-    font_set_font_addr(2, current_script_800B3C18.script_body + GCL_GetLong(tmp) + sizeof(int));
+    font_set_font_addr(2, current_script.script_body + GCL_GetLong(tmp) + sizeof(int));
 
     return 0;
 }
@@ -202,7 +202,7 @@ GCL_ARGS gcl_null_args = {};
 
 void GCL_ExecScript(void)
 {
-    unsigned char *datatop = current_script_800B3C18.script_body;
+    unsigned char *datatop = current_script.script_body;
     if (*datatop != 0x40)
     {
         printf("NOT SCRIPT DATA !!\n");
