@@ -18,7 +18,7 @@ extern SVECTOR       ENEMY_TOUCH_FORCE_800C35CC;
 extern SVECTOR       COM_NO_POINT_800C35D4;
 extern unsigned short COM_EYE_LENGTH_800E0D8C;
 
-extern GM_Camera      GM_Camera_800B77E8;
+extern GM_CAMERA      GM_Camera;
 
 extern void *NewGunLight_800D3AD4( MATRIX* mat, int **enable );
 
@@ -139,7 +139,7 @@ void s07a_meryl7_800D53A4( WatcherWork *work )
     {
         if ( work->field_B7B == 1 )
         {
-            if ( GM_GameStatus & (GAME_FLAG_BIT_07 | STATE_BEHIND_CAMERA) || GM_Camera_800B77E8.first_person )
+            if ( GM_GameStatus & (GAME_FLAG_BIT_07 | STATE_BEHIND_CAMERA) || GM_Camera.first_person )
             {
                 if ( work->has_kmd != work->field_B7B )
                 {

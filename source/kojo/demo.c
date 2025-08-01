@@ -12,7 +12,7 @@
 
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 extern BLAST_DATA       blast_data_8009F4B8[8];
-extern GM_Camera        GM_Camera_800B77E8;
+extern GM_CAMERA        GM_Camera;
 
 void demothrd_Screen_Chanl_80080D48(DG_CHANL *chanl, int idx);
 void InitChain(DemothrdWork_0x78_Chain *pSub);
@@ -40,7 +40,7 @@ int CreateDemo_80079B50(DemothrdWork* pThis, demothrd_0x1C* pDmoData)
 
     pThis->field_270_pOldRenderFn = pOldRendFunc;
     pThis->field_274_old_game_state_flags = GM_GameStatus;
-    pThis->field_278 = GM_Camera_800B77E8;
+    pThis->field_278 = GM_Camera;
 
     pThis->field_2F4_old_equipped_item = GM_CurrentItemId;
     pThis->field_2F8_old_equipped_weapon = GM_CurrentWeaponId;
@@ -365,7 +365,7 @@ int DestroyDemo_8007A66C(DemothrdWork *work)
   GM_GameStatus &= ~STATE_DEMO;
   DG_SetChanlSystemUnits(DG_SCREEN_CHANL, field_270_pOldRenderFn);
   GM_GameStatus = work->field_274_old_game_state_flags;
-  GM_Camera_800B77E8 = work->field_278;
+  GM_Camera = work->field_278;
   GM_CurrentItemId = work->field_2F4_old_equipped_item;
   GM_CurrentWeaponId = work->field_2F8_old_equipped_weapon;
   return 1;

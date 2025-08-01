@@ -18,7 +18,7 @@ extern SVECTOR       ENEMY_TOUCH_FORCE_800C35CC;
 extern SVECTOR       COM_NO_POINT_800C35D4;
 extern int           COM_EYE_LENGTH_800E0D8C;
 
-extern GM_Camera      GM_Camera_800B77E8;
+extern GM_CAMERA      GM_Camera;
 */
 
 extern SVECTOR ZAKO_TARGET_SIZE_800C38CC;
@@ -61,7 +61,7 @@ void s11e_zako11e_800D34D0( DG_OBJS* objs, DG_DEF* def )
     }
 }
 
-extern GM_Camera GM_Camera_800B77E8;
+extern GM_CAMERA GM_Camera;
 
 void s11e_zako11e_800D354C( ZakoWork *work )
 {
@@ -69,7 +69,7 @@ void s11e_zako11e_800D354C( ZakoWork *work )
     {
         if ( work->param_low_poly == 1 )
         {
-            if ( GM_GameStatus & (GAME_FLAG_BIT_07 | STATE_BEHIND_CAMERA) || GM_Camera_800B77E8.first_person )
+            if ( GM_GameStatus & (GAME_FLAG_BIT_07 | STATE_BEHIND_CAMERA) || GM_Camera.first_person )
             {
                 if ( work->has_kmd != work->param_low_poly )
                 {

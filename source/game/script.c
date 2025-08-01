@@ -17,7 +17,7 @@
 #include "strcode.h"
 
 extern  CAMERA          GM_CameraList[8];
-extern  GM_Camera       GM_Camera_800B77E8;
+extern  GM_CAMERA       GM_Camera;
 extern  HZD_BIND        gBindsArray_800b58e0[128];
 extern  int             dword_8009F46C;
 extern  SVECTOR         svector_8009F478;
@@ -194,7 +194,7 @@ STATIC int GM_Command_camera(unsigned char *top)
 
     if (GCL_GetOption('a'))
     {
-        GM_Camera_800B77E8.alert_mask = GCL_GetNextParamValue();
+        GM_Camera.alert_mask = GCL_GetNextParamValue();
     }
 
     if (GCL_GetOption('c'))

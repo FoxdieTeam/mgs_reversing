@@ -5,7 +5,7 @@
 #include "libgv/libgv.h"
 #include "game/camera.h"
 
-extern GM_Camera        GM_Camera_800B77E8;
+extern GM_CAMERA        GM_Camera;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 
 STATIC void sub_8003214C(SVECTOR *pVec, int *pRet)
@@ -220,7 +220,7 @@ STATIC int sub_80032534(SVECTOR *pos, int param_2, DVECTOR *out)
 
 STATIC int sub_8003265C(DVECTOR *out, SVECTOR *pos, int param_3)
 {
-    if ((GM_GameStatus & (STATE_BEHIND_CAMERA | GAME_FLAG_BIT_07)) == 0 && GM_Camera_800B77E8.first_person == 0)
+    if ((GM_GameStatus & (STATE_BEHIND_CAMERA | GAME_FLAG_BIT_07)) == 0 && GM_Camera.first_person == 0)
     {
         if (sub_800321F8(pos, param_3, out) < 0)
         {
@@ -238,7 +238,7 @@ STATIC int sub_8003265C(DVECTOR *out, SVECTOR *pos, int param_3)
 
 STATIC int sub_800326D4(DVECTOR *out, SVECTOR *pos)
 {
-    if (((GM_GameStatus & (STATE_BEHIND_CAMERA | GAME_FLAG_BIT_07)) == 0) && GM_Camera_800B77E8.first_person == 0)
+    if (((GM_GameStatus & (STATE_BEHIND_CAMERA | GAME_FLAG_BIT_07)) == 0) && GM_Camera.first_person == 0)
     {
         if (sub_800321F8(pos, 0, out) < 0)
         {
@@ -255,7 +255,7 @@ STATIC int sub_800326D4(DVECTOR *out, SVECTOR *pos)
 
 STATIC int sub_80032748(DVECTOR *out, SVECTOR *pos)
 {
-    if (((GM_GameStatus & (STATE_BEHIND_CAMERA | GAME_FLAG_BIT_07)) == 0) && GM_Camera_800B77E8.first_person == 0)
+    if (((GM_GameStatus & (STATE_BEHIND_CAMERA | GAME_FLAG_BIT_07)) == 0) && GM_Camera.first_person == 0)
     {
         if (sub_80032420(pos, 0, out) < 0)
         {
@@ -273,7 +273,7 @@ STATIC int sub_80032748(DVECTOR *out, SVECTOR *pos)
 
 STATIC int sub_800327BC(DVECTOR *a1, SVECTOR *a2)
 {
-    if ((GM_GameStatus & (STATE_BEHIND_CAMERA | GAME_FLAG_BIT_07)) == 0 && GM_Camera_800B77E8.first_person == 0)
+    if ((GM_GameStatus & (STATE_BEHIND_CAMERA | GAME_FLAG_BIT_07)) == 0 && GM_Camera.first_person == 0)
     {
         return -1;
     }

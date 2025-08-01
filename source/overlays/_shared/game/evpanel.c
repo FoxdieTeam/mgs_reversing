@@ -10,7 +10,7 @@
 #include "sd/g_sound.h"
 #include "strcode.h"
 
-extern GM_Camera    GM_Camera_800B77E8;
+extern GM_CAMERA    GM_Camera;
 extern int          GM_CameraShakeOffset;
 
 /*---------------------------------------------------------------------------*/
@@ -353,9 +353,9 @@ static void s03e_evpanel_800C3950(EvPanelWork *work, short arg1)
 
 static void s03e_evpanel_800C3994(void)
 {
-    GM_Camera_800B77E8.eye = s03e_dword_800CC6B8->f84;
-    GM_Camera_800B77E8.rotate = s03e_dword_800CC6B8->f8C;
-    GM_Camera_800B77E8.field_28 = 1;
+    GM_Camera.eye = s03e_dword_800CC6B8->f84;
+    GM_Camera.rotate = s03e_dword_800CC6B8->f8C;
+    GM_Camera.field_28 = 1;
 }
 
 static void s03e_evpanel_800C39F8(EvPanelWork *work)
@@ -364,13 +364,13 @@ static void s03e_evpanel_800C39F8(EvPanelWork *work)
 
     GM_SetCameraCallbackFunc_8002FD84(1, s03e_evpanel_800C3994);
 
-    work->field_4C = GM_Camera_800B77E8.flags;
+    work->field_4C = GM_Camera.flags;
     work->f8C.vy = work->field_48;
     work->field_4A = work->field_48;
 
-    GM_Camera_800B77E8.flags = 0x2;
-    GM_Camera_800B77E8.field_2A = 2;
-    GM_Camera_800B77E8.interp = 30;
+    GM_Camera.flags = 0x2;
+    GM_Camera.field_2A = 2;
+    GM_Camera.interp = 30;
 
     GM_PlayerStatus |= PLAYER_PAD_OFF;
 
@@ -389,9 +389,9 @@ static void s03e_evpanel_800C39F8(EvPanelWork *work)
 
 static void s03e_evpanel_800C3AD0(EvPanelWork *work)
 {
-    GM_Camera_800B77E8.flags = work->field_4C;
-    GM_Camera_800B77E8.field_2A = 2;
-    GM_Camera_800B77E8.interp = 30;
+    GM_Camera.flags = work->field_4C;
+    GM_Camera.field_2A = 2;
+    GM_Camera.interp = 30;
 
     GM_SetCameraCallbackFunc_8002FD84(1, NULL);
 }
@@ -461,8 +461,8 @@ static void Act(EvPanelWork *work)
             work->field_4A = work->f8C.vy;
         }
 
-        GM_Camera_800B77E8.field_2A = 0;
-        GM_Camera_800B77E8.interp = -1;
+        GM_Camera.field_2A = 0;
+        GM_Camera.interp = -1;
 
         work->field_36 = 25;
         work->field_2E = 9;
@@ -549,7 +549,7 @@ static void Act(EvPanelWork *work)
         {
             if (GM_AlertMode == 0)
             {
-                if ((GM_Camera_800B77E8.first_person != 0) || (GM_PlayerStatus & PLAYER_WATCH))
+                if ((GM_Camera.first_person != 0) || (GM_PlayerStatus & PLAYER_WATCH))
                 {
                     if ((GM_UnkFlagBE == 0) || !(GM_PlayerStatus & PLAYER_MOVE_WATCH))
                     {
@@ -677,7 +677,7 @@ static void Act(EvPanelWork *work)
         break;
 
     case 11:
-        if (GM_Camera_800B77E8.interp < 24)
+        if (GM_Camera.interp < 24)
         {
             work->field_42 = 2;
             DG_VisibleObjs(GM_PlayerBody->objs);

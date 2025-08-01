@@ -102,7 +102,7 @@ SVECTOR s03c_dword_800C32EC = {0, 0, 300};
 SVECTOR s03c_dword_800C32F4 = {300, 750, 300};
 
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
-extern GM_Camera        GM_Camera_800B77E8;
+extern GM_CAMERA        GM_Camera;
 
 extern int s03c_dword_800C33D8;
 
@@ -2317,7 +2317,7 @@ void s03c_johnny_800C7BF8(JohnnyWork *work, int action)
     case 3:
         DG_InvisibleObjs(GM_PlayerBody->objs);
 
-        GM_Camera_800B77E8.first_person = 1;
+        GM_Camera.first_person = 1;
 
         gUnkCameraStruct_800B77B8.eye = GM_PlayerPosition;
         gUnkCameraStruct_800B77B8.eye.vy += 500;
@@ -2346,7 +2346,7 @@ void s03c_johnny_800C7BF8(JohnnyWork *work, int action)
         }
         else if (++work->unkB4E == 32)
         {
-            GM_Camera_800B77E8.first_person = 0;
+            GM_Camera.first_person = 0;
             work->unkB4C = 4;
             work->unkB4E = 0;
         }
@@ -2421,7 +2421,7 @@ void s03c_johnny_800C7F78(JohnnyWork *work, int action)
     ReadRotMatrix(&sp40);
     DG_SetPos(&sp20);
 
-    GM_Camera_800B77E8.first_person = 1;
+    GM_Camera.first_person = 1;
 
     gUnkCameraStruct_800B77B8.eye.vx = sp40.t[0];
     gUnkCameraStruct_800B77B8.eye.vy = sp40.t[1];
@@ -2453,7 +2453,7 @@ void s03c_johnny_800C7F78(JohnnyWork *work, int action)
             work->unkB1C &= ~0x4000000;
 
             GM_GameStatus &= ~( STATE_PADRELEASE | STATE_PAUSE_ONLY );
-            GM_Camera_800B77E8.first_person = 0;
+            GM_Camera.first_person = 0;
 
             if ((work->unkB48 == Johnny_800C64B0) || (work->unkB48 == s03c_johnny_800C5DE4))
             {
@@ -2478,7 +2478,7 @@ void s03c_johnny_800C7F78(JohnnyWork *work, int action)
         {
             s03b_boxall_800C9328();
 
-            GM_Camera_800B77E8.first_person = 0;
+            GM_Camera.first_person = 0;
             GM_GameStatus &= ~( STATE_PADRELEASE | STATE_PAUSE_ONLY );
 
             if ((work->unkB48 == Johnny_800C64B0) || (work->unkB48 == s03c_johnny_800C5DE4))
@@ -2507,7 +2507,7 @@ void s03c_johnny_800C7F78(JohnnyWork *work, int action)
         if (action == 100)
         {
             GM_GameStatus &= ~( STATE_PADRELEASE | STATE_PAUSE_ONLY );
-            GM_Camera_800B77E8.first_person = 0;
+            GM_Camera.first_person = 0;
 
             if ((work->unkB48 == Johnny_800C64B0) || (work->unkB48 == s03c_johnny_800C5DE4))
             {
@@ -2530,7 +2530,7 @@ void s03c_johnny_800C7F78(JohnnyWork *work, int action)
 
         if (action == 32)
         {
-            GM_Camera_800B77E8.first_person = 0;
+            GM_Camera.first_person = 0;
             work->unkB0C = 7;
             work->unkB10 = 0;
             GM_GameStatus &= ~( STATE_PADRELEASE | STATE_PAUSE_ONLY );

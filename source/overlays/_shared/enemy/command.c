@@ -22,7 +22,7 @@ int SECTION("overlay.bss") s00a_dword_800E0CA4;
 int SECTION("overlay.bss") s00a_dword_800E0CA8;
 int SECTION("overlay.bss") s00a_dword_800E0CAC;
 
-GM_Camera SECTION("overlay.bss") s00a_dword_800E0CB0;
+GM_CAMERA SECTION("overlay.bss") s00a_dword_800E0CB0;
 
 int SECTION("overlay.bss") s00a_dword_800E0D2C;
 int SECTION("overlay.bss") s00a_dword_800E0D30;
@@ -69,7 +69,7 @@ int SECTION("overlay.bss") COM_PlayerMapOne_800E0F70[8];
 
 extern int       GM_event_camera_flag;
 extern CONTROL  *GM_WhereList[94];
-extern GM_Camera GM_Camera_800B77E8;
+extern GM_CAMERA GM_Camera;
 
 SVECTOR ENEMY_TARGET_SIZE_800C35A4  = { 300, 1000, 300 };
 SVECTOR ENEMY_TARGET_FORCE_800C35AC = { 0, 0, 0 };
@@ -1076,7 +1076,7 @@ void s00a_command_800D02F4(void)
 {
     if ( GM_PlayerBody->objs->bound_mode == 2 )
     {
-        GM_Camera_800B77E8.track = GV_NearExp8( GM_Camera_800B77E8.track, 4000 );
+        GM_Camera.track = GV_NearExp8( GM_Camera.track, 4000 );
     }
 }
 
@@ -1090,15 +1090,15 @@ void s00a_command_800D0344(void)
 
     if ( s00a_dword_800E0D2C > 4 )
     {
-        if ( !( GM_Camera_800B77E8.flags & 3 ) )
+        if ( !( GM_Camera.flags & 3 ) )
         {
-            s00a_dword_800E0CB0 = GM_Camera_800B77E8;
+            s00a_dword_800E0CB0 = GM_Camera;
             flag = 0x40;
             if ( !GM_event_camera_flag )
             {
                 flag = 0x80;
             }
-            GM_Camera_800B77E8.flags |= ( 2 | flag );
+            GM_Camera.flags |= ( 2 | flag );
             GM_SetCameraCallbackFunc_8002FD84( 1, s00a_command_800D02F4 );
         }
     }
@@ -1124,7 +1124,7 @@ void UnsetCameraActCall_800D047C()
 
     GM_SetCameraCallbackFunc_8002FD84( 1, NULL ) ;
     s00a_dword_800E0D2C = 0 ;
-    GM_Camera_800B77E8.flags &= ~( 2 ) ;
+    GM_Camera.flags &= ~( 2 ) ;
 }
 
 void CommandGetResources_800D04F4( CommanderWork *work, int name, int where )

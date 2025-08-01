@@ -25,7 +25,7 @@ void s11i_zako11f_800C86F8( DG_OBJS* objs, DG_DEF* def )
     }
 }
 
-extern GM_Camera GM_Camera_800B77E8;
+extern GM_CAMERA GM_Camera;
 
 void s11i_zako11f_800C8774( Zako11FWork *work )
 {
@@ -33,7 +33,7 @@ void s11i_zako11f_800C8774( Zako11FWork *work )
     {
         if ( work->param.low_poly == 1 )
         {
-            if ( GM_GameStatus & (GAME_FLAG_BIT_07 | STATE_BEHIND_CAMERA) || GM_Camera_800B77E8.first_person )
+            if ( GM_GameStatus & (GAME_FLAG_BIT_07 | STATE_BEHIND_CAMERA) || GM_Camera.first_person )
             {
                 if ( work->has_kmd != work->param.low_poly )
                 {
