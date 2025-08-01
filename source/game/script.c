@@ -855,7 +855,7 @@ STATIC int GM_Command_demo(unsigned char *top)
     {
         DG_UnDrawFrameCount = 0x7FFF0000;
         GM_GameStatus |= STATE_DEMO;
-        GM_Command_demo_helper_80037DD8( code, cb_proc );
+        GM_DemoStream( code, cb_proc );
     }
     else
     {
