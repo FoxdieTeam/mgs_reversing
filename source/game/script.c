@@ -617,7 +617,7 @@ STATIC int GM_Command_load(unsigned char *top)
             strcpy(dword_800ABA58, GM_GetArea((int)scriptStageName));
             GV_InitResidentMemory();
             GV_InitCacheSystem();
-            DG_InitResidentTextureCache();
+            DG_ClearResidentTexture();
             GM_SetArea(GV_StrCode(scriptStageName), scriptStageName);
         }
         else

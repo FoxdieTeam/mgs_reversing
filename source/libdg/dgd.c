@@ -135,7 +135,7 @@ void DG_StartDaemon(void)
 
     DG_InitDispEnv(0, 0, 320, 240, 320);
     DG_InitChanlSystem(320);
-    DG_InitResidentTextureCache();
+    DG_ClearResidentTexture();
     DG_ResetPipeline();
 
     GV_SetLoader('p', DG_LoadInitPcx);      // *.pcx format
