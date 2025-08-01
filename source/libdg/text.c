@@ -248,7 +248,7 @@ void DG_GetClutRect( DG_TEX *tex, RECT *rect )
 /**
  * @brief Initialises the resident texture cache as empty.
  */
-void DG_InitResidentTextureCache( void )
+void DG_ClearResidentTexture( void )
 {
     DG_ResidentTextureCacheSize = 0;
     DG_ResidentTextureCache = NULL;
