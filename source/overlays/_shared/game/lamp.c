@@ -12,7 +12,7 @@
 #include "game/game.h"
 #include "strcode.h"
 
-extern unsigned char *GCL_NextStrPtr_800AB9A0;
+extern unsigned char *next_str_ptr;
 
 /*---------------------------------------------------------------------------*/
 
@@ -288,7 +288,7 @@ static int GetResources(Work *work, int map, int name, int a3, int a4)
     work->field_38 = 0;
     work->field_3C = 0;
     work->field_30 = -1;
-    work->field_34_gcl_nextStrPtr = GCL_NextStrPtr_800AB9A0;
+    work->field_34_gcl_nextStrPtr = next_str_ptr;
 
     if (GCL_GetOption('I'))
     {
@@ -361,7 +361,7 @@ void *NewLamp(int name, int where, int argc, char **argv)
     unsigned char *nextStrPtr;
     int            param1, param2;
 
-    nextStrPtr = GCL_NextStrPtr_800AB9A0;
+    nextStrPtr = next_str_ptr;
 
     if (GCL_GetOption('D'))
     {
@@ -374,7 +374,7 @@ void *NewLamp(int name, int where, int argc, char **argv)
         param1 = 1;
     }
 
-    GCL_NextStrPtr_800AB9A0 = nextStrPtr;
+    next_str_ptr = nextStrPtr;
 
     work = GV_NewActor(EXEC_LEVEL, ((param1 * param2) * sizeof(SVECTOR) * 4) + sizeof(Work));
     if (work)
