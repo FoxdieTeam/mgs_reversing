@@ -117,7 +117,7 @@ extern int          FS_ResidentCacheDirty;
 
 extern DG_TEX gMenuTextureRec_800B58B0;
 
-extern GameWork GameWork_800B5880;
+extern gameWork GameWork;
 
 extern unsigned char *GV_ResidentMemoryBottom;
 
@@ -256,7 +256,7 @@ static void GM_TogglePauseScreen(void)
     }
 }
 
-static void GM_ActInit(GameWork *work)
+static void GM_ActInit(gameWork *work)
 {
     GM_Reset_helper3_80030760();
     GM_InitWhereSystem();
@@ -317,7 +317,7 @@ void DrawReadError(void)
 
 /*---------------------------------------------------------------------------*/
 
-static void Act(GameWork *work)
+static void Act(gameWork *work)
 {
     int load_request;
     int status;
@@ -441,7 +441,7 @@ static void Act(GameWork *work)
         return;
     }
 
-    if ((work->field_24 <= 0))
+    if ((work->killing_count <= 0))
     {
         if (GM_GameOverTimer != 0)
         {
@@ -484,7 +484,7 @@ static void Act(GameWork *work)
                 GV_PauseLevel &= ~8;
                 GM_ResetMapModel();
                 GM_StreamPlayStop();
-                work->field_24 = 3;
+                work->killing_count = 3;
                 GM_GameStatus |= STATE_PADRELEASE | STATE_ALL_OFF;
 
                 return;
@@ -579,14 +579,14 @@ static void Act(GameWork *work)
     {
         GV_PauseLevel &= ~8;
 
-        if ((--work->field_24 <= 0))
+        if ((--work->killing_count <= 0))
         {
             if (GM_StreamStatus() == -1)
             {
                 if ((GV_PauseLevel & 5) == 0)
                 {
                     work->status = 0;
-                    work->field_24 = 0;
+                    work->killing_count = 0;
                     GM_ResetMapHazard();
                     GM_ResetSystem();
                     GM_ActInit(work);
@@ -605,7 +605,7 @@ static void Act(GameWork *work)
                 }
             }
 
-            work->field_24 = status;
+            work->killing_count = status;
         }
 
         if (GV_PauseLevel == 0)
@@ -733,15 +733,15 @@ void GM_StartDaemon(void)
     GM_InitScript();
     GV_SetLoader('b', GM_LoadInitBin);
     GM_ClearWeaponAndItem();
-    GV_InitActor(GV_ACTOR_MANAGER, &GameWork_800B5880.actor, NULL);
-    GV_SetNamedActor(&GameWork_800B5880.actor, Act, NULL, "gamed.c");
+    GV_InitActor(GV_ACTOR_MANAGER, &GameWork.actor, NULL);
+    GV_SetNamedActor(&GameWork.actor, Act, NULL, "gamed.c");
     GM_ResetSystem();
-    GM_ActInit(&GameWork_800B5880);
+    GM_ActInit(&GameWork);
     GM_ResetMemory();
     GM_CurrentPadData = GV_PadData;
     GM_CurrentDiskFlag = FS_DiskNum_800ACBF0 + 1;
     GV_SaveResidentTop();
-    GameWork_800B5880.status = 0;
-    GameWork_800B5880.field_24 = 0;
+    GameWork.status = 0;
+    GameWork.killing_count = 0;
     GM_CreateLoader();
 }
