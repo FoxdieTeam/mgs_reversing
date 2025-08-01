@@ -6,8 +6,6 @@
 #include "game/game.h"
 #include "game/jimctrl.h"
 
-extern GV_PAD GV_PadData_800B05C0[4];
-
 /*---------------------------------------------------------------------------*/
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL3
@@ -67,7 +65,7 @@ static void Act( Work *work )
     char                  symbol;
     int                   i;
 
-    pad = &GV_PadData_800B05C0[0];
+    pad = &GV_PadData[0];
 
     if ( work->field_20 == 0 )
     {

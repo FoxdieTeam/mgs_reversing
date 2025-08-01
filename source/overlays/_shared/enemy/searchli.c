@@ -65,7 +65,6 @@ typedef struct _SearchlightWork
     MATRIX         lit_mtx;
 } SearchlightWork;
 
-extern GV_PAD   GV_PadData_800B05C0[4];
 extern CONTROL *GM_WhereList_800B56D0[96];
 extern int     COM_VibTime_800E0F68;
 
@@ -820,11 +819,11 @@ void SearchlightAct_800D86F0(SearchlightWork *work)
         }
     }
 
-    if ((work->debug != 0) && (GV_PadData_800B05C0[1].status & PAD_SQUARE))
+    if ((work->debug != 0) && (GV_PadData[1].status & PAD_SQUARE))
     {
-        status = GV_PadData_800B05C0[1].status;
+        status = GV_PadData[1].status;
 
-        if ((GV_PadData_800B05C0[1].press & PAD_TRIANGLE) && (++work->debug >= 4))
+        if ((GV_PadData[1].press & PAD_TRIANGLE) && (++work->debug >= 4))
         {
             work->debug = 1;
         }

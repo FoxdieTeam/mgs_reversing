@@ -73,7 +73,6 @@ typedef struct _TortureWork
     GV_ACT        *f900;
 } TortureWork;
 
-extern GV_PAD          GV_PadData_800B05C0[4];
 extern UnkCameraStruct gUnkCameraStruct_800B77B8;
 extern GM_Camera       GM_Camera_800B77E8;
 
@@ -533,7 +532,7 @@ void s03b_torture_800C4740(TortureWork *work)
 
     s03b_boxall_800C974C();
 
-    if (GV_PadData_800B05C0[2].press & PAD_CROSS)
+    if (GV_PadData[2].press & PAD_CROSS)
     {
         work->f808 = s03b_torture_800C46B8;
         work->f81A = 0;
@@ -1897,7 +1896,7 @@ void Torture_800C695C(TortureWork *work)
     work->f822 = 0;
     work->f820 = 0;
     work->f824 = work->control.mov;
-    work->f834 = &GV_PadData_800B05C0[2];
+    work->f834 = &GV_PadData[2];
     work->f82C = work->control.rot;
     work->f8FC = NULL;
     work->f900 = NULL;

@@ -15,7 +15,6 @@
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 extern int              DG_CurrentGroupID;
 extern int              dword_8009F604;
-extern GV_PAD           GV_PadData_800B05C0[4];
 extern GM_Camera        GM_Camera_800B77E8;
 extern short            dword_800ABBDC;
 extern short            dword_800ABBD4;
@@ -634,11 +633,11 @@ static void Act(Work *work)
 
     if ((GM_PlayerStatus & PLAYER_SECOND_CONTROLLER) != 0)
     {
-        work->old_pad = &GV_PadData_800B05C0[3];
+        work->old_pad = &GV_PadData[3];
     }
     else
     {
-        work->old_pad = &GV_PadData_800B05C0[2];
+        work->old_pad = &GV_PadData[2];
     }
 
     pad_status = work->old_pad->status;
@@ -807,7 +806,7 @@ static int GetResources(Work *work, CONTROL *control, OBJECT *parent)
     InitMovingBarGraph(work);
     InitZoomLevelLine(work->zoom_line[0]);
 
-    work->old_pad = &GV_PadData_800B05C0[2];
+    work->old_pad = &GV_PadData[2];
     work->hud_delay = HUD_DISP_DELAY;
     work->field_58 = 0;
     work->field_5E = 2;

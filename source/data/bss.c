@@ -71,7 +71,7 @@ MESSAGE_LIST BSS    message_list_800B0320[2]; // 0x288 (648) bytes
 
 /* libgv/pad.obj */
 int BSS             dword_800B05A8[6]; // 0x18 (24) bytes
-GV_PAD BSS          GV_PadData_800B05C0[4]; // 0x40 (64) bytes
+GV_PAD BSS          GV_PadData[4]; // 0x40 (64) bytes
 
 /* libdg/display.c */
 DISPENV BSS         gDispEnv_800B0600; // 0x14 (20) bytes

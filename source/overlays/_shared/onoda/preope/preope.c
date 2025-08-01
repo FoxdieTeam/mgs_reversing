@@ -8,8 +8,6 @@
 #include "game/game.h"
 #include "sd/g_sound.h"
 
-extern GV_PAD GV_PadData_800B05C0[4];
-
 /*---------------------------------------------------------------------------*/
 
 #define EXEC_LEVEL GV_ACTOR_MANAGER
@@ -846,7 +844,7 @@ static int GetResources(Work *work, int map)
         Preope_800C3428(work, i);
     }
 
-    work->pad = &GV_PadData_800B05C0[2];
+    work->pad = &GV_PadData[2];
 
     work->field_2C4 = 0;
     PreopeMoveButtonHighlight_800C3860(work, -42, -42, 84, 6, 255, 0);

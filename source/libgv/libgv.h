@@ -335,6 +335,9 @@ enum
 extern u_short  GV_DemoPadStatus[2];
 extern u_long   GV_DemoPadAnalog;
 #endif
+#ifndef __BSSDEFINE__
+extern GV_PAD GV_PadData[4];
+#endif
 extern int GV_PadMask;
 
 void GV_InitPadSystem(void);

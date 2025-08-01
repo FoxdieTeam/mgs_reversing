@@ -74,8 +74,6 @@ typedef struct _Unknown2
     int   color;
 } Unknown2;
 
-extern GV_PAD GV_PadData_800B05C0[4];
-
 extern Unknown2 dword_800C3218[];
 
 signed char byte_800C338C[] = {-1, 0, 1, 0, 0, 1, 0, -1};
@@ -2125,7 +2123,7 @@ int OptionGetResources_800C7F88(OptionWork *work, int map)
         option_800C339C(work, i);
     }
 
-    work->pad = &GV_PadData_800B05C0[2];
+    work->pad = &GV_PadData[2];
     work->f920 = 0;
     work->f29E4 = 0;
     work->f29E8 = 0;

@@ -8,7 +8,6 @@
 
 /***bss****************************************************************/
 extern int     dword_800B05A8[6];
-extern GV_PAD GV_PadData_800B05C0[4];
 /*********************************************************************/
 
 int GV_PadMask = 0;
@@ -136,7 +135,7 @@ void GV_InitPadSystem(void)
     int     i;
     GV_PAD *pad;
 
-    pad = GV_PadData_800B05C0;
+    pad = GV_PadData;
 
     for (i = 2; i > 0; --i)
     {
@@ -199,7 +198,7 @@ void GV_UpdatePadSystem(void)
     }
 
     // loc_800168E0
-    pad = GV_PadData_800B05C0;
+    pad = GV_PadData;
     s3 = 0;
     chan = 2;
 
@@ -334,7 +333,7 @@ void GV_UpdatePadSystem(void)
     // loc_80016B28
     ret |= s3 & 0xF000F000;
     button = s3;
-    GV_CopyMemory(GV_PadData_800B05C0, &GV_PadData_800B05C0[2], 0x20);
+    GV_CopyMemory(GV_PadData, &GV_PadData[2], 0x20);
 
     prev = dword_800AB954;
     dword_800AB954 = ret;
@@ -361,7 +360,7 @@ void GV_UpdatePadSystem(void)
     t5 = 2;
     dword_800B05A8[(GV_Time % 6)] = t0;
 
-    pad = GV_PadData_800B05C0;
+    pad = GV_PadData;
 
     for (; chan > 0; --chan)
     {

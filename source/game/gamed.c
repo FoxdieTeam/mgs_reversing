@@ -114,7 +114,6 @@ extern char         exe_name_800B5860[32];
 extern char        *MGS_DiskName[3]; /* in main.c */
 extern int          FS_DiskNum_800ACBF0;
 extern int          FS_ResidentCacheDirty;
-extern GV_PAD       GV_PadData_800B05C0[4];
 
 extern DG_TEX gMenuTextureRec_800B58B0;
 
@@ -739,7 +738,7 @@ void GM_StartDaemon(void)
     GM_ResetSystem();
     GM_ActInit(&GameWork_800B5880);
     GM_ResetMemory();
-    GM_CurrentPadData = GV_PadData_800B05C0;
+    GM_CurrentPadData = GV_PadData;
     GM_CurrentDiskFlag = FS_DiskNum_800ACBF0 + 1;
     GV_SaveResidentTop();
     GameWork_800B5880.status = 0;
