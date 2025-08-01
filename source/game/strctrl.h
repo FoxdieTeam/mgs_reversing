@@ -21,12 +21,14 @@ typedef struct  StreamCtrlWork
 
 /* strctrl.c */
 StreamCtrlWork *NewStreamControl( int stream_code, int gcl_proc, int flags );
-int             GM_StreamStatus( void );
-void            GM_StreamPlayStart( void );
-void            GM_StreamPlayStop( void );
-void            GM_StreamCancelCallback( void );
-int             GM_StreamGetLastCode( void );
-StreamCtrlWork *GM_Command_demo_helper_80037DD8( int base_sector, int gcl_proc );
+
+int GM_StreamStatus( void );
+void GM_StreamPlayStart( void );
+void GM_StreamPlayStop( void );
+void GM_StreamCancelCallback( void );
+int GM_StreamGetLastCode( void );
+
+StreamCtrlWork *GM_DemoStream( int base_sector, int gcl_proc );
 StreamCtrlWork *GM_VoxStream( int vox_code, int proc );
 StreamCtrlWork *sub_80037EE0(int vox_stream, int gcl_proc);
 
