@@ -16,7 +16,7 @@ extern int dword_800B9358;
 
 char *dword_8009E28C = NULL;
 
-STATIC void jimctrl_act_helper_set_first_80037F2C(int index, int value)
+static void jimctrl_act_helper_set_first_80037F2C(int index, int value)
 {
     array_800B933C_child *helper = &array_800B933C[index];
     if (value == 4)
@@ -55,7 +55,7 @@ unsigned int jimctrl_helper_80037F68(unsigned int header)
     return 0;
 }
 
-STATIC void jimctrl_init_helper_clear_80037FB8(void)
+static void jimctrl_init_helper_clear_80037FB8(void)
 {
     int                   i = array_800B933C_SIZE - 2;
     array_800B933C_child *pIter = &array_800B933C[i] + 1;
@@ -66,19 +66,19 @@ STATIC void jimctrl_init_helper_clear_80037FB8(void)
     }
 }
 
-STATIC void jimctrl_act_helper_clear_first_80037FE0(int index, int value)
+static void jimctrl_act_helper_clear_first_80037FE0(int index, int value)
 {
     array_800B933C_child *pIter = &array_800B933C[1];
     pIter[--index].field_0 = value;
 }
 
 
-STATIC void jimctrl_helper_null_80037FFC(int a, int b)
+static void jimctrl_helper_null_80037FFC(int a, int b)
 {
     /* do nothing */
 }
 
-STATIC void jimctrl_kill_helper_clear_80038004(JimakuCtrlWork *work)
+static void jimctrl_kill_helper_clear_80038004(JimakuCtrlWork *work)
 {
     array_800B933C_child *pIter;
     int                   i;
@@ -229,7 +229,7 @@ static inline void jimctrl_act_helper2_80038070(JimakuCtrlWork *work, int str_co
 }
 
 
-STATIC void jimctrl_Act(JimakuCtrlWork *work)
+static void Act(JimakuCtrlWork *work)
 {
     int   str_counter;
     void *pStrData;
@@ -339,7 +339,7 @@ STATIC void jimctrl_Act(JimakuCtrlWork *work)
 }
 
 
-STATIC void jimctrl_Die(JimakuCtrlWork *work)
+static void Die(JimakuCtrlWork *work)
 {
     jimctrl_kill_helper_clear_80038004(work);
     dword_8009E28C = NULL;
@@ -374,7 +374,7 @@ void *NewJimakuControl(u_long flags)
         FS_StreamClear(seekResult);
     }
 
-    if (work->actor.act == (GV_ACTFUNC)jimctrl_Act)
+    if (work->actor.act == (GV_ACTFUNC)Act)
     {
         return (void *)work;
     }
@@ -385,7 +385,7 @@ void *NewJimakuControl(u_long flags)
         jimctrl_init_helper_clear_80037FB8();
         GV_InitActor(GV_ACTOR_MANAGER, &work->actor, NULL);
 
-        GV_SetNamedActor(&work->actor, jimctrl_Act, jimctrl_Die, "jimctrl.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "jimctrl.c");
 
         work->field_24 = flags;
 
@@ -401,6 +401,8 @@ void *NewJimakuControl(u_long flags)
         return (void *)&jimctrl_work;
     }
 }
+
+/*---------------------------------------------------------------------------*/
 
 char* menu_radio_codec_helper_helper17_80038678(void)
 {

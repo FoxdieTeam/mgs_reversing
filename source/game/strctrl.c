@@ -23,7 +23,7 @@ int str_sector_8009E280 = 0;
 int str_gcl_proc_8009E284 = 0;
 int str_8009E288 = 0;
 
-STATIC void strctrl_act_helper_800377EC( StreamCtrlWork *work )
+static void Act2( StreamCtrlWork *work )
 {
     if ( !FS_StreamTaskState() )
     {
@@ -31,7 +31,7 @@ STATIC void strctrl_act_helper_800377EC( StreamCtrlWork *work )
     }
 }
 
-STATIC void strctrl_Act( StreamCtrlWork *work )
+static void Act( StreamCtrlWork *work )
 {
     int sd_code;
     int stream_data;
@@ -118,13 +118,13 @@ loop_case3:
             {
                 DG_UnDrawFrameCount = 0x7FFF0000;
             }
-            work->actor.act = ( GV_ACTFUNC )&strctrl_act_helper_800377EC;
+            work->actor.act = ( GV_ACTFUNC )&Act2;
         }
         break;
     }
 }
 
-STATIC void strctrl_Die( StreamCtrlWork *work )
+static void Die( StreamCtrlWork *work )
 {
     int cb_proc;
 
@@ -167,7 +167,7 @@ StreamCtrlWork *NewStreamControl( int stream_code, int gcl_proc, int flags )
 
     FS_StreamInit( ( void * )0x801E7800, 0x18000 );
     GV_InitActor( EXEC_LEVEL, ( GV_ACT * )&strctrl_work, NULL );
-    GV_SetNamedActor( ( GV_ACT * )&strctrl_work, &strctrl_Act, &strctrl_Die, "strctrl.c" );
+    GV_SetNamedActor( ( GV_ACT * )&strctrl_work, &Act, &Die, "strctrl.c" );
 
     strctrl_work.field_20_state = 1;
     strctrl_work.field_38_proc = ( gcl_proc < 0 ) ? ( gcl_proc & 0xFFFF ) : -1;
