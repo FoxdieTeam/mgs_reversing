@@ -1154,7 +1154,7 @@ int mts_get_task_status( long id )
     return mts_tasks_800C0C30[ id ].state;
 }
 
-int mts_get_task_pending( long id )
+int mts_get_task_res1( long id )
 {
     return mts_tasks_800C0C30[ id ].pending;
 }
