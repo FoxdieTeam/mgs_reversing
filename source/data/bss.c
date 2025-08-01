@@ -133,7 +133,7 @@ GCL_Vars BSS        gGcl_vars_800B3CC8; // 0x800 (2048) bytes
 short BSS           sv_linkvarbuf_800B44C8[0x60]; // 0xC0 (192) bytes
 GCL_Vars BSS        gGcl_memVars_800b4588; // 0x800 (2048) bytes
 char BSS            gStageName_800B4D88[16]; // 0x10 (16) bytes
-short BSS           linkvarbuf_800B4D98[0x60]; // 0xC0 (192) bytes
+short BSS           linkvarbuf[0x60]; // 0xC0 (192) bytes
 
 /* libfs/cdbios.obj */
 CDBIOS_TASK BSS     cd_bios_task_800B4E58; // 0x24 (36) bytes
