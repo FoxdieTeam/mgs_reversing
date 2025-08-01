@@ -6,7 +6,7 @@
 #include "libgcl/libgcl.h"
 #include "strcode.h"
 
-extern unsigned char *GCL_NextStrPtr_800AB9A0;
+extern unsigned char *next_str_ptr;
 
 /*---------------------------------------------------------------------------*/
 
@@ -111,7 +111,7 @@ void *NewVibration(int pan)
         {
             flags = 1;
         }
-        data = GCL_NextStrPtr_800AB9A0;
+        data = next_str_ptr;
         work->flags = flags | 0x10;
         work->timer = 0;
         work->data = data;
