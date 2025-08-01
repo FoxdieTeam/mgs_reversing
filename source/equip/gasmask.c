@@ -9,7 +9,7 @@
 
 extern int       DG_CurrentGroupID;
 extern int       dword_8009F46C;
-extern GM_Camera GM_Camera_800B77E8;
+extern GM_CAMERA GM_Camera;
 
 /*---------------------------------------------------------------------------*/
 
@@ -51,7 +51,7 @@ static void Act(Work *work)
         DG_VisibleObjs(work->object.objs);
     }
 
-    if (GM_Camera_800B77E8.first_person &&
+    if (GM_Camera.first_person &&
         (work->parent->objs->flag & DG_FLAG_INVISIBLE) &&
         GM_CurrentWeaponId != WP_Stinger &&
         GM_CurrentWeaponId != WP_Rifle &&

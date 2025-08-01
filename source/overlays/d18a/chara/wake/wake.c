@@ -19,7 +19,7 @@ typedef struct WakeWork
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-extern GM_Camera        GM_Camera_800B77E8;
+extern GM_CAMERA        GM_Camera;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 
 void WakePollMessages_800C5D78(WakeWork *work)
@@ -197,7 +197,7 @@ int WakeGetResources_800C615C(WakeWork *work, int where)
     work->unused2 = 0;
     work->where = where;
 
-    GM_Camera_800B77E8.first_person = 2;
+    GM_Camera.first_person = 2;
     gUnkCameraStruct_800B77B8.rotate2 = work->field_30;
 
     GM_PlayerStatus |= PLAYER_MENU_DISABLE;

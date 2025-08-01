@@ -32,7 +32,7 @@ const char aErrnotenoughwork_800DFCB4[] = "Err not enough work !!\n";
 const char aWatcharcactionpointerr_800DFCCC[] = "watchar.c : action point Err\n";
 const char aWatcherc_800DFCEC[] = "watcher.c";
 
-extern GM_Camera      GM_Camera_800B77E8;
+extern GM_CAMERA      GM_Camera;
 
 extern void *NewGunLight_800D3AD4( MATRIX* mat, int **enable );
 
@@ -154,7 +154,7 @@ void s00a_watcher_800C41B4( WatcherWork *work )
     {
         if ( work->field_B7B == 1 )
         {
-            if ( GM_GameStatus & (GAME_FLAG_BIT_07 | STATE_BEHIND_CAMERA) || GM_Camera_800B77E8.first_person )
+            if ( GM_GameStatus & (GAME_FLAG_BIT_07 | STATE_BEHIND_CAMERA) || GM_Camera.first_person )
             {
                 if ( work->has_kmd != work->field_B7B )
                 {

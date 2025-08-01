@@ -6,7 +6,7 @@
 
 extern int              dword_8009F46C[];
 extern SVECTOR          svector_8009F478;
-extern GM_Camera        GM_Camera_800B77E8;
+extern GM_CAMERA        GM_Camera;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 
 RECT        wolf2_800C3490 = {0, 0, 2, 2};
@@ -218,8 +218,8 @@ void wolf2_SetCamera(Wolf2Work *work)
 
     DG_LookAt(DG_Chanl(0), &eye, &center, 320);
 
-    GM_Camera_800B77E8.field_2A = 0;
-    GM_Camera_800B77E8.zoom = 320;
+    GM_Camera.field_2A = 0;
+    GM_Camera.zoom = 320;
     gUnkCameraStruct2_800B7868.eye = eye;
     gUnkCameraStruct2_800B7868.center = center;
 }

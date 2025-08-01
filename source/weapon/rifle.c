@@ -13,7 +13,7 @@
 #include "linkvar.h"
 #include "sd/g_sound.h"
 
-extern GM_Camera GM_Camera_800B77E8;
+extern GM_CAMERA GM_Camera;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 extern int      DG_CurrentGroupID;
 
@@ -120,7 +120,7 @@ static void Act(Work *work)
     if (!(work->parent->objs->flag & DG_FLAG_INVISIBLE))
     {
         DG_VisibleObjs(work->object.objs);
-        GM_Camera_800B77E8.zoom = 320;
+        GM_Camera.zoom = 320;
         return;
     }
 
@@ -128,7 +128,7 @@ static void Act(Work *work)
 
     temp_s2 = *work->flags;
 
-    if ((GM_Camera_800B77E8.first_person == 1) &&
+    if ((GM_Camera.first_person == 1) &&
         !work->field_5c &&
         (temp_s2 & 1) &&
         (work->parent->objs->flag & DG_FLAG_INVISIBLE))
@@ -145,20 +145,20 @@ static void Act(Work *work)
         if (temp_v0 >= 9)
         {
             temp_v0_2 = GetZoomLimit();
-            zoomLevel = GM_Camera_800B77E8.zoom;
+            zoomLevel = GM_Camera.zoom;
 
             if (zoomLevel < temp_v0_2)
             {
-                GM_Camera_800B77E8.zoom += GM_Camera_800B77E8.zoom / 3;
+                GM_Camera.zoom += GM_Camera.zoom / 3;
 
-                if (temp_v0_2 < GM_Camera_800B77E8.zoom)
+                if (temp_v0_2 < GM_Camera.zoom)
                 {
-                    GM_Camera_800B77E8.zoom = temp_v0_2;
+                    GM_Camera.zoom = temp_v0_2;
                 }
             }
             else
             {
-                GM_Camera_800B77E8.zoom = GV_NearExp4(zoomLevel, temp_v0_2);
+                GM_Camera.zoom = GV_NearExp4(zoomLevel, temp_v0_2);
             }
         }
     }
@@ -203,7 +203,7 @@ static void Die(Work *work)
 
     if (GM_CurrentWeaponId != WP_Rifle)
     {
-        GM_Camera_800B77E8.zoom = 320;
+        GM_Camera.zoom = 320;
     }
 
     sd_set_cli(0x01ffff21, SD_ASYNC);

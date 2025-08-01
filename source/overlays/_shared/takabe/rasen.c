@@ -75,7 +75,7 @@ void Takabe_RefreshObjectPacks_800DC854(DG_OBJS *objs);
 void Takabe_ReshadeModel_800DC854(DG_OBJS *objs, LIT *lit);
 void s00a_unknown3_800DC918();
 
-extern GM_Camera       GM_Camera_800B77E8;
+extern GM_CAMERA       GM_Camera;
 extern CONTROL        *GM_WhereList[96];
 extern int             gControlCount_800AB9B4;
 extern int             bakudan_count_8009F42C;
@@ -274,12 +274,12 @@ void Rasen2Act_800CA79C(Rasen2Work *work)
             msg_arg2 = msgs->message[1];
             if (msg_arg2 == -1)
             {
-                GM_Camera_800B77E8.flags &= ~2;
+                GM_Camera.flags &= ~2;
             }
             else
             {
                 rasen_800C340C = msg_arg2;
-                GM_Camera_800B77E8.flags |= 2;
+                GM_Camera.flags |= 2;
             }
         }
         else if (msgs->message[0] == 0x72D2)
@@ -339,7 +339,7 @@ void Rasen2Act_800CA79C(Rasen2Work *work)
         }
     }
 
-    if ((GM_PlayerStatus & PLAYER_WATCH) && !(GM_Camera_800B77E8.flags & 0x100))
+    if ((GM_PlayerStatus & PLAYER_WATCH) && !(GM_Camera.flags & 0x100))
     {
         if (GM_PlayerMap & work->field_28)
         {
@@ -374,7 +374,7 @@ void Rasen2Die_800CAB74(Rasen2Work *work)
 {
     int i, j;
 
-    GM_Camera_800B77E8.flags &= ~2;
+    GM_Camera.flags &= ~2;
     GM_SetCameraCallbackFunc_8002FD84(1, NULL);
     for (i = 0; i < 3; i++)
     {
@@ -491,7 +491,7 @@ int Rasen2GetResources_800CAC64(Rasen2Work *work, int name, int where)
 
     GM_SetCameraCallbackFunc_8002FD84(1, Rasen_800CB34C);
 
-    GM_Camera_800B77E8.flags |= 2;
+    GM_Camera.flags |= 2;
 
     if (work->field_2C > 10)
     {
@@ -506,8 +506,8 @@ int Rasen2GetResources_800CAC64(Rasen2Work *work, int name, int where)
 
     work->field_238 = NewRasen_800CBA7C();
 
-    rasen_800D2C84.field_0 = GM_Camera_800B77E8.eye;
-    rasen_800D2C84.field_8 = GM_Camera_800B77E8.center;
+    rasen_800D2C84.field_0 = GM_Camera.eye;
+    rasen_800D2C84.field_8 = GM_Camera.center;
 
     return 0;
 }
@@ -622,30 +622,30 @@ void Rasen_800CB34C()
 
     if (rasen_800C340C == 2)
     {
-        GM_Camera_800B77E8.eye = rasen_800D2C84.field_0;
-        GM_Camera_800B77E8.center = rasen_800D2C84.field_8;
-        GM_Camera_800B77E8.field_28 = 0;
-        GV_SubVec3(&GM_Camera_800B77E8.center, &GM_Camera_800B77E8.eye, &svec);
+        GM_Camera.eye = rasen_800D2C84.field_0;
+        GM_Camera.center = rasen_800D2C84.field_8;
+        GM_Camera.field_28 = 0;
+        GV_SubVec3(&GM_Camera.center, &GM_Camera.eye, &svec);
         GV_OriginPadSystem(GV_VecDir2(&svec) + 2048);
         GM_CameraSetBounds_80030888(&rasen_800C3418, &rasen_800C3420, 0);
         GM_CameraSetLimits_800308E0(&rasen_800C3418, &rasen_800C3420, 0);
-        GM_Camera_800B77E8.rotate.vy = rasen_800D2C84.field_18;
+        GM_Camera.rotate.vy = rasen_800D2C84.field_18;
     }
     else if (rasen_800C340C == 1)
     {
-        GM_Camera_800B77E8.eye = rasen_800D2C84.field_0;
-        GM_Camera_800B77E8.center = rasen_800D2C84.field_8;
-        GM_Camera_800B77E8.field_28 = 0;
+        GM_Camera.eye = rasen_800D2C84.field_0;
+        GM_Camera.center = rasen_800D2C84.field_8;
+        GM_Camera.field_28 = 0;
         GV_OriginPadSystem(rasen_800D2C84.field_18 + 2048);
-        GM_Camera_800B77E8.rotate.vy = rasen_800D2C84.field_18;
+        GM_Camera.rotate.vy = rasen_800D2C84.field_18;
     }
     else
     {
-        GM_Camera_800B77E8.eye = rasen_800D2C84.field_0;
-        GM_Camera_800B77E8.center = rasen_800D2C84.field_8;
-        GM_Camera_800B77E8.field_28 = 0;
+        GM_Camera.eye = rasen_800D2C84.field_0;
+        GM_Camera.center = rasen_800D2C84.field_8;
+        GM_Camera.field_28 = 0;
         GV_OriginPadSystem(0);
-        GM_Camera_800B77E8.rotate.vy = 2048;
+        GM_Camera.rotate.vy = 2048;
     }
 }
 
@@ -681,7 +681,7 @@ void RasenAct_800CB530(RasenWork *work)
             if (GM_PlayerControl->mov.vy - gUnkCameraStruct_800B77B8.eye.vy > 20000)
             {
             add_vec:
-                GV_AddVec3(&gUnkCameraStruct_800B77B8.eye, &GM_Camera_800B77E8.pan,
+                GV_AddVec3(&gUnkCameraStruct_800B77B8.eye, &GM_Camera.pan,
                            &gUnkCameraStruct_800B77B8.eye);
             }
         }
@@ -696,7 +696,7 @@ void RasenAct_800CB530(RasenWork *work)
 
     if (GM_WhereList[0]->name)
     {
-        if (GM_UnkFlagBE || GM_Camera_800B77E8.first_person == 0 || (GM_Camera_800B77E8.flags & 0x200))
+        if (GM_UnkFlagBE || GM_Camera.first_person == 0 || (GM_Camera.flags & 0x200))
         {
             level = GM_PlayerControl->levels[0] + 1100;
 
@@ -704,7 +704,7 @@ void RasenAct_800CB530(RasenWork *work)
             {
                 svec1.vy = -32000;
                 sub_8003049C(&svec1);
-                GM_Camera_800B77E8.pan.pad = 0;
+                GM_Camera.pan.pad = 0;
                 rasen_800D2C84.field_1C = 1;
                 rasen_800C3408 = 1;
                 GM_PlayerControl->mov.vy -= 32000;
@@ -715,7 +715,7 @@ void RasenAct_800CB530(RasenWork *work)
             {
                 svec1.vy = 32000;
                 sub_8003049C(&svec1);
-                GM_Camera_800B77E8.pan.pad = 0;
+                GM_Camera.pan.pad = 0;
                 rasen_800D2C84.field_1C = 1;
                 rasen_800C3408 = 2;
                 GM_PlayerControl->mov.vy += 32000;
@@ -781,7 +781,7 @@ void RasenAct_800CB530(RasenWork *work)
         rasen_800D2C84.field_8 = gUnkCameraStruct_800B77B8.center;
     }
 
-    GM_Camera_800B77E8.pan.pad = 0;
+    GM_Camera.pan.pad = 0;
 }
 
 void RasenAct_800CBA54(RasenWork *work)

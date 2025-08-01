@@ -15,7 +15,7 @@
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 extern int              DG_CurrentGroupID;
 extern int              dword_8009F604;
-extern GM_Camera        GM_Camera_800B77E8;
+extern GM_CAMERA        GM_Camera;
 extern short            dword_800ABBDC;
 extern short            dword_800ABBD4;
 
@@ -201,7 +201,7 @@ static void ManagePadInput(Work *work, unsigned short pad_status)
     CONTROL *control;
     short *pRectOffset; // (x, y) offset of the top left corner of the moving rectangle.
 
-    zoomLevel = GM_Camera_800B77E8.zoom;
+    zoomLevel = GM_Camera.zoom;
     pRectOffset = work->rect_offset;
 
     if (GM_PlayerControl)
@@ -362,7 +362,7 @@ static void ManageZoom(Work *work, u_long *ot, int pad_status)
     int      i;
     int      maxDistance;
 
-    zoomLevel = GM_Camera_800B77E8.zoom;
+    zoomLevel = GM_Camera.zoom;
     pSideLine_f2 = work->side_lines[GV_Clock];
     pZoomLevelLine_F3 = work->zoom_line[GV_Clock];
 
@@ -466,7 +466,7 @@ static void ManageZoom(Work *work, u_long *ot, int pad_status)
         pSideLine_f2++;
     }
 
-    GM_Camera_800B77E8.zoom = zoomLevel;
+    GM_Camera.zoom = zoomLevel;
 }
 
 static void DrawMovingRectangle(Work *work, u_long *ot)
@@ -552,7 +552,7 @@ static void DrawHudText(Work *work)
     {
         MENU_Locate(20, 34, 0);
         MENU_Color(127, 166, 97);
-        MENU_Printf("- ZOOM LEVEL - - %d -", 100 * (GM_Camera_800B77E8.zoom / 320));
+        MENU_Printf("- ZOOM LEVEL - - %d -", 100 * (GM_Camera.zoom / 320));
         MENU_Color(101, 133, 77);
         MENU_Locate(32, 101, 1);
         MENU_Printf("%d", -work->field_6C_turn_vec.vx);
@@ -601,7 +601,7 @@ static void Act(Work *work)
                 DG_VisibleObjs(work->object.objs);
             }
 
-            GM_Camera_800B77E8.zoom = 320;
+            GM_Camera.zoom = 320;
             return;
         }
 
@@ -682,7 +682,7 @@ static void Die(Work *work)
         GV_DelayedFree(work->zoom_line[0]);
     }
 
-    GM_Camera_800B77E8.zoom = 320;
+    GM_Camera.zoom = 320;
 
     if ( (work->flags & 0x8000) != 0 )
     {

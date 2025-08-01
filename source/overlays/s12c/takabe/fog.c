@@ -24,7 +24,7 @@ int SECTION("overlay.bss") s12c_800DA42C;
 int SECTION("overlay.bss") s12c_800DA430;
 int SECTION("overlay.bss") s12c_800DA434;
 
-extern GM_Camera GM_Camera_800B77E8;
+extern GM_CAMERA GM_Camera;
 
 void s12c_800D497C(int, int);
 void s12c_800D4AB4(int);
@@ -43,7 +43,7 @@ void FogAct_800D4074(FogWork *work)
     GM_CurrentMap = work->map;
 
     scale = work->scale;
-    scale += (255 - scale) * (GM_Camera_800B77E8.zoom - 360) / 3640;
+    scale += (255 - scale) * (GM_Camera.zoom - 360) / 3640;
     s12c_800D4AB4(scale);
 }
 

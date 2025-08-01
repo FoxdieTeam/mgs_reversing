@@ -204,7 +204,7 @@ gap                                     gap_800B7714[0x4]; // 4 bytes
 
 CAMERA BSS          GM_CameraList[8]; // 0xA0 (160) bytes
 UnkCameraStruct BSS gUnkCameraStruct_800B77B8; // 0x30 (48) bytes
-GM_Camera BSS       GM_Camera_800B77E8; // 0x7C (124) bytes
+GM_CAMERA BSS       GM_Camera; // 0x7C (124) bytes
 
 gap                                     gap_800B7864[0x4]; // 4 bytes
 
