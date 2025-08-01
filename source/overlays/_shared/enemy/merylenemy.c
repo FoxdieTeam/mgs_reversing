@@ -6,7 +6,7 @@
 #include "game/game.h"
 #include "linkvar.h"
 
-extern CONTROL *GM_WhereList_800B56D0[94];
+extern CONTROL *GM_WhereList[94];
 
 extern int COM_EYE_LENGTH_800E0D8C;
 extern int COM_NOISEMODE_DIS_800E0F38;
@@ -166,12 +166,12 @@ void s07a_meryl_unk_800DAC50( WatcherWork *work )
 
     if ( work->vision.field_B92 == 2 && ( ( GM_PlayerStatus & PLAYER_CB_BOX ) == PLAYER_CB_BOX ) )
     {
-        if ( ( GV_DiffVec3( &work->field_BA4, &GM_PlayerPosition ) > 50 ) || ( work->field_BAC != GM_WhereList_800B56D0[0]->rot.vy ) )
+        if ( ( GV_DiffVec3( &work->field_BA4, &GM_PlayerPosition ) > 50 ) || ( work->field_BAC != GM_WhereList[0]->rot.vy ) )
         {
             if ( EnemyCommand_800E0D98.mode != TOP_COMM_ALERT )
             {
                 work->field_BA4 = GM_PlayerPosition;
-                work->field_BAC = GM_WhereList_800B56D0[0]->rot.vy;
+                work->field_BAC = GM_WhereList[0]->rot.vy;
                 work->field_BA1 |= 0x2;
             }
             else

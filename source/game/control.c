@@ -16,16 +16,16 @@
 int SECTION(".sbss") GM_CurrentMap;
 int SECTION(".sbss") gControlCount_800AB9B4;
 
-extern CONTROL *GM_WhereList_800B56D0[96];
+extern CONTROL *GM_WhereList[96];
 extern CONTROL  gDefaultControl_800B5650;
 
 /* static? */
 int GM_ControlPushBack(CONTROL *control)
 {
-    // sna_init must always be the first item
+    // スネーク must always be the first item
     if (control->name == CHARA_SNAKE)
     {
-        GM_WhereList_800B56D0[0] = control;
+        GM_WhereList[0] = control;
     }
     else
     {
@@ -33,7 +33,7 @@ int GM_ControlPushBack(CONTROL *control)
         {
             return -1;
         }
-        GM_WhereList_800B56D0[gControlCount_800AB9B4] = control;
+        GM_WhereList[gControlCount_800AB9B4] = control;
         gControlCount_800AB9B4++;
     }
 
@@ -46,7 +46,7 @@ void GM_ControlRemove(CONTROL *control)
     int i = gControlCount_800AB9B4;
     int totalCount = gControlCount_800AB9B4;
 
-    CONTROL **pControlIter = GM_WhereList_800B56D0;
+    CONTROL **pControlIter = GM_WhereList;
 
     while (i > 0)
     {
@@ -63,20 +63,20 @@ void GM_ControlRemove(CONTROL *control)
 
 found:
 
-    if (pControlIter != GM_WhereList_800B56D0)
+    if (pControlIter != GM_WhereList)
     {
-        *pControlIter = GM_WhereList_800B56D0[--totalCount];
+        *pControlIter = GM_WhereList[--totalCount];
         gControlCount_800AB9B4 = totalCount;
     }
     else
     {
-        GM_WhereList_800B56D0[0] = &gDefaultControl_800B5650;
+        GM_WhereList[0] = &gDefaultControl_800B5650;
     }
 }
 
 void GM_InitWhereSystem(void)
 {
-    GM_WhereList_800B56D0[0] = &gDefaultControl_800B5650;
+    GM_WhereList[0] = &gDefaultControl_800B5650;
     gControlCount_800AB9B4 = 1;
 }
 

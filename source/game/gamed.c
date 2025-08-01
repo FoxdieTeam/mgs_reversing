@@ -104,7 +104,7 @@ SVECTOR      SECTION(".sbss") GM_PhotoViewPos;
 PlayerStatusFlag SECTION(".sbss") GM_PlayerStatus;
 int              SECTION(".sbss") GM_PadVibration2;
 
-extern unsigned short   gSystemCallbackProcs_800B58C0[];
+extern unsigned short   GM_SystemCallbackProc[6];
 extern int          str_mute_fg;
 extern unsigned int str_status;
 extern int          dword_800BF1A8;
@@ -114,11 +114,10 @@ extern char         exe_name_800B5860[32];
 extern char        *MGS_DiskName[3]; /* in main.c */
 extern int          FS_DiskNum_800ACBF0;
 extern int          FS_ResidentCacheDirty;
-extern GV_PAD       GV_PadData_800B05C0[4];
 
 extern DG_TEX gMenuTextureRec_800B58B0;
 
-extern GameWork GameWork_800B5880;
+extern gameWork GameWork;
 
 extern unsigned char *GV_ResidentMemoryBottom;
 
@@ -161,7 +160,7 @@ static void GM_InitGameSystem(void)
 
     for (i = 5; i >= 0; i--)
     {
-        gSystemCallbackProcs_800B58C0[i] = 0;
+        GM_SystemCallbackProc[i] = 0;
     }
 }
 
@@ -257,7 +256,7 @@ static void GM_TogglePauseScreen(void)
     }
 }
 
-static void GM_ActInit(GameWork *work)
+static void GM_ActInit(gameWork *work)
 {
     GM_Reset_helper3_80030760();
     GM_InitWhereSystem();
@@ -318,7 +317,7 @@ void DrawReadError(void)
 
 /*---------------------------------------------------------------------------*/
 
-static void Act(GameWork *work)
+static void Act(gameWork *work)
 {
     int load_request;
     int status;
@@ -442,7 +441,7 @@ static void Act(GameWork *work)
         return;
     }
 
-    if ((work->field_24 <= 0))
+    if ((work->killing_count <= 0))
     {
         if (GM_GameOverTimer != 0)
         {
@@ -485,7 +484,7 @@ static void Act(GameWork *work)
                 GV_PauseLevel &= ~8;
                 GM_ResetMapModel();
                 GM_StreamPlayStop();
-                work->field_24 = 3;
+                work->killing_count = 3;
                 GM_GameStatus |= STATE_PADRELEASE | STATE_ALL_OFF;
 
                 return;
@@ -580,14 +579,14 @@ static void Act(GameWork *work)
     {
         GV_PauseLevel &= ~8;
 
-        if ((--work->field_24 <= 0))
+        if ((--work->killing_count <= 0))
         {
             if (GM_StreamStatus() == -1)
             {
                 if ((GV_PauseLevel & 5) == 0)
                 {
                     work->status = 0;
-                    work->field_24 = 0;
+                    work->killing_count = 0;
                     GM_ResetMapHazard();
                     GM_ResetSystem();
                     GM_ActInit(work);
@@ -606,7 +605,7 @@ static void Act(GameWork *work)
                 }
             }
 
-            work->field_24 = status;
+            work->killing_count = status;
         }
 
         if (GV_PauseLevel == 0)
@@ -618,7 +617,7 @@ static void Act(GameWork *work)
 
 void GM_SetSystemCallbackProc(int index, int proc)
 {
-    gSystemCallbackProcs_800B58C0[index] = proc;
+    GM_SystemCallbackProc[index] = proc;
 }
 
 void GM_CallSystemCallbackProc(int id, int arg)
@@ -631,7 +630,7 @@ void GM_CallSystemCallbackProc(int id, int arg)
                         &GM_PlayerControl->event, 0x301);
     }
 
-    proc = gSystemCallbackProcs_800B58C0[id];
+    proc = GM_SystemCallbackProc[id];
     if (proc != 0)
     {
         GCL_ARGS args;
@@ -734,15 +733,15 @@ void GM_StartDaemon(void)
     GM_InitScript();
     GV_SetLoader('b', GM_LoadInitBin);
     GM_ClearWeaponAndItem();
-    GV_InitActor(GV_ACTOR_MANAGER, &GameWork_800B5880.actor, NULL);
-    GV_SetNamedActor(&GameWork_800B5880.actor, Act, NULL, "gamed.c");
+    GV_InitActor(GV_ACTOR_MANAGER, &GameWork.actor, NULL);
+    GV_SetNamedActor(&GameWork.actor, Act, NULL, "gamed.c");
     GM_ResetSystem();
-    GM_ActInit(&GameWork_800B5880);
+    GM_ActInit(&GameWork);
     GM_ResetMemory();
-    GM_CurrentPadData = GV_PadData_800B05C0;
+    GM_CurrentPadData = GV_PadData;
     GM_CurrentDiskFlag = FS_DiskNum_800ACBF0 + 1;
     GV_SaveResidentTop();
-    GameWork_800B5880.status = 0;
-    GameWork_800B5880.field_24 = 0;
+    GameWork.status = 0;
+    GameWork.killing_count = 0;
     GM_CreateLoader();
 }

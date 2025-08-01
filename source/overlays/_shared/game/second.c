@@ -4,8 +4,6 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 
-extern GV_PAD GV_PadData_800B05C0[4];
-
 /*---------------------------------------------------------------------------*/
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
@@ -22,13 +20,13 @@ typedef struct _Work
 
 static void Act(Work *work)
 {
-    if (GV_PadData_800B05C0[1].status && work->using_pad2 == FALSE)
+    if (GV_PadData[1].status && work->using_pad2 == FALSE)
     {
         work->using_pad2 = TRUE;
         printf("SECOND!!\n");
         MENU_JimakuWrite(work->message, 20000);
     }
-    else if (work->using_pad2 == TRUE && GV_PadData_800B05C0[0].status)
+    else if (work->using_pad2 == TRUE && GV_PadData[0].status)
     {
         work->using_pad2 = FALSE;
         MENU_JimakuClear();

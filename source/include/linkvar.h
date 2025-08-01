@@ -5,8 +5,7 @@
 // (The memleak shows exactly two tabs between each identifier and definition,
 // and no tabstop setting will align them properly).
 
-extern short       linkvarbuf_800B4D98[0x60];
-#define linkvarbuf linkvarbuf_800B4D98
+extern short       linkvarbuf[0x60];
 
 //------------------------------------------------------------------------------
 // 0x00 General

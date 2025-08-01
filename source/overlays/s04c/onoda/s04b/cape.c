@@ -28,8 +28,6 @@ typedef struct _CapeWork
     SVECTOR  fA7C;
 } CapeWork;
 
-extern GV_PAD GV_PadData_800B05C0[4];
-
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 
@@ -312,7 +310,7 @@ int CapeGetResources_800D907C(CapeWork *work, SVECTOR *arg1, SVECTOR *arg2, MATR
     work->light = light;
     work->color = color;
 
-    work->pad = &GV_PadData_800B05C0[0];
+    work->pad = &GV_PadData[0];
 
     prim = DG_GetPrim(DG_PRIM_POLY_GT4, 24, 0, (SVECTOR *)work->verts, NULL);
     work->prim = prim;

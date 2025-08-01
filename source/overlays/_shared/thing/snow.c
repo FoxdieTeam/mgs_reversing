@@ -9,7 +9,7 @@
 #include "game/camera.h"
 #include "strcode.h"
 
-extern CONTROL         *GM_WhereList_800B56D0[96];
+extern CONTROL         *GM_WhereList[96];
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 
 /*---------------------------------------------------------------------------*/
@@ -498,7 +498,7 @@ static int GetResources(Work *work, int map)
         }
 
         Snow_800C52F0(&prim->packs[0]->tiles, &prim->packs[1]->tiles, 32, work->colors);
-        Snow_800C5544(work, entry, 0, &GM_WhereList_800B56D0[0]->mov);
+        Snow_800C5544(work, entry, 0, &GM_WhereList[0]->mov);
 
         entry++;
     }

@@ -9,7 +9,7 @@
 extern ZAKO_COMMAND ZakoCommand_800DF280;
 extern int          ZAKO11E_EYE_LENGTH_800C3904;
 
-extern CONTROL *GM_WhereList_800B56D0[94];
+extern CONTROL *GM_WhereList[94];
 
 extern int AsiatoCheck_800D16C0( HZD_HDL*, SVECTOR* );
 extern int SearchNearAsiato_800D13B0( HZD_HDL*, SVECTOR*, short, short, short );
@@ -130,12 +130,12 @@ void s11e_zk11ecom_800D8370( ZakoWork *work )
 
     if ( work->field_BA3 & 2 && work->vision.field_B92 == 2 && ( ( GM_PlayerStatus & PLAYER_CB_BOX ) == PLAYER_CB_BOX ) )
     {
-        if ( ( GV_DiffVec3( &work->field_BA4, &GM_PlayerPosition ) > 50 ) || ( work->field_BAC != GM_WhereList_800B56D0[0]->rot.vy ) )
+        if ( ( GV_DiffVec3( &work->field_BA4, &GM_PlayerPosition ) > 50 ) || ( work->field_BAC != GM_WhereList[0]->rot.vy ) )
         {
             if ( ZakoCommand_800DF280.mode != TOP_COMM_ALERT )
             {
                 work->field_BA4 = GM_PlayerPosition;
-                work->field_BAC = GM_WhereList_800B56D0[0]->rot.vy;
+                work->field_BAC = GM_WhereList[0]->rot.vy;
                 work->field_BA2 |= 0x2;
             }
             else

@@ -35,8 +35,13 @@
 // var declarations. put everything else in a header. all comments below the line will also be deleted.
 // you must use "BSS" instead of SECTION, and for EVERY var.
 
-// NOTE: If any included headers has an extern to the same vars defined here, matches will fail.
-// Never put extern data in a header without wrapping it with #ifndef __BSSDEFINE__!!
+// WARNING:
+// If any headers included by this file have externs to variables defined here,
+// the build won't match!! DO NOT declare any BSS variables in a header without
+// wrapping them with #if !defined(__BSSDEFINE__).
+//
+// The __BSSDEFINE__ flag needs to be defined here and nowhere else.
+// This lets us properly declare BSS variables for the rest of the codebase.
 
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -71,7 +76,7 @@ MESSAGE_LIST BSS    message_list_800B0320[2]; // 0x288 (648) bytes
 
 /* libgv/pad.obj */
 int BSS             dword_800B05A8[6]; // 0x18 (24) bytes
-GV_PAD BSS          GV_PadData_800B05C0[4]; // 0x40 (64) bytes
+GV_PAD BSS          GV_PadData[4]; // 0x40 (64) bytes
 
 /* libdg/display.c */
 DISPENV BSS         gDispEnv_800B0600; // 0x14 (20) bytes
@@ -99,7 +104,7 @@ DG_FixedLight BSS   gFixedLights_800B1E08[8]; // 0x40 (64) bytes
 DG_TmpLightList BSS LightSystems_800B1E48[2]; // 0x108 (264) bytes
 
 /* libdg/text.obj */
-DG_TEX BSS          DG_TextureCache[DG_MAX_TEXTURES]; // 0x1800 (6144) bytes
+DG_TEX BSS          TexSets[DG_MAX_TEXTURES]; // 0x1800 (6144) bytes
 
 /* libdg/dgd.obj */
 GV_ACT BSS          DG_StartFrameActor_800B3750; // 0x20 (32) bytes
@@ -115,20 +120,20 @@ unsigned char BSS   pcxBuffer_800B3798[128]; // 0x80 (128) bytes
 u_long BSS          DG_PaletteBuffer_800B3818[256]; // 0x400 (1024) bytes
 
 /* libgcl/command.obj */
-GCL_SCRIPT BSS      current_script_800B3C18; // 0xC (12) bytes
+GCL_SCRIPT BSS      current_script; // 0xC (12) bytes
 
 gap                                     gap_800B3C24[0x4]; // 4 bytes
 
 /* libgcl/parse.obj */
-int BSS             argstack_800B3C28[32]; // 0x80 (128) bytes
-unsigned char *BSS  commandlines_800B3CA8[8]; // 0x20 (32) bytes
+int BSS             argbuffer[32]; // 0x80 (128) bytes
+unsigned char *BSS  commandlines[8]; // 0x20 (32) bytes
 
 /* libgcl/variable.obj */
 GCL_Vars BSS        gGcl_vars_800B3CC8; // 0x800 (2048) bytes
-short BSS           sv_linkvarbuf_800B44C8[0x60]; // 0xC0 (192) bytes
+short BSS           sv_linkvarbuf[0x60]; // 0xC0 (192) bytes
 GCL_Vars BSS        gGcl_memVars_800b4588; // 0x800 (2048) bytes
 char BSS            gStageName_800B4D88[16]; // 0x10 (16) bytes
-short BSS           linkvarbuf_800B4D98[0x60]; // 0xC0 (192) bytes
+short BSS           linkvarbuf[0x60]; // 0xC0 (192) bytes
 
 /* libfs/cdbios.obj */
 CDBIOS_TASK BSS     cd_bios_task_800B4E58; // 0x24 (36) bytes
@@ -155,20 +160,20 @@ unsigned int BSS    fs_stream_task_state; // 0x4 (4) bytes
 gap                                     gap_800B52C4[0x4]; // 4 bytes
 
 /* memcard/memcard.obj */
-long BSS            gHardware_end_io_800B52C8; // 0x4 (4) bytes
-long BSS            gHardware_end_write_800B52CC; // 0x4 (4) bytes
-long BSS            gHardware_timeout_800B52D0; // 0x4 (4) bytes
-long BSS            gHardware_new_device_800B52D4; // 0x4 (4) bytes
-long BSS            gSoftware_end_io_800B52D8; // 0x4 (4) bytes
-long BSS            gSoftware_end_write_800B52DC; // 0x4 (4) bytes
-long BSS            gSoftware_timeout_800B52E0; // 0x4 (4) bytes
-long BSS            gSoftware_new_device_800B52E4; // 0x4 (4) bytes
-TMemCardFunc BSS    gHwCard_do_op_800B52E8; // 0x4 (4) bytes
-TMemCardFunc BSS    gSwCard_do_op_800B52EC; // 0x4 (4) bytes
-volatile int BSS    gSwCardLastOp_800B52F0; // 0x4 (4) bytes
-volatile int BSS    gHwCardLastOp_800B52F4; // 0x4 (4) bytes
-MEM_CARD BSS        gMemCards_800B52F8[2]; // 0x350 (848) bytes
-volatile long BSS   gMemCard_io_size_800B5648; // 0x4 (4) bytes
+long BSS            gHardware_end_io; // 0x4 (4) bytes
+long BSS            gHardware_end_write; // 0x4 (4) bytes
+long BSS            gHardware_timeout; // 0x4 (4) bytes
+long BSS            gHardware_new_device; // 0x4 (4) bytes
+long BSS            gSoftware_end_io; // 0x4 (4) bytes
+long BSS            gSoftware_end_write; // 0x4 (4) bytes
+long BSS            gSoftware_timeout; // 0x4 (4) bytes
+long BSS            gSoftware_new_device; // 0x4 (4) bytes
+TMemCardFunc BSS    gHwCard_do_op; // 0x4 (4) bytes
+TMemCardFunc BSS    gSwCard_do_op; // 0x4 (4) bytes
+volatile int BSS    gSwCardLastOp; // 0x4 (4) bytes
+volatile int BSS    gHwCardLastOp; // 0x4 (4) bytes
+MEM_CARD BSS        gMemCards[2]; // 0x350 (848) bytes
+volatile long BSS   gMemCard_io_size; // 0x4 (4) bytes
 
 gap                                     gap_800B564C[0x4]; // 4 bytes
 
@@ -177,10 +182,14 @@ CONTROL BSS         gDefaultControl_800B5650; // 0x7C (124) bytes
 
 gap                                     gap_800B56CC[0x4]; // 4 bytes
 
-CONTROL *BSS        GM_WhereList_800B56D0[96]; // 0x180 (384) bytes
+CONTROL *BSS        GM_WhereList[96]; // 0x180 (384) bytes
+
+/* game/area.obj */
 AreaHistory BSS     gAreaHistory_800B5850; // 0x10 (16) bytes
+
+/* game/gamed.obj */
 char BSS            exe_name_800B5860[32]; // 0x20 (32) bytes
-GameWork BSS        GameWork_800B5880; // 0x28 (40) bytes
+gameWork BSS        GameWork; // 0x28 (40) bytes
 
 gap                                     gap_800B58A8[0x8]; // 8 bytes
 
@@ -188,23 +197,29 @@ DG_TEX BSS          gMenuTextureRec_800B58B0; // 0xC (12) bytes
 
 gap                                     gap_800B58BC[0x4]; // 4 bytes
 
-unsigned short BSS  gSystemCallbackProcs_800B58C0[6]; // 0xC (12) bytes
+unsigned short BSS  GM_SystemCallbackProc[6]; // 0xC (12) bytes
 
 gap                                     gap_800B58CC[0x14]; // 20 bytes
 
+/* game/script.obj */
 HZD_BIND BSS      gBindsArray_800b58e0[128]; // 0xC00 (3072) bytes
+
+/* game/target.obj */
 TARGET BSS          gTargets_800B64E0[TARGET_ARRAY_LENGTH]; // 0x1200 (4608) bytes
+
+/* game/alert.obj */
 char BSS            GM_NoiseSound_800B76E0[4][3]; // 0xC (12) bytes
 
 gap                                     gap_800B76EC[0x4]; // 4 bytes
 
+/* game/camera.obj */
 UnkCameraStruct2 BSS gUnkCameraStruct2_800B76F0; // 0x24 (36) bytes
 
 gap                                     gap_800B7714[0x4]; // 4 bytes
 
-CAMERA BSS          GM_CameraList_800B7718[8]; // 0xA0 (160) bytes
+CAMERA BSS          GM_CameraList[8]; // 0xA0 (160) bytes
 UnkCameraStruct BSS gUnkCameraStruct_800B77B8; // 0x30 (48) bytes
-GM_Camera BSS       GM_Camera_800B77E8; // 0x7C (124) bytes
+GM_CAMERA BSS       GM_Camera; // 0x7C (124) bytes
 
 gap                                     gap_800B7864[0x4]; // 4 bytes
 
@@ -212,24 +227,39 @@ UnkCameraStruct2 BSS gUnkCameraStruct2_800B7868; // 0x24 (36) bytes
 
 gap                                     gap_800B788C[0x4]; // 4 bytes
 
+/* game/map.obj */
 DG_OBJS *BSS        StageObjs_800B7890[32]; // 0x80 (128) bytes
 MAP BSS      gMapRecs_800B7910[16]; // 0x140 (320) bytes
+
+/* libdg/pshade.obj */
 DG_LitVertex BSS    DG_LitVertices_800B7A50[84]; // 0x7E0 (2016) bytes
+
+/* game/homing.obj */
 HOMING BSS   gHomingTargets_800B8230[HOMING_ARRAY_LENGTH];
-StreamCtrlWork BSS  strctrl_800B82B0; // 0x40 (64) bytes
-JimakuCtrlWork BSS  jimCtrlActor_800B82F0; // 0x104C (4172) bytes
+
+/* game/strctrl.obj */
+StreamCtrlWork BSS  strctrl_work; // 0x40 (64) bytes
+
+/* game/jimctrl.obj */
+JimakuCtrlWork BSS  jimctrl_work; // 0x104C (4172) bytes
 array_800B933C_child BSS array_800B933C[array_800B933C_SIZE]; // 0x1C (28) bytes
 int BSS             dword_800B9358; // 0x4 (4) bytes
 
 gap                                     gap_800B935C[0x4]; // 4 bytes
 
+/* menu/menuman.obj */
 unsigned char BSS   gPrimBackingBuffers_800B9360[2][8192]; // 0x4000 (16384) bytes
 MenuWork BSS        gMenuWork_800BD360; // 0x220 (544) bytes
+
+/* menu/radar.obj */
 MATRIX BSS          gRadarScaleMatrix_800BD580; // 0x20 (32) bytes
+
+/* menu/item.obj */
 PANEL_TEXTURE BSS   gMenuLeftItems_800BD5A0[MENU_ITEM_COUNT]; // 0x1A4 (420) bytes
 
 gap                                     gap_800BD744[0x4]; // 4 bytes
 
+/* menu/weapon.obj */
 array_800BD748_child BSS array_800BD748[9]; // 0xD8 (216) bytes
 
 gap                                     gap_800BD820[0x8]; // 8 bytes
@@ -239,6 +269,7 @@ PANEL_TEXTURE BSS   gMenuRightItems_800BD888[MENU_WEAPON_COUNT]; // 0xDC (220) b
 
 gap                                     gap_800BD964[0x4]; // 4 bytes
 
+/* menu/life.obj */
 KCB BSS             font_800BD968; // 0x2C (44) bytes
 
 gap                                     gap_800BD994[0x4]; // 4 bytes
@@ -247,6 +278,7 @@ SPRT BSS            gMenuSprt_800bd998; // 0x14 (20) bytes
 
 gap                                     gap_800BD9AC[0x4]; // 4 bytes
 
+/* menu/radio.obj */
 SPRT BSS            gRadioNumberSprt_800bd9b0; // 0x14 (20) bytes
 
 gap                                     gap_800BD9C4[0xC]; // 12 bytes
@@ -267,14 +299,22 @@ PANEL_TEXTURE BSS   dword_800BDA30; // 0x14 (20) bytes
 
 gap                                     gap_800BDA44[0x4]; // 4 bytes
 
+/* menu/radioanim.obj */
 menu_0x14 BSS       stru_800BDA48[2]; // 0x28 (40) bytes
+
+/* menu/jimaku.obj */
 UnkJimakuStruct BSS gUnkJimakuStruct_800BDA70; // 0x44 (68) bytes
 
 gap                                     gap_800BDAB4[0x4]; // 4 bytes
 
+/* menu/radiotable.obj */
 radio_table BSS     gRadioBaseTable_800BDAB8; // 0x40 (64) bytes
 radio_table BSS     gRadioOverTable_800BDAF8; // 0x40 (64) bytes
+
+/* menu/radiomem.obj */
 RadioMemory BSS     gRadioMemory_800BDB38[RADIO_MEMORY_COUNT]; // 0x140 (320) bytes
+
+/* chara/snake/sna_init.obj */
 unsigned char BSS   gBulNames_800BDC78[64]; // 0x40 (64) bytes
 short BSS           snake_mag_size_800BDCB8; // 0x2 (2) bytes
 short BSS           snake_weapon_idx_800BDCBA; // 0x2 (2) bytes

@@ -182,7 +182,7 @@ typedef struct DemothrdWork
     int                field_26C;
     DG_CHANLFUNC       field_270_pOldRenderFn;
     int                field_274_old_game_state_flags;
-    GM_Camera          field_278;
+    GM_CAMERA          field_278;
     int                field_2F4_old_equipped_item;
     int                field_2F8_old_equipped_weapon;
 } DemothrdWork;

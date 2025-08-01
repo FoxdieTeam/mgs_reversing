@@ -21,7 +21,6 @@ STATIC int DG_TickCount = -1;
 
 extern int              dword_800B3790;
 extern GV_PAD          *GM_CurrentPadData;
-extern GV_PAD           GV_PadData_800B05C0[4];
 
 int DG_DrawSyncResetGraph(void)
 {
@@ -82,13 +81,13 @@ void DG_StartFrame(GV_ACT *actor)
     DG_SwapFrame();
 
     GV_UpdatePadSystem();
-    GM_CurrentPadData = GV_PadData_800B05C0;
+    GM_CurrentPadData = GV_PadData;
 
     if ((GM_PlayerStatus & PLAYER_SECOND_AVAILABLE) != 0)
     {
-        if (GV_PadData_800B05C0[1].status | GV_PadData_800B05C0[1].release)
+        if (GV_PadData[1].status | GV_PadData[1].release)
         {
-            GM_CurrentPadData = &GV_PadData_800B05C0[1];
+            GM_CurrentPadData = &GV_PadData[1];
         }
     }
 }
@@ -135,7 +134,7 @@ void DG_StartDaemon(void)
 
     DG_InitDispEnv(0, 0, 320, 240, 320);
     DG_InitChanlSystem(320);
-    DG_InitResidentTextureCache();
+    DG_ClearResidentTexture();
     DG_ResetPipeline();
 
     GV_SetLoader('p', DG_LoadInitPcx);      // *.pcx format

@@ -9,10 +9,9 @@
 #include "mts/mts_pad.h"
 
 extern GV_HEAP MemorySystems_800AD2F0[ GV_MEMORY_MAX ];
-extern DG_TEX  DG_TextureCache[DG_MAX_TEXTURES];
+extern DG_TEX  TexSets[DG_MAX_TEXTURES];
 extern short          N_ChanlPerfMax;
 extern unsigned short word_800AB982;
-extern GV_PAD GV_PadData_800B05C0[4];
 extern unsigned short gOldRootCnt_800B1DC8[32];
 
 unsigned char SECTION(".sbss") menu_current_debug_screen_800ABB20;
@@ -178,7 +177,7 @@ STATIC int menu_draw_pow_debug(MenuWork *work, unsigned int *pOt)
         left = right;
     }
 
-    if (GV_PadData_800B05C0[1].press & PAD_L1)
+    if (GV_PadData[1].press & PAD_L1)
     {
         dword_800AB668 = (dword_800AB668 + 1) % N_ChanlPerfMax;
         dword_800AB664 = 0;
@@ -478,8 +477,6 @@ STATIC int menu_draw_obj_debug(MenuWork *work, unsigned int *pOt)
     return returnVal;
 }
 
-extern GV_PAD GV_PadData_800B05C0[4];
-
 STATIC int menu_draw_tex_debug(MenuWork *work, unsigned int *pOt)
 {
     const int textureRecsCount = DG_MAX_TEXTURES;
@@ -493,11 +490,11 @@ STATIC int menu_draw_tex_debug(MenuWork *work, unsigned int *pOt)
 
     iterTex = dword_800ABB24;
     direction = 0;
-    if (GV_PadData_800B05C0[0].status & PAD_RIGHT)
+    if (GV_PadData[0].status & PAD_RIGHT)
     {
         direction = 1;
     }
-    else if (GV_PadData_800B05C0[0].status & PAD_LEFT)
+    else if (GV_PadData[0].status & PAD_LEFT)
     {
         direction = -1;
     }
@@ -512,13 +509,13 @@ STATIC int menu_draw_tex_debug(MenuWork *work, unsigned int *pOt)
             for (i = textureRecsCount; i > 0; i--)
             {
                 iterTex += direction;
-                if (iterTex == &DG_TextureCache[textureRecsCount])
+                if (iterTex == &TexSets[textureRecsCount])
                 {
                     iterTex -= textureRecsCount;
                 }
-                if (iterTex < &DG_TextureCache[0])
+                if (iterTex < &TexSets[0])
                 {
-                    iterTex = &DG_TextureCache[textureRecsCount - 1];
+                    iterTex = &TexSets[textureRecsCount - 1];
                 }
                 if (iterTex->id != 0)
                 {
@@ -545,7 +542,7 @@ STATIC int menu_draw_tex_debug(MenuWork *work, unsigned int *pOt)
     dword_800ABB24 = iterTex;
 
     MENU_Locate(300, 128, 1);
-    MENU_Printf("No %d\n", iterTex - DG_TextureCache);
+    MENU_Printf("No %d\n", iterTex - TexSets);
     MENU_Printf("ID %d\n", iterTex->id);
     MENU_Printf("COL %d\n", iterTex->col);
     MENU_Printf("x %d y %d\n", iterTex->off_x, iterTex->off_y);
@@ -619,7 +616,7 @@ void menu_viewer_act(MenuWork *work, unsigned int *pOt)
         return;
     }
     if (!(GM_PlayerStatus & PLAYER_MENU_DISABLE) && GV_PauseLevel != 0 &&
-        (GV_PadData_800B05C0[0].press & PAD_L1))
+        (GV_PadData[0].press & PAD_L1))
     {
         if (menu_current_debug_screen_800ABB20 == 5)
         {
@@ -648,7 +645,7 @@ void menu_viewer_act(MenuWork *work, unsigned int *pOt)
 void menu_viewer_init(MenuWork *work)
 {
     menu_current_debug_screen_800ABB20 = 0;
-    dword_800ABB24 = DG_TextureCache;
+    dword_800ABB24 = TexSets;
     word_800ABB22 = -1;
 }
 

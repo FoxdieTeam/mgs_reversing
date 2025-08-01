@@ -130,7 +130,7 @@ extern int GV_PauseLevel;
 #endif
 
 void GV_InitActorSystem(void);
-void GV_ConfigActorSystem(int index, short pause, short kill);
+void GV_ConfigActorSystem(int exec_level, short pause, short kill);
 void GV_DumpActorSystem(void);
 void GV_ExecActorSystem(void);
 void GV_DestroyActorSystem(int exec_level);
@@ -334,6 +334,9 @@ enum
 #ifndef __GV_PAD_SBSS__
 extern u_short  GV_DemoPadStatus[2];
 extern u_long   GV_DemoPadAnalog;
+#endif
+#ifndef __BSSDEFINE__
+extern GV_PAD GV_PadData[4];
 #endif
 extern int GV_PadMask;
 

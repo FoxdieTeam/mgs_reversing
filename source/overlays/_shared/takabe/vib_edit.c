@@ -7,8 +7,6 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 
-extern GV_PAD GV_PadData_800B05C0[4];
-
 /*---------------------------------------------------------------------------*/
 
 // XXX Can't include libsn.h here since PCopen and PCcreat are called with
@@ -376,7 +374,7 @@ STATIC void VibEdit_Act(VibEditWork *work)
     switch (work->field_24)
     {
     case 0:
-        pad = GV_PadData_800B05C0[0].press;
+        pad = GV_PadData[0].press;
         if (pad & PAD_L1)
         {
             if (work->field_38 > 0)
@@ -392,7 +390,7 @@ STATIC void VibEdit_Act(VibEditWork *work)
             }
         }
 
-        pad = GV_PadData_800B05C0[0].status;
+        pad = GV_PadData[0].status;
         cur_pair = &pairs[work->field_38];
         if (pad & PAD_RIGHT)
         {
@@ -436,7 +434,7 @@ STATIC void VibEdit_Act(VibEditWork *work)
                 cur_pair->first = 0;
             }
         }
-        pad = GV_PadData_800B05C0[0].status;
+        pad = GV_PadData[0].status;
         if (pad & PAD_R2)
         {
             work->field_2C = 0;
@@ -447,7 +445,7 @@ STATIC void VibEdit_Act(VibEditWork *work)
             work->field_2C = 0;
             work->field_24 = 3;
         }
-        pad = GV_PadData_800B05C0[0].press;
+        pad = GV_PadData[0].press;
         if (pad & PAD_TRIANGLE)
         {
             work->field_3C ^= 1;
@@ -491,7 +489,7 @@ STATIC void VibEdit_Act(VibEditWork *work)
         }
         break;
     case 1:
-        if (GV_PadData_800B05C0[0].press & PAD_CROSS)
+        if (GV_PadData[0].press & PAD_CROSS)
         {
             work->field_30 = -1;
         }
@@ -503,9 +501,9 @@ STATIC void VibEdit_Act(VibEditWork *work)
         }
         break;
     case 2:
-        if (GV_PadData_800B05C0[0].status & PAD_R2)
+        if (GV_PadData[0].status & PAD_R2)
         {
-            pad = GV_PadData_800B05C0[0].press;
+            pad = GV_PadData[0].press;
             if (pad & (PAD_LEFT | PAD_UP))
             {
                 work->field_2C--;
@@ -569,9 +567,9 @@ STATIC void VibEdit_Act(VibEditWork *work)
         }
         break;
     case 3:
-        if (GV_PadData_800B05C0[0].status & PAD_L2)
+        if (GV_PadData[0].status & PAD_L2)
         {
-            pad = GV_PadData_800B05C0[0].press;
+            pad = GV_PadData[0].press;
             if (pad & PAD_UP)
             {
                 work->field_2C--;
@@ -700,7 +698,7 @@ STATIC void VibEdit_Act(VibEditWork *work)
 
     VibEdit_800C36BC(work);
 
-    if (GV_PadData_800B05C0[0].press & 0x200)
+    if (GV_PadData[0].press & 0x200)
     {
         if (work->field_40)
         {

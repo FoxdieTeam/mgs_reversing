@@ -6,7 +6,7 @@
 #include "game/camera.h"
 #include "linkvar.h"
 
-extern GM_Camera GM_Camera_800B77E8;
+extern GM_CAMERA GM_Camera;
 extern int       dword_8009F46C;
 
 /*---------------------------------------------------------------------------*/
@@ -26,7 +26,7 @@ typedef struct _Work
 
 static void Act(Work *work)
 {
-    if (GM_Camera_800B77E8.first_person != 0)
+    if (GM_Camera.first_person != 0)
     {
         if (GM_CurrentWeaponId == WP_Stinger ||
             GM_CurrentWeaponId == WP_Rifle ||
