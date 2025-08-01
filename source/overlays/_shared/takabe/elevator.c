@@ -68,7 +68,7 @@ typedef struct _ElevatorWork
 extern int           bakudan_count_8009F42C;
 extern int           counter_8009F448;
 extern int           gControlCount_800AB9B4;
-extern CONTROL      *GM_WhereList_800B56D0[96];
+extern CONTROL      *GM_WhereList[96];
 extern CONTROL      *tenage_ctrls_800BDD30[16];
 extern int           tenage_ctrls_count_800BDD70;
 extern HITTABLE      GM_C4Datas_800BDD78[C4_COUNT];
@@ -289,7 +289,7 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
 
         if (work->f58C & 0x4)
         {
-            where = GM_WhereList_800B56D0;
+            where = GM_WhereList;
             for (n_controls = gControlCount_800AB9B4; n_controls > 0; n_controls--)
             {
                 control = *where;

@@ -209,7 +209,7 @@ void drawBorder_800390FC(MenuWork *menuMan, unsigned char *ot)
         : "r"( r0 ) )
 // clang-format on
 
-extern CONTROL         *GM_WhereList_800B56D0[96];
+extern CONTROL         *GM_WhereList[96];
 extern int              gControlCount_800AB9B4;
 
 #define RGB(r, g, b) ((r) | (g << 8) | (b << 16))
@@ -288,7 +288,7 @@ void drawMap_800391D0(MenuWork *work, unsigned char *ot, int arg2)
 
     scale = MENU_RadarScale;
 
-    entities = GM_WhereList_800B56D0;
+    entities = GM_WhereList;
     control = entities[0]; // entities[0] is Snake
 
     *getScratchAddr2(SVECTOR, 0) = entities[0]->mov;

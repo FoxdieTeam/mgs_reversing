@@ -57,7 +57,7 @@ SVECTOR SECTION("overlay.bss") rasen_el_800D2CB4;
 int SECTION("overlay.bss") rasen_el_800D2CBC;
 
 extern int             gControlCount_800AB9B4;
-extern CONTROL        *GM_WhereList_800B56D0[96];
+extern CONTROL        *GM_WhereList[96];
 extern UnkCameraStruct gUnkCameraStruct_800B77B8;
 extern GM_Camera       GM_Camera_800B77E8;
 
@@ -281,7 +281,7 @@ void RasenElAct_800CC454(RasenElWork *work)
 
     if ((work->f234 & 4) != 0)
     {
-        where = GM_WhereList_800B56D0;
+        where = GM_WhereList;
         for (i = gControlCount_800AB9B4; i > 0; i--)
         {
             control = *where;

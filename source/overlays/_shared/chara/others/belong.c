@@ -7,7 +7,7 @@
 #include "strcode.h"
 
 extern int      DG_CurrentGroupID;
-extern CONTROL *GM_WhereList_800B56D0[96];
+extern CONTROL *GM_WhereList[96];
 extern int      gControlCount_800AB9B4;
 
 /*---------------------------------------------------------------------------*/
@@ -101,7 +101,7 @@ static int GetResources(Work *work, int name, int where)
     work->control = NULL;
     work->field_24 = NULL;
 
-    whereListIter = GM_WhereList_800B56D0;
+    whereListIter = GM_WhereList;
     parent_obj = NULL;
     for (i = gControlCount_800AB9B4 - 1; i >= 0; i--)
     {

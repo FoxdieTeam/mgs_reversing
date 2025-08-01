@@ -76,7 +76,7 @@ void Takabe_ReshadeModel_800DC854(DG_OBJS *objs, LIT *lit);
 void s00a_unknown3_800DC918();
 
 extern GM_Camera       GM_Camera_800B77E8;
-extern CONTROL        *GM_WhereList_800B56D0[96];
+extern CONTROL        *GM_WhereList[96];
 extern int             gControlCount_800AB9B4;
 extern int             bakudan_count_8009F42C;
 extern HITTABLE        GM_C4Datas_800BDD78[C4_COUNT];
@@ -160,7 +160,7 @@ void Rasen2SearchWhereList_800CA568(Rasen2Work *work, MAP *toFind, MAP *map)
     CONTROL **control;
     int       count;
 
-    control = GM_WhereList_800B56D0;
+    control = GM_WhereList;
     if (rasen_800C3408 == 1)
     {
         for (count = gControlCount_800AB9B4; count > 0; count--, control++)
@@ -694,7 +694,7 @@ void RasenAct_800CB530(RasenWork *work)
     }
     rasen_800C3408 = 0;
 
-    if (GM_WhereList_800B56D0[0]->name)
+    if (GM_WhereList[0]->name)
     {
         if (GM_UnkFlagBE || GM_Camera_800B77E8.first_person == 0 || (GM_Camera_800B77E8.flags & 0x200))
         {

@@ -24,7 +24,7 @@ void ENE_PutMark_800D998C( WatcherWork *work, int mark );
 
 #define T_NOISE 0
 
-extern CONTROL      *GM_WhereList_800B56D0[94];
+extern CONTROL      *GM_WhereList[94];
 
 extern char NearAsiato_800D13A0();
 
@@ -48,9 +48,9 @@ void s07a_meryl_unk_800DB3C0( WatcherWork* work )
     int addr;
     HZD_ZON *zone;
 
-    addr = HZD_GetAddress( GM_WhereList_800B56D0[0]->map->hzd, &GM_NoisePosition, -1 ) & 0xFF;
+    addr = HZD_GetAddress( GM_WhereList[0]->map->hzd, &GM_NoisePosition, -1 ) & 0xFF;
     work->target_addr = ( addr << 8 ) | addr;
-    zone = &GM_WhereList_800B56D0[0]->map->hzd->header->zones[ addr ];
+    zone = &GM_WhereList[0]->map->hzd->header->zones[ addr ];
 
     work->target_pos.vx = zone->x;
     work->target_pos.vy = zone->y;

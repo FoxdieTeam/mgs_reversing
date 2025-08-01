@@ -11,7 +11,7 @@ int SECTION("overlay.bss") s00a_dword_800E0F94;
 
 SVECTOR SECTION("overlay.bss") AsiatoPositions[49];
 
-extern CONTROL     *GM_WhereList_800B56D0[96];
+extern CONTROL     *GM_WhereList[96];
 
 // The second half of this file uses another Work struct
 // (NewAsiatoChar allocates more than NewAsiato)
@@ -115,7 +115,7 @@ int AsiatoCharGetResources_800D0F90(AsiatoCharWork *work, MATRIX *mat, int arg2,
     DG_PRIM *prim;
     DG_TEX  *tex;
 
-    AsiatoCharPos_800D0E00(&svec1, 0, (*GM_WhereList_800B56D0)->rot.vy, 0);
+    AsiatoCharPos_800D0E00(&svec1, 0, (*GM_WhereList)->rot.vy, 0);
     if (arg2 == 1)
     {
         AsiatoCharPos_800D0E00(&work->field_30, -70, 0, -140);
@@ -376,7 +376,7 @@ int s00a_asiato_800D17BC(AsiatoWork *work)
 {
     HZD_HDL *hdl;
 
-    hdl = GM_WhereList_800B56D0[0]->map->hzd;
+    hdl = GM_WhereList[0]->map->hzd;
     if (!AsiatoIsAllowedOnMove_800D179C() || !s00a_asiato_800D16F8(work, hdl, &GM_PlayerPosition))
     {
         return 0;
@@ -421,8 +421,8 @@ void AsiatoAct_800D18C8(AsiatoWork *work)
             var_s0 = &GM_PlayerBody->objs->objs[15];
         }
         RecordAsiatoPosition_800D1844();
-        GM_CurrentMap = (*GM_WhereList_800B56D0)->map->index;
-        NewAsiatoChar_800D11DC(&var_s0->world, temp_v0, (*GM_WhereList_800B56D0)->levels[0],
+        GM_CurrentMap = (*GM_WhereList)->map->index;
+        NewAsiatoChar_800D11DC(&var_s0->world, temp_v0, (*GM_WhereList)->levels[0],
                                AsiatoPositions[48].vx - 1, work->field_20);
     }
 }

@@ -139,7 +139,7 @@ void s00a_command_800CAB04( WatcherWork* work )
     work->target_map  = COM_PlayerMapOne_800E0F70[ work->field_B78 ];
 }
 
-extern CONTROL *GM_WhereList_800B56D0[94];
+extern CONTROL *GM_WhereList[94];
 
 void s00a_command_800CAB74( WatcherWork* work )
 {
@@ -147,8 +147,8 @@ void s00a_command_800CAB74( WatcherWork* work )
     MAP *map;
     HZD_ZON *zone;
 
-    addr = HZD_GetAddress( GM_WhereList_800B56D0[0]->map->hzd, &GM_NoisePosition, -1 ) & 0xFF;
-    zone = &GM_WhereList_800B56D0[0]->map->hzd->header->zones[ addr ];
+    addr = HZD_GetAddress( GM_WhereList[0]->map->hzd, &GM_NoisePosition, -1 ) & 0xFF;
+    zone = &GM_WhereList[0]->map->hzd->header->zones[ addr ];
 
     if ( work->field_C34 && s00a_command_800CA898( work , zone ) )
     {

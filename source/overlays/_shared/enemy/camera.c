@@ -95,7 +95,7 @@ extern char s01a_dword_800E44CC[];
 extern TOPCOMMAND_STRUCT TOPCOMMAND_800E0F20;
 extern int               COM_VibTime_800E0F68;
 
-extern CONTROL         *GM_WhereList_800B56D0[96];
+extern CONTROL         *GM_WhereList[96];
 
 void *NewSpark2_800CA714(MATRIX *world);
 void AN_Unknown_800D6EB0(SVECTOR *pos);
@@ -187,13 +187,13 @@ int s01a_camera_800D4E08(CameraWork *work)
             if (work->field_1DC == 0)
             {
                 work->field_1D0 = GM_PlayerPosition;
-                work->field_1D8 = GM_WhereList_800B56D0[0]->rot.vy;
+                work->field_1D8 = GM_WhereList[0]->rot.vy;
                 work->field_1DC = 1;
                 return 0;
             }
             if (GV_DiffVec3(&work->field_1D0, &GM_PlayerPosition) < 50)
             {
-                if (work->field_1D8 == GM_WhereList_800B56D0[0]->rot.vy)
+                if (work->field_1D8 == GM_WhereList[0]->rot.vy)
                 {
                     work->field_1DC = 1;
                     return 0;
