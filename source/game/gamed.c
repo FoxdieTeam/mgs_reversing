@@ -104,7 +104,7 @@ SVECTOR      SECTION(".sbss") GM_PhotoViewPos;
 PlayerStatusFlag SECTION(".sbss") GM_PlayerStatus;
 int              SECTION(".sbss") GM_PadVibration2;
 
-extern unsigned short   gSystemCallbackProcs_800B58C0[];
+extern unsigned short   GM_SystemCallbackProc[6];
 extern int          str_mute_fg;
 extern unsigned int str_status;
 extern int          dword_800BF1A8;
@@ -160,7 +160,7 @@ static void GM_InitGameSystem(void)
 
     for (i = 5; i >= 0; i--)
     {
-        gSystemCallbackProcs_800B58C0[i] = 0;
+        GM_SystemCallbackProc[i] = 0;
     }
 }
 
@@ -617,7 +617,7 @@ static void Act(GameWork *work)
 
 void GM_SetSystemCallbackProc(int index, int proc)
 {
-    gSystemCallbackProcs_800B58C0[index] = proc;
+    GM_SystemCallbackProc[index] = proc;
 }
 
 void GM_CallSystemCallbackProc(int id, int arg)
@@ -630,7 +630,7 @@ void GM_CallSystemCallbackProc(int id, int arg)
                         &GM_PlayerControl->event, 0x301);
     }
 
-    proc = gSystemCallbackProcs_800B58C0[id];
+    proc = GM_SystemCallbackProc[id];
     if (proc != 0)
     {
         GCL_ARGS args;

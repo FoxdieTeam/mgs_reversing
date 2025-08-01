@@ -188,7 +188,7 @@ DG_TEX BSS          gMenuTextureRec_800B58B0; // 0xC (12) bytes
 
 gap                                     gap_800B58BC[0x4]; // 4 bytes
 
-unsigned short BSS  gSystemCallbackProcs_800B58C0[6]; // 0xC (12) bytes
+unsigned short BSS  GM_SystemCallbackProc[6]; // 0xC (12) bytes
 
 gap                                     gap_800B58CC[0x14]; // 20 bytes
 
