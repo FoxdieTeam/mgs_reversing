@@ -35,8 +35,13 @@
 // var declarations. put everything else in a header. all comments below the line will also be deleted.
 // you must use "BSS" instead of SECTION, and for EVERY var.
 
-// NOTE: If any included headers has an extern to the same vars defined here, matches will fail.
-// Never put extern data in a header without wrapping it with #ifndef __BSSDEFINE__!!
+// WARNING:
+// If any headers included by this file have externs to variables defined here,
+// the build won't match!! DO NOT declare any BSS variables in a header without
+// wrapping them with #if !defined(__BSSDEFINE__).
+//
+// The __BSSDEFINE__ flag needs to be defined here and nowhere else.
+// This lets us properly declare BSS variables for the rest of the codebase.
 
 // --------------------------------------------------------------------------------------------------------------------
 
