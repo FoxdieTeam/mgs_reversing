@@ -32,7 +32,7 @@ extern GM_Camera        GM_Camera_800B77E8;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B76F0;
-extern CAMERA           GM_CameraList_800B7718[8];
+extern CAMERA           GM_CameraList[8];
 
 static const unsigned int dword_80010C60[] =
 {
@@ -698,7 +698,7 @@ STATIC void ChangeCamera(int new, int old)
     }
     else
     {
-        camera = &GM_CameraList_800B7718[new];
+        camera = &GM_CameraList[new];
         cam_param1 = camera->field_10_param1;
 
         if (camera->field_10_param1 == 0)
@@ -778,7 +778,7 @@ STATIC void ChangeCamera(int new, int old)
     }
     else
     {
-        camera = &GM_CameraList_800B7718[old];
+        camera = &GM_CameraList[old];
         GM_Camera_800B77E8.field_2A = dword_80010C60[camera->field_11_param2];
         GM_Camera_800B77E8.interp = dword_80010C60[camera->field_11_param2] >> 16;
     }
@@ -887,7 +887,7 @@ STATIC int CheckEvents(GV_ACT *work)
     {
         if (changed & mask)
         {
-            if (GM_CameraList_800B7718[i].field_10_param1 != -1)
+            if (GM_CameraList[i].field_10_param1 != -1)
             {
                 break;
             }
@@ -903,7 +903,7 @@ STATIC int CheckEvents(GV_ACT *work)
 
     GM_GameStatus &= ~GAME_FLAG_BIT_07;
 
-    if (GM_CameraList_800B7718[i].field_0e_alertMask & 1)
+    if (GM_CameraList[i].field_0e_alertMask & 1)
     {
         GM_GameStatus |= GAME_FLAG_BIT_07;
     }
@@ -1046,7 +1046,7 @@ void GM_Reset_helper3_80030760()
     field_10_param1 = -1;
     i = 7;
 
-    cameraList = GM_CameraList_800B7718;
+    cameraList = GM_CameraList;
     cameraListIter = cameraList + 7;
 
     gmCamera = &GM_Camera_800B77E8;
@@ -1205,7 +1205,7 @@ void GM_CheckBehindCamera(HZD_HDL *pHzdMap, CONTROL *pControl)
             {
                 GM_800AB444 = trp;
 
-                cam = &GM_CameraList_800B7718[3];
+                cam = &GM_CameraList[3];
                 cam->field_10_param1 = 1;
                 cam->field_11_param2 = 2;
                 cam->field_12_param3 = 0;
