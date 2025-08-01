@@ -130,7 +130,7 @@ extern int GV_PauseLevel;
 #endif
 
 void GV_InitActorSystem(void);
-void GV_ConfigActorSystem(int index, short pause, short kill);
+void GV_ConfigActorSystem(int exec_level, short pause, short kill);
 void GV_DumpActorSystem(void);
 void GV_ExecActorSystem(void);
 void GV_DestroyActorSystem(int exec_level);
