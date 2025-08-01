@@ -23,16 +23,16 @@ typedef struct _Work
 {
     GV_ACT   actor;
     short    step;
-    short    sequence;
+    short    count;
     short    gradient;
     POLY_G4  polys[2][12];
     LINE_G2  lines[2][NUM_LINES];
-    DR_TPAGE tpages[2];
+    DR_TPAGE anim_tpage[2];
     TILE     tiles[2];
-    DR_TPAGE tpages2[2];
+    DR_TPAGE fade_tpage[2];
     DVECTOR  directions[NUM_LINES];
-    int      f1658;
-    int     *f165C;
+    int      gradient_max;
+    int     *exit;
 } Work;
 
 /*---------------------------------------------------------------------------*/
@@ -197,7 +197,7 @@ static int GetLineColor( int shade, int step )
 
 /*---------------------------------------------------------------------------*/
 
-static void MetLogo_800C51F4( Work *work, u_long *ot )
+static void DrawAnimation( Work *work, u_long *ot )
 {
     int       x0, y0;
     int       x1, y1;
@@ -353,7 +353,7 @@ static void MetLogo_800C51F4( Work *work, u_long *ot )
         }
     }
 
-    tpage = &work->tpages[ GV_Clock ];
+    tpage = &work->anim_tpage[ GV_Clock ];
     setDrawTPage( tpage, 1, 1, getTPage( 0, 1, 0, 0 ) );
     addPrim( ot, tpage );
 
@@ -362,7 +362,7 @@ static void MetLogo_800C51F4( Work *work, u_long *ot )
         // Unused but asm doesn't match without it
         gradient = work->gradient;
 
-        if ( work->f1658 == 0 )
+        if ( work->gradient_max == 0 )
         {
             shade = work->gradient * 4;
         }
@@ -373,7 +373,7 @@ static void MetLogo_800C51F4( Work *work, u_long *ot )
 
         if ( work->gradient == 40 )
         {
-            work->f1658 = 1;
+            work->gradient_max = 1;
         }
 
         color3 = ( shade << 8 ) | ( shade << 16 );
@@ -381,7 +381,7 @@ static void MetLogo_800C51F4( Work *work, u_long *ot )
     }
 }
 
-static void MetLogo_800C570C( Work *work, u_long *ot, int shade )
+static void DrawBackgroundFade( Work *work, u_long *ot, int shade )
 {
     TILE     *tile;
     DR_TPAGE *tpage;
@@ -394,7 +394,7 @@ static void MetLogo_800C570C( Work *work, u_long *ot, int shade )
     setWH( tile, 320, 240 );
     addPrim( ot, tile );
 
-    tpage = &work->tpages2[ GV_Clock ];
+    tpage = &work->fade_tpage[ GV_Clock ];
     setDrawTPage( tpage, 1, 1, getTPage( 0, 2, 0, 0 ) );
     addPrim( ot, tpage );
 }
@@ -410,49 +410,49 @@ static void Act( Work *work )
 
     ot = (u_long *)DG_ChanlOTag(1);
 
-    if ( work->sequence < 256 )
+    if ( work->count < 256 )
     {
-        MetLogo_800C51F4( work, ot );
-        MetLogo_800C570C( work, ot, work->sequence );
+        DrawAnimation( work, ot );
+        DrawBackgroundFade( work, ot, work->count );
 
-        work->sequence += 3;
-        if ( work->sequence >= 256 )
+        work->count += 3;
+        if ( work->count >= 256 )
         {
             if ( work->step > 0 )
             {
-                work->sequence = 255;
+                work->count = 255;
                 return;
             }
 
-            work->sequence = 256;
+            work->count = 256;
             GM_SeSet2( 0, 63, SE_LOGO_CHOIR );
         }
     }
-    else if ( work->sequence == 256 )
+    else if ( work->count == 256 )
     {
-        MetLogo_800C51F4( work, ot );
+        DrawAnimation( work, ot );
 
-        if ( work->f1658 == 0 )
+        if ( work->gradient_max == 0 )
         {
             work->gradient++;
         }
 
-        if ( *work->f165C == 1 )
+        if ( *work->exit == 1 )
         {
-            work->sequence = 257;
+            work->count = 257;
             work->gradient = 32;
         }
     }
     else
     {
-        shade = MIN( work->sequence - 256, 255 );
-        MetLogo_800C570C( work, ot, shade );
-        MetLogo_800C51F4( work, ot );
+        shade = MIN( work->count - 256, 255 );
+        DrawBackgroundFade( work, ot, shade );
+        DrawAnimation( work, ot );
 
-        work->sequence += 4;
-        if ( work->sequence > 542 )
+        work->count += 4;
+        if ( work->count > 542 )
         {
-            work->sequence = 542;
+            work->count = 542;
 
             if ( GM_StreamStatus() == -1 )
             {
@@ -495,7 +495,7 @@ static void GetResources( Work *work )
 
 /*---------------------------------------------------------------------------*/
 
-void *NewMetalGearLogo( int *arg0 )
+void *NewMetalGearLogo( int *exit )
 {
     Work *work;
 
@@ -505,11 +505,11 @@ void *NewMetalGearLogo( int *arg0 )
         GV_SetNamedActor( &( work->actor ), Act, Die, "met_logo.c" );
 
         work->step = 1;
-        work->sequence = 0;
+        work->count = 0;
         work->gradient = 0;
 
-        work->f1658 = 0;
-        work->f165C = arg0;
+        work->gradient_max = 0;
+        work->exit = exit;
 
         DG_FrameRate = 3;
 
