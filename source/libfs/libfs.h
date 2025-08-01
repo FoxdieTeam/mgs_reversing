@@ -5,7 +5,8 @@
 #include "cdbios.h"
 #include "datacnf.h"
 
-#define FS_SECTOR_SIZE  2048    // x1 CD-ROM sector
+#define FS_SECTOR_SIZE     2048    // x1 CD-ROM sector
+#define FS_CDLOAD_BUF_SIZE ( FS_SECTOR_SIZE * 48 )
 
 typedef struct _FS_STAGE_INFO   // private to stageld.c
 {

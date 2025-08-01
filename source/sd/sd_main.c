@@ -328,9 +328,9 @@ int sd_mem_alloc(void)
     printf("se_data %X\n", (unsigned int)se_data);
 
     cdload_buf = se_data + 0x2000;
-    printf("CDLOAD_BUF %X %X %X\n", (unsigned int)cdload_buf, 0x18000, (unsigned int)cdload_buf + 0x18000);
+    printf("CDLOAD_BUF %X %X %X\n", (unsigned int)cdload_buf, CDLOAD_BUF_SIZE, (unsigned int)cdload_buf + CDLOAD_BUF_SIZE);
 
-    str_header = cdload_buf + 0x18000;
+    str_header = cdload_buf + CDLOAD_BUF_SIZE;
     printf("str_header %X\n", (unsigned int)str_header);
 
     str_trans_buf = cdload_buf;
