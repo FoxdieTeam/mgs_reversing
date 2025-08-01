@@ -165,7 +165,7 @@ StreamCtrlWork *NewStreamControl( int stream_code, int gcl_proc, int flags )
         return &strctrl_800B82B0;
     }
 
-    FS_StreamInit( ( void * )0x801E7800, 0x18000 );
+    FS_StreamInit( ( void * )0x801E7800, FS_CDLOAD_BUF_SIZE );
     GV_InitActor( EXEC_LEVEL, ( GV_ACT * )&strctrl_800B82B0, NULL );
     GV_SetNamedActor( ( GV_ACT * )&strctrl_800B82B0, &strctrl_Act, &strctrl_Die, "strctrl.c" );
 
