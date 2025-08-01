@@ -21,12 +21,12 @@ enum GAMED_STATE {          // private to gamed.c
     WORKING     = 1
 };
 
-typedef struct GameWork     // private to gamed.c
+typedef struct gameWork     // private to gamed.c
 {
     GV_ACT  actor;
     int     status;         // enum GAMED_STATE
-    int     field_24;       // killing_count (?)
-} GameWork;
+    int     killing_count;  // name taken from MGS4
+} gameWork;
 
 #define DG_MAX_JOINTS 24
 
