@@ -9,7 +9,7 @@
 
 extern array_800B933C_child array_800B933C[array_800B933C_SIZE];
 
-extern JimakuCtrlWork jimCtrlActor_800B82F0;
+extern JimakuCtrlWork jimctrl_work;
 
 extern int str_status;
 extern int dword_800B9358;
@@ -280,12 +280,12 @@ STATIC void jimctrl_Act(JimakuCtrlWork *work)
         }
 
         size = FS_StreamGetSize(pStrData);
-        memcpy(jimCtrlActor_800B82F0.field_50_buffer, pStrData, size);
+        memcpy(jimctrl_work.field_50_buffer, pStrData, size);
         FS_StreamClear(pStrData);
 
         if (!work->field_34)
         {
-            pHeader = (SubtitleHeader *)jimCtrlActor_800B82F0.field_50_buffer;
+            pHeader = (SubtitleHeader *)jimctrl_work.field_50_buffer;
 
             work->field_34 = (int *)pHeader;
             work->field_38 = (char *)pHeader + pHeader->data_offset;
@@ -350,7 +350,7 @@ void *NewJimakuControl(u_long flags)
 {
     int           *seekResult;
     u_long         toSeek = 4;
-    JimakuCtrlWork *work = &jimCtrlActor_800B82F0;
+    JimakuCtrlWork *work = &jimctrl_work;
 
     if (flags & 0x80)
     {
@@ -360,13 +360,13 @@ void *NewJimakuControl(u_long flags)
 
     if (GM_GameStatusFlag & 0x100)
     {
-        jimCtrlActor_800B82F0.field_27 = 3;
-        jimCtrlActor_800B82F0.field_26 = 6;
+        jimctrl_work.field_27 = 3;
+        jimctrl_work.field_26 = 6;
     }
     else
     {
-        jimCtrlActor_800B82F0.field_27 = 6;
-        jimCtrlActor_800B82F0.field_26 = 3;
+        jimctrl_work.field_27 = 6;
+        jimctrl_work.field_26 = 3;
     }
 
     if (seekResult != 0)
@@ -398,7 +398,7 @@ void *NewJimakuControl(u_long flags)
         dword_800B9358 = 0;
 
 
-        return (void *)&jimCtrlActor_800B82F0;
+        return (void *)&jimctrl_work;
     }
 }
 

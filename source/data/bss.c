@@ -238,10 +238,10 @@ DG_LitVertex BSS    DG_LitVertices_800B7A50[84]; // 0x7E0 (2016) bytes
 HOMING BSS   gHomingTargets_800B8230[HOMING_ARRAY_LENGTH];
 
 /* game/strctrl.obj */
-StreamCtrlWork BSS  strctrl_800B82B0; // 0x40 (64) bytes
+StreamCtrlWork BSS  strctrl_work; // 0x40 (64) bytes
 
 /* game/jimctrl.obj */
-JimakuCtrlWork BSS  jimCtrlActor_800B82F0; // 0x104C (4172) bytes
+JimakuCtrlWork BSS  jimctrl_work; // 0x104C (4172) bytes
 array_800B933C_child BSS array_800B933C[array_800B933C_SIZE]; // 0x1C (28) bytes
 int BSS             dword_800B9358; // 0x4 (4) bytes
 
