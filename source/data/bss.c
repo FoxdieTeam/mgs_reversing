@@ -125,8 +125,8 @@ GCL_SCRIPT BSS      current_script; // 0xC (12) bytes
 gap                                     gap_800B3C24[0x4]; // 4 bytes
 
 /* libgcl/parse.obj */
-int BSS             argstack_800B3C28[32]; // 0x80 (128) bytes
-unsigned char *BSS  commandlines_800B3CA8[8]; // 0x20 (32) bytes
+int BSS             argbuffer[32]; // 0x80 (128) bytes
+unsigned char *BSS  commandlines[8]; // 0x20 (32) bytes
 
 /* libgcl/variable.obj */
 GCL_Vars BSS        gGcl_vars_800B3CC8; // 0x800 (2048) bytes
