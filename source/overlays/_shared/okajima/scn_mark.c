@@ -16,7 +16,7 @@ void * AN_Unknown_800CA1EC(MATRIX *pos, int mark);
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL4
 
-int ScnMarkCheckMessages_800C93CC(unsigned short name, int n_hashes, unsigned short *hashes)
+int ScnMarkCheckMessage_800C93CC(unsigned short name, int n_hashes, unsigned short *hashes)
 {
     GV_MSG *msg;
     int     n_msgs;
@@ -57,7 +57,7 @@ void ScnMarkAct_800C9464(ScnMarkWork *work)
     hashes[4] = GV_StrCode("BW_MARK");
     hashes[5] = GV_StrCode("QW_MARK");
     hashes[6] = GV_StrCode("HEART_MARK");
-    found = ScnMarkCheckMessages_800C93CC(work->name, 7, hashes);
+    found = ScnMarkCheckMessage_800C93CC(work->name, 7, hashes);
 
     if (found != -1)
     {

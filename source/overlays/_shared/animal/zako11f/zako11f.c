@@ -199,7 +199,7 @@ int s11i_zako11f_800C8B98( Zako11FWork* work, int name, int where )
     GM_ConfigControlAttribute( ctrl, 13 );
     GM_ConfigControlInterp( ctrl, 4 );
 
-    ctrl->field_59 = 2;
+    ctrl->exclude_flag = 2;
 
     GM_ConfigControlTrapCheck( ctrl );
 

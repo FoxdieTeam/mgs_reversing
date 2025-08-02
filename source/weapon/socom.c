@@ -205,9 +205,9 @@ static int socom_act_helper_80065408( Work *work )
     DG_SetPos( &work->parent->objs->objs[ work->num_parent ].world );
     DG_PutVector( stru_8009F3D4, vecs, 2 );
     map = work->control->map;
-    if ( HZD_80028454( map->hzd, vecs, &vecs[ 1 ], 15, 4 ) )
+    if ( HZD_LineCheck( map->hzd, vecs, &vecs[ 1 ], HZD_CHECK_ALL, 0x4 ) )
     {
-        HZD_GetSpadVector( &vecs[ 1 ] );
+        HZD_80028890( &vecs[ 1 ] );
         bCalcLen = 1;
     }
     if ( GM_Target_8002E1B8( vecs, &vecs[ 1 ], map->index, &vecs[ 1 ], 1 ) )

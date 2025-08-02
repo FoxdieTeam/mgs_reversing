@@ -504,13 +504,13 @@ void Hind2_800C5274( Hind2Work *work )
     int     n_msgs;
     GV_MSG *msg;
 
-    if ( work->control.field_56 == 0 )
+    if ( work->control.n_messages == 0 )
     {
         return;
     }
 
-    n_msgs = work->control.field_56;
-    msg = &work->control.field_5C_mesg[ n_msgs ] - 1;
+    n_msgs = work->control.n_messages;
+    msg = &work->control.messages[ n_msgs ] - 1;
 
     for ( ; n_msgs > 0; n_msgs--, msg-- )
     {
@@ -646,7 +646,7 @@ int Hind2GetResources( Hind2Work *work, int name, int map )
     GM_ConfigControlTrapCheck( control );
     GM_ConfigControlHazard( control, 0, -2, -2 );
 
-    control->field_59 = 2;
+    control->exclude_flag = 2;
 
     model = GCL_GetOption( 'm' );
     if ( !model )

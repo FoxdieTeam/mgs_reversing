@@ -190,7 +190,7 @@ void s00a_command_800C5E48( WatcherWork* work, int time )
 
     if ( dir >= 0 )
     {
-        s0 = ctrl->field_58;
+        s0 = ctrl->touch_flag;
         if ( s0 > 0 )
         {
             dist = GV_VecDir2( svec );
@@ -1231,7 +1231,7 @@ void s00a_command_800C7E28( WatcherWork* work, int time )
     }
     else
     {
-        if ( !ctrl->field_58 )
+        if ( !ctrl->touch_flag )
         {
             ctrl->step = work->target->field_2C_vec;
         }

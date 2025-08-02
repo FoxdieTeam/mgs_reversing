@@ -92,7 +92,7 @@ int s07a_meryl_unk_800DB484( WatcherWork *work, int addr, int addr2 )
     svec2.vy = zone2->y + 500;
     svec2.vz = zone2->z;
 
-    if ( HZD_80028454( hzd, &svec, &svec2, 0x8, 0x2 ) != 0 )
+    if ( HZD_LineCheck( hzd, &svec, &svec2, HZD_CHECK_DYNSEG, 0x2 ) != 0 )
     {
         printf((char *)s07a_aOkokokodd_800E2FB0, addr, addr2);
         return 1;
@@ -1090,8 +1090,8 @@ int s07a_meryl_unk_800DCB24( WatcherWork* work )
     GV_MSG  *msg;
 
     ctrl = &work->control;
-    len = ctrl->field_56;
-    msg = ctrl->field_5C_mesg;
+    len = ctrl->n_messages;
+    msg = ctrl->messages;
 
     for ( ; len > 0 ; len--, msg++ )
     {

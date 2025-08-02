@@ -14,7 +14,7 @@ typedef struct _KikenWork
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL4
 
-int KikenCheckMessages_800D6C64(KikenWork *work)
+int KikenCheckMessage_800D6C64(KikenWork *work)
 {
     GV_MSG *msg;
     int     code;
@@ -40,7 +40,7 @@ int KikenCheckMessages_800D6C64(KikenWork *work)
 
 void KikenAct_800D6CC8(KikenWork *work)
 {
-    KikenCheckMessages_800D6C64(work);
+    KikenCheckMessage_800D6C64(work);
 
     if (work->active != 0)
     {

@@ -27,10 +27,10 @@ void s01a_doll_800DBE0C(DollWork *work)
     int      n_msgs;
 
     control = &work->control;
-    control->field_56 = GV_ReceiveMessage(control->name, &control->field_5C_mesg);
+    control->n_messages = GV_ReceiveMessage(control->name, &control->messages);
 
-    msg = control->field_5C_mesg;
-    n_msgs = control->field_56;
+    msg = control->messages;
+    n_msgs = control->n_messages;
 
     while (n_msgs > 0)
     {
@@ -274,7 +274,7 @@ int s01a_doll_800DC1AC(DollWork *work, int name, int map)
     control->field_36 = -1;
     GM_ConfigControlInterp(control, 4);
     GM_ConfigControlTrapCheck(control);
-    control->field_59 = 1;
+    control->exclude_flag = 1;
 
     work->fE58 |= 0x1;
 

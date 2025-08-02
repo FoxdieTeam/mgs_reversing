@@ -175,7 +175,7 @@ static void Act(Work *work)
         work->step.vy -= 16;
     }
 
-    if (control->field_58 > 0 && GM_CheckControlTouches(control, 300))
+    if (control->touch_flag > 0 && GM_CheckControlTouches(control, 300))
     {
         HZD_800272E0(control->field_70[0], &vec);
         DG_ReflectVector(&vec, &work->step, &work->step);
@@ -236,7 +236,7 @@ static int GetResources(Work *work, SVECTOR *pos, SVECTOR *step, int type, int m
         {
             GM_ConfigControlHazard(control, 100, -1, -1);
         }
-        control->field_59 = 4;
+        control->exclude_flag = 4;
         if (side == PLAYER_SIDE)
         {
             control->mov = GM_PlayerPosition;

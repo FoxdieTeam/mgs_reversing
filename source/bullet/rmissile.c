@@ -441,13 +441,13 @@ static void rmissile_act_helper_8006C114(Work *work)
     position = &work->control.mov;
     result = CheckMessage();
 
-    if (work->control.field_58 <= 0 && !(work->control.field_57 & 2))
+    if (work->control.touch_flag <= 0 && !(work->control.field_57 & 2))
     {
         if (position->vy - work->field_108_svector.vy < 200)
         {
             if (++work->field_118 != 1000 && !GM_PowerTarget(&work->target) && !dword_8009F480 && !result)
             {
-                if (!HZD_80029098(work->control.map->hzd, position, 250, 15, 8))
+                if (!HZD_PointCheck(work->control.map->hzd, position, 250, HZD_CHECK_ALL, 0x8))
                 {
                     if (abs(position->vx) <= 30000 &&
                         abs(position->vy) <= 30000 &&
@@ -943,7 +943,7 @@ static int GetResources(Work *work, MATRIX *world, int side)
     svector_8009F478 = GM_PlayerPosition;
 
     GM_ConfigControlHazard(ctrl, 400, 0xC8, 0xC8);
-    ctrl->field_59 = GetEight();
+    ctrl->exclude_flag = GetEight();
     GM_ConfigControlTrapCheck(ctrl);
 
     object = &work->object;

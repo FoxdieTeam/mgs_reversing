@@ -583,9 +583,9 @@ static int JpegcamGetZoomLimit(Work *work)
         DG_PutVector(dword_8009F3AC, &vector1, 2);
 
         cond = 0;
-        if (HZD_80028454(work->map->hzd, &vector1, &vector2, 0x0f, 0x81) != 0)
+        if (HZD_LineCheck(work->map->hzd, &vector1, &vector2, HZD_CHECK_ALL, 0x81) != 0)
         {
-            HZD_GetSpadVector(&vector2);
+            HZD_80028890(&vector2);
             cond = 1;
         }
 

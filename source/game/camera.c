@@ -784,7 +784,7 @@ STATIC void ChangeCamera(int new, int old)
     }
 }
 
-STATIC void CheckMessages(GV_ACT *work)
+STATIC void CheckMessage(GV_ACT *work)
 {
     GV_MSG *msg;
     int     n_msg;
@@ -970,7 +970,7 @@ STATIC void camera_act_8003059C(GV_ACT *work)
     {
         if (GV_PauseLevel == 0)
         {
-            CheckMessages(work);
+            CheckMessage(work);
             changed = CheckEvents(work);
 
             camera_act_helper3_8002F64C();
