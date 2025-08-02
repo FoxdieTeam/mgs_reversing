@@ -191,9 +191,9 @@ STATIC int claymore_loader_helper_800735A0(ClaymoreWork *work, SVECTOR *arg1, SV
 
     var_s2 = 0;
 
-    if (HZD_80028454(claymore_MAP_800bdf08->hzd, &vec, &vec2, 15, 4))
+    if (HZD_LineCheck(claymore_MAP_800bdf08->hzd, &vec, &vec2, HZD_CHECK_ALL, 0x4))
     {
-        HZD_GetSpadVector(&vec2);
+        HZD_80028890(&vec2);
         floor = HZD_80028820();
 
         if ((int)floor < 0)

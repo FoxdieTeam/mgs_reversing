@@ -206,7 +206,7 @@ int NextAsiato_800D12D0(HZD_HDL *hdl, int idx, SVECTOR *svec2)
         return -1;
     }
 
-    if (HZD_80028454(hdl, svec2, vec, 15, 2))
+    if (HZD_LineCheck(hdl, svec2, vec, HZD_CHECK_ALL, 0x2))
     {
         return -1;
     }
@@ -254,7 +254,7 @@ int SearchNearAsiato_800D13B0(HZD_HDL* hzd, SVECTOR* mov, int facedir, int visio
             svec.vy = 0;
             len = GV_VecLen3( &svec );
 
-            if ( len < max_len && len < length && GV_DiffDirAbs( facedir, GV_VecDir2(&svec) )  < vision_unk && !HZD_80028454(hzd, mov, &AsiatoPositions[i], 0xF, 2) )
+            if ( len < max_len && len < length && GV_DiffDirAbs( facedir, GV_VecDir2(&svec) )  < vision_unk && !HZD_LineCheck(hzd, mov, &AsiatoPositions[i], 0xF, 0x2) )
             {
                 max_len = len;
                 s4 = i;

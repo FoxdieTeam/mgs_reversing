@@ -575,7 +575,7 @@ void s11i_asiato_800CA25C( Zako11FWork *work, int time )
 
     if ( dir >= 0 )
     {
-        near = control->field_58;
+        near = control->touch_flag;
 
         if ( near > 0 )
         {

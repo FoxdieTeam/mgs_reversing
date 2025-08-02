@@ -236,7 +236,7 @@ void s07c_meryl72_unk1_800CBA9C(Meryl72Work* work)
     }
 
     map = work->control.map;
-    if (HZD_80028454(map->hzd, &GM_PlayerPosition, mov, 0xF, 0x4) ||
+    if (HZD_LineCheck(map->hzd, &GM_PlayerPosition, mov, HZD_CHECK_ALL, 0x4) ||
         sub_8002E2A8(mov, &GM_PlayerPosition, map->index, &sn_diff))
     {
         work->vision.field_06 = 0;

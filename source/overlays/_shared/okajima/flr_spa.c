@@ -40,7 +40,7 @@ int FlrSpaGetSvecs_800D09A4(char *opt, SVECTOR *out)
     return count;
 }
 
-int FlrSpaCheckMessages_800D09F8(unsigned short name, int n_hashes, unsigned short *hashes)
+int FlrSpaCheckMessage_800D09F8(unsigned short name, int n_hashes, unsigned short *hashes)
 {
     GV_MSG *msg;
     int     n_msgs;
@@ -167,7 +167,7 @@ void FlrSpaAct_800D0E24(FlrSpaWork *work)
     hashes[0] = GV_StrCode("はじめ");
     hashes[1] = GV_StrCode("やめ");
 
-    switch (FlrSpaCheckMessages_800D09F8(work->name, 2, hashes))
+    switch (FlrSpaCheckMessage_800D09F8(work->name, 2, hashes))
     {
     case 0:
         work->enable = 1;

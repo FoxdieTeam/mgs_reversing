@@ -39,9 +39,9 @@ int s07a_meryl7_800D50F8( WatcherWork* work )
     CONTROL *ctrl;
 
     ctrl = &work->control;
-    ctrl->field_56 = GV_ReceiveMessage( ctrl->name, &work->control.field_5C_mesg );
-    count = ctrl->field_56;
-    msg = ctrl->field_5C_mesg;
+    ctrl->n_messages = GV_ReceiveMessage( ctrl->name, &work->control.messages );
+    count = ctrl->n_messages;
+    msg = ctrl->messages;
 
     if ( count <= 0 ) return 0 ;
 
@@ -348,7 +348,7 @@ int s07a_meryl7_800D5908( WatcherWork* work, int name, int where )
     GM_ConfigControlAttribute( ctrl, 13 );
     GM_ConfigControlInterp( ctrl, 4 );
 
-    ctrl->field_59 = 2;
+    ctrl->exclude_flag = 2;
 
     GM_ConfigControlTrapCheck( ctrl );
 
