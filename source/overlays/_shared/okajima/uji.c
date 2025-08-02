@@ -216,7 +216,7 @@ void UjiAct_800C3B74(UjiWork *work)
     }
 }
 
-int UjiCheckMessages_800C3EEC(UjiWork *work)
+int UjiCheckMessage_800C3EEC(UjiWork *work)
 {
     char *opt;
 
@@ -294,7 +294,7 @@ int UjiGetResources_800C3FC8(UjiWork *work, int map)
     work->map = map;
     GM_CurrentMap = map;
 
-    UjiCheckMessages_800C3EEC(work);
+    UjiCheckMessage_800C3EEC(work);
 
     sp30[0].vx = -5;
     sp30[0].vy = 0;

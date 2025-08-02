@@ -53,10 +53,10 @@ int RootFlagCheck_800C6B5C( Meryl72Work *work )
     int      i;
 
     control = &work->control;
-    control->field_56 = GV_ReceiveMessage( control->name, &control->field_5C_mesg );
+    control->n_messages = GV_ReceiveMessage( control->name, &control->messages );
 
-    msg = control->field_5C_mesg;
-    for ( i = control->field_56; i > 0; i-- )
+    msg = control->messages;
+    for ( i = control->n_messages; i > 0; i-- )
     {
         if ( msg->message[0] == GV_StrCode( "ルート変更" ) )
         {
@@ -219,7 +219,7 @@ int s07c_meryl72_800C6F8C( Meryl72Work *work, int name, int map )
     GM_ConfigControlString( control, pos, dir );
     GM_ConfigControlAttribute( control, RADAR_ALL_MAP | RADAR_SIGHT | RADAR_VISIBLE );
     GM_ConfigControlInterp( control, 4 );
-    control->field_59 = 2;
+    control->exclude_flag = 2;
     GM_ConfigControlTrapCheck( control );
 
     body = &work->body;

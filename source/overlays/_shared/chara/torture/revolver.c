@@ -1154,13 +1154,13 @@ void s03b_revolver_800C89C8(RevolverWork *work)
     int     code;
     int     action;
 
-    n_msgs = work->control.field_56;
+    n_msgs = work->control.n_messages;
     if (n_msgs == 0)
     {
         return;
     }
 
-    msg = &work->control.field_5C_mesg[n_msgs] - 1;
+    msg = &work->control.messages[n_msgs] - 1;
     for (i = n_msgs; i > 0; i--, msg--)
     {
         flag = 1;
@@ -1437,7 +1437,7 @@ int RevolverGetResources_800C8FD4(RevolverWork *work, int arg1, int arg2)
 
     GM_ConfigControlString(control, GCL_GetOption('p'), GCL_GetOption('d'));
     GM_ConfigControlHazard(control, control->mov.vy, -1, -1);
-    control->field_59 = 2;
+    control->exclude_flag = 2;
     GM_ConfigControlAttribute(control, 1);
 
     object = &work->field_9C;

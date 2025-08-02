@@ -16,7 +16,7 @@ typedef struct _ItemDotWork
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL4
 
-int ItemDotCheckMessages_800CC4C8(unsigned short name, int n_hashes, unsigned short *hashes)
+int ItemDotCheckMessage_800CC4C8(unsigned short name, int n_hashes, unsigned short *hashes)
 {
     GV_MSG *msg;
     int     nmsgs;
@@ -48,7 +48,7 @@ void ItemDotAct_800CC560(ItemDotWork *work)
     unsigned short hash[1];
 
     hash[0] = GV_StrCode("kill");
-    if (ItemDotCheckMessages_800CC4C8(work->name, 1, hash) == 0)
+    if (ItemDotCheckMessage_800CC4C8(work->name, 1, hash) == 0)
     {
         work->fA8 = 1;
         work->control.skip_flag |= CTRL_SKIP_TRAP;

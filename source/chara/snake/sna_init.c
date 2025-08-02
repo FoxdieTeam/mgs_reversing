@@ -6986,7 +6986,7 @@ static inline int sna_init_main_logic_helper_helper_800596FC(SnaInitWork *work)
     pCtrl = &work->control;
     pPosition = &pCtrl->mov;
 
-    if (pCtrl->field_58 == 1)
+    if (pCtrl->touch_flag == 1)
     {
         if (!(pCtrl->field_5A[0] & 0x40))
         {
@@ -7075,7 +7075,7 @@ static inline void sna_init_main_logic_helper_800596FC(SnaInitWork *work)
     dir = gSnaMoveDir_800ABBA4;
 
     work->field_79C = 0;
-    cVar4 = work->control.field_58;
+    cVar4 = work->control.touch_flag;
 
     if ((cVar4 <= 0) || sna_sub_8004E358(work, SNA_FLAG2_UNK5))
     {
@@ -8481,7 +8481,7 @@ static inline int sna_LoadSnake(SnaInitWork *work, int scriptData, int scriptBin
     GM_ConfigControlHazard(pCtrl, 0, 450, 450);
 
     tmp = 1;
-    pCtrl->field_59 = tmp;
+    pCtrl->exclude_flag = tmp;
 
     GM_ConfigControlAttribute(pCtrl, tmp);
     GM_ConfigControlTrapCheck(pCtrl);

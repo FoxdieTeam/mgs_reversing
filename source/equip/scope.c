@@ -103,9 +103,9 @@ static int GetZoomLimit(Work *work)
     DG_SetPos(eye);
     DG_PutVector(svecs_8009F2C8, vecs, 2);
     bCalcLen = 0;
-    if ( HZD_80028454(work->map->hzd, vecs, &vecs[1], 15, 129) )
+    if ( HZD_LineCheck(work->map->hzd, vecs, &vecs[1], HZD_CHECK_ALL, 0x81) )
     {
-        HZD_GetSpadVector(&vecs[1]);
+        HZD_80028890(&vecs[1]);
         bCalcLen = 1;
     }
 

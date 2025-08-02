@@ -36,7 +36,7 @@ int WallSpaGetSvecs_800CB080(char *opt, SVECTOR *out)
     return count;
 }
 
-int WallSpaCheckMessages_800CB0D4(unsigned short name, int n_hashes, unsigned short *hashes)
+int WallSpaCheckMessage_800CB0D4(unsigned short name, int n_hashes, unsigned short *hashes)
 {
     GV_MSG *msg;
     int     n_msgs;
@@ -105,7 +105,7 @@ void WallSpaAct_800CB300(WallSpaWork *work)
     hashes[0] = GV_StrCode("はじめ");
     hashes[1] = GV_StrCode("やめ");
 
-    switch (WallSpaCheckMessages_800CB0D4(work->name, 2, hashes))
+    switch (WallSpaCheckMessage_800CB0D4(work->name, 2, hashes))
     {
     case 0:
         work->enable = 1;

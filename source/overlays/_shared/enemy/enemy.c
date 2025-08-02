@@ -303,7 +303,7 @@ void s00a_command_800C9E68( WatcherWork* work )
                 if ( dis < 500 || GV_DiffDirAbs( work->vision.facedir, dir ) < work->vision.angle )
                 {
                     map = work->control.map;
-                    if ( !( HZD_80028454( map->hzd, pos, &ctrl->mov, 0xF, 0x4 ) ) )
+                    if ( !( HZD_LineCheck( map->hzd, pos, &ctrl->mov, HZD_CHECK_ALL, 0x4 ) ) )
                     {
                         if ( !( sub_8002E2A8( &ctrl->mov, pos, map->index, &svec ) ) )
                         {
