@@ -153,7 +153,7 @@ void s11e_zk11ecom_800D4DD4( ZakoWork* work, int time )
 
     if ( dir >= 0 )
     {
-        s0 = ctrl->field_58;
+        s0 = ctrl->touch_flag;
         if ( s0 > 0 )
         {
             dist = GV_VecDir2( svec );

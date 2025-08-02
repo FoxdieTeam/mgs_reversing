@@ -59,9 +59,9 @@ typedef struct CONTROL
     // During normal gameplay, controlled by 800269A0() @ 0x80026a08.
     SVECTOR rot;
 
-    HZD_EVT        event;
-    MAP           *map;
-    unsigned short name;
+    HZD_EVT event;
+    MAP    *map;
+    u_short name;
 
     // Base height, written to by 800596FC() and read by 80025A7C() as an offset to determine the position vector's vy
     // component.
@@ -72,25 +72,22 @@ typedef struct CONTROL
     short field_36;
     short field_38;
 
-    unsigned short radar_atr;
-    RADAR_CONE     radar_cone;
+    u_short    radar_atr;
+    RADAR_CONE radar_cone;
 
     // Movement vector, added to the position vector each frame to determine Snake's new position.
     // 800356FC() @ 0x80035974 (vx) and 0x8003597c (vz) seems to be the main function responsible for calculating the
     // movement vector, since it is the only writing function which if disabled prevents Snake from moving entirely.
-    SVECTOR       step;
-    SVECTOR       turn;
-    signed char   field_54;
-    unsigned char skip_flag; // CTRL_...
-    signed char   field_56; //n_messages
-    signed char   field_57;
-
-    // Appears to indicate proximity to a wall, where 1 is close and 0 is far.
-    // Going up against a wall requires a 0->1 write by 80025A7C() @ 0x80025d1c and a read by 800596FC() @ 0x80059858.
-    signed char    field_58;
-    char           field_59;
-    char           field_5A[2];
-    GV_MSG        *field_5C_mesg;
+    SVECTOR     step;
+    SVECTOR     turn;
+    signed char field_54;
+    char        skip_flag; // CTRL_...
+    signed char n_messages;
+    signed char field_57;
+    signed char touch_flag;   // > 0 if collision detected
+    char        exclude_flag; // exclude all surfaces where (flag & exclude_flag) != 0
+    char        field_5A[2];
+    GV_MSG     *messages;
 
     // The first of these two vectors is heavily used in collision detection.
     SVECTOR  field_60_vecs_ary[2];
