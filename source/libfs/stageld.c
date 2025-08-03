@@ -7,7 +7,7 @@
 #include "libdg/libdg.h"    // for DG_FrameRate
 #include "sd/sd_cli.h"
 
-extern FS_STAGE_INFO   *gStageInfo_800B5288;
+extern FS_STAGE_INFO   *fs_stage_info;
 extern int              gLoaderStartTime_800B528C;
 extern int              gOverlayBinSize_800B5290;
 extern int              FS_ResidentCacheDirty;
@@ -31,7 +31,7 @@ STATIC int SetupNextFile( DATACNF_TAG *tag, CDBIOS_TASK *task )
     DATACNF_TAG   *tagptr;
     DATACNF_TAG   *looptag;
 
-    info = gStageInfo_800B5288;
+    info = fs_stage_info;
     if ( gFsSoundCallback_8009D4FC )
     {
         gFsSoundCallback_8009D4FC();
@@ -168,7 +168,7 @@ STATIC int StageFileReadyCallback(CDBIOS_TASK *task)
     FS_STAGE_INFO *info;
     int result;
 
-    info = gStageInfo_800B5288;
+    info = fs_stage_info;
     info->size -= FS_SECTOR_SIZE;
 
     if (info->size <= 0)
@@ -207,7 +207,7 @@ STATIC int StageConfigReadyCallback( CDBIOS_TASK *task )
     DATACNF         *datacnf;
     DATACNF_TAG     *tag;
 
-    info = gStageInfo_800B5288;
+    info = fs_stage_info;
 
     if ( task->sectors_delivered == 0 )
     {
@@ -439,7 +439,7 @@ void *FS_LoadStageRequest( const char *dirname )
     info->buffer = buffer;
 
     info->field_28 = 2;
-    gStageInfo_800B5288 = info;
+    fs_stage_info = info;
     info->mode = 0;
     info->tag = NULL;
     word_8009D504 = 0;
