@@ -49,25 +49,26 @@ typedef int             BOOL;
 
 /* RGBA8888 format */
 #ifdef WORDS_BIGENDIAN
-#define RGBA_R_SHIFT    24
-#define RGBA_G_SHIFT    16
-#define RGBA_B_SHIFT    8
-#define RGBA_A_SHIFT    0
+#define RGBA_R_SHIFT    (24)
+#define RGBA_G_SHIFT    (16)
+#define RGBA_B_SHIFT    ( 8)
+#define RGBA_A_SHIFT    ( 0)
 #else
-#define RGBA_R_SHIFT    0
-#define RGBA_G_SHIFT    8
-#define RGBA_B_SHIFT    16
-#define RGBA_A_SHIFT    24
+#define RGBA_R_SHIFT    ( 0)
+#define RGBA_G_SHIFT    ( 8)
+#define RGBA_B_SHIFT    (16)
+#define RGBA_A_SHIFT    (24)
 #endif
 
 #define MAKE_RGBA(_r,_g,_b,_a)                                  \
-        ((unsigned int)((((_r) & 0xff) << RGBA_R_SHIFT)|        \
-                        (((_g) & 0xff) << RGBA_G_SHIFT)|        \
-                        (((_b) & 0xff) << RGBA_B_SHIFT)|        \
+        ((unsigned int)((((_r) & 0xff) << RGBA_R_SHIFT) |       \
+                        (((_g) & 0xff) << RGBA_G_SHIFT) |       \
+                        (((_b) & 0xff) << RGBA_B_SHIFT) |       \
                         (((_a) & 0xff) << RGBA_A_SHIFT)))
 
 #define MAKE_RGB0(_r,_g,_b)     MAKE_RGBA(_r,_g,_b,0x00)
 #define MAKE_RGBX(_r,_g,_b)     MAKE_RGBA(_r,_g,_b,0xff)
+#define MAKE_RGBH(_r,_g,_b)     MAKE_RGBA(_r,_g,_b,0x80) /* half-alpha */
 
 #define GET_R_FROM_RGBA(_rgba)  (((_rgba) >> RGBA_R_SHIFT) & 0xff)
 #define GET_G_FROM_RGBA(_rgba)  (((_rgba) >> RGBA_G_SHIFT) & 0xff)
