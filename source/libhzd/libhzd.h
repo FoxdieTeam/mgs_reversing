@@ -110,35 +110,23 @@ int HZD_8005D288(HZD_HDL *hzd, int mesh_idx, int a3);
 
 #define HZD_NO_ZONE (0xFF)
 
-/* unknown.c */
-int  HZD_80026C68(SVECTOR *vectors, int param_2, int param_3, SVECTOR *param_4);
-void HZD_800272E0(HZD_FLR *floor, SVECTOR *out);
-int  HZD_80027384(void);
-void HZD_8002751C(SVECTOR *svec1, SVECTOR *svec2);
-int  HZD_800275A8(void);
-int  HZD_800276B4(void);
-int  HZD_80027850(int mult);
-void HZD_8002799C(int a0);
-void HZD_80027A94(HZD_SEG *seg, int a2, int a3);
-int  HZD_80027BF8(SVECTOR *svec);
-int  HZD_80027C64(void);
-int  HZD_80027D80(HZD_FLR *floor);
-void HZD_80027F10(HZD_FLR *floor);
-int  HZD_80028454(HZD_HDL *hzd, SVECTOR *a2, SVECTOR *a3, int flags, int flag);
+/* collide.c */
+int HZD_80026C68(SVECTOR *vectors, int param_2, int param_3, SVECTOR *param_4);
+void HZD_800272E0(HZD_FLR *floor, SVECTOR *out); // projectile related
+int HZD_LineCheck(HZD_HDL *hzd, SVECTOR *from, SVECTOR *to, int flag, int exclude);
+HZD_FLR *HZD_80028820(void); // line check related
+int HZD_80028830(void); // line check related
+void HZD_80028840(SVECTOR *out); // line check related
+void HZD_80028890(SVECTOR *out); // line check related
+int HZD_PointCheck(HZD_HDL *hzd, SVECTOR *point, int range, int flag, int exclude);
+void HZD_800292E4(HZD_FLR **floors); // point check related
+void HZD_80029304(char *char_arr); // point check related
+void HZD_80029324(SVECTOR *vectors); // point check related
 
-HZD_FLR *HZD_80028820(void);
-int  HZD_80028830(void);
-void HZD_GetSpadVectorDiff(SVECTOR *out);
-void HZD_GetSpadVector(SVECTOR *out);
-void HZD_CopyVector(SVECTOR *src, SVECTOR *dst);
-void HZD_800288E0(SVECTOR *vec, int delta);
-int  HZD_80028930(void);
-void HZD_80028CF8(void);
-void HZD_80028DAC(HZD_SEG *wall, int index, int flags);
-int  HZD_80029098(HZD_HDL *hzd, SVECTOR *pos, int delta, int flags, unsigned int mask);
-
-void HZD_800292E4(HZD_FLR **floors);
-void HZD_80029304(char *char_arr);
-void HZD_80029324(SVECTOR *vectors);
+#define HZD_CHECK_FLR    (0x1)
+#define HZD_CHECK_DYNFLR (0x2)
+#define HZD_CHECK_SEG    (0x4)
+#define HZD_CHECK_DYNSEG (0x8)
+#define HZD_CHECK_ALL    (HZD_CHECK_SEG|HZD_CHECK_FLR|HZD_CHECK_DYNSEG|HZD_CHECK_DYNFLR)
 
 #endif // _LIBHZD_H_

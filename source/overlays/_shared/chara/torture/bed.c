@@ -17,7 +17,7 @@ typedef struct _BedWork
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 #define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
 
-static inline int BedCheckMessages(BedWork *work)
+static inline int BedCheckMessage(BedWork *work)
 {
     int     found;
     GV_MSG *msg;
@@ -25,8 +25,8 @@ static inline int BedCheckMessages(BedWork *work)
 
     found = 0;
 
-    msg = &work->control.field_5C_mesg[work->control.field_56] - 1;
-    for (i = work->control.field_56; i > 0; i--)
+    msg = &work->control.messages[work->control.n_messages] - 1;
+    for (i = work->control.n_messages; i > 0; i--)
     {
         if (msg->message[0] == HASH_TURN)
         {
@@ -48,13 +48,13 @@ void BedAct_800C6EA8(BedWork *work)
 {
     int found;
 
-    if (work->control.field_56 == 0)
+    if (work->control.n_messages == 0)
     {
         found = 0;
     }
     else
     {
-        found = BedCheckMessages(work);
+        found = BedCheckMessage(work);
     }
 
     GM_ActControl(&work->control);
