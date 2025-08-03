@@ -341,9 +341,9 @@ skip_clamp_z:
     {
         f168 = work->field_168;
 
-        if (f168 == 1 && HZD_80028454(map->hzd, &svec1, &svec2, 15, 4))
+        if (f168 == 1 && HZD_LineCheck(map->hzd, &svec1, &svec2, HZD_CHECK_ALL, 0x4))
         {
-            HZD_GetSpadVector(&work->field_118);
+            HZD_80028890(&work->field_118);
             work->field_130 = HZD_80028820();
             work->field_16C = HZD_80028830();
 

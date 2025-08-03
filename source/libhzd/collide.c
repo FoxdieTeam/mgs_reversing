@@ -179,7 +179,7 @@ void HZD_800272E0(HZD_FLR *floor, SVECTOR *out)
     }
 }
 
-int HZD_80027384(void)
+STATIC int ComputeDirection(void)
 {
     HZD_VEC *pVec1 = &SPAD->vec[3];
     HZD_VEC *pVec2 = &SPAD->vec[2];
@@ -207,7 +207,7 @@ int HZD_80027384(void)
     return area;
 }
 
-void HZD_8002751C(SVECTOR *svec1, SVECTOR *svec2)
+STATIC void ComputeBounds(SVECTOR *svec1, SVECTOR *svec2)
 {
     SVECTOR *scratchvec1, *scratchvec2;
     int      coord1, coord2, coord1_copy;
@@ -251,7 +251,7 @@ void HZD_8002751C(SVECTOR *svec1, SVECTOR *svec2)
     scratchvec2->vz = coord2;
 }
 
-int HZD_800275A8(void)
+STATIC int CheckWallBounds(void)
 {
     int z1, z2;
     int y1, y2;
@@ -297,7 +297,7 @@ int HZD_800275A8(void)
     return 1;
 }
 
-int HZD_800276B4(void)
+STATIC int HZD_800276B4(void)
 {
     long a;
 
@@ -368,7 +368,7 @@ int HZD_800276B4(void)
 }
 
 
-int HZD_80027850(int mult)
+STATIC int HZD_80027850(int mult)
 {
     short  x, y, z;
     short *scratch1, *scratch2, *scratch3, *scratch4;
@@ -407,7 +407,7 @@ int HZD_80027850(int mult)
     }
 }
 
-void HZD_8002799C(int a0)
+STATIC void HZD_8002799C(int a0)
 {
     int v1;
     int v0;
@@ -437,7 +437,7 @@ void HZD_8002799C(int a0)
     gte_stsv((SVECTOR *)0x1F800038);
 }
 
-void HZD_80027A94(HZD_SEG *seg, int a2, int a3)
+STATIC void HZD_80027A94(HZD_SEG *seg, int a2, int a3)
 {
     struct copier
     {
@@ -456,7 +456,7 @@ void HZD_80027A94(HZD_SEG *seg, int a2, int a3)
     short    tmp6;
 
     *((HZD_SEG *)0x1F800034) = *seg;
-    if (HZD_800275A8())
+    if (CheckWallBounds())
     {
         tmp1 = HZD_800276B4();
         tmp4 = HZD_80027850(tmp1);
@@ -497,7 +497,7 @@ void HZD_80027A94(HZD_SEG *seg, int a2, int a3)
     }
 }
 
-int HZD_80027BF8(SVECTOR *svec)
+STATIC int HZD_80027BF8(SVECTOR *svec)
 {
     int z;
     int y;
@@ -528,7 +528,7 @@ int HZD_80027BF8(SVECTOR *svec)
     return x + y;
 }
 
-int HZD_80027C64(void)
+STATIC int HZD_80027C64(void)
 {
     int dividend;
     int val;
@@ -551,7 +551,7 @@ int HZD_80027C64(void)
     return *getScratchAddr(0x1E);
 }
 
-int HZD_80027D80(HZD_FLR *floor)
+STATIC int HZD_80027D80(HZD_FLR *floor)
 {
     long  sxy_0;
     long  sxy_1;
@@ -665,7 +665,7 @@ static inline int sub_helper2_80027F10(void)
 //todo: include proper
 #define UNTAG_PTR(_type, _ptr) (_type *)((unsigned int)_ptr & 0x7fffffff)
 
-void HZD_80027F10(HZD_FLR *floor)
+STATIC void HZD_80027F10(HZD_FLR *floor)
 {
     int flags;
     int length;
@@ -769,7 +769,7 @@ static inline void CopySvectorToSpad(int offset, SVECTOR *svec)
     spad_top[offset + 1] = svec->vz;
 }
 
-int HZD_80028454(HZD_HDL *hdl, SVECTOR *a2, SVECTOR *a3, int flags, int flag)
+int HZD_LineCheck(HZD_HDL *hzd, SVECTOR *from, SVECTOR *to, int flag, int exclude)
 {
     int       count;
     int       n_areas, n_areas2;
@@ -789,31 +789,31 @@ int HZD_80028454(HZD_HDL *hdl, SVECTOR *a2, SVECTOR *a3, int flags, int flag)
 
     current_group = HZD_CurrentGroup;
 
-    CopySvectorToSpad(6, a2);
+    CopySvectorToSpad(6, from);
 
     *((int *)0x1F800064) = (*((int *)0x1F80006C) = 0);
 
-    CopySvectorToSpad(10, a3);
+    CopySvectorToSpad(10, to);
     CopySvector((SVECTOR *)0x1F800054, (SVECTOR *)0x1F800014);
 
     *((int *)0x1F80008C) = 0;
 
-    HZD_8002751C((SVECTOR *)0x1F80000C, (SVECTOR *)0x1F800054);
+    ComputeBounds((SVECTOR *)0x1F80000C, (SVECTOR *)0x1F800054);
 
-    *((int *)0x1F80005C) = HZD_80027384();
+    *((int *)0x1F80005C) = ComputeDirection();
 
     if (!(*(int *)0x1F80005C))
     {
         return 0;
     }
 
-    if (flags & 4)
+    if (flag & HZD_CHECK_SEG)
     {
         char *scratchpad;
 
         bit2 = 1;
-        pArea = hdl->header->groups;
-        for (n_areas2 = hdl->header->n_groups; n_areas2 > 0; n_areas2--, bit2 <<= 1, pArea++)
+        pArea = hzd->header->groups;
+        for (n_areas2 = hzd->header->n_groups; n_areas2 > 0; n_areas2--, bit2 <<= 1, pArea++)
         {
             if (current_group & bit2)
             {
@@ -833,7 +833,7 @@ int HZD_80028454(HZD_HDL *hdl, SVECTOR *a2, SVECTOR *a3, int flags, int flag)
 
                 for (count = pArea->n_walls; count > 0; count--, pWall++, pFlags++)
                 {
-                    if (!((*pFlags) & flag))
+                    if (!((*pFlags) & exclude))
                     {
                         HZD_80027A94(pWall, count, *pFlags);
                     }
@@ -842,7 +842,7 @@ int HZD_80028454(HZD_HDL *hdl, SVECTOR *a2, SVECTOR *a3, int flags, int flag)
         }
     }
 
-    if (flags & 8)
+    if (flag & HZD_CHECK_DYNSEG)
     {
         char *scratchpad;
 
@@ -863,29 +863,29 @@ int HZD_80028454(HZD_HDL *hdl, SVECTOR *a2, SVECTOR *a3, int flags, int flag)
 
                 pFlagsEnd2 = (pFlags + queue_size) + idx;
                 *((char **)(scratchpad + 0x70)) = pFlagsEnd2;
-            } while (0); // TODO: Is it the same macro as above in "if (flags & 4)" case?
+            } while (0); // TODO: Is it the same macro as above in "if (flag & HZD_CHECK_SEG)" case?
 
             count = pNextMap->dynamic_queue_index;
             *((int *)0x1F800060) = 0;
 
             for (; count > 0; count--, ppWall++, pFlags++)
             {
-                if (!((*pFlags) & flag))
+                if (!((*pFlags) & exclude))
                 {
                     HZD_80027A94(*ppWall, count, *pFlags);
                 }
             }
         }
     }
-    HZD_8002751C((SVECTOR *)0x1F80000C, (SVECTOR *)0x1F800054);
+    ComputeBounds((SVECTOR *)0x1F80000C, (SVECTOR *)0x1F800054);
     *((int *)0x1F80005C) = HZD_80027BF8((SVECTOR *)0x1F800054);
     *((int *)0x1F800074) = 0xF4240;
 
-    if (flags & 1)
+    if (flag & HZD_CHECK_FLR)
     {
         bit1 = 1;
-        pArea = hdl->header->groups;
-        for (n_areas = hdl->header->n_groups; n_areas > 0; n_areas--, bit1 <<= 1, pArea++)
+        pArea = hzd->header->groups;
+        for (n_areas = hzd->header->n_groups; n_areas > 0; n_areas--, bit1 <<= 1, pArea++)
         {
             if (current_group & bit1)
             {
@@ -899,7 +899,7 @@ int HZD_80028454(HZD_HDL *hdl, SVECTOR *a2, SVECTOR *a3, int flags, int flag)
         }
     }
 
-    if (flags & 2)
+    if (flag & HZD_CHECK_DYNFLR)
     {
         pNextMap = NULL;
         while ((pNextMap = GM_IterHazard(pNextMap)))
@@ -938,7 +938,7 @@ int HZD_80028830(void)
     return spad_top[0x68 / sizeof(short)];
 }
 
-void HZD_GetSpadVectorDiff(SVECTOR *out)
+void HZD_80028840(SVECTOR *out)
 {
     SVECTOR *vec1, *vec2;
     vec2 = getScratchAddr2(SVECTOR, 0x54);
@@ -949,7 +949,7 @@ void HZD_GetSpadVectorDiff(SVECTOR *out)
     out->vz = vec2->vy - vec1->vy;
 }
 
-void HZD_GetSpadVector(SVECTOR *out)
+void HZD_80028890(SVECTOR *out)
 {
     SVECTOR *vec = getScratchAddr2(SVECTOR, 0x54);
 
@@ -958,14 +958,14 @@ void HZD_GetSpadVector(SVECTOR *out)
     out->vz = vec->vy;
 }
 
-void HZD_CopyVector(SVECTOR *src, SVECTOR *dst)
+STATIC void HZD_CopyVector(SVECTOR *src, SVECTOR *dst)
 {
     dst->vx = src->vx;
     dst->vz = src->vy;
     dst->vy = src->vz;
 }
 
-void HZD_800288E0(SVECTOR *vec, int delta)
+STATIC void HZD_800288E0(SVECTOR *vec, int delta)
 {
     int      iVar;
     short    sVar;
@@ -997,7 +997,7 @@ static inline int ReadOpz(void)
     return scr_top[2];
 }
 
-int HZD_80028930(void)
+STATIC int HZD_80028930(void)
 {
     int   lzcnt;
     int   num;
@@ -1087,7 +1087,7 @@ int HZD_80028930(void)
     return *(int *)0x1F800008;
 }
 
-void HZD_80028CF8(void)
+STATIC void HZD_80028CF8(void)
 {
     gte_lddp((*(int *)0x1F8000A8 * 4096) / (*(int *)0x1F8000AC));
     gte_ld_intpol_sv0((SVECTOR *)0x1F800030);
@@ -1148,7 +1148,7 @@ static inline int HZD_80028DAC_inline(HZD_SEG *wall)
     return 1;
 }
 
-void HZD_80028DAC(HZD_SEG *wall, int index, int flags)
+STATIC void HZD_80028DAC(HZD_SEG *wall, int index, int flags)
 {
     int *ptr;
     int  opz;
@@ -1239,7 +1239,7 @@ static inline void sub_helper_80029098(void)
     *(int *)0x1F800048 = 1;
 }
 
-int HZD_80029098(HZD_HDL *hdl, SVECTOR *pos, int delta, int flags, unsigned int mask)
+int HZD_PointCheck(HZD_HDL *hzd, SVECTOR *point, int range, int flag, int exclude)
 {
     HZD_GRP *pArea;
     int       n_unknown;
@@ -1253,19 +1253,19 @@ int HZD_80029098(HZD_HDL *hdl, SVECTOR *pos, int delta, int flags, unsigned int 
     int       idx;
     int       queue_size;
 
-    pArea = hdl->group;
+    pArea = hzd->group;
 
-    HZD_CopyVector(pos, (SVECTOR *)0x1F80000C);
-    HZD_800288E0((SVECTOR *)0x1F80000C, delta);
+    HZD_CopyVector(point, (SVECTOR *)0x1F80000C);
+    HZD_800288E0((SVECTOR *)0x1F80000C, range);
 
     *(int *)0x1F800048 = 0;
 
-    if (flags & 0x4)
+    if (flag & HZD_CHECK_SEG)
     {
         n_unknown = pArea->n_flat_walls;
 
-        *(int *)0x1F800088 = delta * delta;
-        *(int *)0x1F80006C = delta * delta;
+        *(int *)0x1F800088 = range * range;
+        *(int *)0x1F80006C = range * range;
 
         do {} while (0);
 
@@ -1281,19 +1281,19 @@ int HZD_80029098(HZD_HDL *hdl, SVECTOR *pos, int delta, int flags, unsigned int 
 
         for (i = pArea->n_walls; i > 0; i--, pWalls++, pFlags++)
         {
-            if ((*pFlags & mask) == 0)
+            if ((*pFlags & exclude) == 0)
             {
                 HZD_80028DAC(pWalls, i, *pFlags);
             }
         }
     }
 
-    if (flags & 0x8)
+    if (flag & HZD_CHECK_DYNSEG)
     {
-        ppWalls = hdl->dynamic_segments;
-        pFlags = hdl->dynamic_flags;
-        queue_size = hdl->max_dynamic_segments;
-        idx = hdl->dynamic_queue_index;
+        ppWalls = hzd->dynamic_segments;
+        pFlags = hzd->dynamic_flags;
+        queue_size = hzd->max_dynamic_segments;
+        idx = hzd->dynamic_queue_index;
 
         ptr2 = (char **)SCRPAD_ADDR;
         ptr2[0x2C] = (char *)0x80;
@@ -1301,9 +1301,9 @@ int HZD_80029098(HZD_HDL *hdl, SVECTOR *pos, int delta, int flags, unsigned int 
 
         *(int *)0x1F800044 = 0;
 
-        for (i = hdl->dynamic_queue_index; i > 0; i--, ppWalls++, pFlags++)
+        for (i = hzd->dynamic_queue_index; i > 0; i--, ppWalls++, pFlags++)
         {
-            if ((*pFlags & mask) == 0)
+            if ((*pFlags & exclude) == 0)
             {
                 HZD_80028DAC(*ppWalls, i, *pFlags);
             }

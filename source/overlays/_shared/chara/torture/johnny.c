@@ -155,12 +155,12 @@ int Johnny_800C4194(JohnnyWork *work)
 
     player_pos = GM_PlayerPosition;
     control_mov = work->control.mov;
-    if (HZD_80028454(work->control.map->hzd, &player_pos, &control_mov, 0xC, 0) == 0)
+    if (HZD_LineCheck(work->control.map->hzd, &player_pos, &control_mov, ( HZD_CHECK_DYNSEG | HZD_CHECK_SEG ), 0) == 0)
     {
         return -1;
     }
 
-    HZD_GetSpadVector(&control_mov);
+    HZD_80028890(&control_mov);
     GV_SubVec3(&control_mov, &player_pos, &player_pos);
     return GV_VecLen3(&player_pos);
 }
@@ -3183,13 +3183,13 @@ void Johnny_800C9644(JohnnyWork *work)
     int     message_len;
     GV_MSG *msgs;
 
-    if (work->control.field_56 == 0)
+    if (work->control.n_messages == 0)
     {
         return;
     }
 
-    msgs = &work->control.field_5C_mesg[work->control.field_56] - 1;
-    for (i = work->control.field_56; i > 0; i--, msgs--)
+    msgs = &work->control.messages[work->control.n_messages] - 1;
+    for (i = work->control.n_messages; i > 0; i--, msgs--)
     {
         message_len = msgs->message_len;
         if (message_len >= 2 && msgs->message[0] == 0x10BA)
@@ -3800,7 +3800,7 @@ int JohnnyGetResources_800CA664(JohnnyWork *work, int scriptData, int scriptBind
     {
         GM_ConfigControlString(control, GCL_GetOption('p'), GCL_GetOption('d'));
         GM_ConfigControlHazard(control, control->mov.vy, 450, 450);
-        control->field_59 = 2;
+        control->exclude_flag = 2;
         GM_ConfigControlAttribute(control, 5);
 
         cone = &work->control.radar_cone;

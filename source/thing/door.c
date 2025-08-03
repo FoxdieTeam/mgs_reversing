@@ -150,10 +150,10 @@ static int PollMessages(Work *work)
     int var_v0;
 
     control = &work->control;
-    control->field_56 = GV_ReceiveMessage(control->name, &control->field_5C_mesg);
+    control->n_messages = GV_ReceiveMessage(control->name, &control->messages);
 
     // Process door close messages:
-    for (i = control->field_56, msg = control->field_5C_mesg; i > 0; i--, msg++)
+    for (i = control->n_messages, msg = control->messages; i > 0; i--, msg++)
     {
         message_type = msg->message[0];
 
@@ -219,7 +219,7 @@ static int PollMessages(Work *work)
     }
 
     // Process other door messages:
-    for (i = control->field_56, msg = control->field_5C_mesg; i > 0; i--, msg++)
+    for (i = control->n_messages, msg = control->messages; i > 0; i--, msg++)
     {
         message_type = msg->message[0];
         temp_s1_2 = msg->message[1];

@@ -110,7 +110,7 @@ int GM_InitControl(CONTROL *control, int scriptData, int scriptBinds)
     control->hzd_height = -32767;
     control->field_38 = 450;
     control->field_36 = 450;
-    control->field_59 = 2;
+    control->exclude_flag = 2;
     control->skip_flag = CTRL_SKIP_TRAP;
     control->levels[0] = -32000;
     control->levels[1] = 32000;
@@ -118,10 +118,7 @@ int GM_InitControl(CONTROL *control, int scriptData, int scriptBinds)
     return 0;
 }
 
-
-extern SVECTOR DG_ZeroVector;
-
-static inline void GM_ActControl_helper(CONTROL *control)
+static inline void CheckMessage(CONTROL *control)
 {
     int         scriptData;
     int         count;
@@ -133,10 +130,10 @@ static inline void GM_ActControl_helper(CONTROL *control)
 
     if ((scriptData != 0) && !(control->skip_flag & CTRL_SKIP_MESSAGE))
     {
-        count = GV_ReceiveMessage(scriptData, &control->field_5C_mesg);
-        control->field_56 = count;
+        count = GV_ReceiveMessage(scriptData, &control->messages);
+        control->n_messages = count;
 
-        pMsg = control->field_5C_mesg;
+        pMsg = control->messages;
 
         map_msg = HASH_MAP;
         move_msg = HASH_MOVE2;
@@ -164,7 +161,7 @@ static inline void GM_ActControl_helper(CONTROL *control)
     }
 }
 
-static inline void GM_ActControl_helper2(CONTROL *control, HZD_HDL *pHzd)
+static inline void CheckCollide(CONTROL *control, HZD_HDL *hzd)
 {
     SVECTOR vec;
     int     vx;
@@ -193,13 +190,13 @@ static inline void GM_ActControl_helper2(CONTROL *control, HZD_HDL *pHzd)
     {
         GV_AddVec3(&control->mov, &control->step, &vec);
 
-        if (HZD_80028454(pHzd, &control->mov, &vec, 15, control->field_59))
+        if (HZD_LineCheck(hzd, &control->mov, &vec, HZD_CHECK_ALL, control->exclude_flag))
         {
-            control->field_58 = 0x1;
+            control->touch_flag = 0x1;
             control->field_70[0] = HZD_80028820();
             control->field_5A[0] = HZD_80028830();
 
-            HZD_GetSpadVectorDiff(control->field_60_vecs_ary);
+            HZD_80028840(control->field_60_vecs_ary);
 
             len = GV_VecLen3(control->field_60_vecs_ary);
             diff = len - new_var;
@@ -220,7 +217,7 @@ static inline void GM_ActControl_helper2(CONTROL *control, HZD_HDL *pHzd)
     }
 }
 
-static inline void GM_ActControl_helper3(CONTROL *control, HZD_HDL *pHzd)
+static inline void CheckNear(CONTROL *control, HZD_HDL *hzd)
 {
     SVECTOR vec;
     SVECTOR vec2;
@@ -235,14 +232,14 @@ static inline void GM_ActControl_helper3(CONTROL *control, HZD_HDL *pHzd)
     }
 
 retry:
-    i = HZD_80029098(pHzd,&control->mov, 500, 12, control->field_59);
+    i = HZD_PointCheck(hzd,&control->mov, 500, ( HZD_CHECK_DYNSEG | HZD_CHECK_SEG ), control->exclude_flag);
 
     if (i <= 0)
     {
         return;
     }
 
-    control->field_58 = i;
+    control->touch_flag = i;
 
     HZD_800292E4(control->field_70);
     HZD_80029304(control->field_5A);
@@ -263,7 +260,7 @@ retry:
     }
 }
 
-static inline void GM_ActControl_helper4(CONTROL *control, HZD_HDL *pHzd)
+static inline void CheckHeight(CONTROL *control, HZD_HDL *hzd)
 {
     int levels[2];
     int vy, vz;
@@ -276,7 +273,7 @@ static inline void GM_ActControl_helper4(CONTROL *control, HZD_HDL *pHzd)
     vz = control->height;
 
     control->field_57 = 0;
-    uVar14 = HZD_LevelTestHazard(pHzd, &control->mov, 3);
+    uVar14 = HZD_LevelTestHazard(hzd, &control->mov, 3);
     HZD_LevelMinMaxHeights(levels);
     control->field_60_vecs_ary[0].pad = HZD_LevelMaxHeight();
     uVar15 = uVar14 & 1;
@@ -331,19 +328,19 @@ static inline void GM_ActControl_helper4(CONTROL *control, HZD_HDL *pHzd)
 
 void GM_ActControl(CONTROL *control)
 {
-    HZD_HDL *pHzd;
+    HZD_HDL *hzd;
     int      vy;
     int      time;
 
-    pHzd = control->map->hzd;
+    hzd = control->map->hzd;
 
-    GM_ActControl_helper(control);
+    CheckMessage(control);
 
     GM_CurrentMap = control->map->index;
 
     if (control->field_36 > 0)
     {
-        control->field_58 = 0;
+        control->touch_flag = 0;
 
         if (control->hzd_height != -0x7fff)
         {
@@ -351,12 +348,12 @@ void GM_ActControl(CONTROL *control)
             control->mov.vy = control->hzd_height;
         }
 
-        GM_ActControl_helper2(control, pHzd);
+        CheckCollide(control, hzd);
 
         control->mov.vx += control->step.vx;
         control->mov.vz += control->step.vz;
 
-        GM_ActControl_helper3(control, pHzd);
+        CheckNear(control, hzd);
 
         if (control->hzd_height != -0x7fff)
         {
@@ -375,11 +372,11 @@ void GM_ActControl(CONTROL *control)
             control->field_54 = time - 1;
         }
 
-        GM_ActControl_helper4(control, pHzd);
+        CheckHeight(control, hzd);
     }
     else if (control->field_36 < 0)
     {
-        control->field_58 = 0;
+        control->touch_flag = 0;
 
         time = control->field_54;
 
@@ -398,7 +395,7 @@ void GM_ActControl(CONTROL *control)
 
         if (control->field_36 >= -1)
         {
-            GM_ActControl_helper4(control, pHzd);
+            CheckHeight(control, hzd);
         }
     }
 
@@ -406,7 +403,7 @@ void GM_ActControl(CONTROL *control)
     {
         control->event.field_14_vec = control->mov;
         control->event.field_14_vec.pad = control->rot.vy;
-        HZD_8002A538(pHzd, &control->event);
+        HZD_8002A538(hzd, &control->event);
     }
 
     DG_SetPos2(&control->mov, &control->rot);
@@ -479,12 +476,12 @@ void GM_ConfigControlInterp(CONTROL *control, char f5a)
 
 int GM_CheckControlTouches(CONTROL *control, int param_2)
 {
-    if (control->field_58 == 0)
+    if (control->touch_flag == 0)
     {
         return 0;
     }
 
-    if (control->field_58 == 2)
+    if (control->touch_flag == 2)
     {
         if (control->field_70[1]->b1.h < 0 || GV_VecLen3(&control->field_60_vecs_ary[1]) <= param_2)
         {

@@ -286,7 +286,7 @@ void s11i_asiato_800CDD64( Zako11FWork *work )
         }
 
         map = work->control.map;
-        if ( HZD_80028454( map->hzd, pos, mov, 0xF, 0x4 ) )
+        if ( HZD_LineCheck( map->hzd, pos, mov, HZD_CHECK_ALL, 0x4 ) )
         {
             work->vision.field_B92 = 0;
             return;

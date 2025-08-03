@@ -65,12 +65,12 @@
 
     ;game
     include "{{OBJ_DIR}}\game\control.obj"       ;control.c
+
     ;libgv
     include "{{OBJ_DIR}}\libgv\math_near.obj"    ;math_near.c
 
     ;libhzd
-    ;may be some things in game such as game/trap.c in between
-    include "{{OBJ_DIR}}\libhzd\unknown.obj"     ;unknown.c  ? needs to be split up further
+    include "{{OBJ_DIR}}\libhzd\collide.obj"     ;collide.c
     include "{{OBJ_DIR}}\libhzd\level.obj"       ;level.c
     include "{{OBJ_DIR}}\libhzd\event.obj"       ;event.c
 

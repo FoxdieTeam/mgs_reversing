@@ -165,10 +165,10 @@ int Demodoll_800DE320(DollWork *work)
     int      n_msgs;
 
     control = &work->control;
-    control->field_56 = GV_ReceiveMessage(control->name, &control->field_5C_mesg);
+    control->n_messages = GV_ReceiveMessage(control->name, &control->messages);
 
-    msg = control->field_5C_mesg;
-    n_msgs = control->field_56;
+    msg = control->messages;
+    n_msgs = control->n_messages;
 
     while (n_msgs > 0)
     {

@@ -25,14 +25,14 @@ static void Act(Work *work)
     int      message;
 
     control = &work->control;
-    n_msgs = GV_ReceiveMessage(control->name, &control->field_5C_mesg);
+    n_msgs = GV_ReceiveMessage(control->name, &control->messages);
 
     if (n_msgs <= 0)
     {
         return;
     }
 
-    msg = control->field_5C_mesg;
+    msg = control->messages;
     while (--n_msgs >= 0)
     {
         message = msg->message[0];
