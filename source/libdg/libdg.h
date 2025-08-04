@@ -464,8 +464,6 @@ extern int DG_HikituriFlag;
 extern int DG_HikituriFlagOld;
 
 int  DG_DrawSyncResetGraph( void );
-void DG_StartFrame( GV_ACT *actor );
-void DG_EndFrame( void );
 void DG_ResetPipeline( void );
 void DG_ResetTextureCache( void );
 void DG_StartDaemon(void);

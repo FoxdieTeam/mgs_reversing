@@ -107,8 +107,8 @@ DG_TmpLightList BSS LightSystems_800B1E48[2]; // 0x108 (264) bytes
 DG_TEX BSS          TexSets[DG_MAX_TEXTURES]; // 0x1800 (6144) bytes
 
 /* libdg/dgd.obj */
-GV_ACT BSS          DG_StartFrameActor_800B3750; // 0x20 (32) bytes
-GV_ACT BSS          DG_EndFrameActor_800B3770; // 0x20 (32) bytes
+GV_ACT BSS          DG_WorkFirst; // 0x20 (32) bytes
+GV_ACT BSS          DG_WorkLast; // 0x20 (32) bytes
 int BSS             dword_800B3790; // 0x4 (4) bytes
 
 gap                                     gap_800B3794[0x4]; // 4 bytes
