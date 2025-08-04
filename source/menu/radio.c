@@ -32,7 +32,7 @@ extern RadioIncomingCall gRadioIncomingCall_8009E708;
 
 STATIC char dword_800AB610[8] = {2, 4, 3, 1, 4, 3, 1, 0};
 
-extern int FS_DiskNum_800ACBF0;
+extern int FS_DiskNum;
 
 extern char menu_string_format_8009E714[];
 
@@ -1437,7 +1437,7 @@ skip_fading:
             {
                 GCL_RestoreVar();
                 codec_freq_800AB638 = 0x36B0;
-                gMenuCallbackProc_800ABB08.param2 = FS_DiskNum_800ACBF0 + 1;
+                gMenuCallbackProc_800ABB08.param2 = FS_DiskNum + 1;
                 return;
             }
         }

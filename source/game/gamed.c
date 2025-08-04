@@ -112,7 +112,7 @@ extern int          dword_800BF270;
 extern int          str_off_idx;
 extern char         exe_name_800B5860[32];
 extern char        *MGS_DiskName[3]; /* in main.c */
-extern int          FS_DiskNum_800ACBF0;
+extern int          FS_DiskNum;
 extern int          FS_ResidentCacheDirty;
 
 extern DG_TEX gMenuTextureRec_800B58B0;
@@ -516,7 +516,7 @@ static void Act(gameWork *work)
         {
             if (--dword_800AB9D0 < 0)
             {
-                sprintf(exe_name_800B5860, "cdrom:\\MGS\\%s;1", MGS_DiskName[FS_DiskNum_800ACBF0]);
+                sprintf(exe_name_800B5860, "cdrom:\\MGS\\%s;1", MGS_DiskName[FS_DiskNum]);
                 EnterCriticalSection();
                 SetDispMask(0);
                 PadStopCom();
@@ -739,7 +739,7 @@ void GM_StartDaemon(void)
     GM_ActInit(&GameWork);
     GM_ResetMemory();
     GM_CurrentPadData = GV_PadData;
-    GM_CurrentDiskFlag = FS_DiskNum_800ACBF0 + 1;
+    GM_CurrentDiskFlag = FS_DiskNum + 1;
     GV_SaveResidentTop();
     GameWork.status = 0;
     GameWork.killing_count = 0;

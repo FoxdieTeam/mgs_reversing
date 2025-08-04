@@ -16,7 +16,7 @@
 #include "game/game.h"
 #include "sd/g_sound.h"
 
-extern int    FS_DiskNum_800ACBF0;
+extern int    FS_DiskNum;
 
 /*---------------------------------------------------------------------------*/
 
@@ -558,7 +558,7 @@ static void change_800C3CD0( Work *work )
             {
                 printf( "THIS IS DISC 2!!\n" );
                 work->f6B0 = 9;
-                FS_DiskNum_800ACBF0 = status;
+                FS_DiskNum = status;
             }
             else
             {

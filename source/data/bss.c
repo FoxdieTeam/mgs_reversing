@@ -50,7 +50,7 @@ char BSS            GameStack[2048]; // 0x800 (2048) bytes
 char BSS            SdStack[2048]; // 0x800 (2048) bytes
 
 /* libfs/select.obj */
-int BSS             FS_DiskNum_800ACBF0; // 0x4 (4) bytes
+int BSS             FS_DiskNum; // 0x4 (4) bytes
 int BSS             pad_800ACBF4; // 0x4 (4) bytes
 
 /* libgv/gvd.obj */
