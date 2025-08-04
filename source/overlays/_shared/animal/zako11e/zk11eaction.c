@@ -144,7 +144,7 @@ void s11e_zk11ecom_800D4DD4( ZakoWork* work, int time )
     ctrl = &(work->control );
     dir = work->pad.dir;
     field_8E0 = work->unknown.last_set;
-    svec = work->control.field_60_vecs_ary;
+    svec = work->control.nearvecs;
 
     if ( (work->pad.mode & 0x1) && ( work->unknown.last_set != ACTION2 ) )
     {
@@ -160,7 +160,7 @@ void s11e_zk11ecom_800D4DD4( ZakoWork* work, int time )
 
             if ( s0 >= 2 )
             {
-                tmp = GV_VecDir2( &ctrl->field_60_vecs_ary[1] );
+                tmp = GV_VecDir2( &ctrl->nearvecs[1] );
                 if ( GV_DiffDirAbs( dir, tmp ) < GV_DiffDirAbs( dir, dist ) )
                 {
                     dist = tmp;
@@ -529,7 +529,7 @@ void s11e_zk11ecom_800D57A0( ZakoWork* work, int time )
         }
         if ( work->body.is_end )
         {
-            if ( !ctrl->field_57 )
+            if ( !ctrl->level_flag )
             {
                 SetAction( work, ACTION40, ACTINTERP );
             }
@@ -541,7 +541,7 @@ void s11e_zk11ecom_800D57A0( ZakoWork* work, int time )
     }
     else
     {
-        if ( ctrl->field_57 )
+        if ( ctrl->level_flag )
         {
             GM_SeSet( &ctrl->mov, 0x8D ) ;
             GM_SeSet( &ctrl->mov, SE_HIT_FLOOR ) ;
@@ -1046,7 +1046,7 @@ void s11e_zk11ecom_800D649C( ZakoWork *work, int time )
         break;
     }
 
-    if ( time > 16 && ctrl->field_57 )
+    if ( time > 16 && ctrl->level_flag )
     {
         ctrl->step = DG_ZeroVector;
     }
@@ -1100,7 +1100,7 @@ void s11e_zk11ecom_800D69F8( ZakoWork* work, int time )
         GM_SeSet( &ctrl->mov, 0x8E );
     }
 
-    if ( time > 16 && ctrl->field_57 )
+    if ( time > 16 && ctrl->level_flag )
     {
         ctrl->step = DG_ZeroVector;
     }
@@ -1126,7 +1126,7 @@ void s11e_zk11ecom_800D69F8( ZakoWork* work, int time )
             }
         }
     }
-    else if ( ctrl->field_57 )
+    else if ( ctrl->level_flag )
     {
         work->unknown.field_1E = 1;
         work->target->field_2C_vec = DG_ZeroVector;
@@ -1253,11 +1253,11 @@ void s11e_zk11ecom_800D6DDC( ZakoWork *work )
 
     if ( !unk->field_1E )
     {
-        ctrl->field_36 = GV_NearExp2( ctrl->field_36, unk->field_1C );
+        ctrl->step_size = GV_NearExp2( ctrl->step_size, unk->field_1C );
     }
     else
     {
-        ctrl->field_36 = -1;
+        ctrl->step_size = -1;
     }
 
     if ( work->target->class & TARGET_POWER )
@@ -1269,7 +1269,7 @@ void s11e_zk11ecom_800D6DDC( ZakoWork *work )
         work->hom->flag = 0;
     }
 
-    if ( unk->field_04 < 0 && ctrl->field_57 )
+    if ( unk->field_04 < 0 && ctrl->level_flag )
     {
         unk->field_04 = 0;
     }

@@ -104,7 +104,7 @@ static int GetZoomLimit(Work *work)
     bCalcLen = 0;
     if ( HZD_LineCheck(work->map->hzd, vecs, &vecs[1], HZD_CHECK_ALL, 0x81) )
     {
-        HZD_80028890(&vecs[1]);
+        HZD_LineNearVec(&vecs[1]);
         bCalcLen = 1;
     }
 

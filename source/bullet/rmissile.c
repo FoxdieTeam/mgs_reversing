@@ -440,7 +440,7 @@ static void rmissile_act_helper_8006C114(Work *work)
     position = &work->control.mov;
     result = CheckMessage();
 
-    if (work->control.touch_flag <= 0 && !(work->control.field_57 & 2))
+    if (work->control.touch_flag <= 0 && !(work->control.level_flag & 2))
     {
         if (position->vy - work->field_108_svector.vy < 200)
         {

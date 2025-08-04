@@ -79,7 +79,7 @@ static int GetZoomLimit(void)
 
     if (HZD_LineCheck(GM_PlayerControl->map->hzd, &vec[0], &vec[1], HZD_CHECK_ALL, 0x4))
     {
-        HZD_80028890(&vec[1]);
+        HZD_LineNearVec(&vec[1]);
         var_s2 = 1;
     }
 

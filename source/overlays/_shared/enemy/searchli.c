@@ -262,7 +262,7 @@ void Searchli_800D783C(SearchlightWork *work)
   {
     work->f2A0 += GV_RandU(16);
 
-    work->control.field_54 = work->f27C;
+    work->control.interp = work->f27C;
 
     rot = &work->control.turn;
 

@@ -448,7 +448,7 @@ void CrowAct_800DDD08(CrowWork *work)
                 GM_SeSet2(0, 63, work->f5C + 185);
             }
 
-            if (entry->control.field_57 || entry->control.mov.vy < -20000)
+            if (entry->control.level_flag || entry->control.mov.vy < -20000)
             {
                 entry->f3C4 = 5;
             }
@@ -543,9 +543,9 @@ void CrowAct_800DDD08(CrowWork *work)
                 GM_SeSet2(GV_RandS(32), 63, work->f5C + 185);
             }
 
-            if (entry->control.field_57 != 0 || entry->control.mov.vy < -20000)
+            if (entry->control.level_flag != 0 || entry->control.mov.vy < -20000)
             {
-                entry->control.field_57 = 0;
+                entry->control.level_flag = 0;
 
                 GM_ConfigControlHazard(&entry->control, -1, -2, -1);
 

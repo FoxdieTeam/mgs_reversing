@@ -140,7 +140,7 @@ void s01a_object_800D99DC(ObjectWork *work)
 
     work->control.height = 20;
     work->control.step.vy -= 16;
-    if (work->control.step.vy < 0 && work->control.field_57 != 0)
+    if (work->control.step.vy < 0 && work->control.level_flag != 0)
     {
         work->control.step.vy = 0;
     }

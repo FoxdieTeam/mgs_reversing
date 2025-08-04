@@ -305,7 +305,7 @@ int s00a_watcher_800C45D4( WatcherWork* work, int name, int where )
 
     GM_ConfigControlTrapCheck( ctrl );
 
-    ctrl->field_36 = -1;
+    ctrl->step_size = -1;
 
     body  = &work->body;
     arm = &work->weapon;
