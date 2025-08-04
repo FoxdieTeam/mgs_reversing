@@ -30,7 +30,7 @@ STATIC int DG_TickCount = -1;
 
 /*---------------------------------------------------------------------------*/
 
-int DG_DrawSyncResetGraph(void)
+int DG_VSyncCallbackFunc(void)
 {
     if (DrawSync(1) > 0)
     {
@@ -132,7 +132,7 @@ void DG_ResetTextureCache(void)
 void DG_StartDaemon(void)
 {
     mts_set_vsync_task();
-    mts_set_vsync_callback_func(DG_DrawSyncResetGraph);
+    mts_set_vsync_callback_func(DG_VSyncCallbackFunc);
 
     DG_InitDispEnv(0, 0, 320, 240, 320);
     DG_InitChanlSystem(320);
