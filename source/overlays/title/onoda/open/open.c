@@ -158,7 +158,7 @@ extern const char title_aNo_800D9024[];                  // = "NO"
 extern const char aOpenC[];                              // = "open.c"
 
 extern char *MGS_MemoryCardName; /* in main.c */
-extern int   FS_DiskNum_800ACBF0;
+extern int   FS_DiskNum;
 
 #define EXEC_LEVEL GV_ACTOR_MANAGER
 
@@ -910,7 +910,7 @@ void title_open_800C5D30(OpenWork *work)
 void title_open_800C61E0(OpenWork *work, GCL_ARGS *args)
 {
     GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
-    if (FS_DiskNum_800ACBF0 == 0)
+    if (FS_DiskNum == 0)
     {
         if (sd_sng_play() == 0)
         {

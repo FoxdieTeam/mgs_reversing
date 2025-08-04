@@ -14,7 +14,7 @@
 #include "game/game.h"
 #include "sd/g_sound.h"
 
-extern int    FS_DiskNum_800ACBF0;
+extern int    FS_DiskNum;
 
 void *NewMetalGearLogo( int * );
 
@@ -575,7 +575,7 @@ static void demosel_800C3C74(Work *work)
             {
                 printf( "THIS IS DISC 1!!\n" );
                 work->fDD4 = 9;
-                FS_DiskNum_800ACBF0 = 0;
+                FS_DiskNum = 0;
             }
             else
             {
@@ -1304,7 +1304,7 @@ static void demosel_800C4880(Work *work)
         if (work->fDC8 >= 17)
         {
             demosel_800C434C(work);
-            if (FS_DiskNum_800ACBF0 == 0)
+            if (FS_DiskNum == 0)
             {
                 printf("flag %d %d %d\n", (int)work->argv[0], (int)work->argv[1], (int)work->argv[2]);
                 GCL_ExecProc(work->f31C, &args);
