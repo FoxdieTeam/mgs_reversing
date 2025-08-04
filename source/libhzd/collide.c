@@ -66,9 +66,9 @@ do {                                    \
     (a) = (b); (b) = (name);            \
 } while (0)
 
-int HZD_80026C68( SVECTOR *vectors, int param_2, int param_3, SVECTOR *param_4 )
+int HZD_StepCheck( SVECTOR *nears, int count, int scale, SVECTOR *out )
 {
-    int area; //s0
+    int area;
     int area2;
     int area4;
     int area3;
@@ -81,19 +81,19 @@ int HZD_80026C68( SVECTOR *vectors, int param_2, int param_3, SVECTOR *param_4 )
 
     int temp;
 
-    param_4->vz = 0;
-    param_4->vy = 0;
-    param_4->vx = 0;
+    out->vz = 0;
+    out->vy = 0;
+    out->vx = 0;
 
-    if ( param_2 == 0 )
+    if ( count == 0 )
     {
         return 1;
     }
 
-    AssignVecXYXZ(0x1F80000C, vectors);
+    AssignVecXYXZ(0x1F80000C, nears);
     area = get_area((SVECTOR *)0x1F800004, (SVECTOR *)0x1F80000C, (SVECTOR *)0x1F800008);
 
-    if ( area >= param_3 )
+    if ( area >= scale )
     {
         return 1;
     }
@@ -103,16 +103,15 @@ int HZD_80026C68( SVECTOR *vectors, int param_2, int param_3, SVECTOR *param_4 )
         return 0;
     }
 
-    if ( param_2 == 2 )
+    if ( count == 2 )
     {
-
-        AssignVecXYXZ(0x1F800010, &vectors[1]);
+        AssignVecXYXZ(0x1F800010, &nears[1]);
         area2 = get_area((SVECTOR *)0x1F800004, (SVECTOR *)0x1F800010, (SVECTOR *)0x1F800008);
 
-        if ( area2 < param_3 )
+        if ( area2 < scale )
         {
-            IntVecXY((SVECTOR *)0x1F800014, (SVECTOR *)0x1F80000C, param_3, area);
-            IntVecXY((SVECTOR *)0x1F800018, (SVECTOR *)0x1F800010, param_3, area2);
+            IntVecXY((SVECTOR *)0x1F800014, (SVECTOR *)0x1F80000C, scale, area);
+            IntVecXY((SVECTOR *)0x1F800018, (SVECTOR *)0x1F800010, scale, area2);
 
             SubVecXY((SVECTOR *)0x1F800014, (SVECTOR *)0x1F800014, (SVECTOR *)0x1F80000C);
             SubVecXY((SVECTOR *)0x1F800018, (SVECTOR *)0x1F800018, (SVECTOR *)0x1F800010);
@@ -138,15 +137,15 @@ int HZD_80026C68( SVECTOR *vectors, int param_2, int param_3, SVECTOR *param_4 )
 
                     pVec2 = (SVECTOR *)0x1F800018;
 
-                    param_4->vx = (temp - pVec2->vy * area3) / area6;
+                    out->vx = (temp - pVec2->vy * area3) / area6;
 
-                    param_4->vz = (pVec2->vx * area3 - pVec1->vx * area4) / area6;
+                    out->vz = (pVec2->vx * area3 - pVec1->vx * area4) / area6;
 
-                    len = GV_VecLen3( param_4 );
+                    len = GV_VecLen3( out );
 
-                    if ( len > (param_3 << 2) )
+                    if ( len > (scale << 2) )
                     {
-                        GV_LenVec3( param_4, param_4, len, param_3 << 2 );
+                        GV_LenVec3( out, out, len, scale << 2 );
                     }
                 }
 
@@ -155,23 +154,23 @@ int HZD_80026C68( SVECTOR *vectors, int param_2, int param_3, SVECTOR *param_4 )
         }
     }
 
-    IntVecXY((SVECTOR *)0x1F800014, (SVECTOR *)0x1F80000C, param_3, area);
+    IntVecXY((SVECTOR *)0x1F800014, (SVECTOR *)0x1F80000C, scale, area);
     SubVecXY((SVECTOR *)0x1F800014, (SVECTOR *)0x1F80000C, (SVECTOR *)0x1F800014);
 
-    AssignVecXZXY(param_4, (SVECTOR *)0x1F800014);
+    AssignVecXZXY(out, (SVECTOR *)0x1F800014);
     return 1;
 }
 
-void HZD_800272E0(HZD_FLR *floor, SVECTOR *out)
+void HZD_SurfaceNormal(HZD_FLR *floor, SVECTOR *out)
 {
-    if (floor->b1.h >= 0)
+    if (floor->b1.h >= 0) // Wall
     {
         out->vx = floor->b2.z - floor->b1.z;
         out->vy = 0;
         out->vz = floor->b1.x - floor->b2.x;
         GV_LenVec3(out, out, GV_VecLen3(out), 4096);
     }
-    else
+    else // Floor
     {
         out->vx = floor->p1.h * 16;
         out->vy = floor->p3.h * 16;
@@ -297,7 +296,7 @@ STATIC int CheckWallBounds(void)
     return 1;
 }
 
-STATIC int HZD_800276B4(void)
+STATIC int CalculateHitTime(void)
 {
     long a;
 
@@ -368,7 +367,7 @@ STATIC int HZD_800276B4(void)
 }
 
 
-STATIC int HZD_80027850(int mult)
+STATIC int CalculateHitPoint(int mult)
 {
     short  x, y, z;
     short *scratch1, *scratch2, *scratch3, *scratch4;
@@ -407,7 +406,7 @@ STATIC int HZD_80027850(int mult)
     }
 }
 
-STATIC void HZD_8002799C(int a0)
+STATIC void CalculateSegmentHeight(int a0)
 {
     int v1;
     int v0;
@@ -437,7 +436,7 @@ STATIC void HZD_8002799C(int a0)
     gte_stsv((SVECTOR *)0x1F800038);
 }
 
-STATIC void HZD_80027A94(HZD_SEG *seg, int a2, int a3)
+STATIC void TestSegment(HZD_SEG *seg, int a2, int a3)
 {
     struct copier
     {
@@ -458,13 +457,13 @@ STATIC void HZD_80027A94(HZD_SEG *seg, int a2, int a3)
     *((HZD_SEG *)0x1F800034) = *seg;
     if (CheckWallBounds())
     {
-        tmp1 = HZD_800276B4();
-        tmp4 = HZD_80027850(tmp1);
+        tmp1 = CalculateHitTime();
+        tmp4 = CalculateHitPoint(tmp1);
         if (tmp4)
         {
             if (*(int *)0x1F800060 < a2)
             {
-                HZD_8002799C(tmp4);
+                CalculateSegmentHeight(tmp4);
             }
             scratch1 = (short *)0x1F80004C;
             scratch2 = (HZD_SEG *)0x1F800034;
@@ -665,7 +664,7 @@ static inline int sub_helper2_80027F10(void)
 //todo: include proper
 #define UNTAG_PTR(_type, _ptr) (_type *)((unsigned int)_ptr & 0x7fffffff)
 
-STATIC void HZD_80027F10(HZD_FLR *floor)
+STATIC void TestFloor(HZD_FLR *floor)
 {
     int flags;
     int length;
@@ -746,9 +745,6 @@ STATIC void HZD_80027F10(HZD_FLR *floor)
         *(HZD_FLR **)0x1F800064 = UNTAG_PTR(HZD_FLR, floor);
     }
 }
-
-//inclucde unknown.h
-//split here
 
 static inline void CopySvector(SVECTOR *dst, SVECTOR *src)
 {
@@ -835,7 +831,7 @@ int HZD_LineCheck(HZD_HDL *hzd, SVECTOR *from, SVECTOR *to, int flag, int exclud
                 {
                     if (!((*pFlags) & exclude))
                     {
-                        HZD_80027A94(pWall, count, *pFlags);
+                        TestSegment(pWall, count, *pFlags);
                     }
                 }
             }
@@ -872,7 +868,7 @@ int HZD_LineCheck(HZD_HDL *hzd, SVECTOR *from, SVECTOR *to, int flag, int exclud
             {
                 if (!((*pFlags) & exclude))
                 {
-                    HZD_80027A94(*ppWall, count, *pFlags);
+                    TestSegment(*ppWall, count, *pFlags);
                 }
             }
         }
@@ -892,7 +888,7 @@ int HZD_LineCheck(HZD_HDL *hzd, SVECTOR *from, SVECTOR *to, int flag, int exclud
                 pFloor = pArea->floors;
                 for (count = pArea->n_floors; count > 0; count--)
                 {
-                    HZD_80027F10(pFloor);
+                    TestFloor(pFloor);
                     pFloor++;
                 }
             }
@@ -907,7 +903,7 @@ int HZD_LineCheck(HZD_HDL *hzd, SVECTOR *from, SVECTOR *to, int flag, int exclud
             ppFloor = pNextMap->dynamic_floors;
             for (count = pNextMap->dynamic_floor_index; count > 0; count--, ppFloor++)
             {
-                HZD_80027F10(*ppFloor);
+                TestFloor(*ppFloor);
             }
         }
     }
@@ -924,38 +920,38 @@ int HZD_LineCheck(HZD_HDL *hzd, SVECTOR *from, SVECTOR *to, int flag, int exclud
     return 0;
 }
 
-//might be a file split here
-
-HZD_FLR *HZD_80028820(void)
+void *HZD_LineNearSurface(void)
 {
-    HZD_FLR **spad_top = (HZD_FLR **)SCRPAD_ADDR;
-    return spad_top[0x64 / sizeof(HZD_FLR *)];
+    return *getScratchAddr2(void **, 0x64);
 }
 
-int HZD_80028830(void)
+int HZD_LineNearFlag(void)
 {
-    short *spad_top = (short *)SCRPAD_ADDR;
-    return spad_top[0x68 / sizeof(short)];
+    return *getScratchAddr2(short, 0x68);
 }
 
-void HZD_80028840(SVECTOR *out)
+void HZD_LineNearDir(SVECTOR *out)
 {
-    SVECTOR *vec1, *vec2;
-    vec2 = getScratchAddr2(SVECTOR, 0x54);
-    vec1 = getScratchAddr2(SVECTOR, 0x0c);
+    HZD_VEC *hit;
+    HZD_VEC *from;
 
-    out->vx = vec2->vx - vec1->vx;
-    out->vy = vec2->vz - vec1->vz;
-    out->vz = vec2->vy - vec1->vy;
+    hit = getScratchAddr2(HZD_VEC, 0x54);
+    from = getScratchAddr2(HZD_VEC, 0x0c);
+
+    out->vx = hit->x - from->x;
+    out->vy = hit->y - from->y;
+    out->vz = hit->z - from->z;
 }
 
-void HZD_80028890(SVECTOR *out)
+void HZD_LineNearVec(SVECTOR *out)
 {
-    SVECTOR *vec = getScratchAddr2(SVECTOR, 0x54);
+    HZD_VEC *hit;
 
-    out->vx = vec->vx;
-    out->vy = vec->vz;
-    out->vz = vec->vy;
+    hit = getScratchAddr2(HZD_VEC, 0x54);
+
+    out->vx = hit->x;
+    out->vy = hit->y;
+    out->vz = hit->z;
 }
 
 STATIC void HZD_CopyVector(SVECTOR *src, SVECTOR *dst)
@@ -1098,7 +1094,7 @@ STATIC void HZD_80028CF8(void)
     return;
 }
 
-static inline int HZD_80028DAC_inline(HZD_SEG *wall)
+static inline int PointTestSegment_inline(HZD_SEG *wall)
 {
     int z1, z2;
     int tmp;
@@ -1148,14 +1144,14 @@ static inline int HZD_80028DAC_inline(HZD_SEG *wall)
     return 1;
 }
 
-STATIC void HZD_80028DAC(HZD_SEG *wall, int index, int flags)
+STATIC void PointTestSegment(HZD_SEG *wall, int index, int flags)
 {
     int *ptr;
     int  opz;
     int  height;
     int *ptr1, *ptr2, *ptr3;
 
-    if (!HZD_80028DAC_inline(wall))
+    if (!PointTestSegment_inline(wall))
     {
         return;
     }
@@ -1283,7 +1279,7 @@ int HZD_PointCheck(HZD_HDL *hzd, SVECTOR *point, int range, int flag, int exclud
         {
             if ((*pFlags & exclude) == 0)
             {
-                HZD_80028DAC(pWalls, i, *pFlags);
+                PointTestSegment(pWalls, i, *pFlags);
             }
         }
     }
@@ -1305,7 +1301,7 @@ int HZD_PointCheck(HZD_HDL *hzd, SVECTOR *point, int range, int flag, int exclud
         {
             if ((*pFlags & exclude) == 0)
             {
-                HZD_80028DAC(*ppWalls, i, *pFlags);
+                PointTestSegment(*ppWalls, i, *pFlags);
             }
         }
     }
@@ -1322,47 +1318,48 @@ int HZD_PointCheck(HZD_HDL *hzd, SVECTOR *point, int range, int flag, int exclud
 /**
  * Used in collision detection (ie, called when Snake nears an obstacle or an edge).
  *
- * This function is called with the VECTOR[2]* snake->control->field_70 as its argument. Disabling it has no
+ * This function is called with the VECTOR[2]* snake->control->nears as its argument. Disabling it has no
  * obvious effects on collision or gameplay.
  */
-void HZD_800292E4(HZD_FLR **floors)
+void HZD_PointNearSurface(void **surface)
 {
-    floors[0] = *(HZD_FLR **)(SCRPAD_ADDR + 0x70);
-    floors[1] = *(HZD_FLR **)(SCRPAD_ADDR + 0x8c);
+    surface[0] = *(void **)(SCRPAD_ADDR + 0x70);
+    surface[1] = *(void **)(SCRPAD_ADDR + 0x8c);
 }
 
 /**
  * Used in collision detection (ie, called when Snake nears an obstacle or an edge).
  *
- * This function is called with the char[2] snake->control->field_5A as its argument. Disabling it makes Snake
+ * This function is called with the char[2] snake->control->nearflags as its argument. Disabling it makes Snake
  * treat edges as if they were walls, eg in Dock he turns his back towards the water instead of running towards it on
  * the spot, except if one approaches it while running where he is programmed to dive into it.
  */
-void HZD_80029304(char *char_arr)
+void HZD_PointNearFlag(char *flags)
 {
-    char_arr[0] = *getScratchAddr2(char, 0x74);
-    char_arr[1] = *getScratchAddr2(char, 0x90);
+    flags[0] = *getScratchAddr2(char, 0x74);
+    flags[1] = *getScratchAddr2(char, 0x90);
 }
 
 /**
  * Fundamental function in collision detection, called when Snake nears an obstacle or an edge.
  *
- * This function is called with the SVECTOR[2] snake->control->field_60_vecs_ary as an argument. Disabling it
- * disables collision for Snake, seemingly as those vectors are then passed to HZD_80026C68() as its
+ * This function is called with the SVECTOR[2] snake->control->nearvecs as an argument. Disabling it
+ * disables collision for Snake, seemingly as those vectors are then passed to HZD_StepCheck() as its
  * first argument and used by it to determine values in the scratchpad which are then used at the end of that function
  * to create Snake's movement vector.
  */
-void HZD_80029324(SVECTOR *vectors)
+void HZD_PointNearVec(SVECTOR *points)
 {
-    short *sVar1, *sVar2;
+    HZD_SEG *wall1;
+    HZD_SEG *wall2;
 
-    sVar1 = getScratchAddr2(short, 0x68);
-    vectors->vx = sVar1[8];
-    vectors->vy = 0;
-    vectors->vz = sVar1[9];
+    wall1 = getScratchAddr2(HZD_SEG, 0x68);
+    points->vx = wall1[1].p1.x;
+    points->vy = 0;
+    points->vz = wall1[1].p1.z;
 
-    sVar2 = getScratchAddr2(short, 0x84);
-    vectors[1].vx = sVar2[8];
-    vectors[1].vy = 0;
-    vectors[1].vz = sVar2[9];
+    wall2 = getScratchAddr2(HZD_SEG, 0x84);
+    points[1].vx = wall2[1].p1.x;
+    points[1].vy = 0;
+    points[1].vz = wall2[1].p1.z;
 }

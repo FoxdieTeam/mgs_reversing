@@ -566,7 +566,7 @@ void s11i_asiato_800CA25C( Zako11FWork *work, int time )
     action = work->unknown.last_set;
     mindir = -1;
     dir = work->pad.dir;
-    svec = work->control.field_60_vecs_ary;
+    svec = work->control.nearvecs;
 
     if ( (work->pad.mode & 0x1) && ( action != ACTION2 ) )
     {
@@ -583,7 +583,7 @@ void s11i_asiato_800CA25C( Zako11FWork *work, int time )
 
             if ( near >= 2 )
             {
-                mindir2 = GV_VecDir2( &control->field_60_vecs_ary[1] );
+                mindir2 = GV_VecDir2( &control->nearvecs[1] );
 
                 if ( GV_DiffDirAbs( dir, mindir2 ) < GV_DiffDirAbs( dir, mindir ) )
                 {
@@ -988,7 +988,7 @@ void s11i_asiato_800CADDC( Zako11FWork *work, int time )
 
         if ( work->body.is_end )
         {
-            if ( control->field_57 == 0 )
+            if ( control->level_flag == 0 )
             {
                 SetAction( work, ACTION40, ACTINTERP );
             }
@@ -998,7 +998,7 @@ void s11i_asiato_800CADDC( Zako11FWork *work, int time )
             }
         }
     }
-    else if ( control->field_57 )
+    else if ( control->level_flag )
     {
         GM_SeSet( &control->mov, 0x8D );
         GM_SeSet( &control->mov, SE_HIT_FLOOR ) ;
@@ -1493,7 +1493,7 @@ void s11i_asiato_800CBACC(Zako11FWork *work, int time)
         break;
     }
 
-    if (time > 16 && control->field_57)
+    if (time > 16 && control->level_flag)
     {
         control->step = DG_ZeroVector;
     }
@@ -1551,7 +1551,7 @@ void s11i_asiato_800CC038(Zako11FWork *work, int time)
         GM_SeSet(&control->mov, 0x91);
     }
 
-    if (time > 16 && control->field_57)
+    if (time > 16 && control->level_flag)
     {
         control->step = DG_ZeroVector;
     }
@@ -1577,7 +1577,7 @@ void s11i_asiato_800CC038(Zako11FWork *work, int time)
             }
         }
     }
-    else if (control->field_57 != 0)
+    else if (control->level_flag != 0)
     {
         work->unknown.field_1E = 1;
         work->target->field_2C_vec = DG_ZeroVector;
@@ -1690,11 +1690,11 @@ void s11i_asiato_800CC39C(Zako11FWork *work)
 
     if (unk->field_1E == 0)
     {
-        control->field_36 = GV_NearExp2(control->field_36, unk->field_1C);
+        control->step_size = GV_NearExp2(control->step_size, unk->field_1C);
     }
     else
     {
-        control->field_36 = -1;
+        control->step_size = -1;
     }
 
     if (work->target->class & TARGET_POWER)
@@ -1706,7 +1706,7 @@ void s11i_asiato_800CC39C(Zako11FWork *work)
         work->hom->flag = 0;
     }
 
-    if (unk->field_04 < 0 && control->field_57)
+    if (unk->field_04 < 0 && control->level_flag)
     {
         unk->field_04 = 0;
     }

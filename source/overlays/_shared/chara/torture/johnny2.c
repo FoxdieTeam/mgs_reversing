@@ -90,7 +90,7 @@ void Johnny2Act_800CDF84(Johnny2Work *work)
             GM_ConfigObjectAction(object, 9, 0, 4);
         }
     }
-    if (work->svec_7F8.vy < 0 && work->control.field_57 != 0)
+    if (work->svec_7F8.vy < 0 && work->control.level_flag != 0)
     {
         work->svec_7F8.vy = 0;
     }

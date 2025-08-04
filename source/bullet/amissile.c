@@ -287,7 +287,7 @@ static void Act(Work *work)
     result = CheckMessage();
 
     // this is probably also an inline
-    if (work->control.touch_flag <= 0 && !work->control.field_57)
+    if (work->control.touch_flag <= 0 && !work->control.level_flag)
     {
         if (++work->field_120 != 90 &&
             !GM_Target_8002E1B8(&control->mov, &addition, work->control.map->index, &addition, 1) &&

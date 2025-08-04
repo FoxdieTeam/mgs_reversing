@@ -207,7 +207,7 @@ static int socom_act_helper_80065408( Work *work )
     map = work->control->map;
     if ( HZD_LineCheck( map->hzd, vecs, &vecs[ 1 ], HZD_CHECK_ALL, 0x4 ) )
     {
-        HZD_80028890( &vecs[ 1 ] );
+        HZD_LineNearVec( &vecs[ 1 ] );
         bCalcLen = 1;
     }
     if ( GM_Target_8002E1B8( vecs, &vecs[ 1 ], map->index, &vecs[ 1 ], 1 ) )

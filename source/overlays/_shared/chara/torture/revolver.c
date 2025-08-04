@@ -1277,7 +1277,7 @@ void RevolverAct_800C8CE4(RevolverWork *work)
 
     Revolver_800C8CA8(work);
 
-    if (work->field_8C0.vy < 0 && work->control.field_57 != 0)
+    if (work->field_8C0.vy < 0 && work->control.level_flag != 0)
     {
         work->field_8C0.vy = 0;
     }

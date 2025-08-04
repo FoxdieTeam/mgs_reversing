@@ -324,5 +324,5 @@ void s07c_meryl72_unk1_800CBCD8(Meryl72Work *work)
 
     control = &work->control;
     control->turn.vy = ang;
-    control->field_36 = GV_NearExp2(control->field_36, work->f8BC.field_1A);
+    control->step_size = GV_NearExp2(control->step_size, work->f8BC.field_1A);
 }

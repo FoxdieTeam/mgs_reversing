@@ -343,16 +343,16 @@ skip_clamp_z:
 
         if (f168 == 1 && HZD_LineCheck(map->hzd, &svec1, &svec2, HZD_CHECK_ALL, 0x4))
         {
-            HZD_80028890(&work->field_118);
-            work->field_130 = HZD_80028820();
-            work->field_16C = HZD_80028830();
+            HZD_LineNearVec(&work->field_118);
+            work->field_130 = HZD_LineNearSurface();
+            work->field_16C = HZD_LineNearFlag();
 
-            if ((unsigned int)work->field_130 & 0x80000000) // pointer tagging
+            if ((unsigned int)work->field_130 & 0x80000000) // Wall
             {
                 work->field_164 = f168;
-                HZD_800272E0(work->field_130, &work->field_128);
+                HZD_SurfaceNormal(work->field_130, &work->field_128);
             }
-            else
+            else // Floor
             {
                 work->field_164 = 2;
                 work->field_128.vx = work->field_130->p1.h * 16;
