@@ -352,7 +352,7 @@ void s01a_camera_800D53E4(CameraWork *work)
     {
         temp_v0 = GV_RandU(16);
         turn = &work->control.turn;
-        work->control.field_54 = 48;
+        work->control.interp = 48;
         work->field_1EC += temp_v0;
         temp_v0 = work->field_1C0.vy - (1024 - GV_RandU(2048));
         turn->vy = temp_v0 & 0xFFF;
@@ -385,7 +385,7 @@ void s01a_camera_800D5504(CameraWork *work)
     {
         temp_v0 = GV_RandU(16);
         turn = &work->control.turn;
-        work->control.field_54 = 48;
+        work->control.interp = 48;
         work->field_1EC += temp_v0;
         temp_v0 = work->field_1C0.vy - (1024 - GV_RandU(2048));
         turn->vy = temp_v0 & 0xFFF;

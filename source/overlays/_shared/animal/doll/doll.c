@@ -271,7 +271,7 @@ int s01a_doll_800DC1AC(DollWork *work, int name, int map)
         GM_ConfigControlAttribute(control, radar_atr | RADAR_SIGHT | RADAR_VISIBLE);
     }
 
-    control->field_36 = -1;
+    control->step_size = -1;
     GM_ConfigControlInterp(control, 4);
     GM_ConfigControlTrapCheck(control);
     control->exclude_flag = 1;

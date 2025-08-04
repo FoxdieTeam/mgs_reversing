@@ -111,7 +111,7 @@ void s07c_meryl72_unk1_800C86EC( Meryl72Work* work, int time )
     dir = work->pad.dir;
     ctrl = &(work->control );
     cur_act = work->f8BC.field_18;
-    svec = work->control.field_60_vecs_ary;
+    svec = work->control.nearvecs;
 
     if ( (work->pad.mode & 0x1) && ( cur_act != ACTION2 ) )
     {
@@ -127,7 +127,7 @@ void s07c_meryl72_unk1_800C86EC( Meryl72Work* work, int time )
 
             if ( s0 >= 2 )
             {
-                tmp = GV_VecDir2( &ctrl->field_60_vecs_ary[1] );
+                tmp = GV_VecDir2( &ctrl->nearvecs[1] );
                 if ( GV_DiffDirAbs( dir, tmp ) < GV_DiffDirAbs( dir, dist ) )
                 {
                     dist = tmp;
@@ -1332,7 +1332,7 @@ void s07c_meryl72_unk1_800CA538( Meryl72Work *work, int time )
         break;
     }
 
-    if ( time > 16 && work->control.field_57 )
+    if ( time > 16 && work->control.level_flag )
     {
         work->control.step = DG_ZeroVector;
     }
@@ -1456,11 +1456,11 @@ void s07c_meryl72_unk1_800CABA0( Meryl72Work *work )
 
     if ( !unk->field_1C )
     {
-        ctrl->field_36 = GV_NearExp2( ctrl->field_36, unk->field_1A );
+        ctrl->step_size = GV_NearExp2( ctrl->step_size, unk->field_1A );
     }
     else
     {
-        ctrl->field_36 = -1;
+        ctrl->step_size = -1;
     }
 
     s07c_meryl72_unk1_800CAB68( work );
@@ -1477,7 +1477,7 @@ void s07c_meryl72_unk1_800CABA0( Meryl72Work *work )
         work->hom->flag = 0;
     }
 
-    if ( unk->field_04 < 0 && ctrl->field_57 )
+    if ( unk->field_04 < 0 && ctrl->level_flag )
     {
         unk->field_04 = 0;
     }

@@ -119,8 +119,8 @@ int CreateDemo_80079B50(DemothrdWork* pThis, demothrd_0x1C* pDmoData)
                 return 0;
             }
 
-            pModels0x1A4Iter->field_0_ctrl.field_36 = 0;
-            pModels0x1A4Iter->field_0_ctrl.field_54 = 0;
+            pModels0x1A4Iter->field_0_ctrl.step_size = 0;
+            pModels0x1A4Iter->field_0_ctrl.interp = 0;
 
             if (((pModel0x14Iter)->field_4_flags & 1) != 0) {
 
@@ -259,8 +259,8 @@ int CreateDemo_80079B50(DemothrdWork* pThis, demothrd_0x1C* pDmoData)
         }
         else {
             if (GM_InitControl(&pThis->field_C4_ctrl, 0, pThis->field_28_map) >= 0) {
-                pThis->field_C4_ctrl.field_36 = 0;
-                pThis->field_C4_ctrl.field_54 = 0;
+                pThis->field_C4_ctrl.step_size = 0;
+                pThis->field_C4_ctrl.interp = 0;
                 GM_InitObject(&pThis->field_140_obj, GV_StrCode("null"), 13, 0);
                 GM_ConfigObjectJoint(&pThis->field_140_obj);
                 GM_ConfigObjectLight(&pThis->field_140_obj, pThis->field_224_light_mtx);

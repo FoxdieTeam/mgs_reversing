@@ -220,7 +220,7 @@ int sub_8004E51C(SVECTOR *param_1, void *param_2, int param_3, int param_4)
     {
         return -1;
     }
-    HZD_80028890(&param_1[1]);
+    HZD_LineNearVec(&param_1[1]);
     GV_SubVec3(&param_1[1], param_1, param_1);
     return GV_VecLen3(param_1);
 }

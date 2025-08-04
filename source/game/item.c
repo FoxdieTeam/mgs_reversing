@@ -407,7 +407,7 @@ STATIC void item_Act(ItemWork *work)
 
     if (work->field_112_state == 1)
     {
-        if ((pCtrl->field_57 != 0) && (pCtrl->step.vy < 0))
+        if ((pCtrl->level_flag != 0) && (pCtrl->step.vy < 0))
         {
             pCtrl->step.vy = -pCtrl->step.vy / 16;
 

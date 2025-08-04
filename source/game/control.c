@@ -109,7 +109,7 @@ int GM_InitControl(CONTROL *control, int scriptData, int scriptBinds)
     control->height = 850;
     control->hzd_height = -32767;
     control->field_38 = 450;
-    control->field_36 = 450;
+    control->step_size = 450;
     control->exclude_flag = 2;
     control->skip_flag = CTRL_SKIP_TRAP;
     control->levels[0] = -32000;
@@ -170,7 +170,7 @@ static inline void CheckCollide(CONTROL *control, HZD_HDL *hzd)
     int     diff;
 
     vx = control->step.vx;
-    new_var = control->field_36 / 2;
+    new_var = control->step_size / 2;
 
     if (vx < 0)
     {
@@ -193,23 +193,23 @@ static inline void CheckCollide(CONTROL *control, HZD_HDL *hzd)
         if (HZD_LineCheck(hzd, &control->mov, &vec, HZD_CHECK_ALL, control->exclude_flag))
         {
             control->touch_flag = 0x1;
-            control->field_70[0] = HZD_80028820();
-            control->field_5A[0] = HZD_80028830();
+            control->nears[0] = HZD_LineNearSurface();
+            control->nearflags[0] = HZD_LineNearFlag();
 
-            HZD_80028840(control->field_60_vecs_ary);
+            HZD_LineNearDir(control->nearvecs);
 
-            len = GV_VecLen3(control->field_60_vecs_ary);
+            len = GV_VecLen3(control->nearvecs);
             diff = len - new_var;
 
             if (diff < 0)
             {
                 diff = -diff;
-                GV_LenVec3(control->field_60_vecs_ary, &vec, len, diff);
+                GV_LenVec3(control->nearvecs, &vec, len, diff);
                 GV_SubVec3(&DG_ZeroVector, &vec, &vec);
             }
             else
             {
-                GV_LenVec3(control->field_60_vecs_ary, &vec, len, diff);
+                GV_LenVec3(control->nearvecs, &vec, len, diff);
             }
 
             control->step = vec;
@@ -241,13 +241,13 @@ retry:
 
     control->touch_flag = i;
 
-    HZD_800292E4(control->field_70);
-    HZD_80029304(control->field_5A);
-    HZD_80029324(control->field_60_vecs_ary);
+    HZD_PointNearSurface(control->nears);
+    HZD_PointNearFlag(control->nearflags);
+    HZD_PointNearVec(control->nearvecs);
 
-    if (!HZD_80026C68(control->field_60_vecs_ary, i, control->field_36, &vec) && !bVar7)
+    if (!HZD_StepCheck(control->nearvecs, i, control->step_size, &vec) && !bVar7)
     {
-        GV_LenVec3(&control->step, &vec2, GV_VecLen3(&control->step), control->field_36 / 2);
+        GV_LenVec3(&control->step, &vec2, GV_VecLen3(&control->step), control->step_size / 2);
         bVar7 = 1;
         vec2.vy = 0;
         GV_SubVec3(&control->mov, &vec2, &control->mov);
@@ -272,10 +272,10 @@ static inline void CheckHeight(CONTROL *control, HZD_HDL *hzd)
     vy = control->mov.vy + control->step.vy;
     vz = control->height;
 
-    control->field_57 = 0;
+    control->level_flag = 0;
     uVar14 = HZD_LevelTestHazard(hzd, &control->mov, 3);
     HZD_LevelMinMaxHeights(levels);
-    control->field_60_vecs_ary[0].pad = HZD_LevelMaxHeight();
+    control->nearvecs[0].pad = HZD_LevelMaxHeight();
     uVar15 = uVar14 & 1;
 
     if (((uVar14 & 2) != 0) && ((levels[1] - control->levels[0]) + 199U < 399))
@@ -308,7 +308,7 @@ static inline void CheckHeight(CONTROL *control, HZD_HDL *hzd)
     if (iVar11 > vy)
     {
         vy = iVar11;
-        control->field_57 = 1;
+        control->level_flag = 1;
     }
     else if (uVar16 != 0)
     {
@@ -317,7 +317,7 @@ static inline void CheckHeight(CONTROL *control, HZD_HDL *hzd)
         if (iVar11 < vy)
         {
             vy = iVar11;
-            control->field_57 = 2;
+            control->level_flag = 2;
         }
     }
 
@@ -338,7 +338,7 @@ void GM_ActControl(CONTROL *control)
 
     GM_CurrentMap = control->map->index;
 
-    if (control->field_36 > 0)
+    if (control->step_size > 0)
     {
         control->touch_flag = 0;
 
@@ -360,25 +360,25 @@ void GM_ActControl(CONTROL *control)
             control->mov.vy = vy;
         }
 
-        time = control->field_54;
+        time = control->interp;
 
-        if (control->field_54 == 0)
+        if (control->interp == 0)
         {
             GV_NearExp4PV(&control->rot.vx, &control->turn.vx, 3);
         }
         else
         {
-            GV_NearTimePV(&control->rot.vx, &control->turn.vx, control->field_54, 3);
-            control->field_54 = time - 1;
+            GV_NearTimePV(&control->rot.vx, &control->turn.vx, control->interp, 3);
+            control->interp = time - 1;
         }
 
         CheckHeight(control, hzd);
     }
-    else if (control->field_36 < 0)
+    else if (control->step_size < 0)
     {
         control->touch_flag = 0;
 
-        time = control->field_54;
+        time = control->interp;
 
         control->mov.vx += control->step.vx;
         control->mov.vz += control->step.vz;
@@ -390,10 +390,10 @@ void GM_ActControl(CONTROL *control)
         else
         {
             GV_NearTimePV(&control->rot.vx, &control->turn.vx, time, 3);
-            control->field_54 = time - 1;
+            control->interp = time - 1;
         }
 
-        if (control->field_36 >= -1)
+        if (control->step_size >= -1)
         {
             CheckHeight(control, hzd);
         }
@@ -460,7 +460,7 @@ void GM_ConfigControlString(CONTROL *control, char *param_pos, char *param_dir)
 void GM_ConfigControlHazard(CONTROL *control, short height, short f36, short f38)
 {
     control->height = height;
-    control->field_36 = f36;
+    control->step_size = f36;
     control->field_38 = f38;
 }
 
@@ -469,13 +469,15 @@ void GM_ConfigControlAttribute(CONTROL *control, int radar_atr)
     control->radar_atr = radar_atr;
 }
 
-void GM_ConfigControlInterp(CONTROL *control, char f5a)
+void GM_ConfigControlInterp(CONTROL *control, char interp)
 {
-    control->field_54 = f5a;
+    control->interp = interp;
 }
 
 int GM_CheckControlTouches(CONTROL *control, int param_2)
 {
+    HZD_SEG *near;
+
     if (control->touch_flag == 0)
     {
         return 0;
@@ -483,13 +485,17 @@ int GM_CheckControlTouches(CONTROL *control, int param_2)
 
     if (control->touch_flag == 2)
     {
-        if (control->field_70[1]->b1.h < 0 || GV_VecLen3(&control->field_60_vecs_ary[1]) <= param_2)
+        near = control->nears[1];
+
+        if (near->p1.h < 0 || GV_VecLen3(&control->nearvecs[1]) <= param_2)
         {
             return 2;
         }
     }
 
-    if (control->field_70[0]->b1.h < 0 || GV_VecLen3(&control->field_60_vecs_ary[0]) <= param_2)
+    near = control->nears[0];
+
+    if (near->p1.h < 0 || GV_VecLen3(&control->nearvecs[0]) <= param_2)
     {
         return 1;
     }
