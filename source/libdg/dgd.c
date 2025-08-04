@@ -9,7 +9,18 @@
 #include "mts/mts.h"
 #include "game/game.h"
 
-/**data*********************************************************/
+extern GV_PAD *GM_CurrentPadData;
+extern int DG_CurrentGroupID;
+
+/*---------------------------------------------------------------------------*/
+
+typedef struct {
+    GV_ACT actor;
+} Work;
+
+extern Work DG_WorkFirst;
+extern Work DG_WorkLast;
+extern int dword_800B3790;
 
 int DG_FrameRate = 2;
 int DG_HikituriFlag = 0;        // 引きつり = twitching
@@ -17,10 +28,7 @@ int DG_HikituriFlagOld = 0;     //   〃          〃
 
 STATIC int DG_TickCount = -1;
 
-/***************************************************************/
-
-extern int              dword_800B3790;
-extern GV_PAD          *GM_CurrentPadData;
+/*---------------------------------------------------------------------------*/
 
 int DG_DrawSyncResetGraph(void)
 {
@@ -38,7 +46,7 @@ int DG_DrawSyncResetGraph(void)
     return 1;
 }
 
-void DG_StartFrame(GV_ACT *actor)
+void DG_ActFirst(Work *work)
 {
     int ticks;
 
@@ -92,12 +100,10 @@ void DG_StartFrame(GV_ACT *actor)
     }
 }
 
-void DG_EndFrame(void)
+void DG_ActLast(Work *work)
 {
     DG_RenderFrame();
 }
-
-extern int DG_CurrentGroupID;
 
 void DG_ResetPipeline(void)
 {
@@ -123,10 +129,6 @@ void DG_ResetTextureCache(void)
     DG_LoadResidentTextureCache();
 }
 
-extern GV_ACT DG_StartFrameActor_800B3750;
-extern GV_ACT DG_EndFrameActor_800B3770; // same section as its directly after
-extern int   dword_800B3790;
-
 void DG_StartDaemon(void)
 {
     mts_set_vsync_task();
@@ -147,10 +149,10 @@ void DG_StartDaemon(void)
     GV_SetLoader('s', DG_LoadInitSgt);      // *.sgt format
 
     // Wait for vsync, swap frame, fetch input
-    GV_InitActor(GV_ACTOR_DAEMON, &DG_StartFrameActor_800B3750, NULL);
-    GV_SetNamedActor(&DG_StartFrameActor_800B3750, DG_StartFrame, NULL, "dgd.c");
+    GV_InitActor(GV_ACTOR_DAEMON, &DG_WorkFirst, NULL);
+    GV_SetNamedActor(&DG_WorkFirst, DG_ActFirst, NULL, "dgd.c");
 
     // Render new frame
-    GV_InitActor(GV_ACTOR_DAEMON2, &DG_EndFrameActor_800B3770, NULL);
-    GV_SetNamedActor(&DG_EndFrameActor_800B3770, DG_EndFrame, NULL, "dgd.c");
+    GV_InitActor(GV_ACTOR_DAEMON2, &DG_WorkLast, NULL);
+    GV_SetNamedActor(&DG_WorkLast, DG_ActLast, NULL, "dgd.c");
 }
