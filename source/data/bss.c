@@ -368,7 +368,7 @@ MAP *BSS     claymore_MAP_800bdf08; // 0x4 (4) bytes
 gap                                     gap_800BDF0C[0x4]; // 4 bytes
 
 /* okajima/spark.obj */
-short BSS           gSparkRandomTable_800BDF10[0x40]; // 0x80 (128) bytes
+short BSS           gSparkRandomTable[0x40]; // 0x80 (128) bytes
 
 /* okajima/stngrnd.obj */
 SVECTOR BSS         stru_800BDF90; // 0x8 (8) bytes
