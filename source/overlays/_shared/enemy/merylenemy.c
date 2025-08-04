@@ -428,5 +428,5 @@ void EnemyPushMove_800DB23C( WatcherWork *work )
 
     ctrl = &work->control;
     ctrl->turn.vy = s1;
-    ctrl->field_36 = GV_NearExp2( ctrl->field_36, work->unknown.field_1C );
+    ctrl->step_size = GV_NearExp2( ctrl->step_size, work->unknown.field_1C );
 }

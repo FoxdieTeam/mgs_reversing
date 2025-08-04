@@ -585,7 +585,7 @@ static int JpegcamGetZoomLimit(Work *work)
         cond = 0;
         if (HZD_LineCheck(work->map->hzd, &vector1, &vector2, HZD_CHECK_ALL, 0x81) != 0)
         {
-            HZD_80028890(&vector2);
+            HZD_LineNearVec(&vector2);
             cond = 1;
         }
 

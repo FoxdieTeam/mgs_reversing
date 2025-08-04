@@ -27,10 +27,6 @@ enum // radar_attr
     RADAR_UNK3    = 0x2000,
 };
 
-    // vx = dir;
-    // vy = len;
-    // vz = ang;
-
 typedef struct RADAR_CONE
 {
     unsigned short dir;
@@ -41,60 +37,30 @@ typedef struct RADAR_CONE
 
 typedef struct CONTROL
 {
-    // Position vector, mainly controlled by 80025A7C().
-    // - 0x80025cd4 (W): controls vx during gameplay;
-    // - 0x80025db8 (W): contributes to collision detection on the vx axis;
-    // - 0x80025f00 (W): appears to control vx during animations;
-    // - 0x80025ba0 (W): controls vy during gameplay when going up;
-    // - 0x80026040 (W): controls vy during gameplay when going down;
-    // - 0x80025cec (W): controls vz during gameplay;
-    // - 0x80025dcc (W): appears to control vz during or when exiting animations (eg against walls).
-    SVECTOR mov;
-
-    // Rotator, in which each field (other than padding) is a fixed-point number ranging from 0 to ONE (ie 4096,
-    // unclamped and using modulo for values outside of this range) where ONE is a full rotation:
-    // - vx: pitch;
-    // - vy: yaw;
-    // - vz: roll.
-    // During normal gameplay, controlled by 800269A0() @ 0x80026a08.
-    SVECTOR rot;
-
-    HZD_EVT event;
-    MAP    *map;
-    u_short name;
-
-    // Base height, written to by 800596FC() and read by 80025A7C() as an offset to determine the position vector's vy
-    // component.
-    short height;
-
-    // If 80025A7C() @ 0x80025b8c is not allowed to read this field, Snake goes through walls.
-    short hzd_height;
-    short field_36;
-    short field_38;
-
-    u_short    radar_atr;
-    RADAR_CONE radar_cone;
-
-    // Movement vector, added to the position vector each frame to determine Snake's new position.
-    // 800356FC() @ 0x80035974 (vx) and 0x8003597c (vz) seems to be the main function responsible for calculating the
-    // movement vector, since it is the only writing function which if disabled prevents Snake from moving entirely.
-    SVECTOR     step;
-    SVECTOR     turn;
-    signed char field_54;
+    SVECTOR     mov; // current position
+    SVECTOR     rot; // current orientation (4096 = 2Pi rad)
+    HZD_EVT     event;
+    MAP        *map;
+    u_short     name;
+    short       height; // offset to mov.vy
+    short       hzd_height;
+    short       step_size; // squared
+    short       field_38; // never used, value usually matches step_size
+    u_short     radar_atr;
+    RADAR_CONE  radar_cone;
+    SVECTOR     step; // movement vector
+    SVECTOR     turn; // rotation vector (4096 = 2Pi rad)
+    signed char interp;    // turn speed
     char        skip_flag; // CTRL_...
     signed char n_messages;
-    signed char field_57;
+    signed char level_flag;   // 1 = below floor, 2 = above ceiling
     signed char touch_flag;   // > 0 if collision detected
     char        exclude_flag; // exclude all surfaces where (flag & exclude_flag) != 0
-    char        field_5A[2];
+    char        nearflags[2];
     GV_MSG     *messages;
-
-    // The first of these two vectors is heavily used in collision detection.
-    SVECTOR  field_60_vecs_ary[2];
-    HZD_FLR *field_70[2]; //  HZD_FLR when b1.h >= 0, HZD_SEG when b1.h < 0
-
-    // Shadow offset.
-    short levels[2];
+    SVECTOR     nearvecs[2];
+    void       *nears[2];  // HZD_SEG when tagged, HZD_FLR when untagged
+    short       levels[2]; // floor and ceiling heights
 } CONTROL;
 
 #define MAX_CONTROLS 96
@@ -111,7 +77,7 @@ void GM_ConfigControlMatrix(CONTROL *control, MATRIX *matrix);
 void GM_ConfigControlString(CONTROL *control, char *param_pos, char *param_dir);
 void GM_ConfigControlHazard(CONTROL *control, short height, short f36, short f38);
 void GM_ConfigControlAttribute(CONTROL *control, int radar_atr);
-void GM_ConfigControlInterp(CONTROL *control, char f5a);
+void GM_ConfigControlInterp(CONTROL *control, char interp);
 int  GM_CheckControlTouches(CONTROL *control, int param_2);
 // void GM_ConfigControlRadarparam(CONTROL *control, u_short dir, u_short len, u_short ang, u_short pad);
 void GM_ConfigControlTrapCheck(CONTROL *control);

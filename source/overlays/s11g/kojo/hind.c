@@ -660,8 +660,8 @@ void *NewHind_800D1224(int scriptData, int scriptBinds)
         }
     }
 
-    work->control.field_36 = -2;
-    work->control.field_54 = 0;
+    work->control.step_size = -2;
+    work->control.interp = 0;
 
     GM_ConfigControlAttribute(&work->control, 4);
 

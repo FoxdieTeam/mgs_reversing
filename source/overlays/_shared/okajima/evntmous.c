@@ -725,7 +725,7 @@ int EventMouseGetResources_800CA370(EventmouseWork *work, HZD_PTP *points, short
         size.vz = 70;
 
         GM_SetTarget(work->target, 0x1D, ENEMY_SIDE, &size);
-        control->field_36 = -2;
+        control->step_size = -2;
     }
 
     work->hom = GM_AllocHomingTarget(&work->hom_mtx, control);
