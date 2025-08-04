@@ -46,8 +46,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 /* main/main.obj */
-char BSS            GameStack_800ABBF0[2048]; // 0x800 (2048) bytes
-char BSS            SdStack_800AC3F0[2048]; // 0x800 (2048) bytes
+char BSS            GameStack[2048]; // 0x800 (2048) bytes
+char BSS            SdStack[2048]; // 0x800 (2048) bytes
 
 /* libfs/select.obj */
 int BSS             FS_DiskNum_800ACBF0; // 0x4 (4) bytes
