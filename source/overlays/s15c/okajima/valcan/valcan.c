@@ -588,9 +588,9 @@ void Valcan_800D9AB8(ValcanWork *work)
 
     control = &work->control;
     control->height = work->field_A0.height;
-    control->field_36 = GV_NearExp2(control->field_36, 450);
+    control->step_size = GV_NearExp2(control->step_size, 450);
 
-    if (work->field_66C < 0 && control->field_57 != 0)
+    if (work->field_66C < 0 && control->level_flag != 0)
     {
         work->field_66C = 0;
     }

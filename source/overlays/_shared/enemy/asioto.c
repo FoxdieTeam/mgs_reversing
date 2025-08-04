@@ -98,7 +98,7 @@ void AsiotoAct_800C39E8(Work *work)
                     return;
                 }
 
-                bank = GM_PlayerControl->field_60_vecs_ary[0].pad & 3;
+                bank = GM_PlayerControl->nearvecs[0].pad & 3;
                 GM_SeSet(&GM_PlayerPosition, work->se_duct[bank][index]);
             }
         }
@@ -122,7 +122,7 @@ void AsiotoAct_800C39E8(Work *work)
             }
             else
             {
-                bank = GM_PlayerControl->field_60_vecs_ary[0].pad & 3;
+                bank = GM_PlayerControl->nearvecs[0].pad & 3;
                 GM_SeSet(&GM_PlayerPosition, work->se2[bank][index]);
             }
         }

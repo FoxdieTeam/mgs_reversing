@@ -4128,7 +4128,7 @@ void sna_knock_80054D68(SnaInitWork *work, int time)
 
         if (sna_8004F628(work, &vec, -250, 12, 1, var_t0))
         {
-            temp_v0 = HZD_80028830();
+            temp_v0 = HZD_LineNearFlag();
             code = (temp_v0 >> 8) & 7;
 
             if (code < 4)
@@ -4361,13 +4361,13 @@ void sna_anim_dying_80055524(SnaInitWork *work, int time)
             if ((unk2->field_9EC_flags3 & 0x4000) != 0)
             {
                 work->control.field_38 = -2;
-                work->control.field_36 = -2;
+                work->control.step_size = -2;
                 work->field_A28 = -2;
             }
             else
             {
                 work->control.field_38 = -1;
-                work->control.field_36 = -1;
+                work->control.step_size = -1;
                 work->field_A28 = -1;
             }
         }
@@ -4620,7 +4620,7 @@ void sna_anim_mini_cutscene_800559D8(SnaInitWork *work, int time)
             GV_SubVec3(&pStr->field_9F4, &work->control.mov, &vec);
             work->control.turn.vy = GV_VecDir2(&vec);
             work->control.field_38 = -1;
-            work->control.field_36 = -1;
+            work->control.step_size = -1;
             work->field_A28 = -1;
         }
 
@@ -4682,7 +4682,7 @@ void sna_anim_mini_cutscene_800559D8(SnaInitWork *work, int time)
         if (pStr->field_9EC_flags3 & 0x200)
         {
             work->control.field_38 = 450;
-            work->control.field_36 = 450;
+            work->control.step_size = 450;
             work->field_A28 = 450;
         }
 
@@ -6988,9 +6988,9 @@ static inline int sna_init_main_logic_helper_helper_800596FC(SnaInitWork *work)
 
     if (pCtrl->touch_flag == 1)
     {
-        if (!(pCtrl->field_5A[0] & 0x40))
+        if (!(pCtrl->nearflags[0] & 0x40))
         {
-            floor = pCtrl->field_70[0];
+            floor = pCtrl->nears[0];
 
             rect[1].x = pPosition->vx - floor->b1.x;
             rect[1].y = pPosition->vz - floor->b1.z;
@@ -7006,12 +7006,12 @@ static inline int sna_init_main_logic_helper_helper_800596FC(SnaInitWork *work)
     }
     else
     {
-        pChk = work->control.field_5A;
+        pChk = work->control.nearflags;
         iVar9 = 0;
 
         for (i = 0; i < 2; i++, pChk++)
         {
-            floor = pCtrl->field_70[i];
+            floor = pCtrl->nears[i];
             local_40[i] = floor;
 
             if (*pChk & 0x40)
@@ -7034,10 +7034,10 @@ static inline int sna_init_main_logic_helper_helper_800596FC(SnaInitWork *work)
 
         if (iVar9 >= 2)
         {
-            iVar11 = GV_VecLen3(&pCtrl->field_60_vecs_ary[0]);
-            iVar10 = GV_VecLen3(&pCtrl->field_60_vecs_ary[1]);
-            iVar17 = GV_VecDir2(&pCtrl->field_60_vecs_ary[0]);
-            iVar19 = GV_VecDir2(&pCtrl->field_60_vecs_ary[1]);
+            iVar11 = GV_VecLen3(&pCtrl->nearvecs[0]);
+            iVar10 = GV_VecLen3(&pCtrl->nearvecs[1]);
+            iVar17 = GV_VecDir2(&pCtrl->nearvecs[0]);
+            iVar19 = GV_VecDir2(&pCtrl->nearvecs[1]);
 
             if (GV_DiffDirAbs(iVar17, iVar19) < 512)
             {
@@ -7082,14 +7082,14 @@ static inline void sna_init_main_logic_helper_800596FC(SnaInitWork *work)
         return;
     }
 
-    dword_800ABBAC = &work->control.field_60_vecs_ary[0];
-    dword_800ABBB4 = &work->control.field_5A[0];
-    dword_800ABBA8 = GV_VecDir2(&work->control.field_60_vecs_ary[0]);
+    dword_800ABBAC = &work->control.nearvecs[0];
+    dword_800ABBB4 = &work->control.nearflags[0];
+    dword_800ABBA8 = GV_VecDir2(&work->control.nearvecs[0]);
 
     if ((*dword_800ABBB4 & 0x40) == 0)
     {
         pVec_800ABBCC = dword_800ABBAC;
-        dword_800ABBB0 = work->control.field_70[0];
+        dword_800ABBB0 = work->control.nears[0];
         dword_800ABBD0 = dword_800ABBA8;
     }
 
@@ -7100,19 +7100,19 @@ static inline void sna_init_main_logic_helper_800596FC(SnaInitWork *work)
 
     if (cVar4 != 1)
     {
-        iVar9 = GV_VecDir2(&work->control.field_60_vecs_ary[1]);
+        iVar9 = GV_VecDir2(&work->control.nearvecs[1]);
         iVar10 = GV_DiffDirAbs(dir, dword_800ABBA8);
 
         if (GV_DiffDirAbs(dir, iVar9) < iVar10)
         {
-            dword_800ABBAC = &work->control.field_60_vecs_ary[1];
-            dword_800ABBB4 = &work->control.field_5A[1];
-            dword_800ABBA8 = GV_VecDir2(&work->control.field_60_vecs_ary[1]);
+            dword_800ABBAC = &work->control.nearvecs[1];
+            dword_800ABBB4 = &work->control.nearflags[1];
+            dword_800ABBA8 = GV_VecDir2(&work->control.nearvecs[1]);
 
             if ((*dword_800ABBB4 & 0x40) == 0)
             {
                 pVec_800ABBCC = dword_800ABBAC;
-                dword_800ABBB0 = work->control.field_70[1];
+                dword_800ABBB0 = work->control.nears[1];
                 dword_800ABBD0 = dword_800ABBA8;
             }
         }
@@ -7129,9 +7129,9 @@ static inline void sna_init_main_logic_helper_800596FC(SnaInitWork *work)
 
     if (result != 2)
     {
-        pVec_800ABBCC = &work->control.field_60_vecs_ary[result];
+        pVec_800ABBCC = &work->control.nearvecs[result];
         dword_800ABBD0 = GV_VecDir2(pVec_800ABBCC);
-        dword_800ABBB0 = work->control.field_70[result];
+        dword_800ABBB0 = work->control.nears[result];
     }
 
     diff = GV_DiffDirS(dir, dword_800ABBD0);
@@ -7226,7 +7226,7 @@ static inline void sna_init_main_logic_helper3_800596FC(SnaInitWork *work)
     if (work->field_9E4.field_9F0 != 0)
     {
         work->control.field_38 = 450;
-        work->control.field_36 = 450;
+        work->control.step_size = 450;
         work->field_A28 = 450;
 
         if ((uVar13 & 0x4002) == 0)
@@ -7759,7 +7759,7 @@ void sna_init_main_logic_800596FC(SnaInitWork *work)
 
     work->field_89C_pTarget->size.vy = vy;
 
-    if ( (work->field_A2C.vy < 0) && (work->control.field_57 != 0) )
+    if ( (work->field_A2C.vy < 0) && (work->control.level_flag != 0) )
     {
         work->field_A2C.vy = 0;
     }
@@ -7876,7 +7876,7 @@ void sna_init_main_logic_800596FC(SnaInitWork *work)
         work->field_9C0(work, work->field_9C4 - 1);
     }
 
-    work->control.field_36 = GV_NearExp4(work->control.field_36, work->field_A28);
+    work->control.step_size = GV_NearExp4(work->control.step_size, work->field_A28);
     work->control.step.vy = work->field_A2C.vy;
 
     sna_init_main_logic_helper6_800596FC(work);
@@ -7972,7 +7972,7 @@ static inline void sna_act_helper2_8005AD10(SnaInitWork *work)
         work->control.step.vx = work->field_A68.vx;
         work->control.step.vz = work->field_A68.vz;
 
-        if ( work->control.field_57 & 1 )
+        if ( work->control.level_flag & 1 )
         {
             sna_clear_flags1_8004E308(work, SNA_FLAG1_UNK24);
         }
@@ -8087,7 +8087,7 @@ void sna_act_8005AD10(SnaInitWork *work)
     flr_800ABBB8[0] = NULL;
     dword_800ABBC0 = 0;
 
-    if ( work->control.field_36 != -2 )
+    if ( work->control.step_size != -2 )
     {
         HZD_LevelMinMaxFloors(flr_800ABBB8);
 
@@ -8112,7 +8112,7 @@ void sna_act_8005AD10(SnaInitWork *work)
         UpdateLife_8004F6E8(work);
     }
 
-    if ( work->control.field_36 == -2 )
+    if ( work->control.step_size == -2 )
     {
         work->control.mov.vy += work->body.height - height;
         DG_SetPos2(&work->control.mov, &work->control.rot);

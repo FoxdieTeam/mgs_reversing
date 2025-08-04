@@ -111,17 +111,17 @@ int HZD_8005D288(HZD_HDL *hzd, int mesh_idx, int a3);
 #define HZD_NO_ZONE (0xFF)
 
 /* collide.c */
-int HZD_80026C68(SVECTOR *vectors, int param_2, int param_3, SVECTOR *param_4);
-void HZD_800272E0(HZD_FLR *floor, SVECTOR *out); // projectile related
+int HZD_StepCheck(SVECTOR *nears, int count, int scale, SVECTOR *out);
+void HZD_SurfaceNormal(HZD_FLR *floor, SVECTOR *out);
 int HZD_LineCheck(HZD_HDL *hzd, SVECTOR *from, SVECTOR *to, int flag, int exclude);
-HZD_FLR *HZD_80028820(void); // line check related
-int HZD_80028830(void); // line check related
-void HZD_80028840(SVECTOR *out); // line check related
-void HZD_80028890(SVECTOR *out); // line check related
+void *HZD_LineNearSurface(void);
+int HZD_LineNearFlag(void);
+void HZD_LineNearDir(SVECTOR *out);
+void HZD_LineNearVec(SVECTOR *out);
 int HZD_PointCheck(HZD_HDL *hzd, SVECTOR *point, int range, int flag, int exclude);
-void HZD_800292E4(HZD_FLR **floors); // point check related
-void HZD_80029304(char *char_arr); // point check related
-void HZD_80029324(SVECTOR *vectors); // point check related
+void HZD_PointNearSurface(void **surface);
+void HZD_PointNearFlag(char *char_arr);
+void HZD_PointNearVec(SVECTOR *vectors);
 
 #define HZD_CHECK_FLR    (0x1)
 #define HZD_CHECK_DYNFLR (0x2)
