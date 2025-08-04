@@ -810,7 +810,7 @@ void s12a_wolf2_800CECB4(Wolf2Work *work)
     control = &work->control;
     control->height = work->body.height;
 
-    if (work->f6BC < 0 && control->field_57 != 0)
+    if (work->f6BC < 0 && control->level_flag != 0)
     {
         work->f6BC = 0;
     }

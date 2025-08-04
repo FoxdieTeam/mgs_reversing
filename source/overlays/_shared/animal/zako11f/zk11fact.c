@@ -376,5 +376,5 @@ void Zako11FPushMove_800CDFAC( Zako11FWork *work )
 
     control = &work->control;
     control->turn.vy = ang;
-    control->field_36 = GV_NearExp2( control->field_36, work->unknown.field_1C );
+    control->step_size = GV_NearExp2( control->step_size, work->unknown.field_1C );
 }

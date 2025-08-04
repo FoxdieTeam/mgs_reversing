@@ -160,7 +160,7 @@ int Johnny_800C4194(JohnnyWork *work)
         return -1;
     }
 
-    HZD_80028890(&control_mov);
+    HZD_LineNearVec(&control_mov);
     GV_SubVec3(&control_mov, &player_pos, &player_pos);
     return GV_VecLen3(&player_pos);
 }
@@ -3527,7 +3527,7 @@ void JohnnyAct_800C9F7C(JohnnyWork *work)
     work->sna_auto_move.field_0_ivec.vx = HZD_GetAddress(
         work->control.map->hzd, &control->mov, work->sna_auto_move.field_0_ivec.vx);
     Johnny_800C9D64(work);
-    if (work->unkB30.vy < 0 && work->control.field_57 != 0)
+    if (work->unkB30.vy < 0 && work->control.level_flag != 0)
     {
         work->unkB30.vy = 0;
     }

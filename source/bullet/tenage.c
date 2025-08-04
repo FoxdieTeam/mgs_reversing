@@ -84,7 +84,7 @@ static void Act(Work *work)
     level = control->levels[0] + 100;
     if (level >= vy)
     {
-        control->field_57 |= 1;
+        control->level_flag |= 1;
         vy = level;
     }
     else
@@ -92,7 +92,7 @@ static void Act(Work *work)
         level = control->levels[1] - 100;
         if (level <= vy)
         {
-            control->field_57 |= 2;
+            control->level_flag |= 2;
             vy = level;
         }
     }
@@ -146,7 +146,7 @@ static void Act(Work *work)
         return;
     }
 
-    if (control->field_57 && work->step.vy <= 0)
+    if (control->level_flag && work->step.vy <= 0)
     {
         work->step.vy = -work->step.vy / 8;
         work->step.vz /= 4;
@@ -177,7 +177,7 @@ static void Act(Work *work)
 
     if (control->touch_flag > 0 && GM_CheckControlTouches(control, 300))
     {
-        HZD_800272E0(control->field_70[0], &vec);
+        HZD_SurfaceNormal(control->nears[0], &vec);
         DG_ReflectVector(&vec, &work->step, &work->step);
 
         work->step.vx /= 4;

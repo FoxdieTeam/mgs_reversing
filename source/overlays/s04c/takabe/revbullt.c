@@ -151,12 +151,12 @@ int s04c_revbullt_800D274C(RevbulltWork *work, MATRIX *world)
     ret = 0;
     if (HZD_LineCheck(GM_GetMap(work->map)->hzd, &sp18[0], &sp18[1], HZD_CHECK_ALL, 0x2))
     {
-        HZD_80028890(&sp18[1]);
+        HZD_LineNearVec(&sp18[1]);
 
-        floor = HZD_80028820();
+        floor = HZD_LineNearSurface();
         if (((int)floor & 0x80000000) != 0)
         {
-            HZD_800272E0(floor, &work->normal);
+            HZD_SurfaceNormal(floor, &work->normal);
         }
         else
         {

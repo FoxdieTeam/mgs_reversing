@@ -399,9 +399,9 @@ void Demodoll_800DDD84(DollWork *work)
     }
 
     control->height = body->height;
-    control->field_36 = -1;
+    control->step_size = -1;
 
-    if (work->fA78 < 0 && control->field_57 != 0)
+    if (work->fA78 < 0 && control->level_flag != 0)
     {
         work->fA78 = 0;
     }
