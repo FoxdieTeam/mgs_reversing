@@ -12,11 +12,11 @@
 
 typedef struct dmo_model_0x14
 {
-  int field_0_type;
-  int field_4_flags;
-  int field_8;
-  int field_C_hashCode;
-  int field_10;
+    int field_0_type;
+    int field_4_flags;
+    int field_8;
+    int field_C_hashCode;
+    int field_10;
 } dmo_model_0x14;
 
 typedef struct Dmo_Map8
@@ -27,133 +27,133 @@ typedef struct Dmo_Map8
 
 typedef struct demothrd_0x1C
 {
-  int field_0_magic;
-  int field_4_chunk_size;
-  int field_8_movie_frames;
-  int field_C_num_maps;
-  int field_10_num_models;
-  Dmo_Map8* field_14_pMaps;
-  dmo_model_0x14 *field_18_pModels;
+    int field_0_magic;
+    int field_4_chunk_size;
+    int field_8_movie_frames;
+    int field_C_num_maps;
+    int field_10_num_models;
+    Dmo_Map8* field_14_pMaps;
+    dmo_model_0x14 *field_18_pModels;
 } demothrd_0x1C;
 
 
 typedef struct dmo_data_0x34
 {
-  int field_0;
-  int field_4_type;
-  short field_8_x;
-  short field_A_y;
-  short field_C_z;
-  short field_E_x;
-  short field_10_y;
-  short field_12_z;
-  short field_14;
-  short field_16;
-  int field_18;
-  short field_1C;
-  short field_1E;
-  int field_20;
-  char field_24;
-  char field_25;
-  char field_26;
-  char field_27;
-  short field_28;
-  short field_2A;
-  int field_2C;
-  short field_30;
-  short field_32;
+    int field_0;
+    int field_4_type;
+    short field_8_x;
+    short field_A_y;
+    short field_C_z;
+    short field_E_x;
+    short field_10_y;
+    short field_12_z;
+    short field_14;
+    short field_16;
+    int field_18;
+    short field_1C;
+    short field_1E;
+    int field_20;
+    char field_24;
+    char field_25;
+    char field_26;
+    char field_27;
+    short field_28;
+    short field_2A;
+    int field_2C;
+    short field_30;
+    short field_32;
 } dmo_data_0x34;
 
 typedef struct dmo_6
 {
-  short field_0;
-  short field_2;
-  short field_4;
+    short field_0;
+    short field_2;
+    short field_4;
 } dmo_6;
 
 typedef struct dmo_data_0x18
 {
-  int field_0_type;
-  short field_4;
-  short field_6_rot_x;
-  short rot_y;
-  short field_A_rot_z;
-  short field_C_pos_x;
-  short field_E_pos_y;
-  short field_10_pos_z;
-  short field_12_total;
-  dmo_6 *field_14_pEndData;
+    int field_0_type;
+    short field_4;
+    short field_6_rot_x;
+    short rot_y;
+    short field_A_rot_z;
+    short field_C_pos_x;
+    short field_E_pos_y;
+    short field_10_pos_z;
+    short field_12_total;
+    dmo_6 *field_14_pEndData;
 } dmo_data_0x18;
 
 typedef struct dmo_data_0x28
 {
-  int field_0;
-  int field_4;
-  short field_8_xpos;
-  short field_A_ypos;
-  short field_C_zpos;
-  short field_E_x;
-  short field_10_y;
-  short field_12_z;
-  short field_14_z;
-  short field_16;
-  short field_18_count;
-  short field_1A;
-  dmo_data_0x34 *field_1C_dmo_data_offset;
-  short field_20_count;
-  short field_22;
-  dmo_data_0x18 *field_24_pDmoEnd;
+    int field_0;
+    int field_4;
+    short field_8_xpos;
+    short field_A_ypos;
+    short field_C_zpos;
+    short field_E_x;
+    short field_10_y;
+    short field_12_z;
+    short field_14_z;
+    short field_16;
+    short field_18_count;
+    short field_1A;
+    dmo_data_0x34 *field_1C_dmo_data_offset;
+    short field_20_count;
+    short field_22;
+    dmo_data_0x18 *field_24_pDmoEnd;
 } dmo_data_0x28;
 
 typedef struct dmo_m1e1_data
 {
-  OBJECT  field_0[2][3];
-  int     field_558_idx[2];
-  int     field_560;
-  SVECTOR field_564[2];
+    OBJECT  field_0[2][3];
+    int     field_558_idx[2];
+    int     field_560;
+    SVECTOR field_564[2];
 } dmo_m1e1_data;
 
 typedef struct dmo_hind
 {
-  int field_0;
-  int field_4;
-  int field_8;
-  int field_C;
+    int field_0;
+    int field_4;
+    int field_8;
+    int field_C;
 } dmo_hind;
 
 
 typedef struct dmo_model_0x1A4
 {
-  CONTROL        field_0_ctrl;
-  OBJECT         field_7C_obj;
-  MATRIX         field_160_mtx[2];
-  dmo_m1e1_data *field_1A0_pM1OrHind; // union, can be dmo_hind also, depending on the current stage
+    CONTROL        field_0_ctrl;
+    OBJECT         field_7C_obj;
+    MATRIX         field_160_mtx[2];
+    dmo_m1e1_data *field_1A0_pM1OrHind; // union, can be dmo_hind also, depending on the current stage
 } dmo_model_0x1A4;
 
 typedef struct dmo_chain_0x10
 {
-  int field_0_type;
-  int field_4_type;
-  int field_8_xy;
-  int field_C_zpad;
+    int field_0_type;
+    int field_4_type;
+    int field_8_xy;
+    int field_C_zpad;
 } dmo_chain_0x10;
 
 typedef struct DemothrdWork_0x78_Chain
 {
-  struct DemothrdWork_0x78_Chain *field_0_pPrev;
-  struct DemothrdWork_0x78_Chain *field_4_pNext;
-  char field_8_fileNameBuffer[4]; // union, also an int
-  GV_ACT *field_C_actor1;
-  GV_ACT *field_10_actor2;
-  dmo_chain_0x10 field_14[3];
-  int field_44;
-  int field_48;
-  int field_4C;
-  short field_50;
-  short field_52;
-  short field_54;
-  short field_56;
-  MATRIX field_58;
+    struct DemothrdWork_0x78_Chain *field_0_pPrev;
+    struct DemothrdWork_0x78_Chain *field_4_pNext;
+    char field_8_fileNameBuffer[4]; // union, also an int
+    GV_ACT *field_C_actor1;
+    GV_ACT *field_10_actor2;
+    dmo_chain_0x10 field_14[3];
+    int field_44;
+    int field_48;
+    int field_4C;
+    short field_50;
+    short field_52;
+    short field_54;
+    short field_56;
+    MATRIX field_58;
 } DemothrdWork_0x78_Chain;
 
 STATIC_ASSERT(sizeof(DemothrdWork_0x78_Chain) == 0x78,
