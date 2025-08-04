@@ -23,7 +23,7 @@ typedef struct {
     GV_ACT actor;
 } Work;
 
-extern Work GV_Work_800ACBF8;
+extern Work GV_Work;
 
 /*---------------------------------------------------------------------------*/
 
@@ -95,8 +95,8 @@ void GV_StartDaemon(void)
     GV_InitCacheSystem();
     GV_ResetSystem();
 
-    GV_InitActor(GV_ACTOR_DAEMON, &GV_Work_800ACBF8.actor, NULL);
-    GV_SetNamedActor(&GV_Work_800ACBF8.actor, Act, NULL, "gvd.c");
+    GV_InitActor(GV_ACTOR_DAEMON, &GV_Work.actor, NULL);
+    GV_SetNamedActor(&GV_Work.actor, Act, NULL, "gvd.c");
 
     GV_Clock = 0;
     GV_Time = 0;
