@@ -49,14 +49,14 @@ const char *MGS_MemoryCardName = {
 #endif
 };
 
-//static long GameStack_800ABBF0[512];
-//static long SdStack_800AC3F0[512];
+//static long GameStack[512];
+//static long SdStack[512];
 
 #define GAME_STACK_SIZE (2048)
 #define SD_STACK_SIZE   (2048)
 
-extern char GameStack_800ABBF0[GAME_STACK_SIZE];
-extern char SdStack_800AC3F0[SD_STACK_SIZE];
+extern char GameStack[GAME_STACK_SIZE];
+extern char SdStack[SD_STACK_SIZE];
 
 static void Main(void)
 {
@@ -99,7 +99,7 @@ static void Main(void)
     HZD_StartDaemon();
 
     printf("sound:");
-    mts_start_task(MTSID_SOUND_MAIN, SdMain, STACK_BOTTOM(SdStack_800AC3F0), SD_STACK_SIZE);
+    mts_start_task(MTSID_SOUND_MAIN, SdMain, STACK_BOTTOM(SdStack), SD_STACK_SIZE);
 
     while (!sd_task_active())
     {
@@ -122,7 +122,7 @@ static inline void START_GAME( void (*proc)(void) )
     // the game task stack was originally declared static here
     // ...or at least it is in 5thMix's work.5th/main/bm.c
 
-    mts_boot_task( MTSID_GAME, proc, STACK_BOTTOM(GameStack_800ABBF0), GAME_STACK_SIZE );
+    mts_boot_task( MTSID_GAME, proc, STACK_BOTTOM(GameStack), GAME_STACK_SIZE );
 }
 
 int main()
