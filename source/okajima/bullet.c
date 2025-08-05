@@ -55,7 +55,9 @@ typedef struct BulletWork
 
 // STATIC_ASSERT(sizeof(BulletWork) == 0x170, "sizeof(BulletWork) is wrong!");
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+#define EXEC_LEVEL  GV_ACTOR_LEVEL5
+
+#define SEGMENT_ATR ( HZD_SEG_NO_PLAYER )
 
 /*---------------------------------------------------------------------------*/
 
@@ -341,7 +343,7 @@ skip_clamp_z:
     {
         f168 = work->field_168;
 
-        if (f168 == 1 && HZD_LineCheck(map->hzd, &svec1, &svec2, HZD_CHECK_ALL, 0x4))
+        if (f168 == 1 && HZD_LineCheck(map->hzd, &svec1, &svec2, HZD_CHECK_ALL, SEGMENT_ATR))
         {
             HZD_LineNearVec(&work->field_118);
             work->field_130 = HZD_LineNearSurface();

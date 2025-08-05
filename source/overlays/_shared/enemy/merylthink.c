@@ -6,6 +6,8 @@
 #include "libhzd/libhzd.h"
 #include "game/game.h"
 
+#define SEGMENT_ATR ( HZD_SEG_NO_NAVIGATE )
+
 extern ENEMY_COMMAND EnemyCommand_800E0D98;
 extern unsigned int  COM_GameStatus_800E0F3C;
 extern SVECTOR       COM_PlayerPosition_800E0F30;
@@ -92,7 +94,7 @@ int s07a_meryl_unk_800DB484( WatcherWork *work, int addr, int addr2 )
     svec2.vy = zone2->y + 500;
     svec2.vz = zone2->z;
 
-    if ( HZD_LineCheck( hzd, &svec, &svec2, HZD_CHECK_DYNSEG, 0x2 ) != 0 )
+    if ( HZD_LineCheck( hzd, &svec, &svec2, HZD_CHECK_DYNSEG, SEGMENT_ATR ) != 0 )
     {
         printf((char *)s07a_aOkokokodd_800E2FB0, addr, addr2);
         return 1;

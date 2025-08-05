@@ -210,9 +210,9 @@ int s01a_blink_tx_800DD308(Asiato2Work2 *work, int name)
     int      i;
 
     events = &work->control->event;
-    for (i = 0; i < events->field_6_count; i++)
+    for (i = 0; i < events->n_triggers; i++)
     {
-        if (events->field_8_array[i] == name)
+        if (events->triggers[i] == name)
         {
             return 1;
         }

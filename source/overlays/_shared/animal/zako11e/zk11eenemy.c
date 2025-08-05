@@ -6,6 +6,8 @@
 #include "libhzd/libhzd.h"
 #include "game/game.h"
 
+#define SEGMENT_ATR ( HZD_SEG_NO_PLAYER )
+
 extern ZAKO_COMMAND ZakoCommand_800DF280;
 extern int          ZAKO11E_EYE_LENGTH_800C3904;
 
@@ -275,7 +277,7 @@ void s11e_zk11ecom_800D8668( ZakoWork* work )
                 if ( dis < 500 || GV_DiffDirAbs( work->vision.facedir, dir ) < work->vision.angle )
                 {
                     map = work->control.map;
-                    if ( !( HZD_LineCheck( map->hzd, pos, &ctrl->mov, HZD_CHECK_ALL, 0x4 ) ) )
+                    if ( !( HZD_LineCheck( map->hzd, pos, &ctrl->mov, HZD_CHECK_ALL, SEGMENT_ATR ) ) )
                     {
                         if ( !( sub_8002E2A8( &ctrl->mov, pos, map->index, &svec ) ) )
                         {

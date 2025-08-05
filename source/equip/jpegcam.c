@@ -42,6 +42,8 @@ extern char memoryCardFileName[]; // = "BISLPM-99999        ";
 #define CAMERA_SIGHT    0xeee9  // GV_StrCode("camera")
 #define CAMERA_SIGHT2   0xb3cd  // GV_StrCode("camera_2")
 
+#define SEGMENT_ATR     ( HZD_SEG_NO_RADAR|HZD_SEG_NO_COLLIDE )
+
 typedef struct _Work
 {
     GV_ACT         actor;
@@ -583,7 +585,7 @@ static int JpegcamGetZoomLimit(Work *work)
         DG_PutVector(dword_8009F3AC, &vector1, 2);
 
         cond = 0;
-        if (HZD_LineCheck(work->map->hzd, &vector1, &vector2, HZD_CHECK_ALL, 0x81) != 0)
+        if (HZD_LineCheck(work->map->hzd, &vector1, &vector2, HZD_CHECK_ALL, SEGMENT_ATR) != 0)
         {
             HZD_LineNearVec(&vector2);
             cond = 1;

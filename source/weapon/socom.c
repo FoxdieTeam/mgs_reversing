@@ -29,6 +29,8 @@ extern int     DG_CurrentGroupID;
 #define SOCOM_MODEL2    GV_StrCode("socom2")    /* w/ suppressor */
 #define LASER_TEXTURE   GV_StrCode("lsight")
 
+#define SEGMENT_ATR     ( HZD_SEG_NO_PLAYER )
+
 #define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE \
                         | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE )
 
@@ -205,7 +207,7 @@ static int socom_act_helper_80065408( Work *work )
     DG_SetPos( &work->parent->objs->objs[ work->num_parent ].world );
     DG_PutVector( stru_8009F3D4, vecs, 2 );
     map = work->control->map;
-    if ( HZD_LineCheck( map->hzd, vecs, &vecs[ 1 ], HZD_CHECK_ALL, 0x4 ) )
+    if ( HZD_LineCheck( map->hzd, vecs, &vecs[ 1 ], HZD_CHECK_ALL, SEGMENT_ATR ) )
     {
         HZD_LineNearVec( &vecs[ 1 ] );
         bCalcLen = 1;

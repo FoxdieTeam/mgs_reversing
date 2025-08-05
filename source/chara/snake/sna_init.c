@@ -89,6 +89,8 @@ extern short              snake_weapon_max_ammo_800BDCBC;
 #define TARGET_FLAG ( TARGET_POWER | TARGET_CAPTURE | TARGET_PUSH | TARGET_TOUCH | TARGET_SEEK )
 #define BODY_FLAG   ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE )
 
+#define SEGMENT_ATR ( HZD_SEG_NO_COLLIDE )
+
 /*
 actions are numbers which are an index to a motion in an oar file
 */
@@ -1002,7 +1004,7 @@ int sub_8004FCB8(SnaInitWork *work, MATRIX *pMtx, int param_3)
     vec_arr[0].vz = work->body.objs->objs[5].world.t[2];
     vec_arr[1] = vec;
 
-    if ( sub_8004E51C(vec_arr, work->control.map->hzd, 15, 1) < 0 )
+    if ( sub_8004E51C(vec_arr, work->control.map->hzd, HZD_CHECK_ALL, SEGMENT_ATR) < 0 )
     {
         GM_MoveTarget(pTarget, &vec);
         return GM_PowerTarget(pTarget);
@@ -1051,7 +1053,7 @@ int sna_8004FDE8(SnaInitWork *work, Target_Data *pTargetData)
         vecs[0] = work->control.mov;
         vecs[1] = pTarget->center;
 
-        if (sub_8004E51C(vecs, work->control.map->hzd, 15, 1) < 0)
+        if (sub_8004E51C(vecs, work->control.map->hzd, HZD_CHECK_ALL, SEGMENT_ATR) < 0)
         {
             work->field_8E8_pTarget = pTarget;
             return 1;
@@ -1208,7 +1210,7 @@ void sna_8005027C(SnaInitWork *work, int time)
             pVec = &stru_8009EFD4[1];
         }
 
-        if (sna_8004F628(work, pVec, 300, 12, 81, -1) > 0)
+        if (sna_8004F628(work, pVec, 300, HZD_CHECK_DYNSEG | HZD_CHECK_SEG, HZD_SEG_NO_BEHIND | HZD_SEG_NO_HARITSUKI | SEGMENT_ATR, -1) > 0)
         {
             sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK9);
             work->field_9C0 = sna_80057378;
@@ -1249,12 +1251,12 @@ void sna_80050440(SnaInitWork *work)
     if ((GM_GameOverTimer == 0) && (GM_SnakeCurrentHealth != 0))
     {
         pCtrl = &work->control;
-        pArr = pCtrl->event.field_8_array;
+        pArr = pCtrl->event.triggers;
 
         inDuct = GM_CheckPlayerStatusFlag(PLAYER_INTRUDE);
         GM_ClearPlayerStatusFlag(PLAYER_INTRUDE);
 
-        for (i = pCtrl->event.field_6_count; i > 0; pArr++, i--)
+        for (i = pCtrl->event.n_triggers; i > 0; pArr++, i--)
         {
             if (*pArr == 0x73D2)
             {
@@ -2192,7 +2194,7 @@ void sna_80051A10(SnaInitWork *work, SVECTOR *pPos, SVECTOR *pOut, SVECTOR *pVec
     vec = *pPos;
     vec2 = *pVec;
 
-    if (sub_8004E51C(&vec, work->control.map->hzd, 15, 1) < 0)
+    if (sub_8004E51C(&vec, work->control.map->hzd, HZD_CHECK_ALL, SEGMENT_ATR) < 0)
     {
         vec2 = *pVec;
     }
@@ -4126,7 +4128,7 @@ void sna_knock_80054D68(SnaInitWork *work, int time)
         vec.vy = 0;
         vec.vx = (dword_800ABBC4 == 4) ? 300 : -300;
 
-        if (sna_8004F628(work, &vec, -250, 12, 1, var_t0))
+        if (sna_8004F628(work, &vec, -250, HZD_CHECK_DYNSEG | HZD_CHECK_SEG, SEGMENT_ATR, var_t0))
         {
             temp_v0 = HZD_LineNearFlag();
             code = (temp_v0 >> 8) & 7;
@@ -7907,8 +7909,8 @@ void sna_init_main_logic_800596FC(SnaInitWork *work)
 
     GM_ClearPlayerStatusFlag(PLAYER_NOHIDDEN | PLAYER_HIDDEN);
 
-    hzd_count = work->control.event.field_6_count;
-    pHzdVal = work->control.event.field_8_array;
+    hzd_count = work->control.event.n_triggers;
+    pHzdVal = work->control.event.triggers;
 
     while ( hzd_count > 0 )
     {
