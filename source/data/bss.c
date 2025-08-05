@@ -12,7 +12,6 @@
 #include "game/game.h"
 #include "chara/snake/sna_init.h"
 #include "memcard/memcard.h"
-#include "game/map.h"
 #include "game/jimctrl.h"
 #include "mts/mts_new.h"
 #include "mts/mts_pad.h"

@@ -2,7 +2,6 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "game/game.h"
-#include "game/map.h"
 
 DG_OBJS *s00a_unknown3_800DC724(int model, LIT *lit, int flag)
 {

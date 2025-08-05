@@ -3,7 +3,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "game/map.h"
+#include "game/game.h"
 #include "takabe/thing.h"
 #include "strcode.h"
 

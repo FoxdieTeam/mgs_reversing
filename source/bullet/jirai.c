@@ -11,7 +11,6 @@
 #include "libhzd/libhzd.h"
 #include "game/game.h"
 #include "linkvar.h"
-#include "game/map.h"
 #include "okajima/claymore.h"
 #include "chara/snake/sna_init.h"
 #include "sd/g_sound.h"

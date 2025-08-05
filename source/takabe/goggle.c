@@ -5,7 +5,6 @@
 #include "libdg/libdg.h"
 #include "game/game.h"
 #include "linkvar.h"
-#include "game/map.h"
 #include "equip/equip.h"
 #include "scn_mask.h"
 

@@ -20,10 +20,8 @@
 
 #include "linkvar.h"
 #include "game/loader.h"
-#include "game/target.h"
 #include "game/homing.h"
 #include "game/over.h"
-#include "game/map.h"
 #include "game/camera.h"
 #include "menu/menuman.h"
 

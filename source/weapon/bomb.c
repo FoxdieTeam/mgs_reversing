@@ -6,7 +6,6 @@
 #include "bullet/bakudan.h"
 #include "game/game.h"
 #include "linkvar.h"
-#include "game/map.h"
 #include "sd/g_sound.h"
 
 extern int   DG_CurrentGroupID;
