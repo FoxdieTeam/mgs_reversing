@@ -4,7 +4,6 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "bullet/blast.h"
-#include "game/control.h"
 #include "game/game.h"
 #include "linkvar.h"
 #include "game/object.h"

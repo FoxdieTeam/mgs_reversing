@@ -2,7 +2,6 @@
 #define _GOGGLEIR_H_
 
 #include "game/game.h"
-#include "game/control.h"
 
 // thermal goggles (screen effect)
 

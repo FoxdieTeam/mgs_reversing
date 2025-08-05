@@ -8,7 +8,6 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "game/game.h"
-#include "game/control.h"
 #include "game/object.h"
 #include "linkvar.h"
 #include "game/map.h"

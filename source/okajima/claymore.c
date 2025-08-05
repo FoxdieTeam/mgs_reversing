@@ -9,7 +9,6 @@
 #include "libdg/libdg.h"
 #include "game/game.h"
 #include "game/map.h"
-#include "game/target.h"
 #include "anime/animconv/anime.h"
 #include "sd/g_sound.h"
 #include "spark.h"

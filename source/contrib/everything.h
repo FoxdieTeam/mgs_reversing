@@ -37,7 +37,6 @@
 #include "memcard/memcard.h"
 
 #include "game/game.h"
-#include "game/control.h"
 #include "game/camera.h"
 #include "game/delay.h"
 #include "linkvar.h"
@@ -48,8 +47,6 @@
 #include "game/map.h"
 #include "game/motion.h"
 #include "game/object.h"
-#include "game/strctrl.h"
-#include "game/target.h"
 #include "game/vibrate.h"
 #include "font/font.h"
 
