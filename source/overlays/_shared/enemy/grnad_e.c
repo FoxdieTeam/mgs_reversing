@@ -6,7 +6,6 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "bullet/tenage.h"
-#include "game/control.h"
 #include "game/game.h"
 #include "game/object.h"
 #include "weapon/weapon.h"

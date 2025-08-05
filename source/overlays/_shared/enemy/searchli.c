@@ -6,7 +6,6 @@
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "anime/animconv/anime.h"
-#include "game/control.h"
 #include "game/game.h"
 #include "linkvar.h"
 #include "overlays/_shared/enemy/enemy.h"

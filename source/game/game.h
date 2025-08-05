@@ -1,20 +1,25 @@
 #ifndef _GAME_H_
 #define _GAME_H_
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "charadef.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
+#include "menu/menuman.h"
+#include "sd/sd_cli.h"
+#include "sd/g_sound.h"
+
 #include "control.h"
 #include "target.h"
-#include "menu/menuman.h"
 #include "motion.h"
 #include "strctrl.h"
 //#include "linkvar.h"
-#include "sd/sd_cli.h"
-#include "sd/g_sound.h"
 
 enum GAMED_STATE {          // private to gamed.c
     WAIT_LOAD   = 0,

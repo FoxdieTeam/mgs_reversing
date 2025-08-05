@@ -3,7 +3,6 @@
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "game/camera.h"
-#include "game/control.h"
 #include "game/game.h"
 #include "game/object.h"
 #include "sd/g_sound.h"

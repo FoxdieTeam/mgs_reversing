@@ -5,7 +5,6 @@
 #include <libgte.h>
 #include <libgpu.h>
 #include "libgv/libgv.h"
-#include "game/control.h"
 #include "game/game.h"
 #include "game/object.h"
 #include "game/camera.h"
