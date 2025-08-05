@@ -3,7 +3,6 @@
 #include "bullet/blast.h"
 #include "game/game.h"
 #include "linkvar.h"
-#include "game/object.h"
 #include "game/vibrate.h"
 #include "takabe/thing.h"
 #include "strcode.h"
