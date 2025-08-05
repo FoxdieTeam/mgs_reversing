@@ -125,7 +125,9 @@ typedef struct ValcanWork
     int            field_950;
 } ValcanWork;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL4
+#define EXEC_LEVEL  GV_ACTOR_LEVEL4
+
+#define SEGMENT_ATR ( HZD_SEG_NO_NAVIGATE )
 
 SVECTOR s15c_dword_800C3608 = {0, 0, 100};
 SVECTOR s15c_dword_800C3610 = {64512, 0, 0};
@@ -889,9 +891,9 @@ int Valcan_800DA558(ValcanWork *work, int arg1)
     var_s0 = 0;
     if (dword_8009F46C[0] == 1 || amissile_alive_8009F490 == 1)
     {
-        if (HZD_LineCheck(work->control.map->hzd, &svec1, &work->field_51C, ( HZD_CHECK_DYNSEG | HZD_CHECK_SEG ), 0x2) == 0)
+        if (HZD_LineCheck(work->control.map->hzd, &svec1, &work->field_51C, ( HZD_CHECK_DYNSEG | HZD_CHECK_SEG ), SEGMENT_ATR) == 0)
         {
-            if (HZD_LineCheck(work->control.map->hzd, &svec1, &GM_PlayerPosition, ( HZD_CHECK_DYNSEG | HZD_CHECK_SEG ), 0x2) == 0)
+            if (HZD_LineCheck(work->control.map->hzd, &svec1, &GM_PlayerPosition, ( HZD_CHECK_DYNSEG | HZD_CHECK_SEG ), SEGMENT_ATR) == 0)
             {
                 var_s0 = Valcan_800D9DC0(work, 1);
                 if (var_s0 < work->field_68C)
@@ -906,7 +908,7 @@ int Valcan_800DA558(ValcanWork *work, int arg1)
                 return 1;
             }
         }
-        else if (HZD_LineCheck(work->control.map->hzd, &svec1, &GM_PlayerPosition, ( HZD_CHECK_DYNSEG | HZD_CHECK_SEG ), 0x2) == 0)
+        else if (HZD_LineCheck(work->control.map->hzd, &svec1, &GM_PlayerPosition, ( HZD_CHECK_DYNSEG | HZD_CHECK_SEG ), SEGMENT_ATR) == 0)
         {
             var_s0 = Valcan_800D9DC0(work, 1);
             flag = 1;
@@ -918,7 +920,7 @@ int Valcan_800DA558(ValcanWork *work, int arg1)
             return 0;
         }
     }
-    else if (HZD_LineCheck(work->control.map->hzd, &svec1, &GM_PlayerPosition, ( HZD_CHECK_DYNSEG | HZD_CHECK_SEG ), 0x2) != 0)
+    else if (HZD_LineCheck(work->control.map->hzd, &svec1, &GM_PlayerPosition, ( HZD_CHECK_DYNSEG | HZD_CHECK_SEG ), SEGMENT_ATR) != 0)
     {
         work->field_788 = 0;
         return 0;
