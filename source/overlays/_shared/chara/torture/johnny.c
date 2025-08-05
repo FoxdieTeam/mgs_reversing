@@ -85,7 +85,9 @@ typedef struct JohnnyWork
     int            unkBE4;
 } JohnnyWork;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+#define EXEC_LEVEL  GV_ACTOR_LEVEL5
+
+#define SEGMENT_ATR (0)
 
 #define TARGET_FLAG ( TARGET_POWER | TARGET_CAPTURE | TARGET_PUSH | TARGET_TOUCH | TARGET_SEEK )
 
@@ -155,7 +157,7 @@ int Johnny_800C4194(JohnnyWork *work)
 
     player_pos = GM_PlayerPosition;
     control_mov = work->control.mov;
-    if (HZD_LineCheck(work->control.map->hzd, &player_pos, &control_mov, ( HZD_CHECK_DYNSEG | HZD_CHECK_SEG ), 0) == 0)
+    if (HZD_LineCheck(work->control.map->hzd, &player_pos, &control_mov, ( HZD_CHECK_DYNSEG | HZD_CHECK_SEG ), SEGMENT_ATR) == 0)
     {
         return -1;
     }
@@ -207,18 +209,18 @@ void Johnny_800C430C(JohnnyWork *work)
 int Johnny_800C4388(JohnnyWork *work, int hash)
 {
     int             i;
-    unsigned short *field_8_array;
+    unsigned short *triggers;
 
     if (work->unkB5C != 0)
     {
         return 1;
     }
 
-    field_8_array = work->control.event.field_8_array;
+    triggers = work->control.event.triggers;
 
-    for (i = work->control.event.field_6_count; i > 0; i--, field_8_array++)
+    for (i = work->control.event.n_triggers; i > 0; i--, triggers++)
     {
-        if (*field_8_array == hash)
+        if (*triggers == hash)
         {
             return 1;
         }
@@ -229,13 +231,13 @@ int Johnny_800C4388(JohnnyWork *work, int hash)
 int Johnny_800C43D0(unsigned short hash)
 {
     int             i;
-    unsigned short *field_8_array;
+    unsigned short *triggers;
 
-    field_8_array = GM_PlayerControl->event.field_8_array;
+    triggers = GM_PlayerControl->event.triggers;
 
-    for (i = GM_PlayerControl->event.field_6_count; i > 0; i--, field_8_array++)
+    for (i = GM_PlayerControl->event.n_triggers; i > 0; i--, triggers++)
     {
-        if (*field_8_array == hash)
+        if (*triggers == hash)
         {
             return 1;
         }
@@ -247,18 +249,18 @@ void Johnny_800C4418(JohnnyWork *work)
 {
     int             i;
     int             new_unkB24;
-    unsigned short *field_8_array;
+    unsigned short *triggers;
 
     new_unkB24 = 0;
 
-    field_8_array = GM_PlayerControl->event.field_8_array;
-    for (i = GM_PlayerControl->event.field_6_count; i > 0; i--, field_8_array++)
+    triggers = GM_PlayerControl->event.triggers;
+    for (i = GM_PlayerControl->event.n_triggers; i > 0; i--, triggers++)
     {
-        if (*field_8_array == 0x41A5)
+        if (*triggers == 0x41A5)
         {
             new_unkB24 |= 2;
         }
-        if (*field_8_array == 0x6599)
+        if (*triggers == 0x6599)
         {
             new_unkB24 |= 8;
         }

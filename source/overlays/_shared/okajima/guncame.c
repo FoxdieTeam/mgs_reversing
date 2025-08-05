@@ -76,7 +76,9 @@ typedef struct GunCameWork
     int      field_418;
 } GunCameWork;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL4
+#define EXEC_LEVEL  GV_ACTOR_LEVEL4
+
+#define SEGMENT_ATR ( 0 )
 
 int s03e_dword_800C32B4 = 0x00000000;
 int s03e_dword_800C32B8 = 0x00000000;
@@ -266,7 +268,7 @@ int GunCame_800C7224(GunCameWork *work)
             if ((work->field_368 >= dx) &&
                 (work->field_368 >= dy) &&
                 (work->field_364 >= GV_DiffVec3(&work->control.mov, &work->field_3AC[index])) &&
-                !HZD_LineCheck(work->control.map->hzd, &work->control.mov, &work->field_3AC[index], HZD_CHECK_ALL, 0))
+                !HZD_LineCheck(work->control.map->hzd, &work->control.mov, &work->field_3AC[index], HZD_CHECK_ALL, SEGMENT_ATR))
             {
                 success = 1;
                 work->field_39C = index;

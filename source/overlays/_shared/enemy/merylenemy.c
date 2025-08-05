@@ -6,6 +6,8 @@
 #include "game/game.h"
 #include "linkvar.h"
 
+#define SEGMENT_ATR ( HZD_SEG_NO_PLAYER )
+
 extern CONTROL *GM_WhereList_800B56D0[94];
 
 extern int COM_EYE_LENGTH_800E0D8C;
@@ -317,7 +319,7 @@ void s07a_meryl_unk_800DAFD8( WatcherWork* work )
                 if ( dis < 500 || GV_DiffDirAbs( work->vision.facedir, dir ) < work->vision.angle )
                 {
                     map = work->control.map;
-                    if ( !( HZD_LineCheck( map->hzd, pos, &ctrl->mov, HZD_CHECK_ALL, 0x4 ) ) )
+                    if ( !( HZD_LineCheck( map->hzd, pos, &ctrl->mov, HZD_CHECK_ALL, SEGMENT_ATR ) ) )
                     {
                         if ( !( sub_8002E2A8( &ctrl->mov, pos, map->index, &svec ) ) )
                         {
