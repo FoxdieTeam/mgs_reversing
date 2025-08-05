@@ -38,7 +38,9 @@ typedef struct AsiatoCharWork
     int      field_50;
 } AsiatoCharWork;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL4
+#define EXEC_LEVEL  GV_ACTOR_LEVEL4
+
+#define SEGMENT_ATR ( HZD_SEG_NO_NAVIGATE )
 
 void AsiatoCharColor_800D0DD4(DG_PRIM *prim, DG_TEX *tex, int r, int g, int b)
 {
@@ -206,7 +208,7 @@ int NextAsiato_800D12D0(HZD_HDL *hdl, int idx, SVECTOR *svec2)
         return -1;
     }
 
-    if (HZD_LineCheck(hdl, svec2, vec, HZD_CHECK_ALL, 0x2))
+    if (HZD_LineCheck(hdl, svec2, vec, HZD_CHECK_ALL, SEGMENT_ATR))
     {
         return -1;
     }
@@ -254,7 +256,8 @@ int SearchNearAsiato_800D13B0(HZD_HDL* hzd, SVECTOR* mov, int facedir, int visio
             svec.vy = 0;
             len = GV_VecLen3( &svec );
 
-            if ( len < max_len && len < length && GV_DiffDirAbs( facedir, GV_VecDir2(&svec) )  < vision_unk && !HZD_LineCheck(hzd, mov, &AsiatoPositions[i], 0xF, 0x2) )
+            if ( len < max_len && len < length && GV_DiffDirAbs( facedir, GV_VecDir2(&svec) ) < vision_unk &&
+                !HZD_LineCheck(hzd, mov, &AsiatoPositions[i], HZD_CHECK_ALL, SEGMENT_ATR) )
             {
                 max_len = len;
                 s4 = i;

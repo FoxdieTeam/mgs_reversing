@@ -81,11 +81,13 @@ typedef struct CameraWork
     int            field_28C;
 } CameraWork;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL4
+#define EXEC_LEVEL  GV_ACTOR_LEVEL4
 
-#define LENS_DX 0
-#define LENS_DY 175
-#define LENS_DZ 600
+#define SEGMENT_ATR ( HZD_SEG_NO_NAVIGATE )
+
+#define LENS_DX     0
+#define LENS_DY     175
+#define LENS_DZ     600
 
 RECT    camera_rect_800C3B68 = {120, 120, 240, 240};
 SVECTOR Size_800C3B70 = {300, 300, 300, 0};
@@ -174,7 +176,7 @@ int s01a_camera_800D4E08(CameraWork *work)
     }
     if (work->field_1C8 != 0)
     {
-        if (HZD_LineCheck(ctrl->map->hzd, &ctrl->mov, &GM_PlayerPosition, HZD_CHECK_ALL, 0x2) != 0)
+        if (HZD_LineCheck(ctrl->map->hzd, &ctrl->mov, &GM_PlayerPosition, HZD_CHECK_ALL, SEGMENT_ATR) != 0)
         {
             work->field_1DC = 0;
             return 0;

@@ -25,12 +25,12 @@ typedef struct {
 } HZD_HDL;
 
 typedef struct {
-    u_short     field_0_scriptData_orHashedName;
-    u_short     field_2_name_hash;
-    u_short     field_4_trigger_Hash_Name_or_camera_w;
-    short       field_6_count;
-    u_short     field_8_array[6];
-    SVECTOR     field_14_vec;
+    u_short     name;
+    u_short     type;
+    u_short     last;
+    short       n_triggers;
+    u_short     triggers[6];
+    SVECTOR     pos;
 } HZD_EVT;
 
 typedef struct {
@@ -78,13 +78,9 @@ void HZD_BindMapChange( int mask );
 void HZD_SetEvent( HZD_EVT *event, int name );
 void HZD_ExecBindX( HZD_BIND *, HZD_EVT *, int, int );
 void HZD_ExecEventRCM(HZD_HDL *hzd, HZD_EVT *event, int arg2);
-void HZD_80029D50(HZD_HDL *hzd, HZD_EVT *event, int arg2);
-void HZD_8002A090(HZD_HDL *hzd, HZD_EVT *event, int flags, int hash);
 void HZD_ReExecEvent(HZD_HDL *hzd, HZD_EVT *event, unsigned int flags);
-void HZD_8002A258(HZD_HDL *hzd, HZD_EVT *event);
-void HZD_8002A27C(HZD_HDL *hzd, HZD_EVT *event);
-void HZD_8002A4B8(HZD_HDL *hzd, HZD_EVT *event);
-void HZD_8002A538(HZD_HDL *hzd, HZD_EVT *event);
+void HZD_ExecLeaveEvent(HZD_HDL *hzd, HZD_EVT *event);
+void HZD_EnterTrap(HZD_HDL *hzd, HZD_EVT *event);
 HZD_TRP *HZD_CheckBehindTrap(HZD_HDL *hzd, SVECTOR *svec);
 
 /* level.c */
@@ -128,5 +124,14 @@ void HZD_PointNearVec(SVECTOR *vectors);
 #define HZD_CHECK_SEG    (0x4)
 #define HZD_CHECK_DYNSEG (0x8)
 #define HZD_CHECK_ALL    (HZD_CHECK_SEG|HZD_CHECK_FLR|HZD_CHECK_DYNSEG|HZD_CHECK_DYNFLR)
+
+#define HZD_SEG_NO_COLLIDE   (0x01) /* collisions */
+#define HZD_SEG_NO_NAVIGATE  (0x02) /* enemy navigation */
+#define HZD_SEG_NO_PLAYER    (0x04) /* player sight */
+#define HZD_SEG_NO_MISSILE   (0x08) /* missile collisions */
+#define HZD_SEG_NO_HARITSUKI (0x10) /* attach c4 */
+#define HZD_SEG_NO_BULLET    (0x20) /* bullet collisions */
+#define HZD_SEG_NO_BEHIND    (0x40) /* player lean */
+#define HZD_SEG_NO_RADAR     (0x80) /* radar draw */
 
 #endif // _LIBHZD_H_

@@ -1,5 +1,7 @@
 #include "../../../_shared/enemy/enemy.h"
 
+#define SEGMENT_ATR ( HZD_SEG_NO_PLAYER )
+
 extern CONTROL *GM_WhereList[96];
 
 extern int             ZAKO11F_EYE_LENGTH_800C3694;
@@ -286,7 +288,7 @@ void s11i_asiato_800CDD64( Zako11FWork *work )
         }
 
         map = work->control.map;
-        if ( HZD_LineCheck( map->hzd, pos, mov, HZD_CHECK_ALL, 0x4 ) )
+        if ( HZD_LineCheck( map->hzd, pos, mov, HZD_CHECK_ALL, SEGMENT_ATR ) )
         {
             work->vision.field_B92 = 0;
             return;

@@ -26,11 +26,11 @@ int asioto_800C38AC(Work *work)
     int      j;
 
     event = &GM_PlayerControl->event;
-    for (i = 0; i < event->field_6_count; i++)
+    for (i = 0; i < event->n_triggers; i++)
     {
         for (j = 0; j < work->count; j++)
         {
-            if (event->field_8_array[i] == work->hash[j])
+            if (event->triggers[i] == work->hash[j])
             {
                 return j;
             }

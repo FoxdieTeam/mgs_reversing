@@ -26,6 +26,8 @@ extern void *NewBullet(MATRIX *pMtx, int a2, int a3, int noiseLen);
 
 #define RIFLE_MODEL     GV_StrCode("rifle")
 
+#define SEGMENT_ATR     ( HZD_SEG_NO_PLAYER )
+
 #define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE \
                         | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE )
 
@@ -77,7 +79,7 @@ static int GetZoomLimit(void)
 
     var_s2 = 0;
 
-    if (HZD_LineCheck(GM_PlayerControl->map->hzd, &vec[0], &vec[1], HZD_CHECK_ALL, 0x4))
+    if (HZD_LineCheck(GM_PlayerControl->map->hzd, &vec[0], &vec[1], HZD_CHECK_ALL, SEGMENT_ATR))
     {
         HZD_LineNearVec(&vec[1]);
         var_s2 = 1;
