@@ -46,6 +46,8 @@ extern CAMERA           GM_CameraList_800B7718[8];
                           DG_FLAG_GBOUND | DG_FLAG_ONEPIECE | \
                           DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE )
 
+#define SEGMENT_ATR     (HZD_SEG_NO_MISSILE)
+
 #define MISSILE_SPEED_SLOW      50
 #define MISSILE_SPEED_FAST      200
 
@@ -141,7 +143,7 @@ static void rmissile_8006B924(Work *work)
 
     ResetCameraState(work);
     GM_GameStatus &= ~GAME_FLAG_BIT_07;
-    HZD_8002A258(ctrl->map->hzd, &ctrl->event);
+    HZD_ExecLeaveEvent(ctrl->map->hzd, &ctrl->event);
 
     ctrl = GM_PlayerControl;
 
@@ -447,7 +449,7 @@ static void rmissile_act_helper_8006C114(Work *work)
         {
             if (++work->field_118 != 1000 && !GM_PowerTarget(&work->target) && !dword_8009F480 && !result)
             {
-                if (!HZD_PointCheck(work->control.map->hzd, position, 250, HZD_CHECK_ALL, 0x8))
+                if (!HZD_PointCheck(work->control.map->hzd, position, 250, HZD_CHECK_ALL, SEGMENT_ATR))
                 {
                     if (abs(position->vx) <= 30000 &&
                         abs(position->vy) <= 30000 &&

@@ -3,6 +3,8 @@
 #include "mts/mts.h"
 #include "game/game.h"
 
+#define SEGMENT_ATR ( HZD_SEG_NO_PLAYER )
+
 void ML72_ExecPutChar_800CB600(Meryl72Work *);
 void s07c_meryl72_unk1_800CABA0(Meryl72Work *);
 
@@ -236,7 +238,7 @@ void s07c_meryl72_unk1_800CBA9C(Meryl72Work* work)
     }
 
     map = work->control.map;
-    if (HZD_LineCheck(map->hzd, &GM_PlayerPosition, mov, HZD_CHECK_ALL, 0x4) ||
+    if (HZD_LineCheck(map->hzd, &GM_PlayerPosition, mov, HZD_CHECK_ALL, SEGMENT_ATR) ||
         sub_8002E2A8(mov, &GM_PlayerPosition, map->index, &sn_diff))
     {
         work->vision.field_06 = 0;

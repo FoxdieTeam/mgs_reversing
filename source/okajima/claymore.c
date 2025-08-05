@@ -59,7 +59,9 @@ typedef struct ClaymoreWork
     int       field_128;
 } ClaymoreWork;
 
-#define EXEC_LEVEL GV_ACTOR_AFTER
+#define EXEC_LEVEL  GV_ACTOR_AFTER
+
+#define SEGMENT_ATR ( HZD_SEG_NO_PLAYER )
 
 /*---------------------------------------------------------------------------*/
 
@@ -191,7 +193,7 @@ STATIC int claymore_loader_helper_800735A0(ClaymoreWork *work, SVECTOR *arg1, SV
 
     var_s2 = 0;
 
-    if (HZD_LineCheck(claymore_MAP_800bdf08->hzd, &vec, &vec2, HZD_CHECK_ALL, 0x4))
+    if (HZD_LineCheck(claymore_MAP_800bdf08->hzd, &vec, &vec2, HZD_CHECK_ALL, SEGMENT_ATR))
     {
         HZD_LineNearVec(&vec2);
         floor = HZD_LineNearSurface();

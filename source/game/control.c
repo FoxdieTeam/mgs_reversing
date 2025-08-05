@@ -401,9 +401,9 @@ void GM_ActControl(CONTROL *control)
 
     if (!(control->skip_flag & CTRL_SKIP_TRAP))
     {
-        control->event.field_14_vec = control->mov;
-        control->event.field_14_vec.pad = control->rot.vy;
-        HZD_8002A538(hzd, &control->event);
+        control->event.pos = control->mov;
+        control->event.pos.pad = control->rot.vy;
+        HZD_EnterTrap(hzd, &control->event);
     }
 
     DG_SetPos2(&control->mov, &control->rot);

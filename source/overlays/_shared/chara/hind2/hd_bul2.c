@@ -19,7 +19,9 @@ typedef struct _HdBul2Work
 
 SVECTOR s11i_800C32C8 = {200, 200, 200, 0};
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+#define EXEC_LEVEL  GV_ACTOR_LEVEL5
+
+#define SEGMENT_ATR ( HZD_SEG_NO_PLAYER )
 
 int HdBul2_800C5920( HdBul2Work *work )
 {
@@ -136,7 +138,7 @@ int HdBul2_800C5C68( HdBul2Work *work, SVECTOR *arg1 )
     sp18 = work->control.mov;
     sp20 = *arg1;
 
-    if ( HZD_LineCheck( work->control.map->hzd, &sp18, &sp20, ( HZD_CHECK_SEG | HZD_CHECK_FLR ), 0x4 ) )
+    if ( HZD_LineCheck( work->control.map->hzd, &sp18, &sp20, ( HZD_CHECK_SEG | HZD_CHECK_FLR ), SEGMENT_ATR ) )
     {
         HZD_LineNearVec( &sp20 );
         hit = 1;
