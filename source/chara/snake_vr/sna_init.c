@@ -1153,7 +1153,7 @@ void sna_8005027C(SnaInitWork *work, int time)
             pVec = &stru_8009EFD4[1];
         }
 
-        if (sna_8004F628(work, pVec, 300, HZD_CHECK_DYNSEG | HZD_CHECK_SEG, HZD_SEG_NO_BEHIND | HZD_SEG_NO_HARITSUKI | SEGMENT_ATR, -1) > 0)
+        if (sna_8004F628(work, pVec, 300, HZD_CHECK_DYNSEG | HZD_CHECK_SEG, SEGMENT_ATR | HZD_SEG_NO_BEHIND | HZD_SEG_NO_HARITSUKI, -1) > 0)
         {
             sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK9);
             work->field_9C0 = sna_80057378;
@@ -3452,7 +3452,7 @@ void sna_knock_80054D68(SnaInitWork *work, int time)
         vec.vy = 0;
         vec.vx = (dword_800ABBC4 == 4) ? 300 : -300;
 
-        if (sna_8004F628(work, &vec, -250, HZD_CHECK_DYNSEG | HZD_CHECK_SEG, HZD_SEG_NO_BEHIND | SEGMENT_ATR, var_t0))
+        if (sna_8004F628(work, &vec, -250, HZD_CHECK_DYNSEG | HZD_CHECK_SEG, SEGMENT_ATR | HZD_SEG_NO_BEHIND, var_t0))
         {
             temp_v0 = HZD_LineNearFlag();
             code = (temp_v0 >> 8) & 7;

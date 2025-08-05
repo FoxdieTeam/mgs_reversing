@@ -336,7 +336,7 @@ void Shuter_800DFBD8(ShuterWork *work)
     seg = work->seg;
     for (i = 2; i > 0; i--)
     {
-        HZD_QueueDynamicSegment2(work->hzd, seg, 0x110);
+        HZD_QueueDynamicSegment2(work->hzd, seg, 0x1 << 8 | HZD_SEG_NO_HARITSUKI);
         seg++;
     }
 }
