@@ -6,6 +6,8 @@
 #include "game/vibrate.h"
 #include "sd/g_sound.h"
 
+#define SEGMENT_ATR ( HZD_SEG_NO_BEHIND | HZD_SEG_NO_HARITSUKI | HZD_SEG_NO_PLAYER | HZD_SEG_NO_NAVIGATE | HZD_SEG_NO_COLLIDE )
+
 typedef struct _CraneWork
 {
     GV_ACT  actor;
@@ -780,13 +782,13 @@ void CraneAct_800D4C28(CraneWork *work)
 
         if ((work->crash_flag == 2 && work->f378 > 300) || work->status == 2)
         {
-            HZD_QueueDynamicSegment2(hzd, &work->d_hzd_side[1], 0xD7);
-            HZD_QueueDynamicSegment2(hzd, &work->d_hzd_side[3], 0xD7);
+            HZD_QueueDynamicSegment2(hzd, &work->d_hzd_side[1], SEGMENT_ATR | HZD_SEG_NO_RADAR);
+            HZD_QueueDynamicSegment2(hzd, &work->d_hzd_side[3], SEGMENT_ATR | HZD_SEG_NO_RADAR);
         }
         else
         {
-            HZD_QueueDynamicSegment2(hzd, &work->d_hzd_side[1], 0x57);
-            HZD_QueueDynamicSegment2(hzd, &work->d_hzd_side[3], 0x57);
+            HZD_QueueDynamicSegment2(hzd, &work->d_hzd_side[1], SEGMENT_ATR);
+            HZD_QueueDynamicSegment2(hzd, &work->d_hzd_side[3], SEGMENT_ATR);
         }
 
         target = work->target;
@@ -984,13 +986,13 @@ int s13a_crane_800D5394(CraneWork *work, int name)
 
     if (work->status == 2)
     {
-        HZD_QueueDynamicSegment2(hzd, &work->d_hzd_side[1], 0xD7);
-        HZD_QueueDynamicSegment2(hzd, &work->d_hzd_side[3], 0xD7);
+        HZD_QueueDynamicSegment2(hzd, &work->d_hzd_side[1], SEGMENT_ATR | HZD_SEG_NO_RADAR);
+        HZD_QueueDynamicSegment2(hzd, &work->d_hzd_side[3], SEGMENT_ATR | HZD_SEG_NO_RADAR);
     }
     else
     {
-        HZD_QueueDynamicSegment2(hzd, &work->d_hzd_side[1], 0x57);
-        HZD_QueueDynamicSegment2(hzd, &work->d_hzd_side[3], 0x57);
+        HZD_QueueDynamicSegment2(hzd, &work->d_hzd_side[1], SEGMENT_ATR);
+        HZD_QueueDynamicSegment2(hzd, &work->d_hzd_side[3], SEGMENT_ATR);
     }
 
     work->f384 = 0;

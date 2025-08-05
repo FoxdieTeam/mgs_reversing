@@ -5,6 +5,8 @@
 #include "takabe/thing.h"
 #include "sd/g_sound.h"
 
+#define SEGMENT_ATR ( HZD_SEG_NO_RADAR | HZD_SEG_NO_BULLET | HZD_SEG_NO_HARITSUKI | HZD_SEG_NO_PLAYER )
+
 typedef struct _GlassWork
 {
     GV_ACT   actor;
@@ -217,8 +219,8 @@ int GlassGetResources_800D335C(GlassWork *work, int name, int map)
     work->proc = THING_Gcl_GetInt('e');
 
     w = THING_Gcl_GetIntDefault('w', 125);
-    hzd_flags = THING_Gcl_GetIntDefault('z', 180);
-    hzd_flags &= ~0x4;
+    hzd_flags = THING_Gcl_GetIntDefault('z', SEGMENT_ATR);
+    hzd_flags &= ~HZD_SEG_NO_PLAYER;
 
     verts = work->verts;
 

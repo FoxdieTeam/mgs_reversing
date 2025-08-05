@@ -128,7 +128,7 @@ void s07a_meryl_unk_800DB590( WatcherWork *work )
     zone = &hzd->header->zones[ addr ];
     addr_copy = addr;
 
-    res = HZD_8005D168( hzd, addr, unk );
+    res = HZD_GetNears( hzd, addr, unk );
     work->search_flag = 1;
 
     if ( res > 0 )
@@ -447,7 +447,7 @@ void s07a_meryl_unk_800DBC78( WatcherWork* work )
 
     if ( work->field_B7C != 0xFF )
     {
-        if ( !( HZD_8005D134( work->control.map->hzd, &work->control.mov, work->field_B7C ) ) )
+        if ( !( HZD_ZoneContains( work->control.map->hzd, &work->control.mov, work->field_B7C ) ) )
         {
             s07a_meryl_unk_800DB7A8( work );
             work->think1 = 2;
@@ -582,7 +582,7 @@ void s07a_meryl_unk_800DBED4(WatcherWork* work) {
     temp_v0 = HZD_GetAddress(temp_s0, &work->control.mov, -1);
     work->field_C04 = temp_v0;
 
-    if (HZD_ZoneDistance(temp_s0, temp_v0 & 0xFF, (char)work->target_addr) < 0xC8) {
+    if (HZD_NavigateLength(temp_s0, temp_v0 & 0xFF, (char)work->target_addr) < 0xC8) {
 
         work->pad.mode = 0;
         return;
@@ -918,7 +918,7 @@ int s07a_meryl_unk_800DC5B0( WatcherWork *work )
 
         if ( !( work->field_C00 & 1 ) )
         {
-            addr3 = HZD_8005CB48( hzd, addr2, addr, &ctrl->mov );
+            addr3 = HZD_LinkRouteEqual( hzd, addr2, addr, &ctrl->mov );
             zone = &hzd->header->zones[ addr3 ];
 
             if ( GM_PlayerPosition.vx & 1 )
@@ -2522,7 +2522,7 @@ void s07a_meryl_unk_800DE908( WatcherWork *work )
     {
         if ( work->vision.field_B92 != 2 )
         {
-            if (!(HZD_8005D134( work->control.map->hzd, &work->control.mov, work->field_B7C )))
+            if (!(HZD_ZoneContains( work->control.map->hzd, &work->control.mov, work->field_B7C )))
             {
                 s07a_meryl_unk_800DBACC(work);
             }

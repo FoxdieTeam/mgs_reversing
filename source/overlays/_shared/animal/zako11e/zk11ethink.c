@@ -619,7 +619,7 @@ void s11e_zk11ecom_800D9654( ZakoWork *work ) {
             work->count3 = 0;
         }
 
-        if (!(HZD_8005D134( work->control.map->hzd, &work->control.mov, work->field_B78 )))
+        if (!(HZD_ZoneContains( work->control.map->hzd, &work->control.mov, work->field_B78 )))
         {
             s11e_zk11ecom_800D8A44( work );
         }
