@@ -21,6 +21,8 @@
 #include "strctrl.h"
 //#include "linkvar.h"
 
+/*---------------------------------------------------------------------------*/
+
 enum GAMED_STATE {          // private to gamed.c
     WAIT_LOAD   = 0,
     WORKING     = 1
@@ -32,6 +34,16 @@ typedef struct gameWork     // private to gamed.c
     int     status;         // enum GAMED_STATE
     int     killing_count;  // name taken from MGS4
 } gameWork;
+
+/*---------------------------------------------------------------------------*/
+
+typedef struct HITTABLE
+{
+    int      type;    // Not read from, set as either WP_Claymore or WP_C4
+    GV_ACT  *actor;
+    CONTROL *control;
+    void    *data;    // The thing being collided with, can be walls, floors, targets
+} HITTABLE;
 
 #define DG_MAX_JOINTS 24
 

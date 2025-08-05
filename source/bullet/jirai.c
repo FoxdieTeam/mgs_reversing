@@ -10,7 +10,6 @@
 #include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
 #include "game/game.h"
-#include "game/hittable.h"
 #include "linkvar.h"
 #include "game/map.h"
 #include "okajima/claymore.h"

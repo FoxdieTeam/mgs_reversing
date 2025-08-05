@@ -4,7 +4,7 @@
 #include "bullet/bakudan.h"
 #include "bullet/jirai.h"
 #include "game/camera.h"
-#include "game/hittable.h"
+#include "game/game.h"
 #include "linkvar.h"
 
 // Actor created by NewRasen_800CBA7C

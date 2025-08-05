@@ -18,7 +18,6 @@
 #include "mts/mts_pad.h"
 #include "mts/terminal.h"
 #include "game/homing.h"
-#include "game/hittable.h"
 #include "sd/sd_cli.h"
 #include "sd/sd_incl.h"
 #include "game/camera.h"

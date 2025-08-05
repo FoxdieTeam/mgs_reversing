@@ -9,7 +9,6 @@
 #include "libgv/libgv.h"
 #include "chara/snake/sna_init.h"
 #include "game/game.h"
-#include "game/hittable.h"
 #include "linkvar.h"
 #include "sd/g_sound.h"
 
