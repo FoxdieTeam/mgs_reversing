@@ -2,9 +2,9 @@
 
 #include <stdio.h>
 #include "common.h"
-#include "game/game.h"
-#include "game/object.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
+#include "game/game.h"
 #include "strcode.h"
 
 typedef struct _Work

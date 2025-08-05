@@ -3,7 +3,6 @@
 
 #include "common.h"
 #include "game/game.h"
-#include "game/object.h"
 #include "game/camera.h"
 #include "weapon/weapon.h"
 #include "game/homing.h"

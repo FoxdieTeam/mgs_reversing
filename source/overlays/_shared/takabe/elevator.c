@@ -6,7 +6,6 @@
 #include "libhzd/libhzd.h"
 #include "game/game.h"
 #include "game/hittable.h"
-#include "game/object.h"
 #include "game/vibrate.h"
 #include "takabe/thing.h"
 #include "bullet/bakudan.h"

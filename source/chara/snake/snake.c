@@ -7,7 +7,7 @@
 #endif
 
 #include "linkvar.h"
-#include "game/object.h"
+#include "game/game.h"
 
 #define SEGMENT_ATR ( HZD_SEG_NO_COLLIDE )
 

@@ -1,13 +1,12 @@
-#include "object.h"
-
 #include <sys/types.h>
 #include <kernel.h>
 #include <libapi.h>
 
 #include "common.h"
-#include "game.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+
+#include "game.h"
 #include "motion.h"
 
 /*-----sbss---------------------------------------*/

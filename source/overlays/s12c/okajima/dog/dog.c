@@ -4,7 +4,6 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "game/homing.h"
-#include "game/object.h"
 #include "okajima/blood.h"
 
 typedef struct DogWork

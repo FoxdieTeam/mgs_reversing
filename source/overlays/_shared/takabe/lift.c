@@ -1,7 +1,6 @@
 #include "common.h"
 #include "game/game.h"
 #include "game/hittable.h"
-#include "game/object.h"
 #include "takabe/thing.h"
 #include "bullet/bakudan.h"
 

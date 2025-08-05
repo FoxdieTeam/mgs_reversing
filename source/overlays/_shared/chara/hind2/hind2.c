@@ -4,7 +4,6 @@
 #include "libgv/libgv.h"
 #include "game/game.h"
 #include "linkvar.h"
-#include "game/object.h"
 
 typedef struct _Hind2Work
 {

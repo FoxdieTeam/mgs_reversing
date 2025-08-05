@@ -7,7 +7,7 @@
 #include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
 #include "mts/mts.h" // for fprintf
-#include "game/object.h"
+#include "game/game.h"
 #include "game/map.h"
 #include "strcode.h"
 

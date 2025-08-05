@@ -6,7 +6,7 @@
 #include "game/camera.h"
 #include "linkvar.h"
 #include "game/map.h"
-#include "game/object.h"
+#include "game/game.h"
 #include "thing/sight.h"
 
 extern int DG_CurrentGroupID;

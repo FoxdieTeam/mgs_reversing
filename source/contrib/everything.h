@@ -46,7 +46,6 @@
 #include "game/loader.h"
 #include "game/map.h"
 #include "game/motion.h"
-#include "game/object.h"
 #include "game/vibrate.h"
 #include "font/font.h"
 
