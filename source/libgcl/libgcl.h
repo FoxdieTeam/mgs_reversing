@@ -3,7 +3,7 @@
 
 #include "common.h"
 #include "menu/menuman.h"
-#include "game/map.h"
+#include "game/map.h"       // for AreaHistory
 
 /*---------------------------------------------------------------------------*/
 

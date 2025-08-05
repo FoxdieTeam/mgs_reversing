@@ -14,7 +14,6 @@
 #include "linkvar.h"
 #include "okajima/chafgrnd.h"
 #include "okajima/stngrnd.h"
-#include "game/map.h"
 #include "strcode.h"
 
 extern int           DG_CurrentGroupID;

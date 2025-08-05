@@ -13,7 +13,6 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "linkvar.h"
-#include "game/map.h"
 #include "sd/g_sound.h"
 #include "strcode.h"
 

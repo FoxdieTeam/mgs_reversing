@@ -15,6 +15,7 @@
 #include "sd/sd_cli.h"
 #include "sd/g_sound.h"
 
+#include "map.h"
 #include "control.h"
 #include "target.h"
 #include "motion.h"

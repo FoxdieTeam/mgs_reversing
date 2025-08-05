@@ -8,7 +8,6 @@
 #include "libhzd/libhzd.h"
 #include "mts/mts.h" // for fprintf
 #include "game/game.h"
-#include "game/map.h"
 #include "strcode.h"
 
 extern int dword_8009F470;

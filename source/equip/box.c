@@ -5,7 +5,6 @@
 #include "libdg/libdg.h"
 #include "game/camera.h"
 #include "linkvar.h"
-#include "game/map.h"
 #include "game/game.h"
 #include "thing/sight.h"
 

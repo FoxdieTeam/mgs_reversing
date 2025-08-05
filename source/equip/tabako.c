@@ -9,7 +9,6 @@
 #include "libdg/libdg.h"
 #include "game/game.h"
 #include "linkvar.h"
-#include "game/map.h"
 #include "anime/animconv/anime.h"
 
 /*---------------------------------------------------------------------------*/

@@ -9,7 +9,6 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "game/game.h"
-#include "game/map.h"
 
 extern unsigned short gSparkRandomTable[];
 
