@@ -173,7 +173,7 @@ void s07c_meryl72_unk2_800CEF98(Meryl72Work *work)
         work->fC38 = 0;
         work->count3 = 0;
     }
-    else if (!HZD_8005D134(control->map->hzd, &control->mov, work->param.defends[0]))
+    else if (!HZD_ZoneContains(control->map->hzd, &control->mov, work->param.defends[0]))
     {
         s07c_meryl72_unk2_800CEBF4(work);
         work->think3 = 2;
@@ -383,7 +383,7 @@ void s07c_meryl72_unk2_800CF4C0(Meryl72Work *work)
     {
         control = &work->control;
 
-        if (!HZD_8005D134(control->map->hzd, &control->mov, work->param.defends[0]))
+        if (!HZD_ZoneContains(control->map->hzd, &control->mov, work->param.defends[0]))
         {
             s07c_meryl72_unk2_800CEBF4(work);
             work->think3 = 2;
@@ -541,7 +541,7 @@ void s07c_meryl72_unk2_800CF824(Meryl72Work *work)
 
     control = &work->control;
 
-    if ((work->count3 & 0x1F) == 0 && !HZD_8005D134(control->map->hzd, &control->mov, work->param.defends[0]))
+    if ((work->count3 & 0x1F) == 0 && !HZD_ZoneContains(control->map->hzd, &control->mov, work->param.defends[0]))
     {
         s07c_meryl72_unk2_800CEBF4(work);
         work->think3 = 2;

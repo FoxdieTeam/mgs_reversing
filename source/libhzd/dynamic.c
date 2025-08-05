@@ -1,7 +1,7 @@
 #include "libhzd.h"
 #include "common.h"
 
-int HZD_QueueDynamicSegment2(HZD_HDL *hdl, HZD_SEG *seg, int a_param_with_flag)
+int HZD_QueueDynamicSegment2(HZD_HDL *hdl, HZD_SEG *seg, int flag)
 {
     int idx = hdl->dynamic_queue_index;
     if ( idx >= hdl->max_dynamic_segments )
@@ -9,8 +9,8 @@ int HZD_QueueDynamicSegment2(HZD_HDL *hdl, HZD_SEG *seg, int a_param_with_flag)
         return -1;
     }
     hdl->dynamic_segments[idx] = seg;
-    hdl->dynamic_flags[idx] = a_param_with_flag;
-    hdl->dynamic_flags[hdl->max_dynamic_segments + idx] = a_param_with_flag >> 8;
+    hdl->dynamic_flags[idx] = flag;
+    hdl->dynamic_flags[hdl->max_dynamic_segments + idx] = flag >> 8;
     hdl->dynamic_queue_index = idx + 1;
     return 0;
 }

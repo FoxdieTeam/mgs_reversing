@@ -48,7 +48,7 @@ int s07c_meryl72_unk1_800CB6E8(HZD_HDL *hzd, SVECTOR *from, SVECTOR *to)
     from_addr &= 0xFF;
     to_addr &= 0xFF;
 
-    return HZD_ZoneDistance(hzd, from_addr, to_addr);
+    return HZD_NavigateLength(hzd, from_addr, to_addr);
 }
 
 void s07c_meryl72_unk1_800CB748(Meryl72Work* work)
