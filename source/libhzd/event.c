@@ -106,21 +106,21 @@ void HZD_SetEvent( HZD_EVT *event, int name )
     unsigned short *tmp;
     int             i;
 
-    event->field_0_scriptData_orHashedName = name;
-    event->field_6_count = 0;
-    event->field_4_trigger_Hash_Name_or_camera_w = 0;
-    event->field_2_name_hash = 0;
+    event->name = name;
+    event->n_triggers = 0;
+    event->last = 0;
+    event->type = 0;
 
-    tmp = event->field_8_array;
+    tmp = event->triggers;
 
     for ( i = 6 ; i > 0 ; i-- )
     {
         *tmp++ = 0;
     }
 
-    event->field_14_vec.vz = 0;
-    event->field_14_vec.vy = 0;
-    event->field_14_vec.vx = 0;
+    event->pos.vz = 0;
+    event->pos.vy = 0;
+    event->pos.vx = 0;
 }
 
 void HZD_ExecBindX( HZD_BIND *pBind, HZD_EVT *event, int a3, int a4 )
@@ -134,11 +134,11 @@ void HZD_ExecBindX( HZD_BIND *pBind, HZD_EVT *event, int a3, int a4 )
     GCL_ARGS gclArgs; // [sp+10h] [-28h] BYREF
     long args[8]; // [sp+18h] [-20h] BYREF
 
-    f_4 = event->field_4_trigger_Hash_Name_or_camera_w;
-    msg_type = event->field_0_scriptData_orHashedName;
-    x = event->field_14_vec.vx;
-    y = event->field_14_vec.vy;
-    z= event->field_14_vec.vz;
+    f_4 = event->last;
+    msg_type = event->name;
+    x = event->pos.vx;
+    y = event->pos.vy;
+    z= event->pos.vz;
     gclArgs.argc = 7;
     gclArgs.argv = args;
     f_10 = pBind->field_10_every;
@@ -164,13 +164,12 @@ void HZD_ExecBindX( HZD_BIND *pBind, HZD_EVT *event, int a3, int a4 )
     }
 }
 
-static inline int HZD_helper_80029B9C(unsigned short value, unsigned int hash)
+static inline int HashMatch(unsigned short value, unsigned int hash)
 {
     return (value == 0) || (value == hash);
 }
 
-//HZD_ExecEventRCM ?
-void HZD_ExecEventRCM( HZD_HDL *hdl, HZD_EVT *event, int arg2 )
+void HZD_ExecEventRCM( HZD_HDL *hzd, HZD_EVT *event, int arg2 )
 {
     HZD_BIND  *pBind;
     unsigned int hash;
@@ -181,33 +180,33 @@ void HZD_ExecEventRCM( HZD_HDL *hdl, HZD_EVT *event, int arg2 )
     unsigned int name2;
 
     pBind = gpBinds_800AB9BC;
-    hash = event->field_0_scriptData_orHashedName;
-    name = event->field_2_name_hash;
-    trigger = event->field_4_trigger_Hash_Name_or_camera_w;
+    hash = event->name;
+    name = event->type;
+    trigger = event->last;
 
     count = gLastBindNum_800AB9B8;
     for (count--; count >= 0; pBind++, count--)
     {
         one = 1;
 
-        if (!HZD_helper_80029B9C(pBind->field_4, trigger))
+        if (!HashMatch(pBind->field_4, trigger))
         {
             continue;
         }
 
-        if (!(pBind->map & hdl->map))
+        if (!(pBind->map & hzd->map))
         {
             continue;
         }
 
-        if (!HZD_helper_80029B9C(pBind->field_0, hash))
+        if (!HashMatch(pBind->field_0, hash))
         {
             if (!(pBind->field_8_param_i_c_flags & 0x2))
             {
                 continue;
             }
 
-            if (!HZD_helper_80029B9C(pBind->field_0, CHARA_SNAKE))
+            if (!HashMatch(pBind->field_0, CHARA_SNAKE))
             {
                 continue;
             }
@@ -233,7 +232,7 @@ void HZD_ExecEventRCM( HZD_HDL *hdl, HZD_EVT *event, int arg2 )
             pBind->field_8_param_i_c_flags &= ~0x80;
         }
 
-        if (HZD_helper_80029B9C(pBind->field_2_param_m, name2))
+        if (HashMatch(pBind->field_2_param_m, name2))
         {
             HZD_ExecBindX(pBind, event, name2, 2);
         }
@@ -252,7 +251,7 @@ static inline int HZD_helper2_80029D50(HZD_BIND *pBind, HZD_EVT *event)
 
     if (pBind->field_B_param_e & 0x1)
     {
-        diff = (-pBind->field_C_param_d + event->field_14_vec.pad) & 0xFFF;
+        diff = (-pBind->field_C_param_d + event->pos.pad) & 0xFFF;
 
         if (diff > 2048)
         {
@@ -309,7 +308,7 @@ static inline int HZD_helper2_80029D50(HZD_BIND *pBind, HZD_EVT *event)
 }
 
 // HZD_ExecEventL ?
-void HZD_80029D50(HZD_HDL *hdl, HZD_EVT *event, int arg2)
+STATIC void HZD_80029D50(HZD_HDL *hzd, HZD_EVT *event, int arg2)
 {
     HZD_BIND   *pBind;
     unsigned int  hash, hash2;
@@ -318,27 +317,27 @@ void HZD_80029D50(HZD_HDL *hdl, HZD_EVT *event, int arg2)
     int           count;
     unsigned char flag;
 
-    if (event->field_0_scriptData_orHashedName == CHARA_RCM)
+    if (event->name == CHARA_RCM)
     {
-        HZD_ExecEventRCM(hdl, event, arg2);
+        HZD_ExecEventRCM(hzd, event, arg2);
         return;
     }
 
     pBind = gpBinds_800AB9BC;
 
-    hash = event->field_0_scriptData_orHashedName;
-    name = event->field_2_name_hash;
-    trigger = event->field_4_trigger_Hash_Name_or_camera_w;
+    hash = event->name;
+    name = event->type;
+    trigger = event->last;
 
     count = gLastBindNum_800AB9B8;
     for (count--; count >= 0; pBind++, count--)
     {
-        if (!HZD_helper_80029B9C(pBind->field_4, trigger) || !(pBind->map & hdl->map))
+        if (!HashMatch(pBind->field_4, trigger) || !(pBind->map & hzd->map))
         {
             continue;
         }
 
-        if (!HZD_helper_80029B9C(pBind->field_0, hash))
+        if (!HashMatch(pBind->field_0, hash))
         {
             continue;
         }
@@ -375,7 +374,7 @@ void HZD_80029D50(HZD_HDL *hdl, HZD_EVT *event, int arg2)
             pBind->field_8_param_i_c_flags &= ~0x80;
         }
 
-        if (HZD_helper_80029B9C(pBind->field_2_param_m, hash2))
+        if (HashMatch(pBind->field_2_param_m, hash2))
         {
             HZD_ExecBindX(pBind, event, hash2, 0);
         }
@@ -383,7 +382,7 @@ void HZD_80029D50(HZD_HDL *hdl, HZD_EVT *event, int arg2)
 }
 
 //HZD_ExecEventSub ?
-void HZD_8002A090(HZD_HDL *hdl, HZD_EVT *event, int flags, int hash)
+STATIC void HZD_8002A090(HZD_HDL *hzd, HZD_EVT *event, int flags, int hash)
 {
     HZD_BIND     *pBinds;
     int             bindCount;
@@ -394,11 +393,11 @@ void HZD_8002A090(HZD_HDL *hdl, HZD_EVT *event, int flags, int hash)
     pBinds = gpBinds_800AB9BC;
     bindCount = gLastBindNum_800AB9B8;
 
-    msgType = event->field_0_scriptData_orHashedName;
+    msgType = event->name;
 
     for (bindCount--; bindCount >= 0; pBinds++, bindCount--)
     {
-        if (!(pBinds->map & hdl->map))
+        if (!(pBinds->map & hzd->map))
         {
             continue;
         }
@@ -408,16 +407,16 @@ void HZD_8002A090(HZD_HDL *hdl, HZD_EVT *event, int flags, int hash)
             continue;
         }
 
-        if (!HZD_helper_80029B9C(pBinds->field_0, msgType))
+        if (!HashMatch(pBinds->field_0, msgType))
         {
             continue;
         }
 
-        pArray = event->field_8_array;
+        pArray = event->triggers;
 
-        for (count = event->field_6_count; count > 0; count--, pArray++)
+        for (count = event->n_triggers; count > 0; count--, pArray++)
         {
-            if (HZD_helper_80029B9C(pBinds->field_4, *pArray) && HZD_helper_80029B9C(pBinds->field_2_param_m, hash))
+            if (HashMatch(pBinds->field_4, *pArray) && HashMatch(pBinds->field_2_param_m, hash))
             {
                 HZD_ExecBindX(pBinds, event, hash, 1);
             }
@@ -425,40 +424,34 @@ void HZD_8002A090(HZD_HDL *hdl, HZD_EVT *event, int flags, int hash)
     }
 }
 
-void HZD_ReExecEvent(HZD_HDL *hdl, HZD_EVT *event, unsigned int flags)
+void HZD_ReExecEvent(HZD_HDL *hzd, HZD_EVT *event, unsigned int flags)
 {
     if (flags & 0x200)
     {
-        HZD_8002A090(hdl, event, flags, HASH_LEAVE);
+        HZD_8002A090(hzd, event, flags, HASH_LEAVE);
     }
     if (flags & 0x100)
     {
-        HZD_8002A090(hdl, event, flags, HASH_ENTER);
+        HZD_8002A090(hzd, event, flags, HASH_ENTER);
     }
 }
 
-//ExecLeaveEvent ?
-void HZD_8002A258(HZD_HDL *hzd, HZD_EVT *event)
+void HZD_ExecLeaveEvent(HZD_HDL *hzd, HZD_EVT *event)
 {
     HZD_8002A090(hzd, event, 0, HASH_LEAVE);
 }
 
-static inline int HZD_8002A27C_helper(void)
+static inline int CheckTrapBounds(void)
 {
-    if (*(short *)0x1F800000 <  *(short *)0x1F800008 ||
-        *(short *)0x1F800000 >= *(short *)0x1F800010)
-    {
-        return 0;
-    }
+    HZD_VEC *pos;
+    HZD_SEG *box;
 
-    if (*(short *)0x1F800002 <  *(short *)0x1F80000A ||
-        *(short *)0x1F800002 >= *(short *)0x1F800012)
-    {
-        return 0;
-    }
+    pos = (HZD_VEC *)(SCRPAD_ADDR + 0);
+    box = (HZD_SEG *)(SCRPAD_ADDR + 8);
 
-    if (*(short *)0x1F800004 <  *(short *)0x1F80000C ||
-        *(short *)0x1F800004 >= *(short *)0x1F800014)
+    if (pos->x < box->p1.x || pos->x >= box->p2.x ||
+        pos->z < box->p1.z || pos->z >= box->p2.z ||
+        pos->y < box->p1.y || pos->y >= box->p2.y)
     {
         return 0;
     }
@@ -483,50 +476,49 @@ static inline int HZD_8002A27C_helper2(unsigned short *ptrIn, unsigned int targe
     return 0;
 }
 
-void HZD_8002A27C(HZD_HDL *hdl, HZD_EVT *event)
+STATIC void HZD_8002A27C(HZD_HDL *hzd, HZD_EVT *event)
 {
-    HZD_GRP       *pArea;
-    HZD_TRG        *pTrigger;
-    int             count;
+    HZD_GRP *group;
+    HZD_TRG *trigger;
+    int      count;
+
     int             i, j;
     unsigned int    name_id;
     unsigned short *pSlots;
     unsigned short *ptr;
     int             a1;
 
-    pArea = hdl->group;
-    pTrigger = pArea->triggers;
+    group = hzd->group;
+    trigger = group->triggers;
 
-    event->field_2_name_hash = HASH_ENTER;
+    event->type = HASH_ENTER;
+
     count = 0;
-
-    for (i = pArea->n_triggers - hdl->n_cameras; i > 0; i--, pTrigger++)
+    for (i = group->n_triggers - hzd->n_cameras; i > 0; i--, trigger++)
     {
         ptr = (unsigned short *)SCRPAD_ADDR;
+        *(HZD_SEG *)(SCRPAD_ADDR + 8) = *(HZD_SEG *)trigger;
 
-        *(HZD_SEG *)0x1F800008 = *(HZD_SEG *)pTrigger;
-        do {} while (0);
-
-        if (!HZD_8002A27C_helper())
+        if (!CheckTrapBounds())
         {
             continue;
         }
 
-        name_id = pTrigger->trap.name_id;
-        event->field_4_trigger_Hash_Name_or_camera_w = name_id;
+        name_id = trigger->trap.name_id;
+        event->last = name_id;
 
         if (!HZD_8002A27C_helper2(ptr, name_id))
         {
-            HZD_80029D50(hdl, event, 1);
+            HZD_80029D50(hzd, event, 1);
         }
         else
         {
-            HZD_80029D50(hdl, event, 2);
+            HZD_80029D50(hzd, event, 2);
         }
 
         a1 = count;
 
-        pSlots = event->field_8_array;
+        pSlots = event->triggers;
         for (j = count; j > 0; j--)
         {
             if (*pSlots++ == name_id)
@@ -542,27 +534,26 @@ void HZD_8002A27C(HZD_HDL *hdl, HZD_EVT *event)
 loop:
     }
 
-    event->field_6_count = count;
+    event->n_triggers = count;
 }
 
-void HZD_8002A4B8(HZD_HDL *hdl, HZD_EVT *event)
+STATIC void HZD_8002A4B8(HZD_HDL *hzd, HZD_EVT *event)
 {
     int    count;
     short *pData;
 
     pData = (short *)getScratchAddr(7);
 
-    event->field_2_name_hash = HASH_LEAVE;
+    event->type = HASH_LEAVE;
 
     for (count = *getScratchAddr(6); count > 0; count--)
     {
-        event->field_4_trigger_Hash_Name_or_camera_w = *pData++;
-        HZD_80029D50(hdl, event, 0);
+        event->last = *pData++;
+        HZD_80029D50(hzd, event, 0);
     }
 }
 
-// HZD_EnterTrap ?
-void HZD_8002A538(HZD_HDL *hdl, HZD_EVT *event)
+void HZD_EnterTrap(HZD_HDL *hzd, HZD_EVT *event)
 {
     SVECTOR *pSrcVec;
     short   *pArr;
@@ -570,13 +561,13 @@ void HZD_8002A538(HZD_HDL *hdl, HZD_EVT *event)
     short    tmp;
     int      i;
 
-    pSrcVec = &event->field_14_vec;
+    pSrcVec = &event->pos;
 
     *(short *)0x1F800000 = pSrcVec->vx;
     do {} while (0);
 
     *(short *)0x1F800004 = pSrcVec->vy;
-    pArr = event->field_8_array;
+    pArr = event->triggers;
     do {} while (0);
 
     tmp = pSrcVec->vz;
@@ -585,58 +576,45 @@ void HZD_8002A538(HZD_HDL *hdl, HZD_EVT *event)
     do {} while (0);
 
     *(short *)0x1F800002 = tmp;
-    *getScratchAddr(6) = event->field_6_count;
+    *getScratchAddr(6) = event->n_triggers;
 
-    for (i = event->field_6_count; i > 0; i--)
+    for (i = event->n_triggers; i > 0; i--)
     {
         *pScr++ = *pArr++;
     }
 
-    HZD_8002A27C(hdl, event);
-    HZD_8002A4B8(hdl, event);
+    HZD_8002A27C(hzd, event);
+    HZD_8002A4B8(hzd, event);
 }
 
-static inline int HZD_CheckBehindTrap_helper(void)
-{
-    if (*(short *)(SCRPAD_ADDR + 0x00) <  *(short *)(SCRPAD_ADDR + 0x08) ||
-        *(short *)(SCRPAD_ADDR + 0x00) >= *(short *)(SCRPAD_ADDR + 0x10) ||
-        *(short *)(SCRPAD_ADDR + 0x02) <  *(short *)(SCRPAD_ADDR + 0x0A) ||
-        *(short *)(SCRPAD_ADDR + 0x02) >= *(short *)(SCRPAD_ADDR + 0x12) ||
-        *(short *)(SCRPAD_ADDR + 0x04) <  *(short *)(SCRPAD_ADDR + 0x0C) ||
-        *(short *)(SCRPAD_ADDR + 0x04) >= *(short *)(SCRPAD_ADDR + 0x14))
-    {
-        return 0;
-    }
+// TODO: move
 
-    return 1;
-}
+#define HZD_COPY_ELEM(dst, src) \
+do {                            \
+    *(dst) = (src);             \
+} while (0)
 
-HZD_TRP *HZD_CheckBehindTrap(HZD_HDL *hdl, SVECTOR *svec)
+#define HZD_COPY_VEC(dst, src)                        \
+do {                                                  \
+    HZD_COPY_ELEM(&((HZD_VEC *)(dst))->x, (src)->vx); \
+    HZD_COPY_ELEM(&((HZD_VEC *)(dst))->y, (src)->vy); \
+    HZD_COPY_ELEM(&((HZD_VEC *)(dst))->z, (src)->vz); \
+} while (0)
+
+HZD_TRP *HZD_CheckBehindTrap(HZD_HDL *hzd, SVECTOR *pos)
 {
-    HZD_TRP *iterTrap;
-    HZD_SEG *scratchSeg;
     int      i;
-    short    copied;
+    HZD_TRP *trap;
 
-    copied = svec->vx;
-    *(short *)(SCRPAD_ADDR + 0x0) = copied;
-    copied = svec->vy;
-    *(short *)(SCRPAD_ADDR + 0x4) = copied;
-    copied = svec->vz;
-    *(short *)(SCRPAD_ADDR + 0x2) = copied;
-    do {} while (0);
+    HZD_COPY_VEC(SCRPAD_ADDR + 0, pos);
 
-    for (i = hdl->n_cameras, iterTrap = hdl->traps; i > 0; i--, iterTrap++)
+    for (i = hzd->n_cameras, trap = hzd->traps; i > 0; i--, trap++)
     {
-        scratchSeg = (HZD_SEG *)(SCRPAD_ADDR + 0x8);
-        do {} while (0);
+        *(HZD_SEG *)(SCRPAD_ADDR + 8) = *(HZD_SEG *)trap;
 
-        *scratchSeg = *(HZD_SEG *)iterTrap; // TODO: Change b1, b2 in HZD_TRP to a single HZD_SEG?
-        do {} while (0);
-
-        if (HZD_CheckBehindTrap_helper())
+        if (CheckTrapBounds())
         {
-            return iterTrap;
+            return trap;
         }
     }
 

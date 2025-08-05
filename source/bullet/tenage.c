@@ -139,7 +139,7 @@ static void Act(Work *work)
             break;
         }
 
-        HZD_8002A258(work->control.map->hzd, &work->control.event);
+        HZD_ExecLeaveEvent(work->control.map->hzd, &work->control.event);
         GV_DestroyActor(&work->actor);
 
         GM_uBombHoming = 0;

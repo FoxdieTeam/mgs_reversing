@@ -9,6 +9,8 @@
 #include "linkvar.h"
 #include "game/object.h"
 
+#define SEGMENT_ATR ( HZD_SEG_NO_COLLIDE )
+
 extern short   word_8009EFC0[];
 
 //TODO: below defined in sna_init.c, need to remove gp hack
@@ -308,7 +310,7 @@ int sna_8004E71C(int a1, HZD_HDL *pHzd, SVECTOR *pVec, int a4)
 
     vec_saved = *pVec;
 
-    if ( sub_8004E51C(&vec, pHzd, 12, 1) >= 0 )
+    if ( sub_8004E51C(&vec, pHzd, HZD_CHECK_DYNSEG | HZD_CHECK_SEG, SEGMENT_ATR) >= 0 )
     {
         *pVec = vec_saved;
     }
@@ -341,7 +343,7 @@ int sna_8004E808(SnaInitWork *work, int a2, int a3, int a4, int a5)
             return 1;
         }
 
-        if (sub_8004E51C(&SStack48, work->control.map->hzd, 3, 1) < 0)
+        if (sub_8004E51C(&SStack48, work->control.map->hzd, HZD_CHECK_DYNFLR | HZD_CHECK_FLR, SEGMENT_ATR) < 0)
         {
             return 1;
         }
