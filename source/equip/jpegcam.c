@@ -12,7 +12,6 @@
 #include "chara/snake/sna_init.h"
 #include "game/game.h"
 #include "game/camera.h"
-#include "game/object.h"
 #include "linkvar.h"
 #include "menu/menuman.h"
 #include "memcard/memcard.h"

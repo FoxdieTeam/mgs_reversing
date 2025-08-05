@@ -6,7 +6,6 @@
 #include <libgpu.h>
 #include "libgv/libgv.h"
 #include "game/game.h"
-#include "game/object.h"
 #include "game/camera.h"
 
 typedef struct dmo_model_0x14

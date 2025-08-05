@@ -1,6 +1,5 @@
 #include "libdg/libdg.h"
 #include "game/game.h"
-#include "game/object.h"
 #include "menu/menuman.h"
 
 typedef struct Wolf2Alloc

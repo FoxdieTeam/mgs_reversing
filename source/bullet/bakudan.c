@@ -11,7 +11,6 @@
 #include "game/game.h"
 #include "game/hittable.h"
 #include "linkvar.h"
-#include "game/object.h"
 #include "sd/g_sound.h"
 
 extern HITTABLE GM_C4Datas_800BDD78[C4_COUNT];

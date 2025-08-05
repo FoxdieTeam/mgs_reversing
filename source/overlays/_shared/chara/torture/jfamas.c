@@ -1,7 +1,6 @@
 #include "common.h"
 #include "libgv/libgv.h"
-#include "game/control.h"
-#include "game/object.h"
+#include "game/game.h"
 #include "okajima/bullet.h"
 #include "anime/animconv/anime.h"
 #include "sd/g_sound.h"

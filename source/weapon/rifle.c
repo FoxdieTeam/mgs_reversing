@@ -7,7 +7,6 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "game/object.h"
 #include "game/game.h"
 #include "game/camera.h"
 #include "linkvar.h"

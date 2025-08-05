@@ -8,7 +8,7 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "anime/animconv/anime.h"
-#include "game/object.h"
+#include "game/game.h"
 #include "game/map.h"
 #include "linkvar.h"
 #include "okajima/bullet.h"

@@ -13,7 +13,6 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "game/map.h"
-#include "game/object.h"
 #include "kojo/demothrd.h"
 #include "game/game.h"
 #include "linkvar.h"

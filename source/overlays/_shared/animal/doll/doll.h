@@ -2,7 +2,7 @@
 #define _DOLL_H_
 
 #include "libgv/libgv.h"
-#include "game/object.h"
+#include "game/game.h"
 
 struct _DollWork;
 typedef void (*DollFunc)(struct _DollWork *, int);

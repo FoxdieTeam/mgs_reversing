@@ -5,7 +5,6 @@
 #include "game/camera.h"
 #include "game/game.h"
 #include "game/homing.h"
-#include "game/object.h"
 #include "linkvar.h"
 #include "game/vibrate.h"
 #include "chara/snake/shadow.h"

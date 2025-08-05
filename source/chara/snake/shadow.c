@@ -1,7 +1,7 @@
 #include "shadow.h"
 
 #include "common.h"
-#include "game/object.h"
+#include "game/game.h"
 #include "game/map.h"
 
 typedef struct ShadowWork

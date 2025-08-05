@@ -7,9 +7,7 @@
 
 #include "libgv/libgv.h"
 #include "libhzd/libhzd.h"
-#include "game/control.h"
-#include "game/object.h"
-#include "game/target.h"
+#include "game/game.h"
 
 // Claymore (armed)
 
