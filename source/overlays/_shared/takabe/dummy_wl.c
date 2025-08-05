@@ -5,7 +5,6 @@
 #include "libdg/libdg.h"
 #include "anime/animconv/anime.h"
 #include "game/game.h"
-#include "game/hittable.h"
 #include "takabe/thing.h"
 #include "bullet/bakudan.h"
 
