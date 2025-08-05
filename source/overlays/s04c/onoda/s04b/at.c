@@ -4,7 +4,6 @@
 #include "libdg/libdg.h"
 #include "game/game.h"
 #include "linkvar.h"
-#include "game/object.h"
 #include "okajima/blood.h"
 
 typedef struct _AtWork

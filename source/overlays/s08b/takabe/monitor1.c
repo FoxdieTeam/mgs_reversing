@@ -1,8 +1,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "game/control.h"
-#include "game/object.h"
+#include "game/game.h"
 #include "takabe/thing.h"
 #include "sd/g_sound.h"
 
