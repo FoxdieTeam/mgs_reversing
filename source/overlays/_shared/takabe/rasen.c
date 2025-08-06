@@ -4,7 +4,6 @@
 #include "libgcl/libgcl.h"
 #include "bullet/bakudan.h"
 #include "bullet/jirai.h"
-#include "game/camera.h"
 #include "game/game.h"
 #include "linkvar.h"
 

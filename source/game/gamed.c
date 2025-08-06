@@ -21,7 +21,6 @@
 #include "linkvar.h"
 #include "game/loader.h"
 #include "game/over.h"
-#include "game/camera.h"
 #include "menu/menuman.h"
 
 /*---------------------------------------------------------------------------*/

@@ -1,4 +1,5 @@
-#include "game/camera.h"
+#include "libgv/libgv.h"
+#include "game/game.h"
 
 extern GM_CAMERA GM_Camera;
 

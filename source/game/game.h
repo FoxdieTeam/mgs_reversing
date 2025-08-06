@@ -19,6 +19,7 @@
 #include "target.h"
 #include "homing.h"
 #include "motion.h"
+#include "camera.h"
 #include "strctrl.h"
 //#include "linkvar.h"
 
@@ -384,20 +385,5 @@ int  GM_ConfigMotionControl(OBJECT *object, MOTION_CONTROL *m_ctrl, int name,
                             MOTION_SEGMENT *m_segs1, MOTION_SEGMENT *m_segs2,
                             CONTROL *control, SVECTOR *rots);
 int  GM_ConfigMotionAdjust(OBJECT *object, SVECTOR *adjust);
-
-/* unsorted stuff */
-void GM_ExitBehindCamera_80030AEC(void);
-void GM_CheckBehindCamera(HZD_HDL *map, CONTROL *control);
-void GM_Reset_helper3_80030760();
-
-void sub_800309B4(int param_1, int param_2);
-
-void GM_CameraEventReset(void);
-
-void            GM_CameraSetBounds_80030888(SVECTOR *vec1, SVECTOR *vec2, int param_3_bool);
-void            GM_CameraSetLimits_800308E0(SVECTOR *vec1, SVECTOR *vec2, int param_3_bool);
-void            GM_CameraSetRotation_80030938(SVECTOR *pVec);
-void            GM_CameraSetTrack_80030980(int param_1);
-unsigned int    GM_Command_menu_helper_8002CA48(void);
 
 #endif // _GAME_H_

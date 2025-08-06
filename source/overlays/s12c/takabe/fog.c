@@ -2,7 +2,6 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "game/game.h"
-#include "game/camera.h"
 #include "takabe/thing.h"
 
 typedef struct _FogWork

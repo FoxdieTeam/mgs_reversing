@@ -11,7 +11,6 @@
 #include "libhzd/libhzd.h"
 #include "takabe/prim.h"
 #include "game/game.h"
-#include "game/camera.h"
 #include "linkvar.h"
 #include "menu/menuman.h"
 #include "thing/sgtrect3.h"
