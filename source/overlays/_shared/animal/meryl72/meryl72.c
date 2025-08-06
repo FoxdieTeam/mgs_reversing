@@ -3,6 +3,7 @@
 #include "mts/mts.h" // for fprintf
 #include "chara/snake/shadow.h"
 #include "libgv/libgv.h"
+#include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
 #include "game/camera.h"
 #include "game/game.h"

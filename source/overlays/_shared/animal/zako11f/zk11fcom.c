@@ -2,6 +2,8 @@
 
 #include "../../../_shared/enemy/enemy.h"
 #include "mts/mts.h"
+#include "libgv/libgv.h"
+#include "libgcl/libgcl.h"
 
 typedef struct _Zako11FCommanderWork
 {

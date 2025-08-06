@@ -1,5 +1,7 @@
 #include "mts/mts.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
+#include "libgcl/libgcl.h"
 #include "game/camera.h"
 #include "linkvar.h"
 #include "wolf2.h"

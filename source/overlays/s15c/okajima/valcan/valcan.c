@@ -1,6 +1,7 @@
 #include "common.h"
 #include "mts/mts.h"
 #include "libgv/libgv.h"
+#include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "linkvar.h"
 #include "okajima/bullet.h"

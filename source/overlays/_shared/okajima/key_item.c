@@ -2,6 +2,7 @@
 #include "mts/mts.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
+#include "game/game.h"
 
 void *NewEventmouse_800CA6F4(HZD_PTP *points, int n_points, int, int, int, int);
 

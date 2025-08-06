@@ -1,6 +1,7 @@
 #include "common.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
+#include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "game/homing.h"
 #include "linkvar.h"

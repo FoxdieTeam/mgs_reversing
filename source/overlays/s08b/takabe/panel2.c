@@ -1,6 +1,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "common.h"
 #include "takabe/thing.h"

@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include "common.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
+#include "libgcl/libgcl.h"
 #include "game/camera.h"
 #include "linkvar.h"
 #include "game/vibrate.h"
