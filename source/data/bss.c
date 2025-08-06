@@ -18,12 +18,11 @@
 #include "memcard/memcard.h"
 
 #include "game/game.h"
-#include "chara/snake/sna_init.h"
+#include "game/camera.h"
 #include "game/jimctrl.h"
-#include "game/homing.h"
+#include "chara/snake/sna_init.h"
 #include "sd/sd_cli.h"
 #include "sd/sd_incl.h"
-#include "game/camera.h"
 #include "equip/equip.h"
 #include "bullet/bakudan.h"
 
