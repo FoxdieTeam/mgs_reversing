@@ -3,7 +3,6 @@
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
-#include "game/homing.h"
 #include "okajima/blood.h"
 
 typedef struct DogWork

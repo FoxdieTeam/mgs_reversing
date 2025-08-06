@@ -18,7 +18,6 @@
 #include "linkvar.h"
 #include "okajima/blood.h"
 #include "bullet/bakudan.h"
-#include "game/homing.h"
 #include "game/vibrate.h"
 #include "game/camera.h"
 #include "anime/animconv/anime.h"

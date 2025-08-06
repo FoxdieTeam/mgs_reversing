@@ -17,6 +17,7 @@
 #include "map.h"
 #include "control.h"
 #include "target.h"
+#include "homing.h"
 #include "motion.h"
 #include "strctrl.h"
 //#include "linkvar.h"

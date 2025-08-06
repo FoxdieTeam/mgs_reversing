@@ -5,7 +5,6 @@
 #include "libhzd/libhzd.h"
 #include "game/camera.h"
 #include "game/game.h"
-#include "game/homing.h"
 #include "linkvar.h"
 #include "game/vibrate.h"
 #include "chara/snake/shadow.h"

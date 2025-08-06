@@ -1,7 +1,6 @@
 
 
 #include "common.h"
-#include "game/homing.h"
 #include "game/game.h"
 #include "linkvar.h"
 #include "game/vibrate.h"
