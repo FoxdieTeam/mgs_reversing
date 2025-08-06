@@ -636,7 +636,7 @@ void s00a_command_800CB660( WatcherWork *work )
     addr = HZD_GetAddress( hzd, &work->control.mov, -1 );
 
     work->field_C04 = addr;
-    if ( HZD_NavigateLength( hzd, addr & 0xFF, work->target_addr & 0xFF ) < 200 )
+    if ( HZD_ZoneDistance( hzd, addr & 0xFF, work->target_addr & 0xFF ) < 200 )
     {
         work->pad.mode = 0;
     }

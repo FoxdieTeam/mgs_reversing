@@ -582,7 +582,7 @@ void s07a_meryl_unk_800DBED4(WatcherWork* work) {
     temp_v0 = HZD_GetAddress(temp_s0, &work->control.mov, -1);
     work->field_C04 = temp_v0;
 
-    if (HZD_NavigateLength(temp_s0, temp_v0 & 0xFF, (char)work->target_addr) < 0xC8) {
+    if (HZD_ZoneDistance(temp_s0, temp_v0 & 0xFF, (char)work->target_addr) < 0xC8) {
 
         work->pad.mode = 0;
         return;

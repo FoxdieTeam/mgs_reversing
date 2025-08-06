@@ -56,7 +56,7 @@ int s11i_asiato_800CD88C(HZD_HDL *hzd, SVECTOR *from, SVECTOR *to)
     from_addr &= 0xFF;
     to_addr &= 0xFF;
 
-    return HZD_NavigateLength(hzd, from_addr, to_addr);
+    return HZD_ZoneDistance(hzd, from_addr, to_addr);
 }
 
 void s11i_asiato_800CD8EC(Zako11FWork *work)

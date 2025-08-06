@@ -65,7 +65,7 @@ int s11e_zk11ecom_800D8190( HZD_HDL *hzd, SVECTOR *pos, SVECTOR *pos2 )
     {
         to = HZD_GetAddress( hzd, pos2, -1 );
         do {
-            return HZD_NavigateLength( hzd, from & 0xFF, to & 0xFF );
+            return HZD_ZoneDistance( hzd, from & 0xFF, to & 0xFF );
         } while (0);
     } while (0);
 }
