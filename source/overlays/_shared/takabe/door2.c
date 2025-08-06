@@ -226,7 +226,7 @@ void Door2Act_800DD5C0(Door2Work *work)
 
             if (work->f320 != 1)
             {
-                HZD_QueueDynamicSegment2(work->hzd, &work->seg, 0x210);
+                HZD_QueueDynamicSegment2(work->hzd, &work->seg, 0x2 << 8 | HZD_SEG_NO_HARITSUKI);
                 work->f320 = 1;
             }
         }

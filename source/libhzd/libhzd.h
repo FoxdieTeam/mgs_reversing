@@ -17,7 +17,7 @@ typedef struct {
     short        n_cameras;
     short        max_dynamic_floors;
     short        max_dynamic_segments;
-    HZD_ZON     *zones;
+    u_char      *route;
     HZD_TRP     *traps;
     HZD_FLR    **dynamic_floors;
     HZD_SEG    **dynamic_segments;
@@ -66,7 +66,7 @@ void HZD_FreeHandler(void *ptr);
 void HZD_MakeRoute(HZD_MAP *hzd, char *arg1);
 
 /* dynamic.c */
-int  HZD_QueueDynamicSegment2(HZD_HDL *hzd, HZD_SEG *seg, int a_param_with_flag);
+int  HZD_QueueDynamicSegment2(HZD_HDL *hzd, HZD_SEG *seg, int flag);
 void HZD_DequeueDynamicSegment(HZD_HDL *hzd, HZD_SEG *seg);
 void HZD_SetDynamicSegment(HZD_SEG *a1, HZD_SEG *a2);
 int  HZD_QueueDynamicFloor(HZD_HDL *hzd, HZD_FLR *floor);
@@ -92,17 +92,17 @@ int  HZD_LevelTestFloor(HZD_FLR *floor, SVECTOR *point);
 int  HZD_LevelMaxHeight(void);
 
 /* zone.c */
-int HZD_GetAddress(HZD_HDL *hzd, SVECTOR *point, int param_3);
-int HZD_ReachTo(HZD_HDL *hzd, int x, int y);
-int HZD_LinkRoute(HZD_HDL *hzd, int x, int y, SVECTOR *point);
-int HZD_8005CB48(HZD_HDL *hzd, int x, int y, SVECTOR *point);
-int HZD_ZoneDistance(HZD_HDL *hzd, int from, int to);
-int HZD_8005CE5C(HZD_HDL *hzd, int from, int to, int max_dist);
-int HZD_8005CFAC(HZD_HDL *hzd, int from, int to, int max_dist);
-int HZD_8005D134(HZD_HDL *hzd, SVECTOR *svec, int idx);
-int HZD_8005D168(HZD_HDL *hzd, int a2, int *a3);
-int HZD_8005D188(HZD_HDL *hzd, int mesh_idx, int a3, int *pBiggest);
-int HZD_8005D288(HZD_HDL *hzd, int mesh_idx, int a3);
+int HZD_GetAddress(HZD_HDL *hzd, SVECTOR *pos, int addr);
+int HZD_ReachTo(HZD_HDL *hzd, int from, int to);
+int HZD_LinkRoute(HZD_HDL *hzd, int from, int to, SVECTOR *pos);
+int HZD_LinkRouteEqual(HZD_HDL *hzd, int from, int to, SVECTOR *pos);
+int HZD_NavigateLength(HZD_HDL *hzd, int from, int to);
+int HZD_NavigateLimit(HZD_HDL *hzd, int from, int to, int limit);
+int HZD_NavigateBound(HZD_HDL *hzd, int from, int to, int limit);
+int HZD_ZoneContains(HZD_HDL *hzd, SVECTOR *pos, int zone);
+int HZD_GetNears(HZD_HDL *hzd, int zone, int *nears);
+int HZD_MaxNear(HZD_HDL *hzd, int from, int to, int *maxdist);
+int HZD_MinNearDist(HZD_HDL *hzd, int from, int to);
 
 #define HZD_NO_ZONE (0xFF)
 
