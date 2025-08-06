@@ -150,6 +150,8 @@ static inline char GCL_GetByte( char *ptr )
 
 /*---------------------------------------------------------------------------*/
 
+extern GCL_ARGS gcl_null_args;
+
 /* gcl_init.c */
 void GCL_ChangeSenerioCode(int demo_flag);
 void GCL_StartDaemon(void);
@@ -163,7 +165,7 @@ int  GCL_AddCommMulti(GCL_COMMANDDEF *def);
 int  GCL_Command(unsigned char *ptr);
 void GCL_ForceExecProc(int proc_id, GCL_ARGS *args);
 int  GCL_ExecProc(int proc_id, GCL_ARGS *args);
-int  GCL_LoadScript(unsigned char *);
+int  GCL_LoadScript(unsigned char *datatop);
 int  GCL_ExecBlock(unsigned char *top, GCL_ARGS *args);
 void GCL_ExecScript(void);
 
