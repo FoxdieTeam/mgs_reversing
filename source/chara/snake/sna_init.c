@@ -17,7 +17,6 @@
 #include "okajima/blood.h"
 #include "bullet/bakudan.h"
 #include "game/vibrate.h"
-#include "game/camera.h"
 #include "anime/animconv/anime.h"
 #include "equip/equip.h"
 #include "okajima/d_blood.h"

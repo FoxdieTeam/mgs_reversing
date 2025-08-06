@@ -3,7 +3,6 @@
 
 #include "common.h"
 #include "game/game.h"
-#include "game/camera.h"
 #include "weapon/weapon.h"
 
 typedef struct _WatcherPad

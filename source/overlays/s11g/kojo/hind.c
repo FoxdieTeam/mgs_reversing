@@ -3,7 +3,6 @@
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
-#include "game/camera.h"
 #include "linkvar.h"
 #include "menu/menuman.h"
 

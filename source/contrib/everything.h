@@ -37,7 +37,6 @@
 #include "memcard/memcard.h"
 
 #include "game/game.h"
-#include "game/camera.h"
 #include "game/delay.h"
 #include "linkvar.h"
 #include "game/item.h"

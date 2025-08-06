@@ -7,7 +7,10 @@
 
 #include "common.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "libhzd/libhzd.h"
+
+#include "game.h"
 #include "linkvar.h"
 #include "strcode.h"
 
@@ -58,11 +61,12 @@ Camera Attributes:
  TYPE: UNSIGNED INT (FLAG);
 */
 
-void camera_get_euler_angles_8002FBC0(SVECTOR *eye, SVECTOR *center, SVECTOR *rotate, int *track);
-void sub_8002FC58(SVECTOR *param_1, SVECTOR *param_2, SVECTOR *param_3, int *param_4);
-void sub_8002FCA4(SVECTOR *param_1, SVECTOR *param_2, SVECTOR *param_3, int *param_4);
-void sub_8002FCF0(void);
-void sub_800303E0(SVECTOR *arg0);
+STATIC void sub_8002FAAC(SVECTOR *eye, SVECTOR *center, SVECTOR *rotate, int *track);
+STATIC void camera_get_euler_angles_8002FBC0(SVECTOR *eye, SVECTOR *center, SVECTOR *rotate, int *track);
+STATIC void sub_8002FC58(SVECTOR *param_1, SVECTOR *param_2, SVECTOR *param_3, int *param_4);
+STATIC void sub_8002FCA4(SVECTOR *param_1, SVECTOR *param_2, SVECTOR *param_3, int *param_4);
+STATIC void sub_8002FCF0(void);
+STATIC void sub_800303E0(SVECTOR *arg0);
 
 static inline int camera_clamp(int val, int min, int max)
 {

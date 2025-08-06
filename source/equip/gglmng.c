@@ -3,7 +3,6 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "game/game.h"
-#include "game/camera.h"
 #include "linkvar.h"
 
 extern GM_CAMERA GM_Camera;

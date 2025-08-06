@@ -7,7 +7,7 @@
 #include "libhzd/libhzd.h"
 #include "libgcl/libgcl.h"
 #include "chara/snake/shadow.h"
-#include "game/camera.h"
+#include "game/game.h"
 #include "strcode.h"
 
 extern ENEMY_COMMAND EnemyCommand_800E0D98;

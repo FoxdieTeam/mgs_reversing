@@ -9,7 +9,6 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "linkvar.h"
-#include "game/camera.h"
 #include "menu/radio.h"
 #include "sd/g_sound.h"
 
