@@ -1,23 +1,9 @@
 /**
- * This file defines the core structures, enumerations, and function prototypes
- * used in the LibGV library, It provides essential services for managing game
- * actors, memory allocation, message handling, input processing, and
- * mathematical operations.
+ * Main include header for the GV library.
  *
- * Key Components:
- * - Actor Management: Defines structures and functions for creating, updating,
- * and managing game actors
- * - Memory Management: Provides dynamic memory allocation and heap management
- * to handle the game's resource
- * - Message Handling: Implements a messaging system for communication between
- * different game components
- * - Input Processing: Manages gamepad inputs.
- * - Cache System: Handles file caching and loading for game resources by
- * hashing file names
- * - Heap Management: Manages memory allocation and deallocation using a
- * heap-based system
- * - Mathematical Operations: Offers functions for vector calculations and other
- * mathematical tasks needed for game physics and transformations.
+ * LibGV is the core of the MGS "system" library group and provides various
+ * services, including memory management, resource loading, input processing,
+ * actor creation/execution control, message-passing, and linear algebra.
  */
 
 #ifndef _LIBGV_H_
@@ -112,13 +98,13 @@ typedef struct      // private to libgv/actor.c
 enum {
     GV_ACTOR_DAEMON,    // 0
     GV_ACTOR_MANAGER,   // 1
-    GV_ACTOR_LEVEL2,    // 2 todo: rename
-    GV_ACTOR_LEVEL3,    // 3 todo: rename
-    GV_ACTOR_LEVEL4,    // 4 todo: rename
-    GV_ACTOR_LEVEL5,    // 5 todo: rename
+    GV_ACTOR_LEVEL2,    // 2 (ZOE1: GV_LEVEL_ASSIST)
+    GV_ACTOR_LEVEL3,    // 3 (ZOE1: GV_LEVEL_PREPARE)
+    GV_ACTOR_LEVEL4,    // 4 (ZOE1: GV_LEVEL_ACTOR)
+    GV_ACTOR_LEVEL5,    // 5 (ZOE1: GV_LEVEL_MODIFY)
 //--- memleak ---
-    GV_ACTOR_AFTER,     // 6
-    GV_ACTOR_AFTER2,    // 7
+    GV_ACTOR_AFTER,     // 6 (ZOE1: GV_LEVEL_REFER)
+    GV_ACTOR_AFTER2,    // 7 (ZOE1: GV_LEVEL_PAUSE)
 
     GV_ACTOR_DAEMON2,   // 8
     GV_ACTOR_LEVEL      // 9
