@@ -1098,7 +1098,7 @@ void s00a_command_800D0344(void)
                 flag = 0x80;
             }
             GM_Camera.flags |= ( 2 | flag );
-            GM_SetCameraCallbackFunc_8002FD84( 1, s00a_command_800D02F4 );
+            GM_SetCameraCallbackFunc( 1, s00a_command_800D02F4 );
         }
     }
     s00a_dword_800E0D2C++;
@@ -1121,7 +1121,7 @@ void UnsetCameraActCall_800D047C()
     COM_GameStatus_800E0F3C &= ~( 0x1000 ) ;
     GM_GameStatus  &= ~( STATE_PADRELEASE ) ;
 
-    GM_SetCameraCallbackFunc_8002FD84( 1, NULL ) ;
+    GM_SetCameraCallbackFunc( 1, NULL ) ;
     s00a_dword_800E0D2C = 0 ;
     GM_Camera.flags &= ~( 2 ) ;
 }

@@ -406,7 +406,7 @@ static void Act(gameWork *work)
         }
 
         GM_ResetMap();
-        camera_init_800306A0();
+        NewCameraSystem();
         DG_StorePalette();
         GM_Act_helper2();
 
