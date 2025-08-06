@@ -124,24 +124,26 @@ typedef struct GCL_Vars
 
 /*---------------------------------------------------------------------------*/
 
-static inline long GCL_GetLong(char *ptr) // memleak
+// clang-format off
+static inline long GCL_GetLong( char *ptr )
 {
     unsigned char *p;
-    p = (unsigned char *)ptr;
-    return (p[0] << 24) | (p[1] << 16) | (p[2] << 8) | (p[3]);
+    p = ( unsigned char * )ptr;
+    return ( p[ 0 ] << 24 ) | ( p[ 1 ] << 16 ) | ( p[ 2 ] << 8 ) | ( p[ 3 ] );
 }
 
-static inline long GCL_GetShort(char *ptr) // memleak
+static inline long GCL_GetShort( char *ptr )
 {
     unsigned char *p;
-    p = (unsigned char *)ptr;
-    return (signed short)((p[0] << 8) | (p[1]));
+    p = ( unsigned char * )ptr;
+    return ( signed short )( ( p[ 0 ] << 8 ) | ( p[ 1 ] ) );
 }
 
-static inline char GCL_GetByte(char *ptr) // memleak
+static inline char GCL_GetByte( char *ptr )
 {
     return *ptr;
 }
+// clang-format on
 
 #define GCL_AdvanceShort(p)     p += sizeof(unsigned short)
 #define GCL_AdvanceByte(p)      p += sizeof(unsigned char)
