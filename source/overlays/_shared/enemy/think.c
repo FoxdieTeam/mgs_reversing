@@ -236,7 +236,7 @@ void s00a_command_800CAD84( WatcherWork *work )
     zone = &hzd->header->zones[ addr ];
     addr_copy = addr;
 
-    res = HZD_8005D168( hzd, addr, unk );
+    res = HZD_GetNears( hzd, addr, unk );
     work->search_flag = 1;
 
     if ( res > 0 )
@@ -529,7 +529,7 @@ void s00a_command_800CB42C( WatcherWork* work )
 
     if ( work->field_B7C != 0xFF )
     {
-        if ( !( HZD_8005D134( work->control.map->hzd, &work->control.mov, work->field_B7C ) ) )
+        if ( !( HZD_ZoneContains( work->control.map->hzd, &work->control.mov, work->field_B7C ) ) )
         {
             s00a_command_800CB0E0( work );
             work->think1 = 2;
@@ -636,7 +636,7 @@ void s00a_command_800CB660( WatcherWork *work )
     addr = HZD_GetAddress( hzd, &work->control.mov, -1 );
 
     work->field_C04 = addr;
-    if ( HZD_ZoneDistance( hzd, addr & 0xFF, work->target_addr & 0xFF ) < 200 )
+    if ( HZD_NavigateLength( hzd, addr & 0xFF, work->target_addr & 0xFF ) < 200 )
     {
         work->pad.mode = 0;
     }
@@ -752,7 +752,7 @@ int s00a_command_800CB838( WatcherWork *work )
     if ( addr != work->field_BF0 || reach <= 0 )
     {
         work->field_BF0 = addr;
-        if ( HZD_8005D134( hzd, &work->control.mov, work->target_addr & 0xFF ) )
+        if ( HZD_ZoneContains( hzd, &work->control.mov, work->target_addr & 0xFF ) )
         {
             work->field_C14 = work->target_pos;
             work->field_C08 = addr;
@@ -765,7 +765,7 @@ int s00a_command_800CB838( WatcherWork *work )
 
         if ( !( work->field_C00 & 1 ) )
         {
-            addr3 = HZD_8005CB48( hzd, addr2, addr, &ctrl->mov );
+            addr3 = HZD_LinkRouteEqual( hzd, addr2, addr, &ctrl->mov );
             zone = &hzd->header->zones[ addr3 ];
 
             if ( GM_PlayerPosition.vx & 1 )
@@ -1023,7 +1023,7 @@ int s00a_command_800CBF00( WatcherWork *work )
 
     ctrl = &work->control;
     addr2 = work->field_C04 & 0xFF;
-    addr = HZD_8005CFAC( ctrl->map->hzd, work->target_addr & 0xFF, addr2, 0xC8 );
+    addr = HZD_NavigateBound( ctrl->map->hzd, work->target_addr & 0xFF, addr2, 0xC8 );
 
     if ( addr == addr2 )
     {
@@ -2475,7 +2475,7 @@ void s00a_command_800CDE90( WatcherWork *work ) {
             {
                 if ( work->alert_level != 0xFF )
                 {
-                    if (!(HZD_8005D134( work->control.map->hzd, &work->control.mov, work->field_B7C )))
+                    if (!(HZD_ZoneContains( work->control.map->hzd, &work->control.mov, work->field_B7C )))
                     {
                         s00a_command_800CB258(work);
                     }
