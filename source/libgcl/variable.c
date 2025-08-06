@@ -49,21 +49,15 @@ static unsigned int crc32(int len, unsigned char *ptr)
 {
     unsigned int  crc;
     int           counter;
-    unsigned char dataByte;
 
     crc = 0xffffffff;
     if (len != 0)
     {
-        do
-        {
-            dataByte = *ptr;
-            crc ^= dataByte; // crc = v0
-            ptr++;
-
+        do {
+            crc ^= *ptr++;
             counter = 8;
 
-            do
-            {
+            do {
                 if ((crc & 1) != 0)
                 {
                     crc = crc >> 1 ^ 0xedb88320;
@@ -72,10 +66,8 @@ static unsigned int crc32(int len, unsigned char *ptr)
                 {
                     crc = crc >> 1;
                 }
-                counter--;
-            } while (counter != 0);
-            len--;
-        } while (len != 0);
+            } while (--counter != 0);
+        } while (--len != 0);
     }
     return ~crc;
 }
