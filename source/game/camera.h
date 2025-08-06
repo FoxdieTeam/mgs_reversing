@@ -68,23 +68,23 @@ typedef struct UnkCameraStruct2 // @ 800B7868
 } UnkCameraStruct2;
 
 /* camera.c */
-void GM_SetCameraCallbackFunc_8002FD84(int index, TGMCameraFunc func);
+void GM_SetCameraCallbackFunc(int index, TGMCameraFunc func);
 void sub_8003049C(SVECTOR *a1);
-void *camera_init_800306A0(void);
+void *NewCameraSystem(void);
 void GM_Reset_helper3_80030760();
 void sub_8003081C();
 void GM_CameraSetAlertMask(unsigned int id, unsigned int mask);
-void GM_CameraSetBounds_80030888(SVECTOR *min, SVECTOR *max, int param_e);
-void GM_CameraSetLimits_800308E0(SVECTOR *min, SVECTOR *max, int param_e);
-void GM_CameraSetRotation_80030938(SVECTOR *rot);
-void GM_CameraSetTrack_80030980(int track);
+void GM_CameraSetBounds(SVECTOR *min, SVECTOR *max, int param_e);
+void GM_CameraSetLimits(SVECTOR *min, SVECTOR *max, int param_e);
+void GM_CameraSetRotation(SVECTOR *rot);
+void GM_CameraSetTrack(int track);
 void GM_CameraEventReset(void);
 void sub_800309B4(int param_1, int param_2);
 void sub_800309F8(int param_1, int param_2);
 void sub_80030A30();
 void GM_CameraBoundTrace(int param_1);
 void GM_CameraLimitTrace(int param_1);
-void GM_ExitBehindCamera_80030AEC(void);
+void GM_ExitBehindCamera(void);
 void GM_CheckBehindCamera(HZD_HDL *pHzdMap, CONTROL *pControl);
 
 #endif // _CAMERA_H_

@@ -61,7 +61,7 @@ void s12c_findtrap_800D72E8(FindTrapWork *work)
         break;
     case 2:
         work->field_3C = 8;
-        GM_SetCameraCallbackFunc_8002FD84(0, FindTrap_callback1_800D7908);
+        GM_SetCameraCallbackFunc(0, FindTrap_callback1_800D7908);
         s12c_dword_800DAA58 = work->field_40;
         break;
     }
@@ -105,7 +105,7 @@ void s12c_findtrap_800D72E8(FindTrapWork *work)
                     GV_DemoPadStatus[0] = GV_PadData->status & PAD_TRIANGLE;
                     s12c_dword_800DAA90 = GM_Camera.flags & 0x200;
                     s12c_dword_800DAA94 = GM_Camera.callbacks[0];
-                    GM_SetCameraCallbackFunc_8002FD84(0, FindTrap_callback2_800D7870);
+                    GM_SetCameraCallbackFunc(0, FindTrap_callback2_800D7870);
                     GM_Camera.flags |= 0x200;
                     GV_SubVec3(&work->field_28, &GM_Camera.eye, &svec);
                     s12c_dword_800DAA50.vz = 0;
@@ -212,7 +212,7 @@ void FindTrap_callback1_800D7908()
         s12c_dword_800DAA5C = 0;
         GM_GameStatus &= ~STATE_PADDEMO;
         GM_Camera.flags &= ~0x200;
-        GM_SetCameraCallbackFunc_8002FD84(0, 0);
+        GM_SetCameraCallbackFunc(0, NULL);
         GV_PadData[0] = s12c_dword_800DAA70[0];
         GV_PadData[1] = s12c_dword_800DAA70[1];
         GM_Camera.flags |= s12c_dword_800DAA90;
