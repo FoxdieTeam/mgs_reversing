@@ -17,7 +17,6 @@
 #include "okajima/blood.h"
 #include "bullet/bakudan.h"
 #include "game/vibrate.h"
-#include "game/camera.h"
 #include "anime/animconv/anime.h"
 #include "equip/equip.h"
 #include "okajima/d_blood.h"
@@ -650,7 +649,7 @@ void sub_8004F338(SnaInitWork *work)
     sna_8004E260(work, 0, 4, 0);
     DG_InvisiblePrim(work->field_92C);
 
-    GM_ExitBehindCamera_80030AEC();
+    GM_ExitBehindCamera();
 
     GM_PlayerStatus &= PLAYER_SECOND_AVAILABLE | PLAYER_NOT_SIGHT |
                        PLAYER_GAME_OVER | PLAYER_CB_BOX | PLAYER_INTRUDE |
@@ -688,7 +687,7 @@ void sub_8004F454(SnaInitWork *work)
     if (GM_CheckPlayerStatusFlag(PLAYER_CAUTION) == 0)
     {
         work->field_A28 = 450;
-        GM_ExitBehindCamera_80030AEC();
+        GM_ExitBehindCamera();
     }
 
     work->control.skip_flag &= ~CTRL_BOTH_CHECK;
@@ -1410,7 +1409,7 @@ int sub_800507D8(SnaInitWork *work)
         sna_clear_flags1_8004E308(work, SNA_FLAG1_UNK9);
         work->field_9C0 = NULL;
         sna_8004E260(work, 0, 4, 0);
-        GM_ExitBehindCamera_80030AEC();
+        GM_ExitBehindCamera();
         return 1;
     }
 
@@ -2548,7 +2547,7 @@ void sub_8005230C(SnaInitWork *work, int time)
             GM_ClearPlayerStatusFlag(PLAYER_CAUTION);
             work->field_A28 = 0x1c2;
             sna_start_anim_8004E1F4(work, dword_8009EEA4[work->field_A26_stance]);
-            GM_ExitBehindCamera_80030AEC();
+            GM_ExitBehindCamera();
         }
 
         if (!sna_80051BA4(work) && (press & PAD_CROSS) != 0)

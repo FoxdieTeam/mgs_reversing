@@ -1,4 +1,5 @@
-#include "game/camera.h"
+#include "libgv/libgv.h"
+#include "game/game.h"
 
 extern GM_CAMERA GM_Camera;
 
@@ -67,7 +68,7 @@ void s03b_800CA794(void)
         GM_Camera.interp = 0;
         GM_Camera.field_2A = 0;
         s03b_dword_800D3318 = GM_Camera.field_28;
-        GM_SetCameraCallbackFunc_8002FD84(1, s03b_800CA5DC);
+        GM_SetCameraCallbackFunc(1, s03b_800CA5DC);
         s03b_dword_800C33A0 = 1;
     }
 }
@@ -80,7 +81,7 @@ void s03b_800CA7FC(void)
         GM_Camera.interp = 0;
         GM_Camera.field_28 = s03b_dword_800D3318;
         GM_Camera.flags &= ~0x2;
-        GM_SetCameraCallbackFunc_8002FD84(1, NULL);
+        GM_SetCameraCallbackFunc(1, NULL);
         s03b_dword_800C33A0 = 0;
     }
 }

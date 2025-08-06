@@ -12,7 +12,7 @@
 #include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
 #include "chara/snake/shadow.h"
-#include "game/camera.h"
+#include "game/game.h"
 #include "strcode.h"
 
 int s00a_dword_800C3328[8]  = { 2500, 3500, 4000, 5000, 5500, 5600, 5700, 5800 };

@@ -5,7 +5,6 @@
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
-#include "game/camera.h"
 #include "game/game.h"
 
 #include "linkvar.h"
@@ -591,7 +590,7 @@ int Meryl72GetResources_800C7738( Meryl72Work *work, int arg1, int arg2 )
         s07c_meryl72_800C6E48( work );
     }
 
-    GM_SetCameraCallbackFunc_8002FD84( 1, s07c_meryl72_800C7368 );
+    GM_SetCameraCallbackFunc( 1, s07c_meryl72_800C7368 );
 
     work->think1 = 0;
     work->think2 = 0;

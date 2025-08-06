@@ -3,7 +3,6 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "game/camera.h"
 #include "game/game.h"
 #include "linkvar.h"
 #include "takabe/thing.h"
@@ -166,7 +165,7 @@ void RasenElAct_800CC454(RasenElWork *work)
 
                     if ((GM_Camera.flags & 0x200) != 0)
                     {
-                        GM_SetCameraCallbackFunc_8002FD84(0, NULL);
+                        GM_SetCameraCallbackFunc(0, NULL);
 
                         GM_Camera.first_person = 0;
                         GM_Camera.flags &= ~0x200;
@@ -230,7 +229,7 @@ void RasenElAct_800CC454(RasenElWork *work)
 
                 if ((GM_Camera.flags & 0x200) != 0)
                 {
-                    GM_SetCameraCallbackFunc_8002FD84(0, NULL);
+                    GM_SetCameraCallbackFunc(0, NULL);
 
                     GM_Camera.first_person = 0;
                     GM_Camera.flags &= ~0x200;
@@ -375,7 +374,7 @@ void RasenElDie_800CCAC4(RasenElWork *work)
 {
     if (GM_Camera.flags & 0x200)
     {
-        GM_SetCameraCallbackFunc_8002FD84(0, 0);
+        GM_SetCameraCallbackFunc(0, NULL);
         GM_Camera.first_person = 0;
         GM_Camera.flags &= ~0x200;
         GM_PlayerStatus &= ~PLAYER_PAD_OFF;
@@ -699,7 +698,7 @@ void s11c_800CD340(RasenElWork *work, int arg1)
             GM_GameStatus |= STATE_MENU_OFF;
             GM_PlayerControl->turn.vy = 0;
 
-            GM_SetCameraCallbackFunc_8002FD84(0, s11c_800CD21C);
+            GM_SetCameraCallbackFunc(0, s11c_800CD21C);
 
             GM_Camera.first_person = 1;
             GM_Camera.flags |= 0x200;
@@ -794,7 +793,7 @@ void s11c_800CD340(RasenElWork *work, int arg1)
         case 0:
             work->f2C4 = arg1 * 2;
 
-            GM_SetCameraCallbackFunc_8002FD84(0, NULL);
+            GM_SetCameraCallbackFunc(0, NULL);
 
             GM_Camera.first_person = 0;
             GM_Camera.flags &= ~0x200;

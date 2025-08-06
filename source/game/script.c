@@ -7,7 +7,6 @@
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
-#include "game/camera.h"
 #include "linkvar.h"
 #include "game/item.h"
 #include "game/delay.h"
@@ -139,25 +138,25 @@ STATIC int GM_Command_camera(unsigned char *top)
     {
         GCL_StrToSV(GCL_GetParamResult(), &vec1);
         GCL_StrToSV(GCL_GetParamResult(), &vec2);
-        GM_CameraSetBounds_80030888(&vec1, &vec2, isEnabled);
+        GM_CameraSetBounds(&vec1, &vec2, isEnabled);
     }
 
     if (GCL_GetOption('t')) // track
     {
-        GM_CameraSetTrack_80030980(GCL_GetNextParamValue());
+        GM_CameraSetTrack(GCL_GetNextParamValue());
     }
 
     if (GCL_GetOption('l')) // limit
     {
         GCL_StrToSV(GCL_GetParamResult(), &vec1);
         GCL_StrToSV(GCL_GetParamResult(), &vec2);
-        GM_CameraSetLimits_800308E0(&vec1, &vec2, isEnabled);
+        GM_CameraSetLimits(&vec1, &vec2, isEnabled);
     }
 
     if (GCL_GetOption('r')) // rotate
     {
         GCL_StrToSV(GCL_GetParamResult(), &vec1);
-        GM_CameraSetRotation_80030938(&vec1);
+        GM_CameraSetRotation(&vec1);
     }
 
     param_p = GCL_GetOption('p') != 0;

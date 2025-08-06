@@ -1,9 +1,10 @@
 #include "game.h"
+
 #include "sd/sd_cli.h"
 #include "sd/g_sound.h"
+#include "common.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
-#include "game/camera.h"
 
 extern GM_CAMERA        GM_Camera;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;

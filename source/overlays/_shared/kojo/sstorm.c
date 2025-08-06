@@ -5,7 +5,6 @@
 #include "libgcl/libgcl.h"
 #include "anime/animconv/anime.h"
 #include "game/game.h"
-#include "game/camera.h"
 
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 

@@ -6,7 +6,6 @@
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
-#include "game/camera.h"
 #include "strcode.h"
 
 extern CONTROL         *GM_WhereList[96];
