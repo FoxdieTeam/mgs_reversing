@@ -2,7 +2,7 @@
 
 #include "common.h"
 #include "libgv/libgv.h"
-#include "game/control.h"
+#include "libgcl/libgcl.h"
 #include "game/game.h"
 
 /*---------------------------------------------------------------------------*/

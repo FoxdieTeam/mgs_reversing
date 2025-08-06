@@ -12,15 +12,12 @@
 #include "takabe/prim.h"
 #include "game/game.h"
 #include "game/camera.h"
-#include "game/object.h"
-#include "game/map.h"
 #include "linkvar.h"
 #include "menu/menuman.h"
 #include "thing/sgtrect3.h"
 #include "thing/sight.h"
 #include "sd/g_sound.h"
 
-extern GV_PAD           GV_PadData_800B05C0[4];
 extern BLAST_DATA       blast_data_8009F4B8[8];
 extern TARGET          *target_800BDF00;
 extern int              dword_8009F604;
@@ -28,9 +25,9 @@ extern int              dword_800BDEF8[];
 extern int              GM_CameraTrackSave;
 extern SVECTOR          GM_CameraRotateSave;
 extern int              GM_event_camera_flag;
-extern GM_Camera        GM_Camera_800B77E8;
+extern GM_CAMERA        GM_Camera;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
-extern CAMERA           GM_CameraList_800B7718[8];
+extern CAMERA           GM_CameraList[8];
 
 /*---------------------------------------------------------------------------*/
 // RC Missile (Nikita)
@@ -84,7 +81,7 @@ typedef struct _Work
     short           cam_interp;
     SVECTOR         cam_pos;
     POLY_F4        *fuel_bar[2];
-    GM_Camera       saved_camera;
+    GM_CAMERA       saved_camera;
     UnkCameraStruct saved_camera_unk;
     CAMERA          saved_camera_list[8];
     int             saved_camera_track;
@@ -111,9 +108,9 @@ SVECTOR svector_8009F488 = {100, 100, 100, 0};
 
 static void SaveCameraState(Work *work)
 {
-    GV_CopyMemory(&GM_Camera_800B77E8,        &work->saved_camera,        sizeof(work->saved_camera));
+    GV_CopyMemory(&GM_Camera,                 &work->saved_camera,        sizeof(work->saved_camera));
     GV_CopyMemory(&gUnkCameraStruct_800B77B8, &work->saved_camera_unk,    sizeof(work->saved_camera_unk));
-    GV_CopyMemory(GM_CameraList_800B7718,     &work->saved_camera_list,   sizeof(work->saved_camera_list));
+    GV_CopyMemory(GM_CameraList,              &work->saved_camera_list,   sizeof(work->saved_camera_list));
     GV_CopyMemory(&GM_CameraRotateSave,       &work->saved_camera_rotate, sizeof(work->saved_camera_rotate));
 
     work->saved_camera_track = GM_CameraTrackSave;
@@ -122,9 +119,9 @@ static void SaveCameraState(Work *work)
 
 static void ResetCameraState(Work *work)
 {
-    GV_CopyMemory(&work->saved_camera,        &GM_Camera_800B77E8,        sizeof(work->saved_camera));
+    GV_CopyMemory(&work->saved_camera,        &GM_Camera,                 sizeof(work->saved_camera));
     GV_CopyMemory(&work->saved_camera_unk,    &gUnkCameraStruct_800B77B8, sizeof(work->saved_camera_unk));
-    GV_CopyMemory(&work->saved_camera_list,   &GM_CameraList_800B7718,    sizeof(work->saved_camera_list));
+    GV_CopyMemory(&work->saved_camera_list,   &GM_CameraList,             sizeof(work->saved_camera_list));
     GV_CopyMemory(&work->saved_camera_rotate, &GM_CameraRotateSave,       sizeof(work->saved_camera_rotate));
 
     GM_CameraTrackSave = work->saved_camera_track;
@@ -162,7 +159,7 @@ static void SetFirstPersonView(Work *work)
         NewSight(NIKITA_SIGHT, NIKITA_SIGHT, &Nik_Blast, IT_Scope, NULL);
     }
 
-    GM_Camera_800B77E8.first_person = 1;
+    GM_Camera.first_person = 1;
 
     if (work->fpv_mode == FALSE)
     {
@@ -295,7 +292,7 @@ static void rmissile_act_helper_8006BD24(Work *work, int pad_status)
     work->hud_delay = 0;
     work->fpv_mode = FALSE;
 
-    GM_Camera_800B77E8.first_person = 0;
+    GM_Camera.first_person = 0;
     Nik_Blast = 0;
 
     if (work->field_115)
@@ -360,7 +357,7 @@ static void rmissile_act_helper_8006BEEC(Work *work)
         work->cam_pos = work->control.mov;
         work->fpv_mode = FALSE;
 
-        GM_Camera_800B77E8.first_person = 0;
+        GM_Camera.first_person = 0;
         Nik_Blast = 0;
 
         if (!work->field_112)
@@ -462,9 +459,9 @@ static void rmissile_act_helper_8006C114(Work *work)
         }
     }
 
-    if (GM_Camera_800B77E8.first_person && !work->field_117)
+    if (GM_Camera.first_person && !work->field_117)
     {
-        GM_Camera_800B77E8.first_person = 0;
+        GM_Camera.first_person = 0;
         Nik_Blast = 0;
     }
 
@@ -600,11 +597,11 @@ static void Act(Work *work)
     SVECTOR vector2;
     MATRIX rotation;
 
-    pad = &GV_PadData_800B05C0[0];
+    pad = &GV_PadData[0];
 
     if (GM_PlayerStatus & PLAYER_SECOND_CONTROLLER)
     {
-        pad = &GV_PadData_800B05C0[1];
+        pad = &GV_PadData[1];
     }
 
     if (work->flame_delay-- > 0 || (work->field_11C < 0 && work->field_11C > -3))
@@ -668,7 +665,7 @@ static void Act(Work *work)
 
         dword_8009F480 = 0;
 
-        if (GM_Camera_800B77E8.first_person && GM_PlayerBody)
+        if (GM_Camera.first_person && GM_PlayerBody)
         {
             DG_InvisibleObjs(GM_PlayerBody->objs);
         }

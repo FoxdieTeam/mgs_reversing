@@ -8,6 +8,7 @@
 #include "mts/mts.h"
 #include "mts/mts_pad.h"
 #include "mts/taskid.h"
+#include "libgv/libgv.h"
 #include "libfs/libfs.h"
 #include "libgcl/libgcl.h"
 #include "menuman.h"

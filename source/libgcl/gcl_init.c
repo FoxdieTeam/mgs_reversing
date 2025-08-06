@@ -1,6 +1,7 @@
 #include "libgcl.h"
 #include "common.h"
-#include "strcode.h"
+#include "strcode.h"        // for GCX_* defs
+#include "libgv/libgv.h"    // for GV_SetLoader
 
 int SECTION(".sbss") scenerio_code;
 int SECTION(".sbss") dword_800AB994;
@@ -17,7 +18,7 @@ int SECTION(".sbss") dword_800AB994;
  *  @retval     1       on success
  *  @retval     <= 0    on failure (but this can't happen)
  */
-STATIC int GCL_InitFunc(unsigned char *top, int id)
+static int GCL_InitFunc(unsigned char *top, int id)
 {
     if (id == scenerio_code)
     {

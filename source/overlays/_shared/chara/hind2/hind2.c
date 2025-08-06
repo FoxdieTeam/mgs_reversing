@@ -2,9 +2,9 @@
 #include "common.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
+#include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "linkvar.h"
-#include "game/object.h"
 
 typedef struct _Hind2Work
 {

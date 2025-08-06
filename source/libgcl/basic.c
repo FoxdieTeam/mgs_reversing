@@ -2,7 +2,7 @@
 #include "common.h"
 #include "strcode.h"
 
-STATIC int GCL_Command_if(unsigned char *top)
+static int GCL_Command_if(unsigned char *top)
 {
     int   type, res;
     int   block;
@@ -38,7 +38,7 @@ exec_if:
     return 0;
 }
 
-STATIC int GCL_Command_eval(unsigned char *top)
+static int GCL_Command_eval(unsigned char *top)
 {
     int code;
     int value;
@@ -47,7 +47,7 @@ STATIC int GCL_Command_eval(unsigned char *top)
     return 0;
 }
 
-STATIC int GCL_Command_foreach(unsigned char *top)
+static int GCL_Command_foreach(unsigned char *top)
 {
     long     argbuf[16];
     long    *argbuf_p;
@@ -80,7 +80,7 @@ STATIC int GCL_Command_foreach(unsigned char *top)
     return 0;
 }
 
-STATIC int GCL_Command_return(unsigned char *top)
+static int GCL_Command_return(unsigned char *top)
 {
     return 1;
 }

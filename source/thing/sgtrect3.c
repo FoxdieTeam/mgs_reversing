@@ -8,8 +8,6 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "game/game.h"
-#include "game/control.h"
-#include "game/target.h"
 #include "sd/g_sound.h"
 
 extern int     dword_8009F46C;

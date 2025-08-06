@@ -2,6 +2,10 @@
 
 #include "meryl72.h"
 
+#include "libgv/libgv.h"
+#include "libgcl/libgcl.h"
+#include "libhzd/libhzd.h"
+
 #define TH1_PHASE0 0
 #define TH1_PHASE1 1
 #define TH1_PHASE2 2

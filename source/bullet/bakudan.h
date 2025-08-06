@@ -6,9 +6,7 @@
 #include <libgpu.h>
 
 #include "libgv/libgv.h"
-#include "game/control.h"
 #include "game/game.h"
-#include "game/target.h"
 
 // C4 bomb (armed)
 

@@ -3,6 +3,7 @@
 #include "mts/mts.h" // for fprintf
 #include "chara/snake/shadow.h"
 #include "libgv/libgv.h"
+#include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
 #include "game/camera.h"
 #include "game/game.h"
@@ -12,11 +13,11 @@
 
 #include "meryl72.h"
 
-extern GM_Camera        GM_Camera_800B77E8;
+extern GM_CAMERA        GM_Camera;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 
 int       SECTION("overlay.bss") meryl72_800D5274;
-GM_Camera SECTION("overlay.bss") meryl72_camera_800D5278;
+GM_CAMERA SECTION("overlay.bss") meryl72_camera_800D5278;
 int       SECTION("overlay.bss") meryl72_800D52F4;
 SVECTOR   SECTION("overlay.bss") meryl72_800D52F8;
 
@@ -293,24 +294,24 @@ void s07c_meryl72_800C722C( void )
             gUnkCameraStruct2_800B7868.rotate.vz );
     printf( " track=%d\n", gUnkCameraStruct2_800B7868.track );
 
-    memcpy( &meryl72_camera_800D5278, &GM_Camera_800B77E8, sizeof(GM_Camera) );
+    memcpy( &meryl72_camera_800D5278, &GM_Camera, sizeof(GM_Camera) );
 
-    GM_Camera_800B77E8.rotate.vx = 480;
-    GM_Camera_800B77E8.field_28 = 2;
-    GM_Camera_800B77E8.field_2A = 2;
-    GM_Camera_800B77E8.interp = 0;
-    GM_Camera_800B77E8.flags |= 0x2;
+    GM_Camera.rotate.vx = 480;
+    GM_Camera.field_28 = 2;
+    GM_Camera.field_2A = 2;
+    GM_Camera.interp = 0;
+    GM_Camera.flags |= 0x2;
 }
 
 void s07c_meryl72_800C730C(void)
 {
-    memcpy( &GM_Camera_800B77E8, &meryl72_camera_800D5278, sizeof(GM_Camera) );
+    memcpy( &GM_Camera, &meryl72_camera_800D5278, sizeof(GM_Camera) );
 }
 
 void s07c_meryl72_800C7368( void )
 {
-    GM_Camera_800B77E8.track = GV_NearExp8( GM_Camera_800B77E8.track, 4000 );
-    printf( " track=%d\n", GM_Camera_800B77E8.track );
+    GM_Camera.track = GV_NearExp8( GM_Camera.track, 4000 );
+    printf( " track=%d\n", GM_Camera.track );
 }
 
 void Meryl72Die_800C73AC( Meryl72Work *work )

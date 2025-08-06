@@ -7,7 +7,6 @@
 
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
-#include "game/target.h"
 
 typedef struct BLAST_DATA
 {

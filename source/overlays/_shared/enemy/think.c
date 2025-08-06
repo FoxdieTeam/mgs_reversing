@@ -141,7 +141,7 @@ void s00a_command_800CAB04( WatcherWork* work )
     work->target_map  = COM_PlayerMapOne_800E0F70[ work->field_B78 ];
 }
 
-extern CONTROL *GM_WhereList_800B56D0[94];
+extern CONTROL *GM_WhereList[94];
 
 void s00a_command_800CAB74( WatcherWork* work )
 {
@@ -149,8 +149,8 @@ void s00a_command_800CAB74( WatcherWork* work )
     MAP *map;
     HZD_ZON *zone;
 
-    addr = HZD_GetAddress( GM_WhereList_800B56D0[0]->map->hzd, &GM_NoisePosition, -1 ) & 0xFF;
-    zone = &GM_WhereList_800B56D0[0]->map->hzd->header->zones[ addr ];
+    addr = HZD_GetAddress( GM_WhereList[0]->map->hzd, &GM_NoisePosition, -1 ) & 0xFF;
+    zone = &GM_WhereList[0]->map->hzd->header->zones[ addr ];
 
     if ( work->field_C34 && s00a_command_800CA898( work , zone ) )
     {
@@ -636,7 +636,7 @@ void s00a_command_800CB660( WatcherWork *work )
     addr = HZD_GetAddress( hzd, &work->control.mov, -1 );
 
     work->field_C04 = addr;
-    if ( HZD_NavigateLength( hzd, addr & 0xFF, work->target_addr & 0xFF ) < 200 )
+    if ( HZD_ZoneDistance( hzd, addr & 0xFF, work->target_addr & 0xFF ) < 200 )
     {
         work->pad.mode = 0;
     }

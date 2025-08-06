@@ -561,7 +561,7 @@ static void Die( Work *work )
     {
         GV_InitResidentMemory();
         GV_InitCacheSystem();
-        DG_InitResidentTextureCache();
+        DG_ClearResidentTexture();
         stage_name = "init";
         GM_GameStatusFlag &= ~0x20;
     }

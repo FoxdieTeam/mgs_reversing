@@ -16,8 +16,7 @@
 #include "game/game.h"
 #include "sd/g_sound.h"
 
-extern int    FS_DiskNum_800ACBF0;
-extern GV_PAD GV_PadData_800B05C0[4];
+extern int    FS_DiskNum;
 
 /*---------------------------------------------------------------------------*/
 
@@ -559,7 +558,7 @@ static void change_800C3CD0( Work *work )
             {
                 printf( "THIS IS DISC 2!!\n" );
                 work->f6B0 = 9;
-                FS_DiskNum_800ACBF0 = status;
+                FS_DiskNum = status;
             }
             else
             {
@@ -640,7 +639,7 @@ static int GetResources( Work *work, int map )
 
     GM_CurrentMap = map;
 
-    work->pad_data = &GV_PadData_800B05C0[ 2 ];
+    work->pad_data = &GV_PadData[ 2 ];
 
     work->f68C = 832;
     work->f690 = 256;

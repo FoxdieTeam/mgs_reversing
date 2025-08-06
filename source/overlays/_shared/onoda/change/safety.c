@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <sys/types.h>
 #include <libcd.h>
+#include <libetc.h>
 
 #include "mts/mts.h"
 #include "libfs/libfs.h"

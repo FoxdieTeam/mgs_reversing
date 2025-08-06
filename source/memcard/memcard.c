@@ -11,20 +11,20 @@
 
 STATIC int memcard_initialized = FALSE;
 
-extern MEM_CARD gMemCards_800B52F8[2];
-extern long            gHardware_end_io_800B52C8;
-extern long            gHardware_end_write_800B52CC;
-extern long            gHardware_timeout_800B52D0;
-extern long            gHardware_new_device_800B52D4;
-extern long            gSoftware_end_io_800B52D8;
-extern long            gSoftware_end_write_800B52DC;
-extern long            gSoftware_timeout_800B52E0;
-extern long            gSoftware_new_device_800B52E4;
-extern TMemCardFunc    gHwCard_do_op_800B52E8;
-extern TMemCardFunc    gSwCard_do_op_800B52EC;
-extern volatile int    gSwCardLastOp_800B52F0;
-extern volatile int    gHwCardLastOp_800B52F4;
-extern volatile long   gMemCard_io_size_800B5648;
+extern long             gHardware_end_io;
+extern long             gHardware_end_write;
+extern long             gHardware_timeout;
+extern long             gHardware_new_device;
+extern long             gSoftware_end_io;
+extern long             gSoftware_end_write;
+extern long             gSoftware_timeout;
+extern long             gSoftware_new_device;
+extern TMemCardFunc     gHwCard_do_op;
+extern TMemCardFunc     gSwCard_do_op;
+extern volatile int     gSwCardLastOp;
+extern volatile int     gHwCardLastOp;
+extern MEM_CARD         gMemCards[2];
+extern volatile long    gMemCard_io_size;
 
 static void memcard_hwcard_do_op(int op);
 static void memcard_swcard_do_op(int op);
@@ -34,77 +34,77 @@ static inline void memcard_access_wait(void)
 {
     printf("[R]");
 
-    while ((gHwCard_do_op_800B52E8 != memcard_hwcard_do_op) ||
-           (gSwCard_do_op_800B52EC != memcard_swcard_do_op))
+    while ((gHwCard_do_op != memcard_hwcard_do_op) ||
+           (gSwCard_do_op != memcard_swcard_do_op))
     {
         printf("ACCESS WAIT..\n");
         mts_wait_vbl(2);
     }
 
-    gHwCardLastOp_800B52F4 = 0;
-    gSwCardLastOp_800B52F0 = 0;
+    gHwCardLastOp = 0;
+    gSwCardLastOp = 0;
 }
 
 static void memcard_hwcard_do_op(int op)
 {
-    gHwCardLastOp_800B52F4 = op;
+    gHwCardLastOp = op;
 }
 
 static void memcard_swcard_do_op(int op)
 {
-    gSwCardLastOp_800B52F0 = op;
+    gSwCardLastOp = op;
 }
 
 static void memcard_hwcard_end_io()
 {
-    gHwCard_do_op_800B52E8(1);
+    gHwCard_do_op(1);
 }
 
 static void memcard_hwcard_end_write()
 {
     printf("*** hw card error\n");
-    gHwCard_do_op_800B52E8(2);
+    gHwCard_do_op(2);
 }
 
 static void memcard_hwcard_timeout()
 {
     printf("[C.H.T.O]");
-    gHwCard_do_op_800B52E8(3);
+    gHwCard_do_op(3);
 }
 
 static void memcard_hwcard_new()
 {
     printf("*** hw card new\n");
-    gHwCard_do_op_800B52E8(4);
+    gHwCard_do_op(4);
 }
 
 static void memcard_swcard_end_io()
 {
-    gSwCard_do_op_800B52EC(1);
+    gSwCard_do_op(1);
 }
 
 static void memcard_swcard_end_write()
 {
     printf("*** sw card error\n");
-    gSwCard_do_op_800B52EC(2);
+    gSwCard_do_op(2);
 }
 
 static void memcard_swcard_timeout()
 {
     printf("[C.S.T.O]");
-    gSwCard_do_op_800B52EC(3);
+    gSwCard_do_op(3);
 }
 
 static void memcard_swcard_new()
 {
     printf("*** sw card new\n");
-    gSwCard_do_op_800B52EC(4);
+    gSwCard_do_op(4);
 }
 
 static void memcard_set_sw_hw_card_fns(void)
 {
-    gHwCard_do_op_800B52E8 = memcard_hwcard_do_op;
-    gSwCard_do_op_800B52EC = memcard_swcard_do_op;
+    gHwCard_do_op = memcard_hwcard_do_op;
+    gSwCard_do_op = memcard_swcard_do_op;
 }
 
 /**
@@ -143,9 +143,9 @@ static int memcard_easy_format_test(int port)
 
     do {
         mts_wait_vbl(1);
-    } while (!gHwCardLastOp_800B52F4);
+    } while (!gHwCardLastOp);
 
-    if (gHwCardLastOp_800B52F4 != 1)
+    if (gHwCardLastOp != 1)
     {
         printf("card_error\n");
         return 2;
@@ -169,7 +169,7 @@ static int memcard_easy_format_test(int port)
  * Gets information about all the files contained in a memory card.
  *
  * For each file in the memory card, this function fills
- * gMemCards_800B52F8[port].files[i] fields by setting the file name
+ * gMemCards[port].files[i] fields by setting the file name
  * and size, and MEM_CARD_FILE::field_14 to 0 (unknown meaning).
  *
  * @param port The memory card port: 0 for port 1, 1 for port 2.
@@ -195,9 +195,9 @@ static int memcard_loaddir(int port, int *pUsedBlocksCount)
         files = 0;
 
         do {
-            memcpy(gMemCards_800B52F8[port].files[files].name, dir.name, sizeof(dir.name));
-            gMemCards_800B52F8[port].files[files].field_14 = 0;
-            gMemCards_800B52F8[port].files[files].field_18_size = dir.size;
+            memcpy(gMemCards[port].files[files].name, dir.name, sizeof(dir.name));
+            gMemCards[port].files[files].field_14 = 0;
+            gMemCards[port].files[files].field_18_size = dir.size;
             blocks += (dir.size + 8191) / MC_BLOCK_SIZE;
             files++;
         }
@@ -216,7 +216,7 @@ static int memcard_loaddir(int port, int *pUsedBlocksCount)
 /**
  * Helper function for memcard_get_files().
  *
- * This function fills all gMemCards_800B52F8[port] fields by setting the card
+ * This function fills all gMemCards[port] fields by setting the card
  * index, the number of files contained in the card, the number of free blocks,
  * and MEM_CARD::last_op to 1 (unknown meaning). It then calls
  * memcard_loaddir() to fill the array MEM_CARD::files.
@@ -226,10 +226,10 @@ static int memcard_loaddir(int port, int *pUsedBlocksCount)
 static void memcard_load_files(int port)
 {
     int pUsedBlocksCount;
-    gMemCards_800B52F8[port].card_idx = port;
-    gMemCards_800B52F8[port].last_op = 1;
-    gMemCards_800B52F8[port].file_count = memcard_loaddir(port, &pUsedBlocksCount);
-    gMemCards_800B52F8[port].free_blocks = 15 - pUsedBlocksCount;
+    gMemCards[port].card_idx = port;
+    gMemCards[port].last_op = 1;
+    gMemCards[port].file_count = memcard_loaddir(port, &pUsedBlocksCount);
+    gMemCards[port].free_blocks = 15 - pUsedBlocksCount;
 }
 
 // Pure function whose return value is never used
@@ -253,8 +253,8 @@ static int memcard_dummy(int state)
 
 void memcard_reset_status(void)
 {
-    gMemCards_800B52F8[0].last_op = 2;
-    gMemCards_800B52F8[1].last_op = 2;
+    gMemCards[0].last_op = 2;
+    gMemCards[1].last_op = 2;
 }
 
 int memcard_check(int port)
@@ -267,7 +267,7 @@ int memcard_check(int port)
     chan = port * 16;
     retries = 0;
 
-    if ((gMemCards_800B52F8[port].last_op == 5) || (gMemCards_800B52F8[port].last_op == 2))
+    if ((gMemCards[port].last_op == 5) || (gMemCards[port].last_op == 2))
     {
         goto loop_24;
     }
@@ -287,31 +287,31 @@ int memcard_check(int port)
     retry1:
         mts_wait_vbl(1);
 
-        if ((sw_card_op = !gSwCardLastOp_800B52F0))
+        if ((sw_card_op = !gSwCardLastOp))
             goto retry1;
 
-        sw_card_op = gSwCardLastOp_800B52F0;
+        sw_card_op = gSwCardLastOp;
         switch (sw_card_op)
         {
             case 1:
-                if (gMemCards_800B52F8[port].last_op == 5)
+                if (gMemCards[port].last_op == 5)
                 {
                     return 0x80000001;
                 }
 
-                if (gMemCards_800B52F8[port].last_op == 4)
+                if (gMemCards[port].last_op == 4)
                 {
                     goto exit;
                 }
 
                 sw_card_op = 1;
-                gMemCards_800B52F8[port].last_op = sw_card_op;
+                gMemCards[port].last_op = sw_card_op;
                 return 0;
 
             case 2:
 
             case 3:
-                gMemCards_800B52F8[port].last_op = sw_card_op;
+                gMemCards[port].last_op = sw_card_op;
                 memcard_retry(port);
                 return;
 
@@ -328,25 +328,25 @@ int memcard_check(int port)
 
         do {
             mts_wait_vbl(1);
-        } while ((hw_card_op = !gHwCardLastOp_800B52F4));
-        hw_card_op = gHwCardLastOp_800B52F4;
+        } while ((hw_card_op = !gHwCardLastOp));
+        hw_card_op = gHwCardLastOp;
 
         if (hw_card_op == 1)
         {
-            gMemCards_800B52F8[port].last_op = 4;
+            gMemCards[port].last_op = 4;
 
             memcard_access_wait();
             _card_load(chan);
 
             do {
                 mts_wait_vbl(1);
-            } while ((sw_card_op = !gSwCardLastOp_800B52F0));
+            } while ((sw_card_op = !gSwCardLastOp));
 
-            sw_card_op = gSwCardLastOp_800B52F0;
+            sw_card_op = gSwCardLastOp;
 
             if (sw_card_op == 4)
             {
-                gMemCards_800B52F8[port].last_op = 5;
+                gMemCards[port].last_op = 5;
 
                 {
                     register int ret asm("v0");
@@ -359,7 +359,7 @@ int memcard_check(int port)
 
             if (sw_card_op == 1)
             {
-                gMemCards_800B52F8[port].last_op = 4;
+                gMemCards[port].last_op = 4;
                 break;
             }
 
@@ -382,38 +382,32 @@ void memcard_init(void)
     if (!memcard_initialized)
     {
         memcard_initialized = !memcard_initialized;
-        gHwCardLastOp_800B52F4 = 1;
+        gHwCardLastOp = 1;
 
-        gSwCardLastOp_800B52F0 = 1;
+        gSwCardLastOp = 1;
         memcard_set_sw_hw_card_fns();
 
         EnterCriticalSection();
 
-        gHardware_end_io_800B52C8 = OpenEvent(
-            HwCARD, EvSpIOE, EvMdINTR, (openevent_cb_t)memcard_hwcard_end_io);
-        gHardware_end_write_800B52CC =
-            OpenEvent(HwCARD, EvSpERROR, EvMdINTR, (openevent_cb_t)memcard_hwcard_end_write);
-        gHardware_timeout_800B52D0 =
-            OpenEvent(HwCARD, EvSpTIMOUT, EvMdINTR, (openevent_cb_t)memcard_hwcard_timeout);
-        gHardware_new_device_800B52D4 =
-            OpenEvent(HwCARD, EvSpNEW, EvMdINTR, (openevent_cb_t)memcard_hwcard_new);
+        gHardware_end_io = OpenEvent(HwCARD, EvSpIOE, EvMdINTR, (openevent_cb_t)memcard_hwcard_end_io);
+        gHardware_end_write = OpenEvent(HwCARD, EvSpERROR, EvMdINTR, (openevent_cb_t)memcard_hwcard_end_write);
+        gHardware_timeout = OpenEvent(HwCARD, EvSpTIMOUT, EvMdINTR, (openevent_cb_t)memcard_hwcard_timeout);
+        gHardware_new_device = OpenEvent(HwCARD, EvSpNEW, EvMdINTR, (openevent_cb_t)memcard_hwcard_new);
 
-        gSoftware_end_io_800B52D8 = OpenEvent(
-            SwCARD, EvSpIOE, EvMdINTR, (openevent_cb_t)memcard_swcard_end_io);
-        gSoftware_end_write_800B52DC =
-            OpenEvent(SwCARD, EvSpERROR, EvMdINTR, (openevent_cb_t)memcard_swcard_end_write);
-        gSoftware_timeout_800B52E0 = OpenEvent(SwCARD, EvSpTIMOUT, EvMdINTR, (openevent_cb_t)memcard_swcard_timeout);
-        gSoftware_new_device_800B52E4 = OpenEvent(SwCARD, EvSpNEW, EvMdINTR, (openevent_cb_t)memcard_swcard_new);
+        gSoftware_end_io = OpenEvent(SwCARD, EvSpIOE, EvMdINTR, (openevent_cb_t)memcard_swcard_end_io);
+        gSoftware_end_write = OpenEvent(SwCARD, EvSpERROR, EvMdINTR, (openevent_cb_t)memcard_swcard_end_write);
+        gSoftware_timeout = OpenEvent(SwCARD, EvSpTIMOUT, EvMdINTR, (openevent_cb_t)memcard_swcard_timeout);
+        gSoftware_new_device = OpenEvent(SwCARD, EvSpNEW, EvMdINTR, (openevent_cb_t)memcard_swcard_new);
 
-        EnableEvent(gHardware_end_io_800B52C8);
-        EnableEvent(gHardware_end_write_800B52CC);
-        EnableEvent(gHardware_timeout_800B52D0);
-        EnableEvent(gHardware_new_device_800B52D4);
+        EnableEvent(gHardware_end_io);
+        EnableEvent(gHardware_end_write);
+        EnableEvent(gHardware_timeout);
+        EnableEvent(gHardware_new_device);
 
-        EnableEvent(gSoftware_end_io_800B52D8);
-        EnableEvent(gSoftware_end_write_800B52DC);
-        EnableEvent(gSoftware_timeout_800B52E0);
-        EnableEvent(gSoftware_new_device_800B52E4);
+        EnableEvent(gSoftware_end_io);
+        EnableEvent(gSoftware_end_write);
+        EnableEvent(gSoftware_timeout);
+        EnableEvent(gSoftware_new_device);
 
         ExitCriticalSection();
 
@@ -435,20 +429,20 @@ void memcard_init(void)
                 long memCardType = memcard_easy_format_test(port);
                 if (memCardType == 5) // Unformatted card.
                 {
-                    gMemCards_800B52F8[port].last_op = 5;
+                    gMemCards[port].last_op = 5;
                 }
                 else if (memCardType == 1) // Formatted card.
                 {
-                    gMemCards_800B52F8[port].last_op = 1;
+                    gMemCards[port].last_op = 1;
                 }
                 else // Error.
                 {
-                    gMemCards_800B52F8[port].last_op = 2;
+                    gMemCards[port].last_op = 2;
                 }
             }
             else
             {
-                gMemCards_800B52F8[port].last_op = 5;
+                gMemCards[port].last_op = 5;
             }
         }
     }
@@ -458,14 +452,14 @@ void memcard_exit(void)
 {
     StopCARD();
     EnterCriticalSection();
-    CloseEvent(gHardware_end_io_800B52C8);
-    CloseEvent(gHardware_end_write_800B52CC);
-    CloseEvent(gHardware_timeout_800B52D0);
-    CloseEvent(gHardware_new_device_800B52D4);
-    CloseEvent(gSoftware_end_io_800B52D8);
-    CloseEvent(gSoftware_end_write_800B52DC);
-    CloseEvent(gSoftware_timeout_800B52E0);
-    CloseEvent(gSoftware_new_device_800B52E4);
+    CloseEvent(gHardware_end_io);
+    CloseEvent(gHardware_end_write);
+    CloseEvent(gHardware_timeout);
+    CloseEvent(gHardware_new_device);
+    CloseEvent(gSoftware_end_io);
+    CloseEvent(gSoftware_end_write);
+    CloseEvent(gSoftware_timeout);
+    CloseEvent(gSoftware_new_device);
     ExitCriticalSection();
     memcard_initialized = FALSE;
 }
@@ -476,12 +470,12 @@ void memcard_retry(int port)
     int count;
     int i;
 
-    switch (gMemCards_800B52F8[port].last_op)
+    switch (gMemCards[port].last_op)
     {
     case 1:
     case 4:
         // Dead code path.
-        op = gMemCards_800B52F8[port].last_op;
+        op = gMemCards[port].last_op;
         memcard_dummy(op);
         return;
 
@@ -502,9 +496,9 @@ void memcard_retry(int port)
         do {
             mts_wait_vbl(1);
         }
-        while (!gSwCardLastOp_800B52F0);
+        while (!gSwCardLastOp);
 
-        op = gSwCardLastOp_800B52F0;
+        op = gSwCardLastOp;
 
         if (op == 1 || op == 4)
         {
@@ -522,18 +516,18 @@ void memcard_retry(int port)
  * for the memory card in the specified port.
  *
  * This function calls other internal functions to fill all
- * gMemCards_800B52F8[port] fields, but only if such card is in a suitable
+ * gMemCards[port] fields, but only if such card is in a suitable
  * status to perform the operation, i.e., if its last_op
  * is 1 or 4 (unknown meaning).
  *
  * @param port The memory card port: 0 for port 1, 1 for port 2.
  *
- * @return A pointer to gMemCards_800B52F8[port] containing the requested
+ * @return A pointer to gMemCards[port] containing the requested
  * information if the operation was performed, otherwise 0.
  */
 MEM_CARD *memcard_get_files(int port)
 {
-    MEM_CARD *pCardBase = gMemCards_800B52F8;
+    MEM_CARD *pCardBase = gMemCards;
     MEM_CARD *pCard = &pCardBase[port];
 
     if (pCard->last_op == 1 || pCard->last_op == 4)
@@ -557,7 +551,7 @@ int memcard_delete(int port, const char *filename)
 {
     char tmp[32];
 
-    MEM_CARD *pCardBase = gMemCards_800B52F8;
+    MEM_CARD *pCardBase = gMemCards;
     MEM_CARD *pCard = &pCardBase[port];
 
     if (pCard->last_op == 1)
@@ -577,15 +571,15 @@ static void memcard_hwcard_read_write_handler(int op)
 {
     if (op == 1)
     {
-        gMemCard_io_size_800B5648 -= 128;
-        if (!gMemCard_io_size_800B5648)
+        gMemCard_io_size -= 128;
+        if (!gMemCard_io_size)
         {
-            gHwCard_do_op_800B52E8 = memcard_hwcard_do_op;
+            gHwCard_do_op = memcard_hwcard_do_op;
         }
     }
     else
     {
-        gMemCard_io_size_800B5648 = -1;
+        gMemCard_io_size = -1;
         memcard_set_sw_hw_card_fns();
     }
 }
@@ -600,14 +594,14 @@ static void memcard_swcard_read_write_handler(int op)
     {
         printf("ERROR : MEMCARD READ/WRITE\n");
     }
-    gSwCard_do_op_800B52EC = (TMemCardFunc)memcard_swcard_do_op;
+    gSwCard_do_op = (TMemCardFunc)memcard_swcard_do_op;
 }
 
 static void memcard_set_read_write(int fileSize)
 {
-    gHwCard_do_op_800B52E8 = memcard_hwcard_read_write_handler;
-    gSwCard_do_op_800B52EC = memcard_swcard_read_write_handler;
-    gMemCard_io_size_800B5648 = fileSize;
+    gHwCard_do_op = memcard_hwcard_read_write_handler;
+    gSwCard_do_op = memcard_swcard_read_write_handler;
+    gMemCard_io_size = fileSize;
 }
 
 #define ROUND_UP(val,rounding) (((val) + (rounding) - 1) / (rounding) * (rounding))
@@ -631,7 +625,7 @@ void memcard_write(int port, const char *filename, int offset, char *buffer, int
     if (fd < 0)
     {
         printf("MEMCARD WRITE ERROR FD %d\n", fd);
-        gMemCard_io_size_800B5648 = -1;
+        gMemCard_io_size = -1;
         return;
     }
 
@@ -657,7 +651,7 @@ void memcard_read(int port, const char *filename, int offset, char *buffer, int 
     if (fd < 0)
     {
         printf("MEMCARD READ ERROR FD %d\n", fd);
-        gMemCard_io_size_800B5648 = -1;
+        gMemCard_io_size = -1;
         return;
     }
     size = ROUND_UP(size, 128);
@@ -674,7 +668,7 @@ void memcard_read(int port, const char *filename, int offset, char *buffer, int 
 
 int memcard_get_status(void)
 {
-    return gMemCard_io_size_800B5648;
+    return gMemCard_io_size;
 }
 
 /**
@@ -693,13 +687,13 @@ int memcard_format(int port)
     retries = 4;
     sprintf(cardPath, "bu%02x:", port * 16);
 
-    if (gMemCards_800B52F8[port].last_op == 5)
+    if (gMemCards[port].last_op == 5)
     {
     retry:
         if (format(cardPath) != 0)
         {
             printf("FORMATED %d\n", port);
-            gMemCards_800B52F8[port].last_op = 1;
+            gMemCards[port].last_op = 1;
             return 1;
         }
         retries--;

@@ -4,10 +4,8 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "game/camera.h"
-#include "game/control.h"
 #include "game/game.h"
 #include "linkvar.h"
-#include "game/object.h"
 #include "game/over.h"
 #include "game/vibrate.h"
 #include "sd/g_sound.h"
@@ -73,9 +71,8 @@ typedef struct _TortureWork
     GV_ACT        *f900;
 } TortureWork;
 
-extern GV_PAD          GV_PadData_800B05C0[4];
 extern UnkCameraStruct gUnkCameraStruct_800B77B8;
-extern GM_Camera       GM_Camera_800B77E8;
+extern GM_CAMERA       GM_Camera;
 
 extern char s03b_dword_800C329C[];
 extern char s03b_dword_800C32AC[];
@@ -142,14 +139,14 @@ void s03b_torture_800C3EF8(TortureWork *work)
 
     if (work->f814 > 0)
     {
-        if (GM_Camera_800B77E8.first_person == 0 && --work->f814 == 0)
+        if (GM_Camera.first_person == 0 && --work->f814 == 0)
         {
             DG_VisibleObjs(work->body.objs);
         }
     }
     else
     {
-        if (GM_Camera_800B77E8.first_person != 0 && ++work->f814 == 0)
+        if (GM_Camera.first_person != 0 && ++work->f814 == 0)
         {
             DG_InvisibleObjs(work->body.objs);
         }
@@ -287,9 +284,9 @@ void s03b_torture_800C421C(TortureWork *work)
 {
     work->f800 |= 0x1;
 
-    if (GM_Camera_800B77E8.first_person <= 0)
+    if (GM_Camera.first_person <= 0)
     {
-        GM_Camera_800B77E8.first_person = 1;
+        GM_Camera.first_person = 1;
         work->f814 = -4;
     }
     else
@@ -301,7 +298,7 @@ void s03b_torture_800C421C(TortureWork *work)
 void s03b_torture_800C4260(TortureWork *work)
 {
     work->f800 &= ~0x1;
-    GM_Camera_800B77E8.first_person = 0;
+    GM_Camera.first_person = 0;
     work->f814 = 4;
 }
 
@@ -508,7 +505,7 @@ void s03b_torture_800C46B8(TortureWork *work, int arg1)
 
     if (arg1 == 32)
     {
-        GM_Camera_800B77E8.first_person = 0;
+        GM_Camera.first_person = 0;
 
         if (work->f83C >= 0)
         {
@@ -533,7 +530,7 @@ void s03b_torture_800C4740(TortureWork *work)
 
     s03b_boxall_800C974C();
 
-    if (GV_PadData_800B05C0[2].press & PAD_CROSS)
+    if (GV_PadData[2].press & PAD_CROSS)
     {
         work->f808 = s03b_torture_800C46B8;
         work->f81A = 0;
@@ -780,7 +777,7 @@ void s03b_torture_800C4C48(TortureWork *work, int arg1)
 
     if (arg1 == 420)
     {
-        GM_Camera_800B77E8.first_person = 2;
+        GM_Camera.first_person = 2;
         work->f802 |= 0x6000;
     }
 
@@ -879,7 +876,7 @@ void s03b_torture_800C4F54(TortureWork *work, int arg1)
     if (arg1 == 90)
     {
         work->f802 |= 0x2000;
-        GM_Camera_800B77E8.first_person = 2;
+        GM_Camera.first_person = 2;
     }
 
     if (arg1 == 200)
@@ -917,7 +914,7 @@ void s03b_torture_800C50A8(TortureWork *work, int arg1)
             GM_ConfigObjectAction(&work->body, 0, 0, 4);
         }
 
-        GM_Camera_800B77E8.first_person = 2;
+        GM_Camera.first_person = 2;
         work->f802 |= 0x6000;
 
         GM_ConfigControlHazard(control, control->mov.vy, -2, -2);
@@ -1011,7 +1008,7 @@ void s03b_torture_800C50A8(TortureWork *work, int arg1)
 
     if (arg1 > 148)
     {
-        GM_Camera_800B77E8.zoom -= 6;
+        GM_Camera.zoom -= 6;
     }
 }
 
@@ -1552,7 +1549,7 @@ void s03b_torture_800C6080(TortureWork *work)
     {
         if (work->f848 == 0 && work->f83C >= 0)
         {
-            GM_Camera_800B77E8.first_person = 0;
+            GM_Camera.first_person = 0;
             GCL_ExecProc(work->f83C, NULL);
             GV_DestroyActor(&work->actor);
             GM_GameStatus &= ~STATE_NOSLOW;
@@ -1897,7 +1894,7 @@ void Torture_800C695C(TortureWork *work)
     work->f822 = 0;
     work->f820 = 0;
     work->f824 = work->control.mov;
-    work->f834 = &GV_PadData_800B05C0[2];
+    work->f834 = &GV_PadData[2];
     work->f82C = work->control.rot;
     work->f8FC = NULL;
     work->f900 = NULL;
@@ -1914,12 +1911,12 @@ void Torture_800C695C(TortureWork *work)
 
     if (work->f7FC < 2)
     {
-        GM_Camera_800B77E8.first_person = 2;
+        GM_Camera.first_person = 2;
         work->f802 |= 0x2000;
     }
     else
     {
-        GM_Camera_800B77E8.first_person = 0;
+        GM_Camera.first_person = 0;
     }
 
     opt = GCL_GetOption('c');

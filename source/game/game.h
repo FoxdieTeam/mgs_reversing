@@ -1,32 +1,50 @@
 #ifndef _GAME_H_
 #define _GAME_H_
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "charadef.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
+#include "menu/menuman.h"
+#include "sd/sd_cli.h"
+#include "sd/g_sound.h"
+
+#include "map.h"
 #include "control.h"
 #include "target.h"
-#include "menu/menuman.h"
+#include "homing.h"
 #include "motion.h"
 #include "strctrl.h"
 //#include "linkvar.h"
-#include "sd/sd_cli.h"
-#include "sd/g_sound.h"
+
+/*---------------------------------------------------------------------------*/
 
 enum GAMED_STATE {          // private to gamed.c
     WAIT_LOAD   = 0,
     WORKING     = 1
 };
 
-typedef struct GameWork     // private to gamed.c
+typedef struct gameWork     // private to gamed.c
 {
     GV_ACT  actor;
     int     status;         // enum GAMED_STATE
-    int     field_24;       // killing_count (?)
-} GameWork;
+    int     killing_count;  // name taken from MGS4
+} gameWork;
+
+/*---------------------------------------------------------------------------*/
+
+typedef struct HITTABLE
+{
+    int      type;    // Not read from, set as either WP_Claymore or WP_C4
+    GV_ACT  *actor;
+    CONTROL *control;
+    void    *data;    // The thing being collided with, can be walls, floors, targets
+} HITTABLE;
 
 #define DG_MAX_JOINTS 24
 
@@ -340,6 +358,26 @@ void GM_SeSet3(int x_pos, int y_pos, int se_id);
 void sub_80032B40(SVECTOR *svec, unsigned int se_id, int y_pos);
 void sub_80032BC4(SVECTOR *svec, unsigned int se_id, int param_3);
 void GM_SetSound(int sound_code, int sync_mode);
+
+/* object.c */
+void GM_InitObjectNoRots(OBJECT_NO_ROTS *obj, int model, int flag, int motion);
+void GM_InitObject(OBJECT *obj, int model, int flag, int motion);
+void GM_ActMotion(OBJECT *obj);
+void GM_ActObject(OBJECT *obj);
+void GM_ActObject2(OBJECT *obj);
+void GM_FreeObject(OBJECT *obj);
+void GM_ConfigObjectFlags(OBJECT *obj, int flags);
+void GM_ConfigObjectLight(OBJECT *obj, MATRIX *light);
+void GM_ConfigObjectStep(OBJECT *obj, SVECTOR *step);
+void GM_ConfigObjectRoot(OBJECT *obj, OBJECT *parent_obj, int num_parent);
+void GM_ConfigObjectJoint(OBJECT *obj);
+void GM_ConfigObjectSlide(OBJECT *obj);
+
+void GM_ConfigObjectAction(OBJECT *obj, int action, int frame, int interp);
+void GM_ConfigObjectOverride(OBJECT *obj, int action, int frame, int interp, u_long mask);
+int  GM_ConfigObjectMotion(OBJECT *obj, int action_flag, int motion);
+
+int  GM_ConfigObjectModel(OBJECT_NO_ROTS *obj, int model);
 
 /* motion.c */
 int  GM_ConfigMotionControl(OBJECT *object, MOTION_CONTROL *m_ctrl, int name,

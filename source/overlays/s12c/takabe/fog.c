@@ -12,10 +12,10 @@ typedef struct _FogWork
     int          name;
     int          scale;
     int          f2C;
-    DG_CHANLFUNC bound;
-    DG_CHANLFUNC trans;
-    DG_CHANLFUNC shade;
-    DG_CHANLFUNC sort;
+    DG_CHANLFUNC old_bound;
+    DG_CHANLFUNC old_trans;
+    DG_CHANLFUNC old_shade;
+    DG_CHANLFUNC old_sort;
     int          f40;
 } FogWork;
 
@@ -24,7 +24,7 @@ int SECTION("overlay.bss") s12c_800DA42C;
 int SECTION("overlay.bss") s12c_800DA430;
 int SECTION("overlay.bss") s12c_800DA434;
 
-extern GM_Camera GM_Camera_800B77E8;
+extern GM_CAMERA GM_Camera;
 
 void s12c_800D497C(int, int);
 void s12c_800D4AB4(int);
@@ -43,16 +43,16 @@ void FogAct_800D4074(FogWork *work)
     GM_CurrentMap = work->map;
 
     scale = work->scale;
-    scale += (255 - scale) * (GM_Camera_800B77E8.zoom - 360) / 3640;
+    scale += (255 - scale) * (GM_Camera.zoom - 360) / 3640;
     s12c_800D4AB4(scale);
 }
 
 void FogDie_800D40E0(FogWork *work)
 {
-    DG_SetChanlSystemUnits(DG_BOUND_CHANL, work->bound);
-    DG_SetChanlSystemUnits(DG_TRANS_CHANL, work->trans);
-    DG_SetChanlSystemUnits(DG_SHADE_CHANL, work->shade);
-    DG_SetChanlSystemUnits(DG_SORT_CHANL,  work->sort);
+    DG_SetChanlSystemUnits(DG_BOUND_CHANL, work->old_bound);
+    DG_SetChanlSystemUnits(DG_TRANS_CHANL, work->old_trans);
+    DG_SetChanlSystemUnits(DG_SHADE_CHANL, work->old_shade);
+    DG_SetChanlSystemUnits(DG_SORT_CHANL,  work->old_sort);
 }
 
 int FogGetResources_800D4130(FogWork *work, int name, int map)
@@ -73,10 +73,10 @@ int FogGetResources_800D4130(FogWork *work, int name, int map)
     s12c_800D497C(temp_s2, temp_s1);
     work->scale = temp_s2;
 
-    work->bound = DG_SetChanlSystemUnits(DG_BOUND_CHANL, FogBoundChanl_800D5500);
-    work->trans = DG_SetChanlSystemUnits(DG_TRANS_CHANL, FogTransChanl_800D63B0);
-    work->shade = DG_SetChanlSystemUnits(DG_SHADE_CHANL, FogShadeChanl_800D6A04);
-    work->sort  = DG_SetChanlSystemUnits(DG_SORT_CHANL,  FogSortChanl_800D4E98);
+    work->old_bound = DG_SetChanlSystemUnits(DG_BOUND_CHANL, FogBoundChanl_800D5500);
+    work->old_trans = DG_SetChanlSystemUnits(DG_TRANS_CHANL, FogTransChanl_800D63B0);
+    work->old_shade = DG_SetChanlSystemUnits(DG_SHADE_CHANL, FogShadeChanl_800D6A04);
+    work->old_sort  = DG_SetChanlSystemUnits(DG_SORT_CHANL,  FogSortChanl_800D4E98);
     work->f40 = 1;
 
     return 0;

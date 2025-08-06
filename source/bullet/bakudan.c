@@ -6,14 +6,12 @@
 #include <libgpu.h>
 
 #include "common.h"
+#include "libgv/libgv.h"
 #include "chara/snake/sna_init.h"
 #include "game/game.h"
-#include "game/hittable.h"
 #include "linkvar.h"
-#include "game/object.h"
 #include "sd/g_sound.h"
 
-extern GV_PAD  GV_PadData_800B05C0[4];
 extern HITTABLE GM_C4Datas_800BDD78[C4_COUNT];
 extern unsigned short GM_ItemTypes[];
 extern BLAST_DATA blast_data_8009F4B8[8];
@@ -61,11 +59,11 @@ static void Act(BakudanWork *work)
     }
 
     control = &work->control;
-    pad = &GV_PadData_800B05C0[0];
+    pad = &GV_PadData[0];
 
     if (GM_PlayerStatus & PLAYER_SECOND_CONTROLLER)
     {
-        pad = &GV_PadData_800B05C0[1];
+        pad = &GV_PadData[1];
     }
 
     work->active_pad = pad;

@@ -2,7 +2,6 @@
 #define _GOGGLE_H_
 
 #include "game/game.h"
-#include "game/control.h"
 
 // night vision goggles (screen effect)
 

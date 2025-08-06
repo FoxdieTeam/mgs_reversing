@@ -3,9 +3,7 @@
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "game/camera.h"
-#include "game/control.h"
 #include "game/game.h"
-#include "game/object.h"
 #include "sd/g_sound.h"
 
 typedef struct _BoxallWork
@@ -22,7 +20,7 @@ typedef struct _BoxallWork
     int            proc;
 } BoxallWork;
 
-extern GM_Camera GM_Camera_800B77E8;
+extern GM_CAMERA GM_Camera;
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 #define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
@@ -53,7 +51,7 @@ void Boxall_800C9800(BoxallWork *work)
     LINE_F4 *line;
     int      x, y;
 
-    if (GM_Camera_800B77E8.first_person == 0)
+    if (GM_Camera.first_person == 0)
     {
         work->f104 = 0;
         return;

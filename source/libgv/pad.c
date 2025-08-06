@@ -8,7 +8,6 @@
 
 /***bss****************************************************************/
 extern int     dword_800B05A8[6];
-extern GV_PAD GV_PadData_800B05C0[4];
 /*********************************************************************/
 
 int GV_PadMask = 0;
@@ -104,7 +103,7 @@ STATIC void GV_AnalogToDirection(int *button, MTS_PAD *data)
     char lx, rx;
     int  dir;
 
-    *button &= ~PAD_DIR;
+    *button &= ~PAD_UDLR;
 
     lx = data->lx;
     rx = data->ly;
@@ -136,7 +135,7 @@ void GV_InitPadSystem(void)
     int     i;
     GV_PAD *pad;
 
-    pad = GV_PadData_800B05C0;
+    pad = GV_PadData;
 
     for (i = 2; i > 0; --i)
     {
@@ -199,7 +198,7 @@ void GV_UpdatePadSystem(void)
     }
 
     // loc_800168E0
-    pad = GV_PadData_800B05C0;
+    pad = GV_PadData;
     s3 = 0;
     chan = 2;
 
@@ -233,10 +232,10 @@ void GV_UpdatePadSystem(void)
             if (pad->analog > 0 && (!(GM_GameStatus & (STATE_PADRELEASE | STATE_DEMO)) || GM_GameStatus & STATE_PADDEMO))
             {
                 // loc_8001698C
-                if (button & PAD_DIR)
+                if (button & PAD_UDLR)
                 {
                     // loc_800169A0
-                    int v0 = dir_table[(button & PAD_DIR) >> 12];
+                    int v0 = dir_table[(button & PAD_UDLR) >> 12];
                     v0 += GV_PadOrigin;
                     pad->dir = v0 & 0x0FFF;
                     pad->analog = 0;
@@ -290,7 +289,7 @@ void GV_UpdatePadSystem(void)
                 *((unsigned long *)&pad->right_dx) = *((unsigned long *)(&data.rx));
                 if (GM_GameStatus & STATE_PADMASK)
                 {
-                    if (!(GV_PadMask & PAD_DIR))
+                    if (!(GV_PadMask & PAD_UDLR))
                     {
                         pad->analog = 0;
                         pad->dir = -1;
@@ -302,7 +301,7 @@ void GV_UpdatePadSystem(void)
                 // loc_80016A94
                 int val, check;
                 pad->analog = 0;
-                check = button & PAD_DIR;
+                check = button & PAD_UDLR;
                 if (!(check))
                 {
                     val = -1;
@@ -334,7 +333,7 @@ void GV_UpdatePadSystem(void)
     // loc_80016B28
     ret |= s3 & 0xF000F000;
     button = s3;
-    GV_CopyMemory(GV_PadData_800B05C0, &GV_PadData_800B05C0[2], 0x20);
+    GV_CopyMemory(GV_PadData, &GV_PadData[2], sizeof(GV_PAD)*2);
 
     prev = dword_800AB954;
     dword_800AB954 = ret;
@@ -361,7 +360,7 @@ void GV_UpdatePadSystem(void)
     t5 = 2;
     dword_800B05A8[(GV_Time % 6)] = t0;
 
-    pad = GV_PadData_800B05C0;
+    pad = GV_PadData;
 
     for (; chan > 0; --chan)
     {
@@ -404,9 +403,9 @@ int GV_GetPadDirNoPadOrg(unsigned int button)
     int value;
 
     value = -1;
-    if (button & PAD_DIR)
+    if (button & PAD_UDLR)
     {
-        value = (dir_table[(button & PAD_DIR) >> 12] + GV_PadOrigin) & ~PAD_DIR & 0xFFFF;
+        value = (dir_table[(button & PAD_UDLR) >> 12] + GV_PadOrigin) & ~PAD_UDLR & 0xFFFF;
     }
 
     return value - GV_PadOrigin;

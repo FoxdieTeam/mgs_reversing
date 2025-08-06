@@ -1,5 +1,9 @@
 #include "wolf2.h"
 
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
+#include "libgcl/libgcl.h"
+
 SVECTOR wolf2_800C3560 = {0, 0, 100};
 SVECTOR wolf2_800C3568 = {-1024, 0, 0};
 

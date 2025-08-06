@@ -36,7 +36,7 @@ typedef void (*TGMCameraFunc)(void);
 
 // see comment above
 // extern demothrd_2Vec stru_800B77E8[9];
-typedef struct GM_Camera // @ 800B77E8
+typedef struct GM_CAMERA // @ 800B77E8
 {
     SVECTOR       eye;
     SVECTOR       center;
@@ -53,9 +53,9 @@ typedef struct GM_Camera // @ 800B77E8
     SVECTOR       bounds[2][2];
     SVECTOR       limits[2][2];
     TGMCameraFunc callbacks[2];
-} GM_Camera;
+} GM_CAMERA;
 
-STATIC_ASSERT(sizeof(GM_Camera) == 0x7C, "sizeof(GM_Camera) is wrong!");
+STATIC_ASSERT(sizeof(GM_CAMERA) == 0x7C, "sizeof(GM_CAMERA) is wrong!");
 
 typedef struct UnkCameraStruct2 // @ 800B7868
 {

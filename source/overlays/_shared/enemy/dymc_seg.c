@@ -1,7 +1,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libhzd/libhzd.h"
-#include "game/map.h"
+#include "game/game.h"
 
 typedef struct DymcSegWork
 {

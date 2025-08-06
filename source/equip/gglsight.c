@@ -7,14 +7,12 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "game/control.h"
 #include "game/game.h"
 #include "menu/menuman.h"
 #include "thing/sight.h"
 #include "chara/snake/sna_init.h"
 #include "linkvar.h"
 
-extern GV_PAD GV_PadData_800B05C0[4];
 extern int    dword_8009F604;
 
 /*---------------------------------------------------------------------------*/
@@ -403,11 +401,11 @@ static void Act(Work *work)
 
     if (GM_PlayerStatus & PLAYER_SECOND_CONTROLLER)
     {
-        status = GV_PadData_800B05C0[1].status;
+        status = GV_PadData[1].status;
     }
     else
     {
-        status = GV_PadData_800B05C0[0].status;
+        status = GV_PadData[0].status;
     }
 
     GM_CheckShukanReverse(&status);

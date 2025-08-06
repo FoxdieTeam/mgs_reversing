@@ -366,7 +366,7 @@ void FS_StreamClose( void )
     mts_unlock_sem(1);
 }
 
-int FS_StreamClosed( void )
+int FS_StreamIsEnd( void )
 {
     return fs_stream_ref_count == 0;
 }

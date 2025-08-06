@@ -9,7 +9,18 @@
 #include "mts/mts.h"
 #include "game/game.h"
 
-/**data*********************************************************/
+extern GV_PAD *GM_CurrentPadData;
+extern int DG_CurrentGroupID;
+
+/*---------------------------------------------------------------------------*/
+
+typedef struct {
+    GV_ACT actor;
+} Work;
+
+extern Work DG_WorkFirst;
+extern Work DG_WorkLast;
+extern int dword_800B3790;
 
 int DG_FrameRate = 2;
 int DG_HikituriFlag = 0;        // 引きつり = twitching
@@ -17,13 +28,9 @@ int DG_HikituriFlagOld = 0;     //   〃          〃
 
 STATIC int DG_TickCount = -1;
 
-/***************************************************************/
+/*---------------------------------------------------------------------------*/
 
-extern int              dword_800B3790;
-extern GV_PAD          *GM_CurrentPadData;
-extern GV_PAD           GV_PadData_800B05C0[4];
-
-int DG_DrawSyncResetGraph(void)
+int DG_VSyncCallbackFunc(void)
 {
     if (DrawSync(1) > 0)
     {
@@ -39,7 +46,7 @@ int DG_DrawSyncResetGraph(void)
     return 1;
 }
 
-void DG_StartFrame(GV_ACT *actor)
+void DG_ActFirst(Work *work)
 {
     int ticks;
 
@@ -82,23 +89,21 @@ void DG_StartFrame(GV_ACT *actor)
     DG_SwapFrame();
 
     GV_UpdatePadSystem();
-    GM_CurrentPadData = GV_PadData_800B05C0;
+    GM_CurrentPadData = GV_PadData;
 
     if ((GM_PlayerStatus & PLAYER_SECOND_AVAILABLE) != 0)
     {
-        if (GV_PadData_800B05C0[1].status | GV_PadData_800B05C0[1].release)
+        if (GV_PadData[1].status | GV_PadData[1].release)
         {
-            GM_CurrentPadData = &GV_PadData_800B05C0[1];
+            GM_CurrentPadData = &GV_PadData[1];
         }
     }
 }
 
-void DG_EndFrame(void)
+void DG_ActLast(Work *work)
 {
     DG_RenderFrame();
 }
-
-extern int DG_CurrentGroupID;
 
 void DG_ResetPipeline(void)
 {
@@ -124,18 +129,14 @@ void DG_ResetTextureCache(void)
     DG_LoadResidentTextureCache();
 }
 
-extern GV_ACT DG_StartFrameActor_800B3750;
-extern GV_ACT DG_EndFrameActor_800B3770; // same section as its directly after
-extern int   dword_800B3790;
-
 void DG_StartDaemon(void)
 {
     mts_set_vsync_task();
-    mts_set_vsync_callback_func(DG_DrawSyncResetGraph);
+    mts_set_vsync_callback_func(DG_VSyncCallbackFunc);
 
     DG_InitDispEnv(0, 0, 320, 240, 320);
     DG_InitChanlSystem(320);
-    DG_InitResidentTextureCache();
+    DG_ClearResidentTexture();
     DG_ResetPipeline();
 
     GV_SetLoader('p', DG_LoadInitPcx);      // *.pcx format
@@ -148,10 +149,10 @@ void DG_StartDaemon(void)
     GV_SetLoader('s', DG_LoadInitSgt);      // *.sgt format
 
     // Wait for vsync, swap frame, fetch input
-    GV_InitActor(GV_ACTOR_DAEMON, &DG_StartFrameActor_800B3750, NULL);
-    GV_SetNamedActor(&DG_StartFrameActor_800B3750, DG_StartFrame, NULL, "dgd.c");
+    GV_InitActor(GV_ACTOR_DAEMON, &DG_WorkFirst, NULL);
+    GV_SetNamedActor(&DG_WorkFirst, DG_ActFirst, NULL, "dgd.c");
 
     // Render new frame
-    GV_InitActor(GV_ACTOR_DAEMON2, &DG_EndFrameActor_800B3770, NULL);
-    GV_SetNamedActor(&DG_EndFrameActor_800B3770, DG_EndFrame, NULL, "dgd.c");
+    GV_InitActor(GV_ACTOR_DAEMON2, &DG_WorkLast, NULL);
+    GV_SetNamedActor(&DG_WorkLast, DG_ActLast, NULL, "dgd.c");
 }

@@ -10,12 +10,10 @@
 #include "libdg/libdg.h"
 #include "bullet/blast.h"
 #include "bullet/tenage.h"
-#include "game/object.h"
-#include "game/target.h"
+#include "game/game.h"
 #include "linkvar.h"
 #include "okajima/chafgrnd.h"
 #include "okajima/stngrnd.h"
-#include "game/map.h"
 #include "strcode.h"
 
 extern int           DG_CurrentGroupID;

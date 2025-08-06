@@ -12,7 +12,7 @@
 
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 extern BLAST_DATA       blast_data_8009F4B8[8];
-extern GM_Camera        GM_Camera_800B77E8;
+extern GM_CAMERA        GM_Camera;
 
 void demothrd_Screen_Chanl_80080D48(DG_CHANL *chanl, int idx);
 void InitChain(DemothrdWork_0x78_Chain *pSub);
@@ -40,7 +40,7 @@ int CreateDemo_80079B50(DemothrdWork* pThis, demothrd_0x1C* pDmoData)
 
     pThis->field_270_pOldRenderFn = pOldRendFunc;
     pThis->field_274_old_game_state_flags = GM_GameStatus;
-    pThis->field_278 = GM_Camera_800B77E8;
+    pThis->field_278 = GM_Camera;
 
     pThis->field_2F4_old_equipped_item = GM_CurrentItemId;
     pThis->field_2F8_old_equipped_weapon = GM_CurrentWeaponId;
@@ -278,97 +278,97 @@ int CreateDemo_80079B50(DemothrdWork* pThis, demothrd_0x1C* pDmoData)
 
 int DestroyDemo_8007A66C(DemothrdWork *work)
 {
-  DemothrdWork_0x78_Chain *i;
-  GV_ACT *pPrevious;
-  GV_ACT *pNext;
-  dmo_model_0x1A4 *field_34_pModels;
-  dmo_model_0x1A4 *pModelIter;
-  dmo_model_0x14 *pModelIter_1;
-  int mdlNum;
-  demothrd_0x1C *pHeader;
-  void *pMaps;
-  dmo_model_0x14 *pMods;
-  DG_CHANLFUNC field_270_pOldRenderFn;
+    DemothrdWork_0x78_Chain *i;
+    GV_ACT *pPrevious;
+    GV_ACT *pNext;
+    dmo_model_0x1A4 *field_34_pModels;
+    dmo_model_0x1A4 *pModelIter;
+    dmo_model_0x14 *pModelIter_1;
+    int mdlNum;
+    demothrd_0x1C *pHeader;
+    void *pMaps;
+    dmo_model_0x14 *pMods;
+    DG_CHANLFUNC field_270_pOldRenderFn;
 
-  if ((work->field_20_flag & 2) != 0)
-  {
-    GM_GameStatus |= STATE_DEMO_VERBOSE;
-  }
-  for (i = work->field_38.field_4_pNext; i != (&work->field_38); i = work->field_38.field_4_pNext)
-  {
-    pPrevious = i->field_C_actor1;
-    if (pPrevious)
+    if ((work->field_20_flag & 2) != 0)
     {
-      GV_DestroyOtherActor(pPrevious);
+        GM_GameStatus |= STATE_DEMO_VERBOSE;
     }
-    pNext = i->field_10_actor2;
-    if (pNext)
+    for (i = work->field_38.field_4_pNext; i != (&work->field_38); i = work->field_38.field_4_pNext)
     {
-      GV_DestroyOtherActor(pNext);
-    }
-    Chain_Remove_8007F394(&work->field_38, i);
-    GV_Free(i);
-  }
-
-  field_34_pModels = work->field_34_pModels;
-  if (field_34_pModels)
-  {
-    pModelIter = work->field_34_pModels;
-
-    pModelIter_1 = work->field_30_dmo_header->field_18_pModels;
-    mdlNum = 0;
-    if (work->field_30_dmo_header->field_10_num_models > mdlNum)
-    {
-      do
-      {
-        GM_FreeObject(&pModelIter->field_7C_obj);
-        if (pModelIter->field_1A0_pM1OrHind)
+        pPrevious = i->field_C_actor1;
+        if (pPrevious)
         {
-          if (((pModelIter_1->field_C_hashCode) == GV_StrCode("m1e1")) || ((pModelIter_1->field_C_hashCode) == GV_StrCode("m1e1demo")))
-          {
-            GM_FreeObject(&pModelIter->field_1A0_pM1OrHind->field_0[0][0]);
-            GM_FreeObject(&pModelIter->field_1A0_pM1OrHind->field_0[0][1]);
-            GM_FreeObject(&pModelIter->field_1A0_pM1OrHind->field_0[0][2]);
-            GM_FreeObject(&pModelIter->field_1A0_pM1OrHind->field_0[1][0]);
-            GM_FreeObject(&pModelIter->field_1A0_pM1OrHind->field_0[1][1]);
-            GM_FreeObject(&pModelIter->field_1A0_pM1OrHind->field_0[1][2]);
-          }
-          GV_Free(pModelIter->field_1A0_pM1OrHind);
+            GV_DestroyOtherActor(pPrevious);
         }
-        mdlNum++;
-        pModelIter_1++;
-        pModelIter++;
-      }
-      while (mdlNum < work->field_30_dmo_header->field_10_num_models);
+        pNext = i->field_10_actor2;
+        if (pNext)
+        {
+            GV_DestroyOtherActor(pNext);
+        }
+        Chain_Remove_8007F394(&work->field_38, i);
+        GV_Free(i);
     }
-    GM_FreeControl(&pModelIter->field_0_ctrl);
-    GV_Free(work->field_34_pModels);
-  }
-  GM_FreeObject(&work->field_140_obj);
-  GM_FreeControl(&work->field_C4_ctrl);
-  pHeader = work->field_30_dmo_header;
-  if (pHeader)
-  {
-    pMaps = (void *) pHeader->field_14_pMaps;
-    if (pMaps)
+
+    field_34_pModels = work->field_34_pModels;
+    if (field_34_pModels)
     {
-      GV_Free(pMaps);
+        pModelIter = work->field_34_pModels;
+
+        pModelIter_1 = work->field_30_dmo_header->field_18_pModels;
+        mdlNum = 0;
+        if (work->field_30_dmo_header->field_10_num_models > mdlNum)
+        {
+            do
+            {
+                GM_FreeObject(&pModelIter->field_7C_obj);
+                if (pModelIter->field_1A0_pM1OrHind)
+                {
+                    if (((pModelIter_1->field_C_hashCode) == GV_StrCode("m1e1")) || ((pModelIter_1->field_C_hashCode) == GV_StrCode("m1e1demo")))
+                    {
+                        GM_FreeObject(&pModelIter->field_1A0_pM1OrHind->field_0[0][0]);
+                        GM_FreeObject(&pModelIter->field_1A0_pM1OrHind->field_0[0][1]);
+                        GM_FreeObject(&pModelIter->field_1A0_pM1OrHind->field_0[0][2]);
+                        GM_FreeObject(&pModelIter->field_1A0_pM1OrHind->field_0[1][0]);
+                        GM_FreeObject(&pModelIter->field_1A0_pM1OrHind->field_0[1][1]);
+                        GM_FreeObject(&pModelIter->field_1A0_pM1OrHind->field_0[1][2]);
+                    }
+                    GV_Free(pModelIter->field_1A0_pM1OrHind);
+                }
+                mdlNum++;
+                pModelIter_1++;
+                pModelIter++;
+            }
+            while (mdlNum < work->field_30_dmo_header->field_10_num_models);
+        }
+        GM_FreeControl(&pModelIter->field_0_ctrl);
+        GV_Free(work->field_34_pModels);
     }
-    pMods = work->field_30_dmo_header->field_18_pModels;
-    if (pMods)
+    GM_FreeObject(&work->field_140_obj);
+    GM_FreeControl(&work->field_C4_ctrl);
+    pHeader = work->field_30_dmo_header;
+    if (pHeader)
     {
-      GV_Free(pMods);
+        pMaps = (void *) pHeader->field_14_pMaps;
+        if (pMaps)
+        {
+            GV_Free(pMaps);
+        }
+        pMods = work->field_30_dmo_header->field_18_pModels;
+        if (pMods)
+        {
+            GV_Free(pMods);
+        }
+        GV_Free(work->field_30_dmo_header);
     }
-    GV_Free(work->field_30_dmo_header);
-  }
-  field_270_pOldRenderFn = work->field_270_pOldRenderFn;
-  GM_GameStatus &= ~STATE_DEMO;
-  DG_SetChanlSystemUnits(DG_SCREEN_CHANL, field_270_pOldRenderFn);
-  GM_GameStatus = work->field_274_old_game_state_flags;
-  GM_Camera_800B77E8 = work->field_278;
-  GM_CurrentItemId = work->field_2F4_old_equipped_item;
-  GM_CurrentWeaponId = work->field_2F8_old_equipped_weapon;
-  return 1;
+    field_270_pOldRenderFn = work->field_270_pOldRenderFn;
+    GM_GameStatus &= ~STATE_DEMO;
+    DG_SetChanlSystemUnits(DG_SCREEN_CHANL, field_270_pOldRenderFn);
+    GM_GameStatus = work->field_274_old_game_state_flags;
+    GM_Camera = work->field_278;
+    GM_CurrentItemId = work->field_2F4_old_equipped_item;
+    GM_CurrentWeaponId = work->field_2F8_old_equipped_weapon;
+    return 1;
 }
 
 void Chain_Add_8007F350(DemothrdWork_0x78_Chain *pRoot, DemothrdWork_0x78_Chain *pAdd);
@@ -1987,200 +1987,200 @@ void demothrd_remove_via_id_8007CD60(DemothrdWork *pThis, int id_to_remove)
 
 int demothrd_8007CDF8(DemothrdWork *work, dmo_data_0x28 *pDmoData, DemothrdWork_0x78_Chain *pChain)
 {
-  dmo_data_0x18 *field_24_pDmoEnd;
-  int idx;
-  HZD_VEC vec2;
-  SVECTOR vecPos;
-  if (pChain->field_14[0].field_4_type == 14)
-  {
-    field_24_pDmoEnd = pDmoData->field_24_pDmoEnd;
+    dmo_data_0x18 *field_24_pDmoEnd;
+    int idx;
+    HZD_VEC vec2;
+    SVECTOR vecPos;
+    if (pChain->field_14[0].field_4_type == 14)
     {
-      for (idx = 0; idx < pDmoData->field_20_count; idx++)
-      {
-        if (field_24_pDmoEnd->field_0_type == pChain->field_14[1].field_4_type)
+        field_24_pDmoEnd = pDmoData->field_24_pDmoEnd;
         {
-          break;
-        }
-        ++field_24_pDmoEnd;
-      }
+            for (idx = 0; idx < pDmoData->field_20_count; idx++)
+            {
+                if (field_24_pDmoEnd->field_0_type == pChain->field_14[1].field_4_type)
+                {
+                    break;
+                }
+                ++field_24_pDmoEnd;
+            }
 
-      if (idx < pDmoData->field_20_count)
-      {
-        vecPos.vx = field_24_pDmoEnd->field_C_pos_x;
-        vecPos.vy = field_24_pDmoEnd->field_E_pos_y;
-        vecPos.vz = field_24_pDmoEnd->field_10_pos_z;
-        idx = HZD_LevelTestHazard(work->field_C4_ctrl.map->hzd, &vecPos, 1);
-        HZD_LevelMinMaxHeights((int *)&vec2);
-        pChain->field_48 = field_24_pDmoEnd->rot_y;
-        if ((idx & 1) != 0)
-        {
-          pChain->field_4C = vec2.x + 50;
-        }
-        else  if ((idx & 2) != 0)
-        {
-          pChain->field_4C = vec2.y + 50;
-        }
-        else
-        {
-          pChain->field_4C = field_24_pDmoEnd->field_E_pos_y + 50;
-        }
+            if (idx < pDmoData->field_20_count)
+            {
+                vecPos.vx = field_24_pDmoEnd->field_C_pos_x;
+                vecPos.vy = field_24_pDmoEnd->field_E_pos_y;
+                vecPos.vz = field_24_pDmoEnd->field_10_pos_z;
+                idx = HZD_LevelTestHazard(work->field_C4_ctrl.map->hzd, &vecPos, 1);
+                HZD_LevelMinMaxHeights((int *)&vec2);
+                pChain->field_48 = field_24_pDmoEnd->rot_y;
+                if ((idx & 1) != 0)
+                {
+                    pChain->field_4C = vec2.x + 50;
+                }
+                else if ((idx & 2) != 0)
+                {
+                    pChain->field_4C = vec2.y + 50;
+                }
+                else
+                {
+                    pChain->field_4C = field_24_pDmoEnd->field_E_pos_y + 50;
+                }
 
-      }
+            }
+        }
     }
-  }
-  return 1;
+    return 1;
 }
 
 int demothrd_1_FrameRunDemo_helper4_8007CF14(DemothrdWork *work, dmo_data_0x28 *pDmo)
 {
-  dmo_data_0x34 *pIter;
-  int i;
-  DemothrdWork_0x78_Chain *pNext;
-  DemothrdWork_0x78_Chain *new_var;
-  DemothrdWork_0x78_Chain *new_var2;
-  DemothrdWork_0x78_Chain *pRoot;
-  pIter = pDmo->field_1C_dmo_data_offset;
-  for (i = 0; i < pDmo->field_18_count; ++pIter)
-  {
-    ++i;
-    if (pIter->field_4_type == 28)
+    dmo_data_0x34 *pIter;
+    int i;
+    DemothrdWork_0x78_Chain *pNext;
+    DemothrdWork_0x78_Chain *new_var;
+    DemothrdWork_0x78_Chain *new_var2;
+    DemothrdWork_0x78_Chain *pRoot;
+    pIter = pDmo->field_1C_dmo_data_offset;
+    for (i = 0; i < pDmo->field_18_count; ++pIter)
     {
-      return 1;
+        ++i;
+        if (pIter->field_4_type == 28)
+        {
+            return 1;
+        }
     }
-  }
 
-  pNext = work->field_38.field_4_pNext;
-  new_var = &work->field_38;
-  if (pNext != new_var)
-  {
-    if (pNext->field_14[0].field_4_type != 28)
+    pNext = work->field_38.field_4_pNext;
+    new_var = &work->field_38;
+    if (pNext != new_var)
     {
-      new_var2 = new_var;
-      pRoot = &work->field_38;
-      while (1)
-      {
-        pNext = pNext->field_4_pNext;
-        if (pNext == new_var2)
+        if (pNext->field_14[0].field_4_type != 28)
         {
-          break;
-        }
-        if (pNext->field_14[0].field_4_type == 28)
-        {
-          pRoot = &work->field_38;
-          break;
-        }
-      }
+            new_var2 = new_var;
+            pRoot = &work->field_38;
+            while (1)
+            {
+                pNext = pNext->field_4_pNext;
+                if (pNext == new_var2)
+                {
+                    break;
+                }
+                if (pNext->field_14[0].field_4_type == 28)
+                {
+                    pRoot = &work->field_38;
+                    break;
+                }
+            }
 
+        }
     }
-  }
-  if (pNext != (&work->field_38))
-  {
-    GV_DestroyOtherActor(pNext->field_C_actor1);
-    pRoot = &work->field_38;
-    pNext->field_C_actor1 = 0;
-    Chain_Remove_8007F394(pRoot, pNext);
-    GV_Free(pNext);
-  }
-  return 1;
+    if (pNext != (&work->field_38))
+    {
+        GV_DestroyOtherActor(pNext->field_C_actor1);
+        pRoot = &work->field_38;
+        pNext->field_C_actor1 = 0;
+        Chain_Remove_8007F394(pRoot, pNext);
+        GV_Free(pNext);
+    }
+    return 1;
 }
 
 int demothrd_8007CFE8(DemothrdWork *work, dmo_data_0x18 *pDmoData0x18)
 {
-  dmo_model_0x1A4 *pModelIter_0x1A4;
-  dmo_model_0x14 *pModelIter_0x14;
-  int counter;
-  dmo_6 *pEndIter;
+    dmo_model_0x1A4 *pModelIter_0x1A4;
+    dmo_model_0x14 *pModelIter_0x14;
+    int counter;
+    dmo_6 *pEndIter;
 
-  OFFSET_TO_PTR(pDmoData0x18, &pDmoData0x18->field_14_pEndData);
+    OFFSET_TO_PTR(pDmoData0x18, &pDmoData0x18->field_14_pEndData);
 
 
-  pModelIter_0x1A4 = work->field_34_pModels;
-  pModelIter_0x14 = work->field_30_dmo_header->field_18_pModels;
+    pModelIter_0x1A4 = work->field_34_pModels;
+    pModelIter_0x14 = work->field_30_dmo_header->field_18_pModels;
 
-  for (counter = 0; counter < work->field_30_dmo_header->field_10_num_models;)
-  {
-    if (pModelIter_0x14->field_0_type == pDmoData0x18->field_0_type)
+    for (counter = 0; counter < work->field_30_dmo_header->field_10_num_models;)
     {
-      break;
-    }
-     counter++;
-    ++pModelIter_0x14;
-    ++pModelIter_0x1A4;
+        if (pModelIter_0x14->field_0_type == pDmoData0x18->field_0_type)
+        {
+            break;
+        }
+         counter++;
+        ++pModelIter_0x14;
+        ++pModelIter_0x1A4;
 
-  }
-
-  if (counter >= work->field_30_dmo_header->field_10_num_models)
-  {
-    return 0;
-  }
-
-  if (!pDmoData0x18->field_4)
-  {
-    DG_InvisibleObjs(pModelIter_0x1A4->field_7C_obj.objs);
-    if ((pModelIter_0x14->field_C_hashCode == GV_StrCode("m1e1")) || ((pModelIter_0x14->field_C_hashCode == GV_StrCode("m1e1demo"))))
-    {
-      DG_InvisibleObjs(pModelIter_0x1A4->field_1A0_pM1OrHind->field_0[0][0].objs);
-      DG_InvisibleObjs(pModelIter_0x1A4->field_1A0_pM1OrHind->field_0[0][1].objs);
-      DG_InvisibleObjs(pModelIter_0x1A4->field_1A0_pM1OrHind->field_0[0][2].objs);
-      DG_InvisibleObjs(pModelIter_0x1A4->field_1A0_pM1OrHind->field_0[1][0].objs);
-      DG_InvisibleObjs(pModelIter_0x1A4->field_1A0_pM1OrHind->field_0[1][1].objs);
-      DG_InvisibleObjs(pModelIter_0x1A4->field_1A0_pM1OrHind->field_0[1][2].objs);
-    }
-  }
-  else
-  {
-    DG_VisibleObjs(pModelIter_0x1A4->field_7C_obj.objs);
-    if ((pModelIter_0x14->field_C_hashCode == GV_StrCode("m1e1")) || (pModelIter_0x14->field_C_hashCode == GV_StrCode("m1e1demo")))
-    {
-      DG_VisibleObjs(pModelIter_0x1A4->field_1A0_pM1OrHind->field_0[0][pModelIter_0x1A4->field_1A0_pM1OrHind->field_558_idx[0]].objs);
-      DG_VisibleObjs(pModelIter_0x1A4->field_1A0_pM1OrHind->field_0[1][pModelIter_0x1A4->field_1A0_pM1OrHind->field_558_idx[1]].objs);
     }
 
-    pModelIter_0x1A4->field_0_ctrl.mov.vx = pDmoData0x18->field_C_pos_x;
-    pModelIter_0x1A4->field_0_ctrl.mov.vy = pDmoData0x18->field_E_pos_y;
-    pModelIter_0x1A4->field_0_ctrl.mov.vz = pDmoData0x18->field_10_pos_z;
-    pModelIter_0x1A4->field_0_ctrl.rot.vx = pDmoData0x18->field_6_rot_x;
-    pModelIter_0x1A4->field_0_ctrl.rot.vy = pDmoData0x18->rot_y;
-    pModelIter_0x1A4->field_0_ctrl.rot.vz = pDmoData0x18->field_A_rot_z;
-    if ((pModelIter_0x14->field_4_flags & 1) != 0)
+    if (counter >= work->field_30_dmo_header->field_10_num_models)
     {
-      GM_ActControl(&pModelIter_0x1A4->field_0_ctrl);
-      GM_ActObject2(&pModelIter_0x1A4->field_7C_obj);
-     // return 1;
+        return 0;
+    }
+
+    if (!pDmoData0x18->field_4)
+    {
+        DG_InvisibleObjs(pModelIter_0x1A4->field_7C_obj.objs);
+        if ((pModelIter_0x14->field_C_hashCode == GV_StrCode("m1e1")) || ((pModelIter_0x14->field_C_hashCode == GV_StrCode("m1e1demo"))))
+        {
+            DG_InvisibleObjs(pModelIter_0x1A4->field_1A0_pM1OrHind->field_0[0][0].objs);
+            DG_InvisibleObjs(pModelIter_0x1A4->field_1A0_pM1OrHind->field_0[0][1].objs);
+            DG_InvisibleObjs(pModelIter_0x1A4->field_1A0_pM1OrHind->field_0[0][2].objs);
+            DG_InvisibleObjs(pModelIter_0x1A4->field_1A0_pM1OrHind->field_0[1][0].objs);
+            DG_InvisibleObjs(pModelIter_0x1A4->field_1A0_pM1OrHind->field_0[1][1].objs);
+            DG_InvisibleObjs(pModelIter_0x1A4->field_1A0_pM1OrHind->field_0[1][2].objs);
+        }
     }
     else
     {
-        pEndIter = pDmoData0x18->field_14_pEndData;
-        counter = 0;
-        if (pDmoData0x18->field_12_total > 0)
-        {
-          do
-          {
-            pModelIter_0x1A4->field_7C_obj.rots[counter].vx = pEndIter->field_0;
-            pModelIter_0x1A4->field_7C_obj.rots[counter].vy = pEndIter->field_2; // field_0
-            pModelIter_0x1A4->field_7C_obj.rots[counter].vz = pEndIter->field_4;
-            counter++;
-            pEndIter++;
-          }
-          while (counter < pDmoData0x18->field_12_total);
-        }
-
+        DG_VisibleObjs(pModelIter_0x1A4->field_7C_obj.objs);
         if ((pModelIter_0x14->field_C_hashCode == GV_StrCode("m1e1")) || (pModelIter_0x14->field_C_hashCode == GV_StrCode("m1e1demo")))
         {
-          demothrd_m1e1_8007D404(work, pDmoData0x18, pModelIter_0x14, pModelIter_0x1A4);
-        }
-        else if ((pModelIter_0x14->field_C_hashCode == GV_StrCode("hind")) || (pModelIter_0x14->field_C_hashCode == GV_StrCode("hinddemo")))
-        {
-           demothrd_hind_8007D9C8(work, pDmoData0x18, pModelIter_0x14, pModelIter_0x1A4);
+            DG_VisibleObjs(pModelIter_0x1A4->field_1A0_pM1OrHind->field_0[0][pModelIter_0x1A4->field_1A0_pM1OrHind->field_558_idx[0]].objs);
+            DG_VisibleObjs(pModelIter_0x1A4->field_1A0_pM1OrHind->field_0[1][pModelIter_0x1A4->field_1A0_pM1OrHind->field_558_idx[1]].objs);
         }
 
-        GM_ActMotion(&pModelIter_0x1A4->field_7C_obj);
-        GM_ActControl(&pModelIter_0x1A4->field_0_ctrl);
-        GM_ActObject(&pModelIter_0x1A4->field_7C_obj);
-        DG_GetLightMatrix(&pModelIter_0x1A4->field_0_ctrl.mov, pModelIter_0x1A4->field_160_mtx);
+        pModelIter_0x1A4->field_0_ctrl.mov.vx = pDmoData0x18->field_C_pos_x;
+        pModelIter_0x1A4->field_0_ctrl.mov.vy = pDmoData0x18->field_E_pos_y;
+        pModelIter_0x1A4->field_0_ctrl.mov.vz = pDmoData0x18->field_10_pos_z;
+        pModelIter_0x1A4->field_0_ctrl.rot.vx = pDmoData0x18->field_6_rot_x;
+        pModelIter_0x1A4->field_0_ctrl.rot.vy = pDmoData0x18->rot_y;
+        pModelIter_0x1A4->field_0_ctrl.rot.vz = pDmoData0x18->field_A_rot_z;
+        if ((pModelIter_0x14->field_4_flags & 1) != 0)
+        {
+            GM_ActControl(&pModelIter_0x1A4->field_0_ctrl);
+            GM_ActObject2(&pModelIter_0x1A4->field_7C_obj);
+         // return 1;
+        }
+        else
+        {
+            pEndIter = pDmoData0x18->field_14_pEndData;
+            counter = 0;
+            if (pDmoData0x18->field_12_total > 0)
+            {
+                do
+                {
+                    pModelIter_0x1A4->field_7C_obj.rots[counter].vx = pEndIter->field_0;
+                    pModelIter_0x1A4->field_7C_obj.rots[counter].vy = pEndIter->field_2; // field_0
+                    pModelIter_0x1A4->field_7C_obj.rots[counter].vz = pEndIter->field_4;
+                    counter++;
+                    pEndIter++;
+                }
+                while (counter < pDmoData0x18->field_12_total);
+            }
+
+            if ((pModelIter_0x14->field_C_hashCode == GV_StrCode("m1e1")) || (pModelIter_0x14->field_C_hashCode == GV_StrCode("m1e1demo")))
+            {
+                demothrd_m1e1_8007D404(work, pDmoData0x18, pModelIter_0x14, pModelIter_0x1A4);
+            }
+            else if ((pModelIter_0x14->field_C_hashCode == GV_StrCode("hind")) || (pModelIter_0x14->field_C_hashCode == GV_StrCode("hinddemo")))
+            {
+                 demothrd_hind_8007D9C8(work, pDmoData0x18, pModelIter_0x14, pModelIter_0x1A4);
+            }
+
+            GM_ActMotion(&pModelIter_0x1A4->field_7C_obj);
+            GM_ActControl(&pModelIter_0x1A4->field_0_ctrl);
+            GM_ActObject(&pModelIter_0x1A4->field_7C_obj);
+            DG_GetLightMatrix(&pModelIter_0x1A4->field_0_ctrl.mov, pModelIter_0x1A4->field_160_mtx);
+        }
     }
-  }
-  return 1;
+    return 1;
 }
 
 
@@ -2197,107 +2197,107 @@ static inline int magic_calc(SVECTOR* vecTmp, dmo_model_0x1A4 *p0x1A4)
 
 void demothrd_m1e1_8007D404(DemothrdWork *work, dmo_data_0x18 *p0x18, dmo_model_0x14 *p0x14, dmo_model_0x1A4 *p0x1A4)
 {
-  dmo_m1e1_data *pData;
-  int tmp1;
-  int i;
-  SVECTOR vec;
-  SVECTOR vecTmp;
-  SVECTOR smokeVecs[10];
+    dmo_m1e1_data *pData;
+    int tmp1;
+    int i;
+    SVECTOR vec;
+    SVECTOR vecTmp;
+    SVECTOR smokeVecs[10];
 
-  pData = p0x1A4->field_1A0_pM1OrHind;
-  for (i = 0; i < 3; i++)
-  {
-    GM_ActMotion(&pData->field_0[0][i]);
-    GM_ActMotion(&pData->field_0[1][i]);
-  }
-
-  DG_SetPos2(&p0x1A4->field_0_ctrl.mov, &p0x1A4->field_0_ctrl.rot);
-  DG_RotatePos(p0x1A4->field_7C_obj.rots);
-
-  M1E1GetCaterpillerVertex(&p0x1A4->field_1A0_pM1OrHind->field_0[0][0], &p0x1A4->field_1A0_pM1OrHind->field_0[1][0], smokeVecs, 1);
-  for (i = 0; i < 10; i++)
-  {
-    smokeVecs[i].vy = smokeVecs[i].vy + 300;
-  }
-
-  DG_PutVector(smokeVecs, smokeVecs, 10);
-
-  memset(&vec, 0, sizeof(SVECTOR));
-  vec.vx = pData->field_0[1][0].objs->objs[0].model->min.vx + ((pData->field_0[1][0].objs->objs[0].model->max.vx - pData->field_0[1][0].objs->objs[0].model->min.vx) / 2);
-  DG_PutVector(&vec, &vec, 1);
-
-  vecTmp.vx = vec.vx - pData->field_564[0].vx;
-  vecTmp.vy = vec.vy - pData->field_564[0].vy;
-  vecTmp.vz = vec.vz - pData->field_564[0].vz;
-
-  tmp1 = magic_calc(&vecTmp, p0x1A4);
-
-  if (abs(tmp1) >= pData->field_560)
-  {
-    AN_CaterpillerSmoke(&smokeVecs[rand() % 5]);
-    DG_InvisibleObjs(pData->field_0[0][pData->field_558_idx[0]].objs);
-    if (tmp1 > 0)
+    pData = p0x1A4->field_1A0_pM1OrHind;
+    for (i = 0; i < 3; i++)
     {
-      pData->field_558_idx[0]++;
+        GM_ActMotion(&pData->field_0[0][i]);
+        GM_ActMotion(&pData->field_0[1][i]);
     }
-    else
+
+    DG_SetPos2(&p0x1A4->field_0_ctrl.mov, &p0x1A4->field_0_ctrl.rot);
+    DG_RotatePos(p0x1A4->field_7C_obj.rots);
+
+    M1E1GetCaterpillerVertex(&p0x1A4->field_1A0_pM1OrHind->field_0[0][0], &p0x1A4->field_1A0_pM1OrHind->field_0[1][0], smokeVecs, 1);
+    for (i = 0; i < 10; i++)
     {
-      pData->field_558_idx[0]--;
+        smokeVecs[i].vy = smokeVecs[i].vy + 300;
     }
-    if (pData->field_558_idx[0] < 0)
+
+    DG_PutVector(smokeVecs, smokeVecs, 10);
+
+    memset(&vec, 0, sizeof(SVECTOR));
+    vec.vx = pData->field_0[1][0].objs->objs[0].model->min.vx + ((pData->field_0[1][0].objs->objs[0].model->max.vx - pData->field_0[1][0].objs->objs[0].model->min.vx) / 2);
+    DG_PutVector(&vec, &vec, 1);
+
+    vecTmp.vx = vec.vx - pData->field_564[0].vx;
+    vecTmp.vy = vec.vy - pData->field_564[0].vy;
+    vecTmp.vz = vec.vz - pData->field_564[0].vz;
+
+    tmp1 = magic_calc(&vecTmp, p0x1A4);
+
+    if (abs(tmp1) >= pData->field_560)
     {
-      pData->field_558_idx[0] = 2;
+        AN_CaterpillerSmoke(&smokeVecs[rand() % 5]);
+        DG_InvisibleObjs(pData->field_0[0][pData->field_558_idx[0]].objs);
+        if (tmp1 > 0)
+        {
+            pData->field_558_idx[0]++;
+        }
+        else
+        {
+            pData->field_558_idx[0]--;
+        }
+        if (pData->field_558_idx[0] < 0)
+        {
+            pData->field_558_idx[0] = 2;
+        }
+        if (pData->field_558_idx[0] >= 3)
+        {
+            pData->field_558_idx[0] = 0;
+        }
+        DG_VisibleObjs(pData->field_0[0][pData->field_558_idx[0]].objs);
+        pData->field_564[0] = vec;
     }
-    if (pData->field_558_idx[0] >= 3)
-    {
-      pData->field_558_idx[0] = 0;
-    }
-    DG_VisibleObjs(pData->field_0[0][pData->field_558_idx[0]].objs);
-    pData->field_564[0] = vec;
-  }
 
 
-  memset(&vec, 0, sizeof(SVECTOR));
-  vec.vx = pData->field_0[1][0].objs->objs[0].model->min.vx + ((pData->field_0[1][0].objs->objs[0].model->max.vx - pData->field_0[1][0].objs->objs[0].model->min.vx) / 2);
-  DG_SetPos2(&p0x1A4->field_0_ctrl.mov, &p0x1A4->field_0_ctrl.rot);
+    memset(&vec, 0, sizeof(SVECTOR));
+    vec.vx = pData->field_0[1][0].objs->objs[0].model->min.vx + ((pData->field_0[1][0].objs->objs[0].model->max.vx - pData->field_0[1][0].objs->objs[0].model->min.vx) / 2);
+    DG_SetPos2(&p0x1A4->field_0_ctrl.mov, &p0x1A4->field_0_ctrl.rot);
 
-  DG_PutVector(&vec, &vec, 1);
-  vecTmp.vx = vec.vx - pData->field_564[1].vx;
-  vecTmp.vy = vec.vy - pData->field_564[1].vy;
-  vecTmp.vz = vec.vz - pData->field_564[1].vz;
+    DG_PutVector(&vec, &vec, 1);
+    vecTmp.vx = vec.vx - pData->field_564[1].vx;
+    vecTmp.vy = vec.vy - pData->field_564[1].vy;
+    vecTmp.vz = vec.vz - pData->field_564[1].vz;
 
-  tmp1 = magic_calc(&vecTmp, p0x1A4);
+    tmp1 = magic_calc(&vecTmp, p0x1A4);
 
-  if (abs(tmp1) >= pData->field_560)
-  {
-    AN_CaterpillerSmoke(&smokeVecs[(rand() % 5) + 5]);
-    DG_InvisibleObjs(pData->field_0[1][pData->field_558_idx[1]].objs);
-    if (tmp1 > 0)
+    if (abs(tmp1) >= pData->field_560)
     {
-      pData->field_558_idx[1]++;
+        AN_CaterpillerSmoke(&smokeVecs[(rand() % 5) + 5]);
+        DG_InvisibleObjs(pData->field_0[1][pData->field_558_idx[1]].objs);
+        if (tmp1 > 0)
+        {
+            pData->field_558_idx[1]++;
+        }
+        else
+        {
+            pData->field_558_idx[1]--;
+        }
+        if (pData->field_558_idx[1] < 0)
+        {
+            pData->field_558_idx[1] = 2;
+        }
+        if (pData->field_558_idx[1] >= 3)
+        {
+            pData->field_558_idx[1] = 0;
+        }
+        DG_VisibleObjs(pData->field_0[1][pData->field_558_idx[1]].objs);
+        pData->field_564[1] = vec;
     }
-    else
+    DG_SetPos2(&p0x1A4->field_0_ctrl.mov, &p0x1A4->field_0_ctrl.rot);
+    DG_RotatePos(p0x1A4->field_7C_obj.rots);
+    for (i = 0; i < 3; i++)
     {
-      pData->field_558_idx[1]--;
+        GM_ActObject(&pData->field_0[0][i]);
+        GM_ActObject(&pData->field_0[1][i]);
     }
-    if (pData->field_558_idx[1] < 0)
-    {
-      pData->field_558_idx[1] = 2;
-    }
-    if (pData->field_558_idx[1] >= 3)
-    {
-      pData->field_558_idx[1] = 0;
-    }
-    DG_VisibleObjs(pData->field_0[1][pData->field_558_idx[1]].objs);
-    pData->field_564[1] = vec;
-  }
-  DG_SetPos2(&p0x1A4->field_0_ctrl.mov, &p0x1A4->field_0_ctrl.rot);
-  DG_RotatePos(p0x1A4->field_7C_obj.rots);
-  for (i = 0; i < 3; i++)
-  {
-    GM_ActObject(&pData->field_0[0][i]);
-    GM_ActObject(&pData->field_0[1][i]);
-  }
 }
 
 void demothrd_hind_8007D9C8(DemothrdWork *work, dmo_data_0x18 *pDmoData0x18, dmo_model_0x14 *p0x14, dmo_model_0x1A4 *p0x1A4)
@@ -2803,33 +2803,33 @@ void sub_8007E1C0(HZD_VEC *pOut, HZD_VEC *pOut2, MATRIX *pTransform, SVECTOR *pM
 
 void sub_8007EF34(SVECTOR *pOutVec1, SVECTOR *pOutVec2, MATRIX *pInMtx)
 {
-  int tmp;
-  int distance;
-  MATRIX rotMtx;
-  SVECTOR vec1;
-  SVECTOR vec2;
-  ReadRotMatrix(&rotMtx);
-  pOutVec1->vx = pInMtx->t[0];
-  pOutVec1->vy = pInMtx->t[1];
-  pOutVec1->vz = pInMtx->t[2];
-  DG_SetPos(pInMtx);
-  vec1.vx = 0;
-  vec1.vy = 0;
-  vec1.vz = 0;
-  vec2.vx = 0;
-  vec2.vy = 0;
-  vec2.vz = 100;
-  DG_PutVector(&vec1, &vec1, 1);
-  DG_PutVector(&vec2, &vec2, 1);
-  tmp = (short) (vec2.vx - vec1.vx) * (short) (vec2.vx - vec1.vx);
-  vec2.vx -= vec1.vx;
-  vec2.vy -= vec1.vy;
-  vec2.vz -= vec1.vz;
-  distance = SquareRoot0(tmp + (vec2.vz * vec2.vz));
-  pOutVec2->vx = -((short) ratan2(vec2.vy, distance));
-  pOutVec2->vy = ratan2(vec2.vx, vec2.vz);
-  pOutVec2->vz = 0;
-  DG_SetPos(&rotMtx);
+    int tmp;
+    int distance;
+    MATRIX rotMtx;
+    SVECTOR vec1;
+    SVECTOR vec2;
+    ReadRotMatrix(&rotMtx);
+    pOutVec1->vx = pInMtx->t[0];
+    pOutVec1->vy = pInMtx->t[1];
+    pOutVec1->vz = pInMtx->t[2];
+    DG_SetPos(pInMtx);
+    vec1.vx = 0;
+    vec1.vy = 0;
+    vec1.vz = 0;
+    vec2.vx = 0;
+    vec2.vy = 0;
+    vec2.vz = 100;
+    DG_PutVector(&vec1, &vec1, 1);
+    DG_PutVector(&vec2, &vec2, 1);
+    tmp = (short) (vec2.vx - vec1.vx) * (short) (vec2.vx - vec1.vx);
+    vec2.vx -= vec1.vx;
+    vec2.vy -= vec1.vy;
+    vec2.vz -= vec1.vz;
+    distance = SquareRoot0(tmp + (vec2.vz * vec2.vz));
+    pOutVec2->vx = -((short) ratan2(vec2.vy, distance));
+    pOutVec2->vy = ratan2(vec2.vx, vec2.vz);
+    pOutVec2->vz = 0;
+    DG_SetPos(&rotMtx);
 }
 
 void sub_8007F06C(int *param_1, int *param_2, int *param_3)

@@ -1,9 +1,10 @@
 #ifndef _LIBGCL_H_
 #define _LIBGCL_H_
 
+#include <sys/types.h>
+#include <libgte.h>     // for SVECTOR
+#include <libgpu.h>
 #include "common.h"
-#include "menu/menuman.h"
-#include "game/map.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -13,7 +14,7 @@ typedef struct      // private to libgcl/command.c
     unsigned short offset;
 } GCL_PROC_TABLE;
 
-typedef struct
+typedef struct      // private to libgcl/command.c
 {
     GCL_PROC_TABLE *proc_table;
     unsigned char  *proc_body;
@@ -48,26 +49,6 @@ typedef struct GCL_Vars
 {
     short var[1024];
 } GCL_Vars;
-
-typedef struct SaveGame
-{
-    int                f008_version;
-    int                f00C_version2;
-    int                f010_totalFrameTime;
-    int                f014_padding[3];
-    char               f020_stageName[16];
-    AreaHistory        f030_areaHistory;
-    short              f040_varbuf[0x60];
-    GCL_Vars           f100_gcl_vars;
-    RadioMemory        f900_radio_memory[RADIO_MEMORY_COUNT];
-} SaveGame; // size 0xA38
-
-typedef struct SaveFile
-{
-    int      f000_size;
-    int      f004_checksum;
-    SaveGame f008_saveGame;
-} SaveFile;
 
 // Radio codes (radio.dat files)
 #define RDCODE_NULL             0
@@ -143,29 +124,33 @@ typedef struct SaveFile
 
 /*---------------------------------------------------------------------------*/
 
-static inline long GCL_GetLong(char *ptr) // memleak
+// clang-format off
+static inline long GCL_GetLong( char *ptr )
 {
     unsigned char *p;
-    p = (unsigned char *)ptr;
-    return (p[0] << 24) | (p[1] << 16) | (p[2] << 8) | (p[3]);
+    p = ( unsigned char * )ptr;
+    return ( p[ 0 ] << 24 ) | ( p[ 1 ] << 16 ) | ( p[ 2 ] << 8 ) | ( p[ 3 ] );
 }
 
-static inline long GCL_GetShort(char *ptr) // memleak
+static inline long GCL_GetShort( char *ptr )
 {
     unsigned char *p;
-    p = (unsigned char *)ptr;
-    return (signed short)((p[0] << 8) | (p[1]));
+    p = ( unsigned char * )ptr;
+    return ( signed short )( ( p[ 0 ] << 8 ) | ( p[ 1 ] ) );
 }
 
-static inline char GCL_GetByte(char *ptr) // memleak
+static inline char GCL_GetByte( char *ptr )
 {
     return *ptr;
 }
+// clang-format on
 
 #define GCL_AdvanceShort(p)     p += sizeof(unsigned short)
 #define GCL_AdvanceByte(p)      p += sizeof(unsigned char)
 
 /*---------------------------------------------------------------------------*/
+
+extern GCL_ARGS gcl_null_args;
 
 /* gcl_init.c */
 void GCL_ChangeSenerioCode(int demo_flag);
@@ -180,7 +165,7 @@ int  GCL_AddCommMulti(GCL_COMMANDDEF *def);
 int  GCL_Command(unsigned char *ptr);
 void GCL_ForceExecProc(int proc_id, GCL_ARGS *args);
 int  GCL_ExecProc(int proc_id, GCL_ARGS *args);
-int  GCL_LoadScript(unsigned char *);
+int  GCL_LoadScript(unsigned char *datatop);
 int  GCL_ExecBlock(unsigned char *top, GCL_ARGS *args);
 void GCL_ExecScript(void);
 

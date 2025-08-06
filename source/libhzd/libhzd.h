@@ -96,7 +96,7 @@ int HZD_GetAddress(HZD_HDL *hzd, SVECTOR *pos, int addr);
 int HZD_ReachTo(HZD_HDL *hzd, int from, int to);
 int HZD_LinkRoute(HZD_HDL *hzd, int from, int to, SVECTOR *pos);
 int HZD_LinkRouteEqual(HZD_HDL *hzd, int from, int to, SVECTOR *pos);
-int HZD_NavigateLength(HZD_HDL *hzd, int from, int to);
+int HZD_ZoneDistance(HZD_HDL *hzd, int from, int to);
 int HZD_NavigateLimit(HZD_HDL *hzd, int from, int to, int limit);
 int HZD_NavigateBound(HZD_HDL *hzd, int from, int to, int limit);
 int HZD_ZoneContains(HZD_HDL *hzd, SVECTOR *pos, int zone);

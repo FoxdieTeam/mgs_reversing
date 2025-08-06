@@ -701,7 +701,7 @@ int HZD_LinkRouteEqual(HZD_HDL *hzd, int from, int to, SVECTOR *pos)
     return from0;
 }
 
-int HZD_NavigateLength(HZD_HDL *hzd, int from, int to)
+int HZD_ZoneDistance(HZD_HDL *hzd, int from, int to)
 {
     HZD_MAP *hzm;
     int      n_zones;

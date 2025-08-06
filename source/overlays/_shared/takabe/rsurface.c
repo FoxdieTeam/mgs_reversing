@@ -5,7 +5,6 @@
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
-#include "game/control.h"
 
 typedef struct RSurfaceElem
 {
@@ -32,7 +31,7 @@ typedef struct RSurfaceWork
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-extern CONTROL *GM_WhereList_800B56D0[96];
+extern CONTROL *GM_WhereList[96];
 extern int      gControlCount_800AB9B4;
 
 void *NewRipple_800D7F30(MATRIX *, int);
@@ -169,7 +168,7 @@ void s00a_rsurface_800D82E0(RSurfaceWork *work)
         return;
     }
 
-    wherelistIter = GM_WhereList_800B56D0;
+    wherelistIter = GM_WhereList;
     i = gControlCount_800AB9B4;
     elemIter = &work->field_30[work->field_80];
 

@@ -2,6 +2,8 @@
 
 #include "../../../_shared/enemy/enemy.h"
 #include "mts/mts.h"
+#include "libgv/libgv.h"
+#include "libgcl/libgcl.h"
 
 typedef struct _Zako11FCommanderWork
 {
@@ -12,7 +14,7 @@ typedef struct _Zako11FCommanderWork
 
 extern int GM_GameOverTimer;
 
-extern CONTROL *GM_WhereList_800B56D0[96];
+extern CONTROL *GM_WhereList[96];
 
 extern int               s11i_dword_800C3698;
 extern SVECTOR           ZAKOCOM_PlayerPosition_800D5AF0;
@@ -67,7 +69,7 @@ void s11i_zk11fcom_800D0C70( void )
 
 void s11i_zk11fcom_800D0CBC(void)
 {
-    Zako11FCommand_800D5AF8.com_addr = HZD_GetAddress( GM_WhereList_800B56D0[ 0 ]->map->hzd, &GM_NoisePosition, -1 );
+    Zako11FCommand_800D5AF8.com_addr = HZD_GetAddress( GM_WhereList[ 0 ]->map->hzd, &GM_NoisePosition, -1 );
     Zako11FCommand_800D5AF8.com_pos  = GM_NoisePosition;
     Zako11FCommand_800D5AF8.com_map  = GM_PlayerMap;
 }

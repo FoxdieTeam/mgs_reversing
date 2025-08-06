@@ -1,5 +1,6 @@
 #include "common.h"
 #include "libgv/libgv.h"
+#include "libgcl/libgcl.h"
 #include "game/game.h"
 
 typedef struct _DeathSpWork

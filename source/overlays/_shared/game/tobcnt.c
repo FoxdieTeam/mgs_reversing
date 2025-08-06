@@ -11,8 +11,6 @@
 #include "game/game.h"
 #include "strcode.h"
 
-extern GV_PAD GV_PadData_800B05C0[4];
-
 /*---------------------------------------------------------------------------*/
 
 #define EXEC_LEVEL GV_ACTOR_DAEMON
@@ -506,7 +504,7 @@ static void Act( Work *work )
     {
         DrawAnimation(work, ot);
 
-        pad = &GV_PadData_800B05C0[0];
+        pad = &GV_PadData[0];
         GM_GameStatus &= ~(STATE_PADRELEASE | STATE_PADMASK);
 
         if ((pad->press & (PAD_START | PAD_CIRCLE | PAD_TRIANGLE)) || (--work->timeout < 0))

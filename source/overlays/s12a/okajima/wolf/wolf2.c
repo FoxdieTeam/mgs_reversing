@@ -1,12 +1,14 @@
 #include "mts/mts.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
+#include "libgcl/libgcl.h"
 #include "game/camera.h"
 #include "linkvar.h"
 #include "wolf2.h"
 
 extern int              dword_8009F46C[];
 extern SVECTOR          svector_8009F478;
-extern GV_PAD           GV_PadData_800B05C0[4];
-extern GM_Camera        GM_Camera_800B77E8;
+extern GM_CAMERA        GM_Camera;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 
 RECT        wolf2_800C3490 = {0, 0, 2, 2};
@@ -218,8 +220,8 @@ void wolf2_SetCamera(Wolf2Work *work)
 
     DG_LookAt(DG_Chanl(0), &eye, &center, 320);
 
-    GM_Camera_800B77E8.field_2A = 0;
-    GM_Camera_800B77E8.zoom = 320;
+    GM_Camera.field_2A = 0;
+    GM_Camera.zoom = 320;
     gUnkCameraStruct2_800B7868.eye = eye;
     gUnkCameraStruct2_800B7868.center = center;
 }
@@ -366,7 +368,7 @@ void wolf2_Act(Wolf2Work *work)
     {
         AN_Breath(&work->body.objs->objs[6].world);
 
-        if (work->f6FC <= 0 && dword_8009F46C[0] == 1 && (GV_PadData_800B05C0[2].status & PAD_TRIANGLE))
+        if (work->f6FC <= 0 && dword_8009F46C[0] == 1 && (GV_PadData[2].status & PAD_TRIANGLE))
         {
             pos.vx = (work->control.mov.vx - svector_8009F478.vx) / 3;
             pos.vy = 0;

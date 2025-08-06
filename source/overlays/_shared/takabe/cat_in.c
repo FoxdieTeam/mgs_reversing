@@ -2,6 +2,8 @@
 
 #include "common.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
+#include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "takabe/thing.h"
 #include "strcode.h"
@@ -29,8 +31,6 @@ typedef struct _ZoomWork
 
 unsigned short cat_in_mes_list[] = { HASH_KILL };
 
-extern GV_PAD  GV_PadData_800B05C0[4];
-
 #define EXEC_LEVEL  GV_ACTOR_LEVEL2
 #define EXEC_LEVEL2 GV_ACTOR_LEVEL5
 
@@ -48,17 +48,17 @@ void ZoomCameraAct_800DF740( ZoomCameraWork *cam )
 
     if ( cam->enable_input == 1 )
     {
-        if ( ( GV_PadData_800B05C0[0].press & 0xFF ) != 0 )
+        if ( ( GV_PadData[0].press & 0xFF ) != 0 )
         {
             *cam->timer = 0;
         }
 
-        GV_PadData_800B05C0[0].status = 0;
-        GV_PadData_800B05C0[0].press = 0;
-        GV_PadData_800B05C0[0].release = 0;
-        GV_PadData_800B05C0[0].quick = 0;
-        GV_PadData_800B05C0[0].dir = -1;
-        GV_PadData_800B05C0[0].analog = 0;
+        GV_PadData[0].status = 0;
+        GV_PadData[0].press = 0;
+        GV_PadData[0].release = 0;
+        GV_PadData[0].quick = 0;
+        GV_PadData[0].dir = -1;
+        GV_PadData[0].analog = 0;
     }
 }
 

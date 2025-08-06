@@ -7,8 +7,6 @@
 #include "linkvar.h"
 #include "sd/g_sound.h"
 
-extern GV_PAD           GV_PadData_800B05C0[4];
-
 /*---------------------------------------------------------------------------*/
 
 typedef struct _DBloodWork
@@ -61,7 +59,7 @@ STATIC void d_blood_Act(DBloodWork *work)
     case 0:
         if (((GM_PlayerStatus & (PLAYER_INTRUDE | PLAYER_MOVE |
                 PLAYER_GROUND | PLAYER_PAD_OFF)) == PLAYER_GROUND) &&
-            (GV_PadData_800B05C0[0].press & PAD_CIRCLE))
+            (GV_PadData[0].press & PAD_CIRCLE))
         {
             if (d_blood_act_helper_800729B4())
             {
