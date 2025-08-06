@@ -51,7 +51,7 @@ TBombFunction3 GM_lpfnBombExplosion = NULL;
 int GM_PadResetDisable = FALSE;
 
 int          SECTION(".sbss") dword_800AB9CC;
-int          SECTION(".sbss") dword_800AB9D0;
+int          SECTION(".sbss") reset_timer;
 int          SECTION(".sbss") dword_800AB9D4;
 short        SECTION(".sbss") GM_WeaponChanged;
 short        SECTION(".sbss") word_800AB9DA;
@@ -106,7 +106,7 @@ extern unsigned int str_status;
 extern int          dword_800BF1A8;
 extern int          dword_800BF270;
 extern int          str_off_idx;
-extern char         exe_name_800B5860[32];
+extern char         exe_name[32];
 extern char        *MGS_DiskName[3]; /* in main.c */
 extern int          FS_DiskNum;
 extern int          FS_ResidentCacheDirty;
@@ -507,12 +507,15 @@ static void Act(gameWork *work)
             GM_UpdateMap();
         }
 
-        // 0x90f: PAD_L1 | PAD_L2 | PAD_R1 | PAD_R2 | PAD_START | PAD_SELECT
-        if (((pad & 0x90f) == 0x90f) && (GM_PadResetDisable == 0))
+#define RESET_COMBO     (PAD_LR|PAD_START|PAD_SELECT)
+#define RESET_DELAY     (90)
+
+        if (((pad & RESET_COMBO) == RESET_COMBO) && (GM_PadResetDisable == FALSE))
         {
-            if (--dword_800AB9D0 < 0)
+            // User must hold the combo for 90 frames.
+            if (--reset_timer < 0)
             {
-                sprintf(exe_name_800B5860, "cdrom:\\MGS\\%s;1", MGS_DiskName[FS_DiskNum]);
+                sprintf(exe_name, "cdrom:\\MGS\\%s;1", MGS_DiskName[FS_DiskNum]);
                 EnterCriticalSection();
                 SetDispMask(0);
                 PadStopCom();
@@ -530,15 +533,19 @@ static void Act(gameWork *work)
                 _96_init();
 
                 do {
-                    printf("load %s\n", exe_name_800B5860);
-                    LoadExec(exe_name_800B5860, 0x801FFF00, 0);
+                    printf("load %s\n", exe_name);
+                    LoadExec(exe_name, 0x801FFF00, 0);
                 } while (1);
             }
         }
         else
         {
-            dword_800AB9D0 = 0x5a;
+            // Reset the countdown if the combo's been released.
+            reset_timer = RESET_DELAY;
         }
+
+#undef RESET_COMBO
+#undef RESET_DELAY
 
         if ((GM_GameStatus < 0) && ((GM_CurrentPadData[2].press & (PAD_START | PAD_CROSS)) != 0))
         {

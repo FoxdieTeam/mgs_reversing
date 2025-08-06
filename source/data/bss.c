@@ -186,7 +186,7 @@ CONTROL *BSS        GM_WhereList[96]; // 0x180 (384) bytes
 AreaHistory BSS     gAreaHistory_800B5850; // 0x10 (16) bytes
 
 /* game/gamed.obj */
-char BSS            exe_name_800B5860[32]; // 0x20 (32) bytes
+char BSS            exe_name[32]; // 0x20 (32) bytes
 gameWork BSS        GameWork; // 0x28 (40) bytes
 
 gap                                     gap_800B58A8[0x8]; // 8 bytes
