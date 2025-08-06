@@ -9,6 +9,7 @@
 
 #include "common.h"
 #include "radar.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"

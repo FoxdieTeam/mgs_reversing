@@ -4,6 +4,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
+#include "menu/menuman.h"
 
 /*---------------------------------------------------------------------------*/
 

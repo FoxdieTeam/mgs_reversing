@@ -3,7 +3,9 @@
 #include <stdio.h>
 #include "common.h"
 #include "mts/mts.h" // for fprintf
+#include "libgv/libgv.h"
 #include "libhzd/libhzd.h"
+#include "libgcl/libgcl.h"
 #include "chara/snake/shadow.h"
 #include "game/camera.h"
 #include "strcode.h"

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "libgv/libgv.h"
+#include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "game/camera.h"
 #include "chara/snake/sna_init.h"

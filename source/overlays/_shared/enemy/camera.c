@@ -4,6 +4,7 @@
 #include "mts/mts.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "linkvar.h"
 #include "bullet/blast.h"

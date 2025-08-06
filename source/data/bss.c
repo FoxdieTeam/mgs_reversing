@@ -5,17 +5,21 @@
 #include <libgpu.h>
 #include <libspu.h> // for SpuVoiceAttr
 
+#include "mts/mts_new.h"
+#include "mts/mts_pad.h"
+#include "mts/terminal.h"
+
 #include "common.h"
 #include "libfs/libfs.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "libgcl/libgcl.h"
+#include "libhzd/libhzd.h"
+#include "memcard/memcard.h"
+
 #include "game/game.h"
 #include "chara/snake/sna_init.h"
-#include "memcard/memcard.h"
 #include "game/jimctrl.h"
-#include "mts/mts_new.h"
-#include "mts/mts_pad.h"
-#include "mts/terminal.h"
 #include "game/homing.h"
 #include "sd/sd_cli.h"
 #include "sd/sd_incl.h"

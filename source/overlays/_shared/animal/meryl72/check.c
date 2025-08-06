@@ -1,5 +1,9 @@
 #include "meryl72.h"
 
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
+#include "libgcl/libgcl.h"
+
 extern void s07c_meryl72_unk1_800CA408( Meryl72Work *work, int time ) ;
 extern void s07c_meryl72_unk1_800CA538( Meryl72Work *work, int time ) ;
 extern void s07c_meryl72_unk1_800C9F98( Meryl72Work *work, int time ) ;

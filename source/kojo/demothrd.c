@@ -4,8 +4,10 @@
 #include <libsn.h>
 
 #include "common.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libfs/libfs.h"
+#include "libgcl/libgcl.h"
 
 extern int    demodebug_finish_proc;
 

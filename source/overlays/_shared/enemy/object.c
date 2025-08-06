@@ -5,6 +5,7 @@
 #include "mts/mts.h" // for fprintf
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "anime/animconv/anime.h"
 

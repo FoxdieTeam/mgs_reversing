@@ -6,6 +6,7 @@
 #include "common.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
+#include "libgcl/libgcl.h"
 #include "font/font.h"
 #include "menu/menuman.h"
 #include "game/game.h"

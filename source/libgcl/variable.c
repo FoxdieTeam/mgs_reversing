@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include "common.h"
-#include "game/game.h"
+#include "libgcl.h"
+
+#include "game/game.h"      // for AreaHistory
+#include "menu/menuman.h"   // for RadioMemory
 #include "linkvar.h"
 
 extern short linkvarbuf[0x60];
@@ -10,6 +13,26 @@ extern GCL_Vars     gGcl_vars_800B3CC8;
 extern GCL_Vars     gGcl_memVars_800b4588;
 extern char         gStageName_800B4D88[16];
 extern RadioMemory  gRadioMemory_800BDB38[RADIO_MEMORY_COUNT];
+
+typedef struct SaveGame
+{
+    int                f008_version;
+    int                f00C_version2;
+    int                f010_totalFrameTime;
+    int                f014_padding[3];
+    char               f020_stageName[16];
+    AreaHistory        f030_areaHistory;
+    short              f040_varbuf[0x60];
+    GCL_Vars           f100_gcl_vars;
+    RadioMemory        f900_radio_memory[RADIO_MEMORY_COUNT];
+} SaveGame; // size 0xA38
+
+typedef struct SaveFile
+{
+    int      f000_size;
+    int      f004_checksum;
+    SaveGame f008_saveGame;
+} SaveFile;
 
 void GCL_SaveLinkVar(short *gameVar)
 {

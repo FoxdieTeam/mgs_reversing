@@ -9,7 +9,6 @@
 #include "charadef.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
 #include "menu/menuman.h"
 #include "sd/sd_cli.h"

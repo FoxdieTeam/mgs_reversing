@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include "common.h"
 #include "mts/mts.h" // for fprintf
+#include "libgv/libgv.h"
+#include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
 #include "chara/snake/shadow.h"
 #include "strcode.h"

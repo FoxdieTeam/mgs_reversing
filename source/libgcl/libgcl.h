@@ -1,9 +1,10 @@
 #ifndef _LIBGCL_H_
 #define _LIBGCL_H_
 
+#include <sys/types.h>
+#include <libgte.h>     // for SVECTOR
+#include <libgpu.h>
 #include "common.h"
-#include "menu/menuman.h"
-#include "game/map.h"       // for AreaHistory
 
 /*---------------------------------------------------------------------------*/
 
@@ -13,7 +14,7 @@ typedef struct      // private to libgcl/command.c
     unsigned short offset;
 } GCL_PROC_TABLE;
 
-typedef struct
+typedef struct      // private to libgcl/command.c
 {
     GCL_PROC_TABLE *proc_table;
     unsigned char  *proc_body;
@@ -48,26 +49,6 @@ typedef struct GCL_Vars
 {
     short var[1024];
 } GCL_Vars;
-
-typedef struct SaveGame
-{
-    int                f008_version;
-    int                f00C_version2;
-    int                f010_totalFrameTime;
-    int                f014_padding[3];
-    char               f020_stageName[16];
-    AreaHistory        f030_areaHistory;
-    short              f040_varbuf[0x60];
-    GCL_Vars           f100_gcl_vars;
-    RadioMemory        f900_radio_memory[RADIO_MEMORY_COUNT];
-} SaveGame; // size 0xA38
-
-typedef struct SaveFile
-{
-    int      f000_size;
-    int      f004_checksum;
-    SaveGame f008_saveGame;
-} SaveFile;
 
 // Radio codes (radio.dat files)
 #define RDCODE_NULL             0
