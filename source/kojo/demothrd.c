@@ -9,10 +9,17 @@
 #include "libfs/libfs.h"
 #include "libgcl/libgcl.h"
 
-extern int    demodebug_finish_proc;
+extern int demodebug_finish_proc;
+
+void demothrd_cd_act_80079664(DemothrdWork *work);
+void demothrd_cd_stream_die_800797CC(DemothrdWork *work);
 
 void demothrd_file_stream_act_800797FC(DemothrdWork *work);
 void demothrd_file_stream_kill_80079960(DemothrdWork *work);
+
+int CreateDemo(DemothrdWork *work, DMO_DEF *def);
+int DestroyDemo(DemothrdWork *work);
+int FrameRunDemo(DemothrdWork *work, DMO_DAT *data);
 
 int DM_ThreadStream_80079460(int flag, int unused)
 {
@@ -22,15 +29,15 @@ int DM_ThreadStream_80079460(int flag, int unused)
         return 0;
     }
 
-    pDemoThrd->field_20_flag = flag;
-    pDemoThrd->field_2C_timer_ticks = -1;
+    pDemoThrd->flag = flag;
+    pDemoThrd->frame = -1;
 
     GV_SetNamedActor(&pDemoThrd->actor,
                      &demothrd_cd_act_80079664,
                      &demothrd_cd_stream_die_800797CC,
                      "demothrd.c");
 
-    pDemoThrd->field_28_map = GM_CurrentMap;
+    pDemoThrd->map = GM_CurrentMap;
     FS_StreamOpen();
     return 1;
 }
@@ -50,25 +57,25 @@ int DM_ThreadFile_800794E4(int flag, int demoNameHashed)
         return 0;
     }
 
-    work->field_20_flag = flag;
-    work->field_2C_timer_ticks = -1;
+    work->flag = flag;
+    work->frame = -1;
 
     GV_SetNamedActor(&work->actor,
                      &demothrd_file_stream_act_800797FC,
                      &demothrd_file_stream_kill_80079960,
                      "demothrd.c");
 
-    work->field_28_map = GM_CurrentMap;
+    work->map = GM_CurrentMap;
     FS_EnableMemfile(0, 0);
-    work->field_C0_pHeader = (demothrd_0x1C *)0x80200000;
+    work->stream = (void *)0x80200000;
 
-    MakeFullPath(demoNameHashed, work->field_38.field_8_fileNameBuffer);
-    printf("Demo file = \"%s\"\n", work->field_38.field_8_fileNameBuffer);
+    MakeFullPath(demoNameHashed, (char *)&work->chain.used);
+    printf("Demo file = \"%s\"\n", (char *)&work->chain.used);
 
-    hFile = PCopen(work->field_38.field_8_fileNameBuffer, 0, 0);
+    hFile = PCopen((char *)&work->chain.used, 0, 0);
     if ( hFile < 0 )
     {
-        printf("\"%s\" not found\n", work->field_38.field_8_fileNameBuffer);
+        printf("\"%s\" not found\n", (char *)&work->chain.used);
         GV_DestroyActor(&work->actor);
         return 0;
     }
@@ -76,7 +83,7 @@ int DM_ThreadFile_800794E4(int flag, int demoNameHashed)
     seekRet = PClseek(hFile, 0, 2);
     PClseek(hFile, 0, 0);
 
-    pHdr = (char *)work->field_C0_pHeader;
+    pHdr = (char *)work->stream;
 
     while ( seekRet > 0 )
     {
@@ -99,57 +106,54 @@ int DM_ThreadFile_800794E4(int flag, int demoNameHashed)
     return 1;
 }
 
-int CreateDemo_80079B50(DemothrdWork *, demothrd_0x1C *);
-int FrameRunDemo_8007A948(DemothrdWork *pThis, dmo_data_0x28 *pDmoData);
-
 void demothrd_cd_act_80079664(DemothrdWork *work)
 {
-    int            ticks;
-    char          *pData;
-    int            status;
-    int            temp;
-    demothrd_0x1C *pDmoHeader;
+    int      ticks;
+    char    *data;
+    int      status;
+    int      temp;
+    DMO_DEF *def;
 
     ticks = FS_StreamGetTick();
 
-    if (work->field_2C_timer_ticks == -1)
+    if (work->frame == -1)
     {
-        pData = FS_StreamGetData(5);
+        data = FS_StreamGetData(5);
 
-        if (pData)
+        if (data)
         {
-            pDmoHeader = (demothrd_0x1C *)(pData - 4);
-            status = CreateDemo_80079B50(work, pDmoHeader);
+            def = (DMO_DEF *)(data - 4);
+            status = CreateDemo(work, def);
 
-            FS_StreamClear(pData);
+            FS_StreamClear(data);
 
             if (status == 0)
             {
                 GV_DestroyActor(&work->actor);
             }
 
-            work->field_2C_timer_ticks = 0;
+            work->frame = 0;
         }
 
         return;
     }
 
-    if (work->field_24_ticks == 0)
+    if (work->start_time == 0)
     {
-        work->field_24_ticks = ticks - 2;
+        work->start_time = ticks - 2;
     }
 
-    work->field_2C_timer_ticks = (ticks - work->field_24_ticks) / 2;
+    work->frame = (ticks - work->start_time) / 2;
     status = 0;
     temp = 0;
 
-    if (work->field_2C_timer_ticks <= work->field_30_dmo_header->field_8_movie_frames)
+    if (work->frame <= work->header->n_frames)
     {
         while (1)
         {
-            pData = FS_StreamGetData(5);
+            data = FS_StreamGetData(5);
 
-            if (!pData)
+            if (!data)
             {
                 if (FS_StreamGetEndFlag() == 1)
                 {
@@ -159,16 +163,16 @@ void demothrd_cd_act_80079664(DemothrdWork *work)
                 return;
             }
 
-            pDmoHeader = (demothrd_0x1C *)(pData - 4);
-            if (pDmoHeader->field_4_chunk_size >= work->field_2C_timer_ticks)
+            def = (DMO_DEF *)(data - 4);
+            if (def->frame >= work->frame)
             {
                 break;
             }
 
-            FS_StreamClear(pData);
+            FS_StreamClear(data);
         }
 
-        status = FrameRunDemo_8007A948(work, (dmo_data_0x28 *)pDmoHeader);
+        status = FrameRunDemo(work, (DMO_DAT *)def);
 
         if (status == 0)
         {
@@ -176,7 +180,7 @@ void demothrd_cd_act_80079664(DemothrdWork *work)
         }
         else
         {
-            FS_StreamClear(pData);
+            FS_StreamClear(data);
         }
     }
 
@@ -188,7 +192,7 @@ void demothrd_cd_act_80079664(DemothrdWork *work)
 
 void demothrd_cd_stream_die_800797CC(DemothrdWork *work)
 {
-    DestroyDemo_8007A66C(work);
+    DestroyDemo(work);
     FS_StreamClose();
     DG_UnDrawFrameCount = 0x7fff0000;
 }
@@ -201,47 +205,47 @@ void demothrd_file_stream_act_800797FC(DemothrdWork *work)
 
     time = VSync(-1);
 
-    if (work->field_2C_timer_ticks == -1)
+    if (work->frame == -1)
     {
-        if (!CreateDemo_80079B50(work, work->field_C0_pHeader))
+        if (!CreateDemo(work, (DMO_DEF *)work->stream))
         {
             printf("Error:Initialize demo\n");
             GV_DestroyActor(&work->actor);
         }
 
-        work->field_2C_timer_ticks = 0;
+        work->frame = 0;
         return;
     }
 
-    if (work->field_24_ticks == 0)
+    if (work->start_time == 0)
     {
-        work->field_24_ticks = time - 2;
+        work->start_time = time - 2;
         printf("PlayDemoSound\n");
     }
 
-    if (work->field_20_flag & 4)
+    if (work->flag & 4)
     {
-        new_time = work->field_2C_timer_ticks + 1;
+        new_time = work->frame + 1;
     }
     else
     {
-        new_time = (time - work->field_24_ticks) / 2;
+        new_time = (time - work->start_time) / 2;
     }
 
-    work->field_2C_timer_ticks = new_time;
+    work->frame = new_time;
 
-    if (work->field_30_dmo_header->field_8_movie_frames < work->field_2C_timer_ticks)
+    if (work->header->n_frames < work->frame)
     {
         success = 0;
     }
     else
     {
-        while (work->field_2C_timer_ticks != work->field_C0_pHeader->field_4_chunk_size)
+        while (work->frame != work->stream->frame)
         {
-            work->field_C0_pHeader = (void *)work->field_C0_pHeader + work->field_C0_pHeader->field_0_magic;
+            work->stream = (DMO_DEF *)((char *)work->stream + work->stream->tag);
         }
 
-        success = FrameRunDemo_8007A948(work, (dmo_data_0x28 *)work->field_C0_pHeader);
+        success = FrameRunDemo(work, (DMO_DAT *)work->stream);
     }
 
     if (GV_PadData[1].status & PAD_CROSS)
@@ -257,7 +261,7 @@ void demothrd_file_stream_act_800797FC(DemothrdWork *work)
 
 void demothrd_file_stream_kill_80079960(DemothrdWork *work)
 {
-    DestroyDemo_8007A66C(work);
+    DestroyDemo(work);
     FS_EnableMemfile(1, 1);
 
     if (demodebug_finish_proc != -1)
