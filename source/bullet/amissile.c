@@ -11,7 +11,6 @@
 #include "anime/animconv/anime.h"
 #include "game/game.h"
 #include "game/camera.h"
-#include "game/target.h"
 #include "sd/g_sound.h"
 #include "strcode.h"
 

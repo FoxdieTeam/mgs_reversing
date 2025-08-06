@@ -9,7 +9,6 @@
 #include "libdg/libdg.h"
 #include "game/game.h"
 #include "game/camera.h"
-#include "game/target.h"
 #include "game/vibrate.h"
 #include "linkvar.h"
 #include "bullet/amissile.h"
