@@ -4,7 +4,6 @@
 #include "libgcl/libgcl.h"
 #include "bullet/bakudan.h"
 #include "bullet/jirai.h"
-#include "game/camera.h"
 #include "game/game.h"
 #include "linkvar.h"
 
@@ -376,7 +375,7 @@ void Rasen2Die_800CAB74(Rasen2Work *work)
     int i, j;
 
     GM_Camera.flags &= ~2;
-    GM_SetCameraCallbackFunc_8002FD84(1, NULL);
+    GM_SetCameraCallbackFunc(1, NULL);
     for (i = 0; i < 3; i++)
     {
         for (j = 0; j < 16; j++)
@@ -490,7 +489,7 @@ int Rasen2GetResources_800CAC64(Rasen2Work *work, int name, int where)
         rasen_800C340C = GCL_StrToInt(GCL_GetParamResult());
     }
 
-    GM_SetCameraCallbackFunc_8002FD84(1, Rasen_800CB34C);
+    GM_SetCameraCallbackFunc(1, Rasen_800CB34C);
 
     GM_Camera.flags |= 2;
 
@@ -628,8 +627,8 @@ void Rasen_800CB34C()
         GM_Camera.field_28 = 0;
         GV_SubVec3(&GM_Camera.center, &GM_Camera.eye, &svec);
         GV_OriginPadSystem(GV_VecDir2(&svec) + 2048);
-        GM_CameraSetBounds_80030888(&rasen_800C3418, &rasen_800C3420, 0);
-        GM_CameraSetLimits_800308E0(&rasen_800C3418, &rasen_800C3420, 0);
+        GM_CameraSetBounds(&rasen_800C3418, &rasen_800C3420, 0);
+        GM_CameraSetLimits(&rasen_800C3418, &rasen_800C3420, 0);
         GM_Camera.rotate.vy = rasen_800D2C84.field_18;
     }
     else if (rasen_800C340C == 1)

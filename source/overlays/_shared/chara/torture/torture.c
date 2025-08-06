@@ -3,7 +3,6 @@
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "game/camera.h"
 #include "game/game.h"
 #include "linkvar.h"
 #include "game/over.h"
@@ -1057,8 +1056,8 @@ void s03b_torture_800C5420(TortureWork *work, int arg1)
 
         GCL_ExecProc(work->f844, NULL);
 
-        GM_CameraSetTrack_80030980(work->f89C.vz);
-        GM_CameraSetRotation_80030938(&work->f8AC);
+        GM_CameraSetTrack(work->f89C.vz);
+        GM_CameraSetRotation(&work->f8AC);
 
         gUnkCameraStruct_800B77B8.eye.vx = work->body.objs->objs[6].world.t[0];
         gUnkCameraStruct_800B77B8.eye.vy = work->body.objs->objs[6].world.t[1];
@@ -1213,7 +1212,7 @@ void s03b_torture_800C5420(TortureWork *work, int arg1)
             }
             break;
         }
-        GM_CameraSetRotation_80030938(&work->f8AC);
+        GM_CameraSetRotation(&work->f8AC);
         if (work->body.is_end != 0)
         {
             work->control.mov = work->f824;

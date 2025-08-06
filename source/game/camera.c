@@ -7,7 +7,10 @@
 
 #include "common.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "libhzd/libhzd.h"
+
+#include "game.h"
 #include "linkvar.h"
 #include "strcode.h"
 
@@ -58,11 +61,12 @@ Camera Attributes:
  TYPE: UNSIGNED INT (FLAG);
 */
 
-void camera_get_euler_angles_8002FBC0(SVECTOR *eye, SVECTOR *center, SVECTOR *rotate, int *track);
-void sub_8002FC58(SVECTOR *param_1, SVECTOR *param_2, SVECTOR *param_3, int *param_4);
-void sub_8002FCA4(SVECTOR *param_1, SVECTOR *param_2, SVECTOR *param_3, int *param_4);
-void sub_8002FCF0(void);
-void sub_800303E0(SVECTOR *arg0);
+STATIC void sub_8002FAAC(SVECTOR *eye, SVECTOR *center, SVECTOR *rotate, int *track);
+STATIC void camera_get_euler_angles_8002FBC0(SVECTOR *eye, SVECTOR *center, SVECTOR *rotate, int *track);
+STATIC void sub_8002FC58(SVECTOR *param_1, SVECTOR *param_2, SVECTOR *param_3, int *param_4);
+STATIC void sub_8002FCA4(SVECTOR *param_1, SVECTOR *param_2, SVECTOR *param_3, int *param_4);
+STATIC void sub_8002FCF0(void);
+STATIC void sub_800303E0(SVECTOR *arg0);
 
 static inline int camera_clamp(int val, int min, int max)
 {
@@ -676,7 +680,7 @@ STATIC void sub_8002FCF0(void)
     }
 }
 
-void GM_SetCameraCallbackFunc_8002FD84(int index, TGMCameraFunc func)
+void GM_SetCameraCallbackFunc(int index, TGMCameraFunc func)
 {
     GM_Camera.callbacks[index] = func;
 }
@@ -960,7 +964,7 @@ void sub_8003049C(SVECTOR *a1)
     GV_AddVec3(&svec_800ABA88, a1, &svec_800ABA88);
 }
 
-STATIC void camera_act_8003059C(GV_ACT *work)
+static void Act(GV_ACT *work)
 {
     int changed;
 
@@ -1006,14 +1010,14 @@ STATIC void camera_act_8003059C(GV_ACT *work)
     }
 }
 
-void *camera_init_800306A0(void)
+void *NewCameraSystem(void)
 {
     GV_ACT *work;
 
     work = GV_NewActor(GV_ACTOR_LEVEL2, sizeof(GV_ACT));
     if (work)
     {
-        GV_SetNamedActor(work, camera_act_8003059C, NULL, "camera.c");
+        GV_SetNamedActor(work, Act, NULL, "camera.c");
     }
 
     GM_Camera.zoom = 320;
@@ -1113,25 +1117,25 @@ void GM_CameraSetAlertMask(unsigned int id, unsigned int mask)
     dword_800ABA94 |= mask;
 }
 
-void GM_CameraSetBounds_80030888(SVECTOR *min, SVECTOR *max, int param_e)
+void GM_CameraSetBounds(SVECTOR *min, SVECTOR *max, int param_e)
 {
     GM_Camera.bounds[1][param_e] = *min;
     GM_Camera.bounds[0][param_e] = *max;
 }
 
-void GM_CameraSetLimits_800308E0(SVECTOR *min, SVECTOR *max, int param_e)
+void GM_CameraSetLimits(SVECTOR *min, SVECTOR *max, int param_e)
 {
     GM_Camera.limits[1][param_e] = *min;
     GM_Camera.limits[0][param_e] = *max;
 }
 
-void GM_CameraSetRotation_80030938(SVECTOR *rot)
+void GM_CameraSetRotation(SVECTOR *rot)
 {
     GM_CameraRotateSave = *rot;
     sub_8002FCF0();
 }
 
-void GM_CameraSetTrack_80030980(int track)
+void GM_CameraSetTrack(int track)
 {
     GM_CameraTrackOrg = track;
     GM_CameraTrackSave = track;
@@ -1177,7 +1181,7 @@ void GM_CameraLimitTrace(int param_1)
     sub_8002EBE8(&GM_Camera.center, param_1);
 }
 
-void GM_ExitBehindCamera_80030AEC(void)
+void GM_ExitBehindCamera(void)
 {
     if (GM_GameStatus & STATE_BEHIND_CAMERA)
     {
@@ -1229,6 +1233,6 @@ void GM_CheckBehindCamera(HZD_HDL *pHzdMap, CONTROL *pControl)
     }
     else
     {
-        GM_ExitBehindCamera_80030AEC();
+        GM_ExitBehindCamera();
     }
 }

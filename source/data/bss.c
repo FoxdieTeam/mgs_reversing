@@ -18,7 +18,6 @@
 #include "memcard/memcard.h"
 
 #include "game/game.h"
-#include "game/camera.h"
 #include "game/jimctrl.h"
 #include "chara/snake/sna_init.h"
 #include "sd/sd_cli.h"

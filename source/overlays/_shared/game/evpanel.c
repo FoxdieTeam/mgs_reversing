@@ -5,7 +5,7 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "game/camera.h"
+#include "game/game.h"
 #include "linkvar.h"
 #include "game/vibrate.h"
 #include "takabe/thing.h"
@@ -364,7 +364,7 @@ static void s03e_evpanel_800C39F8(EvPanelWork *work)
 {
     s03e_dword_800CC6B8 = work;
 
-    GM_SetCameraCallbackFunc_8002FD84(1, s03e_evpanel_800C3994);
+    GM_SetCameraCallbackFunc(1, s03e_evpanel_800C3994);
 
     work->field_4C = GM_Camera.flags;
     work->f8C.vy = work->field_48;
@@ -395,7 +395,7 @@ static void s03e_evpanel_800C3AD0(EvPanelWork *work)
     GM_Camera.field_2A = 2;
     GM_Camera.interp = 30;
 
-    GM_SetCameraCallbackFunc_8002FD84(1, NULL);
+    GM_SetCameraCallbackFunc(1, NULL);
 }
 
 static void s03e_evpanel_800C3B14(EvPanelWork *work, int message)

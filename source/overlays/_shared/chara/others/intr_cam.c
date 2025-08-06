@@ -4,7 +4,6 @@
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
-#include "game/camera.h"
 #include "strcode.h"
 
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
