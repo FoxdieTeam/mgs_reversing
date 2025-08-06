@@ -280,33 +280,42 @@ int  GV_ReceiveMessage(int address, GV_MSG **msg_ptr);
 
 /*------ Input Processing ---------------------------------------------------*/
 
-// TODO: typedef enum and use type in GV_PAD?
-enum
-{
-    PAD_UP = PADLup,        // 0x1000 (1<<12)
-    PAD_DOWN = PADLdown,    // 0x4000 (1<<14)
-    PAD_LEFT = PADLleft,    // 0x8000 (1<<15)
-    PAD_RIGHT = PADLright,  // 0x2000 (1<<13)
-    PAD_TRIANGLE = PADRup,  // 0x0010 (1<< 4)
-    PAD_CROSS = PADRdown,   // 0x0040 (1<< 6)
-    PAD_SQUARE = PADRleft,  // 0x0080 (1<< 7)
-    PAD_CIRCLE = PADRright, // 0x0020 (1<< 5)
-    PAD_L1 = PADL1,         // 0x0004 (1<< 2)
-    PAD_L2 = PADL2,         // 0x0001 (1<< 0)
-    PAD_R1 = PADR1,         // 0x0008 (1<< 3)
-    PAD_R2 = PADR2,         // 0x0002 (1<< 1)
-    PAD_START = PADstart,   // 0x0800 (1<<11)
-    PAD_SELECT = PADselect, // 0x0100 (1<< 8)
-    PAD_L3 = PADi,          // 0x0200 (1<< 9)
-    PAD_R3 = PADj,          // 0x0400 (1<<10)
-};
 /* SNES-style button layout */
-#define PAD_A   PAD_CIRCLE
-#define PAD_B   PAD_CROSS
-#define PAD_X   PAD_TRIANGLE
-#define PAD_Y   PAD_SQUARE
+#define PAD_U           PADLup          // 0x1000 ↑
+#define PAD_D           PADLdown        // 0x4000 ↓
+#define PAD_L           PADLleft        // 0x8000 ←
+#define PAD_R           PADLright       // 0x2000 →
+#define PAD_A           PADRright       // 0x0020 ○
+#define PAD_B           PADRdown        // 0x0040 ×
+#define PAD_X           PADRup          // 0x0010 △
+#define PAD_Y           PADRleft        // 0x0080 □
+#define PAD_L1          PADL1           // 0x0004 L1
+#define PAD_L2          PADL2           // 0x0001 L2
+#define PAD_R1          PADR1           // 0x0008 R1
+#define PAD_R2          PADR2           // 0x0002 R2
+#define PAD_STA         PADstart        // 0x0800 START
+#define PAD_SEL         PADselect       // 0x0100 SELECT
+#define PAD_AL          PADi            // 0x0200 L3
+#define PAD_AR          PADj            // 0x0400 R3
 
-#define PAD_DIR (PAD_LEFT | PAD_DOWN | PAD_RIGHT | PAD_UP) // 0xF000
+/* button masks */
+#define PAD_UDLR        (PAD_U  | PAD_D  | PAD_L  | PAD_R)
+#define PAD_ABXY        (PAD_A  | PAD_B  | PAD_X  | PAD_Y)
+#define PAD_LR          (PAD_L1 | PAD_L2 | PAD_R1 | PAD_R2)
+
+/* button aliases */
+#define PAD_UP          PAD_U
+#define PAD_DOWN        PAD_D
+#define PAD_LEFT        PAD_L
+#define PAD_RIGHT       PAD_R
+#define PAD_CIRCLE      PAD_A
+#define PAD_CROSS       PAD_B
+#define PAD_TRIANGLE    PAD_X
+#define PAD_SQUARE      PAD_Y
+#define PAD_START       PAD_STA
+#define PAD_SELECT      PAD_SEL
+#define PAD_L3          PAD_AL
+#define PAD_R3          PAD_AR
 
 typedef struct
 {
