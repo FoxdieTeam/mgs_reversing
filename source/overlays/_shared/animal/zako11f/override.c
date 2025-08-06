@@ -670,7 +670,7 @@ void s11i_zk11fcom_800D078C( Zako11FWork *work )
                 break;
             }
         }
-        else if (HZD_8005D134(work->control.map->hzd, &work->control.mov, work->param.field_B7C))
+        else if (HZD_ZoneContains(work->control.map->hzd, &work->control.mov, work->param.field_B7C))
         {
             break;
         }

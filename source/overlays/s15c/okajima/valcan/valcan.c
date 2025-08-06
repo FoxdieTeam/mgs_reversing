@@ -314,11 +314,11 @@ void ValcanAct_800D9088(ValcanWork *work)
     if (GV_DiffDirAbs(work->control.rot.vy,
                       Valcan_800D8D20(&work->control, &GM_PlayerPosition)) < 1024)
     {
-        ValcanQueueDynamicSegment_800D8D5C(work, 223);
+        ValcanQueueDynamicSegment_800D8D5C(work, 0xdf);
     }
     else
     {
-        ValcanQueueDynamicSegment_800D8D5C(work, 219);
+        ValcanQueueDynamicSegment_800D8D5C(work, 0xdb);
     }
 }
 
