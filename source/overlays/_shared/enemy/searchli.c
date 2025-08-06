@@ -6,7 +6,6 @@
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "anime/animconv/anime.h"
-#include "game/control.h"
 #include "game/game.h"
 #include "linkvar.h"
 #include "overlays/_shared/enemy/enemy.h"
@@ -65,8 +64,7 @@ typedef struct _SearchlightWork
     MATRIX         lit_mtx;
 } SearchlightWork;
 
-extern GV_PAD   GV_PadData_800B05C0[4];
-extern CONTROL *GM_WhereList_800B56D0[96];
+extern CONTROL *GM_WhereList[96];
 extern int     COM_VibTime_800E0F68;
 
 extern ENEMY_COMMAND     EnemyCommand_800E0D98;
@@ -134,13 +132,13 @@ int s01a_searchli_800D73D8(SearchlightWork *work)
         if (work->f290 == 0)
         {
             work->f284 = GM_PlayerPosition;
-            work->f28C = GM_WhereList_800B56D0[0]->rot.vy;
+            work->f28C = GM_WhereList[0]->rot.vy;
             work->f290 = 1;
             return 0;
         }
 
         if ((GV_DiffVec3(&work->f284, &GM_PlayerPosition) < 50) &&
-            (work->f28C == GM_WhereList_800B56D0[0]->rot.vy))
+            (work->f28C == GM_WhereList[0]->rot.vy))
         {
             work->f290 = 1;
             return 0;
@@ -647,7 +645,7 @@ void Searchli_800D80BC(SearchlightWork *work)
     temp_fp = &work->fFC.f244;
     temp_t0 = &sp50->fFC;
 
-    if (GM_WhereList_800B56D0[0]->name != CHARA_SNAKE)
+    if (GM_WhereList[0]->name != CHARA_SNAKE)
     {
         return;
     }
@@ -820,11 +818,11 @@ void SearchlightAct_800D86F0(SearchlightWork *work)
         }
     }
 
-    if ((work->debug != 0) && (GV_PadData_800B05C0[1].status & PAD_SQUARE))
+    if ((work->debug != 0) && (GV_PadData[1].status & PAD_SQUARE))
     {
-        status = GV_PadData_800B05C0[1].status;
+        status = GV_PadData[1].status;
 
-        if ((GV_PadData_800B05C0[1].press & PAD_TRIANGLE) && (++work->debug >= 4))
+        if ((GV_PadData[1].press & PAD_TRIANGLE) && (++work->debug >= 4))
         {
             work->debug = 1;
         }

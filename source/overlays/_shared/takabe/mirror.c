@@ -3,7 +3,6 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "equip/equip.h"
-#include "game/control.h"
 #include "game/game.h"
 #include "linkvar.h"
 #include "takabe/thing.h"
@@ -44,7 +43,7 @@ typedef struct _MirrorWork
 } MirrorWork;
 
 extern int      gControlCount_800AB9B4;
-extern CONTROL *GM_WhereList_800B56D0[96];
+extern CONTROL *GM_WhereList[96];
 
 void     Mirror_800E08F0(MirrorWork *work, int name);
 void     Mirror_800E0A88(MirrorEntry *entry);
@@ -417,7 +416,7 @@ void Mirror_800E08F0(MirrorWork *work, int name)
     OBJECT      *object;
     DG_OBJ      *obj;
 
-    where = GM_WhereList_800B56D0;
+    where = GM_WhereList;
     for (i = gControlCount_800AB9B4; i > 0; i--)
     {
         control = *where;

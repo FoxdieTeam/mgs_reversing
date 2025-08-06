@@ -13,7 +13,6 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "linkvar.h"
-#include "game/map.h"
 #include "sd/g_sound.h"
 #include "strcode.h"
 
@@ -22,7 +21,7 @@ int SECTION("overlay.bss") s00a_dword_800E0CA4;
 int SECTION("overlay.bss") s00a_dword_800E0CA8;
 int SECTION("overlay.bss") s00a_dword_800E0CAC;
 
-GM_Camera SECTION("overlay.bss") s00a_dword_800E0CB0;
+GM_CAMERA SECTION("overlay.bss") s00a_dword_800E0CB0;
 
 int SECTION("overlay.bss") s00a_dword_800E0D2C;
 int SECTION("overlay.bss") s00a_dword_800E0D30;
@@ -68,8 +67,8 @@ int SECTION("overlay.bss") s00a_dword_800E0F6C;
 int SECTION("overlay.bss") COM_PlayerMapOne_800E0F70[8];
 
 extern int       GM_event_camera_flag;
-extern CONTROL  *GM_WhereList_800B56D0[94];
-extern GM_Camera GM_Camera_800B77E8;
+extern CONTROL  *GM_WhereList[94];
+extern GM_CAMERA GM_Camera;
 
 SVECTOR ENEMY_TARGET_SIZE_800C35A4  = { 300, 1000, 300 };
 SVECTOR ENEMY_TARGET_FORCE_800C35AC = { 0, 0, 0 };
@@ -156,7 +155,7 @@ void ENE_SetGopointLast_800CEB00(void)
 
 void s00a_command_800CEB54(void)
 {
-    EnemyCommand_800E0D98.com_addr = HZD_GetAddress( GM_WhereList_800B56D0[0]->map->hzd, &GM_NoisePosition, -1 );
+    EnemyCommand_800E0D98.com_addr = HZD_GetAddress( GM_WhereList[0]->map->hzd, &GM_NoisePosition, -1 );
     EnemyCommand_800E0D98.com_pos = GM_NoisePosition;
     EnemyCommand_800E0D98.com_map = GM_PlayerMap;
 }
@@ -726,7 +725,7 @@ int s00a_command_800CF940( HZD_HDL *hzd, SVECTOR *pos, SVECTOR *pos2 )
     {
         to = HZD_GetAddress( hzd, pos2, -1 );
         do {
-            return HZD_NavigateLength( hzd, from & 0xFF, to & 0xFF );
+            return HZD_ZoneDistance( hzd, from & 0xFF, to & 0xFF );
         } while (0);
     } while (0);
 }
@@ -1076,7 +1075,7 @@ void s00a_command_800D02F4(void)
 {
     if ( GM_PlayerBody->objs->bound_mode == 2 )
     {
-        GM_Camera_800B77E8.track = GV_NearExp8( GM_Camera_800B77E8.track, 4000 );
+        GM_Camera.track = GV_NearExp8( GM_Camera.track, 4000 );
     }
 }
 
@@ -1090,15 +1089,15 @@ void s00a_command_800D0344(void)
 
     if ( s00a_dword_800E0D2C > 4 )
     {
-        if ( !( GM_Camera_800B77E8.flags & 3 ) )
+        if ( !( GM_Camera.flags & 3 ) )
         {
-            s00a_dword_800E0CB0 = GM_Camera_800B77E8;
+            s00a_dword_800E0CB0 = GM_Camera;
             flag = 0x40;
             if ( !GM_event_camera_flag )
             {
                 flag = 0x80;
             }
-            GM_Camera_800B77E8.flags |= ( 2 | flag );
+            GM_Camera.flags |= ( 2 | flag );
             GM_SetCameraCallbackFunc_8002FD84( 1, s00a_command_800D02F4 );
         }
     }
@@ -1124,7 +1123,7 @@ void UnsetCameraActCall_800D047C()
 
     GM_SetCameraCallbackFunc_8002FD84( 1, NULL ) ;
     s00a_dword_800E0D2C = 0 ;
-    GM_Camera_800B77E8.flags &= ~( 2 ) ;
+    GM_Camera.flags &= ~( 2 ) ;
 }
 
 void CommandGetResources_800D04F4( CommanderWork *work, int name, int where )

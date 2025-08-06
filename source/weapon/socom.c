@@ -10,15 +10,12 @@
 #include "anime/animconv/anime.h"
 #include "game/camera.h"
 #include "game/game.h"
-#include "game/object.h"
-#include "game/target.h"
 #include "linkvar.h"
-#include "game/map.h"
 #include "okajima/bullet.h"
 #include "sd/g_sound.h"
 #include "strcode.h"
 
-extern GM_Camera GM_Camera_800B77E8;
+extern GM_CAMERA GM_Camera;
 extern int     DG_CurrentGroupID;
 
 /*---------------------------------------------------------------------------*/
@@ -128,7 +125,7 @@ static void socom_act_helper_8006528C(Work *work)
         primsOrig = 10240;
     }
 
-    if (GM_UnkFlagBE && GM_Camera_800B77E8.first_person)
+    if (GM_UnkFlagBE && GM_Camera.first_person)
     {
         primsOrig += 515;
     }
@@ -282,7 +279,7 @@ static void Act( Work *work )
     }
     else
     {
-        word_800AB824 = GM_Camera_800B77E8.first_person ? 300 : -215;
+        word_800AB824 = GM_Camera.first_person ? 300 : -215;
 
         if ( flags & 1 )
         {

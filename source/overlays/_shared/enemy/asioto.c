@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include "common.h"
 #include "libgv/libgv.h"
+#include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "asioto.h"
 

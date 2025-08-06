@@ -9,9 +9,8 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "game/game.h"
-#include "game/map.h"
 
-extern unsigned short gSparkRandomTable_800BDF10[];
+extern unsigned short gSparkRandomTable[];
 
 /*---------------------------------------------------------------------------*/
 
@@ -42,11 +41,11 @@ void InitRandamTable(void)
         gSparkRandomTableIndex++;
         gSparkRandomTableIndex &= 0x3F;
 
-        gSparkRandomTable_800BDF10[gSparkRandomTableIndex] = value;
+        gSparkRandomTable[gSparkRandomTableIndex] = value;
     }
     else
     {
-        short *current = gSparkRandomTable_800BDF10;
+        short *current = gSparkRandomTable;
         int remaining = 0x40;
 
         gSparkRandomTableIndex = 0;
@@ -64,7 +63,7 @@ void InitRandamTable(void)
 
 static inline int spark_next_random(void)
 {
-    unsigned short *pTable = gSparkRandomTable_800BDF10;
+    unsigned short *pTable = gSparkRandomTable;
     gSparkRandomTableIndex2++;
     gSparkRandomTableIndex2 &= 0x3F;
     return pTable[gSparkRandomTableIndex2];

@@ -107,7 +107,7 @@ int  FS_StreamInit(void *pHeap, int heapSize);
 void FS_StreamStop(void);
 void FS_StreamOpen(void);
 void FS_StreamClose(void);
-int  FS_StreamClosed(void);
+int  FS_StreamIsEnd(void);
 void *FS_StreamGetData(int target_type);
 int  FS_StreamGetSize(void *stream);
 void FS_StreamUngetData(void *stream);

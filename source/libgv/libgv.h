@@ -1,23 +1,9 @@
 /**
- * This file defines the core structures, enumerations, and function prototypes
- * used in the LibGV library, It provides essential services for managing game
- * actors, memory allocation, message handling, input processing, and
- * mathematical operations.
+ * Main include header for the GV library.
  *
- * Key Components:
- * - Actor Management: Defines structures and functions for creating, updating,
- * and managing game actors
- * - Memory Management: Provides dynamic memory allocation and heap management
- * to handle the game's resource
- * - Message Handling: Implements a messaging system for communication between
- * different game components
- * - Input Processing: Manages gamepad inputs.
- * - Cache System: Handles file caching and loading for game resources by
- * hashing file names
- * - Heap Management: Manages memory allocation and deallocation using a
- * heap-based system
- * - Mathematical Operations: Offers functions for vector calculations and other
- * mathematical tasks needed for game physics and transformations.
+ * LibGV is the core of the MGS "system" library group and provides various
+ * services, including memory management, resource loading, input processing,
+ * actor creation/execution control, message-passing, and linear algebra.
  */
 
 #ifndef _LIBGV_H_
@@ -112,13 +98,13 @@ typedef struct      // private to libgv/actor.c
 enum {
     GV_ACTOR_DAEMON,    // 0
     GV_ACTOR_MANAGER,   // 1
-    GV_ACTOR_LEVEL2,    // 2 todo: rename
-    GV_ACTOR_LEVEL3,    // 3 todo: rename
-    GV_ACTOR_LEVEL4,    // 4 todo: rename
-    GV_ACTOR_LEVEL5,    // 5 todo: rename
+    GV_ACTOR_LEVEL2,    // 2 (ZOE1: GV_LEVEL_ASSIST)
+    GV_ACTOR_LEVEL3,    // 3 (ZOE1: GV_LEVEL_PREPARE)
+    GV_ACTOR_LEVEL4,    // 4 (ZOE1: GV_LEVEL_ACTOR)
+    GV_ACTOR_LEVEL5,    // 5 (ZOE1: GV_LEVEL_MODIFY)
 //--- memleak ---
-    GV_ACTOR_AFTER,     // 6
-    GV_ACTOR_AFTER2,    // 7
+    GV_ACTOR_AFTER,     // 6 (ZOE1: GV_LEVEL_REFER)
+    GV_ACTOR_AFTER2,    // 7 (ZOE1: GV_LEVEL_PAUSE)
 
     GV_ACTOR_DAEMON2,   // 8
     GV_ACTOR_LEVEL      // 9
@@ -130,7 +116,7 @@ extern int GV_PauseLevel;
 #endif
 
 void GV_InitActorSystem(void);
-void GV_ConfigActorSystem(int index, short pause, short kill);
+void GV_ConfigActorSystem(int exec_level, short pause, short kill);
 void GV_DumpActorSystem(void);
 void GV_ExecActorSystem(void);
 void GV_DestroyActorSystem(int exec_level);
@@ -280,33 +266,42 @@ int  GV_ReceiveMessage(int address, GV_MSG **msg_ptr);
 
 /*------ Input Processing ---------------------------------------------------*/
 
-// TODO: typedef enum and use type in GV_PAD?
-enum
-{
-    PAD_UP = PADLup,        // 0x1000 (1<<12)
-    PAD_DOWN = PADLdown,    // 0x4000 (1<<14)
-    PAD_LEFT = PADLleft,    // 0x8000 (1<<15)
-    PAD_RIGHT = PADLright,  // 0x2000 (1<<13)
-    PAD_TRIANGLE = PADRup,  // 0x0010 (1<< 4)
-    PAD_CROSS = PADRdown,   // 0x0040 (1<< 6)
-    PAD_SQUARE = PADRleft,  // 0x0080 (1<< 7)
-    PAD_CIRCLE = PADRright, // 0x0020 (1<< 5)
-    PAD_L1 = PADL1,         // 0x0004 (1<< 2)
-    PAD_L2 = PADL2,         // 0x0001 (1<< 0)
-    PAD_R1 = PADR1,         // 0x0008 (1<< 3)
-    PAD_R2 = PADR2,         // 0x0002 (1<< 1)
-    PAD_START = PADstart,   // 0x0800 (1<<11)
-    PAD_SELECT = PADselect, // 0x0100 (1<< 8)
-    PAD_L3 = PADi,          // 0x0200 (1<< 9)
-    PAD_R3 = PADj,          // 0x0400 (1<<10)
-};
 /* SNES-style button layout */
-#define PAD_A   PAD_CIRCLE
-#define PAD_B   PAD_CROSS
-#define PAD_X   PAD_TRIANGLE
-#define PAD_Y   PAD_SQUARE
+#define PAD_U           PADLup          // 0x1000 ↑
+#define PAD_D           PADLdown        // 0x4000 ↓
+#define PAD_L           PADLleft        // 0x8000 ←
+#define PAD_R           PADLright       // 0x2000 →
+#define PAD_A           PADRright       // 0x0020 ○
+#define PAD_B           PADRdown        // 0x0040 ×
+#define PAD_X           PADRup          // 0x0010 △
+#define PAD_Y           PADRleft        // 0x0080 □
+#define PAD_L1          PADL1           // 0x0004 L1
+#define PAD_L2          PADL2           // 0x0001 L2
+#define PAD_R1          PADR1           // 0x0008 R1
+#define PAD_R2          PADR2           // 0x0002 R2
+#define PAD_STA         PADstart        // 0x0800 START
+#define PAD_SEL         PADselect       // 0x0100 SELECT
+#define PAD_AL          PADi            // 0x0200 L3
+#define PAD_AR          PADj            // 0x0400 R3
 
-#define PAD_DIR (PAD_LEFT | PAD_DOWN | PAD_RIGHT | PAD_UP) // 0xF000
+/* button masks */
+#define PAD_UDLR        (PAD_U  | PAD_D  | PAD_L  | PAD_R)
+#define PAD_ABXY        (PAD_A  | PAD_B  | PAD_X  | PAD_Y)
+#define PAD_LR          (PAD_L1 | PAD_L2 | PAD_R1 | PAD_R2)
+
+/* button aliases */
+#define PAD_UP          PAD_U
+#define PAD_DOWN        PAD_D
+#define PAD_LEFT        PAD_L
+#define PAD_RIGHT       PAD_R
+#define PAD_CIRCLE      PAD_A
+#define PAD_CROSS       PAD_B
+#define PAD_TRIANGLE    PAD_X
+#define PAD_SQUARE      PAD_Y
+#define PAD_START       PAD_STA
+#define PAD_SELECT      PAD_SEL
+#define PAD_L3          PAD_AL
+#define PAD_R3          PAD_AR
 
 typedef struct
 {
@@ -334,6 +329,9 @@ enum
 #ifndef __GV_PAD_SBSS__
 extern u_short  GV_DemoPadStatus[2];
 extern u_long   GV_DemoPadAnalog;
+#endif
+#ifndef __BSSDEFINE__
+extern GV_PAD GV_PadData[4];
 #endif
 extern int GV_PadMask;
 

@@ -8,8 +8,6 @@
 #include "takabe/thing.h"
 #include "strcode.h"
 
-extern GV_PAD GV_PadData_800B05C0[4];
-
 /*---------------------------------------------------------------------------*/
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
@@ -63,7 +61,7 @@ static void Act(Work *work)
 
     if (GM_CurrentItemId == work->item && GM_CurrentItemId != IT_None)
     {
-        if (GV_PadData_800B05C0[0].status & 0xF013)
+        if (GV_PadData[0].status & 0xF013)
         {
             work->count = 0;
             work->pos = GM_PlayerPosition;

@@ -12,7 +12,6 @@
 #include "chara/snake/sna_init.h"
 #include "game/game.h"
 #include "game/camera.h"
-#include "game/object.h"
 #include "linkvar.h"
 #include "menu/menuman.h"
 #include "memcard/memcard.h"
@@ -20,9 +19,8 @@
 #include "sd/g_sound.h"
 
 extern int                 DG_CurrentGroupID;
-extern GM_Camera           GM_Camera_800B77E8;
+extern GM_CAMERA           GM_Camera;
 extern int                 dword_8009F604;
-extern GV_PAD              GV_PadData_800B05C0[4];
 extern TMat8x8B            gJpegcamMatrix2_800BDCD8;
 extern UnkCameraStruct     gUnkCameraStruct_800B77B8;
 extern char               *dword_800BDCC8;
@@ -631,7 +629,7 @@ static void JpegcamProcessInput(Work *work)
         press = 0;
     }
 
-    if ((GM_Camera_800B77E8.first_person != 1) || (GM_Camera_800B77E8.flags & 0x100))
+    if ((GM_Camera.first_person != 1) || (GM_Camera.flags & 0x100))
     {
         status = 0;
         press = 0;
@@ -649,7 +647,7 @@ static void JpegcamProcessInput(Work *work)
         press = 0;
     }
 
-    zoom = GM_Camera_800B77E8.zoom;
+    zoom = GM_Camera.zoom;
 
     if (GM_PlayerControl)
     {
@@ -829,7 +827,7 @@ static void JpegcamProcessInput(Work *work)
         }
     }
 
-    GM_Camera_800B77E8.zoom = zoom;
+    GM_Camera.zoom = zoom;
 }
 
 /**
@@ -933,11 +931,11 @@ static void Act(Work *work)
 
     if (GM_PlayerStatus & PLAYER_SECOND_CONTROLLER)
     {
-        work->pad_data = &GV_PadData_800B05C0[3];
+        work->pad_data = &GV_PadData[3];
     }
     else
     {
-        work->pad_data = &GV_PadData_800B05C0[2];
+        work->pad_data = &GV_PadData[2];
     }
 
     if (work->field_98 < 16)
@@ -974,7 +972,7 @@ static void Act(Work *work)
             {
                 DG_VisibleObjs(work->goggles.objs);
             }
-            GM_Camera_800B77E8.zoom = 320;
+            GM_Camera.zoom = 320;
             return;
         }
 
@@ -1018,7 +1016,7 @@ static void Act(Work *work)
         {
             MENU_Locate(200, 25, 0);
             MENU_Color(192, 144, 128);
-            MENU_Printf("zoom  : %4d\n", GM_Camera_800B77E8.zoom);
+            MENU_Printf("zoom  : %4d\n", GM_Camera.zoom);
             MENU_Printf("angle : %4d, %4d\n", -work->field_5C_ang.vx, work->field_5C_ang.vy);
         }
         break;
@@ -1042,7 +1040,7 @@ static void Act(Work *work)
 
 static void Die(Work *work)
 {
-    GM_Camera_800B77E8.zoom = 320;
+    GM_Camera.zoom = 320;
     gUnkCameraStruct_800B77B8.rotate2 = work->field_54_vec;
 
     GM_GameStatus &= ~STATE_JPEGCAM;
@@ -1058,7 +1056,7 @@ static void Die(Work *work)
 static int GetResources(Work *work, CONTROL *control, OBJECT *parent)
 {
     work->parent = parent;
-    work->pad_data = &GV_PadData_800B05C0[2];
+    work->pad_data = &GV_PadData[2];
     work->field_54_vec = control->rot;
     work->field_5C_ang = work->field_54_vec;
     work->state = 0;

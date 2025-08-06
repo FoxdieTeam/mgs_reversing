@@ -3,11 +3,10 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "libgcl/libgcl.h"
 #include "bullet/blast.h"
-#include "game/control.h"
 #include "game/game.h"
 #include "linkvar.h"
-#include "game/object.h"
 #include "sd/g_sound.h"
 
 // We came, we saw, GunCame

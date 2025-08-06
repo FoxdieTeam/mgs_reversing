@@ -10,7 +10,6 @@
 void *SECTION(".sbss") MENU_JimakuTextBody;
 
 extern UnkJimakuStruct gUnkJimakuStruct_800BDA70;
-extern GV_PAD          GV_PadData_800B05C0[4];
 
 signed char dword_8009E76C[] = {-1, 0, 1, 0, 0, 1, 0, -1};
 
@@ -75,7 +74,7 @@ void menu_jimaku_act( MenuWork *work, unsigned int *pOt )
 
         if ( gUnkJimakuStruct_800BDA70.field_2_timer == -1 )
         {
-            if ( GV_PadData_800B05C0[0].press & PAD_CIRCLE )
+            if ( GV_PadData[0].press & PAD_CIRCLE )
             {
                 gUnkJimakuStruct_800BDA70.field_0_active = 0;
 

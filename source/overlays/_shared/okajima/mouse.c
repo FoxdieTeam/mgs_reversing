@@ -6,7 +6,6 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "linkvar.h"
-#include "game/object.h"
 #include "okajima/blood.h"
 #include "sd/g_sound.h"
 #include "strcode.h"

@@ -43,8 +43,6 @@ int vrwindow_800C3778 = 256;
 int vrwindow_800C377C = 896;
 int vrwindow_800C3780 = 510;
 
-extern GV_PAD GV_PadData_800B05C0[4];
-
 extern char vrwindow_800D92D4[];
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL2
@@ -84,7 +82,7 @@ int Vrwindow_800D74AC(VrwindowWork *work)
 
 void Vrwindow_800D7510(VrwindowWork *work)
 {
-    if (!(GV_PadData_800B05C0[2].status & 0xF0F0))
+    if (!(GV_PadData[2].status & 0xF0F0))
     {
         return;
     }

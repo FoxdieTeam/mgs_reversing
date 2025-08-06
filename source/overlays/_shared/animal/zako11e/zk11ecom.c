@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include "common.h"
 #include "mts/mts.h" // for fprintf
+#include "libgv/libgv.h"
+#include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
 #include "game/game.h"
 #include "linkvar.h"
@@ -17,7 +19,7 @@ extern int     ZAKOCOM_PlayerAddress_800DF3B8;
 extern SVECTOR ZAKOCOM_PlayerPosition_800DF278;
 extern int     ZAKOCOM_PlayerMap_800DF3BC;
 
-extern CONTROL *GM_WhereList_800B56D0[94];
+extern CONTROL *GM_WhereList[94];
 
 int s11e_zk11ecom_800D9A20( ZakoWork *work )
 {
@@ -59,7 +61,7 @@ void ZAKO11E_SetGoPointLast_800D9A9C( void )
 
 void s11e_zk11ecom_800D9AE8(void)
 {
-    ZakoCommand_800DF280.com_addr = HZD_GetAddress( GM_WhereList_800B56D0[ 0 ]->map->hzd, &GM_NoisePosition, -1 );
+    ZakoCommand_800DF280.com_addr = HZD_GetAddress( GM_WhereList[ 0 ]->map->hzd, &GM_NoisePosition, -1 );
     ZakoCommand_800DF280.com_pos  = GM_NoisePosition;
     ZakoCommand_800DF280.com_map  = GM_PlayerMap;
 }

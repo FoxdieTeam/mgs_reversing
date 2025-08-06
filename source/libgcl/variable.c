@@ -1,40 +1,63 @@
 #include <stdio.h>
 #include "common.h"
-#include "game/game.h"
+#include "libgcl.h"
+
+#include "game/game.h"      // for AreaHistory
+#include "menu/menuman.h"   // for RadioMemory
 #include "linkvar.h"
 
-extern short sv_linkvarbuf_800B44C8[0x60];
+extern short linkvarbuf[0x60];
+extern short sv_linkvarbuf[0x60];
+
+extern GCL_Vars     gGcl_vars_800B3CC8;
+extern GCL_Vars     gGcl_memVars_800b4588;
+extern char         gStageName_800B4D88[16];
+extern RadioMemory  gRadioMemory_800BDB38[RADIO_MEMORY_COUNT];
+
+typedef struct SaveGame
+{
+    int                f008_version;
+    int                f00C_version2;
+    int                f010_totalFrameTime;
+    int                f014_padding[3];
+    char               f020_stageName[16];
+    AreaHistory        f030_areaHistory;
+    short              f040_varbuf[0x60];
+    GCL_Vars           f100_gcl_vars;
+    RadioMemory        f900_radio_memory[RADIO_MEMORY_COUNT];
+} SaveGame; // size 0xA38
+
+typedef struct SaveFile
+{
+    int      f000_size;
+    int      f004_checksum;
+    SaveGame f008_saveGame;
+} SaveFile;
 
 void GCL_SaveLinkVar(short *gameVar)
 {
     char *addr;
     int   offset;
 
-    addr = (char *)sv_linkvarbuf_800B44C8;
+    addr = (char *)sv_linkvarbuf;
     offset = (char *)gameVar - (char *)linkvarbuf;
     *(short *)(addr + offset) = *gameVar;
 }
 
 // Used for save files
-STATIC unsigned int crc32(int len, unsigned char *ptr)
+static unsigned int crc32(int len, unsigned char *ptr)
 {
     unsigned int  crc;
     int           counter;
-    unsigned char dataByte;
 
     crc = 0xffffffff;
     if (len != 0)
     {
-        do
-        {
-            dataByte = *ptr;
-            crc ^= dataByte; // crc = v0
-            ptr++;
-
+        do {
+            crc ^= *ptr++;
             counter = 8;
 
-            do
-            {
+            do {
                 if ((crc & 1) != 0)
                 {
                     crc = crc >> 1 ^ 0xedb88320;
@@ -43,20 +66,11 @@ STATIC unsigned int crc32(int len, unsigned char *ptr)
                 {
                     crc = crc >> 1;
                 }
-                counter--;
-            } while (counter != 0);
-            len--;
-        } while (len != 0);
+            } while (--counter != 0);
+        } while (--len != 0);
     }
     return ~crc;
 }
-
-extern GCL_Vars    gGcl_memVars_800b4588;
-extern RadioMemory gRadioMemory_800BDB38[RADIO_MEMORY_COUNT];
-
-extern char gStageName_800B4D88[16];
-
-extern short sv_linkvarbuf_800B44C8[0x60];
 
 int GCL_MakeSaveFile(char *saveBuf)
 {
@@ -76,9 +90,9 @@ int GCL_MakeSaveFile(char *saveBuf)
 
     GM_LastSaveHours = GM_TotalHours;
     GM_LastSaveSeconds = GM_TotalSeconds;
-    GM_LinkVar(sv_linkvarbuf_800B44C8, GM_LastSaveHours) = GM_TotalHours;
-    GM_LinkVar(sv_linkvarbuf_800B44C8, GM_LastSaveSeconds) = GM_TotalSeconds;
-    GM_LinkVar(sv_linkvarbuf_800B44C8, GM_TotalSaves) = GM_TotalSaves;
+    GM_LinkVar(sv_linkvarbuf, GM_LastSaveHours) = GM_TotalHours;
+    GM_LinkVar(sv_linkvarbuf, GM_LastSaveSeconds) = GM_TotalSeconds;
+    GM_LinkVar(sv_linkvarbuf, GM_TotalSaves) = GM_TotalSaves;
 
     save->f014_padding[0] = 0;
     save->f014_padding[1] = 0;
@@ -87,7 +101,7 @@ int GCL_MakeSaveFile(char *saveBuf)
     strcpy(save->f020_stageName, gStageName_800B4D88);
     GM_GetAreaHistory(&save->f030_areaHistory);
 
-    memcpy(save->f040_varbuf, sv_linkvarbuf_800B44C8, 0xC0);
+    memcpy(save->f040_varbuf, sv_linkvarbuf, 0xC0);
     save->f100_gcl_vars = gGcl_memVars_800b4588;
     *(RdMem *)&save->f900_radio_memory = *(RdMem *)&gRadioMemory_800BDB38;
 
@@ -96,9 +110,6 @@ int GCL_MakeSaveFile(char *saveBuf)
 
     return saveFile->f000_size;
 }
-
-extern char        gStageName_800B4D88[16];
-extern GCL_Vars    gGcl_vars_800B3CC8;
 
 int GCL_SetLoadFile(char *saveBuf)
 {
@@ -126,7 +137,7 @@ int GCL_SetLoadFile(char *saveBuf)
     strcpy(gStageName_800B4D88, save->f020_stageName);
     GM_SetAreaHistory(&save->f030_areaHistory);
 
-    memcpy(sv_linkvarbuf_800B44C8, save->f040_varbuf, 0xC0);
+    memcpy(sv_linkvarbuf, save->f040_varbuf, 0xC0);
     gGcl_memVars_800b4588 = save->f100_gcl_vars;
     memcpy(linkvarbuf, save->f040_varbuf, 0xC0);
     gGcl_vars_800B3CC8 = save->f100_gcl_vars;
@@ -157,14 +168,14 @@ void GCL_InitClearVar(void)
 
 void GCL_SaveVar(void)
 {
-    memcpy(sv_linkvarbuf_800B44C8, linkvarbuf, 0xC0);
+    memcpy(sv_linkvarbuf, linkvarbuf, 0xC0);
     gGcl_memVars_800b4588 = gGcl_vars_800B3CC8;
     strcpy(gStageName_800B4D88, GM_GetArea(0));
 }
 
 void GCL_RestoreVar(void)
 {
-    memcpy(linkvarbuf, sv_linkvarbuf_800B44C8, 0x9C);
+    memcpy(linkvarbuf, sv_linkvarbuf, 0x9C);
     gGcl_vars_800B3CC8 = gGcl_memVars_800b4588;
 
     GM_SetArea(GV_StrCode(gStageName_800B4D88), gStageName_800B4D88);
@@ -285,7 +296,7 @@ unsigned char *GCL_VarSaveBuffer(unsigned char *top)
     gcl_code = GCL_GetVarTypeCode(gcl_var);
     if (GCL_IsGameStateVar(gcl_var))
     {
-        ptr = (char *)sv_linkvarbuf_800B44C8;
+        ptr = (char *)sv_linkvarbuf;
     }
     else
     {

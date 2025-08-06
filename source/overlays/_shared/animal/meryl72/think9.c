@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 #include "meryl72.h"
+#include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
 

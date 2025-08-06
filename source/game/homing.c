@@ -7,8 +7,8 @@
 #include <libgpu.h>
 
 #include "common.h"
-#include "game/map.h"
 #include "libgv/libgv.h"
+#include "game.h"
 
 extern HOMING gHomingTargets_800B8230[HOMING_ARRAY_LENGTH];
 

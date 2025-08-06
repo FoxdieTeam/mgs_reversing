@@ -12,7 +12,6 @@
 #include "linkvar.h"
 
 extern int dword_8009F604;
-extern GV_PAD GV_PadData_800B05C0[4];
 extern DVECTOR dvector_800BDD18[3];
 
 /*---------------------------------------------------------------------------*/
@@ -153,7 +152,7 @@ static void Act(Work *work)
         work->field_24++;
     }
 
-    pad = GV_PadData_800B05C0;
+    pad = GV_PadData;
 
     if (dword_8009F604 != GV_StrCode("rifle"))
     {

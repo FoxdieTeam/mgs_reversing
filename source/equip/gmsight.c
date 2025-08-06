@@ -3,7 +3,6 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "game/game.h"
-#include "game/control.h"
 #include "thing/sight.h"
 #include "sd/g_sound.h"
 #include "linkvar.h"

@@ -24,7 +24,7 @@ void sub_8003D34C(Menu_Item_Unknown *a1, int a2);
 
 
 
-extern GM_Camera GM_Camera_800B77E8;
+extern GM_CAMERA GM_Camera;
 
 
 STATIC PANEL_CONF *dword_800AB584 = NULL;
@@ -732,7 +732,7 @@ int menu_8003DA9C(Menu_Inventory *pMenu, GV_PAD *pPad)
 {
     struct PANEL_CONF *pPanelConf; // $a0
 
-    if ((GM_Camera_800B77E8.flags & 0x101) != 0)
+    if ((GM_Camera.flags & 0x101) != 0)
     {
     ret_zero:
         return 0;
@@ -1170,7 +1170,7 @@ void menu_weapon_update_helper2_helper2_8003E3B0(MenuWork *work)
                              &pItemUnknown->field_20_array[pItemUnknown->field_0_main.field_4_selected_idx]);
 
     id = work->field_1F0_menu_weapon.field_0_current.field_0_id;
-    varbuf = linkvarbuf_800B4D98;
+    varbuf = linkvarbuf;
 
     if (id >= 0 && !menu_weapon_isWeaponDisabled_8003DF30(id))
     {

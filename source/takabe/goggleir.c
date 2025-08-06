@@ -4,9 +4,8 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "game/map.h"
+#include "game/game.h"
 #include "linkvar.h"
-#include "game/object.h"
 #include "equip/equip.h"
 #include "scn_mask.h"
 

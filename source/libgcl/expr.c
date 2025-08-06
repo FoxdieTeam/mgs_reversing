@@ -1,7 +1,7 @@
 #include "libgcl.h"
 #include "common.h"
 
-STATIC int calc(int op, int value1, int value2)
+static int calc(int op, int value1, int value2)
 {
     switch (op)
     {

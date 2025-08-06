@@ -4,11 +4,12 @@
 #include <libsn.h>
 
 #include "common.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libfs/libfs.h"
+#include "libgcl/libgcl.h"
 
 extern int    demodebug_finish_proc;
-extern GV_PAD GV_PadData_800B05C0[4];
 
 void demothrd_file_stream_act_800797FC(DemothrdWork *work);
 void demothrd_file_stream_kill_80079960(DemothrdWork *work);
@@ -243,7 +244,7 @@ void demothrd_file_stream_act_800797FC(DemothrdWork *work)
         success = FrameRunDemo_8007A948(work, (dmo_data_0x28 *)work->field_C0_pHeader);
     }
 
-    if (GV_PadData_800B05C0[1].status & PAD_CROSS)
+    if (GV_PadData[1].status & PAD_CROSS)
     {
         success = 0;
     }

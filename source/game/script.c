@@ -6,7 +6,6 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "game/control.h"
 #include "game/game.h"
 #include "game/camera.h"
 #include "linkvar.h"
@@ -16,8 +15,8 @@
 #include "kojo/demothrd.h"
 #include "strcode.h"
 
-extern  CAMERA          GM_CameraList_800B7718[8];
-extern  GM_Camera       GM_Camera_800B77E8;
+extern  CAMERA          GM_CameraList[8];
+extern  GM_CAMERA       GM_Camera;
 extern  HZD_BIND        gBindsArray_800b58e0[128];
 extern  int             dword_8009F46C;
 extern  SVECTOR         svector_8009F478;
@@ -169,7 +168,7 @@ STATIC int GM_Command_camera(unsigned char *top)
         if (camera_id < 8)
         {
             printf("set camera %d\n", camera_id);
-            cam = &GM_CameraList_800B7718[camera_id];
+            cam = &GM_CameraList[camera_id];
 
             cam->field_10_param1 = GCL_GetNextParamValue();
             cam->field_11_param2 = GCL_GetNextParamValue();
@@ -194,7 +193,7 @@ STATIC int GM_Command_camera(unsigned char *top)
 
     if (GCL_GetOption('a'))
     {
-        GM_Camera_800B77E8.alert_mask = GCL_GetNextParamValue();
+        GM_Camera.alert_mask = GCL_GetNextParamValue();
     }
 
     if (GCL_GetOption('c'))
@@ -617,7 +616,7 @@ STATIC int GM_Command_load(unsigned char *top)
             strcpy(dword_800ABA58, GM_GetArea((int)scriptStageName));
             GV_InitResidentMemory();
             GV_InitCacheSystem();
-            DG_InitResidentTextureCache();
+            DG_ClearResidentTexture();
             GM_SetArea(GV_StrCode(scriptStageName), scriptStageName);
         }
         else
@@ -855,7 +854,7 @@ STATIC int GM_Command_demo(unsigned char *top)
     {
         DG_UnDrawFrameCount = 0x7FFF0000;
         GM_GameStatus |= STATE_DEMO;
-        GM_Command_demo_helper_80037DD8( code, cb_proc );
+        GM_DemoStream( code, cb_proc );
     }
     else
     {

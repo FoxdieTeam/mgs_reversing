@@ -4,7 +4,6 @@
 #include "anime/animconv/anime.h"
 #include "game/game.h"
 #include "linkvar.h"
-#include "game/target.h"
 #include "okajima/spark.h"
 #include "sd/g_sound.h"
 

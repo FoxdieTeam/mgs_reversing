@@ -4,8 +4,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
-
-extern GV_PAD GV_PadData_800B05C0[4];
+#include "menu/menuman.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -101,7 +100,7 @@ static void Act(Work *work)
     char stageInfo[55];
 #endif
 
-    pPad = &GV_PadData_800B05C0[0];
+    pPad = &GV_PadData[0];
 
     if (pPad->status & (PAD_UP | PAD_DOWN))
     {

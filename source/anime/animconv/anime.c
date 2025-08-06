@@ -10,9 +10,7 @@
 #include "mts/mts.h" // for fprintf
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "game/control.h"
 #include "game/game.h"
-#include "game/map.h"
 #include "strcode.h"
 
 /*---------------------------------------------------------------------------*/

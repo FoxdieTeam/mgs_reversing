@@ -5,13 +5,12 @@
 #include "libdg/libdg.h"
 #include "game/camera.h"
 #include "linkvar.h"
-#include "game/map.h"
-#include "game/object.h"
+#include "game/game.h"
 #include "thing/sight.h"
 
 extern int DG_CurrentGroupID;
 extern int dword_8009F604;
-extern GM_Camera GM_Camera_800B77E8;
+extern GM_CAMERA GM_Camera;
 
 /*---------------------------------------------------------------------------*/
 
@@ -85,7 +84,7 @@ static void Act(Work *work)
     {
         DG_InvisibleObjs(work->object.objs);
     }
-    else if ( GM_Camera_800B77E8.first_person && (work->parent->objs->flag & DG_FLAG_INVISIBLE) )
+    else if ( GM_Camera.first_person && (work->parent->objs->flag & DG_FLAG_INVISIBLE) )
     {
         DG_InvisibleObjs(work->object.objs);
 

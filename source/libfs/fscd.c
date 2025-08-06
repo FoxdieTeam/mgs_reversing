@@ -5,7 +5,7 @@
 #include "mts/mts.h"        // for mts_wait_vbl
 #include "libgv/libgv.h"    // for GV_xxx_MEMORY_TOP
 
-extern int FS_DiskNum_800ACBF0;
+extern int FS_DiskNum;
 
 #include "file.cnf"     // defines fs_file_info
 
@@ -29,7 +29,7 @@ int FS_ResetCdFilePosition(void *buffer)
 void FS_CDInit(void)
 {
     CDBIOS_Reset();
-    FS_DiskNum_800ACBF0 = FS_ResetCdFilePosition(GV_NORMAL_MEMORY_TOP);
+    FS_DiskNum = FS_ResetCdFilePosition(GV_NORMAL_MEMORY_TOP);
     FS_StreamCD();
     FS_StreamTaskInit();
     mts_wait_vbl(2);

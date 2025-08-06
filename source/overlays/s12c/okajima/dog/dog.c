@@ -2,10 +2,7 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "game/target.h"
 #include "game/game.h"
-#include "game/homing.h"
-#include "game/object.h"
 #include "okajima/blood.h"
 
 typedef struct DogWork
@@ -461,8 +458,6 @@ const char s12c_aWolfdog_800DA0F8[] = "wolfdog2";
 const char s12c_aShadow_800DA104[] = "shadow";
 const char s12c_aDoglow_800DA10C[] = "dog_low";
 
-extern GV_PAD           GV_PadData_800B05C0[4];
-
 void *AN_Unknown_800CA1EC(MATRIX *mat, int mark);
 void *AN_Unknown_800CA320(MATRIX *mat, int mark);
 
@@ -588,7 +583,7 @@ int Dog_800CA3C0(unsigned short name, int nhashes, unsigned short *hashes)
 
 void Dog_800CA93C(DogWork *work)
 {
-    if (GV_PadData_800B05C0->press != 0)
+    if (GV_PadData->press != 0)
     {
         work->field_1600++;
     }

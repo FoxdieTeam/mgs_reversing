@@ -7,8 +7,7 @@
 #include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
 #include "mts/mts.h" // for fprintf
-#include "game/object.h"
-#include "game/map.h"
+#include "game/game.h"
 #include "strcode.h"
 
 extern int dword_8009F470;
