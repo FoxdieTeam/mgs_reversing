@@ -1,5 +1,5 @@
-#ifndef _TENAGE_H_
-#define _TENAGE_H_
+#ifndef __MGS_BULLET_TENAGE_H__
+#define __MGS_BULLET_TENAGE_H__
 
 #include <sys/types.h>
 #include <libgte.h>
@@ -11,4 +11,4 @@ void *NewTenage(SVECTOR *pos, SVECTOR *step, int fuse_time, int type, int model)
 void *NewTenage2(SVECTOR *pos, SVECTOR *step, int fuse_time);
 void *NewTenage3(SVECTOR *pos, SVECTOR *step, int fuse_time, int type, int model, int do_sound, int player_side);
 
-#endif // _TENAGE_H_
+#endif // __MGS_BULLET_TENAGE_H__

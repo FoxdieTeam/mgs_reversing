@@ -1,6 +1,6 @@
-#ifndef _SNOW_H_
-#define _SNOW_H_
+#ifndef __MGS_THING_SNOW_H__
+#define __MGS_THING_SNOW_H__
 
 void *NewSnow(int name, int where, int argc, char **argv);
 
-#endif // _SNOW_H_
+#endif // __MGS_THING_SNOW_H__

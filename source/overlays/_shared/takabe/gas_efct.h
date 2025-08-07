@@ -1,5 +1,5 @@
-#ifndef _GAS_EFCT_H_
-#define _GAS_EFCT_H_
+#ifndef __MGS_TAKABE_GAS_EFCT_H__
+#define __MGS_TAKABE_GAS_EFCT_H__
 
 #include <sys/types.h>
 #include <libgte.h>
@@ -8,4 +8,4 @@
 void *NewGasEffect_800C4E5C(int name, int where, int argc, char **argv);
 void *NewGasEffect_800C4EF8(SVECTOR *arg0, int arg1, int arg2);
 
-#endif // _GAS_EFCT_H_
+#endif // __MGS_TAKABE_GAS_EFCT_H__

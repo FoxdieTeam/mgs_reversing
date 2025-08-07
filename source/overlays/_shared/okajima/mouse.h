@@ -1,6 +1,6 @@
-#ifndef _MOUSE_H_
-#define _MOUSE_H_
+#ifndef __MGS_OKAJIMA_MOUSE_H__
+#define __MGS_OKAJIMA_MOUSE_H__
 
 void *NewMouse_800D5234(int name, int where, int argc, char **argv);
 
-#endif // _MOUSE_H_
+#endif // __MGS_OKAJIMA_MOUSE_H__

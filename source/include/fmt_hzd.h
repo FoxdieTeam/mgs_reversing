@@ -1,5 +1,5 @@
-#ifndef _FMT_HZD_H_
-#define _FMT_HZD_H_
+#ifndef __MGS_FMT_HZD_H__
+#define __MGS_FMT_HZD_H__
 // clang-format off
 
 #include <sys/types.h>
@@ -148,4 +148,4 @@ typedef struct {
 } HZD_MAP;
 
 // clang-format on
-#endif // _FMT_HZD_H_
+#endif // __MGS_FMT_HZD_H__

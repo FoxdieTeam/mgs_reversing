@@ -1,5 +1,5 @@
-#ifndef _SE_DATA_BLOB_H_
-#define _SE_DATA_BLOB_H_
+#ifndef __SE_DATA_BLOB_H__
+#define __SE_DATA_BLOB_H__
 
 unsigned char stepl0100[] = {
     0x00,0x00,0x78,0xD0, 0x00,0x00,0xFF,0xD5,
@@ -1595,4 +1595,4 @@ unsigned char shot_s0200[] = { // guessed name
 #endif
 };
 
-#endif // _SE_DATA_BLOB_H_
+#endif // __SE_DATA_BLOB_H__

@@ -1,6 +1,6 @@
-#ifndef _PAD_H_
-#define _PAD_H_
+#ifndef __MGS_GAME_PAD_H__
+#define __MGS_GAME_PAD_H__
 
 void *NewPad(int name, int where, int argc, char **argv);
 
-#endif // _PAD_H_
+#endif // __MGS_GAME_PAD_H__

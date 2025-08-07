@@ -1,6 +1,6 @@
-#ifndef _MOSAIC_H_
-#define _MOSAIC_H_
+#ifndef __MGS_TAKABE_MOSAIC_H__
+#define __MGS_TAKABE_MOSAIC_H__
 
 void *NewMosaic_800DCABC(int name, int where, int argc, char **argv);
 
-#endif // _MOSAIC_H_
+#endif // __MGS_TAKABE_MOSAIC_H__

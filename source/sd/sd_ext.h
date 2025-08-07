@@ -1,5 +1,5 @@
-#ifndef _SD_EXT_H_
-#define _SD_EXT_H_
+#ifndef __SD_EXT_H__
+#define __SD_EXT_H__
 
 // Do not #include this file externally! Use sd_cli.h instead.
 
@@ -319,4 +319,4 @@ extern  volatile int    sd_task_status;
 
 
 #endif // __BSSDEFINE__
-#endif // _SD_EXT_H_
+#endif // __SD_EXT_H__

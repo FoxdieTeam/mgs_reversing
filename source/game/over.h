@@ -1,6 +1,6 @@
-#ifndef _OVER_H_
-#define _OVER_H_
+#ifndef __MGS_GAME_OVER_H__
+#define __MGS_GAME_OVER_H__
 
 void *NewGameOver(int can_continue);
 
-#endif // _OVER_H_
+#endif // __MGS_GAME_OVER_H__

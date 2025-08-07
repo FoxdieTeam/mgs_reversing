@@ -1,6 +1,6 @@
-#ifndef _BREATH_H_
-#define _BREATH_H_
+#ifndef __MGS_CHARA_BREATH_H__
+#define __MGS_CHARA_BREATH_H__
 
 void *NewBreath_800C3A1C(int name, int where, int argc, char **argv);
 
-#endif // _BREATH_H_
+#endif // __MGS_CHARA_BREATH_H__

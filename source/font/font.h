@@ -1,5 +1,5 @@
-#ifndef _FONT_H_
-#define _FONT_H_
+#ifndef __MGS_FONT_H__
+#define __MGS_FONT_H__
 
 #include <sys/types.h>
 #include <libgte.h>
@@ -58,4 +58,4 @@ void  font_update(KCB *kcb);
 void  font_clut_update(KCB *kcb);
 void  font_print_string(KCB *kcb, const char *string);
 
-#endif // _FONT_H_
+#endif // __MGS_FONT_H__

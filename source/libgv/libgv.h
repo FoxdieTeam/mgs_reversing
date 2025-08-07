@@ -6,8 +6,8 @@
  * actor creation/execution control, message-passing, and linear algebra.
  */
 
-#ifndef _LIBGV_H_
-#define _LIBGV_H_
+#ifndef __MGS_LIBGV_H__
+#define __MGS_LIBGV_H__
 
 #include "common.h"
 #include <sys/types.h>
@@ -458,4 +458,4 @@ static inline int FP_Subtract_2(int a, int b)
     return value;
 }
 
-#endif // _LIBGV_H_
+#endif // __MGS_LIBGV_H__

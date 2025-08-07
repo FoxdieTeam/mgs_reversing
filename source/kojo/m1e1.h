@@ -1,5 +1,5 @@
-#ifndef __KOJO_M1E1_H__
-#define __KOJO_M1E1_H__
+#ifndef __MGS_KOJO_M1E1_H__
+#define __MGS_KOJO_M1E1_H__
 
 #include <sys/types.h>
 #include <libgte.h>
@@ -53,4 +53,4 @@ typedef struct M1E1Work
 void M1E1Caterpiller(M1E1Work *work);
 void M1E1GetCaterpillerVertex(OBJECT *obj1, OBJECT *obj2, SVECTOR *pos, int a4);
 
-#endif // __KOJO_M1E1_H__
+#endif // __MGS_KOJO_M1E1_H__

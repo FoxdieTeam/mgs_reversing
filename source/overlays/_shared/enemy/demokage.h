@@ -1,5 +1,5 @@
-#ifndef _DEMOKAGE_H_
-#define _DEMOKAGE_H_
+#ifndef __MGS_ENEMY_DEMOKAGE_H__
+#define __MGS_ENEMY_DEMOKAGE_H__
 
 #include <sys/types.h>
 #include <libgte.h>
@@ -9,4 +9,4 @@
 
 void *NewDemoKage_800C48A4(OBJECT *parent, SVECTOR arg1, int *arg2, int *arg3, char r, char g, char b, int unused);
 
-#endif // _DEMOKAGE_H_
+#endif // __MGS_ENEMY_DEMOKAGE_H__

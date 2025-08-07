@@ -1,5 +1,5 @@
-#ifndef _LINKVAR_H_
-#define _LINKVAR_H_
+#ifndef __MGS_LINKVAR_H__
+#define __MGS_LINKVAR_H__
 
 // This file was probably auto-generated in the original source.
 // (The memleak shows exactly two tabs between each identifier and definition,
@@ -237,4 +237,4 @@ enum // GM_ItemTypes[]
 #define GM_CurrentWeapon          (GM_Weapons[ GM_CurrentWeaponId ])
 #define GM_CurrentItem            (GM_Items[ GM_CurrentItemId ])
 
-#endif // _LINKVAR_H_
+#endif // __MGS_LINKVAR_H__

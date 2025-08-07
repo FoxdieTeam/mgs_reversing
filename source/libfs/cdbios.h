@@ -1,5 +1,5 @@
-#ifndef _CDBIOS_H_
-#define _CDBIOS_H_
+#ifndef __MGS_CDBIOS_H__
+#define __MGS_CDBIOS_H__
 
 struct _CDBIOS_TASK;
 typedef int (*cdbios_task_pfn)(struct _CDBIOS_TASK *);
@@ -32,4 +32,4 @@ int  CDBIOS_ReadSync(void);
 void CDBIOS_ForceStop(void);
 int  CDBIOS_TaskState(void);
 
-#endif // _CDBIOS_H_
+#endif // __MGS_CDBIOS_H__

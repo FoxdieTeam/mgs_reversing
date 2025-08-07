@@ -1,3 +1,6 @@
+#ifndef __MGS_OKAJIMA_WOLF2_H__
+#define __MGS_OKAJIMA_WOLF2_H__
+
 #include "libdg/libdg.h"
 #include "game/game.h"
 #include "menu/menuman.h"
@@ -110,3 +113,5 @@ typedef struct Wolf2Work
     int            fA6C;
     char           pad24[0x4];
 } Wolf2Work;
+
+#endif // __MGS_OKAJIMA_WOLF2_H__

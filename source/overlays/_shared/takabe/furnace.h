@@ -1,6 +1,6 @@
-#ifndef _FURNACE_H_
-#define _FURNACE_H_
+#ifndef __MGS_TAKABE_FURNACE_H__
+#define __MGS_TAKABE_FURNACE_H__
 
 void *NewFurnace(int name, int where, int argc, char **argv);
 
-#endif // _FURNACE_H_
+#endif // __MGS_TAKABE_FURNACE_H__

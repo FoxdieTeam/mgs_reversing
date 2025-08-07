@@ -1,6 +1,6 @@
-#ifndef _RIPPLES_H_
-#define _RIPPLES_H_
+#ifndef __MGS_TAKABE_RIPPLES_H__
+#define __MGS_TAKABE_RIPPLES_H__
 
 void *NewRipples_800D872C(int name, int where, int argc, char **argv);
 
-#endif // _RIPPLES_H_
+#endif // __MGS_TAKABE_RIPPLES_H__

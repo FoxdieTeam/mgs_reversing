@@ -1,5 +1,5 @@
-#ifndef _RADIO_H
-#define _RADIO_H
+#ifndef __MGS_MENU_RADIO_H__
+#define __MGS_MENU_RADIO_H__
 
 #include "menuman.h"
 
@@ -260,4 +260,4 @@ void draw_radio_wait_mark(MenuWork *work, unsigned char *pOt);
 // void menu_radio_do_file_mode_helper_8004A858();
 void menu_draw_triangle(MenuPrim *pGlue, Menu_Triangle *pTriangle);
 
-#endif // _RADIO_H
+#endif // __MGS_MENU_RADIO_H__

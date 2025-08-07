@@ -1,5 +1,5 @@
-#ifndef _MAP_H_
-#define _MAP_H_
+#ifndef __MGS_GAME_MAP_H__
+#define __MGS_GAME_MAP_H__
 
 #include <sys/types.h>
 #include <libgte.h>
@@ -48,4 +48,4 @@ MAP     *GM_CreateMap(void);
 void     GM_ReshadeObjs(DG_OBJS *objs);
 void     GM_ReshadeMapAll(void);
 
-#endif // _MAP_H_
+#endif // __MGS_GAME_MAP_H__

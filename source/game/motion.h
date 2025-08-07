@@ -1,5 +1,5 @@
-#ifndef _MOTION_H_
-#define _MOTION_H_
+#ifndef __MGS_GAME_MOTION_H__
+#define __MGS_GAME_MOTION_H__
 
 #include <sys/types.h>
 #include <libgte.h>
@@ -43,4 +43,4 @@ void GM_ConfigAction(MOTION_CONTROL *m_ctrl, int action, int frame);
 void GM_ConfigActionOverride(MOTION_CONTROL *m_ctrl, int action, int frame);
 int  GM_PlayAction(MOTION_CONTROL *m_ctrl);
 
-#endif // _MOTION_H_
+#endif // __MGS_GAME_MOTION_H__

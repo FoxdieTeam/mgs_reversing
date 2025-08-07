@@ -1,6 +1,6 @@
-#ifndef _DUMMY_WL_H_
-#define _DUMMY_WL_H_
+#ifndef __MGS_TAKABE_DUMMY_WL_H__
+#define __MGS_TAKABE_DUMMY_WL_H__
 
 void *NewDummyWall_800D7384(int name, int where, int argc, char **argv);
 
-#endif // _DUMMY_WL_H_
+#endif // __MGS_TAKABE_DUMMY_WL_H__

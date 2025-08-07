@@ -1,6 +1,6 @@
-#ifndef _FOCUS_H_
-#define _FOCUS_H_
+#ifndef __MGS_TAKABE_FOCUS_H__
+#define __MGS_TAKABE_FOCUS_H__
 
 void *NewFocus_800CEFF8(int name, int where, int argc, char **argv);
 
-#endif // _FOCUS_H_
+#endif // __MGS_TAKABE_FOCUS_H__

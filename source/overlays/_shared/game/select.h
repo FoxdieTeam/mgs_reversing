@@ -1,6 +1,6 @@
-#ifndef _SELECT_H_
-#define _SELECT_H_
+#ifndef __MGS_GAME_SELECT_H__
+#define __MGS_GAME_SELECT_H__
 
 void *NewSelect(int name, int where, int argc, char **argv);
 
-#endif // _SELECT_H_
+#endif // __MGS_GAME_SELECT_H__

@@ -1,5 +1,5 @@
-#ifndef _STRCODE_H_
-#define _STRCODE_H_
+#ifndef __MGS_STRCODE_H__
+#define __MGS_STRCODE_H__
 
 //-----------------------------------------------------------------------------
 // GCL StrCodes
@@ -767,4 +767,4 @@
 #define STAGE_vrsave            0x0681  // GV_StrCode("vrsave")
 #define STAGE_vrtitle           0xc979  // GV_StrCode("vrtitle")
 
-#endif // _STRCODE_H_
+#endif // __MGS_STRCODE_H__

@@ -1,3 +1,6 @@
+#ifndef __MGS_ENEMY_MERYL_H__
+#define __MGS_ENEMY_MERYL_H__
+
 #include "../../_shared/enemy/enemy.h"
 
 #define COM_ST_DANBOWL 0x2000
@@ -76,3 +79,5 @@ extern void s07a_meryl_unk_800D76CC( WatcherWork *work, int time );
 extern void ActReadyGun_800D7924( WatcherWork *work, int time );
 
 #define SP_DANBOWLKERI 0x400000
+
+#endif // __MGS_ENEMY_MERYL_H__

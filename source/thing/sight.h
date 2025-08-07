@@ -1,5 +1,5 @@
-#ifndef _SIGHT_H_
-#define _SIGHT_H_
+#ifndef __MGS_THING_SIGHT_H__
+#define __MGS_THING_SIGHT_H__
 
 void *NewSight(int hashedFileName0, int hashedFileName1,
                short *itemEquippedIndicator, short itemId,
@@ -15,4 +15,4 @@ void *NewSight_80071F98(int hashedFileName, short *xyOffsetBuffer);
 
 void sub_80072074(void);
 
-#endif // _SIGHT_H_
+#endif // __MGS_THING_SIGHT_H__

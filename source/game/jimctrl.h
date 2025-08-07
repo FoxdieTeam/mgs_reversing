@@ -1,5 +1,5 @@
-#ifndef _JIMCTRL_H
-#define _JIMCTRL_H
+#ifndef __MGS_GAME_JIMCTRL_H__
+#define __MGS_GAME_JIMCTRL_H__
 
 #define array_800B933C_SIZE 7
 
@@ -58,4 +58,4 @@ void *NewJimakuControl(u_long flags);
 int                   jimctrl_80038688(void);
 array_800B933C_child *jimctrl_80038698(void);
 
-#endif // _JIMCTRL_H
+#endif // __MGS_GAME_JIMCTRL_H__

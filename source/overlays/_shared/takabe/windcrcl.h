@@ -1,5 +1,5 @@
-#ifndef _WINDCRCL_H_
-#define _WINDCRCL_H_
+#ifndef __MGS_TAKABE_WINDCRCL_H__
+#define __MGS_TAKABE_WINDCRCL_H__
 
 #include <sys/types.h>
 #include <libgte.h>
@@ -7,4 +7,4 @@
 
 void *NewWindcrcl_800CF6BC(MATRIX *world, int arg1);
 
-#endif // _WINDCRCL_H_
+#endif // __MGS_TAKABE_WINDCRCL_H__

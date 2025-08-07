@@ -1,5 +1,5 @@
-#ifndef _FAMASLIT_H_
-#define _FAMASLIT_H_
+#ifndef __MGS_KOJO_FAMASLIT_H__
+#define __MGS_KOJO_FAMASLIT_H__
 
 #include <sys/types.h>
 #include <libgte.h>
@@ -7,4 +7,4 @@
 
 void *NewFamasLight(MATRIX *world);
 
-#endif // _FAMASLIT_H_
+#endif // __MGS_KOJO_FAMASLIT_H__
