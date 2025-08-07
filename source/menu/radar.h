@@ -1,5 +1,5 @@
-#ifndef _RADAR_H_
-#define _RADAR_H_
+#ifndef __MGS_MENU_RADAR_H__
+#define __MGS_MENU_RADAR_H__
 
 #include "menuman.h"
 
@@ -21,4 +21,4 @@ void MENU_SetRadarFunc(TRadarFn_800AB48C func);
 void draw_radar(MenuWork *work, unsigned char * pOt);
 void menu_radar_load_rpk_8003AD64();
 
-#endif // _RADAR_H_
+#endif // __MGS_MENU_RADAR_H__

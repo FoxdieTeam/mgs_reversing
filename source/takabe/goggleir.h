@@ -1,5 +1,5 @@
-#ifndef _GOGGLEIR_H_
-#define _GOGGLEIR_H_
+#ifndef __MGS_TAKABE_GOGGLEIR_H__
+#define __MGS_TAKABE_GOGGLEIR_H__
 
 #include "game/game.h"
 
@@ -7,4 +7,4 @@
 
 void *NewGoggleIr(CONTROL *control, OBJECT *parent_obj, int num_parent);
 
-#endif // _GOGGLEIR_H_
+#endif // __MGS_TAKABE_GOGGLEIR_H__

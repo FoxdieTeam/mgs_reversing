@@ -1,6 +1,6 @@
-#ifndef _LOADER_H_
-#define _LOADER_H_
+#ifndef __MGS_GAME_LOADER_H__
+#define __MGS_GAME_LOADER_H__
 
 void *NewLoader(const char *dir);
 
-#endif // _LOADER_H_
+#endif // __MGS_GAME_LOADER_H__

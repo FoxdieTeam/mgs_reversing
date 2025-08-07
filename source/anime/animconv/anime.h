@@ -1,5 +1,5 @@
-#ifndef _ANIME_H_
-#define _ANIME_H_
+#ifndef __MGS_ANIME_H__
+#define __MGS_ANIME_H__
 
 // "It's like one of my Japanese animes..."
 
@@ -48,4 +48,4 @@ void NewAnime_8005DDE0(MATRIX *pMtx);
 void NewAnime_8005E508(SVECTOR *pos);
 void NewAnime_8005E090(SVECTOR *pPos);
 
-#endif // _ANIME_H_
+#endif // __MGS_ANIME_H__

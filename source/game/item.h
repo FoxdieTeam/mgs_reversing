@@ -1,5 +1,5 @@
-#ifndef _ITEM_H_
-#define _ITEM_H_
+#ifndef __MGS_GAME_ITEM_H__
+#define __MGS_GAME_ITEM_H__
 
 #include <sys/types.h>
 #include <libgte.h>
@@ -21,4 +21,4 @@ void *item_init_80034758(SVECTOR *pPos, SVECTOR *a2, Item_Info *pItemInfo);
 void item_all_items_and_weapons_unknown2_80033500(void);
 void item_all_items_and_weapons_unknown_80033560(void);
 
-#endif // _ITEM_H_
+#endif // __MGS_GAME_ITEM_H__

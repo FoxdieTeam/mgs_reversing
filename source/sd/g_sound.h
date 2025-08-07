@@ -1,5 +1,5 @@
-#ifndef _G_SOUND_H_
-#define _G_SOUND_H_
+#ifndef __G_SOUND_H__
+#define __G_SOUND_H__
 
 #define SE_DUMMY                (  0)
 #define SE_SHOT_01              (  1)
@@ -243,4 +243,4 @@
 #define SE_MENU_TOGGLE          SE_IDEC04
 #define SE_TBL_MAX              (128)
 
-#endif // _G_SOUND_H_
+#endif // __G_SOUND_H__

@@ -1,6 +1,6 @@
-#ifndef _POINT_H_
-#define _POINT_H_
+#ifndef __MGS_GAME_POINT_H__
+#define __MGS_GAME_POINT_H__
 
 void *NewPoint(int name, int where, int argc, char **argv);
 
-#endif // _POINT_H_
+#endif // __MGS_GAME_POINT_H__

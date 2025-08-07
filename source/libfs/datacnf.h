@@ -1,5 +1,5 @@
-#ifndef _DATACNF_H_
-#define _DATACNF_H_
+#ifndef __MGS_DATACNF_H__
+#define __MGS_DATACNF_H__
 
 #include <sys/types.h>
 
@@ -26,4 +26,4 @@ typedef struct _DARFILE_TAG
     int         size;       // size in bytes
 } DARFILE_TAG;
 
-#endif // _DATACNF_H_
+#endif // __MGS_DATACNF_H__

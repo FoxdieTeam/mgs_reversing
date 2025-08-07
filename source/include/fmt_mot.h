@@ -1,5 +1,5 @@
-#ifndef _FMT_MOT_H_
-#define _FMT_MOT_H_
+#ifndef __MGS_FMT_MOT_H__
+#define __MGS_FMT_MOT_H__
 
 #include <sys/types.h>
 #include <libgte.h>
@@ -22,4 +22,4 @@ typedef struct MOTION_SEGMENT
     char          z_size;
 } MOTION_SEGMENT;
 
-#endif // _FMT_MOT_H_
+#endif // __MGS_FMT_MOT_H__

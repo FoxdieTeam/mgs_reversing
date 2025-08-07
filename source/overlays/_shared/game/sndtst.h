@@ -1,6 +1,6 @@
-#ifndef _SNDTST_H_
-#define _SNDTST_H_
+#ifndef __MGS_GAME_SNDTST_H__
+#define __MGS_GAME_SNDTST_H__
 
 void *NewSoundTest( int name, int where, int argc, char **argv );
 
-#endif // _SNDTST_H_
+#endif // __MGS_GAME_SNDTST_H__

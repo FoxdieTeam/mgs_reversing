@@ -1,6 +1,6 @@
-#ifndef _VIB_EDIT_H_
-#define _VIB_EDIT_H_
+#ifndef __MGS_TAKABE_VIB_EDIT_H__
+#define __MGS_TAKABE_VIB_EDIT_H__
 
 void *NewVibEdit_800C47B4(int flags, int perms);
 
-#endif // _VIB_EDIT_H_
+#endif // __MGS_TAKABE_VIB_EDIT_H__

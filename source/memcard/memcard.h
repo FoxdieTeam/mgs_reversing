@@ -1,5 +1,5 @@
-#ifndef _MEMCARD_H_
-#define _MEMCARD_H_
+#ifndef __MGS_MEMCARD_H__
+#define __MGS_MEMCARD_H__
 
 // 8 KB
 #define MC_BLOCK_SIZE 8192
@@ -37,4 +37,4 @@ void memcard_read(int port, const char *filename, int offset, char *buffer, int 
 int  memcard_get_status(void);
 int  memcard_format(int port);
 
-#endif // _MEMCARD_H_
+#endif // __MGS_MEMCARD_H__

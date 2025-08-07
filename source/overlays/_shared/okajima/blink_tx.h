@@ -1,6 +1,6 @@
-#ifndef _BLINK_TX_H_
-#define _BLINK_TX_H_
+#ifndef __MGS_OKAJIMA_BLINK_TX_H__
+#define __MGS_OKAJIMA_BLINK_TX_H__
 
 void *NewBlinkTx_800DECD8(int name, int where, int argc, char **argv);
 
-#endif // _BLINK_TX_H_
+#endif // __MGS_OKAJIMA_BLINK_TX_H__

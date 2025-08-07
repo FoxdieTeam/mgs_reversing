@@ -1,7 +1,7 @@
 // FIXME: copy-pasta of snake/sna_init.h
 
-#ifndef _SNA_INIT_H_
-#define _SNA_INIT_H_
+#ifndef __MGS_CHARA_SNA_INIT_H__
+#define __MGS_CHARA_SNA_INIT_H__
 
 #include <sys/types.h>
 #include <libgte.h>
@@ -489,4 +489,4 @@ int sna_act_unk_helper2_helper_helper_8005C974(HZD_HDL *pHzd, int, int, CONTROL 
 void sna_act_helper2_helper2_80033054(int id, SVECTOR *vec);
 int sna_ration_available_8004FB4C(void);
 
-#endif // _SNA_INIT_H_
+#endif // __MGS_CHARA_SNA_INIT_H__

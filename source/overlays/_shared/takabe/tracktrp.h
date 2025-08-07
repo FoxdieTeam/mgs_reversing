@@ -1,6 +1,6 @@
-#ifndef _TRACKTRP_H_
-#define _TRACKTRP_H_
+#ifndef __MGS_TAKABE_TRACKTRP_H__
+#define __MGS_TAKABE_TRACKTRP_H__
 
 void *NewTruckTrap(int name, int where, int argc, char **argv);
 
-#endif // _TRACKTRP_H_
+#endif // __MGS_TAKABE_TRACKTRP_H__

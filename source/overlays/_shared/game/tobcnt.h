@@ -1,6 +1,6 @@
-#ifndef _TOBCNT_H_
-#define _TOBCNT_H_
+#ifndef __MGS_GAME_TOBCNT_H__
+#define __MGS_GAME_TOBCNT_H__
 
 void *NewToBeContinued(int name, int where, int argc, char **argv);
 
-#endif // _TOBCNT_H_
+#endif // __MGS_GAME_TOBCNT_H__

@@ -1,5 +1,5 @@
-#ifndef _CHARADEF_H_
-#define _CHARADEF_H_
+#ifndef __MGS_CHARADEF_H__
+#define __MGS_CHARADEF_H__
 
 #include "strcode.h"
 
@@ -19,4 +19,4 @@ typedef struct CHARA
     NEWCHARA        func;       // pointer to actor creation function
 } CHARA;
 
-#endif // _CHARADEF_H_
+#endif // __MGS_CHARADEF_H__

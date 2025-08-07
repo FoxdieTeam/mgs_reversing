@@ -1,5 +1,5 @@
-#ifndef _TERMINAL_H_
-#define _TERMINAL_H_
+#ifndef __TERMINAL_H__
+#define __TERMINAL_H__
 
 // "Table 13-3: Terminal Types"
 // from Run-Time Library Overview 4.4, Chapter 13
@@ -241,4 +241,4 @@ typedef struct {
     } data;
 } PAD_RECV_BUF;
 
-#endif // _TERMINAL_H_
+#endif // __TERMINAL_H__

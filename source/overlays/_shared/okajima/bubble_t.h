@@ -1,5 +1,5 @@
-#ifndef _BUBBLE_T_H_
-#define _BUBBLE_T_H_
+#ifndef __MGS_OKAJIMA_BUBBLE_T_H__
+#define __MGS_OKAJIMA_BUBBLE_T_H__
 
 #include <sys/types.h>
 #include <libgte.h>
@@ -7,4 +7,4 @@
 
 void *NewBubbleT_800DA380(SVECTOR *pos, int height, int ripple, int *destroy);
 
-#endif // _BUBBLE_T_H_
+#endif // __MGS_OKAJIMA_BUBBLE_T_H__

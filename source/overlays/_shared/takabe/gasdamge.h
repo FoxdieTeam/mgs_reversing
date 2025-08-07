@@ -1,6 +1,6 @@
-#ifndef _GASDAMGE_H_
-#define _GASDAMGE_H_
+#ifndef __MGS_TAKABE_GASDAMGE_H__
+#define __MGS_TAKABE_GASDAMGE_H__
 
 void *NewGasDamage_800E14E8(int name, int where, int argc, char **argv);
 
-#endif // _GASDAMGE_H_
+#endif // __MGS_TAKABE_GASDAMGE_H__

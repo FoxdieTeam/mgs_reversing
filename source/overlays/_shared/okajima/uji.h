@@ -1,6 +1,6 @@
-#ifndef _UJI_H_
-#define _UJI_H_
+#ifndef __MGS_OKAJIMA_UJI_H__
+#define __MGS_OKAJIMA_UJI_H__
 
 void *NewUji_800C42F8(int name, int where, int argc, char **argv);
 
-#endif // _UJI_H_
+#endif // __MGS_OKAJIMA_UJI_H__

@@ -1,5 +1,5 @@
-#ifndef _LIBDG_H_
-#define _LIBDG_H_
+#ifndef __MGS_LIBDG_H__
+#define __MGS_LIBDG_H__
 
 #include <sys/types.h>
 #include <libgte.h>
@@ -711,4 +711,4 @@ static inline void DG_SetPacketTexture4( POLY_FT4 *packs0, DG_TEX *tex )
 }
 // clang-format on
 
-#endif // _LIBDG_H_
+#endif // __MGS_LIBDG_H__

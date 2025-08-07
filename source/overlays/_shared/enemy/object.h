@@ -1,6 +1,6 @@
-#ifndef _OBJECT_CHARA_H_
-#define _OBJECT_CHARA_H_
+#ifndef __MGS_ENEMY_OBJECT_H__
+#define __MGS_ENEMY_OBJECT_H__
 
 void *NewObjectChara_800DA3A4(int name, int where, int argc, char **argv);
 
-#endif // _OBJECT_CHARA_H_
+#endif // __MGS_ENEMY_OBJECT_H__
