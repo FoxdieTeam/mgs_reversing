@@ -1,5 +1,5 @@
-#include "sd/sd_incl.h"
-#include "sd/sd_ext.h"
+#include "sd_incl.h"
+#include "sd_ext.h"
 
 /* local inlines */
 inline int  vib_compute(void);
