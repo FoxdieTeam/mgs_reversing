@@ -13,23 +13,23 @@ typedef struct _AtWork
     OBJECT         body;
     CONTROL        control;
     MOTION_CONTROL m_ctrl;
-    MOTION_SEGMENT oar1[16];
-    MOTION_SEGMENT oar2[16];
+    MOTION_SEGMENT m_segs1[16];
+    MOTION_SEGMENT m_segs2[16];
     SVECTOR        rots[15];
     MATRIX         light[2];
     TARGET        *target;
-    int            f70C;
-    int            f710;
+    int            end_proc;
+    int            draw_lifebar;
     MENU_BAR_CONF  lifebar;
-    int            f720;
-    int            f724;
-    int            f728;
-    int            f72C;
-    int            f730;
+    int            last_hp;
+    int            hp;
+    int            state;
+    int            anim_timer;
+    int            f730; /* unused */
     int            map;
-    int            f738;
-    int            f73C;
-    int            f740;
+    int            max_hp;
+    int            frac_hp;
+    int            update;
 } AtWork;
 
 char    at_lifebar_name[] = "BAKER";
@@ -40,7 +40,7 @@ SVECTOR at_target_size = {400, 900, 400, 0};
 #define EXEC_LEVEL      GV_ACTOR_LEVEL5
 #define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE )
 
-void s04c_at_800D7134(AtWork *work, int index, int count)
+static void SetBlood(AtWork *work, int index, int count)
 {
     MATRIX rot;
 
@@ -51,7 +51,7 @@ void s04c_at_800D7134(AtWork *work, int index, int count)
     NewBlood(&rot, count);
 }
 
-void s04c_at_800D71A4(AtWork *work)
+static void UpdateTarget(AtWork *work)
 {
     TARGET *target;
     int     hp;
@@ -62,9 +62,9 @@ void s04c_at_800D71A4(AtWork *work)
     {
         target->damaged &= ~0x4;
 
-        if (work->f728 > -1 && work->f728 < 2)
+        if (work->state > -1 && work->state < 2)
         {
-            s04c_at_800D7134(work, 2, 0);
+            SetBlood(work, 2, 0);
 
             switch (target->a_mode)
             {
@@ -90,19 +90,19 @@ void s04c_at_800D71A4(AtWork *work)
                 hp = 0;
             }
 
-            work->f724 = (hp * 1024) / work->f73C;
+            work->hp = (hp * 1024) / work->frac_hp;
 
             if (hp <= 0)
             {
-                work->f728 = 3;
-                work->f72C = 0;
+                work->state = 3;
+                work->anim_timer = 0;
                 GM_ConfigObjectAction(&work->body, 3, 0, 0);
                 GM_SeSet2(0, 47, 129);
             }
             else
             {
-                work->f728 = 2;
-                work->f72C = 0;
+                work->state = 2;
+                work->anim_timer = 0;
                 GM_ConfigObjectAction(&work->body, 2, 0, 0);
                 GM_SeSet2(0, 47, 128);
                 GM_SeSet2(0, 63, 139);
@@ -111,7 +111,7 @@ void s04c_at_800D71A4(AtWork *work)
     }
 }
 
-void AtAct_800D7324(AtWork *work)
+static void Act(AtWork *work)
 {
     DG_GetLightMatrix2(&work->control.mov, work->light);
     GM_CurrentMap = work->map;
@@ -119,20 +119,20 @@ void AtAct_800D7324(AtWork *work)
 
     GM_ActObject2(&work->body);
 
-    s04c_at_800D71A4(work);
+    UpdateTarget(work);
     work->target->field_28 = 0;
 
-    switch (work->f728)
+    switch (work->state)
     {
     case 0:
-        if (++work->f72C >= 60)
+        if (++work->anim_timer >= 60)
         {
-            work->f72C = 0;
+            work->anim_timer = 0;
 
-            if (work->f740 != 0)
+            if (work->update != 0)
             {
                 GM_SeSet(&work->control.mov, 141);
-                work->f728 = 1;
+                work->state = 1;
                 GM_ConfigObjectAction(&work->body, 1, 0, 0);
             }
         }
@@ -141,16 +141,16 @@ void AtAct_800D7324(AtWork *work)
     case 1:
         if (work->body.is_end != 0)
         {
-            work->f728 = 0;
+            work->state = 0;
             GM_ConfigObjectAction(&work->body, 0, 0, 0);
         }
         break;
 
     case 2:
-        if (++work->f72C >= 20)
+        if (++work->anim_timer >= 20)
         {
-            work->f72C = 0;
-            work->f728 = 0;
+            work->anim_timer = 0;
+            work->state = 0;
             GM_ConfigObjectAction(&work->body, 0, 0, 0);
         }
         break;
@@ -158,13 +158,13 @@ void AtAct_800D7324(AtWork *work)
     case 3:
         if (work->body.is_end != 0)
         {
-            work->f728 = 4;
+            work->state = 4;
             GM_ConfigObjectAction(&work->body, 4, 0, 0);
 
             if (GM_SnakeCurrentHealth > 0)
             {
                 printf("GameOver!\n");
-                GCL_ExecProc(work->f70C, 0);
+                GCL_ExecProc(work->end_proc, 0);
                 GM_GameOverTimer = 0;
                 GM_GameOver();
             }
@@ -175,21 +175,21 @@ void AtAct_800D7324(AtWork *work)
         break;
     }
 
-    if (work->f710 != 0)
+    if (work->draw_lifebar != 0)
     {
-        MENU_DrawBar2(40, work->f720, work->f724, work->f738, &work->lifebar);
-        work->f720 = GV_NearSpeed(work->f720, work->f724, 4);
+        MENU_DrawBar2(40, work->last_hp, work->hp, work->max_hp, &work->lifebar);
+        work->last_hp = GV_NearSpeed(work->last_hp, work->hp, 4);
     }
 
     printf("GameOverTimer = %d\n", GM_GameOverTimer);
 }
 
-void AtDie_800D7510(AtWork *work)
+static void Die(AtWork *work)
 {
     GM_FreeObject(&work->body);
 }
 
-int s04c_at_800D7530(AtWork *work)
+static int CreateTarget(AtWork *work)
 {
     TARGET *target;
 
@@ -207,7 +207,7 @@ int s04c_at_800D7530(AtWork *work)
     return 0;
 }
 
-int AtGetResources_800D75BC(AtWork *work, int name, int map)
+static int GetResources(AtWork *work, int name, int map)
 {
     CONTROL       *control;
     OBJECT        *body;
@@ -215,7 +215,7 @@ int AtGetResources_800D75BC(AtWork *work, int name, int map)
 
     GM_CurrentMap = map;
 
-    work->f728 = 0;
+    work->state = 0;
 
     control = &work->control;
     if (GM_InitControl(control, name, map) < 0)
@@ -231,27 +231,27 @@ int AtGetResources_800D75BC(AtWork *work, int name, int map)
     body = &work->body;
     GM_InitObject(body, GV_StrCode("ats_noc"), BODY_FLAG, GV_StrCode("shacho"));
     GM_ConfigObjectJoint(body);
-    GM_ConfigMotionControl(body, &work->m_ctrl, GV_StrCode("shacho"), work->oar1, work->oar2, control, work->rots);
+    GM_ConfigMotionControl(body, &work->m_ctrl, GV_StrCode("shacho"), work->m_segs1, work->m_segs2, control, work->rots);
     GM_ConfigObjectLight(body, work->light);
     GM_ConfigObjectAction(body, 0, 0, 0);
 
     DG_SetPos2(&control->mov, &control->rot);
     ReadRotMatrix(&work->body.objs->world);
 
-    if (s04c_at_800D7530(work) < 0)
+    if (CreateTarget(work) < 0)
     {
         return -1;
     }
 
     if (GCL_GetOption('h'))
     {
-        work->f73C = GCL_StrToInt(GCL_GetParamResult());
-        work->f738 = GCL_StrToInt(GCL_GetParamResult());
+        work->frac_hp = GCL_StrToInt(GCL_GetParamResult());
+        work->max_hp = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {
-        work->f738 = 192;
-        work->f73C = 1024;
+        work->max_hp = 192;
+        work->frac_hp = 1024;
     }
 
     lifebar = &work->lifebar;
@@ -265,49 +265,50 @@ int AtGetResources_800D75BC(AtWork *work, int name, int map)
     lifebar->right[2] = 95;
     lifebar->height = 1;
 
-    work->f724 = (work->f738 * 1024) / work->f73C;
-    work->f720 = (work->f738 * 1024) / work->f73C;
+    work->hp = (work->max_hp * 1024) / work->frac_hp;
+    work->last_hp = (work->max_hp * 1024) / work->frac_hp;
 
     if (GCL_GetOption('l'))
     {
-        work->f710 = GCL_StrToInt(GCL_GetParamResult());
+        work->draw_lifebar = GCL_StrToInt(GCL_GetParamResult());
     }
 
     work->f730 = 0;
-    work->f72C = 0;
+    work->anim_timer = 0;
 
-    work->target->field_26_hp = work->f738;
+    work->target->field_26_hp = work->max_hp;
 
     if (GCL_GetOption('u'))
     {
-        work->f740 = GCL_StrToInt(GCL_GetParamResult());
-    } else
+        work->update = GCL_StrToInt(GCL_GetParamResult());
+    }
+    else
     {
-        work->f740 = 1;
+        work->update = 1;
     }
 
     if (GCL_GetOption('e'))
     {
-        work->f70C = GCL_StrToInt(GCL_GetParamResult());
+        work->end_proc = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {
-        work->f70C = -1;
+        work->end_proc = -1;
     }
 
     return 0;
 }
 
-void *NewAt_800D78A4(int name, int where)
+void *NewArmsTechPresident(int name, int where)
 {
     AtWork *work;
 
     work = GV_NewActor(EXEC_LEVEL, sizeof(AtWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, AtAct_800D7324, AtDie_800D7510, "at.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "at.c");
 
-        if (AtGetResources_800D75BC(work, name, where) < 0)
+        if (GetResources(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

@@ -1,7 +1,9 @@
 #include "common.h"
 
-int s04c_dword_800C3468 = 0x4C45434F;
-int s04c_dword_800C346C = 0x0000544F;
+#include "libdg/libdg.h"
+
+char s04c_dword_800C3468[] = "OCELOT";
+
 int s04c_dword_800C3470 = 0x251CFE0C;
 int s04c_dword_800C3474 = 0x203A02EE;
 int s04c_dword_800C3478 = 0x0FA003E8;
@@ -80,21 +82,8 @@ int s04c_dword_800C3598 = 0x00A00003;
 int s04c_dword_800C359C = 0x00A10803;
 int s04c_dword_800C35A0 = 0x00A1080E;
 int s04c_dword_800C35A4 = 0x00A0130E;
-int s04c_dword_800C35A8 = 0x03840190;
-int s04c_dword_800C35AC = 0x00000190;
 
-const int s04c_dword_800DBAA8 = 0x800D14F0;
-const int s04c_dword_800DBAAC = 0x800D1504;
-const int s04c_dword_800DBAB0 = 0x800D1518;
-const int s04c_dword_800DBAB4 = 0x800D152C;
-const int s04c_dword_800DBAB8 = 0x800D1540;
-const int s04c_dword_800DBABC = 0x800D1554;
-const int s04c_dword_800DBAC0 = 0x800D1568;
-const char s04c_aRevgun_800DBAC4[] = "rev_gun";
-const char s04c_aRevolver_800DBACC[] = "revolver";
-const char s04c_dword_800DBAD8[] = "revolver.c";
-
-int SECTION("overlay.bss") s04c_dword_800DBE10;
-int SECTION("overlay.bss") s04c_dword_800DBE14;
-int SECTION("overlay.bss") s04c_dword_800DBE18;
-int SECTION("overlay.bss") s04c_dword_800DBE1C;
+int   SECTION("overlay.bss") s04c_dword_800DBE10;
+void *SECTION("overlay.bss") s04c_dword_800DBE14;
+int   SECTION("overlay.bss") s04c_dword_800DBE18;
+int   SECTION("overlay.bss") s04c_dword_800DBE1C;

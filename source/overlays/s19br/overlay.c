@@ -8,7 +8,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x6a48, (NEWCHARA)0x800CE36C },   // s19b_jeep_srl_800CE36C
     { 0xa27e, (NEWCHARA)0x800C95E4 },   // s19b_jdrum_800C95E4
     { 0x2477, (NEWCHARA)0x800C4EC0 },   // s19b_jeep_emy_800C4EC0
-    { 0x0dc9, (NEWCHARA)0x800DC510 },   // NewVoicesys_800CE944
+    { 0x0dc9, (NEWCHARA)0x800DC510 },   // NewVoiceSystem
     { 0xd6fb, (NEWCHARA)0x800CB120 },   // s19b_fog_800CB120 (NewFog_800D4208)
     { 0xa12e, (NEWCHARA)0x800DABEC },   // s19b_fadeio_800DABEC (NewFadeIo_800C42BC)
     { 0, NULL }
