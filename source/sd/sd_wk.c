@@ -1,4 +1,4 @@
-#include "sd/sd_incl.h"
+#include "sd_incl.h"
 
 unsigned long spu_ch_tbl[24+1] = {
     0x00000001,
