@@ -5,7 +5,7 @@ extern void *NewCamera_800CF388();
 
 CHARA _StageCharacterEntries[] =
 {
-    { CHARA_CAMERA_JPEG, (NEWCHARA)NewCamera_800CF388 },
+    { CHARAID_CAMERA_JPEG, (NEWCHARA)NewCamera_800CF388 },
     { 0, NULL }
 };
 

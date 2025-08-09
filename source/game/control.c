@@ -23,7 +23,7 @@ extern CONTROL  gDefaultControl_800B5650;
 int GM_ControlPushBack(CONTROL *control)
 {
     // スネーク must always be the first item
-    if (control->name == CHARA_SNAKE)
+    if (control->name == CHARAID_SNAKE)
     {
         GM_WhereList[0] = control;
     }
