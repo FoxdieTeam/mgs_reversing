@@ -1,3 +1,5 @@
+#include "gsplash.h"
+
 #include <stdlib.h>
 #include "common.h"
 #include "libdg/libdg.h"

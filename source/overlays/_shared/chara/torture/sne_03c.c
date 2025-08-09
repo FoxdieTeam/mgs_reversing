@@ -1,8 +1,12 @@
+#include "sne_03c.h"
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
+
+#include "overlays/_shared/takabe/fadeio.h" // for NewFadeIo_800C4224
 
 // There are two actors in this file
 
@@ -41,8 +45,6 @@ extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 void s03b_boxall_800C969C(int, int);
 void s03b_boxall_800C96E8(void);
 void s03b_boxall_800C974C(void);
-
-void *NewFadeIo_800C4224(int name, int where);
 
 void Snake03c1Act_800CD698(Snake03c1Work *work)
 {

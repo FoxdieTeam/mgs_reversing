@@ -261,7 +261,7 @@ static int GetResources( Work *work, int time, int event )
 
 /*---------------------------------------------------------------------------*/
 
-void *NewCinemaScreen( int time, int event, int argc, char **argv )
+void *NewCinemaScreen( int time, int event )
 {
     Work *work ;
 

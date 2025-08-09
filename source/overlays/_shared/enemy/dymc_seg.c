@@ -1,3 +1,5 @@
+#include "dymc_seg.h"
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libhzd/libhzd.h"

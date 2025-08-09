@@ -1,11 +1,17 @@
+#include "evntmous.h"
+
 #include "common.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
+#include "libhzd/libhzd.h"
 #include "game/game.h"
 #include "linkvar.h"
 #include "okajima/blood.h"
 #include "sd/g_sound.h"
+
+#include "overlays/_shared/takabe/cinema.h"     // for NewCinemaScreen, NewCinemaScreenClose
+#include "overlays/_shared/takabe/ripple.h"     // for NewRipple_800D7F30
 
 typedef struct _EventmouseWork
 {
@@ -51,11 +57,7 @@ typedef struct _EventmouseWork
 SVECTOR eventmous_vecs[2] = {{48, 0, 96, 0}, {-48, 0, 96, 0}};
 
 void   AN_Unknown_800CA320( MATRIX *, int );
-void * NewRipple_800D7F30( MATRIX *, int );
 void   NewSplash2_800DB6F0( int, SVECTOR *, int );
-
-void *NewCinemaScreen( int, int );
-void *NewCinemaScreenClose( void *addr );
 
 #define EXEC_LEVEL      GV_ACTOR_LEVEL5
 #define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE | DG_FLAG_ONEPIECE )

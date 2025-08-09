@@ -6,6 +6,8 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 
+#include "overlays/_shared/takabe/ripple.h" // for NewRipple_800D7F30
+
 typedef struct RSurfaceElem
 {
     short    field_0;
@@ -34,7 +36,6 @@ typedef struct RSurfaceWork
 extern CONTROL *GM_WhereList[96];
 extern int      gControlCount_800AB9B4;
 
-void *NewRipple_800D7F30(MATRIX *, int);
 void  s00a_rsurface_800D82E0(RSurfaceWork *work);
 
 void RippleSurfaceAct_800D7FC4(RSurfaceWork *work)

@@ -1,3 +1,5 @@
+#include "p_lamp.h"
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
@@ -7,6 +9,9 @@
 #include "okajima/spark.h"
 #include "anime/animconv/anime.h"
 #include "bullet/blast.h"
+
+#include "overlays/_shared/takabe/cinema.h"     // for NewCinemaScreen, NewCinemaScreenClose
+#include "overlays/_shared/takabe/spark2.h"     // for NewSpark2_800CA714
 
 typedef struct PLampWork
 {
@@ -35,10 +40,6 @@ typedef struct PLampWork
 
 SVECTOR p_lamp_target_svec_800C353C = {5, 5, 5};
 RECT    p_lamp_prim_rect_800C3544 = {100, 100, 200, 200};
-
-void *NewCinemaScreen( int, int );
-void *NewCinemaScreenClose( void *addr );
-void *NewSpark2_800CA714(MATRIX *world);
 
 extern DG_CHANL DG_Chanls_800B1800[3];
 

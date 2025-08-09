@@ -16,6 +16,9 @@
 #include "game/game.h"
 #include "sd/g_sound.h"
 
+#include "met_logo.h"   // for NewMetalGearLogo
+#include "safety.h"     // for Safety_*
+
 extern int    FS_DiskNum;
 
 /*---------------------------------------------------------------------------*/
@@ -85,11 +88,6 @@ signed char byte_800C3260[] = {
 };
 
 /*---------------------------------------------------------------------------*/
-
-int  Safety_800C45F8( int lba, int timeout );
-void Safety_800C4714( void );
-
-void *NewMetalGearLogo( int * );
 
 #define EXEC_LEVEL GV_ACTOR_MANAGER
 

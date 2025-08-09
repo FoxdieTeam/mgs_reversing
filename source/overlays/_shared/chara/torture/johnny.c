@@ -1,3 +1,5 @@
+#include "johnny.h"
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
@@ -10,9 +12,11 @@
 #include "chara/snake/sna_init.h"
 #include "chara/snake/sna_hzd.h"
 #include "okajima/blood.h"
-#include "overlays/_shared/okajima/hiyoko.h"
 #include "sd/g_sound.h"
 #include "strcode.h"
+
+#include "overlays/_shared/okajima/hiyoko.h"
+#include "overlays/_shared/takabe/fadeio.h" // for NewFadeIo_800C4224
 
 struct JohnnyWork;
 typedef void (*TJohnnyFunc)(struct JohnnyWork *work, int action);
@@ -119,7 +123,6 @@ int     s03b_boxall_800C93AC(int arg0);
 int     s03b_boxall_800C95EC(void);
 void   *NewGunLight_800D3AD4(MATRIX *world, int **pvisible);
 void   *NewJFamas_800CAFAC(CONTROL *control, OBJECT *parent, int num_parent, int *trigger);
-void   *NewFadeIo_800C4224(int name, int where);
 void   *AN_Unknown_800CA1EC(MATRIX *mat, int mark);
 
 void s03c_johnny_800C6FC0(JohnnyWork *work, int arg1);

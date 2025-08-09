@@ -1,3 +1,5 @@
+#include "mirror.h"
+
 #include "common.h"
 #include "strcode.h"
 #include "libgv/libgv.h"

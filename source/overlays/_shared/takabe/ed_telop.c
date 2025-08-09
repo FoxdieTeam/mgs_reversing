@@ -1,3 +1,5 @@
+#include "ed_telop.h"
+
 #include <sys/types.h>
 #include <libgte.h>
 #include <libgpu.h>
