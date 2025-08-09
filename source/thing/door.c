@@ -230,7 +230,7 @@ static int PollMessages(Work *work)
 
         if (message_type == hash_enter)
         {
-            if (temp_s1_2 == CHARA_RCM)
+            if (temp_s1_2 == CHARAID_RCM)
             {
                 message_type = 0x1AAA;
             }
@@ -249,13 +249,13 @@ static int PollMessages(Work *work)
                     {
                         work->field_F0 = temp_s1_2;
 
-                        if (work->field_F0 == CHARA_SNAKE || (GM_PlayerMap & work->where))
+                        if (work->field_F0 == CHARAID_SNAKE || (GM_PlayerMap & work->where))
                         {
                             GM_AddMap(work->field_F8_maps[0]);
                             GM_AddMap(work->field_F8_maps[1]);
                         }
 
-                        if (work->field_F0 == CHARA_SNAKE)
+                        if (work->field_F0 == CHARAID_SNAKE)
                         {
                             printf("Snake Door %X\n", work->where);
                             door_where_8009F5F4 = work->where;
@@ -279,14 +279,14 @@ static int PollMessages(Work *work)
                 OpenDoor(work);
             }
 
-            if (msg->message[1] == CHARA_SNAKE)
+            if (msg->message[1] == CHARAID_SNAKE)
             {
                 printf("Snake Door %X\n", work->where);
                 door_where_8009F5F4 = work->where;
                 work->field_E5 = 1;
             }
 
-            if (temp_s1_2 == CHARA_RCM)
+            if (temp_s1_2 == CHARAID_RCM)
             {
                 work->field_E3 = 1;
             }

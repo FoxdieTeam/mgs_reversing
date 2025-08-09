@@ -9,7 +9,7 @@
 /*---------------------------------------------------------------------------*/
 
 #define EXEC_LEVEL  GV_ACTOR_LEVEL3
-#define CHARA_NAME  CHARA_CINEMA
+#define CHARA_NAME  CHARAID_CINEMA
 
 typedef struct _PRIMS
 {

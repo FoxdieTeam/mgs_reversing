@@ -815,7 +815,7 @@ void s11c_800CD340(RasenElWork *work, int arg1)
                 RasenElExecProc_800CD1E4(work->f2C8, 0x3A02);
             }
 
-            work->f23C = CHARA_SNAKE;
+            work->f23C = CHARAID_SNAKE;
             work->f240 = 60;
             work->f244 = 60;
             work->f234 |= 4;

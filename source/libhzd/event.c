@@ -206,7 +206,7 @@ void HZD_ExecEventRCM( HZD_HDL *hzd, HZD_EVT *event, int arg2 )
                 continue;
             }
 
-            if (!HashMatch(pBind->field_0, CHARA_SNAKE))
+            if (!HashMatch(pBind->field_0, CHARAID_SNAKE))
             {
                 continue;
             }
@@ -317,7 +317,7 @@ STATIC void HZD_80029D50(HZD_HDL *hzd, HZD_EVT *event, int arg2)
     int           count;
     unsigned char flag;
 
-    if (event->name == CHARA_RCM)
+    if (event->name == CHARAID_RCM)
     {
         HZD_ExecEventRCM(hzd, event, arg2);
         return;

@@ -645,7 +645,7 @@ void Searchli_800D80BC(SearchlightWork *work)
     temp_fp = &work->fFC.f244;
     temp_t0 = &sp50->fFC;
 
-    if (GM_WhereList[0]->name != CHARA_SNAKE)
+    if (GM_WhereList[0]->name != CHARAID_SNAKE)
     {
         return;
     }

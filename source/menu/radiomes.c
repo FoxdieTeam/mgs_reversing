@@ -39,7 +39,7 @@ void radio_anim_with_subtitles_800471AC(menu_chara_struct *unk, unsigned char *p
     ptr = menu_gcl_read_word_80047098(&faceCharaCode, pScript);
     ptr = menu_gcl_read_word_80047098(&faceImageName, ptr);
     ptr = menu_gcl_read_word_80047098(&faceUnk, ptr);
-    isSnake = faceCharaCode == CHARA_SNAKE;
+    isSnake = faceCharaCode == CHARAID_SNAKE;
     unk->field_C_pScript = ptr;
     printf("set chara code %d\n", faceCharaCode);
     if (faceUnk >= 1)
@@ -74,7 +74,7 @@ void radio_anim_face_80047280(menu_chara_struct *unk, unsigned char *pScript)
         faceUnk_cond = 0;
         faceUnk -= 0x100;
     }
-    menu_800470B4(faceCharaCode == CHARA_SNAKE, unk, faceCharaCode, faceImageName, faceUnk, faceUnk_cond);
+    menu_800470B4(faceCharaCode == CHARAID_SNAKE, unk, faceCharaCode, faceImageName, faceUnk, faceUnk_cond);
     if (faceUnk_cond)
     {
         mts_slp_tsk();

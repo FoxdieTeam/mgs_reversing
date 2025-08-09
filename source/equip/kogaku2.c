@@ -361,7 +361,7 @@ void *NewKogaku2(CONTROL *control, OBJECT *parent, int num_parent)
         DG_UnBoundObjs(objs);
         DG_GBoundObjs(objs);
 
-        if (control->name == CHARA_SNAKE)
+        if (control->name == CHARAID_SNAKE)
         {
             work->player_flag = 1;
             work->color = SNAKE_COLOR;
@@ -489,7 +489,7 @@ void *NewKogaku3(CONTROL *control, OBJECT *parent, int num_parent)
             work->ninja_var = 1;
         }
 
-        if (control->name == CHARA_SNAKE)
+        if (control->name == CHARAID_SNAKE)
         {
             work->player_flag = 1;
             work->color = SNAKE_COLOR;
