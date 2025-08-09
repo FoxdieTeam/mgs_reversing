@@ -62,7 +62,7 @@ SVECTOR        s04c_dword_800C35F8 = {2500, 10000, 2500, 0};
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-STATIC void CheckWireCut(WireWork *work)
+static void CheckWireCut(WireWork *work)
 {
     int   px, pz;
     int   x, z;
@@ -320,7 +320,7 @@ STATIC void CheckWireCut(WireWork *work)
     }
 }
 
-STATIC void TriggerDetonation(WireWork *work)
+static void TriggerDetonation(WireWork *work)
 {
     GM_CurrentMap = work->map;
 
@@ -434,7 +434,7 @@ STATIC void TriggerDetonation(WireWork *work)
     work->f166C++;
 }
 
-STATIC void Act(WireWork *work)
+static void Act(WireWork *work)
 {
     SVECTOR pos;
 
@@ -587,7 +587,7 @@ STATIC void Act(WireWork *work)
     }
 }
 
-STATIC void Die(WireWork *work)
+static void Die(WireWork *work)
 {
     GM_FreeObject(&work->objects[0]);
     GM_FreeObject(&work->objects[3]);
@@ -621,7 +621,7 @@ STATIC void Die(WireWork *work)
     GM_FreeTarget(work->f20D4);
 }
 
-STATIC int CreateTarget(WireWork *work)
+static int CreateTarget(WireWork *work)
 {
     TARGET *target;
 
@@ -637,7 +637,7 @@ STATIC int CreateTarget(WireWork *work)
     return 0;
 }
 
-STATIC int CreateTarget2(WireWork *work)
+static int CreateTarget2(WireWork *work)
 {
     TARGET *target;
 

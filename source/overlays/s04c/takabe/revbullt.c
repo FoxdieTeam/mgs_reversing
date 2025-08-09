@@ -44,12 +44,12 @@ void *NewRevolverBullet(MATRIX *world, int bounces);
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-STATIC void TransformPrim(SVECTOR *verts)
+static void TransformPrim(SVECTOR *verts)
 {
     DG_PutVector(s04c_dword_800C35B0, verts, 4);
 }
 
-STATIC void PushPrim(RevbulltWork *work)
+static void PushPrim(RevbulltWork *work)
 {
     SVECTOR *verts;
     int      i;
@@ -64,7 +64,7 @@ STATIC void PushPrim(RevbulltWork *work)
     }
 }
 
-STATIC void PushPrim2(RevbulltWork *work)
+static void PushPrim2(RevbulltWork *work)
 {
     SVECTOR *verts;
     int      i;
@@ -79,7 +79,7 @@ STATIC void PushPrim2(RevbulltWork *work)
     TransformPrim(verts);
 }
 
-STATIC void InitPrim(RevbulltWork *work)
+static void InitPrim(RevbulltWork *work)
 {
     SVECTOR *src;
     SVECTOR *dst;
@@ -104,7 +104,7 @@ STATIC void InitPrim(RevbulltWork *work)
     }
 }
 
-STATIC void InitPacks(POLY_FT4 *packs, DG_TEX *tex)
+static void InitPacks(POLY_FT4 *packs, DG_TEX *tex)
 {
     int i, j;
     int shade;
@@ -139,7 +139,7 @@ STATIC void InitPacks(POLY_FT4 *packs, DG_TEX *tex)
     }
 }
 
-STATIC int CalculateHit(RevbulltWork *work, MATRIX *world)
+static int CalculateHit(RevbulltWork *work, MATRIX *world)
 {
     SVECTOR  sp18[2];
     int      ret;
@@ -179,7 +179,7 @@ STATIC int CalculateHit(RevbulltWork *work, MATRIX *world)
     return len;
 }
 
-STATIC void Act(RevbulltWork *work)
+static void Act(RevbulltWork *work)
 {
     MATRIX  world;
     SVECTOR sp38;
@@ -265,12 +265,12 @@ STATIC void Act(RevbulltWork *work)
     }
 }
 
-STATIC void Die(RevbulltWork *work)
+static void Die(RevbulltWork *work)
 {
     GM_FreePrim(work->prim);
 }
 
-STATIC void CreateTarget(RevbulltWork *work, int side)
+static void CreateTarget(RevbulltWork *work, int side)
 {
     SVECTOR pos;
     TARGET *target;
@@ -295,7 +295,7 @@ STATIC void CreateTarget(RevbulltWork *work, int side)
     GM_Target_8002DCCC(target, 1, 1, damage, 0, &pos);
 }
 
-STATIC int GetResources(RevbulltWork *work, MATRIX *world, int visible, int arg3)
+static int GetResources(RevbulltWork *work, MATRIX *world, int visible, int arg3)
 {
     SVECTOR  sp18;
     int      k500 = 1000;
