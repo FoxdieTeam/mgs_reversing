@@ -266,7 +266,7 @@ void s04c_cape_800D83D4(CapeWork *work);
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_cape_800D8724.s")
 void s04c_cape_800D8724(CapeWork *work);
 
-STATIC void Act(CapeWork *work)
+static void Act(CapeWork *work)
 {
     work->fA70 = 0;
     s04c_cape_800D79C8(work);
@@ -276,7 +276,7 @@ STATIC void Act(CapeWork *work)
     s04c_cape_800D83D4(work);
 }
 
-STATIC void Die(CapeWork* work)
+static void Die(CapeWork* work)
 {
     GM_FreePrim(work->prim);
 }
@@ -296,7 +296,7 @@ static inline void CapeInitPack(POLY_GT4 *poly, DG_TEX *tex)
     poly->clut = tex->clut;
 }
 
-STATIC int GetResources(CapeWork *work, SVECTOR *arg1, SVECTOR *arg2, MATRIX *light, MATRIX *color)
+static int GetResources(CapeWork *work, SVECTOR *arg1, SVECTOR *arg2, MATRIX *light, MATRIX *color)
 {
     DG_PRIM  *prim;
     POLY_GT4 *packs0;

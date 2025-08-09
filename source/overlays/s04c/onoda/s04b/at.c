@@ -40,7 +40,7 @@ SVECTOR at_target_size = {400, 900, 400, 0};
 #define EXEC_LEVEL      GV_ACTOR_LEVEL5
 #define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE )
 
-STATIC void SetBlood(AtWork *work, int index, int count)
+static void SetBlood(AtWork *work, int index, int count)
 {
     MATRIX rot;
 
@@ -51,7 +51,7 @@ STATIC void SetBlood(AtWork *work, int index, int count)
     NewBlood(&rot, count);
 }
 
-STATIC void UpdateTarget(AtWork *work)
+static void UpdateTarget(AtWork *work)
 {
     TARGET *target;
     int     hp;
@@ -111,7 +111,7 @@ STATIC void UpdateTarget(AtWork *work)
     }
 }
 
-STATIC void Act(AtWork *work)
+static void Act(AtWork *work)
 {
     DG_GetLightMatrix2(&work->control.mov, work->light);
     GM_CurrentMap = work->map;
@@ -184,12 +184,12 @@ STATIC void Act(AtWork *work)
     printf("GameOverTimer = %d\n", GM_GameOverTimer);
 }
 
-STATIC void Die(AtWork *work)
+static void Die(AtWork *work)
 {
     GM_FreeObject(&work->body);
 }
 
-STATIC int CreateTarget(AtWork *work)
+static int CreateTarget(AtWork *work)
 {
     TARGET *target;
 
@@ -207,7 +207,7 @@ STATIC int CreateTarget(AtWork *work)
     return 0;
 }
 
-STATIC int GetResources(AtWork *work, int name, int map)
+static int GetResources(AtWork *work, int name, int map)
 {
     CONTROL       *control;
     OBJECT        *body;
