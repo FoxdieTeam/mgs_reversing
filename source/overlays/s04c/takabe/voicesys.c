@@ -233,7 +233,7 @@ void Voicesys_800CE734()
     }
 }
 
-void VoicesysDie_800CE758(Work *work)
+void Die2(Work *work)
 {
     /* do nothing */
 }
@@ -243,7 +243,7 @@ void VoicesysDie_800CE758(Work *work)
 static void Act(Work *work)
 {
     GV_MSG *msg;
-    int count;
+    int     n_msg;
 
     if (GM_GameOverTimer > 0)
     {
@@ -252,7 +252,7 @@ static void Act(Work *work)
     }
 
     /* check messages */
-    for (count = GV_ReceiveMessage(work->name, &msg); count > 0; count--, msg++)
+    for (n_msg = GV_ReceiveMessage(work->name, &msg); n_msg > 0; n_msg--, msg++)
     {
         switch (msg->message[0])
         {
@@ -280,14 +280,14 @@ static void Act(Work *work)
 
 static void Die(Work *work)
 {
-    VoicesysDie_800CE758(work);
+    Die2(work);
 }
 
 static int GetResources(Work *work, int name, int arg2)
 {
-    int *arr;
-    int i;
-    unsigned char *param;
+    int    *arr;
+    int     i;
+    u_char *param;
 
     if (GCL_GetOption('v'))
     {
