@@ -1,6 +1,6 @@
-#ifndef _SMOKE_H_
-#define _SMOKE_H_
+#ifndef __MGS_ENEMY_SMOKE_H__
+#define __MGS_ENEMY_SMOKE_H__
 
 void *NewSmoke_800D2BEC(int name, int where, int argc, char **argv);
 
-#endif // _SMOKE_H_
+#endif // __MGS_ENEMY_SMOKE_H__

@@ -1,3 +1,5 @@
+#include "plasma_h.h"
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"

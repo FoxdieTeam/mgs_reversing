@@ -1,6 +1,6 @@
-#ifndef _STGFD_IO_
-#define _STGFD_IO_
+#ifndef __MGS_OKAJIMA_STGFD_IO_H__
+#define __MGS_OKAJIMA_STGFD_IO_H__
 
 void *NewStnFade(void);
 
-#endif // _STGFD_IO_
+#endif // __MGS_OKAJIMA_STGFD_IO_H__

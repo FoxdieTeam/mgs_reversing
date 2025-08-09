@@ -1,7 +1,11 @@
+#include "death_sp.h"
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
+
+#include "overlays/_shared/takabe/spark2.h"   // for NewSpark2_800CA714
 
 typedef struct _DeathSpWork
 {
@@ -21,7 +25,6 @@ typedef struct _DeathSpWork
 void AN_Smoke_800CE164(SVECTOR *pos, SVECTOR *speed, int index, int script);
 
 void *NewPlasma_800CD30C(SVECTOR *arg0, SVECTOR *arg1, int arg2, int arg3);
-void *NewSpark2_800CA714(MATRIX *world);
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL4
 

@@ -1,6 +1,6 @@
-#ifndef _DUCTMOUS_H_
-#define _DUCTMOUS_H_
+#ifndef __MGS_OKAJIMA_DUCTMOUS_H__
+#define __MGS_OKAJIMA_DUCTMOUS_H__
 
 void *NewDuctmouse_800DACC8(int name, int where, int argc, char **argv);
 
-#endif // _DUCTMOUS_H_
+#endif // __MGS_OKAJIMA_DUCTMOUS_H__

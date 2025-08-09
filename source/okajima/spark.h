@@ -1,5 +1,5 @@
-#ifndef _SPARK_H_
-#define _SPARK_H_
+#ifndef __MGS_OKAJIMA_SPARK_H__
+#define __MGS_OKAJIMA_SPARK_H__
 
 #include <sys/types.h>
 #include <libgte.h>
@@ -7,4 +7,4 @@
 
 void *NewSpark(MATRIX *pMatrix, int count);
 
-#endif // _SPARK_H_
+#endif // __MGS_OKAJIMA_SPARK_H__

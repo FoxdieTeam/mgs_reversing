@@ -1,3 +1,5 @@
+#include "mirror.h"
+
 #include "common.h"
 #include "strcode.h"
 #include "libgv/libgv.h"
@@ -110,7 +112,7 @@ void MirrorAct_800DFDDC(MirrorWork *work)
         }
         else if (found != 0)
         {
-            if ((name == CHARA_SNAKE) && (work->snake_flags & 0x1))
+            if ((name == CHARAID_SNAKE) && (work->snake_flags & 0x1))
             {
                 work->snake_flags &= ~0x1;
                 GV_DestroyActorQuick(work->kogaku);
@@ -153,7 +155,7 @@ void MirrorAct_800DFDDC(MirrorWork *work)
     entry = work->entries;
     for (i = 0; i < work->n_entries; i++)
     {
-        if (entry->name == CHARA_SNAKE)
+        if (entry->name == CHARAID_SNAKE)
         {
             if (GM_CurrentItemId == IT_Stealth)
             {
@@ -325,7 +327,7 @@ void MirrorDie_800E0670(MirrorWork *work)
     entry = work->entries;
     for (i = 0; i < work->n_entries; i++)
     {
-        if ((entry->name == CHARA_SNAKE) && (work->snake_flags & 0x1))
+        if ((entry->name == CHARAID_SNAKE) && (work->snake_flags & 0x1))
         {
             GV_DestroyActorQuick(work->kogaku);
         }

@@ -1,5 +1,5 @@
-#ifndef _GAME_H_
-#define _GAME_H_
+#ifndef __MGS_GAME_H__
+#define __MGS_GAME_H__
 
 #include <sys/types.h>
 #include <libgte.h>
@@ -386,4 +386,4 @@ int  GM_ConfigMotionControl(OBJECT *object, MOTION_CONTROL *m_ctrl, int name,
                             CONTROL *control, SVECTOR *rots);
 int  GM_ConfigMotionAdjust(OBJECT *object, SVECTOR *adjust);
 
-#endif // _GAME_H_
+#endif // __MGS_GAME_H__

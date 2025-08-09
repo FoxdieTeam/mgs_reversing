@@ -1,5 +1,5 @@
-#ifndef _MENUMAN_H
-#define _MENUMAN_H
+#ifndef __MGS_MENU_MENUMAN_H__
+#define __MGS_MENU_MENUMAN_H__
 
 #include <sys/types.h>
 #include <libgte.h>
@@ -537,4 +537,4 @@ int MENU_Printf(const char *fmt, ...);
 // For MenuMan
 #define NEW_PRIM(prim, buf) _NEW_PRIM(prim, buf->field_20_otBuf)
 
-#endif // _MENUMAN_H
+#endif // __MGS_MENU_MENUMAN_H__

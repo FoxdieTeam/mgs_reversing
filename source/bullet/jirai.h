@@ -1,5 +1,5 @@
-#ifndef _JIRAI_H_
-#define _JIRAI_H_
+#ifndef __MGS_BULLET_JIRAI_H__
+#define __MGS_BULLET_JIRAI_H__
 
 #include <sys/types.h>
 #include <libgte.h>
@@ -45,4 +45,4 @@ typedef struct JiraiWork
 void *NewJirai(MATRIX *world, HZD_FLR *floor);
 void *NewScenarioJirai(MATRIX *world, int map);
 
-#endif // _JIRAI_H_
+#endif // __MGS_BULLET_JIRAI_H__

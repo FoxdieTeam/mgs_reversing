@@ -1,11 +1,10 @@
 #include <stddef.h>
 
+#include "overlays/_shared/takabe/cinema.h"     // for NewCinemaScreen, NewCinemaScreenClose
+
 int   s03b_dword_800C3390 = 0;
 int   s03b_dword_800C3394 = 0;
 void *s03b_dword_800C3398 = NULL;
-
-void *NewCinemaScreen( int, int );
-void *NewCinemaScreenClose( void *addr );
 
 void s03b_boxall_800C969C(int event, int time)
 {

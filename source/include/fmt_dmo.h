@@ -1,5 +1,5 @@
-#ifndef _FMT_DMO_H_
-#define _FMT_DMO_H_
+#ifndef __MGS_FMT_DMO_H__
+#define __MGS_FMT_DMO_H__
 // clang-format off
 
 #include <sys/types.h>
@@ -83,4 +83,4 @@ typedef struct {
 } DMO_DEF;
 
 // clang-format on
-#endif // _FMT_DMO_H_
+#endif // __MGS_FMT_DMO_H__

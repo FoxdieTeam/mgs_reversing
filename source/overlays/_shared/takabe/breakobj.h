@@ -1,6 +1,6 @@
-#ifndef _BREAKOBJ_H_
-#define _BREAKOBJ_H_
+#ifndef __MGS_TAKABE_BREAKOBJ_H__
+#define __MGS_TAKABE_BREAKOBJ_H__
 
 void *NewBreakObject(int name, int where);
 
-#endif // _BREAKOBJ_H_
+#endif // __MGS_TAKABE_BREAKOBJ_H__

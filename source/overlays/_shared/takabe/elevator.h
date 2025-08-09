@@ -1,6 +1,6 @@
-#ifndef _ELEVATOR_H_
-#define _ELEVATOR_H_
+#ifndef __MGS_TAKABE_ELEVATOR_H__
+#define __MGS_TAKABE_ELEVATOR_H__
 
 void *NewElevator_800D9F30(int name, int where, int argc, char **argv);
 
-#endif // _ELEVATOR_H_
+#endif // __MGS_TAKABE_ELEVATOR_H__

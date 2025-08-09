@@ -1,4 +1,5 @@
-
+#ifndef __MGS_ANIMAL_MERYL72_H__
+#define __MGS_ANIMAL_MERYL72_H__
 
 #include "common.h"
 #include "game/game.h"
@@ -309,3 +310,5 @@ extern void ML72_PutBreath_800CB35C( Meryl72Work* ) ;
 extern void ML72_PutBlood_800CB2EC( Meryl72Work*, int, int ) ;
 extern int  ML72_SetPutChar_800CB584( Meryl72Work *work, int idx );
 extern int  ML72_ClearPutChar_800CB5CC( Meryl72Work *work, void* func ) ;
+
+#endif // __MGS_ANIMAL_MERYL72_H__

@@ -1,6 +1,6 @@
-#ifndef _THING_DOOR_H_
-#define _THING_DOOR_H_
+#ifndef __MGS_THING_DOOR_H__
+#define __MGS_THING_DOOR_H__
 
 void *NewDoor(int name, int where, int argc, char **argv);
 
-#endif // _THING_DOOR_H_
+#endif // __MGS_THING_DOOR_H__

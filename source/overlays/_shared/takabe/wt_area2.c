@@ -1,4 +1,5 @@
 #include "wt_area2.h"
+#include "wt_view.h"    // for NewWaterView2
 
 #include "common.h"
 #include "libgv/libgv.h"
@@ -8,8 +9,6 @@
 #include "takabe/thing.h"
 
 extern void NewSplash2_800DB6F0( int angy, SVECTOR *pos, int noripple );
-extern void *NewRipple_800D7F30( MATRIX *, int );
-extern void *NewWaterView2(int name, int where, SVECTOR *bounds, CVECTOR *color);
 
 /*---------------------------------------------------------------------------*/
 

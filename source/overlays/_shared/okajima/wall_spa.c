@@ -1,7 +1,11 @@
+#include "wall_spa.h"
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
+
+#include "overlays/_shared/takabe/spark2.h"   // for NewSpark2_800CA714
 
 typedef struct _WallSpaWork
 {
@@ -13,7 +17,6 @@ typedef struct _WallSpaWork
     int     enable;
 } WallSpaWork;
 
-void NewSpark2_800CA714(MATRIX *);
 void *NewPlasma_800CD30C(SVECTOR *arg0, SVECTOR *arg1, int arg2, int arg3);
 void AN_Smoke_800CE164(SVECTOR *pos, SVECTOR *speed, int index, int script);
 

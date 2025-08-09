@@ -1,8 +1,8 @@
-#ifndef _SECOND_H_
-#define _SECOND_H_
+#ifndef __MGS_GAME_SECOND_H__
+#define __MGS_GAME_SECOND_H__
 
 void *NewSecond(int name, int where, int argc, char **argv);
 
 int GM_SetSecondAvailable(void);
 
-#endif // _SECOND_H_
+#endif // __MGS_GAME_SECOND_H__

@@ -152,7 +152,7 @@ int FadeIoGetResources_800C4100(FadeIoWork *work, int name, int where)
     return 0;
 }
 
-void *NewFadeIo_800C4224(int name, int where, int argc, char **argv)
+void *NewFadeIo_800C4224(int name, int where)
 {
     FadeIoWork *work;
 
@@ -171,7 +171,7 @@ void *NewFadeIo_800C4224(int name, int where, int argc, char **argv)
     return (void *)work;
 }
 
-void *NewFadeIo_800C42BC(int name, int where, int argc, char **argv)
+void *NewFadeIo_800C42BC(int name, int where)
 {
     FadeIoWork *work;
 

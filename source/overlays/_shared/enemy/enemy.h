@@ -1,5 +1,5 @@
-#ifndef _ENEMY_H_
-#define _ENEMY_H_
+#ifndef __MGS_ENEMY_H__
+#define __MGS_ENEMY_H__
 
 #include "common.h"
 #include "game/game.h"
@@ -795,4 +795,4 @@ void s00a_command_800CEB54();
 
 int  DirectTrace_800CC154( WatcherWork *work, int val );
 
-#endif // _ENEMY_H_
+#endif // __MGS_ENEMY_H__

@@ -9,6 +9,8 @@
 #include "libdg/libdg.h"
 #include "game/game.h"
 
+#include "overlays/_shared/takabe/ripple.h" // for NewRipple_800D7F30
+
 typedef struct _BubbleTWork
 {
     GV_ACT   actor;
@@ -21,8 +23,6 @@ typedef struct _BubbleTWork
     int     *destroy;
     int      time;
 } BubbleTWork;
-
-void *NewRipple_800D7F30(MATRIX *, int);
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL4
 

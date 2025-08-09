@@ -1,5 +1,5 @@
-#ifndef _TAKABE_PRIM_H_
-#define _TAKABE_PRIM_H_
+#ifndef __MGS_TAKABE_TAKABE_PRIM_H__
+#define __MGS_TAKABE_TAKABE_PRIM_H__
 
 #include <sys/types.h>
 #include <libgte.h>
@@ -7,4 +7,4 @@
 
 DG_PRIM *Takabe_MakeIndividualRect3DPrim(int n_vertices, SVECTOR *vertices);
 
-#endif // _TAKABE_PRIM_H_
+#endif // __MGS_TAKABE_TAKABE_PRIM_H__

@@ -13,6 +13,8 @@
 #include "sd/g_sound.h"
 #include "strcode.h"
 
+#include "overlays/_shared/takabe/spark2.h"   // for NewSpark2_800CA714
+
 typedef struct CameraWork
 {
     GV_ACT         actor;
@@ -99,7 +101,6 @@ extern int               COM_VibTime_800E0F68;
 
 extern CONTROL         *GM_WhereList[96];
 
-void *NewSpark2_800CA714(MATRIX *world);
 void AN_Unknown_800D6EB0(SVECTOR *pos);
 
 // duplicate of s03e_guncame_800C7118

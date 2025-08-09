@@ -1,6 +1,6 @@
-#ifndef _WATCHER_H_
-#define _WATCHER_H_
+#ifndef __MGS_ENEMY_WATCHER_H__
+#define __MGS_ENEMY_WATCHER_H__
 
 void *NewSnakeWatcher_800C5034(int name, int where, int argc, char **argv);
 
-#endif // _WATCHER_H_
+#endif // __MGS_ENEMY_WATCHER_H__

@@ -1,6 +1,6 @@
-#ifndef _SHUTER_H_
-#define _SHUTER_H_
+#ifndef __MGS_TAKABE_SHUTER_H__
+#define __MGS_TAKABE_SHUTER_H__
 
 void *NewShuter_800DFB44(int name, int where, int argc, char **argv);
 
-#endif // _SHUTER_H_
+#endif // __MGS_TAKABE_SHUTER_H__

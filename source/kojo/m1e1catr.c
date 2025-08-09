@@ -8,46 +8,7 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "game/game.h"
-
-typedef struct M1E1Work
-{
-    GV_ACT  actor;
-    CONTROL control;
-    MATRIX  field_9C_light_matrices[2];
-    OBJECT  field_DC;
-    OBJECT  field_1C0[3];
-    OBJECT  field_46C[3];
-    TARGET *field_718_targets[10];
-    int     field_740;
-    char    field_744[0x61C];
-    int     field_D60;
-    int     field_D64;
-    int     field_D68;
-    int     field_D6C;
-    char    field_D70[0x1C];
-    int     field_D8C;
-    char    field_D90[0xD0];
-    int     field_E60;
-    int     field_E64;
-    int     field_E68;
-    int     field_E6C;
-    int     field_E70;
-    int     field_E74;
-    int     field_E78;
-    int     field_E7C;
-    int     field_E80;
-    int     field_E84;
-    int     field_E88;
-    SVECTOR field_E8C;
-    SVECTOR field_E94;
-    char    field_E9C[0xC4];
-    int     field_F60;
-    int     field_F64;
-    int     field_F68;
-    int     field_F6C;
-    int     field_F70;
-    int     field_F74;
-} M1E1Work;
+#include "m1e1.h"
 
 void demothrd_2_8007DA94(SVECTOR *pPosition, SVECTOR *pRotation);
 void AN_CaterpillerSmoke(SVECTOR *pos); // todo: split demo.c
@@ -60,8 +21,8 @@ void M1E1Caterpiller(M1E1Work *work)
     int     diff;
     int     f70;
     int     length;
-    DG_MDL *pMdl;
-    DG_MDL *pMdl2;
+    DG_MDL *model;
+    DG_MDL *model2;
 
     diff = work->field_D60 - work->field_D8C;
     f70 = 2;
@@ -88,8 +49,8 @@ void M1E1Caterpiller(M1E1Work *work)
 
         memset(&sp10, 0, 8);
 
-        pMdl = work->field_1C0[0].objs->objs[0].model;
-        sp10.vx = pMdl->min.vx + (pMdl->max.vx - pMdl->min.vx) / 2;
+        model = work->field_1C0[0].objs->objs[0].model;
+        sp10.vx = model->min.vx + (model->max.vx - model->min.vx) / 2;
 
         DG_PutVector(&sp10, &sp10, 1);
 
@@ -172,8 +133,8 @@ void M1E1Caterpiller(M1E1Work *work)
     {
         memset(&sp10, 0, 8);
 
-        pMdl2 = work->field_46C[0].objs->objs[0].model;
-        sp10.vx = pMdl2->min.vx + (pMdl2->max.vx - pMdl2->min.vx) / 2;
+        model2 = work->field_46C[0].objs->objs[0].model;
+        sp10.vx = model2->min.vx + (model2->max.vx - model2->min.vx) / 2;
 
         DG_SetPos2(&work->control.mov, &work->control.turn);
         DG_PutVector(&sp10, &sp10, 1);
@@ -255,64 +216,64 @@ void M1E1Caterpiller(M1E1Work *work)
     }
 }
 
-void M1E1GetCaterpillerVertex(OBJECT *pE1, OBJECT *pE2, SVECTOR *pSmokeVecs, int a4)
+void M1E1GetCaterpillerVertex(OBJECT *obj1, OBJECT *obj2, SVECTOR *pos, int a4)
 {
-    DG_MDL *model; // $v0
-    int vx; // $v1
-    DG_MDL *v8; // $v0
-    int v9; // $v1
+    DG_MDL *model;
+    int vx;
 
-    model = pE1->objs->objs[0].model;
+    /* left caterpillar */
+    model = obj1->objs->objs[0].model;
     vx = model->min.vx;
     if ( a4 == 1 )
     {
         vx += (model->max.vx - vx) >> 1;
     }
 
-    pSmokeVecs[0].vx = vx;
-    pSmokeVecs[0].vy = pE1->objs->objs[0].model->min.vy;
-    pSmokeVecs[0].vz = 2 * pE1->objs->objs[0].model->max.vz / 3;
+    pos[0].vx = vx;
+    pos[0].vy = obj1->objs->objs[0].model->min.vy;
+    pos[0].vz = 2 * obj1->objs->objs[0].model->max.vz / 3;
 
-    pSmokeVecs[1].vx = vx;
-    pSmokeVecs[1].vy = pE1->objs->objs[0].model->min.vy;
-    pSmokeVecs[1].vz = pE1->objs->objs[0].model->max.vz / 3;
+    pos[1].vx = vx;
+    pos[1].vy = obj1->objs->objs[0].model->min.vy;
+    pos[1].vz = obj1->objs->objs[0].model->max.vz / 3;
 
-    pSmokeVecs[2].vx = vx;
-    pSmokeVecs[2].vy = pE1->objs->objs[0].model->min.vy;
-    pSmokeVecs[2].vz = 0;
+    pos[2].vx = vx;
+    pos[2].vy = obj1->objs->objs[0].model->min.vy;
+    pos[2].vz = 0;
 
-    pSmokeVecs[3].vx = vx;
-    pSmokeVecs[3].vy = pE1->objs->objs[0].model->min.vy;
-    pSmokeVecs[3].vz = pE1->objs->objs[0].model->min.vz / 3;
+    pos[3].vx = vx;
+    pos[3].vy = obj1->objs->objs[0].model->min.vy;
+    pos[3].vz = obj1->objs->objs[0].model->min.vz / 3;
 
-    pSmokeVecs[4].vx = vx;
-    pSmokeVecs[4].vy = pE1->objs->objs[0].model->min.vy;
-    pSmokeVecs[4].vz = (2 * pE1->objs->objs[0].model->min.vz) / 3;
+    pos[4].vx = vx;
+    pos[4].vy = obj1->objs->objs[0].model->min.vy;
+    pos[4].vz = (2 * obj1->objs->objs[0].model->min.vz) / 3;
 
-    v8 = pE2->objs->objs[0].model;
-    v9 = v8->max.vx;
+    /* right caterpillar */
+    model = obj2->objs->objs[0].model;
+    vx = model->max.vx;
     if ( a4 == 1 )
     {
-        v9 += (v8->min.vx - v9) >> 1;
+        vx += (model->min.vx - vx) >> 1;
     }
 
-    pSmokeVecs[5].vx = v9;
-    pSmokeVecs[5].vy = pE2->objs->objs[0].model->min.vy;
-    pSmokeVecs[5].vz = 2 * pE2->objs->objs[0].model->max.vz / 3;
+    pos[5].vx = vx;
+    pos[5].vy = obj2->objs->objs[0].model->min.vy;
+    pos[5].vz = 2 * obj2->objs->objs[0].model->max.vz / 3;
 
-    pSmokeVecs[6].vx = v9;
-    pSmokeVecs[6].vy = pE2->objs->objs[0].model->min.vy;
-    pSmokeVecs[6].vz = pE2->objs->objs[0].model->max.vz / 3;
+    pos[6].vx = vx;
+    pos[6].vy = obj2->objs->objs[0].model->min.vy;
+    pos[6].vz = obj2->objs->objs[0].model->max.vz / 3;
 
-    pSmokeVecs[7].vx = v9;
-    pSmokeVecs[7].vy = pE2->objs->objs[0].model->min.vy;
-    pSmokeVecs[7].vz = 0;
+    pos[7].vx = vx;
+    pos[7].vy = obj2->objs->objs[0].model->min.vy;
+    pos[7].vz = 0;
 
-    pSmokeVecs[8].vx = v9;
-    pSmokeVecs[8].vy = pE2->objs->objs[0].model->min.vy;
-    pSmokeVecs[8].vz = pE2->objs->objs[0].model->min.vz / 3;
+    pos[8].vx = vx;
+    pos[8].vy = obj2->objs->objs[0].model->min.vy;
+    pos[8].vz = obj2->objs->objs[0].model->min.vz / 3;
 
-    pSmokeVecs[9].vx = v9;
-    pSmokeVecs[9].vy = pE2->objs->objs[0].model->min.vy;
-    pSmokeVecs[9].vz = 2 * pE2->objs->objs[0].model->min.vz / 3;
+    pos[9].vx = vx;
+    pos[9].vy = obj2->objs->objs[0].model->min.vy;
+    pos[9].vz = 2 * obj2->objs->objs[0].model->min.vz / 3;
 }

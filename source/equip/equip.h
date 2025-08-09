@@ -1,5 +1,5 @@
-#ifndef _EQUIP_H_
-#define _EQUIP_H_
+#ifndef __MGS_EQUIP_H__
+#define __MGS_EQUIP_H__
 
 #include "game/game.h"      // for OBJECT, CONTROL
 
@@ -31,4 +31,4 @@ void EQ_InvisibleUnit(OBJECT *object, int idx, short *n_packs, short *raise);
 void EQ_VisibleUnit(OBJECT *object, int idx, short *n_packs, short *raise);
 #endif
 
-#endif // _EQUIP_H_
+#endif // __EQUIP_EQUIP_H__

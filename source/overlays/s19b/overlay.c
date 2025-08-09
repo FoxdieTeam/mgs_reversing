@@ -1,17 +1,16 @@
 #include "common.h"
 #include "charadef.h"
 
-CHARA _StageCharacterEntries[] =
-{
-    { 0xECED, (NEWCHARA)0x800C4268 },
-    { 0x51C6, (NEWCHARA)0x800DCECC },
-    { 0x92BC, (NEWCHARA)0x800C483C },
-    { 0x6A48, (NEWCHARA)0x800CE36C },
-    { 0xA27E, (NEWCHARA)0x800C95E4 },
-    { 0x2477, (NEWCHARA)0x800C4EC0 },
-    { 0x0DC9, (NEWCHARA)0x800DC510 },
-    { 0xD6FB, (NEWCHARA)0x800CB120 },
-    { 0xA12E, (NEWCHARA)0x800DABEC },
+CHARA _StageCharacterEntries[] = {
+    { 0xeced, (NEWCHARA)0x800C4268 },   // s19b_asioto_800C4268
+    { 0x51c6, (NEWCHARA)0x800DCECC },   // NewZoom_800DFA88
+    { 0x92bc, (NEWCHARA)0x800C483C },   // s19b_asioto_800C483C (NewAsioto_800C3E08)
+    { 0x6a48, (NEWCHARA)0x800CE36C },   // s19b_jeep_srl_800CE36C
+    { 0xa27e, (NEWCHARA)0x800C95E4 },   // s19b_jdrum_800C95E4
+    { 0x2477, (NEWCHARA)0x800C4EC0 },   // s19b_jeep_emy_800C4EC0
+    { 0x0dc9, (NEWCHARA)0x800DC510 },   // NewVoicesys_800CE944
+    { 0xd6fb, (NEWCHARA)0x800CB120 },   // s19b_fog_800CB120 (NewFog_800D4208)
+    { 0xa12e, (NEWCHARA)0x800DABEC },   // s19b_fadeio_800DABEC (NewFadeIo_800C42BC)
     { 0, NULL }
 };
 

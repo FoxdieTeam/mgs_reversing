@@ -1,7 +1,11 @@
+#include "flr_spa.h"
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
+
+#include "overlays/_shared/takabe/spark2.h"   // for NewSpark2_800CA714
 
 typedef struct _FlrSpaWork
 {
@@ -17,7 +21,6 @@ typedef struct _FlrSpaWork
     int     reload;
 } FlrSpaWork;
 
-void *NewSpark2_800CA714(MATRIX *world);
 void *NewPlasmaH_800D1B2C(SVECTOR *pos1, SVECTOR *pos2, int time);
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL4

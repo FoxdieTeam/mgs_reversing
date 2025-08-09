@@ -1,3 +1,5 @@
+#include "movie.h"
+
 #include <stdio.h>
 #include <sys/types.h>
 #include <libgte.h>

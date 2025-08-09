@@ -1,9 +1,6 @@
-#include "common.h"
-#include "charadef.h"
-
-#include "../_shared/game/sndtst.h"
+#include "charalst.h"
 
 CHARA _StageCharacterEntries[] = {
-    { CHARA_SNDTST, (NEWCHARA)NewSoundTest },
-    { 0, NULL }
+    CHARA_SNDTST,
+    CHARA_END
 };

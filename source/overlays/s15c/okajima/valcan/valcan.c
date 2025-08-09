@@ -8,6 +8,8 @@
 #include "okajima/blood.h"
 #include "sd/g_sound.h"
 
+#include "overlays/_shared/takabe/fadeio.h" // for NewFadeIo_800C4224
+
 typedef struct ValcanWork
 {
     GV_ACT         actor;
@@ -156,7 +158,6 @@ extern int              dword_8009F46C[];
 
 void    AN_Breath(MATRIX *matrix);
 void    AN_Unknown_800CA1EC(MATRIX *world, int index);
-void   *NewFadeIo_800C4224(int name, int where);
 
 int Valcan_800D8D20(CONTROL *control, SVECTOR *svec1)
 {

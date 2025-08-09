@@ -1,6 +1,6 @@
-#ifndef _INTR_CAM_H_
-#define _INTR_CAM_H_
+#ifndef __MGS_CHARA_INTR_CAM_H__
+#define __MGS_CHARA_INTR_CAM_H__
 
 void *NewIntrudeCamera(int name, int where, int argc, char **argv);
 
-#endif // _INTR_CAM_H_
+#endif // __MGS_CHARA_INTR_CAM_H__

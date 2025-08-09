@@ -1,41 +1,23 @@
-#include "common.h"
-#include "charadef.h"
+#include "charalst.h"
 
-#include "anime/animconv/anime.h"
-#include "../_shared/enemy/demokage.h"
-#include "../_shared/enemy/object.h"
-#include "../_shared/enemy/searchli.h"
-#include "../_shared/enemy/smoke.h"
-#include "../_shared/kojo/famaslit.h"
-#include "../_shared/okajima/blur.h"
-#include "../_shared/okajima/pato_lmp.h"
-#include "../_shared/takabe/cinema.h"
-#include "../_shared/takabe/fadeio.h"
-#include "../_shared/takabe/focus.h"
-#include "../_shared/takabe/windcrcl.h"
-#include "../_shared/thing/emitter.h"
-#include "../_shared/thing/snow.h"
-#include "../_shared/thing/sphere.h"
+CHARA _StageCharacterEntries[] = {
+    CHARA_PATO_LAMP,    /* chara パトランプ */
+    CHARA_SPHERE,       /* chara 天球 */
+    CHARA_SMOKE,        /* chara 煙 */
+    CHARA_EMITTER,
+    CHARA_OBJECT,
+    CHARA_SEARCH_LIGHT, /* chara サーチライト */
+    CHARA_SNOW,         /* chara 雪 */
+    CHARA_CINEMA,       /* chara シネマスクリーン */
 
-extern void AN_Breath();
+    CHARA_FADEIO_0003,
+    CHARA_FADEIO_0004,
+    CHARA_UNKNOWN_000E,
+    CHARA_DEMOKAGE,
+    CHARA_WINDCIRCLE,
+    CHARA_FOCUS,
+    CHARA_BLOOD_BL,
+    CHARA_FAMASLIT,
 
-CHARA _StageCharacterEntries[] =
-{
-    { CHARA_PATO_LAMP, NewPatrolLamp_800D7A2C },
-    { CHARA_SPHERE, NewSphere },
-    { CHARA_SMOKE, NewSmoke_800D2BEC },
-    { CHARA_EMITTER, NewEmitter },
-    { CHARA_OBJECT, NewObjectChara_800DA3A4 },
-    { CHARA_SEARCH_LIGHT, NewSearchlight_800D92BC },
-    { CHARA_SNOW, NewSnow },
-    { CHARA_CINEMA, NewCinemaScreenSet },
-    { CHARA_FADEIO_0003, NewFadeIo_800C4224 },
-    { CHARA_FADEIO_0004, NewFadeIo_800C4224 },
-    { CHARA_UNKNOWN_000E, (NEWCHARA)AN_Breath },
-    { CHARA_DEMOKAGE, (NEWCHARA)NewDemoKage_800C48A4 },
-    { CHARA_WINDCRCL_001E, (NEWCHARA)NewWindcrcl_800CF6BC },
-    { CHARA_FOCUS, NewFocus_800CEFF8 },
-    { CHARA_BLOOD_BL, NewBlur_800CD530 },
-    { CHARA_FAMASLIT, (NEWCHARA)NewFamasLight },
-    { 0, NULL }
+    CHARA_END
 };

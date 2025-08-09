@@ -1,6 +1,6 @@
-#ifndef _CAMSHAKE_H_
-#define _CAMSHAKE_H_
+#ifndef __MGS_TAKABE_CAMSHAKE_H__
+#define __MGS_TAKABE_CAMSHAKE_H__
 
 void *NewCameraShake(int name, int where, int argc, char **argv);
 
-#endif // _CAMSHAKE_H_
+#endif // __MGS_TAKABE_CAMSHAKE_H__

@@ -2,8 +2,8 @@
  * ref."beatmania APPEND 5thMIX"
  *  work.5th/include/sd_cli.h (Nov.09,1999)
  */
-#ifndef _SD_CLI_H_
-#define _SD_CLI_H_
+#ifndef __SD_CLI_H__
+#define __SD_CLI_H__
 
 #define SD_SYNC     1
 #define SD_ASYNC    0
@@ -34,4 +34,4 @@ char *SD_WavDataLoadInit(unsigned short id);
 char *SD_WavLoadBuf(char *arg0);
 void SD_WavUnload(void);
 
-#endif // _SD_CLI_H_
+#endif // __SD_CLI_H__

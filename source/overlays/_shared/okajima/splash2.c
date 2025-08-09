@@ -1,7 +1,11 @@
+#include "splash2.h"
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "game/game.h"
+
+#include "overlays/_shared/takabe/ripple.h" // for NewRipple_800D7F30
 
 typedef struct _Work
 {
@@ -17,8 +21,6 @@ typedef struct _Work
     int      timer;
     int      noripple;
 } Work;
-
-void * NewRipple_800D7F30( MATRIX *, int );
 
 RECT rect_800C3670 = { 50, 50, 100, 100 };
 

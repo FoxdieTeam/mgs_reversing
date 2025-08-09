@@ -1,3 +1,5 @@
+#include "sub_room.h"
+
 #include <sys/types.h>
 #include <libgte.h>
 #include <libgpu.h>
@@ -6,6 +8,8 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "game/game.h"
+
+#include "overlays/_shared/takabe/optxtscn.h"   // for NewOpTxtScn_800CD29C
 
 typedef struct _SubRoomWork
 {
@@ -26,8 +30,6 @@ typedef struct _SubRoomWork
     int      map;
     GV_ACT  *txtscn;
 } SubRoomWork;
-
-void *NewOpTxtScn_800CD29C(void);
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL4
 

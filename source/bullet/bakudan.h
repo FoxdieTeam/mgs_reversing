@@ -1,5 +1,5 @@
-#ifndef _BAKUDAN_H_
-#define _BAKUDAN_H_
+#ifndef __MGS_BULLET_BAKUDAN_H__
+#define __MGS_BULLET_BAKUDAN_H__
 
 #include <sys/types.h>
 #include <libgte.h>
@@ -29,4 +29,4 @@ typedef struct BakudanWork
 
 void *NewBakudan(MATRIX *world, SVECTOR *pos, int attached, int unused, void *data);
 
-#endif // _BAKUDAN_H_
+#endif // __MGS_BULLET_BAKUDAN_H__

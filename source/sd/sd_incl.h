@@ -1,5 +1,5 @@
-#ifndef _SD_INCL_H_
-#define _SD_INCL_H_
+#ifndef __SD_INCL_H__
+#define __SD_INCL_H__
 
 typedef struct WAVE_W
 {
@@ -134,4 +134,4 @@ typedef struct SOUND_W
     unsigned short rrd;
 } SOUND_W;
 
-#endif // _SD_INCL_H_
+#endif // __SD_INCL_H__

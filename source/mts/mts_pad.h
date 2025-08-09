@@ -1,5 +1,5 @@
-#ifndef _MTS_PAD_H_
-#define _MTS_PAD_H_
+#ifndef __MTS_PAD_H__
+#define __MTS_PAD_H__
 
 #include "mts.h"
 
@@ -31,4 +31,4 @@ void mts_stop_controller( void );
 long mts_PadRead( int unused );
 int mts_control_vibration( int enable );
 
-#endif // _MTS_PAD_H_
+#endif // __MTS_PAD_H__

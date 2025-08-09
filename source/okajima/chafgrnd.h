@@ -1,5 +1,5 @@
-#ifndef _CHAFGRND_H_
-#define _CHAFGRND_H_
+#ifndef __MGS_OKAJIMA_CHAFGRND_H__
+#define __MGS_OKAJIMA_CHAFGRND_H__
 
 #include <sys/types.h>
 #include <libgte.h>
@@ -7,4 +7,4 @@
 
 void *NewChaffGrd(MATRIX *world);
 
-#endif // _CHAFGRND_H_
+#endif // __MGS_OKAJIMA_CHAFGRND_H__

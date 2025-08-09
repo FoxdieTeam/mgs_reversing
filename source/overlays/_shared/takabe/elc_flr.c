@@ -1,3 +1,5 @@
+#include "elc_flr.h"
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
