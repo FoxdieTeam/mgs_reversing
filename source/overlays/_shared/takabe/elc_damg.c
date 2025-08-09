@@ -1,3 +1,5 @@
+#include "elc_damg.h"
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"

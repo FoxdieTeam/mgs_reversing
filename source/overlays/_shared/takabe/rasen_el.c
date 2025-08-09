@@ -1,3 +1,5 @@
+#include "rasen_el.h"
+
 #include <stdio.h>
 #include "common.h"
 #include "libgv/libgv.h"

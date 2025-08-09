@@ -1,3 +1,5 @@
+#include "revolver.h"
+
 #include <stdio.h>
 #include "common.h"
 #include "chara/snake/sna_init.h"
@@ -7,6 +9,8 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "linkvar.h"
+
+#include "overlays/_shared/takabe/fadeio.h" // for NewFadeIo_800C4224
 
 typedef struct RevolverWork
 {
@@ -79,8 +83,6 @@ const char s03b_aV_800D2F4C[] = "v24";
 const char s03b_aV_800D2F50[] = "v2";
 const char s03b_aV_800D2F54[] = "v1";
 const char s03b_aV_800D2F58[] = "v0";
-
-void *NewFadeIo_800C4224(int name, int where);
 
 // Those functions are not actually in boxall, info
 // those are some helper functions (not sure if part of revolver.c)

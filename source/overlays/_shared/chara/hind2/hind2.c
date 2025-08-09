@@ -1,3 +1,6 @@
+#include "hind2.h"
+#include "hd_bul2.h"    // for NewHdBul2
+
 #include <stdio.h>
 #include "common.h"
 #include "libdg/libdg.h"
@@ -38,8 +41,6 @@ typedef struct _Hind2Work
 } Hind2Work;
 
 SVECTOR s11i_800C32C0 = { 0, -2728, 5587, 0 };
-
-void *NewHdBul2( SVECTOR *arg0, SVECTOR *arg1, int enable );
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 #define BODY_FLAG  ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE )

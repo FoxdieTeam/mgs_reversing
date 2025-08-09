@@ -1,3 +1,5 @@
+#include "demosel.h"
+
 #include <stdio.h>
 #include <sys/types.h>
 #include <libgte.h>
@@ -14,9 +16,9 @@
 #include "game/game.h"
 #include "sd/g_sound.h"
 
-extern int    FS_DiskNum;
+#include "../change/met_logo.h" // for NewMetalGearLogo
 
-void *NewMetalGearLogo( int * );
+extern int    FS_DiskNum;
 
 /*---------------------------------------------------------------------------*/
 

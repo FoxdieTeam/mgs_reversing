@@ -1,3 +1,5 @@
+#include "ninja.h"
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
@@ -5,6 +7,8 @@
 #include "game/game.h"
 #include "equip/equip.h"
 #include "sd/g_sound.h"
+
+#include "overlays/_shared/takabe/spark2.h"   // for NewSpark2_800CA714
 
 typedef struct NinjaWork
 {
@@ -30,7 +34,6 @@ typedef struct NinjaWork
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-void   *NewSpark2_800CA714(MATRIX *world);
 void    AN_Unknown_800CCA40(SVECTOR *pos);
 void    s03b_boxall_800C969C(int, int);
 void    s03b_boxall_800C96E8(void);

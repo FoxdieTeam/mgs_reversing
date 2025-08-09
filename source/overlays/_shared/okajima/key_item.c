@@ -1,3 +1,5 @@
+#include "key_item.h"
+
 #include "common.h"
 #include "mts/mts.h"
 #include "libgcl/libgcl.h"

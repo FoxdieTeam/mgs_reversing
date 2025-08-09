@@ -1,3 +1,5 @@
+#include "item_dot.h"
+
 #include "common.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"

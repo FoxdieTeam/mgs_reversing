@@ -6,6 +6,8 @@
 #include "common.h"
 #include "takabe/thing.h"
 
+#include "overlays/_shared/takabe/spark2.h"   // for NewSpark2_800CA714
+
 typedef struct Panel2Work
 {
     GV_ACT         actor;
@@ -47,7 +49,6 @@ void Panel2_800E1244(OBJECT_NO_ROTS *object, int model, int where, int flag)
 }
 
 void AN_Unknown_800DCE84(SVECTOR *);
-void *NewSpark2_800CA714(MATRIX *world);
 
 void Panel2Act_800E12B4(Panel2Work *work)
 {

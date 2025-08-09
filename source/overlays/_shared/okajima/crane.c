@@ -1,3 +1,5 @@
+#include "crane.h"
+
 #include "common.h"
 #include "mts/mts.h"
 #include "libgv/libgv.h"

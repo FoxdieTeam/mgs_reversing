@@ -1,3 +1,5 @@
+#include "panel.h"
+
 #include "common.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
@@ -5,6 +7,8 @@
 #include "game/game.h"
 #include "takabe/thing.h"
 #include "sd/g_sound.h"
+
+#include "overlays/_shared/takabe/spark2.h"   // for NewSpark2_800CA714
 
 typedef struct _PanelWork
 {
@@ -27,7 +31,6 @@ typedef struct _PanelWork
 int panel_base_color = 0x3C808080;
 
 void AN_Unknown_800DCE84(SVECTOR *pos);
-void *NewSpark2_800CA714(MATRIX *world);
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 

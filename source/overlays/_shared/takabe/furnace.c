@@ -1,3 +1,6 @@
+#include "furnace.h"
+#include "wt_view.h"    // for NewWaterView2
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
@@ -14,7 +17,6 @@ extern int      amissile_alive_8009F490;
 extern SVECTOR  svector_8009F494;
 
 void *NewMeltDie_800E0F5C(SVECTOR *arg1, int arg2);
-void *NewWaterView2(int name, int where, SVECTOR *bounds, CVECTOR *color);
 
 /*---------------------------------------------------------------------------*/
 
