@@ -1,9 +1,8 @@
 #include "common.h"
 #include "charadef.h"
 
-CHARA _StageCharacterEntries[] =
-{
-    { 0x976C, (NEWCHARA)0x800C9344 },
+CHARA _StageCharacterEntries[] = {
+    { 0x976c, (NEWCHARA)0x800C9344 },   // NewOption_800C9344
     { 0, NULL }
 };
 

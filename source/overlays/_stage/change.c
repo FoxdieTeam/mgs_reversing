@@ -1,9 +1,6 @@
-#include "common.h"
-#include "charadef.h"
-
-#include "../_shared/onoda/change/change.h"
+#include "charalst.h"
 
 CHARA _StageCharacterEntries[] = {
-    { CHARA_CHANGE, NewChange },
-    { 0, NULL }
+    CHARA_CHANGE,
+    CHARA_END
 };

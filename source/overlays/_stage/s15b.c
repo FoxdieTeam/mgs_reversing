@@ -1,20 +1,18 @@
-#include "common.h"
-#include "charadef.h"
+#include "charalst.h"
 
-CHARA _StageCharacterEntries[] = 
-{
-    { 0xFED1, (NEWCHARA)0x8005D508 },
-    { 0x51C6, (NEWCHARA)0x800CBF34 },
-    { 0x92BC, (NEWCHARA)0x800C4910 },
-    { 0xA12E, (NEWCHARA)0x800CAB10 },
-    { 0x6865, (NEWCHARA)0x800C9D38 },
-    { 0xEC77, (NEWCHARA)0x800C4220 },
-    { 0x3F9A, (NEWCHARA)0x800CBB58 },
-    { 0xA9C5, (NEWCHARA)0x800C6BB4 },
-    { 0xBA52, (NEWCHARA)0x800CB614 },
-    { 0x9D00, (NEWCHARA)0x800C9568 },
-    { 0x1AD3, (NEWCHARA)0x800C3C8C },
-    { 0xC73E, (NEWCHARA)0x800C7CA0 },
-    { 0xB103, (NEWCHARA)0x800CAD40 },
-    { 0, NULL }
+CHARA _StageCharacterEntries[] = {
+    CHARA_VIBRATE,      /* chara パッド振動 */
+    CHARA_CAT_IN,
+    CHARA_ASIOTO,
+    CHARA_FADE_IN_OUT,
+    CHARA_TEX_SCRL,
+    CHARA_WALL,         /* chara 障害物 */
+    CHARA_ENV_SOUND,
+    CHARA_GUNCAME,
+    CHARA_SHAKE_MODEL,
+    CHARA_DMYFLOOR,     /* chara 落とし穴 */
+    CHARA_LAMP,
+    CHARA_FALL_SPLASH,
+    CHARA_DYNAMIC_SEGMENT, /* chara 透明壁 */
+    CHARA_END
 };

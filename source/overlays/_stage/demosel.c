@@ -1,10 +1,6 @@
-#include "common.h"
-#include "charadef.h"
+#include "charalst.h"
 
-extern void *NewDemoSelect();
-
-CHARA _StageCharacterEntries[] = 
-{
-    { CHARA_DEMOSEL, (NEWCHARA)NewDemoSelect },
-    { 0, NULL }
+CHARA _StageCharacterEntries[] = {
+    CHARA_DEMOSEL,
+    CHARA_END
 };
