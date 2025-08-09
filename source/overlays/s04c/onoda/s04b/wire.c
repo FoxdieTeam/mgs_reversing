@@ -621,7 +621,7 @@ static void Die(WireWork *work)
     GM_FreeTarget(work->f20D4);
 }
 
-static int CreateTarget(WireWork *work)
+int wire_CreateTarget(WireWork *work)
 {
     TARGET *target;
 
@@ -637,7 +637,7 @@ static int CreateTarget(WireWork *work)
     return 0;
 }
 
-static int CreateTarget2(WireWork *work)
+int wire_CreateTarget2(WireWork *work)
 {
     TARGET *target;
 
