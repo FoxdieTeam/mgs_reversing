@@ -38,7 +38,7 @@ SVECTOR s04c_dword_800C35B0[4] = {{15, 0, 0, 0}, {-15, 0, 0, 0}, {0, 0, 15, 0}, 
 SVECTOR s04c_dword_800C35D0[2] = {{0, -100, 0, 0}, {5, -10740, 32, 0}};
 SVECTOR s04c_dword_800C35E0 = {100, 100, 100, 0};
 
-static int s04c_dword_800DBE20;
+int s04c_dword_800DBE20;
 
 void *NewRevbullt_800D2DC8(MATRIX *world, int bounces);
 
