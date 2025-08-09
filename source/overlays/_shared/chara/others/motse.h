@@ -1,6 +1,6 @@
-#ifndef _MOTSE_H_
-#define _MOTSE_H_
+#ifndef __MGS_CHARA_MOTSE_H__
+#define __MGS_CHARA_MOTSE_H__
 
 void *NewMotionSoundEffect(int name, int where, int argc, char **argv);
 
-#endif // _MOTSE_H_
+#endif // __MGS_CHARA_MOTSE_H__

@@ -9,6 +9,8 @@
 #include "linkvar.h"
 #include "sd/g_sound.h"
 
+#include "overlays/_shared/takabe/spark2.h"   // for NewSpark2_800CA714
+
 // We came, we saw, GunCame
 typedef struct GunCameWork
 {
@@ -103,7 +105,6 @@ void AN_Unknown_800CA1EC(MATRIX *world, int index);
 void AN_Unknown_800D6BCC(SVECTOR *pos, SVECTOR *rot);
 void AN_Unknown_800D6EB0(SVECTOR *pos);
 
-void *NewSpark2_800CA714(MATRIX *world);
 void *NewBulletEx(int, MATRIX *, int, int, int, int, int, int, int);
 
 // Identical to d03a_red_alrt_800C437C

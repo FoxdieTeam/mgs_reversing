@@ -409,7 +409,7 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
         sub_80032BC4(var_s0_4, work->f5BA, work->f5BC);
     }
 
-    if (((work->f58C & 0xC) == 0xC) && (work->f594 == CHARA_SNAKE))
+    if (((work->f58C & 0xC) == 0xC) && (work->f594 == CHARAID_SNAKE))
     {
         if (var_s5 & 0x24)
         {

@@ -15,21 +15,19 @@
 #include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
 #include "memcard/memcard.h"
+#include "game/game.h"
 
 #include "strcode.h"
-#include "game/game.h"
-#include "game/item.h"
-#include "chara/snake/sna_init.h"
-#include "thing/door.h"
+#include "charalst.h"
 
 unsigned int _ramsize = 0x200000; //  2MB ram size
 unsigned int _stacksize = 0x8000; // 32KB stack size
 
 CHARA MainCharacterEntries[] = {
-    { CHARA_SNAKE, NewSnake },  // GV_StrCode("スネーク")
-    { CHARA_ITEM, NewItem },    // GV_StrCode("アイテム")
-    { CHARA_DOOR, NewDoor },    // GV_StrCode("ドア")
-    { 0, NULL }
+    CHARA_SNAKE,        /* chara スネーク */
+    CHARA_ITEM,         /* chara アイテム */
+    CHARA_DOOR,         /* chara ドア */
+    CHARA_END
 };
 
 const char *MGS_DiskName[] = {

@@ -1,5 +1,5 @@
-#ifndef __MGS1_FILE_CNF__
-#define __MGS1_FILE_CNF__
+#ifndef __MGS_FILE_CNF__
+#define __MGS_FILE_CNF__
 
 FS_FILE_INFO fs_file_info[] = {
     { "STAGE.DIR",  0 },    // 0
@@ -12,4 +12,4 @@ FS_FILE_INFO fs_file_info[] = {
     { NULL, 0 }
 };
 
-#endif // __MGS1_FILE_CNF__
+#endif // __MGS_FILE_CNF__

@@ -1,5 +1,5 @@
-#ifndef _BLAST_H_
-#define _BLAST_H_
+#ifndef __MGS_BULLET_BLAST_H__
+#define __MGS_BULLET_BLAST_H__
 
 #include <sys/types.h>
 #include <libgte.h>
@@ -26,4 +26,4 @@ void AN_Blast_Minimini( SVECTOR *pos );
 void AN_Blast_high( SVECTOR *pos );
 void AN_Blast_high2( SVECTOR *pos, SVECTOR *offset );
 
-#endif // _BLAST_H_
+#endif // __MGS_BULLET_BLAST_H__

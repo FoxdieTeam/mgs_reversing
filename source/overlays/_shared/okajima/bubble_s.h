@@ -1,6 +1,6 @@
-#ifndef _BUBBLE_S_H_
-#define _BUBBLE_S_H_
+#ifndef __MGS_OKAJIMA_BUBBLE_S_H__
+#define __MGS_OKAJIMA_BUBBLE_S_H__
 
 void *NewBubbleS_800D5D9C(int name, int where, int argc, char **argv);
 
-#endif // _BUBBLE_S_H_
+#endif // __MGS_OKAJIMA_BUBBLE_S_H__

@@ -1,6 +1,6 @@
-#ifndef _RSURFACE_H_
-#define _RSURFACE_H_
+#ifndef __MGS_TAKABE_RSURFACE_H__
+#define __MGS_TAKABE_RSURFACE_H__
 
 void *NewRippleSurface_800D8244(int name, int where, int argc, char **argv);
 
-#endif // _RSURFACE_H_
+#endif // __MGS_TAKABE_RSURFACE_H__

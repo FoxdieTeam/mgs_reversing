@@ -9,7 +9,7 @@
 /*---------------------------------------------------------------------------*/
 
 #define EXEC_LEVEL  GV_ACTOR_LEVEL3
-#define CHARA_NAME  CHARA_CINEMA
+#define CHARA_NAME  CHARAID_CINEMA
 
 typedef struct _PRIMS
 {
@@ -261,7 +261,7 @@ static int GetResources( Work *work, int time, int event )
 
 /*---------------------------------------------------------------------------*/
 
-void *NewCinemaScreen( int time, int event, int argc, char **argv )
+void *NewCinemaScreen( int time, int event )
 {
     Work *work ;
 

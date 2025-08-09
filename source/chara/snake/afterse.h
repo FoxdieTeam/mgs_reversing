@@ -1,6 +1,6 @@
-#ifndef _AFTERSE_H_
-#define _AFTERSE_H_
+#ifndef __MGS_CHARA_AFTERSE_H__
+#define __MGS_CHARA_AFTERSE_H__
 
 void *NewAfterse_800604C0(short sound, short time);
 
-#endif // _AFTERSE_H_
+#endif // __MGS_CHARA_AFTERSE_H__

@@ -1,5 +1,5 @@
-#ifndef _WEAPON_H_
-#define _WEAPON_H_
+#ifndef __MGS_WEAPON_H__
+#define __MGS_WEAPON_H__
 
 #include "game/game.h"      // for OBJECT, CONTROL
 
@@ -36,4 +36,4 @@ void *NewStnSight( CONTROL *control );
 void *NewRifleSight();
 void *NewRifleSightFast();
 
-#endif // _WEAPON_H_
+#endif // __MGS_WEAPON_H__

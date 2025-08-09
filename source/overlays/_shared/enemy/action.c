@@ -13,6 +13,9 @@
 #include "linkvar.h"
 #include "sd/g_sound.h"
 
+// from takabe/mosaic.h
+extern void *NewMosaicSet_800DC9F4( MATRIX *, int, int, int );
+
 short ActTable_800C3358[54] =
 {
     0x13, 0x14, 0x0A, 0x16, 0x09, 0x22, 0x23, 0x24, 0x2D,
@@ -1618,8 +1621,6 @@ void s00a_command_800C8C58( WatcherWork* work )
     ReadRotMatrix( &mat );
     AN_Unknown_800C3B7C( &mat );
 }
-
-extern void *NewMosaicSet_800DC9F4( MATRIX *, int, int, int ) ;
 
 void s00a_command_800C8C98( WatcherWork *work, int time )
 {

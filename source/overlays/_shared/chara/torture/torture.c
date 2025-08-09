@@ -1,3 +1,5 @@
+#include "torture.h"
+
 #include "common.h"
 #include "chara/snake/sna_init.h"
 #include "libgcl/libgcl.h"
@@ -8,6 +10,8 @@
 #include "game/over.h"
 #include "game/vibrate.h"
 #include "sd/g_sound.h"
+
+#include "overlays/_shared/takabe/fadeio.h" // for NewFadeIo_800C4224
 
 struct _TortureWork;
 typedef void (*TTortureFn)(struct _TortureWork *, int);
@@ -82,7 +86,6 @@ extern char s03b_dword_800C32D8[];
 
 extern char s03b_dword_800D32F0[16];
 
-void *NewFadeIo_800C4224(int name, int where);
 void *NewPlasma_800CD1A4(OBJECT *, int, int, int, int, int);
 void *NewInfo_800CA534(unsigned short name1, unsigned short name2, int *abe);
 void *NewBlur_800CD530(int, int, int);

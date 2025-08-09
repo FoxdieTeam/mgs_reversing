@@ -1,6 +1,6 @@
-#ifndef _CAT_IN_H_
-#define _CAT_IN_H_
+#ifndef __MGS_TAKABE_CAT_IN_H__
+#define __MGS_TAKABE_CAT_IN_H__
 
 void *NewZoom_800DFA88(int name, int where, int argc, char **argv);
 
-#endif // _CAT_IN_H_
+#endif // __MGS_TAKABE_CAT_IN_H__

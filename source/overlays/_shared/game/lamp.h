@@ -1,6 +1,6 @@
-#ifndef _LAMP_H_
-#define _LAMP_H_
+#ifndef __MGS_GAME_LAMP_H__
+#define __MGS_GAME_LAMP_H__
 
 void *NewLamp(int name, int where, int argc, char **argv);
 
-#endif // _LAMP_H_
+#endif // __MGS_GAME_LAMP_H__

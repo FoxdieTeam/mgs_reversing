@@ -7,13 +7,14 @@
 #include "game/game.h"
 #include "takabe/thing.h"
 
+#include "overlays/_shared/takabe/wt_view.h"    // for NewWaterView2
+#include "overlays/_shared/takabe/ripple.h"     // for NewRipple_800D7F30
+
 extern CONTROL         *tenage_ctrls_800BDD30[16];
 extern int              tenage_ctrls_count_800BDD70;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 
 extern void NewSplash2_800DB4E0( int angy, SVECTOR *pos, int noripple );
-extern void *NewRipple_800D7F30( MATRIX *, int );
-extern void *NewWaterView2(int name, int where, SVECTOR *bounds, CVECTOR *color);
 
 /*---------------------------------------------------------------------------*/
 

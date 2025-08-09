@@ -8,8 +8,10 @@
 #include "anime/animconv/anime.h"
 #include "game/game.h"
 #include "linkvar.h"
-#include "overlays/_shared/enemy/enemy.h"
 #include "strcode.h"
+
+#include "overlays/_shared/enemy/enemy.h"
+#include "overlays/_shared/takabe/lit_mdl.h"    // for s01a_lit_mdl_800E2C88
 
 // Strange
 typedef struct _SearchlightSub
@@ -85,7 +87,6 @@ const SVECTOR SearchliCenter_800E46D8 = {0, 0, 3000, 0};
 void s00a_command_800CEC40(SVECTOR *, int);
 void s01a_object_800D9424(CONTROL *, int);
 void s01a_800E2364(MATRIX *, SVECTOR *, VECTOR *);
-void *s01a_lit_mdl_800E2C88(MATRIX *arg0, int arg1, int arg2, int arg3);
 void s01a_lit_mdl_800E2D3C(GV_ACT *, int angle);
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL4
@@ -645,7 +646,7 @@ void Searchli_800D80BC(SearchlightWork *work)
     temp_fp = &work->fFC.f244;
     temp_t0 = &sp50->fFC;
 
-    if (GM_WhereList[0]->name != CHARA_SNAKE)
+    if (GM_WhereList[0]->name != CHARAID_SNAKE)
     {
         return;
     }

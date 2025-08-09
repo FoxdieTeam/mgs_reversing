@@ -1,5 +1,5 @@
-#ifndef _DOLL_H_
-#define _DOLL_H_
+#ifndef __MGS_ANIMAL_DOLL_H__
+#define __MGS_ANIMAL_DOLL_H__
 
 #include "libgv/libgv.h"
 #include "game/game.h"
@@ -93,4 +93,4 @@ typedef struct _DollWork
 
 void *NewDoll_800DCD78(int name, int where, int argc, char **argv);
 
-#endif // _DOLL_H_
+#endif // __MGS_ANIMAL_DOLL_H__

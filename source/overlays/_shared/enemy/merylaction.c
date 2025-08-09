@@ -9,6 +9,9 @@
 #include "anime/animconv/anime.h"
 #include "sd/g_sound.h"
 
+// from takabe/mosaic.h
+extern void *NewMosaicSet_800DC9F4( MATRIX *, int, int, int );
+
 extern ENEMY_COMMAND EnemyCommand_800E0D98;
 extern unsigned int  COM_GameStatus_800E0F3C;
 extern int           COM_EYE_LENGTH_800E0D8C;
@@ -1911,8 +1914,6 @@ void s07a_meryl_unk_800DA5D0( WatcherWork* work )
     ReadRotMatrix( &mat );
     AN_Unknown_800C3B7C( &mat );
 }
-
-extern void *NewMosaicSet_800DC9F4( MATRIX *, int, int, int ) ;
 
 void s07a_meryl_unk_800DA610( WatcherWork *work, int time )
 {

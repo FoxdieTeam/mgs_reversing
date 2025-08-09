@@ -1,5 +1,5 @@
-#ifndef _FMT_SGT_H_
-#define _FMT_SGT_H_
+#ifndef __MGS_FMT_SGT_H__
+#define __MGS_FMT_SGT_H__
 
 #include <sys/types.h>
 
@@ -13,4 +13,4 @@ typedef struct SgtFile
     unsigned char *unknown5;
 } SgtFile;
 
-#endif // _FMT_SGT_H_
+#endif // __MGS_FMT_SGT_H__

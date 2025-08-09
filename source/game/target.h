@@ -1,5 +1,5 @@
-#ifndef _TARGET_H_
-#define _TARGET_H_
+#ifndef __MGS_GAME_TARGET_H__
+#define __MGS_GAME_TARGET_H__
 
 #include <sys/types.h>
 #include <libgte.h>
@@ -94,4 +94,4 @@ int     GM_Target_8002E1B8(SVECTOR *pVec, SVECTOR *pVec1, int map_bit, SVECTOR *
 int     sub_8002E2A8(SVECTOR *arg0, SVECTOR *arg1, int map, SVECTOR *arg3);
 void    GM_Target_8002E374(int *ppDownCount, TARGET **ppTargets);
 
-#endif // _TARGET_H_
+#endif // __MGS_GAME_TARGET_H__

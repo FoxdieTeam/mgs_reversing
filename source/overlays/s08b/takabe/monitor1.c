@@ -6,6 +6,8 @@
 #include "takabe/thing.h"
 #include "sd/g_sound.h"
 
+#include "overlays/_shared/takabe/spark2.h"   // for NewSpark2_800CA714
+
 typedef struct Monitor1Work
 {
     GV_ACT  actor;
@@ -22,7 +24,6 @@ typedef struct Monitor1Work
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-void *NewSpark2_800CA714(MATRIX *world);
 void AN_Unknown_800DCE84(SVECTOR *pos);
 
 void Monitor1Act_800DC8BC(Monitor1Work *work)

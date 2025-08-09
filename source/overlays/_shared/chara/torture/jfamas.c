@@ -1,3 +1,5 @@
+#include "jfamas.h"
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "game/game.h"

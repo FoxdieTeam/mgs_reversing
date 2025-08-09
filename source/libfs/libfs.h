@@ -1,5 +1,5 @@
-#ifndef _LIBFS_H_
-#define _LIBFS_H_
+#ifndef __MGS_LIBFS_H__
+#define __MGS_LIBFS_H__
 
 #include <sys/types.h>
 #include "cdbios.h"
@@ -119,4 +119,4 @@ void FS_StreamTickStart(void);
 void FS_StreamSoundMode(void);
 int  FS_StreamGetTick(void);
 
-#endif // _LIBFS_H_
+#endif // __MGS_LIBFS_H__

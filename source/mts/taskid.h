@@ -3,8 +3,8 @@
  *  work.5th/include/task_id.h (Apr.08,1998)
  *  work.5th/libfs/taskid.h (May.12,1998)
  */
-#ifndef TASKID_H_INCLUDED
-#define TASKID_H_INCLUDED
+#ifndef __TASKID_H__
+#define __TASKID_H__
 
 /*
    MTS TASK ID

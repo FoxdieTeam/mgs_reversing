@@ -1,5 +1,5 @@
-#ifndef _HOMING_H_
-#define _HOMING_H_
+#ifndef __MGS_GAME_HOMING_H__
+#define __MGS_GAME_HOMING_H__
 
 #include <sys/types.h>
 #include <libgte.h>
@@ -26,4 +26,4 @@ void GM_FreeHomingTarget(HOMING *homing);
 void GM_GetHomingTarget(MATRIX *matrix, int vecY, int *pRetY, int *pRetX, int mapBit);
 void GM_GetHomingTarget2(MATRIX *matrix, int vecY, int *pRetY, int *pRetX, int mapBit, int max_dist, int min_angle);
 
-#endif // _HOMING_H_
+#endif // __MGS_GAME_HOMING_H__

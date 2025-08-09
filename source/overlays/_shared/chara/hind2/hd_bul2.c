@@ -1,3 +1,5 @@
+#include "hd_bul2.h"
+
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "game/game.h"

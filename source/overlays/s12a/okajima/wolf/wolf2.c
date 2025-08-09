@@ -6,6 +6,8 @@
 #include "linkvar.h"
 #include "wolf2.h"
 
+#include "overlays/_shared/takabe/cinema.h"     // for NewCinemaScreen, NewCinemaScreenClose
+
 extern int              dword_8009F46C[];
 extern SVECTOR          svector_8009F478;
 extern GM_CAMERA        GM_Camera;
@@ -15,9 +17,6 @@ RECT        wolf2_800C3490 = {0, 0, 2, 2};
 extern char wolf2_800DD6B8[5];
 
 void  AN_Breath(MATRIX *world);
-
-void *NewCinemaScreen( int, int );
-void *NewCinemaScreenClose( void *addr );
 
 void s12a_wolf2_800CED18(Wolf2Work *work);
 void s12a_wolf2_800CED38(Wolf2Work *work);

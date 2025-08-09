@@ -1,5 +1,5 @@
-#ifndef _THING_H_
-#define _THING_H_
+#ifndef __MGS_TAKABE_THING_H__
+#define __MGS_TAKABE_THING_H__
 
 #include <sys/types.h>
 #include <libgte.h>
@@ -20,4 +20,4 @@ void s16b_800C4594(unsigned short address, unsigned short message);
 void s16b_800C45C4(HZD_SEG *seg, MATRIX *trans, SVECTOR *arg2, SVECTOR *arg3);
 void s16b_800C46D8(HZD_FLR *flr, SVECTOR *arg1, SVECTOR *arg2);
 
-#endif // _THING_H_
+#endif // __MGS_TAKABE_THING_H__

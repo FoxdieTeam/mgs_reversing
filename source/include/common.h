@@ -1,5 +1,5 @@
-#ifndef _COMMON_H_
-#define _COMMON_H_
+#ifndef __MGS_COMMON_H__
+#define __MGS_COMMON_H__
 
 #include <stddef.h>     // for NULL
 #include <sys/types.h>
@@ -201,4 +201,4 @@ static inline void SCOPYL2( void *s1, void *d1, void *s2, void *d2 )
     *(u_short *)d2 = r2;
 }
 
-#endif // _COMMON_H_
+#endif // __MGS_COMMON_H__

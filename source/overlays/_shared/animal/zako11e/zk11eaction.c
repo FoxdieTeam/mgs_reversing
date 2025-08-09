@@ -1503,8 +1503,6 @@ void s11e_zk11ecom_800D76F0( ZakoWork* work )
     AN_Unknown_800C3B7C( &mat );
 }
 
-extern void *NewMosaicSet_800DC9F4( MATRIX *, int, int, int ) ;
-
 void s11e_zk11ecom_800D7730( ZakoWork *work, int time )
 {
     int diff;

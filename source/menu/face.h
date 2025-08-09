@@ -1,5 +1,5 @@
-#ifndef _FACE_H
-#define _FACE_H
+#ifndef __MGS_MENU_FACE_H__
+#define __MGS_MENU_FACE_H__
 
 // Structures representing data stored in FACE.DAT
 
@@ -74,4 +74,4 @@ typedef struct face_full_anim
     face_full_anim_frame field_4_frames[0];
 } face_full_anim;
 
-#endif // _FACE_H
+#endif // __MGS_MENU_FACE_H__

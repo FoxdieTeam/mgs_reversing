@@ -1,3 +1,5 @@
+#include "met_logo.h"
+
 #include <sys/types.h>
 #include <libgte.h>
 #include <libgpu.h>

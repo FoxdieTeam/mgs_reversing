@@ -1,5 +1,5 @@
-#ifndef _CAMERA_H_
-#define _CAMERA_H_
+#ifndef __MGS_GAME_CAMERA_H__
+#define __MGS_GAME_CAMERA_H__
 
 #include <sys/types.h>
 #include <libgte.h>
@@ -87,4 +87,4 @@ void GM_CameraLimitTrace(int param_1);
 void GM_ExitBehindCamera(void);
 void GM_CheckBehindCamera(HZD_HDL *pHzdMap, CONTROL *pControl);
 
-#endif // _CAMERA_H_
+#endif // __MGS_GAME_CAMERA_H__

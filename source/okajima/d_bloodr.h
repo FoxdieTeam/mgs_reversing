@@ -1,6 +1,6 @@
-#ifndef _D_BLOODR_H_
-#define _D_BLOODR_H_
+#ifndef __MGS_OKAJIMA_D_BLOODR_H__
+#define __MGS_OKAJIMA_D_BLOODR_H__
 
 void *NewKetchap_r(int map);
 
-#endif // _D_BLOODR_H_
+#endif // __MGS_OKAJIMA_D_BLOODR_H__

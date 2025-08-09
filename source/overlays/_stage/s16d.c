@@ -1,40 +1,40 @@
-#include "common.h"
-#include "charadef.h"
+#include "charalst.h"
 
-CHARA _StageCharacterEntries[] = 
-{
-    { 0xC6D7, (NEWCHARA)0x800D06E4 },
-    { 0x6E9A, (NEWCHARA)0x800C4CB0 },
-    { 0x6E90, (NEWCHARA)0x800D3A74 },
-    { 0x52BF, (NEWCHARA)0x800D4B54 },
-    { 0xFED1, (NEWCHARA)0x8005D508 },
-    { 0x92BC, (NEWCHARA)0x800D5EB0 },
-    { 0x5A50, (NEWCHARA)0x800DC034 },
-    { 0xA12E, (NEWCHARA)0x800DD750 },
-    { 0x7A05, (NEWCHARA)0x800DDF2C },
-    { 0xEC77, (NEWCHARA)0x800D5078 },
-    { 0xF59E, (NEWCHARA)0x800C3AD0 },
-    { 0x5D64, (NEWCHARA)0x800DE41C },
-    { 0xE97E, (NEWCHARA)0x800D717C },
-    { 0x3ED7, (NEWCHARA)0x800DD27C },
-    { 0x51C6, (NEWCHARA)0x800DF660 },
-    { 0xB103, (NEWCHARA)0x800DE640 },
-    { 0x0003, (NEWCHARA)0x800DD6B8 },
-    { 0x0004, (NEWCHARA)0x800DD6B8 },
-    { 0x000F, (NEWCHARA)0x800D5854 },
-    { 0x0014, (NEWCHARA)0x80063508 },
-    { 0x0015, (NEWCHARA)0x8007781C },
-    { 0x0016, (NEWCHARA)0x80078520 },
-    { 0x0021, (NEWCHARA)0x800DEC5C },
-    { 0x0025, (NEWCHARA)0x800DAAFC },
-    { 0x0028, (NEWCHARA)0x800DF2A4 },
-    { 0x0035, (NEWCHARA)0x8005E574 },
-    { 0x0036, (NEWCHARA)0x8005E6A4 },
-    { 0x0037, (NEWCHARA)0x800D99A8 },
-    { 0x0038, (NEWCHARA)0x800D9A6C },
-    { 0x003C, (NEWCHARA)0x800DBAF8 },
-    { 0x003D, (NEWCHARA)0x80074564 },
-    { 0x0044, (NEWCHARA)0x800D9FF8 },
-    { 0x004B, (NEWCHARA)0x800DB458 },
-    { 0, NULL }
+CHARA _StageCharacterEntries[] = {
+    CHARA_COMMANDER,    /* chara コマンダー */
+    CHARA_WATCHER,      /* chara 巡回兵 */
+    CHARA_CAMERA,       /* chara カメラ */
+    CHARA_KIKEN,
+    CHARA_VIBRATE,      /* chara パッド振動 */
+    CHARA_ASIOTO,
+    CHARA_GAS_EFFECT,
+    CHARA_FADE_IN_OUT,
+    CHARA_CINEMA,       /* chara シネマスクリーン */
+    CHARA_WALL,         /* chara 障害物 */
+    CHARA_BELONG,
+    CHARA_O2_DAMAGE,
+    CHARA_DOLL,         /* chara デモ人形 */
+    CHARA_PAD_DEMO,     /* chara パッドデモ */
+    CHARA_CAT_IN,
+    CHARA_DYNAMIC_SEGMENT, /* chara 透明壁 */
+
+    CHARA_FADEIO_0003,
+    CHARA_FADEIO_0004,
+    CHARA_DEMOKAGE,
+    CHARA_SCOPE_0014,
+    CHARA_GOGGLE,
+    CHARA_GGLSIGHT,
+    CHARA_FOCUS,
+    CHARA_BLOOD_BL,
+    CHARA_SEPIA_0028,
+    CHARA_UNKNOWN_0035,
+    CHARA_UNKNOWN_0036,
+    CHARA_RED_ALERT_0037,
+    CHARA_RED_ALERT_0038,
+    CHARA_SPARK2,
+    CHARA_SPARK,
+    CHARA_BLURPURE,
+    CHARA_METAL_GEAR_ROOM,
+
+    CHARA_END
 };

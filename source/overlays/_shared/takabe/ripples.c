@@ -7,6 +7,8 @@
 #include "game/game.h"
 #include "takabe/thing.h"
 
+#include "overlays/_shared/takabe/ripple.h" // for NewRipple_800D7F30
+
 typedef struct RipplesWork
 {
     GV_ACT       actor;
@@ -20,8 +22,6 @@ typedef struct RipplesWork
 } RipplesWork;
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
-
-void *NewRipple_800D7F30( MATRIX *, int );
 
 STATIC void RipplesAct_800D85A0(RipplesWork *work)
 {

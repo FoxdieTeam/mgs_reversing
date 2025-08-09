@@ -1,3 +1,5 @@
+#include "safety.h"
+
 #include <stdio.h>
 #include <sys/types.h>
 #include <libcd.h>

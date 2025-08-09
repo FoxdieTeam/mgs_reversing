@@ -14,25 +14,32 @@ extern GCL_Vars     gGcl_memVars_800b4588;
 extern char         gStageName_800B4D88[16];
 extern RadioMemory  gRadioMemory_800BDB38[RADIO_MEMORY_COUNT];
 
-typedef struct SaveGame
-{
-    int                f008_version;
-    int                f00C_version2;
-    int                f010_totalFrameTime;
-    int                f014_padding[3];
-    char               f020_stageName[16];
-    AreaHistory        f030_areaHistory;
-    short              f040_varbuf[0x60];
-    GCL_Vars           f100_gcl_vars;
-    RadioMemory        f900_radio_memory[RADIO_MEMORY_COUNT];
-} SaveGame; // size 0xA38
+/*---------------------------------------------------------------------------*/
 
-typedef struct SaveFile
+#define SAVE_VERSION    0x60
+#define SAVE_VERSION2   0x800
+
+typedef struct SAVE_DATA
 {
-    int      f000_size;
-    int      f004_checksum;
-    SaveGame f008_saveGame;
-} SaveFile;
+    int         version;
+    int         version2;
+    int         totalFrameTime;
+    int         padding[3];
+    char        stage_name[16];
+    AreaHistory area_history;
+    short       varbuf[0x60];
+    GCL_Vars    gcl_vars;
+    RadioMemory radio_memory[RADIO_MEMORY_COUNT];
+} SAVE_DATA; // size 0xA38
+
+typedef struct SAVE_FILE
+{
+    int         size;
+    int         checksum;
+    SAVE_DATA   data;
+} SAVE_FILE;
+
+/*---------------------------------------------------------------------------*/
 
 void GCL_SaveLinkVar(short *gameVar)
 {
@@ -72,21 +79,19 @@ static unsigned int crc32(int len, unsigned char *ptr)
     return ~crc;
 }
 
-int GCL_MakeSaveFile(char *saveBuf)
+int GCL_MakeSaveFile(char *save_buf)
 {
-    typedef struct
-    {
-        short f[sizeof(gRadioMemory_800BDB38) / sizeof(short)];
-    } RdMem;
-    SaveFile *saveFile;
-    SaveGame *save;
+    typedef struct { short f[sizeof(gRadioMemory_800BDB38) / sizeof(short)]; } RdMem;
 
-    saveFile = (SaveFile *)saveBuf;
-    save = &saveFile->f008_saveGame;
+    SAVE_FILE *save_file;
+    SAVE_DATA *save_data;
 
-    save->f008_version = 0x60;
-    save->f00C_version2 = 0x800;
-    save->f010_totalFrameTime = gTotalFrameTime;
+    save_file = (SAVE_FILE *)save_buf;
+    save_data = &save_file->data;
+
+    save_data->version = SAVE_VERSION;
+    save_data->version2 = SAVE_VERSION2;
+    save_data->totalFrameTime = gTotalFrameTime;
 
     GM_LastSaveHours = GM_TotalHours;
     GM_LastSaveSeconds = GM_TotalSeconds;
@@ -94,54 +99,52 @@ int GCL_MakeSaveFile(char *saveBuf)
     GM_LinkVar(sv_linkvarbuf, GM_LastSaveSeconds) = GM_TotalSeconds;
     GM_LinkVar(sv_linkvarbuf, GM_TotalSaves) = GM_TotalSaves;
 
-    save->f014_padding[0] = 0;
-    save->f014_padding[1] = 0;
-    save->f014_padding[2] = 0;
+    save_data->padding[0] = 0;
+    save_data->padding[1] = 0;
+    save_data->padding[2] = 0;
 
-    strcpy(save->f020_stageName, gStageName_800B4D88);
-    GM_GetAreaHistory(&save->f030_areaHistory);
+    strcpy(save_data->stage_name, gStageName_800B4D88);
+    GM_GetAreaHistory(&save_data->area_history);
 
-    memcpy(save->f040_varbuf, sv_linkvarbuf, 0xC0);
-    save->f100_gcl_vars = gGcl_memVars_800b4588;
-    *(RdMem *)&save->f900_radio_memory = *(RdMem *)&gRadioMemory_800BDB38;
+    memcpy(save_data->varbuf, sv_linkvarbuf, 0xC0);
+    save_data->gcl_vars = gGcl_memVars_800b4588;
+    *(RdMem *)&save_data->radio_memory = *(RdMem *)&gRadioMemory_800BDB38;
 
-    saveFile->f000_size = (void *)save + sizeof(SaveGame) - (void *)saveBuf;
-    saveFile->f004_checksum = crc32(sizeof(SaveGame), (char *)save); // size 0xA38
+    save_file->size = (void *)save_data + sizeof(SAVE_DATA) - (void *)save_buf;
+    save_file->checksum = crc32(sizeof(SAVE_DATA), (char *)save_data); // size 0xA38
 
-    return saveFile->f000_size;
+    return save_file->size;
 }
 
-int GCL_SetLoadFile(char *saveBuf)
+int GCL_SetLoadFile(char *save_buf)
 {
-    typedef struct
-    {
-        short f[sizeof(gRadioMemory_800BDB38) / sizeof(short)];
-    } RdMem;
-    SaveFile *saveFile;
-    SaveGame *save;
+    typedef struct { short f[sizeof(gRadioMemory_800BDB38) / sizeof(short)]; } RdMem;
 
-    saveFile = (SaveFile *)saveBuf;
-    save = &saveFile->f008_saveGame;
+    SAVE_FILE *save_file;
+    SAVE_DATA *save_data;
 
-    if ((save->f008_version != 0x60) || (save->f00C_version2 != 0x800))
+    save_file = (SAVE_FILE *)save_buf;
+    save_data = &save_file->data;
+
+    if ((save_data->version != SAVE_VERSION) || (save_data->version2 != SAVE_VERSION2))
     {
         printf("SAVE DATA VERSION ERROR!!\n");
     }
-    if (saveFile->f004_checksum != crc32(sizeof(SaveGame), (char *)save))
+    if (save_file->checksum != crc32(sizeof(SAVE_DATA), (char *)save_data))
     {
         printf("CRC ERROR !!\n");
         return 0;
     }
 
-    gTotalFrameTime = save->f010_totalFrameTime;
-    strcpy(gStageName_800B4D88, save->f020_stageName);
-    GM_SetAreaHistory(&save->f030_areaHistory);
+    gTotalFrameTime = save_data->totalFrameTime;
+    strcpy(gStageName_800B4D88, save_data->stage_name);
+    GM_SetAreaHistory(&save_data->area_history);
 
-    memcpy(sv_linkvarbuf, save->f040_varbuf, 0xC0);
-    gGcl_memVars_800b4588 = save->f100_gcl_vars;
-    memcpy(linkvarbuf, save->f040_varbuf, 0xC0);
-    gGcl_vars_800B3CC8 = save->f100_gcl_vars;
-    *(RdMem *)&gRadioMemory_800BDB38 = *(RdMem *)&save->f900_radio_memory;
+    memcpy(sv_linkvarbuf, save_data->varbuf, 0xC0);
+    gGcl_memVars_800b4588 = save_data->gcl_vars;
+    memcpy(linkvarbuf, save_data->varbuf, 0xC0);
+    gGcl_vars_800B3CC8 = save_data->gcl_vars;
+    *(RdMem *)&gRadioMemory_800BDB38 = *(RdMem *)&save_data->radio_memory;
 
     return 1;
 }

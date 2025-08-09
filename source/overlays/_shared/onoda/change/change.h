@@ -1,6 +1,6 @@
-#ifndef _CHANGE_H_
-#define _CHANGE_H_
+#ifndef __MGS_ONODA_CHANGE_H__
+#define __MGS_ONODA_CHANGE_H__
 
 void *NewChange( int name, int where, int argc, char **argv );
 
-#endif // _CHANGE_H_
+#endif // __MGS_ONODA_CHANGE_H__

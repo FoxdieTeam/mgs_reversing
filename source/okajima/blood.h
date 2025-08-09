@@ -1,5 +1,5 @@
-#ifndef _BLOOD_H_
-#define _BLOOD_H_
+#ifndef __MGS_OKAJIMA_BLOOD_H__
+#define __MGS_OKAJIMA_BLOOD_H__
 
 #include <sys/types.h>
 #include <libgte.h>
@@ -10,4 +10,4 @@ void *NewBlood(MATRIX *, int count);
 
 void AN_Blood_Mist(SVECTOR *pos, SVECTOR *speed);
 
-#endif // _BLOOD_H_
+#endif // __MGS_OKAJIMA_BLOOD_H__

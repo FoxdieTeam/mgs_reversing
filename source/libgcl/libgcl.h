@@ -1,5 +1,5 @@
-#ifndef _LIBGCL_H_
-#define _LIBGCL_H_
+#ifndef __MGS_LIBGCL_H__
+#define __MGS_LIBGCL_H__
 
 #include <sys/types.h>
 #include <libgte.h>     // for SVECTOR
@@ -201,4 +201,4 @@ unsigned char  *GCL_GetVar(unsigned char *top, int *type_p, int *value_p);
 unsigned char  *GCL_SetVar(unsigned char *top, unsigned int value);
 unsigned char  *GCL_VarSaveBuffer(unsigned char *top);
 
-#endif // _LIBGCL_H_
+#endif // __MGS_LIBGCL_H__

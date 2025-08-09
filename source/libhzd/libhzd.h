@@ -1,5 +1,5 @@
-#ifndef _LIBHZD_H_
-#define _LIBHZD_H_
+#ifndef __MGS_LIBHZD_H__
+#define __MGS_LIBHZD_H__
 
 #include <sys/types.h>
 #include <libgte.h>
@@ -134,4 +134,4 @@ void HZD_PointNearVec(SVECTOR *vectors);
 #define HZD_SEG_NO_BEHIND    (0x40) /* player lean */
 #define HZD_SEG_NO_RADAR     (0x80) /* radar draw */
 
-#endif // _LIBHZD_H_
+#endif // __MGS_LIBHZD_H__

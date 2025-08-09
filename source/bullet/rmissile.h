@@ -1,5 +1,5 @@
-#ifndef _RMISSILE_H_
-#define _RMISSILE_H_
+#ifndef __MGS_BULLET_RMISSILE_H__
+#define __MGS_BULLET_RMISSILE_H__
 
 #include <sys/types.h>
 #include <libgte.h>
@@ -9,4 +9,4 @@
 
 void *NewRMissile(MATRIX *world, int side);
 
-#endif // _RMISSILE_H_
+#endif // __MGS_BULLET_RMISSILE_H__

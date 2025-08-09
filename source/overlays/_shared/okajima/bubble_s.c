@@ -6,6 +6,8 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 
+#include "overlays/_shared/takabe/ripple.h" // for NewRipple_800D7F30
+
 typedef struct _BubbleSWork
 {
     GV_ACT   actor;
@@ -32,8 +34,6 @@ typedef struct _BubbleSWork
 #define MIN_BUBBLE_SIZE 20
 #define MAX_BUBBLE_SIZE 40
 #define RANDAM_WIDTH    16
-
-void *NewRipple_800D7F30(MATRIX *, int);
 
 void BubbleSShadePacks_800D5324(POLY_FT4 *packs, int shade)
 {

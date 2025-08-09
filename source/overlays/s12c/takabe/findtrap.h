@@ -1,6 +1,6 @@
-#ifndef _FINDTRAP_H_
-#define _FINDTRAP_H_
+#ifndef __MGS_TAKABE_FINDTRAP_H__
+#define __MGS_TAKABE_FINDTRAP_H__
 
 void *NewFindTrap_800D77DC(int name, int where, int argc, char **argv);
 
-#endif // _FINDTRAP_H_
+#endif // __MGS_TAKABE_FINDTRAP_H__

@@ -1,3 +1,5 @@
+#include "glass.h"
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
@@ -5,6 +7,8 @@
 #include "game/game.h"
 #include "takabe/thing.h"
 #include "sd/g_sound.h"
+
+#include "overlays/_shared/takabe/gsplash.h"    // for NewGsplash_800D4000
 
 #define SEGMENT_ATR ( HZD_SEG_NO_RADAR | HZD_SEG_NO_BULLET | HZD_SEG_NO_HARITSUKI | HZD_SEG_NO_PLAYER )
 
@@ -32,8 +36,6 @@ typedef struct _GlassWork
 
 void s16b_800C4874(int n_segs, HZD_SEG *segs, int n_flrs, HZD_FLR *flrs);
 void s16b_800C49AC(HZD_SEG *seg);
-
-void *NewGsplash_800D4000(MATRIX *pos, SVECTOR *arg1, short arg2, short n_prims);
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
