@@ -14,7 +14,7 @@ typedef struct _WireWork
     OBJECT   objects[25];
     DG_PRIM *f1668;
     int      f166C;
-    int      f1670;
+    int      wire_cut;
     SVECTOR  verts[112];
     int      map;
     int      f19F8;
@@ -62,7 +62,7 @@ SVECTOR        s04c_dword_800C35F8 = {2500, 10000, 2500, 0};
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-void s04c_wire_800D2E7C(WireWork *work)
+STATIC void CheckWireCut(WireWork *work)
 {
     int   px, pz;
     int   x, z;
@@ -85,7 +85,7 @@ void s04c_wire_800D2E7C(WireWork *work)
                         GM_SeSet2(0, 63, 182);
                         NewPadVibration(s04c_dword_800C35EC, 1);
 
-                        work->f1670 = 1;
+                        work->wire_cut = 1;
                         work->f166C++;
 
                         if (!(GM_GameStatus & STATE_DEMO) && GM_GameOverTimer == 0)
@@ -110,7 +110,7 @@ void s04c_wire_800D2E7C(WireWork *work)
                         GM_SeSet2(0, 63, 182);
                         NewPadVibration(s04c_dword_800C35EC, 1);
 
-                        work->f1670 = 1;
+                        work->wire_cut = 1;
                         work->f166C++;
 
                         if (!(GM_GameStatus & STATE_DEMO) && GM_GameOverTimer == 0)
@@ -135,7 +135,7 @@ void s04c_wire_800D2E7C(WireWork *work)
                         GM_SeSet2(0, 63, 182);
                         NewPadVibration(s04c_dword_800C35EC, 1);
 
-                        work->f1670 = 1;
+                        work->wire_cut = 1;
                         work->f166C++;
 
                         if (!(GM_GameStatus & STATE_DEMO) && GM_GameOverTimer == 0)
@@ -160,7 +160,7 @@ void s04c_wire_800D2E7C(WireWork *work)
                         GM_SeSet2(0, 63, 182);
                         NewPadVibration(s04c_dword_800C35EC, 1);
 
-                        work->f1670 = 1;
+                        work->wire_cut = 1;
                         work->f166C++;
 
                         if (!(GM_GameStatus & STATE_DEMO) && GM_GameOverTimer == 0)
@@ -185,7 +185,7 @@ void s04c_wire_800D2E7C(WireWork *work)
                         GM_SeSet2(0, 63, 182);
                         NewPadVibration(s04c_dword_800C35EC, 1);
 
-                        work->f1670 = 1;
+                        work->wire_cut = 1;
                         work->f166C++;
 
                         if (!(GM_GameStatus & STATE_DEMO) && GM_GameOverTimer == 0)
@@ -208,7 +208,7 @@ void s04c_wire_800D2E7C(WireWork *work)
                     GM_SeSet2(0, 63, 182);
                     NewPadVibration(s04c_dword_800C35EC, 1);
 
-                    work->f1670 = 1;
+                    work->wire_cut = 1;
                     work->f166C++;
 
                     if (!(GM_GameStatus & STATE_DEMO) && GM_GameOverTimer == 0)
@@ -235,7 +235,7 @@ void s04c_wire_800D2E7C(WireWork *work)
             GM_SeSet2(0, 63, 182);
             NewPadVibration(s04c_dword_800C35EC, 1);
 
-            work->f1670 = 1;
+            work->wire_cut = 1;
             work->f166C++;
 
             if (!(GM_GameStatus & STATE_DEMO) && GM_GameOverTimer == 0)
@@ -303,7 +303,7 @@ void s04c_wire_800D2E7C(WireWork *work)
         NewPadVibration(s04c_dword_800C35EC, 1);
 
         work->f166C = 15;
-        work->f1670 = 1;
+        work->wire_cut = 1;
 
         if (!(GM_GameStatus & STATE_DEMO) && GM_GameOverTimer == 0)
         {
@@ -320,7 +320,7 @@ void s04c_wire_800D2E7C(WireWork *work)
     }
 }
 
-void s04c_wire_800D350C(WireWork *work)
+STATIC void TriggerDetonation(WireWork *work)
 {
     GM_CurrentMap = work->map;
 
@@ -434,7 +434,7 @@ void s04c_wire_800D350C(WireWork *work)
     work->f166C++;
 }
 
-void WireAct_800D36B8(WireWork *work)
+STATIC void Act(WireWork *work)
 {
     SVECTOR pos;
 
@@ -568,16 +568,16 @@ void WireAct_800D36B8(WireWork *work)
         work->f19F8++;
     }
 
-    switch (work->f1670)
+    switch (work->wire_cut)
     {
     case 0:
-        s04c_wire_800D2E7C(work);
+        CheckWireCut(work);
         GM_MoveTarget(work->f203C, &work->f20BC);
         GM_PushTarget(work->f203C);
         break;
 
     case 1:
-        s04c_wire_800D350C(work);
+        TriggerDetonation(work);
         break;
     }
 
@@ -587,7 +587,7 @@ void WireAct_800D36B8(WireWork *work)
     }
 }
 
-void WireDie_800D3DB0(WireWork *work)
+STATIC void Die(WireWork *work)
 {
     GM_FreeObject(&work->objects[0]);
     GM_FreeObject(&work->objects[3]);
@@ -621,7 +621,7 @@ void WireDie_800D3DB0(WireWork *work)
     GM_FreeTarget(work->f20D4);
 }
 
-int s04c_wire_800D3ED8(WireWork *work)
+STATIC int CreateTarget(WireWork *work)
 {
     TARGET *target;
 
@@ -637,7 +637,7 @@ int s04c_wire_800D3ED8(WireWork *work)
     return 0;
 }
 
-int s04c_wire_800D3F40(WireWork *work)
+STATIC int CreateTarget2(WireWork *work)
 {
     TARGET *target;
 
@@ -657,16 +657,16 @@ const char s04c_aWire_800DBBA8[] = "wire";
 const char s04c_aBc_800DBBB0[] = "04b_c4";
 
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_wire_800D3FA8.s")
-int s04c_wire_800D3FA8(WireWork *work, int name, int map);
+int s04c_wire_800D3FA8(WireWork *work, int name, int map); // GetResources
 
-void *NewWire_800D709C(int name, int where)
+void *NewWire(int name, int where)
 {
     WireWork *work;
 
     work = GV_NewActor(EXEC_LEVEL, sizeof(WireWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, WireAct_800D36B8, WireDie_800D3DB0, "wire.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "wire.c");
 
         if (s04c_wire_800D3FA8(work, name, where) < 0)
         {

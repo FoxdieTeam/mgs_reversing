@@ -40,21 +40,21 @@ SVECTOR s04c_dword_800C35E0 = {100, 100, 100, 0};
 
 int s04c_dword_800DBE20;
 
-void *NewRevbullt_800D2DC8(MATRIX *world, int bounces);
+void *NewRevolverBullet(MATRIX *world, int bounces);
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-void s04c_revbullt_800D2378(SVECTOR *verts)
+STATIC void TransformPrim(SVECTOR *verts)
 {
     DG_PutVector(s04c_dword_800C35B0, verts, 4);
 }
 
-void s04c_revbullt_800D23A4(RevbulltWork *work)
+STATIC void PushPrim(RevbulltWork *work)
 {
     SVECTOR *verts;
     int      i;
 
-    s04c_revbullt_800D2378(work->verts2);
+    TransformPrim(work->verts2);
 
     verts = work->verts2;
     for (i = 1; i > 0; i--)
@@ -64,7 +64,7 @@ void s04c_revbullt_800D23A4(RevbulltWork *work)
     }
 }
 
-void s04c_revbullt_800D245C(RevbulltWork *work)
+STATIC void PushPrim2(RevbulltWork *work)
 {
     SVECTOR *verts;
     int      i;
@@ -76,10 +76,10 @@ void s04c_revbullt_800D245C(RevbulltWork *work)
         verts -= 4;
     }
 
-    s04c_revbullt_800D2378(verts);
+    TransformPrim(verts);
 }
 
-void s04c_revbullt_800D2510(RevbulltWork *work)
+STATIC void InitPrim(RevbulltWork *work)
 {
     SVECTOR *src;
     SVECTOR *dst;
@@ -104,7 +104,7 @@ void s04c_revbullt_800D2510(RevbulltWork *work)
     }
 }
 
-void s04c_revbullt_800D263C(POLY_FT4 *packs, DG_TEX *tex)
+STATIC void InitPacks(POLY_FT4 *packs, DG_TEX *tex)
 {
     int i, j;
     int shade;
@@ -139,7 +139,7 @@ void s04c_revbullt_800D263C(POLY_FT4 *packs, DG_TEX *tex)
     }
 }
 
-int s04c_revbullt_800D274C(RevbulltWork *work, MATRIX *world)
+STATIC int CalculateHit(RevbulltWork *work, MATRIX *world)
 {
     SVECTOR  sp18[2];
     int      ret;
@@ -179,7 +179,7 @@ int s04c_revbullt_800D274C(RevbulltWork *work, MATRIX *world)
     return len;
 }
 
-void RevbulltAct_800D2864(RevbulltWork *work)
+STATIC void Act(RevbulltWork *work)
 {
     MATRIX  world;
     SVECTOR sp38;
@@ -191,7 +191,7 @@ void RevbulltAct_800D2864(RevbulltWork *work)
 
         GV_AddVec3(&work->f24, &work->f2C, &sp38);
 
-        if (GM_Target_8002E1B8(&work->f24, &sp38, work->map, &work->f24, 2)
+        if (GM_Target_8002E1B8(&work->f24, &sp38, work->map, &work->f24, ENEMY_SIDE)
             && GM_GameOverTimer == 0
             && (GM_MoveTarget(&work->target, &work->f24), GM_PowerTarget(&work->target)))
         {
@@ -212,8 +212,8 @@ void RevbulltAct_800D2864(RevbulltWork *work)
 
         if (work->f128 != 0)
         {
-            s04c_revbullt_800D245C(work);
-            s04c_revbullt_800D2510(work);
+            PushPrim2(work);
+            InitPrim(work);
         }
 
         if (GV_DiffVec3(&work->f24, &work->f34) >= work->f12C)
@@ -230,7 +230,7 @@ void RevbulltAct_800D2864(RevbulltWork *work)
 
                 if (work->bounces > 0)
                 {
-                    NewRevbullt_800D2DC8(&world, work->bounces - 1);
+                    NewRevolverBullet(&world, work->bounces - 1);
                     NewAnime_8005E508(&work->position);
                     GM_SeSetMode(&work->f24, 176, GM_SEMODE_BOMB);
                 }
@@ -265,12 +265,12 @@ void RevbulltAct_800D2864(RevbulltWork *work)
     }
 }
 
-void RevbulltDie_800D2AEC(RevbulltWork *work)
+STATIC void Die(RevbulltWork *work)
 {
     GM_FreePrim(work->prim);
 }
 
-void Revbullt_800D2B28(RevbulltWork *work, int side)
+STATIC void CreateTarget(RevbulltWork *work, int side)
 {
     SVECTOR pos;
     TARGET *target;
@@ -295,7 +295,7 @@ void Revbullt_800D2B28(RevbulltWork *work, int side)
     GM_Target_8002DCCC(target, 1, 1, damage, 0, &pos);
 }
 
-int RevbulltGetResources_800D2BFC(RevbulltWork *work, MATRIX *world, int arg2, int arg3)
+STATIC int GetResources(RevbulltWork *work, MATRIX *world, int visible, int arg3)
 {
     SVECTOR  sp18;
     int      k500 = 1000;
@@ -314,7 +314,7 @@ int RevbulltGetResources_800D2BFC(RevbulltWork *work, MATRIX *world, int arg2, i
 
     DG_SetPos(world);
 
-    work->f12C = s04c_revbullt_800D274C(work, world);
+    work->f12C = CalculateHit(work, world);
     if (arg3 != 0)
     {
         height = work->f12C;
@@ -332,7 +332,7 @@ int RevbulltGetResources_800D2BFC(RevbulltWork *work, MATRIX *world, int arg2, i
     work->f34.vy = work->f24.vy;
     work->f34.vz = work->f24.vz;
 
-    if (arg2 != 0)
+    if (visible != 0)
     {
         prim = DG_GetPrim(DG_PRIM_POLY_FT4, 2, 0, work->verts, NULL);
         work->prim = prim;
@@ -349,30 +349,30 @@ int RevbulltGetResources_800D2BFC(RevbulltWork *work, MATRIX *world, int arg2, i
             return -1;
         }
 
-        s04c_revbullt_800D263C(&prim->packs[0]->poly_ft4, tex);
-        s04c_revbullt_800D263C(&prim->packs[1]->poly_ft4, tex);
-        s04c_revbullt_800D23A4(work);
+        InitPacks(&prim->packs[0]->poly_ft4, tex);
+        InitPacks(&prim->packs[1]->poly_ft4, tex);
+        PushPrim(work);
     }
 
     return 0;
 }
 
-void *NewRevbullt_800D2DC8(MATRIX *world, int bounces)
+void *NewRevolverBullet(MATRIX *world, int bounces)
 {
     RevbulltWork *work;
 
     work = GV_NewActor(EXEC_LEVEL, sizeof(RevbulltWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, RevbulltAct_800D2864, RevbulltDie_800D2AEC, "revbullt.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "revbullt.c");
 
-        if (RevbulltGetResources_800D2BFC(work, world, 1, 0) < 0)
+        if (GetResources(work, world, 1, 0) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
         }
 
-        Revbullt_800D2B28(work, ENEMY_SIDE);
+        CreateTarget(work, ENEMY_SIDE);
 
         work->f128 = 1;
         work->f140 = 0;

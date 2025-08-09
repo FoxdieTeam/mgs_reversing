@@ -35,7 +35,7 @@
 #define CHARA_VMODEL            { 0x0a02, ? }                       // GV_StrCode("モデル") thing/vmodel.c (PC-ONLY)
 #define CHARA_VRSPARK           { 0x0c09, ? }                       // koba/vr/vrspark.c
 #define CHARA_BG_HEX_S          { 0x0d9b, ? }                       // okajima/photo/bg_hex_s.c
-#define CHARA_VOICE_SYSTEM      { 0x0dc9, NewVoicesys_800CE944 }    // takabe/voicesys.c
+#define CHARA_VOICE_SYSTEM      { 0x0dc9, NewVoiceSystem }          // takabe/voicesys.c
 #define CHARA_MOTION_SE         { 0x0fad, NewMotionSoundEffect }    // chara/others/motse.c
 #define CHARA_ELECTRIC_DAMAGE   { 0x107c, NewElcDamg_800D4C68 }     // takabe/elc_damg.c
 #define CHARA_PERAPICT          { 0x10ff, ? }                       // chara/others/perapict.c
@@ -154,7 +154,7 @@
 #define CHARA_CAMERA_SHAKE      { 0x7bc2, NewCameraShake }          // takabe/camshake.c
 #define CHARA_LIQUID            { 0x7bf2, ? }                       // GV_StrCode("リキッド") animal/liquid/liquid.c
 #define CHARA_ZAKOCOM           { 0x7cf7, ? }                       // GV_StrCode("ざこコマンダー") animal/zako/zakocom.c
-#define CHARA_WIRE              { 0x7eca, NewWire_800D709C }        // GV_StrCode("ワイヤ") onoda/s04b/wire.c
+#define CHARA_WIRE              { 0x7eca, NewWire }                 // GV_StrCode("ワイヤ") onoda/s04b/wire.c
 #define CHARA_TELOP_SET         { 0x7ff7, NewTelopSet_800DDB34 }    // GV_StrCode("テロップ") takabe/telop.c
 #define CHARA_BLINK_TX          { 0x8185, NewBlinkTx_800DECD8 }     // okajima/blink_tx.c
 #define CHARA_CAMERA_JPEG       { 0x81c7, NewCamera_800CF388 }      // GV_StrCode("ＪＰＥＧ") camera.c
@@ -184,7 +184,7 @@
 #define CHARA_WOLF2             { 0x962c, NewWolf2 }                // GV_StrCode("ウルフ") okajima/wolf/wolf2.c
 #define CHARA_WATER             { 0x96b5, ? }                       // takabe/water.c (PC-ONLY)
 #define CHARA_OPT               { 0x976c, NewOption_800C9344 }      // onoda/option/opt.c
-#define CHARA_AT                { 0x9988, NewAt_800D78A4 }          // GV_StrCode("ＡＴ") onoda/s04b/at.c
+#define CHARA_AT                { 0x9988, NewArmsTechPresident }    // GV_StrCode("ＡＴ") onoda/s04b/at.c
 #define CHARA_ELE_CROW          { 0x9ab9, ? }                       // okajima/valcan/ele_crow.c
 #define CHARA_PLASMA_9BC2       { 0x9bc2, NewPlasma_800CD110 }      // GV_StrCode("プラズマ") okajima/plasma.c
 #define CHARA_PK_GATE           { 0x9c6c, ? }                       // takabe/pk_gate.c
@@ -235,7 +235,7 @@
 #define CHARA_HIND2             { 0xb959, NewHind2 }                // chara/hind2/hind2.c
 #define CHARA_CLUTER            { 0xb95f, ? }                       // koba/vr/cluter.c (PC-ONLY)
 #define CHARA_M_DOOR            { 0xb98c, ? }                       // enemy/m_door.c
-#define CHARA_CAPE              { 0xb99f, NewCape_800D92F8 }        // onoda/s04b/cape.c
+#define CHARA_CAPE              { 0xb99f, NewCape }                 // onoda/s04b/cape.c
 #define CHARA_SHAKE_MODEL       { 0xba52, NewShakemdl_800C54E8 }    // takabe/shakemdl.c
 #define CHARA_BG_SP_ST          { 0xbc76, ? }                       // okajima/photo/bg_sp_st.c (PC-ONLY)
 #define CHARA_ROPE              { 0xbda8, s11d_rope_800C9500 }      // --> chara/rope/rope.c
@@ -523,10 +523,10 @@ void *NewDemoSelect();                  /* onoda/demosel/demosel.c      */
 void *NewOpen_800D6814();               /* onoda/open/open.c            */
 void *NewOption_800C9344();             /* onoda/option/opt.c           */
 void *NewPreviousOperation();           /* onoda/preope/preope.c        */
-void *NewAt_800D78A4();                 /* onoda/s04b/at.c              */
-void *NewCape_800D92F8();               /* onoda/s04b/cape.c            */
+void *NewArmsTechPresident();           /* onoda/s04b/at.c              */
+void *NewCape();                        /* onoda/s04b/cape.c            */
 void *s04c_revolver_800D2028();         /* onoda/s04b/revolver.c        */
-void *NewWire_800D709C();               /* onoda/s04b/wire.c            */
+void *NewWire();                        /* onoda/s04b/wire.c            */
 void *NewBreakObject();                 /* takabe/breakobj.c            */
 void *NewCameraShake();                 /* takabe/camshake.c            */
 void *NewZoom_800DFA88();               /* takabe/cat_in.c              */
@@ -584,7 +584,7 @@ void *NewTelop_800DDD7C();              /* takabe/telop.c               */
 void *NewTexScroll();                   /* takabe/tex_scrl.c            */
 void *NewTruckTrap();                   /* takabe/tracktrp.c            */
 void *NewVibEdit_800C47B4();            /* takabe/vib_edit.c            */
-void *NewVoicesys_800CE944();           /* takabe/voicesys.c            */
+void *NewVoiceSystem();                 /* takabe/voicesys.c            */
 void *NewWindcrcl_800CF6BC();           /* takabe/windcrcl.c            */
 void *NewWsurface_800DB9BC();           /* takabe/wsurface.c            */
 void *NewWaterArea();                   /* takabe/wt_area.c             */

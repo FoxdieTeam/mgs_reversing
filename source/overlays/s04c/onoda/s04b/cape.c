@@ -30,7 +30,6 @@ typedef struct _CapeWork
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-
 void s04c_cape_800D7938(CapeWork *work)
 {
     int i;
@@ -267,7 +266,7 @@ void s04c_cape_800D83D4(CapeWork *work);
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_cape_800D8724.s")
 void s04c_cape_800D8724(CapeWork *work);
 
-void CapeAct_800D8FF8(CapeWork *work)
+STATIC void Act(CapeWork *work)
 {
     work->fA70 = 0;
     s04c_cape_800D79C8(work);
@@ -277,7 +276,7 @@ void CapeAct_800D8FF8(CapeWork *work)
     s04c_cape_800D83D4(work);
 }
 
-void CapeDie_800D9040(CapeWork* work)
+STATIC void Die(CapeWork* work)
 {
     GM_FreePrim(work->prim);
 }
@@ -297,7 +296,7 @@ static inline void CapeInitPack(POLY_GT4 *poly, DG_TEX *tex)
     poly->clut = tex->clut;
 }
 
-int CapeGetResources_800D907C(CapeWork *work, SVECTOR *arg1, SVECTOR *arg2, MATRIX *light, MATRIX *color)
+STATIC int GetResources(CapeWork *work, SVECTOR *arg1, SVECTOR *arg2, MATRIX *light, MATRIX *color)
 {
     DG_PRIM  *prim;
     POLY_GT4 *packs0;
@@ -360,16 +359,16 @@ int CapeGetResources_800D907C(CapeWork *work, SVECTOR *arg1, SVECTOR *arg2, MATR
     return 0;
 }
 
-void *NewCape_800D92F8(SVECTOR *arg0, SVECTOR *arg1, MATRIX *light, MATRIX *color)
+void *NewCape(SVECTOR *arg0, SVECTOR *arg1, MATRIX *light, MATRIX *color)
 {
     CapeWork *work;
 
     work = GV_NewActor(EXEC_LEVEL, sizeof(CapeWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, CapeAct_800D8FF8, CapeDie_800D9040, "cape.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "cape.c");
 
-        if (CapeGetResources_800D907C(work, arg0, arg1, light, color) < 0)
+        if (GetResources(work, arg0, arg1, light, color) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
