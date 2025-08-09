@@ -94,13 +94,9 @@
 //-----------------------------------------------------------------------------
 // Textures files (.pcx)
 //-----------------------------------------------------------------------------
-#define PCX_GO_EXIT             0x4d9a // GV_StrCode( "GO_EXIT" )
-#define PCX_GO_CONTINUE         0x669d // GV_StrCode( "GO_CONTINUE" )
 #define PCX_EMPTY2              0xb05c // GV_StrCode( "empty2" )
 #define PCX_LSIGHT              0x08db // GV_StrCode( "lsight" )
 #define PCX_SOCOM_F             0xe4cc // GV_StrCode( "socom_f" )
-#define PCX_MG_SOLID            0x3f37 // GV_StrCode( "MG_SOLID" )
-#define PCX_COMING_SOON         0x0abb // GV_StrCode( "COMING_SOON" )
 #define PCX_SMOKE               0x512d // GV_StrCode( "smoke" )
 #define PCX_WT_SUD11            0xdf92 // GV_StrCode( "wt_sud11" )
 #define PCX_MAGAZIN             0x7e4c // GV_StrCode( "magazin" )
@@ -120,22 +116,6 @@
 #define PCX_RCM_L               0x479f // GV_StrCode( "rcm_l" )
 #define PCX_W_BONBORI           0xa9cd // GV_StrCode( "w_bonbori" )
 #define PCX_DOOR2               0x50eb // GV_StrCode( "door2" )
-
-//-----------------------------------------------------------------------------
-// Sight files (.sgt)
-//-----------------------------------------------------------------------------
-#define SGT_SCOPE               0x51c8 // GV_StrCode( "scope" )
-#define SGT_NIKITA              0x15a9 // GV_StrCode( "nikita" )
-#define SGT_CB_BOX              0xe2a9 // GV_StrCode( "cb_box" )
-#define SGT_IR_GGLE1            0x84db // GV_StrCode( "ir_ggle1" )
-#define SGT_IR_GGLE2            0x84dc // GV_StrCode( "ir_ggle2" )
-#define SGT_IR_GGLE3            0x84dd // GV_StrCode( "ir_ggle3" )
-#define SGT_NV_GGLE1            0x8504 // GV_StrCode( "nv_ggle1" )
-#define SGT_NV_GGLE2            0x8505 // GV_StrCode( "nv_ggle2" )
-#define SGT_NV_GGLE3            0x8506 // GV_StrCode( "nv_ggle3" )
-#define SGT_MASK                0x1303 // GV_StrCode( "mask" )
-#define SGT_CAMERA              0xeee9 // GV_StrCode( "camera" )
-#define SGT_CAMERA_2            0xb3cd // GV_StrCode( "camera_2" )
 
 //-----------------------------------------------------------------------------
 // Model files (.kmd)
@@ -173,11 +153,6 @@
 //-----------------------------------------------------------------------------
 #define OAR_SNAKE               0x992d // GV_StrCode( "snake" )
 #define OAR_ENEMY               0xa8a1 // GV_StrCode( "enemy" )
-
-//-----------------------------------------------------------------------------
-// Sprites files (.pcc)
-//-----------------------------------------------------------------------------
-#define PCC_READ                0xa0be // GV_StrCode( "read" ) // for loading ?
 
 //-----------------------------------------------------------------------------
 // Chara IDs
