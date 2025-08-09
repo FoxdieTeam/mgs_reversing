@@ -1,9 +1,6 @@
-#include "common.h"
-#include "charadef.h"
-
-#include "../_shared/game/select.h"
+#include "charalst.h"
 
 CHARA _StageCharacterEntries[] = {
-    { CHARA_SELECT, (NEWCHARA)NewSelect },
-    { 0, NULL }
+    CHARA_SELECT,
+    CHARA_END
 };

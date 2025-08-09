@@ -1,31 +1,31 @@
-#include "common.h"
-#include "charadef.h"
+#include "charalst.h"
 
-CHARA _StageCharacterEntries[] =
-{
-    { 0xFED1, (NEWCHARA)0x8005D508 },
-    { 0x7A05, (NEWCHARA)0x800D0C44 },
-    { 0xC6AC, (NEWCHARA)0x800C8E18 },
-    { 0xB997, (NEWCHARA)0x8006FD00 },
-    { 0x02C4, (NEWCHARA)0x800C4AA0 },
-    { 0x92BC, (NEWCHARA)0x800C568C },
-    { 0xA480, (NEWCHARA)0x800CF068 },
-    { 0x81EA, (NEWCHARA)0x800CD698 },
-    { 0x1AD3, (NEWCHARA)0x800C3D10 },
-    { 0x5D64, (NEWCHARA)0x800D1134 },
-    { 0xA9C5, (NEWCHARA)0x800C7930 },
-    { 0xBA52, (NEWCHARA)0x800D1C74 },
-    { 0xEC77, (NEWCHARA)0x800C4F9C },
-    { 0x5A50, (NEWCHARA)0x800CDEAC },
-    { 0x917B, (NEWCHARA)0x800CC7D0 },
-    { 0xA12E, (NEWCHARA)0x800D0468 },
-    { 0xB103, (NEWCHARA)0x800D1358 },
-    { 0x0003, (NEWCHARA)0x800D03D0 },
-    { 0x0004, (NEWCHARA)0x800D03D0 },
-    { 0x0028, (NEWCHARA)0x800D19A0 },
-    { 0x0037, (NEWCHARA)0x800CBD7C },
-    { 0x0038, (NEWCHARA)0x800CBE40 },
-    { 0x0042, (NEWCHARA)0x800CDF48 },
-    { 0x0044, (NEWCHARA)0x800CC3CC },
-    { 0, NULL }
+CHARA _StageCharacterEntries[] = {
+    CHARA_VIBRATE,      /* chara パッド振動 */
+    CHARA_CINEMA,       /* chara シネマスクリーン */
+    CHARA_KEY_ITEM,
+    CHARA_DOOR,         /* chara ドア */
+    CHARA_ASIATOKUN,    /* chara 足跡君 */
+    CHARA_ASIOTO,
+    CHARA_WT_AREA2,
+    CHARA_RSURFACE,
+    CHARA_LAMP,
+    CHARA_O2_DAMAGE,
+    CHARA_GUNCAME,
+    CHARA_SHAKE_MODEL,
+    CHARA_WALL,         /* chara 障害物 */
+    CHARA_GAS_EFFECT,
+    CHARA_ITEM_DOT,
+    CHARA_FADE_IN_OUT,
+    CHARA_DYNAMIC_SEGMENT, /* chara 透明壁 */
+
+    CHARA_FADEIO_0003,
+    CHARA_FADEIO_0004,
+    CHARA_SEPIA_0028,
+    CHARA_RED_ALERT_0037,
+    CHARA_RED_ALERT_0038,
+    CHARA_GAS_EFCT,
+    CHARA_BLURPURE,
+
+    CHARA_END
 };
