@@ -1712,8 +1712,6 @@ void MENU_SetRadioCallbackProc(int proc_id)
 
 // TODO: Functions from this point forward don't belong to radio.c!
 
-void menu_set_string2(void);
-
 // rect_800AB64C is declared as a 1-element array
 // in order for menu_number_init
 // to declare extern to an array with unspecified size.

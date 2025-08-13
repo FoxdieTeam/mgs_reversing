@@ -134,7 +134,7 @@ void sub_8003CE78(void)
     dword_800ABADC = 0;
 }
 
-void sub_8003CE84()
+void sub_8003CE84(void)
 {
     int i;
     int bit;
