@@ -1114,20 +1114,20 @@ long font_draw_string(KCB *kcb, long xtop, long ytop, const char *string, long c
                 goto block_136;
 
             case 0x901D:
-                current_code = (GM_GameStatusFlag & 7) == 2 ? 0x9024 : 0x901D;
+                current_code = (GM_OptionFlag & OPTION_BUTTON_MASK) == OPTION_BUTTON_TYPE_C ? 0x9024 : 0x901D;
                 goto block_136;
 
             case 0x901E:
             case 0x9024:
-                switch (GM_GameStatusFlag & 7)
+                switch (GM_OptionFlag & OPTION_BUTTON_MASK)
                 {
-                case 0:
+                case OPTION_BUTTON_TYPE_A:
                     current_code = d;
                     break;
-                case 1:
+                case OPTION_BUTTON_TYPE_B:
                     current_code = 0x9018;
                     break;
-                case 2:
+                case OPTION_BUTTON_TYPE_C:
                     current_code = 0x901D;
                     break;
                 }

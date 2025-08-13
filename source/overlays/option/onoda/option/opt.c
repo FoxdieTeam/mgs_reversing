@@ -1431,79 +1431,79 @@ static inline void SetGameStatusFlags( OptionWork *work )
 
     if ( work->f924[4] == 1 )
     {
-        GM_GameStatusFlag |= STATE_RADIO_OFF;
+        GM_OptionFlag |= OPTION_UNKNOWN_2000;
     }
     else
     {
-        GM_GameStatusFlag &= ~( STATE_RADIO_OFF );
+        GM_OptionFlag &= ~( OPTION_UNKNOWN_2000 );
     }
 
     if ( !( work->f2B54 ) )
     {
-        GM_GameStatusFlag |= STATE_RADIO_OFF;
+        GM_OptionFlag |= OPTION_UNKNOWN_2000;
     }
 
     if ( work->f924[3] == 1 )
     {
-        GM_GameStatusFlag |= STATE_SHOW_LIFEBAR;
+        GM_OptionFlag |= OPTION_SOUND_MONO;
     }
     else
     {
-        GM_GameStatusFlag &= ~( STATE_SHOW_LIFEBAR );
+        GM_OptionFlag &= ~( OPTION_SOUND_MONO );
     }
 
     if ( work->f924[1] == 1 )
     {
-        GM_GameStatusFlag |= STATE_PAUSE_OFF;
+        GM_OptionFlag |= OPTION_CAPTION_OFF;
     }
     else
     {
-        GM_GameStatusFlag &= ~( STATE_PAUSE_OFF );
+        GM_OptionFlag &= ~( OPTION_CAPTION_OFF );
     }
 
     if ( work->f924[2] == 1 )
     {
-        GM_GameStatusFlag |= 0x100;
+        GM_OptionFlag |= OPTION_ENGLISH;
     }
     else
     {
-        GM_GameStatusFlag &= ~( 0x100 );
+        GM_OptionFlag &= ~( OPTION_ENGLISH );
     }
 
     switch ( work->f29E8 )
     {
-        case 0:
-        GM_GameStatusFlag &= ~( 0x1000 | STATE_NVG | STATE_STUN | STATE_CHAFF );
+    case 0:
+        GM_OptionFlag &= ~( OPTION_SHUKAN_REVERSE | OPTION_BUTTON_MASK );
         if ( work->f2B60 )
         {
-            GM_GameStatusFlag |= STATE_THERMG;
+            GM_OptionFlag |= OPTION_UNKNOWN_0008;
         }
         break;
-        case 1:
-        GM_GameStatusFlag &= ~( 0x1000 | STATE_NVG | STATE_STUN | STATE_CHAFF );
-        GM_GameStatusFlag |= STATE_CHAFF ;
+    case 1:
+        GM_OptionFlag &= ~( OPTION_SHUKAN_REVERSE | OPTION_BUTTON_MASK );
+        GM_OptionFlag |= OPTION_BUTTON_TYPE_B;
         if ( work->f2B60 )
         {
-            GM_GameStatusFlag |= (STATE_THERMG | STATE_CHAFF );
+            GM_OptionFlag |= ( OPTION_UNKNOWN_0008 | OPTION_BUTTON_TYPE_B );
         }
         break;
-        case 2:
-        GM_GameStatusFlag &= ~( 0x1000 | STATE_NVG | STATE_STUN | STATE_CHAFF );
-        GM_GameStatusFlag |= STATE_STUN;
+    case 2:
+        GM_OptionFlag &= ~( OPTION_SHUKAN_REVERSE | OPTION_BUTTON_MASK );
+        GM_OptionFlag |= OPTION_BUTTON_TYPE_C;
         if ( work->f2B60 )
         {
-            GM_GameStatusFlag |= (STATE_THERMG | STATE_STUN );
+            GM_OptionFlag |= ( OPTION_UNKNOWN_0008 | OPTION_BUTTON_TYPE_C );
         }
         break;
     }
 
     if ( work->f29EC == 1 )
     {
-        GM_GameStatusFlag |= 0x1000;
+        GM_OptionFlag |= OPTION_SHUKAN_REVERSE;
     }
     else
     {
-        GM_GameStatusFlag &= ~( 0x1000 );
+        GM_OptionFlag &= ~( OPTION_SHUKAN_REVERSE );
     }
 
     work->f920 = 11;
@@ -2135,37 +2135,37 @@ int OptionGetResources_800C7F88(OptionWork *work, int map)
         work->f924[i] = 0;
     }
 
-    if (GM_GameStatusFlag & 0x4000)
+    if (GM_OptionFlag & OPTION_CAPTION_OFF)
     {
         work->f924[1] = 1;
     }
 
-    if (GM_GameStatusFlag & 0x100)
+    if (GM_OptionFlag & OPTION_ENGLISH)
     {
         work->f924[2] = 1;
     }
 
-    if (GM_GameStatusFlag & 0x2000)
+    if (GM_OptionFlag & OPTION_UNKNOWN_2000)
     {
         work->f924[4] = 1;
     }
 
-    if (GM_GameStatusFlag & 0x8000)
+    if (GM_OptionFlag & OPTION_SOUND_MONO)
     {
         work->f924[3] = 1;
     }
 
-    if (GM_GameStatusFlag & 0x1000)
+    if (GM_OptionFlag & OPTION_SHUKAN_REVERSE)
     {
         work->f29EC = 1;
     }
 
-    if (GM_GameStatusFlag & 0x1)
+    if (GM_OptionFlag & OPTION_BUTTON_TYPE_B)
     {
         work->f29E8 = 1;
     }
 
-    if (GM_GameStatusFlag & 0x2)
+    if (GM_OptionFlag & OPTION_BUTTON_TYPE_C)
     {
         work->f29E8 = 2;
     }
@@ -2198,11 +2198,11 @@ int OptionGetResources_800C7F88(OptionWork *work, int map)
     GM_PadVibration = 0;
     GM_PadVibration2 = 0;
 
-    GM_GameStatusFlag &= ~0x2000;
+    GM_OptionFlag &= ~OPTION_UNKNOWN_2000;
 
     work->f2B58 = 0;
 
-    if (GM_GameStatusFlag & 0x8)
+    if (GM_OptionFlag & OPTION_UNKNOWN_0008)
     {
         work->f2B60 = 1;
     }

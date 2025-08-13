@@ -320,8 +320,8 @@ const char *loadCaptions_8009EB7C[] = {
 STATIC int loadFile_80049CE8(MEM_CARD *pMemcard, int idx)
 {
     int   success;
-    int   statusFlag;
-    short statusFlagTmp;
+    int   optionFlag;
+    short optionFlagTmp;
     int   retries;
     void *buf;
 
@@ -344,23 +344,25 @@ STATIC int loadFile_80049CE8(MEM_CARD *pMemcard, int idx)
 
         if (memcard_get_status() == 0)
         {
-            statusFlagTmp = GM_GameStatusFlag & 0xF7FF;
-            statusFlag = statusFlagTmp;
+            optionFlagTmp = GM_OptionFlag & ~OPTION_RADAR_OFF;
+            optionFlag = optionFlagTmp;
             // 256: start position (offset) of game data (as there is only one icon).
             if (GCL_SetLoadFile(buf + 256) != 0)
             {
                 success = 1;
-                if (statusFlag & 0x10)
+                if (optionFlag & OPTION_UNKNOWN_0010)
                 {
-                    GM_GameStatusFlag = (GM_GameStatusFlag & 0x1EFF) | (statusFlag & ~0x1EFF);
+                    // 0xE100 == OPTION_ENGLISH | 0x2000 | OPTION_CAPTION_OFF | OPTION_SOUND_MONO
+                    GM_OptionFlag = (GM_OptionFlag & ~0xE100) | (optionFlag & 0xE100);
                 }
-                if (statusFlag & 8)
+                if (optionFlag & OPTION_UNKNOWN_0008)
                 {
-                    GM_GameStatusFlag = (GM_GameStatusFlag & 0xEFF8) | (statusFlag & 0x1007);
+                    // 0x1007 == OPTION_SHUKAN_REVERSE | OPTION_BUTTON_MASK
+                    GM_OptionFlag = (GM_OptionFlag & ~0x1007) | (optionFlag & 0x1007);
                 }
-                GM_GameStatusFlag &= 0xFFE7;
-                GCL_SaveLinkVar(&GM_GameStatusFlag);
-                if (GM_GameStatusFlag & 0x8000)
+                GM_OptionFlag &= ~(OPTION_UNKNOWN_0008 | OPTION_UNKNOWN_0010);
+                GCL_SaveLinkVar(&GM_OptionFlag);
+                if (GM_OptionFlag & OPTION_SOUND_MONO)
                 {
                     GM_SetSound(0xff000005, SD_ASYNC);
                 }

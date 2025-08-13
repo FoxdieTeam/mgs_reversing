@@ -953,7 +953,7 @@ void GM_CheckShukanReverse(unsigned short *pInput)
     unsigned int   v2; // $v1
     unsigned int   v3; // $v0
 
-    if ((GM_GameStatusFlag & STATUS_SHUKAN_REVERSE) != 0
+    if ((GM_OptionFlag & OPTION_SHUKAN_REVERSE) != 0
         && (GM_GameStatus & STATE_PADDEMO) == 0)
     {
         old = *pInput;
@@ -977,7 +977,7 @@ void GM_CheckShukanReverse(unsigned short *pInput)
 
 void GM_CheckShukanReverseAnalog(unsigned char *pInput)
 {
-    if ((GM_GameStatusFlag & STATUS_SHUKAN_REVERSE) != 0
+    if ((GM_OptionFlag & OPTION_SHUKAN_REVERSE) != 0
         && (GM_GameStatus & STATE_PADDEMO) == 0)
     {
         *pInput = ~*pInput;

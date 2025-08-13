@@ -1085,7 +1085,7 @@ void draw_radar(MenuWork *work, unsigned char *ot)
             return;
         }
 
-        if (GM_GameStatusFlag & STATUS_RADAR_OFF)
+        if (GM_OptionFlag & OPTION_RADAR_OFF)
         {
             return;
         }
