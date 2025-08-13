@@ -523,7 +523,7 @@ void sub_80047D70(MenuWork *work, int param_2, int pRadioCode)
     char pad[8]; // unused stack...
 
     startSector = pRadioCode & 0xffff;
-    if (GM_GameStatusFlag & 0x100)
+    if (GM_GameStatusFlag & STATUS_ENGLISH)
     {
         size = ((pRadioCode >> 16) & 0xff) * 2048;
         startSector = startSector + ((unsigned int)pRadioCode / 0x1000000);

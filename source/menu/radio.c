@@ -1315,7 +1315,7 @@ skip_fading:
             work->field_212--;
             if (work->field_212 == 0)
             {
-                if (GM_GameStatusFlag & 0x100)
+                if (GM_GameStatusFlag & STATUS_ENGLISH)
                 {
                     menu_radio_codec_helper__helper13_800410E4(work, "NO RESPONSE");
                 }

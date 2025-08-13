@@ -358,7 +358,7 @@ void *NewJimakuControl(u_long flags)
     }
     seekResult = FS_StreamGetData(toSeek);
 
-    if (GM_GameStatusFlag & 0x100)
+    if (GM_GameStatusFlag & STATUS_ENGLISH)
     {
         jimctrl_work.field_27 = 3;
         jimctrl_work.field_26 = 6;
