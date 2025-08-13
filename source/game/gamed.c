@@ -322,14 +322,14 @@ static void Act(gameWork *work)
 
     if (mts_get_pad_vibration_type(1) == 1)
     {
-        GM_GameStatusFlag &= ~0x400;
+        GM_OptionFlag &= ~OPTION_VIBRATION_OFF;
     }
     else
     {
-        GM_GameStatusFlag |= 0x400;
+        GM_OptionFlag |= OPTION_VIBRATION_OFF;
     }
 
-    if ((GM_GameStatusFlag & (0x2000 | 0x400)) == 0)
+    if ((GM_OptionFlag & (OPTION_UNKNOWN_2000 | OPTION_VIBRATION_OFF)) == 0)
     {
         int vibration2;
         if (GM_PadVibration != 0)

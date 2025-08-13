@@ -85,12 +85,12 @@ STATIC int GV_SwapButtons(int button, int a, int b)
 
 STATIC int GV_ConvertButtonMode(int button)
 {
-    switch (GM_GameStatusFlag & 0x7)
+    switch (GM_OptionFlag & OPTION_BUTTON_MASK)
     {
-    case 1: // Button Mode B
+    case OPTION_BUTTON_TYPE_B:
         return GV_SwapButtons(button, PAD_CIRCLE, PAD_CROSS);
 
-    case 2: // Button Mode C
+    case OPTION_BUTTON_TYPE_C:
         return GV_SwapButtons(button, PAD_CIRCLE, PAD_SQUARE);
 
     default: // Button Mode A

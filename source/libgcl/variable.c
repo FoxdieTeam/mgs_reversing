@@ -151,15 +151,17 @@ int GCL_SetLoadFile(char *save_buf)
 
 void GCL_InitVar(void)
 {
-    int flags;
+    int option;
     int difficulty;
 
-    flags = GM_GameStatusFlag;
+    option = GM_OptionFlag;
     difficulty = GM_DifficultyFlag;
+
     gGcl_vars_800B3CC8 = ( GCL_Vars ){{ 0 }};
     memset(linkvarbuf, 0, 0xC0);
+
     GM_DifficultyFlag = difficulty;
-    GM_GameStatusFlag = flags;
+    GM_OptionFlag = option;
 }
 
 void GCL_InitClearVar(void)
