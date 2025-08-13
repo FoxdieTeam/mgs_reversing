@@ -235,7 +235,7 @@ void menu_Text_Init_80038B98(void)
     pTextConfig->flags = 0;
 }
 
-void menu_Text_PrimUnknown_80038BB4()
+void menu_Text_PrimUnknown_80038BB4(void)
 {
     DR_TPAGE *pPrim; // $a0
 

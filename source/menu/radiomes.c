@@ -661,8 +661,6 @@ void menu_radio_codec_helper_helper8_80048044(void)
     }
 }
 
-extern void menu_radio_codec_helper_helper7_helper_80046A98(menu_chara_struct *pStru);
-
 //free memory for face dat
 void menu_radio_codec_helper_helper7_80048080()
 {

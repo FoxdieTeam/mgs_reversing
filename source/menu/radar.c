@@ -1014,7 +1014,7 @@ void drawAlertEvasionJammingPanel_8003AA2C(MenuWork *work, char *ot, int radarMo
     addPrim(ot, tpage2);
 }
 
-void menu_radar_load_rpk_8003AD64()
+void menu_radar_load_rpk_8003AD64(void)
 {
     RECT rect;
 

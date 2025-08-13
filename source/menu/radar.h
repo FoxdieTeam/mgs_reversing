@@ -19,6 +19,6 @@ void menu_radar_helper_8003ADD8(MenuWork *work, int index);
 void MENU_SetRadarFunc(TRadarFn_800AB48C func);
 
 void draw_radar(MenuWork *work, unsigned char * pOt);
-void menu_radar_load_rpk_8003AD64();
+void menu_radar_load_rpk_8003AD64(void);
 
 #endif // __MGS_MENU_RADAR_H__
