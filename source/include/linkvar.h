@@ -160,6 +160,7 @@ enum // GM_GameStatusFlag
 {
     STATUS_ENGLISH      = 0x100,    // 0: Japanese, 1: English
     STATUS_RADAR_OFF    = 0x800,
+    STATUS_SHUKAN_REVERSE = 0x1000,
 };
 
 enum // GM_StatusEvent
