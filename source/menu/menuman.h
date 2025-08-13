@@ -25,13 +25,13 @@ typedef struct RadioMemory
 
 typedef struct radio_table_entry
 {
-  int field_0_contactFrequency;
-  int field_4_radioTableCode;
+    int field_0_contactFrequency;
+    int field_4_radioTableCode;
 } radio_table_entry;
 
 typedef struct radio_table
 {
-  radio_table_entry field_0_entries[8];
+    radio_table_entry field_0_entries[8];
 } radio_table;
 
 #define RADIO_MEMORY_COUNT     16
@@ -47,20 +47,20 @@ enum ShapePalKeyState{
 
 typedef struct menu_chara_struct_sub
 {
-  // 1 = field_14_face_anim is FACE_ANIM_SIMPLE
-  // 2 = field_14_face_anim is FACE_ANIM_FULL
-  short          field_0_animState;
+    // 1 = field_14_face_anim is FACE_ANIM_SIMPLE
+    // 2 = field_14_face_anim is FACE_ANIM_FULL
+    short          field_0_animState;
 
-  unsigned short field_2_chara;
-  short          field_4;
-  short          field_6;
-  short          field_8_animFrameNum;
-  short          field_A;
-  short          field_C;
-  short          field_E_eyesAnimFrame; // values 0-6.
-  short          field_4C_mouthAnimFrame; // values 0-3.
-  short          field_12;
-  face_anim      field_14_face_anim;
+    unsigned short field_2_chara;
+    short          field_4;
+    short          field_6;
+    short          field_8_animFrameNum;
+    short          field_A;
+    short          field_C;
+    short          field_E_eyesAnimFrame; // values 0-6.
+    short          field_4C_mouthAnimFrame; // values 0-3.
+    short          field_12;
+    face_anim      field_14_face_anim;
 } menu_chara_struct_sub;
 
 typedef struct menu_chara_struct
@@ -99,12 +99,12 @@ typedef struct PANEL_TEXTURE
 
 typedef struct menu_0x14
 {
-  short field_0_bUnknown;
-  short field_2_bTaskWup;
-  int field_4_chara;
-  int field_8_code;
-  int field_C;
-  menu_chara_struct *field_10_pCharaStru;
+    short field_0_bUnknown;
+    short field_2_bTaskWup;
+    int field_4_chara;
+    int field_8_code;
+    int field_C;
+    menu_chara_struct *field_10_pCharaStru;
 } menu_0x14;
 
 typedef struct array_800BD748_child
@@ -150,13 +150,13 @@ typedef void (*TMenuSaveModeDataUnknownFn3)(char *);
 
 typedef struct DATA_INFO
 {
-  char                        field_0[2];
-  char                        field_2;
-  char                        blocks_count;
-  const char                 *field_4_name; // "SAVE DATA", "SAVE PHOTO"
-  TMenuSaveModeDataUnknownFn1 make_title;
-  TMenuSaveModeDataUnknownFn2 make_menu;
-  TMenuSaveModeDataUnknownFn3 make_game_data;
+    char                        field_0[2];
+    char                        field_2;
+    char                        blocks_count;
+    const char                 *field_4_name; // "SAVE DATA", "SAVE PHOTO"
+    TMenuSaveModeDataUnknownFn1 make_title;
+    TMenuSaveModeDataUnknownFn2 make_menu;
+    TMenuSaveModeDataUnknownFn3 make_game_data;
 } DATA_INFO;
 
 struct Menu_Item_Unknown;

@@ -59,33 +59,33 @@ TextConfig gMenuTextConfig_8009E2E4 = {0, 0, 0, 0x64808080};
 
 void menuman_act_800386A4(MenuWork *work)
 {
-  unsigned char *pOtStart;
-  int            idx_as_flag;
-  int            field_28_flags;
-  int            i;
+    unsigned char *pOtStart;
+    int            idx_as_flag;
+    int            field_28_flags;
+    int            i;
 
-  pOtStart = (&gMenuPrimBuffer_8009E2D0)->mPrimBuf.mOt;
-  work->field_24_pInput = &GM_CurrentPadData[2];
-  menu_jimaku_act(work, (unsigned int *)pOtStart);
-  if ( ( !(GV_PauseLevel & 2) && (GM_LoadComplete > 0) ) &&
-       ( !GM_LoadRequest ) )
-  {
-    idx_as_flag = 1;
-    if (GM_GameStatus >= 0)
+    pOtStart = (&gMenuPrimBuffer_8009E2D0)->mPrimBuf.mOt;
+    work->field_24_pInput = &GM_CurrentPadData[2];
+    menu_jimaku_act(work, (unsigned int *)pOtStart);
+    if ( ( !(GV_PauseLevel & 2) && (GM_LoadComplete > 0) ) &&
+         ( !GM_LoadRequest ) )
     {
-      field_28_flags = work->field_28_flags;
-      for (i = 0; i < MENU_MODULE_MAX; i++)
-      {
-        if ((field_28_flags & idx_as_flag) != 0)
+        idx_as_flag = 1;
+        if (GM_GameStatus >= 0)
         {
-          work->field_2C_modules[i](work, pOtStart);
+            field_28_flags = work->field_28_flags;
+            for (i = 0; i < MENU_MODULE_MAX; i++)
+            {
+                if ((field_28_flags & idx_as_flag) != 0)
+                {
+                    work->field_2C_modules[i](work, pOtStart);
+                }
+                idx_as_flag *= 2;
+            }
         }
-        idx_as_flag *= 2;
-      }
     }
-  }
 
-  addPrim(pOtStart, &work->field_4C_drawEnv[GV_Clock]);
+    addPrim(pOtStart, &work->field_4C_drawEnv[GV_Clock]);
 }
 
 void menuman_kill_800387E8(MenuWork *work)
