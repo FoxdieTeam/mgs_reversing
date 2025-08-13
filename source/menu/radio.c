@@ -1321,10 +1321,9 @@ skip_fading:
                 }
                 else
                 {
-                    // 応 ありません。
-                    // (Translation: Answer No.)
-                    menu_radio_codec_helper__helper13_800410E4(
-                        work, "\x90\xAD\x90\xAE\x81\x02\x81\x4A\x81\x3E\x81\x1B\x81\x53\xD0\x03");
+                    // 応答ありません。
+                    menu_radio_codec_helper__helper13_800410E4(work,
+                        "\x90\xAD\x90\xAE\x81\x02\x81\x4A\x81\x3E\x81\x1B\x81\x53\xD0\x03");
                 }
             }
         }
