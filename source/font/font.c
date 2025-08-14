@@ -228,7 +228,7 @@ void *font_get_buffer_ptr(KCB *kcb)
     return kcb->font_clut_buffer;
 }
 
-STATIC int font_get_glyph_index(int code)
+static int font_get_glyph_index(int code)
 {
     int new_var2;
     int var_v0;
@@ -265,7 +265,7 @@ STATIC int font_get_glyph_index(int code)
     return var_v0 + 1;
 }
 
-STATIC unsigned int font_get_glyph_config(int a1)
+static unsigned int font_get_glyph_config(int a1)
 {
     if (a1 > 0)
     {
@@ -280,7 +280,7 @@ STATIC unsigned int font_get_glyph_config(int a1)
     return LLOAD(&gFontBegin[4 * a1]);
 }
 
-STATIC void font_draw_glyph(char *buffer, int x, int y, int width, char *glyph)
+static void font_draw_glyph(char *buffer, int x, int y, int width, char *glyph)
 {
     unsigned int i;
     int          j;
@@ -440,7 +440,7 @@ STATIC void font_draw_glyph(char *buffer, int x, int y, int width, char *glyph)
 // The glyphs used for the ASCII range are 12 pixels tall with a width specified by bits 27:24.
 // Each pixel in memory is 2 bits. It is combined with a 2-bit color index in the font buffer.
 // The pixel can then be drawn using a 16 entry LUT on the GPU side.
-STATIC int font_draw_ascii_glyph(char *buffer, int x, int y, int width, unsigned char code)
+static int font_draw_ascii_glyph(char *buffer, int x, int y, int width, unsigned char code)
 {
     char *location, *location2, *location3, *location4, *locationIter;
     char *font_location;
@@ -572,7 +572,7 @@ STATIC int font_draw_ascii_glyph(char *buffer, int x, int y, int width, unsigned
     return retval;
 }
 
-STATIC unsigned int font_get_glyph_width(int a1)
+static unsigned int font_get_glyph_width(int a1)
 {
     if (a1 == 0x8000)
     {
@@ -595,21 +595,21 @@ void font_set_rubi_display_mode(int display_flag)
     rubi_display_flag = display_flag;
 }
 
-STATIC void set_rubi_left_pos(int xmax, int x, int y)
+static void set_rubi_left_pos(int xmax, int x, int y)
 {
     rubi_left_pos_x_800ABB2C = x;
     rubi_left_pos_y_800ABB30 = y;
     rubi_left_pos_xmax_800ABB34 = xmax;
 }
 
-STATIC void set_rubi_left_xmax(int xmax)
+static void set_rubi_left_xmax(int xmax)
 {
     rubi_left_pos_xmax_800ABB34 = xmax;
 }
 
 #define ASCII_TO_RUBI(c) (c + 0x8000)
 
-STATIC int get_rubi_char_index(int c)
+static int get_rubi_char_index(int c)
 {
     if (c < 0x8100)
     {
@@ -668,7 +668,7 @@ STATIC int get_rubi_char_index(int c)
     return -1;
 }
 
-STATIC int font_draw_rubi_string_helper(int *length, const char *str)
+static int font_draw_rubi_string_helper(int *length, const char *str)
 {
     RubiRes    *rubiRes;
     int         rubiCode;
@@ -716,7 +716,7 @@ STATIC int font_draw_rubi_string_helper(int *length, const char *str)
     return retval;
 }
 
-STATIC int font_draw_rubi_string_helper2(char *buffer, int x, int y, int width, int arg4)
+static int font_draw_rubi_string_helper2(char *buffer, int x, int y, int width, int arg4)
 {
     int          oddIter, var_a1, j, var_t3, i, var_v0_2, rubiField0, var_t0;
     unsigned int var_v0;
@@ -796,7 +796,7 @@ STATIC int font_draw_rubi_string_helper2(char *buffer, int x, int y, int width, 
     return rubiField0;
 }
 
-STATIC void font_draw_rubi_string(char *buffer, int x, int y, int width, const char *arg4)
+static void font_draw_rubi_string(char *buffer, int x, int y, int width, const char *arg4)
 {
     int         iterCount;
     int         len;
