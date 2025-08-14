@@ -1014,11 +1014,11 @@ STATIC void menu_radio_do_file_mode_helper6_8004AD40(MenuPrim *pGlue)
 
 #define setRGB0_Fast(prim, rgbExtra) *(unsigned int *)&prim->r0 = rgbExtra
 
-STATIC void set_sprt_default_8004AE14(SPRT *pSprt)
+static void set_sprt_default(SPRT *sprt)
 {
-    setRGB0_Fast(pSprt, 0x80808080);
-    setSprt(pSprt);
-    pSprt->clut = 32700;
+    setRGB0_Fast(sprt, 0x80808080);
+    setSprt(sprt);
+    sprt->clut = 32700;
 }
 
 // See also drawCaption_800C5EB4() in camera.c
@@ -1101,7 +1101,7 @@ static void show_message( MenuWork *work, unsigned long *ot, SELECT_INFO *info )
 
     NEW_PRIM( sprt, work );
 
-    set_sprt_default_8004AE14( sprt );
+    set_sprt_default( sprt );
     setXY0( sprt, SAVE_MES_X - kcb->max_width / 2, SAVE_MES_Y );
     setUV0( sprt, 0, 4 );
     setWH( sprt, 252, 14 );
@@ -1357,7 +1357,7 @@ STATIC void menu_radio_do_file_mode_save_memcard_8004B0A0(MenuWork *work, char *
         }
 
         _NEW_PRIM(pSprt, prim);
-        set_sprt_default_8004AE14(pSprt);
+        set_sprt_default(pSprt);
 
         pSprt->u0 = sp94;
         pSprt->v0 = sp98;
