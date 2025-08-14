@@ -28,7 +28,7 @@ STATIC int  fs_stream_stop = 0;
 STATIC int  fs_stream_end = 1;
 STATIC int *fs_stream_unread = NULL;
 
-STATIC int StreamReadyCallback( CDBIOS_TASK *task )
+static int StreamReadyCallback( CDBIOS_TASK *task )
 {
     int retval;
 
@@ -147,7 +147,7 @@ exit:
     return 0;
 }
 
-STATIC void StartRead( void )
+static void StartRead( void )
 {
     int temp_a0;
     int var_v1;
