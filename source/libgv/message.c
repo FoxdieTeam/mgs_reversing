@@ -7,12 +7,12 @@ extern MESSAGE_LIST message_list_800B0320[2];
 STATIC int SECTION(".sbss") which_buffer;
 STATIC int SECTION(".sbss") dword_800AB94C;
 
-STATIC void GV_ReserveMessage(GV_MSG *ptr, int msg_count)
+static void GV_ReserveMessage(GV_MSG *ptr, int msg_count)
 {
     // Move everything after msg to the left to erase msg
     GV_MSG *msg = &ptr[msg_count];
 
-    for (msg_count = msg_count - 1; msg_count >= 0; --msg_count)
+    for (msg_count -= 1; msg_count >= 0; --msg_count)
     {
         *(msg) = *(msg - 1);
         msg--;
