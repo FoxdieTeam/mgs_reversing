@@ -1,14 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "demothrd.h"
-#include "anime/animconv/anime.h"
-#include "bullet/blast.h"
+#include "libhzd/libhzd.h"
 #include "game/game.h"
 #include "linkvar.h"
 #include "strcode.h"
+#include "anime/animconv/anime.h"
+#include "bullet/blast.h"
+
+#include "demothrd.h"
+#include "kojo/m1e1.h"
 
 #define BODY_FLAG ( DG_FLAG_SHADE | DG_FLAG_TRANS | DG_FLAG_TEXT )
 
@@ -16,7 +23,22 @@ extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 extern BLAST_DATA       blast_data_8009F4B8[8];
 extern GM_CAMERA        GM_Camera;
 
-void RemoveType(DemothrdWork *work, int type);
+/*---------------------------------------------------------------------------*/
+
+static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node);
+static void RemoveType(DemoWork *work, int type);
+static int demothrd_8007CDF8(DemoWork *work, DMO_DAT *data, ACTNODE *node);
+static int demothrd_1_FrameRunDemo_helper4_8007CF14(DemoWork *work, DMO_DAT *data);
+static int demothrd_8007CFE8(DemoWork *work, DMO_ADJ *adjust);
+static void demothrd_m1e1_8007D404(DemoWork *work, DMO_ADJ *adjust, DMO_MDL *model_file, DEMO_MODEL *model);
+static void demothrd_hind_8007D9C8(DemoWork *work, DMO_ADJ *adjust, DMO_MDL *model_file, DEMO_MODEL *model);
+
+void AN_CaterpillerSmoke(SVECTOR *pos);
+void demothrd_2_8007DA94(SVECTOR *pPosition, SVECTOR *pRotation);
+void sub_8007DC24(SVECTOR *pPosition);
+void sub_8007DD80(short param_1, SVECTOR *pPos);
+void sub_8007DF10(SVECTOR *pRotation, SVECTOR *pTranslation);
+void sub_8007E0AC(int y, SVECTOR *pPosition);
 
 void InitChain(ACTNODE *root);
 void InsertChain(ACTNODE *root, ACTNODE *node);
@@ -24,12 +46,9 @@ void RemoveChain(ACTNODE *root, ACTNODE *node);
 
 void DemoScreenChanl(DG_CHANL *chanl, int idx);
 
-void demothrd_hind_8007D9C8(DemothrdWork *work, DMO_ADJ *adjust, DMO_MDL *model_file, DEMO_MODEL *model);
-void demothrd_m1e1_8007D404(DemothrdWork *work, DMO_ADJ *adjust, DMO_MDL *model_file, DEMO_MODEL *model);
-void AN_CaterpillerSmoke(SVECTOR *pos);
-void M1E1GetCaterpillerVertex(OBJECT *pE1, OBJECT *pE2, SVECTOR *pSmokeVecs, int a4);
+/*---------------------------------------------------------------------------*/
 
-int CreateDemo(DemothrdWork *work, DMO_DEF *header)
+int CreateDemo(DemoWork *work, DMO_DEF *header)
 {
     DMO_MAP    *maps;
     DMO_MDL    *models;
@@ -261,7 +280,7 @@ int CreateDemo(DemothrdWork *work, DMO_DEF *header)
     return 1;
 }
 
-int DestroyDemo(DemothrdWork *work)
+int DestroyDemo(DemoWork *work)
 {
     ACTNODE    *node;
     DMO_MDL    *model_file;
@@ -344,12 +363,7 @@ int DestroyDemo(DemothrdWork *work)
     return 1;
 }
 
-int MakeChara(DemothrdWork *work, DMO_DATA_0x36 *data, ACTNODE *node);
-int demothrd_8007CDF8(DemothrdWork *work, DMO_DAT *data, ACTNODE *node);
-int demothrd_1_FrameRunDemo_helper4_8007CF14(DemothrdWork *work, DMO_DAT *data);
-int demothrd_8007CFE8(DemothrdWork *work, DMO_ADJ *adjust);
-
-int FrameRunDemo(DemothrdWork *work, DMO_DAT *data)
+int FrameRunDemo(DemoWork *work, DMO_DAT *data)
 {
     SVECTOR   diff;
     SVECTOR   rot;
@@ -504,7 +518,7 @@ int FrameRunDemo(DemothrdWork *work, DMO_DAT *data)
     return 1;
 }
 
-int MakeChara(DemothrdWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
+static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
 {
     // TODO: Some funcptr calls are first cast to VoidMakeChara. This is a hack
     // to prevent those cases from being merged (GCC "cross jump" optimization).
@@ -770,14 +784,14 @@ int MakeChara(DemothrdWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
 
     case 0x10:
         memset(&msg, 0, sizeof(msg));
-        msg.address = data->data.variant_0x10.field_14;
-        msg.message[0] = data->data.variant_0x10.field_18;
-        msg.message[1] = data->data.variant_0x10.field_1C;
-        msg.message[2] = data->data.variant_0x10.field_20;
-        msg.message[3] = data->data.variant_0x10.field_24;
-        msg.message[4] = data->data.variant_0x10.field_28;
-        msg.message[5] = data->data.variant_0x10.field_2C;
-        msg.message[6] = data->data.variant_0x10.field_30;
+        msg.address = data->data.variant_0x10.address;
+        msg.message[0] = data->data.variant_0x10.message[0];
+        msg.message[1] = data->data.variant_0x10.message[1];
+        msg.message[2] = data->data.variant_0x10.message[2];
+        msg.message[3] = data->data.variant_0x10.message[3];
+        msg.message[4] = data->data.variant_0x10.message[4];
+        msg.message[5] = data->data.variant_0x10.message[5];
+        msg.message[6] = data->data.variant_0x10.message[6];
         msg.message_len = 7;
         GV_SendMessage(&msg);
         break;
@@ -1916,7 +1930,7 @@ int MakeChara(DemothrdWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
     return 1;
 }
 
-void RemoveType(DemothrdWork *work, int type)
+static void RemoveType(DemoWork *work, int type)
 {
     ACTNODE *pSubIter; // $s0
     ACTNODE *pCur; // $a0
@@ -1952,7 +1966,7 @@ void RemoveType(DemothrdWork *work, int type)
     }
 }
 
-int demothrd_8007CDF8(DemothrdWork *work, DMO_DAT *data, ACTNODE *node)
+static int demothrd_8007CDF8(DemoWork *work, DMO_DAT *data, ACTNODE *node)
 {
     DMO_ADJ *adjust;
     int idx;
@@ -1998,7 +2012,7 @@ int demothrd_8007CDF8(DemothrdWork *work, DMO_DAT *data, ACTNODE *node)
     return 1;
 }
 
-int demothrd_1_FrameRunDemo_helper4_8007CF14(DemothrdWork *work, DMO_DAT *data)
+static int demothrd_1_FrameRunDemo_helper4_8007CF14(DemoWork *work, DMO_DAT *data)
 {
     DMO_CHA *pIter;
     int i;
@@ -2051,7 +2065,7 @@ int demothrd_1_FrameRunDemo_helper4_8007CF14(DemothrdWork *work, DMO_DAT *data)
     return 1;
 }
 
-int demothrd_8007CFE8(DemothrdWork *work, DMO_ADJ *adjust)
+static int demothrd_8007CFE8(DemoWork *work, DMO_ADJ *adjust)
 {
     DMO_MDL    *model_file;
     DEMO_MODEL *model;
@@ -2140,7 +2154,6 @@ int demothrd_8007CFE8(DemothrdWork *work, DMO_ADJ *adjust)
     return 1;
 }
 
-
 static inline int magic_calc(SVECTOR* vecTmp, DEMO_MODEL *model)
 {
     int distance1 = SquareRoot0(((vecTmp->vx * vecTmp->vx) + (vecTmp->vy * vecTmp->vy)) + (vecTmp->vz * vecTmp->vz));
@@ -2152,7 +2165,7 @@ static inline int magic_calc(SVECTOR* vecTmp, DEMO_MODEL *model)
     return (distance1 * (1024 - tmp4)) / 1024;
 }
 
-void demothrd_m1e1_8007D404(DemothrdWork *work, DMO_ADJ *adjust, DMO_MDL *model_file, DEMO_MODEL *model)
+static void demothrd_m1e1_8007D404(DemoWork *work, DMO_ADJ *adjust, DMO_MDL *model_file, DEMO_MODEL *model)
 {
     DEMO_M1E1 *data;
     int tmp1;
@@ -2257,7 +2270,7 @@ void demothrd_m1e1_8007D404(DemothrdWork *work, DMO_ADJ *adjust, DMO_MDL *model_
     }
 }
 
-void demothrd_hind_8007D9C8(DemothrdWork *work, DMO_ADJ *adjust, DMO_MDL *model_file, DEMO_MODEL *model)
+static void demothrd_hind_8007D9C8(DemoWork *work, DMO_ADJ *adjust, DMO_MDL *model_file, DEMO_MODEL *model)
 {
     DEMO_HIND *pTmp = (DEMO_HIND *)model->extra; // TODO: Would be cleaner as a union
 
@@ -2277,40 +2290,59 @@ void demothrd_hind_8007D9C8(DemothrdWork *work, DMO_ADJ *adjust, DMO_MDL *model_
     model->object.rots[2].vx = pTmp->field_C;
 }
 
+/*****************************************************************************/
+/*****************************************************************************/
+
 const char animation_data_8001345C[] = {
-    0x00, 0x27, 0x01, 0x00, 0x05, 0x01, 0xfe, 0x0c, 0x00, 0x05, 0x01, 0xff, 0x0a, 0x00, 0x64, 0x00,
-    0x64, 0x08, 0xf1, 0xf1, 0xf1, 0x02, 0x00, 0x01, 0x0d, 0x0c, 0x00, 0x05, 0x01, 0xff, 0x0a, 0x01,
-    0x2c, 0x01, 0x2c, 0x08, 0xe2, 0xe2, 0xe2, 0x02, 0x00, 0x01, 0x0d, 0x0f
+    0x00, 0x27, 0x01, 0x00, 0x05, 0x01, 0xfe, 0x0c,
+    0x00, 0x05, 0x01, 0xff, 0x0a, 0x00, 0x64, 0x00,
+    0x64, 0x08, 0xf1, 0xf1, 0xf1, 0x02, 0x00, 0x01,
+    0x0d, 0x0c, 0x00, 0x05, 0x01, 0xff, 0x0a, 0x01,
+    0x2c, 0x01, 0x2c, 0x08, 0xe2, 0xe2, 0xe2, 0x02,
+    0x00, 0x01, 0x0d, 0x0f
 };
 
 ANIMATION stru_8009F73C = {PCX_SMOKE, 8, 4, 30, 1, 1000, 3, 500, 500, 255, NULL, (char *)animation_data_8001345C};
 
 const char animation_data_80013488[] = {
-    0x00, 0x4a, 0x02, 0x00, 0x07, 0x00, 0x20, 0x01, 0xfe, 0x0c, 0x00, 0x05, 0x01, 0xff, 0x02, 0x00,
-    0x01, 0x0d, 0x0c, 0x00, 0x0a, 0x01, 0xff, 0x08, 0xfa, 0xfa, 0xfa, 0x02, 0x00, 0x01, 0x0d, 0x0f,
-    0x01, 0xfe, 0x0c, 0x00, 0x04, 0x0a, 0x01, 0x2c, 0x01, 0x2c, 0x01, 0xff, 0x02, 0x00, 0x01, 0x0d,
-    0x0c, 0x00, 0x0a, 0x0a, 0x00, 0x46, 0x00, 0x46, 0x01, 0xff, 0x02, 0x00, 0x01, 0x0d, 0x0c, 0x00,
-    0x0a, 0x01, 0xff, 0x0a, 0x00, 0x50, 0x00, 0x50, 0x08, 0xf0, 0xf0, 0xf0, 0x02, 0x00, 0x01, 0x0d,
+    0x00, 0x4a, 0x02, 0x00, 0x07, 0x00, 0x20, 0x01,
+    0xfe, 0x0c, 0x00, 0x05, 0x01, 0xff, 0x02, 0x00,
+    0x01, 0x0d, 0x0c, 0x00, 0x0a, 0x01, 0xff, 0x08,
+    0xfa, 0xfa, 0xfa, 0x02, 0x00, 0x01, 0x0d, 0x0f,
+    0x01, 0xfe, 0x0c, 0x00, 0x04, 0x0a, 0x01, 0x2c,
+    0x01, 0x2c, 0x01, 0xff, 0x02, 0x00, 0x01, 0x0d,
+    0x0c, 0x00, 0x0a, 0x0a, 0x00, 0x46, 0x00, 0x46,
+    0x01, 0xff, 0x02, 0x00, 0x01, 0x0d, 0x0c, 0x00,
+    0x0a, 0x01, 0xff, 0x0a, 0x00, 0x50, 0x00, 0x50,
+    0x08, 0xf0, 0xf0, 0xf0, 0x02, 0x00, 0x01, 0x0d,
     0x0f, 0x00, 0x00, 0x00
 };
 
 ANIMATION stru_8009F758 = {PCX_SMOKE, 8, 4, 30, 3, 0, 1, 1000, 1000, 64, NULL, (char *)animation_data_80013488};
 
 const char animation_data_800134DC[] = {
-    0x00, 0x2c, 0x01, 0x00, 0x05, 0x01, 0xfe, 0x0c, 0x00, 0x05, 0x01, 0xff, 0x02, 0x00, 0x01, 0x0d,
-    0x0c, 0x00, 0x05, 0x01, 0xff, 0x0a, 0x00, 0x05, 0x00, 0x05, 0x02, 0x00, 0x01, 0x0d, 0x0c, 0x00,
-    0x0f, 0x01, 0xff, 0x08, 0xf0, 0xf0, 0xf0, 0x0a, 0x00, 0x05, 0x00, 0x05, 0x02, 0x00, 0x01, 0x0d,
+    0x00, 0x2c, 0x01, 0x00, 0x05, 0x01, 0xfe, 0x0c,
+    0x00, 0x05, 0x01, 0xff, 0x02, 0x00, 0x01, 0x0d,
+    0x0c, 0x00, 0x05, 0x01, 0xff, 0x0a, 0x00, 0x05,
+    0x00, 0x05, 0x02, 0x00, 0x01, 0x0d, 0x0c, 0x00,
+    0x0f, 0x01, 0xff, 0x08, 0xf0, 0xf0, 0xf0, 0x0a,
+    0x00, 0x05, 0x00, 0x05, 0x02, 0x00, 0x01, 0x0d,
     0x0f, 0x00, 0x00, 0x00
 };
 
 ANIMATION stru_8009F774 = {PCX_SMOKE, 8, 4, 30, 8, 0, 3, 2200, 2200, 255, NULL, (char *)animation_data_800134DC};
 
 const char animation_data_80013510[] = {
-    0x00, 0x49, 0x03, 0x00, 0x09, 0x00, 0x1e, 0x00, 0x38, 0x01, 0xfe, 0x0c, 0x00, 0x04, 0x02, 0x00,
-    0x01, 0x0d, 0x0c, 0x00, 0x04, 0x08, 0xec, 0xec, 0xec, 0x02, 0x00, 0x01, 0x0d, 0x0f, 0x01, 0xfe,
-    0x0a, 0xfc, 0x18, 0xfc, 0x18, 0x0c, 0x00, 0x04, 0x02, 0x00, 0x01, 0x0d, 0x0c, 0x00, 0x04, 0x08,
-    0xec, 0xec, 0xec, 0x02, 0x00, 0x01, 0x0d, 0x0f, 0x01, 0xfe, 0x0a, 0xfb, 0x50, 0xfb, 0x50, 0x0c,
-    0x00, 0x04, 0x02, 0x00, 0x01, 0x0d, 0x0c, 0x00, 0x04, 0x08, 0xec, 0xec, 0xec, 0x02, 0x00, 0x01,
+    0x00, 0x49, 0x03, 0x00, 0x09, 0x00, 0x1e, 0x00,
+    0x38, 0x01, 0xfe, 0x0c, 0x00, 0x04, 0x02, 0x00,
+    0x01, 0x0d, 0x0c, 0x00, 0x04, 0x08, 0xec, 0xec,
+    0xec, 0x02, 0x00, 0x01, 0x0d, 0x0f, 0x01, 0xfe,
+    0x0a, 0xfc, 0x18, 0xfc, 0x18, 0x0c, 0x00, 0x04,
+    0x02, 0x00, 0x01, 0x0d, 0x0c, 0x00, 0x04, 0x08,
+    0xec, 0xec, 0xec, 0x02, 0x00, 0x01, 0x0d, 0x0f,
+    0x01, 0xfe, 0x0a, 0xfb, 0x50, 0xfb, 0x50, 0x0c,
+    0x00, 0x04, 0x02, 0x00, 0x01, 0x0d, 0x0c, 0x00,
+    0x04, 0x08, 0xec, 0xec, 0xec, 0x02, 0x00, 0x01,
     0x0d, 0x0f, 0x00, 0x00
 };
 
@@ -2507,6 +2539,9 @@ void sub_8007E0AC(int y, SVECTOR *pPosition)
 
     NewAnime( NULL, 0, anm );
 }
+
+/*****************************************************************************/
+/*****************************************************************************/
 
 #define __detx(a, b, c) (((b).y - (a).y) * ((c).z - (b).z) - ((b).z - (a).z) * ((c).y - (b).y))
 #define __dety(a, b, c) (((b).z - (a).z) * ((c).x - (b).x) - ((b).x - (a).x) * ((c).z - (b).z))
