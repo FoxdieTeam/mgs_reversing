@@ -653,7 +653,7 @@ void menu_radio_codec_helper_helper_8004E198(int toFind);
         prim = p;                                          \
     }
 
-// For MenuMan
+// For MenuWork
 #define NEW_PRIM(prim, buf) _NEW_PRIM(prim, buf->field_20_otBuf)
 
 #endif // __MGS_MENU_MENUMAN_H__
