@@ -39,7 +39,7 @@ STATIC short dir_table[16] = {
 };
 
 #ifdef VR_EXE
-STATIC void sub_800165B0(MTS_PAD *data)
+static void sub_800165B0(MTS_PAD *data)
 {
     unsigned short status = GV_DemoPadStatus;
     if (status & 0x400)
@@ -55,7 +55,7 @@ STATIC void sub_800165B0(MTS_PAD *data)
 }
 #endif
 
-STATIC int GV_SwapButtons(int button, int a, int b)
+static int GV_SwapButtons(int button, int a, int b)
 {
     int swapped;
     int i;
@@ -83,7 +83,7 @@ STATIC int GV_SwapButtons(int button, int a, int b)
     return swapped;
 }
 
-STATIC int GV_ConvertButtonMode(int button)
+static int GV_ConvertButtonMode(int button)
 {
     switch (GM_OptionFlag & OPTION_BUTTON_MASK)
     {
@@ -98,7 +98,7 @@ STATIC int GV_ConvertButtonMode(int button)
     }
 }
 
-STATIC void GV_AnalogToDirection(int *button, MTS_PAD *data)
+static void GV_AnalogToDirection(int *button, MTS_PAD *data)
 {
     char lx, rx;
     int  dir;
