@@ -38,7 +38,7 @@ STATIC FS_DIR_INFO fs_dir_info = {};
 
 /*---------------------------------------------------------------------------*/
 
-STATIC int FS_CdStageReadCallback(CDBIOS_TASK *task)
+static int FS_CdStageReadCallback(CDBIOS_TASK *task)
 {
     unsigned int size, rounded;
 
