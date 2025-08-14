@@ -45,7 +45,7 @@ int FS_LoadFileSync(void)
     return CDBIOS_ReadSync();
 }
 
-void MakeFullPath(int name, char *buffer)
+void MakeFullPath(char *name, char *buffer)
 {
     /* do nothing */
 }

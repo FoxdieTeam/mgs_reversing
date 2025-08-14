@@ -375,11 +375,11 @@ void camera_800C5C54(MenuPrim *pGlue) // duplicate of menu_radio_do_file_mode_he
     }
 }
 
-void camera_800C5D2C(SPRT *pPrim) // duplicate of set_sprt_default_8004AE14
+void camera_800C5D2C(SPRT *sprt) // duplicate of menu/datasave.c: set_sprt_default
 {
-    LSTORE(0x80808080, &pPrim->r0);
-    setSprt(pPrim);
-    setClut(pPrim, 960, 510);
+    LSTORE(0x80808080, &sprt->r0);
+    setSprt(sprt);
+    setClut(sprt, 960, 510);
 }
 
 // duplicate of init_radio_message_board_80040F74

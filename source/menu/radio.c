@@ -1315,16 +1315,15 @@ skip_fading:
             work->field_212--;
             if (work->field_212 == 0)
             {
-                if (GM_GameStatusFlag & 0x100)
+                if (GM_OptionFlag & OPTION_ENGLISH)
                 {
                     menu_radio_codec_helper__helper13_800410E4(work, "NO RESPONSE");
                 }
                 else
                 {
-                    // 応 ありません。
-                    // (Translation: Answer No.)
-                    menu_radio_codec_helper__helper13_800410E4(
-                        work, "\x90\xAD\x90\xAE\x81\x02\x81\x4A\x81\x3E\x81\x1B\x81\x53\xD0\x03");
+                    // 応答ありません。
+                    menu_radio_codec_helper__helper13_800410E4(work,
+                        "\x90\xAD\x90\xAE\x81\x02\x81\x4A\x81\x3E\x81\x1B\x81\x53\xD0\x03");
                 }
             }
         }
@@ -1711,8 +1710,6 @@ void MENU_SetRadioCallbackProc(int proc_id)
 }
 
 // TODO: Functions from this point forward don't belong to radio.c!
-
-void menu_set_string2(void);
 
 // rect_800AB64C is declared as a 1-element array
 // in order for menu_number_init

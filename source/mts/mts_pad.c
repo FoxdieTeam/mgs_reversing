@@ -45,7 +45,7 @@ STATIC int vibration_enable = 1;
  *
  * @param   channel     0: first pad, 1: second pad
  */
-STATIC void init_expand_pad( int channel )
+static void init_expand_pad( int channel )
 {
     int port;
     int actuators_count;
@@ -94,7 +94,7 @@ STATIC void init_expand_pad( int channel )
     PadSetActAlign(port, param_800C1470[channel]);
 }
 
-STATIC void do_control( void )
+static void do_control( void )
 {
     int i;
     int state;

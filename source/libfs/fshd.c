@@ -16,3 +16,29 @@
 // NOTE: These labels were recovered from a memleak'd linker map fragment.
 //       Symbols were listed by address order, which is reflected above.
 //
+
+#if 0
+#include "file.cnf"
+
+void FS_LoadFileRequest( int fileno, int offset, int size, void *buffer )
+{
+    // todo: implement
+}
+
+int FS_LoadFileSync( void )
+{
+    // todo: implement
+    return 0;
+}
+
+int FS_ResetCdFilePosition( void *ptr )
+{
+    // todo: implement
+    return -1;
+}
+
+void FS_HDInit( void )
+{
+    // todo: implement
+}
+#endif

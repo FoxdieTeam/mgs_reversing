@@ -72,7 +72,7 @@ int  FS_ResetCdFilePosition(void *buffer);
 void FS_CDInit(void);
 void FS_LoadFileRequest(int fileno, int offset, int size, void *buffer);
 int  FS_LoadFileSync(void);
-void MakeFullPath(int, char *);
+void MakeFullPath(char *name, char *buffer);
 
 /* srchfile.c */
 int  FS_CdMakePositionTable(char *buffer, FS_FILE_INFO *finfo);

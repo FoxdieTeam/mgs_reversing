@@ -1115,10 +1115,11 @@ int demodebug_finish_proc = -1;
 STATIC int GM_Command_demodebug(unsigned char *top)
 {
     int   tmp, demo, flags, ivar;
-    char *str;
+    char *filename;
 
     ivar = 0;
-    str = (char *)0;
+    filename = NULL;
+
     flags = GCL_GetOption('e') != 0;
     if (GCL_GetOption('a'))
     {
@@ -1134,7 +1135,7 @@ STATIC int GM_Command_demodebug(unsigned char *top)
     }
     if (GCL_GetOption('f'))
     {
-        str = GCL_ReadString(GCL_GetParamResult());
+        filename = GCL_ReadString(GCL_GetParamResult());
     }
     if (GCL_GetOption('p'))
     {
@@ -1146,13 +1147,13 @@ STATIC int GM_Command_demodebug(unsigned char *top)
     }
     tmp = GM_CurrentMap;
     GM_CurrentMap = gBinds_800ABA60;
-    if (str)
+    if (filename)
     {
-        demo = DM_ThreadFile_800794E4(flags, (int)str);
+        demo = DM_ThreadFile(flags, filename);
     }
     else
     {
-        demo = DM_ThreadStream_80079460(flags, ivar);
+        demo = DM_ThreadStream(flags, ivar);
     }
     GM_CurrentMap = tmp;
     if (!demo)

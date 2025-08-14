@@ -33,7 +33,8 @@ void menu_jimaku_act( MenuWork *work, unsigned int *pOt )
 
     if ( gUnkJimakuStruct_800BDA70.field_0_active == 1 )
     {
-        if ( (gUnkJimakuStruct_800BDA70.field_1_type != 0) || !(GM_GameStatusFlag & 0x4000) )
+        if ( (gUnkJimakuStruct_800BDA70.field_1_type != 0) ||
+            !(GM_OptionFlag & OPTION_CAPTION_OFF) )
         {
             NEW_PRIM(pSprt, work);
             LSTORE(0x808080, &pSprt->r0);

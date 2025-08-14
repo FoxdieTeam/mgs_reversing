@@ -23,7 +23,7 @@ STATIC unsigned short   word_8009D504 = 0;              // *.wvx index
 STATIC unsigned short   word_8009D506 = 0;              // *.mdx id
 STATIC unsigned short   word_8009D508 = 0;              // *.efx id
 
-STATIC int SetupNextFile( DATACNF_TAG *tag, CDBIOS_TASK *task )
+static int SetupNextFile( DATACNF_TAG *tag, CDBIOS_TASK *task )
 {
     unsigned char  region;
     FS_STAGE_INFO *info;
@@ -163,7 +163,9 @@ STATIC int SetupNextFile( DATACNF_TAG *tag, CDBIOS_TASK *task )
     return 1;
 }
 
-STATIC int StageFileReadyCallback(CDBIOS_TASK *task)
+/*---------------------------------------------------------------------------*/
+
+static int StageFileReadyCallback(CDBIOS_TASK *task)
 {
     FS_STAGE_INFO *info;
     int result;
@@ -201,7 +203,7 @@ STATIC int StageFileReadyCallback(CDBIOS_TASK *task)
     return 1;
 }
 
-STATIC int StageConfigReadyCallback( CDBIOS_TASK *task )
+static int StageConfigReadyCallback( CDBIOS_TASK *task )
 {
     FS_STAGE_INFO   *info;
     DATACNF         *datacnf;
@@ -243,12 +245,14 @@ STATIC int StageConfigReadyCallback( CDBIOS_TASK *task )
     return 2;
 }
 
+/*---------------------------------------------------------------------------*/
+
 static inline int get_cache_id( DATACNF_TAG *tag )
 {
     return ( tag->ext - 'a' ) << 16 | tag->id;
 }
 
-STATIC int LoadCacheSection( FS_STAGE_INFO *info, int unused )
+static int LoadCacheSection( FS_STAGE_INFO *info, int unused )
 {
     DATACNF_TAG *next_tag;
     DATACNF_TAG *tag;
@@ -290,7 +294,7 @@ STATIC int LoadCacheSection( FS_STAGE_INFO *info, int unused )
     return 1;
 }
 
-STATIC int LoadDataArchives( FS_STAGE_INFO *info )
+static int LoadDataArchives( FS_STAGE_INFO *info )
 {
     DARFILE_TAG  *ntag;     // "now tag"?
     DARFILE_TAG  *limit;
@@ -369,7 +373,7 @@ STATIC int LoadDataArchives( FS_STAGE_INFO *info )
     return 0;
 }
 
-STATIC int LoadStageFiles( FS_STAGE_INFO *info )
+static int LoadStageFiles( FS_STAGE_INFO *info )
 {
     int status;
 

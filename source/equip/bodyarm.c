@@ -47,7 +47,7 @@ static void SwapTextures(OBJECT *a1)
 
 static void Die(Work *work)
 {
-    if (!(GM_GameStatusFlag & 0x20))
+    if (!(GM_OptionFlag & OPTION_TUXEDO))
     {
         SwapTextures(work->parent);
     }
@@ -64,7 +64,7 @@ void *NewBodyArmor(CONTROL *control, OBJECT *parent, int num_parent)
 
         work->parent = parent;
 
-        if (!(GM_GameStatusFlag & 0x20))
+        if (!(GM_OptionFlag & OPTION_TUXEDO))
         {
             SwapTextures(parent);
         }

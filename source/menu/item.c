@@ -219,16 +219,6 @@ menu_weapon_rpk_info SECTION(".data") gMenuItemRpkInfo_8009E484[] = {
     { "SUPPR.", 13 }
 };
 
-void menu_draw_texture_8003CEF8(PANEL_TEXTURE *a1);
-int  menu_number_draw_number2(MenuWork *work, int xpos, int ypos, int current, int total);
-void menu_init_sprt_8003D0D0(SPRT *pPrim, PANEL_TEXTURE *pUnk, int offset_x, int offset_y);
-int  menu_number_draw_string(MenuWork *work, unsigned int *pOt, int xpos, int ypos, const char *str, int flags);
-void menu_sub_menu_update_8003DA0C(MenuWork *work, unsigned int *pOt, Menu_Inventory *pSubMenu);
-void Menu_item_render_frame_rects_8003DBAC(MenuPrim *pGlue, int x, int y, int param_4);
-int  menu_8003D538(void);
-void menu_8003D7DC(MenuWork *work, unsigned int *pOt, Menu_Inventory *pSubMenu);
-int  sub_8003D568(void);
-
 void menu_sub_8003B568(void)
 {
     int    imgIdx;
