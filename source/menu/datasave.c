@@ -20,7 +20,7 @@
 // gp
 int                         SECTION(".sbss") dword_800ABB44;
 int                         SECTION(".sbss") dword_800ABB48;
-DATA_INFO                  *SECTION(".sbss") dataInfo_800ABB4C;
+DATA_INFO                  *SECTION(".sbss") data_info;
 void                       *SECTION(".sbss") stack_800ABB50;
 int                         SECTION(".sbss") dword_800ABB54;
 int                         SECTION(".sbss") dword_800ABB58;
@@ -134,7 +134,7 @@ STATIC int saveFile_8004983C(struct MEM_CARD *pMemcard)
 
     GM_PadResetDisable = TRUE;
 
-    size = dataInfo_800ABB4C->blocks_count * MC_BLOCK_SIZE;
+    size = data_info->blocks_count * MC_BLOCK_SIZE;
     buffer = GV_AllocMemory(GV_PACKET_MEMORY0, size);
     if (!buffer)
     {
@@ -146,9 +146,9 @@ STATIC int saveFile_8004983C(struct MEM_CARD *pMemcard)
     buffer[0] = 'S';
     buffer[1] = 'C';
     buffer[2] = 0x11;   // static icon
-    buffer[3] = dataInfo_800ABB4C->blocks_count;
+    buffer[3] = data_info->blocks_count;
 
-    idx = dataInfo_800ABB4C->field_0[1];
+    idx = data_info->field_0[1];
     buffer_copy = buffer;
     c99 = 99;
 
@@ -186,15 +186,15 @@ STATIC int saveFile_8004983C(struct MEM_CARD *pMemcard)
     }
 
     // 4: start position (offset) of save data title.
-    dataInfo_800ABB4C->make_title(buffer_copy + 4, pMemcard, hours, minutes); // Calls makeTitle_8004D008()
+    data_info->make_title(buffer_copy + 4, pMemcard, hours, minutes); // Calls makeTitle_8004D008()
     strcpy(memoryCardFileName, MGS_MemoryCardName);
 
     // 12: start position (offset) of the public part of the memory card file name.
-    memoryCardFileName[12] = dataInfo_800ABB4C->field_0[0];
+    memoryCardFileName[12] = data_info->field_0[0];
     memoryCardFileName[13] = (hours / 10) + '0';
     memoryCardFileName[14] = (hours % 10) + '0';
 
-    if (dataInfo_800ABB4C->field_0[0] == 71)
+    if (data_info->field_0[0] == 71)
     {
         difficulty = GM_DifficultyFlag;
     }
@@ -212,9 +212,9 @@ STATIC int saveFile_8004983C(struct MEM_CARD *pMemcard)
     memoryCardFileName[15] = ((minutes / 10) + '0') + ((difficulty & 2) << 5);
     memoryCardFileName[16] = ((minutes % 10) + '0') + ((difficulty & 1) << 6);
     memoryCardFileName[17] = flags2 + '@';
-    memoryCardFileName[18] = dataInfo_800ABB4C->field_2 + '@';
+    memoryCardFileName[18] = data_info->field_2 + '@';
 
-    if (dataInfo_800ABB4C->field_0[0] == 71 && dataInfo_800ABB4C->field_2 == 1)
+    if (data_info->field_0[0] == 71 && data_info->field_2 == 1)
     {
         memoryCardFileName[13] &= 0x40;
         memoryCardFileName[13] |= 0x3A;
@@ -240,7 +240,7 @@ STATIC int saveFile_8004983C(struct MEM_CARD *pMemcard)
     }
 
     // 256: start position (offset) of game data (as there is only one icon).
-    dataInfo_800ABB4C->make_game_data(buffer_copy + 256); // Calls writeGameData()
+    data_info->make_game_data(buffer_copy + 256); // Calls writeGameData()
 
     // Now try to physically write to the memory card.
     success = 0;
@@ -320,8 +320,8 @@ const char *loadCaptions_8009EB7C[] = {
 STATIC int loadFile_80049CE8(MEM_CARD *pMemcard, int idx)
 {
     int   success;
-    int   statusFlag;
-    short statusFlagTmp;
+    int   optionFlag;
+    short optionFlagTmp;
     int   retries;
     void *buf;
 
@@ -344,23 +344,25 @@ STATIC int loadFile_80049CE8(MEM_CARD *pMemcard, int idx)
 
         if (memcard_get_status() == 0)
         {
-            statusFlagTmp = GM_GameStatusFlag & 0xF7FF;
-            statusFlag = statusFlagTmp;
+            optionFlagTmp = GM_OptionFlag & ~OPTION_RADAR_OFF;
+            optionFlag = optionFlagTmp;
             // 256: start position (offset) of game data (as there is only one icon).
             if (GCL_SetLoadFile(buf + 256) != 0)
             {
                 success = 1;
-                if (statusFlag & 0x10)
+                if (optionFlag & OPTION_UNKNOWN_0010)
                 {
-                    GM_GameStatusFlag = (GM_GameStatusFlag & 0x1EFF) | (statusFlag & ~0x1EFF);
+                    // 0xE100 == OPTION_ENGLISH | 0x2000 | OPTION_CAPTION_OFF | OPTION_SOUND_MONO
+                    GM_OptionFlag = (GM_OptionFlag & ~0xE100) | (optionFlag & 0xE100);
                 }
-                if (statusFlag & 8)
+                if (optionFlag & OPTION_UNKNOWN_0008)
                 {
-                    GM_GameStatusFlag = (GM_GameStatusFlag & 0xEFF8) | (statusFlag & 0x1007);
+                    // 0x1007 == OPTION_SHUKAN_REVERSE | OPTION_BUTTON_MASK
+                    GM_OptionFlag = (GM_OptionFlag & ~0x1007) | (optionFlag & 0x1007);
                 }
-                GM_GameStatusFlag &= 0xFFE7;
-                GCL_SaveLinkVar(&GM_GameStatusFlag);
-                if (GM_GameStatusFlag & 0x8000)
+                GM_OptionFlag &= ~(OPTION_UNKNOWN_0008 | OPTION_UNKNOWN_0010);
+                GCL_SaveLinkVar(&GM_OptionFlag);
+                if (GM_OptionFlag & OPTION_SOUND_MONO)
                 {
                     GM_SetSound(0xff000005, SD_ASYNC);
                 }
@@ -390,9 +392,9 @@ const char *save_prompt_msg_en_8009EBB4[] = {"OVERWRITE OK?", "FORMAT OK?"};
 STATIC int init_file_mode_helper_helper_helper3_80049E94(int param_1)
 {
     dword_800ABB58 = param_1;
-    printf("REQUEST %X\n", param_1);  // = "REQUEST %X\n"
+    printf("REQUEST %X\n", param_1);
     mts_slp_tsk();
-    printf("RESULT %X\n", dword_800ABB5C); // = "RESULT %X\n"
+    printf("RESULT %X\n", dword_800ABB5C);
     return dword_800ABB5C;
 }
 
@@ -1012,11 +1014,11 @@ STATIC void menu_radio_do_file_mode_helper6_8004AD40(MenuPrim *pGlue)
 
 #define setRGB0_Fast(prim, rgbExtra) *(unsigned int *)&prim->r0 = rgbExtra
 
-STATIC void set_sprt_default_8004AE14(SPRT *pSprt)
+static void set_sprt_default(SPRT *sprt)
 {
-    setRGB0_Fast(pSprt, 0x80808080);
-    setSprt(pSprt);
-    pSprt->clut = 32700;
+    setRGB0_Fast(sprt, 0x80808080);
+    setSprt(sprt);
+    sprt->clut = 32700;
 }
 
 // See also drawCaption_800C5EB4() in camera.c
@@ -1045,7 +1047,7 @@ STATIC void sub_8004AEA8(SELECT_INFO *info)
     int   count;
     int   x, val2;
     KCB  *kcb;
-    char  areaName[32]; // Uses MGS custom encoding.
+    char  mes[32]; // Uses MGS custom encoding.
     char *base;
 
     kcb = info->field_1C_kcb;
@@ -1070,38 +1072,42 @@ STATIC void sub_8004AEA8(SELECT_INFO *info)
             y = val2;
         }
 
-        base = info->menu[i + top].mes;
-        if (base[0] != '\0')
-        {
-            dataInfo_800ABB4C->make_menu(areaName, base); // Calls getAreaNameForMenu_8004D14C()
-            font_draw_string(kcb, x, y, areaName, 2);
+// clang-format off
+        base = info->menu[ i + top ].mes;
+        if( base[ 0 ] != '\0' ){
+            //long c;
+            data_info->make_menu( mes, base );
+            font_draw_string( kcb, x, y, mes, 2 );
         }
+        //y += FONT_SIZE;
     }
 
-    font_draw_string(kcb, 0, 0, info->message, 0);
-    font_update(kcb);
+    font_draw_string( kcb, 0, 0, info->message, 0 );
+
+    font_update( kcb );
 }
 
 #define SAVE_MES_X      160
 #define SAVE_MES_Y      200
 
-STATIC void show_message_8004AFE4(MenuWork *work, char *ot, SELECT_INFO *info)
+static void show_message( MenuWork *work, unsigned long *ot, SELECT_INFO *info )
 {
-    KCB  *kcb;
     SPRT *sprt;
+    KCB *kcb;
 
     kcb = GET_KCB( work );
 
     /* メッセージ本体の描画 */
 
-    NEW_PRIM(sprt, work);
+    NEW_PRIM( sprt, work );
 
-    set_sprt_default_8004AE14(sprt);
-    setXY0(sprt, SAVE_MES_X - kcb->max_width / 2, SAVE_MES_Y);
-    setUV0(sprt, 0, 4);
-    setWH(sprt, 252, 14);
-    addPrim(ot, sprt);
+    set_sprt_default( sprt );
+    setXY0( sprt, SAVE_MES_X - kcb->max_width / 2, SAVE_MES_Y );
+    setUV0( sprt, 0, 4 );
+    setWH( sprt, 252, 14 );
+    addPrim( ot, sprt );
 }
+// clang-format on
 
 STATIC void menu_radio_do_file_mode_save_memcard_8004B0A0(MenuWork *work, char *pOt, SELECT_INFO *info)
 {
@@ -1332,7 +1338,7 @@ STATIC void menu_radio_do_file_mode_save_memcard_8004B0A0(MenuWork *work, char *
             config.flags = 0x2;
             config.xpos = s8 + (sp9C / 2);
             msg = "NEW FILE [ NEED %d BLOCK%s ]";
-            blocksCount = dataInfo_800ABB4C->blocks_count;
+            blocksCount = data_info->blocks_count;
             blocksCount_long = blocksCount;
             if (blocksCount_long >= 2)
                 plural = "S";
@@ -1351,7 +1357,7 @@ STATIC void menu_radio_do_file_mode_save_memcard_8004B0A0(MenuWork *work, char *
         }
 
         _NEW_PRIM(pSprt, prim);
-        set_sprt_default_8004AE14(pSprt);
+        set_sprt_default(pSprt);
 
         pSprt->u0 = sp94;
         pSprt->v0 = sp98;
@@ -1512,7 +1518,7 @@ STATIC int menu_radio_do_file_mode_helper12_8004BA80(MenuWork *work, MEM_CARD *p
     pIter = info->menu;
 
     strcpy(memoryCardFileName, MGS_MemoryCardName);
-    memoryCardFileName[12] = dataInfo_800ABB4C->field_0[0];
+    memoryCardFileName[12] = data_info->field_0[0];
 
     for (i = 0; i < pMemcard->file_count; i++)
     {
@@ -1527,7 +1533,7 @@ STATIC int menu_radio_do_file_mode_helper12_8004BA80(MenuWork *work, MEM_CARD *p
         }
     }
 
-    if (dword_800ABB48 == 0 && pMemcard->free_blocks >= dataInfo_800ABB4C->blocks_count)
+    if (dword_800ABB48 == 0 && pMemcard->free_blocks >= data_info->blocks_count)
     {
         memcpy(pIter->mes, "", 1);
         pIter->field_20 = 16;
@@ -1537,7 +1543,7 @@ STATIC int menu_radio_do_file_mode_helper12_8004BA80(MenuWork *work, MEM_CARD *p
     info->field_1C_kcb = work->field_214_font;
     info->max_num = pIter - info->menu;
 
-    if (dataInfo_800ABB4C->field_0[0] != 71)
+    if (data_info->field_0[0] != 71)
     {
         if (info->max_num && pIter[-1].field_20 == 16)
         {
@@ -1635,7 +1641,7 @@ STATIC int menu_radio_do_file_mode_helper13_8004BCF8(GV_PAD *pPad, int *pOut, SE
         }
         field_20 = info->menu[info->current_index].field_20;
         *pOut = field_20;
-        if (dataInfo_800ABB4C->field_0[0] == 71)
+        if (data_info->field_0[0] == 71)
         {
             if (field_20 < 16)
             {
@@ -1864,7 +1870,7 @@ int menu_radio_do_file_mode(MenuWork *work, GV_PAD *pPad)
     if (dword_800ABB48 == 0)
     {
         captions = (char **)saveCaptions_8009EB4C;
-        dword_8009EBBC[0] = dataInfo_800ABB4C->field_4_name;
+        dword_8009EBBC[0] = data_info->field_4_name;
         dword_8009EBBC[1] = "SAVING...";
         dword_8009EBBC[3] = "NO SPACE";
     }
@@ -2169,7 +2175,7 @@ int menu_radio_do_file_mode(MenuWork *work, GV_PAD *pPad)
     }
     else if (dword_800ABB84 > 0)
     {
-        show_message_8004AFE4(work, mOt, dword_800ABB88);
+        show_message(work, (u_long *)mOt, dword_800ABB88);
     }
     NEW_PRIM(tpage, work);
     setDrawTPage(tpage, 0, 1, getTPage(0, 1, 960, 256));
@@ -2189,7 +2195,7 @@ pAreaNameForSaveData uses Shift-JIS encoding.
 Example for "Heliport":
 MGS      : 80 48 80 65 80 6C 80 69 80 70 80 6F 80 72 80 74
 Shift-JIS: 82 67 82 85 82 8C 82 89 82 90 82 8F 82 92 82 94
-           Ｈ    ｅ    ｌ     ｉ    ｐ    ｏ     ｒ    ｔ
+           Ｈ    ｅ    ｌ    ｉ    ｐ    ｏ    ｒ    ｔ
 */
 STATIC void getAreaName_8004CF20(int code, char **pAreaNameForMenu, char **pAreaNameForSaveData)
 {
@@ -2227,7 +2233,7 @@ const char *diff_names_8009EC1C[] = {
     "\x81\x6D\x82\x64\x82\x77\x81\x6E"  /* ［ＥＸ］ */
 };
 
-// Called by dataInfo_800ABB4C->make_title
+// Called by data_info->make_title
 STATIC void makeTitle_8004D008(char *title, MEM_CARD *pUnused, int hours, int minutes)
 {
     char  playTime[11];
@@ -2260,7 +2266,7 @@ STATIC void makeTitle_8004D008(char *title, MEM_CARD *pUnused, int hours, int mi
     sprintf(title, "%s%s%s%s%s%s", "\x82\x6C\x82\x66\x82\x72\x81\xE7", diff_names_8009EC1C[GM_DifficultyFlag + 1], "\x81\x40", playTime, "\x81\x40", areaName);
 }
 
-// Called by dataInfo_800ABB4C->make_menu
+// Called by data_info->make_menu
 STATIC void getAreaNameForMenu_8004D14C(char *areaNameForMenu, char *param_2)
 {
     char *areaName;
@@ -2285,7 +2291,7 @@ STATIC void getAreaNameForMenu_8004D14C(char *areaNameForMenu, char *param_2)
     sprintf(areaNameForMenu, "\f%c%s", val | 0x30, areaName);
 }
 
-// Called by dataInfo_800ABB4C->make_game_data
+// Called by data_info->make_game_data
 STATIC void writeGameData(char *saveBuf)
 {
     int   currentOffset;
@@ -2317,12 +2323,20 @@ STATIC void writeGameData(char *saveBuf)
 void init_file_mode(DATA_INFO *pSaveMode, int param_2)
 {
     dword_800ABB80 = 0;
-    dataInfo_800ABB4C = pSaveMode;
+    data_info = pSaveMode;
     init_file_mode_helper2_8004A800();
     init_file_mode_helper_8004A424(param_2);
 }
 
-DATA_INFO dataInfo_8009EC30 = {{0x47, 0}, 0, 1, "SAVE DATA", (void *)makeTitle_8004D008, (void *)getAreaNameForMenu_8004D14C, (void *)writeGameData};
+DATA_INFO dataInfo_8009EC30 = {
+    {0x47, 0},                              // field_0
+    0,                                      // field_2
+    1,                                      // blocks_count
+    "SAVE DATA",                            // field_4_name
+    (void *)makeTitle_8004D008,             // make_title
+    (void *)getAreaNameForMenu_8004D14C,    // make_menu
+    (void *)writeGameData                   // make_game_data
+};
 
 void menu_radio_init_save_mode(int param_1, int param_2)
 {

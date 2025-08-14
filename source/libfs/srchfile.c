@@ -37,7 +37,7 @@ extern const char *MGS_DiskName[3]; /* in main.c */
  * @param[in]   src     input string pointer
  * @param[in]   length  input string length
  */
-STATIC void FS_GetFileName(char *dest, char *src, int length)
+static void FS_GetFileName(char *dest, char *src, int length)
 {
     while (length > 0)
     {
@@ -64,7 +64,7 @@ STATIC void FS_GetFileName(char *dest, char *src, int length)
  * @param[in]   sector  sector number from whence to read
  * @param[in]   size    number of bytes to read
  */
-STATIC int FS_ReadCdSector(void *buffer, int sector, int size)
+static int FS_ReadCdSector(void *buffer, int sector, int size)
 {
     CDBIOS_ReadRequest(buffer, sector + 150, size, NULL);
 
@@ -89,7 +89,7 @@ STATIC int FS_ReadCdSector(void *buffer, int sector, int size)
  * @retval      non-NULL        pointer to FS_FILE_INFO record
  * @retval      NULL            file not found
  */
-STATIC FS_FILE_INFO *FS_GetFileInfo(char *filename, FS_FILE_INFO *finfo)
+static FS_FILE_INFO *FS_GetFileInfo(char *filename, FS_FILE_INFO *finfo)
 {
     FS_FILE_INFO *ip;
 
@@ -135,7 +135,7 @@ static inline char GetXaAttribute(int dir_record, int name_length, int base_leng
  * @retval          -1      on failure
  * @retval          >= 0    disc number (0: Disc 1, 1: Disc 2)
  */
-STATIC int FS_ReadCdDirectory(char *buffer, FS_FILE_INFO *finfo)
+static int FS_ReadCdDirectory(char *buffer, FS_FILE_INFO *finfo)
 {
     int base_length;            /* minimum record length */
     int name_length;

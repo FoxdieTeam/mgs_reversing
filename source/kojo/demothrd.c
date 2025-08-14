@@ -11,46 +11,46 @@
 
 extern int demodebug_finish_proc;
 
-void demothrd_cd_act_80079664(DemothrdWork *work);
-void demothrd_cd_stream_die_800797CC(DemothrdWork *work);
+/* from demo.c */
+extern int CreateDemo(DemoWork *work, DMO_DEF *def);
+extern int DestroyDemo(DemoWork *work);
+extern int FrameRunDemo(DemoWork *work, DMO_DAT *data);
 
-void demothrd_file_stream_act_800797FC(DemothrdWork *work);
-void demothrd_file_stream_kill_80079960(DemothrdWork *work);
+/*---------------------------------------------------------------------------*/
 
-int CreateDemo(DemothrdWork *work, DMO_DEF *def);
-int DestroyDemo(DemothrdWork *work);
-int FrameRunDemo(DemothrdWork *work, DMO_DAT *data);
+static void StreamAct(DemoWork *work);
+static void StreamDie(DemoWork *work);
+static void FileAct(DemoWork *work);
+static void FileDie(DemoWork *work);
 
-int DM_ThreadStream_80079460(int flag, int unused)
+int DM_ThreadStream(int flag, int unused)
 {
-    DemothrdWork *pDemoThrd = GV_NewActor(GV_ACTOR_MANAGER, sizeof(DemothrdWork));
-    if (!pDemoThrd)
+    DemoWork *work;
+
+    work = GV_NewActor(GV_ACTOR_MANAGER, sizeof(DemoWork));
+    if (!work)
     {
         return 0;
     }
 
-    pDemoThrd->flag = flag;
-    pDemoThrd->frame = -1;
+    work->flag = flag;
+    work->frame = -1;
 
-    GV_SetNamedActor(&pDemoThrd->actor,
-                     &demothrd_cd_act_80079664,
-                     &demothrd_cd_stream_die_800797CC,
-                     "demothrd.c");
+    GV_SetNamedActor(&work->actor, &StreamAct, &StreamDie, "demothrd.c");
 
-    pDemoThrd->map = GM_CurrentMap;
+    work->map = GM_CurrentMap;
     FS_StreamOpen();
     return 1;
 }
 
-int DM_ThreadFile_800794E4(int flag, int demoNameHashed)
+int DM_ThreadFile(int flag, char *filename)
 {
-    DemothrdWork *work;
-    int             hFile;
-    int             seekRet;
-    char           *pHdr;
-    int             readRet;
+    DemoWork   *work;
+    int         fd;
+    char       *buffer;
+    int         fsize, length;
 
-    work = GV_NewActor(GV_ACTOR_MANAGER, sizeof(DemothrdWork));
+    work = GV_NewActor(GV_ACTOR_MANAGER, sizeof(DemoWork));
 
     if ( !work )
     {
@@ -60,53 +60,52 @@ int DM_ThreadFile_800794E4(int flag, int demoNameHashed)
     work->flag = flag;
     work->frame = -1;
 
-    GV_SetNamedActor(&work->actor,
-                     &demothrd_file_stream_act_800797FC,
-                     &demothrd_file_stream_kill_80079960,
-                     "demothrd.c");
+    GV_SetNamedActor(&work->actor, &FileAct, &FileDie, "demothrd.c");
 
     work->map = GM_CurrentMap;
     FS_EnableMemfile(0, 0);
     work->stream = (void *)0x80200000;
 
-    MakeFullPath(demoNameHashed, (char *)&work->chain.used);
+    MakeFullPath(filename, (char *)&work->chain.used);
     printf("Demo file = \"%s\"\n", (char *)&work->chain.used);
 
-    hFile = PCopen((char *)&work->chain.used, 0, 0);
-    if ( hFile < 0 )
+    fd = PCopen((char *)&work->chain.used, 0, 0);
+    if ( fd < 0 )
     {
         printf("\"%s\" not found\n", (char *)&work->chain.used);
         GV_DestroyActor(&work->actor);
         return 0;
     }
 
-    seekRet = PClseek(hFile, 0, 2);
-    PClseek(hFile, 0, 0);
+    fsize = PClseek(fd, 0, 2);
+    PClseek(fd, 0, 0);
 
-    pHdr = (char *)work->stream;
+    buffer = (char *)work->stream;
 
-    while ( seekRet > 0 )
+    while ( fsize > 0 )
     {
-        readRet = (seekRet <= 0x8000) ? seekRet : 0x8000;
-        readRet = PCread(hFile, pHdr, readRet);
+        length = (fsize <= 0x8000) ? fsize : 0x8000;
+        length = PCread(fd, buffer, length);
 
-        seekRet -= readRet;
+        fsize -= length;
 
-        if ( readRet < 0 )
+        if ( length < 0 )
         {
-            PCclose(hFile);
+            PCclose(fd);
             GV_DestroyActor(&work->actor);
             return 0;
         }
 
-        pHdr += readRet;
+        buffer += length;
     }
 
-    PCclose(hFile);
+    PCclose(fd);
     return 1;
 }
 
-void demothrd_cd_act_80079664(DemothrdWork *work)
+/*---------------------------------------------------------------------------*/
+
+static void StreamAct(DemoWork *work)
 {
     int      ticks;
     char    *data;
@@ -190,14 +189,14 @@ void demothrd_cd_act_80079664(DemothrdWork *work)
     }
 }
 
-void demothrd_cd_stream_die_800797CC(DemothrdWork *work)
+static void StreamDie(DemoWork *work)
 {
     DestroyDemo(work);
     FS_StreamClose();
     DG_UnDrawFrameCount = 0x7fff0000;
 }
 
-void demothrd_file_stream_act_800797FC(DemothrdWork *work)
+static void FileAct(DemoWork *work)
 {
     int time;
     int new_time;
@@ -259,7 +258,7 @@ void demothrd_file_stream_act_800797FC(DemothrdWork *work)
     }
 }
 
-void demothrd_file_stream_kill_80079960(DemothrdWork *work)
+static void FileDie(DemoWork *work)
 {
     DestroyDemo(work);
     FS_EnableMemfile(1, 1);

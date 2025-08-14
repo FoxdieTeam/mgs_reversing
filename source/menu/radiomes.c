@@ -523,7 +523,7 @@ void sub_80047D70(MenuWork *work, int param_2, int pRadioCode)
     char pad[8]; // unused stack...
 
     startSector = pRadioCode & 0xffff;
-    if (GM_GameStatusFlag & 0x100)
+    if (GM_OptionFlag & OPTION_ENGLISH)
     {
         size = ((pRadioCode >> 16) & 0xff) * 2048;
         startSector = startSector + ((unsigned int)pRadioCode / 0x1000000);
@@ -660,8 +660,6 @@ void menu_radio_codec_helper_helper8_80048044(void)
         dword_800ABB38->field_0_state = 0;
     }
 }
-
-extern void menu_radio_codec_helper_helper7_helper_80046A98(menu_chara_struct *pStru);
 
 //free memory for face dat
 void menu_radio_codec_helper_helper7_80048080()

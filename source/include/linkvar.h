@@ -11,7 +11,7 @@ extern short       linkvarbuf[0x60];
 // 0x00 General
 #define GM_UnkFlag00          linkvarbuf[ 0 ]
 #define GM_DifficultyFlag     linkvarbuf[ 1 ] // -1,0,1,2,3
-#define GM_GameStatusFlag     linkvarbuf[ 2 ] // bit 12 (0x800) = radar on/off
+#define GM_OptionFlag         linkvarbuf[ 2 ]
 #define GM_BonusItemsFlag     linkvarbuf[ 3 ] // 0 = none, 1 = bandana, 2 = stealth, > 2 = tuxedo
 #define GM_CurrentDiskFlag    linkvarbuf[ 4 ] // 1 or 2
 #define GM_LastResultFlag     linkvarbuf[ 5 ] // Store result of last op, so it can be used in gcl scripting
@@ -156,9 +156,22 @@ enum // GM_DifficultyFlag
     DIFFICULTY_EXTREME   = 3,
 };
 
-enum // GM_GameStatusFlag
+enum // GM_OptionFlag
 {
-    STATUS_RADAR_OFF = 0x800,
+    OPTION_BUTTON_TYPE_A    = 0x0000,
+    OPTION_BUTTON_TYPE_B    = 0x0001,
+    OPTION_BUTTON_TYPE_C    = 0x0002,
+    OPTION_BUTTON_MASK      = 0x0007,
+    OPTION_UNKNOWN_0008     = 0x0008,
+    OPTION_UNKNOWN_0010     = 0x0010,
+    OPTION_TUXEDO           = 0x0020,   // + Red Ninja, Sneaking Suit Meryl
+    OPTION_ENGLISH          = 0x0100,   // 0: Japanese, 1: English
+    OPTION_VIBRATION_OFF    = 0x0400,
+    OPTION_RADAR_OFF        = 0x0800,
+    OPTION_SHUKAN_REVERSE   = 0x1000,
+    OPTION_UNKNOWN_2000     = 0x2000,
+    OPTION_CAPTION_OFF      = 0x4000,
+    OPTION_SOUND_MONO       = 0x8000,
 };
 
 enum // GM_StatusEvent

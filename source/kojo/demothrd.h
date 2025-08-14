@@ -50,7 +50,7 @@ typedef struct ACTNODE
     MATRIX          field_58;
 } ACTNODE;
 
-typedef struct DemothrdWork
+typedef struct DemoWork
 {
     GV_ACT       actor;
     int          flag;
@@ -76,7 +76,7 @@ typedef struct DemothrdWork
     GM_CAMERA    old_camera;
     int          old_item;
     int          old_weapon;
-} DemothrdWork;
+} DemoWork;
 
 /* This should be replaced by loads of individual structs */
 typedef struct DMO_DATA_0x36
@@ -165,14 +165,8 @@ typedef struct DMO_DATA_0x36
 
         struct
         {
-            int field_14;
-            int field_18;
-            int field_1C;
-            int field_20;
-            int field_24;
-            int field_28;
-            int field_2C;
-            int field_30;
+            int address;
+            int message[7];
         } variant_0x10;
 
         struct
@@ -572,7 +566,8 @@ typedef struct DMO_DATA_0x36
     } data;
 } DMO_DATA_0x36;
 
-int DM_ThreadStream_80079460(int flag, int unused);
-int DM_ThreadFile_800794E4(int param_1, int param_2);
+/* demothrd.c */
+int DM_ThreadStream(int flag, int unused);
+int DM_ThreadFile(int flag, char *filename);
 
 #endif // __MGS_KOJO_DEMOTHRD_H__

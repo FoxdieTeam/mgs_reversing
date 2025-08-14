@@ -1014,7 +1014,7 @@ void drawAlertEvasionJammingPanel_8003AA2C(MenuWork *work, char *ot, int radarMo
     addPrim(ot, tpage2);
 }
 
-void menu_radar_load_rpk_8003AD64()
+void menu_radar_load_rpk_8003AD64(void)
 {
     RECT rect;
 
@@ -1085,7 +1085,7 @@ void draw_radar(MenuWork *work, unsigned char *ot)
             return;
         }
 
-        if (GM_GameStatusFlag & STATUS_RADAR_OFF)
+        if (GM_OptionFlag & OPTION_RADAR_OFF)
         {
             return;
         }
@@ -1205,49 +1205,48 @@ void draw_radar(MenuWork *work, unsigned char *ot)
 
 void menu_radar_update_8003B350(MenuWork *work, unsigned char *ot)
 {
-  int clipY;
+    int clipY;
 
-  if (work->field_CC_radar_data.display_flag)
-  {
-    if (work->field_2A_state == MENU_CLOSED)
+    if (work->field_CC_radar_data.display_flag)
     {
-      if ((GM_GameStatus & STATE_HIDE_RADAR) != 0)
-      {
-        clipY = work->field_CC_radar_data.pos_y - 16;
-        if (clipY < (-63))
+        if (work->field_2A_state == MENU_CLOSED)
         {
-          GM_GameStatus |= STATE_RADAR_OFF;
-          GM_GameStatus &= ~STATE_HIDE_RADAR;
-          clipY = -64;
+            if ((GM_GameStatus & STATE_HIDE_RADAR) != 0)
+            {
+                clipY = work->field_CC_radar_data.pos_y - 16;
+                if (clipY < (-63))
+                {
+                    GM_GameStatus |= STATE_RADAR_OFF;
+                    GM_GameStatus &= ~STATE_HIDE_RADAR;
+                    clipY = -64;
+                }
+            }
+            else if ((GM_GameStatus & STATE_SHOW_RADAR) != 0)
+            {
+                GM_GameStatus &= ~STATE_RADAR_OFF;
+                clipY = work->field_CC_radar_data.pos_y + 16;
+                if (clipY >= 0)
+                {
+                    clipY = 0;
+                    GM_GameStatus &= ~STATE_SHOW_RADAR;
+                }
+            }
+            else
+            {
+                clipY = 0;
+            }
+            if ((GM_GameStatus & (STATE_JPEGCAM | STATE_RADAR_OFF)) != 0)
+            {
+                work->field_CC_radar_data.pos_y = -64;
+            }
+            else
+            {
+                work->field_CC_radar_data.pos_y = clipY;
+                menu_radar_helper_8003ADD8(work, GV_Clock);
+                draw_radar(work, ot);
+            }
         }
-      }
-      else
-        if ((GM_GameStatus & STATE_SHOW_RADAR) != 0)
-      {
-        GM_GameStatus &= ~STATE_RADAR_OFF;
-        clipY = work->field_CC_radar_data.pos_y + 16;
-        if (clipY >= 0)
-        {
-          clipY = 0;
-          GM_GameStatus &= ~STATE_SHOW_RADAR;
-        }
-      }
-      else
-      {
-        clipY = 0;
-      }
-      if ((GM_GameStatus & (STATE_JPEGCAM | STATE_RADAR_OFF)) != 0)
-      {
-        work->field_CC_radar_data.pos_y = -64;
-      }
-      else
-      {
-        work->field_CC_radar_data.pos_y = clipY;
-        menu_radar_helper_8003ADD8(work, GV_Clock);
-        draw_radar(work, ot);
-      }
     }
-  }
 }
 
 

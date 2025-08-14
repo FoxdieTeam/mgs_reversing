@@ -59,7 +59,7 @@ success:
     return 1;
 }
 
-STATIC void CDBIOS_Stop(void)
+static void CDBIOS_Stop(void)
 {
     CdReadyCallback(0);
     CdSyncCallback(0);
@@ -68,7 +68,7 @@ STATIC void CDBIOS_Stop(void)
     cdbios_next_state = CDBIOS_STATE_IDLE;
 }
 
-STATIC void CDBIOS_Error(void)
+static void CDBIOS_Error(void)
 {
     if (cd_bios_task_800B4E58.ticks == 0)
     {
@@ -81,12 +81,12 @@ STATIC void CDBIOS_Error(void)
     CdFlush();
 }
 
-STATIC void CDBIOS_SyncCallback(u_char status, u_char *result)
+static void CDBIOS_SyncCallback(u_char status, u_char *result)
 {
     /* do nothing */
 }
 
-STATIC void CDBIOS_ReadyCallback(u_char status, u_char *result)
+static void CDBIOS_ReadyCallback(u_char status, u_char *result)
 {
     int sector;
     int callback_status;
@@ -169,7 +169,7 @@ STATIC void CDBIOS_ReadyCallback(u_char status, u_char *result)
     CDBIOS_Error();
 }
 
-STATIC void CDBIOS_Main(void)
+static void CDBIOS_Main(void)
 {
     CdlLOC loc;
     u_char result[8];
