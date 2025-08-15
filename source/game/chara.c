@@ -44,9 +44,10 @@ NEWCHARA GM_GetChara(unsigned char *script)
 NEWCHARA GM_GetCharaID(int chara_id)
 {
     CHARA *chara_table;
-    int    i = 0;
+    int    i;
 
-    do {
+    for (i = 0; i < 2; i++)
+    {
         // First search the fixed set of commands
         chara_table = &MainCharacterEntries[0];
         if (i != 0)
@@ -55,18 +56,14 @@ NEWCHARA GM_GetCharaID(int chara_id)
             chara_table = (CHARA *)StageCharacterEntries;
         }
 
-        if (chara_table->func)
+        for (; chara_table->func != NULL; chara_table++)
         {
-            do {
-                if (chara_table->class_id == chara_id)
-                {
-                    return chara_table->func;
-                }
-                chara_table++;
-            } while (chara_table->func);
+            if (chara_table->class_id == chara_id)
+            {
+                return chara_table->func;
+            }
         }
-        i++;
-    } while (i < 2);
+    }
 
     return NULL;
 }
