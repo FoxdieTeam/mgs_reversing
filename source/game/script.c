@@ -31,66 +31,7 @@ char         SECTION(".sbss") * GM_StageName;
 
 /*---------------------------------------------------------------------------*/
 
-STATIC int GM_Command_light(unsigned char *);
-STATIC int GM_Command_camera(unsigned char *);
-STATIC int GM_Command_map(unsigned char *);
-STATIC int GM_Command_mapdef(unsigned char *);
-STATIC int GM_Command_trap(unsigned char *);
-STATIC int GM_Command_ntrap(unsigned char *);
-STATIC int GM_Command_delay(unsigned char *);
-STATIC int GM_Command_mesg(unsigned char *);
-STATIC int GM_Command_chara(int argc, char **argv);
-STATIC int GM_Command_start(unsigned char *);
-STATIC int GM_Command_load(unsigned char *);
-STATIC int GM_Command_radio(unsigned char *);
-STATIC int GM_Command_restart(unsigned char *);
-STATIC int GM_Command_varsave(unsigned char *);
-STATIC int GM_Command_system(unsigned char *);
-STATIC int GM_Command_demo(unsigned char *);
-STATIC int GM_Command_pad(unsigned char *);
-STATIC int GM_Command_sound(unsigned char *);
-STATIC int GM_Command_menu(unsigned char *);
-STATIC int GM_Command_rand(unsigned char *);
-STATIC int GM_Command_func(unsigned char *);
-STATIC int GM_Command_demodebug(unsigned char *);
-STATIC int GM_Command_print(unsigned char *);
-STATIC int GM_Command_jimaku(unsigned char *);
-
-STATIC GCL_COMMANDLIST Commands[] = {
-    { CMD_mesg,      GM_Command_mesg        },  // GV_StrCode("mesg")
-    { CMD_trap,      GM_Command_trap        },  // GV_StrCode("trap")
-    // TODO: Why does this one have a different signature?
-    // Putting a breakpoint GM_Command_chara shows it receives
-    // trash argc and argv.
-    { CMD_chara, (GCL_COMMANDFUNC)GM_Command_chara },  // GV_StrCode("chara")
-    { CMD_map,       GM_Command_map         },  // GV_StrCode("map")
-    { CMD_mapdef,    GM_Command_mapdef      },  // GV_StrCode("mapdef")
-    { CMD_camera,    GM_Command_camera      },  // GV_StrCode("camera")
-    { CMD_light,     GM_Command_light       },  // GV_StrCode("light")
-    { CMD_start,     GM_Command_start       },  // GV_StrCode("start")
-    { CMD_load,      GM_Command_load        },  // GV_StrCode("load")
-    { CMD_radio,     GM_Command_radio       },  // GV_StrCode("radio")
-    { CMD_restart,   GM_Command_restart     },  // GV_StrCode("restart")
-    { CMD_demo,      GM_Command_demo        },  // GV_StrCode("demo")
-    { CMD_ntrap,     GM_Command_ntrap       },  // GV_StrCode("ntrap")
-    { CMD_delay,     GM_Command_delay       },  // GV_StrCode("delay")
-    { CMD_pad,       GM_Command_pad         },  // GV_StrCode("pad")
-    { CMD_varsave,   GM_Command_varsave     },  // GV_StrCode("varsave")
-    { CMD_system,    GM_Command_system      },  // GV_StrCode("system")
-    { CMD_sound,     GM_Command_sound       },  // GV_StrCode("sound")
-    { CMD_menu,      GM_Command_menu        },  // GV_StrCode("menu")
-    { CMD_rand,      GM_Command_rand        },  // GV_StrCode("rand")
-    { CMD_func,      GM_Command_func        },  // GV_StrCode("func")
-    { CMD_demodebug, GM_Command_demodebug   },  // GV_StrCode("demodebug")
-    { CMD_print,     GM_Command_print       },  // GV_StrCode("print")
-    { CMD_jimaku,    GM_Command_jimaku      }   // GV_StrCode("jimaku")
-};
-
-STATIC GCL_COMMANDDEF script_commands = { 0, COUNTOF(Commands), Commands };
-
-/*---------------------------------------------------------------------------*/
-
-STATIC int GM_Command_light(unsigned char *top)
+static int GM_Command_light(unsigned char *top)
 {
     char *light_dir;
     char *light_col;
@@ -126,7 +67,7 @@ proc AGL_FIRST_VF {
             -3362,1759,4936 -2475,770,6672 1
 */
 
-STATIC int GM_Command_camera(unsigned char *top)
+static int GM_Command_camera(unsigned char *top)
 {
     int     isEnabled, param_p, camera_id;
     SVECTOR vec1, vec2;
@@ -212,7 +153,7 @@ STATIC int GM_Command_camera(unsigned char *top)
 
 /*---------------------------------------------------------------------------*/
 
-STATIC int GM_Command_map(unsigned char *top)
+static int GM_Command_map(unsigned char *top)
 {
     MAP *pMapRecord;
     SVECTOR       colourVec;
@@ -289,7 +230,7 @@ STATIC int GM_Command_map(unsigned char *top)
 
 /*---------------------------------------------------------------------------*/
 
-STATIC int GM_Command_mapdef(unsigned char *top)
+static int GM_Command_mapdef(unsigned char *top)
 {
     if (!GM_CreateMap())
     {
@@ -301,7 +242,7 @@ STATIC int GM_Command_mapdef(unsigned char *top)
 
 /*---------------------------------------------------------------------------*/
 
-STATIC int GM_Command_trap(unsigned char *top)
+static int GM_Command_trap(unsigned char *top)
 {
     HZD_BIND *pBind;
     int         i, arg, code, value;
@@ -355,7 +296,7 @@ STATIC int GM_Command_trap(unsigned char *top)
 
 /*---------------------------------------------------------------------------*/
 
-STATIC int GM_Command_ntrap(unsigned char *top)
+static int GM_Command_ntrap(unsigned char *top)
 {
     // int bindIdx;
     HZD_BIND *pBind;
@@ -467,7 +408,7 @@ STATIC int GM_Command_ntrap(unsigned char *top)
 
 /*---------------------------------------------------------------------------*/
 
-STATIC int GM_Command_delay(unsigned char *top)
+static int GM_Command_delay(unsigned char *top)
 {
     int time = 0;
     int proc = 0;
@@ -501,7 +442,7 @@ STATIC int GM_Command_delay(unsigned char *top)
 
 /*---------------------------------------------------------------------------*/
 
-STATIC int GM_Command_mesg(unsigned char *top)
+static int GM_Command_mesg(unsigned char *top)
 {
     unsigned char *uParm1;
     int            iVar1;
@@ -532,7 +473,7 @@ STATIC int GM_Command_mesg(unsigned char *top)
 
 /*---------------------------------------------------------------------------*/
 
-STATIC int GM_Command_chara(int argc, char **argv)
+static int GM_Command_chara(int argc, char **argv)
 {
     int         ret;
     int         name;
@@ -554,7 +495,7 @@ STATIC int GM_Command_chara(int argc, char **argv)
 
 /*---------------------------------------------------------------------------*/
 
-STATIC int GM_Command_start(unsigned char *top)
+static int GM_Command_start(unsigned char *top)
 {
     if (GCL_GetOption('s'))
     {
@@ -595,7 +536,7 @@ STATIC int GM_Command_start(unsigned char *top)
 
 /*---------------------------------------------------------------------------*/
 
-STATIC int GM_Command_load(unsigned char *top)
+static int GM_Command_load(unsigned char *top)
 {
     char *scriptStageName;
     SVECTOR vec;
@@ -670,7 +611,7 @@ STATIC int GM_Command_load(unsigned char *top)
 
 /*---------------------------------------------------------------------------*/
 
-STATIC int GM_Command_radio(unsigned char *top)
+static int GM_Command_radio(unsigned char *top)
 {
     int contactFrequency;
     int radioTableCode;
@@ -746,7 +687,7 @@ STATIC int GM_Command_radio(unsigned char *top)
 
 /*---------------------------------------------------------------------------*/
 
-STATIC int GM_Command_restart(unsigned char *top)
+static int GM_Command_restart(unsigned char *top)
 {
     int proc_id;
 
@@ -776,7 +717,7 @@ STATIC int GM_Command_restart(unsigned char *top)
 
 /*---------------------------------------------------------------------------*/
 
-STATIC int GM_Command_varsave(unsigned char *top)
+static int GM_Command_varsave(unsigned char *top)
 {
     unsigned char *param;
 
@@ -799,7 +740,7 @@ STATIC int GM_Command_varsave(unsigned char *top)
 
 /*---------------------------------------------------------------------------*/
 
-STATIC int GM_Command_system(unsigned char *top)
+static int GM_Command_system(unsigned char *top)
 {
     static char options[5] = "gcawi";
 
@@ -827,7 +768,7 @@ STATIC int GM_Command_system(unsigned char *top)
 
 /*---------------------------------------------------------------------------*/
 
-STATIC int GM_Command_demo(unsigned char *top)
+static int GM_Command_demo(unsigned char *top)
 {
     int   code, cb_proc;
     char  *msg;
@@ -881,7 +822,7 @@ STATIC int GM_Command_demo(unsigned char *top)
 
 /*---------------------------------------------------------------------------*/
 
-STATIC int GM_Command_pad(unsigned char *top)
+static int GM_Command_pad(unsigned char *top)
 {
     if (GCL_GetOption('m'))
     {
@@ -902,7 +843,7 @@ STATIC int GM_Command_pad(unsigned char *top)
 
 /*---------------------------------------------------------------------------*/
 
-STATIC int GM_Command_sound(unsigned char *top)
+static int GM_Command_sound(unsigned char *top)
 {
     GM_Command_sound_impl();
     return 0;
@@ -910,7 +851,7 @@ STATIC int GM_Command_sound(unsigned char *top)
 
 /*---------------------------------------------------------------------------*/
 
-STATIC unsigned int GM_Command_menu_helper(void)
+static unsigned int GM_Command_menu_helper(void)
 {
     unsigned int ret = 0;
     int next;
@@ -930,7 +871,7 @@ STATIC unsigned int GM_Command_menu_helper(void)
     return ret;
 }
 
-STATIC int GM_Command_menu(unsigned char *top)
+static int GM_Command_menu(unsigned char *top)
 {
     if (GCL_GetOption('j'))
     {
@@ -1035,7 +976,7 @@ STATIC int GM_Command_menu(unsigned char *top)
 
 /*---------------------------------------------------------------------------*/
 
-STATIC int GM_Command_rand(unsigned char *top)
+static int GM_Command_rand(unsigned char *top)
 {
     int param;
     int randValue;
@@ -1048,7 +989,7 @@ STATIC int GM_Command_rand(unsigned char *top)
 
 /*---------------------------------------------------------------------------*/
 
-STATIC int GM_Command_func(unsigned char *top)
+static int GM_Command_func(unsigned char *top)
 {
     SVECTOR     vec;
     CONTROL    *control;
@@ -1112,7 +1053,7 @@ STATIC int GM_Command_func(unsigned char *top)
 
 int demodebug_finish_proc = -1;
 
-STATIC int GM_Command_demodebug(unsigned char *top)
+static int GM_Command_demodebug(unsigned char *top)
 {
     int   tmp, demo, flags, ivar;
     char *filename;
@@ -1165,7 +1106,7 @@ STATIC int GM_Command_demodebug(unsigned char *top)
 
 /*---------------------------------------------------------------------------*/
 
-STATIC int GM_Command_print(unsigned char *top)
+static int GM_Command_print(unsigned char *top)
 {
     int code;
     int value;
@@ -1189,13 +1130,45 @@ STATIC int GM_Command_print(unsigned char *top)
 
 /*---------------------------------------------------------------------------*/
 
-STATIC int GM_Command_jimaku(unsigned char *top)
+static int GM_Command_jimaku(unsigned char *top)
 {
     NewJimaku();
     return 0;
 }
 
 /*---------------------------------------------------------------------------*/
+
+STATIC GCL_COMMANDLIST Commands[] = {
+    { CMD_mesg,      GM_Command_mesg        },  // GV_StrCode("mesg")
+    { CMD_trap,      GM_Command_trap        },  // GV_StrCode("trap")
+    // TODO: Why does this one have a different signature?
+    // Putting a breakpoint GM_Command_chara shows it receives
+    // trash argc and argv.
+    { CMD_chara, (GCL_COMMANDFUNC)GM_Command_chara },  // GV_StrCode("chara")
+    { CMD_map,       GM_Command_map         },  // GV_StrCode("map")
+    { CMD_mapdef,    GM_Command_mapdef      },  // GV_StrCode("mapdef")
+    { CMD_camera,    GM_Command_camera      },  // GV_StrCode("camera")
+    { CMD_light,     GM_Command_light       },  // GV_StrCode("light")
+    { CMD_start,     GM_Command_start       },  // GV_StrCode("start")
+    { CMD_load,      GM_Command_load        },  // GV_StrCode("load")
+    { CMD_radio,     GM_Command_radio       },  // GV_StrCode("radio")
+    { CMD_restart,   GM_Command_restart     },  // GV_StrCode("restart")
+    { CMD_demo,      GM_Command_demo        },  // GV_StrCode("demo")
+    { CMD_ntrap,     GM_Command_ntrap       },  // GV_StrCode("ntrap")
+    { CMD_delay,     GM_Command_delay       },  // GV_StrCode("delay")
+    { CMD_pad,       GM_Command_pad         },  // GV_StrCode("pad")
+    { CMD_varsave,   GM_Command_varsave     },  // GV_StrCode("varsave")
+    { CMD_system,    GM_Command_system      },  // GV_StrCode("system")
+    { CMD_sound,     GM_Command_sound       },  // GV_StrCode("sound")
+    { CMD_menu,      GM_Command_menu        },  // GV_StrCode("menu")
+    { CMD_rand,      GM_Command_rand        },  // GV_StrCode("rand")
+    { CMD_func,      GM_Command_func        },  // GV_StrCode("func")
+    { CMD_demodebug, GM_Command_demodebug   },  // GV_StrCode("demodebug")
+    { CMD_print,     GM_Command_print       },  // GV_StrCode("print")
+    { CMD_jimaku,    GM_Command_jimaku      }   // GV_StrCode("jimaku")
+};
+
+STATIC GCL_COMMANDDEF script_commands = { 0, COUNTOF(Commands), Commands };
 
 int GM_InitBinds(void)
 {
