@@ -46,9 +46,45 @@ void DG_InitDispEnv(int x, short y, short w, short h, int clipH)
     gClipHeights_800AB960[1] = x + clipH;
 }
 
-void DG_ChangeReso(int arg0)
+void DG_ChangeReso(int flag)
 {
-    /* do nothing */
+#if 0
+    DRAWENV drawenv;
+
+    if ((flag & 1) == 0) {
+        g_dispenv.disp.w = 320;
+        g_dispenv.screen.x = 0;
+        g_dispenv.screen.w = 255;
+    } else {
+        g_dispenv.disp.w = 384;
+        g_dispenv.screen.x = 26;
+        g_dispenv.screen.w = 212;
+    }
+
+    if ((flag & 2) == 0) {
+        g_dispenv.screen.h = 256;
+    } else {
+        g_dispenv.screen.h = 224;
+    }
+
+    g_dispenv.screen.y = 16;
+
+    if ((flag & 4) == 0) {
+        g_dispenv.disp.y = 0;
+        g_dispenv.disp.h = 256;
+    } else {
+        g_dispenv.disp.h = 224;
+        g_dispenv.disp.y = (g_dispenv.screen.h - 224) / 2;
+    }
+
+    if ((flag & 8) != 0) {
+        PutDispEnv(&g_dispenv);
+    }
+
+    SetDefDrawEnv(&drawenv, 0, 0, 320, g_dispenv.disp.h);
+    drawenv.isbg = 1;
+    DG_SetRenderChanlDrawEnv(-1, &drawenv);
+#endif
 }
 
 void DG_RenderPipeline_Init(void)
