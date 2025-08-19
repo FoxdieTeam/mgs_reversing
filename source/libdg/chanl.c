@@ -118,6 +118,7 @@ void DG_InitChanlSystem( int width )
     DrawSyncCallback(DG_DrawSyncCallback);
     dword_800AB978 = width;
 
+    /* channel 0 */
     chanl = DG_Chanls;
     DG_SetChanlOrderingTable(chanl, (unsigned char *)dword_800B0630, 5, (DG_OBJS **)dword_800B0F60, 8, -1, 1);
     DG_InitDrawEnv(&drawEnv, 0, 0, FRAME_WIDTH, FRAME_HEIGHT);
@@ -126,6 +127,7 @@ void DG_InitChanlSystem( int width )
     DG_CopyChanlDrawEnv(chanl, 0);
     DG_CopyChanlDrawEnv(chanl, 1);
 
+    /* channel 1 */
     chanl++;
     DG_SetChanlOrderingTable(chanl, (unsigned char *)dword_800B0740, 8, (DG_OBJS **)dword_800B0F80, 256, 16, 1);
     DG_InitDrawEnv(&drawEnv, 0, 0, FRAME_WIDTH, FRAME_HEIGHT);
@@ -138,6 +140,7 @@ void DG_InitChanlSystem( int width )
     chanl->field_EC_dr_env[0] = stru_800B1380[0];
     chanl->field_EC_dr_env[1] = stru_800B1380[1];
 
+    /* channel 2 */
     chanl++;
     DG_SetChanlOrderingTable(chanl, (unsigned char *)dword_800B0F50, 0, 0, 0, 8, 1);
     DG_InitDrawEnv(&drawEnv, 0, 0, FRAME_WIDTH, FRAME_HEIGHT);
