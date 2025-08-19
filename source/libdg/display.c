@@ -20,27 +20,27 @@ short SECTION(".sbss") DG_ClipMin[2];
 short SECTION(".sbss") DG_ClipMax[2];
 
 /*** bss ***/
-extern DISPENV gDispEnv_800B0600;
+extern DISPENV g_dispenv;
 extern VECTOR  DG_RightVector_800B0620;
 
 void DG_InitDispEnv(int x, short y, short w, short h, int clipH)
 {
-    DISPENV *pDispEnv = &gDispEnv_800B0600;
-    RECT    *pDispRect;
-    RECT    *pScreenRect;
+    DISPENV *dispenv = &g_dispenv;
+    RECT    *disp;
+    RECT    *screen;
 
-    pDispRect = &pDispEnv->disp;
-    pScreenRect = &pDispEnv->screen;
+    disp = &dispenv->disp;
+    screen = &dispenv->screen;
 
-    setRECT(pDispRect, x, y, w, h);
-    setRECT(pScreenRect, 0, 0, 256, 240);
+    setRECT(disp, x, y, w, h);
+    setRECT(screen, 0, 0, 256, SCREEN_HEIGHT);
 
-    pDispEnv->isinter = 0;
-    pDispEnv->isrgb24 = 0;
+    dispenv->isinter = 0;
+    dispenv->isrgb24 = 0;
 
     // For some reason lets overwrite what we already setup
-    pDispEnv->screen.y = 8;
-    pDispEnv->screen.h = FRAME_HEIGHT;
+    dispenv->screen.y = 8;
+    dispenv->screen.h = FRAME_HEIGHT;
 
     gClipHeights_800AB960[0] = x;
     gClipHeights_800AB960[1] = x + clipH;
@@ -62,6 +62,7 @@ void DG_RenderPipeline_Init(void)
 void DG_SwapFrame(void)
 {
     int activeBuffer = GV_Clock;
+
     if ((GV_PauseLevel & 8) != 0 || DG_UnDrawFrameCount > 0)
     {
         if (DG_CurrentBuffer < 0)
@@ -75,10 +76,10 @@ void DG_SwapFrame(void)
     }
     else if (DG_CurrentBuffer < 0 || activeBuffer != DG_CurrentBuffer)
     {
-        DISPENV *p = &gDispEnv_800B0600;
+        DISPENV *p = &g_dispenv;
         p->disp.x = gClipHeights_800AB960[activeBuffer];
 
-        PutDispEnv(&gDispEnv_800B0600);
+        PutDispEnv(&g_dispenv);
         if (!DG_HikituriFlagOld)
         {
             DG_DrawOTag(1 - activeBuffer);
@@ -114,9 +115,9 @@ void DG_LookAt(DG_CHANL *chanl, SVECTOR *eye, SVECTOR *center, int clip_distance
     view->t[1] = eye->vy;
     view->t[2] = eye->vz;
 
-    forward.vx = (signed short)(((unsigned short)center->vx - (unsigned short)eye->vx));
-    forward.vy = (signed short)(((unsigned short)center->vy - (unsigned short)eye->vy));
-    forward.vz = (signed short)(((unsigned short)center->vz - (unsigned short)eye->vz));
+    forward.vx = (signed short)(((u_short)center->vx - (u_short)eye->vx));
+    forward.vy = (signed short)(((u_short)center->vy - (u_short)eye->vy));
+    forward.vz = (signed short)(((u_short)center->vz - (u_short)eye->vz));
 
     OuterProduct12(&DG_UpVector, &forward, &right);
 
@@ -211,35 +212,34 @@ void DG_ApplyMatrix(MATRIX *world, MATRIX *in)
 
 void DG_OffsetDispEnv(int offset)
 {
-    gDispEnv_800B0600.screen.y += offset;
-    gDispEnv_800B0600.screen.h -= offset;
-    PutDispEnv(&gDispEnv_800B0600);
-    gDispEnv_800B0600.screen.y -= offset;
-    gDispEnv_800B0600.screen.h += offset;
+    g_dispenv.screen.y += offset;
+    g_dispenv.screen.h -= offset;
+    PutDispEnv(&g_dispenv);
+    g_dispenv.screen.y -= offset;
+    g_dispenv.screen.h += offset;
 }
 
 void DG_ClipDispEnv(int x, int y)
 {
     RECT screen;
 
-    screen = gDispEnv_800B0600.screen;
-    gDispEnv_800B0600.screen.x = 128 - x / 2;
-    gDispEnv_800B0600.screen.w = x;
-    gDispEnv_800B0600.screen.y = 120 - y / 2;
-    gDispEnv_800B0600.screen.h = y;
-    PutDispEnv(&gDispEnv_800B0600);
-    gDispEnv_800B0600.screen = screen;
+    screen = g_dispenv.screen;
+    g_dispenv.screen.x = 128 - x / 2;
+    g_dispenv.screen.w = x;
+    g_dispenv.screen.y = 120 - y / 2;
+    g_dispenv.screen.h = y;
+    PutDispEnv(&g_dispenv);
+    g_dispenv.screen = screen;
 }
 
 void DG_DisableClipping(void)
 {
-    DRAWENV dr_env;
-    DG_InitDrawEnv(&dr_env,
-                   gDispEnv_800B0600.disp.x,
-                   gDispEnv_800B0600.disp.y,
-                   gDispEnv_800B0600.disp.w,
-                   gDispEnv_800B0600.disp.h);
-    PutDrawEnv(&dr_env);
+    DRAWENV drawenv;
+
+    DG_InitDrawEnv(&drawenv,
+        g_dispenv.disp.x, g_dispenv.disp.y,
+        g_dispenv.disp.w, g_dispenv.disp.h);
+    PutDrawEnv(&drawenv);
 }
 
 void DG_FadeScreen(int amount)
@@ -265,5 +265,5 @@ void DG_FadeScreen(int amount)
 // guessed function name
 DISPENV *DG_GetDisplayEnv(void)
 {
-    return &gDispEnv_800B0600;
+    return &g_dispenv;
 }

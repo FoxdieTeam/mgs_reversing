@@ -77,7 +77,7 @@ int BSS             dword_800B05A8[6]; // 0x18 (24) bytes
 GV_PAD BSS          GV_PadData[4]; // 0x40 (64) bytes
 
 /* libdg/display.c */
-DISPENV BSS         gDispEnv_800B0600; // 0x14 (20) bytes
+DISPENV BSS         g_dispenv; // 0x14 (20) bytes
 
 gap                                     gap_800B0614[0xC]; // 12 bytes
 
