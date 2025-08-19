@@ -264,8 +264,8 @@ static void InitRects(Work *work, int scale)
     short   screen;
 
 
-    SetRotMatrix(&DG_Chanl(0)->field_10_eye_inv);
-    SetTransMatrix(&DG_Chanl(0)->field_10_eye_inv);
+    SetRotMatrix(&DG_Chanl(0)->eye_inv);
+    SetTransMatrix(&DG_Chanl(0)->eye_inv);
     RotTransPers(&work->fE0, (long *)&sxy, &p, &flag);
 
     if (sxy.vy == 0)

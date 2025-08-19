@@ -38,7 +38,7 @@ void d03a_blurpure_800C4F68(BlurPureWork *work)
     DR_STP        *stp;
     unsigned char *pOt;
 
-    pOt = DG_Chanl(0)->mOrderingTables[GV_Clock]; // DG_ChanlOTag doesn't work here
+    pOt = DG_Chanl(0)->ot[GV_Clock]; // DG_ChanlOTag doesn't work here
     tile = &work->field_20->tile[GV_Clock];
 
     setTile(tile);
@@ -55,7 +55,7 @@ void d03a_blurpure_800C4F68(BlurPureWork *work)
     SetDrawStp(stp, 1);
     addPrim(pOt + 4 * 0xFF, stp); // TODO: what's this offset 0x3CF = 4 * 0xFF?
 
-    pOt = DG_Chanl(1)->mOrderingTables[GV_Clock];
+    pOt = DG_Chanl(1)->ot[GV_Clock];
     stp = &work->field_20->stp2[GV_Clock];
     SetDrawStp(stp, 1);
     addPrim(pOt, stp);
@@ -105,7 +105,7 @@ void d03a_blurpure_800C51A8(BlurPureWork *work)
     unsigned char *pOt;
 
     sprt = &work->field_20->sprt1[GV_Clock];
-    pOt = DG_Chanl(0)->mOrderingTables[GV_Clock];
+    pOt = DG_Chanl(0)->ot[GV_Clock];
     SetSprt(sprt);
     sprt->r0 = 0x78;
     sprt->g0 = 0x78;

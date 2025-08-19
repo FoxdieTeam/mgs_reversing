@@ -178,7 +178,7 @@ void Envmap3_800CA0E4(DG_OBJ *obj)
         dirty = 1;
     }
 
-    MulMatrix0(&DG_Chanl(0)->field_10_eye_inv, &obj->world, &rot);
+    MulMatrix0(&DG_Chanl(0)->eye_inv, &obj->world, &rot);
     MulMatrix(&rot, &envmap3_scale);
     SetRotMatrix(&rot);
 

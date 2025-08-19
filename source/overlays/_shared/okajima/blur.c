@@ -48,7 +48,7 @@ void d01a_blur_800CCB28(void)
     DR_STP       *stp;
     DR_STP       *stp2;
 
-    ot = (unsigned int *)DG_Chanl(0)->mOrderingTables[GV_Clock];
+    ot = (unsigned int *)DG_Chanl(0)->ot[GV_Clock];
 
     tile = &d01a_dword_800D1428[GV_Clock];
     SetTile(tile);
@@ -62,7 +62,7 @@ void d01a_blur_800CCB28(void)
     SetDrawStp(stp, 1);
     addPrim(&ot[0xFF], stp);
 
-    ot = (unsigned int *)DG_Chanl(1)->mOrderingTables[GV_Clock];
+    ot = (unsigned int *)DG_Chanl(1)->ot[GV_Clock];
 
     stp2 = &d01a_dword_800D1468[GV_Clock];
     SetDrawStp(stp2, 1);

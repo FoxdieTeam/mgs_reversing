@@ -23,7 +23,7 @@ typedef struct {
 extern void SetPriority(DR_PRIO *p, int pbc, int pbw);
 // clang-format on
 
-extern DG_CHANL DG_Chanls_800B1800[3];
+extern DG_CHANL DG_Chanls[3];
 
 /*---------------------------------------------------------------------------*/
 
@@ -142,7 +142,7 @@ static void Act(Work *work)
     ot = (u_long *)DG_ChanlOTag(0);
 
     vec = &sp10;
-    eye = &DG_Chanls_800B1800[1].field_30_eye;
+    eye = &DG_Chanls[1].eye;
 
     vec->vx = x = eye->t[0];
     vec->vy = y = eye->t[1];

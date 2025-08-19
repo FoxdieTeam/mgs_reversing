@@ -81,9 +81,9 @@ static void addPrimEX(u_long *ot, void *prim)
 
 static void sgtrect3_act_helper_8007009C(void)
 {
-    DG_Clip(&DG_Chanl(0)->field_5C_clip_rect, DG_Chanl(0)->field_50_clip_distance);
-    SetRotMatrix(&DG_Chanl(0)->field_10_eye_inv);
-    SetTransMatrix(&DG_Chanl(0)->field_10_eye_inv);
+    DG_Clip(&DG_Chanl(0)->clip_rect, DG_Chanl(0)->clip_distance);
+    SetRotMatrix(&DG_Chanl(0)->eye_inv);
+    SetTransMatrix(&DG_Chanl(0)->eye_inv);
 }
 
 static unsigned int sgtrect3_act_helper_helper_800700E0(TARGET *target, DVECTOR *vector)

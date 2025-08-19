@@ -434,7 +434,7 @@ void FogSortChanl_800D4E98(DG_CHANL *chanl, int idx)
 
     scratch = get_scratch();
     scratch->buf = ptr_800B1400;
-    scratch->ot = (unsigned int *)chanl->mOrderingTables[idx] + 1;
+    scratch->ot = (unsigned int *)chanl->ot[idx] + 1;
 
     s12c_800D4CF4(scratch->ot);
 
@@ -727,7 +727,7 @@ void FogBoundChanl_800D5500(DG_CHANL *chanl, int idx)
     unsigned int flag;
     short       *scrpad;
 
-    DG_Clip(&chanl->field_5C_clip_rect, chanl->field_50_clip_distance);
+    DG_Clip(&chanl->clip_rect, chanl->clip_distance);
 
     scrpad = (short *)SCRPAD_ADDR;
     memcpy(scrpad + 0x90 / 2, DG_ClipMax, 4);
@@ -1383,7 +1383,7 @@ void FogTransChanl_800D63B0(DG_CHANL *chanl, int idx)
     DG_OBJ   *pParent;
     short     uVar1;
 
-    DG_Clip(&chanl->field_5C_clip_rect, chanl->field_50_clip_distance);
+    DG_Clip(&chanl->clip_rect, chanl->clip_distance);
 
     ppObjs = (DG_OBJS **)chanl->mQueue;
 
