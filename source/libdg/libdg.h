@@ -297,19 +297,19 @@ typedef struct DG_DivideMem         // private to libdg/divide.c
 
 typedef struct DG_CHANL
 {
-    unsigned char *mOrderingTables[ 2 ]; // 257 pointers? // One for each active buffer
-    short          word_6BC374_8;
-    short          word_6BC376_16;
-    short          word_6BC378_1;
-    short          word_6BC37A_0_1EC_size;
-    MATRIX         field_10_eye_inv;
-    MATRIX         field_30_eye;
-    short          field_50_clip_distance;
+    unsigned char *ot[ 2 ]; // 257 pointers? // One for each active buffer
+    short          field_08;
+    short          field_0A;
+    short          field_0C;
+    short          field_0E_size;
+    MATRIX         eye_inv;
+    MATRIX         eye;
+    short          clip_distance;
     short          mTotalQueueSize;
     short          mFreePrimCount;
     short          mTotalObjectCount;
     DG_OBJS      **mQueue; // queue can contain DG_PRIM as well, probably void*
-    RECT           field_5C_clip_rect;
+    RECT           clip_rect;
     RECT           field_64_rect;
     // One for each active buffer and for some reason passed as the root
     // to DrawOTag
@@ -384,9 +384,6 @@ enum DG_CHANL
     DG_SORT_CHANL,
     DG_CHANL_UNIT_MAX
 };
-
-//#define WEAPON_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE |\
-//                    DG_FLAG_ONEPIECE) // 0x6d
 
 // TODO: these belong to takabe/paper.c
 #define RevisionDir( a )  a &= 4095
@@ -642,14 +639,14 @@ void DG_MakeEffectPalette( unsigned short *param_1, int param_2 );
 
 static inline DG_CHANL *DG_Chanl( int idx )
 {
-    extern DG_CHANL DG_Chanls_800B1800[ 3 ];
-    return &DG_Chanls_800B1800[ idx + 1 ];
+    extern DG_CHANL DG_Chanls[ 3 ];
+    return &DG_Chanls[ idx + 1 ];
 }
 
 static inline char *DG_ChanlOTag(int index)
 {
     extern int GV_Clock;
-    return DG_Chanl(index)->mOrderingTables[GV_Clock];
+    return DG_Chanl(index)->ot[GV_Clock];
 }
 
 static inline DG_PRIM *DG_GetPrim( int type, int prim_count, int chanl, SVECTOR *vec, RECT *pRect )

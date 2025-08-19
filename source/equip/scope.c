@@ -88,7 +88,7 @@ static int GetZoomLimit(Work *work)
 
     if ( GM_GameStatus < 0 )
     {
-        eye = &DG_Chanl(0)->field_30_eye;
+        eye = &DG_Chanl(0)->eye;
     }
     else
     {
@@ -517,9 +517,9 @@ static void DrawMovingBarGraph(Work *work, u_long *ot)
     int      numOTEntries;
 
     pLine_F3 = work->bar_graph[GV_Clock];
-    chnlOt = DG_Chanl(0)->mOrderingTables[1 - GV_Clock];
+    chnlOt = DG_Chanl(0)->ot[1 - GV_Clock];
 
-    numOTEntries = DG_Chanl(0)->word_6BC374_8 - 4;
+    numOTEntries = DG_Chanl(0)->field_08 - 4;
     for (i = 0; i < 16; i++)
     {
         otMin = chnlOt + ((i << numOTEntries) * 4);

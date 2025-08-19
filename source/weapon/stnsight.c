@@ -303,9 +303,9 @@ static void SetMissileRect( Work *work, u_long *ot )
 
         lines = work->field_38_lines_2Array[GV_Clock];
 
-        DG_Clip(&DG_Chanl(0)->field_5C_clip_rect, DG_Chanl(0)->field_50_clip_distance);
-        SetRotMatrix(&DG_Chanl(0)->field_10_eye_inv);
-        SetTransMatrix(&DG_Chanl(0)->field_10_eye_inv);
+        DG_Clip(&DG_Chanl(0)->clip_rect, DG_Chanl(0)->clip_distance);
+        SetRotMatrix(&DG_Chanl(0)->eye_inv);
+        SetTransMatrix(&DG_Chanl(0)->eye_inv);
         RotTransPers(&svector_8009F494, (long *)&sxy, &p, &flag);
 
         sx = sxy.vx;

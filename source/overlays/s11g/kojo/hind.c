@@ -279,7 +279,7 @@ SVECTOR s11g_dword_800C3598 = {5000, 3000, 5000, 0};
 SVECTOR s11g_dword_800C35A0 = {100, 0, 0, 0};
 
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
-extern DG_CHANL         DG_Chanls_800B1800[3];
+extern DG_CHANL         DG_Chanls[3];
 extern GM_CAMERA        GM_Camera;
 
 void HindAct_800D3404(HindWork *work);
@@ -961,7 +961,7 @@ void *NewHind_800D1224(int scriptData, int scriptBinds)
 
 void Hind_LookAt_800D2C1C(SVECTOR *eye, SVECTOR *center)
 {
-    DG_LookAt(&DG_Chanls_800B1800[1], eye, center, 320);
+    DG_LookAt(&DG_Chanls[1], eye, center, 320);
     GM_Camera.field_2A = 0;
     gUnkCameraStruct2_800B7868.eye = *eye;
     gUnkCameraStruct2_800B7868.center = *center;

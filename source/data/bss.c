@@ -91,7 +91,7 @@ DG_OBJS *BSS        dword_800B0F60[8]; // 0x20 (32) bytes
 DG_OBJS *BSS        dword_800B0F80[256]; // 0x400 (1024) bytes
 DR_ENV BSS          stru_800B1380[2]; // 0x80 (128) bytes
 unsigned int *BSS   ptr_800B1400[256]; // 0x400 (1024) bytes
-DG_CHANL BSS        DG_Chanls_800B1800[3]; // 0x5C4 (1476) bytes
+DG_CHANL BSS        DG_Chanls[3]; // 0x5C4 (1476) bytes
 
 gap                                     gap_800B1DC4[0x4]; // 4 bytes
 
@@ -115,7 +115,7 @@ gap                                     gap_800B3794[0x4]; // 4 bytes
 unsigned char BSS   pcxBuffer_800B3798[128]; // 0x80 (128) bytes
 
 /* libdg/palette.obj (?) */
-u_long BSS          DG_PaletteBuffer_800B3818[256]; // 0x400 (1024) bytes
+u_long BSS          DG_PaletteBuffer[256]; // 0x400 (1024) bytes
 
 /* libgcl/command.obj */
 GCL_SCRIPT BSS      current_script; // 0xC (12) bytes

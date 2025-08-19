@@ -107,9 +107,9 @@ void DG_LookAt(DG_CHANL *chanl, SVECTOR *eye, SVECTOR *center, int clip_distance
     VECTOR  right;
     MATRIX *view;
 
-    chanl->field_50_clip_distance = clip_distance;
+    chanl->clip_distance = clip_distance;
 
-    view = &chanl->field_30_eye;
+    view = &chanl->eye;
     view->t[0] = eye->vx;
     view->t[1] = eye->vy;
     view->t[2] = eye->vz;
@@ -146,13 +146,13 @@ void DG_LookAt(DG_CHANL *chanl, SVECTOR *eye, SVECTOR *center, int clip_distance
     view->m[2][1] = up.vz;
     view->m[2][2] = forward.vz;
 
-    DG_TransposeMatrix(view, &chanl->field_10_eye_inv);
+    DG_TransposeMatrix(view, &chanl->eye_inv);
 
     forward.vx = -view->t[0];
     forward.vy = -view->t[1];
     forward.vz = -view->t[2];
 
-    ApplyMatrixLV(&chanl->field_10_eye_inv, &forward, (VECTOR *)chanl->field_10_eye_inv.t);
+    ApplyMatrixLV(&chanl->eye_inv, &forward, (VECTOR *)chanl->eye_inv.t);
 }
 
 void DG_AdjustOverscan(MATRIX *matrix)

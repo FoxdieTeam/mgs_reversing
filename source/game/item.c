@@ -275,8 +275,8 @@ STATIC int item_act_helper_80033704(short *pOut, SVECTOR *pIn)
 {
     long z;
 
-    gte_SetRotMatrix(&DG_Chanl(0)->field_10_eye_inv);
-    gte_SetTransMatrix(&DG_Chanl(0)->field_10_eye_inv);
+    gte_SetRotMatrix(&DG_Chanl(0)->eye_inv);
+    gte_SetTransMatrix(&DG_Chanl(0)->eye_inv);
 
     gte_ldv0(pIn);
     gte_rtps();

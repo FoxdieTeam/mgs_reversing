@@ -63,7 +63,7 @@ DG_DEF litmdl_dg_def =
     }
 };
 
-extern DG_CHANL DG_Chanls_800B1800[3];
+extern DG_CHANL DG_Chanls[3];
 
 void s01a_lit_mdl_800E26EC(LitMdlWork *work)
 {
@@ -175,7 +175,7 @@ void s01a_lit_mdl_800E2928(LitMdlWork *work)
         s01a_lit_mdl_800E26EC(work);
     }
 
-    if (DG_Chanls_800B1800[1].field_30_eye.t[1] > work->field_AC)
+    if (DG_Chanls[1].eye.t[1] > work->field_AC)
     {
         DG_VisibleObjs(work->field_24_obj.objs);
     }

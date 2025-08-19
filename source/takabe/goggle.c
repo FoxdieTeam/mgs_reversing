@@ -9,7 +9,7 @@
 #include "scn_mask.h"
 
 extern int DG_CurrentGroupID;
-extern u_long DG_PaletteBuffer_800B3818[256];
+extern u_long DG_PaletteBuffer[256];
 
 /*---------------------------------------------------------------------------*/
 // night vision goggles (screen effect)
@@ -81,16 +81,16 @@ static void PaletteCallback(void)
 
     for (i = 15; i > 0; i--) {
         DrawSync(0);
-        StoreImage2(&rect_8009F70C, DG_PaletteBuffer_800B3818);
+        StoreImage2(&rect_8009F70C, DG_PaletteBuffer);
         DrawSync(0);
 
-        ptr = (u_short *)DG_PaletteBuffer_800B3818;
+        ptr = (u_short *)DG_PaletteBuffer;
 
         for (j = 512; j > 0; j--) {
             *ptr++ = PaletteConvert(*ptr);
         }
 
-        LoadImage2(&rect_8009F704, DG_PaletteBuffer_800B3818);
+        LoadImage2(&rect_8009F704, DG_PaletteBuffer);
 
         rect_8009F70C.y += 2;
         rect_8009F704.y += 2;

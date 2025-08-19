@@ -68,7 +68,7 @@ static void Act(Work *work)
     short         *poly_tag;
     long           tile_height, tile_width;
 
-    Sphere_800C60E0(&DG_Chanl(0)->field_30_eye, &svec);
+    Sphere_800C60E0(&DG_Chanl(0)->eye, &svec);
 
     if (work->f68 > 0)
     {

@@ -31,7 +31,7 @@ int Boxall_800C9780(SVECTOR *out, SVECTOR *in)
     int     z;
     MATRIX *m;
 
-    m = &DG_Chanl(0)->field_10_eye_inv;
+    m = &DG_Chanl(0)->eye_inv;
     gte_SetRotMatrix(m);
     gte_SetTransMatrix(m);
     gte_ldv0(in);
@@ -139,7 +139,7 @@ void Boxall_800C9A48(BoxallWork *work)
     SVECTOR pos;
     MATRIX *m;
 
-    m = &DG_Chanl(0)->field_10_eye_inv;
+    m = &DG_Chanl(0)->eye_inv;
     gte_SetRotMatrix(m);
     gte_SetTransMatrix(m);
     gte_ldv0(&work->control.mov);
