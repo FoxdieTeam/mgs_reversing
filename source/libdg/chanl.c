@@ -120,7 +120,7 @@ void DG_InitChanlSystem( int width )
 
     chanl = DG_Chanls;
     DG_SetChanlOrderingTable(chanl, (unsigned char *)dword_800B0630, 5, (DG_OBJS **)dword_800B0F60, 8, -1, 1);
-    DG_InitDrawEnv(&drawEnv, 0, 0, 320, 224);
+    DG_InitDrawEnv(&drawEnv, 0, 0, FRAME_WIDTH, FRAME_HEIGHT);
     drawEnv.isbg = 1;
     DG_SetChanlDrawEnv(chanl, &drawEnv, 1);
     DG_CopyChanlDrawEnv(chanl, 0);
@@ -128,7 +128,7 @@ void DG_InitChanlSystem( int width )
 
     chanl++;
     DG_SetChanlOrderingTable(chanl, (unsigned char *)dword_800B0740, 8, (DG_OBJS **)dword_800B0F80, 256, 16, 1);
-    DG_InitDrawEnv(&drawEnv, 0, 0, 320, 224);
+    DG_InitDrawEnv(&drawEnv, 0, 0, FRAME_WIDTH, FRAME_HEIGHT);
     drawEnv.ofs[0] = 160;
     drawEnv.ofs[1] = 112;
     DG_SetChanlDrawEnv(chanl, &drawEnv, 0);
@@ -140,7 +140,7 @@ void DG_InitChanlSystem( int width )
 
     chanl++;
     DG_SetChanlOrderingTable(chanl, (unsigned char *)dword_800B0F50, 0, 0, 0, 8, 1);
-    DG_InitDrawEnv(&drawEnv, 0, 0, 320, 224);
+    DG_InitDrawEnv(&drawEnv, 0, 0, FRAME_WIDTH, FRAME_HEIGHT);
     DG_SetChanlDrawEnv(chanl, &drawEnv, 0);
     DG_CopyChanlDrawEnv(chanl, 0);
     DG_CopyChanlDrawEnv(chanl, 1);
@@ -427,7 +427,7 @@ void DG_SetBackgroundRGB( int r, int g, int b )
     DRAWENV drawEnv;
     DG_CHANL *chanl = &DG_Chanls[0];
 
-    DG_InitDrawEnv(&drawEnv, 0, 0, 320, 224);
+    DG_InitDrawEnv(&drawEnv, 0, 0, FRAME_WIDTH, FRAME_HEIGHT);
     drawEnv.isbg = 1;
     setRGB0(&drawEnv, r, g, b);
     DG_SetChanlDrawEnv(chanl, &drawEnv, 1);

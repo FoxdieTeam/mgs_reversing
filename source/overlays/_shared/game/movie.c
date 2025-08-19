@@ -217,7 +217,7 @@ static void Act2(MovieWork *work)
     rect->x = (GV_Clock == 0) ? 304 : -16;
     rect->y = 24;
     rect->w = 16;
-    rect->h = MIN(work->height, 224);
+    rect->h = MIN(work->height, FRAME_HEIGHT);
 
     work->f2C = 0;
     work->f38 = rect->x + work->width;

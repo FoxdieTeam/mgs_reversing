@@ -299,8 +299,8 @@ static int WaterViewCreatePrims(Work *work)
     tile = &work->prims->tile[0];
     SetTile(tile);
 
-    tile->x0 = -160;
-    tile->w = 320;
+    tile->x0 = -(FRAME_WIDTH/2);
+    tile->w = FRAME_WIDTH;
     tile->h = 6;
 
     tile->r0 = 0;
@@ -318,10 +318,10 @@ static int WaterViewCreatePrims(Work *work)
     tile2 = &work->prims->tile2[0];
     setTile(tile2);
 
-    tile2->x0 = -160;
-    tile2->y0 = -112;
-    tile2->w = 320;
-    tile2->h = 224;
+    tile2->x0 = -(FRAME_WIDTH/2);
+    tile2->y0 = -(FRAME_HEIGHT/2);
+    tile2->w = FRAME_WIDTH;
+    tile2->h = FRAME_HEIGHT;
 
     tile2->r0 = 0;
     tile2->g0 = 0;

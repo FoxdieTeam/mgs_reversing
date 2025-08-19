@@ -44,8 +44,8 @@ void d03a_blurpure_800C4F68(BlurPureWork *work)
     setTile(tile);
     tile->x0 = -160;
     tile->y0 = -112;
-    tile->w = 320;
-    tile->h = 224;
+    tile->w = FRAME_WIDTH;
+    tile->h = FRAME_HEIGHT;
     tile->r0 = 0;
     tile->g0 = 0;
     tile->b0 = 0;

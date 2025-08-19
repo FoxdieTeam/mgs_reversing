@@ -40,7 +40,7 @@ void DG_InitDispEnv(int x, short y, short w, short h, int clipH)
 
     // For some reason lets overwrite what we already setup
     pDispEnv->screen.y = 8;
-    pDispEnv->screen.h = 224;
+    pDispEnv->screen.h = FRAME_HEIGHT;
 
     gClipHeights_800AB960[0] = x;
     gClipHeights_800AB960[1] = x + clipH;
@@ -254,8 +254,8 @@ void DG_FadeScreen(int amount)
 
     tile.x0 = 0;
     tile.y0 = 0;
-    tile.w = 320;
-    tile.h = 224;
+    tile.w = FRAME_WIDTH;
+    tile.h = FRAME_HEIGHT;
     LSTORE(amount << 16 | amount << 8 | amount, &tile.r0);
     setTile(&tile);
     setSemiTrans(&tile, 1);

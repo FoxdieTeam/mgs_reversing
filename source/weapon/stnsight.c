@@ -311,37 +311,36 @@ static void SetMissileRect( Work *work, u_long *ot )
         sx = sxy.vx;
         sy = sxy.vy;
 
-        x = sx + 0xa0;
-        y = sy + 0x70;
+        x = sx + 160;
+        y = sy + 112;
 
-        if (x >= 320u || y < 0 || y >= 224)
+        if (x >= (unsigned)FRAME_WIDTH || y < 0 || y >= FRAME_HEIGHT)
         {
             return;
         }
 
-        lines->x3 = sx + 0x9f;
-        lines->x0 = sx + 0x9f;
-        lines->x2 = sx + 0x8d;
-        lines->x1 = sx + 0x8d;
-        lines->y1 = sy + 0x62;
-        lines->y0 = sy + 0x62;
-        lines->y3 = sy + 0x7e;
-        lines->y2 = sy + 0x7e;
+        lines->x3 = sx + 159;
+        lines->x0 = sx + 159;
+        lines->x2 = sx + 141;
+        lines->x1 = sx + 141;
+        lines->y1 = sy + 98;
+        lines->y0 = sy + 98;
+        lines->y3 = sy + 126;
+        lines->y2 = sy + 126;
         addPrimEX( ot, lines );
         lines++;
 
-        lines->x3 = sx + 0xa1;
-        lines->x0 = sx + 0xa1;
-        lines->x2 = sx + 0xb3;
-        lines->x1 = sx + 0xb3;
-        lines->y1 = sy + 0x62;
-        lines->y0 = sy + 0x62;
-        lines->y3 = sy + 0x7e;
-        lines->y2 = sy + 0x7e;
-
+        lines->x3 = sx + 161;
+        lines->x0 = sx + 161;
+        lines->x2 = sx + 179;
+        lines->x1 = sx + 179;
+        lines->y1 = sy + 98;
+        lines->y0 = sy + 98;
+        lines->y3 = sy + 126;
+        lines->y2 = sy + 126;
         addPrimEX( ot, lines );
 
-        MENU_Locate(sx + 0x8d, sy + 0x7f, 0);
+        MENU_Locate(sx + 141, sy + 127, 0);
         MENU_Color(29, 41, 41);
 
         if ((GM_PlayerStatus & PLAYER_NOT_SIGHT) == 0)

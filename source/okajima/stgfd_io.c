@@ -128,7 +128,7 @@ STATIC int stgfd_io_GetResources(StgfdIoWork *work)
     setTile(&pAlloc->tile[0]);
     setSemiTrans(&pAlloc->tile[0], 1);
     setXY0(&pAlloc->tile[0], -160, -112);
-    setWH(&pAlloc->tile[0], 320, 224);
+    setWH(&pAlloc->tile[0], FRAME_WIDTH, FRAME_HEIGHT);
 
     pAlloc->tile[1] = pAlloc->tile[0];
     setRGB0(&pAlloc->tile[0], 0, 0, 0);
