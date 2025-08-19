@@ -102,7 +102,7 @@ void Boxall_800C9800(BoxallWork *work)
     }
 
     y = MAX(y, 32);
-    y = MIN(y, 224);
+    y = MIN(y, FRAME_HEIGHT);
 
     line->x2 = line->x1 = x + 16;
     line->y2 = line->y1 = y - 16;

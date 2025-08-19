@@ -571,9 +571,9 @@ STATIC void item_Act(ItemWork *work)
         newy = 32;
     }
 
-    if (newy > 224)
+    if (newy > FRAME_HEIGHT)
     {
-        newy = 224;
+        newy = FRAME_HEIGHT;
     }
 
     pLine->x0 = newx;

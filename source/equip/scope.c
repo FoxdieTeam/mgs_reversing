@@ -124,12 +124,12 @@ static void SetSideLinesPairPosition(LINE_F2 *lines, int x, int y)
     lines->x1 = x;
     lines->x0 = x;
     offsetIndex = 4;
-    lines[offsetIndex].x1 = 320 - x;
-    lines[offsetIndex].x0 = 320 - x;
+    lines[offsetIndex].x1 = SCREEN_WIDTH - x;
+    lines[offsetIndex].x0 = SCREEN_WIDTH - x;
     lines[offsetIndex].y0 = y;
     lines->y0 = y;
-    lines[offsetIndex].y1 = 240 - y; // Bottom y.
-    lines->y1 = 240 - y;
+    lines[offsetIndex].y1 = SCREEN_HEIGHT - y; // Bottom y.
+    lines->y1 = SCREEN_HEIGHT - y;
 }
 
 static void DrawSideLines(LINE_F2 *lines, int param_2)

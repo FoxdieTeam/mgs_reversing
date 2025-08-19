@@ -195,8 +195,8 @@ static int GetResources( Work *work, int time, int event )
     setSemiTrans(poly, 1);
 
     colour = *(int*)&poly->r0;
-    poly->x1 = 320;
-    poly->x3 = 320;
+    poly->x1 = FRAME_WIDTH;
+    poly->x3 = FRAME_WIDTH;
     poly->x0 = 0;
     poly->y0 = 0;
     poly->y1 = 0;
@@ -213,17 +213,17 @@ static int GetResources( Work *work, int time, int event )
     prims->poly[0][1] = prims->poly[0][0];
 
     poly++;
-    poly->y0 = 224;
-    poly->y1 = 224;
-    poly->y2 = 224 - h2;
-    poly->y3 = 224 - h2;
+    poly->y0 = FRAME_HEIGHT;
+    poly->y1 = FRAME_HEIGHT;
+    poly->y2 = FRAME_HEIGHT - h2;
+    poly->y3 = FRAME_HEIGHT - h2;
 
     prims->poly[1][0] = prims->poly[0][0];
     prims->poly[1][1] = prims->poly[0][1];
 
     tile = (TILE*)prims->tile;
     setTile(tile);
-    tile->w = 320;
+    tile->w = FRAME_WIDTH;
     tile->x0 = 0;
     tile->y0 = 0;
     tile->h = h1;
@@ -231,7 +231,7 @@ static int GetResources( Work *work, int time, int event )
 
     params = work->params;
     prims->tile[0][1] = prims->tile[0][0];
-    tile[1].y0 = 224-h2;
+    tile[1].y0 = FRAME_HEIGHT-h2;
     col = 384;
     tile[1].h = h2;
 

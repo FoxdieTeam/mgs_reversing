@@ -91,7 +91,11 @@ int roll_dword_800C3244 = 0x00FF0000;
 int roll_dword_800C3248 = 0x00010010;
 
 RECT ending2_orig_image_rect_800C324C = {640, 0, 320, 1};
-RECT moviework_rects_800C3254[3] = {{0, 320, 320, 160}, {320, 320, 320, 160}, {640, 320, 320, 160}};
+RECT moviework_rects_800C3254[3] = {
+    {   0, 320, 320, 160 },
+    { 320, 320, 320, 160 },
+    { 640, 320, 320, 160 }
+};
 
 Ending2MovieWork moviework_800C326C = {0};
 
@@ -584,7 +588,7 @@ void Ending2_800C6968(Ending2Work *work) // TODO: I guessed that it's work
     yoff = (work->field_24 + 320) % 320;
 
     ending2_image_rects_800C9ED0[GV_Clock] = ending2_orig_image_rect_800C324C;
-    ending2_image_rects_800C9ED0[GV_Clock].w = 320;
+    ending2_image_rects_800C9ED0[GV_Clock].w = FRAME_WIDTH;
     ending2_image_rects_800C9ED0[GV_Clock].h = 2;
     ending2_image_rects_800C9ED0[GV_Clock].y += yoff;
 
@@ -605,7 +609,7 @@ void roll_ending2_800C6AA4(Ending2Work *work, int count)
         yoff = (work->field_24 + 320 + i) % 320;
 
         ending2_800C9EE0[GV_Clock][i] = ending2_orig_image_rect_800C324C;
-        ending2_800C9EE0[GV_Clock][i].w = 320;
+        ending2_800C9EE0[GV_Clock][i].w = FRAME_WIDTH;
         ending2_800C9EE0[GV_Clock][i].h = 1;
         ending2_800C9EE0[GV_Clock][i].y += yoff;
 
@@ -650,14 +654,14 @@ void Ending2_800C6C9C(POLY_FT4 *polys, Ending2Pair *tpages, char *pOt)
 
     tpage = tpages->tpage1;
 
-    setXY4(scratch, 0, 0, 8, 0, 0, 320, 8, 320);
-    setUV4(scratch, 0, 64, 8, 64, 0, 224, 8, 224);
+    setXY4(scratch, 0, 0, 8, 0, 0, FRAME_WIDTH, 8, FRAME_WIDTH);
+    setUV4(scratch, 0, 64, 8, 64, 0, FRAME_HEIGHT, 8, FRAME_HEIGHT);
 
     scratch->tpage = tpage;
 
     x = 0;
     y = 0;
-    while (x < 320)
+    while (x < FRAME_WIDTH)
     {
         scratch->x0 = x;
         scratch->x2 = x;
@@ -704,13 +708,13 @@ void Ending2_800C6E00(SPRT *polys, Ending2Prims *prims, int arg2, char *pOt, int
     scratch[0].u0 = 0;
     scratch[0].v0 = 0;
     scratch[0].w = 8;
-    scratch[0].h = 0x100;
+    scratch[0].h = 256;
 
     setRGB0(&scratch[0], shade, shade, shade);
 
     scratch[2] = scratch[1] = scratch[0];
 
-    if (arg2 < 0x100)
+    if (arg2 < 256)
     {
         scratch[0].y0 = 0;
         scratch[0].v0 = arg2;
@@ -753,7 +757,7 @@ void Ending2_800C6E00(SPRT *polys, Ending2Prims *prims, int arg2, char *pOt, int
     u0 = 0;
 
     scratch2 = &scratch[1];
-    while (x0 < 320)
+    while (x0 < FRAME_WIDTH)
     {
         scratch2->x0 = x0;
         scratch[0].x0 = x0;
@@ -781,7 +785,7 @@ void Ending2_800C6E00(SPRT *polys, Ending2Prims *prims, int arg2, char *pOt, int
 
     x0 = 0;
     u0 = 0;
-    while (x0 < 320)
+    while (x0 < FRAME_WIDTH)
     {
         scratch[2].x0 = x0;
         x0 += 8;
@@ -976,7 +980,7 @@ void Ending2Die_800C76BC(Ending2Work *work)
     dispenv = DG_GetDisplayEnv();
     *dispenv = work->field_325C;
 
-    SetDefDrawEnv(&drawenv, 0, 0, 320, 224);
+    SetDefDrawEnv(&drawenv, 0, 0, FRAME_WIDTH, FRAME_HEIGHT);
 
     DG_SetRenderChanlDrawEnv(-1, &drawenv);
     DG_SetRenderChanlDrawEnv(1, &drawenv);
