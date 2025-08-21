@@ -9,11 +9,11 @@
 #include "game.h"
 
 extern MAP      gMapRecs_800B7910[ 16 ];
-extern DG_OBJS *StageObjs_800B7890[ 32 ];
+extern DG_OBJS *StageObjs[ 32 ];
 extern int      DG_CurrentGroupID;
 
 STATIC MAP* SECTION(".sbss") pHzdIter_800ABAA0;
-STATIC int  SECTION(".sbss") N_StageObjs_800ABAA4;
+STATIC int  SECTION(".sbss") N_StageObjs;
 STATIC int  SECTION(".sbss") gMapCount_800ABAA8;
 STATIC int  SECTION(".sbss") gMapsChanged_800ABAAC;
 
@@ -39,10 +39,10 @@ STATIC void GM_UpdateMapGroup( int preshade )
             continue;
         }
 
-        objs = StageObjs_800B7890;
+        objs = StageObjs;
         group |= map->index;
 
-        for ( j = N_StageObjs_800ABAA4; j > 0; j-- )
+        for ( j = N_StageObjs; j > 0; j-- )
         {
             if ( map->index & objs[ 0 ]->group_id )
             {
@@ -124,8 +124,8 @@ STATIC void GM_LoadMapModel(int name, MAP *map)
     DG_QueueObjs(objs);
     DG_GroupObjs(objs, map->index);
 
-    StageObjs_800B7890[N_StageObjs_800ABAA4] = objs;
-    N_StageObjs_800ABAA4++;
+    StageObjs[N_StageObjs] = objs;
+    N_StageObjs++;
 }
 
 STATIC HZD_HDL *GM_LoadHazard(int name, int area, int index, int dyn_walls, int dyn_floors)
@@ -169,8 +169,8 @@ void GM_ResetMapModel(void)
     DG_OBJS **objs;
     int       i;
 
-    objs = StageObjs_800B7890;
-    for (i = N_StageObjs_800ABAA4; i > 0; i--)
+    objs = StageObjs;
+    for (i = N_StageObjs; i > 0; i--)
     {
         if (*objs)
         {
@@ -182,7 +182,7 @@ void GM_ResetMapModel(void)
         *objs++ = NULL;
     }
 
-    N_StageObjs_800ABAA4 = 0;
+    N_StageObjs = 0;
 }
 
 void GM_ResetMap(void)
@@ -190,13 +190,13 @@ void GM_ResetMap(void)
     DG_OBJS **objs;
     int       i;
 
-    objs = StageObjs_800B7890;
+    objs = StageObjs;
     for (i = 32; i > 0; --i)
     {
         *objs++ = NULL;
     }
 
-    N_StageObjs_800ABAA4 = 0;
+    N_StageObjs = 0;
     gMapCount_800ABAA8 = 0;
     gMapsChanged_800ABAAC = 0;
 }
@@ -484,13 +484,17 @@ void GM_ReshadeObjs( DG_OBJS *obj )
     }
 }
 
+/*
+   すべてのマップモデルデータの Reshade   ( 使っていない？ )
+*/
+
 void GM_ReshadeMapAll( void )
 {
     DG_OBJS **obj;
     int       i;
 
-    obj = StageObjs_800B7890;
-    for (i = N_StageObjs_800ABAA4; i > 0; i--)
+    obj = StageObjs;
+    for (i = N_StageObjs; i > 0; i--)
     {
         GM_ReshadeObjs(*obj);
         obj++;
