@@ -226,7 +226,7 @@ UnkCameraStruct2 BSS gUnkCameraStruct2_800B7868; // 0x24 (36) bytes
 gap                                     gap_800B788C[0x4]; // 4 bytes
 
 /* game/map.obj */
-DG_OBJS *BSS        StageObjs_800B7890[32]; // 0x80 (128) bytes
+DG_OBJS *BSS        StageObjs[32]; // 0x80 (128) bytes
 MAP BSS      gMapRecs_800B7910[16]; // 0x140 (320) bytes
 
 /* libdg/pshade.obj */
