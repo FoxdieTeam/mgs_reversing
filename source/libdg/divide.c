@@ -552,13 +552,13 @@ void DG_DivideChanl( DG_CHANL *chanl, int idx )
 
     if ( !DG_InitDividePacks( idx ) ) return;
 
-    DG_Clip( &chanl->field_5C_clip_rect, chanl->field_50_clip_distance );
+    DG_Clip( &chanl->clip_rect, chanl->clip_distance );
 
     divide_mem = GetDivideMem();
     divide_mem->ot = (long *)ptr_800B1400;
     divide_mem->field_14 = 0x800;
 
-    if ( chanl->field_50_clip_distance > 1000)
+    if ( chanl->clip_distance > 1000)
     {
         divide_mem->field_18 = 60000;
     }

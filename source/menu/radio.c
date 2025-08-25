@@ -152,8 +152,8 @@ void FadeCodecScreen(MenuWork *work, unsigned char *pOt, int opacity)
 
     tile->x0 = 0;
     tile->y0 = 0;
-    tile->w = 320;
-    tile->h = 224;
+    tile->w = FRAME_WIDTH;
+    tile->h = FRAME_HEIGHT;
     addPrim(pOt, tile);
 
     NEW_PRIM(tpage, work);
@@ -804,7 +804,7 @@ int draw_radio_message(MenuWork *work, unsigned char *pOt)
     pPrim->w = 252;
     pPrim->h = 76;
     pPrim->clut = 32700;
-    pPrim->x0 = (320 - kcb->max_width) / 2;
+    pPrim->x0 = (FRAME_WIDTH - kcb->max_width) / 2;
     pPrim->y0 = 132;
 
     setSprt(pPrim);

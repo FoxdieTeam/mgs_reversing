@@ -85,7 +85,7 @@ STATIC void stngrnd_Act(StunGrenadeWork *work)
 
     --work->alive_counter;
 
-    mtx = &DG_Chanl(0)->field_10_eye_inv;
+    mtx = &DG_Chanl(0)->eye_inv;
     SetRotMatrix(mtx);
     SetTransMatrix(mtx);
     RotTransPers(&work->field_E0, (u_long *)&screenCoords, &interp, &flag);
@@ -158,8 +158,8 @@ STATIC int stngrnd_GetResources(StunGrenadeWork *work, MATRIX *world)
 
     NewStnFade();
 
-    SetRotMatrix(&DG_Chanl(0)->field_10_eye_inv);
-    SetTransMatrix(&DG_Chanl(0)->field_10_eye_inv);
+    SetRotMatrix(&DG_Chanl(0)->eye_inv);
+    SetTransMatrix(&DG_Chanl(0)->eye_inv);
     RotTransPers(&work->field_E0, (long *)&xy, &p, &flag);
 
     for (i = 0; i < 8; i++)

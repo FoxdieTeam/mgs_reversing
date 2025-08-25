@@ -65,7 +65,7 @@ void menu_jimaku_act( MenuWork *work, unsigned int *pOt )
             config.ypos = 80;
 
             _menu_number_draw_string2( work->field_20_otBuf, &config, "PAUSE" );
-            pTile = menu_render_rect_8003DB2C( work->field_20_otBuf, 0, 0, 320, 224, 0 );
+            pTile = menu_render_rect_8003DB2C( work->field_20_otBuf, 0, 0, FRAME_WIDTH, FRAME_HEIGHT, 0 );
             setSemiTrans(pTile, 1);
         }
 
@@ -114,7 +114,7 @@ void menu_jimaku_act( MenuWork *work, unsigned int *pOt )
         gUnkJimakuStruct_800BDA70.field_8_w = 256;
         gUnkJimakuStruct_800BDA70.field_38_str = NULL;
         gUnkJimakuStruct_800BDA70.field_0_active = 1;
-        gUnkJimakuStruct_800BDA70.field_4_x = (320 - pFont->max_width) / 2;
+        gUnkJimakuStruct_800BDA70.field_4_x = (FRAME_WIDTH - pFont->max_width) / 2;
         gUnkJimakuStruct_800BDA70.field_A_h = pFont->short3;
         gUnkJimakuStruct_800BDA70.field_6_y = y - (pFont->short3 / 2);
     }

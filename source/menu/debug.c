@@ -295,8 +295,8 @@ STATIC int menu_draw_ply_debug(MenuWork *work, unsigned int *pOt)
     y_0_1 = 0xa8;
     y_2_3 = 0xa8;
 
-    chnlOt = DG_Chanl(0)->mOrderingTables[1 - GV_Clock];
-    numOTEntries = DG_Chanl(0)->word_6BC374_8 - 4;
+    chnlOt = DG_Chanl(0)->ot[1 - GV_Clock];
+    numOTEntries = DG_Chanl(0)->field_08 - 4;
 
     NEW_PRIM(lineF2, work);
 

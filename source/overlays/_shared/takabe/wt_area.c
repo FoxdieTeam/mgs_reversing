@@ -177,7 +177,7 @@ static void Act( Work *work )
         }
     }
 
-    eye = &DG_Chanl(0)->field_30_eye;
+    eye = &DG_Chanl(0)->eye;
     snake_pos.vx = eye->t[0];
     snake_pos.vy = eye->t[1];
     snake_pos.vz = eye->t[2];

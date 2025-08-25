@@ -667,7 +667,7 @@ int wolf2_GetResources2(Wolf2Work *work, int name, int where)
     setTile(&alloc->tile[0]);
     setSemiTrans(&alloc->tile[0], 1);
     setXY0(&alloc->tile[0], -160, -112);
-    setWH(&alloc->tile[0], 320, 224);
+    setWH(&alloc->tile[0], FRAME_WIDTH, FRAME_HEIGHT);
 
     alloc->tile[1] = alloc->tile[0];
 

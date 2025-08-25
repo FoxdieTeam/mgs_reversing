@@ -469,8 +469,8 @@ void *NewVrwindow_800D81AC(int name, int where)
             }
 
             work->f28.h = (work->f40 * 18) + 18;
-            work->f28.x = (320 - work->f28.w) >> 1;
-            work->f28.y = (224 - work->f28.h) >> 1;
+            work->f28.x = (FRAME_WIDTH - work->f28.w) >> 1;
+            work->f28.y = (FRAME_HEIGHT - work->f28.h) >> 1;
         }
         else
         {

@@ -7,8 +7,8 @@ static int calc(int op, int value1, int value2)
     {
     case GCL_OP_NEGATE:
         return -value2;
-    case GCL_OP_ISZERO:
-        return value2 == 0;
+    case GCL_OP_NOT:
+        return !value2;
     case GCL_OP_COMPL:
         return ~value2;
     case GCL_OP_ADD:
@@ -68,8 +68,8 @@ int GCL_Expr(unsigned char *pScript, int *retValue)
         if (code == GCLCODE_EXPR_OPERATOR)
         {
             // Operator found, process operands
-            operator= ptr[1];
-            if (!operator)
+            operator = ptr[1];
+            if (operator == 0)
             {
                 if (retValue)
                 {
@@ -77,7 +77,7 @@ int GCL_Expr(unsigned char *pScript, int *retValue)
                 }
                 return sp[-1].value;
             }
-            if (operator == GCL_OP_EQUAL)
+            if (operator == GCL_OP_ASSIGN)
             {
                 GCL_SetVar(sp[-2].ptr, sp[-1].value);
                 sp[-2].value = sp[-1].value;

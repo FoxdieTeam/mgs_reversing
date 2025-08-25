@@ -6,7 +6,7 @@
 #include <libgpu.h>
 #include "common.h"
 
-extern DG_CHANL DG_Chanls_800B1800[3];
+extern DG_CHANL DG_Chanls[3];
 
 void DG_SetPos( MATRIX *matrix )
 {
@@ -130,7 +130,7 @@ void DG_PointCheck( SVECTOR *svector, int n_points )
 
     gte_ReadRotMatrix(matrix2);
 
-    matrix = &DG_Chanls_800B1800[1].field_10_eye_inv;
+    matrix = &DG_Chanls[1].eye_inv;
     gte_SetRotMatrix(matrix);
     gte_SetTransMatrix(matrix);
 
@@ -169,7 +169,7 @@ int DG_PointCheckOne( DVECTOR *line )
     DVECTOR first_points;
     DVECTOR second_points;
 
-    MATRIX *matrix = &DG_Chanls_800B1800[1].field_10_eye_inv;
+    MATRIX *matrix = &DG_Chanls[1].eye_inv;
     gte_SetRotMatrix(matrix);
     gte_SetTransMatrix(matrix);
 
@@ -434,7 +434,7 @@ void DG_ScreenChanl( DG_CHANL *chanl, int idx )
 
     queue = chanl->mQueue;
 
-    *(MATRIX *)getScratchAddr(0) = chanl->field_10_eye_inv;
+    *(MATRIX *)getScratchAddr(0) = chanl->eye_inv;
     DG_AdjustOverscan((MATRIX *)getScratchAddr(0));
 
     for (i = chanl->mTotalObjectCount; i > 0; i--)

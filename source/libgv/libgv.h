@@ -83,8 +83,8 @@ typedef struct _GV_ACT
     GV_ACTFUNC      die;        // shutdown callback
     GV_FREEFUNC     free;       // free callback
     const char     *filename;   // source filename
-    int             field_18;
-    int             field_1C;
+    int             runtime;
+    int             count;
 } GV_ACT;
 
 typedef struct      // private to libgv/actor.c

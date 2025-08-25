@@ -134,8 +134,8 @@ void DG_StartDaemon(void)
     mts_set_vsync_task();
     mts_set_vsync_callback_func(DG_VSyncCallbackFunc);
 
-    DG_InitDispEnv(0, 0, 320, 240, 320);
-    DG_InitChanlSystem(320);
+    DG_InitDispEnv(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 320);
+    DG_InitChanlSystem(SCREEN_WIDTH);
     DG_ClearResidentTexture();
     DG_ResetPipeline();
 

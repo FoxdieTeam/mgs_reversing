@@ -8,7 +8,7 @@
 #include "common.h"
 #include "libdg/libdg.h"
 
-extern DG_CHANL DG_Chanls_800B1800[3];
+extern DG_CHANL DG_Chanls[3];
 
 /*---------------------------------------------------------------------------*/
 
@@ -25,7 +25,7 @@ static POLY_FT4 *MakeIndividualRect3DPrimHandler(DG_PRIM *prim, POLY_FT4 *packs,
     verts = prim->vertices;
     in = (SVECTOR *)getScratchAddr(0);
 
-    clip_dist = DG_Chanls_800B1800[1].field_50_clip_distance;
+    clip_dist = DG_Chanls[1].clip_distance;
 
     while (--n_packs >= 0)
     {

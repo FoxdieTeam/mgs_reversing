@@ -486,7 +486,7 @@ int FrameRunDemo(DemoWork *work, DMO_DAT *data)
     gUnkCameraStruct2_800B7868.center.vy = data->center_y;
     gUnkCameraStruct2_800B7868.center.vz = data->center_z;
 
-    DG_Chanl(0)->field_50_clip_distance = data->clip_dist;
+    DG_Chanl(0)->clip_distance = data->clip_dist;
 
     diff.vx = data->center_x - data->eye_x;
     diff.vy = data->center_y - data->eye_y;
@@ -506,15 +506,15 @@ int FrameRunDemo(DemoWork *work, DMO_DAT *data)
 
     rot.vz = data->roll;
     DG_RotatePos(&rot);
-    ReadRotMatrix(&DG_Chanl(0)->field_30_eye);
+    ReadRotMatrix(&DG_Chanl(0)->eye);
 
-    DG_TransposeMatrix(&DG_Chanl(0)->field_30_eye, &DG_Chanl(0)->field_10_eye_inv);
+    DG_TransposeMatrix(&DG_Chanl(0)->eye, &DG_Chanl(0)->eye_inv);
 
-    trans.vx = -DG_Chanl(0)->field_30_eye.t[0];
-    trans.vy = -DG_Chanl(0)->field_30_eye.t[1];
-    trans.vz = -DG_Chanl(0)->field_30_eye.t[2];
+    trans.vx = -DG_Chanl(0)->eye.t[0];
+    trans.vy = -DG_Chanl(0)->eye.t[1];
+    trans.vz = -DG_Chanl(0)->eye.t[2];
 
-    ApplyMatrixLV(&DG_Chanl(0)->field_10_eye_inv, &trans, (VECTOR *)DG_Chanl(0)->field_10_eye_inv.t);
+    ApplyMatrixLV(&DG_Chanl(0)->eye_inv, &trans, (VECTOR *)DG_Chanl(0)->eye_inv.t);
     return 1;
 }
 
@@ -3570,12 +3570,12 @@ void DemoScreenChanl(DG_CHANL *chanl, int idx)
     ppObjs = chanl->mQueue;
 
     scrpad = (SCREEN_SPAD *)getScratchAddr(0);
-    scrpad->matrix = chanl->field_10_eye_inv;
+    scrpad->matrix = chanl->eye_inv;
     scrpad->matrix.t[0] = scrpad->matrix.t[1] = scrpad->matrix.t[2] = 0;
 
-    scrpad->translation[0] = chanl->field_30_eye.t[0];
-    scrpad->translation[1] = chanl->field_30_eye.t[1];
-    scrpad->translation[2] = chanl->field_30_eye.t[2];
+    scrpad->translation[0] = chanl->eye.t[0];
+    scrpad->translation[1] = chanl->eye.t[1];
+    scrpad->translation[2] = chanl->eye.t[2];
 
     DG_AdjustOverscan(&scrpad->matrix);
 

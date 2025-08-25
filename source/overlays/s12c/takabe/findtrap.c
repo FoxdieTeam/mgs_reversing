@@ -38,7 +38,7 @@ TGMCameraFunc SECTION("overlay.bss") s12c_dword_800DAA94;
 extern GM_CAMERA       GM_Camera;
 extern UnkCameraStruct gUnkCameraStruct_800B77B8;
 extern int             dword_8009F470;
-extern DG_CHANL        DG_Chanls_800B1800[3];
+extern DG_CHANL        DG_Chanls[3];
 
 void FindTrap_callback1_800D7908();
 void FindTrap_callback2_800D7870();
@@ -82,7 +82,7 @@ void s12c_findtrap_800D72E8(FindTrapWork *work)
                 SVECTOR *field_30;
                 int      field_40;
 
-                eye_inv = DG_Chanl(0)->field_10_eye_inv;
+                eye_inv = DG_Chanl(0)->eye_inv;
 
                 DG_AdjustOverscan(&eye_inv);
                 DG_SetPos(&eye_inv);

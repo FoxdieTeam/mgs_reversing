@@ -52,7 +52,7 @@ void DG_SortChanl( DG_CHANL *chanl, int idx )
     SCRATCHPAD_UNK *pad = get_scratch();
 
     pad->buf = ptr_800B1400;
-    pad->ot = (unsigned int *)chanl->mOrderingTables[idx] + 1;
+    pad->ot = (unsigned int *)chanl->ot[idx] + 1;
 
     buf = get_buf();
     ot = pad->ot;

@@ -48,13 +48,13 @@ void d01a_blur_800CCB28(void)
     DR_STP       *stp;
     DR_STP       *stp2;
 
-    ot = (unsigned int *)DG_Chanl(0)->mOrderingTables[GV_Clock];
+    ot = (unsigned int *)DG_Chanl(0)->ot[GV_Clock];
 
     tile = &d01a_dword_800D1428[GV_Clock];
     SetTile(tile);
     setSemiTrans(tile, 1);
     setXY0(tile, -160, -112);
-    setWH(tile, 320, 224);
+    setWH(tile, FRAME_WIDTH, FRAME_HEIGHT);
     DG_SetBackGroundTile(tile);
     addPrim(&ot[0xFF], tile);
 
@@ -62,7 +62,7 @@ void d01a_blur_800CCB28(void)
     SetDrawStp(stp, 1);
     addPrim(&ot[0xFF], stp);
 
-    ot = (unsigned int *)DG_Chanl(1)->mOrderingTables[GV_Clock];
+    ot = (unsigned int *)DG_Chanl(1)->ot[GV_Clock];
 
     stp2 = &d01a_dword_800D1468[GV_Clock];
     SetDrawStp(stp2, 1);
@@ -149,11 +149,11 @@ void d01a_blur_800CCCC8(POLY_FT4 *packs, BlurWork *work, int arg3, int abr, int 
 
     packs2->x0 = packs1->x1;
     packs2->y0 = packs1->y1;
-    packs2->x1 = -xoff + 320 - work->f64;
+    packs2->x1 = -xoff + FRAME_WIDTH - work->f64;
     packs2->y1 = (work->f68 + yoff);
     packs2->x2 = packs1->x3;
     packs2->y2 = packs1->y3;
-    packs2->x3 = -xoff + 320 - work->f64;
+    packs2->x3 = -xoff + FRAME_WIDTH - work->f64;
     packs2->y3 = work->f74 + (rnd2[2] + 112);
 
     packs3->x0 = packs1->x2;
@@ -161,9 +161,9 @@ void d01a_blur_800CCCC8(POLY_FT4 *packs, BlurWork *work, int arg3, int abr, int 
     packs3->x1 = packs1->x3;
     packs3->y1 = packs1->y3;
     packs3->x2 = work->f64 + xoff;
-    packs3->y2 = -yoff + 224 - work->f6C;
+    packs3->y2 = -yoff + FRAME_HEIGHT - work->f6C;
     packs3->x3 = work->f70 + (rnd1[2] + 160);
-    packs3->y3 = -yoff + 224 - work->f6C;
+    packs3->y3 = -yoff + FRAME_HEIGHT - work->f6C;
 
     packs4->x0 = packs1->x3;
     packs4->y0 = packs1->y3;
@@ -173,8 +173,8 @@ void d01a_blur_800CCCC8(POLY_FT4 *packs, BlurWork *work, int arg3, int abr, int 
     packs4->y2 = packs3->y3;
     c159_2 = 159;
     asm(""); // FIXME
-    packs4->x3 = -xoff + 320 - work->f64;
-    packs4->y3 = -yoff + 224 - work->f6C;
+    packs4->x3 = -xoff + FRAME_WIDTH - work->f64;
+    packs4->y3 = -yoff + FRAME_HEIGHT - work->f6C;
 
     packs1->u0 = packs1->u2 = work->f64 + 2;
     c111_2 = 111;

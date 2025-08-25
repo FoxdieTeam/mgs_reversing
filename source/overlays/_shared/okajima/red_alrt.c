@@ -302,8 +302,8 @@ int d03a_red_alrt_800C4958(RedAlrtWork *work, int name, int map)
 
     prims->tile[0].x0 = -160;
     prims->tile[0].y0 = -112;
-    prims->tile[0].w = 320;
-    prims->tile[0].h = 224;
+    prims->tile[0].w = FRAME_WIDTH;
+    prims->tile[0].h = FRAME_HEIGHT;
 
     prims->tile[1] = prims->tile[0];
 
@@ -368,8 +368,8 @@ int d03a_red_alrt_800C4BB0(RedAlrtWork *work, int name, int length, SVECTOR *col
 
     prims->tile[0].x0 = -160;
     prims->tile[0].y0 = -112;
-    prims->tile[0].w = 320;
-    prims->tile[0].h = 224;
+    prims->tile[0].w = FRAME_WIDTH;
+    prims->tile[0].h = FRAME_HEIGHT;
 
     prims->tile[1] = prims->tile[0];
 
