@@ -93,7 +93,7 @@ typedef struct GCL_Vars
 #define GCLCODE_PROC            0x70
 
 #define GCL_OP_NEGATE       1
-#define GCL_OP_ISZERO       2
+#define GCL_OP_NOT          2
 #define GCL_OP_COMPL        3
 #define GCL_OP_ADD          4
 #define GCL_OP_SUB          5
@@ -111,7 +111,7 @@ typedef struct GCL_Vars
 #define GCL_OP_BITXOR       17
 #define GCL_OP_OR           18
 #define GCL_OP_AND          19
-#define GCL_OP_EQUAL        20
+#define GCL_OP_ASSIGN       20
 
 #define GCL_IsVariable(gcl_code) ((gcl_code & 0xF0) == GCLCODE_VARIABLE)
 #define GCL_IsParam(gcl_code) ((gcl_code & 0xFF) == GCLCODE_PARAMETER)
