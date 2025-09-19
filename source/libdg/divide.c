@@ -471,7 +471,7 @@ STATIC void DG_InitRVector( DG_OBJ *obj,  int idx )
                     unsigned int  *ot;
                     unsigned short raise;
 
-                    ot = (unsigned int *)(*(unsigned int *)0x1F800000);
+                    ot = (*(unsigned int **)0x1F800000);
                     raise = *(unsigned short *)0x1F800006;
 
                     raise = pack_raise - raise;
