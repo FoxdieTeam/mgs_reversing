@@ -8537,7 +8537,7 @@ static inline int sna_LoadSnake(SnaInitWork *work, int scriptData, int scriptBin
     shadow.vz  = 12;
     shadow.pad = 15;
 
-    work->field_888_pShadow = NewShadow2_80060384(pCtrl, pObject, shadow, &work->field_88C);
+    work->field_888_pShadow = NewShadow2(pCtrl, pObject, shadow, &work->field_88C);
 
     dword_800ABA1C = 0;
     GM_BombSeg = 0;
