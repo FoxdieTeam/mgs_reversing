@@ -142,7 +142,7 @@ STATIC void VibEdit_800C36BC(VibEditWork *work)
     x0 = 16;
 
     tile = work->field_44_prims->tiles1[GV_Clock];
-    mOt = DG_Chanl(1)->mOrderingTables[GV_Clock];
+    mOt = DG_Chanl(1)->ot[GV_Clock];
 
     for (i = 0; i < 16; i++, pairs++, tile++)
     {

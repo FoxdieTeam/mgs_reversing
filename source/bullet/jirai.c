@@ -116,7 +116,7 @@ static void JiraiDisplayText(JiraiWork *work, int arg1)
     int r, g, b;
     const char *text;
 
-    matrix = &DG_Chanl(0)->field_10_eye_inv;
+    matrix = &DG_Chanl(0)->eye_inv;
 
     gte_SetRotMatrix(matrix);
     gte_SetTransMatrix(matrix);

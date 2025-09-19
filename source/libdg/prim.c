@@ -509,17 +509,17 @@ void DG_PrimChanl( DG_CHANL *chanl, int idx )
     int       x;
 
     n_prims = chanl->mTotalQueueSize - chanl->mFreePrimCount;
-    clip_rect = &chanl->field_5C_clip_rect;
+    clip_rect = &chanl->clip_rect;
 
     if ( n_prims == 0 )
     {
         return;
     }
 
-    DG_Clip( clip_rect, chanl->field_50_clip_distance );
+    DG_Clip( clip_rect, chanl->clip_distance );
 
     group_id = DG_CurrentGroupID;
-    eye = &chanl->field_10_eye_inv;
+    eye = &chanl->eye_inv;
 
     queue = (DG_PRIM **)&chanl->mQueue[ chanl->mFreePrimCount ];
     for ( ; n_prims > 0 ; n_prims-- )

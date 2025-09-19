@@ -31,7 +31,7 @@ int Boxall_800C9780(SVECTOR *out, SVECTOR *in)
     int     z;
     MATRIX *m;
 
-    m = &DG_Chanl(0)->field_10_eye_inv;
+    m = &DG_Chanl(0)->eye_inv;
     gte_SetRotMatrix(m);
     gte_SetTransMatrix(m);
     gte_ldv0(in);
@@ -102,7 +102,7 @@ void Boxall_800C9800(BoxallWork *work)
     }
 
     y = MAX(y, 32);
-    y = MIN(y, 224);
+    y = MIN(y, FRAME_HEIGHT);
 
     line->x2 = line->x1 = x + 16;
     line->y2 = line->y1 = y - 16;
@@ -139,7 +139,7 @@ void Boxall_800C9A48(BoxallWork *work)
     SVECTOR pos;
     MATRIX *m;
 
-    m = &DG_Chanl(0)->field_10_eye_inv;
+    m = &DG_Chanl(0)->eye_inv;
     gte_SetRotMatrix(m);
     gte_SetTransMatrix(m);
     gte_ldv0(&work->control.mov);

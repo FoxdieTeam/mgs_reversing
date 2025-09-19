@@ -7926,7 +7926,7 @@ void sna_init_main_logic_800596FC(SnaInitWork *work)
 
     if ( work->field_9A0 != 0 )
     {
-        addPrim(DG_Chanl(1)->mOrderingTables[GV_Clock], &work->field_950[GV_Clock]);
+        addPrim(DG_Chanl(1)->ot[GV_Clock], &work->field_950[GV_Clock]);
         work->field_9A0--;
     }
 

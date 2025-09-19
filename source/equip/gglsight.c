@@ -196,7 +196,7 @@ static void DrawHudBarGraph(Work *work)
     poly = work->field_2E0_polyF4[GV_Clock];
     tpage = &work->field_370_dr_tpage[GV_Clock];
 
-    ot = (u_long *)DG_Chanl(1)->mOrderingTables[GV_Clock];
+    ot = (u_long *)DG_Chanl(1)->ot[GV_Clock];
 
     y = GM_PlayerControl->rot.vy & 4095;
     y2 = ((y + 1024) & 2047) >> 5;

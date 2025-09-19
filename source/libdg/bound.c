@@ -201,7 +201,7 @@ void DG_BoundChanl(DG_CHANL *chanl, int idx)
     long        *test;
     unsigned int flag;
 
-    DG_Clip(&chanl->field_5C_clip_rect, chanl->field_50_clip_distance);
+    DG_Clip(&chanl->clip_rect, chanl->clip_distance);
 
     objs = chanl->mQueue;
     n_objs = chanl->mTotalObjectCount;

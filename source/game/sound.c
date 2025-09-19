@@ -13,7 +13,7 @@ STATIC void sub_8003214C(SVECTOR *pVec, int *pRet)
 {
     MATRIX *eye;
 
-    eye = &DG_Chanl(0)->field_30_eye;
+    eye = &DG_Chanl(0)->eye;
     pVec->vx = eye->t[0];
     pVec->vy = eye->t[1];
     pVec->vz = eye->t[2];

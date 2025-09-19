@@ -41,7 +41,7 @@ typedef struct PLampWork
 SVECTOR p_lamp_target_svec_800C353C = {5, 5, 5};
 RECT    p_lamp_prim_rect_800C3544 = {100, 100, 200, 200};
 
-extern DG_CHANL DG_Chanls_800B1800[3];
+extern DG_CHANL DG_Chanls[3];
 
 void PLampLookAt_800CC9F4(PLampWork *work, SVECTOR *eye, SVECTOR *center)
 {
@@ -60,7 +60,7 @@ void PLampLookAt_800CC9F4(PLampWork *work, SVECTOR *eye, SVECTOR *center)
 
     GM_PadVibration = GV_RandU(2);
     GM_PadVibration2 = work->field_1CC * 255 / 42;
-    DG_LookAt(&DG_Chanls_800B1800[1], eye, center, 320);
+    DG_LookAt(&DG_Chanls[1], eye, center, 320);
 }
 
 void PLamp_800CCBA8(POLY_FT4 *poly, DG_TEX *tex, int r, int g, int b)

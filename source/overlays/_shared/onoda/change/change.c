@@ -604,7 +604,7 @@ static void Act( Work *work )
     }
 
     change_800C3B90( work );
-    Change_800C38D0( work, DG_Chanl(1)->mOrderingTables[ GV_Clock ] );
+    Change_800C38D0( work, DG_Chanl(1)->ot[ GV_Clock ] );
     change_800C3CD0( work );
 
     if ( work->f6BC == 0 && work->f6A0 >= 160 )
