@@ -5,7 +5,7 @@
 #include "libdg/libdg.h"
 #include "game/game.h"
 
-#include "overlays/_shared/takabe/ripple.h" // for NewRipple_800D7F30
+#include "overlays/_shared/takabe/ripple.h" // for NewRipple
 
 typedef struct _Work
 {
@@ -147,7 +147,7 @@ void Splash2Act_800DAF38( Work *work )
         matrix.t[0] = work->vecs2[3].vx;
         matrix.t[1] = work->height;
         matrix.t[2] = work->vecs2[3].vz;
-        NewRipple_800D7F30( &matrix, 2048 );
+        NewRipple( &matrix, 2048 );
     }
 }
 
