@@ -9,38 +9,39 @@
 
 extern void AN_Breath( MATRIX *world );
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
-#define DEFAULT_TIME 0x40
+#define EXEC_LEVEL      GV_ACTOR_LEVEL5
+#define DEFAULT_TIME    64
 
-typedef struct _BreathWork
+typedef struct _Work
 {
     GV_ACT         actor;
     unsigned short name;
     unsigned short visible;
     int            time;
-} BreathWork;
+} Work;
 
-void BreathAct_800C38A0( BreathWork* work )
+static void Act( Work *work )
 {
     GV_MSG    *message;
-    int        message_result;
+    int        length;
     OBJECT    *object;
 
-    message_result = GV_ReceiveMessage( work->name, &message );
+    length = GV_ReceiveMessage( work->name, &message );
 
-    for (; message_result > 0 ; --message_result, ++message )
+    for (; length > 0 ; --length, ++message )
     {
         switch ( message->message[0] )
         {
             case HASH_ENTER:
-                work->visible = 1;
+                work->visible = TRUE;
                 break;
             default:
-                work->visible = 0;
+                work->visible = FALSE;
         }
     }
 
-    if ( work->visible && GM_AlertMode != 3 && !( GM_PlayerStatus & 0x2013 ) )
+    if ( work->visible && GM_AlertMode != 3 &&
+        !( GM_PlayerStatus & ( PLAYER_WATCH | PLAYER_INTRUDE | PLAYER_MOVE | PLAYER_GAME_OVER ) ) )
     {
         object = GM_PlayerBody;
         if  ( object != NULL && ( GV_Time % work->time == 0 ) )
@@ -51,17 +52,17 @@ void BreathAct_800C38A0( BreathWork* work )
 }
 
 
-void BreathDie_800C39AC( BreathWork* work )
+static void Die( Work *work )
 {
     return;
 }
 
 
-int BreathGetResources_800C39B4( BreathWork *work, int name, int where )
+static int GetResources( Work *work, int name, int where )
 {
     if (GCL_GetOption('t'))
     {
-         work->time = GCL_StrToInt(GCL_GetParamResult());
+        work->time = GCL_StrToInt(GCL_GetParamResult());
     }
     else
     {
@@ -69,19 +70,19 @@ int BreathGetResources_800C39B4( BreathWork *work, int name, int where )
     }
 
     work->name = name;
-    work->visible = 1;
+    work->visible = TRUE;
     return 0;
 }
 
-void *NewBreath_800C3A1C(int name, int where, int argc, char **argv)
+void *NewBreath(int name, int where, int argc, char **argv)
 {
-    BreathWork *work ;
+    Work *work ;
 
-    work = GV_NewActor( EXEC_LEVEL, sizeof( BreathWork ) ) ;
+    work = GV_NewActor( EXEC_LEVEL, sizeof( Work ) ) ;
     if ( work != NULL ) {
         /* ワークにコールバックを登録する */
-        GV_SetNamedActor( &( work->actor ), BreathAct_800C38A0, BreathDie_800C39AC, "breath.c" ) ;
-        if ( BreathGetResources_800C39B4( work, name, where ) >= 0 ) {
+        GV_SetNamedActor( &( work->actor ), Act, Die, "breath.c" ) ;
+        if ( GetResources( work, name, where ) >= 0 ) {
             return (void *)work ;
         }
         GV_DestroyActor( &work->actor ) ;

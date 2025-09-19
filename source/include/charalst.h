@@ -86,7 +86,7 @@
 #define CHARA_ENV_SOUND         { 0x3f9a, NewEnvSnd_800DF424 }      // takabe/env_snd.c
 #define CHARA_PLAY_DEMO         { 0x3f9d, ? }                       // nobu/vr_demo/playdemo.c (PC-ONLY)
 #define CHARA_10A_DEMO          { 0x40e9, ? }                       // okajima/10a_demo.c
-#define CHARA_BREATH            { 0x4170, NewBreath_800C3A1C }      // GV_StrCode("スネーク息") chara/snake/breath.c
+#define CHARA_BREATH            { 0x4170, NewBreath }               // GV_StrCode("スネーク息") chara/snake/breath.c
 #define CHARA_WAKE              { 0x41a3, NewWake_800C6298 }        // chara/wake/wake.c
 #define CHARA_LIFT              { 0x425f, NewLift_800DE25C }        // GV_StrCode("リフト") takabe/lift.c
 #define CHARA_HIYOKO            { 0x42e4, NewHiyoko_800D018C }      // okajima/hiyoko.c
@@ -428,7 +428,7 @@ void *NewMotionSoundEffect();           /* chara/others/motse.c         */
 void *s11d_dsmoke2_800CCD54();          /* chara/rope/dsmoke2.c         */
 void *s11d_landing_800CDA20();          /* chara/rope/landing.c         */
 void *NewPipe_800CE73C();               /* chara/rope/pipe.c            */
-void *NewBreath_800C3A1C();             /* chara/snake/breath.c         */
+void *NewBreath();                      /* chara/snake/breath.c         */
 void *NewSnake();                       /* chara/snake/sna_init.c       */
 void *NewBed_800C70DC();                /* chara/torture/bed.c          */
 void *NewBoxall_800CA088();             /* chara/torture/boxall.c       */
