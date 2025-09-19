@@ -9,7 +9,7 @@
 #include "libdg/libdg.h"
 #include "game/game.h"
 
-#include "overlays/_shared/takabe/ripple.h" // for NewRipple_800D7F30
+#include "overlays/_shared/takabe/ripple.h" // for NewRipple
 
 typedef struct _BubbleTWork
 {
@@ -73,7 +73,7 @@ void BubbleTUpdatePacks_800D9F8C(BubbleTWork *work)
                 world.t[0] = vec->vx;
                 world.t[1] = work->height;
                 world.t[2] = vec->vz;
-                NewRipple_800D7F30(&world, 2000);
+                NewRipple(&world, 2000);
             }
 
             if (--work->time <= 0)

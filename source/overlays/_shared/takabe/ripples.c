@@ -7,7 +7,7 @@
 #include "game/game.h"
 #include "takabe/thing.h"
 
-#include "overlays/_shared/takabe/ripple.h" // for NewRipple_800D7F30
+#include "overlays/_shared/takabe/ripple.h" // for NewRipple
 
 typedef struct RipplesWork
 {
@@ -28,7 +28,7 @@ STATIC void RipplesAct_800D85A0(RipplesWork *work)
     GM_CurrentMap = work->field_20;
     if (--work->field_48 < 0)
     {
-        NewRipple_800D7F30(&work->field_28, work->field_4A);
+        NewRipple(&work->field_28, work->field_4A);
         work->field_48 = work->field_4C + ((rand() * work->field_4E >> 15) - work->field_4E / 2);
     }
 }
