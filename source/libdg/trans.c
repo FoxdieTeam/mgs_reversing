@@ -392,7 +392,7 @@ void DG_TransChanl( DG_CHANL *chanl, int idx )
 
     work = (SCRATCH *)getScratchAddr(0);
 
-    DG_Clip(&chanl->field_5C_clip_rect, chanl->field_50_clip_distance);
+    DG_Clip(&chanl->clip_rect, chanl->clip_distance);
 
     queue = (DG_OBJS **)chanl->mQueue;
     for (n_objects = chanl->mTotalObjectCount; n_objects > 0; n_objects--)

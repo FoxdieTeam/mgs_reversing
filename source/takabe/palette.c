@@ -6,7 +6,7 @@
 extern void (*pfn_800BDFB0)();
 extern unsigned short (*pfn_800BDFB4)(unsigned short);
 
-extern u_long DG_PaletteBuffer_800B3818[256];
+extern u_long DG_PaletteBuffer[256];
 
 /*---------------------------------------------------------------------------*/
 
@@ -17,7 +17,7 @@ STATIC RECT takabe_palette2 = { 768, 196, 256, 2 };
 
 void DG_StorePalette2(void)
 {
-    StoreImage(&takabe_palette2, DG_PaletteBuffer_800B3818);
+    StoreImage(&takabe_palette2, DG_PaletteBuffer);
 }
 
 void DG_StorePaletteEffect(void)
@@ -29,9 +29,9 @@ void DG_StorePaletteEffect(void)
     for (i = 15; i > 0; i--)
     {
         DrawSync(0);
-        StoreImage2(&rect2, DG_PaletteBuffer_800B3818);
+        StoreImage2(&rect2, DG_PaletteBuffer);
         DrawSync(0);
-        LoadImage2(&rect1, DG_PaletteBuffer_800B3818);
+        LoadImage2(&rect1, DG_PaletteBuffer);
         rect2.y += 2;
         rect1.y += 2;
     }
@@ -65,17 +65,17 @@ void sub_80079004(u_short param_1)
     for (i = 15; i > 0; i--)
     {
         DrawSync(0);
-        StoreImage2(&rect, DG_PaletteBuffer_800B3818);
+        StoreImage2(&rect, DG_PaletteBuffer);
         DrawSync(0);
 
-        ptr = (u_short *)DG_PaletteBuffer_800B3818;
+        ptr = (u_short *)DG_PaletteBuffer;
 
         for (j = 512; j > 0; j--)
         {
             *ptr++ = modify_data(*ptr, param_1);
         }
 
-        LoadImage2(&rect, DG_PaletteBuffer_800B3818);
+        LoadImage2(&rect, DG_PaletteBuffer);
         rect.y += 2;
     }
 }

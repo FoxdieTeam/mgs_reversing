@@ -88,7 +88,7 @@ static int GetZoomLimit(Work *work)
 
     if ( GM_GameStatus < 0 )
     {
-        eye = &DG_Chanl(0)->field_30_eye;
+        eye = &DG_Chanl(0)->eye;
     }
     else
     {
@@ -124,12 +124,12 @@ static void SetSideLinesPairPosition(LINE_F2 *lines, int x, int y)
     lines->x1 = x;
     lines->x0 = x;
     offsetIndex = 4;
-    lines[offsetIndex].x1 = 320 - x;
-    lines[offsetIndex].x0 = 320 - x;
+    lines[offsetIndex].x1 = SCREEN_WIDTH - x;
+    lines[offsetIndex].x0 = SCREEN_WIDTH - x;
     lines[offsetIndex].y0 = y;
     lines->y0 = y;
-    lines[offsetIndex].y1 = 240 - y; // Bottom y.
-    lines->y1 = 240 - y;
+    lines[offsetIndex].y1 = SCREEN_HEIGHT - y; // Bottom y.
+    lines->y1 = SCREEN_HEIGHT - y;
 }
 
 static void DrawSideLines(LINE_F2 *lines, int param_2)
@@ -517,9 +517,9 @@ static void DrawMovingBarGraph(Work *work, u_long *ot)
     int      numOTEntries;
 
     pLine_F3 = work->bar_graph[GV_Clock];
-    chnlOt = DG_Chanl(0)->mOrderingTables[1 - GV_Clock];
+    chnlOt = DG_Chanl(0)->ot[1 - GV_Clock];
 
-    numOTEntries = DG_Chanl(0)->word_6BC374_8 - 4;
+    numOTEntries = DG_Chanl(0)->field_08 - 4;
     for (i = 0; i < 16; i++)
     {
         otMin = chnlOt + ((i << numOTEntries) * 4);

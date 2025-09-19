@@ -8,6 +8,7 @@
 #include "game/game.h"
 #include "linkvar.h"
 #include "sd/g_sound.h"
+#include "psxdefs.h"    // for getScratchAddr2
 
 int MENU_RadarScale = 13;
 int MENU_RadarRangeH = 21845;
@@ -187,9 +188,6 @@ void drawBorder_800390FC(MenuWork *menuMan, unsigned char *ot)
     menu_render_rect_8003DB2C(menuMan->field_20_otBuf, x1 + 304, y2, 1, 54, 0); // Right border.
     menu_render_rect_8003DB2C(menuMan->field_20_otBuf, x2, y1 + 68, 70, 1, 0); // Bottom border.
 }
-
-/* scratch pad address 0x1f800000 - 0x1f800400 */
-#define getScratchAddr2(type, offset)   ((type *)(0x1f800000+(offset)))
 
 // clang-format off
 // gte_stbv but with sh instead of sb

@@ -68,7 +68,7 @@ static void Act(Work *work)
     short         *poly_tag;
     long           tile_height, tile_width;
 
-    Sphere_800C60E0(&DG_Chanl(0)->field_30_eye, &svec);
+    Sphere_800C60E0(&DG_Chanl(0)->eye, &svec);
 
     if (work->f68 > 0)
     {
@@ -250,8 +250,8 @@ static int GetResources(Work *work, int map)
         *textures++ = DG_GetTexture(name);
     }
 
-    sphere_visible_tiles_x = (320 / sphere_tile_width) + 1;
-    sphere_visible_tiles_y = (224 / sphere_tile_height) + 1;
+    sphere_visible_tiles_x = (FRAME_WIDTH / sphere_tile_width) + 1;
+    sphere_visible_tiles_y = (FRAME_HEIGHT / sphere_tile_height) + 1;
     n_prims = sphere_visible_tiles_y * sphere_visible_tiles_x;
 
     prim = DG_GetPrim(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, n_prims, 0, NULL, NULL);

@@ -916,7 +916,7 @@ void camera_800C85D8(void)
 void CameraAct_800CE404(CameraWork *work)
 {
     work->field_920 = work->field_92C[GV_Clock];
-    work->field_924_mOrderingTable = DG_Chanl(1)->mOrderingTables[GV_Clock];
+    work->field_924_mOrderingTable = DG_Chanl(1)->ot[GV_Clock];
     camera_800CDF18(work);
     camera_800C3ED8(work);
     work->field_4938++;

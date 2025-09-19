@@ -393,7 +393,7 @@ static void DrawBackgroundFade( Work *work, u_long *ot, int shade )
     setTile( tile );
     setSemiTrans( tile, 1 );
     setXY0( tile, 0, 0 );
-    setWH( tile, 320, 240 );
+    setWH( tile, SCREEN_WIDTH, SCREEN_HEIGHT );
     addPrim( ot, tile );
 
     tpage = &work->fade_tpage[ GV_Clock ];

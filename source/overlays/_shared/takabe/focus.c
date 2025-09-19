@@ -124,7 +124,7 @@ int FocusGetResources_800CEDA4(FocusWork *work, int arg1, int arg2)
     setSprt(sprt);
     setSemiTrans(sprt, 1);
     setXY0(sprt, -160, -112);
-    setWH(sprt, 160, 224);
+    setWH(sprt, 160, FRAME_HEIGHT);
     setUV0(sprt, 0, 0);
     setRGB0(sprt, 128, 128, 128);
 

@@ -5,9 +5,7 @@
 #include "inline_n.h"
 #include "inline_x.h"
 #include "game/map.h"   // for GM_IterHazard
-
-/* scratch pad address 0x1f800000 - 0x1f800400 */
-#define getScratchAddr2(type, offset)   ((type *)(0x1f800000+(offset)))
+#include "psxdefs.h"    // for getScratchAddr2
 
 typedef struct SPAD_DATA
 {

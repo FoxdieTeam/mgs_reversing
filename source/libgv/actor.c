@@ -120,11 +120,11 @@ void GV_DumpActorSystem(void)
             if (actor->act)
             {
                 int unknown;
-                if (actor->field_1C > 0)
+                if (actor->count > 0)
                 {
                     // TODO: I've yet to see this condition be hit - perhaps an
                     // unused feature of the actor system?
-                    unknown = (actor->field_18 * 100) / actor->field_1C;
+                    unknown = (actor->runtime * 100) / actor->count;
                 }
                 else
                 {
@@ -137,8 +137,8 @@ void GV_DumpActorSystem(void)
                         actor->act,
                         actor->filename);
 
-                actor->field_1C = 0;
-                actor->field_18 = 0;
+                actor->count = 0;
+                actor->runtime = 0;
             }
 
             actor = next;
@@ -288,8 +288,8 @@ void GV_SetNamedActor(void *actor, void *act_func,
     act->act = (GV_ACTFUNC)act_func;
     act->die = (GV_ACTFUNC)die_func;
     act->filename = filename;
-    act->field_1C = 0;
-    act->field_18 = 0;
+    act->count = 0;
+    act->runtime = 0;
 }
 
 // Removes from linked list and calls shutdown/free funcs

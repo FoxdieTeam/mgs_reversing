@@ -61,7 +61,7 @@ static int GetZoomLimit(void)
 
     if ((GM_GameStatus < 0) || !GM_PlayerControl)
     {
-        eye = &DG_Chanl(0)->field_30_eye;
+        eye = &DG_Chanl(0)->eye;
     }
     else
     {
