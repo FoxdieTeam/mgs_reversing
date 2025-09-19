@@ -1,32 +1,44 @@
 #include "shadow.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "game/game.h"
 
-typedef struct ShadowWork
+/*---------------------------------------------------------------------------*/
+
+#define EXEC_LEVEL      GV_ACTOR_LEVEL5
+
+#define SHADOW_FLAG     ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE \
+                        | DG_FLAG_GBOUND  | DG_FLAG_ONEPIECE | DG_FLAG_AMBIENT )
+
+typedef struct _Work
 {
     GV_ACT         actor;
     CONTROL       *control;
     OBJECT        *parent;
     OBJECT_NO_ROTS object;
     MATRIX         light[2];
-    int            field_8C;
+    int            color;       // Unused
     int            enabled;
     SVECTOR        indices;
-} ShadowWork;
+} Work;
 
-typedef struct _Shadow_Scratch
+typedef struct _SCRPAD_DATA
 {
     SVECTOR iter[4];
     SVECTOR rot_in;
     VECTOR  rot_out;
     MATRIX  mtx;
-} Shadow_Scratch;
+} SCRPAD_DATA;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
-#define SHADOW_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE | DG_FLAG_AMBIENT )
+/*---------------------------------------------------------------------------*/
 
-void ShadowRotate_8005FD28(ShadowWork *work)
+static void RotateShadow(Work *work)
 {
     MATRIX *pWorld;
     MATRIX *pMatrix;
@@ -46,14 +58,14 @@ void ShadowRotate_8005FD28(ShadowWork *work)
     int iVar16;
     int iVar17;
 
-    Shadow_Scratch *pScratch = (Shadow_Scratch *)getScratchAddr(0);
+    SCRPAD_DATA *pScratch = (SCRPAD_DATA *)getScratchAddr(0);
 
     SVECTOR *iter1 = pScratch->iter;
     short *iter2 = (short *)&work->indices;
 
-    int iters = 4;
+    int i;
 
-    do
+    for (i = 4; i > 0; i--, iter1++, iter2++)
     {
         pMatrix = &work->parent->objs->objs[*iter2].world;
         iter1->vx = pMatrix->t[0];
@@ -63,11 +75,7 @@ void ShadowRotate_8005FD28(ShadowWork *work)
 
         pMatrix = &work->parent->objs->objs[*iter2].world;
         iter1->vz = pMatrix->t[2];
-
-        iters--;
-        iter1++;
-        iter2++;
-    } while (0 < iters);
+    }
 
     pScratch->mtx = work->parent->objs->world;
 
@@ -90,9 +98,7 @@ void ShadowRotate_8005FD28(ShadowWork *work)
     iVar16 = 32000;
     iVar12 = 32000;
 
-    iters = 4;
-
-    do
+    for (i = 4; i > 0; i--)
     {
         pScratch->rot_in.vx = psVar14->vx - lVar9;
         pScratch->rot_in.vy = psVar14->vy - lVar5;
@@ -121,8 +127,7 @@ void ShadowRotate_8005FD28(ShadowWork *work)
         }
 
         psVar14++;
-        iters--;
-    } while (iters > 0);
+    }
 
     sVar6 = (iVar15 - iVar12) / 2;
     sVar7 = (iVar17 - iVar16) / 2;
@@ -144,9 +149,10 @@ void ShadowRotate_8005FD28(ShadowWork *work)
     pWorld->m[2][2] = sVar7;
 }
 
-void ShadowMove_80060028(ShadowWork *work)
+static void MoveShadow(Work *work)
 {
     DG_OBJS *objs = work->object.objs;
+
     RotMatrixY(work->control->rot.vy, &objs->world);
     objs->world.t[0] = work->parent->objs->world.t[0];
     objs->world.t[2] = work->parent->objs->world.t[2];
@@ -162,7 +168,7 @@ void ShadowMove_80060028(ShadowWork *work)
     }
 }
 
-void ShadowAct_800600E4(ShadowWork *work)
+static void Act(Work *work)
 {
     if ((work->parent->objs->flag & DG_FLAG_INVISIBLE) || !work->enabled)
     {
@@ -171,18 +177,18 @@ void ShadowAct_800600E4(ShadowWork *work)
     else
     {
         DG_VisibleObjs(work->object.objs);
-        ShadowRotate_8005FD28(work);
-        ShadowMove_80060028(work);
+        RotateShadow(work);
+        MoveShadow(work);
         DG_GroupObjs(work->object.objs, work->parent->map_name);
     }
 }
 
-void ShadowDie_80060190(ShadowWork *work)
+static void Die(Work *work)
 {
     GM_FreeObject((OBJECT *)&work->object);
 }
 
-int ShadowGetResources_800601B0(ShadowWork *work, CONTROL *control, OBJECT *parent, SVECTOR indices)
+static int GetResources(Work *work, CONTROL *control, OBJECT *parent, SVECTOR indices)
 {
     GM_InitObjectNoRots(&work->object, GV_StrCode("kage"), SHADOW_FLAG, 0);
     GM_ConfigObjectLight((OBJECT *)&work->object, work->light);
@@ -203,21 +209,23 @@ int ShadowGetResources_800601B0(ShadowWork *work, CONTROL *control, OBJECT *pare
     work->control = control;
     work->parent = parent;
     work->indices = indices;
-    work->field_8C = 0x2c484848;
-    work->enabled = 1;
+    work->color = MAKE_RGBA(72,72,72,0x2C); // POLY_FT4
+    work->enabled = TRUE;
 
     return 0;
 }
 
-void *NewShadow_800602CC(CONTROL *control, OBJECT *parent, SVECTOR indices)
-{
-    ShadowWork *work;
+/*---------------------------------------------------------------------------*/
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(ShadowWork));
-    if (work)
+void *NewShadow(CONTROL *control, OBJECT *parent, SVECTOR indices)
+{
+    Work *work;
+
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, ShadowAct_800600E4, ShadowDie_80060190, "shadow.c");
-        if (ShadowGetResources_800601B0(work, control, parent, indices) >= 0)
+        GV_SetNamedActor(&work->actor, Act, Die, "shadow.c");
+        if (GetResources(work, control, parent, indices) >= 0)
         {
             return (void *)work;
         }
@@ -226,15 +234,14 @@ void *NewShadow_800602CC(CONTROL *control, OBJECT *parent, SVECTOR indices)
     return NULL;
 }
 
-void *NewShadow2_80060384(CONTROL *control, OBJECT *pObj, SVECTOR indices, int **enabled)
+void *NewShadow2(CONTROL *control, OBJECT *parent, SVECTOR indices, int **enabled)
 {
-    ShadowWork *work;
+    Work *work;
 
-    work = (ShadowWork *)NewShadow_800602CC(control, pObj, indices);
-    if (work && enabled)
+    work = (Work *)NewShadow(control, parent, indices);
+    if (work != NULL && enabled != NULL)
     {
         *enabled = &work->enabled;
     }
-
     return (void *)work;
 }

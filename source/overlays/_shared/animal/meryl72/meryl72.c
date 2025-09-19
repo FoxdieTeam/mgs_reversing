@@ -249,7 +249,7 @@ int s07c_meryl72_800C6F8C( Meryl72Work *work, int name, int map )
     indices.vy = 6;
     indices.vz = 12;
     indices.pad = 15;
-    work->shadow = (GV_ACT *)NewShadow2_80060384( control, body, indices, &work->shadow_enable );
+    work->shadow = (GV_ACT *)NewShadow2( control, body, indices, &work->shadow_enable );
 
     ML72_SetPutChar_800CB584( work, 2 );
 

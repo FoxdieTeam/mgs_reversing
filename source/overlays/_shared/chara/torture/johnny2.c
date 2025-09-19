@@ -176,7 +176,7 @@ int Johnny2GetResources_800CE1D0(Johnny2Work *work)
     indices.vy = 6;
     indices.vz = 12;
     indices.pad = 15;
-    work->shadow = NewShadow_800602CC(control, obj, indices);
+    work->shadow = NewShadow(control, obj, indices);
 
     if (work->shadow == NULL)
     {

@@ -267,7 +267,7 @@ int s11e_zako11e_800D3990( ZakoWork* work, int name, int where )
     shadow.pad = 15;
     shadow.vx  = 0;
 
-    work->shadow = (void*)NewShadow2_80060384( ctrl, body, shadow,  &work->shadow_enable ) ;
+    work->shadow = (void*)NewShadow2( ctrl, body, shadow,  &work->shadow_enable ) ;
     work->glight = NewGunLight_800D3AD4( &( body->objs->objs[4].world ), &work->glight_enable ) ;
 
     ZAKO11E_SetPutChar_800D8004( work, 0 );
