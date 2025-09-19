@@ -4,16 +4,16 @@
 #include "libgv/libgv.h"
 #include "game/game.h"
 
-typedef struct AfterseWork
+typedef struct _Work
 {
     GV_ACT  actor;
     short   sound;
     short   time;
-} AfterseWork;
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_AFTER
 
-STATIC void AfterseAct_800603EC(AfterseWork *work)
+static void Act(Work *work)
 {
     if ( --work->time == 0 )
     {
@@ -28,16 +28,16 @@ STATIC void AfterseAct_800603EC(AfterseWork *work)
     }
 }
 
-void *NewAfterse_800604C0(short sound, short time)
+void *NewAfterSe(short sound, short time)
 {
-    AfterseWork *work;
+    Work *work;
 
     if (sound != 0 && time != 0)
     {
-        work = GV_NewActor(EXEC_LEVEL, sizeof(AfterseWork));
+        work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
         if (work)
         {
-            GV_SetNamedActor(&work->actor, AfterseAct_800603EC, NULL, "afterse.c");
+            GV_SetNamedActor(&work->actor, Act, NULL, "afterse.c");
             work->sound = sound;
             work->time = time;
             return (void *)work;

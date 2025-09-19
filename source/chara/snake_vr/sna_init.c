@@ -3461,7 +3461,7 @@ void sna_knock_80054D68(SnaInitWork *work, int time)
 
                 temp_v0 = GM_GetNoiseSound(temp_v0, 0);
                 noise = temp_v0;
-                NewAfterse_800604C0(noise, 6);
+                NewAfterSe(noise, 6);
             }
         }
     }
