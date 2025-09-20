@@ -9,7 +9,7 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "game/jimctrl.h"
-#include "kojo/demothrd.h"
+#include "kojo/demo.h"
 
 /*---------------------------------------------------------------------------*/
 

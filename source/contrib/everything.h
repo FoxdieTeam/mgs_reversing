@@ -54,7 +54,7 @@
 #include "bullet/bullet.h"
 #include "equip/equip.h"
 #include "weapon/weapon.h"
-#include "kojo/demothrd.h"
+#include "kojo/demo.h"
 #include "menu/menuman.h"
 #include "menu/radar.h"
 #include "menu/radio.h"
