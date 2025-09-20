@@ -124,7 +124,7 @@
 #define CHARA_GROUND_CAMERA     { 0x5f5a, ? }                       // thing/grd_cam.c (PC-ONLY)
 #define CHARA_RASEN             { 0x5fd9, NewRasen2_800CB008 }      // takabe/rasen.c
 #define CHARA_SCN_BOMB          { 0x600d, ? }                       // okajima/scn_bomb.c (PC-ONLY)
-#define CHARA_RIPPLES           { 0x63aa, NewRipples_800D872C }     // takabe/ripples.c
+#define CHARA_RIPPLES           { 0x63aa, NewRipples }              // takabe/ripples.c
 #define CHARA_POCKET_6414       { 0x6414, ? }                       // --> menu/pocket.c
 #define CHARA_BTN_CHK           { 0x6471, ? }                       // takabe/btn_chk.c
 #define CHARA_SNWARP            { 0x672e, ? }                       // GV_StrCode("スネークワープ") enemy/snwarp.c
@@ -570,7 +570,7 @@ void *NewPanel_800D2680();              /* takabe/panel.c               */
 void *NewPutObject_800E25C0();          /* takabe/put_obj.c             */
 void *NewRasen2_800CB008();             /* takabe/rasen.c               */
 void *NewRasenEl_800CCF38();            /* takabe/rasen_el.c            */
-void *NewRipples_800D872C();            /* takabe/ripples.c             */
+void *NewRipples();                     /* takabe/ripples.c             */
 void *NewRippleSurface_800D8244();      /* takabe/rsurface.c            */
 void *NewSepia_800C4F9C();              /* takabe/sepia.c               */
 void *NewSepia_800C5214();              /* takabe/sepia.c               */
