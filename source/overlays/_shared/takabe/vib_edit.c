@@ -1,11 +1,15 @@
 #include <stdio.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
+#include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "game/vibrate.h"
 #include "takabe/thing.h"
-#include "libgcl/libgcl.h"
-#include "libgv/libgv.h"
-#include "libdg/libdg.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -23,6 +27,10 @@ extern int PCwrite(int fd, char *buff, int len);
 extern int PCclose(int fd);
 
 /*---------------------------------------------------------------------------*/
+
+#define EXEC_LEVEL      GV_ACTOR_LEVEL3
+
+#define VIB_EDIT_FILE   "VIB_EDIT.DAT"
 
 typedef struct _VibEditPrims
 {
@@ -60,9 +68,7 @@ typedef struct _VibEditWork
     VibPair        field_8B4_pairs[16];
 } VibEditWork;
 
-#define EXEC_LEVEL      GV_ACTOR_LEVEL3
-
-#define VIB_EDIT_FILE   "VIB_EDIT.DAT"
+/*---------------------------------------------------------------------------*/
 
 const char *select_dword_800C3220[4] = {
     "INS PARAM",
@@ -81,7 +87,7 @@ const char *select_dword_800C3230[5] = {
 
 /*---------------------------------------------------------------------------*/
 
-STATIC void VibEdit_800C34F0(VibEditWork *work)
+static void VibEdit_800C34F0(VibEditWork *work)
 {
     VibEditPrims *prims;
     TILE         *tile1;
@@ -129,7 +135,7 @@ STATIC void VibEdit_800C34F0(VibEditWork *work)
     prims->lines[1][2] = *line;
 }
 
-STATIC void VibEdit_800C36BC(VibEditWork *work)
+static void VibEdit_800C36BC(VibEditWork *work)
 {
     VibPair       *pairs;
     LINE_F2       *line;
@@ -206,7 +212,7 @@ STATIC void VibEdit_800C36BC(VibEditWork *work)
     }
 }
 
-STATIC void VibEdit_800C3974(VibEditWork *work)
+static void VibEdit_800C3974(VibEditWork *work)
 {
     int      i;
     VibPair *iter;
@@ -263,7 +269,7 @@ STATIC void VibEdit_800C3974(VibEditWork *work)
     printf("}\n\n");
 }
 
-STATIC void VibEdit_800C3BB8(VibPair *ptr, int cnt)
+static void VibEdit_800C3BB8(VibPair *ptr, int cnt)
 {
     int i;
     ptr += cnt;
@@ -274,7 +280,7 @@ STATIC void VibEdit_800C3BB8(VibPair *ptr, int cnt)
     }
 }
 
-STATIC void VibEdit_800C3BF4(VibPair *ptr, int cnt)
+static void VibEdit_800C3BF4(VibPair *ptr, int cnt)
 {
     int i;
     for (i = 15 - cnt, ptr += 15; i > 0; i--)
@@ -284,7 +290,7 @@ STATIC void VibEdit_800C3BF4(VibPair *ptr, int cnt)
     }
 }
 
-STATIC void VibEdit_800C3C28(VibPair *ptr, int cnt)
+static void VibEdit_800C3C28(VibPair *ptr, int cnt)
 {
     VibPair pair;
 
@@ -298,7 +304,7 @@ STATIC void VibEdit_800C3C28(VibPair *ptr, int cnt)
     ptr[cnt] = pair;
 }
 
-STATIC void VibEdit_800C3C74(VibPair *ptr, int cnt)
+static void VibEdit_800C3C74(VibPair *ptr, int cnt)
 {
     VibPair pair;
 
@@ -312,7 +318,7 @@ STATIC void VibEdit_800C3C74(VibPair *ptr, int cnt)
     ptr[cnt] = pair;
 }
 
-STATIC void VibEdit_800C3CBC(VibEditWork *work, int idx)
+static void VibEdit_800C3CBC(VibEditWork *work, int idx)
 {
     VibPair *dst, *src;
     int      i;
@@ -332,7 +338,7 @@ STATIC void VibEdit_800C3CBC(VibEditWork *work, int idx)
 }
 
 // VibEdit_800C3CBC but with dst/src swapped:
-STATIC void VibEdit_800C3D20(VibEditWork *work, int idx)
+static void VibEdit_800C3D20(VibEditWork *work, int idx)
 {
     VibPair *dst, *src;
     int      i;
@@ -351,7 +357,7 @@ STATIC void VibEdit_800C3D20(VibEditWork *work, int idx)
     }
 }
 
-STATIC void VibEdit_CopyPairs(VibPair *src, VibPair *dst)
+static void VibEdit_CopyPairs(VibPair *src, VibPair *dst)
 {
     int i;
     for (i = 16; i > 0; i--)
@@ -362,7 +368,7 @@ STATIC void VibEdit_CopyPairs(VibPair *src, VibPair *dst)
 
 /*---------------------------------------------------------------------------*/
 
-STATIC void VibEdit_Act(VibEditWork *work)
+static void Act(VibEditWork *work)
 {
     int      i, j, idx;
     int      old_field_28, sum;
@@ -710,7 +716,7 @@ STATIC void VibEdit_Act(VibEditWork *work)
     GM_GameStatus |= STATE_PAUSE_ONLY;
 }
 
-STATIC void VibEdit_Die(VibEditWork *work)
+static void Die(VibEditWork *work)
 {
     int fd;
 
@@ -728,7 +734,7 @@ STATIC void VibEdit_Die(VibEditWork *work)
     GM_PlayerStatus &= ~PLAYER_PAD_OFF;
 }
 
-STATIC int VibEdit_GetResources(VibEditWork *work, int flags, int perms)
+static int GetResources(VibEditWork *work, int name, int where)
 {
     int fd;
 
@@ -752,16 +758,16 @@ STATIC int VibEdit_GetResources(VibEditWork *work, int flags, int perms)
 
 /*---------------------------------------------------------------------------*/
 
-void *NewVibEdit_800C47B4(int flags, int perms)
+void *NewVibrationEditor(int name, int where)
 {
     VibEditWork *work;
 
     work = GV_NewActor(EXEC_LEVEL, sizeof(VibEditWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, VibEdit_Act, VibEdit_Die, "vib_edit.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "vib_edit.c");
 
-        if (VibEdit_GetResources(work, flags, perms) < 0)
+        if (GetResources(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
