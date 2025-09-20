@@ -11,7 +11,6 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "kojo/demothrd.h"
 #include "game/game.h"
 #include "linkvar.h"
 #include "okajima/blood.h"

@@ -14,7 +14,7 @@
 #include "anime/animconv/anime.h"
 #include "bullet/blast.h"
 
-#include "demothrd.h"
+#include "demo.h"
 #include "kojo/m1e1.h"
 
 #define BODY_FLAG ( DG_FLAG_SHADE | DG_FLAG_TRANS | DG_FLAG_TEXT )
