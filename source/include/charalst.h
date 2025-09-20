@@ -135,7 +135,7 @@
 #define CHARA_DSMOKE            { 0x6a98, ? }                       // chara/rope/dsmoke.c (PC-ONLY)
 #define CHARA_B_SMOKE           { 0x6b6c, ? }                       // animal/liquid/b_smoke.c
 #define CHARA_DOG               { 0x6c0e, NewDog_800D33C8 }         // okajima/dog/dog.c
-#define CHARA_VIB_EDIT          { 0x6c66, NewVibEdit_800C47B4 }     // takabe/vib_edit.c
+#define CHARA_VIB_EDIT          { 0x6c66, NewVibrationEditor }      // takabe/vib_edit.c
 #define CHARA_PREOPE            { 0x6d1b, NewPreviousOperation }    // onoda/preope/preope.c
 #define CHARA_MONITOR1          { 0x6d78, ? }                       // GV_StrCode("モニタ１") takabe/monitor1.c
 #define CHARA_CAMERA            { 0x6e90, NewCamera_800D67F8 }      // GV_StrCode("カメラ") enemy/camera.c
@@ -583,7 +583,7 @@ void *NewTelopSet_800DDB34();           /* takabe/telop.c               */
 void *NewTelop_800DDD7C();              /* takabe/telop.c               */
 void *NewTexScroll();                   /* takabe/tex_scrl.c            */
 void *NewTruckTrap();                   /* takabe/tracktrp.c            */
-void *NewVibEdit_800C47B4();            /* takabe/vib_edit.c            */
+void *NewVibrationEditor();             /* takabe/vib_edit.c            */
 void *NewVoicesys_800CE944();           /* takabe/voicesys.c            */
 void *NewWindcrcl_800CF6BC();           /* takabe/windcrcl.c            */
 void *NewWsurface_800DB9BC();           /* takabe/wsurface.c            */
