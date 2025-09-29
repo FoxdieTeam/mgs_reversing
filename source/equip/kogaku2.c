@@ -388,8 +388,8 @@ void *NewKogaku3(CONTROL *control, OBJECT *parent, int num_parent)
     Work *work;
     DG_OBJS *objs;
     DG_DEF *def;
-    int maxx, maxy, maxz;
     int minx, miny, minz;
+    int maxx, maxy, maxz;
     int i;
     SVECTOR *vec_iter;
     int max, min;
@@ -411,13 +411,13 @@ void *NewKogaku3(CONTROL *control, OBJECT *parent, int num_parent)
         DG_UnShadeObjs(objs);
         DG_SetPos(&objs->objs[0].screen);
 
-        maxx = def->max.vx;
-        maxy = def->max.vy;
-        maxz = def->max.vz;
-
         minx = def->min.vx;
         miny = def->min.vy;
         minz = def->min.vz;
+
+        maxx = def->max.vx;
+        maxy = def->max.vy;
+        maxz = def->max.vz;
 
         vec_iter = vecs;
 
@@ -425,29 +425,29 @@ void *NewKogaku3(CONTROL *control, OBJECT *parent, int num_parent)
         {
             if (i & 1)
             {
-                vec_iter->vx = maxx;
+                vec_iter->vx = minx;
             }
             else
             {
-                vec_iter->vx = minx;
+                vec_iter->vx = maxx;
             }
 
             if (i & 2)
             {
-                vec_iter->vy = maxy;
+                vec_iter->vy = miny;
             }
             else
             {
-                vec_iter->vy = miny;
+                vec_iter->vy = maxy;
             }
 
             if (i & 4)
             {
-                vec_iter->vz = maxz;
+                vec_iter->vz = minz;
             }
             else
             {
-                vec_iter->vz = minz;
+                vec_iter->vz = maxz;
             }
 
             vec_iter++;

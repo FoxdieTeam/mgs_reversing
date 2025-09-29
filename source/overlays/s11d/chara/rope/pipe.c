@@ -64,7 +64,7 @@ int Pipe_800CE0A8(PipeWork *work)
 
     objs->def = GV_GetCache(GV_CacheID(work->model_ids[1], 'k'));
 
-    count = objs->def->num_mesh_4;
+    count = objs->def->n_models;
     mdl = objs->def->model;
     mdl2 = &objs->def->model[0];
     obj = &objs->objs[0];

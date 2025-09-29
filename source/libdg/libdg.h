@@ -46,19 +46,6 @@ typedef struct DG_PVECTOR
 
 #define DG_MAX_TEXTURES 512
 
-typedef struct DG_TEX
-{
-    u_short id;
-    u_char  used;
-    u_char  col;
-    u_short tpage;
-    u_short clut;
-    u_char  off_x;
-    u_char  off_y;
-    u_char  w;
-    u_char  h;
-} DG_TEX;
-
 enum DG_MODEL_FLAGS {
     DG_MODEL_TRANS    = 0x00002,
     DG_MODEL_UNLIT    = 0x00004,
@@ -88,45 +75,88 @@ typedef struct _DG_MDL
 
 typedef struct _DG_DEF
 {
-    int              num_bones_0; // or "model" count ?
-    int              num_mesh_4;
-    struct DG_VECTOR max;
-    struct DG_VECTOR min;
-    DG_MDL model [ 0 ];
+    int         n_visible;      // ???
+    int         n_models;
+    DG_VECTOR   min;
+    DG_VECTOR   max;
+    DG_MDL      model[ 0 ];
 } DG_DEF;
 
-typedef struct _DG_OBJ
-{
-    MATRIX          world;      // 0x00
-    MATRIX          screen;     // 0x20
-    DG_MDL         *model;      // 0x40
-    CVECTOR        *rgbs;       // 0x44
-    struct _DG_OBJ *extend;     // 0x48
-    short           bound_mode; // 0x4C
-    short           free_count; // 0x4E
-    short           raise;      // 0x50
-    short           n_packs;    // 0x52
-    POLY_GT4       *packs[ 2 ]; // 0x54
+// clang-format off
+typedef struct _DG_TEX {
+        u_short         id;             //
+        u_char          used;           //
+        u_char          col;            //
+        u_short         tpage;          //
+        u_short         clut;           //
+        u_char          off_x;          //
+        u_char          off_y;          //
+        u_char          w;              //
+        u_char          h;              //
+} DG_TEX;
+
+typedef struct _DG_OBJ {
+        MATRIX          world;          // 0x00
+        MATRIX          screen;         // 0x20
+        DG_MDL          *model;         // 0x40
+        CVECTOR         *rgbs;          // 0x44
+        struct _DG_OBJ  *extend;        // 0x48
+        short           bound_mode;     // 0x4C
+        short           free_count;     // 0x4E
+        short           raise;          // 0x50
+        short           n_packs;        // 0x52
+        POLY_GT4        *packs[ 2 ];    // 0x54
 } DG_OBJ;
 
-typedef struct _DG_OBJS
-{
-    MATRIX   world;      // 0x00
-    MATRIX  *root;       // 0x20
-    DG_DEF  *def;        // 0x24
-    u_long   flag;       // 0x28
-    u_short  group_id;   // 0x2C
-    short    n_models;   // 0x2E
-    short    chanl;      // 0x30
-    short    bound_mode; // 0x32
-    MATRIX  *light;      // 0x34
-    SVECTOR *rots;       // 0x38
-    SVECTOR *adjust;     // 0x3C
-    SVECTOR *waist_rot;  // 0x40
-    SVECTOR *movs;       // 0x44
-    DG_OBJ   objs[ 0 ];  // 0x48
+typedef struct {
+        MATRIX          world;          // 0x00
+        MATRIX          *root;          // 0x20
+        DG_DEF          *def;           // 0x24
+        u_long          flag;           // 0x28
+        u_short         group_id;       // 0x2C
+        short           n_models;       // 0x2E
+        short           chanl;          // 0x30
+        short           bound_mode;     // 0x32
+        MATRIX          *light;         // 0x34
+        SVECTOR         *rots;          // 0x38
+        SVECTOR         *adjust;        // 0x3C
+        SVECTOR         *waist_rot;     // 0x40
+        SVECTOR         *movs;          // 0x44
+        DG_OBJ          objs[ 0 ];      // 0x48
 } DG_OBJS;
 
+enum {
+        DG_FLAG_TEXT            = 0x0001,       //
+        DG_FLAG_PAINT           = 0x0002,       //
+        DG_FLAG_TRANS           = 0x0004,       //
+        DG_FLAG_SHADE           = 0x0008,       //
+        DG_FLAG_BOUND           = 0x0010,       //
+        DG_FLAG_GBOUND          = 0x0020,       //
+        DG_FLAG_ONEPIECE        = 0x0040,       //
+        DG_FLAG_INVISIBLE       = 0x0080,       //
+        DG_FLAG_AMBIENT         = 0x0100,       //
+        DG_FLAG_IRTEXTURE       = 0x0200,       //
+        DG_FLAG_UNKNOWN_400     = 0x0400,       //
+};
+// clang-format on
+
+typedef struct {
+    u_int       id;
+    DG_DEF      def;
+} DG_KMDPACK;
+
+typedef struct {
+    u_int       ident;
+    u_int       n_kmd;
+    u_int       vert_offset;
+    u_int       body_len;
+    DG_KMDPACK  kmd[ 0 ];
+} DG_ZMD_DEF;
+
+typedef struct {    // libdg internal
+    DG_VECTOR min;
+    DG_VECTOR max;
+} DG_BOUND;
 
 // It might be better to use a void * for this
 union Prim_Union
@@ -175,12 +205,6 @@ typedef struct _DG_PRIM
     TPrim_Fn          handler;
 } DG_PRIM;
 
-typedef struct DG_Bounds
-{
-    DG_VECTOR max;
-    DG_VECTOR min;
-} DG_Bounds;
-
 typedef struct DG_LIT
 {
     SVECTOR        pos;
@@ -225,30 +249,6 @@ typedef struct DG_IMG
     DG_IMG_ATTRIB  *attribs;
     unsigned char  *tilemap;
 } DG_IMG;
-
-typedef struct DG_KMD
-{
-    unsigned int n_visible;
-    unsigned int n_objects;
-    DG_VECTOR    min;
-    DG_VECTOR    max;
-    DG_MDL       objects[ 0 ];
-} DG_KMD;
-
-typedef struct DG_ZmdEntry
-{
-    unsigned int id;
-    DG_KMD       data;
-} DG_ZmdEntry;
-
-typedef struct DG_ZmdFile
-{
-    unsigned int magic;
-    unsigned int numZmds;
-    unsigned int vertOffset;
-    unsigned int bodyLength;
-    DG_ZmdEntry  zmdEntries[ 0 ];
-} DG_ZmdFile;
 
 /*---------------------------------------------------------------------------*/
 
@@ -318,34 +318,7 @@ typedef struct DG_CHANL
     DR_ENV         field_16C_dr_env[ 2 ];
 } DG_CHANL;
 
-enum DG_FLAGS
-{
-    DG_FLAG_TEXT        = 0x0001,
-    DG_FLAG_PAINT       = 0x0002,
-    DG_FLAG_TRANS       = 0x0004,
-    DG_FLAG_SHADE       = 0x0008,
-    DG_FLAG_BOUND       = 0x0010,
-    DG_FLAG_GBOUND      = 0x0020,
-    DG_FLAG_ONEPIECE    = 0x0040,
-    DG_FLAG_INVISIBLE   = 0x0080,
-    DG_FLAG_AMBIENT     = 0x0100,
-    DG_FLAG_IRTEXTURE   = 0x0200,
-    DG_FLAG_UNKNOWN_400 = 0x0400,
-};
-
-enum DG_PRIM_FLAGS
-{
-    DG_PRIM_VISIBLE   = 0x0000,
-    DG_PRIM_INVISIBLE = 0x0100,
-    DG_PRIM_WORLD     = 0x0200,
-    DG_PRIM_OFFSET    = 0x0400,
-    DG_PRIM_SORTONLY  = 0x0800,
-    DG_PRIM_ONEFACE   = 0x1000,
-    DG_PRIM_FREEPACKS = 0x2000,
-};
-
-enum DG_PRIM_TYPE
-{
+enum DG_PRIM_TYPE {
     DG_PRIM_LINE_F2,    // 0
     DG_PRIM_LINE_F3,    // 1
     DG_PRIM_LINE_F4,    // 2
@@ -373,6 +346,16 @@ enum DG_PRIM_TYPE
     DG_PRIM_MAX         // 24
 };
 
+enum {
+        DG_PRIM_VISIBLE         = 0x0000,
+        DG_PRIM_INVISIBLE       = 0x0100,
+        DG_PRIM_WORLD           = 0x0200,
+        DG_PRIM_OFFSET          = 0x0400,
+        DG_PRIM_SORTONLY        = 0x0800,
+        DG_PRIM_ONEFACE         = 0x1000,
+        DG_PRIM_FREEPACKS       = 0x2000,
+};
+
 enum DG_CHANL
 {
     DG_SCREEN_CHANL,
@@ -391,6 +374,18 @@ enum DG_CHANL
 
 /*---------------------------------------------------------------------------*/
 
+static inline void DG_GroupObjs( DG_OBJS *objs, int group_id )
+{
+    objs->group_id = group_id;
+}
+
+//static inline void DG_GroupObjsX( DG_OBJS *objs )
+//{
+//    extern int DG_CurrentGroupID;
+//
+//    DG_GroupObjs( objs, DG_CurrentGroupID );
+//}
+
 static inline void DG_VisibleObjs( DG_OBJS *objs )
 {
     objs->flag &= ~DG_FLAG_INVISIBLE;
@@ -401,6 +396,13 @@ static inline void DG_InvisibleObjs( DG_OBJS *objs )
     objs->flag |= DG_FLAG_INVISIBLE;
 }
 
+//static inline void DG_SetCurrentGroup( int group_id )
+//{
+//    extern int DG_CurrentGroupID;
+//
+//    DG_CurrentGroupID = group_id;
+//}
+
 static inline void DG_UnAmbientObjs( DG_OBJS *objs )
 {
     objs->flag &= ~DG_FLAG_AMBIENT;
@@ -409,11 +411,6 @@ static inline void DG_UnAmbientObjs( DG_OBJS *objs )
 static inline void DG_AmbientObjs( DG_OBJS *objs )
 {
     objs->flag |= DG_FLAG_AMBIENT;
-}
-
-static inline void DG_GroupObjs( DG_OBJS *objs, int group_id )
-{
-    objs->group_id = group_id;
 }
 
 static inline void DG_GroupPrim( DG_PRIM *prim, int group_id )

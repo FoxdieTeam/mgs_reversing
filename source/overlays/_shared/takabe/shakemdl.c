@@ -16,7 +16,7 @@ typedef struct _ShakemdlWork
     int     f2C;
     int     f30;
     int     f34;
-    DG_KMD *kmd;
+    DG_DEF *def;
     short   f3C[16];
     short   f5C[16];
     short  *vertices;
@@ -101,7 +101,7 @@ int ShakemdlGetResources_800C5454(ShakemdlWork *work, int name)
     short *var_s2;
     int    i;
 
-    work->kmd = GV_GetCache(GV_CacheID(name, 'k'));
+    work->def = GV_GetCache(GV_CacheID(name, 'k'));
 
     if (s16b_800C5664(work))
     {
@@ -176,20 +176,22 @@ void *NewShakemdl_800c55b0(int arg0, int arg1, int arg2)
     return (void *)work;
 }
 
+/*---------------------------------------------------------------------------*/
+
 int s16b_800C5664(ShakemdlWork *work)
 {
-    DG_KMD  *kmd;
+    DG_DEF  *def;
     DG_MDL  *object;
     int      nvertices;
     int      nobjects;
     short   *vertices;
     SVECTOR *src;
 
-    kmd = work->kmd;
-    object = kmd->objects;
+    def = work->def;
+    object = def->model;
     nvertices = 0;
 
-    for (nobjects = kmd->n_objects; nobjects > 0; object++, nobjects--)
+    for (nobjects = def->n_models; nobjects > 0; object++, nobjects--)
     {
         nvertices += object->n_verts;
     }
@@ -202,9 +204,9 @@ int s16b_800C5664(ShakemdlWork *work)
         return -1;
     }
 
-    object = kmd->objects;
+    object = def->model;
 
-    for (nobjects = kmd->n_objects; nobjects > 0; object++, nobjects--)
+    for (nobjects = def->n_models; nobjects > 0; object++, nobjects--)
     {
         src = (SVECTOR *)((short *)object->vertices + work->f2C);
 
@@ -228,12 +230,12 @@ int s16b_800C5728(ShakemdlWork *work, short *arg1)
     int      nvertices;
     int      ret;
 
-    object = work->kmd->objects;
+    object = work->def->model;
     src = work->vertices;
     index = 0;
     ret = 0;
 
-    for (nobjects = work->kmd->n_objects; nobjects > 0; nobjects--, object++)
+    for (nobjects = work->def->n_models; nobjects > 0; nobjects--, object++)
     {
         vertex = (SVECTOR *)((short *)object->vertices + work->f2C);
 
@@ -256,10 +258,10 @@ int s16b_800C57A4(ShakemdlWork *work)
     SVECTOR *vertex;
     int      nvertices;
 
-    object = work->kmd->objects;
+    object = work->def->model;
     src = work->vertices;
 
-    for (nobjects = work->kmd->n_objects; nobjects > 0; nobjects--, object++)
+    for (nobjects = work->def->n_models; nobjects > 0; nobjects--, object++)
     {
         vertex = (SVECTOR *)((short *)object->vertices + work->f2C);
 

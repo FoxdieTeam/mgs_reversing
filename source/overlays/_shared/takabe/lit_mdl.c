@@ -45,20 +45,29 @@ typedef struct LitMdlWork
 
 #define EXEC_LEVEL GV_ACTOR_AFTER2
 
-DG_DEF litmdl_dg_def =
-{
-    1, 1,
-    {-32000, -32000, -32000},
-    {32000, 32000, 32000},
-    {
+DG_DEF litmdl_dg_def = {
+    1,                          // n_visible
+    1,                          // n_models
+    { -32000, -32000, -32000 }, // min
+    {  32000,  32000,  32000 }, // max
+    {                           // model[]
         {
-            1027, 36,
-            {-32000, -32000, -32000},
-            {32000, 32000, 32000},
-            {0, 0, 0},
-            -1, -1, 49,
-            NULL, NULL, 6, NULL,
-            NULL, NULL, NULL, 0
+            1027,               // flags
+            36,                 // n_faces
+            { -32000, -32000, -32000 }, // min
+            {  32000,  32000,  32000 }, // max
+            { 0, 0, 0 },        // pos
+            -1,                 // parent
+            -1,                 // extend
+            49,                 // n_verts
+            NULL,               // vertices
+            NULL,               // vindices
+            6,                  // n_normals
+            NULL,               // normals
+            NULL,               // nindices
+            NULL,               // texcoords
+            NULL,               // materials
+            0                   // padding
         }
     }
 };

@@ -147,9 +147,9 @@ static int GetResources(Work *work, int name, int where)
     def = work->object.objs->def;
     svec3 = &work->svec3;
 
-    svec3->vx = (def->min.vx - def->max.vx) / 2;
-    svec3->vy = (def->min.vy - def->max.vy) / 2;
-    svec3->vz = (def->min.vz - def->max.vz) / 2;
+    svec3->vx = (def->max.vx - def->min.vx) / 2;
+    svec3->vy = (def->max.vy - def->min.vy) / 2;
+    svec3->vz = (def->max.vz - def->min.vz) / 2;
 
     GV_AddVec3(&work->svec3, svec1, svec3);
 
