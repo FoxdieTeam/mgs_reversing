@@ -700,7 +700,7 @@ static int GetResources(Work *work, int name, int where)
     DG_PutObjs(work->object.objs);
     GM_ReshadeObjs(work->object.objs);
 
-    work->field_E6_param_w_v = work->object.objs->def[2].num_bones_0; // is this correct?
+    work->field_E6_param_w_v = work->object.objs->def[2].n_visible; // is this correct?
 
     work->field_E6_param_w_v = Door_Gcl_GetIntDefault('w', 1000);
     work->field_E8_param_s_v = Door_Gcl_GetIntDefault('s', 100);

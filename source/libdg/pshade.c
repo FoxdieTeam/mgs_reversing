@@ -198,7 +198,7 @@ STATIC int CalcCVecLen( DG_DEF *def )
 
     total_faces = 0;
     model = (DG_MDL *)&def[1];
-    for (i = def->num_mesh_4; i > 0; i--)
+    for (i = def->n_models; i > 0; i--)
     {
         total_faces += model->n_faces;
         ++model;
@@ -234,7 +234,7 @@ int DG_MakePreshade( DG_OBJS *objs, DG_LIT *light, int n_lights )
 
     obj = objs->objs;
 
-    for (i = def->num_mesh_4; i > 0; i--)
+    for (i = def->n_models; i > 0; i--)
     {
         obj->rgbs = cvec;
         model = obj->model;

@@ -478,7 +478,7 @@ DG_DEF * Mirror_800E0AD8(DG_DEF *def, int arg1)
     DG_MDL *src;
     DG_MDL *dst;
 
-    n_models = def->num_mesh_4;
+    n_models = def->n_models;
 
     copy = GV_Malloc(sizeof(DG_DEF) + n_models * sizeof(DG_MDL));
     memcpy(copy, def, sizeof(DG_DEF));

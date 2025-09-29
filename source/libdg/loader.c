@@ -9,7 +9,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-STATIC void DG_LinkModelToParent(DG_MDL *pKmdObj, DG_MDL *parent)
+static void LinkModelToParent(DG_MDL *mdl, DG_MDL *parent)
 {
     unsigned int uVar2;
     int faces;
@@ -26,11 +26,11 @@ STATIC void DG_LinkModelToParent(DG_MDL *pKmdObj, DG_MDL *parent)
     // provides the indexing order for referencing the transformed vertex sections
     static unsigned char kVertexIndexingOrder[] = {0, 1, 3, 2};
 
-    vio = pKmdObj->vertices;
+    vio = mdl->vertices;
     flag = 0;
-    fio = pKmdObj->vindices;
+    fio = mdl->vindices;
 
-    for (iter = pKmdObj->n_faces * 4; iter > 0; iter--)
+    for (iter = mdl->n_faces * 4; iter > 0; iter--)
     {
         index = *fio;
         vio2 = &vio[index];
@@ -49,9 +49,9 @@ STATIC void DG_LinkModelToParent(DG_MDL *pKmdObj, DG_MDL *parent)
         return;
     }
 
-    vio2 = pKmdObj->vertices;
+    vio2 = mdl->vertices;
 
-    for (iter = pKmdObj->n_verts; iter > 0; iter--)
+    for (iter = mdl->n_verts; iter > 0; iter--)
     {
         pad = vio2->pad;
 
@@ -81,41 +81,41 @@ STATIC void DG_LinkModelToParent(DG_MDL *pKmdObj, DG_MDL *parent)
 
 int DG_LoadInitKmd(unsigned char *buf, int id)
 {
-    DG_KMD *kmd = (DG_KMD *)buf;
-    DG_MDL *current = kmd->objects;
-    int     remaining = kmd->n_objects;
+    DG_DEF *def = (DG_DEF *)buf;
+    DG_MDL *mdl = def->model;
+    int     remaining = def->n_models;
 
     while (--remaining >= 0)
     {
-        if (current->vertices)
+        if (mdl->vertices)
         {
-            (char *)current->vertices += (unsigned int)kmd;
+            (char *)mdl->vertices += (unsigned int)def;
         }
-        if (current->vindices)
+        if (mdl->vindices)
         {
-            (char *)current->vindices += (unsigned int)kmd;
+            (char *)mdl->vindices += (unsigned int)def;
         }
-        if (current->normals)
+        if (mdl->normals)
         {
-            (char *)current->normals += (unsigned int)kmd;
+            (char *)mdl->normals += (unsigned int)def;
         }
-        if (current->nindices)
+        if (mdl->nindices)
         {
-            (char *)current->nindices += (unsigned int)kmd;
+            (char *)mdl->nindices += (unsigned int)def;
         }
-        if (current->texcoords)
+        if (mdl->texcoords)
         {
-            (char *)current->texcoords += (unsigned int)kmd;
+            (char *)mdl->texcoords += (unsigned int)def;
         }
-        if (current->materials)
+        if (mdl->materials)
         {
-            (char *)current->materials += (unsigned int)kmd;
+            (char *)mdl->materials += (unsigned int)def;
         }
-        if (current->parent >= 0)
+        if (mdl->parent >= 0)
         {
-            DG_LinkModelToParent(current, &kmd->objects[current->parent]);
+            LinkModelToParent(mdl, &def->model[mdl->parent]);
         }
-        ++current;
+        ++mdl;
     }
     return 1;
 }
@@ -124,8 +124,8 @@ int DG_LoadInitKmd(unsigned char *buf, int id)
 
 int DG_LoadInitNar(unsigned char *buf, int id)
 {
-    DG_NARS *n = (DG_NARS *)buf;
-    n->unknown1 = (unsigned char *)n + (unsigned int)n->unknown1;
+    DG_NARS *nar = (DG_NARS *)buf;
+    nar->unknown1 = (u_char *)nar + (u_int)nar->unknown1;
     return 1;
 }
 
@@ -170,7 +170,7 @@ extern unsigned char pcxBuffer_800B3798[128];
 
 #define PCX_RLE_THRESHOLD 0xC0
 
-STATIC unsigned char *DG_PcxRead8Bpp(unsigned char *pcxData, unsigned char *imageData, int imageSize)
+static unsigned char *DG_PcxRead8Bpp(unsigned char *pcxData, unsigned char *imageData, int imageSize)
 {
     unsigned char *palette;
     do
@@ -196,7 +196,7 @@ STATIC unsigned char *DG_PcxRead8Bpp(unsigned char *pcxData, unsigned char *imag
     return palette;
 }
 
-STATIC unsigned char *DG_PcxRead4Bpp(unsigned char *pcxData, unsigned char *imageData,
+static unsigned char *DG_PcxRead4Bpp(unsigned char *pcxData, unsigned char *imageData,
                                      int bytes_per_line, int width, int height)
 {
     int i = height;
@@ -273,7 +273,7 @@ STATIC unsigned char *DG_PcxRead4Bpp(unsigned char *pcxData, unsigned char *imag
     return pcxData;
 }
 
-STATIC void DG_PcxReadPalette(unsigned char *pcxPalette, unsigned char *imageData, int width)
+static void DG_PcxReadPalette(unsigned char *pcxPalette, unsigned char *imageData, int width)
 {
     unsigned short *imagePalette;
     int             remaining;
@@ -370,51 +370,50 @@ int DG_LoadInitPcx(unsigned char *buf, int id)
 
 int DG_LoadInitKmdar(unsigned char *buf, int id)
 {
-    DG_ZmdFile  *zmdFile = (DG_ZmdFile *)buf;
-    DG_ZmdEntry *zmdEntry = &zmdFile->zmdEntries[0];
-    unsigned int offset = (unsigned int)zmdEntry + zmdFile->vertOffset;
-    int          numZmds = zmdFile->numZmds + 1;
+    DG_ZMD_DEF  *zmd = (DG_ZMD_DEF *)buf;
+    DG_KMDPACK  *kmd = &zmd->kmd[0];
+    unsigned int offset = (unsigned int)kmd + zmd->vert_offset;
+    int          remaining = zmd->n_kmd + 1;
 
-    while (--numZmds > 0)
+    while (--remaining > 0)
     {
-        DG_KMD       *zmdObject = &zmdEntry->data;
-        int           nameHashed;
-        int           numMeshes = zmdObject->n_objects;
-        DG_MDL       *kmdObject = &zmdObject->objects[0];
+        DG_DEF *def = &kmd->def;
+        int     cache_id;
+        int     n_models = def->n_models;
+        DG_MDL *mdl = &def->model[0];
 
-        while (--numMeshes >= 0)
+        while (--n_models >= 0)
         {
-            (char *)kmdObject->vertices += offset;
-            if (kmdObject->vindices)
+            (char *)mdl->vertices += offset;
+            if (mdl->vindices)
             {
-                (char *)kmdObject->vindices += offset;
+                (char *)mdl->vindices += offset;
             }
-            if (kmdObject->normals)
+            if (mdl->normals)
             {
-                (char *)kmdObject->normals += offset;
+                (char *)mdl->normals += offset;
             }
-            if (kmdObject->nindices)
+            if (mdl->nindices)
             {
-                (char *)kmdObject->nindices += offset;
+                (char *)mdl->nindices += offset;
             }
-            if (kmdObject->texcoords)
+            if (mdl->texcoords)
             {
-                (char *)kmdObject->texcoords += offset;
+                (char *)mdl->texcoords += offset;
             }
-            if (kmdObject->materials)
+            if (mdl->materials)
             {
-                (char *)kmdObject->materials += offset;
+                (char *)mdl->materials += offset;
             }
-            if (kmdObject->parent >= 0)
+            if (mdl->parent >= 0)
             {
-                DG_LinkModelToParent(kmdObject,
-                                            &zmdObject->objects[kmdObject->parent]);
+                LinkModelToParent(mdl, &def->model[mdl->parent]);
             }
-            ++kmdObject;
+            ++mdl;
         }
-        nameHashed = GV_CacheID(zmdEntry->id, 'k');
-        zmdEntry = (DG_ZmdEntry *)kmdObject;
-        GV_SetCache(nameHashed, zmdObject);
+        cache_id = GV_CacheID(kmd->id, 'k');
+        kmd = (DG_KMDPACK *)mdl;
+        GV_SetCache(cache_id, def);
     }
     return 1;
 }
