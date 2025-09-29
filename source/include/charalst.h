@@ -236,7 +236,7 @@
 #define CHARA_CLUTER            { 0xb95f, ? }                       // koba/vr/cluter.c (PC-ONLY)
 #define CHARA_M_DOOR            { 0xb98c, ? }                       // enemy/m_door.c
 #define CHARA_CAPE              { 0xb99f, NewCape_800D92F8 }        // onoda/s04b/cape.c
-#define CHARA_SHAKE_MODEL       { 0xba52, NewShakemdl_800C54E8 }    // takabe/shakemdl.c
+#define CHARA_SHAKE_MODEL       { 0xba52, NewShakeModelGCL }        // takabe/shakemdl.c
 #define CHARA_BG_SP_ST          { 0xbc76, ? }                       // okajima/photo/bg_sp_st.c (PC-ONLY)
 #define CHARA_ROPE              { 0xbda8, s11d_rope_800C9500 }      // --> chara/rope/rope.c
 #define CHARA_DEATH_SP          { 0xbe79, NewDeathSp_800D025C }     // okajima/death_sp.c
@@ -574,7 +574,7 @@ void *NewRipples();                     /* takabe/ripples.c             */
 void *NewRippleSurface_800D8244();      /* takabe/rsurface.c            */
 void *NewSepia_800C4F9C();              /* takabe/sepia.c               */
 void *NewSepia_800C5214();              /* takabe/sepia.c               */
-void *NewShakemdl_800C54E8();           /* takabe/shakemdl.c            */
+void *NewShakeModelGCL();               /* takabe/shakemdl.c            */
 void *NewShuter_800DFB44();             /* takabe/shuter.c              */
 void *NewSpark2_800CA714();             /* takabe/spark2.c              */
 void *NewSubEfct_800CCB10();            /* takabe/sub_efct.c            */
