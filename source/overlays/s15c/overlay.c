@@ -5,7 +5,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x51c6, (NEWCHARA)0x800E1828 },   // NewZoom_800DFA88
     { 0xec77, (NEWCHARA)0x800D2FA4 },   // NewWall_800C3718
     { 0x92bc, (NEWCHARA)0x800D3694 },   // NewAsioto_800C3E08
-    { 0x4170, (NEWCHARA)0x800C416C },   // NewBreath_800C3A1C
+    { 0x4170, (NEWCHARA)0x800C416C },   // NewBreath
     { 0xa12e, (NEWCHARA)0x800E072C },   // NewFadeIo_800C42BC
     { 0xcc45, (NEWCHARA)0x800D8C9C },   // s15c_dyncon_800D8C9C
     { 0x5a50, (NEWCHARA)0x800DF2C4 },   // NewGasEffect_800C4E5C

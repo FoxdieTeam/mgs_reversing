@@ -8,7 +8,7 @@
 #include "takabe/thing.h"
 
 #include "overlays/_shared/takabe/wt_view.h"    // for NewWaterView2
-#include "overlays/_shared/takabe/ripple.h"     // for NewRipple_800D7F30
+#include "overlays/_shared/takabe/ripple.h"     // for NewRipple
 
 extern CONTROL         *tenage_ctrls_800BDD30[16];
 extern int              tenage_ctrls_count_800BDD70;
@@ -219,7 +219,7 @@ static void Act( Work *work )
                 mtx.t[0] = (*ctrl)->mov.vx;
                 mtx.t[1] = work->bound[1].vy;
                 mtx.t[2] = (*ctrl)->mov.vz;
-                NewRipple_800D7F30( &mtx, 2048 );
+                NewRipple( &mtx, 2048 );
                 (*ctrl)->mov.pad = 1;
             }
         }

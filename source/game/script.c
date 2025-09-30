@@ -11,7 +11,7 @@
 #include "game/item.h"
 #include "game/delay.h"
 #include "menu/menuman.h"
-#include "kojo/demothrd.h"
+#include "kojo/demo.h"
 #include "strcode.h"
 
 extern  CAMERA          GM_CameraList[8];

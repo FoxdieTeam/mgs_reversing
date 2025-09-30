@@ -442,8 +442,8 @@ int RasenElGetResources_800CCB9C(RasenElWork *work, int name, int map)
     work->f2C8 = THING_Gcl_GetShort('o');
     work->f2CC = THING_Gcl_GetShort('u');
 
-    sp10.vx = object->objs->def->min.vx + 100;
-    sp10.vz = object->objs->def->min.vz + 100;
+    sp10.vx = object->objs->def->max.vx + 100;
+    sp10.vz = object->objs->def->max.vz + 100;
     sp10.vy = 1;
 
     sp18 = work->f214;

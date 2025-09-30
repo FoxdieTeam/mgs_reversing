@@ -7,208 +7,241 @@
 #include "takabe/thing.h"
 #include "strcode.h"
 
-typedef struct _ShakemdlWork
+/*----------------------------------------------------------------*/
+
+#define EXEC_LEVEL  GV_ACTOR_LEVEL5
+
+#define ROT_GROUP   16
+
+// clang-format off
+/*----------------------------------------------------------------*/
+
+typedef struct {
+    /* 公開部（プログラム呼び出し用） */
+    GV_ACT      actor;
+    int         name;
+    int         active_flag;    /* 動作フラグ */
+    int         scale;          /* 揺れ幅 */
+    int         move_axis;      /* アニメーション頂点軸 */
+    int         trg_scale;      /* 揺れ幅移行値 */
+    int         change_speed;   /* 揺れ幅の変化スピード */
+
+    /* 非公開部 */
+
+    DG_DEF      *def;
+    short       rots[ROT_GROUP];    /* 揺らぎ回転角 */
+    short       speeds[ROT_GROUP];  /* 揺らぎ回転速度 */
+    short       *points;    /* 頂点座標のオリジナル */
+
+} Work;
+
+typedef struct {
+    short       offset[ROT_GROUP];  /* 計算された頂点オフセット */
+} SCRPAD_DATA;
+
+/*----------------------------------------------------------------*/
+/* 頂点数だけバッファを確保 */
+static int AllocVertsMemory( Work *work );
+/* 頂点を動かす */
+static int MoveVerts( Work *work, short *scrpad );
+/* モデルを元に戻す */
+static int RestoreVerts( Work *work );
+
+/*----------------------------------------------------------------*/
+// clang-format on
+
+static void Act( Work *work )
 {
-    GV_ACT  actor;
-    int     name;
-    int     f24;
-    int     f28;
-    int     f2C;
-    int     f30;
-    int     f34;
-    DG_KMD *kmd;
-    short   f3C[16];
-    short   f5C[16];
-    short  *vertices;
-} ShakemdlWork;
+    short *scrpad;
+    //OPERATOR();
 
-int s16b_800C5728(ShakemdlWork *, short *);
-int s16b_800C57A4(ShakemdlWork *work);
-int s16b_800C5664(ShakemdlWork *work);
+    {/* メッセージチェック */
+        GV_MSG *msg;
+        int     len;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+        len = GV_ReceiveMessage(work->name, &msg);
 
-void ShakemdlAct_800C5288(ShakemdlWork *work)
-{
-    GV_MSG *msg;
-    int     count;
-    short  *var_s4;
-    int     temp_v0;
-    short  *var_s0;
-    short  *var_s1;
-    int     i;
-
-    count = GV_ReceiveMessage(work->name, &msg);
-
-    for (; count > 0; count--, msg++)
-    {
-        switch (msg->message[0])
+        for (; len > 0; len--, msg++)
         {
-        case HASH_KILL:
-            GV_DestroyActor(&work->actor);
-            return;
+            switch (msg->message[0])
+            {
+            case HASH_KILL:
+                GV_DestroyActor(&work->actor);
+                return;
 
-        case 0xD368:
-            work->f30 = msg->message[1];
-            work->f34 = msg->message[2];
-            work->f24 = 1;
-            break;
+            case 0xD368:
+                work->trg_scale = msg->message[1];
+                work->change_speed = msg->message[2];
+                work->active_flag = TRUE;
+                break;
 
-        case 0x9873:
-            work->f24 = 0;
-            break;
+            case 0x9873:
+                work->active_flag = FALSE;
+                break;
+            }
         }
     }
 
-    var_s4 = (short *)SCRPAD_ADDR;
+    scrpad = (short *)SCRPAD_ADDR;
 
-    if (work->f24 != 0)
     {
-        work->f28 = GV_NearSpeed(work->f28, work->f30, work->f34);
-        temp_v0 = work->f28;
+        int     scale;
+        short  *rots;
+        short  *speeds;
+        int     i;
 
-        var_s0 = work->f3C;
-        var_s1 = work->f5C;
-
-        for (i = 16; i > 0; i--)
+        if (work->active_flag)
         {
-            *var_s4++ = (rsin(*var_s0) * temp_v0) >> 12;
-            *var_s0++ += *var_s1++;
-        }
+            work->scale = GV_NearSpeed(work->scale, work->trg_scale, work->change_speed);
 
-        s16b_800C5728(work, (short *)SCRPAD_ADDR);
+            scale = work->scale;
+            rots = work->rots;
+            speeds = work->speeds;
 
-        if ((work->f28 == 0) && (work->f30 == 0))
-        {
-            work->f24 = 0;
+            for (i = ROT_GROUP; i > 0; i--)
+            {
+                *scrpad++ = (rsin(*rots) * scale) >> 12;
+                *rots++ += *speeds++;
+            }
+
+            MoveVerts(work, (short *)SCRPAD_ADDR);
+
+            if ((work->scale == 0) && (work->trg_scale == 0))
+            {
+                work->active_flag = FALSE;
+            }
         }
     }
 }
 
-void ShakemdlDie_800C5418(ShakemdlWork *work)
+static void Die( Work *work )
 {
-    s16b_800C57A4(work);
+    RestoreVerts(work);
 
-    if (work->vertices)
+    if (work->points)
     {
-        GV_Free(work->vertices);
+        GV_Free(work->points);
     }
 }
 
-int ShakemdlGetResources_800C5454(ShakemdlWork *work, int name)
+static int GetResources( Work *work, int model )
 {
-    short *var_s1;
-    short *var_s2;
+    short *rots;
+    short *speeds;
     int    i;
 
-    work->kmd = GV_GetCache(GV_CacheID(name, 'k'));
+    work->def = GV_GetCache(GV_CacheID(model, 'k'));
 
-    if (s16b_800C5664(work))
+    if (AllocVertsMemory(work))
     {
         return -1;
     }
 
-    var_s2 = work->f3C;
-    var_s1 = work->f5C;
+    rots = work->rots;
+    speeds = work->speeds;
 
-    for (i = 16; i > 0; i--)
+    for (i = ROT_GROUP; i > 0; i--)
     {
-        *var_s2++ = GV_RandU(0x1000U);
-        *var_s1++ = GV_RandU(0x40U) + 0x10;
+        *rots++ = GV_RandU(0x1000U);
+        *speeds++ = GV_RandU(0x40U) + 0x10;
     }
 
     return 0;
 }
 
-void *NewShakemdl_800C54E8(int name, int where, int argc, char **argv)
-{
-    ShakemdlWork *work;
-    int           model;
-    int           work_2;
+/*----------------------------------------------------------------*/
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(ShakemdlWork));
+void *NewShakeModelGCL( int name, int where, int argc, char **argv )
+{
+    Work   *work;
+    int     model;
+    int     scale;
+
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, ShakemdlAct_800C5288, ShakemdlDie_800C5418, "shakemdl.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "shakemdl.c");
 
         model = THING_Gcl_GetInt('m');
-        work->f2C = THING_Gcl_GetInt('a');
+        work->move_axis = THING_Gcl_GetInt('a');
 
-        if (ShakemdlGetResources_800C5454(work, model) < 0)
+        if (GetResources(work, model) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
         }
 
         work->name = name;
-        work->f24 = THING_Gcl_GetIntDefault('f', 1);
-        work_2 = THING_Gcl_GetIntDefault('s', 50);
-        work->f28 = work_2;
-        work->f30 = work_2;
+        work->active_flag = THING_Gcl_GetIntDefault('f', 1);
+        scale = THING_Gcl_GetIntDefault('s', 50);
+        work->scale = scale;
+        work->trg_scale = scale;
     }
 
     return (void *)work;
 }
 
-void *NewShakemdl_800c55b0(int arg0, int arg1, int arg2)
+void *NewShakeModel( int model, int axis, int scale )
 {
-    ShakemdlWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(ShakemdlWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, ShakemdlAct_800C5288, ShakemdlDie_800C5418, "shakemdl.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "shakemdl.c");
 
-        work->f2C = arg1;
+        work->move_axis = axis;
 
-        if (ShakemdlGetResources_800C5454(work, arg0) < 0)
+        if (GetResources(work, model) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
         }
 
         work->name = 0x7743;
-        work->f24 = 1;
-        work->f28 = arg2;
-        work->f30 = arg2;
+        work->active_flag = TRUE;
+        work->scale = scale;
+        work->trg_scale = scale;
     }
 
     return (void *)work;
 }
 
-int s16b_800C5664(ShakemdlWork *work)
+/*----------------------------------------------------------------*/
+
+static int AllocVertsMemory( Work *work )
 {
-    DG_KMD  *kmd;
-    DG_MDL  *object;
-    int      nvertices;
-    int      nobjects;
+    DG_DEF  *def;
+    DG_MDL  *mdl;
+    int      n_verts;
+    int      n_models;
     short   *vertices;
     SVECTOR *src;
 
-    kmd = work->kmd;
-    object = kmd->objects;
-    nvertices = 0;
+    def = work->def;
+    mdl = def->model;
+    n_verts = 0;
 
-    for (nobjects = kmd->n_objects; nobjects > 0; object++, nobjects--)
+    for (n_models = def->n_models; n_models > 0; mdl++, n_models--)
     {
-        nvertices += object->n_verts;
+        n_verts += mdl->n_verts;
     }
 
-    vertices = GV_Malloc(nvertices * 2);
-    work->vertices = vertices;
+    vertices = GV_Malloc(n_verts * 2);
+    work->points = vertices;
 
     if (!vertices)
     {
         return -1;
     }
 
-    object = kmd->objects;
+    mdl = def->model;
 
-    for (nobjects = kmd->n_objects; nobjects > 0; object++, nobjects--)
+    for (n_models = def->n_models; n_models > 0; mdl++, n_models--)
     {
-        src = (SVECTOR *)((short *)object->vertices + work->f2C);
+        src = (SVECTOR *)((short *)mdl->vertices + work->move_axis);
 
-        for (nvertices = object->n_verts; nvertices > 0; nvertices--)
+        for (n_verts = mdl->n_verts; n_verts > 0; n_verts--)
         {
             *vertices++ = src->vx;
             src++;
@@ -218,28 +251,28 @@ int s16b_800C5664(ShakemdlWork *work)
     return 0;
 }
 
-int s16b_800C5728(ShakemdlWork *work, short *arg1)
+static int MoveVerts( Work *work, short *scrpad )
 {
-    DG_MDL  *object;
+    DG_MDL  *mdl;
     short   *src;
     int      index;
-    int      nobjects;
+    int      n_models;
     SVECTOR *vertex;
-    int      nvertices;
+    int      n_verts;
     int      ret;
 
-    object = work->kmd->objects;
-    src = work->vertices;
+    mdl = work->def->model;
+    src = work->points;
     index = 0;
     ret = 0;
 
-    for (nobjects = work->kmd->n_objects; nobjects > 0; nobjects--, object++)
+    for (n_models = work->def->n_models; n_models > 0; n_models--, mdl++)
     {
-        vertex = (SVECTOR *)((short *)object->vertices + work->f2C);
+        vertex = (SVECTOR *)((short *)mdl->vertices + work->move_axis);
 
-        for (nvertices = object->n_verts; nvertices > 0; nvertices--)
+        for (n_verts = mdl->n_verts; n_verts > 0; n_verts--)
         {
-            vertex->vx = *src++ + arg1[index];
+            vertex->vx = *src++ + scrpad[index];
             index = (index + 1) & 0xF;
             vertex++;
         }
@@ -248,22 +281,22 @@ int s16b_800C5728(ShakemdlWork *work, short *arg1)
     return ret;
 }
 
-int s16b_800C57A4(ShakemdlWork *work)
+static int RestoreVerts( Work *work )
 {
-    DG_MDL  *object;
+    DG_MDL  *mdl;
     short   *src;
-    int      nobjects;
+    int      n_models;
     SVECTOR *vertex;
-    int      nvertices;
+    int      n_verts;
 
-    object = work->kmd->objects;
-    src = work->vertices;
+    mdl = work->def->model;
+    src = work->points;
 
-    for (nobjects = work->kmd->n_objects; nobjects > 0; nobjects--, object++)
+    for (n_models = work->def->n_models; n_models > 0; n_models--, mdl++)
     {
-        vertex = (SVECTOR *)((short *)object->vertices + work->f2C);
+        vertex = (SVECTOR *)((short *)mdl->vertices + work->move_axis);
 
-        for (nvertices = object->n_verts; nvertices > 0; nvertices--)
+        for (n_verts = mdl->n_verts; n_verts > 0; n_verts--)
         {
             vertex->vx = *src++;
             vertex++;

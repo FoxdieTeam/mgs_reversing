@@ -3827,7 +3827,7 @@ int JohnnyGetResources_800CA664(JohnnyWork *work, int scriptData, int scriptBind
             indices.vy = 6;
             indices.vz = 12;
             indices.pad = 15;
-            work->shadow = NewShadow_800602CC(control, object, indices);
+            work->shadow = NewShadow(control, object, indices);
             if (work->shadow != NULL)
             {
                 s03b_boxall_800C9328();

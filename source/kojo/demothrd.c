@@ -1,4 +1,4 @@
-#include "demothrd.h"
+#include "demo.h"
 
 #include <stdio.h>
 #include <libsn.h>

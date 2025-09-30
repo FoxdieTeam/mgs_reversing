@@ -11,7 +11,7 @@
 #include "sd/g_sound.h"
 
 #include "overlays/_shared/takabe/cinema.h"     // for NewCinemaScreen, NewCinemaScreenClose
-#include "overlays/_shared/takabe/ripple.h"     // for NewRipple_800D7F30
+#include "overlays/_shared/takabe/ripple.h"     // for NewRipple
 
 typedef struct _EventmouseWork
 {
@@ -478,7 +478,7 @@ void Eventmouse_800C98F0(EventmouseWork *work)
                 sp38.t[0] = control->mov.vx + GV_RandS(64);
                 sp38.t[1] = -2000;
                 sp38.t[2] = control->mov.vz + GV_RandU(64);
-                NewRipple_800D7F30(&sp38, 1500);
+                NewRipple(&sp38, 1500);
             }
         }
     }

@@ -6,7 +6,7 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 
-#include "overlays/_shared/takabe/ripple.h" // for NewRipple_800D7F30
+#include "overlays/_shared/takabe/ripple.h" // for NewRipple
 
 typedef struct _BubbleSWork
 {
@@ -126,7 +126,7 @@ void BubbleSPrimsRectSet_800D5414(BubbleSWork *work, int i)
                 mat.t[1] = work->pos[i].vy;
                 mat.t[2] = work->pos[i].vz;
 
-                NewRipple_800D7F30(&mat, 2000);
+                NewRipple(&mat, 2000);
             }
 
         }

@@ -11,7 +11,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x51c6, (NEWCHARA)0x800D8E40 },   // NewZoom_800DFA88
     { 0xec77, (NEWCHARA)0x800C628C },   // NewWall_800C3718
     { 0xf4c3, (NEWCHARA)0x800D9118 },   // NewPutObject_800E25C0
-    { 0x4170, (NEWCHARA)0x800C405C },   // NewBreath_800C3A1C
+    { 0x4170, (NEWCHARA)0x800C405C },   // NewBreath
     { 0xa12e, (NEWCHARA)0x800D7240 },   // NewFadeIo_800C42BC
     { 0x6c0e, (NEWCHARA)0x800D33C8 },   // NewDog_800D33C8
     { 0x118c, (NEWCHARA)0x800D77DC },   // NewFindTrap_800D77DC
