@@ -13,7 +13,6 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "kojo/demothrd.h"
 #include "game/game.h"
 #include "linkvar.h"
 #include "okajima/blood.h"
@@ -3461,7 +3460,7 @@ void sna_knock_80054D68(SnaInitWork *work, int time)
 
                 temp_v0 = GM_GetNoiseSound(temp_v0, 0);
                 noise = temp_v0;
-                NewAfterse_800604C0(noise, 6);
+                NewAfterSe(noise, 6);
             }
         }
     }
@@ -8102,7 +8101,7 @@ static inline int sna_LoadSnake(SnaInitWork *work, int scriptData, int scriptBin
     shadow.vz  = 12;
     shadow.pad = 15;
 
-    work->field_888_pShadow = NewShadow2_80060384(pCtrl, body, shadow, &work->field_88C);
+    work->field_888_pShadow = NewShadow2(pCtrl, body, shadow, &work->field_88C);
 
     dword_800ABA1C = 0;
     GM_BombSeg = 0;

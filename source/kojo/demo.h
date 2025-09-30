@@ -1,5 +1,5 @@
-#ifndef __MGS_KOJO_DEMOTHRD_H__
-#define __MGS_KOJO_DEMOTHRD_H__
+#ifndef __MGS_KOJO_DEMO_H__
+#define __MGS_KOJO_DEMO_H__
 
 #include <sys/types.h>
 #include <libgte.h>
@@ -570,4 +570,4 @@ typedef struct DMO_DATA_0x36
 int DM_ThreadStream(int flag, int unused);
 int DM_ThreadFile(int flag, char *filename);
 
-#endif // __MGS_KOJO_DEMOTHRD_H__
+#endif // __MGS_KOJO_DEMO_H__

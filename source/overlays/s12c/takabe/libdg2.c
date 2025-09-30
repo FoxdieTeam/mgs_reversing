@@ -478,16 +478,16 @@ void FogSortChanl_800D4E98(DG_CHANL *chanl, int idx)
     gte_strgb_s0(*(void **)0x1F800018);
 }
 
-static inline void copy_bounding_box_to_spad(DG_Bounds *bounds)
+static inline void copy_bounding_box_to_spad(DG_BOUND *bounds)
 {
-    DG_Bounds *bounding_box = (DG_Bounds *)SCRPAD_ADDR;
-    bounding_box->max.vx = bounds->max.vx;
-    bounding_box->max.vy = bounds->max.vy;
-    bounding_box->max.vz = bounds->max.vz;
-
+    DG_BOUND *bounding_box = (DG_BOUND *)SCRPAD_ADDR;
     bounding_box->min.vx = bounds->min.vx;
     bounding_box->min.vy = bounds->min.vy;
     bounding_box->min.vz = bounds->min.vz;
+
+    bounding_box->max.vx = bounds->max.vx;
+    bounding_box->max.vy = bounds->max.vy;
+    bounding_box->max.vz = bounds->max.vz;
 }
 
 static inline void set_svec_from_bounding_box(int i, SVECTOR *svec)
@@ -508,7 +508,7 @@ void DG_BoundObjs_800D5010(DG_OBJS *objs, int idx, unsigned int flag, int in_bou
     SVECTOR   *svec;
     DG_VECTOR *vec3_1;
     DG_VECTOR *vec3_2;
-    DG_Bounds *mdl_bounds;
+    DG_BOUND  *mdl_bounds;
 
     n_models = objs->n_models;
     obj = (DG_OBJ *)&objs->objs;
@@ -525,7 +525,7 @@ void DG_BoundObjs_800D5010(DG_OBJS *objs, int idx, unsigned int flag, int in_bou
                 gte_SetTransMatrix(&obj->screen);
 
                 svec = (SVECTOR *)(SCRPAD_ADDR + 0x18);
-                mdl_bounds = (DG_Bounds *)&obj->model->min;
+                mdl_bounds = (DG_BOUND *)&obj->model->min;
                 copy_bounding_box_to_spad(mdl_bounds);
                 vec3_1 = (DG_VECTOR *)(SCRPAD_ADDR + 0x30);
                 vec3_2 = (DG_VECTOR *)(SCRPAD_ADDR + 0x60);
@@ -722,7 +722,7 @@ void FogBoundChanl_800D5500(DG_CHANL *chanl, int idx)
     SVECTOR     *svec;
     DG_VECTOR   *vec3_1;
     DG_VECTOR   *vec3_2;
-    DG_Bounds   *mdl_bounds;
+    DG_BOUND    *mdl_bounds;
     int          n_bounding_box_vec;
     unsigned int flag;
     short       *scrpad;
@@ -756,7 +756,7 @@ void FogBoundChanl_800D5500(DG_CHANL *chanl, int idx)
                     gte_SetTransMatrix(&current_objs->objs->screen);
 
                     svec = (SVECTOR *)(SCRPAD_ADDR + 0x18);
-                    mdl_bounds = (DG_Bounds *)&current_objs->def->max;
+                    mdl_bounds = (DG_BOUND *)&current_objs->def->min;
                     copy_bounding_box_to_spad(mdl_bounds);
                     vec3_1 = (DG_VECTOR *)(SCRPAD_ADDR + 0x30);
                     vec3_2 = (DG_VECTOR *)(SCRPAD_ADDR + 0x60);

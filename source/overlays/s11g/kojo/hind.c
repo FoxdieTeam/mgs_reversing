@@ -747,9 +747,9 @@ void *NewHind_800D1224(int scriptData, int scriptBinds)
     work->field_4B4 = work->field_41C * 4096 / 1800;
     work->field_4B8 = work->field_420 * 4096 / 1800;
 
-    work->field_514 = max(work->field_9C.objs->def->min.vx - work->field_9C.objs->def->max.vx,
-                          work->field_9C.objs->def->min.vy - work->field_9C.objs->def->max.vy);
-    work->field_514 = max(work->field_514, work->field_9C.objs->def->min.vz - work->field_9C.objs->def->max.vz);
+    work->field_514 = max(work->field_9C.objs->def->max.vx - work->field_9C.objs->def->min.vx,
+                          work->field_9C.objs->def->max.vy - work->field_9C.objs->def->min.vy);
+    work->field_514 = max(work->field_514, work->field_9C.objs->def->max.vz - work->field_9C.objs->def->min.vz);
 
     work->field_514 = 33200 - work->field_514 / 3;
 

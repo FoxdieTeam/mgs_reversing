@@ -352,7 +352,7 @@ int s01a_doll_800DC1AC(DollWork *work, int name, int map)
     indices.vz  = 12;
     indices.pad = 15;
 
-    work->shadow = NewShadow_800602CC(control, body, indices);
+    work->shadow = NewShadow(control, body, indices);
     if (work->shadow == NULL)
     {
         return -1;

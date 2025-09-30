@@ -6,7 +6,7 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 
-#include "overlays/_shared/takabe/ripple.h" // for NewRipple_800D7F30
+#include "overlays/_shared/takabe/ripple.h" // for NewRipple
 
 typedef struct RSurfaceElem
 {
@@ -61,7 +61,7 @@ void RippleSurfaceAct_800D7FC4(RSurfaceWork *work)
             mat.t[1] = work->field_84;
             mat.t[2] = field_4->vz;
 
-            NewRipple_800D7F30(&mat, work->field_86);
+            NewRipple(&mat, work->field_86);
 
             elem->field_2 = 30;
         }

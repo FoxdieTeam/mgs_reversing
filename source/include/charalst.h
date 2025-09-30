@@ -86,7 +86,7 @@
 #define CHARA_ENV_SOUND         { 0x3f9a, NewEnvSnd_800DF424 }      // takabe/env_snd.c
 #define CHARA_PLAY_DEMO         { 0x3f9d, ? }                       // nobu/vr_demo/playdemo.c (PC-ONLY)
 #define CHARA_10A_DEMO          { 0x40e9, ? }                       // okajima/10a_demo.c
-#define CHARA_BREATH            { 0x4170, NewBreath_800C3A1C }      // GV_StrCode("スネーク息") chara/snake/breath.c
+#define CHARA_BREATH            { 0x4170, NewBreath }               // GV_StrCode("スネーク息") chara/snake/breath.c
 #define CHARA_WAKE              { 0x41a3, NewWake_800C6298 }        // chara/wake/wake.c
 #define CHARA_LIFT              { 0x425f, NewLift_800DE25C }        // GV_StrCode("リフト") takabe/lift.c
 #define CHARA_HIYOKO            { 0x42e4, NewHiyoko_800D018C }      // okajima/hiyoko.c
@@ -124,7 +124,7 @@
 #define CHARA_GROUND_CAMERA     { 0x5f5a, ? }                       // thing/grd_cam.c (PC-ONLY)
 #define CHARA_RASEN             { 0x5fd9, NewRasen2_800CB008 }      // takabe/rasen.c
 #define CHARA_SCN_BOMB          { 0x600d, ? }                       // okajima/scn_bomb.c (PC-ONLY)
-#define CHARA_RIPPLES           { 0x63aa, NewRipples_800D872C }     // takabe/ripples.c
+#define CHARA_RIPPLES           { 0x63aa, NewRipples }              // takabe/ripples.c
 #define CHARA_POCKET_6414       { 0x6414, ? }                       // --> menu/pocket.c
 #define CHARA_BTN_CHK           { 0x6471, ? }                       // takabe/btn_chk.c
 #define CHARA_SNWARP            { 0x672e, ? }                       // GV_StrCode("スネークワープ") enemy/snwarp.c
@@ -135,7 +135,7 @@
 #define CHARA_DSMOKE            { 0x6a98, ? }                       // chara/rope/dsmoke.c (PC-ONLY)
 #define CHARA_B_SMOKE           { 0x6b6c, ? }                       // animal/liquid/b_smoke.c
 #define CHARA_DOG               { 0x6c0e, NewDog_800D33C8 }         // okajima/dog/dog.c
-#define CHARA_VIB_EDIT          { 0x6c66, NewVibEdit_800C47B4 }     // takabe/vib_edit.c
+#define CHARA_VIB_EDIT          { 0x6c66, NewVibrationEditor }      // takabe/vib_edit.c
 #define CHARA_PREOPE            { 0x6d1b, NewPreviousOperation }    // onoda/preope/preope.c
 #define CHARA_MONITOR1          { 0x6d78, ? }                       // GV_StrCode("モニタ１") takabe/monitor1.c
 #define CHARA_CAMERA            { 0x6e90, NewCamera_800D67F8 }      // GV_StrCode("カメラ") enemy/camera.c
@@ -236,7 +236,7 @@
 #define CHARA_CLUTER            { 0xb95f, ? }                       // koba/vr/cluter.c (PC-ONLY)
 #define CHARA_M_DOOR            { 0xb98c, ? }                       // enemy/m_door.c
 #define CHARA_CAPE              { 0xb99f, NewCape_800D92F8 }        // onoda/s04b/cape.c
-#define CHARA_SHAKE_MODEL       { 0xba52, NewShakemdl_800C54E8 }    // takabe/shakemdl.c
+#define CHARA_SHAKE_MODEL       { 0xba52, NewShakeModelGCL }        // takabe/shakemdl.c
 #define CHARA_BG_SP_ST          { 0xbc76, ? }                       // okajima/photo/bg_sp_st.c (PC-ONLY)
 #define CHARA_ROPE              { 0xbda8, s11d_rope_800C9500 }      // --> chara/rope/rope.c
 #define CHARA_DEATH_SP          { 0xbe79, NewDeathSp_800D025C }     // okajima/death_sp.c
@@ -428,7 +428,7 @@ void *NewMotionSoundEffect();           /* chara/others/motse.c         */
 void *s11d_dsmoke2_800CCD54();          /* chara/rope/dsmoke2.c         */
 void *s11d_landing_800CDA20();          /* chara/rope/landing.c         */
 void *NewPipe_800CE73C();               /* chara/rope/pipe.c            */
-void *NewBreath_800C3A1C();             /* chara/snake/breath.c         */
+void *NewBreath();                      /* chara/snake/breath.c         */
 void *NewSnake();                       /* chara/snake/sna_init.c       */
 void *NewBed_800C70DC();                /* chara/torture/bed.c          */
 void *NewBoxall_800CA088();             /* chara/torture/boxall.c       */
@@ -570,11 +570,11 @@ void *NewPanel_800D2680();              /* takabe/panel.c               */
 void *NewPutObject_800E25C0();          /* takabe/put_obj.c             */
 void *NewRasen2_800CB008();             /* takabe/rasen.c               */
 void *NewRasenEl_800CCF38();            /* takabe/rasen_el.c            */
-void *NewRipples_800D872C();            /* takabe/ripples.c             */
+void *NewRipples();                     /* takabe/ripples.c             */
 void *NewRippleSurface_800D8244();      /* takabe/rsurface.c            */
 void *NewSepia_800C4F9C();              /* takabe/sepia.c               */
 void *NewSepia_800C5214();              /* takabe/sepia.c               */
-void *NewShakemdl_800C54E8();           /* takabe/shakemdl.c            */
+void *NewShakeModelGCL();               /* takabe/shakemdl.c            */
 void *NewShuter_800DFB44();             /* takabe/shuter.c              */
 void *NewSpark2_800CA714();             /* takabe/spark2.c              */
 void *NewSubEfct_800CCB10();            /* takabe/sub_efct.c            */
@@ -583,7 +583,7 @@ void *NewTelopSet_800DDB34();           /* takabe/telop.c               */
 void *NewTelop_800DDD7C();              /* takabe/telop.c               */
 void *NewTexScroll();                   /* takabe/tex_scrl.c            */
 void *NewTruckTrap();                   /* takabe/tracktrp.c            */
-void *NewVibEdit_800C47B4();            /* takabe/vib_edit.c            */
+void *NewVibrationEditor();             /* takabe/vib_edit.c            */
 void *NewVoicesys_800CE944();           /* takabe/voicesys.c            */
 void *NewWindcrcl_800CF6BC();           /* takabe/windcrcl.c            */
 void *NewWsurface_800DB9BC();           /* takabe/wsurface.c            */

@@ -1492,7 +1492,7 @@ int RevolverGetResources_800C8FD4(RevolverWork *work, int arg1, int arg2)
     indices.vz = 13;
     indices.pad = 16;
 
-    work->shadow = NewShadow_800602CC(control, object, indices);
+    work->shadow = NewShadow(control, object, indices);
     if (work->shadow == NULL)
     {
         return -1;
