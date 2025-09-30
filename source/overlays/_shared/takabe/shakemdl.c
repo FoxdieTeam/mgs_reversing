@@ -52,61 +52,64 @@ static int RestoreVerts( Work *work );
 
 static void Act( Work *work )
 {
-    GV_MSG *msg;
-    int     count;
-    short  *scrpad;
-    int     temp_v0;
-    short  *var_s0;
-    short  *var_s1;
-    int     i;
-
+    short *scrpad;
     //OPERATOR();
 
-    /* メッセージチェック */
+    {/* メッセージチェック */
+        GV_MSG *msg;
+        int     len;
 
-    count = GV_ReceiveMessage(work->name, &msg);
+        len = GV_ReceiveMessage(work->name, &msg);
 
-    for (; count > 0; count--, msg++)
-    {
-        switch (msg->message[0])
+        for (; len > 0; len--, msg++)
         {
-        case HASH_KILL:
-            GV_DestroyActor(&work->actor);
-            return;
+            switch (msg->message[0])
+            {
+            case HASH_KILL:
+                GV_DestroyActor(&work->actor);
+                return;
 
-        case 0xD368:
-            work->trg_scale = msg->message[1];
-            work->change_speed = msg->message[2];
-            work->active_flag = TRUE;
-            break;
+            case 0xD368:
+                work->trg_scale = msg->message[1];
+                work->change_speed = msg->message[2];
+                work->active_flag = TRUE;
+                break;
 
-        case 0x9873:
-            work->active_flag = FALSE;
-            break;
+            case 0x9873:
+                work->active_flag = FALSE;
+                break;
+            }
         }
     }
 
     scrpad = (short *)SCRPAD_ADDR;
 
-    if (work->active_flag)
     {
-        work->scale = GV_NearSpeed(work->scale, work->trg_scale, work->change_speed);
-        temp_v0 = work->scale;
+        int     scale;
+        short  *rots;
+        short  *speeds;
+        int     i;
 
-        var_s0 = work->rots;
-        var_s1 = work->speeds;
-
-        for (i = ROT_GROUP; i > 0; i--)
+        if (work->active_flag)
         {
-            *scrpad++ = (rsin(*var_s0) * temp_v0) >> 12;
-            *var_s0++ += *var_s1++;
-        }
+            work->scale = GV_NearSpeed(work->scale, work->trg_scale, work->change_speed);
 
-        MoveVerts(work, (short *)SCRPAD_ADDR);
+            scale = work->scale;
+            rots = work->rots;
+            speeds = work->speeds;
 
-        if ((work->scale == 0) && (work->trg_scale == 0))
-        {
-            work->active_flag = FALSE;
+            for (i = ROT_GROUP; i > 0; i--)
+            {
+                *scrpad++ = (rsin(*rots) * scale) >> 12;
+                *rots++ += *speeds++;
+            }
+
+            MoveVerts(work, (short *)SCRPAD_ADDR);
+
+            if ((work->scale == 0) && (work->trg_scale == 0))
+            {
+                work->active_flag = FALSE;
+            }
         }
     }
 }
@@ -209,22 +212,22 @@ void *NewShakeModel( int model, int axis, int scale )
 static int AllocVertsMemory( Work *work )
 {
     DG_DEF  *def;
-    DG_MDL  *object;
-    int      nvertices;
-    int      nobjects;
+    DG_MDL  *mdl;
+    int      n_verts;
+    int      n_models;
     short   *vertices;
     SVECTOR *src;
 
     def = work->def;
-    object = def->model;
-    nvertices = 0;
+    mdl = def->model;
+    n_verts = 0;
 
-    for (nobjects = def->n_models; nobjects > 0; object++, nobjects--)
+    for (n_models = def->n_models; n_models > 0; mdl++, n_models--)
     {
-        nvertices += object->n_verts;
+        n_verts += mdl->n_verts;
     }
 
-    vertices = GV_Malloc(nvertices * 2);
+    vertices = GV_Malloc(n_verts * 2);
     work->points = vertices;
 
     if (!vertices)
@@ -232,13 +235,13 @@ static int AllocVertsMemory( Work *work )
         return -1;
     }
 
-    object = def->model;
+    mdl = def->model;
 
-    for (nobjects = def->n_models; nobjects > 0; object++, nobjects--)
+    for (n_models = def->n_models; n_models > 0; mdl++, n_models--)
     {
-        src = (SVECTOR *)((short *)object->vertices + work->move_axis);
+        src = (SVECTOR *)((short *)mdl->vertices + work->move_axis);
 
-        for (nvertices = object->n_verts; nvertices > 0; nvertices--)
+        for (n_verts = mdl->n_verts; n_verts > 0; n_verts--)
         {
             *vertices++ = src->vx;
             src++;
@@ -250,24 +253,24 @@ static int AllocVertsMemory( Work *work )
 
 static int MoveVerts( Work *work, short *scrpad )
 {
-    DG_MDL  *object;
+    DG_MDL  *mdl;
     short   *src;
     int      index;
-    int      nobjects;
+    int      n_models;
     SVECTOR *vertex;
-    int      nvertices;
+    int      n_verts;
     int      ret;
 
-    object = work->def->model;
+    mdl = work->def->model;
     src = work->points;
     index = 0;
     ret = 0;
 
-    for (nobjects = work->def->n_models; nobjects > 0; nobjects--, object++)
+    for (n_models = work->def->n_models; n_models > 0; n_models--, mdl++)
     {
-        vertex = (SVECTOR *)((short *)object->vertices + work->move_axis);
+        vertex = (SVECTOR *)((short *)mdl->vertices + work->move_axis);
 
-        for (nvertices = object->n_verts; nvertices > 0; nvertices--)
+        for (n_verts = mdl->n_verts; n_verts > 0; n_verts--)
         {
             vertex->vx = *src++ + scrpad[index];
             index = (index + 1) & 0xF;
@@ -280,20 +283,20 @@ static int MoveVerts( Work *work, short *scrpad )
 
 static int RestoreVerts( Work *work )
 {
-    DG_MDL  *object;
+    DG_MDL  *mdl;
     short   *src;
-    int      nobjects;
+    int      n_models;
     SVECTOR *vertex;
-    int      nvertices;
+    int      n_verts;
 
-    object = work->def->model;
+    mdl = work->def->model;
     src = work->points;
 
-    for (nobjects = work->def->n_models; nobjects > 0; nobjects--, object++)
+    for (n_models = work->def->n_models; n_models > 0; n_models--, mdl++)
     {
-        vertex = (SVECTOR *)((short *)object->vertices + work->move_axis);
+        vertex = (SVECTOR *)((short *)mdl->vertices + work->move_axis);
 
-        for (nvertices = object->n_verts; nvertices > 0; nvertices--)
+        for (n_verts = mdl->n_verts; n_verts > 0; n_verts--)
         {
             vertex->vx = *src++;
             vertex++;
