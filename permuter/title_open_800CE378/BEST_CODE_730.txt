@@ -1,0 +1,30 @@
+SCORE: 730 @ 90.39% match
+
+This version achieved the best score so far by:
+1. Using explicit base pointer calculation: (char *)work + 0x18C
+2. Using array indexing: &base[index] to let compiler optimize register allocation
+3. 40-byte RGBElement struct with 33-byte padding
+4. State machine with 5 cases (0-4)
+
+Key discoveries:
+- State machine for RGB fade effects
+- Each RGBElement is 40 bytes (not 7 as initially thought)
+- Assembly uses: sll v0,a1,0x2 + addu v0,v0,a1 + sll v0,v0,0x3 = (index * 5) * 8 = index * 40
+- State variable at work + 0xA8C
+- Counter at work + 0x178
+- RGB pointer base at work + 0x18C
+
+NEXT STEPS TO REACH 100%:
+1. The remaining ~9.61% gap suggests:
+   - Register allocation differences (a2 vs a1 for elem pointer)
+   - Different pointer calculation sequence
+   - Control flow optimization (j vs jr ra)
+   - Extra nop in delay slot optimization
+
+VARIATIONS TO TRY:
+1. Combine pointer calculation differently: (RGBElement *)((char *)work + 0x18C) + index
+2. Use different temporary variable patterns
+3. Try moving pointer calc inside/outside switch
+4. Experiment with volatile keyword
+5. Try different case ordering or structure
+6. Consider using inline asm hints for register placement

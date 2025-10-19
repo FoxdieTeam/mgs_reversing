@@ -18,6 +18,8 @@ from capstone.mips import *
 def clipboard(data):
     if os.name == 'nt':
         subprocess.run(['clip'], input=data.encode())
+    elif platform.system() == 'Darwin':
+        subprocess.run(['pbcopy'], input=data.encode())
     else:
         subprocess.run(['xclip', '-selection', 'clipboard'], input=data.encode())
 

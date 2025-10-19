@@ -1,0 +1,13 @@
+--- before
++++ after
+@@ -31,9 +31,9 @@
+         title_open_800C4AD0(work, 0, 0);
+         break;
+ 
++      break;
+       case 1:
+         title_open_800C4AD0(work, 1, 0x6739);
+-        break;
+ 
+       case 2:
+         title_open_800C4AD0(work, 2, 0);

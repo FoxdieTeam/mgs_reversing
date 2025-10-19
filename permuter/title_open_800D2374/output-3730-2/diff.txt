@@ -1,0 +1,22 @@
+--- before
++++ after
+@@ -9,11 +9,8 @@
+   }
+ 
+   {
+-    if (work->f24BC != 0)
++    if (work->f24BC == 0)
+     {
+-      work = (OpenWork *) work->f24B4;
+-      return;
+-    }
+     if (work->f24EC != 0)
+     {
+       switch (work->f24AC)
+@@ -61,5 +58,6 @@
+     }
+   }
+ }
++}
+ 
+ 

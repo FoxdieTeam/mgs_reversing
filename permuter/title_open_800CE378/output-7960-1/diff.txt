@@ -1,0 +1,69 @@
+--- before
++++ after
+@@ -16,6 +16,7 @@
+ } RGBElement;
+ void title_open_800CE378(OpenWork *work, int index)
+ {
++  OpenWork *new_var;
+   RGBElement *base = (RGBElement *) (((char *) work) + 0x18C);
+   RGBElement *elem = &base[index];
+   int temp;
+@@ -24,44 +25,45 @@
+     case 0:
+       if (work->f178 >= 0x80)
+     {
+-      work->fA8C = 1;
+-      work->f178 = 0;
++      (new_var = work)->fA8C = 1;
++      new_var->f178 = 0;
+     }
+       break;
+ 
+     case 1:
+-      temp = work->f178;
++      temp = new_var->f178;
+       elem->r = temp;
+       elem->g = temp;
+       elem->b = temp;
+       if (temp >= 0x80)
+     {
+-      work->fA8C = 2;
++      new_var->fA8C = 2;
+     }
+       break;
+ 
+     case 2:
+-      temp = work->f178;
+-      temp = (temp * 4) + 0x80;
++      temp = new_var->f178;
++      temp = (temp * 4) - -0x80;
+       elem->r = temp;
+       elem->g = temp;
+       elem->b = temp;
+-      if (work->f178 >= 0x1F)
++      if (new_var->f178 >= 0x1F)
+     {
+-      work->fA8C = 3;
++      new_var->fA8C = 3;
+     }
+       break;
+ 
+     case 3:
+-      temp = work->f178;
+-      temp = 0xFF - ((temp * 4) / 3);
++      temp = new_var->f178;
++      temp = 3;
++      temp = 0xFF - ((temp * 4) / temp);
+       elem->r = temp;
+       elem->g = temp;
+       elem->b = temp;
+-      if (work->f178 >= 0x60)
++      if (new_var->f178 >= 0x60)
+     {
+-      work->fA8C = 4;
+-      work->f178 = 0;
++      new_var->fA8C = 4;
++      new_var->f178 = 0;
+       elem->r = 0x80;
+       elem->g = 0x80;
+       elem->b = 0x80;

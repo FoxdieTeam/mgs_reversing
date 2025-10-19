@@ -1,0 +1,45 @@
+--- before
++++ after
+@@ -11,34 +11,34 @@
+ 
+   if (work->f24BC != 0)
+   {
+-    work = (OpenWork *) work->f24B4;
++    ;
++    title_open_800C4AD0((OpenWork *) work->f24B4, 1, 0x6739);
+     return;
+   }
+-  if (work->f24EC != 0)
++  if (((OpenWork *) work->f24B4)->f24EC != 0)
+   {
+-    switch (work->f24AC)
++    switch (((OpenWork *) work->f24B4)->f24AC)
+     {
+       case 0:
+-        title_open_800C4AD0(work, 0, 0);
++        title_open_800C4AD0((OpenWork *) work->f24B4, 0, 0);
+         break;
+ 
+       case 1:
+-        title_open_800C4AD0(work, 1, 0x6739);
+         break;
+ 
+       case 2:
+-        title_open_800C4AD0(work, 2, 0);
++        title_open_800C4AD0((OpenWork *) work->f24B4, 2, 0);
+         break;
+ 
+       case 3:
+-        title_open_800C4AD0(work, 3, 0);
++        title_open_800C4AD0((OpenWork *) work->f24B4, 3, 0);
+         break;
+ 
+       case 4:
+         return;
+ 
+       case 5:
+-        title_open_800C4AD0(work, 5, 0x6739);
++        title_open_800C4AD0((OpenWork *) work->f24B4, 5, 0x6739);
+         break;
+ 
+       case 6:

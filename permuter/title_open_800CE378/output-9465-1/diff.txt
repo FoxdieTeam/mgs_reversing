@@ -1,0 +1,30 @@
+--- before
++++ after
+@@ -16,6 +16,7 @@
+ } RGBElement;
+ void title_open_800CE378(OpenWork *work, int index)
+ {
++  long new_var;
+   RGBElement *base = (RGBElement *) (((char *) work) + 0x18C);
+   RGBElement *elem = &base[index];
+   int temp;
+@@ -29,8 +30,9 @@
+     }
+       break;
+ 
++    new_var = work->f178;
+     case 1:
+-      temp = work->f178;
++      temp = new_var;
+       elem->r = temp;
+       elem->g = temp;
+       elem->b = temp;
+@@ -58,7 +60,7 @@
+       elem->r = temp;
+       elem->g = temp;
+       elem->b = temp;
+-      if (work->f178 >= 0x60)
++      if (new_var >= 0x60)
+     {
+       work->fA8C = 4;
+       work->f178 = 0;
