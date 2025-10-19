@@ -1,0 +1,52 @@
+--- before
++++ after
+@@ -19,41 +19,41 @@
+   RGBElement *base = (RGBElement *) (((char *) work) + 0x18C);
+   RGBElement *elem = &base[index];
+   int temp;
+-  switch (work->fA8C)
++  switch ((base = work)->fA8C)
+   {
+     case 0:
+       if (work->f178 >= 0x80)
+     {
+       work->fA8C = 1;
+-      work->f178 = 0;
++      base->f178 = 0;
+     }
+       break;
+ 
+     case 1:
+-      temp = work->f178;
++      temp = base->f178;
+       elem->r = temp;
+       elem->g = temp;
+       elem->b = temp;
+       if (temp >= 0x80)
+     {
+-      work->fA8C = 2;
++      base->fA8C = 2;
+     }
+       break;
+ 
+     case 2:
+-      temp = work->f178;
++      temp = base->f178;
+       temp = (temp * 4) + 0x80;
+-      elem->r = temp;
++      elem->r = (unsigned int) temp;
+       elem->g = temp;
+       elem->b = temp;
+-      if (work->f178 >= 0x1F)
++      if (base->f178 >= 0x1F)
+     {
+       work->fA8C = 3;
+     }
+       break;
+ 
+     case 3:
+-      temp = work->f178;
++      temp = base->f178;
+       temp = 0xFF - ((temp * 4) / 3);
+       elem->r = temp;
+       elem->g = temp;
