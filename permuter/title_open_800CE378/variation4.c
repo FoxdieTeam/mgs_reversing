@@ -10,7 +10,7 @@ typedef struct {
     unsigned char r;
     unsigned char g;
     unsigned char b;
-    char padding_end[33];
+    char padding_end[33];  // 40 byte total
 } RGBElement;
 
 void title_open_800CE378(OpenWork *work, int index)
@@ -35,7 +35,7 @@ void title_open_800CE378(OpenWork *work, int index)
             elem->r = shade;
             elem->g = shade;
             elem->b = shade;
-            if (work->f178 >= 0x80)
+            if (shade >= 0x80)
             {
                 work->fA8C = 2;
             }

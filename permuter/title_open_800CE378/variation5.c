@@ -35,6 +35,7 @@ void title_open_800CE378(OpenWork *work, int index)
             elem->r = shade;
             elem->g = shade;
             elem->b = shade;
+            // KEY CHANGE: Re-read work->f178 instead of using shade
             if (work->f178 >= 0x80)
             {
                 work->fA8C = 2;
@@ -46,6 +47,7 @@ void title_open_800CE378(OpenWork *work, int index)
             elem->r = shade;
             elem->g = shade;
             elem->b = shade;
+            // KEY CHANGE: Re-read work->f178 instead of using shade
             if (work->f178 >= 0x1F)
             {
                 work->fA8C = 3;

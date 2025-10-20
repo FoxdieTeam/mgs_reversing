@@ -38,6 +38,7 @@ void title_open_800CE378(OpenWork *work, int index)
             if (work->f178 >= 0x80)
             {
                 work->fA8C = 2;
+                goto exit;
             }
             break;
         case 2:
@@ -49,6 +50,7 @@ void title_open_800CE378(OpenWork *work, int index)
             if (work->f178 >= 0x1F)
             {
                 work->fA8C = 3;
+                goto exit;
             }
             break;
         case 3:
@@ -69,4 +71,6 @@ void title_open_800CE378(OpenWork *work, int index)
         case 4:
             break;
     }
+exit:
+    return;
 }
