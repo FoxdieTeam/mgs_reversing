@@ -8,6 +8,7 @@
 #include "game/game.h"
 #include "takabe/thing.h"
 #include "bullet/bakudan.h"
+#include "linkvar.h"
 
 typedef struct DummyWallWork
 {
@@ -79,7 +80,7 @@ void DummyWallAct_800D6E64(DummyWallWork *work)
     {
         target->damaged &= ~TARGET_POWER;
         if (work->field_168 != 0 ||
-            (target->a_mode == 2 && (target->field_44 == 6 || target->field_44 == 4) && target->field_26_hp < -128))
+            (target->a_mode == 2 && (target->weapon == WP_C4 || target->weapon == WP_Stinger) && target->life < -128))
         {
             work->field_164 = 1;
             if (work->field_168 == 0)
@@ -112,13 +113,13 @@ void DummyWallAct_800D6E64(DummyWallWork *work)
                 GCL_ExecProc(work->field_188, NULL);
             }
         }
-        target->field_26_hp = 0;
+        target->life = 0;
     }
 
     svec2 = &work->field_15C;
     GM_MoveTarget(target, svec2);
 
-    target->field_26_hp = 0;
+    target->life = 0;
     target->damaged &= ~TARGET_PUSH;
 
     DG_SetPos2(&work->field_14C, &work->field_154);

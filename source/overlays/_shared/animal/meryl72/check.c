@@ -64,10 +64,10 @@ int s07c_meryl72_unk1_800C7D1C( Meryl72Work *work )
         switch ( target->a_mode )
         {
         case 3:
-            target->field_2C_vec = DG_ZeroVector;
-            target->field_26_hp -= GM_SnakeMaxHealth / 48;
+            target->scale = DG_ZeroVector;
+            target->life -= GM_SnakeMaxHealth / 48;
 
-            if ( ( target->field_2A <= 0 ) || ( ( target->field_26_hp << 16 ) <= 0 ) )
+            if ( ( target->faint <= 0 ) || ( ( target->life << 16 ) <= 0 ) )
             {
                 work->f8BC.field_14 = 1;
                 SetMode( work, s07c_meryl72_unk1_800CA538 ) ;
@@ -80,12 +80,12 @@ int s07c_meryl72_unk1_800C7D1C( Meryl72Work *work )
             break;
         case 4:
             work->f8BC.field_14 = 0;
-            target->field_26_hp -= GM_SnakeMaxHealth / 32;
+            target->life -= GM_SnakeMaxHealth / 32;
             SetMode( work, s07c_meryl72_unk1_800CA538 ) ;
             break;
         case 1:
-            target->field_2C_vec = DG_ZeroVector;
-            if ( target->field_26_hp <= 0 )
+            target->scale = DG_ZeroVector;
+            if ( target->life <= 0 )
             {
                 work->f8BC.field_14 = 1;
                 SetMode( work, s07c_meryl72_unk1_800CA538 ) ;
@@ -100,10 +100,10 @@ int s07c_meryl72_unk1_800C7D1C( Meryl72Work *work )
             SetMode( work, s07c_meryl72_unk1_800CA538 ) ;
         }
 
-        target->field_28 = 0;
+        target->life_lost = 0;
         target->damaged = 0;
 
-        if ( target->field_26_hp <= 0 && !GM_GameOverTimer && GM_SnakeCurrentHealth > 0 )
+        if ( target->life <= 0 && !GM_GameOverTimer && GM_SnakeCurrentHealth > 0 )
         {
             ExecProc_800C7C58( work, 1 ) ;
             GM_GameOver();

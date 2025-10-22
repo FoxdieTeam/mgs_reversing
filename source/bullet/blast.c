@@ -10,6 +10,7 @@
 #include "anime/animconv/anime.h"
 #include "game/game.h"
 #include "sd/g_sound.h"
+#include "linkvar.h"
 #include "strcode.h"
 
 /*---------------------------------------------------------------------------*/
@@ -31,14 +32,14 @@ typedef struct _Work
 /*---------------------------------------------------------------------------*/
 
 BLAST_DATA blast_data_8009F4B8[8] = {
-    { 0x100, 5, 0x3E8, 0x7D0,  2 },
-    { 0x100, 5, 0x3E8, 0x7D0,  6 },
-    { 0x100, 5, 0x3E8, 0x7D0,  5 },
-    { 0x100, 5, 0x3E8, 0x7D0,  4 },
-    { 0x100, 5, 0x3E8, 0x7D0,  3 },
-    { 0x100, 5, 0x3E8, 0x7D0, -1 },
-    { 0x400, 5, 0x3E8, 0x7D0, 10 },
-    {     0, 0,     1,     1, -1 }
+    { 0x100, 5, 0x3E8, 0x7D0, WP_Grenade },
+    { 0x100, 5, 0x3E8, 0x7D0, WP_C4 },
+    { 0x100, 5, 0x3E8, 0x7D0, WP_Claymore },
+    { 0x100, 5, 0x3E8, 0x7D0, WP_Stinger },
+    { 0x100, 5, 0x3E8, 0x7D0, WP_Nikita },
+    { 0x100, 5, 0x3E8, 0x7D0, WP_None },
+    { 0x400, 5, 0x3E8, 0x7D0, WP_Max },
+    {     0, 0,     1,     1, WP_None }
 };
 
 /*---------------------------------------------------------------------------*/
@@ -106,7 +107,7 @@ static void InitBlastTarget(BLAST_DATA *blast_data, Work *work, int side)
 
     GM_Target_8002DCCC(target, 7, 2, blast_data->field_0 >> 1, blast_data->field_4, svector_8009F558);
 
-    target->field_44 = blast_data->field_10;
+    target->weapon = blast_data->weapon;
 
     GM_MoveTarget(&work->target, &work->pos);
     GM_PowerTarget(target);
@@ -125,7 +126,7 @@ static void InitBlastTarget(BLAST_DATA *blast_data, Work *work, int side)
 
     GM_Target_8002DCCC(target, 7, 2, blast_data->field_0 >> 1, 3, svector_8009F558);
 
-    target->field_44 = blast_data->field_10;
+    target->weapon = blast_data->weapon;
 
     GM_MoveTarget(&work->target, &work->pos);
     GM_PowerTarget(target);

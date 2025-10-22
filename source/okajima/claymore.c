@@ -10,6 +10,7 @@
 #include "game/game.h"
 #include "anime/animconv/anime.h"
 #include "sd/g_sound.h"
+#include "linkvar.h"
 #include "spark.h"
 
 extern MAP *claymore_MAP_800bdf08;
@@ -311,7 +312,7 @@ STATIC void claymore_loader_80073930(ClaymoreWork *work)
     vec.vy = work->field_34.vy / 32;
     vec.vz = work->field_34.vz / 32;
     GM_Target_8002DCCC(pTarget, 0, 2, 256, 0, &vec);
-    pTarget->field_44 = 5;
+    pTarget->weapon = WP_Claymore;
 }
 
 STATIC const SVECTOR svector_80012EDC = {0, 0, 1500, 0};

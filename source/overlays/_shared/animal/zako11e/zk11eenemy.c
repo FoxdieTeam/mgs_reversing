@@ -349,7 +349,7 @@ void Zako11EPushMove_800D889C( ZakoWork *work )
         return;
     }
 
-    GV_AddVec3( &target->field_34_vec, &work->control.step, &work->control.step );
+    GV_AddVec3( &target->offset, &work->control.step, &work->control.step );
     target->damaged &= ~( 0x8 );
 
     if ( work->unknown.last_set - 1 >= 2u )
@@ -357,25 +357,25 @@ void Zako11EPushMove_800D889C( ZakoWork *work )
         return;
     }
 
-    if ( target->field_34_vec.pad )
+    if ( target->offset.pad )
     {
         if ( GV_Time & 256 )
         {
-            s1 = target->field_34_vec.pad * 1024;
+            s1 = target->offset.pad * 1024;
             if ( !( work->field_B74 & 1 ) )
             {
-                s1 = ( target->field_34_vec.pad + 2 ) * 1024;
+                s1 = ( target->offset.pad + 2 ) * 1024;
             }
         }
         else
         {
             if ( work->field_B74 & 1 )
             {
-                s1 = ( target->field_34_vec.pad + 2 ) * 1024;
+                s1 = ( target->offset.pad + 2 ) * 1024;
             }
             else
             {
-                s1 = target->field_34_vec.pad * 1024;
+                s1 = target->offset.pad * 1024;
             }
         }
         s1 &= 0xFFF;

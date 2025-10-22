@@ -7,6 +7,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "game.h"
+#include "linkvar.h"
 
 // Instead of dynamically allocating TARGETs,
 // the game uses the big TARGET array gTargets_800B64E0.
@@ -213,8 +214,8 @@ TARGET *GM_CaptureTarget(TARGET *target)
             iter->a_mode = target->a_mode;
             iter->field_18 = target->field_18;
             iter->field_1C = target->field_1C;
-            iter->field_2A -= target->field_2A;
-            iter->field_42 = 1;
+            iter->faint -= target->faint;
+            iter->captured = 1;
 
             target->damaged |= TARGET_CAPTURE;
 
@@ -276,7 +277,7 @@ int GM_TouchTarget(TARGET *target)
     iter = gTargets_800B64E0;
     i = gTargets_lastSlotUsed_800ABA68;
 
-    hp = target->field_26_hp;
+    hp = target->life;
 
     iter = gTargets_800B64E0;
     for (i = gTargets_lastSlotUsed_800ABA68; i > 0; iter++, i--)
@@ -296,9 +297,9 @@ int GM_TouchTarget(TARGET *target)
         // Touch if there is an intersection for the class
         if (GM_TargetIntersects(iter, target))
         {
-            oldhp = iter->field_26_hp;
-            iter->field_26_hp -= hp;
-            iter->field_28 += oldhp - iter->field_26_hp;
+            oldhp = iter->life;
+            iter->life -= hp;
+            iter->life_lost += oldhp - iter->life;
 
             iter->damaged |= TARGET_TOUCH;
             target->damaged |= TARGET_TOUCH;
@@ -309,9 +310,9 @@ int GM_TouchTarget(TARGET *target)
     return (target->damaged & TARGET_TOUCH) >> 7;
 }
 
-static inline int sub_helper_8002D7DC(int which, int a, int b)
+static inline int sub_helper_8002D7DC(int mode, int a, int b)
 {
-    switch (which & 0x3)
+    switch (mode & 0x3)
     {
     case 0:
         return 0;
@@ -340,13 +341,13 @@ int GM_PowerTarget(TARGET *target)
     SVECTOR dist;
     SVECTOR scaled;
     int     hp, hp2;
-    int     f24;
+    int     p_mode;
     TARGET *iter;
     int     i;
     int     hp_diff;
 
-    hp = target->field_26_hp;
-    f24 = target->field_24;
+    hp = target->life;
+    p_mode = target->p_mode;
 
     iter = gTargets_800B64E0;
     for (i = gTargets_lastSlotUsed_800ABA68; i > 0; iter++, i--)
@@ -368,24 +369,24 @@ int GM_PowerTarget(TARGET *target)
 
         iter->damaged |= TARGET_POWER;
 
-        hp2 = iter->field_26_hp;
-        iter->field_26_hp = sub_helper_8002D7DC(iter->field_24, hp2, hp);
-        hp = sub_helper_8002D7DC(f24, hp, hp2);
+        hp2 = iter->life;
+        iter->life = sub_helper_8002D7DC(iter->p_mode, hp2, hp);
+        hp = sub_helper_8002D7DC(p_mode, hp, hp2);
 
-        iter->field_28 += hp2 - iter->field_26_hp;
-        iter->field_2A -= target->field_2A;
+        iter->life_lost += hp2 - iter->life;
+        iter->faint -= target->faint;
         iter->a_mode = target->a_mode;
-        iter->field_44 = target->field_44;
+        iter->weapon = target->weapon;
 
-        if (f24 & 0x4)
+        if (p_mode & 0x4)
         {
             GV_SubVec3(&iter->center, &target->center, &dist);
-            SCALE_VXZ(&dist, target->field_2C_vec.vx, &scaled);
-            GV_AddVec3(&iter->field_2C_vec, &scaled, &iter->field_2C_vec);
+            SCALE_VXZ(&dist, target->scale.vx, &scaled);
+            GV_AddVec3(&iter->scale, &scaled, &iter->scale);
         }
         else
         {
-            GV_AddVec3(&iter->field_2C_vec, &target->field_2C_vec, &iter->field_2C_vec);
+            GV_AddVec3(&iter->scale, &target->scale, &iter->scale);
         }
 
         if (hp < 0)
@@ -394,8 +395,8 @@ int GM_PowerTarget(TARGET *target)
         }
     }
 
-    hp_diff = target->field_26_hp - hp;
-    target->field_26_hp = hp;
+    hp_diff = target->life - hp;
+    target->life = hp;
 
     if (hp_diff > 0)
     {
@@ -463,8 +464,8 @@ static inline int sub_helper_8002DA14(TARGET *target, TARGET *iter)
         if (abs(val) <= abs(val2))
         {
             val /= 2;
-            target->field_34_vec.vx += val;
-            iter->field_34_vec.vx -= val;
+            target->offset.vx += val;
+            iter->offset.vx -= val;
 
             if (val > 0)
             {
@@ -478,8 +479,8 @@ static inline int sub_helper_8002DA14(TARGET *target, TARGET *iter)
         else
         {
             val2 /= 2;
-            target->field_34_vec.vz += val2;
-            iter->field_34_vec.vz -= val2;
+            target->offset.vz += val2;
+            iter->offset.vz -= val2;
 
             if (val2 > 0)
             {
@@ -493,7 +494,7 @@ static inline int sub_helper_8002DA14(TARGET *target, TARGET *iter)
 
         if (iter->field_3C & 1)
         {
-            target->field_34_vec.pad = which;
+            target->offset.pad = which;
         }
     }
 
@@ -510,14 +511,14 @@ int GM_PushTarget(TARGET *target)
         return 0;
     }
 
-    target->field_34_vec = DG_ZeroVector;
-    target->field_34_vec.pad = 0;
+    target->offset = DG_ZeroVector;
+    target->offset.pad = 0;
 
     iter = gTargets_800B64E0;
 
     for (count = gTargets_lastSlotUsed_800ABA68; count > 0; iter++, count--)
     {
-        iter->field_40 = 0;
+        iter->push_side = NO_SIDE;
 
         if ((target == iter) || !(iter->class & TARGET_PUSH) || !GM_TargetIntersectsNoSide(iter, target))
         {
@@ -528,7 +529,7 @@ int GM_PushTarget(TARGET *target)
         {
             iter->damaged |= TARGET_PUSH;
             target->damaged |= TARGET_PUSH;
-            iter->field_40 = target->side;
+            iter->push_side = target->side;
         }
     }
 
@@ -546,28 +547,28 @@ void GM_SetTarget(TARGET *target, int class, int side, SVECTOR *size)
     target->field_3C = 0;
 }
 
-void GM_Target_8002DCB4(TARGET *target, int a2, int a3, int *a4, SVECTOR *a5)
+void GM_Target_8002DCB4(TARGET *target, int a_mode, int faint, int *a4, SVECTOR *a5)
 {
     target->field_18 = a4;
-    target->a_mode = a2;
-    target->field_2A = a3;
+    target->a_mode = a_mode;
+    target->faint = faint;
     target->field_1C = a5;
 }
 
-void GM_Target_8002DCCC(TARGET *target, int a2, int a3, int hp, int a5, SVECTOR *a6)
+void GM_Target_8002DCCC(TARGET *target, int p_mode, int a_mode, int life, int faint, SVECTOR *scale)
 {
-    target->field_24 = a2;
-    target->a_mode = a3;
-    target->field_26_hp = hp;
-    target->field_28 = 0;
-    target->field_2A = a5;
-    target->field_2C_vec = *a6;
-    target->field_44 = -1;
+    target->p_mode = p_mode;
+    target->a_mode = a_mode;
+    target->life = life;
+    target->life_lost = 0;
+    target->faint = faint;
+    target->scale = *scale;
+    target->weapon = WP_None;
 }
 
-void sub_8002DD14(TARGET *target, MATRIX *pMatrix)
+void GM_TargetBody(TARGET *target, MATRIX *body)
 {
-    target->field_20 = pMatrix;
+    target->body = body;
 }
 
 void sub_8002DD1C(SVECTOR *svec1, SVECTOR *svec2, TARGET *target)

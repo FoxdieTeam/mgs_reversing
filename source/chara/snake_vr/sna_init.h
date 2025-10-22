@@ -332,7 +332,7 @@ void         CheckSnakeDead_8004E384(SnaInitWork *snake);
 void         sna_sub_8004E41C(SnaInitWork *snake, unsigned short flags);
 int          sub_8004E458(short param_1, int param_2);
 int          sub_8004E4C0(SnaInitWork *work, int param_2);
-int          sub_8004E51C(SVECTOR *param_1, void *param_2, int param_3, int param_4);
+int          sna_line_check(SVECTOR *line, HZD_HDL *hzd, int flag, int exclude);
 void         sub_8004E588(HZD_HDL *param_1, SVECTOR *param_2, int *levels);
 int          sub_8004E930(SnaInitWork *snake, int arg1);
 void         sub_8004E9D0(SnaInitWork *work);

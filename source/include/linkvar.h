@@ -204,6 +204,7 @@ enum // GM_Weapons[]
     WP_StunGrenade      = 7,
     WP_ChaffGrenade     = 8,
     WP_Rifle            = 9,
+    WP_Max              = 10,
 };
 #define GM_TotalWeapons 10
 
