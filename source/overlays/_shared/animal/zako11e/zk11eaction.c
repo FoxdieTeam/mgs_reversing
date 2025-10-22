@@ -524,7 +524,7 @@ void s11e_zk11ecom_800D57A0( ZakoWork* work, int time )
             }
             else if ( ctrl->mov.vy - ctrl->levels[0] > 3000 )
             {
-                work->target->field_26_hp = 0;
+                work->target->life = 0;
                 GM_SeSet( &ctrl->mov, 0x8E ) ;
             }
         }
@@ -549,7 +549,7 @@ void s11e_zk11ecom_800D57A0( ZakoWork* work, int time )
             GM_SetNoise( 0x64, 4, &work->control.mov ) ;
             ZAKO11E_PutBlood_800D7A14( work, 6, 1 ) ;
 
-            if ( work->target->field_26_hp <= 0 )
+            if ( work->target->life <= 0 )
             {
                 SetZakoMode( work, s11e_zk11ecom_800D6BD8 );
             }
@@ -602,25 +602,25 @@ void s11e_zk11ecom_800D5B04( ZakoWork *work, int time )
 
     if ( time == 0 )
     {
-        work->field_B5A = target->field_2A;
+        work->field_B5A = target->faint;
         GM_SeSet( &work->control.mov, 0x8F );
     }
 
-    if ( work->field_B5A != target->field_2A )
+    if ( work->field_B5A != target->faint )
     {
         GM_SeSet( &work->control.mov, 0x8F );
-        work->field_B5A = target->field_2A;
+        work->field_B5A = target->faint;
     }
 
     if ( target->damaged & TARGET_POWER )
     {
         ZAKO11E_PutBlood_800D7A14( work, 5, 0 );
         GM_SeSet( &work->control.mov, 0x8F );
-        target->field_2C_vec = DG_ZeroVector;
-        target->field_28 = 0;
+        target->scale = DG_ZeroVector;
+        target->life_lost = 0;
         target->damaged = TARGET_STALE;
 
-        if ( target->field_26_hp <= 0 )
+        if ( target->life <= 0 )
         {
             v1 = target->a_mode;
             if ( v1 == 1 )
@@ -630,7 +630,7 @@ void s11e_zk11ecom_800D5B04( ZakoWork *work, int time )
             work->unknown.field_14 = 5;
             target->side = ENEMY_SIDE;
             SetZakoMode( work, s11e_zk11ecom_800D649C );
-            target->field_42 = 0;
+            target->captured = 0;
         }
     }
     switch ( GM_PlayerAction )
@@ -644,7 +644,7 @@ void s11e_zk11ecom_800D5B04( ZakoWork *work, int time )
             work->field_B5C = 0;
         }
 
-        if ( work->field_B5C == 0x32 && target->field_2A > 0 )
+        if ( work->field_B5C == 0x32 && target->faint > 0 )
         {
             SetAction( work, ACTION48, ACTINTERP );
         }
@@ -670,7 +670,7 @@ void s11e_zk11ecom_800D5B04( ZakoWork *work, int time )
     case 0x27:
         work->unknown.field_14 = 4;
         target->side = ENEMY_SIDE;
-        target->field_26_hp = 0;
+        target->life = 0;
         SetZakoMode( work, s11e_zk11ecom_800D649C );
         return;
     default:
@@ -682,7 +682,7 @@ void s11e_zk11ecom_800D5B04( ZakoWork *work, int time )
 
     if ( work->sn_dis > 800 )
     {
-        target->field_42 = 0;
+        target->captured = 0;
     }
 
     work->target->class |= ( TARGET_SEEK | TARGET_POWER) ;
@@ -715,7 +715,7 @@ void s11e_zk11ecom_800D5EEC( ZakoWork *work, int time )
     if ( time == 0 )
     {
         SetAction( work, ACTION32, ACTINTERP ) ;
-        work->target->field_2A = 0;
+        work->target->faint = 0;
     }
 
     if ( CheckDamage_800D46A0( work ) )
@@ -797,9 +797,9 @@ void s11e_zk11ecom_800D603C( ZakoWork *work, int time )
     {
         if ( work->field_B5A < time )
         {
-            if ( work->target->field_2A <= 0 )
+            if ( work->target->faint <= 0 )
             {
-                work->target->field_2A = work->param_faint;
+                work->target->faint = work->param_faint;
             }
             SetZakoMode( work, s11e_zk11ecom_800D627C );
         }
@@ -867,7 +867,7 @@ void s11e_zk11ecom_800D627C( ZakoWork* work, int time )
 
     if ( work->body.is_end )
     {
-        work->local_data = work->target->field_26_hp;
+        work->local_data = work->target->life;
         SetZakoMode( work, ActStandStill_800D4C2C );
     }
 }
@@ -924,7 +924,7 @@ void s11e_zk11ecom_800D649C( ZakoWork *work, int time )
     unk = &work->unknown;
     work->unknown.field_1E = 0;
     work->act_status |= 0x8;
-    work->control.step = work->target->field_2C_vec;
+    work->control.step = work->target->scale;
 
 
     ctrl = &work->control;
@@ -941,7 +941,7 @@ void s11e_zk11ecom_800D649C( ZakoWork *work, int time )
             break;
         case 1:
             SetAction( work, ACTION37, ACTINTERP );
-            if ( work->target->field_26_hp <= 0 )
+            if ( work->target->life <= 0 )
             {
                 if ( GM_CurrentWeaponId == WP_Rifle )
                 {
@@ -983,7 +983,7 @@ void s11e_zk11ecom_800D649C( ZakoWork *work, int time )
         break;
         }
 
-            if ( work->target->field_26_hp <= 0  && work->field_C48 >= 0 )
+            if ( work->target->life <= 0  && work->field_C48 >= 0 )
             {
                 args.argc = 3;
                 args.argv = data;
@@ -1064,7 +1064,7 @@ void s11e_zk11ecom_800D649C( ZakoWork *work, int time )
         {
             if (ctrl->mov.vy - ctrl->levels[0] > 3000)
             {
-                work->target->field_26_hp = 0;
+                work->target->life = 0;
                 SetZakoMode( work, s11e_zk11ecom_800D69F8 );
                 return;
             }
@@ -1074,8 +1074,8 @@ void s11e_zk11ecom_800D649C( ZakoWork *work, int time )
     if ( work->body.is_end )
     {
         work->unknown.field_1E = 1;
-        work->target->field_2C_vec = DG_ZeroVector;
-        if ( work->target->field_26_hp <= 0 )
+        work->target->scale = DG_ZeroVector;
+        if ( work->target->life <= 0 )
         {
             SetZakoMode( work, s11e_zk11ecom_800D6BD8 );
         }
@@ -1094,7 +1094,7 @@ void s11e_zk11ecom_800D69F8( ZakoWork* work, int time )
     work->unknown.field_1E = 0;
     work->act_status |= 0x8;
 
-    ctrl->step = work->target->field_2C_vec;
+    ctrl->step = work->target->scale;
 
     if ( time == 0 && work->unknown.field_14 != 2 )
     {
@@ -1130,7 +1130,7 @@ void s11e_zk11ecom_800D69F8( ZakoWork* work, int time )
     else if ( ctrl->level_flag )
     {
         work->unknown.field_1E = 1;
-        work->target->field_2C_vec = DG_ZeroVector;
+        work->target->scale = DG_ZeroVector;
         GM_SeSet( &ctrl->mov, SE_HIT_FLOOR );
         ZAKO11E_PutBlood_800D7A14( work, 6, 1 );
         SetZakoMode( work, s11e_zk11ecom_800D6BD8 );

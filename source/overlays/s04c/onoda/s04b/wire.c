@@ -280,13 +280,13 @@ void s04c_wire_800D2E7C(WireWork *work)
 
     if (work->f203C->damaged & 0x8)
     {
-        x = work->f203C->field_34_vec.vx;
+        x = work->f203C->offset.vx;
         if (x != 0)
         {
             work->f20BC.vx += (x / abs(x)) * 150;
         }
 
-        z = work->f203C->field_34_vec.vz;
+        z = work->f203C->offset.vz;
         if (z != 0)
         {
             work->f20BC.vz += (z / abs(z)) * 150;

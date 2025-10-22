@@ -300,7 +300,7 @@ void s07a_meryl7_800D5780( WatcherWork *work )
     GM_Target_8002DCCC( target, 1, -1, life, faint, &ENEMY_TARGET_FORCE_800C35AC );
     GM_Target_8002DCB4( target, -1, faint, NULL, NULL);
 
-    sub_8002DD14( target, &( work->body.objs->objs[1].world ) );
+    GM_TargetBody( target, &( work->body.objs->objs[1].world ) );
 
     target2 = &work->field_904;
     GM_SetTarget( target2, TARGET_POWER, PLAYER_SIDE, &ENEMY_ATTACK_SIZE_800C35B4 );

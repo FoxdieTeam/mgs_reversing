@@ -80,7 +80,7 @@ static void Act(BakudanWork *work)
         work->map_index = target->map;
 
         // if the target is not alive, destroy the actor
-        if (!target->field_20)
+        if (!target->body)
         {
             GV_DestroyActor(&work->actor);
             return;

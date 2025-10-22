@@ -292,7 +292,7 @@ void CrowAct_800DDD08(CrowWork *work)
                     GM_ConfigControlHazard(&entry->control, 50, 50, 50);
                     work->f28--;
 
-                    entry->f39C = entry->target->field_2C_vec;
+                    entry->f39C = entry->target->scale;
                     entry->f39C.vx = GV_RandS(64);
                     entry->f39C.vy = GV_RandU(32) + 32;
                     entry->f39C.vz = GV_RandU(64);

@@ -47,12 +47,12 @@ void Monitor1Act_800DC8BC(Monitor1Work *work)
     work->flag2 = 0;
     DG_GetLightMatrix(&control->mov, light);
 
-    if ((target->damaged & TARGET_POWER) && target->field_26_hp != 255 && work->bound == 0)
+    if ((target->damaged & TARGET_POWER) && target->life != 255 && work->bound == 0)
     {
         work->flag = 1;
         work->bound = 1;
 
-        target->field_26_hp = 255;
+        target->life = 255;
         target->damaged &= ~TARGET_POWER;
 
         GM_SeSet(&control->mov, SE_ELECTRIC_PANEL);
