@@ -824,7 +824,7 @@ void s07c_meryl72_unk1_800C9B30( Meryl72Work* work, int time )
     if ( time == 0 )
     {
         work->fC08 = 1;
-        work->fAEA = target->field_2A;
+        work->fAEA = target->faint;
         work->fAEC = 0;
         if ( !work->stage )
         {
@@ -836,7 +836,7 @@ void s07c_meryl72_unk1_800C9B30( Meryl72Work* work, int time )
         }
     }
 
-    if ( work->fAEA != target->field_2A )
+    if ( work->fAEA != target->faint )
     {
         if ( !work->stage )
         {
@@ -846,7 +846,7 @@ void s07c_meryl72_unk1_800C9B30( Meryl72Work* work, int time )
         {
             GM_SeSet( &work->control.mov, 0xC4 );
         }
-        work->fAEA = target->field_2A;
+        work->fAEA = target->faint;
     }
 
     if ( target->damaged & TARGET_POWER )
@@ -860,11 +860,11 @@ void s07c_meryl72_unk1_800C9B30( Meryl72Work* work, int time )
         {
             GM_SeSet( &work->control.mov, 0xC2);
         }
-        target->field_2C_vec = DG_ZeroVector;
-        target->field_28 = 0;
+        target->scale = DG_ZeroVector;
+        target->life_lost = 0;
         target->damaged = TARGET_STALE;
 
-        if ( target->field_26_hp <= 0 )
+        if ( target->life <= 0 )
         {
             work->f8BC.field_14 = 6;
             target->side = ENEMY_SIDE;
@@ -875,7 +875,7 @@ void s07c_meryl72_unk1_800C9B30( Meryl72Work* work, int time )
                 GM_GameOverTimer = -2;
             }
             SetMode( work, s07c_meryl72_unk1_800CA538 );
-            target->field_42 = 0;
+            target->captured = 0;
         }
     }
 
@@ -890,7 +890,7 @@ void s07c_meryl72_unk1_800C9B30( Meryl72Work* work, int time )
             work->fAEC = 0;
         }
 
-        if ( work->fAEC == 0x32 && target->field_2A > 0 )
+        if ( work->fAEC == 0x32 && target->faint > 0 )
         {
             SetAction( work, ACTION30, ACTINTERP );
         }
@@ -916,7 +916,7 @@ void s07c_meryl72_unk1_800C9B30( Meryl72Work* work, int time )
     case 0x27:
         work->f8BC.field_14 = 5;
         target->side = ENEMY_SIDE;
-        target->field_26_hp = 0;
+        target->life = 0;
         if ( !GM_GameOverTimer && GM_SnakeCurrentHealth > 0 )
         {
             ExecProc_800C7C58( work, 1 ) ;
@@ -934,7 +934,7 @@ void s07c_meryl72_unk1_800C9B30( Meryl72Work* work, int time )
 
     if ( work->sn_dis > 800 )
     {
-        target->field_42 = 0 ;
+        target->captured = 0 ;
     }
 
     work->target->class |= ( TARGET_SEEK | TARGET_POWER ) ;
@@ -967,7 +967,7 @@ void s07c_meryl72_unk1_800C9F98( Meryl72Work *work, int time )
     {
         work->fC08 = 1 ;
         SetAction( work, ACTION37, ACTINTERP ) ;
-        work->target->field_2A = 0;
+        work->target->faint = 0;
         if ( GM_StreamStatus() != -1 )
         {
             GM_StreamPlayStop();
@@ -1031,9 +1031,9 @@ void s07c_meryl72_unk1_800CA0EC( Meryl72Work *work, int time )
             SetAction( work, ACTION46, ACTINTERP );
         }
 
-        if ( work->target->field_2A <= 0 )
+        if ( work->target->faint <= 0 )
         {
-            work->target->field_2A = 7 ;
+            work->target->faint = 7 ;
             svec.vx = work->body.objs->objs[6].world.t[0];
             svec.vy = work->body.objs->objs[6].world.t[1];
             svec.vz = work->body.objs->objs[6].world.t[2];
@@ -1054,9 +1054,9 @@ void s07c_meryl72_unk1_800CA0EC( Meryl72Work *work, int time )
 
     if ( work->fAEA < time )
     {
-        if ( work->target->field_2A <= 0 )
+        if ( work->target->faint <= 0 )
         {
-            work->target->field_2A = work->param.faint;
+            work->target->faint = work->param.faint;
         }
         SetMode( work, s07c_meryl72_unk1_800CA314 );
         return;
@@ -1179,7 +1179,7 @@ void s07c_meryl72_unk1_800CA538( Meryl72Work *work, int time )
     s2 = 0xF;
     unk = (UNK*)&work->f8BC;
     work->f8BC.field_1C = 0;
-    work->control.step = work->target->field_2C_vec;
+    work->control.step = work->target->scale;
     ctrl = &work->control;
 
 
@@ -1206,7 +1206,7 @@ void s07c_meryl72_unk1_800CA538( Meryl72Work *work, int time )
             break;
         case 1:
             SetAction( work, ACTION43, ACTINTERP );
-            if ( work->target->field_26_hp <= 0 )
+            if ( work->target->life <= 0 )
             {
                 if ( !work->stage )
                 {
@@ -1300,7 +1300,7 @@ void s07c_meryl72_unk1_800CA538( Meryl72Work *work, int time )
         }
     }
 
-    if ( time == 2 && work->target->field_26_hp <= 0 )
+    if ( time == 2 && work->target->life <= 0 )
     {
         GM_GameStatus |= STATE_PADRELEASE;
         if ( GM_StreamStatus() == -1 )
@@ -1345,8 +1345,8 @@ void s07c_meryl72_unk1_800CA538( Meryl72Work *work, int time )
     if ( work->body.is_end )
     {
         work->f8BC.field_1C = 1;
-        work->target->field_2C_vec = DG_ZeroVector;
-        if ( work->target->field_26_hp <= 0 )
+        work->target->scale = DG_ZeroVector;
+        if ( work->target->life <= 0 )
         {
             SetMode( work, s07c_meryl72_unk1_800CAA48 );
         }

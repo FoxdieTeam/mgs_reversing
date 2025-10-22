@@ -293,7 +293,7 @@ void s07c_meryl72_unk1_800CBCD8(Meryl72Work *work)
         return;
     }
 
-    GV_AddVec3(&target->field_34_vec, &work->control.step, &work->control.step);
+    GV_AddVec3(&target->offset, &work->control.step, &work->control.step);
     target->damaged &= ~TARGET_PUSH;
 
     f18 = work->f8BC.field_18;
@@ -302,23 +302,23 @@ void s07c_meryl72_unk1_800CBCD8(Meryl72Work *work)
         return;
     }
 
-    if (target->field_34_vec.pad != 0)
+    if (target->offset.pad != 0)
     {
         if (GV_Time & 256)
         {
-            ang = target->field_34_vec.pad * 1024;
+            ang = target->offset.pad * 1024;
             if (!(work->param.fAF8 & 0x1))
             {
-                ang = (target->field_34_vec.pad + 2) * 1024;
+                ang = (target->offset.pad + 2) * 1024;
             }
         }
         else if (work->param.fAF8 & 1)
         {
-            ang = (target->field_34_vec.pad + 2) * 1024;
+            ang = (target->offset.pad + 2) * 1024;
         }
         else
         {
-            ang = target->field_34_vec.pad * 1024;
+            ang = target->offset.pad * 1024;
         }
 
         ang &= 0xFFF;

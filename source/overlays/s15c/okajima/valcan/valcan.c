@@ -544,7 +544,7 @@ void Valcan_800D990C(ValcanWork *work)
     if (now < 0)
     {
         now = 0;
-        work->field_664->field_26_hp = 0;
+        work->field_664->life = 0;
         work->field_900 = 0;
     }
 

@@ -72,19 +72,19 @@ void s04c_at_800D71A4(AtWork *work)
                 break;
 
             case 2:
-                target->field_26_hp = 0;
+                target->life = 0;
                 break;
 
             case 3:
-                target->field_26_hp -= 10;
+                target->life -= 10;
                 break;
 
             case 4:
-                target->field_26_hp -= 20;
+                target->life -= 20;
                 break;
             }
 
-            hp = target->field_26_hp;
+            hp = target->life;
             if (hp < 0)
             {
                 hp = 0;
@@ -120,7 +120,7 @@ void AtAct_800D7324(AtWork *work)
     GM_ActObject2(&work->body);
 
     s04c_at_800D71A4(work);
-    work->target->field_28 = 0;
+    work->target->life_lost = 0;
 
     switch (work->f728)
     {
@@ -276,7 +276,7 @@ int AtGetResources_800D75BC(AtWork *work, int name, int map)
     work->f730 = 0;
     work->f72C = 0;
 
-    work->target->field_26_hp = work->f738;
+    work->target->life = work->f738;
 
     if (GCL_GetOption('u'))
     {

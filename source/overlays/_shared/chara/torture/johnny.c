@@ -811,9 +811,9 @@ void Johnny_800C50D0(JohnnyWork *work)
 void Johnny_800C5124(TARGET *target)
 {
     target->a_mode = 0;
-    target->field_28 = 0;
+    target->life_lost = 0;
     target->damaged &= ~(TARGET_TOUCH | TARGET_POWER | TARGET_CAPTURE);
-    target->field_2C_vec = DG_ZeroVector;
+    target->scale = DG_ZeroVector;
 }
 
 void Johnny_800C8400(JohnnyWork *work, int action);
@@ -857,7 +857,7 @@ void s03c_johnny_800C5168(JohnnyWork *work)
 
                 AN_Fog(&work->control.mov);
 
-                if (target->field_2A <= 0)
+                if (target->faint <= 0)
                 {
                     work->unkB38 = Johnny_800C9144;
                     work->unkB4E = 0;
@@ -877,7 +877,7 @@ void s03c_johnny_800C5168(JohnnyWork *work)
 
                 AN_Fog(&work->control.mov);
 
-                if (target->field_2A <= 0)
+                if (target->faint <= 0)
                 {
                     work->unkB38 = Johnny_800C9144;
                     work->unkB4E = 0;
@@ -899,7 +899,7 @@ void s03c_johnny_800C5168(JohnnyWork *work)
             }
             else
             {
-                work->unkB30 = target->field_2C_vec;
+                work->unkB30 = target->scale;
 
                 work->unkB38 = Johnny_800C854C;
                 work->unkB4E = 0;
@@ -2567,7 +2567,7 @@ void Johnny_800C8400(JohnnyWork *work, int action)
     {
         work->unkB1C &= ~0x200;
 
-        if (work->target->field_26_hp <= 0)
+        if (work->target->life <= 0)
         {
             work->unkB38 = Johnny_800C9144;
             work->unkB4E = 0;
@@ -2609,7 +2609,7 @@ void Johnny_800C854C(JohnnyWork *work, int action)
     {
         work->unkB1C |= 0x200;
         SetAction(work, 20);
-        work->target->field_26_hp--;
+        work->target->life--;
     }
 
     if (action < 12)
@@ -2620,7 +2620,7 @@ void Johnny_800C854C(JohnnyWork *work, int action)
     if (work->object.is_end != 0)
     {
         work->unkB50 = 1;
-        if (work->target->field_26_hp > 0)
+        if (work->target->life > 0)
         {
             work->unkB38 = Johnny_800C873C;
         }
@@ -2649,7 +2649,7 @@ void Johnny_800C8654(JohnnyWork *work, int action)
     {
         SetAction(work, 19);
         work->control.turn.vy = GM_PlayerControl->turn.vy + 2048;
-        work->target->field_26_hp--;
+        work->target->life--;
     }
     if (action == 20)
     {
@@ -2659,7 +2659,7 @@ void Johnny_800C8654(JohnnyWork *work, int action)
     if (work->object.is_end != 0)
     {
         work->unkB50 = 2;
-        if (work->target->field_26_hp > 0)
+        if (work->target->life > 0)
         {
             work->unkB38 = Johnny_800C873C;
         }
@@ -2687,10 +2687,10 @@ void Johnny_800C873C(JohnnyWork *work, int action)
 
     if (work->unkB24 & 8)
     {
-        work->target->field_2A = 0;
+        work->target->faint = 0;
     }
 
-    if (work->target->field_2A <= 0)
+    if (work->target->faint <= 0)
     {
         if (work->unkB4E == 0)
         {
@@ -2846,8 +2846,8 @@ void Johnny_800C8B14(JohnnyWork *work, int action)
     }
     if (s03c_johnny_800C8A2C(work, 7) == 0 && (work->unkB24 & 8))
     {
-        work->target->field_42 = 0;
-        work->target->field_2A = 0;
+        work->target->captured = 0;
+        work->target->faint = 0;
         GM_SeSet(&work->control.mov, 0x8E);
         work->unkB38 = Johnny_800C8C34;
         work->unkB4E = 0;
@@ -2905,7 +2905,7 @@ void Johnny_800C8D58(JohnnyWork *work, int action)
         GM_SeSet(&work->control.mov, 0x8E);
         GM_SeSet(&work->control.mov, 0x90);
         SetAction(work, 29);
-        work->target->field_26_hp -= 255;
+        work->target->life -= 255;
         GM_TotalEnemiesKilled++;
     }
     if (action > 48 && action < 60)
@@ -2967,8 +2967,8 @@ void Johnny_800C8E84(JohnnyWork *work, int action)
 
         if (work->unkB24 & 8)
         {
-            work->target->field_42 = 0;
-            work->target->field_2A = 0;
+            work->target->captured = 0;
+            work->target->faint = 0;
 
             GM_SeSet(&control->mov, 0x8E);
 

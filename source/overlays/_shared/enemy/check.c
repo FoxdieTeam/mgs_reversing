@@ -71,8 +71,8 @@ int s00a_command_800C5194( WatcherWork *work ) {
     switch ( val )
     {
     case 2:
-        target->field_2C_vec = DG_ZeroVector;
-        if ( target->field_2A <= 0 )
+        target->scale = DG_ZeroVector;
+        if ( target->faint <= 0 )
         {
             work->unknown.field_14 = 1;
             SetMode( work, s00a_command_800C78E0 ) ;
@@ -87,8 +87,8 @@ int s00a_command_800C5194( WatcherWork *work ) {
         SetMode( work, s00a_command_800C78E0 ) ;
         break;
     case 0:
-        target->field_2C_vec = DG_ZeroVector;
-        if ( target->field_26_hp <= 0 )
+        target->scale = DG_ZeroVector;
+        if ( target->life <= 0 )
         {
             work->unknown.field_14 = 1;
             SetMode( work, s00a_command_800C78E0 ) ;
@@ -99,7 +99,7 @@ int s00a_command_800C5194( WatcherWork *work ) {
         }
         break;
     case 1:
-        if ( s00a_command_800C5158( &target->field_2C_vec ) < 100 )
+        if ( s00a_command_800C5158( &target->scale ) < 100 )
         {
             work->unknown.field_14 = 3;
         }
@@ -118,7 +118,7 @@ int s00a_command_800C5194( WatcherWork *work ) {
         break;
     }
 
-    target->field_28 = 0;
+    target->life_lost = 0;
     target->damaged = 0;
     return 1;
 }
@@ -139,11 +139,11 @@ int s00a_command_800C5370( WatcherWork * work )
 
         if ( TOPCOMMAND_800E0F20.mode == TOP_COMM_TRAVEL )
         {
-            work->target->field_2A = 0;
+            work->target->faint = 0;
         }
         else
         {
-            work->target->field_2A -= 5;
+            work->target->faint -= 5;
         }
 
         return 1;
@@ -177,7 +177,7 @@ void InitTarget_800C5484( WatcherWork *work )
     GM_Target_8002DCCC( target, 1, -1, life, faint, &ENEMY_TARGET_FORCE_800C35AC );
     GM_Target_8002DCB4( target, -1, faint, NULL, NULL);
 
-    sub_8002DD14( target, &( work->body.objs->objs[1].world ) );
+    GM_TargetBody( target, &( work->body.objs->objs[1].world ) );
 
     target2 = &work->field_904;
     GM_SetTarget( target2, TARGET_POWER, PLAYER_SIDE, &ENEMY_ATTACK_SIZE_800C35B4 );
@@ -249,7 +249,7 @@ void s00a_command_800C55B0( WatcherWork* work )
 
     work->field_BA4 = COM_NO_POINT_800C35D4;
     work->field_BA2 = 0;
-    sub_8002DD14( work->target, &( work->body.objs->objs[1].world ) );
+    GM_TargetBody( work->target, &( work->body.objs->objs[1].world ) );
 
     reset_num = work->field_B81;
     if ( reset_num != 0xFF )

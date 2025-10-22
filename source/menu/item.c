@@ -1054,7 +1054,7 @@ void UpdateEnvironmentalEffects_8003C4EC(void)
                 blastData.field_4 = 5;
                 blastData.field_8_z = 1024;
                 blastData.field_C = 2000;
-                blastData.field_10 = 10;
+                blastData.weapon = WP_Max;
 
                 GM_CurrentMap = GM_PlayerMap;
 
