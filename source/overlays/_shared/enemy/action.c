@@ -666,7 +666,7 @@ void s00a_command_800C6BCC( WatcherWork* work, int time )
             //if they fall from a height?
             else if ( ctrl->mov.vy - ctrl->levels[0] > 3000 )
             {
-                work->target->field_26_hp = 0;
+                work->target->life = 0;
                 GM_SeSetMode( &ctrl->mov, 0x8E, GM_SEMODE_BOMB ) ;
             }
         }
@@ -690,7 +690,7 @@ void s00a_command_800C6BCC( WatcherWork* work, int time )
             GM_SetNoise( 0x64, 4, &work->control.mov ) ;
             ENE_PutBlood_800C8FF8( work, 6, 1 ) ;
 
-            if ( work->target->field_26_hp <= 0 )
+            if ( work->target->life <= 0 )
             {
                 SetMode( work, s00a_command_800C8054 );
             }
@@ -746,25 +746,25 @@ void s00a_command_800C6FA8( WatcherWork* work, int time )
 
     if ( time == 0 )
     {
-        work->field_B5A = target->field_2A;
+        work->field_B5A = target->faint;
         GM_SeSet( &work->control.mov, 0x8F );
     }
 
-    if ( work->field_B5A != target->field_2A )
+    if ( work->field_B5A != target->faint )
     {
         GM_SeSet( &work->control.mov, 0x8F );
-        work->field_B5A = target->field_2A;
+        work->field_B5A = target->faint;
     }
 
     if ( target->damaged & TARGET_POWER )
     {
         ENE_PutBlood_800C8FF8( work, 5, 0 );
         GM_SeSet( &work->control.mov, 0x8F );
-        target->field_2C_vec = DG_ZeroVector;
-        target->field_28 = 0;
+        target->scale = DG_ZeroVector;
+        target->life_lost = 0;
         target->damaged = TARGET_STALE;
 
-        if ( target->field_26_hp <= 0 )
+        if ( target->life <= 0 )
         {
             v1 = target->a_mode;
             if ( v1 == 1 )
@@ -774,7 +774,7 @@ void s00a_command_800C6FA8( WatcherWork* work, int time )
             work->unknown.field_14 = 5;
             target->side = ENEMY_SIDE;
             SetMode( work, s00a_command_800C78E0 );
-            target->field_42 = 0;
+            target->captured = 0;
         }
     }
     switch ( GM_PlayerAction )
@@ -788,7 +788,7 @@ void s00a_command_800C6FA8( WatcherWork* work, int time )
             work->field_B5C = 0;
         }
 
-        if ( work->field_B5C == 0x32 && target->field_2A > 0 )
+        if ( work->field_B5C == 0x32 && target->faint > 0 )
         {
             SetAction( work, ACTION48, ACTINTERP );
         }
@@ -813,7 +813,7 @@ void s00a_command_800C6FA8( WatcherWork* work, int time )
     case 0x27:
         work->unknown.field_14 = 4;
         target->side = ENEMY_SIDE;
-        target->field_26_hp = 0;
+        target->life = 0;
         SetMode( work, s00a_command_800C78E0 );
         return;
     default:
@@ -831,11 +831,11 @@ void s00a_command_800C6FA8( WatcherWork* work, int time )
 
     if ( work->sn_dis > 800 || a0 > 500  )
     {
-        target->field_42 = 0;
+        target->captured = 0;
     }
     if ( !( work->control.map->index & GM_PlayerMap ) )
     {
-        target->field_42 = 0;
+        target->captured = 0;
     }
     work->target->class |= ( TARGET_SEEK | TARGET_POWER) ;
     work->vision.facedir = work->control.rot.vy;
@@ -916,7 +916,7 @@ void s00a_command_800C7498( WatcherWork* work, int time )
             SetAction( work, ACTION40, ACTINTERP );
         }
 
-        if ( work->target->field_2A <= 0 )
+        if ( work->target->faint <= 0 )
         {
             x = work->control.mov.vx % 60;
             work->field_B5A = abs(x) + 90;
@@ -939,9 +939,9 @@ void s00a_command_800C7498( WatcherWork* work, int time )
     }
     else if ( work->field_B5A < time )
     {
-        if ( work->target->field_2A <= 0 )
+        if ( work->target->faint <= 0 )
         {
-            work->target->field_2A = work->param_faint;
+            work->target->faint = work->param_faint;
         }
 
         SetMode( work, s00a_command_800C76C4 );
@@ -1039,7 +1039,7 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
     unk = &work->unknown;
     work->unknown.field_1E = 0;
     work->act_status |= 0x8;
-    work->control.step = work->target->field_2C_vec;
+    work->control.step = work->target->scale;
 
 
     ctrl = &work->control;
@@ -1056,7 +1056,7 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
             break;
         case 1:
             SetAction( work, ACTION37, ACTINTERP );
-            if ( work->target->field_26_hp <= 0 )
+            if ( work->target->life <= 0 )
             {
                 if ( GM_CurrentWeaponId == WP_Rifle )
                 {
@@ -1171,7 +1171,7 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
         {
             if (ctrl->mov.vy - ctrl->levels[0] > 3000)
             {
-                work->target->field_26_hp = 0;
+                work->target->life = 0;
                 SetMode( work, s00a_command_800C7E28 );
                 return;
             }
@@ -1181,8 +1181,8 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
     if ( work->body.is_end )
     {
         work->unknown.field_1E = 1;
-        work->target->field_2C_vec = DG_ZeroVector;
-        if ( work->target->field_26_hp <= 0 )
+        work->target->scale = DG_ZeroVector;
+        if ( work->target->life <= 0 )
         {
             SetMode( work, s00a_command_800C8054 );
         }
@@ -1213,7 +1213,7 @@ void s00a_command_800C7E28( WatcherWork* work, int time )
 
     if ( work->unknown.last_set < 39 )
     {
-        ctrl->step = work->target->field_2C_vec;
+        ctrl->step = work->target->scale;
         if ( work->body.is_end )
         {
             if ( work->unknown.field_14 < 3 )
@@ -1237,13 +1237,13 @@ void s00a_command_800C7E28( WatcherWork* work, int time )
     {
         if ( !ctrl->touch_flag )
         {
-            ctrl->step = work->target->field_2C_vec;
+            ctrl->step = work->target->scale;
         }
 
         if ( ctrl->level_flag )
         {
             work->unknown.field_1E = 1;
-            work->target->field_2C_vec = DG_ZeroVector;
+            work->target->scale = DG_ZeroVector;
             GM_SeSetMode( &ctrl->mov, SE_HIT_FLOOR, GM_SEMODE_BOMB );
             ENE_PutBlood_800C8FF8( work, 6, 1 );
             SetMode( work, s00a_command_800C8054 );
@@ -1276,7 +1276,7 @@ void s00a_command_800C8054( WatcherWork *work, int time )
         GM_ConfigControlAttribute( &work->control, 0 );
         work->alert_level = 0;
         work->sn_dis = 30000;
-        sub_8002DD14( work->target, NULL );
+        GM_TargetBody( work->target, NULL );
     }
 
     if ( time == 4 && TOPCOMMAND_800E0F20.mode == 0 )

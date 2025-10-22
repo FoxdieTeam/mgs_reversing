@@ -201,7 +201,7 @@ void s12a_wolf2_800D37A8(Wolf2Work *work)
     {
         if ((target->damaged & TARGET_POWER) && target->a_mode != 2)
         {
-            work->f7A4 -= work->f65C->field_28 / 4;
+            work->f7A4 -= work->f65C->life_lost / 4;
 
             s12a_wolf2_800D375C(work);
             work->f6B0 = 0;
@@ -254,11 +254,11 @@ void s12a_wolf2_800D37A8(Wolf2Work *work)
 
             if (target->a_mode == 2)
             {
-                work->f7A4 -= work->f65C->field_28 / 4;
+                work->f7A4 -= work->f65C->life_lost / 4;
             }
             else
             {
-                work->f7A4 -= work->f660->field_28 / 8;
+                work->f7A4 -= work->f660->life_lost / 8;
             }
 
             s12a_wolf2_800D375C(work);
@@ -303,13 +303,13 @@ void s12a_wolf2_800D37A8(Wolf2Work *work)
     }
 
     work->f65C->damaged &= ~TARGET_POWER;
-    work->f65C->field_28 = 0;
-    work->f65C->field_26_hp = 1024;
+    work->f65C->life_lost = 0;
+    work->f65C->life = 1024;
     work->f65C->a_mode = 0;
 
     work->f660->damaged &= ~TARGET_POWER;
-    work->f660->field_28 = 0;
-    work->f660->field_26_hp = 1024;
+    work->f660->life_lost = 0;
+    work->f660->life = 1024;
     work->f660->a_mode = 0;
 
     if (work->f6AC == 1 && GM_StreamStatus() == 2)

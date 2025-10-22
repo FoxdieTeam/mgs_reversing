@@ -126,7 +126,7 @@ void s13a_smktrgt_800DBD60(SmktrgtWork *work, int index)
                 {
                     sp38 = DG_ZeroVector;
 
-                    target2->field_26_hp = 32;
+                    target2->life = 32;
                     GM_MoveTarget(target2, &work->fA24[index]);
                     GM_PowerTarget(target2);
 
@@ -192,11 +192,11 @@ void s13a_smktrgt_800DBD60(SmktrgtWork *work, int index)
             }
             else
             {
-                target2->field_26_hp = 32;
+                target2->life = 32;
                 GM_MoveTarget(target2, &work->fB64[index]);
                 GM_PowerTarget(target2);
 
-                target1->field_26_hp = 32;
+                target1->life = 32;
                 GM_MoveTarget(target1, &work->fBE4[index]);
                 GM_PowerTarget(target1);
 

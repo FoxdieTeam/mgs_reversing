@@ -66,8 +66,8 @@ int s11e_zk11ecom_800D4440( ZakoWork *work ) {
     switch ( val )
     {
     case 2:
-        target->field_2C_vec = DG_ZeroVector;
-        if ( target->field_2A <= 0 )
+        target->scale = DG_ZeroVector;
+        if ( target->faint <= 0 )
         {
             work->unknown.field_14 = 1;
             SetZakoMode( work, s11e_zk11ecom_800D649C ) ;
@@ -82,8 +82,8 @@ int s11e_zk11ecom_800D4440( ZakoWork *work ) {
         SetZakoMode( work, s11e_zk11ecom_800D649C ) ;
         break;
     case 0:
-        target->field_2C_vec = DG_ZeroVector;
-        if ( target->field_26_hp <= 0  || ( work->local_data - target->field_26_hp ) >= 192 )
+        target->scale = DG_ZeroVector;
+        if ( target->life <= 0  || ( work->local_data - target->life ) >= 192 )
         {
             work->unknown.field_14 = 1;
             SetZakoMode( work, s11e_zk11ecom_800D649C ) ;
@@ -95,7 +95,7 @@ int s11e_zk11ecom_800D4440( ZakoWork *work ) {
         }
         break;
     case 1:
-        if ( s11e_zk11ecom_800D4404( &target->field_2C_vec ) < 100 )
+        if ( s11e_zk11ecom_800D4404( &target->scale ) < 100 )
         {
             work->unknown.field_14 = 3;
         }
@@ -117,7 +117,7 @@ int s11e_zk11ecom_800D4440( ZakoWork *work ) {
         break;
     }
 
-    target->field_28 = 0;
+    target->life_lost = 0;
     target->damaged = 0;
     return 1;
 }

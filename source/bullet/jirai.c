@@ -329,7 +329,7 @@ static void Act(JiraiWork *work)
             return;
         }
 
-        if ((target2->field_40 & 1) && (GM_PlayerStatus & (PLAYER_INVINCIBLE | PLAYER_GROUND)))
+        if ((target2->push_side & PLAYER_SIDE) && (GM_PlayerStatus & (PLAYER_INVINCIBLE | PLAYER_GROUND)))
         {
             target2->damaged &= ~TARGET_PUSH;
             dword_8009F444 = 0;

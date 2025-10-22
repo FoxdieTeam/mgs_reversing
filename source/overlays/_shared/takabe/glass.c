@@ -112,7 +112,7 @@ void GlassAct_800D302C(GlassWork *work)
                 GM_SeSet(&work->pos, SE_GLASS_SHATTER);
 
                 DG_TransposeMatrix(&work->world, &world);
-                gte_ApplyMatrixSV(&world, &target->field_2C_vec, &sp30);
+                gte_ApplyMatrixSV(&world, &target->scale, &sp30);
 
                 if (sp30.vz > 0)
                 {

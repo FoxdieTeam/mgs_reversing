@@ -92,8 +92,8 @@ int s07a_meryl_unk_800D6860( WatcherWork *work )
     switch ( val )
     {
     case 2:
-        target->field_2C_vec = DG_ZeroVector;
-        if ( target->field_2A <= 0 )
+        target->scale = DG_ZeroVector;
+        if ( target->faint <= 0 )
         {
             work->unknown.field_14 = 1;
             SetMode( work, s07a_meryl_unk_800D8CB4 ) ;
@@ -108,8 +108,8 @@ int s07a_meryl_unk_800D6860( WatcherWork *work )
         SetMode( work, s07a_meryl_unk_800D8CB4 ) ;
         break;
     case 0:
-        target->field_2C_vec = DG_ZeroVector;
-        if ( target->field_26_hp <= 0 )
+        target->scale = DG_ZeroVector;
+        if ( target->life <= 0 )
         {
             work->unknown.field_14 = 1;
             SetMode( work, s07a_meryl_unk_800D8CB4 ) ;
@@ -120,7 +120,7 @@ int s07a_meryl_unk_800D6860( WatcherWork *work )
         }
         break;
     case 1:
-        if ( s07a_meryl_unk_800D6824( &target->field_2C_vec ) < 100 )
+        if ( s07a_meryl_unk_800D6824( &target->scale ) < 100 )
         {
             work->unknown.field_14 = 3;
         }
@@ -142,7 +142,7 @@ int s07a_meryl_unk_800D6860( WatcherWork *work )
         break;
     }
 
-    target->field_28 = 0;
+    target->life_lost = 0;
     target->damaged = 0;
     return 1;
 }
@@ -164,11 +164,11 @@ int s07a_meryl_unk_800D6A50( WatcherWork * work )
 
         if ( TOPCOMMAND_800E0F20.mode == TOP_COMM_TRAVEL )
         {
-            work->target->field_2A = 0;
+            work->target->faint = 0;
         }
         else
         {
-            work->target->field_2A -= 5;
+            work->target->faint -= 5;
         }
 
         return 1;

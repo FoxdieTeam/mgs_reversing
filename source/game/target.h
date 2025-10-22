@@ -7,26 +7,26 @@
 
 typedef struct TARGET
 {
-    unsigned short class;
-    unsigned short side;
-    unsigned short map;
-    unsigned short damaged;
-    SVECTOR        center;
-    SVECTOR        size;
-    int           *field_18;
-    SVECTOR       *field_1C;
-    MATRIX        *field_20;
-    short          field_24;
-    short          field_26_hp;
-    short          field_28;
-    short          field_2A;
-    SVECTOR        field_2C_vec;
-    SVECTOR        field_34_vec;
-    short          field_3C;
-    short          a_mode;
-    short          field_40;
-    short          field_42;
-    int            field_44;
+    u_short  class;
+    u_short  side;
+    u_short  map;
+    u_short  damaged;
+    SVECTOR  center;
+    SVECTOR  size;
+    int     *field_18; /* unused */
+    SVECTOR *field_1C; /* unused */
+    MATRIX  *body;
+    short    p_mode;
+    short    life;
+    short    life_lost;
+    short    faint;
+    SVECTOR  scale;
+    SVECTOR  offset;
+    short    field_3C;
+    short    a_mode;
+    short    push_side;
+    short    captured;
+    int      weapon;
 } TARGET;
 
 enum
@@ -85,9 +85,9 @@ int     GM_TouchTarget(TARGET *target);
 int     GM_PowerTarget(TARGET *target);
 int     GM_PushTarget(TARGET *target);
 void    GM_SetTarget(TARGET *target, int class, int side, SVECTOR *size);
-void    GM_Target_8002DCB4(TARGET *target, int a2, int a3, int *a4, SVECTOR *a5);
-void    GM_Target_8002DCCC(TARGET *target, int a2, int a3, int hp, int a5, SVECTOR *a6);
-void    sub_8002DD14(TARGET *target, MATRIX *pMatrix) ;
+void    GM_Target_8002DCB4(TARGET *target, int a_mode, int faint, int *a4, SVECTOR *a5);
+void    GM_Target_8002DCCC(TARGET *target, int p_mode, int a_mode, int life, int faint, SVECTOR *scale);
+void    GM_TargetBody(TARGET *target, MATRIX *body) ;
 void    sub_8002DD1C(SVECTOR *a1, SVECTOR *a2, TARGET *a3);
 int     sub_8002DDE0(SVECTOR *a1, SVECTOR *a2, TARGET *a3, SVECTOR *a4);
 int     GM_Target_8002E1B8(SVECTOR *pVec, SVECTOR *pVec1, int map_bit, SVECTOR *pVec2, int side);

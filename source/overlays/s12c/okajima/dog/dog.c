@@ -614,10 +614,10 @@ void Dog_800CAB68(DogWork *work, int index, int hp)
     }
 
     target = &work->field_1194[index];
-    target->field_26_hp = hp;
-    target->field_2C_vec.vx = GV_RandU(32);
-    target->field_2C_vec.vy = GV_RandU(32);
-    target->field_2C_vec.vz = GV_RandU(32);
+    target->life = hp;
+    target->scale.vx = GV_RandU(32);
+    target->scale.vy = GV_RandU(32);
+    target->scale.vz = GV_RandU(32);
     GM_MoveTarget(target, &GM_PlayerPosition);
     GM_PowerTarget(target);
 }

@@ -14,7 +14,7 @@ typedef struct BLAST_DATA
     int field_4;
     int field_8_z; // size
     int field_C;   // also size?
-    int field_10;  // TARGET->field_44
+    int weapon;
 } BLAST_DATA;
 
 void *NewBlast( MATRIX *world, BLAST_DATA *blast_data );

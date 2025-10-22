@@ -175,7 +175,7 @@ void InitTarget_800D3800( ZakoWork *work )
     GM_Target_8002DCCC( target, 1, -1, life, faint, &ZAKO_TARGET_FORCE_800C38D4 );
     GM_Target_8002DCB4( target, -1, faint, NULL, NULL);
 
-    sub_8002DD14( target, &( work->body.objs->objs[1].world ) );
+    GM_TargetBody( target, &( work->body.objs->objs[1].world ) );
 
     work->local_data = work->param_life;
     target2 = &work->field_904;

@@ -912,7 +912,7 @@ void GunCame_Act_800C80F4(GunCameWork *work)
         {
             if (target->a_mode != 2)
             {
-                target->field_28 = 0;
+                target->life_lost = 0;
                 target->damaged = 0;
             }
             else if (s03e_dword_800C32B8 == 0)

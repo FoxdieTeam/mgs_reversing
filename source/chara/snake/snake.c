@@ -216,15 +216,16 @@ int sub_8004E4C0(SnaInitWork *work, int param_2)
     return param_2;
 }
 
-int sub_8004E51C(SVECTOR *param_1, void *param_2, int param_3, int param_4)
+int sna_line_check(SVECTOR *line, HZD_HDL *hzd, int flag, int exclude)
 {
-    if (HZD_LineCheck(param_2, param_1, &param_1[1], param_3, param_4) == 0)
+    if (HZD_LineCheck(hzd, &line[0], &line[1], flag, exclude) == 0)
     {
         return -1;
     }
-    HZD_LineNearVec(&param_1[1]);
-    GV_SubVec3(&param_1[1], param_1, param_1);
-    return GV_VecLen3(param_1);
+
+    HZD_LineNearVec(&line[1]);
+    GV_SubVec3(&line[1], line, line);
+    return GV_VecLen3(line);
 }
 
 void sub_8004E588(HZD_HDL *param_1, SVECTOR *param_2, int *levels)
@@ -310,7 +311,7 @@ int sna_8004E71C(int a1, HZD_HDL *pHzd, SVECTOR *pVec, int a4)
 
     vec_saved = *pVec;
 
-    if ( sub_8004E51C(&vec, pHzd, HZD_CHECK_DYNSEG | HZD_CHECK_SEG, SEGMENT_ATR) >= 0 )
+    if ( sna_line_check(&vec, pHzd, HZD_CHECK_DYNSEG | HZD_CHECK_SEG, SEGMENT_ATR) >= 0 )
     {
         *pVec = vec_saved;
     }
@@ -343,7 +344,7 @@ int sna_8004E808(SnaInitWork *work, int a2, int a3, int a4, int a5)
             return 1;
         }
 
-        if (sub_8004E51C(&SStack48, work->control.map->hzd, HZD_CHECK_DYNFLR | HZD_CHECK_FLR, SEGMENT_ATR) < 0)
+        if (sna_line_check(&SStack48, work->control.map->hzd, HZD_CHECK_DYNFLR | HZD_CHECK_FLR, SEGMENT_ATR) < 0)
         {
             return 1;
         }
