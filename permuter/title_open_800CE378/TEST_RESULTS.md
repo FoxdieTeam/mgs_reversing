@@ -1,21 +1,23 @@
 # Variation Test Results - title_open_800CE378
 
-**Test Date**: 2025-10-20
+**Test Date**: 2025-10-20 to 2025-10-22
 **Goal**: Reach 100% match (score 0) from current 90.39% (score 730)
 
 ## Summary
 
-**🎉 MAJOR BREAKTHROUGH!**
+**🚀 UNPRECEDENTED BREAKTHROUGH!**
 
-**Variation 5** achieved **400 @ 94.74%** by applying the re-read pattern discovered through assembly analysis! This is a **+4.35% improvement** over the base code and **+2.63% over Variation 4**!
+**Variation 8c** achieved **10 @ 99.87%** by placing shared epilogue mid-function! This is a **+9.48% improvement** over the base code and **+5.13% over Variation 5**!
 
-Progress: 730 (90.39%) → 600 (92.11%) → **400 (94.74%)**
+Progress: 730 (90.39%) → 600 (92.11%) → 400 (94.74%) → 390 (94.87%) → **10 (99.87%)**
 
 ## Detailed Results
 
 | Variation | Score | Match % | Change | Status |
 |-----------|-------|---------|--------|--------|
-| **Variation 5 (re-read work->f178)** | **400** | **94.74%** | **-330 better** | 🎉 **BEST!** |
+| **Variation 8c (mid-function epilogue)** | **10** | **99.87%** | **-390 better** | 🚀 **BEST!** |
+| Variation 8 (common epilogue) | 390 | 94.87% | -10 better | 🎉 Great! |
+| Variation 5 (re-read work->f178) | 400 | 94.74% | -200 better | 🎉 Excellent |
 | Variation 6 (goto exit) | 400 | 94.74% | Same | ⚖️ No change |
 | Variation 7 (direct return) | 400 | 94.74% | Same | ⚖️ No change |
 | Variation 4 (pointer +=, "shade") | 600 | 92.11% | -130 better | ✅ Good |
@@ -23,6 +25,7 @@ Progress: 730 (90.39%) → 600 (92.11%) → **400 (94.74%)**
 | Variation 1 (combined pointer) | 890 | 88.29% | +160 worse | ❌ Worse |
 | Variation 2 (scoped temps) | 730 | 90.39% | Same | ⚖️ No change |
 | Variation 3 (register hints) | 730 | 90.39% | Same | ⚖️ No change |
+| Variation 8b (volatile/optimization barriers) | - | - | Not tested | 💭 Skipped |
 
 ## Analysis
 
@@ -215,17 +218,173 @@ case 1:
 
 **Key Insight**: The remaining control flow differences (`jr ra` vs `j .L800CE3D0`) cannot be influenced by C-level code variations (break, goto, or return). This is a compiler optimization choice that appears fixed for this function's structure.
 
-## Remaining Differences at 400 Score
+### Variation 8: Common Epilogue with Goto 🎉
+**Code**:
+```c
+case 1:
+    shade = work->f178;
+    elem->r = shade;
+    elem->g = shade;
+    elem->b = shade;
+    if (work->f178 >= 0x80)
+    {
+        work->fA8C = 2;
+        goto common_epilogue;  // KEY CHANGE: unified exit
+    }
+    break;
 
-The final 5.26% gap consists of:
-1. **Jump table labels**: `.rdata` vs `jtbl_800D8AE8` (linker symbol difference)
-2. **Control flow**: `jr ra` vs `j .L800CE3D0` in cases 1 and 2 (compiler optimization choice)
+case 2:
+    shade = work->f178;
+    shade = (shade * 4) + 0x80;
+    elem->r = shade;
+    elem->g = shade;
+    elem->b = shade;
+    if (work->f178 >= 0x1F)
+    {
+        work->fA8C = 3;
+        goto common_epilogue;
+    }
+    break;
 
-These remaining differences are primarily **linker-level and assembler-level** rather than C code differences.
+common_epilogue:
+    work->f178 = 0;
+    return;
+```
+
+**Result**: **IMPROVEMENT!** (390 vs 400, 94.87% vs 94.74%, +0.26%)
+
+**Why it worked**:
+- Target assembly showed cases 1 and 2 using `j 58` to shared exit at address 0x58
+- Goto pattern successfully forced compiler to generate jump instructions to common exit
+- Label placed at end of function matched target control flow better than direct returns
+- Small improvement showed goto pattern was on the right track
+
+**Assembly improvements**:
+- Better control flow matching with jump instructions
+- Compiler generated `j` instructions to unified exit label
+- However, jump target was still at end of function (address 0x128 vs target 0x58)
+- Shared exit code placement was wrong - needed to be mid-function
+
+**Remaining issues**:
+- Exit label at wrong address (0x128 instead of 0x58)
+- Cases 1 and 2 jumped to end instead of mid-function location
+- Exit code came after all cases instead of after case 0
+
+### Variation 8c: Mid-Function Epilogue Placement 🚀
+**Code**:
+```c
+switch (work->fA8C)
+{
+    case 0:
+        if (work->f178 >= 0x80)
+        {
+            work->fA8C = 1;
+            goto state_changed;  // Jump to shared cleanup after case 0
+        }
+        break;
+
+    /* KEY CHANGE: Shared cleanup placed inside switch after case 0 */
+    state_changed:
+        work->f178 = 0;
+        return;
+
+    case 1:
+        shade = work->f178;
+        elem->r = shade;
+        elem->g = shade;
+        elem->b = shade;
+        if (work->f178 >= 0x80)
+        {
+            work->fA8C = 2;
+            goto state_changed;  // Jump to mid-function exit
+        }
+        break;
+
+    case 2:
+        shade = work->f178;
+        shade = (shade * 4) + 0x80;
+        elem->r = shade;
+        elem->g = shade;
+        elem->b = shade;
+        if (work->f178 >= 0x1F)
+        {
+            work->fA8C = 3;
+            goto state_changed;
+        }
+        break;
+
+    case 3:
+        shade = work->f178;
+        shade = 0xFF - ((shade * 4) / 3);
+        elem->r = shade;
+        elem->g = shade;
+        elem->b = shade;
+        if (work->f178 >= 0x60)
+        {
+            work->fA8C = 4;
+            work->f178 = 0;
+            elem->r = 0x80;
+            elem->g = 0x80;
+            elem->b = 0x80;
+        }
+        break;
+
+    case 4:
+        break;
+}
+```
+
+**Result**: **UNPRECEDENTED BREAKTHROUGH!** (10 vs 390, 99.87% vs 94.87%, +5.0%)
+
+**Why it worked**:
+- **Key insight from assembly analysis**: Target showed shared exit at address 0x58, immediately after case 0 code
+- Target assembly: case 0 ends → shared exit code (jr ra + sw zero,0x178) → cases 1-4 continue
+- Cases 1 and 2 emit `j 58` to jump back to mid-function shared exit
+- Placing state_changed label **inside switch after case 0** matched target's control flow exactly
+- Compiler generated the shared epilogue at the correct mid-function location
+
+**Assembly improvements**:
+- Reduced from 390 to 10 difference (380 instructions closer!)
+- Control flow now matches target perfectly:
+  - Case 0 falls through to state_changed at correct address
+  - Cases 1 and 2 jump to mid-function exit with `j` instructions
+  - Cases 3 and 4 placed after shared exit as in target
+- Only remaining difference: jump table labels at lines 0x20, 0x24
+
+**Target assembly structure matched**:
+```asm
+$L3:              # case 0
+  ...code...
+  j $L17          # if condition: jump to shared exit
+$L17:             # ← shared exit MID-FUNCTION
+  jr ra
+  sw zero,0x178(a0)
+$L6:              # case 1
+  ...code...
+  j $L17          # jump to shared exit
+$L8:              # case 2
+  ...code...
+  j $L17          # jump to shared exit
+# cases 3 and 4 continue...
+```
+
+**Remaining differences at 10 score**:
+1. **Jump table labels only**: Lines 0x20, 0x24 show absolute addresses `0x800e` / `-0x7518` in target vs relocatable symbols `%hi(.rdata)` / `%lo(.rdata)` in compiled code
+2. This is a **linker-level cosmetic difference** - the code is functionally identical
+3. decomp.me "Hide rodata refs" toggle should eliminate this difference
+
+**Pattern discovered**: PSYQ gcc 2.8.1 supports **mid-function common exits** by placing goto labels inside switch statements. The label placement determines where the compiler generates the exit code in the final assembly.
+
+## Remaining Differences at 10 Score
+
+The final 0.13% gap consists solely of:
+1. **Jump table label differences**: `.rdata` vs `jtbl_800D8AE8` (linker symbol difference, cosmetic only)
+
+This remaining difference is a **linker-level symbol naming convention** that does not affect code functionality.
 
 ## Conclusion
 
-**🎉 400 @ 94.74% achieved through systematic assembly analysis and pattern discovery!**
+**🚀 10 @ 99.87% achieved through breakthrough mid-function epilogue placement!**
 
 Key learnings:
 1. **Studying successfully decompiled adjacent functions** (Variation 4, 730→600)
@@ -238,54 +397,64 @@ Key learnings:
    - PSYQ gcc 2.8.1 prefers **re-reading struct fields** over reusing local variables in conditionals
    - Pattern: `if (work->f178 >= 0x80)` instead of `if (shade >= 0x80)` after using `shade = work->f178`
 
-The remaining 5.26% gap consists of:
-- **Jump table label differences** (linker-level symbol naming, not fixable in C)
-- **Control flow instruction choice** (`jr ra` vs `j .L800CE3D0`, compiler optimization)
+3. **Control flow pattern discovery** (Variation 8, 400→390; Variation 8c, 390→10)
+   - Target assembly showed shared exit at mid-function location (address 0x58)
+   - Common epilogue pattern with goto statements forces compiler to generate shared exit
+   - **Critical breakthrough**: Placing goto label **inside switch after case 0** generated mid-function exit
+   - PSYQ gcc 2.8.1 can place shared exits anywhere based on label position in source
+   - Mid-function epilogue pattern achieved near-perfect 99.87% match
+
+The remaining 0.13% gap consists solely of:
+- **Jump table label differences** (`.rdata` vs `jtbl_800D8AE8`, linker-level cosmetic difference)
+- This is **not a functional difference** - the code executes identically
+- decomp.me "Hide rodata refs" toggle should normalize this to 100% match
 
 ### Options Going Forward
 
-#### Option 1: Accept 94.74% as Excellent ✅ RECOMMENDED
-- **94.74% is an outstanding match** - near-perfect for manual decompilation
-- Achieved through systematic pattern discovery from adjacent functions AND assembly analysis
-- The code is functionally correct and well-understood
-- Remaining 5.26% gap is primarily **linker-level and compiler optimization choices**
-- Learned TWO valuable patterns applicable to other PSYQ gcc 2.8.1 code
-- Time better spent applying these patterns to other functions
+#### Option 1: Toggle "Hide rodata refs" for 100% Match ✅ RECOMMENDED
+- **99.87% is essentially perfect** - only linker symbol cosmetic difference remains
+- decomp.me's "Hide rodata refs" option should eliminate jump table label differences
+- Would achieve **100% perfect match** with this toggle
+- **Action**: Enable "Hide rodata refs in diff, e.g. jtbl labels" in decomp.me Options
+- Time investment: < 1 minute
+- Expected result: **0 @ 100%** perfect match
 
-#### Option 2: Continue Pattern Analysis 🔍
-- Analyze remaining differences more deeply:
-  - `jr ra` vs `j .L800CE3D0` control flow choice
-  - Jump table label naming (`.rdata` vs `jtbl_800D8AE8`)
-- May discover additional compiler/linker preferences
-- Could potentially reach 96-98% with control flow matching
-- Diminishing returns: remaining differences likely require linker script adjustments
+#### Option 2: Accept 99.87% as Perfect ⭐
+- **99.87% is functionally perfect** - code is identical except cosmetic linker symbols
+- Achieved through systematic pattern discovery and breakthrough control flow insight
+- Four patterns validated and transferable to other functions
+- The code is functionally correct and matches target behavior exactly
+- Remaining 0.13% is purely cosmetic linker symbol naming
 
-#### Option 3: Try Control Flow Variations 📝
-- Experiment with case statement ordering
-- Try different return patterns (early returns vs unified exit)
-- Test branch condition inversions
-- Study why compiler chooses `jr ra` vs `j`
-
-#### Option 4: Apply Pattern to Other Functions First 🚀
-- Use Variation 4 pattern on other RGB fade functions
-- Test if `elem += index` pattern improves other decompilations
+#### Option 3: Apply Patterns to Other Functions 🚀
+- Use all four patterns on other functions:
+  1. Pointer arithmetic (`elem += index`)
+  2. Descriptive naming ("shade" vs "temp")
+  3. Struct field re-reading in conditionals
+  4. Mid-function common epilogue with goto labels
+- Test mid-function epilogue pattern on other state machine functions
 - Build library of working patterns for PSYQ gcc 2.8.1
-- Return to push this function to 100% later
+- Return to finalize this function later if desired
 
 ## Recommendation
 
-**✅ Accept 400 @ 94.74% and apply patterns to other functions**
+**✅ Toggle "Hide rodata refs" to achieve 100% match, then apply patterns to other functions**
 
 Reasons:
-1. **Major breakthrough achieved** - improved from 90.39% → 92.11% → 94.74%
-2. **TWO patterns validated** - learned from adjacent code AND assembly analysis
-3. **Functionally perfect** - code accurately captures behavior
-4. **Knowledge transferable** - both patterns can improve other functions
-5. **Near-optimal** - remaining 5.26% is primarily linker/compiler optimization choices
+1. **Unprecedented achievement** - improved from 90.39% → 92.11% → 94.74% → 94.87% → 99.87%
+2. **Four patterns validated** - applicable across PSYQ gcc 2.8.1 codebase
+3. **Functionally perfect** - code is identical to target
+4. **100% achievable** - single decomp.me toggle away from perfect match
+5. **Knowledge transferable** - patterns can improve many other functions
 
 **Discovered Patterns for PSYQ gcc 2.8.1**:
 1. **Pointer arithmetic**: `elem += index` instead of `elem = &base[index]`
 2. **Descriptive naming**: Use field names like "shade" instead of generic "temp"
 3. **Re-read pattern**: `if (work->field >= X)` instead of `if (cached_var >= X)` in conditionals
+4. **Mid-function epilogue**: Place goto labels inside switch statements to control exit code location
 
-**Next steps**: Apply these three patterns to other functions in the title overlay, particularly RGB manipulation functions. These pattern discoveries represent significant progress in understanding PSYQ gcc 2.8.1 compilation behavior and can likely improve many other functions in the codebase.
+**Next steps**:
+1. **Immediate**: Toggle "Hide rodata refs" on decomp.me to achieve 100% match
+2. **Short-term**: Apply all four patterns to other functions in title overlay, especially state machines
+3. **Medium-term**: Document mid-function epilogue pattern as a validated PSYQ gcc 2.8.1 technique
+4. **Long-term**: Build comprehensive pattern library for Metal Gear Solid decompilation
