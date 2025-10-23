@@ -1,0 +1,488 @@
+{
+  "OpenAct_800D37F4.s": [
+    {
+      "candidate": "MirrorAct_800DFDDC",
+      "score": 0.4043,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "DrawReadError",
+      "score": 0.4064,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "camera_800CB024",
+      "score": 0.4076,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "sna_act_unk_helper3_80055DD8",
+      "score": 0.4119,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "s04c_cape_800D8724",
+      "score": 0.4127,
+      "note": "lower is better"
+    }
+  ],
+  "OpenGetResources_800D4584.s": [
+    {
+      "candidate": "title_open_800CF794",
+      "score": 0.442,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "camera_800C8AD4",
+      "score": 0.4746,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "s11g_hind_800D7644",
+      "score": 0.4966,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "NewHind_800D1224",
+      "score": 0.5636,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "FrameRunDemo",
+      "score": 0.5757,
+      "note": "lower is better"
+    }
+  ],
+  "title_open_800C47B8.s": [
+    {
+      "candidate": "note_cntl",
+      "score": 0.4,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "s11i_asiato_800CB9BC",
+      "score": 0.4,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "SngFadeInt",
+      "score": 0.403,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "menu_weapon_update_helper2_8003E674",
+      "score": 0.403,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "M1E1GetCaterpillerVertex",
+      "score": 0.403,
+      "note": "lower is better"
+    }
+  ],
+  "title_open_800C628C.s": [
+    {
+      "candidate": "SafetyCheck",
+      "score": 0.99,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "CreateDemo",
+      "score": 0.99,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "DestroyDemo",
+      "score": 0.99,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "FrameRunDemo",
+      "score": 0.99,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "AN_CaterpillerSmoke",
+      "score": 0.99,
+      "note": "lower is better"
+    }
+  ],
+  "title_open_800CCDC8.s": [
+    {
+      "candidate": "s11g_hind_800D2CB4",
+      "score": 0.4,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "ENE_PutItem_800C90CC",
+      "score": 0.4,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "s07a_meryl_unk_800DDC60",
+      "score": 0.4,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "DuctmouseGetResources_800DAA1C",
+      "score": 0.4,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "BloodBlGetResources_800CD520",
+      "score": 0.4,
+      "note": "lower is better"
+    }
+  ],
+  "title_open_800CD3B8.s": [
+    {
+      "candidate": "s08b_glass_800DB0C4",
+      "score": 0.4,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "GlassGetResources_800D335C",
+      "score": 0.4,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "DG_PrimChanl",
+      "score": 0.4,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "GV_UpdatePadSystem",
+      "score": 0.4022,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "s12c_findtrap_800D72E8",
+      "score": 0.4022,
+      "note": "lower is better"
+    }
+  ],
+  "title_open_800CD800.s": [
+    {
+      "candidate": "s19b_jeep_srl_800CE020",
+      "score": 0.4,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "s00a_command_800C77C8",
+      "score": 0.4,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "s04c_revolver_800D0A94",
+      "score": 0.4,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "ShuterGetResources_800DF7F4",
+      "score": 0.4028,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "s07a_meryl_unk_800D8290",
+      "score": 0.4028,
+      "note": "lower is better"
+    }
+  ],
+  "title_open_800CDBF8.s": [
+    {
+      "candidate": "se_adrs_set",
+      "score": 0.4,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "HZD_PointCheck",
+      "score": 0.4,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "GM_Command_sound_impl",
+      "score": 0.4,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "menu_weapon_update_8003E990",
+      "score": 0.4,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "s08b_bunsin2_800CBE30",
+      "score": 0.4041,
+      "note": "lower is better"
+    }
+  ],
+  "title_open_800CDE44.s": [
+    {
+      "candidate": "s15c_crow_800DD03C",
+      "score": 0.4036,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "s11c_800CD340",
+      "score": 0.4054,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "TestFloor",
+      "score": 0.4071,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "s12c_dog_800D0680",
+      "score": 0.4071,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "AN_Blast_high2",
+      "score": 0.4071,
+      "note": "lower is better"
+    }
+  ],
+  "title_open_800CE378.s": [
+    {
+      "candidate": "s12a_wolf2_800D09D4",
+      "score": 0.4,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "s19b_jeep_liq_800D7200",
+      "score": 0.4,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "d18a_snake18_800CAD90",
+      "score": 0.4,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "EdTelop_800C512C",
+      "score": 0.4,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "BoxallGetResources_800C9F58",
+      "score": 0.4,
+      "note": "lower is better"
+    }
+  ],
+  "title_open_800CE748.s": [
+    {
+      "candidate": "HZD_LineCheck",
+      "score": 0.4,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "s08b_glass_800DABF0",
+      "score": 0.4025,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "s19b_democame_800DB968",
+      "score": 0.4025,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "HZD_80028930",
+      "score": 0.4025,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "s19b_jeep_800D2880",
+      "score": 0.4049,
+      "note": "lower is better"
+    }
+  ],
+  "title_open_800CEB14.s": [
+    {
+      "candidate": "s12a_wolf2_800D0ED4",
+      "score": 0.403,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "CameraGetResources_800CE6EC",
+      "score": 0.4052,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "s12a_wolf2_800D1EBC",
+      "score": 0.4128,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "camera_800C73E4",
+      "score": 0.421,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "s08b_bunsin2_800C9BF8",
+      "score": 0.4231,
+      "note": "lower is better"
+    }
+  ],
+  "title_open_800CF794.s": [
+    {
+      "candidate": "OpenGetResources_800D4584",
+      "score": 0.422,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "camera_800C8AD4",
+      "score": 0.4938,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "s11g_hind_800D7644",
+      "score": 0.515,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "FrameRunDemo",
+      "score": 0.5596,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "s04c_wire_800D3FA8",
+      "score": 0.5603,
+      "note": "lower is better"
+    }
+  ],
+  "title_open_800D1B74.s": [
+    {
+      "candidate": "WaveCdLoad",
+      "score": 0.4,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "SngFadeOutS",
+      "score": 0.4,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "HZD_ZoneDistance",
+      "score": 0.4,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "mts_slp_tsk",
+      "score": 0.4,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "s11g_hind_800D5E54",
+      "score": 0.4,
+      "note": "lower is better"
+    }
+  ],
+  "title_open_800D1CB4.s": [
+    {
+      "candidate": "DummyFloorAct_800D61A4",
+      "score": 0.4,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "s11d_hind_800C9D60",
+      "score": 0.4014,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "DG_ApplyRots",
+      "score": 0.4056,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "mts_receive",
+      "score": 0.4096,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "s13a_crane_800D3994",
+      "score": 0.4097,
+      "note": "lower is better"
+    }
+  ],
+  "title_open_800D2374.s": [
+    {
+      "candidate": "HZD_LoadInitHzd",
+      "score": 0.4,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "mts_get_pad",
+      "score": 0.4,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "wolf2_PutBlood",
+      "score": 0.4,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "s11g_s11_objs_800CB29C",
+      "score": 0.4,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "s08b_bunsin2_800CAB50",
+      "score": 0.4,
+      "note": "lower is better"
+    }
+  ],
+  "title_open_800D2460.s": [
+    {
+      "candidate": "s12c_dog_800CEB74",
+      "score": 0.4075,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "s19b_jeep_srl_800CB848",
+      "score": 0.4095,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "s11g_hind_800D9B80",
+      "score": 0.4114,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "s12c_dog_800CE194",
+      "score": 0.418,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "s12c_dog_800D295C",
+      "score": 0.4306,
+      "note": "lower is better"
+    }
+  ],
+  "title_open_800D2E44.s": [
+    {
+      "candidate": "DummyFloorAct_800D61A4",
+      "score": 0.4014,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "s11d_hind_800C9D60",
+      "score": 0.4028,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "DG_ApplyRots",
+      "score": 0.4042,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "s13a_crane_800D3994",
+      "score": 0.4084,
+      "note": "lower is better"
+    },
+    {
+      "candidate": "mts_receive",
+      "score": 0.4109,
+      "note": "lower is better"
+    }
+  ]
+}

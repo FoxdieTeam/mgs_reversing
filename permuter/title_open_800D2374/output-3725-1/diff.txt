@@ -1,0 +1,18 @@
+--- before
++++ after
+@@ -11,6 +11,7 @@
+ 
+   if (work->f24BC != 0)
+   {
++    title_open_800C4AD0(work, 3, 0);
+     work = (OpenWork *) work->f24B4;
+     return;
+   }
+@@ -31,7 +32,6 @@
+         break;
+ 
+       case 3:
+-        title_open_800C4AD0(work, 3, 0);
+         break;
+ 
+       case 4:

@@ -1114,6 +1114,7 @@ void title_open_800CDB9C(POLY_FT4 *poly, DG_TEX *tex, int arg2)
 
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CDBF8.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CDE44.s")
+
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CE378.s")
 
 void title_open_800CE4A8(OpenWork *work, int index)

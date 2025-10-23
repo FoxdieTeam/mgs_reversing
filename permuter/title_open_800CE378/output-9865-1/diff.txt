@@ -1,0 +1,13 @@
+--- before
++++ after
+@@ -41,9 +41,8 @@
+       break;
+ 
+     case 2:
+-      temp = work->f178;
++      elem->r = (temp = work->f178);
+       temp = (temp * 4) + 0x80;
+-      elem->r = temp;
+       elem->g = temp;
+       elem->b = temp;
+       if (work->f178 >= 0x1F)

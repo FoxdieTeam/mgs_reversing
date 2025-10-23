@@ -1,0 +1,22 @@
+name: mgs-ml
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pytorch
+  - pytorch-cuda=12.1
+  - faiss-gpu
+  - numpy
+  - scipy
+  - scikit-learn
+  - gensim
+  - pip
+  - pip:
+      - capstone
+      - Levenshtein
+      - iterfzf
+      - annoy
+      - hnswlib
+

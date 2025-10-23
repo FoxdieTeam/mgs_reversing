@@ -1,0 +1,35 @@
+--- before
++++ after
+@@ -36,7 +36,8 @@
+         break;
+ 
+       case 2:
+-        title_open_800C4AD0(work, 2, 0);
++        i = 2;
++        title_open_800C4AD0(work, i, 0);
+         break;
+ 
+       case 3:
+@@ -44,10 +45,12 @@
+         break;
+ 
+       case 4:
++        int new_var;
+         return;
+ 
+       case 5:
+-        title_open_800C4AD0(work, 5, 0x6739);
++        new_var = 0x6739;
++        title_open_800C4AD0(work, 5, new_var);
+         break;
+ 
+       case 6:
+@@ -55,6 +58,8 @@
+ 
+       case 7:
+         return;
++      {
++      }
+ 
+       case 8:
+         return;

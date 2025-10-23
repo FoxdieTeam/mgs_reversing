@@ -1,0 +1,13 @@
+--- before
++++ after
+@@ -27,9 +27,9 @@
+   {
+     switch (work->f24AC)
+     {
++      break;
+       case 0:
+         title_open_800C4AD0(work, 0, 0);
+-        break;
+ 
+       case 1:
+         title_open_800C4AD0(work, 1, 0x6739);

@@ -1,0 +1,22 @@
+--- before
++++ after
+@@ -13,6 +13,7 @@
+ extern void title_open_800C4AD0(OpenWork *work, int arg1, int arg2);
+ void title_open_800D2374(OpenWork *work)
+ {
++  int new_var;
+   int i;
+   for (i = 0; i < 24; i++)
+   {
+@@ -23,9 +24,10 @@
+   {
+     return;
+   }
++  new_var = work->f24AC;
+   if (work->f24EC != 0)
+   {
+-    switch (work->f24AC)
++    switch (new_var)
+     {
+       case 0:
+         title_open_800C4AD0(work, 0, 0);
