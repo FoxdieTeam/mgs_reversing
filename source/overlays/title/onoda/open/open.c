@@ -1260,44 +1260,7 @@ void title_open_800CE6AC(OpenWork *work, int index)
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CF794.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800D1B74.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800D1CB4.s")
-void title_open_800D2374(OpenWork *work)
-{
-    int i;
-
-    for (i = 0; i < 24; i++)
-    {
-        title_open_800C4AD0(work, i, 0);
-    }
-
-    if (work->f24BC != 0)
-    {
-        return;
-    }
-
-    if (work->f24EC == 0)
-    {
-        return;
-    }
-
-    switch (work->f24AC)
-    {
-    case 0:
-        title_open_800C4AD0(work, 0, 0);
-        break;
-    case 1:
-        title_open_800C4AD0(work, 1, 0x6739);
-        break;
-    case 2:
-        title_open_800C4AD0(work, 2, 0);
-        break;
-    case 3:
-        title_open_800C4AD0(work, 3, 0);
-        break;
-    case 5:
-        title_open_800C4AD0(work, 5, 0x6739);
-        break;
-    }
-}
+#pragma INCLUDE_ASM("asm/overlays/title/title_open_800D2374.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800D2460.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800D2E44.s")
 

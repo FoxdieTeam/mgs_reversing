@@ -3344,6 +3344,7 @@ void s11d_rope_800C4B78(void *work)
     void *ptr_30;
     short val1;
     short val2;
+    int result = 0;
     int result1;
     int result2;
     int temp;
@@ -3366,7 +3367,7 @@ void s11d_rope_800C4B78(void *work)
     
     flag_byte = *(unsigned char *)((char *)work + 0x57);
     
-    if ((flag_byte & 1) != 0)
+    if ((flag_byte & 2) != 0)
     {
         f60_value = *(int *)((char *)work + 0xF60);
         
