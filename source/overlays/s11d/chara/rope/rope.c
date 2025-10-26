@@ -888,7 +888,7 @@ void s11d_rope_800C7EC4(void *work, int arg1)
     
     if (value != 14)
     {
-        func_80034CD4((char *)work + 0x9C, arg1, 0, 4);
+        func_80034CD4((char *)work + 0x9C, (void *)arg1, 0, 4);
     }
     
     value = *(unsigned short *)((char *)work + 0x66);
@@ -949,7 +949,7 @@ void s11d_rope_800C7A4C(void *work, int arg1)
     
     if (value != 9)
     {
-        func_80034CD4((char *)work + 0x9C, arg1, 0, 4);
+        func_80034CD4((char *)work + 0x9C, (void *)arg1, 0, 4);
     }
     
     *(unsigned short *)((char *)work + 0x6E) = 0x800;
@@ -1531,7 +1531,7 @@ void s11d_rope_800C7530(void *work, int arg1)
         
         if (value != 1)
         {
-            func_80034CD4((char *)work + 0x9C, arg1, 0, 4);
+            func_80034CD4((char *)work + 0x9C, (void *)arg1, 0, 4);
         }
         
         *(unsigned short *)((char *)work + 0xF44) = 0;
@@ -1546,7 +1546,7 @@ void s11d_rope_800C7530(void *work, int arg1)
         
         if (value != 1)
         {
-            func_80034CD4((char *)work + 0x9C, arg1, 0, 4);
+            func_80034CD4((char *)work + 0x9C, (void *)arg1, 0, 4);
         }
         
         ptr = *(void **)((char *)work + 0xEA8);
@@ -1641,7 +1641,7 @@ void s11d_rope_800C6834(void *work, int arg1)
         
         if (value != 11)
         {
-            func_80034CD4((char *)work + 0x9C, arg1, 0, 4);
+            func_80034CD4((char *)work + 0x9C, (void *)arg1, 0, 4);
         }
         
         *(unsigned short *)((char *)work + 0xF44) = 0;
@@ -1718,7 +1718,7 @@ void s11d_rope_800C697C(void *work, int arg1)
         
         if (value != 12)
         {
-            func_80034CD4((char *)work + 0x9C, arg1, 0, 4);
+            func_80034CD4((char *)work + 0x9C, (void *)arg1, 0, 4);
         }
         
         eb4_value = *(int *)((char *)work + 0xEB4);
@@ -1841,7 +1841,7 @@ void s11d_rope_800C7D20(void *work, int arg1)
     
     if (value != 13)
     {
-        func_80034CD4((char *)work + 0x9C, arg1, 0, 4);
+        func_80034CD4((char *)work + 0x9C, (void *)arg1, 0, 4);
     }
     
     value = *(unsigned short *)((char *)work + 0x22);
@@ -1967,7 +1967,7 @@ void s11d_rope_800C6B18(void *work, int arg1)
     
     if (value != 7)
     {
-        func_80034CD4((char *)work + 0x9C, arg1, 0, 4);
+        func_80034CD4((char *)work + 0x9C, (void *)arg1, 0, 4);
     }
     
     ptr = *(void **)((char *)work + 0x804);
@@ -2269,7 +2269,7 @@ void s11d_rope_800C7138(void *work, int arg1)
     
     if (value != 16)
     {
-        func_80034CD4((char *)work + 0x9C, arg1, 0, 4);
+        func_80034CD4((char *)work + 0x9C, (void *)arg1, 0, 4);
     }
     
     *(unsigned short *)((char *)work + 0xF44) = 0;
