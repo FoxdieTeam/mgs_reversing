@@ -169,7 +169,7 @@ int s11d_dsmoke2_800CCC60(DSmoke2Work *work, int where, int argc)
         
         if (i == 3)
         {
-            GCL_StrToInt(gcl_ptr);
+            GCL_StrToInt((unsigned char *)gcl_ptr);
             gcl_ptr += 2;
             i++;
         }
