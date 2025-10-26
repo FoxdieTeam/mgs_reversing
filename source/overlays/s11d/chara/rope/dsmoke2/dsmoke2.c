@@ -1,4 +1,5 @@
 #include "dsmoke2.h"
+#include "libgcl/libgcl.h"
 
 // External globals
 extern char s11d_dword_800D1E6C[];  // Name string "dsmoke2"
