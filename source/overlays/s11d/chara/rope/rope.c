@@ -1055,7 +1055,7 @@ int s11d_rope_800C8FDC(void *work)
             if (result != 0)
             {
                 result = func_80020A14(result);
-                *(int *)ptr = result;
+                *(int *)ptr = (int)result;
             }
             
             ptr = (char *)ptr + 4;
@@ -2589,7 +2589,7 @@ int s11d_rope_800C9500(void *arg0, void *arg1)
         
         if (status < 0)
         {
-            func_800151C8(result);
+            func_800151C8(result, 0);
             ret = 0;
         }
         else
@@ -4868,11 +4868,6 @@ compute_div:
     
     div_result = temp_calc / calc_value;
     
-    if (div_result == -1)
-    {
-        goto div_error;
-    }
-    
     if (div_result == 0x80000000)
     {
         goto div_check;
@@ -4884,10 +4879,7 @@ div_check:
     calc_value = stack_14 - div_result;
     *(short *)((char *)work + 0x14) = calc_value;
     goto check_4000_flag;
-    
-div_error:
-    ;
-    
+
 check_4000_flag:
     flags_f74 = flags_f70 & 0x4000;
     
@@ -4924,11 +4916,6 @@ compute_div_2:
     temp_calc = temp_calc << 8;
     
     div_result = temp_calc / calc_value;
-    
-    if (div_result == -1)
-    {
-        goto skip_4000_logic;
-    }
     
     if (div_result == 0x80000000)
     {
@@ -4976,11 +4963,6 @@ compute_div_3:
     temp_calc = temp_calc << 8;
     
     div_result = temp_calc / calc_value;
-    
-    if (div_result == -1)
-    {
-        goto skip_400_logic;
-    }
     
     if (div_result == 0x80000000)
     {
@@ -5097,11 +5079,6 @@ compute_div:
     
     div_result = temp_calc / calc_value;
     
-    if (div_result == -1)
-    {
-        goto div_error;
-    }
-    
     if (div_result == 0x80000000)
     {
         goto div_check;
@@ -5113,10 +5090,7 @@ div_check:
     calc_value = stack_14 - div_result;
     *(short *)((char *)work + 0x14) = calc_value;
     goto check_4000_flag;
-    
-div_error:
-    ;
-    
+
 check_4000_flag:
     flags_f74 = flags_f70 & 0x4000;
     
@@ -5153,11 +5127,6 @@ compute_div_2:
     temp_calc = temp_calc << 8;
     
     div_result = temp_calc / calc_value;
-    
-    if (div_result == -1)
-    {
-        goto skip_4000_logic;
-    }
     
     if (div_result == 0x80000000)
     {
@@ -5205,11 +5174,6 @@ compute_div_3:
     temp_calc = temp_calc << 8;
     
     div_result = temp_calc / calc_value;
-    
-    if (div_result == -1)
-    {
-        goto skip_400_logic;
-    }
     
     if (div_result == 0x80000000)
     {
@@ -5325,11 +5289,6 @@ div_calc_1:
     
     div_result = temp_calc / calc_value;
     
-    if (div_result == -1)
-    {
-        goto check_4000;
-    }
-    
     if (div_result == 0x80000000)
     {
         goto apply_div_1;
@@ -5378,11 +5337,6 @@ div_calc_2:
     
     div_result = temp_calc / calc_value;
     
-    if (div_result == -1)
-    {
-        goto check_400;
-    }
-    
     if (div_result == 0x80000000)
     {
         goto apply_div_2;
@@ -5430,11 +5384,6 @@ div_calc_3:
     
     div_result = temp_calc / calc_value;
     
-    if (div_result == -1)
-    {
-        goto finalize;
-    }
-    
     if (div_result == 0x80000000)
     {
         goto apply_div_3;
@@ -5477,14 +5426,14 @@ void s11d_rope_800C766C(void *work, int arg1)
     unsigned int flags_f74;
     unsigned int flags_f70;
     short value_aa;
-    int result;
+    int result = 0;
     short value_b6;
     int value_f7c;
     void *ptr_ea8;
     short value_ebc;
     short value_ebe;
     int value_ed0;
-    int calc1, calc2, calc3;
+    int calc1, calc2;
     int mult_result;
     int div_result;
     short value_64;
@@ -5513,7 +5462,7 @@ void s11d_rope_800C766C(void *work, int arg1)
     func_80034CD4((char *)work + 0x9C, 0, 0, 4);
     
 call_functions:
-    func_8005D58C(0x800C329C, 0x1);
+    func_8005D58C((void *)0x800C329C, 0x1);
     
     *(int *)((char *)work + 0xF60) = -8;
     *(int *)((char *)work + 0xF68) = -8;
@@ -5523,8 +5472,8 @@ call_functions:
     *(short *)((char *)work + 0xF44) = 0x1C2;
     *(short *)((char *)work + 0x1076) = 0;
     *(short *)((char *)work + 0x1074) = 0;
-    
-    func_8005D58C(0x800C32A4, 0x2);
+
+    func_8005D58C((void *)0x800C32A4, 0x2);
     
     if (arg1 != 0x1)
     {
@@ -5646,14 +5595,13 @@ void s11d_rope_800C8364(void *work)
     short value_ebc;
     short value_ebe;
     int value_ed0;
-    int result;
+    int result = 0;
     int calc1, calc2;
     int mult_result;
     int div_result;
     short value_64;
     short value_66;
-    int final_calc;
-    
+
     flags_f70 = *(unsigned int *)((char *)work + 0xF70);
     
     if ((flags_f70 & 0x2100) != 0)
@@ -5730,7 +5678,7 @@ void s11d_rope_800C882C(void *work)
     short value_ebc;
     short value_ebe;
     int value_ed0;
-    int result;
+    int result = 0;
     int calc1, calc2;
     int mult_result;
     int div_result;
@@ -5824,7 +5772,7 @@ void s11d_rope_800C91AC(void *work)
     short value_ebc;
     short value_ebe;
     int value_ed0;
-    int result;
+    int result = 0;
     int calc1, calc2;
     int mult_result;
     int div_result;
