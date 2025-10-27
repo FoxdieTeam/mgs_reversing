@@ -28,12 +28,14 @@ CdlCB CdReadCallback( CdlCB func )
 CdlCB CdReadMode( CdlCB func )
 {
     /* do nothing */
+    return NULL;
 }
 
 typedef void ( *DslCB )( u_char, u_char* );
 DslCB DsReadyCallback( DslCB func )
 {
     printf( "DsReadyCallback %x\n", (u_int)func );
+    return NULL;
 }
 
 void DsDataCallback( void (*func)() )
