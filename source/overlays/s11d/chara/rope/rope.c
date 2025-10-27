@@ -112,6 +112,8 @@ void s11d_rope_800C5538(void *work)
     *(int *)((char *)ptr1 + 0x24) = 0;
 }
 
+ 
+
 void s11d_rope_800C44A4(void *work)
 {
     int temp1;
@@ -991,7 +993,7 @@ int s11d_rope_800C8FDC(void *work)
     int index;
     
     count = 0;
-    index = work;
+    index = (int)work;
     
     result = func_80020968(99);
     
