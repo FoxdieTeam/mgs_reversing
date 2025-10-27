@@ -4,7 +4,6 @@
 #include "libgcl/libgcl.h"
 #include "takabe/thing.h"
 
-#if 0 /* WIP: keep asm authoritative; disable C until matching */
 // Landing system global variables
 unsigned char landing_byte_800C3324;
 int           landing_int_800C3328;
@@ -17,7 +16,7 @@ int           landing_int_800C333C;
 int           landing_int_800C3340;
 int           landing_int_800C3344;
 
-// Tier 1: Simple getter functions
+// Tier 1: Simple getter functions (ENABLED for testing)
 
 // Returns landing_int_800C332C
 int s11d_landing_800CD094(void)
@@ -49,6 +48,7 @@ int s11d_landing_800CD144(void)
     return landing_int_800C3328;
 }
 
+#if 0 /* WIP: Remaining functions disabled until matching confirmed */
 // Tier 2: Simple setter function
 
 // Sets landing_int_800C3340 and landing_int_800C3344
