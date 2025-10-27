@@ -57,8 +57,7 @@ void s11d_landing_800CCEA8(int arg0, int arg1)
     landing_int_800C3344 = arg1;
 }
 
-#if 0 /* WIP: Tier 3+ functions disabled until matching confirmed */
-// Tier 3A: Simple logic functions
+// Tier 3A: Simple logic functions (ENABLED for testing)
 
 // Compares landing_int_800C332C with arg, returns bool based on landing_int_800C3338 comparison
 int s11d_landing_800CD0D4(int arg)
@@ -91,6 +90,7 @@ void s11d_landing_800CCE64(int index, int value)
     }
 }
 
+#if 0 /* WIP: Tier 3B+ functions disabled until matching confirmed */
 // Tier 3B: Initialization function
 
 // Main initialization - resets all landing system state and stops audio stream if active
