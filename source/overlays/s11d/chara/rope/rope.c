@@ -60,8 +60,8 @@ void s11d_rope_800C48C0(void *work)
 
 void s11d_rope_800C650C(void)
 {
-    func_8005D58C(&data_800C32B4, 1);
-    func_8005D58C(&data_800C32B8, 2);
+    func_8005D58C(&s11d_dword_800C32B4, 1);
+    func_8005D58C(&s11d_dword_800C32B8, 2);
 }
 
 int s11d_rope_800C4F84(void *work)
@@ -363,8 +363,8 @@ void s11d_rope_800C61D8(void *work, int index)
     ptr = (char *)ptr + offset;
     
     func_8001BC44(ptr);
-    func_8001BD20(&data_800C32BC);
-    func_8001BD64(&data_800C32C4);
+    func_8001BD20(&s11d_dword_800C32BC);
+    func_8001BD64(&s11d_dword_800C32C4);
     func_80092ED8(stack_buf);
     func_80072728(stack_buf, 1);
 }
@@ -436,7 +436,7 @@ void s11d_rope_800C54CC(void *work)
         return;
     }
     
-    array = &data_800B56D0;
+    array = &GM_WhereList;
     count = data_800BB9B4;
     target = *(unsigned short *)((char *)work + 0xEA0);
     
@@ -524,10 +524,10 @@ int s11d_rope_800C879C(void *work)
         return -1;
     }
     
-    func_8002DC74(result, 21, 1, &data_800C32CC);
+    func_8002DC74(result, 21, 1, &s11d_dword_800C32CC);
     
     temp = *(unsigned short *)((char *)work + 0x18);
-    func_8002DCCC(result, 1, -1, &data_800B4D98, &data_800BB39C, &temp);
+    func_8002DCCC(result, 1, -1, &linkvarbuf, &DG_ZeroVector, &temp);
     
     *(unsigned short *)((char *)work + 0x16) = temp;
     return 0;
@@ -791,7 +791,7 @@ void s11d_rope_800C5410(void)
     
     if (action != 0)
     {
-        func_800329C4(data_800BBA10, action, 0);
+        func_800329C4(GM_PlayerPosition, action, 0);
     }
 }
 
@@ -897,7 +897,7 @@ void s11d_rope_800C7EC4(void *work, int arg1)
     
     if (arg1 == 8)
     {
-        base = data_800BBA10;
+        base = GM_PlayerPosition;
         
         // Copy 8 bytes using unaligned operations
         // From base+0x20 to work+0x0
@@ -1309,10 +1309,10 @@ void s11d_rope_800C868C(void *work)
     }
     
     mask = 0xFFF7FFFF;
-    flags = data_800BB3CC;
+    flags = GM_GameStatus;
     value = data_800BB9F4;
     flags &= mask;
-    data_800BB3CC = flags;
+    GM_GameStatus = flags;
     
     if (value == work)
     {

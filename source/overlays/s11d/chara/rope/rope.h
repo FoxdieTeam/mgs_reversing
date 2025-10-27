@@ -11,18 +11,18 @@ typedef struct RopeWork
 } RopeWork;
 
 // External data symbols
-extern char data_800C32B4;
-extern char data_800C32B8;
-extern unsigned int data_800BB3CC;
+extern int s11d_dword_800C32B4;
+extern int s11d_dword_800C32B8;
+extern unsigned int GM_GameStatus;
 
 // External function declarations - consolidated from inline externs
-extern char data_800B4D98;
-extern char data_800BB39C;
-extern char data_800C32B4;
-extern char data_800C32B8;
-extern char data_800C32BC;
-extern char data_800C32C4;
-extern char data_800C32CC;
+extern char linkvarbuf;
+extern char DG_ZeroVector;
+extern int s11d_dword_800C32B4;
+extern int s11d_dword_800C32B8;
+extern int s11d_dword_800C32BC;
+extern int s11d_dword_800C32C4;
+extern int s11d_dword_800C32CC;
 extern int data_800BB9B4;    // Counter
 extern int data_800BB9D4;
 extern int data_800BB9F4;
@@ -49,9 +49,9 @@ extern short data_800D1F7C;
 extern short data_800D1F7E;
 extern short data_800D1F80;
 extern short data_800D1F82;
-extern unsigned int data_800BB3CC;
-extern void *data_800B56D0;  // Array of pointers
-extern void *data_800BBA10;
+extern unsigned int GM_GameStatus;
+extern void *GM_WhereList;  // Array of pointers
+extern void *GM_PlayerPosition;
 extern void *func_80020968(int);
 extern void *func_800209E8(void *);
 extern void *func_80020A14(void *);
