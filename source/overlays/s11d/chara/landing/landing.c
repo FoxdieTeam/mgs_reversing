@@ -48,8 +48,7 @@ int s11d_landing_800CD144(void)
     return landing_int_800C3328;
 }
 
-#if 0 /* WIP: Remaining functions disabled until matching confirmed */
-// Tier 2: Simple setter function
+// Tier 2: Simple setter function (ENABLED for testing)
 
 // Sets landing_int_800C3340 and landing_int_800C3344
 void s11d_landing_800CCEA8(int arg0, int arg1)
@@ -58,6 +57,7 @@ void s11d_landing_800CCEA8(int arg0, int arg1)
     landing_int_800C3344 = arg1;
 }
 
+#if 0 /* WIP: Tier 3+ functions disabled until matching confirmed */
 // Tier 3A: Simple logic functions
 
 // Compares landing_int_800C332C with arg, returns bool based on landing_int_800C3338 comparison
