@@ -139,7 +139,7 @@ int s11d_hind_bul_800CBBA8(HindBulWork *work, int arg0, int arg1)
     GM_ConfigControlString(control, NULL, NULL);
 
     target = &work->target;
-    GM_SetTarget(target, TARGET_POWER, ENEMY_SIDE, s11d_hind_bul_800CBA5C);
+    GM_SetTarget(target, TARGET_POWER, ENEMY_SIDE, &s11d_800BB39C);
     GM_Target_8002DCCC(target, 7, 2, 0x10, 0, &s11d_800BB39C);
 
     // TODO: Fix this field name - field_2C_vec doesn't exist in TARGET
