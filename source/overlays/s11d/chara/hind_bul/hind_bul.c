@@ -35,6 +35,24 @@ void s11d_hind_bul_800CB888(HindBulWork *work)
     work->prim->world.t[2] = work->control.mov.vz;
 }
 
+// Function 6: s11d_hind_bul_800CB794 - Hit detection (ENABLED for testing)
+int s11d_hind_bul_800CB794(HindBulWork *work)
+{
+    int faint;
+    TARGET *target;
+
+    target = &work->target;
+    faint = target->faint;
+
+    if (faint == 0)
+    {
+        return 0;
+    }
+
+    GM_SeSet2(0, 0x3F, 0x6F);
+    return 1;
+}
+
 /*
  * WIP: Remaining functions - work-in-progress decompiled code that doesn't compile yet.
  * Temporarily disabled to allow builds to proceed. The assembly versions are used instead.
@@ -141,24 +159,6 @@ int s11d_hind_bul_800CBBA8(HindBulWork *work, int arg0, int arg1)
     }
     
     return 0;
-}
-
-// Function 6: s11d_hind_bul_800CB794 - Hit detection
-int s11d_hind_bul_800CB794(HindBulWork *work)
-{
-    int field_2A;
-    TARGET *target;
-
-    target = &work->target;
-    field_2A = target->field_2A;
-
-    if (field_2A == 0)
-    {
-        return 0;
-    }
-
-    GM_SeSet2(0, 0x3F, 0x6F);
-    return 1;
 }
 
 // Function 7: s11d_hind_bul_800CBA5C - Line collision check (STUB)
