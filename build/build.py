@@ -117,14 +117,6 @@ def ninja_run():
         r'ending2\.c:\d+: warning: `var_s6\' might be used uninitialized in this function',
         r'smoke\.c:\d+: warning: `s00a_dword_800C34C8\' defined but not used',
         r'smoke3\.c:\d+: warning: unused variable `unused\'',
-        # rope.c warnings (PR #2135)
-        r'rope\.c:\d+: warning: assignment makes integer from pointer without a cast',
-        r'rope\.c:\d+: warning: passing arg \d+ of `.*\' makes pointer from integer without a cast',
-        r'rope\.c:\d+: warning: passing arg \d+ of `.*\' makes integer from pointer without a cast',
-        r'rope\.c:\d+: warning: assignment makes pointer from integer without a cast',
-        r'rope\.c:\d+: warning: comparison between pointer and integer',
-        r'rope\.c:\d+: warning: unused variable `.*\'',
-        r'rope\.c:\d+: warning: `.*\' might be used uninitialized in this function',
     ]
 
     if os.environ.get('APPVEYOR'):
