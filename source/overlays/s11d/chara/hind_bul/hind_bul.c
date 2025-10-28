@@ -81,30 +81,6 @@ void s11d_hind_bul_800CBA14(HindBulWork *work)
     }
 }
 
-// Function 3: s11d_hind_bul_800CB938 - Act function
-void s11d_hind_bul_800CB938(HindBulWork *work)
-{
-    short pos_temp[3];
-
-    GM_ActControl(&work->control);
-    GM_ActObject((OBJECT *)work->prim);
-    s11d_hind_bul_800CB888(work);
-
-    if (s11d_hind_bul_800CB794(work) != 0)
-    {
-        work->enable--;
-    }
-
-    if (work->enable <= 0)
-    {
-        pos_temp[0] = work->pos.vx;
-        pos_temp[1] = work->pos.vy;
-        pos_temp[2] = work->pos.vz;
-        GV_NearExp4V(pos_temp, pos_temp, 0xB5);
-        GV_DestroyActor(&work->actor);
-    }
-}
-
 // Function 4: s11d_hind_bul_800CBFD8 - Constructor
 GV_ACT *s11d_hind_bul_800CBFD8(int arg0, int arg1, int arg2, int enable)
 {
@@ -208,5 +184,29 @@ void s11d_hind_bul_800CBA14(HindBulWork *work)
     {
         GM_FreeObject((OBJECT *)prim);
         DG_FreePrim(prim);
+    }
+}
+
+// Enabled function - s11d_hind_bul_800CB938 - Act function
+void s11d_hind_bul_800CB938(HindBulWork *work)
+{
+    short pos_temp[3];
+
+    GM_ActControl(&work->control);
+    GM_ActObject((OBJECT *)work->prim);
+    s11d_hind_bul_800CB888(work);
+
+    if (s11d_hind_bul_800CB794(work) != 0)
+    {
+        work->enable--;
+    }
+
+    if (work->enable <= 0)
+    {
+        pos_temp[0] = work->pos.vx;
+        pos_temp[1] = work->pos.vy;
+        pos_temp[2] = work->pos.vz;
+        GV_NearExp4V(pos_temp, pos_temp, 0xB5);
+        GV_DestroyActor(&work->actor);
     }
 }
