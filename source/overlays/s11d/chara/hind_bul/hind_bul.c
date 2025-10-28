@@ -53,6 +53,13 @@ int s11d_hind_bul_800CB794(HindBulWork *work)
     return 1;
 }
 
+// Function 7: s11d_hind_bul_800CBA5C - Line collision check stub (ENABLED for testing)
+int s11d_hind_bul_800CBA5C(HZD_SEG *seg, HZD_SEG *seg2)
+{
+    // TODO: Implement full collision check logic
+    return 0;
+}
+
 /*
  * WIP: Remaining functions - work-in-progress decompiled code that doesn't compile yet.
  * Temporarily disabled to allow builds to proceed. The assembly versions are used instead.
@@ -158,13 +165,6 @@ int s11d_hind_bul_800CBBA8(HindBulWork *work, int arg0, int arg1)
         work->vertices[i] = s11d_800BB39C;
     }
     
-    return 0;
-}
-
-// Function 7: s11d_hind_bul_800CBA5C - Line collision check (STUB)
-int s11d_hind_bul_800CBA5C(HZD_SEG *seg, HZD_SEG *seg2)
-{
-    // TODO: Implement full collision check logic
     return 0;
 }
 
