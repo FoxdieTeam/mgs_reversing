@@ -18,14 +18,7 @@ int s11d_hind_bul_800CB794(HindBulWork *work);
 int s11d_hind_bul_800CBA5C(HZD_SEG *seg, HZD_SEG *seg2);
 int s11d_hind_bul_800CBBA8(HindBulWork *work, int arg0, int arg1);
 
-/*
- * WIP: This file contains work-in-progress decompiled code that doesn't compile yet.
- * Temporarily disabled to allow builds to proceed. The assembly versions are used instead.
- * TODO: Fix TARGET structure field names and missing prototypes before re-enabling.
- */
-#if 0
-
-// Function 1: s11d_hind_bul_800CB888 - Update primitive world matrix
+// Function 1: s11d_hind_bul_800CB888 - Update primitive world matrix (ENABLED for testing)
 void s11d_hind_bul_800CB888(HindBulWork *work)
 {
     SVECTOR sp10;
@@ -41,6 +34,13 @@ void s11d_hind_bul_800CB888(HindBulWork *work)
     work->prim->world.t[1] = work->control.mov.vy;
     work->prim->world.t[2] = work->control.mov.vz;
 }
+
+/*
+ * WIP: Remaining functions - work-in-progress decompiled code that doesn't compile yet.
+ * Temporarily disabled to allow builds to proceed. The assembly versions are used instead.
+ * TODO: Fix TARGET structure field names and missing prototypes before re-enabling.
+ */
+#if 0
 
 // Function 2: s11d_hind_bul_800CBA14 - Die/cleanup function
 void s11d_hind_bul_800CBA14(HindBulWork *work)
