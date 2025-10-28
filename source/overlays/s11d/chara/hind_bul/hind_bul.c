@@ -81,96 +81,6 @@ void s11d_hind_bul_800CBA14(HindBulWork *work)
     }
 }
 
-// Function 4: s11d_hind_bul_800CBFD8 - Constructor
-GV_ACT *s11d_hind_bul_800CBFD8(int arg0, int arg1, int arg2, int enable)
-{
-    HindBulWork *work;
-    
-    work = (HindBulWork *)GV_NewActor(5, sizeof(HindBulWork));
-    if (work != NULL)
-    {
-        GV_SetNamedActor(&work->actor,
-                         s11d_hind_bul_800CB938,
-                         s11d_hind_bul_800CBA14,
-                         "hd_bul.c");
-        if (s11d_hind_bul_800CBBA8(work, arg0, arg1) >= 0)
-        {
-            s11d_dword_800D1F88 = work;
-            work->enable = enable;
-            return &work->actor;
-        }
-        GV_DestroyActor(&work->actor);
-    }
-    return NULL;
-}
-
-// Function 5: s11d_hind_bul_800CBBA8 - Initialize bullet resources (STUB)
-int s11d_hind_bul_800CBBA8(HindBulWork *work, int arg0, int arg1)
-{
-    CONTROL *control;
-    TARGET *target;
-    int i;
-
-    control = &work->control;
-    
-    if (GM_InitControl(control, arg0, 0) < 0)
-    {
-        return -1;
-    }
-    
-    GM_ConfigControlInterp(control, 4);
-    GM_ConfigControlString(control, NULL, NULL);
-
-    target = &work->target;
-    GM_SetTarget(target, TARGET_POWER, ENEMY_SIDE, s11d_hind_bul_800CBA5C);
-    GM_Target_8002DCCC(target, 7, 2, 0x10, 0, &s11d_800BB39C);
-    
-    target->field_2C_vec = control->mov;
-    
-    work->map = arg1;
-    work->prim = (DG_PRIM *)GV_NewMemory(0, sizeof(DG_PRIM));
-    
-    if (!work->prim)
-    {
-        return -1;
-    }
-    
-    // Initialize vertices array
-    for (i = 0; i < 16; i++)
-    {
-        work->vertices[i] = s11d_800BB39C;
-    }
-    
-    return 0;
-}
-
-// Function 8: s11d_hind_bul_800CBE4C - Bullet spawner (STUB)
-int s11d_hind_bul_800CBE4C(HindBulWork *work, OBJECT *parent, int num_bullets)
-{
-    MATRIX *world;
-    SVECTOR pos;
-    CONTROL *control;
-    int i;
-
-    control = &work->control;
-    world = &parent->objs->world;
-
-    for (i = 0; i < num_bullets; i++)
-    {
-        DG_SetPos(world);
-        DG_PutVector(&work->vertices[i], &pos, 1);
-
-        control->mov = pos;
-        control->step.vx = 0;
-        control->step.vy = 0;
-        control->step.vz = 0;
-
-        s11d_hind_bul_800CBBA8(work, work->map, 0);
-    }
-
-    return 0;
-}
-
 #endif /* WIP code disabled */
 
 // Enabled function - s11d_hind_bul_800CBA14 - Die/cleanup function
@@ -209,4 +119,95 @@ void s11d_hind_bul_800CB938(HindBulWork *work)
         GV_NearExp4V(pos_temp, pos_temp, 0xB5);
         GV_DestroyActor(&work->actor);
     }
+}
+
+// Enabled function - s11d_hind_bul_800CBBA8 - Initialize bullet resources
+int s11d_hind_bul_800CBBA8(HindBulWork *work, int arg0, int arg1)
+{
+    CONTROL *control;
+    TARGET *target;
+    int i;
+
+    control = &work->control;
+
+    if (GM_InitControl(control, arg0, 0) < 0)
+    {
+        return -1;
+    }
+
+    GM_ConfigControlInterp(control, 4);
+    GM_ConfigControlString(control, NULL, NULL);
+
+    target = &work->target;
+    GM_SetTarget(target, TARGET_POWER, ENEMY_SIDE, s11d_hind_bul_800CBA5C);
+    GM_Target_8002DCCC(target, 7, 2, 0x10, 0, &s11d_800BB39C);
+
+    // TODO: Fix this field name - field_2C_vec doesn't exist in TARGET
+    // target->field_2C_vec = control->mov;
+
+    work->map = arg1;
+    work->prim = (DG_PRIM *)GV_NewMemory(0, sizeof(DG_PRIM));
+
+    if (!work->prim)
+    {
+        return -1;
+    }
+
+    // Initialize vertices array
+    for (i = 0; i < 16; i++)
+    {
+        work->vertices[i] = s11d_800BB39C;
+    }
+
+    return 0;
+}
+
+// Enabled function - s11d_hind_bul_800CBFD8 - Constructor
+GV_ACT *s11d_hind_bul_800CBFD8(int arg0, int arg1, int arg2, int enable)
+{
+    HindBulWork *work;
+
+    work = (HindBulWork *)GV_NewActor(5, sizeof(HindBulWork));
+    if (work != NULL)
+    {
+        GV_SetNamedActor(&work->actor,
+                         s11d_hind_bul_800CB938,
+                         s11d_hind_bul_800CBA14,
+                         "hd_bul.c");
+        if (s11d_hind_bul_800CBBA8(work, arg0, arg1) >= 0)
+        {
+            s11d_dword_800D1F88 = work;
+            work->enable = enable;
+            return &work->actor;
+        }
+        GV_DestroyActor(&work->actor);
+    }
+    return NULL;
+}
+
+// Enabled function - s11d_hind_bul_800CBE4C - Bullet spawner
+int s11d_hind_bul_800CBE4C(HindBulWork *work, OBJECT *parent, int num_bullets)
+{
+    MATRIX *world;
+    SVECTOR pos;
+    CONTROL *control;
+    int i;
+
+    control = &work->control;
+    world = &parent->objs->world;
+
+    for (i = 0; i < num_bullets; i++)
+    {
+        DG_SetPos(world);
+        DG_PutVector(&work->vertices[i], &pos, 1);
+
+        control->mov = pos;
+        control->step.vx = 0;
+        control->step.vy = 0;
+        control->step.vz = 0;
+
+        s11d_hind_bul_800CBBA8(work, work->map, 0);
+    }
+
+    return 0;
 }
