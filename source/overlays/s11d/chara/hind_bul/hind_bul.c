@@ -196,3 +196,17 @@ int s11d_hind_bul_800CBE4C(HindBulWork *work, OBJECT *parent, int num_bullets)
 }
 
 #endif /* WIP code disabled */
+
+// Enabled function - s11d_hind_bul_800CBA14 - Die/cleanup function
+void s11d_hind_bul_800CBA14(HindBulWork *work)
+{
+    DG_PRIM *prim;
+
+    GM_FreeControl(&work->control);
+    prim = work->prim;
+    if (prim)
+    {
+        GM_FreeObject((OBJECT *)prim);
+        DG_FreePrim(prim);
+    }
+}
