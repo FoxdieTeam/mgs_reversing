@@ -177,7 +177,7 @@ void s11d_rope_800C8200(void *work, int arg1)
 void s11d_rope_800C481C(void *work)
 {
     int value;
-    int result;
+    int result = 0;
     
     value = *(int *)((char *)work + 0xEDC);
     result = value / 3;
@@ -192,7 +192,7 @@ void s11d_rope_800C45F8(void *work)
     short value;
     int diff;
     void *ptr;
-    int result;
+    int result = 0;
     
     value = *(short *)((char *)work + 0x22);
     diff = 3000 - value;
@@ -621,6 +621,16 @@ int s11d_rope_800C3D50(void *work, int arg1)
     return arg1;
 }
 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
 void s11d_rope_800C4404(void *work)
 {
     int temp;
@@ -807,10 +817,10 @@ void s11d_rope_800C5348(void *work)
     unsigned short value2;
     unsigned short value3;
     unsigned short check;
-    int result;
+    int result = 0;
     unsigned int temp;
     
-    result = func_80016CCC((void *)0x800D1D5C);
+    result = GV_StrCode((const char *)0x800D1D5C);
     
     base = (char *)work + 0x38;
     value1 = *(unsigned short *)((char *)work + 0x36);
@@ -1161,7 +1171,7 @@ int s11d_rope_800C4DE0(void *work)
 void s11d_rope_800C8EE4(void *work)
 {
     void *ptr;
-    int result;
+    void *result;
     unsigned short value;
     
     ptr = (char *)work + 0xF84;
@@ -1248,7 +1258,7 @@ void s11d_rope_800C42F4(void *work, void *dest)
     do
     {
         func_800D1AB0(ptr1, (void *)stack);
-        func_800D1950((void *)stack, dest, (char *)work + 0x5C);
+        func_800D1950((void *)stack, dest, (int)((char *)work + 0x5C));
         
         stack[9] = *(int *)((char *)ptr3 + 0x20);
         stack[10] = *(int *)((char *)ptr3 + 0x24);
@@ -1275,7 +1285,7 @@ void s11d_rope_800C868C(void *work)
     void *ptr4;
     unsigned int flags;
     unsigned int mask;
-    int value;
+    void *value;
     
     func_800CE04C();
     
@@ -2160,7 +2170,7 @@ void s11d_rope_800C4648(void *work)
     *(unsigned int *)((char *)&stack[1] + 0x3) = stack[1];
     *(unsigned int *)&stack[1] = temp3;
     
-    func_80016D40((void *)&stack[0], (void *)&stack[2], ptr);
+    GV_SubVec3((SVECTOR *)&stack[0], (SVECTOR *)&stack[2], (SVECTOR *)ptr);
     
     result = *(short *)((char *)&stack[3] + 0x4);
     
@@ -2231,7 +2241,7 @@ void s11d_rope_800C4648(void *work)
         *(short *)((char *)&stack[2] + 0x2) = result;
     }
     
-    func_80016D00((void *)0x800B77C8, (void *)&stack[2], (void *)0x800B77C8);
+    GV_AddVec3((SVECTOR *)0x800B77C8, (SVECTOR *)&stack[2], (SVECTOR *)0x800B77C8);
     func_8003093C((void *)0x800B77C8);
 }
 
@@ -2580,11 +2590,11 @@ int s11d_rope_800C9500(void *arg0, void *arg1)
     int status;
     int ret;
     
-    result = func_800150E4(5, 0x1098);
+    result = GV_NewActor(5, 0x1098);
     
     if (result != 0)
     {
-        func_8001514C(result, (void *)0x800D8364, (void *)0x800D868C, (void *)0x800D1DC4);
+        GV_SetNamedActor(result, (void *)0x800D8364, (void *)0x800D868C, (const char *)0x800D1DC4);
         status = func_800C91AC(result, arg1, arg0);
         
         if (status < 0)
@@ -2594,7 +2604,8 @@ int s11d_rope_800C9500(void *arg0, void *arg1)
         }
         else
         {
-            ret = result;
+            /* result is a pointer; store as int to preserve behavior */
+            ret = (int)result;
         }
     }
     else
@@ -2629,7 +2640,7 @@ void s11d_rope_800C7B2C(void *work, int arg1)
         
         if (aa_value != 9)
         {
-            func_80034CD4((char *)work + 0x9C, 0, 0, 4);
+            func_80034CD4((char *)work + 0x9C, (void *)0, 0, 4);
         }
         
         *(unsigned short *)((char *)work + 0x6E) = 0x800;
@@ -2763,7 +2774,7 @@ void s11d_rope_800C6F28(void *work, int arg1)
         
         if (aa_value != direction)
         {
-            func_80034CD4((char *)work + 0x9C, 0, 0, 4);
+            func_80034CD4((char *)work + 0x9C, (void *)0, 0, 4);
         }
         
         *(unsigned short *)((char *)work + 0xF44) = 0x1C2;
@@ -2810,7 +2821,7 @@ void s11d_rope_800C6F28(void *work, int arg1)
     
     if (aa_value != direction)
     {
-        func_80034CD4((char *)work + 0x9C, 0, 0, 4);
+        func_80034CD4((char *)work + 0x9C, (void *)0, 0, 4);
     }
     
     ea8_ptr = *(void **)((char *)work + 0xEA8);
@@ -2918,7 +2929,7 @@ void s11d_rope_800C7320(void *work, int arg1)
         
         if (aa_value != 0x11)
         {
-            func_80034CD4((char *)work + 0x9C, 0, 0, 4);
+            func_80034CD4((char *)work + 0x9C, (void *)0, 0, 4);
         }
         
         *(unsigned short *)((char *)work + 0xF44) = 0;
@@ -3014,7 +3025,8 @@ void s11d_rope_800C7320(void *work, int arg1)
     div_result = div_result >> 12;
     value += div_result;
     
-    func_80092598(ed0_value, work);
+    /* ed0_value holds an address; cast to pointer for correct prototype */
+    func_80092598((void *)ed0_value, work);
     
     div_result = ed0_value / 12;
     
@@ -3031,6 +3043,7 @@ void s11d_rope_800C7320(void *work, int arg1)
     *(unsigned short *)((char *)work + 0x64) = value;
     *(unsigned short *)((char *)work + 0x66) = temp;
     *(unsigned short *)((char *)work + 0x68) = value;
+    (void)calc2;
 }
 
 void s11d_rope_800C6CD4(void *work, int arg1)
@@ -3053,7 +3066,7 @@ void s11d_rope_800C6CD4(void *work, int arg1)
         
         if (aa_value != 8)
         {
-            func_80034CD4((char *)work + 0x9C, 0, 0, 4);
+            func_80034CD4((char *)work + 0x9C, (void *)0, 0, 4);
         }
         
         flags = *(unsigned int *)((char *)work + 0xF74);
@@ -3201,6 +3214,7 @@ int s11d_rope_800C8C88(void *work)
     int calc;
     short value;
     short *array_ptr;
+    (void)k;
     
     allocation = func_8001BABC(0x12, 1, 0, (void *)((char *)work + 0x7E0), 0);
     
@@ -3222,7 +3236,7 @@ int s11d_rope_800C8C88(void *work)
     }
     
     *(short *)((char *)rope_data + 0x2E) = 0xFA;
-    func_80016CCC((void *)0x800D1DAC);
+    GV_StrCode((const char *)0x800D1DAC);
     
     rope_data = func_8001D830(rope_data);
     
@@ -3312,7 +3326,7 @@ int s11d_rope_800C8C88(void *work)
         {
             init_ptr = (short *)((char *)rope_data + (i * 6));
             
-            if (j == init_ptr)
+            if (j == (int)init_ptr)
             {
                 *(short *)((char *)work + 0x1000) = 0x1000;
             }
@@ -3348,7 +3362,7 @@ void s11d_rope_800C4B78(void *work)
     short val2;
     int result = 0;
     int result1;
-    int result2;
+    int result2 = 0;
     int temp;
     void *ptr_38;
     int calc1;
@@ -3518,7 +3532,7 @@ void s11d_rope_800C4B78(void *work)
     calc3 = calc1 + calc3;
     calc3 = calc2 + calc3;
     
-    func_80092708(calc3);
+    func_80092708((void *)calc3);
     
     calc3 = calc3 << 1;
     *(int *)((char *)work + 0xF40) = calc3;
@@ -3557,7 +3571,7 @@ void s11d_rope_800C502C(void *work)
         
         if (aa_value != 0xF)
         {
-            func_80034CD4((char *)work + 0x9C, 0, 0, 7);
+            func_80034CD4((char *)work + 0x9C, (void *)0, 0, 7);
         }
         
         ec2_value = *(unsigned short *)((char *)work + 0xEC2);
@@ -3639,7 +3653,7 @@ void s11d_rope_800C502C(void *work)
         }
         else if (aa_value == 1)
         {
-            func_80034CD4((char *)work + 0x9C, 0, 0, 4);
+            func_80034CD4((char *)work + 0x9C, (void *)0, 0, 4);
         }
         
         ea8_ptr = *(void **)((char *)work + 0xEA8);
@@ -3749,7 +3763,7 @@ void s11d_rope_800C7F8C(void *work, int arg1)
         
         if (aa_value != 0xA)
         {
-            func_80034CD4((char *)work + 0x9C, 0, 0, 4);
+            func_80034CD4((char *)work + 0x9C, (void *)0, 0, 4);
         }
         
         check_value = *(short *)0x800B77E8 + 0x22;
@@ -3806,7 +3820,7 @@ void s11d_rope_800C7F8C(void *work, int arg1)
     if (result != 0)
     {
         eb4_value = *(int *)((char *)work + 0xEB4);
-        func_800263E4(eb4_value, 0);
+        func_800263E4((void *)eb4_value, 0);
         eb4_value = result;
         *(int *)((char *)work + 0xEB4) = eb4_value;
         value1 = *(short *)((char *)work + 0xEB4);
@@ -3878,7 +3892,7 @@ void s11d_rope_800C48EC(void *work)
     void *ptr_804;
     short value;
     int f7c_value;
-    int result;
+    int result = 0;
     void *ptr_9c;
     unsigned int ptr_flags;
     short value_3e;
@@ -3933,7 +3947,7 @@ void s11d_rope_800C48EC(void *work)
                 }
                 else
                 {
-                    func_80017090(0x10);
+                    func_80017090((void *)0x10);
                     
                     f7c_value = *(int *)((char *)work + 0xF7C);
                     result = f7c_value * 0x800B77B8;
@@ -3975,8 +3989,8 @@ void s11d_rope_800C48EC(void *work)
             {
                 func_8005D58C((void *)0x800C326C, 1);
                 func_8005D58C((void *)0x800C3270, 2);
-                func_80017090(0x10);
-                func_800C61D8(work, result);
+                func_80017090((void *)0x10);
+                func_800C61D8(work, (void *)result);
             }
             
             *(unsigned short *)((char *)work + 0xF44) = 0;
@@ -4065,7 +4079,7 @@ void s11d_rope_800C3E50(void *work)
     unsigned int flag_2;
     short stack_20;
     int stack_24;
-    short value_78;
+    short value_78 = 0;
     short value_7a;
     unsigned int temp;
     short diff;
@@ -4126,15 +4140,15 @@ void s11d_rope_800C3E50(void *work)
         goto already_set;
     }
     
-    result_1 = func_80029098(work, (char *)work + 0x38, 0x1F4, *(unsigned char *)((char *)work + 0x59), 0xC);
-    result_2 = func_800C3D50(work, result_1);
-    ptr_s5 = result_2;
+    result_1 = (int)func_80029098(work, (char *)work + 0x38, 0x1F4, *(unsigned char *)((char *)work + 0x59), 0xC);
+    result_2 = (int)func_800C3D50(work, (void *)result_1);
+    ptr_s5 = (void *)result_2;
     
     if (ptr_s5 == 0)
     {
-        result_1 = func_80029098(work, (char *)work + 0x28, 0x1F4, *(unsigned char *)((char *)work + 0x59), 0xC);
-        result_3 = func_800C3D50(work, result_1);
-        ptr_s5 = result_3;
+        result_1 = (int)func_80029098(work, (char *)work + 0x28, 0x1F4, *(unsigned char *)((char *)work + 0x59), 0xC);
+        result_3 = (int)func_800C3D50(work, (void *)result_1);
+        ptr_s5 = (void *)result_3;
         goto check_result;
     }
     else
@@ -4146,9 +4160,9 @@ void s11d_rope_800C3E50(void *work)
 check_result:
     if (ptr_s5 == 0)
     {
-        result_1 = func_80029098(work, (char *)work + 0x30, 0x1F4, *(unsigned char *)((char *)work + 0x59), 0xC);
-        result_3 = func_800C3D50(work, result_1);
-        ptr_s5 = result_3;
+        result_1 = (int)func_80029098(work, (char *)work + 0x30, 0x1F4, *(unsigned char *)((char *)work + 0x59), 0xC);
+        result_3 = (int)func_800C3D50(work, (void *)result_1);
+        ptr_s5 = (void *)result_3;
     }
     
     if (ptr_s5 == 0)
@@ -4156,9 +4170,9 @@ check_result:
         goto skip_vector;
     }
     
-    *(unsigned char *)((char *)work + 0x58) = ptr_s5;
+    *(unsigned char *)((char *)work + 0x58) = (unsigned char)(int)(size_t)ptr_s5;
     
-    func_80026C68((char *)work + 0x60, value_36, (char *)work + 0x20);
+    func_80026C68((char *)work + 0x60, (void *)(int)value_36, (char *)work + 0x20);
     
     value_0 = *(short *)((char *)work + 0x0);
     stack_20 = *(short *)((char *)work + 0x20);
@@ -4395,15 +4409,16 @@ void s11d_rope_800C5584(void *work, int arg1, int arg2)
     short value_48;
     short value_46;
     int final_value;
+    (void)final_value;
     
     ptr_1c = *(int *)((char *)work + 0x1C);
     ptr_0 = *(int *)((char *)work + 0x0);
     ptr_c = *(int *)((char *)work + 0xC);
     ptr_f40 = *(int *)((char *)work + 0xF40);
-    ptr_4 = *(void **)((char *)work + 0x4);
+    ptr_4 = (int)(size_t)(*(void **)((char *)work + 0x4));
     
     result_1 = func_800925D8((char *)work + 0x20);
-    result_2 = func_800925D8(ptr_4);
+    result_2 = func_800925D8((void *)ptr_4);
     
     mult_result = ptr_f40 << 4;
     mult_result = mult_result * ptr_f40;
@@ -4437,7 +4452,7 @@ void s11d_rope_800C5584(void *work, int arg1, int arg2)
     }
     
     value_20 = *(int *)((char *)work + 0x20);
-    mult_result = (char *)work + 0x20;
+    mult_result = (int)(size_t)((char *)work + 0x20);
     mult_result = mult_result * value_20;
     div_result = mult_result / value_20;
     
@@ -4487,14 +4502,14 @@ complex_calc:
         value_0 = *(int *)((char *)work + 0x0);
         value_24 = *(int *)((char *)work + 0x24);
         
-        func_80026430(value_0, value_24);
+        func_80026430((void *)value_0, (void *)value_24);
         
         value_4 = *(int *)((char *)work + 0x4);
         value_28 = *(int *)((char *)work + 0x28);
         value_c = *(int *)((char *)work + 0xC);
         
-        func_80026430(value_4, value_28);
-        func_80026430(value_4, value_c);
+        func_80026430((void *)value_4, (void *)value_28);
+        func_80026430((void *)value_4, (void *)value_c);
         
         value_0 = *(int *)((char *)work + 0x0);
         
@@ -4728,7 +4743,7 @@ check_value_2:
         goto skip_call;
     }
     
-    func_8005D58C(0x800C32B0, 0x2);
+    func_8005D58C((void *)0x800C32B0, 0x2);
     
 skip_call:
     value_8 = *(int *)((char *)work + 0x8);
@@ -5459,7 +5474,7 @@ void s11d_rope_800C766C(void *work, int arg1)
         goto call_functions;
     }
     
-    func_80034CD4((char *)work + 0x9C, 0, 0, 4);
+    func_80034CD4((char *)work + 0x9C, (void *)0, 0, 4);
     
 call_functions:
     func_8005D58C((void *)0x800C329C, 0x1);
@@ -5515,7 +5530,7 @@ check_b6:
         goto setup_call;
     }
     
-    func_80034CD4((char *)work + 0x9C, 0, 0, 4);
+    func_80034CD4((char *)work + 0x9C, (void *)0, 0, 4);
     
 setup_call:
     func_800C5348(work);
@@ -5707,7 +5722,7 @@ void s11d_rope_800C882C(void *work)
         goto skip_call;
     }
     
-    func_80034CD4((char *)work + 0x9C, 0, 0, 4);
+    func_80034CD4((char *)work + 0x9C, (void *)0, 0, 4);
     
 skip_call:
     ptr_ea8 = *(void **)((char *)work + 0xEA8);
@@ -5801,7 +5816,7 @@ void s11d_rope_800C91AC(void *work)
         goto skip_call;
     }
     
-    func_80034CD4((char *)work + 0x9C, 0, 0, 4);
+    func_80034CD4((char *)work + 0x9C, (void *)0, 0, 4);
     
 skip_call:
     ptr_ea8 = *(void **)((char *)work + 0xEA8);

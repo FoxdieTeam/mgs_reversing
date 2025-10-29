@@ -20,13 +20,10 @@ extern char linkvarbuf;
 extern char DG_ZeroVector;
 extern int data_800BB9B4;    // Counter
 extern int data_800BB9D4;
-extern int data_800BB9F4;
-extern int data_800BBA20;
+extern void *data_800BB9F4;
+extern void *data_800BBA20;
 extern int data_800BBA40;
 extern int data_800D1F84;
-extern int func_80016CCC(void *);
-extern int func_80016D00(void *, void *, void *);
-extern int func_80016D40(void *, void *, void *);
 extern int func_80031298(void *);
 extern int func_80044DE0(void *);
 extern int func_80044FC8(void *);
