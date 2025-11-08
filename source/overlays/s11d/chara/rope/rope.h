@@ -18,12 +18,12 @@ extern int s11d_dword_800C32C4;
 extern int s11d_dword_800C32CC;
 extern char linkvarbuf;
 extern char DG_ZeroVector;
-extern int data_800BB9B4;    // Counter
+extern int gControlCount_800AB9B4;    // Counter
 extern int data_800BB9D4;
 extern void *data_800BB9F4;
 extern void *data_800BBA20;
 extern int data_800BBA40;
-extern int data_800D1F84;
+extern int s11d_dword_800D1F84;
 extern int func_80031298(void *);
 extern int func_80044DE0(void *);
 extern int func_80044FC8(void *);

@@ -439,7 +439,7 @@ void s11d_rope_800C54CC(void *work)
     }
     
     array = &GM_WhereList;
-    count = data_800BB9B4;
+    count = gControlCount_800AB9B4;
     target = *(unsigned short *)((char *)work + 0xEA0);
     
     for (i = 0; i < count; i++)
@@ -1389,7 +1389,7 @@ void s11d_rope_800C8250(void *work)
     temp = *(unsigned int *)((char *)work + 0xF70);
     temp &= 0x2;
     temp = (temp != 0) ? 1 : 0;
-    data_800D1F84 = temp;
+    s11d_dword_800D1F84 = temp;
     
     mode1 = *(unsigned short *)((char *)work + 0xAA);
     data_800BBA40 = mode1;

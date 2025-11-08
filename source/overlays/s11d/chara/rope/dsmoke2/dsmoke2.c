@@ -48,32 +48,16 @@ int s11d_dsmoke2_800CC08C(DSmoke2Work *work, SVECTOR *arg1)
 }
 
 // s11d_dsmoke2_800CC0E0 - Vector operations helper (68 lines)
-void s11d_dsmoke2_800CC0E0(DSmoke2Work *work, SVECTOR *arg1)
-{
-    // Uses GV_SubVec3 and other vector operations
-    // TBD - needs detailed assembly analysis
-}
+#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_dsmoke2_800CC0E0.s")
 
 // s11d_dsmoke2_800CC1DC - Major update function (148 lines)
-void s11d_dsmoke2_800CC1DC(DSmoke2Work *work, int arg1)
-{
-    // Large function with collision checks
-    // TBD - needs detailed assembly analysis
-}
+#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_dsmoke2_800CC1DC.s")
 
-// s11d_dsmoke2_800CC418 - Helper function (45 lines)  
-void s11d_dsmoke2_800CC418(DSmoke2Work *work)
-{
-    // Medium complexity helper
-    // TBD - needs detailed assembly analysis
-}
+// s11d_dsmoke2_800CC418 - Helper function (45 lines)
+#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_dsmoke2_800CC418.s")
 
 // s11d_dsmoke2_800CC4B8 - Primitive rendering (105 lines)
-void s11d_dsmoke2_800CC4B8(DSmoke2Work *work)
-{
-    // Handles primitive rendering based on field_284-28A
-    // TBD - needs detailed assembly analysis
-}
+#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_dsmoke2_800CC4B8.s")
 
 // s11d_dsmoke2_800CC648 - Act function (63 lines)
 void s11d_dsmoke2_800CC648(DSmoke2Work *work)
@@ -132,19 +116,10 @@ void s11d_dsmoke2_800CC730(DSmoke2Work *work)
 }
 
 // s11d_dsmoke2_800CC794 - Main rendering/update (205 lines)
-void s11d_dsmoke2_800CC794(DSmoke2Work *work, int arg1)
-{
-    // Largest function - main rendering logic
-    // Accesses field_280, field_284-28A
-    // TBD - needs detailed assembly analysis
-}
+#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_dsmoke2_800CC794.s")
 
 // s11d_dsmoke2_800CCAB4 - GCL operations (112 lines)
-void s11d_dsmoke2_800CCAB4(DSmoke2Work *work)
-{
-    // GCL-related operations using field_98 array
-    // TBD - needs detailed assembly analysis  
-}
+#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_dsmoke2_800CCAB4.s")
 
 // s11d_dsmoke2_800CCC60 - Init function (37 lines)
 int s11d_dsmoke2_800CCC60(DSmoke2Work *work, int where, int argc)
