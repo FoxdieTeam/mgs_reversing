@@ -24,7 +24,7 @@ extern void *data_800BB9F4;
 extern void *data_800BBA20;
 extern int data_800BBA40;
 extern int s11d_dword_800D1F84;
-extern int func_80031298(void *);
+extern int func_800C6544(void *);
 extern int func_80044DE0(void *);
 extern int func_80044FC8(void *);
 extern int func_80045298(void *);

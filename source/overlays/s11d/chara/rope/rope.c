@@ -1590,7 +1590,7 @@ void s11d_rope_800C7530(void *work, int arg1)
         return;
     }
     
-    result = func_80031298(work);
+    result = func_800C6544(work);
     
     if (result != 0)
     {
@@ -1664,7 +1664,7 @@ void s11d_rope_800C6834(void *work, int arg1)
     
     func_800266D4((char *)work + 0x24, &temp_stack, 1);
     
-    result = func_80031298(work);
+    result = func_800C6544(work);
     
     if (result != 0)
     {
@@ -1769,7 +1769,7 @@ void s11d_rope_800C697C(void *work, int arg1)
         return;
     }
     
-    result = func_80031298(work);
+    result = func_800C6544(work);
     
     if (result != 0)
     {
