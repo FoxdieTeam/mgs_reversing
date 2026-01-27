@@ -28,6 +28,7 @@ typedef struct HindWork
     int      field_42C;
     int      field_430;
     int      field_434;
+
     int      field_438;
     int      field_43C;
     int      field_440;
@@ -173,6 +174,7 @@ typedef struct HindWork
     MENU_BAR_CONF field_7E8;
     int       field_7F4;
     int       field_7F8;
+    int       vox_ids[0];
     int       field_7FC[1]; // unknown how large
     int       field_800;
     int       field_804;
@@ -1187,7 +1189,19 @@ int SECTION("overlay.bss") s11g_dword_800DD374;
 int SECTION("overlay.bss") s11g_dword_800DD378;
 
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D46B8.s")
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D46D8.s")
+void s11g_hind_800D46D8(HindWork *work, int index)
+{
+    if (work->field_94C != 1)
+    {
+        if (work->field_930 == 0)
+        {
+            if (GM_StreamStatus() == -1)
+            {
+                GM_VoxStream(work->vox_ids[index], 0);
+            }
+        }
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D4744.s")
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D48E8.s")
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D4990.s")
