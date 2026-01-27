@@ -301,7 +301,7 @@
 #define CHARA_SEARCH_LIGHT      { 0xf50f, NewSearchlight_800D92BC } // GV_StrCode("サーチライト") enemy/searchli.c
 #define CHARA_BELONG            { 0xf59e, NewBelong }               // chara/others/belong.c
 #define CHARA_UJI               { 0xf5c5, NewUji_800C42F8 }         // okajima/uji.c
-#define CHARA_CHANGE            { 0xf722, NewChange }               // onoda/change/change.c
+#define CHARA_CDCHANGE          { 0xf722, NewCdChange }             // GV_StrCode("ＣＤ交換") onoda/change/change.c
 #define CHARA_BOXALL            { 0xf74b, NewBoxall_800CA088 }      // chara/torture/boxall.c
 #define CHARA_MOVIE_FAA8        { 0xfaa8, ? }                       // chara/movie/movie.c
 #define CHARA_FLR_SPA           { 0xfc0b, NewFlrSpa_800D0F78 }      // okajima/flr_spa.c
@@ -517,7 +517,7 @@ void *NewCrow_800DED08();               /* okajima/valcan/crow.c        */
 void *s15c_dyncon_800D8C9C();           /* okajima/valcan/dyncon.c      */
 void *NewWallSpa_800CB4A4();            /* okajima/wall_spa.c           */
 void *NewWolf2();                       /* okajima/wolf/wolf2.c         */
-void *NewChange();                      /* onoda/change/change.c        */
+void *NewCdChange();                    /* onoda/change/change.c        */
 void *Safety_800C47A0();                /* onoda/change/safety.c (?)    */
 void *NewDemoSelect();                  /* onoda/demosel/demosel.c      */
 void *NewOpen_800D6814();               /* onoda/open/open.c            */

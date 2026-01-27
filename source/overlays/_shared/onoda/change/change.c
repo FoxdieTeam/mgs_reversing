@@ -679,7 +679,7 @@ static int GetResources( Work *work, int map )
 
 /*---------------------------------------------------------------------------*/
 
-void *NewChange( int name, int where, int argc, char **argv )
+void *NewCdChange( int name, int where, int argc, char **argv )
 {
     Work *work;
 

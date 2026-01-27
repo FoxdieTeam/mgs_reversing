@@ -439,7 +439,7 @@
 #define CHARAID_SEARCH_LIGHT    0xf50f  // GV_StrCode("サーチライト")
 #define CHARAID_BELONG          0xf59e  //
 #define CHARAID_UJI             0xf5c5  //
-#define CHARAID_CHANGE          0xf722  //
+#define CHARAID_CDCHANGE        0xf722  // GV_StrCode("ＣＤ交換")
 #define CHARAID_BOXALL          0xf74b  //
 #define CHARAID_MOVIE_FAA8      0xfaa8  //
 #define CHARAID_FLR_SPA         0xfc0b  //
