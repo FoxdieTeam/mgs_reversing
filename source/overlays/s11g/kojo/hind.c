@@ -284,6 +284,10 @@ extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 extern DG_CHANL         DG_Chanls[3];
 extern GM_CAMERA        GM_Camera;
 
+void s11g_hind_800D5E44(HindWork *a0, int a1);
+void s11g_hind_800D5E54(void);
+void s11g_hind_800D5F94(void); 
+
 void HindAct_800D3404(HindWork *work);
 void HindDie_800D45C0(HindWork *work);
 void sub_8007F0D0(VECTOR *out, VECTOR *a, VECTOR *b, VECTOR *c);
@@ -1206,7 +1210,18 @@ void s11g_hind_800D46D8(HindWork *work, int index)
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D48E8.s")
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D4990.s")
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D4A24.s")
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D4A80.s")
+void s11g_hind_800D4A80(VECTOR *current, VECTOR *target, int divisor) {
+    int weight = divisor - 1;
+
+    /* Axis X */
+    current->vx = (current->vx * weight + target->vx) / divisor;
+
+    /* Axis Y */
+    current->vy = (current->vy * weight + target->vy) / divisor;
+
+    /* Axis Z */
+    current->vz = (current->vz * weight + target->vz) / divisor;
+}
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D4B68.s")
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D4DD0.s")
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D50F0.s")
@@ -1214,14 +1229,31 @@ void s11g_hind_800D46D8(HindWork *work, int index)
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D5820.s")
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D5CD8.s")
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D5DE4.s")
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D5E44.s")
+
+void s11g_hind_800D5E44(HindWork *a0, int a1) {
+    a0->field_95C = 0x1E;
+    a0->field_960 = a1;
+}
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D5E54.s")
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D5F94.s")
+void s11g_hind_800D60D8(void) {
+    s11g_hind_800D5E54();
+}
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D5FB4.s")
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D60F0.s")
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D619C.s")
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D61F8.s")
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D6260.s")
+void s11g_hind_800D6260(int *current, int *target, int *velocity, int speed)
+{
+    int current_val = *current;
+    int target_val = *target;
+    int new_val;
+
+    new_val = (current_val * (speed - 1) + target_val) / speed;
+
+    /* Swapping these two lines fixes the 0x50 and 0x58 register mismatch */
+    *velocity = current_val - new_val;
+    *current = new_val;
+}
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D62BC.s")
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D63A4.s")
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D648C.s")
