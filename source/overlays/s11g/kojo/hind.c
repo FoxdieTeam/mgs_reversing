@@ -1209,7 +1209,28 @@ void s11g_hind_800D46D8(HindWork *work, int index)
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D4744.s")
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D48E8.s")
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D4990.s")
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D4A24.s")
+void s11g_hind_800D4A24(int *current_val, int *target_val, int *out_delta, int divisor) {
+    /* a0 = current_val
+       a1 = target_val
+       a2 = out_delta
+       a3 = divisor
+    */
+    int old_val = *current_val;
+    int weight = divisor - 1;
+    int new_avg;
+
+    /* 0x0 - 0x44: Calculate the new running average */
+    /* (old * (divisor - 1) + target) / divisor */
+    new_avg = (old_val * weight + *target_val) / divisor;
+
+    /* 0x4c: Calculate the difference (delta) */
+    /* 0x50: Store delta to out_delta (a2) */
+    *out_delta = old_val - new_avg;
+
+    /* 0x58: Update the current value with the new average */
+    /* This happens in the jump delay slot */
+    *current_val = new_avg;
+}
 void s11g_hind_800D4A80(VECTOR *current, VECTOR *target, int divisor) {
     int weight = divisor - 1;
 
@@ -1238,7 +1259,60 @@ void s11g_hind_800D5E44(HindWork *a0, int a1) {
 void s11g_hind_800D60D8(void) {
     s11g_hind_800D5E54();
 }
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D5FB4.s")
+void s11g_hind_800D5FB4(HindWork *s0, int a1) {
+    int   matrix[8];   
+    short rotation[3]; 
+    int   scale[3];    
+    register int v0, v1;
+    void NewSpark();
+
+    if (a1 == 0) {
+        v0 = GV_RandS(0x200);
+        rotation[0] = v0 + 0x400;
+        
+        v0 = GV_RandS(0x200);
+        rotation[1] = v0;
+        
+        v0 = GV_RandS(0x200);
+        rotation[2] = v0;
+
+        v1 = *(int *)((char *)s0 + 0x670);
+        scale[0] = (v1 << 3) - v1;
+        
+        v1 = *(int *)((char *)s0 + 0x670);
+        scale[1] = (v1 << 3) - v1;
+        
+        v1 = *(int *)((char *)s0 + 0x670);
+        v0 = (v1 << 3) - v1;
+    } else {
+        rotation[0] = 0x400;
+        rotation[1] = 0;
+        rotation[2] = 0;
+
+        v0 = *(int *)((char *)s0 + 0x670);
+        scale[0] = v0 << 2;
+        v0 = *(int *)((char *)s0 + 0x670);
+        scale[1] = v0 << 2;
+        v0 = *(int *)((char *)s0 + 0x670);
+        v0 = v0 << 2;
+    }
+    scale[2] = v0;
+
+    rotation[0] += *(short *)((char *)s0 + 0x788);
+    rotation[1] += *(short *)((char *)s0 + 0x78A);
+    rotation[2] += *(short *)((char *)s0 + 0x78C);
+
+    // Explicit casts to fix warnings
+    RotMatrixYXZ((SVECTOR *)rotation, (MATRIX *)matrix);
+
+    matrix[5] = *(short *)((char *)s0 + 0x7D8);
+    matrix[6] = *(short *)((char *)s0 + 0x7DA);
+    matrix[7] = *(short *)((char *)s0 + 0x7DC);
+
+    ScaleMatrix((MATRIX *)matrix, (VECTOR *)scale);
+    NewSpark((MATRIX *)matrix, 0);
+
+}
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D60F0.s")
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D619C.s")
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D61F8.s")
@@ -1254,8 +1328,38 @@ void s11g_hind_800D6260(int *current, int *target, int *velocity, int speed)
     *velocity = current_val - new_val;
     *current = new_val;
 }
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D62BC.s")
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D63A4.s")
+void s11g_hind_800D62BC(int *current_pos, int *target_pos, int speed)
+{
+    int speed_minus_1 = speed - 1;
+    int new_val;
+
+    // Axis X (0x0 - 0x44)
+    new_val = (current_pos[0] * speed_minus_1 + target_pos[0]) / speed;
+    // Axis Y (0x48 - 0x90)
+    // Note: The store for X happens AFTER we start loading Y to match MIPS 0x58
+    current_pos[0] = new_val;
+    new_val = (current_pos[1] * speed_minus_1 + target_pos[1]) / speed;
+    
+    // Axis Z (0x94 - 0xdc)
+    // Note: The store for Y happens AFTER we start loading Z to match MIPS 0xa4
+    current_pos[1] = new_val;
+    new_val = (current_pos[2] * speed_minus_1 + target_pos[2]) / speed;
+
+    // Final Store (0xe4)
+    current_pos[2] = new_val;
+}
+void Function_800D63A4(short *arg0, short *arg1, int arg2) {
+    int factor = arg2 - 1;
+
+    /* component 0 (X) */
+    arg0[0] = (arg0[0] * factor + arg1[0]) / arg2;
+
+    /* component 1 (Y) */
+    arg0[1] = (arg0[1] * factor + arg1[1]) / arg2;
+
+    /* component 2 (Z) */
+    arg0[2] = (arg0[2] * factor + arg1[2]) / arg2;
+}
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D648C.s")
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D66F0.s")
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D6848.s")
