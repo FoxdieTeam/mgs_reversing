@@ -1,3 +1,11 @@
+#include "common.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
+#include "libgcl/libgcl.h"
+#include "game/game.h"
+#include "linkvar.h"
+#include "menu/menuman.h"
+
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF3DC.s")
 
 void s04c_revolver_800CF418(void)
@@ -7,9 +15,23 @@ void s04c_revolver_800CF418(void)
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF420.s")
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF4A0.s")
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF518.s")
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF584.s")
+void s04c_revolver_800CF584(void *s0)
+{
+    if (*(short *)((char *)s0 + 0xb0) != 9)
+    {
+        GM_ConfigObjectOverride((char *)s0 + 0xa0, 9, 0, 4, -1);
+    }
+    *(short *)((char *)s0 + 0x19c) = 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF5D0.s")
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF650.s")
+void s04c_revolver_800CF650(void *s0)
+{
+    if (*(short *)((char *)s0 + 0xb0) != 13)
+    {
+        GM_ConfigObjectOverride((char *)s0 + 0xa0, 13, 0, 4, -1);
+    }
+    *(short *)((char *)s0 + 0x19c) = 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF69C.s")
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF71C.s")
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF748.s")
@@ -21,7 +43,29 @@ void s04c_revolver_800CF418(void)
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CFBE0.s")
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CFC3C.s")
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CFC6C.s")
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CFD08.s")
+
+void s04c_revolver_800CFD08(SVECTOR *arg0, int arg1)
+{
+    switch (arg1)
+    {
+    case 0:
+        arg0->vx = -15000 - arg0->vx;
+        break;
+
+    case 1:
+        arg0->vx = 5000 - arg0->vx;
+        break;
+
+    case 2:
+        arg0->vz = 2000 - arg0->vz;
+        break;
+
+    case 3:
+        arg0->vz = 22000 - arg0->vz;
+        break;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CFD84.s")
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CFE44.s")
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CFED4.s")
