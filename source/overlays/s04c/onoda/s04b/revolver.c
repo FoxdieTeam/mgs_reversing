@@ -17,18 +17,24 @@ void s04c_revolver_800CF418(void)
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF518.s")
 void s04c_revolver_800CF584(void *s0)
 {
+    // Check if the short at offset 0xB0 is NOT 9
     if (*(short *)((char *)s0 + 0xb0) != 9)
     {
-        GM_ConfigObjectOverride((char *)s0 + 0xa0, 9, 0, 4, -1);
+        // Added (OBJECT *) cast here
+        GM_ConfigObjectOverride((OBJECT *)((char *)s0 + 0xa0), 9, 0, 4, -1);
     }
+    // Set short at offset 0x19C to 0
     *(short *)((char *)s0 + 0x19c) = 0;
 }
+
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF5D0.s")
 void s04c_revolver_800CF650(void *s0)
 {
+    // Check if the short at offset 0xB0 is NOT 13
     if (*(short *)((char *)s0 + 0xb0) != 13)
     {
-        GM_ConfigObjectOverride((char *)s0 + 0xa0, 13, 0, 4, -1);
+        // Added (OBJECT *) cast here
+        GM_ConfigObjectOverride((OBJECT *)((char *)s0 + 0xa0), 13, 0, 4, -1);
     }
     *(short *)((char *)s0 + 0x19c) = 0;
 }
