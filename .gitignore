@@ -41,7 +41,4 @@ research/
 .cache/
 .sentry-native
 obj_psx_dev/
-third_party/venv/
-build/
-*.o
-*.bin
+

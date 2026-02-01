@@ -1192,9 +1192,9 @@ int SECTION("overlay.bss") s11g_dword_800DD370;
 int SECTION("overlay.bss") s11g_dword_800DD374;
 int SECTION("overlay.bss") s11g_dword_800DD378;
 
-void s11g_hind_800D46B8(int a, int b)
+void s11g_hind_800D46B8(SVECTOR *pos, int se_id)
 {
-    GM_SeSetMode((void *)a, b, 1);
+    GM_SeSetMode(pos, se_id, GM_SEMODE_BOMB);
 }
 
 void s11g_hind_800D46D8(HindWork *work, int index)
