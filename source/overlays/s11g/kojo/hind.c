@@ -1192,7 +1192,11 @@ int SECTION("overlay.bss") s11g_dword_800DD370;
 int SECTION("overlay.bss") s11g_dword_800DD374;
 int SECTION("overlay.bss") s11g_dword_800DD378;
 
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D46B8.s")
+void s11g_hind_800D46B8(SVECTOR *pos, int se_id)
+{
+    GM_SeSetMode(pos, se_id, GM_SEMODE_BOMB);
+}
+
 void s11g_hind_800D46D8(HindWork *work, int index)
 {
     if (work->field_94C != 1)
@@ -1314,7 +1318,19 @@ void s11g_hind_800D5FB4(HindWork *s0, int a1) {
 
 }
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D60F0.s")
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D619C.s")
+void s11g_hind_800D619C(HindWork *s0, int s1) {
+    int v0;
+    int *streaming_flag = (int *)((unsigned int)s0 + 0x94c);
+
+    if (*streaming_flag != 1) {
+        if (GM_StreamStatus() == -1) {
+            int *ids_base = (int *)((unsigned int)s0 + 0x7fc);
+            v0 = ids_base[s1];
+            
+            GM_VoxStream(v0, 0);
+        }
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D61F8.s")
 void s11g_hind_800D6260(int *current, int *target, int *velocity, int speed)
 {
