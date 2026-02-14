@@ -1,45 +1,25 @@
+# Junk / Local Environment
+.venv/
+venv/
+__pycache__/
+*.pyc
+.vscode/
+.vs/
+*.swp
+*.log
+
+# Build Outputs (Compiled stuff we don't want)
 *.obj
 *.lib
 *.cpe
-*.exe
 *.map
 *.sym
-*.matching.bin
-*.pyc
-.ninja*
-build.ninja
-PAPX_???.??
-SLED_???.??
-SLES_???.??
-SLPM_???.??
-SLPS_???.??
-SLUS_???.??
-obj
-obj_vr
-obj_dev
-build/dump.asm
-build/m2c
-build/contrib
-build/man
-build/manifest
-build/target.asm
-build/share
-build/bin
-build/*.zip
-build/statcov.txt
-.vscode/c_cpp_properties.json
-.vscode/tasks.json
-.vscode/settings.json
-build/obj_tool/Release
-.vs
-build/include_asm_tmp
-source/.vscode/settings.json
-*.log
-*.swp
-*.swo
-research/
-.cache/
-.sentry-native
+obj/
+obj_vr/
+obj_dev/
 obj_psx_dev/
+build/include_asm_tmp/
 
-build/
+# Executables / Binaries (Except the ones we need)
+# If you have specific tool binaries, they should be tracked
+# but general build artifacts should be ignored.
