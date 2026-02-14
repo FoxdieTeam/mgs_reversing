@@ -42,3 +42,4 @@ research/
 .sentry-native
 obj_psx_dev/
 
+build/

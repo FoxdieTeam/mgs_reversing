@@ -6,34 +6,99 @@
 #include "linkvar.h"
 #include "menu/menuman.h"
 
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF3DC.s")
+
+void s04c_revolver_800CF3DC(int sound_id)
+{
+    int s0_sound_id = sound_id;
+
+    if (GM_StreamStatus() != 2)
+    {
+        GM_SeSet2(0, 0x3f, s0_sound_id);
+    }
+}
 
 void s04c_revolver_800CF418(void)
 {
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF420.s")
+void s04c_revolver_800CF420(void *work)
+{
+  
+    if (*(short *)((char *)work + 0xb0) != 14)
+    {
+        
+        *(int *)((char *)work + 0x888) = 1;
+
+        {
+           
+            unsigned char *m_ctrl = *(unsigned char **)((char *)work + 0xb4);
+            
+           
+            unsigned char *m_info = *(unsigned char **)(m_ctrl + 0x28);
+            
+          
+            *(unsigned short *)(m_info + 0x26) += 2048;
+        }
+
+       
+        *(unsigned short *)((char *)work + 0x2e) += 2048;
+
+       
+        GM_ConfigObjectOverride((void *)((char *)work + 0xa0), 14, 0, 4, -1);
+
+        {
+            
+            unsigned char *m_ctrl = *(unsigned char **)((char *)work + 0xb4);
+            
+            
+            *(unsigned short *)(m_ctrl + 0x2c) = 3;
+        }
+
+        *(short *)((char *)work + 0x19c) = 0;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF4A0.s")
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF518.s")
+void s04c_revolver_800CF518(void *s0)
+{
+    void *s1;
+    int check;
+
+    s1 = (char *)s0 + 0xa0;
+    *(int *)((char *)s0 + 0x888) = 0;
+
+    GM_ConfigObjectOverride(s1, 3, 0, 4, 0);
+
+    check = *(int *)((char *)s0 + 0x880);
+    
+    *(short *)((char *)s0 + 0x1b4) = 0;
+
+    if (check == 0)
+    {
+        // Keep your clobber here to protect the function arguments
+        __asm__ volatile("" : : : "$4", "memory"); 
+
+        GM_ConfigObjectAction(s1, 0, 0, 4);
+    }
+}
 void s04c_revolver_800CF584(void *s0)
 {
-    // Check if the short at offset 0xB0 is NOT 9
+  
     if (*(short *)((char *)s0 + 0xb0) != 9)
     {
-        // Added (OBJECT *) cast here
+        
         GM_ConfigObjectOverride((OBJECT *)((char *)s0 + 0xa0), 9, 0, 4, -1);
     }
-    // Set short at offset 0x19C to 0
+    
     *(short *)((char *)s0 + 0x19c) = 0;
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF5D0.s")
 void s04c_revolver_800CF650(void *s0)
 {
-    // Check if the short at offset 0xB0 is NOT 13
+    
     if (*(short *)((char *)s0 + 0xb0) != 13)
     {
-        // Added (OBJECT *) cast here
+        
         GM_ConfigObjectOverride((OBJECT *)((char *)s0 + 0xa0), 13, 0, 4, -1);
     }
     *(short *)((char *)s0 + 0x19c) = 0;
@@ -41,7 +106,23 @@ void s04c_revolver_800CF650(void *s0)
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF69C.s")
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF71C.s")
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF748.s")
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF7AC.s")
+void s04c_revolver_800CF7AC(void *work) {
+    register char *s0 = (char *)work;
+
+    /* Line 4-c: sw s0, 0x10(sp) / move s0, a0 / addiu a0, s0, 0xa0 */
+    /* This manual assignment helps force the 's0' register reuse */
+    
+    *(int *)(s0 + 0x880) = 0;
+
+    /* Line 10-20: Loads arguments into a1, a2, a3 then JALs */
+    GM_ConfigObjectAction(s0 + 0xA0, 0, 0, 4);
+
+    /* Line 28: lw v0, 0x888(s0) */
+    if (*(int *)(s0 + 0x888) != 0) {
+        *(int *)(s0 + 0x190) = -1;
+        *(int *)(s0 + 0x1A8) = 0;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF7FC.s")
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF868.s")
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF8D8.s")

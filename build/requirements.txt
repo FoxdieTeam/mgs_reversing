@@ -1,8 +1,0 @@
-ninja
-colorama
-termcolor
-capstone
-iterfzf
-pyperclip
-Jinja2
-levenshtein

@@ -1214,37 +1214,30 @@ void s11g_hind_800D46D8(HindWork *work, int index)
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D48E8.s")
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D4990.s")
 void s11g_hind_800D4A24(int *current_val, int *target_val, int *out_delta, int divisor) {
-    /* a0 = current_val
-       a1 = target_val
-       a2 = out_delta
-       a3 = divisor
-    */
+   
     int old_val = *current_val;
     int weight = divisor - 1;
     int new_avg;
 
-    /* 0x0 - 0x44: Calculate the new running average */
-    /* (old * (divisor - 1) + target) / divisor */
+   
     new_avg = (old_val * weight + *target_val) / divisor;
 
-    /* 0x4c: Calculate the difference (delta) */
-    /* 0x50: Store delta to out_delta (a2) */
+ 
     *out_delta = old_val - new_avg;
 
-    /* 0x58: Update the current value with the new average */
-    /* This happens in the jump delay slot */
+
     *current_val = new_avg;
 }
 void s11g_hind_800D4A80(VECTOR *current, VECTOR *target, int divisor) {
     int weight = divisor - 1;
 
-    /* Axis X */
+
     current->vx = (current->vx * weight + target->vx) / divisor;
 
-    /* Axis Y */
+
     current->vy = (current->vy * weight + target->vy) / divisor;
 
-    /* Axis Z */
+
     current->vz = (current->vz * weight + target->vz) / divisor;
 }
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D4B68.s")
@@ -1306,7 +1299,7 @@ void s11g_hind_800D5FB4(HindWork *s0, int a1) {
     rotation[1] += *(short *)((char *)s0 + 0x78A);
     rotation[2] += *(short *)((char *)s0 + 0x78C);
 
-    // Explicit casts to fix warnings
+
     RotMatrixYXZ((SVECTOR *)rotation, (MATRIX *)matrix);
 
     matrix[5] = *(short *)((char *)s0 + 0x7D8);
@@ -1317,7 +1310,45 @@ void s11g_hind_800D5FB4(HindWork *s0, int a1) {
     NewSpark((MATRIX *)matrix, 0);
 
 }
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D60F0.s")
+
+void s11g_hind_800D60F0(void *arg_a0)
+{
+    // Casting to unsigned char* allows us to use the hex offsets directly
+    unsigned char *ptr = (unsigned char *)arg_a0;
+    
+    register int s1;
+    register int s0;
+    int v0;
+    int v1;
+    int a3;
+    int y_delta;
+
+    /* X/Z deltas calculation */
+    // Using (short *) and (int *) to match the lh and lw instructions
+    s1 = (*(short *)(ptr + 0x790) - *(int *)(ptr + 0x760)) >> 1;
+    s0 = (*(short *)(ptr + 0x794) - *(int *)(ptr + 0x768)) >> 1;
+
+    /* First Angle */
+    v0 = ratan2(s1, s0);
+    *(short *)(ptr + 0x78A) = (short)(v0 & 0x0FFF);
+
+    /* Multiplier Logic - Forced ordering for register matching */
+    v1 = s0 * s0; 
+    a3 = s1 * s1;
+    
+    /* Square Root of sum */
+    v0 = SquareRoot0(v1 + a3);
+
+    /* Y delta calculation */
+    y_delta = (*(short *)(ptr + 0x792) - *(int *)(ptr + 0x764)) >> 1;
+
+    /* Final Angle Calculation */
+    v0 = ratan2(v0, y_delta);
+
+    /* Store results */
+    *(short *)(ptr + 0x788) = (short)((v0 - 0x400) & 0x0FFF);
+    *(short *)(ptr + 0x78C) = 0;
+}
 void s11g_hind_800D619C(HindWork *s0, int s1) {
     int v0;
     int *streaming_flag = (int *)((unsigned int)s0 + 0x94c);
@@ -1340,7 +1371,7 @@ void s11g_hind_800D6260(int *current, int *target, int *velocity, int speed)
 
     new_val = (current_val * (speed - 1) + target_val) / speed;
 
-    /* Swapping these two lines fixes the 0x50 and 0x58 register mismatch */
+
     *velocity = current_val - new_val;
     *current = new_val;
 }
@@ -1349,31 +1380,31 @@ void s11g_hind_800D62BC(int *current_pos, int *target_pos, int speed)
     int speed_minus_1 = speed - 1;
     int new_val;
 
-    // Axis X (0x0 - 0x44)
+
     new_val = (current_pos[0] * speed_minus_1 + target_pos[0]) / speed;
-    // Axis Y (0x48 - 0x90)
-    // Note: The store for X happens AFTER we start loading Y to match MIPS 0x58
+
+
     current_pos[0] = new_val;
     new_val = (current_pos[1] * speed_minus_1 + target_pos[1]) / speed;
     
-    // Axis Z (0x94 - 0xdc)
-    // Note: The store for Y happens AFTER we start loading Z to match MIPS 0xa4
+
+
     current_pos[1] = new_val;
     new_val = (current_pos[2] * speed_minus_1 + target_pos[2]) / speed;
 
-    // Final Store (0xe4)
+
     current_pos[2] = new_val;
 }
 void Function_800D63A4(short *arg0, short *arg1, int arg2) {
     int factor = arg2 - 1;
 
-    /* component 0 (X) */
+
     arg0[0] = (arg0[0] * factor + arg1[0]) / arg2;
 
-    /* component 1 (Y) */
+
     arg0[1] = (arg0[1] * factor + arg1[1]) / arg2;
 
-    /* component 2 (Z) */
+
     arg0[2] = (arg0[2] * factor + arg1[2]) / arg2;
 }
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D648C.s")
