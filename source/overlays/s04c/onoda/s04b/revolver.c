@@ -77,7 +77,7 @@ void s04c_revolver_800CF518(void *s0)
         // Keep your clobber here to protect the function arguments
         __asm__ volatile("" : : : "$4", "memory"); 
 
-        GM_ConfigObjectAction(s1, 0, 0, 4);
+        GM_ConfigObjectAction((OBJECT *)s1, 0, 0, 4);
     }
 }
 void s04c_revolver_800CF584(void *s0)
@@ -109,15 +109,15 @@ void s04c_revolver_800CF650(void *s0)
 void s04c_revolver_800CF7AC(void *work) {
     register char *s0 = (char *)work;
 
-    /* Line 4-c: sw s0, 0x10(sp) / move s0, a0 / addiu a0, s0, 0xa0 */
-    /* This manual assignment helps force the 's0' register reuse */
-    
+    /* Offset 0x880 */
     *(int *)(s0 + 0x880) = 0;
 
-    /* Line 10-20: Loads arguments into a1, a2, a3 then JALs */
-    GM_ConfigObjectAction(s0 + 0xA0, 0, 0, 4);
+    /* * We cast to (OBJECT *) to match the declaration in game/game.h.
+     * This stops the 'incompatible pointer type' build error.
+     */
+    GM_ConfigObjectAction((OBJECT *)(s0 + 0xA0), 0, 0, 4);
 
-    /* Line 28: lw v0, 0x888(s0) */
+    /* Offset 0x888 */
     if (*(int *)(s0 + 0x888) != 0) {
         *(int *)(s0 + 0x190) = -1;
         *(int *)(s0 + 0x1A8) = 0;
