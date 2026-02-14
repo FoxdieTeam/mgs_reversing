@@ -5,7 +5,7 @@ Jinja2==3.1.6
 Levenshtein==0.27.3
 MarkupSafe==3.0.3
 ninja==1.13.0
-ninja_syntax==1.7.2
+ninja-syntax>=1.8.2
 pyperclip==1.11.0
 RapidFuzz==3.14.3
 termcolor==3.3.0
