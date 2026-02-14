@@ -1,0 +1,10 @@
+capstone==5.0.6
+colorama==0.4.6
+iterfzf==1.9.0.67.0
+Jinja2==3.1.6
+Levenshtein==0.27.3
+MarkupSafe==3.0.3
+ninja==1.13.0
+pyperclip==1.11.0
+RapidFuzz==3.14.3
+termcolor==3.3.0
