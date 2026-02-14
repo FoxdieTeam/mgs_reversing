@@ -893,8 +893,57 @@ void camera_800C85D8(void)
     setClut(sprt, 976, 511);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C864C.s")
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C869C.s")
+void camera_800C864C(int *arg0)
+{
+    int var_v0;
+    int *var_v1;
+
+    var_v0 = 3;
+    var_v1 = (int *)((char *)arg0 + 0xC);
+    do {
+        *(int *)((char *)var_v1 + 0x654) = 0;
+        var_v0--;
+        var_v1--;
+    } while (var_v0 >= 0);
+
+    var_v0 = 8;
+    var_v1 = (int *)((char *)arg0 + 0x20);
+    do {
+        *(int *)((char *)var_v1 + 0x664) = 0;
+        var_v0--;
+        var_v1--;
+    } while (var_v0 >= 0);
+
+    var_v0 = 0x19;
+    arg0 = (int *)((char *)arg0 + 0x64);
+    do {
+        *(int *)((char *)arg0 + 0x688) = 0;
+        var_v0--;
+        arg0--;
+    } while (var_v0 >= 0);
+}
+void camera_800C869C(int *arg0)
+{
+    int var_v0;
+
+    /* li v0, 8 (9 iterations total) */
+    var_v0 = 8;
+    
+    /* addiu a0, a0, 0x20 */
+    arg0 = (int *)((char *)arg0 + 0x20);
+    
+    do {
+        /* sw zero, 0x664(a0) */
+        *(int *)((char *)arg0 + 0x664) = 0;
+        
+        /* addiu v0, v0, -1 */
+        var_v0--;
+        
+        /* addiu a0, a0, -4 (This should land in the delay slot of bgez) */
+        arg0--;
+        
+    } while (var_v0 >= 0); /* bgez v0, 8 */
+}
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C86BC.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C884C.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C89DC.s")

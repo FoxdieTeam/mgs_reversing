@@ -10,7 +10,7 @@ build_script:
  - cd build
  - pip install -r requirements.txt
  - python build.py --psyq_path c:\psyq_sdk
- - powershell.exe -File progress.ps1
+# - powershell.exe -File progress.ps1
  - python build.py --variant vr_exe --psyq_path c:\psyq_sdk
 
 install:
