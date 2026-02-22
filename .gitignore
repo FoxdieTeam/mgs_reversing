@@ -27,6 +27,10 @@ research/
 .cache/
 .sentry-native
 obj_psx_dev/
+build/.venv/
+.venv/
+__pycache__/
+*.pyc
 
 # === Build Folder Management ===
 # Ignore specific massive artifacts in build
