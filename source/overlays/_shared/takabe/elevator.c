@@ -396,17 +396,17 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
 
     if (var_s5 & 0x9)
     {
-        sub_80032BC4(var_s0_4, work->f5B6, work->f5BC);
+        GM_SeSetSize(var_s0_4, work->f5B6, work->f5BC);
     }
 
     if (var_s5 & 0x12)
     {
-        sub_80032BC4(var_s0_4, work->f5B8, work->f5BC);
+        GM_SeSetSize(var_s0_4, work->f5B8, work->f5BC);
     }
 
     if (var_s5 & 0x24)
     {
-        sub_80032BC4(var_s0_4, work->f5BA, work->f5BC);
+        GM_SeSetSize(var_s0_4, work->f5BA, work->f5BC);
     }
 
     if (((work->f58C & 0xC) == 0xC) && (work->f594 == CHARAID_SNAKE))

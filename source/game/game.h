@@ -200,23 +200,6 @@ static inline void GM_SetNoise( int power, int length, SVECTOR *pos )
     GM_NoisePosition = *pos;
 }
 
-extern int GM_GameStatus;
-static inline void GM_Sound( int x_pos, int y_pos, int se_id )
-{
-    int mask_id;
-    if (!(GM_GameStatus & (STATE_GAME_OVER | STATE_DEMO)))
-    {
-        x_pos &= 0xff;
-        y_pos &= 0xff;
-        if (y_pos > 63)
-        {
-            y_pos = 63;
-        }
-        mask_id = se_id & 0xff;
-        sd_set_cli( (x_pos << 16 | y_pos << 8 | mask_id), SD_ASYNC );
-    }
-}
-
 static inline void GM_FreePrim( DG_PRIM *prim )
 {
     if ( prim != NULL ) {
@@ -352,12 +335,12 @@ void GM_AlertModeInit(void);
 void GM_AlertModeReset(void);
 
 /* sound.c */
-void GM_SeSet(SVECTOR *pos, unsigned int se_id);
-void GM_SeSet2(int x_pos, int y_pos, int se_id);
-void GM_SeSetMode( SVECTOR *pos, int se_id, int mode );
-void GM_SeSet3(int x_pos, int y_pos, int se_id);
-void sub_80032B40(SVECTOR *svec, unsigned int se_id, int y_pos);
-void sub_80032BC4(SVECTOR *svec, unsigned int se_id, int param_3);
+void GM_SeSet(SVECTOR *pos, int se_id);
+void GM_SeSet2(int pan, int vol, int se_id);
+void GM_SeSetMode(SVECTOR *pos, int se_id, int mode);
+void GM_SeSet3(int pan, int vol, int se_id);
+void GM_SeSetPan(SVECTOR *pos, int se_id, int vol);
+void GM_SeSetSize(SVECTOR *pos, int se_id, int size);
 void GM_SetSound(int sound_code, int sync_mode);
 
 /* object.c */
