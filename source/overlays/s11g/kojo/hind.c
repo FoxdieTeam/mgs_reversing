@@ -1312,7 +1312,7 @@ void s11g_hind_800D5FB4(HindWork *s0, int a1) {
 }
 void s11g_hind_800D60F0(void *arg_a0)
 {
-    // Casting to unsigned char* allows us to use the hex offsets directly
+
     unsigned char *ptr = (unsigned char *)arg_a0;
     
     register int s1;
@@ -1322,29 +1322,29 @@ void s11g_hind_800D60F0(void *arg_a0)
     int a3;
     int y_delta;
 
-    /* X/Z deltas calculation */
-    // Using (short *) and (int *) to match the lh and lw instructions
+
+
     s1 = (*(short *)(ptr + 0x790) - *(int *)(ptr + 0x760)) >> 1;
     s0 = (*(short *)(ptr + 0x794) - *(int *)(ptr + 0x768)) >> 1;
 
-    /* First Angle */
+
     v0 = ratan2(s1, s0);
     *(short *)(ptr + 0x78A) = (short)(v0 & 0x0FFF);
 
-    /* Multiplier Logic - Forced ordering for register matching */
+
     v1 = s0 * s0; 
     a3 = s1 * s1;
     
-    /* Square Root of sum */
+
     v0 = SquareRoot0(v1 + a3);
 
-    /* Y delta calculation */
+
     y_delta = (*(short *)(ptr + 0x792) - *(int *)(ptr + 0x764)) >> 1;
 
-    /* Final Angle Calculation */
+
     v0 = ratan2(v0, y_delta);
 
-    /* Store results */
+
     *(short *)(ptr + 0x788) = (short)((v0 - 0x400) & 0x0FFF);
     *(short *)(ptr + 0x78C) = 0;
 }

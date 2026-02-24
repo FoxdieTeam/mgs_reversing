@@ -6,11 +6,39 @@
 #include "linkvar.h"
 #include "menu/menuman.h"
 
+typedef struct RevolverWork
+{
+    char            actor_pad[0x20];
+    char            control_pad1[8]; 
+    short           control_vx;     
+    short           control_vy;     
+    short           control_vz;      
+    short           control_rot_y;   
+    char            control_pad2[24];
+    void           *m_info;        
+    short           control_status;  
+    char            control_pad3[82];
+    char            body[16];       
+    short           field_B0;        
+    short           field_B2;        
+    char            ptr_pad[0];      
+    void           *field_B4;       
+    char            pad2[0xE4];      
+    short           field_19C;       
+    short           field_19E;
+    char            pad3[0x14];      
+    short           field_1B4;       
+    short           field_1B6;
+    char            pad4[0x6C8];    
+    int             field_880;       
+    int             field_884;
+    int             field_888;       
+} RevolverWork;
+
+
 void s04c_revolver_800CF3DC(int sound_id) {
-    /* s0 is used to preserve the argument across the first function call */
     register int s0_sound_id = sound_id;
 
-    /* 0xc: Call to check if the stream is busy */
     if (GM_StreamStatus() != 2) {
         GM_SeSet2(0, 0x3f, s0_sound_id);
     }
@@ -20,115 +48,98 @@ void s04c_revolver_800CF418(void)
 {
 }
 
-void s04c_revolver_800CF420(void *work)
+void s04c_revolver_800CF420(RevolverWork *work)
 {
-    // Target 10: lh v1, 0xb0(s0)
-    // Accessing the 'is_end' flag at offset 0xb0
-    if (*(short *)((char *)work + 0xb0) != 14)
+
+    if (work->field_B0 != 14)
     {
-        // Target 28: sw v0, 0x888(s0)
-        // Setting field_888 to 1
-        *(int *)((char *)work + 0x888) = 1;
+
+        work->field_888 = 1;
 
         {
-            // Target 20: lw v1, 0xb4(s0) 
-            // Accessing m_ctrl which is at offset 0xb4
-            unsigned char *m_ctrl = *(unsigned char **)((char *)work + 0xb4);
+
+            void *ctrl = work->field_B4;
+            unsigned char *m_info_ptr = *(unsigned char **)((char *)ctrl + 0x28);
             
-            // Target 2c: lw v1, 0x28(v1)
-            unsigned char *m_info = *(unsigned char **)(m_ctrl + 0x28);
+
+            *(unsigned short *)(m_info_ptr + 0x26) += 2048;
             
-            // Target 34/40: Update rot.y at m_info + 0x26
-            *(unsigned short *)(m_info + 0x26) += 2048;
+
+            work->control_rot_y += 2048;
         }
 
-        // Target 44/50: Update rot.vy at offset 0x2e
-        *(unsigned short *)((char *)work + 0x2e) += 2048;
 
-        // Target 24/58: GM_ConfigObjectOverride(&body, 14, 0, 4, -1)
-        // 'body' starts at offset 0xa0
-        GM_ConfigObjectOverride((void *)((char *)work + 0xa0), 14, 0, 4, -1);
+        GM_ConfigObjectOverride(work->body, 14, 0, 4, -1);
 
         {
-            // Target 60: lw v1, 0xb4(s0) (Reloading m_ctrl)
-            unsigned char *m_ctrl = *(unsigned char **)((char *)work + 0xb4);
-            
-            // Target 68: sh v0, 0x2c(v1)
-            *(unsigned short *)(m_ctrl + 0x2c) = 3;
+            void *ctrl = work->field_B4;
+            *(unsigned short *)((char *)ctrl + 0x2C) = 3;
         }
 
-        // Target 6c: sh zero, 0x19c(s0)
-        // Note: Your typedef called this field_9B4 but used offset 0x19c. 
-        // We use the 0x19c offset to match the assembly target.
-        *(short *)((char *)work + 0x19c) = 0;
+
+        work->field_19C = 0;
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF4A0.s")
-void s04c_revolver_800CF518(void *s0)
+
+
+void s04c_revolver_800CF518(RevolverWork *work)
 {
-    void *s1;
-    int check;
+    work->field_888 = 0;
 
-    s1 = (char *)s0 + 0xa0;
-    *(int *)((char *)s0 + 0x888) = 0;
+    GM_ConfigObjectOverride(&work->body, 3, 0, 4, 0);
 
-    GM_ConfigObjectOverride(s1, 3, 0, 4, 0);
+    work->field_1B4 = 0;
 
-    check = *(int *)((char *)s0 + 0x880);
-    
-    *(short *)((char *)s0 + 0x1b4) = 0;
-
-    if (check == 0)
+    if (work->field_880 == 0)
     {
-        // Keep your clobber here to protect the function arguments
         __asm__ volatile("" : : : "$4", "memory"); 
-
-        GM_ConfigObjectAction(s1, 0, 0, 4);
+        GM_ConfigObjectAction(&work->body, 0, 0, 4);
     }
 }
-void s04c_revolver_800CF584(void *s0)
+
+void s04c_revolver_800CF584(RevolverWork *work)
 {
-  
-    if (*(short *)((char *)s0 + 0xb0) != 9)
+    if (work->field_B0 != 9)
     {
-        
-        GM_ConfigObjectOverride((OBJECT *)((char *)s0 + 0xa0), 9, 0, 4, -1);
+        GM_ConfigObjectOverride(&work->body, 9, 0, 4, -1);
     }
     
-    *(short *)((char *)s0 + 0x19c) = 0;
+    work->field_19C = 0;
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF5D0.s")
-void s04c_revolver_800CF650(void *s0)
+
+void s04c_revolver_800CF650(RevolverWork *work)
 {
-    
-    if (*(short *)((char *)s0 + 0xb0) != 13)
+
+    if (work->field_B0 != 13)
     {
-        
-        GM_ConfigObjectOverride((OBJECT *)((char *)s0 + 0xa0), 13, 0, 4, -1);
+
+        GM_ConfigObjectOverride(work->body, 13, 0, 4, -1);
     }
-    *(short *)((char *)s0 + 0x19c) = 0;
+    
+   
+    work->field_19C = 0;
 }
+
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF69C.s")
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF71C.s")
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF748.s")
-void s04c_revolver_800CF7AC(void *work) {
-    register char *s0 = (char *)work;
 
-    /* Offset 0x880 */
-    *(int *)(s0 + 0x880) = 0;
+void s04c_revolver_800CF7AC(RevolverWork *work) 
+{
+    work->field_880 = 0;
 
-    /* * We cast to (OBJECT *) to match the declaration in game/game.h.
-     * This stops the 'incompatible pointer type' build error.
-     */
-    GM_ConfigObjectAction((OBJECT *)(s0 + 0xA0), 0, 0, 4);
+    GM_ConfigObjectAction(&work->body, 0, 0, 4);
 
-    /* Offset 0x888 */
-    if (*(int *)(s0 + 0x888) != 0) {
-        *(int *)(s0 + 0x190) = -1;
-        *(int *)(s0 + 0x1A8) = 0;
+    if (work->field_888 != 0) 
+    {
+        *(int *)((char *)work + 0x190) = -1;
+        *(int *)((char *)work + 0x1A8) = 0;
     }
 }
+
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF7FC.s")
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF868.s")
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF8D8.s")
