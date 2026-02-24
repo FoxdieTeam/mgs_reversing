@@ -747,11 +747,11 @@ void Johnny_800C4FAC(JohnnyWork *work)
     case 1:
         if (frame == 0)
         {
-            sub_80032BC4(&control->mov, 160, 1500);
+            GM_SeSetSize(&control->mov, 160, 1500);
         }
         if (frame == 12)
         {
-            sub_80032BC4(&control->mov, 161, 1500);
+            GM_SeSetSize(&control->mov, 161, 1500);
         }
         break;
 
@@ -759,11 +759,11 @@ void Johnny_800C4FAC(JohnnyWork *work)
     case 33:
         if (frame == 0)
         {
-            sub_80032BC4(&control->mov, 160, 1500);
+            GM_SeSetSize(&control->mov, 160, 1500);
         }
         if (frame == 8)
         {
-            sub_80032BC4(&control->mov, 161, 1500);
+            GM_SeSetSize(&control->mov, 161, 1500);
         }
         break;
     }

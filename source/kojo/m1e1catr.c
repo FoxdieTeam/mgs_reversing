@@ -118,11 +118,11 @@ void M1E1Caterpiller(M1E1Work *work)
         {
             if (work->field_F74 == 0)
             {
-                sub_80032B40(&work->control.mov, 182, work->field_E60);
+                GM_SeSetPan(&work->control.mov, 182, work->field_E60);
             }
             else
             {
-                sub_80032B40(&work->control.mov, 190, work->field_E60);
+                GM_SeSetPan(&work->control.mov, 190, work->field_E60);
             }
 
             work->field_F70 = f70;
@@ -203,11 +203,11 @@ void M1E1Caterpiller(M1E1Work *work)
         {
             if (work->field_F74 == 0)
             {
-                sub_80032B40(&work->control.mov, 182, work->field_E60);
+                GM_SeSetPan(&work->control.mov, 182, work->field_E60);
             }
             else
             {
-                sub_80032B40(&work->control.mov, 190, work->field_E60);
+                GM_SeSetPan(&work->control.mov, 190, work->field_E60);
             }
 
             work->field_F70 = f70;

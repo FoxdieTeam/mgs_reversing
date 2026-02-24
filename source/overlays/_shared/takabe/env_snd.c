@@ -80,7 +80,7 @@ void EnvSndAct_800DF1F8(EnvSndWork *work)
 
         case 0:
         default:
-            sub_80032BC4(&work->f2C, work->f36, work->f34);
+            GM_SeSetSize(&work->f2C, work->f36, work->f34);
             break;
         }
 

@@ -6,264 +6,326 @@
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 
+typedef struct _SOUND
+{
+    short pan;
+    short vol;
+} SOUND;
+
 extern GM_CAMERA        GM_Camera;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 
-STATIC void sub_8003214C(SVECTOR *pVec, int *pRet)
+static inline void GM_Sound( int pan, int vol, int se_id, int exclude )
+{
+    int se_id_;
+
+    if (!(GM_GameStatus & exclude))
+    {
+        pan &= 0xff;
+        vol &= 0xff;
+        vol = MIN(vol, 63);
+        se_id_ = se_id & 0xff;
+        sd_set_cli( (pan << 16 | vol << 8 | se_id_), SD_ASYNC );
+    }
+}
+
+STATIC void get_eye_pos(SVECTOR *pos, int *dir)
 {
     MATRIX *eye;
 
     eye = &DG_Chanl(0)->eye;
-    pVec->vx = eye->t[0];
-    pVec->vy = eye->t[1];
-    pVec->vz = eye->t[2];
-    *pRet = ratan2(eye->m[0][2], eye->m[2][2]);
+    pos->vx = eye->t[0];
+    pos->vy = eye->t[1];
+    pos->vz = eye->t[2];
+    *dir = ratan2(eye->m[0][2], eye->m[2][2]);
 }
 
-STATIC int sub_800321AC(int a1, int a2)
+// Get the pan amount based on the angle from forward to the sound position
+STATIC int get_pan(int angle, int scale)
 {
-    int v2 = rcos(a1 & 4095) * a2 / 4096;
-    if (v2 < 0)
+    int pan;
+
+    pan = (rcos(angle & 4095) * scale) / 4096;
+    if (pan < 0)
     {
-        return v2 + 255;
+        return pan + 255;
     }
-    return v2;
+
+    return pan;
 }
 
-STATIC int sub_800321F8(SVECTOR *pos, int param_2, DVECTOR *out)
+// Get the pan & vol relative to the world direction
+STATIC int get_pan_vol_world(SVECTOR *pos, int size, SOUND *sound)
 {
-    int     vecdir;
-    int     diffvec;
-    int     vy;
-    SVECTOR vec;
+    SVECTOR diff;
+    int     dist;
+    int     vol;
+    int     dir;
 
-    diffvec = GV_DiffVec3(&GM_PlayerPosition, pos) - param_2;
-    if (diffvec < 0)
+    dist = GV_DiffVec3(&GM_PlayerPosition, pos) - size;
+    if (dist < 0)
     {
-        diffvec = 0;
-        vy = 63;
+        dist = 0;
+        vol = 63;
     }
     else
     {
-        vy = 63;
+        vol = 63;
     }
 
-    if (diffvec >= 1000)
+    if (dist >= 1000)
     {
-        if (diffvec < 7300)
+        if (dist < 7300)
         {
-            vy = 63 - (diffvec - 1000) / 100;
+            vol = 63 - ((dist - 1000) / 100);
         }
         else
         {
-            diffvec = 7300;
-            vy = 0;
+            dist = 7300;
+            vol = 0;
         }
     }
 
-    GV_SubVec3(pos, &GM_PlayerPosition, &vec);
-    vecdir = GV_VecDir2(&vec) + 1024;
+    GV_SubVec3(pos, &GM_PlayerPosition, &diff);
+    dir = GV_VecDir2(&diff) + 1024;
 
-    out->vx = sub_800321AC(vecdir - gUnkCameraStruct2_800B7868.rotate.vy, diffvec * 31 / 7300);
-    out->vy = vy;
+    sound->pan = get_pan(dir - gUnkCameraStruct2_800B7868.rotate.vy, (dist * 31) / 7300);
+    sound->vol = vol;
 
-    if (vy <= 0)
+    if (vol <= 0)
     {
         return -1;
     }
+
     return 0;
 }
 
-STATIC int sub_80032308(SVECTOR *pos, int param_2, DVECTOR *out)
+// Get the pan & vol relative to the camera direction
+STATIC int get_pan_vol_camera(SVECTOR *pos, int size, SOUND *sound)
 {
-    int     vecdir;
-    int     diffvec;
-    int     vy;
-    SVECTOR vec, eye;
-    int     vecdirsub;
+    SVECTOR diff;
+    SVECTOR eye;
+    int     eyedir;
+    int     dist;
+    int     vol;
+    int     dir;
 
-    sub_8003214C(&eye, &vecdirsub);
-    diffvec = GV_DiffVec3(&eye, pos) - param_2;
-    if (diffvec < 0)
+    get_eye_pos(&eye, &eyedir);
+
+    dist = GV_DiffVec3(&eye, pos) - size;
+    if (dist < 0)
     {
-        diffvec = 0;
-        vy = 63;
+        dist = 0;
+        vol = 63;
     }
     else
     {
-        vy = 63;
+        vol = 63;
     }
 
-    if (diffvec < 9500)
+    if (dist < 9500)
     {
-        vy = 63 - diffvec / 150;
+        vol = 63 - (dist / 150);
     }
     else
     {
-        diffvec = 9500;
-        vy = 0;
+        dist = 9500;
+        vol = 0;
     }
 
-    diffvec *= 4;
-    if (diffvec > 9500)
+    dist *= 4;
+
+    if (dist > 9500)
     {
-        diffvec = 9500;
+        dist = 9500;
     }
 
-    GV_SubVec3(pos, &eye, &vec);
-    vecdir = GV_VecDir2(&vec) + 1024;
+    GV_SubVec3(pos, &eye, &diff);
+    dir = GV_VecDir2(&diff) + 1024;
 
-    out->vx = sub_800321AC(vecdir - vecdirsub, diffvec * 31 / 9500);
-    out->vy = vy;
+    sound->pan = get_pan(dir - eyedir, (dist * 31) / 9500);
+    sound->vol = vol;
 
-    if (vy <= 0)
+    if (vol <= 0)
     {
         return -1;
     }
+
     return 0;
 }
 
-STATIC int sub_80032420(SVECTOR *pos, int param_2, DVECTOR *out)
+// Get the pan & vol relative to the world direction for explosions
+STATIC int get_pan_vol_bomb_world(SVECTOR *pos, int size, SOUND *sound)
 {
-    int     vecdir;
-    int     diffvec;
-    int     vy;
-    SVECTOR vec;
+    SVECTOR diff;
+    int     dist;
+    int     vol;
+    int     dir;
 
-    diffvec = GV_DiffVec3(&GM_PlayerPosition, pos) - param_2;
-    if (diffvec < 0)
+    dist = GV_DiffVec3(&GM_PlayerPosition, pos) - size;
+    if (dist < 0)
     {
-        diffvec = 0;
-        vy = 63;
+        dist = 0;
+        vol = 63;
     }
     else
     {
-        vy = 63;
+        vol = 63;
     }
 
-    if (diffvec >= 3000)
+    if (dist >= 3000)
     {
-        if (diffvec < 7700)
+        if (dist < 7700)
         {
-            vy = 63 - (diffvec - 3000) / 200;
+            vol = 63 - ((dist - 3000) / 200);
         }
         else
         {
-            diffvec = 7700;
-            vy = 39;
+            dist = 7700;
+            vol = 39;
         }
     }
 
-    GV_SubVec3(pos, &GM_PlayerPosition, &vec);
-    vecdir = GV_VecDir2(&vec) + 1024;
+    GV_SubVec3(pos, &GM_PlayerPosition, &diff);
+    dir = GV_VecDir2(&diff) + 1024;
 
-    out->vx = sub_800321AC(vecdir - gUnkCameraStruct2_800B7868.rotate.vy, diffvec * 31 / 7700);
-    out->vy = vy;
+    sound->pan = get_pan(dir - gUnkCameraStruct2_800B7868.rotate.vy, (dist * 31) / 7700);
+    sound->vol = vol;
 
-    if (vy <= 0)
+    if (vol <= 0)
     {
         return -1;
     }
+
     return 0;
 }
 
-STATIC int sub_80032534(SVECTOR *pos, int param_2, DVECTOR *out)
+// Get the pan & vol relative to the camera direction for explosions
+STATIC int get_pan_vol_bomb_camera(SVECTOR *pos, int size, SOUND *sound)
 {
-    int     vecdir;
-    int     diffvec;
-    int     vy;
-    SVECTOR vec, vec2;
-    int     vecdirsub;
+    SVECTOR diff;
+    SVECTOR eye;
+    int     eyedir;
+    int     dist;
+    int     vol;
+    int     dir;
 
-    sub_8003214C(&vec2, &vecdirsub);
-    diffvec = GV_DiffVec3(&vec2, pos) - param_2;
-    if (diffvec < 0)
+    get_eye_pos(&eye, &eyedir);
+
+    dist = GV_DiffVec3(&eye, pos) - size;
+    if (dist < 0)
     {
-        diffvec = 0;
-        vy = 63;
+        dist = 0;
+        vol = 63;
     }
     else
     {
-        vy = 63;
+        vol = 63;
     }
 
-    if (diffvec >= 2000)
+    if (dist >= 2000)
     {
-        if (diffvec < 9050)
+        if (dist < 9050)
         {
-            vy = 63 - (diffvec - 2000) / 300;
+            vol = 63 - ((dist - 2000) / 300);
         }
         else
         {
-            diffvec = 9050;
-            vy = 39;
+            dist = 9050;
+            vol = 39;
         }
     }
 
-    diffvec *= 4;
-    if (diffvec > 9050)
+    dist *= 4;
+
+    if (dist > 9050)
     {
-        diffvec = 9050;
+        dist = 9050;
     }
 
-    GV_SubVec3(pos, &vec2, &vec);
-    vecdir = GV_VecDir2(&vec) + 1024;
+    GV_SubVec3(pos, &eye, &diff);
+    dir = GV_VecDir2(&diff) + 1024;
 
-    out->vx = sub_800321AC(vecdir - vecdirsub, diffvec * 31 / 9050);
-    out->vy = vy;
+    sound->pan = get_pan(dir - eyedir, (dist * 31) / 9050);
+    sound->vol = vol;
 
-    if (vy <= 0)
+    if (vol <= 0)
     {
         return -1;
     }
+
     return 0;
 }
 
-STATIC int sub_8003265C(DVECTOR *out, SVECTOR *pos, int param_3)
+STATIC int get_pan_vol_size(SOUND *sound, SVECTOR *pos, int size)
 {
-    if ((GM_GameStatus & (STATE_BEHIND_CAMERA | GAME_FLAG_BIT_07)) == 0 && GM_Camera.first_person == 0)
+    if (!(GM_GameStatus & (STATE_BEHIND_CAMERA | GAME_FLAG_BIT_07)) && !GM_Camera.first_person)
     {
-        if (sub_800321F8(pos, param_3, out) < 0)
+        if (get_pan_vol_world(pos, size, sound) < 0)
+        {
+            return -1;
+        }
+    }
+    else
+    {
+        if (get_pan_vol_camera(pos, size, sound) < 0)
         {
             return -1;
         }
     }
 
-    else if (sub_80032308(pos, param_3, out) < 0)
-    {
-        return -1;
-    }
-
     return 0;
 }
 
-STATIC int sub_800326D4(DVECTOR *out, SVECTOR *pos)
+STATIC int get_sound_normal(SOUND *sound, SVECTOR *pos)
 {
-    if (((GM_GameStatus & (STATE_BEHIND_CAMERA | GAME_FLAG_BIT_07)) == 0) && GM_Camera.first_person == 0)
+    if (!(GM_GameStatus & (STATE_BEHIND_CAMERA | GAME_FLAG_BIT_07)) && !GM_Camera.first_person)
     {
-        if (sub_800321F8(pos, 0, out) < 0)
+        if (get_pan_vol_world(pos, 0, sound) < 0)
         {
             return -1;
         }
     }
-    else if (sub_80032308(pos, 0, out) < 0)
+    else
     {
-        return -1;
-    }
-
-    return 0;
-}
-
-STATIC int sub_80032748(DVECTOR *out, SVECTOR *pos)
-{
-    if (((GM_GameStatus & (STATE_BEHIND_CAMERA | GAME_FLAG_BIT_07)) == 0) && GM_Camera.first_person == 0)
-    {
-        if (sub_80032420(pos, 0, out) < 0)
+        if (get_pan_vol_camera(pos, 0, sound) < 0)
         {
             return -1;
         }
     }
-    else if (sub_80032534(pos, 0, out) < 0)
+
+    return 0;
+}
+
+STATIC int get_sound_bomb(SOUND *sound, SVECTOR *pos)
+{
+    if (!(GM_GameStatus & (STATE_BEHIND_CAMERA | GAME_FLAG_BIT_07)) && !GM_Camera.first_person)
+    {
+        if (get_pan_vol_bomb_world(pos, 0, sound) < 0)
+        {
+            return -1;
+        }
+    }
+    else
+    {
+        if (get_pan_vol_bomb_camera(pos, 0, sound) < 0)
+        {
+            return -1;
+        }
+    }
+
+    return 0;
+}
+
+
+STATIC int get_sound_real(SOUND *sound, SVECTOR *pos)
+{
+    if (!(GM_GameStatus & (STATE_BEHIND_CAMERA | GAME_FLAG_BIT_07)) && !GM_Camera.first_person)
+    {
+        return -1;
+    }
+
+    if (get_pan_vol_camera(pos, 0, sound) < 0)
     {
         return -1;
     }
@@ -271,15 +333,9 @@ STATIC int sub_80032748(DVECTOR *out, SVECTOR *pos)
     return 0;
 }
 
-
-STATIC int sub_800327BC(DVECTOR *a1, SVECTOR *a2)
+STATIC int get_sound_camera(SOUND *sound, SVECTOR *pos)
 {
-    if ((GM_GameStatus & (STATE_BEHIND_CAMERA | GAME_FLAG_BIT_07)) == 0 && GM_Camera.first_person == 0)
-    {
-        return -1;
-    }
-
-    if (sub_80032308(a2, 0, a1) < 0)
+    if (get_pan_vol_camera(pos, 0, sound) < 0)
     {
         return -1;
     }
@@ -287,47 +343,36 @@ STATIC int sub_800327BC(DVECTOR *a1, SVECTOR *a2)
     return 0;
 }
 
-STATIC int sub_80032820(DVECTOR *out, SVECTOR *pos)
+void GM_SeSet(SVECTOR *pos, int se_id)
 {
-  if (sub_80032308(pos, 0, out) < 0)
-  {
-      return -1;
-  }
-
-  return 0;
-}
-
-// play sound effect at pos by id
-void GM_SeSet(SVECTOR *pos, unsigned int se_id)
-{
-    DVECTOR point;
+    SOUND sound;
 
     if (pos)
     {
         if (se_id == SE_EXPLOSION)
         {
-            if (sub_80032748(&point, pos) < 0)
+            if (get_sound_bomb(&sound, pos) < 0)
             {
                 return;
             }
         }
         else if (se_id >= 160 && se_id <= 167)
         {
-            if (sub_800327BC(&point, pos) < 0)
+            if (get_sound_real(&sound, pos) < 0)
             {
                 return;
             }
         }
         else if (se_id == SE_MOUSE_STEP)
         {
-            if (sub_80032820(&point, pos) < 0)
+            if (get_sound_camera(&sound, pos) < 0)
             {
                 return;
             }
         }
         else
         {
-            if (sub_800326D4(&point, pos) < 0)
+            if (get_sound_normal(&sound, pos) < 0)
             {
                 return;
             }
@@ -335,49 +380,49 @@ void GM_SeSet(SVECTOR *pos, unsigned int se_id)
     }
     else
     {
-        point.vy = 63;
-        point.vx = 0;
+        sound.vol = 63;
+        sound.pan = 0;
     }
 
-    GM_Sound(point.vx, point.vy, se_id);
+    GM_Sound(sound.pan, sound.vol, se_id, (STATE_GAME_OVER | STATE_DEMO));
 }
 
-void GM_SeSet2(int x_pos, int y_pos, int se_id)
+void GM_SeSet2(int pan, int vol, int se_id)
 {
-    GM_Sound(x_pos, y_pos, se_id);
+    GM_Sound(pan, vol, se_id, (STATE_GAME_OVER | STATE_DEMO));
 }
 
 void GM_SeSetMode( SVECTOR *pos, int se_id, int mode )
 {
-    DVECTOR point;
+    SOUND sound;
 
     if ( pos )
     {
         switch ( mode )
         {
         case GM_SEMODE_BOMB:
-            if ( sub_80032748( &point, pos ) < 0 )
+            if ( get_sound_bomb( &sound, pos ) < 0 )
             {
                 return;
             }
             break;
 
         case GM_SEMODE_REAL:
-            if ( sub_800327BC( &point, pos ) < 0 )
+            if ( get_sound_real( &sound, pos ) < 0 )
             {
                 return;
             }
             break;
 
         case GM_SEMODE_CAMERA:
-            if ( sub_80032820( &point, pos ) < 0 )
+            if ( get_sound_camera( &sound, pos ) < 0 )
             {
                 return;
             }
             break;
 
         case GM_SEMODE_NORMAL:
-            if ( sub_800326D4( &point, pos ) < 0 )
+            if ( get_sound_normal( &sound, pos ) < 0 )
             {
                 return;
             }
@@ -386,47 +431,33 @@ void GM_SeSetMode( SVECTOR *pos, int se_id, int mode )
     }
     else
     {
-        point.vy = 63;
-        point.vx = 0;
+        sound.vol = 63;
+        sound.pan = 0;
     }
 
-    GM_Sound(point.vx, point.vy, se_id);
+    GM_Sound(sound.pan, sound.vol, se_id, (STATE_GAME_OVER | STATE_DEMO));
 }
 
-// guessing this one is GM_SeSet3
-void GM_SeSet3(int x_pos, int y_pos, int se_id)
+void GM_SeSet3(int pan, int vol, int se_id)
 {
-    int mask_id;
+    GM_Sound(pan, vol, se_id, STATE_DEMO);
+}
 
-    if (!(GM_GameStatus & STATE_DEMO))
+void GM_SeSetPan(SVECTOR *pos, int se_id, int vol)
+{
+    SOUND sound;
+
+    get_sound_normal(&sound, pos);
+    GM_Sound(sound.pan, vol, se_id, (STATE_GAME_OVER | STATE_DEMO));
+}
+
+void GM_SeSetSize(SVECTOR *pos, int se_id, int size)
+{
+    SOUND sound;
+
+    if (get_pan_vol_size(&sound, pos, size) >= 0)
     {
-        x_pos &= 0xff;
-        y_pos &= 0xff;
-        if (y_pos > 63)
-        {
-            y_pos = 63;
-        }
-        mask_id = se_id & 0xff;
-        sd_set_cli(((x_pos << 16) | (y_pos << 8) | mask_id), SD_ASYNC);
-    }
-}
-
-void sub_80032B40(SVECTOR *pos, unsigned int se_id, int y_pos)
-{
-    DVECTOR dvec;
-
-    sub_800326D4(&dvec, pos);
-    GM_Sound(dvec.vx, y_pos, se_id);
-}
-
-// GM_SeSetPan?
-void sub_80032BC4(SVECTOR *pos, unsigned int se_id, int param_3)
-{
-    DVECTOR dvec;
-
-    if (sub_8003265C(&dvec, pos, param_3) >= 0)
-    {
-        GM_Sound(dvec.vx, dvec.vy, se_id);
+        GM_Sound(sound.pan, sound.vol, se_id, (STATE_GAME_OVER | STATE_DEMO));
     }
 }
 
