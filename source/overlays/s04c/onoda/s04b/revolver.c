@@ -50,32 +50,24 @@ void s04c_revolver_800CF418(void)
 
 void s04c_revolver_800CF420(RevolverWork *work)
 {
-
     if (work->field_B0 != 14)
     {
-
         work->field_888 = 1;
 
         {
-
-            void *ctrl = work->field_B4;
-            unsigned char *m_info_ptr = *(unsigned char **)((char *)ctrl + 0x28);
-            
-
-            *(unsigned short *)(m_info_ptr + 0x26) += 2048;
-            
-
-            work->control_rot_y += 2048;
+            CONTROL *ctrl = work->field_B4;
+            unsigned char *m_info = *(unsigned char **)((char *)ctrl + 0x28);
+            *(unsigned short *)(m_info + 0x26) += 2048;
+            *(unsigned short *)((char *)work + 0x2E) += 2048;
         }
 
 
-        GM_ConfigObjectOverride(work->body, 14, 0, 4, -1);
+        GM_ConfigObjectOverride((OBJECT *)&work->body, 14, 0, 4, -1);
 
         {
-            void *ctrl = work->field_B4;
+            CONTROL *ctrl = work->field_B4;
             *(unsigned short *)((char *)ctrl + 0x2C) = 3;
         }
-
 
         work->field_19C = 0;
     }
@@ -87,14 +79,16 @@ void s04c_revolver_800CF518(RevolverWork *work)
 {
     work->field_888 = 0;
 
-    GM_ConfigObjectOverride(&work->body, 3, 0, 4, 0);
+
+    GM_ConfigObjectOverride((OBJECT *)&work->body, 3, 0, 4, 0);
 
     work->field_1B4 = 0;
 
     if (work->field_880 == 0)
     {
         __asm__ volatile("" : : : "$4", "memory"); 
-        GM_ConfigObjectAction(&work->body, 0, 0, 4);
+
+        GM_ConfigObjectAction((OBJECT *)&work->body, 0, 0, 4);
     }
 }
 
@@ -102,7 +96,8 @@ void s04c_revolver_800CF584(RevolverWork *work)
 {
     if (work->field_B0 != 9)
     {
-        GM_ConfigObjectOverride(&work->body, 9, 0, 4, -1);
+
+        GM_ConfigObjectOverride((OBJECT *)&work->body, 9, 0, 4, -1);
     }
     
     work->field_19C = 0;
@@ -112,17 +107,14 @@ void s04c_revolver_800CF584(RevolverWork *work)
 
 void s04c_revolver_800CF650(RevolverWork *work)
 {
-
     if (work->field_B0 != 13)
     {
 
-        GM_ConfigObjectOverride(work->body, 13, 0, 4, -1);
+        GM_ConfigObjectOverride((OBJECT *)&work->body, 13, 0, 4, -1);
     }
     
-   
     work->field_19C = 0;
 }
-
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF69C.s")
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF71C.s")
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF748.s")
@@ -131,7 +123,8 @@ void s04c_revolver_800CF7AC(RevolverWork *work)
 {
     work->field_880 = 0;
 
-    GM_ConfigObjectAction(&work->body, 0, 0, 4);
+
+    GM_ConfigObjectAction((OBJECT *)&work->body, 0, 0, 4);
 
     if (work->field_888 != 0) 
     {
