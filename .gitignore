@@ -1,3 +1,4 @@
+# === Original Project Rules ===
 *.obj
 *.lib
 *.cpe
@@ -17,6 +18,23 @@ SLUS_???.??
 obj
 obj_vr
 obj_dev
+.vscode/
+.vs
+*.log
+*.swp
+*.swo
+research/
+.cache/
+.sentry-native
+obj_psx_dev/
+build/.venv/
+.venv/
+__pycache__/
+*.pyc
+
+# === Build Folder Management ===
+# Ignore specific massive artifacts in build
+build/objlib/__pycache__/
 build/dump.asm
 build/m2c
 build/contrib
@@ -27,18 +45,11 @@ build/share
 build/bin
 build/*.zip
 build/statcov.txt
-.vscode/c_cpp_properties.json
-.vscode/tasks.json
-.vscode/settings.json
 build/obj_tool/Release
-.vs
 build/include_asm_tmp
-source/.vscode/settings.json
-*.log
-*.swp
-*.swo
-research/
-.cache/
-.sentry-native
-obj_psx_dev/
 
+# Safety Net: Ignore all binaries and ninja junk in build, but KEEP the scripts
+build/*.bin
+build/*.exe
+build/.ninja_deps
+build/.ninja_log
