@@ -44,6 +44,7 @@
 //-----------------------------------------------------------------------------
 
 #define HASH_PAN2               0x922b // GV_StrCode( "pan2" )
+#define HASH_ITEM               0x5d43 // GV_StrCode( "item" )
 
 //-----------------------------------------------------------------------------
 // Traps
@@ -144,6 +145,7 @@
 #define KMD_BANDANA             0xdb4d // GV_StrCode( "bandana" )
 #define KMD_KAGE                0x117c // GV_StrCode( "kage" )
 #define KMD_IPPANHEI            0x96b6 // GV_StrCode( "ippanhei" )
+#define KMD_BOX_01              0x4d5f // GV_StrCode( "box_01" )
 
 // Stage s00a/d00a (docks)
 #define KMD_SNE_WET2            0x7693 // GV_StrCode( "sne_wet2" )

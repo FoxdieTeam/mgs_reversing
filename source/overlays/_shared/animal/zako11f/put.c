@@ -70,49 +70,49 @@ void ZAKO11F_PutItem_800CD0A8( Zako11FWork *work )
     {
     case 0:
     case 1:
-        item.field_4_type   = 4;
-        item.field_6_id     = IT_Ration;
-        item.field_8_amount = 1;
-        item.field_0_pName  = s11i_dword_800C33D4[0];
+        item.type   = 4;
+        item.id     = IT_Ration;
+        item.num = 1;
+        item.message  = s11i_dword_800C33D4[0];
         break;
     case 2:
         //socom
         if ( GM_SocomFlag < 0 )
         {
-            item.field_4_type   = 4;
-            item.field_6_id     = IT_Ration;
-            item.field_8_amount = 1;
-            item.field_0_pName  = s11i_dword_800C33D4[0];
+            item.type   = 4;
+            item.id     = IT_Ration;
+            item.num = 1;
+            item.message  = s11i_dword_800C33D4[0];
         }
         else
         {
             //Socom bullets
-            item.field_4_type = 2;
-            item.field_6_id = WP_Socom;
-            item.field_8_amount = 12;
-            item.field_0_pName  = s11i_dword_800C33D4[1];
+            item.type = 2;
+            item.id = WP_Socom;
+            item.num = 12;
+            item.message  = s11i_dword_800C33D4[1];
         }
         break;
     case 3:
         //famas
         if ( GM_FamasFlag < 0  )
         {
-            item.field_4_type   = 4;
-            item.field_6_id     = IT_Ration;
-            item.field_8_amount = 1;
-            item.field_0_pName  = s11i_dword_800C33D4[0];
+            item.type   = 4;
+            item.id     = IT_Ration;
+            item.num = 1;
+            item.message  = s11i_dword_800C33D4[0];
         }
         else
         {
-            item.field_6_id     = WP_Famas;
-            item.field_4_type   = 2;
-            item.field_8_amount = 25;
-            item.field_0_pName  = s11i_dword_800C33D4[2];
+            item.id     = WP_Famas;
+            item.type   = 2;
+            item.num = 25;
+            item.message  = s11i_dword_800C33D4[2];
         }
         break;
     }
-    item.field_A = 900;
-    item_init_80034758( &ctrl->mov, &svec, &item );
+    item.time = 900;
+    NewItemPut( &ctrl->mov, &svec, &item );
 }
 
 void ZAKO11F_PutMark_800CD224( Zako11FWork *work, int mark )

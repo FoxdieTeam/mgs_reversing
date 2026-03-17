@@ -1803,29 +1803,29 @@ void ENE_PutItem_800C90CC( WatcherWork *work )
         return;
     case 0:
         //ration
-        item.field_4_type   = 4;
-        item.field_6_id     = IT_Ration;
-        item.field_8_amount = 1;
-        item.field_0_pName  = s00a_off_800C33F4[0];
+        item.type   = 4;
+        item.id     = IT_Ration;
+        item.num = 1;
+        item.message  = s00a_off_800C33F4[0];
         break;
     case 1:
         //socom
         if ( GM_SocomFlag < 0 )
         {
-            item.field_4_type   = 4;
-            item.field_6_id     = 13;
-            item.field_8_amount = 1;
-            item.field_0_pName  = s00a_off_800C33F4[0];
+            item.type   = 4;
+            item.id     = IT_Ration;
+            item.num = 1;
+            item.message  = s00a_off_800C33F4[0];
         }
         else
         {
             //Socom bullets
-            item.field_4_type = 2;
-            item.field_6_id = WP_Socom;
+            item.type = 2;
+            item.id = WP_Socom;
             if ( work->local_data2 == 0 )
             {
-                item.field_8_amount = 12;
-                item.field_0_pName  = s00a_off_800C33F4[1];
+                item.num = 12;
+                item.message  = s00a_off_800C33F4[1];
             }
             else
             {
@@ -1848,8 +1848,8 @@ void ENE_PutItem_800C90CC( WatcherWork *work )
                     s00a_off_800C33F4[1][15] = a1 + 0x30;
                 }
                 s00a_off_800C33F4[1][16] = a2 + 0x30;
-                item.field_0_pName  = s00a_off_800C33F4[1];
-                item.field_8_amount = work->local_data2;
+                item.message  = s00a_off_800C33F4[1];
+                item.num = work->local_data2;
             }
         }
         break;
@@ -1857,24 +1857,24 @@ void ENE_PutItem_800C90CC( WatcherWork *work )
         //famas
         if ( GM_FamasFlag < 0 || GM_DifficultyFlag < 0 )
         {
-            item.field_4_type   = 4;
-            item.field_6_id     = 13;
-            item.field_8_amount = 1;
-            item.field_0_pName  = s00a_off_800C33F4[0];
+            item.type   = 4;
+            item.id     = IT_Ration;
+            item.num = 1;
+            item.message  = s00a_off_800C33F4[0];
         }
         else
         {
-            item.field_4_type   = 2;
-            item.field_6_id     = 1;
-            item.field_8_amount = 25;
-            item.field_0_pName  = s00a_off_800C33F4[2];
+            item.type   = 2;
+            item.id     = WP_Famas;
+            item.num = 25;
+            item.message  = s00a_off_800C33F4[2];
         }
         break;
     }
-    item.field_A = 450;
+    item.time = 450;
     if ( work->param_item == 1 )
     {
-        item_init_80034758( &ctrl->mov, &svec, &item );
+        NewItemPut( &ctrl->mov, &svec, &item );
     }
 }
 

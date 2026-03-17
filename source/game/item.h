@@ -8,17 +8,17 @@
 
 typedef struct Item_Info
 {
-    const char *field_0_pName;
-    short       field_4_type;
-    short       field_6_id;
-    short       field_8_amount;
-    short       field_A;
+    const char *message;
+    short       type;
+    short       id;
+    short       num;
+    short       time;
 } Item_Info;
 
 void *NewItem(int name, int where, int argc, char **argv);
-void *item_init_80034758(SVECTOR *pPos, SVECTOR *a2, Item_Info *pItemInfo);
+void *NewItemPut(SVECTOR *pos, SVECTOR *step, Item_Info *info);
 
-void item_all_items_and_weapons_unknown2_80033500(void);
-void item_all_items_and_weapons_unknown_80033560(void);
+void disable_equipment(void);
+void enable_equipment(void);
 
 #endif // __MGS_GAME_ITEM_H__
