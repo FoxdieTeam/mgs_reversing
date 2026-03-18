@@ -1629,32 +1629,32 @@ void ZAKO11E_PutItem_800D7AE8( ZakoWork* work )
     switch ( work->field_B74 )
     {
     case 0:
-        item.field_4_type   = 4;
-        item.field_6_id     = IT_Ration;
-        item.field_8_amount = 1;
-        item.field_0_pName  = s11e_dword_800C3690[0];
+        item.type   = 4;
+        item.id     = IT_Ration;
+        item.num = 1;
+        item.message  = s11e_dword_800C3690[0];
         break;
     case 1:
     case 2:
     case 3:
             if ( GM_FamasFlag < 0 )
             {
-                item.field_4_type   = 2;
-                item.field_0_pName  = s11e_dword_800C3690[1];
-                item.field_6_id     = WP_Socom;
-                item.field_8_amount = 12;
+                item.type   = 2;
+                item.message  = s11e_dword_800C3690[1];
+                item.id     = WP_Socom;
+                item.num = 12;
             }
             else
             {
-                item.field_4_type = 2;
-                item.field_6_id = WP_Famas;
-                item.field_0_pName  = s11e_dword_800C3690[2];
-                item.field_8_amount = 25;
+                item.type = 2;
+                item.id = WP_Famas;
+                item.message  = s11e_dword_800C3690[2];
+                item.num = 25;
             }
             break;
     }
-    item.field_A = 900;
-    item_init_80034758( &ctrl->mov, &svec, &item );
+    item.time = 900;
+    NewItemPut( &ctrl->mov, &svec, &item );
 }
 
 void ZAKO11E_PutMark_800D7C10( ZakoWork *work, int mark )

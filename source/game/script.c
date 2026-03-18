@@ -889,11 +889,11 @@ static int GM_Command_menu(unsigned char *top)
     {
         if (GCL_GetNextParamValue() & 1)
         {
-            item_all_items_and_weapons_unknown2_80033500();
+            disable_equipment();
         }
         else
         {
-            item_all_items_and_weapons_unknown_80033560();
+            enable_equipment();
         }
     }
 
