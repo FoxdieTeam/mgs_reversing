@@ -371,7 +371,7 @@ void IrCensAct_800D9EF8(IrCensWork *work)
             ENE_SetTopCommAL_800CEAE8(0xFF);
             ENE_SetGopointLast_800CEB00();
 
-            if (GM_AlertMode != 3)
+            if (GM_AlertMode != ALERT_ACTIVE)
             {
                 s00a_command_800CEC40(&GM_PlayerPosition, 128);
             }

@@ -122,7 +122,7 @@ void s07c_meryl72_unk1_800CB8DC(Meryl72Work *work)
 
     s07c_meryl72_unk1_800CB748(work);
 
-    if (GM_AlertMode != 3)
+    if (GM_AlertMode != ALERT_ACTIVE)
     {
         s07c_meryl72_unk1_800CB688(work);
         s07c_meryl72_unk1_800CB8D4(work);

@@ -855,7 +855,7 @@ STATIC int CheckEvents(GV_ACT *work)
 
     event = GM_event_camera_flag;
 
-    if (GM_AlertMode == 3)
+    if (GM_AlertMode == ALERT_ACTIVE)
     {
         if (GM_Camera.alert_mask < 8)
         {
@@ -1200,7 +1200,7 @@ void GM_CheckBehindCamera(HZD_HDL *pHzdMap, CONTROL *pControl)
     CAMERA  *cam;
     short   *name;
 
-    if ((GM_StatusEvent & 0x100 || GM_AlertMode != 3) &&
+    if ((GM_StatusEvent & 0x100 || GM_AlertMode != ALERT_ACTIVE) &&
         (trp = HZD_CheckBehindTrap(pHzdMap, &pControl->mov)) != NULL)
     {
         if (GM_800AB444 != trp)

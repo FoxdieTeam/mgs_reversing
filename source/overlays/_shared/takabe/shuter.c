@@ -92,14 +92,14 @@ void ShuterAct_800DF484(ShuterWork *work)
 
     if (work->alert != 0)
     {
-        if (GM_AlertMode == 3 && work->open == 1)
+        if (GM_AlertMode == ALERT_ACTIVE && work->open == 1)
         {
             work->open = 0;
             work->moving = 1;
             work->delay = 5;
             GM_SeSetSize(&work->center, SE_SHUTTER_CLOSE2, 2000);
         }
-        else if (GM_AlertMode == 0 && work->open == 0)
+        else if (GM_AlertMode == ALERT_OFF && work->open == 0)
         {
             work->open = 1;
             work->moving = 1;

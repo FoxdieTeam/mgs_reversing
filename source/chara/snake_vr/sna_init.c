@@ -1019,7 +1019,7 @@ int sna_act_helper2_helper5_8004FF88(SnaInitWork *work)
 {
     void *pAnim;
 
-    if (!(GM_GameStatus & (STATE_PADRELEASE | STATE_PADDEMO | STATE_DEMO)) && (GM_AlertMode != 3))
+    if (!(GM_GameStatus & (STATE_PADRELEASE | STATE_PADDEMO | STATE_DEMO)) && (GM_AlertMode != ALERT_ACTIVE))
     {
         if (!GM_CheckPlayerStatusFlag(0x20001304) &&
             !sna_check_flags1_8004E31C(work, SNA_FLAG1_UNK9) &&
@@ -2117,7 +2117,7 @@ void sna_anim_idle_8005275C(SnaInitWork *work, int time)
         work->field_9C8_anim_update_fn_3p = sna_fn_80052E58;
         work->field_9CC_anim_update_fn_1p = sna_fn_80052120;
 
-        if (GM_AlertMode >= 3)
+        if (GM_AlertMode >= ALERT_ACTIVE)
         {
             action_flag = work->actpack->still->setup;
         }
@@ -2182,7 +2182,7 @@ void sna_anim_run_8005292C(SnaInitWork *work, int time)
         work->field_9C8_anim_update_fn_3p = sna_80053360;
         work->field_9CC_anim_update_fn_1p = sna_fn_80052120;
         GM_SetPlayerStatusFlag(PLAYER_MOVE);
-        if (GM_AlertMode >= 3)
+        if (GM_AlertMode >= ALERT_ACTIVE)
         {
             action_flag = work->actpack->move->aim;
         }
@@ -2353,7 +2353,7 @@ void sna_fn_80052E58(SnaInitWork *work, int time)
         return;
     }
 
-    if (GM_AlertMode >= 3)
+    if (GM_AlertMode >= ALERT_ACTIVE)
     {
         action = work->actpack->still->setup;
     }
@@ -2557,7 +2557,7 @@ void sna_80053360(SnaInitWork *work, int time)
     work->control.turn.vy = angle;
     sub_8004EA50(work, angle);
 
-    if (GM_AlertMode >= 3)
+    if (GM_AlertMode >= ALERT_ACTIVE)
     {
         SetAction_8004E22C(work, work->actpack->move->aim, 4);
     }

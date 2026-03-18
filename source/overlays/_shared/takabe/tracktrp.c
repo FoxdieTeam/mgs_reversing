@@ -75,7 +75,7 @@ static void Act(Work *work)
             work->pos = GM_PlayerPosition;
         }
 
-        if (GM_AlertMode != 0)
+        if (GM_AlertMode != ALERT_OFF)
         {
             work->count = 0;
         }
