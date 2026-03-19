@@ -10,30 +10,31 @@
 
 /*---------------------------------------------------------------------------*/
 
-typedef struct StgfdIoPrims
-{
-    DR_TPAGE tpage[2];
-    TILE     tile[2];
-} StgfdIoPrims;
-
-typedef struct StgfdIoWork
-{
-    GV_ACT        actor;
-    StgfdIoPrims *prims;
-    int           field_24;
-    int           field_28;
-    SVECTOR       field_2C;
-    SVECTOR       field_34;
-    int           state;
-} StgfdIoWork;
-
 #define EXEC_LEVEL GV_ACTOR_LEVEL3
+
+typedef struct _PRIM_WORK
+{
+    DR_TPAGE    tpage[2];
+    TILE        tile[2];
+} PRIM_WORK;
+
+typedef struct _Work
+{
+    GV_ACT      actor;
+    PRIM_WORK  *prims;
+    int         field_24;
+    int         field_28;
+    SVECTOR     field_2C;
+    SVECTOR     field_34;
+    int         state;
+} Work;
 
 /*---------------------------------------------------------------------------*/
 
-STATIC void stgfd_io_act_helper_80074DAC(StgfdIoWork *work)
+static void UpdateStunFlash(Work *work)
 {
     short rgb[3]; // or RGB struct?
+
     if (GV_PauseLevel)
     {
         return;
@@ -52,7 +53,7 @@ STATIC void stgfd_io_act_helper_80074DAC(StgfdIoWork *work)
     setRGB0(&work->prims->tile[GV_Clock], rgb[0], rgb[1], rgb[2]);
 }
 
-STATIC void stgfd_io_act_helper_80074F44(StgfdIoWork *work, int a2, int x, int y, int z)
+static void stgfd_io_act_helper_80074F44(Work *work, int a2, int x, int y, int z)
 {
     work->field_24 = a2;
     work->field_34.vx = x;
@@ -60,14 +61,14 @@ STATIC void stgfd_io_act_helper_80074F44(StgfdIoWork *work, int a2, int x, int y
     work->field_34.vz = z;
 }
 
-STATIC void stgfd_io_Act(StgfdIoWork *work)
+static void Act(Work *work)
 {
-    unsigned char *pOt = DG_ChanlOTag(0);
+    u_long *ot = (u_long *)DG_ChanlOTag(0);
 
-    addPrim(pOt, &work->prims->tile[GV_Clock]);
-    addPrim(pOt, &work->prims->tpage[GV_Clock]);
+    addPrim(ot, &work->prims->tile[GV_Clock]);
+    addPrim(ot, &work->prims->tpage[GV_Clock]);
 
-    stgfd_io_act_helper_80074DAC(work);
+    UpdateStunFlash(work);
 
     if (work->field_28 == work->field_24)
     {
@@ -105,7 +106,7 @@ STATIC void stgfd_io_Act(StgfdIoWork *work)
     }
 }
 
-STATIC void stgfd_io_Die(StgfdIoWork *work)
+static void Die(Work *work)
 {
     if (work->prims)
     {
@@ -113,26 +114,26 @@ STATIC void stgfd_io_Die(StgfdIoWork *work)
     }
 }
 
-STATIC int stgfd_io_GetResources(StgfdIoWork *work)
+static int GetResources(Work *work)
 {
-    StgfdIoPrims *pAlloc = GV_Malloc(sizeof(StgfdIoPrims));
-    work->prims = pAlloc;
-    if (!pAlloc)
+    PRIM_WORK *prims = GV_Malloc(sizeof(PRIM_WORK));
+    work->prims = prims;
+    if (!prims)
     {
         return -1;
     }
 
-    setDrawTPage(&pAlloc->tpage[0], 0, 1, 0x20);
-    setDrawTPage(&pAlloc->tpage[1], 0, 1, 0x20);
+    setDrawTPage(&prims->tpage[0], 0, 1, 0x20);
+    setDrawTPage(&prims->tpage[1], 0, 1, 0x20);
 
-    setTile(&pAlloc->tile[0]);
-    setSemiTrans(&pAlloc->tile[0], 1);
-    setXY0(&pAlloc->tile[0], -160, -112);
-    setWH(&pAlloc->tile[0], FRAME_WIDTH, FRAME_HEIGHT);
+    setTile(&prims->tile[0]);
+    setSemiTrans(&prims->tile[0], 1);
+    setXY0(&prims->tile[0], -160, -112);
+    setWH(&prims->tile[0], FRAME_WIDTH, FRAME_HEIGHT);
 
-    pAlloc->tile[1] = pAlloc->tile[0];
-    setRGB0(&pAlloc->tile[0], 0, 0, 0);
-    setRGB0(&pAlloc->tile[1], 0, 0, 0);
+    prims->tile[1] = prims->tile[0];
+    setRGB0(&prims->tile[0], 0, 0, 0);
+    setRGB0(&prims->tile[1], 0, 0, 0);
 
     work->field_28 = 0;
     work->field_2C = DG_ZeroVector;
@@ -148,12 +149,14 @@ STATIC int stgfd_io_GetResources(StgfdIoWork *work)
 
 void *NewStnFade(void)
 {
-    StgfdIoWork *work = GV_NewActor(EXEC_LEVEL, sizeof(StgfdIoWork));
+    Work *work;
+
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, &stgfd_io_Act, &stgfd_io_Die, "stgfd_io.c");
+        GV_SetNamedActor(&work->actor, &Act, &Die, "stgfd_io.c");
 
-        if (stgfd_io_GetResources(work) < 0)
+        if (GetResources(work) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

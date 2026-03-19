@@ -48,11 +48,12 @@ NEWCHARA GM_GetCharaID(int chara_id)
 
     for (i = 0; i < 2; i++)
     {
-        // First search the fixed set of commands
+        // First, search the built-in charas
         chara_table = &MainCharacterEntries[0];
         if (i != 0)
         {
-            // Then look at the dynamically loaded commands
+            // chara_id wasn't found in the main binary's built-ins,
+            // so now we'll search the stage overlay's chara table.
             chara_table = (CHARA *)StageCharacterEntries;
         }
 

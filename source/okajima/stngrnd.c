@@ -1,5 +1,5 @@
 #include "stngrnd.h"
-#include "stgfd_io.h"
+#include "stgfd_io.h"   // for NewStnFade
 
 #include <sys/types.h>
 #include <libgte.h>
@@ -17,7 +17,9 @@ extern SVECTOR stru_800BDF90;
 
 /*---------------------------------------------------------------------------*/
 
-typedef struct StunGrenadeWork
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
+
+typedef struct _Work
 {
     GV_ACT      actor;
     RECT        field_20[8];
@@ -29,39 +31,37 @@ typedef struct StunGrenadeWork
     int         field_EC;
     int         map;
     int         field_F4;
-} StunGrenadeWork;
-
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+} Work;
 
 /*---------------------------------------------------------------------------*/
 
-STATIC void stngrnd_loader2_80074644(POLY_FT4 *pPoly, DG_TEX *pTexture, int r, int g, int b)
+static void stngrnd_80074644(POLY_FT4 *poly, DG_TEX *tex, int r, int g, int b)
 {
     int x, w, y, h;
 
-    setPolyFT4(pPoly);
-    setSemiTrans(pPoly, 1);
-    setRGB0(pPoly, r, g, b);
+    setPolyFT4(poly);
+    setSemiTrans(poly, 1);
+    setRGB0(poly, r, g, b);
 
-    x = pTexture->off_x;
-    w = pTexture->w;
-    y = pTexture->off_y;
-    h = pTexture->h;
+    x = tex->off_x;
+    w = tex->w;
+    y = tex->off_y;
+    h = tex->h;
 
-    setUVWH(pPoly, x, y, w, h);
+    setUVWH(poly, x, y, w, h);
 
-    pPoly->tpage = pTexture->tpage;
-    pPoly->clut = pTexture->clut;
+    poly->tpage = tex->tpage;
+    poly->clut = tex->clut;
 }
 
-STATIC void stngrnd_800746B4(StunGrenadeWork *work, int idx, DVECTOR vec)
+static void stngrnd_800746B4(Work *work, int idx, DVECTOR vec)
 {
     work->field_A0_vecs[idx].vx = vec.vx - (vec.vx * work->field_80_array[idx]) / 16;
     work->field_A0_vecs[idx].vy = vec.vy - (vec.vy * work->field_80_array[idx]) / 16;
     work->field_A0_vecs[idx].vz = 320;
 }
 
-STATIC void stngrnd_Act(StunGrenadeWork *work)
+static void Act(Work *work)
 {
     DVECTOR screenCoords;
     long interp;
@@ -101,7 +101,7 @@ STATIC void stngrnd_Act(StunGrenadeWork *work)
     }
 }
 
-STATIC void stngrnd_FreePrims(StunGrenadeWork *work, int count)
+static void FreePrims(Work *work, int count)
 {
     int i;
 
@@ -111,12 +111,12 @@ STATIC void stngrnd_FreePrims(StunGrenadeWork *work, int count)
     }
 }
 
-STATIC void stngrnd_Die(StunGrenadeWork *work)
+static void Die(Work *work)
 {
-    stngrnd_FreePrims(work, 8);
+    FreePrims(work, 8);
 }
 
-STATIC int stngrnd_GetResources(StunGrenadeWork *work, MATRIX *world)
+static int GetResources(Work *work, MATRIX *world)
 {
     DVECTOR xy;
     int sp20[8][2];
@@ -124,8 +124,8 @@ STATIC int stngrnd_GetResources(StunGrenadeWork *work, MATRIX *world)
     long flag;
     int i;
     int val;
-    DG_PRIM* pPrim;
-    DG_TEX* pTex;
+    DG_PRIM *prim;
+    DG_TEX *tex;
 
     work->field_F4 = 0;
 
@@ -171,36 +171,36 @@ STATIC int stngrnd_GetResources(StunGrenadeWork *work, MATRIX *world)
 
         stngrnd_800746B4(work, i, xy);
 
-        pPrim = DG_GetPrim(DG_PRIM_OFFSET | DG_PRIM_WORLD | DG_PRIM_POLY_FT4, 1, 0, &work->field_A0_vecs[i], &work->field_20[i]);
-        work->field_60_pPrims[i] = pPrim;
+        prim = DG_GetPrim(DG_PRIM_OFFSET | DG_PRIM_WORLD | DG_PRIM_POLY_FT4, 1, 0, &work->field_A0_vecs[i], &work->field_20[i]);
+        work->field_60_pPrims[i] = prim;
 
-        if (!pPrim)
+        if (prim == NULL)
         {
             if (i != 0)
             {
-                stngrnd_FreePrims(work, i - 1);
+                FreePrims(work, i - 1);
             }
 
             return -1;
         }
 
-        pPrim->root = NULL;
-        pPrim->field_2E_k500 = 320;
+        prim->root = NULL;
+        prim->field_2E_k500 = 320;
 
-        pTex = DG_GetTexture(GV_StrCode("refrection6"));
+        tex = DG_GetTexture(GV_StrCode("refrection6"));
 
-        if (!pTex)
+        if (tex == NULL)
         {
             if (i != 0)
             {
-                stngrnd_FreePrims(work, i - 1);
+                FreePrims(work, i - 1);
             }
 
             return -1;
         }
 
-        stngrnd_loader2_80074644(&pPrim->packs[0]->poly_ft4, pTex, 30, 30, 30);
-        stngrnd_loader2_80074644(&pPrim->packs[1]->poly_ft4, pTex, 25, 25, 25);
+        stngrnd_80074644(&prim->packs[0]->poly_ft4, tex, 30, 30, 30);
+        stngrnd_80074644(&prim->packs[1]->poly_ft4, tex, 25, 25, 25);
     }
 
     work->alive_counter = 15;
@@ -212,21 +212,21 @@ STATIC int stngrnd_GetResources(StunGrenadeWork *work, MATRIX *world)
 
 void *NewStanBlast(MATRIX *world)
 {
-    StunGrenadeWork *work;
+    Work *work;
 
     if (GM_GameStatus & STATE_STUN)
     {
         return NULL;
     }
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(StunGrenadeWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if ( work )
     {
-        GV_SetNamedActor(&work->actor, stngrnd_Act, stngrnd_Die, "stngrnd.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "stngrnd.c");
 
         GM_ClaymoreMap = GM_CurrentMap;
 
-        if ( stngrnd_GetResources(work, world) < 0 )
+        if ( GetResources(work, world) < 0 )
         {
             GV_DestroyActor(&work->actor);
             return NULL;

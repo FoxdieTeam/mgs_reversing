@@ -15,6 +15,8 @@
 
 /*---------------------------------------------------------------------------*/
 
+#define EXEC_LEVEL GV_ACTOR_AFTER
+
 typedef struct AnimeItem
 {
     int         counter;
@@ -46,8 +48,6 @@ typedef struct AnimeWork
     SVECTOR  *vertices;
     AnimeItem items[0];
 } AnimeWork;
-
-#define EXEC_LEVEL GV_ACTOR_AFTER
 
 /*---------------------------------------------------------------------------*/
 
@@ -1190,7 +1190,7 @@ TAnimeVMFn anime_fn_table_8009F228[] = {
     anime_fn_14_8005F438
 };
 
-STATIC void anime_Act(AnimeWork *work)
+static void Act(AnimeWork *work)
 {
     AnimeItem   *item;
     SVECTOR     *vertices;
@@ -1237,10 +1237,14 @@ STATIC void anime_Act(AnimeWork *work)
     }
 }
 
-STATIC void anime_Die(AnimeWork *anime)
+/*---------------------------------------------------------------------------*/
+
+static void Die(AnimeWork *work)
 {
-    GM_FreePrim(anime->prim);
+    GM_FreePrim(work->prim);
 }
+
+/*---------------------------------------------------------------------------*/
 
 STATIC int anime_loader_helper_8005F644(AnimeWork *work, ANIMATION *animation)
 {
@@ -1343,7 +1347,7 @@ STATIC void anime_loader_helper_8005F6EC(AnimeWork *work, char shade)
     }
 }
 
-STATIC int anime_GetResources(AnimeWork *work, int map, ANIMATION *animation)
+static int GetResources(AnimeWork *work, int map, ANIMATION *animation)
 {
     int count;
     PRESCRIPT *prescript;
@@ -1422,8 +1426,8 @@ void *NewAnime(MATRIX *world, int map, ANIMATION *animation)
     if (work)
     {
         work->vertices = (SVECTOR *)&work->items[count]; // count vectors after the items
-        GV_SetNamedActor(&work->actor, anime_Act, anime_Die, "anime.c");
-        if (anime_GetResources(work, map, animation) < 0)
+        GV_SetNamedActor(&work->actor, Act, Die, "anime.c");
+        if (GetResources(work, map, animation) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
