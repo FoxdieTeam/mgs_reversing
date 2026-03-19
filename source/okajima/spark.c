@@ -176,22 +176,12 @@ STATIC void spark_act_helper_80074118(SVECTOR *arg0, SVECTOR *arg1, int count)
 STATIC void spark_loader4_80074234(POLY_FT4 *pPoly, int count, DG_TEX *tex)
 {
     POLY_FT4 *scratch;
-    int x, y, w, h;
 
     scratch = (POLY_FT4 *)getScratchAddr(0);
 
     setPolyFT4(scratch);
     setSemiTrans(scratch, 1);
-
-    x = tex->off_x;
-    w = tex->w;
-    y = tex->off_y;
-    h = tex->h;
-
-    setUVWH(scratch, x, y, w, h);
-
-    scratch->tpage = tex->tpage;
-    scratch->clut = tex->clut;
+    DG_SetPacketTexture4(scratch, tex);
 
     while (--count >= 0)
     {

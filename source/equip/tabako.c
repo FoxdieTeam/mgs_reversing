@@ -89,7 +89,6 @@ static int GetResources(Work *work, OBJECT *parent, int num_parent)
     DG_TEX *pTex;
     int i;
     POLY_FT4 *pPoly;
-    int u0, v0, u1, v1;
 
     GM_InitObjectNoRots(object, GV_StrCode("cigar"), 109, 0);
 
@@ -126,27 +125,7 @@ static int GetResources(Work *work, OBJECT *parent, int num_parent)
 
         setPolyFT4(pPoly);
         setSemiTrans(pPoly, 1);
-
-        u0 = pTex->off_x;
-        u1 = u0 + pTex->w;
-
-        v0 = pTex->off_y;
-        v1 = v0 + pTex->h;
-
-        pPoly->u0 = u0;
-        pPoly->v0 = v0;
-
-        pPoly->u1 = u1;
-        pPoly->v1 = v0;
-
-        pPoly->u2 = u0;
-        pPoly->v2 = v1;
-
-        pPoly->u3 = u1;
-        pPoly->v3 = v1;
-
-        pPoly->tpage = pTex->tpage;
-        pPoly->clut = pTex->clut;
+        DG_SetPacketTexture4(pPoly, pTex);
     }
 
     work->prim->root = work->object.objs->root;

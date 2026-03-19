@@ -102,9 +102,6 @@ STATIC void d_bloodr_Act(DBloodWorkr *work)
 
 STATIC void d_bloodr_loader_helper_helper_80072DE8(POLY_FT4 *pPolysA, POLY_FT4 *pPolysB, int count, DG_TEX *tex)
 {
-    int x, y, w, h;
-    int x2, y2, w2, h2;
-
     while (--count >= 0)
     {
         setPolyFT4(pPolysA);
@@ -114,28 +111,10 @@ STATIC void d_bloodr_loader_helper_helper_80072DE8(POLY_FT4 *pPolysA, POLY_FT4 *
         setSemiTrans(pPolysB, 1);
 
         setRGB0(pPolysA, 0, 255, 255);
-
-        x = tex->off_x;
-        w = tex->w;
-        y = tex->off_y;
-        h = tex->h;
-
-        setUVWH(pPolysA, x, y, w, h);
-
-        pPolysA->tpage = tex->tpage;
-        pPolysA->clut = tex->clut;
+        DG_SetPacketTexture4(pPolysA, tex);
 
         setRGB0(pPolysB, 0, 255, 255);
-
-        x2 = tex->off_x;
-        w2 = tex->w;
-        y2 = tex->off_y;
-        h2 = tex->h;
-
-        setUVWH(pPolysB, x2, y2, w2, h2);
-
-        pPolysB->tpage = tex->tpage;
-        pPolysB->clut = tex->clut;
+        DG_SetPacketTexture4(pPolysB, tex);
 
         pPolysA->tpage |= 0x40;
         pPolysA++;

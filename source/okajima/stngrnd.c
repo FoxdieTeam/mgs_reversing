@@ -37,21 +37,10 @@ typedef struct StunGrenadeWork
 
 STATIC void stngrnd_loader2_80074644(POLY_FT4 *pPoly, DG_TEX *pTexture, int r, int g, int b)
 {
-    int x, w, y, h;
-
     setPolyFT4(pPoly);
     setSemiTrans(pPoly, 1);
     setRGB0(pPoly, r, g, b);
-
-    x = pTexture->off_x;
-    w = pTexture->w;
-    y = pTexture->off_y;
-    h = pTexture->h;
-
-    setUVWH(pPoly, x, y, w, h);
-
-    pPoly->tpage = pTexture->tpage;
-    pPoly->clut = pTexture->clut;
+    DG_SetPacketTexture4(pPoly, pTexture);
 }
 
 STATIC void stngrnd_800746B4(StunGrenadeWork *work, int idx, DVECTOR vec)

@@ -152,21 +152,11 @@ STATIC void blood_act_helper_80072394(SVECTOR *pVecsA, SVECTOR *pVecsB, int coun
 
 STATIC void blood_loader2_helper_80072478(POLY_FT4 *pPolys, int primCount, DG_TEX *pTex, int count)
 {
-    int x, y, w, h;
-
     while (--primCount >= 0)
     {
         setPolyFT4(pPolys);
         setSemiTrans(pPolys, 1);
-        x = pTex->off_x;
-        w = pTex->w;
-        y = pTex->off_y;
-        h = pTex->h;
-
-        setUVWH(pPolys, x, y, w, h);
-
-        pPolys->tpage = pTex->tpage;
-        pPolys->clut = pTex->clut;
+        DG_SetPacketTexture4(pPolys, pTex);
 
         // Some silly code to force the compiler
         // to emit "li t2, 2" and not clobber
