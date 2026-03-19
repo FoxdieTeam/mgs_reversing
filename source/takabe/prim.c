@@ -7,7 +7,7 @@
 
 #include "common.h"
 #include "libdg/libdg.h"
-#include "game/game.h"
+#include "game/game.h"          // for GM_MakePrim
 
 extern DG_CHANL DG_Chanls[3];
 
