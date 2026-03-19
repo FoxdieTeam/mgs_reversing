@@ -15,6 +15,10 @@
 
 /*---------------------------------------------------------------------------*/
 
+#define EXEC_LEVEL  GV_ACTOR_LEVEL5
+
+#define SEGMENT_ATR ( HZD_SEG_NO_PLAYER )
+
 // TODO: This type of struct is seen in other places that make use of HZD_FLR.
 typedef struct Bullet_vecs
 {
@@ -51,12 +55,6 @@ typedef struct BulletWork
     int         field_168;
     int         field_16C;
 } BulletWork;
-
-// STATIC_ASSERT(sizeof(BulletWork) == 0x170, "sizeof(BulletWork) is wrong!");
-
-#define EXEC_LEVEL  GV_ACTOR_LEVEL5
-
-#define SEGMENT_ATR ( HZD_SEG_NO_PLAYER )
 
 /*---------------------------------------------------------------------------*/
 
