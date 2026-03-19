@@ -466,20 +466,18 @@ MAP *GM_FindMapZone(int zone)
     return NULL;
 }
 
+// clang-format off
 void GM_ReshadeObjs( DG_OBJS *obj )
 {
     MAP *map;
     LIT *lit;
 
     map = GM_GetMap( obj->group_id );
-    if ( map == NULL )
-    {
+    if( map == NULL ){
         printf( "Reshade NULL map\n" );
     }
-
     lit = map->lit;
-    if( lit != NULL )
-    {
+    if( lit != NULL ){
         DG_MakePreshade( obj, lit->lights, lit->n_lights );
     }
 }
@@ -491,12 +489,14 @@ void GM_ReshadeObjs( DG_OBJS *obj )
 void GM_ReshadeMapAll( void )
 {
     DG_OBJS **obj;
-    int       i;
+    int     i;
 
     obj = StageObjs;
-    for (i = N_StageObjs; i > 0; i--)
-    {
-        GM_ReshadeObjs(*obj);
+    for ( i = N_StageObjs; i > 0; --i ) {
+        GM_ReshadeObjs( *obj );
         obj++;
     }
 }
+
+/*----------------------------------------------------------------*/
+// clang-format on
