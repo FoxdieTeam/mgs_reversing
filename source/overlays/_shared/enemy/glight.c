@@ -80,7 +80,7 @@ int GunLightGetResources_800D39D0(GlightWork *work, MATRIX *world, int **pvisibl
 
     work->world = world;
 
-    work->prim = DG_GetPrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 1, 0, &glight_svec, &glight_rect);
+    work->prim = GM_MakePrimChanl(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 1, &glight_svec, &glight_rect, 0);
     if (work->prim == NULL)
     {
         return -1;

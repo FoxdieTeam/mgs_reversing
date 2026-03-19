@@ -119,7 +119,7 @@ void *NewInverlt2_800D0FF4(SVECTOR *arg0, int arg1, int arg2, int arg3, int r, i
 
     for (i = 0; i < 8; i++)
     {
-        work->prim[i] =  DG_GetPrim(DG_PRIM_OFFSET | DG_PRIM_WORLD | DG_PRIM_POLY_FT4, 1, 0, &work->vec[i], &work->rect[i]);
+        work->prim[i] =  GM_MakePrimChanl(DG_PRIM_OFFSET | DG_PRIM_WORLD | DG_PRIM_POLY_FT4, 1, &work->vec[i], &work->rect[i], 0);
 
         work->prim[i]->field_2E_k500 = 320;
 

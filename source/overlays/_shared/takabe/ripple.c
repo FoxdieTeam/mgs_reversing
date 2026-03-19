@@ -129,7 +129,7 @@ static int GetResources( Work *work, MATRIX* mat, int scale )
     work->map = GM_GetCurrentMap();
 
     s00a_ripple_800D7AC0( work->pos, 8, scale );
-    prim = work->prim = DG_GetPrim( DG_PRIM_POLY_FT4, 8, 0, work->pos, NULL );
+    prim = work->prim = GM_MakePrimChanl( DG_PRIM_POLY_FT4, 8, work->pos, NULL, 0 );
 
     if ( prim == NULL )
     {

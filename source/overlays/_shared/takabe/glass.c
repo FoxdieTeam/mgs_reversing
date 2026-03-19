@@ -227,7 +227,7 @@ int GlassGetResources_800D335C(GlassWork *work, int name, int map)
 
     verts = work->verts;
 
-    prim = DG_GetPrim(DG_PRIM_POLY_FT4, 2, 0, verts, NULL);
+    prim = GM_MakePrimChanl(DG_PRIM_POLY_FT4, 2, verts, NULL, 0);
     work->prim = prim;
     if (prim == NULL)
     {

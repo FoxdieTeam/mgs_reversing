@@ -221,7 +221,7 @@ int Splash3GetResources_800C810C(Splash3Work *work, int dir, SVECTOR *pos)
 
     work->map = GM_CurrentMap;
 
-    prim = DG_GetPrim(DG_PRIM_POLY_FT4, 32, 0, work->pos, &s15b_800C3398);
+    prim = GM_MakePrimChanl(DG_PRIM_POLY_FT4, 32, work->pos, &s15b_800C3398, 0);
     work->prim = prim;
     if (prim == NULL)
     {

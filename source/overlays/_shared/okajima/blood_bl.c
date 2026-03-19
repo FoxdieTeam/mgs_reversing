@@ -158,7 +158,7 @@ int BloodBlGetResources_800CD520(BloodBlWork *work, int map)
     work->map = map;
     GM_CurrentMap = map;
 
-    prim = DG_GetPrim(DG_PRIM_POLY_FT4, 1, 0, work->verts, NULL);
+    prim = GM_MakePrimChanl(DG_PRIM_POLY_FT4, 1, work->verts, NULL, 0);
     work->prim = prim;
     if (prim == NULL)
     {

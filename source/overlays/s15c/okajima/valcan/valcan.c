@@ -435,7 +435,7 @@ int ValcanGetResources_800D92A8(ValcanWork *work, int name, int where)
         Valcan_800D9B3C(work);
         s15c_valcan_800D8ECC(work);
 
-        work->field_6F4 = prim = DG_GetPrim(DG_PRIM_POLY_FT4, 1, 0, &work->field_6D4, NULL);
+        work->field_6F4 = prim = GM_MakePrimChanl(DG_PRIM_POLY_FT4, 1, &work->field_6D4, NULL, 0);
         if (work->field_6F4 == NULL)
         {
             return -1;

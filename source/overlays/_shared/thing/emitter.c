@@ -82,7 +82,7 @@ static int GetResources( Work *work, int map, int count )
 
     GM_CurrentMap = map;
 
-    work->prim = DG_GetPrim( DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, count, 0, work->vecs, &rect_800C3320 );
+    work->prim = GM_MakePrimChanl( DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, count, work->vecs, &rect_800C3320, 0 );
     prim = work->prim;
     if ( prim == NULL )
     {

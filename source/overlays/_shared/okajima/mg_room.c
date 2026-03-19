@@ -221,7 +221,7 @@ int MgRoomGetResources_800DB218(MgRoom *work)
     work->f88 = 0;
     work->map = GM_CurrentMap;
 
-    prim = DG_GetPrim(DG_PRIM_POLY_FT4, 1, 0, work->vec1[0], NULL);
+    prim = GM_MakePrimChanl(DG_PRIM_POLY_FT4, 1, work->vec1[0], NULL, 0);
     work->prim1 = prim;
     if (prim == NULL)
     {
@@ -244,7 +244,7 @@ int MgRoomGetResources_800DB218(MgRoom *work)
     MgRoom_800DAD38(&prim->packs[0]->poly_ft4, 1, tex, &color);
     MgRoom_800DAD38(&prim->packs[1]->poly_ft4, 1, tex, &color);
 
-    prim = DG_GetPrim(DG_PRIM_POLY_FT4, 1, 0, work->vec2[0], NULL);
+    prim = GM_MakePrimChanl(DG_PRIM_POLY_FT4, 1, work->vec2[0], NULL, 0);
     work->prim2 = prim;
     if (prim == NULL)
     {

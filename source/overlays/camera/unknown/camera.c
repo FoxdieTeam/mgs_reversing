@@ -1024,9 +1024,9 @@ int CameraGetResources_800CE6EC(CameraWork *work, int map)
 
     GM_CurrentMap = map;
 
-    work->prim1 = DG_GetPrim(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 4, 0, NULL, NULL);
-    work->prim2 = DG_GetPrim(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 9, 0, NULL, NULL);
-    work->prim3 = DG_GetPrim(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 26, 0, NULL, NULL);
+    work->prim1 = GM_MakePrimChanl(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 4, NULL, NULL, 0);
+    work->prim2 = GM_MakePrimChanl(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 9, NULL, NULL, 0);
+    work->prim3 = GM_MakePrimChanl(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 26, NULL, NULL, 0);
 
     for (i = 3; i >= 0; i--)
     {

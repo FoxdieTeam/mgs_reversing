@@ -229,7 +229,7 @@ static int GetResources(Work *work, OBJECT *parent, int unit)
 
     GM_ConfigObjectRoot((OBJECT *)obj, parent, unit);
 
-    prim = DG_GetPrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 1, 0, &svector_800AB880, &rect_800AB878);
+    prim = GM_MakePrimChanl(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 1, &svector_800AB880, &rect_800AB878, 0);
     work->prim = prim;
 
     if (prim)

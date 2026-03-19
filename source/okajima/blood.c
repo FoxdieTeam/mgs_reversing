@@ -235,7 +235,7 @@ STATIC int blood_GetResources(BloodWork *work, MATRIX *arg1, int count)
 
     blood_loader2_helper2_80072080(arg1, work->field_28, work->field_A8, work->field_2AC_prim_count, count);
 
-    prim = DG_GetPrim(DG_PRIM_POLY_FT4, work->field_2AC_prim_count, 0, work->field_A8, &rect_8009F60C);
+    prim = GM_MakePrimChanl(DG_PRIM_POLY_FT4, work->field_2AC_prim_count, work->field_A8, &rect_8009F60C, 0);
     work->field_24_prims = prim;
 
     if (!prim)

@@ -54,7 +54,7 @@ void *NewFamasLight(MATRIX *world)
     work->world = world;
     work->map = GM_CurrentMap;
 
-    prim = DG_GetPrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 1, 0, &famaslit_svec, &famaslit_rect);
+    prim = GM_MakePrimChanl(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 1, &famaslit_svec, &famaslit_rect, 0);
     work->prim = prim;
 
     DG_GroupPrim(prim, 0);

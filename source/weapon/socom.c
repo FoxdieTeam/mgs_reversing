@@ -401,7 +401,7 @@ static int GetResources( Work *actor, OBJECT *parent, int num_parent )
     if ( obj->objs )
     {
         GM_ConfigObjectRoot( (OBJECT *)obj, parent, num_parent );
-        prim = DG_GetPrim( DG_PRIM_LINE_FT2, 10, 0, actor->vertices, NULL );
+        prim = GM_MakePrimChanl( DG_PRIM_LINE_FT2, 10, actor->vertices, NULL, 0 );
         newprim = ( actor->prim1 = prim );
         prim = newprim;
         if ( newprim )
@@ -414,7 +414,7 @@ static int GetResources( Work *actor, OBJECT *parent, int num_parent )
                 SocomSetPolyTexture( &newprim->packs[ 1 ]->poly_ft4, tex );
                 SocomInitVectors( actor );
                 newprim->root = &parent->objs->objs[ num_parent ].world;
-                actor->prim2 = prim = DG_GetPrim(  DG_PRIM_OFFSET | DG_PRIM_TILE, 2, 0, actor->field_110, &stru_800AB828 );
+                actor->prim2 = prim = GM_MakePrimChanl( DG_PRIM_OFFSET | DG_PRIM_TILE, 2, actor->field_110, &stru_800AB828, 0 );
                 actor->field_110[0] = actor->field_110[1] = stru_8009F3C4[0];
                 if ( prim )
                 {

@@ -324,7 +324,7 @@ static int GetResources(Work *work, int map, int name, int a3, int a4)
     prim_count = a3 * a4;
     field_40_children = work->field_40_children;
 
-    prim = DG_GetPrim(primType, prim_count, 0, field_40_children, NULL);
+    prim = GM_MakePrimChanl(primType, prim_count, field_40_children, NULL, 0);
 
     work->field_20_prim = prim;
     work->field_24 = prim_count;

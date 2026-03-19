@@ -200,7 +200,7 @@ int SmokeGetResources_800D2B0C(SmokeWork *work, int where)
     DG_TEX  *tex;
 
     GM_CurrentMap = where;
-    prim = DG_GetPrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 1, 0, &work->field_24, &smoke_rect);
+    prim = GM_MakePrimChanl(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 1, &work->field_24, &smoke_rect, 0);
     work->field_20 = prim;
     if (prim != NULL)
     {

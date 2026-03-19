@@ -156,7 +156,7 @@ int KatanaGetResources_800C53E4(KatanaWork *work, MATRIX *pos, SVECTOR *arg2, SV
     work->field_30[0] = *arg2;
     work->field_30[1] = *arg3;
     work->field_40 = arg4;
-    work->prim = prim = DG_GetPrim(DG_PRIM_POLY_GT4, 8, 0, (SVECTOR *)work->field_48, NULL);
+    work->prim = prim = GM_MakePrimChanl(DG_PRIM_POLY_GT4, 8, (SVECTOR *)work->field_48, NULL, 0);
     if (prim != NULL)
     {
         prim->world = DG_ZeroMatrix;
