@@ -183,7 +183,7 @@ gap                                     gap_800B56CC[0x4]; // 4 bytes
 CONTROL *BSS        GM_WhereList[96]; // 0x180 (384) bytes
 
 /* game/area.obj */
-AreaHistory BSS     gAreaHistory_800B5850; // 0x10 (16) bytes
+AreaHistory BSS     area_history; // 0x10 (16) bytes
 
 /* game/gamed.obj */
 char BSS            exe_name[32]; // 0x20 (32) bytes
@@ -233,7 +233,7 @@ MAP BSS      gMapRecs_800B7910[16]; // 0x140 (320) bytes
 DG_LitVertex BSS    DG_LitVertices_800B7A50[84]; // 0x7E0 (2016) bytes
 
 /* game/homing.obj */
-HOMING BSS   gHomingTargets_800B8230[HOMING_ARRAY_LENGTH];
+HOMING BSS   homing_targets[NUM_HOMING_TARGETS];
 
 /* game/strctrl.obj */
 StreamCtrlWork BSS  strctrl_work; // 0x40 (64) bytes

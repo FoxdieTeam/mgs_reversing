@@ -2694,7 +2694,7 @@ void Johnny_800C873C(JohnnyWork *work, int action)
     {
         if (work->unkB4E == 0)
         {
-            work->homing->flag = 0;
+            work->homing->flag = FALSE;
             Johnny_800C4F24(work, 0);
             GCL_ExecProc(work->unkBC0[5], NULL);
             GCL_ExecProc(work->unkBC0[3], NULL);
@@ -2986,7 +2986,7 @@ void Johnny_800C8FE4(JohnnyWork *work, int action)
 
     if (action == 0)
     {
-        work->homing->flag = 0;
+        work->homing->flag = FALSE;
         work->control.radar_atr &= ~RADAR_SIGHT;
 
         if (work->unkB50 == 1)
@@ -3009,7 +3009,7 @@ void Johnny_800C8FE4(JohnnyWork *work, int action)
         GCL_ExecProc(work->unkBC0[5], NULL);
 
         work->unkB1C |= 0x1000;
-        work->homing->flag = 0;
+        work->homing->flag = FALSE;
     }
     if (action & 2)
     {
@@ -3036,7 +3036,7 @@ void Johnny_800C9144(JohnnyWork *work, int action)
 {
     if (action == 0)
     {
-        work->homing->flag = 0;
+        work->homing->flag = FALSE;
         work->control.radar_atr &= ~RADAR_SIGHT;
 
         SetAction(work, 39);
@@ -3578,7 +3578,7 @@ int JohnnyConfigTarget_800CA0E0(JohnnyWork *work)
     GM_SetTarget(target, 0x9F, 2, &s03c_dword_800C32F4);
     GM_Target_8002DCCC(target, 1, -1, 0xC0, 0xA, &DG_ZeroVector);
     work->homing = GM_AllocHomingTarget(&work->object.objs->objs[6].world, &work->control);
-    work->homing->flag = 1;
+    work->homing->flag = TRUE;
     return 0;
 }
 

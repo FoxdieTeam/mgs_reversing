@@ -1263,11 +1263,11 @@ void s11e_zk11ecom_800D6DDC( ZakoWork *work )
 
     if ( work->target->class & TARGET_POWER )
     {
-        work->hom->flag = 1;
+        work->hom->flag = TRUE;
     }
     else
     {
-        work->hom->flag = 0;
+        work->hom->flag = FALSE;
     }
 
     if ( unk->field_04 < 0 && ctrl->level_flag )

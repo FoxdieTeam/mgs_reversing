@@ -1699,11 +1699,11 @@ void s11i_asiato_800CC39C(Zako11FWork *work)
 
     if (work->target->class & TARGET_POWER)
     {
-        work->hom->flag = 1;
+        work->hom->flag = TRUE;
     }
     else
     {
-        work->hom->flag = 0;
+        work->hom->flag = FALSE;
     }
 
     if (unk->field_04 < 0 && control->level_flag)
