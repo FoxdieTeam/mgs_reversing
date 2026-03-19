@@ -3,180 +3,185 @@
 #include "libgcl/libgcl.h"
 #include "sd/g_sound.h"
 
-STATIC int     SECTION(".sbss") dword_800ABA70;
-STATIC int     SECTION(".sbss") dword_800ABA74;
-STATIC int     SECTION(".sbss") dword_800ABA78[2];
-STATIC short   SECTION(".sbss") GM_RadarMode_800ABA80;
-STATIC short   SECTION(".sbss") word_800ABA82;
+STATIC int     SECTION(".sbss") song_status;
+STATIC int     SECTION(".sbss") dword_800ABA74; // padding
+STATIC int     SECTION(".sbss") song_codes[2];
+STATIC short   SECTION(".sbss") new_alert_mode;
+STATIC short   SECTION(".sbss") word_800ABA82;  // padding
 
-char byte_8009D698[] = {0, 0, 1, 2};
-char GM_NoiseSound_800B76E0[4][3];
+char alert_procs[] = {0, 0, 1, 2};
 
-extern int   GM_GameOverVox;
+extern char noise_sounds[4][3];
+extern int  GM_GameOverVox;
 
-typedef enum // GM_RadarMode_800ABA80
+#define STATUS_BIT_0 0x1
+#define STATUS_BIT_1 0x2
+
+static void set_song(int song)
 {
-    RADAR_ENABLED = 0,
-    RADAR_JAMMED = 1,
-    RADAR_EVASION = 2,
-    RADAR_ALERT = 3
-} RadarMode;
-
-typedef enum // GM_AlertMode
-{
-    ALERT_DISABLED = 0,
-    ALERT_ENABLED = 1,
-    ALERT_EVASION = 2 // > 2 = ALERT_EVASION
-} AlertMode;
-
-
-void sub_8002E508(int a1)
-{
-    if (a1 == 0)
+    if (song == 0)
     {
         GM_SetSound(0x01ffffff, SD_ASYNC);
     }
     else
     {
-        GM_SetSound(a1 | 0x01000000, SD_ASYNC);
+        GM_SetSound(song | 0x01000000, SD_ASYNC);
     }
 }
 
-void sub_8002E544(int param_1)
+static void set_song2(int song)
 {
-    if (param_1 == 0)
+    if (song == 0)
     {
-        dword_800ABA70 &= ~1;
+        song_status &= ~STATUS_BIT_0;
     }
     else
     {
-        sub_8002E508(param_1);
-        dword_800ABA70 |= 1;
+        set_song(song);
+        song_status |= STATUS_BIT_0;
     }
 }
 
-void GM_SetNoiseSound(int arg0)
+static void set_noise_sound(int noise)
 {
     int i;
 
     for (i = 1; i < 4; i++)
     {
-        GM_NoiseSound_800B76E0[i][arg0] = GCL_GetNextParamValue();
+        noise_sounds[i][noise] = GCL_GetNextParamValue();
     }
 
     if (GCL_GetParamResult())
     {
-        GM_NoiseSound_800B76E0[0][arg0] = GCL_GetNextParamValue();
+        noise_sounds[0][noise] = GCL_GetNextParamValue();
     }
 }
 
-int GM_GetNoiseSound(int arg0, int arg1)
+int GM_GetNoiseSound(int flag, int noise)
 {
-    return GM_NoiseSound_800B76E0[arg0 >> 8 & 3][arg1];
+    return noise_sounds[(flag >> 8) & 3][noise];
 }
 
 void GM_SoundStart(void)
 {
-    if (dword_800ABA70 == 0)
+    if (song_status == 0)
     {
-        sub_8002E508(dword_800ABA78[GM_AlertMode != 0]);
+        set_song(song_codes[GM_AlertMode != ALERT_OFF]);
     }
 }
 
 //AlertCmd() ?
-void GM_Command_sound_impl(void)
+void GM_AlertSound(void)
 {
-    int sdCode, xCode, voxCode, proc;
+    int c_code;
+    int x_code;
+    int vox_code;
+    int proc;
 
     if (GCL_GetOption('b'))
     {
-        dword_800ABA78[0] = GCL_GetNextParamValue();
-        dword_800ABA78[1] = GCL_GetNextParamValue();
-        dword_800ABA70 &= ~1;
+        song_codes[0] = GCL_GetNextParamValue();
+        song_codes[1] = GCL_GetNextParamValue();
+        song_status &= ~STATUS_BIT_0;
     }
-    if (GCL_GetOption('s'))
+
+    if (GCL_GetOption('s')) // song
     {
-        sub_8002E508(GCL_GetNextParamValue());
-        dword_800ABA70 |= 1;
+        set_song(GCL_GetNextParamValue());
+        song_status |= STATUS_BIT_0;
     }
+
     if (GCL_GetOption('c'))
     {
-        sdCode = GCL_GetNextParamValue();
-        GM_SetSound(sdCode | 0x01ffff00, SD_ASYNC);
-        if (sdCode == 0x01ffff01 || sdCode + 0xfe0000fd < 3)
+        c_code = GCL_GetNextParamValue();
+        GM_SetSound(c_code | 0x01ffff00, SD_ASYNC);
+
+        /* song pause or song fade in */
+        if (c_code == 0x01ffff01 || (c_code >= 0x01ffff03 && c_code <= 0x01ffff05))
         {
-            dword_800ABA70 &= ~2;
+            song_status &= ~STATUS_BIT_1;
         }
         else
         {
-            dword_800ABA70 |= 2;
+            song_status |= STATUS_BIT_1;
         }
     }
+
     if (GCL_GetOption('x'))
     {
-        xCode = GCL_GetNextParamValue();
-        if (xCode + 0xFE0000F6 < 4)
+        x_code = GCL_GetNextParamValue();
+
+        /* song fade out */
+        if (x_code >= 0x01ffff0a && x_code <= 0x01ffff0d)
         {
-            dword_800ABA70 |= 1;
+            song_status |= STATUS_BIT_0;
         }
-        GM_SetSound(xCode, SD_ASYNC);
+
+        GM_SetSound(x_code, SD_ASYNC);
     }
-    if (GCL_GetOption('e'))
+
+    if (GCL_GetOption('e')) // emit
     {
-        GM_SeSet2(GCL_GetNextParamValue(),     // x_pos
-                  GCL_GetNextParamValue(),     // y_pos
-                  GCL_GetNextParamValue());    // se_id
+        GM_SeSet2(GCL_GetNextParamValue(),  // pan
+                  GCL_GetNextParamValue(),  // vol
+                  GCL_GetNextParamValue()); // se_id
     }
+
     if (GCL_GetOption('v')) // vox
     {
-        voxCode = GCL_GetNextParamValue();
+        vox_code = GCL_GetNextParamValue();
+
         proc = 0;
         if (GCL_GetOption('f')) // func
         {
             proc = GCL_GetNextParamValue() | 0x80000000;
         }
-        GM_VoxStream(voxCode, proc);
+
+        GM_VoxStream(vox_code, proc);
     }
+
     if (GCL_GetOption('g'))
     {
         GM_GameOverVox = GCL_GetNextParamValue();
     }
+
     if (GCL_GetOption('k'))
     {
-        GM_SetNoiseSound(0);
+        set_noise_sound(0);
     }
+
     if (GCL_GetOption('r'))
     {
-        GM_SetNoiseSound(1);
+        set_noise_sound(1);
     }
+
     if (GCL_GetOption('l'))
     {
-        GM_SetNoiseSound(2);
+        set_noise_sound(2);
     }
+
     if (GCL_GetOption('n'))
     {
         GM_SoundStart();
     }
 }
 
-void GM_Act_helper2( void )
+void GM_AlertReset( void )
 {
-    int  i;
-    char val;
+    int i;
 
-    GM_NoiseSound_800B76E0[ 0 ][ 0 ] = 55;
-    dword_800ABA70 = 0;
-    dword_800ABA78[ 0 ] = 0;
-    dword_800ABA78[ 1 ] = 0;
-    GM_NoiseSound_800B76E0[ 0 ][ 1 ] = 39;
+    song_status = 0;
+    song_codes[ 0 ] = 0;
+    song_codes[ 1 ] = 0;
 
-    val = 40;
-    for ( i = 3; i >= 0; i-- )
+    noise_sounds[ 0 ][ 0 ] = SE_WALL02;
+    noise_sounds[ 0 ][ 1 ] = SE_REB01;
+
+    for ( i = 0; i < 4; i++ )
     {
-        GM_NoiseSound_800B76E0[ i ][ 2 ] = val;
+        noise_sounds[ i ][ 2 ] = SE_REBDRM01;
     }
 }
-
 
 void GM_AlertAct( void )
 {
@@ -185,57 +190,58 @@ void GM_AlertAct( void )
         return;
     }
 
-    if ( GM_RadarMode_800ABA80 >= 0 )
+    if ( new_alert_mode >= 0 && new_alert_mode != GM_AlertMode )
     {
-        if ( GM_RadarMode_800ABA80 != GM_AlertMode )
+        if ( song_status == 0 )
         {
-            if ( dword_800ABA70 == 0 )
+            switch ( new_alert_mode )
             {
-                switch ( GM_RadarMode_800ABA80 )
+            case ALERT_ACTIVE:
+                if ( GM_AlertMode == ALERT_OFF )
                 {
-                case RADAR_ALERT:
-                    if ( GM_AlertMode == ALERT_DISABLED )
-                    {
-                        GM_SeSet2( 0, 0x3F, SE_ALERT_SIREN );
-                        GM_SetSound( 0x01ffff0b, SD_ASYNC );
-                        sub_8002E508( dword_800ABA78[1] );
-                    }
-                    else if ( GM_AlertMode == ALERT_EVASION )
-                    {
-                        GM_SetSound( 0x01ffff03, SD_ASYNC );
-                    }
-                    break;
-                case RADAR_EVASION:
-                    GM_SetSound( 0x01ffff10, SD_ASYNC );
-                    break;
-                case RADAR_ENABLED:
-                    sub_8002E508( dword_800ABA78[0] );
-                    break;
+                    GM_SeSet2( 0, 0x3F, SE_ALERT_SIREN );
+                    GM_SetSound( 0x01ffff0b, SD_ASYNC );
+                    set_song( song_codes[1] );
                 }
+                else if ( GM_AlertMode == ALERT_EVASION )
+                {
+                    GM_SetSound( 0x01ffff03, SD_ASYNC );
+                }
+                break;
+
+            case ALERT_EVASION:
+                GM_SetSound( 0x01ffff10, SD_ASYNC );
+                break;
+
+            case ALERT_OFF:
+                set_song( song_codes[0] );
+                break;
             }
-            GM_AlertMode = GM_RadarMode_800ABA80;
         }
+
+        GM_AlertMode = new_alert_mode;
     }
-    if ( ( GM_AlertMode == ALERT_EVASION ) && ( dword_800ABA70 == 0 ) &&
-         ( GM_AlertLevel == 0x3C ) )
+
+    if ( GM_AlertMode == ALERT_EVASION && song_status == 0 && GM_AlertLevel == 60 )
     {
         GM_SetSound( 0x01ffff08, SD_ASYNC );
     }
-    GM_RadarMode_800ABA80 = -1;
+
+    new_alert_mode = -1;
 }
 
-void GM_AlertModeSet(int a1)
+void GM_AlertModeSet(int mode)
 {
-    if (a1 > GM_RadarMode_800ABA80)
+    if (mode > new_alert_mode)
     {
-        GM_RadarMode_800ABA80 = a1;
-        GM_CallSystemCallbackProc(2, byte_8009D698[a1]);
+        new_alert_mode = mode;
+        GM_CallSystemCallbackProc(2, alert_procs[mode]);
     }
 }
 
 void GM_AlertModeInit(void)
 {
-    GM_RadarMode_800ABA80 = -1;
+    new_alert_mode = -1;
 }
 
 void GM_AlertModeReset(void)

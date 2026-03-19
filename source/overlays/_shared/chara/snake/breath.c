@@ -40,7 +40,7 @@ static void Act( Work *work )
         }
     }
 
-    if ( work->visible && GM_AlertMode != 3 &&
+    if ( work->visible && GM_AlertMode != ALERT_ACTIVE &&
         !( GM_PlayerStatus & ( PLAYER_WATCH | PLAYER_INTRUDE | PLAYER_MOVE | PLAYER_GAME_OVER ) ) )
     {
         object = GM_PlayerBody;

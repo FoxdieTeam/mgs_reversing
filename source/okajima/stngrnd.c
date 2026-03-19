@@ -37,21 +37,10 @@ typedef struct _Work
 
 static void stngrnd_80074644(POLY_FT4 *poly, DG_TEX *tex, int r, int g, int b)
 {
-    int x, w, y, h;
-
     setPolyFT4(poly);
     setSemiTrans(poly, 1);
     setRGB0(poly, r, g, b);
-
-    x = tex->off_x;
-    w = tex->w;
-    y = tex->off_y;
-    h = tex->h;
-
-    setUVWH(poly, x, y, w, h);
-
-    poly->tpage = tex->tpage;
-    poly->clut = tex->clut;
+    DG_SetPacketTexture4(poly, tex);
 }
 
 static void stngrnd_800746B4(Work *work, int idx, DVECTOR vec)

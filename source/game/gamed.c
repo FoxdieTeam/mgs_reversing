@@ -141,7 +141,7 @@ static void GM_InitGameSystem(void)
     GM_ClaymoreMap = 0;
     GM_AlertLevel = 0;
     GM_AlertMax = 0;
-    GM_AlertMode = 0;
+    GM_AlertMode = ALERT_OFF;
     GM_WeaponChanged = 0;
     GM_Magazine = 0;
     GM_MagazineMax = 0;
@@ -408,7 +408,7 @@ static void Act(gameWork *work)
         GM_ResetMap();
         NewCameraSystem();
         DG_StorePalette();
-        GM_Act_helper2();
+        GM_AlertReset();
 
         if ((GM_LoadRequest & 0x10) != 0)
         {

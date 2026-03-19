@@ -845,7 +845,7 @@ static int GM_Command_pad(unsigned char *top)
 
 static int GM_Command_sound(unsigned char *top)
 {
-    GM_Command_sound_impl();
+    GM_AlertSound();
     return 0;
 }
 

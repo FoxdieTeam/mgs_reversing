@@ -508,7 +508,7 @@ static void Act(EvPanelWork *work)
         s03e_evpanel_800C37FC(work, 2);
         s03e_evpanel_800C3B14(work, message);
 
-        if (GM_AlertMode != 0)
+        if (GM_AlertMode != ALERT_OFF)
         {
             work->field_38 = 600;
         }
@@ -549,7 +549,7 @@ static void Act(EvPanelWork *work)
 
         if (message & 0x2)
         {
-            if (GM_AlertMode == 0)
+            if (GM_AlertMode == ALERT_OFF)
             {
                 if ((GM_Camera.first_person != 0) || (GM_PlayerStatus & PLAYER_WATCH))
                 {
@@ -662,7 +662,7 @@ static void Act(EvPanelWork *work)
             }
         }
 
-        if ((GM_AlertMode != 0) ||
+        if ((GM_AlertMode != ALERT_OFF) ||
             ((message & 0x20) != 0) ||
             ((GM_PlayerStatus & PLAYER_DAMAGED) != 0) ||
             (work->field_44 > 1))

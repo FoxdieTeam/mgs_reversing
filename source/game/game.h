@@ -180,6 +180,14 @@ enum // GM_GameStatus
 #define STATE_ALL_OFF    ( STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF | STATE_PAUSE_OFF | STATE_RADIO_OFF )  // 0x4A6000
 #define STATE_PAUSE_ONLY ( STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF | STATE_RADIO_OFF )                    // 0x4A2000
 
+enum // GM_AlertMode
+{
+    ALERT_OFF = 0,
+    ALERT_JAMMING = 1,
+    ALERT_EVASION = 2,
+    ALERT_ACTIVE = 3
+};
+
 /*---------------------------------------------------------------------------*/
 #ifndef __GAMED_SBSS__
 // clang-format off
@@ -337,15 +345,12 @@ NEWCHARA GM_GetChara(unsigned char *script);
 NEWCHARA GM_GetCharaID(int chara_id);
 
 /* alert.c */
-void sub_8002E508(int a1);
-void sub_8002E544(int param_1);
-void GM_SetNoiseSound(int arg0);
-int  GM_GetNoiseSound(int arg0, int arg1);
+int  GM_GetNoiseSound(int flag, int noise);
 void GM_SoundStart(void);
-void GM_Command_sound_impl(void);
-void GM_Act_helper2(void);
+void GM_AlertSound(void);
+void GM_AlertReset(void);
 void GM_AlertAct(void);
-void GM_AlertModeSet(int a1);
+void GM_AlertModeSet(int mode);
 void GM_AlertModeInit(void);
 void GM_AlertModeReset(void);
 

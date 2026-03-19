@@ -126,7 +126,7 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
     found = THING_Msg_CheckMessage(work->name, 4, elevator_hash_800C3634);
     message = THING_Msg_GetResult();
 
-    if (GM_AlertMode != 0)
+    if (GM_AlertMode != ALERT_OFF)
     {
         found = -1;
     }

@@ -1018,7 +1018,6 @@ void Searchli_800D8DDC(POLY_FT4 *packs, DG_TEX *tex, int abr, int r, int g, int 
     int xs, ys;
     int x, y;
     int u0, u1, v0, v1;
-    int u, v, w, h;
 
     xs = size;
     ys = size;
@@ -1051,13 +1050,7 @@ void Searchli_800D8DDC(POLY_FT4 *packs, DG_TEX *tex, int abr, int r, int g, int 
             }
             else
             {
-                u = tex->off_x;
-                w = tex->w;
-                v = tex->off_y;
-                h = tex->h;
-                setUVWH(packs, u, v, w, h);
-                packs->tpage = tex->tpage;
-                packs->clut = tex->clut;
+                DG_SetPacketTexture4(packs, tex);
             }
 
             packs++;

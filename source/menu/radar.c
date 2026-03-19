@@ -94,21 +94,6 @@ int gRadarRGBTable2_8009E3D4[] = {0x48A000, 0x6E6E, 0xDE, 0x181800};
 //#define CONSOLE_LONG_WIDTH 56
 //#define CONSOLE_TEX_WIDTH  28
 
-typedef enum // GM_AlertMode
-{
-    ALERT_DISABLED = 0,
-    ALERT_ENABLED = 1,
-    ALERT_EVASION = 2 // > 2 = ALERT_EVASION
-} AlertMode;
-
-typedef enum // GM_RadarMode_800ABA80
-{
-    RADAR_ENABLED = 0,
-    RADAR_JAMMED = 1,
-    RADAR_EVASION = 2,
-    RADAR_ALERT = 3
-} RadarMode;
-
 void MENU_SetRadarScale(int scale)
 {
     int    scale2;
@@ -953,14 +938,14 @@ void drawAlertEvasionJammingPanel_8003AA2C(MenuWork *work, char *ot, int radarMo
 
     switch (radarMode)
     {
-    case RADAR_JAMMED:
+    case ALERT_JAMMING:
         LoadImage(&rect_800AB490, (u_long *)image_8009E338);
         drawSymbols_8003A978(work->field_20_otBuf, 6, 3);
         drawConsole_jamming_8003A2D0(work->field_20_otBuf, 3);
         drawHeader_80039EC4(work->field_20_otBuf, -25, 3);
         break;
 
-    case RADAR_ENABLED:
+    case ALERT_OFF:
         radarMode = 4;
         break;
 
@@ -1070,14 +1055,13 @@ void draw_radar(MenuWork *work, unsigned char *ot)
     alertLevel = GM_AlertLevel;
     alertMode = GM_AlertMode;
 
-    if (alertMode >= 4)
+    if (alertMode > ALERT_ACTIVE)
     {
-        alertMode = ALERT_DISABLED;
+        alertMode = ALERT_OFF;
     }
 
-    if (alertMode == ALERT_DISABLED && gFn_radar_800AB48C == NULL)
+    if (alertMode == ALERT_OFF && gFn_radar_800AB48C == NULL)
     {
-
         if (GM_PlayerStatus & PLAYER_INTRUDE)
         {
             return;
@@ -1098,17 +1082,17 @@ void draw_radar(MenuWork *work, unsigned char *ot)
     }
     else
     {
-        if (alertMode == ALERT_DISABLED)
+        if (alertMode == ALERT_OFF)
         {
             if (GM_GameStatus & (STATE_CHAFF | STATE_JAMMING))
             {
-                alertMode = ALERT_ENABLED;
+                alertMode = ALERT_JAMMING;
             }
         }
 
         switch (alertMode)
         {
-        case ALERT_DISABLED:
+        case ALERT_OFF:
             alertLevel = work->field_CC_radar_data.counter;
 
             if (alertLevel > 0)
@@ -1180,14 +1164,14 @@ void draw_radar(MenuWork *work, unsigned char *ot)
             }
             break;
 
-        case ALERT_ENABLED:
+        case ALERT_JAMMING:
         case ALERT_EVASION:
-        case 3:
+        case ALERT_ACTIVE:
             work->field_CC_radar_data.counter = 93;
 
             // RadarMode enum better clarifies what's going on here.
             // AlertMode and RadarMode kind of interlace.
-            if (alertMode == RADAR_JAMMED && work->field_CC_radar_data.prev_mode == RADAR_ENABLED)
+            if (alertMode == ALERT_JAMMING && work->field_CC_radar_data.prev_mode == ALERT_OFF)
             {
                 GM_SeSet2(0, 0x3F, SE_RADAR_JAMMED);
             }
