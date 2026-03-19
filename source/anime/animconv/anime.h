@@ -2,6 +2,7 @@
 #define __MGS_ANIME_H__
 
 // "It's like one of my Japanese animes..."
+// 「これじゃ まるでアニメじゃないか」
 
 #include <sys/types.h>
 #include <libgte.h>
