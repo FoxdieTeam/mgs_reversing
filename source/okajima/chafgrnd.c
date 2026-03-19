@@ -25,10 +25,10 @@ extern int              okajima_CHAF_LIFE;
 
 #define CHAFF_LIFETIME  300
 
-typedef struct _ChaffGrdWork
+typedef struct _Work
 {
     GV_ACT   actor;
-    int      field_20_map;
+    int      map;
     int      field_24;
     int      field_28;
     SVECTOR  field_2c;
@@ -40,11 +40,11 @@ typedef struct _ChaffGrdWork
     int      field_a3c;
     char     field_a40[64];
     MATRIX   field_a80;
-} ChaffGrdWork;
+} Work;
 
 /*---------------------------------------------------------------------------*/
 
-STATIC void chafgrnd_InitParticleSize(TILE *tile)
+static void InitParticleSize(TILE *tile)
 {
     TILE        *pIter = tile;
     int          i;
@@ -60,20 +60,20 @@ STATIC void chafgrnd_InitParticleSize(TILE *tile)
     }
 }
 
-STATIC void chafgrnd_InitParticleColor(TILE *tile)
+static void InitParticleColor(TILE *tile)
 {
     int i;
 
-    for (i = 0x40; i > 0; i--)
+    for (i = 64; i > 0; i--)
     {
-        tile->r0 = -1;
-        tile->g0 = -1;
+        tile->r0 = 255;
+        tile->g0 = 255;
         tile->b0 = 0;
         tile++;
     }
 }
 
-STATIC void chafgrnd_CalcParticlePosition(SVECTOR *va, SVECTOR *vb, SVECTOR *vout)
+static void CalcParticlePosition(SVECTOR *va, SVECTOR *vb, SVECTOR *vout)
 {
     SVECTOR vec;
     int temp_s0;
@@ -99,7 +99,7 @@ STATIC void chafgrnd_CalcParticlePosition(SVECTOR *va, SVECTOR *vb, SVECTOR *vou
     vout->vz = 0;
 }
 
-STATIC void chafgrnd_Act(ChaffGrdWork* work)
+static void Act(Work* work)
 {
     SVECTOR unused;
     SVECTOR sp18;
@@ -178,7 +178,7 @@ STATIC void chafgrnd_Act(ChaffGrdWork* work)
     {
         work->field_24 = 1;
 
-        chafgrnd_CalcParticlePosition(&gUnkCameraStruct2_800B7868.eye, &gUnkCameraStruct2_800B7868.center, &sp18);
+        CalcParticlePosition(&gUnkCameraStruct2_800B7868.eye, &gUnkCameraStruct2_800B7868.center, &sp18);
 
         pVec = (SVECTOR *)getScratchAddr(0);
         pVec->vx = 0;
@@ -245,10 +245,10 @@ STATIC void chafgrnd_Act(ChaffGrdWork* work)
         *var_s7 = *var_s4;
     }
 
-    chafgrnd_InitParticleColor(&work->field_a34->packs[GV_Clock]->tiles);
+    InitParticleColor(&work->field_a34->packs[GV_Clock]->tiles);
 }
 
-STATIC int chafgrnd_GetResources(ChaffGrdWork *work, MATRIX *world)
+static int GetResources(Work *work, MATRIX *world)
 {
     SVECTOR vec1;
     SVECTOR vec2;
@@ -263,13 +263,13 @@ STATIC int chafgrnd_GetResources(ChaffGrdWork *work, MATRIX *world)
     work->field_24 = 0;
     work->field_28 = okajima_CHAF_LIFE - 60;
 
-    work->field_20_map = GM_CurrentMap;
+    work->map = GM_CurrentMap;
 
     work->field_2c.vx = world->t[0];
     work->field_2c.vy = world->t[1];
     work->field_2c.vz = world->t[2];
 
-    work->field_20_map = GM_CurrentMap;
+    work->map = GM_CurrentMap;
 
     vec1.vx = 0;
     vec1.vy = 0;
@@ -283,8 +283,8 @@ STATIC int chafgrnd_GetResources(ChaffGrdWork *work, MATRIX *world)
         return -1;
     }
 
-    chafgrnd_InitParticleSize(&prim->packs[0]->tiles);
-    chafgrnd_InitParticleSize(&prim->packs[1]->tiles);
+    InitParticleSize(&prim->packs[0]->tiles);
+    InitParticleSize(&prim->packs[1]->tiles);
 
     work->field_a80 = DG_ZeroMatrix;
 
@@ -308,7 +308,7 @@ STATIC int chafgrnd_GetResources(ChaffGrdWork *work, MATRIX *world)
     return 0;
 }
 
-STATIC void chafgrnd_Die(ChaffGrdWork *work)
+static void Die(Work *work)
 {
     GM_GameStatus &= ~STATE_CHAFF;
 
@@ -320,7 +320,7 @@ STATIC void chafgrnd_Die(ChaffGrdWork *work)
 void *NewChaffGrd(MATRIX *world)
 {
     SVECTOR vec;
-    ChaffGrdWork *work;
+    Work *work;
 
     vec.vx = world->t[0];
     vec.vy = world->t[1];
@@ -338,15 +338,15 @@ void *NewChaffGrd(MATRIX *world)
         return NULL;
     }
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(ChaffGrdWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
 
     if (work)
     {
         dword_800BDF98 = FALSE;
-        GV_SetNamedActor(&work->actor, &chafgrnd_Act, &chafgrnd_Die, "chafgrnd.c");
+        GV_SetNamedActor(&work->actor, &Act, &Die, "chafgrnd.c");
 
         work->field_a3c = 0;
-        if (chafgrnd_GetResources(work, world) < 0)
+        if (GetResources(work, world) < 0)
         {
             work->field_a3c = 1;
         }

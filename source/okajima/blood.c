@@ -13,6 +13,8 @@
 
 /*---------------------------------------------------------------------------*/
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
+
 typedef struct _BloodWork
 {
     GV_ACT   actor;
@@ -23,10 +25,6 @@ typedef struct _BloodWork
     int      field_2A8;
     int      field_2AC_prim_count;
 } BloodWork;
-
-// STATIC_ASSERT(sizeof(BloodWork) == 0x2B0, "sizeof(BloodWork) is wrong!");
-
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 /*---------------------------------------------------------------------------*/
 
@@ -315,7 +313,20 @@ STATIC const int blood_anim_data[] = {
     0x1E000AFF, 0xE8081E00, 0x0002F8F8, 0x000F0D01
 };
 
-STATIC ANIMATION blood_anim = { PCX_BLOOD_2, 1, 1, 1, 1, 500, 3, 300, 300, 200, NULL, (void *)blood_anim_data };
+STATIC ANIMATION blood_anim = {
+    PCX_BLOOD_2,                // texture_hash
+    1,                          //
+    1,                          //
+    1,                          // n_anims
+    1,                          // n_vertices
+    500,                        //
+    3,                          //
+    300,                        // xw
+    300,                        // yh
+    200,                        // rgb
+    NULL,                       // pre_script
+    (void *)blood_anim_data     // ptr
+};
 
 void AN_Blood_Mist(SVECTOR *pos, SVECTOR *speed)
 {

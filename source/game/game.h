@@ -190,23 +190,29 @@ enum // GM_AlertMode
 
 /*---------------------------------------------------------------------------*/
 #ifndef __GAMED_SBSS__
-extern int     GM_CurrentMap;
-extern int     GM_NoisePower;
-extern int     GM_NoiseLength;
-extern SVECTOR GM_NoisePosition;
+// clang-format off
 
-static inline void GM_SetNoise( int power, int length, SVECTOR *pos )
+extern int GM_CurrentMap;               // for GM_Set/GetCurrentMap
+extern int GM_AlertMax;                 // for GM_SetAlert
+extern int GM_NoisePower;               // for GM_SetNoise
+extern int GM_NoiseLength;              //      〃
+extern SVECTOR GM_NoisePosition;        //      〃
+
+#if 0
+/*
+    The beginning of this function was cut off in the memleak.
+    Just guessing the name, return type, and the types of the first two args.
+    GM_MakePrimChanl() needs to be reimplemented before this can be used.
+*/
+static  inline  void    *GM_MakePrimChanl0( type, n_prims, pos, rect )
+int                     type ;
+int                     n_prims ;
+SVECTOR                 *pos ;
+RECT                    *rect ;
 {
-    int old = GM_NoisePower;
-    if (power < old)
-        return;
-    if (power == old && length < GM_NoiseLength)
-        return;
-
-    GM_NoisePower = power;
-    GM_NoiseLength = length;
-    GM_NoisePosition = *pos;
+    return GM_MakePrimChanl( type, n_prims, pos, rect, 0 ) ;
 }
+#endif
 
 static inline void GM_FreePrim( DG_PRIM *prim )
 {
@@ -223,33 +229,42 @@ static inline void GM_ConfigPrimRoot( DG_PRIM *prim, OBJECT *obj, int unit )
 
 static inline void GM_SetCurrentMap( int map )
 {
-    GM_CurrentMap = map;
+    GM_CurrentMap = map ;
 }
 
 static inline int GM_GetCurrentMap()
 {
-    return GM_CurrentMap;
+    return GM_CurrentMap ;
 }
 
-static inline void GM_SetAlertMax( int alert )
-{
-    extern int GM_AlertMax;
-    if ( GM_AlertMax < alert )
-    {
-        GM_AlertMax = alert;
-    }
-}
-
-/*
-//not used anywhere yet
+#if 0
+/* Currently unused. */
 static  inline  void    GM_SetAlert( alert )
 int                     alert ;
 {
         if ( alert > 256 ) alert = 256 ;
         if ( alert > GM_AlertMax ) GM_AlertMax = alert ;
 }
-*/
+#endif
 
+static inline void GM_SetAlertMax( int alert )
+{
+    if ( GM_AlertMax < alert ) GM_AlertMax = alert;
+}
+
+static inline void GM_SetNoise( int power, int length, SVECTOR *pos )
+{
+    int old ;
+
+    old = GM_NoisePower ;
+    if ( power < old ) return ;
+    if ( power == old && length < GM_NoiseLength ) return ;
+    GM_NoisePower = power ;
+    GM_NoiseLength = length ;
+    GM_NoisePosition = *pos ;
+}
+
+// clang-format on
 #endif // __GAMED_SBSS__
 /*---------------------------------------------------------------------------*/
 
