@@ -7,6 +7,7 @@
 
 #include "common.h"
 #include "libdg/libdg.h"
+#include "game/game.h"
 
 extern DG_CHANL DG_Chanls[3];
 
