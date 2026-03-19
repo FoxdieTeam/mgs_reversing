@@ -420,7 +420,7 @@ static int GetResources(Work *work, MATRIX *world, int side)
     rect->x = rect->y = 30;
     rect->w = rect->h = 60;
 
-    work->prim = prim = GM_MakePrimChanl(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 4, work->vertices, rect, 0);
+    work->prim = prim = GM_MakePrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 4, work->vertices, rect);
 
     if (!prim)
     {

@@ -587,7 +587,7 @@ int Hind2_800C54C8( Hind2Work *work )
 
     work->vertices[ 0 ] = DG_ZeroVector;
 
-    work->prim = prim = GM_MakePrimChanl( DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 1, work->vertices, prim_rect, 0 );
+    work->prim = prim = GM_MakePrim( DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 1, work->vertices, prim_rect );
     if ( !prim )
     {
         return -1;

@@ -701,8 +701,8 @@ static int GetResources(Work *work, int map)
     work->field_A818 = 256;
     work->clut_y = 276;
 
-    work->field_24 = GM_MakePrimChanl(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 6, NULL, NULL, 0);
-    work->field_28 = GM_MakePrimChanl(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 9, NULL, NULL, 0);
+    work->field_24 = GM_MakePrim(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 6, NULL, NULL);
+    work->field_28 = GM_MakePrim(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 9, NULL, NULL);
 
     poly = work->field_2C;
     i = 0;

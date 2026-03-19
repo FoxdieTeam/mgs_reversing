@@ -104,7 +104,7 @@ static int GetResources(Work *work, OBJECT *parent, int num_parent)
     pRect->x = pRect->y = 6;
     pRect->w = pRect->h = 12;
 
-    work->prim = pPrim = GM_MakePrimChanl(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 1, &work->vertex, pRect, 0);
+    work->prim = pPrim = GM_MakePrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 1, &work->vertex, pRect);
 
     if (!pPrim)
     {

@@ -275,7 +275,7 @@ static int GetResources(Work *work, MATRIX *world)
     vec1.vy = 0;
     vec2.vz = 0;
 
-    prim = GM_MakePrimChanl(DG_PRIM_OFFSET | DG_PRIM_TILE, 64, work->field_834, NULL, 0);
+    prim = GM_MakePrim(DG_PRIM_OFFSET | DG_PRIM_TILE, 64, work->field_834, NULL);
     work->field_a34 = prim;
 
     if (!prim)

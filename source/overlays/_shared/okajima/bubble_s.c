@@ -339,7 +339,7 @@ int BubbleSInitPrims_800D5B74(BubbleSWork *work)
     {
         k500 = 100;
 
-        prim = GM_MakePrimChanl(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 1, &work->pos[i], &work->rect[i], 0);
+        prim = GM_MakePrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 1, &work->pos[i], &work->rect[i]);
         work->prim[i] = prim;
         if (prim == NULL)
         {

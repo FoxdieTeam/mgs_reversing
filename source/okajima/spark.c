@@ -266,7 +266,7 @@ static int GetResources(Work *work, MATRIX *a2, int count)
     InitRandamTable();
     spark_loader3_80073E48(work->f028, work->f068, 8, count);
 
-    prim = GM_MakePrimChanl(DG_PRIM_POLY_FT4, 8, work->f068, NULL, 0);
+    prim = GM_MakePrim(DG_PRIM_POLY_FT4, 8, work->f068, NULL);
     work->prim = prim;
 
     if (!prim)

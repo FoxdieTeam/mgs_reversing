@@ -933,7 +933,7 @@ static int s03e_evpanel_800C47D0(EvPanelWork *work, DG_PRIM **out, SVECTOR *vec,
         }
     }
 
-    prim = GM_MakePrimChanl(DG_PRIM_ONEFACE | DG_PRIM_POLY_FT4, n_prims, vec, NULL, 0);
+    prim = GM_MakePrim(DG_PRIM_ONEFACE | DG_PRIM_POLY_FT4, n_prims, vec, NULL);
     *out = prim;
     if (prim == NULL)
     {

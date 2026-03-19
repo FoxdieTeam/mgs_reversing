@@ -74,7 +74,7 @@ int BlinkTxGetResources_800DEBB4(BlinkTxWork *work, int map, int n_prims)
 
     GM_CurrentMap = map;
 
-    prim = GM_MakePrimChanl(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, n_prims, work->pos, &blink_tx_rect, 0);
+    prim = GM_MakePrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, n_prims, work->pos, &blink_tx_rect);
     work->prim = prim;
     if (prim == NULL)
     {

@@ -1781,10 +1781,10 @@ int OptionGetResources_800C7F88(OptionWork *work, int map)
 
     GM_CurrentMap = map;
 
-    work->field_24 = GM_MakePrimChanl(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 27, NULL, NULL, 0);
-    work->field_28 = GM_MakePrimChanl(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 9, NULL, NULL, 0);
-    work->field_2C = GM_MakePrimChanl(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 4, NULL, NULL, 0);
-    work->field_30 = GM_MakePrimChanl(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 17, NULL, NULL, 0);
+    work->field_24 = GM_MakePrim(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 27, NULL, NULL);
+    work->field_28 = GM_MakePrim(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 9, NULL, NULL);
+    work->field_2C = GM_MakePrim(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 4, NULL, NULL);
+    work->field_30 = GM_MakePrim(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 17, NULL, NULL);
 
     poly = work->field_34;
     i = 0;

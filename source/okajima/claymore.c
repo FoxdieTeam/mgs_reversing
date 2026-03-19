@@ -335,7 +335,7 @@ STATIC int claymore_GetResources(ClaymoreWork *work, SVECTOR *new_field_24, SVEC
     DG_SetPos2(&work->field_24, &work->field_2C);
     DG_RotVector(&new_field_34, &work->field_34, 1);
 
-    prim = GM_MakePrimChanl(DG_PRIM_POLY_FT4, 2, &work->field_88, NULL, 0);
+    prim = GM_MakePrim(DG_PRIM_POLY_FT4, 2, &work->field_88, NULL);
     work->field_84_pPrim = prim;
 
     retval = -1;

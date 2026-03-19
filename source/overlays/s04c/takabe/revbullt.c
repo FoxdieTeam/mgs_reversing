@@ -334,7 +334,7 @@ int RevbulltGetResources_800D2BFC(RevbulltWork *work, MATRIX *world, int arg2, i
 
     if (arg2 != 0)
     {
-        prim = GM_MakePrimChanl(DG_PRIM_POLY_FT4, 2, work->verts, NULL, 0);
+        prim = GM_MakePrim(DG_PRIM_POLY_FT4, 2, work->verts, NULL);
         work->prim = prim;
         if (prim == NULL)
         {

@@ -112,7 +112,7 @@ static POLY_FT4 *MakeIndividualRect3DPrimHandler(DG_PRIM *prim, POLY_FT4 *packs,
 
 DG_PRIM *Takabe_MakeIndividualRect3DPrim(int n_vertices, SVECTOR *vertices)
 {
-    DG_PRIM *prim = GM_MakePrimChanl(DG_PRIM_FREEPACKS | DG_PRIM_POLY_FT4, n_vertices, vertices, NULL, 0);
+    DG_PRIM *prim = GM_MakePrim(DG_PRIM_FREEPACKS | DG_PRIM_POLY_FT4, n_vertices, vertices, NULL);
 
     prim->handler = &MakeIndividualRect3DPrimHandler;
     prim->n_vertices = n_vertices;

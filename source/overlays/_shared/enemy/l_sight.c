@@ -71,7 +71,7 @@ int LSightGetResources_800D1C90(LSightWork *work, int color)
 {
     DG_PRIM *prim;
 
-    prim = GM_MakePrimChanl(DG_PRIM_LINE_F2, 8, work->vecs, NULL, 0);
+    prim = GM_MakePrim(DG_PRIM_LINE_F2, 8, work->vecs, NULL);
     work->prim = prim;
     if (!prim)
     {

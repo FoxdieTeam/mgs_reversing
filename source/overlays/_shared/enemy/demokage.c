@@ -168,7 +168,7 @@ int DemoKageGetResources_800C466C(DemokageWork *work, OBJECT *parent, SVECTOR ar
     int       x, y, w, h;
     SVECTOR  *vec;
 
-    work->prim = GM_MakePrimChanl(DG_PRIM_POLY_FT4, 1, work->f28, NULL, 0);
+    work->prim = GM_MakePrim(DG_PRIM_POLY_FT4, 1, work->f28, NULL);
     prim = work->prim;
     if (!prim)
     {

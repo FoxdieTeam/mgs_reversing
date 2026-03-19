@@ -529,7 +529,7 @@ int Plasma_800CCCA0(PlasmaWork *work)
         return -1;
     }
 
-    prim = GM_MakePrimChanl(DG_PRIM_POLY_FT4, 17, work->verts, NULL, 0);
+    prim = GM_MakePrim(DG_PRIM_POLY_FT4, 17, work->verts, NULL);
     work->prim = prim;
     if (prim == NULL)
     {

@@ -244,7 +244,7 @@ int Boxall_800C9D84(BoxallWork *work)
 
     k500 = 250;
 
-    prim = GM_MakePrimChanl(DG_PRIM_POLY_FT4, 1, work->verts, NULL, 0);
+    prim = GM_MakePrim(DG_PRIM_POLY_FT4, 1, work->verts, NULL);
     if (prim == NULL)
     {
         return -1;

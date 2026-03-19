@@ -187,7 +187,7 @@ int WindcrclGetResources_800CF598(WindcrclWork *work, MATRIX *world, int arg2)
     work->f454 = 600;
     work->map = GM_CurrentMap;
 
-    prim = GM_MakePrimChanl(DG_PRIM_POLY_FT4, 32, work->vecs, NULL, 0);
+    prim = GM_MakePrim(DG_PRIM_POLY_FT4, 32, work->vecs, NULL);
     work->prim = prim;
     if (prim == NULL)
     {

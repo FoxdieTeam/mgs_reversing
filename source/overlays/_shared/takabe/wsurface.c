@@ -404,7 +404,7 @@ int WsurfaceGetResources_800DB684(WsurfaceWork *work, int name, int map)
     work->ptr2 = (DVECTOR *)((char *)ptr + svecs_size);
     work->ptr3 = (DVECTOR *)((char *)ptr + svecs_size + dvecs_size);
 
-    prim = GM_MakePrimChanl(DG_PRIM_POLY_GT4, work->f100, work->ptr, NULL, 0);
+    prim = GM_MakePrim(DG_PRIM_POLY_GT4, work->f100, work->ptr, NULL);
     work->prim = prim;
     if (prim == NULL)
     {

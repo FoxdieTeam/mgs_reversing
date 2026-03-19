@@ -1380,7 +1380,7 @@ static int GetResources(AnimeWork *work, int map, ANIMATION *animation)
     rect->w = animation->field_E_xw;
     rect->h = animation->field_10_yh;
 
-    work->prim = GM_MakePrimChanl(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, count, work->vertices, rect, 0);
+    work->prim = GM_MakePrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, count, work->vertices, rect);
     if (!work->prim)
     {
         return -1;

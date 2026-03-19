@@ -225,7 +225,7 @@ int GsplashGetResources_800D3F14(GsplashWork *work, MATRIX *pos)
 
     s08a_gsplash_800D3840(work->f28, work->verts, work, work->n_prims);
 
-    prim = GM_MakePrimChanl(DG_PRIM_POLY_FT4, work->n_prims, work->verts, NULL, 0);
+    prim = GM_MakePrim(DG_PRIM_POLY_FT4, work->n_prims, work->verts, NULL);
     work->prim = prim;
     if (prim == NULL)
     {

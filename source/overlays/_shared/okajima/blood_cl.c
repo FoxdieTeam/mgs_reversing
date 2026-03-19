@@ -153,7 +153,7 @@ int BloodClGetResources_800C9A88(BloodClWork *work, int map)
         DG_PutVector(local, &work->vecs[i * 4], 4);
     }
 
-    prim = GM_MakePrimChanl(DG_PRIM_ONEFACE | DG_PRIM_POLY_FT4, n_prims, work->vecs, NULL, 0);
+    prim = GM_MakePrim(DG_PRIM_ONEFACE | DG_PRIM_POLY_FT4, n_prims, work->vecs, NULL);
     work->prim = prim;
     if (work->prim == NULL)
     {

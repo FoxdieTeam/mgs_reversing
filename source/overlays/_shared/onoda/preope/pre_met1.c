@@ -867,8 +867,8 @@ static int GetResources(Work *work, int arg1, int *arg2, PreEntries *arg3)
     int       i, j, k;
 
     GM_CurrentMap = arg1;
-    work->field_20 = GM_MakePrimChanl(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 6, NULL, NULL, 0);
-    work->field_24 = GM_MakePrimChanl(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 9, NULL, NULL, 0);
+    work->field_20 = GM_MakePrim(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 6, NULL, NULL);
+    work->field_24 = GM_MakePrim(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 9, NULL, NULL);
 
     poly = work->field_68;
     i = 0;

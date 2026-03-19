@@ -250,7 +250,7 @@ int PanelGetResources_800D210C(PanelWork *work, int name, int map)
     work->pos.vz = e12.vz / 4;
 
     verts = work->verts;
-    prim = GM_MakePrimChanl(DG_PRIM_POLY_GT4, 1, verts, NULL, 0);
+    prim = GM_MakePrim(DG_PRIM_POLY_GT4, 1, verts, NULL);
     work->prim = prim;
     if (prim == NULL)
     {

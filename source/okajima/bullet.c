@@ -563,7 +563,7 @@ STATIC int bullet_GetResources(BulletWork *work, MATRIX* pMtx, int arg2, int noi
     test = arg2 <= 2;
     if ((arg2 >= 0) && test)
     {
-        pPrim = GM_MakePrimChanl(DG_PRIM_POLY_FT4, 2, work->field_90, NULL, 0);
+        pPrim = GM_MakePrim(DG_PRIM_POLY_FT4, 2, work->field_90, NULL);
         work->field_8C_pPrim = pPrim;
 
         if (!pPrim)

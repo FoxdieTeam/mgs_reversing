@@ -153,7 +153,7 @@ int SplashGetResources_800C8C6C(SplashWork *work, MATRIX *mat, int rgb)
 
     work->map = GM_CurrentMap;
     SplashTransform_800C8808(mat, work->off, work->pos, 16);
-    prim = GM_MakePrimChanl(DG_PRIM_POLY_FT4, 16, work->pos, &rect_800C3420, 0);
+    prim = GM_MakePrim(DG_PRIM_POLY_FT4, 16, work->pos, &rect_800C3420);
     work->prim = prim;
     if (prim == NULL)
     {
