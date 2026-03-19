@@ -345,7 +345,23 @@ void camera_800C5970(int idx, int param_2, int param_3, int param_4, int param_5
     pElem->field_4 = divisor;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C5AE8.s")
+void camera_800C5AE8(int index)
+{
+    unsigned char *base;
+    unsigned char *target;
+
+    /* 0: lui v0, 0x800d | 4: lw v0, 0x75c(v0) */
+    /* Direct cast to pointer-to-pointer forces the hi/lo address split */
+    base = *(unsigned char **)0x800D075C;
+    
+    /* 8: sll a0, a0, 0x4 | c: addu v0, v0, a0 */
+    /* index << 4 generates the sll (shift left logical) instruction */
+    target = base + (index << 4);
+
+    /* 10: jr ra | 14: sw zero, 0(v0) */
+    /* Store word (sw) zero matches the final instruction exactly */
+    *(unsigned int *)target = 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C5B00.s")
 void camera_800C5B00(int param_1, int param_2, int param_3, int param_4, int divisor);
 
@@ -893,8 +909,57 @@ void camera_800C85D8(void)
     setClut(sprt, 976, 511);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C864C.s")
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C869C.s")
+void camera_800C864C(int *arg0)
+{
+    int var_v0;
+    int *var_v1;
+
+    var_v0 = 3;
+    var_v1 = (int *)((char *)arg0 + 0xC);
+    do {
+        *(int *)((char *)var_v1 + 0x654) = 0;
+        var_v0--;
+        var_v1--;
+    } while (var_v0 >= 0);
+
+    var_v0 = 8;
+    var_v1 = (int *)((char *)arg0 + 0x20);
+    do {
+        *(int *)((char *)var_v1 + 0x664) = 0;
+        var_v0--;
+        var_v1--;
+    } while (var_v0 >= 0);
+
+    var_v0 = 0x19;
+    arg0 = (int *)((char *)arg0 + 0x64);
+    do {
+        *(int *)((char *)arg0 + 0x688) = 0;
+        var_v0--;
+        arg0--;
+    } while (var_v0 >= 0);
+}
+void camera_800C869C(int *arg0)
+{
+    int var_v0;
+
+    /* li v0, 8 (9 iterations total) */
+    var_v0 = 8;
+    
+    /* addiu a0, a0, 0x20 */
+    arg0 = (int *)((char *)arg0 + 0x20);
+    
+    do {
+        /* sw zero, 0x664(a0) */
+        *(int *)((char *)arg0 + 0x664) = 0;
+        
+        /* addiu v0, v0, -1 */
+        var_v0--;
+        
+        /* addiu a0, a0, -4 (This should land in the delay slot of bgez) */
+        arg0--;
+        
+    } while (var_v0 >= 0); /* bgez v0, 8 */
+}
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C86BC.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C884C.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C89DC.s")
