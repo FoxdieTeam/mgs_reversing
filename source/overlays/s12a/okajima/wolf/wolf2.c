@@ -617,7 +617,7 @@ int wolf2_GetResources2(Wolf2Work *work, int name, int where)
 
     s12a_wolf2_800CED18(work);
 
-    work->lsight_prim = prim = DG_GetPrim(DG_PRIM_LINE_FT2, 8, 0, work->lsight_verts, NULL);
+    work->lsight_prim = prim = GM_MakePrim(DG_PRIM_LINE_FT2, 8, work->lsight_verts, NULL);
     if (!prim)
     {
         return -1;
@@ -643,7 +643,7 @@ int wolf2_GetResources2(Wolf2Work *work, int name, int where)
 
     work->lsight_prim->n_prims = 8;
 
-    work->f7E0 = prim = DG_GetPrim(DG_PRIM_OFFSET | DG_PRIM_TILE, 2, 0, work->f7E4, &wolf2_800C3490);
+    work->f7E0 = prim = GM_MakePrim(DG_PRIM_OFFSET | DG_PRIM_TILE, 2, work->f7E4, &wolf2_800C3490);
     if (!prim)
     {
         return -1;

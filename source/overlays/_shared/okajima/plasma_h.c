@@ -327,7 +327,7 @@ int s08a_plasma_h_800D19F0(PlasmaHWork *work)
         return -1;
     }
 
-    prim = DG_GetPrim(DG_PRIM_POLY_FT4, 17, 0, work->verts, NULL);
+    prim = GM_MakePrim(DG_PRIM_POLY_FT4, 17, work->verts, NULL);
     work->prim = prim;
 
     if (prim == NULL)

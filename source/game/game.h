@@ -192,27 +192,32 @@ enum // GM_AlertMode
 #ifndef __GAMED_SBSS__
 // clang-format off
 
-extern int GM_CurrentMap;               // for GM_Set/GetCurrentMap
+extern int GM_CurrentMap;               // for GM_Set/GetCurrentMap, etc.
 extern int GM_AlertMax;                 // for GM_SetAlert
 extern int GM_NoisePower;               // for GM_SetNoise
 extern int GM_NoiseLength;              //      〃
 extern SVECTOR GM_NoisePosition;        //      〃
 
-#if 0
+static inline void *GM_MakePrimChanl( int type, int n_prims, SVECTOR *pos, RECT *rect, int chanl )
+{
+    DG_PRIM *prim;
+
+    prim = DG_MakePrim( type, n_prims, chanl, pos, rect );
+    if ( prim ) {
+        DG_QueuePrim( prim );
+        DG_GroupPrim( prim, GM_CurrentMap );
+    }
+    return prim;
+}
+
 /*
     The beginning of this function was cut off in the memleak.
     Just guessing the name, return type, and the types of the first two args.
-    GM_MakePrimChanl() needs to be reimplemented before this can be used.
 */
-static  inline  void    *GM_MakePrimChanl0( type, n_prims, pos, rect )
-int                     type ;
-int                     n_prims ;
-SVECTOR                 *pos ;
-RECT                    *rect ;
+static inline void *GM_MakePrim( int type, int n_prims, SVECTOR *pos, RECT *rect )
 {
     return GM_MakePrimChanl( type, n_prims, pos, rect, 0 ) ;
 }
-#endif
 
 static inline void GM_FreePrim( DG_PRIM *prim )
 {

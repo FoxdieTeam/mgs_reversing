@@ -317,7 +317,7 @@ int UjiGetResources_800C3FC8(UjiWork *work, int map)
 
     count = work->fD78 * work->fD7C;
 
-    prim = DG_GetPrim(DG_PRIM_POLY_FT4, count, 0, work->f24, &uji_rect);
+    prim = GM_MakePrim(DG_PRIM_POLY_FT4, count, work->f24, &uji_rect);
     work->prim = prim;
     if (!prim)
     {

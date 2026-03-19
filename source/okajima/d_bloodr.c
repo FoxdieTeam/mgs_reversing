@@ -165,7 +165,7 @@ STATIC int d_bloodr_loader_helper_80072EFC(DBloodWorkr *work)
         DG_PutVector(vecs, &work->field_24[i * 4], 4);
     }
 
-    prim = DG_GetPrim(DG_PRIM_POLY_FT4, 4, 0, work->field_24, 0);
+    prim = GM_MakePrim(DG_PRIM_POLY_FT4, 4, work->field_24, NULL);
     work->field_20_prims = prim;
 
     if (!prim)

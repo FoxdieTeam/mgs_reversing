@@ -7,6 +7,7 @@
 
 #include "common.h"
 #include "libdg/libdg.h"
+#include "game/game.h"          // for GM_MakePrim
 
 extern DG_CHANL DG_Chanls[3];
 
@@ -111,7 +112,7 @@ static POLY_FT4 *MakeIndividualRect3DPrimHandler(DG_PRIM *prim, POLY_FT4 *packs,
 
 DG_PRIM *Takabe_MakeIndividualRect3DPrim(int n_vertices, SVECTOR *vertices)
 {
-    DG_PRIM *prim = DG_GetPrim(DG_PRIM_FREEPACKS | DG_PRIM_POLY_FT4, n_vertices, 0, vertices, NULL);
+    DG_PRIM *prim = GM_MakePrim(DG_PRIM_FREEPACKS | DG_PRIM_POLY_FT4, n_vertices, vertices, NULL);
 
     prim->handler = &MakeIndividualRect3DPrimHandler;
     prim->n_vertices = n_vertices;

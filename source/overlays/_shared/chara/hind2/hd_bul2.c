@@ -173,7 +173,7 @@ int HdBul2_800C5DB4( HdBul2Work *work )
     int       x, y, w, h;
 
     vertices = work->vertices;
-    prim = work->prim = DG_GetPrim( DG_PRIM_POLY_FT4, 4, 0, vertices, 0 );
+    prim = work->prim = GM_MakePrim( DG_PRIM_POLY_FT4, 4, vertices, NULL );
     if ( !prim )
     {
         return -1;

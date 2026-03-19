@@ -134,7 +134,7 @@ int Asiato2GetResources_800DCFF4(AsiatoWork *work, MATRIX *world, int arg2, int 
         s01a_asiato2_800DCE38(&work->f40, 70, 0, 140);
     }
 
-    prim = DG_GetPrim(DG_PRIM_POLY_FT4, 1, 0, &work->f28, NULL);
+    prim = GM_MakePrim(DG_PRIM_POLY_FT4, 1, &work->f28, NULL);
     work->prim = prim;
     if (prim == NULL)
     {

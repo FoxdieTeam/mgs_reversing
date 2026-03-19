@@ -96,7 +96,7 @@ int WolfEyeGetResources_800D3728(WolfEyeWork *work, MATRIX *root, int *visible)
 
     tex = DG_GetTexture(GV_StrCode("wolf_eye_r"));
 
-    prim = DG_GetPrim(DG_PRIM_ONEFACE | DG_PRIM_POLY_FT4, 1, 0, work->verts_right, NULL);
+    prim = GM_MakePrim(DG_PRIM_ONEFACE | DG_PRIM_POLY_FT4, 1, work->verts_right, NULL);
     work->prim_right = prim;
     if (prim == NULL)
     {
@@ -111,7 +111,7 @@ int WolfEyeGetResources_800D3728(WolfEyeWork *work, MATRIX *root, int *visible)
 
     tex = DG_GetTexture(GV_StrCode("wolf_eye_l"));
 
-    prim = DG_GetPrim(DG_PRIM_ONEFACE | DG_PRIM_POLY_FT4, 1, 0, work->verts_left, NULL);
+    prim = GM_MakePrim(DG_PRIM_ONEFACE | DG_PRIM_POLY_FT4, 1, work->verts_left, NULL);
     work->prim_left = prim;
     if (prim == NULL)
     {

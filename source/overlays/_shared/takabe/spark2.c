@@ -207,7 +207,7 @@ int s03e_spark2_800CA55C(Spark2Work *work, MATRIX *world)
 
     DG_SetFreePrimParam(20, 2, 12, 4);
 
-    prim = DG_GetPrim(DG_PRIM_FREE, 32, 0, work->vecs2, NULL);
+    prim = GM_MakePrim(DG_PRIM_FREE, 32, work->vecs2, NULL);
     work->prim = prim;
     if (prim == NULL)
     {

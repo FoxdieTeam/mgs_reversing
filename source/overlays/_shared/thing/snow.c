@@ -489,7 +489,7 @@ static int GetResources(Work *work, int map)
     entry = work->entries;
     for (n_entries = work->n_entries; n_entries > 0; n_entries--)
     {
-        prim = DG_GetPrim(DG_PRIM_OFFSET | DG_PRIM_TILE, 32, 0, entry->vecs, &snow_rect_800C386C);
+        prim = GM_MakePrim(DG_PRIM_OFFSET | DG_PRIM_TILE, 32, entry->vecs, &snow_rect_800C386C);
         entry->prim = prim;
         if (prim == NULL)
         {

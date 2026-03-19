@@ -7836,7 +7836,7 @@ static inline int sna_LoadSnake2(SnaInitWork *work)
     int      i, j;
 
     temp_s1 = &work->field_930;
-    pPrim = DG_GetPrim(DG_PRIM_LINE_GT2, 2, 0, temp_s1, 0);
+    pPrim = GM_MakePrim(DG_PRIM_LINE_GT2, 2, temp_s1, NULL);
 
     if (!pPrim)
     {

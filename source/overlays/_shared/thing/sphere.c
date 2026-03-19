@@ -254,7 +254,7 @@ static int GetResources(Work *work, int map)
     sphere_visible_tiles_y = (FRAME_HEIGHT / sphere_tile_height) + 1;
     n_prims = sphere_visible_tiles_y * sphere_visible_tiles_x;
 
-    prim = DG_GetPrim(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, n_prims, 0, NULL, NULL);
+    prim = GM_MakePrim(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, n_prims, NULL, NULL);
     work->prim = prim;
     if (prim == NULL)
     {
