@@ -234,7 +234,8 @@ enum // GM_Items[]
     IT_Disk             = 20,   // 0
     IT_Rope             = 21,   // 0
     IT_Handkerchief     = 22,   // 0
-    IT_Suppressor       = 23    // 0
+    IT_Suppressor       = 23,   // 0
+    IT_Max              = 24,
 };
 #define GM_TotalItems 24
 
@@ -242,6 +243,8 @@ enum // GM_ItemTypes[]
 {
     // ...
     ITEMTYPE_CONSUMABLE = 0x2000,
+    ITEMTYPE_BITMASK    = 0x4000, // unused
+    ITEMTYPE_DISABLED   = 0x8000,
     // ...
 };
 //------------------------------------------------------------------------------

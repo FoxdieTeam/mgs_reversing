@@ -697,8 +697,8 @@
 8003330C 120 item_act_try_add_ammo2_8003330C
 80033384 116 item_act_try_add_ammo_80033384
 800333F8 264 item_act_helper_800333F8
-80033500 96 item_all_items_and_weapons_unknown2_80033500
-80033560 112 item_all_items_and_weapons_unknown_80033560
+80033500 96 disable_equipment
+80033560 112 enable_equipment
 800335D0 212 item_act_helper_800335D0
 800336A4 96 item_init_prim_buffer_800336A4
 80033704 128 item_act_helper_80033704
@@ -708,7 +708,7 @@
 800340D0 1064 item_GetResources
 800344F8 200 NewItem
 800345C0 408 item_init_helper_800345C0
-80034758 220 item_init_80034758
+80034758 220 NewItemPut
 80034834 192 sub_80034834
 800348F4 188 GM_ActObjectMotion
 800349B0 104 GM_InitObjectNoRots

@@ -23,184 +23,162 @@ typedef struct ItemWork
 {
     GV_ACT         actor;
     CONTROL        control;
-    OBJECT_NO_ROTS field_9C_kmd;
-    char           field_C0[8];
-    MATRIX         field_C8_mtx[2];
-    int            field_108_where;
-    short          field_10C_64;
-    short          field_10E;
-    short          field_110_counter;
-    unsigned char  field_112_state;
-    char           field_113;
-    short          field_114_item_id;
-    short          field_116_ammo_amount;
-    const char    *field_118_str;
-    const char    *field_11C_full_str;
-    unsigned char *field_120_pScript;
-    LINE_F4        field_124_lineF4_array[2];
-    DG_PRIM       *field_15C_pPrim;
-    SVECTOR        field_160;
-    SVECTOR        field_168;
-    SVECTOR        field_170;
-    SVECTOR        field_178;
+    OBJECT_NO_ROTS body;
+    char           unused[8];
+    MATRIX         light[2];
+    int            map;
+    short          spin;         // y-axis spin per frame (4096 = 1.0)
+    short          alive_time;   // item disappears once alive_time is 0, -1 = never disappears
+    short          text_counter; // controls text position
+    u_char         state;
+    u_char         type;         // 0 = add item, 1 = add weapon, 2 = add ammo
+    short          id;           // weapon or item ID
+    short          num;          // number of items or bullets to add
+    const char    *message;
+    const char    *message_full;
+    int            end_proc;
+    LINE_F4        text_line[2]; // lines around the item text
+    DG_PRIM       *shadow;
+    SVECTOR        shadow_verts[4];
 } ItemWork;
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
+#define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE \
+                        | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE \
+                        | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE )
+
 /*---------------------------------------------------------------------------*/
 
-STATIC int item_act_try_add_ammo2_8003330C(int weapon_id, short amount)
+static int add_weapon(int id, int num)
 {
-    short *pWeapons;
-    short *pAmmo, *pMaxAmmo;
-    short  oldAmmo;
-
-    pWeapons = GM_Weapons;
-    pAmmo = &pWeapons[weapon_id];
-    if (*pAmmo < 0)
+    if (GM_Weapons[id] < 0)
     {
-        *pAmmo = 0;
+        GM_Weapons[id] = 0;
     }
 
-    pMaxAmmo = &GM_WeaponsMax[weapon_id];
-    if (*pAmmo >= *pMaxAmmo)
+    if (GM_Weapons[id] >= GM_WeaponsMax[id])
     {
         return 0;
     }
 
-    oldAmmo = *pAmmo ;
-    *pAmmo += amount;
-
-    if (*pMaxAmmo < (short)(oldAmmo + amount))
+    GM_Weapons[id] += num;
+    if (GM_Weapons[id] > GM_WeaponsMax[id])
     {
-        *pAmmo = *pMaxAmmo;
+        GM_Weapons[id] = GM_WeaponsMax[id];
     }
 
     return 1;
 }
 
-STATIC int item_act_try_add_ammo_80033384(int weapon_id, short amount)
+static int add_ammo(int id, int num)
 {
-    short *pWeapons;
-    short *pAmmo, *pMaxAmmo;
-    short  oldAmmo;
-
-    pWeapons = GM_Weapons;
-    pAmmo = &pWeapons[weapon_id];
-    if (*pAmmo < 0)
+    if (GM_Weapons[id] < 0)
     {
         return 2;
     }
 
-    pMaxAmmo = &GM_WeaponsMax[weapon_id];
-    if (*pAmmo >= *pMaxAmmo)
+    if (GM_Weapons[id] >= GM_WeaponsMax[id])
     {
         return 0;
     }
 
-    oldAmmo = *pAmmo;
-    *pAmmo += amount;
-
-    if (*pMaxAmmo < (short)(oldAmmo + amount))
+    GM_Weapons[id] += num;
+    if (GM_Weapons[id] > GM_WeaponsMax[id])
     {
-        *pAmmo = *pMaxAmmo;
+        GM_Weapons[id] = GM_WeaponsMax[id];
     }
 
     return 1;
 }
 
-STATIC int item_act_helper_800333F8(int item_id, int param_2)
+#define SET_ITEM_BIT(id, num) do { GM_Items[(id)] |= (1 << (num)); } while (0)
+
+static int add_item(int id, int num)
 {
-    int item_type;
-    int max_capacity;
+    int max;
 
-    if (item_id == (char)IT_None)
+    if (id == 0xff)
     {
-        item_all_items_and_weapons_unknown_80033560();
+        enable_equipment();
         return 1;
     }
 
-    item_type = GM_ItemTypes[item_id + 1];
-
-    if (item_type & 0x4000)
+    if (GM_ItemTypes[id + 1] & ITEMTYPE_BITMASK)
     {
-        GM_Items[item_id] |= 1 << (param_2 - 1);
-        do {} while(0);
+        SET_ITEM_BIT(id, num - 1);
         return 1;
     }
 
-    if (item_type & ITEMTYPE_CONSUMABLE)
+    if (GM_ItemTypes[id + 1] & ITEMTYPE_CONSUMABLE)
     {
-        max_capacity = GM_ItemsMax[item_id];
-        if (max_capacity <= GM_Items[item_id])
+        max = GM_Items[id + 11];
+
+        if (GM_Items[id] >= max)
         {
             return 0;
         }
-        if (GM_Items[item_id] < 0)
+
+        if (GM_Items[id] < 0)
         {
-            GM_Items[item_id] = 0;
+            GM_Items[id] = 0;
         }
-        GM_Items[item_id] += param_2;
-        if (max_capacity < ((GM_Items[item_id] * 0x10000) >> 16))
+
+        GM_Items[id] += num;
+        if (GM_Items[id] > max)
         {
-            GM_Items[item_id] = max_capacity;
+            *(&GM_Items[id]) = max;
         }
+
         return 1;
     }
 
-    GM_Items[item_id] = param_2;
+    GM_Items[id] = num;
     return 1;
 }
 
-void item_all_items_and_weapons_unknown2_80033500(void)
+void disable_equipment(void)
 {
-    int    i;
-    short *ptr;
+    int i;
 
-    ptr = GM_Items;
     for (i = 0; i < GM_TotalItems; i++)
     {
-        ptr[i] |= 0x8000;
+        GM_Items[i] |= ITEMTYPE_DISABLED;
     }
 
-    ptr = GM_Weapons;
     for (i = 0; i < GM_TotalWeapons; i++)
     {
-        ptr[i] |= 0x8000;
+        GM_Weapons[i] |= ITEMTYPE_DISABLED;
     }
 }
 
-void item_all_items_and_weapons_unknown_80033560(void)
+void enable_equipment(void)
 {
-    int    i;
-    short *ptr;
+    int i;
 
-    ptr = GM_Items;
     for (i = 0; i < GM_TotalItems; i++)
     {
-        if (ptr[i] != -1)
+        if (GM_Items[i] != -1)
         {
-            ptr[i] &= 0x7FFF;
+            GM_Items[i] &= ~ITEMTYPE_DISABLED;
         }
     }
 
-    ptr = GM_Weapons;
     for (i = 0; i < GM_TotalWeapons; i++)
     {
-        if (ptr[i] != -1)
+        if (GM_Weapons[i] != -1)
         {
-            ptr[i] &= 0x7FFF;
+            GM_Weapons[i] &= ~ITEMTYPE_DISABLED;
         }
     }
 }
 
-STATIC int item_act_helper_800335D0(ItemWork *work)
+static int in_pickup_range(ItemWork *work)
 {
     SVECTOR vec;
-    int diff;
-    unsigned short vy;
+    int     diff;
 
-    if (!(work->field_108_where & GM_PlayerMap))
+    if (!(work->map & GM_PlayerMap))
     {
         return 0;
     }
@@ -208,29 +186,25 @@ STATIC int item_act_helper_800335D0(ItemWork *work)
     vec = GM_PlayerPosition;
 
     diff = work->control.mov.vy - vec.vy;
-
     if (diff < 0)
     {
         diff = -diff;
     }
-
-    vy = work->control.mov.vy;
 
     if (diff > 1000)
     {
         return 0;
     }
 
-    vec.vy = vy;
-    diff = work->control.mov.vx - vec.vx;
+    vec.vy = work->control.mov.vy;
 
+    diff = work->control.mov.vx - vec.vx;
     if (abs(diff) > 500)
     {
         return 0;
     }
 
     diff = work->control.mov.vz - vec.vz;
-
     if (abs(diff) > 500)
     {
         return 0;
@@ -239,92 +213,74 @@ STATIC int item_act_helper_800335D0(ItemWork *work)
     return 1;
 }
 
-STATIC void item_init_prim_buffer_800336A4(POLY_FT4 *prims, DG_TEX *tex)
+static void init_pack(POLY_FT4 *poly, DG_TEX *tex)
 {
-    char t_u0; // $a1
-    char t_v0; // $v1
-    char t_u1; // $a0
-    char t_v2; // $v1
+    int x, y, w, h;
 
-    setPolyFT4(prims);
-    setSemiTrans(prims, 1);
-
-    t_u0 = tex->off_x;
-    t_u1 = t_u0 + tex->w;
-
-    t_v0 = tex->off_y;
-    t_v2 = t_v0 + tex->h;
-
-    prims->u0 = t_u0;
-    prims->v0 = t_v0;
-
-    prims->u1 = t_u1;
-    prims->v1 = t_v0;
-
-    prims->u2 = t_u0;
-    prims->v2 = t_v2;
-
-    prims->u3 = t_u1;
-    prims->v3 = t_v2;
-
-    prims->tpage = tex->tpage;
-    prims->clut = tex->clut;
+    setPolyFT4(poly);
+    setSemiTrans(poly, 1);
+    x = tex->off_x;
+    w = tex->w;
+    y = tex->off_y;
+    h = tex->h;
+    setUVWH(poly, x, y, w, h);
+    poly->tpage = tex->tpage;
+    poly->clut = tex->clut;
 }
 
-STATIC int item_act_helper_80033704(short *pOut, SVECTOR *pIn)
+static int world_to_screen(SVECTOR *out, SVECTOR *in)
 {
     long z;
 
     gte_SetRotMatrix(&DG_Chanl(0)->eye_inv);
     gte_SetTransMatrix(&DG_Chanl(0)->eye_inv);
 
-    gte_ldv0(pIn);
+    gte_ldv0(in);
     gte_rtps();
-    gte_stsxy(pOut);
+    gte_stsxy(out);
     gte_stsz(&z);
 
     return z > 0;
 }
 
-STATIC void item_Act(ItemWork *work)
+static void Act(ItemWork *work)
 {
-    short pos[2];
-    SVECTOR position;
-    const char *pText;
-    CONTROL *pCtrl;
-    int vx;
-    int state;
-    int x, y ,z;
-    char *pOt;
-    LINE_F4* pLine;
-    int newx, newy;
+    SVECTOR     screen_pos;
+    SVECTOR     position;
+    const char *message;
+    CONTROL    *control;
+    int         shake;
+    int         state;
+    int         dx, dy, dz;
+    char       *ot;
+    LINE_F4    *line;
+    int         x, y;
 
+    GM_CurrentMap = work->map;
 
-    GM_CurrentMap = work->field_108_where;
-
-    if (work->field_11C_full_str)
+    if (work->message_full)
     {
-        if (item_act_helper_80033704(pos, &work->control.mov))
+        if (world_to_screen(&screen_pos, &work->control.mov))
         {
-            if (work->field_110_counter < 45)
+            if (work->text_counter < 45)
             {
-                pText = work->field_118_str;
+                message = work->message;
             }
             else
             {
-                pText = work->field_11C_full_str;
+                message = work->message_full;
             }
 
-            if (work->field_110_counter < 16)
+            if (work->text_counter < 16)
             {
-                pos[1] -= work->field_110_counter;
+                screen_pos.vy -= work->text_counter;
             }
             else
             {
-                pos[1] -= 16;
+                screen_pos.vy -= 16;
             }
 
-            if (work->field_11C_full_str != work->field_118_str)
+            if (work->message_full != work->message)
             {
                 MENU_Color(255, 48, 48);
             }
@@ -333,538 +289,507 @@ STATIC void item_Act(ItemWork *work)
                 MENU_Color(200, 200, 200);
             }
 
-            MENU_Locate(pos[0] + 160, pos[1] + 104, 0x12);
-            MENU_Printf(pText);
+            MENU_Locate(screen_pos.vx + 160, screen_pos.vy + 104, 0x12);
+            MENU_Printf(message);
 
             MENU_Color(1, 1, 1);
-            MENU_Locate(pos[0] + 161, pos[1] + 105, 0x12);
-            MENU_Printf(pText);
+            MENU_Locate(screen_pos.vx + 161, screen_pos.vy + 105, 0x12);
+            MENU_Printf(message);
 
             menu_Text_Init_80038B98();
         }
 
-        if (work->field_110_counter > 90)
+        if (work->text_counter > 90)
         {
-            if (work->field_112_state == 2)
+            if (work->state == 2)
             {
                 GV_DestroyActor(&work->actor);
             }
-            else if (item_act_helper_800335D0(work))
+            else if (in_pickup_range(work))
             {
-                work->field_110_counter = 50;
+                work->text_counter = 50;
             }
             else
             {
-                work->field_11C_full_str = NULL;
+                work->message_full = NULL;
             }
         }
 
-        work->field_110_counter++;
+        work->text_counter++;
 
-        if (work->field_112_state == 2)
+        if (work->state == 2)
         {
             return;
         }
     }
 
-    if ((work->field_112_state == 0) && (work->field_9C_kmd.objs->bound_mode == 0) && (work->field_10E <= 0))
+    if ((work->state == 0) && (work->body.objs->bound_mode == 0) && (work->alive_time <= 0))
     {
         return;
     }
 
-    if (work->field_10E > 0)
+    if (work->alive_time > 0)
     {
-        if (--work->field_10E < 90)
+        /* blink once time left is low */
+        if (--work->alive_time < 90)
         {
-            if ((work->field_10E % 8) < 2)
+            if ((work->alive_time % 8) < 2)
             {
-                DG_InvisibleObjs(work->field_9C_kmd.objs);
+                DG_InvisibleObjs(work->body.objs);
             }
             else
             {
-                DG_VisibleObjs(work->field_9C_kmd.objs);
+                DG_VisibleObjs(work->body.objs);
             }
         }
 
-        if (work->field_10E == 0)
+        if (work->alive_time == 0)
         {
             GV_DestroyActor(&work->actor);
             return;
         }
     }
 
-    pCtrl = &work->control;
+    control = &work->control;
 
-    if (work->field_10C_64 > 73)
+    if (work->spin > 73)
     {
-        work->field_10C_64 -= 10;
+        work->spin -= 10;
     }
 
-    pCtrl->turn.vy += work->field_10C_64;
-    RevisionDir( pCtrl->turn.vy );
+    control->turn.vy += work->spin;
+    control->turn.vy &= 4095;
 
-    if (work->field_112_state == 1)
+    if (work->state == 1)
     {
-        if ((pCtrl->level_flag != 0) && (pCtrl->step.vy < 0))
+        if ((control->level_flag != 0) && (control->step.vy < 0))
         {
-            pCtrl->step.vy = -pCtrl->step.vy / 16;
+            control->step.vy = -control->step.vy / 16;
 
-            if (pCtrl->step.vy < 16)
+            if (control->step.vy < 16)
             {
-                GM_ConfigControlHazard(pCtrl, -1, -2, -1);
-                pCtrl->step = DG_ZeroVector;
-                work->field_112_state = 0;
+                GM_ConfigControlHazard(control, -1, -2, -1);
+                control->step = DG_ZeroVector;
+                work->state = 0;
             }
         }
         else
         {
-            pCtrl->step.vy -= 16;
+            control->step.vy -= 16;
         }
 
-        GM_ActControl(pCtrl);
+        GM_ActControl(control);
     }
     else
     {
-        GM_CurrentMap = pCtrl->map->index;
+        GM_CurrentMap = control->map->index;
 
-        if (work->field_11C_full_str)
+        if (work->message_full)
         {
-            position = pCtrl->mov;
-            vx = (90 - work->field_110_counter) * 8;
+            position = control->mov;
+            shake = (90 - work->text_counter) * 8;
 
-            if (vx > 80)
+            if (shake > 80)
             {
-                vx = 80;
+                shake = 80;
             }
 
             if (GV_Clock & 1)
             {
-                vx = -vx;
+                shake = -shake;
             }
 
-            position.vx += vx;
-            DG_SetPos2(&position, &pCtrl->turn);
+            position.vx += shake;
+            DG_SetPos2(&position, &control->turn);
         }
         else
         {
-            DG_SetPos2(&pCtrl->mov, &pCtrl->turn);
+            DG_SetPos2(&control->mov, &control->turn);
         }
     }
 
-    GM_ActObject2((OBJECT *)&work->field_9C_kmd);
-    DG_GetLightMatrix2(&pCtrl->mov, work->field_C8_mtx);
+    GM_ActObject2((OBJECT *)&work->body);
+    DG_GetLightMatrix2(&control->mov, work->light);
 
-    if (item_act_helper_800335D0(work) && (work->field_112_state != 1))
+    if (in_pickup_range(work) && (work->state != 1))
     {
-        switch (work->field_113)
+        switch (work->type)
         {
         case 0:
-            state = item_act_helper_800333F8(work->field_114_item_id, work->field_116_ammo_amount);
+            state = add_item(work->id, work->num);
             break;
 
         case 1:
-            state = item_act_try_add_ammo2_8003330C(work->field_114_item_id, work->field_116_ammo_amount);
+            state = add_weapon(work->id, work->num);
             break;
 
         case 2:
-            state = item_act_try_add_ammo_80033384(work->field_114_item_id, work->field_116_ammo_amount);
+            state = add_ammo(work->id, work->num);
             break;
         }
 
         switch (state)
         {
         case 1:
-            DG_InvisibleObjs(work->field_9C_kmd.objs);
+            DG_InvisibleObjs(work->body.objs);
 
-            if (work->field_15C_pPrim)
+            if (work->shadow)
             {
-                DG_InvisiblePrim(work->field_15C_pPrim);
+                DG_InvisiblePrim(work->shadow);
             }
 
-            work->field_112_state = 2;
-            work->field_110_counter = 0;
-            work->field_11C_full_str = work->field_118_str;
+            work->state = 2;
+            work->text_counter = 0;
+            work->message_full = work->message;
 
             GM_SeSet2(0, 63, SE_ITEM_GET);
             return;
 
         case 0:
-            if (!work->field_11C_full_str)
+            if (!work->message_full)
             {
-                work->field_11C_full_str = "FULL";
-                work->field_110_counter = 0;
+                work->message_full = "FULL";
+                work->text_counter = 0;
                 GM_SeSet2(0, 63, SE_ITEM_FULL);
             }
             break;
 
         case 2:
-            if (!work->field_11C_full_str)
+            if (!work->message_full)
             {
-                work->field_11C_full_str = "GET WEAPON FIRST";
-                work->field_110_counter = 0;
+                work->message_full = "GET WEAPON FIRST";
+                work->text_counter = 0;
                 GM_SeSet2(0, 63, SE_ITEM_FULL);
             }
             break;
         }
     }
 
-    if (!work->field_118_str || work->field_11C_full_str)
+    if (!work->message || work->message_full)
     {
         return;
     }
 
     if (!(GM_PlayerStatus & (PLAYER_INTRUDE | PLAYER_WATCH)) || (GM_GameStatus & (STATE_PADRELEASE | STATE_DEMO)))
     {
-        work->field_110_counter = 0;
+        work->text_counter = 0;
         return;
     }
 
-    x = GM_PlayerControl->mov.vx - pCtrl->mov.vx;
-
-    if (x < 0)
+    dx = GM_PlayerControl->mov.vx - control->mov.vx;
+    if (dx < 0)
     {
-        x = -x;
+        dx = -dx;
     }
 
-    y = GM_PlayerControl->mov.vy - pCtrl->mov.vy;
-
-    if (y < 0)
+    dy = GM_PlayerControl->mov.vy - control->mov.vy;
+    if (dy < 0)
     {
-        y = -y;
+        dy = -dy;
     }
 
-    z = GM_PlayerControl->mov.vz - pCtrl->mov.vz;
-
-    if (z < 0)
+    dz = GM_PlayerControl->mov.vz - control->mov.vz;
+    if (dz < 0)
     {
-        z = -z;
+        dz = -dz;
     }
 
-    if ( (x >= 2000) || (y >= 2000) || (z >= 2000 ) )
-    {
-        return;
-    }
-
-    if ((work->field_110_counter++ % 60) <= 20)
+    if ( (dx >= 2000) || (dy >= 2000) || (dz >= 2000) )
     {
         return;
     }
 
-    pOt = DG_ChanlOTag(1);
-    pLine = &work->field_124_lineF4_array[GV_Clock];
-
-    if (!item_act_helper_80033704(&position.vx, &pCtrl->mov))
+    if ((work->text_counter++ % 60) <= 20)
     {
         return;
     }
 
-    newx = position.vx + 160;
-    newy = position.vy + 104;
+    ot = DG_ChanlOTag(1);
+    line = &work->text_line[GV_Clock];
 
-    if ((newy < -32) || (newy > 300))
+    if (!world_to_screen(&position, &control->mov))
     {
         return;
     }
 
-    if (newy < 32)
+    x = position.vx + 160;
+    y = position.vy + 104;
+
+    if ((y < -32) || (y > 300))
     {
-        newy = 32;
+        return;
     }
 
-    if (newy > FRAME_HEIGHT)
+    if (y < 32)
     {
-        newy = FRAME_HEIGHT;
+        y = 32;
     }
 
-    pLine->x0 = newx;
-    pLine->x1 = newx + 16;
-    pLine->x2 = newx + 16;
+    if (y > FRAME_HEIGHT)
+    {
+        y = FRAME_HEIGHT;
+    }
 
-    pLine->y0 = newy;
-    pLine->y1 = newy - 16;
-    pLine->y2 = newy - 16;
-    pLine->y3 = newy - 23;
+    line->x0 = x;
+    line->x1 = x + 16;
+    line->x2 = x + 16;
 
-    addPrim(pOt, pLine);
+    line->y0 = y;
+    line->y1 = y - 16;
+    line->y2 = y - 16;
+    line->y3 = y - 23;
+
+    addPrim(ot, line);
 
     MENU_Color(200, 200, 200);
-    MENU_Locate(pLine->x1 + 5, pLine->y1 - 8, 0x10);
-    MENU_Printf("%s", work->field_118_str);
+    MENU_Locate(line->x1 + 5, line->y1 - 8, 0x10);
+    MENU_Printf("%s", work->message);
 
     MENU_Color(1, 1, 1);
-    MENU_Locate(pLine->x1 + 6, pLine->y1 - 7, 0x10);
-    pLine->x2 = pLine->x3 = MENU_Printf("%s", work->field_118_str) + 3;
+    MENU_Locate(line->x1 + 6, line->y1 - 7, 0x10);
+    line->x2 = line->x3 = MENU_Printf("%s", work->message) + 3;
 }
 
 /*---------------------------------------------------------------------------*/
 
-STATIC void item_Die(ItemWork *work)
+static void Die(ItemWork *work)
 {
-    unsigned char *field_120_pScript; // $a0
-
     GM_FreeControl(&work->control);
-    GM_FreeObject((OBJECT *)&work->field_9C_kmd);
-    GM_FreePrim(work->field_15C_pPrim);
+    GM_FreeObject((OBJECT *)&work->body);
+    GM_FreePrim(work->shadow);
 
-    if (work->field_112_state == 2)
+    if (work->state == 2 && work->end_proc != 0)
     {
-        field_120_pScript = work->field_120_pScript;
-        if (field_120_pScript)
+        if (work->end_proc < 0)
         {
-            if ((int)field_120_pScript < 0)
-            {
-                GCL_ExecBlock(field_120_pScript, 0);
-            }
-            else
-            {
-                GCL_ExecProc((int)field_120_pScript, 0);
-            }
+            GCL_ExecBlock((u_char *)work->end_proc, NULL);
+        }
+        else
+        {
+            GCL_ExecProc(work->end_proc, NULL);
         }
     }
 }
 
 /*---------------------------------------------------------------------------*/
 
-STATIC int item_init_helper_helper_80034020( ItemWork *work, int type )
+static int check_type( ItemWork *work, int type )
 {
-    int item_id;
+    int id;
 
-    item_id = work->field_114_item_id;
-    if ( item_id == (char)IT_None )
+    id = work->id;
+    if ( id == 0xff )
     {
         return 1;
     }
-    work->field_113 = 0;
+
+    work->type = 0;
     switch ( type )
     {
-        case 2:
-        case 3:
-            if ( (GM_DifficultyFlag == DIFFICULTY_VERY_EASY) && (item_id == IT_Scope) )
-            {
-                return 0;
-            }
-            if (item_id > 9 )
-            {
-                return 0;
-            }
-            work->field_113 = 2;
-            break;
+    case 2:
+    case 3:
+        if ( (GM_DifficultyFlag == DIFFICULTY_VERY_EASY) && (id == WP_Famas) )
+        {
+            return 0;
+        }
 
-        case 0:
-            if (item_id > 9 )
-            {
-                return 0;
-            }
-            work->field_113 = 1;
-            break;
+        if ( id >= WP_Max )
+        {
+            return 0;
+        }
 
-        case 4:
-            if ( item_id != IT_Ration )
-            {
-                return 0;
-            }
-            break;
+        work->type = 2;
+        break;
 
-        case 1:
-        case 5:
-            if ( item_id > (GM_TotalItems - 1) )
-            {
-                return 0;
-            }
-            break;
+    case 0:
+        if ( id >= WP_Max )
+        {
+            return 0;
+        }
+
+        work->type = 1;
+        break;
+
+    case 4:
+        if ( id != IT_Ration )
+        {
+            return 0;
+        }
+        break;
+
+    case 1:
+    case 5:
+        if ( id >= IT_Max )
+        {
+            return 0;
+        }
+        break;
     }
+
     return 1;
 }
 
-STATIC int item_GetResources(ItemWork *work, int name, int where)
+static int GetResources(ItemWork *work, int name, int where)
 {
-    short sVar3;
-    int i;
-    char *pcVar5;
-    char *bReadVec2;
-    unsigned char *puVar6;
-    char *pbVar7;
-    char *m_return;
-    DG_PRIM *pPrim;
-    DG_TEX *pTex;
-    int type;
-    CONTROL *pControl;
-    OBJECT_NO_ROTS *pObject;
-    int iVar10;
-    int code;
-    int value;
-    int k500;
-    SVECTOR *pVec1;
-    SVECTOR *pVec2;
-    SVECTOR *pVec3;
-    SVECTOR *pVec4;
+    CONTROL        *control;
+    char           *pos;
+    char           *dir;
+    int             type;
+    char           *opt;
+    int             height;
+    int             code;
+    int             value;
+    OBJECT_NO_ROTS *body;
+    int             i;
+    SVECTOR        *verts;
+    DG_PRIM        *shadow;
+    int             raise;
+    DG_TEX         *tex;
 
-    pControl = &work->control;
     GM_CurrentMap = where;
-    work->field_108_where = where;
+    work->map = where;
 
-    if (GM_InitControl(pControl, name, where) < 0)
+    control = &work->control;
+    if (GM_InitControl(control, name, where) < 0)
     {
         return -1;
     }
 
-    GM_ConfigControlHazard(pControl, -1, -2, -1);
-    GM_ConfigControlInterp(pControl, '\0');
+    GM_ConfigControlHazard(control, -1, -2, -1);
+    GM_ConfigControlInterp(control, 0);
 
-    pcVar5 = (char *) GCL_GetOption('p');
-    bReadVec2 = (char *) GCL_GetOption('d');
-    GM_ConfigControlString(pControl, pcVar5, bReadVec2);
+    pos = GCL_GetOption('p');
+    dir = GCL_GetOption('d');
+    GM_ConfigControlString(control, pos, dir);
 
-    pControl->step = DG_ZeroVector;
-    pControl->skip_flag = CTRL_SKIP_TRAP | CTRL_SKIP_MESSAGE;
+    control->step = DG_ZeroVector;
+    control->skip_flag = CTRL_SKIP_TRAP | CTRL_SKIP_MESSAGE;
 
-    puVar6 = (unsigned char *) GCL_GetOption('b');
-    type = 0;
-
-    if (puVar6)
+    opt = GCL_GetOption('b');
+    if (opt)
     {
-        type = GCL_StrToInt(puVar6);
+        type = GCL_StrToInt(opt);
+    }
+    else
+    {
+        type = 0;
     }
 
-    puVar6 = (unsigned char *)GCL_GetOption('i');
-    if (!puVar6)
+    opt = GCL_GetOption('i');
+    if (!opt)
     {
         printf("NO ID ITEM\n");
         return -1;
     }
 
-    work->field_114_item_id = GCL_StrToInt(puVar6);
-    puVar6 = (unsigned char *) GCL_GetOption('n');
-    if (puVar6)
+    work->id = GCL_StrToInt(opt);
+
+    opt = GCL_GetOption('n');
+    if (opt)
     {
-      work->field_116_ammo_amount = GCL_StrToInt(puVar6);
+        work->num = GCL_StrToInt(opt);
     }
     else
     {
-        work->field_116_ammo_amount = 1;
+        work->num = 1;
     }
 
-    m_return = GCL_GetOption('m');
-
-    if (m_return)
+    opt = GCL_GetOption('m');
+    if (opt)
     {
-      pcVar5 = GCL_ReadString(m_return);
-      work->field_118_str = pcVar5;
+        work->message = GCL_ReadString(opt);
     }
 
-    work->field_11C_full_str = (char *) 0x0;
+    work->message_full = NULL;
 
-    iVar10 = 0x1c2;
-    puVar6 = (unsigned char *) GCL_GetOption('h');
-    if (puVar6)
+    height = 450;
+    opt = GCL_GetOption('h');
+    if (opt)
     {
-      iVar10 = GCL_StrToInt(puVar6);
+        height = GCL_StrToInt(opt);
     }
 
-    work->field_120_pScript = (unsigned char *) 0x0;
-
+    work->end_proc = 0;
     if (GCL_GetOption('e'))
     {
-        work->field_120_pScript = (unsigned char *)GCL_StrToInt(GCL_GetParamResult());
+        work->end_proc = GCL_StrToInt(GCL_GetParamResult());
     }
     else if (GCL_GetOption('x'))
     {
-        pbVar7 = (char *) GCL_GetParamResult();
-        GCL_GetNextValue(pbVar7, &code, &value);
-        work->field_120_pScript = (unsigned char *)value;
+        GCL_GetNextValue(GCL_GetParamResult(), &code, &value);
+        work->end_proc = value;
     }
 
-    if (!item_init_helper_helper_80034020(work, type))
+    if (!check_type(work, type))
     {
         return 0;
     }
 
-    if ((GM_DifficultyFlag == DIFFICULTY_EXTREME) && (type == 4) && (work->field_114_item_id == IT_Ration))
+    if ((GM_DifficultyFlag == DIFFICULTY_EXTREME) && (type == 4) && (work->id == IT_Ration))
     {
         return 0;
     }
 
-    GV_ZeroMemory(work->field_C0, 8);
-    pObject = &work->field_9C_kmd;
-    GM_InitObjectNoRots(pObject, type + 0x4d5f, 0x36d, 0);
-    GM_ConfigObjectJoint((OBJECT *)pObject);
-    GM_ConfigObjectLight((OBJECT *)pObject, work->field_C8_mtx);
-    GM_ConfigObjectStep((OBJECT *)pObject, &work->control.step);
+    GV_ZeroMemory(work->unused, 8);
+
+    body = &work->body;
+    GM_InitObjectNoRots(body, KMD_BOX_01 + type, BODY_FLAG, 0);
+    GM_ConfigObjectJoint((OBJECT *)body);
+    GM_ConfigObjectLight((OBJECT *)body, work->light);
+    GM_ConfigObjectStep((OBJECT *)body, &work->control.step);
 
     if (GCL_GetOption('v'))
     {
-        work->field_9C_kmd.objs[2].world.m[1][1] = -10000;
+        work->body.objs[2].world.m[1][1] = -10000;
     }
 
     for (i = 0; i < 2; i++)
     {
-        setLineF4(&work->field_124_lineF4_array[i]);
-        setRGB0(&work->field_124_lineF4_array[i], 255, 255, 255);
+        setLineF4(&work->text_line[i]);
+        setRGB0(&work->text_line[i], 255, 255, 255);
     }
 
-    if (iVar10 >= 0)
+    if (height >= 0)
     {
-        pVec1 = &work->field_160;
-        pVec2 = &work->field_168;
-        pVec3 = &work->field_170;
-        pVec4 = &work->field_178;
+        raise = 500;
 
-        sVar3 = pControl->mov.vy;
+        verts = work->shadow_verts;
+        verts[0].vy = verts[1].vy = verts[2].vy = verts[3].vy = control->mov.vy;
+        verts[0].vx = verts[2].vx = control->mov.vx + 256;
+        verts[0].vz = verts[1].vz = control->mov.vz + 256;
+        verts[1].vx = verts[3].vx = control->mov.vx - 256;
+        verts[2].vz = verts[3].vz = control->mov.vz - 256;
 
-        pVec4->vy = sVar3;
-        work->field_170.vy = sVar3;
-        pVec2->vy = sVar3;
-        pVec1->vy = sVar3;
+        control->mov.vy += height;
 
-        sVar3 = pControl->mov.vx + 0x100;
-        work->field_170.vx = sVar3;
-        pVec1->vx = sVar3;
-
-        sVar3 = pControl->mov.vz + 0x100;
-        pVec2->vz = sVar3;
-        pVec1->vz = sVar3;
-
-        sVar3 = pControl->mov.vx - 0x100;
-        pVec4->vx = sVar3;
-        pVec1[1].vx = sVar3;
-
-        sVar3 = pControl->mov.vz - 0x100;
-        pVec4->vz = sVar3;
-        pVec1[2].vz = sVar3;
-
-        pControl->mov.vy += iVar10;
-
-        pPrim = DG_GetPrim(DG_PRIM_ONEFACE | DG_PRIM_POLY_FT4, 1, 0, &work->field_160, NULL);
-        work->field_15C_pPrim = pPrim;
-
-        k500 = 500;
-
-        if (!pPrim)
+        shadow = DG_GetPrim(DG_PRIM_ONEFACE | DG_PRIM_POLY_FT4, 1, 0, work->shadow_verts, NULL);
+        work->shadow = shadow;
+        if (!shadow)
         {
             return -1;
         }
 
-        pPrim->field_2E_k500 = k500;
+        shadow->field_2E_k500 = raise;
 
-        pTex = DG_GetTexture(GV_StrCode("shadow"));
-        if (!pTex)
+        tex = DG_GetTexture(GV_StrCode("shadow"));
+        if (!tex)
         {
             return -1;
         }
 
-        item_init_prim_buffer_800336A4(&pPrim->packs[0]->poly_ft4, pTex);
-        item_init_prim_buffer_800336A4(&pPrim->packs[1]->poly_ft4, pTex);
+        init_pack(&shadow->packs[0]->poly_ft4, tex);
+        init_pack(&shadow->packs[1]->poly_ft4, tex);
 
-        setRGB0(&pPrim->packs[0]->poly_ft4, 80, 80, 80);
-        setRGB0(&pPrim->packs[1]->poly_ft4, 80, 80, 80);
+        setRGB0(&shadow->packs[0]->poly_ft4, 80, 80, 80);
+        setRGB0(&shadow->packs[1]->poly_ft4, 80, 80, 80);
     }
     else
     {
-        work->field_15C_pPrim = 0;
+        work->shadow = NULL;
     }
 
-    GM_ActControl(pControl);
-    GM_ActObject2((OBJECT *)pObject);
+    GM_ActControl(control);
+    GM_ActObject2((OBJECT *)body);
     return 1;
 }
 
@@ -872,28 +797,30 @@ STATIC int item_GetResources(ItemWork *work, int name, int where)
 
 void *NewItem(int name, int where, int argc, char **argv)
 {
-    ItemWork   *work;
-    int         inited;
+    ItemWork *work;
+    int       inited;
 
     work = GV_NewActor(EXEC_LEVEL, sizeof(ItemWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, &item_Act, &item_Die, "item.c");
-        work->field_112_state = 0;
-        inited = item_GetResources(work, name, where);
+        GV_SetNamedActor(&work->actor, Act, Die, "item.c");
+        work->state = 0;
+
+        inited = GetResources(work, name, where);
         if (inited > 0)
         {
-            work->field_10E = -1;
-            work->field_108_where = where;
+            work->alive_time = -1;
+            work->map = where;
             fprintf(1, "Item map = %d\n", where);
-            work->field_10C_64 = 64;
+            work->spin = 64;
         }
         else
         {
             GV_DestroyActor(&work->actor);
+
             if (inited == 0)
             {
-                return (void *)work;
+                return work;
             }
             else
             {
@@ -902,82 +829,79 @@ void *NewItem(int name, int where, int argc, char **argv)
         }
     }
 
-    return (void *)work;
+    return work;
 }
 
 /*---------------------------------------------------------------------------*/
 
-STATIC int item_GetResources2(ItemWork *work, SVECTOR *pPos, SVECTOR *a3, Item_Info *pItemInfo, int where)
+static int GetResourcesPut(ItemWork *work, SVECTOR *pos, SVECTOR *step, Item_Info *info, int where)
 {
-    int type; // $s3
-    const char *str_name; // $v0
-    int i; // $v1
-    CONTROL *pCtrl;
+    int      type;
+    CONTROL *control;
+    int      i;
 
-    type = pItemInfo->field_4_type;
-    work->field_114_item_id = pItemInfo->field_6_id;
-    work->field_116_ammo_amount = pItemInfo->field_8_amount;
-    str_name = pItemInfo->field_0_pName;
-    work->field_120_pScript = 0;
-    work->field_118_str = str_name;
-    if (!item_init_helper_helper_80034020(work, type))
+    type = info->type;
+
+    work->id = info->id;
+    work->num = info->num;
+    work->message = info->message;
+    work->end_proc = 0;
+
+    if (!check_type(work, type))
     {
         return -1;
     }
 
-    pCtrl = &work->control;
-    if (GM_InitControl(pCtrl, 0x5D43, where) < 0)
+    control = &work->control;
+    if (GM_InitControl(control, HASH_ITEM, where) < 0)
     {
         return -1;
     }
 
-    GM_ConfigControlHazard(pCtrl, 100, 500, 500);
-    GM_ConfigControlInterp(pCtrl, 0);
+    GM_ConfigControlHazard(control, 100, 500, 500);
+    GM_ConfigControlInterp(control, 0);
 
-    pCtrl->skip_flag = CTRL_SKIP_TRAP | CTRL_SKIP_MESSAGE;
-    pCtrl->step = *a3;
-    pCtrl->step.vy = 160;
-    pCtrl->mov = *pPos;
+    control->skip_flag = CTRL_SKIP_TRAP | CTRL_SKIP_MESSAGE;
+    control->step = *step;
+    control->step.vy = 160;
+    control->mov = *pos;
 
-    GM_InitObjectNoRots(&work->field_9C_kmd, type + 0x4D5F, 877, 0);
-    GM_ConfigObjectJoint((OBJECT *)&work->field_9C_kmd);
-    GM_ConfigObjectLight((OBJECT *)&work->field_9C_kmd, work->field_C8_mtx);
-    GM_ConfigObjectStep((OBJECT *)&work->field_9C_kmd, &pCtrl->step);
+    GM_InitObjectNoRots(&work->body, KMD_BOX_01 + type, BODY_FLAG, 0);
+    GM_ConfigObjectJoint((OBJECT *)&work->body);
+    GM_ConfigObjectLight((OBJECT *)&work->body, work->light);
+    GM_ConfigObjectStep((OBJECT *)&work->body, &control->step);
 
     for (i = 0; i < 2; i++)
     {
-        setLineF4(&work->field_124_lineF4_array[i]);
-        setRGB0(&work->field_124_lineF4_array[i], 255, 255, 255);
+        setLineF4(&work->text_line[i]);
+        setRGB0(&work->text_line[i], 255, 255, 255);
     }
 
     return 0;
 }
 
-void *item_init_80034758(SVECTOR *pPos, SVECTOR *a2, Item_Info *pItemInfo)
+void *NewItemPut(SVECTOR *pos, SVECTOR *step, Item_Info *info)
 {
-    ItemWork   *work;
-    int         map;
+    ItemWork *work;
 
     work = GV_NewActor(EXEC_LEVEL, sizeof(ItemWork));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, &item_Act, &item_Die, "item.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "item.c");
 
-        if (item_GetResources2(work, pPos, a2, pItemInfo, GM_CurrentMap) < 0)
+        if (GetResourcesPut(work, pos, step, info, GM_CurrentMap) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
         }
 
-        work->field_10E = pItemInfo->field_A;
-        map = GM_CurrentMap;
-        work->field_108_where = map;
-
-        work->field_112_state = 1;
-        work->field_10C_64 = 512;
+        work->alive_time = info->time;
+        work->map = GM_CurrentMap;
+        work->state = 1;
+        work->spin = 512;
 
         GM_SeSet2(0, 63, SE_SPAWN_ITEM);
     }
 
-    return (void *)work;
+    return work;
 }
