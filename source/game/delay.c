@@ -175,5 +175,6 @@ void *GM_DelayedExecCommand(int proc, GCL_ARGS *args, int time)
 
         GV_SetNamedActor(&work->actor, Act, NULL, "delay.c");
     }
-    return (void *)work;
+
+    return work;
 }

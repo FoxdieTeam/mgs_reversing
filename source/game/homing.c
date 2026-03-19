@@ -10,146 +10,150 @@
 #include "libgv/libgv.h"
 #include "game.h"
 
-extern HOMING gHomingTargets_800B8230[HOMING_ARRAY_LENGTH];
+extern HOMING homing_targets[NUM_HOMING_TARGETS];
 
 void GM_ResetHomingTargets(void)
 {
-    HOMING *pIter; // $v0
-    int     i;     // $v1
+    HOMING *hom;
+    int     i;
 
-    pIter = gHomingTargets_800B8230;
-    for (i = HOMING_ARRAY_LENGTH; i > 0; --i)
+    hom = homing_targets;
+    for (i = NUM_HOMING_TARGETS; i > 0; i--)
     {
-        pIter->auto_aimable = 0;
-        ++pIter;
+        hom->used = FALSE;
+        hom++;
     }
 }
 
-HOMING *GM_AllocHomingTarget(MATRIX *matrix, CONTROL *control)
+HOMING *GM_AllocHomingTarget(MATRIX *world, CONTROL *control)
 {
-    int     pos; // $v1
-    HOMING *pIter = gHomingTargets_800B8230;
+    HOMING *hom;
+    int     i;
 
-    for (pos = HOMING_ARRAY_LENGTH; pos > 0; --pos)
+    hom = homing_targets;
+    for (i = NUM_HOMING_TARGETS; i > 0; i--)
     {
-        if (!pIter->auto_aimable)
+        if (!hom->used)
         {
             break;
         }
-        ++pIter;
+
+        hom++;
     }
 
-    if (!pos)
+    if (i == 0)
     {
         printf("Homing target over !!!\n");
         return 0;
     }
 
-    pIter->matrix = matrix;
-    pIter->control = control;
-    pIter->flag = 0;
-    pIter->auto_aimable = 1;
-    return pIter;
+    hom->world = world;
+    hom->control = control;
+    hom->flag = FALSE;
+    hom->used = TRUE;
+    return hom;
 }
 
-void GM_FreeHomingTarget(HOMING *homing)
+void GM_FreeHomingTarget(HOMING *hom)
 {
-    if (homing)
+    if (hom)
     {
-        homing->auto_aimable = 0;
+        hom->used = FALSE;
     }
 }
 
-void GM_GetHomingTarget(MATRIX *matrix, int vecY, int *pRetY, int *pRetX, int mapBit)
+void GM_GetHomingTarget(MATRIX *world, int ang, int *yaw, int *pitch, int map)
 {
-    int            smallest_len; // $s6
-    HOMING        *homing;       // $s3
-    int            i;            // $s5
-    int            len;          // $s1
-    int            retY;         // $s0
-    SVECTOR        vec1;
-    SVECTOR        vec2;
-    SVECTOR        vec3;
+    SVECTOR pos;
+    SVECTOR hom_pos;
+    SVECTOR diff;
+    int     min;
+    HOMING *hom;
+    int     i;
+    int     len;
+    int     dir;
 
-    smallest_len = 6100;
-    homing = &gHomingTargets_800B8230[0];
-    vec1.vx = matrix->t[0];
-    vec1.vy = matrix->t[1];
-    vec1.vz = matrix->t[2];
-    *pRetY = -1;
-    *pRetX = 0;
+    min = 6100;
+    hom = homing_targets;
 
-    for (i = HOMING_ARRAY_LENGTH; i > 0; homing++, i--)
+    pos.vx = world->t[0];
+    pos.vy = world->t[1];
+    pos.vz = world->t[2];
+
+    *yaw = -1;
+    *pitch = 0;
+
+    for (i = NUM_HOMING_TARGETS; i > 0; i--)
     {
-        if (!homing->auto_aimable)
+        if (hom->used && (hom->control->map->index & map) && (hom->flag == TRUE))
         {
-            continue;
-        }
+            hom_pos.vx = hom->world->t[0];
+            hom_pos.vy = hom->world->t[1];
+            hom_pos.vz = hom->world->t[2];
 
-        if ((homing->control->map->index & mapBit) && homing->flag == 1)
-        {
-            vec2.vx = homing->matrix->t[0];
-            vec2.vy = homing->matrix->t[1];
-            vec2.vz = homing->matrix->t[2];
-            GV_SubVec3(&vec2, &vec1, &vec3);
-            len = GV_VecLen3(&vec3);
-            if (len < smallest_len)
+            GV_SubVec3(&hom_pos, &pos, &diff);
+            len = GV_VecLen3(&diff);
+
+            if (len < min)
             {
-                retY = GV_VecDir2(&vec3);
-                if (GV_DiffDirAbs(vecY, retY) < 512)
+                dir = GV_VecDir2(&diff);
+                if (GV_DiffDirAbs(ang, dir) < 512)
                 {
-                    smallest_len = len;
-                    *pRetY = retY;
-                    *pRetX = (ratan2(len, vec2.vy - vec1.vy) & 4095) - 1024;
+                    min = len;
+                    *yaw = dir;
+                    *pitch = (ratan2(len, hom_pos.vy - pos.vy) & 4095) - 1024;
                 }
             }
         }
+
+        hom++;
     }
 }
 
-void GM_GetHomingTarget2(MATRIX *matrix, int vecY, int *pRetY, int *pRetX, int mapBit, int max_dist, int min_angle)
+void GM_GetHomingTarget2(MATRIX *world, int ang, int *yaw, int *pitch, int map, int max_dist, int max_ang)
 {
-    int            smallest_len; // $s6
-    HOMING        *homing;       // $s3
-    int            i;            // $s5
-    int            len;          // $s1
-    int            retY;         // $s0
-    SVECTOR        vec1;
-    SVECTOR        vec2;
-    SVECTOR        vec3;
+    SVECTOR pos;
+    SVECTOR hom_pos;
+    SVECTOR diff;
+    int     min;
+    HOMING *hom;
+    int     i;
+    int     len;
+    int     dir;
 
-    smallest_len = max_dist + 100;
-    homing = &gHomingTargets_800B8230[0];
-    vec1.vx = matrix->t[0];
-    vec1.vy = matrix->t[1];
-    vec1.vz = matrix->t[2];
-    *pRetY = -1;
-    *pRetX = 0;
+    min = max_dist + 100;
+    hom = homing_targets;
 
-    for (i = HOMING_ARRAY_LENGTH; i > 0; homing++, i--)
+    pos.vx = world->t[0];
+    pos.vy = world->t[1];
+    pos.vz = world->t[2];
+
+    *yaw = -1;
+    *pitch = 0;
+
+    for (i = NUM_HOMING_TARGETS; i > 0; i--)
     {
-        if (!homing->auto_aimable)
+        if (hom->used && (hom->control->map->index & map) && (hom->flag == TRUE))
         {
-            continue;
-        }
+            hom_pos.vx = hom->world->t[0];
+            hom_pos.vy = hom->world->t[1];
+            hom_pos.vz = hom->world->t[2];
 
-        if ((homing->control->map->index & mapBit) && homing->flag == 1)
-        {
-            vec2.vx = homing->matrix->t[0];
-            vec2.vy = homing->matrix->t[1];
-            vec2.vz = homing->matrix->t[2];
-            GV_SubVec3(&vec2, &vec1, &vec3);
-            len = GV_VecLen3(&vec3);
-            if (len < smallest_len)
+            GV_SubVec3(&hom_pos, &pos, &diff);
+            len = GV_VecLen3(&diff);
+
+            if (len < min)
             {
-                retY = GV_VecDir2(&vec3);
-                if (GV_DiffDirAbs(vecY, retY) < min_angle)
+                dir = GV_VecDir2(&diff);
+                if (GV_DiffDirAbs(ang, dir) < max_ang)
                 {
-                    smallest_len = len;
-                    *pRetY = retY;
-                    *pRetX = (ratan2(len, vec2.vy - vec1.vy) & 4095) - 1024;
+                    min = len;
+                    *yaw = dir;
+                    *pitch = (ratan2(len, hom_pos.vy - pos.vy) & 4095) - 1024;
                 }
             }
         }
+
+        hom++;
     }
 }

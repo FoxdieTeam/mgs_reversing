@@ -1469,11 +1469,11 @@ void s07c_meryl72_unk1_800CABA0( Meryl72Work *work )
 
     if ( GM_AlertMode == ALERT_ACTIVE && work->target->class & TARGET_POWER )
     {
-        work->hom->flag = 1;
+        work->hom->flag = TRUE;
     }
     else
     {
-        work->hom->flag = 0;
+        work->hom->flag = FALSE;
     }
 
     if ( unk->field_04 < 0 && ctrl->level_flag )

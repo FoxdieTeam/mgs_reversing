@@ -2,42 +2,44 @@
 #include "menu/menuman.h"
 #include "game.h"
 
-extern AreaHistory      gAreaHistory_800B5850;
+extern AreaHistory area_history;
 
 STATIC char GM_CurrentStageName[8] = {};
 
-short SECTION(".sbss")  sCurrentAreaName_800AB9C0;
-short SECTION(".sbss")  pad3_;
-short SECTION(".sbss")  pad3;
+short SECTION(".sbss") area_name;
+short SECTION(".sbss") pad3_;
+short SECTION(".sbss") pad3;
 
 //------------------------------------------------------------------------------
 
 void GM_InitArea(void)
 {
-    gAreaHistory_800B5850 = ( AreaHistory ){{ 0 }};
+    memset(&area_history, 0, sizeof(area_history));
 }
 
-void GM_GetAreaHistory(AreaHistory *pHistoryCopy)
+void GM_GetAreaHistory(AreaHistory *history)
 {
-    *pHistoryCopy = gAreaHistory_800B5850;
+    *history = area_history;
 }
 
-void GM_SetAreaHistory(AreaHistory *pNewHistory)
+void GM_SetAreaHistory(AreaHistory *history)
 {
-    gAreaHistory_800B5850 = *pNewHistory;
+    area_history = *history;
 }
 
 int GM_SetArea(int stage_id, char *stage_name)
 {
     int i;
 
-    sCurrentAreaName_800AB9C0 = stage_id;
+    area_name = stage_id;
     strcpy(GM_CurrentStageName, stage_name);
+
     for (i = MAX_HISTORY - 1; i > 0; i--)
     {
-        gAreaHistory_800B5850.history[i] = gAreaHistory_800B5850.history[i - 1];
+        area_history.history[i] = area_history.history[i - 1];
     }
-    gAreaHistory_800B5850.history[0] = stage_id;
+
+    area_history.history[0] = stage_id;
     return stage_id;
 }
 
@@ -47,11 +49,12 @@ int GM_AreaHistory(int stage_id)
 
     for (i = 1; i < MAX_HISTORY; i++)
     {
-        if (gAreaHistory_800B5850.history[i] == stage_id)
+        if (area_history.history[i] == stage_id)
         {
             break;
         }
     }
+
     return i;
 }
 
