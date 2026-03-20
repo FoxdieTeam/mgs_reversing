@@ -66,7 +66,7 @@
 #define CHARA_ELEVATOR          { 0x2abc, NewElevator_800D9F30 }    // GV_StrCode("エレベータ") takabe/elevator.c
 #define CHARA_WALL_SPA          { 0x2b24, NewWallSpa_800CB4A4 }     // okajima/wall_spa.c
 #define CHARA_SECOND_2D0A       { 0x2d0a, ? }                       // game/second.c
-#define CHARA_NINJA             { 0x30ba, ? }                       // GV_StrCode("忍者") animal/ninja/ninja.c
+#define CHARA_NINJA             { 0x30ba, s08b_ninja_800C8DCC }     // GV_StrCode("忍者") animal/ninja/ninja.c
 #define CHARA_VR2               { 0x30c8, ? }                       // GV_StrCode("ＶＲ２") koba/vr/vr2.c
 #define CHARA_PATO_LAMP         { 0x30ce, NewPatrolLamp_800D7A2C }  // GV_StrCode("パトランプ") okajima/pato_lmp.c
 #define CHARA_ZAKO10            { 0x31e3, ? }                       // GV_StrCode("ざこ１０") animal/zako10/zako10.c
@@ -118,7 +118,7 @@
 #define CHARA_GAS_EFFECT        { 0x5a50, NewGasEffect_800C4E5C }   // takabe/gas_efct.c
 #define CHARA_O2_DAMAGE         { 0x5d64, NewO2Damage_800DE9C8 }    // takabe/o2_damge.c
 #define CHARA_ZK11ACOM          { 0x5efa, ? }                       // GV_StrCode("ざこ１１ａコマンダー") animal/zako11a/zk11acom.c
-#define CHARA_PAPER             { 0x5f02, ? }                       // takabe/paper.c
+#define CHARA_PAPER             { 0x5f02, s08b_paper_800DB87C }     // takabe/paper.c
 #define CHARA_ZK11ECOM          { 0x5f0a, NewZakoCommander_800DAF38 } // GV_StrCode("ざこ１１ｅコマンダー") animal/zako11e/zk11ecom.c
 #define CHARA_ZK11FCOM          { 0x5f0e, NewZakoCommander_800D20D8 } // GV_StrCode("ざこ１１ｆコマンダー") animal/zako11f/zk11fcom.c
 #define CHARA_GROUND_CAMERA     { 0x5f5a, ? }                       // thing/grd_cam.c (PC-ONLY)
@@ -137,7 +137,7 @@
 #define CHARA_DOG               { 0x6c0e, NewDog_800D33C8 }         // okajima/dog/dog.c
 #define CHARA_VIB_EDIT          { 0x6c66, NewVibrationEditor }      // takabe/vib_edit.c
 #define CHARA_PREOPE            { 0x6d1b, NewPreviousOperation }    // onoda/preope/preope.c
-#define CHARA_MONITOR1          { 0x6d78, ? }                       // GV_StrCode("モニタ１") takabe/monitor1.c
+#define CHARA_MONITOR1          { 0x6d78, NewMonitor1_800DCDE0 }    // GV_StrCode("モニタ１") takabe/monitor1.c
 #define CHARA_CAMERA            { 0x6e90, NewCamera_800D67F8 }      // GV_StrCode("カメラ") enemy/camera.c
 #define CHARA_WATCHER           { 0x6e9a, NewSnakeWatcher_800C5034 }// GV_StrCode("巡回兵") enemy/watcher.c
 #define CHARA_PSYOBJ            { 0x710d, ? }                       // chara/psyco/psyobj.c
@@ -148,7 +148,7 @@
 #define CHARA_SNAKE18           { 0x760e, d18a_snake18_800D4E94 }   // GV_StrCode("スネーク１８") animal/snake18/snake18.c
 #define CHARA_DSMOKE2           { 0x76bc, s11d_dsmoke2_800CCD54 }   // chara/rope/dsmoke2.c
 #define CHARA_ENV_TEST          { 0x76fe, ? }                       // takabe/env_test.c (PC-ONLY)
-#define CHARA_CHAIR             { 0x788d, ? }                       // GV_StrCode("椅子") takabe/chair.c
+#define CHARA_CHAIR             { 0x788d, s08b_chair_800DAB50 }     // GV_StrCode("椅子") takabe/chair.c
 #define CHARA_CINEMA            { 0x7a05, NewCinemaScreenSet }      // GV_StrCode("シネマスクリーン") takabe/cinema.c
 #define CHARA_MODEL_DT          { 0x7acf, ? }                       // okajima/photo/model_dt.c (PC-ONLY)
 #define CHARA_CAMERA_SHAKE      { 0x7bc2, NewCameraShake }          // takabe/camshake.c
@@ -277,7 +277,7 @@
 #define CHARA_WT_AREA           { 0xdba3, NewWaterArea }            // takabe/wt_area.c
 #define CHARA_TEXANIME          { 0xdcac, ? }                       // enemy/texanime.c (PC-ONLY)
 #define CHARA_INTR_CAM          { 0xdd8b, NewIntrudeCamera }        // chara/others/intr_cam.c
-#define CHARA_PANEL2            { 0xdd95, ? }                       // GV_StrCode("パネル２") takabe/panel2.c
+#define CHARA_PANEL2            { 0xdd95, NewPanel2_800E1728 }      // GV_StrCode("パネル２") takabe/panel2.c
 #define CHARA_VRBOX_DF07        { 0xdf0f, ? }                       // GV_StrCode("ＶＲＢＯＸ") koba/vr/vrbox.c
 #define CHARA_S11_OBJS          { 0xe068, s11g_s11_objs_800CB388 }  // okajima/s11_objs.c
 #define CHARA_ELEVATOR_PANEL    { 0xe253, NewEvPanel }              // game/evpanel.c
@@ -412,6 +412,7 @@ void *NewCamera_800CF388();             /* ???/camera.c                 */
 void *NewDoll_800DCD78();               /* animal/doll/doll.c           */
 void *NewBombLed();                     /* animal/liquid/bombled.c      */
 void *NewMeryl72_800C7BC4();            /* animal/meryl72/meryl72.c     */
+void *s08b_ninja_800C8DCC();            /* animal/ninja/ninja.c         */
 void *d18a_snake18_800D4E94();          /* animal/snake18/snake18.c     */
 void *s11e_zako11e_800D42E0();          /* animal/zako11e/zako11e.c     */
 void *NewZakoCommander_800DAF38();      /* animal/zako11e/zk11ecom.c    */
@@ -530,6 +531,7 @@ void *NewWire_800D709C();               /* onoda/s04b/wire.c            */
 void *NewBreakObject();                 /* takabe/breakobj.c            */
 void *NewCameraShake();                 /* takabe/camshake.c            */
 void *NewZoom_800DFA88();               /* takabe/cat_in.c              */
+void *s08b_chair_800DAB50();            /* takabe/chair.c               */
 void *NewCinemaScreenSet();             /* takabe/cinema.c              */
 void *NewDoor2_800DD9E4();              /* takabe/door2.c               */
 void *NewDummyFloor_800D6BF8();         /* takabe/dummy_fl.c            */
@@ -563,10 +565,13 @@ void *s19b_jeep_srl_800CE36C();         /* takabe/jeep_srl.c            */
 void *NewLifeUp_800DF428();             /* takabe/life_up.c             */
 void *NewLift_800DE25C();               /* takabe/lift.c                */
 void *NewMirror_800E085C();             /* takabe/mirror.c              */
+void *NewMonitor1_800DCDE0();           /* takabe/monitor1.c            */
 void *NewMosaic_800DCABC();             /* takabe/mosaic.c              */
 void *NewO2Damage_800DE9C8();           /* takabe/o2_damge.c            */
 void *NewPadDemo();                     /* takabe/pad_demo.c            */
 void *NewPanel_800D2680();              /* takabe/panel.c               */
+void *NewPanel2_800E1728();             /* takabe/panel2.c              */
+void *s08b_paper_800DB87C();            /* takabe/paper.c               */
 void *NewPutObject_800E25C0();          /* takabe/put_obj.c             */
 void *NewRasen2_800CB008();             /* takabe/rasen.c               */
 void *NewRasenEl_800CCF38();            /* takabe/rasen_el.c            */
