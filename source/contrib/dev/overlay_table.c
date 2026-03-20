@@ -7,9 +7,6 @@ CHARA _StageCharacterEntries[] = {
     CHARA_ASIOTO,
     CHARA_FADE_IN_OUT,
     CHARA_DYNAMIC_SEGMENT,      /* chara 透明壁 */
-    CHARA_FADEIO_0003,
-    CHARA_FADEIO_0004,
-    { 0x0028, NewSepia_800C4F9C }, // WRONG!! 0x0028 is NewSepia_800C5214
     CHARA_SELECT,
     CHARA_VIB_EDIT,
     CHARA_RIPPLES,
@@ -35,6 +32,10 @@ CHARA _StageCharacterEntries[] = {
     CHARA_TELOP_SET,            /* chara テロップ */
     CHARA_BUBBLE_S,             /* chara 泡 */
     CHARA_O2_DAMAGE,
+
+    CHARA_FADEIO_0003,
+    CHARA_FADEIO_0004,
+    { 0x0028, NewSepia_800C4F9C }, // WRONG!! 0x0028 is NewSepia_800C5214
 
     CHARA_END
 };
