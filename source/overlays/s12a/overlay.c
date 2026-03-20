@@ -20,7 +20,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_CLAYMORE,     /* chara クレイモア地雷 */
     CHARA_WALL,         /* chara 障害物 */
     CHARA_DYNAMIC_SEGMENT, /* chara 透明壁 */
-    CHARA_LIFE_UP
+    CHARA_LIFE_UP,
     CHARA_CAT_IN,       // duplicate
 
     CHARA_FADEIO_0003,
