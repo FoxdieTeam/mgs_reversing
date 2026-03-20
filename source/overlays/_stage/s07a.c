@@ -14,5 +14,6 @@ CHARA _StageCharacterEntries[] = {
     CHARA_LAMP,
     CHARA_CINEMA,       /* chara シネマスクリーン */
     CHARA_CAT_IN,
+
     CHARA_END
 };

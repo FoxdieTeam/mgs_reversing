@@ -22,5 +22,6 @@ CHARA _StageCharacterEntries[] = {
     CHARA_FURNACE,
     CHARA_SHAKE_MODEL,
     CHARA_DYNAMIC_SEGMENT, /* chara 透明壁 */
+
     CHARA_END
 };

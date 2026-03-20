@@ -1,12 +1,10 @@
 #include "common.h"
 #include "charadef.h"
 
-extern void *NewCamera_800CF388();
+CHARA _StageCharacterEntries[] = {
+    CHARA_CAMERA_JPEG,  /* chara ＪＰＥＧ */
 
-CHARA _StageCharacterEntries[] =
-{
-    { CHARAID_CAMERA_JPEG, (NEWCHARA)NewCamera_800CF388 },
-    { 0, NULL }
+    CHARA_END
 };
 
 int camera_dword_800C3218 = 0x0000530C;

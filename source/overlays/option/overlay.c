@@ -2,8 +2,9 @@
 #include "charadef.h"
 
 CHARA _StageCharacterEntries[] = {
-    { 0x976c, (NEWCHARA)0x800C9344 },   // NewOption_800C9344
-    { 0, NULL }
+    CHARA_OPT,
+
+    CHARA_END
 };
 
 int dword_800C3218 = 0x00000000;

@@ -12,5 +12,6 @@ CHARA _StageCharacterEntries[] = {
     CHARA_INTR_CAM,
     CHARA_CAT_IN,
     CHARA_MOTION_SE,
+
     CHARA_END
 };

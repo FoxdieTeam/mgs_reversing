@@ -28,5 +28,6 @@ CHARA _StageCharacterEntries[] = {
     CHARA_SNOW,         /* chara 雪 */
     CHARA_WALL,         /* chara 障害物 */
     CHARA_FADE_IN_OUT,
+
     CHARA_END
 };

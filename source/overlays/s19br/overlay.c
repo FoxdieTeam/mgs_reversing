@@ -2,16 +2,17 @@
 #include "charadef.h"
 
 CHARA _StageCharacterEntries[] = {
-    { 0xeced, (NEWCHARA)0x800C4268 },   // s19b_asioto_800C4268
-    { 0x51c6, (NEWCHARA)0x800DCECC },   // NewZoom_800DFA88
+    CHARA_PAUSE,
+    CHARA_CAT_IN,
     { 0x92bc, (NEWCHARA)0x800C483C },   // s19b_asioto_800C483C (NewAsioto_800C3E08)
-    { 0x6a48, (NEWCHARA)0x800CE36C },   // s19b_jeep_srl_800CE36C
-    { 0xa27e, (NEWCHARA)0x800C95E4 },   // s19b_jdrum_800C95E4
-    { 0x2477, (NEWCHARA)0x800C4EC0 },   // s19b_jeep_emy_800C4EC0
-    { 0x0dc9, (NEWCHARA)0x800DC510 },   // NewVoicesys_800CE944
+    CHARA_JEEP_SRL,
+    CHARA_JDRUM,
+    CHARA_JEEP_EMY,
+    CHARA_VOICE_SYSTEM,
     { 0xd6fb, (NEWCHARA)0x800CB120 },   // s19b_fog_800CB120 (NewFog_800D4208)
     { 0xa12e, (NEWCHARA)0x800DABEC },   // s19b_fadeio_800DABEC (NewFadeIo_800C42BC)
-    { 0, NULL }
+
+    CHARA_END
 };
 
 int s19b_dword_800C3258 = 0x02070001;

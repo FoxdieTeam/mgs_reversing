@@ -19,5 +19,6 @@ CHARA _StageCharacterEntries[] = {
     CHARA_GUNCAME,
     CHARA_PAD_DEMO,     /* chara パッドデモ */
     CHARA_GAS_EFFECT,
+
     CHARA_END
 };

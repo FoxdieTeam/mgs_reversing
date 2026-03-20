@@ -30,5 +30,6 @@ CHARA _StageCharacterEntries[] = {
     CHARA_GAS_DAMAGE,
     CHARA_ELEVATOR_PANEL,
     CHARA_SHUTER,       /* chara シャッター */
+
     CHARA_END
 };

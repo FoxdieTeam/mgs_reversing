@@ -39,5 +39,6 @@ CHARA _StageCharacterEntries[] = {
     CHARA_BUBBLE_S,             /* chara 泡 */
     CHARA_O2_DAMAGE,
     CHARA_FADE_IN_OUT,          // duplicate
+
     CHARA_END
 };
