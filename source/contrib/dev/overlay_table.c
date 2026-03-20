@@ -20,11 +20,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_CAT_IN,
     CHARA_CINEMA,               /* chara シネマスクリーン */
     CHARA_PAD_DEMO,             /* chara パッドデモ */
-    CHARA_DYNAMIC_SEGMENT,      // duplicate
-    CHARA_ASIOTO,               // duplicate
     CHARA_ASIATOKUN,            /* chara 足跡君 */
-    CHARA_WALL,                 // duplicate
-    CHARA_SHAKE_MODEL,          // duplicate
     CHARA_PATO_LAMP,            /* chara パトランプ */
     CHARA_COMMANDER,            /* chara コマンダー */
     CHARA_WT_AREA,
@@ -38,7 +34,6 @@ CHARA _StageCharacterEntries[] = {
     CHARA_TELOP_SET,            /* chara テロップ */
     CHARA_BUBBLE_S,             /* chara 泡 */
     CHARA_O2_DAMAGE,
-    CHARA_FADE_IN_OUT,          // duplicate
 
     CHARA_END
 };
