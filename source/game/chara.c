@@ -6,8 +6,6 @@
 #include "libgcl/libgcl.h"
 #include "linkvar.h"
 
-extern GCL_Vars gGcl_vars_800B3CC8;
-
 extern CHARA MainCharacterEntries[];    /* in main.c */
 extern CHARA _StageCharacterEntries[];  /* only visible when built-in */
 

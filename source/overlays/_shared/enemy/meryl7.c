@@ -67,7 +67,7 @@ int s07a_meryl7_800D50F8( WatcherWork* work )
             }
             return 1;
         case 0xF1BD:
-            work->hom->flag = 0 ;
+            work->hom->flag = FALSE ;
             work->alert_level = 0 ;
             GM_ConfigControlAttribute( &(work->control), 0 ) ;
             work->visible = 0 ;
@@ -97,7 +97,7 @@ void s07a_meryl7_800D528C( WatcherWork* work )
     {
         if ( work->faseout == 0 )
         {
-            work->hom->flag = 0 ;
+            work->hom->flag = FALSE ;
             work->alert_level = 0 ;
             GM_ConfigControlAttribute( &(work->control), 0 ) ;
             work->visible = 0 ;

@@ -1383,11 +1383,11 @@ void s00a_command_800C82B0( WatcherWork *work )
 
     if ( work->target->class & TARGET_POWER )
     {
-        work->hom->flag = 1;
+        work->hom->flag = TRUE;
     }
     else
     {
-        work->hom->flag = 0;
+        work->hom->flag = FALSE;
     }
 
     if ( unk->field_04 < 0 && ctrl->level_flag )

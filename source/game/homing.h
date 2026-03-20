@@ -7,23 +7,23 @@
 #include "game/control.h"
 
 #ifdef VR_EXE
-#define HOMING_ARRAY_LENGTH 64
+#define NUM_HOMING_TARGETS 64
 #else
-#define HOMING_ARRAY_LENGTH 8
+#define NUM_HOMING_TARGETS 8
 #endif
 
 typedef struct HOMING
 {
-    MATRIX     *matrix;
-    CONTROL    *control;
-    int         flag;           // alive
-    int         auto_aimable;
+    MATRIX  *world;
+    CONTROL *control;
+    int      flag;
+    int      used;
 } HOMING;
 
-void GM_ResetHomingTargets(void);
-HOMING *GM_AllocHomingTarget(MATRIX *matrix, CONTROL *control);
-void GM_FreeHomingTarget(HOMING *homing);
-void GM_GetHomingTarget(MATRIX *matrix, int vecY, int *pRetY, int *pRetX, int mapBit);
-void GM_GetHomingTarget2(MATRIX *matrix, int vecY, int *pRetY, int *pRetX, int mapBit, int max_dist, int min_angle);
+void    GM_ResetHomingTargets(void);
+HOMING *GM_AllocHomingTarget(MATRIX *world, CONTROL *control);
+void    GM_FreeHomingTarget(HOMING *hom);
+void    GM_GetHomingTarget(MATRIX *world, int ang, int *yaw, int *pitch, int map);
+void    GM_GetHomingTarget2(MATRIX *world, int ang, int *yaw, int *pitch, int map, int max_dist, int max_ang);
 
 #endif // __MGS_GAME_HOMING_H__
