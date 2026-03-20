@@ -17,11 +17,13 @@
 #include "memcard/memcard.h"
 #include "game/game.h"
 
-#include "strcode.h"
-#include "charalst.h"
-
 unsigned int _ramsize = 0x200000; //  2MB ram size
 unsigned int _stacksize = 0x8000; // 32KB stack size
+
+/*--------------------------------------------------------------------------*/
+
+#define DECLARE_NEWCHARA_PROTOS
+#include "charalst.h"
 
 CHARA MainCharacterEntries[] = {
     CHARA_SNAKE,        /* chara スネーク */
@@ -46,6 +48,8 @@ const char *MGS_MemoryCardName = {
     "BISLPM-86247"
 #endif
 };
+
+/*--------------------------------------------------------------------------*/
 
 //static long GameStack[512];
 //static long SdStack[512];

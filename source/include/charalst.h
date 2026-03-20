@@ -389,16 +389,12 @@
 /*---------------------------------------------------------------------------*/
 /*  NEWCHARA external declarations                                           */
 /*---------------------------------------------------------------------------*/
+#ifdef DECLARE_NEWCHARA_PROTOS
 
 // XXX You CAN NOT let any code that knows the real signatures of these
 // XXX functions see these prototypes!! These declarations are meant to
 // XXX match the signature of NEWCHARA so we can compile CHARA tables
 // XXX without warnings about incompatible pointer types.
-// XXX
-// XXX TODO: Include all the proper headers and pre-emptively cast the
-// XXX CHARA.func fields to (NEWCHARA) in the defines section above.
-// XXX
-// XXX Or just leave it since nobody has the patience for that...
 
 void *AN_Breath();                      /* --> anime/animconv/anime.c   */
 void *AN_Smoke_800CE164();              /* --> anime/animconv/anime.c   */
@@ -600,4 +596,5 @@ void *NewEmitter();                     /* thing/emitter.c              */
 void *NewSnow();                        /* thing/snow.c                 */
 void *NewSphere();                      /* thing/sphere.c               */
 
+#endif // DECLARE_NEWCHARA_PROTOS
 #endif // __MGS_CHARALST_H__
