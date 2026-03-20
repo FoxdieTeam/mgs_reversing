@@ -31,7 +31,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_KOGAKU3,
     CHARA_FOCUS,
     { 0x0023, (NEWCHARA)0x800D6AF4 },   // s08b_d_bloods_800D6AF4
-    CHARA_BLOOD_BL,
+    { 0x0025, (NEWCHARA)0x800D8D84 },   // s08b_blur_800D8D84 (NewBlur_800CD530)
     CHARA_KATANA,
     CHARA_GAS_EFCT,
     CHARA_TELOP_004C,
