@@ -1,3 +1,4 @@
+#define DECLARE_NEWCHARA_PROTOS
 #include "charalst.h"
 
 CHARA _StageCharacterEntries[] = {
@@ -5,5 +6,6 @@ CHARA _StageCharacterEntries[] = {
     CHARA_MOVIE_3453,
     CHARA_ED_TELOP,
     CHARA_ED_TELOP_B757,
+
     CHARA_END
 };

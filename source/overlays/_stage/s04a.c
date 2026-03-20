@@ -1,3 +1,4 @@
+#define DECLARE_NEWCHARA_PROTOS
 #include "charalst.h"
 
 CHARA _StageCharacterEntries[] = {
@@ -15,5 +16,6 @@ CHARA _StageCharacterEntries[] = {
     CHARA_CAT_IN,
     CHARA_VIBRATE,      /* chara パッド振動 */
     CHARA_DYNAMIC_SEGMENT, /* chara 透明壁 */
+
     CHARA_END
 };

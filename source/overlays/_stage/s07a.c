@@ -1,3 +1,4 @@
+#define DECLARE_NEWCHARA_PROTOS
 #include "charalst.h"
 
 CHARA _StageCharacterEntries[] = {
@@ -14,5 +15,6 @@ CHARA _StageCharacterEntries[] = {
     CHARA_LAMP,
     CHARA_CINEMA,       /* chara シネマスクリーン */
     CHARA_CAT_IN,
+
     CHARA_END
 };

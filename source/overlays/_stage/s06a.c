@@ -1,3 +1,4 @@
+#define DECLARE_NEWCHARA_PROTOS
 #include "charalst.h"
 
 CHARA _StageCharacterEntries[] = {
@@ -23,5 +24,6 @@ CHARA _StageCharacterEntries[] = {
     CHARA_CAMERA_SHAKE,
     CHARA_BLINK_TX,
     CHARA_DYNAMIC_SEGMENT, /* chara 透明壁 */
+
     CHARA_END
 };

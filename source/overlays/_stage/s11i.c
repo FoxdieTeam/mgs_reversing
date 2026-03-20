@@ -1,4 +1,5 @@
 #include "common.h"
+#define DECLARE_NEWCHARA_PROTOS
 #include "charalst.h"
 
 CHARA _StageCharacterEntries[] = {
@@ -17,6 +18,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_SPHERE,       /* chara 天球 */
     CHARA_HIND2,
     CHARA_DMYWALL,      /* chara 塗り壁 */
+
     CHARA_END
 };
 

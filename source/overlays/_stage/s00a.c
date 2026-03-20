@@ -1,3 +1,4 @@
+#define DECLARE_NEWCHARA_PROTOS
 #include "charalst.h"
 
 CHARA _StageCharacterEntries[] = {
@@ -28,5 +29,6 @@ CHARA _StageCharacterEntries[] = {
     CHARA_BUBBLE_S,     /* chara 泡 */
     CHARA_O2_DAMAGE,
     CHARA_FADE_IN_OUT,
+
     CHARA_END
 };
