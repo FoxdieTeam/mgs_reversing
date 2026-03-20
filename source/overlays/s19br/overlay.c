@@ -1,5 +1,5 @@
 #include "common.h"
-#include "charadef.h"
+#include "charalst.h"
 
 CHARA _StageCharacterEntries[] = {
     CHARA_PAUSE,
