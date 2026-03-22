@@ -117,6 +117,8 @@
 #define PCX_RCM_L               0x479f // GV_StrCode( "rcm_l" )
 #define PCX_W_BONBORI           0xa9cd // GV_StrCode( "w_bonbori" )
 #define PCX_DOOR2               0x50eb // GV_StrCode( "door2" )
+#define PCX_CD_WARN             0xa0f4 // GV_StrCode( "cd_warn" )
+#define PCX_CD_KEIKOKU          0xa1bc // GV_StrCode( "cd_keikoku" )
 
 //-----------------------------------------------------------------------------
 // Model files (.kmd)
@@ -146,6 +148,7 @@
 #define KMD_KAGE                0x117c // GV_StrCode( "kage" )
 #define KMD_IPPANHEI            0x96b6 // GV_StrCode( "ippanhei" )
 #define KMD_BOX_01              0x4d5f // GV_StrCode( "box_01" )
+#define KMD_LOW_109P            0xff15 // GV_StrCode( "low_109p" )
 
 // Stage s00a/d00a (docks)
 #define KMD_SNE_WET2            0x7693 // GV_StrCode( "sne_wet2" )
