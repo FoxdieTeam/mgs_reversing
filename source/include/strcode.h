@@ -165,7 +165,7 @@
 
 #define CHARAID_MOSAIC          0x0065  // GV_StrCode("モザイク")
 #define CHARAID_ASIATOKUN       0x02c4  // GV_StrCode("足跡君")
-#define CHARAID_UNKNOWN_03BF    0x03bf  //
+#define CHARAID_03BF            0x03bf  //
 #define CHARAID_SHUTER          0x03d9  // GV_StrCode("シャッター")
 #define CHARAID_RANK            0x04f2  //
 #define CHARAID_REVOLVER_050C   0x050c  //
@@ -186,7 +186,7 @@
 #define CHARAID_11G_DEMO        0x153e  //
 #define CHARAID_P_LAMP          0x169c  //
 #define CHARAID_SMOKE           0x170c  // GV_StrCode("煙")
-#define CHARAID_UNKNOWN_173C    0x173c  //
+#define CHARAID_173C            0x173c  //
 #define CHARAID_SMKTRGT         0x175b  //
 #define CHARAID_HIND_1787       0x1787  //
 #define CHARAID_BG_SP           0x17f5  //
@@ -218,10 +218,10 @@
 #define CHARAID_MOVIE_3453      0x3453  //
 #define CHARAID_DEMOSEL         0x3686  //
 #define CHARAID_OPENA           0x3ac3  //
-#define CHARAID_UNKNOWN_3AD2    0x3ad2  //
+#define CHARAID_3AD2            0x3ad2  //
 #define CHARAID_CLAYMORE        0x3c0c  // GV_StrCode("クレイモア地雷")
 #define CHARAID_KOBA_WINMNGR    0x3d26  //
-#define CHARAID_UNKNOWN_3D78    0x3d78  //
+#define CHARAID_3D78            0x3d78  //
 #define CHARAID_PAD_DEMO        0x3ed7  // GV_StrCode("パッドデモ")
 #define CHARAID_ENV_SOUND       0x3f9a  //
 #define CHARAID_PLAY_DEMO       0x3f9d  //
@@ -248,7 +248,7 @@
 #define CHARAID_CAT_IN          0x51c6  //
 #define CHARAID_KIKEN           0x52bf  //
 #define CHARAID_MOVIE_5345      0x5345  //
-#define CHARAID_UNKNOWN_53C7    0x53c7  //
+#define CHARAID_53C7            0x53c7  //
 #define CHARAID_VRBOX2_548E     0x548e  // GV_StrCode("ＶＲＢＯＸ２")
 #define CHARAID_VRBOX2_548F     0x548f  // GV_StrCode("ＶＲＢＯＸ３")
 #define CHARAID_VRBOX_5490      0x5490  // GV_StrCode("ＶＲＢＯＸ４")
@@ -315,7 +315,7 @@
 #define CHARAID_ZK19COM         0x8e88  // GV_StrCode("ざこ１９コマンダー")
 #define CHARAID_POCKET_8FDC     0x8fdc  //
 #define CHARAID_SNOWAREA        0x901e  //
-#define CHARAID_UNKNOWN_9093    0x9093  // GV_StrCode("ブラー") ???
+#define CHARAID_9093            0x9093  // GV_StrCode("ブラー") ???
 #define CHARAID_ITEM_DOT        0x917b  //
 #define CHARAID_PUTHZD          0x91aa  //
 #define CHARAID_LIFT2           0x921b  // GV_StrCode("リフト２")
@@ -347,12 +347,12 @@
 #define CHARAID_ZAKO11E         0xa60c  // GV_StrCode("ざこ１１ｅ")
 #define CHARAID_ZAKO11F         0xa60d  // GV_StrCode("ざこ１１ｆ")
 #define CHARAID_SNOWSTORM       0xa6f5  // GV_StrCode("雪嵐")
-#define CHARAID_UNKNOWN_A6F6    0xa6f6  //
+#define CHARAID_A6F6            0xa6f6  //
 #define CHARAID_PSYCO           0xa76f  // GV_StrCode("サイコマンティス")
 #define CHARAID_SNE17A          0xa791  //
 #define CHARAID_GUNCAME         0xa9c5  //
 #define CHARAID_EMITTER2        0xa9dd  //
-#define CHARAID_UNKNOWN_AA13    0xaa13  //
+#define CHARAID_AA13            0xaa13  //
 #define CHARAID_RASEN_EL        0xaa21  //
 #define CHARAID_FURNACE         0xadd8  //
 #define CHARAID_NOBU_WINMNGR    0xae06  //
@@ -365,7 +365,7 @@
 #define CHARAID_BG_ST2          0xb033  //
 #define CHARAID_DYNAMIC_SEGMENT 0xb103  // GV_StrCode("透明壁")
 #define CHARAID_SNAKE_E1        0xb162  //
-#define CHARAID_UNKNOWN_B30A    0xb30a  //
+#define CHARAID_B30A            0xb30a  //
 #define CHARAID_PJEEP           0xb47a  //
 #define CHARAID_CANCEL          0xb4e6  // GV_StrCode("デモキャンセル")
 #define CHARAID_DRUM            0xb58d  // GV_StrCode("ドラム缶")
@@ -402,14 +402,14 @@
 #define CHARAID_PAD             0xcbf8  // GV_StrCode("パッドコントロール")
 #define CHARAID_DYNCON          0xcc45  // GV_StrCode("コンテナ")
 #define CHARAID_BG_HEX_P        0xcc89  //
-#define CHARAID_UNKNOWN_CCD3    0xccd3  //
-#define CHARAID_UNKNOWN_CF00    0xcf00  //
+#define CHARAID_CCD3            0xccd3  //
+#define CHARAID_CF00            0xcf00  //
 #define CHARAID_AB_CH           0xcf72  //
 #define CHARAID_OPEN            0xcf79  // GV_StrCode("タイトル")
 #define CHARAID_OPENP           0xcfef  //
 #define CHARAID_BACKGROUND      0xd07f  // GV_StrCode("ＶＲ背景")
 #define CHARAID_SELECT          0xd2f6  //
-#define CHARAID_UNKNOWN_D3C0    0xd3c0  //
+#define CHARAID_D3C0            0xd3c0  //
 #define CHARAID_VRWINDOW        0xd44e  // GV_StrCode("ＶＲウィンドウ")
 #define CHARAID_MOUSE           0xd4a5  //
 #define CHARAID_11B_DEMO        0xd53c  //
