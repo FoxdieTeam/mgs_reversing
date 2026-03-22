@@ -10,12 +10,12 @@ CHARA _StageCharacterEntries[] = {
     CHARA_CAMERA_SHAKE,
     CHARA_CAT_IN,
     CHARA_CINEMA,       /* chara シネマスクリーン */
-    CHARA_PAD_DEMO,     /* chara パッドデモ */
-    CHARA_DYNAMIC_SEGMENT, /* chara 透明壁 */
+    CHARA_PADDEMO,      /* chara パッドデモ */
+    CHARA_DYNAMIC_SEG,  /* chara 透明壁 */
     CHARA_ASIOTO,
     CHARA_ASIATOKUN,    /* chara 足跡君 */
     CHARA_WALL,         /* chara 障害物 */
-    CHARA_SHAKE_MODEL,
+    CHARA_SHAKEMODEL,
     CHARA_PATO_LAMP,    /* chara パトランプ */
     CHARA_COMMANDER,    /* chara コマンダー */
     CHARA_WT_AREA,
@@ -25,10 +25,10 @@ CHARA _StageCharacterEntries[] = {
     CHARA_ELEVATOR,     /* chara エレベータ */
     CHARA_MOUSE,
     CHARA_RSURFACE,
-    CHARA_TELOP_SET,    /* chara テロップ */
+    CHARA_TELOP,        /* chara テロップ */
     CHARA_BUBBLE_S,     /* chara 泡 */
     CHARA_O2_DAMAGE,
-    CHARA_FADE_IN_OUT,
+    CHARA_FADEIO,
 
     CHARA_END
 };

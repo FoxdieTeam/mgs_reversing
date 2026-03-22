@@ -7,11 +7,11 @@ CHARA _StageCharacterEntries[] = {
     CHARA_ASIATOKUN,    /* chara 足跡君 */
     CHARA_BREATH,       /* chara スネーク息 */
     CHARA_CAT_IN,
-    CHARA_FADE_IN_OUT,
+    CHARA_FADEIO,
     CHARA_WOLF2,        /* chara ウルフ */
-    CHARA_FIND_TRAP,
+    CHARA_FINDTRAP,
     CHARA_LAMP,
-    CHARA_MOVIE_3453,
+    CHARA_3453_MOVIE,
     CHARA_CINEMA,       /* chara シネマスクリーン */
     CHARA_SNOW,         /* chara 雪 */
     CHARA_SNOWSTORM,    /* chara 雪嵐 */
@@ -19,22 +19,22 @@ CHARA _StageCharacterEntries[] = {
     CHARA_GUNCAME,
     CHARA_CLAYMORE,     /* chara クレイモア地雷 */
     CHARA_WALL,         /* chara 障害物 */
-    CHARA_DYNAMIC_SEGMENT, /* chara 透明壁 */
+    CHARA_DYNAMIC_SEG,  /* chara 透明壁 */
     CHARA_LIFE_UP,
     CHARA_CAT_IN,       // duplicate
 
-    CHARA_FADEIO_0003,
-    CHARA_FADEIO_0004,
-    CHARA_BLOOD,
-    CHARA_SPLASH,
-    CHARA_UNKNOWN_000E,
-    CHARA_DEMOKAGE,
-    CHARA_KOGAKU2,
-    CHARA_KOGAKU3,
-    CHARA_FOCUS,
-    CHARA_BLOOD_BL,
-    CHARA_UNKNOWN_0035,
-    CHARA_BLURPURE,
+    CHARA_0003_FADEIO,
+    CHARA_0004_FADEIO,
+    CHARA_0009_BLOOD,
+    CHARA_000A_SPLASH,
+    CHARA_000E,
+    CHARA_000F_DEMOKAGE,
+    CHARA_001A_KOGAKU2,
+    CHARA_001B_KOGAKU3,
+    CHARA_0021_FOCUS,
+    CHARA_0025_BLUR,
+    CHARA_0035,
+    CHARA_0044_BLURPURE,
 
     CHARA_END
 };

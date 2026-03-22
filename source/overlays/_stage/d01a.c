@@ -7,18 +7,18 @@ CHARA _StageCharacterEntries[] = {
     CHARA_SMOKE,        /* chara 煙 */
     CHARA_EMITTER,
     CHARA_OBJECT,
-    CHARA_SEARCH_LIGHT, /* chara サーチライト */
+    CHARA_SEARCHLIGHT,  /* chara サーチライト */
     CHARA_SNOW,         /* chara 雪 */
     CHARA_CINEMA,       /* chara シネマスクリーン */
 
-    CHARA_FADEIO_0003,
-    CHARA_FADEIO_0004,
-    CHARA_UNKNOWN_000E,
-    CHARA_DEMOKAGE,
-    CHARA_WINDCIRCLE,
-    CHARA_FOCUS,
-    CHARA_BLOOD_BL,
-    CHARA_FAMASLIT,
+    CHARA_0003_FADEIO,
+    CHARA_0004_FADEIO,
+    CHARA_000E,
+    CHARA_000F_DEMOKAGE,
+    CHARA_001E_WINDCRCL,
+    CHARA_0021_FOCUS,
+    CHARA_0025_BLUR,
+    CHARA_0045_FAMASLIT,
 
     CHARA_END
 };

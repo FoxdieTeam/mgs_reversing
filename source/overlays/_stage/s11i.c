@@ -7,9 +7,9 @@ CHARA _StageCharacterEntries[] = {
     CHARA_CINEMA,       /* chara シネマスクリーン */
     CHARA_BREATH,       /* chara スネーク息 */
     CHARA_WALL,         /* chara 障害物 */
-    CHARA_DYNAMIC_SEGMENT, /* chara 透明壁 */
+    CHARA_DYNAMIC_SEG,  /* chara 透明壁 */
     CHARA_ASIOTO,
-    CHARA_FADE_IN_OUT,
+    CHARA_FADEIO,
     CHARA_LAMP,
     CHARA_SNOW,         /* chara 雪 */
     CHARA_SNOWSTORM,    /* chara 雪嵐 */

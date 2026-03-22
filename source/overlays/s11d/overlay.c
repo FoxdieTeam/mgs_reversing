@@ -3,12 +3,12 @@
 
 CHARA _StageCharacterEntries[] = {
     CHARA_ASIOTO,
-    CHARA_FADE_IN_OUT,
+    CHARA_FADEIO,
     CHARA_SNOW,         /* chara 雪 */
     CHARA_SPHERE,       /* chara 天球 */
     CHARA_LAMP,
     CHARA_ROPE,
-    CHARA_HIND_11E9,
+    CHARA_11E9_HIND,
     CHARA_DSMOKE2,
     CHARA_LANDING,
     CHARA_PIPE,

@@ -2,14 +2,14 @@
 #include "charalst.h"
 
 CHARA _StageCharacterEntries[] = {
-    CHARA_SHAKE_MODEL,
+    CHARA_SHAKEMODEL,
     CHARA_WALL,         /* chara 障害物 */
     CHARA_GAS_EFFECT,
     CHARA_VIBRATE,      /* chara パッド振動 */
     CHARA_CAMERA_SHAKE,
     CHARA_GUNCAME,
     CHARA_ASIOTO,
-    CHARA_FADE_IN_OUT,
+    CHARA_FADEIO,
     CHARA_LAMP,
     CHARA_PATO_LAMP,    /* chara パトランプ */
     CHARA_COMMANDER,    /* chara コマンダー */
@@ -21,8 +21,8 @@ CHARA _StageCharacterEntries[] = {
     CHARA_SMKTRGT,
     CHARA_CAT_IN,
     CHARA_FURNACE,
-    CHARA_SHAKE_MODEL,
-    CHARA_DYNAMIC_SEGMENT, /* chara 透明壁 */
+    CHARA_SHAKEMODEL,   // duplicate
+    CHARA_DYNAMIC_SEG,  /* chara 透明壁 */
 
     CHARA_END
 };
