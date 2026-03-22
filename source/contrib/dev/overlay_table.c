@@ -33,8 +33,8 @@ CHARA _StageCharacterEntries[] = {
     CHARA_BUBBLE_S,             /* chara 泡 */
     CHARA_O2_DAMAGE,
 
-    CHARA_FADEIO_0003,
-    CHARA_FADEIO_0004,
+    CHARA_0003_FADEIO,
+    CHARA_0004_FADEIO,
     { 0x0028, NewSepia_800C4F9C }, // WRONG!! 0x0028 is NewSepia_800C5214
 
     CHARA_END

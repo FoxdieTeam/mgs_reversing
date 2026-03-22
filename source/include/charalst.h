@@ -309,82 +309,82 @@
 #define CHARA_VIBRATE           { 0xfed1, NewVibration }            // GV_StrCode("パッド振動") game/vibrate.c
 
 /*--- Polygon Demo Charas ---*/
-#define CHARA_BLAST             { 0x0001, ? }                       // bullet/blast.c
-#define CHARA_UNKNOWN_0002      { 0x0002, ? }                       // --> anime/animconv/anime.c
-#define CHARA_FADEIO_0003       { 0x0003, NewFadeIo_800C4224 }      // takabe/fadeio.c
-#define CHARA_FADEIO_0004       { 0x0004, NewFadeIo_800C4224 }      // takabe/fadeio.c
-#define CHARA_TELOP_0005        { 0x0005, NewTelop_800DDD7C }       // takabe/telop.c
-#define CHARA_UNKNOWN_0006      { 0x0006, ? }                       // --> anime/animconv/anime.c (PC-ONLY)
-#define CHARA_UNKNOWN_0007      { 0x0007, ? }                       // --> anime/animconv/anime.c (PC-ONLY)
-#define CHARA_UNKNOWN_0008      { 0x0008, ? }                       // --> anime/animconv/anime.c (PC-ONLY)
-#define CHARA_BLOOD             { 0x0009, NewBlood }                // okajima/blood.c
-#define CHARA_SPLASH            { 0x000a, NewSplash_800C8D6C }      // okajima/splash.c
-#define CHARA_BULLET            { 0x000b, NewBulletEx }             // okajima/bullet.c
-#define CHARA_UNKNOWN_000C      { 0x000c, ? }                       // --> anime/animconv/anime.c
-#define CHARA_D_BLOODS          { 0x000d, NewDBloods_800D5B70 }     // okajima/d_bloods.c
-#define CHARA_UNKNOWN_000E      { 0x000e, AN_Breath }               // --> anime/animconv/anime.c
-#define CHARA_DEMOKAGE          { 0x000f, NewDemoKage_800C48A4 }    // enemy/demokage.c
-#define CHARA_DEMOASI           { 0x0010, NewDemoasi_800C414C }     // enemy/demoasi.c
-#define CHARA_UNKNOWN_0011      { 0x0011, s08c_800C4194 }           // --> anime/animconv/anime.c
-#define CHARA_BUBBLE_T          { 0x0012, NewBubbleT_800DA380 }     // okajima/bubble_t.c
-#define CHARA_BUBBLE_P          { 0x0013, NewBubbleP_800D9D94 }     // okajima/bubble_p.c
-#define CHARA_SCOPE_0014        { 0x0014, NewScope }                // equip/scope.c
-#define CHARA_GOGGLE            { 0x0015, NewGoggle }               // takabe/goggle.c
-#define CHARA_GGLSIGHT          { 0x0016, NewGoggleSight }          // equip/gglsight.c
-#define CHARA_GOGGLE_IR         { 0x0017, NewGoggleIr }             // takabe/goggleir.c
-#define CHARA_GOGGLE_SIGHT      { 0x0018, NewGoggleSight }          // equip/gglsight.c
-#define CHARA_UNKNOWN_0019      { 0x0019, ? }                       // --> anime/animconv/anime.c (PC-ONLY)
-#define CHARA_KOGAKU2           { 0x001a, NewKogaku2 }              // equip/kogaku2.c
-#define CHARA_KOGAKU3           { 0x001b, NewKogaku3 }              // equip/kogaku2.c
-#define CHARA_ENVMAP3           { 0x001c, NewEnvmap3_800CA3A4 }     // takabe/envmap3.c
-#define CHARA_PLASMA_001D       { 0x001d, ? }                       // okajima/plasma.c
-#define CHARA_WINDCIRCLE        { 0x001e, NewWindcrcl_800CF6BC }    // takabe/windcrcl.c
-#define CHARA_SEPIA_001F        { 0x001f, NewSepia_800C4F9C }       // takabe/sepia.c
-#define CHARA_MGREXLZR          { 0x0020, ? }                       // kojo/mgrexlzr.c
-#define CHARA_FOCUS             { 0x0021, NewFocus_800CEFF8 }       // takabe/focus.c
-#define CHARA_GASMASK_SIGHT     { 0x0022, ? }                       // equip/gmsight.c
-#define CHARA_D_BLOODS_0023     { 0x0023, ? }                       // okajima/d_bloods.c
-#define CHARA_PLASMA_0024       { 0x0024, ? }                       // okajima/plasma.c
-#define CHARA_BLOOD_BL          { 0x0025, NewBlur_800CD530 }        // okajima/blood_bl.c
-#define CHARA_UNKNOWN_0026      { 0x0026, ? }                       // --> anime/animconv/anime.c (PC-ONLY)
-#define CHARA_UNKNOWN_0027      { 0x0027, ? }                       // --> anime/animconv/anime.c
-#define CHARA_SEPIA_0028        { 0x0028, NewSepia_800C5214 }       // takabe/sepia.c
-#define CHARA_RFSIGHT           { 0x0029, ? }                       // weapon/rfsight.c (PC-ONLY)
-#define CHARA_UNKNOWN_002A      { 0x002a, ? }                       // ???
-#define CHARA_D_BLOODS_002B     { 0x002b, NewDBloods_800D5B70 }     // okajima/d_bloods.c
-#define CHARA_SIGHT             { 0x002c, ? }                       // thing/sight.c (PC-ONLY)
-#define CHARA_KATANA            { 0x002d, NewKatana_800C5660 }      // enemy/katana.c
-#define CHARA_SUB_ROOM          { 0x002e, NewSubRoom_800C815C }     // okajima/sub_room.c
-#define CHARA_UNKNOWN_002F      { 0x002f, AN_Smoke_800CE164 }       // ???
-#define CHARA_BLST_LN           { 0x0030, ? }                       // okajima/blst_ln.c
-#define CHARA_SMKE_LN           { 0x0031, NewSmokeLn_800CDFA4 }     // okajima/smke_ln.c
-#define CHARA_M1E1SMKE          { 0x0032, ? }                       // kojo/m1e1smke.c
-#define CHARA_UNKNOWN_0033      { 0x0033, demothrd_2_8007DA94 }     // --> anime/animconv/anime.c
-#define CHARA_UNKNOWN_0034      { 0x0034, ? }                       // --> anime/animconv/anime.c (PC-ONLY)
-#define CHARA_UNKNOWN_0035      { 0x0035, NewAnime_8005E574 }       // --> anime/animconv/anime.c
-#define CHARA_UNKNOWN_0036      { 0x0036, NewAnime_8005E6A4 }       // --> anime/animconv/anime.c
-#define CHARA_RED_ALERT_0037    { 0x0037, NewRedAlert2_800C4E84 }   // okajima/red_alrt.c
-#define CHARA_RED_ALERT_0038    { 0x0038, RedAlert_800C4F48 }       // okajima/red_alrt.c
-#define CHARA_CRSH_SMK          { 0x0039, ? }                       // okajima/crsh_smk.c
-#define CHARA_CELOFAN           { 0x003a, ? }                       // kojo/celofan.c (PC-ONLY)
-#define CHARA_INVERLT           { 0x003b, ? }                       // kojo/inverlt.c
-#define CHARA_SPARK2            { 0x003c, NewSpark2_800CA714 }      // takabe/spark2.c
-#define CHARA_SPARK             { 0x003d, NewSpark }                // okajima/spark.c
-#define CHARA_UNKNOWN_003E      { 0x003e, ? }                       // --> anime/animconv/anime.c
-#define CHARA_INVERLT2          { 0x003f, NewInverlt2_800D0FF4 }    // kojo/inverlt2.c
-#define CHARA_CELOFAN2          { 0x0040, ? }                       // kojo/celofan2.c (PC-ONLY)
-#define CHARA_NINJALZR          { 0x0041, ? }                       // kojo/ninjalzr.c
-#define CHARA_GAS_EFCT          { 0x0042, NewGasEffect_800C4EF8 }   // takabe/gas_efct.c
-#define CHARA_SUB_EFFECT        { 0x0043, NewSubEfct_800CCB10 }     // takabe/sub_efct.c
-#define CHARA_BLURPURE          { 0x0044, NewBlurPure_800C54D4 }    // okajima/blurpure.c
-#define CHARA_FAMASLIT          { 0x0045, NewFamasLight }           // kojo/famaslit.c
-#define CHARA_REALSHDW          { 0x0046, ? }                       // takabe/realshdw.c (PC-ONLY)
-#define CHARA_BLOOD_HZD         { 0x0047, ? }                       // kojo/bloodhzd.c
-#define CHARA_BLOOD_DRP         { 0x0048, ? }                       // kojo/blooddrp.c
-#define CHARA_WINDCRCL_0049     { 0x0049, ? }                       // takabe/windcrcl.c
-#define CHARA_BOMBLED           { 0x004a, NewBombLed }              // animal/liquid/bombled.c
-#define CHARA_METAL_GEAR_ROOM   { 0x004b, NewMgRoom_800DB458 }      // okajima/mg_room.c
-#define CHARA_TELOP_004C        { 0x004c, NewTelop2_800DDC60 }      // takabe/telop.c
+#define CHARA_0001_BLAST        { 0x0001, ? }                       // bullet/blast.c
+#define CHARA_0002              { 0x0002, ? }                       // --> anime/animconv/anime.c
+#define CHARA_0003_FADEIO       { 0x0003, NewFadeIo_800C4224 }      // takabe/fadeio.c
+#define CHARA_0004_FADEIO       { 0x0004, NewFadeIo_800C4224 }      // takabe/fadeio.c
+#define CHARA_0005_TELOP        { 0x0005, NewTelop_800DDD7C }       // takabe/telop.c
+#define CHARA_0006              { 0x0006, ? }                       // --> anime/animconv/anime.c (PC-ONLY)
+#define CHARA_0007              { 0x0007, ? }                       // --> anime/animconv/anime.c (PC-ONLY)
+#define CHARA_0008              { 0x0008, ? }                       // --> anime/animconv/anime.c (PC-ONLY)
+#define CHARA_0009_BLOOD        { 0x0009, NewBlood }                // okajima/blood.c
+#define CHARA_000A_SPLASH       { 0x000a, NewSplash_800C8D6C }      // okajima/splash.c
+#define CHARA_000B_BULLET       { 0x000b, NewBulletEx }             // okajima/bullet.c
+#define CHARA_000C              { 0x000c, ? }                       // --> anime/animconv/anime.c
+#define CHARA_000D_D_BLOODS     { 0x000d, NewDBloods_800D5B70 }     // okajima/d_bloods.c
+#define CHARA_000E              { 0x000e, AN_Breath }               // --> anime/animconv/anime.c
+#define CHARA_000F_DEMOKAGE     { 0x000f, NewDemoKage_800C48A4 }    // enemy/demokage.c
+#define CHARA_0010_DEMOASI      { 0x0010, NewDemoasi_800C414C }     // enemy/demoasi.c
+#define CHARA_0011              { 0x0011, s08c_800C4194 }           // --> anime/animconv/anime.c
+#define CHARA_0012_BUBBLE_T     { 0x0012, NewBubbleT_800DA380 }     // okajima/bubble_t.c
+#define CHARA_0013_BUBBLE_P     { 0x0013, NewBubbleP_800D9D94 }     // okajima/bubble_p.c
+#define CHARA_0014_SCOPE        { 0x0014, NewScope }                // equip/scope.c
+#define CHARA_0015_GOGGLE       { 0x0015, NewGoggle }               // takabe/goggle.c
+#define CHARA_0016_GGLSIGHT     { 0x0016, NewGoggleSight }          // equip/gglsight.c
+#define CHARA_0017_GOGGLEIR     { 0x0017, NewGoggleIr }             // takabe/goggleir.c
+#define CHARA_0018_GGLSIGHT     { 0x0018, NewGoggleSight }          // equip/gglsight.c
+#define CHARA_0019              { 0x0019, ? }                       // --> anime/animconv/anime.c (PC-ONLY)
+#define CHARA_001A_KOGAKU2      { 0x001a, NewKogaku2 }              // equip/kogaku2.c
+#define CHARA_001B_KOGAKU3      { 0x001b, NewKogaku3 }              // equip/kogaku2.c
+#define CHARA_001C_ENVMAP3      { 0x001c, NewEnvmap3_800CA3A4 }     // takabe/envmap3.c
+#define CHARA_001D_PLASMA       { 0x001d, ? }                       // okajima/plasma.c
+#define CHARA_001E_WINDCRCL     { 0x001e, NewWindcrcl_800CF6BC }    // takabe/windcrcl.c
+#define CHARA_001F_SEPIA        { 0x001f, NewSepia_800C4F9C }       // takabe/sepia.c
+#define CHARA_0020_MGREXLZR     { 0x0020, ? }                       // kojo/mgrexlzr.c
+#define CHARA_0021_FOCUS        { 0x0021, NewFocus_800CEFF8 }       // takabe/focus.c
+#define CHARA_0022_GMSIGHT      { 0x0022, ? }                       // equip/gmsight.c
+#define CHARA_0023_D_BLOODS     { 0x0023, ? }                       // okajima/d_bloods.c
+#define CHARA_0024_PLASMA       { 0x0024, ? }                       // okajima/plasma.c
+#define CHARA_0025_BLOOD_BL     { 0x0025, NewBlur_800CD530 }        // okajima/blood_bl.c
+#define CHARA_0026              { 0x0026, ? }                       // --> anime/animconv/anime.c (PC-ONLY)
+#define CHARA_0027              { 0x0027, ? }                       // --> anime/animconv/anime.c
+#define CHARA_0028_SEPIA        { 0x0028, NewSepia_800C5214 }       // takabe/sepia.c
+#define CHARA_0029_RFSIGHT      { 0x0029, ? }                       // weapon/rfsight.c (PC-ONLY)
+#define CHARA_002A              { 0x002a, ? }                       // ???
+#define CHARA_002B_D_BLOODS     { 0x002b, NewDBloods_800D5B70 }     // okajima/d_bloods.c
+#define CHARA_002C_SIGHT        { 0x002c, ? }                       // thing/sight.c (PC-ONLY)
+#define CHARA_002D_KATANA       { 0x002d, NewKatana_800C5660 }      // enemy/katana.c
+#define CHARA_002E_SUB_ROOM     { 0x002e, NewSubRoom_800C815C }     // okajima/sub_room.c
+#define CHARA_002F              { 0x002f, AN_Smoke_800CE164 }       // ???
+#define CHARA_0030_BLST_LN      { 0x0030, ? }                       // okajima/blst_ln.c
+#define CHARA_0031_SMKE_LN      { 0x0031, NewSmokeLn_800CDFA4 }     // okajima/smke_ln.c
+#define CHARA_0032_M1E1SMKE     { 0x0032, ? }                       // kojo/m1e1smke.c
+#define CHARA_0033              { 0x0033, demothrd_2_8007DA94 }     // --> anime/animconv/anime.c
+#define CHARA_0034              { 0x0034, ? }                       // --> anime/animconv/anime.c (PC-ONLY)
+#define CHARA_0035              { 0x0035, NewAnime_8005E574 }       // --> anime/animconv/anime.c
+#define CHARA_0036              { 0x0036, NewAnime_8005E6A4 }       // --> anime/animconv/anime.c
+#define CHARA_0037_RED_ALRT     { 0x0037, NewRedAlert2_800C4E84 }   // okajima/red_alrt.c
+#define CHARA_0038_RED_ALRT     { 0x0038, RedAlert_800C4F48 }       // okajima/red_alrt.c
+#define CHARA_0039_CRSH_SMK     { 0x0039, ? }                       // okajima/crsh_smk.c
+#define CHARA_003A_CELOFAN      { 0x003a, ? }                       // kojo/celofan.c (PC-ONLY)
+#define CHARA_003B_INVERLT      { 0x003b, ? }                       // kojo/inverlt.c
+#define CHARA_003C_SPARK2       { 0x003c, NewSpark2_800CA714 }      // takabe/spark2.c
+#define CHARA_003D_SPARK        { 0x003d, NewSpark }                // okajima/spark.c
+#define CHARA_003E              { 0x003e, ? }                       // --> anime/animconv/anime.c
+#define CHARA_003F_INVERLT2     { 0x003f, NewInverlt2_800D0FF4 }    // kojo/inverlt2.c
+#define CHARA_0040_CELOFAN2     { 0x0040, ? }                       // kojo/celofan2.c (PC-ONLY)
+#define CHARA_0041_NINJALZR     { 0x0041, ? }                       // kojo/ninjalzr.c
+#define CHARA_0042_GAS_EFCT     { 0x0042, NewGasEffect_800C4EF8 }   // takabe/gas_efct.c
+#define CHARA_0043_SUB_EFCT     { 0x0043, NewSubEfct_800CCB10 }     // takabe/sub_efct.c
+#define CHARA_0044_BLURPURE     { 0x0044, NewBlurPure_800C54D4 }    // okajima/blurpure.c
+#define CHARA_0045_FAMASLIT     { 0x0045, NewFamasLight }           // kojo/famaslit.c
+#define CHARA_0046_REALSHDW     { 0x0046, ? }                       // takabe/realshdw.c (PC-ONLY)
+#define CHARA_0047_BLOODHZD     { 0x0047, ? }                       // kojo/bloodhzd.c
+#define CHARA_0048_BLOODDRP     { 0x0048, ? }                       // kojo/blooddrp.c
+#define CHARA_0049_WINDCRCL     { 0x0049, ? }                       // takabe/windcrcl.c
+#define CHARA_004A_BOMBLED      { 0x004a, NewBombLed }              // animal/liquid/bombled.c
+#define CHARA_004B_MG_ROOM      { 0x004b, NewMgRoom_800DB458 }      // okajima/mg_room.c
+#define CHARA_004C_TELOP        { 0x004c, NewTelop2_800DDC60 }      // takabe/telop.c
 
 /*---------------------------------------------------------------------------*/
 /*  NEWCHARA external declarations                                           */

@@ -8,9 +8,9 @@ CHARA _StageCharacterEntries[] = {
     CHARA_FADE_IN_OUT,
     CHARA_DYNAMIC_SEGMENT, /* chara 透明壁 */
 
-    CHARA_FADEIO_0003,
-    CHARA_FADEIO_0004,
-    CHARA_SEPIA_001F,
+    CHARA_0003_FADEIO,
+    CHARA_0004_FADEIO,
+    CHARA_001F_SEPIA,
 
     CHARA_END
 };
