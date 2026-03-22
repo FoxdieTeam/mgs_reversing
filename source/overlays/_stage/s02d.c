@@ -4,12 +4,12 @@
 CHARA _StageCharacterEntries[] = {
     CHARA_VIBRATE,      /* chara パッド振動 */
     CHARA_PAD,          /* chara パッドコントロール */
-    CHARA_MOTION_SE,
+    CHARA_MOTIONSE,
     CHARA_INTR_CAM,
     CHARA_GAS_EFFECT,
-    CHARA_SHAKE_MODEL,
+    CHARA_SHAKEMODEL,
     CHARA_CAT_IN,
-    CHARA_FADE_IN_OUT,
+    CHARA_FADEIO,
     CHARA_PUT_OBJECT,
     CHARA_WALL,         /* chara 障害物 */
     CHARA_ASIOTO,
@@ -25,8 +25,8 @@ CHARA _StageCharacterEntries[] = {
     CHARA_CENSOR,       /* chara 赤外線センサー */
     CHARA_GAS_EFFECT,
     CHARA_GAS_DAMAGE,
-    CHARA_ELEVATOR_PANEL,
-    CHARA_SHUTER,       /* chara シャッター */
+    CHARA_EVPANEL,
+    CHARA_SHUTTER,      /* chara シャッター */
 
     CHARA_END
 };

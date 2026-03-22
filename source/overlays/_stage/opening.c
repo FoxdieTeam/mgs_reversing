@@ -5,7 +5,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_PATO_LAMP,    /* chara パトランプ */
     CHARA_CINEMA,       /* chara シネマスクリーン */
     CHARA_WT_VIEW,
-    CHARA_TEX_SCRL,
+    CHARA_TEXSCROLL,
     CHARA_CANCEL,       /* chara デモキャンセル */
 
     CHARA_0003_FADEIO,
@@ -19,7 +19,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_0017_GOGGLEIR,
     CHARA_0018_GGLSIGHT,
     CHARA_0021_FOCUS,
-    CHARA_0025_BLOOD_BL,
+    CHARA_0025_BLUR,
     CHARA_002E_SUB_ROOM,
     CHARA_0042_GAS_EFCT,
     CHARA_0043_SUB_EFCT,

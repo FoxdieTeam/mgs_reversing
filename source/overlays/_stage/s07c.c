@@ -3,16 +3,16 @@
 
 CHARA _StageCharacterEntries[] = {
     CHARA_ASIOTO,
-    CHARA_FADE_IN_OUT,
+    CHARA_FADEIO,
     CHARA_DOOR,         /* chara ドア */
     CHARA_WALL,         /* chara 障害物 */
     CHARA_MIRROR,
-    CHARA_ELEVATOR_PANEL,
-    CHARA_DYNAMIC_SEGMENT, /* chara 透明壁 */
+    CHARA_EVPANEL,
+    CHARA_DYNAMIC_SEG,  /* chara 透明壁 */
     CHARA_LAMP,
     CHARA_MERYL72,
     CHARA_CINEMA,       /* chara シネマスクリーン */
-    CHARA_SECOND_9FFD,
+    CHARA_9FFD_SECOND,
 
     CHARA_0003_FADEIO,
     CHARA_0004_FADEIO,

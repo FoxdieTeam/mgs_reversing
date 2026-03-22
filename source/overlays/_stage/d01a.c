@@ -7,7 +7,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_SMOKE,        /* chara 煙 */
     CHARA_EMITTER,
     CHARA_OBJECT,
-    CHARA_SEARCH_LIGHT, /* chara サーチライト */
+    CHARA_SEARCHLIGHT,  /* chara サーチライト */
     CHARA_SNOW,         /* chara 雪 */
     CHARA_CINEMA,       /* chara シネマスクリーン */
 
@@ -17,7 +17,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_000F_DEMOKAGE,
     CHARA_001E_WINDCRCL,
     CHARA_0021_FOCUS,
-    CHARA_0025_BLOOD_BL,
+    CHARA_0025_BLUR,
     CHARA_0045_FAMASLIT,
 
     CHARA_END

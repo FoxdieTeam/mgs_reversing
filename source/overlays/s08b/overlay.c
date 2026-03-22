@@ -3,7 +3,7 @@
 
 CHARA _StageCharacterEntries[] = {
     CHARA_ASIOTO,
-    CHARA_FADE_IN_OUT,
+    CHARA_FADEIO,
     { 0x8e70, (NEWCHARA)0x800DB50C },   // s08b_glass_800DB50C (NewGlass_800D37A4)
     CHARA_PAPER,
     CHARA_CHAIR,        /* chara 椅子 */
@@ -12,10 +12,10 @@ CHARA _StageCharacterEntries[] = {
     CHARA_NINJA,        /* chara 忍者 */
     CHARA_LAMP,
     CHARA_CINEMA,       /* chara シネマスクリーン */
-    CHARA_MOVIE_3453,
+    CHARA_3453_MOVIE,
     CHARA_WALL,         /* chara 障害物 */
     CHARA_LIFE_UP,
-    CHARA_DYNAMIC_SEGMENT, /* chara 透明壁 */
+    CHARA_DYNAMIC_SEG,  /* chara 透明壁 */
     CHARA_CAT_IN,
 
     CHARA_0003_FADEIO,

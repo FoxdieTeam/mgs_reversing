@@ -3,9 +3,9 @@
 
 CHARA _StageCharacterEntries[] = {
     CHARA_ENDING2,
-    CHARA_MOVIE_3453,
-    CHARA_ED_TELOP,
-    CHARA_ED_TELOP_B757,
+    CHARA_3453_MOVIE,
+    CHARA_E75A_ED_TELOP,
+    CHARA_B757_ED_TELOP,
 
     CHARA_END
 };

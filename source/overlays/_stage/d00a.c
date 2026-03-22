@@ -3,7 +3,7 @@
 
 CHARA _StageCharacterEntries[] = {
     CHARA_WALL,         /* chara 障害物 */
-    CHARA_SHAKE_MODEL,
+    CHARA_SHAKEMODEL,
     CHARA_PATO_LAMP,    /* chara パトランプ */
     CHARA_COMMANDER,    /* chara コマンダー */
     CHARA_WT_VIEW,
@@ -15,7 +15,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_RSURFACE,
     CHARA_WALL,         /* chara 障害物 */
     CHARA_CINEMA,       /* chara シネマスクリーン */
-    CHARA_FADE_IN_OUT,
+    CHARA_FADEIO,
 
     CHARA_0003_FADEIO,
     CHARA_0004_FADEIO,
@@ -24,7 +24,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_000F_DEMOKAGE,
     CHARA_0012_BUBBLE_T,
     CHARA_0013_BUBBLE_P,
-    CHARA_0025_BLOOD_BL,
+    CHARA_0025_BLUR,
     CHARA_002B_D_BLOODS,
     CHARA_0037_RED_ALRT,
     CHARA_0038_RED_ALRT,

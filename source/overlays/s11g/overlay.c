@@ -2,7 +2,7 @@
 #include "charalst.h"
 
 CHARA _StageCharacterEntries[] = {
-    CHARA_MOTION_SE,
+    CHARA_MOTIONSE,
     CHARA_CAT_IN,
     CHARA_WALL_SPA,
     CHARA_BREATH,       /* chara スネーク息 */
@@ -10,11 +10,11 @@ CHARA _StageCharacterEntries[] = {
     CHARA_LAMP,
     CHARA_SNOW,         /* chara 雪 */
     CHARA_CINEMA,       /* chara シネマスクリーン */
-    CHARA_FADE_IN_OUT,
-    CHARA_HIND_1787,
+    CHARA_FADEIO,
+    CHARA_1787_HIND,
     CHARA_SPHERE,       /* chara 天球 */
     CHARA_WALL,         /* chara 障害物 */
-    CHARA_DYNAMIC_SEGMENT, /* chara 透明壁 */
+    CHARA_DYNAMIC_SEG,  /* chara 透明壁 */
     CHARA_S11_OBJS,
     CHARA_11G_DEMO,
 
@@ -23,7 +23,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_000F_DEMOKAGE,
     CHARA_001E_WINDCRCL,
     CHARA_0021_FOCUS,
-    CHARA_0025_BLOOD_BL,
+    CHARA_0025_BLUR,
     CHARA_0031_SMKE_LN,
 
     CHARA_END

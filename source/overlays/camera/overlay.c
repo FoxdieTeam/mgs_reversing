@@ -3,7 +3,7 @@
 #include "charalst.h"
 
 CHARA _StageCharacterEntries[] = {
-    CHARA_CAMERA_JPEG,  /* chara ＪＰＥＧ */
+    CHARA_JPEG,         /* chara ＪＰＥＧ */
 
     CHARA_END
 };

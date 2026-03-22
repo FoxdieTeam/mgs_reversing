@@ -4,7 +4,7 @@
 
 CHARA _StageCharacterEntries[] = {
     CHARA_ASIATOKUN,    /* chara 足跡君 */
-    CHARA_MOVIE_3453,
+    CHARA_3453_MOVIE,
     CHARA_CINEMA,       /* chara シネマスクリーン */
     CHARA_SPHERE,       /* chara 天球 */
 
@@ -14,7 +14,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_0010_DEMOASI,
     CHARA_001C_ENVMAP3,
     CHARA_0021_FOCUS,
-    CHARA_0025_BLOOD_BL,
+    CHARA_0025_BLUR,
     CHARA_002F,
     CHARA_0033,
     CHARA_0044_BLURPURE,

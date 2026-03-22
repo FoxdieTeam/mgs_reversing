@@ -9,15 +9,15 @@ CHARA _StageCharacterEntries[] = {
     CHARA_VIBRATE,      /* chara パッド振動 */
     CHARA_ASIOTO,
     CHARA_GAS_EFFECT,
-    CHARA_FADE_IN_OUT,
+    CHARA_FADEIO,
     CHARA_CINEMA,       /* chara シネマスクリーン */
     CHARA_WALL,         /* chara 障害物 */
     CHARA_BELONG,
     CHARA_O2_DAMAGE,
     CHARA_DOLL,         /* chara デモ人形 */
-    CHARA_PAD_DEMO,     /* chara パッドデモ */
+    CHARA_PADDEMO,      /* chara パッドデモ */
     CHARA_CAT_IN,
-    CHARA_DYNAMIC_SEGMENT, /* chara 透明壁 */
+    CHARA_DYNAMIC_SEG,  /* chara 透明壁 */
 
     CHARA_0003_FADEIO,
     CHARA_0004_FADEIO,
@@ -26,7 +26,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_0015_GOGGLE,
     CHARA_0016_GGLSIGHT,
     CHARA_0021_FOCUS,
-    CHARA_0025_BLOOD_BL,
+    CHARA_0025_BLUR,
     CHARA_0028_SEPIA,
     CHARA_0035,
     CHARA_0036,

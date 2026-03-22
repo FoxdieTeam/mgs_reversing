@@ -5,8 +5,8 @@ CHARA _StageCharacterEntries[] = {
     CHARA_CINEMA,       /* chara シネマスクリーン */
     CHARA_WALL,         /* chara 障害物 */
     CHARA_DOLL,         /* chara デモ人形 */
-    CHARA_DYNAMIC_SEGMENT, /* chara 透明壁 */
-    CHARA_FADE_IN_OUT,
+    CHARA_DYNAMIC_SEG,  /* chara 透明壁 */
+    CHARA_FADEIO,
     CHARA_CINEMA,       /* chara シネマスクリーン */
     CHARA_ASIOTO,
     CHARA_CAMERA,       /* chara カメラ */
@@ -14,7 +14,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_0003_FADEIO,
     CHARA_0004_FADEIO,
     CHARA_0021_FOCUS,
-    CHARA_0025_BLOOD_BL,
+    CHARA_0025_BLUR,
     CHARA_0028_SEPIA,
     CHARA_0031_SMKE_LN,
     CHARA_0037_RED_ALRT,
