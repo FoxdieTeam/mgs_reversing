@@ -58,7 +58,7 @@
 #define CHARA_BG_STAGE          { 0x1fa5, ? }                       // okajima/photo/bg_stage.c
 #define CHARA_PANEL             { 0x20f2, NewPanel_800D2680 }       // GV_StrCode("パネル") takabe/panel.c
 #define CHARA_TIMER             { 0x22c6, ? }                       // GV_StrCode("カウントダウン") enemy/timer.c
-#define CHARA_JEEP_EMY          { 0x2477, s19b_jeep_emy_800C4EC0 }  // takabe/jeep_emy/jeep_emy.c
+#define CHARA_JEEP_EMY          { 0x2477, NewJeepEnemy }            // takabe/jeep_emy/jeep_emy.c
 #define CHARA_VR_CHECK          { 0x26bc, ? }                       // nobu/vr_slct/vr_check.c
 #define CHARA_SNE_03C_27A2      { 0x27a2, NewSnake03c2_800CDF18 }   // chara/torture/sne_03c.c
 #define CHARA_BED               { 0x2a21, NewBed_800C70DC }         // chara/torture/bed.c
@@ -288,7 +288,7 @@
 #define CHARA_ED_TELOP          { 0xe75a, NewEdTelop_800C563C }     // takabe/ed_telop.c
 #define CHARA_DOLL              { 0xe97e, NewDoll_800DCD78 }        // GV_StrCode("デモ人形") animal/doll/doll.c
 #define CHARA_WALL              { 0xec77, NewWall_800C3718 }        // GV_StrCode("障害物") enemy/wall.c
-#define CHARA_PAUSE             { 0xeced, s19b_asioto_800C4268 }    // --> menu/countdwn.c
+#define CHARA_PAUSE             { 0xeced, NewCountdownGcl }         // --> menu/countdwn.c
 #define CHARA_VR                { 0xed86, ? }                       // GV_StrCode("ＶＲ") koba/vr/vr.c
 #define CHARA_ZAKO              { 0xed87, ? }                       // GV_StrCode("ざこ") animal/zako/zako.c
 #define CHARA_PHOTOSEL          { 0xedeb, ? }                       // chara/photosel/photosel.c
@@ -403,7 +403,7 @@ void *NewAnime_8005E6A4();              /* --> anime/animconv/anime.c   */
 void *demothrd_2_8007DA94();            /* --> anime/animconv/anime.c   */
 void *s08c_800C4194();                  /* --> anime/animconv/anime.c   */
 void *s11d_rope_800C9500();             /* --> chara/rope/rope.c        */
-void *s19b_asioto_800C4268();           /* --> menu/countdwn.c          */
+void *NewCountdownGcl();                /* --> menu/countdwn.c          */
 void *NewCamera_800CF388();             /* ???/camera.c                 */
 void *NewDoll_800DCD78();               /* animal/doll/doll.c           */
 void *NewBombLed();                     /* animal/liquid/bombled.c      */
@@ -556,7 +556,7 @@ void *NewGoggle();                      /* takabe/goggle.c              */
 void *NewGoggleIr();                    /* takabe/goggleir.c            */
 void *NewIrCens_800DA66C();             /* takabe/ir_cens.c             */
 void *s19b_jdrum_800C95E4();            /* takabe/jeep/jdrum.c          */
-void *s19b_jeep_emy_800C4EC0();         /* takabe/jeep_emy/jeep_emy.c   */
+void *NewJeepEnemy();                   /* takabe/jeep_emy/jeep_emy.c   */
 void *s19b_jeep_srl_800CE36C();         /* takabe/jeep_srl.c            */
 void *NewLifeUp_800DF428();             /* takabe/life_up.c             */
 void *NewLift_800DE25C();               /* takabe/lift.c                */
