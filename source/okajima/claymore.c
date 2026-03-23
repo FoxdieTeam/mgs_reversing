@@ -9,7 +9,7 @@
 #include "libdg/libdg.h"
 #include "game/game.h"
 #include "anime/animconv/anime.h"
-#include "sd/g_sound.h"
+#include "sound/g_sound.h"
 #include "linkvar.h"
 #include "spark.h"
 

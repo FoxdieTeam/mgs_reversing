@@ -15,7 +15,7 @@
 #include "menu/menuman.h"
 #include "thing/sgtrect3.h"
 #include "thing/sight.h"
-#include "sd/g_sound.h"
+#include "sound/g_sound.h"
 
 extern BLAST_DATA       blast_data_8009F4B8[8];
 extern TARGET          *target_800BDF00;

@@ -14,7 +14,7 @@
 #include "libgcl/libgcl.h"
 #include "font/font.h"
 #include "game/game.h"
-#include "sd/g_sound.h"
+#include "sound/g_sound.h"
 
 #include "met_logo.h"   // for NewMetalGearLogo
 #include "safety.h"     // for Safety_*

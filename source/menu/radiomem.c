@@ -3,7 +3,7 @@
 #include "menuman.h"
 #include "game/game.h"
 #include "menu/radio.h"
-#include "sd/g_sound.h"
+#include "sound/g_sound.h"
 
 extern RadioMemory gRadioMemory_800BDB38[ RADIO_MEMORY_COUNT ];
 

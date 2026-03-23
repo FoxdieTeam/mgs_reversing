@@ -11,7 +11,7 @@
 #include "okajima/chafgrnd.h"
 #include "okajima/stngrnd.h"
 #include "weapon/weapon.h"
-#include "sd/g_sound.h"
+#include "sound/g_sound.h"
 #include "strcode.h"
 
 extern int            dword_800BDD28;

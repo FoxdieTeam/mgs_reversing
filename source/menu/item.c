@@ -5,7 +5,7 @@
 #include "bullet/blast.h"
 #include "game/game.h"
 #include "linkvar.h"
-#include "sd/g_sound.h"
+#include "sound/g_sound.h"
 #include "radio.h"
 
 extern PANEL_TEXTURE gMenuLeftItems_800BD5A0[];

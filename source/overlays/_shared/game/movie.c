@@ -14,7 +14,7 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "linkvar.h"
-#include "sd/sd_cli.h"
+#include "sound/sd_cli.h"
 #include "mts/mts.h"
 #include "mts/mts_pad.h"
 

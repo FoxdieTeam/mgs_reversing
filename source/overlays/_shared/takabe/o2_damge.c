@@ -7,7 +7,7 @@
 #include "game/game.h"
 #include "linkvar.h"
 #include "takabe/thing.h"
-#include "sd/g_sound.h"
+#include "sound/g_sound.h"
 
 typedef struct _O2DamgeWork
 {

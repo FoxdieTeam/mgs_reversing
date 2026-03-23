@@ -9,7 +9,7 @@
 #include "chara/snake/sna_hzd.h"
 #include "chara/snake/shadow.h"
 #include "equip/equip.h"
-#include "sd/g_sound.h"
+#include "sound/g_sound.h"
 
 // "It stands for Otaku Comvention."
 typedef struct OtacomWork

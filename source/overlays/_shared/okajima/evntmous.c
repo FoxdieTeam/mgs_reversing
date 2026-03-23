@@ -8,7 +8,7 @@
 #include "game/game.h"
 #include "linkvar.h"
 #include "okajima/blood.h"
-#include "sd/g_sound.h"
+#include "sound/g_sound.h"
 
 #include "overlays/_shared/takabe/cinema.h"     // for NewCinemaScreen, NewCinemaScreenClose
 #include "overlays/_shared/takabe/ripple.h"     // for NewRipple

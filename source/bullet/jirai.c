@@ -13,7 +13,7 @@
 #include "linkvar.h"
 #include "okajima/claymore.h"
 #include "chara/snake/sna_init.h"
-#include "sd/g_sound.h"
+#include "sound/g_sound.h"
 
 extern HITTABLE GM_ClayDatas_800BDE78[8];
 

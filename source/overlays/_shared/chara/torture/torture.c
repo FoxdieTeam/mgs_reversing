@@ -9,7 +9,7 @@
 #include "linkvar.h"
 #include "game/over.h"
 #include "game/vibrate.h"
-#include "sd/g_sound.h"
+#include "sound/g_sound.h"
 
 #include "overlays/_shared/takabe/fadeio.h" // for NewFadeIo_800C4224
 
