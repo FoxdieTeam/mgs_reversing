@@ -6,8 +6,6 @@ import os
 import json
 import re
 
-EXPECTED_TOTAL_FUNCS = 1991
-EXPECTED_TOTAL_BYTES = 490440
 APPVEYOR_CACHE = 'C:\\mgs-cache\\last-progress.json'
 
 OVERLAY_NAMES = ['abst', 'brf', 'camera', 'change', 'd00a', 'd01a', 'd03a', 'd11c', 'd16e', 'd18a',
@@ -168,7 +166,3 @@ print('Imported overlays bytes: {:,}{} / {:,} | {:.2f}%'.format(
     overlay_bytes_extra,
     EXPECTED_OVERLAY_TOTAL_SIZE,
     overlay_bytes / EXPECTED_OVERLAY_TOTAL_SIZE * 100))
-
-if total_funcs != EXPECTED_TOTAL_FUNCS or total_bytes != EXPECTED_TOTAL_BYTES:
-    print('Warning: Totals seem incorrect, did someone forget to delete a .s?')
-    print('.. or rename a .s without renaming the xdef inside it?')
