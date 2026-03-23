@@ -2845,7 +2845,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s08b\s08b_pfall_800DC838.obj"
 
     include "{{OBJ_DIR}}\overlays\s08b\takabe\monitor1.obj"
-    include "{{OBJ_DIR}}\overlays\s08b\anime\animconv\smoke4.obj"
+    include "{{OBJ_DIR}}\overlays\s08b\anime\misc\smoke4.obj"
     include "{{OBJ_DIR}}\takabe\spark2.obj"
     include "{{OBJ_DIR}}\takabe\thing.obj"
     include "{{OBJ_DIR}}\takabe\gas_efct.obj"
