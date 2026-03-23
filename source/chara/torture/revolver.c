@@ -10,7 +10,7 @@
 #include "game/game.h"
 #include "linkvar.h"
 
-#include "overlays/_shared/takabe/fadeio.h" // for NewFadeIo_800C4224
+#include "takabe/fadeio.h"      // for NewFadeIo_800C4224
 
 typedef struct RevolverWork
 {

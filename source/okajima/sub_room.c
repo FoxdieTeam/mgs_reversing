@@ -9,7 +9,7 @@
 #include "libdg/libdg.h"
 #include "game/game.h"
 
-#include "overlays/_shared/takabe/optxtscn.h"   // for NewOpTxtScn_800CD29C
+#include "takabe/optxtscn.h"    // for NewOpTxtScn_800CD29C
 
 typedef struct _SubRoomWork
 {

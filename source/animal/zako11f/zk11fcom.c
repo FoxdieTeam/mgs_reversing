@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include "../../../_shared/enemy/enemy.h"
+#include "enemy/enemy.h"
 #include "mts/mts.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"

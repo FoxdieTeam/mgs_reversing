@@ -11,7 +11,7 @@
 #include "game/vibrate.h"
 #include "sound/g_sound.h"
 
-#include "overlays/_shared/takabe/fadeio.h" // for NewFadeIo_800C4224
+#include "takabe/fadeio.h"      // for NewFadeIo_800C4224
 
 struct _TortureWork;
 typedef void (*TTortureFn)(struct _TortureWork *, int);

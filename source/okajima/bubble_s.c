@@ -6,7 +6,7 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 
-#include "overlays/_shared/takabe/ripple.h" // for NewRipple
+#include "takabe/ripple.h"      // for NewRipple
 
 typedef struct _BubbleSWork
 {

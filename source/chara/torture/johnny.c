@@ -15,8 +15,8 @@
 #include "sound/g_sound.h"
 #include "strcode.h"
 
-#include "overlays/_shared/okajima/hiyoko.h"
-#include "overlays/_shared/takabe/fadeio.h" // for NewFadeIo_800C4224
+#include "okajima/hiyoko.h"
+#include "takabe/fadeio.h"      // for NewFadeIo_800C4224
 
 struct JohnnyWork;
 typedef void (*TJohnnyFunc)(struct JohnnyWork *work, int action);

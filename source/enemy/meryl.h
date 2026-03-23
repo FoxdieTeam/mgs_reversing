@@ -1,7 +1,7 @@
 #ifndef __MGS_ENEMY_MERYL_H__
 #define __MGS_ENEMY_MERYL_H__
 
-#include "../../_shared/enemy/enemy.h"
+#include "enemy/enemy.h"
 
 #define COM_ST_DANBOWL 0x2000
 #define SP_DANBOWLKERI 0x400000

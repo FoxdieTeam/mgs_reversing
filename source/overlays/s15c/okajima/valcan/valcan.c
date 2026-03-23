@@ -8,7 +8,7 @@
 #include "okajima/blood.h"
 #include "sound/g_sound.h"
 
-#include "overlays/_shared/takabe/fadeio.h" // for NewFadeIo_800C4224
+#include "takabe/fadeio.h"      // for NewFadeIo_800C4224
 
 typedef struct ValcanWork
 {

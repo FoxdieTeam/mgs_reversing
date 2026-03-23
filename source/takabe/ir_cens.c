@@ -4,7 +4,7 @@
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
-#include "overlays/_shared/enemy/enemy.h"
+#include "enemy/enemy.h"
 #include "game/game.h"
 #include "linkvar.h"
 #include "takabe/thing.h"

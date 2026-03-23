@@ -1,4 +1,4 @@
-#include "../../../_shared/enemy/enemy.h"
+#include "enemy/enemy.h"
 #include "anime/animconv/anime.h"
 #include "game/item.h"
 #include "linkvar.h"

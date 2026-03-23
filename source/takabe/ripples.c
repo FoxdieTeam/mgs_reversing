@@ -7,7 +7,7 @@
 #include "game/game.h"
 #include "takabe/thing.h"
 
-#include "overlays/_shared/takabe/ripple.h" // for NewRipple
+#include "takabe/ripple.h"      // for NewRipple
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 

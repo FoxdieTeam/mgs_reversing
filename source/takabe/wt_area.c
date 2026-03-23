@@ -7,8 +7,8 @@
 #include "game/game.h"
 #include "takabe/thing.h"
 
-#include "overlays/_shared/takabe/wt_view.h"    // for NewWaterView2
-#include "overlays/_shared/takabe/ripple.h"     // for NewRipple
+#include "takabe/wt_view.h"     // for NewWaterView2
+#include "takabe/ripple.h"      // for NewRipple
 
 extern CONTROL         *tenage_ctrls_800BDD30[16];
 extern int              tenage_ctrls_count_800BDD70;
