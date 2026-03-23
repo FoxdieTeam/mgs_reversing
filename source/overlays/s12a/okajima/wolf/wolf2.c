@@ -290,15 +290,15 @@ void wolf2_Act(Wolf2Work *work)
     }
 
     yoff = work->f7DC += work->f7D8;
-    wolf2_InitTexcoords(&work->lsight_prim->packs[0]->poly_ft4, work->lsight_tex, yoff);
-    wolf2_InitTexcoords(&work->lsight_prim->packs[1]->poly_ft4, work->lsight_tex, yoff);
+    wolf2_InitTexcoords(work->lsight_prim->packs[0], work->lsight_tex, yoff);
+    wolf2_InitTexcoords(work->lsight_prim->packs[1], work->lsight_tex, yoff);
 
     shade = work->body.objs->objs[4].screen.m[2][1] / 16;
     shade = MAX(shade, 1);
     shade = MIN(shade, 255);
 
-    wolf2_SetTileShade(&work->f7E0->packs[0]->tiles, shade);
-    wolf2_SetTileShade(&work->f7E0->packs[1]->tiles, shade);
+    wolf2_SetTileShade(work->f7E0->packs[0], shade);
+    wolf2_SetTileShade(work->f7E0->packs[1], shade);
 
     if (work->fA28 == 1 && GM_SnakeCurrentHealth != 0 && GM_GameOverTimer == 0)
     {
@@ -623,7 +623,7 @@ int wolf2_GetResources2(Wolf2Work *work, int name, int where)
         return -1;
     }
 
-    prim->field_2E_k500 = 2000;
+    prim->raise = 2000;
 
     work->lsight_tex = tex = DG_GetTexture(GV_StrCode("lsight"));
     if (!tex)
@@ -631,8 +631,8 @@ int wolf2_GetResources2(Wolf2Work *work, int name, int where)
         return -1;
     }
 
-    wolf2_InitTexpacks(&prim->packs[0]->poly_ft4, tex);
-    wolf2_InitTexpacks(&prim->packs[1]->poly_ft4, tex);
+    wolf2_InitTexpacks(prim->packs[0], tex);
+    wolf2_InitTexpacks(prim->packs[1], tex);
 
     for (i = 16; i > 0; i--)
     {
@@ -641,7 +641,7 @@ int wolf2_GetResources2(Wolf2Work *work, int name, int where)
         work->lsight_verts[i].vz = 32;
     }
 
-    work->lsight_prim->n_prims = 8;
+    work->lsight_prim->prim_count = 8;
 
     work->f7E0 = prim = GM_MakePrim(DG_PRIM_OFFSET | DG_PRIM_TILE, 2, work->f7E4, &wolf2_800C3490);
     if (!prim)
@@ -649,10 +649,10 @@ int wolf2_GetResources2(Wolf2Work *work, int name, int where)
         return -1;
     }
 
-    wolf2_InitTiles(&prim->packs[0]->tiles);
-    wolf2_InitTiles(&prim->packs[1]->tiles);
+    wolf2_InitTiles(prim->packs[0]);
+    wolf2_InitTiles(prim->packs[1]);
 
-    prim->field_2E_k500 = 100;
+    prim->raise = 100;
     DG_VisiblePrim(prim);
 
     work->alloc = alloc = GV_Malloc(sizeof(Wolf2Alloc));

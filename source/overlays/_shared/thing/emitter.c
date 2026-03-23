@@ -89,7 +89,7 @@ static int GetResources( Work *work, int map, int count )
         return -1;
     }
 
-    prim->field_2E_k500 = n;
+    prim->raise = n;
 
     tex = DG_GetTexture( GV_StrCode( "sfex0236" ) );
     if ( tex == NULL )
@@ -97,8 +97,8 @@ static int GetResources( Work *work, int map, int count )
         return -1;
     }
 
-    ShadePacks( &prim->packs[0]->poly_ft4, count, tex, 64 );
-    ShadePacks( &prim->packs[1]->poly_ft4, count, tex, 72 );
+    ShadePacks( prim->packs[0], count, tex, 64 );
+    ShadePacks( prim->packs[1], count, tex, 72 );
 
     return 0;
 }

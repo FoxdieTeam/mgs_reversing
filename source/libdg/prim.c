@@ -103,7 +103,7 @@ STATIC void DG_AdjustLaserPrims( DG_PRIM *prim, int type )
     {
         ft2 = (POLY_FT4 *)prim->packs[GV_Clock];
 
-        for (i = prim->n_prims ; i > 0; --i )
+        for (i = prim->prim_count ; i > 0; --i )
         {
             DG_AdjustLaserPrim((DVECTOR *)&ft2->x0, (DVECTOR *)&ft2->x1, (DVECTOR *)&ft2->x2, (DVECTOR *)&ft2->x3);
             ft2++;
@@ -113,7 +113,7 @@ STATIC void DG_AdjustLaserPrims( DG_PRIM *prim, int type )
     {
         gt2 = (POLY_GT4 *)prim->packs[GV_Clock];
 
-        for (i = prim->n_prims ; i > 0; --i )
+        for (i = prim->prim_count ; i > 0; --i )
         {
             DG_AdjustLaserPrim((DVECTOR *)&gt2->x0, (DVECTOR *)&gt2->x1, (DVECTOR *)&gt2->x2, (DVECTOR *)&gt2->x3);
             gt2++;
@@ -212,10 +212,10 @@ STATIC void DG_TransformPrim( DG_PRIM *prim )
         prim_batch = BATCH_SIZE / n_verts;
     }
 
-    verts = prim->vertices;
+    verts = prim->pos;
     packs = (char *)prim->packs[ GV_Clock ];
 
-    for ( n_prims = prim->n_prims; n_prims > prim_batch; n_prims -= prim_batch )
+    for ( n_prims = prim->prim_count; n_prims > prim_batch; n_prims -= prim_batch )
     {
         verts = DG_TransformVertices( verts, vert_batch );
         packs = DG_WritePrimVertices( prim, packs, prim_batch );
@@ -309,10 +309,10 @@ STATIC void DG_TransformPrimOneFace( DG_PRIM *prim )
         prim_batch = BATCH_SIZE / n_verts;
     }
 
-    verts = prim->vertices;
+    verts = prim->pos;
     packs = (char *)prim->packs[ GV_Clock ];
 
-    for ( n_prims = prim->n_prims; n_prims > prim_batch; n_prims -= prim_batch )
+    for ( n_prims = prim->prim_count; n_prims > prim_batch; n_prims -= prim_batch )
     {
         verts = DG_TransformVertices( verts, vert_batch );
         packs = DG_WritePrimVerticesOneFace( prim, packs, prim_batch );
@@ -329,7 +329,7 @@ STATIC char *DG_WritePrimVerticesOffsetSingle( DG_PRIM *prim, char *out, int n_p
     int      x, y;
     SVECTOR *in;
 
-    rect = prim->field_3C;
+    rect = prim->rect;
     psize = prim->psize;
 
     x = rect->x;
@@ -356,10 +356,10 @@ STATIC void DG_TransformPrimOffsetSingle( DG_PRIM *prim )
     char    *packs;
     int      n_prims;
 
-    verts = prim->vertices;
+    verts = prim->pos;
     packs = (char *)prim->packs[GV_Clock];
 
-    for ( n_prims = prim->n_prims; n_prims > BATCH_SIZE; n_prims -= BATCH_SIZE )
+    for ( n_prims = prim->prim_count; n_prims > BATCH_SIZE; n_prims -= BATCH_SIZE )
     {
         verts = DG_TransformVertices(verts, BATCH_SIZE / 3);
         packs = DG_WritePrimVerticesOffsetSingle(prim, packs, BATCH_SIZE);
@@ -390,7 +390,7 @@ STATIC char *DG_WritePrimVerticesOffset( DG_PRIM *prim, char *out, int n_prims )
     DVECTOR *processed;
     char    *vert;
 
-    rect = prim->field_3C;
+    rect = prim->rect;
 
     x = -rect->x;
     bound[0].vx = x;
@@ -460,10 +460,10 @@ STATIC void DG_TransformPrimOffset( DG_PRIM *prim )
     char    *packs;
     int      n_prims;
 
-    verts = prim->vertices;
+    verts = prim->pos;
     packs = (char *)prim->packs[GV_Clock];
 
-    for ( n_prims = prim->n_prims; n_prims > (BATCH_SIZE - 3); n_prims -= (BATCH_SIZE - 3) )
+    for ( n_prims = prim->prim_count; n_prims > (BATCH_SIZE - 3); n_prims -= (BATCH_SIZE - 3) )
     {
         verts = DG_TransformVertices(verts, (BATCH_SIZE - 3) / 3);
         packs = DG_WritePrimVerticesOffset(prim, packs, (BATCH_SIZE - 3));
@@ -475,14 +475,14 @@ STATIC void DG_TransformPrimOffset( DG_PRIM *prim )
 
 STATIC void DG_TransformPrimFreePacks( DG_PRIM *prim )
 {
-    int       n_prims;
+    int       prim_count;
     POLY_FT4 *packs;
 
-    n_prims = prim->n_prims;
+    prim_count = prim->prim_count;
     packs = (POLY_FT4 *)prim->packs[GV_Clock];
 
-    DG_TransformVertices(prim->vertices, prim->n_vertices);
-    prim->handler(prim, packs, n_prims);
+    DG_TransformVertices(prim->pos, prim->n_prims);
+    prim->handler(prim, packs, prim_count);
 }
 
 //todo: this is dumb, must be something else
@@ -602,7 +602,7 @@ void DG_PrimEnd( void )
     /* do nothing */
 }
 
-DG_PRIM *DG_MakePrim( int type, int prim_count, int chanl, SVECTOR *vertices, RECT *rect )
+DG_PRIM *DG_MakePrim( int type, int prim_count, int chanl, SVECTOR *pos, RECT *rect )
 {
     DG_PRIM_INFO *info;
     int           pack_size;
@@ -621,10 +621,10 @@ DG_PRIM *DG_MakePrim( int type, int prim_count, int chanl, SVECTOR *vertices, RE
     prim->world = DG_ZeroMatrix;
 
     prim->type = type;
-    prim->n_prims = prim_count;
+    prim->prim_count = prim_count;
     prim->chanl = chanl;
-    prim->vertices = vertices;
-    prim->field_3C = rect;
+    prim->pos = pos;
+    prim->rect = rect;
 
     // copy prim info
     prim->psize = info->psize;
@@ -633,8 +633,8 @@ DG_PRIM *DG_MakePrim( int type, int prim_count, int chanl, SVECTOR *vertices, RE
     prim->vstep = info->vstep;
 
     // Point to data after the end of the structure
-    prim->packs[0] = (union Prim_Union *)&prim[1];
-    prim->packs[1] = (union Prim_Union *)((char *)&prim[1] + pack_size);
+    prim->packs[0] = &prim[1];
+    prim->packs[1] = (char *)&prim[1] + pack_size;
 
     return prim;
 }

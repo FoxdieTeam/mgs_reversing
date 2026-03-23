@@ -185,18 +185,18 @@ void s00a_pato_lmp_800D6194(PatoLmpWork *work, int arg1, int arg2, int arg3)
     int temp;
     int temp2;
     int temp_v1;
-    int a3_2;
-    union Prim_Union *prim_uni;
+    POLY_FT4 *prim;
 
-    prim_uni = work->field_1008->packs[GV_Clock];
-    a3_2 = arg3 * 4;
-    prim_uni = (union Prim_Union*)&prim_uni->poly_ft4_multi[arg1][arg3];
+
+    prim = work->field_1008->packs[GV_Clock];
+    prim = prim + arg1 * 2 + arg3;
+
     x = work->field_151C[arg1][arg2].vx;
 
     if (x != 0)
     {
         vec = work->field_111C[arg1][arg2];
-        var_a2 = &work->field_100C[arg1][a3_2];
+        var_a2 = &work->field_100C[arg1][arg3 * 4];
 
         y = work->field_151C[arg1][arg2].vy;
         z = work->field_151C[arg1][arg2].vz;
@@ -294,11 +294,11 @@ void s00a_pato_lmp_800D6194(PatoLmpWork *work, int arg1, int arg2, int arg3)
             break;
         }
 
-        s00a_pato_lmp_800D5F1C((POLY_FT4*)prim_uni, z);
+        s00a_pato_lmp_800D5F1C(prim, z);
     }
     else
     {
-        s00a_pato_lmp_800D5F1C((POLY_FT4*)prim_uni, 0);
+        s00a_pato_lmp_800D5F1C(prim, 0);
     }
 }
 
@@ -909,7 +909,7 @@ temp_label_end4:
         return -1;
     }
 
-    prim->field_2E_k500 = prim_temp;
+    prim->raise = prim_temp;
 
     tex = DG_GetTexture(GV_StrCode(aPatlit));
     if (!tex)

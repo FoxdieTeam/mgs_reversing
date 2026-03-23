@@ -201,13 +201,11 @@ void GsplashAct_800D3E14(GsplashWork *work)
     shade = time * 3 + 100;
     if (shade > 255)
     {
-        Gsplash_800D3DD4(&prim->packs[0]->poly_ft4, &prim->packs[1]->poly_ft4, work->n_prims,
-                         255);
+        Gsplash_800D3DD4(prim->packs[0], prim->packs[1], work->n_prims, 255);
     }
     else
     {
-        Gsplash_800D3DD4(&prim->packs[0]->poly_ft4, &prim->packs[1]->poly_ft4, work->n_prims,
-                         shade);
+        Gsplash_800D3DD4(prim->packs[0], prim->packs[1], work->n_prims, shade);
     }
 }
 
@@ -241,7 +239,7 @@ int GsplashGetResources_800D3F14(GsplashWork *work, MATRIX *pos)
         return -1;
     }
 
-    Gsplash_800D3CAC(&prim->packs[0]->poly_ft4, &prim->packs[1]->poly_ft4, work->n_prims, tex);
+    Gsplash_800D3CAC(prim->packs[0], prim->packs[1], work->n_prims, tex);
     return 0;
 }
 

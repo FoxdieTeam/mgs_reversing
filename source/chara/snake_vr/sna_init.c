@@ -6174,7 +6174,7 @@ void sna_anim_claymore_helper_80058780(SnaInitWork *work, int time)
     w = x + 63;
     y += work->field_928->off_y;
 
-    pPoly = &work->field_92C->packs[GV_Clock]->poly_gt4;
+    pPoly = work->field_92C->packs[GV_Clock];
 
     for ( i = 0; i < 2; i++ )
     {
@@ -7851,11 +7851,11 @@ static inline int sna_LoadSnake2(SnaInitWork *work)
         return -1;
     }
 
-    pPrim->field_2E_k500 = 500;
+    pPrim->raise = 500;
 
     for (i = 0; i < 2; i++)
     {
-        pPoly = &pPrim->packs[i]->poly_gt4;
+        pPoly = pPrim->packs[i];
 
         for (j = 0; j < 2; j++)
         {

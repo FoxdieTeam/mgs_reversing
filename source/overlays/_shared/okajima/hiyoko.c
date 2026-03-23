@@ -132,7 +132,7 @@ int HiyokoGetResources_800CFECC(HiyokoWork *work, int map)
         return -1;
     }
 
-    prim->field_2E_k500 = 0;
+    prim->raise = 0;
 
     tex = DG_GetTexture(GV_StrCode("hosi"));
     work->tex = tex;
@@ -141,8 +141,8 @@ int HiyokoGetResources_800CFECC(HiyokoWork *work, int map)
         return -1;
     }
 
-    HiyokoShadePacks_800CFE3C(&prim->packs[0]->poly_ft4, 3, tex);
-    HiyokoShadePacks_800CFE3C(&prim->packs[1]->poly_ft4, 3, tex);
+    HiyokoShadePacks_800CFE3C(prim->packs[0], 3, tex);
+    HiyokoShadePacks_800CFE3C(prim->packs[1], 3, tex);
 
     off.vx = 100;
     off.vy = 0;
@@ -182,7 +182,7 @@ int HiyokoGetResources_800D0018(HiyokoWork *work, MATRIX *world, int arg2)
         return -1;
     }
 
-    prim->field_2E_k500 = 0;
+    prim->raise = 0;
 
     tex = DG_GetTexture(GV_StrCode("hosi"));
     work->tex = tex;
@@ -191,8 +191,8 @@ int HiyokoGetResources_800D0018(HiyokoWork *work, MATRIX *world, int arg2)
         return -1;
     }
 
-    HiyokoShadePacks_800CFE3C(&prim->packs[0]->poly_ft4, 3, tex);
-    HiyokoShadePacks_800CFE3C(&prim->packs[1]->poly_ft4, 3, tex);
+    HiyokoShadePacks_800CFE3C(prim->packs[0], 3, tex);
+    HiyokoShadePacks_800CFE3C(prim->packs[1], 3, tex);
 
     off.vx = 100;
     off.vy = 0;

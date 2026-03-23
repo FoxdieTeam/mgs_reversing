@@ -52,7 +52,7 @@ void Blastoff_800DB880(BlastoffWork *work)
         vec->pad += ((GV_RandU(16) + 40) * scale) / 4096;
     }
 
-    pack = &work->prim->packs[GV_Clock]->poly_ft4;
+    pack = work->prim->packs[GV_Clock];
     for (i = 16; i > 0; i--)
     {
         m = i & 3;
@@ -147,11 +147,11 @@ void Blastoff_800DBD34(BlastoffWork *work)
     work->tex = tex = DG_GetTexture(GV_StrCode("bomb1_fl"));
     work->prim = prim = Takabe_MakeIndividualRect3DPrim(16, work->prim_vecs);
 
-    Blastoff_800DBC64(&prim->packs[0]->poly_ft4, tex, 16);
-    Blastoff_800DBC64(&prim->packs[1]->poly_ft4, tex, 16);
+    Blastoff_800DBC64(prim->packs[0], tex, 16);
+    Blastoff_800DBC64(prim->packs[1], tex, 16);
 
     prim->world = DG_ZeroMatrix;
-    prim->field_2E_k500 = 1000;
+    prim->raise = 1000;
 
     iter = work->prim_vecs;
     for (i = 16; i > 0; i--, iter++)

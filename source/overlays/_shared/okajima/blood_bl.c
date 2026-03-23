@@ -165,7 +165,7 @@ int BloodBlGetResources_800CD520(BloodBlWork *work, int map)
         return -1;
     }
 
-    prim->field_2E_k500 = raise;
+    prim->raise = raise;
 
     tex = DG_GetTexture(GV_StrCode("ketchap_grey"));
     if (tex == NULL)
@@ -173,8 +173,8 @@ int BloodBlGetResources_800CD520(BloodBlWork *work, int map)
         return -1;
     }
 
-    pack0 = &prim->packs[0]->poly_ft4;
-    pack1 = &prim->packs[1]->poly_ft4;
+    pack0 = prim->packs[0];
+    pack1 = prim->packs[1];
 
     setPolyFT4(pack0);
     setSemiTrans(pack0, 1);

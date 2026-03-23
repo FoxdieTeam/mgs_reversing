@@ -374,7 +374,7 @@ void s12c_800D4CF4(unsigned int *ot)
     }
 }
 
-void *s12c_800D4D8C(union Prim_Union *buffer, int n_prims, int size, void (*callback)(void *, void *, int))
+void *s12c_800D4D8C(u_short *buffer, int n_prims, int size, void (*callback)(void *, void *, int))
 {
     unsigned int *ot;
     int          *currentOt;
@@ -389,7 +389,7 @@ void *s12c_800D4D8C(union Prim_Union *buffer, int n_prims, int size, void (*call
 
     while (--n_prims >= 0)
     {
-        idx = buffer->u16_access[0];
+        idx = *buffer;
         if (idx > 0)
         {
             idx -= len;
@@ -411,12 +411,12 @@ void *s12c_800D4D8C(union Prim_Union *buffer, int n_prims, int size, void (*call
                 currentOt = &ot[idx];
 
                 // Not quite addPrim()
-                buffer->s32_access[0] = (buffer->s32_access[0] & 0xFF000000) | *currentOt;
+                *(int *)buffer = (*(int *)buffer & 0xFF000000) | *currentOt;
                 *currentOt = (int)(buffer)&0xFFFFFF;
             }
         }
 
-        buffer = (union Prim_Union *)((char *)buffer + size);
+        buffer = (u_short *)((char *)buffer + size);
     }
 
     return buffer;
@@ -468,10 +468,10 @@ void FogSortChanl_800D4E98(DG_CHANL *chanl, int idx)
         }
 
         // TODO: clean up
-        ((SCRATCHPAD_UNK *)SCRPAD_ADDR)->len = prim->field_2E_k500;
+        ((SCRATCHPAD_UNK *)SCRPAD_ADDR)->len = prim->raise;
 
         type = (type + 1) & mask;
-        s12c_800D4D8C(prim->packs[idx], prim->n_prims, prim->psize,
+        s12c_800D4D8C(prim->packs[idx], prim->prim_count, prim->psize,
                       fog_prim_funcs_800C347C[type]);
     }
 

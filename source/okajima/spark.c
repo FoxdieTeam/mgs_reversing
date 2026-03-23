@@ -232,7 +232,7 @@ static void Act(Work *work)
     else
     {
         spark_act_helper_80074118(work->f028, work->f068, 8);
-        SetSparkShade(&work->prim->packs[GV_Clock]->poly_ft4, 8, updated_f170 * 0x10);
+        SetSparkShade(work->prim->packs[GV_Clock], 8, updated_f170 * 0x10);
 
         lightRadius = (updated_f170 - 8) * 0x200;
         if (lightRadius > 0)
@@ -276,10 +276,10 @@ static int GetResources(Work *work, MATRIX *a2, int count)
         return -1;
     }
 
-    spark_loader4_80074234(&prim->packs[0]->poly_ft4, 8, tex);
-    spark_loader4_80074234(&prim->packs[1]->poly_ft4, 8, tex);
-    SetSparkShade(&prim->packs[0]->poly_ft4, 8, 0);
-    SetSparkShade(&prim->packs[1]->poly_ft4, 8, 0);
+    spark_loader4_80074234(prim->packs[0], 8, tex);
+    spark_loader4_80074234(prim->packs[1], 8, tex);
+    SetSparkShade(prim->packs[0], 8, 0);
+    SetSparkShade(prim->packs[1], 8, 0);
 
     work->f170_counter = 12;
     return 0;

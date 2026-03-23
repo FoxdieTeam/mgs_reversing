@@ -198,8 +198,8 @@ STATIC void blood_Act(BloodWork *work)
     blood_act_helper_80072394(work->field_28, work->field_A8, work->field_2AC_prim_count);
 
     prim = work->field_24_prims;
-    blood_act_helper_8007250C(&prim->packs[0]->poly_ft4, work->field_2AC_prim_count, temp_s0 * 8);
-    blood_act_helper_8007250C(&prim->packs[1]->poly_ft4, work->field_2AC_prim_count, temp_s0 * 8);
+    blood_act_helper_8007250C(prim->packs[0], work->field_2AC_prim_count, temp_s0 * 8);
+    blood_act_helper_8007250C(prim->packs[1], work->field_2AC_prim_count, temp_s0 * 8);
 }
 
 STATIC void blood_Die(BloodWork *work)
@@ -240,8 +240,8 @@ STATIC int blood_GetResources(BloodWork *work, MATRIX *arg1, int count)
         return -1;
     }
 
-    blood_loader2_helper_80072478(&prim->packs[0]->poly_ft4, work->field_2AC_prim_count, tex, count);
-    blood_loader2_helper_80072478(&prim->packs[1]->poly_ft4, work->field_2AC_prim_count, tex, count);
+    blood_loader2_helper_80072478(prim->packs[0], work->field_2AC_prim_count, tex, count);
+    blood_loader2_helper_80072478(prim->packs[1], work->field_2AC_prim_count, tex, count);
 
     work->field_2A8 = 16;
     return 0;

@@ -158,21 +158,6 @@ typedef struct {    // libdg internal
     DG_VECTOR max;
 } DG_BOUND;
 
-// It might be better to use a void * for this
-union Prim_Union
-{
-    LINE_G2  line_g2;
-    LINE_F2  line_f2;
-    LINE_F4  line_f4;
-    POLY_GT4 poly_gt4;
-    POLY_FT4 poly_ft4;
-    TILE     tiles;
-    POLY_FT4 poly_ft4_multi[4][2];
-
-    unsigned short u16_access[0];
-    int            s32_access[0];
-};
-
 typedef struct _DG_PRIM_INFO
 {
     unsigned char psize;
@@ -182,27 +167,27 @@ typedef struct _DG_PRIM_INFO
 } DG_PRIM_INFO;
 
 struct _DG_PRIM;
-typedef POLY_FT4 * ( *TPrim_Fn )( struct _DG_PRIM *prim, POLY_FT4 *pPolys, int numPrims );
+typedef POLY_FT4 * ( *TPRIM_FN )( struct _DG_PRIM *prim, POLY_FT4 *packs, int n_packs );
 
 typedef struct _DG_PRIM
 {
-    MATRIX            world;
-    MATRIX           *root;
-    int               type;
-    u_short           group_id;
-    signed short      n_prims;
-    short             chanl;
-    short             field_2E_k500;
-    short             psize;
-    short             verts;
-    short             voffset;
-    short             vstep;
-    SVECTOR          *vertices;
-    RECT             *field_3C;
-    union Prim_Union *packs[ 2 ];
-    signed short      n_vertices;
-    void             *userdata;
-    TPrim_Fn          handler;
+    MATRIX   world;
+    MATRIX  *root;
+    int      type;
+    u_short  group_id;
+    short    prim_count;
+    short    chanl;
+    short    raise;
+    short    psize;
+    short    verts;
+    short    voffset;
+    short    vstep;
+    SVECTOR *pos;
+    RECT    *rect;
+    void    *packs[ 2 ];
+    short    n_prims;
+    void    *userdata;
+    TPRIM_FN handler;
 } DG_PRIM;
 
 typedef struct DG_LIT
@@ -572,7 +557,7 @@ extern SVECTOR DG_ZeroVector;
 void DG_PrimStart( void );
 void DG_PrimChanl( DG_CHANL *chanl, int idx );
 void DG_PrimEnd( void );
-DG_PRIM *DG_MakePrim(int type, int prim_count, int chanl, SVECTOR *pVec, RECT *pRect);
+DG_PRIM *DG_MakePrim(int type, int prim_count, int chanl, SVECTOR *pos, RECT *rect);
 void DG_FreePrim( DG_PRIM *prim );
 void DG_SetFreePrimParam( int psize, int verts, int voffset, int vstep );
 

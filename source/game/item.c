@@ -761,7 +761,7 @@ static int GetResources(ItemWork *work, int name, int where)
             return -1;
         }
 
-        shadow->field_2E_k500 = raise;
+        shadow->raise = raise;
 
         tex = DG_GetTexture(GV_StrCode("shadow"));
         if (!tex)
@@ -769,11 +769,11 @@ static int GetResources(ItemWork *work, int name, int where)
             return -1;
         }
 
-        init_pack(&shadow->packs[0]->poly_ft4, tex);
-        init_pack(&shadow->packs[1]->poly_ft4, tex);
+        init_pack(shadow->packs[0], tex);
+        init_pack(shadow->packs[1], tex);
 
-        setRGB0(&shadow->packs[0]->poly_ft4, 80, 80, 80);
-        setRGB0(&shadow->packs[1]->poly_ft4, 80, 80, 80);
+        setRGB0((POLY_FT4 *)shadow->packs[0], 80, 80, 80);
+        setRGB0((POLY_FT4 *)shadow->packs[1], 80, 80, 80);
     }
     else
     {

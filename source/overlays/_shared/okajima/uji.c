@@ -324,8 +324,8 @@ int UjiGetResources_800C3FC8(UjiWork *work, int map)
         return -1;
     }
 
-    prim->field_2E_k500 = 500;
-    prim->field_2E_k500 /= 5;
+    prim->raise = 500;
+    prim->raise /= 5;
 
     tex = DG_GetTexture(GV_StrCode(aUji));
     if (!tex)
@@ -337,8 +337,8 @@ int UjiGetResources_800C3FC8(UjiWork *work, int map)
     color.vy = 64;
     color.vz = 50;
 
-    UjiShadePacks_800C3A94(&prim->packs[0]->poly_ft4, count, tex, &color);
-    UjiShadePacks_800C3A94(&prim->packs[1]->poly_ft4, count, tex, &color);
+    UjiShadePacks_800C3A94(prim->packs[0], count, tex, &color);
+    UjiShadePacks_800C3A94(prim->packs[1], count, tex, &color);
 
     for (y = 0; y < work->fD78; y++)
     {

@@ -749,7 +749,7 @@ static void demosel_800C46BC(Work *work)
     int       r0, g0, b0;
 
     src = work->f2C;
-    dst = &work->f24->packs[GV_Clock]->poly_ft4;
+    dst = work->f24->packs[GV_Clock];
 
     for (i = 0; i < 8; dst++, src++, i++)
     {
@@ -770,7 +770,7 @@ static void demosel_800C46BC(Work *work)
     }
 
     src = work->f16C;
-    dst = &work->f28->packs[GV_Clock]->poly_ft4;
+    dst = work->f28->packs[GV_Clock];
 
     for (i = 0; i < 9; dst++, src++, i++)
     {

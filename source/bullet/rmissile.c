@@ -526,7 +526,7 @@ static void rmissile_act_helper_8006C37C(Work *work)
         y = 120;
     }
 
-    poly = &work->flame->packs[GV_Clock]->poly_ft4;
+    poly = work->flame->packs[GV_Clock];
 
     for (i = 0; i < 8; i++, poly++)
     {
@@ -897,11 +897,11 @@ static void InitMissileFlame(Work *work)
     work->flame_tex = tex;
     prim = work->flame = Takabe_MakeIndividualRect3DPrim(8, work->flame_vec);
 
-    SetPolyTexture(&prim->packs[0]->poly_ft4, tex, 8);
-    SetPolyTexture(&prim->packs[1]->poly_ft4, tex, 8);
+    SetPolyTexture(prim->packs[0], tex, 8);
+    SetPolyTexture(prim->packs[1], tex, 8);
 
     prim->world = DG_ZeroMatrix;
-    prim->field_2E_k500 = 100;
+    prim->raise = 100;
 
     vec = work->flame_vec;
     for (count = 8; count > 0; vec++, count--)

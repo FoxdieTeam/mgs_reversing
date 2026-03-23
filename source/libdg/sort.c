@@ -89,9 +89,9 @@ void DG_SortChanl( DG_CHANL *chanl, int idx )
         }
 
         // TODO: clean up
-        ((SCRATCHPAD_UNK *)0x1f800000)->len = pPrim->field_2E_k500;
+        ((SCRATCHPAD_UNK *)0x1f800000)->len = pPrim->raise;
 
-        prim_count = pPrim->n_prims;
+        prim_count = pPrim->prim_count;
         prim = (char *)pPrim->packs[idx];
         prim_size = (short)pPrim->psize;
 

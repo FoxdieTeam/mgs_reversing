@@ -341,7 +341,7 @@ int RevbulltGetResources_800D2BFC(RevbulltWork *work, MATRIX *world, int arg2, i
             return -1;
         }
 
-        prim->field_2E_k500 = k500;
+        prim->raise = k500;
 
         tex = DG_GetTexture(GV_StrCode("bullet"));
         if (tex == NULL)
@@ -349,8 +349,8 @@ int RevbulltGetResources_800D2BFC(RevbulltWork *work, MATRIX *world, int arg2, i
             return -1;
         }
 
-        s04c_revbullt_800D263C(&prim->packs[0]->poly_ft4, tex);
-        s04c_revbullt_800D263C(&prim->packs[1]->poly_ft4, tex);
+        s04c_revbullt_800D263C(prim->packs[0], tex);
+        s04c_revbullt_800D263C(prim->packs[1], tex);
         s04c_revbullt_800D23A4(work);
     }
 

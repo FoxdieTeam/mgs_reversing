@@ -174,7 +174,7 @@ static int GetResources(Work *work, MATRIX *world)
         }
 
         prim->root = NULL;
-        prim->field_2E_k500 = 320;
+        prim->raise = 320;
 
         tex = DG_GetTexture(GV_StrCode("refrection6"));
 
@@ -188,8 +188,8 @@ static int GetResources(Work *work, MATRIX *world)
             return -1;
         }
 
-        stngrnd_80074644(&prim->packs[0]->poly_ft4, tex, 30, 30, 30);
-        stngrnd_80074644(&prim->packs[1]->poly_ft4, tex, 25, 25, 25);
+        stngrnd_80074644(prim->packs[0], tex, 30, 30, 30);
+        stngrnd_80074644(prim->packs[1], tex, 25, 25, 25);
     }
 
     work->alive_counter = 15;

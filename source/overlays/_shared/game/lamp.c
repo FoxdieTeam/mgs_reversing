@@ -51,7 +51,7 @@ static void d11c_800C326C(Work *work, int textureId)
         tex = DG_GetTexture(textureId);
         for (i = 0; i < 2; i++)
         {
-            polyIter = &prim->packs[i]->poly_ft4;
+            polyIter = prim->packs[i];
             for (j = 0; j < work->field_27; j++)
             {
                 for (k = 0; k < work->field_26; k++, polyIter++)
@@ -343,7 +343,7 @@ static int GetResources(Work *work, int map, int name, int a3, int a4)
     DG_SetPos(&mat);
     DG_PutPrim(&prim->world);
 
-    prim->field_2E_k500 = param3;
+    prim->raise = param3;
     work->field_26 = a3;
     work->field_27 = a4;
 

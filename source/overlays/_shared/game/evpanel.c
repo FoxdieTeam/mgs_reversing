@@ -104,7 +104,7 @@ static void s03e_evpanel_800C33E0(DG_PRIM *prim, int texid)
 
     for (i = 0; i < 2; i++)
     {
-        poly = &prim->packs[i]->poly_ft4;
+        poly = prim->packs[i];
         tex = DG_GetTexture(texid);
 
         x = tex->off_x;
@@ -255,7 +255,7 @@ static void EvPanelUpdateHighlightedButton_800C3778(EvPanelWork *work)
 
     for (i = 0; i < 2; i++)
     {
-        poly = &work->field_20->packs[i]->poly_ft4;
+        poly = work->field_20->packs[i];
 
         for (j = 0; j < work->button_count; j++)
         {
@@ -291,7 +291,7 @@ static void s03e_evpanel_800C37FC(EvPanelWork *work, int index)
 
     for (i = 0; i < 2; i++)
     {
-        poly = &work->field_24->packs[i]->poly_ft4;
+        poly = work->field_24->packs[i];
 
         if (index != 0)
         {
@@ -955,10 +955,10 @@ static int s03e_evpanel_800C47D0(EvPanelWork *work, DG_PRIM **out, SVECTOR *vec,
     DG_SetPos(&pos);
     DG_PutPrim(&prim->world);
 
-    prim->field_2E_k500 = k500;
+    prim->raise = k500;
 
-    s03e_evpanel_800C45E4(&prim->packs[0]->poly_ft4, tex, n_prims);
-    s03e_evpanel_800C45E4(&prim->packs[1]->poly_ft4, tex, n_prims);
+    s03e_evpanel_800C45E4(prim->packs[0], tex, n_prims);
+    s03e_evpanel_800C45E4(prim->packs[1], tex, n_prims);
 
     s03e_evpanel_800C470C(vec, n_prims, sp48.vx, sp48.vy);
     return 1;

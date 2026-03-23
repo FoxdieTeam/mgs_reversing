@@ -136,7 +136,7 @@ static void socom_act_helper_8006528C(Work *work)
         prims = 10;
     }
 
-    work->prim1->n_prims = prims;
+    work->prim1->prim_count = prims;
 
     pVec = work->vertices;
     iVar3 = word_800AB824;
@@ -181,12 +181,12 @@ static void socom_act_helper_800653B8( Work *socom )
 
     if ( local_var == 0 )
     {
-        socom->prim2->n_prims = 1;
+        socom->prim2->prim_count = 1;
         ( socom->field_110[0] ).vy = word_800AB824;
     }
     else
     {
-        socom->prim2->n_prims = 2;
+        socom->prim2->prim_count = 2;
         ( socom->field_110[1] ).vy = -215 - (short)local_var;
         ( socom->field_110[0] ).vy = word_800AB824;
     }
@@ -312,8 +312,8 @@ static void Act( Work *work )
         f108 = work->field_108 + work->random;
         work->field_108 = f108;
 
-        SocomSetPolyUVs( &work->prim1->packs[ 0 ]->poly_ft4, work->tex, f108 );
-        SocomSetPolyUVs( &work->prim1->packs[ 1 ]->poly_ft4, work->tex, f108 );
+        SocomSetPolyUVs( work->prim1->packs[ 0 ], work->tex, f108 );
+        SocomSetPolyUVs( work->prim1->packs[ 1 ], work->tex, f108 );
         socom_act_helper_8006528C( work );
 
         color = work->parent->objs->objs[ work->num_parent ].screen.m[2][1] / 16;
@@ -328,8 +328,8 @@ static void Act( Work *work )
             color = 0xff;
         }
 
-        SocomSetTilesColor( &work->prim2->packs[ 0 ]->tiles, color );
-        SocomSetTilesColor( &work->prim2->packs[ 1 ]->tiles, color );
+        SocomSetTilesColor( work->prim2->packs[ 0 ], color );
+        SocomSetTilesColor( work->prim2->packs[ 1 ], color );
         socom_act_helper_800653B8( work );
     }
 
@@ -410,17 +410,17 @@ static int GetResources( Work *actor, OBJECT *parent, int num_parent )
             actor->tex = tex;
             if ( tex )
             {
-                SocomSetPolyTexture( &newprim->packs[ 0 ]->poly_ft4, tex );
-                SocomSetPolyTexture( &newprim->packs[ 1 ]->poly_ft4, tex );
+                SocomSetPolyTexture( newprim->packs[ 0 ], tex );
+                SocomSetPolyTexture( newprim->packs[ 1 ], tex );
                 SocomInitVectors( actor );
                 newprim->root = &parent->objs->objs[ num_parent ].world;
                 actor->prim2 = prim = GM_MakePrim( DG_PRIM_OFFSET | DG_PRIM_TILE, 2, actor->field_110, &stru_800AB828 );
                 actor->field_110[0] = actor->field_110[1] = stru_8009F3C4[0];
                 if ( prim )
                 {
-                    SocomInitLight( ( TILE* )&prim->packs[ 0 ]->tiles );
-                    SocomInitLight( ( TILE* )&prim->packs[ 1 ]->tiles );
-                    prim->field_2E_k500 = 0x1F4;
+                    SocomInitLight( ( TILE* )prim->packs[ 0 ] );
+                    SocomInitLight( ( TILE* )prim->packs[ 1 ] );
+                    prim->raise = 0x1F4;
                     DG_InvisiblePrim( prim );
                     prim->root = &parent->objs->objs[ num_parent ].world;
                     return 0;

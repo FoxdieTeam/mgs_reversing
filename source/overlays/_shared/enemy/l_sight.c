@@ -78,8 +78,8 @@ int LSightGetResources_800D1C90(LSightWork *work, int color)
         return -1;
     }
 
-    LSightShadePacks_800D1BF0(&prim->packs[0]->line_f2, color);
-    LSightShadePacks_800D1BF0(&prim->packs[1]->line_f2, color);
+    LSightShadePacks_800D1BF0(prim->packs[0], color);
+    LSightShadePacks_800D1BF0(prim->packs[1], color);
 
     return 0;
 }

@@ -59,9 +59,9 @@ void *NewFamasLight(MATRIX *world)
 
     DG_GroupPrim(prim, 0);
 
-    work->prim->field_2E_k500 = 400;
+    work->prim->raise = 400;
 
-#define POLY (&work->prim->packs[0]->poly_ft4)
+#define POLY ((POLY_FT4 *)work->prim->packs[0])
 
     x = tex->off_x;
     w = tex->w;

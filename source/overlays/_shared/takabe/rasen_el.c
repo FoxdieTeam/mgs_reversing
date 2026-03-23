@@ -894,13 +894,13 @@ void s11c_800CDAB4(RasenElWork *work)
     prim = GM_MakePrim(DG_PRIM_ONEFACE | DG_PRIM_POLY_FT4, 3, work->f250, NULL);
     work->f24C = prim;
 
-    s11c_800CD868(&prim->packs[0]->poly_ft4, work->f2C0);
-    s11c_800CD868(&prim->packs[1]->poly_ft4, work->f2C0);
+    s11c_800CD868(prim->packs[0], work->f2C0);
+    s11c_800CD868(prim->packs[1], work->f2C0);
 
     s11c_800CD958(work);
 
     prim->group_id = rasen_el_800D2CA4[0] | rasen_el_800D2CA4[1];
-    prim->field_2E_k500 = 0;
+    prim->raise = 0;
     prim->root = &work->object.objs->world;
 }
 
@@ -913,8 +913,8 @@ void s11c_800CDB6C(RasenElWork *work)
     int       color;
 
     prim = work->f24C;
-    pack1 = &work->f24C->packs[0]->poly_ft4;
-    pack0 = &work->f24C->packs[1]->poly_ft4;
+    pack1 = work->f24C->packs[0];
+    pack0 = work->f24C->packs[1];
 
     for (i = 0; i < 3; i++)
     {

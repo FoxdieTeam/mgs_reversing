@@ -113,7 +113,7 @@ static void Act( Work *work )
     DG_SetPos( &work->mat );
     DG_PutPrim( (MATRIX*)work->prim );
     prim = work->prim;
-    ShadePacks( &prim->packs[0]->poly_ft4, &prim->packs[1]->poly_ft4, 8, temp / 2 );
+    ShadePacks( prim->packs[0], prim->packs[1], 8, temp / 2 );
 }
 
 static void Die( Work *work )
@@ -143,7 +143,7 @@ static int GetResources( Work *work, MATRIX* mat, int scale )
         return -1;
     }
 
-    InitPacks( &prim->packs[0]->poly_ft4, &prim->packs[1]->poly_ft4, 8, tex );
+    InitPacks( prim->packs[0], prim->packs[1], 8, tex );
     work->mat = *mat;
     work->timer = 64;
 

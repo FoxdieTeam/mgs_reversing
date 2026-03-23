@@ -736,7 +736,7 @@ int EventMouseGetResources_800CA370(EventmouseWork *work, HZD_PTP *points, short
     work->prim = prim;
     if (prim != NULL)
     {
-        prim->field_2E_k500 = 500;
+        prim->raise = 500;
     }
 
     tex = DG_GetTexture(GV_StrCode("shadow"));
@@ -745,16 +745,11 @@ int EventMouseGetResources_800CA370(EventmouseWork *work, HZD_PTP *points, short
         return 0;
     }
 
-    Eventmouse_800C9890(&work->prim->packs[0]->poly_ft4, tex);
-    Eventmouse_800C9890(&work->prim->packs[1]->poly_ft4, tex);
+    Eventmouse_800C9890(work->prim->packs[0], tex);
+    Eventmouse_800C9890(work->prim->packs[1], tex);
 
-    work->prim->packs[0]->poly_ft4.r0 = 80;
-    work->prim->packs[0]->poly_ft4.g0 = 80;
-    work->prim->packs[0]->poly_ft4.b0 = 80;
-
-    work->prim->packs[1]->poly_ft4.r0 = 80;
-    work->prim->packs[1]->poly_ft4.g0 = 80;
-    work->prim->packs[1]->poly_ft4.b0 = 80;
+    setRGB0((POLY_FT4 *)work->prim->packs[0], 80, 80, 80);
+    setRGB0((POLY_FT4 *)work->prim->packs[1], 80, 80, 80);
 
     work->f1DC[2] = 2;
     work->f1DC[0] = 0;

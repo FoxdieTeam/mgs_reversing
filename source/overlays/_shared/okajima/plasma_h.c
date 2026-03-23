@@ -335,10 +335,10 @@ int s08a_plasma_h_800D19F0(PlasmaHWork *work)
         return -1;
     }
 
-    prim->field_2E_k500 = 200;
+    prim->raise = 200;
 
-    s08a_plasma_h_800D1118(work, &prim->packs[0]->poly_ft4, 17, tex);
-    s08a_plasma_h_800D1118(work, &prim->packs[1]->poly_ft4, 17, tex);
+    s08a_plasma_h_800D1118(work, prim->packs[0], 17, tex);
+    s08a_plasma_h_800D1118(work, prim->packs[1], 17, tex);
 
     return 0;
 }

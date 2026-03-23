@@ -188,7 +188,7 @@
 #define CHARA_ELE_CROW          { 0x9ab9, ? }                       // okajima/valcan/ele_crow.c
 #define CHARA_PLASMA            { 0x9bc2, NewPlasma_800CD110 }      // GV_StrCode("プラズマ") okajima/plasma.c
 #define CHARA_PK_GATE           { 0x9c6c, ? }                       // takabe/pk_gate.c
-#define CHARA_DMYFLOOR          { 0x9d00, NewDummyFloor_800D6BF8 }  // GV_StrCode("落とし穴") takabe/dummy_fl.c
+#define CHARA_DMYFLOOR          { 0x9d00, NewDummyFloor }           // GV_StrCode("落とし穴") takabe/dummy_fl.c
 #define CHARA_M1E1              { 0x9d71, ? }                       // kojo/m1e1.c
 #define CHARA_GODZCOM           { 0x9eb7, ? }                       // GV_StrCode("ゴジラコマンダ") animal/godzila/godzcom.c
 #define CHARA_DISPLAY           { 0x9f7d, ? }                       // chara/pocket/display/display.c
@@ -530,7 +530,7 @@ void *NewZoom_800DFA88();               /* takabe/cat_in.c              */
 void *s08b_chair_800DAB50();            /* takabe/chair.c               */
 void *NewCinemaScreenSet();             /* takabe/cinema.c              */
 void *NewDoor2_800DD9E4();              /* takabe/door2.c               */
-void *NewDummyFloor_800D6BF8();         /* takabe/dummy_fl.c            */
+void *NewDummyFloor();                  /* takabe/dummy_fl.c            */
 void *NewDummyWall_800D7384();          /* takabe/dummy_wl.c            */
 void *s15c_dymc_flr_800E1C70();         /* takabe/dymc_flr.c            */
 void *NewDymcSeg_800C4BCC();            /* takabe/dymc_seg.c            */

@@ -441,7 +441,7 @@ int ValcanGetResources_800D92A8(ValcanWork *work, int name, int where)
             return -1;
         }
 
-        prim->field_2E_k500 = k500;
+        prim->raise = k500;
 
         tex = DG_GetTexture(GV_StrCode(s15c_aShadow_800E2E54));
         if (tex == NULL)
@@ -449,11 +449,11 @@ int ValcanGetResources_800D92A8(ValcanWork *work, int name, int where)
             return -1;
         }
 
-        Valcan_800D9028(&prim->packs[0]->poly_ft4, tex);
-        Valcan_800D9028(&prim->packs[1]->poly_ft4, tex);
+        Valcan_800D9028(prim->packs[0], tex);
+        Valcan_800D9028(prim->packs[1], tex);
 
-        setRGB0(&prim->packs[0]->poly_ft4, 150, 150, 150);
-        setRGB0(&prim->packs[1]->poly_ft4, 150, 150, 150);
+        setRGB0((POLY_FT4 *)prim->packs[0], 150, 150, 150);
+        setRGB0((POLY_FT4 *)prim->packs[1], 150, 150, 150);
 
         work->field_878 = GM_PlayerPosition;
 

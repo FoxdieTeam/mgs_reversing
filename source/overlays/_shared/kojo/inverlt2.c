@@ -121,7 +121,7 @@ void *NewInverlt2_800D0FF4(SVECTOR *arg0, int arg1, int arg2, int arg3, int r, i
     {
         work->prim[i] =  GM_MakePrim(DG_PRIM_OFFSET | DG_PRIM_WORLD | DG_PRIM_POLY_FT4, 1, &work->vec[i], &work->rect[i]);
 
-        work->prim[i]->field_2E_k500 = 320;
+        work->prim[i]->raise = 320;
 
 #define POLY ((POLY_FT4 *)work->prim[i]->packs[0])
         setPolyFT4(&POLY[0]);

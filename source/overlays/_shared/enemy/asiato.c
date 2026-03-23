@@ -46,12 +46,12 @@ void AsiatoCharColor_800D0DD4(DG_PRIM *prim, DG_TEX *tex, int r, int g, int b)
 {
     POLY_FT4 *poly;
 
-    poly = &prim->packs[0]->poly_ft4;
+    poly = prim->packs[0];
     poly->r0 = r;
     poly->g0 = g;
     poly->b0 = b;
 
-    poly = &prim->packs[1]->poly_ft4;
+    poly = prim->packs[1];
     poly->r0 = r;
     poly->g0 = g;
     poly->b0 = b;
@@ -144,8 +144,8 @@ int AsiatoCharGetResources_800D0F90(AsiatoCharWork *work, MATRIX *mat, int arg2,
         work->field_24 = tex = DG_GetTexture(PCX_ASIATO);
         if (tex)
         {
-            AsiatoCharTexture_800D0E9C(&prim->packs[0]->poly_ft4, tex, 2, 48, 48, 48);
-            AsiatoCharTexture_800D0E9C(&prim->packs[1]->poly_ft4, tex, 2, 48, 48, 48);
+            AsiatoCharTexture_800D0E9C(prim->packs[0], tex, 2, 48, 48, 48);
+            AsiatoCharTexture_800D0E9C(prim->packs[1], tex, 2, 48, 48, 48);
             DG_SetPos2(&svec2, &svec1);
             DG_PutPrim(&work->field_20->world);
             return 0;

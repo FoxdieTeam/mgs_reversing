@@ -23,4 +23,4 @@ const char s19b_aMelb_800DDDD4[] = "mel_19b";
 const char s19b_dword_800DDDDC[] = "メリル";
 const char s19b_aOtacom_800DDDE4[] = "otacom";
 const char s19b_dword_800DDDEC[] = "オタコン";
-const char s19b_dword_800DDDF8[] = {'j', 'e', 'e', 'p', '_', 'm', 'r', 'l', '.', 'c', 0x0, '$'};
+const char s19b_dword_800DDDF8[] = {'j', 'e', 'e', 'p', '_', 'm', 'r', 'l', '.', 'c', 0x0, 0xc};

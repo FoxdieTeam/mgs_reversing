@@ -445,8 +445,8 @@ static int GetResources(Work *work, MATRIX *world, int side)
         return -1;
     }
 
-    amissile_loader_helper_8006D1F4(&prim->packs[0]->poly_ft4, tex);
-    amissile_loader_helper_8006D1F4(&prim->packs[1]->poly_ft4, tex);
+    amissile_loader_helper_8006D1F4(prim->packs[0], tex);
+    amissile_loader_helper_8006D1F4(prim->packs[1], tex);
 
     prim->world = DG_ZeroMatrix;
     DG_InvisiblePrim(prim);
