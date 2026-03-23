@@ -14,6 +14,8 @@ extern GCL_Vars     gGcl_memVars_800b4588;
 extern char         gStageName_800B4D88[16];
 extern RadioMemory  gRadioMemory_800BDB38[RADIO_MEMORY_COUNT];
 
+#define SAVE_LINKVAR(buf, var)  (buf[((short*)&var - (short*)&linkvarbuf)])
+
 /*---------------------------------------------------------------------------*/
 
 #define SAVE_VERSION    0x60
@@ -95,9 +97,9 @@ int GCL_MakeSaveFile(char *save_buf)
 
     GM_LastSaveHours = GM_TotalHours;
     GM_LastSaveSeconds = GM_TotalSeconds;
-    GM_LinkVar(sv_linkvarbuf, GM_LastSaveHours) = GM_TotalHours;
-    GM_LinkVar(sv_linkvarbuf, GM_LastSaveSeconds) = GM_TotalSeconds;
-    GM_LinkVar(sv_linkvarbuf, GM_TotalSaves) = GM_TotalSaves;
+    SAVE_LINKVAR(sv_linkvarbuf, GM_LastSaveHours) = GM_TotalHours;
+    SAVE_LINKVAR(sv_linkvarbuf, GM_LastSaveSeconds) = GM_TotalSeconds;
+    SAVE_LINKVAR(sv_linkvarbuf, GM_TotalSaves) = GM_TotalSaves;
 
     save_data->padding[0] = 0;
     save_data->padding[1] = 0;
