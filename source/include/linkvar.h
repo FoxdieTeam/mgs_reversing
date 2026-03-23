@@ -32,6 +32,7 @@ extern short       linkvarbuf[0x60];
 
 //------------------------------------------------------------------------------
 #define GM_Weapons              (&linkvarbuf[ 17 ])
+#define GM_CurrentWeapon        (GM_Weapons[ GM_CurrentWeaponId ])
 
 // 0x22 Weapons ammo (Use GM_Weapons[] instead)
 //      value -1 = not in inventory
@@ -63,6 +64,7 @@ extern short       linkvarbuf[0x60];
 
 //------------------------------------------------------------------------------
 #define GM_Items                (&linkvarbuf[ 37 ])
+#define GM_CurrentItem          (GM_Items[ GM_CurrentItemId ])
 
 // 0x4a Items (Use GM_Items[] instead)
 //      value -1 = not in inventory
@@ -206,7 +208,6 @@ enum // GM_Weapons[]
     WP_Rifle            = 9,
     WP_Max              = 10,
 };
-#define GM_TotalWeapons 10
 
 enum // GM_Items[]
 {
@@ -237,7 +238,6 @@ enum // GM_Items[]
     IT_Suppressor       = 23,   // 0
     IT_Max              = 24,
 };
-#define GM_TotalItems 24
 
 enum // GM_ItemTypes[]
 {
@@ -247,11 +247,5 @@ enum // GM_ItemTypes[]
     ITEMTYPE_DISABLED   = 0x8000,
     // ...
 };
-//------------------------------------------------------------------------------
-
-#define GM_LinkVar(buf, var)    (buf[((short*)&var - (short*)&linkvarbuf)])
-
-#define GM_CurrentWeapon        (GM_Weapons[ GM_CurrentWeaponId ])
-#define GM_CurrentItem          (GM_Items[ GM_CurrentItemId ])
 
 #endif // __MGS_LINKVAR_H__
