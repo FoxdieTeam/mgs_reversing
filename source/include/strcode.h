@@ -119,6 +119,7 @@
 #define PCX_DOOR2               0x50eb // GV_StrCode( "door2" )
 #define PCX_CD_WARN             0xa0f4 // GV_StrCode( "cd_warn" )
 #define PCX_CD_KEIKOKU          0xa1bc // GV_StrCode( "cd_keikoku" )
+#define PCX_HEAD_LIGHT          0x5699 // GV_StrCode( "head_light" )
 
 //-----------------------------------------------------------------------------
 // Model files (.kmd)
