@@ -589,7 +589,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\_shared\takabe\cinema.obj"
     include "{{OBJ_DIR}}\overlays\_shared\takabe\dymc_seg.obj"
     include "{{OBJ_DIR}}\overlays\_shared\takabe\tracktrp.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\unknown4.obj" ; probably in takabe/
+    include "{{OBJ_DIR}}\overlays\_shared\takabe\unknown4.obj"
     include "{{OBJ_DIR}}\overlays\_shared\takabe\env_snd.obj"
     include "{{OBJ_DIR}}\overlays\_shared\takabe\lit_mdl.obj"
     include "{{OBJ_DIR}}\overlays\_shared\takabe\camshake.obj"
@@ -617,7 +617,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\_shared\takabe\cinema.obj"
     include "{{OBJ_DIR}}\overlays\_shared\takabe\focus.obj"
     include "{{OBJ_DIR}}\overlays\_shared\takabe\windcrcl.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\unknown4.obj"
+    include "{{OBJ_DIR}}\overlays\_shared\takabe\unknown4.obj"
     include "{{OBJ_DIR}}\overlays\_shared\takabe\lit_mdl.obj"
     include "{{OBJ_DIR}}\overlays\_shared\kojo\famaslit.obj"
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
@@ -998,7 +998,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\_shared\takabe\mosaic.obj"
     include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj"
     include "{{OBJ_DIR}}\overlays\_shared\takabe\dymc_seg.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\unknown4.obj"
+    include "{{OBJ_DIR}}\overlays\_shared\takabe\unknown4.obj"
     include "{{OBJ_DIR}}\overlays\_shared\takabe\cat_in.obj"
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_003.OBJ", overlay
@@ -1307,7 +1307,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\_shared\takabe\object.obj"
     include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj"
     include "{{OBJ_DIR}}\overlays\_shared\takabe\dymc_seg.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\unknown4.obj" ; probably in takabe/
+    include "{{OBJ_DIR}}\overlays\_shared\takabe\unknown4.obj"
     include "{{OBJ_DIR}}\overlays\_shared\takabe\shakemdl.obj"
     include "{{OBJ_DIR}}\overlays\_shared\takabe\env_snd.obj"
     include "{{OBJ_DIR}}\overlays\_shared\takabe\cat_in.obj"
@@ -1382,7 +1382,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\sleep.obj"
     include "{{OBJ_DIR}}\overlays\_shared\enemy\grnad_e.obj"
     include "{{OBJ_DIR}}\overlays\_shared\animal\meryl72\think.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\unknown6.obj"
+    include "{{OBJ_DIR}}\overlays\_shared\takabe\unknown6.obj"
     include "{{OBJ_DIR}}\overlays\_shared\animal\meryl72\think9.obj" ; name needed
     include "{{OBJ_DIR}}\overlays\_shared\okajima\blurpure.obj"
     include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj"
@@ -1659,11 +1659,11 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s03b\overlay3.obj"
 
     include "{{OBJ_DIR}}\overlays\_shared\chara\torture\revolver.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\unknown5.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\unknown6.obj"
+    include "{{OBJ_DIR}}\overlays\_shared\chara\torture\unknown5.obj"
+    include "{{OBJ_DIR}}\overlays\_shared\takabe\unknown6.obj"
     include "{{OBJ_DIR}}\overlays\_shared\chara\torture\boxall.obj"
     include "{{OBJ_DIR}}\overlays\_shared\chara\torture\info.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\unknown7.obj"
+    include "{{OBJ_DIR}}\overlays\_shared\chara\torture\unknown7.obj"
     include "{{OBJ_DIR}}\overlays\_shared\enemy\demokage.obj"
     include "{{OBJ_DIR}}\overlays\_shared\animal\doll\doll.obj"
     include "{{OBJ_DIR}}\overlays\_shared\enemy\glight.obj"
@@ -1874,11 +1874,11 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\fog.obj"
     include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\sleep.obj"
     include "{{OBJ_DIR}}\overlays\_shared\chara\torture\jfamas.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\unknown5.obj"
+    include "{{OBJ_DIR}}\overlays\_shared\chara\torture\unknown5.obj"
     include "{{OBJ_DIR}}\overlays\_shared\chara\torture\otacom.obj"
     include "{{OBJ_DIR}}\overlays\_shared\chara\torture\ninja.obj"
     include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\smoke2.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\unknown6.obj"
+    include "{{OBJ_DIR}}\overlays\_shared\takabe\unknown6.obj"
     include "{{OBJ_DIR}}\overlays\_shared\chara\torture\boxall.obj"
     include "{{OBJ_DIR}}\overlays\_shared\chara\torture\sne_03c.obj"
     include "{{OBJ_DIR}}\overlays\_shared\chara\torture\johnny2.obj"
@@ -2458,7 +2458,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 
     include "{{OBJ_DIR}}\overlays\s19b\takabe\democame.obj"
     include "{{OBJ_DIR}}\overlays\s04c\takabe\voicesys.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\unknown4.obj" ; probably in takabe/
+    include "{{OBJ_DIR}}\overlays\_shared\takabe\unknown4.obj"
     include "{{OBJ_DIR}}\overlays\_shared\takabe\cat_in.obj"
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
