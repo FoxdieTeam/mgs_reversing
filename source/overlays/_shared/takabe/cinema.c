@@ -13,33 +13,33 @@
 
 typedef struct _PRIMS
 {
-    DR_TPAGE tpage[2];   //0x00
-    POLY_G4  poly[2][2]; //0x10 //0x34 //0x58, 0x7C
-    TILE     tile[2][2]; //0xA0 //0xB0
+    DR_TPAGE tpage[2];
+    POLY_G4  poly[2][2];
+    TILE     tile[2][2];
 } PRIMS;
 
 typedef struct _PARAM
 {
-    int max_count;    //0x00
-    int count;        //0x04
-    int offset;       //0x08
-    int col;          //0x0C
+    int max_count;
+    int count;
+    int offset;
+    int col;
 } PARAM;
 
 typedef struct _Work
 {
     GV_ACT actor;
-    int    name;      //0x20
-    int    mode;      //0x24
-    int    time;      //0x28
-    int    once;      //0x2C
-    PRIMS *prims;     //0x30
-    PARAM  params[2]; //0x34
+    int    name;
+    int    mode;
+    int    count;
+    int    once;
+    PRIMS *prims;
+    PARAM  params[2];
 } Work;
 
 /*---------------------------------------------------------------------------*/
 
-unsigned short mes_list_800C3680[] = { 0xD420, 0x745D };
+unsigned short mes_list[] = { 0xD420, 0x745D };
 
 static void Act( Work *work )
 {
@@ -50,16 +50,16 @@ static void Act( Work *work )
 
     if ( GV_PauseLevel == 0 )
     {
-        mes = THING_Msg_CheckMessage( work->name, 2, mes_list_800C3680 );
+        mes = THING_Msg_CheckMessage( work->name, 2, mes_list );
         switch ( mes )
         {
         case 0:/* 通常終了 */
             work->mode = 1 ;
-            work->time = 0 ;
+            work->count = 0 ;
             break ;
         case 1:/* 強制消去 */
             work->mode = 2 ;
-            work->time = 0 ;
+            work->count = 0 ;
             break ;
         }
     }
@@ -74,8 +74,8 @@ static void Act( Work *work )
 
     for ( i = 0 ; i < 2 ; i++ )
     {
-        int     col ;
-        PARAM   *param = &work->params[i] ;
+        int    col ;
+        PARAM *param = &work->params[i] ;
 
         if ( work->mode == 0 )
         {
@@ -102,8 +102,8 @@ static void Act( Work *work )
         {
             col = 0;
         }
-        cols[i] = ( col | ( col << 8 ) ) | col << 16 ;
 
+        cols[i] = ( col | ( col << 8 ) ) | col << 16 ;
     }
 
     if ( cols[0] == 0xFFFFFF && cols[1] == 0xFFFFFF )
@@ -141,8 +141,8 @@ static void Act( Work *work )
 
     if ( work->mode == 0 )
     {
-        if ( work->time < 30000 ) work->time-- ;
-        if ( work->time < 0 )
+        if ( work->count < 30000 ) work->count-- ;
+        if ( work->count < 0 )
         {
             if ( work->once )
             {
@@ -171,7 +171,7 @@ static void Die( Work *work )
     }
 }
 
-static int GetResources( Work *work, int time, int event )
+static int GetResources( Work *work, int count, int event )
 {
     int      col;
     int      h1;
@@ -254,14 +254,14 @@ static int GetResources( Work *work, int time, int event )
         params[1].count = params[1].max_count;
     }
 
-    work->time = time;
+    work->count = count;
 
     return 0;
 }
 
 /*---------------------------------------------------------------------------*/
 
-void *NewCinemaScreen( int time, int event )
+void *NewCinemaScreen( int count, int event )
 {
     Work *work ;
 
@@ -269,7 +269,7 @@ void *NewCinemaScreen( int time, int event )
     work = GV_NewActor( EXEC_LEVEL, sizeof( Work ) ) ;
     if ( work != NULL ) {
         GV_SetNamedActor( &work->actor, Act, Die, "cinema.c" );
-        if ( GetResources( work, time, event ) < 0 ) {
+        if ( GetResources( work, count, event ) < 0 ) {
             GV_DestroyActor( work );
             return NULL;
         }
@@ -281,22 +281,22 @@ void *NewCinemaScreen( int time, int event )
 void *NewCinemaScreenClose( void *addr )
 {
     Work *work = (Work *)addr;
-    work->time = 0;     /* 強制的に終了時間にしてしまう */
+    work->count = 0;     /* 強制的に終了時間にしてしまう */
     return ( NULL );
 }
 
 void *NewCinemaScreenSet( int name, int where, int argc, char **argv )
 {
     Work *work;
-    int time, event;
+    int count, event;
 
     //OPERATOR();
     work = GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
     if ( work != NULL ) {
         GV_SetNamedActor( &work->actor, Act, Die, "cinema.c" );
-        time  = THING_Gcl_GetInt( 't' );
+        count  = THING_Gcl_GetInt( 't' );
         event = THING_Gcl_GetInt( 'e' );
-        if ( GetResources( work, time, event ) < 0 )
+        if ( GetResources( work, count, event ) < 0 )
         {
             GV_DestroyActor( work );
             return NULL;
