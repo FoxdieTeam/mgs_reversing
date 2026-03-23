@@ -15,7 +15,7 @@
 #include "libfs/libfs.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
-#include "sd/sd_cli.h"
+#include "sound/sd_cli.h"
 #include "takabe/thing.h"
 #include "mts/mts.h"
 #include "mts/taskid.h"

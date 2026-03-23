@@ -24,7 +24,7 @@
 #include "takabe/goggle.h"
 #include "takabe/goggleir.h"
 #include "weapon/weapon.h"
-#include "sd/g_sound.h"
+#include "sound/g_sound.h"
 #include "strcode.h"
 
 int          SECTION(".sbss") gSnaMoveDir_800ABBA4;

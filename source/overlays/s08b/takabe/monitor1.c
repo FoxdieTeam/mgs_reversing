@@ -4,7 +4,7 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "takabe/thing.h"
-#include "sd/g_sound.h"
+#include "sound/g_sound.h"
 
 #include "overlays/_shared/takabe/spark2.h"   // for NewSpark2_800CA714
 

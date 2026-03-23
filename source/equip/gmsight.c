@@ -4,7 +4,7 @@
 #include "libgv/libgv.h"
 #include "game/game.h"
 #include "thing/sight.h"
-#include "sd/g_sound.h"
+#include "sound/g_sound.h"
 #include "linkvar.h"
 
 extern int              dword_8009F604;

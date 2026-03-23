@@ -437,7 +437,7 @@ def gen_build_target(targetName):
         ninja.build(cPreProcHeadersFixedFile, "header_deps", cPreProcHeadersFile)
 
         compiler = "psyq_cc_44"
-        if "mts/" in cFile or "sd/" in cFile:
+        if "mts/" in cFile or "sound/" in cFile:
             compiler = "psyq_cc_43"
 
         aspsx = "psyq_aspsx_assemble_44"
@@ -446,7 +446,7 @@ def gen_build_target(targetName):
                 aspsx = "psyq_aspsx_assemble_2_81_overlays"
             else:
                 aspsx = "psyq_aspsx_assemble_44_overlays"
-        elif "mts/" in cFile or "sd/" in cFile:
+        elif "mts/" in cFile or "sound/" in cFile:
             aspsx = "psyq_aspsx_assemble_2_56"
         elif args.variant == 'vr_exe':
             aspsx = "psyq_aspsx_assemble_2_81"

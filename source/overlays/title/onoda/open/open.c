@@ -10,8 +10,8 @@
 #include "font/font.h"
 #include "menu/menuman.h"
 #include "game/game.h"
-#include "sd/sd_cli.h"
-#include "sd/g_sound.h"
+#include "sound/sd_cli.h"
+#include "sound/g_sound.h"
 
 typedef struct _Unknown
 {

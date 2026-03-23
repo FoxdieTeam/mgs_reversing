@@ -11,7 +11,7 @@
 #include "libdg/libdg.h"
 #include "bullet/blast.h"
 #include "game/game.h"
-#include "sd/g_sound.h"
+#include "sound/g_sound.h"
 #include "strcode.h"
 
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;

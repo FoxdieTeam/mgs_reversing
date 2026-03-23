@@ -252,16 +252,16 @@
     include "{{OBJ_DIR}}\kojo\m1e1catr.obj" ; m1e1catr.c
 
     ; sound.lib
-    include "{{OBJ_DIR}}\sd\sd_main.obj"
-    include "{{OBJ_DIR}}\sd\sd_str.obj"
-    include "{{OBJ_DIR}}\sd\sd_file.obj"
-    include "{{OBJ_DIR}}\sd\sd_drv.obj"
-    include "{{OBJ_DIR}}\sd\sd_sub1.obj"
-    include "{{OBJ_DIR}}\sd\sd_sub2.obj"
-    include "{{OBJ_DIR}}\sd\sd_ioset.obj"
-    include "{{OBJ_DIR}}\sd\sd_cli.obj"
-    include "{{OBJ_DIR}}\sd\se_tbl.obj"
-    include "{{OBJ_DIR}}\sd\sd_wk.obj"
+    include "{{OBJ_DIR}}\sound\sd_main.obj"
+    include "{{OBJ_DIR}}\sound\sd_str.obj"
+    include "{{OBJ_DIR}}\sound\sd_file.obj"
+    include "{{OBJ_DIR}}\sound\sd_drv.obj"
+    include "{{OBJ_DIR}}\sound\sd_sub1.obj"
+    include "{{OBJ_DIR}}\sound\sd_sub2.obj"
+    include "{{OBJ_DIR}}\sound\sd_ioset.obj"
+    include "{{OBJ_DIR}}\sound\sd_cli.obj"
+    include "{{OBJ_DIR}}\sound\se_tbl.obj"
+    include "{{OBJ_DIR}}\sound\sd_wk.obj"
 
     ;mts
     include "{{OBJ_DIR}}\mts\mts_new.obj"

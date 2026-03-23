@@ -8,7 +8,7 @@
 
 #include "common.h"
 #include "mts/mts.h"
-#include "sd/sd_cli.h"
+#include "sound/sd_cli.h"
 
 extern int   fs_stream_ref_count;
 extern int   fs_stream_read;

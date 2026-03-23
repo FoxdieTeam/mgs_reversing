@@ -9,7 +9,7 @@
 #include "game/game.h"
 #include "linkvar.h"
 #include "game/vibrate.h"
-#include "sd/g_sound.h"
+#include "sound/g_sound.h"
 
 #define SEGMENT_ATR ( HZD_SEG_NO_BEHIND | HZD_SEG_NO_HARITSUKI | HZD_SEG_NO_PLAYER | HZD_SEG_NO_NAVIGATE | HZD_SEG_NO_COLLIDE )
 

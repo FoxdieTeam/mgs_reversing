@@ -11,7 +11,7 @@
 #include "game/vibrate.h"
 #include "linkvar.h"
 #include "bullet/amissile.h"
-#include "sd/g_sound.h"
+#include "sound/g_sound.h"
 
 extern int amissile_alive_8009F490;
 extern UnkCameraStruct gUnkCameraStruct_800B77B8;

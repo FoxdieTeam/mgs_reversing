@@ -1,7 +1,7 @@
 #include "game.h"
 
-#include "sd/sd_cli.h"
-#include "sd/g_sound.h"
+#include "sound/sd_cli.h"
+#include "sound/g_sound.h"
 #include "common.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
