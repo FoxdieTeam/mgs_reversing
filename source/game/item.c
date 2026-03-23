@@ -141,12 +141,12 @@ void disable_equipment(void)
 {
     int i;
 
-    for (i = 0; i < GM_TotalItems; i++)
+    for (i = 0; i < IT_Max; i++)
     {
         GM_Items[i] |= ITEMTYPE_DISABLED;
     }
 
-    for (i = 0; i < GM_TotalWeapons; i++)
+    for (i = 0; i < WP_Max; i++)
     {
         GM_Weapons[i] |= ITEMTYPE_DISABLED;
     }
@@ -156,7 +156,7 @@ void enable_equipment(void)
 {
     int i;
 
-    for (i = 0; i < GM_TotalItems; i++)
+    for (i = 0; i < IT_Max; i++)
     {
         if (GM_Items[i] != -1)
         {
@@ -164,7 +164,7 @@ void enable_equipment(void)
         }
     }
 
-    for (i = 0; i < GM_TotalWeapons; i++)
+    for (i = 0; i < WP_Max; i++)
     {
         if (GM_Weapons[i] != -1)
         {
