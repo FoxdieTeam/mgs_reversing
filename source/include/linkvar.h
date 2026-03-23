@@ -64,6 +64,7 @@ extern short       linkvarbuf[0x60];
 
 //------------------------------------------------------------------------------
 #define GM_Items                (&linkvarbuf[ 37 ])
+#define GM_CurrentItem          (GM_Items[ GM_CurrentItemId ])
 
 // 0x4a Items (Use GM_Items[] instead)
 //      value -1 = not in inventory
@@ -94,7 +95,6 @@ extern short       linkvarbuf[0x60];
 
 //-----------------------------------------------
 #define GM_ItemsMax             (GM_Items + 11)
-#define GM_CurrentItem          (GM_Items[ GM_CurrentItemId ])
 
 // 0x7a Items max capacity (use GM_ItemsMax[] instead)
 #define GM_RationMax            linkvarbuf[ 61 ]
