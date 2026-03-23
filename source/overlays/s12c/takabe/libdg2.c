@@ -416,7 +416,7 @@ void *s12c_800D4D8C(u_short *buffer, int n_prims, int size, void (*callback)(voi
             }
         }
 
-        buffer = (char *)buffer + size;
+        buffer = (u_short *)((char *)buffer + size);
     }
 
     return buffer;
