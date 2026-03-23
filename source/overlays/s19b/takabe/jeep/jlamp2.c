@@ -36,7 +36,7 @@ static void InitPacks(DG_PRIM *prim, DG_TEX *tex)
         packs1++;
     }
 
-    prim->field_2E_k500 = 750;
+    prim->raise = 750;
 }
 
 static void ShadePacks(DG_PRIM *prim, int shade, int index)
@@ -68,7 +68,7 @@ static void Act(Work *work)
     eye = &DG_Chanl(0)->eye;
 
     DG_SetPos(work->root);
-    DG_PutVector(work->prim->vertices, vertices, 2);
+    DG_PutVector(work->prim->pos, vertices, 2);
     DG_RotVector(&lamp_falloff, &scale, 1);
 
     packs = &work->prim->packs[GV_Clock]->poly_ft4;

@@ -351,7 +351,7 @@ int BubbleSInitPrims_800D5B74(BubbleSWork *work)
             return -1;
         }
 
-        prim->field_2E_k500 = k500;
+        prim->raise = k500;
 
         BubbleSInitPacks_800D5388(&prim->packs[0]->poly_ft4, 1, tex);
         BubbleSInitPacks_800D5388(&prim->packs[1]->poly_ft4, 1, tex);

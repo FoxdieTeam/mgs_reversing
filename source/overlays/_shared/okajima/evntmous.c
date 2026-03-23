@@ -736,7 +736,7 @@ int EventMouseGetResources_800CA370(EventmouseWork *work, HZD_PTP *points, short
     work->prim = prim;
     if (prim != NULL)
     {
-        prim->field_2E_k500 = 500;
+        prim->raise = 500;
     }
 
     tex = DG_GetTexture(GV_StrCode("shadow"));

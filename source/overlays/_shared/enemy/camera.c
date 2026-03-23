@@ -1011,7 +1011,7 @@ int InitLed_800D6504(CameraWork *work)
     work->field_194 = prim;
     if (prim != NULL)
     {
-        prim->field_2E_k500 = 500;
+        prim->raise = 500;
         work->field_198 = tex = DG_GetTexture(GV_StrCode("camera_l"));
         if (tex != NULL)
         {

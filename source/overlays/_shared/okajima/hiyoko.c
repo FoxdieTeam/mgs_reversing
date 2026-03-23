@@ -132,7 +132,7 @@ int HiyokoGetResources_800CFECC(HiyokoWork *work, int map)
         return -1;
     }
 
-    prim->field_2E_k500 = 0;
+    prim->raise = 0;
 
     tex = DG_GetTexture(GV_StrCode("hosi"));
     work->tex = tex;
@@ -182,7 +182,7 @@ int HiyokoGetResources_800D0018(HiyokoWork *work, MATRIX *world, int arg2)
         return -1;
     }
 
-    prim->field_2E_k500 = 0;
+    prim->raise = 0;
 
     tex = DG_GetTexture(GV_StrCode("hosi"));
     work->tex = tex;

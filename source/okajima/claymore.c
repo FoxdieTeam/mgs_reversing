@@ -342,7 +342,7 @@ STATIC int claymore_GetResources(ClaymoreWork *work, SVECTOR *new_field_24, SVEC
 
     if (prim)
     {
-        prim->field_2E_k500 = 1000;
+        prim->raise = 1000;
 
         tex = DG_GetTexture(GV_StrCode("bullet"));
         if (tex)

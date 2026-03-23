@@ -8286,7 +8286,7 @@ static inline int sna_LoadSnake2(SnaInitWork *work)
         return -1;
     }
 
-    pPrim->field_2E_k500 = 500;
+    pPrim->raise = 500;
 
     for (i = 0; i < 2; i++)
     {

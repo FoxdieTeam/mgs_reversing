@@ -955,7 +955,7 @@ static int s03e_evpanel_800C47D0(EvPanelWork *work, DG_PRIM **out, SVECTOR *vec,
     DG_SetPos(&pos);
     DG_PutPrim(&prim->world);
 
-    prim->field_2E_k500 = k500;
+    prim->raise = k500;
 
     s03e_evpanel_800C45E4(&prim->packs[0]->poly_ft4, tex, n_prims);
     s03e_evpanel_800C45E4(&prim->packs[1]->poly_ft4, tex, n_prims);

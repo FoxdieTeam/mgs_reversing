@@ -623,7 +623,7 @@ int wolf2_GetResources2(Wolf2Work *work, int name, int where)
         return -1;
     }
 
-    prim->field_2E_k500 = 2000;
+    prim->raise = 2000;
 
     work->lsight_tex = tex = DG_GetTexture(GV_StrCode("lsight"));
     if (!tex)
@@ -641,7 +641,7 @@ int wolf2_GetResources2(Wolf2Work *work, int name, int where)
         work->lsight_verts[i].vz = 32;
     }
 
-    work->lsight_prim->n_prims = 8;
+    work->lsight_prim->prim_count = 8;
 
     work->f7E0 = prim = GM_MakePrim(DG_PRIM_OFFSET | DG_PRIM_TILE, 2, work->f7E4, &wolf2_800C3490);
     if (!prim)
@@ -652,7 +652,7 @@ int wolf2_GetResources2(Wolf2Work *work, int name, int where)
     wolf2_InitTiles(&prim->packs[0]->tiles);
     wolf2_InitTiles(&prim->packs[1]->tiles);
 
-    prim->field_2E_k500 = 100;
+    prim->raise = 100;
     DG_VisiblePrim(prim);
 
     work->alloc = alloc = GV_Malloc(sizeof(Wolf2Alloc));

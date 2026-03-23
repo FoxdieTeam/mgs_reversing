@@ -900,7 +900,7 @@ void s11c_800CDAB4(RasenElWork *work)
     s11c_800CD958(work);
 
     prim->group_id = rasen_el_800D2CA4[0] | rasen_el_800D2CA4[1];
-    prim->field_2E_k500 = 0;
+    prim->raise = 0;
     prim->root = &work->object.objs->world;
 }
 

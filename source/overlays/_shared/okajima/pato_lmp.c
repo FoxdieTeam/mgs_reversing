@@ -909,7 +909,7 @@ temp_label_end4:
         return -1;
     }
 
-    prim->field_2E_k500 = prim_temp;
+    prim->raise = prim_temp;
 
     tex = DG_GetTexture(GV_StrCode(aPatlit));
     if (!tex)

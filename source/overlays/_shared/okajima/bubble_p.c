@@ -158,7 +158,7 @@ int BubblePCreatePacks_800D9A08(BubblePWork *work)
         return -1;
     }
 
-    prim->field_2E_k500 = 3000;
+    prim->raise = 3000;
 
     packs0 = &prim->packs[0]->poly_ft4;
     packs1 = &prim->packs[1]->poly_ft4;

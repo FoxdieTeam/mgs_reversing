@@ -441,7 +441,7 @@ int ValcanGetResources_800D92A8(ValcanWork *work, int name, int where)
             return -1;
         }
 
-        prim->field_2E_k500 = k500;
+        prim->raise = k500;
 
         tex = DG_GetTexture(GV_StrCode(s15c_aShadow_800E2E54));
         if (tex == NULL)

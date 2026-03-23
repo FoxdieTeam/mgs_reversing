@@ -81,8 +81,8 @@ int BlinkTxGetResources_800DEBB4(BlinkTxWork *work, int map, int n_prims)
         return -1;
     }
 
-    prim->field_2E_k500 = 500;
-    prim->field_2E_k500 *= 2;
+    prim->raise = 500;
+    prim->raise *= 2;
 
     opt = GCL_GetOption('t');
     if (opt != NULL)

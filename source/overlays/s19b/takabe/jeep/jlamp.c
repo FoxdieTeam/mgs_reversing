@@ -42,7 +42,7 @@ static void InitPacks(DG_PRIM *prim, DG_TEX *tex)
     pack0->tpage = (pack0->tpage & ~0x60) | (1 << 5);
     *pack1 = *pack0;
 
-    prim->field_2E_k500 = 1500;
+    prim->raise = 1500;
 }
 
 static void ShadePacks(DG_PRIM *prim, int shade, int index)

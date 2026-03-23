@@ -1283,7 +1283,7 @@ int GunCame_800C8E7C(GunCameWork *work)
     work->field_328 = prim;
     if (prim != NULL)
     {
-        prim->field_2E_k500 = 500;
+        prim->raise = 500;
         tex = DG_GetTexture(GV_StrCode("camera_l"));
         work->field_32C = tex;
         if (tex != 0)

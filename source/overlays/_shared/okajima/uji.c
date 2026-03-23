@@ -324,8 +324,8 @@ int UjiGetResources_800C3FC8(UjiWork *work, int map)
         return -1;
     }
 
-    prim->field_2E_k500 = 500;
-    prim->field_2E_k500 /= 5;
+    prim->raise = 500;
+    prim->raise /= 5;
 
     tex = DG_GetTexture(GV_StrCode(aUji));
     if (!tex)

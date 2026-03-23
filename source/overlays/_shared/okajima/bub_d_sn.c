@@ -157,7 +157,7 @@ int BubbleDisplaySceneGetResources_800D8C90(BubDSnWork *work, int where)
     {
         return -1;
     }
-    prim->field_2E_k500 = 300;
+    prim->raise = 300;
 
     tex = DG_GetTexture(GV_StrCode("awa_s"));
     work->field_174 = tex;
@@ -176,7 +176,7 @@ int BubbleDisplaySceneGetResources_800D8C90(BubDSnWork *work, int where)
     {
         return -1;
     }
-    prim->field_2E_k500 = 300;
+    prim->raise = 300;
 
     tex = DG_GetTexture(GV_StrCode("awa_2"));
     work->field_178 = tex;
@@ -195,7 +195,7 @@ int BubbleDisplaySceneGetResources_800D8C90(BubDSnWork *work, int where)
     {
         return -1;
     }
-    prim->field_2E_k500 = 300;
+    prim->raise = 300;
 
     tex = DG_GetTexture(GV_StrCode("awa_3"));
     work->field_17C = tex;

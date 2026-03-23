@@ -151,7 +151,7 @@ void Blastoff_800DBD34(BlastoffWork *work)
     Blastoff_800DBC64(&prim->packs[1]->poly_ft4, tex, 16);
 
     prim->world = DG_ZeroMatrix;
-    prim->field_2E_k500 = 1000;
+    prim->raise = 1000;
 
     iter = work->prim_vecs;
     for (i = 16; i > 0; i--, iter++)

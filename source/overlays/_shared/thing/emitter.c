@@ -89,7 +89,7 @@ static int GetResources( Work *work, int map, int count )
         return -1;
     }
 
-    prim->field_2E_k500 = n;
+    prim->raise = n;
 
     tex = DG_GetTexture( GV_StrCode( "sfex0236" ) );
     if ( tex == NULL )

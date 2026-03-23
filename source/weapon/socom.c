@@ -136,7 +136,7 @@ static void socom_act_helper_8006528C(Work *work)
         prims = 10;
     }
 
-    work->prim1->n_prims = prims;
+    work->prim1->prim_count = prims;
 
     pVec = work->vertices;
     iVar3 = word_800AB824;
@@ -181,12 +181,12 @@ static void socom_act_helper_800653B8( Work *socom )
 
     if ( local_var == 0 )
     {
-        socom->prim2->n_prims = 1;
+        socom->prim2->prim_count = 1;
         ( socom->field_110[0] ).vy = word_800AB824;
     }
     else
     {
-        socom->prim2->n_prims = 2;
+        socom->prim2->prim_count = 2;
         ( socom->field_110[1] ).vy = -215 - (short)local_var;
         ( socom->field_110[0] ).vy = word_800AB824;
     }
@@ -420,7 +420,7 @@ static int GetResources( Work *actor, OBJECT *parent, int num_parent )
                 {
                     SocomInitLight( ( TILE* )&prim->packs[ 0 ]->tiles );
                     SocomInitLight( ( TILE* )&prim->packs[ 1 ]->tiles );
-                    prim->field_2E_k500 = 0x1F4;
+                    prim->raise = 0x1F4;
                     DG_InvisiblePrim( prim );
                     prim->root = &parent->objs->objs[ num_parent ].world;
                     return 0;

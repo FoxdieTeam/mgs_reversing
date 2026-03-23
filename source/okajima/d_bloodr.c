@@ -173,7 +173,7 @@ STATIC int d_bloodr_loader_helper_80072EFC(DBloodWorkr *work)
         return -1;
     }
 
-    prim->field_2E_k500 = 0;
+    prim->raise = 0;
     tex = DG_GetTexture(GV_StrCode("ketchap_grey"));
 
     if (!tex)

@@ -116,7 +116,7 @@ int s00a_eyeflash_800D0BE0(EyeflashWork *work, int arg1)
 
     if (prim)
     {
-        prim->field_2E_k500 = 1000;
+        prim->raise = 1000;
         work->field_3C = tex = DG_GetTexture(GV_StrCode("kirari"));
         if (tex)
         {

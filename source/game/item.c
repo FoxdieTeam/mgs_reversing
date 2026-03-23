@@ -761,7 +761,7 @@ static int GetResources(ItemWork *work, int name, int where)
             return -1;
         }
 
-        shadow->field_2E_k500 = raise;
+        shadow->raise = raise;
 
         tex = DG_GetTexture(GV_StrCode("shadow"));
         if (!tex)

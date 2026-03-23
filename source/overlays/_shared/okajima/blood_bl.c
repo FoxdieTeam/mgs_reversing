@@ -165,7 +165,7 @@ int BloodBlGetResources_800CD520(BloodBlWork *work, int map)
         return -1;
     }
 
-    prim->field_2E_k500 = raise;
+    prim->raise = raise;
 
     tex = DG_GetTexture(GV_StrCode("ketchap_grey"));
     if (tex == NULL)

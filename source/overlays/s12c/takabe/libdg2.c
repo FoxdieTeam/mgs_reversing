@@ -468,10 +468,10 @@ void FogSortChanl_800D4E98(DG_CHANL *chanl, int idx)
         }
 
         // TODO: clean up
-        ((SCRATCHPAD_UNK *)SCRPAD_ADDR)->len = prim->field_2E_k500;
+        ((SCRATCHPAD_UNK *)SCRPAD_ADDR)->len = prim->raise;
 
         type = (type + 1) & mask;
-        s12c_800D4D8C(prim->packs[idx], prim->n_prims, prim->psize,
+        s12c_800D4D8C(prim->packs[idx], prim->prim_count, prim->psize,
                       fog_prim_funcs_800C347C[type]);
     }
 

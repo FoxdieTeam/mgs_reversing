@@ -536,7 +536,7 @@ int Plasma_800CCCA0(PlasmaWork *work)
         return -1;
     }
 
-    prim->field_2E_k500 = 200;
+    prim->raise = 200;
 
     PlasmaTexPacks_800CBCE8(work, &prim->packs[0]->poly_ft4, 17, tex);
     PlasmaTexPacks_800CBCE8(work, &prim->packs[1]->poly_ft4, 17, tex);

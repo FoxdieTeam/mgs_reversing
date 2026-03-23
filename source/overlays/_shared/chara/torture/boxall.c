@@ -250,7 +250,7 @@ int Boxall_800C9D84(BoxallWork *work)
         return -1;
     }
 
-    prim->field_2E_k500 = k500;
+    prim->raise = k500;
 
     tex = DG_GetTexture(GV_StrCode("shadow"));
     if (tex == NULL)

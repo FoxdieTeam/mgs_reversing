@@ -114,7 +114,7 @@ static int GetResources(Work *work, OBJECT *parent, int num_parent)
     work->vertex.vy = -55;
     work->vertex.vz = 140;
 
-    pPrim->field_2E_k500 = 250;
+    pPrim->raise = 250;
     pTex = DG_GetTexture(GV_StrCode("rcm_l"));
 
     for (i = 0; i < 2; i++)

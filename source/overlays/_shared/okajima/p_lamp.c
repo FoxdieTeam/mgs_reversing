@@ -465,7 +465,7 @@ int PLampGetResources_800CD6E4(PLampWork *work, int map, int n_verts)
             return -1;
         }
 
-        prim->field_2E_k500 = 1000;
+        prim->raise = 1000;
 
         tex = DG_GetTexture(GV_StrCode("rcm_l"));
         if (tex == NULL)

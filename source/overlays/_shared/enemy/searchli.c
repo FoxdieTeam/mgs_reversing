@@ -1077,7 +1077,7 @@ int Searchli_800D9040(SearchlightWork *work)
         return -1;
     }
 
-    prim->field_2E_k500 = 600;
+    prim->raise = 600;
 
     tex = DG_GetTexture(GV_StrCode("shadow"));
     work->fFC.tex = tex;

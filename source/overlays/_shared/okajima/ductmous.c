@@ -302,7 +302,7 @@ int DuctmouseGetResources_800DAA1C(DuctmouseWork *work, int name, int where)
     work->prim = prim;
     if (prim != NULL)
     {
-        prim->field_2E_k500 = 500;
+        prim->raise = 500;
     }
 
     tex = DG_GetTexture(GV_StrCode("shadow"));

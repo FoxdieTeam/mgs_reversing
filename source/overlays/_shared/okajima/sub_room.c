@@ -345,7 +345,7 @@ int SubRoomGetResources_800C7B94(SubRoomWork *work)
         return -1;
     }
 
-    prim->field_2E_k500 = 250;
+    prim->raise = 250;
 
     tex = DG_GetTexture(GV_StrCode("sub_sn1"));
     if (tex == NULL)
@@ -367,7 +367,7 @@ int SubRoomGetResources_800C7B94(SubRoomWork *work)
         return -1;
     }
 
-    prim->field_2E_k500 = 250;
+    prim->raise = 250;
 
     tex = DG_GetTexture(GV_StrCode("sub_sn2"));
     if (tex == NULL)
@@ -387,7 +387,7 @@ int SubRoomGetResources_800C7B94(SubRoomWork *work)
         return -1;
     }
 
-    prim->field_2E_k500 = 250;
+    prim->raise = 250;
 
     tex = DG_GetTexture(GV_StrCode("sub_sline"));
     if (tex == NULL)
@@ -409,7 +409,7 @@ int SubRoomGetResources_800C7B94(SubRoomWork *work)
         return -1;
     }
 
-    prim->field_2E_k500 = 250;
+    prim->raise = 250;
 
     tex = DG_GetTexture(GV_StrCode("rcm_l"));
     if (tex == NULL)

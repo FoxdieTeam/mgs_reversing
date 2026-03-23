@@ -228,8 +228,8 @@ int MgRoomGetResources_800DB218(MgRoom *work)
         return -1;
     }
 
-    prim->field_2E_k500 = 250;
-    prim->field_2E_k500 *= 4;
+    prim->raise = 250;
+    prim->raise *= 4;
 
     tex = DG_GetTexture(GV_StrCode("sub_sline"));
     if (tex == NULL)
@@ -251,8 +251,8 @@ int MgRoomGetResources_800DB218(MgRoom *work)
         return -1;
     }
 
-    prim->field_2E_k500 = 50;
-    prim->field_2E_k500 *= 15;
+    prim->raise = 50;
+    prim->raise *= 15;
 
     tex = DG_GetTexture(GV_StrCode("m16d_snake"));
     if (tex == NULL)

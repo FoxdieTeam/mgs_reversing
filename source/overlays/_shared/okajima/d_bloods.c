@@ -383,8 +383,8 @@ int DBloods_800D5958(DBloodsWork *work, int arg1)
         return -1;
     }
 
-    prim->field_2E_k500 = 500;
-    prim->field_2E_k500 *= -1;
+    prim->raise = 500;
+    prim->raise *= -1;
 
     tex = DG_GetTexture(GV_StrCode("ketchap"));
     if (tex == NULL)

@@ -174,7 +174,7 @@ static int GetResources(Work *work, MATRIX *world)
         }
 
         prim->root = NULL;
-        prim->field_2E_k500 = 320;
+        prim->raise = 320;
 
         tex = DG_GetTexture(GV_StrCode("refrection6"));
 

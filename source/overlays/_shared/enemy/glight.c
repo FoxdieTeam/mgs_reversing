@@ -94,7 +94,7 @@ int GunLightGetResources_800D39D0(GlightWork *work, MATRIX *world, int **pvisibl
     work->visible = 1;
 
     work->prim->group_id = 0;
-    work->prim->field_2E_k500 = 200;
+    work->prim->raise = 200;
 
     tex = DG_GetTexture(GV_StrCode("famas_l"));
     if (tex == NULL)

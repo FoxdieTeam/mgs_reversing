@@ -135,7 +135,7 @@ int BubbleTCreatePacks_800DA1AC(BubbleTWork *work)
         return -1;
     }
 
-    prim->field_2E_k500 = 0;
+    prim->raise = 0;
 
     BubbleTInitPacks_800D9EFC(&prim->packs[0]->poly_ft4, 1, tex);
     BubbleTInitPacks_800D9EFC(&prim->packs[1]->poly_ft4, 1, tex);

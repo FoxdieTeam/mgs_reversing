@@ -1301,7 +1301,7 @@ STATIC void anime_loader_helper_8005F6EC(AnimeWork *work, char shade)
     poly_ft4[1] = &prim->packs[1]->poly_ft4;
 
     f44 = work->raise;
-    prim->field_2E_k500 = f44;
+    prim->raise = f44;
 
     item = work->items;
 

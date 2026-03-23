@@ -202,7 +202,7 @@ int WindcrclGetResources_800CF598(WindcrclWork *work, MATRIX *world, int arg2)
 
     d01a_windcrcl_800CF2FC(&prim->packs[0]->poly_ft4, &prim->packs[1]->poly_ft4, 32, tex);
 
-    prim->field_2E_k500 = 1000;
+    prim->raise = 1000;
 
     DG_InvisiblePrim(prim);
 

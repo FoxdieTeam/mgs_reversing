@@ -341,7 +341,7 @@ int RevbulltGetResources_800D2BFC(RevbulltWork *work, MATRIX *world, int arg2, i
             return -1;
         }
 
-        prim->field_2E_k500 = k500;
+        prim->raise = k500;
 
         tex = DG_GetTexture(GV_StrCode("bullet"));
         if (tex == NULL)

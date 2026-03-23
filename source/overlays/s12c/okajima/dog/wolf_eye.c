@@ -103,7 +103,7 @@ int WolfEyeGetResources_800D3728(WolfEyeWork *work, MATRIX *root, int *visible)
         return -1;
     }
 
-    prim->field_2E_k500 = 300;
+    prim->raise = 300;
     prim->root = root;
 
     WolfEye_800D355C(&prim->packs[0]->poly_ft4, 1, tex);
@@ -118,7 +118,7 @@ int WolfEyeGetResources_800D3728(WolfEyeWork *work, MATRIX *root, int *visible)
         return -1;
     }
 
-    prim->field_2E_k500 = 300;
+    prim->raise = 300;
     prim->root = root;
 
     WolfEye_800D355C(&prim->packs[0]->poly_ft4, 1, tex);

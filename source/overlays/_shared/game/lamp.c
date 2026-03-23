@@ -343,7 +343,7 @@ static int GetResources(Work *work, int map, int name, int a3, int a4)
     DG_SetPos(&mat);
     DG_PutPrim(&prim->world);
 
-    prim->field_2E_k500 = param3;
+    prim->raise = param3;
     work->field_26 = a3;
     work->field_27 = a4;
 

@@ -23,7 +23,7 @@ static POLY_FT4 *MakeIndividualRect3DPrimHandler(DG_PRIM *prim, POLY_FT4 *packs,
     int      x, y;
     int      clamp;
 
-    verts = prim->vertices;
+    verts = prim->pos;
     in = (SVECTOR *)getScratchAddr(0);
 
     clip_dist = DG_Chanls[1].clip_distance;
@@ -110,12 +110,12 @@ static POLY_FT4 *MakeIndividualRect3DPrimHandler(DG_PRIM *prim, POLY_FT4 *packs,
     return packs;
 }
 
-DG_PRIM *Takabe_MakeIndividualRect3DPrim(int n_vertices, SVECTOR *vertices)
+DG_PRIM *Takabe_MakeIndividualRect3DPrim(int n_prims, SVECTOR *pos)
 {
-    DG_PRIM *prim = GM_MakePrim(DG_PRIM_FREEPACKS | DG_PRIM_POLY_FT4, n_vertices, vertices, NULL);
+    DG_PRIM *prim = GM_MakePrim(DG_PRIM_FREEPACKS | DG_PRIM_POLY_FT4, n_prims, pos, NULL);
 
     prim->handler = &MakeIndividualRect3DPrimHandler;
-    prim->n_vertices = n_vertices;
+    prim->n_prims = n_prims;
 
     return prim;
 }

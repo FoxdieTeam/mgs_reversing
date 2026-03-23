@@ -901,7 +901,7 @@ static void InitMissileFlame(Work *work)
     SetPolyTexture(&prim->packs[1]->poly_ft4, tex, 8);
 
     prim->world = DG_ZeroMatrix;
-    prim->field_2E_k500 = 100;
+    prim->raise = 100;
 
     vec = work->flame_vec;
     for (count = 8; count > 0; vec++, count--)
