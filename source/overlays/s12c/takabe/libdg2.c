@@ -374,7 +374,7 @@ void s12c_800D4CF4(unsigned int *ot)
     }
 }
 
-void *s12c_800D4D8C(union Prim_Union *buffer, int n_prims, int size, void (*callback)(void *, void *, int))
+void *s12c_800D4D8C(u_short *buffer, int n_prims, int size, void (*callback)(void *, void *, int))
 {
     unsigned int *ot;
     int          *currentOt;
@@ -389,7 +389,7 @@ void *s12c_800D4D8C(union Prim_Union *buffer, int n_prims, int size, void (*call
 
     while (--n_prims >= 0)
     {
-        idx = buffer->u16_access[0];
+        idx = *buffer;
         if (idx > 0)
         {
             idx -= len;
@@ -411,12 +411,12 @@ void *s12c_800D4D8C(union Prim_Union *buffer, int n_prims, int size, void (*call
                 currentOt = &ot[idx];
 
                 // Not quite addPrim()
-                buffer->s32_access[0] = (buffer->s32_access[0] & 0xFF000000) | *currentOt;
+                *(int *)buffer = (*(int *)buffer & 0xFF000000) | *currentOt;
                 *currentOt = (int)(buffer)&0xFFFFFF;
             }
         }
 
-        buffer = (union Prim_Union *)((char *)buffer + size);
+        buffer = (char *)buffer + size;
     }
 
     return buffer;

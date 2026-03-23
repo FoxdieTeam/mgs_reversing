@@ -171,10 +171,10 @@ void GunCame_800C7118(DG_PRIM *prim, DG_TEX *tex, int r, int g, int b)
 {
     POLY_FT4 *poly;
 
-    poly = &prim->packs[0]->poly_ft4;
+    poly = prim->packs[0];
     setRGB0(poly, r, g, b);
 
-    poly = &prim->packs[1]->poly_ft4;
+    poly = prim->packs[1];
     setRGB0(poly, r, g, b);
 }
 
@@ -1288,8 +1288,8 @@ int GunCame_800C8E7C(GunCameWork *work)
         work->field_32C = tex;
         if (tex != 0)
         {
-            GunCame_800C8E04(&prim->packs[0]->poly_ft4, tex, 128);
-            GunCame_800C8E04(&prim->packs[1]->poly_ft4, tex, 100);
+            GunCame_800C8E04(prim->packs[0], tex, 128);
+            GunCame_800C8E04(prim->packs[1], tex, 100);
             return 0;
         }
     }

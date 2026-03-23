@@ -181,7 +181,7 @@ STATIC int d_bloodr_loader_helper_80072EFC(DBloodWorkr *work)
         return -1;
     }
 
-    d_bloodr_loader_helper_helper_80072DE8(&prim->packs[0]->poly_ft4, &prim->packs[1]->poly_ft4, 4, tex);
+    d_bloodr_loader_helper_helper_80072DE8(prim->packs[0], prim->packs[1], 4, tex);
     return 0;
 }
 

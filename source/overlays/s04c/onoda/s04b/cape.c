@@ -315,8 +315,8 @@ int CapeGetResources_800D907C(CapeWork *work, SVECTOR *arg1, SVECTOR *arg2, MATR
     prim = GM_MakePrim(DG_PRIM_POLY_GT4, 24, (SVECTOR *)work->verts, NULL);
     work->prim = prim;
 
-    packs0 = &prim->packs[0]->poly_gt4;
-    packs1 = &prim->packs[1]->poly_gt4;
+    packs0 = prim->packs[0];
+    packs1 = prim->packs[1];
 
     tex = DG_GetTexture(GV_StrCode("oce_skirt1"));
 

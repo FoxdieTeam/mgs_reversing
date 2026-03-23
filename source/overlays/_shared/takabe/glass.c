@@ -139,8 +139,8 @@ void GlassAct_800D302C(GlassWork *work)
             GM_SeSet(&work->pos, SE_BROKEN_GLASS);
 
             size = 3 - work->fB0;
-            GlassInitPacks_800D2E88(&work->prim->packs[0]->poly_ft4, work->tex, size);
-            GlassInitPacks_800D2E88(&work->prim->packs[1]->poly_ft4, work->tex, size);
+            GlassInitPacks_800D2E88(work->prim->packs[0], work->tex, size);
+            GlassInitPacks_800D2E88(work->prim->packs[1], work->tex, size);
         }
     }
 
@@ -249,8 +249,8 @@ int GlassGetResources_800D335C(GlassWork *work, int name, int map)
     DG_SetPos(&work->world);
     DG_PutPrim(&prim->world);
 
-    GlassInitPacks_800D2E88(&work->prim->packs[0]->poly_ft4, tex, 0);
-    GlassInitPacks_800D2E88(&work->prim->packs[1]->poly_ft4, tex, 0);
+    GlassInitPacks_800D2E88(work->prim->packs[0], tex, 0);
+    GlassInitPacks_800D2E88(work->prim->packs[1], tex, 0);
 
     x = work->size.vx;
     y = work->size.vy;

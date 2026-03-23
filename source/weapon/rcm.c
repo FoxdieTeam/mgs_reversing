@@ -36,7 +36,7 @@ typedef struct _Work
     int            which_side;
     int            counter;
     DG_PRIM       *prim;
-    int            lightval; // state of the blinking light
+    int            shade; // state of the blinking light
 } Work;
 
 STATIC SVECTOR stru_800AB870 = {-100, -800, 80, 0};
@@ -78,36 +78,36 @@ static void SetLightTexture(POLY_FT4 *poly, DG_TEX *tex)
  */
 static void UpdateLight(Work *work, int flags)
 {
-    int lightval;
-    union Prim_Union *prim;
+    int      shade;
+    LINE_G2 *prim;
 
-    lightval = work->lightval;
+
+    shade = work->shade;
     if ((flags & 1) != 0)
     {
-        if (lightval <= 0)
+        if (shade <= 0)
         {
-            lightval = 256;
+            shade = 256;
         }
         // fade the light out
-        lightval -= 8;
+        shade -= 8;
     }
     else
     {
         // light off if the button is not pressed
-        lightval = 0;
+        shade = 0;
     }
-    work->lightval = lightval;
+    work->shade = shade;
 
-    lightval -= 64;
+    shade -= 64;
 
-    if (lightval < 0)
+    if (shade < 0)
     {
-        lightval = 0;
+        shade = 0;
     }
+
     prim = work->prim->packs[GV_Clock];
-    prim->line_g2.r0 = lightval;
-    prim->line_g2.g0 = lightval;
-    prim->line_g2.b0 = lightval;
+    setRGB0(prim, shade, shade, shade);
 }
 
 /**
@@ -237,8 +237,8 @@ static int GetResources(Work *work, OBJECT *parent, int unit)
         tex = DG_GetTexture(LIGHT_TEXTURE);
         if (tex)
         {
-            SetLightTexture(&prim->packs[0]->poly_ft4, tex);
-            SetLightTexture(&prim->packs[1]->poly_ft4, tex);
+            SetLightTexture(prim->packs[0], tex);
+            SetLightTexture(prim->packs[1], tex);
             prim->root = &parent->objs->objs[unit].world;
             return 0;
         }
@@ -280,7 +280,7 @@ void *NewRCM(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *fla
         work->num_parent = num_parent;
         work->flags = flags;
         work->which_side = which_side;
-        work->lightval = 0;
+        work->shade = 0;
         work->counter = 0;
     }
 

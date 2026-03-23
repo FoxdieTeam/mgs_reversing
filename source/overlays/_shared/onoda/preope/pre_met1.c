@@ -376,7 +376,7 @@ static void PreMet1ShadePacks_800C5A98(Work *work)
     int       i;
 
     poly_src = work->field_68;
-    poly_dst = &work->field_20->packs[GV_Clock]->poly_ft4;
+    poly_dst = work->field_20->packs[GV_Clock];
 
     for (i = 0; i < 6; poly_dst++, poly_src++, i++)
     {
@@ -401,7 +401,7 @@ static void PreMet1ShadePacks_800C5A98(Work *work)
     }
 
     poly_src = work->field_158;
-    poly_dst = &work->field_24->packs[GV_Clock]->poly_ft4;
+    poly_dst = work->field_24->packs[GV_Clock];
 
     for (i = 0; i < 9; poly_dst++, poly_src++, i++)
     {

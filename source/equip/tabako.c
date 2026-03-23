@@ -119,7 +119,7 @@ static int GetResources(Work *work, OBJECT *parent, int num_parent)
 
     for (i = 0; i < 2; i++)
     {
-        pPoly = &pPrim->packs[i]->poly_ft4;
+        pPoly = pPrim->packs[i];
 
         LSTORE(COLOR_GRAY, &pPoly->r0);
 

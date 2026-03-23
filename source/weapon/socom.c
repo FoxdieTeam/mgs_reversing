@@ -312,8 +312,8 @@ static void Act( Work *work )
         f108 = work->field_108 + work->random;
         work->field_108 = f108;
 
-        SocomSetPolyUVs( &work->prim1->packs[ 0 ]->poly_ft4, work->tex, f108 );
-        SocomSetPolyUVs( &work->prim1->packs[ 1 ]->poly_ft4, work->tex, f108 );
+        SocomSetPolyUVs( work->prim1->packs[ 0 ], work->tex, f108 );
+        SocomSetPolyUVs( work->prim1->packs[ 1 ], work->tex, f108 );
         socom_act_helper_8006528C( work );
 
         color = work->parent->objs->objs[ work->num_parent ].screen.m[2][1] / 16;
@@ -328,8 +328,8 @@ static void Act( Work *work )
             color = 0xff;
         }
 
-        SocomSetTilesColor( &work->prim2->packs[ 0 ]->tiles, color );
-        SocomSetTilesColor( &work->prim2->packs[ 1 ]->tiles, color );
+        SocomSetTilesColor( work->prim2->packs[ 0 ], color );
+        SocomSetTilesColor( work->prim2->packs[ 1 ], color );
         socom_act_helper_800653B8( work );
     }
 
@@ -410,16 +410,16 @@ static int GetResources( Work *actor, OBJECT *parent, int num_parent )
             actor->tex = tex;
             if ( tex )
             {
-                SocomSetPolyTexture( &newprim->packs[ 0 ]->poly_ft4, tex );
-                SocomSetPolyTexture( &newprim->packs[ 1 ]->poly_ft4, tex );
+                SocomSetPolyTexture( newprim->packs[ 0 ], tex );
+                SocomSetPolyTexture( newprim->packs[ 1 ], tex );
                 SocomInitVectors( actor );
                 newprim->root = &parent->objs->objs[ num_parent ].world;
                 actor->prim2 = prim = GM_MakePrim( DG_PRIM_OFFSET | DG_PRIM_TILE, 2, actor->field_110, &stru_800AB828 );
                 actor->field_110[0] = actor->field_110[1] = stru_8009F3C4[0];
                 if ( prim )
                 {
-                    SocomInitLight( ( TILE* )&prim->packs[ 0 ]->tiles );
-                    SocomInitLight( ( TILE* )&prim->packs[ 1 ]->tiles );
+                    SocomInitLight( ( TILE* )prim->packs[ 0 ] );
+                    SocomInitLight( ( TILE* )prim->packs[ 1 ] );
                     prim->raise = 0x1F4;
                     DG_InvisiblePrim( prim );
                     prim->root = &parent->objs->objs[ num_parent ].world;

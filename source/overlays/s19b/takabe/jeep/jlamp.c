@@ -32,8 +32,8 @@ static void InitPacks(DG_PRIM *prim, DG_TEX *tex)
     POLY_FT4 *pack0;
     POLY_FT4 *pack1;
 
-    pack0 = &prim->packs[0]->poly_ft4;
-    pack1 = &prim->packs[1]->poly_ft4;
+    pack0 = prim->packs[0];
+    pack1 = prim->packs[1];
 
     setPolyFT4(pack0);
     setSemiTrans(pack0, 1);
@@ -49,7 +49,7 @@ static void ShadePacks(DG_PRIM *prim, int shade, int index)
 {
     POLY_FT4 *pack;
 
-    pack = &prim->packs[index]->poly_ft4;
+    pack = prim->packs[index];
     setRGB0(pack, shade, shade, shade);
 }
 

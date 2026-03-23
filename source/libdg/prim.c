@@ -633,8 +633,8 @@ DG_PRIM *DG_MakePrim( int type, int prim_count, int chanl, SVECTOR *pos, RECT *r
     prim->vstep = info->vstep;
 
     // Point to data after the end of the structure
-    prim->packs[0] = (union Prim_Union *)&prim[1];
-    prim->packs[1] = (union Prim_Union *)((char *)&prim[1] + pack_size);
+    prim->packs[0] = &prim[1];
+    prim->packs[1] = (char *)&prim[1] + pack_size;
 
     return prim;
 }

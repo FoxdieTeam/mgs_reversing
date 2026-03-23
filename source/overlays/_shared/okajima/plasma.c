@@ -229,7 +229,7 @@ void Plasma_800CC258(PlasmaWork *work)
     SVECTOR   rot;
     POLY_FT4 *packs;
 
-    packs = &work->prim->packs[GV_Clock]->poly_ft4;
+    packs = work->prim->packs[GV_Clock];
 
     if ((work->f3AC > 3) && (work->f3AC < 6))
     {
@@ -538,8 +538,8 @@ int Plasma_800CCCA0(PlasmaWork *work)
 
     prim->raise = 200;
 
-    PlasmaTexPacks_800CBCE8(work, &prim->packs[0]->poly_ft4, 17, tex);
-    PlasmaTexPacks_800CBCE8(work, &prim->packs[1]->poly_ft4, 17, tex);
+    PlasmaTexPacks_800CBCE8(work, prim->packs[0], 17, tex);
+    PlasmaTexPacks_800CBCE8(work, prim->packs[1], 17, tex);
 
     return 0;
 }

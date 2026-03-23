@@ -122,7 +122,7 @@ static void Act(Work *work)
     tilemap = work->img->tilemap;
     textures = work->textures;
 
-    poly = &work->prim->packs[GV_Clock]->poly_ft4;
+    poly = work->prim->packs[GV_Clock];
     for (y = 0; y < sphere_visible_tiles_y; y++)
     {
         x0 = x0_orig;
@@ -263,7 +263,7 @@ static int GetResources(Work *work, int map)
 
     for (index = 0; index < 2; index++)
     {
-        poly = &work->prim->packs[index]->poly_ft4;
+        poly = work->prim->packs[index];
         for (i = 0; i < n_prims; i++)
         {
             setRGB0(poly, color.vx, color.vy, color.vz);

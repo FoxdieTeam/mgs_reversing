@@ -102,13 +102,13 @@ int BlinkTxGetResources_800DEBB4(BlinkTxWork *work, int map, int n_prims)
 
     if (GCL_GetOption('n'))
     {
-        BlinkTxShadePacks_800DEA9C(&prim->packs[0]->poly_ft4, n_prims, tex, 36);
-        BlinkTxShadePacks_800DEA9C(&prim->packs[1]->poly_ft4, n_prims, tex, 36);
+        BlinkTxShadePacks_800DEA9C(prim->packs[0], n_prims, tex, 36);
+        BlinkTxShadePacks_800DEA9C(prim->packs[1], n_prims, tex, 36);
     }
     else
     {
-        BlinkTxShadePacks_800DEA9C(&prim->packs[0]->poly_ft4, n_prims, tex, 30);
-        BlinkTxShadePacks_800DEA9C(&prim->packs[1]->poly_ft4, n_prims, tex, 36);
+        BlinkTxShadePacks_800DEA9C(prim->packs[0], n_prims, tex, 30);
+        BlinkTxShadePacks_800DEA9C(prim->packs[1], n_prims, tex, 36);
     }
 
     return 0;

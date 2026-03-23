@@ -344,7 +344,7 @@ static void Act(Work *work)
 
             if (work->f254C != 0)
             {
-                Snow_800C5234(&entry->prim->packs[GV_Clock]->tiles, 32, work->colors);
+                Snow_800C5234(entry->prim->packs[GV_Clock], 32, work->colors);
             }
 
             DG_PutPrim(&entry->prim->world);
@@ -496,7 +496,7 @@ static int GetResources(Work *work, int map)
             return -1;
         }
 
-        Snow_800C52F0(&prim->packs[0]->tiles, &prim->packs[1]->tiles, 32, work->colors);
+        Snow_800C52F0(prim->packs[0], prim->packs[1], 32, work->colors);
         Snow_800C5544(work, entry, 0, &GM_WhereList[0]->mov);
 
         entry++;

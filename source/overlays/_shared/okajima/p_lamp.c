@@ -481,13 +481,13 @@ int PLampGetResources_800CD6E4(PLampWork *work, int map, int n_verts)
         if (i < 16)
         {
             shade = (16 - i) * 8;
-            PLamp_800CCBA8(&prim->packs[0]->poly_ft4, tex, shade, shade, shade);
-            PLamp_800CCBA8(&prim->packs[1]->poly_ft4, tex, shade, shade, shade);
+            PLamp_800CCBA8(prim->packs[0], tex, shade, shade, shade);
+            PLamp_800CCBA8(prim->packs[1], tex, shade, shade, shade);
         }
         else
         {
-            PLamp_800CCBA8(&prim->packs[0]->poly_ft4, tex, 0, 72, 128);
-            PLamp_800CCBA8(&prim->packs[1]->poly_ft4, tex, 0, 0, 128);
+            PLamp_800CCBA8(prim->packs[0], tex, 0, 72, 128);
+            PLamp_800CCBA8(prim->packs[1], tex, 0, 0, 128);
         }
     }
 

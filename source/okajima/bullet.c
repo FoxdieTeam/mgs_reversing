@@ -578,8 +578,8 @@ STATIC int bullet_GetResources(BulletWork *work, MATRIX* pMtx, int arg2, int noi
             return -1;
         }
 
-        bullet_loader2_helper_80075610(&pPrim->packs[0]->poly_ft4, pTex, arg2);
-        bullet_loader2_helper_80075610(&pPrim->packs[1]->poly_ft4, pTex, arg2);
+        bullet_loader2_helper_80075610(pPrim->packs[0], pTex, arg2);
+        bullet_loader2_helper_80075610(pPrim->packs[1], pTex, arg2);
         bullet_loader2_helper_80075358(work);
     }
 

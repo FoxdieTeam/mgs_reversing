@@ -36,10 +36,10 @@ void s01a_asiato2_800DCE0C(DG_PRIM *prim, DG_TEX *tex, int r, int g, int b)
 {
     POLY_FT4 *poly;
 
-    poly = &prim->packs[0]->poly_ft4;
+    poly = prim->packs[0];
     setRGB0(poly, r, g, b);
 
-    poly = &prim->packs[1]->poly_ft4;
+    poly = prim->packs[1];
     setRGB0(poly, r, g, b);
 }
 
@@ -154,8 +154,8 @@ int Asiato2GetResources_800DCFF4(AsiatoWork *work, MATRIX *world, int arg2, int 
         return -1;
     }
 
-    s01a_asiato2_800DCF00(&prim->packs[0]->poly_ft4, tex, 2, 48, 48, 48);
-    s01a_asiato2_800DCF00(&prim->packs[1]->poly_ft4, tex, 2, 48, 48, 48);
+    s01a_asiato2_800DCF00(prim->packs[0], tex, 2, 48, 48, 48);
+    s01a_asiato2_800DCF00(prim->packs[1], tex, 2, 48, 48, 48);
 
     DG_SetPos2(&pos, &rot);
     DG_PutPrim(&work->prim->world);

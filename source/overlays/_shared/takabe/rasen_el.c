@@ -894,8 +894,8 @@ void s11c_800CDAB4(RasenElWork *work)
     prim = GM_MakePrim(DG_PRIM_ONEFACE | DG_PRIM_POLY_FT4, 3, work->f250, NULL);
     work->f24C = prim;
 
-    s11c_800CD868(&prim->packs[0]->poly_ft4, work->f2C0);
-    s11c_800CD868(&prim->packs[1]->poly_ft4, work->f2C0);
+    s11c_800CD868(prim->packs[0], work->f2C0);
+    s11c_800CD868(prim->packs[1], work->f2C0);
 
     s11c_800CD958(work);
 
@@ -913,8 +913,8 @@ void s11c_800CDB6C(RasenElWork *work)
     int       color;
 
     prim = work->f24C;
-    pack1 = &work->f24C->packs[0]->poly_ft4;
-    pack0 = &work->f24C->packs[1]->poly_ft4;
+    pack1 = work->f24C->packs[0];
+    pack0 = work->f24C->packs[1];
 
     for (i = 0; i < 3; i++)
     {

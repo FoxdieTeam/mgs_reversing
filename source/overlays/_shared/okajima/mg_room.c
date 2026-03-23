@@ -138,7 +138,7 @@ void MgRoom_800DAF34(MgRoom *work)
     POLY_FT4 *poly;
     int       i;
 
-    poly = &work->prim2->packs[GV_Clock]->poly_ft4;
+    poly = work->prim2->packs[GV_Clock];
     for (i = 0; i < 1; i++)
     {
         color = work->color[i];
@@ -241,8 +241,8 @@ int MgRoomGetResources_800DB218(MgRoom *work)
     color.vy = 32;
     color.vz = 32;
 
-    MgRoom_800DAD38(&prim->packs[0]->poly_ft4, 1, tex, &color);
-    MgRoom_800DAD38(&prim->packs[1]->poly_ft4, 1, tex, &color);
+    MgRoom_800DAD38(prim->packs[0], 1, tex, &color);
+    MgRoom_800DAD38(prim->packs[1], 1, tex, &color);
 
     prim = GM_MakePrim(DG_PRIM_POLY_FT4, 1, work->vec2[0], NULL);
     work->prim2 = prim;
@@ -262,8 +262,8 @@ int MgRoomGetResources_800DB218(MgRoom *work)
 
     color = DG_ZeroVector;
 
-    MgRoom_800DAC98(&prim->packs[0]->poly_ft4, 1, tex, &color);
-    MgRoom_800DAC98(&prim->packs[1]->poly_ft4, 1, tex, &color);
+    MgRoom_800DAC98(prim->packs[0], 1, tex, &color);
+    MgRoom_800DAC98(prim->packs[1], 1, tex, &color);
 
     sp20.vx = 1150;
     sp20.vy = 2480;

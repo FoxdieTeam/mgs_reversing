@@ -94,7 +94,7 @@ void SubRoom_800C73E4(SubRoomWork *work)
     last = 0;
     mod = work->f5D8 % 16;
 
-    poly = &work->prim2->packs[GV_Clock]->poly_ft4;
+    poly = work->prim2->packs[GV_Clock];
 
     for (i = 0; i < 2; i++)
     {
@@ -186,7 +186,7 @@ void SubRoom_800C7678(SubRoomWork *work)
     POLY_FT4 *poly;
     int       i;
 
-    poly = &work->prim4->packs[GV_Clock]->poly_ft4;
+    poly = work->prim4->packs[GV_Clock];
 
     for (i = 0; i < 2; i++)
     {
@@ -357,8 +357,8 @@ int SubRoomGetResources_800C7B94(SubRoomWork *work)
     color.vy = 255;
     color.vz = 255;
 
-    SubRoomShadePacks_800C729C(&prim->packs[0]->poly_ft4, 2, tex, &color);
-    SubRoomShadePacks_800C729C(&prim->packs[1]->poly_ft4, 2, tex, &color);
+    SubRoomShadePacks_800C729C(prim->packs[0], 2, tex, &color);
+    SubRoomShadePacks_800C729C(prim->packs[1], 2, tex, &color);
 
     prim = GM_MakePrim(DG_PRIM_POLY_FT4, 32, (SVECTOR *)work->verts2, NULL);
     work->prim2 = prim;
@@ -377,8 +377,8 @@ int SubRoomGetResources_800C7B94(SubRoomWork *work)
 
     color = DG_ZeroVector;
 
-    SubRoomShadePacks_800C729C(&prim->packs[0]->poly_ft4, 32, tex, &color);
-    SubRoomShadePacks_800C729C(&prim->packs[1]->poly_ft4, 32, tex, &color);
+    SubRoomShadePacks_800C729C(prim->packs[0], 32, tex, &color);
+    SubRoomShadePacks_800C729C(prim->packs[1], 32, tex, &color);
 
     prim = GM_MakePrim(DG_PRIM_POLY_FT4, 5, (SVECTOR *)work->verts3, NULL);
     work->prim3 = prim;
@@ -399,8 +399,8 @@ int SubRoomGetResources_800C7B94(SubRoomWork *work)
     color.vy = 32;
     color.vz = 32;
 
-    SubRoomShadePacks_800C7340(&prim->packs[0]->poly_ft4, 5, tex, &color);
-    SubRoomShadePacks_800C7340(&prim->packs[1]->poly_ft4, 5, tex, &color);
+    SubRoomShadePacks_800C7340(prim->packs[0], 5, tex, &color);
+    SubRoomShadePacks_800C7340(prim->packs[1], 5, tex, &color);
 
     prim = GM_MakePrim(DG_PRIM_POLY_FT4, 2, (SVECTOR *)work->verts4, NULL);
     work->prim4 = prim;
@@ -419,8 +419,8 @@ int SubRoomGetResources_800C7B94(SubRoomWork *work)
 
     color = DG_ZeroVector;
 
-    SubRoomShadePacks_800C729C(&prim->packs[0]->poly_ft4, 2, tex, &color);
-    SubRoomShadePacks_800C729C(&prim->packs[1]->poly_ft4, 2, tex, &color);
+    SubRoomShadePacks_800C729C(prim->packs[0], 2, tex, &color);
+    SubRoomShadePacks_800C729C(prim->packs[1], 2, tex, &color);
 
     // Inline crap i'd imagine
     off1 = 470;

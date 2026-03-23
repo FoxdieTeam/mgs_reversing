@@ -347,8 +347,8 @@ STATIC int claymore_GetResources(ClaymoreWork *work, SVECTOR *new_field_24, SVEC
         tex = DG_GetTexture(GV_StrCode("bullet"));
         if (tex)
         {
-            claymore_loader_helper_80073490(&prim->packs[0]->poly_ft4, tex);
-            claymore_loader_helper_80073490(&prim->packs[1]->poly_ft4, tex);
+            claymore_loader_helper_80073490(prim->packs[0], tex);
+            claymore_loader_helper_80073490(prim->packs[1], tex);
             claymore_loader_helper2_800731F8(work);
             retval = 0;
         }

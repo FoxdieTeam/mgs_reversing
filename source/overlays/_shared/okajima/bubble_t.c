@@ -81,8 +81,8 @@ void BubbleTUpdatePacks_800D9F8C(BubbleTWork *work)
                 GV_DestroyActor(&work->actor);
             }
 
-            BubbleTShadePacks_800D9EEC(&work->prim->packs[0]->poly_ft4 + i, 0);
-            BubbleTShadePacks_800D9EEC(&work->prim->packs[1]->poly_ft4 + i, 0);
+            BubbleTShadePacks_800D9EEC(((POLY_FT4 *)work->prim->packs[0]) + i, 0);
+            BubbleTShadePacks_800D9EEC(((POLY_FT4 *)work->prim->packs[1]) + i, 0);
         }
         else
         {
@@ -137,8 +137,8 @@ int BubbleTCreatePacks_800DA1AC(BubbleTWork *work)
 
     prim->raise = 0;
 
-    BubbleTInitPacks_800D9EFC(&prim->packs[0]->poly_ft4, 1, tex);
-    BubbleTInitPacks_800D9EFC(&prim->packs[1]->poly_ft4, 1, tex);
+    BubbleTInitPacks_800D9EFC(prim->packs[0], 1, tex);
+    BubbleTInitPacks_800D9EFC(prim->packs[1], 1, tex);
 
     return 0;
 }

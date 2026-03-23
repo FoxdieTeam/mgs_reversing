@@ -111,8 +111,8 @@ void s19b_jblood_800C8BEC(Work *work)
     s19b_jblood_800C8A48(work->field_28, work->prim_verts, 16);
 
     prim = work->prim;
-    s19b_jblood_800C8BC0(&prim->packs[0]->poly_ft4, 16, time * 16);
-    s19b_jblood_800C8BC0(&prim->packs[1]->poly_ft4, 16, time * 16);
+    s19b_jblood_800C8BC0(prim->packs[0], 16, time * 16);
+    s19b_jblood_800C8BC0(prim->packs[1], 16, time * 16);
 
     work->field_2AC.t[0] += s19b_dword_800DE658[3].vx;
     work->field_2AC.t[1] += s19b_dword_800DE658[3].vy;

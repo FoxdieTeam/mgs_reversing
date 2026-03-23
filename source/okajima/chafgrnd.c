@@ -245,7 +245,7 @@ static void Act(Work* work)
         *var_s7 = *var_s4;
     }
 
-    InitParticleColor(&work->field_a34->packs[GV_Clock]->tiles);
+    InitParticleColor(work->field_a34->packs[GV_Clock]);
 }
 
 static int GetResources(Work *work, MATRIX *world)
@@ -283,8 +283,8 @@ static int GetResources(Work *work, MATRIX *world)
         return -1;
     }
 
-    InitParticleSize(&prim->packs[0]->tiles);
-    InitParticleSize(&prim->packs[1]->tiles);
+    InitParticleSize(prim->packs[0]);
+    InitParticleSize(prim->packs[1]);
 
     work->field_a80 = DG_ZeroMatrix;
 

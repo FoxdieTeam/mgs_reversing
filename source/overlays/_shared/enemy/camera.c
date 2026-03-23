@@ -108,10 +108,10 @@ void s01a_camera_800D4CFC(DG_PRIM *prim, DG_TEX *tex, int r, int g, int b)
 {
     POLY_FT4 *poly;
 
-    poly = &prim->packs[0]->poly_ft4;
+    poly = prim->packs[0];
     setRGB0(poly, r, g, b);
 
-    poly = &prim->packs[1]->poly_ft4;
+    poly = prim->packs[1];
     setRGB0(poly, r, g, b);
 }
 
@@ -1015,8 +1015,8 @@ int InitLed_800D6504(CameraWork *work)
         work->field_198 = tex = DG_GetTexture(GV_StrCode("camera_l"));
         if (tex != NULL)
         {
-            s01a_camera_800D648C(&prim->packs[0]->poly_ft4, tex, 0x80);
-            s01a_camera_800D648C(&prim->packs[1]->poly_ft4, tex, 0x64);
+            s01a_camera_800D648C(prim->packs[0], tex, 0x80);
+            s01a_camera_800D648C(prim->packs[1], tex, 0x64);
             return 0;
         }
     }

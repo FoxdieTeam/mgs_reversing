@@ -994,7 +994,7 @@ STATIC int anime_fn_6_8005EF04(AnimeWork *work, int idx)
     {
         for (i = 0; i < 2; i++)
         {
-            pPoly = &work->prim->packs[i]->poly_ft4;
+            pPoly = work->prim->packs[i];
             pPoly += idx;
 
             setSemiTrans(pPoly, 1);
@@ -1007,7 +1007,7 @@ STATIC int anime_fn_6_8005EF04(AnimeWork *work, int idx)
     {
         for (i = 0; i < 2; i++)
         {
-            pPoly = &work->prim->packs[i]->poly_ft4;
+            pPoly = work->prim->packs[i];
             pPoly += idx;
 
             setSemiTrans(pPoly, 0);
@@ -1045,13 +1045,11 @@ STATIC int anime_fn_7_8005EFF8(AnimeWork *work, int idx)
 
 STATIC void anime_act_helper_8005F094(AnimeWork *work)
 {
-    int               i;
-    union Prim_Union *pPrimStart;
-    AnimeItem       *pOffIter;
-    POLY_FT4         *pPrim;
+    int         i;
+    AnimeItem *pOffIter;
+    POLY_FT4  *pPrim;
 
-    pPrimStart = work->prim->packs[GV_Clock];
-    pPrim = &pPrimStart->poly_ft4;
+    pPrim = work->prim->packs[GV_Clock];
     pOffIter = &work->items[0];
 
     for (i = work->n_vertices; i > 0; i--)
@@ -1297,8 +1295,8 @@ STATIC void anime_loader_helper_8005F6EC(AnimeWork *work, char shade)
     prim = work->prim;
     tex = work->tex;
 
-    poly_ft4[0] = &prim->packs[0]->poly_ft4;
-    poly_ft4[1] = &prim->packs[1]->poly_ft4;
+    poly_ft4[0] = prim->packs[0];
+    poly_ft4[1] = prim->packs[1];
 
     f44 = work->raise;
     prim->raise = f44;

@@ -97,8 +97,8 @@ static int GetResources( Work *work, int map, int count )
         return -1;
     }
 
-    ShadePacks( &prim->packs[0]->poly_ft4, count, tex, 64 );
-    ShadePacks( &prim->packs[1]->poly_ft4, count, tex, 72 );
+    ShadePacks( prim->packs[0], count, tex, 64 );
+    ShadePacks( prim->packs[1], count, tex, 72 );
 
     return 0;
 }

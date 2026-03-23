@@ -21,8 +21,8 @@ static void InitPacks(DG_PRIM *prim, DG_TEX *tex)
     POLY_FT4 *packs1;
     int       i;
 
-    packs0 = &prim->packs[0]->poly_ft4;
-    packs1 = &prim->packs[1]->poly_ft4;
+    packs0 = prim->packs[0];
+    packs1 = prim->packs[1];
 
     for (i = 2; i > 0; i--)
     {
@@ -44,7 +44,7 @@ static void ShadePacks(DG_PRIM *prim, int shade, int index)
     POLY_FT4 *packs;
     int       i;
 
-    packs = &prim->packs[index]->poly_ft4;
+    packs = prim->packs[index];
     for (i = 2; i > 0; i--)
     {
         setRGB0(packs, shade, shade, shade);
@@ -71,7 +71,7 @@ static void Act(Work *work)
     DG_PutVector(work->prim->pos, vertices, 2);
     DG_RotVector(&lamp_falloff, &scale, 1);
 
-    packs = &work->prim->packs[GV_Clock]->poly_ft4;
+    packs = work->prim->packs[GV_Clock];
     for (i = 0; i < 2; i++)
     {
         vertex = &vertices[i];

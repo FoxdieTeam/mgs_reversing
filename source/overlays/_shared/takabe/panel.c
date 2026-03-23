@@ -129,8 +129,8 @@ void PanelAct_800D1E58(PanelWork *work)
         target->damaged &= ~TARGET_POWER;
         target->scale = DG_ZeroVector;
 
-        PanelTexPack_800D1BD0(&work->prim->packs[0]->poly_gt4, work->tex, 1, work);
-        PanelTexPack_800D1BD0(&work->prim->packs[1]->poly_gt4, work->tex, 1, work);
+        PanelTexPack_800D1BD0(work->prim->packs[0], work->tex, 1, work);
+        PanelTexPack_800D1BD0(work->prim->packs[1], work->tex, 1, work);
 
         AN_Unknown_800DCE84(&work->pos);
         NewSpark2_800CA714(&work->world);
@@ -145,7 +145,7 @@ void PanelAct_800D1E58(PanelWork *work)
     if (work->f80 == 0)
     {
         prim = work->prim;
-        PanelLightPacks_800D1D54(&prim->packs[0]->poly_gt4, &prim->packs[1]->poly_gt4, work->verts, &work->normal);
+        PanelLightPacks_800D1D54(prim->packs[0], prim->packs[1], work->verts, &work->normal);
         work->f80++;
     }
 }
@@ -269,8 +269,8 @@ int PanelGetResources_800D210C(PanelWork *work, int name, int map)
     work->f88 = THING_Gcl_GetIntDefault('m', 0);
     work->f86 = THING_Gcl_GetIntDefault('b', 0);
 
-    PanelTexPack_800D1BD0(&work->prim->packs[0]->poly_gt4, tex, work->f86, work);
-    PanelTexPack_800D1BD0(&work->prim->packs[1]->poly_gt4, tex, work->f86, work);
+    PanelTexPack_800D1BD0(work->prim->packs[0], tex, work->f86, work);
+    PanelTexPack_800D1BD0(work->prim->packs[1], tex, work->f86, work);
 
     e01.vx = verts[1].vx - verts[0].vx;
     e01.vy = verts[1].vy - verts[0].vy;
@@ -293,7 +293,7 @@ int PanelGetResources_800D210C(PanelWork *work, int name, int map)
     work->normal.vy = -work->normal.vy;
     work->normal.vz = -work->normal.vz;
 
-    PanelLightPacks_800D1D54(&work->prim->packs[0]->poly_gt4, &work->prim->packs[1]->poly_gt4, verts, &work->normal);
+    PanelLightPacks_800D1D54(work->prim->packs[0], work->prim->packs[1], verts, &work->normal);
 
     RotMatrix(&rot, &work->world);
     work->world.t[0] = work->pos.vx;
