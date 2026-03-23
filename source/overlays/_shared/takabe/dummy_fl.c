@@ -10,7 +10,7 @@
 #include "game/vibrate.h"
 #include "takabe/thing.h"
 
-typedef struct _DummyFlap
+typedef struct _FLOOR_OBJ
 {
     SVECTOR  pos;
     SVECTOR  rot;
@@ -19,15 +19,15 @@ typedef struct _DummyFlap
     SVECTOR  f34;
     char     pad[0x4];
     SVECTOR  bounds[5];
-} DummyFlap;
+} FLOOR_OBJ;
 
-typedef struct _DummyFloorWork
+typedef struct _Work
 {
     GV_ACT    actor;
     int       name;
     int       map;
     char      pad[0x4];
-    DummyFlap flaps[2];
+    FLOOR_OBJ flr_obj[2];
     MATRIX    world;
     MATRIX    light[2];
     SVECTOR   f15C;
@@ -41,26 +41,32 @@ typedef struct _DummyFloorWork
     int       f19C;
     int       f1A0;
     int       f1A4;
-    int       f1A8;
-    int       f1AC;
-    int       f1B0;
-    int       proc;
-    int       f1B8;
-    int       f1BC;
+    int       add_speed; /* 落下加速度 */
+    int       rot_z; /* 蝶番角度 */
+    int       close_wait; /* 落し穴が閉じるまでの最低時間 */
+	//int       wepon_fall_flag ; /* C4&クレイモア落下フラグ */
+
+    int       proc_id;
+
+	/* shading関連 */
+    int       shade_flag;
+
+	/* 扉当たり判定用可動壁データ */
+    int       hzd_flag;
     HZD_HDL  *hzd;
     HZD_FLR   floors[2];
-} DummyFloorWork;
+} Work;
 
-typedef struct DummyFloorScratch
+typedef struct
 {
     MATRIX  mat;
     SVECTOR vec;
-} Scratch;
+} SCRPAD_DATA;
 
 char dummy_floor_800C3610[] = {0x7F, 0x01, 0x00, 0x00};
 char dummy_floor_800C3614[] = {0x50, 0x04, 0x00, 0x00};
 
-SVECTOR dummy_floor_800C3618 = {0, 4096, 0, 0};
+SVECTOR normal = {0, 4096, 0};
 
 extern CONTROL *tenage_ctrls_800BDD30[16];
 extern int      tenage_ctrls_count_800BDD70;
@@ -74,19 +80,20 @@ DG_OBJS *s00a_unknown3_800DC7BC(int model, LIT *lit);
 void s01a_800E2364(MATRIX *mtx, SVECTOR *in, VECTOR *out);
 void s16b_800C4874(int arg0, HZD_SEG *arg1, int arg2, HZD_FLR *arg3);
 
-void DummyFloor_800D6C94(DummyFloorWork *work, DummyFlap *flap, int model, int map);
-void DummyFloor_800D6D38(SVECTOR *in, HZD_FLR *floor);
+/* モデル初期化 */
+static void InitPreshadeObject(Work *work, FLOOR_OBJ *flr_obj, int model_name, int map);
+static void MakeFloor(SVECTOR *in, HZD_FLR *floor);
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-void DummyFloorAct_800D61A4(DummyFloorWork *work)
+static void Act(Work *work)
 {
-    VECTOR     sp10;
-    Scratch   *scratch;
-    CONTROL  **iter;
-    int        count;
-    int        i;
-    DummyFlap *flap;
+    VECTOR       sp10;
+    SCRPAD_DATA *scratch;
+    CONTROL    **iter;
+    int          count;
+    int          i;
+    FLOOR_OBJ   *flap;
 
     GM_CurrentMap = work->map;
 
@@ -96,14 +103,14 @@ void DummyFloorAct_800D61A4(DummyFloorWork *work)
     sp10.vy = ABS(sp10.vy);
     sp10.vz = ABS(sp10.vz);
 
-    if ((sp10.vx < (work->flaps[0].f34.vx - 100)) &&
-        (sp10.vz < (work->flaps[0].f34.vz / 2)))
+    if ((sp10.vx < (work->flr_obj[0].f34.vx - 100)) &&
+        (sp10.vz < (work->flr_obj[0].f34.vz / 2)))
     {
-        if (work->f1BC != 0)
+        if (work->hzd_flag != 0)
         {
             work->f188 = 0;
-            work->f1A8 = 0;
-            work->f1BC = 0;
+            work->add_speed = 0;
+            work->hzd_flag = 0;
             work->f194 = 1;
             work->f184 = work->f190;
 
@@ -117,16 +124,16 @@ void DummyFloorAct_800D61A4(DummyFloorWork *work)
     }
     else
     {
-        if (work->f1B0 != 0)
+        if (work->close_wait != 0)
         {
-            work->f1B0--;
+            work->close_wait--;
         }
-        else if ((work->f1BC == 0) && (work->f194 == 0))
+        else if ((work->hzd_flag == 0) && (work->f194 == 0))
         {
             work->f188 = 1;
             work->f184 = 0;
             work->f1A4 = 2;
-            work->f1BC = 1;
+            work->hzd_flag = 1;
         }
 
         work->f198 = 0;
@@ -151,9 +158,9 @@ void DummyFloorAct_800D61A4(DummyFloorWork *work)
                     GM_UnkFlagA0++;
                     dword_800ABA1C = 1;
 
-                    if (work->proc != 0)
+                    if (work->proc_id != 0)
                     {
-                        GCL_ExecProc(work->proc, NULL);
+                        GCL_ExecProc(work->proc_id, NULL);
                     }
 
                     GM_GameOver();
@@ -161,12 +168,12 @@ void DummyFloorAct_800D61A4(DummyFloorWork *work)
 
                 work->f188 = 2;
                 work->f1A4 = 1;
-                work->f1B0 = 40;
+                work->close_wait = 40;
             }
 
             s16b_800C4874(0, NULL, 2, work->floors);
 
-            scratch = (Scratch *)SCRPAD_ADDR;
+            scratch = (SCRPAD_DATA *)SCRPAD_ADDR;
 
             scratch->mat = work->f164;
             DG_TransposeMatrix(&scratch->mat, &scratch->mat);
@@ -190,8 +197,8 @@ void DummyFloorAct_800D61A4(DummyFloorWork *work)
                     scratch->vec.vy = ABS(scratch->vec.vy);
                     scratch->vec.vz = ABS(scratch->vec.vz);
 
-                    if ((scratch->vec.vx < work->flaps[0].f34.vx) &&
-                        (scratch->vec.vz < work->flaps[0].f34.vz / 2) &&
+                    if ((scratch->vec.vx < work->flr_obj[0].f34.vx) &&
+                        (scratch->vec.vz < work->flr_obj[0].f34.vz / 2) &&
                         (scratch->vec.vy < 150))
                     {
                         (*iter)->mov.pad = 1;
@@ -218,14 +225,14 @@ void DummyFloorAct_800D61A4(DummyFloorWork *work)
             GM_UnkFlagA0++;
             dword_800ABA1C = 1;
 
-            if (work->proc != 0)
+            if (work->proc_id != 0)
             {
-                GCL_ExecProc(work->proc, NULL);
+                GCL_ExecProc(work->proc_id, NULL);
             }
 
             if (work->name == 0x5862)
             {
-                work->proc = 0;
+                work->proc_id = 0;
             }
             else
             {
@@ -241,30 +248,30 @@ void DummyFloorAct_800D61A4(DummyFloorWork *work)
         break;
 
     case 1:
-        work->f1A8 += (rcos(work->f1AC) * 40) / 4096;
-        work->f1AC += work->f1A8;
+        work->add_speed += (rcos(work->rot_z) * 40) / 4096;
+        work->rot_z += work->add_speed;
 
-        if (work->f1AC > 1024)
+        if (work->rot_z > 1024)
         {
-            work->f1AC = 2048 - work->f1AC;
-            work->f1A8 = -work->f1A8 / 4;
+            work->rot_z = 2048 - work->rot_z;
+            work->add_speed = -work->add_speed / 4;
         }
 
-        work->flaps[0].rot.vz = -work->f1AC;
-        work->flaps[1].rot.vz = work->f1AC;
+        work->flr_obj[0].rot.vz = -work->rot_z;
+        work->flr_obj[1].rot.vz = work->rot_z;
         break;
 
     case 2:
-        work->f1AC = GV_NearExp8(work->f1AC, 0);
-        if (work->f1AC < 8)
+        work->rot_z = GV_NearExp8(work->rot_z, 0);
+        if (work->rot_z < 8)
         {
-            work->f1AC = 0;
+            work->rot_z = 0;
             work->f1A4 = 0;
             GM_SeSet(&work->f15C, 188);
         }
 
-        work->flaps[0].rot.vz = -work->f1AC;
-        work->flaps[1].rot.vz = work->f1AC;
+        work->flr_obj[0].rot.vz = -work->rot_z;
+        work->flr_obj[1].rot.vz = work->rot_z;
         break;
     }
 
@@ -272,7 +279,7 @@ void DummyFloorAct_800D61A4(DummyFloorWork *work)
 
     for (i = 0; i < 2; i++)
     {
-        flap = &work->flaps[i];
+        flap = &work->flr_obj[i];
         DG_SetPos2(&flap->pos, &flap->rot);
         ReadRotMatrix(&flap->model);
         CompMatrix(&work->world, &flap->model, &flap->objs->world);
@@ -280,49 +287,49 @@ void DummyFloorAct_800D61A4(DummyFloorWork *work)
 
     if (GM_GameStatus & STATE_THERMG)
     {
-        if (work->f1B8 == 0)
+        if (work->shade_flag == 0)
         {
-            work->flaps[0].objs->flag = 0x35D;
-            work->flaps[1].objs->flag = 0x35D;
-            work->flaps[0].objs->light = work->light;
-            work->flaps[1].objs->light = work->light;
+            work->flr_obj[0].objs->flag = ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_BOUND | DG_FLAG_ONEPIECE | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE );
+            work->flr_obj[1].objs->flag = ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_BOUND | DG_FLAG_ONEPIECE | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE );
+            work->flr_obj[0].objs->light = work->light;
+            work->flr_obj[1].objs->light = work->light;
             DG_GetLightMatrix2(&DG_ZeroVector, work->light);
-            work->f1B8 = 1;
+            work->shade_flag = 1;
         }
     }
-    else if (work->f1B8 != 0)
+    else if (work->shade_flag != 0)
     {
-        work->flaps[0].objs->flag = 0x257;
-        work->flaps[1].objs->flag = 0x257;
-        Takabe_RefreshObjectPacks_800DC854(work->flaps[0].objs);
-        Takabe_RefreshObjectPacks_800DC854(work->flaps[1].objs);
-        work->f1B8 = 0;
+        work->flr_obj[0].objs->flag = ( DG_FLAG_TEXT | DG_FLAG_PAINT | DG_FLAG_TRANS | DG_FLAG_BOUND | DG_FLAG_ONEPIECE | DG_FLAG_IRTEXTURE );
+        work->flr_obj[1].objs->flag = ( DG_FLAG_TEXT | DG_FLAG_PAINT | DG_FLAG_TRANS | DG_FLAG_BOUND | DG_FLAG_ONEPIECE | DG_FLAG_IRTEXTURE );
+        Takabe_RefreshObjectPacks_800DC854(work->flr_obj[0].objs);
+        Takabe_RefreshObjectPacks_800DC854(work->flr_obj[1].objs);
+        work->shade_flag = 0;
     }
 }
 
-void DummyFloorDie_800D61A4(DummyFloorWork *work)
+static void Die(Work *work)
 {
-    if (work->f1BC != 0)
+    if (work->hzd_flag != 0)
     {
         HZD_DequeueDynamicFloor(work->hzd, &work->floors[0]);
         HZD_DequeueDynamicFloor(work->hzd, &work->floors[1]);
     }
 
-    work->flaps[0].objs->flag = 0x257;
-    Takabe_FreeObjs_800DC820(work->flaps[0].objs);
+    work->flr_obj[0].objs->flag = ( DG_FLAG_TEXT | DG_FLAG_PAINT | DG_FLAG_TRANS | DG_FLAG_BOUND | DG_FLAG_ONEPIECE | DG_FLAG_IRTEXTURE );
+    Takabe_FreeObjs_800DC820(work->flr_obj[0].objs);
 
-    work->flaps[1].objs->flag = 0x257;
-    Takabe_FreeObjs_800DC820(work->flaps[1].objs);
+    work->flr_obj[1].objs->flag = ( DG_FLAG_TEXT | DG_FLAG_PAINT | DG_FLAG_TRANS | DG_FLAG_BOUND | DG_FLAG_ONEPIECE | DG_FLAG_IRTEXTURE );
+    Takabe_FreeObjs_800DC820(work->flr_obj[1].objs);
 }
 
-int DummyFloorGetResources_800D68E4(DummyFloorWork *work, int name, int map)
+static int GetResources(Work *work, int name, int map)
 {
     SVECTOR    pos;
     SVECTOR    dir;
     SVECTOR    bounds[5];
-    DummyFlap *flaps;
+    FLOOR_OBJ *flr_obj;
     int        model;
-    DummyFlap *flap;
+    FLOOR_OBJ *flap;
     int        i, j;
     DG_MDL    *mdl;
     SVECTOR   *bound;
@@ -336,51 +343,51 @@ int DummyFloorGetResources_800D68E4(DummyFloorWork *work, int name, int map)
 
     work->raise = THING_Gcl_GetInt('r');
     work->f190 = THING_Gcl_GetIntDefault('t', 30);
-    work->proc = THING_Gcl_GetInt('e');
+    work->proc_id = THING_Gcl_GetInt('e');
 
     DG_SetPos2(&pos, &dir);
     ReadRotMatrix(&work->world);
 
-    flaps = &work->flaps[0];
+    flr_obj = &work->flr_obj[0];
 
     work->f1A0 = work->f19C = pos.vy;
 
     GCL_GetOption('m');
 
     model = GCL_StrToInt(GCL_GetParamResult());
-    DummyFloor_800D6C94(work, &work->flaps[0], model, work->map);
-    flaps[0].objs->light = work->light;
+    InitPreshadeObject(work, &work->flr_obj[0], model, work->map);
+    flr_obj[0].objs->light = work->light;
 
     model = GCL_StrToInt(GCL_GetParamResult());
-    DummyFloor_800D6C94(work, &work->flaps[1], model, work->map);
-    flaps[1].objs->light = work->light;
+    InitPreshadeObject(work, &work->flr_obj[1], model, work->map);
+    flr_obj[1].objs->light = work->light;
 
-    ReadRotMatrix(&flaps[0].model);
-    ReadRotMatrix(&flaps[0].objs->world);
+    ReadRotMatrix(&flr_obj[0].model);
+    ReadRotMatrix(&flr_obj[0].objs->world);
 
-    Takabe_ReshadeModel_800DC854(flaps[0].objs, GM_GetMap(map)->lit);
+    Takabe_ReshadeModel_800DC854(flr_obj[0].objs, GM_GetMap(map)->lit);
 
-    flaps[1].pos.vx = flaps[0].f34.vx + flaps[1].f34.vx;
+    flr_obj[1].pos.vx = flr_obj[0].f34.vx + flr_obj[1].f34.vx;
 
-    DG_MovePos(&flaps[1].pos);
+    DG_MovePos(&flr_obj[1].pos);
 
-    ReadRotMatrix(&flaps[1].model);
-    ReadRotMatrix(&flaps[1].objs->world);
+    ReadRotMatrix(&flr_obj[1].model);
+    ReadRotMatrix(&flr_obj[1].objs->world);
 
-    Takabe_ReshadeModel_800DC854(flaps[1].objs, GM_GetMap(map)->lit);
+    Takabe_ReshadeModel_800DC854(flr_obj[1].objs, GM_GetMap(map)->lit);
 
-    work->f15C.vx = flaps[0].f34.vx;
-    work->f15C.vz = flaps[0].f34.vz / 2;
+    work->f15C.vx = flr_obj[0].f34.vx;
+    work->f15C.vz = flr_obj[0].f34.vz / 2;
     work->f15C.vy = 0;
 
-    DG_SetPos(&flaps[0].model);
+    DG_SetPos(&flr_obj[0].model);
     DG_PutVector(&work->f15C, &work->f15C, 1);
     DG_SetPos2(&work->f15C, &dir);
     ReadRotMatrix(&work->f164);
 
     for (i = 0; i < 2; i++)
     {
-        flap = &work->flaps[i];
+        flap = &work->flr_obj[i];
         mdl = flap->objs->def->model;
         bound = flap->bounds;
 
@@ -421,36 +428,36 @@ int DummyFloorGetResources_800D68E4(DummyFloorWork *work, int name, int map)
 
         DG_SetPos(&flap->model);
         DG_PutVector(flap->bounds, bounds, 4);
-        DG_RotVector(&dummy_floor_800C3618, &bounds[4], 1);
+        DG_RotVector(&normal, &bounds[4], 1);
 
         work->hzd = GM_GetMap(map)->hzd;
-        DummyFloor_800D6D38(bounds, &work->floors[i]);
+        MakeFloor(bounds, &work->floors[i]);
         HZD_QueueDynamicFloor(work->hzd, &work->floors[i]);
 
         flap++;
     }
 
-    work->f1BC = 1;
+    work->hzd_flag = 1;
     work->f184 = 0;
     work->f188 = -1;
-    work->f1B8 = 0;
-    work->f1A8 = 0;
+    work->shade_flag = 0;
+    work->add_speed = 0;
     return 0;
 }
 
-void *NewDummyFloor_800D6BF8(int name, int where, int argc, char **argv)
+void *NewDummyFloor(int name, int where, int argc, char **argv)
 {
-    DummyFloorWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(DummyFloorWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         work->name = name;
         work->map = where;
 
-        GV_SetNamedActor(&work->actor, DummyFloorAct_800D61A4, DummyFloorDie_800D61A4, "dummy_fl.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "dummy_fl.c");
 
-        if (DummyFloorGetResources_800D68E4(work, name, where) < 0)
+        if (GetResources(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
@@ -459,22 +466,22 @@ void *NewDummyFloor_800D6BF8(int name, int where, int argc, char **argv)
     return (void *)work;
 }
 
-void DummyFloor_800D6C94(DummyFloorWork *work, DummyFlap *flap, int model, int map)
+static void InitPreshadeObject(Work *work, FLOOR_OBJ *flr_obj, int model_name, int map)
 {
     DG_MDL *mdl;
 
-    flap->objs = s00a_unknown3_800DC7BC(model, 0);
-    flap->objs->flag = 0x257;
+    flr_obj->objs = s00a_unknown3_800DC7BC(model_name, NULL);
+    flr_obj->objs->flag = ( DG_FLAG_TEXT | DG_FLAG_PAINT | DG_FLAG_TRANS | DG_FLAG_BOUND | DG_FLAG_ONEPIECE | DG_FLAG_IRTEXTURE );
 
-    mdl = flap->objs->def->model;
-    flap->f34.vx = mdl->max.vx - mdl->min.vx;
-    flap->f34.vy = mdl->max.vy - mdl->min.vy;
-    flap->f34.vz = mdl->max.vz - mdl->min.vz;
+    mdl = flr_obj->objs->def->model;
+    flr_obj->f34.vx = mdl->max.vx - mdl->min.vx;
+    flr_obj->f34.vy = mdl->max.vy - mdl->min.vy;
+    flr_obj->f34.vz = mdl->max.vz - mdl->min.vz;
 
-    flap->objs->objs[0].raise = work->raise;
+    flr_obj->objs->objs[0].raise = work->raise;
 }
 
-void DummyFloor_800D6D38(SVECTOR *in, HZD_FLR *floor)
+static void MakeFloor(SVECTOR *in, HZD_FLR *floor)
 {
     int      xmax, ymax, zmax;
     int      xmin, ymin, zmin;
