@@ -6,7 +6,7 @@
 #include "common.h"
 #include "takabe/thing.h"
 
-#include "overlays/_shared/takabe/spark2.h"   // for NewSpark2_800CA714
+#include "takabe/spark2.h"      // for NewSpark2_800CA714
 
 typedef struct Panel2Work
 {
