@@ -77,14 +77,69 @@ typedef struct _TortureWork
 extern UnkCameraStruct gUnkCameraStruct_800B77B8;
 extern GM_CAMERA       GM_Camera;
 
-extern char s03b_dword_800C329C[];
-extern char s03b_dword_800C32AC[];
-extern char s03b_dword_800C32B8[];
-extern char s03b_dword_800C32C4[];
-extern char s03b_dword_800C32D0[];
-extern char s03b_dword_800C32D8[];
+// unused
+int s03b_dword_800C3290 = 0x027F0200;
+int s03b_dword_800C3294 = 0x00000000;
+int s03b_dword_800C3298 = 0x00000E46;
 
-extern char s03b_dword_800D32F0[16];
+char s03b_dword_800C329C[] =
+{
+    0x00, 0x02,
+    0x7F, 0x06,
+    0x00, 0x14,
+    0x7F, 0x04,
+    0x00, 0x16,
+    0x7F, 0x04,
+    0x00, 0x00
+};
+
+char s03b_dword_800C32AC[] =
+{
+    0x5A, 0x0E,
+    0x28, 0x0C,
+    0x46, 0x0E,
+    0x28, 0x0C,
+    0x50, 0x14,
+    0x00, 0x00
+};
+
+char s03b_dword_800C32B8[] =
+{
+    0x00, 0x01,
+    0x7F, 0x01,
+    0x00, 0x76,
+    0x7F, 0x02,
+    0x00, 0x00,
+};
+
+char s03b_dword_800C32C4[] =
+{
+    0x55, 0x04,
+    0x32, 0x0A,
+    0x28, 0x6A,
+    0x7D, 0x04,
+    0x00, 0x00,
+};
+
+char s03b_dword_800C32D0[] =
+{
+    0x7F, 0x07,
+    0x00, 0x32,
+    0x7F, 0x02,
+    0x00, 0x00
+};
+
+char s03b_dword_800C32D8[] =
+{
+    0xFF, 0x04,
+    0x3C, 0x0A,
+    0x28, 0x0C,
+    0x1E, 0x1C,
+    0xA0, 0x04,
+    0x00, 0x00
+};
+
+char SECTION(".bss") s03b_dword_800D32F0[16];
 
 void *NewPlasma_800CD1A4(OBJECT *, int, int, int, int, int);
 void *NewInfo_800CA534(unsigned short name1, unsigned short name2, int *abe);

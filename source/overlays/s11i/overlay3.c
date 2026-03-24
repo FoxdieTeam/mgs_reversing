@@ -1,4 +1,4 @@
-#include "libgcl/libgcl.h"
+#include "common.h"
 
 const char s11i_aFamasbullet_800D5238[] = "FA-MAS/BULLET * 25";
 const char s11i_aSocombullet_800D524C[] = "SOCOM/BULLET * 12";

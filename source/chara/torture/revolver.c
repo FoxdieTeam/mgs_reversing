@@ -64,30 +64,54 @@ typedef struct RevolverWork
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 #define BODY_FLAG  ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE)
 
-extern short s03b_dword_800C32E4[];
-extern int   s03b_dword_800C32FC[];
-extern char *s03b_dword_800C3334[];
+/* TODO: type */
+u_short s03b_dword_800C32E4[] = 
+{
+    0x0000, HASH_MOVE,   0x0002, 0x0000,
+    0xFFFF, HASH_MOTION, 0x0000, 0x0001,
+    0xFFFF, HASH_TURN,   0x0000, 0x0001
+};
 
-// Array at s03b_dword_800C3334
-const char s03b_aEnd_800D2F24[] = "end";
-const char s03b_aV_800D2F28[] = "v26";
-const char s03b_aV_800D2F2C[] = "v25";
-const char s03b_aV_800D2F30[] = "v22";
-const char s03b_aV_800D2F34[] = "v21";
-const char s03b_aV_800D2F38[] = "v23";
-const char s03b_aV_800D2F3C[] = "v20";
-const char s03b_aV_800D2F40[] = "v19";
-const char s03b_aV_800D2F44[] = "v18";
-const char s03b_aV_800D2F48[] = "v17";
-const char s03b_aV_800D2F4C[] = "v24";
-const char s03b_aV_800D2F50[] = "v2";
-const char s03b_aV_800D2F54[] = "v1";
-const char s03b_aV_800D2F58[] = "v0";
+int s03b_dword_800C32FC[] =
+{
+    0,
+    1,
+    2,
+    24,
+    17,
+    18,
+    19,
+    20,
+    23,
+    21,
+    22,
+    25,
+    26,
+    -1,
+};
+
+const char *s03b_dword_800C3334[] =
+{
+    "v0",
+    "v1",
+    "v2",
+    "v24",
+    "v17",
+    "v18",
+    "v19",
+    "v20",
+    "v23",
+    "v21",
+    "v22",
+    "v25",
+    "v26",
+    "end"
+};
 
 // Those functions are not actually in boxall, info
 // those are some helper functions (not sure if part of revolver.c)
 int  s03b_boxall_800C9328(void);
-int s03b_boxall_800C93AC(int arg0);
+int  s03b_boxall_800C93AC(int arg0);
 int  s03b_boxall_800C95EC(void);
 int  s03b_boxall_800C95FC(void);
 int  s03b_boxall_800C961C(int);
@@ -437,7 +461,7 @@ check:
     case 8:
         if (iVar4 == 18)
         {
-            messages[1] = GV_StrCode(s03b_aEnd_800D2F24);
+            messages[1] = GV_StrCode("end");
             messages[2] = 0;
             RevolverSendMessage_800C7170(GV_StrCode("ch_progcam"), messages);
         }
@@ -613,7 +637,7 @@ check:
     case 6:
         if (iVar3 == 18)
         {
-            messages[1] = GV_StrCode(s03b_aEnd_800D2F24);
+            messages[1] = GV_StrCode("end");
             messages[2] = 0;
             RevolverSendMessage_800C7170(GV_StrCode("ch_progcam"), messages);
         }
@@ -812,7 +836,7 @@ void s03b_revolver_800C7E88(RevolverWork *work, int arg1)
 
         if (iVar7 == 0)
         {
-            messages[1] = GV_StrCode(s03b_aEnd_800D2F24);
+            messages[1] = GV_StrCode("end");
             messages[2] = 0;
             RevolverSendMessage_800C7170(GV_StrCode("ch_progcam"), messages);
         }
@@ -959,7 +983,7 @@ void Revolver_800C8488(RevolverWork *work, int mode)
 
     if (mode == 32)
     {
-        message[1] = GV_StrCode(s03b_aEnd_800D2F24);
+        message[1] = GV_StrCode("end");
         message[2] = 0;
         RevolverSendMessage_800C7170(GV_StrCode("ch_progcam"), message);
 

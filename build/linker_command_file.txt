@@ -1621,14 +1621,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 {% elif OVERLAY == "s03b" %}
     include "{{OBJ_DIR}}\stage\s03b.obj", overlay
     include "{{OBJ_DIR}}\game\lamp.obj", overlay
-
-    include "{{OBJ_DIR}}\overlays\s03b\overlay2.obj", overlay
-
     include "{{OBJ_DIR}}\chara\torture\torture.obj", overlay
     include "{{OBJ_DIR}}\chara\torture\bed.obj", overlay
-
-    include "{{OBJ_DIR}}\overlays\s03b\overlay3.obj", overlay
-
     include "{{OBJ_DIR}}\chara\torture\revolver.obj", overlay
     include "{{OBJ_DIR}}\chara\torture\unknown5.obj", overlay
     include "{{OBJ_DIR}}\takabe\unknown6.obj", overlay
