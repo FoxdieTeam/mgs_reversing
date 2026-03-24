@@ -1,0 +1,48 @@
+#define DECLARE_NEWCHARA_PROTOS
+#include "charalst.h"
+
+CHARA _StageCharacterEntries[] = {
+    { 0x51c6, (NEWCHARA)0x800e3478 },
+    { 0x02c4, (NEWCHARA)0x800c521c },
+    { 0x92bc, (NEWCHARA)0x800c6550 },
+    { 0xa9c5, (NEWCHARA)0x800d2f44 },
+    { 0xa12e, (NEWCHARA)0x800e0c24 },
+    { 0x1ad3, (NEWCHARA)0x800c4124 },
+    { 0x8e64, (NEWCHARA)0x800ceee4 },
+    { 0x31e3, (NEWCHARA)0x800ca2dc },
+    { 0x7a05, (NEWCHARA)0x800e1f68 },
+    { 0x3c0c, (NEWCHARA)0x8006b76c },
+    { 0xe97e, (NEWCHARA)0x800c7530 },
+    { 0x962c, (NEWCHARA)0x800d7b54 },
+    { 0x1158, (NEWCHARA)0x800dcfdc },
+    { 0x4e95, (NEWCHARA)0x800d3eb4 },
+    { 0xd4a5, (NEWCHARA)0x800d0c24 },
+    { 0x40e9, (NEWCHARA)0x800d6654 },
+    { 0xec77, (NEWCHARA)0x800c5718 },
+    { 0x711f, (NEWCHARA)0x800e0f4c },
+    { 0x4170, (NEWCHARA)0x800c44f4 },
+    { 0x81ea, (NEWCHARA)0x800def30 },
+    { 0x3f9a, (NEWCHARA)0x800e309c },
+    { 0xee63, (NEWCHARA)0x800d5ee4 },
+    { 0xb103, (NEWCHARA)0x800e2198 },
+
+    { 0x0003, (NEWCHARA)0x800e0b8c },
+    { 0x0004, (NEWCHARA)0x800e0b8c },
+    { 0x0005, (NEWCHARA)0x800e180c },
+    { 0x0009, (NEWCHARA)0x80072728 },
+    { 0x000a, (NEWCHARA)0x800cf4c4 },
+    { 0x000b, (NEWCHARA)0x80076708 },
+    { 0x000e, (NEWCHARA)0x800c4218 },
+    { 0x000f, (NEWCHARA)0x800c5ef4 },
+    { 0x0021, (NEWCHARA)0x800e27b4 },
+    { 0x0025, (NEWCHARA)0x800d5b94 },
+    { 0x0028, (NEWCHARA)0x800e2dfc },
+    { 0x0037, (NEWCHARA)0x800d4a40 },
+    { 0x0038, (NEWCHARA)0x800d4b04 },
+    { 0x003c, (NEWCHARA)0x800dec2c },
+    { 0x003d, (NEWCHARA)0x80074564 },
+    { 0x0042, (NEWCHARA)0x800dfce4 },
+    { 0x0044, (NEWCHARA)0x800d5090 },
+
+    CHARA_END
+};
