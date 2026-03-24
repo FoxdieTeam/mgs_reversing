@@ -1,145 +1,145 @@
-; base address
     org    $80010000
 
-; link objs
-    ;main
-    include "{{OBJ_DIR}}\main\main.obj"          ;main.c
+    ; main/main.obj
+    include "{{OBJ_DIR}}\main\main.obj"
 
-    ;libfs
-    include "{{OBJ_DIR}}\libfs\select.obj"       ;select.c
+    ; libfs/select.c is compiled to hd.obj, cd.obj, db.obj, or cdd.obj
+    ; depending on the configuration. We're just using select.obj for now.
+    include "{{OBJ_DIR}}\libfs\select.obj"
 
-    ;libgv
-    include "{{OBJ_DIR}}\libgv\gvd.obj"          ;gvd.c
-    include "{{OBJ_DIR}}\libgv\actor.obj"        ;actor.c
+    ; libgv.lib
+    include "{{OBJ_DIR}}\libgv\gvd.obj"
+    include "{{OBJ_DIR}}\libgv\actor.obj"
 
     include "{{OBJ_DIR}}\data\bss.obj"
 
-    include "{{OBJ_DIR}}\libgv\cache.obj"        ;cache.c
-    include "{{OBJ_DIR}}\libgv\debug.obj"        ;debug.c
-    include "{{OBJ_DIR}}\libgv\memory.obj"       ;memory.c
-    include "{{OBJ_DIR}}\libgv\resident.obj"     ;resident.c
-    include "{{OBJ_DIR}}\libgv\message.obj"      ;message.c
-    include "{{OBJ_DIR}}\libgv\pad.obj"          ;pad.c
-    include "{{OBJ_DIR}}\libgv\strcode.obj"      ;strcode.c
-    include "{{OBJ_DIR}}\libgv\math.obj"         ;math.c
+    include "{{OBJ_DIR}}\libgv\cache.obj"
+    include "{{OBJ_DIR}}\libgv\debug.obj"
+    include "{{OBJ_DIR}}\libgv\memory.obj"
+    include "{{OBJ_DIR}}\libgv\resident.obj"
+    include "{{OBJ_DIR}}\libgv\message.obj"
+    include "{{OBJ_DIR}}\libgv\pad.obj"
+    include "{{OBJ_DIR}}\libgv\strcode.obj"
+    include "{{OBJ_DIR}}\libgv\math.obj"
 
-    ;libdg
-    include "{{OBJ_DIR}}\libdg\display.obj"      ;display.c
-    include "{{OBJ_DIR}}\libdg\chanl.obj"        ;chanl.c
-    include "{{OBJ_DIR}}\libdg\bound.obj"        ;bound.c
-    include "{{OBJ_DIR}}\libdg\divide.obj"       ;divide.c
-    include "{{OBJ_DIR}}\libdg\light.obj"        ;light.c
-    include "{{OBJ_DIR}}\libdg\opack.obj"        ;opack.c
-    include "{{OBJ_DIR}}\libdg\prim.obj"         ;prim.c
-    include "{{OBJ_DIR}}\libdg\screen.obj"       ;screen.c
-    include "{{OBJ_DIR}}\libdg\shade.obj"        ;shade.c
-    include "{{OBJ_DIR}}\libdg\sort.obj"         ;sort.c
-    include "{{OBJ_DIR}}\libdg\text.obj"         ;text.c
-    include "{{OBJ_DIR}}\libdg\trans.obj"        ;trans.c
-    include "{{OBJ_DIR}}\libdg\matrix.obj"       ;matrix.c
-    include "{{OBJ_DIR}}\libdg\dgd.obj"          ;dgd.c
-    include "{{OBJ_DIR}}\libdg\loader.obj"       ;loader.c
-    include "{{OBJ_DIR}}\libdg\palette.obj"      ;palette.c
+    ; libdg.lib
+    include "{{OBJ_DIR}}\libdg\display.obj"
+    include "{{OBJ_DIR}}\libdg\chanl.obj"
+    include "{{OBJ_DIR}}\libdg\bound.obj"
+    include "{{OBJ_DIR}}\libdg\divide.obj"
+    include "{{OBJ_DIR}}\libdg\light.obj"
+    include "{{OBJ_DIR}}\libdg\opack.obj"
+    include "{{OBJ_DIR}}\libdg\prim.obj"
+    include "{{OBJ_DIR}}\libdg\screen.obj"
+    include "{{OBJ_DIR}}\libdg\shade.obj"
+    include "{{OBJ_DIR}}\libdg\sort.obj"
+    include "{{OBJ_DIR}}\libdg\text.obj"
+    include "{{OBJ_DIR}}\libdg\trans.obj"
+    include "{{OBJ_DIR}}\libdg\matrix.obj"
+    include "{{OBJ_DIR}}\libdg\dgd.obj"
+    include "{{OBJ_DIR}}\libdg\loader.obj"
+    include "{{OBJ_DIR}}\libdg\palette.obj"
 
-    ;libgcl
-    include "{{OBJ_DIR}}\libgcl\gcl_init.obj"    ;gcl_init.c
-    include "{{OBJ_DIR}}\libgcl\command.obj"     ;command.c
-    include "{{OBJ_DIR}}\libgcl\basic.obj"       ;basic.c
-    include "{{OBJ_DIR}}\libgcl\expr.obj"        ;expr.c
-    include "{{OBJ_DIR}}\libgcl\parse.obj"       ;parse.c
-    include "{{OBJ_DIR}}\libgcl\variable.obj"    ;variable.c
+    ; libgcl.lib
+    include "{{OBJ_DIR}}\libgcl\gcl_init.obj"
+    include "{{OBJ_DIR}}\libgcl\command.obj"
+    include "{{OBJ_DIR}}\libgcl\basic.obj"
+    include "{{OBJ_DIR}}\libgcl\expr.obj"
+    include "{{OBJ_DIR}}\libgcl\parse.obj"
+    include "{{OBJ_DIR}}\libgcl\variable.obj"
 
-    ;libhzd
-    include "{{OBJ_DIR}}\libhzd\hzdd.obj"        ;hzdd.c
+    ; libhzd.lib
+    include "{{OBJ_DIR}}\libhzd\hzdd.obj"
 
-    ;libfs
-    include "{{OBJ_DIR}}\libfs\fscd.obj"         ;fscd.c
-    include "{{OBJ_DIR}}\libfs\cdbios.obj"       ;cdbios.c
-    include "{{OBJ_DIR}}\libfs\srchfile.obj"     ;srchfile.c
-    include "{{OBJ_DIR}}\libfs\cdstage.obj"      ;cdstage.c
-    include "{{OBJ_DIR}}\libfs\stageld.obj"      ;stageld.c
-    include "{{OBJ_DIR}}\libfs\movie.obj"        ;movie.c
-    include "{{OBJ_DIR}}\libfs\stream.obj"       ;stream.c
+    ; libfs.lib
+    include "{{OBJ_DIR}}\libfs\fscd.obj"
+    include "{{OBJ_DIR}}\libfs\cdbios.obj"
+    include "{{OBJ_DIR}}\libfs\srchfile.obj"
+    include "{{OBJ_DIR}}\libfs\cdstage.obj"
+    include "{{OBJ_DIR}}\libfs\stageld.obj"
+    include "{{OBJ_DIR}}\libfs\movie.obj"
+    include "{{OBJ_DIR}}\libfs\stream.obj"
 
-    include "{{OBJ_DIR}}\memcard\memcard.obj"    ;memcard.c
+    ; memcard.lib
+    include "{{OBJ_DIR}}\memcard\memcard.obj"
 
-    ;game
-    include "{{OBJ_DIR}}\game\control.obj"       ;control.c
+    ; game.lib
+    include "{{OBJ_DIR}}\game\control.obj"
 
-    ;libgv
-    include "{{OBJ_DIR}}\libgv\math_near.obj"    ;math_near.c
+    ; libgv.lib (cont.)
+    include "{{OBJ_DIR}}\libgv\math_near.obj"
 
-    ;libhzd
-    include "{{OBJ_DIR}}\libhzd\collide.obj"     ;collide.c
-    include "{{OBJ_DIR}}\libhzd\level.obj"       ;level.c
-    include "{{OBJ_DIR}}\libhzd\event.obj"       ;event.c
+    ; libhzd.lib (cont.)
+    include "{{OBJ_DIR}}\libhzd\collide.obj"
+    include "{{OBJ_DIR}}\libhzd\level.obj"
+    include "{{OBJ_DIR}}\libhzd\event.obj"
 
-    ;game
-    include "{{OBJ_DIR}}\game\area.obj"          ;area.c
-    include "{{OBJ_DIR}}\game\chara.obj"         ;chara.c
-    include "{{OBJ_DIR}}\game\gamed.obj"         ;gamed.c
-    include "{{OBJ_DIR}}\game\script.obj"        ;script.c
-    include "{{OBJ_DIR}}\game\target.obj"        ;target.c
-    include "{{OBJ_DIR}}\game\loader.obj"        ;loader.c
-    include "{{OBJ_DIR}}\game\alert.obj"         ;alert.c
-    include "{{OBJ_DIR}}\game\camera.obj"        ;camera.c
-    include "{{OBJ_DIR}}\game\map.obj"           ;map.c
+    ; game.lib (cont.)
+    include "{{OBJ_DIR}}\game\area.obj"
+    include "{{OBJ_DIR}}\game\chara.obj"
+    include "{{OBJ_DIR}}\game\gamed.obj"
+    include "{{OBJ_DIR}}\game\script.obj"
+    include "{{OBJ_DIR}}\game\target.obj"
+    include "{{OBJ_DIR}}\game\loader.obj"
+    include "{{OBJ_DIR}}\game\alert.obj"
+    include "{{OBJ_DIR}}\game\camera.obj"
+    include "{{OBJ_DIR}}\game\map.obj"
 
-    ;libdg
-    include "{{OBJ_DIR}}\libdg\obj.obj"          ;obj.c
-    include "{{OBJ_DIR}}\libdg\pshade.obj"       ;pshade.c
+    ; libdg.lib (cont.)
+    include "{{OBJ_DIR}}\libdg\obj.obj"
+    include "{{OBJ_DIR}}\libdg\pshade.obj"
 
-    ;game
-    include "{{OBJ_DIR}}\game\sound.obj"         ;sound.c
-    include "{{OBJ_DIR}}\game\homing.obj"        ;homing.c
-    include "{{OBJ_DIR}}\game\delay.obj"         ;delay.c
-    include "{{OBJ_DIR}}\game\item.obj"          ;item.c
-    include "{{OBJ_DIR}}\game\object.obj"        ;object.c
-    include "{{OBJ_DIR}}\game\motion.obj"        ;motion.c
-    include "{{OBJ_DIR}}\game\over.obj"          ;over.c
-    include "{{OBJ_DIR}}\game\strctrl.obj"       ;strctrl.c
-    include "{{OBJ_DIR}}\game\jimctrl.obj"       ;jimctrl.c
+    ; game.lib (cont.)
+    include "{{OBJ_DIR}}\game\sound.obj"
+    include "{{OBJ_DIR}}\game\homing.obj"
+    include "{{OBJ_DIR}}\game\delay.obj"
+    include "{{OBJ_DIR}}\game\item.obj"
+    include "{{OBJ_DIR}}\game\object.obj"
+    include "{{OBJ_DIR}}\game\motion.obj"
+    include "{{OBJ_DIR}}\game\over.obj"
+    include "{{OBJ_DIR}}\game\strctrl.obj"
+    include "{{OBJ_DIR}}\game\jimctrl.obj"
 
-    ;menu
-    include "{{OBJ_DIR}}\menu\menuman.obj"       ;menuman.c
-    include "{{OBJ_DIR}}\menu\radar.obj"         ;radar.c
-    include "{{OBJ_DIR}}\menu\item.obj"          ;item.c
-    include "{{OBJ_DIR}}\menu\weapon.obj"        ;weapon.c
-    include "{{OBJ_DIR}}\menu\life.obj"          ;life.c
-    include "{{OBJ_DIR}}\menu\radio.obj"         ;radio.c
-    include "{{OBJ_DIR}}\menu\debug.obj"         ;debug.c
+    ; menu.lib
+    include "{{OBJ_DIR}}\menu\menuman.obj"
+    include "{{OBJ_DIR}}\menu\radar.obj"
+    include "{{OBJ_DIR}}\menu\item.obj"
+    include "{{OBJ_DIR}}\menu\weapon.obj"
+    include "{{OBJ_DIR}}\menu\life.obj"
+    include "{{OBJ_DIR}}\menu\radio.obj"
+    include "{{OBJ_DIR}}\menu\debug.obj"
 
-    ;font
-    include "{{OBJ_DIR}}\font\font.obj"          ;font.c
+    ; font.lib
+    include "{{OBJ_DIR}}\font\font.obj"
 
-    ;menu
-    include "{{OBJ_DIR}}\menu\radiotex.obj"      ;radiotex.c
-    include "{{OBJ_DIR}}\menu\radioanim.obj"     ;radioanim.c
+    ; menu.lib (cont.)
+    include "{{OBJ_DIR}}\menu\radiotex.obj"
+    include "{{OBJ_DIR}}\menu\radioanim.obj"
+    include "{{OBJ_DIR}}\menu\radiomes.obj"
+    include "{{OBJ_DIR}}\menu\radiofacedraw.obj"
+    include "{{OBJ_DIR}}\menu\jimaku.obj"
+    include "{{OBJ_DIR}}\menu\radiotable.obj"
+    include "{{OBJ_DIR}}\menu\datasave.obj"
+    include "{{OBJ_DIR}}\menu\radiomem.obj"
 
-    include "{{OBJ_DIR}}\menu\radiomes.obj"      ;radiomes.c
-    include "{{OBJ_DIR}}\menu\radiofacedraw.obj" ;radiofacedraw.c
-    include "{{OBJ_DIR}}\menu\jimaku.obj"        ;jimaku.c
-    include "{{OBJ_DIR}}\menu\radiotable.obj"    ;radiotable.c
-    include "{{OBJ_DIR}}\menu\datasave.obj"      ;datasave.c
-
-    include "{{OBJ_DIR}}\menu\radiomem.obj"      ;radiomem.c
-
-    ; just a guess
+    ; chara/snake
     include "{{OBJ_DIR}}\chara\snake\snake.obj"
-
 {% if not VR_EXE %}
     include "{{OBJ_DIR}}\chara\snake\sna_init.obj"
 {% else %}
     include "{{OBJ_DIR}}\chara\snake_vr\sna_init.obj"
 {% endif %}
 
-    ;libhzd
+    ; libhzd.lib (cont.)
     include "{{OBJ_DIR}}\libhzd\zone.obj
 
+    ; game.lib (cont.)
     include "{{OBJ_DIR}}\game\vibrate.obj"
 
+    ; anime
     include "{{OBJ_DIR}}\anime\animconv\anime.obj"
 
+    ; chara/snake (cont.)
     include "{{OBJ_DIR}}\chara\snake\shadow.obj"
     include "{{OBJ_DIR}}\chara\snake\afterse.obj"
     include "{{OBJ_DIR}}\chara\snake\sna_hzd.obj"
@@ -148,30 +148,29 @@
     include "{{OBJ_DIR}}\equip\bodyarm.obj"
     include "{{OBJ_DIR}}\equip\gasmask.obj"
     include "{{OBJ_DIR}}\equip\effect.obj"
-    include "{{OBJ_DIR}}\equip\kogaku2.obj" ; optical camouflage
+    include "{{OBJ_DIR}}\equip\kogaku2.obj"
     include "{{OBJ_DIR}}\equip\box.obj"
     include "{{OBJ_DIR}}\equip\bandana.obj"
-    include "{{OBJ_DIR}}\equip\tabako.obj"  ; cigarettes
+    include "{{OBJ_DIR}}\equip\tabako.obj"
     include "{{OBJ_DIR}}\equip\scope.obj"
-    include "{{OBJ_DIR}}\equip\gmsight.obj" ; gasmask first person
-
+    include "{{OBJ_DIR}}\equip\gmsight.obj"
 {% if not VR_EXE %}
     include "{{OBJ_DIR}}\equip\jpegcam.obj"
 {% endif %}
 
-    ;weapon
+    ; weapon
     include "{{OBJ_DIR}}\weapon\socom.obj"
     include "{{OBJ_DIR}}\weapon\famas.obj"
     include "{{OBJ_DIR}}\weapon\grenade.obj"
-    include "{{OBJ_DIR}}\weapon\rcm.obj" ; nikita
-    include "{{OBJ_DIR}}\weapon\aam.obj" ; stinger
+    include "{{OBJ_DIR}}\weapon\rcm.obj"
+    include "{{OBJ_DIR}}\weapon\aam.obj"
     include "{{OBJ_DIR}}\weapon\mine.obj"
     include "{{OBJ_DIR}}\weapon\bomb.obj"
-    include "{{OBJ_DIR}}\weapon\rifle.obj" ; psg1
+    include "{{OBJ_DIR}}\weapon\rifle.obj"
     include "{{OBJ_DIR}}\weapon\stnsight.obj"
     include "{{OBJ_DIR}}\weapon\rfsight.obj"
 
-    ;bullet
+    ; bullet
     include "{{OBJ_DIR}}\bullet\tenage.obj"
     include "{{OBJ_DIR}}\bullet\bakudan.obj"
     include "{{OBJ_DIR}}\bullet\jirai.obj"
@@ -179,17 +178,17 @@
     include "{{OBJ_DIR}}\bullet\amissile.obj"
     include "{{OBJ_DIR}}\bullet\blast.obj"
 
-    ;thing
+    ; thing
     include "{{OBJ_DIR}}\thing\door.obj"
 
-    ;libhzd
+    ; libhzd.lib (cont.)
     include "{{OBJ_DIR}}\libhzd\dynamic.obj"
 
-    ;thing
+    ; thing
     include "{{OBJ_DIR}}\thing\sgtrect3.obj"
     include "{{OBJ_DIR}}\thing\sight.obj"
 
-    ;okajima
+    ; okajima
     include "{{OBJ_DIR}}\okajima\blood.obj"
     include "{{OBJ_DIR}}\okajima\d_blood.obj"
     include "{{OBJ_DIR}}\okajima\d_bloodr.obj"
@@ -200,7 +199,7 @@
     include "{{OBJ_DIR}}\okajima\bullet.obj"
     include "{{OBJ_DIR}}\okajima\chafgrnd.obj"
 
-    ;takabe
+    ; takabe
     include "{{OBJ_DIR}}\takabe\goggle.obj"
     include "{{OBJ_DIR}}\equip\gglmng.obj"
     include "{{OBJ_DIR}}\equip\gglsight.obj"
@@ -209,11 +208,11 @@
     include "{{OBJ_DIR}}\takabe\palette.obj"
     include "{{OBJ_DIR}}\takabe\prim.obj"
 
-    ;kojo
+    ; kojo
     include "{{OBJ_DIR}}\kojo\demothrd.obj"
-    include "{{OBJ_DIR}}\libfs\memfile.obj" ; memfile.c
-    include "{{OBJ_DIR}}\kojo\demo.obj"     ; demo.c
-    include "{{OBJ_DIR}}\kojo\m1e1catr.obj" ; m1e1catr.c
+    include "{{OBJ_DIR}}\libfs\memfile.obj"
+    include "{{OBJ_DIR}}\kojo\demo.obj"
+    include "{{OBJ_DIR}}\kojo\m1e1catr.obj"
 
     ; sound.lib
     include "{{OBJ_DIR}}\sound\sd_main.obj"
@@ -227,13 +226,13 @@
     include "{{OBJ_DIR}}\sound\se_tbl.obj"
     include "{{OBJ_DIR}}\sound\sd_wk.obj"
 
-    ;mts
+    ; mts.lib
     include "{{OBJ_DIR}}\mts\mts_new.obj"
     include "{{OBJ_DIR}}\mts\mts_pad.obj"
     include "{{OBJ_DIR}}\mts\mts_sub.obj"
     include "{{OBJ_DIR}}\mts\mask.obj"
 
-    ;libsio
+    ; sio.lib/nolibsio.lib
     include "{{OBJ_DIR}}\libsio\dummy.obj"
 
 {% if DEV_EXE %}
@@ -291,7 +290,7 @@
     include "{{OBJ_DIR}}\takabe\cat_in.obj"
 {% endif %}
 
-    ; PSY-Q start
+    ; PSX Runtime Libraries
     inclib "libcd.lib"
     inclib "libc2.lib"
     inclib "libgpu.lib"
