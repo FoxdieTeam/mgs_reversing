@@ -430,16 +430,14 @@ def gen_build_target(targetName):
         ninja.build(cPreProcHeadersFile, "psyq_c_preprocess_44_headers", cFile)
         ninja.build(cPreProcHeadersFixedFile, "header_deps", cPreProcHeadersFile)
 
-        if "mts/" in cFile or "sd/" in cFile:
+        if "mts/" in cFile or "sound/" in cFile:
             compiler = "psyq_cc_43"
-        else:
-            compiler = "psyq_cc_44"
-
-        if "mts/" in cFile or "sd/" in cFile:
             aspsx = "psyq_aspsx_assemble_2_56"
         elif args.variant == 'vr_exe':
+            compiler = "psyq_cc_44"
             aspsx = "psyq_aspsx_assemble_2_81"
         else:
+            compiler = "psyq_cc_44"
             aspsx = "psyq_aspsx_assemble_44"
 
         g_size = get_file_global_size(cFile)

@@ -6,7 +6,7 @@
 #include "game/game.h"
 #include "bullet/jirai.h"
 #include "linkvar.h"
-#include "sd/g_sound.h"
+#include "sound/g_sound.h"
 
 extern int        DG_CurrentGroupID;
 extern int        counter_8009F448;

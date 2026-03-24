@@ -11,7 +11,7 @@
 #include "font/font.h"
 #include "game/game.h"
 #include "linkvar.h"
-#include "sd/g_sound.h"
+#include "sound/g_sound.h"
 
 // FIXME: it's the same struct as in change.c (in change overlay)
 typedef struct _Unknown

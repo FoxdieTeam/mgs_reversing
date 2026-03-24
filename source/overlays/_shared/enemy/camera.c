@@ -10,7 +10,7 @@
 #include "bullet/blast.h"
 #include "okajima/spark.h"
 #include "overlays/_shared/enemy/enemy.h"
-#include "sd/g_sound.h"
+#include "sound/g_sound.h"
 #include "strcode.h"
 
 #include "overlays/_shared/takabe/spark2.h"   // for NewSpark2_800CA714

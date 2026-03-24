@@ -14,7 +14,7 @@
 #include "memcard/memcard.h"
 #include "mts/mts.h"
 #include "mts/taskid.h"
-#include "sd/g_sound.h"
+#include "sound/g_sound.h"
 
 //------------------------------------------------------------------------------
 // gp

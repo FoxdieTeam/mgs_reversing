@@ -5,7 +5,7 @@
 #include "game/game.h"
 #include "okajima/bullet.h"
 #include "anime/animconv/anime.h"
-#include "sd/g_sound.h"
+#include "sound/g_sound.h"
 
 typedef struct JFamasWork
 {

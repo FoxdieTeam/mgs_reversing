@@ -11,8 +11,8 @@
 #include "libdg/libdg.h"
 #include "libhzd/libhzd.h"
 #include "menu/menuman.h"
-#include "sd/sd_cli.h"
-#include "sd/g_sound.h"
+#include "sound/sd_cli.h"
+#include "sound/g_sound.h"
 
 #include "map.h"
 #include "control.h"

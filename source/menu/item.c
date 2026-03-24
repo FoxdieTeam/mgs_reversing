@@ -5,7 +5,7 @@
 #include "bullet/blast.h"
 #include "game/game.h"
 #include "linkvar.h"
-#include "sd/g_sound.h"
+#include "sound/g_sound.h"
 #include "radio.h"
 
 extern PANEL_TEXTURE gMenuLeftItems_800BD5A0[];
@@ -517,7 +517,7 @@ int menu_item_update_helper_8003BCD4(MenuWork *work)
     {
         activeItems = 0;
 
-        for (i = 0; i < GM_TotalItems; i++)
+        for (i = 0; i < IT_Max; i++)
         {
             if (GM_Items[i] > 0)
             {
@@ -551,7 +551,7 @@ int menu_item_update_helper_8003BCD4(MenuWork *work)
 
         panelIndex = 0;
 
-        for (i = 0; i < GM_TotalItems; i++)
+        for (i = 0; i < IT_Max; i++)
         {
             if (i == dword_800ABAD0)
             {

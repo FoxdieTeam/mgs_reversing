@@ -4,7 +4,7 @@
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "game/game.h"
-#include "sd/g_sound.h"
+#include "sound/g_sound.h"
 
 typedef struct _Spark2Work
 {

@@ -5,7 +5,7 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "linkvar.h"
-#include "sd/g_sound.h"
+#include "sound/g_sound.h"
 
 typedef struct _LifeUpWork
 {

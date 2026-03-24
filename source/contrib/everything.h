@@ -25,9 +25,9 @@
 #include "mts/mts.h"
 #include "mts/mts_new.h"
 #include "mts/mts_pad.h"
-#include "sd/sd_cli.h"
-#include "sd/sd_incl.h"
-#include "sd/sd_ext.h"
+#include "sound/sd_cli.h"
+#include "sound/sd_incl.h"
+#include "sound/sd_ext.h"
 
 #include "libgv/libgv.h"
 #include "libfs/libfs.h"

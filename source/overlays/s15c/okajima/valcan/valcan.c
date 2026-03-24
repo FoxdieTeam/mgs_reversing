@@ -6,7 +6,7 @@
 #include "linkvar.h"
 #include "okajima/bullet.h"
 #include "okajima/blood.h"
-#include "sd/g_sound.h"
+#include "sound/g_sound.h"
 
 #include "overlays/_shared/takabe/fadeio.h" // for NewFadeIo_800C4224
 

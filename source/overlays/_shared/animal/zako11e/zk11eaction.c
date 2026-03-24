@@ -6,7 +6,7 @@
 #include "libgcl/libgcl.h"
 #include "game/item.h"
 #include "linkvar.h"
-#include "sd/g_sound.h"
+#include "sound/g_sound.h"
 
 /*** Inlines *****************************************************************/
 

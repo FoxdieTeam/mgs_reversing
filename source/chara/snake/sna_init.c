@@ -22,7 +22,7 @@
 #include "takabe/goggle.h"
 #include "takabe/goggleir.h"
 #include "weapon/weapon.h"
-#include "sd/g_sound.h"
+#include "sound/g_sound.h"
 #include "strcode.h"
 
 SnaInitWork *SECTION(".sbss") sna_800ABBA0;

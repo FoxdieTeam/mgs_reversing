@@ -6,7 +6,7 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "takabe/thing.h"
-#include "sd/g_sound.h"
+#include "sound/g_sound.h"
 
 #include "overlays/_shared/takabe/gsplash.h"    // for NewGsplash_800D4000
 

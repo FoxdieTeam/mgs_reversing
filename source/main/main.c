@@ -7,7 +7,7 @@
 
 #include "mts/mts.h"
 #include "mts/taskid.h"
-#include "sd/sd_cli.h"
+#include "sound/sd_cli.h"
 
 #include "libgv/libgv.h"
 #include "libfs/libfs.h"
