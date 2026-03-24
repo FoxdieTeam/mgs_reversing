@@ -2377,16 +2377,19 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s19b\takabe\jeep\jeep_gls.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19b\takabe\jeep\jeep_gte.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19b\takabe\jeep\gsplash3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19b\takabe\jeep\jlamp.obj", overlay
 
     include "{{OBJ_DIR}}\overlays\{{OVERLAY}}\overlay3.obj", overlay
+
+    include "{{OBJ_DIR}}\overlays\s19b\takabe\jeep\jlamp.obj", overlay
+
+    include "{{OBJ_DIR}}\overlays\{{OVERLAY}}\overlay4.obj", overlay
 
     include "{{OBJ_DIR}}\overlays\s19b\takabe\jeep.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19b\takabe\jeep_mrl\jeep_mrl.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19b\takabe\jeep_sne\jeep_sne.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19b\takabe\jeep\jlamp2.obj", overlay
 
-    include "{{OBJ_DIR}}\overlays\{{OVERLAY}}\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\overlays\{{OVERLAY}}\overlay5.obj", overlay
 
     include "{{OBJ_DIR}}\overlays\s19b\takabe\jeep2.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19b\takabe\jeep_liq\jeep_liq.obj", overlay
@@ -2394,7 +2397,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj", overlay
     include "{{OBJ_DIR}}\overlays\_shared\takabe\cinema.obj", overlay
 
-    include "{{OBJ_DIR}}\overlays\s19b\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s19b\overlay6.obj", overlay
 
     include "{{OBJ_DIR}}\overlays\s19b\takabe\democame.obj", overlay
     include "{{OBJ_DIR}}\overlays\s04c\takabe\voicesys.obj", overlay

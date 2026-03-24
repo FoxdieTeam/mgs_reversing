@@ -22,8 +22,6 @@ typedef struct _Work
     int      count;
 } Work;
 
-extern const char s19b_dword_800DDD40[]; // = "gsplash3.c"
-
 #define EXEC_LEVEL 5
 
 void MovePacks(SVECTOR *speeds, SVECTOR *vertices, int count)
@@ -182,7 +180,7 @@ void *NewGlassSplash3(MATRIX *world)
     work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work)
     {
-        GV_SetNamedActor(work, Act, Die, s19b_dword_800DDD40);
+        GV_SetNamedActor(work, Act, Die, "gsplash3.c");
 
         if (GetResources(work, world) < 0)
         {
