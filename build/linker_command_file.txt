@@ -238,57 +238,57 @@
 
 {% if DEV_EXE %}
     include "{{OBJ_DIR}}\contrib\dev\overlay_table.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\game\select.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\vib_edit.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\sepia.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\game\pad.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\chara\snake\breath.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\breath.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\thing\emitter.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\watcher.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\check.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\action.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\enemy.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\mark.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\fog.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\smoke.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\sleep.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\think.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\command_bss_pad.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\command.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\eyeflash.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asiato.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\l_sight.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\grnad_e.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\boxkeri.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\smoke.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\wall.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asioto.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\glight.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\mouse.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\bubble_s.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\pato_lmp.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\ripple.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\rsurface.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\ripples.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\elevator.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\game\evpanel.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\wt_area.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\splash2.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\wt_view.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\object.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\mosaic.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\pad_demo.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\telop.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cinema.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\o2_damge.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\dymc_seg.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\shakemdl.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\env_snd.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\camshake.obj"
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cat_in.obj"
+    include "{{OBJ_DIR}}\game\select.obj"
+    include "{{OBJ_DIR}}\takabe\vib_edit.obj"
+    include "{{OBJ_DIR}}\takabe\sepia.obj"
+    include "{{OBJ_DIR}}\game\pad.obj"
+    include "{{OBJ_DIR}}\chara\snake\breath.obj"
+    include "{{OBJ_DIR}}\anime\effect\breath.obj"
+    include "{{OBJ_DIR}}\thing\emitter.obj"
+    include "{{OBJ_DIR}}\enemy\watcher.obj"
+    include "{{OBJ_DIR}}\enemy\check.obj"
+    include "{{OBJ_DIR}}\enemy\action.obj"
+    include "{{OBJ_DIR}}\enemy\enemy.obj"
+    include "{{OBJ_DIR}}\anime\effect\mark.obj"
+    include "{{OBJ_DIR}}\anime\effect\fog.obj"
+    include "{{OBJ_DIR}}\anime\effect\smoke.obj"
+    include "{{OBJ_DIR}}\anime\effect\sleep.obj"
+    include "{{OBJ_DIR}}\enemy\think.obj"
+    include "{{OBJ_DIR}}\enemy\command_bss_pad.obj"
+    include "{{OBJ_DIR}}\enemy\command.obj"
+    include "{{OBJ_DIR}}\enemy\eyeflash.obj"
+    include "{{OBJ_DIR}}\enemy\asiato.obj"
+    include "{{OBJ_DIR}}\enemy\l_sight.obj"
+    include "{{OBJ_DIR}}\enemy\grnad_e.obj"
+    include "{{OBJ_DIR}}\enemy\boxkeri.obj"
+    include "{{OBJ_DIR}}\enemy\smoke.obj"
+    include "{{OBJ_DIR}}\enemy\wall.obj"
+    include "{{OBJ_DIR}}\enemy\asioto.obj"
+    include "{{OBJ_DIR}}\enemy\glight.obj"
+    include "{{OBJ_DIR}}\okajima\mouse.obj"
+    include "{{OBJ_DIR}}\okajima\bubble_s.obj"
+    include "{{OBJ_DIR}}\okajima\pato_lmp.obj"
+    include "{{OBJ_DIR}}\takabe\ripple.obj"
+    include "{{OBJ_DIR}}\takabe\rsurface.obj"
+    include "{{OBJ_DIR}}\takabe\ripples.obj"
+    include "{{OBJ_DIR}}\takabe\thing.obj"
+    include "{{OBJ_DIR}}\takabe\elevator.obj"
+    include "{{OBJ_DIR}}\game\evpanel.obj"
+    include "{{OBJ_DIR}}\takabe\wt_area.obj"
+    include "{{OBJ_DIR}}\okajima\splash2.obj"
+    include "{{OBJ_DIR}}\takabe\wt_view.obj"
+    include "{{OBJ_DIR}}\takabe\object.obj"
+    include "{{OBJ_DIR}}\takabe\mosaic.obj"
+    include "{{OBJ_DIR}}\takabe\pad_demo.obj"
+    include "{{OBJ_DIR}}\takabe\fadeio.obj"
+    include "{{OBJ_DIR}}\takabe\telop.obj"
+    include "{{OBJ_DIR}}\takabe\cinema.obj"
+    include "{{OBJ_DIR}}\takabe\o2_damge.obj"
+    include "{{OBJ_DIR}}\takabe\dymc_seg.obj"
+    include "{{OBJ_DIR}}\takabe\shakemdl.obj"
+    include "{{OBJ_DIR}}\takabe\env_snd.obj"
+    include "{{OBJ_DIR}}\takabe\camshake.obj"
+    include "{{OBJ_DIR}}\takabe\cat_in.obj"
 {% endif %}
 
     ; PSY-Q start
@@ -338,149 +338,149 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 {% endif %}
 
 {% if OVERLAY == "sound" %}
-    include "{{OBJ_DIR}}\overlays\_stage\sound.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\sndtst.obj", overlay
+    include "{{OBJ_DIR}}\stage\sound.obj", overlay
+    include "{{OBJ_DIR}}\game\sndtst.obj", overlay
 {% elif OVERLAY in ["select1", "select2", "select3", "select4", "selectd"] %}
-    include "{{OBJ_DIR}}\overlays\_stage\select1.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\select.obj", overlay
+    include "{{OBJ_DIR}}\stage\select1.obj", overlay
+    include "{{OBJ_DIR}}\game\select.obj", overlay
 {% elif OVERLAY == "change" %}
-    include "{{OBJ_DIR}}\overlays\_stage\change.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\onoda\change\change.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\onoda\change\safety.obj", overlay
+    include "{{OBJ_DIR}}\stage\change.obj", overlay
+    include "{{OBJ_DIR}}\onoda\change\change.obj", overlay
+    include "{{OBJ_DIR}}\onoda\change\safety.obj", overlay
     include "{{OBJ_DIR}}\safechk.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\onoda\change\met_logo.obj", overlay
+    include "{{OBJ_DIR}}\onoda\change\met_logo.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libc2\EXIT.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\E03.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\E04.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libapi\A81.OBJ", overlay
 {% elif OVERLAY == "s16b" %}
-    include "{{OBJ_DIR}}\overlays\_stage\s16b.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\wall.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\dymc_seg.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\sepia.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\shakemdl.obj", overlay
+    include "{{OBJ_DIR}}\stage\s16b.obj", overlay
+    include "{{OBJ_DIR}}\enemy\wall.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
+    include "{{OBJ_DIR}}\takabe\sepia.obj", overlay
+    include "{{OBJ_DIR}}\takabe\shakemdl.obj", overlay
 {% elif OVERLAY == "camera" %}
     include "{{OBJ_DIR}}\overlays\camera\overlay.obj", overlay
     include "{{OBJ_DIR}}\overlays\camera\unknown\camera.obj", overlay
     inclib "libpress.lib", overlay
 {% elif OVERLAY == "select" %}
-    include "{{OBJ_DIR}}\overlays\_stage\select.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\select.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\vib_edit.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\stage\select.obj", overlay
+    include "{{OBJ_DIR}}\game\select.obj", overlay
+    include "{{OBJ_DIR}}\takabe\vib_edit.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libsn\CREAT.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libsn\WRITE.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libsn\SNWRITE.OBJ", overlay
 {% elif OVERLAY == "d11c" %}
-    include "{{OBJ_DIR}}\overlays\_stage\d11c.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\lamp.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\wall.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\demokage.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\gas_efct.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cinema.obj", overlay
+    include "{{OBJ_DIR}}\stage\d11c.obj", overlay
+    include "{{OBJ_DIR}}\game\lamp.obj", overlay
+    include "{{OBJ_DIR}}\enemy\wall.obj", overlay
+    include "{{OBJ_DIR}}\enemy\demokage.obj", overlay
+    include "{{OBJ_DIR}}\takabe\gas_efct.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "s00a" %}
-    include "{{OBJ_DIR}}\overlays\_stage\s00a.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\pad.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\chara\snake\breath.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\breath.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\thing\emitter.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\watcher.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\check.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\action.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\enemy.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\mark.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\fog.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\smoke.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\sleep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\think.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\command_bss_pad.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\command.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\eyeflash.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asiato.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\l_sight.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\grnad_e.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\boxkeri.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\smoke.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\wall.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\glight.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\mouse.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\bubble_s.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\pato_lmp.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\ripple.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\rsurface.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\ripples.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\elevator.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\wt_area.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\splash2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\wt_view.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\object.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\mosaic.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\pad_demo.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\telop.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cinema.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\o2_damge.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\dymc_seg.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\shakemdl.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\env_snd.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\camshake.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cat_in.obj", overlay
+    include "{{OBJ_DIR}}\stage\s00a.obj", overlay
+    include "{{OBJ_DIR}}\game\pad.obj", overlay
+    include "{{OBJ_DIR}}\chara\snake\breath.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
+    include "{{OBJ_DIR}}\thing\emitter.obj", overlay
+    include "{{OBJ_DIR}}\enemy\watcher.obj", overlay
+    include "{{OBJ_DIR}}\enemy\check.obj", overlay
+    include "{{OBJ_DIR}}\enemy\action.obj", overlay
+    include "{{OBJ_DIR}}\enemy\enemy.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
+    include "{{OBJ_DIR}}\enemy\think.obj", overlay
+    include "{{OBJ_DIR}}\enemy\command_bss_pad.obj", overlay
+    include "{{OBJ_DIR}}\enemy\command.obj", overlay
+    include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
+    include "{{OBJ_DIR}}\enemy\l_sight.obj", overlay
+    include "{{OBJ_DIR}}\enemy\grnad_e.obj", overlay
+    include "{{OBJ_DIR}}\enemy\boxkeri.obj", overlay
+    include "{{OBJ_DIR}}\enemy\smoke.obj", overlay
+    include "{{OBJ_DIR}}\enemy\wall.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
+    include "{{OBJ_DIR}}\enemy\glight.obj", overlay
+    include "{{OBJ_DIR}}\okajima\mouse.obj", overlay
+    include "{{OBJ_DIR}}\okajima\bubble_s.obj", overlay
+    include "{{OBJ_DIR}}\okajima\pato_lmp.obj", overlay
+    include "{{OBJ_DIR}}\takabe\ripple.obj", overlay
+    include "{{OBJ_DIR}}\takabe\rsurface.obj", overlay
+    include "{{OBJ_DIR}}\takabe\ripples.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\elevator.obj", overlay
+    include "{{OBJ_DIR}}\takabe\wt_area.obj", overlay
+    include "{{OBJ_DIR}}\okajima\splash2.obj", overlay
+    include "{{OBJ_DIR}}\takabe\wt_view.obj", overlay
+    include "{{OBJ_DIR}}\takabe\object.obj", overlay
+    include "{{OBJ_DIR}}\takabe\mosaic.obj", overlay
+    include "{{OBJ_DIR}}\takabe\pad_demo.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\telop.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
+    include "{{OBJ_DIR}}\takabe\o2_damge.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
+    include "{{OBJ_DIR}}\takabe\shakemdl.obj", overlay
+    include "{{OBJ_DIR}}\takabe\env_snd.obj", overlay
+    include "{{OBJ_DIR}}\takabe\camshake.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P36.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P39.OBJ", overlay
 {% elif OVERLAY == "d03a" %}
-    include "{{OBJ_DIR}}\overlays\_stage\d03a.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\demokage.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\uji.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\red_alrt.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\blurpure.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\gas_efct.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cinema.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\sepia.obj", overlay
+    include "{{OBJ_DIR}}\stage\d03a.obj", overlay
+    include "{{OBJ_DIR}}\enemy\demokage.obj", overlay
+    include "{{OBJ_DIR}}\okajima\uji.obj", overlay
+    include "{{OBJ_DIR}}\okajima\red_alrt.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blurpure.obj", overlay
+    include "{{OBJ_DIR}}\takabe\gas_efct.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
+    include "{{OBJ_DIR}}\takabe\sepia.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "s03e" or OVERLAY == "s03er" %}
-    include "{{OBJ_DIR}}\overlays\_stage\s03e.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\evpanel.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\lamp.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\chara\others\intr_cam.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\chara\others\motse.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\wall.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\uji.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\guncame.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\socom.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\mark.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\spark2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cinema.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cat_in.obj", overlay
+    include "{{OBJ_DIR}}\stage\s03e.obj", overlay
+    include "{{OBJ_DIR}}\game\evpanel.obj", overlay
+    include "{{OBJ_DIR}}\game\lamp.obj", overlay
+    include "{{OBJ_DIR}}\chara\others\intr_cam.obj", overlay
+    include "{{OBJ_DIR}}\chara\others\motse.obj", overlay
+    include "{{OBJ_DIR}}\enemy\wall.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
+    include "{{OBJ_DIR}}\okajima\uji.obj", overlay
+    include "{{OBJ_DIR}}\okajima\guncame.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\socom.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
+    include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
 {% elif OVERLAY == "title" %}
     include "{{OBJ_DIR}}\overlays\title\overlay.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\onoda\change\safety.obj", overlay
+    include "{{OBJ_DIR}}\onoda\change\safety.obj", overlay
     include "{{OBJ_DIR}}\safechk.obj", overlay
     include "{{OBJ_DIR}}\overlays\title\overlay2.obj", overlay
     include "{{OBJ_DIR}}\overlays\title\chara\others\fonttext.obj", overlay
     include "{{OBJ_DIR}}\overlays\title\onoda\open\open.obj", overlay
     include "{{OBJ_DIR}}\overlays\title\overlay3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\onoda\change\met_logo.obj", overlay
+    include "{{OBJ_DIR}}\onoda\change\met_logo.obj", overlay
     include "{{OBJ_DIR}}\overlays\title\koba\vr\vrwindow.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libc2\STRNCPY.OBJ", overlay
@@ -489,349 +489,349 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\E04.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libapi\A81.OBJ", overlay
 {% elif OVERLAY == "s01a" %}
-    include "{{OBJ_DIR}}\overlays\_stage\s01a.obj", overlay
+    include "{{OBJ_DIR}}\stage\s01a.obj", overlay
     include "{{OBJ_DIR}}\overlays\bss_start_bss_pad.obj", overlay
 
-    include "{{OBJ_DIR}}\overlays\_shared\game\cancel.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\tobcnt.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\chara\snake\breath.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\breath.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\chara\others\motse.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\thing\snow.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\thing\sphere.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\watcher.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\check.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\action.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\enemy.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\mark.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\fog.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\smoke.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\sleep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\think.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\command_bss_pad.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\command.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\eyeflash.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asiato.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\l_sight.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\grnad_e.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\camera.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\socom.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\searchli.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\rcm.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\object.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\boxkeri.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\smoke.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\wall.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\glight.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\doll\doll.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asiato2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asiato2_bss_pad.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\doll\demodoll0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\doll\demodoll.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\blink_tx.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\spark2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\gas_efct.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\mosaic.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\pad_demo.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cinema.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\dymc_seg.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\tracktrp.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\unknown4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\env_snd.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\lit_mdl.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\camshake.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cat_in.obj", overlay
+    include "{{OBJ_DIR}}\game\cancel.obj", overlay
+    include "{{OBJ_DIR}}\game\tobcnt.obj", overlay
+    include "{{OBJ_DIR}}\chara\snake\breath.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
+    include "{{OBJ_DIR}}\chara\others\motse.obj", overlay
+    include "{{OBJ_DIR}}\thing\snow.obj", overlay
+    include "{{OBJ_DIR}}\thing\sphere.obj", overlay
+    include "{{OBJ_DIR}}\enemy\watcher.obj", overlay
+    include "{{OBJ_DIR}}\enemy\check.obj", overlay
+    include "{{OBJ_DIR}}\enemy\action.obj", overlay
+    include "{{OBJ_DIR}}\enemy\enemy.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
+    include "{{OBJ_DIR}}\enemy\think.obj", overlay
+    include "{{OBJ_DIR}}\enemy\command_bss_pad.obj", overlay
+    include "{{OBJ_DIR}}\enemy\command.obj", overlay
+    include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
+    include "{{OBJ_DIR}}\enemy\l_sight.obj", overlay
+    include "{{OBJ_DIR}}\enemy\grnad_e.obj", overlay
+    include "{{OBJ_DIR}}\enemy\camera.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\socom.obj", overlay
+    include "{{OBJ_DIR}}\enemy\searchli.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\rcm.obj", overlay
+    include "{{OBJ_DIR}}\enemy\object.obj", overlay
+    include "{{OBJ_DIR}}\enemy\boxkeri.obj", overlay
+    include "{{OBJ_DIR}}\enemy\smoke.obj", overlay
+    include "{{OBJ_DIR}}\enemy\wall.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
+    include "{{OBJ_DIR}}\enemy\glight.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\doll.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asiato2_bss_pad.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\demodoll0.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\demodoll.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blink_tx.obj", overlay
+    include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
+    include "{{OBJ_DIR}}\takabe\gas_efct.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\mosaic.obj", overlay
+    include "{{OBJ_DIR}}\takabe\pad_demo.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
+    include "{{OBJ_DIR}}\takabe\tracktrp.obj", overlay
+    include "{{OBJ_DIR}}\takabe\unknown4.obj", overlay
+    include "{{OBJ_DIR}}\takabe\env_snd.obj", overlay
+    include "{{OBJ_DIR}}\takabe\lit_mdl.obj", overlay
+    include "{{OBJ_DIR}}\takabe\camshake.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "d01a" %}
-    include "{{OBJ_DIR}}\overlays\_stage\d01a.obj", overlay
+    include "{{OBJ_DIR}}\stage\d01a.obj", overlay
 
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\breath.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\thing\snow.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\thing\emitter.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\thing\sphere.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\searchli.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\rcm.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\command_bss_pad.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\command.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\object.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\smoke.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\demokage.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\pato_lmp.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\blur.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cinema.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\focus.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\windcrcl.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\unknown4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\lit_mdl.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\kojo\famaslit.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
+    include "{{OBJ_DIR}}\thing\snow.obj", overlay
+    include "{{OBJ_DIR}}\thing\emitter.obj", overlay
+    include "{{OBJ_DIR}}\thing\sphere.obj", overlay
+    include "{{OBJ_DIR}}\enemy\searchli.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\rcm.obj", overlay
+    include "{{OBJ_DIR}}\enemy\command_bss_pad.obj", overlay
+    include "{{OBJ_DIR}}\enemy\command.obj", overlay
+    include "{{OBJ_DIR}}\enemy\object.obj", overlay
+    include "{{OBJ_DIR}}\enemy\smoke.obj", overlay
+    include "{{OBJ_DIR}}\enemy\demokage.obj", overlay
+    include "{{OBJ_DIR}}\okajima\pato_lmp.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blur.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
+    include "{{OBJ_DIR}}\takabe\focus.obj", overlay
+    include "{{OBJ_DIR}}\takabe\windcrcl.obj", overlay
+    include "{{OBJ_DIR}}\takabe\unknown4.obj", overlay
+    include "{{OBJ_DIR}}\takabe\lit_mdl.obj", overlay
+    include "{{OBJ_DIR}}\kojo\famaslit.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
 {% elif OVERLAY == "s02c" or OVERLAY == "s02e" %}
-    include "{{OBJ_DIR}}\overlays\_stage\s02c.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\evpanel.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\lamp.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\chara\others\intr_cam.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\chara\others\motse.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\watcher.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\check.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\action.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\enemy.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\breath.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\mark.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\fog.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\smoke.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\sleep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\think.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\command_bss_pad.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\command.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\eyeflash.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asiato.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\l_sight.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\grnad_e.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\camera.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\socom.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\boxkeri.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\kiken.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\wall.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\glight.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\bubble_s.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\bub_d_sn.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\spark2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\ir_cens.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\ripple.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\wsurface.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\rsurface.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\gas_efct.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\wt_area.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\splash2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\wt_view.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\mosaic.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\shuter.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\object.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cinema.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\o2_damge.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\gasdamge.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\dymc_seg.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\shakemdl.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\camshake.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cat_in.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\put_obj.obj", overlay
+    include "{{OBJ_DIR}}\stage\s02c.obj", overlay
+    include "{{OBJ_DIR}}\game\evpanel.obj", overlay
+    include "{{OBJ_DIR}}\game\lamp.obj", overlay
+    include "{{OBJ_DIR}}\chara\others\intr_cam.obj", overlay
+    include "{{OBJ_DIR}}\chara\others\motse.obj", overlay
+    include "{{OBJ_DIR}}\enemy\watcher.obj", overlay
+    include "{{OBJ_DIR}}\enemy\check.obj", overlay
+    include "{{OBJ_DIR}}\enemy\action.obj", overlay
+    include "{{OBJ_DIR}}\enemy\enemy.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
+    include "{{OBJ_DIR}}\enemy\think.obj", overlay
+    include "{{OBJ_DIR}}\enemy\command_bss_pad.obj", overlay
+    include "{{OBJ_DIR}}\enemy\command.obj", overlay
+    include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
+    include "{{OBJ_DIR}}\enemy\l_sight.obj", overlay
+    include "{{OBJ_DIR}}\enemy\grnad_e.obj", overlay
+    include "{{OBJ_DIR}}\enemy\camera.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\socom.obj", overlay
+    include "{{OBJ_DIR}}\enemy\boxkeri.obj", overlay
+    include "{{OBJ_DIR}}\enemy\kiken.obj", overlay
+    include "{{OBJ_DIR}}\enemy\wall.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
+    include "{{OBJ_DIR}}\enemy\glight.obj", overlay
+    include "{{OBJ_DIR}}\okajima\bubble_s.obj", overlay
+    include "{{OBJ_DIR}}\okajima\bub_d_sn.obj", overlay
+    include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
+    include "{{OBJ_DIR}}\takabe\ir_cens.obj", overlay
+    include "{{OBJ_DIR}}\takabe\ripple.obj", overlay
+    include "{{OBJ_DIR}}\takabe\wsurface.obj", overlay
+    include "{{OBJ_DIR}}\takabe\rsurface.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\gas_efct.obj", overlay
+    include "{{OBJ_DIR}}\takabe\wt_area.obj", overlay
+    include "{{OBJ_DIR}}\okajima\splash2.obj", overlay
+    include "{{OBJ_DIR}}\takabe\wt_view.obj", overlay
+    include "{{OBJ_DIR}}\takabe\mosaic.obj", overlay
+    include "{{OBJ_DIR}}\takabe\shuter.obj", overlay
+    include "{{OBJ_DIR}}\takabe\object.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
+    include "{{OBJ_DIR}}\takabe\o2_damge.obj", overlay
+    include "{{OBJ_DIR}}\takabe\gasdamge.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
+    include "{{OBJ_DIR}}\takabe\shakemdl.obj", overlay
+    include "{{OBJ_DIR}}\takabe\camshake.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
+    include "{{OBJ_DIR}}\takabe\put_obj.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P39.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "s16c" %}
-    include "{{OBJ_DIR}}\overlays\_stage\s16c.obj", overlay
+    include "{{OBJ_DIR}}\stage\s16c.obj", overlay
 
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\watcher.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\check.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\action.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\enemy.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\breath.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\mark.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\fog.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\smoke.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\sleep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\think.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\command_bss_pad.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\command.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\eyeflash.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asiato.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\l_sight.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\grnad_e.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\camera.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\socom.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\boxkeri.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\kiken.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\wall.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\glight.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\doll\doll.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asiato2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asiato2_bss_pad.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\doll\demodoll0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\doll\demodoll.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\red_alrt.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\blurpure.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\spark2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\gas_efct.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\mosaic.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cinema.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\dymc_seg.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\sepia.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\shakemdl.obj", overlay
+    include "{{OBJ_DIR}}\enemy\watcher.obj", overlay
+    include "{{OBJ_DIR}}\enemy\check.obj", overlay
+    include "{{OBJ_DIR}}\enemy\action.obj", overlay
+    include "{{OBJ_DIR}}\enemy\enemy.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
+    include "{{OBJ_DIR}}\enemy\think.obj", overlay
+    include "{{OBJ_DIR}}\enemy\command_bss_pad.obj", overlay
+    include "{{OBJ_DIR}}\enemy\command.obj", overlay
+    include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
+    include "{{OBJ_DIR}}\enemy\l_sight.obj", overlay
+    include "{{OBJ_DIR}}\enemy\grnad_e.obj", overlay
+    include "{{OBJ_DIR}}\enemy\camera.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\socom.obj", overlay
+    include "{{OBJ_DIR}}\enemy\boxkeri.obj", overlay
+    include "{{OBJ_DIR}}\enemy\kiken.obj", overlay
+    include "{{OBJ_DIR}}\enemy\wall.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
+    include "{{OBJ_DIR}}\enemy\glight.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\doll.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asiato2_bss_pad.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\demodoll0.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\demodoll.obj", overlay
+    include "{{OBJ_DIR}}\okajima\red_alrt.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blurpure.obj", overlay
+    include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
+    include "{{OBJ_DIR}}\takabe\gas_efct.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\mosaic.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
+    include "{{OBJ_DIR}}\takabe\sepia.obj", overlay
+    include "{{OBJ_DIR}}\takabe\shakemdl.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "s06a" %}
-    include "{{OBJ_DIR}}\overlays\_stage\s06a.obj", overlay
+    include "{{OBJ_DIR}}\stage\s06a.obj", overlay
     include "{{OBJ_DIR}}\overlays\bss_start_bss_pad.obj", overlay
 
-    include "{{OBJ_DIR}}\overlays\_shared\game\evpanel.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\lamp.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\thing\emitter.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\watcher.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\check.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\action.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\enemy.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\breath.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\mark.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\fog.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\smoke.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\sleep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\think.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\command_bss_pad.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\command.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\eyeflash.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asiato.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\l_sight.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\grnad_e.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\camera.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\socom.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\boxkeri.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\wall.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\glight.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\doll\doll.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asiato2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asiato2_bss_pad.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\doll\demodoll0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\doll\demodoll.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\pato_lmp.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\blink_tx.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\spark2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\gas_efct.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\mosaic.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\shuter.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\object.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\life_up.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cinema.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\o2_damge.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\dymc_seg.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\tracktrp.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\camshake.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cat_in.obj", overlay
+    include "{{OBJ_DIR}}\game\evpanel.obj", overlay
+    include "{{OBJ_DIR}}\game\lamp.obj", overlay
+    include "{{OBJ_DIR}}\thing\emitter.obj", overlay
+    include "{{OBJ_DIR}}\enemy\watcher.obj", overlay
+    include "{{OBJ_DIR}}\enemy\check.obj", overlay
+    include "{{OBJ_DIR}}\enemy\action.obj", overlay
+    include "{{OBJ_DIR}}\enemy\enemy.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
+    include "{{OBJ_DIR}}\enemy\think.obj", overlay
+    include "{{OBJ_DIR}}\enemy\command_bss_pad.obj", overlay
+    include "{{OBJ_DIR}}\enemy\command.obj", overlay
+    include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
+    include "{{OBJ_DIR}}\enemy\l_sight.obj", overlay
+    include "{{OBJ_DIR}}\enemy\grnad_e.obj", overlay
+    include "{{OBJ_DIR}}\enemy\camera.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\socom.obj", overlay
+    include "{{OBJ_DIR}}\enemy\boxkeri.obj", overlay
+    include "{{OBJ_DIR}}\enemy\wall.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
+    include "{{OBJ_DIR}}\enemy\glight.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\doll.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asiato2_bss_pad.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\demodoll0.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\demodoll.obj", overlay
+    include "{{OBJ_DIR}}\okajima\pato_lmp.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blink_tx.obj", overlay
+    include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\gas_efct.obj", overlay
+    include "{{OBJ_DIR}}\takabe\mosaic.obj", overlay
+    include "{{OBJ_DIR}}\takabe\shuter.obj", overlay
+    include "{{OBJ_DIR}}\takabe\object.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\life_up.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
+    include "{{OBJ_DIR}}\takabe\o2_damge.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
+    include "{{OBJ_DIR}}\takabe\tracktrp.obj", overlay
+    include "{{OBJ_DIR}}\takabe\camshake.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "s02a" %}
-    include "{{OBJ_DIR}}\overlays\_stage\s02a.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\evpanel.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\lamp.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\chara\others\intr_cam.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\chara\others\motse.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\watcher.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\check.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\action.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\enemy.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\breath.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\mark.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\fog.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\smoke.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\sleep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\think.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\command_bss_pad.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\command.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\eyeflash.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asiato.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\l_sight.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\grnad_e.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\camera.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\socom.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\boxkeri.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\wall.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\demokage.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\glight.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\bubble_s.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\blur.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\bub_d_sn.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\ductmous.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\spark2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\ripple.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\rsurface.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\gas_efct.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\wt_area.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\splash2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\wt_view.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\mosaic.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cinema.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\o2_damge.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\dymc_seg.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\focus.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\shakemdl.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cat_in.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\put_obj.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\kojo\famaslit.obj", overlay
+    include "{{OBJ_DIR}}\stage\s02a.obj", overlay
+    include "{{OBJ_DIR}}\game\evpanel.obj", overlay
+    include "{{OBJ_DIR}}\game\lamp.obj", overlay
+    include "{{OBJ_DIR}}\chara\others\intr_cam.obj", overlay
+    include "{{OBJ_DIR}}\chara\others\motse.obj", overlay
+    include "{{OBJ_DIR}}\enemy\watcher.obj", overlay
+    include "{{OBJ_DIR}}\enemy\check.obj", overlay
+    include "{{OBJ_DIR}}\enemy\action.obj", overlay
+    include "{{OBJ_DIR}}\enemy\enemy.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
+    include "{{OBJ_DIR}}\enemy\think.obj", overlay
+    include "{{OBJ_DIR}}\enemy\command_bss_pad.obj", overlay
+    include "{{OBJ_DIR}}\enemy\command.obj", overlay
+    include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
+    include "{{OBJ_DIR}}\enemy\l_sight.obj", overlay
+    include "{{OBJ_DIR}}\enemy\grnad_e.obj", overlay
+    include "{{OBJ_DIR}}\enemy\camera.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\socom.obj", overlay
+    include "{{OBJ_DIR}}\enemy\boxkeri.obj", overlay
+    include "{{OBJ_DIR}}\enemy\wall.obj", overlay
+    include "{{OBJ_DIR}}\enemy\demokage.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
+    include "{{OBJ_DIR}}\enemy\glight.obj", overlay
+    include "{{OBJ_DIR}}\okajima\bubble_s.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blur.obj", overlay
+    include "{{OBJ_DIR}}\okajima\bub_d_sn.obj", overlay
+    include "{{OBJ_DIR}}\okajima\ductmous.obj", overlay
+    include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
+    include "{{OBJ_DIR}}\takabe\ripple.obj", overlay
+    include "{{OBJ_DIR}}\takabe\rsurface.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\gas_efct.obj", overlay
+    include "{{OBJ_DIR}}\takabe\wt_area.obj", overlay
+    include "{{OBJ_DIR}}\okajima\splash2.obj", overlay
+    include "{{OBJ_DIR}}\takabe\wt_view.obj", overlay
+    include "{{OBJ_DIR}}\takabe\mosaic.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
+    include "{{OBJ_DIR}}\takabe\o2_damge.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
+    include "{{OBJ_DIR}}\takabe\focus.obj", overlay
+    include "{{OBJ_DIR}}\takabe\shakemdl.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
+    include "{{OBJ_DIR}}\takabe\put_obj.obj", overlay
+    include "{{OBJ_DIR}}\kojo\famaslit.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P39.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "s02d" %}
-    include "{{OBJ_DIR}}\overlays\_stage\s02d.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\evpanel.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\pad.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\lamp.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\chara\others\intr_cam.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\chara\others\motse.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\watcher.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\check.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\action.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\enemy.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\breath.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\mark.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\fog.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\smoke.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\sleep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\think.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\command_bss_pad.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\command.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\eyeflash.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asiato.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\l_sight.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\grnad_e.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\camera.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\socom.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\boxkeri.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\wall.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\glight.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\bubble_s.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\spark2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\ir_cens.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\ripple.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\wsurface.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\rsurface.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\gas_efct.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\wt_area.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\splash2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\wt_view.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\mosaic.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\shuter.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\object.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\o2_damge.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\gasdamge.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\shakemdl.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cat_in.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\put_obj.obj", overlay
+    include "{{OBJ_DIR}}\stage\s02d.obj", overlay
+    include "{{OBJ_DIR}}\game\evpanel.obj", overlay
+    include "{{OBJ_DIR}}\game\pad.obj", overlay
+    include "{{OBJ_DIR}}\game\lamp.obj", overlay
+    include "{{OBJ_DIR}}\chara\others\intr_cam.obj", overlay
+    include "{{OBJ_DIR}}\chara\others\motse.obj", overlay
+    include "{{OBJ_DIR}}\enemy\watcher.obj", overlay
+    include "{{OBJ_DIR}}\enemy\check.obj", overlay
+    include "{{OBJ_DIR}}\enemy\action.obj", overlay
+    include "{{OBJ_DIR}}\enemy\enemy.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
+    include "{{OBJ_DIR}}\enemy\think.obj", overlay
+    include "{{OBJ_DIR}}\enemy\command_bss_pad.obj", overlay
+    include "{{OBJ_DIR}}\enemy\command.obj", overlay
+    include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
+    include "{{OBJ_DIR}}\enemy\l_sight.obj", overlay
+    include "{{OBJ_DIR}}\enemy\grnad_e.obj", overlay
+    include "{{OBJ_DIR}}\enemy\camera.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\socom.obj", overlay
+    include "{{OBJ_DIR}}\enemy\boxkeri.obj", overlay
+    include "{{OBJ_DIR}}\enemy\wall.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
+    include "{{OBJ_DIR}}\enemy\glight.obj", overlay
+    include "{{OBJ_DIR}}\okajima\bubble_s.obj", overlay
+    include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
+    include "{{OBJ_DIR}}\takabe\ir_cens.obj", overlay
+    include "{{OBJ_DIR}}\takabe\ripple.obj", overlay
+    include "{{OBJ_DIR}}\takabe\wsurface.obj", overlay
+    include "{{OBJ_DIR}}\takabe\rsurface.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\gas_efct.obj", overlay
+    include "{{OBJ_DIR}}\takabe\wt_area.obj", overlay
+    include "{{OBJ_DIR}}\okajima\splash2.obj", overlay
+    include "{{OBJ_DIR}}\takabe\wt_view.obj", overlay
+    include "{{OBJ_DIR}}\takabe\mosaic.obj", overlay
+    include "{{OBJ_DIR}}\takabe\shuter.obj", overlay
+    include "{{OBJ_DIR}}\takabe\object.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\o2_damge.obj", overlay
+    include "{{OBJ_DIR}}\takabe\gasdamge.obj", overlay
+    include "{{OBJ_DIR}}\takabe\shakemdl.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
+    include "{{OBJ_DIR}}\takabe\put_obj.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
@@ -840,609 +840,609 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 {% elif OVERLAY == "s12c" %}
     include "{{OBJ_DIR}}\overlays\s12c\overlay.obj", overlay
     include "{{OBJ_DIR}}\overlays\bss_start_bss_pad.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\lamp.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\chara\snake\breath.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\breath.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\thing\snow.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asiato.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\wall.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\guncame.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\socom.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\mark.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\blink_tx.obj", overlay
+    include "{{OBJ_DIR}}\game\lamp.obj", overlay
+    include "{{OBJ_DIR}}\chara\snake\breath.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
+    include "{{OBJ_DIR}}\thing\snow.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
+    include "{{OBJ_DIR}}\enemy\wall.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
+    include "{{OBJ_DIR}}\okajima\guncame.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\socom.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blink_tx.obj", overlay
     include "{{OBJ_DIR}}\overlays\s12c\okajima\dog\dog.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\sleep.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
     include "{{OBJ_DIR}}\overlays\s12c\okajima\dog\wolf_eye.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\spark2.obj", overlay
+    include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
     include "{{OBJ_DIR}}\overlays\s12c\takabe\fog.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
     include "{{OBJ_DIR}}\overlays\s12c\takabe\libdg2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
     include "{{OBJ_DIR}}\overlays\s12c\takabe\findtrap.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cinema.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\dymc_seg.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\tracktrp.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\camshake.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cat_in.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\put_obj.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
+    include "{{OBJ_DIR}}\takabe\tracktrp.obj", overlay
+    include "{{OBJ_DIR}}\takabe\camshake.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
+    include "{{OBJ_DIR}}\takabe\put_obj.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_002.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "s07a" %}
-    include "{{OBJ_DIR}}\overlays\_stage\s07a.obj", overlay
+    include "{{OBJ_DIR}}\stage\s07a.obj", overlay
     include "{{OBJ_DIR}}\overlays\bss_start_bss_pad.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\evpanel.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\lamp.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\watcher.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\check.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\action.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\enemy.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\breath.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\mark.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\fog.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\smoke.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\sleep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\think.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\command_bss_pad.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\command.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\eyeflash.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asiato.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\l_sight.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\grnad_e.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\boxkeri.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\wall.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\glight.obj", overlay
+    include "{{OBJ_DIR}}\game\evpanel.obj", overlay
+    include "{{OBJ_DIR}}\game\lamp.obj", overlay
+    include "{{OBJ_DIR}}\enemy\watcher.obj", overlay
+    include "{{OBJ_DIR}}\enemy\check.obj", overlay
+    include "{{OBJ_DIR}}\enemy\action.obj", overlay
+    include "{{OBJ_DIR}}\enemy\enemy.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
+    include "{{OBJ_DIR}}\enemy\think.obj", overlay
+    include "{{OBJ_DIR}}\enemy\command_bss_pad.obj", overlay
+    include "{{OBJ_DIR}}\enemy\command.obj", overlay
+    include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
+    include "{{OBJ_DIR}}\enemy\l_sight.obj", overlay
+    include "{{OBJ_DIR}}\enemy\grnad_e.obj", overlay
+    include "{{OBJ_DIR}}\enemy\boxkeri.obj", overlay
+    include "{{OBJ_DIR}}\enemy\wall.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
+    include "{{OBJ_DIR}}\enemy\glight.obj", overlay
     include "{{OBJ_DIR}}\overlays\s07a\overlay2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\meryl7.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\dymc_seg.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\merylcheck.obj", overlay
+    include "{{OBJ_DIR}}\enemy\meryl7.obj", overlay
+    include "{{OBJ_DIR}}\enemy\dymc_seg.obj", overlay
+    include "{{OBJ_DIR}}\enemy\merylcheck.obj", overlay
     include "{{OBJ_DIR}}\overlays\s07a\overlay3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\merylaction.obj", overlay
+    include "{{OBJ_DIR}}\enemy\merylaction.obj", overlay
     include "{{OBJ_DIR}}\overlays\s07a\overlay4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\merylenemy.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\merylthink.obj", overlay
+    include "{{OBJ_DIR}}\enemy\merylenemy.obj", overlay
+    include "{{OBJ_DIR}}\enemy\merylthink.obj", overlay
     include "{{OBJ_DIR}}\overlays\s07a\overlay5.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\mosaic.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\mirror.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cinema.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\dymc_seg.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cat_in.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\mosaic.obj", overlay
+    include "{{OBJ_DIR}}\takabe\mirror.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
 {% elif OVERLAY == "s04a" %}
-    include "{{OBJ_DIR}}\overlays\_stage\s04a.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\evpanel.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\lamp.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\thing\emitter.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\watcher.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\check.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\action.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\enemy.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\breath.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\mark.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\fog.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\smoke.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\sleep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\think.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\command_bss_pad.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\command.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\eyeflash.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asiato.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\l_sight.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\grnad_e.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\boxkeri.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\wall.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\glight.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\ir_cens.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\dummy_fl.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\dummy_wl.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\object.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\mosaic.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\dymc_seg.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\unknown4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cat_in.obj", overlay
+    include "{{OBJ_DIR}}\stage\s04a.obj", overlay
+    include "{{OBJ_DIR}}\game\evpanel.obj", overlay
+    include "{{OBJ_DIR}}\game\lamp.obj", overlay
+    include "{{OBJ_DIR}}\thing\emitter.obj", overlay
+    include "{{OBJ_DIR}}\enemy\watcher.obj", overlay
+    include "{{OBJ_DIR}}\enemy\check.obj", overlay
+    include "{{OBJ_DIR}}\enemy\action.obj", overlay
+    include "{{OBJ_DIR}}\enemy\enemy.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
+    include "{{OBJ_DIR}}\enemy\think.obj", overlay
+    include "{{OBJ_DIR}}\enemy\command_bss_pad.obj", overlay
+    include "{{OBJ_DIR}}\enemy\command.obj", overlay
+    include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
+    include "{{OBJ_DIR}}\enemy\l_sight.obj", overlay
+    include "{{OBJ_DIR}}\enemy\grnad_e.obj", overlay
+    include "{{OBJ_DIR}}\enemy\boxkeri.obj", overlay
+    include "{{OBJ_DIR}}\enemy\wall.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
+    include "{{OBJ_DIR}}\enemy\glight.obj", overlay
+    include "{{OBJ_DIR}}\takabe\ir_cens.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dummy_fl.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dummy_wl.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\object.obj", overlay
+    include "{{OBJ_DIR}}\takabe\mosaic.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
+    include "{{OBJ_DIR}}\takabe\unknown4.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_003.OBJ", overlay
 {% elif OVERLAY == "s02b" %}
-    include "{{OBJ_DIR}}\overlays\_stage\s02b.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\evpanel.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\pad.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\lamp.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\chara\others\intr_cam.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\chara\others\motse.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\watcher.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\check.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\action.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\enemy.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\breath.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\mark.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\fog.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\smoke.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\sleep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\think.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\command_bss_pad.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\command.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\eyeflash.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asiato.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\l_sight.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\grnad_e.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\camera.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\socom.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\boxkeri.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\wall.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\demokage.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\glight.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\bubble_s.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\blurpure.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\ductmous.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\spark2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\ripple.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\rsurface.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\gas_efct.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\wt_area.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\splash2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\wt_view.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\mosaic.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\shuter.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\object.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cinema.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\o2_damge.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\focus.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\shakemdl.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cat_in.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\put_obj.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\kojo\famaslit.obj", overlay
+    include "{{OBJ_DIR}}\stage\s02b.obj", overlay
+    include "{{OBJ_DIR}}\game\evpanel.obj", overlay
+    include "{{OBJ_DIR}}\game\pad.obj", overlay
+    include "{{OBJ_DIR}}\game\lamp.obj", overlay
+    include "{{OBJ_DIR}}\chara\others\intr_cam.obj", overlay
+    include "{{OBJ_DIR}}\chara\others\motse.obj", overlay
+    include "{{OBJ_DIR}}\enemy\watcher.obj", overlay
+    include "{{OBJ_DIR}}\enemy\check.obj", overlay
+    include "{{OBJ_DIR}}\enemy\action.obj", overlay
+    include "{{OBJ_DIR}}\enemy\enemy.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
+    include "{{OBJ_DIR}}\enemy\think.obj", overlay
+    include "{{OBJ_DIR}}\enemy\command_bss_pad.obj", overlay
+    include "{{OBJ_DIR}}\enemy\command.obj", overlay
+    include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
+    include "{{OBJ_DIR}}\enemy\l_sight.obj", overlay
+    include "{{OBJ_DIR}}\enemy\grnad_e.obj", overlay
+    include "{{OBJ_DIR}}\enemy\camera.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\socom.obj", overlay
+    include "{{OBJ_DIR}}\enemy\boxkeri.obj", overlay
+    include "{{OBJ_DIR}}\enemy\wall.obj", overlay
+    include "{{OBJ_DIR}}\enemy\demokage.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
+    include "{{OBJ_DIR}}\enemy\glight.obj", overlay
+    include "{{OBJ_DIR}}\okajima\bubble_s.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blurpure.obj", overlay
+    include "{{OBJ_DIR}}\okajima\ductmous.obj", overlay
+    include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
+    include "{{OBJ_DIR}}\takabe\ripple.obj", overlay
+    include "{{OBJ_DIR}}\takabe\rsurface.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\gas_efct.obj", overlay
+    include "{{OBJ_DIR}}\takabe\wt_area.obj", overlay
+    include "{{OBJ_DIR}}\okajima\splash2.obj", overlay
+    include "{{OBJ_DIR}}\takabe\wt_view.obj", overlay
+    include "{{OBJ_DIR}}\takabe\mosaic.obj", overlay
+    include "{{OBJ_DIR}}\takabe\shuter.obj", overlay
+    include "{{OBJ_DIR}}\takabe\object.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
+    include "{{OBJ_DIR}}\takabe\o2_damge.obj", overlay
+    include "{{OBJ_DIR}}\takabe\focus.obj", overlay
+    include "{{OBJ_DIR}}\takabe\shakemdl.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
+    include "{{OBJ_DIR}}\takabe\put_obj.obj", overlay
+    include "{{OBJ_DIR}}\kojo\famaslit.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P39.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "s16a" %}
-    include "{{OBJ_DIR}}\overlays\_stage\s16a.obj", overlay
+    include "{{OBJ_DIR}}\stage\s16a.obj", overlay
 
-    include "{{OBJ_DIR}}\overlays\_shared\game\lamp.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asiato.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\wall.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\guncame.obj", overlay
+    include "{{OBJ_DIR}}\game\lamp.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
+    include "{{OBJ_DIR}}\enemy\wall.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
+    include "{{OBJ_DIR}}\okajima\guncame.obj", overlay
     include "{{OBJ_DIR}}\overlays\s16a\overlay2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\socom.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\mark.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\key_item.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\evntmous.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\splash2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\red_alrt.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\blurpure.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\item_dot.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\spark2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\ripple.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\rsurface.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\gas_efct.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\wt_area2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\wt_view.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cinema.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\o2_damge.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\dymc_seg.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\sepia.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\shakemdl.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\socom.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
+    include "{{OBJ_DIR}}\okajima\key_item.obj", overlay
+    include "{{OBJ_DIR}}\okajima\evntmous.obj", overlay
+    include "{{OBJ_DIR}}\okajima\splash2.obj", overlay
+    include "{{OBJ_DIR}}\okajima\red_alrt.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blurpure.obj", overlay
+    include "{{OBJ_DIR}}\okajima\item_dot.obj", overlay
+    include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
+    include "{{OBJ_DIR}}\takabe\ripple.obj", overlay
+    include "{{OBJ_DIR}}\takabe\rsurface.obj", overlay
+    include "{{OBJ_DIR}}\takabe\gas_efct.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\wt_area2.obj", overlay
+    include "{{OBJ_DIR}}\takabe\wt_view.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
+    include "{{OBJ_DIR}}\takabe\o2_damge.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
+    include "{{OBJ_DIR}}\takabe\sepia.obj", overlay
+    include "{{OBJ_DIR}}\takabe\shakemdl.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P39.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "d16e" %}
-    include "{{OBJ_DIR}}\overlays\_stage\d16e.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\camera.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\socom.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\mark.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\command_bss_pad.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\command.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\wall.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\doll\doll.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\glight.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asiato2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asiato2_bss_pad.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\doll\demodoll0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\breath.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\doll\demodoll.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\red_alrt.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\blurpure.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\blur.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\smke_ln.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\smoke_ln.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\spark2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cinema.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\dymc_seg.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\focus.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\sepia.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\kojo\inverlt2.obj", overlay
+    include "{{OBJ_DIR}}\stage\d16e.obj", overlay
+    include "{{OBJ_DIR}}\enemy\camera.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\socom.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
+    include "{{OBJ_DIR}}\enemy\command_bss_pad.obj", overlay
+    include "{{OBJ_DIR}}\enemy\command.obj", overlay
+    include "{{OBJ_DIR}}\enemy\wall.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\doll.obj", overlay
+    include "{{OBJ_DIR}}\enemy\glight.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asiato2_bss_pad.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\demodoll0.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\demodoll.obj", overlay
+    include "{{OBJ_DIR}}\okajima\red_alrt.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blurpure.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blur.obj", overlay
+    include "{{OBJ_DIR}}\okajima\smke_ln.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\smoke_ln.obj", overlay
+    include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
+    include "{{OBJ_DIR}}\takabe\focus.obj", overlay
+    include "{{OBJ_DIR}}\takabe\sepia.obj", overlay
+    include "{{OBJ_DIR}}\kojo\inverlt2.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
 {% elif OVERLAY == "s16d" %}
-    include "{{OBJ_DIR}}\overlays\_stage\s16d.obj", overlay
+    include "{{OBJ_DIR}}\stage\s16d.obj", overlay
 
-    include "{{OBJ_DIR}}\overlays\_shared\chara\others\belong.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\watcher.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\check.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\action.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\enemy.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\breath.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\mark.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\fog.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\smoke.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\sleep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\think.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\command_bss_pad.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\command.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\eyeflash.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asiato.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\l_sight.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\grnad_e.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\camera.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\socom.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\boxkeri.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\kiken.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\wall.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\demokage.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\glight.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\doll\doll.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asiato2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asiato2_bss_pad.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\doll\demodoll0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\doll\demodoll.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\red_alrt.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\blurpure.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\blur.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\mg_room.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\spark2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\gas_efct.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\mosaic.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\pad_demo.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cinema.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\o2_damge.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\dymc_seg.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\focus.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\sepia.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cat_in.obj", overlay
+    include "{{OBJ_DIR}}\chara\others\belong.obj", overlay
+    include "{{OBJ_DIR}}\enemy\watcher.obj", overlay
+    include "{{OBJ_DIR}}\enemy\check.obj", overlay
+    include "{{OBJ_DIR}}\enemy\action.obj", overlay
+    include "{{OBJ_DIR}}\enemy\enemy.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
+    include "{{OBJ_DIR}}\enemy\think.obj", overlay
+    include "{{OBJ_DIR}}\enemy\command_bss_pad.obj", overlay
+    include "{{OBJ_DIR}}\enemy\command.obj", overlay
+    include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
+    include "{{OBJ_DIR}}\enemy\l_sight.obj", overlay
+    include "{{OBJ_DIR}}\enemy\grnad_e.obj", overlay
+    include "{{OBJ_DIR}}\enemy\camera.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\socom.obj", overlay
+    include "{{OBJ_DIR}}\enemy\boxkeri.obj", overlay
+    include "{{OBJ_DIR}}\enemy\kiken.obj", overlay
+    include "{{OBJ_DIR}}\enemy\wall.obj", overlay
+    include "{{OBJ_DIR}}\enemy\demokage.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
+    include "{{OBJ_DIR}}\enemy\glight.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\doll.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asiato2_bss_pad.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\demodoll0.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\demodoll.obj", overlay
+    include "{{OBJ_DIR}}\okajima\red_alrt.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blurpure.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blur.obj", overlay
+    include "{{OBJ_DIR}}\okajima\mg_room.obj", overlay
+    include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
+    include "{{OBJ_DIR}}\takabe\gas_efct.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\mosaic.obj", overlay
+    include "{{OBJ_DIR}}\takabe\pad_demo.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
+    include "{{OBJ_DIR}}\takabe\o2_damge.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
+    include "{{OBJ_DIR}}\takabe\focus.obj", overlay
+    include "{{OBJ_DIR}}\takabe\sepia.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "s20a" or OVERLAY == "s20ar" %}
-    include "{{OBJ_DIR}}\overlays\_stage\s20a.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\thing\sphere.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\demoasi.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\demokage.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\red_alrt.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\blurpure.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\blur.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\smke_ln.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\smoke_ln.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cinema.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\focus.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\sepia.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\kojo\inverlt2.obj", overlay
+    include "{{OBJ_DIR}}\stage\s20a.obj", overlay
+    include "{{OBJ_DIR}}\thing\sphere.obj", overlay
+    include "{{OBJ_DIR}}\enemy\demoasi.obj", overlay
+    include "{{OBJ_DIR}}\enemy\demokage.obj", overlay
+    include "{{OBJ_DIR}}\okajima\red_alrt.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blurpure.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blur.obj", overlay
+    include "{{OBJ_DIR}}\okajima\smke_ln.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\smoke_ln.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
+    include "{{OBJ_DIR}}\takabe\focus.obj", overlay
+    include "{{OBJ_DIR}}\takabe\sepia.obj", overlay
+    include "{{OBJ_DIR}}\kojo\inverlt2.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
 {% elif OVERLAY == "s03a" or OVERLAY == "s03ar" %}
-    include "{{OBJ_DIR}}\overlays\_stage\s03a.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\evpanel.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\pad.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\lamp.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\point.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\chara\others\intr_cam.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\chara\others\motse.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\wall.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\demokage.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\doll\doll.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\glight.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asiato2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\doll\demodoll0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\breath.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\doll\demodoll.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\uji.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\guncame.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\socom.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\mark.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\red_alrt.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\blurpure.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\blur.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\hiyoko.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\spark2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\gas_efct.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\mosaic.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\stage\s03a.obj", overlay
+    include "{{OBJ_DIR}}\game\evpanel.obj", overlay
+    include "{{OBJ_DIR}}\game\pad.obj", overlay
+    include "{{OBJ_DIR}}\game\lamp.obj", overlay
+    include "{{OBJ_DIR}}\game\point.obj", overlay
+    include "{{OBJ_DIR}}\chara\others\intr_cam.obj", overlay
+    include "{{OBJ_DIR}}\chara\others\motse.obj", overlay
+    include "{{OBJ_DIR}}\enemy\wall.obj", overlay
+    include "{{OBJ_DIR}}\enemy\demokage.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\doll.obj", overlay
+    include "{{OBJ_DIR}}\enemy\glight.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\demodoll0.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\demodoll.obj", overlay
+    include "{{OBJ_DIR}}\okajima\uji.obj", overlay
+    include "{{OBJ_DIR}}\okajima\guncame.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\socom.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
+    include "{{OBJ_DIR}}\okajima\red_alrt.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blurpure.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blur.obj", overlay
+    include "{{OBJ_DIR}}\okajima\hiyoko.obj", overlay
+    include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\gas_efct.obj", overlay
+    include "{{OBJ_DIR}}\takabe\mosaic.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
     include "{{OBJ_DIR}}\overlays\s12c\takabe\findtrap.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\telop.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cinema.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\dymc_seg.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\focus.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\sepia.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cat_in.obj", overlay
+    include "{{OBJ_DIR}}\takabe\telop.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
+    include "{{OBJ_DIR}}\takabe\focus.obj", overlay
+    include "{{OBJ_DIR}}\takabe\sepia.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P36.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "d00a" %}
-    include "{{OBJ_DIR}}\overlays\_stage\d00a.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\breath.obj", overlay
+    include "{{OBJ_DIR}}\stage\d00a.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
 
-    include "{{OBJ_DIR}}\overlays\_shared\thing\emitter.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\watcher.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\check.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\action.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\enemy.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\mark.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\fog.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\smoke.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\sleep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\think.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\command.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\eyeflash.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asiato.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\l_sight.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\grnad_e.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\boxkeri.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\smoke.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\wall.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\demokage.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\glight.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\mouse.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\d_bloods.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\d_bloods_bss_pad.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\pato_lmp.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\red_alrt.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\blurpure.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\blur.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\bubble_p.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\bubble_t.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\ripple.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\rsurface.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\wt_view.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\elevator.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\object.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\mosaic.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\telop.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cinema.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\shakemdl.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\kojo\famaslit.obj", overlay
+    include "{{OBJ_DIR}}\thing\emitter.obj", overlay
+    include "{{OBJ_DIR}}\enemy\watcher.obj", overlay
+    include "{{OBJ_DIR}}\enemy\check.obj", overlay
+    include "{{OBJ_DIR}}\enemy\action.obj", overlay
+    include "{{OBJ_DIR}}\enemy\enemy.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
+    include "{{OBJ_DIR}}\enemy\think.obj", overlay
+    include "{{OBJ_DIR}}\enemy\command.obj", overlay
+    include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
+    include "{{OBJ_DIR}}\enemy\l_sight.obj", overlay
+    include "{{OBJ_DIR}}\enemy\grnad_e.obj", overlay
+    include "{{OBJ_DIR}}\enemy\boxkeri.obj", overlay
+    include "{{OBJ_DIR}}\enemy\smoke.obj", overlay
+    include "{{OBJ_DIR}}\enemy\wall.obj", overlay
+    include "{{OBJ_DIR}}\enemy\demokage.obj", overlay
+    include "{{OBJ_DIR}}\enemy\glight.obj", overlay
+    include "{{OBJ_DIR}}\okajima\mouse.obj", overlay
+    include "{{OBJ_DIR}}\okajima\d_bloods.obj", overlay
+    include "{{OBJ_DIR}}\okajima\d_bloods_bss_pad.obj", overlay
+    include "{{OBJ_DIR}}\okajima\pato_lmp.obj", overlay
+    include "{{OBJ_DIR}}\okajima\red_alrt.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blurpure.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blur.obj", overlay
+    include "{{OBJ_DIR}}\okajima\bubble_p.obj", overlay
+    include "{{OBJ_DIR}}\okajima\bubble_t.obj", overlay
+    include "{{OBJ_DIR}}\takabe\ripple.obj", overlay
+    include "{{OBJ_DIR}}\takabe\rsurface.obj", overlay
+    include "{{OBJ_DIR}}\takabe\wt_view.obj", overlay
+    include "{{OBJ_DIR}}\takabe\elevator.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\object.obj", overlay
+    include "{{OBJ_DIR}}\takabe\mosaic.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\telop.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
+    include "{{OBJ_DIR}}\takabe\shakemdl.obj", overlay
+    include "{{OBJ_DIR}}\kojo\famaslit.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P36.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P39.OBJ", overlay
 {% elif OVERLAY == "s15b" %}
-    include "{{OBJ_DIR}}\overlays\_stage\s15b.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\lamp.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\wall.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\guncame.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\socom.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\mark.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\fall_spl.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\splash3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\spark2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\dummy_fl.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\tex_scrl.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\object.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\dymc_seg.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\unknown4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\shakemdl.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\env_snd.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cat_in.obj", overlay
+    include "{{OBJ_DIR}}\stage\s15b.obj", overlay
+    include "{{OBJ_DIR}}\game\lamp.obj", overlay
+    include "{{OBJ_DIR}}\enemy\wall.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
+    include "{{OBJ_DIR}}\okajima\guncame.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\socom.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
+    include "{{OBJ_DIR}}\okajima\fall_spl.obj", overlay
+    include "{{OBJ_DIR}}\okajima\splash3.obj", overlay
+    include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dummy_fl.obj", overlay
+    include "{{OBJ_DIR}}\takabe\tex_scrl.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\object.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
+    include "{{OBJ_DIR}}\takabe\unknown4.obj", overlay
+    include "{{OBJ_DIR}}\takabe\shakemdl.obj", overlay
+    include "{{OBJ_DIR}}\takabe\env_snd.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P34.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_003.OBJ", overlay
 {% elif OVERLAY == "s11e" %}
-    include "{{OBJ_DIR}}\overlays\_stage\s11e.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\lamp.obj", overlay
+    include "{{OBJ_DIR}}\stage\s11e.obj", overlay
+    include "{{OBJ_DIR}}\game\lamp.obj", overlay
 
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\watcher.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\check.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\action.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\enemy.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\breath.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\mark.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\fog.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\smoke.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\sleep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\think.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\command.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\eyeflash.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asiato.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\l_sight.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\grnad_e.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\boxkeri.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\glight.obj", overlay
+    include "{{OBJ_DIR}}\enemy\watcher.obj", overlay
+    include "{{OBJ_DIR}}\enemy\check.obj", overlay
+    include "{{OBJ_DIR}}\enemy\action.obj", overlay
+    include "{{OBJ_DIR}}\enemy\enemy.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
+    include "{{OBJ_DIR}}\enemy\think.obj", overlay
+    include "{{OBJ_DIR}}\enemy\command.obj", overlay
+    include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
+    include "{{OBJ_DIR}}\enemy\l_sight.obj", overlay
+    include "{{OBJ_DIR}}\enemy\grnad_e.obj", overlay
+    include "{{OBJ_DIR}}\enemy\boxkeri.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
+    include "{{OBJ_DIR}}\enemy\glight.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11e\overlay2.obj", overlay
 
-    include "{{OBJ_DIR}}\overlays\_shared\animal\zako11e\zako11e.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\zako11e\zk11echeck.obj", overlay
+    include "{{OBJ_DIR}}\animal\zako11e\zako11e.obj", overlay
+    include "{{OBJ_DIR}}\animal\zako11e\zk11echeck.obj", overlay
 
     include "{{OBJ_DIR}}\overlays\s11e\overlay3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\zako11e\zk11eaction.obj", overlay
+    include "{{OBJ_DIR}}\animal\zako11e\zk11eaction.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11e\overlay4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\zako11e\zk11eenemy.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\zako11e\zk11ethink.obj", overlay
+    include "{{OBJ_DIR}}\animal\zako11e\zk11eenemy.obj", overlay
+    include "{{OBJ_DIR}}\animal\zako11e\zk11ethink.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11e\overlay5.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\zako11e\zk11ecom.obj", overlay
+    include "{{OBJ_DIR}}\animal\zako11e\zk11ecom.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11e\overlay6.obj", overlay
 
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\tex_scrl.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\gas_efct.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\mosaic.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cinema.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\camshake.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cat_in.obj", overlay
+    include "{{OBJ_DIR}}\takabe\tex_scrl.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\gas_efct.obj", overlay
+    include "{{OBJ_DIR}}\takabe\mosaic.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
+    include "{{OBJ_DIR}}\takabe\camshake.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P34.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "s07c" or OVERLAY == "s07cr" %}
-    include "{{OBJ_DIR}}\overlays\_stage\s07c.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\evpanel.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\lamp.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\second.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\wall.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\demokage.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\meryl72\meryl72.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\meryl72\check.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\meryl72\action.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\meryl72\override.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\meryl72\put.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\meryl72\ml72act.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\breath.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\mark.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\fog.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\smoke.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\sleep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\grnad_e.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\meryl72\think.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\unknown6.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\meryl72\think9.obj", overlay ; name needed
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\blurpure.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\gas_efct.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\mirror.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\telop.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cinema.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\dymc_seg.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\focus.obj", overlay
+    include "{{OBJ_DIR}}\stage\s07c.obj", overlay
+    include "{{OBJ_DIR}}\game\evpanel.obj", overlay
+    include "{{OBJ_DIR}}\game\lamp.obj", overlay
+    include "{{OBJ_DIR}}\game\second.obj", overlay
+    include "{{OBJ_DIR}}\enemy\wall.obj", overlay
+    include "{{OBJ_DIR}}\enemy\demokage.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
+    include "{{OBJ_DIR}}\animal\meryl72\meryl72.obj", overlay
+    include "{{OBJ_DIR}}\animal\meryl72\check.obj", overlay
+    include "{{OBJ_DIR}}\animal\meryl72\action.obj", overlay
+    include "{{OBJ_DIR}}\animal\meryl72\override.obj", overlay
+    include "{{OBJ_DIR}}\animal\meryl72\put.obj", overlay
+    include "{{OBJ_DIR}}\animal\meryl72\ml72act.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
+    include "{{OBJ_DIR}}\enemy\grnad_e.obj", overlay
+    include "{{OBJ_DIR}}\animal\meryl72\think.obj", overlay
+    include "{{OBJ_DIR}}\takabe\unknown6.obj", overlay
+    include "{{OBJ_DIR}}\animal\meryl72\think9.obj", overlay ; name needed
+    include "{{OBJ_DIR}}\okajima\blurpure.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\gas_efct.obj", overlay
+    include "{{OBJ_DIR}}\takabe\mirror.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\telop.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
+    include "{{OBJ_DIR}}\takabe\focus.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P36.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "s08c" or OVERLAY == "s08cr" %}
-    include "{{OBJ_DIR}}\overlays\_stage\s08c.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\pad.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\lamp.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\rcm2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\demokage.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\katana.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\doll\doll.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\glight.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asiato2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\doll\demodoll0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\breath.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\doll\demodoll.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\splash.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\d_bloods.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\blood_cl.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\blurpure.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\blur.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\wall_spa.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\smoke_ln.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\plasma.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\blood_bl.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\spark2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\gas_efct.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cinema.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\o2_damge.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\dymc_seg.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\focus.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\sepia.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cat_in.obj", overlay
+    include "{{OBJ_DIR}}\stage\s08c.obj", overlay
+    include "{{OBJ_DIR}}\game\pad.obj", overlay
+    include "{{OBJ_DIR}}\game\lamp.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\rcm2.obj", overlay
+    include "{{OBJ_DIR}}\enemy\demokage.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
+    include "{{OBJ_DIR}}\enemy\katana.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\doll.obj", overlay
+    include "{{OBJ_DIR}}\enemy\glight.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\demodoll0.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\demodoll.obj", overlay
+    include "{{OBJ_DIR}}\okajima\splash.obj", overlay
+    include "{{OBJ_DIR}}\okajima\d_bloods.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blood_cl.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blurpure.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blur.obj", overlay
+    include "{{OBJ_DIR}}\okajima\wall_spa.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\smoke_ln.obj", overlay
+    include "{{OBJ_DIR}}\okajima\plasma.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blood_bl.obj", overlay
+    include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
+    include "{{OBJ_DIR}}\takabe\gas_efct.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
+    include "{{OBJ_DIR}}\takabe\o2_damge.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
+    include "{{OBJ_DIR}}\takabe\focus.obj", overlay
+    include "{{OBJ_DIR}}\takabe\sepia.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "s11i" %}
-    include "{{OBJ_DIR}}\overlays\_stage\s11i.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\lamp.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\chara\snake\breath.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\breath.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\chara\hind2\hind2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\chara\hind2\hd_bul2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\thing\snow.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\thing\sphere.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\wall.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\zako11f\zako11f.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\glight.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\zako11f\action.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\zako11f\put.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\zako11f\zk11fact.obj", overlay
+    include "{{OBJ_DIR}}\stage\s11i.obj", overlay
+    include "{{OBJ_DIR}}\game\lamp.obj", overlay
+    include "{{OBJ_DIR}}\chara\snake\breath.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
+    include "{{OBJ_DIR}}\chara\hind2\hind2.obj", overlay
+    include "{{OBJ_DIR}}\chara\hind2\hd_bul2.obj", overlay
+    include "{{OBJ_DIR}}\thing\snow.obj", overlay
+    include "{{OBJ_DIR}}\thing\sphere.obj", overlay
+    include "{{OBJ_DIR}}\enemy\wall.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
+    include "{{OBJ_DIR}}\animal\zako11f\zako11f.obj", overlay
+    include "{{OBJ_DIR}}\enemy\glight.obj", overlay
+    include "{{OBJ_DIR}}\animal\zako11f\action.obj", overlay
+    include "{{OBJ_DIR}}\animal\zako11f\put.obj", overlay
+    include "{{OBJ_DIR}}\animal\zako11f\zk11fact.obj", overlay
 
     include "{{OBJ_DIR}}\overlays\s11i\overlay2.obj", overlay
 
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\mark.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\fog.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\sleep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asiato.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\l_sight.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\grnad_e.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
+    include "{{OBJ_DIR}}\enemy\l_sight.obj", overlay
+    include "{{OBJ_DIR}}\enemy\grnad_e.obj", overlay
 
 
-    include "{{OBJ_DIR}}\overlays\_shared\animal\zako11f\override.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\zako11f\zk11fcom.obj", overlay
+    include "{{OBJ_DIR}}\animal\zako11f\override.obj", overlay
+    include "{{OBJ_DIR}}\animal\zako11f\zk11fcom.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11i\overlay3.obj", overlay
 
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\dummy_wl.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\object.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cinema.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\dymc_seg.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cat_in.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\kojo\sstorm.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dummy_wl.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\object.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
+    include "{{OBJ_DIR}}\kojo\sstorm.obj", overlay
 {% elif OVERLAY == "s15c" %}
     include "{{OBJ_DIR}}\overlays\s15c\overlay.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\lamp.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\chara\snake\breath.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\breath.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\watcher.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\check.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\action.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\enemy.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\mark.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\fog.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\smoke.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\sleep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\think.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\command.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\eyeflash.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asiato.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\l_sight.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\grnad_e.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\boxkeri.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\wall.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\glight.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\blood_cl.obj", overlay
+    include "{{OBJ_DIR}}\game\lamp.obj", overlay
+    include "{{OBJ_DIR}}\chara\snake\breath.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
+    include "{{OBJ_DIR}}\enemy\watcher.obj", overlay
+    include "{{OBJ_DIR}}\enemy\check.obj", overlay
+    include "{{OBJ_DIR}}\enemy\action.obj", overlay
+    include "{{OBJ_DIR}}\enemy\enemy.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
+    include "{{OBJ_DIR}}\enemy\think.obj", overlay
+    include "{{OBJ_DIR}}\enemy\command.obj", overlay
+    include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
+    include "{{OBJ_DIR}}\enemy\l_sight.obj", overlay
+    include "{{OBJ_DIR}}\enemy\grnad_e.obj", overlay
+    include "{{OBJ_DIR}}\enemy\boxkeri.obj", overlay
+    include "{{OBJ_DIR}}\enemy\wall.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
+    include "{{OBJ_DIR}}\enemy\glight.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blood_cl.obj", overlay
 
     include "{{OBJ_DIR}}\overlays\s15c\overlay2.obj", overlay
 
@@ -1486,36 +1486,36 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s15c\okajima\valcan\valcan.obj", overlay
     include "{{OBJ_DIR}}\overlays\s15c\okajima\valcan\crow.obj", overlay
 
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\gas_efct.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\object.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\mosaic.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\life_up.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cinema.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\dymc_seg.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cat_in.obj", overlay
+    include "{{OBJ_DIR}}\takabe\gas_efct.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\object.obj", overlay
+    include "{{OBJ_DIR}}\takabe\mosaic.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\life_up.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
     include "{{OBJ_DIR}}\overlays\s15c\takabe\dymc_flr.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_003.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "ending" or OVERLAY == "endingr" %}
-    include "{{OBJ_DIR}}\overlays\_stage\ending.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\movie.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\smoke_ln.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\thing\sphere_bss_padding.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\thing\sphere.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\thing\sphere_bss_padding2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asiato.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\demoasi.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\demokage.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\blurpure.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\blur.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cinema.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\envmap3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\focus.obj", overlay
+    include "{{OBJ_DIR}}\stage\ending.obj", overlay
+    include "{{OBJ_DIR}}\game\movie.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\smoke_ln.obj", overlay
+    include "{{OBJ_DIR}}\thing\sphere_bss_padding.obj", overlay
+    include "{{OBJ_DIR}}\thing\sphere.obj", overlay
+    include "{{OBJ_DIR}}\thing\sphere_bss_padding2.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
+    include "{{OBJ_DIR}}\enemy\demoasi.obj", overlay
+    include "{{OBJ_DIR}}\enemy\demokage.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blurpure.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blur.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
+    include "{{OBJ_DIR}}\takabe\envmap3.obj", overlay
+    include "{{OBJ_DIR}}\takabe\focus.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\CDROM.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\CDREAD2.OBJ", overlay
@@ -1535,30 +1535,30 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\VLC_C.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\BUILD.OBJ", overlay
 {% elif OVERLAY == "preope" %}
-    include "{{OBJ_DIR}}\overlays\_stage\preope.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\onoda\preope\preope.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\onoda\preope\pre_met1.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\onoda\preope\pre_met2.obj", overlay
+    include "{{OBJ_DIR}}\stage\preope.obj", overlay
+    include "{{OBJ_DIR}}\onoda\preope\preope.obj", overlay
+    include "{{OBJ_DIR}}\onoda\preope\pre_met1.obj", overlay
+    include "{{OBJ_DIR}}\onoda\preope\pre_met2.obj", overlay
 {% elif OVERLAY == "opening" %}
-    include "{{OBJ_DIR}}\overlays\_stage\opening.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\cancel.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\pato_lmp.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\blurpure.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\blur.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\bubble_p.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\bubble_t.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\sub_room.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\ripple.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\tex_scrl.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\wt_view.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\gas_efct.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\telop.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cinema.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\focus.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\sub_efct.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\optxtscn.obj", overlay
+    include "{{OBJ_DIR}}\stage\opening.obj", overlay
+    include "{{OBJ_DIR}}\game\cancel.obj", overlay
+    include "{{OBJ_DIR}}\okajima\pato_lmp.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blurpure.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blur.obj", overlay
+    include "{{OBJ_DIR}}\okajima\bubble_p.obj", overlay
+    include "{{OBJ_DIR}}\okajima\bubble_t.obj", overlay
+    include "{{OBJ_DIR}}\okajima\sub_room.obj", overlay
+    include "{{OBJ_DIR}}\takabe\ripple.obj", overlay
+    include "{{OBJ_DIR}}\takabe\tex_scrl.obj", overlay
+    include "{{OBJ_DIR}}\takabe\wt_view.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\gas_efct.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\telop.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
+    include "{{OBJ_DIR}}\takabe\focus.obj", overlay
+    include "{{OBJ_DIR}}\takabe\sub_efct.obj", overlay
+    include "{{OBJ_DIR}}\takabe\optxtscn.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
@@ -1567,11 +1567,11 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P39.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "roll" %}
-    include "{{OBJ_DIR}}\overlays\_stage\roll.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\movie.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\ed_telop.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\ending2.obj", overlay
+    include "{{OBJ_DIR}}\stage\roll.obj", overlay
+    include "{{OBJ_DIR}}\game\movie.obj", overlay
+    include "{{OBJ_DIR}}\takabe\ed_telop.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\ending2.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\CDROM.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\CDREAD2.OBJ", overlay
@@ -1590,37 +1590,37 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\VLC_C.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\BUILD.OBJ", overlay
 {% elif OVERLAY == "s03b" %}
-    include "{{OBJ_DIR}}\overlays\_stage\s03b.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\lamp.obj", overlay
+    include "{{OBJ_DIR}}\stage\s03b.obj", overlay
+    include "{{OBJ_DIR}}\game\lamp.obj", overlay
 
     include "{{OBJ_DIR}}\overlays\s03b\overlay2.obj", overlay
 
-    include "{{OBJ_DIR}}\overlays\_shared\chara\torture\torture.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\chara\torture\bed.obj", overlay
+    include "{{OBJ_DIR}}\chara\torture\torture.obj", overlay
+    include "{{OBJ_DIR}}\chara\torture\bed.obj", overlay
 
     include "{{OBJ_DIR}}\overlays\s03b\overlay3.obj", overlay
 
-    include "{{OBJ_DIR}}\overlays\_shared\chara\torture\revolver.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\chara\torture\unknown5.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\unknown6.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\chara\torture\boxall.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\chara\torture\info.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\chara\torture\unknown7.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\demokage.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\doll\doll.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\glight.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asiato2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\doll\demodoll0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\breath.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\doll\demodoll.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\plasma.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\blur.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\telop.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cinema.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\focus.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\sepia.obj", overlay
+    include "{{OBJ_DIR}}\chara\torture\revolver.obj", overlay
+    include "{{OBJ_DIR}}\chara\torture\unknown5.obj", overlay
+    include "{{OBJ_DIR}}\takabe\unknown6.obj", overlay
+    include "{{OBJ_DIR}}\chara\torture\boxall.obj", overlay
+    include "{{OBJ_DIR}}\chara\torture\info.obj", overlay
+    include "{{OBJ_DIR}}\chara\torture\unknown7.obj", overlay
+    include "{{OBJ_DIR}}\enemy\demokage.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\doll.obj", overlay
+    include "{{OBJ_DIR}}\enemy\glight.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\demodoll0.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\demodoll.obj", overlay
+    include "{{OBJ_DIR}}\okajima\plasma.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blur.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\telop.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
+    include "{{OBJ_DIR}}\takabe\focus.obj", overlay
+    include "{{OBJ_DIR}}\takabe\sepia.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
@@ -1628,20 +1628,20 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 {% elif OVERLAY == "s11g" %}
     include "{{OBJ_DIR}}\overlays\s11g\overlay.obj", overlay
 
-    include "{{OBJ_DIR}}\overlays\_shared\game\lamp.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\chara\snake\breath.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\breath.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\chara\others\motse.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\thing\snow.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\thing\sphere.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\wall.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\demokage.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\blur.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\smke_ln.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\smoke_ln.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\wall_spa.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\plasma.obj", overlay
+    include "{{OBJ_DIR}}\game\lamp.obj", overlay
+    include "{{OBJ_DIR}}\chara\snake\breath.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
+    include "{{OBJ_DIR}}\chara\others\motse.obj", overlay
+    include "{{OBJ_DIR}}\thing\snow.obj", overlay
+    include "{{OBJ_DIR}}\thing\sphere.obj", overlay
+    include "{{OBJ_DIR}}\enemy\wall.obj", overlay
+    include "{{OBJ_DIR}}\enemy\demokage.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blur.obj", overlay
+    include "{{OBJ_DIR}}\okajima\smke_ln.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\smoke_ln.obj", overlay
+    include "{{OBJ_DIR}}\okajima\wall_spa.obj", overlay
+    include "{{OBJ_DIR}}\okajima\plasma.obj", overlay
 
     include "{{OBJ_DIR}}\overlays\s11g\overlay2.obj", overlay
 
@@ -1666,18 +1666,18 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s11g\s11g_11g_demo_800CC50C.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11g\s11g_11g_demo_800CCB48.obj", overlay
 
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\red_alrt.obj", overlay
+    include "{{OBJ_DIR}}\okajima\red_alrt.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11g\okajima\blst_ln.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\blurpure.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\spark2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\object.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cinema.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\dymc_seg.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\focus.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\windcrcl.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cat_in.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blurpure.obj", overlay
+    include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
+    include "{{OBJ_DIR}}\takabe\object.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
+    include "{{OBJ_DIR}}\takabe\focus.obj", overlay
+    include "{{OBJ_DIR}}\takabe\windcrcl.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11g\kojo\hind.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11g\okajima\blastoff.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11g\okajima\unknown.obj", overlay
@@ -1685,52 +1685,52 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
 {% elif OVERLAY == "s11c" %}
-    include "{{OBJ_DIR}}\overlays\_stage\s11c.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\evpanel.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\lamp.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\wall.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\guncame.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\socom.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\mark.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\scn_mark.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\spark2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\rasen.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\gas_efct.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\rasen_el.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\object.obj", overlay
+    include "{{OBJ_DIR}}\stage\s11c.obj", overlay
+    include "{{OBJ_DIR}}\game\evpanel.obj", overlay
+    include "{{OBJ_DIR}}\game\lamp.obj", overlay
+    include "{{OBJ_DIR}}\enemy\wall.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
+    include "{{OBJ_DIR}}\okajima\guncame.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\socom.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
+    include "{{OBJ_DIR}}\okajima\scn_mark.obj", overlay
+    include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\rasen.obj", overlay
+    include "{{OBJ_DIR}}\takabe\gas_efct.obj", overlay
+    include "{{OBJ_DIR}}\takabe\rasen_el.obj", overlay
+    include "{{OBJ_DIR}}\takabe\object.obj", overlay
     include "{{OBJ_DIR}}\overlays\s12c\takabe\fog.obj", overlay
     include "{{OBJ_DIR}}\overlays\s12c\takabe\libdg2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\pad_demo.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cinema.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\dymc_seg.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\camshake.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cat_in.obj", overlay
+    include "{{OBJ_DIR}}\takabe\pad_demo.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
+    include "{{OBJ_DIR}}\takabe\camshake.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
     include "{{OBJ_DIR}}\overlays\s15c\takabe\dymc_flr.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_002.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "s12a" %}
     include "{{OBJ_DIR}}\overlays\s12a\overlay.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\movie.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\lamp.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\breath.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\chara\snake\breath.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\thing\snow.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asiato2_bss_pad.obj", overlay ; FIXME
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asiato.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\wall.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\demokage.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\splash.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\guncame.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\socom.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\mark.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\blurpure.obj", overlay
+    include "{{OBJ_DIR}}\game\movie.obj", overlay
+    include "{{OBJ_DIR}}\game\lamp.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
+    include "{{OBJ_DIR}}\chara\snake\breath.obj", overlay
+    include "{{OBJ_DIR}}\thing\snow.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asiato2_bss_pad.obj", overlay ; FIXME
+    include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
+    include "{{OBJ_DIR}}\enemy\wall.obj", overlay
+    include "{{OBJ_DIR}}\enemy\demokage.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
+    include "{{OBJ_DIR}}\okajima\splash.obj", overlay
+    include "{{OBJ_DIR}}\okajima\guncame.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\socom.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blurpure.obj", overlay
     include "{{OBJ_DIR}}\overlays\s12a\okajima\blur_bss_pad.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\blur.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blur.obj", overlay
     include "{{OBJ_DIR}}\overlays\s12a\okajima\wolf\wolf2.obj", overlay
     include "{{OBJ_DIR}}\overlays\s12a\overlay2.obj", overlay
 
@@ -1769,22 +1769,22 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s12a\s12a_wolf2_800D2AF8.obj", overlay
     include "{{OBJ_DIR}}\overlays\s12a\s12a_wolf2_800D2E0C.obj", overlay
 
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\rcm.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\rcm.obj", overlay
     include "{{OBJ_DIR}}\overlays\s12a\okajima\wolf\action.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\d_bloods.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\d_bloods_bss_pad.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\spark2.obj", overlay
+    include "{{OBJ_DIR}}\okajima\d_bloods.obj", overlay
+    include "{{OBJ_DIR}}\okajima\d_bloods_bss_pad.obj", overlay
+    include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
     include "{{OBJ_DIR}}\overlays\s12c\takabe\fog.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
     include "{{OBJ_DIR}}\overlays\s12c\takabe\libdg2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
     include "{{OBJ_DIR}}\overlays\s12c\takabe\findtrap.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\life_up.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cinema.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\dymc_seg.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\focus.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cat_in.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\kojo\sstorm.obj", overlay
+    include "{{OBJ_DIR}}\takabe\life_up.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
+    include "{{OBJ_DIR}}\takabe\focus.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
+    include "{{OBJ_DIR}}\kojo\sstorm.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\CDROM.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\CDREAD2.OBJ", overlay
@@ -1808,46 +1808,46 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\option\overlay.obj", overlay
     include "{{OBJ_DIR}}\overlays\option\onoda\option\opt.obj", overlay
 {% elif OVERLAY == "s03c" %}
-    include "{{OBJ_DIR}}\overlays\_stage\s03c.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\lamp.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\chara\torture\bed.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\chara\torture\johnny.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\mark.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\fog.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\sleep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\chara\torture\jfamas.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\chara\torture\unknown5.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\chara\torture\otacom.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\chara\torture\ninja.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\smoke2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\unknown6.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\chara\torture\boxall.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\chara\torture\sne_03c.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\chara\torture\johnny2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\demokage.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\glight.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\uji.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\guncame.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\socom.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\blurpure.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\blur.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\hiyoko.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\spark2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\gas_efct.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cinema.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\dymc_seg.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\focus.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\sepia.obj", overlay
+    include "{{OBJ_DIR}}\stage\s03c.obj", overlay
+    include "{{OBJ_DIR}}\game\lamp.obj", overlay
+    include "{{OBJ_DIR}}\chara\torture\bed.obj", overlay
+    include "{{OBJ_DIR}}\chara\torture\johnny.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
+    include "{{OBJ_DIR}}\chara\torture\jfamas.obj", overlay
+    include "{{OBJ_DIR}}\chara\torture\unknown5.obj", overlay
+    include "{{OBJ_DIR}}\chara\torture\otacom.obj", overlay
+    include "{{OBJ_DIR}}\chara\torture\ninja.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\smoke2.obj", overlay
+    include "{{OBJ_DIR}}\takabe\unknown6.obj", overlay
+    include "{{OBJ_DIR}}\chara\torture\boxall.obj", overlay
+    include "{{OBJ_DIR}}\chara\torture\sne_03c.obj", overlay
+    include "{{OBJ_DIR}}\chara\torture\johnny2.obj", overlay
+    include "{{OBJ_DIR}}\enemy\demokage.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
+    include "{{OBJ_DIR}}\enemy\glight.obj", overlay
+    include "{{OBJ_DIR}}\okajima\uji.obj", overlay
+    include "{{OBJ_DIR}}\okajima\guncame.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\socom.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blurpure.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blur.obj", overlay
+    include "{{OBJ_DIR}}\okajima\hiyoko.obj", overlay
+    include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
+    include "{{OBJ_DIR}}\takabe\gas_efct.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
+    include "{{OBJ_DIR}}\takabe\focus.obj", overlay
+    include "{{OBJ_DIR}}\takabe\sepia.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "s11d" %}
     include "{{OBJ_DIR}}\overlays\s11d\overlay.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\lamp.obj", overlay
+    include "{{OBJ_DIR}}\game\lamp.obj", overlay
 
     include "{{OBJ_DIR}}\overlays\s11d\overlay2.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11d\s11d_rope_800C3D50.obj", overlay
@@ -1997,42 +1997,42 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s11d\s11d_info_800CDAF8.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11d\s11d_info_800CDB5C.obj", overlay
 
-    include "{{OBJ_DIR}}\overlays\_shared\chara\torture\info.obj", overlay
+    include "{{OBJ_DIR}}\chara\torture\info.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11d\chara\rope\pipe.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\thing\snow.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\thing\sphere.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cinema.obj", overlay
+    include "{{OBJ_DIR}}\thing\snow.obj", overlay
+    include "{{OBJ_DIR}}\thing\sphere.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_003.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\FGO_03.OBJ", overlay
 {% elif OVERLAY == "s04c" %}
     include "{{OBJ_DIR}}\overlays\s04c\overlay.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\movie.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\lamp.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\breath.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\wall.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\demokage.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\guncame.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\socom.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\mark.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\blurpure.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\blur.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\spark2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\dummy_wl.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\object.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\life_up.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cinema.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\dymc_seg.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\focus.obj", overlay
+    include "{{OBJ_DIR}}\game\movie.obj", overlay
+    include "{{OBJ_DIR}}\game\lamp.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
+    include "{{OBJ_DIR}}\enemy\wall.obj", overlay
+    include "{{OBJ_DIR}}\enemy\demokage.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
+    include "{{OBJ_DIR}}\okajima\guncame.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\socom.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blurpure.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blur.obj", overlay
+    include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dummy_wl.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\object.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\life_up.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
+    include "{{OBJ_DIR}}\takabe\focus.obj", overlay
     include "{{OBJ_DIR}}\overlays\s04c\takabe\voicesys.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\sepia.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cat_in.obj", overlay
+    include "{{OBJ_DIR}}\takabe\sepia.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
     include "{{OBJ_DIR}}\overlays\s04c\overlay2.obj", overlay
     include "{{OBJ_DIR}}\overlays\s04c\onoda\s04b\revolver.obj", overlay
     include "{{OBJ_DIR}}\overlays\s04c\takabe\revbullt.obj", overlay
@@ -2062,120 +2062,120 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\VLC_C.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\BUILD.OBJ", overlay
 {% elif OVERLAY == "demosel" %}
-    include "{{OBJ_DIR}}\overlays\_stage\demosel.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\onoda\demosel\demosel.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\onoda\change\met_logo.obj", overlay
+    include "{{OBJ_DIR}}\stage\demosel.obj", overlay
+    include "{{OBJ_DIR}}\onoda\demosel\demosel.obj", overlay
+    include "{{OBJ_DIR}}\onoda\change\met_logo.obj", overlay
 {% elif OVERLAY == "s13a" %}
-    include "{{OBJ_DIR}}\overlays\_stage\s13a.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\lamp.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\watcher.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\check.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\action.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\enemy.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\breath.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\mark.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\fog.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\smoke.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\sleep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\think.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\command_bss_pad.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\command.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\eyeflash.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asiato.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\l_sight.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\grnad_e.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\boxkeri.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\wall.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\glight.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\crane.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\smoke2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\mouse.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\pato_lmp.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\guncame.obj", overlay
+    include "{{OBJ_DIR}}\stage\s13a.obj", overlay
+    include "{{OBJ_DIR}}\game\lamp.obj", overlay
+    include "{{OBJ_DIR}}\enemy\watcher.obj", overlay
+    include "{{OBJ_DIR}}\enemy\check.obj", overlay
+    include "{{OBJ_DIR}}\enemy\action.obj", overlay
+    include "{{OBJ_DIR}}\enemy\enemy.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
+    include "{{OBJ_DIR}}\enemy\think.obj", overlay
+    include "{{OBJ_DIR}}\enemy\command_bss_pad.obj", overlay
+    include "{{OBJ_DIR}}\enemy\command.obj", overlay
+    include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
+    include "{{OBJ_DIR}}\enemy\l_sight.obj", overlay
+    include "{{OBJ_DIR}}\enemy\grnad_e.obj", overlay
+    include "{{OBJ_DIR}}\enemy\boxkeri.obj", overlay
+    include "{{OBJ_DIR}}\enemy\wall.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
+    include "{{OBJ_DIR}}\enemy\glight.obj", overlay
+    include "{{OBJ_DIR}}\okajima\crane.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\smoke2.obj", overlay
+    include "{{OBJ_DIR}}\okajima\mouse.obj", overlay
+    include "{{OBJ_DIR}}\okajima\pato_lmp.obj", overlay
+    include "{{OBJ_DIR}}\okajima\guncame.obj", overlay
     include "{{OBJ_DIR}}\overlays\s13a\overlay2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\socom.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\smktrgt.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\smoke3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\spark2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\door2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\lift.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\gas_efct.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\mosaic.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\dymc_seg.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\shakemdl.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\camshake.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cat_in.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\furnace.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\melt_die.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\wt_view.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\socom.obj", overlay
+    include "{{OBJ_DIR}}\okajima\smktrgt.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\smoke3.obj", overlay
+    include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
+    include "{{OBJ_DIR}}\takabe\door2.obj", overlay
+    include "{{OBJ_DIR}}\takabe\lift.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\gas_efct.obj", overlay
+    include "{{OBJ_DIR}}\takabe\mosaic.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
+    include "{{OBJ_DIR}}\takabe\shakemdl.obj", overlay
+    include "{{OBJ_DIR}}\takabe\camshake.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
+    include "{{OBJ_DIR}}\takabe\furnace.obj", overlay
+    include "{{OBJ_DIR}}\okajima\melt_die.obj", overlay
+    include "{{OBJ_DIR}}\takabe\wt_view.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P39.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "s08a" %}
-    include "{{OBJ_DIR}}\overlays\_stage\s08a.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\evpanel.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\pad.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\lamp.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\demokage.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\doll\doll.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\glight.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asiato2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\doll\demodoll0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\breath.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\doll\demodoll.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\guncame.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\socom.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\mark.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\p_lamp.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\plasma.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\red_alrt.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\death_sp.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\smoke_ln.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\flr_spa.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\plasma_h.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\panel.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s08b\anime\animconv\smoke4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\spark2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\glass.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\gsplash.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\elc_flr.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\elc_damg.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\gas_efct.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\breakobj.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\object.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cinema.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\o2_damge.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\dymc_seg.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\camshake.obj", overlay
+    include "{{OBJ_DIR}}\stage\s08a.obj", overlay
+    include "{{OBJ_DIR}}\game\evpanel.obj", overlay
+    include "{{OBJ_DIR}}\game\pad.obj", overlay
+    include "{{OBJ_DIR}}\game\lamp.obj", overlay
+    include "{{OBJ_DIR}}\enemy\demokage.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\doll.obj", overlay
+    include "{{OBJ_DIR}}\enemy\glight.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\demodoll0.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\demodoll.obj", overlay
+    include "{{OBJ_DIR}}\okajima\guncame.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\socom.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
+    include "{{OBJ_DIR}}\okajima\p_lamp.obj", overlay
+    include "{{OBJ_DIR}}\okajima\plasma.obj", overlay
+    include "{{OBJ_DIR}}\okajima\red_alrt.obj", overlay
+    include "{{OBJ_DIR}}\okajima\death_sp.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\smoke_ln.obj", overlay
+    include "{{OBJ_DIR}}\okajima\flr_spa.obj", overlay
+    include "{{OBJ_DIR}}\okajima\plasma_h.obj", overlay
+    include "{{OBJ_DIR}}\takabe\panel.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s08b\anime\effect\smoke4.obj", overlay
+    include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
+    include "{{OBJ_DIR}}\takabe\glass.obj", overlay
+    include "{{OBJ_DIR}}\takabe\gsplash.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\elc_flr.obj", overlay
+    include "{{OBJ_DIR}}\takabe\elc_damg.obj", overlay
+    include "{{OBJ_DIR}}\takabe\gas_efct.obj", overlay
+    include "{{OBJ_DIR}}\takabe\breakobj.obj", overlay
+    include "{{OBJ_DIR}}\takabe\object.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
+    include "{{OBJ_DIR}}\takabe\o2_damge.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
+    include "{{OBJ_DIR}}\takabe\camshake.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_11.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\RMAT_01.OBJ", overlay
 {% elif OVERLAY == "d18a" or OVERLAY == "d18ar" %}
     include "{{OBJ_DIR}}\overlays\d18a\overlay.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\movie.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\smoke_ln.obj", overlay
+    include "{{OBJ_DIR}}\game\movie.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\smoke_ln.obj", overlay
     include "{{OBJ_DIR}}\overlays\d18a\chara\wake\wake.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\wall.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\demokage.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asioto.obj", overlay
+    include "{{OBJ_DIR}}\enemy\wall.obj", overlay
+    include "{{OBJ_DIR}}\enemy\demokage.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
     include "{{OBJ_DIR}}\overlays\d18a\animal\liquid\bombled.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\rcm2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\doll\doll.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\glight.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asiato2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asiato2_bss_pad.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\doll\demodoll0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\breath.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\animal\doll\demodoll.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\rcm2.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\doll.obj", overlay
+    include "{{OBJ_DIR}}\enemy\glight.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asiato2_bss_pad.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\demodoll0.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\demodoll.obj", overlay
 
     include "{{OBJ_DIR}}\overlays\{{OVERLAY}}\overlay2.obj", overlay
 
@@ -2328,13 +2328,13 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\d18a\d18a_snake18_800D4C44.obj", overlay
     include "{{OBJ_DIR}}\overlays\d18a\d18a_snake18_800D4E94.obj", overlay
 
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\smktrgt.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\smoke3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\blur.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\okajima\smke_ln.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cinema.obj", overlay
+    include "{{OBJ_DIR}}\okajima\smktrgt.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\smoke3.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blur.obj", overlay
+    include "{{OBJ_DIR}}\okajima\smke_ln.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\CDROM.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\CDREAD2.OBJ", overlay
@@ -2354,7 +2354,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 {% elif OVERLAY == "s19b" or OVERLAY == "s19br" %}
     include "{{OBJ_DIR}}\overlays\{{OVERLAY}}\overlay.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19b\menu\countdwn.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asioto.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19b\takabe\jeep_emy\jeep_emy.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19b\takabe\jeep\jbullet.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19b\takabe\jeep\jspark.obj", overlay
@@ -2366,7 +2366,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 
     include "{{OBJ_DIR}}\overlays\{{OVERLAY}}\overlay2.obj", overlay
 
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19b\s19b_fog_800CAF8C.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19b\s19b_fog_800CAFF8.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19b\s19b_fog_800CB048.obj", overlay
@@ -2394,15 +2394,15 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s19b\takabe\jeep2.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19b\takabe\jeep_liq\jeep_liq.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19b\takabe\jeep\spark2_m.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cinema.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
 
     include "{{OBJ_DIR}}\overlays\s19b\overlay6.obj", overlay
 
     include "{{OBJ_DIR}}\overlays\s19b\takabe\democame.obj", overlay
     include "{{OBJ_DIR}}\overlays\s04c\takabe\voicesys.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\unknown4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cat_in.obj", overlay
+    include "{{OBJ_DIR}}\takabe\unknown4.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_002.OBJ", overlay
@@ -2413,14 +2413,14 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\FGO_03.OBJ", overlay
 {% elif OVERLAY == "s08b" or OVERLAY == "s08br" %}
     include "{{OBJ_DIR}}\overlays\s08b\overlay.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\movie.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\game\lamp.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\breath.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\anime\animconv\rcm2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\wall.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\demokage.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\enemy\katana.obj", overlay
+    include "{{OBJ_DIR}}\game\movie.obj", overlay
+    include "{{OBJ_DIR}}\game\lamp.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\rcm2.obj", overlay
+    include "{{OBJ_DIR}}\enemy\wall.obj", overlay
+    include "{{OBJ_DIR}}\enemy\demokage.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
+    include "{{OBJ_DIR}}\enemy\katana.obj", overlay
 
     include "{{OBJ_DIR}}\overlays\{{OVERLAY}}\overlay2.obj", overlay
 
@@ -2788,20 +2788,20 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s08b\s08b_pfall_800DC838.obj", overlay
 
     include "{{OBJ_DIR}}\overlays\s08b\takabe\monitor1.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s08b\anime\animconv\smoke4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\spark2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\gas_efct.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\life_up.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\telop.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cinema.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\dymc_seg.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\focus.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\windcrcl.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\cat_in.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s08b\anime\effect\smoke4.obj", overlay
+    include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\gas_efct.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\life_up.obj", overlay
+    include "{{OBJ_DIR}}\takabe\telop.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
+    include "{{OBJ_DIR}}\takabe\focus.obj", overlay
+    include "{{OBJ_DIR}}\takabe\windcrcl.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
     include "{{OBJ_DIR}}\overlays\s08b\takabe\panel2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\_shared\takabe\object.obj", overlay
+    include "{{OBJ_DIR}}\takabe\object.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\CDROM.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\CDREAD2.OBJ", overlay
