@@ -10,8 +10,8 @@
 #include "linkvar.h"
 #include "strcode.h"
 
-#include "overlays/_shared/enemy/enemy.h"
-#include "overlays/_shared/takabe/lit_mdl.h"    // for s01a_lit_mdl_800E2C88
+#include "enemy/enemy.h"
+#include "takabe/lit_mdl.h"     // for s01a_lit_mdl_800E2C88
 
 // Strange
 typedef struct _SearchlightSub

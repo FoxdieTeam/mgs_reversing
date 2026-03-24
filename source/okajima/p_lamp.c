@@ -10,8 +10,8 @@
 #include "anime/animconv/anime.h"
 #include "bullet/blast.h"
 
-#include "overlays/_shared/takabe/cinema.h"     // for NewCinemaScreen, NewCinemaScreenClose
-#include "overlays/_shared/takabe/spark2.h"     // for NewSpark2_800CA714
+#include "takabe/cinema.h"      // for NewCinemaScreen, NewCinemaScreenClose
+#include "takabe/spark2.h"      // for NewSpark2_800CA714
 
 typedef struct PLampWork
 {

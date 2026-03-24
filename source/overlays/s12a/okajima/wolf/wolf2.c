@@ -6,7 +6,7 @@
 #include "linkvar.h"
 #include "wolf2.h"
 
-#include "overlays/_shared/takabe/cinema.h"     // for NewCinemaScreen, NewCinemaScreenClose
+#include "takabe/cinema.h"      // for NewCinemaScreen, NewCinemaScreenClose
 
 extern int              dword_8009F46C[];
 extern SVECTOR          svector_8009F478;

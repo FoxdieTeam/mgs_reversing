@@ -1,4 +1,4 @@
-#include "../../../_shared/enemy/enemy.h"
+#include "enemy/enemy.h"
 
 #define SEGMENT_ATR ( HZD_SEG_NO_PLAYER )
 

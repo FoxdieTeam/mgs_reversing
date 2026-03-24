@@ -10,8 +10,8 @@
 #include "okajima/blood.h"
 #include "sound/g_sound.h"
 
-#include "overlays/_shared/takabe/cinema.h"     // for NewCinemaScreen, NewCinemaScreenClose
-#include "overlays/_shared/takabe/ripple.h"     // for NewRipple
+#include "takabe/cinema.h"      // for NewCinemaScreen, NewCinemaScreenClose
+#include "takabe/ripple.h"      // for NewRipple
 
 typedef struct _EventmouseWork
 {

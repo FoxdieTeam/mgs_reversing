@@ -1,7 +1,7 @@
 #include <stddef.h>
 
 #include "common.h"
-#include "overlays/_shared/takabe/cinema.h"     // for NewCinemaScreen, NewCinemaScreenClose
+#include "takabe/cinema.h"      // for NewCinemaScreen, NewCinemaScreenClose
 
 int   cinema_screen_alive = FALSE;
 int   cinema_screen_time = 0;

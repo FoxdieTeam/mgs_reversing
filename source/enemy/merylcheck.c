@@ -1,4 +1,4 @@
-#include "../../_shared/enemy/enemy.h"
+#include "enemy/enemy.h"
 
 #include "common.h"
 #include "libdg/libdg.h"
