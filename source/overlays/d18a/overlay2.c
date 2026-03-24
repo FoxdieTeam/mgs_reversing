@@ -395,3 +395,4 @@ int SECTION(".bss") d18a_dword_800DAF04;
 int SECTION(".bss") d18a_dword_800DAF08;
 int SECTION(".bss") d18a_dword_800DAF0C;
 int SECTION(".bss") d18a_dword_800DAF10;
+int SECTION(".bss") d18a_dword_800DAF14;
