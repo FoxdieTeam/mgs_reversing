@@ -6,42 +6,133 @@
 #include "linkvar.h"
 #include "menu/menuman.h"
 
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF3DC.s")
+typedef struct RevolverWork
+{
+    char            actor_pad[0x20];
+    char            control_pad1[8]; 
+    short           control_vx;     
+    short           control_vy;     
+    short           control_vz;      
+    short           control_rot_y;   
+    char            control_pad2[24];
+    void           *m_info;        
+    short           control_status;  
+    char            control_pad3[82];
+    char            body[16];       
+    short           field_B0;        
+    short           field_B2;        
+    char            ptr_pad[0];      
+    void           *field_B4;       
+    char            pad2[0xE4];      
+    short           field_19C;       
+    short           field_19E;
+    char            pad3[0x14];      
+    short           field_1B4;       
+    short           field_1B6;
+    char            pad4[0x6C8];    
+    int             field_880;       
+    int             field_884;
+    int             field_888;       
+} RevolverWork;
+
+
+void s04c_revolver_800CF3DC(int sound_id) {
+    register int s0_sound_id = sound_id;
+
+    if (GM_StreamStatus() != 2) {
+        GM_SeSet2(0, 0x3f, s0_sound_id);
+    }
+}
 
 void s04c_revolver_800CF418(void)
 {
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF420.s")
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF4A0.s")
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF518.s")
-void s04c_revolver_800CF584(void *s0)
+void s04c_revolver_800CF420(RevolverWork *work)
 {
-    // Check if the short at offset 0xB0 is NOT 9
-    if (*(short *)((char *)s0 + 0xb0) != 9)
+    if (work->field_B0 != 14)
     {
-        // Added (OBJECT *) cast here
-        GM_ConfigObjectOverride((OBJECT *)((char *)s0 + 0xa0), 9, 0, 4, -1);
+        work->field_888 = 1;
+
+        {
+            CONTROL *ctrl = work->field_B4;
+            unsigned char *m_info = *(unsigned char **)((char *)ctrl + 0x28);
+            *(unsigned short *)(m_info + 0x26) += 2048;
+            *(unsigned short *)((char *)work + 0x2E) += 2048;
+        }
+
+
+        GM_ConfigObjectOverride((OBJECT *)&work->body, 14, 0, 4, -1);
+
+        {
+            CONTROL *ctrl = work->field_B4;
+            *(unsigned short *)((char *)ctrl + 0x2C) = 3;
+        }
+
+        work->field_19C = 0;
     }
-    // Set short at offset 0x19C to 0
-    *(short *)((char *)s0 + 0x19c) = 0;
+}
+#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF4A0.s")
+
+
+void s04c_revolver_800CF518(RevolverWork *work)
+{
+    work->field_888 = 0;
+
+
+    GM_ConfigObjectOverride((OBJECT *)&work->body, 3, 0, 4, 0);
+
+    work->field_1B4 = 0;
+
+    if (work->field_880 == 0)
+    {
+        __asm__ volatile("" : : : "$4", "memory"); 
+
+        GM_ConfigObjectAction((OBJECT *)&work->body, 0, 0, 4);
+    }
+}
+
+void s04c_revolver_800CF584(RevolverWork *work)
+{
+    if (work->field_B0 != 9)
+    {
+
+        GM_ConfigObjectOverride((OBJECT *)&work->body, 9, 0, 4, -1);
+    }
+    
+    work->field_19C = 0;
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF5D0.s")
-void s04c_revolver_800CF650(void *s0)
+
+void s04c_revolver_800CF650(RevolverWork *work)
 {
-    // Check if the short at offset 0xB0 is NOT 13
-    if (*(short *)((char *)s0 + 0xb0) != 13)
+    if (work->field_B0 != 13)
     {
-        // Added (OBJECT *) cast here
-        GM_ConfigObjectOverride((OBJECT *)((char *)s0 + 0xa0), 13, 0, 4, -1);
+
+        GM_ConfigObjectOverride((OBJECT *)&work->body, 13, 0, 4, -1);
     }
-    *(short *)((char *)s0 + 0x19c) = 0;
+    
+    work->field_19C = 0;
 }
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF69C.s")
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF71C.s")
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF748.s")
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF7AC.s")
+
+void s04c_revolver_800CF7AC(RevolverWork *work) 
+{
+    work->field_880 = 0;
+
+
+    GM_ConfigObjectAction((OBJECT *)&work->body, 0, 0, 4);
+
+    if (work->field_888 != 0) 
+    {
+        *(int *)((char *)work + 0x190) = -1;
+        *(int *)((char *)work + 0x1A8) = 0;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF7FC.s")
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF868.s")
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF8D8.s")
