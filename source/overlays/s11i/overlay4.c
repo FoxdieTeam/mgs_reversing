@@ -1,4 +1,7 @@
-#include "libgcl/libgcl.h"
+#include "common.h"
+
+#include <sys/types.h>
+#include <libgte.h>
 
 SVECTOR s11i_dword_800C34C4[3] =
 {

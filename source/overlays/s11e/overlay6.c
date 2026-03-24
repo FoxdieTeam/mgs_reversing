@@ -1,39 +1,11 @@
 #include "common.h"
-#include "libgcl/libgcl.h"
 
-/*
-const int s11e_dword_800DED00 = 0x800DA0E0;
-const int s11e_dword_800DED04 = 0x800DA0F0;
-const int s11e_dword_800DED08 = 0x800DA100;
-const int s11e_dword_800DED0C = 0x800DA110;
-const int s11e_dword_800DED10 = 0x800DA120;
-const int s11e_dword_800DED14 = 0x800DA130;
-const int s11e_dword_800DED18 = 0x800DA140;
-const int s11e_dword_800DED1C = 0x800DA150;
-*/
-/*
-const int s11e_dword_800DED20 = 0x800DA8C4;
-const int s11e_dword_800DED24 = 0x800DA930;
-const int s11e_dword_800DED28 = 0x800DA958;
-const int s11e_dword_800DED2C = 0x800DA980;
-const int s11e_dword_800DED30 = 0x800DA9A8;
-const int s11e_dword_800DED34 = 0x800DA9D0;
-const int s11e_dword_800DED38 = 0x800DA9F8;
-const int s11e_dword_800DED3C = 0x800DAA20;
-const int s11e_dword_800DED40 = 0x800DAA48;
-const int s11e_dword_800DED44 = 0x800DAA70;
-const int s11e_dword_800DED48 = 0x800DAA98;
-const int s11e_dword_800DED4C = 0x800DAAAC;
-const int s11e_dword_800DED50 = 0x800DAAD4;
-const int s11e_dword_800DED54 = 0x800DAB04;
-const int s11e_dword_800DED58 = 0x800DABC8;
-const int s11e_dword_800DED5C = 0x800DAB48;
-const int s11e_dword_800DED60 = 0x800DABC8;
-*/
+#include <sys/types.h>
+#include <libgte.h>
+
 const char s11e_aZoned_800DED64[] = "zone=%d ";
 const char s11e_aEnemyvoicexx_800DED70[] = "ENEMY VOICE [0x%x]\n";
 const char s11e_aZkecomc_800DED84[] = "zk11ecom.c";
-
 
 SVECTOR SECTION(".bss") ZAKOCOM_PlayerPosition_800DF278;
 
