@@ -1,12 +1,4 @@
 #include "common.h"
-#define DECLARE_NEWCHARA_PROTOS
-#include "charalst.h"
-
-CHARA _StageCharacterEntries[] = {
-    CHARA_OPT,
-
-    CHARA_END
-};
 
 int dword_800C3218 = 0x00000000;
 int option_dword_800C321C = 0x00BE0064;

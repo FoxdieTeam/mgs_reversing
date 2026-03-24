@@ -1,12 +1,4 @@
 #include "common.h"
-#define DECLARE_NEWCHARA_PROTOS
-#include "charalst.h"
-
-CHARA _StageCharacterEntries[] = {
-    CHARA_JPEG,         /* chara ＪＰＥＧ */
-
-    CHARA_END
-};
 
 int camera_dword_800C3218 = 0x0000530C;
 int camera_dword_800C321C = 0x00000A1E;
