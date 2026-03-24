@@ -1,5 +1,5 @@
 	opt	c+, at+, e+, n-
-	section overlay.text
+	section .text
 
 	xdef d18a_snake18_800CECE0
 d18a_snake18_800CECE0:

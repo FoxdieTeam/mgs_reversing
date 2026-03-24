@@ -1,5 +1,5 @@
 	opt	c+, at+, e+, n-
-	section overlay.text
+	section .text
 
 	xdef s19b_spark2_m_800DA314
 s19b_spark2_m_800DA314:

@@ -1,5 +1,5 @@
 	opt	c+, at+, e+, n-
-	section overlay.text
+	section .text
 
 	xdef s08b_bunsin2_800C9978
 s08b_bunsin2_800C9978:

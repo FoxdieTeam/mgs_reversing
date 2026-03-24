@@ -1,5 +1,5 @@
 	opt	c+, at+, e+, n-
-	section overlay.text
+	section .text
 
 	xdef s15c_crow_800DAFCC
 s15c_crow_800DAFCC:

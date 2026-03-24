@@ -1,5 +1,5 @@
 	opt	c+, at+, e+, n-
-	section overlay.text
+	section .text
 
 	xdef s19b_jblood_800C86AC
 s19b_jblood_800C86AC:

@@ -22,10 +22,10 @@ u_char s19b_dword_800C32A8[] = {0x20, 0x20, 0x20, 0x20, 0x23, 0x23};
 u_char s19b_dword_800C32B0[] = {0x18, 0x24, 0x18, 0x2B, 0x30, 0x25, 0x30, 0x2C};
 u_char s19b_dword_800C32B8[] = {0x01, 0x1D, 0x43, 0x01};
 
-int     SECTION("overlay.bss") countdown_time;
-int     SECTION("overlay.bss") countdown_proc;
-DG_TEX *SECTION("overlay.bss") warn1_texture;
-DG_TEX *SECTION("overlay.bss") warn2_texture;
+int     SECTION(".bss") countdown_time;
+int     SECTION(".bss") countdown_proc;
+DG_TEX *SECTION(".bss") warn1_texture;
+DG_TEX *SECTION(".bss") warn2_texture;
 
 #define EXEC_LEVEL 5
 

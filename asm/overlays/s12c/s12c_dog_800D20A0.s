@@ -1,5 +1,5 @@
 	opt	c+, at+, e+, n-
-	section overlay.text
+	section .text
 
 	xdef s12c_dog_800D20A0
 s12c_dog_800D20A0:

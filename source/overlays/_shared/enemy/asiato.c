@@ -5,11 +5,11 @@
 #include "game/game.h"
 #include "strcode.h"
 
-int SECTION("overlay.bss") NearAsiato;
+int SECTION(".bss") NearAsiato;
 
-int SECTION("overlay.bss") s00a_dword_800E0F94;
+int SECTION(".bss") s00a_dword_800E0F94;
 
-SVECTOR SECTION("overlay.bss") AsiatoPositions[49];
+SVECTOR SECTION(".bss") AsiatoPositions[49];
 
 extern CONTROL     *GM_WhereList[96];
 

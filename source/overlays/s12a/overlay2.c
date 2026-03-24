@@ -73,7 +73,7 @@ const int s12a_dword_800DD234 = 0x800D2C00;
 const int s12a_dword_800DD238 = 0x800D2C00;
 const int s12a_dword_800DD23C = 0x800D2B88;
 
-char    SECTION("overlay.bss") wolf2_800DD6B8[5];
-int     SECTION("overlay.bss") s12a_dword_800DD6C0;
-int     SECTION("overlay.bss") s12a_dword_800DD6C4;
-SVECTOR SECTION("overlay.bss") wolf2_800DD6C8;
+char    SECTION(".bss") wolf2_800DD6B8[5];
+int     SECTION(".bss") s12a_dword_800DD6C0;
+int     SECTION(".bss") s12a_dword_800DD6C4;
+SVECTOR SECTION(".bss") wolf2_800DD6C8;

@@ -1,5 +1,5 @@
 	opt	c+, at+, e+, n-
-	section overlay.text
+	section .text
 
 	xdef s08b_paper_800DB87C
 s08b_paper_800DB87C:

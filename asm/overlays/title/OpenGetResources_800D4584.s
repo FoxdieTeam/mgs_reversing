@@ -1,5 +1,5 @@
 	opt	c+, at+, e+, n-
-	section overlay.text
+	section .text
 
 	xdef OpenGetResources_800D4584
 OpenGetResources_800D4584:

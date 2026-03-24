@@ -1,5 +1,5 @@
 	opt	c+, at+, e+, n-
-	section overlay.text
+	section .text
 
 	xdef s11g_s11_objs_800CB22C
 s11g_s11_objs_800CB22C:

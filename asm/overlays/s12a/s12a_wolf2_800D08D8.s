@@ -1,5 +1,5 @@
 	opt	c+, at+, e+, n-
-	section overlay.text
+	section .text
 
 	xdef s12a_wolf2_800D08D8
 s12a_wolf2_800D08D8:

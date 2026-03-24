@@ -1179,18 +1179,18 @@ const int s11g_dword_800DD2A0 = 0x800DA9B4;
 const int s11g_dword_800DD2A4 = 0x800DAA48;
 const int s11g_dword_800DD2A8 = 0x800DAA84;
 
-int SECTION("overlay.bss") s11g_dword_800DD34C;
-int SECTION("overlay.bss") s11g_dword_800DD350;
-int SECTION("overlay.bss") s11g_dword_800DD354;
-int SECTION("overlay.bss") s11g_dword_800DD358;
-int SECTION("overlay.bss") s11g_dword_800DD35C;
-int SECTION("overlay.bss") s11g_dword_800DD360;
-int SECTION("overlay.bss") s11g_dword_800DD364;
-int SECTION("overlay.bss") s11g_dword_800DD368;
-int SECTION("overlay.bss") s11g_dword_800DD36C;
-int SECTION("overlay.bss") s11g_dword_800DD370;
-int SECTION("overlay.bss") s11g_dword_800DD374;
-int SECTION("overlay.bss") s11g_dword_800DD378;
+int SECTION(".bss") s11g_dword_800DD34C;
+int SECTION(".bss") s11g_dword_800DD350;
+int SECTION(".bss") s11g_dword_800DD354;
+int SECTION(".bss") s11g_dword_800DD358;
+int SECTION(".bss") s11g_dword_800DD35C;
+int SECTION(".bss") s11g_dword_800DD360;
+int SECTION(".bss") s11g_dword_800DD364;
+int SECTION(".bss") s11g_dword_800DD368;
+int SECTION(".bss") s11g_dword_800DD36C;
+int SECTION(".bss") s11g_dword_800DD370;
+int SECTION(".bss") s11g_dword_800DD374;
+int SECTION(".bss") s11g_dword_800DD378;
 
 void s11g_hind_800D46B8(SVECTOR *pos, int se_id)
 {

@@ -134,12 +134,12 @@ typedef struct ValcanWork
 SVECTOR s15c_dword_800C3608 = {0, 0, 100};
 SVECTOR s15c_dword_800C3610 = {64512, 0, 0};
 
-int     SECTION("overlay.bss") s15c_dword_800E346C;
-int     SECTION("overlay.bss") s15c_dword_800E3470;
-SVECTOR SECTION("overlay.bss") s15c_dword_800E3474;
-char    SECTION("overlay.bss") s15c_dword_800E347C[8]; // could be smaller, it only has to be 6 bytes large
-int     SECTION("overlay.bss") s15c_dword_800E3484;
-int     SECTION("overlay.bss") s15c_dword_800E3488;
+int     SECTION(".bss") s15c_dword_800E346C;
+int     SECTION(".bss") s15c_dword_800E3470;
+SVECTOR SECTION(".bss") s15c_dword_800E3474;
+char    SECTION(".bss") s15c_dword_800E347C[8]; // could be smaller, it only has to be 6 bytes large
+int     SECTION(".bss") s15c_dword_800E3484;
+int     SECTION(".bss") s15c_dword_800E3488;
 
 extern char s15c_dword_800E2E5C[];
 extern char s15c_aBarrel_800E2E4C[];

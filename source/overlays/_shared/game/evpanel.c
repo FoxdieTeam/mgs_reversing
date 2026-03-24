@@ -91,7 +91,7 @@ const char s03e_aRotd_800CBF50[] = "ROT %d\n";
 const char s03e_aReqdoorclose_800CBF58[] = "REQ:DOOR CLOSE\n";
 const char s03e_aInitopen_800CBF68[] = "INiTOPEN\n";
 
-EvPanelWork *SECTION("overlay.bss") s03e_dword_800CC6B8;
+EvPanelWork *SECTION(".bss") s03e_dword_800CC6B8;
 
 /*---------------------------------------------------------------------------*/
 

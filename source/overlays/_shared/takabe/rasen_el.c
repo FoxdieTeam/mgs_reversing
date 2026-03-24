@@ -53,9 +53,9 @@ typedef struct RasenElWork
 
 unsigned short rasen_el_800C342C[] = {0xACDC, 0x085B, 0x804B, 0xDBC9, 0xE0CF, 0x5F2B};
 
-SVECTOR SECTION("overlay.bss") rasen_el_800D2CAC;
-SVECTOR SECTION("overlay.bss") rasen_el_800D2CB4;
-int SECTION("overlay.bss") rasen_el_800D2CBC;
+SVECTOR SECTION(".bss") rasen_el_800D2CAC;
+SVECTOR SECTION(".bss") rasen_el_800D2CB4;
+int SECTION(".bss") rasen_el_800D2CBC;
 
 extern int             gControlCount_800AB9B4;
 extern CONTROL        *GM_WhereList[96];

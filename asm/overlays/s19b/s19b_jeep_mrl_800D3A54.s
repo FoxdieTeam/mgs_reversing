@@ -1,5 +1,5 @@
 	opt	c+, at+, e+, n-
-	section overlay.text
+	section .text
 
 	xdef s19b_jeep_mrl_800D3A54
 s19b_jeep_mrl_800D3A54:

@@ -28,7 +28,7 @@ typedef struct _AsiatoUnk
     short   total;
 } AsiatoUnk;
 
-AsiatoUnk SECTION("overlay.bss") asiato2_800E4FC0;
+AsiatoUnk SECTION(".bss") asiato2_800E4FC0;
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL4
 

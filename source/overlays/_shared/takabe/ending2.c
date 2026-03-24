@@ -127,24 +127,24 @@ int roll_dword_800C3318 = 0x00004BA6;
 int roll_dword_800C331C = 0x00004D11;
 int roll_dword_800C3320 = 0xFFFFFFFF;
 
-int SECTION("overlay.bss") start_800C9EC0;
+int SECTION(".bss") start_800C9EC0;
 
-int SECTION("overlay.bss") roll_dword_800C9EC4;
-int SECTION("overlay.bss") roll_dword_800C9EC8;
-int SECTION("overlay.bss") roll_dword_800C9ECC;
+int SECTION(".bss") roll_dword_800C9EC4;
+int SECTION(".bss") roll_dword_800C9EC8;
+int SECTION(".bss") roll_dword_800C9ECC;
 
-RECT SECTION("overlay.bss") ending2_image_rects_800C9ED0[2];
-RECT SECTION("overlay.bss") ending2_800C9EE0[2][8];
+RECT SECTION(".bss") ending2_image_rects_800C9ED0[2];
+RECT SECTION(".bss") ending2_800C9EE0[2][8];
 
 #define ENDING_STACK_SIZE 1024
-char SECTION("overlay.bss") stack_800C9F60[1024];
+char SECTION(".bss") stack_800C9F60[1024];
 
-int SECTION("overlay.bss") roll_dword_800CA360;
-int SECTION("overlay.bss") roll_dword_800CA364;
-int SECTION("overlay.bss") roll_dword_800CA368;
-int SECTION("overlay.bss") roll_dword_800CA36C;
+int SECTION(".bss") roll_dword_800CA360;
+int SECTION(".bss") roll_dword_800CA364;
+int SECTION(".bss") roll_dword_800CA368;
+int SECTION(".bss") roll_dword_800CA36C;
 
-u_short SECTION("overlay.bss") ending2_image_800CA370[5120];
+u_short SECTION(".bss") ending2_image_800CA370[5120];
 
 char * roll_ending2_800C5DC0(char *dst, char *src, int count)
 {

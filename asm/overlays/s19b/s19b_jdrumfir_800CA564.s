@@ -1,5 +1,5 @@
 	opt	c+, at+, e+, n-
-	section overlay.text
+	section .text
 
 	xdef s19b_jdrumfir_800CA564
 s19b_jdrumfir_800CA564:

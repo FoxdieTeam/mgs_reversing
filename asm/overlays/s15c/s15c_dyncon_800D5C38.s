@@ -1,5 +1,5 @@
 	opt	c+, at+, e+, n-
-	section overlay.text
+	section .text
 
 	xdef s15c_dyncon_800D5C38
 s15c_dyncon_800D5C38:

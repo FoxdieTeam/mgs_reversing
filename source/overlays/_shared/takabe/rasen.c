@@ -52,10 +52,10 @@ int s11c_dword_800C3414 = 0x00000000;
 SVECTOR rasen_800C3418 = {35536, 35536, 35536};
 SVECTOR rasen_800C3420 = {30000, 30000, 30000};
 
-Rasen2Work *SECTION("overlay.bss") s11c_dword_800D2C74;
-int         SECTION("overlay.bss") s11c_dword_800D2C78;
-int         SECTION("overlay.bss") s11c_dword_800D2C7C;
-int         SECTION("overlay.bss") s11c_dword_800D2C80;
+Rasen2Work *SECTION(".bss") s11c_dword_800D2C74;
+int         SECTION(".bss") s11c_dword_800D2C78;
+int         SECTION(".bss") s11c_dword_800D2C7C;
+int         SECTION(".bss") s11c_dword_800D2C80;
 
 typedef struct RasenUnk_800D2C84
 {
@@ -66,9 +66,9 @@ typedef struct RasenUnk_800D2C84
     int     field_1C;
 } RasenUnk_800D2C84;
 
-RasenUnk_800D2C84 SECTION("overlay.bss") rasen_800D2C84;
+RasenUnk_800D2C84 SECTION(".bss") rasen_800D2C84;
 
-unsigned short SECTION("overlay.bss")
+unsigned short SECTION(".bss")
     rasen_el_800D2CA4[4]; // TODO: rename to rasen_* ? or move to rasen_el? - everything will come clear in s11a where
                           // there's only rasen.c, no rasen_el.c
 

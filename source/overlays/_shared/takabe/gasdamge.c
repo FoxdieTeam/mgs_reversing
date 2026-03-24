@@ -21,7 +21,7 @@ typedef struct GasDamgeWork {
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-int SECTION("overlay.bss") s02c_dword_800E3F40;
+int SECTION(".bss") s02c_dword_800E3F40;
 
 void GasDamageAct_800E1348(GasDamgeWork *work)
 {

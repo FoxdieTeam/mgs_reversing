@@ -120,6 +120,7 @@
 #define PCX_CD_WARN             0xa0f4 // GV_StrCode( "cd_warn" )
 #define PCX_CD_KEIKOKU          0xa1bc // GV_StrCode( "cd_keikoku" )
 #define PCX_HEAD_LIGHT          0x5699 // GV_StrCode( "head_light" )
+#define PCX_M19_C2_GLASS1HLF    0x3cb9 // GV_StrCode( "m19_c2_glass1hlf" )
 
 //-----------------------------------------------------------------------------
 // Model files (.kmd)

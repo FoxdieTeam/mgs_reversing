@@ -42,9 +42,9 @@
 #
 # Once you have determined that this is indeed BSS and not rdata,
 # you should replace it with:
-# int SECTION("overlay.bss") s01a_dword_800E4CC8;
-# int SECTION("overlay.bss") s01a_dword_800E4CCC;
-# int SECTION("overlay.bss") s01a_dword_800E4CD0;
+# int SECTION(".bss") s01a_dword_800E4CC8;
+# int SECTION(".bss") s01a_dword_800E4CCC;
+# int SECTION(".bss") s01a_dword_800E4CD0;
 #
 # Next, see the "Extracting" section below.
 #

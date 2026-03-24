@@ -35,11 +35,11 @@ typedef struct _BlurWork
     char    pad3[0x8];
 } BlurWork;
 
-TILE   SECTION("overlay.bss") d01a_dword_800D1428[2];
-DR_STP SECTION("overlay.bss") d01a_dword_800D1448[2];
-int    SECTION("overlay.bss") d01a_dword_800D1460;
-int    SECTION("overlay.bss") d01a_dword_800D1464;
-DR_STP SECTION("overlay.bss") d01a_dword_800D1468[2];
+TILE   SECTION(".bss") d01a_dword_800D1428[2];
+DR_STP SECTION(".bss") d01a_dword_800D1448[2];
+int    SECTION(".bss") d01a_dword_800D1460;
+int    SECTION(".bss") d01a_dword_800D1464;
+DR_STP SECTION(".bss") d01a_dword_800D1468[2];
 
 void d01a_blur_800CCB28(void)
 {

@@ -1,5 +1,5 @@
 	opt	c+, at+, e+, n-
-	section overlay.text
+	section .text
 
 	xdef s11d_dsmoke2_800CC648
 s11d_dsmoke2_800CC648:

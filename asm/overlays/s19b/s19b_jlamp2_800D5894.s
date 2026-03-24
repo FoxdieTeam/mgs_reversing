@@ -1,5 +1,5 @@
 	opt	c+, at+, e+, n-
-	section overlay.text
+	section .text
 
 	xdef s19b_jlamp2_800D5894
 s19b_jlamp2_800D5894:

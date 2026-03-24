@@ -1,5 +1,5 @@
 	opt	c+, at+, e+, n-
-	section overlay.text
+	section .text
 
 	xdef title_open_800CDBF8
 title_open_800CDBF8:

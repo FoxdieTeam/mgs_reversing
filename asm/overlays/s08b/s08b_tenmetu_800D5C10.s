@@ -1,5 +1,5 @@
 	opt	c+, at+, e+, n-
-	section overlay.text
+	section .text
 
 	xdef s08b_tenmetu_800D5C10
 s08b_tenmetu_800D5C10:

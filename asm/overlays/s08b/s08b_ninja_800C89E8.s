@@ -1,5 +1,5 @@
 	opt	c+, at+, e+, n-
-	section overlay.text
+	section .text
 
 	xdef s08b_ninja_800C89E8
 s08b_ninja_800C89E8:

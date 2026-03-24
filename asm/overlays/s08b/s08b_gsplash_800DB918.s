@@ -1,5 +1,5 @@
 	opt	c+, at+, e+, n-
-	section overlay.text
+	section .text
 
 	xdef s08b_gsplash_800DB918
 s08b_gsplash_800DB918:

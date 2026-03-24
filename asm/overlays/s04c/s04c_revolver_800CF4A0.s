@@ -1,5 +1,5 @@
 	opt	c+, at+, e+, n-
-	section overlay.text
+	section .text
 
 	xdef s04c_revolver_800CF4A0
 s04c_revolver_800CF4A0:

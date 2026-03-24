@@ -8,8 +8,8 @@
 extern unsigned short GM_WeaponTypes[];
 extern unsigned short GM_ItemTypes[];
 
-int SECTION("overlay.bss") meryl72_800D5300;
-int SECTION("overlay.bss") meryl72_800D5304;
+int SECTION(".bss") meryl72_800D5300;
+int SECTION(".bss") meryl72_800D5304;
 
 extern SVECTOR meryl72_800D52F8;
 
