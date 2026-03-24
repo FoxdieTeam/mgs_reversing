@@ -1,4 +1,3 @@
-#include "common.h"
 #define DECLARE_NEWCHARA_PROTOS
 #include "charalst.h"
 
@@ -21,5 +20,3 @@ CHARA _StageCharacterEntries[] = {
 
     CHARA_END
 };
-
-int SECTION(".bss") ending_dword_800CCD9C;
