@@ -17,7 +17,6 @@ typedef struct _WolfEyeWork
     int     *visible;
 } WolfEyeWork;
 
-int SECTION(".bss") s12c_dword_800DA414;
 SVECTOR SECTION(".bss") s12c_800DA418;
 int SECTION(".bss") s12c_800DA420;
 int SECTION(".bss") s12c_dword_800DA424;

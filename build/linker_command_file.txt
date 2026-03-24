@@ -253,7 +253,6 @@
     include "{{OBJ_DIR}}\anime\effect\smoke.obj"
     include "{{OBJ_DIR}}\anime\effect\sleep.obj"
     include "{{OBJ_DIR}}\enemy\think.obj"
-    include "{{OBJ_DIR}}\enemy\command_bss_pad.obj"
     include "{{OBJ_DIR}}\enemy\command.obj"
     include "{{OBJ_DIR}}\enemy\eyeflash.obj"
     include "{{OBJ_DIR}}\enemy\asiato.obj"
@@ -327,6 +326,26 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}.bin")
     section overlay.dtors, overlay
     section overlay.rdata, overlay
     section overlay.sdata, overlay
+
+{% if OVERLAY == "d11c" or
+      OVERLAY == "d18a" or OVERLAY == "d18ar" or
+      OVERLAY == "roll" or
+      OVERLAY == "s03a" or OVERLAY == "s03ar" or
+      OVERLAY == "s03b" or
+      OVERLAY == "s03c" or
+      OVERLAY == "s03e" or OVERLAY == "s03er" or
+      OVERLAY == "s04c" or
+      OVERLAY == "s07c" or OVERLAY == "s07cr" or
+      OVERLAY == "s08a" or
+      OVERLAY == "s08b" or OVERLAY == "s08br" or
+      OVERLAY == "s08c" or OVERLAY == "s08cr" or
+      OVERLAY == "s11c" or
+      OVERLAY == "s11d" or
+      OVERLAY == "s11g" or
+      OVERLAY == "s15b" or
+      OVERLAY == "s16b" or
+      OVERLAY == "s20a" or OVERLAY == "s20ar" %}
+
 {% if OVERLAY_SUFFIX == "lhs" %}
     section overlay.sbss,  overlay
     section overlay.bss,   overlay
@@ -334,6 +353,19 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}.bin")
 overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     section overlay.sbss,  overlay_bss
     section overlay.bss,   overlay_bss
+{% endif %}
+
+{% else %}
+
+{% if OVERLAY_SUFFIX == "lhs" %}
+    section.8 overlay.sbss,  overlay
+    section.8 overlay.bss,   overlay
+{% else %}
+overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
+    section.8 overlay.sbss,  overlay_bss
+    section.8 overlay.bss,   overlay_bss
+{% endif %}
+
 {% endif %}
 
 {% if OVERLAY == "sound" %}
@@ -404,7 +436,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
     include "{{OBJ_DIR}}\enemy\think.obj", overlay
-    include "{{OBJ_DIR}}\enemy\command_bss_pad.obj", overlay
     include "{{OBJ_DIR}}\enemy\command.obj", overlay
     include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
@@ -496,8 +527,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libapi\A81.OBJ", overlay
 {% elif OVERLAY == "s01a" %}
     include "{{OBJ_DIR}}\stage\s01a.obj", overlay
-    include "{{OBJ_DIR}}\overlays\bss_start_bss_pad.obj", overlay
-
     include "{{OBJ_DIR}}\game\cancel.obj", overlay
     include "{{OBJ_DIR}}\game\tobcnt.obj", overlay
     include "{{OBJ_DIR}}\chara\snake\breath.obj", overlay
@@ -514,7 +543,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
     include "{{OBJ_DIR}}\enemy\think.obj", overlay
-    include "{{OBJ_DIR}}\enemy\command_bss_pad.obj", overlay
     include "{{OBJ_DIR}}\enemy\command.obj", overlay
     include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
@@ -532,7 +560,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
     include "{{OBJ_DIR}}\animal\doll\doll.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
-    include "{{OBJ_DIR}}\enemy\asiato2_bss_pad.obj", overlay
     include "{{OBJ_DIR}}\animal\doll\demodoll0.obj", overlay
     include "{{OBJ_DIR}}\animal\doll\demodoll.obj", overlay
     include "{{OBJ_DIR}}\okajima\blink_tx.obj", overlay
@@ -561,7 +588,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\thing\sphere.obj", overlay
     include "{{OBJ_DIR}}\enemy\searchli.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\rcm.obj", overlay
-    include "{{OBJ_DIR}}\enemy\command_bss_pad.obj", overlay
     include "{{OBJ_DIR}}\enemy\command.obj", overlay
     include "{{OBJ_DIR}}\enemy\object.obj", overlay
     include "{{OBJ_DIR}}\enemy\smoke.obj", overlay
@@ -594,7 +620,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
     include "{{OBJ_DIR}}\enemy\think.obj", overlay
-    include "{{OBJ_DIR}}\enemy\command_bss_pad.obj", overlay
     include "{{OBJ_DIR}}\enemy\command.obj", overlay
     include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
@@ -649,7 +674,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
     include "{{OBJ_DIR}}\enemy\think.obj", overlay
-    include "{{OBJ_DIR}}\enemy\command_bss_pad.obj", overlay
     include "{{OBJ_DIR}}\enemy\command.obj", overlay
     include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
@@ -664,7 +688,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
     include "{{OBJ_DIR}}\animal\doll\doll.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
-    include "{{OBJ_DIR}}\enemy\asiato2_bss_pad.obj", overlay
     include "{{OBJ_DIR}}\animal\doll\demodoll0.obj", overlay
     include "{{OBJ_DIR}}\animal\doll\demodoll.obj", overlay
     include "{{OBJ_DIR}}\okajima\red_alrt.obj", overlay
@@ -683,8 +706,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "s06a" %}
     include "{{OBJ_DIR}}\stage\s06a.obj", overlay
-    include "{{OBJ_DIR}}\overlays\bss_start_bss_pad.obj", overlay
-
     include "{{OBJ_DIR}}\game\evpanel.obj", overlay
     include "{{OBJ_DIR}}\game\lamp.obj", overlay
     include "{{OBJ_DIR}}\thing\emitter.obj", overlay
@@ -698,7 +719,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
     include "{{OBJ_DIR}}\enemy\think.obj", overlay
-    include "{{OBJ_DIR}}\enemy\command_bss_pad.obj", overlay
     include "{{OBJ_DIR}}\enemy\command.obj", overlay
     include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
@@ -712,7 +732,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
     include "{{OBJ_DIR}}\animal\doll\doll.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
-    include "{{OBJ_DIR}}\enemy\asiato2_bss_pad.obj", overlay
     include "{{OBJ_DIR}}\animal\doll\demodoll0.obj", overlay
     include "{{OBJ_DIR}}\animal\doll\demodoll.obj", overlay
     include "{{OBJ_DIR}}\okajima\pato_lmp.obj", overlay
@@ -749,7 +768,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
     include "{{OBJ_DIR}}\enemy\think.obj", overlay
-    include "{{OBJ_DIR}}\enemy\command_bss_pad.obj", overlay
     include "{{OBJ_DIR}}\enemy\command.obj", overlay
     include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
@@ -806,7 +824,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
     include "{{OBJ_DIR}}\enemy\think.obj", overlay
-    include "{{OBJ_DIR}}\enemy\command_bss_pad.obj", overlay
     include "{{OBJ_DIR}}\enemy\command.obj", overlay
     include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
@@ -845,7 +862,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "s12c" %}
     include "{{OBJ_DIR}}\stage\s12c.obj", overlay
-    include "{{OBJ_DIR}}\overlays\bss_start_bss_pad.obj", overlay
     include "{{OBJ_DIR}}\game\lamp.obj", overlay
     include "{{OBJ_DIR}}\chara\snake\breath.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
@@ -877,7 +893,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
 {% elif OVERLAY == "s07a" %}
     include "{{OBJ_DIR}}\stage\s07a.obj", overlay
-    include "{{OBJ_DIR}}\overlays\bss_start_bss_pad.obj", overlay
     include "{{OBJ_DIR}}\game\evpanel.obj", overlay
     include "{{OBJ_DIR}}\game\lamp.obj", overlay
     include "{{OBJ_DIR}}\enemy\watcher.obj", overlay
@@ -890,7 +905,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
     include "{{OBJ_DIR}}\enemy\think.obj", overlay
-    include "{{OBJ_DIR}}\enemy\command_bss_pad.obj", overlay
     include "{{OBJ_DIR}}\enemy\command.obj", overlay
     include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
@@ -940,7 +954,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
     include "{{OBJ_DIR}}\enemy\think.obj", overlay
-    include "{{OBJ_DIR}}\enemy\command_bss_pad.obj", overlay
     include "{{OBJ_DIR}}\enemy\command.obj", overlay
     include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
@@ -979,7 +992,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
     include "{{OBJ_DIR}}\enemy\think.obj", overlay
-    include "{{OBJ_DIR}}\enemy\command_bss_pad.obj", overlay
     include "{{OBJ_DIR}}\enemy\command.obj", overlay
     include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
@@ -1061,14 +1073,12 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\enemy\camera.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\socom.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
-    include "{{OBJ_DIR}}\enemy\command_bss_pad.obj", overlay
     include "{{OBJ_DIR}}\enemy\command.obj", overlay
     include "{{OBJ_DIR}}\enemy\wall.obj", overlay
     include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
     include "{{OBJ_DIR}}\animal\doll\doll.obj", overlay
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
-    include "{{OBJ_DIR}}\enemy\asiato2_bss_pad.obj", overlay
     include "{{OBJ_DIR}}\animal\doll\demodoll0.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
     include "{{OBJ_DIR}}\animal\doll\demodoll.obj", overlay
@@ -1102,7 +1112,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
     include "{{OBJ_DIR}}\enemy\think.obj", overlay
-    include "{{OBJ_DIR}}\enemy\command_bss_pad.obj", overlay
     include "{{OBJ_DIR}}\enemy\command.obj", overlay
     include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
@@ -1118,7 +1127,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
     include "{{OBJ_DIR}}\animal\doll\doll.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
-    include "{{OBJ_DIR}}\enemy\asiato2_bss_pad.obj", overlay
     include "{{OBJ_DIR}}\animal\doll\demodoll0.obj", overlay
     include "{{OBJ_DIR}}\animal\doll\demodoll.obj", overlay
     include "{{OBJ_DIR}}\okajima\red_alrt.obj", overlay
@@ -1228,7 +1236,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
     include "{{OBJ_DIR}}\okajima\mouse.obj", overlay
     include "{{OBJ_DIR}}\okajima\d_bloods.obj", overlay
-    include "{{OBJ_DIR}}\okajima\d_bloods_bss_pad.obj", overlay
     include "{{OBJ_DIR}}\okajima\pato_lmp.obj", overlay
     include "{{OBJ_DIR}}\okajima\red_alrt.obj", overlay
     include "{{OBJ_DIR}}\okajima\blurpure.obj", overlay
@@ -1532,9 +1539,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 
     include "{{OBJ_DIR}}\game\movie.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\smoke_ln.obj", overlay
-    include "{{OBJ_DIR}}\thing\sphere_bss_padding.obj", overlay
     include "{{OBJ_DIR}}\thing\sphere.obj", overlay
-    include "{{OBJ_DIR}}\thing\sphere_bss_padding2.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
     include "{{OBJ_DIR}}\enemy\demoasi.obj", overlay
     include "{{OBJ_DIR}}\enemy\demokage.obj", overlay
@@ -1741,7 +1746,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
     include "{{OBJ_DIR}}\chara\snake\breath.obj", overlay
     include "{{OBJ_DIR}}\thing\snow.obj", overlay
-    include "{{OBJ_DIR}}\enemy\asiato2_bss_pad.obj", overlay ; FIXME
     include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
     include "{{OBJ_DIR}}\enemy\wall.obj", overlay
     include "{{OBJ_DIR}}\enemy\demokage.obj", overlay
@@ -1751,7 +1755,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\anime\effect\socom.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
     include "{{OBJ_DIR}}\okajima\blurpure.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s12a\okajima\blur_bss_pad.obj", overlay
     include "{{OBJ_DIR}}\okajima\blur.obj", overlay
     include "{{OBJ_DIR}}\overlays\s12a\okajima\wolf\wolf2.obj", overlay
 
@@ -1795,7 +1798,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\anime\effect\rcm.obj", overlay
     include "{{OBJ_DIR}}\overlays\s12a\okajima\wolf\action.obj", overlay
     include "{{OBJ_DIR}}\okajima\d_bloods.obj", overlay
-    include "{{OBJ_DIR}}\okajima\d_bloods_bss_pad.obj", overlay
     include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
     include "{{OBJ_DIR}}\overlays\s12c\takabe\fog.obj", overlay
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
@@ -2107,7 +2109,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
     include "{{OBJ_DIR}}\enemy\think.obj", overlay
-    include "{{OBJ_DIR}}\enemy\command_bss_pad.obj", overlay
     include "{{OBJ_DIR}}\enemy\command.obj", overlay
     include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
@@ -2203,7 +2204,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\animal\doll\doll.obj", overlay
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
-    include "{{OBJ_DIR}}\enemy\asiato2_bss_pad.obj", overlay
     include "{{OBJ_DIR}}\animal\doll\demodoll0.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
     include "{{OBJ_DIR}}\animal\doll\demodoll.obj", overlay

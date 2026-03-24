@@ -1,3 +1,0 @@
-#include "common.h"
-
-int SECTION(".bss") sphere_bss_padding; // FIXME...
