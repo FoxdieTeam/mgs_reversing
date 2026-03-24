@@ -15,10 +15,10 @@
 extern GM_CAMERA        GM_Camera;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 
-int       SECTION("overlay.bss") meryl72_800D5274;
-GM_CAMERA SECTION("overlay.bss") meryl72_camera_800D5278;
-int       SECTION("overlay.bss") meryl72_800D52F4;
-SVECTOR   SECTION("overlay.bss") meryl72_800D52F8;
+int       SECTION(".bss") meryl72_800D5274;
+GM_CAMERA SECTION(".bss") meryl72_camera_800D5278;
+int       SECTION(".bss") meryl72_800D52F4;
+SVECTOR   SECTION(".bss") meryl72_800D52F8;
 
 extern void GM_ConfigControlRadarparam(CONTROL *, u_short, u_short, u_short, u_short);
 

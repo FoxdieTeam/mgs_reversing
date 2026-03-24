@@ -1,5 +1,5 @@
 	opt	c+, at+, e+, n-
-	section overlay.text
+	section .text
 
 	xdef s08b_plasma_800D7F34
 s08b_plasma_800D7F34:

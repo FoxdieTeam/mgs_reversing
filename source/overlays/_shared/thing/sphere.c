@@ -22,16 +22,16 @@ typedef struct _Work
 
 /*---------------------------------------------------------------------------*/
 
-static short SECTION("overlay.bss") sphere_image_width;
-static short SECTION("overlay.bss") sphere_image_height;
-static short SECTION("overlay.bss") sphere_visible_tiles_x;
-static short SECTION("overlay.bss") sphere_visible_tiles_y;
-static short SECTION("overlay.bss") sphere_tiles_x;
-static short SECTION("overlay.bss") sphere_tiles_y;
-static short SECTION("overlay.bss") sphere_tile_width;
-static short SECTION("overlay.bss") sphere_tile_height;
-static short SECTION("overlay.bss") sphere_elevation;
-static short SECTION("overlay.bss") sphere_word;
+static short SECTION(".bss") sphere_image_width;
+static short SECTION(".bss") sphere_image_height;
+static short SECTION(".bss") sphere_visible_tiles_x;
+static short SECTION(".bss") sphere_visible_tiles_y;
+static short SECTION(".bss") sphere_tiles_x;
+static short SECTION(".bss") sphere_tiles_y;
+static short SECTION(".bss") sphere_tile_width;
+static short SECTION(".bss") sphere_tile_height;
+static short SECTION(".bss") sphere_elevation;
+static short SECTION(".bss") sphere_word;
 
 static void Sphere_800C60E0(MATRIX *eye, SVECTOR *out)
 {

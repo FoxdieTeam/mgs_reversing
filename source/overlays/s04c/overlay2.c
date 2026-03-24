@@ -94,7 +94,7 @@ const char s04c_aRevgun_800DBAC4[] = "rev_gun";
 const char s04c_aRevolver_800DBACC[] = "revolver";
 const char s04c_dword_800DBAD8[] = "revolver.c";
 
-int SECTION("overlay.bss") s04c_dword_800DBE10;
-int SECTION("overlay.bss") s04c_dword_800DBE14;
-int SECTION("overlay.bss") s04c_dword_800DBE18;
-int SECTION("overlay.bss") s04c_dword_800DBE1C;
+int SECTION(".bss") s04c_dword_800DBE10;
+int SECTION(".bss") s04c_dword_800DBE14;
+int SECTION(".bss") s04c_dword_800DBE18;
+int SECTION(".bss") s04c_dword_800DBE1C;

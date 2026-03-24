@@ -22,4 +22,4 @@ CHARA _StageCharacterEntries[] = {
     CHARA_END
 };
 
-int SECTION("overlay.bss") ending_dword_800CCD9C;
+int SECTION(".bss") ending_dword_800CCD9C;

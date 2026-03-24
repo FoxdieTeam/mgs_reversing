@@ -1,5 +1,5 @@
 	opt	c+, at+, e+, n-
-	section overlay.text
+	section .text
 
 	xdef s11g_11g_demo_800CB4B4
 s11g_11g_demo_800CB4B4:

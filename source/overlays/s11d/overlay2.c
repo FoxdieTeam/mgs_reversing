@@ -134,14 +134,14 @@ const char s11d_dword_800D1EAC[] = {'i', 'n', 'g', '.'};
 const char s11d_dword_800D1EB0[] = {'c', 0x0, 'c', 0x94};
 
 
-int SECTION("overlay.bss") s11d_dword_800D1F78;
-int SECTION("overlay.bss") s11d_dword_800D1F7C;
-int SECTION("overlay.bss") s11d_dword_800D1F80;
-int SECTION("overlay.bss") s11d_dword_800D1F84;
-int SECTION("overlay.bss") s11d_dword_800D1F88;
-int SECTION("overlay.bss") s11d_dword_800D1F8C;
-int SECTION("overlay.bss") s11d_dword_800D1F90;
-int SECTION("overlay.bss") s11d_dword_800D1F94;
-int SECTION("overlay.bss") s11d_dword_800D1F98;
-int SECTION("overlay.bss") s11d_dword_800D1F9C;
-int SECTION("overlay.bss") s11d_dword_800D1FA0;
+int SECTION(".bss") s11d_dword_800D1F78;
+int SECTION(".bss") s11d_dword_800D1F7C;
+int SECTION(".bss") s11d_dword_800D1F80;
+int SECTION(".bss") s11d_dword_800D1F84;
+int SECTION(".bss") s11d_dword_800D1F88;
+int SECTION(".bss") s11d_dword_800D1F8C;
+int SECTION(".bss") s11d_dword_800D1F90;
+int SECTION(".bss") s11d_dword_800D1F94;
+int SECTION(".bss") s11d_dword_800D1F98;
+int SECTION(".bss") s11d_dword_800D1F9C;
+int SECTION(".bss") s11d_dword_800D1FA0;

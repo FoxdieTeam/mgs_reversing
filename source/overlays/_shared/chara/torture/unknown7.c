@@ -3,13 +3,14 @@
 
 extern GM_CAMERA GM_Camera;
 
-static int     s03b_dword_800D3318;
-static SVECTOR s03b_dword_800D3320;
-static SVECTOR s03b_dword_800D3328;
-static SVECTOR s03b_dword_800D3330;
-static SVECTOR s03b_dword_800D3338;
-static GV_MSG *s03b_dword_800D3340;
-static int     s03b_dword_800D3344;
+SECTION(".bss") int     s03b_dword_800D3318;
+SECTION(".bss") int     s03b_dword_800D331C;
+SECTION(".bss") SVECTOR s03b_dword_800D3320;
+SECTION(".bss") SVECTOR s03b_dword_800D3328;
+SECTION(".bss") SVECTOR s03b_dword_800D3330;
+SECTION(".bss") SVECTOR s03b_dword_800D3338;
+SECTION(".bss") GV_MSG *s03b_dword_800D3340;
+SECTION(".bss") int     s03b_dword_800D3344;
 
 int s03b_dword_800C33A0 = 0;
 

@@ -1,5 +1,5 @@
 	opt	c+, at+, e+, n-
-	section overlay.text
+	section .text
 
 	xdef s04c_cape_800D83D4
 s04c_cape_800D83D4:

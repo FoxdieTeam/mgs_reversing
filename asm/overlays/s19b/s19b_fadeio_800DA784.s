@@ -1,5 +1,5 @@
 	opt	c+, at+, e+, n-
-	section overlay.text
+	section .text
 
 	xdef s19b_fadeio_800DA784
 s19b_fadeio_800DA784:

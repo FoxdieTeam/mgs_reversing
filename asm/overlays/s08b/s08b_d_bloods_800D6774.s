@@ -1,5 +1,5 @@
 	opt	c+, at+, e+, n-
-	section overlay.text
+	section .text
 
 	xdef s08b_d_bloods_800D6774
 s08b_d_bloods_800D6774:

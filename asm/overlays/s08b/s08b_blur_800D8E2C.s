@@ -1,5 +1,5 @@
 	opt	c+, at+, e+, n-
-	section overlay.text
+	section .text
 
 	xdef s08b_blur_800D8E2C
 s08b_blur_800D8E2C:

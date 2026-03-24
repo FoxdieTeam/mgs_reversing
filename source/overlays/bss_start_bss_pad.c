@@ -1,3 +1,3 @@
 #include "common.h"
 
-int SECTION("overlay.bss") bss_start_pad;
+int SECTION(".bss") bss_start_pad;

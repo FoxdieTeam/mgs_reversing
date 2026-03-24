@@ -1,5 +1,5 @@
 	opt	c+, at+, e+, n-
-	section overlay.text
+	section .text
 
 	xdef s11g_blastoff_800DBF88
 s11g_blastoff_800DBF88:

@@ -26,14 +26,14 @@ typedef struct FindTrapWork
 
 short findtrap_msgs_800C350C[4] = {HASH_ENTER, HASH_LEAVE, 0x42DC, HASH_KILL};
 
-SVECTOR       SECTION("overlay.bss") s12c_dword_800DAA50;
-int           SECTION("overlay.bss") s12c_dword_800DAA58;
-int           SECTION("overlay.bss") s12c_dword_800DAA5C;
-SVECTOR       SECTION("overlay.bss") s12c_dword_800DAA60;
-SVECTOR       SECTION("overlay.bss") s12c_dword_800DAA68;
-GV_PAD        SECTION("overlay.bss") s12c_dword_800DAA70[2];
-int           SECTION("overlay.bss") s12c_dword_800DAA90;
-TGMCameraFunc SECTION("overlay.bss") s12c_dword_800DAA94;
+SVECTOR       SECTION(".bss") s12c_dword_800DAA50;
+int           SECTION(".bss") s12c_dword_800DAA58;
+int           SECTION(".bss") s12c_dword_800DAA5C;
+SVECTOR       SECTION(".bss") s12c_dword_800DAA60;
+SVECTOR       SECTION(".bss") s12c_dword_800DAA68;
+GV_PAD        SECTION(".bss") s12c_dword_800DAA70[2];
+int           SECTION(".bss") s12c_dword_800DAA90;
+TGMCameraFunc SECTION(".bss") s12c_dword_800DAA94;
 
 extern GM_CAMERA       GM_Camera;
 extern UnkCameraStruct gUnkCameraStruct_800B77B8;

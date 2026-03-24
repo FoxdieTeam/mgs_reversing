@@ -27,7 +27,7 @@ typedef struct VoiceSysGlobal {
     int voxCodes[33];
 } VoiceSysGlobal;
 
-VoiceSysGlobal SECTION("overlay.bss") voicesys_800DBD60;
+VoiceSysGlobal SECTION(".bss") voicesys_800DBD60;
 
 int *Voicesys_800CE278(int unused)
 {

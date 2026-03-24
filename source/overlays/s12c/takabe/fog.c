@@ -18,10 +18,10 @@ typedef struct _FogWork
     int          f40;
 } FogWork;
 
-int SECTION("overlay.bss") s12c_800DA428;
-int SECTION("overlay.bss") s12c_800DA42C;
-int SECTION("overlay.bss") s12c_800DA430;
-int SECTION("overlay.bss") s12c_800DA434;
+int SECTION(".bss") s12c_800DA428;
+int SECTION(".bss") s12c_800DA42C;
+int SECTION(".bss") s12c_800DA430;
+int SECTION(".bss") s12c_800DA434;
 
 extern GM_CAMERA GM_Camera;
 

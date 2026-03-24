@@ -88,7 +88,7 @@ int s03e_dword_800C32BC = 0x00000000;
 RECT guncame_rect = {80, 80, 160, 160};
 SVECTOR guncame_svec = {300, 300, 300, 0};
 
-int SECTION("overlay.bss") s03e_dword_800CC6BC;
+int SECTION(".bss") s03e_dword_800CC6BC;
 
 extern int     dword_8009F480;
 extern int     s03e_dword_800C32B8;

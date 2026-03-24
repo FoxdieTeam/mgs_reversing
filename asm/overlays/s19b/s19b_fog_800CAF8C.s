@@ -1,5 +1,5 @@
 	opt	c+, at+, e+, n-
-	section overlay.text
+	section .text
 
 	xdef s19b_fog_800CAF8C
 s19b_fog_800CAF8C:

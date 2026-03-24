@@ -1,5 +1,5 @@
 	opt	c+, at+, e+, n-
-	section overlay.text
+	section .text
 
 	xdef s11d_rope_800C7EC4
 s11d_rope_800C7EC4:

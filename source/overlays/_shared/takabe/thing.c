@@ -8,7 +8,7 @@ extern int      counter_8009F448;
 extern HITTABLE GM_C4Datas_800BDD78[C4_COUNT];
 extern HITTABLE GM_ClayDatas_800BDE78[8];
 
-int SECTION("overlay.bss") THING_msg_result[2];
+int SECTION(".bss") THING_msg_result[2];
 
 int THING_Gcl_GetIntDefault(char param, int def)
 {

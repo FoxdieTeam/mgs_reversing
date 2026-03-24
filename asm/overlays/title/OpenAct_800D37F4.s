@@ -1,5 +1,5 @@
 	opt	c+, at+, e+, n-
-	section overlay.text
+	section .text
 
 	xdef OpenAct_800D37F4
 OpenAct_800D37F4:

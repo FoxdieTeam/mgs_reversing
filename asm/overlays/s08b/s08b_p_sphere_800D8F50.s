@@ -1,5 +1,5 @@
 	opt	c+, at+, e+, n-
-	section overlay.text
+	section .text
 
 	xdef s08b_p_sphere_800D8F50
 s08b_p_sphere_800D8F50:

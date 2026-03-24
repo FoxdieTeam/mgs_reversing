@@ -17,11 +17,11 @@ extern int s12c_800DA42C;
 extern int s12c_800DA430;
 extern int s12c_800DA434;
 
-short SECTION("overlay.bss") s12c_800DA440[768];
-short SECTION("overlay.bss") * s12c_800DAA40;
-short SECTION("overlay.bss") * s12c_800DAA44;
-short SECTION("overlay.bss") * s12c_800DAA48;
-short SECTION("overlay.bss") * s12c_800DAA4C;
+short SECTION(".bss") s12c_800DA440[768];
+short SECTION(".bss") * s12c_800DAA40;
+short SECTION(".bss") * s12c_800DAA44;
+short SECTION(".bss") * s12c_800DAA48;
+short SECTION(".bss") * s12c_800DAA4C;
 
 extern int           DG_CurrentGroupID;
 extern unsigned int *ptr_800B1400[256];

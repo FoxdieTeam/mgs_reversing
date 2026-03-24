@@ -1,5 +1,5 @@
 	opt	c+, at+, e+, n-
-	section overlay.text
+	section .text
 
 	xdef s04c_revbullt_800D20BC
 s04c_revbullt_800D20BC:

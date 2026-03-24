@@ -1,5 +1,5 @@
 	opt	c+, at+, e+, n-
-	section overlay.text
+	section .text
 
 	xdef s19b_jbullet_800C5F7C
 s19b_jbullet_800C5F7C:

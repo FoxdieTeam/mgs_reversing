@@ -1,5 +1,5 @@
 	opt	c+, at+, e+, n-
-	section overlay.text
+	section .text
 
 	xdef s11d_hind_bul_800CB888
 s11d_hind_bul_800CB888:

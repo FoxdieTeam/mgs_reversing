@@ -1,5 +1,5 @@
 	opt	c+, at+, e+, n-
-	section overlay.text
+	section .text
 
 	xdef s15c_valcan_800D8ECC
 s15c_valcan_800D8ECC:

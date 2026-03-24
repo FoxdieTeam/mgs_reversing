@@ -1,5 +1,5 @@
 	opt	c+, at+, e+, n-
-	section overlay.text
+	section .text
 
 	xdef s04c_wire_800D3FA8
 s04c_wire_800D3FA8:
