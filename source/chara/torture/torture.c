@@ -11,7 +11,7 @@
 #include "game/vibrate.h"
 #include "sound/g_sound.h"
 
-#include "takabe/fadeio.h"      // for NewFadeIo_800C4224
+#include "takabe/fadeio.h"      // for NewFadeInOut
 
 struct _TortureWork;
 typedef void (*TTortureFn)(struct _TortureWork *, int);
@@ -547,7 +547,7 @@ void s03b_torture_800C46B8(TortureWork *work, int arg1)
 {
     if (arg1 == 0)
     {
-        NewFadeIo_800C4224(0, 28);
+        NewFadeInOut(0, 28);
         s03b_boxall_800C9328();
 
         work->f820 = 0;
@@ -848,7 +848,7 @@ void s03b_torture_800C4DF0(TortureWork *work, int arg1)
 {
     if (arg1 == 0)
     {
-        NewFadeIo_800C4224(1, 128);
+        NewFadeInOut(1, 128);
 
         if (work->body.action != 0)
         {
@@ -892,7 +892,7 @@ void s03b_torture_800C4E64(TortureWork *work, int arg1)
 
             if (work->f848 != 0)
             {
-                NewFadeIo_800C4224(0, 28);
+                NewFadeInOut(0, 28);
             }
         }
 
@@ -938,7 +938,7 @@ void s03b_torture_800C4F54(TortureWork *work, int arg1)
 
     if (arg1 == 200)
     {
-        work->f900 = NewFadeIo_800C4224(0, 32);
+        work->f900 = NewFadeInOut(0, 32);
     }
 
     if (arg1 == 160)
@@ -1016,7 +1016,7 @@ void s03b_torture_800C50A8(TortureWork *work, int arg1)
 
     if (work->f818 == 10)
     {
-        NewFadeIo_800C4224(0, 64);
+        NewFadeInOut(0, 64);
     }
 
     if (work->f818 == 12)
@@ -1598,7 +1598,7 @@ void s03b_torture_800C6080(TortureWork *work)
 
     if (work->f848 == 0 && work->f7FE == 120)
     {
-        NewFadeIo_800C4224(0, 28);
+        NewFadeInOut(0, 28);
     }
 
     comp = (work->f848 == 0) ? 150 : 180;

@@ -16,7 +16,7 @@
 #include "strcode.h"
 
 #include "okajima/hiyoko.h"
-#include "takabe/fadeio.h"      // for NewFadeIo_800C4224
+#include "takabe/fadeio.h"      // for NewFadeInOut
 
 struct JohnnyWork;
 typedef void (*TJohnnyFunc)(struct JohnnyWork *work, int action);
@@ -3164,7 +3164,7 @@ void Johnny_800C949C(JohnnyWork *work, int arg1)
             GM_ConfigMotionAdjust(&work->object, NULL);
             ClearAdjust(work);
 
-            NewFadeIo_800C4224(0, 32);
+            NewFadeInOut(0, 32);
             CloseCinemaScreen();
             work->unkB4C++;
         }

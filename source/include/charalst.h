@@ -194,7 +194,7 @@
 #define CHARA_DISPLAY           { 0x9f7d, ? }                       // chara/pocket/display/display.c
 #define CHARA_VALCAN            { 0x9ff5, ? }                       // GV_StrCode("バルカン") okajima/valcan/valcan.c
 #define CHARA_9FFD_SECOND       { 0x9ffd, GM_SetSecondAvailable }   // game/second.c
-#define CHARA_FADEIO            { 0xa12e, NewFadeIo_800C42BC }      // takabe/fadeio.c
+#define CHARA_FADEIO            { 0xa12e, NewFadeInOutSet }         // takabe/fadeio.c
 #define CHARA_JDRUM             { 0xa27e, s19b_jdrum_800C95E4 }     // takabe/jeep/jdrum.c
 #define CHARA_SAFETY            { 0xa2b5, Safety_800C47A0 }         // safety.c
 #define CHARA_CRANE             { 0xa3fb, NewCrane_800D57A0 }       // GV_StrCode("クレーン") okajima/crane.c
@@ -311,8 +311,8 @@
 /*--- Polygon Demo Charas ---*/
 #define CHARA_0001_BLAST        { 0x0001, ? }                       // bullet/blast.c
 #define CHARA_0002              { 0x0002, ? }                       // --> anime/animconv/anime.c
-#define CHARA_0003_FADEIO       { 0x0003, NewFadeIo_800C4224 }      // takabe/fadeio.c
-#define CHARA_0004_FADEIO       { 0x0004, NewFadeIo_800C4224 }      // takabe/fadeio.c
+#define CHARA_0003_FADEIO       { 0x0003, NewFadeInOut }            // takabe/fadeio.c
+#define CHARA_0004_FADEIO       { 0x0004, NewFadeInOut }            // takabe/fadeio.c
 #define CHARA_0005_TELOP        { 0x0005, NewTelop_800DDD7C }       // takabe/telop.c
 #define CHARA_0006              { 0x0006, ? }                       // --> anime/animconv/anime.c (PC-ONLY)
 #define CHARA_0007              { 0x0007, ? }                       // --> anime/animconv/anime.c (PC-ONLY)
@@ -542,8 +542,8 @@ void *NewElevator_800D9F30();           /* takabe/elevator.c            */
 void *NewEnding2_800C7BE8();            /* takabe/ending2.c             */
 void *NewEnvSnd_800DF424();             /* takabe/env_snd.c             */
 void *NewEnvmap3_800CA3A4();            /* takabe/envmap3.c             */
-void *NewFadeIo_800C4224();             /* takabe/fadeio.c              */
-void *NewFadeIo_800C42BC();             /* takabe/fadeio.c              */
+void *NewFadeInOut();                   /* takabe/fadeio.c              */
+void *NewFadeInOutSet();                /* takabe/fadeio.c              */
 void *NewFindTrap_800D77DC();           /* takabe/findtrap.c            */
 void *NewFocus_800CEFF8();              /* takabe/focus.c               */
 void *NewFog_800D4208();                /* takabe/fog.c                 */

@@ -6,7 +6,7 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 
-#include "takabe/fadeio.h"      // for NewFadeIo_800C4224
+#include "takabe/fadeio.h"      // for NewFadeInOut
 
 // There are two actors in this file
 
@@ -77,7 +77,7 @@ void Snake03c1Act_800CD698(Snake03c1Work *work)
     case 0:
         if (field_7E8 == 0)
         {
-            NewFadeIo_800C4224(1, 48);
+            NewFadeInOut(1, 48);
             GM_GameStatus |= STATE_PADRELEASE;
             OpenCinemaScreen(0, 60000);
             GCL_ExecProc(work->procs[1], NULL);

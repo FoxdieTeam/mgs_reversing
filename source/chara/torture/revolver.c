@@ -10,7 +10,7 @@
 #include "game/game.h"
 #include "linkvar.h"
 
-#include "takabe/fadeio.h"      // for NewFadeIo_800C4224
+#include "takabe/fadeio.h"      // for NewFadeInOut
 
 typedef struct RevolverWork
 {
@@ -450,7 +450,7 @@ check:
     case 7:
         if (s03b_revolver_800C742C(work, iVar4, 8, 48))
         {
-            NewFadeIo_800C4224(0, 16);
+            NewFadeInOut(0, 16);
             CloseCinemaScreen();
 
             work->field_950 = 0;
@@ -627,7 +627,7 @@ check:
     case 5:
         if (s03b_revolver_800C742C(work, iVar3, 8, 48))
         {
-            NewFadeIo_800C4224(0, 16);
+            NewFadeInOut(0, 16);
             CloseCinemaScreen();
             work->field_950 = 0;
             work->field_96A++;
@@ -812,7 +812,7 @@ void s03b_revolver_800C7E88(RevolverWork *work, int arg1)
             work->field_958 = -1;
             iVar6 = work->field_958;
             work->field_96A++;
-            NewFadeIo_800C4224(0, 12);
+            NewFadeInOut(0, 12);
         }
 
         work->field_970 += s03b_revolver_800C71E8(work->control.name, work->field_970, iVar6);
@@ -947,7 +947,7 @@ void s03b_revolver_800C826C(RevolverWork *work, int arg1)
         {
             work->field_950 = 0;
             work->field_96A++;
-            NewFadeIo_800C4224(0, 28);
+            NewFadeInOut(0, 28);
         }
         break;
 
@@ -976,7 +976,7 @@ void Revolver_800C8488(RevolverWork *work, int mode)
 
     if (mode == 0)
     {
-        NewFadeIo_800C4224(0, 28);
+        NewFadeInOut(0, 28);
         s03b_boxall_800C9328();
         CloseCinemaScreen();
     }
