@@ -118,7 +118,7 @@ void MENU_SetRadarFunc(TRadarFn_800AB48C func)
     gFn_radar_800AB48C = func;
 }
 
-void draw_radar_vision_cone_80038F3C(MenuWork *work, char *ot, RADAR_CONE *cone, int x, int y, int color,
+void draw_radar_vision_cone_80038F3C(MenuWork *work, u_long *ot, RADAR_CONE *cone, int x, int y, int color,
                                      int fadeColor, int scale)
 {
     SVECTOR  right;
@@ -160,7 +160,7 @@ void draw_radar_vision_cone_80038F3C(MenuWork *work, char *ot, RADAR_CONE *cone,
 }
 
 // Draws the black border around the radar.
-void drawBorder_800390FC(MenuWork *menuMan, unsigned char *ot)
+void drawBorder_800390FC(MenuWork *menuMan, u_long *ot)
 {
     int x1, y1, x2, y2;
 
@@ -168,10 +168,10 @@ void drawBorder_800390FC(MenuWork *menuMan, unsigned char *ot)
     y1 = menuMan->field_CC_radar_data.pos_y;
     x2 = x1 + 234;
     y2 = y1 + 15;
-    menu_render_rect_8003DB2C(menuMan->field_20_otBuf, x2, y2, 1, 53, 0); // Left border.
-    menu_render_rect_8003DB2C(menuMan->field_20_otBuf, x2, y2, 70, 1, 0); // Top border.
-    menu_render_rect_8003DB2C(menuMan->field_20_otBuf, x1 + 304, y2, 1, 54, 0); // Right border.
-    menu_render_rect_8003DB2C(menuMan->field_20_otBuf, x2, y1 + 68, 70, 1, 0); // Bottom border.
+    menu_render_rect_8003DB2C(menuMan->prim, x2, y2, 1, 53, 0); // Left border.
+    menu_render_rect_8003DB2C(menuMan->prim, x2, y2, 70, 1, 0); // Top border.
+    menu_render_rect_8003DB2C(menuMan->prim, x1 + 304, y2, 1, 54, 0); // Right border.
+    menu_render_rect_8003DB2C(menuMan->prim, x2, y1 + 68, 70, 1, 0); // Bottom border.
 }
 
 // clang-format off
@@ -198,7 +198,7 @@ extern int              gControlCount_800AB9B4;
 #define RGB(r, g, b) ((r) | (g << 8) | (b << 16))
 
 // Couldn't test it, but it should be the appropriate function name.
-void drawMap_800391D0(MenuWork *work, unsigned char *ot, int arg2)
+void drawMap_800391D0(MenuWork *work, u_long *ot, int arg2)
 {
     RADAR_CONE cone;
 
@@ -221,7 +221,7 @@ void drawMap_800391D0(MenuWork *work, unsigned char *ot, int arg2)
     DR_TPAGE *pTpage;
     DR_TPAGE *pTpage_2;
 
-    int *prim;
+    u_long *prim;
 
     int x;
     int z;
@@ -243,7 +243,7 @@ void drawMap_800391D0(MenuWork *work, unsigned char *ot, int arg2)
     int cond2;
     int rgb;
 
-    int     *ot2;
+    u_long  *ot2;
     LINE_F2 *pLine;
 
     int radar_atr;
@@ -418,8 +418,8 @@ void drawMap_800391D0(MenuWork *work, unsigned char *ot, int arg2)
     pvec[3].vxy = svec[0].vy + 1000;
     pvec[3].vz = svec[0].vy - 800;
 
-    pLine = (LINE_F2 *)work->field_20_otBuf->mPrimBuf.mFreeLocation;
-    pLimit = work->field_20_otBuf->mPrimBuf.mOtEnd - 1024;
+    pLine = (LINE_F2 *)work->prim->next;
+    pLimit = work->prim->end - 1024;
 
     gRadarScaleMatrix_800BD580.t[0] = -xoff;
     gRadarScaleMatrix_800BD580.t[1] = -zoff;
@@ -533,7 +533,7 @@ void drawMap_800391D0(MenuWork *work, unsigned char *ot, int arg2)
                      ((pWall->p2.y + pWall->p2.h) < ((int *)scratchShort)[0x1C / 4])))
                 {
                     rgb = 0x40004000;
-                    ot2 = (int *)ot;
+                    ot2 = ot;
                 }
                 else
                 {
@@ -570,7 +570,7 @@ void drawMap_800391D0(MenuWork *work, unsigned char *ot, int arg2)
     }
 
 end:
-    work->field_20_otBuf->mPrimBuf.mFreeLocation = (unsigned char *)pLine;
+    work->prim->next = (unsigned char *)pLine;
 
     NEW_PRIM(pTile, work);
 
@@ -638,7 +638,7 @@ void drawHeader_helper_helper_80039DB4(MenuPrim *prim, SPRT *pSprt, radar_uv *pR
 
     setTile(tile1);
     setSemiTrans(tile1, 1);
-    addPrim(prim->mPrimBuf.mOt, tile1);
+    addPrim(prim->ot, tile1);
 
     _NEW_PRIM( tile2, prim );
 
@@ -646,7 +646,7 @@ void drawHeader_helper_helper_80039DB4(MenuPrim *prim, SPRT *pSprt, radar_uv *pR
     tile2->x0 = pRadarUV->field_2_w + x0;
     tile2->w = 69 - tile2->x0;
 
-    addPrim(prim->mPrimBuf.mOt, tile2);
+    addPrim(prim->ot, tile2);
 }
 
 static inline void drawHeader_helper(MenuPrim *prim, int y, radar_uv *pRadarUV, int *rgbs)
@@ -656,7 +656,7 @@ static inline void drawHeader_helper(MenuPrim *prim, int y, radar_uv *pRadarUV, 
     _NEW_PRIM( sprt, prim );
 
     initSprt_80039D5C(sprt, -pRadarUV->field_2_w / 2, y, pRadarUV, rgbs[0]);
-    addPrim(prim->mPrimBuf.mOt, sprt);
+    addPrim(prim->ot, sprt);
     drawHeader_helper_helper_80039DB4(prim, sprt, pRadarUV);
 }
 
@@ -721,7 +721,7 @@ void drawConsole_alertEvasion_8003A0BC(MenuPrim *prim, int code)
 
     setSprt(spb);
     setSemiTrans(spb, 1);
-    addPrim(prim->mPrimBuf.mOt, spb);
+    addPrim(prim->ot, spb);
 
     for( i = 1; i <= h; i++ )
     {
@@ -731,7 +731,7 @@ void drawConsole_alertEvasion_8003A0BC(MenuPrim *prim, int code)
         sprt->y0 = spb->y0 - i * 2;
         sprt->w = CONSOLE_WIDTH;
         sprt->v0 = uv->field_1_y + ( cons_current_y_800AB4B0 - i + 16 ) % 16;
-        addPrim( prim->mPrimBuf.mOt, sprt );
+        addPrim( prim->ot, sprt );
     }
 
     if (++cons_current_x_800AB4B4 > CONSOLE_WIDTH)
@@ -773,7 +773,7 @@ void drawConsole_jamming_8003A2D0(MenuPrim *pGlue, int idx)
 
     setSprt(sprt1);
     setSemiTrans(sprt1, 1);
-    addPrim(pGlue->mPrimBuf.mOt, sprt1);
+    addPrim(pGlue->ot, sprt1);
 
     if (cons_current_x_800AB4B4 > 28)
     {
@@ -786,7 +786,7 @@ void drawConsole_jamming_8003A2D0(MenuPrim *pGlue, int idx)
         sprt2->x0 += 28;
         sprt2->w = cons_current_x_800AB4B4 - 28;
 
-        addPrim(pGlue->mPrimBuf.mOt, sprt2);
+        addPrim(pGlue->ot, sprt2);
     }
     else
     {
@@ -804,7 +804,7 @@ void drawConsole_jamming_8003A2D0(MenuPrim *pGlue, int idx)
         sprt3->y0 = y0 - i * 2;
         sprt3->v0 = uv->field_1_y + (cons_current_y_800AB4B0 - i + 16) % 16;
 
-        addPrim(pGlue->mPrimBuf.mOt, sprt3);
+        addPrim(pGlue->ot, sprt3);
 
         _NEW_PRIM(sprt4, pGlue);
         *sprt4 = *sprt3;
@@ -813,7 +813,7 @@ void drawConsole_jamming_8003A2D0(MenuPrim *pGlue, int idx)
         sprt4->v0 = uv->field_1_y + (cons_current_y_800AB4B0 - i + 19) % 16;
         sprt4->x0 += 28;
 
-        addPrim(pGlue->mPrimBuf.mOt, sprt4);
+        addPrim(pGlue->ot, sprt4);
     }
 
     cons_current_x_800AB4B4++;
@@ -874,8 +874,8 @@ void drawCounter_8003A664(MenuPrim *pGlue, int alertLevel, int code)
     pCounterOrnamentUV = gStaticCounterElsUVs_8009E3C8;
     for (i = 3; i > 0; i--)
     {
-        pCounterOrnamentTile = (TILE *)pGlue->mPrimBuf.mFreeLocation;
-        pGlue->mPrimBuf.mFreeLocation += sizeof(TILE);
+        pCounterOrnamentTile = (TILE *)pGlue->next;
+        pGlue->next += sizeof(TILE);
 
         pCounterOrnamentTile->x0 = pCounterOrnamentUV->field_0_x - 34;
         pCounterOrnamentTile->y0 = pCounterOrnamentUV->field_1_y - 26;
@@ -886,7 +886,7 @@ void drawCounter_8003A664(MenuPrim *pGlue, int alertLevel, int code)
         setTile(pCounterOrnamentTile);
         setSemiTrans(pCounterOrnamentTile, 1);
 
-        addPrim(pGlue->mPrimBuf.mOt, pCounterOrnamentTile);
+        addPrim(pGlue->ot, pCounterOrnamentTile);
 
         pCounterOrnamentUV++;
     }
@@ -897,13 +897,13 @@ void drawCounter_8003A664(MenuPrim *pGlue, int alertLevel, int code)
     counterDigitY = 6;
     for (i = 0; i < 4; i++)
     {
-        pCounterDigitSprt = (SPRT *)pGlue->mPrimBuf.mFreeLocation;
-        pGlue->mPrimBuf.mFreeLocation += sizeof(SPRT);
+        pCounterDigitSprt = (SPRT *)pGlue->next;
+        pGlue->next += sizeof(SPRT);
 
         initSprt_80039D5C(pCounterDigitSprt, counterDigitX, counterDigitY, pCounterDigitsUV, 0x80808080);
         pCounterDigitSprt->clut = gRadarClut_800AB498[3 - i];
 
-        addPrim(pGlue->mPrimBuf.mOt, pCounterDigitSprt);
+        addPrim(pGlue->ot, pCounterDigitSprt);
 
         counterDigitX += 12;
         if (i == 1)
@@ -923,11 +923,11 @@ void drawSymbols_8003A978(MenuPrim *prim, int x, int code)
 
     // code can be 0 (alert), 1 (evasion) and 3 (jamming).
     initSprt_80039D5C(sprt, x - 34, -12, &gRadarUV_8009E30C[code * 2], gRadarRGBTable_8009E3B8[code]);
-    addPrim(prim->mPrimBuf.mOt, sprt);
+    addPrim(prim->ot, sprt);
 }
 
 // Slightly misleading name as it also handles the radar in normal mode.
-void drawAlertEvasionJammingPanel_8003AA2C(MenuWork *work, char *ot, int radarMode, int alertLevel)
+void drawAlertEvasionJammingPanel_8003AA2C(MenuWork *work, u_long *ot, int radarMode, int alertLevel)
 {
     unsigned int randValue;
     DR_TPAGE    *tpage1;
@@ -940,9 +940,9 @@ void drawAlertEvasionJammingPanel_8003AA2C(MenuWork *work, char *ot, int radarMo
     {
     case ALERT_JAMMING:
         LoadImage(&rect_800AB490, (u_long *)image_8009E338);
-        drawSymbols_8003A978(work->field_20_otBuf, 6, 3);
-        drawConsole_jamming_8003A2D0(work->field_20_otBuf, 3);
-        drawHeader_80039EC4(work->field_20_otBuf, -25, 3);
+        drawSymbols_8003A978(work->prim, 6, 3);
+        drawConsole_jamming_8003A2D0(work->prim, 3);
+        drawHeader_80039EC4(work->prim, -25, 3);
         break;
 
     case ALERT_OFF:
@@ -950,9 +950,9 @@ void drawAlertEvasionJammingPanel_8003AA2C(MenuWork *work, char *ot, int radarMo
         break;
 
     default:
-        drawCounter_8003A664(work->field_20_otBuf, alertLevel, 3 - radarMode);
-        drawSymbols_8003A978(work->field_20_otBuf, 9, 3 - radarMode);
-        drawHeader_80039EC4(work->field_20_otBuf, -25, 3 - radarMode);
+        drawCounter_8003A664(work->prim, alertLevel, 3 - radarMode);
+        drawSymbols_8003A978(work->prim, 9, 3 - radarMode);
+        drawHeader_80039EC4(work->prim, -25, 3 - radarMode);
         break;
     }
 
@@ -1044,7 +1044,7 @@ void menu_radar_helper_8003ADD8(MenuWork *work, int index)
     SetDrawEnv(&work->field_CC_radar_data.dr_env[index], &drawEnv);
 }
 
-void draw_radar(MenuWork *work, unsigned char *ot)
+void draw_radar(MenuWork *work, u_long *ot)
 {
     int       alertLevel, alertMode;
     DR_AREA  *twin, *twin2, *twin3;
@@ -1185,7 +1185,7 @@ void draw_radar(MenuWork *work, unsigned char *ot)
     addPrim(ot, &work->field_CC_radar_data.dr_env[GV_Clock]);
 }
 
-void menu_radar_update_8003B350(MenuWork *work, unsigned char *ot)
+void menu_radar_update_8003B350(MenuWork *work, u_long *ot)
 {
     int clipY;
 

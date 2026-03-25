@@ -339,7 +339,7 @@ void PatrolLampAct_800D6678(PatoLmpWork *work)
     int field_1940;
     int field_1940_2;
 
-    char *ot;
+    u_long *ot;
 
     OBJECT *field_3B4_iter;
     OBJECT *field_AD4_iter;

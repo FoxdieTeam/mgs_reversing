@@ -127,10 +127,10 @@ enum CodecAction {
  * screen using the intensity specified.
  *
  * @param work Pointer to the MenuWork structure.
- * @param pOt Pointer to the ordering table.
+ * @param ot Pointer to the ordering table.
  * @param opacity The intensity for the fade effect (0-255).
  */
-void FadeCodecScreen(MenuWork *work, unsigned char *pOt, int opacity)
+void FadeCodecScreen(MenuWork *work, u_long *ot, int opacity)
 {
     TILE     *tile;
     DR_TPAGE *tpage;
@@ -154,12 +154,12 @@ void FadeCodecScreen(MenuWork *work, unsigned char *pOt, int opacity)
     tile->y0 = 0;
     tile->w = FRAME_WIDTH;
     tile->h = FRAME_HEIGHT;
-    addPrim(pOt, tile);
+    addPrim(ot, tile);
 
     NEW_PRIM(tpage, work);
 
     setDrawTPage(tpage, 1, 0, getTPage(0, 2, 960, 256));
-    addPrim(pOt, tpage);
+    addPrim(ot, tpage);
 }
 
 // draw the 7 segment display on the codec screen
@@ -244,7 +244,7 @@ void sub_8003FD50(MenuPrim *pMenuPrim, int xoff, int yoff, int param_4, RadioUnk
 
         setLineF4(pLine);
         setSemiTrans(pLine, abe);
-        addPrim(pMenuPrim->mPrimBuf.mOt, pLine);
+        addPrim(pMenuPrim->ot, pLine);
     }
 }
 
@@ -263,7 +263,7 @@ void sub_8003FFB0(MenuPrim *pGlue, int x0, int y0, int rgb)
     pPrim->y0 = y0 + 15;
 
     setTile(pPrim);
-    addPrim(pGlue->mPrimBuf.mOt, pPrim);
+    addPrim(pGlue->ot, pPrim);
 }
 
 extern RadioUnknown dword_8009E618;
@@ -385,7 +385,7 @@ void menu_radio_codec_helper_helper14_helper5_800402A0(MenuPrim *pGlue, int xoff
         LSTORE(color, &pTile->r0);
 
         setTile(pTile);
-        addPrim(pGlue->mPrimBuf.mOt, pTile);
+        addPrim(pGlue->ot, pTile);
     }
 }
 
@@ -434,13 +434,13 @@ void menu_radio_update_helper3_80040498(MenuPrim *pGlue)
 
     setSprt(pPrim);
     setSemiTrans(pPrim, 1);
-    addPrim(pGlue->mPrimBuf.mOt, pPrim);
+    addPrim(pGlue->ot, pPrim);
 
     _NEW_PRIM(tpage, pGlue);
 
     setDrawTPage(tpage, 1, 0, getTPage(0, 1, 960, 256));
 
-    addPrim(pGlue->mPrimBuf.mOt, tpage);
+    addPrim(pGlue->ot, tpage);
 }
 
 void menu_radio_codec_helper_helper14_helper3_80040590(MenuPrim *pGlue, Radio_8009E664 *param_2, int cnt, int xoff, int yoff)
@@ -461,7 +461,7 @@ void menu_radio_codec_helper_helper14_helper3_80040590(MenuPrim *pGlue, Radio_80
         tile->w = tileInfo->w;
         tile->h = tileInfo->h;
 
-        addPrim(pGlue->mPrimBuf.mOt, tile);
+        addPrim(pGlue->ot, tile);
         cnt--;
         tileInfo++;
     }
@@ -514,8 +514,8 @@ void menu_radio_codec_helper_helper14_helper6_helper_8004064C(MenuPrim *pGlue, i
     pLine->y2 = coord;
     pPoly->y2 = coord;
 
-    addPrim(pGlue->mPrimBuf.mOt, pPoly);
-    addPrim(pGlue->mPrimBuf.mOt, pLine);
+    addPrim(pGlue->ot, pPoly);
+    addPrim(pGlue->ot, pLine);
 }
 
 // Highlight codec ui element depending on the action flags
@@ -583,7 +583,7 @@ void menu_radio_codec_helper_helper14_helper4_800408BC(MenuPrim *pGlue, int x, i
     pTile->w = w;
     pTile->h = h;
     setTile(pTile);
-    addPrim(pGlue->mPrimBuf.mOt, pTile);
+    addPrim(pGlue->ot, pTile);
 
     _NEW_PRIM(pTpage, pGlue);
     _NEW_PRIM(pSprt, pGlue);
@@ -609,7 +609,7 @@ void menu_radio_codec_helper_helper14_helper4_800408BC(MenuPrim *pGlue, int x, i
     setSprt(pSprt);
     LSTORE(0x66000000 | color2, &pSprt->r0);
 
-    addPrim(pGlue->mPrimBuf.mOt, pSprt);
+    addPrim(pGlue->ot, pSprt);
     color2 >>= 1;
 
     for (i = -1; i <= 1; i++)
@@ -636,12 +636,12 @@ void menu_radio_codec_helper_helper14_helper4_800408BC(MenuPrim *pGlue, int x, i
                 pSprt2->x0 += j;
                 pSprt2->y0 += i;
 
-                addPrim(pGlue->mPrimBuf.mOt, pSprt2);
+                addPrim(pGlue->ot, pSprt2);
             }
         }
     }
 
-    addPrim(pGlue->mPrimBuf.mOt, pTpage);
+    addPrim(pGlue->ot, pTpage);
 }
 
 void menu_radio_codec_helper_helper15_80040B8C(MenuPrim *pGlue)
@@ -691,8 +691,8 @@ void menu_radio_codec_helper_helper15_80040B8C(MenuPrim *pGlue)
     setSprt(sprt1);
     setSemiTrans(sprt1, 1);
 
-    addPrim(pGlue->mPrimBuf.mOt, sprt1);
-    addPrim(pGlue->mPrimBuf.mOt, tpage1);
+    addPrim(pGlue->ot, sprt1);
+    addPrim(pGlue->ot, tpage1);
 
     _NEW_PRIM(sprt2, pGlue);
 
@@ -701,8 +701,8 @@ void menu_radio_codec_helper_helper15_80040B8C(MenuPrim *pGlue)
     sprt2->w = w_2;
     sprt2->u0 = u0_2;
 
-    addPrim(pGlue->mPrimBuf.mOt, sprt2);
-    addPrim(pGlue->mPrimBuf.mOt, tpage2);
+    addPrim(pGlue->ot, sprt2);
+    addPrim(pGlue->ot, tpage2);
 }
 
 extern Radio_8009E664 dword_8009E664[];
@@ -715,7 +715,7 @@ void menu_radio_codec_helper_helper14_80040DC4(MenuWork *work, int param_2)
 
     if (work->field_210_codec_state != 11 && work->field_210_codec_state != 14)
     {
-        pGlue = work->field_20_otBuf;
+        pGlue = work->prim;
         menu_radio_codec_helper_helper14_helper4_800408BC(pGlue, 0, 128, 140, 89, 90, 30);
         menu_radio_codec_helper_helper14_helper6_800407A4(pGlue, -90, 90, gCodecAction);
         menu_radio_codec_helper_helper14_helper_80040034(pGlue, 51, 178, param_2);
@@ -727,11 +727,11 @@ void menu_radio_codec_helper_helper14_80040DC4(MenuWork *work, int param_2)
 
         _NEW_PRIM(stp, pGlue);
         SetDrawStp(stp, 1);
-        addPrim(pGlue->mPrimBuf.mOt, stp);
+        addPrim(pGlue->ot, stp);
 
         _NEW_PRIM(tpage, pGlue);
         setDrawTPage(tpage, 1, 0, getTPage(0, 0, 960, 256));
-        addPrim(pGlue->mPrimBuf.mOt, tpage);
+        addPrim(pGlue->ot, tpage);
     }
 }
 
@@ -783,7 +783,7 @@ void sub_80041118(MenuWork *work)
     font_update(kcb);
 }
 
-int draw_radio_message(MenuWork *work, unsigned char *pOt)
+int draw_radio_message(MenuWork *work, u_long *ot)
 {
     KCB  *kcb;
     SPRT *pPrim;
@@ -808,7 +808,7 @@ int draw_radio_message(MenuWork *work, unsigned char *pOt)
     pPrim->y0 = 132;
 
     setSprt(pPrim);
-    addPrim(pOt, pPrim);
+    addPrim(ot, pPrim);
     return 1;
 }
 
@@ -823,7 +823,7 @@ void sub_8004124C(MenuWork *work)
 // was a new function added in VR?
 // or simply I made a counting mistake and no function was added
 
-int menu_radio_codec_helper_helper12_80041280(MenuWork *work, unsigned char *pOt, GV_PAD *pPad)
+int menu_radio_codec_helper_helper12_80041280(MenuWork *work, u_long *ot, GV_PAD *pPad)
 {
     menu_chara_struct *pMenuChara;
     KCB               *kcb;
@@ -912,14 +912,14 @@ int menu_radio_codec_helper_helper12_80041280(MenuWork *work, unsigned char *pOt
     return 0;
 }
 
-void draw_radio_wait_mark(MenuWork *work, unsigned char *pOt)
+void draw_radio_wait_mark(MenuWork *work, u_long *ot)
 {
     MenuPrim *pOtBuffer; // $v1
     POLY_F3 *pPrim; // $a0
 
     if ( GV_Time % 16 >= 4 )
     {
-        pOtBuffer = work->field_20_otBuf;
+        pOtBuffer = work->prim;
         _NEW_PRIM(pPrim, pOtBuffer);
         pPrim->x1 = 288;
         pPrim->y1 = 210;
@@ -931,7 +931,7 @@ void draw_radio_wait_mark(MenuWork *work, unsigned char *pOt)
 
          *(int *)&pPrim->r0 = 0x80808080;
         setPolyF3(pPrim);
-        addPrim(pOt, pPrim);
+        addPrim(ot, pPrim);
     }
 }
 
@@ -964,7 +964,7 @@ STATIC int   dword_800AB63C = 0;
 STATIC short gCodecFadingStep = 0;
 STATIC int   dword_800AB644 = -1;
 
-STATIC void menu_radio_codec_helper_8004158C(MenuWork *work, unsigned char *pOt, GV_PAD *pPad)
+STATIC void menu_radio_codec_helper_8004158C(MenuWork *work, u_long *ot, GV_PAD *pPad)
 {
     menu_chara_struct *pCharaStruct;
     menu_chara_struct *pCharaStruct2;
@@ -998,7 +998,7 @@ STATIC void menu_radio_codec_helper_8004158C(MenuWork *work, unsigned char *pOt,
         }
     }
 
-    FadeCodecScreen(work, pOt, gCodecFadingCount);
+    FadeCodecScreen(work, ot, gCodecFadingCount);
 skip_fading:
 
     switch (work->field_210_codec_state)
@@ -1107,7 +1107,7 @@ skip_fading:
         }
         break;
     case 10: // Codec Memory open
-        menu_radio_draw_mem(work, pOt);
+        menu_radio_draw_mem(work, ot);
         ret1 = menu_radio_codec_helper_helper2_8004DF68(work, pPad);
         if (pPad->press & PAD_SELECT)
         {
@@ -1209,7 +1209,7 @@ skip_fading:
         }
         break;
     case 4: // codec call interrupted
-        draw_radio_wait_mark(work, pOt);
+        draw_radio_wait_mark(work, ot);
         if ((pPad->release &
              (PAD_UP | PAD_DOWN | PAD_LEFT | PAD_RIGHT | PAD_TRIANGLE | PAD_CROSS | PAD_SQUARE | PAD_CIRCLE)) &&
             work->field_212 == 0)
@@ -1329,7 +1329,7 @@ skip_fading:
         }
         else
         {
-            draw_radio_wait_mark(work, pOt);
+            draw_radio_wait_mark(work, ot);
             if (pPad->press &
                 (PAD_UP | PAD_DOWN | PAD_LEFT | PAD_RIGHT | PAD_TRIANGLE | PAD_CROSS | PAD_SQUARE | PAD_CIRCLE))
             {
@@ -1446,7 +1446,7 @@ skip_fading:
         work->field_210_codec_state = 20;
         return;
     case 16: // save dialog
-        if (menu_radio_codec_helper_helper12_80041280(work, pOt, pPad) != 0)
+        if (menu_radio_codec_helper_helper12_80041280(work, ot, pPad) != 0)
         {
             work->field_210_codec_state = 3;
             menu_radio_codec_helper_helper8_80048044();
@@ -1454,19 +1454,19 @@ skip_fading:
         break;
     }
 
-    draw_radio_message(work, pOt);
+    draw_radio_message(work, ot);
 
     NEW_PRIM(tpage1, work);
     setDrawTPage(tpage1, 1, 0, getTPage(0, 0, 960, 256));
-    addPrim(pOt, tpage1);
+    addPrim(ot, tpage1);
 
-    menu_radio_codec_helper_helper15_80040B8C(work->field_20_otBuf);
+    menu_radio_codec_helper_helper15_80040B8C(work->prim);
     menu_radio_draw_face(work, work->field_218);
     menu_radio_codec_helper_helper14_80040DC4(work, codec_freq_800AB638);
 
     NEW_PRIM(tpage2, work);
     setDrawTPage(tpage2, 0, 1, getTPage(0, 0, 960, 256));
-    addPrim(pOt, tpage2);
+    addPrim(ot, tpage2);
 }
 
 STATIC void menu_radio_update_helper5_80042160(MenuWork *work)
@@ -1484,7 +1484,7 @@ STATIC void menu_radio_init_nullsub_80042190(MenuWork *work)
 
 STATIC int dword_800AB648 = 0;
 
-STATIC void menu_radio_update_80042198(MenuWork *work, unsigned char *pOt)
+STATIC void menu_radio_update_80042198(MenuWork *work, u_long *ot)
 {
     GCL_ARGS args;
     long     argv[2];
@@ -1584,7 +1584,7 @@ STATIC void menu_radio_update_80042198(MenuWork *work, unsigned char *pOt)
                     timer = (399 - gRadioIncomingCall_8009E708.field_2_timer) % 40;
                     if (timer < 26 && timer % 13 < 8)
                     {
-                        menu_radio_update_helper3_80040498(work->field_20_otBuf);
+                        menu_radio_update_helper3_80040498(work->prim);
                         MENU_Color(0xFF, 0xFF, 0xFF);
                         MENU_Locate(0xA0, 0x3F, 2);
                         MENU_Printf("PUSH SELECT");
@@ -1639,7 +1639,7 @@ STATIC void menu_radio_update_80042198(MenuWork *work, unsigned char *pOt)
         {
             DG_ChangeReso(1);
         }
-        menu_radio_codec_helper_8004158C(work, pOt, pPad);
+        menu_radio_codec_helper_8004158C(work, ot, pPad);
     }
 }
 
@@ -1776,21 +1776,21 @@ void menu_number_kill(MenuWork *work)
     /* do nothing */
 }
 
-void _menu_number_draw(MenuPrim *pOt, TextConfig *pSettings, int number)
+void _menu_number_draw(MenuPrim *prim, TextConfig *pSettings, int number)
 {
-    int            digit;
-    SPRT          *sprtIter;
-    int            x0;
-    int            minimumDigits; // Pad the displayed number with leading 0s
-    SPRT          *firstSprt;
-    int            xpos;
-    SPRT          *sprt;
-    unsigned char *mOt;
-    int            colour;
+    int     digit;
+    SPRT   *sprtIter;
+    int     x0;
+    int     minimumDigits; // Pad the displayed number with leading 0s
+    SPRT   *firstSprt;
+    int     xpos;
+    SPRT   *sprt;
+    u_long *ot;
+    int     colour;
 
     x0 = 0;
     firstSprt = 0;
-    mOt = pOt->mPrimBuf.mOt;
+    ot = prim->ot;
     colour = pSettings->colour;
     minimumDigits = 0;
 
@@ -1801,7 +1801,7 @@ void _menu_number_draw(MenuPrim *pOt, TextConfig *pSettings, int number)
 
     do
     {
-        _NEW_PRIM(sprt, pOt);
+        _NEW_PRIM(sprt, prim);
 
         x0 -= 6;
 
@@ -1818,7 +1818,7 @@ void _menu_number_draw(MenuPrim *pOt, TextConfig *pSettings, int number)
         sprt->x0 = x0;
         sprt->y0 = pSettings->ypos;
         sprt->u0 = digit * 6 - 100;
-        addPrim(mOt, sprt);
+        addPrim(ot, sprt);
 
         minimumDigits--;
     } while (number > 0 || minimumDigits > 0);
@@ -1840,7 +1840,7 @@ void _menu_number_draw(MenuPrim *pOt, TextConfig *pSettings, int number)
             xpos = pSettings->xpos - x0 / 2;
             break;
         }
-        for (sprtIter = firstSprt; sprtIter < (SPRT *)pOt->mPrimBuf.mFreeLocation; sprtIter++)
+        for (sprtIter = firstSprt; sprtIter < (SPRT *)prim->next; sprtIter++)
         {
             sprtIter->x0 += xpos;
         }
@@ -1899,7 +1899,7 @@ void _menu_number_draw_string(MenuPrim *pGlue, TextConfig *pTextConfig, const ch
 {
     SPRT        *pSprt;
     int          width;
-    char        *pOt;
+    u_long      *ot;
     int          colour;
     const char  *str2;
     unsigned int c;
@@ -1913,7 +1913,7 @@ void _menu_number_draw_string(MenuPrim *pGlue, TextConfig *pTextConfig, const ch
     pSprt = NULL;
     width = 0;
 
-    pOt = pGlue->mPrimBuf.mOt;
+    ot = pGlue->ot;
     colour = pTextConfig->colour;
 
     str2 = str;
@@ -1922,10 +1922,10 @@ void _menu_number_draw_string(MenuPrim *pGlue, TextConfig *pTextConfig, const ch
     {
         if (c == '\n')
         {
-            _menu_draw_number_draw_helper(pSprt, pGlue->mPrimBuf.mFreeLocation, pTextConfig->xpos, width, pTextConfig->flags);
+            _menu_draw_number_draw_helper(pSprt, pGlue->next, pTextConfig->xpos, width, pTextConfig->flags);
             // move to the next line
             pTextConfig->ypos += 8;
-            pSprt = (SPRT *)pGlue->mPrimBuf.mFreeLocation;
+            pSprt = (SPRT *)pGlue->next;
             width = 0;
             continue;
         }
@@ -2022,14 +2022,14 @@ void _menu_number_draw_string(MenuPrim *pGlue, TextConfig *pTextConfig, const ch
         pSprt2->u0 = tpx;
         pSprt2->v0 = tpy;
 
-        addPrim(pOt, pSprt2);
+        addPrim(ot, pSprt2);
         width += skip;
     }
 
-    pTextConfig->xpos = _menu_draw_number_draw_helper(pSprt, pGlue->mPrimBuf.mFreeLocation, pTextConfig->xpos, width, pTextConfig->flags);
+    pTextConfig->xpos = _menu_draw_number_draw_helper(pSprt, pGlue->next, pTextConfig->xpos, width, pTextConfig->flags);
 }
 
-void menu_number_draw_magazine(MenuWork *work, unsigned int *pOt, int xoff, int yoff,
+void menu_number_draw_magazine(MenuWork *work, u_long *ot, int xoff, int yoff,
                                int pMagSize, int pAmmo, int pSubCnt2)
 {
     SPRT *sprt;
@@ -2063,11 +2063,11 @@ void menu_number_draw_magazine(MenuWork *work, unsigned int *pOt, int xoff, int 
 
         sprt->w = 4;
         sprt->h = 9;
-        addPrim(pOt, sprt);
+        addPrim(ot, sprt);
     }
 }
 
-int menu_number_draw(MenuWork *work, unsigned int *pOt, int xpos, int ypos, int number, int flags)
+int menu_number_draw(MenuWork *work, u_long *ot, int xpos, int ypos, int number, int flags)
 {
     TextConfig textConfig; // [sp+10h] [-10h] BYREF
 
@@ -2075,7 +2075,7 @@ int menu_number_draw(MenuWork *work, unsigned int *pOt, int xpos, int ypos, int 
     textConfig.ypos = ypos;
     textConfig.colour = 0x64808080;
     textConfig.flags = flags;
-    _menu_number_draw(work->field_20_otBuf, &textConfig, number);
+    _menu_number_draw(work->prim, &textConfig, number);
     return textConfig.xpos;
 }
 
@@ -2092,7 +2092,7 @@ int menu_number_draw_number2(MenuWork *work, int xpos, int ypos, int current, in
     textConfig.flags = 0;
     // Use red color if "current" is 0, otherwise use grey
     textConfig.colour = (current == 0 ? 0x64002080 : 0x64575757);
-    _menu_number_draw(work->field_20_otBuf, &textConfig, current);
+    _menu_number_draw(work->prim, &textConfig, current);
 
     // Draw the "/" separator between the current and total numbers
     NEW_PRIM(pPrim, work);
@@ -2103,15 +2103,15 @@ int menu_number_draw_number2(MenuWork *work, int xpos, int ypos, int current, in
     pPrim->y0 = textConfig.ypos;
     pPrim->u0 = 224;
 
-    addPrim(work->field_20_otBuf->mPrimBuf.mOt, pPrim);
+    addPrim(work->prim->ot, pPrim);
 
     // Draw the "total" number
     textConfig.xpos = textConfig.xpos + 6;
-    _menu_number_draw(work->field_20_otBuf, &textConfig, total);
+    _menu_number_draw(work->prim, &textConfig, total);
     return textConfig.xpos;
 }
 
-int menu_number_draw_string(MenuWork *work, unsigned int *pOt, int xpos, int ypos, const char *str, int flags)
+int menu_number_draw_string(MenuWork *work, u_long *ot, int xpos, int ypos, const char *str, int flags)
 {
     TextConfig textConfig;
 
@@ -2119,7 +2119,7 @@ int menu_number_draw_string(MenuWork *work, unsigned int *pOt, int xpos, int ypo
     textConfig.ypos = ypos;
     textConfig.colour = 0x64808080;
     textConfig.flags = flags;
-    _menu_number_draw_string(work->field_20_otBuf, &textConfig, str);
+    _menu_number_draw_string(work->prim, &textConfig, str);
     return textConfig.xpos;
 }
 
@@ -2159,7 +2159,7 @@ void _menu_number_draw_string2(MenuPrim *pGlue, TextConfig *pTextConfig, const c
 {
     SPRT        *pSprt;
     int          width;
-    char        *pOt;
+    u_long      *ot;
     int          colour;
     const char  *str2;
     unsigned int c;
@@ -2174,7 +2174,7 @@ void _menu_number_draw_string2(MenuPrim *pGlue, TextConfig *pTextConfig, const c
     pSprt = NULL;
     width = 0;
 
-    pOt = pGlue->mPrimBuf.mOt;
+    ot = pGlue->ot;
     colour = pTextConfig->colour;
 
     str2 = str;
@@ -2186,10 +2186,10 @@ void _menu_number_draw_string2(MenuPrim *pGlue, TextConfig *pTextConfig, const c
 
         if (c == '\n')
         {
-            _menu_draw_number_draw_helper(pSprt, pGlue->mPrimBuf.mFreeLocation, pTextConfig->xpos, width, pTextConfig->flags);
+            _menu_draw_number_draw_helper(pSprt, pGlue->next, pTextConfig->xpos, width, pTextConfig->flags);
             // move to the next line
             pTextConfig->ypos += 8;
-            pSprt = (SPRT *)pGlue->mPrimBuf.mFreeLocation;
+            pSprt = (SPRT *)pGlue->next;
             width = 0;
             continue;
         }
@@ -2285,12 +2285,12 @@ void _menu_number_draw_string2(MenuPrim *pGlue, TextConfig *pTextConfig, const c
         pSprt2->u0 = tpx;
         pSprt2->v0 = tpy;
 
-        addPrim(pOt, pSprt2);
+        addPrim(ot, pSprt2);
         width += skip;
 loop:
     }
 
-    pTextConfig->xpos = _menu_draw_number_draw_helper(pSprt, pGlue->mPrimBuf.mFreeLocation, pTextConfig->xpos, width, pTextConfig->flags);
+    pTextConfig->xpos = _menu_draw_number_draw_helper(pSprt, pGlue->next, pTextConfig->xpos, width, pTextConfig->flags);
 }
 
 void menu_restore_nouse(void)
@@ -2317,7 +2317,7 @@ STATIC void sub_800434F4(MenuPrim *pGlue, int offset_x, int offset_y, PANEL_TEXT
     menu_init_sprt_8003D0D0(pPrim, pUnk, offset_x - 2, offset_y + 6);
 
     setSprt(pPrim);
-    addPrim(pGlue->mPrimBuf.mOt, pPrim);
+    addPrim(pGlue->ot, pPrim);
 }
 
 void menu_draw_nouse(MenuPrim *pGlue, int offset_x, int offset_y)
@@ -2342,5 +2342,5 @@ void menu_draw_triangle(MenuPrim *pGlue, Menu_Triangle *pTriangle)
     LCOPY(&pTriangle->field_C_rgb, &pPrim->r0);
 
     setPolyF3(pPrim);
-    addPrim(pGlue->mPrimBuf.mOt, pPrim);
+    addPrim(pGlue->ot, pPrim);
 }

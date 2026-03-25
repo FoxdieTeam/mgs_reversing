@@ -105,9 +105,9 @@ void d03a_red_alrt_800C45CC(RedAlrtWork *work, int length, short x, short y, sho
 
 void RedAlertAct_800C45E4(RedAlrtWork *work)
 {
-    unsigned short hashes[5];
-    int            found;
-    char          *ot;
+    u_short hashes[5];
+    int     found;
+    u_long *ot;
 
     GM_CurrentMap = work->map;
 

@@ -428,7 +428,7 @@ static void sgtrect3_act_helper_80070AB0(Work *work, DVECTOR *screenCoordsArray,
     lineF3Arr = work->field_3C[GV_Clock].field_0;
     lineF2Arr = work->field_C3C[GV_Clock].field_0;
     tPageArr = work->field_21B8[GV_Clock].field_0;
-    ot = (u_long *)DG_ChanlOTag(1);
+    ot = DG_ChanlOTag(1);
     field_30_target = work->field_30_target;
 
     for (targetCount--; targetCount >= 0; screenCoordsArray++, inTargets++, offsets++, targetCount--)

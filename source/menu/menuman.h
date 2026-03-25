@@ -117,12 +117,12 @@ typedef struct array_800BD748_child
     RECT           field_10_rect2;
 } array_800BD748_child;
 
-struct MenuWork;
+struct _MenuWork;
 struct Menu_Inventory;
 struct PANEL;
 struct PANEL_CONF;
 
-typedef void (*PANEL_CONF_update)(struct MenuWork *, unsigned int *, int, int, struct PANEL *);
+typedef void (*PANEL_CONF_update)(struct _MenuWork *, u_long *, int, int, struct PANEL *);
 typedef void (*PANEL_CONF_fn2)(struct PANEL_CONF *, int, int*, int*);
 
 typedef struct PANEL_CONF
@@ -214,22 +214,15 @@ typedef struct
     short   counter; // 0x10E
 } RADAR_T;
 
-struct MenuWork;
-
-typedef void (*TMenuUpdateFn)(struct MenuWork *, unsigned char *); // todo
+typedef void (*TMenuUpdateFn)(struct _MenuWork *, u_long *); // todo
 typedef void (*ButtonStates)(void); // todo
-
-typedef struct MenuPrimBuffer
-{
-    unsigned char *mFreeLocation;
-    unsigned char *mOt;
-    unsigned char *mOtEnd;
-} MenuPrimBuffer;
 
 typedef struct MenuPrim
 {
-    MenuPrimBuffer mPrimBuf;
-    unsigned char *mPrimPtrs[2];
+    u_char *next;
+    u_long *ot;
+    u_char *end;
+    u_char *buf[2];
 } MenuPrim;
 
 typedef struct RPK_ITEM
@@ -277,8 +270,7 @@ typedef struct MenuMan_MenuBars
     short int health_delay_counter;
 } MenuMan_MenuBars;
 
-struct MenuWork;
-typedef void (*TInitKillFn)(struct MenuWork *);
+typedef void (*TInitKillFn)(struct _MenuWork *);
 
 enum
 {
@@ -311,10 +303,10 @@ enum MenuState
     MENU_CODEC_OPEN = 4
 };
 
-typedef struct             MenuWork
+typedef struct _MenuWork
 {
     GV_ACT                 actor;
-    MenuPrim              *field_20_otBuf;
+    MenuPrim              *prim;
     GV_PAD                *field_24_pInput; // Points to 0x800b05e0, ie gPad1_800B05C0[2].
     MenuFlags              field_28_flags;
     char                   field_29;
@@ -436,7 +428,7 @@ void MENU_SetRadarScale(int);
 // void menu_radar_load_rpk_8003AD64(void);
 // void menu_init_radar_helper_8003ADAC(void);
 // void menu_radar_helper_8003ADD8(MenuWork *work, int index);
-// void draw_radar(MenuWork *work, unsigned char * pOt);
+// void draw_radar(MenuWork *work, unsigned char * ot);
 // void menu_radar_update_8003B350(MenuWork *work, unsigned char *ot);
 // void menu_radar_init_8003B474(MenuWork *work);
 // void menu_radar_kill_8003B554(MenuWork *work);
@@ -446,14 +438,14 @@ void menu_sub_8003B568(void);
 PANEL_TEXTURE *menu_rpk_8003B5E0(int idx);
 void menu_item_printDescription_8003B614(int itemIndex);
 int menu_item_IsItemDisabled_8003B6D0(int item_idx);
-void menu_drawPalKey_8003B794(MenuWork *work, unsigned int *pOt, int id);
-void menu_item_helper_8003B8F0(struct MenuWork *work, unsigned int *pOt, int xpos, int ypos, Menu_Inventory *pMenuSub);
+void menu_drawPalKey_8003B794(MenuWork *work, u_long *ot, int id);
+void menu_item_helper_8003B8F0(MenuWork *work, u_long *ot, int xpos, int ypos, Menu_Inventory *pMenuSub);
 void menu_8003BBEC(MenuWork *work);
 int menu_item_update_helper_8003BCD4(MenuWork *work);
-void menu_item_update_helper2_8003BF1C(MenuWork *work, unsigned int *arg1);
+void menu_item_update_helper2_8003BF1C(MenuWork *work, u_long *ot);
 void UseConsumableItem_8003C24C(Menu_Item_Unknown *pPanels, unsigned short press);
 void UpdateEnvironmentalEffects_8003C4EC(void);
-void menu_item_update_8003C95C(struct MenuWork *menuMan, unsigned int *param_2);
+void menu_item_update_8003C95C(MenuWork *menuMan, u_long *ot);
 void sub_8003CB98(MenuWork *work);
 void menu_item_init_8003CBF0(MenuWork *work);
 void menu_item_kill_8003CC74(MenuWork *work);
@@ -488,12 +480,12 @@ void sub_8003D5F0(PANEL_CONF *pPanelConf, int pos, int *xoff, int *yoff);
 void sub_8003D64C(PANEL_CONF *pPanelConf, int pos, int *xoff, int *yoff);
 void menu_set_panel_config_8003D6A8(struct Menu_Inventory *pMenuLeft, int bIsRight, void *pUpdateFn);
 void menu_navigation_8003D6CC(Menu_Inventory *pLeftRight, GV_PAD *pPad);
-void menu_8003D7DC(MenuWork *work, unsigned int *pOt, Menu_Inventory *pSubMenu);
-void menu_sub_menu_update_8003DA0C(MenuWork *work, unsigned int *pOt, Menu_Inventory *pSubMenu);
-void sub_8003DA60(struct MenuWork *work, unsigned int *pOt, Menu_Inventory *pLeftRight, int off1, int off2);
+void menu_8003D7DC(struct _MenuWork *work, u_long *ot, Menu_Inventory *pSubMenu);
+void menu_sub_menu_update_8003DA0C(MenuWork *work, u_long *ot, Menu_Inventory *pSubMenu);
+void sub_8003DA60(struct _MenuWork *work, u_long *ot, Menu_Inventory *pLeftRight, int off1, int off2);
 int menu_8003DA9C(struct Menu_Inventory *pMenu, GV_PAD *pPad);
 int sub_8003DAFC(Menu_Inventory *pLeftRight, GV_PAD *pPad);
-TILE *menu_render_rect_8003DB2C(MenuPrim *pOt, int x, int y, int w, int h, int rgb);
+TILE *menu_render_rect_8003DB2C(MenuPrim *ot, int x, int y, int w, int h, int rgb);
 void Menu_item_render_frame_rects_8003DBAC(MenuPrim *pGlue, int x, int y, int param_4);
 RPK_ITEM **menu_rpk_init_8003DD1C(const char *pFileName);
 RPK_ITEM *menu_rpk_get_pal_8003DD9C(int id);
@@ -504,12 +496,12 @@ void menu_weapon_unknown_8003DEB0(void);
 PANEL_TEXTURE *menu_weapon_get_weapon_rpk_info_8003DED8(int weaponIdx);
 int menu_weapon_isWeaponDisabled_8003DF30(int weaponId);
 void menu_weapon_printDescription_8003E030(int wpn_id);
-void menu_weapon_init_helper_8003E0E8(MenuWork *param_1, unsigned int *param_2, int param_3, int param_4, PANEL *param_5);
+void menu_weapon_init_helper_8003E0E8(MenuWork *param_1, u_long *ot, int param_3, int param_4, PANEL *param_5);
 void menu_weapon_update_helper2_helper2_8003E3B0(MenuWork *work);
 int menu_weapon_update_helper_8003E4B8(MenuWork *work);
-void menu_weapon_update_helper2_8003E674(MenuWork *work, unsigned int *pOt);
-void menu_weapon_update_8003E990(struct MenuWork *menuMan, unsigned char *param_2);
-void sub_8003EBDC(struct MenuWork *a1);
+void menu_weapon_update_helper2_8003E674(MenuWork *work, u_long *ot);
+void menu_weapon_update_8003E990(struct _MenuWork *menuMan, u_long *ot);
+void sub_8003EBDC(struct _MenuWork *a1);
 void menu_weapon_init_8003EC2C(MenuWork *work);
 void menu_weapon_kill_8003ECAC(MenuWork *work);
 void MENU_ResetWeaponPos(void);
@@ -522,12 +514,12 @@ void draw_life_defaultX_8003F408(MenuPrim *prim, long y, long rest, long now, lo
 void draw_life_8003F464(MenuPrim *prim, long x, long y, long rest, long now, long max, MENU_BAR_CONF *bconf);
 void draw_player_life_8003F4B8(MenuPrim *prim, long x, long y);
 void menu_font_kill_helper_8003F50C(void);
-void menu_life_update_8003F530(MenuWork *work, unsigned char *pOt);
+void menu_life_update_8003F530(MenuWork *work, u_long *ot);
 void menu_life_init_8003F7E0(MenuWork *work);
 void menu_life_kill_8003F838(MenuWork *work);
 int sub_8003F84C(int);
 void menu_printDescription_8003F97C(char *description);
-void menu_drawDescriptionPanel_8003F9B4(MenuWork *work, unsigned int *pOt, const char *str);
+void menu_drawDescriptionPanel_8003F9B4(MenuWork *work, u_long *ot, const char *str);
 void menu_font_kill_8003FC0C(void);
 
 /* radio.c */
@@ -535,7 +527,7 @@ void menu_font_kill_8003FC0C(void);
 void MENU_RadioCall(int param_1, int param_2, int param_3);
 void MENU_ResetCall(void);
 void MENU_SetRadioCallbackProc(int proc_id);
-void _menu_number_draw(MenuPrim *pOt, TextConfig *pSettings, int number);
+void _menu_number_draw(MenuPrim *ot, TextConfig *pSettings, int number);
 void _menu_number_draw_string(MenuPrim *pGlue, TextConfig *pTextConfig, const char *str);
 void _menu_number_draw_string2(MenuPrim *pGlue, TextConfig *pTextConfig, const char *str);
 void menu_restore_nouse(void);
@@ -602,7 +594,7 @@ void menu_radio_draw_face(MenuWork *work, menu_chara_struct *chara_struct);
 int menu_radio_end_check(void);
 
 /* jimaku.c */
-void menu_jimaku_act(MenuWork *work, unsigned int *pOt);
+void menu_jimaku_act(MenuWork *work, u_long *ot);
 void menu_jimaku_init(MenuWork *work);
 void MENU_JimakuWrite(char *str, int frames);
 void MENU_JimakuClear(void);
@@ -634,7 +626,7 @@ RadioMemory *menu_radio_table_next_free_8004D3B8(void);
 void menu_radio_compact_free_vars_8004D3D8(void);
 // void sub_8004D4A0(RadioCodecStru_800ABB98 *pStru);
 void sub_8004D580(int pressed);
-void menu_radio_draw_mem(MenuWork *work, unsigned char *pOt);
+void menu_radio_draw_mem(MenuWork *work, u_long *ot);
 void menu_radio_codec_helper_helper4_8004DE20(MenuWork *work);
 void menu_radio_codec_helper__helper3_sub_8004DF44();
 int menu_radio_codec_helper_helper2_8004DF68(MenuWork *work, GV_PAD *pPad);
@@ -645,15 +637,15 @@ void menu_radio_codec_helper_helper_8004E198(int toFind);
 /*---------------------------------------------------------------------------*/
 
 // For MenuPrim
-#define _NEW_PRIM(prim, buf)                               \
-    {                                                      \
-        typeof(prim) p;                                    \
-        p = (typeof(prim))buf->mPrimBuf.mFreeLocation;     \
-        buf->mPrimBuf.mFreeLocation += sizeof(*prim);      \
-        prim = p;                                          \
+#define _NEW_PRIM(_prim, _buf)         \
+    {                                  \
+        typeof(_prim) p;               \
+        p = (typeof(_prim))_buf->next; \
+        _buf->next += sizeof(*_prim);  \
+        _prim = p;                     \
     }
 
 // For MenuWork
-#define NEW_PRIM(prim, buf) _NEW_PRIM(prim, buf->field_20_otBuf)
+#define NEW_PRIM(_prim, _work) _NEW_PRIM(_prim, _work->prim)
 
 #endif // __MGS_MENU_MENUMAN_H__

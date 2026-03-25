@@ -85,7 +85,7 @@ void s16b_800C4CD0(void)
 
 void SepiaAct_800C4DC4(SepiaWork *work)
 {
-    char *ot;
+    u_long *ot;
 
     ot = DG_ChanlOTag(0);
     addPrim(ot, &work->prims->tile[GV_Clock]);

@@ -11,7 +11,7 @@
 #include "game/game.h"
 
 extern MenuWork      gMenuWork_800BD360;
-extern unsigned char gPrimBackingBuffers_800B9360[2][8192];
+extern unsigned char menu_primbuffers[2][8192];
 
 extern int MENU_PrimUse;
 
@@ -54,19 +54,19 @@ TInitKillFn gMenuKillFns_8009E2B4[] = {
     menu_number_kill,
     NULL};
 
-MenuPrim gMenuPrimBuffer_8009E2D0 = {{0, 0, 0}, {0, 0}};
+MenuPrim menu_prim = {0, 0, 0, {0, 0}};
 TextConfig gMenuTextConfig_8009E2E4 = {0, 0, 0, 0x64808080};
 
 void menuman_act_800386A4(MenuWork *work)
 {
-    unsigned char *pOtStart;
-    int            idx_as_flag;
-    int            field_28_flags;
-    int            i;
+    u_long *pOtStart;
+    int     idx_as_flag;
+    int     field_28_flags;
+    int     i;
 
-    pOtStart = (&gMenuPrimBuffer_8009E2D0)->mPrimBuf.mOt;
+    pOtStart = (&menu_prim)->ot;
     work->field_24_pInput = &GM_CurrentPadData[2];
-    menu_jimaku_act(work, (unsigned int *)pOtStart);
+    menu_jimaku_act(work, pOtStart);
     if ( ( !(GV_PauseLevel & 2) && (GM_LoadComplete > 0) ) &&
          ( !GM_LoadRequest ) )
     {
@@ -111,10 +111,10 @@ void menu_init_subsystems_8003884C(MenuWork *work)
     work->field_29 = 0;
     work->field_28_flags = 0;
 
-    work->field_20_otBuf = &gMenuPrimBuffer_8009E2D0;
+    work->prim = &menu_prim;
 
-    gMenuPrimBuffer_8009E2D0.mPrimPtrs[0] = &gPrimBackingBuffers_800B9360[0][0];
-    gMenuPrimBuffer_8009E2D0.mPrimPtrs[1] = &gPrimBackingBuffers_800B9360[1][0];
+    menu_prim.buf[0] = menu_primbuffers[0];
+    menu_prim.buf[1] = menu_primbuffers[1];
 
     DG_InitDrawEnv(&drawEnv, 0, 0, FRAME_WIDTH, FRAME_HEIGHT);
     drawEnv.isbg = 0;
@@ -183,19 +183,16 @@ void menu_radio_update_helper2_80038A7C(void)
 
 void MENU_ResetSystem(void)
 {
-    unsigned char *pFreeLoc = gMenuPrimBuffer_8009E2D0.mPrimBuf.mFreeLocation;
-
-    if (gMenuPrimBuffer_8009E2D0.mPrimBuf.mOtEnd < pFreeLoc)
+    if (menu_prim.next > menu_prim.end)
     {
         fprintf(-1, "!!!! MENU PRIM OVER !!!!\n");
     }
 
-    MENU_PrimUse =
-        gMenuPrimBuffer_8009E2D0.mPrimBuf.mFreeLocation - gMenuPrimBuffer_8009E2D0.mPrimPtrs[1 - GV_Clock];
+    MENU_PrimUse = menu_prim.next - menu_prim.buf[1 - GV_Clock];
 
-    gMenuPrimBuffer_8009E2D0.mPrimBuf.mFreeLocation = gMenuPrimBuffer_8009E2D0.mPrimPtrs[GV_Clock];
-    gMenuPrimBuffer_8009E2D0.mPrimBuf.mOtEnd = gMenuPrimBuffer_8009E2D0.mPrimBuf.mFreeLocation + 0x2000;
-    gMenuPrimBuffer_8009E2D0.mPrimBuf.mOt = DG_ChanlOTag(1);
+    menu_prim.next = menu_prim.buf[GV_Clock];
+    menu_prim.end = menu_prim.next + 0x2000;
+    menu_prim.ot = DG_ChanlOTag(1);
     menu_Text_Init_80038B98();
 }
 
@@ -239,11 +236,11 @@ void menu_Text_PrimUnknown_80038BB4(void)
 {
     DR_TPAGE *pPrim; // $a0
 
-    pPrim = (DR_TPAGE*)gMenuPrimBuffer_8009E2D0.mPrimBuf.mFreeLocation;
-    gMenuPrimBuffer_8009E2D0.mPrimBuf.mFreeLocation += sizeof(DR_TPAGE);
+    pPrim = (DR_TPAGE*)menu_prim.next;
+    menu_prim.next += sizeof(DR_TPAGE);
     setDrawTPage(pPrim, 1, 1, getTPage(0, gMenuTextConfig_8009E2E4.flags >> 8, 960, 256));
 
-    addPrim(gMenuPrimBuffer_8009E2D0.mPrimBuf.mOt, pPrim);
+    addPrim(menu_prim.ot, pPrim);
 }
 
 int MENU_Printf(const char *fmt, const char *str, int param_3, int param_4, int param_5)
@@ -252,21 +249,21 @@ int MENU_Printf(const char *fmt, const char *str, int param_3, int param_4, int 
     unsigned int free_space;
     char         string_buffer[64];
 
-    if (gMenuPrimBuffer_8009E2D0.mPrimBuf.mFreeLocation)
+    if (menu_prim.next)
     {
         sprintf(string_buffer, (char *)fmt, str, param_3, param_4, param_5);
-        free_space = gMenuPrimBuffer_8009E2D0.mPrimBuf.mOtEnd - gMenuPrimBuffer_8009E2D0.mPrimBuf.mFreeLocation;
+        free_space = menu_prim.end - menu_prim.next;
         string_length = strlen(string_buffer);
         if (string_length * 0x14 + 0x28U <= free_space)
         {
             if (gMenuTextConfig_8009E2E4.flags & TextConfig_Flags_eLargeFont_10)
             {
-                _menu_number_draw_string2(&gMenuPrimBuffer_8009E2D0, &gMenuTextConfig_8009E2E4,
+                _menu_number_draw_string2(&menu_prim, &gMenuTextConfig_8009E2E4,
                                           string_buffer);
             }
             else
             {
-                _menu_number_draw_string(&gMenuPrimBuffer_8009E2D0, &gMenuTextConfig_8009E2E4,
+                _menu_number_draw_string(&menu_prim, &gMenuTextConfig_8009E2E4,
                                          string_buffer);
             }
             menu_Text_PrimUnknown_80038BB4();
@@ -277,30 +274,30 @@ int MENU_Printf(const char *fmt, const char *str, int param_3, int param_4, int 
 
 int menu_draw_num(int number)
 {
-    if (!gMenuPrimBuffer_8009E2D0.mPrimBuf.mFreeLocation)
+    if (!menu_prim.next)
     {
 
         return gMenuTextConfig_8009E2E4.xpos;
     }
-    _menu_number_draw(&gMenuPrimBuffer_8009E2D0, &gMenuTextConfig_8009E2E4, number);
+    _menu_number_draw(&menu_prim, &gMenuTextConfig_8009E2E4, number);
     menu_Text_PrimUnknown_80038BB4();
     return gMenuTextConfig_8009E2E4.xpos;
 }
 
 MenuPrim *MENU_GetPrimInfo(void)
 {
-    return &gMenuPrimBuffer_8009E2D0;
+    return &menu_prim;
 }
 
 // specifically an enemy life bar
 void MENU_DrawBar(int xpos, int ypos, int rest, int now, MENU_BAR_CONF *bconf)
 {
     GM_GameStatus |= STATE_SHOW_LIFEBAR;
-    draw_life_8003F464(&gMenuPrimBuffer_8009E2D0, xpos, ypos, rest, now, 1024, bconf);
+    draw_life_8003F464(&menu_prim, xpos, ypos, rest, now, 1024, bconf);
     menu_Text_PrimUnknown_80038BB4();
 }
 
 void MENU_DrawBar2(int ypos, int rest, int now, int max, MENU_BAR_CONF *bconf)
 {
-    draw_life_defaultX_8003F408(&gMenuPrimBuffer_8009E2D0, ypos, rest, now, max, bconf);
+    draw_life_defaultX_8003F408(&menu_prim, ypos, rest, now, max, bconf);
 }

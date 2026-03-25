@@ -771,7 +771,7 @@ STATIC void menu_radio_do_file_mode_helper4_helper_8004A54C(MenuPrim *pGlue, Rad
         pPrim->x1 = pUnk->field_14 >> 16;
         pPrim->y1 = pUnk->field_1C >> 16; // pUnk->field_1C / 65536 wouldn't match
         setLineF2(pPrim);
-        addPrim(pGlue->mPrimBuf.mOt, pPrim);
+        addPrim(pGlue->ot, pPrim);
     }
 }
 
@@ -802,7 +802,7 @@ STATIC void sub_8004A648(MenuPrim *pGlue, RadioFileModeStruElem *pElem)
     pTile->w = w;
     pTile->h = h;
     setSemiTrans(pTile, 0);
-    addPrim(pGlue->mPrimBuf.mOt, pTile);
+    addPrim(pGlue->ot, pTile);
 
     radio_draw_face_frame(pGlue, x, y, w, h);
     radio_draw_face_frame(pGlue, x, y, w, h);
@@ -1090,7 +1090,7 @@ STATIC void sub_8004AEA8(SELECT_INFO *info)
 #define SAVE_MES_X      160
 #define SAVE_MES_Y      200
 
-static void show_message( MenuWork *work, unsigned long *ot, SELECT_INFO *info )
+static void show_message( MenuWork *work, u_long *ot, SELECT_INFO *info )
 {
     SPRT *sprt;
     KCB *kcb;
@@ -1109,7 +1109,7 @@ static void show_message( MenuWork *work, unsigned long *ot, SELECT_INFO *info )
 }
 // clang-format on
 
-STATIC void menu_radio_do_file_mode_save_memcard_8004B0A0(MenuWork *work, char *pOt, SELECT_INFO *info)
+STATIC void menu_radio_do_file_mode_save_memcard_8004B0A0(MenuWork *work, u_long *ot, SELECT_INFO *info)
 {
     TextConfig config;
 
@@ -1155,7 +1155,7 @@ STATIC void menu_radio_do_file_mode_save_memcard_8004B0A0(MenuWork *work, char *
     {
     } while (0);
 
-    prim = work->field_20_otBuf;
+    prim = work->prim;
     s8 = 0;
 
     if (info->max_num == 0)
@@ -1219,7 +1219,7 @@ STATIC void menu_radio_do_file_mode_save_memcard_8004B0A0(MenuWork *work, char *
         setWH(pTile, new_var3, new_var2);
 
         setTile(pTile);
-        addPrim(prim->mPrimBuf.mOt, pTile);
+        addPrim(prim->ot, pTile);
 
         var_a2 = 293;
         if (GV_Clock == 0)
@@ -1258,7 +1258,7 @@ STATIC void menu_radio_do_file_mode_save_memcard_8004B0A0(MenuWork *work, char *
         setPolyFT4(pPoly);
         setSemiTrans(pPoly, 1);
 
-        addPrim(prim->mPrimBuf.mOt, pPoly);
+        addPrim(prim->ot, pPoly);
 
         if (((sp90 + sp88) == info->current_index) && (info->field_14 != 0))
         {
@@ -1367,11 +1367,11 @@ STATIC void menu_radio_do_file_mode_save_memcard_8004B0A0(MenuWork *work, char *
         pSprt->x0 = s8;
         pSprt->y0 = s6 + 2;
 
-        addPrim(pOt, pSprt);
+        addPrim(ot, pSprt);
 
         _NEW_PRIM(pTpage, prim);
         setDrawTPage(pTpage, 0, 1, getTPage(0, 1, 960, 256));
-        addPrim(prim->mPrimBuf.mOt, pTpage);
+        addPrim(prim->ot, pTpage);
 
         sp98 += 14;
     }
@@ -1390,7 +1390,7 @@ STATIC void menu_radio_do_file_mode_save_memcard_8004B0A0(MenuWork *work, char *
 
         setLineF2(pLine);
         setSemiTrans(pLine, 1);
-        addPrim(prim->mPrimBuf.mOt, pLine);
+        addPrim(prim->ot, pLine);
 
         var_t0 += 10 + sp9C;
     }
@@ -1429,14 +1429,14 @@ STATIC void menu_radio_do_file_mode_save_memcard_8004B0A0(MenuWork *work, char *
         // entries above the visible ones, so show the upper triangle.
         if (sp90 > 0)
         {
-            menu_draw_triangle(work->field_20_otBuf, &upperTriangle_8009EBD0);
+            menu_draw_triangle(work->prim, &upperTriangle_8009EBD0);
         }
 
         // If there are more entries below the visible ones
         // (which are always six), show the lower triangle.
         if ((sp90 + 6) < info->max_num)
         {
-            menu_draw_triangle(work->field_20_otBuf, &lowerTriangle_8009EBE0);
+            menu_draw_triangle(work->prim, &lowerTriangle_8009EBE0);
         }
     }
 }
@@ -1863,10 +1863,10 @@ int menu_radio_do_file_mode(MenuWork *work, GV_PAD *pPad)
     int            var_v0_2; // ypos?
     unsigned int   flags;
     DR_TPAGE      *tpage;
-    unsigned char *mOt;
+    u_long        *ot;
     int            flagsExtracted;
 
-    mOt = work->field_20_otBuf->mPrimBuf.mOt;
+    ot = work->prim->ot;
     if (dword_800ABB48 == 0)
     {
         captions = (char **)saveCaptions_8009EB4C;
@@ -2069,7 +2069,7 @@ int menu_radio_do_file_mode(MenuWork *work, GV_PAD *pPad)
         }
         else
         {
-            draw_radio_wait_mark(work, mOt);
+            draw_radio_wait_mark(work, ot);
         }
         break;
     case 3:
@@ -2082,7 +2082,7 @@ int menu_radio_do_file_mode(MenuWork *work, GV_PAD *pPad)
         textConfig1.ypos = 0xC8;
         textConfig1.flags = 0x12;
         textConfig1.colour = 0x66748956;
-        _menu_number_draw_string2(work->field_20_otBuf, &textConfig1, "PRESS * TO EXIT");
+        _menu_number_draw_string2(work->prim, &textConfig1, "PRESS * TO EXIT");
         if (menu_radio_do_file_mode_helper17_8004C2E4(pPad, &res1, dword_800ABB74) != 0)
         {
             printf("Res %d\n", res1);
@@ -2110,7 +2110,7 @@ int menu_radio_do_file_mode(MenuWork *work, GV_PAD *pPad)
         }
         else
         {
-            menu_radio_do_file_mode_helper16_8004C164(work->field_20_otBuf, dword_800ABB88);
+            menu_radio_do_file_mode_helper16_8004C164(work->prim, dword_800ABB88);
             if (dword_800ABB70 != NULL)
             {
                 menu_radio_do_file_mode_helper4_8004AA68(8, 160, 0x6E, 160, 0x7A, 0);
@@ -2124,7 +2124,7 @@ int menu_radio_do_file_mode(MenuWork *work, GV_PAD *pPad)
             textConfig2.ypos = 0xC8;
             textConfig2.flags = 0x12;
             textConfig2.colour = 0x66748956;
-            _menu_number_draw_string2(work->field_20_otBuf, &textConfig2, "PRESS * TO SELECT MEMORY CARD");
+            _menu_number_draw_string2(work->prim, &textConfig2, "PRESS * TO SELECT MEMORY CARD");
         }
         if (menu_radio_do_file_mode_helper13_8004BCF8(pPad, &res3, dword_800ABB70) != 0)
         {
@@ -2175,16 +2175,16 @@ int menu_radio_do_file_mode(MenuWork *work, GV_PAD *pPad)
     }
     else if (dword_800ABB84 > 0)
     {
-        show_message(work, (u_long *)mOt, dword_800ABB88);
+        show_message(work, ot, dword_800ABB88);
     }
     NEW_PRIM(tpage, work);
     setDrawTPage(tpage, 0, 1, getTPage(0, 1, 960, 256));
-    addPrim(mOt, tpage);
+    addPrim(ot, tpage);
     if (dword_800ABB70 != NULL)
     {
-        menu_radio_do_file_mode_save_memcard_8004B0A0(work, mOt, dword_800ABB70);
+        menu_radio_do_file_mode_save_memcard_8004B0A0(work, ot, dword_800ABB70);
     }
-    menu_radio_do_file_mode_helper6_8004AD40(work->field_20_otBuf);
+    menu_radio_do_file_mode_helper6_8004AD40(work->prim);
     return 0;
 }
 

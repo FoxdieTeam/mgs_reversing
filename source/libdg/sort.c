@@ -1,9 +1,9 @@
 #include "libdg.h"
 
 typedef struct _SCRATCHPAD_UNK {
-    unsigned int **buf;
-    unsigned int *ot;
-    int len;
+    u_int **buf;
+    u_long *ot;
+    int     len;
 } SCRATCHPAD_UNK;
 
 extern int           DG_CurrentGroupID;
@@ -29,10 +29,10 @@ void DG_SortChanl( DG_CHANL *chanl, int idx )
     unsigned int *list;
     unsigned int **buf;
 
-    unsigned int *ot;
-    unsigned int *ot2;
-    unsigned int *indexed_ot;
-    unsigned int *ot_ptr;
+    u_long *ot;
+    u_long *ot2;
+    u_long *indexed_ot;
+    u_long *ot_ptr;
 
     int i;
 
@@ -52,7 +52,7 @@ void DG_SortChanl( DG_CHANL *chanl, int idx )
     SCRATCHPAD_UNK *pad = get_scratch();
 
     pad->buf = ptr_800B1400;
-    pad->ot = (unsigned int *)chanl->ot[idx] + 1;
+    pad->ot = chanl->ot[idx] + 1;
 
     buf = get_buf();
     ot = pad->ot;
@@ -71,10 +71,10 @@ void DG_SortChanl( DG_CHANL *chanl, int idx )
         }
     }
 
-    pQueue = (void **)&chanl->mQueue[chanl->mFreePrimCount];
+    pQueue = (void **)&chanl->queue[chanl->prim_index];
     group_id = DG_GetCurrentGroupID();
 
-    for (i = chanl->mTotalQueueSize - chanl->mFreePrimCount; i > 0; i--)
+    for (i = chanl->queue_size - chanl->prim_index; i > 0; i--)
     {
         pPrim = *pQueue++;
 
@@ -96,7 +96,7 @@ void DG_SortChanl( DG_CHANL *chanl, int idx )
         prim_size = (short)pPrim->psize;
 
         do {} while (0);
-        ot2 = *(unsigned int **)0x1f800004;
+        ot2 = *(u_long **)0x1f800004;
 
         do {} while (0);
         len = *(unsigned int *)0x1f800008;

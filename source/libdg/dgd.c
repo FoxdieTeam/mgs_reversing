@@ -116,11 +116,11 @@ void DG_ResetPipeline(void)
     DG_ResetPaletteEffect();
     DG_SetRGB(0, 0, 0);
 
-    printf("Object Queue %d\n", DG_Chanl(0)->mTotalObjectCount);
-    printf("Primitive Queue %d\n", DG_Chanl(0)->mTotalQueueSize - DG_Chanl(0)->mFreePrimCount);
+    printf("Object Queue %d\n", DG_Chanl(0)->objs_index);
+    printf("Primitive Queue %d\n", DG_Chanl(0)->queue_size - DG_Chanl(0)->prim_index);
 
-    DG_Chanl(0)->mTotalObjectCount = 0;
-    DG_Chanl(0)->mFreePrimCount = DG_Chanl(0)->mTotalQueueSize;
+    DG_Chanl(0)->objs_index = 0;
+    DG_Chanl(0)->prim_index = DG_Chanl(0)->queue_size;
 }
 
 void DG_ResetTextureCache(void)

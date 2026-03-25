@@ -48,7 +48,7 @@ void Boxall_800C9800(BoxallWork *work)
     SVECTOR  pos;
     SVECTOR *mov;
     int      dx, dz;
-    char    *ot;
+    u_long  *ot;
     LINE_F4 *line;
     int      x, y;
 

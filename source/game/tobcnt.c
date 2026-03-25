@@ -470,7 +470,7 @@ static void Act( Work *work )
     GV_PAD *pad;
     int     shade;
 
-    ot = (u_long *)DG_ChanlOTag(1);
+    ot = DG_ChanlOTag(1);
 
     if (work->time < 256)
     {

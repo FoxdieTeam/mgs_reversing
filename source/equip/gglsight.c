@@ -81,7 +81,7 @@ static void DrawHudNumbers(Work *work)
     }
 
     tile = work->field_40_tile1[GV_Clock];
-    ot = (u_long *)DG_ChanlOTag(1);
+    ot = DG_ChanlOTag(1);
     // TextConfig_Flags_eCentreAlign_02 | TextConfig_Flags_eSemiTransparent_20 | TextConfig_Flags_eDark_100
     MENU_Locate(0, 0, 0x122);
 
@@ -196,7 +196,7 @@ static void DrawHudBarGraph(Work *work)
     poly = work->field_2E0_polyF4[GV_Clock];
     tpage = &work->field_370_dr_tpage[GV_Clock];
 
-    ot = (u_long *)DG_Chanl(1)->ot[GV_Clock];
+    ot = DG_Chanl(1)->ot[GV_Clock];
 
     y = GM_PlayerControl->rot.vy & 4095;
     y2 = ((y + 1024) & 2047) >> 5;

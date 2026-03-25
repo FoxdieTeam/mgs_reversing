@@ -244,7 +244,7 @@ static void Act(ItemWork *work)
     int         shake;
     int         state;
     int         dx, dy, dz;
-    char       *ot;
+    u_long     *ot;
     LINE_F4    *line;
     int         x, y;
 

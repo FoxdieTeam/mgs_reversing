@@ -32,17 +32,19 @@ short          SECTION(".sbss") word_800AB982;
 unsigned short SECTION(".sbss") gCurrentRootCnt_800AB984;
 
 /*** bss ***/
-extern DG_CHANL       DG_Chanls[3];
-extern int            dword_800B0630[68];
-extern int            dword_800B0740[516];
-extern int            dword_800B0F50[4];
-extern DG_OBJS       *dword_800B0F60[8];
-extern DG_OBJS       *dword_800B0F80[256];
-extern DR_ENV         stru_800B1380[2];
-extern unsigned int  *ptr_800B1400[256];
-extern unsigned short gOldRootCnt_800B1DC8[32];
+extern DG_CHANL DG_Chanls[3];
 
-#define pow2(n) (1 << (n))
+extern u_long ot_background[68];
+extern u_long ot_primitive[516];
+extern u_long ot_overlay[4];
+
+extern void *obj_queue_background[8];
+extern void *obj_queue_primitive[256];
+
+extern DR_ENV bg_drawenv[2];
+
+extern u_long *ptr_800B1400[256];
+extern u_short gOldRootCnt_800B1DC8[32];
 
 // gets value of root counter 1 which determines time taken to finished drawing
 // sets it to word_800AB982
@@ -52,61 +54,59 @@ STATIC void DG_DrawSyncCallback( void )
 }
 
 // guessed function name
-STATIC void DG_SetChanlOrderingTable( DG_CHANL *chanl, unsigned char *pOtBuffer, unsigned int otLen,
-                                      DG_OBJS **pQueue, short queueSize, short param_6, short param_7 )
+STATIC void DG_SetChanlOrderingTable( DG_CHANL *chanl, u_long *ot, int ot_size, void **queue, short queue_size, short link, short dblbuf )
 {
-    // TODO: Aligning the end ptr? Also not sure if type is correct
-    unsigned char *pEnd = pOtBuffer + ((((1 << (otLen))) + 1) * 4);
+    int size;
 
-    chanl->ot[0] = pOtBuffer;
-    chanl->ot[1] = pEnd;
-    chanl->mTotalObjectCount = 0;
-    chanl->mQueue = pQueue;
-    chanl->field_08 = otLen;
-    chanl->field_0E_size = 0;
-    chanl->mFreePrimCount = queueSize;
-    chanl->mTotalQueueSize = queueSize;
-    chanl->field_0A = param_6;
-    chanl->field_0C = param_7;
+    size = (1 << ot_size) + 1;
+
+    chanl->ot[0] = ot;
+    chanl->ot[1] = &ot[size];
+    chanl->objs_index = 0;
+    chanl->queue = (DG_OBJS **)queue;
+    chanl->ot_size = ot_size;
+    chanl->dirty = 0;
+    chanl->prim_index = queue_size;
+    chanl->queue_size = queue_size;
+    chanl->link = link;
+    chanl->dblbuf = dblbuf;
 }
 
 // guessed function name
-STATIC void DG_SetChanlDrawEnv( DG_CHANL *chanl, DRAWENV *pDrawEnv, int backround )
+STATIC void DG_SetChanlDrawEnv( DG_CHANL *chanl, DRAWENV *env, int backround )
 {
-    int     x_off;
-    DRAWENV drawEnv;
+    DRAWENV dr_env;
+    int     width;
 
-    drawEnv = *pDrawEnv;
-    x_off = 0;
+    dr_env = *env;
+    width = chanl->dblbuf ? dword_800AB978 : 0;
 
-    if (chanl->field_0C)
-    {
-        x_off = dword_800AB978;
-    }
-    chanl->field_64_rect.x = drawEnv.clip.x - drawEnv.ofs[0];
-    chanl->field_64_rect.y = drawEnv.clip.y - drawEnv.ofs[1];
-    chanl->field_64_rect.w = drawEnv.clip.w;
-    chanl->field_64_rect.h = drawEnv.clip.h;
-    SetDrawEnv(chanl->field_16C_dr_env, &drawEnv);
-    drawEnv.clip.x += x_off;
-    drawEnv.ofs[0] += x_off;
-    SetDrawEnv(&chanl->field_16C_dr_env[1], &drawEnv);
+    chanl->new_clip_rect.x = dr_env.clip.x - dr_env.ofs[0];
+    chanl->new_clip_rect.y = dr_env.clip.y - dr_env.ofs[1];
+    chanl->new_clip_rect.w = dr_env.clip.w;
+    chanl->new_clip_rect.h = dr_env.clip.h;
+    SetDrawEnv(chanl->new_env, &dr_env);
+
+    dr_env.clip.x += width;
+    dr_env.ofs[0] += width;
+    SetDrawEnv(&chanl->new_env[1], &dr_env);
 
     if (backround)
     {
-        drawEnv.isbg = 0;
-        SetDrawEnv(&stru_800B1380[1], &drawEnv);
-        drawEnv.clip.x -= x_off;
-        drawEnv.ofs[0] -= x_off;
-        SetDrawEnv(&stru_800B1380[0], &drawEnv);
+        dr_env.isbg = 0;
+        SetDrawEnv(&bg_drawenv[1], &dr_env);
+
+        dr_env.clip.x -= width;
+        dr_env.ofs[0] -= width;
+        SetDrawEnv(&bg_drawenv[0], &dr_env);
     }
 }
 
 // guessed function name
 STATIC void DG_CopyChanlDrawEnv( DG_CHANL *chanl, int idx )
 {
-    chanl->clip_rect = chanl->field_64_rect;
-    chanl->field_6C_dr_env[idx] = chanl->field_16C_dr_env[idx];
+    chanl->clip_rect = chanl->new_clip_rect;
+    chanl->env1[idx] = chanl->new_env[idx];
 }
 
 // guessed function name
@@ -120,7 +120,7 @@ void DG_InitChanlSystem( int width )
 
     /* channel 0 */
     chanl = DG_Chanls;
-    DG_SetChanlOrderingTable(chanl, (unsigned char *)dword_800B0630, 5, (DG_OBJS **)dword_800B0F60, 8, -1, 1);
+    DG_SetChanlOrderingTable(chanl, ot_background, 5, obj_queue_background, 8, -1, 1);
     DG_InitDrawEnv(&drawEnv, 0, 0, FRAME_WIDTH, FRAME_HEIGHT);
     drawEnv.isbg = 1;
     DG_SetChanlDrawEnv(chanl, &drawEnv, 1);
@@ -129,7 +129,7 @@ void DG_InitChanlSystem( int width )
 
     /* channel 1 */
     chanl++;
-    DG_SetChanlOrderingTable(chanl, (unsigned char *)dword_800B0740, 8, (DG_OBJS **)dword_800B0F80, 256, 16, 1);
+    DG_SetChanlOrderingTable(chanl, ot_primitive, 8, obj_queue_primitive, 256, 16, 1);
     DG_InitDrawEnv(&drawEnv, 0, 0, FRAME_WIDTH, FRAME_HEIGHT);
     drawEnv.ofs[0] = 160;
     drawEnv.ofs[1] = 112;
@@ -137,95 +137,77 @@ void DG_InitChanlSystem( int width )
     DG_CopyChanlDrawEnv(chanl, 0);
     DG_CopyChanlDrawEnv(chanl, 1);
 
-    chanl->field_EC_dr_env[0] = stru_800B1380[0];
-    chanl->field_EC_dr_env[1] = stru_800B1380[1];
+    chanl->env2[0] = bg_drawenv[0];
+    chanl->env2[1] = bg_drawenv[1];
 
     /* channel 2 */
     chanl++;
-    DG_SetChanlOrderingTable(chanl, (unsigned char *)dword_800B0F50, 0, 0, 0, 8, 1);
+    DG_SetChanlOrderingTable(chanl, ot_overlay, 0, NULL, 0, 8, 1);
     DG_InitDrawEnv(&drawEnv, 0, 0, FRAME_WIDTH, FRAME_HEIGHT);
     DG_SetChanlDrawEnv(chanl, &drawEnv, 0);
     DG_CopyChanlDrawEnv(chanl, 0);
     DG_CopyChanlDrawEnv(chanl, 1);
 
-    chanl->field_EC_dr_env[0] = stru_800B1380[0];
-    chanl->field_EC_dr_env[1] = stru_800B1380[1];
+    chanl->env2[0] = bg_drawenv[0];
+    chanl->env2[1] = bg_drawenv[1];
 }
 
-void DG_DrawOTag( int activeBuffer )
+void DG_DrawOTag( int which )
 {
     gOldRootCnt_800B1DC8[0] = gCurrentRootCnt_800AB984;
     gCurrentRootCnt_800AB984 = GetRCnt(RCntCNT1);
-    DrawOTag((u_long *)&DG_Chanls[0].field_6C_dr_env[activeBuffer]);
+
+    /* channels 1 and 2 are linked into channel 0 */
+    DrawOTag(&DG_Chanls[0].env1[which].tag);
 }
 
-// not correct, revisit;
 void DG_ClearChanlSystem( int which )
 {
-    int            i, n_ot;
-    unsigned int   s4;
-    unsigned long *ot;
-    unsigned long  v0, v1;
-    DR_ENV        *draw_env;
-    DR_ENV        *draw_env2;
-    DG_CHANL      *chanl;
+    DG_CHANL *chanl;
+    int       i;
+    int       size;
+    u_long   *ot;
+    u_long   *ot_end;
+    DR_ENV   *env1;
+    DR_ENV   *env2;
+    u_long   *chain;
 
-    int v2;
-
-    unsigned long *ots;
     chanl = DG_Chanls;
-
-    for (i = 3; i > 0; --i)
+    for (i = 3 ; i > 0; i--)
     {
-        // loc_80017EF8
-        ots = (unsigned long *)chanl->ot[which];
-        ot = ots;
-        n_ot = pow2(chanl->field_08);
-        s4 = (unsigned int)&ot[n_ot];
+        size = (1 << chanl->ot_size) + 1;
 
-        ClearOTagR(ot, n_ot + 1);
+        ot = chanl->ot[which];
+        ot_end = &ot[size - 1];
 
-        if (chanl->field_0E_size > 0)
+        /* the ot is in reverse order */
+        ClearOTagR(ot, size);
+
+        if (chanl->dirty > 0)
         {
-            // loc_80017F30
             DG_CopyChanlDrawEnv(chanl, which);
-            --chanl->field_0E_size;
+            chanl->dirty--;
         }
 
-        // loc_80017F50
-        draw_env = &chanl->field_6C_dr_env[which];
-        draw_env2 = &chanl->field_EC_dr_env[which];
+        env1 = &chanl->env1[which];
+        env2 = &chanl->env2[which];
 
-        // addPrims(s4, draw_env2, draw_env); //should do the below
-        v2 = s4 & 0x00FFFFFF;
-        draw_env->tag = (draw_env->tag & 0xFF000000) | v2;
+        /* execute the channel in the order env1 -> ot -> env2 */
+        catPrim(env1, ot_end);
+        catPrim(ot, env2);
 
-        v1 = ot[0];
-        v1 = v1 & 0xFF000000;
-        v0 = (unsigned int)draw_env2 & 0x00FFFFFF;
-
-        ot[0] = v1 | v0;
-
-        if (chanl->field_0A >= 0)
+        if (chanl->link >= 0)
         {
-            // loc_80017F94
-            ot = (unsigned long *)DG_Chanls[0].ot[which];
-            ot = &ot[chanl->field_0A];
-
-            // addPrims(ot, draw_env, draw_env2); //should do the below
-            draw_env2->tag = (draw_env2->tag & 0xFF000000) | (ot[0] & 0x00FFFFFF);
-
-            ot[0] = (ot[0] & 0xFF000000) | ((unsigned int)draw_env & 0x00FFFFFF);
+            /* link this channel into the background channel */
+            chain = DG_Chanls[0].ot[which];
+            chain += chanl->link;
+            addPrims(chain, env1, env2);
         }
         else
         {
-            // loc_80017FD8
-            termPrim(draw_env2); // should do below
-
-            // bottom 2 lines provide fake match
-            draw_env2->tag |= 0x00FFFFFF; // shouldn't be here
-            v1 = ot[0];                   // shouldn't be here
+            termPrim(env2);
         }
+
         chanl++;
     }
 }
@@ -274,7 +256,7 @@ void DG_SetRenderChanlDrawEnv( int idx, DRAWENV *pDrawEnv )
 {
     DG_CHANL *chanl = &DG_Chanls[idx + 1];
     DG_SetChanlDrawEnv(chanl, pDrawEnv, 0);
-    chanl->field_0E_size = 2;
+    chanl->dirty = 2;
 }
 
 int DG_QueueObjs( DG_OBJS *objs )
@@ -285,16 +267,16 @@ int DG_QueueObjs( DG_OBJS *objs )
     n_chanl = objs->chanl + 1;
     chanl = &DG_Chanls[n_chanl];
 
-    n_objs = chanl->mTotalObjectCount;
+    n_objs = chanl->objs_index;
 
-    if (n_objs >= chanl->mFreePrimCount)
+    if (n_objs >= chanl->prim_index)
     {
         return -1;
     }
     else
     {
-        chanl->mQueue[n_objs++] = objs;
-        chanl->mTotalObjectCount = n_objs;
+        chanl->queue[n_objs++] = objs;
+        chanl->objs_index = n_objs;
         return 0;
     }
 }
@@ -308,8 +290,8 @@ void DG_DequeueObjs( DG_OBJS *objs )
     n_chanl = objs->chanl + 1;
     chanl = &DG_Chanls[n_chanl];
 
-    n_objs = chanl->mTotalObjectCount;
-    chanl_objs = chanl->mQueue;
+    n_objs = chanl->objs_index;
+    chanl_objs = chanl->queue;
 
     for (i = n_objs; i > 0; --i)
     {
@@ -328,22 +310,22 @@ END:
     }
 
     n_objs--;
-    chanl->mTotalObjectCount = n_objs;
+    chanl->objs_index = n_objs;
 }
 
 int DG_QueuePrim( DG_PRIM *prim )
 {
     int       t = prim->chanl + 1;
     DG_CHANL *chanl = &DG_Chanls[t];
-    int       idx = chanl->mFreePrimCount;
+    int       idx = chanl->prim_index;
 
-    if (idx <= chanl->mTotalObjectCount)
+    if (idx <= chanl->objs_index)
     {
         return -1;
     }
     idx = idx - 1;
-    chanl->mQueue[idx] = (DG_OBJS *)prim; // 58
-    chanl->mFreePrimCount = idx;
+    chanl->queue[idx] = (DG_OBJS *)prim; // 58
+    chanl->prim_index = idx;
     return 0;
 }
 
@@ -360,10 +342,10 @@ void DG_DequeuePrim( DG_PRIM *prim )
     group = prim->chanl + 1;
     chanl = &DG_Chanls[group];
 
-    n_free_prims = chanl->mFreePrimCount;
-    queue_size = chanl->mTotalQueueSize;
+    n_free_prims = chanl->prim_index;
+    queue_size = chanl->queue_size;
 
-    chanl_objs = &chanl->mQueue[queue_size];
+    chanl_objs = &chanl->queue[queue_size];
     i = queue_size - n_free_prims;
 
     for (; i > 0; --i)
@@ -383,7 +365,7 @@ END:
     }
 
     n_free_prims++;
-    chanl->mFreePrimCount = n_free_prims;
+    chanl->prim_index = n_free_prims;
 }
 
 void DG_InitDrawEnv( DRAWENV *pDrawEnv, int clipX1, int clipY1, int clipX2, int clipY2 )
@@ -407,11 +389,11 @@ void DG_FreeObjectQueue( void )
     int       i;
 
     chanl = &DG_Chanls[1];
-    queue = (DG_OBJS **)chanl->mQueue;
+    queue = (DG_OBJS **)chanl->queue;
 
     DG_ObjectQueueVoided = TRUE;
 
-    for (i = chanl->mTotalObjectCount; i > 0; i--)
+    for (i = chanl->objs_index; i > 0; i--)
     {
         objs = *queue++;
         DG_FreeObjsPacket(objs, 0);
@@ -434,7 +416,7 @@ void DG_SetBackgroundRGB( int r, int g, int b )
     drawEnv.isbg = 1;
     setRGB0(&drawEnv, r, g, b);
     DG_SetChanlDrawEnv(chanl, &drawEnv, 1);
-    chanl->field_0E_size = 2;
+    chanl->dirty = 2;
 }
 
 void DG_SetRGB( int r, int g, int b )

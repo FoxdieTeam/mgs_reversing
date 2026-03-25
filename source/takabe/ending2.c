@@ -640,7 +640,7 @@ int Ending2_800C6C40(Ending2Work *work)
 }
 
 // polys is an array of (at least) 40 POLY_FT4;
-void Ending2_800C6C9C(POLY_FT4 *polys, Ending2Pair *tpages, char *pOt)
+void Ending2_800C6C9C(POLY_FT4 *polys, Ending2Pair *tpages, u_long *ot)
 {
     POLY_FT4 *scratch;
     int       y;
@@ -679,7 +679,7 @@ void Ending2_800C6C9C(POLY_FT4 *polys, Ending2Pair *tpages, char *pOt)
 
         *polys = *scratch;
 
-        addPrim(pOt, polys);
+        addPrim(ot, polys);
         polys++;
 
         if (y > 192)
@@ -691,7 +691,7 @@ void Ending2_800C6C9C(POLY_FT4 *polys, Ending2Pair *tpages, char *pOt)
 }
 
 // polys is an array of (at least) 120 SPRT;
-void Ending2_800C6E00(SPRT *polys, Ending2Prims *prims, int arg2, char *pOt, int shade)
+void Ending2_800C6E00(SPRT *polys, Ending2Prims *prims, int arg2, u_long *ot, int shade)
 {
     DR_TPAGE *tpages[4];
     int       u0;
@@ -767,21 +767,21 @@ void Ending2_800C6E00(SPRT *polys, Ending2Prims *prims, int arg2, char *pOt, int
         u0 += 8;
 
         *polys = scratch[0];
-        addPrim(pOt, polys);
+        addPrim(ot, polys);
         polys++;
 
         *polys = scratch[1];
-        addPrim(pOt, polys);
+        addPrim(ot, polys);
 
         polys++;
         if (u0 > 192)
         {
             u0 -= 192;
-            addPrim(pOt, tpages[0]);
+            addPrim(ot, tpages[0]);
         }
     }
 
-    addPrim(pOt, tpages[1]);
+    addPrim(ot, tpages[1]);
 
     x0 = 0;
     u0 = 0;
@@ -793,17 +793,17 @@ void Ending2_800C6E00(SPRT *polys, Ending2Prims *prims, int arg2, char *pOt, int
         u0 += 8;
 
         *polys = scratch[2];
-        addPrim(pOt, polys);
+        addPrim(ot, polys);
         polys++;
 
         if (u0 > 192)
         {
             u0 -= 192;
-            addPrim(pOt, tpages[2]);
+            addPrim(ot, tpages[2]);
         }
     }
 
-    addPrim(pOt, tpages[3]);
+    addPrim(ot, tpages[3]);
 }
 
 void Ending2Act_800C71D8(Ending2Work *work)
@@ -812,7 +812,7 @@ void Ending2Act_800C71D8(Ending2Work *work)
     Ending2Prims   *prims;
     int            *var_s1;
     int             temp_s0;
-    char           *pOt;
+    u_long         *ot;
     int             i;
     int             i2;
     unsigned short *var_a0, *var_a0_2;
@@ -943,9 +943,9 @@ void Ending2Act_800C71D8(Ending2Work *work)
 
         prims = &work->field_64[GV_Clock];
         new_framerate = 2;
-        pOt = DG_ChanlOTag(1);
-        Ending2_800C6E00(prims->field_20, prims, work->field_24, pOt, shade);
-        Ending2_800C6C9C(prims->field_CAC, &prims->field_CA0[moviework_800C326C.field_18], pOt);
+        ot = DG_ChanlOTag(1);
+        Ending2_800C6E00(prims->field_20, prims, work->field_24, ot, shade);
+        Ending2_800C6C9C(prims->field_CAC, &prims->field_CA0[moviework_800C326C.field_18], ot);
         DG_FrameRate = new_framerate;
         if (work->field_38 >= 0 && work->field_38 <= 1 && work->field_20 == 1)
         {

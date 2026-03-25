@@ -210,8 +210,8 @@ void DG_ShadeChanl( DG_CHANL *chanl, int idx )
     DG_OBJ   *obj;
     int       n_models;
 
-    queue = chanl->mQueue;
-    for ( n_objs = chanl->mTotalObjectCount; n_objs > 0 ; n_objs-- )
+    queue = chanl->queue;
+    for ( n_objs = chanl->objs_index; n_objs > 0 ; n_objs-- )
     {
         objs = *queue++;
 

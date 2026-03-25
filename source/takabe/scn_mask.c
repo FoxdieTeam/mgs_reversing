@@ -41,7 +41,7 @@ static void Act(Work *work)
     TILE   *tile;
     u_long *ot;
 
-    ot = (u_long *)DG_ChanlOTag(0);
+    ot = DG_ChanlOTag(0);
 
     tile = &work->prims->scanline_tile[GV_Clock][0];
     for (i = SCANLINE_NUM; i > 0; i--)

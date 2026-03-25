@@ -508,7 +508,7 @@ void DG_PrimChanl( DG_CHANL *chanl, int idx )
     int       type;
     int       x;
 
-    n_prims = chanl->mTotalQueueSize - chanl->mFreePrimCount;
+    n_prims = chanl->queue_size - chanl->prim_index;
     clip_rect = &chanl->clip_rect;
 
     if ( n_prims == 0 )
@@ -521,7 +521,7 @@ void DG_PrimChanl( DG_CHANL *chanl, int idx )
     group_id = DG_CurrentGroupID;
     eye = &chanl->eye_inv;
 
-    queue = (DG_PRIM **)&chanl->mQueue[ chanl->mFreePrimCount ];
+    queue = (DG_PRIM **)&chanl->queue[ chanl->prim_index ];
     for ( ; n_prims > 0 ; n_prims-- )
     {
         prim = *queue++;

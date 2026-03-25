@@ -139,7 +139,7 @@ static void Act(Work *work)
     TILE    *tile;
     void    *priority;
 
-    ot = (u_long *)DG_ChanlOTag(0);
+    ot = DG_ChanlOTag(0);
 
     vec = &sp10;
     eye = &DG_Chanls[1].eye;
@@ -344,16 +344,16 @@ static void WaterViewInitSinTable(void)
 
 static void WaterViewDraw(Work *work)
 {
-    short *scratch1;
-    short *scratch2;
-    short *scratch3;
-    short *scratch4;
-    short *scratch5;
-    char  *ot;
-    int    i;
-    SPRT  *sprt;
-    int    nprims;
-    int    count1, count2;
+    short  *scratch1;
+    short  *scratch2;
+    short  *scratch3;
+    short  *scratch4;
+    short  *scratch5;
+    u_long *ot;
+    int     i;
+    SPRT   *sprt;
+    int     nprims;
+    int     count1, count2;
 
     ot = DG_ChanlOTag(0);
 

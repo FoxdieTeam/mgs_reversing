@@ -468,15 +468,15 @@ STATIC void DG_InitRVector( DG_OBJ *obj,  int idx )
             {
                 if ( pack_raise )
                 {
-                    unsigned int  *ot;
-                    unsigned short raise;
+                    u_long *ot;
+                    u_short raise;
 
-                    ot = (*(unsigned int **)0x1F800000);
-                    raise = *(unsigned short *)0x1F800006;
+                    ot = (*(u_long **)0x1F800000);
+                    raise = *(u_short *)0x1F800006;
 
                     raise = pack_raise - raise;
                     pack_raise = raise;
-                    ot = &ot[ ( unsigned char ) pack_raise ];
+                    ot = &ot[ ( u_char ) pack_raise ];
 
                     //should be addPrim but has extra value
                     pack->tag = ( ( pack_raise & 0xFF00 ) << 16 ) | ( int )*ot;
@@ -492,7 +492,7 @@ STATIC void DG_InitRVector( DG_OBJ *obj,  int idx )
     }
 }
 
-static inline void add_prim_mid( unsigned long *ot, POLY_GT4 *pack, int z_idx, int raise )
+static inline void add_prim_mid( u_long *ot, POLY_GT4 *pack, int z_idx, int raise )
 {
     unsigned long *temp;
     z_idx = (z_idx - raise);
@@ -507,13 +507,13 @@ static inline void add_prim_mid( unsigned long *ot, POLY_GT4 *pack, int z_idx, i
 
 STATIC void DG_AddSubdividedPrim( DG_OBJ *obj, int idx )
 {
-    POLY_GT4      *org_pack;
-    POLY_GT4      *pack;
-    int            raise;
-    int            n_packs;
-    unsigned long *ot;
-    unsigned long *ot_temp;
-    unsigned short pack_raise;
+    POLY_GT4 *org_pack;
+    POLY_GT4 *pack;
+    int       raise;
+    int       n_packs;
+    u_long   *ot;
+    u_long   *ot_temp;
+    u_short   pack_raise;
 
     org_pack  = obj->packs[ idx ];
     raise = obj->raise; //t1
@@ -524,8 +524,8 @@ STATIC void DG_AddSubdividedPrim( DG_OBJ *obj, int idx )
         pack = (POLY_GT4*)getaddr( &org_pack );
 
         //TODO: below three lines don't seem right but provide fake match
-        ot = (unsigned long*)SCRPAD_ADDR;
-        ot = (unsigned long*)ot[0];
+        ot = (u_long *)SCRPAD_ADDR;
+        ot = (u_long *)ot[0];
         ot_temp = ot;
 
         for ( --n_packs ; n_packs >= 0 ; --n_packs )
@@ -555,7 +555,7 @@ void DG_DivideChanl( DG_CHANL *chanl, int idx )
     DG_Clip( &chanl->clip_rect, chanl->clip_distance );
 
     divide_mem = GetDivideMem();
-    divide_mem->ot = (long *)ptr_800B1400;
+    divide_mem->ot = (u_long *)ptr_800B1400;
     divide_mem->field_14 = 0x800;
 
     if ( chanl->clip_distance > 1000)
@@ -567,10 +567,10 @@ void DG_DivideChanl( DG_CHANL *chanl, int idx )
         divide_mem->field_18 = 8192;
     }
 
-    objs_queue = chanl->mQueue;
+    objs_queue = chanl->queue;
     //s6 = 1
     x = 1;
-    for ( i = chanl->mTotalObjectCount ; i > 0 ; --i )
+    for ( i = chanl->objs_index ; i > 0 ; --i )
     {
         objs = *objs_queue;
         objs_queue++;

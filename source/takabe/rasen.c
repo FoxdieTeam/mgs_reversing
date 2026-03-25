@@ -198,13 +198,13 @@ void Rasen2UpdateChnlQueue_800CA678(Rasen2Work *work, int bitmask1, int bitmask2
 
     chanl = DG_Chanl(0);
 
-    primIter = (DG_PRIM **)&chanl->mQueue[chanl->mFreePrimCount];
+    primIter = (DG_PRIM **)&chanl->queue[chanl->prim_index];
     // per comment in DG_CHANL: "queue can contain DG_PRIM as
     // well, probably void*"
 
     if (rasen_800C3408 == 1)
     {
-        for (count = chanl->mTotalQueueSize - chanl->mFreePrimCount; count > 0; count--)
+        for (count = chanl->queue_size - chanl->prim_index; count > 0; count--)
         {
             curPrim = *primIter;
             primIter++;
@@ -224,7 +224,7 @@ void Rasen2UpdateChnlQueue_800CA678(Rasen2Work *work, int bitmask1, int bitmask2
     }
     else if (rasen_800C3408 == 2)
     {
-        for (count = chanl->mTotalQueueSize - chanl->mFreePrimCount; count > 0; count--)
+        for (count = chanl->queue_size - chanl->prim_index; count > 0; count--)
         {
             curPrim = *primIter;
             primIter++;

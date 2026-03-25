@@ -157,7 +157,7 @@ static void Change_800C378C( Work *work, int index )
     }
 }
 
-static void Change_800C38D0( Work *work, char *ot )
+static void Change_800C38D0( Work *work, u_long *ot )
 {
     int       found;
     int       index;

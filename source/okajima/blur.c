@@ -43,12 +43,12 @@ DR_STP SECTION(".bss") d01a_dword_800D1468[2];
 
 void d01a_blur_800CCB28(void)
 {
-    unsigned int *ot;
-    TILE         *tile;
-    DR_STP       *stp;
-    DR_STP       *stp2;
+    u_long *ot;
+    TILE   *tile;
+    DR_STP *stp;
+    DR_STP *stp2;
 
-    ot = (unsigned int *)DG_Chanl(0)->ot[GV_Clock];
+    ot = DG_Chanl(0)->ot[GV_Clock];
 
     tile = &d01a_dword_800D1428[GV_Clock];
     SetTile(tile);
@@ -62,7 +62,7 @@ void d01a_blur_800CCB28(void)
     SetDrawStp(stp, 1);
     addPrim(&ot[0xFF], stp);
 
-    ot = (unsigned int *)DG_Chanl(1)->ot[GV_Clock];
+    ot = DG_Chanl(1)->ot[GV_Clock];
 
     stp2 = &d01a_dword_800D1468[GV_Clock];
     SetDrawStp(stp2, 1);
@@ -233,7 +233,7 @@ void d01a_blur_800CCCC8(POLY_FT4 *packs, BlurWork *work, int arg3, int abr, int 
 
 void BlurAct_800CD274(BlurWork *work)
 {
-    char     *ot;
+    u_long   *ot;
     POLY_FT4 *prim;
     int       var_t0;
     int       var_t1;

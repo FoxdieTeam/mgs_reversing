@@ -134,7 +134,7 @@ void sub_8004D580(int pressed)
     sub_8004D4A0(pStru);
 }
 
-void menu_radio_draw_mem(MenuWork *work, unsigned char *pOt)
+void menu_radio_draw_mem(MenuWork *work, u_long *ot)
 {
     TextConfig config;
     char       buffer[32];
@@ -167,19 +167,19 @@ void menu_radio_draw_mem(MenuWork *work, unsigned char *pOt)
     {
         if (stru_800ABB98->field_2 > 0)
         {
-            menu_draw_triangle(work->field_20_otBuf, &stru_8009EC44);
+            menu_draw_triangle(work->prim, &stru_8009EC44);
         }
 
         if ((stru_800ABB98->field_2 + 8) < stru_800ABB98->field_4_count)
         {
-            menu_draw_triangle(work->field_20_otBuf, &stru_8009EC54);
+            menu_draw_triangle(work->prim, &stru_8009EC54);
         }
     }
 
     pCodec = stru_800ABB98;
     temp_s0 = stru_800ABB98->field_2;
     count = stru_800ABB98->field_4_count - stru_800ABB98->field_2;
-    pPrim = work->field_20_otBuf;
+    pPrim = work->prim;
 
     if (count > 8)
     {
@@ -213,7 +213,7 @@ void menu_radio_draw_mem(MenuWork *work, unsigned char *pOt)
             setXY0(pTile, x + 44, y + 139);
             setWH(pTile, 1, 2);
             setTile(pTile);
-            addPrim(pPrim->mPrimBuf.mOt, pTile);
+            addPrim(pPrim->ot, pTile);
 
             _NEW_PRIM(pSprt, pPrim);
             LSTORE(0x80808080, &pSprt->r0);
@@ -222,7 +222,7 @@ void menu_radio_draw_mem(MenuWork *work, unsigned char *pOt)
             pSprt->clut = getClut(960, 510);
             setXY0(pSprt, x + 64, y + 133);
             setSprt(pSprt);
-            addPrim(pOt, pSprt);
+            addPrim(ot, pSprt);
 
             if ((temp_s0 + i) == pCodec->field_0_idx)
             {
@@ -239,7 +239,7 @@ void menu_radio_draw_mem(MenuWork *work, unsigned char *pOt)
                             LSTORE(0x66606060, &pSprt2->r0);
                             pSprt2->x0 += var_a1;
                             pSprt2->y0 += var_a3;
-                            addPrim(pOt, pSprt2);
+                            addPrim(ot, pSprt2);
                         }
                     }
                 }
@@ -247,7 +247,7 @@ void menu_radio_draw_mem(MenuWork *work, unsigned char *pOt)
 
             _NEW_PRIM(pTpage, pPrim);
             setDrawTPage(pTpage, 1, 0, getTPage(0, 1, 960, 256));
-            addPrim(pOt, pTpage);
+            addPrim(ot, pTpage);
         }
 
         _NEW_PRIM(pTile, pPrim);
@@ -255,7 +255,7 @@ void menu_radio_draw_mem(MenuWork *work, unsigned char *pOt)
         setXY0(pTile, x + 25, y + 134);
         setWH(pTile, 35, 9);
         setTile(pTile);
-        addPrim(pPrim->mPrimBuf.mOt, pTile);
+        addPrim(pPrim->ot, pTile);
 
         _NEW_PRIM(pLine, pPrim);
 
@@ -267,14 +267,14 @@ void menu_radio_draw_mem(MenuWork *work, unsigned char *pOt)
 
         LSTORE(0x1A1F13, &pLine->r0);
         setLineF2(pLine);
-        addPrim(pPrim->mPrimBuf.mOt, pLine);
+        addPrim(pPrim->ot, pLine);
 
         _NEW_PRIM(pTile, pPrim);
         LSTORE(0, &pTile->r0);
         setXY0(pTile, x + 22, y + 133);
         setWH(pTile, 138, 16);
         setTile(pTile);
-        addPrim(pPrim->mPrimBuf.mOt, pTile);
+        addPrim(pPrim->ot, pTile);
 
         x = 138;
 
@@ -312,7 +312,7 @@ void menu_radio_draw_mem(MenuWork *work, unsigned char *pOt)
     pLine2->x3 = 160;
 
     setLineF4(pLine2);
-    addPrim(pOt, pLine2);
+    addPrim(ot, pLine2);
 
     NEW_PRIM(pLine2, work);
     LSTORE(0x1A1F13, &pLine2->r0);
@@ -330,7 +330,7 @@ void menu_radio_draw_mem(MenuWork *work, unsigned char *pOt)
     pLine2->x3 = 160;
 
     setLineF4(pLine2);
-    addPrim(pOt, pLine2);
+    addPrim(ot, pLine2);
 
     if (word_800ABB9C != 0)
     {
