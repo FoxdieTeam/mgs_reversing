@@ -390,8 +390,8 @@ STATIC int menu_draw_obj_debug(MenuWork *work, u_long *ot)
     clip = 0;
     total = 0;
 
-    object_count = DG_Chanl(0)->mTotalObjectCount;
-    ppQueue = DG_Chanl(0)->mQueue;
+    object_count = DG_Chanl(0)->objs_index;
+    ppQueue = DG_Chanl(0)->queue;
 
     for (; object_count > 0; object_count--)
     {

@@ -88,12 +88,14 @@ u_long BSS ot_background[68]; // 0x110 (272) bytes
 u_long BSS ot_primitive[516]; // 0x810 (2064) bytes
 u_long BSS ot_overlay[4]; // 0x10 (16) bytes
 
-DG_OBJS *BSS obj_queue_background[8]; // 0x20 (32) bytes
-DG_OBJS *BSS obj_queue_primitive[256]; // 0x400 (1024) bytes
+void *BSS obj_queue_background[8]; // 0x20 (32) bytes
+void *BSS obj_queue_primitive[256]; // 0x400 (1024) bytes
 
-DR_ENV BSS          stru_800B1380[2]; // 0x80 (128) bytes
-unsigned int *BSS   ptr_800B1400[256]; // 0x400 (1024) bytes
-DG_CHANL BSS        DG_Chanls[3]; // 0x5C4 (1476) bytes
+DR_ENV BSS bg_drawenv[2]; // 0x80 (128) bytes
+
+unsigned int *BSS ptr_800B1400[256]; // 0x400 (1024) bytes
+
+DG_CHANL BSS DG_Chanls[3]; // 0x5C4 (1476) bytes
 
 gap                                     gap_800B1DC4[0x4]; // 4 bytes
 

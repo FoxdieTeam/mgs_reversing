@@ -203,8 +203,8 @@ void DG_BoundChanl(DG_CHANL *chanl, int idx)
 
     DG_Clip(&chanl->clip_rect, chanl->clip_distance);
 
-    objs = chanl->mQueue;
-    n_objs = chanl->mTotalObjectCount;
+    objs = chanl->queue;
+    n_objs = chanl->objs_index;
     local_group_id = DG_CurrentGroupID;
 
     for (; n_objs > 0; --n_objs)
@@ -395,10 +395,10 @@ STATIC void DG_BoundIrTexture(DG_CHANL *chanl, int idx)
     DG_OBJ   *obj;
     int       n_models;
 
-    queue = chanl->mQueue;
+    queue = chanl->queue;
     if (GM_GameStatus & STATE_THERMG)
     {
-        for (n_objects = chanl->mTotalObjectCount; n_objects > 0; n_objects--)
+        for (n_objects = chanl->objs_index; n_objects > 0; n_objects--)
         {
             objs = *queue++;
 
@@ -420,7 +420,7 @@ STATIC void DG_BoundIrTexture(DG_CHANL *chanl, int idx)
     }
     else
     {
-        for (n_objects = chanl->mTotalObjectCount; n_objects > 0; n_objects--)
+        for (n_objects = chanl->objs_index; n_objects > 0; n_objects--)
         {
             objs = *queue++;
 

@@ -451,8 +451,8 @@ void FogSortChanl_800D4E98(DG_CHANL *chanl, int idx)
 
     group_id = DG_CurrentGroupID;
 
-    queue = (void **)&chanl->mQueue[chanl->mFreePrimCount];
-    for (i = chanl->mTotalQueueSize - chanl->mFreePrimCount; i > 0; i--)
+    queue = (void **)&chanl->queue[chanl->prim_index];
+    for (i = chanl->queue_size - chanl->prim_index; i > 0; i--)
     {
         prim = *queue++;
         type = prim->type;
@@ -733,8 +733,8 @@ void FogBoundChanl_800D5500(DG_CHANL *chanl, int idx)
     memcpy(scrpad + 0x90 / 2, DG_ClipMax, 4);
     memcpy(scrpad + 0x94 / 2, DG_ClipMin, 4);
 
-    objs = chanl->mQueue;
-    n_objs = chanl->mTotalObjectCount;
+    objs = chanl->queue;
+    n_objs = chanl->objs_index;
     local_group_id = DG_CurrentGroupID;
 
     for (; n_objs > 0; --n_objs)
@@ -981,10 +981,10 @@ void s12c_800D5B00(DG_CHANL *chanl, int idx)
     DG_OBJS  *objs;
     DG_OBJS **objs_list;
 
-    objs_list = chanl->mQueue;
+    objs_list = chanl->queue;
     if (GM_GameStatus & STATE_THERMG)
     {
-        for (i = chanl->mTotalObjectCount; i > 0; --i)
+        for (i = chanl->objs_index; i > 0; --i)
         {
             objs = *objs_list;
             objs_list++;
@@ -1004,7 +1004,7 @@ void s12c_800D5B00(DG_CHANL *chanl, int idx)
     }
     else
     {
-        for (i = chanl->mTotalObjectCount; i > 0; --i)
+        for (i = chanl->objs_index; i > 0; --i)
         {
             objs = *objs_list;
             objs_list++;
@@ -1385,9 +1385,9 @@ void FogTransChanl_800D63B0(DG_CHANL *chanl, int idx)
 
     DG_Clip(&chanl->clip_rect, chanl->clip_distance);
 
-    ppObjs = (DG_OBJS **)chanl->mQueue;
+    ppObjs = (DG_OBJS **)chanl->queue;
 
-    for (objects = chanl->mTotalObjectCount; objects > 0; objects--)
+    for (objects = chanl->objs_index; objects > 0; objects--)
     {
         pObjs = *ppObjs++;
 
@@ -1812,8 +1812,8 @@ void FogShadeChanl_800D6A04(DG_CHANL *chanl, int index)
 
     gte_ldfcdir(0, 0, 0);
 
-    queue = chanl->mQueue;
-    for (n_objects = chanl->mTotalObjectCount; n_objects > 0; n_objects--)
+    queue = chanl->queue;
+    for (n_objects = chanl->objs_index; n_objects > 0; n_objects--)
     {
         objs = *queue++;
         if (objs->bound_mode != 0)

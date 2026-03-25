@@ -71,10 +71,10 @@ void DG_SortChanl( DG_CHANL *chanl, int idx )
         }
     }
 
-    pQueue = (void **)&chanl->mQueue[chanl->mFreePrimCount];
+    pQueue = (void **)&chanl->queue[chanl->prim_index];
     group_id = DG_GetCurrentGroupID();
 
-    for (i = chanl->mTotalQueueSize - chanl->mFreePrimCount; i > 0; i--)
+    for (i = chanl->queue_size - chanl->prim_index; i > 0; i--)
     {
         pPrim = *pQueue++;
 

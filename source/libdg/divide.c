@@ -567,10 +567,10 @@ void DG_DivideChanl( DG_CHANL *chanl, int idx )
         divide_mem->field_18 = 8192;
     }
 
-    objs_queue = chanl->mQueue;
+    objs_queue = chanl->queue;
     //s6 = 1
     x = 1;
-    for ( i = chanl->mTotalObjectCount ; i > 0 ; --i )
+    for ( i = chanl->objs_index ; i > 0 ; --i )
     {
         objs = *objs_queue;
         objs_queue++;

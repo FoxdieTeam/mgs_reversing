@@ -432,12 +432,12 @@ void DG_ScreenChanl( DG_CHANL *chanl, int idx )
     DG_OBJS **queue;
     int       i;
 
-    queue = chanl->mQueue;
+    queue = chanl->queue;
 
     *(MATRIX *)getScratchAddr(0) = chanl->eye_inv;
     DG_AdjustOverscan((MATRIX *)getScratchAddr(0));
 
-    for (i = chanl->mTotalObjectCount; i > 0; i--)
+    for (i = chanl->objs_index; i > 0; i--)
     {
         DG_ScreenObjs(*queue++);
     }

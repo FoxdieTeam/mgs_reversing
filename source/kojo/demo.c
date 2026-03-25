@@ -3567,7 +3567,7 @@ void DemoScreenChanl(DG_CHANL *chanl, int idx)
     SCREEN_SPAD *scrpad;
     int          count;
 
-    ppObjs = chanl->mQueue;
+    ppObjs = chanl->queue;
 
     scrpad = (SCREEN_SPAD *)getScratchAddr(0);
     scrpad->matrix = chanl->eye_inv;
@@ -3579,7 +3579,7 @@ void DemoScreenChanl(DG_CHANL *chanl, int idx)
 
     DG_AdjustOverscan(&scrpad->matrix);
 
-    for (count = chanl->mTotalObjectCount; count > 0; count--)
+    for (count = chanl->objs_index; count > 0; count--)
     {
         DemoScreenObjs(*ppObjs++);
     }
