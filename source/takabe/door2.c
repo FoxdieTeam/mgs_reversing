@@ -32,8 +32,6 @@ SVECTOR        door2_800C37B8[2] = {{500, 2500, 0, 0}, {-500, 0, 0, 0}};
 
 const char door2_800E3334[11] = {0, 2, 1, 2, 1, 2, 1, 2, 1, 2, 3};
 
-void s16b_800C49AC(HZD_SEG *seg);
-
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void s13a_door2_800DD0FC(SVECTOR *verts, Door2Work *work)
@@ -311,8 +309,8 @@ int Door2GetResources_800DD7C8(Door2Work *work, int name, int map)
 
     work->hzd = GM_GetMap(map)->hzd;
 
-    s16b_800C45C4(&work->seg, &sp20, &door2_800C37B8[0], &door2_800C37B8[1]);
-    s16b_800C49AC(&work->seg);
+    THING_Hzd_800C45C4(&work->seg, &sp20, &door2_800C37B8[0], &door2_800C37B8[1]);
+    THING_Hzd_800C49AC(&work->seg);
     return 0;
 }
 

@@ -447,9 +447,9 @@ int RasenElGetResources_800CCB9C(RasenElWork *work, int name, int map)
     sp10.vy = 1;
 
     sp18 = work->f214;
-    s16b_800C46D8(&work->flr2[0], &sp18, &sp10);
+    THING_Hzd_800C46D8(&work->flr2[0], &sp18, &sp10);
     sp18.vy -= 32000;
-    s16b_800C46D8(&work->flr2[1], &sp18, &sp10);
+    THING_Hzd_800C46D8(&work->flr2[1], &sp18, &sp10);
 
     s11c_800CCFCC(work, work->f214.vy);
     s11c_800CD0C4(work);

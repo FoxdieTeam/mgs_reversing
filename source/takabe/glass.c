@@ -34,9 +34,6 @@ typedef struct _GlassWork
     int      proc;
 } GlassWork;
 
-void s16b_800C4874(int n_segs, HZD_SEG *segs, int n_flrs, HZD_FLR *flrs);
-void s16b_800C49AC(HZD_SEG *seg);
-
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 static inline void GlassInitPack(POLY_FT4 *poly, DG_TEX *tex, int size, int which)
@@ -130,7 +127,7 @@ void GlassAct_800D302C(GlassWork *work)
                     GCL_ExecProc(work->proc, NULL);
                 }
 
-                s16b_800C4874(2, work->bounds, 0, NULL);
+                THING_Hzd_800C4874(2, work->bounds, 0, NULL);
 
                 GV_DestroyActor(&work->actor);
                 return;
@@ -297,8 +294,8 @@ int GlassGetResources_800D335C(GlassWork *work, int name, int map)
     max.vz += w;
     min.vz += w;
 
-    s16b_800C45C4(maxb, &work->world, &max, &min);
-    s16b_800C49AC(maxb);
+    THING_Hzd_800C45C4(maxb, &work->world, &max, &min);
+    THING_Hzd_800C49AC(maxb);
 
     minb = &work->bounds[1];
     max = work->verts[1];
@@ -306,8 +303,8 @@ int GlassGetResources_800D335C(GlassWork *work, int name, int map)
     max.vz -= w;
     min.vz -= w;
 
-    s16b_800C45C4(minb, &work->world, &max, &min);
-    s16b_800C49AC(minb);
+    THING_Hzd_800C45C4(minb, &work->world, &max, &min);
+    THING_Hzd_800C49AC(minb);
 
     work->hzd = GM_GetMap(map)->hzd;
     HZD_QueueDynamicSegment2(work->hzd, maxb, hzd_flags);

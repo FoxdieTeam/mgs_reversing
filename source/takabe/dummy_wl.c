@@ -56,7 +56,6 @@ typedef struct DummyWallWork
 SVECTOR s04a_dword_800C3620 = {100, 100, 100};
 
 void     Takabe_FreeObjs(DG_OBJS *objs);
-void     s16b_800C49AC(HZD_SEG *seg);
 DG_OBJS *Takabe_MakePreshade(int model, LIT *lit);
 
 extern HITTABLE      GM_C4Datas_800BDD78[C4_COUNT];
@@ -216,8 +215,8 @@ int DummyWallGetResources_800D7178(DummyWallWork *work, int name, int where)
     DG_PutVector(svec5, svec5, 1);
     ReadRotMatrix(&mat);
 
-    s16b_800C45C4(&work->field_19C, &mat, &svec1, &svec2);
-    s16b_800C49AC(&work->field_19C);
+    THING_Hzd_800C45C4(&work->field_19C, &mat, &svec1, &svec2);
+    THING_Hzd_800C49AC(&work->field_19C);
 
     work->field_198 = GM_GetMap(where)->hzd;
     HZD_QueueDynamicSegment2(work->field_198, &work->field_19C, param1);

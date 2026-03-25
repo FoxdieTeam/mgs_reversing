@@ -112,13 +112,13 @@ void LiftAct_800DDBFC(LiftWork *work)
         {
             if (--work->f20C == 0)
             {
-                s16b_800C4594(work->f214, 0x418B);
+                THING_Msg_SendMessage(work->f214, 0x418B);
             }
         }
         else if (THING_Msg_CheckMessage(control->name, 2, messages) == 0)
         {
             work->f1FC = 1;
-            s16b_800C4594(work->f214, 0x3A02);
+            THING_Msg_SendMessage(work->f214, 0x3A02);
             work->f20C = 15;
             work->f20E = 30;
         }
@@ -147,13 +147,13 @@ void LiftAct_800DDBFC(LiftWork *work)
         {
             if (--work->f20C == 0)
             {
-                s16b_800C4594(work->f210, 0x418B);
+                THING_Msg_SendMessage(work->f210, 0x418B);
             }
         }
         else if (THING_Msg_CheckMessage(control->name, 2, messages) == 1)
         {
             work->f1FC = 3;
-            s16b_800C4594(work->f210, 0x3A02);
+            THING_Msg_SendMessage(work->f210, 0x3A02);
             work->f20C = 15;
             work->f20E = 30;
         }
