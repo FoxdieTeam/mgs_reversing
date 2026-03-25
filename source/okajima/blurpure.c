@@ -10,7 +10,7 @@
 #include "game/game.h"
 #include "strcode.h"
 
-typedef struct BlurPurePrims
+typedef struct _BLUR_PRIMS
 {
     TILE     tile[2];
     char     pad[0x20];
@@ -20,188 +20,183 @@ typedef struct BlurPurePrims
     SPRT     sprt2[2];
     DR_TPAGE tpage1[2];
     DR_TPAGE tpage2[2];
-} BlurPurePrims;
+} BLUR_PRIMS;
 
-typedef struct BlurPureWork
+typedef struct _Work
 {
-    GV_ACT         actor;
-    BlurPurePrims *field_20;
-    int            field_24;
-    int            field_28;
-} BlurPureWork;
+    GV_ACT      actor;
+    BLUR_PRIMS *prims;
+    int         draw;
+    int         name;
+} Work;
 
-#define EXEC_LEVEL GV_ACTOR_AFTER2
+#define EXEC_LEVEL  GV_ACTOR_AFTER2
 
-void d03a_blurpure_800C4F68(BlurPureWork *work)
+/* TODO: move */
+#define OT_LEN      256
+
+static void ClearScreen(Work *work)
 {
-    TILE          *tile;
-    DR_STP        *stp;
-    unsigned char *pOt;
+    u_long *ot;
+    TILE   *tile;
+    DR_STP *stp;
 
-    pOt = DG_Chanl(0)->ot[GV_Clock]; // DG_ChanlOTag doesn't work here
-    tile = &work->field_20->tile[GV_Clock];
+    /* DG_ChanlOTag doesn't work here */
+    ot = (u_long *)DG_Chanl(0)->ot[GV_Clock];
 
+    tile = &work->prims->tile[GV_Clock];
     setTile(tile);
-    tile->x0 = -160;
-    tile->y0 = -112;
-    tile->w = FRAME_WIDTH;
-    tile->h = FRAME_HEIGHT;
-    tile->r0 = 0;
-    tile->g0 = 0;
-    tile->b0 = 0;
-    addPrim(pOt + 4 * 0xFF, tile); // TODO: what's this offset 0x3CF = 4 * 0xFF?
+    setXY0(tile, -FRAME_WIDTH/2, -FRAME_HEIGHT/2);
+    setWH(tile, FRAME_WIDTH, FRAME_HEIGHT);
+    setRGB0(tile, 0, 0, 0);
+    addPrim(ot + OT_LEN - 1, tile);
 
-    stp = &work->field_20->stp1[GV_Clock];
+    stp = &work->prims->stp1[GV_Clock];
     SetDrawStp(stp, 1);
-    addPrim(pOt + 4 * 0xFF, stp); // TODO: what's this offset 0x3CF = 4 * 0xFF?
+    addPrim(ot + OT_LEN - 1, stp);
 
-    pOt = DG_Chanl(1)->ot[GV_Clock];
-    stp = &work->field_20->stp2[GV_Clock];
+    /* DG_ChanlOTag doesn't work here */
+    ot = (u_long *)DG_Chanl(1)->ot[GV_Clock];
+
+    stp = &work->prims->stp2[GV_Clock];
     SetDrawStp(stp, 1);
-    addPrim(pOt, stp);
+    addPrim(ot, stp);
 }
 
-void d03a_blurpure_800C5108(BlurPureWork *work)
+static void InitPrims(Work *work)
 {
     SPRT *sprt;
 
-    sprt = &work->field_20->sprt1[0];
-    sprt->x0 = 0;
-    sprt->y0 = -88;
-    sprt->w = 160;
-    sprt->h = 160;
-    sprt->u0 = 32;
-    sprt->v0 = 24;
+    sprt = &work->prims->sprt1[0];
+    setXY0(sprt, 0, -88);
+    setWH(sprt, 160, 160);
+    setUV0(sprt, 32, 24);
 
-    sprt = &work->field_20->sprt2[0];
-    sprt->x0 = -160;
-    sprt->y0 = -88;
-    sprt->w = 160;
-    sprt->h = 160;
-    sprt->u0 = 0;
-    sprt->v0 = 24;
+    sprt = &work->prims->sprt2[0];
+    setXY0(sprt, -160, -88);
+    setWH(sprt, 160, 160);
+    setUV0(sprt, 0, 24);
 
-    sprt = &work->field_20->sprt1[1];
-    sprt->x0 = 0;
-    sprt->y0 = -88;
-    sprt->w = 160;
-    sprt->h = 160;
-    sprt->u0 = 32;
-    sprt->v0 = 24;
+    sprt = &work->prims->sprt1[1];
+    setXY0(sprt, 0, -88);
+    setWH(sprt, 160, 160);
+    setUV0(sprt, 32, 24);
 
-    sprt = &work->field_20->sprt2[1];
-    sprt->x0 = -160;
-    sprt->y0 = -88;
-    sprt->w = 160;
-    sprt->h = 160;
-    sprt->u0 = 0;
-    sprt->v0 = 24;
+    sprt = &work->prims->sprt2[1];
+    setXY0(sprt, -160, -88);
+    setWH(sprt, 160, 160);
+    setUV0(sprt, 0, 24);
 }
 
-void d03a_blurpure_800C51A8(BlurPureWork *work)
+static void DrawEffect(Work *work)
 {
-    DR_TPAGE      *tpage;
-    SPRT          *sprt;
-    unsigned char *pOt;
+    u_long   *ot;
+    SPRT     *sprt;
+    DR_TPAGE *tpage;
 
-    sprt = &work->field_20->sprt1[GV_Clock];
-    pOt = DG_Chanl(0)->ot[GV_Clock];
+    /* DG_ChanlOTag doesn't work here */
+    ot = (u_long *)DG_Chanl(0)->ot[GV_Clock];
+
+    sprt = &work->prims->sprt1[GV_Clock];
     SetSprt(sprt);
-    sprt->r0 = 0x78;
-    sprt->g0 = 0x78;
-    sprt->b0 = 0x78;
     setSemiTrans(sprt, 1);
-    addPrim(pOt, sprt);
+    setRGB0(sprt, 120, 120, 120);
+    addPrim(ot, sprt);
 
-    tpage = &work->field_20->tpage1[GV_Clock];
-    SetDrawTPage(tpage, 0, 1, GetTPage(2, 0, ((1 - GV_Clock) * 320) + 128, 0));
-    addPrim(pOt, tpage);
+    tpage = &work->prims->tpage1[GV_Clock];
+    SetDrawTPage(tpage, 0, 1, GetTPage(2, 0, FRAME_WIDTH * (1 - GV_Clock) + 128, 0));
+    addPrim(ot, tpage);
 
-    sprt = &work->field_20->sprt2[GV_Clock];
+    sprt = &work->prims->sprt2[GV_Clock];
     SetSprt(sprt);
-    sprt->r0 = 0x78;
-    sprt->g0 = 0x78;
-    sprt->b0 = 0x78;
     setSemiTrans(sprt, 1);
-    addPrim(pOt, sprt);
+    setRGB0(sprt, 120, 120, 120);
+    addPrim(ot, sprt);
 
-    tpage = &work->field_20->tpage2[GV_Clock];
-    SetDrawTPage(tpage, 0, 1, GetTPage(2, 0, (1 - GV_Clock) * 320, 0));
-    addPrim(pOt, tpage);
+    tpage = &work->prims->tpage2[GV_Clock];
+    SetDrawTPage(tpage, 0, 1, GetTPage(2, 0, FRAME_WIDTH * (1 - GV_Clock), 0));
+    addPrim(ot, tpage);
 }
 
-void BlurPureAct_800C53E4(BlurPureWork *work)
+static void Act(Work *work)
 {
-    if (work->field_28 != -1 && GM_CheckMessage(&work->actor, work->field_28, HASH_KILL))
+    if (work->name != -1)
     {
-        GV_DestroyActor(&work->actor);
-        return;
+        if (GM_CheckMessage(&work->actor, work->name, HASH_KILL))
+        {
+            GV_DestroyActor(&work->actor);
+            return;
+        }
     }
 
-    if (work->field_24 != 0)
+    if (work->draw)
     {
-        d03a_blurpure_800C51A8(work);
+        DrawEffect(work);
     }
-    work->field_24 = 1;
-    d03a_blurpure_800C4F68(work);
+
+    work->draw = TRUE;
+    ClearScreen(work);
 }
 
-void BlurPureDie_800C545C(BlurPureWork *work)
+static void Die(Work *work)
 {
-    BlurPurePrims *prims;
-
-    prims = work->field_20;
-    if (prims != NULL)
+    if (work->prims)
     {
-        GV_DelayedFree(prims);
+        GV_DelayedFree(work->prims);
     }
 }
 
-int BlurPureGetResources_800C548C(BlurPureWork *work)
+static int GetResources(Work *work)
 {
-    work->field_20 = GV_Malloc(sizeof(BlurPurePrims));
-    if (work->field_20 == NULL)
+    work->prims = GV_Malloc(sizeof(BLUR_PRIMS));
+    if (work->prims == NULL)
     {
         return -1;
     }
 
-    d03a_blurpure_800C5108(work);
-    work->field_24 = 0;
+    InitPrims(work);
+    work->draw = FALSE;
     return 0;
 }
 
-void *NewBlurPure_800C54D4(int name, int where, int argc, char **argv)
+void *NewBlurPure(void)
 {
-    BlurPureWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(BlurPureWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, BlurPureAct_800C53E4, BlurPureDie_800C545C, "blurpure.c");
-        if (BlurPureGetResources_800C548C(work) < 0)
+        GV_SetNamedActor(&work->actor, Act, Die, "blurpure.c");
+
+        if (GetResources(work) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
         }
-        work->field_28 = -1;
+
+        work->name = -1;
     }
+
     return (void *)work;
 }
 
-void *NewBlurPure2_800C554C(int name, int where, int argc, char **argv)
+void *NewBlurPure2(int name, int where, int argc, char **argv)
 {
-    BlurPureWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(BlurPureWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, BlurPureAct_800C53E4, BlurPureDie_800C545C, "blurpure.c");
-        if (BlurPureGetResources_800C548C(work) < 0)
+        GV_SetNamedActor(&work->actor, Act, Die, "blurpure.c");
+
+        if (GetResources(work) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
         }
-        work->field_28 = name;
+
+        work->name = name;
     }
+
     return (void *)work;
 }
