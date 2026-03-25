@@ -341,7 +341,7 @@
 #define CHARA_001E_WINDCRCL     { 0x001e, NewWindcrcl_800CF6BC }    // takabe/windcrcl.c
 #define CHARA_001F_SEPIA        { 0x001f, NewSepia_800C4F9C }       // takabe/sepia.c
 #define CHARA_0020_MGREXLZR     { 0x0020, ? }                       // kojo/mgrexlzr.c
-#define CHARA_0021_FOCUS        { 0x0021, NewFocus_800CEFF8 }       // takabe/focus.c
+#define CHARA_0021_FOCUS        { 0x0021, NewFocusView }            // takabe/focus.c
 #define CHARA_0022_GMSIGHT      { 0x0022, ? }                       // equip/gmsight.c
 #define CHARA_0023_D_BLOODS     { 0x0023, ? }                       // okajima/d_bloods.c
 #define CHARA_0024_PLASMA       { 0x0024, ? }                       // okajima/plasma.c
@@ -545,7 +545,7 @@ void *NewEnvmap3_800CA3A4();            /* takabe/envmap3.c             */
 void *NewFadeInOut();                   /* takabe/fadeio.c              */
 void *NewFadeInOutSet();                /* takabe/fadeio.c              */
 void *NewFindTrap_800D77DC();           /* takabe/findtrap.c            */
-void *NewFocus_800CEFF8();              /* takabe/focus.c               */
+void *NewFocusView();                   /* takabe/focus.c               */
 void *NewFog_800D4208();                /* takabe/fog.c                 */
 void *NewFurnace();                     /* takabe/furnace.c             */
 void *NewGasEffect_800C4E5C();          /* takabe/gas_efct.c            */
