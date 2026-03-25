@@ -75,22 +75,22 @@ void Takabe_RefreshObjectPacks(DG_OBJS *objs)
     }
 }
 
-void s00a_unknown3_800DC908()
+void Takabe_InitPreshadeObjsMem()
 {
     /* do nothing */
 }
 
-int s00a_unknown3_800DC910()
+int Takabe_DuplicateModel()
 {
     return 0;
 }
 
-void s00a_unknown3_800DC918()
+void Takabe_FreeDuplicateMemory()
 {
     /* do nothing */
 }
 
-int Takabe_MakePreshadeObjectDupl_800DC920()
+int Takabe_MakePreshadeObjectDupl()
 {
     return 0;
 }
