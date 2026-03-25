@@ -1,26 +1,29 @@
+#include "linkvar.h"
 #include "game/game.h"
 #include "libgcl/libgcl.h"
 
 typedef struct _S11ObjsObj1
 {
-    /* 0x000 */ OBJECT  object;
-    /* 0x0E4 */ SVECTOR pos;
-    /* 0x0EC */ SVECTOR rot;
-    /* 0x0F4 */ char    pad1[0x10];
-    /* 0x104 */ int     f104;
-    /* 0x104 */ int     f108;
+    OBJECT  object;
+    SVECTOR pos;
+    SVECTOR rot;
+    SVECTOR step;
+    SVECTOR turn;
+    int     time;
+    int     state;
 } S11ObjsObj1;
 
 typedef struct _S11ObjsObj2
 {
-    /* 0x000 */ OBJECT  object;
-    /* 0x0E4 */ SVECTOR pos;
-    /* 0x0EC */ SVECTOR rot;
-    /* 0x0F4 */ char    pad1[0x10];
-    /* 0x104 */ int     f104;
-    /* 0x108 */ VECTOR  f108;
-    /* 0x118 */ MATRIX  light[2];
-    /* 0x158 */ int     f158;
+    OBJECT  object;
+    SVECTOR pos;
+    SVECTOR rot;
+    SVECTOR step;
+    SVECTOR turn;
+    int     time;
+    VECTOR  scale;
+    MATRIX  light[2];
+    int     state;
 } S11ObjsObj2;
 
 typedef struct _Work
@@ -37,7 +40,14 @@ typedef struct _Work
     int         f25AC;
 } Work;
 
-SVECTOR s11g_dword_800C3484[] =
+#define EXEC_LEVEL      5
+#define MODEL_FLAG      ( DG_FLAG_TEXT | DG_FLAG_PAINT | DG_FLAG_TRANS | DG_FLAG_ONEPIECE )
+
+#define ATTACK_DAMAGE   (256)
+
+DG_OBJS *Takabe_MakePreshade(int model, LIT *lit);
+
+SVECTOR positions[] =
 {
     {0xFA24, 0x0000, 0xFA24},
     {0xFA24, 0x0000, 0xFA24},
@@ -56,7 +66,7 @@ SVECTOR s11g_dword_800C3484[] =
     {0xF542, 0x0000, 0x2CEC}
 };
 
-SVECTOR s11g_dword_800C34FC[] =
+SVECTOR rotations[] =
 {
     {0, 0, 0},
     {0, 0, 0},
@@ -77,14 +87,7 @@ SVECTOR s11g_dword_800C34FC[] =
     {4096, 0, 0}
 };
 
-DG_OBJS *Takabe_MakePreshade(int model, LIT *lit);
-
-#define EXEC_LEVEL 5
-
-#define MODEL_FLAG ( DG_FLAG_TEXT | DG_FLAG_PAINT | DG_FLAG_TRANS | DG_FLAG_ONEPIECE )
-
-/* TODO: static */
-void InitPreshadeObject(OBJECT *object, int model, u_long flag)
+static void InitPreshadeObject(OBJECT *object, int model, u_long flag)
 {
     GV_ZeroMemory(object, sizeof(OBJECT));
 
@@ -93,8 +96,7 @@ void InitPreshadeObject(OBJECT *object, int model, u_long flag)
     object->objs = Takabe_MakePreshade(model, GM_GetMap(GM_CurrentMap)->lit);
 }
 
-/* TODO: static */
-int CheckMessages11G(u_short name, int n_hashes, u_short *hashes)
+static int CheckMessages(u_short name, int n_hashes, u_short *hashes)
 {
     GV_MSG  *msg;
     int      n_msgs;
@@ -121,22 +123,307 @@ int CheckMessages11G(u_short name, int n_hashes, u_short *hashes)
     return found;
 }
 
-const char s11g_dword_800DCF30[] = "壊れろ";
-const char s11g_aCrash_800DCF38[] = "crash";
-const int s11g_dword_800DCF40 = 0x800CAA28;
-const int s11g_dword_800DCF44 = 0x800CAA88;
-const int s11g_dword_800DCF48 = 0x800CAAE8;
-const int s11g_dword_800DCF4C = 0x800CAB58;
-const int s11g_dword_800DCF50 = 0x800CABB8;
+static void Act(Work *work)
+{
+    SVECTOR      rot;
+    SVECTOR      step;
+    u_short      hashes[2];
+    TARGET       target;
+    SVECTOR      size;
+    S11ObjsObj1 *obj1;
+    int          i;
+    S11ObjsObj2 *obj2;
 
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_s11_objs_800CA560.s")
-int s11g_s11_objs_800CA560(Work *work);
+    GM_CurrentMap = work->map;
 
-/* TODO: static */
-void InitObjects(Work *work)
+    if (work->f25A0 > 2)
+    {
+        return;
+    }
+
+    hashes[0] = GV_StrCode("壊れろ");
+    hashes[1] = GV_StrCode("crash");
+
+    switch (CheckMessages(work->name, 2, hashes))
+    {
+    case 0:
+    case 1:
+        work->f25A0++;
+        break;
+    }
+
+    if (work->f25A0 == 1 && work->f25AC < 30)
+    {
+        if ((GM_PlayerControl->mov.vx > -1875 && GM_PlayerControl->mov.vx < 3000))
+        {
+            if (GM_PlayerControl->mov.vz > 1250)
+            {
+                if (GM_PlayerControl->mov.vz < 3125)
+                {
+                    if (GM_CurrentItemId == IT_Scope  ||
+                        GM_CurrentItemId == IT_Camera ||
+                        GM_CurrentItemId == IT_NVG    ||
+                        GM_CurrentItemId == IT_ThermG)
+                    {
+                        GM_CurrentItemId = IT_None;
+                    }
+
+                    if (GM_CurrentWeaponId == WP_Rifle ||
+                        GM_CurrentWeaponId == WP_Stinger)
+                    {
+                        GM_CurrentWeaponId = WP_None;
+                    }
+
+                    if (GM_PlayerControl->mov.vx > 1875)
+                    {
+                        GM_PlayerControl->mov.vx = 3000;
+                    }
+                    else if (GM_PlayerControl->mov.vz >= 2188)
+                    {
+                        GM_PlayerControl->mov.vz = 3125;
+                    }
+                    else
+                    {
+                        GM_PlayerControl->mov.vz = 1250;
+                    }
+
+                    if (work->f25AC == 0)
+                    {
+                        size.vx = 100;
+                        size.vy = 100;
+                        size.vz = 100;
+                        GM_SetTarget(&target, TARGET_POWER, ENEMY_SIDE, &size);
+                        GM_Target_8002DCCC(&target, 1, 2, ATTACK_DAMAGE, 0, &DG_ZeroVector);
+                        GM_MoveTarget(&target, &GM_PlayerControl->mov);
+                        GM_PowerTarget(&target);
+                    }
+                }
+            }
+        }
+
+        work->f25AC++;
+    }
+
+    if (work->f25A0 == 2)
+    {
+        DG_InvisibleObjs(work->obj1[0].object.objs);
+        DG_VisibleObjs(work->obj1[1].object.objs);
+
+        obj1 = work->obj1 + 3;
+        for (i = 0; i < 12; i++, obj1++)
+        {
+            DG_InvisibleObjs(obj1->object.objs);
+        }
+
+        obj2 = work->obj2;
+        for (i = 0; i < 16; i++, obj2++)
+        {
+            DG_InvisibleObjs(obj2->object.objs);
+        }
+
+        work->f25A0 = 3;
+    }
+    else
+    {
+        DG_VisibleObjs(work->obj1[0].object.objs);
+        DG_InvisibleObjs(work->obj1[1].object.objs);
+    }
+
+    if (work->f25A0 != 1)
+    {
+        return;
+    }
+
+    if (work->f25A4 == 13 && work->f25A8 == 16)
+    {
+        return;
+    }
+
+    step.vx = 0;
+    step.vz = 0;
+    rot.vz = 0;
+
+    obj1 = work->obj1 + 2;
+    for (i = 0; i < 13; i++, obj1++)
+    {
+        if (i != 0)
+        {
+            switch (obj1->state)
+            {
+            case 0:
+                if (obj1->time-- < 0)
+                {
+                    obj1->state = 1;
+
+                    step.vy = GV_RandU(128) + 200;
+                    rot.vx = GV_RandS(256);
+                    rot.vy = GV_RandU(4096);
+
+                    DG_SetPos2(&DG_ZeroVector, &rot);
+                    DG_PutVector(&step, &obj1->step, 1);
+
+                    obj1->turn.vx = GV_RandS(16);
+                    obj1->turn.vy = GV_RandS(16);
+                    obj1->turn.vz = GV_RandS(16);
+                }
+                break;
+            case 1:
+                GV_AddVec3(&obj1->rot, &obj1->turn, &obj1->rot);
+                GV_AddVec3(&obj1->pos, &obj1->step, &obj1->pos);
+                obj1->step.vy -= 15;
+
+                if (obj1->pos.vy < -15000)
+                {
+                    obj1->state = 2;
+                    DG_InvisibleObjs(obj1->object.objs);
+                }
+                break;
+            case 2:
+                if (obj1->pos.pad == 0)
+                {
+                    work->f25A4++;
+                    obj1->pos.pad = 1;
+                }
+
+                DG_InvisibleObjs(obj1->object.objs);
+                break;
+            }
+        }
+        else
+        {
+            switch(obj1->state)
+            {
+            case 0:
+                if (obj1->time-- < 0)
+                {
+                    obj1->state = 1;
+                    obj1->step = DG_ZeroVector;
+                    obj1->turn.vx = -2;
+                    obj1->turn.vy = -4;
+                    obj1->turn.vz = -8;
+                }
+                break;
+            case 1:
+                obj1->turn.vz -= 3;
+                GV_AddVec3(&obj1->rot, &obj1->turn, &obj1->rot);
+
+                if (obj1->rot.vz < -455)
+                {
+                    GM_SeSet2(0, 63, 195);
+                    obj1->state = 2;
+
+                    obj1->rot.vx = -114;
+                    obj1->rot.vy = -228;
+                    obj1->rot.vz = -455;
+
+                    obj1->turn.vx = 0;
+                    obj1->turn.vy = 0;
+                    obj1->turn.vz = 40;
+                }
+                break;
+            case 2:
+                obj1->turn.vz -= 3;
+                GV_AddVec3(&obj1->rot, &obj1->turn, &obj1->rot);
+
+                if (obj1->rot.vz < -455)
+                {
+                    GM_SeSet2(0, 32, 195);
+                    obj1->state = 3;
+
+                    obj1->rot.vx = -114;
+                    obj1->rot.vy = -228;
+                    obj1->rot.vz = -455;
+
+                    obj1->turn.vx = 0;
+                    obj1->turn.vy = 0;
+                    obj1->turn.vz = 20;
+                }
+                break;
+            case 3:
+                obj1->turn.vz -= 3;
+                GV_AddVec3(&obj1->rot, &obj1->turn, &obj1->rot);
+
+                if (obj1->rot.vz < -455)
+                {
+                    GM_SeSet2(0, 16, 195);
+                    obj1->state = 4;
+
+                    obj1->rot.vx = -114;
+                    obj1->rot.vy = -228;
+                    obj1->rot.vz = -455;
+                }
+                break;
+            case 4:
+                if (obj1->pos.pad == 0)
+                {
+                    work->f25A4++;
+                    obj1->pos.pad = 1;
+                }
+
+                DG_VisibleObjs(obj1->object.objs);
+                break;
+            }
+        }
+
+        DG_SetPos2(&obj1->pos, &obj1->rot);
+        GM_ActObject2(&obj1->object);
+    }
+
+    obj2 = work->obj2;
+    for (i = 0; i < 16; i++, obj2++)
+    {
+        switch (obj2->state)
+        {
+        case 0:
+            if (obj2->time-- < 0)
+            {
+                DG_VisibleObjs(obj2->object.objs);
+                obj2->state = 1;
+
+                step.vy = GV_RandU(128) + 300;
+                rot.vx = GV_RandS(256) + 256;
+                rot.vy = GV_RandU(4096);
+
+                DG_SetPos2(&DG_ZeroVector, &rot);
+                DG_PutVector(&step, &obj2->step, 1);
+
+                obj2->turn.vx = GV_RandS(128);
+                obj2->turn.vy = GV_RandS(128);
+                obj2->turn.vz = GV_RandS(128);
+            }
+            break;
+        case 1:
+            GV_AddVec3(&obj2->rot, &obj2->turn, &obj2->rot);
+            GV_AddVec3(&obj2->pos, &obj2->step, &obj2->pos);
+            obj2->step.vy -= 15;
+
+            if (obj2->pos.vy < -15000)
+            {
+                obj2->state = 2;
+                DG_InvisibleObjs(obj2->object.objs);
+            }
+            break;
+        case 2:
+            if (obj2->pos.pad == 0)
+            {
+                work->f25A8++;
+                obj2->pos.pad = 1;
+            }
+
+            DG_InvisibleObjs(obj2->object.objs);
+            break;
+        }
+
+        DG_SetPos2(&obj2->pos, &obj2->rot);
+        GM_ActObject2(&obj2->object);
+        ScaleMatrix(&obj2->object.objs->world, &obj2->scale);
+    }
+}
+
+static void InitObjects(Work *work)
 {
     int          models[15];
-    int          ids[15];
+    int          times[15];
     S11ObjsObj1 *obj1;
     SVECTOR     *pos;
     SVECTOR     *rot;
@@ -159,25 +446,25 @@ void InitObjects(Work *work)
     models[13] = GV_StrCode("11h_o14");
     models[14] = GV_StrCode("11h_o15");
 
-    ids[12] = 2;
-    ids[5] = 5;
-    ids[4] = 8;
-    ids[13] = 10;
-    ids[6] = 13;
-    ids[10] = 17;
-    ids[8] = 20;
-    ids[3] = 23;
-    ids[7] = 27;
-    ids[9] = 31;
-    ids[14] = 35;
-    ids[2] = 35;
-    ids[11] = 0;
-    ids[0] = -1;
-    ids[1] = -1;
+    times[12] = 2;
+    times[5] = 5;
+    times[4] = 8;
+    times[13] = 10;
+    times[6] = 13;
+    times[10] = 17;
+    times[8] = 20;
+    times[3] = 23;
+    times[7] = 27;
+    times[9] = 31;
+    times[14] = 35;
+    times[2] = 35;
+    times[11] = 0;
+    times[0] = -1;
+    times[1] = -1;
 
     obj1 = work->obj1;
-    pos = s11g_dword_800C3484;
-    rot = s11g_dword_800C34FC;
+    pos = positions;
+    rot = rotations;
 
     for (i = 0; i < 15; i++, pos++, rot++)
     {
@@ -196,18 +483,18 @@ void InitObjects(Work *work)
         InitPreshadeObject(&obj1->object, models[i], MODEL_FLAG);
         GM_ActObject2(&obj1->object);
 
-        obj1->f104 = ids[i];
-        obj1->f108 = 0;
+        obj1->time = times[i];
+        obj1->state = 0;
         obj1++;
     }
 
     obj2 = work->obj2;
-    rot = s11g_dword_800C34FC;
+    rot = rotations;
 
     for (i = 0; i < 16; i++, pos++, rot++)
     {
         obj2->pos.pad = 0;
-        obj2->pos = s11g_dword_800C3484[(GV_RandU(4096) % 6) + 9];
+        obj2->pos = positions[(GV_RandU(4096) % 6) + 9];
         obj2->rot = *rot;
 
         DG_SetPos2(pos, rot);
@@ -216,12 +503,12 @@ void InitObjects(Work *work)
         DG_InvisibleObjs(obj2->object.objs);
         GM_ActObject2(&obj2->object);
 
-        obj2->f104 = ids[i];
-        obj2->f158 = 0;
+        obj2->time = times[i];
+        obj2->state = 0;
 
-        obj2->f108.vx = GV_RandU(1024) + 512;
-        obj2->f108.vy = GV_RandU(1024) + 512;
-        obj2->f108.vz = GV_RandU(1024) + 512;
+        obj2->scale.vx = GV_RandU(1024) + 512;
+        obj2->scale.vy = GV_RandU(1024) + 512;
+        obj2->scale.vz = GV_RandU(1024) + 512;
         obj2++;
     }
 }
@@ -300,7 +587,7 @@ void *NewStage11Objects(int name, int where)
     if (work != NULL)
     {
         work->name = name;
-        GV_SetNamedActor(work, s11g_s11_objs_800CA560, Die, "s11_objs.c");
+        GV_SetNamedActor(work, Act, Die, "s11_objs.c");
 
         if (GetResources(work, where) < 0)
         {

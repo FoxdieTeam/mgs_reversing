@@ -4,10 +4,10 @@
 #include "game/game.h"
 #include "takabe/prim.h"
 
-typedef struct BlastoffWork
+typedef struct _Work
 {
     GV_ACT   actor;
-    int      where;
+    int      map;
     DG_PRIM *prim;
     DG_TEX  *tex;
     SVECTOR  field_2C;
@@ -17,12 +17,12 @@ typedef struct BlastoffWork
     int      field_44;
     int      field_48;
     int     *field_4C;
-    SVECTOR  prim_vecs[16];
-} BlastoffWork;
+    SVECTOR  vertices[16];
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-void Blastoff_800DB880(BlastoffWork *work)
+static void UpdatePrim(Work *work)
 {
     SVECTOR  *vec;
     int       t1, t2;
@@ -33,7 +33,7 @@ void Blastoff_800DB880(BlastoffWork *work)
     int       m, n;
     int       x, y, w, h;
 
-    vec = work->prim_vecs;
+    vec = work->vertices;
 
     t1 = work->field_48;
     t2 = 4 - work->field_48;
@@ -44,8 +44,8 @@ void Blastoff_800DB880(BlastoffWork *work)
     vec->vz = ((work->field_2C.vz * t1) + (work->field_34.vz * t2)) / 4 + GV_RandS(64);
     vec->pad = (GV_RandU(256) * scale + 600) / 4096;
 
-    vec = &work->prim_vecs[15];
-    prev = &work->prim_vecs[14];
+    vec = &work->vertices[15];
+    prev = &work->vertices[14];
     for (i = 16; i >= 2; i--, vec--, prev--)
     {
         *vec = *prev;
@@ -74,19 +74,20 @@ void Blastoff_800DB880(BlastoffWork *work)
     }
 }
 
-void BlastoffAct_800DBB60(BlastoffWork *work)
+static void Act(Work *work)
 {
-    GM_CurrentMap = work->where;
+    GM_CurrentMap = work->map;
+
     work->field_2C = work->field_34;
     work->field_34 = *work->field_3C;
 
     if (work->field_40 > 0)
     {
-        Blastoff_800DB880(work);
+        UpdatePrim(work);
     }
     else
     {
-        Blastoff_800DB880(work);
+        UpdatePrim(work);
         if (work->field_44 == 0)
         {
             GV_DestroyActor(&work->actor);
@@ -97,47 +98,47 @@ void BlastoffAct_800DBB60(BlastoffWork *work)
     work->field_40--;
 }
 
-void BlastoffDie_800DBC28(BlastoffWork *work)
+static void Die(Work *work)
 {
     GM_FreePrim(work->prim);
 }
 
-void Blastoff_800DBC64(POLY_FT4 *polys, DG_TEX *tex, int count)
+static void InitPacks(POLY_FT4 *packs, DG_TEX *tex, int n_packs)
 {
     int width;
     int u1, u2;
     int v0, v2;
 
-    for (count--; count != -1; count--)
+    for (n_packs--; n_packs != -1; n_packs--)
     {
-        setPolyFT4(polys);
-        setSemiTrans(polys, 1);
+        setPolyFT4(packs);
+        setSemiTrans(packs, 1);
 
         width = tex->w + 1;
         u2 = tex->off_x;
 
-        polys->u0 = polys->u2 = u2;
+        packs->u0 = packs->u2 = u2;
 
         u1 = u2 + (width / 4) - 1;
-        polys->u1 = polys->u3 = u1;
+        packs->u1 = packs->u3 = u1;
 
         v0 = tex->off_y;
         v2 = (tex->h + 1) / 7 + v0 - 1;
 
-        polys->v0 = polys->v1 = v0;
-        polys->v2 = polys->v3 = v2;
+        packs->v0 = packs->v1 = v0;
+        packs->v2 = packs->v3 = v2;
 
-        polys->tpage = tex->tpage;
-        polys->clut = tex->clut;
-        polys->tpage |= 0x60;
+        packs->tpage = tex->tpage;
+        packs->clut = tex->clut;
+        packs->tpage |= 0x60;
 
-        setRGB0(polys, 0, 0, 0);
+        setRGB0(packs, 0, 0, 0);
 
-        polys++;
+        packs++;
     }
 }
 
-void Blastoff_800DBD34(BlastoffWork *work)
+static void InitPrim(Work *work)
 {
     DG_PRIM *prim;
     SVECTOR *iter;
@@ -145,15 +146,15 @@ void Blastoff_800DBD34(BlastoffWork *work)
     int      i;
 
     work->tex = tex = DG_GetTexture(GV_StrCode("bomb1_fl"));
-    work->prim = prim = Takabe_MakeIndividualRect3DPrim(16, work->prim_vecs);
+    work->prim = prim = Takabe_MakeIndividualRect3DPrim(16, work->vertices);
 
-    Blastoff_800DBC64(prim->packs[0], tex, 16);
-    Blastoff_800DBC64(prim->packs[1], tex, 16);
+    InitPacks(prim->packs[0], tex, 16);
+    InitPacks(prim->packs[1], tex, 16);
 
     prim->world = DG_ZeroMatrix;
     prim->raise = 1000;
 
-    iter = work->prim_vecs;
+    iter = work->vertices;
     for (i = 16; i > 0; i--, iter++)
     {
         *iter = work->field_34;
@@ -161,29 +162,29 @@ void Blastoff_800DBD34(BlastoffWork *work)
     }
 }
 
-int BlastoffGetResources_800DBE44(BlastoffWork *work, SVECTOR *arg1, int arg2, int arg3, int *arg4)
+static int GetResources(Work *work, SVECTOR *arg1, int arg2, int arg3, int *arg4)
 {
     work->field_3C = arg1;
-    work->where = GM_CurrentMap;
+    work->map = GM_CurrentMap;
     work->field_34 = *arg1;
     work->field_2C = *arg1;
     work->field_40 = arg2;
     work->field_48 = arg3;
     work->field_4C = arg4;
-    Blastoff_800DBD34(work);
+    InitPrim(work);
     work->field_44 = 80;
     return 0;
 }
 
-void *NewBlastoff_800DBED4(SVECTOR *arg0, int arg1, int arg2, int *arg3)
+void *NewBlastoff(SVECTOR *arg0, int arg1, int arg2, int *arg3)
 {
-    BlastoffWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(BlastoffWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, BlastoffAct_800DBB60, BlastoffDie_800DBC28, "blastoff.c");
-        if (BlastoffGetResources_800DBE44(work, arg0, arg1, arg2, arg3) < 0)
+        GV_SetNamedActor(&work->actor, Act, Die, "blastoff.c");
+        if (GetResources(work, arg0, arg1, arg2, arg3) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
