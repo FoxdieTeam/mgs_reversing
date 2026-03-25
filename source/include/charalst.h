@@ -155,7 +155,7 @@
 #define CHARA_LIQUID            { 0x7bf2, ? }                       // GV_StrCode("リキッド") animal/liquid/liquid.c
 #define CHARA_ZAKOCOM           { 0x7cf7, ? }                       // GV_StrCode("ざこコマンダー") animal/zako/zakocom.c
 #define CHARA_WIRE              { 0x7eca, NewWire_800D709C }        // GV_StrCode("ワイヤ") onoda/s04b/wire.c
-#define CHARA_TELOP             { 0x7ff7, NewTelopSet_800DDB34 }    // GV_StrCode("テロップ") takabe/telop.c
+#define CHARA_TELOP             { 0x7ff7, NewTelopSet }             // GV_StrCode("テロップ") takabe/telop.c
 #define CHARA_BLINK_TX          { 0x8185, NewBlinkTx_800DECD8 }     // okajima/blink_tx.c
 #define CHARA_JPEG              { 0x81c7, NewCamera_800CF388 }      // GV_StrCode("ＪＰＥＧ") camera.c
 #define CHARA_RSURFACE          { 0x81ea, NewRippleSurface_800D8244 } // takabe/rsurface.c
@@ -313,7 +313,7 @@
 #define CHARA_0002              { 0x0002, ? }                       // --> anime/animconv/anime.c
 #define CHARA_0003_FADEIO       { 0x0003, NewFadeInOut }            // takabe/fadeio.c
 #define CHARA_0004_FADEIO       { 0x0004, NewFadeInOut }            // takabe/fadeio.c
-#define CHARA_0005_TELOP        { 0x0005, NewTelop_800DDD7C }       // takabe/telop.c
+#define CHARA_0005_TELOP        { 0x0005, NewTelop }                // takabe/telop.c
 #define CHARA_0006              { 0x0006, ? }                       // --> anime/animconv/anime.c (PC-ONLY)
 #define CHARA_0007              { 0x0007, ? }                       // --> anime/animconv/anime.c (PC-ONLY)
 #define CHARA_0008              { 0x0008, ? }                       // --> anime/animconv/anime.c (PC-ONLY)
@@ -384,7 +384,7 @@
 #define CHARA_0049_WINDCRCL     { 0x0049, ? }                       // takabe/windcrcl.c
 #define CHARA_004A_BOMBLED      { 0x004a, NewBombLed }              // animal/liquid/bombled.c
 #define CHARA_004B_MG_ROOM      { 0x004b, NewMgRoom_800DB458 }      // okajima/mg_room.c
-#define CHARA_004C_TELOP        { 0x004c, NewTelop2_800DDC60 }      // takabe/telop.c
+#define CHARA_004C_TELOP        { 0x004c, NewTelop2 }               // takabe/telop.c
 
 /*---------------------------------------------------------------------------*/
 /*  NEWCHARA external declarations                                           */
@@ -579,9 +579,9 @@ void *NewShakeModelGCL();               /* takabe/shakemdl.c            */
 void *NewShuter_800DFB44();             /* takabe/shuter.c              */
 void *NewSpark2_800CA714();             /* takabe/spark2.c              */
 void *NewSubEfct_800CCB10();            /* takabe/sub_efct.c            */
-void *NewTelop2_800DDC60();             /* takabe/telop.c               */
-void *NewTelopSet_800DDB34();           /* takabe/telop.c               */
-void *NewTelop_800DDD7C();              /* takabe/telop.c               */
+void *NewTelop2();                      /* takabe/telop.c               */
+void *NewTelopSet();                    /* takabe/telop.c               */
+void *NewTelop();                       /* takabe/telop.c               */
 void *NewTexScroll();                   /* takabe/tex_scrl.c            */
 void *NewTruckTrap();                   /* takabe/tracktrp.c            */
 void *NewVibrationEditor();             /* takabe/vib_edit.c            */
