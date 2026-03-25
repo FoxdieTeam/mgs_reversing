@@ -25,7 +25,7 @@ int info_alive = 0;
 void InfoAct_800CA114(InfoWork *work)
 {
     int       f24;
-    char     *ot;
+    u_long   *ot;
     POLY_FT4 *poly1;
     POLY_FT4 *poly2;
     int       w, h;

@@ -32,13 +32,13 @@ typedef struct _FocusWork
 
 void FocusAct_800CEA70(FocusWork *work)
 {
-    GV_MSG       *msg;
-    int           f_len;
-    int           near;
-    int           far;
-    unsigned int *ot;
-    SPRT         *sprt;
-    DR_STP       *stp;
+    GV_MSG *msg;
+    int     f_len;
+    int     near;
+    int     far;
+    u_long *ot;
+    SPRT   *sprt;
+    DR_STP *stp;
 
     if (GV_PauseLevel == 0)
     {
@@ -67,7 +67,7 @@ void FocusAct_800CEA70(FocusWork *work)
         far = 255;
     }
 
-    ot = (unsigned int *)DG_ChanlOTag(0);
+    ot = DG_ChanlOTag(0);
 
     sprt = &work->prims->sprt2[GV_Clock];
     sprt->x0 = -work->xoff;

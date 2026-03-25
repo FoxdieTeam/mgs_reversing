@@ -125,7 +125,7 @@ void * EdTelop_800C4FB8(short *arg0, int arg1)
     return (char *)arg0 + 40 + *(int *)(arg0 + 18);
 }
 
-void EdTelop_800C512C(SPRT *sprt, DR_TPAGE *tpage, char *ot, int color)
+void EdTelop_800C512C(SPRT *sprt, DR_TPAGE *tpage, u_long *ot, int color)
 {
     setSprt(sprt);
     setRGB0(sprt, color, color, color);
@@ -152,7 +152,7 @@ void EdTelopAct_800C525C(EdTelopWork *work)
     EdTelopPrims *prims;
     DR_TPAGE     *tpage;
     SPRT         *sprt;
-    char         *ot;
+    u_long       *ot;
     int           val;
 
     prims = &ed_telop_prims_800C9BC8[GV_Clock];

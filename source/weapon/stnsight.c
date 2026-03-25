@@ -426,7 +426,7 @@ static void Act( Work *work )
         work->field_84_4Array[3] = (int)NewSgtRect3(&word_800AB8EC, 1, local_20, 1);
     }
 
-    ot = (u_long *)DG_ChanlOTag(1);
+    ot = DG_ChanlOTag(1);
 
     stnsight_act_helper_80068420(work, ot);
     stnsight_act_helper_80068798(work, ot);

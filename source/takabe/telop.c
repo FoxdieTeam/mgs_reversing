@@ -82,7 +82,7 @@ void telop_800DD550(TelopSub *sub, int x, int y, DG_TEX *arg3, DG_TEX *arg4)
     sub->visible = 0;
 }
 
-void telop_800DD730(char *ot, TelopSub *sub)
+void telop_800DD730(u_long *ot, TelopSub *sub)
 {
     int         shade;
     TelopPrims *prims;
@@ -170,7 +170,7 @@ void telop_800DD730(char *ot, TelopSub *sub)
 void TelopSetAct_800DD92C(TelopWork2 *work)
 {
     TelopSub *sub;
-    char     *ot;
+    u_long   *ot;
     int       found;
     int       count;
 

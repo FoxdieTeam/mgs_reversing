@@ -282,8 +282,9 @@ typedef struct DG_DivideMem         // private to libdg/divide.c
 
 typedef struct DG_CHANL
 {
-    unsigned char *ot[ 2 ]; // 257 pointers? // One for each active buffer
-    short          field_08;
+    u_long *ot[ 2 ]; // 257 pointers? // One for each active buffer
+    short   ot_size;
+
     short          field_0A;
     short          field_0C;
     short          field_0E_size;
@@ -453,7 +454,7 @@ void DG_BoundEnd( void );
 
 /* chanl.c */
 void DG_InitChanlSystem( int width );
-void DG_DrawOTag( int activeBuffer );
+void DG_DrawOTag( int which );
 void DG_ClearChanlSystem( int which );
 void DG_RenderPipeline( int idx );
 void DG_SetRenderChanlDrawEnv( int idx, DRAWENV *pDrawEnv );
@@ -625,7 +626,7 @@ static inline DG_CHANL *DG_Chanl( int idx )
     return &DG_Chanls[ idx + 1 ];
 }
 
-static inline char *DG_ChanlOTag(int index)
+static inline u_long *DG_ChanlOTag(int index)
 {
     extern int GV_Clock;
     return DG_Chanl(index)->ot[GV_Clock];

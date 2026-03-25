@@ -92,14 +92,14 @@ void s12c_800D4AB4(int scale)
 
 typedef struct _SCRATCHPAD_UNK
 {
-    unsigned int **buf;
-    unsigned int  *ot;
-    int            len;
-    int            unkC;
-    int            unk10;
-    int            unk14;
-    void          *unk18;
-    short         *unk1C;
+    u_int **buf;
+    u_long *ot;
+    int     len;
+    int     unkC;
+    int     unk10;
+    int     unk14;
+    void   *unk18;
+    short  *unk1C;
 } SCRATCHPAD_UNK;
 
 // TODO: fix this
@@ -344,14 +344,14 @@ static inline SCRATCHPAD_UNK *get_scratch(void)
     return (SCRATCHPAD_UNK *)SCRPAD_ADDR;
 }
 
-void s12c_800D4CF4(unsigned int *ot)
+void s12c_800D4CF4(u_long *ot)
 {
     SCRATCHPAD_UNK *scratch;
     unsigned int  **buf;
     int             i;
     unsigned int   *tag;
     unsigned int    val;
-    unsigned int   *next;
+    u_long         *next;
 
     scratch = get_scratch();
     scratch->unkC = s12c_800DA428;
@@ -376,15 +376,15 @@ void s12c_800D4CF4(unsigned int *ot)
 
 void *s12c_800D4D8C(u_short *buffer, int n_prims, int size, void (*callback)(void *, void *, int))
 {
-    unsigned int *ot;
-    int          *currentOt;
-    int           len;
-    int           idx, idx2;
+    u_long *ot;
+    u_long *currentOt;
+    int     len;
+    int     idx, idx2;
 
     int *scratch;
     scratch = (int *)SCRPAD_ADDR;
 
-    ot = (unsigned int *)scratch[1];
+    ot = (u_long *)scratch[1];
     len = scratch[2];
 
     while (--n_prims >= 0)
@@ -434,7 +434,7 @@ void FogSortChanl_800D4E98(DG_CHANL *chanl, int idx)
 
     scratch = get_scratch();
     scratch->buf = ptr_800B1400;
-    scratch->ot = (unsigned int *)chanl->ot[idx] + 1;
+    scratch->ot = chanl->ot[idx] + 1;
 
     s12c_800D4CF4(scratch->ot);
 

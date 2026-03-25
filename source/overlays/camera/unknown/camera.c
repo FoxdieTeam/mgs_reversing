@@ -24,31 +24,31 @@
 
 typedef struct CameraWork
 {
-    GV_ACT         actor;
-    int            f20;
-    GV_PAD        *pad;
-    int            f28;
-    char           padding1[0x4];
-    DG_PRIM       *prim1, *prim2, *prim3;
-    char           padding2[0xA0];
-    POLY_FT4       polys[9];
-    POLY_FT4       polys2[26];
-    int            field_654[4];
-    GV_ACT        *field_664[9];
-    GV_ACT        *field_688[26];
-    char           padding3[0x30];
-    void          *f720;
-    char           padding4[0x1FC];
-    void          *field_920;
-    unsigned char *field_924_mOrderingTable;
-    int            field_928;
-    void          *field_92C[2];
-    char           padding5[0x4000];
-    int            field_4934;
-    int            field_4938;
-    char           padding6[0xa4];
-    int            f49E0;
-    char          *f49E4;
+    GV_ACT   actor;
+    int      f20;
+    GV_PAD  *pad;
+    int      f28;
+    char     padding1[0x4];
+    DG_PRIM *prim1, *prim2, *prim3;
+    char     padding2[0xA0];
+    POLY_FT4 polys[9];
+    POLY_FT4 polys2[26];
+    int      field_654[4];
+    GV_ACT  *field_664[9];
+    GV_ACT  *field_688[26];
+    char     padding3[0x30];
+    void    *f720;
+    char     padding4[0x1FC];
+    void    *field_920;
+    u_long  *field_924_mOrderingTable;
+    int      field_928;
+    void    *field_92C[2];
+    char     padding5[0x4000];
+    int      field_4934;
+    int      field_4938;
+    char     padding6[0xa4];
+    int      f49E0;
+    char    *f49E4;
 } CameraWork;
 
 #define EXEC_LEVEL GV_ACTOR_MANAGER
@@ -226,7 +226,7 @@ void camera_800C5440(MenuPrim *pGlue, RadioFileModeStruElem *pElem)
         pPrim->x1 = pUnk->field_14 >> 16;
         pPrim->y1 = pUnk->field_1C >> 16; // pUnk->field_1C / 65536 wouldn't match
         setLineF2(pPrim);
-        addPrim(pGlue->mPrimBuf.mOt, pPrim);
+        addPrim(pGlue->ot, pPrim);
     }
 }
 
@@ -258,7 +258,7 @@ void camera_800C553C(MenuPrim *pGlue, RadioFileModeStruElem *pElem)
     pTile->w = w;
     pTile->h = h;
     setSemiTrans(pTile, 0);
-    addPrim(pGlue->mPrimBuf.mOt, pTile);
+    addPrim(pGlue->ot, pTile);
 
     radio_draw_face_frame(pGlue, x, y, w, h);
     radio_draw_face_frame(pGlue, x, y, w, h);
@@ -478,8 +478,7 @@ void camera_800C5F20(SELECT_INFO *info)
 }
 
 // duplicate of show_message_8004AFE4
-void camera_800C6054(MenuWork *work, char *pOt,
-                     SELECT_INFO *info)
+void camera_800C6054(MenuWork *work, u_long *ot, SELECT_INFO *info)
 {
     unsigned int xoff;
     SPRT        *pPrim;
@@ -500,7 +499,7 @@ void camera_800C6054(MenuWork *work, char *pOt,
     pPrim->u0 = 0;
     pPrim->x0 = 160 - xoff / 2;
 
-    addPrim(pOt, pPrim);
+    addPrim(ot, pPrim);
 }
 
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C6110.s")

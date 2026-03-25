@@ -175,7 +175,7 @@ static void scope_act_helper_8006258C(Work *work)
     iVar1 = 12 * temp;
     iVar3 = 320 - iVar1;
 
-    ot = (u_long *)DG_ChanlOTag(1);
+    ot = DG_ChanlOTag(1);
     lines = work->side_lines[GV_Clock];
 
     for (i = 0; i < 4; i++)
@@ -511,19 +511,19 @@ static void DrawMovingBarGraph(Work *work, u_long *ot)
     int      primCount;
     int      i;
     LINE_F3 *pLine_F3;
-    u_char  *otMin;
-    u_char  *chnlOt;
-    u_char  *curPrim;
+    u_long  *otMin;
+    u_long  *chnlOt;
+    u_long  *curPrim;
     int      numOTEntries;
 
     pLine_F3 = work->bar_graph[GV_Clock];
     chnlOt = DG_Chanl(0)->ot[1 - GV_Clock];
 
-    numOTEntries = DG_Chanl(0)->field_08 - 4;
+    numOTEntries = DG_Chanl(0)->ot_size - 4;
     for (i = 0; i < 16; i++)
     {
-        otMin = chnlOt + ((i << numOTEntries) * 4);
-        for (curPrim = chnlOt + (((i + 1) << numOTEntries) * 4), primCount = 0; (otMin < curPrim) || (curPrim < chnlOt);
+        otMin = chnlOt + (i << numOTEntries);
+        for (curPrim = chnlOt + ((i + 1) << numOTEntries), primCount = 0; (otMin < curPrim) || (curPrim < chnlOt);
              curPrim = nextPrim(curPrim))
         {
             if (getlen(curPrim) != 0)
@@ -649,7 +649,7 @@ static void Act(Work *work)
         pad_status = 0;
     }
 
-    ot = (u_long *)DG_ChanlOTag(1);
+    ot = DG_ChanlOTag(1);
 
     ManagePadInput(work, pad_status);
     ManageZoom(work, ot, pad_status);

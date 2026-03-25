@@ -169,7 +169,7 @@ void option_800C352C(OptionWork *work, int index)
     }
 }
 
-void option_800C3664(OptionWork *work, char *ot)
+void option_800C3664(OptionWork *work, u_long *ot)
 {
     int       index;
     int       i, j, k;
@@ -409,7 +409,7 @@ void option_800C3C74(OptionWork *work)
     }
 }
 
-void option_800C4130(OptionWork *work, char *ot)
+void option_800C4130(OptionWork *work, u_long *ot)
 {
     int i;
 

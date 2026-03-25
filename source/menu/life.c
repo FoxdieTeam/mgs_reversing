@@ -89,7 +89,7 @@ void menu_draw_bar(MenuPrim *prim, long x, long y, long rest, long now, long max
     TextConfig text_config;
     int        scaled_max_val;
     int        sp2C;
-    char      *pOt;
+    u_long    *ot;
     TILE      *pTile;
     TILE      *pTile_2;
     TILE      *pTile_3;
@@ -105,7 +105,7 @@ void menu_draw_bar(MenuPrim *prim, long x, long y, long rest, long now, long max
         return;
     }
 
-    pOt = prim->mPrimBuf.mOt;
+    ot = prim->ot;
 
     sp2C = 5 - bconf->height;
     y_with_offset = y + 1;
@@ -161,7 +161,7 @@ void menu_draw_bar(MenuPrim *prim, long x, long y, long rest, long now, long max
         pTile_2->g0 = 0;
         pTile_2->b0 = 0;
 
-        addPrim(pOt, pTile_2);
+        addPrim(ot, pTile_2);
     }
 
     _NEW_PRIM(pPoly, prim);
@@ -184,7 +184,7 @@ void menu_draw_bar(MenuPrim *prim, long x, long y, long rest, long now, long max
     pPoly->b3 = bconf->left[2] + ((bconf->right[2] - bconf->left[2]) * (pPoly->x3 - pPoly->x0)) / 128;
 
     setPolyG4(pPoly);
-    addPrim(pOt, pPoly);
+    addPrim(ot, pPoly);
 
     pTile_3 = menu_render_rect_8003DB2C(prim, x, y_with_offset, scaled_max_val, sp2C, 0x181800);
     setSemiTrans(pTile_3, 1);
@@ -197,7 +197,7 @@ void menu_draw_bar(MenuPrim *prim, long x, long y, long rest, long now, long max
     _NEW_PRIM(pTpage, prim);
 
     setDrawTPage(pTpage, 1, 1, getTPage(0, 0, 960, 256));
-    addPrim(prim->mPrimBuf.mOt, pTpage);
+    addPrim(prim->ot, pTpage);
 }
 
 /**
@@ -305,7 +305,7 @@ void menu_font_kill_helper_8003F50C(void)
  * @param work Pointer to the MenuWork structure containing the bar states.
  * @param unused
  */
-void menu_life_update_8003F530(MenuWork *work, unsigned char *unused)
+void menu_life_update_8003F530(MenuWork *work, u_long *ot)
 {
     int               updated;
     MenuMan_MenuBars *pBars;
@@ -413,7 +413,7 @@ void menu_life_update_8003F530(MenuWork *work, unsigned char *unused)
         break;
     }
 
-    menu_life_update_helper2_8003F30C(work->field_20_otBuf, pBars);
+    menu_life_update_helper2_8003F30C(work->prim, pBars);
 }
 
 /**
@@ -502,7 +502,7 @@ void menu_printDescription_8003F97C(char *description)
 
 // When scrolling items/weapons menu, draws the life bar, the text "EQUIP" or
 // "WEAPON" and the background rectangle around the item/weapon description.
-void menu_drawDescriptionPanel_8003F9B4(MenuWork *work, unsigned int *pOt, const char *str)
+void menu_drawDescriptionPanel_8003F9B4(MenuWork *work, u_long *ot, const char *str)
 {
     POLY_F4 *polyF4;
     TILE    *tile;
@@ -519,15 +519,15 @@ void menu_drawDescriptionPanel_8003F9B4(MenuWork *work, unsigned int *pOt, const
     NEW_PRIM(sprt, work);
 
     *sprt = gMenuSprt_800bd998;
-    addPrim(pOt, sprt);
+    addPrim(ot, sprt);
 
     x0 = gMenuSprt_800bd998.x0;
     x3 = x0 - 10;
     w = gMenuSprt_800bd998.w + 10;
     x1 = x0;
 
-    x4 = menu_number_draw_string(work, pOt, x1 - 8, gMenuSprt_800bd998.y0 - 7, str, 0);
-    draw_player_life_8003F4B8(work->field_20_otBuf, x3, 24);
+    x4 = menu_number_draw_string(work, ot, x1 - 8, gMenuSprt_800bd998.y0 - 7, str, 0);
+    draw_player_life_8003F4B8(work->prim, x3, 24);
 
     i = 0;
     x0 = 12;
@@ -551,7 +551,7 @@ void menu_drawDescriptionPanel_8003F9B4(MenuWork *work, unsigned int *pOt, const
 
         setPolyF4(polyF4);
         setSemiTrans(polyF4, 1);
-        addPrim(pOt, polyF4);
+        addPrim(ot, polyF4);
 
         NEW_PRIM(tile, work);
 
@@ -563,7 +563,7 @@ void menu_drawDescriptionPanel_8003F9B4(MenuWork *work, unsigned int *pOt, const
 
         setTile(tile);
         setSemiTrans(tile, 1);
-        addPrim(pOt, tile);
+        addPrim(ot, tile);
     }
 }
 

@@ -33,11 +33,14 @@ unsigned short SECTION(".sbss") gCurrentRootCnt_800AB984;
 
 /*** bss ***/
 extern DG_CHANL       DG_Chanls[3];
-extern int            dword_800B0630[68];
-extern int            dword_800B0740[516];
-extern int            dword_800B0F50[4];
-extern DG_OBJS       *dword_800B0F60[8];
-extern DG_OBJS       *dword_800B0F80[256];
+
+extern u_long ot_background[68];
+extern u_long ot_primitive[516];
+extern u_long ot_overlay[4];
+
+extern DG_OBJS *obj_queue_background[8];
+extern DG_OBJS *obj_queue_primitive[256];
+
 extern DR_ENV         stru_800B1380[2];
 extern unsigned int  *ptr_800B1400[256];
 extern unsigned short gOldRootCnt_800B1DC8[32];
@@ -52,20 +55,20 @@ STATIC void DG_DrawSyncCallback( void )
 }
 
 // guessed function name
-STATIC void DG_SetChanlOrderingTable( DG_CHANL *chanl, unsigned char *pOtBuffer, unsigned int otLen,
-                                      DG_OBJS **pQueue, short queueSize, short param_6, short param_7 )
+STATIC void DG_SetChanlOrderingTable( DG_CHANL *chanl, u_long *ot, int ot_size, DG_OBJS **queue, short queue_size, short param_6, short param_7 )
 {
-    // TODO: Aligning the end ptr? Also not sure if type is correct
-    unsigned char *pEnd = pOtBuffer + ((((1 << (otLen))) + 1) * 4);
+    int size;
 
-    chanl->ot[0] = pOtBuffer;
-    chanl->ot[1] = pEnd;
+    size = (1 << ot_size) + 1;
+
+    chanl->ot[0] = ot;
+    chanl->ot[1] = &ot[size];
     chanl->mTotalObjectCount = 0;
-    chanl->mQueue = pQueue;
-    chanl->field_08 = otLen;
+    chanl->mQueue = queue;
+    chanl->ot_size = ot_size;
     chanl->field_0E_size = 0;
-    chanl->mFreePrimCount = queueSize;
-    chanl->mTotalQueueSize = queueSize;
+    chanl->mFreePrimCount = queue_size;
+    chanl->mTotalQueueSize = queue_size;
     chanl->field_0A = param_6;
     chanl->field_0C = param_7;
 }
@@ -120,7 +123,7 @@ void DG_InitChanlSystem( int width )
 
     /* channel 0 */
     chanl = DG_Chanls;
-    DG_SetChanlOrderingTable(chanl, (unsigned char *)dword_800B0630, 5, (DG_OBJS **)dword_800B0F60, 8, -1, 1);
+    DG_SetChanlOrderingTable(chanl, ot_background, 5, obj_queue_background, 8, -1, 1);
     DG_InitDrawEnv(&drawEnv, 0, 0, FRAME_WIDTH, FRAME_HEIGHT);
     drawEnv.isbg = 1;
     DG_SetChanlDrawEnv(chanl, &drawEnv, 1);
@@ -129,7 +132,7 @@ void DG_InitChanlSystem( int width )
 
     /* channel 1 */
     chanl++;
-    DG_SetChanlOrderingTable(chanl, (unsigned char *)dword_800B0740, 8, (DG_OBJS **)dword_800B0F80, 256, 16, 1);
+    DG_SetChanlOrderingTable(chanl, ot_primitive, 8, obj_queue_primitive, 256, 16, 1);
     DG_InitDrawEnv(&drawEnv, 0, 0, FRAME_WIDTH, FRAME_HEIGHT);
     drawEnv.ofs[0] = 160;
     drawEnv.ofs[1] = 112;
@@ -142,7 +145,7 @@ void DG_InitChanlSystem( int width )
 
     /* channel 2 */
     chanl++;
-    DG_SetChanlOrderingTable(chanl, (unsigned char *)dword_800B0F50, 0, 0, 0, 8, 1);
+    DG_SetChanlOrderingTable(chanl, ot_overlay, 0, NULL, 0, 8, 1);
     DG_InitDrawEnv(&drawEnv, 0, 0, FRAME_WIDTH, FRAME_HEIGHT);
     DG_SetChanlDrawEnv(chanl, &drawEnv, 0);
     DG_CopyChanlDrawEnv(chanl, 0);
@@ -152,23 +155,25 @@ void DG_InitChanlSystem( int width )
     chanl->field_EC_dr_env[1] = stru_800B1380[1];
 }
 
-void DG_DrawOTag( int activeBuffer )
+void DG_DrawOTag( int which )
 {
     gOldRootCnt_800B1DC8[0] = gCurrentRootCnt_800AB984;
     gCurrentRootCnt_800AB984 = GetRCnt(RCntCNT1);
-    DrawOTag((u_long *)&DG_Chanls[0].field_6C_dr_env[activeBuffer]);
+    DrawOTag(&DG_Chanls[0].field_6C_dr_env[which].tag);
 }
 
 // not correct, revisit;
 void DG_ClearChanlSystem( int which )
 {
-    int            i, n_ot;
+    DG_CHANL *chanl;
+    int       i;
+
+    int            n_ot;
     unsigned int   s4;
     unsigned long *ot;
     unsigned long  v0, v1;
     DR_ENV        *draw_env;
     DR_ENV        *draw_env2;
-    DG_CHANL      *chanl;
 
     int v2;
 
@@ -178,9 +183,9 @@ void DG_ClearChanlSystem( int which )
     for (i = 3; i > 0; --i)
     {
         // loc_80017EF8
-        ots = (unsigned long *)chanl->ot[which];
+        ots = chanl->ot[which];
         ot = ots;
-        n_ot = pow2(chanl->field_08);
+        n_ot = pow2(chanl->ot_size);
         s4 = (unsigned int)&ot[n_ot];
 
         ClearOTagR(ot, n_ot + 1);
@@ -209,7 +214,7 @@ void DG_ClearChanlSystem( int which )
         if (chanl->field_0A >= 0)
         {
             // loc_80017F94
-            ot = (unsigned long *)DG_Chanls[0].ot[which];
+            ot = DG_Chanls[0].ot[which];
             ot = &ot[chanl->field_0A];
 
             // addPrims(ot, draw_env, draw_env2); //should do the below

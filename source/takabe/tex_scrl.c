@@ -88,7 +88,7 @@ static void Act(Work *work)
     GV_MSG         *msg;
     int             n_msgs;
     int             speed;
-    unsigned int   *ot;
+    u_long         *ot;
     TexScrollPrims *prims;
     RECT           *rect;
     int             i;
@@ -127,7 +127,7 @@ static void Act(Work *work)
         return;
     }
 
-    ot = (unsigned int *)DG_ChanlOTag(1);
+    ot = DG_ChanlOTag(1);
     prims = work->f38[GV_Clock];
     rect = work->rects;
 

@@ -41,7 +41,7 @@ STATIC void draw_image(MenuPrim *prim, int x, int y, char shade, DG_TEX *tex)
     setPolyFT4(poly);
     setSemiTrans(poly, 1);
 
-    addPrim(prim->mPrimBuf.mOt, poly);
+    addPrim(prim->ot, poly);
 }
 
 static void exec_countdown_proc(void)
@@ -62,7 +62,7 @@ static void exec_countdown_proc(void)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_countdwn_800C3C90.s")
-void s19b_countdwn_800C3C90(MenuWork *, u_char *);
+void s19b_countdwn_800C3C90(MenuWork *, u_long *);
 
 int GetCountdownTime(void)
 {

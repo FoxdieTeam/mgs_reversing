@@ -42,7 +42,7 @@ static void ClearScreen(Work *work)
     DR_STP *stp;
 
     /* DG_ChanlOTag doesn't work here */
-    ot = (u_long *)DG_Chanl(0)->ot[GV_Clock];
+    ot = DG_Chanl(0)->ot[GV_Clock];
 
     tile = &work->prims->tile[GV_Clock];
     setTile(tile);
@@ -56,7 +56,7 @@ static void ClearScreen(Work *work)
     addPrim(ot + OT_LEN - 1, stp);
 
     /* DG_ChanlOTag doesn't work here */
-    ot = (u_long *)DG_Chanl(1)->ot[GV_Clock];
+    ot = DG_Chanl(1)->ot[GV_Clock];
 
     stp = &work->prims->stp2[GV_Clock];
     SetDrawStp(stp, 1);
@@ -95,7 +95,7 @@ static void DrawEffect(Work *work)
     DR_TPAGE *tpage;
 
     /* DG_ChanlOTag doesn't work here */
-    ot = (u_long *)DG_Chanl(0)->ot[GV_Clock];
+    ot = DG_Chanl(0)->ot[GV_Clock];
 
     sprt = &work->prims->sprt1[GV_Clock];
     SetSprt(sprt);

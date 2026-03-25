@@ -63,7 +63,7 @@ static void stgfd_io_act_helper_80074F44(Work *work, int a2, int x, int y, int z
 
 static void Act(Work *work)
 {
-    u_long *ot = (u_long *)DG_ChanlOTag(0);
+    u_long *ot = DG_ChanlOTag(0);
 
     addPrim(ot, &work->prims->tile[GV_Clock]);
     addPrim(ot, &work->prims->tpage[GV_Clock]);

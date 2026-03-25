@@ -19,7 +19,7 @@ unsigned char SECTION(".sbss") dword_800ABB21;
 short         SECTION(".sbss") word_800ABB22;
 DG_TEX       *SECTION(".sbss") dword_800ABB24;
 
-STATIC int menu_draw_mem_debug(MenuWork *work, unsigned int *pOt)
+STATIC int menu_draw_mem_debug(MenuWork *work, u_long *ot)
 {
     GV_HEAP             *pHeap;
     LINE_F2             *pLine;
@@ -45,7 +45,7 @@ STATIC int menu_draw_mem_debug(MenuWork *work, unsigned int *pOt)
     LSTORE(0xFF0000, &pLine->r0);
 
     setLineF2(pLine);
-    addPrim(pOt, pLine);
+    addPrim(ot, pLine);
 
     used = 1;
     for (i = 0; i < 3; i++, pHeap++)
@@ -111,14 +111,14 @@ STATIC int menu_draw_mem_debug(MenuWork *work, unsigned int *pOt)
                 LSTORE(0, &pLine2->r3);
 
                 setLineG4(pLine2);
-                addPrim(pOt, pLine2);
+                addPrim(ot, pLine2);
             }
 
             allocated += size;
             used++;
         }
 
-        menu_number_draw(work, pOt, 300, 168 - ((3 - i) * 12), (allocated * 100) / heap_size, 1);
+        menu_number_draw(work, ot, 300, 168 - ((3 - i) * 12), (allocated * 100) / heap_size, 1);
     }
 
     return used;
@@ -132,7 +132,7 @@ STATIC short word_800AB66C = 0;
 STATIC short word_800AB66E = 0;
 STATIC int   dword_800AB670 = 0;
 
-STATIC int menu_draw_pow_debug(MenuWork *work, unsigned int *pOt)
+STATIC int menu_draw_pow_debug(MenuWork *work, u_long *ot)
 {
     int             prims_used, left, right, bottom, idx, i;
     unsigned short *pCount;
@@ -170,7 +170,7 @@ STATIC int menu_draw_pow_debug(MenuWork *work, unsigned int *pOt)
         LSTORE(0, &pLine->r3);
 
         setLineG4(pLine);
-        addPrim(pOt, pLine);
+        addPrim(ot, pLine);
         prims_used++;
 
         bottom = 136; // to get a match
@@ -191,7 +191,7 @@ STATIC int menu_draw_pow_debug(MenuWork *work, unsigned int *pOt)
     else
     {
         delta = gOldRootCnt_800B1DC8[dword_800AB668] - gOldRootCnt_800B1DC8[dword_800AB668 - 1];
-        menu_number_draw(work, pOt, 270, 168, dword_800AB668, 1);
+        menu_number_draw(work, ot, 270, 168, dword_800AB668, 1);
     }
 
     dword_800AB664 += delta;
@@ -202,7 +202,7 @@ STATIC int menu_draw_pow_debug(MenuWork *work, unsigned int *pOt)
         dword_800AB664 = 0;
     }
 
-    menu_number_draw(work, pOt, 300, 168, word_800AB662, 1);
+    menu_number_draw(work, ot, 300, 168, word_800AB662, 1);
     dword_800AB670 += (unsigned short)(gOldRootCnt_800B1DC8[N_ChanlPerfMax - 1] - first_count);
 
     if (++word_800AB66C >= 128)
@@ -212,8 +212,8 @@ STATIC int menu_draw_pow_debug(MenuWork *work, unsigned int *pOt)
         dword_800AB670 = 0;
     }
 
-    menu_number_draw(work, pOt, 240, 168, word_800AB66E, 1);
-    menu_number_draw(work, pOt, 300, 144,
+    menu_number_draw(work, ot, 240, 168, word_800AB66E, 1);
+    menu_number_draw(work, ot, 300, 144,
                      (unsigned short)(gOldRootCnt_800B1DC8[N_ChanlPerfMax - 1] - first_count), 1);
 
     right = (unsigned short)(word_800AB982 - first_count);
@@ -238,10 +238,10 @@ STATIC int menu_draw_pow_debug(MenuWork *work, unsigned int *pOt)
     LSTORE(0, &pLine->r3);
 
     setLineG4(pLine);
-    addPrim(pOt, pLine);
+    addPrim(ot, pLine);
     prims_used++;
 
-    menu_number_draw(work, pOt, 300, 156, (unsigned short)(word_800AB982 - first_count), 1);
+    menu_number_draw(work, ot, 300, 156, (unsigned short)(word_800AB982 - first_count), 1);
 
     // Draw vertical bars
     for (i = 0; i <= 240; i += 24)
@@ -263,19 +263,19 @@ STATIC int menu_draw_pow_debug(MenuWork *work, unsigned int *pOt)
         LSTORE(0, &pLine2->r1);
 
         setLineG2(pLine2);
-        addPrim(pOt, pLine2);
+        addPrim(ot, pLine2);
         prims_used++;
     }
 
     return prims_used;
 }
 
-STATIC int menu_draw_ply_debug(MenuWork *work, unsigned int *pOt)
+STATIC int menu_draw_ply_debug(MenuWork *work, u_long *ot)
 {
-    u_char       *chnlOt;
+    u_long       *chnlOt;
     int           numOTEntries;
-    u_char       *otMin;
-    u_char       *curPrim;
+    u_long       *otMin;
+    u_long       *curPrim;
     int           primCount;
     int           totalprimCount;
 
@@ -296,19 +296,19 @@ STATIC int menu_draw_ply_debug(MenuWork *work, unsigned int *pOt)
     y_2_3 = 0xa8;
 
     chnlOt = DG_Chanl(0)->ot[1 - GV_Clock];
-    numOTEntries = DG_Chanl(0)->field_08 - 4;
+    numOTEntries = DG_Chanl(0)->ot_size - 4;
 
     NEW_PRIM(lineF2, work);
 
     setXY2(lineF2, 0x20, 0x76, 0x110, 0x76);
     LSTORE(0x800000, &lineF2->r0);
     setLineF2(lineF2);
-    addPrim(pOt, lineF2);
+    addPrim(ot, lineF2);
 
     for (i = 0; i < 16; i++)
     {
-        otMin = chnlOt + ((i << numOTEntries) * 4);
-        for (curPrim = chnlOt + (((i + 1) << numOTEntries) * 4), primCount = 0;
+        otMin = chnlOt + (i << numOTEntries);
+        for (curPrim = chnlOt + ((i + 1) << numOTEntries), primCount = 0;
              (otMin < curPrim) || (curPrim < chnlOt); curPrim = nextPrim(curPrim))
         {
             if (getlen(curPrim) != 0)
@@ -340,7 +340,7 @@ STATIC int menu_draw_ply_debug(MenuWork *work, unsigned int *pOt)
             LSTORE(0xff00, &lineG4->r2);
             LSTORE(0, &lineG4->r3);
             setLineG4(lineG4);
-            addPrim(pOt, lineG4);
+            addPrim(ot, lineG4);
         }
         else
         {
@@ -351,16 +351,16 @@ STATIC int menu_draw_ply_debug(MenuWork *work, unsigned int *pOt)
             LSTORE(0xff0000, &lineG4->r2);
             LSTORE(0, &lineG4->r3);
             setLineG4(lineG4);
-            addPrim(pOt, lineG4);
+            addPrim(ot, lineG4);
         }
     }
 
-    menu_number_draw(work, pOt, 0x110, 0x9c, totalprimCount, 1);
+    menu_number_draw(work, ot, 0x110, 0x9c, totalprimCount, 1);
 
     return returnVal;
 }
 
-STATIC int menu_draw_obj_debug(MenuWork *work, unsigned int *pOt)
+STATIC int menu_draw_obj_debug(MenuWork *work, u_long *ot)
 {
     DG_OBJS **ppQueue;
     DG_OBJS  *pObjs;
@@ -404,7 +404,7 @@ STATIC int menu_draw_obj_debug(MenuWork *work, unsigned int *pOt)
         LSTORE(0, &pLine->r1);
 
         setLineG2(pLine);
-        addPrim(pOt, pLine);
+        addPrim(ot, pLine);
 
         pObj = pObjs->objs;
         for (num_models = pObjs->n_models; num_models > 0; num_models--)
@@ -439,7 +439,7 @@ STATIC int menu_draw_obj_debug(MenuWork *work, unsigned int *pOt)
                 LSTORE(0, &pLine2->r3);
 
                 setLineG4(pLine2);
-                addPrim(pOt, pLine2);
+                addPrim(ot, pLine2);
 
                 returnVal++;
                 lhs = rhs;
@@ -467,7 +467,7 @@ STATIC int menu_draw_obj_debug(MenuWork *work, unsigned int *pOt)
         LSTORE(0, &pLine2->r3);
 
         setLineG4(pLine2);
-        addPrim(pOt, pLine2);
+        addPrim(ot, pLine2);
     }
 
     MENU_Locate(300, 128, 0x1);
@@ -477,7 +477,7 @@ STATIC int menu_draw_obj_debug(MenuWork *work, unsigned int *pOt)
     return returnVal;
 }
 
-STATIC int menu_draw_tex_debug(MenuWork *work, unsigned int *pOt)
+STATIC int menu_draw_tex_debug(MenuWork *work, u_long *ot)
 {
     const int textureRecsCount = DG_MAX_TEXTURES;
     short     x0, y0;
@@ -582,13 +582,13 @@ STATIC int menu_draw_tex_debug(MenuWork *work, unsigned int *pOt)
     pPoly->u3 = offx + width;
     pPoly->v3 = offy + height;
 
-    addPrim(pOt, pPoly);
+    addPrim(ot, pPoly);
     return 1;
 }
 
-typedef int (*TUnkRadioFn)(MenuWork *, unsigned int *);
+typedef int (*TMenuDebugFn)(MenuWork *, u_long *);
 
-TUnkRadioFn menu_debug_screens_8009E730[] = {
+TMenuDebugFn menu_debug_screens_8009E730[] = {
     menu_draw_mem_debug,
     menu_draw_pow_debug,
     menu_draw_ply_debug,
@@ -607,12 +607,12 @@ char *menu_debug_screen_labels_8009E744[] = {
     "tex",
 };
 
-void menu_viewer_act(MenuWork *work, unsigned int *pOt)
+void menu_viewer_act(MenuWork *work, u_long *ot)
 {
     mts_read_pad(2);
     if (GM_GameStatus & STATE_DEMO_VERBOSE)
     {
-        menu_draw_pow_debug(work, pOt);
+        menu_draw_pow_debug(work, ot);
         return;
     }
     if (!(GM_PlayerStatus & PLAYER_MENU_DISABLE) && GV_PauseLevel != 0 &&
@@ -635,10 +635,10 @@ void menu_viewer_act(MenuWork *work, unsigned int *pOt)
     else if (menu_current_debug_screen_800ABB20 != 0)
     {
         MENU_Locate(300, 8, 1);
-        menu_draw_num(MENU_PrimUse * 100 / 8192);
+        menu_draw_num((MENU_PrimUse * 100) / 8192);
         MENU_Locate(300, 112, 1);
         MENU_Printf(menu_debug_screen_labels_8009E744[menu_current_debug_screen_800ABB20]);
-        menu_debug_screens_8009E730[menu_current_debug_screen_800ABB20 - 1](work, pOt);
+        menu_debug_screens_8009E730[menu_current_debug_screen_800ABB20 - 1](work, ot);
     }
 }
 
