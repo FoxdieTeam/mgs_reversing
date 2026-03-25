@@ -55,9 +55,9 @@ typedef struct DummyWallWork
 
 SVECTOR s04a_dword_800C3620 = {100, 100, 100};
 
-void     Takabe_FreeObjs_800DC820(DG_OBJS *objs);
+void     Takabe_FreeObjs(DG_OBJS *objs);
 void     s16b_800C49AC(HZD_SEG *seg);
-DG_OBJS *s00a_unknown3_800DC7BC(int model, LIT *lit);
+DG_OBJS *Takabe_MakePreshade(int model, LIT *lit);
 
 extern HITTABLE      GM_C4Datas_800BDD78[C4_COUNT];
 
@@ -101,7 +101,7 @@ void DummyWallAct_800D6E64(DummyWallWork *work)
                     GV_DestroyActor(jirai->actor);
                 }
             }
-            Takabe_FreeObjs_800DC820(work->field_24.objs);
+            Takabe_FreeObjs(work->field_24.objs);
 
             obj = &work->field_24;
             DG_SetPos2(&work->field_14C, &work->field_154);
@@ -147,7 +147,7 @@ void DummyWallDie_800D70A4(DummyWallWork *work)
     }
     GM_FreeTarget(work->field_148);
     work->field_24.objs->flag = 0x57;
-    Takabe_FreeObjs_800DC820(work->field_24.objs);
+    Takabe_FreeObjs(work->field_24.objs);
 }
 
 void DummyWall_800D7104(DummyWallWork *work)
@@ -252,7 +252,7 @@ void DummyWall_800D7418(OBJECT *obj, int model, int where, int flag)
     GV_ZeroMemory(obj, sizeof(OBJECT));
     obj->flag = flag;
     obj->map_name = where;
-    obj->objs = s00a_unknown3_800DC7BC(model, GM_GetMap(where)->lit);
+    obj->objs = Takabe_MakePreshade(model, GM_GetMap(where)->lit);
     obj->objs->flag = flag;
 }
 

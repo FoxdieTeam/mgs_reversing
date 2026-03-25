@@ -72,9 +72,9 @@ unsigned short SECTION(".bss")
     rasen_el_800D2CA4[4]; // TODO: rename to rasen_* ? or move to rasen_el? - everything will come clear in s11a where
                           // there's only rasen.c, no rasen_el.c
 
-void Takabe_FreeObjs_800DC820(DG_OBJS *objs);
-void Takabe_RefreshObjectPacks_800DC854(DG_OBJS *objs);
-void Takabe_ReshadeModel_800DC854(DG_OBJS *objs, LIT *lit);
+void Takabe_FreeObjs(DG_OBJS *objs);
+void Takabe_RefreshObjectPacks(DG_OBJS *objs);
+void Takabe_ReshadeModel(DG_OBJS *objs, LIT *lit);
 void s00a_unknown3_800DC918();
 
 extern GM_CAMERA       GM_Camera;
@@ -387,7 +387,7 @@ void Rasen2Die_800CAB74(Rasen2Work *work)
     }
     for (i = work->field_2C - 1; i >= 0; i--)
     {
-        Takabe_FreeObjs_800DC820(work->field_B0[i].objs);
+        Takabe_FreeObjs(work->field_B0[i].objs);
     }
     s00a_unknown3_800DC918();
     if (work->field_238 != NULL)
@@ -539,14 +539,14 @@ void Rasen2_800CB0A4(Rasen2Work *work)
 
     for (j = 0; j < work->field_2C; j++)
     {
-        Takabe_ReshadeModel_800DC854(work->field_B0[j].objs, work->field_B0[j].lit);
+        Takabe_ReshadeModel(work->field_B0[j].objs, work->field_B0[j].lit);
     }
 
     for (i = 0; i < 3; i++)
     {
         for (j = 0; j < 16; j++)
         {
-            Takabe_RefreshObjectPacks_800DC854(work->field_170[i][j]);
+            Takabe_RefreshObjectPacks(work->field_170[i][j]);
         }
     }
 }

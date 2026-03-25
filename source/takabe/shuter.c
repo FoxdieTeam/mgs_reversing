@@ -43,8 +43,8 @@ typedef struct _ShuterWork
 
 unsigned short shuter_msgs_800C3738[] = {0x418B, 0x3A02};
 
-DG_OBJS * s00a_unknown3_800DC7BC(int model, LIT *lit);
-void      Takabe_FreeObjs_800DC820(DG_OBJS *objs);
+DG_OBJS * Takabe_MakePreshade(int model, LIT *lit);
+void      Takabe_FreeObjs(DG_OBJS *objs);
 
 void Shuter_800DFBD8(ShuterWork *);
 void Shuter_800DFC30(ShuterWork *work);
@@ -185,7 +185,7 @@ void ShuterDie_800DF774(ShuterWork *work)
     Shuter_800DFDD0(work);
     Shuter_800DFC30(work);
     GM_FreeTarget(work->target);
-    Takabe_FreeObjs_800DC820(work->object.objs);
+    Takabe_FreeObjs(work->object.objs);
 }
 
 void Shuter_800DF7B8(ShuterWork *work)
@@ -480,5 +480,5 @@ void Shuter_800DFF34(OBJECT *object, int model, int flag)
 
     object->flag = flag;
     object->map_name = GM_CurrentMap;
-    object->objs = s00a_unknown3_800DC7BC(model, GM_GetMap(GM_CurrentMap)->lit);
+    object->objs = Takabe_MakePreshade(model, GM_GetMap(GM_CurrentMap)->lit);
 }

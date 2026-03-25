@@ -1669,30 +1669,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\anime\effect\smoke_ln.obj", overlay
     include "{{OBJ_DIR}}\okajima\wall_spa.obj", overlay
     include "{{OBJ_DIR}}\okajima\plasma.obj", overlay
-
-    include "{{OBJ_DIR}}\overlays\s11g\overlay2.obj", overlay
-
-    include "{{OBJ_DIR}}\overlays\s11g\s11g_s11_objs_800CA460.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\s11g_s11_objs_800CA4C8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\s11g_s11_objs_800CADE8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\s11g_s11_objs_800CAE14.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\s11g_s11_objs_800CB22C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\s11g_s11_objs_800CB29C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\s11g_s11_objs_800CB388.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\s11g_11g_demo_800CB41C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\s11g_11g_demo_800CB4B4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\s11g_11g_demo_800CB534.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\s11g_11g_demo_800CB600.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\s11g_11g_demo_800CB67C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\s11g_11g_demo_800CB764.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\s11g_11g_demo_800CB7FC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\s11g_11g_demo_800CB858.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\s11g_11g_demo_800CB878.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\s11g_11g_demo_800CB994.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\s11g_11g_demo_800CC46C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\s11g_11g_demo_800CC50C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\s11g_11g_demo_800CCB48.obj", overlay
-
+    include "{{OBJ_DIR}}\overlays\s11g\okajima\s11_objs.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11g\okajima\11g_demo.obj", overlay
     include "{{OBJ_DIR}}\okajima\red_alrt.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11g\okajima\blst_ln.obj", overlay
     include "{{OBJ_DIR}}\okajima\blurpure.obj", overlay
