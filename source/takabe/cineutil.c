@@ -7,7 +7,7 @@ int   cinema_screen_alive = FALSE;
 int   cinema_screen_time = 0;
 void *cinema_screen_actor = NULL;
 
-void OpenCinemaScreen(int event, int time)
+void OpenCinemaScreen(int type, int time)
 {
     void *screen;
 
@@ -15,7 +15,7 @@ void OpenCinemaScreen(int event, int time)
     {
         cinema_screen_alive = TRUE;
         cinema_screen_time = time;
-        screen = NewCinemaScreen(time, event);
+        screen = NewCinemaScreen(time, type);
         cinema_screen_actor = screen;
     }
 }
