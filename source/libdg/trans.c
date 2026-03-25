@@ -394,8 +394,8 @@ void DG_TransChanl( DG_CHANL *chanl, int idx )
 
     DG_Clip(&chanl->clip_rect, chanl->clip_distance);
 
-    queue = (DG_OBJS **)chanl->mQueue;
-    for (n_objects = chanl->mTotalObjectCount; n_objects > 0; n_objects--)
+    queue = (DG_OBJS **)chanl->queue;
+    for (n_objects = chanl->objs_index; n_objects > 0; n_objects--)
     {
         objs = *queue++;
 

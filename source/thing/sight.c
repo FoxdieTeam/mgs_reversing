@@ -367,7 +367,7 @@ static void Act(Work *work)
     unsigned int              frameCount;
     int                       field30;
     int                       frameCountPositive;
-    unsigned char            *ot;
+    u_long                   *ot;
     int                       field54Flags;
     void                     *primBuf;
     int                       flag;

@@ -166,7 +166,7 @@ static void PreMet1_800C4FD4(Work *work, int index)
     }
 }
 
-static void PreMet1_800C50D4(Work *work, char *pOt)
+static void PreMet1_800C50D4(Work *work, u_long *ot)
 {
     int       i, j, k;
     int       page_number;
@@ -197,14 +197,14 @@ static void PreMet1_800C50D4(Work *work, char *pOt)
 
             sprt->x0 += work->field_9594;
 
-            addPrim(pOt, sprt);
+            addPrim(ot, sprt);
             j++;
         }
     }
 
     tpage = &work->field_444;
     setDrawTPage(tpage, 1, 0, getTPage(0, 1, 704, 256));
-    addPrim(pOt, tpage);
+    addPrim(ot, tpage);
 
     j = page_number * 8;
     for (i = 0; i < 8; i++)
@@ -228,14 +228,14 @@ static void PreMet1_800C50D4(Work *work, char *pOt)
 
             sprt->x0 += work->field_9594;
 
-            addPrim(pOt, sprt);
+            addPrim(ot, sprt);
             j++;
         }
     }
 
     tpage = &work->field_44C;
     setDrawTPage(tpage, 1, 0, getTPage(0, 1, 768, 256));
-    addPrim(pOt, tpage);
+    addPrim(ot, tpage);
 
     j = page_number * 8;
     for (i = 0; i < 8; i++)
@@ -257,7 +257,7 @@ static void PreMet1_800C50D4(Work *work, char *pOt)
                 sprt2->x0 += premet1_800C3290[k];
                 sprt2->y0 += premet1_800C3290[k + 1];
 
-                addPrim(pOt, sprt2);
+                addPrim(ot, sprt2);
                 sprt2++;
             }
             j++;
@@ -266,7 +266,7 @@ static void PreMet1_800C50D4(Work *work, char *pOt)
 
     tpage = &work->field_454;
     setDrawTPage(tpage, 1, 0, getTPage(0, 2, 704, 256));
-    addPrim(pOt, tpage);
+    addPrim(ot, tpage);
 
     j = page_number * 8;
     for (i = 0; i < 8; i++)
@@ -288,7 +288,7 @@ static void PreMet1_800C50D4(Work *work, char *pOt)
                 sprt2->x0 += premet1_800C3290[k];
                 sprt2->y0 += premet1_800C3290[k + 1];
 
-                addPrim(pOt, sprt2);
+                addPrim(ot, sprt2);
                 sprt2++;
             }
             j++;
@@ -297,7 +297,7 @@ static void PreMet1_800C50D4(Work *work, char *pOt)
 
     tpage = &work->field_45C;
     setDrawTPage(tpage, 1, 0, getTPage(0, 2, 768, 256));
-    addPrim(pOt, tpage);
+    addPrim(ot, tpage);
 }
 
 static void PreMet1SetColor_800C5738(Work *work, int index, int fore)

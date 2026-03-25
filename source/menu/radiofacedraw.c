@@ -87,7 +87,7 @@ void radio_draw_face_frame(MenuPrim *pGlue, int x, int y, int w, int h)
             setUVWH(pPoly, px, py, 9, 9);
         }
 
-        addPrim(pGlue->mPrimBuf.mOt, pPoly);
+        addPrim(pGlue->ot, pPoly);
         polys[i] = pPoly;
     }
 
@@ -264,7 +264,7 @@ void menu_radio_draw_face_helper4_80048868(MenuPrim *prim, menu_chara_struct_sub
     }
 
     setLineF4(line_f4);
-    addPrim(prim->mPrimBuf.mOt, line_f4);
+    addPrim(prim->ot, line_f4);
 }
 
 void menu_radio_draw_face_helper5_8004896C( MenuPrim *pPrim, menu_chara_struct_sub *pChara, int idx )
@@ -320,7 +320,7 @@ void menu_radio_draw_face_helper5_8004896C( MenuPrim *pPrim, menu_chara_struct_s
     _NEW_PRIM( pTpage, pPrim );
 
     setDrawTPage( pTpage, 0, 1, getTPage( 0, 0, 960, 256 ) );
-    addPrim( pPrim->mPrimBuf.mOt, pTpage );
+    addPrim( pPrim->ot, pTpage );
 
     if ( dword_800AB6E0 >= 0 && dword_800AB6E0 < h )
     {
@@ -331,7 +331,7 @@ void menu_radio_draw_face_helper5_8004896C( MenuPrim *pPrim, menu_chara_struct_s
 
         setLineF2( pLine );
         setSemiTrans( pLine, 1 );
-        addPrim( pPrim->mPrimBuf.mOt, pLine );
+        addPrim( pPrim->ot, pLine );
     }
 
     color = COLOR_GRAY;
@@ -350,7 +350,7 @@ void menu_radio_draw_face_helper5_8004896C( MenuPrim *pPrim, menu_chara_struct_s
 
         setPolyFT4( pPoly );
         setSemiTrans( pPoly, 1 );
-        addPrim( pPrim->mPrimBuf.mOt, pPoly );
+        addPrim( pPrim->ot, pPoly );
 
         shade = 128 - shade;
         color = ( shade << 16 ) | ( shade << 8 ) | shade;
@@ -366,7 +366,7 @@ void menu_radio_draw_face_helper5_8004896C( MenuPrim *pPrim, menu_chara_struct_s
 
     setPolyFT4( pPoly2 );
     setSemiTrans( pPoly2, 1 );
-    addPrim( pPrim->mPrimBuf.mOt, pPoly2 );
+    addPrim( pPrim->ot, pPoly2 );
 }
 
 static inline void draw_face_anim(menu_chara_struct_sub *a1, int i, menu_chara_struct *chara_struct, MenuPrim *prim)
@@ -438,7 +438,7 @@ void menu_radio_draw_face( MenuWork *work, menu_chara_struct *chara_struct )
         chara_struct->field_3C[ 0 ].field_0_animState = 0;
         chara_struct->field_3C[ 1 ].field_0_animState = 0;
     }
-    prim = work->field_20_otBuf;
+    prim = work->prim;
     dword_800AB6E0 = dword_800AB6E0 + 1;
 
     if ( dword_800AB6E0 > 0x6d )

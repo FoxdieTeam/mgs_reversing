@@ -160,7 +160,7 @@ static void Preope_800C3428(Work *work, int index)
 }
 
 // Duplicate of Change_800C38D0
-static void Preope_800C356C(Work *work, char *ot)
+static void Preope_800C356C(Work *work, u_long *ot)
 {
     int       found;
     int       index;

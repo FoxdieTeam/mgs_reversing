@@ -320,7 +320,7 @@ int menu_item_IsItemDisabled_8003B6D0(int item)
     return (GM_DisableItem & bit) != 0;
 }
 
-void menu_drawPalKey_8003B794(MenuWork *work, unsigned int *pOt, int id)
+void menu_drawPalKey_8003B794(MenuWork *work, u_long *ot, int id)
 {
     RECT      pal_rect;
     RECT      img_rect;
@@ -354,7 +354,7 @@ void menu_drawPalKey_8003B794(MenuWork *work, unsigned int *pOt, int id)
     LSTORE(0x80808080, &pSprt->r0);
     pSprt->clut = getClut(pal_rect.x, pal_rect.y);
     setSprt(pSprt);
-    addPrim(pOt, pSprt);
+    addPrim(ot, pSprt);
 }
 
 /**
@@ -365,12 +365,12 @@ void menu_drawPalKey_8003B794(MenuWork *work, unsigned int *pOt, int id)
  * and name. It also draws the frame around the item.
  *
  * @param work Pointer to the MenuWork actor.
- * @param pOt Pointer to the ordering table.
+ * @param ot Pointer to the ordering table.
  * @param xpos The x-coordinate where the item should be drawn.
  * @param ypos The y-coordinate where the item should be drawn.
  * @param pMenuSub Pointer to the current item in the inventory.
  */
-void menu_item_helper_8003B8F0(MenuWork *work, unsigned int *pOt, int xpos, int ypos, Menu_Inventory *pMenuSub)
+void menu_item_helper_8003B8F0(MenuWork *work, u_long *ot, int xpos, int ypos, Menu_Inventory *pMenuSub)
 {
     PANEL_TEXTURE *pMenuSprt;       // $s6
     SPRT          *pIconSprt;       // $s0
@@ -386,14 +386,14 @@ void menu_item_helper_8003B8F0(MenuWork *work, unsigned int *pOt, int xpos, int 
         // Draw "DISABLED" and "FROZEN" depending on the item state
         if (menu_item_IsItemDisabled_8003B6D0(pMenuSub->field_0_current.field_0_id))
         {
-            menu_draw_nouse(work->field_20_otBuf, xpos, ypos);
+            menu_draw_nouse(work->prim, xpos, ypos);
         }
         if (GM_FrozenItemsState == 1)
         {
             if (pMenuSub->field_0_current.field_0_id == IT_Ration ||
                 pMenuSub->field_0_current.field_0_id == IT_Ketchup)
             {
-                menu_draw_frozen(work->field_20_otBuf, xpos, ypos);
+                menu_draw_frozen(work->prim, xpos, ypos);
             }
         }
         // If the item is a consumable, draw the current and max values
@@ -409,13 +409,13 @@ void menu_item_helper_8003B8F0(MenuWork *work, unsigned int *pOt, int xpos, int 
             textConfig.ypos = ypos + 14;
             textConfig.flags = 0;
             textConfig.colour = 0x64808080;
-            _menu_number_draw_string(work->field_20_otBuf, &textConfig, "LV.");
+            _menu_number_draw_string(work->prim, &textConfig, "LV.");
             textConfig.ypos -= 2;
-            _menu_number_draw(work->field_20_otBuf, &textConfig, GM_Items[IT_Card]);
+            _menu_number_draw(work->prim, &textConfig, GM_Items[IT_Card]);
         }
         else if (pMenuSub->field_0_current.field_0_id == IT_TimerBomb)
         {
-            menu_number_draw(work, pOt, xpos + 10, ypos + 10, GM_Items[IT_TimerBomb], 0);
+            menu_number_draw(work, ot, xpos + 10, ypos + 10, GM_Items[IT_TimerBomb], 0);
         }
 
         // Draw the item icon
@@ -434,15 +434,15 @@ void menu_item_helper_8003B8F0(MenuWork *work, unsigned int *pOt, int xpos, int 
             menu_init_sprt_8003D0D0(pIconSprt, pMenuSprt, xpos, ypos);
             LSTORE(rgb, &pIconSprt->r0);
             setSprt(pIconSprt);
-            addPrim(pOt, pIconSprt);
+            addPrim(ot, pIconSprt);
         }
         // Draw the name of the item/weapon
-        menu_number_draw_string(work, pOt, xpos + 46, ypos + 22,
+        menu_number_draw_string(work, ot, xpos + 46, ypos + 22,
             gMenuItemRpkInfo_8009E484[pMenuSub->field_0_current.field_0_id].field_0_weapon_name, 1);
     }
     else
     {
-        menu_number_draw_string(work, pOt, xpos + 46, ypos + 22, "NO ITEM", 1);
+        menu_number_draw_string(work, ot, xpos + 46, ypos + 22, "NO ITEM", 1);
     }
     // Draw the frame around the item.
     // Use a blue background for the item in the selection slot
@@ -455,7 +455,7 @@ void menu_item_helper_8003B8F0(MenuWork *work, unsigned int *pOt, int xpos, int 
     {
         bBlueBackground = 0;
     }
-    Menu_item_render_frame_rects_8003DBAC(work->field_20_otBuf, xpos, ypos, bBlueBackground);
+    Menu_item_render_frame_rects_8003DBAC(work->prim, xpos, ypos, bBlueBackground);
 }
 
 void menu_8003BBEC(MenuWork *work)
@@ -617,7 +617,7 @@ int menu_item_update_helper_8003BCD4(MenuWork *work)
     return 1;
 }
 
-void menu_item_update_helper2_8003BF1C(MenuWork *work, unsigned int *pOt)
+void menu_item_update_helper2_8003BF1C(MenuWork *work, u_long *ot)
 {
     unsigned short     anim_frame;
     int                anim_frame2;
@@ -638,7 +638,7 @@ void menu_item_update_helper2_8003BF1C(MenuWork *work, unsigned int *pOt)
 
             if ((anim_frame2 & 3) > 1)
             {
-                menu_sub_menu_update_8003DA0C(work, pOt, &work->field_1DC_menu_item);
+                menu_sub_menu_update_8003DA0C(work, ot, &work->field_1DC_menu_item);
 
                 if (((anim_frame2 & 3) == 3) &&
                     (work->field_1DC_menu_item.field_0_current.field_0_id != GM_CurrentItemId) &&
@@ -684,7 +684,7 @@ void menu_item_update_helper2_8003BF1C(MenuWork *work, unsigned int *pOt)
                 }
 
                 work->field_1DC_menu_item.field_0_current.field_2_num = GM_Items[GM_CurrentItemId];
-                menu_sub_menu_update_8003DA0C(work, pOt, &work->field_1DC_menu_item);
+                menu_sub_menu_update_8003DA0C(work, ot, &work->field_1DC_menu_item);
             }
         }
         break;
@@ -728,13 +728,13 @@ void menu_item_update_helper2_8003BF1C(MenuWork *work, unsigned int *pOt)
         {
             if (pPanel->field_0_id == IT_PalKey)
             {
-                menu_drawPalKey_8003B794(work, pOt, GM_ShapeKeyState);
+                menu_drawPalKey_8003B794(work, ot, GM_ShapeKeyState);
             }
 
-            menu_drawDescriptionPanel_8003F9B4(work, pOt, "EQUIP");
+            menu_drawDescriptionPanel_8003F9B4(work, ot, "EQUIP");
         }
 
-        menu_8003D7DC(work, pOt, &work->field_1DC_menu_item);
+        menu_8003D7DC(work, ot, &work->field_1DC_menu_item);
         break;
 
     case 3:
@@ -747,7 +747,7 @@ void menu_item_update_helper2_8003BF1C(MenuWork *work, unsigned int *pOt)
         }
         else
         {
-            menu_8003D7DC(work, pOt, &work->field_1DC_menu_item);
+            menu_8003D7DC(work, ot, &work->field_1DC_menu_item);
         }
         break;
     }
@@ -758,7 +758,7 @@ void menu_item_update_helper2_8003BF1C(MenuWork *work, unsigned int *pOt)
  * while the menu is open.
  *
  * @param work Pointer to the MenuWork actor.
- * @param pOt Pointer to the ordering table.
+ * @param ot Pointer to the ordering table.
  */
 void UseConsumableItem_8003C24C(Menu_Item_Unknown *pPanels, unsigned short press)
 {
@@ -1096,7 +1096,7 @@ void UpdateEnvironmentalEffects_8003C4EC(void)
     }
 }
 
-void menu_item_update_8003C95C(MenuWork *work, unsigned int *pOt)
+void menu_item_update_8003C95C(MenuWork *work, u_long *ot)
 {
     GV_PAD         *pPad = work->field_24_pInput;
     Menu_Inventory *pLeftRight;
@@ -1171,7 +1171,7 @@ void menu_item_update_8003C95C(MenuWork *work, unsigned int *pOt)
             int ret = sub_8003D52C();
             if (ret < 255)
             {
-                sub_8003DA60(work, pOt, &work->field_1DC_menu_item, -ret / 4, 0);
+                sub_8003DA60(work, ot, &work->field_1DC_menu_item, -ret / 4, 0);
                 work->field_1DC_menu_item.field_12_flashingAnimationFrame = 0;
             }
         }
@@ -1186,7 +1186,7 @@ void menu_item_update_8003C95C(MenuWork *work, unsigned int *pOt)
         return;
     }
 
-    menu_item_update_helper2_8003BF1C(work, pOt);
+    menu_item_update_helper2_8003BF1C(work, ot);
     UpdateEnvironmentalEffects_8003C4EC();
 }
 
@@ -1217,7 +1217,7 @@ void menu_item_init_8003CBF0(MenuWork *work)
     work->field_1DC_menu_item.field_11 = val;
     work->field_28_flags |= 4;
     dword_800ABAD0 = 0;
-    menu_set_panel_config_8003D6A8(&work->field_1DC_menu_item, 0, (int *)menu_item_helper_8003B8F0);
+    menu_set_panel_config_8003D6A8(&work->field_1DC_menu_item, 0, menu_item_helper_8003B8F0);
     menu_sub_8003B568();
     sub_8003CB98(work);
     menu_init_nouse();

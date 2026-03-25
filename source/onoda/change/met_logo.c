@@ -410,7 +410,7 @@ static void Act( Work *work )
 
     DG_FrameRate = 3;
 
-    ot = (u_long *)DG_ChanlOTag(1);
+    ot = DG_ChanlOTag(1);
 
     if ( work->count < 256 )
     {

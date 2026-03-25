@@ -376,7 +376,7 @@
 #define CHARA_0041_NINJALZR     { 0x0041, ? }                       // kojo/ninjalzr.c
 #define CHARA_0042_GAS_EFCT     { 0x0042, NewGasEffect_800C4EF8 }   // takabe/gas_efct.c
 #define CHARA_0043_SUB_EFCT     { 0x0043, NewSubEfct_800CCB10 }     // takabe/sub_efct.c
-#define CHARA_0044_BLURPURE     { 0x0044, NewBlurPure_800C54D4 }    // okajima/blurpure.c
+#define CHARA_0044_BLURPURE     { 0x0044, NewBlurPure }             // okajima/blurpure.c
 #define CHARA_0045_FAMASLIT     { 0x0045, NewFamasLight }           // kojo/famaslit.c
 #define CHARA_0046_REALSHDW     { 0x0046, ? }                       // takabe/realshdw.c (PC-ONLY)
 #define CHARA_0047_BLOODHZD     { 0x0047, ? }                       // kojo/bloodhzd.c
@@ -477,7 +477,7 @@ void *NewBlood();                       /* okajima/blood.c              */
 void *NewBloodBl_800CD7CC();            /* okajima/blood_bl.c           */
 void *NewBloodCl_800C9DF0();            /* okajima/blood_cl.c           */
 void *NewBlur_800CD530();               /* okajima/blur.c               */
-void *NewBlurPure_800C54D4();           /* okajima/blurpure.c           */
+void *NewBlurPure();                    /* okajima/blurpure.c           */
 void *NewBubbleDisplayScene_800D90B4(); /* okajima/bub_d_sn.c           */
 void *NewBubbleP_800D9D94();            /* okajima/bubble_p.c           */
 void *NewBubbleS_800D5D9C();            /* okajima/bubble_s.c           */

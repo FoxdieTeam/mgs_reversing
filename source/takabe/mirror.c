@@ -203,9 +203,9 @@ void MirrorAct_800DFDDC(MirrorWork *work)
 
     chanl = DG_Chanl(0);
 
-    queue = chanl->mQueue;
+    queue = chanl->queue;
     objs = &work->objects[0].objs;
-    for (i = chanl->mTotalObjectCount; i > 0; i--, queue++)
+    for (i = chanl->objs_index; i > 0; i--, queue++)
     {
         if (*queue != objs)
         {
@@ -219,7 +219,7 @@ void MirrorAct_800DFDDC(MirrorWork *work)
             *dst++ = *src++;
         }
 
-        chanl->mTotalObjectCount -= work->n_objects;
+        chanl->objs_index -= work->n_objects;
 
         object = &work->objects[work->n_objects];
         for (i = work->n_objects; i > 0; i--)
@@ -242,9 +242,9 @@ void MirrorAct_800DFDDC(MirrorWork *work)
         return;
     }
 
-    queue = chanl->mQueue;
+    queue = chanl->queue;
     object = work->objects;
-    for (i = chanl->mTotalObjectCount; i > 0; i--)
+    for (i = chanl->objs_index; i > 0; i--)
     {
         objs = *queue++;
 
@@ -297,19 +297,19 @@ void MirrorAct_800DFDDC(MirrorWork *work)
 
     object = work->objects;
 
-    if (chanl->mFreePrimCount < (chanl->mTotalObjectCount + work->n_objects))
+    if (chanl->prim_index < (chanl->objs_index + work->n_objects))
     {
-        work->n_objects = chanl->mFreePrimCount - chanl->mTotalObjectCount;
+        work->n_objects = chanl->prim_index - chanl->objs_index;
     }
 
-    queue = chanl->mQueue + chanl->mTotalObjectCount;
+    queue = chanl->queue + chanl->objs_index;
     for (i = work->n_objects; i > 0; i--)
     {
         *queue++ = &object->objs;
         object++;
     }
 
-    chanl->mTotalObjectCount += work->n_objects;
+    chanl->objs_index += work->n_objects;
 }
 
 void MirrorDie_800E0670(MirrorWork *work)
@@ -336,11 +336,11 @@ void MirrorDie_800E0670(MirrorWork *work)
     }
 
     chanl = DG_Chanl(0);
-    queue = chanl->mQueue;
+    queue = chanl->queue;
 
     first = &work->objects[0].objs;
 
-    for (j = chanl->mTotalObjectCount; j > 0; j--, queue++)
+    for (j = chanl->objs_index; j > 0; j--, queue++)
     {
         if (*queue != first)
         {
@@ -354,7 +354,7 @@ void MirrorDie_800E0670(MirrorWork *work)
             *dst++ = *src++;
         }
 
-        chanl->mTotalObjectCount -= work->n_objects;
+        chanl->objs_index -= work->n_objects;
 
         object = &work->objects[work->n_objects];
         for (j = work->n_objects; j > 0; j--)

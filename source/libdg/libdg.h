@@ -282,25 +282,26 @@ typedef struct DG_DivideMem         // private to libdg/divide.c
 
 typedef struct DG_CHANL
 {
-    unsigned char *ot[ 2 ]; // 257 pointers? // One for each active buffer
-    short          field_08;
-    short          field_0A;
-    short          field_0C;
-    short          field_0E_size;
-    MATRIX         eye_inv;
-    MATRIX         eye;
-    short          clip_distance;
-    short          mTotalQueueSize;
-    short          mFreePrimCount;
-    short          mTotalObjectCount;
-    DG_OBJS      **mQueue; // queue can contain DG_PRIM as well, probably void*
-    RECT           clip_rect;
-    RECT           field_64_rect;
-    // One for each active buffer and for some reason passed as the root
-    // to DrawOTag
-    DR_ENV         field_6C_dr_env[ 2 ];
-    DR_ENV         field_EC_dr_env[ 2 ];
-    DR_ENV         field_16C_dr_env[ 2 ];
+    u_long   *ot[ 2 ]; // 257 pointers? // One for each active buffer
+    short     ot_size;
+    short     link;
+    short     dblbuf; /* double buffer */
+    short     dirty;
+    MATRIX    eye_inv;
+    MATRIX    eye;
+    short     clip_distance;
+    short     queue_size;
+    short     prim_index;
+    short     objs_index;
+
+    /* TODO: retype as (void **) */
+    DG_OBJS **queue; // queue of DG_OBJS followed by DG_PRIM
+
+    RECT      clip_rect;
+    RECT      new_clip_rect;
+    DR_ENV    env1[ 2 ]; // used when entering the channel
+    DR_ENV    env2[ 2 ]; // used when returning to the background channel
+    DR_ENV    new_env[ 2 ];
 } DG_CHANL;
 
 enum DG_PRIM_TYPE {
@@ -453,7 +454,7 @@ void DG_BoundEnd( void );
 
 /* chanl.c */
 void DG_InitChanlSystem( int width );
-void DG_DrawOTag( int activeBuffer );
+void DG_DrawOTag( int which );
 void DG_ClearChanlSystem( int which );
 void DG_RenderPipeline( int idx );
 void DG_SetRenderChanlDrawEnv( int idx, DRAWENV *pDrawEnv );
@@ -625,7 +626,7 @@ static inline DG_CHANL *DG_Chanl( int idx )
     return &DG_Chanls[ idx + 1 ];
 }
 
-static inline char *DG_ChanlOTag(int index)
+static inline u_long *DG_ChanlOTag(int index)
 {
     extern int GV_Clock;
     return DG_Chanl(index)->ot[GV_Clock];

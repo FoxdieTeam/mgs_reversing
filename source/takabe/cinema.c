@@ -70,7 +70,7 @@ static void Act( Work *work )
         return;
     }
 
-    ot = (u_long *)DG_Chanl( 1 )->ot[ GV_Clock ] ;
+    ot = DG_Chanl( 1 )->ot[ GV_Clock ] ;
 
     for ( i = 0 ; i < 2 ; i++ )
     {

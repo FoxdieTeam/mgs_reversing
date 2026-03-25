@@ -13,7 +13,7 @@ extern UnkJimakuStruct gUnkJimakuStruct_800BDA70;
 
 signed char dword_8009E76C[] = {-1, 0, 1, 0, 0, 1, 0, -1};
 
-void menu_jimaku_act( MenuWork *work, unsigned int *pOt )
+void menu_jimaku_act( MenuWork *work, u_long *ot )
 {
     TextConfig config;
     int        i;
@@ -44,7 +44,7 @@ void menu_jimaku_act( MenuWork *work, unsigned int *pOt )
             pSprt->u0 = 0;
             pSprt->v0 = 0;
             setSprt(pSprt);
-            addPrim(pOt, pSprt);
+            addPrim(ot, pSprt);
 
             for (i = 0; i < 8; i += 2)
             {
@@ -53,7 +53,7 @@ void menu_jimaku_act( MenuWork *work, unsigned int *pOt )
                 LSTORE(0x64000000, &pSprt2->r0);
                 pSprt2->x0 += dword_8009E76C[i];
                 pSprt2->y0 += dword_8009E76C[i + 1];
-                addPrim(pOt, pSprt2);
+                addPrim(ot, pSprt2);
             }
         }
 
@@ -64,14 +64,14 @@ void menu_jimaku_act( MenuWork *work, unsigned int *pOt )
             config.xpos = 160;
             config.ypos = 80;
 
-            _menu_number_draw_string2( work->field_20_otBuf, &config, "PAUSE" );
-            pTile = menu_render_rect_8003DB2C( work->field_20_otBuf, 0, 0, FRAME_WIDTH, FRAME_HEIGHT, 0 );
+            _menu_number_draw_string2( work->prim, &config, "PAUSE" );
+            pTile = menu_render_rect_8003DB2C( work->prim, 0, 0, FRAME_WIDTH, FRAME_HEIGHT, 0 );
             setSemiTrans(pTile, 1);
         }
 
         NEW_PRIM(pTpage, work);
         setDrawTPage(pTpage, 1, 0, getTPage(0, 0, 960, 256));
-        addPrim(pOt, pTpage);
+        addPrim(ot, pTpage);
 
         if ( gUnkJimakuStruct_800BDA70.field_2_timer == -1 )
         {

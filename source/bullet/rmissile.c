@@ -208,7 +208,7 @@ static void DrawMissileHud(Work *work)
 
     width = ((1000 - work->field_118) * 60) / 1000;
 
-    ot = (u_long *)DG_ChanlOTag(1);
+    ot = DG_ChanlOTag(1);
     bar = work->fuel_bar[GV_Clock];
 
     if (width > 60)

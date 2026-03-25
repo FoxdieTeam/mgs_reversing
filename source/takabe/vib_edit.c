@@ -137,18 +137,18 @@ static void VibEdit_800C34F0(VibEditWork *work)
 
 static void VibEdit_800C36BC(VibEditWork *work)
 {
-    VibPair       *pairs;
-    LINE_F2       *line;
-    TILE          *tile;
-    unsigned char *mOt;
-    int            x0;
-    int            i;
+    VibPair *pairs;
+    LINE_F2 *line;
+    TILE    *tile;
+    u_long  *ot;
+    int      x0;
+    int      i;
 
     pairs = work->field_4C_pairs;
     x0 = 16;
 
     tile = work->field_44_prims->tiles1[GV_Clock];
-    mOt = DG_Chanl(1)->ot[GV_Clock];
+    ot = DG_Chanl(1)->ot[GV_Clock];
 
     for (i = 0; i < 16; i++, pairs++, tile++)
     {
@@ -171,7 +171,7 @@ static void VibEdit_800C36BC(VibEditWork *work)
         tile->y0 = 155 - pairs->first / 3;
         tile->h = 1;
 
-        addPrim(mOt, tile);
+        addPrim(ot, tile);
     }
 
     pairs = work->field_70_pairs;
@@ -200,7 +200,7 @@ static void VibEdit_800C36BC(VibEditWork *work)
         tile->y0 = 155 - pairs->first / 3;
         tile->h = 1;
 
-        addPrim(mOt, tile);
+        addPrim(ot, tile);
     }
 
     line = work->field_44_prims->lines[GV_Clock];
@@ -208,7 +208,7 @@ static void VibEdit_800C36BC(VibEditWork *work)
 
     for (i = 0; i < 3; i++, line++)
     {
-        addPrim(mOt, line);
+        addPrim(ot, line);
     }
 }
 

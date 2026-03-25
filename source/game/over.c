@@ -441,7 +441,7 @@ static void Act( Work *work )
     u_short press;
     int     shade;
 
-    ot = (u_long *)DG_ChanlOTag(1);
+    ot = DG_ChanlOTag(1);
 
     if (GV_PauseLevel & 8)
     {
