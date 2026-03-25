@@ -34,8 +34,8 @@ typedef struct Panel2Work
 
 SVECTOR s08b_dword_800C3650 = {0, 0, 65236};
 
-void     Takabe_FreeObjs_800DC820(DG_OBJS *objs);
-DG_OBJS *s00a_unknown3_800DC7BC(int model, LIT *lit);
+void     Takabe_FreeObjs(DG_OBJS *objs);
+DG_OBJS *Takabe_MakePreshade(int model, LIT *lit);
 
 // Modified BreakObj_800D5AC0 (OBJECT_NO_ROTS instead of OBJECT)
 void Panel2_800E1244(OBJECT_NO_ROTS *object, int model, int where, int flag)
@@ -44,7 +44,7 @@ void Panel2_800E1244(OBJECT_NO_ROTS *object, int model, int where, int flag)
 
     object->flag = flag;
     object->map_name = where;
-    object->objs = s00a_unknown3_800DC7BC(model, GM_GetMap(where)->lit);
+    object->objs = Takabe_MakePreshade(model, GM_GetMap(where)->lit);
     object->objs->flag = flag;
 }
 
@@ -97,7 +97,7 @@ void Panel2Die_800E13B0(Panel2Work *work)
         GM_FreeTarget(work->target);
     }
 
-    Takabe_FreeObjs_800DC820(work->object.objs);
+    Takabe_FreeObjs(work->object.objs);
 }
 
 void Panel2InitTarget_800E13F4(Panel2Work *work)

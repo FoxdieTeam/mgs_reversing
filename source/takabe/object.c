@@ -3,7 +3,9 @@
 #include "libdg/libdg.h"
 #include "game/game.h"
 
-DG_OBJS *s00a_unknown3_800DC724(int model, LIT *lit, int flag)
+void Takabe_RefreshObjectPacks(DG_OBJS *objs);
+
+static DG_OBJS *MakePreshade(int model, LIT *lit, int flag)
 {
     DG_DEF  *def;
     DG_OBJS *objs;
@@ -27,33 +29,31 @@ DG_OBJS *s00a_unknown3_800DC724(int model, LIT *lit, int flag)
     return objs;
 }
 
-DG_OBJS *s00a_unknown3_800DC7BC(int model, LIT *lit)
+DG_OBJS *Takabe_MakePreshade(int model, LIT *lit)
 {
-    return s00a_unknown3_800DC724(model, lit, 0x57);
+    return MakePreshade(model, lit, ( DG_FLAG_TEXT | DG_FLAG_PAINT | DG_FLAG_TRANS | DG_FLAG_BOUND | DG_FLAG_ONEPIECE ));
 }
 
-DG_OBJS *s00a_unknown3_800DC7DC(int model, LIT *lit)
+DG_OBJS *Takabe_MakeElevatorPreshade(int model, LIT *lit)
 {
     DG_SetPos(&DG_ZeroMatrix);
-    return s00a_unknown3_800DC7BC(model, lit);
+    return Takabe_MakePreshade(model, lit);
 }
 
-void Takabe_FreeObjs_800DC820(DG_OBJS *objs)
+void Takabe_FreeObjs(DG_OBJS *objs)
 {
     DG_DequeueObjs(objs);
     DG_FreePreshade(objs);
     DG_FreeObjs(objs);
 }
 
-void Takabe_RefreshObjectPacks_800DC854(DG_OBJS *objs);
-
-void Takabe_ReshadeModel_800DC854(DG_OBJS *objs, LIT *lit)
+void Takabe_ReshadeModel(DG_OBJS *objs, LIT *lit)
 {
     DG_MakePreshade(objs, lit->lights, lit->n_lights);
-    Takabe_RefreshObjectPacks_800DC854(objs);
+    Takabe_RefreshObjectPacks(objs);
 }
 
-void Takabe_RefreshObjectPacks_800DC854(DG_OBJS *objs)
+void Takabe_RefreshObjectPacks(DG_OBJS *objs)
 {
     DG_OBJ *obj;
     int     n_models;
@@ -77,6 +77,7 @@ void Takabe_RefreshObjectPacks_800DC854(DG_OBJS *objs)
 
 void s00a_unknown3_800DC908()
 {
+    /* do nothing */
 }
 
 int s00a_unknown3_800DC910()
@@ -86,6 +87,7 @@ int s00a_unknown3_800DC910()
 
 void s00a_unknown3_800DC918()
 {
+    /* do nothing */
 }
 
 int Takabe_MakePreshadeObjectDupl_800DC920()

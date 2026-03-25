@@ -44,7 +44,7 @@
 #define CHARA_11E9_HIND         { 0x11e9, s11d_hind_800CB708 }      // chara/hind/hind.c
 #define CHARA_VRBG2             { 0x1454, ? }                       // GV_StrCode("ＶＲ背景２") koba/vr/bg2.c
 #define CHARA_VRBG3             { 0x1455, ? }                       // GV_StrCode("ＶＲ背景３") koba/vr/bg3.c
-#define CHARA_11G_DEMO          { 0x153e, s11g_11g_demo_800CCB48 }  // okajima/11g_demo.c
+#define CHARA_11G_DEMO          { 0x153e, NewStage11GDemo }         // okajima/11g_demo.c
 #define CHARA_P_LAMP            { 0x169c, NewPLamp_800CD948 }       // okajima/p_lamp.c
 #define CHARA_SMOKE             { 0x170c, NewSmoke_800D2BEC }       // GV_StrCode("煙") enemy/smoke.c
 #define CHARA_173C              { 0x173c, ? }                       // (PSX-ONLY)
@@ -279,7 +279,7 @@
 #define CHARA_INTR_CAM          { 0xdd8b, NewIntrudeCamera }        // chara/others/intr_cam.c
 #define CHARA_PANEL2            { 0xdd95, NewPanel2_800E1728 }      // GV_StrCode("パネル２") takabe/panel2.c
 #define CHARA_VRBOX             { 0xdf0f, ? }                       // GV_StrCode("ＶＲＢＯＸ") koba/vr/vrbox.c
-#define CHARA_S11_OBJS          { 0xe068, s11g_s11_objs_800CB388 }  // okajima/s11_objs.c
+#define CHARA_S11_OBJS          { 0xe068, NewStage11Objects }       // okajima/s11_objs.c
 #define CHARA_EVPANEL           { 0xe253, NewEvPanel }              // game/evpanel.c
 #define CHARA_MERYL72           { 0xe271, NewMeryl72_800C7BC4 }     // animal/meryl72/meryl72.c
 #define CHARA_RED_ALRT          { 0xe397, NewRedAlert_800C4DF0 }    // okajima/red_alrt.c
@@ -471,7 +471,7 @@ void *NewVrwindow_800D81AC();           /* koba/vr/vrwindow.c           */
 void *NewFamasLight();                  /* kojo/famaslit.c              */
 void *NewInverlt2_800D0FF4();           /* kojo/inverlt2.c              */
 void *NewSnowStorm();                   /* kojo/sstorm.c                */
-void *s11g_11g_demo_800CCB48();         /* okajima/11g_demo.c           */
+void *NewStage11GDemo();                /* okajima/11g_demo.c           */
 void *NewBlinkTx_800DECD8();            /* okajima/blink_tx.c           */
 void *NewBlood();                       /* okajima/blood.c              */
 void *NewBloodBl_800CD7CC();            /* okajima/blood_bl.c           */
@@ -502,7 +502,7 @@ void *NewPlasma_800CD110();             /* okajima/plasma.c             */
 void *NewRedAlert2_800C4E84();          /* okajima/red_alrt.c           */
 void *NewRedAlert_800C4DF0();           /* okajima/red_alrt.c           */
 void *RedAlert_800C4F48();              /* okajima/red_alrt.c           */
-void *s11g_s11_objs_800CB388();         /* okajima/s11_objs.c           */
+void *NewStage11Objects();              /* okajima/s11_objs.c           */
 void *NewScnMark_800C9580();            /* okajima/scn_mark.c           */
 void *NewSmokeLn_800CDFA4();            /* okajima/smke_ln.c            */
 void *NewSmktrgt_800DC410();            /* okajima/smktrgt.c            */

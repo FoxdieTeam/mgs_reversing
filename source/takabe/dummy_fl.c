@@ -71,11 +71,11 @@ SVECTOR normal = {0, 4096, 0};
 extern CONTROL *tenage_ctrls_800BDD30[16];
 extern int      tenage_ctrls_count_800BDD70;
 
-void Takabe_FreeObjs_800DC820(DG_OBJS *objs);
-void Takabe_ReshadeModel_800DC854(DG_OBJS *, LIT *);
-void Takabe_RefreshObjectPacks_800DC854(DG_OBJS *);
+void Takabe_FreeObjs(DG_OBJS *objs);
+void Takabe_ReshadeModel(DG_OBJS *, LIT *);
+void Takabe_RefreshObjectPacks(DG_OBJS *);
 
-DG_OBJS *s00a_unknown3_800DC7BC(int model, LIT *lit);
+DG_OBJS *Takabe_MakePreshade(int model, LIT *lit);
 
 void s01a_800E2364(MATRIX *mtx, SVECTOR *in, VECTOR *out);
 void s16b_800C4874(int arg0, HZD_SEG *arg1, int arg2, HZD_FLR *arg3);
@@ -301,8 +301,8 @@ static void Act(Work *work)
     {
         work->flr_obj[0].objs->flag = ( DG_FLAG_TEXT | DG_FLAG_PAINT | DG_FLAG_TRANS | DG_FLAG_BOUND | DG_FLAG_ONEPIECE | DG_FLAG_IRTEXTURE );
         work->flr_obj[1].objs->flag = ( DG_FLAG_TEXT | DG_FLAG_PAINT | DG_FLAG_TRANS | DG_FLAG_BOUND | DG_FLAG_ONEPIECE | DG_FLAG_IRTEXTURE );
-        Takabe_RefreshObjectPacks_800DC854(work->flr_obj[0].objs);
-        Takabe_RefreshObjectPacks_800DC854(work->flr_obj[1].objs);
+        Takabe_RefreshObjectPacks(work->flr_obj[0].objs);
+        Takabe_RefreshObjectPacks(work->flr_obj[1].objs);
         work->shade_flag = 0;
     }
 }
@@ -316,10 +316,10 @@ static void Die(Work *work)
     }
 
     work->flr_obj[0].objs->flag = ( DG_FLAG_TEXT | DG_FLAG_PAINT | DG_FLAG_TRANS | DG_FLAG_BOUND | DG_FLAG_ONEPIECE | DG_FLAG_IRTEXTURE );
-    Takabe_FreeObjs_800DC820(work->flr_obj[0].objs);
+    Takabe_FreeObjs(work->flr_obj[0].objs);
 
     work->flr_obj[1].objs->flag = ( DG_FLAG_TEXT | DG_FLAG_PAINT | DG_FLAG_TRANS | DG_FLAG_BOUND | DG_FLAG_ONEPIECE | DG_FLAG_IRTEXTURE );
-    Takabe_FreeObjs_800DC820(work->flr_obj[1].objs);
+    Takabe_FreeObjs(work->flr_obj[1].objs);
 }
 
 static int GetResources(Work *work, int name, int map)
@@ -365,7 +365,7 @@ static int GetResources(Work *work, int name, int map)
     ReadRotMatrix(&flr_obj[0].model);
     ReadRotMatrix(&flr_obj[0].objs->world);
 
-    Takabe_ReshadeModel_800DC854(flr_obj[0].objs, GM_GetMap(map)->lit);
+    Takabe_ReshadeModel(flr_obj[0].objs, GM_GetMap(map)->lit);
 
     flr_obj[1].pos.vx = flr_obj[0].f34.vx + flr_obj[1].f34.vx;
 
@@ -374,7 +374,7 @@ static int GetResources(Work *work, int name, int map)
     ReadRotMatrix(&flr_obj[1].model);
     ReadRotMatrix(&flr_obj[1].objs->world);
 
-    Takabe_ReshadeModel_800DC854(flr_obj[1].objs, GM_GetMap(map)->lit);
+    Takabe_ReshadeModel(flr_obj[1].objs, GM_GetMap(map)->lit);
 
     work->f15C.vx = flr_obj[0].f34.vx;
     work->f15C.vz = flr_obj[0].f34.vz / 2;
@@ -470,7 +470,7 @@ static void InitPreshadeObject(Work *work, FLOOR_OBJ *flr_obj, int model_name, i
 {
     DG_MDL *mdl;
 
-    flr_obj->objs = s00a_unknown3_800DC7BC(model_name, NULL);
+    flr_obj->objs = Takabe_MakePreshade(model_name, NULL);
     flr_obj->objs->flag = ( DG_FLAG_TEXT | DG_FLAG_PAINT | DG_FLAG_TRANS | DG_FLAG_BOUND | DG_FLAG_ONEPIECE | DG_FLAG_IRTEXTURE );
 
     mdl = flr_obj->objs->def->model;

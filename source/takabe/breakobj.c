@@ -6,8 +6,8 @@
 #include "takabe/thing.h"
 #include "anime/animconv/anime.h"
 
-void     Takabe_FreeObjs_800DC820(DG_OBJS *objs);
-DG_OBJS *s00a_unknown3_800DC7BC(int model, LIT *lit);
+void     Takabe_FreeObjs(DG_OBJS *objs);
+DG_OBJS *Takabe_MakePreshade(int model, LIT *lit);
 
 /*---------------------------------------------------------------------------*/
 
@@ -73,7 +73,7 @@ static void Act(Work *work)
     if (flag)
     {
         object = &work->object;
-        Takabe_FreeObjs_800DC820(work->object.objs);
+        Takabe_FreeObjs(work->object.objs);
         DG_SetPos2(&work->svec1, &work->svec2);
         BreakObj_800D5AC0(object, work->model, work->where, 0x57);
         if (work->raise != 32767)
@@ -92,7 +92,7 @@ static void Die(Work *work)
     {
         GM_FreeTarget(work->target);
     }
-    Takabe_FreeObjs_800DC820(work->object.objs);
+    Takabe_FreeObjs(work->object.objs);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -194,6 +194,6 @@ void BreakObj_800D5AC0(OBJECT *object, int model, int where, int flag)
 
     object->flag = flag;
     object->map_name = where;
-    object->objs = s00a_unknown3_800DC7BC(model, GM_GetMap(where)->lit);
+    object->objs = Takabe_MakePreshade(model, GM_GetMap(where)->lit);
     object->objs->flag = flag;
 }
