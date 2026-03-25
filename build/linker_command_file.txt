@@ -1358,7 +1358,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
     include "{{OBJ_DIR}}\enemy\grnad_e.obj", overlay
     include "{{OBJ_DIR}}\animal\meryl72\think.obj", overlay
-    include "{{OBJ_DIR}}\takabe\unknown6.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cineutil.obj", overlay
     include "{{OBJ_DIR}}\animal\meryl72\think9.obj", overlay ; name needed
     include "{{OBJ_DIR}}\okajima\blurpure.obj", overlay
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
@@ -1630,7 +1630,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\chara\torture\bed.obj", overlay
     include "{{OBJ_DIR}}\chara\torture\revolver.obj", overlay
     include "{{OBJ_DIR}}\chara\torture\unknown5.obj", overlay
-    include "{{OBJ_DIR}}\takabe\unknown6.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cineutil.obj", overlay
     include "{{OBJ_DIR}}\chara\torture\boxall.obj", overlay
     include "{{OBJ_DIR}}\chara\torture\info.obj", overlay
     include "{{OBJ_DIR}}\chara\torture\unknown7.obj", overlay
@@ -1826,7 +1826,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\chara\torture\otacom.obj", overlay
     include "{{OBJ_DIR}}\chara\torture\ninja.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\smoke2.obj", overlay
-    include "{{OBJ_DIR}}\takabe\unknown6.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cineutil.obj", overlay
     include "{{OBJ_DIR}}\chara\torture\boxall.obj", overlay
     include "{{OBJ_DIR}}\chara\torture\sne_03c.obj", overlay
     include "{{OBJ_DIR}}\chara\torture\johnny2.obj", overlay

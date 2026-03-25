@@ -153,9 +153,9 @@ void s03b_boxall_800C93F0(int, int);
 void s03b_boxall_800C9404(void);
 int  s03b_boxall_800C95EC(void);
 int  s03b_boxall_800C9654(int);
-void s03b_boxall_800C969C(int, int);
-void s03b_boxall_800C96E8(void);
-void s03b_boxall_800C974C(void);
+void OpenCinemaScreen(int, int);
+void CloseCinemaScreen(void);
+void CheckCinemaTimeout(void);
 
 void s03b_torture_800C4C48(TortureWork *work, int);
 void s03b_torture_800C5AF8(TortureWork *work, int);
@@ -585,7 +585,7 @@ void s03b_torture_800C4740(TortureWork *work)
     int vox_stream;
     int f802;
 
-    s03b_boxall_800C974C();
+    CheckCinemaTimeout();
 
     if (GV_PadData[2].press & PAD_CROSS)
     {
@@ -601,7 +601,7 @@ void s03b_torture_800C4740(TortureWork *work)
     case 0:
         if (work->f81A == 0)
         {
-            s03b_boxall_800C969C(1, 60000);
+            OpenCinemaScreen(1, 60000);
         }
 
         if (work->f8FC == 0)
@@ -627,7 +627,7 @@ void s03b_torture_800C4740(TortureWork *work)
         {
             if (work->f820 == 4)
             {
-                s03b_boxall_800C96E8();
+                CloseCinemaScreen();
                 work->f802 |= 0x4;
             }
             else
@@ -746,7 +746,7 @@ void s03b_torture_800C4AB0(TortureWork *work, int arg1)
         s03b_boxall_800C9328();
         s03b_boxall_800C93F0(work->f87C[2], 4);
         GM_SetSound(0xff0000fe, SD_ASYNC);
-        s03b_boxall_800C969C(0, 10000);
+        OpenCinemaScreen(0, 10000);
 
         if (work->body.action != 2)
         {
@@ -1863,7 +1863,7 @@ void TortureDie_800C6774(TortureWork *work)
 
     GM_PlayerStatus &= ~PLAYER_MENU_DISABLE;
 
-    s03b_boxall_800C96E8();
+    CloseCinemaScreen();
     s03b_boxall_800C9328();
 
     GM_SnakeCurrentHealth = GM_SnakeMaxHealth;

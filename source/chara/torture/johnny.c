@@ -115,10 +115,10 @@ void    AN_Fog(SVECTOR *svec);
 void    AN_Sleep( SVECTOR *svec );
 void    s03b_boxall_800C9328(void);
 void    s03b_boxall_800C9404(void);
-void    s03b_boxall_800C96E8(void);
-void    s03b_boxall_800C974C(void);
+void    CloseCinemaScreen(void);
+void    CheckCinemaTimeout(void);
 void    s03b_boxall_800C93F0(int, int);
-void    s03b_boxall_800C969C(int, int);
+void    OpenCinemaScreen(int, int);
 int     s03b_boxall_800C93AC(int arg0);
 int     s03b_boxall_800C95EC(void);
 void   *NewGunLight_800D3AD4(MATRIX *world, int **pvisible);
@@ -2226,7 +2226,7 @@ void s03c_johnny_800C7A64(JohnnyWork *work, int action)
         work->unkB1C |= 0x80000000;
 
         s03b_boxall_800C9328();
-        s03b_boxall_800C969C(1, 30000);
+        OpenCinemaScreen(1, 30000);
 
         GM_GameStatus |= STATE_PADRELEASE | STATE_PAUSE_ONLY;
 
@@ -2358,7 +2358,7 @@ void s03c_johnny_800C7BF8(JohnnyWork *work, int action)
         if (++work->unkB4E == 6)
         {
             DG_VisibleObjs(GM_PlayerBody->objs);
-            s03b_boxall_800C96E8();
+            CloseCinemaScreen();
             JohnnyExecProc_800C4D8C(work);
             Johnny_800C4F24(work, 0);
             GCL_ExecProc(work->unkBC0[5], 0);
@@ -2729,7 +2729,7 @@ void s03c_johnny_800C88C8(JohnnyWork *work, int action)
 
     if (work->unkB24 & 0x8)
     {
-        s03b_boxall_800C969C(1, 30000);
+        OpenCinemaScreen(1, 30000);
         GM_GameStatus |= STATE_PADRELEASE | STATE_PAUSE_ONLY;
     }
 
@@ -3090,7 +3090,7 @@ void Johnny_800C92E0(JohnnyWork *work, int arg1)
 {
     if (arg1 == 0)
     {
-        s03b_boxall_800C969C(0, 30000);
+        OpenCinemaScreen(0, 30000);
         SetAction(work, 0);
         work->unkB1C |= 0x20;
         GM_GameStatus |= STATE_PADRELEASE;
@@ -3137,7 +3137,7 @@ void Johnny_800C949C(JohnnyWork *work, int arg1)
 {
     SVECTOR svec;
 
-    s03b_boxall_800C974C();
+    CheckCinemaTimeout();
     if (arg1 == 0)
     {
         if (GM_PlayerStatus & PLAYER_KETCHUP)
@@ -3165,7 +3165,7 @@ void Johnny_800C949C(JohnnyWork *work, int arg1)
             ClearAdjust(work);
 
             NewFadeIo_800C4224(0, 32);
-            s03b_boxall_800C96E8();
+            CloseCinemaScreen();
             work->unkB4C++;
         }
         break;

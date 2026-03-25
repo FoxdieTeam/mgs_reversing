@@ -11,8 +11,8 @@
 #define TH1_PHASE2 2
 #define TH1_PHASE3 3
 
-void s03b_boxall_800C969C(int map, int name);
-void s03b_boxall_800C96E8(void);
+void OpenCinemaScreen(int map, int name);
+void CloseCinemaScreen(void);
 
 void s07c_meryl72_unk2_800CC9A8(Meryl72Work *work)
 {
@@ -362,7 +362,7 @@ void s07c_meryl72_unk2_800CD2E0(Meryl72Work *work)
     {
         GM_GameStatus &= ~STATE_PADRELEASE;
         GM_GameStatus &= ~(STATE_PADRELEASE | STATE_PAUSE_ONLY);
-        s03b_boxall_800C96E8();
+        CloseCinemaScreen();
     }
 
     if (s07c_meryl72_unk2_800CCD1C(work, 350))
@@ -428,7 +428,7 @@ void s07c_meryl72_unk2_800CD474(Meryl72Work *work)
         if (s07c_meryl72_unk2_800CD380(&GM_PlayerPosition) && GM_SnakeCurrentHealth != 0)
         {
             s07c_meryl72_unk2_800CD408();
-            s03b_boxall_800C969C(0, 60000);
+            OpenCinemaScreen(0, 60000);
             work->fAF4 = 100;
             work->count3 = 0;
             GM_GameStatus |= STATE_PADRELEASE;
