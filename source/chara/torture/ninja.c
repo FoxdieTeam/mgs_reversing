@@ -35,8 +35,8 @@ typedef struct NinjaWork
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void    AN_Unknown_800CCA40(SVECTOR *pos);
-void    s03b_boxall_800C969C(int, int);
-void    s03b_boxall_800C96E8(void);
+void    OpenCinemaScreen(int, int);
+void    CloseCinemaScreen(void);
 int     s03b_boxall_800C93AC(int arg0);
 void    s03b_boxall_800C9404(void);
 int     s03b_boxall_800C95EC(void);
@@ -126,7 +126,7 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
         {
             GV_SubVec3(&work->control.mov, &GM_PlayerPosition, &svec3);
             GM_PlayerControl->turn.vy = GV_VecDir2(&svec3);
-            s03b_boxall_800C969C(0, 30000);
+            OpenCinemaScreen(0, 30000);
             GM_GameStatus |= STATE_PADRELEASE;
             s03b_boxall_800C93AC(work->field_7FC[0]);
             args1.argc = 1;
@@ -216,7 +216,7 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
         {
             work->timer = 0;
             work->mode++;
-            s03b_boxall_800C96E8();
+            CloseCinemaScreen();
             GM_GameStatus &= ~STATE_JAMMING;
             GCL_ExecProc(work->procs[2], NULL);
             GCL_ExecProc(work->procs[0], NULL);

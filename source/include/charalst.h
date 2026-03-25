@@ -155,7 +155,7 @@
 #define CHARA_LIQUID            { 0x7bf2, ? }                       // GV_StrCode("リキッド") animal/liquid/liquid.c
 #define CHARA_ZAKOCOM           { 0x7cf7, ? }                       // GV_StrCode("ざこコマンダー") animal/zako/zakocom.c
 #define CHARA_WIRE              { 0x7eca, NewWire_800D709C }        // GV_StrCode("ワイヤ") onoda/s04b/wire.c
-#define CHARA_TELOP             { 0x7ff7, NewTelopSet_800DDB34 }    // GV_StrCode("テロップ") takabe/telop.c
+#define CHARA_TELOP             { 0x7ff7, NewTelopSet }             // GV_StrCode("テロップ") takabe/telop.c
 #define CHARA_BLINK_TX          { 0x8185, NewBlinkTx_800DECD8 }     // okajima/blink_tx.c
 #define CHARA_JPEG              { 0x81c7, NewCamera_800CF388 }      // GV_StrCode("ＪＰＥＧ") camera.c
 #define CHARA_RSURFACE          { 0x81ea, NewRippleSurface_800D8244 } // takabe/rsurface.c
@@ -194,7 +194,7 @@
 #define CHARA_DISPLAY           { 0x9f7d, ? }                       // chara/pocket/display/display.c
 #define CHARA_VALCAN            { 0x9ff5, ? }                       // GV_StrCode("バルカン") okajima/valcan/valcan.c
 #define CHARA_9FFD_SECOND       { 0x9ffd, GM_SetSecondAvailable }   // game/second.c
-#define CHARA_FADEIO            { 0xa12e, NewFadeIo_800C42BC }      // takabe/fadeio.c
+#define CHARA_FADEIO            { 0xa12e, NewFadeInOutSet }         // takabe/fadeio.c
 #define CHARA_JDRUM             { 0xa27e, s19b_jdrum_800C95E4 }     // takabe/jeep/jdrum.c
 #define CHARA_SAFETY            { 0xa2b5, Safety_800C47A0 }         // safety.c
 #define CHARA_CRANE             { 0xa3fb, NewCrane_800D57A0 }       // GV_StrCode("クレーン") okajima/crane.c
@@ -221,7 +221,7 @@
 #define CHARA_PRESENT           { 0xaf75, ? }                       // nobu/present/present.c (PC-ONLY)
 #define CHARA_BG_ST1            { 0xb032, ? }                       // okajima/photo/bg_st1.c
 #define CHARA_BG_ST2            { 0xb033, ? }                       // okajima/photo/bg_st2.c (PC-ONLY)
-#define CHARA_DYNAMIC_SEG       { 0xb103, NewDymcSeg_800C4BCC }     // GV_StrCode("透明壁") takabe/dymc_seg.c
+#define CHARA_DYNAMIC_SEG       { 0xb103, NewDynamicWallSet }       // GV_StrCode("透明壁") takabe/dymc_seg.c
 #define CHARA_SNAKE_E1          { 0xb162, ? }                       // okajima/snake_e1.c
 #define CHARA_B30A              { 0xb30a, ? }                       // (PSX-ONLY)
 #define CHARA_PJEEP             { 0xb47a, ? }                       // takabe/pjeep.c
@@ -311,9 +311,9 @@
 /*--- Polygon Demo Charas ---*/
 #define CHARA_0001_BLAST        { 0x0001, ? }                       // bullet/blast.c
 #define CHARA_0002              { 0x0002, ? }                       // --> anime/animconv/anime.c
-#define CHARA_0003_FADEIO       { 0x0003, NewFadeIo_800C4224 }      // takabe/fadeio.c
-#define CHARA_0004_FADEIO       { 0x0004, NewFadeIo_800C4224 }      // takabe/fadeio.c
-#define CHARA_0005_TELOP        { 0x0005, NewTelop_800DDD7C }       // takabe/telop.c
+#define CHARA_0003_FADEIO       { 0x0003, NewFadeInOut }            // takabe/fadeio.c
+#define CHARA_0004_FADEIO       { 0x0004, NewFadeInOut }            // takabe/fadeio.c
+#define CHARA_0005_TELOP        { 0x0005, NewTelop }                // takabe/telop.c
 #define CHARA_0006              { 0x0006, ? }                       // --> anime/animconv/anime.c (PC-ONLY)
 #define CHARA_0007              { 0x0007, ? }                       // --> anime/animconv/anime.c (PC-ONLY)
 #define CHARA_0008              { 0x0008, ? }                       // --> anime/animconv/anime.c (PC-ONLY)
@@ -341,7 +341,7 @@
 #define CHARA_001E_WINDCRCL     { 0x001e, NewWindcrcl_800CF6BC }    // takabe/windcrcl.c
 #define CHARA_001F_SEPIA        { 0x001f, NewSepia_800C4F9C }       // takabe/sepia.c
 #define CHARA_0020_MGREXLZR     { 0x0020, ? }                       // kojo/mgrexlzr.c
-#define CHARA_0021_FOCUS        { 0x0021, NewFocus_800CEFF8 }       // takabe/focus.c
+#define CHARA_0021_FOCUS        { 0x0021, NewFocusView }            // takabe/focus.c
 #define CHARA_0022_GMSIGHT      { 0x0022, ? }                       // equip/gmsight.c
 #define CHARA_0023_D_BLOODS     { 0x0023, ? }                       // okajima/d_bloods.c
 #define CHARA_0024_PLASMA       { 0x0024, ? }                       // okajima/plasma.c
@@ -384,7 +384,7 @@
 #define CHARA_0049_WINDCRCL     { 0x0049, ? }                       // takabe/windcrcl.c
 #define CHARA_004A_BOMBLED      { 0x004a, NewBombLed }              // animal/liquid/bombled.c
 #define CHARA_004B_MG_ROOM      { 0x004b, NewMgRoom_800DB458 }      // okajima/mg_room.c
-#define CHARA_004C_TELOP        { 0x004c, NewTelop2_800DDC60 }      // takabe/telop.c
+#define CHARA_004C_TELOP        { 0x004c, NewTelop2 }               // takabe/telop.c
 
 /*---------------------------------------------------------------------------*/
 /*  NEWCHARA external declarations                                           */
@@ -533,7 +533,7 @@ void *NewDoor2_800DD9E4();              /* takabe/door2.c               */
 void *NewDummyFloor();                  /* takabe/dummy_fl.c            */
 void *NewDummyWall_800D7384();          /* takabe/dummy_wl.c            */
 void *s15c_dymc_flr_800E1C70();         /* takabe/dymc_flr.c            */
-void *NewDymcSeg_800C4BCC();            /* takabe/dymc_seg.c            */
+void *NewDynamicWallSet();              /* takabe/dymc_seg.c            */
 void *NewEdTelop_800C563C();            /* takabe/ed_telop.c            */
 void *EdTelop_800C4F18();               /* takabe/ed_telop.c (?)        */
 void *NewElcDamg_800D4C68();            /* takabe/elc_damg.c            */
@@ -542,10 +542,10 @@ void *NewElevator_800D9F30();           /* takabe/elevator.c            */
 void *NewEnding2_800C7BE8();            /* takabe/ending2.c             */
 void *NewEnvSnd_800DF424();             /* takabe/env_snd.c             */
 void *NewEnvmap3_800CA3A4();            /* takabe/envmap3.c             */
-void *NewFadeIo_800C4224();             /* takabe/fadeio.c              */
-void *NewFadeIo_800C42BC();             /* takabe/fadeio.c              */
+void *NewFadeInOut();                   /* takabe/fadeio.c              */
+void *NewFadeInOutSet();                /* takabe/fadeio.c              */
 void *NewFindTrap_800D77DC();           /* takabe/findtrap.c            */
-void *NewFocus_800CEFF8();              /* takabe/focus.c               */
+void *NewFocusView();                   /* takabe/focus.c               */
 void *NewFog_800D4208();                /* takabe/fog.c                 */
 void *NewFurnace();                     /* takabe/furnace.c             */
 void *NewGasEffect_800C4E5C();          /* takabe/gas_efct.c            */
@@ -579,9 +579,9 @@ void *NewShakeModelGCL();               /* takabe/shakemdl.c            */
 void *NewShuter_800DFB44();             /* takabe/shuter.c              */
 void *NewSpark2_800CA714();             /* takabe/spark2.c              */
 void *NewSubEfct_800CCB10();            /* takabe/sub_efct.c            */
-void *NewTelop2_800DDC60();             /* takabe/telop.c               */
-void *NewTelopSet_800DDB34();           /* takabe/telop.c               */
-void *NewTelop_800DDD7C();              /* takabe/telop.c               */
+void *NewTelop2();                      /* takabe/telop.c               */
+void *NewTelopSet();                    /* takabe/telop.c               */
+void *NewTelop();                       /* takabe/telop.c               */
 void *NewTexScroll();                   /* takabe/tex_scrl.c            */
 void *NewTruckTrap();                   /* takabe/tracktrp.c            */
 void *NewVibrationEditor();             /* takabe/vib_edit.c            */

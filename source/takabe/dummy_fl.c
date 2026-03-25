@@ -78,7 +78,6 @@ void Takabe_RefreshObjectPacks(DG_OBJS *);
 DG_OBJS *Takabe_MakePreshade(int model, LIT *lit);
 
 void s01a_800E2364(MATRIX *mtx, SVECTOR *in, VECTOR *out);
-void s16b_800C4874(int arg0, HZD_SEG *arg1, int arg2, HZD_FLR *arg3);
 
 /* モデル初期化 */
 static void InitPreshadeObject(Work *work, FLOOR_OBJ *flr_obj, int model_name, int map);
@@ -171,7 +170,7 @@ static void Act(Work *work)
                 work->close_wait = 40;
             }
 
-            s16b_800C4874(0, NULL, 2, work->floors);
+            THING_Hzd_800C4874(0, NULL, 2, work->floors);
 
             scratch = (SCRPAD_DATA *)SCRPAD_ADDR;
 

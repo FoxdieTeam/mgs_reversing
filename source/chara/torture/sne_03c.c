@@ -6,7 +6,7 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 
-#include "takabe/fadeio.h"      // for NewFadeIo_800C4224
+#include "takabe/fadeio.h"      // for NewFadeInOut
 
 // There are two actors in this file
 
@@ -42,9 +42,9 @@ typedef struct Snake03c2Work
 
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 
-void s03b_boxall_800C969C(int, int);
-void s03b_boxall_800C96E8(void);
-void s03b_boxall_800C974C(void);
+void OpenCinemaScreen(int, int);
+void CloseCinemaScreen(void);
+void CheckCinemaTimeout(void);
 
 void Snake03c1Act_800CD698(Snake03c1Work *work)
 {
@@ -70,16 +70,16 @@ void Snake03c1Act_800CD698(Snake03c1Work *work)
 
     field_7E8 = work->field_7E8++;
 
-    s03b_boxall_800C974C();
+    CheckCinemaTimeout();
 
     switch (work->mode)
     {
     case 0:
         if (field_7E8 == 0)
         {
-            NewFadeIo_800C4224(1, 48);
+            NewFadeInOut(1, 48);
             GM_GameStatus |= STATE_PADRELEASE;
-            s03b_boxall_800C969C(0, 60000);
+            OpenCinemaScreen(0, 60000);
             GCL_ExecProc(work->procs[1], NULL);
         }
         if (--work->field_7EC == 0)
@@ -97,7 +97,7 @@ void Snake03c1Act_800CD698(Snake03c1Work *work)
         if (work->object.is_end != 0)
         {
             GM_GameStatus &= ~STATE_PADRELEASE;
-            s03b_boxall_800C96E8();
+            CloseCinemaScreen();
             GCL_ExecProc(work->procs[3], NULL);
             GCL_ExecProc(work->procs[0], NULL);
             GV_DestroyActor(&work->actor);
@@ -123,7 +123,7 @@ void Snake03c1Act_800CD698(Snake03c1Work *work)
         if (field_7E8 == 64)
         {
             GM_GameStatus &= ~STATE_PADRELEASE;
-            s03b_boxall_800C96E8();
+            CloseCinemaScreen();
             GCL_ExecProc(work->procs[3], NULL);
             GCL_ExecProc(work->procs[0], NULL);
             GV_DestroyActor(&work->actor);
@@ -295,7 +295,7 @@ void Snake03c2Act_800CDCE8(Snake03c2Work *work)
     case 0:
         if (field_24 == 0)
         {
-            s03b_boxall_800C969C(0, 30000);
+            OpenCinemaScreen(0, 30000);
             GM_GameStatus |= STATE_PADRELEASE;
             GCL_ExecProc(work->procs[0], NULL);
         }
@@ -328,7 +328,7 @@ void Snake03c2Act_800CDCE8(Snake03c2Work *work)
         {
             GM_GameStatus &= ~STATE_PADRELEASE;
             GM_PlayerControl->turn.vy = 1024;
-            s03b_boxall_800C96E8();
+            CloseCinemaScreen();
             GCL_ExecProc(work->procs[3], NULL);
             GV_DestroyActor(&work->actor);
         }

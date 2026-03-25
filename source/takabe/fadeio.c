@@ -8,29 +8,33 @@
 #include "takabe/thing.h"
 #include "strcode.h"
 
-typedef struct FadeIoPrims
-{
-    DR_TPAGE tpage[2];
-    TILE     tile[2];
-} FadeIoPrims;
-
-typedef struct FadeIoWork
-{
-    GV_ACT       actor;
-    int          field_20;
-    FadeIoPrims *field_24_prims;
-    int          field_28_where;
-    int          field_2c;
-    int          field_30;
-    int          field_34_name;
-    int          field_38;
-} FadeIoWork;
-
-unsigned short fadeio_msgs[] = {HASH_KILL, 0x71F1};
+/*---------------------------------------------------------------------------*/
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL3
 
-void FadeIoAct_800C3E7C(FadeIoWork *work)
+typedef struct _FADE_PRIMS
+{
+    DR_TPAGE tpage[2];
+    TILE     tile[2];
+} FADE_PRIMS;
+
+typedef struct _Work
+{
+    GV_ACT       actor;
+    int          name;
+    FADE_PRIMS  *prims;
+    int          shade;
+    int          field_2c;
+    int          field_30;
+    int          mode;
+    int          field_38;
+} Work;
+
+/*---------------------------------------------------------------------------*/
+
+unsigned short fadeio_mes_list[] = { HASH_KILL, 0x71F1 };
+
+static void Act(Work *work)
 {
     int   status;
     char *ot;
@@ -38,7 +42,7 @@ void FadeIoAct_800C3E7C(FadeIoWork *work)
 
     if (GV_PauseLevel == 0)
     {
-        status = THING_Msg_CheckMessage(work->field_20, 2, fadeio_msgs);
+        status = THING_Msg_CheckMessage(work->name, 2, fadeio_mes_list);
         if (status == 0)
         {
             GV_DestroyActor(&work->actor);
@@ -48,21 +52,21 @@ void FadeIoAct_800C3E7C(FadeIoWork *work)
         if (status == 1)
         {
             work->field_2c = 0;
-            work->field_34_name |= 0x1;
+            work->mode |= 0x1;
         }
     }
 
     ot = DG_ChanlOTag(1);
-    addPrim(ot, &work->field_24_prims->tile[GV_Clock]);
-    addPrim(ot, &work->field_24_prims->tpage[GV_Clock]);
+    addPrim(ot, &work->prims->tile[GV_Clock]);
+    addPrim(ot, &work->prims->tpage[GV_Clock]);
 
-    if (work->field_2c > work->field_28_where)
+    if (work->field_2c > work->shade)
     {
-        work->field_2c = work->field_28_where;
+        work->field_2c = work->shade;
     }
 
-    shade = (work->field_2c * 255) / work->field_28_where;
-    if (work->field_34_name & 0x1)
+    shade = (work->field_2c * 255) / work->shade;
+    if (work->mode & 0x1)
     {
         shade = 255 - shade;
     }
@@ -82,33 +86,33 @@ void FadeIoAct_800C3E7C(FadeIoWork *work)
     }
 
     work->field_30 = shade;
-    setRGB0(&work->field_24_prims->tile[GV_Clock], shade, shade, shade);
+    setRGB0(&work->prims->tile[GV_Clock], shade, shade, shade);
 
-    if ((work->field_34_name & 0x1) && (work->field_2c >= work->field_28_where))
+    if ((work->mode & 0x1) && (work->field_2c >= work->shade))
     {
         GV_DestroyActor(&work->actor);
     }
 }
 
-void FadeIoDie_800C40D0(FadeIoWork *work)
+static void Die(Work *work)
 {
-    if (work->field_24_prims)
+    if (work->prims)
     {
-        GV_DelayedFree(work->field_24_prims);
+        GV_DelayedFree(work->prims);
     }
 }
 
-int FadeIoGetResources_800C4100(FadeIoWork *work, int name, int where)
+static int GetResources(Work *work, int mode, int shade)
 {
-    FadeIoPrims *prims;
+    FADE_PRIMS *prims;
 
-    prims = GV_Malloc(sizeof(FadeIoPrims));
-    work->field_24_prims = prims;
+    prims = GV_Malloc(sizeof(FADE_PRIMS));
+    work->prims = prims;
     if (prims == NULL)
     {
         return -1;
     }
-    if (name & 2)
+    if (mode & 2)
     {
         setDrawTPage(&prims->tpage[0], 0, 1, getTPage(0, 1, 0, 0));
         setDrawTPage(&prims->tpage[1], 0, 1, getTPage(0, 1, 0, 0));
@@ -121,12 +125,12 @@ int FadeIoGetResources_800C4100(FadeIoWork *work, int name, int where)
     setTile(&prims->tile[0]);
     setSemiTrans(&prims->tile[0], 1);
 
-    prims->tile[0].w = 0x140;
-    prims->tile[0].h = 0xE0;
+    prims->tile[0].w = FRAME_WIDTH;
+    prims->tile[0].h = FRAME_HEIGHT;
     prims->tile[0].x0 = 0;
     prims->tile[0].y0 = 0;
     prims->tile[1] = prims->tile[0];
-    if (!(name & 1))
+    if (!(mode & 1))
     {
         prims->tile[0].r0 = 0;
         prims->tile[0].g0 = 0;
@@ -146,48 +150,49 @@ int FadeIoGetResources_800C4100(FadeIoWork *work, int name, int where)
         prims->tile[1].b0 = 0xFF;
         work->field_30 = 0xFF;
     }
-    work->field_34_name = name;
-    work->field_28_where = where;
+    work->mode = mode;
+    work->shade = shade;
     work->field_2c = 1;
     return 0;
 }
 
-void *NewFadeIo_800C4224(int name, int where)
-{
-    FadeIoWork *work;
+/*---------------------------------------------------------------------------*/
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(FadeIoWork));
+void *NewFadeInOut(int mode, int shade)
+{
+    Work *work;
+
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, FadeIoAct_800C3E7C, FadeIoDie_800C40D0, "fadeio.c");
-        if (FadeIoGetResources_800C4100(work, name, where) < 0)
+        GV_SetNamedActor(&work->actor, Act, Die, "fadeio.c");
+        if (GetResources(work, mode, shade) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
         }
 
-        work->field_20 = 0x62FE;
+        work->name = 0x62FE;
     }
     return (void *)work;
 }
 
-void *NewFadeIo_800C42BC(int name, int where)
+void *NewFadeInOutSet(int name, int where)
 {
-    FadeIoWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(FadeIoWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, FadeIoAct_800C3E7C, FadeIoDie_800C40D0, "fadeio.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "fadeio.c");
 
-        if (FadeIoGetResources_800C4100(work, THING_Gcl_GetInt('m'), THING_Gcl_GetInt('s')) < 0)
+        if (GetResources(work, THING_Gcl_GetInt('m'), THING_Gcl_GetInt('s')) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
         }
 
-        work->field_20 = name;
+        work->name = name;
     }
-
     return (void *)work;
 }

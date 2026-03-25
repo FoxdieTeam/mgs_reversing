@@ -10,6 +10,8 @@ extern HITTABLE GM_ClayDatas_800BDE78[8];
 
 int SECTION(".bss") THING_msg_result[2];
 
+/*---------------------------------------------------------------------------*/
+
 int THING_Gcl_GetIntDefault(char param, int def)
 {
     if (GCL_GetOption(param))
@@ -20,7 +22,6 @@ int THING_Gcl_GetIntDefault(char param, int def)
     return def;
 }
 
-// name from memleaks
 int THING_Gcl_GetInt(char param)
 {
     return THING_Gcl_GetIntDefault(param, 0);
@@ -62,7 +63,8 @@ void THING_Gcl_GetSVector(char param, SVECTOR *vec)
     THING_Gcl_GetSVectorDefault(param, 0, 0, 0, vec);
 }
 
-// name from memleaks
+/*---------------------------------------------------------------------------*/
+
 int THING_Msg_CheckMessage(unsigned short name, int hash_count, unsigned short *hashes)
 {
     GV_MSG *msg;
@@ -96,7 +98,7 @@ int THING_Msg_GetResult(void)
     return THING_msg_result[0];
 }
 
-void s16b_800C4594(unsigned short address, unsigned short message)
+void THING_Msg_SendMessage(unsigned short address, unsigned short message)
 {
     GV_MSG msg;
 
@@ -106,7 +108,9 @@ void s16b_800C4594(unsigned short address, unsigned short message)
     GV_SendMessage(&msg);
 }
 
-void s16b_800C45C4(HZD_SEG *seg, MATRIX *trans, SVECTOR *arg2, SVECTOR *arg3)
+/*---------------------------------------------------------------------------*/
+
+void THING_Hzd_800C45C4(HZD_SEG *seg, MATRIX *trans, SVECTOR *arg2, SVECTOR *arg3)
 {
     SVECTOR sp10;
     SVECTOR sp18;
@@ -146,7 +150,7 @@ void s16b_800C45C4(HZD_SEG *seg, MATRIX *trans, SVECTOR *arg2, SVECTOR *arg3)
     HZD_SetDynamicSegment(seg, seg);
 }
 
-void s16b_800C46D8(HZD_FLR *flr, SVECTOR *arg1, SVECTOR *arg2)
+void THING_Hzd_800C46D8(HZD_FLR *flr, SVECTOR *arg1, SVECTOR *arg2)
 {
     short y;
 
@@ -182,7 +186,7 @@ void s16b_800C46D8(HZD_FLR *flr, SVECTOR *arg1, SVECTOR *arg2)
     flr->b2.y = arg1->vy + arg2->vy;
 }
 
-int s16b_800C4820(HZD_SEG *find, int count, HZD_SEG *segs)
+int THING_Hzd_800C4820(HZD_SEG *find, int count, HZD_SEG *segs)
 {
     for (; count > 0; count--, segs++)
     {
@@ -195,7 +199,7 @@ int s16b_800C4820(HZD_SEG *find, int count, HZD_SEG *segs)
     return 0;
 }
 
-int s16b_800C4848(HZD_FLR *find, int count, HZD_FLR *flrs)
+int THING_Hzd_800C4848(HZD_FLR *find, int count, HZD_FLR *flrs)
 {
     (int)find |= 0x80000000;
 
@@ -210,7 +214,7 @@ int s16b_800C4848(HZD_FLR *find, int count, HZD_FLR *flrs)
     return 0;
 }
 
-void s16b_800C4874(int n_segs, HZD_SEG *segs, int n_flrs, HZD_FLR *flrs)
+void THING_Hzd_800C4874(int n_segs, HZD_SEG *segs, int n_flrs, HZD_FLR *flrs)
 {
     HITTABLE *iter;
     int       i;
@@ -225,11 +229,11 @@ void s16b_800C4874(int n_segs, HZD_SEG *segs, int n_flrs, HZD_FLR *flrs)
             {
                 if ((int)iter->data & tag)
                 {
-                    status = s16b_800C4820(iter->data, n_segs, segs);
+                    status = THING_Hzd_800C4820(iter->data, n_segs, segs);
                 }
                 else
                 {
-                    status = s16b_800C4848(iter->data, n_flrs, flrs);
+                    status = THING_Hzd_800C4848(iter->data, n_flrs, flrs);
                 }
 
                 if (status != 0)
@@ -244,7 +248,7 @@ void s16b_800C4874(int n_segs, HZD_SEG *segs, int n_flrs, HZD_FLR *flrs)
     {
         for (i = 8, iter = GM_ClayDatas_800BDE78; i > 0; i--, iter++)
         {
-            if (iter->actor && s16b_800C4848(iter->data, n_flrs, flrs))
+            if (iter->actor && THING_Hzd_800C4848(iter->data, n_flrs, flrs))
             {
                 GV_DestroyActor(iter->actor);
             }
@@ -252,7 +256,7 @@ void s16b_800C4874(int n_segs, HZD_SEG *segs, int n_flrs, HZD_FLR *flrs)
     }
 }
 
-void s16b_800C49AC(HZD_SEG *seg)
+void THING_Hzd_800C49AC(HZD_SEG *seg)
 {
     int i;
     int round;

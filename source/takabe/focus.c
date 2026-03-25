@@ -150,7 +150,7 @@ int FocusGetResources_800CEDA4(FocusWork *work, int arg1, int arg2)
 
 #define EXEC_LEVEL GV_ACTOR_AFTER2
 
-void *NewFocus_800CEFF8(int name, int where, int argc, char **argv)
+void *NewFocusView(int name, int where, int argc, char **argv)
 {
     FocusWork *work;
 

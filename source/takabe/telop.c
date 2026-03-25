@@ -232,7 +232,7 @@ int TelopGetResources_800DDA18(TelopWork2 *work, int unused, int unused2)
     return 0;
 }
 
-void *NewTelopSet_800DDB34(int name, int where, int argc, char **argv)
+void *NewTelopSet(int name, int where, int argc, char **argv)
 {
     TelopWork2 *work;
 
@@ -272,7 +272,7 @@ void telop_800DDC30(TelopWork *work)
     }
 }
 
-void *NewTelop2_800DDC60(int x, int y, int timer, int reload, int arg4, int arg5)
+void *NewTelop2(int x, int y, int timer, int reload, int arg4, int arg5)
 {
     TelopWork *work;
     TelopSub  *sub;
@@ -312,7 +312,7 @@ void *NewTelop2_800DDC60(int x, int y, int timer, int reload, int arg4, int arg5
     return (void *)work;
 }
 
-void *NewTelop_800DDD7C(int x, int y, int timer, int reload, int tex)
+void *NewTelop(int x, int y, int timer, int reload, int tex)
 {
-    return NewTelop2_800DDC60(x, y, timer, reload, tex, tex);
+    return NewTelop2(x, y, timer, reload, tex, tex);
 }

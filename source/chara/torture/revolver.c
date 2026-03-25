@@ -10,7 +10,7 @@
 #include "game/game.h"
 #include "linkvar.h"
 
-#include "takabe/fadeio.h"      // for NewFadeIo_800C4224
+#include "takabe/fadeio.h"      // for NewFadeInOut
 
 typedef struct RevolverWork
 {
@@ -117,9 +117,9 @@ int  s03b_boxall_800C95FC(void);
 int  s03b_boxall_800C961C(int);
 int  s03b_boxall_800C9654(int);
 int  s03b_boxall_800C968C(void);
-void s03b_boxall_800C969C(int, int);
-void s03b_boxall_800C96E8(void);
-void s03b_boxall_800C974C(void);
+void OpenCinemaScreen(int, int);
+void CloseCinemaScreen(void);
+void CheckCinemaTimeout(void);
 
 void s03b_800CA868(void);
 
@@ -357,7 +357,7 @@ void s03b_revolver_800C7574(RevolverWork *work, int arg1)
             work->field_958 = -1;
             iVar6 = work->field_958;
 
-            s03b_boxall_800C969C(0, 60000);
+            OpenCinemaScreen(0, 60000);
             s03b_revolver_800C7384(work, 0);
 
             work->field_948 &= ~0x100;
@@ -450,8 +450,8 @@ check:
     case 7:
         if (s03b_revolver_800C742C(work, iVar4, 8, 48))
         {
-            NewFadeIo_800C4224(0, 16);
-            s03b_boxall_800C96E8();
+            NewFadeInOut(0, 16);
+            CloseCinemaScreen();
 
             work->field_950 = 0;
             work->field_96A++;
@@ -531,7 +531,7 @@ void s03b_revolver_800C7958(RevolverWork *work, int arg1)
     case 0:
         if (iVar3 == 0)
         {
-            s03b_boxall_800C969C(0, 60000);
+            OpenCinemaScreen(0, 60000);
         }
 
         if (iVar3 == 120)
@@ -627,8 +627,8 @@ check:
     case 5:
         if (s03b_revolver_800C742C(work, iVar3, 8, 48))
         {
-            NewFadeIo_800C4224(0, 16);
-            s03b_boxall_800C96E8();
+            NewFadeInOut(0, 16);
+            CloseCinemaScreen();
             work->field_950 = 0;
             work->field_96A++;
         }
@@ -656,7 +656,7 @@ void s03b_revolver_800C7D04(RevolverWork *work, int arg1)
 {
     short message[4];
 
-    s03b_boxall_800C974C();
+    CheckCinemaTimeout();
 
     if (arg1 == 0)
     {
@@ -712,13 +712,13 @@ void s03b_revolver_800C7E88(RevolverWork *work, int arg1)
     int   status;
     int   iVar6;
 
-    s03b_boxall_800C974C();
+    CheckCinemaTimeout();
 
     if (arg1 == 0)
     {
         GM_GameStatus |= STATE_PADMASK;
         GV_PadMask &= ~0xf810;
-        s03b_boxall_800C969C(0, 60000);
+        OpenCinemaScreen(0, 60000);
         work->field_950 = 0;
         work->field_96A = 0;
         work->field_9B6 = 0;
@@ -812,7 +812,7 @@ void s03b_revolver_800C7E88(RevolverWork *work, int arg1)
             work->field_958 = -1;
             iVar6 = work->field_958;
             work->field_96A++;
-            NewFadeIo_800C4224(0, 12);
+            NewFadeInOut(0, 12);
         }
 
         work->field_970 += s03b_revolver_800C71E8(work->control.name, work->field_970, iVar6);
@@ -882,12 +882,12 @@ void s03b_revolver_800C826C(RevolverWork *work, int arg1)
     int   status;
     int   iVar2;
 
-    s03b_boxall_800C974C();
+    CheckCinemaTimeout();
 
     if (arg1 == 0)
     {
         GM_GameStatus |= STATE_PADRELEASE;
-        s03b_boxall_800C969C(0, 60000);
+        OpenCinemaScreen(0, 60000);
         work->field_950 = 0;
         work->field_96A = 0;
     }
@@ -947,7 +947,7 @@ void s03b_revolver_800C826C(RevolverWork *work, int arg1)
         {
             work->field_950 = 0;
             work->field_96A++;
-            NewFadeIo_800C4224(0, 28);
+            NewFadeInOut(0, 28);
         }
         break;
 
@@ -963,7 +963,7 @@ void s03b_revolver_800C826C(RevolverWork *work, int arg1)
             messages[1] = 4;
             messages[2] = 0;
             RevolverSendMessage_800C7170(GV_StrCode("スネーク"), messages);
-            s03b_boxall_800C96E8();
+            CloseCinemaScreen();
         }
         break;
     }
@@ -976,9 +976,9 @@ void Revolver_800C8488(RevolverWork *work, int mode)
 
     if (mode == 0)
     {
-        NewFadeIo_800C4224(0, 28);
+        NewFadeInOut(0, 28);
         s03b_boxall_800C9328();
-        s03b_boxall_800C96E8();
+        CloseCinemaScreen();
     }
 
     if (mode == 32)

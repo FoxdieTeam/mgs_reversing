@@ -75,7 +75,7 @@ unsigned short SECTION(".bss")
 void Takabe_FreeObjs(DG_OBJS *objs);
 void Takabe_RefreshObjectPacks(DG_OBJS *objs);
 void Takabe_ReshadeModel(DG_OBJS *objs, LIT *lit);
-void s00a_unknown3_800DC918();
+void Takabe_FreeDuplicateMemory();
 
 extern GM_CAMERA       GM_Camera;
 extern CONTROL        *GM_WhereList[96];
@@ -389,7 +389,7 @@ void Rasen2Die_800CAB74(Rasen2Work *work)
     {
         Takabe_FreeObjs(work->field_B0[i].objs);
     }
-    s00a_unknown3_800DC918();
+    Takabe_FreeDuplicateMemory();
     if (work->field_238 != NULL)
     {
         GV_DestroyActor(work->field_238);

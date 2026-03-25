@@ -1,7 +1,10 @@
 #ifndef __MGS_TAKABE_FADEIO_H__
 #define __MGS_TAKABE_FADEIO_H__
 
-void *NewFadeIo_800C4224(int name, int where);
-void *NewFadeIo_800C42BC(int name, int where);
+#define FADEIO_MODE_TOBLACK     (0x0000)
+#define FADEIO_MODE_TOWHITE     (0x0001)
+
+void *NewFadeInOut(int mode, int shade);
+void *NewFadeInOutSet(int name, int where);
 
 #endif // __MGS_TAKABE_FADEIO_H__

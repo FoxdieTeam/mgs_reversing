@@ -31,7 +31,7 @@ typedef struct _Work
     GV_ACT actor;
     int    name;
     int    mode;
-    int    count;
+    int    time;
     int    once;
     PRIMS *prims;
     PARAM  params[2];
@@ -55,11 +55,11 @@ static void Act( Work *work )
         {
         case 0:/* 通常終了 */
             work->mode = 1 ;
-            work->count = 0 ;
+            work->time = 0 ;
             break ;
         case 1:/* 強制消去 */
             work->mode = 2 ;
-            work->count = 0 ;
+            work->time = 0 ;
             break ;
         }
     }
@@ -141,8 +141,8 @@ static void Act( Work *work )
 
     if ( work->mode == 0 )
     {
-        if ( work->count < 30000 ) work->count-- ;
-        if ( work->count < 0 )
+        if ( work->time < 30000 ) work->time-- ;
+        if ( work->time < 0 )
         {
             if ( work->once )
             {
@@ -171,7 +171,7 @@ static void Die( Work *work )
     }
 }
 
-static int GetResources( Work *work, int count, int event )
+static int GetResources( Work *work, int time, int type )
 {
     int      col;
     int      h1;
@@ -248,60 +248,64 @@ static int GetResources( Work *work, int count, int event )
     params[1].offset = -128;
     params[1].col = col;
 
-    if ( event )
+    if ( type )
     {
         params[0].count = work->params[0].max_count;
         params[1].count = params[1].max_count;
     }
 
-    work->count = count;
+    work->time = time;
 
     return 0;
 }
 
 /*---------------------------------------------------------------------------*/
+// clang-format off
 
-void *NewCinemaScreen( int count, int event )
+void *NewCinemaScreen( int time, int type )
 {
     Work *work ;
 
-    //OPERATOR();
+    //OPERATOR() ;
     work = GV_NewActor( EXEC_LEVEL, sizeof( Work ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor( &work->actor, Act, Die, "cinema.c" );
-        if ( GetResources( work, count, event ) < 0 ) {
-            GV_DestroyActor( work );
-            return NULL;
+        GV_SetNamedActor( &( work->actor ), Act, Die, "cinema.c" ) ;
+        if ( GetResources( work, time, type ) < 0 ) {
+            GV_DestroyActor( work ) ;
+            return NULL ;
         }
-        work->name = CHARA_NAME;
+        work->name = CHARA_NAME ;
     }
-    return (void *)work;
+
+    return (void *)work ;
 }
 
 void *NewCinemaScreenClose( void *addr )
 {
-    Work *work = (Work *)addr;
-    work->count = 0;     /* 強制的に終了時間にしてしまう */
+    Work *work = ( Work * ) addr ;
+    work->time = 0 ;    /* 強制的に終了時間にしてしまう */
     return ( NULL );
 }
 
 void *NewCinemaScreenSet( int name, int where, int argc, char **argv )
 {
-    Work *work;
-    int count, event;
+    Work *work ;
+    int time, type ;
 
-    //OPERATOR();
-    work = GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
+    //OPERATOR() ;
+    work = GV_NewActor( EXEC_LEVEL, sizeof( Work ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor( &work->actor, Act, Die, "cinema.c" );
-        count  = THING_Gcl_GetInt( 't' );
-        event = THING_Gcl_GetInt( 'e' );
-        if ( GetResources( work, count, event ) < 0 )
-        {
-            GV_DestroyActor( work );
-            return NULL;
+        GV_SetNamedActor( &( work->actor ), Act, Die, "cinema.c" ) ;
+        time = THING_Gcl_GetInt( 't' ) ;
+        type = THING_Gcl_GetInt( 'e' ) ;
+        if ( GetResources( work, time, type ) < 0 ) {
+            GV_DestroyActor( work ) ;
+            return NULL ;
         }
-        work->name = name;
+        work->name = name ;
     }
-    return (void *)work;
+
+    return (void *)work ;
 }
+
+// clang-format on

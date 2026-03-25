@@ -258,10 +258,10 @@ int ShuterGetResources_800DF7F4(ShuterWork *work, int name, int map)
     ReadRotMatrix(&world);
 
     max.vz = min.vz = mdl->max.vz;
-    s16b_800C45C4(&work->seg[0], &world, &max, &min);
+    THING_Hzd_800C45C4(&work->seg[0], &world, &max, &min);
 
     max.vz = min.vz = mdl->min.vz;
-    s16b_800C45C4(&work->seg[1], &world, &max, &min);
+    THING_Hzd_800C45C4(&work->seg[1], &world, &max, &min);
 
     work->center.vx = (mdl->max.vx + mdl->min.vx) / 2;
     work->center.vy = (mdl->max.vy + mdl->min.vy) / 2;

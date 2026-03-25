@@ -212,7 +212,7 @@ void OpTxtScnDie_800CCFFC(OpTxtScnWork *work)
         GV_DelayedFree(work->field_40);
     }
 
-    s16b_800C4594(0x53B6, 0x448B);
+    THING_Msg_SendMessage(0x53B6, 0x448B);
 
     for (i = 0; i < 2; i++)
     {
@@ -240,7 +240,7 @@ int OptxtscnGetResources_800CD080(OpTxtScnWork *work)
     work->field_2C = tex = DG_GetTexture(0xEF71);
     Optxtscn_800CCBDC(tex, &work->field_38);
 
-    s16b_800C4594(0x53B6, 0xA8A4);
+    THING_Msg_SendMessage(0x53B6, 0xA8A4);
 
     work->field_40 = prims = GV_Malloc(sizeof(OpTxtScnPrims));
     SetDrawStp(&prims->stp[0], 0);

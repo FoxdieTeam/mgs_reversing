@@ -11,7 +11,7 @@
 #include "game/vibrate.h"
 #include "sound/g_sound.h"
 
-#include "takabe/fadeio.h"      // for NewFadeIo_800C4224
+#include "takabe/fadeio.h"      // for NewFadeInOut
 
 struct _TortureWork;
 typedef void (*TTortureFn)(struct _TortureWork *, int);
@@ -153,9 +153,9 @@ void s03b_boxall_800C93F0(int, int);
 void s03b_boxall_800C9404(void);
 int  s03b_boxall_800C95EC(void);
 int  s03b_boxall_800C9654(int);
-void s03b_boxall_800C969C(int, int);
-void s03b_boxall_800C96E8(void);
-void s03b_boxall_800C974C(void);
+void OpenCinemaScreen(int, int);
+void CloseCinemaScreen(void);
+void CheckCinemaTimeout(void);
 
 void s03b_torture_800C4C48(TortureWork *work, int);
 void s03b_torture_800C5AF8(TortureWork *work, int);
@@ -547,7 +547,7 @@ void s03b_torture_800C46B8(TortureWork *work, int arg1)
 {
     if (arg1 == 0)
     {
-        NewFadeIo_800C4224(0, 28);
+        NewFadeInOut(0, 28);
         s03b_boxall_800C9328();
 
         work->f820 = 0;
@@ -585,7 +585,7 @@ void s03b_torture_800C4740(TortureWork *work)
     int vox_stream;
     int f802;
 
-    s03b_boxall_800C974C();
+    CheckCinemaTimeout();
 
     if (GV_PadData[2].press & PAD_CROSS)
     {
@@ -601,7 +601,7 @@ void s03b_torture_800C4740(TortureWork *work)
     case 0:
         if (work->f81A == 0)
         {
-            s03b_boxall_800C969C(1, 60000);
+            OpenCinemaScreen(1, 60000);
         }
 
         if (work->f8FC == 0)
@@ -627,7 +627,7 @@ void s03b_torture_800C4740(TortureWork *work)
         {
             if (work->f820 == 4)
             {
-                s03b_boxall_800C96E8();
+                CloseCinemaScreen();
                 work->f802 |= 0x4;
             }
             else
@@ -746,7 +746,7 @@ void s03b_torture_800C4AB0(TortureWork *work, int arg1)
         s03b_boxall_800C9328();
         s03b_boxall_800C93F0(work->f87C[2], 4);
         GM_SetSound(0xff0000fe, SD_ASYNC);
-        s03b_boxall_800C969C(0, 10000);
+        OpenCinemaScreen(0, 10000);
 
         if (work->body.action != 2)
         {
@@ -848,7 +848,7 @@ void s03b_torture_800C4DF0(TortureWork *work, int arg1)
 {
     if (arg1 == 0)
     {
-        NewFadeIo_800C4224(1, 128);
+        NewFadeInOut(1, 128);
 
         if (work->body.action != 0)
         {
@@ -892,7 +892,7 @@ void s03b_torture_800C4E64(TortureWork *work, int arg1)
 
             if (work->f848 != 0)
             {
-                NewFadeIo_800C4224(0, 28);
+                NewFadeInOut(0, 28);
             }
         }
 
@@ -938,7 +938,7 @@ void s03b_torture_800C4F54(TortureWork *work, int arg1)
 
     if (arg1 == 200)
     {
-        work->f900 = NewFadeIo_800C4224(0, 32);
+        work->f900 = NewFadeInOut(0, 32);
     }
 
     if (arg1 == 160)
@@ -1016,7 +1016,7 @@ void s03b_torture_800C50A8(TortureWork *work, int arg1)
 
     if (work->f818 == 10)
     {
-        NewFadeIo_800C4224(0, 64);
+        NewFadeInOut(0, 64);
     }
 
     if (work->f818 == 12)
@@ -1598,7 +1598,7 @@ void s03b_torture_800C6080(TortureWork *work)
 
     if (work->f848 == 0 && work->f7FE == 120)
     {
-        NewFadeIo_800C4224(0, 28);
+        NewFadeInOut(0, 28);
     }
 
     comp = (work->f848 == 0) ? 150 : 180;
@@ -1863,7 +1863,7 @@ void TortureDie_800C6774(TortureWork *work)
 
     GM_PlayerStatus &= ~PLAYER_MENU_DISABLE;
 
-    s03b_boxall_800C96E8();
+    CloseCinemaScreen();
     s03b_boxall_800C9328();
 
     GM_SnakeCurrentHealth = GM_SnakeMaxHealth;
