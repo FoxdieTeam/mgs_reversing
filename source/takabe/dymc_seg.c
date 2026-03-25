@@ -79,7 +79,7 @@ int DymcSegGetResources_800C4AC0(DymcSegWork *work, int name, int where)
     return 0;
 }
 
-void *NewDymcSeg_800C4BCC(int name, int where, int argc, char **argv)
+void *NewDynamicWallSet(int name, int where, int argc, char **argv)
 {
     DymcSegWork *work;
 

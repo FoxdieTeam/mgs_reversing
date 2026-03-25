@@ -221,7 +221,7 @@
 #define CHARA_PRESENT           { 0xaf75, ? }                       // nobu/present/present.c (PC-ONLY)
 #define CHARA_BG_ST1            { 0xb032, ? }                       // okajima/photo/bg_st1.c
 #define CHARA_BG_ST2            { 0xb033, ? }                       // okajima/photo/bg_st2.c (PC-ONLY)
-#define CHARA_DYNAMIC_SEG       { 0xb103, NewDymcSeg_800C4BCC }     // GV_StrCode("透明壁") takabe/dymc_seg.c
+#define CHARA_DYNAMIC_SEG       { 0xb103, NewDynamicWallSet }       // GV_StrCode("透明壁") takabe/dymc_seg.c
 #define CHARA_SNAKE_E1          { 0xb162, ? }                       // okajima/snake_e1.c
 #define CHARA_B30A              { 0xb30a, ? }                       // (PSX-ONLY)
 #define CHARA_PJEEP             { 0xb47a, ? }                       // takabe/pjeep.c
@@ -533,7 +533,7 @@ void *NewDoor2_800DD9E4();              /* takabe/door2.c               */
 void *NewDummyFloor();                  /* takabe/dummy_fl.c            */
 void *NewDummyWall_800D7384();          /* takabe/dummy_wl.c            */
 void *s15c_dymc_flr_800E1C70();         /* takabe/dymc_flr.c            */
-void *NewDymcSeg_800C4BCC();            /* takabe/dymc_seg.c            */
+void *NewDynamicWallSet();              /* takabe/dymc_seg.c            */
 void *NewEdTelop_800C563C();            /* takabe/ed_telop.c            */
 void *EdTelop_800C4F18();               /* takabe/ed_telop.c (?)        */
 void *NewElcDamg_800D4C68();            /* takabe/elc_damg.c            */
