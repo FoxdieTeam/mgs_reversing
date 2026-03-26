@@ -312,6 +312,7 @@ enum DG_PRIM_TYPE {
     DG_PRIM_MAX         // 24
 };
 
+// clang-format off
 enum {
         DG_PRIM_VISIBLE         = 0x0000,
         DG_PRIM_INVISIBLE       = 0x0100,
@@ -321,6 +322,7 @@ enum {
         DG_PRIM_ONEFACE         = 0x1000,
         DG_PRIM_FREEPACKS       = 0x2000,
 };
+// clang-format on
 
 enum DG_CHANL
 {
