@@ -4,6 +4,25 @@
 extern GV_HEAP       MemorySystems_800AD2F0[GV_MEMORY_MAX];
 extern unsigned int *ptr_800B1400[256];
 
+typedef struct DG_DivideMem
+{
+    long                *ot;         // 0x00
+    short                field_04;   // 0x04
+    unsigned short       raise;      // 0x06
+    long                 opz;        // 0x08 outer product
+    int                  field_0C;   // 0x0C  some sort of delta
+    long                 field_10;   // 0x10
+    long                 field_14;   // 0x14
+    long                 field_18;   // 0x18
+    POLY_GT4            *pack;       // 0x1C
+    GV_HEAP             *pHeap;      // 0x20
+    GV_ALLOC *pAlloc;     // 0x24
+    int                  n_packs;    // 0x28
+    void                *pDataStart; // 0x2C
+    int                  size;       // 0x30
+    DG_RVECTOR          *rvec;       // 0x34
+} DG_DivideMem;
+
 static inline DG_DivideMem *GetDivideMem()
 {
     return (DG_DivideMem *)(SCRPAD_ADDR);
