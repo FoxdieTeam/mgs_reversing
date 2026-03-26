@@ -2,7 +2,9 @@
 #define __MGS_TAKABE_FADEIO_H__
 
 #define FADEIO_MODE_TOBLACK     (0x0000)
-#define FADEIO_MODE_TOWHITE     (0x0001)
+#define FADEIO_MODE_FROMBLACK   (0x0001)
+#define FADEIO_MODE_TOWHITE     (0x0002)
+#define FADEIO_MODE_FROMWHITE   (0x0003)
 
 void *NewFadeInOut(int mode, int shade);
 void *NewFadeInOutSet(int name, int where);

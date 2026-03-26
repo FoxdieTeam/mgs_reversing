@@ -77,7 +77,7 @@ void Snake03c1Act_800CD698(Snake03c1Work *work)
     case 0:
         if (field_7E8 == 0)
         {
-            NewFadeInOut(1, 48);
+            NewFadeInOut(FADEIO_MODE_FROMBLACK, 48);
             GM_GameStatus |= STATE_PADRELEASE;
             OpenCinemaScreen(0, 60000);
             GCL_ExecProc(work->procs[1], NULL);

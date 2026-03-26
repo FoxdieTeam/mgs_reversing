@@ -300,7 +300,7 @@ void ValcanAct_800D9088(ValcanWork *work)
     {
         work->field_81C = 3;
         work->field_8D8 = 30;
-        NewFadeInOut(0, 20);
+        NewFadeInOut(FADEIO_MODE_TOBLACK, 20);
     }
     if (work->field_81C == 3)
     {
@@ -457,7 +457,7 @@ int ValcanGetResources_800D92A8(ValcanWork *work, int name, int where)
 
         work->field_878 = GM_PlayerPosition;
 
-        NewFadeInOut(1, 20);
+        NewFadeInOut(FADEIO_MODE_FROMBLACK, 20);
     }
 
     ValcanQueueDynamicSegment_800D8D5C(work, 0xDF);

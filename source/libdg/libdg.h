@@ -260,26 +260,6 @@ typedef struct DG_Image
     unsigned char data[ 512 ];
 } DG_Image;
 
-// MallocLog?
-typedef struct DG_DivideMem         // private to libdg/divide.c
-{
-    long                *ot;         // 0x00
-    short                field_04;   // 0x04
-    unsigned short       raise;      // 0x06
-    long                 opz;        // 0x08 outer product
-    int                  field_0C;   // 0x0C  some sort of delta
-    long                 field_10;   // 0x10
-    long                 field_14;   // 0x14
-    long                 field_18;   // 0x18
-    POLY_GT4            *pack;       // 0x1C
-    GV_HEAP             *pHeap;      // 0x20
-    GV_ALLOC *pAlloc;     // 0x24
-    int                  n_packs;    // 0x28
-    void                *pDataStart; // 0x2C
-    int                  size;       // 0x30
-    DG_RVECTOR          *rvec;       // 0x34
-} DG_DivideMem;
-
 typedef struct DG_CHANL
 {
     u_long   *ot[ 2 ]; // 257 pointers? // One for each active buffer
@@ -332,6 +312,7 @@ enum DG_PRIM_TYPE {
     DG_PRIM_MAX         // 24
 };
 
+// clang-format off
 enum {
         DG_PRIM_VISIBLE         = 0x0000,
         DG_PRIM_INVISIBLE       = 0x0100,
@@ -341,6 +322,7 @@ enum {
         DG_PRIM_ONEFACE         = 0x1000,
         DG_PRIM_FREEPACKS       = 0x2000,
 };
+// clang-format on
 
 enum DG_CHANL
 {

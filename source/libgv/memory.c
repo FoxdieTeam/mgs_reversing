@@ -784,7 +784,6 @@ void GV_ZeroMemory( void *to, int size )
         *(c++) = 0;
     }
 }
-// clang-format on
 
 void *GV_Malloc( int size )
 {
@@ -800,6 +799,7 @@ void GV_DelayedFree( void *addr )
 {
     GV_FreeMemory2( GV_NORMAL_MEMORY, &addr );
 }
+// clang-format on
 
 /**
  * @brief   Finds and allocates the largest contiguous free memory block

@@ -3164,7 +3164,7 @@ void Johnny_800C949C(JohnnyWork *work, int arg1)
             GM_ConfigMotionAdjust(&work->object, NULL);
             ClearAdjust(work);
 
-            NewFadeInOut(0, 32);
+            NewFadeInOut(FADEIO_MODE_TOBLACK, 32);
             CloseCinemaScreen();
             work->unkB4C++;
         }

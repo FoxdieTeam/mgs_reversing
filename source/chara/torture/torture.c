@@ -547,7 +547,7 @@ void s03b_torture_800C46B8(TortureWork *work, int arg1)
 {
     if (arg1 == 0)
     {
-        NewFadeInOut(0, 28);
+        NewFadeInOut(FADEIO_MODE_TOBLACK, 28);
         s03b_boxall_800C9328();
 
         work->f820 = 0;
@@ -848,7 +848,7 @@ void s03b_torture_800C4DF0(TortureWork *work, int arg1)
 {
     if (arg1 == 0)
     {
-        NewFadeInOut(1, 128);
+        NewFadeInOut(FADEIO_MODE_FROMBLACK, 128);
 
         if (work->body.action != 0)
         {
@@ -892,7 +892,7 @@ void s03b_torture_800C4E64(TortureWork *work, int arg1)
 
             if (work->f848 != 0)
             {
-                NewFadeInOut(0, 28);
+                NewFadeInOut(FADEIO_MODE_TOBLACK, 28);
             }
         }
 
@@ -938,7 +938,7 @@ void s03b_torture_800C4F54(TortureWork *work, int arg1)
 
     if (arg1 == 200)
     {
-        work->f900 = NewFadeInOut(0, 32);
+        work->f900 = NewFadeInOut(FADEIO_MODE_TOBLACK, 32);
     }
 
     if (arg1 == 160)
@@ -1016,7 +1016,7 @@ void s03b_torture_800C50A8(TortureWork *work, int arg1)
 
     if (work->f818 == 10)
     {
-        NewFadeInOut(0, 64);
+        NewFadeInOut(FADEIO_MODE_TOBLACK, 64);
     }
 
     if (work->f818 == 12)
@@ -1598,7 +1598,7 @@ void s03b_torture_800C6080(TortureWork *work)
 
     if (work->f848 == 0 && work->f7FE == 120)
     {
-        NewFadeInOut(0, 28);
+        NewFadeInOut(FADEIO_MODE_TOBLACK, 28);
     }
 
     comp = (work->f848 == 0) ? 150 : 180;

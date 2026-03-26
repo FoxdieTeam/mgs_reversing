@@ -10,7 +10,12 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL3
+#define EXEC_LEVEL      GV_ACTOR_LEVEL3
+
+#define MODE_FADEOUT    (0 << 0)    // 0x0000
+#define MODE_FADEIN     (1 << 0)    // 0x0001
+#define MODE_BLACK      (0 << 1)    // 0x0000
+#define MODE_WHITE      (1 << 1)    // 0x0002
 
 typedef struct _FADE_PRIMS
 {
@@ -52,7 +57,7 @@ static void Act(Work *work)
         if (status == 1)
         {
             work->field_2c = 0;
-            work->mode |= 0x1;
+            work->mode |= MODE_FADEIN;
         }
     }
 
@@ -66,7 +71,7 @@ static void Act(Work *work)
     }
 
     shade = (work->field_2c * 255) / work->shade;
-    if (work->mode & 0x1)
+    if (work->mode & MODE_FADEIN)
     {
         shade = 255 - shade;
     }
@@ -88,7 +93,7 @@ static void Act(Work *work)
     work->field_30 = shade;
     setRGB0(&work->prims->tile[GV_Clock], shade, shade, shade);
 
-    if ((work->mode & 0x1) && (work->field_2c >= work->shade))
+    if ((work->mode & MODE_FADEIN) && (work->field_2c >= work->shade))
     {
         GV_DestroyActor(&work->actor);
     }
@@ -112,7 +117,7 @@ static int GetResources(Work *work, int mode, int shade)
     {
         return -1;
     }
-    if (mode & 2)
+    if (mode & MODE_WHITE)
     {
         setDrawTPage(&prims->tpage[0], 0, 1, getTPage(0, 1, 0, 0));
         setDrawTPage(&prims->tpage[1], 0, 1, getTPage(0, 1, 0, 0));
@@ -130,7 +135,7 @@ static int GetResources(Work *work, int mode, int shade)
     prims->tile[0].x0 = 0;
     prims->tile[0].y0 = 0;
     prims->tile[1] = prims->tile[0];
-    if (!(mode & 1))
+    if (!(mode & MODE_FADEIN))
     {
         prims->tile[0].r0 = 0;
         prims->tile[0].g0 = 0;

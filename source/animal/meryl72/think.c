@@ -11,7 +11,7 @@
 #define TH1_PHASE2 2
 #define TH1_PHASE3 3
 
-void OpenCinemaScreen(int map, int name);
+void OpenCinemaScreen(int type, int time);
 void CloseCinemaScreen(void);
 
 void s07c_meryl72_unk2_800CC9A8(Meryl72Work *work)
