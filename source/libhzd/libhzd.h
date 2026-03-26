@@ -55,7 +55,7 @@ static inline int HZD_addr_shift( int addr )
 }
 
 /* hzdd.c */
-#ifndef __HZDD_SBSS__
+#ifndef __LIBHZD_HZDD_C__
 extern int HZD_CurrentGroup;
 #endif
 

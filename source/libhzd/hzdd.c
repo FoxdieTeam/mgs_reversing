@@ -1,4 +1,4 @@
-#define __HZDD_SBSS__
+#define __LIBHZD_HZDD_C__
 #include "libhzd.h"
 
 #include <stdio.h>

@@ -1,4 +1,4 @@
-#define __HZD_EVENT_SBSS__
+#define __LIBHZD_EVENT_C__
 #include "libhzd.h"
 
 #include "common.h"
