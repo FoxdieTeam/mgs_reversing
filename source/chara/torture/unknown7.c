@@ -1,5 +1,6 @@
 #include "libgv/libgv.h"
 #include "game/game.h"
+#include "strcode.h"
 
 extern GM_CAMERA GM_Camera;
 

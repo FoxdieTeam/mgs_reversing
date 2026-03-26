@@ -4,6 +4,7 @@
 #include "mts/mts.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
+#include "strcode.h"
 
 typedef struct _Zako11FCommanderWork
 {

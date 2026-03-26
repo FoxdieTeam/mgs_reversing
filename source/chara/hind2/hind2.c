@@ -8,6 +8,7 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "linkvar.h"
+#include "strcode.h"
 
 typedef struct _Hind2Work
 {

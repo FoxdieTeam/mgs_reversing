@@ -1,4 +1,5 @@
 #include "game/game.h"
+#include "strcode.h"
 
 typedef struct _Work
 {
