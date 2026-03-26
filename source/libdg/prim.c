@@ -6,8 +6,6 @@
 #include "common.h"
 #include "libgv/libgv.h"
 
-extern int DG_CurrentGroupID;
-
 /*** data *******************************************************/
 
 // psize, verts, voffset, vstep

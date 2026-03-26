@@ -1,4 +1,4 @@
-#define __GVD_SBSS__
+#define __LIBGV_GVD_C__
 #include "libgv.h"
 
 #include <stdio.h>

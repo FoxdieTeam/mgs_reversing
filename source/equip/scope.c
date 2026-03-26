@@ -11,7 +11,6 @@
 #include "sound/g_sound.h"
 
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
-extern int              DG_CurrentGroupID;
 extern int              dword_8009F604;
 extern GM_CAMERA        GM_Camera;
 extern short            dword_800ABBDC;

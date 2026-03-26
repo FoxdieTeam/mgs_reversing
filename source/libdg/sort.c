@@ -6,7 +6,6 @@ typedef struct _SCRATCHPAD_UNK {
     int     len;
 } SCRATCHPAD_UNK;
 
-extern int           DG_CurrentGroupID;
 extern unsigned int *ptr_800B1400[256];
 
 static inline SCRATCHPAD_UNK * get_scratch(void)

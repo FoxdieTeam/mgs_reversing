@@ -10,7 +10,6 @@
 
 extern MAP      gMapRecs_800B7910[ 16 ];
 extern DG_OBJS *StageObjs[ 32 ];
-extern int      DG_CurrentGroupID;
 
 STATIC MAP* SECTION(".sbss") pHzdIter_800ABAA0;
 STATIC int  SECTION(".sbss") N_StageObjs;

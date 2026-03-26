@@ -9,7 +9,7 @@
  * functions for memory allocation and initialization.
  */
 
-#define __GV_ACTOR_SBSS__
+#define __LIBGV_ACTOR_C__
 #include <stdio.h>
 #include <libsn.h>
 #include "libgv.h"

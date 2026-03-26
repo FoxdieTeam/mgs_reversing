@@ -18,7 +18,6 @@
 #include "sound/g_sound.h"
 #include "strcode.h"
 
-extern int                 DG_CurrentGroupID;
 extern GM_CAMERA           GM_Camera;
 extern int                 dword_8009F604;
 extern TMat8x8B            gJpegcamMatrix2_800BDCD8;

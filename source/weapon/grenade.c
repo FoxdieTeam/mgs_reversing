@@ -16,7 +16,6 @@
 #include "okajima/stngrnd.h"
 #include "strcode.h"
 
-extern int           DG_CurrentGroupID;
 extern BLAST_DATA    blast_data_8009F4B8[8];
 
 /*---------------------------------------------------------------------------*/

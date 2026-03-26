@@ -2,10 +2,10 @@
 
 #include "common.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "game/game.h"
 #include "linkvar.h"
 
-extern int       DG_CurrentGroupID;
 extern int       dword_8009F46C;
 extern GM_CAMERA GM_Camera;
 

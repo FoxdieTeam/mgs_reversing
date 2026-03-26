@@ -16,7 +16,6 @@
 
 extern int              amissile_alive_8009F490;
 extern SVECTOR          svector_8009F494;
-extern short            N_ChanlPerfMax;
 extern unsigned short   gOldRootCnt_800B1DC8[];
 extern TARGET          *target_800BDF00;
 

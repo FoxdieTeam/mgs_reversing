@@ -1,3 +1,5 @@
+#define __LIBDG_CHANL_C__
+
 #include "libdg.h"
 
 #include <sys/types.h>

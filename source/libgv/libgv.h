@@ -16,7 +16,7 @@
 
 /* gvd.c */
 extern int GV_Time;
-#ifndef __GVD_SBSS__
+#ifndef __LIBGV_GVD_C__
 extern int GV_Clock;
 extern int GV_PassageTime;
 #endif
@@ -111,7 +111,7 @@ enum {
 };
 
 /* actor.c */
-#ifndef __GV_ACTOR_SBSS__
+#ifndef __LIBGV_ACTOR_C__
 extern int GV_PauseLevel;
 #endif
 
@@ -326,7 +326,7 @@ enum
 };
 
 /* pad.c */
-#ifndef __GV_PAD_SBSS__
+#ifndef __LIBGV_PAD_C__
 extern u_short  GV_DemoPadStatus[2];
 extern u_long   GV_DemoPadAnalog;
 #endif

@@ -23,10 +23,7 @@ short SECTION(".bss") * s12c_800DAA44;
 short SECTION(".bss") * s12c_800DAA48;
 short SECTION(".bss") * s12c_800DAA4C;
 
-extern int           DG_CurrentGroupID;
 extern unsigned int *ptr_800B1400[256];
-extern short         DG_ClipMin[2];
-extern short         DG_ClipMax[2];
 
 void s12c_800D497C(int arg0, int arg1)
 {

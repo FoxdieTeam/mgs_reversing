@@ -189,7 +189,7 @@ enum // GM_AlertMode
 };
 
 /*---------------------------------------------------------------------------*/
-#ifndef __GAMED_SBSS__
+#ifndef __GAME_GAMED_C__
 // clang-format off
 
 extern int GM_CurrentMap;               // for GM_Set/GetCurrentMap, etc.
@@ -270,7 +270,7 @@ static inline void GM_SetNoise( int power, int length, SVECTOR *pos )
 }
 
 // clang-format on
-#endif // __GAMED_SBSS__
+#endif // __GAME_GAMED_C__
 /*---------------------------------------------------------------------------*/
 
 /* gamed.c */
@@ -287,7 +287,7 @@ extern TBombFunction2 GM_lpfnBombBound;
 extern TBombFunction3 GM_lpfnBombExplosion;
 extern int GM_PadResetDisable;
 
-#ifndef __GAMED_SBSS__
+#ifndef __GAME_GAMED_C__
 //extern char    *GM_StageName;
 //extern GV_PAD  *GM_CurrentPadData;
 extern int      dword_800AB9D4;
@@ -320,7 +320,7 @@ extern int      GM_PlayerAction;
 extern SVECTOR  GM_PhotoViewPos;
 extern PlayerStatusFlag GM_PlayerStatus;
 extern int      GM_PadVibration2;
-#endif // __GAMED_SBSS__
+#endif // __GAME_GAMED_C__
 
 void GM_InitReadError(void);
 void DrawReadError(void);

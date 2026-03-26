@@ -1,4 +1,4 @@
-#define __GAMED_SBSS__
+#define __GAME_GAMED_C__
 #include "game.h"
 
 #include <stdio.h>

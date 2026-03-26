@@ -13,8 +13,6 @@
 #include "okajima/bullet.h"
 #include "sound/g_sound.h"
 
-extern int   DG_CurrentGroupID;
-
 /*---------------------------------------------------------------------------*/
 
 #define EXEC_LEVEL      GV_ACTOR_AFTER
