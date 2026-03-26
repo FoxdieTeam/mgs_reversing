@@ -439,6 +439,11 @@ void DG_BoundChanl( DG_CHANL *chanl, int idx );
 void DG_BoundEnd( void );
 
 /* chanl.c */
+#ifndef __LIBDG_CHANL_C__
+extern short N_ChanlPerfMax;
+extern short word_800AB982;
+#endif
+
 void DG_InitChanlSystem( int width );
 void DG_DrawOTag( int which );
 void DG_ClearChanlSystem( int which );

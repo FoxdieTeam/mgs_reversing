@@ -10,8 +10,6 @@
 
 extern GV_HEAP MemorySystems_800AD2F0[ GV_MEMORY_MAX ];
 extern DG_TEX  TexSets[DG_MAX_TEXTURES];
-extern short          N_ChanlPerfMax;
-extern unsigned short word_800AB982;
 extern unsigned short gOldRootCnt_800B1DC8[32];
 
 unsigned char SECTION(".sbss") menu_current_debug_screen_800ABB20;
