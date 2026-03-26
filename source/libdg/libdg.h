@@ -7,7 +7,7 @@
 #include "inline_n.h"
 #include <gtemac.h>
 
-#include "libgv/libgv.h"
+#include "libgv/libgv.h"    // for GV_Clock
 #include "fmt_tex.h"
 #include "fmt_mot.h"
 
@@ -624,7 +624,6 @@ static inline DG_CHANL *DG_Chanl( int idx )
 
 static inline u_long *DG_ChanlOTag(int index)
 {
-    extern int GV_Clock;
     return DG_Chanl(index)->ot[GV_Clock];
 }
 
