@@ -5,6 +5,7 @@
 #include "libdg/libdg.h"
 #include "game/game.h"
 #include "takabe/thing.h"
+#include "strcode.h"
 
 /*---------------------------------------------------------------------------*/
 

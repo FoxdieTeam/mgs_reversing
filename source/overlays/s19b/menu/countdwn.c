@@ -2,6 +2,7 @@
 #include "libgcl/libgcl.h"
 #include "menu/radar.h"
 #include "menu/radio.h"
+#include "strcode.h"
 
 RadioUnknown s19b_dword_800C3258 =
 {

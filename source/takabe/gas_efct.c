@@ -10,6 +10,7 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "takabe/thing.h"
+#include "strcode.h"
 
 typedef struct _GasEfctPrims
 {

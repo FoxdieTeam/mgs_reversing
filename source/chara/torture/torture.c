@@ -10,6 +10,7 @@
 #include "game/over.h"
 #include "game/vibrate.h"
 #include "sound/g_sound.h"
+#include "strcode.h"
 
 #include "takabe/fadeio.h"      // for NewFadeInOut
 

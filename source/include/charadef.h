@@ -1,8 +1,6 @@
 #ifndef __MGS_CHARADEF_H__
 #define __MGS_CHARADEF_H__
 
-#include "strcode.h"
-
 // XXX NEWCHARA was defined with an empty parameter list in MGS4's dwarf info.
 // XXX Seems like they originally did it here in MGS1 as well, considering
 // XXX NewActor funcs have various different signatures.

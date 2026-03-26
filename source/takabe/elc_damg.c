@@ -7,6 +7,7 @@
 #include "linkvar.h"
 #include "game/game.h"
 #include "chara/snake/sna_init.h"
+#include "strcode.h"
 
 typedef struct ElcDamgWork
 {

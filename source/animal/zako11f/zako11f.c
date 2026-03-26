@@ -5,6 +5,7 @@
 #include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
 #include "chara/snake/shadow.h"
+#include "strcode.h"
 
 void RootFlagCheck_800C86F0( Zako11FWork *work )
 {

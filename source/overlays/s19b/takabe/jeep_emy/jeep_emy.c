@@ -1,6 +1,7 @@
 #include "game/game.h"
 #include "libgcl/libgcl.h"
 #include "takabe/thing.h"
+#include "strcode.h"
 
 typedef struct _Work
 {

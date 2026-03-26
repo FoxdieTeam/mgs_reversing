@@ -16,6 +16,7 @@
 #include "memcard/memcard.h"
 #include "thing/sight.h"
 #include "sound/g_sound.h"
+#include "strcode.h"
 
 extern int                 DG_CurrentGroupID;
 extern GM_CAMERA           GM_Camera;
