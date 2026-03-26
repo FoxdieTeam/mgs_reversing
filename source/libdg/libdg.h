@@ -347,12 +347,14 @@ static inline void DG_GroupObjs( DG_OBJS *objs, int group_id )
     objs->group_id = group_id;
 }
 
-//static inline void DG_GroupObjsX( DG_OBJS *objs )
-//{
-//    extern int DG_CurrentGroupID;
-//
-//    DG_GroupObjs( objs, DG_CurrentGroupID );
-//}
+#ifndef __LIBDG_DISPLAY_C__
+static inline void DG_GroupObjsEx( DG_OBJS *objs )
+{
+    extern int DG_CurrentGroupID;
+
+    DG_GroupObjs( objs, DG_CurrentGroupID );
+}
+#endif
 
 static inline void DG_VisibleObjs( DG_OBJS *objs )
 {
@@ -364,12 +366,14 @@ static inline void DG_InvisibleObjs( DG_OBJS *objs )
     objs->flag |= DG_FLAG_INVISIBLE;
 }
 
-//static inline void DG_SetCurrentGroup( int group_id )
-//{
-//    extern int DG_CurrentGroupID;
-//
-//    DG_CurrentGroupID = group_id;
-//}
+#ifndef __LIBDG_DISPLAY_C__
+static inline void DG_SetCurrentGroup( int group_id )
+{
+    extern int DG_CurrentGroupID;
+
+    DG_CurrentGroupID = group_id;
+}
+#endif
 
 static inline void DG_UnAmbientObjs( DG_OBJS *objs )
 {
