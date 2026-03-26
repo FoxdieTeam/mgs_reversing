@@ -82,9 +82,7 @@ SVECTOR rotations[] =
     {0, 0, 0},
     {0, 0, 0},
     {0, 0, 0},
-    {0, 0, 0},
-    {4096, 0, 4096},
-    {4096, 0, 0}
+    {0, 0, 0}
 };
 
 static void InitPreshadeObject(OBJECT *object, int model, u_long flag)

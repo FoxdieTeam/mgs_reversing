@@ -1,24 +1,27 @@
 #include "common.h"
+#include "linkvar.h"
+#include "game/game.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "game/game.h"
-#include "linkvar.h"
 #include "menu/menuman.h"
+#include "mts/mts.h"
+#include "okajima/spark.h"
+#include "takabe/cinema.h"
 
 typedef struct HindWork
 {
     GV_ACT   actor;
     CONTROL  control;
-    OBJECT   field_9C;
-    OBJECT   field_180;
-    OBJECT   field_264;
-    MATRIX   field_348_light1[2];
-    MATRIX   field_388_light2[2];
-    MATRIX   field_3C8_light3[2];
-    TARGET  *field_408;
-    TARGET  *field_40C;
-    TARGET  *field_410;
+    OBJECT   body;
+    OBJECT   missile1;
+    OBJECT   missile2;
+    MATRIX   body_light[2];
+    MATRIX   missile1_light[2];
+    MATRIX   missile2_light[2];
+    TARGET  *target1;
+    TARGET  *target2;
+    TARGET  *target3;
     int      field_414;
     int      field_418;
     int      field_41C;
@@ -101,7 +104,7 @@ typedef struct HindWork
     int    field_56C;
     int    field_570;
     int    field_574;
-    int    field_578;
+    int    end_proc;
     TARGET field_57C;
     int    field_5C4;
     int    field_5C8;
@@ -132,46 +135,34 @@ typedef struct HindWork
     int       field_620;
     int       field_624;
     int       field_628;
-    int       field_62C;
-    int       field_630;
-    int       field_634;
-    int       field_638;
-    int       field_63C;
-    int       field_640;
+    VECTOR    field_62C;
+    SVECTOR   field_63C;
     SVECTOR   field_644;
     int       field_64C;
     int       field_650;
     int       field_654;
     int       field_658;
-    int       field_65C;
-    int       field_660;
-    int       field_664;
-    int       field_668;
+    SVECTOR   field_65C;
+    SVECTOR   field_664;
     int       field_66C;
     int       field_670;
     int       field_674;
     int       field_678;
-    OBJECT    field_67C;
-    int       field_760;
-    int       field_764;
-    int       field_768;
-    int       field_76C;
+    OBJECT    missile3;
+    VECTOR    field_760;
     int       field_770;
     int       field_774;
     int       field_778;
     int       field_77C;
     int       field_780;
     int       field_784;
-    int       field_788;
-    int       field_78C;
-    int       field_790;
-    int       field_794;
-    MATRIX    field_798_light4[2];
-    int       field_7D8;
-    int       field_7DC;
+    SVECTOR   field_788;
+    SVECTOR   field_790;
+    MATRIX    missile3_light[2];
+    SVECTOR   field_7D8;
     int       field_7E0;
     int       field_7E4;
-    MENU_BAR_CONF field_7E8;
+    MENU_BAR_CONF lifebar;
     int       field_7F4;
     int       field_7F8;
     int       vox_ids[0];
@@ -230,15 +221,15 @@ typedef struct HindWork
     int       field_8CC;
     int       field_8D0;
     int       field_8D4;
-    int       field_8D8;
-    int       field_8DC;
+    int       last_time;
+    int       last_time2;
     int       field_8E0;
     GV_ACT   *field_8E4;
     GV_ACT   *field_8E8;
     int       field_8EC;
     int       field_8F0;
-    int       field_8F4;
-    int       field_8F8;
+    int       last_item;
+    int       last_weapon;
     int       field_8FC;
     int       field_900;
     int       field_904;
@@ -253,7 +244,7 @@ typedef struct HindWork
     int       field_928;
     int       field_92C;
     int       field_930;
-    int       field_934;
+    int       name;
     int       field_938;
     int       field_93C;
     int       field_940;
@@ -269,7 +260,7 @@ typedef struct HindWork
     int       field_968;
     int       field_96C;
     SVECTOR   field_970[32];
-    int       field_A70;
+    SVECTOR  *field_A70;
     int       field_A74;
     int       field_A78;
     int       field_A7C;
@@ -284,13 +275,10 @@ extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 extern DG_CHANL         DG_Chanls[3];
 extern GM_CAMERA        GM_Camera;
 
-void s11g_hind_800D5E44(HindWork *a0, int a1);
-void s11g_hind_800D5E54(void);
-void s11g_hind_800D5F94(void); 
+void sub_8007F0D0(VECTOR *out, VECTOR *a, VECTOR *b, VECTOR *c);
 
 void HindAct_800D3404(HindWork *work);
 void HindDie_800D45C0(HindWork *work);
-void sub_8007F0D0(VECTOR *out, VECTOR *a, VECTOR *b, VECTOR *c);
 
 void HindGetIntParams_800D11E0(unsigned char *param, int *result)
 {
@@ -313,11 +301,12 @@ static inline int max(int a, int b)
     return a > b ? a : b;
 }
 
-void *NewHind_800D1224(int scriptData, int scriptBinds)
+void *NewHind_800D1224(int name, int where)
 {
+    HindWork *work;
+
     SVECTOR        svec;
     VECTOR         vec1, vec2, vec3;
-    HindWork      *work;
     HZD_SEG       *walls;
     HZD_FLR       *floors;
     int            i;
@@ -329,35 +318,38 @@ void *NewHind_800D1224(int scriptData, int scriptBinds)
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, HindAct_800D3404, HindDie_800D45C0, "hind.c");
-    if (GM_InitControl(&work->control, scriptData, scriptBinds) < 0)
+    GV_SetNamedActor(work, HindAct_800D3404, HindDie_800D45C0, "hind.c");
+
+    if (GM_InitControl(&work->control, name, where) < 0)
     {
         GV_DestroyActor(&work->actor);
         return NULL;
     }
 
-    work->field_934 = scriptData;
+    work->name = name;
 
-    work->field_348_light1[0].t[0] = 16;
-    work->field_348_light1[0].t[1] = 16;
-    work->field_348_light1[0].t[2] = 16;
+    work->body_light[0].t[0] = 16;
+    work->body_light[0].t[1] = 16;
+    work->body_light[0].t[2] = 16;
 
     if (GCL_GetOption('a'))
     {
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
-            work->field_348_light1[0].t[0] = GCL_StrToInt(param);
+            work->body_light[0].t[0] = GCL_StrToInt(param);
         }
+
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
-            work->field_348_light1[0].t[1] = GCL_StrToInt(param);
+            work->body_light[0].t[1] = GCL_StrToInt(param);
         }
+
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
-            work->field_348_light1[0].t[2] = GCL_StrToInt(param);
+            work->body_light[0].t[2] = GCL_StrToInt(param);
         }
     }
 
@@ -367,12 +359,13 @@ void *NewHind_800D1224(int scriptData, int scriptBinds)
     if (GCL_GetOption('r'))
     {
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             work->field_41C = GCL_StrToInt(param);
         }
+
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             work->field_420 = GCL_StrToInt(param);
         }
@@ -381,17 +374,17 @@ void *NewHind_800D1224(int scriptData, int scriptBinds)
     if (GCL_GetOption('e'))
     {
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             work->field_424 = GCL_StrToInt(param) * 1000000 / 108000 * 16;
         }
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             work->field_428 = GCL_StrToInt(param) * 16 / 30;
         }
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             work->field_42C = GCL_StrToInt(param) * 4096 / 360;
         }
@@ -402,7 +395,7 @@ void *NewHind_800D1224(int scriptData, int scriptBinds)
     if (GCL_GetOption('d'))
     {
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             work->field_430 = work->field_434 = GCL_StrToInt(param);
         }
@@ -410,22 +403,22 @@ void *NewHind_800D1224(int scriptData, int scriptBinds)
         work->field_650 = 1024 / work->field_430 + 1;
 
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             work->field_438 = (GCL_StrToInt(param) + 1);
         }
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             work->field_43C = GCL_StrToInt(param) * 1000000 / 108000 * 16;
         }
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             work->field_440 = GCL_StrToInt(param) * 16 / 30;
         }
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             work->field_444 = GCL_StrToInt(param);
         }
@@ -439,47 +432,47 @@ void *NewHind_800D1224(int scriptData, int scriptBinds)
     if (GCL_GetOption('g'))
     {
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             work->field_448 = GCL_StrToInt(param) + 1;
         }
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             work->field_44C = GCL_StrToInt(param) * 4096 / 360;
         }
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             work->field_450 = GCL_StrToInt(param) * 4096 / 360;
         }
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             work->field_454 = GCL_StrToInt(param) * 4096 / 360;
         }
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             work->field_458 = GCL_StrToInt(param) * 4096 / 360;
         }
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             work->field_45C = GCL_StrToInt(param);
         }
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             work->field_460 = GCL_StrToInt(param);
         }
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             work->field_464 = GCL_StrToInt(param) * 1000;
         }
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             work->field_468 = GCL_StrToInt(param) * 1000000 / 108000;
         }
@@ -488,52 +481,52 @@ void *NewHind_800D1224(int scriptData, int scriptBinds)
     if (GCL_GetOption('m'))
     {
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             work->field_46C = GCL_StrToInt(param);
         }
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             work->field_470 = GCL_StrToInt(param);
         }
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             work->field_474 = GCL_StrToInt(param) + 1;
         }
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             work->field_478 = GCL_StrToInt(param) * 4096 / 360;
         }
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             work->field_47C = GCL_StrToInt(param) * 4096 / 360;
         }
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             work->field_480 = GCL_StrToInt(param);
         }
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             work->field_484 = GCL_StrToInt(param);
         }
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             work->field_488 = GCL_StrToInt(param) * 1000;
         }
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             work->field_48C = GCL_StrToInt(param) * 1000000 / 108000;
         }
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             if (GCL_StrToInt(param) == 1)
             {
@@ -545,17 +538,17 @@ void *NewHind_800D1224(int scriptData, int scriptBinds)
     if (GCL_GetOption('p'))
     {
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             work->field_4BC = GCL_StrToInt(param) * 1000;
         }
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             work->field_4C0 = GCL_StrToInt(param) * 1000;
         }
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             work->field_4C4 = (GCL_StrToInt(param) * 1000);
         }
@@ -565,22 +558,22 @@ void *NewHind_800D1224(int scriptData, int scriptBinds)
         memcpy(&work->field_60C, &work->field_4BC, 4 * 4);
 
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             work->control.turn.vx = GCL_StrToInt(param) * 4096 / 360;
         }
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             work->control.turn.vy = GCL_StrToInt(param) * 4096 / 360;
         }
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             work->control.turn.vz = GCL_StrToInt(param) * 4096 / 360;
         }
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             svec.vx = 0;
             svec.vy = 0;
@@ -593,42 +586,42 @@ void *NewHind_800D1224(int scriptData, int scriptBinds)
             work->field_4E4 = svec.vz;
         }
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             work->field_4A0 = GCL_StrToInt(param);
         }
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             work->field_494 = GCL_StrToInt(param) * 1000;
         }
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             work->field_498 = GCL_StrToInt(param) * 1000;
         }
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             work->field_49C = GCL_StrToInt(param) * 1000;
         }
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             work->field_4AA = GCL_StrToInt(param);
         }
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             work->field_4A4 = GCL_StrToInt(param) * 4096 / 360;
         }
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             work->field_4A6 = GCL_StrToInt(param) * 4096 / 360;
         }
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             work->field_4A8 = GCL_StrToInt(param) * 4096 / 360;
         }
@@ -637,7 +630,7 @@ void *NewHind_800D1224(int scriptData, int scriptBinds)
     if (GCL_GetOption('b'))
     {
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             work->field_4AC = GCL_StrToInt(param);
         }
@@ -646,20 +639,20 @@ void *NewHind_800D1224(int scriptData, int scriptBinds)
     if (GCL_GetOption('w'))
     {
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
             work->field_4B0 = (GCL_StrToInt(param) * 1000);
         }
     }
 
-    work->field_578 = -1;
+    work->end_proc = -1;
 
     if (GCL_GetOption('z'))
     {
         param = GCL_GetParamResult();
-        if (param != NULL)
+        if (param)
         {
-            work->field_578 = GCL_StrToInt(param);
+            work->end_proc = GCL_StrToInt(param);
         }
     }
 
@@ -668,17 +661,17 @@ void *NewHind_800D1224(int scriptData, int scriptBinds)
 
     GM_ConfigControlAttribute(&work->control, 4);
 
-    GM_InitObject(&work->field_9C, GV_StrCode("hind"), 0x12D, 0);
-    GM_ConfigObjectJoint(&work->field_9C);
-    GM_ConfigObjectLight(&work->field_9C, work->field_348_light1);
+    GM_InitObject(&work->body, GV_StrCode("hind"), 0x12D, 0);
+    GM_ConfigObjectJoint(&work->body);
+    GM_ConfigObjectLight(&work->body, work->body_light);
 
-    GM_InitObject(&work->field_180, GV_StrCode("hindmsil"), 0x12D, 0);
-    GM_ConfigObjectLight(&work->field_180, work->field_388_light2);
-    GM_ConfigObjectJoint(&work->field_180);
+    GM_InitObject(&work->missile1, GV_StrCode("hindmsil"), 0x12D, 0);
+    GM_ConfigObjectLight(&work->missile1, work->missile1_light);
+    GM_ConfigObjectJoint(&work->missile1);
 
-    GM_InitObject(&work->field_264, GV_StrCode("hindmsil"), 0x12D, 0);
-    GM_ConfigObjectLight(&work->field_264, work->field_3C8_light3);
-    GM_ConfigObjectJoint(&work->field_264);
+    GM_InitObject(&work->missile2, GV_StrCode("hindmsil"), 0x12D, 0);
+    GM_ConfigObjectLight(&work->missile2, work->missile2_light);
+    GM_ConfigObjectJoint(&work->missile2);
 
     work->field_414 = 1;
 
@@ -689,17 +682,17 @@ void *NewHind_800D1224(int scriptData, int scriptBinds)
     work->field_504 = work->field_448 / 2;
     work->field_508 = (work->field_474 / 2);
 
-    work->field_408 = GM_AllocTarget();
-    work->field_40C = GM_AllocTarget();
-    work->field_410 = GM_AllocTarget();
+    work->target1 = GM_AllocTarget();
+    work->target2 = GM_AllocTarget();
+    work->target3 = GM_AllocTarget();
 
-    work->field_408->damaged &= ~TARGET_POWER;
-    work->field_40C->damaged &= ~TARGET_POWER;
-    work->field_410->damaged &= ~TARGET_POWER;
+    work->target1->damaged &= ~TARGET_POWER;
+    work->target2->damaged &= ~TARGET_POWER;
+    work->target3->damaged &= ~TARGET_POWER;
 
-    svec.vx = work->field_9C.objs->objs[0].model->max.vx / 2;
-    svec.vy = -work->field_9C.objs->objs[0].model->min.vy / 4;
-    svec.vz = work->field_9C.objs->objs[0].model->max.vz / 2;
+    svec.vx = work->body.objs->objs[0].model->max.vx / 2;
+    svec.vy = -work->body.objs->objs[0].model->min.vy / 4;
+    svec.vz = work->body.objs->objs[0].model->max.vz / 2;
 
     if (work->field_4AC != 2)
     {
@@ -708,43 +701,43 @@ void *NewHind_800D1224(int scriptData, int scriptBinds)
         default:
         case -1:
         case 0:
-            GM_SetTarget(work->field_408, 20, 2, &svec);
-            GM_SetTarget(work->field_40C, 20, 2, &svec);
-            GM_SetTarget(work->field_410, 20, 2, &svec);
+            GM_SetTarget(work->target1, 20, 2, &svec);
+            GM_SetTarget(work->target2, 20, 2, &svec);
+            GM_SetTarget(work->target3, 20, 2, &svec);
             break;
         case 1:
         case 2:
             svec.vx = svec.vx / 2;
             svec.vy = svec.vy / 2;
             svec.vz = svec.vz / 2;
-            GM_SetTarget(work->field_408, 20, 2, &svec);
-            GM_SetTarget(work->field_40C, 20, 2, &svec);
-            GM_SetTarget(work->field_410, 20, 2, &svec);
+            GM_SetTarget(work->target1, 20, 2, &svec);
+            GM_SetTarget(work->target2, 20, 2, &svec);
+            GM_SetTarget(work->target3, 20, 2, &svec);
             break;
         case 3:
             svec.vx = svec.vx / 2;
             svec.vy = svec.vy / 2;
             svec.vz = svec.vz / 2;
-            GM_SetTarget(work->field_408, 20, 2, &svec);
-            GM_SetTarget(work->field_40C, 20, 2, &DG_ZeroVector);
-            GM_SetTarget(work->field_410, 20, 2, &DG_ZeroVector);
+            GM_SetTarget(work->target1, 20, 2, &svec);
+            GM_SetTarget(work->target2, 20, 2, &DG_ZeroVector);
+            GM_SetTarget(work->target3, 20, 2, &DG_ZeroVector);
 
-            work->field_40C->class &= ~0x14;
-            work->field_40C->class |= 1;
-            work->field_410->class &= ~0x14;
-            work->field_410->class |= 1;
+            work->target2->class &= ~0x14;
+            work->target2->class |= 1;
+            work->target3->class &= ~0x14;
+            work->target3->class |= 1;
             break;
         }
     }
     else
     {
-        GM_SetTarget(work->field_408, 0, 2, &svec);
-        GM_SetTarget(work->field_40C, 0, 2, &svec);
-        GM_SetTarget(work->field_410, 0, 2, &svec);
+        GM_SetTarget(work->target1, 0, 2, &svec);
+        GM_SetTarget(work->target2, 0, 2, &svec);
+        GM_SetTarget(work->target3, 0, 2, &svec);
 
-        work->field_408->damaged |= TARGET_POWER;
-        work->field_40C->damaged |= TARGET_POWER;
-        work->field_410->damaged |= TARGET_POWER;
+        work->target1->damaged |= TARGET_POWER;
+        work->target2->damaged |= TARGET_POWER;
+        work->target3->damaged |= TARGET_POWER;
     }
 
     work->field_654 = 1024;
@@ -753,9 +746,9 @@ void *NewHind_800D1224(int scriptData, int scriptBinds)
     work->field_4B4 = work->field_41C * 4096 / 1800;
     work->field_4B8 = work->field_420 * 4096 / 1800;
 
-    work->field_514 = max(work->field_9C.objs->def->max.vx - work->field_9C.objs->def->min.vx,
-                          work->field_9C.objs->def->max.vy - work->field_9C.objs->def->min.vy);
-    work->field_514 = max(work->field_514, work->field_9C.objs->def->max.vz - work->field_9C.objs->def->min.vz);
+    work->field_514 = max(work->body.objs->def->max.vx - work->body.objs->def->min.vx,
+                          work->body.objs->def->max.vy - work->body.objs->def->min.vy);
+    work->field_514 = max(work->field_514, work->body.objs->def->max.vz - work->body.objs->def->min.vz);
 
     work->field_514 = 33200 - work->field_514 / 3;
 
@@ -852,17 +845,17 @@ void *NewHind_800D1224(int scriptData, int scriptBinds)
 
     for (i = 0; i < 11; i++)
     {
-        work->field_9C.objs->objs[i].world = DG_ZeroMatrix;
+        work->body.objs->objs[i].world = DG_ZeroMatrix;
     }
 
-    param = (unsigned char *)GCL_GetOption('v');
-    if (param != NULL)
+    param = GCL_GetOption('v');
+    if (param)
     {
         HindGetIntParams_800D11E0(param, work->field_7FC);
     }
 
-    param = (unsigned char *)GCL_GetOption('c');
-    if (param != NULL)
+    param = GCL_GetOption('c');
+    if (param)
     {
         work->field_8EC = GCL_StrToInt(param);
     }
@@ -871,8 +864,8 @@ void *NewHind_800D1224(int scriptData, int scriptBinds)
         work->field_8EC = -1;
     }
 
-    param = (unsigned char *)GCL_GetOption('s');
-    if (param != NULL)
+    param = GCL_GetOption('s');
+    if (param)
     {
         work->field_8F0 = GCL_StrToInt(param);
     }
@@ -917,8 +910,8 @@ void *NewHind_800D1224(int scriptData, int scriptBinds)
         work->field_930 = 0;
     }
 
-    work->field_8D8 = 0;
-    work->field_8DC = 0;
+    work->last_time = 0;
+    work->last_time2 = 0;
     work->field_938 = 0;
     work->field_8E4 = NULL;
     work->field_93C = 0;
@@ -930,9 +923,9 @@ void *NewHind_800D1224(int scriptData, int scriptBinds)
     work->field_95C = 0;
     work->field_960 = 0;
 
-    GM_InitObject(&work->field_67C, GV_StrCode("hindmsil"), 0x25D, 0);
-    GM_ConfigObjectJoint(&work->field_67C);
-    GM_ConfigObjectLight(&work->field_67C, work->field_798_light4);
+    GM_InitObject(&work->missile3, GV_StrCode("hindmsil"), 0x25D, 0);
+    GM_ConfigObjectJoint(&work->missile3);
+    GM_ConfigObjectLight(&work->missile3, work->missile3_light);
     GM_SetTarget(&work->field_57C, 4, 2, &s11g_dword_800C3598);
 
     switch (GM_DifficultyFlag)
@@ -1000,7 +993,7 @@ void s11g_hind_800D3214(HindWork *work)
         var_a2 = field_654;
         var_s1 = field_654;
     }
-    MENU_DrawBar(16, 28, var_a2, field_654, &work->field_7E8);
+    MENU_DrawBar(16, 28, var_a2, field_654, &work->lifebar);
     if (field_654 < var_s1)
     {
         work->field_7F4 -= 8;
@@ -1011,7 +1004,32 @@ void s11g_hind_800D3214(HindWork *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D32CC.s")
+int SECTION(".bss") s11g_dword_800DD34C;
+int SECTION(".bss") s11g_dword_800DD350;
+int SECTION(".bss") s11g_dword_800DD354;
+int SECTION(".bss") s11g_dword_800DD358;
+int SECTION(".bss") s11g_dword_800DD35C;
+int SECTION(".bss") s11g_dword_800DD360;
+int SECTION(".bss") s11g_dword_800DD364;
+int SECTION(".bss") s11g_dword_800DD368;
+
+char SECTION(".bss") hind_lifebar_name[8];
+
+void s11g_hind_800D32CC(HindWork *work)
+{
+    MENU_BAR_CONF *conf;
+
+    strcpy(hind_lifebar_name, "HIND");
+
+    conf = &work->lifebar;
+    conf->name = hind_lifebar_name;
+    conf->left[0] = 16;
+    conf->left[1] = 111;
+    conf->left[2] = 159;
+    conf->right[0] = 31;
+    conf->right[1] = 223;
+    conf->right[2] = 127;
+}
 
 // Identical to d03a_red_alrt_800C437C
 int HindReceiveMessage_800D3334(unsigned short name, int nhashes, unsigned short *hashes)
@@ -1054,40 +1072,39 @@ void Hind_800D33CC(HindWork *work, int arg)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s11g/HindAct_800D3404.s")
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D45A4.s")
 
 void HindDie_800D45C0(HindWork *work)
 {
     GM_GameStatus &= ~STATE_PADDEMO;
     GM_GameStatus &= ~(STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF);
-    if (work->field_578 >= 0 && work->field_94C != 1 && work->field_A74 == 1)
+
+    if (work->end_proc >= 0 && work->field_94C != 1 && work->field_A74 == 1)
     {
-        GCL_ForceExecProc(work->field_578, NULL);
+        GCL_ForceExecProc(work->end_proc, NULL);
     }
 
-    if (work->field_8E8 != NULL)
+    if (work->field_8E8)
     {
         GV_DestroyOtherActor(work->field_8E8);
         work->field_8E8 = NULL;
     }
 
-    if (work->field_8E4 != NULL)
+    if (work->field_8E4)
     {
         GV_DestroyOtherActor(work->field_8E4);
         work->field_8E4 = NULL;
     }
 
     GM_FreeControl(&work->control);
-    GM_FreeObject(&work->field_9C);
-    GM_FreeObject(&work->field_180);
-    GM_FreeObject(&work->field_264);
-    GM_FreeObject(&work->field_67C);
-    GM_FreeTarget(work->field_408);
-    GM_FreeTarget(work->field_40C);
-    GM_FreeTarget(work->field_410);
+    GM_FreeObject(&work->body);
+    GM_FreeObject(&work->missile1);
+    GM_FreeObject(&work->missile2);
+    GM_FreeObject(&work->missile3);
+    GM_FreeTarget(work->target1);
+    GM_FreeTarget(work->target2);
+    GM_FreeTarget(work->target3);
 }
 
-const char s11g_aHind_800DD128[] = "HIND";
 const char s11g_aBulletoff_800DD130[] = "bullet_off";
 const char s11g_aBulleton_800DD13C[] = "bullet_on";
 const char s11g_aDestroy_800DD148[] = "destroy";
@@ -1102,11 +1119,278 @@ const int s11g_dword_800DD16C = 0x800D4EA8;
 const int s11g_dword_800DD170 = 0x800D4F94;
 const int s11g_dword_800DD174 = 0x800D50B0;
 const char s11g_dword_800DD178[] = {0x0, 0x0, 0x0, 0x0};
-const int s11g_dword_800DD17C = 0x800D5BE8;
-const int s11g_dword_800DD180 = 0x800D5BD0;
-const int s11g_dword_800DD184 = 0x800D5BFC;
-const int s11g_dword_800DD188 = 0x800D5C18;
-const int s11g_dword_800DD18C = 0x800D5C34;
+
+int SECTION(".bss") s11g_dword_800DD374;
+int SECTION(".bss") s11g_dword_800DD378;
+
+void s11g_hind_800D46B8(SVECTOR *pos, int se_id)
+{
+    GM_SeSetMode(pos, se_id, GM_SEMODE_BOMB);
+}
+
+void s11g_hind_800D46D8(HindWork *work, int index)
+{
+    if (work->field_94C != 1 && work->field_930 == 0)
+    {
+        if (GM_StreamStatus() == -1)
+        {
+            GM_VoxStream(work->vox_ids[index], 0);
+        }
+    }
+}
+
+void s11g_hind_800D4744(HindWork *work)
+{
+    if (work->field_94C != 1 && work->field_930 == 0)
+    {
+        work->field_5F0 = 90;
+        NewCinemaScreen(90, 0);
+
+        work->field_A70 = work->body.objs->def->model[2].vertices;
+        work->body.objs->def->model[2].vertices = work->field_970;
+
+        work->last_item = GM_CurrentItemId;
+        work->last_weapon = GM_CurrentWeaponId;
+
+        if (GM_CurrentItemId == IT_Scope  ||
+            GM_CurrentItemId == IT_Camera ||
+            GM_CurrentItemId == IT_NVG    ||
+            GM_CurrentItemId == IT_ThermG)
+        {
+            GM_CurrentItemId = IT_None;
+        }
+
+        if (GM_CurrentWeaponId == WP_Rifle ||
+            GM_CurrentWeaponId == WP_Stinger)
+        {
+            GM_CurrentWeaponId = WP_None;
+        }
+
+        switch (work->field_8C4++ % 4)
+        {
+        case 0:
+            s11g_hind_800D46D8(work, 0);
+            break;
+        case 1:
+            s11g_hind_800D46D8(work, 1);
+            break;
+        case 2:
+            s11g_hind_800D46D8(work, 2);
+            break;
+        case 3:
+            s11g_hind_800D46D8(work, 3);
+            break;
+        }
+
+        if (work->control.mov.vx <= 0)
+        {
+            work->field_5D8 = 1;
+        }
+        else
+        {
+            work->field_5D8 = -1;
+        }
+    }
+}
+
+void s11g_hind_800D48E8(HindWork *work)
+{
+    work->field_62C.vx = GM_PlayerPosition.vx + GV_RandS(2) * 500;
+    work->field_62C.vy = GM_PlayerPosition.vy + GV_RandS(2) * 500;
+    work->field_62C.vz = GM_PlayerPosition.vz + GV_RandS(2) * 500;
+}
+
+int s11g_hind_800D4990(HindWork *work)
+{
+    SVECTOR midpoint;
+
+    midpoint.vx = (GM_PlayerPosition.vx + work->field_63C.vx) / 2;
+    midpoint.vy = (GM_PlayerPosition.vy + work->field_63C.vy) / 2;
+    midpoint.vz = (GM_PlayerPosition.vz + work->field_63C.vz) / 2;
+
+    return HZD_LineCheck(work->control.map->hzd, &GM_PlayerPosition, &midpoint, ( HZD_CHECK_SEG | HZD_CHECK_FLR ), HZD_SEG_NO_PLAYER) != 0;
+}
+
+void s11g_hind_800D4A24(int *vec, int *pos, int *old, int len)
+{
+    int interp;
+
+    interp = (*vec * (len - 1) + *pos) / len;
+    *old = *vec - interp;
+    *vec = interp;
+}
+
+void s11g_hind_800D4A80(VECTOR *vec, VECTOR *pos, int len)
+{
+    vec->vx = (vec->vx * (len - 1) + pos->vx) / len;
+    vec->vy = (vec->vy * (len - 1) + pos->vy) / len;
+    vec->vz = (vec->vz * (len - 1) + pos->vz) / len;
+}
+
+#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D4B68.s")
+void s11g_hind_800D4B68(SVECTOR *, SVECTOR *, int);
+
+#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D4DD0.s")
+void s11g_hind_800D4DD0(HindWork *);
+
+#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D50F0.s")
+void s11g_hind_800D50F0(HindWork *);
+
+#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D5420.s")
+void s11g_hind_800D5420(HindWork *);
+
+void s11g_hind_800D5820(HindWork *work)
+{
+    SVECTOR rot;
+    SVECTOR sp18;
+    SVECTOR turn;
+    SVECTOR pos;
+    int     dx, dz;
+    int     sp30;
+    int     sp34;
+    int     time;
+
+    if (work->field_938 == 1)
+    {
+        s11g_hind_800D46D8(work, 8);
+        GV_DestroyActor(&work->actor);
+    }
+
+    work->field_62C.vx = GM_PlayerPosition.vx;
+    work->field_62C.vy = GM_PlayerPosition.vy;
+    work->field_62C.vz = GM_PlayerPosition.vz;
+
+    work->field_5E0++;
+    work->field_5E4--;
+    work->field_5EC--;
+
+    work->field_8BC = GM_StreamStatus();
+
+    switch (work->field_5C4)
+    {
+    case 0:
+        s11g_hind_800D4DD0(work);
+        break;
+    case 1:
+        s11g_hind_800D50F0(work);
+        break;
+    case 2:
+        s11g_hind_800D5420(work);
+        break;
+    }
+
+    time = work->field_5E0;
+    work->field_600 += (rsin(time * 64) - rsin((time - 1) * 64)) / 2;
+    work->field_5FC += rsin(time * 23) - rsin((time - 1) * 23);
+    work->field_604 += rsin(time * 32) - rsin((time - 1) * 32);
+
+    if (GM_GameStatus & 0x10)
+    {
+        pos.vx = (gUnkCameraStruct2_800B7868.eye.vx * 7 + work->field_4BC) / 8;
+        pos.vy = gUnkCameraStruct2_800B7868.eye.vy;
+        pos.vz = (gUnkCameraStruct2_800B7868.eye.vz * 7 + work->field_4C4) / 8;
+    }
+    else
+    {
+        pos.vx = (GM_PlayerPosition.vx * 7 + work->field_4BC) / 8;
+        pos.vy = GM_PlayerPosition.vy;
+        pos.vz = (GM_PlayerPosition.vz * 7 + work->field_4C4) / 8;
+    }
+
+    s11g_hind_800D4A24(&work->field_4BC, &work->field_5FC, &sp30, 40);
+    turn.vx = sp30;
+
+    s11g_hind_800D4A24(&work->field_4C0, &work->field_600, &sp34, 26);
+    turn.vy = 0;
+
+    s11g_hind_800D4A24(&work->field_4C4, &work->field_604, &sp30, 40);
+    turn.vz = -sp30;
+
+    dx = (GM_PlayerPosition.vx - work->field_4BC) >> 1;
+    dz = (GM_PlayerPosition.vz - work->field_4C4) >> 1;
+
+    sp18.vy = ratan2(dx, dz) & 0xFFF;
+    sp18.vx = 0;
+    sp18.vz = 0;
+
+    s11g_hind_800D4B68(&work->control.turn, &sp18, 128);
+
+    rot.vx = 0;
+    rot.vy = work->control.rot.vy;
+    rot.vz = 0;
+
+    DG_SetPos2(&DG_ZeroVector, &rot);
+    DG_PutVector(&turn, &turn, 1);
+
+    work->control.turn.vx = turn.vz;
+    work->control.turn.vz = turn.vx;
+
+    work->body.rots[1].vy -= work->field_4B4;
+    if (work->body.rots[1].vy < 0)
+    {
+        work->body.rots[1].vy += 4096;
+    }
+
+    work->body.rots[2].vx -= work->field_4B8;
+    if (work->body.rots[2].vx < 0)
+    {
+        work->body.rots[2].vx += 4096;
+    }
+
+    if ((mts_get_tick_count() - work->last_time) >= 8)
+    {
+        work->last_time = mts_get_tick_count();
+
+        if (work->field_930 == 0)
+        {
+            if (work->field_5F0 > 0)
+            {
+                GM_SeSet2(0, 63, 181);
+            }
+            else
+            {
+                switch (work->field_8CC)
+                {
+                case 0:
+                    s11g_hind_800D46B8(&pos, 181);
+                    break;
+                case 1:
+                    work->field_8CC = 2;
+                    GM_SeSet2(0, 127, 0xB3);
+                    s11g_hind_800D46B8(&pos, 181);
+                    break;
+                case 2:
+                    work->field_8CC = 3;
+                    s11g_hind_800D46B8(&pos, 182);
+                    break;
+                case 3:
+                    work->field_8CC = 4;
+                    s11g_hind_800D46B8(&pos, 183);
+                    break;
+                case 4:
+                    work->field_8CC = 0;
+                    s11g_hind_800D46B8(&pos, 184);
+                    break;
+                }
+            }
+        }
+        else
+        {
+            GM_SeSet2(0, 8, 181);
+        }
+    }
+
+    if (work->field_958 == 0 && (mts_get_tick_count() - work->last_time2) >= 4)
+    {
+        work->last_time2 =  mts_get_tick_count();
+
+        if (work->field_930 == 0 && work->field_5D4 == 1)
+        {
+            s11g_hind_800D46B8(&pos, 177);
+        }
+    }
+}
+
 const int s11g_dword_800DD190 = 0x800D68E0;
 const int s11g_dword_800DD194 = 0x800D68F0;
 const int s11g_dword_800DD198 = 0x800D69E4;
@@ -1179,203 +1463,197 @@ const int s11g_dword_800DD2A0 = 0x800DA9B4;
 const int s11g_dword_800DD2A4 = 0x800DAA48;
 const int s11g_dword_800DD2A8 = 0x800DAA84;
 
-int SECTION(".bss") s11g_dword_800DD34C;
-int SECTION(".bss") s11g_dword_800DD350;
-int SECTION(".bss") s11g_dword_800DD354;
-int SECTION(".bss") s11g_dword_800DD358;
-int SECTION(".bss") s11g_dword_800DD35C;
-int SECTION(".bss") s11g_dword_800DD360;
-int SECTION(".bss") s11g_dword_800DD364;
-int SECTION(".bss") s11g_dword_800DD368;
-int SECTION(".bss") s11g_dword_800DD36C;
-int SECTION(".bss") s11g_dword_800DD370;
-int SECTION(".bss") s11g_dword_800DD374;
-int SECTION(".bss") s11g_dword_800DD378;
-
-void s11g_hind_800D46B8(SVECTOR *pos, int se_id)
+int s11g_hind_800D5CD8(SVECTOR *from, SVECTOR *to, SVECTOR *out)
 {
-    GM_SeSetMode(pos, se_id, GM_SEMODE_BOMB);
+    int dx, dy, dz;
+    int len;
+    int height;
+
+    dx = (from->vx - to->vx) / 16;
+    dy = (from->vy - to->vy) / 16;
+    dz = (from->vz - to->vz) / 16;
+
+    len = SquareRoot0(dx * dx + dy * dy + dz * dz) * 16;
+    height = to->vy - from->vy;
+
+    out->vy = ratan2(to->vx - from->vx, to->vz - from->vz) & 0xFFF;
+    out->vx = ratan2(len, height) & 0xFFF;
+    out->vz = 0;
+
+    return len;
 }
 
-void s11g_hind_800D46D8(HindWork *work, int index)
+void s11g_hind_800D5DE4(SVECTOR *out, int *yaw)
+{
+    MATRIX *eye;
+
+    eye = &DG_Chanl(0)->eye;
+    out->vx = eye->t[0];
+    out->vy = eye->t[1];
+    out->vz = eye->t[2];
+    *yaw = ratan2(eye->m[0][2], eye->m[2][2]);
+}
+
+void s11g_hind_800D5E44(HindWork *work, int a1)
+{
+    work->field_95C = 30;
+    work->field_960 = a1;
+}
+
+void s11g_hind_800D5E54(int arg0, SVECTOR *arg1, int se_id)
+{
+    SVECTOR sp10;
+    SVECTOR pos;
+    int     yaw;
+    short   ang;
+    int     vol;
+    int     pan;
+
+    if (!(GM_GameStatus & (GAME_FLAG_BIT_07 | STATE_BEHIND_CAMERA)) && !GM_Camera.first_person)
+    {
+        s11g_hind_800D5CD8(&GM_PlayerPosition, arg1, &sp10);
+        ang = sp10.vy + 1024;
+        sp10.vy = ang - gUnkCameraStruct2_800B7868.rotate.vy;
+    }
+    else
+    {
+        s11g_hind_800D5DE4(&pos, &yaw);
+        s11g_hind_800D5CD8(&pos, arg1, &sp10);
+        ang = sp10.vy + 1024;
+        sp10.vy = ang - yaw;
+    }
+
+    sp10.vy &= 0xFFF;
+
+    pan = (rcos(sp10.vy) * 31) / 4096;
+    if (pan < 0)
+    {
+        pan += 255;
+    }
+
+    vol = 63;
+    if (arg0 > 4000)
+    {
+        vol = 63 - ((arg0 - 4000) * 63) / 8000;
+    }
+
+    if (vol < 20)
+    {
+        vol = 20;
+    }
+
+    GM_SeSet2(pan, vol, se_id);
+}
+
+void s11g_hind_800D60D8(int arg0, SVECTOR *arg1, int se_id)
+{
+    s11g_hind_800D5E54(arg0, arg1, se_id);
+}
+
+void s11g_hind_800D5FB4(HindWork *work, int a1)
+{
+    MATRIX  matrix;
+    SVECTOR rotation;
+    VECTOR  scale;
+
+    if (a1 == 0)
+    {
+        rotation.vx = GV_RandS(512) + 1024;
+        rotation.vy = GV_RandS(512);
+        rotation.vz = GV_RandS(512);
+
+        scale.vx = work->field_670 * 7;
+        scale.vy = work->field_670 * 7;
+        scale.vz = work->field_670 * 7;
+    }
+    else
+    {
+        rotation.vx = 1024;
+        rotation.vy = 0;
+        rotation.vz = 0;
+
+        scale.vx = work->field_670 * 4;
+        scale.vy = work->field_670 * 4;
+        scale.vz = work->field_670 * 4;
+    }
+
+    rotation.vx += work->field_788.vx;
+    rotation.vy += work->field_788.vy;
+    rotation.vz += work->field_788.vz;
+
+    RotMatrixYXZ(&rotation, &matrix);
+
+    matrix.t[0] = work->field_7D8.vx;
+    matrix.t[1] = work->field_7D8.vy;
+    matrix.t[2] = work->field_7D8.vz;
+
+    ScaleMatrix(&matrix, &scale);
+    NewSpark(&matrix, 0);
+
+}
+
+void s11g_hind_800D60F0(HindWork *work)
+{
+    int dx, dz;
+    int len;
+    int height;
+    
+    dx = (work->field_790.vx - work->field_760.vx) >> 1;
+    dz = (work->field_790.vz - work->field_760.vz) >> 1;
+    work->field_788.vy = ratan2(dx, dz) & 0xFFF;
+
+    len = SquareRoot0(dz * dz + dx * dx);
+    height = (work->field_790.vy - work->field_760.vy) >> 1;
+
+    work->field_788.vx = (ratan2(len, height) - 1024) & 0xFFF;
+    work->field_788.vz = 0;
+}
+
+void s11g_hind_800D619C(HindWork *work, int index)
 {
     if (work->field_94C != 1)
     {
-        if (work->field_930 == 0)
+        if (GM_StreamStatus() == -1)
         {
-            if (GM_StreamStatus() == -1)
-            {
-                GM_VoxStream(work->vox_ids[index], 0);
-            }
+            GM_VoxStream(work->field_7FC[index], 0);
         }
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D4744.s")
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D48E8.s")
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D4990.s")
-void s11g_hind_800D4A24(int *current_val, int *target_val, int *out_delta, int divisor) {
-    /* a0 = current_val
-       a1 = target_val
-       a2 = out_delta
-       a3 = divisor
-    */
-    int old_val = *current_val;
-    int weight = divisor - 1;
-    int new_avg;
 
-    /* 0x0 - 0x44: Calculate the new running average */
-    /* (old * (divisor - 1) + target) / divisor */
-    new_avg = (old_val * weight + *target_val) / divisor;
-
-    /* 0x4c: Calculate the difference (delta) */
-    /* 0x50: Store delta to out_delta (a2) */
-    *out_delta = old_val - new_avg;
-
-    /* 0x58: Update the current value with the new average */
-    /* This happens in the jump delay slot */
-    *current_val = new_avg;
-}
-void s11g_hind_800D4A80(VECTOR *current, VECTOR *target, int divisor) {
-    int weight = divisor - 1;
-
-    /* Axis X */
-    current->vx = (current->vx * weight + target->vx) / divisor;
-
-    /* Axis Y */
-    current->vy = (current->vy * weight + target->vy) / divisor;
-
-    /* Axis Z */
-    current->vz = (current->vz * weight + target->vz) / divisor;
-}
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D4B68.s")
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D4DD0.s")
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D50F0.s")
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D5420.s")
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D5820.s")
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D5CD8.s")
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D5DE4.s")
-
-void s11g_hind_800D5E44(HindWork *a0, int a1) {
-    a0->field_95C = 0x1E;
-    a0->field_960 = a1;
-}
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D5E54.s")
-void s11g_hind_800D60D8(void) {
-    s11g_hind_800D5E54();
-}
-void s11g_hind_800D5FB4(HindWork *s0, int a1) {
-    int   matrix[8];   
-    short rotation[3]; 
-    int   scale[3];    
-    register int v0, v1;
-    void NewSpark();
-
-    if (a1 == 0) {
-        v0 = GV_RandS(0x200);
-        rotation[0] = v0 + 0x400;
-        
-        v0 = GV_RandS(0x200);
-        rotation[1] = v0;
-        
-        v0 = GV_RandS(0x200);
-        rotation[2] = v0;
-
-        v1 = *(int *)((char *)s0 + 0x670);
-        scale[0] = (v1 << 3) - v1;
-        
-        v1 = *(int *)((char *)s0 + 0x670);
-        scale[1] = (v1 << 3) - v1;
-        
-        v1 = *(int *)((char *)s0 + 0x670);
-        v0 = (v1 << 3) - v1;
-    } else {
-        rotation[0] = 0x400;
-        rotation[1] = 0;
-        rotation[2] = 0;
-
-        v0 = *(int *)((char *)s0 + 0x670);
-        scale[0] = v0 << 2;
-        v0 = *(int *)((char *)s0 + 0x670);
-        scale[1] = v0 << 2;
-        v0 = *(int *)((char *)s0 + 0x670);
-        v0 = v0 << 2;
-    }
-    scale[2] = v0;
-
-    rotation[0] += *(short *)((char *)s0 + 0x788);
-    rotation[1] += *(short *)((char *)s0 + 0x78A);
-    rotation[2] += *(short *)((char *)s0 + 0x78C);
-
-    // Explicit casts to fix warnings
-    RotMatrixYXZ((SVECTOR *)rotation, (MATRIX *)matrix);
-
-    matrix[5] = *(short *)((char *)s0 + 0x7D8);
-    matrix[6] = *(short *)((char *)s0 + 0x7DA);
-    matrix[7] = *(short *)((char *)s0 + 0x7DC);
-
-    ScaleMatrix((MATRIX *)matrix, (VECTOR *)scale);
-    NewSpark((MATRIX *)matrix, 0);
-
-}
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D60F0.s")
-void s11g_hind_800D619C(HindWork *s0, int s1) {
-    int v0;
-    int *streaming_flag = (int *)((unsigned int)s0 + 0x94c);
-
-    if (*streaming_flag != 1) {
-        if (GM_StreamStatus() == -1) {
-            int *ids_base = (int *)((unsigned int)s0 + 0x7fc);
-            v0 = ids_base[s1];
-            
-            GM_VoxStream(v0, 0);
-        }
-    }
-}
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D61F8.s")
-void s11g_hind_800D6260(int *current, int *target, int *velocity, int speed)
+void s11g_hind_800D61F8(HindWork *work)
 {
-    int current_val = *current;
-    int target_val = *target;
-    int new_val;
+    work->field_65C.vx = GV_RandS(128);
+    work->field_65C.vy = GV_RandS(128);
+    work->field_65C.vz = GV_RandS(128);
 
-    new_val = (current_val * (speed - 1) + target_val) / speed;
-
-    /* Swapping these two lines fixes the 0x50 and 0x58 register mismatch */
-    *velocity = current_val - new_val;
-    *current = new_val;
+    work->field_664.vx = GV_RandS(512);
+    work->field_664.vy = GV_RandS(512);
+    work->field_664.vz = GV_RandS(512);
 }
-void s11g_hind_800D62BC(int *current_pos, int *target_pos, int speed)
+
+void s11g_hind_800D6260(int *vec, int *pos, int *old, int len)
 {
-    int speed_minus_1 = speed - 1;
-    int new_val;
+    int interp;
 
-    // Axis X (0x0 - 0x44)
-    new_val = (current_pos[0] * speed_minus_1 + target_pos[0]) / speed;
-    // Axis Y (0x48 - 0x90)
-    // Note: The store for X happens AFTER we start loading Y to match MIPS 0x58
-    current_pos[0] = new_val;
-    new_val = (current_pos[1] * speed_minus_1 + target_pos[1]) / speed;
-    
-    // Axis Z (0x94 - 0xdc)
-    // Note: The store for Y happens AFTER we start loading Z to match MIPS 0xa4
-    current_pos[1] = new_val;
-    new_val = (current_pos[2] * speed_minus_1 + target_pos[2]) / speed;
-
-    // Final Store (0xe4)
-    current_pos[2] = new_val;
+    interp = (*vec * (len - 1) + *pos) / len;
+    *old = *vec - interp;
+    *vec = interp;
 }
-void Function_800D63A4(short *arg0, short *arg1, int arg2) {
-    int factor = arg2 - 1;
 
-    /* component 0 (X) */
-    arg0[0] = (arg0[0] * factor + arg1[0]) / arg2;
-
-    /* component 1 (Y) */
-    arg0[1] = (arg0[1] * factor + arg1[1]) / arg2;
-
-    /* component 2 (Z) */
-    arg0[2] = (arg0[2] * factor + arg1[2]) / arg2;
+void s11g_hind_800D62BC(VECTOR *vec, VECTOR *pos, int len)
+{
+    vec->vx = (vec->vx * (len - 1) + pos->vx) / len;
+    vec->vy = (vec->vy * (len - 1) + pos->vy) / len;
+    vec->vz = (vec->vz * (len - 1) + pos->vz) / len;
 }
+
+void Function_800D63A4(SVECTOR *vec, SVECTOR *pos, int len)
+{
+    vec->vx = (vec->vx * (len - 1) + pos->vx) / len;
+    vec->vy = (vec->vy * (len - 1) + pos->vy) / len;
+    vec->vz = (vec->vz * (len - 1) + pos->vz) / len;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D648C.s")
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D66F0.s")
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D6848.s")
