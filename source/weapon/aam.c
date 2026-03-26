@@ -15,7 +15,6 @@
 
 extern int amissile_alive_8009F490;
 extern UnkCameraStruct gUnkCameraStruct_800B77B8;
-extern int DG_CurrentGroupID;
 extern TARGET *target_800BDF00;
 extern int dword_800AB8A4;
 

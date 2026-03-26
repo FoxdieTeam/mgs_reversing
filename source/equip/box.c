@@ -7,7 +7,6 @@
 #include "game/game.h"
 #include "thing/sight.h"
 
-extern int DG_CurrentGroupID;
 extern int dword_8009F604;
 extern GM_CAMERA GM_Camera;
 

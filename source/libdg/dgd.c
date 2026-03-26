@@ -10,7 +10,6 @@
 #include "game/game.h"
 
 extern GV_PAD *GM_CurrentPadData;
-extern int DG_CurrentGroupID;
 
 /*---------------------------------------------------------------------------*/
 

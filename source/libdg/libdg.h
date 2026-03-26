@@ -456,6 +456,11 @@ DG_CHANLFUNC DG_SetChanlSystemUnits( int idx, DG_CHANLFUNC newfunc );
 
 /* display.c */
 extern int DG_UnDrawFrameCount;
+#ifndef __LIBDG_DISPLAY_C__
+extern int DG_CurrentGroupID;
+extern short DG_ClipMin[2];
+extern short DG_ClipMax[2];
+#endif
 
 void DG_InitDispEnv( int x, short y, short w, short h, int clipH );
 void DG_ChangeReso( int );

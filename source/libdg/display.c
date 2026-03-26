@@ -1,3 +1,5 @@
+#define __LIBDG_DISPLAY_C__
+
 #include <sys/types.h>
 #include <libgte.h>
 #include <libgpu.h>

@@ -15,7 +15,6 @@
 #include "strcode.h"
 
 extern GM_CAMERA GM_Camera;
-extern int     DG_CurrentGroupID;
 
 /*---------------------------------------------------------------------------*/
 

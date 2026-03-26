@@ -2,8 +2,6 @@
 #include "common.h"
 #include "game/game.h"
 
-extern int DG_CurrentGroupID;
-
 STATIC void DG_WriteObjClut(DG_OBJ *obj, int idx);
 STATIC void DG_WriteObjClutUV(DG_OBJ *obj, int idx);
 STATIC void DG_BoundIrTexture(DG_CHANL *chanl, int idx);

@@ -13,7 +13,6 @@
 
 extern GM_CAMERA GM_Camera;
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
-extern int      DG_CurrentGroupID;
 
 extern void *NewBullet(MATRIX *pMtx, int a2, int a3, int noiseLen);
 

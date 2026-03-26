@@ -3,11 +3,11 @@
 #include <stdio.h>
 #include "common.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "strcode.h"
 
-extern int      DG_CurrentGroupID;
 extern CONTROL *GM_WhereList[96];
 extern int      gControlCount_800AB9B4;
 

@@ -12,8 +12,6 @@
 #include "bullet/rmissile.h"
 #include "sound/g_sound.h"
 
-extern int DG_CurrentGroupID;
-
 /*---------------------------------------------------------------------------*/
 // RC-Missile (Nikita)
 

@@ -8,7 +8,6 @@
 #include "equip/equip.h"
 #include "scn_mask.h"
 
-extern int DG_CurrentGroupID;
 extern u_long DG_PaletteBuffer[256];
 
 /*---------------------------------------------------------------------------*/

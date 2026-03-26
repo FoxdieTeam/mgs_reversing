@@ -8,7 +8,6 @@
 #include "linkvar.h"
 #include "sound/g_sound.h"
 
-extern int   DG_CurrentGroupID;
 extern void *GM_BombSeg;
 extern int   bakudan_count_8009F42C;
 

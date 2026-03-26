@@ -2,6 +2,7 @@
 
 #include "common.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "game/game.h"
 #include "okajima/bullet.h"
 #include "anime/animconv/anime.h"
@@ -21,8 +22,6 @@ typedef struct JFamasWork
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 SVECTOR s03c_dword_800C33AC = {5, 65036, 80};
-
-extern int DG_CurrentGroupID;
 
 void JFamasAct_800CAE30(JFamasWork *work)
 {
