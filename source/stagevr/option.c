@@ -2,7 +2,7 @@
 #include "charalst.h"
 
 CHARA _StageCharacterEntries[] = {
-    { 0x976c, (NEWCHARA)0x800c6b68 },
+    { 0x976c, (NEWCHARA)0x800c6b68 },   // CHARA_OPT,
 
     CHARA_END
 };
