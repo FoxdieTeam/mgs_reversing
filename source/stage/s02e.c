@@ -2,12 +2,12 @@
 #include "charalst.h"
 
 CHARA _StageCharacterEntries[] = {
-    { 0xb103, (NEWCHARA)0x800e170c },   // CHARA_DYNAMIC_SEG,  /* chara 透明壁 */
+    { 0xb103, (NEWCHARA)0x800e170c },   // CHARA_DYNWALL,      /* chara 透明壁 */
     { 0x0fad, (NEWCHARA)0x800c5cb0 },   // CHARA_MOTIONSE,
     { 0xdd8b, (NEWCHARA)0x800c5ab4 },   // CHARA_INTR_CAM,
     { 0xc0fe, (NEWCHARA)0x800d90b4 },   // CHARA_BUB_D_SN,
     { 0x52bf, (NEWCHARA)0x800d6d24 },   // CHARA_KIKEN,
-    { 0xfed1, (NEWCHARA)0x8005d508 },   // CHARA_VIBRATE,      /* chara パッド振動 */
+    { 0xfed1, (NEWCHARA)0x8005d508 },   // CHARA_PADVIBRATE,   /* chara パッド振動 */
     { 0x7bc2, (NEWCHARA)0x800e1f0c },   // CHARA_CAMERA_SHAKE,
     { 0x7a05, (NEWCHARA)0x800e0dbc },   // CHARA_CINEMA,       /* chara シネマスクリーン */
     { 0x5a50, (NEWCHARA)0x800dcbd0 },   // CHARA_GAS_EFFECT,
@@ -21,7 +21,7 @@ CHARA _StageCharacterEntries[] = {
     { 0xc6d7, (NEWCHARA)0x800d28b4 },   // CHARA_COMMANDER,    /* chara コマンダー */
     { 0x6e9a, (NEWCHARA)0x800c6e80 },   // CHARA_WATCHER,      /* chara 巡回兵 */
     { 0xdba3, (NEWCHARA)0x800dd7a4 },   // CHARA_WT_AREA,
-    { 0x1a02, (NEWCHARA)0x800d8710 },   // CHARA_BUBBLE_S,     /* chara 泡 */
+    { 0x1a02, (NEWCHARA)0x800d8710 },   // CHARA_BUBBLE,       /* chara 泡 */
     { 0x81ea, (NEWCHARA)0x800dbcdc },   // CHARA_RSURFACE,
     { 0x6e90, (NEWCHARA)0x800d5c44 },   // CHARA_CAMERA,       /* chara カメラ */
     { 0x1ad3, (NEWCHARA)0x800c57c0 },   // CHARA_LAMP,

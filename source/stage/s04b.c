@@ -7,11 +7,11 @@ CHARA _StageCharacterEntries[] = {
     { 0x7eca, (NEWCHARA)0x800dab60 },   // CHARA_WIRE,         /* chara ワイヤ */
     { 0x9988, (NEWCHARA)0x800db368 },   // CHARA_AT,           /* chara ＡＴ */
     { 0xb99f, (NEWCHARA)0x800dcdbc },   // CHARA_CAPE,
-    { 0xa9c5, (NEWCHARA)0x800cb3b8 },   // CHARA_GUNCAME,
+    { 0xa9c5, (NEWCHARA)0x800cb3b8 },   // CHARA_GUNCAMERA,
     { 0x58f0, (NEWCHARA)0x800cf258 },   // CHARA_DMYWALL,      /* chara 塗り壁 */
     { 0x0dc9, (NEWCHARA)0x800d2430 },   // CHARA_VOICESYS,
     { 0x3c0c, (NEWCHARA)0x8006b76c },   // CHARA_CLAYMORE,     /* chara クレイモア地雷 */
-    { 0xb103, (NEWCHARA)0x800d16b4 },   // CHARA_DYNAMIC_SEG,  /* chara 透明壁 */
+    { 0xb103, (NEWCHARA)0x800d16b4 },   // CHARA_DYNWALL,      /* chara 透明壁 */
     { 0x7a05, (NEWCHARA)0x800d1484 },   // CHARA_CINEMA,       /* chara シネマスクリーン */
     { 0x1ad3, (NEWCHARA)0x800c5c70 },   // CHARA_LAMP,
     { 0x3453, (NEWCHARA)0x800c52f4 },   // CHARA_3453_MOVIE,

@@ -21,7 +21,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x7a05, (NEWCHARA)0x800d884c },   // CHARA_CINEMA,       /* chara シネマスクリーン */
     { 0xf59e, (NEWCHARA)0x800c3230 },   // CHARA_BELONG,
     { 0xf74b, (NEWCHARA)0x800c2df8 },   // CHARA_BOXALL,
-    { 0xb103, (NEWCHARA)0x800d8a7c },   // CHARA_DYNAMIC_SEG,  /* chara 透明壁 */
+    { 0xb103, (NEWCHARA)0x800d8a7c },   // CHARA_DYNWALL,      /* chara 透明壁 */
     { 0xec77, (NEWCHARA)0x800c5c60 },   // CHARA_WALL,         /* chara 障害物 */
 
     CHARA_END

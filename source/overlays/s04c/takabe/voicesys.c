@@ -4,13 +4,15 @@
 #include "game/game.h"
 #include "strcode.h"
 
-typedef struct VoicesysWork {
+/*---------------------------------------------------------------------------*/
+
+#define EXEC_LEVEL GV_ACTOR_LEVEL3
+
+typedef struct _Work {
     GV_ACT actor;
     int    name;
     int    game_over;
-} VoicesysWork;
-
-#define EXEC_LEVEL GV_ACTOR_LEVEL3
+} Work;
 
 typedef struct VoiceSysGlobal {
     int flags;
@@ -28,6 +30,8 @@ typedef struct VoiceSysGlobal {
 } VoiceSysGlobal;
 
 VoiceSysGlobal SECTION(".bss") voicesys_800DBD60;
+
+/*---------------------------------------------------------------------------*/
 
 int *Voicesys_800CE278(int unused)
 {
@@ -229,21 +233,25 @@ void Voicesys_800CE734()
     }
 }
 
-void VoicesysDie_800CE758(VoicesysWork *work)
+void VoicesysDie_800CE758(Work *work)
 {
+    /* do nothing */
 }
 
-void VoicesysAct_800CE760(VoicesysWork *work)
+/*---------------------------------------------------------------------------*/
+
+static void Act(Work *work)
 {
     GV_MSG *msg;
     int count;
 
     if (GM_GameOverTimer > 0)
     {
-        work->game_over = 1;
+        work->game_over = TRUE;
         return;
     }
-    
+
+    /* check messages */
     for (count = GV_ReceiveMessage(work->name, &msg); count > 0; count--, msg++)
     {
         switch (msg->message[0])
@@ -270,12 +278,12 @@ void VoicesysAct_800CE760(VoicesysWork *work)
     }
 }
 
-void VoicesysDie_800CE87C(VoicesysWork *work)
+static void Die(Work *work)
 {
     VoicesysDie_800CE758(work);
 }
 
-int VoicesysGetResources_800CE89C(VoicesysWork *work, int name, int arg2)
+static int GetResources(Work *work, int name, int arg2)
 {
     int *arr;
     int i;
@@ -301,15 +309,17 @@ int VoicesysGetResources_800CE89C(VoicesysWork *work, int name, int arg2)
     return 0;
 }
 
-void *NewVoicesys_800CE944(int name, int arg1)
-{
-    VoicesysWork *work;
+/*---------------------------------------------------------------------------*/
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(VoicesysWork));
+void *NewVoiceSystem(int name, int arg1)
+{
+    Work *work;
+
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, VoicesysAct_800CE760, VoicesysDie_800CE87C, "voicesys.c");
-        if (VoicesysGetResources_800CE89C(work, name, arg1) < 0)
+        GV_SetNamedActor(&work->actor, Act, Die, "voicesys.c");
+        if (GetResources(work, name, arg1) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

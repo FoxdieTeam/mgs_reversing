@@ -95,7 +95,7 @@ static void Act(Work *work)
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-void *NewVibration(int pan)
+void *NewPadVibrationGcl(int pan)
 {
     Work *work;
     char flags;

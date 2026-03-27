@@ -4,7 +4,7 @@
 CHARA _StageCharacterEntries[] = {
     CHARA_TRUCKTRAP,
     CHARA_BLINK_TX,
-    CHARA_VIBRATE,      /* chara パッド振動 */
+    CHARA_PADVIBRATE,   /* chara パッド振動 */
     CHARA_ASIOTOKUN,    /* chara 足音君 */
     CHARA_ASIATOKUN,    /* chara 足跡君 */
     CHARA_CINEMA,       /* chara シネマスクリーン */
@@ -18,10 +18,10 @@ CHARA _StageCharacterEntries[] = {
     CHARA_LAMP,
     CHARA_SNOW,         /* chara 雪 */
     CHARA_FOG,
-    CHARA_GUNCAME,
+    CHARA_GUNCAMERA,
     CHARA_CLAYMORE,     /* chara クレイモア地雷 */
     CHARA_CAMERA_SHAKE,
-    CHARA_DYNAMIC_SEG,  /* chara 透明壁 */
+    CHARA_DYNWALL,      /* chara 透明壁 */
 
     CHARA_END
 };

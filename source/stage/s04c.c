@@ -7,11 +7,11 @@ CHARA _StageCharacterEntries[] = {
     CHARA_WIRE,         /* chara ワイヤ */
     CHARA_AT,           /* chara ＡＴ */
     CHARA_CAPE,
-    CHARA_GUNCAME,
+    CHARA_GUNCAMERA,
     CHARA_DMYWALL,      /* chara 塗り壁 */
     CHARA_VOICESYS,
     CHARA_CLAYMORE,     /* chara クレイモア地雷 */
-    CHARA_DYNAMIC_SEG,  /* chara 透明壁 */
+    CHARA_DYNWALL,      /* chara 透明壁 */
     CHARA_CINEMA,       /* chara シネマスクリーン */
     CHARA_LAMP,
     CHARA_3453_MOVIE,

@@ -101,7 +101,7 @@ static int GetResources(Work *work)
 
 /*---------------------------------------------------------------------------*/
 
-void *NewCancel(int name, int where, int argc, char **argv)
+void *NewDemoCancel(int name, int where, int argc, char **argv)
 {
     Work *work;
 

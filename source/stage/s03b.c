@@ -6,7 +6,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_CINEMA,       /* chara シネマスクリーン */
     CHARA_TORTURE,
     CHARA_BED,
-    CHARA_DOLL,         /* chara デモ人形 */
+    CHARA_DEMODOLL,     /* chara デモ人形 */
     CHARA_REVOLVER03,
     CHARA_DOOR,         /* chara ドア */
     CHARA_LAMP,

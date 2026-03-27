@@ -5,14 +5,14 @@ CHARA _StageCharacterEntries[] = {
     { 0x51c6, (NEWCHARA)0x800e3478 },   // CHARA_CAT_IN,
     { 0x02c4, (NEWCHARA)0x800c521c },   // CHARA_ASIATOKUN,    /* chara 足跡君 */
     { 0x92bc, (NEWCHARA)0x800c6550 },   // CHARA_ASIOTOKUN,    /* chara 足音君 */
-    { 0xa9c5, (NEWCHARA)0x800d2f44 },   // CHARA_GUNCAME,
+    { 0xa9c5, (NEWCHARA)0x800d2f44 },   // CHARA_GUNCAMERA,
     { 0xa12e, (NEWCHARA)0x800e0c24 },   // CHARA_FADEIO,
     { 0x1ad3, (NEWCHARA)0x800c4124 },   // CHARA_LAMP,
     { 0x8e64, (NEWCHARA)0x800ceee4 },   // CHARA_ZK10COM,      /* chara ざこ１０コマンダー */
     { 0x31e3, (NEWCHARA)0x800ca2dc },   // CHARA_ZAKO10,       /* chara ざこ１０ */
     { 0x7a05, (NEWCHARA)0x800e1f68 },   // CHARA_CINEMA,       /* chara シネマスクリーン */
     { 0x3c0c, (NEWCHARA)0x8006b76c },   // CHARA_CLAYMORE,     /* chara クレイモア地雷 */
-    { 0xe97e, (NEWCHARA)0x800c7530 },   // CHARA_DOLL,         /* chara デモ人形 */
+    { 0xe97e, (NEWCHARA)0x800c7530 },   // CHARA_DEMODOLL,     /* chara デモ人形 */
     { 0x962c, (NEWCHARA)0x800d7b54 },   // CHARA_WOLF2,        /* chara ウルフ */
     { 0x1158, (NEWCHARA)0x800dcfdc },   // CHARA_BLOODY_MERYL, /* chara 血まみれメリル */
     { 0x4e95, (NEWCHARA)0x800d3eb4 },   // CHARA_BLOOD_CL,     /* chara 血溜り */
@@ -24,7 +24,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x81ea, (NEWCHARA)0x800def30 },   // CHARA_RSURFACE,
     { 0x3f9a, (NEWCHARA)0x800e309c },   // CHARA_ENV_SOUND,
     { 0xee63, (NEWCHARA)0x800d5ee4 },   // CHARA_SCN_MARK,
-    { 0xb103, (NEWCHARA)0x800e2198 },   // CHARA_DYNAMIC_SEG,  /* chara 透明壁 */
+    { 0xb103, (NEWCHARA)0x800e2198 },   // CHARA_DYNWALL,      /* chara 透明壁 */
 
     { 0x0003, (NEWCHARA)0x800e0b8c },   // CHARA_0003_FADEIO,
     { 0x0004, (NEWCHARA)0x800e0b8c },   // CHARA_0004_FADEIO,

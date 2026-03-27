@@ -14,8 +14,8 @@ CHARA _StageCharacterEntries[] = {
     { 0x7a05, (NEWCHARA)0x800d6b8c },   // CHARA_CINEMA,       /* chara シネマスクリーン */
     { 0x1ad3, (NEWCHARA)0x800c3e74 },   // CHARA_LAMP,
     { 0x711f, (NEWCHARA)0x800d63c4 },   // CHARA_LIFE_UP,
-    { 0xb103, (NEWCHARA)0x800d6dbc },   // CHARA_DYNAMIC_SEG,  /* chara 透明壁 */
-    { 0xaf6c, (NEWCHARA)0x800d8224 },   // CHARA_DYNAMIC_FLOOR, /* chara 透明床 */
+    { 0xb103, (NEWCHARA)0x800d6dbc },   // CHARA_DYNWALL,      /* chara 透明壁 */
+    { 0xaf6c, (NEWCHARA)0x800d8224 },   // CHARA_DYNFLOOR,     /* chara 透明床 */
     { 0x4e95, (NEWCHARA)0x800c72b8 },   // CHARA_BLOOD_CL,     /* chara 血溜り */
 
     { 0x0002, (NEWCHARA)0x800c40c8 },   // CHARA_0002,

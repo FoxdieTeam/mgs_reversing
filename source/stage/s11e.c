@@ -3,7 +3,7 @@
 
 CHARA _StageCharacterEntries[] = {
     CHARA_CAT_IN,
-    CHARA_VIBRATE,      /* chara パッド振動 */
+    CHARA_PADVIBRATE,   /* chara パッド振動 */
     CHARA_CAMERA_SHAKE,
     CHARA_GAS_EFFECT,
     CHARA_ASIOTOKUN,    /* chara 足音君 */

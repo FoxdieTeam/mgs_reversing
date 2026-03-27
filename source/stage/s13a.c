@@ -5,9 +5,9 @@ CHARA _StageCharacterEntries[] = {
     CHARA_SHAKEMODEL,
     CHARA_WALL,         /* chara 障害物 */
     CHARA_GAS_EFFECT,
-    CHARA_VIBRATE,      /* chara パッド振動 */
+    CHARA_PADVIBRATE,   /* chara パッド振動 */
     CHARA_CAMERA_SHAKE,
-    CHARA_GUNCAME,
+    CHARA_GUNCAMERA,
     CHARA_ASIOTOKUN,    /* chara 足音君 */
     CHARA_FADEIO,
     CHARA_LAMP,
@@ -22,7 +22,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_CAT_IN,
     CHARA_FURNACE,
     CHARA_SHAKEMODEL,   // duplicate
-    CHARA_DYNAMIC_SEG,  /* chara 透明壁 */
+    CHARA_DYNWALL,      /* chara 透明壁 */
 
     CHARA_END
 };

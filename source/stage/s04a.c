@@ -14,8 +14,8 @@ CHARA _StageCharacterEntries[] = {
     CHARA_ASIOTOKUN,    /* chara 足音君 */
     CHARA_FADEIO,
     CHARA_CAT_IN,
-    CHARA_VIBRATE,      /* chara パッド振動 */
-    CHARA_DYNAMIC_SEG,  /* chara 透明壁 */
+    CHARA_PADVIBRATE,   /* chara パッド振動 */
+    CHARA_DYNWALL,      /* chara 透明壁 */
 
     CHARA_END
 };

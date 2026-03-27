@@ -8,10 +8,10 @@ CHARA _StageCharacterEntries[] = {
     CHARA_WATCHER,      /* chara 巡回兵 */
     CHARA_KIKEN,
     CHARA_CAMERA,       /* chara カメラ */
-    CHARA_DOLL,         /* chara デモ人形 */
+    CHARA_DEMODOLL,     /* chara デモ人形 */
     CHARA_FADEIO,
     CHARA_CINEMA,       /* chara シネマスクリーン */
-    CHARA_DYNAMIC_SEG,  /* chara 透明壁 */
+    CHARA_DYNWALL,      /* chara 透明壁 */
     CHARA_ASIOTOKUN,    /* chara 足音君 */
 
     CHARA_0003_FADEIO,
