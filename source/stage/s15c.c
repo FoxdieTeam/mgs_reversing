@@ -4,7 +4,7 @@
 CHARA _StageCharacterEntries[] = {
     CHARA_CAT_IN,
     CHARA_WALL,         /* chara 障害物 */
-    CHARA_ASIOTO,
+    CHARA_ASIOTOKUN,    /* chara 足音君 */
     CHARA_BREATH,       /* chara スネーク息 */
     CHARA_FADEIO,
     CHARA_CONTAINER,    /* chara コンテナ */

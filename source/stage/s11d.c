@@ -2,7 +2,7 @@
 #include "charalst.h"
 
 CHARA _StageCharacterEntries[] = {
-    CHARA_ASIOTO,
+    CHARA_ASIOTOKUN,    /* chara 足音君 */
     CHARA_FADEIO,
     CHARA_SNOW,         /* chara 雪 */
     CHARA_SPHERE,       /* chara 天球 */

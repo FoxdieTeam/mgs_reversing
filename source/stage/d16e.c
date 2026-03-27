@@ -8,7 +8,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_DYNAMIC_SEG,  /* chara 透明壁 */
     CHARA_FADEIO,
     CHARA_CINEMA,       /* chara シネマスクリーン */
-    CHARA_ASIOTO,
+    CHARA_ASIOTOKUN,    /* chara 足音君 */
     CHARA_CAMERA,       /* chara カメラ */
 
     CHARA_0003_FADEIO,

@@ -6,7 +6,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_SCN_MARK,
     CHARA_EVPANEL,
     CHARA_VIBRATE,      /* chara パッド振動 */
-    CHARA_ASIOTO,
+    CHARA_ASIOTOKUN,    /* chara 足音君 */
     CHARA_CAT_IN,
     CHARA_FOG,
     CHARA_LAMP,

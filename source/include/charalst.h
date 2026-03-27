@@ -177,7 +177,7 @@
 #define CHARA_ITEM_DOT          { 0x917b, NewItemDot_800CC7D0 }     // okajima/item_dot.c
 #define CHARA_PUTHZD            { 0x91aa, ? }                       // takabe/puthzd.c
 #define CHARA_LIFT2             { 0x921b, ? }                       // GV_StrCode("リフト２") takabe/lift2.c (PC-ONLY)
-#define CHARA_ASIOTO            { 0x92bc, NewAsioto_800C3E08 }      // enemy/asioto.c (足音 = footstep)
+#define CHARA_ASIOTOKUN         { 0x92bc, NewAsioto_800C3E08 }      // GV_StrCode("足音君") enemy/asioto.c
 #define CHARA_MLOAD             { 0x9302, ? }                       // menu/mload.c
 #define CHARA_B_SELECT          { 0x93b6, ? }                       // onoda/brf/b_select.c
 #define CHARA_MG_DEMO1          { 0x954b, ? }                       // takabe/mg_demo1.c
@@ -288,7 +288,7 @@
 #define CHARA_E75A_ED_TELOP     { 0xe75a, NewEdTelop_800C563C }     // takabe/ed_telop.c
 #define CHARA_DOLL              { 0xe97e, NewDoll_800DCD78 }        // GV_StrCode("デモ人形") animal/doll/doll.c
 #define CHARA_WALL              { 0xec77, NewWall_800C3718 }        // GV_StrCode("障害物") enemy/wall.c
-#define CHARA_PAUSE             { 0xeced, NewCountdownGcl }         // --> menu/countdwn.c
+#define CHARA_COUNTDOWN         { 0xeced, NewCountdownGcl }         // --> menu/countdwn.c
 #define CHARA_VR                { 0xed86, ? }                       // GV_StrCode("ＶＲ") koba/vr/vr.c
 #define CHARA_ZAKO              { 0xed87, ? }                       // GV_StrCode("ざこ") animal/zako/zako.c
 #define CHARA_PHOTOSEL          { 0xedeb, ? }                       // chara/photosel/photosel.c

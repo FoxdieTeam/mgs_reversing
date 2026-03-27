@@ -5,7 +5,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_TRUCKTRAP,
     CHARA_BLINK_TX,
     CHARA_VIBRATE,      /* chara パッド振動 */
-    CHARA_ASIOTO,
+    CHARA_ASIOTOKUN,    /* chara 足音君 */
     CHARA_ASIATOKUN,    /* chara 足跡君 */
     CHARA_CINEMA,       /* chara シネマスクリーン */
     CHARA_CAT_IN,
