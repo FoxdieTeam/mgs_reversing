@@ -107,7 +107,7 @@
 #define CHARA_CAT_IN            { 0x51c6, NewZoom_800DFA88 }        // takabe/cat_in.c
 #define CHARA_KIKEN             { 0x52bf, NewKiken_800D6D24 }       // enemy/kiken.c (危険 = danger)
 #define CHARA_5345_MOVIE        { 0x5345, ? }                       // movie.c
-#define CHARA_53C7              { 0x53c7, ? }                       // ???
+#define CHARA_LOAD_DATA         { 0x53c7, ? }                       // GV_StrCode("ロードデータ") menu/mload.c
 #define CHARA_VRBOX2            { 0x548e, ? }                       // GV_StrCode("ＶＲＢＯＸ２") koba/vr/vrbox2.c
 #define CHARA_VRBOX3            { 0x548f, ? }                       // GV_StrCode("ＶＲＢＯＸ３") koba/vr/vrbox2.c
 #define CHARA_VRBOX4            { 0x5490, ? }                       // GV_StrCode("ＶＲＢＯＸ４") koba/vr/vrbox.c
@@ -178,7 +178,7 @@
 #define CHARA_PUTHZD            { 0x91aa, ? }                       // takabe/puthzd.c
 #define CHARA_LIFT2             { 0x921b, ? }                       // GV_StrCode("リフト２") takabe/lift2.c (PC-ONLY)
 #define CHARA_ASIOTOKUN         { 0x92bc, NewAsioto_800C3E08 }      // GV_StrCode("足音君") enemy/asioto.c
-#define CHARA_MLOAD             { 0x9302, ? }                       // menu/mload.c
+#define CHARA_SAVE_DATA         { 0x9302, ? }                       // GV_StrCode("セーブデータ") menu/mload.c
 #define CHARA_B_SELECT          { 0x93b6, ? }                       // onoda/brf/b_select.c
 #define CHARA_MG_DEMO1          { 0x954b, ? }                       // takabe/mg_demo1.c
 #define CHARA_WOLF2             { 0x962c, NewWolf2 }                // GV_StrCode("ウルフ") okajima/wolf/wolf2.c
