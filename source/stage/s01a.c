@@ -4,16 +4,16 @@
 CHARA _StageCharacterEntries[] = {
     CHARA_TOBCNT,
     CHARA_MOTIONSE,
-    CHARA_CANCEL,       /* chara デモキャンセル */
+    CHARA_DEMOCANCEL,   /* chara デモキャンセル */
     CHARA_CAMERA_SHAKE,
-    CHARA_VIBRATE,      /* chara パッド振動 */
+    CHARA_PADVIBRATE,   /* chara パッド振動 */
     CHARA_GAS_EFFECT,
     CHARA_BREATH,       /* chara スネーク息 */
     CHARA_ENV_SOUND,
     CHARA_CAT_IN,
-    CHARA_DOLL,         /* chara デモ人形 */
+    CHARA_DEMODOLL,     /* chara デモ人形 */
     CHARA_TRUCKTRAP,
-    CHARA_DYNAMIC_SEG,  /* chara 透明壁 */
+    CHARA_DYNWALL,      /* chara 透明壁 */
     CHARA_ASIATOKUN,    /* chara 足跡君 */
     CHARA_ASIOTOKUN,    /* chara 足音君 */
     CHARA_CAMERA,       /* chara カメラ */

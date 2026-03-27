@@ -13,10 +13,10 @@ CHARA _StageCharacterEntries[] = {
     CHARA_BOXALL,
     CHARA_BED,
     CHARA_LAMP,
-    CHARA_GUNCAME,
+    CHARA_GUNCAMERA,
     CHARA_CINEMA,       /* chara シネマスクリーン */
     CHARA_GAS_EFFECT,
-    CHARA_DYNAMIC_SEG,  /* chara 透明壁 */
+    CHARA_DYNWALL,      /* chara 透明壁 */
 
     CHARA_0003_FADEIO,
     CHARA_0004_FADEIO,

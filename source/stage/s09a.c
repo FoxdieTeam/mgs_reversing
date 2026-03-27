@@ -10,13 +10,13 @@ CHARA _StageCharacterEntries[] = {
     { 0xe271, (NEWCHARA)0x800ca394 },   // CHARA_MERYL72,
     { 0x6c0e, (NEWCHARA)0x800dca80 },   // CHARA_DOG,
     { 0x81ea, (NEWCHARA)0x800dd1fc },   // CHARA_RSURFACE,
-    { 0xe97e, (NEWCHARA)0x800c72b8 },   // CHARA_DOLL,         /* chara デモ人形 */
+    { 0xe97e, (NEWCHARA)0x800c72b8 },   // CHARA_DEMODOLL,     /* chara デモ人形 */
     { 0x1ad3, (NEWCHARA)0x800c3eac },   // CHARA_LAMP,
     { 0x7a05, (NEWCHARA)0x800df6cc },   // CHARA_CINEMA,       /* chara シネマスクリーン */
     { 0x8185, (NEWCHARA)0x800d2b10 },   // CHARA_BLINK_TX,
     { 0x5a50, (NEWCHARA)0x800ddf14 },   // CHARA_GAS_EFFECT,
     { 0x901e, (NEWCHARA)0x800d347c },   // CHARA_SNOWAREA,
-    { 0xb103, (NEWCHARA)0x800df8fc },   // CHARA_DYNAMIC_SEG,  /* chara 透明壁 */
+    { 0xb103, (NEWCHARA)0x800df8fc },   // CHARA_DYNWALL,      /* chara 透明壁 */
 
     { 0x000f, (NEWCHARA)0x800c5c7c },   // CHARA_000F_DEMOKAGE,
 

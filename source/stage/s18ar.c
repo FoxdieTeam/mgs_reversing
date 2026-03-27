@@ -8,7 +8,7 @@ CHARA _StageCharacterEntries[] = {
     { 0xa12e, (NEWCHARA)0x800e1608 },   // CHARA_FADEIO,
     { 0x7a05, (NEWCHARA)0x800e24c4 },   // CHARA_CINEMA,       /* chara シネマスクリーン */
     { 0x7bf2, (NEWCHARA)0x800c6948 },   // CHARA_LIQUID,       /* chara リキッド */
-    { 0xe97e, (NEWCHARA)0x800d32f4 },   // CHARA_DOLL,         /* chara デモ人形 */
+    { 0xe97e, (NEWCHARA)0x800d32f4 },   // CHARA_DEMODOLL,     /* chara デモ人形 */
     { 0x760e, (NEWCHARA)0x800df70c },   // CHARA_SNAKE18,      /* chara スネーク１８ */
     { 0xec77, (NEWCHARA)0x800c49a4 },   // CHARA_WALL,         /* chara 障害物 */
     { 0x175b, (NEWCHARA)0x800dffe8 },   // CHARA_SMKTRGT,
@@ -19,7 +19,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x0025, (NEWCHARA)0x800e102c },   // CHARA_0025_BLUR,
     { 0x0028, (NEWCHARA)0x800e2b20 },   // CHARA_0028_SEPIA,
 
-    { 0xb4e6, (NEWCHARA)0x800c3ef4 },   // CHARA_CANCEL,       /* chara デモキャンセル */
+    { 0xb4e6, (NEWCHARA)0x800c3ef4 },   // CHARA_DEMOCANCEL,   /* chara デモキャンセル */
 
     CHARA_END
 };

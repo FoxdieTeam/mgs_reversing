@@ -5,7 +5,7 @@ CHARA _StageCharacterEntries[] = {
     { 0xaefb, (NEWCHARA)0x800c68e4 },   // CHARA_TOBCNT,
     { 0x92bc, (NEWCHARA)0x800c8364 },   // CHARA_ASIOTOKUN,    /* chara 足音君 */
     { 0x7a05, (NEWCHARA)0x800d9808 },   // CHARA_CINEMA,       /* chara シネマスクリーン */
-    { 0xe97e, (NEWCHARA)0x800c9344 },   // CHARA_DOLL,         /* chara デモ人形 */
+    { 0xe97e, (NEWCHARA)0x800c9344 },   // CHARA_DEMODOLL,     /* chara デモ人形 */
     { 0x118c, (NEWCHARA)0x800d8df0 },   // CHARA_FINDTRAP,
     { 0xc755, (NEWCHARA)0x800cb954 },   // CHARA_MERYL3,
     { 0x7cf7, (NEWCHARA)0x800d580c },   // CHARA_ZAKOCOM,      /* chara ざこコマンダー */
@@ -13,7 +13,7 @@ CHARA _StageCharacterEntries[] = {
     { 0xe253, (NEWCHARA)0x800c531c },   // CHARA_EVPANEL,
     { 0xf5c5, (NEWCHARA)0x800d627c },   // CHARA_UJI,
     { 0xed87, (NEWCHARA)0x800cd5a0 },   // CHARA_ZAKO,         /* chara ざこ */
-    { 0xb103, (NEWCHARA)0x800d9a38 },   // CHARA_DYNAMIC_SEG,  /* chara 透明壁 */
+    { 0xb103, (NEWCHARA)0x800d9a38 },   // CHARA_DYNWALL,      /* chara 透明壁 */
     { 0x1ad3, (NEWCHARA)0x800c5c98 },   // CHARA_LAMP,
     { 0x0065, (NEWCHARA)0x800d8320 },   // CHARA_MOSAIC,       /* chara モザイク */
     { 0xa12e, (NEWCHARA)0x800d8854 },   // CHARA_FADEIO,

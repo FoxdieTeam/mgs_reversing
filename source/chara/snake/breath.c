@@ -74,7 +74,7 @@ static int GetResources( Work *work, int name, int where )
     return 0;
 }
 
-void *NewBreath(int name, int where, int argc, char **argv)
+void *NewSnakeBreath(int name, int where, int argc, char **argv)
 {
     Work *work ;
 

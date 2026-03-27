@@ -16,7 +16,7 @@ CHARA _StageCharacterEntries[] = {
     { 0xb162, (NEWCHARA)0x800d5844 },   // CHARA_SNAKE_E1,
     { 0xa5dc, (NEWCHARA)0x800e0c24 },   // CHARA_PAUSE_MENU,
     { 0xdf0f, (NEWCHARA)0x800e2414 },   // CHARA_VRBOX,        /* chara ＶＲＢＯＸ */
-    { 0xa9c5, (NEWCHARA)0x800d43d8 },   // CHARA_GUNCAME,
+    { 0xa9c5, (NEWCHARA)0x800d43d8 },   // CHARA_GUNCAMERA,
     { 0x720d, (NEWCHARA)0x800d8364 },   // CHARA_PADDEMO2,     /* chara パッドデモ２ */
     { 0xc8ca, (NEWCHARA)0x800e37a4 },   // CHARA_LOADREP,
 

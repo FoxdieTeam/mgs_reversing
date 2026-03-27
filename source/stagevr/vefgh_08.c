@@ -19,7 +19,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x118c, (NEWCHARA)0x800d9d38 },   // CHARA_FINDTRAP,
     { 0x7a05, (NEWCHARA)0x800da750 },   // CHARA_CINEMA,       /* chara シネマスクリーン */
     { 0x4e95, (NEWCHARA)0x800d6758 },   // CHARA_BLOOD_CL,     /* chara 血溜り */
-    { 0xb103, (NEWCHARA)0x800da980 },   // CHARA_DYNAMIC_SEG,  /* chara 透明壁 */
+    { 0xb103, (NEWCHARA)0x800da980 },   // CHARA_DYNWALL,      /* chara 透明壁 */
     { 0xec77, (NEWCHARA)0x800c78e0 },   // CHARA_WALL,         /* chara 障害物 */
 
     CHARA_END

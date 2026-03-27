@@ -13,16 +13,16 @@ CHARA _StageCharacterEntries[] = {
     { 0x7a05, (NEWCHARA)0x800d0bbc },   // CHARA_CINEMA,       /* chara シネマスクリーン */
     { 0xbee1, (NEWCHARA)0x800c65fc },   // CHARA_SPHERE2,      /* chara 天球２ */
     { 0xec77, (NEWCHARA)0x800c781c },   // CHARA_WALL,         /* chara 障害物 */
-    { 0xa9c5, (NEWCHARA)0x800ca8f8 },   // CHARA_GUNCAME,
+    { 0xa9c5, (NEWCHARA)0x800ca8f8 },   // CHARA_GUNCAMERA,
     { 0x1ad3, (NEWCHARA)0x800c43a8 },   // CHARA_LAMP,
     { 0x7bc2, (NEWCHARA)0x800d1690 },   // CHARA_CAMERA_SHAKE,
     { 0x02c4, (NEWCHARA)0x800c7320 },   // CHARA_ASIATOKUN,    /* chara 足跡君 */
     { 0x5a50, (NEWCHARA)0x800cde94 },   // CHARA_GAS_EFFECT,
-    { 0xb103, (NEWCHARA)0x800d0dec },   // CHARA_DYNAMIC_SEG,  /* chara 透明壁 */
-    { 0xaf6c, (NEWCHARA)0x800d1ad8 },   // CHARA_DYNAMIC_FLOOR, /* chara 透明床 */
+    { 0xb103, (NEWCHARA)0x800d0dec },   // CHARA_DYNWALL,      /* chara 透明壁 */
+    { 0xaf6c, (NEWCHARA)0x800d1ad8 },   // CHARA_DYNFLOOR,     /* chara 透明床 */
     { 0x4170, (NEWCHARA)0x800c4ccc },   // CHARA_BREATH,       /* chara スネーク息 */
-    { 0xfed1, (NEWCHARA)0x8005d508 },   // CHARA_VIBRATE,      /* chara パッド振動 */
-    { 0xcbf8, (NEWCHARA)0x800c3a2c },   // CHARA_PAD,          /* chara パッドコントロール */
+    { 0xfed1, (NEWCHARA)0x8005d508 },   // CHARA_PADVIBRATE,   /* chara パッド振動 */
+    { 0xcbf8, (NEWCHARA)0x800c3a2c },   // CHARA_PADCONTROL,   /* chara パッドコントロール */
 
     { 0x0003, (NEWCHARA)0x800cfaf4 },   // CHARA_0003_FADEIO,
     { 0x0004, (NEWCHARA)0x800cfaf4 },   // CHARA_0004_FADEIO,

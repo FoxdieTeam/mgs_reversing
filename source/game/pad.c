@@ -72,7 +72,7 @@ static void Die( Work *work )
 
 /*---------------------------------------------------------------------------*/
 
-void *NewPad(int name, int where, int argc, char **argv)
+void *NewPadControl(int name, int where, int argc, char **argv)
 {
     char *ops;
     Work *work ;

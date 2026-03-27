@@ -2,12 +2,12 @@
 #include "charalst.h"
 
 CHARA _StageCharacterEntries[] = {
-    CHARA_VIBRATE,      /* chara パッド振動 */
+    CHARA_PADVIBRATE,   /* chara パッド振動 */
     CHARA_TRUCKTRAP,
     CHARA_CINEMA,       /* chara シネマスクリーン */
     CHARA_FADEIO,
     CHARA_EMITTER,
-    CHARA_DOLL,         /* chara デモ人形 */
+    CHARA_DEMODOLL,     /* chara デモ人形 */
     CHARA_CAMERA,       /* chara カメラ */
     CHARA_COMMANDER,    /* chara コマンダー */
     CHARA_WATCHER,      /* chara 巡回兵 */
@@ -23,7 +23,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_LAMP,
     CHARA_CAMERA_SHAKE,
     CHARA_BLINK_TX,
-    CHARA_DYNAMIC_SEG,  /* chara 透明壁 */
+    CHARA_DYNWALL,      /* chara 透明壁 */
 
     CHARA_END
 };

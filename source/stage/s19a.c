@@ -3,7 +3,7 @@
 
 CHARA _StageCharacterEntries[] = {
     { 0x0fad, (NEWCHARA)0x800c429c },   // CHARA_MOTIONSE,
-    { 0xfed1, (NEWCHARA)0x8005d508 },   // CHARA_VIBRATE,      /* chara パッド振動 */
+    { 0xfed1, (NEWCHARA)0x8005d508 },   // CHARA_PADVIBRATE,   /* chara パッド振動 */
     { 0xeced, (NEWCHARA)0x800c40ac },   // CHARA_COUNTDOWN,
     { 0x7bc2, (NEWCHARA)0x800ddd2c },   // CHARA_CAMERA_SHAKE,
     { 0x51c6, (NEWCHARA)0x800de108 },   // CHARA_CAT_IN,
@@ -17,7 +17,7 @@ CHARA _StageCharacterEntries[] = {
     { 0xb58d, (NEWCHARA)0x800d86e0 },   // CHARA_DRUMCAN,      /* chara ドラム缶 */
     { 0xb47a, (NEWCHARA)0x800d9b28 },   // CHARA_PJEEP,
     { 0x9c6c, (NEWCHARA)0x800dc414 },   // CHARA_PK_GATE,
-    { 0xe97e, (NEWCHARA)0x800cabec },   // CHARA_DOLL,         /* chara デモ人形 */
+    { 0xe97e, (NEWCHARA)0x800cabec },   // CHARA_DEMODOLL,     /* chara デモ人形 */
     { 0x0dc9, (NEWCHARA)0x800ddaa4 },   // CHARA_VOICESYS,     // duplicate
     { 0x22c6, (NEWCHARA)0x800c5330 },   // CHARA_TIMER,        /* chara カウントダウン */
     { 0x56cc, (NEWCHARA)0x800c6804 },   // CHARA_CAMERA2,      /* chara カメラ２ */

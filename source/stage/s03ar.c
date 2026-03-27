@@ -4,20 +4,20 @@
 CHARA _StageCharacterEntries[] = {
     CHARA_ASIOTOKUN,    /* chara 足音君 */
     CHARA_CINEMA,       /* chara シネマスクリーン */
-    CHARA_DOLL,         /* chara デモ人形 */
+    CHARA_DEMODOLL,     /* chara デモ人形 */
     CHARA_FINDTRAP,
     CHARA_WALL,         /* chara 障害物 */
     CHARA_EVPANEL,
     CHARA_UJI,
-    CHARA_DYNAMIC_SEG,  /* chara 透明壁 */
+    CHARA_DYNWALL,      /* chara 透明壁 */
     CHARA_LAMP,
     CHARA_MOSAIC,       /* chara モザイク */
-    CHARA_GUNCAME,
+    CHARA_GUNCAMERA,
     CHARA_FADEIO,
     CHARA_GAS_EFFECT,
     CHARA_HIYOKO,
     CHARA_POINT,
-    CHARA_PAD,          /* chara パッドコントロール */
+    CHARA_PADCONTROL,   /* chara パッドコントロール */
     CHARA_INTR_CAM,
     CHARA_CAT_IN,
     CHARA_MOTIONSE,

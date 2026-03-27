@@ -14,13 +14,13 @@ CHARA _StageCharacterEntries[] = {
     { 0x8e74, (NEWCHARA)0x800cf44c },   // CHARA_ZK14COM,      /* chara ざこ１４コマンダー */
     { 0x31e7, (NEWCHARA)0x800c66cc },   // CHARA_ZAKO14,       /* chara ざこ１４ */
     { 0x9ab9, (NEWCHARA)0x800d4d50 },   // CHARA_ELE_CROW,
-    { 0xa9c5, (NEWCHARA)0x800d16f8 },   // CHARA_GUNCAME,
+    { 0xa9c5, (NEWCHARA)0x800d16f8 },   // CHARA_GUNCAMERA,
     { 0x7bc2, (NEWCHARA)0x800dbeb0 },   // CHARA_CAMERA_SHAKE,
-    { 0xfed1, (NEWCHARA)0x8005d508 },   // CHARA_VIBRATE,      /* chara パッド振動 */
+    { 0xfed1, (NEWCHARA)0x8005d508 },   // CHARA_PADVIBRATE,   /* chara パッド振動 */
     { 0x4170, (NEWCHARA)0x800c4420 },   // CHARA_BREATH,       /* chara スネーク息 */
     { 0x3c0c, (NEWCHARA)0x8006b76c },   // CHARA_CLAYMORE,     /* chara クレイモア地雷 */
     { 0x6471, (NEWCHARA)0x800dc0b8 },   // CHARA_BTN_CHK,
-    { 0xb103, (NEWCHARA)0x800db968 },   // CHARA_DYNAMIC_SEG,  /* chara 透明壁 */
+    { 0xb103, (NEWCHARA)0x800db968 },   // CHARA_DYNWALL,      /* chara 透明壁 */
     { 0x3f9a, (NEWCHARA)0x800dbc28 },   // CHARA_ENV_SOUND,
 
     { 0x0003, (NEWCHARA)0x800daec4 },   // CHARA_0003_FADEIO,

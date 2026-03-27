@@ -8,7 +8,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_EVPANEL,
     CHARA_UJI,
     CHARA_LAMP,
-    CHARA_GUNCAME,
+    CHARA_GUNCAMERA,
     CHARA_FADEIO,
     CHARA_INTR_CAM,
     CHARA_CAT_IN,

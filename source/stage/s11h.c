@@ -13,7 +13,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x1787, (NEWCHARA)0x800ce5b0 },   // CHARA_1787_HIND,
     { 0xe068, (NEWCHARA)0x800ca494 },   // CHARA_S11_OBJS,
     { 0xec77, (NEWCHARA)0x800c5fac },   // CHARA_WALL,         /* chara 障害物 */
-    { 0xb103, (NEWCHARA)0x800cbf6c },   // CHARA_DYNAMIC_SEG,  /* chara 透明壁 */
+    { 0xb103, (NEWCHARA)0x800cbf6c },   // CHARA_DYNWALL,      /* chara 透明壁 */
     { 0x711f, (NEWCHARA)0x800cb574 },   // CHARA_LIFE_UP,
     { 0x91aa, (NEWCHARA)0x800ccbf0 },   // CHARA_PUTHZD,
 
