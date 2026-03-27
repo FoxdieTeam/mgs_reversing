@@ -16,7 +16,7 @@ CHARA _StageCharacterEntries[] = {
     { 0xa12e, (NEWCHARA)0x800e05e0 },   // CHARA_FADEIO,
     { 0xf4c3, (NEWCHARA)0x800e25c0 },   // CHARA_PUT_OBJECT,
     { 0xec77, (NEWCHARA)0x800d7248 },   // CHARA_WALL,         /* chara 障害物 */
-    { 0x92bc, (NEWCHARA)0x800d7938 },   // CHARA_ASIOTO,       /* chara 足音君 */
+    { 0x92bc, (NEWCHARA)0x800d7938 },   // CHARA_ASIOTOKUN,    /* chara 足音君 */
     { 0xeea7, (NEWCHARA)0x800db9bc },   // CHARA_WSURFACE,
     { 0xc6d7, (NEWCHARA)0x800d28b4 },   // CHARA_COMMANDER,    /* chara コマンダー */
     { 0x6e9a, (NEWCHARA)0x800c6e80 },   // CHARA_WATCHER,      /* chara 巡回兵 */

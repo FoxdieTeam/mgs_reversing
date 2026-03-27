@@ -12,7 +12,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_FADEIO,
     CHARA_CINEMA,       /* chara シネマスクリーン */
     CHARA_DYNAMIC_SEG,  /* chara 透明壁 */
-    CHARA_ASIOTO,
+    CHARA_ASIOTOKUN,    /* chara 足音君 */
 
     CHARA_0003_FADEIO,
     CHARA_0004_FADEIO,

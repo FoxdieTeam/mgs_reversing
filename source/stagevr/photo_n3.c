@@ -9,7 +9,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x6471, (NEWCHARA)0x800cac34 },   // CHARA_BTN_CHK,
     { 0x0d9b, (NEWCHARA)0x800c6014 },   // CHARA_BG_HEX_S,
     { 0x1fa5, (NEWCHARA)0x800c9da4 },   // CHARA_BG_STAGE,
-    { 0x92bc, (NEWCHARA)0x800c535c },   // CHARA_ASIOTO,
+    { 0x92bc, (NEWCHARA)0x800c535c },   // CHARA_ASIOTOKUN,    /* chara 足音君 */
     { 0xf002, (NEWCHARA)0x800c329c },   // CHARA_HAIR_N,
 
     CHARA_END

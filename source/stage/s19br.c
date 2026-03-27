@@ -4,7 +4,7 @@
 CHARA _StageCharacterEntries[] = {
     CHARA_PAUSE,
     CHARA_CAT_IN,
-    CHARA_ASIOTO,
+    CHARA_ASIOTOKUN,    /* chara 足音君 */
     CHARA_JEEP_SRL,
     CHARA_JDRUM,
     CHARA_JEEP_EMY,

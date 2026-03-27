@@ -177,7 +177,7 @@
 #define CHARA_ITEM_DOT          { 0x917b, NewItemDot_800CC7D0 }     // okajima/item_dot.c
 #define CHARA_PUTHZD            { 0x91aa, ? }                       // takabe/puthzd.c
 #define CHARA_LIFT2             { 0x921b, ? }                       // GV_StrCode("リフト２") takabe/lift2.c (PC-ONLY)
-#define CHARA_ASIOTO            { 0x92bc, NewAsioto_800C3E08 }      // enemy/asioto.c (足音 = footstep)
+#define CHARA_ASIOTOKUN         { 0x92bc, NewAsioto_800C3E08 }      // GV_StrCode("足音君") enemy/asioto.c
 #define CHARA_MLOAD             { 0x9302, ? }                       // menu/mload.c
 #define CHARA_B_SELECT          { 0x93b6, ? }                       // onoda/brf/b_select.c
 #define CHARA_MG_DEMO1          { 0x954b, ? }                       // takabe/mg_demo1.c

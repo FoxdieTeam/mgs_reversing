@@ -7,7 +7,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_CAMERA,       /* chara カメラ */
     CHARA_KIKEN,
     CHARA_VIBRATE,      /* chara パッド振動 */
-    CHARA_ASIOTO,
+    CHARA_ASIOTOKUN,    /* chara 足音君 */
     CHARA_GAS_EFFECT,
     CHARA_FADEIO,
     CHARA_CINEMA,       /* chara シネマスクリーン */

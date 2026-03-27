@@ -2,7 +2,7 @@
 #include "charalst.h"
 
 CHARA _StageCharacterEntries[] = {
-    { 0x92bc, (NEWCHARA)0x800c7884 },   // CHARA_ASIOTO,       /* chara 足音君 */
+    { 0x92bc, (NEWCHARA)0x800c7884 },   // CHARA_ASIOTOKUN,    /* chara 足音君 */
     { 0x05af, (NEWCHARA)0x800d5aec },   // CHARA_REVOLVER04,
     { 0x7eca, (NEWCHARA)0x800dab60 },   // CHARA_WIRE,         /* chara ワイヤ */
     { 0x9988, (NEWCHARA)0x800db368 },   // CHARA_AT,           /* chara ＡＴ */

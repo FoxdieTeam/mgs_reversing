@@ -321,7 +321,7 @@
 #define CHARAID_ITEM_DOT        0x917b  //
 #define CHARAID_PUTHZD          0x91aa  //
 #define CHARAID_LIFT2           0x921b  // GV_StrCode("リフト２")
-#define CHARAID_ASIOTO          0x92bc  //
+#define CHARAID_ASIOTOKUN       0x92bc  // GV_StrCode("足音君")
 #define CHARAID_MLOAD           0x9302  //
 #define CHARAID_B_SELECT        0x93b6  //
 #define CHARAID_MG_DEMO1        0x954b  //

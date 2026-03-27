@@ -16,7 +16,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_FADEIO,
     CHARA_PUT_OBJECT,
     CHARA_WALL,         /* chara 障害物 */
-    CHARA_ASIOTO,
+    CHARA_ASIOTOKUN,    /* chara 足音君 */
     CHARA_WSURFACE,
     CHARA_COMMANDER,    /* chara コマンダー */
     CHARA_WATCHER,      /* chara 巡回兵 */

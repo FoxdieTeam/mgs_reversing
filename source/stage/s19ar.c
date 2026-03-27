@@ -9,7 +9,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x51c6, (NEWCHARA)0x800de108 },   // CHARA_CAT_IN,
     { 0xa12e, (NEWCHARA)0x800dcb54 },   // CHARA_FADEIO,
     { 0x7a05, (NEWCHARA)0x800dd330 },   // CHARA_CINEMA,       /* chara シネマスクリーン */
-    { 0x92bc, (NEWCHARA)0x800c9c0c },   // CHARA_ASIOTO,       /* chara 足音君 */
+    { 0x92bc, (NEWCHARA)0x800c9c0c },   // CHARA_ASIOTOKUN,    /* chara 足音君 */
     { 0x0dc9, (NEWCHARA)0x800ddaa4 },   // CHARA_VOICESYS,
     { 0xa12e, (NEWCHARA)0x800dcb54 },   // CHARA_FADEIO,
     { 0x8e88, (NEWCHARA)0x800d7724 },   // CHARA_ZK19COM,      /* chara ざこ１９コマンダー */

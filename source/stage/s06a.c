@@ -16,7 +16,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_O2_DAMAGE,
     CHARA_EVPANEL,
     CHARA_PATO_LAMP,    /* chara パトランプ */
-    CHARA_ASIOTO,
+    CHARA_ASIOTOKUN,    /* chara 足音君 */
     CHARA_LIFE_UP,
     CHARA_CAT_IN,
     CHARA_WALL,         /* chara 障害物 */

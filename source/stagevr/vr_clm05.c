@@ -7,7 +7,7 @@ CHARA _StageCharacterEntries[] = {
     { 0xf50f, (NEWCHARA)0x800d3068 },   // CHARA_SEARCHLIGHT,  /* chara サーチライト */
     { 0xa12e, (NEWCHARA)0x800d7bbc },   // CHARA_FADEIO,
     { 0x4170, (NEWCHARA)0x800c2330 },   // CHARA_BREATH,       /* chara スネーク息 */
-    { 0x92bc, (NEWCHARA)0x800d451c },   // CHARA_ASIOTO,
+    { 0x92bc, (NEWCHARA)0x800d451c },   // CHARA_ASIOTOKUN,    /* chara 足音君 */
     { 0xed86, (NEWCHARA)0x800da628 },   // CHARA_VR,           /* chara ＶＲ */
     { 0xdb1f, (NEWCHARA)0x800db41c },   // CHARA_GOAL,         /* chara ゴール */
     { 0x1455, (NEWCHARA)0x800e2e9c },   // CHARA_VRBG3,        /* chara ＶＲ背景３ */

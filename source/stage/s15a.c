@@ -4,7 +4,7 @@
 CHARA _StageCharacterEntries[] = {
     { 0x51c6, (NEWCHARA)0x800d7ddc },   // CHARA_CAT_IN,
     { 0xec77, (NEWCHARA)0x800c4e24 },   // CHARA_WALL,         /* chara 障害物 */
-    { 0x92bc, (NEWCHARA)0x800c5c5c },   // CHARA_ASIOTO,       /* chara 足音君 */
+    { 0x92bc, (NEWCHARA)0x800c5c5c },   // CHARA_ASIOTOKUN,    /* chara 足音君 */
     { 0x4170, (NEWCHARA)0x800c48f8 },   // CHARA_BREATH,       /* chara スネーク息 */
     { 0xa12e, (NEWCHARA)0x800d609c },   // CHARA_FADEIO,
     { 0x9ff5, (NEWCHARA)0x800ca1cc },   // CHARA_VALCAN,       /* chara バルカン */

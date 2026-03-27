@@ -2,7 +2,7 @@
 #include "charalst.h"
 
 CHARA _StageCharacterEntries[] = {
-    { 0x92bc, (NEWCHARA)0x800c7a9c },   // CHARA_ASIOTO,       /* chara 足音君 */
+    { 0x92bc, (NEWCHARA)0x800c7a9c },   // CHARA_ASIOTOKUN,    /* chara 足音君 */
     { 0x4754, (NEWCHARA)0x800d7b38 },   // CHARA_MGREX,
     { 0x954b, (NEWCHARA)0x800d1ec4 },   // CHARA_MG_DEMO1,
     { 0x0dc9, (NEWCHARA)0x800d0848 },   // CHARA_VOICESYS,
