@@ -433,7 +433,7 @@
 #define CHARAID_E75A_ED_TELOP   0xe75a  //
 #define CHARAID_DOLL            0xe97e  // GV_StrCode("デモ人形")
 #define CHARAID_WALL            0xec77  // GV_StrCode("障害物")
-#define CHARAID_PAUSE           0xeced  //
+#define CHARAID_COUNTDOWN       0xeced  //
 #define CHARAID_VR              0xed86  // GV_StrCode("ＶＲ")
 #define CHARAID_ZAKO            0xed87  // GV_StrCode("ざこ")
 #define CHARAID_PHOTOSEL        0xedeb  //

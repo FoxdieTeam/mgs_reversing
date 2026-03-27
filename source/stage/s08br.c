@@ -4,7 +4,7 @@
 CHARA _StageCharacterEntries[] = {
     CHARA_ASIOTO,
     CHARA_FADEIO,
-    { 0x8e70, (NEWCHARA)0x800DB50C },   // s08b_glass_800DB50C (NewGlass_800D37A4)
+    { 0x8e70, (NEWCHARA)0x800DB50C },   // CHARA_GLASS,        /* chara ガラス */
     CHARA_PAPER,
     CHARA_CHAIR,        /* chara 椅子 */
     CHARA_PANEL2,       /* chara パネル２ */
@@ -30,8 +30,8 @@ CHARA _StageCharacterEntries[] = {
     CHARA_001A_KOGAKU2,
     CHARA_001B_KOGAKU3,
     CHARA_0021_FOCUS,
-    { 0x0023, (NEWCHARA)0x800D6AF4 },   // s08b_d_bloods_800D6AF4
-    { 0x0025, (NEWCHARA)0x800D8D84 },   // s08b_blur_800D8D84 (NewBlur_800CD530)
+    { 0x0023, (NEWCHARA)0x800D6AF4 },   // CHARA_0023_D_BLOODS,
+    { 0x0025, (NEWCHARA)0x800D8D84 },   // CHARA_0025_BLUR,
     CHARA_002D_KATANA,
     CHARA_0042_GAS_EFCT,
     CHARA_004C_TELOP,
