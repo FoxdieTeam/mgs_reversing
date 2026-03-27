@@ -35,7 +35,7 @@
 #define CHARA_VMODEL            { 0x0a02, ? }                       // GV_StrCode("モデル") thing/vmodel.c (PC-ONLY)
 #define CHARA_VRSPARK           { 0x0c09, ? }                       // koba/vr/vrspark.c
 #define CHARA_BG_HEX_S          { 0x0d9b, ? }                       // okajima/photo/bg_hex_s.c
-#define CHARA_VOICESYS          { 0x0dc9, NewVoicesys_800CE944 }    // takabe/voicesys.c
+#define CHARA_VOICESYS          { 0x0dc9, NewVoiceSystem }          // takabe/voicesys.c
 #define CHARA_MOTIONSE          { 0x0fad, NewMotionSoundEffect }    // chara/others/motse.c
 #define CHARA_ELECTRIC_DAMAGE   { 0x107c, NewElcDamg_800D4C68 }     // takabe/elc_damg.c
 #define CHARA_PERAPICT          { 0x10ff, ? }                       // chara/others/perapict.c
@@ -585,7 +585,7 @@ void *NewTelop();                       /* takabe/telop.c               */
 void *NewTexScroll();                   /* takabe/tex_scrl.c            */
 void *NewTruckTrap();                   /* takabe/tracktrp.c            */
 void *NewVibrationEditor();             /* takabe/vib_edit.c            */
-void *NewVoicesys_800CE944();           /* takabe/voicesys.c            */
+void *NewVoiceSystem();                 /* takabe/voicesys.c            */
 void *NewWindcrcl_800CF6BC();           /* takabe/windcrcl.c            */
 void *NewWsurface_800DB9BC();           /* takabe/wsurface.c            */
 void *NewWaterArea();                   /* takabe/wt_area.c             */
