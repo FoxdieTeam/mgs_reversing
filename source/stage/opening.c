@@ -6,7 +6,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_CINEMA,       /* chara シネマスクリーン */
     CHARA_WT_VIEW,
     CHARA_TEXSCROLL,
-    CHARA_CANCEL,       /* chara デモキャンセル */
+    CHARA_DEMOCANCEL,   /* chara デモキャンセル */
 
     CHARA_0003_FADEIO,
     CHARA_0004_FADEIO,
