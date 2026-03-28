@@ -2824,14 +2824,14 @@ void sub_8007EF34(SVECTOR *pOutVec1, SVECTOR *pOutVec2, MATRIX *pInMtx)
     DG_SetPos(&rotMtx);
 }
 
-void sub_8007F06C(int *param_1, int *param_2, int *param_3)
+void sub_8007F06C(DG_VECTOR *param_1, VECTOR *param_2, VECTOR *param_3)
 {
-    param_1[0] = param_2[0];
-    param_1[1] = param_2[1];
-    param_1[2] = param_2[2];
-    param_1[3] = param_3[0] - param_2[0];
-    param_1[4] = param_3[1] - param_2[1];
-    param_1[5] = param_3[2] - param_2[2];
+    param_1[0].vx = param_2->vx;
+    param_1[0].vy = param_2->vy;
+    param_1[0].vz = param_2->vz;
+    param_1[1].vx = param_3->vx - param_2->vx;
+    param_1[1].vy = param_3->vy - param_2->vy;
+    param_1[1].vz = param_3->vz - param_2->vz;
 }
 
 void sub_8007F0D0(VECTOR *out, VECTOR *a, VECTOR *b, VECTOR *c)
