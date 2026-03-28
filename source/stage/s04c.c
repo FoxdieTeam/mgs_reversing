@@ -3,18 +3,18 @@
 
 CHARA _StageCharacterEntries[] = {
     CHARA_ASIOTOKUN,    /* chara 足音君 */
-    CHARA_REVOLVER04,
+    CHARA_REVOLVER04,   /* chara ボス */
     CHARA_WIRE,         /* chara ワイヤ */
     CHARA_AT,           /* chara ＡＴ */
     CHARA_CAPE,
     CHARA_GUNCAMERA,
     CHARA_DMYWALL,      /* chara 塗り壁 */
-    CHARA_VOICESYS,
+    CHARA_VOICESYS,     /* chara 音声制御 */
     CHARA_CLAYMORE,     /* chara クレイモア地雷 */
     CHARA_DYNWALL,      /* chara 透明壁 */
     CHARA_CINEMA,       /* chara シネマスクリーン */
     CHARA_LAMP,
-    CHARA_3453_MOVIE,
+    CHARA_MOVIE,        /* chara ムービー */
     CHARA_LIFE_UP,
     CHARA_FADEIO,
     CHARA_WALL,         /* chara 障害物 */

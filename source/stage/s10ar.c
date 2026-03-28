@@ -22,7 +22,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x711f, (NEWCHARA)0x800e0f4c },   // CHARA_LIFE_UP,
     { 0x4170, (NEWCHARA)0x800c44f4 },   // CHARA_BREATH,       /* chara スネーク息 */
     { 0x81ea, (NEWCHARA)0x800def30 },   // CHARA_RSURFACE,
-    { 0x3f9a, (NEWCHARA)0x800e309c },   // CHARA_ENV_SOUND,
+    { 0x3f9a, (NEWCHARA)0x800e309c },   // CHARA_ENV_SOUND,    /* chara 環境音 */
     { 0xee63, (NEWCHARA)0x800d5ee4 },   // CHARA_SCN_MARK,
     { 0xb103, (NEWCHARA)0x800e2198 },   // CHARA_DYNWALL,      /* chara 透明壁 */
 

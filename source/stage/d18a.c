@@ -10,7 +10,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_WALL,         /* chara 障害物 */
     CHARA_SMKTRGT,
     CHARA_WAKE,
-    CHARA_3453_MOVIE,
+    CHARA_MOVIE,        /* chara ムービー */
 
     CHARA_0003_FADEIO,
     CHARA_0004_FADEIO,

@@ -3,7 +3,7 @@
 
 CHARA _StageCharacterEntries[] = {
     CHARA_ASIATOKUN,    /* chara 足跡君 */
-    CHARA_3453_MOVIE,
+    CHARA_MOVIE,        /* chara ムービー */
     CHARA_CINEMA,       /* chara シネマスクリーン */
     CHARA_SPHERE,       /* chara 天球 */
 

@@ -2,7 +2,7 @@
 #include "charalst.h"
 
 CHARA _StageCharacterEntries[] = {
-    CHARA_SOUNDTEST,
+    CHARA_SOUNDTEST,    /* chara サウンドテスト */
 
     CHARA_END
 };

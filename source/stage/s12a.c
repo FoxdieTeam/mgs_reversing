@@ -11,7 +11,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_WOLF2,        /* chara ウルフ */
     CHARA_FINDTRAP,
     CHARA_LAMP,
-    CHARA_3453_MOVIE,
+    CHARA_MOVIE,        /* chara ムービー */
     CHARA_CINEMA,       /* chara シネマスクリーン */
     CHARA_SNOW,         /* chara 雪 */
     CHARA_SNOWSTORM,    /* chara 雪嵐 */

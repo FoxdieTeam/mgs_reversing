@@ -28,24 +28,24 @@
 #define CHARA_ASIATOKUN         { 0x02c4, NewAsiatoKun_800D1A70 }   // GV_StrCode("足跡君") enemy/asiato.c
 #define CHARA_03BF              { 0x03bf, ? }                       // ??? (PC-ONLY)
 #define CHARA_SHUTTER           { 0x03d9, NewShuter_800DFB44 }      // GV_StrCode("シャッター") takabe/shuter.c
-#define CHARA_RANK              { 0x04f2, ? }                       // onoda/rank/rank.c
-#define CHARA_REVOLVER03        { 0x050c, NewRevolver_800C929C }    // chara/torture/revolver.c
-#define CHARA_REVOLVER04        { 0x05af, s04c_revolver_800D2028 }  // onoda/s04b/revolver.c
-#define CHARA_A_SHOWER          { 0x05ef, ? }                       // okajima/a_shower.c (PC-ONLY)
+#define CHARA_RANKING           { 0x04f2, ? }                       // GV_StrCode("ランキング") onoda/rank/rank.c
+#define CHARA_REVOLVER03        { 0x050c, NewRevolver_800C929C }    // GV_StrCode("拷問オセロット") chara/torture/revolver.c
+#define CHARA_REVOLVER04        { 0x05af, s04c_revolver_800D2028 }  // GV_StrCode("ボス") onoda/s04b/revolver.c
+#define CHARA_AIRSHOWER         { 0x05ef, ? }                       // GV_StrCode("エアシャワー") okajima/a_shower.c (PC-ONLY)
 #define CHARA_VMODEL            { 0x0a02, ? }                       // GV_StrCode("モデル") thing/vmodel.c (PC-ONLY)
 #define CHARA_VRSPARK           { 0x0c09, ? }                       // koba/vr/vrspark.c
 #define CHARA_BG_HEX_S          { 0x0d9b, ? }                       // okajima/photo/bg_hex_s.c
-#define CHARA_VOICESYS          { 0x0dc9, NewVoiceSystem }          // takabe/voicesys.c
+#define CHARA_VOICESYS          { 0x0dc9, NewVoiceSystem }          // GV_StrCode("音声制御") takabe/voicesys.c
 #define CHARA_MOTIONSE          { 0x0fad, NewMotionSoundEffect }    // chara/others/motse.c
 #define CHARA_ELECTRIC_DAMAGE   { 0x107c, NewElcDamg_800D4C68 }     // takabe/elc_damg.c
-#define CHARA_PERAPICT          { 0x10ff, ? }                       // chara/others/perapict.c
+#define CHARA_PERAPICT          { 0x10ff, ? }                       // GV_StrCode("ぺら絵") chara/others/perapict.c
 #define CHARA_BLOODY_MERYL      { 0x1158, ? }                       // GV_StrCode("血まみれメリル") okajima/meryl10/mel10.c
 #define CHARA_FINDTRAP          { 0x118c, NewFindTrap_800D77DC }    // takabe/findtrap.c
 #define CHARA_11E9_HIND         { 0x11e9, s11d_hind_800CB708 }      // chara/hind/hind.c
 #define CHARA_VRBG2             { 0x1454, ? }                       // GV_StrCode("ＶＲ背景２") koba/vr/bg2.c
 #define CHARA_VRBG3             { 0x1455, ? }                       // GV_StrCode("ＶＲ背景３") koba/vr/bg3.c
 #define CHARA_11G_DEMO          { 0x153e, NewStage11GDemo }         // okajima/11g_demo.c
-#define CHARA_P_LAMP            { 0x169c, NewPLamp_800CD948 }       // okajima/p_lamp.c
+#define CHARA_PILOTLAMP         { 0x169c, NewPLamp_800CD948 }       // GV_StrCode("パイロットランプ") okajima/p_lamp.c
 #define CHARA_SMOKE             { 0x170c, NewSmoke_800D2BEC }       // GV_StrCode("煙") enemy/smoke.c
 #define CHARA_173C              { 0x173c, ? }                       // (PSX-ONLY)
 #define CHARA_SMKTRGT           { 0x175b, NewSmktrgt_800DC410 }     // okajima/smktrgt.c
@@ -61,10 +61,10 @@
 #define CHARA_JEEP_EMY          { 0x2477, NewJeepEnemy }            // takabe/jeep_emy/jeep_emy.c
 #define CHARA_VR_CHECK          { 0x26bc, ? }                       // nobu/vr_slct/vr_check.c
 #define CHARA_27A2_SNE_03C      { 0x27a2, NewSnake03c2_800CDF18 }   // chara/torture/sne_03c.c
-#define CHARA_BED               { 0x2a21, NewBed_800C70DC }         // chara/torture/bed.c
+#define CHARA_BED               { 0x2a21, NewBed_800C70DC }         // GV_StrCode("拷問台") chara/torture/bed.c
 #define CHARA_GCLARRAY          { 0x2a90, ? }                       // takabe/gclarray.c
 #define CHARA_ELEVATOR          { 0x2abc, NewElevator_800D9F30 }    // GV_StrCode("エレベータ") takabe/elevator.c
-#define CHARA_WALL_SPA          { 0x2b24, NewWallSpa_800CB4A4 }     // okajima/wall_spa.c
+#define CHARA_WALLSPARK         { 0x2b24, NewWallSpa_800CB4A4 }     // GV_StrCode("壁スパーク") okajima/wall_spa.c
 #define CHARA_2D0A_SECOND       { 0x2d0a, ? }                       // game/second.c
 #define CHARA_NINJA             { 0x30ba, s08b_ninja_800C8DCC }     // GV_StrCode("忍者") animal/ninja/ninja.c
 #define CHARA_VR2               { 0x30c8, ? }                       // GV_StrCode("ＶＲ２") koba/vr/vr2.c
@@ -75,37 +75,37 @@
 #define CHARA_EMITTER           { 0x32e5, NewEmitter }              // thing/emitter.c
 #define CHARA_BREAK_OBJECT      { 0x32fc, NewBreakObject }          // takabe/breakobj.c
 #define CHARA_DUCTMOUSE         { 0x3303, NewDuctmouse_800DACC8 }   // okajima/ductmous.c
-#define CHARA_3453_MOVIE        { 0x3453, NewMovieGCL }             // game/movie.c
-#define CHARA_DEMOSEL           { 0x3686, NewDemoSelect }           // onoda/demosel/demosel.c
+#define CHARA_MOVIE             { 0x3453, NewMovieGCL }             // GV_StrCode("ムービー") game/movie.c
+#define CHARA_DEMOSEL           { 0x3686, NewDemoSelect }           // GV_StrCode("デモ劇場") onoda/demosel/demosel.c
 #define CHARA_OPENA             { 0x3ac3, ? }                       // onoda/opena/opena.c
 #define CHARA_3AD2              { 0x3ad2, ? }                       // ???
 #define CHARA_CLAYMORE          { 0x3c0c, NewScenarioJirai }        // GV_StrCode("クレイモア地雷") bullet/jirai.c
 #define CHARA_KOBA_WINMNGR      { 0x3d26, ? }                       // koba/vr_slct/winmngr.c
 #define CHARA_3D78              { 0x3d78, ? }                       // (PSX-ONLY)
 #define CHARA_PADDEMO           { 0x3ed7, NewPadDemo }              // GV_StrCode("パッドデモ") takabe/pad_demo.c
-#define CHARA_ENV_SOUND         { 0x3f9a, NewEnvSnd_800DF424 }      // takabe/env_snd.c
+#define CHARA_ENV_SOUND         { 0x3f9a, NewEnvSnd_800DF424 }      // GV_StrCode("環境音") takabe/env_snd.c
 #define CHARA_PLAYDEMO          { 0x3f9d, ? }                       // nobu/vr_demo/playdemo.c (PC-ONLY)
 #define CHARA_10A_DEMO          { 0x40e9, ? }                       // okajima/10a_demo.c
 #define CHARA_BREATH            { 0x4170, NewSnakeBreath }          // GV_StrCode("スネーク息") chara/snake/breath.c
 #define CHARA_WAKE              { 0x41a3, NewWake_800C6298 }        // chara/wake/wake.c
 #define CHARA_LIFT              { 0x425f, NewLift_800DE25C }        // GV_StrCode("リフト") takabe/lift.c
-#define CHARA_HIYOKO            { 0x42e4, NewHiyoko_800D018C }      // okajima/hiyoko.c
+#define CHARA_HIYOKO            { 0x42e4, NewHiyoko_800D018C }      // GV_StrCode("ヒヨコ星") okajima/hiyoko.c
 #define CHARA_CENSOR            { 0x43a0, NewIrCens_800DA66C }      // GV_StrCode("赤外線センサー") takabe/ir_cens.c
 #define CHARA_HAIR_M            { 0x450f, ? }                       // chara/others/hair_m.c
 #define CHARA_MGREX             { 0x4754, ? }                       // kojo/mgrex.c
-#define CHARA_OBJECT            { 0x4811, NewObjectChara_800DA3A4 } // enemy/object.c
+#define CHARA_OBJECT            { 0x4811, NewObjectChara_800DA3A4 } // GV_StrCode("移動物") enemy/object.c
 #define CHARA_ABST_DEMO1        { 0x4974, ? }                       // GV_StrCode("アブストデモ１") onoda/abst/ab_demo1.c
 #define CHARA_ABST_DEMO2        { 0x4975, ? }                       // GV_StrCode("アブストデモ２") onoda/abst/ab_demo2.c
 #define CHARA_VRGLASS           { 0x49d2, ? }                       // GV_StrCode("ＶＲガラス") koba/vr/vrglass.c
 #define CHARA_DRUMCAN2          { 0x4be8, ? }                       // GV_StrCode("ドラム缶２") takabe/drum2.c
 #define CHARA_VRCLEAR           { 0x4deb, ? }                       // GV_StrCode("ＶＲクリア") koba/vr/vrclear.c
 #define CHARA_BLOOD_CL          { 0x4e95, NewBloodCl_800C9DF0 }     // GV_StrCode("血溜り") okajima/blood_cl.c
-#define CHARA_SOUNDTEST         { 0x4efc, NewSoundTest }            // game/sndtst.c
+#define CHARA_SOUNDTEST         { 0x4efc, NewSoundTest }            // GV_StrCode("サウンドテスト") game/sndtst.c
 #define CHARA_JPEGCAMERA        { 0x4f02, ? }                       // GV_StrCode("ＪＰＥＧカメラ")
 #define CHARA_MERYL7            { 0x5078, NewEnemyMeryl_800D63A4 }  // enemy/meryl7.c
-#define CHARA_POINT             { 0x5147, NewPoint }                // game/point.c
+#define CHARA_RADARPOINT        { 0x5147, NewPoint }                // GV_StrCode("レーダーポイント") game/point.c
 #define CHARA_CAT_IN            { 0x51c6, NewZoom_800DFA88 }        // takabe/cat_in.c
-#define CHARA_KIKEN             { 0x52bf, NewKiken_800D6D24 }       // enemy/kiken.c (危険 = danger)
+#define CHARA_KIKENKUN          { 0x52bf, NewKiken_800D6D24 }       // GV_StrCode("危険君") enemy/kiken.c
 #define CHARA_5345_MOVIE        { 0x5345, ? }                       // movie.c
 #define CHARA_LOAD_DATA         { 0x53c7, ? }                       // GV_StrCode("ロードデータ") menu/mload.c
 #define CHARA_VRBOX2            { 0x548e, ? }                       // GV_StrCode("ＶＲＢＯＸ２") koba/vr/vrbox2.c
