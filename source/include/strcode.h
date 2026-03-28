@@ -332,7 +332,7 @@
 #define CHARAID_ELE_CROW        0x9ab9  //
 #define CHARAID_PLASMA          0x9bc2  // GV_StrCode("プラズマ")
 #define CHARAID_PK_GATE         0x9c6c  //
-#define CHARAID_DMYFLOOR        0x9d00  // GV_StrCode("落とし穴")
+#define CHARAID_DMYFLOOR        0x9d00  // GV_StrCode("落し穴")
 #define CHARAID_M1E1            0x9d71  //
 #define CHARAID_GODZCOM         0x9eb7  // GV_StrCode("ゴジラコマンダ")
 #define CHARAID_DISPLAY         0x9f7d  //

@@ -18,7 +18,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x51c6, (NEWCHARA)0x800d6df0 },   // CHARA_CAT_IN,
     { 0x720d, (NEWCHARA)0x800d5e9c },   // CHARA_PADDEMO2,     /* chara パッドデモ２ */
     { 0xc8ca, (NEWCHARA)0x800dfb24 },   // CHARA_LOADREP,
-    { 0x9d00, (NEWCHARA)0x800d469c },   // CHARA_DMYFLOOR,     /* chara 落とし穴 */
+    { 0x9d00, (NEWCHARA)0x800d469c },   // CHARA_DMYFLOOR,     /* chara 落し穴 */
 
     CHARA_END
 };

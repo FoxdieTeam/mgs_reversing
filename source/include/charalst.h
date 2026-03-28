@@ -188,7 +188,7 @@
 #define CHARA_ELE_CROW          { 0x9ab9, ? }                       // okajima/valcan/ele_crow.c
 #define CHARA_PLASMA            { 0x9bc2, NewPlasma_800CD110 }      // GV_StrCode("プラズマ") okajima/plasma.c
 #define CHARA_PK_GATE           { 0x9c6c, ? }                       // takabe/pk_gate.c
-#define CHARA_DMYFLOOR          { 0x9d00, NewDummyFloor }           // GV_StrCode("落とし穴") takabe/dummy_fl.c
+#define CHARA_DMYFLOOR          { 0x9d00, NewDummyFloor }           // GV_StrCode("落し穴") takabe/dummy_fl.c
 #define CHARA_M1E1              { 0x9d71, ? }                       // kojo/m1e1.c
 #define CHARA_GODZCOM           { 0x9eb7, ? }                       // GV_StrCode("ゴジラコマンダ") animal/godzila/godzcom.c
 #define CHARA_DISPLAY           { 0x9f7d, ? }                       // chara/pocket/display/display.c
