@@ -8,7 +8,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_DEMODOLL,     /* chara デモ人形 */
     CHARA_CINEMA,       /* chara シネマスクリーン */
     CHARA_DYNWALL,      /* chara 透明壁 */
-    CHARA_WALL_SPA,
+    CHARA_WALLSPARK,    /* chara 壁スパーク */
     CHARA_GAS_EFFECT,
     CHARA_O2_DAMAGE,
     CHARA_BLOOD_CL,     /* chara 血溜り */

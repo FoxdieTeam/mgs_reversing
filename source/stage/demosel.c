@@ -2,7 +2,7 @@
 #include "charalst.h"
 
 CHARA _StageCharacterEntries[] = {
-    CHARA_DEMOSEL,
+    CHARA_DEMOSEL,      /* chara デモ劇場 */
 
     CHARA_END
 };

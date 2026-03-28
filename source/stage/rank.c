@@ -2,7 +2,7 @@
 #include "charalst.h"
 
 CHARA _StageCharacterEntries[] = {
-    { 0x04f2, (NEWCHARA)0x800db9ac },   // CHARA_RANK,
+    { 0x04f2, (NEWCHARA)0x800db9ac },   // CHARA_RANKING,      /* chara ランキング */
     { 0xd3c0, (NEWCHARA)0x800d4044 },   // CHARA_D3C0,
     { 0x3ad2, (NEWCHARA)0x800d0da0 },   // CHARA_3AD2,
     { 0xa12e, (NEWCHARA)0x800d4530 },   // CHARA_FADEIO,

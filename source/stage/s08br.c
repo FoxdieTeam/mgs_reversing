@@ -12,7 +12,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_NINJA,        /* chara 忍者 */
     CHARA_LAMP,
     CHARA_CINEMA,       /* chara シネマスクリーン */
-    CHARA_3453_MOVIE,
+    CHARA_MOVIE,        /* chara ムービー */
     CHARA_WALL,         /* chara 障害物 */
     CHARA_LIFE_UP,
     CHARA_DYNWALL,      /* chara 透明壁 */

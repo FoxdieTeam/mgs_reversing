@@ -9,7 +9,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_GUNCAMERA,
     CHARA_DYNWALL,      /* chara 透明壁 */
     CHARA_PANEL,        /* chara パネル */
-    CHARA_P_LAMP,
+    CHARA_PILOTLAMP,    /* chara パイロットランプ */
     CHARA_ELECTRIC_DAMAGE,
     CHARA_ELECTRIC_FLOOR,
     CHARA_BREAK_OBJECT,

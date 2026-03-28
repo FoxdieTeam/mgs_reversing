@@ -6,7 +6,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x0fad, (NEWCHARA)0x800c5cb0 },   // CHARA_MOTIONSE,
     { 0xdd8b, (NEWCHARA)0x800c5ab4 },   // CHARA_INTR_CAM,
     { 0xc0fe, (NEWCHARA)0x800d90b4 },   // CHARA_BUB_D_SN,
-    { 0x52bf, (NEWCHARA)0x800d6d24 },   // CHARA_KIKEN,
+    { 0x52bf, (NEWCHARA)0x800d6d24 },   // CHARA_KIKENKUN,     /* chara 危険君 */
     { 0xfed1, (NEWCHARA)0x8005d508 },   // CHARA_PADVIBRATE,   /* chara パッド振動 */
     { 0x7bc2, (NEWCHARA)0x800e1f0c },   // CHARA_CAMERA_SHAKE,
     { 0x7a05, (NEWCHARA)0x800e0dbc },   // CHARA_CINEMA,       /* chara シネマスクリーン */

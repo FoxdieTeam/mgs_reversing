@@ -9,7 +9,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_PADVIBRATE,   /* chara パッド振動 */
     CHARA_GAS_EFFECT,
     CHARA_BREATH,       /* chara スネーク息 */
-    CHARA_ENV_SOUND,
+    CHARA_ENV_SOUND,    /* chara 環境音 */
     CHARA_CAT_IN,
     CHARA_DEMODOLL,     /* chara デモ人形 */
     CHARA_TRUCKTRAP,
@@ -24,7 +24,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_SPHERE,       /* chara 天球 */
     CHARA_SMOKE,        /* chara 煙 */
     CHARA_BLINK_TX,
-    CHARA_OBJECT,
+    CHARA_OBJECT,       /* chara 移動物 */
     CHARA_SEARCHLIGHT,  /* chara サーチライト */
     CHARA_SNOW,         /* chara 雪 */
     CHARA_WALL,         /* chara 障害物 */

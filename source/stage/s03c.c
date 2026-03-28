@@ -11,7 +11,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_27A2_SNE_03C,
     CHARA_UJI,
     CHARA_BOXALL,
-    CHARA_BED,
+    CHARA_BED,          /* chara 拷問台 */
     CHARA_LAMP,
     CHARA_GUNCAMERA,
     CHARA_CINEMA,       /* chara シネマスクリーン */

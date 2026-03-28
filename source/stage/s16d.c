@@ -5,7 +5,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_COMMANDER,    /* chara コマンダー */
     CHARA_WATCHER,      /* chara 巡回兵 */
     CHARA_CAMERA,       /* chara カメラ */
-    CHARA_KIKEN,
+    CHARA_KIKENKUN,     /* chara 危険君 */
     CHARA_PADVIBRATE,   /* chara パッド振動 */
     CHARA_ASIOTOKUN,    /* chara 足音君 */
     CHARA_GAS_EFFECT,

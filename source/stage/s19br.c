@@ -8,7 +8,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_JEEP_SRL,
     CHARA_JDRUM,
     CHARA_JEEP_EMY,
-    CHARA_VOICESYS,
+    CHARA_VOICESYS,     /* chara 音声制御 */
     { 0xd6fb, (NEWCHARA)0x800CB120 },   // CHARA_FOG,
     CHARA_FADEIO,
 
