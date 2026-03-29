@@ -10,7 +10,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_REVOLVER03,   /* chara 拷問オセロット */
     CHARA_DOOR,         /* chara ドア */
     CHARA_LAMP,
-    CHARA_BOXALL,
+    CHARA_BOXALL,       /* chara 全部箱 */
 
     CHARA_0003_FADEIO,
     CHARA_0004_FADEIO,

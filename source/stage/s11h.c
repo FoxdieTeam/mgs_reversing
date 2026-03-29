@@ -3,7 +3,7 @@
 
 CHARA _StageCharacterEntries[] = {
     { 0x51c6, (NEWCHARA)0x800cc970 },   // CHARA_CAT_IN,
-    { 0x4170, (NEWCHARA)0x800c410c },   // CHARA_BREATH,       /* chara スネーク息 */
+    { 0x4170, (NEWCHARA)0x800c410c },   // CHARA_SNEBREATH,    /* chara スネーク息 */
     { 0x92bc, (NEWCHARA)0x800c6de4 },   // CHARA_ASIOTOKUN,    /* chara 足音君 */
     { 0x73ea, (NEWCHARA)0x800c5a84 },   // CHARA_SPHERE,       /* chara 天球 */
     { 0x1ad3, (NEWCHARA)0x800c3e9c },   // CHARA_LAMP,
@@ -11,10 +11,10 @@ CHARA _StageCharacterEntries[] = {
     { 0x7a05, (NEWCHARA)0x800cbd3c },   // CHARA_CINEMA,       /* chara シネマスクリーン */
     { 0xa12e, (NEWCHARA)0x800cab6c },   // CHARA_FADEIO,
     { 0x1787, (NEWCHARA)0x800ce5b0 },   // CHARA_1787_HIND,
-    { 0xe068, (NEWCHARA)0x800ca494 },   // CHARA_S11_OBJS,
+    { 0xe068, (NEWCHARA)0x800ca494 },   // CHARA_S11_OBJS,     /* chara コントロールＳ１１物 */
     { 0xec77, (NEWCHARA)0x800c5fac },   // CHARA_WALL,         /* chara 障害物 */
     { 0xb103, (NEWCHARA)0x800cbf6c },   // CHARA_DYNWALL,      /* chara 透明壁 */
-    { 0x711f, (NEWCHARA)0x800cb574 },   // CHARA_LIFE_UP,
+    { 0x711f, (NEWCHARA)0x800cb574 },   // CHARA_LIFEUP,       /* chara ライフ増加 */
     { 0x91aa, (NEWCHARA)0x800ccbf0 },   // CHARA_PUTHZD,
 
     { 0x0003, (NEWCHARA)0x800caad4 },   // CHARA_0003_FADEIO,

@@ -8,9 +8,9 @@ CHARA _StageCharacterEntries[] = {
     { 0xc0fe, (NEWCHARA)0x800d90b4 },   // CHARA_BUB_D_SN,
     { 0x52bf, (NEWCHARA)0x800d6d24 },   // CHARA_KIKENKUN,     /* chara 危険君 */
     { 0xfed1, (NEWCHARA)0x8005d508 },   // CHARA_PADVIBRATE,   /* chara パッド振動 */
-    { 0x7bc2, (NEWCHARA)0x800e1f0c },   // CHARA_CAMERA_SHAKE,
+    { 0x7bc2, (NEWCHARA)0x800e1f0c },   // CHARA_CAMERASHAKE,  /* chara カメラ揺らし */
     { 0x7a05, (NEWCHARA)0x800e0dbc },   // CHARA_CINEMA,       /* chara シネマスクリーン */
-    { 0x5a50, (NEWCHARA)0x800dcbd0 },   // CHARA_GAS_EFFECT,
+    { 0x5a50, (NEWCHARA)0x800dcbd0 },   // CHARA_GASEFFECT,    /* chara ガス効果 */
     { 0xba52, (NEWCHARA)0x800e1a00 },   // CHARA_SHAKEMODEL,
     { 0x51c6, (NEWCHARA)0x800e22e8 },   // CHARA_CAT_IN,
     { 0xa12e, (NEWCHARA)0x800e05e0 },   // CHARA_FADEIO,
@@ -27,9 +27,9 @@ CHARA _StageCharacterEntries[] = {
     { 0x1ad3, (NEWCHARA)0x800c57c0 },   // CHARA_LAMP,
     { 0x5d64, (NEWCHARA)0x800e12ac },   // CHARA_O2_DAMAGE,
     { 0x43a0, (NEWCHARA)0x800da66c },   // CHARA_CENSOR,       /* chara 赤外線センサー */
-    { 0x5a50, (NEWCHARA)0x800dcbd0 },   // CHARA_GAS_EFFECT,
-    { 0x8d5a, (NEWCHARA)0x800e14e8 },   // CHARA_GAS_DAMAGE,
-    { 0xe253, (NEWCHARA)0x800c4e44 },   // CHARA_EVPANEL,
+    { 0x5a50, (NEWCHARA)0x800dcbd0 },   // CHARA_GASEFFECT,    // duplicate
+    { 0x8d5a, (NEWCHARA)0x800e14e8 },   // CHARA_GASDAMAGE,    /* chara ガスダメージ */
+    { 0xe253, (NEWCHARA)0x800c4e44 },   // CHARA_ELEVPANEL,    /* chara エレベーターパネル */
     { 0x03d9, (NEWCHARA)0x800dfb44 },   // CHARA_SHUTTER,      /* chara シャッター */
 
     CHARA_END

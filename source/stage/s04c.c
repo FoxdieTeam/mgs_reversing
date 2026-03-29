@@ -4,7 +4,7 @@
 CHARA _StageCharacterEntries[] = {
     CHARA_ASIOTOKUN,    /* chara 足音君 */
     CHARA_REVOLVER04,   /* chara ボス */
-    CHARA_WIRE,         /* chara ワイヤ */
+    CHARA_C4WIRE,       /* chara ワイヤ */
     CHARA_AT,           /* chara ＡＴ */
     CHARA_CAPE,
     CHARA_GUNCAMERA,
@@ -15,7 +15,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_CINEMA,       /* chara シネマスクリーン */
     CHARA_LAMP,
     CHARA_MOVIE,        /* chara ムービー */
-    CHARA_LIFE_UP,
+    CHARA_LIFEUP,       /* chara ライフ増加 */
     CHARA_FADEIO,
     CHARA_WALL,         /* chara 障害物 */
     CHARA_CAT_IN,

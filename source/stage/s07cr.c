@@ -7,12 +7,12 @@ CHARA _StageCharacterEntries[] = {
     CHARA_DOOR,         /* chara ドア */
     CHARA_WALL,         /* chara 障害物 */
     CHARA_MIRROR,
-    CHARA_EVPANEL,
+    CHARA_ELEVPANEL,    /* chara エレベーターパネル */
     CHARA_DYNWALL,      /* chara 透明壁 */
     CHARA_LAMP,
     CHARA_MERYL72,
     CHARA_CINEMA,       /* chara シネマスクリーン */
-    CHARA_9FFD_SECOND,
+    CHARA_9FFD_2ND,
 
     CHARA_0003_FADEIO,
     CHARA_0004_FADEIO,

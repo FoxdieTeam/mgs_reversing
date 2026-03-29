@@ -2,7 +2,7 @@
 #include "charalst.h"
 
 CHARA _StageCharacterEntries[] = {
-    { 0x4170, (NEWCHARA)0x800c420c },   // CHARA_BREATH,       /* chara スネーク息 */
+    { 0x4170, (NEWCHARA)0x800c420c },   // CHARA_SNEBREATH,    /* chara スネーク息 */
     { 0x51c6, (NEWCHARA)0x800ce958 },   // CHARA_CAT_IN,
     { 0x92bc, (NEWCHARA)0x800c6d84 },   // CHARA_ASIOTOKUN,    /* chara 足音君 */
     { 0xb103, (NEWCHARA)0x800cddb4 },   // CHARA_DYNWALL,      /* chara 透明壁 */

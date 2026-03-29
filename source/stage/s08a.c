@@ -4,19 +4,19 @@
 CHARA _StageCharacterEntries[] = {
     CHARA_ASIOTOKUN,    /* chara 足音君 */
     CHARA_FADEIO,
-    CHARA_GAS_EFFECT,
+    CHARA_GASEFFECT,    /* chara ガス効果 */
     CHARA_O2_DAMAGE,
     CHARA_GUNCAMERA,
     CHARA_DYNWALL,      /* chara 透明壁 */
     CHARA_PANEL,        /* chara パネル */
     CHARA_PILOTLAMP,    /* chara パイロットランプ */
-    CHARA_ELECTRIC_DAMAGE,
-    CHARA_ELECTRIC_FLOOR,
+    CHARA_ELECDAMAGE,   /* chara 電流床ダメージ */
+    CHARA_ELECFLOOR,    /* chara 電廊 */
     CHARA_BREAK_OBJECT,
     CHARA_LAMP,
-    CHARA_EVPANEL,
+    CHARA_ELEVPANEL,    /* chara エレベーターパネル */
     CHARA_PLASMA,       /* chara プラズマ */
-    CHARA_DEATH_SP,
+    CHARA_DEATHSPARK,   /* chara 送別火花 */
     CHARA_RED_ALRT,
     CHARA_DEMODOLL,     /* chara デモ人形 */
     CHARA_CINEMA,       /* chara シネマスクリーン */
@@ -24,7 +24,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_GLASS,        /* chara ガラス */
     CHARA_FLR_SPA,
     CHARA_PADCONTROL,   /* chara パッドコントロール */
-    CHARA_CAMERA_SHAKE,
+    CHARA_CAMERASHAKE,  /* chara カメラ揺らし */
 
     CHARA_0003_FADEIO,
     CHARA_0004_FADEIO,

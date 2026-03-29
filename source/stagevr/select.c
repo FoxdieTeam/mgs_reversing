@@ -3,7 +3,7 @@
 
 CHARA _StageCharacterEntries[] = {
     { 0xd2f6, (NEWCHARA)0x800c13f8 },   // CHARA_SELECT,
-    { 0x6c66, (NEWCHARA)0x800c274c },   // CHARA_VIB_EDIT,
+    { 0x6c66, (NEWCHARA)0x800c274c },   // CHARA_VIBEDITOR,
 
     CHARA_END
 };

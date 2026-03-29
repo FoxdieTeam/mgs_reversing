@@ -6,7 +6,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_PADCONTROL,   /* chara パッドコントロール */
     CHARA_MOTIONSE,
     CHARA_INTR_CAM,
-    CHARA_GAS_EFFECT,
+    CHARA_GASEFFECT,    /* chara ガス効果 */
     CHARA_PUT_OBJECT,
     CHARA_WALL,         /* chara 障害物 */
     CHARA_SHAKEMODEL,
@@ -18,7 +18,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_WT_AREA,
     CHARA_BUBBLE,       /* chara 泡 */
     CHARA_RSURFACE,
-    CHARA_EVPANEL,
+    CHARA_ELEVPANEL,    /* chara エレベーターパネル */
     CHARA_COMMANDER,    /* chara コマンダー */
     CHARA_WATCHER,      /* chara 巡回兵 */
     CHARA_SHUTTER,      /* chara シャッター */

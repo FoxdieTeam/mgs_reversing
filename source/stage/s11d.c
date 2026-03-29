@@ -9,7 +9,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_LAMP,
     CHARA_ROPE,
     CHARA_11E9_HIND,
-    CHARA_DSMOKE2,
+    CHARA_DAMAGESMOKE2, /* chara ダメージ煙２ */
     CHARA_LANDING,
     CHARA_PIPE,
 

@@ -8,7 +8,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x84e1, (NEWCHARA)0x800c3ca8 },   // CHARA_FONT_TEXT,
     { 0xd07f, (NEWCHARA)0x800c5138 },   // CHARA_VRBG,         /* chara ＶＲ背景 */
     { 0x1454, (NEWCHARA)0x800c5924 },   // CHARA_VRBG2,        /* chara ＶＲ背景２ */
-    { 0x6471, (NEWCHARA)0x800c4b28 },   // CHARA_BTN_CHK,
+    { 0x6471, (NEWCHARA)0x800c4b28 },   // CHARA_BUTTONCHECK,  /* chara ボタンチェッカー */
 
     CHARA_END
 };

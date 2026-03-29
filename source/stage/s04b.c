@@ -4,7 +4,7 @@
 CHARA _StageCharacterEntries[] = {
     { 0x92bc, (NEWCHARA)0x800c7884 },   // CHARA_ASIOTOKUN,    /* chara 足音君 */
     { 0x05af, (NEWCHARA)0x800d5aec },   // CHARA_REVOLVER04,   /* chara ボス */
-    { 0x7eca, (NEWCHARA)0x800dab60 },   // CHARA_WIRE,         /* chara ワイヤ */
+    { 0x7eca, (NEWCHARA)0x800dab60 },   // CHARA_C4WIRE,       /* chara ワイヤ */
     { 0x9988, (NEWCHARA)0x800db368 },   // CHARA_AT,           /* chara ＡＴ */
     { 0xb99f, (NEWCHARA)0x800dcdbc },   // CHARA_CAPE,
     { 0xa9c5, (NEWCHARA)0x800cb3b8 },   // CHARA_GUNCAMERA,
@@ -15,7 +15,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x7a05, (NEWCHARA)0x800d1484 },   // CHARA_CINEMA,       /* chara シネマスクリーン */
     { 0x1ad3, (NEWCHARA)0x800c5c70 },   // CHARA_LAMP,
     { 0x3453, (NEWCHARA)0x800c52f4 },   // CHARA_MOVIE,        /* chara ムービー */
-    { 0x711f, (NEWCHARA)0x800d0468 },   // CHARA_LIFE_UP,
+    { 0x711f, (NEWCHARA)0x800d0468 },   // CHARA_LIFEUP,       /* chara ライフ増加 */
     { 0xa12e, (NEWCHARA)0x800d0140 },   // CHARA_FADEIO,
     { 0xec77, (NEWCHARA)0x800c6a4c },   // CHARA_WALL,         /* chara 障害物 */
     { 0x51c6, (NEWCHARA)0x800d280c },   // CHARA_CAT_IN,

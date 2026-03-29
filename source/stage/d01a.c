@@ -2,7 +2,7 @@
 #include "charalst.h"
 
 CHARA _StageCharacterEntries[] = {
-    CHARA_PATO_LAMP,    /* chara パトランプ */
+    CHARA_PATOLAMP,     /* chara パトランプ */
     CHARA_SPHERE,       /* chara 天球 */
     CHARA_SMOKE,        /* chara 煙 */
     CHARA_EMITTER,
