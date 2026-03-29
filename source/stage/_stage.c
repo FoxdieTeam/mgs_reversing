@@ -5,7 +5,7 @@
 // with the only difference from the VR executable's chara table being
 // the lack of two additional entries.
 //
-// NOTE: There is one PSX-ONLY chara (0x3d78) which is missing from table.
+// NOTE: There is one PSX-ONLY chara (0x3d78) which is missing from the table.
 // This chara was added to vrtitle in the US/EU versions of the VR-DISC.
 
 #if 0
