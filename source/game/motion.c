@@ -171,14 +171,14 @@ short dword_8009DE5C[] =
 MATRIX matrix_8009DE7C = {{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {0, 0, 0}};
 MATRIX matrix_8009DE9C = {{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {0, 0, 0}};
 
-void InterpolateJoint(MOTION_SEGMENT *m_seg, SVECTOR *out);
-void ApplyJointRotation(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info);
-int  BeginAction(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info, int action);
-int  BeginActionOffset(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info, int action, int frame);
-void SkipToKeyframe(MOTION_SEGMENT *m_seg, int frame);
-int  CorrectWaistRotation(SVECTOR *arg0, SVECTOR *arg1);
-int  NextKeyframe(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info);
-void InflateKeyframe(MOTION_SEGMENT *m_seg);
+STATIC void InterpolateJoint(MOTION_SEGMENT *m_seg, SVECTOR *out);
+STATIC void ApplyJointRotation(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info);
+STATIC int  BeginAction(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info, int action);
+STATIC int  BeginActionOffset(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info, int action, int frame);
+STATIC void SkipToKeyframe(MOTION_SEGMENT *m_seg, int frame);
+STATIC int  CorrectWaistRotation(SVECTOR *arg0, SVECTOR *arg1);
+STATIC int  NextKeyframe(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info);
+STATIC void InflateKeyframe(MOTION_SEGMENT *m_seg);
 
 // maybe static
 void ExtendVector(SVECTOR *vec)
