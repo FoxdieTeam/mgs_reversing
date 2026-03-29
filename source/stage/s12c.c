@@ -11,9 +11,9 @@ CHARA _StageCharacterEntries[] = {
     CHARA_CAT_IN,
     CHARA_WALL,         /* chara 障害物 */
     CHARA_PUT_OBJECT,
-    CHARA_BREATH,       /* chara スネーク息 */
+    CHARA_SNEBREATH,    /* chara スネーク息 */
     CHARA_FADEIO,
-    CHARA_WOLFDOG,      /* chara 狼犬 */
+    CHARA_DOG,          /* chara 狼犬 */
     CHARA_FINDTRAP,
     CHARA_LAMP,
     CHARA_SNOW,         /* chara 雪 */

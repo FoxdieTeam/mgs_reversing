@@ -11,7 +11,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_COMMANDER,    /* chara コマンダー */
     CHARA_WATCHER,      /* chara 巡回兵 */
     CHARA_TEXSCROLL,    /* chara テクスチャスクロール */
-    CHARA_ZK11ECOM,     /* chara ざこ１１ｅコマンダー */
+    CHARA_ZAKO11ECOM,   /* chara ざこ１１ｅコマンダー */
     CHARA_ZAKO11E,      /* chara ざこ１１ｅ */
     CHARA_DOOR,         /* chara ドア */
     CHARA_CINEMA,       /* chara シネマスクリーン */

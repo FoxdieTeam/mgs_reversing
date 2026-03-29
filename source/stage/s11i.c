@@ -4,7 +4,7 @@
 CHARA _StageCharacterEntries[] = {
     CHARA_CAT_IN,
     CHARA_CINEMA,       /* chara シネマスクリーン */
-    CHARA_BREATH,       /* chara スネーク息 */
+    CHARA_SNEBREATH,    /* chara スネーク息 */
     CHARA_WALL,         /* chara 障害物 */
     CHARA_DYNWALL,      /* chara 透明壁 */
     CHARA_ASIOTOKUN,    /* chara 足音君 */
@@ -12,7 +12,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_LAMP,
     CHARA_SNOW,         /* chara 雪 */
     CHARA_SNOWSTORM,    /* chara 雪嵐 */
-    CHARA_ZK11FCOM,     /* chara ざこ１１ｆコマンダー */
+    CHARA_ZAKO11FCOM,   /* chara ざこ１１ｆコマンダー */
     CHARA_ZAKO11F,      /* chara ざこ１１ｆ */
     CHARA_SPHERE,       /* chara 天球 */
     CHARA_HIND2,

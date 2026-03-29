@@ -8,18 +8,18 @@ CHARA _StageCharacterEntries[] = {
     CHARA_FADEIO,
     CHARA_DYNWALL,      /* chara 透明壁 */
     CHARA_SELECT,
-    CHARA_VIB_EDIT,
+    CHARA_VIBEDITOR,
     CHARA_RIPPLES,
     CHARA_PADCONTROL,   /* chara パッドコントロール */
     CHARA_PADVIBRATE,   /* chara パッド振動 */
-    CHARA_BREATH,       /* chara スネーク息 */
+    CHARA_SNEBREATH,    /* chara スネーク息 */
     CHARA_ENV_SOUND,
     CHARA_CAMERASHAKE,  /* chara カメラ揺らし */
     CHARA_CAT_IN,
     CHARA_CINEMA,       /* chara シネマスクリーン */
     CHARA_PADDEMO,      /* chara パッドデモ */
     CHARA_ASIATOKUN,    /* chara 足跡君 */
-    CHARA_PATO_LAMP,    /* chara パトランプ */
+    CHARA_PATOLAMP,     /* chara パトランプ */
     CHARA_COMMANDER,    /* chara コマンダー */
     CHARA_WT_AREA,
     CHARA_WATCHER,      /* chara 巡回兵 */

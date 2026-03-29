@@ -3,7 +3,7 @@
 
 CHARA _StageCharacterEntries[] = {
     { 0x51c6, (NEWCHARA)0x800cc970 },   // CHARA_CAT_IN,
-    { 0x4170, (NEWCHARA)0x800c410c },   // CHARA_BREATH,       /* chara スネーク息 */
+    { 0x4170, (NEWCHARA)0x800c410c },   // CHARA_SNEBREATH,    /* chara スネーク息 */
     { 0x92bc, (NEWCHARA)0x800c6de4 },   // CHARA_ASIOTOKUN,    /* chara 足音君 */
     { 0x73ea, (NEWCHARA)0x800c5a84 },   // CHARA_SPHERE,       /* chara 天球 */
     { 0x1ad3, (NEWCHARA)0x800c3e9c },   // CHARA_LAMP,

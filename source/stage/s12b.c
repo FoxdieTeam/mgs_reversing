@@ -11,10 +11,10 @@ CHARA _StageCharacterEntries[] = {
     { 0x02c4, (NEWCHARA)0x800c5d9c },   // CHARA_ASIATOKUN,    /* chara 足跡君 */
     { 0x7a05, (NEWCHARA)0x800d8514 },   // CHARA_CINEMA,       /* chara シネマスクリーン */
     { 0x51c6, (NEWCHARA)0x800d8ed8 },   // CHARA_CAT_IN,
-    { 0x4170, (NEWCHARA)0x800c4068 },   // CHARA_BREATH,       /* chara スネーク息 */
+    { 0x4170, (NEWCHARA)0x800c4068 },   // CHARA_SNEBREATH,    /* chara スネーク息 */
     { 0xa12e, (NEWCHARA)0x800d724c },   // CHARA_FADEIO,
     { 0x711f, (NEWCHARA)0x800d7d4c },   // CHARA_LIFEUP,       /* chara ライフ増加 */
-    { 0x6c0e, (NEWCHARA)0x800d33d4 },   // CHARA_WOLFDOG,      /* chara 狼犬 */
+    { 0x6c0e, (NEWCHARA)0x800d33d4 },   // CHARA_DOG,          /* chara 狼犬 */
     { 0x118c, (NEWCHARA)0x800d77e8 },   // CHARA_FINDTRAP,
     { 0x1ad3, (NEWCHARA)0x800c3df8 },   // CHARA_LAMP,
     { 0x18e3, (NEWCHARA)0x800c5078 },   // CHARA_SNOW,         /* chara 雪 */

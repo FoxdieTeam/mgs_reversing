@@ -20,7 +20,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x5a50, (NEWCHARA)0x800cde94 },   // CHARA_GASEFFECT,    /* chara ガス効果 */
     { 0xb103, (NEWCHARA)0x800d0dec },   // CHARA_DYNWALL,      /* chara 透明壁 */
     { 0xaf6c, (NEWCHARA)0x800d1ad8 },   // CHARA_DYNFLOOR,     /* chara 透明床 */
-    { 0x4170, (NEWCHARA)0x800c4ccc },   // CHARA_BREATH,       /* chara スネーク息 */
+    { 0x4170, (NEWCHARA)0x800c4ccc },   // CHARA_SNEBREATH,    /* chara スネーク息 */
     { 0xfed1, (NEWCHARA)0x8005d508 },   // CHARA_PADVIBRATE,   /* chara パッド振動 */
     { 0xcbf8, (NEWCHARA)0x800c3a2c },   // CHARA_PADCONTROL,   /* chara パッドコントロール */
 

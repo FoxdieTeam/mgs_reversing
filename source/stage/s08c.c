@@ -11,8 +11,8 @@ CHARA _StageCharacterEntries[] = {
     CHARA_WALLSPARK,    /* chara 壁スパーク */
     CHARA_GASEFFECT,    /* chara ガス効果 */
     CHARA_O2_DAMAGE,
-    CHARA_BLOOD_CL,     /* chara 血溜り */
-    CHARA_BLOOD_BL,     /* chara 血溜り２ */
+    CHARA_BLOOD_POOL,   /* chara 血溜り */
+    CHARA_BLOOD_POOL2,  /* chara 血溜り２ */
     CHARA_CAT_IN,
     CHARA_PADCONTROL,   /* chara パッドコントロール */
     CHARA_PADVIBRATE,   /* chara パッド振動 */

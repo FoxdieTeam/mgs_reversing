@@ -16,8 +16,8 @@ CHARA _StageCharacterEntries[] = {
     { 0x51c6, (NEWCHARA)0x800e49d4 },   // CHARA_CAT_IN,
     { 0x5a50, (NEWCHARA)0x800e1464 },   // CHARA_GASEFFECT,    /* chara ガス効果 */
     { 0xe97e, (NEWCHARA)0x800db870 },   // CHARA_DEMODOLL,     /* chara デモ人形 */
-    { 0x9ffd, (NEWCHARA)0x800c46d4 },   // CHARA_9FFD_SECOND,
-    { 0x2d0a, (NEWCHARA)0x800c466c },   // CHARA_2D0A_SECOND,
+    { 0x9ffd, (NEWCHARA)0x800c46d4 },   // CHARA_9FFD_2ND,
+    { 0x2d0a, (NEWCHARA)0x800c466c },   // CHARA_2D0A_2ND,
     { 0x0fad, (NEWCHARA)0x800d9534 },   // CHARA_MOTIONSE,
 
     { 0x0003, (NEWCHARA)0x800e23a8 },   // CHARA_0003_FADEIO,

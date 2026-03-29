@@ -6,7 +6,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x4f02, (NEWCHARA)0x800c4f3c },   // CHARA_JPEGCAMERA,   /* chara ＪＰＥＧカメラ */
     { 0xe448, (NEWCHARA)0x800cfb74 },   // CHARA_DOLL2,
     { 0xa6f6, (NEWCHARA)0x800d16f4 },   // CHARA_A6F6,
-    { 0x2a90, (NEWCHARA)0x800d1b00 },   // CHARA_GCLARRAY,
+    { 0x2a90, (NEWCHARA)0x800d1b00 },   // CHARA_ARRAY,
     { 0x6471, (NEWCHARA)0x800cdf40 },   // CHARA_BUTTONCHECK,  /* chara ボタンチェッカー */
     { 0x0d9b, (NEWCHARA)0x800c9320 },   // CHARA_BG_HEX_S,
     { 0x1fa5, (NEWCHARA)0x800cd0b0 },   // CHARA_BG_STAGE,

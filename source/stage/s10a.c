@@ -8,19 +8,19 @@ CHARA _StageCharacterEntries[] = {
     { 0xa9c5, (NEWCHARA)0x800d2f44 },   // CHARA_GUNCAMERA,
     { 0xa12e, (NEWCHARA)0x800e0c24 },   // CHARA_FADEIO,
     { 0x1ad3, (NEWCHARA)0x800c4124 },   // CHARA_LAMP,
-    { 0x8e64, (NEWCHARA)0x800ceee4 },   // CHARA_ZK10COM,      /* chara ざこ１０コマンダー */
+    { 0x8e64, (NEWCHARA)0x800ceee4 },   // CHARA_ZAKO10COM,    /* chara ざこ１０コマンダー */
     { 0x31e3, (NEWCHARA)0x800ca2dc },   // CHARA_ZAKO10,       /* chara ざこ１０ */
     { 0x7a05, (NEWCHARA)0x800e1f68 },   // CHARA_CINEMA,       /* chara シネマスクリーン */
     { 0x3c0c, (NEWCHARA)0x8006b76c },   // CHARA_CLAYMORE,     /* chara クレイモア地雷 */
     { 0xe97e, (NEWCHARA)0x800c7530 },   // CHARA_DEMODOLL,     /* chara デモ人形 */
     { 0x962c, (NEWCHARA)0x800d7b54 },   // CHARA_WOLF,         /* chara ウルフ */
     { 0x1158, (NEWCHARA)0x800dcfdc },   // CHARA_BLOODY_MERYL, /* chara 血まみれメリル */
-    { 0x4e95, (NEWCHARA)0x800d3eb4 },   // CHARA_BLOOD_CL,     /* chara 血溜り */
+    { 0x4e95, (NEWCHARA)0x800d3eb4 },   // CHARA_BLOOD_POOL,   /* chara 血溜り */
     { 0xd4a5, (NEWCHARA)0x800d0c24 },   // CHARA_MOUSE,
     { 0x40e9, (NEWCHARA)0x800d6654 },   // CHARA_10A_DEMO,
     { 0xec77, (NEWCHARA)0x800c5718 },   // CHARA_WALL,         /* chara 障害物 */
     { 0x711f, (NEWCHARA)0x800e0f4c },   // CHARA_LIFEUP,       /* chara ライフ増加 */
-    { 0x4170, (NEWCHARA)0x800c44f4 },   // CHARA_BREATH,       /* chara スネーク息 */
+    { 0x4170, (NEWCHARA)0x800c44f4 },   // CHARA_SNEBREATH,    /* chara スネーク息 */
     { 0x81ea, (NEWCHARA)0x800def30 },   // CHARA_RSURFACE,
     { 0x3f9a, (NEWCHARA)0x800e309c },   // CHARA_ENV_SOUND,    /* chara 環境音 */
     { 0xee63, (NEWCHARA)0x800d5ee4 },   // CHARA_SCN_MARK,

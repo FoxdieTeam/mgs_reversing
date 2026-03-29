@@ -11,7 +11,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_ASIOTOKUN,    /* chara 足音君 */
     CHARA_FADEIO,
     CHARA_LAMP,
-    CHARA_PATO_LAMP,    /* chara パトランプ */
+    CHARA_PATOLAMP,     /* chara パトランプ */
     CHARA_COMMANDER,    /* chara コマンダー */
     CHARA_WATCHER,      /* chara 巡回兵 */
     CHARA_MOUSE,

@@ -91,13 +91,13 @@ CHARA _StageCharacterEntries[] = {
     { 0xe068, NULL },   // CHARA_S11_OBJS,
     { 0xd53c, NULL },   // CHARA_11B_DEMO,
     { 0x153e, NULL },   // CHARA_11G_DEMO,
-    { 0x9ffd, NULL },   // CHARA_9FFD_SECOND,
-    { 0x2d0a, NULL },   // CHARA_2D0A_SECOND,
+    { 0x9ffd, NULL },   // CHARA_9FFD_2ND,
+    { 0x2d0a, NULL },   // CHARA_2D0A_2ND,
     { 0x566f, NULL },   // CHARA_ABST,         /* chara アブスト */
     { 0x4974, NULL },   // CHARA_ABST_DEMO1,   /* chara アブストデモ１ */
     { 0x4975, NULL },   // CHARA_ABST_DEMO2,   /* chara アブストデモ２ */
     { 0x05ef, NULL },   // CHARA_AIRSHOWER,    /* chara エアシャワー */
-    { 0x2a90, NULL },   // CHARA_GCLARRAY,
+    { 0x2a90, NULL },   // CHARA_ARRAY,
     { 0x02c4, NULL },   // CHARA_ASIATOKUN,    /* chara 足跡君 */
     { 0x92bc, NULL },   // CHARA_ASIOTOKUN,    /* chara 足音君 */
     { 0x9988, NULL },   // CHARA_AT,           /* chara ＡＴ */
@@ -105,15 +105,15 @@ CHARA _StageCharacterEntries[] = {
     { 0x6b6c, NULL },   // CHARA_BLACKSMOKE,   /* chara 黒煙 */
     { 0x8185, NULL },   // CHARA_BLINKTEX,     /* chara 点滅テクスチャ */
     { 0x1158, NULL },   // CHARA_BLOODY_MERYL, /* chara 血まみれメリル */
-    { 0x4e95, NULL },   // CHARA_BLOOD_CL,     /* chara 血溜り */
-    { 0x6a4c, NULL },   // CHARA_BLOOD_BL,     /* chara 血溜り２ */
-    { 0x9093, NULL },   // CHARA_9093,         /* chara ブラー */
+    { 0x4e95, NULL },   // CHARA_BLOOD_POOL,   /* chara 血溜り */
+    { 0x6a4c, NULL },   // CHARA_BLOOD_POOL2,  /* chara 血溜り２ */
+    { 0x9093, NULL },   // CHARA_BLUR,         /* chara ブラー */
     { 0xf74b, NULL },   // CHARA_BOXALL,
     { 0x32fc, NULL },   // CHARA_BREAK_OBJECT,
     { 0x6471, NULL },   // CHARA_BUTTONCHECK,  /* chara ボタンチェッカー */
     { 0x1a02, NULL },   // CHARA_BUBBLE,       /* chara 泡 */
     { 0x93b6, NULL },   // CHARA_B_SELECT,
-    { 0x7eca, NULL },   // CHARA_WIRE,         /* chara ワイヤ */
+    { 0x7eca, NULL },   // CHARA_C4WIRE,       /* chara ワイヤ */
     { 0x6e90, NULL },   // CHARA_CAMERA,       /* chara カメラ */
     { 0x56cc, NULL },   // CHARA_CAMERA2,      /* chara カメラ２ */
     { 0xa9c5, NULL },   // CHARA_GUNCAMERA,
@@ -127,20 +127,20 @@ CHARA _StageCharacterEntries[] = {
     { 0x3c0c, NULL },   // CHARA_CLAYMORE,     /* chara クレイモア地雷 */
     { 0xc6d7, NULL },   // CHARA_COMMANDER,    /* chara コマンダー */
     { 0xcc45, NULL },   // CHARA_CONTAINER,    /* chara コンテナ */
-    { 0x22c6, NULL },   // CHARA_TIMER,        /* chara カウントダウン */
-    { 0xeced, NULL },   // CHARA_COUNTDOWN,
+    { 0x22c6, NULL },   // CHARA_COUNTDOWN,    /* chara カウントダウン */
+    { 0xeced, NULL },   // CHARA_COUNTDOWN2,
     { 0xa3fb, NULL },   // CHARA_CRANE,        /* chara クレーン */
     { 0x8e60, NULL },   // CHARA_CROW,         /* chara カラス */
     { 0xbe79, NULL },   // CHARA_DEATH_SP,
-    { 0x6a98, NULL },   // CHARA_DMGSMOKE,     /* chara ダメージ煙 */
-    { 0x76bc, NULL },   // CHARA_DMGSMOKE2,    /* chara ダメージ煙２ */
+    { 0x6a98, NULL },   // CHARA_DAMAGESMOKE,  /* chara ダメージ煙 */
+    { 0x76bc, NULL },   // CHARA_DAMAGESMOKE2, /* chara ダメージ煙２ */
     { 0xb4e6, NULL },   // CHARA_DEMOCANCEL,   /* chara デモキャンセル */
     { 0xe97e, NULL },   // CHARA_DEMODOLL,     /* chara デモ人形 */
     { 0x3686, NULL },   // CHARA_DEMOSEL,      /* chara デモ劇場 */
     { 0x9f7d, NULL },   // CHARA_DISPLAY,
     { 0x9d00, NULL },   // CHARA_DMYFLOOR,     /* chara 落し穴 */
     { 0x58f0, NULL },   // CHARA_DMYWALL,      /* chara 塗り壁 */
-    { 0x6c0e, NULL },   // CHARA_WOLFDOG,      /* chara 狼犬 */
+    { 0x6c0e, NULL },   // CHARA_DOG,          /* chara 狼犬 */
     { 0xb997, NULL },   // CHARA_DOOR,         /* chara ドア */
     { 0x73f8, NULL },   // CHARA_DOOR2,        /* chara ドア２ */
     { 0xb58d, NULL },   // CHARA_DRUMCAN,      /* chara ドラム缶 */
@@ -234,7 +234,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x20f2, NULL },   // CHARA_PANEL,        /* chara パネル */
     { 0xdd95, NULL },   // CHARA_PANEL2,       /* chara パネル２ */
     { 0x5f02, NULL },   // CHARA_PAPER,        /* chara 書類 */
-    { 0x30ce, NULL },   // CHARA_PATO_LAMP,    /* chara パトランプ */
+    { 0x30ce, NULL },   // CHARA_PATOLAMP,     /* chara パトランプ */
     { 0xfdb6, NULL },   // CHARA_FDB6_POCKET,
     { 0x8fdc, NULL },   // CHARA_8FDC_POCKET,
     { 0x6414, NULL },   // CHARA_6414_POCKET,
@@ -290,7 +290,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x672e, NULL },   // CHARA_SNAKEWARP,    /* chara スネークワープ */
     { 0xc0fe, NULL },   // CHARA_BUB_D_SN,
     { 0xa791, NULL },   // CHARA_SNE17A,
-    { 0x4170, NULL },   // CHARA_BREATH,       /* chara スネーク息 */
+    { 0x4170, NULL },   // CHARA_SNEBREATH,    /* chara スネーク息 */
     { 0x18e3, NULL },   // CHARA_SNOW,         /* chara 雪 */
     { 0xa6f5, NULL },   // CHARA_SNOWSTORM,    /* chara 雪嵐 */
     { 0x901e, NULL },   // CHARA_SNOWAREA,
@@ -311,7 +311,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x050c, NULL },   // CHARA_REVOLVER03,   /* chara 拷問オセロット */
     { 0xf5c5, NULL },   // CHARA_UJI,
     { 0x9ff5, NULL },   // CHARA_VALCAN,       /* chara バルカン */
-    { 0x6c66, NULL },   // CHARA_VIB_EDIT,
+    { 0x6c66, NULL },   // CHARA_VIBEDITOR,
     { 0x0a02, NULL },   // CHARA_VMODEL,       /* chara モデル */
     { 0x0dc9, NULL },   // CHARA_VOICESYS,     /* chara 音声制御 */
     { 0xed86, NULL },   // CHARA_VR,           /* chara ＶＲ */
@@ -326,7 +326,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x4deb, NULL },   // CHARA_VRCLEAR,      /* chara ＶＲクリア */
     { 0xc249, NULL },   // CHARA_VRCLEAR2,     /* chara ＶＲクリア２ */
     { 0xc24a, NULL },   // CHARA_VRCLEAR3,     /* chara ＶＲクリア３ */
-    { 0xb95f, NULL },   // CHARA_CLUTER,
+    { 0xb95f, NULL },   // CHARA_VRCLUTER,
     { 0x8a46, NULL },   // CHARA_VRDEMO,       /* chara ＶＲデモ */
     { 0x49d2, NULL },   // CHARA_VRGLASS,      /* chara ＶＲガラス */
     { 0x03bf, NULL },   // CHARA_03BF,
@@ -334,8 +334,8 @@ CHARA _StageCharacterEntries[] = {
     { 0x5667, NULL },   // CHARA_VRTITLE,      /* chara ＶＲタイトル */
     { 0xd44e, NULL },   // CHARA_VRWINDOW,     /* chara ＶＲウィンドウ */
     { 0x3d26, NULL },   // CHARA_KOBA_WINMNGR,
-    { 0xa5dc, NULL },   // CHARA_PAUSE_MENU,
-    { 0xb162, NULL },   // CHARA_SNAKE_E1,
+    { 0xa5dc, NULL },   // CHARA_VR_PAUSE,
+    { 0xb162, NULL },   // CHARA_VR_SNAKE,
     { 0x41a3, NULL },   // CHARA_WAKE,
     { 0xec77, NULL },   // CHARA_WALL,         /* chara 障害物 */
     { 0xf4c3, NULL },   // CHARA_PUT_OBJECT,
@@ -347,20 +347,20 @@ CHARA _StageCharacterEntries[] = {
     { 0xdba3, NULL },   // CHARA_WT_AREA,
     { 0xa480, NULL },   // CHARA_WT_AREA2,
     { 0x69ad, NULL },   // CHARA_WT_OBJ,
-    { 0x8e45, NULL },   // CHARA_WATERVIEW,    /* chara 水中主観 */
+    { 0x8e45, NULL },   // CHARA_WT_VIEW,      /* chara 水中主観 */
     { 0xed87, NULL },   // CHARA_ZAKO,         /* chara ざこ */
     { 0x31e3, NULL },   // CHARA_ZAKO10,       /* chara ざこ１０ */
-    { 0x8e64, NULL },   // CHARA_ZK10COM,      /* chara ざこ１０コマンダー */
+    { 0x8e64, NULL },   // CHARA_ZAKO10COM,    /* chara ざこ１０コマンダー */
     { 0xa608, NULL },   // CHARA_ZAKO11A,      /* chara ざこ１１ａ */
-    { 0x5efa, NULL },   // CHARA_ZK11ACOM,     /* chara ざこ１１ａコマンダー */
+    { 0x5efa, NULL },   // CHARA_ZAKO11ACOM,   /* chara ざこ１１ａコマンダー */
     { 0xa60c, NULL },   // CHARA_ZAKO11E,      /* chara ざこ１１ｅ */
-    { 0x5f0a, NULL },   // CHARA_ZK11ECOM,     /* chara ざこ１１ｅコマンダー */
+    { 0x5f0a, NULL },   // CHARA_ZAKO11ECOM,   /* chara ざこ１１ｅコマンダー */
     { 0xa60d, NULL },   // CHARA_ZAKO11F,      /* chara ざこ１１ｆ */
-    { 0x5f0e, NULL },   // CHARA_ZK11FCOM,     /* chara ざこ１１ｆコマンダー */
+    { 0x5f0e, NULL },   // CHARA_ZAKO11FCOM,   /* chara ざこ１１ｆコマンダー */
     { 0x31e7, NULL },   // CHARA_ZAKO14,       /* chara ざこ１４ */
-    { 0x8e74, NULL },   // CHARA_ZK14COM,      /* chara ざこ１４コマンダー */
+    { 0x8e74, NULL },   // CHARA_ZAKO14COM,    /* chara ざこ１４コマンダー */
     { 0x31ec, NULL },   // CHARA_ZAKO19,       /* chara ざこ１９ */
-    { 0x8e88, NULL },   // CHARA_ZK19COM,      /* chara ざこ１９コマンダー */
+    { 0x8e88, NULL },   // CHARA_ZAKO19COM,    /* chara ざこ１９コマンダー */
     { 0x7cf7, NULL },   // CHARA_ZAKOCOM,      /* chara ざこコマンダー */
     { 0xb8d4, NULL },   // CHARA_NINJAPLAY,
     { 0xae06, NULL },   // CHARA_NOBU_WINMNGR,

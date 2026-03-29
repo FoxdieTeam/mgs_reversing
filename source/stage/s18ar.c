@@ -3,7 +3,7 @@
 
 CHARA _StageCharacterEntries[] = {
     { 0x6b6c, (NEWCHARA)0x800d10e4 },   // CHARA_BLACKSMOKE,   /* chara 黒煙 */
-    { 0x9093, (NEWCHARA)0x800e10d4 },   // CHARA_9093,         /* chara ブラー */
+    { 0x9093, (NEWCHARA)0x800e10d4 },   // CHARA_BLUR,         /* chara ブラー */
     { 0x92bc, (NEWCHARA)0x800c5094 },   // CHARA_ASIOTOKUN,    /* chara 足音君 */
     { 0xa12e, (NEWCHARA)0x800e1608 },   // CHARA_FADEIO,
     { 0x7a05, (NEWCHARA)0x800e24c4 },   // CHARA_CINEMA,       /* chara シネマスクリーン */

@@ -15,7 +15,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_GASEFFECT,    /* chara ガス効果 */
     CHARA_O2_DAMAGE,
     CHARA_EVPANEL,
-    CHARA_PATO_LAMP,    /* chara パトランプ */
+    CHARA_PATOLAMP,     /* chara パトランプ */
     CHARA_ASIOTOKUN,    /* chara 足音君 */
     CHARA_LIFEUP,       /* chara ライフ増加 */
     CHARA_CAT_IN,

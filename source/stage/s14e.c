@@ -11,13 +11,13 @@ CHARA _StageCharacterEntries[] = {
     { 0x2abc, (NEWCHARA)0x800d7274 },   // CHARA_ELEVATOR,     /* chara エレベータ */
     { 0x6865, (NEWCHARA)0x800d5a58 },   // CHARA_TEXSCROLL,    /* chara テクスチャスクロール */
     { 0xa12e, (NEWCHARA)0x800daf5c },   // CHARA_FADEIO,
-    { 0x8e74, (NEWCHARA)0x800cf44c },   // CHARA_ZK14COM,      /* chara ざこ１４コマンダー */
+    { 0x8e74, (NEWCHARA)0x800cf44c },   // CHARA_ZAKO14COM,    /* chara ざこ１４コマンダー */
     { 0x31e7, (NEWCHARA)0x800c66cc },   // CHARA_ZAKO14,       /* chara ざこ１４ */
     { 0x9ab9, (NEWCHARA)0x800d4d50 },   // CHARA_ELE_CROW,
     { 0xa9c5, (NEWCHARA)0x800d16f8 },   // CHARA_GUNCAMERA,
     { 0x7bc2, (NEWCHARA)0x800dbeb0 },   // CHARA_CAMERASHAKE,  /* chara カメラ揺らし */
     { 0xfed1, (NEWCHARA)0x8005d508 },   // CHARA_PADVIBRATE,   /* chara パッド振動 */
-    { 0x4170, (NEWCHARA)0x800c4420 },   // CHARA_BREATH,       /* chara スネーク息 */
+    { 0x4170, (NEWCHARA)0x800c4420 },   // CHARA_SNEBREATH,    /* chara スネーク息 */
     { 0x3c0c, (NEWCHARA)0x8006b76c },   // CHARA_CLAYMORE,     /* chara クレイモア地雷 */
     { 0x6471, (NEWCHARA)0x800dc0b8 },   // CHARA_BUTTONCHECK,  /* chara ボタンチェッカー */
     { 0xb103, (NEWCHARA)0x800db968 },   // CHARA_DYNWALL,      /* chara 透明壁 */

@@ -12,7 +12,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_LAMP,
     CHARA_MERYL72,
     CHARA_CINEMA,       /* chara シネマスクリーン */
-    CHARA_9FFD_SECOND,
+    CHARA_9FFD_2ND,
 
     CHARA_0003_FADEIO,
     CHARA_0004_FADEIO,

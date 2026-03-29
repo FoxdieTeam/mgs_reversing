@@ -6,7 +6,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x6e9a, (NEWCHARA)0x800c379c },   // CHARA_WATCHER,      /* chara 巡回兵 */
     { 0xf50f, (NEWCHARA)0x800d3068 },   // CHARA_SEARCHLIGHT,  /* chara サーチライト */
     { 0xa12e, (NEWCHARA)0x800d7bbc },   // CHARA_FADEIO,
-    { 0x4170, (NEWCHARA)0x800c2330 },   // CHARA_BREATH,       /* chara スネーク息 */
+    { 0x4170, (NEWCHARA)0x800c2330 },   // CHARA_SNEBREATH,    /* chara スネーク息 */
     { 0x92bc, (NEWCHARA)0x800d451c },   // CHARA_ASIOTOKUN,    /* chara 足音君 */
     { 0xed86, (NEWCHARA)0x800da628 },   // CHARA_VR,           /* chara ＶＲ */
     { 0xdb1f, (NEWCHARA)0x800db41c },   // CHARA_GOAL,         /* chara ゴール */
@@ -14,8 +14,8 @@ CHARA _StageCharacterEntries[] = {
     { 0xd44e, (NEWCHARA)0x800dc3a8 },   // CHARA_VRWINDOW,     /* chara ＶＲウィンドウ */
     { 0x4deb, (NEWCHARA)0x800de980 },   // CHARA_VRCLEAR,      /* chara ＶＲクリア */
     { 0x672e, (NEWCHARA)0x800d3f3c },   // CHARA_SNAKEWARP,    /* chara スネークワープ */
-    { 0xb162, (NEWCHARA)0x800d51c8 },   // CHARA_SNAKE_E1,
-    { 0xa5dc, (NEWCHARA)0x800e0d94 },   // CHARA_PAUSE_MENU,
+    { 0xb162, (NEWCHARA)0x800d51c8 },   // CHARA_VR_SNAKE,
+    { 0xa5dc, (NEWCHARA)0x800e0d94 },   // CHARA_VR_PAUSE,
     { 0xdf0f, (NEWCHARA)0x800e2584 },   // CHARA_VRBOX,        /* chara ＶＲＢＯＸ */
     { 0x3c0c, (NEWCHARA)0x80069370 },   // CHARA_CLAYMORE,     /* chara クレイモア地雷 */
     { 0x720d, (NEWCHARA)0x800d7638 },   // CHARA_PADDEMO2,     /* chara パッドデモ２ */
