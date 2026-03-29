@@ -37,7 +37,7 @@
 #define CHARA_BG_HEX_S          { 0x0d9b, ? }                       // okajima/photo/bg_hex_s.c
 #define CHARA_VOICESYS          { 0x0dc9, NewVoiceSystem }          // GV_StrCode("音声制御") takabe/voicesys.c
 #define CHARA_MOTIONSE          { 0x0fad, NewMotionSoundEffect }    // chara/others/motse.c
-#define CHARA_ELECTRIC_DAMAGE   { 0x107c, NewElcDamg_800D4C68 }     // takabe/elc_damg.c
+#define CHARA_ELECDAMAGE        { 0x107c, NewElcDamg_800D4C68 }     // GV_StrCode("電流床ダメージ") takabe/elc_damg.c
 #define CHARA_PERAPICT          { 0x10ff, ? }                       // GV_StrCode("ぺら絵") chara/others/perapict.c
 #define CHARA_BLOODY_MERYL      { 0x1158, ? }                       // GV_StrCode("血まみれメリル") okajima/meryl10/mel10.c
 #define CHARA_FINDTRAP          { 0x118c, NewFindTrap_800D77DC }    // takabe/findtrap.c
@@ -147,7 +147,7 @@
 #define CHARA_DOOR2             { 0x73f8, NewDoor2_800DD9E4 }       // GV_StrCode("ドア２") takabe/door2.c
 #define CHARA_SNAKE18           { 0x760e, d18a_snake18_800D4E94 }   // GV_StrCode("スネーク１８") animal/snake18/snake18.c
 #define CHARA_DAMAGESMOKE2      { 0x76bc, s11d_dsmoke2_800CCD54 }   // GV_StrCode("ダメージ煙２") chara/rope/dsmoke2.c
-#define CHARA_ENV_TEST          { 0x76fe, ? }                       // takabe/env_test.c (PC-ONLY)
+#define CHARA_ENV_TEST          { 0x76fe, ? }                       // GV_StrCode("環境マッピングテスト") takabe/env_test.c (PC-ONLY)
 #define CHARA_CHAIR             { 0x788d, s08b_chair_800DAB50 }     // GV_StrCode("椅子") takabe/chair.c
 #define CHARA_CINEMA            { 0x7a05, NewCinemaScreenSet }      // GV_StrCode("シネマスクリーン") takabe/cinema.c
 #define CHARA_MODELDOT          { 0x7acf, ? }                       // GV_StrCode("モデルドット") okajima/photo/model_dt.c (PC-ONLY)
@@ -185,7 +185,7 @@
 #define CHARA_WATEREFFECT       { 0x96b5, ? }                       // GV_StrCode("水エフェクト") takabe/water.c (PC-ONLY)
 #define CHARA_OPT               { 0x976c, NewOption_800C9344 }      // onoda/option/opt.c
 #define CHARA_AT                { 0x9988, NewAt_800D78A4 }          // GV_StrCode("ＡＴ") onoda/s04b/at.c
-#define CHARA_ELE_CROW          { 0x9ab9, ? }                       // okajima/valcan/ele_crow.c
+#define CHARA_ELEVCROW          { 0x9ab9, ? }                       // GV_StrCode("エレベーターのカラス") okajima/valcan/ele_crow.c
 #define CHARA_PLASMA            { 0x9bc2, NewPlasma_800CD110 }      // GV_StrCode("プラズマ") okajima/plasma.c
 #define CHARA_PK_GATE           { 0x9c6c, ? }                       // takabe/pk_gate.c
 #define CHARA_DMYFLOOR          { 0x9d00, NewDummyFloor }           // GV_StrCode("落し穴") takabe/dummy_fl.c
@@ -212,9 +212,9 @@
 #define CHARA_EMITTER2          { 0xa9dd, ? }                       // thing/emitter2.c (PC-ONLY)
 #define CHARA_AA13              { 0xaa13, ? }                       // ???
 #define CHARA_RASEN_EL          { 0xaa21, NewRasenEl_800CCF38 }     // takabe/rasen_el.c
-#define CHARA_FURNACE           { 0xadd8, NewFurnace }              // takabe/furnace.c
+#define CHARA_FURNACE           { 0xadd8, NewFurnace }              // GV_StrCode("溶鉱炉") takabe/furnace.c
 #define CHARA_NOBU_WINMNGR      { 0xae06, ? }                       // nobu/vr_slct/winmngr.c
-#define CHARA_ELECTRIC_FLOOR    { 0xaef2, NewElcFlr_800D4A18 }      // takabe/elc_flr.c
+#define CHARA_ELECFLOOR         { 0xaef2, NewElcFlr_800D4A18 }      // GV_StrCode("電廊") takabe/elc_flr.c
 #define CHARA_TOBCNT            { 0xaefb, NewToBeContinued }        // game/tobcnt.c
 #define CHARA_DYNFLOOR          { 0xaf6c, s15c_dymc_flr_800E1C70 }  // GV_StrCode("透明床") takabe/dymc_flr.c
 #define CHARA_MEMPSY            { 0xaf72, ? }                       // chara/psyco/mempsy.c
@@ -228,7 +228,7 @@
 #define CHARA_DEMOCANCEL        { 0xb4e6, NewDemoCancel }           // GV_StrCode("デモキャンセル") game/cancel.c
 #define CHARA_DRUMCAN           { 0xb58d, ? }                       // GV_StrCode("ドラム缶") takabe/drum.c
 #define CHARA_B757_ED_TELOP     { 0xb757, EdTelop_800C4F18 }        // takabe/ed_telop.c (?)
-#define CHARA_ENDING2           { 0xb789, NewEnding2_800C7BE8 }     // takabe/ending2.c
+#define CHARA_ENDINGROLL        { 0xb789, NewEnding2_800C7BE8 }     // GV_StrCode("エンディングロール") takabe/ending2.c
 #define CHARA_BG_SP_CM          { 0xb7ae, ? }                       // okajima/photo/bg_sp_cm.c (PC-ONLY)
 #define CHARA_NINJAPLAY         { 0xb8d4, ? }                       // chara/njaplay/njaplay.c
 #define CHARA_OPTP              { 0xb916, ? }                       // onoda/optionp/optp.c
@@ -239,7 +239,7 @@
 #define CHARA_SHAKEMODEL        { 0xba52, NewShakeModelGCL }        // takabe/shakemdl.c
 #define CHARA_BG_SP_ST          { 0xbc76, ? }                       // okajima/photo/bg_sp_st.c (PC-ONLY)
 #define CHARA_ROPE              { 0xbda8, s11d_rope_800C9500 }      // --> chara/rope/rope.c
-#define CHARA_DEATH_SP          { 0xbe79, NewDeathSp_800D025C }     // okajima/death_sp.c
+#define CHARA_DEATHSPARK        { 0xbe79, NewDeathSp_800D025C }     // GV_StrCode("送別火花") okajima/death_sp.c
 #define CHARA_SPHERE2           { 0xbee1, ? }                       // GV_StrCode("天球２") thing/sphere2.c
 #define CHARA_OTACOM            { 0xbf66, NewOtacom_800CC030 }      // chara/torture/otacom.c
 #define CHARA_BUB_D_SN          { 0xc0fe, NewBubbleDisplayScene_800D90B4 } // okajima/bub_d_sn.c
@@ -259,7 +259,7 @@
 #define CHARA_PADCONTROL        { 0xcbf8, NewPadControl }           // GV_StrCode("パッドコントロール") game/pad.c
 #define CHARA_CONTAINER         { 0xcc45, s15c_dyncon_800D8C9C }    // GV_StrCode("コンテナ") okajima/valcan/dyncon.c
 #define CHARA_BG_HEX_P          { 0xcc89, ? }                       // okajima/photo/bg_hex_p.c (PC-ONLY)
-#define CHARA_CCD3              { 0xccd3, ? }                       // ??? (PC-ONLY)
+#define CHARA_GHOST             { 0xccd3, ? }                       // GV_StrCode("ゴースト") ??? (PC-ONLY)
 #define CHARA_CF00              { 0xcf00, ? }                       // ???
 #define CHARA_AB_CH             { 0xcf72, ? }                       // onoda/abst/ab_ch.c
 #define CHARA_OPEN              { 0xcf79, NewOpen_800D6814 }        // GV_StrCode("タイトル") onoda/open/open.c
@@ -280,15 +280,15 @@
 #define CHARA_PANEL2            { 0xdd95, NewPanel2_800E1728 }      // GV_StrCode("パネル２") takabe/panel2.c
 #define CHARA_VRBOX             { 0xdf0f, ? }                       // GV_StrCode("ＶＲＢＯＸ") koba/vr/vrbox.c
 #define CHARA_S11_OBJS          { 0xe068, NewStage11Objects }       // okajima/s11_objs.c
-#define CHARA_EVPANEL           { 0xe253, NewEvPanel }              // game/evpanel.c
+#define CHARA_ELEVPANEL         { 0xe253, NewEvPanel }              // GV_StrCode("エレベーターパネル") game/evpanel.c
 #define CHARA_MERYL72           { 0xe271, NewMeryl72_800C7BC4 }     // animal/meryl72/meryl72.c
 #define CHARA_RED_ALRT          { 0xe397, NewRedAlert_800C4DF0 }    // okajima/red_alrt.c
 #define CHARA_DOLL2             { 0xe448, ? }                       // takabe/doll2.c
 #define CHARA_TORTURE           { 0xe608, NewTorture_800C6E1C }     // chara/torture/torture.c
-#define CHARA_E75A_ED_TELOP     { 0xe75a, NewEdTelop_800C563C }     // takabe/ed_telop.c
+#define CHARA_ED_TELOP          { 0xe75a, NewEdTelop_800C563C }     // GV_StrCode("エンディングテロップ") takabe/ed_telop.c
 #define CHARA_DEMODOLL          { 0xe97e, NewDoll_800DCD78 }        // GV_StrCode("デモ人形") animal/doll/doll.c
 #define CHARA_WALL              { 0xec77, NewWall_800C3718 }        // GV_StrCode("障害物") enemy/wall.c
-#define CHARA_COUNTDOWN2        { 0xeced, NewCountdownGcl }         // --> menu/countdwn.c
+#define CHARA_COUNTDOWN2        { 0xeced, NewCountdownGcl }         // GV_StrCode("カウントダウンタイマー") --> menu/countdwn.c
 #define CHARA_VR                { 0xed86, ? }                       // GV_StrCode("ＶＲ") koba/vr/vr.c
 #define CHARA_ZAKO              { 0xed87, ? }                       // GV_StrCode("ざこ") animal/zako/zako.c
 #define CHARA_PHOTOSEL          { 0xedeb, ? }                       // chara/photosel/photosel.c
@@ -302,7 +302,7 @@
 #define CHARA_BELONG            { 0xf59e, NewBelong }               // chara/others/belong.c
 #define CHARA_UJI               { 0xf5c5, NewUji_800C42F8 }         // okajima/uji.c
 #define CHARA_CDCHANGE          { 0xf722, NewCdChange }             // GV_StrCode("ＣＤ交換") onoda/change/change.c
-#define CHARA_BOXALL            { 0xf74b, NewBoxall_800CA088 }      // chara/torture/boxall.c
+#define CHARA_BOXALL            { 0xf74b, NewBoxall_800CA088 }      // GV_StrCode("全部箱") chara/torture/boxall.c
 #define CHARA_FAA8_MOVIE        { 0xfaa8, ? }                       // chara/movie/movie.c
 #define CHARA_FLR_SPA           { 0xfc0b, NewFlrSpa_800D0F78 }      // okajima/flr_spa.c
 #define CHARA_FDB6_POCKET       { 0xfdb6, ? }                       // menu/pocket.c

@@ -29,7 +29,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x43a0, (NEWCHARA)0x800da66c },   // CHARA_CENSOR,       /* chara 赤外線センサー */
     { 0x5a50, (NEWCHARA)0x800dcbd0 },   // CHARA_GASEFFECT,    // duplicate
     { 0x8d5a, (NEWCHARA)0x800e14e8 },   // CHARA_GASDAMAGE,    /* chara ガスダメージ */
-    { 0xe253, (NEWCHARA)0x800c4e44 },   // CHARA_EVPANEL,
+    { 0xe253, (NEWCHARA)0x800c4e44 },   // CHARA_ELEVPANEL,    /* chara エレベーターパネル */
     { 0x03d9, (NEWCHARA)0x800dfb44 },   // CHARA_SHUTTER,      /* chara シャッター */
 
     CHARA_END

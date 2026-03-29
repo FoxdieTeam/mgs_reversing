@@ -13,7 +13,7 @@ CHARA _StageCharacterEntries[] = {
     { 0xa12e, (NEWCHARA)0x800daf5c },   // CHARA_FADEIO,
     { 0x8e74, (NEWCHARA)0x800cf44c },   // CHARA_ZAKO14COM,    /* chara ざこ１４コマンダー */
     { 0x31e7, (NEWCHARA)0x800c66cc },   // CHARA_ZAKO14,       /* chara ざこ１４ */
-    { 0x9ab9, (NEWCHARA)0x800d4d50 },   // CHARA_ELE_CROW,
+    { 0x9ab9, (NEWCHARA)0x800d4d50 },   // CHARA_ELEVCROW,     /* chara エレベーターのカラス */
     { 0xa9c5, (NEWCHARA)0x800d16f8 },   // CHARA_GUNCAMERA,
     { 0x7bc2, (NEWCHARA)0x800dbeb0 },   // CHARA_CAMERASHAKE,  /* chara カメラ揺らし */
     { 0xfed1, (NEWCHARA)0x8005d508 },   // CHARA_PADVIBRATE,   /* chara パッド振動 */

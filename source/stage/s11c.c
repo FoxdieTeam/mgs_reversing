@@ -4,7 +4,7 @@
 CHARA _StageCharacterEntries[] = {
     CHARA_DYNFLOOR,     /* chara 透明床 */
     CHARA_SCN_MARK,
-    CHARA_EVPANEL,
+    CHARA_ELEVPANEL,    /* chara エレベーターパネル */
     CHARA_PADVIBRATE,   /* chara パッド振動 */
     CHARA_ASIOTOKUN,    /* chara 足音君 */
     CHARA_CAT_IN,

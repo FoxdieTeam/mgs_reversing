@@ -2,7 +2,7 @@
 #include "charalst.h"
 
 CHARA _StageCharacterEntries[] = {
-    CHARA_COUNTDOWN2,
+    CHARA_COUNTDOWN2,   /* chara カウントダウンタイマー */
     CHARA_CAT_IN,
     CHARA_ASIOTOKUN,    /* chara 足音君 */
     CHARA_JEEPSCROLL,   /* chara ジープスクロール */

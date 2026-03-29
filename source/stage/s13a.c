@@ -20,7 +20,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_DOOR2,        /* chara ドア２ */
     CHARA_SMKTRGT,
     CHARA_CAT_IN,
-    CHARA_FURNACE,
+    CHARA_FURNACE,      /* chara 溶鉱炉 */
     CHARA_SHAKEMODEL,   // duplicate
     CHARA_DYNWALL,      /* chara 透明壁 */
 

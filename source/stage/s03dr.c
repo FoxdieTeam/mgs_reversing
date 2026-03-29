@@ -10,7 +10,7 @@ CHARA _StageCharacterEntries[] = {
     { 0xc755, (NEWCHARA)0x800cb954 },   // CHARA_MERYL3,
     { 0x7cf7, (NEWCHARA)0x800d580c },   // CHARA_ZAKOCOM,      /* chara ざこコマンダー */
     { 0xec77, (NEWCHARA)0x800c752c },   // CHARA_WALL,         /* chara 障害物 */
-    { 0xe253, (NEWCHARA)0x800c531c },   // CHARA_EVPANEL,
+    { 0xe253, (NEWCHARA)0x800c531c },   // CHARA_ELEVPANEL,    /* chara エレベーターパネル */
     { 0xf5c5, (NEWCHARA)0x800d627c },   // CHARA_UJI,
     { 0xed87, (NEWCHARA)0x800cd5a0 },   // CHARA_ZAKO,         /* chara ざこ */
     { 0xb103, (NEWCHARA)0x800d9a38 },   // CHARA_DYNWALL,      /* chara 透明壁 */

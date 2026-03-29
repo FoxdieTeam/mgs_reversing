@@ -108,7 +108,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x4e95, NULL },   // CHARA_BLOOD_POOL,   /* chara 血溜り */
     { 0x6a4c, NULL },   // CHARA_BLOOD_POOL2,  /* chara 血溜り２ */
     { 0x9093, NULL },   // CHARA_BLUR,         /* chara ブラー */
-    { 0xf74b, NULL },   // CHARA_BOXALL,
+    { 0xf74b, NULL },   // CHARA_BOXALL,       /* chara 全部箱 */
     { 0x32fc, NULL },   // CHARA_BREAK_OBJECT,
     { 0x6471, NULL },   // CHARA_BUTTONCHECK,  /* chara ボタンチェッカー */
     { 0x1a02, NULL },   // CHARA_BUBBLE,       /* chara 泡 */
@@ -128,10 +128,10 @@ CHARA _StageCharacterEntries[] = {
     { 0xc6d7, NULL },   // CHARA_COMMANDER,    /* chara コマンダー */
     { 0xcc45, NULL },   // CHARA_CONTAINER,    /* chara コンテナ */
     { 0x22c6, NULL },   // CHARA_COUNTDOWN,    /* chara カウントダウン */
-    { 0xeced, NULL },   // CHARA_COUNTDOWN2,
+    { 0xeced, NULL },   // CHARA_COUNTDOWN2,   /* chara カウントダウンタイマー */
     { 0xa3fb, NULL },   // CHARA_CRANE,        /* chara クレーン */
     { 0x8e60, NULL },   // CHARA_CROW,         /* chara カラス */
-    { 0xbe79, NULL },   // CHARA_DEATH_SP,
+    { 0xbe79, NULL },   // CHARA_DEATHSPARK,   /* chara 送別火花 */
     { 0x6a98, NULL },   // CHARA_DAMAGESMOKE,  /* chara ダメージ煙 */
     { 0x76bc, NULL },   // CHARA_DAMAGESMOKE2, /* chara ダメージ煙２ */
     { 0xb4e6, NULL },   // CHARA_DEMOCANCEL,   /* chara デモキャンセル */
@@ -148,17 +148,17 @@ CHARA _StageCharacterEntries[] = {
     { 0x3303, NULL },   // CHARA_DUCTMOUSE,
     { 0xaf6c, NULL },   // CHARA_DYNFLOOR,     /* chara 透明床 */
     { 0xb103, NULL },   // CHARA_DYNWALL,      /* chara 透明壁 */
-    { 0xe75a, NULL },   // CHARA_E75A_ED_TELOP,
-    { 0x107c, NULL },   // CHARA_ELECTRIC_DAMAGE,
-    { 0xaef2, NULL },   // CHARA_ELECTRIC_FLOOR,
+    { 0xe75a, NULL },   // CHARA_ED_TELOP,     /* chara エンディングテロップ */
+    { 0x107c, NULL },   // CHARA_ELECDAMAGE,   /* chara 電流床ダメージ */
+    { 0xaef2, NULL },   // CHARA_ELECFLOOR,    /* chara 電廊 */
     { 0x2abc, NULL },   // CHARA_ELEVATOR,     /* chara エレベータ */
-    { 0x9ab9, NULL },   // CHARA_ELE_CROW,
-    { 0xe253, NULL },   // CHARA_EVPANEL,
+    { 0x9ab9, NULL },   // CHARA_ELEVCROW,     /* chara エレベーターのカラス */
+    { 0xe253, NULL },   // CHARA_ELEVPANEL,    /* chara エレベーターパネル */
     { 0x32e5, NULL },   // CHARA_EMITTER,
     { 0xa9dd, NULL },   // CHARA_EMITTER2,
-    { 0xb789, NULL },   // CHARA_ENDING2,
+    { 0xb789, NULL },   // CHARA_ENDINGROLL,   /* chara エンディングロール */
     { 0x3f9a, NULL },   // CHARA_ENV_SOUND,    /* chara 環境音 */
-    { 0x76fe, NULL },   // CHARA_ENV_TEST,
+    { 0x76fe, NULL },   // CHARA_ENV_TEST,     /* chara 環境マッピングテスト */
     { 0xa12e, NULL },   // CHARA_FADEIO,
     { 0xc73e, NULL },   // CHARA_FALL_SPLASH,
     { 0x5d64, NULL },   // CHARA_O2_DAMAGE,
@@ -166,15 +166,15 @@ CHARA _StageCharacterEntries[] = {
     { 0xd6fb, NULL },   // CHARA_FOG,
     { 0x84e1, NULL },   // CHARA_FONT_TEXT,
     { 0x0fad, NULL },   // CHARA_MOTIONSE,
-    { 0xadd8, NULL },   // CHARA_FURNACE,
+    { 0xadd8, NULL },   // CHARA_FURNACE,      /* chara 溶鉱炉 */
     { 0x8d5a, NULL },   // CHARA_GASDAMAGE,    /* chara ガスダメージ */
     { 0x5a50, NULL },   // CHARA_GASEFFECT,    /* chara ガス効果 */
     { 0x2477, NULL },   // CHARA_JEEP_EMY,
-    { 0xccd3, NULL },   // CHARA_CCD3,
+    { 0xccd3, NULL },   // CHARA_GHOST,        /* chara ゴースト */
     { 0x8e70, NULL },   // CHARA_GLASS,        /* chara ガラス */
     { 0xdb1f, NULL },   // CHARA_GOAL,         /* chara ゴール */
     { 0x9eb7, NULL },   // CHARA_GODZCOM,      /* chara ゴジラコマンダ */
-    { 0xcb1f, NULL },   // CHARA_GODZILA,
+    { 0xcb1f, NULL },   // CHARA_GODZILA,      /* chara ゴジラ */
     { 0x5f5a, NULL },   // CHARA_GRD_CAM,
     { 0xcbeb, NULL },   // CHARA_BG_HEX,
     { 0x0d9b, NULL },   // CHARA_BG_HEX_S,

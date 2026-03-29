@@ -16,7 +16,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x672e, (NEWCHARA)0x800d3fdc },   // CHARA_SNAKEWARP,    /* chara スネークワープ */
     { 0xb162, (NEWCHARA)0x800d5268 },   // CHARA_VR_SNAKE,
     { 0xa5dc, (NEWCHARA)0x800e178c },   // CHARA_VR_PAUSE,
-    { 0xadd8, (NEWCHARA)0x800d7d78 },   // CHARA_FURNACE,
+    { 0xadd8, (NEWCHARA)0x800d7d78 },   // CHARA_FURNACE,      /* chara 溶鉱炉 */
 
     CHARA_END
 };

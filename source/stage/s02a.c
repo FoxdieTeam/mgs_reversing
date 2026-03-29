@@ -19,7 +19,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_WT_AREA,
     CHARA_BUBBLE,       /* chara 泡 */
     CHARA_RSURFACE,
-    CHARA_EVPANEL,
+    CHARA_ELEVPANEL,    /* chara エレベーターパネル */
     CHARA_COMMANDER,    /* chara コマンダー */
     CHARA_WATCHER,      /* chara 巡回兵 */
     CHARA_CAMERA,       /* chara カメラ */

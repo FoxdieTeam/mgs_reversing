@@ -29,7 +29,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_CENSOR,       /* chara 赤外線センサー */
     CHARA_GASEFFECT,    // duplicate
     CHARA_GASDAMAGE,    /* chara ガスダメージ */
-    CHARA_EVPANEL,
+    CHARA_ELEVPANEL,    /* chara エレベーターパネル */
     CHARA_SHUTTER,      /* chara シャッター */
 
     CHARA_END

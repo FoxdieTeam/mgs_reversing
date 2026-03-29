@@ -4,7 +4,7 @@
 CHARA _StageCharacterEntries[] = {
     { 0x0fad, (NEWCHARA)0x800c429c },   // CHARA_MOTIONSE,
     { 0xfed1, (NEWCHARA)0x8005d508 },   // CHARA_PADVIBRATE,   /* chara パッド振動 */
-    { 0xeced, (NEWCHARA)0x800c40ac },   // CHARA_COUNTDOWN2,
+    { 0xeced, (NEWCHARA)0x800c40ac },   // CHARA_COUNTDOWN2,   /* chara カウントダウンタイマー */
     { 0x7bc2, (NEWCHARA)0x800ddd2c },   // CHARA_CAMERASHAKE,  /* chara カメラ揺らし */
     { 0x51c6, (NEWCHARA)0x800de108 },   // CHARA_CAT_IN,
     { 0xa12e, (NEWCHARA)0x800dcb54 },   // CHARA_FADEIO,
