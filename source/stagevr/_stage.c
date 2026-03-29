@@ -88,7 +88,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x001e, NULL },   // CHARA_001E_WINDCRCL,
 
     { 0x40e9, NULL },   // CHARA_10A_DEMO,
-    { 0xe068, NULL },   // CHARA_S11_OBJS,
+    { 0xe068, NULL },   // CHARA_S11_OBJS,     /* chara コントロールＳ１１物 */
     { 0xd53c, NULL },   // CHARA_11B_DEMO,
     { 0x153e, NULL },   // CHARA_11G_DEMO,
     { 0x9ffd, NULL },   // CHARA_9FFD_2ND,

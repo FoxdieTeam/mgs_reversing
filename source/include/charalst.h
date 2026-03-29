@@ -279,7 +279,7 @@
 #define CHARA_INTR_CAM          { 0xdd8b, NewIntrudeCamera }        // chara/others/intr_cam.c
 #define CHARA_PANEL2            { 0xdd95, NewPanel2_800E1728 }      // GV_StrCode("パネル２") takabe/panel2.c
 #define CHARA_VRBOX             { 0xdf0f, ? }                       // GV_StrCode("ＶＲＢＯＸ") koba/vr/vrbox.c
-#define CHARA_S11_OBJS          { 0xe068, NewStage11Objects }       // okajima/s11_objs.c
+#define CHARA_S11_OBJS          { 0xe068, NewStage11Objects }       // GV_StrCode("コントロールＳ１１物") okajima/s11_objs.c
 #define CHARA_ELEVPANEL         { 0xe253, NewEvPanel }              // GV_StrCode("エレベーターパネル") game/evpanel.c
 #define CHARA_MERYL72           { 0xe271, NewMeryl72_800C7BC4 }     // animal/meryl72/meryl72.c
 #define CHARA_RED_ALRT          { 0xe397, NewRedAlert_800C4DF0 }    // okajima/red_alrt.c

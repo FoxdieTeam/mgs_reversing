@@ -424,7 +424,7 @@
 #define CHARAID_INTR_CAM        0xdd8b  //
 #define CHARAID_PANEL2          0xdd95  // GV_StrCode("パネル２")
 #define CHARAID_VRBOX           0xdf0f  // GV_StrCode("ＶＲＢＯＸ")
-#define CHARAID_S11_OBJS        0xe068  //
+#define CHARAID_S11_OBJS        0xe068  // GV_StrCode("コントロールＳ１１物")
 #define CHARAID_ELEVPANEL       0xe253  // GV_StrCode("エレベーターパネル")
 #define CHARAID_MERYL72         0xe271  //
 #define CHARAID_RED_ALRT        0xe397  //

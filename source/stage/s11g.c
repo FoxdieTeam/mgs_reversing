@@ -15,7 +15,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_SPHERE,       /* chara 天球 */
     CHARA_WALL,         /* chara 障害物 */
     CHARA_DYNWALL,      /* chara 透明壁 */
-    CHARA_S11_OBJS,
+    CHARA_S11_OBJS,     /* chara コントロールＳ１１物 */
     CHARA_11G_DEMO,
 
     CHARA_0003_FADEIO,
