@@ -188,7 +188,7 @@
 #define CHARAID_11G_DEMO        0x153e  //
 #define CHARAID_PILOTLAMP       0x169c  // GV_StrCode("パイロットランプ")
 #define CHARAID_SMOKE           0x170c  // GV_StrCode("煙")
-#define CHARAID_173C            0x173c  //
+#define CHARAID_MYSTERY         0x173c  //
 #define CHARAID_SMKTRGT         0x175b  //
 #define CHARAID_1787_HIND       0x1787  //
 #define CHARAID_BG_SP           0x17f5  //
@@ -367,7 +367,7 @@
 #define CHARAID_BG_ST2          0xb033  //
 #define CHARAID_DYNWALL         0xb103  // GV_StrCode("透明壁")
 #define CHARAID_SNAKE_E1        0xb162  //
-#define CHARAID_B30A            0xb30a  //
+#define CHARAID_MINENE          0xb30a  //
 #define CHARAID_PJEEP           0xb47a  //
 #define CHARAID_DEMOCANCEL      0xb4e6  // GV_StrCode("デモキャンセル")
 #define CHARAID_DRUMCAN         0xb58d  // GV_StrCode("ドラム缶")

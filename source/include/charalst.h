@@ -47,7 +47,7 @@
 #define CHARA_11G_DEMO          { 0x153e, NewStage11GDemo }         // okajima/11g_demo.c
 #define CHARA_PILOTLAMP         { 0x169c, NewPLamp_800CD948 }       // GV_StrCode("パイロットランプ") okajima/p_lamp.c
 #define CHARA_SMOKE             { 0x170c, NewSmoke_800D2BEC }       // GV_StrCode("煙") enemy/smoke.c
-#define CHARA_173C              { 0x173c, ? }                       // (PSX-ONLY)
+#define CHARA_MYSTERY           { 0x173c, ? }                       // enemy/mystery.c
 #define CHARA_SMKTRGT           { 0x175b, NewSmktrgt_800DC410 }     // okajima/smktrgt.c
 #define CHARA_1787_HIND         { 0x1787, NewHind_800D1224 }        // chara/hind/hind.c
 #define CHARA_BG_SP             { 0x17f5, ? }                       // okajima/photo/bg_sp.c (PC-ONLY)
@@ -223,7 +223,7 @@
 #define CHARA_BG_ST2            { 0xb033, ? }                       // okajima/photo/bg_st2.c (PC-ONLY)
 #define CHARA_DYNWALL           { 0xb103, NewDynamicWallSet }       // GV_StrCode("透明壁") takabe/dymc_seg.c
 #define CHARA_SNAKE_E1          { 0xb162, ? }                       // okajima/snake_e1.c
-#define CHARA_B30A              { 0xb30a, ? }                       // (PSX-ONLY)
+#define CHARA_MINENE            { 0xb30a, ? }                       // enemy/minene.c
 #define CHARA_PJEEP             { 0xb47a, ? }                       // takabe/pjeep.c
 #define CHARA_DEMOCANCEL        { 0xb4e6, NewDemoCancel }           // GV_StrCode("デモキャンセル") game/cancel.c
 #define CHARA_DRUMCAN           { 0xb58d, ? }                       // GV_StrCode("ドラム缶") takabe/drum.c

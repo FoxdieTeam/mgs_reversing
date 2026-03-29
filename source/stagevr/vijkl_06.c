@@ -3,7 +3,7 @@
 
 CHARA _StageCharacterEntries[] = {
     { 0xc6d7, (NEWCHARA)0x800c44d0 },   // CHARA_COMMANDER,    /* chara コマンダー */
-    { 0x173c, (NEWCHARA)0x800c8dbc },   // CHARA_173C,
+    { 0x173c, (NEWCHARA)0x800c8dbc },   // CHARA_MYSTERY,
     { 0x6e90, (NEWCHARA)0x800c6048 },   // CHARA_CAMERA,       /* chara カメラ */
     { 0xa12e, (NEWCHARA)0x800d8bdc },   // CHARA_FADEIO,
     { 0x4170, (NEWCHARA)0x800c2294 },   // CHARA_BREATH,       /* chara スネーク息 */
