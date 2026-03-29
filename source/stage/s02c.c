@@ -8,9 +8,9 @@ CHARA _StageCharacterEntries[] = {
     CHARA_BUB_D_SN,
     CHARA_KIKENKUN,     /* chara 危険君 */
     CHARA_PADVIBRATE,   /* chara パッド振動 */
-    CHARA_CAMERA_SHAKE,
+    CHARA_CAMERASHAKE,  /* chara カメラ揺らし */
     CHARA_CINEMA,       /* chara シネマスクリーン */
-    CHARA_GAS_EFFECT,
+    CHARA_GASEFFECT,    /* chara ガス効果 */
     CHARA_SHAKEMODEL,
     CHARA_CAT_IN,
     CHARA_FADEIO,
@@ -27,8 +27,8 @@ CHARA _StageCharacterEntries[] = {
     CHARA_LAMP,
     CHARA_O2_DAMAGE,
     CHARA_CENSOR,       /* chara 赤外線センサー */
-    CHARA_GAS_EFFECT,
-    CHARA_GAS_DAMAGE,
+    CHARA_GASEFFECT,    // duplicate
+    CHARA_GASDAMAGE,    /* chara ガスダメージ */
     CHARA_EVPANEL,
     CHARA_SHUTTER,      /* chara シャッター */
 

@@ -8,7 +8,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_BREATH,       /* chara スネーク息 */
     CHARA_CAT_IN,
     CHARA_FADEIO,
-    CHARA_WOLF2,        /* chara ウルフ */
+    CHARA_WOLF,         /* chara ウルフ */
     CHARA_FINDTRAP,
     CHARA_LAMP,
     CHARA_MOVIE,        /* chara ムービー */
@@ -20,7 +20,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_CLAYMORE,     /* chara クレイモア地雷 */
     CHARA_WALL,         /* chara 障害物 */
     CHARA_DYNWALL,      /* chara 透明壁 */
-    CHARA_LIFE_UP,
+    CHARA_LIFEUP,       /* chara ライフ増加 */
     CHARA_CAT_IN,       // duplicate
 
     CHARA_0003_FADEIO,

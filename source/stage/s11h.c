@@ -14,7 +14,7 @@ CHARA _StageCharacterEntries[] = {
     { 0xe068, (NEWCHARA)0x800ca494 },   // CHARA_S11_OBJS,
     { 0xec77, (NEWCHARA)0x800c5fac },   // CHARA_WALL,         /* chara 障害物 */
     { 0xb103, (NEWCHARA)0x800cbf6c },   // CHARA_DYNWALL,      /* chara 透明壁 */
-    { 0x711f, (NEWCHARA)0x800cb574 },   // CHARA_LIFE_UP,
+    { 0x711f, (NEWCHARA)0x800cb574 },   // CHARA_LIFEUP,       /* chara ライフ増加 */
     { 0x91aa, (NEWCHARA)0x800ccbf0 },   // CHARA_PUTHZD,
 
     { 0x0003, (NEWCHARA)0x800caad4 },   // CHARA_0003_FADEIO,

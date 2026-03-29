@@ -258,48 +258,48 @@
 #define CHARAID_ABST            0x566f  // GV_StrCode("アブスト")
 #define CHARAID_CAMERA2         0x56cc  // GV_StrCode("カメラ２")
 #define CHARAID_DMYWALL         0x58f0  // GV_StrCode("塗り壁")
-#define CHARAID_GAS_EFFECT      0x5a50  //
+#define CHARAID_GASEFFECT       0x5a50  // GV_StrCode("ガス効果")
 #define CHARAID_O2_DAMAGE       0x5d64  //
 #define CHARAID_ZK11ACOM        0x5efa  // GV_StrCode("ざこ１１ａコマンダー")
-#define CHARAID_PAPER           0x5f02  //
+#define CHARAID_PAPER           0x5f02  // GV_StrCode("書類")
 #define CHARAID_ZK11ECOM        0x5f0a  // GV_StrCode("ざこ１１ｅコマンダー")
 #define CHARAID_ZK11FCOM        0x5f0e  // GV_StrCode("ざこ１１ｆコマンダー")
 #define CHARAID_GRD_CAM         0x5f5a  //
-#define CHARAID_RASEN           0x5fd9  //
+#define CHARAID_RASEN           0x5fd9  // GV_StrCode("螺旋階段")
 #define CHARAID_SCN_BOMB        0x600d  //
 #define CHARAID_RIPPLES         0x63aa  //
 #define CHARAID_6414_POCKET     0x6414  //
-#define CHARAID_BTN_CHK         0x6471  //
+#define CHARAID_BUTTONCHECK     0x6471  // GV_StrCode("ボタンチェッカー")
 #define CHARAID_SNAKEWARP       0x672e  // GV_StrCode("スネークワープ")
-#define CHARAID_TEXSCROLL       0x6865  //
+#define CHARAID_TEXSCROLL       0x6865  // GV_StrCode("テクスチャスクロール")
 #define CHARAID_WT_OBJ          0x69ad  //
-#define CHARAID_JEEP_SRL        0x6a48  //
+#define CHARAID_JEEPSCROLL      0x6a48  // GV_StrCode("ジープスクロール")
 #define CHARAID_BLOOD_BL        0x6a4c  // GV_StrCode("血溜り２")
-#define CHARAID_DSMOKE          0x6a98  //
-#define CHARAID_B_SMOKE         0x6b6c  //
-#define CHARAID_DOG             0x6c0e  //
+#define CHARAID_DMGSMOKE        0x6a98  // GV_StrCode("ダメージ煙")
+#define CHARAID_BLACKSMOKE      0x6b6c  // GV_StrCode("黒煙")
+#define CHARAID_WOLFDOG         0x6c0e  // GV_StrCode("狼犬")
 #define CHARAID_VIB_EDIT        0x6c66  //
 #define CHARAID_PREOPE          0x6d1b  //
 #define CHARAID_MONITOR1        0x6d78  // GV_StrCode("モニタ１")
 #define CHARAID_CAMERA          0x6e90  // GV_StrCode("カメラ")
 #define CHARAID_WATCHER         0x6e9a  // GV_StrCode("巡回兵")
-#define CHARAID_PSYOBJ          0x710d  //
-#define CHARAID_LIFE_UP         0x711f  //
+#define CHARAID_PSYOBJ          0x710d  // GV_StrCode("サイコ物体")
+#define CHARAID_LIFEUP          0x711f  // GV_StrCode("ライフ増加")
 #define CHARAID_PADDEMO2        0x720d  // GV_StrCode("パッドデモ２")
 #define CHARAID_SPHERE          0x73ea  // GV_StrCode("天球")
 #define CHARAID_DOOR2           0x73f8  // GV_StrCode("ドア２")
 #define CHARAID_SNAKE18         0x760e  // GV_StrCode("スネーク１８")
-#define CHARAID_DSMOKE2         0x76bc  //
+#define CHARAID_DMGSMOKE2       0x76bc  // GV_StrCode("ダメージ煙２")
 #define CHARAID_ENV_TEST        0x76fe  //
 #define CHARAID_CHAIR           0x788d  // GV_StrCode("椅子")
 #define CHARAID_CINEMA          0x7a05  // GV_StrCode("シネマスクリーン")
-#define CHARAID_MODEL_DT        0x7acf  //
-#define CHARAID_CAMERA_SHAKE    0x7bc2  //
+#define CHARAID_MODELDOT        0x7acf  // GV_StrCode("モデルドット")
+#define CHARAID_CAMERASHAKE     0x7bc2  // GV_StrCode("カメラ揺らし")
 #define CHARAID_LIQUID          0x7bf2  // GV_StrCode("リキッド")
 #define CHARAID_ZAKOCOM         0x7cf7  // GV_StrCode("ざこコマンダー")
 #define CHARAID_WIRE            0x7eca  // GV_StrCode("ワイヤ")
 #define CHARAID_TELOP           0x7ff7  // GV_StrCode("テロップ")
-#define CHARAID_BLINK_TX        0x8185  //
+#define CHARAID_BLINKTEX        0x8185  // GV_StrCode("点滅テクスチャ")
 #define CHARAID_JPEG            0x81c7  // GV_StrCode("ＪＰＥＧ")
 #define CHARAID_RSURFACE        0x81ea  //
 #define CHARAID_SCN_ANIM        0x8427  //
@@ -308,8 +308,8 @@
 #define CHARAID_VRDEMO          0x8a46  // GV_StrCode("ＶＲデモ")
 #define CHARAID_LANDING         0x8b1a  //
 #define CHARAID_OPTA            0x8d31  //
-#define CHARAID_GAS_DAMAGE      0x8d5a  //
-#define CHARAID_WT_VIEW         0x8e45  //
+#define CHARAID_GASDAMAGE       0x8d5a  // GV_StrCode("ガスダメージ")
+#define CHARAID_WATERVIEW       0x8e45  // GV_StrCode("水中主観")
 #define CHARAID_CROW            0x8e60  // GV_StrCode("カラス")
 #define CHARAID_ZK10COM         0x8e64  // GV_StrCode("ざこ１０コマンダー")
 #define CHARAID_GLASS           0x8e70  // GV_StrCode("ガラス")
@@ -325,8 +325,8 @@
 #define CHARAID_SAVE_DATA       0x9302  // GV_StrCode("セーブデータ")
 #define CHARAID_B_SELECT        0x93b6  //
 #define CHARAID_MG_DEMO1        0x954b  //
-#define CHARAID_WOLF2           0x962c  // GV_StrCode("ウルフ")
-#define CHARAID_WATER           0x96b5  //
+#define CHARAID_WOLF            0x962c  // GV_StrCode("ウルフ")
+#define CHARAID_WATEREFFECT     0x96b5  // GV_StrCode("水エフェクト")
 #define CHARAID_OPT             0x976c  //
 #define CHARAID_AT              0x9988  // GV_StrCode("ＡＴ")
 #define CHARAID_ELE_CROW        0x9ab9  //

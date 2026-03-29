@@ -7,7 +7,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_DYNWALL,      /* chara 透明壁 */
     CHARA_BUB_D_SN,
     CHARA_PADVIBRATE,   /* chara パッド振動 */
-    CHARA_GAS_EFFECT,
+    CHARA_GASEFFECT,    /* chara ガス効果 */
     CHARA_PUT_OBJECT,
     CHARA_WALL,         /* chara 障害物 */
     CHARA_SHAKEMODEL,

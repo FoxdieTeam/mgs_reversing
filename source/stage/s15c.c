@@ -8,11 +8,11 @@ CHARA _StageCharacterEntries[] = {
     CHARA_BREATH,       /* chara スネーク息 */
     CHARA_FADEIO,
     CHARA_CONTAINER,    /* chara コンテナ */
-    CHARA_GAS_EFFECT,
+    CHARA_GASEFFECT,    /* chara ガス効果 */
     CHARA_CROW,         /* chara カラス */
     CHARA_CINEMA,       /* chara シネマスクリーン */
     CHARA_LAMP,
-    CHARA_LIFE_UP,
+    CHARA_LIFEUP,       /* chara ライフ増加 */
     CHARA_DYNWALL,      /* chara 透明壁 */
     CHARA_DYNFLOOR,     /* chara 透明床 */
     CHARA_COMMANDER,    /* chara コマンダー */

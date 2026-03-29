@@ -6,7 +6,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_CAT_IN,
     CHARA_ASIOTOKUN,    /* chara 足音君 */
     CHARA_FADEIO,
-    CHARA_TEXSCROLL,
+    CHARA_TEXSCROLL,    /* chara テクスチャスクロール */
     CHARA_WALL,         /* chara 障害物 */
     CHARA_ENV_SOUND,    /* chara 環境音 */
     CHARA_GUNCAMERA,

@@ -15,9 +15,9 @@ CHARA _StageCharacterEntries[] = {
     { 0xec77, (NEWCHARA)0x800c781c },   // CHARA_WALL,         /* chara 障害物 */
     { 0xa9c5, (NEWCHARA)0x800ca8f8 },   // CHARA_GUNCAMERA,
     { 0x1ad3, (NEWCHARA)0x800c43a8 },   // CHARA_LAMP,
-    { 0x7bc2, (NEWCHARA)0x800d1690 },   // CHARA_CAMERA_SHAKE,
+    { 0x7bc2, (NEWCHARA)0x800d1690 },   // CHARA_CAMERASHAKE,  /* chara カメラ揺らし */
     { 0x02c4, (NEWCHARA)0x800c7320 },   // CHARA_ASIATOKUN,    /* chara 足跡君 */
-    { 0x5a50, (NEWCHARA)0x800cde94 },   // CHARA_GAS_EFFECT,
+    { 0x5a50, (NEWCHARA)0x800cde94 },   // CHARA_GASEFFECT,    /* chara ガス効果 */
     { 0xb103, (NEWCHARA)0x800d0dec },   // CHARA_DYNWALL,      /* chara 透明壁 */
     { 0xaf6c, (NEWCHARA)0x800d1ad8 },   // CHARA_DYNFLOOR,     /* chara 透明床 */
     { 0x4170, (NEWCHARA)0x800c4ccc },   // CHARA_BREATH,       /* chara スネーク息 */

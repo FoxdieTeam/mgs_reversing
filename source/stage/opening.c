@@ -4,8 +4,8 @@
 CHARA _StageCharacterEntries[] = {
     CHARA_PATO_LAMP,    /* chara パトランプ */
     CHARA_CINEMA,       /* chara シネマスクリーン */
-    CHARA_WT_VIEW,
-    CHARA_TEXSCROLL,
+    CHARA_WATERVIEW,    /* chara 水中主観 */
+    CHARA_TEXSCROLL,    /* chara テクスチャスクロール */
     CHARA_DEMOCANCEL,   /* chara デモキャンセル */
 
     CHARA_0003_FADEIO,

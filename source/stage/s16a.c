@@ -15,7 +15,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_GUNCAMERA,
     CHARA_SHAKEMODEL,
     CHARA_WALL,         /* chara 障害物 */
-    CHARA_GAS_EFFECT,
+    CHARA_GASEFFECT,    /* chara ガス効果 */
     CHARA_ITEM_DOT,
     CHARA_FADEIO,
     CHARA_DYNWALL,      /* chara 透明壁 */

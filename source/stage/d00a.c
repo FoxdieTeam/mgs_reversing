@@ -6,7 +6,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_SHAKEMODEL,
     CHARA_PATO_LAMP,    /* chara パトランプ */
     CHARA_COMMANDER,    /* chara コマンダー */
-    CHARA_WT_VIEW,
+    CHARA_WATERVIEW,    /* chara 水中主観 */
     CHARA_WATCHER,      /* chara 巡回兵 */
     CHARA_SMOKE,        /* chara 煙 */
     CHARA_EMITTER,

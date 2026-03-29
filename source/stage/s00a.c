@@ -7,7 +7,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_PADVIBRATE,   /* chara パッド振動 */
     CHARA_BREATH,       /* chara スネーク息 */
     CHARA_ENV_SOUND,    /* chara 環境音 */
-    CHARA_CAMERA_SHAKE,
+    CHARA_CAMERASHAKE,  /* chara カメラ揺らし */
     CHARA_CAT_IN,
     CHARA_CINEMA,       /* chara シネマスクリーン */
     CHARA_PADDEMO,      /* chara パッドデモ */

@@ -10,16 +10,16 @@ CHARA _StageCharacterEntries[] = {
     CHARA_CAT_IN,
     CHARA_FOG,
     CHARA_LAMP,
-    CHARA_RASEN,
+    CHARA_RASEN,        /* chara 螺旋階段 */
     CHARA_RASEN_EL,
     CHARA_CINEMA,       /* chara シネマスクリーン */
     CHARA_FADEIO,
     CHARA_WALL,         /* chara 障害物 */
     CHARA_DYNWALL,      /* chara 透明壁 */
-    CHARA_CAMERA_SHAKE,
+    CHARA_CAMERASHAKE,  /* chara カメラ揺らし */
     CHARA_GUNCAMERA,
     CHARA_PADDEMO,      /* chara パッドデモ */
-    CHARA_GAS_EFFECT,
+    CHARA_GASEFFECT,    /* chara ガス効果 */
 
     CHARA_END
 };

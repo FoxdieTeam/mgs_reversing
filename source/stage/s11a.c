@@ -9,11 +9,11 @@ CHARA _StageCharacterEntries[] = {
     { 0x1ad3, (NEWCHARA)0x800c4308 },   // CHARA_LAMP,
     { 0x5efa, (NEWCHARA)0x800d3404 },   // CHARA_ZK11ACOM,     /* chara ざこ１１ａコマンダー */
     { 0xa608, (NEWCHARA)0x800ca194 },   // CHARA_ZAKO11A,      /* chara ざこ１１ａ */
-    { 0x5fd9, (NEWCHARA)0x800d4794 },   // CHARA_RASEN,
+    { 0x5fd9, (NEWCHARA)0x800d4794 },   // CHARA_RASEN,        /* chara 螺旋階段 */
     { 0xec77, (NEWCHARA)0x800c489c },   // CHARA_WALL,         /* chara 障害物 */
     { 0x51c6, (NEWCHARA)0x800d76ec },   // CHARA_CAT_IN,
     { 0x7a05, (NEWCHARA)0x800d70e0 },   // CHARA_CINEMA,       /* chara シネマスクリーン */
-    { 0x5a50, (NEWCHARA)0x800d5724 },   // CHARA_GAS_EFFECT,
+    { 0x5a50, (NEWCHARA)0x800d5724 },   // CHARA_GASEFFECT,    /* chara ガス効果 */
 
     CHARA_END
 };

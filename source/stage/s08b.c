@@ -5,7 +5,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_ASIOTOKUN,    /* chara 足音君 */
     CHARA_FADEIO,
     { 0x8e70, (NEWCHARA)0x800DB50C },   // CHARA_GLASS,        /* chara ガラス */
-    CHARA_PAPER,
+    CHARA_PAPER,        /* chara 書類 */
     CHARA_CHAIR,        /* chara 椅子 */
     CHARA_PANEL2,       /* chara パネル２ */
     CHARA_MONITOR1,     /* chara モニタ１ */
@@ -14,7 +14,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_CINEMA,       /* chara シネマスクリーン */
     CHARA_MOVIE,        /* chara ムービー */
     CHARA_WALL,         /* chara 障害物 */
-    CHARA_LIFE_UP,
+    CHARA_LIFEUP,       /* chara ライフ増加 */
     CHARA_DYNWALL,      /* chara 透明壁 */
     CHARA_CAT_IN,
 
