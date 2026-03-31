@@ -62,13 +62,11 @@ static void CheckMessage(Work *work)
 
 static void Act(Work *work)
 {
-    int group_id;
-
     CheckMessage(work);
     if (work->field_54 != 1)
     {
         GM_CurrentMap = work->control->map->index;
-        work->field_28.objs->group_id = group_id = DG_CurrentGroupID;
+        DG_GroupObjsEx(work->field_28.objs);
         if (work->field_24->objs->flag & DG_FLAG_INVISIBLE)
         {
             DG_InvisibleObjs(work->field_28.objs);
