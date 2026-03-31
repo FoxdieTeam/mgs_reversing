@@ -158,14 +158,6 @@ typedef struct {    // libdg internal
     DG_VECTOR max;
 } DG_BOUND;
 
-typedef struct _DG_PRIM_INFO
-{
-    unsigned char psize;
-    unsigned char verts;
-    unsigned char voffset;
-    unsigned char vstep;
-} DG_PRIM_INFO;
-
 struct _DG_PRIM;
 typedef POLY_FT4 * ( *TPRIM_FN )( struct _DG_PRIM *prim, POLY_FT4 *packs, int n_packs );
 

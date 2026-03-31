@@ -29,7 +29,7 @@ void JFamasAct_800CAE30(JFamasWork *work)
     int    trigger;
 
     GM_SetCurrentMap(work->control->map->index);
-    DG_GroupObjs(work->object.objs, DG_CurrentGroupID);
+    DG_GroupObjsEx(work->object.objs);
 
     trigger = *work->trigger;
 

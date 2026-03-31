@@ -124,7 +124,7 @@ static void Act(Work *work)
 
     mapBit = work->control->map->index;
 
-    DG_GroupObjs(work->object.objs, DG_CurrentGroupID);
+    DG_GroupObjsEx(work->object.objs);
     DG_GroupPrim(work->prim, DG_CurrentGroupID);
 
     GM_CurrentMap = mapBit;
