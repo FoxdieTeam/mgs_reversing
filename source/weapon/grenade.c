@@ -90,7 +90,7 @@ static void Act( Work *work )
     GV_ACT       *tenage;
 
     GM_CurrentMap = work->control->map->index;
-    DG_GroupObjs( work->object.objs, DG_CurrentGroupID );
+    DG_GroupObjsEx( work->object.objs );
     parent_objs_flag = ( work->parent->objs->flag & 0xFF ) >> 7;
 
     if ( !( parent_objs_flag ) )

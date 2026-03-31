@@ -963,7 +963,7 @@ static void Act(Work *work)
     {
         GM_SetCurrentMap(work->control->map->index);
 
-        DG_GroupObjs(work->goggles.objs, DG_CurrentGroupID);
+        DG_GroupObjsEx(work->goggles.objs);
 
         if (GM_PlayerStatus & PLAYER_NOT_SIGHT)
         {

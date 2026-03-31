@@ -37,7 +37,7 @@ static void Act(Work *work)
     int map;
 
     map = work->control->map->index;
-    DG_GroupObjs(work->object.objs, DG_CurrentGroupID);
+    DG_GroupObjsEx(work->object.objs);
     GM_CurrentMap = map;
 
     if (work->parent->objs->flag & DG_FLAG_INVISIBLE)

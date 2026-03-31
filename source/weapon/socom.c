@@ -243,7 +243,7 @@ static void Act( Work *work )
 
     GM_CurrentMap = work->control->map->index;
 
-    DG_GroupObjs( work->object.objs, DG_CurrentGroupID );
+    DG_GroupObjsEx( work->object.objs );
     DG_GroupPrim( work->prim1, DG_CurrentGroupID );
 
     flags = *work->flags;
