@@ -8,6 +8,13 @@
 
 /*** data *******************************************************/
 
+typedef struct _DG_PRIM_INFO {
+    unsigned char psize;
+    unsigned char verts;
+    unsigned char voffset;
+    unsigned char vstep;
+} DG_PRIM_INFO;
+
 // psize, verts, voffset, vstep
 STATIC DG_PRIM_INFO DG_PrimInfos[DG_PRIM_MAX] = {
     { 16, 2, 8,  4 }, // DG_PRIM_LINE_F2
