@@ -305,7 +305,7 @@ void Rasen2Act_800CA79C(Rasen2Work *work)
         old_map = GM_PlayerControl->map;
         new_map = GM_GetMap(mapid);
 
-        DG_CurrentGroupID = mapid;
+        DG_SetCurrentGroup(mapid);
         playermap = GM_PlayerMap;
         GM_CurrentMap = mapid;
         GM_PlayerMap = mapid;

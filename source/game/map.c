@@ -75,7 +75,7 @@ STATIC void GM_UpdateMapGroup( int preshade )
 
     GM_PlayerMap = group;
     HZD_CurrentGroup = hzd_group;
-    DG_CurrentGroupID = group;
+    DG_SetCurrentGroup( group );
     HZD_BindMapChange( group );
 }
 

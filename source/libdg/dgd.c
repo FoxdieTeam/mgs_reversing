@@ -109,7 +109,7 @@ void DG_ResetPipeline(void)
     DG_InitLightSystem();
     DG_RenderPipeline_Init();
 
-    DG_CurrentGroupID = 0;
+    DG_SetCurrentGroup(0);
 
     DG_ReloadPalette();
     DG_ResetPaletteEffect();
