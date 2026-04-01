@@ -212,6 +212,9 @@
     include "{{OBJ_DIR}}\kojo\demothrd.obj"
     include "{{OBJ_DIR}}\libfs\memfile.obj"
     include "{{OBJ_DIR}}\kojo\demo.obj"
+    include "{{OBJ_DIR}}\anime\effect\m1e1.obj"
+    include "{{OBJ_DIR}}\kojo\unknown.obj"
+    include "{{OBJ_DIR}}\kojo\demoscrn.obj"
     include "{{OBJ_DIR}}\kojo\m1e1catr.obj"
 
     ; sound.lib
