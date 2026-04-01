@@ -1,11 +1,682 @@
-#include "hind.h"
+#include "common.h"
 #include "linkvar.h"
+#include "game/game.h"
+#include "kojo/demo.h"
+#include "hind.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
+#include "libgcl/libgcl.h"
+#include "menu/menuman.h"
+#include "mts/mts.h"
 #include "okajima/spark.h"
+#include "takabe/cinema.h"
 
-extern GM_CAMERA        GM_Camera;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
+extern GM_CAMERA        GM_Camera;
 
 void AN_Smoke_800CE164(SVECTOR *pos, SVECTOR *speed, int index, int script);
+
+void s11g_hind_800D46B8(SVECTOR *pos, int se_id)
+{
+    GM_SeSetMode(pos, se_id, GM_SEMODE_BOMB);
+}
+
+void s11g_hind_800D46D8(HindWork *work, int index)
+{
+    if (work->field_94C != 1 && work->field_930 == 0)
+    {
+        if (GM_StreamStatus() == -1)
+        {
+            GM_VoxStream(work->vox_ids[index], 0);
+        }
+    }
+}
+
+void s11g_hind_800D4744(HindWork *work)
+{
+    if (work->field_94C != 1 && work->field_930 == 0)
+    {
+        work->field_5F0 = 90;
+        NewCinemaScreen(90, 0);
+
+        work->field_A70 = work->body.objs->def->model[2].vertices;
+        work->body.objs->def->model[2].vertices = work->field_970;
+
+        work->last_item = GM_CurrentItemId;
+        work->last_weapon = GM_CurrentWeaponId;
+
+        if (GM_CurrentItemId == IT_Scope  ||
+            GM_CurrentItemId == IT_Camera ||
+            GM_CurrentItemId == IT_NVG    ||
+            GM_CurrentItemId == IT_ThermG)
+        {
+            GM_CurrentItemId = IT_None;
+        }
+
+        if (GM_CurrentWeaponId == WP_Rifle ||
+            GM_CurrentWeaponId == WP_Stinger)
+        {
+            GM_CurrentWeaponId = WP_None;
+        }
+
+        switch (work->field_8C4++ % 4)
+        {
+        case 0:
+            s11g_hind_800D46D8(work, 0);
+            break;
+        case 1:
+            s11g_hind_800D46D8(work, 1);
+            break;
+        case 2:
+            s11g_hind_800D46D8(work, 2);
+            break;
+        case 3:
+            s11g_hind_800D46D8(work, 3);
+            break;
+        }
+
+        if (work->control.mov.vx <= 0)
+        {
+            work->field_5D8 = 1;
+        }
+        else
+        {
+            work->field_5D8 = -1;
+        }
+    }
+}
+
+void s11g_hind_800D48E8(HindWork *work)
+{
+    work->field_62C.vx = GM_PlayerPosition.vx + GV_RandS(2) * 500;
+    work->field_62C.vy = GM_PlayerPosition.vy + GV_RandS(2) * 500;
+    work->field_62C.vz = GM_PlayerPosition.vz + GV_RandS(2) * 500;
+}
+
+int s11g_hind_800D4990(HindWork *work)
+{
+    SVECTOR midpoint;
+
+    midpoint.vx = (GM_PlayerPosition.vx + work->field_63C.vx) / 2;
+    midpoint.vy = (GM_PlayerPosition.vy + work->field_63C.vy) / 2;
+    midpoint.vz = (GM_PlayerPosition.vz + work->field_63C.vz) / 2;
+
+    return HZD_LineCheck(work->control.map->hzd, &GM_PlayerPosition, &midpoint, ( HZD_CHECK_SEG | HZD_CHECK_FLR ), HZD_SEG_NO_PLAYER) != 0;
+}
+
+void s11g_hind_800D4A24(long *vec, long *pos, long *old, int len)
+{
+    int interp;
+
+    interp = (*vec * (len - 1) + *pos) / len;
+    *old = *vec - interp;
+    *vec = interp;
+}
+
+void s11g_hind_800D4A80(VECTOR *vec, VECTOR *pos, int len)
+{
+    vec->vx = (vec->vx * (len - 1) + pos->vx) / len;
+    vec->vy = (vec->vy * (len - 1) + pos->vy) / len;
+    vec->vz = (vec->vz * (len - 1) + pos->vz) / len;
+}
+
+void s11g_hind_800D4B68(SVECTOR *vec, SVECTOR *pos, int len)
+{
+    SVECTOR diff;
+    int     interp;
+
+    interp = len - 1;
+
+    vec->vx &= 0xFFF;
+    vec->vy &= 0xFFF;
+    vec->vz &= 0xFFF;
+
+    pos->vx &= 0xFFF;
+    pos->vy &= 0xFFF;
+    pos->vz &= 0xFFF;
+
+    diff.vx = pos->vx - vec->vx;
+    diff.vy = pos->vy - vec->vy;
+    diff.vz = pos->vz - vec->vz;
+
+    if (diff.vx >= 2048)
+    {
+        vec->vx += 4096;
+    }
+
+    if (diff.vy >= 2048)
+    {
+        vec->vy += 4096;
+    }
+
+    if (diff.vz >= 2048)
+    {
+        vec->vz += 4096;
+    }
+
+    if (diff.vx <= -2048)
+    {
+        pos->vx += 4096;
+    }
+
+    if (diff.vy <= -2048)
+    {
+        pos->vy += 4096;
+    }
+
+    if (diff.vz <= -2048)
+    {
+        pos->vz += 4096;
+    }
+
+    vec->vx = (vec->vx * interp + pos->vx) / len;
+    vec->vy = (vec->vy * interp + pos->vy) / len;
+    vec->vz = (vec->vz * interp + pos->vz) / len;
+}
+
+void s11g_hind_800D4DD0(HindWork *work)
+{
+    switch (work->field_5C8)
+    {
+    case 0:
+        work->field_5C8 = 1;
+        work->field_5E4 = 8;
+        work->field_60C = work->field_4BC;
+        /* fallthrough */
+    case 1:
+        if (work->field_5E4 > 0)
+        {
+            s11g_hind_800D4A80(&work->field_5FC, &work->field_60C, 16);
+        }
+        else
+        {
+            work->field_5C8 = 2;
+            work->field_5E4 = GV_RandU(16) + 60;
+            work->field_60C = work->field_4BC;
+            work->field_60C.vy = 20000;
+        }
+        break;
+    case 2:
+        if (work->field_5E4 > 0)
+        {
+            s11g_hind_800D4A80(&work->field_5FC, &work->field_60C, 64);
+        }
+        else
+        {
+            work->field_8CC = 1;
+            work->field_5C8 = 3;
+            work->field_5E4 = GV_RandU(32) + 90;
+            work->field_5E8 = GV_RandU(2);
+
+            if (work->field_60C.vx < 0)
+            {
+                work->field_60C.vx = GV_RandU(16384) + 55000;
+                work->field_60C.vy = GV_RandU(4096) + 20000;
+                work->field_60C.vz = 8000 - GV_RandU(4096);
+            }
+            else
+            {
+                work->field_60C.vx = -(GV_RandU(16384) + 55000);
+                work->field_60C.vy = 20000;
+                work->field_60C.vz = 12000 - GV_RandU(4096);
+            }
+
+            work->field_61C = work->field_60C;
+        }
+        break;
+    case 3:
+        if (work->field_5E4 > 0)
+        {
+            s11g_hind_800D4A80(&work->field_5FC, &work->field_60C, 128);
+        }
+        else
+        {
+            if (work->field_5E8 < 0)
+            {
+                work->field_5C8 = 4;
+                work->field_5E4 = GV_RandU(128) + 128;
+
+                if (work->field_60C.vx < 0)
+                {
+                    work->field_60C.vx = -20000;
+                }
+
+                if (work->field_60C.vx > 0)
+                {
+                    work->field_60C.vx = 20000;
+                }
+
+                work->field_60C.vy = 7000;
+                work->field_60C.vz = GM_PlayerPosition.vz + GV_RandS(4096);
+                if (work->field_60C.vz > 12000)
+                {
+                    work->field_60C.vz = 12000 - GV_RandS(4096);
+                }
+            }
+            else
+            {
+                work->field_5C8 = 3;
+                work->field_5E4 = GV_RandU(16) + 10;
+                work->field_60C.vx = work->field_61C.vx + GV_RandS(8192);
+                work->field_60C.vy = work->field_61C.vy + GV_RandS(8192);
+                work->field_60C.vz = work->field_61C.vz + GV_RandS(8192);
+            }
+
+            work->field_5E8--;
+        }
+        break;
+    case 4:
+        if (work->field_5E4 > 0)
+        {
+            s11g_hind_800D4A80(&work->field_5FC, &work->field_60C, 32);
+        }
+        else
+        {
+            work->field_5C4 = 2;
+            work->field_5C8 = 0;
+        }
+        break;
+    }
+}
+
+void s11g_hind_800D50F0(HindWork *work)
+{
+    switch (work->field_5C8)
+    {
+    case 0:
+        work->field_5C8 = 1;
+        work->field_5E4 = 8;
+        work->field_60C = work->field_4BC;
+        /* fallthrough */
+    case 1:
+        if (work->field_5E4 > 0)
+        {
+            s11g_hind_800D4A80(&work->field_5FC, &work->field_60C, 16);
+        }
+        else
+        {
+            work->field_5C8 = 2;
+            work->field_5E4 = GV_RandU(16) + 60;
+            work->field_60C = work->field_4BC;
+            work->field_60C.vy = 20000;
+        }
+        break;
+    case 2:
+        if (work->field_5E4 > 0)
+        {
+            s11g_hind_800D4A80(&work->field_5FC, &work->field_60C, 64);
+        }
+        else
+        {
+            work->field_5C8 = 3;
+            work->field_5E4 = GV_RandU(32) + 150;
+            work->field_5E8 = (GV_RandU(4) * 2) + 8;
+            work->field_60C.vx = GV_RandS(4096) + 2000;
+            work->field_60C.vy = GV_RandU(1024) + 9000;
+            work->field_60C.vz = GV_RandS(2048) - 15000;
+        }
+        break;
+    case 3:
+        if ((work->field_5D4 == 1) && (GM_PlayerStatus & PLAYER_INVINCIBLE))
+        {
+            work->field_5D4 = 0;
+            work->field_5C4 = 0;
+            work->field_5C8 = 0;
+            s11g_hind_800D4744(work);
+        }
+        else if (work->field_5E4 > 0)
+        {
+            s11g_hind_800D4A80(&work->field_5FC, &work->field_60C, 128);
+        }
+        else
+        {
+            switch (work->field_8C0++ % 4)
+            {
+            case 0:
+                s11g_hind_800D46D8(work, 4);
+                break;
+            case 1:
+                s11g_hind_800D46D8(work, 5);
+                break;
+            case 2:
+                s11g_hind_800D46D8(work, 6);
+                break;
+            case 3:
+                s11g_hind_800D46D8(work, 7);
+                break;
+            }
+
+            if (GV_RandU(4) != 0)
+            {
+                if (!(work->field_5E8 & 1) && (work->field_5EC < 0))
+                {
+                    s11g_hind_800D48E8(work);
+                    work->field_5D4 = 1;
+                }
+                else
+                {
+                    work->field_5D4 = 0;
+                    work->field_954 = GV_RandU(8) + 8;
+                }
+
+                work->field_5C8 = 3;
+                work->field_5E4 = GV_RandU(32) + 150;
+                work->field_60C.vx = GV_RandS(4096) + 2000;
+                work->field_60C.vy = GV_RandU(4096) + 12000;
+                work->field_60C.vz = GV_RandS(2048) - 2000;
+            }
+            else
+            {
+                work->field_5D4 = 0;
+                work->field_954 = GV_RandU(8) + 8;
+                work->field_5C4 = 0;
+                work->field_5C8 = 0;
+            }
+
+            work->field_5E8--;
+        }
+        break;
+    }
+}
+
+void s11g_hind_800D5420(HindWork *work)
+{
+    switch (work->field_5C8)
+    {
+    case 0:
+        work->field_5C8 = 1;
+        work->field_5E4 = 8;
+        work->field_60C = work->field_4BC;
+        work->field_61C = work->field_4BC;
+        work->field_5E8 = GV_RandU(4) + 4;
+        s11g_hind_800D48E8(work);
+        /* fallthrough */
+    case 1:
+        if ((work->field_5D4 == 1) && (GM_PlayerStatus & PLAYER_DAMAGED) && (work->field_5EC < 0))
+        {
+            work->field_5D4 = 0;
+            work->field_954 = GV_RandU(2) + 4;
+            work->field_5E4 = -1;
+            work->field_5E8 = -1;
+            work->field_5EC = 60;
+            s11g_hind_800D4744(work);
+        }
+
+        if (work->field_5E4 <= 0)
+        {
+            work->field_61C.vy += 1500;
+            if (work->field_61C.vy > 8000)
+            {
+                work->field_61C.vy = GV_RandS(4096) + 5000;
+            }
+
+            if ((work->field_5E8 < 0) || s11g_hind_800D4990(work))
+            {
+                if (GV_RandU(2) == 0)
+                {
+                    work->field_5D4 = 0;
+                    work->field_954 = GV_RandU(4) + 4;
+
+                    if (GV_RandU(8) == 0)
+                    {
+                        switch (GV_RandU(8))
+                        {
+                        case 0:
+                        case 1:
+                        case 2:
+                        case 3:
+                        case 4:
+                        case 5:
+                            s11g_hind_800D46D8(work, 11);
+                            break;
+                        case 6:
+                            s11g_hind_800D46D8(work, 12);
+                            break;
+                        case 7:
+                            s11g_hind_800D46D8(work, 16);
+                            break;
+                        }
+                    }
+
+                    if (GV_RandU(8))
+                    {
+                        work->field_5C4 = 0;
+                        work->field_5C8 = 0;
+                    }
+                    else
+                    {
+                        work->field_5C4 = 1;
+                        work->field_5C8 = 0;
+                    }
+                }
+                else
+                {
+                    switch (GV_RandU(4))
+                    {
+                    case 0:
+                        s11g_hind_800D46D8(work, 10);
+                        break;
+                    case 1:
+                        s11g_hind_800D46D8(work, 9);
+                        break;
+                    }
+
+                    work->field_5C8 = 2;
+                    work->field_5E4 = GV_RandU(32) + 60;
+                    work->field_60C.vx = work->field_61C.vx;
+                    work->field_60C.vy = work->field_61C.vy + GV_RandU(4096);
+                    work->field_60C.vz = GM_PlayerPosition.vz + GV_RandS(8192);
+                    if (work->field_60C.vz > 12000)
+                    {
+                        work->field_60C.vz = 12000 - GV_RandS(4096);
+                    }
+                }
+            }
+            else
+            {
+                if (!(work->field_5E8 & 0x1) && (work->field_5EC < 0))
+                {
+                    s11g_hind_800D48E8(work);
+                    work->field_5D4 = 1;
+                }
+                else
+                {
+                    work->field_5D4 = 0;
+                    work->field_954 = GV_RandU(4) + 4;
+                }
+
+                work->field_5C8 = 1;
+                work->field_5E4 = GV_RandU(32) + 60;
+                work->field_60C.vx = work->field_61C.vx;
+                work->field_60C.vy = work->field_61C.vy + GV_RandS(2048);
+                work->field_60C.vz = GM_PlayerPosition.vz + GV_RandS(8192);
+                if (work->field_60C.vz > 12000)
+                {
+                    work->field_60C.vz = 12000 - GV_RandS(4096);
+                }
+            }
+
+            work->field_5E8--;
+        }
+        else
+        {
+            s11g_hind_800D4A80(&work->field_5FC, &work->field_60C, 128);
+        }
+        break;
+    case 2:
+        if (work->field_5E4 > 0)
+        {
+            s11g_hind_800D4A80(&work->field_5FC, &work->field_60C, 128);
+            return;
+        }
+        else
+        {
+            work->field_5C8 = 1;
+            work->field_5E4 = GV_RandU(32) + 60;
+            work->field_5E8 = GV_RandU(2) + 2;
+            work->field_60C.vx = work->field_61C.vx;
+            work->field_60C.vy = work->field_61C.vy - GV_RandU(8192);
+            work->field_60C.vz = GM_PlayerPosition.vz + GV_RandS(8192);
+            if (work->field_60C.vz > 12000)
+            {
+                work->field_60C.vz = 12000 - GV_RandS(4096);
+            }
+        }
+        break;
+    }
+}
+
+void s11g_hind_800D5820(HindWork *work)
+{
+    SVECTOR rot;
+    SVECTOR sp18;
+    SVECTOR turn;
+    SVECTOR pos;
+    int     dx, dz;
+    long    sp30;
+    long    sp34;
+    int     time;
+
+    if (work->field_938 == 1)
+    {
+        s11g_hind_800D46D8(work, 8);
+        GV_DestroyActor(&work->actor);
+    }
+
+    work->field_62C.vx = GM_PlayerPosition.vx;
+    work->field_62C.vy = GM_PlayerPosition.vy;
+    work->field_62C.vz = GM_PlayerPosition.vz;
+
+    work->field_5E0++;
+    work->field_5E4--;
+    work->field_5EC--;
+
+    work->field_8BC = GM_StreamStatus();
+
+    switch (work->field_5C4)
+    {
+    case 0:
+        s11g_hind_800D4DD0(work);
+        break;
+    case 1:
+        s11g_hind_800D50F0(work);
+        break;
+    case 2:
+        s11g_hind_800D5420(work);
+        break;
+    }
+
+    time = work->field_5E0;
+    work->field_5FC.vy += (rsin(time * 64) - rsin((time - 1) * 64)) / 2;
+    work->field_5FC.vx += rsin(time * 23) - rsin((time - 1) * 23);
+    work->field_5FC.vz += rsin(time * 32) - rsin((time - 1) * 32);
+
+    if (GM_GameStatus & STATE_BEHIND_CAMERA)
+    {
+        pos.vx = (gUnkCameraStruct2_800B7868.eye.vx * 7 + work->field_4BC.vx) / 8;
+        pos.vy = gUnkCameraStruct2_800B7868.eye.vy;
+        pos.vz = (gUnkCameraStruct2_800B7868.eye.vz * 7 + work->field_4BC.vz) / 8;
+    }
+    else
+    {
+        pos.vx = (GM_PlayerPosition.vx * 7 + work->field_4BC.vx) / 8;
+        pos.vy = GM_PlayerPosition.vy;
+        pos.vz = (GM_PlayerPosition.vz * 7 + work->field_4BC.vz) / 8;
+    }
+
+    s11g_hind_800D4A24(&work->field_4BC.vx, &work->field_5FC.vx, &sp30, 40);
+    turn.vx = sp30;
+
+    s11g_hind_800D4A24(&work->field_4BC.vy, &work->field_5FC.vy, &sp34, 26);
+    turn.vy = 0;
+
+    s11g_hind_800D4A24(&work->field_4BC.vz, &work->field_5FC.vz, &sp30, 40);
+    turn.vz = -sp30;
+
+    dx = (GM_PlayerPosition.vx - work->field_4BC.vx) >> 1;
+    dz = (GM_PlayerPosition.vz - work->field_4BC.vz) >> 1;
+
+    sp18.vy = ratan2(dx, dz) & 0xFFF;
+    sp18.vx = 0;
+    sp18.vz = 0;
+
+    s11g_hind_800D4B68(&work->control.turn, &sp18, 128);
+
+    rot.vx = 0;
+    rot.vy = work->control.rot.vy;
+    rot.vz = 0;
+
+    DG_SetPos2(&DG_ZeroVector, &rot);
+    DG_PutVector(&turn, &turn, 1);
+
+    work->control.turn.vx = turn.vz;
+    work->control.turn.vz = turn.vx;
+
+    work->body.rots[1].vy -= work->field_4B4;
+    if (work->body.rots[1].vy < 0)
+    {
+        work->body.rots[1].vy += 4096;
+    }
+
+    work->body.rots[2].vx -= work->field_4B8;
+    if (work->body.rots[2].vx < 0)
+    {
+        work->body.rots[2].vx += 4096;
+    }
+
+    if ((mts_get_tick_count() - work->last_time) >= 8)
+    {
+        work->last_time = mts_get_tick_count();
+
+        if (work->field_930 == 0)
+        {
+            if (work->field_5F0 > 0)
+            {
+                GM_SeSet2(0, 63, 181);
+            }
+            else
+            {
+                switch (work->field_8CC)
+                {
+                case 0:
+                    s11g_hind_800D46B8(&pos, 181);
+                    break;
+                case 1:
+                    work->field_8CC = 2;
+                    GM_SeSet2(0, 127, 0xB3);
+                    s11g_hind_800D46B8(&pos, 181);
+                    break;
+                case 2:
+                    work->field_8CC = 3;
+                    s11g_hind_800D46B8(&pos, 182);
+                    break;
+                case 3:
+                    work->field_8CC = 4;
+                    s11g_hind_800D46B8(&pos, 183);
+                    break;
+                case 4:
+                    work->field_8CC = 0;
+                    s11g_hind_800D46B8(&pos, 184);
+                    break;
+                }
+            }
+        }
+        else
+        {
+            GM_SeSet2(0, 8, 181);
+        }
+    }
+
+    if (work->field_958 == 0 && (mts_get_tick_count() - work->last_time2) >= 4)
+    {
+        work->last_time2 =  mts_get_tick_count();
+
+        if (work->field_930 == 0 && work->field_5D4 == 1)
+        {
+            s11g_hind_800D46B8(&pos, 177);
+        }
+    }
+}
 
 int s11g_hind_800D5CD8(SVECTOR *from, SVECTOR *to, SVECTOR *out)
 {
@@ -351,293 +1022,6 @@ const int s11g_dword_800DD274 = 0x800D9D74;
 const int s11g_dword_800DD278 = 0x800D9FD8;
 const int s11g_dword_800DD27C = 0x800DA0E0;
 const int s11g_dword_800DD280 = 0x800DA2B4;
+const int s11g_dword_800DD284 = 0x00000000;
 
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D7644.s")
-
-void s11g_hind_800D9344(HindWork *work)
-{
-    VECTOR  sp10;
-    SVECTOR sp20;
-
-    switch (work->field_5C8)
-    {
-    case 0:
-        if ((work->field_430 * 7) / 8 < work->field_434)
-        {
-            s11g_hind_800D5E44(work, (GV_RandU(4096) % 2) + 130);
-        }
-        else
-        {
-            switch (work->field_8C4++ % 3)
-            {
-            case 0:
-                s11g_hind_800D619C(work, 25);
-                break;
-            case 1:
-                s11g_hind_800D619C(work, 26);
-                break;
-            case 2:
-                s11g_hind_800D619C(work, 27);
-                break;
-            }
-        }
-
-        work->field_5C8 = 4;
-        work->field_5E4 = GV_RandU(8) + 32;
-        work->field_8D0 = 1;
-
-        sp20.vx = (GV_RandU(4096) + 10000) * (GV_RandU(2) * 2 - 1);
-        sp20.vy = (-1000 - GV_RandU(4096));
-        sp20.vz = (GV_RandU(4096) + 10000) * (GV_RandU(2) * 2 - 1);
-
-        work->field_60C.vx += sp20.vx;
-        work->field_60C.vy += sp20.vy;
-        work->field_60C.vz += sp20.vz;
-        work->field_5F4 += GV_RandS(256);
-        /* fallthrough */
-    case 4:
-        if (work->field_5E4 > 0)
-        {
-            sp10.vx = work->field_60C.vx - work->field_5FC.vx;
-            sp10.vz = work->field_60C.vz - work->field_5FC.vz;
-            SquareRoot0(sp10.vx * sp10.vx + sp10.vz * sp10.vz);
-            s11g_hind_800D62BC(&work->field_60C, &work->field_5FC, 32);
-            s11g_hind_800D62BC(&work->field_5FC, &work->field_60C, 32);
-        }
-        else
-        {
-            work->field_5C8 = 5;
-            work->field_5E4 = GV_RandU(8) + 32;
-            work->field_60C = work->field_4BC;
-        }
-        break;
-    case 5:
-        if (work->field_5E4 > 0)
-        {
-            s11g_hind_800D62BC(&work->field_5FC, &work->field_60C, 16);
-        }
-        else
-        {
-            work->field_64C = 0;
-
-            if (work->field_5C4 == 2)
-            {
-                work->field_5C8 = 6;
-                work->field_5E4 = 0;
-            }
-            else if (work->field_5CC == 1 && work->field_5D0 == 5)
-            {
-                work->field_5C4 = work->field_5CC;
-                work->field_5C8 = work->field_5D0;
-                work->field_5E4 = 5;
-            }
-            else
-            {
-                work->field_5C8 = 0;
-                work->field_5C4 = work->field_5CC;
-            }
-        }
-        break;
-    }
-}
-
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D96B0.s")
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D9B80.s")
-
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800DA534.s")
-void s11g_hind_800DA534(HindWork *work);
-
-/*
-TODO: This only matches when field_5F4 is volatile
-void s11g_hind_800DA534(HindWork *work)
-{
-    int f5F4;
-
-    s11g_hind_800D61F8(work);
-
-    work->field_5C8 = 5;
-    work->field_5E4 = 100;
-    work->field_5F8 = GV_RandU(2);
-    do {} while (0);
-    work->field_5F4 = (work->field_5F4 + 2048) & 0xFFF;
-
-    f5F4 = work->field_5F4;
-    if (f5F4 > 256 && f5F4 < 1792)
-    {
-        if (f5F4 < 1024)
-        {
-            work->field_5F4 = 256;
-        }
-        else
-        {
-            work->field_5F4 = 1792;
-        }
-    }
-
-    work->field_60C.vx = rcos(work->field_5F4) * 43;
-    work->field_60C.vy = (work->field_60C.vy + 10000) / 2;
-    work->field_60C.vz = rsin(work->field_5F4) * 43;
-}
-*/
-
-void s11g_hind_800DA614(HindWork *work)
-{
-    int amount;
-
-    s11g_hind_800D61F8(work);
-
-    work->field_5C8 = 6;
-    work->field_5E4 = GV_RandU(8) + 16;
-
-    switch (GM_DifficultyFlag)
-    {
-    default:
-    case DIFFICULTY_EASY:
-    case DIFFICULTY_NORMAL:
-        if ((work->field_5E8 < 10) && ((work->field_5E8 & 3) == 0))
-        {
-            if (GV_RandU(2) == 0)
-            {
-                work->field_5F8 = 1 - work->field_5F8;
-            }
-        }
-
-        amount = 64;
-        break;
-    case DIFFICULTY_HARD:
-        if ((work->field_5E8 == 5) || (work->field_5E8 == 10))
-        {
-            if (GV_RandU(2) == 0)
-            {
-                work->field_5F8 = 1 - work->field_5F8;
-            }
-        }
-
-        amount = 70;
-        break;
-    case DIFFICULTY_EXTREME:
-        if ((work->field_5E8 == 5) || (work->field_5E8 == 10))
-        {
-            if (GV_RandU(2) == 0)
-            {
-                work->field_5F8 = 1 - work->field_5F8;
-            }
-        }
-
-        amount = 72;
-        break;
-    }
-
-    if (work->field_5F8 != 0)
-    {
-        work->field_5F4 += amount;
-    }
-    else
-    {
-        work->field_5F4 -= amount;
-    }
-
-    work->field_60C.vx = rcos(work->field_5F4) * ((work->field_5E8 / 2) + 29);
-    work->field_60C.vy = 32000;
-    work->field_60C.vz = rsin(work->field_5F4) * ((work->field_5E8 / 2) + 29);
-}
-
-void s11g_hind_800DA7C4(HindWork *work)
-{
-    switch (work->field_5C8)
-    {
-    case 0:
-        work->field_5C8 = 4;
-        work->field_5E4 = 0;
-        work->field_60C = work->field_4BC;
-        work->field_60C.vy = 13000;
-        /* fallthrough */
-    case 4:
-        if (work->field_5E4 > 0)
-        {
-            s11g_hind_800D62BC(&work->field_5FC, &work->field_60C, 32);
-        }
-        else
-        {
-            work->field_5C8 = 7;
-            work->field_5E4 = 0;
-        }
-        break;
-    case 5:
-        if (work->field_5E4 > 0)
-        {
-            s11g_hind_800D62BC(&work->field_5FC, &work->field_60C, 128);
-            work->field_5D4 = 1;
-        }
-        else if (((work->field_430 * 2) / 3) < work->field_434)
-        {
-            if (GV_DiffDirS(work->field_5F4, work->control.turn.vy) > 0)
-            {
-                work->field_5F8 = 1;
-            }
-            else
-            {
-                work->field_5F8 = 0;
-            }
-
-            work->field_5E8 = 24;
-            s11g_hind_800DA614(work);
-        }
-        else
-        {
-            work->field_5C8 = 8;
-            work->field_5E4 = GV_RandU(16) + 32;
-            work->field_60C.vx = (rcos(work->field_5F4) * 30000) / 4096;
-            work->field_60C.vy = 25000;
-            work->field_60C.vz = (rsin(work->field_5F4) * 30000) / 4096;
-            work->field_5F4 += (GV_RandS(126) + 700) * (GV_RandU(2) * 2 - 1);
-            work->field_5F4 &= 0xFFF;
-        }
-        break;
-    case 6:
-        if (work->field_5E8 > 9)
-        {
-            work->field_62C = work->field_60C;
-        }
-
-        if (work->field_5E4 > 0)
-        {
-            s11g_hind_800D62BC(&work->field_5FC, &work->field_60C, 64);
-        }
-        else if (work->field_5E8 > 0)
-        {
-            s11g_hind_800DA614(work);
-            work->field_5E8--;
-        }
-        else
-        {
-            work->field_5C8 = 7;
-            work->field_5E4 = 10;
-        }
-        break;
-    case 7:
-        if (work->field_5E4 > 0)
-        {
-            s11g_hind_800D62BC(&work->field_5FC, &work->field_60C, 32);
-        }
-        else
-        {
-            work->field_8CC = 1;
-            s11g_hind_800DA534(work);
-        }
-        break;
-    case 8:
-        if (work->field_5E4 > 0)
-        {
-            s11g_hind_800D62BC(&work->field_5FC, &work->field_60C, 128);
-        }
-        else
-        {
-            work->field_5C4 = 2;
-            work->field_5C8 = 0;
-        }
-        break;
-    }
-}
-
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800DAAC8.s")

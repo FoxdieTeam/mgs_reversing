@@ -192,11 +192,7 @@ typedef struct HindWork
     SVECTOR       field_970[32];
     SVECTOR      *field_A70;
     int           field_A74;
-    int           field_A78;
-    int           field_A7C;
+    SVECTOR       field_A78;
 } HindWork;
-
-void HindAct_800D3404(HindWork *work);
-void HindDie(HindWork *work);
 
 #endif // __MGS_KOJO_HIND_H__
