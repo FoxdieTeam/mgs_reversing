@@ -70,9 +70,12 @@
     include "{{OBJ_DIR}}\libgv\math_near.obj"
 
     ; libhzd.lib (cont.)
-    include "{{OBJ_DIR}}\libhzd\collide.obj"
+    include "{{OBJ_DIR}}\libhzd\surface.obj"
+    include "{{OBJ_DIR}}\libhzd\line.obj"
+    include "{{OBJ_DIR}}\libhzd\point.obj"
     include "{{OBJ_DIR}}\libhzd\level.obj"
     include "{{OBJ_DIR}}\libhzd\event.obj"
+    include "{{OBJ_DIR}}\libhzd\trap.obj"
 
     ; game.lib (cont.)
     include "{{OBJ_DIR}}\game\area.obj"
