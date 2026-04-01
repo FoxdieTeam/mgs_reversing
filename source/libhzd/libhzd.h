@@ -80,6 +80,9 @@ void HZD_ExecBindX( HZD_BIND *, HZD_EVT *, int, int );
 void HZD_ExecEventRCM(HZD_HDL *hzd, HZD_EVT *event, int arg2);
 void HZD_ReExecEvent(HZD_HDL *hzd, HZD_EVT *event, unsigned int flags);
 void HZD_ExecLeaveEvent(HZD_HDL *hzd, HZD_EVT *event);
+void HZD_80029D50(HZD_HDL *hzd, HZD_EVT *event, int arg2);
+
+/* trap.c */
 void HZD_EnterTrap(HZD_HDL *hzd, HZD_EVT *event);
 HZD_TRP *HZD_CheckBehindTrap(HZD_HDL *hzd, SVECTOR *svec);
 
@@ -106,14 +109,18 @@ int HZD_MinNearDist(HZD_HDL *hzd, int from, int to);
 
 #define HZD_NO_ZONE (0xFF)
 
-/* collide.c */
+/* surface.c */
 int HZD_StepCheck(SVECTOR *nears, int count, int scale, SVECTOR *out);
 void HZD_SurfaceNormal(HZD_FLR *floor, SVECTOR *out);
+
+/* line.c */
 int HZD_LineCheck(HZD_HDL *hzd, SVECTOR *from, SVECTOR *to, int flag, int exclude);
 void *HZD_LineNearSurface(void);
 int HZD_LineNearFlag(void);
 void HZD_LineNearDir(SVECTOR *out);
 void HZD_LineNearVec(SVECTOR *out);
+
+/* point.c */
 int HZD_PointCheck(HZD_HDL *hzd, SVECTOR *point, int range, int flag, int exclude);
 void HZD_PointNearSurface(void **surface);
 void HZD_PointNearFlag(char *char_arr);
