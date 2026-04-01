@@ -49,7 +49,7 @@
 #define CHARA_SMOKE             { 0x170c, NewSmoke_800D2BEC }       // GV_StrCode("煙") enemy/smoke.c
 #define CHARA_MYSTERY           { 0x173c, ? }                       // enemy/mystery.c
 #define CHARA_SMKTRGT           { 0x175b, NewSmktrgt_800DC410 }     // okajima/smktrgt.c
-#define CHARA_1787_HIND         { 0x1787, NewHind_800D1224 }        // chara/hind/hind.c
+#define CHARA_1787_HIND         { 0x1787, NewHind }                 // kojo/hind.c
 #define CHARA_BG_SP             { 0x17f5, ? }                       // okajima/photo/bg_sp.c (PC-ONLY)
 #define CHARA_SNOW              { 0x18e3, NewSnow }                 // GV_StrCode("雪") thing/snow.c
 #define CHARA_BUBBLE            { 0x1a02, NewBubbleS_800D5D9C }     // GV_StrCode("泡") okajima/bubble_s.c
@@ -415,7 +415,7 @@ void *NewZakoCommander_800DAF38();      /* animal/zako11e/zk11ecom.c    */
 void *NewZako11F();                     /* animal/zako11f/zako11f.c     */
 void *NewZakoCommander_800D20D8();      /* animal/zako11f/zk11fcom.c    */
 void *NewScenarioJirai();               /* bullet/jirai.c               */
-void *NewHind_800D1224();               /* chara/hind/hind.c            */
+void *NewHind();                        /* kojo/hind.c                  */
 void *s11d_hind_800CB708();             /* chara/hind/hind.c            */
 void *NewHind2();                       /* chara/hind2/hind2.c          */
 void *NewBelong();                      /* chara/others/belong.c        */

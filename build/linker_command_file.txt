@@ -1684,6 +1684,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\takabe\windcrcl.obj", overlay
     include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11g\kojo\hind.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11g\kojo\hindbody.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11g\okajima\blastoff.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11g\okajima\unknown.obj", overlay
 

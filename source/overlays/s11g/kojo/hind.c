@@ -1,6 +1,8 @@
 #include "common.h"
 #include "linkvar.h"
 #include "game/game.h"
+#include "kojo/demo.h"
+#include "hind.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
@@ -9,308 +11,33 @@
 #include "okajima/spark.h"
 #include "takabe/cinema.h"
 
-typedef struct HindWork
-{
-    GV_ACT   actor;
-    CONTROL  control;
-    OBJECT   body;
-    OBJECT   missile1;
-    OBJECT   missile2;
-    MATRIX   body_light[2];
-    MATRIX   missile1_light[2];
-    MATRIX   missile2_light[2];
-    TARGET  *target1;
-    TARGET  *target2;
-    TARGET  *target3;
-    int      field_414;
-    int      field_418;
-    int      field_41C;
-    int      field_420;
-    int      field_424;
-    int      field_428;
-    int      field_42C;
-    int      field_430;
-    int      field_434;
-
-    int      field_438;
-    int      field_43C;
-    int      field_440;
-    int      field_444;
-    int      field_448;
-    int      field_44C;
-    int      field_450;
-    int      field_454;
-    int      field_458;
-    int      field_45C;
-    int      field_460;
-    int      field_464;
-    int      field_468;
-    int      field_46C;
-    int      field_470;
-    int      field_474;
-    int      field_478;
-    int      field_47C;
-    int      field_480;
-    int      field_484;
-    int      field_488;
-    int      field_48C;
-    SVECTOR *field_490;
-    int      field_494;
-    int      field_498;
-    int      field_49C;
-    int      field_4A0;
-    short    field_4A4;
-    short    field_4A6;
-    short    field_4A8;
-    short    field_4AA;
-    int      field_4AC;
-    int      field_4B0;
-    int      field_4B4;
-    int      field_4B8;
-
-    int field_4BC; // TODO: this and following 4 ints are copied as a "block", what's this type?
-    int field_4C0;
-    int field_4C4;
-    int field_4C8;
-
-    int    field_4CC;
-    int    field_4D0;
-    int    field_4D4;
-    int    field_4D8;
-    int    field_4DC;
-    int    field_4E0;
-    int    field_4E4;
-    int    field_4E8;
-    int    field_4EC;
-    int    field_4F0;
-    int    field_4F4;
-    int    field_4F8;
-    int    field_4FC;
-    int    field_500;
-    int    field_504;
-    int    field_508;
-    int    field_50C;
-    int    field_510;
-    int    field_514;
-    VECTOR field_518; // array?
-    VECTOR field_528;
-    VECTOR field_538;
-    VECTOR field_548;
-    int    field_558;
-    int    field_55C;
-    int    field_560;
-    int    field_564;
-    int    field_568;
-    int    field_56C;
-    int    field_570;
-    int    field_574;
-    int    end_proc;
-    TARGET field_57C;
-    int    field_5C4;
-    int    field_5C8;
-    int    field_5CC;
-    int    field_5D0;
-    int    field_5D4;
-    int    field_5D8;
-    int    field_5DC;
-    int    field_5E0;
-    int    field_5E4;
-    int    field_5E8;
-    int    field_5EC;
-    int    field_5F0;
-    int    field_5F4;
-    int    field_5F8;
-
-    int field_5FC; // TODO: this and following 4 ints are copied as a "block", what's this type?
-    int field_600;
-    int field_604;
-    int field_608;
-
-    int field_60C; // TODO: this and following 4 ints are copied as a "block", what's this type?
-    int field_610;
-    int field_614;
-    int field_618;
-
-    int       field_61C;
-    int       field_620;
-    int       field_624;
-    int       field_628;
-    VECTOR    field_62C;
-    SVECTOR   field_63C;
-    SVECTOR   field_644;
-    int       field_64C;
-    int       field_650;
-    int       field_654;
-    int       field_658;
-    SVECTOR   field_65C;
-    SVECTOR   field_664;
-    int       field_66C;
-    int       field_670;
-    int       field_674;
-    int       field_678;
-    OBJECT    missile3;
-    VECTOR    field_760;
-    int       field_770;
-    int       field_774;
-    int       field_778;
-    int       field_77C;
-    int       field_780;
-    int       field_784;
-    SVECTOR   field_788;
-    SVECTOR   field_790;
-    MATRIX    missile3_light[2];
-    SVECTOR   field_7D8;
-    int       field_7E0;
-    int       field_7E4;
-    MENU_BAR_CONF lifebar;
-    int       field_7F4;
-    int       field_7F8;
-    int       vox_ids[0];
-    int       field_7FC[1]; // unknown how large
-    int       field_800;
-    int       field_804;
-    int       field_808;
-    int       field_80C;
-    int       field_810;
-    int       field_814;
-    int       field_818;
-    int       field_81C;
-    int       field_820;
-    int       field_824;
-    int       field_828;
-    int       field_82C;
-    int       field_830;
-    int       field_834;
-    int       field_838;
-    int       field_83C;
-    int       field_840;
-    int       field_844;
-    int       field_848;
-    int       field_84C;
-    int       field_850;
-    int       field_854;
-    int       field_858;
-    int       field_85C;
-    int       field_860;
-    int       field_864;
-    int       field_868;
-    int       field_86C;
-    int       field_870;
-    int       field_874;
-    int       field_878;
-    int       field_87C;
-    int       field_880;
-    int       field_884;
-    int       field_888;
-    int       field_88C;
-    int       field_890;
-    int       field_894;
-    int       field_898;
-    int       field_89C;
-    int       field_8A0;
-    int       field_8A4;
-    int       field_8A8;
-    int       field_8AC;
-    int       field_8B0;
-    int       field_8B4;
-    int       field_8B8;
-    int       field_8BC;
-    int       field_8C0;
-    int       field_8C4;
-    int       field_8C8;
-    int       field_8CC;
-    int       field_8D0;
-    int       field_8D4;
-    int       last_time;
-    int       last_time2;
-    int       field_8E0;
-    GV_ACT   *field_8E4;
-    GV_ACT   *field_8E8;
-    int       field_8EC;
-    int       field_8F0;
-    int       last_item;
-    int       last_weapon;
-    int       field_8FC;
-    int       field_900;
-    int       field_904;
-    int       field_908;
-    int       field_90C;
-    int       field_910;
-    int       field_914;
-    int       field_918;
-    int       field_91C;
-    int       field_920;
-    int       field_924;
-    int       field_928;
-    int       field_92C;
-    int       field_930;
-    int       name;
-    int       field_938;
-    int       field_93C;
-    int       field_940;
-    int       field_944;
-    int       field_948;
-    int       field_94C;
-    int       field_950;
-    int       field_954;
-    int       field_958;
-    int       field_95C;
-    int       field_960;
-    int       field_964;
-    int       field_968;
-    int       field_96C;
-    SVECTOR   field_970[32];
-    SVECTOR  *field_A70;
-    int       field_A74;
-    int       field_A78;
-    int       field_A7C;
-} HindWork;
-
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
+extern DG_CHANL         DG_Chanls[3];
+extern GM_CAMERA        GM_Camera;
+extern int              MENU_RadarScale;
 
 SVECTOR s11g_dword_800C3598 = {5000, 3000, 5000, 0};
 SVECTOR s11g_dword_800C35A0 = {100, 0, 0, 0};
 
-extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
-extern DG_CHANL         DG_Chanls[3];
-extern GM_CAMERA        GM_Camera;
-
-void sub_8007F0D0(VECTOR *out, VECTOR *a, VECTOR *b, VECTOR *c);
-
-void HindAct_800D3404(HindWork *work);
-void HindDie_800D45C0(HindWork *work);
-
-void HindGetIntParams_800D11E0(unsigned char *param, int *result)
+static void GetInts(u_char *param, int *out)
 {
-    unsigned char *param2;
+    u_char *result;
 
-    while ((param2 = GCL_GetParamResult()))
+    while ((result = GCL_GetParamResult()))
     {
-        *result = GCL_StrToInt(param2);
-        result++;
+        *out++ = GCL_StrToInt(result);
     }
 }
 
-static inline int min(int a, int b)
+void *NewHind(int name, int where)
 {
-    return a < b ? a : b;
-}
-
-static inline int max(int a, int b)
-{
-    return a > b ? a : b;
-}
-
-void *NewHind_800D1224(int name, int where)
-{
+    SVECTOR   svec;
+    VECTOR    vec1, vec2, vec3;
     HindWork *work;
-
-    SVECTOR        svec;
-    VECTOR         vec1, vec2, vec3;
-    HZD_SEG       *walls;
-    HZD_FLR       *floors;
-    int            i;
-    unsigned char *param;
+    HZD_SEG  *walls;
+    HZD_FLR  *floors;
+    int       i;
+    u_char   *param;
 
     work = GV_NewActor(EXEC_LEVEL, sizeof(HindWork));
     if (work == NULL)
@@ -318,7 +45,7 @@ void *NewHind_800D1224(int name, int where)
         return NULL;
     }
 
-    GV_SetNamedActor(work, HindAct_800D3404, HindDie_800D45C0, "hind.c");
+    GV_SetNamedActor(work, HindAct_800D3404, HindDie, "hind.c");
 
     if (GM_InitControl(&work->control, name, where) < 0)
     {
@@ -540,38 +267,42 @@ void *NewHind_800D1224(int name, int where)
         param = GCL_GetParamResult();
         if (param)
         {
-            work->field_4BC = GCL_StrToInt(param) * 1000;
-        }
-        param = GCL_GetParamResult();
-        if (param)
-        {
-            work->field_4C0 = GCL_StrToInt(param) * 1000;
-        }
-        param = GCL_GetParamResult();
-        if (param)
-        {
-            work->field_4C4 = (GCL_StrToInt(param) * 1000);
+            work->field_4BC.vx = GCL_StrToInt(param) * 1000;
         }
 
-        // TODO: What's this memcopied stucture/array?
-        memcpy(&work->field_5FC, &work->field_4BC, 4 * 4);
-        memcpy(&work->field_60C, &work->field_4BC, 4 * 4);
+        param = GCL_GetParamResult();
+        if (param)
+        {
+            work->field_4BC.vy = GCL_StrToInt(param) * 1000;
+        }
+
+        param = GCL_GetParamResult();
+        if (param)
+        {
+            work->field_4BC.vz = (GCL_StrToInt(param) * 1000);
+        }
+
+        work->field_5FC = work->field_4BC;
+        work->field_60C = work->field_4BC;
 
         param = GCL_GetParamResult();
         if (param)
         {
             work->control.turn.vx = GCL_StrToInt(param) * 4096 / 360;
         }
+
         param = GCL_GetParamResult();
         if (param)
         {
             work->control.turn.vy = GCL_StrToInt(param) * 4096 / 360;
         }
+
         param = GCL_GetParamResult();
         if (param)
         {
             work->control.turn.vz = GCL_StrToInt(param) * 4096 / 360;
         }
+
         param = GCL_GetParamResult();
         if (param)
         {
@@ -746,9 +477,9 @@ void *NewHind_800D1224(int name, int where)
     work->field_4B4 = work->field_41C * 4096 / 1800;
     work->field_4B8 = work->field_420 * 4096 / 1800;
 
-    work->field_514 = max(work->body.objs->def->max.vx - work->body.objs->def->min.vx,
+    work->field_514 = MAX(work->body.objs->def->max.vx - work->body.objs->def->min.vx,
                           work->body.objs->def->max.vy - work->body.objs->def->min.vy);
-    work->field_514 = max(work->field_514, work->body.objs->def->max.vz - work->body.objs->def->min.vz);
+    work->field_514 = MAX(work->field_514, work->body.objs->def->max.vz - work->body.objs->def->min.vz);
 
     work->field_514 = 33200 - work->field_514 / 3;
 
@@ -806,41 +537,41 @@ void *NewHind_800D1224(int name, int where)
     walls = work->control.map->hzd->group->walls;
     for (i = 0; i < work->control.map->hzd->group->n_walls; i++, walls++)
     {
-        work->field_558 = min(work->field_558, walls->p1.x);
-        work->field_55C = min(work->field_55C, walls->p1.y);
-        work->field_560 = min(work->field_560, walls->p1.z);
+        work->field_558 = MIN(work->field_558, walls->p1.x);
+        work->field_55C = MIN(work->field_55C, walls->p1.y);
+        work->field_560 = MIN(work->field_560, walls->p1.z);
 
-        work->field_558 = min(work->field_558, walls->p2.x);
-        work->field_55C = min(work->field_55C, walls->p2.y);
-        work->field_560 = min(work->field_560, walls->p2.z);
+        work->field_558 = MIN(work->field_558, walls->p2.x);
+        work->field_55C = MIN(work->field_55C, walls->p2.y);
+        work->field_560 = MIN(work->field_560, walls->p2.z);
 
-        work->field_568 = max(work->field_568, walls->p1.x);
-        work->field_56C = max(work->field_56C, walls->p1.y);
-        work->field_570 = max(work->field_570, walls->p1.z + walls->p1.h);
+        work->field_568 = MAX(work->field_568, walls->p1.x);
+        work->field_56C = MAX(work->field_56C, walls->p1.y);
+        work->field_570 = MAX(work->field_570, walls->p1.z + walls->p1.h);
 
-        work->field_568 = max(work->field_568, walls->p2.x);
-        work->field_56C = max(work->field_56C, walls->p2.y);
-        work->field_570 = max(work->field_570, walls->p2.z + walls->p2.h);
+        work->field_568 = MAX(work->field_568, walls->p2.x);
+        work->field_56C = MAX(work->field_56C, walls->p2.y);
+        work->field_570 = MAX(work->field_570, walls->p2.z + walls->p2.h);
     }
 
     floors = work->control.map->hzd->group->floors;
     for (i = 0; i < work->control.map->hzd->group->n_floors; i++, floors++)
     {
-        work->field_558 = min(work->field_558, floors->b1.x);
-        work->field_55C = min(work->field_55C, floors->b1.y);
-        work->field_560 = min(work->field_560, floors->b1.z);
+        work->field_558 = MIN(work->field_558, floors->b1.x);
+        work->field_55C = MIN(work->field_55C, floors->b1.y);
+        work->field_560 = MIN(work->field_560, floors->b1.z);
 
-        work->field_558 = min(work->field_558, floors->b2.x);
-        work->field_55C = min(work->field_55C, floors->b2.y);
-        work->field_560 = min(work->field_560, floors->b2.z);
+        work->field_558 = MIN(work->field_558, floors->b2.x);
+        work->field_55C = MIN(work->field_55C, floors->b2.y);
+        work->field_560 = MIN(work->field_560, floors->b2.z);
 
-        work->field_568 = max(work->field_568, floors->b1.x);
-        work->field_56C = max(work->field_56C, floors->b1.y);
-        work->field_570 = max(work->field_570, floors->b1.z);
+        work->field_568 = MAX(work->field_568, floors->b1.x);
+        work->field_56C = MAX(work->field_56C, floors->b1.y);
+        work->field_570 = MAX(work->field_570, floors->b1.z);
 
-        work->field_568 = max(work->field_568, floors->b2.x);
-        work->field_56C = max(work->field_56C, floors->b2.y);
-        work->field_570 = max(work->field_570, floors->b2.z);
+        work->field_568 = MAX(work->field_568, floors->b2.x);
+        work->field_56C = MAX(work->field_56C, floors->b2.y);
+        work->field_570 = MAX(work->field_570, floors->b2.z);
     }
 
     for (i = 0; i < 11; i++)
@@ -851,7 +582,7 @@ void *NewHind_800D1224(int name, int where)
     param = GCL_GetOption('v');
     if (param)
     {
-        HindGetIntParams_800D11E0(param, work->field_7FC);
+        GetInts(param, work->vox_ids);
     }
 
     param = GCL_GetOption('c');
@@ -946,7 +677,7 @@ void *NewHind_800D1224(int name, int where)
         break;
     }
 
-    GM_VoxStream(work->field_7FC[0], 0x40000000);
+    GM_VoxStream(work->vox_ids[0], 0x40000000);
 
     for (i = 0; i < 32; i++)
     {
@@ -966,8 +697,172 @@ void Hind_LookAt_800D2C1C(SVECTOR *eye, SVECTOR *center)
     gUnkCameraStruct2_800B7868.center = *center;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D2CB4.s")
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D2F60.s")
+TILE SECTION(".bss") s11g_dword_800DD34C[2];
+
+void s11g_hind_800D2CB4(HindWork *work)
+{
+    u_long *ot;
+    TILE   *tile;
+    int     scale;
+    int     px, pz;
+    int     x, z;
+    int     clip;
+
+    if (GM_GameStatus & (STATE_RADAR_OFF | STATE_CHAFF))
+    {
+        return;
+    }
+
+    if (GM_OptionFlag & OPTION_RADAR_OFF)
+    {
+        return;
+    }
+
+    if (GM_CurrentItemId == IT_Camera)
+    {
+        return;
+    }
+
+    ot = DG_Chanl(1)->ot[GV_Clock];
+    tile = &s11g_dword_800DD34C[GV_Clock];
+
+    SetTile(tile);
+
+    scale = MENU_RadarScale;
+    px = GM_PlayerPosition.vx;
+    pz = GM_PlayerPosition.vz;
+    x = ((work->field_4BC.vx - px) * scale) / 4096;
+    z = ((work->field_4BC.vz - pz) * scale) / 4096;
+
+    clip = 0;
+
+    if (x < -34)
+    {
+        z = -(z * 34) / x;
+        x = -34;
+        clip = 1;
+    }
+
+    if (x > 32)
+    {
+        z = (z * 32) / x;
+        x = 32;
+        clip = 1;
+    }
+
+    if (z < -26)
+    {
+        x = -(x * 26) / z;
+        z = -26;
+        clip = 1;
+    }
+
+    if (z > 24)
+    {
+        x = (x * 24) / z;
+        z = 24;
+        clip = 1;
+    }
+
+    setXY0(tile, x + 270, z + 42);
+    setWH(tile, 2, 2);
+
+    if (clip == 0)
+    {
+        setRGB0(tile, 255, 0, 0);
+    }
+    else
+    {
+        setRGB0(tile, 255, 0, 255);
+    }
+
+    addPrim(ot, tile);
+}
+
+void s11g_hind_800D2F60(HindWork *work)
+{
+    DG_VECTOR sp10[2];
+    VECTOR    sp30;
+    VECTOR    sp38;
+    VECTOR   *vec;
+    int       len;
+    int       len2;
+
+    sp30.vx = GM_PlayerPosition.vx;
+    sp30.vy = GM_PlayerPosition.vy;
+    sp30.vz = GM_PlayerPosition.vz;
+    sp38 = work->field_760;
+    sub_8007F06C(sp10, &sp30, &sp38);
+
+    vec = NULL;
+
+    if (sp38.vx < -work->field_514)
+    {
+        vec = &work->field_518;
+        sub_8007F1DC(&sp38, sp10, vec);
+    }
+    else if (sp38.vx > work->field_514)
+    {
+        vec = &work->field_528;
+        sub_8007F1DC(&sp38, sp10, vec);
+    }
+
+    if (sp38.vz < -work->field_514)
+    {
+        vec = &work->field_538;
+        sub_8007F1DC(&sp38, sp10, vec);
+    }
+    else if (sp38.vz > work->field_514)
+    {
+        vec = &work->field_548;
+        sub_8007F1DC(&sp38, sp10, vec);
+    }
+
+    if (vec == NULL)
+    {
+        sp30.vx = 4096;
+        sp30.vy = 4096;
+        sp30.vz = 4096;
+        ScaleMatrix(&work->missile3.objs->world, &sp30);
+        work->field_670 = 4096;
+        work->field_7D8.vx = work->field_760.vx;
+        work->field_7D8.vy = work->field_760.vy;
+        work->field_7D8.vz = work->field_760.vz;
+        return;
+    }
+
+    sp30.vx = (work->field_760.vx - gUnkCameraStruct2_800B7868.eye.vx) >> 2;
+    sp30.vy = (work->field_760.vy - gUnkCameraStruct2_800B7868.eye.vy) >> 2;
+    sp30.vz = (work->field_760.vz - gUnkCameraStruct2_800B7868.eye.vz) >> 2;
+
+    len = SquareRoot0(sp30.vx * sp30.vx + sp30.vy * sp30.vy + sp30.vz * sp30.vz) * 4;
+
+    sub_8007F1DC(&sp38, sp10, vec);
+
+    work->field_7D8.vx = sp38.vx;
+    work->field_7D8.vy = sp38.vy;
+    work->field_7D8.vz = sp38.vz;
+
+    sp30.vx = sp38.vx - gUnkCameraStruct2_800B7868.eye.vx;
+    sp30.vy = sp38.vy - gUnkCameraStruct2_800B7868.eye.vy;
+    sp30.vz = sp38.vz - gUnkCameraStruct2_800B7868.eye.vz;
+
+    len2 = SquareRoot0(sp30.vx * sp30.vx + sp30.vy * sp30.vy + sp30.vz * sp30.vz);
+    if (len == 0)
+    {
+        len = len2 * 4096;
+    }
+    else
+    {
+        len = (len2 * 4096) / len;
+    }
+
+    sp30.vx = len;
+    sp30.vy = len;
+    sp30.vz = len;
+    ScaleMatrix(&work->missile3.objs->world, &sp30);
+    work->field_670 = len;
+}
 
 void s11g_hind_800D3214(HindWork *work)
 {
@@ -1003,15 +898,6 @@ void s11g_hind_800D3214(HindWork *work)
         }
     }
 }
-
-int SECTION(".bss") s11g_dword_800DD34C;
-int SECTION(".bss") s11g_dword_800DD350;
-int SECTION(".bss") s11g_dword_800DD354;
-int SECTION(".bss") s11g_dword_800DD358;
-int SECTION(".bss") s11g_dword_800DD35C;
-int SECTION(".bss") s11g_dword_800DD360;
-int SECTION(".bss") s11g_dword_800DD364;
-int SECTION(".bss") s11g_dword_800DD368;
 
 char SECTION(".bss") hind_lifebar_name[8];
 
@@ -1071,9 +957,21 @@ void Hind_800D33CC(HindWork *work, int arg)
     GCL_ExecProc(work->field_8F0, &args);
 }
 
+const char s11g_aBulletoff_800DD130[] = "bullet_off";
+const char s11g_aBulleton_800DD13C[] = "bullet_on";
+const char s11g_aDestroy_800DD148[] = "destroy";
+const int s11g_dword_800DD150 = 0x800D3818;
+const int s11g_dword_800DD154 = 0x800D36F8;
+const int s11g_dword_800DD158 = 0x800D3704;
+const int s11g_dword_800DD15C = 0x800D3734;
+const int s11g_dword_800DD160 = 0x800D37E8;
+
+int SECTION(".bss") s11g_dword_800DD374;
+int SECTION(".bss") s11g_dword_800DD378;
+
 #pragma INCLUDE_ASM("asm/overlays/s11g/HindAct_800D3404.s")
 
-void HindDie_800D45C0(HindWork *work)
+void HindDie(HindWork *work)
 {
     GM_GameStatus &= ~STATE_PADDEMO;
     GM_GameStatus &= ~(STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF);
@@ -1104,24 +1002,6 @@ void HindDie_800D45C0(HindWork *work)
     GM_FreeTarget(work->target2);
     GM_FreeTarget(work->target3);
 }
-
-const char s11g_aBulletoff_800DD130[] = "bullet_off";
-const char s11g_aBulleton_800DD13C[] = "bullet_on";
-const char s11g_aDestroy_800DD148[] = "destroy";
-const int s11g_dword_800DD150 = 0x800D3818;
-const int s11g_dword_800DD154 = 0x800D36F8;
-const int s11g_dword_800DD158 = 0x800D3704;
-const int s11g_dword_800DD15C = 0x800D3734;
-const int s11g_dword_800DD160 = 0x800D37E8;
-const int s11g_dword_800DD164 = 0x800D4E10;
-const int s11g_dword_800DD168 = 0x800D4E40;
-const int s11g_dword_800DD16C = 0x800D4EA8;
-const int s11g_dword_800DD170 = 0x800D4F94;
-const int s11g_dword_800DD174 = 0x800D50B0;
-const char s11g_dword_800DD178[] = {0x0, 0x0, 0x0, 0x0};
-
-int SECTION(".bss") s11g_dword_800DD374;
-int SECTION(".bss") s11g_dword_800DD378;
 
 void s11g_hind_800D46B8(SVECTOR *pos, int se_id)
 {
@@ -1211,7 +1091,7 @@ int s11g_hind_800D4990(HindWork *work)
     return HZD_LineCheck(work->control.map->hzd, &GM_PlayerPosition, &midpoint, ( HZD_CHECK_SEG | HZD_CHECK_FLR ), HZD_SEG_NO_PLAYER) != 0;
 }
 
-void s11g_hind_800D4A24(int *vec, int *pos, int *old, int len)
+void s11g_hind_800D4A24(long *vec, long *pos, long *old, int len)
 {
     int interp;
 
@@ -1227,17 +1107,411 @@ void s11g_hind_800D4A80(VECTOR *vec, VECTOR *pos, int len)
     vec->vz = (vec->vz * (len - 1) + pos->vz) / len;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D4B68.s")
-void s11g_hind_800D4B68(SVECTOR *, SVECTOR *, int);
+void s11g_hind_800D4B68(SVECTOR *vec, SVECTOR *pos, int len)
+{
+    SVECTOR diff;
+    int     interp;
 
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D4DD0.s")
-void s11g_hind_800D4DD0(HindWork *);
+    interp = len - 1;
 
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D50F0.s")
-void s11g_hind_800D50F0(HindWork *);
+    vec->vx &= 0xFFF;
+    vec->vy &= 0xFFF;
+    vec->vz &= 0xFFF;
 
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D5420.s")
-void s11g_hind_800D5420(HindWork *);
+    pos->vx &= 0xFFF;
+    pos->vy &= 0xFFF;
+    pos->vz &= 0xFFF;
+
+    diff.vx = pos->vx - vec->vx;
+    diff.vy = pos->vy - vec->vy;
+    diff.vz = pos->vz - vec->vz;
+
+    if (diff.vx >= 2048)
+    {
+        vec->vx += 4096;
+    }
+
+    if (diff.vy >= 2048)
+    {
+        vec->vy += 4096;
+    }
+
+    if (diff.vz >= 2048)
+    {
+        vec->vz += 4096;
+    }
+
+    if (diff.vx <= -2048)
+    {
+        pos->vx += 4096;
+    }
+
+    if (diff.vy <= -2048)
+    {
+        pos->vy += 4096;
+    }
+
+    if (diff.vz <= -2048)
+    {
+        pos->vz += 4096;
+    }
+
+    vec->vx = (vec->vx * interp + pos->vx) / len;
+    vec->vy = (vec->vy * interp + pos->vy) / len;
+    vec->vz = (vec->vz * interp + pos->vz) / len;
+}
+
+void s11g_hind_800D4DD0(HindWork *work)
+{
+    switch (work->field_5C8)
+    {
+    case 0:
+        work->field_5C8 = 1;
+        work->field_5E4 = 8;
+        work->field_60C = work->field_4BC;
+        /* fallthrough */
+    case 1:
+        if (work->field_5E4 > 0)
+        {
+            s11g_hind_800D4A80(&work->field_5FC, &work->field_60C, 16);
+        }
+        else
+        {
+            work->field_5C8 = 2;
+            work->field_5E4 = GV_RandU(16) + 60;
+            work->field_60C = work->field_4BC;
+            work->field_60C.vy = 20000;
+        }
+        break;
+    case 2:
+        if (work->field_5E4 > 0)
+        {
+            s11g_hind_800D4A80(&work->field_5FC, &work->field_60C, 64);
+        }
+        else
+        {
+            work->field_8CC = 1;
+            work->field_5C8 = 3;
+            work->field_5E4 = GV_RandU(32) + 90;
+            work->field_5E8 = GV_RandU(2);
+
+            if (work->field_60C.vx < 0)
+            {
+                work->field_60C.vx = GV_RandU(16384) + 55000;
+                work->field_60C.vy = GV_RandU(4096) + 20000;
+                work->field_60C.vz = 8000 - GV_RandU(4096);
+            }
+            else
+            {
+                work->field_60C.vx = -(GV_RandU(16384) + 55000);
+                work->field_60C.vy = 20000;
+                work->field_60C.vz = 12000 - GV_RandU(4096);
+            }
+
+            work->field_61C = work->field_60C;
+        }
+        break;
+    case 3:
+        if (work->field_5E4 > 0)
+        {
+            s11g_hind_800D4A80(&work->field_5FC, &work->field_60C, 128);
+        }
+        else
+        {
+            if (work->field_5E8 < 0)
+            {
+                work->field_5C8 = 4;
+                work->field_5E4 = GV_RandU(128) + 128;
+
+                if (work->field_60C.vx < 0)
+                {
+                    work->field_60C.vx = -20000;
+                }
+
+                if (work->field_60C.vx > 0)
+                {
+                    work->field_60C.vx = 20000;
+                }
+
+                work->field_60C.vy = 7000;
+                work->field_60C.vz = GM_PlayerPosition.vz + GV_RandS(4096);
+                if (work->field_60C.vz > 12000)
+                {
+                    work->field_60C.vz = 12000 - GV_RandS(4096);
+                }
+            }
+            else
+            {
+                work->field_5C8 = 3;
+                work->field_5E4 = GV_RandU(16) + 10;
+                work->field_60C.vx = work->field_61C.vx + GV_RandS(8192);
+                work->field_60C.vy = work->field_61C.vy + GV_RandS(8192);
+                work->field_60C.vz = work->field_61C.vz + GV_RandS(8192);
+            }
+
+            work->field_5E8--;
+        }
+        break;
+    case 4:
+        if (work->field_5E4 > 0)
+        {
+            s11g_hind_800D4A80(&work->field_5FC, &work->field_60C, 32);
+        }
+        else
+        {
+            work->field_5C4 = 2;
+            work->field_5C8 = 0;
+        }
+        break;
+    }
+}
+
+void s11g_hind_800D50F0(HindWork *work)
+{
+    switch (work->field_5C8)
+    {
+    case 0:
+        work->field_5C8 = 1;
+        work->field_5E4 = 8;
+        work->field_60C = work->field_4BC;
+        /* fallthrough */
+    case 1:
+        if (work->field_5E4 > 0)
+        {
+            s11g_hind_800D4A80(&work->field_5FC, &work->field_60C, 16);
+        }
+        else
+        {
+            work->field_5C8 = 2;
+            work->field_5E4 = GV_RandU(16) + 60;
+            work->field_60C = work->field_4BC;
+            work->field_60C.vy = 20000;
+        }
+        break;
+    case 2:
+        if (work->field_5E4 > 0)
+        {
+            s11g_hind_800D4A80(&work->field_5FC, &work->field_60C, 64);
+        }
+        else
+        {
+            work->field_5C8 = 3;
+            work->field_5E4 = GV_RandU(32) + 150;
+            work->field_5E8 = (GV_RandU(4) * 2) + 8;
+            work->field_60C.vx = GV_RandS(4096) + 2000;
+            work->field_60C.vy = GV_RandU(1024) + 9000;
+            work->field_60C.vz = GV_RandS(2048) - 15000;
+        }
+        break;
+    case 3:
+        if ((work->field_5D4 == 1) && (GM_PlayerStatus & PLAYER_INVINCIBLE))
+        {
+            work->field_5D4 = 0;
+            work->field_5C4 = 0;
+            work->field_5C8 = 0;
+            s11g_hind_800D4744(work);
+        }
+        else if (work->field_5E4 > 0)
+        {
+            s11g_hind_800D4A80(&work->field_5FC, &work->field_60C, 128);
+        }
+        else
+        {
+            switch (work->field_8C0++ % 4)
+            {
+            case 0:
+                s11g_hind_800D46D8(work, 4);
+                break;
+            case 1:
+                s11g_hind_800D46D8(work, 5);
+                break;
+            case 2:
+                s11g_hind_800D46D8(work, 6);
+                break;
+            case 3:
+                s11g_hind_800D46D8(work, 7);
+                break;
+            }
+
+            if (GV_RandU(4) != 0)
+            {
+                if (!(work->field_5E8 & 1) && (work->field_5EC < 0))
+                {
+                    s11g_hind_800D48E8(work);
+                    work->field_5D4 = 1;
+                }
+                else
+                {
+                    work->field_5D4 = 0;
+                    work->field_954 = GV_RandU(8) + 8;
+                }
+
+                work->field_5C8 = 3;
+                work->field_5E4 = GV_RandU(32) + 150;
+                work->field_60C.vx = GV_RandS(4096) + 2000;
+                work->field_60C.vy = GV_RandU(4096) + 12000;
+                work->field_60C.vz = GV_RandS(2048) - 2000;
+            }
+            else
+            {
+                work->field_5D4 = 0;
+                work->field_954 = GV_RandU(8) + 8;
+                work->field_5C4 = 0;
+                work->field_5C8 = 0;
+            }
+
+            work->field_5E8--;
+        }
+        break;
+    }
+}
+
+void s11g_hind_800D5420(HindWork *work)
+{
+    switch (work->field_5C8)
+    {
+    case 0:
+        work->field_5C8 = 1;
+        work->field_5E4 = 8;
+        work->field_60C = work->field_4BC;
+        work->field_61C = work->field_4BC;
+        work->field_5E8 = GV_RandU(4) + 4;
+        s11g_hind_800D48E8(work);
+        /* fallthrough */
+    case 1:
+        if ((work->field_5D4 == 1) && (GM_PlayerStatus & PLAYER_DAMAGED) && (work->field_5EC < 0))
+        {
+            work->field_5D4 = 0;
+            work->field_954 = GV_RandU(2) + 4;
+            work->field_5E4 = -1;
+            work->field_5E8 = -1;
+            work->field_5EC = 60;
+            s11g_hind_800D4744(work);
+        }
+
+        if (work->field_5E4 <= 0)
+        {
+            work->field_61C.vy += 1500;
+            if (work->field_61C.vy > 8000)
+            {
+                work->field_61C.vy = GV_RandS(4096) + 5000;
+            }
+
+            if ((work->field_5E8 < 0) || s11g_hind_800D4990(work))
+            {
+                if (GV_RandU(2) == 0)
+                {
+                    work->field_5D4 = 0;
+                    work->field_954 = GV_RandU(4) + 4;
+
+                    if (GV_RandU(8) == 0)
+                    {
+                        switch (GV_RandU(8))
+                        {
+                        case 0:
+                        case 1:
+                        case 2:
+                        case 3:
+                        case 4:
+                        case 5:
+                            s11g_hind_800D46D8(work, 11);
+                            break;
+                        case 6:
+                            s11g_hind_800D46D8(work, 12);
+                            break;
+                        case 7:
+                            s11g_hind_800D46D8(work, 16);
+                            break;
+                        }
+                    }
+
+                    if (GV_RandU(8))
+                    {
+                        work->field_5C4 = 0;
+                        work->field_5C8 = 0;
+                    }
+                    else
+                    {
+                        work->field_5C4 = 1;
+                        work->field_5C8 = 0;
+                    }
+                }
+                else
+                {
+                    switch (GV_RandU(4))
+                    {
+                    case 0:
+                        s11g_hind_800D46D8(work, 10);
+                        break;
+                    case 1:
+                        s11g_hind_800D46D8(work, 9);
+                        break;
+                    }
+
+                    work->field_5C8 = 2;
+                    work->field_5E4 = GV_RandU(32) + 60;
+                    work->field_60C.vx = work->field_61C.vx;
+                    work->field_60C.vy = work->field_61C.vy + GV_RandU(4096);
+                    work->field_60C.vz = GM_PlayerPosition.vz + GV_RandS(8192);
+                    if (work->field_60C.vz > 12000)
+                    {
+                        work->field_60C.vz = 12000 - GV_RandS(4096);
+                    }
+                }
+            }
+            else
+            {
+                if (!(work->field_5E8 & 0x1) && (work->field_5EC < 0))
+                {
+                    s11g_hind_800D48E8(work);
+                    work->field_5D4 = 1;
+                }
+                else
+                {
+                    work->field_5D4 = 0;
+                    work->field_954 = GV_RandU(4) + 4;
+                }
+
+                work->field_5C8 = 1;
+                work->field_5E4 = GV_RandU(32) + 60;
+                work->field_60C.vx = work->field_61C.vx;
+                work->field_60C.vy = work->field_61C.vy + GV_RandS(2048);
+                work->field_60C.vz = GM_PlayerPosition.vz + GV_RandS(8192);
+                if (work->field_60C.vz > 12000)
+                {
+                    work->field_60C.vz = 12000 - GV_RandS(4096);
+                }
+            }
+
+            work->field_5E8--;
+        }
+        else
+        {
+            s11g_hind_800D4A80(&work->field_5FC, &work->field_60C, 128);
+        }
+        break;
+    case 2:
+        if (work->field_5E4 > 0)
+        {
+            s11g_hind_800D4A80(&work->field_5FC, &work->field_60C, 128);
+            return;
+        }
+        else
+        {
+            work->field_5C8 = 1;
+            work->field_5E4 = GV_RandU(32) + 60;
+            work->field_5E8 = GV_RandU(2) + 2;
+            work->field_60C.vx = work->field_61C.vx;
+            work->field_60C.vy = work->field_61C.vy - GV_RandU(8192);
+            work->field_60C.vz = GM_PlayerPosition.vz + GV_RandS(8192);
+            if (work->field_60C.vz > 12000)
+            {
+                work->field_60C.vz = 12000 - GV_RandS(4096);
+            }
+        }
+        break;
+    }
+}
 
 void s11g_hind_800D5820(HindWork *work)
 {
@@ -1246,8 +1520,8 @@ void s11g_hind_800D5820(HindWork *work)
     SVECTOR turn;
     SVECTOR pos;
     int     dx, dz;
-    int     sp30;
-    int     sp34;
+    long    sp30;
+    long    sp34;
     int     time;
 
     if (work->field_938 == 1)
@@ -1280,34 +1554,34 @@ void s11g_hind_800D5820(HindWork *work)
     }
 
     time = work->field_5E0;
-    work->field_600 += (rsin(time * 64) - rsin((time - 1) * 64)) / 2;
-    work->field_5FC += rsin(time * 23) - rsin((time - 1) * 23);
-    work->field_604 += rsin(time * 32) - rsin((time - 1) * 32);
+    work->field_5FC.vy += (rsin(time * 64) - rsin((time - 1) * 64)) / 2;
+    work->field_5FC.vx += rsin(time * 23) - rsin((time - 1) * 23);
+    work->field_5FC.vz += rsin(time * 32) - rsin((time - 1) * 32);
 
-    if (GM_GameStatus & 0x10)
+    if (GM_GameStatus & STATE_BEHIND_CAMERA)
     {
-        pos.vx = (gUnkCameraStruct2_800B7868.eye.vx * 7 + work->field_4BC) / 8;
+        pos.vx = (gUnkCameraStruct2_800B7868.eye.vx * 7 + work->field_4BC.vx) / 8;
         pos.vy = gUnkCameraStruct2_800B7868.eye.vy;
-        pos.vz = (gUnkCameraStruct2_800B7868.eye.vz * 7 + work->field_4C4) / 8;
+        pos.vz = (gUnkCameraStruct2_800B7868.eye.vz * 7 + work->field_4BC.vz) / 8;
     }
     else
     {
-        pos.vx = (GM_PlayerPosition.vx * 7 + work->field_4BC) / 8;
+        pos.vx = (GM_PlayerPosition.vx * 7 + work->field_4BC.vx) / 8;
         pos.vy = GM_PlayerPosition.vy;
-        pos.vz = (GM_PlayerPosition.vz * 7 + work->field_4C4) / 8;
+        pos.vz = (GM_PlayerPosition.vz * 7 + work->field_4BC.vz) / 8;
     }
 
-    s11g_hind_800D4A24(&work->field_4BC, &work->field_5FC, &sp30, 40);
+    s11g_hind_800D4A24(&work->field_4BC.vx, &work->field_5FC.vx, &sp30, 40);
     turn.vx = sp30;
 
-    s11g_hind_800D4A24(&work->field_4C0, &work->field_600, &sp34, 26);
+    s11g_hind_800D4A24(&work->field_4BC.vy, &work->field_5FC.vy, &sp34, 26);
     turn.vy = 0;
 
-    s11g_hind_800D4A24(&work->field_4C4, &work->field_604, &sp30, 40);
+    s11g_hind_800D4A24(&work->field_4BC.vz, &work->field_5FC.vz, &sp30, 40);
     turn.vz = -sp30;
 
-    dx = (GM_PlayerPosition.vx - work->field_4BC) >> 1;
-    dz = (GM_PlayerPosition.vz - work->field_4C4) >> 1;
+    dx = (GM_PlayerPosition.vx - work->field_4BC.vx) >> 1;
+    dz = (GM_PlayerPosition.vz - work->field_4BC.vz) >> 1;
 
     sp18.vy = ratan2(dx, dz) & 0xFFF;
     sp18.vx = 0;
@@ -1390,278 +1664,3 @@ void s11g_hind_800D5820(HindWork *work)
         }
     }
 }
-
-const int s11g_dword_800DD190 = 0x800D68E0;
-const int s11g_dword_800DD194 = 0x800D68F0;
-const int s11g_dword_800DD198 = 0x800D69E4;
-const int s11g_dword_800DD19C = 0x800D7628;
-const int s11g_dword_800DD1A0 = 0x800D7628;
-const int s11g_dword_800DD1A4 = 0x800D7020;
-const int s11g_dword_800DD1A8 = 0x800D70A8;
-const int s11g_dword_800DD1AC = 0x800D724C;
-const int s11g_dword_800DD1B0 = 0x800D743C;
-const int s11g_dword_800DD1B4 = 0x800D7628;
-const int s11g_dword_800DD1B8 = 0x800D7628;
-const int s11g_dword_800DD1BC = 0x800D7628;
-const int s11g_dword_800DD1C0 = 0x800D7628;
-const int s11g_dword_800DD1C4 = 0x800D7628;
-const int s11g_dword_800DD1C8 = 0x800D7628;
-const int s11g_dword_800DD1CC = 0x800D7628;
-const int s11g_dword_800DD1D0 = 0x800D7628;
-const int s11g_dword_800DD1D4 = 0x800D6A54;
-const int s11g_dword_800DD1D8 = 0x800D6BE0;
-const int s11g_dword_800DD1DC = 0x800D7628;
-const int s11g_dword_800DD1E0 = 0x800D7628;
-const int s11g_dword_800DD1E4 = 0x800D6D40;
-const int s11g_dword_800DD1E8 = 0x800D7700;
-const int s11g_dword_800DD1EC = 0x800D776C;
-const int s11g_dword_800DD1F0 = 0x800D7868;
-const int s11g_dword_800DD1F4 = 0x800D9260;
-const int s11g_dword_800DD1F8 = 0x800D9260;
-const int s11g_dword_800DD1FC = 0x800D7FB4;
-const int s11g_dword_800DD200 = 0x800D80D8;
-const int s11g_dword_800DD204 = 0x800D827C;
-const int s11g_dword_800DD208 = 0x800D8458;
-const int s11g_dword_800DD20C = 0x800D8D58;
-const int s11g_dword_800DD210 = 0x800D90B4;
-const int s11g_dword_800DD214 = 0x800D9260;
-const int s11g_dword_800DD218 = 0x800D9260;
-const int s11g_dword_800DD21C = 0x800D9260;
-const int s11g_dword_800DD220 = 0x800D9260;
-const int s11g_dword_800DD224 = 0x800D9260;
-const int s11g_dword_800DD228 = 0x800D9260;
-const int s11g_dword_800DD22C = 0x800D78D8;
-const int s11g_dword_800DD230 = 0x800D7A68;
-const int s11g_dword_800DD234 = 0x800D9260;
-const int s11g_dword_800DD238 = 0x800D9260;
-const int s11g_dword_800DD23C = 0x800D7C3C;
-const int s11g_dword_800DD240 = 0x800D96F0;
-const int s11g_dword_800DD244 = 0x800D9B70;
-const int s11g_dword_800DD248 = 0x800D9B70;
-const int s11g_dword_800DD24C = 0x800D9B70;
-const int s11g_dword_800DD250 = 0x800D974C;
-const int s11g_dword_800DD254 = 0x800D9858;
-const int s11g_dword_800DD258 = 0x800D9A74;
-const int s11g_dword_800DD25C = 0x800D9B40;
-const int s11g_dword_800DD260 = 0x800D9BC4;
-const int s11g_dword_800DD264 = 0x800DA520;
-const int s11g_dword_800DD268 = 0x800DA520;
-const int s11g_dword_800DD26C = 0x800DA520;
-const int s11g_dword_800DD270 = 0x800D9C08;
-const int s11g_dword_800DD274 = 0x800D9D74;
-const int s11g_dword_800DD278 = 0x800D9FD8;
-const int s11g_dword_800DD27C = 0x800DA0E0;
-const int s11g_dword_800DD280 = 0x800DA2B4;
-const char s11g_dword_800DD284[] = {0x0, 0x0, 0x0, 0x0};
-const int s11g_dword_800DD288 = 0x800DA808;
-const int s11g_dword_800DD28C = 0x800DAAB4;
-const int s11g_dword_800DD290 = 0x800DAAB4;
-const int s11g_dword_800DD294 = 0x800DAAB4;
-const int s11g_dword_800DD298 = 0x800DA83C;
-const int s11g_dword_800DD29C = 0x800DA85C;
-const int s11g_dword_800DD2A0 = 0x800DA9B4;
-const int s11g_dword_800DD2A4 = 0x800DAA48;
-const int s11g_dword_800DD2A8 = 0x800DAA84;
-
-int s11g_hind_800D5CD8(SVECTOR *from, SVECTOR *to, SVECTOR *out)
-{
-    int dx, dy, dz;
-    int len;
-    int height;
-
-    dx = (from->vx - to->vx) / 16;
-    dy = (from->vy - to->vy) / 16;
-    dz = (from->vz - to->vz) / 16;
-
-    len = SquareRoot0(dx * dx + dy * dy + dz * dz) * 16;
-    height = to->vy - from->vy;
-
-    out->vy = ratan2(to->vx - from->vx, to->vz - from->vz) & 0xFFF;
-    out->vx = ratan2(len, height) & 0xFFF;
-    out->vz = 0;
-
-    return len;
-}
-
-void s11g_hind_800D5DE4(SVECTOR *out, int *yaw)
-{
-    MATRIX *eye;
-
-    eye = &DG_Chanl(0)->eye;
-    out->vx = eye->t[0];
-    out->vy = eye->t[1];
-    out->vz = eye->t[2];
-    *yaw = ratan2(eye->m[0][2], eye->m[2][2]);
-}
-
-void s11g_hind_800D5E44(HindWork *work, int a1)
-{
-    work->field_95C = 30;
-    work->field_960 = a1;
-}
-
-void s11g_hind_800D5E54(int arg0, SVECTOR *arg1, int se_id)
-{
-    SVECTOR sp10;
-    SVECTOR pos;
-    int     yaw;
-    short   ang;
-    int     vol;
-    int     pan;
-
-    if (!(GM_GameStatus & (GAME_FLAG_BIT_07 | STATE_BEHIND_CAMERA)) && !GM_Camera.first_person)
-    {
-        s11g_hind_800D5CD8(&GM_PlayerPosition, arg1, &sp10);
-        ang = sp10.vy + 1024;
-        sp10.vy = ang - gUnkCameraStruct2_800B7868.rotate.vy;
-    }
-    else
-    {
-        s11g_hind_800D5DE4(&pos, &yaw);
-        s11g_hind_800D5CD8(&pos, arg1, &sp10);
-        ang = sp10.vy + 1024;
-        sp10.vy = ang - yaw;
-    }
-
-    sp10.vy &= 0xFFF;
-
-    pan = (rcos(sp10.vy) * 31) / 4096;
-    if (pan < 0)
-    {
-        pan += 255;
-    }
-
-    vol = 63;
-    if (arg0 > 4000)
-    {
-        vol = 63 - ((arg0 - 4000) * 63) / 8000;
-    }
-
-    if (vol < 20)
-    {
-        vol = 20;
-    }
-
-    GM_SeSet2(pan, vol, se_id);
-}
-
-void s11g_hind_800D60D8(int arg0, SVECTOR *arg1, int se_id)
-{
-    s11g_hind_800D5E54(arg0, arg1, se_id);
-}
-
-void s11g_hind_800D5FB4(HindWork *work, int a1)
-{
-    MATRIX  matrix;
-    SVECTOR rotation;
-    VECTOR  scale;
-
-    if (a1 == 0)
-    {
-        rotation.vx = GV_RandS(512) + 1024;
-        rotation.vy = GV_RandS(512);
-        rotation.vz = GV_RandS(512);
-
-        scale.vx = work->field_670 * 7;
-        scale.vy = work->field_670 * 7;
-        scale.vz = work->field_670 * 7;
-    }
-    else
-    {
-        rotation.vx = 1024;
-        rotation.vy = 0;
-        rotation.vz = 0;
-
-        scale.vx = work->field_670 * 4;
-        scale.vy = work->field_670 * 4;
-        scale.vz = work->field_670 * 4;
-    }
-
-    rotation.vx += work->field_788.vx;
-    rotation.vy += work->field_788.vy;
-    rotation.vz += work->field_788.vz;
-
-    RotMatrixYXZ(&rotation, &matrix);
-
-    matrix.t[0] = work->field_7D8.vx;
-    matrix.t[1] = work->field_7D8.vy;
-    matrix.t[2] = work->field_7D8.vz;
-
-    ScaleMatrix(&matrix, &scale);
-    NewSpark(&matrix, 0);
-
-}
-
-void s11g_hind_800D60F0(HindWork *work)
-{
-    int dx, dz;
-    int len;
-    int height;
-    
-    dx = (work->field_790.vx - work->field_760.vx) >> 1;
-    dz = (work->field_790.vz - work->field_760.vz) >> 1;
-    work->field_788.vy = ratan2(dx, dz) & 0xFFF;
-
-    len = SquareRoot0(dz * dz + dx * dx);
-    height = (work->field_790.vy - work->field_760.vy) >> 1;
-
-    work->field_788.vx = (ratan2(len, height) - 1024) & 0xFFF;
-    work->field_788.vz = 0;
-}
-
-void s11g_hind_800D619C(HindWork *work, int index)
-{
-    if (work->field_94C != 1)
-    {
-        if (GM_StreamStatus() == -1)
-        {
-            GM_VoxStream(work->field_7FC[index], 0);
-        }
-    }
-}
-
-void s11g_hind_800D61F8(HindWork *work)
-{
-    work->field_65C.vx = GV_RandS(128);
-    work->field_65C.vy = GV_RandS(128);
-    work->field_65C.vz = GV_RandS(128);
-
-    work->field_664.vx = GV_RandS(512);
-    work->field_664.vy = GV_RandS(512);
-    work->field_664.vz = GV_RandS(512);
-}
-
-void s11g_hind_800D6260(int *vec, int *pos, int *old, int len)
-{
-    int interp;
-
-    interp = (*vec * (len - 1) + *pos) / len;
-    *old = *vec - interp;
-    *vec = interp;
-}
-
-void s11g_hind_800D62BC(VECTOR *vec, VECTOR *pos, int len)
-{
-    vec->vx = (vec->vx * (len - 1) + pos->vx) / len;
-    vec->vy = (vec->vy * (len - 1) + pos->vy) / len;
-    vec->vz = (vec->vz * (len - 1) + pos->vz) / len;
-}
-
-void Function_800D63A4(SVECTOR *vec, SVECTOR *pos, int len)
-{
-    vec->vx = (vec->vx * (len - 1) + pos->vx) / len;
-    vec->vy = (vec->vy * (len - 1) + pos->vy) / len;
-    vec->vz = (vec->vz * (len - 1) + pos->vz) / len;
-}
-
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D648C.s")
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D66F0.s")
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D6848.s")
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D7644.s")
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D9344.s")
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D96B0.s")
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D9B80.s")
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800DA534.s")
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800DA614.s")
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800DA7C4.s")
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800DAAC8.s")

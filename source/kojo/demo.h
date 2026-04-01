@@ -566,6 +566,11 @@ typedef struct DMO_DATA_0x36
     } data;
 } DMO_DATA_0x36;
 
+/* demo.c */
+void    sub_8007F06C(DG_VECTOR *param_1, VECTOR *param_2, VECTOR *param_3);
+void    sub_8007F0D0(VECTOR *out, VECTOR *a, VECTOR *b, VECTOR *c);
+VECTOR *sub_8007F1DC(VECTOR *out, DG_VECTOR *arg1, VECTOR *arg2);
+
 /* demothrd.c */
 int DM_ThreadStream(int flag, int unused);
 int DM_ThreadFile(int flag, char *filename);
