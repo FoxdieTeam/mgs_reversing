@@ -16,13 +16,13 @@ typedef struct _InfoWork
     int      f38;
     DG_TEX  *tex[2];
     POLY_FT4 poly[2][2];
-} InfoWork;
+} Work;
 
-int info_alive = 0;
+int info_alive = FALSE;
 
 #define EXEC_LEVEL GV_ACTOR_AFTER2
 
-void InfoAct_800CA114(InfoWork *work)
+static void Act(Work *work)
 {
     int       f24;
     u_long   *ot;
@@ -30,7 +30,7 @@ void InfoAct_800CA114(InfoWork *work)
     POLY_FT4 *poly2;
     int       w, h;
 
-    if (info_alive == 0)
+    if (!info_alive)
     {
         GV_DestroyActor(&work->actor);
         return;
@@ -96,11 +96,12 @@ void InfoAct_800CA114(InfoWork *work)
     addPrim(ot, poly1);
 }
 
-void InfoDie_800CA314(InfoWork *work)
+static void Die(Work *work)
 {
+    /* do nothing */
 }
 
-int InfoGetResources_800CA31C(InfoWork *work, unsigned short name1, unsigned short name2, int *abe)
+static int GetResources(Work *work, u_short name1, u_short name2, int *abe)
 {
     DG_TEX  **texlist;
     POLY_FT4 *poly;
@@ -176,16 +177,16 @@ int InfoGetResources_800CA31C(InfoWork *work, unsigned short name1, unsigned sho
     return 0;
 }
 
-void *NewInfo_800CA534(unsigned short name1, unsigned short name2, int *abe)
+void *NewTortureInfo(u_short name1, u_short name2, int *abe)
 {
-    InfoWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(InfoWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, InfoAct_800CA114, InfoDie_800CA314, "info.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "info.c");
 
-        if (InfoGetResources_800CA31C(work, name1, name2, abe) >= 0)
+        if (GetResources(work, name1, name2, abe) >= 0)
         {
             return (void *)work;
         }
@@ -196,7 +197,7 @@ void *NewInfo_800CA534(unsigned short name1, unsigned short name2, int *abe)
     return NULL;
 }
 
-void InfoKill_800CA5D0(void)
+void TortureInfoKill(void)
 {
     info_alive = 0;
 }

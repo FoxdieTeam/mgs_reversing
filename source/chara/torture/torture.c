@@ -1,3 +1,4 @@
+#include "info.h"
 #include "torture.h"
 
 #include "common.h"
@@ -143,10 +144,7 @@ char s03b_dword_800C32D8[] =
 char SECTION(".bss") s03b_dword_800D32F0[16];
 
 void *NewPlasma_800CD1A4(OBJECT *, int, int, int, int, int);
-void *NewInfo_800CA534(unsigned short name1, unsigned short name2, int *abe);
 void *NewBlur_800CD530(int, int, int);
-
-void InfoKill_800CA5D0(void);
 
 void s03b_boxall_800C9328(void);
 int s03b_boxall_800C93AC(int arg0);
@@ -1135,7 +1133,7 @@ void s03b_torture_800C5420(TortureWork *work, int arg1)
         {
             abe[0] = 1;
             abe[1] = 0;
-            NewInfo_800CA534(GV_StrCode("gou_bg"), GV_StrCode("goumon"), abe);
+            NewTortureInfo(GV_StrCode("gou_bg"), GV_StrCode("goumon"), abe);
         }
         GM_SeSet2(0, 0x3F, 0xB4);
     }
@@ -1413,7 +1411,7 @@ void s03b_torture_800C5AF8(TortureWork *work, int arg1)
             work->f800 |= 0x4;
 
             GM_GameStatus |= STATE_LIFEBAR_OFF;
-            InfoKill_800CA5D0();
+            TortureInfoKill();
 
             s03b_torture_800C447C(work, HASH_MODE, 2);
 
@@ -1733,7 +1731,7 @@ void Torture_800C6400(TortureWork *work)
 
     if (work->f7FE < 2)
     {
-        InfoKill_800CA5D0();
+        TortureInfoKill();
         work->f808 = s03b_torture_800C4AB0;
         work->f81A = 0;
         work->f818 = 0;
