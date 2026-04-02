@@ -142,7 +142,7 @@ static int GetResources(Work *work, MATRIX *world, SVECTOR *arg2)
 
     obj = &work->body;
     GM_CurrentMap = GM_PlayerMap;
-    GM_InitObjectNoRots(obj, GV_StrCode("cb_box"), BODY_FLAG, 0);
+    GM_InitObjectNoRots(obj, BOX_MODEL, BODY_FLAG, 0);
     GM_ConfigObjectLight((OBJECT *)obj, work->light);
 
     work->body.objs->objs[0].raise = 500;
