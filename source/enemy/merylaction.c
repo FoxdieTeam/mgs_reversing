@@ -51,7 +51,7 @@ extern int AttackForce_800D6C6C( WatcherWork *work );
 
 extern void    NewBlood( MATRIX *, int );
 extern void    AN_Breath( MATRIX * );
-extern void   *NewLSight_800D1D2C(SVECTOR *from, SVECTOR *to, int color);
+extern void   *NewLSight(SVECTOR *from, SVECTOR *to, int color);
 
 extern SVECTOR s07a_dword_800C369C;
 extern SVECTOR s07a_dword_800C36A4;
@@ -1626,7 +1626,7 @@ void ENE_PutLSight_800D9C5C( WatcherWork* work )
 {
     if ( work->vision.field_B92 == 2 )
     {
-        NewLSight_800D1D2C( &GM_PlayerPosition, &work->control.mov, 0x00008F );
+        NewLSight( &GM_PlayerPosition, &work->control.mov, 0x00008F );
     }
 }
 

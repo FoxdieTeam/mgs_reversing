@@ -5,17 +5,21 @@
 #include "libgv/libgv.h"
 #include "game/game.h"
 
-typedef struct _LSightWork
+/*---------------------------------------------------------------------------*/
+
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
+
+typedef struct _Work
 {
     GV_ACT   actor;
     DG_PRIM *prim;
     SVECTOR  vecs[16];
     int      timer;
-} LSightWork;
+} Work;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+/*---------------------------------------------------------------------------*/
 
-void LSightInitVecs_800D1ACC(SVECTOR *from, SVECTOR *to, SVECTOR *out)
+static void InitVecs(SVECTOR *from, SVECTOR *to, SVECTOR *out)
 {
     SVECTOR last;
     int     i;
@@ -41,7 +45,7 @@ void LSightInitVecs_800D1ACC(SVECTOR *from, SVECTOR *to, SVECTOR *out)
     }
 }
 
-void LSightShadePacks_800D1BF0(LINE_F2 *packs, int color)
+static void ShadePacks(LINE_F2 *packs, int color)
 {
     int i;
 
@@ -54,7 +58,9 @@ void LSightShadePacks_800D1BF0(LINE_F2 *packs, int color)
     }
 }
 
-void LSightAct_800D1C20(LSightWork *work)
+/*---------------------------------------------------------------------------*/
+
+static void Act(Work *work)
 {
     if (--work->timer == 0)
     {
@@ -62,12 +68,12 @@ void LSightAct_800D1C20(LSightWork *work)
     }
 }
 
-void LSightDie_800D1C54(LSightWork *work)
+static void Die(Work *work)
 {
     GM_FreePrim(work->prim);
 }
 
-int LSightGetResources_800D1C90(LSightWork *work, int color)
+static int GetResources(Work *work, int color)
 {
     DG_PRIM *prim;
 
@@ -78,29 +84,30 @@ int LSightGetResources_800D1C90(LSightWork *work, int color)
         return -1;
     }
 
-    LSightShadePacks_800D1BF0(prim->packs[0], color);
-    LSightShadePacks_800D1BF0(prim->packs[1], color);
+    ShadePacks(prim->packs[0], color);
+    ShadePacks(prim->packs[1], color);
 
     return 0;
 }
 
+/*---------------------------------------------------------------------------*/
 
-void *NewLSight_800D1D2C(SVECTOR *from, SVECTOR *to, int color)
+void *NewLSight(SVECTOR *from, SVECTOR *to, int color)
 {
-    LSightWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(LSightWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, LSightAct_800D1C20, LSightDie_800D1C54, "l_sight.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "l_sight.c");
 
-        if (LSightGetResources_800D1C90(work, color) < 0)
+        if (GetResources(work, color) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
         }
 
-        LSightInitVecs_800D1ACC(from, to, work->vecs);
+        InitVecs(from, to, work->vecs);
         work->timer = 8;
     }
 
