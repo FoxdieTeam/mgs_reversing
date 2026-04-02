@@ -1,4 +1,5 @@
 #include "johnny.h"
+#include "jfamas.h"
 
 #include "common.h"
 #include "libgv/libgv.h"
@@ -111,19 +112,18 @@ extern int s03c_dword_800C33D8;
 
 void sub_80060644(SnaAutoMove *pAutoMove);
 
-void    AN_Fog(SVECTOR *svec);
-void    AN_Sleep( SVECTOR *svec );
-void    s03b_boxall_800C9328(void);
-void    s03b_boxall_800C9404(void);
-void    CloseCinemaScreen(void);
-void    CheckCinemaTimeout(void);
-void    s03b_boxall_800C93F0(int, int);
-void    OpenCinemaScreen(int, int);
-int     s03b_boxall_800C93AC(int arg0);
-int     s03b_boxall_800C95EC(void);
-void   *NewGunLight_800D3AD4(MATRIX *world, int **pvisible);
-void   *NewJFamas_800CAFAC(CONTROL *control, OBJECT *parent, int num_parent, int *trigger);
-void   *AN_Unknown_800CA1EC(MATRIX *mat, int mark);
+void  AN_Fog(SVECTOR *svec);
+void  AN_Sleep( SVECTOR *svec );
+void  s03b_boxall_800C9328(void);
+void  s03b_boxall_800C9404(void);
+void  CloseCinemaScreen(void);
+void  CheckCinemaTimeout(void);
+void  s03b_boxall_800C93F0(int, int);
+void  OpenCinemaScreen(int, int);
+int   s03b_boxall_800C93AC(int arg0);
+int   s03b_boxall_800C95EC(void);
+void *NewGunLight_800D3AD4(MATRIX *world, int **pvisible);
+void *AN_Unknown_800CA1EC(MATRIX *mat, int mark);
 
 void s03c_johnny_800C6FC0(JohnnyWork *work, int arg1);
 void s03c_johnny_800C7A64(JohnnyWork *work, int action);
@@ -3636,7 +3636,7 @@ void Johnny_800CA304(JohnnyWork *work)
 {
     char *option;
 
-    work->jfamas = NewJFamas_800CAFAC(&work->control, &work->object, 4, &work->jfamas_trigger);
+    work->jfamas = NewJohnnyFamas(&work->control, &work->object, 4, &work->jfamas_trigger);
     work->gunlight = NewGunLight_800D3AD4(&work->object.objs->objs[4].world, &work->gunlight_pvisible);
     work->unkB5A = 0;
     work->unkB58 = 0;

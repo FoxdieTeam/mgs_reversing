@@ -1,4 +1,5 @@
 #include "johnny2.h"
+#include "jfamas.h"
 
 #include "common.h"
 #include "libgv/libgv.h"
@@ -34,7 +35,6 @@ typedef struct Johnny2Work
 
 extern int s03c_dword_800C33D8;
 
-void *NewJFamas_800CAFAC(CONTROL *control, OBJECT *parent, int num_parent, int *arg4);
 void *NewGunLight_800D3AD4(MATRIX *world, int **pvisible);
 
 void Johnny2Act_800CDF84(Johnny2Work *work)
@@ -125,7 +125,7 @@ void Johnny2Die_800CE0DC(Johnny2Work *work)
 
 void Johnny2_800CE154(Johnny2Work *work)
 {
-    work->jfamas = NewJFamas_800CAFAC(&work->control, &work->object, 4, &work->field_7DC);
+    work->jfamas = NewJohnnyFamas(&work->control, &work->object, 4, &work->field_7DC);
     work->gunlight = NewGunLight_800D3AD4(&work->object.objs->objs[4].world, &work->gunlight_pvisible);
 
     work->field_7EE = 0;
