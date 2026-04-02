@@ -61,7 +61,7 @@
 #define CHARA_JEEP_EMY          { 0x2477, NewJeepEnemy }            // takabe/jeep_emy/jeep_emy.c
 #define CHARA_VR_CHECK          { 0x26bc, ? }                       // nobu/vr_slct/vr_check.c
 #define CHARA_27A2_SNE_03C      { 0x27a2, NewSnake03c2_800CDF18 }   // chara/torture/sne_03c.c
-#define CHARA_BED               { 0x2a21, NewBed_800C70DC }         // GV_StrCode("拷問台") chara/torture/bed.c
+#define CHARA_BED               { 0x2a21, NewTortureBed }           // GV_StrCode("拷問台") chara/torture/bed.c
 #define CHARA_ARRAY             { 0x2a90, ? }                       // takabe/gclarray.c
 #define CHARA_ELEVATOR          { 0x2abc, NewElevator_800D9F30 }    // GV_StrCode("エレベータ") takabe/elevator.c
 #define CHARA_WALLSPARK         { 0x2b24, NewWallSpa_800CB4A4 }     // GV_StrCode("壁スパーク") okajima/wall_spa.c
@@ -427,7 +427,7 @@ void *s11d_landing_800CDA20();          /* chara/rope/landing.c         */
 void *NewPipe_800CE73C();               /* chara/rope/pipe.c            */
 void *NewSnakeBreath();                 /* chara/snake/breath.c         */
 void *NewSnake();                       /* chara/snake/sna_init.c       */
-void *NewBed_800C70DC();                /* chara/torture/bed.c          */
+void *NewTortureBed();                  /* chara/torture/bed.c          */
 void *NewBoxall_800CA088();             /* chara/torture/boxall.c       */
 void *NewJohnny_800CA838();             /* chara/torture/johnny.c       */
 void *NewNinja_800CC9B4();              /* chara/torture/ninja.c        */
