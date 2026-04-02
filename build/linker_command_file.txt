@@ -1316,21 +1316,15 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 
     include "{{OBJ_DIR}}\animal\zako11e\zako11e.obj", overlay
     include "{{OBJ_DIR}}\animal\zako11e\zk11echeck.obj", overlay
+    include "{{OBJ_DIR}}\animal\zako11e\zk11eaction.obj", overlay
 
     include "{{OBJ_DIR}}\overlays\s11e\overlay3.obj", overlay
 
-    include "{{OBJ_DIR}}\animal\zako11e\zk11eaction.obj", overlay
-
-    include "{{OBJ_DIR}}\overlays\s11e\overlay4.obj", overlay
-
     include "{{OBJ_DIR}}\animal\zako11e\zk11eenemy.obj", overlay
     include "{{OBJ_DIR}}\animal\zako11e\zk11ethink.obj", overlay
-
-    include "{{OBJ_DIR}}\overlays\s11e\overlay5.obj", overlay
-
     include "{{OBJ_DIR}}\animal\zako11e\zk11ecom.obj", overlay
 
-    include "{{OBJ_DIR}}\overlays\s11e\overlay6.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11e\overlay4.obj", overlay
 
     include "{{OBJ_DIR}}\takabe\tex_scrl.obj", overlay
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay

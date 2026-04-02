@@ -12,7 +12,7 @@ extern int              MENU_RadarScale;
 extern int              amissile_alive_8009F490;
 
 TILE SECTION(".bss") s11g_dword_800DD34C[2];
-char SECTION(".bss") hind_lifebar_name[8];
+char SECTION(".bss") hind_life_conf_name[8];
 int SECTION(".bss")  s11g_dword_800DD374;
 int SECTION(".bss")  s11g_dword_800DD378;
 
@@ -123,7 +123,7 @@ void s11g_hind_800D2F60(HindWork *work)
     sp30.vx = GM_PlayerPosition.vx;
     sp30.vy = GM_PlayerPosition.vy;
     sp30.vz = GM_PlayerPosition.vz;
-    sp38 = work->field_760;
+    sp38 = work->move_missile_pos_v;
     sub_8007F06C(sp10, &sp30, &sp38);
 
     vec = NULL;
@@ -155,25 +155,25 @@ void s11g_hind_800D2F60(HindWork *work)
         sp30.vx = 4096;
         sp30.vy = 4096;
         sp30.vz = 4096;
-        ScaleMatrix(&work->missile3.objs->world, &sp30);
+        ScaleMatrix(&work->move_missile_body.objs->world, &sp30);
         work->field_670 = 4096;
-        work->field_7D8.vx = work->field_760.vx;
-        work->field_7D8.vy = work->field_760.vy;
-        work->field_7D8.vz = work->field_760.vz;
+        work->move_missile_pos.vx = work->move_missile_pos_v.vx;
+        work->move_missile_pos.vy = work->move_missile_pos_v.vy;
+        work->move_missile_pos.vz = work->move_missile_pos_v.vz;
         return;
     }
 
-    sp30.vx = (work->field_760.vx - gUnkCameraStruct2_800B7868.eye.vx) >> 2;
-    sp30.vy = (work->field_760.vy - gUnkCameraStruct2_800B7868.eye.vy) >> 2;
-    sp30.vz = (work->field_760.vz - gUnkCameraStruct2_800B7868.eye.vz) >> 2;
+    sp30.vx = (work->move_missile_pos_v.vx - gUnkCameraStruct2_800B7868.eye.vx) >> 2;
+    sp30.vy = (work->move_missile_pos_v.vy - gUnkCameraStruct2_800B7868.eye.vy) >> 2;
+    sp30.vz = (work->move_missile_pos_v.vz - gUnkCameraStruct2_800B7868.eye.vz) >> 2;
 
     len = SquareRoot0(sp30.vx * sp30.vx + sp30.vy * sp30.vy + sp30.vz * sp30.vz) * 4;
 
     sub_8007F1DC(&sp38, sp10, vec);
 
-    work->field_7D8.vx = sp38.vx;
-    work->field_7D8.vy = sp38.vy;
-    work->field_7D8.vz = sp38.vz;
+    work->move_missile_pos.vx = sp38.vx;
+    work->move_missile_pos.vy = sp38.vy;
+    work->move_missile_pos.vz = sp38.vz;
 
     sp30.vx = sp38.vx - gUnkCameraStruct2_800B7868.eye.vx;
     sp30.vy = sp38.vy - gUnkCameraStruct2_800B7868.eye.vy;
@@ -192,53 +192,56 @@ void s11g_hind_800D2F60(HindWork *work)
     sp30.vx = len;
     sp30.vy = len;
     sp30.vz = len;
-    ScaleMatrix(&work->missile3.objs->world, &sp30);
+    ScaleMatrix(&work->move_missile_body.objs->world, &sp30);
     work->field_670 = len;
 }
 
-void s11g_hind_800D3214(HindWork *work)
+void DrawLifeBar(HindWork *work)
 {
-    int field_654;
-    int var_a2;
-    int var_s1;
+    int life;
+    int life_total;
+    int rest;
 
     if (GM_GameStatus & STATE_LIFEBAR_OFF)
     {
         return;
     }
 
-    field_654 = work->field_654;
-    if (field_654 < 0)
+    life = work->life;
+    if (life < 0)
     {
-        field_654 = 0;
+        life = 0;
     }
 
-    var_s1 = work->field_7F4;
-    var_a2 = var_s1;
-    if (var_s1 < field_654)
+    life_total = work->life_total;
+    rest = work->life_total;
+    if (work->life_total < life)
     {
-        var_a2 = field_654;
-        var_s1 = field_654;
+        rest = life;
+        life_total = life;
     }
-    MENU_DrawBar(16, 28, var_a2, field_654, &work->lifebar);
-    if (field_654 < var_s1)
+
+    MENU_DrawBar(16, 28, rest, life, &work->life_conf);
+
+    if (life_total > life)
     {
-        work->field_7F4 -= 8;
-        if (work->field_7F4 < field_654)
+        work->life_total -= 8;
+
+        if (work->life_total < life)
         {
-            work->field_7F4 = field_654;
+            work->life_total = life;
         }
     }
 }
 
-void s11g_hind_800D32CC(HindWork *work)
+void InitLifeBar(HindWork *work)
 {
     MENU_BAR_CONF *conf;
 
-    strcpy(hind_lifebar_name, "HIND");
+    strcpy(hind_life_conf_name, "HIND");
 
-    conf = &work->lifebar;
-    conf->name = hind_lifebar_name;
+    conf = &work->life_conf;
+    conf->name = hind_life_conf_name;
     conf->left[0] = 16;
     conf->left[1] = 111;
     conf->left[2] = 159;
@@ -357,53 +360,53 @@ void HindAct(HindWork *work)
     work->missile2_light[0] = work->body_light[0];
     work->missile2_light[1] = work->body_light[1];
 
-    switch (work->field_674)
+    switch (work->nMissileDemoMode)
     {
     case 0:
-        DG_InvisibleObjs(work->missile3.objs);
+        DG_InvisibleObjs(work->move_missile_body.objs);
         break;
     case 1:
         DG_InvisibleObjs(work->missile1.objs);
-        DG_VisibleObjs(work->missile3.objs);
+        DG_VisibleObjs(work->move_missile_body.objs);
 
-        DG_SetPos2(&work->field_7D8,&work->field_788);
-        GM_ActObject2(&work->missile3);
+        DG_SetPos2(&work->move_missile_pos,&work->move_missile_rot);
+        GM_ActObject2(&work->move_missile_body);
 
-        work->missile3.objs->light->t[0] = 128;
-        work->missile3.objs->light->t[1] = 128;
-        work->missile3.objs->light->t[2] = 128;
+        work->move_missile_body.objs->light->t[0] = 128;
+        work->move_missile_body.objs->light->t[1] = 128;
+        work->move_missile_body.objs->light->t[2] = 128;
 
-        DG_AmbientObjs(work->missile3.objs);
+        DG_AmbientObjs(work->move_missile_body.objs);
         s11g_hind_800D2F60(work);
         break;
     case 2:
         DG_InvisibleObjs(work->missile1.objs);
-        DG_InvisibleObjs(work->missile3.objs);
+        DG_InvisibleObjs(work->move_missile_body.objs);
         s11g_hind_800D2F60(work);
         break;
     case 3:
         DG_InvisibleObjs(work->missile1.objs);
         DG_InvisibleObjs(work->missile2.objs);
-        DG_VisibleObjs(work->missile3.objs);
+        DG_VisibleObjs(work->move_missile_body.objs);
 
-        DG_SetPos2(&work->field_7D8,&work->field_788);
-        GM_ActObject2(&work->missile3);
+        DG_SetPos2(&work->move_missile_pos,&work->move_missile_rot);
+        GM_ActObject2(&work->move_missile_body);
 
-        work->missile3.objs->light->t[0] = 128;
-        work->missile3.objs->light->t[1] = 128;
-        work->missile3.objs->light->t[2] = 128;
+        work->move_missile_body.objs->light->t[0] = 128;
+        work->move_missile_body.objs->light->t[1] = 128;
+        work->move_missile_body.objs->light->t[2] = 128;
 
-        DG_AmbientObjs(work->missile3.objs);
+        DG_AmbientObjs(work->move_missile_body.objs);
         s11g_hind_800D2F60(work);
         break;
     case 4:
         DG_InvisibleObjs(work->missile1.objs);
         DG_InvisibleObjs(work->missile2.objs);
-        DG_InvisibleObjs(work->missile3.objs);
+        DG_InvisibleObjs(work->move_missile_body.objs);
         break;
     }
 
-    switch (work->field_678)
+    switch (work->nMissileDemoMode2)
     {
     case 0:
         GM_GameStatus &= ~STATE_PADDEMO;
@@ -413,10 +416,10 @@ void HindAct(HindWork *work)
 
         s11g_hind_800D2F60(work);
         DG_InvisibleObjs(work->missile1.objs);
-        DG_VisibleObjs(work->missile3.objs);
-        DG_SetPos2(&work->field_7D8, &work->field_788);
-        GM_ActObject2(&work->missile3);
-        DG_GetLightMatrix2(&work->field_7D8, work->missile3_light);
+        DG_VisibleObjs(work->move_missile_body.objs);
+        DG_SetPos2(&work->move_missile_pos, &work->move_missile_rot);
+        GM_ActObject2(&work->move_missile_body);
+        DG_GetLightMatrix2(&work->move_missile_pos, work->move_missile_light);
 
         eye.vx = -14598;
         eye.vy = 17975;
@@ -434,11 +437,11 @@ void HindAct(HindWork *work)
 
         DG_InvisibleObjs(work->missile1.objs);
         DG_InvisibleObjs(work->missile2.objs);
-        DG_VisibleObjs(work->missile3.objs);
+        DG_VisibleObjs(work->move_missile_body.objs);
 
-        DG_SetPos2(&work->field_7D8, &work->field_788);
-        GM_ActObject2(&work->missile3);
-        DG_GetLightMatrix2(&work->field_7D8, work->missile3_light);
+        DG_SetPos2(&work->move_missile_pos, &work->move_missile_rot);
+        GM_ActObject2(&work->move_missile_body);
+        DG_GetLightMatrix2(&work->move_missile_pos, work->move_missile_light);
 
         eye.vx = -14598;
         eye.vy = 17975;
@@ -670,7 +673,7 @@ void HindAct(HindWork *work)
                     }
 
                     work->field_434--;
-                    work->field_654 -= work->field_650;
+                    work->life -= work->damage;
                     work->field_50C = work->field_438;
                 }
                 else
@@ -770,21 +773,21 @@ void HindAct(HindWork *work)
 
     if (work->field_4AC != 2)
     {
-        if (work->field_7F8 == 0)
+        if (work->fight_start_flag == 0)
         {
-            work->field_7F8 = 1;
+            work->fight_start_flag = 1;
         }
 
-        if (work->field_7F8 == 2)
+        if (work->fight_start_flag == 2)
         {
-            s11g_hind_800D3214(work);
+            DrawLifeBar(work);
         }
 
-        if (work->field_7F8 == 1)
+        if (work->fight_start_flag == 1)
         {
-            work->field_7F8 = 2;
-            s11g_hind_800D32CC(work);
-            s11g_hind_800D3214(work);
+            work->fight_start_flag = 2;
+            InitLifeBar(work);
+            DrawLifeBar(work);
         }
     }
 }
@@ -815,7 +818,7 @@ void HindDie(HindWork *work)
     GM_FreeObject(&work->body);
     GM_FreeObject(&work->missile1);
     GM_FreeObject(&work->missile2);
-    GM_FreeObject(&work->missile3);
+    GM_FreeObject(&work->move_missile_body);
     GM_FreeTarget(work->target1);
     GM_FreeTarget(work->target2);
     GM_FreeTarget(work->target3);
