@@ -379,8 +379,8 @@ void s00a_command_800C6320( WatcherWork *work, int time )
     }
 
     if ( time == 78 ) {
-        extern  void    *NewBoxKeri_800D2600( MATRIX    *, SVECTOR  * ) ;
-        NewBoxKeri_800D2600( &(GM_PlayerBody->objs[ 0 ].world), &( work->control.mov ) ) ;
+        extern  void    *NewBoxKeri( MATRIX    *, SVECTOR  * ) ;
+        NewBoxKeri( &(GM_PlayerBody->objs[ 0 ].world), &( work->control.mov ) ) ;
     }
 
     if ( time == 100 ) {
@@ -1729,7 +1729,7 @@ extern void  NewAnime_8005D6BC( MATRIX *, int );
 extern void  NewAnime_8005D604( MATRIX * );
 extern void *NewBulletEx( int, MATRIX*, int, int, int, int, int, int, int );
 extern void  NewBlood( MATRIX *, int );
-extern void  NewLSight_800D1D2C( SVECTOR *from, SVECTOR *to, int color ) ;
+extern void  NewLSight( SVECTOR *from, SVECTOR *to, int color ) ;
 extern void  AN_Breath( MATRIX * );
 
 void ENE_PutBlood_800C8FF8( WatcherWork* work, int obj_idx, int count )
@@ -1991,7 +1991,7 @@ void ENE_PutLSight_800C9600( WatcherWork* work )
 {
     if ( work->vision.field_B92 == 2 )
     {
-        NewLSight_800D1D2C( &GM_PlayerPosition, &work->control.mov, 0x00008F );
+        NewLSight( &GM_PlayerPosition, &work->control.mov, 0x00008F );
     }
 }
 

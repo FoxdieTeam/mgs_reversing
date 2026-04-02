@@ -12,7 +12,7 @@
 #include "linkvar.h"
 #include "sound/g_sound.h"
 
-extern HITTABLE GM_C4Datas_800BDD78[C4_COUNT];
+extern HITTABLE GM_C4Datas[C4_COUNT];
 extern unsigned short GM_ItemTypes[];
 extern BLAST_DATA blast_data_8009F4B8[8];
 
@@ -76,7 +76,7 @@ static void Act(BakudanWork *work)
     {
         DG_RotatePos(&model_orientation_8009F438);
         // get the target where the C4 is placed
-        target = GM_C4Datas_800BDD78[work->c4_index].data;
+        target = GM_C4Datas[work->c4_index].data;
         work->map_index = target->map;
 
         // if the target is not alive, destroy the actor
@@ -157,13 +157,13 @@ static void Die(BakudanWork *work)
 
     if (work->c4_index >= 0)
     {
-        GM_C4Datas_800BDD78[work->c4_index].actor = NULL;
+        GM_C4Datas[work->c4_index].actor = NULL;
         bakudan_count_8009F42C--;
     }
 }
 
 /**
- * @brief Find the next free slot in the GM_C4Datas_800BDD78 array.
+ * @brief Find the next free slot in the GM_C4Datas array.
  *
  * @return int Index of the next free slot, or -1 if no free slot is available.
  */
@@ -172,7 +172,7 @@ static int GetNextC4Data( void )
     int i;
     for (i = 0; i < C4_COUNT; i++)
     {
-        if (!GM_C4Datas_800BDD78[i].actor)
+        if (!GM_C4Datas[i].actor)
         {
             return i;
         }
@@ -240,7 +240,7 @@ static int GetResources(BakudanWork *work, MATRIX *world, SVECTOR *pos, int atta
         return -1;
     }
 
-    item = &GM_C4Datas_800BDD78[nextItem];
+    item = &GM_C4Datas[nextItem];
     item->actor = &work->actor;
     item->control = control;
     item->data = data;

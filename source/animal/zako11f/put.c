@@ -17,7 +17,7 @@ extern void       *PutFuncList_800C33E0[5];
 extern ZAKO11F_COMMAND Zako11FCommand_800D5AF8;
 
 void  AN_Breath( MATRIX *world );
-void  NewLSight_800D1D2C( SVECTOR *from, SVECTOR *to, int color );
+void  NewLSight( SVECTOR *from, SVECTOR *to, int color );
 void *NewBulletEx( int, MATRIX *, int, int, int, int, int, int, int );
 
 int ZAKO11F_ClearPutChar_800CD748( Zako11FWork *work, void *func );
@@ -229,7 +229,7 @@ void ZAKO11F_PutLSight_800CD4A0( Zako11FWork *work )
 {
     if ( work->vision.field_B92 == 2 )
     {
-        NewLSight_800D1D2C( &GM_PlayerPosition, &work->control.mov, 0x00008F );
+        NewLSight( &GM_PlayerPosition, &work->control.mov, 0x00008F );
     }
 }
 

@@ -1716,7 +1716,7 @@ void ZAKO11E_PutSound_800D7CAC( ZakoWork* work )
     }
 }
 
-extern void  NewLSight_800D1D2C( SVECTOR *from, SVECTOR *to, int color ) ;
+extern void  NewLSight( SVECTOR *from, SVECTOR *to, int color ) ;
 extern void  AN_Breath( MATRIX * );
 
 void ZAKO11E_PutBreath_800D7D44( ZakoWork *work, int arg1 )
@@ -1772,7 +1772,7 @@ void s11e_zk11ecom_800D7E8C( ZakoWork* work )
 {
     if ( work->vision.field_B92 == 2 )
     {
-        NewLSight_800D1D2C( &GM_PlayerPosition, &work->control.mov, 0x00008F );
+        NewLSight( &GM_PlayerPosition, &work->control.mov, 0x00008F );
     }
 }
 

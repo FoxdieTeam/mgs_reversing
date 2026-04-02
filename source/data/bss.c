@@ -81,7 +81,7 @@ DISPENV BSS         g_dispenv; // 0x14 (20) bytes
 
 gap                                     gap_800B0614[0xC]; // 12 bytes
 
-VECTOR BSS          DG_RightVector_800B0620; // 0x10 (16) bytes
+VECTOR BSS          DG_RightVector; // 0x10 (16) bytes
 
 /* libdg/chanl.obj */
 u_long BSS ot_background[68]; // 0x110 (272) bytes
@@ -351,10 +351,10 @@ int BSS             tenage_ctrls_count_800BDD70; // 0x4 (4) bytes
 gap                                     gap_800BDD74[0x4]; // 4 bytes
 
 /* bullet/bakudan.obj */
-HITTABLE BSS        GM_C4Datas_800BDD78[C4_COUNT]; // 0x100 (256) bytes
+HITTABLE BSS        GM_C4Datas[C4_COUNT]; // 0x100 (256) bytes
 
 /* bullet/jirai.obj */
-HITTABLE BSS        GM_ClayDatas_800BDE78[8]; // 0x80 (128) bytes
+HITTABLE BSS        GM_ClayDatas[8]; // 0x80 (128) bytes
 
 /* bullet/rmissile.obj */
 int BSS             dword_800BDEF8[2]; // 0x8 (8) bytes

@@ -5,71 +5,74 @@
 #include "libdg/libdg.h"
 #include "game/game.h"
 
-typedef struct BoxKeriWork
+/*---------------------------------------------------------------------------*/
+
+#define EXEC_LEVEL      GV_ACTOR_LEVEL4
+
+#define BOX_MODEL       GV_StrCode("cb_box")
+#define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE \
+                        | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE )
+
+typedef struct _Work
 {
     GV_ACT         actor;
-    OBJECT_NO_ROTS field_20_obj;
+    OBJECT_NO_ROTS body;
     SVECTOR        field_44;
     SVECTOR        field_48;
-    MATRIX         field_54;
-    short          field_74;
+    MATRIX         world;
+    short          step;
     short          field_76;
     short          field_78;
     short          field_7A;
-    MATRIX         field_7C_mat[2];
-} BoxKeriWork;
+    MATRIX         light[2];
+} Work;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL4
+/*---------------------------------------------------------------------------*/
 
-const char aBoxkeriSnake[] = "スネーク";
-const char sBoxkeriDanbowl[] = "段ボール";
-const char aCbBox[] = "cb_box";
-const char aBoxkeriC[] = "boxkeri.c";
-
-void BoxKeriAct_800D219C(BoxKeriWork *work)
+static void Act(Work *work)
 {
-    int field_74;
+    int step;
 
-    field_74 = work->field_74;
-    if (field_74 > 40)
+    step = work->step;
+    if (step > 40)
     {
         GV_DestroyActor(&work->actor);
         return;
     }
-    if (field_74 < 9)
+    if (step < 9)
     {
         work->field_7A += 80;
         work->field_78 += 256;
     }
-    else if (field_74 < 12)
+    else if (step < 12)
     {
         work->field_78 -= 128;
     }
-    else if (field_74 < 15)
+    else if (step < 15)
     {
         work->field_78 += 64;
     }
-    else if (field_74 < 18)
+    else if (step < 18)
     {
         work->field_78 -= 32;
     }
-    else if (field_74 < 19)
+    else if (step < 19)
     {
         work->field_78 += 32;
     }
-    else if (field_74 & 1)
+    else if (step & 1)
     {
-        DG_InvisibleObjs(work->field_20_obj.objs);
+        DG_InvisibleObjs(work->body.objs);
     }
     else
     {
-        DG_VisibleObjs(work->field_20_obj.objs);
+        DG_VisibleObjs(work->body.objs);
     }
 
     switch (work->field_76)
     {
     case 0:
-        if (field_74 < 9)
+        if (step < 9)
         {
             work->field_7A += 5;
         }
@@ -83,7 +86,7 @@ void BoxKeriAct_800D219C(BoxKeriWork *work)
         break;
 
     case 2:
-        if (field_74 < 9)
+        if (step < 9)
         {
             work->field_7A += 100;
         }
@@ -99,32 +102,32 @@ void BoxKeriAct_800D219C(BoxKeriWork *work)
 
     GM_CurrentMap = GM_PlayerMap;
 
-    DG_SetPos(&work->field_54);
+    DG_SetPos(&work->world);
     DG_MovePos(&work->field_48);
     DG_RotatePos(&work->field_44);
-    DG_PutObjs(work->field_20_obj.objs);
-    DG_GetLightMatrix2(&GM_PlayerPosition, work->field_7C_mat);
+    DG_PutObjs(work->body.objs);
+    DG_GetLightMatrix2(&GM_PlayerPosition, work->light);
 
-    work->field_74++;
+    work->step++;
 }
 
-void BoxKeriDie_800D23D0(BoxKeriWork *work)
+static void Die(Work *work)
 {
-    GM_FreeObject((OBJECT *)&work->field_20_obj);
+    GM_FreeObject((OBJECT *)&work->body);
 }
 
-void s00a_boxkeri_800D23F0()
+static void SendMessage(void)
 {
     GV_MSG msg;
 
-    msg.address = GV_StrCode(aBoxkeriSnake);
-    msg.message[0] = GV_StrCode(sBoxkeriDanbowl);
+    msg.address = GV_StrCode("スネーク");
+    msg.message[0] = GV_StrCode("段ボール");
     msg.message[1] = 1;
     msg.message_len = 2;
     GV_SendMessage(&msg);
 }
 
-int s00a_boxkeri_800D2440(SVECTOR *pos, SVECTOR *svec2)
+static int s00a_boxkeri_800D2440(SVECTOR *pos, SVECTOR *svec2)
 {
     SVECTOR svec;
 
@@ -132,17 +135,17 @@ int s00a_boxkeri_800D2440(SVECTOR *pos, SVECTOR *svec2)
     return GV_VecDir2(&svec);
 }
 
-int BoxKeriGetResources_800D2474(BoxKeriWork *work, MATRIX *arg1, SVECTOR *arg2)
+static int GetResources(Work *work, MATRIX *world, SVECTOR *arg2)
 {
     OBJECT_NO_ROTS *obj;
     int             dir;
 
-    obj = &work->field_20_obj;
+    obj = &work->body;
     GM_CurrentMap = GM_PlayerMap;
-    GM_InitObjectNoRots(obj, GV_StrCode(aCbBox), 0x6D, 0);
-    GM_ConfigObjectLight((OBJECT *)obj, work->field_7C_mat);
+    GM_InitObjectNoRots(obj, BOX_MODEL, BODY_FLAG, 0);
+    GM_ConfigObjectLight((OBJECT *)obj, work->light);
 
-    work->field_20_obj.objs->objs[0].raise = 500;
+    work->body.objs->objs[0].raise = 500;
 
     work->field_44 = DG_ZeroVector;
     work->field_48 = DG_ZeroVector;
@@ -175,21 +178,23 @@ int BoxKeriGetResources_800D2474(BoxKeriWork *work, MATRIX *arg1, SVECTOR *arg2)
         }
     }
 
-    work->field_54 = *arg1;
-    work->field_74 = 0;
-    s00a_boxkeri_800D23F0();
+    work->world = *world;
+    work->step = 0;
+    SendMessage();
     return 0;
 }
 
-void *NewBoxKeri_800D2600(MATRIX *mat, SVECTOR *svec)
-{
-    BoxKeriWork *work;
+/*---------------------------------------------------------------------------*/
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(BoxKeriWork));
+void *NewBoxKeri(MATRIX *world, SVECTOR *svec)
+{
+    Work *work;
+
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, BoxKeriAct_800D219C, BoxKeriDie_800D23D0, aBoxkeriC);
-        if (BoxKeriGetResources_800D2474(work, mat, svec) < 0)
+        GV_SetNamedActor(&work->actor, Act, Die, "boxkeri.c");
+        if (GetResources(work, world, svec) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

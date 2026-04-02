@@ -18,7 +18,7 @@ typedef struct M1E1Work
     OBJECT  field_1C0[3];
     OBJECT  field_46C[3];
     TARGET *field_718_targets[10];
-    int     field_740;
+    BOOL    bInitialize;
     char    field_744[0x61C];
     int     field_D60;
     int     field_D64;
@@ -27,26 +27,26 @@ typedef struct M1E1Work
     char    field_D70[0x1C];
     int     field_D8C;
     char    field_D90[0xD0];
-    int     field_E60;
+    int     nSoundVolume;
     int     field_E64;
     int     field_E68;
     int     field_E6C;
     int     field_E70;
     int     field_E74;
     int     field_E78;
-    int     field_E7C;
-    int     field_E80;
-    int     field_E84;
+    int     nLeftCaterDirection;
+    int     nRightCaterDirection;
+    int     nCaterLength;
     int     field_E88;
-    SVECTOR field_E8C;
-    SVECTOR field_E94;
+    SVECTOR svectLeftCater;
+    SVECTOR svectRightCater;
     char    field_E9C[0xC4];
-    int     field_F60;
-    int     field_F64;
+    int     nLeftCaterSmokeTCount;
+    int     nRightCaterSmokeTCount;
     int     field_F68;
     int     field_F6C;
-    int     field_F70;
-    int     field_F74;
+    int     nCaterSoundTCount;
+    int     nCaterSoundStartTCount;
 } M1E1Work;
 
 /* m1e1catr.c */

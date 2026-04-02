@@ -15,7 +15,7 @@
 #include "chara/snake/sna_init.h"
 #include "sound/g_sound.h"
 
-extern HITTABLE GM_ClayDatas_800BDE78[8];
+extern HITTABLE GM_ClayDatas[8];
 
 /*---------------------------------------------------------------------------*/
 // Claymore (armed)
@@ -428,7 +428,7 @@ static void Die(JiraiWork *work)
     if (work->field_13C_idx >= 0)
     {
         GM_ClearBulName(work->control.name);
-        GM_ClayDatas_800BDE78[work->field_13C_idx].actor = NULL;
+        GM_ClayDatas[work->field_13C_idx].actor = NULL;
         counter_8009F448--;
     }
 
@@ -490,7 +490,7 @@ static int GetNextClayData(void)
     int i;
     for (i = 0; i < 8; i++)
     {
-        if (!GM_ClayDatas_800BDE78[i].actor)
+        if (!GM_ClayDatas[i].actor)
         {
             return i;
         }
@@ -552,7 +552,7 @@ static int GetResources(JiraiWork *work, MATRIX *world, HZD_FLR *floor)
         return -1;
     }
 
-    hittable = &GM_ClayDatas_800BDE78[work->field_13C_idx];
+    hittable = &GM_ClayDatas[work->field_13C_idx];
     hittable->actor = &work->actor;
     hittable->control = control;
     hittable->data = floor;
