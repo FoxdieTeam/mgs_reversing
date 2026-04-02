@@ -5,7 +5,7 @@
 
 extern int      bakudan_count_8009F42C;
 extern int      counter_8009F448;
-extern HITTABLE GM_C4Datas_800BDD78[C4_COUNT];
+extern HITTABLE GM_C4Datas[C4_COUNT];
 extern HITTABLE GM_ClayDatas_800BDE78[8];
 
 int SECTION(".bss") THING_msg_result[2];
@@ -223,7 +223,7 @@ void THING_Hzd_800C4874(int n_segs, HZD_SEG *segs, int n_flrs, HZD_FLR *flrs)
 
     if (bakudan_count_8009F42C != 0)
     {
-        for (i = C4_COUNT, tag = 0x80000000, iter = GM_C4Datas_800BDD78; i > 0; i--, iter++)
+        for (i = C4_COUNT, tag = 0x80000000, iter = GM_C4Datas; i > 0; i--, iter++)
         {
             if (iter->actor)
             {

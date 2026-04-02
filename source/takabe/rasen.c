@@ -81,7 +81,7 @@ extern GM_CAMERA       GM_Camera;
 extern CONTROL        *GM_WhereList[96];
 extern int             gControlCount_800AB9B4;
 extern int             bakudan_count_8009F42C;
-extern HITTABLE        GM_C4Datas_800BDD78[C4_COUNT];
+extern HITTABLE        GM_C4Datas[C4_COUNT];
 extern HITTABLE        GM_ClayDatas_800BDE78[8];
 extern int             counter_8009F448;
 extern UnkCameraStruct gUnkCameraStruct_800B77B8;
@@ -109,7 +109,7 @@ void Rasen2IterBakudanJirai_800CA3A4(Rasen2Work *work, MAP *oldMap, MAP *newMap)
 
     if (bakudan_count_8009F42C != 0)
     {
-        for (pItem = GM_C4Datas_800BDD78, i = C4_COUNT; i > 0; pItem++, i--)
+        for (pItem = GM_C4Datas, i = C4_COUNT; i > 0; pItem++, i--)
         {
             bakudan = (BakudanWork *)pItem->actor;
             if (bakudan != NULL && bakudan->control.map == oldMap && bakudan->transform == NULL)

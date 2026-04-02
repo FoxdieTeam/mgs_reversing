@@ -58,7 +58,7 @@ SVECTOR s04a_dword_800C3620 = {100, 100, 100};
 void     Takabe_FreeObjs(DG_OBJS *objs);
 DG_OBJS *Takabe_MakePreshade(int model, LIT *lit);
 
-extern HITTABLE      GM_C4Datas_800BDD78[C4_COUNT];
+extern HITTABLE      GM_C4Datas[C4_COUNT];
 
 void DummyWall_800D7418(OBJECT *obj, int model, int where, int flag);
 void DummyWall_800D7488(DummyWallWork *work, DG_MDL *mdl);
@@ -92,7 +92,7 @@ void DummyWallAct_800D6E64(DummyWallWork *work)
             HZD_DequeueDynamicSegment(work->field_198, &work->field_19C);
             work->field_194 = 0;
 
-            jirai = GM_C4Datas_800BDD78;
+            jirai = GM_C4Datas;
             for (i = C4_COUNT; i > 0; i--, jirai++)
             {
                 if (jirai->actor && jirai->data == &work->field_19C)

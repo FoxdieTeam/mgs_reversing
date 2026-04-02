@@ -351,7 +351,7 @@ int BSS             tenage_ctrls_count_800BDD70; // 0x4 (4) bytes
 gap                                     gap_800BDD74[0x4]; // 4 bytes
 
 /* bullet/bakudan.obj */
-HITTABLE BSS        GM_C4Datas_800BDD78[C4_COUNT]; // 0x100 (256) bytes
+HITTABLE BSS        GM_C4Datas[C4_COUNT]; // 0x100 (256) bytes
 
 /* bullet/jirai.obj */
 HITTABLE BSS        GM_ClayDatas_800BDE78[8]; // 0x80 (128) bytes
