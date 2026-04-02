@@ -23,7 +23,7 @@ short SECTION(".sbss") DG_ClipMax[2];
 
 /*** bss ***/
 extern DISPENV g_dispenv;
-extern VECTOR  DG_RightVector_800B0620;
+extern VECTOR  DG_RightVector;
 
 void DG_InitDispEnv(int x, short y, short w, short h, int clipH)
 {
@@ -161,11 +161,11 @@ void DG_LookAt(DG_CHANL *chanl, SVECTOR *eye, SVECTOR *center, int clip_distance
 
     if (!right.vx && !right.vy && !right.vz)
     {
-        right = DG_RightVector_800B0620;
+        right = DG_RightVector;
     }
     else
     {
-        DG_RightVector_800B0620 = right;
+        DG_RightVector = right;
     }
 
     VectorNormal(&right, &right);

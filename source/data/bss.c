@@ -81,7 +81,7 @@ DISPENV BSS         g_dispenv; // 0x14 (20) bytes
 
 gap                                     gap_800B0614[0xC]; // 12 bytes
 
-VECTOR BSS          DG_RightVector_800B0620; // 0x10 (16) bytes
+VECTOR BSS          DG_RightVector; // 0x10 (16) bytes
 
 /* libdg/chanl.obj */
 u_long BSS ot_background[68]; // 0x110 (272) bytes
