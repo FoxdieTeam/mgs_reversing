@@ -164,7 +164,6 @@ unsigned char VIBX_TBL[32] = {
     176, 160, 144, 128, 104,  80,  56,  32
 };
 
-
 int sound_sub(void)
 {
     int          fade2_shifted;

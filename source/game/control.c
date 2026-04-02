@@ -409,7 +409,6 @@ void GM_ActControl(CONTROL *control)
     DG_SetPos2(&control->mov, &control->rot);
 }
 
-
 void GM_FreeControl(CONTROL *control)
 {
     if (control->name)

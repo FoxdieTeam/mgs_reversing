@@ -175,8 +175,6 @@ void s00a_pato_lmp_800D617C(PatoLmpWork *work, int field_191C, short vx, short v
 void s00a_pato_lmp_800D6194(PatoLmpWork *work, int arg1, int arg2, int arg3)
 {
     SVECTOR vec;
-
-
     SVECTOR *var_a2;
 
     int temp_a0;
@@ -186,7 +184,6 @@ void s00a_pato_lmp_800D6194(PatoLmpWork *work, int arg1, int arg2, int arg3)
     int temp2;
     int temp_v1;
     POLY_FT4 *prim;
-
 
     prim = work->field_1008->packs[GV_Clock];
     prim = prim + arg1 * 2 + arg3;
@@ -557,7 +554,6 @@ const char aPatBody[] = "pat_body";
 const char aPatLamp[] = "pat_lamp";
 const char aPatSpt1[] = "pat_spt1";
 
-
 //I'll clean this up later
 int PatrolLampGetResources_800D6E28(PatoLmpWork *work, int name, int map)
 {
@@ -721,7 +717,6 @@ int PatrolLampGetResources_800D6E28(PatoLmpWork *work, int name, int map)
                     goto temp_label2;
                 }
 
-
 temp_label1:
                 work->field_111C[i][j] = sp18[3][x];
                 s0 = 1;
@@ -733,7 +728,6 @@ temp_label2:
 temp_label3:
                  work->field_151C[i][j].vx = 0;
 temp_label_end:
-
 
 /*
                 if ( ( rot < sp318[0] || sp318[0] == -1 ) && sp318[3] != -1 )

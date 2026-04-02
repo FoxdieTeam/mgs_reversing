@@ -438,7 +438,6 @@ int s00a_watcher_800C49E8( char *opt, int* l )
     return i;
 }
 
-
 int s00a_watcher_800C4A40( WatcherWork *work )
 {
     int i;

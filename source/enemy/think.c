@@ -288,8 +288,6 @@ end:
                         break;
                     }
                 }
-
-
             }
 loop:
             vx++;
@@ -314,7 +312,6 @@ loop:
     work->target_pos.vz = zone3->z;
     work->target_map = COM_PlayerMap_800E0F1C;
 }
-
 
 void s00a_command_800CAFD4( WatcherWork* work )
 {
@@ -1109,7 +1106,6 @@ int DirectTrace_800CC154( WatcherWork* work, int a1 )
     int x, z;
     SVECTOR svec;
 
-
     svec.vx = x = work->target_pos.vx - work->control.mov.vx;
     svec.vz = z = work->target_pos.vz - work->control.mov.vz;
 
@@ -1544,8 +1540,6 @@ int s00a_command_800CCAFC( WatcherWork *work )
     return 0;
 }
 
-
-
 int s00a_command_800CCB7C( WatcherWork *work )
 {
     MAP *map;
@@ -1967,7 +1961,6 @@ void s00a_command_800CD210( WatcherWork* work )
         }
         break;
     }
-
 
     if ( s00a_command_800CC2E8( work ) )
     {
@@ -2445,7 +2438,6 @@ void s00a_command_800CDE90( WatcherWork *work ) {
         }
         break;
     }
-
 
     if ( ( ( GV_Time / 4 ) % 4 ) == work->field_B78 % 4 )
     {

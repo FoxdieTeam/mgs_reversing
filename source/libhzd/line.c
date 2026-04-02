@@ -193,7 +193,6 @@ STATIC int CalculateHitTime(void)
         return 0xF4240;
     }
 
-
     gte_ldsxy3(0 , opz_b, a);
     gte_nclip();
     gte_read_opz(opz_b);
@@ -220,7 +219,6 @@ STATIC int CalculateHitTime(void)
 
     return opz_a;
 }
-
 
 STATIC int CalculateHitPoint(int mult)
 {

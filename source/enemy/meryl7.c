@@ -199,8 +199,6 @@ int s07a_meryl7_800D5564( SVECTOR* svec )
     return 1;
 }
 
-
-
 extern int *s07a_dword_800E3650;
 extern int *s07a_dword_800E3654;
 
@@ -636,7 +634,6 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
     {
         work->field_B81 = 0;
     }
-
 
     work->field_C34 = 0;
     work->field_C35[0] = 0;

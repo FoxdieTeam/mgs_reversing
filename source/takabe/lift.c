@@ -85,7 +85,6 @@ void s13a_lift_800DDBC4(int proc, int param)
     }
 }
 
-
 void LiftAct_800DDBFC(LiftWork *work)
 {
     unsigned short messages[2];
@@ -95,7 +94,6 @@ void LiftAct_800DDBFC(LiftWork *work)
     HZD_FLR       *floor;
     unsigned int   tag, tag2;
     HITTABLE      *iter;
-
 
     control = &work->control;
     DG_GetLightMatrix(&control->mov, work->light);

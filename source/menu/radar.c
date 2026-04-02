@@ -58,7 +58,6 @@ radar_uv gRadarUV_8009E30C[] = {
     {196, 102, 28, 22}  // The "console" in alert, evasion and jamming mode.
 };
 
-
 // 32x2 image:
 short image_8009E338[] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xC210, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xC210,
@@ -1230,7 +1229,6 @@ void menu_radar_update_8003B350(MenuWork *work, u_long *ot)
         }
     }
 }
-
 
 void menu_radar_init_8003B474(MenuWork *work)
 {

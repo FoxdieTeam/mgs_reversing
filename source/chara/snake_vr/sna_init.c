@@ -1737,7 +1737,6 @@ helper3:
             break;
         }
 
-
         if (pMsg->message_len != 0)
         {
             *pMsgIter = *pMsg;
@@ -2509,7 +2508,6 @@ void sna_80053360(SnaInitWork *work, int time)
         work->field_A3A = 0;
     }
 
-
     if ((dword_800ABBC4 == 1) || ((dword_800ABBC4 != 0) && (work->field_79C == 2)))
     {
         if (++work->field_A38_local_data >= 3)
@@ -2589,7 +2587,6 @@ void sna_fn_800535B8(SnaInitWork *work, int time)
             sna_start_anim_8004E1F4(work, &sna_anim_prone_idle_800528BC);
             return;
         }
-
 
         if ((dword_800ABBC4 == 1) || ((dword_800ABBC4 != 0) && (work->field_79C == 2)))
         {
@@ -4513,7 +4510,6 @@ void sna_act_helper3_helper_80056650(SnaInitWork *work, int time)
     work->field_914_trigger = result;
 }
 
-
 void sub_8005684C(SnaInitWork *work)
 {
     int y;
@@ -4820,7 +4816,6 @@ void sna_80051DA0(SnaInitWork *work)
 
         var_s0 += (temp_s4[6] * (var_a0 & 0xff)) / var_a2;
     }
-
 
     if (var_s0 < var_s1)
     {
@@ -6068,7 +6063,6 @@ void sna_anim_grenade_80058470(SnaInitWork *work, int time)
             return;
         }
 
-
         if (work->body.time2 != 0)
         {
             sna_8004E260(work, 0, 4, 0);
@@ -7232,7 +7226,6 @@ static inline void sna_init_main_logic_helper4_800596FC(SnaInitWork *work)
                     NewPadVibration(dword_8009EEE4, 2);
                     break;
                 }
-
 
                 if ((pTarget->life < 1) && ((GM_GameOverTimer > -2) && (GM_GameOverTimer < 1)))
                 {

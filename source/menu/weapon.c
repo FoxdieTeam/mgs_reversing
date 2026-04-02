@@ -17,14 +17,9 @@
 void sub_8003D3A4(Menu_Item_Unknown *a1, int a2);
 void sub_8003D34C(Menu_Item_Unknown *a1, int a2);
 
-
-
 // menu related?
 
-
-
 extern GM_CAMERA GM_Camera;
-
 
 STATIC PANEL_CONF *dword_800AB584 = NULL;
 

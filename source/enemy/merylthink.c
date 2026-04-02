@@ -296,7 +296,6 @@ void s07a_meryl_unk_800DB908( WatcherWork* work )
     HZD_HDL *hzd;
     HZD_ZON *zone;
 
-
     hzd = work->control.map->hzd;
     addr = HZD_GetAddress( hzd, &s07a_dword_800C3770, -1 ) & 0xFF;
     printf((char *)s07a_aToilletzoned_800E2FD8, addr);
@@ -316,7 +315,6 @@ void s07a_meryl_unk_800DB9B8( WatcherWork* work )
     int addr;
     HZD_HDL *hzd;
     HZD_ZON *zone;
-
 
     hzd = work->control.map->hzd;
     addr = HZD_GetAddress( hzd, &s07a_dword_800C3778, -1 ) & 0xFF;
@@ -341,7 +339,6 @@ void s07a_meryl_unk_800DBA68( WatcherWork* work )
     work->field_B4C = 0;
     work->pad.mode = 1;
 }
-
 
 // Identical to s00a_command_800CB240
 void s07a_meryl_unk_800DBAB4( WatcherWork* work )
@@ -505,8 +502,6 @@ void s07a_meryl_unk_800DBD54( WatcherWork *work )
     work->count3 = 0;
     work->modetime[2] = 0;
 }
-
-
 
 void s07a_meryl_unk_800DBD90( WatcherWork* work )
 {
@@ -1243,7 +1238,6 @@ int DirectTrace_800DCE48( WatcherWork* work, int a1 )
 {
     int x, z;
     SVECTOR svec;
-
 
     svec.vx = x = work->target_pos.vx - work->control.mov.vx;
     svec.vz = z = work->target_pos.vz - work->control.mov.vz;
@@ -2011,7 +2005,6 @@ void s07a_meryl_unk_800DDC60( WatcherWork* work )
         }
         break;
     }
-
 
     if ( s07a_meryl_unk_800DCF78( work ) )
     {

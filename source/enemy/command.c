@@ -242,7 +242,6 @@ int s00a_command_800CED88( char *ops, A4_STRUCT *unk )
         i++;
     } while ( GCL_GetParamResult() != NULL );
 
-
     return i;
 }
 
@@ -315,7 +314,6 @@ void s00a_command_800CEE98(void)
     EnemyCommand_800E0D98.c_reset_pos = reset_pos;
     fprintf( 1, aCresetposd_800E07FC, reset_pos );
 }
-
 
 int s00a_command_800CEFE4( int val )
 {
@@ -460,7 +458,6 @@ void s00a_command_800CF298( ENEMY_COMMAND* command )
             dists[i] = work->sn_dis;
         }
     }
-
 
     for ( t3 = command->field_0x08 - 1 ; t3 > -1 ; t3 = t4  )
     {
@@ -664,7 +661,6 @@ void s00a_command_800CF704( ENEMY_COMMAND *command )
             COM_EYE_LENGTH_800E0D8C = EnemyCommand_800E0D98.field_0x88.vy;
             COM_SHOOTRANGE_800E0D88 = EnemyCommand_800E0D98.field_0x88.vy + 500;
 
-
             if ( command->alert <= 0 )
             {
                 GM_AlertModeSet(2);
@@ -746,7 +742,6 @@ int s00a_command_800CF9A0( WatcherWork *work, int dis, int idx )
     {
         goto exit;
     }
-
 
     if ( ((WatcherWork *)EnemyCommand_800E0D98.field_0xC8[ idx ].watcher)->act_status & 0x10000028 )
     {
@@ -1139,7 +1134,6 @@ void CommandGetResources_800D04F4( CommanderWork *work, int name, int where )
     COM_PlayerAddress_800E0D90  = 0;
     EnemyCommand_800E0D98.alert  = 0;
     EnemyCommand_800E0D98.field_0x170 = 0;
-
 
     EnemyCommand_800E0D98.field_0x180 = 0;
     EnemyCommand_800E0D98.field_0x182 = 0;
