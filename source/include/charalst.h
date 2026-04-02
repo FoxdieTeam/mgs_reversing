@@ -54,7 +54,7 @@
 #define CHARA_SNOW              { 0x18e3, NewSnow }                 // GV_StrCode("雪") thing/snow.c
 #define CHARA_BUBBLE            { 0x1a02, NewBubbleS_800D5D9C }     // GV_StrCode("泡") okajima/bubble_s.c
 #define CHARA_LAMP              { 0x1ad3, NewLamp }                 // game/lamp.c
-#define CHARA_JOHNNY            { 0x1ef9, NewJohnny_800CA838 }      // GV_StrCode("ジョニー") chara/torture/johnny.c
+#define CHARA_JOHNNY            { 0x1ef9, NewJohnny }               // GV_StrCode("ジョニー") chara/torture/johnny.c
 #define CHARA_BG_STAGE          { 0x1fa5, ? }                       // okajima/photo/bg_stage.c
 #define CHARA_PANEL             { 0x20f2, NewPanel_800D2680 }       // GV_StrCode("パネル") takabe/panel.c
 #define CHARA_COUNTDOWN         { 0x22c6, ? }                       // GV_StrCode("カウントダウン") enemy/timer.c
@@ -429,7 +429,7 @@ void *NewSnakeBreath();                 /* chara/snake/breath.c         */
 void *NewSnake();                       /* chara/snake/sna_init.c       */
 void *NewTortureBed();                  /* chara/torture/bed.c          */
 void *NewAllItemBox();                  /* chara/torture/boxall.c       */
-void *NewJohnny_800CA838();             /* chara/torture/johnny.c       */
+void *NewJohnny();                      /* chara/torture/johnny.c       */
 void *NewNinja_800CC9B4();              /* chara/torture/ninja.c        */
 void *NewOtacom_800CC030();             /* chara/torture/otacom.c       */
 void *NewRevolver_800C929C();           /* chara/torture/revolver.c     */

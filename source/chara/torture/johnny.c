@@ -19,27 +19,27 @@
 #include "okajima/hiyoko.h"
 #include "takabe/fadeio.h"      // for NewFadeInOut
 
-struct JohnnyWork;
-typedef void (*TJohnnyFunc)(struct JohnnyWork *work, int action);
+struct _Work;
+typedef void (*ACTION)(struct _Work *work, int action);
 
-typedef struct JohnnyWork
+typedef struct _Work
 {
     GV_ACT         actor;
     CONTROL        control;
-    OBJECT         object;
-    MOTION_CONTROL motion;
-    MOTION_SEGMENT oar1[17];
-    MOTION_SEGMENT oar2[17];
+    OBJECT         body;
+    MOTION_CONTROL m_ctrl;
+    MOTION_SEGMENT m_segs1[17];
+    MOTION_SEGMENT m_segs2[17];
     SVECTOR        rots[16];
     SVECTOR        adjust[16];
     MATRIX         light[2];
-    char           pad7D8[0x48];
+    char           pad1[0x48];
     TARGET        *target;
     HOMING        *homing;
-    GV_ACT        *jfamas;
+    GV_ACT        *weapon;
     GV_ACT        *gunlight;
-    int           *gunlight_pvisible;
-    int            jfamas_trigger;
+    int           *enable_gunlight;
+    int            trigger;
     GV_ACT        *shadow;
     int            unk83C[5];
     SVECTOR        unk850[5][16];
@@ -59,11 +59,11 @@ typedef struct JohnnyWork
     char           padB28[4];
     int            player_status;
     SVECTOR        unkB30;
-    TJohnnyFunc    unkB38;
+    ACTION         unkB38;
     int            unkB3C;
     char           padB40[4];
-    TJohnnyFunc    unkB44;
-    TJohnnyFunc    unkB48;
+    ACTION         unkB44;
+    ACTION         unkB48;
     short          unkB4C;
     short          unkB4E;
     short          unkB50;
@@ -81,11 +81,11 @@ typedef struct JohnnyWork
     unsigned short unkB70;
     unsigned short unkB72;
     int            unkB74;
-    int            unkB78[0x12];
-    int            unkBC0[8];
+    int            vox_ids[18];
+    int            proc_id[8];
     int            unkBE0;
     int            unkBE4;
-} JohnnyWork;
+} Work;
 
 #define EXEC_LEVEL  GV_ACTOR_LEVEL5
 
@@ -103,7 +103,7 @@ SVECTOR s03c_dword_800C32D4 = {0, 0, 100};
 SVECTOR s03c_dword_800C32DC = {64512, 0, 0};
 SVECTOR s03c_dword_800C32E4 = {0, 0, 3500, 0};
 SVECTOR s03c_dword_800C32EC = {0, 0, 300};
-SVECTOR s03c_dword_800C32F4 = {300, 750, 300};
+SVECTOR target_size = {300, 750, 300};
 
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 extern GM_CAMERA        GM_Camera;
@@ -125,14 +125,14 @@ int   s03b_boxall_800C95EC(void);
 void *NewGunLight_800D3AD4(MATRIX *world, int **pvisible);
 void *AN_Unknown_800CA1EC(MATRIX *mat, int mark);
 
-void s03c_johnny_800C6FC0(JohnnyWork *work, int arg1);
-void s03c_johnny_800C7A64(JohnnyWork *work, int action);
-void Johnny_800C7160(JohnnyWork *work, int arg1);
-void Johnny_800C7804(JohnnyWork *work, int arg1);
-void s03c_johnny_800C7BF8(JohnnyWork *work, int action);
-void s03c_johnny_800C7F78(JohnnyWork *work, int action);
+static void Johnny_800C6FC0(Work *work, int arg1);
+static void Johnny_800C7A64(Work *work, int action);
+static void Johnny_800C7160(Work *work, int arg1);
+static void Johnny_800C7804(Work *work, int arg1);
+static void Johnny_800C7BF8(Work *work, int action);
+static void Johnny_800C7F78(Work *work, int action);
 
-static inline void ClearAdjust(JohnnyWork *work)
+static inline void ClearAdjust(Work *work)
 {
     int i;
 
@@ -142,15 +142,15 @@ static inline void ClearAdjust(JohnnyWork *work)
     }
 }
 
-static inline void SetAction(JohnnyWork *work, int action)
+static inline void SetAction(Work *work, int action)
 {
-    if (work->object.action != action)
+    if (work->body.action != action)
     {
-        GM_ConfigObjectAction(&work->object, action, 0, 4);
+        GM_ConfigObjectAction(&work->body, action, 0, 4);
     }
 }
 
-int Johnny_800C4194(JohnnyWork *work)
+static int Johnny_800C4194(Work *work)
 {
     SVECTOR player_pos;
     SVECTOR control_mov;
@@ -167,28 +167,28 @@ int Johnny_800C4194(JohnnyWork *work)
     return GV_VecLen3(&player_pos);
 }
 
-void s03c_johnny_800C5520(JohnnyWork *work, int arg1);
-void Johnny_800C588C(JohnnyWork *work, int arg1);
+static void Johnny_800C5520(Work *work, int arg1);
+static void Johnny_800C588C(Work *work, int arg1);
 
-void s03c_johnny_800C424C(JohnnyWork *work, TJohnnyFunc func)
+static void Johnny_800C424C(Work *work, ACTION func)
 {
     if (work->unkB1C & 0x100000)
     {
         return;
     }
 
-    if (work->unkB38 != s03c_johnny_800C5520 && work->unkB38 != Johnny_800C588C && GM_StreamStatus() == -1 &&
+    if (work->unkB38 != Johnny_800C5520 && work->unkB38 != Johnny_800C588C && GM_StreamStatus() == -1 &&
         GV_Time % 320 == 0)
     {
         work->unkB44 = func;
-        work->unkB38 = s03c_johnny_800C5520;
+        work->unkB38 = Johnny_800C5520;
         work->unkB4E = 0;
         work->unkB4C = 0;
         work->unkB3C = 0;
     }
 }
 
-void Johnny_800C430C(JohnnyWork *work)
+static void Johnny_800C430C(Work *work)
 {
     SVECTOR svec1, svec2;
 
@@ -206,7 +206,7 @@ void Johnny_800C430C(JohnnyWork *work)
     }
 }
 
-int Johnny_800C4388(JohnnyWork *work, int hash)
+static int Johnny_800C4388(Work *work, int hash)
 {
     int             i;
     unsigned short *triggers;
@@ -228,7 +228,7 @@ int Johnny_800C4388(JohnnyWork *work, int hash)
     return 0;
 }
 
-int Johnny_800C43D0(unsigned short hash)
+static int Johnny_800C43D0(unsigned short hash)
 {
     int             i;
     unsigned short *triggers;
@@ -245,7 +245,7 @@ int Johnny_800C43D0(unsigned short hash)
     return 0;
 }
 
-void Johnny_800C4418(JohnnyWork *work)
+static void Johnny_800C4418(Work *work)
 {
     int             i;
     int             new_unkB24;
@@ -298,7 +298,7 @@ void Johnny_800C4418(JohnnyWork *work)
     work->unkB24 = new_unkB24;
 }
 
-void Johnny_800C44F8(JohnnyWork *work)
+static void Johnny_800C44F8(Work *work)
 {
     if ((work->player_status & PLAYER_KETCHUP) != (GM_PlayerStatus & PLAYER_KETCHUP))
     {
@@ -328,18 +328,18 @@ void Johnny_800C44F8(JohnnyWork *work)
     work->player_status = GM_PlayerStatus;
 }
 
-void Johnny_800C4588(JohnnyWork *work)
+static void Johnny_800C4588(Work *work)
 {
     work->unkB48 = work->unkB38;
-    work->unkB38 = s03c_johnny_800C7F78;
+    work->unkB38 = Johnny_800C7F78;
     work->unkB4E = 0;
     work->unkB4C = 0;
     work->unkB3C = 0;
 }
 
-void Johnny_800C794C(JohnnyWork *work, int arg1);
+static void Johnny_800C794C(Work *work, int arg1);
 
-void s03c_johnny_800C45AC(JohnnyWork* work)
+static void Johnny_800C45AC(Work* work)
 {
     int fB24;
 
@@ -359,7 +359,7 @@ void s03c_johnny_800C45AC(JohnnyWork* work)
         {
             s03b_boxall_800C9328();
             GM_SeSet2(0, 63, SE_EXCLAMATION);
-            s03b_boxall_800C93F0(work->unkB78[6], 4);
+            s03b_boxall_800C93F0(work->vox_ids[6], 4);
             work->unkB0C = 6;
             work->unkB10 = 0;
         }
@@ -378,17 +378,17 @@ void s03c_johnny_800C45AC(JohnnyWork* work)
     }
 }
 
-int Johnny_800C470C(JohnnyWork *work)
+static int Johnny_800C470C(Work *work)
 {
     return (work->unkB24 & 1) ^ 1;
 }
 
-void Johnny_800C4720(JohnnyWork *work, int arg1)
+static void Johnny_800C4720(Work *work, int arg1)
 {
     work->unkAD0 = work->unk850[arg1];
 }
 
-void Johnny_800C4734(JohnnyWork *work)
+static void Johnny_800C4734(Work *work)
 {
     SVECTOR  svec;
     SVECTOR *adjust;
@@ -413,7 +413,7 @@ void Johnny_800C4734(JohnnyWork *work)
     adjust[6].vy = GV_NearExp4(adjust[6].vy, to);
 }
 
-void Johnny_800C47C4(JohnnyWork *work)
+static void Johnny_800C47C4(Work *work)
 {
     SVECTOR pos;
 
@@ -421,7 +421,7 @@ void Johnny_800C47C4(JohnnyWork *work)
     work->control.turn.vy = GV_VecDir2(&pos);
 }
 
-int Johnny_800C4804(JohnnyWork *work)
+static int Johnny_800C4804(Work *work)
 {
     SVECTOR diff;
     SVECTOR mov;
@@ -433,7 +433,7 @@ int Johnny_800C4804(JohnnyWork *work)
     return GV_VecLen3(&diff);
 }
 
-int Johnny_800C4860(JohnnyWork *work)
+static int Johnny_800C4860(Work *work)
 {
     SVECTOR svec;
     int     vecdir;
@@ -471,7 +471,7 @@ int Johnny_800C4860(JohnnyWork *work)
     return 0;
 }
 
-void Johnny_800C4934(JohnnyWork *work)
+static void Johnny_800C4934(Work *work)
 {
     SVECTOR  svec1;
     SVECTOR  svec2;
@@ -484,9 +484,9 @@ void Johnny_800C4934(JohnnyWork *work)
     svec2.vy = GM_PlayerBody->objs->objs[5].world.t[1];
     svec2.vz = GM_PlayerBody->objs->objs[5].world.t[2];
 
-    svec3.vx = work->object.objs->objs[9].world.t[0];
-    svec3.vy = work->object.objs->objs[9].world.t[1];
-    svec3.vz = work->object.objs->objs[9].world.t[2];
+    svec3.vx = work->body.objs->objs[9].world.t[0];
+    svec3.vy = work->body.objs->objs[9].world.t[1];
+    svec3.vz = work->body.objs->objs[9].world.t[2];
 
     GV_SubVec3(&svec2, &svec3, &svec1);
 
@@ -507,7 +507,7 @@ void Johnny_800C4934(JohnnyWork *work)
     adjust[6].vy = 0;
 }
 
-void Johnny_800C4A64(JohnnyWork *work)
+static void Johnny_800C4A64(Work *work)
 {
     TARGET *target;
 
@@ -516,7 +516,7 @@ void Johnny_800C4A64(JohnnyWork *work)
     GM_PushTarget(target);
 }
 
-void JohnnyExecProc_800C4A98(JohnnyWork *work, int arg)
+void JohnnyExecProc_800C4A98(Work *work, int arg)
 {
     GCL_ARGS args;
     long     argv[1];
@@ -525,10 +525,10 @@ void JohnnyExecProc_800C4A98(JohnnyWork *work, int arg)
     args.argv = argv;
     argv[0] = arg;
 
-    GCL_ExecProc(work->unkBC0[2], &args);
+    GCL_ExecProc(work->proc_id[2], &args);
 }
 
-void JohnnySendEnter_800C4AD0(JohnnyWork *work, int hash)
+void JohnnySendEnter_800C4AD0(Work *work, int hash)
 {
     GV_MSG msg;
 
@@ -549,7 +549,7 @@ void JohnnySendEnter_800C4AD0(JohnnyWork *work, int hash)
     }
 }
 
-void JohnnySendLeave_800C4B58(JohnnyWork *work, int hash)
+void JohnnySendLeave_800C4B58(Work *work, int hash)
 {
     GV_MSG msg;
 
@@ -570,25 +570,25 @@ void JohnnySendLeave_800C4B58(JohnnyWork *work, int hash)
     }
 }
 
-void Johnny_800C4BDC(JohnnyWork *work, int a1, int a2, TJohnnyFunc func)
+static void Johnny_800C4BDC(Work *work, int a1, int a2, ACTION func)
 {
     work->unkB58 = a1;
     work->unkB5A = a2;
     work->unkB44 = func;
 }
 
-void Johnny_800C4BEC(JohnnyWork *work, int index)
+static void Johnny_800C4BEC(Work *work, int index)
 {
     MATRIX rot;
 
-    DG_SetPos(&work->object.objs->objs[index].world);
+    DG_SetPos(&work->body.objs->objs[index].world);
     DG_MovePos(&s03c_dword_800C32D4);
     DG_RotatePos(&s03c_dword_800C32DC);
     ReadRotMatrix(&rot);
     NewBlood(&rot, 1);
 }
 
-int Johnny_800C4C54(JohnnyWork *work)
+static int Johnny_800C4C54(Work *work)
 {
     unsigned short unkB70;
 
@@ -621,7 +621,7 @@ int Johnny_800C4C54(JohnnyWork *work)
     }
 }
 
-void Johnny_800C4CCC(JohnnyWork *work)
+static void Johnny_800C4CCC(Work *work)
 {
     GCL_ARGS args;
     long     argv[4];
@@ -641,12 +641,12 @@ void Johnny_800C4CCC(JohnnyWork *work)
         argv[2] = work->unkB0C == 3;
         argv[3] = (work->unkB1C & 0x1000) > 0;
 
-        GCL_ExecProc(work->unkBC0[0], &args);
+        GCL_ExecProc(work->proc_id[0], &args);
         GV_DestroyActor(&work->actor);
     }
 }
 
-void JohnnyExecProc_800C4D8C(JohnnyWork *work)
+void JohnnyExecProc_800C4D8C(Work *work)
 {
     GCL_ARGS args;
     long     argv[1];
@@ -655,10 +655,10 @@ void JohnnyExecProc_800C4D8C(JohnnyWork *work)
     args.argv = argv;
     argv[0] = s03c_dword_800C32C8;
 
-    GCL_ExecProc(work->unkBC0[6], &args);
+    GCL_ExecProc(work->proc_id[6], &args);
 }
 
-void Johnny_800C4DCC(JohnnyWork *work)
+static void Johnny_800C4DCC(Work *work)
 {
     if (!(work->unkB1C & 8))
     {
@@ -690,7 +690,7 @@ void Johnny_800C4DCC(JohnnyWork *work)
     }
 }
 
-void Johnny_800C4E5C(JohnnyWork *work)
+static void Johnny_800C4E5C(Work *work)
 {
     if (work->unkB72 != 0)
     {
@@ -701,14 +701,14 @@ void Johnny_800C4E5C(JohnnyWork *work)
     }
 }
 
-void Johnny_800C4E9C(JohnnyWork *work)
+static void Johnny_800C4E9C(Work *work)
 {
     MATRIX  mat1;
     MATRIX  mat2;
     SVECTOR svec;
     MATRIX *world;
 
-    world = &work->object.objs->objs[6].world;
+    world = &work->body.objs->objs[6].world;
     ReadRotMatrix(&mat1);
     DG_TransposeMatrix(&mat1, &mat2);
     MulMatrix0(&mat2, world, &mat2);
@@ -717,7 +717,7 @@ void Johnny_800C4E9C(JohnnyWork *work)
     work->control.radar_cone.dir = svec.vy + work->control.rot.vy;
 }
 
-void Johnny_800C4F24(JohnnyWork *work, int arg1)
+static void Johnny_800C4F24(Work *work, int arg1)
 {
     if (arg1 != 0)
     {
@@ -734,15 +734,15 @@ void Johnny_800C4F24(JohnnyWork *work, int arg1)
     GM_AlertLevel = 0;
 }
 
-void Johnny_800C4FAC(JohnnyWork *work)
+static void Johnny_800C4FAC(Work *work)
 {
     CONTROL *control;
     int      frame;
 
-    frame = work->motion.info1.frame;
+    frame = work->m_ctrl.info1.frame;
     control = &work->control;
 
-    switch (work->object.action)
+    switch (work->body.action)
     {
     case 1:
         if (frame == 0)
@@ -769,10 +769,10 @@ void Johnny_800C4FAC(JohnnyWork *work)
     }
 }
 
-void Johnny_800C7428(JohnnyWork *work, int action);
-void Johnny_800C6C10(JohnnyWork *work, int action);
+static void Johnny_800C7428(Work *work, int action);
+static void Johnny_800C6C10(Work *work, int action);
 
-void s03c_johnny_800C5064(JohnnyWork *work)
+static void Johnny_800C5064(Work *work)
 {
     if (Johnny_800C4388(work, 0x41A5) != 0 || work->unkB5C == 1)
     {
@@ -781,14 +781,14 @@ void s03c_johnny_800C5064(JohnnyWork *work)
     else
     {
         work->unkB48 = Johnny_800C6C10;
-        work->unkB38 = s03c_johnny_800C7F78;
+        work->unkB38 = Johnny_800C7F78;
     }
     work->unkB4E = 0;
     work->unkB4C = 0;
     work->unkB3C = 0;
 }
 
-void Johnny_800C50D0(JohnnyWork *work)
+static void Johnny_800C50D0(Work *work)
 {
     if (!(work->unkB1C & 0x10) || !(GM_PlayerStatus & PLAYER_INTRUDE))
     {
@@ -808,7 +808,7 @@ void Johnny_800C50D0(JohnnyWork *work)
 
 // Similar to sna_act_unk2_80051170
 // arg type could be different
-void Johnny_800C5124(TARGET *target)
+static void Johnny_800C5124(TARGET *target)
 {
     target->a_mode = 0;
     target->life_lost = 0;
@@ -816,13 +816,13 @@ void Johnny_800C5124(TARGET *target)
     target->scale = DG_ZeroVector;
 }
 
-void Johnny_800C8400(JohnnyWork *work, int action);
-void Johnny_800C854C(JohnnyWork *work, int action);
-void Johnny_800C8654(JohnnyWork *work, int action);
-void Johnny_800C8B14(JohnnyWork *work, int action);
-void Johnny_800C9144(JohnnyWork *work, int action);
+static void Johnny_800C8400(Work *work, int action);
+static void Johnny_800C854C(Work *work, int action);
+static void Johnny_800C8654(Work *work, int action);
+static void Johnny_800C8B14(Work *work, int action);
+static void Johnny_800C9144(Work *work, int action);
 
-void s03c_johnny_800C5168(JohnnyWork *work)
+static void Johnny_800C5168(Work *work)
 {
     TARGET *target;
     int     a_mode;
@@ -936,7 +936,7 @@ void s03c_johnny_800C5168(JohnnyWork *work)
             work->unkB4C = 0;
             work->unkB3C = 0;
 
-            GM_ConfigMotionAdjust(&work->object, NULL);
+            GM_ConfigMotionAdjust(&work->body, NULL);
             ClearAdjust(work);
 
             Johnny_800C5124(target);
@@ -954,7 +954,7 @@ void s03c_johnny_800C5168(JohnnyWork *work)
             work->unkB4C = 0;
             work->unkB3C = 0;
 
-            GM_ConfigMotionAdjust(&work->object, NULL);
+            GM_ConfigMotionAdjust(&work->body, NULL);
             ClearAdjust(work);
 
             s03b_boxall_800C9328();
@@ -962,7 +962,7 @@ void s03c_johnny_800C5168(JohnnyWork *work)
     }
 }
 
-void Johnny_800C54A8(JohnnyWork *work, int arg1)
+static void Johnny_800C54A8(Work *work, int arg1)
 {
     if (arg1 == 0)
     {
@@ -979,7 +979,7 @@ void Johnny_800C54A8(JohnnyWork *work, int arg1)
     }
 }
 
-void s03c_johnny_800C5520(JohnnyWork *work, int action)
+static void Johnny_800C5520(Work *work, int action)
 {
     int index;
 
@@ -988,19 +988,19 @@ void s03c_johnny_800C5520(JohnnyWork *work, int action)
         index = (work->unkB1C & 0x4000) ? 10 : 0;
 
         s03b_boxall_800C9328();
-        s03b_boxall_800C93F0(work->unkB78[index], 4);
+        s03b_boxall_800C93F0(work->vox_ids[index], 4);
 
-        work->unkBE0 = work->unkB78[index];
+        work->unkBE0 = work->vox_ids[index];
 
         SetAction(work, 0);
 
-        GM_ConfigMotionAdjust(&work->object, work->adjust);
+        GM_ConfigMotionAdjust(&work->body, work->adjust);
     }
 
     switch (work->unkB4C)
     {
     case 0:
-        if (work->unkBE0 == work->unkB78[10])
+        if (work->unkBE0 == work->vox_ids[10])
         {
             if (GM_StreamStatus() == 2)
             {
@@ -1017,7 +1017,7 @@ void s03c_johnny_800C5520(JohnnyWork *work, int action)
         break;
 
     case 1:
-        if (work->object.action == 15 && work->object.is_end != 0)
+        if (work->body.action == 15 && work->body.is_end != 0)
         {
             if (work->unkB1C & 0x4000)
             {
@@ -1026,12 +1026,12 @@ void s03c_johnny_800C5520(JohnnyWork *work, int action)
                 work->unkB3C = 0;
                 work->unkB38 = work->unkB44;
 
-                GM_ConfigMotionAdjust(&work->object, NULL);
+                GM_ConfigMotionAdjust(&work->body, NULL);
                 ClearAdjust(work);
             }
             else
             {
-                GM_ConfigObjectAction(&work->object, 0, 0, 4);
+                GM_ConfigObjectAction(&work->body, 0, 0, 4);
                 work->unkB4C = 2;
             }
         }
@@ -1046,16 +1046,16 @@ void s03c_johnny_800C5520(JohnnyWork *work, int action)
             work->unkB38 = work->unkB44;
             work->unkB1C |= 0x4000;
 
-            GM_ConfigMotionAdjust(&work->object, NULL);
+            GM_ConfigMotionAdjust(&work->body, NULL);
             ClearAdjust(work);
         }
         break;
     }
 }
 
-void s03c_johnny_800C5A7C(JohnnyWork *work, int arg1);
+static void Johnny_800C5A7C(Work *work, int arg1);
 
-void Johnny_800C57D0(JohnnyWork *work, int arg1)
+static void Johnny_800C57D0(Work *work, int arg1)
 {
     if (arg1 == 0)
     {
@@ -1069,16 +1069,16 @@ void Johnny_800C57D0(JohnnyWork *work, int arg1)
         GM_SeSet2(0, 0x3F, 0x92);
     }
 
-    if (work->object.is_end != 0)
+    if (work->body.is_end != 0)
     {
-        work->unkB38 = s03c_johnny_800C5A7C;
+        work->unkB38 = Johnny_800C5A7C;
         work->unkB4E = 0;
         work->unkB4C = 0;
         work->unkB3C = 0;
     }
 }
 
-void Johnny_800C588C(JohnnyWork *work, int arg1)
+static void Johnny_800C588C(Work *work, int arg1)
 {
     SVECTOR svec;
     int     status;
@@ -1091,7 +1091,7 @@ void Johnny_800C588C(JohnnyWork *work, int arg1)
         SetAction(work, 0);
 
         s03b_boxall_800C9328();
-        s03b_boxall_800C93F0(work->unkB78[12], 4);
+        s03b_boxall_800C93F0(work->vox_ids[12], 4);
     }
     if (arg1 > 16)
     {
@@ -1107,18 +1107,18 @@ void Johnny_800C588C(JohnnyWork *work, int arg1)
     }
 }
 
-void s03c_johnny_800C594C(JohnnyWork *work)
+static void Johnny_800C594C(Work *work)
 {
     int index;
 
     if (GM_StreamStatus() == -1 && GM_NoisePower != 0)
     {
         index = (GV_Time & 0x1) ? 14 : 16;
-        s03b_boxall_800C93AC(work->unkB78[index]);
+        s03b_boxall_800C93AC(work->vox_ids[index]);
     }
 }
 
-void Johnny_800C59B8(JohnnyWork *work, int arg1)
+static void Johnny_800C59B8(Work *work, int arg1)
 {
     if (arg1 == 0)
     {
@@ -1144,11 +1144,11 @@ void Johnny_800C59B8(JohnnyWork *work, int arg1)
     }
     else
     {
-        s03c_johnny_800C594C(work);
+        Johnny_800C594C(work);
     }
 }
 
-void s03c_johnny_800C5A7C(JohnnyWork *work, int action)
+static void Johnny_800C5A7C(Work *work, int action)
 {
     SVECTOR pos;
 
@@ -1162,9 +1162,9 @@ void s03c_johnny_800C5A7C(JohnnyWork *work, int action)
 
     if (!(work->unkB1C & 0x10000) && ((action % 100) == 0))
     {
-        pos.vx = work->object.objs->objs[6].world.t[0];
-        pos.vy = work->object.objs->objs[6].world.t[1];
-        pos.vz = work->object.objs->objs[6].world.t[2];
+        pos.vx = work->body.objs->objs[6].world.t[0];
+        pos.vy = work->body.objs->objs[6].world.t[1];
+        pos.vz = work->body.objs->objs[6].world.t[2];
         AN_Sleep(&pos);
     }
 
@@ -1184,16 +1184,16 @@ void s03c_johnny_800C5A7C(JohnnyWork *work, int action)
         break;
 
     case 1:
-        if (work->object.is_end != 0)
+        if (work->body.is_end != 0)
         {
             work->unkB1C |= 0x10000;
 
             SetAction(work, 0);
-            AN_Unknown_800CA1EC(&work->object.objs->objs[6].world, 0);
+            AN_Unknown_800CA1EC(&work->body.objs->objs[6].world, 0);
 
             if (!(work->unkB1C & 0x2000000))
             {
-                s03b_boxall_800C93AC(work->unkB78[3]);
+                s03b_boxall_800C93AC(work->vox_ids[3]);
                 work->unkB4C = 2;
                 work->unkB1C |= 0x2000000;
             }
@@ -1215,26 +1215,26 @@ void s03c_johnny_800C5A7C(JohnnyWork *work, int action)
             SetAction(work, 10);
         }
 
-        if ((work->object.action == 10) && (work->object.is_end != 0))
+        if ((work->body.action == 10) && (work->body.is_end != 0))
         {
-            GM_ConfigObjectAction(&work->object, 0, 0, 4);
+            GM_ConfigObjectAction(&work->body, 0, 0, 4);
         }
 
         if ((action >= 512) && (GM_StreamStatus() == -1))
         {
             work->unkB4C = 3;
-            s03b_boxall_800C93AC(work->unkB78[4]);
+            s03b_boxall_800C93AC(work->vox_ids[4]);
             SetAction(work, 11);
         }
         break;
 
     case 3:
-        if ((work->object.action == 11) && (work->object.is_end != 0))
+        if ((work->body.action == 11) && (work->body.is_end != 0))
         {
-            GM_ConfigObjectAction(&work->object, 0, 0, 4);
+            GM_ConfigObjectAction(&work->body, 0, 0, 4);
         }
 
-        if ((work->object.action == 0) && (GM_StreamStatus() == -1))
+        if ((work->body.action == 0) && (GM_StreamStatus() == -1))
         {
             work->unkB14 = 2;
             work->unkB1C |= 0x8;
@@ -1245,13 +1245,13 @@ void s03c_johnny_800C5A7C(JohnnyWork *work, int action)
     }
 }
 
-void Johnny_800C92E0(JohnnyWork *work, int arg1);
+static void Johnny_800C92E0(Work *work, int arg1);
 
-void s03c_johnny_800C5DE4(JohnnyWork *work, int action)
+static void Johnny_800C5DE4(Work *work, int action)
 {
     if (action == 0)
     {
-        GM_ConfigMotionAdjust(&work->object, work->adjust);
+        GM_ConfigMotionAdjust(&work->body, work->adjust);
         work->unkAD0++;
         SetAction(work, 1);
     }
@@ -1265,7 +1265,7 @@ void s03c_johnny_800C5DE4(JohnnyWork *work, int action)
         {
             if (work->unkB4C == 0)
             {
-                GM_ConfigMotionAdjust(&work->object, NULL);
+                GM_ConfigMotionAdjust(&work->body, NULL);
                 ClearAdjust(work);
 
                 if (work->unkB6E == 1 || (work->unkB1C & 0x400000) != 0)
@@ -1286,14 +1286,14 @@ void s03c_johnny_800C5DE4(JohnnyWork *work, int action)
         }
         else
         {
-            GM_ConfigMotionAdjust(&work->object, NULL);
+            GM_ConfigMotionAdjust(&work->body, NULL);
             ClearAdjust(work);
 
-            work->unkB44 = s03c_johnny_800C5DE4;
+            work->unkB44 = Johnny_800C5DE4;
 
             if (work->unkB1C & 0x20000000)
             {
-                work->unkB38 = s03c_johnny_800C5520;
+                work->unkB38 = Johnny_800C5520;
                 work->unkB4E = 0;
                 work->unkB4C = 0;
                 work->unkB3C = 0;
@@ -1303,7 +1303,7 @@ void s03c_johnny_800C5DE4(JohnnyWork *work, int action)
 
             if ((work->unkB74 ^ 0x18) == 0)
             {
-                work->unkB44 = s03c_johnny_800C5DE4;
+                work->unkB44 = Johnny_800C5DE4;
                 work->unkB38 = Johnny_800C588C;
                 work->unkB4E = 0;
                 work->unkB4C = 0;
@@ -1317,7 +1317,7 @@ void s03c_johnny_800C5DE4(JohnnyWork *work, int action)
             }
             else
             {
-                work->unkB38 = s03c_johnny_800C5520;
+                work->unkB38 = Johnny_800C5520;
             }
 
             work->unkB4E = 0;
@@ -1326,12 +1326,12 @@ void s03c_johnny_800C5DE4(JohnnyWork *work, int action)
         }
     }
 
-    s03c_johnny_800C594C(work);
+    Johnny_800C594C(work);
 }
 
-void Johnny_800C6268(JohnnyWork *work, int action);
+static void Johnny_800C6268(Work *work, int action);
 
-void Johnny_800C6054(JohnnyWork *work, int action)
+static void Johnny_800C6054(Work *work, int action)
 {
     int index;
 
@@ -1345,12 +1345,12 @@ void Johnny_800C6054(JohnnyWork *work, int action)
         index = !(work->unkB1C & 0x800000) ? 1 : 2;
         work->unkB1C |= 0x800000;
         s03b_boxall_800C9328();
-        s03b_boxall_800C93F0(work->unkB78[index], 4);
+        s03b_boxall_800C93F0(work->vox_ids[index], 4);
         GM_SeSet2(0, 0x3F, 0xB4);
     }
     if (work->unkB4C == 0)
     {
-        if (work->object.is_end != 0)
+        if (work->body.is_end != 0)
         {
             SetAction(work, 32);
             work->unkB4C = 1;
@@ -1365,7 +1365,7 @@ void Johnny_800C6054(JohnnyWork *work, int action)
     }
 }
 
-void Johnny_800C6170(JohnnyWork *work, int arg1)
+static void Johnny_800C6170(Work *work, int arg1)
 {
     if (arg1 == 0)
     {
@@ -1380,9 +1380,9 @@ void Johnny_800C6170(JohnnyWork *work, int arg1)
     }
 }
 
-void Johnny_800C64B0(JohnnyWork *work, int action);
+static void Johnny_800C64B0(Work *work, int action);
 
-void Johnny_800C6204(JohnnyWork *work, int arg1)
+static void Johnny_800C6204(Work *work, int arg1)
 {
     if (arg1 == 0)
     {
@@ -1395,7 +1395,7 @@ void Johnny_800C6204(JohnnyWork *work, int arg1)
     }
 }
 
-void Johnny_800C6268(JohnnyWork *work, int action)
+static void Johnny_800C6268(Work *work, int action)
 {
     if (action == 0)
     {
@@ -1422,23 +1422,23 @@ void Johnny_800C6268(JohnnyWork *work, int action)
     }
 }
 
-void Johnny_800C631C(JohnnyWork *work, int action)
+static void Johnny_800C631C(Work *work, int action)
 {
     if (action == 0)
     {
         work->control.turn.vy = 0;
         SetAction(work, 10);
-        s03b_boxall_800C93AC(work->unkB78[5]);
+        s03b_boxall_800C93AC(work->vox_ids[5]);
     }
-    if (work->object.is_end != 0)
+    if (work->body.is_end != 0)
     {
-        if (work->object.action == 10)
+        if (work->body.action == 10)
         {
-            GM_ConfigObjectAction(&work->object, 0, 0, 4);
+            GM_ConfigObjectAction(&work->body, 0, 0, 4);
             work->unkB4C++;
         }
     }
-    if (work->object.action == 0 && GM_StreamStatus() == -1)
+    if (work->body.action == 0 && GM_StreamStatus() == -1)
     {
         work->unkB4C++;
     }
@@ -1452,7 +1452,7 @@ void Johnny_800C631C(JohnnyWork *work, int action)
     }
 }
 
-void Johnny_800C6418(JohnnyWork *work, int action)
+static void Johnny_800C6418(Work *work, int action)
 {
     work->unkB1C |= 0x20;
     SetAction(work, 0);
@@ -1468,7 +1468,7 @@ void Johnny_800C6418(JohnnyWork *work, int action)
     work->unkB1C |= 0x1000000;
 }
 
-void Johnny_800C64B0(JohnnyWork *work, int action)
+static void Johnny_800C64B0(Work *work, int action)
 {
     if (action == 0)
     {
@@ -1516,35 +1516,35 @@ void Johnny_800C64B0(JohnnyWork *work, int action)
     }
 }
 
-void s03c_johnny_800C69D8(JohnnyWork *work, int arg1);
+static void Johnny_800C69D8(Work *work, int arg1);
 
-void Johnny_800C65F8(JohnnyWork *work, int arg1)
+static void Johnny_800C65F8(Work *work, int arg1)
 {
     if (arg1 == 0)
     {
         SetAction(work, 6);
         work->control.turn.vy = (work->unkAD0->pad & 0x1F) * 512;
-        AN_Unknown_800CA1EC(&work->object.objs->objs[6].world, 3);
+        AN_Unknown_800CA1EC(&work->body.objs->objs[6].world, 3);
     }
     if (Johnny_800C470C(work) != 0)
     {
-        s03c_johnny_800C5064(work);
+        Johnny_800C5064(work);
     }
-    else if (work->object.is_end != 0)
+    else if (work->body.is_end != 0)
     {
-        work->unkB38 = s03c_johnny_800C69D8;
+        work->unkB38 = Johnny_800C69D8;
         work->unkB4E = 0;
         work->unkB4C = 0;
         work->unkB3C = 0;
     }
 }
 
-void s03c_johnny_800C66A4(JohnnyWork *work, int action)
+static void Johnny_800C66A4(Work *work, int action)
 {
     if (action == 0)
     {
         work->unkB1C &= ~0x80000000;
-        GM_ConfigMotionAdjust(&work->object, NULL);
+        GM_ConfigMotionAdjust(&work->body, NULL);
         ClearAdjust(work);
 
         work->control.turn.vy = (work->unkAD0->pad & 0x1F) * 512;
@@ -1552,7 +1552,7 @@ void s03c_johnny_800C66A4(JohnnyWork *work, int action)
         SetAction(work, 34);
     }
 
-    if (work->object.is_end != 0 && work->unkB4C == 0)
+    if (work->body.is_end != 0 && work->unkB4C == 0)
     {
         SetAction(work, 38);
         work->unkB4C = 1;
@@ -1567,15 +1567,15 @@ void s03c_johnny_800C66A4(JohnnyWork *work, int action)
             work->unkB4C = 0;
             work->unkB3C = 0;
         }
-        else if (work->object.is_end != 0)
+        else if (work->body.is_end != 0)
         {
             work->control.mov = *work->unkAD0;
-            AN_Unknown_800CA1EC(&work->object.objs->objs[6].world, 3);
+            AN_Unknown_800CA1EC(&work->body.objs->objs[6].world, 3);
         }
     }
 }
 
-void Johnny_800C6850(JohnnyWork *work, int arg1)
+static void Johnny_800C6850(Work *work, int arg1)
 {
     if (arg1 == 0)
     {
@@ -1590,7 +1590,7 @@ void Johnny_800C6850(JohnnyWork *work, int arg1)
         SetAction(work, 35);
         GM_SeSet2(0, 0x3F, 0xB5);
     }
-    if (work->object.is_end != 0)
+    if (work->body.is_end != 0)
     {
         if (work->unkB5A == 1)
         {
@@ -1604,14 +1604,14 @@ void Johnny_800C6850(JohnnyWork *work, int arg1)
     }
 }
 
-void Johnny_800C6918(JohnnyWork *work, int arg1)
+static void Johnny_800C6918(Work *work, int arg1)
 {
     OBJECT *object;
 
     if (arg1 == 0)
     {
         work->unkB1C &= ~0x80000000;
-        object = &work->object;
+        object = &work->body;
         GM_ConfigMotionAdjust(object, work->adjust);
         SetAction(work, 2);
         sna_act_unk_helper2_helper2_800605DC(&work->sna_auto_move, work->control.map->hzd,
@@ -1628,14 +1628,14 @@ void Johnny_800C6918(JohnnyWork *work, int arg1)
     }
 }
 
-void s03c_johnny_800C69D8(JohnnyWork *work, int action)
+static void Johnny_800C69D8(Work *work, int action)
 {
     int action1, action2;
 
     if (action == 0)
     {
         work->unkB1C |= 0x80000000;
-        GM_ConfigMotionAdjust(&work->object, work->adjust);
+        GM_ConfigMotionAdjust(&work->body, work->adjust);
         SetAction(work, 2);
         work->unkAD0++;
     }
@@ -1644,10 +1644,10 @@ void s03c_johnny_800C69D8(JohnnyWork *work, int action)
 
     if (Johnny_800C470C(work))
     {
-        GM_ConfigMotionAdjust(&work->object, NULL);
+        GM_ConfigMotionAdjust(&work->body, NULL);
         ClearAdjust(work);
 
-        s03c_johnny_800C5064(work);
+        Johnny_800C5064(work);
         return;
     }
 
@@ -1660,14 +1660,14 @@ void s03c_johnny_800C69D8(JohnnyWork *work, int action)
 
         if (action1 == 2)
         {
-            work->unkB38 = s03c_johnny_800C66A4;
+            work->unkB38 = Johnny_800C66A4;
             work->unkB4E = 0;
             work->unkB4C = 0;
             work->unkB3C = 0;
         }
         else if (action2 == 1)
         {
-            GM_ConfigMotionAdjust(&work->object, NULL);
+            GM_ConfigMotionAdjust(&work->body, NULL);
             ClearAdjust(work);
 
             work->unkB38 = Johnny_800C65F8;
@@ -1677,11 +1677,11 @@ void s03c_johnny_800C69D8(JohnnyWork *work, int action)
         }
         else if (action2 == 2)
         {
-            GM_ConfigMotionAdjust(&work->object, NULL);
+            GM_ConfigMotionAdjust(&work->body, NULL);
             ClearAdjust(work);
 
             work->control.turn.vy = -1024;
-            Johnny_800C4BDC(work, GV_StrCode("rou_tobira"), 1, s03c_johnny_800C69D8);
+            Johnny_800C4BDC(work, GV_StrCode("rou_tobira"), 1, Johnny_800C69D8);
 
             work->unkB38 = Johnny_800C6850;
             work->unkB4E = 0;
@@ -1695,14 +1695,14 @@ void s03c_johnny_800C69D8(JohnnyWork *work, int action)
     }
 }
 
-void Johnny_800C6C10(JohnnyWork *work, int action)
+static void Johnny_800C6C10(Work *work, int action)
 {
     OBJECT *object;
     int     unkB1C;
 
     if (action == 0)
     {
-        object = &work->object;
+        object = &work->body;
 
         work->control.radar_atr &= ~RADAR_UNK4;
 
@@ -1733,7 +1733,7 @@ void Johnny_800C6C10(JohnnyWork *work, int action)
 
     if (sub_800606E4(&work->sna_auto_move, &work->control.mov, 250))
     {
-        GM_ConfigMotionAdjust(&work->object, NULL);
+        GM_ConfigMotionAdjust(&work->body, NULL);
         ClearAdjust(work);
 
         work->unkB14 = 2;
@@ -1741,7 +1741,7 @@ void Johnny_800C6C10(JohnnyWork *work, int action)
     }
 }
 
-void s03c_johnny_800C6D84(JohnnyWork *work, int action)
+static void Johnny_800C6D84(Work *work, int action)
 {
     SVECTOR pos;
     SVECTOR diff;
@@ -1749,7 +1749,7 @@ void s03c_johnny_800C6D84(JohnnyWork *work, int action)
 
     if ((work->unkB24 & 0x8) && !(work->target->class & TARGET_DOWN))
     {
-        work->unkB38 = s03c_johnny_800C7A64;
+        work->unkB38 = Johnny_800C7A64;
         work->unkB4E = 0;
         work->unkB4C = 0;
         work->unkB3C = 0;
@@ -1775,7 +1775,7 @@ void s03c_johnny_800C6D84(JohnnyWork *work, int action)
 
         if ((len < 2500) && ((GM_PlayerStatus & PLAYER_INTRUDE) || (Johnny_800C4194(work) < 0)))
         {
-            work->unkB44 = s03c_johnny_800C6D84;
+            work->unkB44 = Johnny_800C6D84;
             work->unkB38 = Johnny_800C7160;
             work->unkB4E = 0;
             work->unkB4C = 0;
@@ -1804,7 +1804,7 @@ void s03c_johnny_800C6D84(JohnnyWork *work, int action)
 
     if ((len < 1500) && ((GM_PlayerStatus & PLAYER_INTRUDE) || (Johnny_800C4194(work) < 0)))
     {
-        work->unkB44 = s03c_johnny_800C6D84;
+        work->unkB44 = Johnny_800C6D84;
         work->unkB38 = Johnny_800C7160;
         work->unkB4E = 0;
         work->unkB4C = 0;
@@ -1813,14 +1813,14 @@ void s03c_johnny_800C6D84(JohnnyWork *work, int action)
 
     if ((work->unkB70 != 4) && (work->unkB24 & 2))
     {
-        work->unkB38 = s03c_johnny_800C6FC0;
+        work->unkB38 = Johnny_800C6FC0;
         work->unkB4E = 0;
         work->unkB4C = 0;
         work->unkB3C = 0;
     }
 }
 
-void s03c_johnny_800C6FC0(JohnnyWork *work, int action)
+static void Johnny_800C6FC0(Work *work, int action)
 {
     SVECTOR diff;
     int     len;
@@ -1854,7 +1854,7 @@ void s03c_johnny_800C6FC0(JohnnyWork *work, int action)
         }
         else
         {
-            work->unkB38 = s03c_johnny_800C6D84;
+            work->unkB38 = Johnny_800C6D84;
             work->unkB4E = 0;
             work->unkB4C = 0;
             work->unkB3C = 0;
@@ -1862,7 +1862,7 @@ void s03c_johnny_800C6FC0(JohnnyWork *work, int action)
     }
     else if ((action == 24) && (work->unkB24 & 0x2))
     {
-        work->unkB44 = s03c_johnny_800C6FC0;
+        work->unkB44 = Johnny_800C6FC0;
         work->unkB38 = Johnny_800C7160;
         work->unkB4E = 0;
         work->unkB4C = 0;
@@ -1870,7 +1870,7 @@ void s03c_johnny_800C6FC0(JohnnyWork *work, int action)
     }
 }
 
-void Johnny_800C7160(JohnnyWork *work, int arg1)
+static void Johnny_800C7160(Work *work, int arg1)
 {
     int action;
     int trigger;
@@ -1883,12 +1883,12 @@ void Johnny_800C7160(JohnnyWork *work, int arg1)
         {
             work->unkB4E = 1;
             action = 41;
-            GM_ConfigMotionAdjust(&work->object, work->adjust);
+            GM_ConfigMotionAdjust(&work->body, work->adjust);
         }
         else
         {
             action = 8;
-            GM_ConfigMotionAdjust(&work->object, work->adjust);
+            GM_ConfigMotionAdjust(&work->body, work->adjust);
         }
 
         SetAction(work, action);
@@ -1917,7 +1917,7 @@ void Johnny_800C7160(JohnnyWork *work, int arg1)
         }
     }
 
-    if (work->object.action == 41)
+    if (work->body.action == 41)
     {
         if (arg1 == 16 || arg1 == 22 || arg1 == 28)
         {
@@ -1936,7 +1936,7 @@ void Johnny_800C7160(JohnnyWork *work, int arg1)
         trigger |= 2;
     }
 
-    if (work->object.is_end != 0 && work->unkB4C == 1)
+    if (work->body.is_end != 0 && work->unkB4C == 1)
     {
         if (GM_PlayerStatus & PLAYER_INTRUDE)
         {
@@ -1947,7 +1947,7 @@ void Johnny_800C7160(JohnnyWork *work, int arg1)
         }
         else
         {
-            GM_ConfigMotionAdjust(&work->object, NULL);
+            GM_ConfigMotionAdjust(&work->body, NULL);
             ClearAdjust(work);
 
             work->unkB4E = 0;
@@ -1958,18 +1958,18 @@ void Johnny_800C7160(JohnnyWork *work, int arg1)
     }
     else
     {
-        work->jfamas_trigger = trigger;
+        work->trigger = trigger;
     }
 }
 
-void Johnny_800C7378(JohnnyWork *work, int arg1)
+static void Johnny_800C7378(Work *work, int arg1)
 {
     OBJECT *object;
 
     if (arg1 == 0)
     {
         work->unkB1C &= ~0x80000000;
-        object = &work->object;
+        object = &work->body;
         GM_ConfigMotionAdjust(object, work->adjust);
         SetAction(work, 8);
         Johnny_800C4F24(work, 1);
@@ -1984,34 +1984,34 @@ void Johnny_800C7378(JohnnyWork *work, int arg1)
     Johnny_800C47C4(work);
 }
 
-void Johnny_800C7428(JohnnyWork *work, int action)
+static void Johnny_800C7428(Work *work, int action)
 {
     if (action == 0)
     {
         work->unkB1C &= ~0x80000000;
         s03b_boxall_800C9328();
-        s03b_boxall_800C93F0(work->unkB78[13], 4);
+        s03b_boxall_800C93F0(work->vox_ids[13], 4);
         GM_SeSet2(0, 0x3F, SE_EXCLAMATION);
         NewPadVibration(johnny_vibration1_800C32C0, 2);
-        AN_Unknown_800CA1EC(&work->object.objs->objs[6].world, 0);
+        AN_Unknown_800CA1EC(&work->body.objs->objs[6].world, 0);
         SetAction(work, 5);
         work->unkB1C &= ~0x40000000;
     }
 
     Johnny_800C47C4(work);
 
-    if (work->object.is_end != 0)
+    if (work->body.is_end != 0)
     {
         if (Johnny_800C4388(work, 0x41A5) != 0)
         {
-            work->unkB44 = s03c_johnny_800C6FC0;
+            work->unkB44 = Johnny_800C6FC0;
             if (work->unkB24 & 2)
             {
                 work->unkB38 = Johnny_800C7378;
             }
             else
             {
-                work->unkB38 = s03c_johnny_800C6FC0;
+                work->unkB38 = Johnny_800C6FC0;
             }
         }
         else
@@ -2024,7 +2024,7 @@ void Johnny_800C7428(JohnnyWork *work, int action)
     }
 }
 
-void s03c_johnny_800C753C(JohnnyWork *work, int action)
+static void Johnny_800C753C(Work *work, int action)
 {
     SVECTOR mov;
 
@@ -2077,7 +2077,7 @@ void s03c_johnny_800C753C(JohnnyWork *work, int action)
 
         if (Johnny_800C4388(work, 0x41A5))
         {
-            work->unkB44 = s03c_johnny_800C6FC0;
+            work->unkB44 = Johnny_800C6FC0;
 
             if (work->unkB24 & 0x2)
             {
@@ -2088,19 +2088,19 @@ void s03c_johnny_800C753C(JohnnyWork *work, int action)
                 return;
             }
 
-            work->unkB38 = s03c_johnny_800C6FC0;
+            work->unkB38 = Johnny_800C6FC0;
         }
         else
         {
-            AN_Unknown_800CA1EC(&work->object.objs->objs[6].world, 0);
+            AN_Unknown_800CA1EC(&work->body.objs->objs[6].world, 0);
             GM_SeSet2(0, 63, SE_EXCLAMATION);
 
             s03b_boxall_800C9328();
-            s03b_boxall_800C93F0(work->unkB78[8], 4);
+            s03b_boxall_800C93F0(work->vox_ids[8], 4);
 
             NewPadVibration(johnny_vibration1_800C32C0, 2);
 
-            GCL_ExecProc(work->unkBC0[4], NULL);
+            GCL_ExecProc(work->proc_id[4], NULL);
             work->unkB38 = Johnny_800C6C10;
         }
 
@@ -2119,7 +2119,7 @@ void s03c_johnny_800C753C(JohnnyWork *work, int action)
         if (work->unkB50 == 2)
         {
             work->control.turn.vy = -1024;
-            Johnny_800C4BDC(work, GV_StrCode("rou_tobira"), 1, s03c_johnny_800C753C);
+            Johnny_800C4BDC(work, GV_StrCode("rou_tobira"), 1, Johnny_800C753C);
             work->unkB38 = Johnny_800C6850;
         }
         else if (work->unkB50 == 3)
@@ -2137,7 +2137,7 @@ void s03c_johnny_800C753C(JohnnyWork *work, int action)
     }
 }
 
-void Johnny_800C7804(JohnnyWork *work, int arg1)
+static void Johnny_800C7804(Work *work, int arg1)
 {
     SVECTOR svec;
 
@@ -2146,7 +2146,7 @@ void Johnny_800C7804(JohnnyWork *work, int arg1)
         work->unkB1C &= ~0x80000000;
         SetAction(work, 0);
 
-        AN_Unknown_800CA1EC(&work->object.objs->objs[6].world, 3);
+        AN_Unknown_800CA1EC(&work->body.objs->objs[6].world, 3);
 
         work->unkB60 = GM_PlayerPosition;
         work->unkB60.pad = GM_PlayerControl->turn.vy;
@@ -2181,7 +2181,7 @@ void Johnny_800C7804(JohnnyWork *work, int arg1)
     }
 }
 
-void Johnny_800C794C(JohnnyWork *work, int arg1)
+static void Johnny_800C794C(Work *work, int arg1)
 {
     if (arg1 == 0)
     {
@@ -2189,16 +2189,16 @@ void Johnny_800C794C(JohnnyWork *work, int arg1)
         SetAction(work, 5);
     }
     Johnny_800C47C4(work);
-    if (work->object.is_end != 0)
+    if (work->body.is_end != 0)
     {
         if (work->unkB50 == 3)
         {
             work->unkB50 = 0;
-            work->unkB44 = &s03c_johnny_800C6FC0;
-            AN_Unknown_800CA1EC(&work->object.objs->objs[6].world, 0);
+            work->unkB44 = &Johnny_800C6FC0;
+            AN_Unknown_800CA1EC(&work->body.objs->objs[6].world, 0);
             GM_SeSet2(0, 0x3F, SE_EXCLAMATION);
             NewPadVibration(johnny_vibration1_800C32C0, 2);
-            GCL_ExecProc(work->unkBC0[4], NULL);
+            GCL_ExecProc(work->proc_id[4], NULL);
             work->unkB38 = Johnny_800C7378;
             work->unkB4E = 0;
             work->unkB4C = 0;
@@ -2208,7 +2208,7 @@ void Johnny_800C794C(JohnnyWork *work, int arg1)
         }
         else
         {
-            work->unkB38 = &s03c_johnny_800C753C;
+            work->unkB38 = &Johnny_800C753C;
             work->unkB4E = 0;
             work->unkB4C = 0;
             work->unkB3C = 0;
@@ -2216,7 +2216,7 @@ void Johnny_800C794C(JohnnyWork *work, int arg1)
     }
 }
 
-void s03c_johnny_800C7A64(JohnnyWork *work, int action)
+static void Johnny_800C7A64(Work *work, int action)
 {
     SVECTOR diff;
     int     len;
@@ -2260,7 +2260,7 @@ void s03c_johnny_800C7A64(JohnnyWork *work, int action)
 
         if (++work->unkB4E == 32)
         {
-            work->unkB38 = s03c_johnny_800C7BF8;
+            work->unkB38 = Johnny_800C7BF8;
             work->unkB4E = 0;
             work->unkB4C = 0;
             work->unkB3C = 0;
@@ -2269,7 +2269,7 @@ void s03c_johnny_800C7A64(JohnnyWork *work, int action)
     }
 }
 
-void s03c_johnny_800C7BF8(JohnnyWork *work, int action)
+static void Johnny_800C7BF8(Work *work, int action)
 {
     SVECTOR diff;
     SVECTOR pos;
@@ -2288,13 +2288,13 @@ void s03c_johnny_800C7BF8(JohnnyWork *work, int action)
 
     if (action == 4)
     {
-        s03b_boxall_800C93AC(work->unkB78[2]);
+        s03b_boxall_800C93AC(work->vox_ids[2]);
     }
 
     switch (work->unkB4C)
     {
     case 0:
-        if (work->object.is_end != 0)
+        if (work->body.is_end != 0)
         {
             SetAction(work, 32);
             work->unkB4C = 1;
@@ -2361,7 +2361,7 @@ void s03c_johnny_800C7BF8(JohnnyWork *work, int action)
             CloseCinemaScreen();
             JohnnyExecProc_800C4D8C(work);
             Johnny_800C4F24(work, 0);
-            GCL_ExecProc(work->unkBC0[5], 0);
+            GCL_ExecProc(work->proc_id[5], 0);
             GM_GameStatus &= ~( STATE_PADRELEASE | STATE_PAUSE_ONLY );
             work->unkB4C = 5;
         }
@@ -2370,14 +2370,14 @@ void s03c_johnny_800C7BF8(JohnnyWork *work, int action)
     case 5:
         if ((GM_StreamStatus() == -1) && Johnny_800C43D0(0xAE93) && (GM_PlayerStatus & PLAYER_CHECK_WALL))
         {
-            s03b_boxall_800C93F0(work->unkB78[17], 4);
+            s03b_boxall_800C93F0(work->vox_ids[17], 4);
         }
         break;
     }
 
 }
 
-void s03c_johnny_800C7F78(JohnnyWork *work, int action)
+static void Johnny_800C7F78(Work *work, int action)
 {
     SVECTOR sp10;
     SVECTOR diff;
@@ -2391,10 +2391,10 @@ void s03c_johnny_800C7F78(JohnnyWork *work, int action)
 
         SetAction(work, 0);
 
-        GM_ConfigMotionAdjust(&work->object, NULL);
+        GM_ConfigMotionAdjust(&work->body, NULL);
         ClearAdjust(work);
 
-        AN_Unknown_800CA1EC(&work->object.objs->objs[6].world, 0);
+        AN_Unknown_800CA1EC(&work->body.objs->objs[6].world, 0);
         GM_SeSet2(0, 63, SE_EXCLAMATION);
 
         NewPadVibration(johnny_vibration1_800C32C0, 2);
@@ -2457,7 +2457,7 @@ void s03c_johnny_800C7F78(JohnnyWork *work, int action)
             GM_GameStatus &= ~( STATE_PADRELEASE | STATE_PAUSE_ONLY );
             GM_Camera.first_person = 0;
 
-            if ((work->unkB48 == Johnny_800C64B0) || (work->unkB48 == s03c_johnny_800C5DE4))
+            if ((work->unkB48 == Johnny_800C64B0) || (work->unkB48 == Johnny_800C5DE4))
             {
                 work->unkAD0--;
             }
@@ -2473,7 +2473,7 @@ void s03c_johnny_800C7F78(JohnnyWork *work, int action)
         if ((work->unkB48 == Johnny_800C6C10) && (action == 0))
         {
             s03b_boxall_800C9328();
-            s03b_boxall_800C93F0(work->unkB78[13], 4);
+            s03b_boxall_800C93F0(work->vox_ids[13], 4);
         }
 
         if ((action == 65) || s03b_boxall_800C95EC())
@@ -2483,7 +2483,7 @@ void s03c_johnny_800C7F78(JohnnyWork *work, int action)
             GM_Camera.first_person = 0;
             GM_GameStatus &= ~( STATE_PADRELEASE | STATE_PAUSE_ONLY );
 
-            if ((work->unkB48 == Johnny_800C64B0) || (work->unkB48 == s03c_johnny_800C5DE4))
+            if ((work->unkB48 == Johnny_800C64B0) || (work->unkB48 == Johnny_800C5DE4))
             {
                 work->unkAD0--;
             }
@@ -2500,8 +2500,8 @@ void s03c_johnny_800C7F78(JohnnyWork *work, int action)
         if (action == 0)
         {
             s03b_boxall_800C9328();
-            s03b_boxall_800C93F0(work->unkB78[8], 4);
-            GCL_ExecProc(work->unkBC0[4], NULL);
+            s03b_boxall_800C93F0(work->vox_ids[8], 4);
+            GCL_ExecProc(work->proc_id[4], NULL);
         }
 
         GM_GameStatus |= STATE_PADRELEASE | STATE_PAUSE_ONLY;
@@ -2511,7 +2511,7 @@ void s03c_johnny_800C7F78(JohnnyWork *work, int action)
             GM_GameStatus &= ~( STATE_PADRELEASE | STATE_PAUSE_ONLY );
             GM_Camera.first_person = 0;
 
-            if ((work->unkB48 == Johnny_800C64B0) || (work->unkB48 == s03c_johnny_800C5DE4))
+            if ((work->unkB48 == Johnny_800C64B0) || (work->unkB48 == Johnny_800C5DE4))
             {
                 work->unkAD0--;
             }
@@ -2527,7 +2527,7 @@ void s03c_johnny_800C7F78(JohnnyWork *work, int action)
         if (action == 0)
         {
             s03b_boxall_800C9328();
-            s03b_boxall_800C93F0(work->unkB78[7], 4);
+            s03b_boxall_800C93F0(work->vox_ids[7], 4);
         }
 
         if (action == 32)
@@ -2540,7 +2540,7 @@ void s03c_johnny_800C7F78(JohnnyWork *work, int action)
     }
 }
 
-void Johnny_800C8400(JohnnyWork *work, int action)
+static void Johnny_800C8400(Work *work, int action)
 {
     int new_action;
 
@@ -2563,7 +2563,7 @@ void Johnny_800C8400(JohnnyWork *work, int action)
 
         SetAction(work, new_action);
     }
-    if (work->object.is_end != 0)
+    if (work->body.is_end != 0)
     {
         work->unkB1C &= ~0x200;
 
@@ -2578,14 +2578,14 @@ void Johnny_800C8400(JohnnyWork *work, int action)
 
         if (work->unkB70 != 4 && (work->unkB24 & 2))
         {
-            work->unkB38 = s03c_johnny_800C6FC0;
+            work->unkB38 = Johnny_800C6FC0;
             work->unkB4E = 0;
             work->unkB4C = 0;
             work->unkB3C = 0;
         }
         else
         {
-            work->unkB38 = s03c_johnny_800C6D84;
+            work->unkB38 = Johnny_800C6D84;
             work->unkB4E = 0;
             work->unkB4C = 0;
             work->unkB3C = 0;
@@ -2595,15 +2595,15 @@ void Johnny_800C8400(JohnnyWork *work, int action)
         {
             GM_SeSet2(0, 0x3F, SE_EXCLAMATION);
             NewPadVibration(johnny_vibration1_800C32C0, 2);
-            AN_Unknown_800CA1EC(&work->object.objs->objs[6].world, 0);
+            AN_Unknown_800CA1EC(&work->body.objs->objs[6].world, 0);
         }
     }
 }
 
-void Johnny_800C873C(JohnnyWork *work, int action);
-void Johnny_800C8FE4(JohnnyWork *work, int action);
+static void Johnny_800C873C(Work *work, int action);
+static void Johnny_800C8FE4(Work *work, int action);
 
-void Johnny_800C854C(JohnnyWork *work, int action)
+static void Johnny_800C854C(Work *work, int action)
 {
     if (action == 0)
     {
@@ -2617,7 +2617,7 @@ void Johnny_800C854C(JohnnyWork *work, int action)
         work->control.turn.vy += 170;
     }
 
-    if (work->object.is_end != 0)
+    if (work->body.is_end != 0)
     {
         work->unkB50 = 1;
         if (work->target->life > 0)
@@ -2643,7 +2643,7 @@ void Johnny_800C854C(JohnnyWork *work, int action)
     }
 }
 
-void Johnny_800C8654(JohnnyWork *work, int action)
+static void Johnny_800C8654(Work *work, int action)
 {
     if (action == 0)
     {
@@ -2656,7 +2656,7 @@ void Johnny_800C8654(JohnnyWork *work, int action)
         GM_SeSet(&work->control.mov, 0x8D);
         GM_SeSet(&work->control.mov, SE_HIT_FLOOR);
     }
-    if (work->object.is_end != 0)
+    if (work->body.is_end != 0)
     {
         work->unkB50 = 2;
         if (work->target->life > 0)
@@ -2673,9 +2673,9 @@ void Johnny_800C8654(JohnnyWork *work, int action)
     }
 }
 
-void s03c_johnny_800C88C8(JohnnyWork *work, int action);
+static void Johnny_800C88C8(Work *work, int action);
 
-void Johnny_800C873C(JohnnyWork *work, int action)
+static void Johnny_800C873C(Work *work, int action)
 {
     if (action == 0)
     {
@@ -2696,10 +2696,10 @@ void Johnny_800C873C(JohnnyWork *work, int action)
         {
             work->homing->flag = FALSE;
             Johnny_800C4F24(work, 0);
-            GCL_ExecProc(work->unkBC0[5], NULL);
-            GCL_ExecProc(work->unkBC0[3], NULL);
+            GCL_ExecProc(work->proc_id[5], NULL);
+            GCL_ExecProc(work->proc_id[3], NULL);
             work->unkB4E = 1;
-            NewHiyoko_800D0210(&work->object.objs->objs[6].world, -1);
+            NewHiyoko_800D0210(&work->body.objs->objs[6].world, -1);
             UnsetTargetClass( work->target, TARGET_FLAG );
             work->unkB1C |= 0x80000000;
         }
@@ -2710,14 +2710,14 @@ void Johnny_800C873C(JohnnyWork *work, int action)
     }
     else if (action == 48)
     {
-        work->unkB38 = s03c_johnny_800C88C8;
+        work->unkB38 = Johnny_800C88C8;
         work->unkB4E = 0;
         work->unkB4C = 0;
         work->unkB3C = 0;
     }
 }
 
-void s03c_johnny_800C88C8(JohnnyWork *work, int action)
+static void Johnny_800C88C8(Work *work, int action)
 {
     if (action == 0)
     {
@@ -2733,28 +2733,28 @@ void s03c_johnny_800C88C8(JohnnyWork *work, int action)
         GM_GameStatus |= STATE_PADRELEASE | STATE_PAUSE_ONLY;
     }
 
-    if (work->object.is_end != 0)
+    if (work->body.is_end != 0)
     {
         UnsetTargetClass( work->target, TARGET_DOWN );
         work->unkB1C &= ~0x200;
 
         if (work->unkB24 & 0x8)
         {
-            work->unkB38 = s03c_johnny_800C7A64;
+            work->unkB38 = Johnny_800C7A64;
             work->unkB4E = 0;
             work->unkB4C = 0;
             work->unkB3C = 0;
         }
         else if ((work->unkB70 != 4) && (work->unkB24 & 0x2))
         {
-            work->unkB38 = s03c_johnny_800C6FC0;
+            work->unkB38 = Johnny_800C6FC0;
             work->unkB4E = 0;
             work->unkB4C = 0;
             work->unkB3C = 0;
         }
         else
         {
-            work->unkB38 = s03c_johnny_800C6D84;
+            work->unkB38 = Johnny_800C6D84;
             work->unkB4E = 0;
             work->unkB4C = 0;
             work->unkB3C = 0;
@@ -2764,19 +2764,19 @@ void s03c_johnny_800C88C8(JohnnyWork *work, int action)
         {
             GM_SeSet2(0, 63, SE_EXCLAMATION);
             NewPadVibration(johnny_vibration1_800C32C0, 2);
-            AN_Unknown_800CA1EC(&work->object.objs->objs[6].world, 0);
+            AN_Unknown_800CA1EC(&work->body.objs->objs[6].world, 0);
         }
 
         work->control.radar_atr |= RADAR_SIGHT;
     }
 }
 
-void Johnny_800C8C34(JohnnyWork *work, int action);
-void Johnny_800C8E84(JohnnyWork *work, int action);
-void Johnny_800C8CD4(JohnnyWork *work, int action);
-void Johnny_800C8D58(JohnnyWork *work, int action);
+static void Johnny_800C8C34(Work *work, int action);
+static void Johnny_800C8E84(Work *work, int action);
+static void Johnny_800C8CD4(Work *work, int action);
+static void Johnny_800C8D58(Work *work, int action);
 
-int s03c_johnny_800C8A2C(JohnnyWork *work, int action)
+static int Johnny_800C8A2C(Work *work, int action)
 {
     if (!(work->target->damaged & 2))
     {
@@ -2826,7 +2826,7 @@ int s03c_johnny_800C8A2C(JohnnyWork *work, int action)
     return 0;
 }
 
-void Johnny_800C8B14(JohnnyWork *work, int action)
+static void Johnny_800C8B14(Work *work, int action)
 {
     if (action == 0)
     {
@@ -2844,7 +2844,7 @@ void Johnny_800C8B14(JohnnyWork *work, int action)
             NewPadVibration(johnny_vibration2_800C32C4, 2);
         }
     }
-    if (s03c_johnny_800C8A2C(work, 7) == 0 && (work->unkB24 & 8))
+    if (Johnny_800C8A2C(work, 7) == 0 && (work->unkB24 & 8))
     {
         work->target->captured = 0;
         work->target->faint = 0;
@@ -2856,7 +2856,7 @@ void Johnny_800C8B14(JohnnyWork *work, int action)
     }
 }
 
-void Johnny_800C8C34(JohnnyWork *work, int action)
+static void Johnny_800C8C34(Work *work, int action)
 {
     if (action == 0)
     {
@@ -2866,7 +2866,7 @@ void Johnny_800C8C34(JohnnyWork *work, int action)
     {
         GM_SeSet(&work->control.mov, SE_HIT_FLOOR);
     }
-    if (work->object.is_end != 0)
+    if (work->body.is_end != 0)
     {
         work->unkB50 = 2;
         work->unkB38 = Johnny_800C873C;
@@ -2877,7 +2877,7 @@ void Johnny_800C8C34(JohnnyWork *work, int action)
     }
 }
 
-void Johnny_800C8CD4(JohnnyWork *work, int action)
+static void Johnny_800C8CD4(Work *work, int action)
 {
     if (action == 0)
     {
@@ -2885,17 +2885,17 @@ void Johnny_800C8CD4(JohnnyWork *work, int action)
         SetAction(work, 28);
         work->unkBE4 = 0;
     }
-    if (work->object.is_end)
+    if (work->body.is_end)
     {
         work->unkB38 = Johnny_800C8B14;
         work->unkB4E = 0;
         work->unkB4C = 0;
         work->unkB3C = 0;
     }
-    s03c_johnny_800C8A2C(work, 38);
+    Johnny_800C8A2C(work, 38);
 }
 
-void Johnny_800C8D58(JohnnyWork *work, int action)
+static void Johnny_800C8D58(Work *work, int action)
 {
     SVECTOR svec;
 
@@ -2918,7 +2918,7 @@ void Johnny_800C8D58(JohnnyWork *work, int action)
     {
         GM_SeSet(&work->control.mov, SE_HIT_FLOOR);
     }
-    if (work->object.is_end != 0)
+    if (work->body.is_end != 0)
     {
         work->unkB50 = 2;
         work->unkB38 = Johnny_800C8FE4;
@@ -2929,7 +2929,7 @@ void Johnny_800C8D58(JohnnyWork *work, int action)
     }
 }
 
-void Johnny_800C8E84(JohnnyWork *work, int action)
+static void Johnny_800C8E84(Work *work, int action)
 {
     SVECTOR  svec;
     MATRIX   mat;
@@ -2949,7 +2949,7 @@ void Johnny_800C8E84(JohnnyWork *work, int action)
             NewPadVibration(johnny_vibration2_800C32C4, 2);
         }
     }
-    if (s03c_johnny_800C8A2C(work, 13) == 0)
+    if (Johnny_800C8A2C(work, 13) == 0)
     {
         work->control.turn.vy = GM_PlayerControl->turn.vy;
 
@@ -2980,7 +2980,7 @@ void Johnny_800C8E84(JohnnyWork *work, int action)
     }
 }
 
-void Johnny_800C8FE4(JohnnyWork *work, int action)
+static void Johnny_800C8FE4(Work *work, int action)
 {
     int action_flag;
 
@@ -3006,33 +3006,33 @@ void Johnny_800C8FE4(JohnnyWork *work, int action)
         SetTargetClass( work->target, TARGET_DOWN );
 
         Johnny_800C4F24(work, 0);
-        GCL_ExecProc(work->unkBC0[5], NULL);
+        GCL_ExecProc(work->proc_id[5], NULL);
 
         work->unkB1C |= 0x1000;
         work->homing->flag = FALSE;
     }
     if (action & 2)
     {
-        DG_InvisibleObjs(work->object.objs);
-        *work->gunlight_pvisible = 0;
+        DG_InvisibleObjs(work->body.objs);
+        *work->enable_gunlight = 0;
     }
     else
     {
-        DG_VisibleObjs(work->object.objs);
-        *work->gunlight_pvisible = 1;
+        DG_VisibleObjs(work->body.objs);
+        *work->enable_gunlight = 1;
     }
 
     if (action == 36)
     {
         work->unkB1C |= 0x1000;
-        GCL_ExecProc(work->unkBC0[3], NULL);
+        GCL_ExecProc(work->proc_id[3], NULL);
         JohnnyExecProc_800C4D8C(work);
         GM_GameStatus &= ~STATE_PADRELEASE;
         GV_DestroyActor(&work->actor);
     }
 }
 
-void Johnny_800C9144(JohnnyWork *work, int action)
+static void Johnny_800C9144(Work *work, int action)
 {
     if (action == 0)
     {
@@ -3062,15 +3062,15 @@ void Johnny_800C9144(JohnnyWork *work, int action)
             GM_SeSetMode(&work->control.mov, SE_HIT_FLOOR, GM_SEMODE_BOMB);
         }
 
-        if (work->object.is_end != 0)
+        if (work->body.is_end != 0)
         {
             Johnny_800C4F24(work, 0);
-            GCL_ExecProc(work->unkBC0[5], NULL);
+            GCL_ExecProc(work->proc_id[5], NULL);
 
             SetAction(work, 40);
 
             work->unkB4C++;
-            NewHiyoko_800D0210(&work->object.objs->objs[6].world, -1);
+            NewHiyoko_800D0210(&work->body.objs->objs[6].world, -1);
         }
         break;
 
@@ -3078,15 +3078,15 @@ void Johnny_800C9144(JohnnyWork *work, int action)
         if (++work->unkB4E == 32)
         {
             work->unkB1C |= 0x1000;
-            GCL_ExecProc(work->unkBC0[3], NULL);
+            GCL_ExecProc(work->proc_id[3], NULL);
         }
         break;
     }
 }
 
-void Johnny_800C949C(JohnnyWork *work, int arg1);
+static void Johnny_800C949C(Work *work, int arg1);
 
-void Johnny_800C92E0(JohnnyWork *work, int arg1)
+static void Johnny_800C92E0(Work *work, int arg1)
 {
     if (arg1 == 0)
     {
@@ -3106,8 +3106,8 @@ void Johnny_800C92E0(JohnnyWork *work, int arg1)
         if (arg1 == 48)
         {
             SetAction(work, 1);
-            s03b_boxall_800C93AC(work->unkB78[9]);
-            GM_ConfigMotionAdjust(&work->object, work->adjust);
+            s03b_boxall_800C93AC(work->vox_ids[9]);
+            GM_ConfigMotionAdjust(&work->body, work->adjust);
         }
         switch (work->unkB4C)
         {
@@ -3133,7 +3133,7 @@ void Johnny_800C92E0(JohnnyWork *work, int arg1)
     }
 }
 
-void Johnny_800C949C(JohnnyWork *work, int arg1)
+static void Johnny_800C949C(Work *work, int arg1)
 {
     SVECTOR svec;
 
@@ -3154,14 +3154,14 @@ void Johnny_800C949C(JohnnyWork *work, int arg1)
     }
     if (arg1 == 24)
     {
-        GCL_ExecProc(work->unkBC0[1], NULL);
+        GCL_ExecProc(work->proc_id[1], NULL);
     }
     switch (work->unkB4C)
     {
     case 0:
         if (GM_StreamStatus() == -1)
         {
-            GM_ConfigMotionAdjust(&work->object, NULL);
+            GM_ConfigMotionAdjust(&work->body, NULL);
             ClearAdjust(work);
 
             NewFadeInOut(FADEIO_MODE_TOBLACK, 32);
@@ -3179,7 +3179,7 @@ void Johnny_800C949C(JohnnyWork *work, int arg1)
     }
 }
 
-void Johnny_800C9644(JohnnyWork *work)
+static void Johnny_800C9644(Work *work)
 {
     int     i;
     int     message_len;
@@ -3208,7 +3208,7 @@ void Johnny_800C9644(JohnnyWork *work)
     }
 }
 
-void Johnny_800C96F4(JohnnyWork *work, int field_B10)
+static void Johnny_800C96F4(Work *work, int field_B10)
 {
     if (field_B10 == 0)
     {
@@ -3226,18 +3226,18 @@ void Johnny_800C96F4(JohnnyWork *work, int field_B10)
         work->unkB4C = 0;
         work->unkB3C = 0;
     }
-    if (work->unkB38 != Johnny_800C92E0 && work->unkB38 != Johnny_800C949C && work->unkB38 != s03c_johnny_800C7F78 &&
+    if (work->unkB38 != Johnny_800C92E0 && work->unkB38 != Johnny_800C949C && work->unkB38 != Johnny_800C7F78 &&
         work->unkB38 != Johnny_800C6850)
     {
-        s03c_johnny_800C45AC(work);
-        if (work->unkB38 != s03c_johnny_800C7F78)
+        Johnny_800C45AC(work);
+        if (work->unkB38 != Johnny_800C7F78)
         {
             if (work->unkB1C & 0x40000000)
             {
                 work->unkB1C &= ~0x40000000; // Why not do it unconditionally!?
             }
-            s03c_johnny_800C424C(work, Johnny_800C59B8);
-            if (work->unkB38 != s03c_johnny_800C5520 && work->unkB38 != Johnny_800C588C && field_B10 >= 480 &&
+            Johnny_800C424C(work, Johnny_800C59B8);
+            if (work->unkB38 != Johnny_800C5520 && work->unkB38 != Johnny_800C588C && field_B10 >= 480 &&
                 GM_StreamStatus() == -1)
             {
                 work->unkB10 = 0;
@@ -3264,7 +3264,7 @@ void Johnny_800C96F4(JohnnyWork *work, int field_B10)
     }
 }
 
-void Johnny_800C98B0(JohnnyWork *work, int field_B10)
+static void Johnny_800C98B0(Work *work, int field_B10)
 {
     if (field_B10 == 0)
     {
@@ -3276,21 +3276,21 @@ void Johnny_800C98B0(JohnnyWork *work, int field_B10)
     }
 }
 
-void Johnny_800C98E4(JohnnyWork *work, int field_B10)
+static void Johnny_800C98E4(Work *work, int field_B10)
 {
     if (field_B10 == 0)
     {
-        work->unkB38 = s03c_johnny_800C5DE4;
+        work->unkB38 = Johnny_800C5DE4;
         work->unkB4E = 0;
         work->unkB4C = 0;
         work->unkB3C = 0;
         work->unkB1C |= 0x80000000;
         Johnny_800C4720(work, 0);
     }
-    if (work->unkB38 != s03c_johnny_800C7F78)
+    if (work->unkB38 != Johnny_800C7F78)
     {
-        s03c_johnny_800C45AC(work);
-        if (work->unkB38 != s03c_johnny_800C7F78)
+        Johnny_800C45AC(work);
+        if (work->unkB38 != Johnny_800C7F78)
         {
             if (work->unkB1C & 0x40000000)
             {
@@ -3300,7 +3300,7 @@ void Johnny_800C98E4(JohnnyWork *work, int field_B10)
     }
 }
 
-void Johnny_800C998C(JohnnyWork *work, int field_B10)
+static void Johnny_800C998C(Work *work, int field_B10)
 {
     if (field_B10 == 0)
     {
@@ -3313,7 +3313,7 @@ void Johnny_800C998C(JohnnyWork *work, int field_B10)
     }
 }
 
-void s03c_johnny_800C99D8(JohnnyWork *work, int action)
+static void Johnny_800C99D8(Work *work, int action)
 {
     if (action == 0)
     {
@@ -3352,11 +3352,11 @@ void s03c_johnny_800C99D8(JohnnyWork *work, int action)
             work->unkB1C |= 0x8;
             work->unkB14 = 8;
         }
-        else if (work->unkB38 != s03c_johnny_800C7F78)
+        else if (work->unkB38 != Johnny_800C7F78)
         {
-            s03c_johnny_800C45AC(work);
+            Johnny_800C45AC(work);
 
-            if ((work->unkB38 != s03c_johnny_800C7F78) && (work->unkB1C & 0x40000000))
+            if ((work->unkB38 != Johnny_800C7F78) && (work->unkB1C & 0x40000000))
             {
                 work->unkB1C &= ~0x40000000;
             }
@@ -3364,7 +3364,7 @@ void s03c_johnny_800C99D8(JohnnyWork *work, int action)
     }
 }
 
-void Johnny_800C9B3C(JohnnyWork *work, int field_B10)
+static void Johnny_800C9B3C(Work *work, int field_B10)
 {
     if (field_B10 == 0)
     {
@@ -3380,7 +3380,7 @@ void Johnny_800C9B3C(JohnnyWork *work, int field_B10)
     }
 }
 
-void Johnny_800C9BB4(JohnnyWork *work, int field_B10)
+static void Johnny_800C9BB4(Work *work, int field_B10)
 {
     if (field_B10 == 0)
     {
@@ -3392,12 +3392,12 @@ void Johnny_800C9BB4(JohnnyWork *work, int field_B10)
         work->unkB1C |= 0x80000000;
         work->control.radar_atr |= RADAR_UNK4;
     }
-    work->jfamas_trigger = 0;
-    s03c_johnny_800C5168(work);
+    work->trigger = 0;
+    Johnny_800C5168(work);
     Johnny_800C4A64(work);
 }
 
-void Johnny_800C9C2C(JohnnyWork *work, int field_B10)
+static void Johnny_800C9C2C(Work *work, int field_B10)
 {
     if (field_B10 == 0)
     {
@@ -3410,12 +3410,12 @@ void Johnny_800C9C2C(JohnnyWork *work, int field_B10)
         work->control.radar_atr |= RADAR_UNK4;
         work->unkB1C |= 0x80000000;
     }
-    work->jfamas_trigger = 0;
-    s03c_johnny_800C5168(work);
+    work->trigger = 0;
+    Johnny_800C5168(work);
     Johnny_800C4A64(work);
 }
 
-void Johnny_800C9CA8(JohnnyWork *work, int field_B10)
+static void Johnny_800C9CA8(Work *work, int field_B10)
 {
     if (field_B10 == 0)
     {
@@ -3423,25 +3423,25 @@ void Johnny_800C9CA8(JohnnyWork *work, int field_B10)
         work->control.radar_atr |= RADAR_UNK4;
         work->unkB1C &= ~0x80000000;
         s03b_boxall_800C9328();
-        s03b_boxall_800C93F0(work->unkB78[13], 4);
+        s03b_boxall_800C93F0(work->vox_ids[13], 4);
         NewPadVibration(johnny_vibration1_800C32C0, 2);
         GM_SeSet2(0, 0x3F, SE_EXCLAMATION);
-        AN_Unknown_800CA1EC(&work->object.objs->objs[6].world, 0);
-        work->unkB38 = s03c_johnny_800C6D84;
+        AN_Unknown_800CA1EC(&work->body.objs->objs[6].world, 0);
+        work->unkB38 = Johnny_800C6D84;
         work->unkB4E = 0;
         work->unkB4C = 0;
         work->unkB3C = 0;
     }
-    work->jfamas_trigger = 0;
-    s03c_johnny_800C5168(work);
+    work->trigger = 0;
+    Johnny_800C5168(work);
     Johnny_800C4A64(work);
 }
 
-void Johnny_800C9D64(JohnnyWork *work)
+static void Johnny_800C9D64(Work *work)
 {
     int         field_B10;
     int         field_B3C;
-    TJohnnyFunc field_B38;
+    ACTION field_B38;
     int         status;
 
     Johnny_800C9644(work);
@@ -3451,7 +3451,7 @@ void Johnny_800C9D64(JohnnyWork *work)
     Johnny_800C4E5C(work);
     Johnny_800C50D0(work);
     s03b_boxall_800C9404();
-    if (work->object.objs->adjust)
+    if (work->body.objs->adjust)
     {
         sna_act_helper2_helper2_80033054(GV_StrCode("ジョニー"), &work->adjust[6]); // ジョニー = Joni = Johnny
     }
@@ -3479,7 +3479,7 @@ void Johnny_800C9D64(JohnnyWork *work)
         Johnny_800C998C(work, field_B10);
         break;
     case 4:
-        s03c_johnny_800C99D8(work, field_B10);
+        Johnny_800C99D8(work, field_B10);
         break;
     case 5:
         Johnny_800C9B3C(work, field_B10);
@@ -3515,17 +3515,17 @@ void Johnny_800C9D64(JohnnyWork *work)
     }
 }
 
-void JohnnyAct_800C9F7C(JohnnyWork *work)
+static void Act(Work *work)
 {
     CONTROL *control;
 
-    GM_ActMotion(&work->object);
+    GM_ActMotion(&work->body);
     control = &work->control;
     GM_ActControl(control);
-    GM_ActObject(&work->object);
+    GM_ActObject(&work->body);
     GM_MoveTarget(work->target, &control->mov);
     DG_GetLightMatrix2(&control->mov, work->light);
-    work->control.height = work->object.height;
+    work->control.height = work->body.height;
     work->sna_auto_move.field_0_ivec.vx = HZD_GetAddress(
         work->control.map->hzd, &control->mov, work->sna_auto_move.field_0_ivec.vx);
     Johnny_800C9D64(work);
@@ -3537,10 +3537,10 @@ void JohnnyAct_800C9F7C(JohnnyWork *work)
     work->control.step.vy += work->unkB30.vy;
 }
 
-void JohnnyDie_800CA048(JohnnyWork *work)
+static void Die(Work *work)
 {
     GV_ACT *shadow;
-    GV_ACT *jfamas;
+    GV_ACT *weapon;
     GV_ACT *gunlight;
 
     GM_FreeHomingTarget(work->homing);
@@ -3549,10 +3549,10 @@ void JohnnyDie_800CA048(JohnnyWork *work)
     {
         GV_DestroyOtherActor(shadow);
     }
-    jfamas = work->jfamas;
-    if (jfamas != NULL)
+    weapon = work->weapon;
+    if (weapon != NULL)
     {
-        GV_DestroyOtherActor(jfamas);
+        GV_DestroyOtherActor(weapon);
     }
     gunlight = work->gunlight;
     if (gunlight != NULL)
@@ -3561,11 +3561,11 @@ void JohnnyDie_800CA048(JohnnyWork *work)
     }
     GM_FreeTarget(work->target);
     GM_FreeControl(&work->control);
-    GM_FreeObject(&work->object);
+    GM_FreeObject(&work->body);
     s03b_boxall_800C9328();
 }
 
-int JohnnyConfigTarget_800CA0E0(JohnnyWork *work)
+static int InitTarget(Work *work)
 {
     TARGET *target;
 
@@ -3575,15 +3575,14 @@ int JohnnyConfigTarget_800CA0E0(JohnnyWork *work)
         return -1;
     }
 
-    GM_SetTarget(target, 0x9F, 2, &s03c_dword_800C32F4);
-    GM_Target_8002DCCC(target, 1, -1, 0xC0, 0xA, &DG_ZeroVector);
-    work->homing = GM_AllocHomingTarget(&work->object.objs->objs[6].world, &work->control);
+    GM_SetTarget(target, ( TARGET_AVAIL | TARGET_FLAG ), ENEMY_SIDE, &target_size);
+    GM_Target_8002DCCC(target, 1, -1, 192, 10, &DG_ZeroVector);
+    work->homing = GM_AllocHomingTarget(&work->body.objs->objs[6].world, &work->control);
     work->homing->flag = TRUE;
     return 0;
 }
 
-// Duplicate of s03b_revolver_800C8DD0
-int Johnny_800CA184(HZD_PAT *route, int *n_out, SVECTOR *out)
+static int ReadRoute(HZD_PAT *route, int *n_out, SVECTOR *out)
 {
     int      n_points;
     HZD_PTP *points;
@@ -3605,7 +3604,7 @@ int Johnny_800CA184(HZD_PAT *route, int *n_out, SVECTOR *out)
     return 0;
 }
 
-int Johnny_800CA1E8(JohnnyWork *work)
+static int InitRoute(Work *work)
 {
     HZD_PAT *routes;
     int     *n_out;
@@ -3617,7 +3616,7 @@ int Johnny_800CA1E8(JohnnyWork *work)
     routes = work->control.map->hzd->header->routes;
     for (i = 0; i < n_routes; routes++, n_out++, i++)
     {
-        if (Johnny_800CA184(routes, n_out, work->unk850[i]) < 0)
+        if (ReadRoute(routes, n_out, work->unk850[i]) < 0)
         {
             return -1;
         }
@@ -3632,12 +3631,12 @@ int Johnny_800CA1E8(JohnnyWork *work)
     return 0;
 }
 
-void Johnny_800CA304(JohnnyWork *work)
+static void InitExtra(Work *work)
 {
     char *option;
 
-    work->jfamas = NewJohnnyFamas(&work->control, &work->object, 4, &work->jfamas_trigger);
-    work->gunlight = NewGunLight_800D3AD4(&work->object.objs->objs[4].world, &work->gunlight_pvisible);
+    work->weapon = NewJohnnyFamas(&work->control, &work->body, 4, &work->trigger);
+    work->gunlight = NewGunLight_800D3AD4(&work->body.objs->objs[4].world, &work->enable_gunlight);
     work->unkB5A = 0;
     work->unkB58 = 0;
     work->unkB5E = 0;
@@ -3740,7 +3739,7 @@ void Johnny_800CA304(JohnnyWork *work)
     sub_80060548(&work->sna_auto_move, work->control.map->hzd, &work->control.mov);
 }
 
-void Johnny_800CA574(JohnnyWork *work)
+static void InitSounds(Work *work)
 {
     int   i;
     int  *out;
@@ -3752,7 +3751,7 @@ void Johnny_800CA574(JohnnyWork *work)
     }
 
     i = 0;
-    out = work->unkB78;
+    out = work->vox_ids;
     while ((res = GCL_GetParamResult()))
     {
         if (i == 18)
@@ -3765,7 +3764,7 @@ void Johnny_800CA574(JohnnyWork *work)
     }
 }
 
-void Johnny_800CA5EC(JohnnyWork *work)
+static void InitProcs(Work *work)
 {
     int   i;
     int  *out;
@@ -3777,7 +3776,7 @@ void Johnny_800CA5EC(JohnnyWork *work)
     }
 
     i = 0;
-    out = work->unkBC0;
+    out = work->proc_id;
     while ((res = GCL_GetParamResult()))
     {
         if (i == 8)
@@ -3790,7 +3789,7 @@ void Johnny_800CA5EC(JohnnyWork *work)
     }
 }
 
-int JohnnyGetResources_800CA664(JohnnyWork *work, int scriptData, int scriptBinds)
+static int GetResources(Work *work, int name, int where)
 {
     SVECTOR     indices;
     CONTROL    *control;
@@ -3798,7 +3797,7 @@ int JohnnyGetResources_800CA664(JohnnyWork *work, int scriptData, int scriptBind
     RADAR_CONE *cone;
 
     control = &work->control;
-    if (GM_InitControl(control, scriptData, scriptBinds) >= 0)
+    if (GM_InitControl(control, name, where) >= 0)
     {
         GM_ConfigControlString(control, GCL_GetOption('p'), GCL_GetOption('d'));
         GM_ConfigControlHazard(control, control->mov.vy, 450, 450);
@@ -3809,19 +3808,19 @@ int JohnnyGetResources_800CA664(JohnnyWork *work, int scriptData, int scriptBind
         cone->len = 6000;
         cone->ang = 1024;
 
-        object = &work->object;
+        object = &work->body;
         GM_InitObject(object, GV_StrCode("johnny"), 0x32D, GV_StrCode("joh_03c"));
         GM_ConfigObjectJoint(object);
-        GM_ConfigMotionControl(object, &work->motion, GV_StrCode("joh_03c"), work->oar1, work->oar2,
+        GM_ConfigMotionControl(object, &work->m_ctrl, GV_StrCode("joh_03c"), work->m_segs1, work->m_segs2,
                                control, work->rots);
         GM_ConfigObjectLight(object, work->light);
         GM_ConfigObjectAction(object, 0, 0, 0);
         GM_ConfigControlTrapCheck(control);
-        if (JohnnyConfigTarget_800CA0E0(work) >= 0 && Johnny_800CA1E8(work) >= 0)
+        if (InitTarget(work) >= 0 && InitRoute(work) >= 0)
         {
-            Johnny_800CA574(work);
-            Johnny_800CA5EC(work);
-            Johnny_800CA304(work);
+            InitSounds(work);
+            InitProcs(work);
+            InitExtra(work);
 
             indices.vx = 0;
             indices.vy = 6;
@@ -3838,21 +3837,22 @@ int JohnnyGetResources_800CA664(JohnnyWork *work, int scriptData, int scriptBind
     return -1;
 }
 
-void *NewJohnny_800CA838(int scriptData, int scriptBinds)
+void *NewJohnny(int name, int where)
 {
-    JohnnyWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(JohnnyWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work == NULL)
     {
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, JohnnyAct_800C9F7C, JohnnyDie_800CA048, "johnny.c");
-    if (JohnnyGetResources_800CA664(work, scriptData, scriptBinds) < 0)
+    GV_SetNamedActor(&work->actor, Act, Die, "johnny.c");
+    if (GetResources(work, name, where) < 0)
     {
         GV_DestroyActor(&work->actor);
         return NULL;
     }
+
     return (void *)work;
 }
