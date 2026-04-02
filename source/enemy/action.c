@@ -379,8 +379,8 @@ void s00a_command_800C6320( WatcherWork *work, int time )
     }
 
     if ( time == 78 ) {
-        extern  void    *NewBoxKeri_800D2600( MATRIX    *, SVECTOR  * ) ;
-        NewBoxKeri_800D2600( &(GM_PlayerBody->objs[ 0 ].world), &( work->control.mov ) ) ;
+        extern  void    *NewBoxKeri( MATRIX    *, SVECTOR  * ) ;
+        NewBoxKeri( &(GM_PlayerBody->objs[ 0 ].world), &( work->control.mov ) ) ;
     }
 
     if ( time == 100 ) {
