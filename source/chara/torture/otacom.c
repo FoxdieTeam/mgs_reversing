@@ -1,3 +1,4 @@
+#include "johnny2.h"
 #include "otacom.h"
 
 #include "common.h"
@@ -41,8 +42,6 @@ int s03c_dword_800C33D8 = 0;
 void s03b_boxall_800C9404(void);
 int  s03b_boxall_800C93AC(int arg0);
 int  s03b_boxall_800C95EC(void);
-
-void *NewJohnny2_800CE368();
 
 void OtacomSendMessage_800CB3E0(int address, int message)
 {
@@ -242,8 +241,7 @@ void Otacom_800CB838(OtacomWork *work, int timer)
             }
 
             s03b_boxall_800C93AC(work->field_810[1]);
-
-            NewJohnny2_800CE368();
+            NewJohnny2();
         }
 
         GM_GameStatus |= STATE_PADRELEASE | STATE_RADIO_OFF;
