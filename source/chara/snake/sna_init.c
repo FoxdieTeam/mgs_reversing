@@ -51,7 +51,7 @@ extern int                tabako_dword_8009F2C0;
 extern UnkCameraStruct    gUnkCameraStruct_800B77B8;
 extern CONTROL        *tenage_ctrls_800BDD30[16];
 extern HITTABLE           GM_C4Datas[C4_COUNT];
-extern HITTABLE           GM_ClayDatas_800BDE78[8];
+extern HITTABLE           GM_ClayDatas[8];
 extern unsigned char      gBulNames_800BDC78[64];
 unsigned char             gBulNames_800BDC78[64];
 extern int                dword_8009F440;
@@ -8574,7 +8574,7 @@ static inline int sna_LoadSnake(SnaInitWork *work, int scriptData, int scriptBin
     dword_8009F434 = 0;
     bakudan_count_8009F42C = 0;
 
-    pJiraiUnk = GM_ClayDatas_800BDE78;
+    pJiraiUnk = GM_ClayDatas;
     i = 0;
 
     while (i < 8)

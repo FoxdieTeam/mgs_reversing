@@ -71,7 +71,7 @@ extern CONTROL      *GM_WhereList[96];
 extern CONTROL      *tenage_ctrls_800BDD30[16];
 extern int           tenage_ctrls_count_800BDD70;
 extern HITTABLE      GM_C4Datas[C4_COUNT];
-extern HITTABLE      GM_ClayDatas_800BDE78[8];
+extern HITTABLE      GM_ClayDatas[8];
 
 unsigned short elevator_hash_800C3634[4] = {0xACDC, 0x085B, 0x804B, 0xDBC9};
 
@@ -319,7 +319,7 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
 
         if (counter_8009F448 != 0)
         {
-            mine = GM_ClayDatas_800BDE78;
+            mine = GM_ClayDatas;
             for (j = 8; j > 0; j--)
             {
                 if (mine->actor && Elevator_800DA464(work, mine->data))

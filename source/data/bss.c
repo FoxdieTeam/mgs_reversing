@@ -354,7 +354,7 @@ gap                                     gap_800BDD74[0x4]; // 4 bytes
 HITTABLE BSS        GM_C4Datas[C4_COUNT]; // 0x100 (256) bytes
 
 /* bullet/jirai.obj */
-HITTABLE BSS        GM_ClayDatas_800BDE78[8]; // 0x80 (128) bytes
+HITTABLE BSS        GM_ClayDatas[8]; // 0x80 (128) bytes
 
 /* bullet/rmissile.obj */
 int BSS             dword_800BDEF8[2]; // 0x8 (8) bytes

@@ -82,7 +82,7 @@ extern CONTROL        *GM_WhereList[96];
 extern int             gControlCount_800AB9B4;
 extern int             bakudan_count_8009F42C;
 extern HITTABLE        GM_C4Datas[C4_COUNT];
-extern HITTABLE        GM_ClayDatas_800BDE78[8];
+extern HITTABLE        GM_ClayDatas[8];
 extern int             counter_8009F448;
 extern UnkCameraStruct gUnkCameraStruct_800B77B8;
 
@@ -130,7 +130,7 @@ void Rasen2IterBakudanJirai_800CA3A4(Rasen2Work *work, MAP *oldMap, MAP *newMap)
 
     if (counter_8009F448 != 0)
     {
-        for (pItem = GM_ClayDatas_800BDE78, i = 8; i > 0; pItem++, i--)
+        for (pItem = GM_ClayDatas, i = 8; i > 0; pItem++, i--)
         {
             jirai = (JiraiWork *)pItem->actor;
             if (jirai != NULL && jirai->control.map == oldMap)
