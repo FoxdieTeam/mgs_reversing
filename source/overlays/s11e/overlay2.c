@@ -225,7 +225,7 @@ int s11e_dword_800C38F8 = 0x00000000;
 int ZAKO11E_NO_POINT_800C38FC = 0x75307530;
 int s11e_dword_800C3900 = 0x00007530;
 
-int ZAKO11E_EYE_LENGTH_800C3904 = 0x00000FA0;
+int ZAKO11E_EYE_LENGTH_800C3904 = 0x0FA0;
 
 int s11e_dword_800C3908 = 0x00000BB8;
 int s11e_dword_800C390C = 0x00000FA0;
@@ -236,10 +236,3 @@ int s11e_dword_800C391C = 0x00001F40;
 int s11e_dword_800C3920 = 0x00001F40;
 int s11e_dword_800C3924 = 0x00001F40;
 int s11e_dword_800C3928 = 0x00000000;
-
-const char s11e_aErrerrerrsettimeover_800DEAE8[] = "Err Err Err  Set time Over\n";
-const char s11e_aErrerrerrsetdirover_800DEB04[] = "Err Err Err  Set Dir Over\n";
-const char s11e_aErrnotenoughwork_800DEB20[] = "Err not enough work !!\n";
-const char s11e_aLowporyd_800DEB38[] = " low[pory=%d\n";
-const char s11e_aWatcharcactionpointerr_800DEB48[] = "watchar.c : action point Err\n";
-const char s11e_aZakoec_800DEB68[] = "zako11e.c";

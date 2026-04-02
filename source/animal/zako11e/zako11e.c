@@ -30,7 +30,7 @@ extern SVECTOR ZAKO_ATTACK_FORCE_800C38E4;
 extern SVECTOR ZAKO_TOUCH_SIZE_800C38EC;
 extern SVECTOR ZAKO_TOUCH_FORCE_800C38F4;
 
-extern int ZAKO11E_EYE_LENGTH_800C3904;
+extern int     ZAKO11E_EYE_LENGTH_800C3904;
 extern SVECTOR ZAKO11E_NO_POINT_800C38FC;
 
 extern int  s11e_zk11ecom_800D9A20( ZakoWork *work );
@@ -359,11 +359,7 @@ int s11e_zako11e_800D3D98( char *opt, int* l )
     return i;
 }
 
-
 extern unsigned short s11e_dword_800C35DC[8];
-
-extern const char s11e_aErrerrerrsettimeover_800DEAE8[];
-extern const char s11e_aErrerrerrsetdirover_800DEB04[];
 
 int s11e_zako11e_800D3DF0( ZakoWork *work )
 {
@@ -382,7 +378,7 @@ int s11e_zako11e_800D3DF0( ZakoWork *work )
         ret = s11e_zako11e_800D3D98( opt, &work->field_BB0[1] );
         if ( ret > 4 )
         {
-            printf( (char *)s11e_aErrerrerrsettimeover_800DEAE8 ) ;
+            printf( "Err Err Err  Set time Over\n" ) ;
             return -1;
         }
     }
@@ -399,7 +395,7 @@ int s11e_zako11e_800D3DF0( ZakoWork *work )
         ret = s11e_zako11e_800D3D40( opt, work->field_BD0 );
         if ( ret > 4 )
         {
-            printf( (char *)s11e_aErrerrerrsetdirover_800DEB04 ) ;
+            printf( "Err Err Err  Set Dir Over\n" ) ;
             return -1;
         }
     }
@@ -407,15 +403,7 @@ int s11e_zako11e_800D3DF0( ZakoWork *work )
     return 0;
 }
 
-
-extern const char s11e_aErrnotenoughwork_800DEB20[];// = "Err not enough work !!\n";
-extern const char s11e_aLowporyd_800DEB38[];// = " low[pory=%d\n";
-extern const char s11e_aWatcharcactionpointerr_800DEB48[];// = "watchar.c : action point Err\n";
-
 extern int s11e_dword_800C35BC[8];
-
-// HACK: Oddball prototype using int for $a3 instead of unsigned short.
-extern void GM_ConfigControlRadarparam(CONTROL *, u_short, u_short, int, u_short);
 
 void ZakoGetResources_800D3EC8( ZakoWork *work, int name, int where )
 {
@@ -428,7 +416,7 @@ void ZakoGetResources_800D3EC8( ZakoWork *work, int name, int where )
 
     if ( work->field_B74  << 24 < 0  )
     {
-       printf( (char *)s11e_aErrnotenoughwork_800DEB20 ) ;
+       printf( "Err not enough work !!\n" ) ;
     }
 
     s11e_zako11e_800D3DF0( work ) ;
@@ -471,7 +459,7 @@ void ZakoGetResources_800D3EC8( ZakoWork *work, int name, int where )
         work->param_blood = GCL_StrToInt( ( char* )opt );
     }
 
-    printf( (char *)s11e_aLowporyd_800DEB38, work->param_low_poly ) ;
+    printf( " low[pory=%d\n", work->param_low_poly ) ;
     work->field_B7D = 0xFF;
 
     opt = GCL_GetOption('g');
@@ -521,7 +509,7 @@ void ZakoGetResources_800D3EC8( ZakoWork *work, int name, int where )
     }
 
 
-    if( ReadNodes_800D3CA4( work ) < 0 ) fprintf( 1, s11e_aWatcharcactionpointerr_800DEB48 );
+    if( ReadNodes_800D3CA4( work ) < 0 ) fprintf( 1, "watchar.c : action point Err\n" );
 
     /*
         当たりデータを初期化する
@@ -585,7 +573,6 @@ void ZakoGetResources_800D3EC8( ZakoWork *work, int name, int where )
 
 extern void ZakoAct_800D3684();
 extern void ZakoDie_800D3C84();
-extern const char s11e_aZakoec_800DEB68[];
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL4
 
@@ -595,7 +582,7 @@ void *s11e_zako11e_800D42E0( int name, int where, int argc, char **argv )
 
     work = GV_NewActor( EXEC_LEVEL, sizeof( ZakoWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor( &( work->actor ), ZakoAct_800D3684, ZakoDie_800D3C84, s11e_aZakoec_800DEB68 );
+        GV_SetNamedActor( &( work->actor ), ZakoAct_800D3684, ZakoDie_800D3C84, "zako11e.c" );
         ZakoGetResources_800D3EC8( work, name, where );
     }
     return (void *)work ;

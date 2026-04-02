@@ -377,10 +377,7 @@ int s11i_zako11f_800C8F98( Zako11FWork *work )
     return 0;
 }
 
-extern int  s11i_zk11fcom_800D0BF4( Zako11FWork *work );
-
-// HACK: Oddball prototype using int for $a3 instead of unsigned short.
-extern void GM_ConfigControlRadarparam(CONTROL *, u_short, u_short, int, u_short);
+extern int s11i_zk11fcom_800D0BF4( Zako11FWork *work );
 
 void Zako11FGetResources_800C9070( Zako11FWork *work, int name, int where )
 {

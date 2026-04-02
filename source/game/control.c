@@ -503,7 +503,7 @@ int GM_CheckControlTouches(CONTROL *control, int param_2)
     return 0;
 }
 
-void GM_ConfigControlRadarparam(CONTROL *control, u_short dir, u_short len, u_short ang, u_short pad)
+void GM_ConfigControlRadarparam(CONTROL *control, u_short dir, u_short len, int ang, u_short pad)
 {
     RADAR_CONE *cone;
 
