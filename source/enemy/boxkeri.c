@@ -29,11 +29,6 @@ typedef struct _Work
 
 /*---------------------------------------------------------------------------*/
 
-const char aBoxkeriSnake[] = "スネーク";
-const char sBoxkeriDanbowl[] = "段ボール";
-const char aCbBox[] = "cb_box";
-const char aBoxkeriC[] = "boxkeri.c";
-
 static void Act(Work *work)
 {
     int step;
@@ -125,8 +120,8 @@ static void SendMessage(void)
 {
     GV_MSG msg;
 
-    msg.address = GV_StrCode(aBoxkeriSnake);
-    msg.message[0] = GV_StrCode(sBoxkeriDanbowl);
+    msg.address = GV_StrCode("スネーク");
+    msg.message[0] = GV_StrCode("段ボール");
     msg.message[1] = 1;
     msg.message_len = 2;
     GV_SendMessage(&msg);
@@ -147,7 +142,7 @@ static int GetResources(Work *work, MATRIX *world, SVECTOR *arg2)
 
     obj = &work->body;
     GM_CurrentMap = GM_PlayerMap;
-    GM_InitObjectNoRots(obj, GV_StrCode(aCbBox), BODY_FLAG, 0);
+    GM_InitObjectNoRots(obj, GV_StrCode("cb_box"), BODY_FLAG, 0);
     GM_ConfigObjectLight((OBJECT *)obj, work->light);
 
     work->body.objs->objs[0].raise = 500;
@@ -198,7 +193,7 @@ void *NewBoxKeri(MATRIX *world, SVECTOR *svec)
     work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, Act, Die, aBoxkeriC);
+        GV_SetNamedActor(&work->actor, Act, Die, "boxkeri.c");
         if (GetResources(work, world, svec) < 0)
         {
             GV_DestroyActor(&work->actor);
