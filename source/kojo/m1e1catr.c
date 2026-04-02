@@ -13,6 +13,10 @@
 void demothrd_2_8007DA94(SVECTOR *pPosition, SVECTOR *pRotation);
 void AN_CaterpillerSmoke(SVECTOR *pos); // todo: split demo.c
 
+#define SE_M1E1_CATERPILLERDEAD1    (182)
+#define SE_M1E1_CATERPILLERDEAD2    (190)
+#define M1E1_SOUNDCATERPILLERDEAD1  (30)
+
 void M1E1Caterpiller(M1E1Work *lpAct)
 {
     SVECTOR svect1;
@@ -118,16 +122,14 @@ void M1E1Caterpiller(M1E1Work *lpAct)
         if ((nSound >= 3) && (lpAct->nCaterSoundTCount <= 0))
         {
             if (lpAct->nCaterSoundStartTCount == 0)
-            {
-                GM_SeSetPan(&lpAct->control.mov, 182, lpAct->nSoundVolume);
-            }
+                GM_SeSetPan(&lpAct->control.mov,
+                    SE_M1E1_CATERPILLERDEAD1, lpAct->nSoundVolume);
             else
-            {
-                GM_SeSetPan(&lpAct->control.mov, 190, lpAct->nSoundVolume);
-            }
+                GM_SeSetPan(&lpAct->control.mov,
+                    SE_M1E1_CATERPILLERDEAD2, lpAct->nSoundVolume);
 
             lpAct->nCaterSoundTCount = nSound;
-            lpAct->nCaterSoundStartTCount = 30;
+            lpAct->nCaterSoundStartTCount = M1E1_SOUNDCATERPILLERDEAD1;
         }
     }
     else
@@ -204,16 +206,14 @@ void M1E1Caterpiller(M1E1Work *lpAct)
         if ((nSound >= 3) && (lpAct->nCaterSoundTCount <= 0))
         {
             if (lpAct->nCaterSoundStartTCount == 0)
-            {
-                GM_SeSetPan(&lpAct->control.mov, 182, lpAct->nSoundVolume);
-            }
+                GM_SeSetPan(&lpAct->control.mov,
+                    SE_M1E1_CATERPILLERDEAD1, lpAct->nSoundVolume);
             else
-            {
-                GM_SeSetPan(&lpAct->control.mov, 190, lpAct->nSoundVolume);
-            }
+                GM_SeSetPan(&lpAct->control.mov,
+                    SE_M1E1_CATERPILLERDEAD2, lpAct->nSoundVolume);
 
             lpAct->nCaterSoundTCount = nSound;
-            lpAct->nCaterSoundStartTCount = 30;
+            lpAct->nCaterSoundStartTCount = M1E1_SOUNDCATERPILLERDEAD1;
         }
     }
 }
