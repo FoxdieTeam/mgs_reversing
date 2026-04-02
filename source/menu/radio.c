@@ -1330,8 +1330,7 @@ skip_fading:
         else
         {
             draw_radio_wait_mark(work, ot);
-            if (pPad->press &
-                (PAD_UP | PAD_DOWN | PAD_LEFT | PAD_RIGHT | PAD_TRIANGLE | PAD_CROSS | PAD_SQUARE | PAD_CIRCLE))
+            if (pPad->press & (PAD_UDLR | PAD_ABXY))
             {
                 work->field_210_codec_state = 7;
             }
