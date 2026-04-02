@@ -20,7 +20,7 @@ extern GM_CAMERA GM_Camera;
 
 #define EXEC_LEVEL      GV_ACTOR_AFTER
 
-#define SOCOM_MODEL     GV_StrCode("socom")
+#define SOCOM_MODEL     GV_StrCode("socom")     /* no suppressor */
 #define SOCOM_MODEL2    GV_StrCode("socom2")    /* w/ suppressor */
 #define LASER_TEXTURE   GV_StrCode("lsight")
 
