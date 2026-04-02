@@ -11,22 +11,22 @@ typedef struct _BoxallWork
 {
     GV_ACT         actor;
     CONTROL        control;
-    OBJECT_NO_ROTS object;
+    OBJECT_NO_ROTS body;
     MATRIX         light[2];
-    int            f100;
+    int            timer;
     int            f104;
-    LINE_F4        line[2];
+    LINE_F4        text_line[2];
     DG_PRIM       *prim;
-    SVECTOR        verts[4];
-    int            proc;
-} BoxallWork;
+    SVECTOR        vertices[4];
+    int            proc_id;
+} Work;
 
 extern GM_CAMERA GM_Camera;
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 #define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
 
-int Boxall_800C9780(SVECTOR *out, SVECTOR *in)
+static int GetWorldPosition(SVECTOR *out, SVECTOR *in)
 {
     int     z;
     MATRIX *m;
@@ -42,14 +42,14 @@ int Boxall_800C9780(SVECTOR *out, SVECTOR *in)
     return z > 0;
 }
 
-void Boxall_800C9800(BoxallWork *work)
+static void DrawItemText(Work *work)
 {
     SVECTOR  world;
     SVECTOR  pos;
     SVECTOR *mov;
     int      dx, dz;
     u_long  *ot;
-    LINE_F4 *line;
+    LINE_F4 *text_line;
     int      x, y;
 
     if (GM_Camera.first_person == 0)
@@ -83,12 +83,12 @@ void Boxall_800C9800(BoxallWork *work)
     }
 
     ot = DG_ChanlOTag(1);
-    line = &work->line[GV_Clock];
+    text_line = &work->text_line[GV_Clock];
 
     pos = work->control.mov;
     pos.vy += 250;
 
-    if (!Boxall_800C9780(&world, &pos))
+    if (!GetWorldPosition(&world, &pos))
     {
         return;
     }
@@ -104,24 +104,24 @@ void Boxall_800C9800(BoxallWork *work)
     y = MAX(y, 32);
     y = MIN(y, FRAME_HEIGHT);
 
-    line->x2 = line->x1 = x + 16;
-    line->y2 = line->y1 = y - 16;
-    line->x0 = x;
-    line->y0 = y;
-    line->y3 = y - 23;
+    text_line->x2 = text_line->x1 = x + 16;
+    text_line->y2 = text_line->y1 = y - 16;
+    text_line->x0 = x;
+    text_line->y0 = y;
+    text_line->y3 = y - 23;
 
-    addPrim(ot, line);
+    addPrim(ot, text_line);
 
     MENU_Color(200, 200, 200);
-    MENU_Locate(line->x1 + 5, line->y1 - 8, 0x10);
+    MENU_Locate(text_line->x1 + 5, text_line->y1 - 8, 0x10);
     MENU_Printf("SNAKE'S ITEMS");
 
     MENU_Color(1, 1, 1);
-    MENU_Locate(line->x1 + 6, line->y1 - 7, 0x10);
-    line->x2 = line->x3 = MENU_Printf("SNAKE'S ITEMS") + 3;
+    MENU_Locate(text_line->x1 + 6, text_line->y1 - 7, 0x10);
+    text_line->x2 = text_line->x3 = MENU_Printf("SNAKE'S ITEMS") + 3;
 }
 
-static inline void BoxallDrawMessage(short *x, short *y, char *message)
+static inline void DrawMessage(short *x, short *y, char *message)
 {
     MENU_Color(255, 255, 255);
     MENU_Locate(*x + 160, *y + 104, 0x12);
@@ -134,7 +134,7 @@ static inline void BoxallDrawMessage(short *x, short *y, char *message)
     menu_Text_Init_80038B98();
 }
 
-void Boxall_800C9A48(BoxallWork *work)
+static void DrawItemTextCollected(Work *work)
 {
     SVECTOR pos;
     MATRIX *m;
@@ -146,24 +146,24 @@ void Boxall_800C9A48(BoxallWork *work)
     gte_rtps();
     gte_stsxy(&pos);
 
-    if (work->f100 < 16)
+    if (work->timer < 16)
     {
-        pos.vy -= work->f100;
+        pos.vy -= work->timer;
     }
     else
     {
         pos.vy -= 16;
     }
 
-    if (work->f100 == 2)
+    if (work->timer == 2)
     {
         GM_SeSet2(0, 63, SE_ITEM_GET);
     }
 
-    BoxallDrawMessage(&pos.vx, &pos.vy, "SNAKE'S ITEMS");
+    DrawMessage(&pos.vx, &pos.vy, "SNAKE'S ITEMS");
 }
 
-int Boxall_800C9B94(BoxallWork *work)
+static int HasCollectedItem(Work *work)
 {
     SVECTOR diff;
     SVECTOR pos;
@@ -192,13 +192,13 @@ int Boxall_800C9B94(BoxallWork *work)
     return dist < 500 && dy < 1000;
 }
 
-void BoxallAct_800C9C58(BoxallWork *work)
+static void Act(Work *work)
 {
-    if (work->f100 > 0)
+    if (work->timer > 0)
     {
-        if (++work->f100 < 20)
+        if (++work->timer < 20)
         {
-            Boxall_800C9A48(work);
+            DrawItemTextCollected(work);
         }
         else
         {
@@ -208,49 +208,49 @@ void BoxallAct_800C9C58(BoxallWork *work)
     else
     {
         GM_ActControl(&work->control);
-        GM_ActObject2((OBJECT *)&work->object);
+        GM_ActObject2((OBJECT *)&work->body);
         DG_GetLightMatrix(&work->control.mov, work->light);
 
         work->control.turn.vy += 64;
         work->control.turn.vy &= 4095;
 
-        Boxall_800C9800(work);
+        DrawItemText(work);
 
-        if (Boxall_800C9B94(work))
+        if (HasCollectedItem(work))
         {
-            work->f100++;
-            DG_InvisibleObjs(work->object.objs);
-            GCL_ExecProc(work->proc, NULL);
+            work->timer++;
+            DG_InvisibleObjs(work->body.objs);
+            GCL_ExecProc(work->proc_id, NULL);
         }
     }
 }
 
-void BoxallDie_800C9D34(BoxallWork *work)
+static void Die(Work *work)
 {
     GM_FreeControl(&work->control);
-    GM_FreeObject((OBJECT *)&work->object);
+    GM_FreeObject((OBJECT *)&work->body);
     GM_FreePrim(work->prim);
 }
 
-int Boxall_800C9D84(BoxallWork *work)
+static int InitPrim(Work *work)
 {
-    int       k500;
+    int       raise;
     DG_PRIM  *prim;
     DG_TEX   *tex;
     int       i, j;
     POLY_FT4 *poly;
     int       x, y, w, h;
-    SVECTOR  *verts;
+    SVECTOR  *vertices;
 
-    k500 = 250;
+    raise = 250;
 
-    prim = GM_MakePrim(DG_PRIM_POLY_FT4, 1, work->verts, NULL);
+    prim = GM_MakePrim(DG_PRIM_POLY_FT4, 1, work->vertices, NULL);
     if (prim == NULL)
     {
         return -1;
     }
 
-    prim->raise = k500;
+    prim->raise = raise;
 
     tex = DG_GetTexture(GV_StrCode("shadow"));
     if (tex == NULL)
@@ -276,19 +276,19 @@ int Boxall_800C9D84(BoxallWork *work)
         poly->clut = tex->clut;
     }
 
-    verts = work->verts;
-    verts[0].vx = -500;
-    verts[0].vy = 0;
-    verts[0].vz = -500;
-    verts[1].vx = 500;
-    verts[1].vy = 0;
-    verts[1].vz = -500;
-    verts[2].vx = -500;
-    verts[2].vy = 0;
-    verts[2].vz = 500;
-    verts[3].vx = 500;
-    verts[3].vy = 0;
-    verts[3].vz = 500;
+    vertices = work->vertices;
+    vertices[0].vx = -500;
+    vertices[0].vy = 0;
+    vertices[0].vz = -500;
+    vertices[1].vx = 500;
+    vertices[1].vy = 0;
+    vertices[1].vz = -500;
+    vertices[2].vx = -500;
+    vertices[2].vy = 0;
+    vertices[2].vz = 500;
+    vertices[3].vx = 500;
+    vertices[3].vy = 0;
+    vertices[3].vz = 500;
 
     for (i = 0; i < 3; i++)
     {
@@ -307,12 +307,12 @@ int Boxall_800C9D84(BoxallWork *work)
     return 0;
 }
 
-int BoxallGetResources_800C9F58(BoxallWork *work, int name, int map)
+static int GetResources(Work *work, int name, int map)
 {
     CONTROL        *control;
     char           *pos, *dir;
     unsigned short  model;
-    OBJECT_NO_ROTS *object;
+    OBJECT_NO_ROTS *body;
     int             i;
 
     control = &work->control;
@@ -327,22 +327,22 @@ int BoxallGetResources_800C9F58(BoxallWork *work, int name, int map)
     GM_ConfigControlHazard(control, 500, -2, -2);
 
     model = GCL_StrToInt(GCL_GetOption('m'));
-    work->proc = GCL_StrToInt(GCL_GetOption('e'));
+    work->proc_id = GCL_StrToInt(GCL_GetOption('e'));
 
-    object = &work->object;
-    GM_InitObjectNoRots(object, model, BODY_FLAG, 0);
-    GM_ConfigObjectLight((OBJECT *)object, work->light);
+    body = &work->body;
+    GM_InitObjectNoRots(body, model, BODY_FLAG, 0);
+    GM_ConfigObjectLight((OBJECT *)body, work->light);
 
-    work->f100 = 0;
+    work->timer = 0;
     work->f104 = 0;
 
     for (i = 0; i < 2; i++)
     {
-        setLineF4(&work->line[i]);
-        setRGB0(&work->line[i], 255, 255, 255);
+        setLineF4(&work->text_line[i]);
+        setRGB0(&work->text_line[i], 255, 255, 255);
     }
 
-    if (Boxall_800C9D84(work) < 0)
+    if (InitPrim(work) < 0)
     {
         return -1;
     }
@@ -350,16 +350,16 @@ int BoxallGetResources_800C9F58(BoxallWork *work, int name, int map)
     return 0;
 }
 
-void *NewBoxall_800CA088(int name, int where)
+void *NewAllItemBox(int name, int where)
 {
-    BoxallWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(BoxallWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, BoxallAct_800C9C58, BoxallDie_800C9D34, "boxall.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "boxall.c");
 
-        if (BoxallGetResources_800C9F58(work, name, where) >= 0)
+        if (GetResources(work, name, where) >= 0)
         {
             return (void *)work;
         }

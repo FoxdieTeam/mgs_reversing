@@ -302,7 +302,7 @@
 #define CHARA_BELONG            { 0xf59e, NewBelong }               // chara/others/belong.c
 #define CHARA_UJI               { 0xf5c5, NewUji_800C42F8 }         // okajima/uji.c
 #define CHARA_CDCHANGE          { 0xf722, NewCdChange }             // GV_StrCode("ＣＤ交換") onoda/change/change.c
-#define CHARA_BOXALL            { 0xf74b, NewBoxall_800CA088 }      // GV_StrCode("全部箱") chara/torture/boxall.c
+#define CHARA_BOXALL            { 0xf74b, NewAllItemBox }           // GV_StrCode("全部箱") chara/torture/boxall.c
 #define CHARA_FAA8_MOVIE        { 0xfaa8, ? }                       // chara/movie/movie.c
 #define CHARA_FLR_SPA           { 0xfc0b, NewFlrSpa_800D0F78 }      // okajima/flr_spa.c
 #define CHARA_FDB6_POCKET       { 0xfdb6, ? }                       // menu/pocket.c
@@ -428,7 +428,7 @@ void *NewPipe_800CE73C();               /* chara/rope/pipe.c            */
 void *NewSnakeBreath();                 /* chara/snake/breath.c         */
 void *NewSnake();                       /* chara/snake/sna_init.c       */
 void *NewTortureBed();                  /* chara/torture/bed.c          */
-void *NewBoxall_800CA088();             /* chara/torture/boxall.c       */
+void *NewAllItemBox();                  /* chara/torture/boxall.c       */
 void *NewJohnny_800CA838();             /* chara/torture/johnny.c       */
 void *NewNinja_800CC9B4();              /* chara/torture/ninja.c        */
 void *NewOtacom_800CC030();             /* chara/torture/otacom.c       */
