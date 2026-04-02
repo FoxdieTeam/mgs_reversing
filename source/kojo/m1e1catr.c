@@ -13,205 +13,207 @@
 void demothrd_2_8007DA94(SVECTOR *pPosition, SVECTOR *pRotation);
 void AN_CaterpillerSmoke(SVECTOR *pos); // todo: split demo.c
 
-void M1E1Caterpiller(M1E1Work *work)
+void M1E1Caterpiller(M1E1Work *lpAct)
 {
-    SVECTOR sp10;
-    SVECTOR sp18;
-    SVECTOR rotation;
+    SVECTOR svect1;
+    SVECTOR svect2;
+    SVECTOR svect3;
     int     diff;
-    int     f70;
-    int     length;
+    int     nSound;
+    int     nLength;
     DG_MDL *model;
     DG_MDL *model2;
 
-    diff = work->field_D60 - work->field_D8C;
-    f70 = 2;
+    diff = lpAct->field_D60 - lpAct->field_D8C;
+    nSound = 2;
 
     if (diff > 0)
     {
-        f70 += ((diff - (work->field_D68 - work->field_D8C)) * 5) / diff;
+        nSound += ((diff - (lpAct->field_D68 - lpAct->field_D8C)) * 5) / diff;
     }
 
     if ((GV_Time & 1) == 0)
     {
-        DG_SetPos2(&work->control.mov, &work->control.turn);
-        rotation = work->control.turn;
+        DG_SetPos2(&lpAct->control.mov, &lpAct->control.turn);
+        svect3 = lpAct->control.turn;
 
-        while (rotation.vy < -2048)
+        while (svect3.vy < -2048)
         {
-            rotation.vy += 4096;
+            svect3.vy += 4096;
         }
 
-        while (rotation.vy > 2048)
+        while (svect3.vy > 2048)
         {
-            rotation.vy -= 4096;
+            svect3.vy -= 4096;
         }
 
-        memset(&sp10, 0, 8);
+        memset(&svect1, 0, 8);
 
-        model = work->field_1C0[0].objs->objs[0].model;
-        sp10.vx = model->min.vx + (model->max.vx - model->min.vx) / 2;
+        model = lpAct->field_1C0[0].objs->objs[0].model;
+        svect1.vx = model->min.vx + (model->max.vx - model->min.vx) / 2;
 
-        DG_PutVector(&sp10, &sp10, 1);
+        DG_PutVector(&svect1, &svect1, 1);
 
-        if (work->field_740 == 1)
+        if (lpAct->bInitialize == TRUE)
         {
-            work->field_E8C = sp10;
+            lpAct->svectLeftCater = svect1;
         }
 
-        sp18.vx = sp10.vx - work->field_E8C.vx;
-        sp18.vy = sp10.vy - work->field_E8C.vy;
-        sp18.vz = sp10.vz - work->field_E8C.vz;
+        svect2.vx = svect1.vx - lpAct->svectLeftCater.vx;
+        svect2.vy = svect1.vy - lpAct->svectLeftCater.vy;
+        svect2.vz = svect1.vz - lpAct->svectLeftCater.vz;
 
-        length = SquareRoot0(sp18.vx * sp18.vx + sp18.vy * sp18.vy + sp18.vz * sp18.vz);
-        length = (length * (1024 - abs(ratan2(sp18.vx, sp18.vz) - rotation.vy))) >> 10;
+        nLength = SquareRoot0(svect2.vx * svect2.vx
+            + svect2.vy * svect2.vy + svect2.vz * svect2.vz);
+        nLength = (nLength * (1024 - abs(ratan2(svect2.vx, svect2.vz) - svect3.vy))) >> 10;
 
-        if (abs(length) < work->field_E84)
+        if (abs(nLength) < lpAct->nCaterLength)
         {
             return;
         }
 
-        rotation = work->control.rot;
-        rotation.vy += 2048;
+        svect3 = lpAct->control.rot;
+        svect3.vy += 2048;
 
-        if (length > 0)
+        if (nLength > 0)
         {
-            if (work->field_E7C != 1 && work->field_F60 == 0)
+            if (lpAct->nLeftCaterDirection != 1 && lpAct->nLeftCaterSmokeTCount == 0)
             {
-                work->field_F60 = 6;
-                demothrd_2_8007DA94(&work->field_718_targets[4]->center, &rotation);
+                lpAct->nLeftCaterSmokeTCount = 6;
+                demothrd_2_8007DA94(&lpAct->field_718_targets[4]->center, &svect3);
             }
 
-            work->field_E7C = 1;
+            lpAct->nLeftCaterDirection = 1;
         }
         else
         {
-            if (work->field_E7C != -1 && work->field_F60 == 0)
+            if (lpAct->nLeftCaterDirection != -1 && lpAct->nLeftCaterSmokeTCount == 0)
             {
-                work->field_F60 = 6;
-                demothrd_2_8007DA94(&work->field_718_targets[0]->center, &work->control.rot);
+                lpAct->nLeftCaterSmokeTCount = 6;
+                demothrd_2_8007DA94(&lpAct->field_718_targets[0]->center, &lpAct->control.rot);
             }
 
-            work->field_E7C = -1;
+            lpAct->nLeftCaterDirection = -1;
         }
 
-        AN_CaterpillerSmoke(&work->field_718_targets[rand() % 5]->center);
-        DG_InvisibleObjs(work->field_1C0[work->field_E74].objs);
+        AN_CaterpillerSmoke(&lpAct->field_718_targets[rand() % 5]->center);
+        DG_InvisibleObjs(lpAct->field_1C0[lpAct->field_E74].objs);
 
-        work->field_E74 += work->field_E7C;
+        lpAct->field_E74 += lpAct->nLeftCaterDirection;
 
-        if (work->field_E74 < 0)
+        if (lpAct->field_E74 < 0)
         {
-            work->field_E74 = 2;
+            lpAct->field_E74 = 2;
         }
 
-        if (work->field_E74 > 2)
+        if (lpAct->field_E74 > 2)
         {
-            work->field_E74 = 0;
+            lpAct->field_E74 = 0;
         }
 
-        DG_VisibleObjs(work->field_1C0[work->field_E74].objs);
+        DG_VisibleObjs(lpAct->field_1C0[lpAct->field_E74].objs);
 
-        work->field_E8C = sp10;
+        lpAct->svectLeftCater = svect1;
 
-        if ((f70 >= 3) && (work->field_F70 <= 0))
+        if ((nSound >= 3) && (lpAct->nCaterSoundTCount <= 0))
         {
-            if (work->field_F74 == 0)
+            if (lpAct->nCaterSoundStartTCount == 0)
             {
-                GM_SeSetPan(&work->control.mov, 182, work->field_E60);
+                GM_SeSetPan(&lpAct->control.mov, 182, lpAct->nSoundVolume);
             }
             else
             {
-                GM_SeSetPan(&work->control.mov, 190, work->field_E60);
+                GM_SeSetPan(&lpAct->control.mov, 190, lpAct->nSoundVolume);
             }
 
-            work->field_F70 = f70;
-            work->field_F74 = 30;
+            lpAct->nCaterSoundTCount = nSound;
+            lpAct->nCaterSoundStartTCount = 30;
         }
     }
     else
     {
-        memset(&sp10, 0, 8);
+        memset(&svect1, 0, 8);
 
-        model2 = work->field_46C[0].objs->objs[0].model;
-        sp10.vx = model2->min.vx + (model2->max.vx - model2->min.vx) / 2;
+        model2 = lpAct->field_46C[0].objs->objs[0].model;
+        svect1.vx = model2->min.vx + (model2->max.vx - model2->min.vx) / 2;
 
-        DG_SetPos2(&work->control.mov, &work->control.turn);
-        DG_PutVector(&sp10, &sp10, 1);
+        DG_SetPos2(&lpAct->control.mov, &lpAct->control.turn);
+        DG_PutVector(&svect1, &svect1, 1);
 
-        if (work->field_740 == 1)
+        if (lpAct->bInitialize == TRUE)
         {
-            work->field_E94 = sp10;
+            lpAct->svectRightCater = svect1;
         }
 
-        sp18.vx = sp10.vx - work->field_E94.vx;
-        sp18.vy = sp10.vy - work->field_E94.vy;
-        sp18.vz = sp10.vz - work->field_E94.vz;
+        svect2.vx = svect1.vx - lpAct->svectRightCater.vx;
+        svect2.vy = svect1.vy - lpAct->svectRightCater.vy;
+        svect2.vz = svect1.vz - lpAct->svectRightCater.vz;
 
-        length = SquareRoot0(sp18.vx * sp18.vx + sp18.vy * sp18.vy + sp18.vz * sp18.vz);
-        length = (length * (1024 - abs(ratan2(sp18.vx, sp18.vz) - rotation.vy))) >> 10;
+        nLength = SquareRoot0(svect2.vx * svect2.vx
+            + svect2.vy * svect2.vy + svect2.vz * svect2.vz);
+        nLength = (nLength * (1024 - abs(ratan2(svect2.vx, svect2.vz) - svect3.vy))) >> 10;
 
-        if (abs(length) < work->field_E84)
+        if (abs(nLength) < lpAct->nCaterLength)
         {
             return;
         }
 
-        rotation = work->control.rot;
-        rotation.vy += 2048;
+        svect3 = lpAct->control.rot;
+        svect3.vy += 2048;
 
-        if (length > 0)
+        if (nLength > 0)
         {
-            if (work->field_E80 != 1 && work->field_F64 == 0)
+            if (lpAct->nRightCaterDirection != 1 && lpAct->nRightCaterSmokeTCount == 0)
             {
-                work->field_F64 = 6;
-                demothrd_2_8007DA94(&work->field_718_targets[9]->center, &rotation);
+                lpAct->nRightCaterSmokeTCount = 6;
+                demothrd_2_8007DA94(&lpAct->field_718_targets[9]->center, &svect3);
             }
 
-            work->field_E80 = 1;
+            lpAct->nRightCaterDirection = 1;
         }
         else
         {
-            if (work->field_E80 != -1 && work->field_F64 == 0)
+            if (lpAct->nRightCaterDirection != -1 && lpAct->nRightCaterSmokeTCount == 0)
             {
-                work->field_F64 = 6;
-                demothrd_2_8007DA94(&work->field_718_targets[5]->center, &work->control.rot);
+                lpAct->nRightCaterSmokeTCount = 6;
+                demothrd_2_8007DA94(&lpAct->field_718_targets[5]->center, &lpAct->control.rot);
             }
 
-            work->field_E80 = -1;
+            lpAct->nRightCaterDirection = -1;
         }
 
-        AN_CaterpillerSmoke(&work->field_718_targets[(rand() % 5) + 5]->center);
-        DG_InvisibleObjs(work->field_46C[work->field_E78].objs);
+        AN_CaterpillerSmoke(&lpAct->field_718_targets[(rand() % 5) + 5]->center);
+        DG_InvisibleObjs(lpAct->field_46C[lpAct->field_E78].objs);
 
-        work->field_E78 += work->field_E7C;
+        lpAct->field_E78 += lpAct->nLeftCaterDirection;
 
-        if (work->field_E78 < 0)
+        if (lpAct->field_E78 < 0)
         {
-            work->field_E78 = 2;
+            lpAct->field_E78 = 2;
         }
 
-        if (work->field_E78 > 2)
+        if (lpAct->field_E78 > 2)
         {
-            work->field_E78 = 0;
+            lpAct->field_E78 = 0;
         }
 
-        DG_VisibleObjs(work->field_46C[work->field_E78].objs);
+        DG_VisibleObjs(lpAct->field_46C[lpAct->field_E78].objs);
 
-        work->field_E94 = sp10;
+        lpAct->svectRightCater = svect1;
 
-        if ((f70 >= 3) && (work->field_F70 <= 0))
+        if ((nSound >= 3) && (lpAct->nCaterSoundTCount <= 0))
         {
-            if (work->field_F74 == 0)
+            if (lpAct->nCaterSoundStartTCount == 0)
             {
-                GM_SeSetPan(&work->control.mov, 182, work->field_E60);
+                GM_SeSetPan(&lpAct->control.mov, 182, lpAct->nSoundVolume);
             }
             else
             {
-                GM_SeSetPan(&work->control.mov, 190, work->field_E60);
+                GM_SeSetPan(&lpAct->control.mov, 190, lpAct->nSoundVolume);
             }
 
-            work->field_F70 = f70;
-            work->field_F74 = 30;
+            lpAct->nCaterSoundTCount = nSound;
+            lpAct->nCaterSoundStartTCount = 30;
         }
     }
 }
