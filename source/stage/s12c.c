@@ -12,12 +12,12 @@ CHARA _StageCharacterEntries[] = {
     CHARA_WALL,         /* chara 障害物 */
     CHARA_PUT_OBJECT,
     CHARA_SNEBREATH,    /* chara スネーク息 */
-    CHARA_FADEIO,
+    CHARA_FADEIO,       /* chara 白黒フェド */
     CHARA_DOG,          /* chara 狼犬 */
-    CHARA_FINDTRAP,
+    CHARA_FINDTRAP,     /* chara 発見トラップ */
     CHARA_TEXTURE_LAMP, /* chara テクスチャ */
     CHARA_SNOW,         /* chara 雪 */
-    CHARA_FOG,
+    CHARA_FOG,          /* chara 黒フォグ */
     CHARA_GUNCAMERA,
     CHARA_CLAYMORE,     /* chara クレイモア地雷 */
     CHARA_CAMERASHAKE,  /* chara カメラ揺らし */

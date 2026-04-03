@@ -7,15 +7,15 @@ CHARA _StageCharacterEntries[] = {
     CHARA_ASIATOKUN,    /* chara 足跡君 */
     CHARA_SNEBREATH,    /* chara スネーク息 */
     CHARA_CAT_IN,
-    CHARA_FADEIO,
+    CHARA_FADEIO,       /* chara 白黒フェド */
     CHARA_WOLF,         /* chara ウルフ */
-    CHARA_FINDTRAP,
+    CHARA_FINDTRAP,     /* chara 発見トラップ */
     CHARA_TEXTURE_LAMP, /* chara テクスチャ */
     CHARA_MOVIE,        /* chara ムービー */
     CHARA_CINEMA,       /* chara シネマスクリーン */
     CHARA_SNOW,         /* chara 雪 */
     CHARA_SNOWSTORM,    /* chara 雪嵐 */
-    CHARA_FOG,
+    CHARA_FOG,          /* chara 黒フォグ */
     CHARA_GUNCAMERA,
     CHARA_CLAYMORE,     /* chara クレイモア地雷 */
     CHARA_WALL,         /* chara 障害物 */

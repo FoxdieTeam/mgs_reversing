@@ -15,7 +15,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_ZAKO11E,      /* chara ざこ１１ｅ */
     CHARA_DOOR,         /* chara ドア */
     CHARA_CINEMA,       /* chara シネマスクリーン */
-    CHARA_FADEIO,
+    CHARA_FADEIO,       /* chara 白黒フェド */
 
     CHARA_END
 };

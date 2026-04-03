@@ -9,7 +9,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_UJI,          /* chara 蛆虫 */
     CHARA_TEXTURE_LAMP, /* chara テクスチャ */
     CHARA_GUNCAMERA,
-    CHARA_FADEIO,
+    CHARA_FADEIO,       /* chara 白黒フェド */
     CHARA_INTRUDE_CAMERA, /* chara イントルードカメラ */
     CHARA_CAT_IN,
     CHARA_MOTIONSE,

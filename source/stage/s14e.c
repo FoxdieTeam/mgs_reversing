@@ -6,11 +6,11 @@ CHARA _StageCharacterEntries[] = {
     { 0xec77, (NEWCHARA)0x800c4aac },   // CHARA_WALL,         /* chara 障害物 */
     { 0x5a50, (NEWCHARA)0x800d7db0 },   // CHARA_GASEFFECT,    /* chara ガス効果 */
     { 0x92bc, (NEWCHARA)0x800c58e4 },   // CHARA_ASIOTOKUN,    /* chara 足音君 */
-    { 0xd6fb, (NEWCHARA)0x800d8604 },   // CHARA_FOG,
+    { 0xd6fb, (NEWCHARA)0x800d8604 },   // CHARA_FOG,          /* chara 黒フォグ */
     { 0x1ad3, (NEWCHARA)0x800c41b0 },   // CHARA_TEXTURE_LAMP, /* chara テクスチャ */
     { 0x2abc, (NEWCHARA)0x800d7274 },   // CHARA_ELEVATOR,     /* chara エレベータ */
     { 0x6865, (NEWCHARA)0x800d5a58 },   // CHARA_TEXSCROLL,    /* chara テクスチャスクロール */
-    { 0xa12e, (NEWCHARA)0x800daf5c },   // CHARA_FADEIO,
+    { 0xa12e, (NEWCHARA)0x800daf5c },   // CHARA_FADEIO,       /* chara 白黒フェド */
     { 0x8e74, (NEWCHARA)0x800cf44c },   // CHARA_ZAKO14COM,    /* chara ざこ１４コマンダー */
     { 0x31e7, (NEWCHARA)0x800c66cc },   // CHARA_ZAKO14,       /* chara ざこ１４ */
     { 0x9ab9, (NEWCHARA)0x800d4d50 },   // CHARA_ELEVCROW,     /* chara エレベーターのカラス */

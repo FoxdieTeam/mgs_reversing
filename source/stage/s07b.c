@@ -3,7 +3,7 @@
 
 CHARA _StageCharacterEntries[] = {
     { 0x92bc, (NEWCHARA)0x800da890 },   // CHARA_ASIOTOKUN,    /* chara 足音君 */
-    { 0xa12e, (NEWCHARA)0x800e2440 },   // CHARA_FADEIO,
+    { 0xa12e, (NEWCHARA)0x800e2440 },   // CHARA_FADEIO,       /* chara 白黒フェド */
     { 0xa76f, (NEWCHARA)0x800d2060 },   // CHARA_PSYCHOMANTIS, /* chara サイコマンティス */
     { 0xf4b0, (NEWCHARA)0x800ca8f8 },   // CHARA_PSYCHOMERYL,  /* chara サイコメリル */
     { 0xaf72, (NEWCHARA)0x800d9330 },   // CHARA_MEMPSY,

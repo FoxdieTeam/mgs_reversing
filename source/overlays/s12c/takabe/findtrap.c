@@ -8,23 +8,23 @@
 #include "takabe/thing.h"
 #include "strcode.h"
 
-typedef struct FindTrapWork
+typedef struct _Work
 {
     GV_ACT  actor;
-    int     field_20;
-    int     field_24;
-    SVECTOR field_28;
-    SVECTOR field_30;
-    int     field_38;
-    int     field_3C;
-    int     field_40;
-    int     field_44;
-    int     field_48;
-} FindTrapWork;
+    int     map;
+    int     name;
+    SVECTOR pos;
+    SVECTOR size;
+    int     proc_id;
+    int     flag;
+    int     wait;
+    int     field_44; /* unused */
+    int     field_48; /* unused */
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-short findtrap_msgs_800C350C[4] = {HASH_ENTER, HASH_LEAVE, 0x42DC, HASH_KILL};
+static short msg_list[4] = {HASH_ENTER, HASH_LEAVE, 0x42DC, HASH_KILL};
 
 SVECTOR       SECTION(".bss") s12c_dword_800DAA50;
 int           SECTION(".bss") s12c_dword_800DAA58;
@@ -40,129 +40,130 @@ extern UnkCameraStruct gUnkCameraStruct_800B77B8;
 extern int             dword_8009F470;
 extern DG_CHANL        DG_Chanls[3];
 
-void FindTrap_callback1_800D7908();
-void FindTrap_callback2_800D7870();
+static void FindEvent2(void);
+static void FindEvent1(void);
 
-void s12c_findtrap_800D72E8(FindTrapWork *work)
+static void Act(Work *work)
 {
     int field_22;
 
-    GM_CurrentMap = work->field_20;
-    switch (THING_Msg_CheckMessage(work->field_24, 4, findtrap_msgs_800C350C))
+    GM_CurrentMap = work->map;
+
+    switch (THING_Msg_CheckMessage(work->name, 4, msg_list))
     {
     case 0:
-        if (work->field_3C == 0)
+        if (work->flag == 0)
         {
-            work->field_3C = 1;
+            work->flag = 1;
         }
         break;
     case 1:
-        work->field_3C = 0;
+        work->flag = 0;
         break;
     case 2:
-        work->field_3C = 8;
-        GM_SetCameraCallbackFunc(0, FindTrap_callback1_800D7908);
-        s12c_dword_800DAA58 = work->field_40;
+        work->flag = 8;
+        GM_SetCameraCallbackFunc(0, FindEvent2);
+        s12c_dword_800DAA58 = work->wait;
         break;
     }
 
-    if (work->field_3C & 1)
+    if (work->flag & 1)
     {
-        if (work->field_3C == 1)
+        if (work->flag == 1)
         {
             field_22 = GM_Camera.first_person;
 
-            if (field_22 == work->field_3C && !(GM_Camera.flags & 0x100) &&
+            if (field_22 == work->flag && !(GM_Camera.flags & 0x100) &&
                 (GV_PadData->status & PAD_TRIANGLE) && dword_8009F470 == 0)
             {
                 MATRIX   eye_inv;
                 SVECTOR  sxy;
                 SVECTOR  svec;
                 long     throwaway;
-                SVECTOR *field_30;
-                int      field_40;
+                SVECTOR *size;
+                int      wait;
 
                 eye_inv = DG_Chanl(0)->eye_inv;
 
                 DG_AdjustOverscan(&eye_inv);
                 DG_SetPos(&eye_inv);
-                RotTransPers(&work->field_28, (long *)&sxy, &throwaway, &throwaway);
+                RotTransPers(&work->pos, (long *)&sxy, &throwaway, &throwaway);
 
-                field_30 = &work->field_30;
-                if (sxy.vx < field_30->vx && -field_30->vx < sxy.vx && sxy.vy < field_30->vy && -field_30->vy < sxy.vy)
+                size = &work->size;
+                if (sxy.vx < size->vx && -size->vx < sxy.vx && sxy.vy < size->vy && -size->vy < sxy.vy)
                 {
-                    work->field_28.pad = field_22;
+                    work->pos.pad = field_22;
                 }
                 else
                 {
-                    work->field_28.pad = 0;
+                    work->pos.pad = 0;
                 }
 
-                if (work->field_28.pad != 0)
+                if (work->pos.pad != 0)
                 {
-                    work->field_3C |= 2;
+                    work->flag |= 2;
                     GM_GameStatus |= STATE_PADDEMO;
                     GV_DemoPadStatus[0] = GV_PadData->status & PAD_TRIANGLE;
                     s12c_dword_800DAA90 = GM_Camera.flags & 0x200;
                     s12c_dword_800DAA94 = GM_Camera.callbacks[0];
-                    GM_SetCameraCallbackFunc(0, FindTrap_callback2_800D7870);
+                    GM_SetCameraCallbackFunc(0, FindEvent1);
                     GM_Camera.flags |= 0x200;
-                    GV_SubVec3(&work->field_28, &GM_Camera.eye, &svec);
+                    GV_SubVec3(&work->pos, &GM_Camera.eye, &svec);
                     s12c_dword_800DAA50.vz = 0;
                     s12c_dword_800DAA50.vy = GV_VecDir2(&svec) & 0xFFF;
                     s12c_dword_800DAA50.vx =
                         ratan2(-svec.vy, SquareRoot0(svec.vx * svec.vx + svec.vz * svec.vz)) & 0xFFF;
                     s12c_dword_800DAA5C = 0;
                     gUnkCameraStruct_800B77B8.rotate2.vy &= 0xFFF;
-                    field_40 = work->field_40;
+                    wait = work->wait;
                     s12c_dword_800DAA60 = gUnkCameraStruct_800B77B8.rotate2;
                     s12c_dword_800DAA68 = GM_PlayerControl->rot;
                     s12c_dword_800DAA70[0] = GV_PadData[0];
                     s12c_dword_800DAA70[1] = GV_PadData[1];
-                    s12c_dword_800DAA58 = field_40;
+                    s12c_dword_800DAA58 = wait;
                 }
             }
         }
-        if ((work->field_3C & 2) && s12c_dword_800DAA5C != 0)
+        if ((work->flag & 2) && s12c_dword_800DAA5C != 0)
         {
             GCL_ARGS args;
             args.argc = 0;
             args.argv = NULL;
-            GCL_ExecProc(work->field_38, &args);
+            GCL_ExecProc(work->proc_id, &args);
 
-            work->field_3C &= ~2;
-            work->field_3C |= 4;
+            work->flag &= ~2;
+            work->flag |= 4;
         }
     }
 }
 
-void FindTrapDie_800D7734(FindTrapWork *work)
+static void Die(Work *work)
 {
     GM_GameStatus &= ~STATE_PADDEMO;
     GM_Camera.flags &= ~0x200;
 }
 
-int FindTrapGetResources_800D7768(FindTrapWork *work, int name, int where)
+static int GetResources(Work *work, int name, int where)
 {
-    work->field_24 = name;
+    work->name = name;
     GM_CurrentMap = where;
-    work->field_20 = where;
-    THING_Gcl_GetSVector('p', &work->field_28);
-    work->field_38 = THING_Gcl_GetInt('e');
-    THING_Gcl_GetSVectorDefault('s', 160, 112, 0, &work->field_30);
-    work->field_40 = THING_Gcl_GetInt('w');
+    work->map = where;
+    THING_Gcl_GetSVector('p', &work->pos);
+    work->proc_id = THING_Gcl_GetInt('e');
+    THING_Gcl_GetSVectorDefault('s', 160, 112, 0, &work->size);
+    work->wait = THING_Gcl_GetInt('w');
     return 0;
 }
 
-void *NewFindTrap_800D77DC(int name, int where, int argc, char **argv)
+void *NewFindTrap(int name, int where, int argc, char **argv)
 {
-    FindTrapWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(FindTrapWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, s12c_findtrap_800D72E8, FindTrapDie_800D7734, "findtrap.c");
-        if (FindTrapGetResources_800D7768(work, name, where) < 0)
+        GV_SetNamedActor(&work->actor, Act, Die, "findtrap.c");
+        if (GetResources(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
@@ -171,7 +172,7 @@ void *NewFindTrap_800D77DC(int name, int where, int argc, char **argv)
     return (void *)work;
 }
 
-void FindTrap_callback2_800D7870()
+static void FindEvent1(void)
 {
     int temp_a2;
 
@@ -193,12 +194,12 @@ void FindTrap_callback2_800D7870()
     }
 }
 
-void FindTrap_callback1_800D7908()
+static void FindEvent2(void)
 {
     int temp_a3;
 
     temp_a3 = s12c_dword_800DAA58;
-    if (s12c_dword_800DAA58 < 0x10)
+    if (s12c_dword_800DAA58 < 16)
     {
         s12c_dword_800DAA58--;
         GM_Camera.rotate.vy &= 0xFFF;

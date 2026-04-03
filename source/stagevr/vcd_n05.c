@@ -2,7 +2,7 @@
 #include "charalst.h"
 
 CHARA _StageCharacterEntries[] = {
-    { 0xa12e, (NEWCHARA)0x800d2fd8 },   // CHARA_FADEIO,
+    { 0xa12e, (NEWCHARA)0x800d2fd8 },   // CHARA_FADEIO,       /* chara 白黒フェド */
     { 0x4170, (NEWCHARA)0x800c2240 },   // CHARA_SNEBREATH,    /* chara スネーク息 */
     { 0x92bc, (NEWCHARA)0x800c2e30 },   // CHARA_ASIOTOKUN,    /* chara 足音君 */
     { 0xed86, (NEWCHARA)0x800d5288 },   // CHARA_VR,           /* chara ＶＲ */

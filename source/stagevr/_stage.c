@@ -159,11 +159,11 @@ CHARA _StageCharacterEntries[] = {
     { 0xb789, NULL },   // CHARA_ENDINGROLL,    /* chara エンディングロール */
     { 0x3f9a, NULL },   // CHARA_ENV_SOUND,     /* chara 環境音 */
     { 0x76fe, NULL },   // CHARA_ENV_TEST,      /* chara 環境マッピングテスト */
-    { 0xa12e, NULL },   // CHARA_FADEIO,
+    { 0xa12e, NULL },   // CHARA_FADEIO,        /* chara 白黒フェド */
     { 0xc73e, NULL },   // CHARA_FALL_SPLASH,
     { 0x5d64, NULL },   // CHARA_O2_DAMAGE,
-    { 0x118c, NULL },   // CHARA_FINDTRAP,
-    { 0xd6fb, NULL },   // CHARA_FOG,
+    { 0x118c, NULL },   // CHARA_FINDTRAP,      /* chara 発見トラップ */
+    { 0xd6fb, NULL },   // CHARA_FOG,           /* chara 黒フォグ */
     { 0x84e1, NULL },   // CHARA_FONT_TEXT,
     { 0x0fad, NULL },   // CHARA_MOTIONSE,
     { 0xadd8, NULL },   // CHARA_FURNACE,       /* chara 溶鉱炉 */
