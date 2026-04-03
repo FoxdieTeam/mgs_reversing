@@ -292,7 +292,7 @@
 #define CHARA_VR                { 0xed86, ? }                       // GV_StrCode("ＶＲ") koba/vr/vr.c
 #define CHARA_ZAKO              { 0xed87, ? }                       // GV_StrCode("ざこ") animal/zako/zako.c
 #define CHARA_PHOTOSEL          { 0xedeb, ? }                       // chara/photosel/photosel.c
-#define CHARA_SCN_MARK          { 0xee63, NewScnMark_800C9580 }     // okajima/scn_mark.c
+#define CHARA_SCN_MARK          { 0xee63, NewScreenMark }           // okajima/scn_mark.c
 #define CHARA_WSURFACE          { 0xeea7, NewWsurface_800DB9BC }    // takabe/wsurface.c
 #define CHARA_HAIR_N            { 0xf002, ? }                       // chara/others/hair_n.c
 #define CHARA_REC_DEMO          { 0xf364, ? }                       // nobu/vr_demo/recdemo.c (PC-ONLY)
@@ -503,7 +503,7 @@ void *NewRedAlert2_800C4E84();          /* okajima/red_alrt.c           */
 void *NewRedAlert_800C4DF0();           /* okajima/red_alrt.c           */
 void *RedAlert_800C4F48();              /* okajima/red_alrt.c           */
 void *NewStage11Objects();              /* okajima/s11_objs.c           */
-void *NewScnMark_800C9580();            /* okajima/scn_mark.c           */
+void *NewScreenMark();                  /* okajima/scn_mark.c           */
 void *NewSmokeLn_800CDFA4();            /* okajima/smke_ln.c            */
 void *NewSmktrgt_800DC410();            /* okajima/smktrgt.c            */
 void *NewSpark();                       /* okajima/spark.c              */
