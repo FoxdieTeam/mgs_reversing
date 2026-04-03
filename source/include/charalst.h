@@ -72,7 +72,7 @@
 #define CHARA_ZAKO10            { 0x31e3, ? }                       // GV_StrCode("ざこ１０") animal/zako10/zako10.c
 #define CHARA_ZAKO14            { 0x31e7, ? }                       // GV_StrCode("ざこ１４") animal/zako14/zako14.c
 #define CHARA_ZAKO19            { 0x31ec, ? }                       // GV_StrCode("ざこ１９") animal/zako19/zako19.c
-#define CHARA_EMITTER           { 0x32e5, NewEmitter }              // thing/emitter.c
+#define CHARA_EMITTER           { 0x32e5, NewEmitter }              // GV_StrCode("ジン発光") thing/emitter.c
 #define CHARA_BREAK_OBJECT      { 0x32fc, NewBreakObject }          // takabe/breakobj.c
 #define CHARA_DUCTMOUSE         { 0x3303, NewDuctmouse_800DACC8 }   // okajima/ductmous.c
 #define CHARA_MOVIE             { 0x3453, NewMovieGCL }             // GV_StrCode("ムービー") game/movie.c
@@ -209,7 +209,7 @@
 #define CHARA_PSYCHOMANTIS      { 0xa76f, ? }                       // GV_StrCode("サイコマンティス") chara/psyco/psyco.c
 #define CHARA_SNE17A            { 0xa791, ? }                       // chara/sne17a/sne17a.c (PC-ONLY)
 #define CHARA_GUNCAMERA         { 0xa9c5, NewGunCame_800C9190 }     // okajima/guncame.c
-#define CHARA_EMITTER2          { 0xa9dd, ? }                       // thing/emitter2.c (PC-ONLY)
+#define CHARA_EMITTER2          { 0xa9dd, ? }                       // GV_StrCode("ジン発光２") thing/emitter2.c (PC-ONLY)
 #define CHARA_AA13              { 0xaa13, ? }                       // ???
 #define CHARA_RASEN_EL          { 0xaa21, NewRasenEl_800CCF38 }     // GV_StrCode("螺旋階段エレベータ") takabe/rasen_el.c
 #define CHARA_FURNACE           { 0xadd8, NewFurnace }              // GV_StrCode("溶鉱炉") takabe/furnace.c

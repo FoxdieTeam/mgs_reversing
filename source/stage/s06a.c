@@ -6,7 +6,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_TRUCKTRAP,
     CHARA_CINEMA,       /* chara シネマスクリーン */
     CHARA_FADEIO,
-    CHARA_EMITTER,
+    CHARA_EMITTER,      /* chara ジン発光 */
     CHARA_DEMODOLL,     /* chara デモ人形 */
     CHARA_CAMERA,       /* chara カメラ */
     CHARA_COMMANDER,    /* chara コマンダー */

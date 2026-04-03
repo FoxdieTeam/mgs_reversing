@@ -21,7 +21,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_WATER_AREA,   /* chara 水領域 */
     CHARA_WATCHER,      /* chara 巡回兵 */
     CHARA_SMOKE,        /* chara 煙 */
-    CHARA_EMITTER,
+    CHARA_EMITTER,      /* chara ジン発光 */
     CHARA_ELEVATOR,     /* chara エレベータ */
     CHARA_MOUSE,        /* chara ネズミ */
     CHARA_RSURFACE,

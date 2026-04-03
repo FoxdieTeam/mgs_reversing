@@ -154,8 +154,8 @@ CHARA _StageCharacterEntries[] = {
     { 0x2abc, NULL },   // CHARA_ELEVATOR,      /* chara エレベータ */
     { 0x9ab9, NULL },   // CHARA_ELEVCROW,      /* chara エレベーターのカラス */
     { 0xe253, NULL },   // CHARA_ELEVPANEL,     /* chara エレベーターパネル */
-    { 0x32e5, NULL },   // CHARA_EMITTER,
-    { 0xa9dd, NULL },   // CHARA_EMITTER2,
+    { 0x32e5, NULL },   // CHARA_EMITTER,       /* chara ジン発光 */
+    { 0xa9dd, NULL },   // CHARA_EMITTER2,      /* chara ジン発光２ */
     { 0xb789, NULL },   // CHARA_ENDINGROLL,    /* chara エンディングロール */
     { 0x3f9a, NULL },   // CHARA_ENV_SOUND,     /* chara 環境音 */
     { 0x76fe, NULL },   // CHARA_ENV_TEST,      /* chara 環境マッピングテスト */
