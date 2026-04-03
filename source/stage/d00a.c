@@ -11,7 +11,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_SMOKE,        /* chara 煙 */
     CHARA_EMITTER,
     CHARA_ELEVATOR,     /* chara エレベータ */
-    CHARA_MOUSE,
+    CHARA_MOUSE,        /* chara ネズミ */
     CHARA_RSURFACE,
     CHARA_WALL,         /* chara 障害物 */
     CHARA_CINEMA,       /* chara シネマスクリーン */

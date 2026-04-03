@@ -9,7 +9,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_SNAKE18,      /* chara スネーク１８ */
     CHARA_WALL,         /* chara 障害物 */
     CHARA_SMKTRGT,
-    CHARA_WAKE,
+    CHARA_WAKE,         /* chara 覚醒スネーク */
     CHARA_MOVIE,        /* chara ムービー */
 
     CHARA_0003_FADEIO,

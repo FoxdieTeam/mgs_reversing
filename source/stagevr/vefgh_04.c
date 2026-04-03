@@ -3,7 +3,7 @@
 
 CHARA _StageCharacterEntries[] = {
     { 0xc6d7, (NEWCHARA)0x800c53c8 },   // CHARA_COMMANDER,    /* chara コマンダー */
-    { 0x173c, (NEWCHARA)0x800c8540 },   // CHARA_MYSTERY,
+    { 0x173c, (NEWCHARA)0x800c8540 },   // CHARA_MYSTERY_SOLDIER, /* chara ミステリー兵 */
     { 0xa12e, (NEWCHARA)0x800d8368 },   // CHARA_FADEIO,
     { 0x4170, (NEWCHARA)0x800c2288 },   // CHARA_SNEBREATH,    /* chara スネーク息 */
     { 0x92bc, (NEWCHARA)0x800c70e8 },   // CHARA_ASIOTOKUN,    /* chara 足音君 */
@@ -14,7 +14,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x4deb, (NEWCHARA)0x800df934 },   // CHARA_VRCLEAR,      /* chara ＶＲクリア */
     { 0x672e, (NEWCHARA)0x800c6524 },   // CHARA_SNAKEWARP,    /* chara スネークワープ */
     { 0xb162, (NEWCHARA)0x800d5974 },   // CHARA_VR_SNAKE,
-    { 0xa5dc, (NEWCHARA)0x800e1d48 },   // CHARA_VR_PAUSE,
+    { 0xa5dc, (NEWCHARA)0x800e1d48 },   // CHARA_VR_PAUSE_MENU, /* chara ＶＲポーズメニュー */
     { 0x548e, (NEWCHARA)0x800e2e70 },   // CHARA_VRBOX2,       /* chara ＶＲＢＯＸ２ */
     { 0x4e95, (NEWCHARA)0x800d4fa4 },   // CHARA_BLOOD_POOL,   /* chara 血溜り */
     { 0x118c, (NEWCHARA)0x800d8990 },   // CHARA_FINDTRAP,

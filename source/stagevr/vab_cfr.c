@@ -14,7 +14,7 @@ CHARA _StageCharacterEntries[] = {
     { 0xc249, (NEWCHARA)0x800e03e0 },   // CHARA_VRCLEAR2,     /* chara ＶＲクリア２ */
     { 0x672e, (NEWCHARA)0x800d1868 },   // CHARA_SNAKEWARP,    /* chara スネークワープ */
     { 0xb162, (NEWCHARA)0x800d2af4 },   // CHARA_VR_SNAKE,
-    { 0xa5dc, (NEWCHARA)0x800d7114 },   // CHARA_VR_PAUSE,
+    { 0xa5dc, (NEWCHARA)0x800d7114 },   // CHARA_VR_PAUSE_MENU,     /* chara ＶＲポーズメニュー */
     { 0xdf0f, (NEWCHARA)0x800d9444 },   // CHARA_VRBOX,        /* chara ＶＲＢＯＸ */
 
     CHARA_END

@@ -16,7 +16,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x962c, (NEWCHARA)0x800d7b54 },   // CHARA_WOLF,         /* chara ウルフ */
     { 0x1158, (NEWCHARA)0x800dcfdc },   // CHARA_BLOODY_MERYL, /* chara 血まみれメリル */
     { 0x4e95, (NEWCHARA)0x800d3eb4 },   // CHARA_BLOOD_POOL,   /* chara 血溜り */
-    { 0xd4a5, (NEWCHARA)0x800d0c24 },   // CHARA_MOUSE,
+    { 0xd4a5, (NEWCHARA)0x800d0c24 },   // CHARA_MOUSE,        /* chara ネズミ */
     { 0x40e9, (NEWCHARA)0x800d6654 },   // CHARA_10A_DEMO,
     { 0xec77, (NEWCHARA)0x800c5718 },   // CHARA_WALL,         /* chara 障害物 */
     { 0x711f, (NEWCHARA)0x800e0f4c },   // CHARA_LIFEUP,       /* chara ライフ増加 */

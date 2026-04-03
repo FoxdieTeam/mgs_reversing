@@ -27,7 +27,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_EMITTER,
     CHARA_ELEVATOR,     /* chara エレベータ */
     CHARA_ELEVPANEL,    /* chara エレベーターパネル */
-    CHARA_MOUSE,
+    CHARA_MOUSE,        /* chara ネズミ */
     CHARA_RSURFACE,
     CHARA_TELOP,        /* chara テロップ */
     CHARA_BUBBLE,       /* chara 泡 */

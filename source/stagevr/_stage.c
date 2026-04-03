@@ -214,11 +214,11 @@ CHARA _StageCharacterEntries[] = {
     { 0x7acf, NULL },   // CHARA_MODELDOT,      /* chara モデルドット */
     { 0x6d78, NULL },   // CHARA_MONITOR1,      /* chara モニタ１ */
     { 0x0065, NULL },   // CHARA_MOSAIC,        /* chara モザイク */
-    { 0xd4a5, NULL },   // CHARA_MOUSE,
+    { 0xd4a5, NULL },   // CHARA_MOUSE,         /* chara ネズミ */
     { 0x3453, NULL },   // CHARA_MOVIE,         /* chara ムービー */
     { 0x5345, NULL },   // CHARA_5345_MOVIE,
-    { 0xb98c, NULL },   // CHARA_M_DOOR,
-    { 0x173c, NULL },   // CHARA_MYSTERY,
+    { 0xb98c, NULL },   // CHARA_MYSTERY_DOOR,  /* chara ミステリードア */
+    { 0x173c, NULL },   // CHARA_MYSTERY_SOLDIER, /* chara ミステリー兵 */
     { 0xd3c0, NULL },   // CHARA_D3C0,
     { 0xf002, NULL },   // CHARA_HAIR_N,
     { 0x30ba, NULL },   // CHARA_NINJA,         /* chara 忍者 */
@@ -303,7 +303,7 @@ CHARA _StageCharacterEntries[] = {
     { 0xd2f6, NULL },   // CHARA_SELECT,
     { 0x175b, NULL },   // CHARA_SMKTRGT,
     { 0x7ff7, NULL },   // CHARA_TELOP,         /* chara テロップ */
-    { 0xdcac, NULL },   // CHARA_TEXANIME,
+    { 0xdcac, NULL },   // CHARA_TEXANIME,      /* chara テクスチャアニメ */
     { 0x6865, NULL },   // CHARA_TEXSCROLL,     /* chara テクスチャスクロール */
     { 0x1ad3, NULL },   // CHARA_TEXTURE_LAMP,  /* chara テクスチャ */
     { 0xaefb, NULL },   // CHARA_TOBCNT,
@@ -331,14 +331,14 @@ CHARA _StageCharacterEntries[] = {
     { 0xb95f, NULL },   // CHARA_VRCLUTER,
     { 0x8a46, NULL },   // CHARA_VRDEMO,        /* chara ＶＲデモ */
     { 0x49d2, NULL },   // CHARA_VRGLASS,       /* chara ＶＲガラス */
-    { 0x03bf, NULL },   // CHARA_03BF,
+    { 0x03bf, NULL },   // CHARA_VRRESET,       /* chara ＶＲリセット */
     { 0x0c09, NULL },   // CHARA_VRSPARK,
     { 0x5667, NULL },   // CHARA_VRTITLE,       /* chara ＶＲタイトル */
     { 0xd44e, NULL },   // CHARA_VRWINDOW,      /* chara ＶＲウィンドウ */
-    { 0x3d26, NULL },   // CHARA_KOBA_WINMNGR,
-    { 0xa5dc, NULL },   // CHARA_VR_PAUSE,
+    { 0x3d26, NULL },   // CHARA_KOBA_WINMNGR,  /* chara ＶＲマネージャ */
+    { 0xa5dc, NULL },   // CHARA_VR_PAUSE_MENU, /* chara ＶＲポーズメニュー */
     { 0xb162, NULL },   // CHARA_VR_SNAKE,
-    { 0x41a3, NULL },   // CHARA_WAKE,
+    { 0x41a3, NULL },   // CHARA_WAKE,          /* chara 覚醒スネーク */
     { 0xec77, NULL },   // CHARA_WALL,          /* chara 障害物 */
     { 0xf4c3, NULL },   // CHARA_PUT_OBJECT,
     { 0x2b24, NULL },   // CHARA_WALLSPARK,     /* chara 壁スパーク */

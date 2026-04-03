@@ -14,7 +14,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_PATOLAMP,     /* chara パトランプ */
     CHARA_COMMANDER,    /* chara コマンダー */
     CHARA_WATCHER,      /* chara 巡回兵 */
-    CHARA_MOUSE,
+    CHARA_MOUSE,        /* chara ネズミ */
     CHARA_CRANE,        /* chara クレーン */
     CHARA_LIFT,         /* chara リフト */
     CHARA_DOOR2,        /* chara ドア２ */
