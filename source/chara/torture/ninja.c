@@ -10,17 +10,17 @@
 
 #include "takabe/spark2.h"      // for NewSpark2_800CA714
 
-typedef struct NinjaWork
+typedef struct _Work
 {
     GV_ACT         actor;
     CONTROL        control;
-    OBJECT         object;
-    MOTION_CONTROL motion;
-    MOTION_SEGMENT oar1[17];
-    MOTION_SEGMENT oar2[17];
+    OBJECT         body;
+    MOTION_CONTROL m_ctrl;
+    MOTION_SEGMENT m_segs1[17];
+    MOTION_SEGMENT m_segs2[17];
     SVECTOR        rots[32];
     MATRIX         light[2];
-    GV_ACT        *unused_shadow; // a guess based on otacom.c
+    GV_ACT        *shadow; // unused, a guess based on otacom.c
     GV_ACT        *kogaku;
     int            bound_where;
     SVECTOR        field_7E4;
@@ -30,18 +30,20 @@ typedef struct NinjaWork
     int            timer;
     int            field_7FC[2];
     int            procs[4];
-} NinjaWork;
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-void    AN_Unknown_800CCA40(SVECTOR *pos);
-void    OpenCinemaScreen(int, int);
-void    CloseCinemaScreen(void);
-int     s03b_boxall_800C93AC(int arg0);
-void    s03b_boxall_800C9404(void);
-int     s03b_boxall_800C95EC(void);
+void AN_Unknown_800CCA40(SVECTOR *pos);
 
-void NinjaSendMessage_800CC0BC(int address, int message1, int message2)
+void OpenCinemaScreen(int, int);
+void CloseCinemaScreen(void);
+
+int  s03b_boxall_800C93AC(int arg0);
+void s03b_boxall_800C9404(void);
+int  s03b_boxall_800C95EC(void);
+
+static void SendMessage(int address, int message1, int message2)
 {
     GV_MSG msg;
 
@@ -52,7 +54,7 @@ void NinjaSendMessage_800CC0BC(int address, int message1, int message2)
     GV_SendMessage(&msg);
 }
 
-void Ninja_800CC0F0(NinjaWork *work, int timer)
+static void Update(Work *work, int timer)
 {
     SVECTOR svec1;
     SVECTOR svec2;
@@ -65,12 +67,12 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
     long     argv2[1];
 
     CONTROL *control;
-    OBJECT  *object;
+    OBJECT  *body;
 
     int len;
 
     control = &work->control;
-    object = &work->object;
+    body = &work->body;
 
     switch (work->mode)
     {
@@ -87,7 +89,7 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
 
             GM_GameStatus |= STATE_PADRELEASE | STATE_JAMMING;
 
-            work->kogaku = NewKogaku2(control, object, 0);
+            work->kogaku = NewKogaku2(control, body, 0);
         }
         if (timer == 32)
         {
@@ -106,8 +108,7 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
         }
         if (timer == 96)
         {
-            NinjaSendMessage_800CC0BC(work->bound_where, GV_StrCode("入る"),
-                                      GV_StrCode("ninja")); // 入る = enter (HASH_ENTER)
+            SendMessage(work->bound_where, GV_StrCode("入る") /* HASH_ENTER */, GV_StrCode("ninja"));
         }
 
         GV_SubVec3(&work->field_7E4, &GM_PlayerPosition, &svec1);
@@ -153,7 +154,7 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
         }
         if (timer == 36)
         {
-            work->kogaku = NewKogaku2(control, object, 0);
+            work->kogaku = NewKogaku2(control, body, 0);
         }
         if (timer == 64)
         {
@@ -170,35 +171,35 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
         {
             if (timer & 1)
             {
-                DG_InvisibleObjs(object->objs);
+                DG_InvisibleObjs(body->objs);
             }
             else
             {
-                DG_VisibleObjs(object->objs);
+                DG_VisibleObjs(body->objs);
             }
         }
         if (timer == 16)
         {
-            if (work->object.action != 1)
+            if (work->body.action != 1)
             {
-                GM_ConfigObjectAction(&work->object, 1, 0, 4);
+                GM_ConfigObjectAction(&work->body, 1, 0, 4);
             }
         }
         if (timer == 32)
         {
-            GM_SeSetMode(&control->mov, 0xC4, GM_SEMODE_BOMB);
+            GM_SeSetMode(&control->mov, 196, GM_SEMODE_BOMB);
             GM_SetSound(0x01ffff0b, SD_ASYNC);
         }
         if (timer == 38)
         {
-            work->kogaku = NewKogaku2(control, object, 0);
+            work->kogaku = NewKogaku2(control, body, 0);
             GM_SeSetMode(&control->mov, SE_NINJA_STEALTH, GM_SEMODE_BOMB);
         }
         if (timer == 55)
         {
-            DG_InvisibleObjs(object->objs);
+            DG_InvisibleObjs(body->objs);
         }
-        if (object->is_end)
+        if (body->is_end)
         {
             GV_DestroyOtherActor(work->kogaku);
             work->timer = 0;
@@ -209,7 +210,7 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
         s03b_boxall_800C9404();
         if (timer == 0)
         {
-            DG_InvisibleObjs(object->objs);
+            DG_InvisibleObjs(body->objs);
             s03b_boxall_800C93AC(work->field_7FC[1]);
         }
         if (s03b_boxall_800C95EC())
@@ -237,40 +238,40 @@ void Ninja_800CC0F0(NinjaWork *work, int timer)
     }
 }
 
-void NinjaAct_800CC68C(NinjaWork *work)
+static void Act(Work *work)
 {
     CONTROL *control;
-    OBJECT  *object;
+    OBJECT  *body;
     int      timer;
 
-    object = &work->object;
-    GM_ActMotion(object);
+    body = &work->body;
+    GM_ActMotion(body);
 
     control = &work->control;
     GM_ActControl(control);
 
-    GM_ActObject(object);
+    GM_ActObject(body);
     DG_GetLightMatrix(&control->mov, work->light);
 
-    work->control.height = work->object.height;
+    work->control.height = work->body.height;
 
     timer = work->timer;
     work->timer++;
-    Ninja_800CC0F0(work, timer);
+    Update(work, timer);
 }
 
-void NinjaDie_800CC704(NinjaWork *work)
+static void Die(Work *work)
 {
     GM_FreeControl(&work->control);
-    GM_FreeObject(&work->object);
+    GM_FreeObject(&work->body);
 
-    if (work->unused_shadow)
+    if (work->shadow)
     {
-        GV_DestroyOtherActor(work->unused_shadow);
+        GV_DestroyOtherActor(work->shadow);
     }
 }
 
-void Ninja_800CC74C(NinjaWork *work)
+static void InitSounds(Work *work)
 {
     int   i;
     int  *out;
@@ -295,7 +296,7 @@ void Ninja_800CC74C(NinjaWork *work)
     }
 }
 
-void Ninja_800CC7C4(NinjaWork *work)
+static void InitProc(Work *work)
 {
     int   i;
     int  *out;
@@ -320,15 +321,15 @@ void Ninja_800CC7C4(NinjaWork *work)
     }
 }
 
-int NinjaGetResources_800CC83C(NinjaWork *work, int scriptData, int scriptBinds)
+static int GetResources(Work *work, int name, int where)
 {
     CONTROL *control;
-    OBJECT  *object;
+    OBJECT  *body;
     int      model;
     int      motion;
 
     control = &work->control;
-    if (GM_InitControl(control, scriptData, scriptBinds) < 0)
+    if (GM_InitControl(control, name, where) < 0)
     {
         return -1;
     }
@@ -343,42 +344,41 @@ int NinjaGetResources_800CC83C(NinjaWork *work, int scriptData, int scriptBinds)
     GCL_GetOption('o');
     motion = GCL_StrToInt(GCL_GetParamResult());
 
-    object = &work->object;
-    GM_InitObject(object, model & 0xFFFF, 0x2D, motion & 0xFFFF);
-    GM_ConfigObjectJoint(object);
-    GM_ConfigMotionControl(object, &work->motion, motion & 0xFFFF, work->oar1, work->oar2, control,
-                           work->rots);
-    GM_ConfigObjectLight(object, work->light);
-    GM_ConfigObjectAction(object, 0, 0, 0);
+    body = &work->body;
+    GM_InitObject(body, model & 0xFFFF, 0x2D, motion & 0xFFFF);
+    GM_ConfigObjectJoint(body);
+    GM_ConfigMotionControl(body, &work->m_ctrl, motion & 0xFFFF, work->m_segs1, work->m_segs2, control, work->rots);
+    GM_ConfigObjectLight(body, work->light);
+    GM_ConfigObjectAction(body, 0, 0, 0);
 
     GCL_GetOption('b');
     work->bound_where = GCL_StrToInt(GCL_GetParamResult());
 
-    Ninja_800CC74C(work);
-    Ninja_800CC7C4(work);
+    InitSounds(work);
+    InitProc(work);
 
     GCL_GetOption('a');
     GCL_StrToSV(GCL_GetParamResult(), &work->field_7E4);
 
     work->unused3 = 0;
     work->timer = 0;
-    work->unused_shadow = NULL;
+    work->shadow = NULL;
 
     return 0;
 }
 
-void *NewNinja_800CC9B4(int scriptData, int scriptBinds)
+void *NewPrisonNinja(int name, int where)
 {
-    NinjaWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(NinjaWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work == NULL)
     {
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, NinjaAct_800CC68C, NinjaDie_800CC704, "ninja.c");
-    if (NinjaGetResources_800CC83C(work, scriptData, scriptBinds) < 0)
+    GV_SetNamedActor(&work->actor, Act, Die, "ninja.c");
+    if (GetResources(work, name, where) < 0)
     {
         GV_DestroyActor(&work->actor);
         return NULL;

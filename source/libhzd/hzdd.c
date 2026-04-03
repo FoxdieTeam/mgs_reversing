@@ -157,7 +157,6 @@ typedef struct HZD_ZON_BUF {
     int buffer[16];
 } HZD_ZON_BUF;
 
-
 STATIC void HZD_MakeRoute_helper(HZD_ZON *zone, int n_zone, int cur_zone, char *buf)
 {
     int i, j, k, t1, t4; //t0, t2, t3, t1

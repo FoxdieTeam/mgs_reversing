@@ -9,36 +9,36 @@
 #include "takabe/thing.h"
 #include "strcode.h"
 
-typedef struct PutObjWork
+typedef struct _Work
 {
     GV_ACT   actor;
-    int      field_20;
-    int      field_24;
-    int      field_28;
-    int      field_2C_count;
-    DG_OBJS *field_30_objs[0];
-} PutObjWork;
+    int      name;
+    int      map;
+    int      model_name;
+    int      n_objs;
+    DG_OBJS *objs[0];
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-void PutObjectAct_800E237C(PutObjWork *work)
+static void Act(Work *work)
 {
-    if (GM_CheckMessage(&work->actor, work->field_20, HASH_KILL))
+    if (GM_CheckMessage(&work->actor, work->name, HASH_KILL))
     {
         GV_DestroyActor(&work->actor);
     }
 }
 
-void PutObjectDie_800E23B8(PutObjWork *work)
+static void Die(Work *work)
 {
     DG_OBJS **objs;
     int       i;
 
-    objs = work->field_30_objs;
-    for (i = work->field_2C_count; i > 0; objs++, i--)
+    objs = work->objs;
+    for (i = work->n_objs; i > 0; objs++, i--)
     {
         DG_DequeueObjs(*objs);
-        if (i == work->field_2C_count)
+        if (i == work->n_objs)
         {
             DG_FreePreshade(*objs);
         }
@@ -50,7 +50,7 @@ void PutObjectDie_800E23B8(PutObjWork *work)
     }
 }
 
-int PutObjectGetResources_800E244C(PutObjWork *work, int name, int where)
+static int GetResources(Work *work, int name, int where)
 {
     SVECTOR   svec1, svec2;
     DG_DEF   *def;
@@ -63,14 +63,14 @@ int PutObjectGetResources_800E244C(PutObjWork *work, int name, int where)
     DG_OBJ   *objsIter1;
 
     GM_CurrentMap = where;
-    work->field_28 = THING_Gcl_GetInt('m');
+    work->model_name = THING_Gcl_GetInt('m');
 
-    def = GV_GetCache(GV_CacheID(work->field_28, 'k'));
-    workObjs = work->field_30_objs;
+    def = GV_GetCache(GV_CacheID(work->model_name, 'k'));
+    workObjs = work->objs;
     lit = GM_GetMap(where)->lit;
     GCL_GetOption('s');
 
-    for (i = work->field_2C_count; i > 0; i--)
+    for (i = work->n_objs; i > 0; i--)
     {
         GCL_StrToSV(GCL_GetParamResult(), &svec1);
         GCL_StrToSV(GCL_GetParamResult(), &svec2);
@@ -81,14 +81,14 @@ int PutObjectGetResources_800E244C(PutObjWork *work, int name, int where)
 
         DG_PutObjs(createdObjs);
 
-        if (i == work->field_2C_count)
+        if (i == work->n_objs)
         {
             DG_MakePreshade(createdObjs, lit->lights, lit->n_lights);
         }
         else
         {
             objsIter1 = createdObjs->objs;
-            objsIter2 = (*work->field_30_objs)->objs;
+            objsIter2 = (*work->objs)->objs;
             n_models = createdObjs->n_models;
 
             while (n_models > 0)
@@ -106,15 +106,14 @@ int PutObjectGetResources_800E244C(PutObjWork *work, int name, int where)
     return 0;
 }
 
-void *NewPutObject_800E25C0(int name, int where, int argc, char **argv)
+void *NewPutObject(int name, int where, int argc, char **argv)
 {
     SVECTOR svec;
+    Work   *work;
+    int     n_objs;
+    u_char *param, *param2;
 
-    PutObjWork    *work;
-    int            total_ojbects;
-    unsigned char *param, *param2;
-
-    total_ojbects = 0;
+    n_objs = 0;
     GCL_GetOption('s');
     while ((param = GCL_GetParamResult()))
     {
@@ -125,18 +124,18 @@ void *NewPutObject_800E25C0(int name, int where, int argc, char **argv)
             break;
         }
         GCL_StrToSV(param2, &svec);
-        total_ojbects++;
+        n_objs++;
     }
-    printf("(put_obj.c) total ojbect : %d \n", total_ojbects);
+    printf("(put_obj.c) total ojbect : %d \n", n_objs);
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(PutObjWork) + total_ojbects * sizeof(DG_OBJS *));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work) + n_objs * sizeof(DG_OBJS *));
     if (work != NULL)
     {
-        work->field_20 = name;
-        work->field_24 = where;
-        work->field_2C_count = total_ojbects;
-        GV_SetNamedActor(&work->actor, PutObjectAct_800E237C, PutObjectDie_800E23B8, "put_obj.c");
-        if (PutObjectGetResources_800E244C(work, name, where) < 0)
+        work->name = name;
+        work->map = where;
+        work->n_objs = n_objs;
+        GV_SetNamedActor(&work->actor, Act, Die, "put_obj.c");
+        if (GetResources(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

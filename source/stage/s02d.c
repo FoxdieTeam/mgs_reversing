@@ -5,7 +5,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_PADVIBRATE,   /* chara パッド振動 */
     CHARA_PADCONTROL,   /* chara パッドコントロール */
     CHARA_MOTIONSE,
-    CHARA_INTR_CAM,
+    CHARA_INTRUDE_CAMERA, /* chara イントルードカメラ */
     CHARA_GASEFFECT,    /* chara ガス効果 */
     CHARA_SHAKEMODEL,
     CHARA_CAT_IN,
@@ -16,11 +16,11 @@ CHARA _StageCharacterEntries[] = {
     CHARA_WSURFACE,
     CHARA_COMMANDER,    /* chara コマンダー */
     CHARA_WATCHER,      /* chara 巡回兵 */
-    CHARA_WT_AREA,
+    CHARA_WATER_AREA,   /* chara 水領域 */
     CHARA_BUBBLE,       /* chara 泡 */
     CHARA_RSURFACE,
     CHARA_CAMERA,       /* chara カメラ */
-    CHARA_LAMP,
+    CHARA_TEXTURE_LAMP, /* chara テクスチャ */
     CHARA_O2_DAMAGE,
     CHARA_CENSOR,       /* chara 赤外線センサー */
     CHARA_GASEFFECT,    // duplicate

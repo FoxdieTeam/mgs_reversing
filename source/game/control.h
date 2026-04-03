@@ -79,7 +79,7 @@ void GM_ConfigControlHazard(CONTROL *control, short height, short f36, short f38
 void GM_ConfigControlAttribute(CONTROL *control, int radar_atr);
 void GM_ConfigControlInterp(CONTROL *control, char interp);
 int  GM_CheckControlTouches(CONTROL *control, int param_2);
-// void GM_ConfigControlRadarparam(CONTROL *control, u_short dir, u_short len, u_short ang, u_short pad);
+void GM_ConfigControlRadarparam(CONTROL *control, u_short dir, u_short len, int ang, u_short pad);
 void GM_ConfigControlTrapCheck(CONTROL *control);
 GV_MSG *GM_CheckMessage(GV_ACT *actor, int msgType, int toFind);
 

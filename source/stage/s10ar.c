@@ -7,7 +7,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x92bc, (NEWCHARA)0x800c6550 },   // CHARA_ASIOTOKUN,    /* chara 足音君 */
     { 0xa9c5, (NEWCHARA)0x800d2f44 },   // CHARA_GUNCAMERA,
     { 0xa12e, (NEWCHARA)0x800e0c24 },   // CHARA_FADEIO,
-    { 0x1ad3, (NEWCHARA)0x800c4124 },   // CHARA_LAMP,
+    { 0x1ad3, (NEWCHARA)0x800c4124 },   // CHARA_TEXTURE_LAMP, /* chara テクスチャ */
     { 0x8e64, (NEWCHARA)0x800ceee4 },   // CHARA_ZAKO10COM,    /* chara ざこ１０コマンダー */
     { 0x31e3, (NEWCHARA)0x800ca2dc },   // CHARA_ZAKO10,       /* chara ざこ１０ */
     { 0x7a05, (NEWCHARA)0x800e1f68 },   // CHARA_CINEMA,       /* chara シネマスクリーン */
@@ -16,7 +16,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x962c, (NEWCHARA)0x800d7b54 },   // CHARA_WOLF,         /* chara ウルフ */
     { 0x1158, (NEWCHARA)0x800dcfdc },   // CHARA_BLOODY_MERYL, /* chara 血まみれメリル */
     { 0x4e95, (NEWCHARA)0x800d3eb4 },   // CHARA_BLOOD_POOL,   /* chara 血溜り */
-    { 0xd4a5, (NEWCHARA)0x800d0c24 },   // CHARA_MOUSE,
+    { 0xd4a5, (NEWCHARA)0x800d0c24 },   // CHARA_MOUSE,        /* chara ネズミ */
     { 0x40e9, (NEWCHARA)0x800d6654 },   // CHARA_10A_DEMO,
     { 0xec77, (NEWCHARA)0x800c5718 },   // CHARA_WALL,         /* chara 障害物 */
     { 0x711f, (NEWCHARA)0x800e0f4c },   // CHARA_LIFEUP,       /* chara ライフ増加 */

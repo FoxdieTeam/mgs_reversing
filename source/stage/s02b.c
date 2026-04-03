@@ -5,7 +5,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_PADVIBRATE,   /* chara パッド振動 */
     CHARA_PADCONTROL,   /* chara パッドコントロール */
     CHARA_MOTIONSE,
-    CHARA_INTR_CAM,
+    CHARA_INTRUDE_CAMERA, /* chara イントルードカメラ */
     CHARA_GASEFFECT,    /* chara ガス効果 */
     CHARA_PUT_OBJECT,
     CHARA_WALL,         /* chara 障害物 */
@@ -15,7 +15,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_FADEIO,
     CHARA_ASIOTOKUN,    /* chara 足音君 */
     CHARA_CINEMA,       /* chara シネマスクリーン */
-    CHARA_WT_AREA,
+    CHARA_WATER_AREA,   /* chara 水領域 */
     CHARA_BUBBLE,       /* chara 泡 */
     CHARA_RSURFACE,
     CHARA_ELEVPANEL,    /* chara エレベーターパネル */
@@ -23,7 +23,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_WATCHER,      /* chara 巡回兵 */
     CHARA_SHUTTER,      /* chara シャッター */
     CHARA_CAMERA,       /* chara カメラ */
-    CHARA_LAMP,
+    CHARA_TEXTURE_LAMP, /* chara テクスチャ */
     CHARA_O2_DAMAGE,
 
     CHARA_0003_FADEIO,

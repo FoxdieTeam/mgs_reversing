@@ -199,8 +199,10 @@ typedef struct UnkSnakeStruct2
     SVECTOR        field_9F4;
 } UnkSnakeStruct2;
 
+// Some kind of generic navigation struct, used for torture Johnny/Otacon
 typedef struct SnaAutoMove // @ field_A00 in SnaInitWork
 {
+    /* TODO: this isn't a vector! */
     VECTOR field_0_ivec; // dunno why int vector. this is something like the direction snake is moving
     SVECTOR field_10_vec1; // these last two are related to the target position snake wants to move to
     SVECTOR field_18_vec2;

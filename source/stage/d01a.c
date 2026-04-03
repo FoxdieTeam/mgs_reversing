@@ -5,7 +5,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_PATOLAMP,     /* chara パトランプ */
     CHARA_SPHERE,       /* chara 天球 */
     CHARA_SMOKE,        /* chara 煙 */
-    CHARA_EMITTER,
+    CHARA_EMITTER,      /* chara ジン発光 */
     CHARA_OBJECT,       /* chara 移動物 */
     CHARA_SEARCHLIGHT,  /* chara サーチライト */
     CHARA_SNOW,         /* chara 雪 */

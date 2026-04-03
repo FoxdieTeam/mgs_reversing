@@ -10,14 +10,14 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 
-typedef struct _UjiWork
+typedef struct _Work
 {
     GV_ACT   actor;
     DG_PRIM *prim;
-    SVECTOR  f24[256];
+    SVECTOR  vertices[256];
     SVECTOR  f824[64];
     SVECTOR  fA24[64];
-    char     pad[0x100];
+    char     pad1[0x100];
     int      fD24;
     SVECTOR  fD28[4];
     SVECTOR  fD48[4];
@@ -29,16 +29,13 @@ typedef struct _UjiWork
     int      fD8C;
     int      map;
     char     pad3[0x8];
-} UjiWork;
+} Work;
 
 RECT uji_rect = {100, 100, 200, 200};
 
-const char aUji[] = "uji";
-const char aUjiC[] = "uji.c";
-
 #define EXEC_LEVEL GV_ACTOR_LEVEL4
 
-int UjiGetSvecs_800C39E8(char *opt, SVECTOR *svec)
+static int GetSvectors(char *opt, SVECTOR *out)
 {
     int   count;
     char *result;
@@ -47,16 +44,16 @@ int UjiGetSvecs_800C39E8(char *opt, SVECTOR *svec)
 
     while ((result = GCL_GetParamResult()) != NULL)
     {
-        GCL_StrToSV(result, svec);
+        GCL_StrToSV(result, out);
 
-        svec++;
+        out++;
         count++;
     }
 
     return count;
 }
 
-int UjiGetInts_800C3A3C(char *opt, int *out)
+static int GetInts(char *opt, int *out)
 {
     int   count;
     int  *out2;
@@ -74,38 +71,25 @@ int UjiGetInts_800C3A3C(char *opt, int *out)
     return count;
 }
 
-void UjiShadePacks_800C3A94(POLY_FT4 *packs, int n_packs, DG_TEX *tex, SVECTOR *color)
+static void ShadePacks(POLY_FT4 *packs, int n_packs, DG_TEX *tex, SVECTOR *color)
 {
-    int x, y, w, h;
-
     while (--n_packs >= 0)
     {
         setPolyFT4(packs);
         setSemiTrans(packs, 1);
         setRGB0(packs, color->vx, color->vy, color->vz);
-
-        x = tex->off_x;
-        w = tex->w;
-        y = tex->off_y;
-        h = tex->h;
-
-        setUVWH(packs, x, y, w, h);
-
-        packs->tpage = tex->tpage;
-
-        packs->clut = tex->clut;
-        packs->tpage |= 0x60;
-
+        DG_SetPacketTexture4(packs, tex);
+        packs->tpage |= (3 << 5);
         packs++;
     }
 }
 
-void UjiDie_800C3B38(UjiWork *work)
+static void Die(Work *work)
 {
     GM_FreePrim(work->prim);
 }
 
-void UjiAct_800C3B74(UjiWork *work)
+static void Act(Work *work)
 {
     SVECTOR  sp10[4];
     SVECTOR  sp30[4];
@@ -137,7 +121,7 @@ void UjiAct_800C3B74(UjiWork *work)
     sp58.vx = 0;
     sp58.vy = 0;
 
-    vec1 = work->f24;
+    vec1 = work->vertices;
     vec2 = work->f824;
     vec3 = work->fA24;
     vec4 = work->fD28;
@@ -216,7 +200,7 @@ void UjiAct_800C3B74(UjiWork *work)
     }
 }
 
-int UjiCheckMessage_800C3EEC(UjiWork *work)
+static int CheckMessages(Work *work)
 {
     char *opt;
 
@@ -238,7 +222,7 @@ int UjiCheckMessage_800C3EEC(UjiWork *work)
     opt = GCL_GetOption('c');
     if (opt != 0)
     {
-        work->fD78 = UjiGetSvecs_800C39E8(opt, work->fD28);
+        work->fD78 = GetSvectors(opt, work->fD28);
     }
     else
     {
@@ -248,13 +232,13 @@ int UjiCheckMessage_800C3EEC(UjiWork *work)
     opt = GCL_GetOption('r');
     if (opt != 0)
     {
-        UjiGetInts_800C3A3C(opt, work->fD68);
+        GetInts(opt, work->fD68);
     }
 
     opt = GCL_GetOption('v');
     if (opt != 0)
     {
-        UjiGetSvecs_800C39E8(opt, work->fD48);
+        GetSvectors(opt, work->fD48);
     }
 
     opt = GCL_GetOption('n');
@@ -277,7 +261,7 @@ int UjiCheckMessage_800C3EEC(UjiWork *work)
     return 0;
 }
 
-int UjiGetResources_800C3FC8(UjiWork *work, int map)
+static int GetResources(Work *work, int map)
 {
     SVECTOR  sp18;
     SVECTOR  sp20;
@@ -294,7 +278,7 @@ int UjiGetResources_800C3FC8(UjiWork *work, int map)
     work->map = map;
     GM_CurrentMap = map;
 
-    UjiCheckMessage_800C3EEC(work);
+    CheckMessages(work);
 
     sp30[0].vx = -5;
     sp30[0].vy = 0;
@@ -317,7 +301,7 @@ int UjiGetResources_800C3FC8(UjiWork *work, int map)
 
     count = work->fD78 * work->fD7C;
 
-    prim = GM_MakePrim(DG_PRIM_POLY_FT4, count, work->f24, &uji_rect);
+    prim = GM_MakePrim(DG_PRIM_POLY_FT4, count, work->vertices, &uji_rect);
     work->prim = prim;
     if (!prim)
     {
@@ -327,7 +311,7 @@ int UjiGetResources_800C3FC8(UjiWork *work, int map)
     prim->raise = 500;
     prim->raise /= 5;
 
-    tex = DG_GetTexture(GV_StrCode(aUji));
+    tex = DG_GetTexture(GV_StrCode("uji"));
     if (!tex)
     {
         return -1;
@@ -337,8 +321,8 @@ int UjiGetResources_800C3FC8(UjiWork *work, int map)
     color.vy = 64;
     color.vz = 50;
 
-    UjiShadePacks_800C3A94(prim->packs[0], count, tex, &color);
-    UjiShadePacks_800C3A94(prim->packs[1], count, tex, &color);
+    ShadePacks(prim->packs[0], count, tex, &color);
+    ShadePacks(prim->packs[1], count, tex, &color);
 
     for (y = 0; y < work->fD78; y++)
     {
@@ -366,7 +350,7 @@ int UjiGetResources_800C3FC8(UjiWork *work, int map)
             DG_PutVector(sp30, sp50, 4);
 
             DG_SetPos2(&work->f824[index], &work->fD48[y]);
-            DG_PutVector(sp50, &work->f24[index * 4], 4);
+            DG_PutVector(sp50, &work->vertices[index * 4], 4);
         }
     }
 
@@ -374,16 +358,16 @@ int UjiGetResources_800C3FC8(UjiWork *work, int map)
     return 0;
 }
 
-void *NewUji_800C42F8(int name, int where, int argc, char **argv)
+void *NewUji(int name, int where, int argc, char **argv)
 {
-    UjiWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(UjiWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, UjiAct_800C3B74, UjiDie_800C3B38, aUjiC);
+        GV_SetNamedActor(&work->actor, Act, Die, "uji.c");
 
-        if (UjiGetResources_800C3FC8(work, where) < 0)
+        if (GetResources(work, where) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

@@ -11,7 +11,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_GASEFFECT,    /* chara ガス効果 */
     CHARA_CROW,         /* chara カラス */
     CHARA_CINEMA,       /* chara シネマスクリーン */
-    CHARA_LAMP,
+    CHARA_TEXTURE_LAMP, /* chara テクスチャ */
     CHARA_LIFEUP,       /* chara ライフ増加 */
     CHARA_DYNWALL,      /* chara 透明壁 */
     CHARA_DYNFLOOR,     /* chara 透明床 */

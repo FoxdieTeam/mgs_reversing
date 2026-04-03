@@ -1,3 +1,4 @@
+#include "johnny2.h"
 #include "otacom.h"
 
 #include "common.h"
@@ -41,8 +42,6 @@ int s03c_dword_800C33D8 = 0;
 void s03b_boxall_800C9404(void);
 int  s03b_boxall_800C93AC(int arg0);
 int  s03b_boxall_800C95EC(void);
-
-void *NewJohnny2_800CE368();
 
 void OtacomSendMessage_800CB3E0(int address, int message)
 {
@@ -242,8 +241,7 @@ void Otacom_800CB838(OtacomWork *work, int timer)
             }
 
             s03b_boxall_800C93AC(work->field_810[1]);
-
-            NewJohnny2_800CE368();
+            NewJohnny2();
         }
 
         GM_GameStatus |= STATE_PADRELEASE | STATE_RADIO_OFF;
@@ -536,7 +534,7 @@ int OtacomGetResources_800CBDB4(OtacomWork *work, int arg1, int arg2)
     return 0;
 }
 
-void *NewOtacom_800CC030(int arg0, int arg1)
+void *NewPrisonOtacon(int name, int where)
 {
     OtacomWork *work;
 
@@ -547,7 +545,7 @@ void *NewOtacom_800CC030(int arg0, int arg1)
     }
 
     GV_SetNamedActor(&work->actor, OtacomAct_800CBB8C, OtacomDie_800CBC50, "otacom.c");
-    if (OtacomGetResources_800CBDB4(work, arg0, arg1) < 0)
+    if (OtacomGetResources_800CBDB4(work, name, where) < 0)
     {
         GV_DestroyActor(&work->actor);
         return NULL;

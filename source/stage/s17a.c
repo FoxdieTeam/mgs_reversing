@@ -10,7 +10,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x4be8, (NEWCHARA)0x800cf424 },   // CHARA_DRUMCAN2,     /* chara ドラム缶２ */
     { 0x7a05, (NEWCHARA)0x800d00d4 },   // CHARA_CINEMA,       /* chara シネマスクリーン */
     { 0xa12e, (NEWCHARA)0x800cf8f8 },   // CHARA_FADEIO,
-    { 0x1ad3, (NEWCHARA)0x800c601c },   // CHARA_LAMP,
+    { 0x1ad3, (NEWCHARA)0x800c601c },   // CHARA_TEXTURE_LAMP, /* chara テクスチャ */
     { 0x32fc, (NEWCHARA)0x800ce534 },   // CHARA_BREAK_OBJECT,
     { 0x91aa, (NEWCHARA)0x800d214c },   // CHARA_PUTHZD,
 

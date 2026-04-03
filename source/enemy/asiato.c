@@ -236,7 +236,6 @@ int NearAsiato_800D13A0()
     return NearAsiato;
 }
 
-
 int SearchNearAsiato_800D13B0(HZD_HDL* hzd, SVECTOR* mov, int facedir, int vision_unk, int length )
 {
     int i;

@@ -199,8 +199,6 @@ int s07a_meryl7_800D5564( SVECTOR* svec )
     return 1;
 }
 
-
-
 extern int *s07a_dword_800E3650;
 extern int *s07a_dword_800E3654;
 
@@ -580,8 +578,6 @@ extern int s07a_dword_800C35F8[8];
 extern int s07a_dword_800E3658;
 extern const char s07a_aAsiatoooo_800E2EE0[];
 
-extern void GM_ConfigControlRadarparam(CONTROL *, u_short, u_short, u_short, u_short);
-
 void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
 {
     SVECTOR svec;
@@ -638,7 +634,6 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
     {
         work->field_B81 = 0;
     }
-
 
     work->field_C34 = 0;
     work->field_C35[0] = 0;
@@ -753,7 +748,7 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
         work->field_BA3 |= 0x10;
     }
 
-    GM_ConfigControlRadarparam( &work->control , 0, 0x200, COM_EYE_LENGTH_800E0D8C, 0 );
+    GM_ConfigControlRadarparam( &work->control, 0, 0x200, COM_EYE_LENGTH_800E0D8C, 0 );
     work->start_pos = work->nodes[ 0 ] ;
     work->start_map = GM_CurrentMap;
     addr = HZD_GetAddress( work->control.map->hzd, &( work->control.mov ), -1 );

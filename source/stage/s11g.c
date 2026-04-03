@@ -7,7 +7,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_WALLSPARK,    /* chara 壁スパーク */
     CHARA_SNEBREATH,    /* chara スネーク息 */
     CHARA_ASIOTOKUN,    /* chara 足音君 */
-    CHARA_LAMP,
+    CHARA_TEXTURE_LAMP, /* chara テクスチャ */
     CHARA_SNOW,         /* chara 雪 */
     CHARA_CINEMA,       /* chara シネマスクリーン */
     CHARA_FADEIO,

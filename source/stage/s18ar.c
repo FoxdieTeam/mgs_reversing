@@ -12,7 +12,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x760e, (NEWCHARA)0x800df70c },   // CHARA_SNAKE18,      /* chara スネーク１８ */
     { 0xec77, (NEWCHARA)0x800c49a4 },   // CHARA_WALL,         /* chara 障害物 */
     { 0x175b, (NEWCHARA)0x800dffe8 },   // CHARA_SMKTRGT,
-    { 0x41a3, (NEWCHARA)0x800c4488 },   // CHARA_WAKE,
+    { 0x41a3, (NEWCHARA)0x800c4488 },   // CHARA_WAKE,         /* chara 覚醒スネーク */
 
     { 0x0003, (NEWCHARA)0x800e1570 },   // CHARA_0003_FADEIO,
     { 0x0004, (NEWCHARA)0x800e1570 },   // CHARA_0004_FADEIO,

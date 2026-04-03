@@ -181,15 +181,13 @@ int s11e_zk11ecom_800D8B04( ZakoWork *work )
 extern void ZAKO11E_PutMark_800D7C10( ZakoWork *work, int mark );
 extern void NewEyeflash_800D0CF4( MATRIX *, SVECTOR *, const char *, int );
 
-extern const char s11e_aKirari_800DEC14[];
-
 int s11e_zk11ecom_800D8DC4( ZakoWork* work )
 {
     if ( work->count3 == 0 )
     {
         ZAKO11E_PutMark_800D7C10( work, 0 );
         GM_SeSet( &work->control.mov, SE_EXCLAMATION );
-        NewEyeflash_800D0CF4( &work->body.objs->objs[6].world, &work->control.mov, s11e_aKirari_800DEC14, 0 );
+        NewEyeflash_800D0CF4( &work->body.objs->objs[6].world, &work->control.mov, "kirari01", 0 );
     }
 
     if ( work->count3 < 20 )

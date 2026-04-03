@@ -119,7 +119,7 @@ void *NewHind(int name, int where)
             work->field_430 = work->field_434 = GCL_StrToInt(param);
         }
 
-        work->field_650 = 1024 / work->field_430 + 1;
+        work->damage = 1024 / work->field_430 + 1;
 
         param = GCL_GetParamResult();
         if (param)
@@ -463,8 +463,8 @@ void *NewHind(int name, int where)
         work->target3->damaged |= TARGET_POWER;
     }
 
-    work->field_654 = 1024;
-    work->field_7F4 = 1024;
+    work->life = 1024;
+    work->life_total = 1024;
 
     work->field_4B4 = work->field_41C * 4096 / 1800;
     work->field_4B8 = work->field_420 * 4096 / 1800;
@@ -611,13 +611,13 @@ void *NewHind(int name, int where)
     work->field_5D4 = 0;
     work->field_5D8 = 0;
     work->field_5DC = 0;
-    work->field_7F8 = 0;
+    work->fight_start_flag = 0;
     work->field_658 = 0;
     work->field_644 = DG_ZeroVector;
     work->field_8FC = 5400;
     work->field_50C = 0;
-    work->field_674 = 0;
-    work->field_678 = 0;
+    work->nMissileDemoMode = 0;
+    work->nMissileDemoMode2 = 0;
     work->field_8E0 = 0;
     work->field_8CC = 0;
     work->field_8D0 = 0;
@@ -646,9 +646,9 @@ void *NewHind(int name, int where)
     work->field_95C = 0;
     work->field_960 = 0;
 
-    GM_InitObject(&work->missile3, GV_StrCode("hindmsil"), 0x25D, 0);
-    GM_ConfigObjectJoint(&work->missile3);
-    GM_ConfigObjectLight(&work->missile3, work->missile3_light);
+    GM_InitObject(&work->move_missile_body, GV_StrCode("hindmsil"), 0x25D, 0);
+    GM_ConfigObjectJoint(&work->move_missile_body);
+    GM_ConfigObjectLight(&work->move_missile_body, work->move_missile_light);
     GM_SetTarget(&work->field_57C, 4, 2, &s11g_dword_800C3598);
 
     switch (GM_DifficultyFlag)

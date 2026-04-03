@@ -51,12 +51,10 @@ static void Act( Work *work )
     }
 }
 
-
 static void Die( Work *work )
 {
     return;
 }
-
 
 static int GetResources( Work *work, int name, int where )
 {

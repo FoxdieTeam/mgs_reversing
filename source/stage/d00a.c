@@ -9,9 +9,9 @@ CHARA _StageCharacterEntries[] = {
     CHARA_WT_VIEW,      /* chara 水中主観 */
     CHARA_WATCHER,      /* chara 巡回兵 */
     CHARA_SMOKE,        /* chara 煙 */
-    CHARA_EMITTER,
+    CHARA_EMITTER,      /* chara ジン発光 */
     CHARA_ELEVATOR,     /* chara エレベータ */
-    CHARA_MOUSE,
+    CHARA_MOUSE,        /* chara ネズミ */
     CHARA_RSURFACE,
     CHARA_WALL,         /* chara 障害物 */
     CHARA_CINEMA,       /* chara シネマスクリーン */

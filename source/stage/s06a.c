@@ -6,7 +6,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_TRUCKTRAP,
     CHARA_CINEMA,       /* chara シネマスクリーン */
     CHARA_FADEIO,
-    CHARA_EMITTER,
+    CHARA_EMITTER,      /* chara ジン発光 */
     CHARA_DEMODOLL,     /* chara デモ人形 */
     CHARA_CAMERA,       /* chara カメラ */
     CHARA_COMMANDER,    /* chara コマンダー */
@@ -20,7 +20,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_LIFEUP,       /* chara ライフ増加 */
     CHARA_CAT_IN,
     CHARA_WALL,         /* chara 障害物 */
-    CHARA_LAMP,
+    CHARA_TEXTURE_LAMP, /* chara テクスチャ */
     CHARA_CAMERASHAKE,  /* chara カメラ揺らし */
     CHARA_BLINKTEX,     /* chara 点滅テクスチャ */
     CHARA_DYNWALL,      /* chara 透明壁 */

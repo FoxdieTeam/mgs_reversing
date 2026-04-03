@@ -19,7 +19,7 @@ extern SVECTOR ZAKO_ATTACK_FORCE_800C38E4;
 extern SVECTOR ZAKO_TOUCH_SIZE_800C38EC;
 extern SVECTOR ZAKO_TOUCH_FORCE_800C38F4;
 
-extern int ZAKO11E_EYE_LENGTH_800C3904;
+extern int     ZAKO11E_EYE_LENGTH_800C3904;
 extern SVECTOR ZAKO11E_NO_POINT_800C38FC;
 
 int s11e_zk11ecom_800D435C( ZakoWork *work )
@@ -216,9 +216,10 @@ void ReviseReadyGun_800D4828( ZakoWork* work )
     }
 }
 
-extern SVECTOR rp_shift_800DEB98;
-extern SVECTOR force_800DEBA0;
-extern SVECTOR size_800DEBA8;
+const SVECTOR rp_shift_800DEB98 = {-200, 1000, 600};
+const SVECTOR force_800DEBA0 = {5, 0, 100};
+const SVECTOR size_800DEBA8 = {400, 1000, 400};
+const char s11e_dword_800DEBB0[] = {0x0, 0x0, 0x0, 0x0};
 
 /*
     打撃攻撃

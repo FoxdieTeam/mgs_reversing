@@ -83,7 +83,6 @@ const char aSearchliAngle4D[] = "ANGLE:%4d \n";
 
 const SVECTOR SearchliCenter_800E46D8 = {0, 0, 3000, 0};
 
-
 void s00a_command_800CEC40(SVECTOR *, int);
 void s01a_object_800D9424(CONTROL *, int);
 void s01a_800E2364(MATRIX *, SVECTOR *, VECTOR *);

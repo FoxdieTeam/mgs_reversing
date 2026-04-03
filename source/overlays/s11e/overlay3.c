@@ -1,12 +1,5 @@
 #include "common.h"
 
-const char rp_shift_800DEB98[] = {'8', 0xff, 0xe8, 0x3};
-const char s11e_dword_800DEB9C[] = {'X', 0x2, 0x0, 0x0};
-
-const char force_800DEBA0[] = {0x5, 0x0, 0x0, 0x0};
-const char s11e_aD_800DEBA4[] = "d";
-
-const char size_800DEBA8[] = {0x90, 0x1, 0xe8, 0x3};
-const char s11e_dword_800DEBAC[] = {0x90, 0x1, 0x0, 0x0};
-
-const char s11e_dword_800DEBB0[] = {0x0, 0x0, 0x0, 0x0};
+const char s11e_aFamasbullet_800DEBE4[] = "FA-MAS/BULLET * 25";
+const char s11e_aSocombullet_800DEBF8[] = "SOCOM/BULLET * 12";
+const char s11e_dword_800DEC0C[] = {'R', 'A', 'T', 'I', 'O', 'N', 0x0, 0x8e};

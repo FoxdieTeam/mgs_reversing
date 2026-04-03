@@ -355,7 +355,7 @@ static int GetResources(Work *work, int map, int name, int a3, int a4)
 
 /*---------------------------------------------------------------------------*/
 
-void *NewLamp(int name, int where, int argc, char **argv)
+void *NewTextureLamp(int name, int where, int argc, char **argv)
 {
     Work          *work;
     unsigned char *nextStrPtr;

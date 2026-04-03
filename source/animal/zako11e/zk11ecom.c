@@ -151,34 +151,21 @@ int s11e_zk11ecom_800D9D7C( int val )
     return ZakoCommand_800DF280.field_0x0C % val;
 }
 
-extern const char s11e_aDareda_800DEC78[];// = "dareda!!\n";
-extern const char s11e_aNannootoda_800DEC84[];// = "nanno otoda!!\n";
-extern const char s11e_aTadanohakoka_800DEC94[]; //= "tadano hakoka\n";
-extern const char s11e_aKonoasiatoha_800DECA4[];// = "kono asiatoha??\n";
-extern const char s11e_aKinoseika_800DECB8[];// = "kinoseika !!\n";
-extern const char s11e_aItazo_800DECC8[]; //= "itazo \n";
-extern const char s11e_aKottida_800DECD0[];// = "kottida!!\n";
-extern const char s11e_aHaitinimodoruzo_800DECDC[];// = "haitini modoruzo!!\n";
-extern const char s11e_aKottida_800DECF0[];// = "kottida !!\n";
-
-
 void s11e_zk11ecom_800D9DBC( int* val )
 {
     switch ( s11e_zk11ecom_800D9D7C( 2 ) )
     {
 
     case 0:
-        fprintf( 1, s11e_aDareda_800DEC78 );
+        fprintf( 1, "dareda!!\n" );
         *val = 0x80;
         break;
     case 1:
-        fprintf( 1, s11e_aDareda_800DEC78 );
+        fprintf( 1, "dareda!!\n" );
         *val = 0x80;
         break;
     }
 }
-
-
 
 void s11e_zk11ecom_800D9E10( int* val )
 {
@@ -186,16 +173,15 @@ void s11e_zk11ecom_800D9E10( int* val )
     {
 
     case 0:
-        fprintf( 1, s11e_aNannootoda_800DEC84 );
+        fprintf( 1, "nanno otoda!!\n" );
         *val = 0x87;
         break;
     case 1:
-        fprintf( 1, s11e_aNannootoda_800DEC84 );
+        fprintf( 1, "nanno otoda!!\n" );
         *val = 0x87;
         break;
     }
 }
-
 
 void s11e_zk11ecom_800D9E64( int* val )
 {
@@ -203,11 +189,11 @@ void s11e_zk11ecom_800D9E64( int* val )
     {
 
     case 0:
-        fprintf( 1, s11e_aTadanohakoka_800DEC94 );
+        fprintf( 1, "tadano hakoka\n" );
         *val = 0x8B;
         break;
     case 1:
-        fprintf( 1, s11e_aTadanohakoka_800DEC94 );
+        fprintf( 1, "tadano hakoka\n" );
         *val = 0x8B;
         break;
     }
@@ -219,11 +205,11 @@ void s11e_zk11ecom_800D9EB8( int* val )
     {
 
     case 0:
-        fprintf( 1, s11e_aKonoasiatoha_800DECA4 );
+        fprintf( 1, "kono asiatoha??\n" );
         *val = 0x8A;
         break;
     case 1:
-        fprintf( 1, s11e_aKonoasiatoha_800DECA4 );
+        fprintf( 1, "kono asiatoha??\n" );
         *val = 0x8A;
         break;
     }
@@ -235,11 +221,11 @@ void s11e_zk11ecom_800D9F0C( int* val )
     {
 
     case 0:
-        fprintf( 1, s11e_aKinoseika_800DECB8 );
+        fprintf( 1, "kinoseika !!\n" );
         *val = 0x86;
         break;
     case 1:
-        fprintf( 1, s11e_aKinoseika_800DECB8 );
+        fprintf( 1, "kinoseika !!\n" );
         *val = 0x86;
         break;
     }
@@ -250,15 +236,15 @@ void s11e_zk11ecom_800D9F60( int* val )
     switch ( s11e_zk11ecom_800D9D7C( 3 ) )
     {
     case 0:
-        fprintf( 1, s11e_aItazo_800DECC8 );
+        fprintf( 1, "itazo \n" );
         *val = 0x82;
         return;
     case 1:
-        fprintf( 1, s11e_aKottida_800DECD0 );
+        fprintf( 1, "kottida!!\n" );
         *val = 0x81;
         break;
     case 2:
-        fprintf( 1, s11e_aKottida_800DECD0 );
+        fprintf( 1, "kottida!!\n" );
         *val = 0x81;
         break;
     }
@@ -270,11 +256,11 @@ void s11e_zk11ecom_800D9FF0( int* val )
     {
 
     case 0:
-        fprintf( 1, s11e_aHaitinimodoruzo_800DECDC );
+        fprintf( 1, "haitini modoruzo!!\n" );
         *val = 0x85;
         break;
     case 1:
-        fprintf( 1, s11e_aHaitinimodoruzo_800DECDC );
+        fprintf( 1, "haitini modoruzo!!\n" );
         *val = 0x85;
         break;
     }
@@ -285,7 +271,7 @@ void s11e_zk11ecom_800DA044( int* val )
     switch ( s11e_zk11ecom_800D9D7C( 2 ) )
     {
     case 0:
-        fprintf( 1, s11e_aKottida_800DECF0 );
+        fprintf( 1, "kottida !!\n" );
         *val = 0x81;
         return;
     case 1:
@@ -859,10 +845,6 @@ void ZakoCommanderDie_800DAC5C( void )
     }
 }
 
-
-extern const char s11e_aZoned_800DED64[]; // = "zone=%d ";
-extern const char s11e_aEnemyvoicexx_800DED70[]; // = "ENEMY VOICE [0x%x]\n";
-
 void ZakoCommanderGetResources_800DACA0( ZakoCommanderWork *work, int name, int where )
 {
     int i;
@@ -909,7 +891,7 @@ void ZakoCommanderGetResources_800DACA0( ZakoCommanderWork *work, int name, int 
 
     for ( i = 0 ; i < ZakoCommand_800DF280.field_0x34 ; i++ )
     {
-        fprintf( 1, s11e_aZoned_800DED64, ZakoCommand_800DF280.field_0x38[i] );
+        fprintf( 1, "zone=%d ", ZakoCommand_800DF280.field_0x38[i] );
     }
 
     ZakoCommand_800DF280.field_0x36 = 0;
@@ -935,7 +917,7 @@ void ZakoCommanderGetResources_800DACA0( ZakoCommanderWork *work, int name, int 
     {
         int res = GCL_StrToInt( (unsigned char*)ops );
         ZakoCommand_800DF280.field_0x114 = res;
-        printf( (char *)s11e_aEnemyvoicexx_800DED70, res );
+        printf( "ENEMY VOICE [0x%x]\n", res );
     }
 
     ops = GCL_GetOption( 'e' );
@@ -983,7 +965,6 @@ void ZakoCommanderGetResources_800DACA0( ZakoCommanderWork *work, int name, int 
 
 extern void ZakoCommanderAct_800DABF4();
 extern void ZakoCommanderDie_800DAC5C();
-extern const char s11e_aZkecomc_800DED84[];
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL4
 
@@ -993,7 +974,7 @@ void *NewZakoCommander_800DAF38( int name, int where, int argc, char **argv )
 
     work = GV_NewActor( EXEC_LEVEL, sizeof( ZakoCommanderWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor( &( work->actor ), ZakoCommanderAct_800DABF4, ZakoCommanderDie_800DAC5C, s11e_aZkecomc_800DED84 );
+        GV_SetNamedActor( &( work->actor ), ZakoCommanderAct_800DABF4, ZakoCommanderDie_800DAC5C, "zk11ecom.c" );
         ZakoCommanderGetResources_800DACA0( work, name, where );
     }
     return (void *)work;

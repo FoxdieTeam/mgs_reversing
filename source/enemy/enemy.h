@@ -595,8 +595,6 @@ void ENE_PutFog_800C9068( WatcherWork *work ) ;
 int  ENE_ClearPutChar_800C97E4( WatcherWork *work, void *func ) ;
 void ENE_ExecPutChar_800C9818( WatcherWork *work ) ;
 
-
-
 //route.c
 void s00a_command_800CB0E0( WatcherWork* work );
 void s00a_command_800CAFD4( WatcherWork* work );
@@ -761,7 +759,6 @@ void s00a_command_800C6320( WatcherWork *work, int time );
 void s00a_command_800C65A8( WatcherWork *work, int time );
 void s00a_command_800C5E48( WatcherWork *work, int time );
 
-
 void s00a_command_800C6724( WatcherWork *work, int time );
 void s00a_command_800C67E4( WatcherWork *work, int time );
 void s00a_command_800C6A40( WatcherWork *work, int time );
@@ -773,10 +770,8 @@ void s00a_command_800C76C4( WatcherWork *work, int time );
 void s00a_command_800C7E28( WatcherWork *work, int time );
 void s00a_command_800C818C( WatcherWork *work, int time );
 
-
 void ActGrenade_800C67EC( WatcherWork *work, int time );
 void ActOverScoutD_800C85DC( WatcherWork *work, int time );
-
 
 //think.c ?
 #define T_NOISE 0

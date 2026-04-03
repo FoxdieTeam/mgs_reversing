@@ -1,4 +1,5 @@
 #include "johnny2.h"
+#include "jfamas.h"
 
 #include "common.h"
 #include "libgv/libgv.h"
@@ -6,41 +7,37 @@
 #include "game/game.h"
 #include "chara/snake/shadow.h"
 
-typedef struct Johnny2Work
+typedef struct _Work
 {
     GV_ACT         actor;
     CONTROL        control;
-    OBJECT         object;
-    MOTION_CONTROL motion;
-    MOTION_SEGMENT oar1[17];
-    MOTION_SEGMENT oar2[17];
+    OBJECT         body;
+    MOTION_CONTROL m_ctrl;
+    MOTION_SEGMENT m_segs1[17];
+    MOTION_SEGMENT m_segs2[17];
     SVECTOR        rots[32];
     MATRIX         light[2];
-    GV_ACT        *jfamas;
-    int            field_7DC;
+    GV_ACT        *weapon;
+    int            trigger;
     GV_ACT        *gunlight;
-    int           *gunlight_pvisible;
+    int           *enable_gunlight;
     GV_ACT        *shadow;
-
-    // unused
-    short field_7EC;
-    short field_7EE;
-    char  pad_7F0[0x8];
-
-    SVECTOR svec_7F8;
-} Johnny2Work;
+    short          field_7EC;
+    short          field_7EE;
+    char           pad1[0x8];
+    SVECTOR        svec_7F8;
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 extern int s03c_dword_800C33D8;
 
-void *NewJFamas_800CAFAC(CONTROL *control, OBJECT *parent, int num_parent, int *arg4);
 void *NewGunLight_800D3AD4(MATRIX *world, int **pvisible);
 
-void Johnny2Act_800CDF84(Johnny2Work *work)
+static void Act(Work *work)
 {
     CONTROL *control;
-    OBJECT  *object;
+    OBJECT  *body;
     int      rand;
 
     if (s03c_dword_800C33D8 == 1)
@@ -49,17 +46,17 @@ void Johnny2Act_800CDF84(Johnny2Work *work)
         return;
     }
 
-    object = &work->object;
-    GM_ActMotion(object);
+    body = &work->body;
+    GM_ActMotion(body);
 
     control = &work->control;
     GM_ActControl(control);
-    GM_ActObject(object);
+    GM_ActObject(body);
     DG_GetLightMatrix2(&control->mov, work->light);
 
-    work->control.height = work->object.height;
+    work->control.height = work->body.height;
 
-    if (work->object.is_end != 0)
+    if (work->body.is_end != 0)
     {
         work->control.mov.vx = 6000;
         work->control.mov.vz = 750;
@@ -67,28 +64,28 @@ void Johnny2Act_800CDF84(Johnny2Work *work)
         rand = GV_RandU(64);
         if (rand < 16)
         {
-            if (work->object.action != 11)
+            if (work->body.action != 11)
             {
-                GM_ConfigObjectAction(object, 11, 0, 4);
+                GM_ConfigObjectAction(body, 11, 0, 4);
             }
         }
         else if (rand < 32)
         {
-            if (work->object.action != 15)
+            if (work->body.action != 15)
             {
-                GM_ConfigObjectAction(object, 15, 0, 4);
+                GM_ConfigObjectAction(body, 15, 0, 4);
             }
         }
         else if (rand < 48)
         {
-            if (work->object.action != 10)
+            if (work->body.action != 10)
             {
-                GM_ConfigObjectAction(object, 10, 0, 4);
+                GM_ConfigObjectAction(body, 10, 0, 4);
             }
         }
-        else if (work->object.action != 9)
+        else if (work->body.action != 9)
         {
-            GM_ConfigObjectAction(object, 9, 0, 4);
+            GM_ConfigObjectAction(body, 9, 0, 4);
         }
     }
     if (work->svec_7F8.vy < 0 && work->control.level_flag != 0)
@@ -102,16 +99,16 @@ void Johnny2Act_800CDF84(Johnny2Work *work)
     work->control.radar_cone.dir = work->control.rot.vy;
 }
 
-void Johnny2Die_800CE0DC(Johnny2Work *work)
+static void Die(Work *work)
 {
     if (work->shadow != NULL)
     {
         GV_DestroyOtherActor(work->shadow);
     }
 
-    if (work->jfamas != NULL)
+    if (work->weapon != NULL)
     {
-        GV_DestroyOtherActor(work->jfamas);
+        GV_DestroyOtherActor(work->weapon);
     }
 
     if (work->gunlight != NULL)
@@ -120,13 +117,13 @@ void Johnny2Die_800CE0DC(Johnny2Work *work)
     }
 
     GM_FreeControl(&work->control);
-    GM_FreeObject(&work->object);
+    GM_FreeObject(&work->body);
 }
 
-void Johnny2_800CE154(Johnny2Work *work)
+static void InitExtra(Work *work)
 {
-    work->jfamas = NewJFamas_800CAFAC(&work->control, &work->object, 4, &work->field_7DC);
-    work->gunlight = NewGunLight_800D3AD4(&work->object.objs->objs[4].world, &work->gunlight_pvisible);
+    work->weapon = NewJohnnyFamas(&work->control, &work->body, 4, &work->trigger);
+    work->gunlight = NewGunLight_800D3AD4(&work->body.objs->objs[4].world, &work->enable_gunlight);
 
     work->field_7EE = 0;
     work->field_7EC = 0;
@@ -134,7 +131,7 @@ void Johnny2_800CE154(Johnny2Work *work)
     work->svec_7F8 = DG_ZeroVector;
 }
 
-int Johnny2GetResources_800CE1D0(Johnny2Work *work)
+static int GetResources(Work *work)
 {
     SVECTOR     indices;
     CONTROL    *control;
@@ -155,7 +152,7 @@ int Johnny2GetResources_800CE1D0(Johnny2Work *work)
     control->mov.vy = 750;
 
     cone = &work->control.radar_cone;
-    obj = &work->object;
+    obj = &work->body;
 
     control->rot.vy = 1024;
     control->turn.vy = 1024;
@@ -165,12 +162,12 @@ int Johnny2GetResources_800CE1D0(Johnny2Work *work)
 
     GM_InitObject(obj, GV_StrCode("johnny"), 0x32D, GV_StrCode("joh_03c"));
     GM_ConfigObjectJoint(obj);
-    GM_ConfigMotionControl(obj, &work->motion, GV_StrCode("joh_03c"), work->oar1, work->oar2, control,
+    GM_ConfigMotionControl(obj, &work->m_ctrl, GV_StrCode("joh_03c"), work->m_segs1, work->m_segs2, control,
                            work->rots);
     GM_ConfigObjectLight(obj, work->light);
     GM_ConfigObjectAction(obj, 10, 0, 0);
 
-    Johnny2_800CE154(work);
+    InitExtra(work);
 
     indices.vx = 0;
     indices.vy = 6;
@@ -186,19 +183,19 @@ int Johnny2GetResources_800CE1D0(Johnny2Work *work)
     return 0;
 }
 
-void *NewJohnny2_800CE368()
+void *NewJohnny2(void)
 {
-    Johnny2Work *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Johnny2Work));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work == NULL)
     {
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, Johnny2Act_800CDF84, Johnny2Die_800CE0DC, "johnny2.c");
+    GV_SetNamedActor(&work->actor, Act, Die, "johnny2.c");
 
-    if (Johnny2GetResources_800CE1D0(work) < 0)
+    if (GetResources(work) < 0)
     {
         GV_DestroyActor(&work->actor);
         return NULL;

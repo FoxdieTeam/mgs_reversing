@@ -72,7 +72,6 @@ static void jimctrl_act_helper_clear_first_80037FE0(int index, int value)
     pIter[--index].field_0 = value;
 }
 
-
 static void jimctrl_helper_null_80037FFC(int a, int b)
 {
     /* do nothing */
@@ -396,7 +395,6 @@ void *NewJimakuControl(u_long flags)
         work->field_34 = 0;
         work->field_20 = 0;
         dword_800B9358 = 0;
-
 
         return (void *)&jimctrl_work;
     }

@@ -1507,7 +1507,6 @@ STATIC void updateCurrentEntry_8004B9C4(SELECT_INFO *info, int dir)
     sub_8004AEA8(info);
 }
 
-
 STATIC int menu_radio_do_file_mode_helper12_8004BA80(MenuWork *work, MEM_CARD *pMemcard, const char *param_3,
                                               SELECT_INFO *info)
 {

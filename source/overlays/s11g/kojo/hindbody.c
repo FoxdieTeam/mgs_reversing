@@ -643,7 +643,7 @@ void s11g_hind_800D5820(HindWork *work)
                     break;
                 case 1:
                     work->field_8CC = 2;
-                    GM_SeSet2(0, 127, 0xB3);
+                    GM_SeSet2(0, 127, 179);
                     s11g_hind_800D46B8(&pos, 181);
                     break;
                 case 2:
@@ -792,15 +792,15 @@ void s11g_hind_800D5FB4(HindWork *work, int a1)
         scale.vz = work->field_670 * 4;
     }
 
-    rotation.vx += work->field_788.vx;
-    rotation.vy += work->field_788.vy;
-    rotation.vz += work->field_788.vz;
+    rotation.vx += work->move_missile_rot.vx;
+    rotation.vy += work->move_missile_rot.vy;
+    rotation.vz += work->move_missile_rot.vz;
 
     RotMatrixYXZ(&rotation, &matrix);
 
-    matrix.t[0] = work->field_7D8.vx;
-    matrix.t[1] = work->field_7D8.vy;
-    matrix.t[2] = work->field_7D8.vz;
+    matrix.t[0] = work->move_missile_pos.vx;
+    matrix.t[1] = work->move_missile_pos.vy;
+    matrix.t[2] = work->move_missile_pos.vz;
 
     ScaleMatrix(&matrix, &scale);
     NewSpark(&matrix, 0);
@@ -813,15 +813,15 @@ void s11g_hind_800D60F0(HindWork *work)
     int len;
     int height;
 
-    dx = (work->field_790.vx - work->field_760.vx) >> 1;
-    dz = (work->field_790.vz - work->field_760.vz) >> 1;
-    work->field_788.vy = ratan2(dx, dz) & 0xFFF;
+    dx = (work->move_missile_target_pos.vx - work->move_missile_pos_v.vx) >> 1;
+    dz = (work->move_missile_target_pos.vz - work->move_missile_pos_v.vz) >> 1;
+    work->move_missile_rot.vy = ratan2(dx, dz) & 0xFFF;
 
     len = SquareRoot0(dz * dz + dx * dx);
-    height = (work->field_790.vy - work->field_760.vy) >> 1;
+    height = (work->move_missile_target_pos.vy - work->move_missile_pos_v.vy) >> 1;
 
-    work->field_788.vx = (ratan2(len, height) - 1024) & 0xFFF;
-    work->field_788.vz = 0;
+    work->move_missile_rot.vx = (ratan2(len, height) - 1024) & 0xFFF;
+    work->move_missile_rot.vz = 0;
 }
 
 void s11g_hind_800D619C(HindWork *work, int index)

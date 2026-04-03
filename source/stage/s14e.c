@@ -7,7 +7,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x5a50, (NEWCHARA)0x800d7db0 },   // CHARA_GASEFFECT,    /* chara ガス効果 */
     { 0x92bc, (NEWCHARA)0x800c58e4 },   // CHARA_ASIOTOKUN,    /* chara 足音君 */
     { 0xd6fb, (NEWCHARA)0x800d8604 },   // CHARA_FOG,
-    { 0x1ad3, (NEWCHARA)0x800c41b0 },   // CHARA_LAMP,
+    { 0x1ad3, (NEWCHARA)0x800c41b0 },   // CHARA_TEXTURE_LAMP, /* chara テクスチャ */
     { 0x2abc, (NEWCHARA)0x800d7274 },   // CHARA_ELEVATOR,     /* chara エレベータ */
     { 0x6865, (NEWCHARA)0x800d5a58 },   // CHARA_TEXSCROLL,    /* chara テクスチャスクロール */
     { 0xa12e, (NEWCHARA)0x800daf5c },   // CHARA_FADEIO,

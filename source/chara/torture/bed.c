@@ -7,19 +7,19 @@
 #include "game/game.h"
 #include "strcode.h"
 
-typedef struct _BedWork
+typedef struct _Work
 {
     GV_ACT         actor;
     CONTROL        control;
-    OBJECT_NO_ROTS object;
+    OBJECT_NO_ROTS body;
     MATRIX         light[2];
     SVECTOR        pos;
-} BedWork;
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 #define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
 
-static inline int BedCheckMessage(BedWork *work)
+static inline int CheckMessages(Work *work)
 {
     int     found;
     GV_MSG *msg;
@@ -46,7 +46,7 @@ static inline int BedCheckMessage(BedWork *work)
     return found;
 }
 
-void BedAct_800C6EA8(BedWork *work)
+static void Act(Work *work)
 {
     int found;
 
@@ -56,11 +56,11 @@ void BedAct_800C6EA8(BedWork *work)
     }
     else
     {
-        found = BedCheckMessage(work);
+        found = CheckMessages(work);
     }
 
     GM_ActControl(&work->control);
-    GM_ActObject2((OBJECT *)&work->object);
+    GM_ActObject2((OBJECT *)&work->body);
     DG_GetLightMatrix(&work->control.mov, work->light);
 
     if (found != 0)
@@ -74,18 +74,17 @@ void BedAct_800C6EA8(BedWork *work)
     }
 }
 
-void BedDie_800C6FA8(BedWork *work)
+static void Die(Work *work)
 {
     GM_FreeControl(&work->control);
-    GM_FreeObject((OBJECT *)&work->object);
+    GM_FreeObject((OBJECT *)&work->body);
 }
 
-int BedGetResources_800C6FD8(BedWork *work, int name, int map)
+int BedGetResources_800C6FD8(Work *work, int name, int map)
 {
     CONTROL        *control;
-    char           *pos, *dir;
-    OBJECT_NO_ROTS *object;
-    unsigned short  model;
+    OBJECT_NO_ROTS *body;
+    u_short         model;
 
     control = &work->control;
     if (GM_InitControl(control, name, map) < 0)
@@ -93,12 +92,10 @@ int BedGetResources_800C6FD8(BedWork *work, int name, int map)
         return -1;
     }
 
-    pos = GCL_GetOption('p');
-    dir = GCL_GetOption('d');
-    GM_ConfigControlString(control, pos, dir);
+    GM_ConfigControlString(control, GCL_GetOption('p'), GCL_GetOption('d'));
     GM_ConfigControlHazard(control, 0, -2, -2);
 
-    object = &work->object;
+    body = &work->body;
 
     if (GCL_GetOption('m'))
     {
@@ -109,8 +106,8 @@ int BedGetResources_800C6FD8(BedWork *work, int name, int map)
         model = GV_StrCode("03b_o1");
     }
 
-    GM_InitObjectNoRots(object, model, BODY_FLAG, 0);
-    GM_ConfigObjectLight((OBJECT *)object, work->light);
+    GM_InitObjectNoRots(body, model, BODY_FLAG, 0);
+    GM_ConfigObjectLight((OBJECT *)body, work->light);
 
     if (!GCL_GetOption('v'))
     {
@@ -121,14 +118,14 @@ int BedGetResources_800C6FD8(BedWork *work, int name, int map)
     return 0;
 }
 
-void *NewBed_800C70DC(int name, int where)
+void *NewTortureBed(int name, int where)
 {
-    BedWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(BedWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, BedAct_800C6EA8, BedDie_800C6FA8, "bed.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "bed.c");
 
         if (BedGetResources_800C6FD8(work, name, where) < 0)
         {

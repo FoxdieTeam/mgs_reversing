@@ -1041,7 +1041,6 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
     work->act_status |= 0x8;
     work->control.step = work->target->scale;
 
-
     ctrl = &work->control;
     if ( time == 0 )
     {
@@ -1575,7 +1574,6 @@ void s00a_command_800C8A6C( WatcherWork *work, int time )
     {
         UnsetAction( work, ACTION20 );
     }
-
 
     if ( time > 110 )
     {
