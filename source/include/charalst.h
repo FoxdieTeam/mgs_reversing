@@ -297,7 +297,7 @@
 #define CHARA_HAIR_N            { 0xf002, ? }                       // chara/others/hair_n.c
 #define CHARA_REC_DEMO          { 0xf364, ? }                       // nobu/vr_demo/recdemo.c (PC-ONLY)
 #define CHARA_PSYCHOMERYL       { 0xf4b0, ? }                       // GV_StrCode("サイコメリル") chara/meryl07b/meryl07b.c
-#define CHARA_PUT_OBJECT        { 0xf4c3, NewPutObject_800E25C0 }   // takabe/put_obj.c
+#define CHARA_PUT_OBJECT        { 0xf4c3, NewPutObject }            // takabe/put_obj.c
 #define CHARA_SEARCHLIGHT       { 0xf50f, NewSearchlight_800D92BC } // GV_StrCode("サーチライト") enemy/searchli.c
 #define CHARA_BELONG            { 0xf59e, NewBelong }               // chara/others/belong.c
 #define CHARA_UJI               { 0xf5c5, NewUji }                  // GV_StrCode("蛆虫") okajima/uji.c
@@ -568,7 +568,7 @@ void *NewPadDemo();                     /* takabe/pad_demo.c            */
 void *NewPanel_800D2680();              /* takabe/panel.c               */
 void *NewPanel2_800E1728();             /* takabe/panel2.c              */
 void *s08b_paper_800DB87C();            /* takabe/paper.c               */
-void *NewPutObject_800E25C0();          /* takabe/put_obj.c             */
+void *NewPutObject();                   /* takabe/put_obj.c             */
 void *NewRasen2_800CB008();             /* takabe/rasen.c               */
 void *NewRasenEl_800CCF38();            /* takabe/rasen_el.c            */
 void *NewRipples();                     /* takabe/ripples.c             */
