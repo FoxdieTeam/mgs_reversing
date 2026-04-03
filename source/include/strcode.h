@@ -343,7 +343,7 @@
 #define CHARAID_SAFETY          0xa2b5  //
 #define CHARAID_CRANE           0xa3fb  // GV_StrCode("クレーン")
 #define CHARAID_PRISON_SNAKE    0xa404  // GV_StrCode("独房スネーク")
-#define CHARAID_WT_AREA2        0xa480  //
+#define CHARAID_WATER_AREA2     0xa480  // GV_StrCode("水領域２")
 #define CHARAID_VR_PAUSE        0xa5dc  //
 #define CHARAID_ZAKO11A         0xa608  // GV_StrCode("ざこ１１ａ")
 #define CHARAID_ZAKO11E         0xa60c  // GV_StrCode("ざこ１１ｅ")
@@ -419,7 +419,7 @@
 #define CHARAID_FOG             0xd6fb  //
 #define CHARAID_PRISON_NINJA    0xd8dd  // GV_StrCode("独房忍者")
 #define CHARAID_GOAL            0xdb1f  // GV_StrCode("ゴール")
-#define CHARAID_WT_AREA         0xdba3  //
+#define CHARAID_WATER_AREA      0xdba3  // GV_StrCode("水領域")
 #define CHARAID_TEXANIME        0xdcac  //
 #define CHARAID_INTRUDE_CAMERA  0xdd8b  // GV_StrCode("イントルードカメラ")
 #define CHARAID_PANEL2          0xdd95  // GV_StrCode("パネル２")

@@ -344,8 +344,8 @@ CHARA _StageCharacterEntries[] = {
     { 0x96b5, NULL },   // CHARA_WATEREFFECT,   /* chara 水エフェクト */
     { 0xeea7, NULL },   // CHARA_WSURFACE,
     { 0x962c, NULL },   // CHARA_WOLF,          /* chara ウルフ */
-    { 0xdba3, NULL },   // CHARA_WT_AREA,
-    { 0xa480, NULL },   // CHARA_WT_AREA2,
+    { 0xdba3, NULL },   // CHARA_WATER_AREA,    /* chara 水領域 */
+    { 0xa480, NULL },   // CHARA_WATER_AREA2,   /* chara 水領域２ */
     { 0x69ad, NULL },   // CHARA_WT_OBJ,
     { 0x8e45, NULL },   // CHARA_WT_VIEW,       /* chara 水中主観 */
     { 0xed87, NULL },   // CHARA_ZAKO,          /* chara ざこ */

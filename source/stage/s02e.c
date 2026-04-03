@@ -20,7 +20,7 @@ CHARA _StageCharacterEntries[] = {
     { 0xeea7, (NEWCHARA)0x800db9bc },   // CHARA_WSURFACE,
     { 0xc6d7, (NEWCHARA)0x800d28b4 },   // CHARA_COMMANDER,    /* chara コマンダー */
     { 0x6e9a, (NEWCHARA)0x800c6e80 },   // CHARA_WATCHER,      /* chara 巡回兵 */
-    { 0xdba3, (NEWCHARA)0x800dd7a4 },   // CHARA_WT_AREA,
+    { 0xdba3, (NEWCHARA)0x800dd7a4 },   // CHARA_WATER_AREA,   /* chara 水領域 */
     { 0x1a02, (NEWCHARA)0x800d8710 },   // CHARA_BUBBLE,       /* chara 泡 */
     { 0x81ea, (NEWCHARA)0x800dbcdc },   // CHARA_RSURFACE,
     { 0x6e90, (NEWCHARA)0x800d5c44 },   // CHARA_CAMERA,       /* chara カメラ */

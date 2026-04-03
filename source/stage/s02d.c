@@ -16,7 +16,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_WSURFACE,
     CHARA_COMMANDER,    /* chara コマンダー */
     CHARA_WATCHER,      /* chara 巡回兵 */
-    CHARA_WT_AREA,
+    CHARA_WATER_AREA,   /* chara 水領域 */
     CHARA_BUBBLE,       /* chara 泡 */
     CHARA_RSURFACE,
     CHARA_CAMERA,       /* chara カメラ */

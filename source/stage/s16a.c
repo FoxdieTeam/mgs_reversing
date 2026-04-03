@@ -8,7 +8,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_DOOR,         /* chara ドア */
     CHARA_ASIATOKUN,    /* chara 足跡君 */
     CHARA_ASIOTOKUN,    /* chara 足音君 */
-    CHARA_WT_AREA2,
+    CHARA_WATER_AREA2,  /* chara 水領域２ */
     CHARA_RSURFACE,
     CHARA_TEXTURE_LAMP, /* chara テクスチャ */
     CHARA_O2_DAMAGE,

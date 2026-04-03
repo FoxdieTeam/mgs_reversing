@@ -199,7 +199,7 @@
 #define CHARA_SAFETY            { 0xa2b5, Safety_800C47A0 }         // safety.c
 #define CHARA_CRANE             { 0xa3fb, NewCrane_800D57A0 }       // GV_StrCode("クレーン") okajima/crane.c
 #define CHARA_PRISON_SNAKE      { 0xa404, NewSnake03c1_800CDAEC }   // GV_StrCode("独房スネーク") chara/torture/sne_03c.c
-#define CHARA_WT_AREA2          { 0xa480, NewWaterArea2 }           // takabe/wt_area2.c
+#define CHARA_WATER_AREA2       { 0xa480, NewWaterArea2 }           // GV_StrCode("水領域２") takabe/wt_area2.c
 #define CHARA_VR_PAUSE          { 0xa5dc, ? }                       // koba/vr/pausmenu.c
 #define CHARA_ZAKO11A           { 0xa608, ? }                       // GV_StrCode("ざこ１１ａ") animal/zako11a/zako11a.c
 #define CHARA_ZAKO11E           { 0xa60c, s11e_zako11e_800D42E0 }   // GV_StrCode("ざこ１１ｅ") animal/zako11e/zako11e.c
@@ -274,7 +274,7 @@
 #define CHARA_FOG               { 0xd6fb, NewFog_800D4208 }         // takabe/fog.c
 #define CHARA_PRISON_NINJA      { 0xd8dd, NewPrisonNinja }          // GV_StrCode("独房忍者") chara/torture/ninja.c
 #define CHARA_GOAL              { 0xdb1f, ? }                       // GV_StrCode("ゴール") koba/vr/goal.c
-#define CHARA_WT_AREA           { 0xdba3, NewWaterArea }            // takabe/wt_area.c
+#define CHARA_WATER_AREA        { 0xdba3, NewWaterArea }            // GV_StrCode("水領域") takabe/wt_area.c
 #define CHARA_TEXANIME          { 0xdcac, ? }                       // enemy/texanime.c (PC-ONLY)
 #define CHARA_INTRUDE_CAMERA    { 0xdd8b, NewIntrudeCamera }        // GV_StrCode("イントルードカメラ") chara/others/intr_cam.c
 #define CHARA_PANEL2            { 0xdd95, NewPanel2_800E1728 }      // GV_StrCode("パネル２") takabe/panel2.c

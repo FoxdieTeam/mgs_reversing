@@ -15,7 +15,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_FADEIO,
     CHARA_ASIOTOKUN,    /* chara 足音君 */
     CHARA_CINEMA,       /* chara シネマスクリーン */
-    CHARA_WT_AREA,
+    CHARA_WATER_AREA,   /* chara 水領域 */
     CHARA_BUBBLE,       /* chara 泡 */
     CHARA_RSURFACE,
     CHARA_ELEVPANEL,    /* chara エレベーターパネル */
