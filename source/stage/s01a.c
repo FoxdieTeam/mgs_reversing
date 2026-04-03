@@ -28,7 +28,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_SEARCHLIGHT,  /* chara サーチライト */
     CHARA_SNOW,         /* chara 雪 */
     CHARA_WALL,         /* chara 障害物 */
-    CHARA_FADEIO,
+    CHARA_FADEIO,       /* chara 白黒フェド */
 
     CHARA_END
 };

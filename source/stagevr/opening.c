@@ -2,7 +2,7 @@
 #include "charalst.h"
 
 CHARA _StageCharacterEntries[] = {
-    { 0xa12e, (NEWCHARA)0x800c422c },   // CHARA_FADEIO,
+    { 0xa12e, (NEWCHARA)0x800c422c },   // CHARA_FADEIO,       /* chara 白黒フェド */
     { 0x5345, (NEWCHARA)0x800c2cd0 },   // CHARA_5345_MOVIE,
     { 0x10ff, (NEWCHARA)0x800c39a4 },   // CHARA_PERAPICT,     /* chara ぺら絵 */
     { 0x84e1, (NEWCHARA)0x800c3ca8 },   // CHARA_FONT_TEXT,

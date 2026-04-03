@@ -12,13 +12,13 @@ CHARA _StageCharacterEntries[] = {
     { 0x7a05, (NEWCHARA)0x800d8514 },   // CHARA_CINEMA,       /* chara シネマスクリーン */
     { 0x51c6, (NEWCHARA)0x800d8ed8 },   // CHARA_CAT_IN,
     { 0x4170, (NEWCHARA)0x800c4068 },   // CHARA_SNEBREATH,    /* chara スネーク息 */
-    { 0xa12e, (NEWCHARA)0x800d724c },   // CHARA_FADEIO,
+    { 0xa12e, (NEWCHARA)0x800d724c },   // CHARA_FADEIO,       /* chara 白黒フェド */
     { 0x711f, (NEWCHARA)0x800d7d4c },   // CHARA_LIFEUP,       /* chara ライフ増加 */
     { 0x6c0e, (NEWCHARA)0x800d33d4 },   // CHARA_DOG,          /* chara 狼犬 */
-    { 0x118c, (NEWCHARA)0x800d77e8 },   // CHARA_FINDTRAP,
+    { 0x118c, (NEWCHARA)0x800d77e8 },   // CHARA_FINDTRAP,     /* chara 発見トラップ */
     { 0x1ad3, (NEWCHARA)0x800c3df8 },   // CHARA_TEXTURE_LAMP, /* chara テクスチャ */
     { 0x18e3, (NEWCHARA)0x800c5078 },   // CHARA_SNOW,         /* chara 雪 */
-    { 0xd6fb, (NEWCHARA)0x800d4214 },   // CHARA_FOG,
+    { 0xd6fb, (NEWCHARA)0x800d4214 },   // CHARA_FOG,          /* chara 黒フォグ */
     { 0xa9c5, (NEWCHARA)0x800c8c2c },   // CHARA_GUNCAMERA,
     { 0x3c0c, (NEWCHARA)0x8006b76c },   // CHARA_CLAYMORE,     /* chara クレイモア地雷 */
     { 0xec77, (NEWCHARA)0x800c6298 },   // CHARA_WALL,         /* chara 障害物 */

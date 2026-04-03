@@ -9,7 +9,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_GASEFFECT,    /* chara ガス効果 */
     CHARA_SHAKEMODEL,
     CHARA_CAT_IN,
-    CHARA_FADEIO,
+    CHARA_FADEIO,       /* chara 白黒フェド */
     CHARA_PUT_OBJECT,
     CHARA_WALL,         /* chara 障害物 */
     CHARA_ASIOTOKUN,    /* chara 足音君 */

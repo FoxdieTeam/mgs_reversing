@@ -40,7 +40,7 @@
 #define CHARA_ELECDAMAGE        { 0x107c, NewElcDamg_800D4C68 }     // GV_StrCode("電流床ダメージ") takabe/elc_damg.c
 #define CHARA_PERAPICT          { 0x10ff, ? }                       // GV_StrCode("ぺら絵") chara/others/perapict.c
 #define CHARA_BLOODY_MERYL      { 0x1158, ? }                       // GV_StrCode("血まみれメリル") okajima/meryl10/mel10.c
-#define CHARA_FINDTRAP          { 0x118c, NewFindTrap_800D77DC }    // takabe/findtrap.c
+#define CHARA_FINDTRAP          { 0x118c, NewFindTrap }             // GV_StrCode("発見トラップ") takabe/findtrap.c
 #define CHARA_11E9_HIND         { 0x11e9, s11d_hind_800CB708 }      // chara/hind/hind.c
 #define CHARA_VRBG2             { 0x1454, ? }                       // GV_StrCode("ＶＲ背景２") koba/vr/bg2.c
 #define CHARA_VRBG3             { 0x1455, ? }                       // GV_StrCode("ＶＲ背景３") koba/vr/bg3.c
@@ -194,7 +194,7 @@
 #define CHARA_DISPLAY           { 0x9f7d, ? }                       // chara/pocket/display/display.c
 #define CHARA_VALCAN            { 0x9ff5, ? }                       // GV_StrCode("バルカン") okajima/valcan/valcan.c
 #define CHARA_9FFD_2ND          { 0x9ffd, GM_SetSecondAvailable }   // game/second.c
-#define CHARA_FADEIO            { 0xa12e, NewFadeInOutSet }         // takabe/fadeio.c
+#define CHARA_FADEIO            { 0xa12e, NewFadeInOutSet }         // GV_StrCode("白黒フェド") takabe/fadeio.c
 #define CHARA_JDRUM             { 0xa27e, s19b_jdrum_800C95E4 }     // takabe/jeep/jdrum.c
 #define CHARA_SAFETY            { 0xa2b5, Safety_800C47A0 }         // safety.c
 #define CHARA_CRANE             { 0xa3fb, NewCrane_800D57A0 }       // GV_StrCode("クレーン") okajima/crane.c
@@ -271,7 +271,7 @@
 #define CHARA_MOUSE             { 0xd4a5, NewMouse_800D5234 }       // GV_StrCode("ネズミ") okajima/mouse.c
 #define CHARA_11B_DEMO          { 0xd53c, ? }                       // okajima/11b_demo.c
 #define CHARA_M1E1CAME          { 0xd5ec, ? }                       // kojo/m1e1came.c
-#define CHARA_FOG               { 0xd6fb, NewFog_800D4208 }         // takabe/fog.c
+#define CHARA_FOG               { 0xd6fb, NewFog_800D4208 }         // GV_StrCode("黒フォグ") takabe/fog.c
 #define CHARA_PRISON_NINJA      { 0xd8dd, NewPrisonNinja }          // GV_StrCode("独房忍者") chara/torture/ninja.c
 #define CHARA_GOAL              { 0xdb1f, ? }                       // GV_StrCode("ゴール") koba/vr/goal.c
 #define CHARA_WATER_AREA        { 0xdba3, NewWaterArea }            // GV_StrCode("水領域") takabe/wt_area.c
@@ -544,7 +544,7 @@ void *NewEnvSnd_800DF424();             /* takabe/env_snd.c             */
 void *NewEnvmap3_800CA3A4();            /* takabe/envmap3.c             */
 void *NewFadeInOut();                   /* takabe/fadeio.c              */
 void *NewFadeInOutSet();                /* takabe/fadeio.c              */
-void *NewFindTrap_800D77DC();           /* takabe/findtrap.c            */
+void *NewFindTrap();                    /* takabe/findtrap.c            */
 void *NewFocusView();                   /* takabe/focus.c               */
 void *NewFog_800D4208();                /* takabe/fog.c                 */
 void *NewFurnace();                     /* takabe/furnace.c             */

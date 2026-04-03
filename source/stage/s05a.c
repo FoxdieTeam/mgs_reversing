@@ -3,7 +3,7 @@
 
 CHARA _StageCharacterEntries[] = {
     { 0x92bc, (NEWCHARA)0x800c8654 },   // CHARA_ASIOTOKUN,    /* chara 足音君 */
-    { 0xa12e, (NEWCHARA)0x800cfb8c },   // CHARA_FADEIO,
+    { 0xa12e, (NEWCHARA)0x800cfb8c },   // CHARA_FADEIO,       /* chara 白黒フェド */
     { 0x18e3, (NEWCHARA)0x800c5cdc },   // CHARA_SNOW,         /* chara 雪 */
     { 0xa6f5, (NEWCHARA)0x800d1b6c },   // CHARA_SNOWSTORM,    /* chara 雪嵐 */
     { 0x9d71, (NEWCHARA)0x800d26cc },   // CHARA_M1E1,

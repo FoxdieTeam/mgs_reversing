@@ -9,7 +9,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_KIKENKUN,     /* chara 危険君 */
     CHARA_CAMERA,       /* chara カメラ */
     CHARA_DEMODOLL,     /* chara デモ人形 */
-    CHARA_FADEIO,
+    CHARA_FADEIO,       /* chara 白黒フェド */
     CHARA_CINEMA,       /* chara シネマスクリーン */
     CHARA_DYNWALL,      /* chara 透明壁 */
     CHARA_ASIOTOKUN,    /* chara 足音君 */

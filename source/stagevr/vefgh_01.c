@@ -4,7 +4,7 @@
 CHARA _StageCharacterEntries[] = {
     { 0xc6d7, (NEWCHARA)0x800c48b4 },   // CHARA_COMMANDER,    /* chara コマンダー */
     { 0x173c, (NEWCHARA)0x800c6d84 },   // CHARA_MYSTERY_SOLDIER, /* chara ミステリー兵 */
-    { 0xa12e, (NEWCHARA)0x800d6de8 },   // CHARA_FADEIO,
+    { 0xa12e, (NEWCHARA)0x800d6de8 },   // CHARA_FADEIO,       /* chara 白黒フェド */
     { 0x4170, (NEWCHARA)0x800c2238 },   // CHARA_SNEBREATH,    /* chara スネーク息 */
     { 0x92bc, (NEWCHARA)0x800c592c },   // CHARA_ASIOTOKUN,    /* chara 足音君 */
     { 0xed86, (NEWCHARA)0x800d9c14 },   // CHARA_VR,           /* chara ＶＲ */
@@ -18,7 +18,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x548e, (NEWCHARA)0x800e14a8 },   // CHARA_VRBOX2,       /* chara ＶＲＢＯＸ２ */
     { 0x4e95, (NEWCHARA)0x800d44e0 },   // CHARA_BLOOD_POOL,   /* chara 血溜り */
     { 0xf59e, (NEWCHARA)0x800c280c },   // CHARA_BELONG,
-    { 0x118c, (NEWCHARA)0x800d7410 },   // CHARA_FINDTRAP,
+    { 0x118c, (NEWCHARA)0x800d7410 },   // CHARA_FINDTRAP,     /* chara 発見トラップ */
     { 0x7a05, (NEWCHARA)0x800d7e28 },   // CHARA_CINEMA,       /* chara シネマスクリーン */
     { 0xb103, (NEWCHARA)0x800d8058 },   // CHARA_DYNWALL,      /* chara 透明壁 */
     { 0xec77, (NEWCHARA)0x800c523c },   // CHARA_WALL,         /* chara 障害物 */

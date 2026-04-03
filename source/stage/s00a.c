@@ -28,7 +28,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_TELOP,        /* chara テロップ */
     CHARA_BUBBLE,       /* chara 泡 */
     CHARA_O2_DAMAGE,
-    CHARA_FADEIO,
+    CHARA_FADEIO,       /* chara 白黒フェド */
 
     CHARA_END
 };

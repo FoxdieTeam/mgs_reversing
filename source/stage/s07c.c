@@ -3,7 +3,7 @@
 
 CHARA _StageCharacterEntries[] = {
     CHARA_ASIOTOKUN,    /* chara 足音君 */
-    CHARA_FADEIO,
+    CHARA_FADEIO,       /* chara 白黒フェド */
     CHARA_DOOR,         /* chara ドア */
     CHARA_WALL,         /* chara 障害物 */
     CHARA_MIRROR,

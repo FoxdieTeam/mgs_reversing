@@ -4,7 +4,7 @@
 CHARA _StageCharacterEntries[] = {
     { 0xc6d7, (NEWCHARA)0x800ca5f8 },   // CHARA_COMMANDER,    /* chara コマンダー */
     { 0xb30a, (NEWCHARA)0x800cc40c },   // CHARA_MINENE,
-    { 0xa12e, (NEWCHARA)0x800da9fc },   // CHARA_FADEIO,
+    { 0xa12e, (NEWCHARA)0x800da9fc },   // CHARA_FADEIO,       /* chara 白黒フェド */
     { 0xed86, (NEWCHARA)0x800dd474 },   // CHARA_VR,           /* chara ＶＲ */
     { 0xdb1f, (NEWCHARA)0x800de268 },   // CHARA_GOAL,         /* chara ゴール */
     { 0x1455, (NEWCHARA)0x800e4508 },   // CHARA_VRBG3,        /* chara ＶＲ背景３ */

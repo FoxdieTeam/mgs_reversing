@@ -8,12 +8,12 @@ CHARA _StageCharacterEntries[] = {
     CHARA_PADVIBRATE,   /* chara パッド振動 */
     CHARA_ASIOTOKUN,    /* chara 足音君 */
     CHARA_CAT_IN,
-    CHARA_FOG,
+    CHARA_FOG,          /* chara 黒フォグ */
     CHARA_TEXTURE_LAMP, /* chara テクスチャ */
     CHARA_RASEN,        /* chara 螺旋階段 */
     CHARA_RASEN_EL,     /* chara 螺旋階段エレベータ */
     CHARA_CINEMA,       /* chara シネマスクリーン */
-    CHARA_FADEIO,
+    CHARA_FADEIO,       /* chara 白黒フェド */
     CHARA_WALL,         /* chara 障害物 */
     CHARA_DYNWALL,      /* chara 透明壁 */
     CHARA_CAMERASHAKE,  /* chara カメラ揺らし */
