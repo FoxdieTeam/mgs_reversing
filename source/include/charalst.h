@@ -300,7 +300,7 @@
 #define CHARA_PUT_OBJECT        { 0xf4c3, NewPutObject_800E25C0 }   // takabe/put_obj.c
 #define CHARA_SEARCHLIGHT       { 0xf50f, NewSearchlight_800D92BC } // GV_StrCode("サーチライト") enemy/searchli.c
 #define CHARA_BELONG            { 0xf59e, NewBelong }               // chara/others/belong.c
-#define CHARA_UJI               { 0xf5c5, NewUji_800C42F8 }         // GV_StrCode("蛆虫") okajima/uji.c
+#define CHARA_UJI               { 0xf5c5, NewUji }                  // GV_StrCode("蛆虫") okajima/uji.c
 #define CHARA_CDCHANGE          { 0xf722, NewCdChange }             // GV_StrCode("ＣＤ交換") onoda/change/change.c
 #define CHARA_BOXALL            { 0xf74b, NewAllItemBox }           // GV_StrCode("全部箱") chara/torture/boxall.c
 #define CHARA_FAA8_MOVIE        { 0xfaa8, ? }                       // chara/movie/movie.c
@@ -509,7 +509,7 @@ void *NewSmktrgt_800DC410();            /* okajima/smktrgt.c            */
 void *NewSpark();                       /* okajima/spark.c              */
 void *NewSplash_800C8D6C();             /* okajima/splash.c             */
 void *NewSubRoom_800C815C();            /* okajima/sub_room.c           */
-void *NewUji_800C42F8();                /* okajima/uji.c                */
+void *NewUji();                         /* okajima/uji.c                */
 void *NewCrow_800DED08();               /* okajima/valcan/crow.c        */
 void *s15c_dyncon_800D8C9C();           /* okajima/valcan/dyncon.c      */
 void *NewWallSpa_800CB4A4();            /* okajima/wall_spa.c           */
