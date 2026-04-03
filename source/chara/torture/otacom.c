@@ -534,7 +534,7 @@ int OtacomGetResources_800CBDB4(OtacomWork *work, int arg1, int arg2)
     return 0;
 }
 
-void *NewOtacom_800CC030(int arg0, int arg1)
+void *NewPrisonOtacon(int name, int where)
 {
     OtacomWork *work;
 
@@ -545,7 +545,7 @@ void *NewOtacom_800CC030(int arg0, int arg1)
     }
 
     GV_SetNamedActor(&work->actor, OtacomAct_800CBB8C, OtacomDie_800CBC50, "otacom.c");
-    if (OtacomGetResources_800CBDB4(work, arg0, arg1) < 0)
+    if (OtacomGetResources_800CBDB4(work, name, where) < 0)
     {
         GV_DestroyActor(&work->actor);
         return NULL;

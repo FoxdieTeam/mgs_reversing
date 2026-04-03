@@ -241,7 +241,7 @@
 #define CHARA_ROPE              { 0xbda8, s11d_rope_800C9500 }      // --> chara/rope/rope.c
 #define CHARA_DEATHSPARK        { 0xbe79, NewDeathSp_800D025C }     // GV_StrCode("送別火花") okajima/death_sp.c
 #define CHARA_SPHERE2           { 0xbee1, ? }                       // GV_StrCode("天球２") thing/sphere2.c
-#define CHARA_OTACOM            { 0xbf66, NewOtacom_800CC030 }      // chara/torture/otacom.c
+#define CHARA_PRISON_OTACON     { 0xbf66, NewPrisonOtacon }         // GV_StrCode("独房オタコン") chara/torture/otacom.c
 #define CHARA_BUB_D_SN          { 0xc0fe, NewBubbleDisplayScene_800D90B4 } // okajima/bub_d_sn.c
 #define CHARA_MIRROR            { 0xc218, NewMirror_800E085C }      // takabe/mirror.c
 #define CHARA_VRCLEAR2          { 0xc249, ? }                       // GV_StrCode("ＶＲクリア２") koba/vr/vrclear2.c
@@ -431,7 +431,7 @@ void *NewTortureBed();                  /* chara/torture/bed.c          */
 void *NewAllItemBox();                  /* chara/torture/boxall.c       */
 void *NewJohnny();                      /* chara/torture/johnny.c       */
 void *NewPrisonNinja();                 /* chara/torture/ninja.c        */
-void *NewOtacom_800CC030();             /* chara/torture/otacom.c       */
+void *NewPrisonOtacon();                /* chara/torture/otacom.c       */
 void *NewRevolver_800C929C();           /* chara/torture/revolver.c     */
 void *NewSnake03c1_800CDAEC();          /* chara/torture/sne_03c.c      */
 void *NewSnake03c2_800CDF18();          /* chara/torture/sne_03c.c      */
