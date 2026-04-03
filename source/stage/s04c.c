@@ -13,7 +13,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_CLAYMORE,     /* chara クレイモア地雷 */
     CHARA_DYNWALL,      /* chara 透明壁 */
     CHARA_CINEMA,       /* chara シネマスクリーン */
-    CHARA_LAMP,
+    CHARA_TEXTURE_LAMP, /* chara テクスチャ */
     CHARA_MOVIE,        /* chara ムービー */
     CHARA_LIFEUP,       /* chara ライフ増加 */
     CHARA_FADEIO,

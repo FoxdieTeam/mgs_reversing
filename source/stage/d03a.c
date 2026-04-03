@@ -3,7 +3,7 @@
 
 CHARA _StageCharacterEntries[] = {
     CHARA_DOOR,         /* chara ドア */
-    CHARA_UJI,
+    CHARA_UJI,          /* chara 蛆虫 */
     CHARA_CINEMA,       /* chara シネマスクリーン */
 
     CHARA_0003_FADEIO,

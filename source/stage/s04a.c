@@ -10,7 +10,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_DMYWALL,      /* chara 塗り壁 */
     CHARA_CENSOR,       /* chara 赤外線センサー */
     CHARA_DMYFLOOR,     /* chara 落し穴 */
-    CHARA_LAMP,
+    CHARA_TEXTURE_LAMP, /* chara テクスチャ */
     CHARA_ASIOTOKUN,    /* chara 足音君 */
     CHARA_FADEIO,
     CHARA_CAT_IN,

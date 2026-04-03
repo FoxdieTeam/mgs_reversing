@@ -2,7 +2,7 @@
 #include "charalst.h"
 
 CHARA _StageCharacterEntries[] = {
-    CHARA_LAMP,
+    CHARA_TEXTURE_LAMP, /* chara テクスチャ */
     CHARA_DOOR,         /* chara ドア */
     CHARA_CINEMA,       /* chara シネマスクリーン */
     CHARA_WALL,         /* chara 障害物 */

@@ -9,7 +9,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_DYNWALL,      /* chara 透明壁 */
     CHARA_ASIOTOKUN,    /* chara 足音君 */
     CHARA_FADEIO,
-    CHARA_LAMP,
+    CHARA_TEXTURE_LAMP, /* chara テクスチャ */
     CHARA_SNOW,         /* chara 雪 */
     CHARA_SNOWSTORM,    /* chara 雪嵐 */
     CHARA_ZAKO11FCOM,   /* chara ざこ１１ｆコマンダー */

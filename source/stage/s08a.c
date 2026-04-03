@@ -13,11 +13,11 @@ CHARA _StageCharacterEntries[] = {
     CHARA_ELECDAMAGE,   /* chara 電流床ダメージ */
     CHARA_ELECFLOOR,    /* chara 電廊 */
     CHARA_BREAK_OBJECT,
-    CHARA_LAMP,
+    CHARA_TEXTURE_LAMP, /* chara テクスチャ */
     CHARA_ELEVPANEL,    /* chara エレベーターパネル */
     CHARA_PLASMA,       /* chara プラズマ */
     CHARA_DEATHSPARK,   /* chara 送別火花 */
-    CHARA_RED_ALRT,
+    CHARA_RED_ALRT,     /* chara レッドアラート */
     CHARA_DEMODOLL,     /* chara デモ人形 */
     CHARA_CINEMA,       /* chara シネマスクリーン */
     CHARA_PADVIBRATE,   /* chara パッド振動 */

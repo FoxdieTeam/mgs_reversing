@@ -10,7 +10,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_ASIOTOKUN,    /* chara 足音君 */
     CHARA_WT_AREA2,
     CHARA_RSURFACE,
-    CHARA_LAMP,
+    CHARA_TEXTURE_LAMP, /* chara テクスチャ */
     CHARA_O2_DAMAGE,
     CHARA_GUNCAMERA,
     CHARA_SHAKEMODEL,

@@ -16,7 +16,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x711f, (NEWCHARA)0x800d7d4c },   // CHARA_LIFEUP,       /* chara ライフ増加 */
     { 0x6c0e, (NEWCHARA)0x800d33d4 },   // CHARA_DOG,          /* chara 狼犬 */
     { 0x118c, (NEWCHARA)0x800d77e8 },   // CHARA_FINDTRAP,
-    { 0x1ad3, (NEWCHARA)0x800c3df8 },   // CHARA_LAMP,
+    { 0x1ad3, (NEWCHARA)0x800c3df8 },   // CHARA_TEXTURE_LAMP, /* chara テクスチャ */
     { 0x18e3, (NEWCHARA)0x800c5078 },   // CHARA_SNOW,         /* chara 雪 */
     { 0xd6fb, (NEWCHARA)0x800d4214 },   // CHARA_FOG,
     { 0xa9c5, (NEWCHARA)0x800c8c2c },   // CHARA_GUNCAMERA,

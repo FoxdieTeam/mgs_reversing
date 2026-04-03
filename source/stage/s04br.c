@@ -13,7 +13,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x3c0c, (NEWCHARA)0x8006b76c },   // CHARA_CLAYMORE,     /* chara クレイモア地雷 */
     { 0xb103, (NEWCHARA)0x800d16b4 },   // CHARA_DYNWALL,      /* chara 透明壁 */
     { 0x7a05, (NEWCHARA)0x800d1484 },   // CHARA_CINEMA,       /* chara シネマスクリーン */
-    { 0x1ad3, (NEWCHARA)0x800c5c70 },   // CHARA_LAMP,
+    { 0x1ad3, (NEWCHARA)0x800c5c70 },   // CHARA_TEXTURE_LAMP, /* chara テクスチャ */
     { 0x3453, (NEWCHARA)0x800c52f4 },   // CHARA_MOVIE,        /* chara ムービー */
     { 0x711f, (NEWCHARA)0x800d0468 },   // CHARA_LIFEUP,       /* chara ライフ増加 */
     { 0xa12e, (NEWCHARA)0x800d0140 },   // CHARA_FADEIO,

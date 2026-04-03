@@ -3,7 +3,7 @@
 
 CHARA _StageCharacterEntries[] = {
     CHARA_MOTIONSE,
-    CHARA_INTR_CAM,
+    CHARA_INTRUDE_CAMERA, /* chara イントルードカメラ */
     CHARA_DYNWALL,      /* chara 透明壁 */
     CHARA_BUB_D_SN,
     CHARA_PADVIBRATE,   /* chara パッド振動 */
@@ -23,7 +23,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_COMMANDER,    /* chara コマンダー */
     CHARA_WATCHER,      /* chara 巡回兵 */
     CHARA_CAMERA,       /* chara カメラ */
-    CHARA_LAMP,
+    CHARA_TEXTURE_LAMP, /* chara テクスチャ */
     CHARA_O2_DAMAGE,
 
     CHARA_0004_FADEIO,

@@ -6,7 +6,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_FADEIO,
     CHARA_SNOW,         /* chara 雪 */
     CHARA_SPHERE,       /* chara 天球 */
-    CHARA_LAMP,
+    CHARA_TEXTURE_LAMP, /* chara テクスチャ */
     CHARA_ROPE,
     CHARA_11E9_HIND,
     CHARA_DAMAGESMOKE2, /* chara ダメージ煙２ */

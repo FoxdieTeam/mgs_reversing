@@ -19,7 +19,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x548e, (NEWCHARA)0x800e11a8 },   // CHARA_VRBOX2,       /* chara ＶＲＢＯＸ２ */
     { 0x3c0c, (NEWCHARA)0x80069370 },   // CHARA_CLAYMORE,     /* chara クレイモア地雷 */
     { 0x43a0, (NEWCHARA)0x800d544c },   // CHARA_CENSOR,       /* chara 赤外線センサー */
-    { 0x1ad3, (NEWCHARA)0x800c295c },   // CHARA_LAMP,
+    { 0x1ad3, (NEWCHARA)0x800c295c },   // CHARA_TEXTURE_LAMP, /* chara テクスチャ */
     { 0xb103, (NEWCHARA)0x800d6578 },   // CHARA_DYNWALL,      /* chara 透明壁 */
 
     CHARA_END

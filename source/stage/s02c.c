@@ -4,7 +4,7 @@
 CHARA _StageCharacterEntries[] = {
     CHARA_DYNWALL,      /* chara 透明壁 */
     CHARA_MOTIONSE,
-    CHARA_INTR_CAM,
+    CHARA_INTRUDE_CAMERA, /* chara イントルードカメラ */
     CHARA_BUB_D_SN,
     CHARA_KIKENKUN,     /* chara 危険君 */
     CHARA_PADVIBRATE,   /* chara パッド振動 */
@@ -24,7 +24,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_BUBBLE,       /* chara 泡 */
     CHARA_RSURFACE,
     CHARA_CAMERA,       /* chara カメラ */
-    CHARA_LAMP,
+    CHARA_TEXTURE_LAMP, /* chara テクスチャ */
     CHARA_O2_DAMAGE,
     CHARA_CENSOR,       /* chara 赤外線センサー */
     CHARA_GASEFFECT,    // duplicate

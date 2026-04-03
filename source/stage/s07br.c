@@ -8,7 +8,7 @@ CHARA _StageCharacterEntries[] = {
     { 0xf4b0, (NEWCHARA)0x800ca8f8 },   // CHARA_PSYCHOMERYL,  /* chara サイコメリル */
     { 0xaf72, (NEWCHARA)0x800d9330 },   // CHARA_MEMPSY,
     { 0x710d, (NEWCHARA)0x800d4004 },   // CHARA_PSYOBJ,       /* chara サイコ物体 */
-    { 0x1ad3, (NEWCHARA)0x800c44f0 },   // CHARA_LAMP,
+    { 0x1ad3, (NEWCHARA)0x800c44f0 },   // CHARA_TEXTURE_LAMP, /* chara テクスチャ */
     { 0x7a05, (NEWCHARA)0x800e3784 },   // CHARA_CINEMA,       /* chara シネマスクリーン */
     { 0xb103, (NEWCHARA)0x800e39b4 },   // CHARA_DYNWALL,      /* chara 透明壁 */
     { 0x711f, (NEWCHARA)0x800e2768 },   // CHARA_LIFEUP,       /* chara ライフ増加 */
