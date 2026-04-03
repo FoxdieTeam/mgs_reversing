@@ -6,7 +6,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_FADEIO,
     CHARA_JOHNNY,       /* chara ジョニー */
     CHARA_OTACOM,
-    CHARA_NINJA_D8DD,
+    CHARA_PRISON_NINJA, /* chara 独房忍者 */
     CHARA_A404_SNE_03C,
     CHARA_27A2_SNE_03C,
     CHARA_UJI,

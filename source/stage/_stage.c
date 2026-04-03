@@ -256,7 +256,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x3ad2, NULL },   // CHARA_3AD2,
     { 0xcc89, NULL },   // CHARA_BG_HEX_P,
     { 0x6d1b, NULL },   // CHARA_PREOPE,
-    { 0xd8dd, NULL },   // CHARA_NINJA_D8DD,
+    { 0xd8dd, NULL },   // CHARA_PRISON_NINJA, /* chara 独房忍者 */
     { 0xbf66, NULL },   // CHARA_OTACOM,
     { 0xa404, NULL },   // CHARA_A404_SNE_03C,
     { 0x27a2, NULL },   // CHARA_27A2_SNE_03C,

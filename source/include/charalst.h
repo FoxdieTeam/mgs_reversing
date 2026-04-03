@@ -272,7 +272,7 @@
 #define CHARA_11B_DEMO          { 0xd53c, ? }                       // okajima/11b_demo.c
 #define CHARA_M1E1CAME          { 0xd5ec, ? }                       // kojo/m1e1came.c
 #define CHARA_FOG               { 0xd6fb, NewFog_800D4208 }         // takabe/fog.c
-#define CHARA_NINJA_D8DD        { 0xd8dd, NewNinja_800CC9B4 }       // chara/torture/ninja.c
+#define CHARA_PRISON_NINJA      { 0xd8dd, NewPrisonNinja }          // GV_StrCode("独房忍者") chara/torture/ninja.c
 #define CHARA_GOAL              { 0xdb1f, ? }                       // GV_StrCode("ゴール") koba/vr/goal.c
 #define CHARA_WT_AREA           { 0xdba3, NewWaterArea }            // takabe/wt_area.c
 #define CHARA_TEXANIME          { 0xdcac, ? }                       // enemy/texanime.c (PC-ONLY)
@@ -430,7 +430,7 @@ void *NewSnake();                       /* chara/snake/sna_init.c       */
 void *NewTortureBed();                  /* chara/torture/bed.c          */
 void *NewAllItemBox();                  /* chara/torture/boxall.c       */
 void *NewJohnny();                      /* chara/torture/johnny.c       */
-void *NewNinja_800CC9B4();              /* chara/torture/ninja.c        */
+void *NewPrisonNinja();                 /* chara/torture/ninja.c        */
 void *NewOtacom_800CC030();             /* chara/torture/otacom.c       */
 void *NewRevolver_800C929C();           /* chara/torture/revolver.c     */
 void *NewSnake03c1_800CDAEC();          /* chara/torture/sne_03c.c      */
