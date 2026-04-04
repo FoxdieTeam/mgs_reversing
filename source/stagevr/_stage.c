@@ -200,7 +200,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x9d71, NULL },   // CHARA_M1E1,
     { 0xd5ec, NULL },   // CHARA_M1E1CAME,
     { 0xe448, NULL },   // CHARA_DOLL2,
-    { 0x450f, NULL },   // CHARA_HAIR_M,
+    { 0x450f, NULL },   // CHARA_MEI_LING_HAIR, /* chara メイリン髪 */
     { 0xaf72, NULL },   // CHARA_MEMPSY,
     { 0xc755, NULL },   // CHARA_MERYL3,
     { 0x5078, NULL },   // CHARA_MERYL7,
@@ -220,7 +220,7 @@ CHARA _StageCharacterEntries[] = {
     { 0xb98c, NULL },   // CHARA_MYSTERY_DOOR,  /* chara ミステリードア */
     { 0x173c, NULL },   // CHARA_MYSTERY_SOLDIER, /* chara ミステリー兵 */
     { 0xd3c0, NULL },   // CHARA_D3C0,
-    { 0xf002, NULL },   // CHARA_HAIR_N,
+    { 0xf002, NULL },   // CHARA_NAOMI_HAIR,    /* chara ナオミ髪 */
     { 0x30ba, NULL },   // CHARA_NINJA,         /* chara 忍者 */
     { 0x4811, NULL },   // CHARA_OBJECT,        /* chara 移動物 */
     { 0xcf79, NULL },   // CHARA_OPEN,          /* chara タイトル */

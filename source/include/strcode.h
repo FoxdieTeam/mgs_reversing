@@ -233,7 +233,7 @@
 #define CHARAID_LIFT            0x425f  // GV_StrCode("リフト")
 #define CHARAID_HIYOKO          0x42e4  // GV_StrCode("ヒヨコ星")
 #define CHARAID_CENSOR          0x43a0  // GV_StrCode("赤外線センサー")
-#define CHARAID_HAIR_M          0x450f  //
+#define CHARAID_MEI_LING_HAIR   0x450f  // GV_StrCode("メイリン髪")
 #define CHARAID_MGREX           0x4754  //
 #define CHARAID_OBJECT          0x4811  // GV_StrCode("移動物")
 #define CHARAID_ABST_DEMO1      0x4974  // GV_StrCode("アブストデモ１")
@@ -439,7 +439,7 @@
 #define CHARAID_PHOTOSEL        0xedeb  //
 #define CHARAID_SCN_MARK        0xee63  //
 #define CHARAID_WSURFACE        0xeea7  //
-#define CHARAID_HAIR_N          0xf002  //
+#define CHARAID_NAOMI_HAIR      0xf002  // GV_StrCode("ナオミ髪")
 #define CHARAID_REC_DEMO        0xf364  //
 #define CHARAID_PSYCHOMERYL     0xf4b0  // GV_StrCode("サイコメリル")
 #define CHARAID_PUT_OBJECT      0xf4c3  //
