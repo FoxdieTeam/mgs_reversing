@@ -183,7 +183,7 @@
 #define CHARA_MG_DEMO1          { 0x954b, ? }                       // takabe/mg_demo1.c
 #define CHARA_WOLF              { 0x962c, NewWolf2 }                // GV_StrCode("ウルフ") okajima/wolf/wolf2.c
 #define CHARA_WATEREFFECT       { 0x96b5, ? }                       // GV_StrCode("水エフェクト") takabe/water.c (PC-ONLY)
-#define CHARA_OPT               { 0x976c, NewOption_800C9344 }      // onoda/option/opt.c
+#define CHARA_OPT               { 0x976c, NewOption }               // onoda/option/opt.c
 #define CHARA_AT                { 0x9988, NewAt_800D78A4 }          // GV_StrCode("ＡＴ") onoda/s04b/at.c
 #define CHARA_ELEVCROW          { 0x9ab9, ? }                       // GV_StrCode("エレベーターのカラス") okajima/valcan/ele_crow.c
 #define CHARA_PLASMA            { 0x9bc2, NewPlasma_800CD110 }      // GV_StrCode("プラズマ") okajima/plasma.c
@@ -518,7 +518,7 @@ void *NewCdChange();                    /* onoda/change/change.c        */
 void *Safety_800C47A0();                /* onoda/change/safety.c (?)    */
 void *NewDemoSelect();                  /* onoda/demosel/demosel.c      */
 void *NewOpen_800D6814();               /* onoda/open/open.c            */
-void *NewOption_800C9344();             /* onoda/option/opt.c           */
+void *NewOption();                      /* onoda/option/opt.c           */
 void *NewPreviousOperation();           /* onoda/preope/preope.c        */
 void *NewAt_800D78A4();                 /* onoda/s04b/at.c              */
 void *NewCape_800D92F8();               /* onoda/s04b/cape.c            */
