@@ -2,47 +2,47 @@
 #include "charalst.h"
 
 CHARA _StageCharacterEntries[] = {
-    { 0x92bc, (NEWCHARA)0x800c7a9c },   // CHARA_ASIOTOKUN,    /* chara 足音君 */
-    { 0x4754, (NEWCHARA)0x800d7b38 },   // CHARA_MGREX,
-    { 0x954b, (NEWCHARA)0x800d1ec4 },   // CHARA_MG_DEMO1,
-    { 0x0dc9, (NEWCHARA)0x800d0848 },   // CHARA_VOICESYS,     /* chara 音声制御 */
-    { 0xec77, (NEWCHARA)0x800c6c64 },   // CHARA_WALL,         /* chara 障害物 */
-    { 0x4be8, (NEWCHARA)0x800cf424 },   // CHARA_DRUMCAN2,     /* chara ドラム缶２ */
-    { 0x7a05, (NEWCHARA)0x800d00d4 },   // CHARA_CINEMA,       /* chara シネマスクリーン */
-    { 0xa12e, (NEWCHARA)0x800cf8f8 },   // CHARA_FADEIO,       /* chara 白黒フェド */
-    { 0x1ad3, (NEWCHARA)0x800c601c },   // CHARA_TEXTURE_LAMP, /* chara テクスチャ */
-    { 0x32fc, (NEWCHARA)0x800ce534 },   // CHARA_BREAK_OBJECT,
-    { 0x91aa, (NEWCHARA)0x800d214c },   // CHARA_PUTHZD,
+    { 0x92bc, (NEWCHARA)0x800c7a9c },   //  CHARA_ASIOTOKUN,    /* chara 足音君 */
+    { 0x4754, (NEWCHARA)0x800d7b38 },   //  CHARA_MGREX,
+    { 0x954b, (NEWCHARA)0x800d1ec4 },   //  CHARA_MG_DEMO1,
+    { 0x0dc9, (NEWCHARA)0x800d0848 },   //  CHARA_VOICESYS,     /* chara 音声制御 */
+    { 0xec77, (NEWCHARA)0x800c6c64 },   //  CHARA_WALL,         /* chara 障害物 */
+    { 0x4be8, (NEWCHARA)0x800cf424 },   //  CHARA_DRUMCAN2,     /* chara ドラム缶２ */
+    { 0x7a05, (NEWCHARA)0x800d00d4 },   //  CHARA_CINEMA,       /* chara シネマスクリーン */
+    { 0xa12e, (NEWCHARA)0x800cf8f8 },   //  CHARA_FADEIO,       /* chara 白黒フェド */
+    { 0x1ad3, (NEWCHARA)0x800c601c },   //  CHARA_TEXTURE,      /* chara テクスチャ */
+    { 0x32fc, (NEWCHARA)0x800ce534 },   //  CHARA_BREAK_OBJECT,
+    { 0x91aa, (NEWCHARA)0x800d214c },   //  CHARA_PUTHZD,
 
-    { 0x0001, (NEWCHARA)0x8006dfdc },   // CHARA_0001_BLAST,
-    { 0x0003, (NEWCHARA)0x800cf860 },   // CHARA_0003_FADEIO,
-    { 0x0004, (NEWCHARA)0x800cf860 },   // CHARA_0004_FADEIO,
-    { 0x0009, (NEWCHARA)0x80072728 },   // CHARA_0009_BLOOD,
-    { 0x000a, (NEWCHARA)0x800c8074 },   // CHARA_000A_SPLASH,
-    { 0x000b, (NEWCHARA)0x80076708 },   // CHARA_000B_BULLET,
-    { 0x000d, (NEWCHARA)0x800c8c00 },   // CHARA_000D_D_BLOODS,
-    { 0x000f, (NEWCHARA)0x800c7440 },   // CHARA_000F_DEMOKAGE,
-    { 0x001d, (NEWCHARA)0x800ca26c },   // CHARA_001D_PLASMA,
-    { 0x0020, (NEWCHARA)0x800d6480 },   // CHARA_0020_MGREXLZR,
-    { 0x0024, (NEWCHARA)0x800ca330 },   // CHARA_0024_PLASMA,
-    { 0x0025, (NEWCHARA)0x800cd3d8 },   // CHARA_0025_BLUR,
-    { 0x0028, (NEWCHARA)0x800d0e90 },   // CHARA_0028_SEPIA,
-    { 0x002a, (NEWCHARA)0x800c617c },   // CHARA_002A,
-    { 0x0030, (NEWCHARA)0x800cb34c },   // CHARA_0030_BLST_LN,
-    { 0x0031, (NEWCHARA)0x800cd9e0 },   // CHARA_0031_SMKE_LN,
-    { 0x0037, (NEWCHARA)0x800caf90 },   // CHARA_0037_RED_ALRT,
-    { 0x0038, (NEWCHARA)0x800cb054 },   // CHARA_0038_RED_ALRT,
-    { 0x0039, (NEWCHARA)0x800cb7f8 },   // CHARA_0039_CRSH_SMK,
-    { 0x003b, (NEWCHARA)0x800d33cc },   // CHARA_003B_INVERLT,
-    { 0x003c, (NEWCHARA)0x800ce0f4 },   // CHARA_003C_SPARK2,
-    { 0x003d, (NEWCHARA)0x80074564 },   // CHARA_003D_SPARK,
-    { 0x003e, (NEWCHARA)0x8006e6cc },   // CHARA_003E,
-    { 0x003f, (NEWCHARA)0x800d3ad8 },   // CHARA_003F_INVERLT2,
-    { 0x0041, (NEWCHARA)0x800d4994 },   // CHARA_0041_NINJALZR,
-    { 0x0044, (NEWCHARA)0x800cc8d4 },   // CHARA_0044_BLURPURE,
-    { 0x0047, (NEWCHARA)0x800d6a4c },   // CHARA_0047_BLOODHZD,
-    { 0x0048, (NEWCHARA)0x800d7538 },   // CHARA_0048_BLOODDRP,
-    { 0x0049, (NEWCHARA)0x800d15fc },   // CHARA_0049_WINDCRCL,
+    { 0x0001, (NEWCHARA)0x8006dfdc },   //  CHARA_0001_BLAST,
+    { 0x0003, (NEWCHARA)0x800cf860 },   //  CHARA_0003_FADEIO,
+    { 0x0004, (NEWCHARA)0x800cf860 },   //  CHARA_0004_FADEIO,
+    { 0x0009, (NEWCHARA)0x80072728 },   //  CHARA_0009_BLOOD,
+    { 0x000a, (NEWCHARA)0x800c8074 },   //  CHARA_000A_SPLASH,
+    { 0x000b, (NEWCHARA)0x80076708 },   //  CHARA_000B_BULLET,
+    { 0x000d, (NEWCHARA)0x800c8c00 },   //  CHARA_000D_D_BLOODS,
+    { 0x000f, (NEWCHARA)0x800c7440 },   //  CHARA_000F_DEMOKAGE,
+    { 0x001d, (NEWCHARA)0x800ca26c },   //  CHARA_001D_PLASMA,
+    { 0x0020, (NEWCHARA)0x800d6480 },   //  CHARA_0020_MGREXLZR,
+    { 0x0024, (NEWCHARA)0x800ca330 },   //  CHARA_0024_PLASMA,
+    { 0x0025, (NEWCHARA)0x800cd3d8 },   //  CHARA_0025_BLUR,
+    { 0x0028, (NEWCHARA)0x800d0e90 },   //  CHARA_0028_SEPIA,
+    { 0x002a, (NEWCHARA)0x800c617c },   //  CHARA_002A,
+    { 0x0030, (NEWCHARA)0x800cb34c },   //  CHARA_0030_BLST_LN,
+    { 0x0031, (NEWCHARA)0x800cd9e0 },   //  CHARA_0031_SMKE_LN,
+    { 0x0037, (NEWCHARA)0x800caf90 },   //  CHARA_0037_RED_ALRT,
+    { 0x0038, (NEWCHARA)0x800cb054 },   //  CHARA_0038_RED_ALRT,
+    { 0x0039, (NEWCHARA)0x800cb7f8 },   //  CHARA_0039_CRSH_SMK,
+    { 0x003b, (NEWCHARA)0x800d33cc },   //  CHARA_003B_INVERLT,
+    { 0x003c, (NEWCHARA)0x800ce0f4 },   //  CHARA_003C_SPARK2,
+    { 0x003d, (NEWCHARA)0x80074564 },   //  CHARA_003D_SPARK,
+    { 0x003e, (NEWCHARA)0x8006e6cc },   //  CHARA_003E,
+    { 0x003f, (NEWCHARA)0x800d3ad8 },   //  CHARA_003F_INVERLT2,
+    { 0x0041, (NEWCHARA)0x800d4994 },   //  CHARA_0041_NINJALZR,
+    { 0x0044, (NEWCHARA)0x800cc8d4 },   //  CHARA_0044_BLURPURE,
+    { 0x0047, (NEWCHARA)0x800d6a4c },   //  CHARA_0047_BLOODHZD,
+    { 0x0048, (NEWCHARA)0x800d7538 },   //  CHARA_0048_BLOODDRP,
+    { 0x0049, (NEWCHARA)0x800d15fc },   //  CHARA_0049_WINDCRCL,
 
     CHARA_END
 };

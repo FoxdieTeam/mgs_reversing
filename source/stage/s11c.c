@@ -9,7 +9,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_ASIOTOKUN,    /* chara 足音君 */
     CHARA_CAT_IN,
     CHARA_FOG,          /* chara 黒フォグ */
-    CHARA_TEXTURE_LAMP, /* chara テクスチャ */
+    CHARA_TEXTURE,      /* chara テクスチャ */
     CHARA_RASEN,        /* chara 螺旋階段 */
     CHARA_RASEN_EL,     /* chara 螺旋階段エレベータ */
     CHARA_CINEMA,       /* chara シネマスクリーン */

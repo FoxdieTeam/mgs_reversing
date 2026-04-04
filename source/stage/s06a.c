@@ -3,7 +3,7 @@
 
 CHARA _StageCharacterEntries[] = {
     CHARA_PADVIBRATE,   /* chara パッド振動 */
-    CHARA_TRUCKTRAP,
+    CHARA_TRUCKTRAP,    /* chara トラック移動トラップ */
     CHARA_CINEMA,       /* chara シネマスクリーン */
     CHARA_FADEIO,       /* chara 白黒フェド */
     CHARA_EMITTER,      /* chara ジン発光 */
@@ -20,7 +20,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_LIFEUP,       /* chara ライフ増加 */
     CHARA_CAT_IN,
     CHARA_WALL,         /* chara 障害物 */
-    CHARA_TEXTURE_LAMP, /* chara テクスチャ */
+    CHARA_TEXTURE,      /* chara テクスチャ */
     CHARA_CAMERASHAKE,  /* chara カメラ揺らし */
     CHARA_BLINKTEX,     /* chara 点滅テクスチャ */
     CHARA_DYNWALL,      /* chara 透明壁 */

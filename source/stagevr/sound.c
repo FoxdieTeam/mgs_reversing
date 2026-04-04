@@ -2,7 +2,7 @@
 #include "charalst.h"
 
 CHARA _StageCharacterEntries[] = {
-    { 0x4efc, (NEWCHARA)0x800c152c },   // CHARA_SOUNDTEST,    /* chara サウンドテスト */
+    { 0x4efc, (NEWCHARA)0x800c152c },   //  CHARA_SOUNDTEST,    /* chara サウンドテスト */
 
     CHARA_END
 };

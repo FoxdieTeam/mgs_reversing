@@ -12,7 +12,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_GUNCAMERA,
     CHARA_SHAKEMODEL,
     CHARA_DMYFLOOR,     /* chara 落し穴 */
-    CHARA_TEXTURE_LAMP, /* chara テクスチャ */
+    CHARA_TEXTURE,      /* chara テクスチャ */
     CHARA_FALL_SPLASH,
     CHARA_DYNWALL,      /* chara 透明壁 */
 

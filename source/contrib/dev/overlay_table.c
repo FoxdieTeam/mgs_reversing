@@ -21,7 +21,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_ASIATOKUN,    /* chara 足跡君 */
     CHARA_PATOLAMP,     /* chara パトランプ */
     CHARA_COMMANDER,    /* chara コマンダー */
-    CHARA_WATER_AREA,   /* chara 水領域 */
+    CHARA_WT_AREA,      /* chara 水領域 */
     CHARA_WATCHER,      /* chara 巡回兵 */
     CHARA_SMOKE,        /* chara 煙 */
     CHARA_EMITTER,      /* chara ジン発光 */

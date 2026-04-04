@@ -9,7 +9,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_JDRUM,
     CHARA_JEEP_EMY,
     CHARA_VOICESYS,     /* chara 音声制御 */
-    { 0xd6fb, (NEWCHARA)0x800CB120 },   // CHARA_FOG,   /* chara 黒フォグ */
+    { 0xd6fb, (NEWCHARA)0x800CB120 },   //  CHARA_FOG,   /* chara 黒フォグ */
     CHARA_FADEIO,       /* chara 白黒フェド */
 
     CHARA_END

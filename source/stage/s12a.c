@@ -10,7 +10,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_FADEIO,       /* chara 白黒フェド */
     CHARA_WOLF,         /* chara ウルフ */
     CHARA_FINDTRAP,     /* chara 発見トラップ */
-    CHARA_TEXTURE_LAMP, /* chara テクスチャ */
+    CHARA_TEXTURE,      /* chara テクスチャ */
     CHARA_MOVIE,        /* chara ムービー */
     CHARA_CINEMA,       /* chara シネマスクリーン */
     CHARA_SNOW,         /* chara 雪 */

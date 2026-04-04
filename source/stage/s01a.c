@@ -12,7 +12,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_ENV_SOUND,    /* chara 環境音 */
     CHARA_CAT_IN,
     CHARA_DEMODOLL,     /* chara デモ人形 */
-    CHARA_TRUCKTRAP,
+    CHARA_TRUCKTRAP,    /* chara トラック移動トラップ */
     CHARA_DYNWALL,      /* chara 透明壁 */
     CHARA_ASIATOKUN,    /* chara 足跡君 */
     CHARA_ASIOTOKUN,    /* chara 足音君 */
