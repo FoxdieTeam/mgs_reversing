@@ -74,23 +74,47 @@ typedef struct _Unknown2
     int   color;
 } Unknown2;
 
-extern Unknown2 dword_800C3218[];
+static Unknown2 dword_800C3218[] =
+{
+    {0, 100, 190, 0},
+    {0, 76, 190, 0},
+    {0, 100, 190, 0},
+    {0, 42, 190, 0},
+    {0, 94, 190, 0},
+    {0, 88, 190, 0},
+    {0, 94, 190, 0},
+    {0, 158, 188, 0},
+    {0, 172, 190, 0},
+    {0, 172, 190, 0},
+    {0, 172, 190, 0},
+    {0, 172, 190, 0},
+    {0, 122, 190, 0},
+    {0, 36, 110, 0},
+    {0, 36, 125, 0},
+    {0, 36, 140, 0},
+    {0, 36, 155, 0},
+    {0, 88, 190, 0},
+    {0, 172, 190, 0},
+    {0, 172, 190, 0},
+    {0, 172, 190, 0},
+    {0, 42, 190, 0},
+    {0, 170, 190, 0},
+    {0, 170, 190, 0},
+    {0, 36, 175, 0},
+    {0, 88, 190, 0},
+    {0, 122, 190, 0},
+    {0, 110, 188, 0},
+    {0, 76, 190, 0},
+    {0, 172, 190, 0},
+    {0, 172, 190, 0},
+};
 
 signed char byte_800C338C[] = {-1, 0, 1, 0, 0, 1, 0, -1};
 signed char byte_800C3394[] = {-1, 0, 1, 0, 0, 1, 0, -1};
 
-extern const char option_aOpcaption_800C950C[];      // = "op_caption"
-extern const char option_aOpsound_800C9518[];        // = "op_sound"
-extern const char option_aOpvib_800C9524[];          // = "op_vib"
-extern const char option_aOpvibtest_800C952C[];      // = "op_vib_test"
-extern const char option_aOpscreen_800C9538[];       // = "op_screen"
-extern const char option_aOpkeyconfig_800C9544[];    // = "op_keyconfig"
-extern const char option_aOpexit_800C9554[];         // = "op_exit"
-extern const char option_aIntoplanguage_800C955C[];  // = "int_op_language2"
-
 #define EXEC_LEVEL GV_ACTOR_MANAGER
 
-void option_800C339C(OptionWork *work, int index)
+static void option_800C339C(OptionWork *work, int index)
 {
     RECT rect;
     KCB *kcb;
@@ -135,7 +159,7 @@ void option_800C339C(OptionWork *work, int index)
     font_clut_update(kcb);
 }
 
-void option_800C352C(OptionWork *work, int index)
+static void option_800C352C(OptionWork *work, int index)
 {
     char     *string;
     KCB      *kcb;
@@ -169,7 +193,7 @@ void option_800C352C(OptionWork *work, int index)
     }
 }
 
-void option_800C3664(OptionWork *work, u_long *ot)
+static void option_800C3664(OptionWork *work, u_long *ot)
 {
     int       index;
     int       i, j, k;
@@ -271,7 +295,7 @@ void option_800C3664(OptionWork *work, u_long *ot)
     }
 }
 
-void option_800C3B3C(OptionWork *work, int index, int color)
+static void option_800C3B3C(OptionWork *work, int index, int color)
 {
     KCB *kcb;
 
@@ -280,12 +304,12 @@ void option_800C3B3C(OptionWork *work, int index, int color)
     font_clut_update( kcb );
 }
 
-void * option_800C3B8C(KCB *kcb)
+static void *option_800C3B8C(KCB *kcb)
 {
     return kcb->font_clut_buffer;
 }
 
-void option_800C3B98(OptionWork *work)
+static void option_800C3B98(OptionWork *work)
 {
     POLY_FT4 *polys;
 
@@ -320,7 +344,7 @@ void option_800C3B98(OptionWork *work)
     }
 }
 
-void option_800C3C74(OptionWork *work)
+static void option_800C3C74(OptionWork *work)
 {
     POLY_FT4 *poly_dst, *poly_src;
     int       r0, g0, b0;
@@ -409,7 +433,7 @@ void option_800C3C74(OptionWork *work)
     }
 }
 
-void option_800C4130(OptionWork *work, u_long *ot)
+static void option_800C4130(OptionWork *work, u_long *ot)
 {
     int i;
 
@@ -555,7 +579,7 @@ void option_800C4130(OptionWork *work, u_long *ot)
     option_800C3664(work, ot);
 }
 
-void option_800C449C(OptionWork *work, int x, int y, int w, int h, int shade, int type)
+static void option_800C449C(OptionWork *work, int x, int y, int w, int h, int shade, int type)
 {
     POLY_FT4 *poly;
     int       i;
@@ -736,7 +760,7 @@ void option_800C449C(OptionWork *work, int x, int y, int w, int h, int shade, in
     }
 }
 
-void option_800C4780(OptionWork *work)
+static void option_800C4780(OptionWork *work)
 {
     POLY_FT4 *poly;
     int       f29E8;
@@ -872,7 +896,7 @@ void option_800C4780(OptionWork *work)
     }
 }
 
-void option_800C4A6C(OptionWork *work)
+static void option_800C4A6C(OptionWork *work)
 {
     POLY_FT4 *polys;
 
@@ -889,7 +913,7 @@ void option_800C4A6C(OptionWork *work)
     }
 }
 
-void option_800C4AE8(OptionWork *work, int name, POLY_FT4 *poly)
+static void option_800C4AE8(OptionWork *work, int name, POLY_FT4 *poly)
 {
     DG_TEX *tex;
     int     x, y, w, h;
@@ -914,8 +938,7 @@ void option_800C4AE8(OptionWork *work, int name, POLY_FT4 *poly)
     poly->clut = tex->clut;
 }
 
-
-void option_800C4B68(OptionWork *work)
+static void option_800C4B68(OptionWork *work)
 {
     POLY_FT4 *poly;
 
@@ -1113,8 +1136,7 @@ void option_800C4B68(OptionWork *work)
     }
 }
 
-
-void option_800C5150(OptionWork *work, int param_2)
+static void option_800C5150(OptionWork *work, int param_2)
 {
     POLY_FT4 *poly;
     int       i;
@@ -1295,7 +1317,7 @@ void option_800C5150(OptionWork *work, int param_2)
     }
 }
 
-void option_800C5698(OptionWork *work)
+static void option_800C5698(OptionWork *work)
 {
     int press;
 
@@ -1419,7 +1441,8 @@ void option_800C5698(OptionWork *work)
 
 static inline void SetGameStatusFlags( OptionWork *work )
 {
-    GM_SeSet2( 0, 0x3F, 0x21 ) ;
+    GM_SeSet2( 0, 63, SE_MENU_EXIT ) ;
+
     if ( work->f924[3] == 0 )
     {
         GM_SetSound( 0xFF000006, SD_ASYNC ) ;
@@ -1509,7 +1532,6 @@ static inline void SetGameStatusFlags( OptionWork *work )
     work->f920 = 11;
     work->f2B58 = 0;
 
-    //loc_800C675C
     GM_PadVibration = 0;
     GM_PadVibration2 = 0;
     mts_set_pad_vibration( 1, 0 );
@@ -1517,8 +1539,7 @@ static inline void SetGameStatusFlags( OptionWork *work )
     work->f2B50 = 0;
 }
 
-
-void option_800C5950( OptionWork *work )
+static void option_800C5950( OptionWork *work )
 {
     int press  = work->pad->press;
     int status = work->pad->status;
@@ -1531,7 +1552,7 @@ void option_800C5950( OptionWork *work )
             if ( work->f924[ work->f920 ] == 0 )
             {
                 option_800C4B68( work ) ;
-                GM_SeSet2( 0, 0x3F, SE_MENU_TOGGLE ) ;
+                GM_SeSet2( 0, 63, SE_MENU_TOGGLE ) ;
             }
         }
         else if ( press & PAD_LEFT )
@@ -1539,13 +1560,13 @@ void option_800C5950( OptionWork *work )
             if ( work->f924[ work->f920 ] == 1 )
             {
                 option_800C4B68( work ) ;
-                GM_SeSet2( 0, 0x3F, SE_MENU_TOGGLE ) ;
+                GM_SeSet2( 0, 63, SE_MENU_TOGGLE ) ;
             }
         }
         else if ( press & PAD_DOWN )
         {
             option_800C5150( work, 1 ) ;
-            GM_SeSet2( 0, 0x3F, SE_MENU_CURSOR ) ;
+            GM_SeSet2( 0, 63, SE_MENU_CURSOR ) ;
         }
         else if ( press & PAD_CROSS )
         {
@@ -1560,7 +1581,7 @@ void option_800C5950( OptionWork *work )
             if ( work->f924[ work-> f920 ] == 0 )
             {
                 option_800C4B68( work ) ;
-                GM_SeSet2( 0, 0x3F, SE_MENU_TOGGLE ) ;
+                GM_SeSet2( 0, 63, SE_MENU_TOGGLE ) ;
             }
         }
         else if ( press & PAD_LEFT )
@@ -1568,18 +1589,18 @@ void option_800C5950( OptionWork *work )
             if ( work->f924[ work-> f920 ] == 1 )
             {
                 option_800C4B68( work ) ;
-                GM_SeSet2( 0, 0x3F, SE_MENU_TOGGLE ) ;
+                GM_SeSet2( 0, 63, SE_MENU_TOGGLE ) ;
             }
         }
         else if ( press & PAD_UP )
         {
             option_800C5150( work, 0 ) ;
-            GM_SeSet2( 0, 0x3F, SE_MENU_CURSOR ) ;
+            GM_SeSet2( 0, 63, SE_MENU_CURSOR ) ;
         }
         else if ( press & PAD_DOWN )
         {
             option_800C5150( work, 1 ) ;
-            GM_SeSet2( 0, 0x3F, SE_MENU_CURSOR ) ;
+            GM_SeSet2( 0, 63, SE_MENU_CURSOR ) ;
         }
         else if ( press & PAD_CROSS )
         {
@@ -1606,12 +1627,12 @@ void option_800C5950( OptionWork *work )
         else if ( press & PAD_UP )
         {
             option_800C5150( work, 0 ) ;
-            GM_SeSet2( 0, 0x3F, SE_MENU_CURSOR ) ;
+            GM_SeSet2( 0, 63, SE_MENU_CURSOR ) ;
         }
         else if ( press & PAD_DOWN )
         {
             option_800C5150( work, 1 ) ;
-            GM_SeSet2( 0, 0x3F, SE_MENU_CURSOR ) ;
+            GM_SeSet2( 0, 63, SE_MENU_CURSOR ) ;
         }
         else if ( press & PAD_CROSS )
         {
@@ -1623,17 +1644,17 @@ void option_800C5950( OptionWork *work )
         if ( press & PAD_UP )
         {
             option_800C5150( work, 0 ) ;
-            GM_SeSet2( 0, 0x3F, SE_MENU_CURSOR ) ;
+            GM_SeSet2( 0, 63, SE_MENU_CURSOR ) ;
         }
         else if ( press & PAD_DOWN )
         {
             option_800C5150( work, 1 ) ;
-            GM_SeSet2( 0, 0x3F, SE_MENU_CURSOR ) ;
+            GM_SeSet2( 0, 63, SE_MENU_CURSOR ) ;
         }
         else if ( press & PAD_CIRCLE )
         {
             option_800C5150( work, 2 ) ;
-            GM_SeSet2( 0, 0x3F, SE_MENU_SELECT ) ;
+            GM_SeSet2( 0, 63, SE_MENU_SELECT ) ;
         }
         else if ( press & PAD_CROSS )
         {
@@ -1644,12 +1665,12 @@ void option_800C5950( OptionWork *work )
         if ( press & PAD_CIRCLE )
         {
             option_800C5150( work, 3 ) ;
-            GM_SeSet2( 0, 0x3F, SE_MENU_EXIT ) ;
+            GM_SeSet2( 0, 63, SE_MENU_EXIT ) ;
         }
         else if ( press & PAD_CROSS )
         {
             option_800C5150( work, 3 ) ;
-            GM_SeSet2( 0, 0x3F, SE_MENU_EXIT ) ;
+            GM_SeSet2( 0, 63, SE_MENU_EXIT ) ;
         }
     break;
     case 9:
@@ -1663,7 +1684,7 @@ void option_800C5950( OptionWork *work )
         else if ( press & PAD_UP )
         {
             option_800C5150( work, 0 ) ;
-            GM_SeSet2( 0, 0x3F, SE_MENU_CURSOR ) ;
+            GM_SeSet2( 0, 63, SE_MENU_CURSOR ) ;
         }
     break;
     case 11:
@@ -1676,35 +1697,610 @@ void option_800C5950( OptionWork *work )
     }
 }
 
-const char option_aOpcaption_800C950C[] = "op_caption";
-const char option_aOpsound_800C9518[] = "op_sound";
-const char option_aOpvib_800C9524[] = "op_vib";
-const char option_aOpvibtest_800C952C[] = "op_vib_test";
-const char option_aOpscreen_800C9538[] = "op_screen";
-const char option_aOpkeyconfig_800C9544[] = "op_keyconfig";
-const char option_aOpexit_800C9554[] = "op_exit";
-const char option_aIntoplanguage_800C955C[] = "int_op_language2";
-
-const int option_dword_800C9570 = 0x800C6804;
-const int option_dword_800C9574 = 0x800C7990;
-const int option_dword_800C9578 = 0x800C7990;
-const int option_dword_800C957C = 0x800C7990;
-const int option_dword_800C9580 = 0x800C7990;
-const int option_dword_800C9584 = 0x800C7990;
-const int option_dword_800C9588 = 0x800C7990;
-const int option_dword_800C958C = 0x800C7BF8;
-const int option_dword_800C9590 = 0x800C7990;
-const int option_dword_800C9594 = 0x800C7BF8;
-const int option_dword_800C9598 = 0x800C7990;
-const int option_dword_800C959C = 0x800C7C14;
-
-#pragma INCLUDE_ASM("asm/overlays/option/option_800C6784.s")
-void option_800C6784(OptionWork *work);
-
-void OptionDie_800C7C8C(OptionWork *work)
+static void Act(OptionWork *work)
 {
-    int      i;
-    void    *buf;
+    int       fade;
+    u_long   *ot;
+    POLY_FT4 *poly;
+    int       i;
+    int       x, y;
+    int       bright;
+    int       shade;
+
+    fade = work->f2B58;
+    ot = DG_ChanlOTag(1);
+    poly = work->field_34;
+
+    work->f2B54 = mts_get_pad_vibration_type(1);
+
+    switch (work->f920)
+    {
+    case 0:
+        if (fade < 9)
+        {
+            for (i = 0; i < 2; i++)
+            {
+                work->f2A00[i] = 256;
+            }
+
+            x = 196 - fade * 30;
+            setXYWH(&poly[0], x, -12, 88, 12);
+
+            x = fade * 30 - 284;
+            setXYWH(&poly[1], x, -12, 88, 12);
+
+            if (fade == 1)
+            {
+                GM_SeSet2(0, 63, SE_MENU_RANKING);
+            }
+        }
+        else if (fade < 13)
+        {
+            /* do nothing */
+        }
+        else if (fade < 17)
+        {
+            bright = ((fade - 12) * 255) / 4;
+            option_800C449C(work, -44, -12, 88, 12, bright, 0);
+        }
+        else if (fade < 25)
+        {
+            bright = 255;
+            option_800C449C(work, -44, -12, 88, 12, bright, 0);
+        }
+        else if (fade < 29)
+        {
+            bright = 255 - ((fade - 24) * 255) / 4;
+            option_800C449C(work, -44, -12, 88, 12, bright, 0);
+        }
+        else if (fade < 33)
+        {
+            y = -12 - (fade - 28) * 20;
+            setXYWH(&poly[0], -44, y, 88, 12);
+            setXYWH(&poly[1], -44, y, 88, 12);
+        }
+        else if (fade < 37)
+        {
+            work->f2A00[21] = 768;
+            work->f2A00[22] = 768;
+
+            shade = ((fade - 32) * 128) / 10;
+
+            setXYWH(&poly[21], -160, -112, 160, 224);
+            setRGB0(&poly[21], shade, shade, shade);
+
+            setXYWH(&poly[22], 0, -112, 160, 224);
+            setRGB0(&poly[22], shade, shade, shade);
+        }
+        else if (fade < 43)
+        {
+            for (i = 0; i < 9; i++)
+            {
+                work->f2A00[i] = 256;
+            }
+
+            work->f2A00[23] = 256;
+
+            if (work->f2B54 == 0)
+            {
+                work->f2A00[4] = 0;
+                work->f2A00[5] = 0;
+            }
+
+            x = ((fade - 36) * 50) / 6;
+            poly[2].x0 = -x;
+            poly[2].y0 = -60;
+            poly[2].x1 = x;
+            poly[2].y1 = -60;
+            poly[2].x2 = -x;
+            poly[2].y2 = -48;
+            poly[2].x3 = x;
+            poly[2].y3 = -48;
+            setRGB0(&poly[2], 100, 160, 135);
+
+            x = ((fade - 36) * 42) / 6;
+            poly[3].x0 = -x;
+            poly[3].y0 = -28;
+            poly[3].x1 = x;
+            poly[3].y1 = -28;
+            poly[3].x2 = -x;
+            poly[3].y2 = -16;
+            poly[3].x3 = x;
+            poly[3].y3 = -16;
+            setRGB0(&poly[3], 100, 160, 135);
+
+            x = ((fade - 36) * 56) / 6;
+            poly[4].x0 = -x;
+            poly[4].y0 = -12;
+            poly[4].x1 = x;
+            poly[4].y1 = -12;
+            poly[4].x2 = -x;
+            poly[4].y2 = 0;
+            poly[4].x3 = x;
+            poly[4].y3 = 0;
+            setRGB0(&poly[4], 100, 160, 135);
+
+            x = ((fade - 36) * 74) / 6;
+            poly[5].x0 = -x;
+            poly[5].y0 = 4;
+            poly[5].x1 = x;
+            poly[5].y1 = 4;
+            poly[5].x2 = -x;
+            poly[5].y2 = 16;
+            poly[5].x3 = x;
+            poly[5].y3 = 16;
+            setRGB0(&poly[5], 100, 160, 135);
+
+            x = ((fade - 36) * 30) / 6;
+            poly[6].x0 = -x;
+            poly[6].y0 = 24;
+            poly[6].x1 = x;
+            poly[6].y1 = 24;
+            poly[6].x2 = -x;
+            poly[6].y2 = 36;
+            poly[6].x3 = x;
+            poly[6].y3 = 36;
+            setRGB0(&poly[6], 100, 160, 135);
+
+            x = ((fade - 36) * 44) / 6;
+            poly[7].x0 = -x;
+            poly[7].y0 = 40;
+            poly[7].x1 = x;
+            poly[7].y1 = 40;
+            poly[7].x2 = -x;
+            poly[7].y2 = 52;
+            poly[7].x3 = x;
+            poly[7].y3 = 52;
+            setRGB0(&poly[7], 100, 160, 135);
+
+            x = ((fade - 36) * 28) / 6;
+            poly[8].x0 = -x;
+            poly[8].y0 = 60;
+            poly[8].x1 = x;
+            poly[8].y1 = 60;
+            poly[8].x2 = -x;
+            poly[8].y2 = 72;
+            poly[8].x3 = x;
+            poly[8].y3 = 72;
+            setRGB0(&poly[8], 100, 160, 135);
+
+            x = ((fade - 36) * 56) / 6;
+            poly[23].x0 = -x;
+            poly[23].y0 = -44;
+            poly[23].x1 = x;
+            poly[23].y1 = -44;
+            poly[23].x2 = -x;
+            poly[23].y2 = -31;
+            poly[23].x3 = x;
+            poly[23].y3 = -31;
+            setRGB0(&poly[23], 100, 160, 135);
+
+            shade = ((fade - 32) * 128) / 10;
+            setRGB0(&poly[21], shade, shade, shade);
+            setRGB0(&poly[22], shade, shade, shade);
+        }
+        else if (fade == 43)
+        {
+            for (i = 0; i < 9; i++)
+            {
+                work->f2A00[i] = 256;
+            }
+
+            work->f2A00[23] = 256;
+
+            if (work->f2B54 == 0)
+            {
+                work->f2A00[4] = 0;
+                work->f2A00[5] = 0;
+            }
+
+            option_800C4AE8(work, GV_StrCode("op_caption"), &poly[2]);
+            option_800C4AE8(work, GV_StrCode("op_sound"), &poly[3]);
+            option_800C4AE8(work, GV_StrCode("op_vib"), &poly[4]);
+            option_800C4AE8(work, GV_StrCode("op_vib_test"), &poly[5]);
+            option_800C4AE8(work, GV_StrCode("op_screen"), &poly[6]);
+            option_800C4AE8(work, GV_StrCode("op_keyconfig"), &poly[7]);
+            option_800C4AE8(work, GV_StrCode("op_exit"), &poly[8]);
+            option_800C4AE8(work, GV_StrCode("int_op_language2"), &poly[23]);
+        }
+        else if (fade == 44)
+        {
+            for (i = 0; i < 11; i++)
+            {
+                work->f2A00[i] = 256;
+            }
+
+            work->f2A00[17] = 256;
+
+            if (work->f2B54 == 0)
+            {
+                work->f2A00[4] = 0;
+                work->f2A00[5] = 0;
+                work->f2A00[13] = 0;
+                work->f2A00[14] = 0;
+                work->f2A00[15] = 0;
+                work->f2A00[16] = 0;
+            }
+            else if (work->f2B54 == 2)
+            {
+                work->f2A00[16] = 0;
+            }
+
+            if (work->f924[1] == 0)
+            {
+                option_800C4AE8(work, GV_StrCode("on_w"), &poly[9]);
+
+                setXYWH(&poly[9], -136, -60, 40, 12);
+                setRGB0(&poly[9], 100, 160, 135);
+
+                setXYWH(&poly[10], 92, -60, 48, 12);
+                setRGB0(&poly[10], 70, 100, 90);
+
+                setXYWH(&poly[17], -96, -55, 48, 2);
+                setRGB0(&poly[17], 100, 160, 135);
+            }
+            else
+            {
+                setRGB0(&poly[9], 70, 100, 90);
+                setXYWH(&poly[9], -136, -60, 40, 12);
+
+                setXYWH(&poly[10], 92, -60, 48, 12);
+                setRGB0(&poly[10], 100, 160, 135);
+
+                option_800C4AE8(work, GV_StrCode("off_w"), &poly[10]);
+
+                setXYWH(&poly[17], 48, -55, 44, 2);
+                setRGB0(&poly[17], 100, 160, 135);
+            }
+        }
+        else if (fade == 45)
+        {
+            for (i = 0; i < 11; i++)
+            {
+                work->f2A00[i] = 256;
+            }
+
+            for (i = 23; i < 27; i++)
+            {
+                work->f2A00[i] = 256;
+            }
+            work->f2A00[17] = 256;
+            work->f2A00[16] = 256;
+
+            if (work->f2B54 == 0)
+            {
+                work->f2A00[4] = 0;
+                work->f2A00[5] = 0;
+                work->f2A00[13] = 0;
+                work->f2A00[14] = 0;
+                work->f2A00[15] = 0;
+                work->f2A00[16] = 0;
+            }
+            else if (work->f2B54 == 2)
+            {
+                work->f2A00[16] = 0;
+            }
+
+            if (work->f924[2] == 0)
+            {
+                option_800C4AE8(work, GV_StrCode("int_op_language1_w"), &poly[24]);
+
+                setXYWH(&poly[24], -160, -44, 92, 13);
+                setRGB0(&poly[24], 100, 160, 135);
+
+                setXYWH(&poly[25], 78, -44, 76, 13);
+                setRGB0(&poly[25], 70, 100, 90);
+
+                setXYWH(&poly[26], -71, -39, 16, 2);
+                setRGB0(&poly[26], 100, 160, 135);
+            }
+            else
+            {
+                setXYWH(&poly[24], -160, -44, 92, 13);
+                setRGB0(&poly[24], 70, 100, 90);
+
+                setXYWH(&poly[25], 78, -44, 76, 13);
+                setRGB0(&poly[25], 100, 160, 135);
+
+                option_800C4AE8(work, GV_StrCode("int_op_language3_w"), &poly[25]);
+
+                setXYWH(&poly[26], 55, -39, 23, 2);
+                setRGB0(&poly[26], 100, 160, 135);
+            }
+        }
+        else if (fade == 46)
+        {
+            for (i = 0; i <= 12; i++)
+            {
+                work->f2A00[i] = 256;
+            }
+            for (i = 23; i < 27; i++)
+            {
+                work->f2A00[i] = 256;
+            }
+            work->f2A00[17] = 256;
+            work->f2A00[18] = 256;
+
+            if (work->f2B54 == 0)
+            {
+                work->f2A00[4] = 0;
+                work->f2A00[5] = 0;
+                work->f2A00[13] = 0;
+                work->f2A00[14] = 0;
+                work->f2A00[15] = 0;
+                work->f2A00[16] = 0;
+            }
+            else if (work->f2B54 == 2)
+            {
+                work->f2A00[16] = 0;
+            }
+
+            if (work->f924[3] == 0)
+            {
+                option_800C4AE8(work, GV_StrCode("stereo_w"), &poly[11]);
+
+                setXYWH(&poly[11], -152, -28, 72, 12);
+                setRGB0(&poly[11], 100, 160, 135);
+
+                setXYWH(&poly[12], 76, -28, 80, 12);
+                setRGB0(&poly[12], 70, 100, 90);
+
+                setXYWH(&poly[18], -80, -23, 38, 2);
+                setRGB0(&poly[18], 100, 160, 135);
+            }
+            else
+            {
+                setXYWH(&poly[11], -152, -28, 72, 12);
+                setRGB0(&poly[11], 70, 100, 90);
+
+                setXYWH(&poly[12], 76, -28, 80, 12);
+                setRGB0(&poly[12], 100, 160, 135);
+
+                option_800C4AE8(work, GV_StrCode("monaural_w"), &poly[12]);
+
+                setXYWH(&poly[18], 42, -23, 34, 2);
+                setRGB0(&poly[18], 100, 160, 135);
+            }
+        }
+        else if (fade == 47)
+        {
+            for (i = 0; i < 15; i++)
+            {
+                work->f2A00[i] = 256;
+            }
+
+            for (i = 23; i < 27; i++)
+            {
+                work->f2A00[i] = 256;
+            }
+
+            work->f2A00[17] = 256;
+            work->f2A00[18] = 256;
+            work->f2A00[19] = 256;
+
+            if (work->f2B54 == 0)
+            {
+                work->f2A00[4] = 0;
+                work->f2A00[5] = 0;
+                work->f2A00[13] = 0;
+                work->f2A00[14] = 0;
+                work->f2A00[15] = 0;
+                work->f2A00[16] = 0;
+                work->f2A00[19] = 0;
+            }
+            else if (work->f2B54 == 2)
+            {
+                work->f2A00[16] = 0;
+            }
+
+            if (work->f924[4] == 0)
+            {
+                option_800C4AE8(work, GV_StrCode("on_w"), &poly[13]);
+
+                setXYWH(&poly[13], -136, -12, 40, 12);
+                setRGB0(&poly[13], 100, 160, 135);
+
+                setXYWH(&poly[14], 92, -12, 48, 12);
+                setRGB0(&poly[14], 70, 100, 90);
+
+                setXYWH(&poly[19], -96, -7, 41, 2);
+                setRGB0(&poly[19], 100, 160, 135);
+            }
+            else
+            {
+                setXYWH(&poly[13], -136, -12, 40, 12);
+                setRGB0(&poly[13], 70, 100, 90);
+
+                setXYWH(&poly[14], 92, -12, 48, 12);
+                setRGB0(&poly[14], 100, 160, 135);
+
+                option_800C4AE8(work, GV_StrCode("off_w"), &poly[14]);
+
+                setXYWH(&poly[19], 55, -7, 37, 2);
+                setRGB0(&poly[19], 100, 160, 135);
+            }
+        }
+        else if (fade == 48)
+        {
+            for (i = 0; i < 21; i++)
+            {
+                work->f2A00[i] = 256;
+            }
+
+            for (i = 23; i < 27; i++)
+            {
+                work->f2A00[i] = 256;
+            }
+
+            if (work->f2B54 == 0)
+            {
+                work->f2A00[4] = 0;
+                work->f2A00[5] = 0;
+                work->f2A00[13] = 0;
+                work->f2A00[14] = 0;
+                work->f2A00[15] = 0;
+                work->f2A00[16] = 0;
+                work->f2A00[19] = 0;
+                work->f2A00[20] = 0;
+            }
+            else if (work->f2B54 == 2)
+            {
+                work->f2A00[16] = 0;
+            }
+
+            if (work->f924[5] == 0)
+            {
+                setXYWH(&poly[15], -144, 4, 56, 12);
+                setRGB0(&poly[15], 70, 100, 90);
+
+                setXYWH(&poly[16], 80, 4, 72, 12);
+                setRGB0(&poly[16], 70, 100, 90);
+
+                setXYWH(&poly[20], -88, -7, 14, 2);
+            }
+            else
+            {
+                setXYWH(&poly[15], -144, 4, 56, 12);
+                setRGB0(&poly[15], 70, 100, 90);
+
+                setXYWH(&poly[16], 80, 4, 72, 12);
+                setRGB0(&poly[16], 70, 100, 90);
+
+                setXYWH(&poly[20], 74, -7, 6, 2);
+            }
+        }
+        else if (fade < 53)
+        {
+            bright = ((fade - 48) * 255) / 4;
+            option_800C449C(work, -50, -60, 100, 12, bright, 1);
+
+            if (work->f2B58 == 52)
+            {
+                work->f920 = 1;
+            }
+        }
+
+        work->f2B58++;
+        break;
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 8:
+    case 10:
+        option_800C5950(work);
+        option_800C4130(work, ot);
+
+        if (work->f920 == 7 || work->f920 == 9)
+        {
+            for (i = 0; i < 27; i++)
+            {
+                work->f2A90[i] = work->f2A00[i];
+            }
+        }
+
+        switch (work->f2B54)
+        {
+        case 0:
+            if (work->f920 == 4 || work->f920 == 5)
+            {
+                work->f920 = 1;
+                option_800C4AE8(work, GV_StrCode("op_vib"), &poly[4]);
+                option_800C4AE8(work, GV_StrCode("op_vib_test"), &poly[5]);
+                option_800C4AE8(work, GV_StrCode("op_caption"), &poly[2]);
+                option_800C449C(work, -50, -60, 100, 12, 255, 1);
+            }
+
+            for (i = 0; i < 21; i++)
+            {
+                work->f2A00[i] = 256;
+            }
+
+            for (i = 23; i < 27; i++)
+            {
+                work->f2A00[i] = 256;
+            }
+
+            work->f2A00[21] = 768;
+            work->f2A00[22] = 768;
+
+            work->f2A00[4] = 0;
+            work->f2A00[5] = 0;
+            work->f2A00[13] = 0;
+            work->f2A00[14] = 0;
+            work->f2A00[15] = 0;
+            work->f2A00[16] = 0;
+            work->f2A00[19] = 0;
+            work->f2A00[20] = 0;
+            break;
+        case 1:
+            for (i = 0; i < 21; i++)
+            {
+                work->f2A00[i] = 256;
+            }
+            for (i = 23; i < 27; i++)
+            {
+                work->f2A00[i] = 256;
+            }
+
+            work->f2A00[21] = 768;
+            work->f2A00[22] = 768;
+            break;
+        case 2:
+            if (work->f924[5] == 1)
+            {
+                work->f924[5] = 0;
+            }
+
+            for (i = 0; i < 21; i++)
+            {
+                work->f2A00[i] = 256;
+            }
+
+            for (i = 23; i < 27; i++)
+            {
+                work->f2A00[i] = 256;
+            }
+
+            work->f2A00[21] = 768;
+            work->f2A00[22] = 768;
+            work->f2A00[16] = 0;
+            break;
+        }
+
+        if (work->f920 == 7 || work->f920 == 9)
+        {
+            for (i = 0; i < 27; i++)
+            {
+                work->f2A00[i] = 0;
+            }
+        }
+        break;
+    case 7:
+    case 9:
+        option_800C5950(work);
+        option_800C4130(work, ot);
+        break;
+    case 11:
+        if (++work->f2B58 > 16)
+        {
+            GM_OptionFlag |= OPTION_UNKNOWN_0010;
+            GCL_ExecProc(work->f91C, NULL);
+            GV_DestroyActor(&work->actor);
+        }
+        break;
+    }
+
+    option_800C3B98(work);
+    option_800C3C74(work);
+}
+
+static void Die(OptionWork *work)
+{
+    int   i;
+    void *buf;
 
     GM_FreePrim(work->field_24);
     GM_FreePrim(work->field_2C);
@@ -1726,7 +2322,7 @@ void OptionDie_800C7C8C(OptionWork *work)
     work->f2B50 = 0;
 }
 
-void option_800C7D94(OptionWork *work, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int abe)
+static void InitPack(OptionWork *work, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int abe)
 {
     setPolyFT4(poly);
     setRGB0(poly, 128, 128, 128);
@@ -1734,7 +2330,7 @@ void option_800C7D94(OptionWork *work, POLY_FT4 *poly, int x0, int y0, int x1, i
     SetSemiTrans(poly, abe);
 }
 
-static inline void option_helper_800C7E04(POLY_FT4 *poly, DG_TEX *tex, int uo, int vo)
+static inline void SetPacketTexture(POLY_FT4 *poly, DG_TEX *tex, int uo, int vo)
 {
     int u0, u1;
     int v0, v1;
@@ -1749,34 +2345,34 @@ static inline void option_helper_800C7E04(POLY_FT4 *poly, DG_TEX *tex, int uo, i
     poly->clut = tex->clut;
 }
 
-void option_800C7E04(OptionWork *work, int name, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int abe, int type)
+static void Init_Res(OptionWork *work, int name, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int abe, int type)
 {
     DG_TEX *tex;
 
-    option_800C7D94(work, poly, x0, y0, x1, y1, abe);
+    InitPack(work, poly, x0, y0, x1, y1, abe);
 
     tex = DG_GetTexture(name);
     if (type == 0)
     {
-        option_helper_800C7E04(poly, tex, 1, 1);
+        SetPacketTexture(poly, tex, 1, 1);
     }
     else if (type == 1)
     {
-        option_helper_800C7E04(poly, tex, 1, 0);
+        SetPacketTexture(poly, tex, 1, 0);
     }
     else if (type == 2)
     {
-        option_helper_800C7E04(poly, tex, 0, 1);
+        SetPacketTexture(poly, tex, 0, 1);
     }
     else if (type == 3)
     {
-        option_helper_800C7E04(poly, tex, 0, 0);
+        SetPacketTexture(poly, tex, 0, 0);
     }
 }
 
-int OptionGetResources_800C7F88(OptionWork *work, int map)
+static int GetResources(OptionWork *work, int map)
 {
-    POLY_FT4 *poly;
+    POLY_FT4 *po;
     int       i;
 
     GM_CurrentMap = map;
@@ -1786,319 +2382,319 @@ int OptionGetResources_800C7F88(OptionWork *work, int map)
     work->field_2C = GM_MakePrim(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 4, NULL, NULL);
     work->field_30 = GM_MakePrim(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 17, NULL, NULL);
 
-    poly = work->field_34;
+    po = work->field_34;
     i = 0;
 
-    option_800C7E04(work, GV_StrCode("op_opt"), poly, -44, -12, 44, 0, 1, 0);
-    setRGB0(poly, 70, 100, 90);
-    poly++;
+    Init_Res(work, GV_StrCode("op_opt"), po, -44, -12, 44, 0, 1, 0);
+    setRGB0(po, 70, 100, 90);
+    po++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode("op_opt"), poly, -44, -12, 44, 0, 1, 0);
-    setRGB0(poly, 70, 100, 90);
-    poly++;
+    Init_Res(work, GV_StrCode("op_opt"), po, -44, -12, 44, 0, 1, 0);
+    setRGB0(po, 70, 100, 90);
+    po++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode(option_aOpcaption_800C950C), poly, 0, 0, 0, 0, 1, 2);
-    poly++;
+    Init_Res(work, GV_StrCode("op_caption"), po, 0, 0, 0, 0, 1, 2);
+    po++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode(option_aOpsound_800C9518), poly, 0, 0, 0, 0, 1, 2);
-    poly++;
+    Init_Res(work, GV_StrCode("op_sound"), po, 0, 0, 0, 0, 1, 2);
+    po++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode(option_aOpvib_800C9524), poly, 0, 0, 0, 0, 1, 2);
-    poly++;
+    Init_Res(work, GV_StrCode("op_vib"), po, 0, 0, 0, 0, 1, 2);
+    po++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode(option_aOpvibtest_800C952C), poly, 0, 0, 0, 0, 1, 2);
-    poly++;
+    Init_Res(work, GV_StrCode("op_vib_test"), po, 0, 0, 0, 0, 1, 2);
+    po++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode(option_aOpscreen_800C9538), poly, 0, 0, 0, 0, 1, 2);
-    poly++;
+    Init_Res(work, GV_StrCode("op_screen"), po, 0, 0, 0, 0, 1, 2);
+    po++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode(option_aOpkeyconfig_800C9544), poly, 0, 0, 0, 0, 1, 2);
-    poly++;
+    Init_Res(work, GV_StrCode("op_keyconfig"), po, 0, 0, 0, 0, 1, 2);
+    po++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode(option_aOpexit_800C9554), poly, 0, 0, 0, 0, 1, 2);
-    poly++;
+    Init_Res(work, GV_StrCode("op_exit"), po, 0, 0, 0, 0, 1, 2);
+    po++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode("on"), poly, 0, 0, 0, 0, 1, 0);
-    poly++;
+    Init_Res(work, GV_StrCode("on"), po, 0, 0, 0, 0, 1, 0);
+    po++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode("off"), poly, 0, 0, 0, 0, 1, 0);
-    poly++;
+    Init_Res(work, GV_StrCode("off"), po, 0, 0, 0, 0, 1, 0);
+    po++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode("stereo"), poly, 0, 0, 0, 0, 1, 0);
-    poly++;
+    Init_Res(work, GV_StrCode("stereo"), po, 0, 0, 0, 0, 1, 0);
+    po++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode("monaural"), poly, 0, 0, 0, 0, 1, 0);
-    poly++;
+    Init_Res(work, GV_StrCode("monaural"), po, 0, 0, 0, 0, 1, 0);
+    po++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode("on"), poly, 0, 0, 0, 0, 1, 0);
-    poly++;
+    Init_Res(work, GV_StrCode("on"), po, 0, 0, 0, 0, 1, 0);
+    po++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode("off"), poly, 0, 0, 0, 0, 1, 0);
-    poly++;
+    Init_Res(work, GV_StrCode("off"), po, 0, 0, 0, 0, 1, 0);
+    po++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode("weak"), poly, 0, 0, 0, 0, 1, 0);
-    poly++;
+    Init_Res(work, GV_StrCode("weak"), po, 0, 0, 0, 0, 1, 0);
+    po++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode("strong"), poly, 0, 0, 0, 0, 1, 0);
-    poly++;
+    Init_Res(work, GV_StrCode("strong"), po, 0, 0, 0, 0, 1, 0);
+    po++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode("line"), poly, 0, 0, 0, 0, 1, 2);
-    poly++;
+    Init_Res(work, GV_StrCode("line"), po, 0, 0, 0, 0, 1, 2);
+    po++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode("line"), poly, 0, 0, 0, 0, 1, 2);
-    poly++;
+    Init_Res(work, GV_StrCode("line"), po, 0, 0, 0, 0, 1, 2);
+    po++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode("line"), poly, 0, 0, 0, 0, 1, 2);
-    poly++;
+    Init_Res(work, GV_StrCode("line"), po, 0, 0, 0, 0, 1, 2);
+    po++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode("line"), poly, 0, 0, 0, 0, 1, 2);
-    setRGB0(poly, 0, 0, 0);
-    poly++;
+    Init_Res(work, GV_StrCode("line"), po, 0, 0, 0, 0, 1, 2);
+    setRGB0(po, 0, 0, 0);
+    po++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode("op_back_l"), poly, 0, 0, 0, 0, 0, 0);
-    poly++;
+    Init_Res(work, GV_StrCode("op_back_l"), po, 0, 0, 0, 0, 0, 0);
+    po++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode("op_back_r"), poly, 0, 0, 0, 0, 0, 0);
-    poly++;
+    Init_Res(work, GV_StrCode("op_back_r"), po, 0, 0, 0, 0, 0, 0);
+    po++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode(option_aIntoplanguage_800C955C), poly, 0, 0, 0, 0, 1, 2);
-    poly++;
+    Init_Res(work, GV_StrCode("int_op_language2"), po, 0, 0, 0, 0, 1, 2);
+    po++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode("int_op_language1"), poly, 0, 0, 0, 0, 1, 0);
-    poly++;
+    Init_Res(work, GV_StrCode("int_op_language1"), po, 0, 0, 0, 0, 1, 0);
+    po++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode("int_op_language3"), poly, 0, 0, 0, 0, 1, 0);
-    poly++;
+    Init_Res(work, GV_StrCode("int_op_language3"), po, 0, 0, 0, 0, 1, 0);
+    po++;
     work->f2A00[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode("line"), poly, 0, 0, 0, 0, 1, 2);
-    poly++;
+    Init_Res(work, GV_StrCode("line"), po, 0, 0, 0, 0, 1, 2);
+    po++;
     work->f2A00[i] = 0;
     i++;
 
-    poly = work->field_5D4;
+    po = work->field_5D4;
     i = 0;
 
-    option_800C7E04(work, GV_StrCode("sc_back_l"), poly, -160, -112, 0, 112, 0, 0);
-    poly++;
+    Init_Res(work, GV_StrCode("sc_back_l"), po, -160, -112, 0, 112, 0, 0);
+    po++;
     work->f2AFC[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode("sc_back_r"), poly, 0, -112, 160, 112, 0, 0);
-    poly++;
+    Init_Res(work, GV_StrCode("sc_back_r"), po, 0, -112, 160, 112, 0, 0);
+    po++;
     work->f2AFC[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode("sc_option"), poly, -141, -101, -53, -60, 1, 0);
-    setRGB0(poly, 100, 160, 135);
-    poly++;
+    Init_Res(work, GV_StrCode("sc_option"), po, -141, -101, -53, -60, 1, 0);
+    setRGB0(po, 100, 160, 135);
+    po++;
     work->f2AFC[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode(option_aOpexit_800C9554), poly, 90, 86, 146, 98, 1, 0);
-    setRGB0(poly, 100, 160, 135);
-    poly++;
+    Init_Res(work, GV_StrCode("op_exit"), po, 90, 86, 146, 98, 1, 0);
+    setRGB0(po, 100, 160, 135);
+    po++;
     work->f2AFC[i] = 0;
     i++;
 
-    poly = work->field_674;
+    po = work->field_674;
     i = 0;
 
-    option_800C7E04(work, GV_StrCode("key_back_l"), poly, -160, -112, 0, 112, 0, 0);
-    poly++;
+    Init_Res(work, GV_StrCode("key_back_l"), po, -160, -112, 0, 112, 0, 0);
+    po++;
     work->f2B0C[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode("key_back_r"), poly, 0, -112, 160, 112, 0, 0);
-    poly++;
+    Init_Res(work, GV_StrCode("key_back_r"), po, 0, -112, 160, 112, 0, 0);
+    po++;
     work->f2B0C[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode("key_option"), poly, -148, -100, 64, -88, 0, 0);
-    setRGB0(poly, 100, 160, 135);
-    poly++;
+    Init_Res(work, GV_StrCode("key_option"), po, -148, -100, 64, -88, 0, 0);
+    setRGB0(po, 100, 160, 135);
+    po++;
     work->f2B0C[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode("key_button"), poly, -149, -70, -61, -58, 1, 0);
-    setRGB0(poly, 100, 160, 135);
-    poly++;
+    Init_Res(work, GV_StrCode("key_button"), po, -149, -70, -61, -58, 1, 0);
+    setRGB0(po, 100, 160, 135);
+    po++;
     work->f2B0C[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode("key_sykan"), poly, -149, 38, -61, 50, 1, 0);
-    setRGB0(poly, 100, 160, 135);
-    poly++;
+    Init_Res(work, GV_StrCode("key_sykan"), po, -149, 38, -61, 50, 1, 0);
+    setRGB0(po, 100, 160, 135);
+    po++;
     work->f2B0C[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode("key_reverse"), poly, 29, 41, 93, 47, 1, 0);
-    setRGB0(poly, 70, 100, 90);
-    poly++;
+    Init_Res(work, GV_StrCode("key_reverse"), po, 29, 41, 93, 47, 1, 0);
+    setRGB0(po, 70, 100, 90);
+    po++;
     work->f2B0C[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode("key_normal"), poly, -35, 41, 17, 47, 1, 0);
-    setRGB0(poly, 100, 160, 135);
-    poly++;
+    Init_Res(work, GV_StrCode("key_normal"), po, -35, 41, 17, 47, 1, 0);
+    setRGB0(po, 100, 160, 135);
+    po++;
     work->f2B0C[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode(option_aOpexit_800C9554), poly, 90, 66, 146, 78, 1, 0);
-    setRGB0(poly, 100, 160, 135);
-    poly++;
+    Init_Res(work, GV_StrCode("op_exit"), po, 90, 66, 146, 78, 1, 0);
+    setRGB0(po, 100, 160, 135);
+    po++;
     work->f2AFC[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode("key_symbol"), poly, -24, -44, 32, 13, 0, 0);
-    poly++;
+    Init_Res(work, GV_StrCode("key_symbol"), po, -24, -44, 32, 13, 0, 0);
+    po++;
     work->f2AFC[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode("key_pad"), poly, -51, -63, 49, 66, 1, 0);
-    poly++;
+    Init_Res(work, GV_StrCode("key_pad"), po, -51, -63, 49, 66, 1, 0);
+    po++;
     work->f2AFC[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode("key_a"), poly, -35, -69, -11, -59, 1, 0);
-    setRGB0(poly, 100, 160, 135);
-    poly++;
+    Init_Res(work, GV_StrCode("key_a"), po, -35, -69, -11, -59, 1, 0);
+    setRGB0(po, 100, 160, 135);
+    po++;
     work->f2AFC[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode("key_b"), poly, 14, -69, 38, -59, 1, 0);
-    setRGB0(poly, 70, 100, 90);
-    poly++;
+    Init_Res(work, GV_StrCode("key_b"), po, 14, -69, 38, -59, 1, 0);
+    setRGB0(po, 70, 100, 90);
+    po++;
     work->f2AFC[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode("key_c"), poly, 63, -69, 87, -59, 1, 0);
-    setRGB0(poly, 70, 100, 90);
-    poly++;
+    Init_Res(work, GV_StrCode("key_c"), po, 63, -69, 87, -59, 1, 0);
+    setRGB0(po, 70, 100, 90);
+    po++;
     work->f2AFC[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode("key_action"), poly, 74, -18, 138, -11, 0, 0);
-    setRGB0(poly, 100, 160, 135);
-    poly++;
+    Init_Res(work, GV_StrCode("key_action"), po, 74, -18, 138, -11, 0, 0);
+    setRGB0(po, 100, 160, 135);
+    po++;
     work->f2AFC[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode("key_buki"), poly, -136, -18, -92, -11, 0, 0);
-    setRGB0(poly, 100, 160, 135);
-    poly++;
+    Init_Res(work, GV_StrCode("key_buki"), po, -136, -18, -92, -11, 0, 0);
+    setRGB0(po, 100, 160, 135);
+    po++;
     work->f2AFC[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode("key_hohuku"), poly, -136, 2, -84, 9, 0, 0);
-    setRGB0(poly, 100, 160, 135);
-    poly++;
+    Init_Res(work, GV_StrCode("key_hohuku"), po, -136, 2, -84, 9, 0, 0);
+    setRGB0(po, 100, 160, 135);
+    po++;
     work->f2AFC[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode("key_syukan"), poly, 78, -39, 138, -32, 0, 0);
-    setRGB0(poly, 100, 160, 135);
-    poly->b0 = 135;
-    poly++;
+    Init_Res(work, GV_StrCode("key_syukan"), po, 78, -39, 138, -32, 0, 0);
+    setRGB0(po, 100, 160, 135);
+    po->b0 = 135;
+    po++;
     work->f2AFC[i] = 0;
     i++;
 
-    poly = work->field_46C;
+    po = work->field_46C;
     i = 0;
 
-    option_800C7E04(work, GV_StrCode("cur_lu"), poly, 0, 0, 0, 0, 1, 0);
-    poly++;
+    Init_Res(work, GV_StrCode("cur_lu"), po, 0, 0, 0, 0, 1, 0);
+    po++;
     work->f2A6C[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode("cur_ru"), poly, 0, 0, 0, 0, 1, 0);
-    poly++;
+    Init_Res(work, GV_StrCode("cur_ru"), po, 0, 0, 0, 0, 1, 0);
+    po++;
     work->f2A6C[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode("cur_ld"), poly, 0, 0, 0, 0, 1, 0);
-    poly++;
+    Init_Res(work, GV_StrCode("cur_ld"), po, 0, 0, 0, 0, 1, 0);
+    po++;
     work->f2A6C[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode("cur_rd"), poly, 0, 0, 0, 0, 1, 0);
-    poly++;
+    Init_Res(work, GV_StrCode("cur_rd"), po, 0, 0, 0, 0, 1, 0);
+    po++;
     work->f2A6C[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode("cur_u"), poly, 0, 0, 0, 0, 1, 2);
-    poly++;
+    Init_Res(work, GV_StrCode("cur_u"), po, 0, 0, 0, 0, 1, 2);
+    po++;
     work->f2A6C[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode("cur_d"), poly, 0, 0, 0, 0, 1, 2);
-    poly++;
+    Init_Res(work, GV_StrCode("cur_d"), po, 0, 0, 0, 0, 1, 2);
+    po++;
     work->f2A6C[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode("cur_l"), poly, 0, 0, 0, 0, 1, 1);
-    poly++;
+    Init_Res(work, GV_StrCode("cur_l"), po, 0, 0, 0, 0, 1, 1);
+    po++;
     work->f2A6C[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode("cur_r"), poly, 0, 0, 0, 0, 1, 1);
-    poly++;
+    Init_Res(work, GV_StrCode("cur_r"), po, 0, 0, 0, 0, 1, 1);
+    po++;
     work->f2A6C[i] = 0;
     i++;
 
-    option_800C7E04(work, GV_StrCode("cur_c"), poly, 0, 0, 0, 0, 1, 3);
-    poly++;
+    Init_Res(work, GV_StrCode("cur_c"), po, 0, 0, 0, 0, 1, 3);
+    po++;
     work->f2A6C[i] = 0;
     i++;
 
@@ -2214,7 +2810,7 @@ int OptionGetResources_800C7F88(OptionWork *work, int map)
     return 0;
 }
 
-void *NewOption_800C9344(int name, int where)
+void *NewOption(int name, int where)
 {
     OptionWork *work;
 
@@ -2223,9 +2819,9 @@ void *NewOption_800C9344(int name, int where)
     work = GV_NewActor(EXEC_LEVEL, sizeof(OptionWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, option_800C6784, OptionDie_800C7C8C, "opt.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "opt.c");
 
-        if (OptionGetResources_800C7F88(work, where) < 0)
+        if (GetResources(work, where) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

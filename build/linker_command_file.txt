@@ -1812,10 +1812,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\BUILD.OBJ", overlay
 {% elif OVERLAY == "option" %}
     include "{{OBJ_DIR}}\stage\option.obj", overlay
-
-    include "{{OBJ_DIR}}\overlays\option\overlay2.obj", overlay
-
-    include "{{OBJ_DIR}}\overlays\option\onoda\option\opt.obj", overlay
+    include "{{OBJ_DIR}}\onoda\option\opt.obj", overlay
 {% elif OVERLAY == "s03c" %}
     include "{{OBJ_DIR}}\stage\s03c.obj", overlay
     include "{{OBJ_DIR}}\game\lamp.obj", overlay

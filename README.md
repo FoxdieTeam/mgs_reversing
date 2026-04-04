@@ -181,7 +181,7 @@ Individual overlay progress:
             <td><b>option</b></td>
             <td>26 KB</td>
             <td>Options Menu</td>
-            <td>🚧 Work in progress</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>preope</b></td>
