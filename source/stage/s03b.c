@@ -5,11 +5,11 @@ CHARA _StageCharacterEntries[] = {
     CHARA_FADEIO,       /* chara 白黒フェド */
     CHARA_CINEMA,       /* chara シネマスクリーン */
     CHARA_TORTURE,
-    CHARA_BED,          /* chara 拷問台 */
+    CHARA_TR_BED,       /* chara 拷問台 */
     CHARA_DEMODOLL,     /* chara デモ人形 */
-    CHARA_REVOLVER03,   /* chara 拷問オセロット */
+    CHARA_TR_OCELOT,    /* chara 拷問オセロット */
     CHARA_DOOR,         /* chara ドア */
-    CHARA_TEXTURE_LAMP, /* chara テクスチャ */
+    CHARA_TEXTURE,      /* chara テクスチャ */
     CHARA_BOXALL,       /* chara 全部箱 */
 
     CHARA_0003_FADEIO,

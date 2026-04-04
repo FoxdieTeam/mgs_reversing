@@ -179,7 +179,7 @@ CHARA _StageCharacterEntries[] = {
     { 0xcbeb, NULL },   //  CHARA_BG_HEX,
     { 0x0d9b, NULL },   //  CHARA_BG_HEX_S,
     { 0x42e4, NULL },   //  CHARA_HIYOKO,       /* chara ヒヨコ星 */
-    { 0xdd8b, NULL },   //  CHARA_INTRUDE_CAMERA, /* chara イントルードカメラ */
+    { 0xdd8b, NULL },   //  CHARA_INTRUDECAM,   /* chara イントルードカメラ */
     { 0x8767, NULL },   //  CHARA_ITEM,         /* chara アイテム */
     { 0x6a48, NULL },   //  CHARA_JEEPSCROLL,   /* chara ジープスクロール */
     { 0xa27e, NULL },   //  CHARA_JDRUM,
@@ -200,7 +200,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x9d71, NULL },   //  CHARA_M1E1,
     { 0xd5ec, NULL },   //  CHARA_M1E1CAME,
     { 0xe448, NULL },   //  CHARA_DOLL2,
-    { 0x450f, NULL },   //  CHARA_HAIR_M,
+    { 0x450f, NULL },   //  CHARA_MEILINGHAIR,  /* chara メイリン髪 */
     { 0xaf72, NULL },   //  CHARA_MEMPSY,
     { 0xc755, NULL },   //  CHARA_MERYL3,
     { 0x5078, NULL },   //  CHARA_MERYL7,
@@ -216,9 +216,9 @@ CHARA _StageCharacterEntries[] = {
     { 0xd4a5, NULL },   //  CHARA_MOUSE,        /* chara ネズミ */
     { 0x3453, NULL },   //  CHARA_MOVIE,        /* chara ムービー */
     { 0x5345, NULL },   //  CHARA_5345_MOVIE,
-    { 0xb98c, NULL },   //  CHARA_MYSTERY_DOOR, /* chara ミステリードア */
+    { 0xb98c, NULL },   //  CHARA_MYSTERYDOOR,  /* chara ミステリードア */
     { 0xd3c0, NULL },   //  CHARA_D3C0,
-    { 0xf002, NULL },   //  CHARA_HAIR_N,
+    { 0xf002, NULL },   //  CHARA_NAOMIHAIR,    /* chara ナオミ髪 */
     { 0x30ba, NULL },   //  CHARA_NINJA,        /* chara 忍者 */
     { 0x4811, NULL },   //  CHARA_OBJECT,       /* chara 移動物 */
     { 0xcf79, NULL },   //  CHARA_OPEN,         /* chara タイトル */
@@ -256,10 +256,10 @@ CHARA _StageCharacterEntries[] = {
     { 0x3ad2, NULL },   //  CHARA_3AD2,
     { 0xcc89, NULL },   //  CHARA_BG_HEX_P,
     { 0x6d1b, NULL },   //  CHARA_PREOPE,
-    { 0xd8dd, NULL },   //  CHARA_PRISON_NINJA, /* chara 独房忍者 */
-    { 0xbf66, NULL },   //  CHARA_PRISON_OTACON,/* chara 独房オタコン */
-    { 0xa404, NULL },   //  CHARA_PRISON_SNAKE, /* chara 独房スネーク */
-    { 0x27a2, NULL },   //  CHARA_PRISON_SNAKE2,/* chara 独房スネーク２ */
+    { 0xd8dd, NULL },   //  CHARA_PRISONNINJA,  /* chara 独房忍者 */
+    { 0xbf66, NULL },   //  CHARA_PRISONOTACON, /* chara 独房オタコン */
+    { 0xa404, NULL },   //  CHARA_PRISONSNAKE,  /* chara 独房スネーク */
+    { 0x27a2, NULL },   //  CHARA_PRISONSNAKE2, /* chara 独房スネーク２ */
     { 0xa76f, NULL },   //  CHARA_PSYCHOMANTIS, /* chara サイコマンティス */
     { 0xf4b0, NULL },   //  CHARA_PSYCHOMERYL,  /* chara サイコメリル */
     { 0x710d, NULL },   //  CHARA_PSYOBJ,       /* chara サイコ物体 */
@@ -270,7 +270,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x04f2, NULL },   //  CHARA_RANKING,      /* chara ランキング */
     { 0x5fd9, NULL },   //  CHARA_RASEN,        /* chara 螺旋階段 */
     { 0xaa21, NULL },   //  CHARA_RASEN_EL,     /* chara 螺旋階段エレベータ */
-    { 0xe397, NULL },   //  CHARA_RED_ALRT,     /* chara レッドアラート */
+    { 0xe397, NULL },   //  CHARA_REDALERT,     /* chara レッドアラート */
     { 0x05af, NULL },   //  CHARA_REVOLVER04,   /* chara ボス */
     { 0x81ea, NULL },   //  CHARA_RSURFACE,
     { 0x63aa, NULL },   //  CHARA_RIPPLES,
@@ -303,12 +303,12 @@ CHARA _StageCharacterEntries[] = {
     { 0x7ff7, NULL },   //  CHARA_TELOP,        /* chara テロップ */
     { 0xdcac, NULL },   //  CHARA_TEXANIME,     /* chara テクスチャアニメ */
     { 0x6865, NULL },   //  CHARA_TEXSCROLL,    /* chara テクスチャスクロール */
-    { 0x1ad3, NULL },   //  CHARA_TEXTURE_LAMP, /* chara テクスチャ */
+    { 0x1ad3, NULL },   //  CHARA_TEXTURE,      /* chara テクスチャ */
     { 0xaefb, NULL },   //  CHARA_TOBCNT,
     { 0xe608, NULL },   //  CHARA_TORTURE,
-    { 0xcb3a, NULL },   //  CHARA_TRUCKTRAP,
-    { 0x2a21, NULL },   //  CHARA_BED,          /* chara 拷問台 */
-    { 0x050c, NULL },   //  CHARA_REVOLVER03,   /* chara 拷問オセロット */
+    { 0xcb3a, NULL },   //  CHARA_TRUCKTRAP,    /* chara トラック移動トラップ */
+    { 0x2a21, NULL },   //  CHARA_TR_BED,       /* chara 拷問台 */
+    { 0x050c, NULL },   //  CHARA_TR_OCELOT,    /* chara 拷問オセロット */
     { 0xf5c5, NULL },   //  CHARA_UJI,          /* chara 蛆虫 */
     { 0x9ff5, NULL },   //  CHARA_VALCAN,       /* chara バルカン */
     { 0x6c66, NULL },   //  CHARA_VIBEDITOR,
@@ -333,8 +333,8 @@ CHARA _StageCharacterEntries[] = {
     { 0x0c09, NULL },   //  CHARA_VRSPARK,
     { 0x5667, NULL },   //  CHARA_VRTITLE,      /* chara ＶＲタイトル */
     { 0xd44e, NULL },   //  CHARA_VRWINDOW,     /* chara ＶＲウィンドウ */
-    { 0x3d26, NULL },   //  CHARA_KOBA_WINMNGR, /* chara ＶＲマネージャ */
-    { 0xa5dc, NULL },   //  CHARA_VR_PAUSE_MENU, /* chara ＶＲポーズメニュー */
+    { 0x3d26, NULL },   //  CHARA_VRWINMNGR,    /* chara ＶＲマネージャ */
+    { 0xa5dc, NULL },   //  CHARA_VR_PAUSEMENU, /* chara ＶＲポーズメニュー */
     { 0xb162, NULL },   //  CHARA_VR_SNAKE,
     { 0x41a3, NULL },   //  CHARA_WAKE,         /* chara 覚醒スネーク */
     { 0xec77, NULL },   //  CHARA_WALL,         /* chara 障害物 */
@@ -344,8 +344,8 @@ CHARA _StageCharacterEntries[] = {
     { 0x96b5, NULL },   //  CHARA_WATEREFFECT,  /* chara 水エフェクト */
     { 0xeea7, NULL },   //  CHARA_WSURFACE,
     { 0x962c, NULL },   //  CHARA_WOLF,         /* chara ウルフ */
-    { 0xdba3, NULL },   //  CHARA_WATER_AREA,   /* chara 水領域 */
-    { 0xa480, NULL },   //  CHARA_WATER_AREA2,  /* chara 水領域２ */
+    { 0xdba3, NULL },   //  CHARA_WT_AREA,      /* chara 水領域 */
+    { 0xa480, NULL },   //  CHARA_WT_AREA2,     /* chara 水領域２ */
     { 0x69ad, NULL },   //  CHARA_WT_OBJ,
     { 0x8e45, NULL },   //  CHARA_WT_VIEW,      /* chara 水中主観 */
     { 0xed87, NULL },   //  CHARA_ZAKO,         /* chara ざこ */

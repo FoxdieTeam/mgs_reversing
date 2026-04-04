@@ -4,7 +4,7 @@
 CHARA _StageCharacterEntries[] = {
     CHARA_ASIOTOKUN,    /* chara 足音君 */
     CHARA_FADEIO,       /* chara 白黒フェド */
-    CHARA_TEXTURE_LAMP, /* chara テクスチャ */
+    CHARA_TEXTURE,      /* chara テクスチャ */
     CHARA_DEMODOLL,     /* chara デモ人形 */
     CHARA_CINEMA,       /* chara シネマスクリーン */
     CHARA_DYNWALL,      /* chara 透明壁 */

@@ -2,7 +2,7 @@
 #include "charalst.h"
 
 CHARA _StageCharacterEntries[] = {
-    CHARA_TRUCKTRAP,
+    CHARA_TRUCKTRAP,    /* chara トラック移動トラップ */
     CHARA_BLINKTEX,     /* chara 点滅テクスチャ */
     CHARA_PADVIBRATE,   /* chara パッド振動 */
     CHARA_ASIOTOKUN,    /* chara 足音君 */
@@ -15,7 +15,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_FADEIO,       /* chara 白黒フェド */
     CHARA_DOG,          /* chara 狼犬 */
     CHARA_FINDTRAP,     /* chara 発見トラップ */
-    CHARA_TEXTURE_LAMP, /* chara テクスチャ */
+    CHARA_TEXTURE,      /* chara テクスチャ */
     CHARA_SNOW,         /* chara 雪 */
     CHARA_FOG,          /* chara 黒フォグ */
     CHARA_GUNCAMERA,

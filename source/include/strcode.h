@@ -170,7 +170,7 @@
 #define CHARAID_03BF            0x03bf  //
 #define CHARAID_SHUTTER         0x03d9  // GV_StrCode("シャッター")
 #define CHARAID_RANKING         0x04f2  // GV_StrCode("ランキング")
-#define CHARAID_REVOLVER03      0x050c  // GV_StrCode("拷問オセロット")
+#define CHARAID_TR_OCELOT       0x050c  // GV_StrCode("拷問オセロット")
 #define CHARAID_REVOLVER04      0x05af  // GV_StrCode("ボス")
 #define CHARAID_AIRSHOWER       0x05ef  // GV_StrCode("エアシャワー")
 #define CHARAID_VMODEL          0x0a02  // GV_StrCode("モデル")
@@ -188,13 +188,13 @@
 #define CHARAID_11G_DEMO        0x153e  //
 #define CHARAID_PILOTLAMP       0x169c  // GV_StrCode("パイロットランプ")
 #define CHARAID_SMOKE           0x170c  // GV_StrCode("煙")
-#define CHARAID_MYSTERY         0x173c  //
+#define CHARAID_MYSTERYHEI      0x173c  // GV_StrCode("ミステリー兵")
 #define CHARAID_SMKTRGT         0x175b  //
 #define CHARAID_1787_HIND       0x1787  //
 #define CHARAID_BG_SP           0x17f5  //
 #define CHARAID_SNOW            0x18e3  // GV_StrCode("雪")
 #define CHARAID_BUBBLE          0x1a02  // GV_StrCode("泡")
-#define CHARAID_TEXTURE_LAMP    0x1ad3  // GV_StrCode("テクスチャ")
+#define CHARAID_TEXTURE         0x1ad3  // GV_StrCode("テクスチャ")
 #define CHARAID_JOHNNY          0x1ef9  // GV_StrCode("ジョニー")
 #define CHARAID_BG_STAGE        0x1fa5  //
 #define CHARAID_PANEL           0x20f2  // GV_StrCode("パネル")
@@ -202,8 +202,8 @@
 #define CHARAID_COUNTDOWN       0x22c6  // GV_StrCode("カウントダウン")
 #define CHARAID_JEEP_EMY        0x2477  //
 #define CHARAID_VR_CHECK        0x26bc  //
-#define CHARAID_PRISON_SNAKE2   0x27a2  // GV_StrCode("独房スネーク２")
-#define CHARAID_BED             0x2a21  // GV_StrCode("拷問台")
+#define CHARAID_PRISONSNAKE2    0x27a2  // GV_StrCode("独房スネーク２")
+#define CHARAID_TR_BED          0x2a21  // GV_StrCode("拷問台")
 #define CHARAID_ARRAY           0x2a90  //
 #define CHARAID_ELEVATOR        0x2abc  // GV_StrCode("エレベータ")
 #define CHARAID_WALLSPARK       0x2b24  // GV_StrCode("壁スパーク")
@@ -222,7 +222,7 @@
 #define CHARAID_OPENA           0x3ac3  //
 #define CHARAID_3AD2            0x3ad2  //
 #define CHARAID_CLAYMORE        0x3c0c  // GV_StrCode("クレイモア地雷")
-#define CHARAID_KOBA_WINMNGR    0x3d26  //
+#define CHARAID_VRWINMNGR       0x3d26  //
 #define CHARAID_3D78            0x3d78  //
 #define CHARAID_PADDEMO         0x3ed7  // GV_StrCode("パッドデモ")
 #define CHARAID_ENV_SOUND       0x3f9a  // GV_StrCode("環境音")
@@ -233,7 +233,7 @@
 #define CHARAID_LIFT            0x425f  // GV_StrCode("リフト")
 #define CHARAID_HIYOKO          0x42e4  // GV_StrCode("ヒヨコ星")
 #define CHARAID_CENSOR          0x43a0  // GV_StrCode("赤外線センサー")
-#define CHARAID_HAIR_M          0x450f  //
+#define CHARAID_MEILINGHAIR     0x450f  // GV_StrCode("メイリン髪")
 #define CHARAID_MGREX           0x4754  //
 #define CHARAID_OBJECT          0x4811  // GV_StrCode("移動物")
 #define CHARAID_ABST_DEMO1      0x4974  // GV_StrCode("アブストデモ１")
@@ -342,9 +342,9 @@
 #define CHARAID_JDRUM           0xa27e  //
 #define CHARAID_SAFETY          0xa2b5  //
 #define CHARAID_CRANE           0xa3fb  // GV_StrCode("クレーン")
-#define CHARAID_PRISON_SNAKE    0xa404  // GV_StrCode("独房スネーク")
-#define CHARAID_WATER_AREA2     0xa480  // GV_StrCode("水領域２")
-#define CHARAID_VR_PAUSE        0xa5dc  //
+#define CHARAID_PRISONSNAKE     0xa404  // GV_StrCode("独房スネーク")
+#define CHARAID_WT_AREA2        0xa480  // GV_StrCode("水領域２")
+#define CHARAID_VR_PAUSEMENU    0xa5dc  //
 #define CHARAID_ZAKO11A         0xa608  // GV_StrCode("ざこ１１ａ")
 #define CHARAID_ZAKO11E         0xa60c  // GV_StrCode("ざこ１１ｅ")
 #define CHARAID_ZAKO11F         0xa60d  // GV_StrCode("ざこ１１ｆ")
@@ -378,7 +378,7 @@
 #define CHARAID_OPTP            0xb916  //
 #define CHARAID_HIND2           0xb959  //
 #define CHARAID_VRCLUTER        0xb95f  //
-#define CHARAID_M_DOOR          0xb98c  //
+#define CHARAID_MYSTERYDOOR     0xb98c  // GV_StrCode("ミステリードア")
 #define CHARAID_DOOR            0xb997  // GV_StrCode("ドア")
 #define CHARAID_CAPE            0xb99f  //
 #define CHARAID_SHAKEMODEL      0xba52  //
@@ -386,7 +386,7 @@
 #define CHARAID_ROPE            0xbda8  //
 #define CHARAID_DEATHSPARK      0xbe79  // GV_StrCode("送別火花")
 #define CHARAID_SPHERE2         0xbee1  // GV_StrCode("天球２")
-#define CHARAID_PRISON_OTACON   0xbf66  // GV_StrCode("独房オタコン")
+#define CHARAID_PRISONOTACON    0xbf66  // GV_StrCode("独房オタコン")
 #define CHARAID_BUB_D_SN        0xc0fe  //
 #define CHARAID_MIRROR          0xc218  //
 #define CHARAID_VRCLEAR2        0xc249  // GV_StrCode("ＶＲクリア２")
@@ -399,7 +399,7 @@
 #define CHARAID_MERYL3          0xc755  //
 #define CHARAID_LOADREP         0xc8ca  //
 #define CHARAID_GODZILA         0xcb1f  // GV_StrCode("ゴジラ")
-#define CHARAID_TRUCKTRAP       0xcb3a  //
+#define CHARAID_TRUCKTRAP       0xcb3a  // GV_StrCode("トラック移動トラップ")
 #define CHARAID_BG_HEX          0xcbeb  //
 #define CHARAID_PADCONTROL      0xcbf8  // GV_StrCode("パッドコントロール")
 #define CHARAID_CONTAINER       0xcc45  // GV_StrCode("コンテナ")
@@ -417,17 +417,17 @@
 #define CHARAID_11B_DEMO        0xd53c  //
 #define CHARAID_M1E1CAME        0xd5ec  //
 #define CHARAID_FOG             0xd6fb  //
-#define CHARAID_PRISON_NINJA    0xd8dd  // GV_StrCode("独房忍者")
+#define CHARAID_PRISONNINJA     0xd8dd  // GV_StrCode("独房忍者")
 #define CHARAID_GOAL            0xdb1f  // GV_StrCode("ゴール")
-#define CHARAID_WATER_AREA      0xdba3  // GV_StrCode("水領域")
+#define CHARAID_WT_AREA         0xdba3  // GV_StrCode("水領域")
 #define CHARAID_TEXANIME        0xdcac  //
-#define CHARAID_INTRUDE_CAMERA  0xdd8b  // GV_StrCode("イントルードカメラ")
+#define CHARAID_INTRUDECAM      0xdd8b  // GV_StrCode("イントルードカメラ")
 #define CHARAID_PANEL2          0xdd95  // GV_StrCode("パネル２")
 #define CHARAID_VRBOX           0xdf0f  // GV_StrCode("ＶＲＢＯＸ")
 #define CHARAID_S11_OBJS        0xe068  // GV_StrCode("コントロールＳ１１物")
 #define CHARAID_ELEVPANEL       0xe253  // GV_StrCode("エレベーターパネル")
 #define CHARAID_MERYL72         0xe271  //
-#define CHARAID_RED_ALRT        0xe397  // GV_StrCode("レッドアラート")
+#define CHARAID_REDALERT        0xe397  // GV_StrCode("レッドアラート")
 #define CHARAID_DOLL2           0xe448  //
 #define CHARAID_TORTURE         0xe608  //
 #define CHARAID_ED_TELOP        0xe75a  // GV_StrCode("エンディングテロップ")
@@ -439,7 +439,7 @@
 #define CHARAID_PHOTOSEL        0xedeb  //
 #define CHARAID_SCN_MARK        0xee63  //
 #define CHARAID_WSURFACE        0xeea7  //
-#define CHARAID_HAIR_N          0xf002  //
+#define CHARAID_NAOMIHAIR       0xf002  // GV_StrCode("ナオミ髪")
 #define CHARAID_REC_DEMO        0xf364  //
 #define CHARAID_PSYCHOMERYL     0xf4b0  // GV_StrCode("サイコメリル")
 #define CHARAID_PUT_OBJECT      0xf4c3  //

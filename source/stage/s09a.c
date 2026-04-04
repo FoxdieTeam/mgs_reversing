@@ -11,7 +11,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x6c0e, (NEWCHARA)0x800dca80 },   //  CHARA_DOG,          /* chara 狼犬 */
     { 0x81ea, (NEWCHARA)0x800dd1fc },   //  CHARA_RSURFACE,
     { 0xe97e, (NEWCHARA)0x800c72b8 },   //  CHARA_DEMODOLL,     /* chara デモ人形 */
-    { 0x1ad3, (NEWCHARA)0x800c3eac },   //  CHARA_TEXTURE_LAMP, /* chara テクスチャ */
+    { 0x1ad3, (NEWCHARA)0x800c3eac },   //  CHARA_TEXTURE,      /* chara テクスチャ */
     { 0x7a05, (NEWCHARA)0x800df6cc },   //  CHARA_CINEMA,       /* chara シネマスクリーン */
     { 0x8185, (NEWCHARA)0x800d2b10 },   //  CHARA_BLINKTEX,     /* chara 点滅テクスチャ */
     { 0x5a50, (NEWCHARA)0x800ddf14 },   //  CHARA_GASEFFECT,    /* chara ガス効果 */

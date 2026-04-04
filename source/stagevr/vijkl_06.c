@@ -3,7 +3,7 @@
 
 CHARA _StageCharacterEntries[] = {
     { 0xc6d7, (NEWCHARA)0x800c44d0 },   //  CHARA_COMMANDER,    /* chara コマンダー */
-    { 0x173c, (NEWCHARA)0x800c8dbc },   //  CHARA_MYSTERY_SOLDIER, /* chara ミステリー兵 */
+    { 0x173c, (NEWCHARA)0x800c8dbc },   //  CHARA_MYSTERYHEI,   /* chara ミステリー兵 */
     { 0x6e90, (NEWCHARA)0x800c6048 },   //  CHARA_CAMERA,       /* chara カメラ */
     { 0xa12e, (NEWCHARA)0x800d8bdc },   //  CHARA_FADEIO,       /* chara 白黒フェド */
     { 0x4170, (NEWCHARA)0x800c2294 },   //  CHARA_SNEBREATH,    /* chara スネーク息 */
@@ -15,7 +15,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x4deb, (NEWCHARA)0x800deb04 },   //  CHARA_VRCLEAR,      /* chara ＶＲクリア */
     { 0x672e, (NEWCHARA)0x800c7384 },   //  CHARA_SNAKEWARP,    /* chara スネークワープ */
     { 0xb162, (NEWCHARA)0x800d65f4 },   //  CHARA_VR_SNAKE,
-    { 0xa5dc, (NEWCHARA)0x800e0f18 },   //  CHARA_VR_PAUSE_MENU, /* chara ＶＲポーズメニュー */
+    { 0xa5dc, (NEWCHARA)0x800e0f18 },   //  CHARA_VR_PAUSEMENU, /* chara ＶＲポーズメニュー */
 
     CHARA_END
 };

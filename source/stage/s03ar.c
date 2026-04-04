@@ -10,7 +10,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_ELEVPANEL,    /* chara エレベーターパネル */
     CHARA_UJI,          /* chara 蛆虫 */
     CHARA_DYNWALL,      /* chara 透明壁 */
-    CHARA_TEXTURE_LAMP, /* chara テクスチャ */
+    CHARA_TEXTURE,      /* chara テクスチャ */
     CHARA_MOSAIC,       /* chara モザイク */
     CHARA_GUNCAMERA,
     CHARA_FADEIO,       /* chara 白黒フェド */
@@ -18,7 +18,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_HIYOKO,       /* chara ヒヨコ星 */
     CHARA_RADARPOINT,   /* chara レーダーポイント */
     CHARA_PADCONTROL,   /* chara パッドコントロール */
-    CHARA_INTRUDE_CAMERA, /* chara イントルードカメラ */
+    CHARA_INTRUDECAM,   /* chara イントルードカメラ */
     CHARA_CAT_IN,
     CHARA_MOTIONSE,
 
