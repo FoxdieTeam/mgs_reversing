@@ -91,7 +91,7 @@
 #define CHARA_LIFT              { 0x425f, NewLift_800DE25C }        // GV_StrCode("リフト") takabe/lift.c
 #define CHARA_HIYOKO            { 0x42e4, NewHiyoko_800D018C }      // GV_StrCode("ヒヨコ星") okajima/hiyoko.c
 #define CHARA_CENSOR            { 0x43a0, NewIrCens_800DA66C }      // GV_StrCode("赤外線センサー") takabe/ir_cens.c
-#define CHARA_HAIR_M            { 0x450f, ? }                       // chara/others/hair_m.c
+#define CHARA_MEI_LING_HAIR     { 0x450f, ? }                       // GV_StrCode("メイリン髪") chara/others/hair_m.c
 #define CHARA_MGREX             { 0x4754, ? }                       // kojo/mgrex.c
 #define CHARA_OBJECT            { 0x4811, NewObjectChara_800DA3A4 } // GV_StrCode("移動物") enemy/object.c
 #define CHARA_ABST_DEMO1        { 0x4974, ? }                       // GV_StrCode("アブストデモ１") onoda/abst/ab_demo1.c
@@ -294,7 +294,7 @@
 #define CHARA_PHOTOSEL          { 0xedeb, ? }                       // chara/photosel/photosel.c
 #define CHARA_SCN_MARK          { 0xee63, NewScreenMark }           // okajima/scn_mark.c
 #define CHARA_WSURFACE          { 0xeea7, NewWsurface_800DB9BC }    // takabe/wsurface.c
-#define CHARA_HAIR_N            { 0xf002, ? }                       // chara/others/hair_n.c
+#define CHARA_NAOMI_HAIR        { 0xf002, ? }                       // GV_StrCode("ナオミ髪") chara/others/hair_n.c
 #define CHARA_REC_DEMO          { 0xf364, ? }                       // nobu/vr_demo/recdemo.c (PC-ONLY)
 #define CHARA_PSYCHOMERYL       { 0xf4b0, ? }                       // GV_StrCode("サイコメリル") chara/meryl07b/meryl07b.c
 #define CHARA_PUT_OBJECT        { 0xf4c3, NewPutObject }            // takabe/put_obj.c
