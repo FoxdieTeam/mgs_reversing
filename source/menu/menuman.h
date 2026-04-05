@@ -401,9 +401,7 @@ void MENU_Locate(int xpos, int ypos, int flags);
 void MENU_Color(int r, int g, int b);
 void MENU_ResetText(void);
 void menu_Text_PrimUnknown_80038BB4(void);
-#ifdef _BUILDING_MENUMAN_
-int MENU_Printf(const char *fmt, const char *str, int param_3, int param_4, int param_5);
-#else
+#ifndef __MENU_MENUMAN_C__
 int MENU_Printf(const char *fmt, ...);
 #endif
 int menu_draw_num(int number);

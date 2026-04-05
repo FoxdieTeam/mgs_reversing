@@ -1,4 +1,4 @@
-#define _BUILDING_MENUMAN_
+#define __MENU_MENUMAN_C__
 #include "menuman.h"
 
 #include <stdio.h>
