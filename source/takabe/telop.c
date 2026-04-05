@@ -160,7 +160,7 @@ void telop_800DD730(u_long *ot, TelopSub *sub)
     if (sub->visible != 0)
     {
         prims = &sub->prims[GV_Clock];
-        shade |= LLOAD(&prims->sprt1.r0) & 0xFF000000;
+        shade |= LLOAD(&prims->sprt1.r0) & RGBA_A_MASK;
         LSTORE(shade, &prims->sprt1.r0);
         LSTORE(shade, &prims->sprt2.r0);
         addPrim(ot, &prims->tpage1);

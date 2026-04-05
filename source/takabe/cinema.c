@@ -121,7 +121,7 @@ static void Act( Work *work )
         poly  = &work->prims->poly[ GV_Clock ][ 0 ];
         poly2 = &work->prims->poly[ GV_Clock ][ 1 ];
 
-        r |= *(int*)&poly->r0 & 0xFF000000;
+        r |= *(int*)&poly->r0 & RGBA_A_MASK;
         *(int*)&poly->r0  = r;
         *(int*)&poly->r1  = r;
         *(int*)&poly2->r0 = r;
@@ -204,7 +204,7 @@ static int GetResources( Work *work, int time, int type )
     poly->y2 = h1;
     poly->y3 = h1;
 
-    color &= 0xFF000000;
+    color &= RGBA_A_MASK;
     *(int*)&poly->r0 = color;
     *(int*)&poly->r1 = color;
     *(int*)&poly->r2 = color;

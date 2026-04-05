@@ -210,7 +210,7 @@ static void SetSparkShade(POLY_FT4 *poly, int count, int shade)
     {
         int *color_code = (int *)&currentPoly->r0;
 
-        *color_code &= 0xFF000000;
+        *color_code &= RGBA_A_MASK;
         *color_code |= color;
     }
 }

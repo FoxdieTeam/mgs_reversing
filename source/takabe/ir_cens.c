@@ -96,7 +96,7 @@ void IrCens_800D9934(IrCensWork *work, int shade)
     poly0 = work->prim->packs[0];
     poly1 = work->prim->packs[1];
 
-    color = (LLOAD(&poly0->r0) & 0xFF000000) | (shade << 16) | (shade << 8) | shade;
+    color = (LLOAD(&poly0->r0) & RGBA_A_MASK) | (shade << 16) | (shade << 8) | shade;
 
     for (i = 8; i > 0; i--)
     {
@@ -170,13 +170,13 @@ void IrCens_800D99A4(IrCensWork *work, SVECTOR *arg1)
     vec = (VECTOR *)SCRPAD_ADDR;
     for (i = 8; i > 0; i--)
     {
-        color = (LLOAD(&poly0->r0) & 0xFF000000) | vec[0].pad;
+        color = (LLOAD(&poly0->r0) & RGBA_A_MASK) | vec[0].pad;
         LSTORE(color, &poly0->r0);
         LSTORE(color, &poly0->r2);
         LSTORE(color, &poly1->r0);
         LSTORE(color, &poly1->r2);
 
-        color = (LLOAD(&poly0->r0) & 0xFF000000) | vec[1].pad;
+        color = (LLOAD(&poly0->r0) & RGBA_A_MASK) | vec[1].pad;
         LSTORE(color, &poly0->r1);
         LSTORE(color, &poly0->r3);
         LSTORE(color, &poly1->r1);

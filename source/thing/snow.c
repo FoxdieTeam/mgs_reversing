@@ -66,7 +66,7 @@ static void Snow_800C5260(int *colors, int n_colors)
     int  shade;
 
     setTile(&tile);
-    color = LLOAD(&tile.r0) & 0xFF000000;
+    color = LLOAD(&tile.r0) & RGBA_A_MASK;
 
     while (--n_colors >= 0)
     {
