@@ -182,7 +182,7 @@ CHARA _StageCharacterEntries[] = {
     { 0xdd8b, NULL },   //  CHARA_INTRUDECAM,   /* chara イントルードカメラ */
     { 0x8767, NULL },   //  CHARA_ITEM,         /* chara アイテム */
     { 0x6a48, NULL },   //  CHARA_JEEPSCROLL,   /* chara ジープスクロール */
-    { 0xa27e, NULL },   //  CHARA_JDRUM,
+    { 0xa27e, NULL },   //  CHARA_JDRUM,        /* chara ジープ戦ドラム */
     { 0xb757, NULL },   //  CHARA_B757_ED_TELOP,
     { 0x1ef9, NULL },   //  CHARA_JOHNNY,       /* chara ジョニー */
     { 0x81c7, NULL },   //  CHARA_JPEG,         /* chara ＪＰＥＧ */
@@ -249,8 +249,8 @@ CHARA _StageCharacterEntries[] = {
     { 0xb033, NULL },   //  CHARA_BG_ST2,
     { 0xb7ae, NULL },   //  CHARA_BG_SP_CM,
     { 0xbc76, NULL },   //  CHARA_BG_SP_ST,
-    { 0x9c6c, NULL },   //  CHARA_PK_GATE,
-    { 0xb47a, NULL },   //  CHARA_PJEEP,
+    { 0x9c6c, NULL },   //  CHARA_PK_GATE,      /* chara 駐車場ゲート */
+    { 0xb47a, NULL },   //  CHARA_PJEEP,        /* chara 駐車ジープ */
     { 0x9bc2, NULL },   //  CHARA_PLASMA,       /* chara プラズマ */
     { 0xfc0b, NULL },   //  CHARA_FLR_SPA,
     { 0x3ad2, NULL },   //  CHARA_3AD2,

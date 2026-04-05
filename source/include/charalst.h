@@ -187,7 +187,7 @@
 #define CHARA_AT                { 0x9988, NewAt_800D78A4 }          // GV_StrCode("ＡＴ") onoda/s04b/at.c
 #define CHARA_ELEVCROW          { 0x9ab9, ? }                       // GV_StrCode("エレベーターのカラス") okajima/valcan/ele_crow.c
 #define CHARA_PLASMA            { 0x9bc2, NewPlasma_800CD110 }      // GV_StrCode("プラズマ") okajima/plasma.c
-#define CHARA_PK_GATE           { 0x9c6c, ? }                       // takabe/pk_gate.c
+#define CHARA_PK_GATE           { 0x9c6c, ? }                       // GV_StrCode("駐車場ゲート") takabe/pk_gate.c
 #define CHARA_DMYFLOOR          { 0x9d00, NewDummyFloor }           // GV_StrCode("落し穴") takabe/dummy_fl.c
 #define CHARA_M1E1              { 0x9d71, ? }                       // kojo/m1e1.c
 #define CHARA_GODZCOM           { 0x9eb7, ? }                       // GV_StrCode("ゴジラコマンダ") animal/godzila/godzcom.c
@@ -195,7 +195,7 @@
 #define CHARA_VALCAN            { 0x9ff5, ? }                       // GV_StrCode("バルカン") okajima/valcan/valcan.c
 #define CHARA_9FFD_2ND          { 0x9ffd, GM_SetSecondAvailable }   // game/second.c
 #define CHARA_FADEIO            { 0xa12e, NewFadeInOutSet }         // GV_StrCode("白黒フェド") takabe/fadeio.c
-#define CHARA_JDRUM             { 0xa27e, NewJeepDrum }             // takabe/jeep/jdrum.c
+#define CHARA_JDRUM             { 0xa27e, NewJeepDrum }             // GV_StrCode("ジープ戦ドラム") takabe/jeep/jdrum.c
 #define CHARA_SAFETY            { 0xa2b5, Safety_800C47A0 }         // safety.c
 #define CHARA_CRANE             { 0xa3fb, NewCrane_800D57A0 }       // GV_StrCode("クレーン") okajima/crane.c
 #define CHARA_PRISONSNAKE       { 0xa404, NewSnake03c1_800CDAEC }   // GV_StrCode("独房スネーク") chara/torture/sne_03c.c
@@ -224,7 +224,7 @@
 #define CHARA_DYNWALL           { 0xb103, NewDynamicWallSet }       // GV_StrCode("透明壁") takabe/dymc_seg.c
 #define CHARA_VR_SNAKE          { 0xb162, ? }                       // okajima/snake_e1.c
 #define CHARA_MINENE            { 0xb30a, ? }                       // enemy/minene.c
-#define CHARA_PJEEP             { 0xb47a, ? }                       // takabe/pjeep.c
+#define CHARA_PJEEP             { 0xb47a, ? }                       // GV_StrCode("駐車ジープ") takabe/pjeep.c
 #define CHARA_DEMOCANCEL        { 0xb4e6, NewDemoCancel }           // GV_StrCode("デモキャンセル") game/cancel.c
 #define CHARA_DRUMCAN           { 0xb58d, ? }                       // GV_StrCode("ドラム缶") takabe/drum.c
 #define CHARA_B757_ED_TELOP     { 0xb757, EdTelop_800C4F18 }        // takabe/ed_telop.c (?)

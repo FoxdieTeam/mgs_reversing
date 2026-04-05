@@ -15,8 +15,8 @@ CHARA _StageCharacterEntries[] = {
     { 0x8e88, (NEWCHARA)0x800d7724 },   //  CHARA_ZAKO19COM,    /* chara ざこ１９コマンダー */
     { 0x31ec, (NEWCHARA)0x800cdbf4 },   //  CHARA_ZAKO19,       /* chara ざこ１９ */
     { 0xb58d, (NEWCHARA)0x800d86e0 },   //  CHARA_DRUMCAN,      /* chara ドラム缶 */
-    { 0xb47a, (NEWCHARA)0x800d9b28 },   //  CHARA_PJEEP,
-    { 0x9c6c, (NEWCHARA)0x800dc414 },   //  CHARA_PK_GATE,
+    { 0xb47a, (NEWCHARA)0x800d9b28 },   //  CHARA_PJEEP,        /* chara 駐車ジープ */
+    { 0x9c6c, (NEWCHARA)0x800dc414 },   //  CHARA_PK_GATE,      /* chara 駐車場ゲート */
     { 0xe97e, (NEWCHARA)0x800cabec },   //  CHARA_DEMODOLL,     /* chara デモ人形 */
     { 0x0dc9, (NEWCHARA)0x800ddaa4 },   //  CHARA_VOICESYS,     // duplicate
     { 0x22c6, (NEWCHARA)0x800c5330 },   //  CHARA_COUNTDOWN,    /* chara カウントダウン */
