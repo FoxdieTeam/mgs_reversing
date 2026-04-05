@@ -195,7 +195,7 @@
 #define CHARA_VALCAN            { 0x9ff5, ? }                       // GV_StrCode("バルカン") okajima/valcan/valcan.c
 #define CHARA_9FFD_2ND          { 0x9ffd, GM_SetSecondAvailable }   // game/second.c
 #define CHARA_FADEIO            { 0xa12e, NewFadeInOutSet }         // GV_StrCode("白黒フェド") takabe/fadeio.c
-#define CHARA_JDRUM             { 0xa27e, s19b_jdrum_800C95E4 }     // takabe/jeep/jdrum.c
+#define CHARA_JDRUM             { 0xa27e, NewJeepDrum }             // takabe/jeep/jdrum.c
 #define CHARA_SAFETY            { 0xa2b5, Safety_800C47A0 }         // safety.c
 #define CHARA_CRANE             { 0xa3fb, NewCrane_800D57A0 }       // GV_StrCode("クレーン") okajima/crane.c
 #define CHARA_PRISONSNAKE       { 0xa404, NewSnake03c1_800CDAEC }   // GV_StrCode("独房スネーク") chara/torture/sne_03c.c
@@ -555,7 +555,7 @@ void *NewGlass_800D37A4();              /* takabe/glass.c               */
 void *NewGoggle();                      /* takabe/goggle.c              */
 void *NewGoggleIr();                    /* takabe/goggleir.c            */
 void *NewIrCens_800DA66C();             /* takabe/ir_cens.c             */
-void *s19b_jdrum_800C95E4();            /* takabe/jeep/jdrum.c          */
+void *NewJeepDrum();                    /* takabe/jeep/jdrum.c          */
 void *NewJeepEnemy();                   /* takabe/jeep_emy/jeep_emy.c   */
 void *s19b_jeep_srl_800CE36C();         /* takabe/jeep_srl.c            */
 void *NewLifeUp_800DF428();             /* takabe/life_up.c             */
