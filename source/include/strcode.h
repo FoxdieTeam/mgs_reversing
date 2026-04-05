@@ -444,7 +444,7 @@
 #define CHARAID_PSYCHOMERYL     0xf4b0  // GV_StrCode("サイコメリル")
 #define CHARAID_PUT_OBJECT      0xf4c3  //
 #define CHARAID_SEARCHLIGHT     0xf50f  // GV_StrCode("サーチライト")
-#define CHARAID_BELONG          0xf59e  //
+#define CHARAID_BELONG          0xf59e  // GV_StrCode("付随物")
 #define CHARAID_UJI             0xf5c5  // GV_StrCode("蛆虫")
 #define CHARAID_CDCHANGE        0xf722  // GV_StrCode("ＣＤ交換")
 #define CHARAID_BOXALL          0xf74b  // GV_StrCode("全部箱")

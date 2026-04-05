@@ -101,7 +101,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x02c4, NULL },   //  CHARA_ASIATOKUN,    /* chara 足跡君 */
     { 0x92bc, NULL },   //  CHARA_ASIOTOKUN,    /* chara 足音君 */
     { 0x9988, NULL },   //  CHARA_AT,           /* chara ＡＴ */
-    { 0xf59e, NULL },   //  CHARA_BELONG,
+    { 0xf59e, NULL },   //  CHARA_BELONG,       /* chara 付随物 */
     { 0x6b6c, NULL },   //  CHARA_BLACKSMOKE,   /* chara 黒煙 */
     { 0x8185, NULL },   //  CHARA_BLINKTEX,     /* chara 点滅テクスチャ */
     { 0x1158, NULL },   //  CHARA_BLOODY_MERYL, /* chara 血まみれメリル */
