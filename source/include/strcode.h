@@ -352,7 +352,7 @@
 #define CHARAID_A6F6            0xa6f6  //
 #define CHARAID_PSYCHOMANTIS    0xa76f  // GV_StrCode("サイコマンティス")
 #define CHARAID_SNE17A          0xa791  //
-#define CHARAID_GUNCAMERA       0xa9c5  // GV_StrCode("カメラ付随ガン")
+#define CHARAID_CAMERAGUN       0xa9c5  // GV_StrCode("カメラ付随ガン")
 #define CHARAID_EMITTER2        0xa9dd  //
 #define CHARAID_AA13            0xaa13  //
 #define CHARAID_RASEN_EL        0xaa21  // GV_StrCode("螺旋階段エレベータ")

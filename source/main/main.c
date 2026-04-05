@@ -17,7 +17,7 @@
 #include "memcard/memcard.h"
 #include "game/game.h"
 
-unsigned int _ramsize = 0x200000; //  2MB ram size
+unsigned int _ramsize = 0x200000; //  2MB RAM size
 unsigned int _stacksize = 0x8000; // 32KB stack size
 
 /*--------------------------------------------------------------------------*/
