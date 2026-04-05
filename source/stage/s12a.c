@@ -16,7 +16,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_SNOW,         /* chara 雪 */
     CHARA_SNOWSTORM,    /* chara 雪嵐 */
     CHARA_FOG,          /* chara 黒フォグ */
-    CHARA_GUNCAMERA,
+    CHARA_CAMERAGUN,    /* chara カメラ付随ガン */
     CHARA_CLAYMORE,     /* chara クレイモア地雷 */
     CHARA_WALL,         /* chara 障害物 */
     CHARA_DYNWALL,      /* chara 透明壁 */

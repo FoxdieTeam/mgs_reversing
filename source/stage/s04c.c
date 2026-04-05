@@ -7,7 +7,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_C4WIRE,       /* chara ワイヤ */
     CHARA_AT,           /* chara ＡＴ */
     CHARA_CAPE,
-    CHARA_GUNCAMERA,
+    CHARA_CAMERAGUN,    /* chara カメラ付随ガン */
     CHARA_DMYWALL,      /* chara 塗り壁 */
     CHARA_VOICESYS,     /* chara 音声制御 */
     CHARA_CLAYMORE,     /* chara クレイモア地雷 */

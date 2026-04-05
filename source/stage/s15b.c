@@ -9,7 +9,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_TEXSCROLL,    /* chara テクスチャスクロール */
     CHARA_WALL,         /* chara 障害物 */
     CHARA_ENV_SOUND,    /* chara 環境音 */
-    CHARA_GUNCAMERA,
+    CHARA_CAMERAGUN,    /* chara カメラ付随ガン */
     CHARA_SHAKEMODEL,
     CHARA_DMYFLOOR,     /* chara 落し穴 */
     CHARA_TEXTURE,      /* chara テクスチャ */

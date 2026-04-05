@@ -208,7 +208,7 @@
 #define CHARA_A6F6              { 0xa6f6, ? }                       // --> kmdarutl.c
 #define CHARA_PSYCHOMANTIS      { 0xa76f, ? }                       // GV_StrCode("サイコマンティス") chara/psyco/psyco.c
 #define CHARA_SNE17A            { 0xa791, ? }                       // chara/sne17a/sne17a.c (PC-ONLY)
-#define CHARA_GUNCAMERA         { 0xa9c5, NewGunCame_800C9190 }     // okajima/guncame.c
+#define CHARA_CAMERAGUN         { 0xa9c5, NewGunCame_800C9190 }     // GV_StrCode("カメラ付随ガン") okajima/guncame.c
 #define CHARA_EMITTER2          { 0xa9dd, ? }                       // GV_StrCode("ジン発光２") thing/emitter2.c (PC-ONLY)
 #define CHARA_AA13              { 0xaa13, ? }                       // ???
 #define CHARA_RASEN_EL          { 0xaa21, NewRasenEl_800CCF38 }     // GV_StrCode("螺旋階段エレベータ") takabe/rasen_el.c
