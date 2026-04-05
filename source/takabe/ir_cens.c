@@ -196,9 +196,9 @@ void IrCens_800D9B5C(char *rgb0, char *rgb1, int inc)
 
     color = LLOAD(rgb0);
 
-    r = color & 0xFF;
-    g = ((color >> 8) & 0xFF);
-    b = ((color >> 16) & 0xFF);
+    r = GET_R_FROM_RGBA(color);
+    g = GET_G_FROM_RGBA(color);
+    b = GET_B_FROM_RGBA(color);
 
     r += inc;
     r = MIN(0x80, r);
