@@ -20,8 +20,6 @@ typedef struct _Work
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 extern int fonttext_dword_800C32B0;
-extern const char fonttext_aS[];
-extern const char aFonttextC[];
 
 int FonttextPollMessages_800C41EC( Work *work, int hash )
 {
@@ -65,7 +63,7 @@ void FonttextAct_800C4290( Work *work )
 
     MENU_Locate( work->position.vx + x, work->position.vy + y, work->flags );
     MENU_Color( work->color.vx, work->color.vy, work->color.vz );
-    MENU_Printf( fonttext_aS, work->text );
+    MENU_Printf( "%s", work->text );
 
     work->offset.x += work->offset.w;
     work->offset.y += work->offset.h;
@@ -126,7 +124,7 @@ void *NewFonttext_800C446C( int name, int where )
     work = GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
     if ( work != NULL )
     {
-        GV_SetNamedActor( &( work->actor ), FonttextAct_800C4290, FonttextDie_800C4350, aFonttextC );
+        GV_SetNamedActor( &( work->actor ), FonttextAct_800C4290, FonttextDie_800C4350, "fonttext.c" );
 
         if ( FonttextGetResources_800C4358( work ) < 0 )
         {

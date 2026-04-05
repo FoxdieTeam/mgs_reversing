@@ -106,13 +106,15 @@ typedef struct _OpenWork
     int      fB44;
     int      fB48;
     KCB      kcb[24]; // B4C
-    char     pad8[0x2C]; // enough space for another KCB here, but code loops over 24?
+    char     pad8[0x14]; // enough space for another KCB here, but code loops over 24?
+    DR_TPAGE tpage[2];
+    char     pad9[0x8];
     Unknown  unk[24];
     int      f2498;
     int      f249C;
     int      f24A0;
     int      f24A4;
-    char     pad9[0x4];
+    char     pad10[0x4];
     int      f24AC;
     int      f24B0;
     int      f24B4;
@@ -133,7 +135,7 @@ typedef struct _OpenWork
     int      f24F0;
     int      f24F4;
     int      f24F8_proc;
-    char     pad10[8];
+    char     pad11[8];
 } OpenWork;
 
 typedef struct _Desc
@@ -143,7 +145,8 @@ typedef struct _Desc
     int     color;
 } Desc;
 
-extern Desc open_800C32B4[24];
+extern Desc        open_800C32B4[24];
+extern signed char open_800C3400[16];
 
 extern int title_dword_800D92D0;
 extern int title_dword_800C33D4;
@@ -235,8 +238,69 @@ void Open_800C4674(OpenWork *work, int index)
     work->unk[index].num = 1;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800C47B8.s")
-void title_open_800C47B8(OpenWork *, int);
+static inline void AddTpage(OpenWork *work, u_long *ot, int found, int i)
+{
+    int       tp;
+    DR_TPAGE *tpage;
+
+    if (found != 0)
+    {
+        tp = getTPage(0, 0, 832 + i * 64, 256);
+        tpage = &work->tpage[i];
+        setDrawTPage(tpage, 1, 0, tp);
+        addPrim(ot, tpage);
+    }
+}
+
+void title_open_800C47B8(OpenWork *work, u_long *ot)
+{
+    int   count;
+    int   found;
+    int   i, j, k;
+    SPRT *sprt;
+    SPRT *sprt2;
+
+    count = 0;
+    for (i = 0; i < 2; i++)
+    {
+        found = 0;
+        for (j = 0; j < 12; j++)
+        {
+            if (work->unk[count].num == 1)
+            {
+                found = 1;
+
+                sprt = &work->unk[count].sprt[GV_Clock];
+                LSTORE(0x808080, &sprt->r0);
+                LCOPY(&work->unk[count].rect.x, &sprt->x0);
+                LCOPY(&work->unk[count].rect.w, &sprt->w);
+                sprt->u0 = 0;
+                sprt->v0 = work->unk[count].f2;
+                setClut(sprt, work->unk[count].f4, work->unk[count].f6);
+                setSprt(sprt);
+                addPrim(ot, sprt);
+
+                sprt2 = work->unk[count].sprt2[GV_Clock];
+                for (k = 0; k < 8; k += 2)
+                {
+                    *sprt2 = *sprt;
+                    LSTORE(0x64000000, &sprt2->r0);
+                    sprt2->x0 += open_800C3400[k + 0];
+                    sprt2->y0 += open_800C3400[k + 1];
+                    addPrim(ot, sprt2);
+                    sprt2++;
+                }
+
+                count++;
+            }
+        }
+
+        AddTpage(work, ot, found, i);
+    }
+
+    asm("" : "=r"(found)); // TODO: fix
+    AddTpage(work, ot, found, i);
+}
 
 void title_open_800C4AD0(OpenWork *work, int index, int color)
 {
@@ -1264,7 +1328,7 @@ void title_open_800CE6AC(OpenWork *work, int index)
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800D2460.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800D2E44.s")
 
-void title_open_800D3500(OpenWork *work, int arg1)
+void title_open_800D3500(OpenWork *work, int index)
 {
     int i;
 
@@ -1345,7 +1409,7 @@ void title_open_800D3500(OpenWork *work, int arg1)
         }
     }
 
-    title_open_800C47B8(work, arg1);
+    title_open_800C47B8(work, index);
 }
 
 #pragma INCLUDE_ASM("asm/overlays/title/OpenAct_800D37F4.s")
