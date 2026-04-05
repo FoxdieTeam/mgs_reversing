@@ -209,7 +209,7 @@ void IrCens_800D9B5C(char *rgb0, char *rgb1, int inc)
     b += inc;
     b = MIN(0x80, b);
 
-    color = (color & 0xFF000000) | r | (g << 8) | (b << 16);
+    color = (color & RGBA_A_MASK) | MAKE_RGB(r, g, b);
     LSTORE(color, rgb1);
     LSTORE(color, rgb0);
 }

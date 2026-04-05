@@ -154,7 +154,7 @@ void telop_800DD730(u_long *ot, TelopSub *sub)
     else
     {
         shade = sub->shade;
-        shade = shade | (shade << 8) | (shade << 16);
+        shade = MAKE_RGB(shade, shade, shade);
     }
 
     if (sub->visible != 0)

@@ -75,7 +75,7 @@ void Wsurface_800DAE3C(POLY_GT4 *packs, int shade, WsurfaceWork *work)
     POLY_GT4 *iter;
     int       i;
 
-    color = shade | (shade << 8) | (shade << 16);
+    color = MAKE_RGB(shade, shade, shade);
 
     iter = packs;
     fFC = work->fFC;

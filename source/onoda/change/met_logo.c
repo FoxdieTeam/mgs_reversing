@@ -194,7 +194,7 @@ static int GetLineColor( int shade, int step )
         gb = 255 - ((255 - shade) * step) / 8;
     }
 
-    return (r | gb << 8 | gb << 16);
+    return MAKE_RGB(r, gb, gb);
 }
 
 /*---------------------------------------------------------------------------*/
