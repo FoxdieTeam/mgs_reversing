@@ -71,7 +71,7 @@ static void Snow_800C5260(int *colors, int n_colors)
     while (--n_colors >= 0)
     {
         shade = GV_RandU(128) + 128;
-        *colors++ = color | MAKE_RGB((shade / 2), (shade / 2), (shade));
+        *colors++ = color | shade / 2 | (shade / 2) << 8 | shade << 16;
     }
 }
 
