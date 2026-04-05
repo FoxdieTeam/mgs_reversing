@@ -116,7 +116,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x7eca, NULL },   //  CHARA_C4WIRE,       /* chara ワイヤ */
     { 0x6e90, NULL },   //  CHARA_CAMERA,       /* chara カメラ */
     { 0x56cc, NULL },   //  CHARA_CAMERA2,      /* chara カメラ２ */
-    { 0xa9c5, NULL },   //  CHARA_GUNCAMERA,
+    { 0xa9c5, NULL },   //  CHARA_CAMERAGUN,    /* chara カメラ付随ガン */
     { 0x7bc2, NULL },   //  CHARA_CAMERASHAKE,  /* chara カメラ揺らし */
     { 0xb99f, NULL },   //  CHARA_CAPE,
     { 0x51c6, NULL },   //  CHARA_CAT_IN,

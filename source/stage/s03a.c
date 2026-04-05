@@ -12,7 +12,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_DYNWALL,      /* chara 透明壁 */
     CHARA_TEXTURE,      /* chara テクスチャ */
     CHARA_MOSAIC,       /* chara モザイク */
-    CHARA_GUNCAMERA,
+    CHARA_CAMERAGUN,    /* chara カメラ付随ガン */
     CHARA_FADEIO,       /* chara 白黒フェド */
     CHARA_GASEFFECT,    /* chara ガス効果 */
     CHARA_HIYOKO,       /* chara ヒヨコ星 */

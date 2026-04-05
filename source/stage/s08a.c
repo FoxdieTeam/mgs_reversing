@@ -6,7 +6,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_FADEIO,       /* chara 白黒フェド */
     CHARA_GASEFFECT,    /* chara ガス効果 */
     CHARA_O2_DAMAGE,
-    CHARA_GUNCAMERA,
+    CHARA_CAMERAGUN,    /* chara カメラ付随ガン */
     CHARA_DYNWALL,      /* chara 透明壁 */
     CHARA_PANEL,        /* chara パネル */
     CHARA_PILOTLAMP,    /* chara パイロットランプ */

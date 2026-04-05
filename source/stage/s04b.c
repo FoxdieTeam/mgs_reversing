@@ -7,7 +7,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x7eca, (NEWCHARA)0x800dab60 },   //  CHARA_C4WIRE,       /* chara ワイヤ */
     { 0x9988, (NEWCHARA)0x800db368 },   //  CHARA_AT,           /* chara ＡＴ */
     { 0xb99f, (NEWCHARA)0x800dcdbc },   //  CHARA_CAPE,
-    { 0xa9c5, (NEWCHARA)0x800cb3b8 },   //  CHARA_GUNCAMERA,
+    { 0xa9c5, (NEWCHARA)0x800cb3b8 },   //  CHARA_CAMERAGUN,    /* chara カメラ付随ガン */
     { 0x58f0, (NEWCHARA)0x800cf258 },   //  CHARA_DMYWALL,      /* chara 塗り壁 */
     { 0x0dc9, (NEWCHARA)0x800d2430 },   //  CHARA_VOICESYS,     /* chara 音声制御 */
     { 0x3c0c, (NEWCHARA)0x8006b76c },   //  CHARA_CLAYMORE,     /* chara クレイモア地雷 */

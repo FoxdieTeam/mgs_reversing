@@ -12,7 +12,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_RSURFACE,
     CHARA_TEXTURE,      /* chara テクスチャ */
     CHARA_O2_DAMAGE,
-    CHARA_GUNCAMERA,
+    CHARA_CAMERAGUN,    /* chara カメラ付随ガン */
     CHARA_SHAKEMODEL,
     CHARA_WALL,         /* chara 障害物 */
     CHARA_GASEFFECT,    /* chara ガス効果 */
