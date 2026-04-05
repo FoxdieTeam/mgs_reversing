@@ -99,6 +99,7 @@ int title_dword_800C33CC = 0x008200C8;
 int title_dword_800C33D0 = 0x00000000;
 
 int title_dword_800C33D4 = 0xFFFFFFFF;
+
 int title_dword_800C33D8 = 0x007773DF;
 int title_dword_800C33DC = 0x0080801F;
 int title_dword_800C33E0 = 0x00798E37;
@@ -108,12 +109,10 @@ int title_dword_800C33EC = 0x00AB8028;
 int title_dword_800C33F0 = 0x008EA370;
 int title_dword_800C33F4 = 0x0091A2BD;
 int title_dword_800C33F8 = 0x007B83AB;
+
 int title_dword_800C33FC = 0x00808080;
 
-int title_dword_800C3400 = 0x000100FF;
+int open_800C3400 = 0x000100FF;
 int title_dword_800C3404 = 0xFF000100;
 int title_dword_800C3408 = 0x000100FF;
 int title_dword_800C340C = 0xFF000100;
-
-const char fonttext_aS[] = "%s";
-const char aFonttextC[] = {'f', 'o', 'n', 't', 't', 'e', 'x', 't', '.', 'c', 0x0, '8'};

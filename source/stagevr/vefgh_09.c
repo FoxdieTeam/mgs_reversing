@@ -20,7 +20,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x118c, (NEWCHARA)0x800d8344 },   //  CHARA_FINDTRAP,     /* chara 発見トラップ */
     { 0x7a05, (NEWCHARA)0x800d8d5c },   //  CHARA_CINEMA,       /* chara シネマスクリーン */
     { 0x3c0c, (NEWCHARA)0x80069370 },   //  CHARA_CLAYMORE,     /* chara クレイモア地雷 */
-    { 0xf59e, (NEWCHARA)0x800c283c },   //  CHARA_BELONG,
+    { 0xf59e, (NEWCHARA)0x800c283c },   //  CHARA_BELONG,       /* chara 付随物 */
     { 0x18e3, (NEWCHARA)0x800c374c },   //  CHARA_SNOW,         /* chara 雪 */
     { 0x02c4, (NEWCHARA)0x800c6500 },   //  CHARA_ASIATOKUN,    /* chara 足跡君 */
     { 0xec77, (NEWCHARA)0x800c6e68 },   //  CHARA_WALL,         /* chara 障害物 */

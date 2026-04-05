@@ -264,7 +264,7 @@
 #define CHARAID_PAPER           0x5f02  // GV_StrCode("書類")
 #define CHARAID_ZAKO11ECOM      0x5f0a  // GV_StrCode("ざこ１１ｅコマンダー")
 #define CHARAID_ZAKO11FCOM      0x5f0e  // GV_StrCode("ざこ１１ｆコマンダー")
-#define CHARAID_GRD_CAM         0x5f5a  //
+#define CHARAID_GRD_CAM         0x5f5a  // GV_StrCode("監視カメラ主観")
 #define CHARAID_RASEN           0x5fd9  // GV_StrCode("螺旋階段")
 #define CHARAID_SCN_BOMB        0x600d  //
 #define CHARAID_RIPPLES         0x63aa  //
@@ -331,7 +331,7 @@
 #define CHARAID_AT              0x9988  // GV_StrCode("ＡＴ")
 #define CHARAID_ELEVCROW        0x9ab9  // GV_StrCode("エレベーターのカラス")
 #define CHARAID_PLASMA          0x9bc2  // GV_StrCode("プラズマ")
-#define CHARAID_PK_GATE         0x9c6c  //
+#define CHARAID_PK_GATE         0x9c6c  // GV_StrCode("駐車場ゲート")
 #define CHARAID_DMYFLOOR        0x9d00  // GV_StrCode("落し穴")
 #define CHARAID_M1E1            0x9d71  //
 #define CHARAID_GODZCOM         0x9eb7  // GV_StrCode("ゴジラコマンダ")
@@ -339,7 +339,7 @@
 #define CHARAID_VALCAN          0x9ff5  // GV_StrCode("バルカン")
 #define CHARAID_9FFD_2ND        0x9ffd  //
 #define CHARAID_FADEIO          0xa12e  //
-#define CHARAID_JDRUM           0xa27e  //
+#define CHARAID_JDRUM           0xa27e  // GV_StrCode("ジープ戦ドラム")
 #define CHARAID_SAFETY          0xa2b5  //
 #define CHARAID_CRANE           0xa3fb  // GV_StrCode("クレーン")
 #define CHARAID_PRISONSNAKE     0xa404  // GV_StrCode("独房スネーク")
@@ -368,7 +368,7 @@
 #define CHARAID_DYNWALL         0xb103  // GV_StrCode("透明壁")
 #define CHARAID_VR_SNAKE        0xb162  //
 #define CHARAID_MINENE          0xb30a  //
-#define CHARAID_PJEEP           0xb47a  //
+#define CHARAID_PJEEP           0xb47a  // GV_StrCode("駐車ジープ")
 #define CHARAID_DEMOCANCEL      0xb4e6  // GV_StrCode("デモキャンセル")
 #define CHARAID_DRUMCAN         0xb58d  // GV_StrCode("ドラム缶")
 #define CHARAID_B757_ED_TELOP   0xb757  //
@@ -444,7 +444,7 @@
 #define CHARAID_PSYCHOMERYL     0xf4b0  // GV_StrCode("サイコメリル")
 #define CHARAID_PUT_OBJECT      0xf4c3  //
 #define CHARAID_SEARCHLIGHT     0xf50f  // GV_StrCode("サーチライト")
-#define CHARAID_BELONG          0xf59e  //
+#define CHARAID_BELONG          0xf59e  // GV_StrCode("付随物")
 #define CHARAID_UJI             0xf5c5  // GV_StrCode("蛆虫")
 #define CHARAID_CDCHANGE        0xf722  // GV_StrCode("ＣＤ交換")
 #define CHARAID_BOXALL          0xf74b  // GV_StrCode("全部箱")

@@ -19,7 +19,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x118c, (NEWCHARA)0x800d7dfc },   //  CHARA_FINDTRAP,     /* chara 発見トラップ */
     { 0x7a05, (NEWCHARA)0x800d8814 },   //  CHARA_CINEMA,       /* chara シネマスクリーン */
     { 0xb98c, (NEWCHARA)0x800d46b4 },   //  CHARA_MYSTERYDOOR,  /* chara ミステリードア */
-    { 0xf59e, (NEWCHARA)0x800c2818 },   //  CHARA_BELONG,
+    { 0xf59e, (NEWCHARA)0x800c2818 },   //  CHARA_BELONG,       /* chara 付随物 */
     { 0xec77, (NEWCHARA)0x800c5248 },   //  CHARA_WALL,         /* chara 障害物 */
 
     CHARA_END
