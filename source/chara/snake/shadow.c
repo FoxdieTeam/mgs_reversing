@@ -209,7 +209,7 @@ static int GetResources(Work *work, CONTROL *control, OBJECT *parent, SVECTOR in
     work->control = control;
     work->parent = parent;
     work->indices = indices;
-    work->color = MAKE_RGBA(72,72,72,0x2C); // POLY_FT4
+    work->color = MAKE_RGBA(72,72,72, GPU_CODE_POLY_FT4);
     work->enabled = TRUE;
 
     return 0;
