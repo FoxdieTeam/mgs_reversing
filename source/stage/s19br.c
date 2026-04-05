@@ -6,7 +6,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_CAT_IN,
     CHARA_ASIOTOKUN,    /* chara 足音君 */
     CHARA_JEEPSCROLL,   /* chara ジープスクロール */
-    CHARA_JDRUM,
+    CHARA_JDRUM,        /* chara ジープ戦ドラム */
     CHARA_JEEP_EMY,
     CHARA_VOICESYS,     /* chara 音声制御 */
     { 0xd6fb, (NEWCHARA)0x800CB120 },   //  CHARA_FOG,   /* chara 黒フォグ */

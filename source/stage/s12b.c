@@ -19,7 +19,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x1ad3, (NEWCHARA)0x800c3df8 },   //  CHARA_TEXTURE,      /* chara テクスチャ */
     { 0x18e3, (NEWCHARA)0x800c5078 },   //  CHARA_SNOW,         /* chara 雪 */
     { 0xd6fb, (NEWCHARA)0x800d4214 },   //  CHARA_FOG,          /* chara 黒フォグ */
-    { 0xa9c5, (NEWCHARA)0x800c8c2c },   //  CHARA_GUNCAMERA,
+    { 0xa9c5, (NEWCHARA)0x800c8c2c },   //  CHARA_CAMERAGUN,    /* chara カメラ付随ガン */
     { 0x3c0c, (NEWCHARA)0x8006b76c },   //  CHARA_CLAYMORE,     /* chara クレイモア地雷 */
     { 0xec77, (NEWCHARA)0x800c6298 },   //  CHARA_WALL,         /* chara 障害物 */
     { 0xf4c3, (NEWCHARA)0x800d91b0 },   //  CHARA_PUT_OBJECT,

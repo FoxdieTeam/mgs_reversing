@@ -101,7 +101,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x02c4, NULL },   //  CHARA_ASIATOKUN,    /* chara 足跡君 */
     { 0x92bc, NULL },   //  CHARA_ASIOTOKUN,    /* chara 足音君 */
     { 0x9988, NULL },   //  CHARA_AT,           /* chara ＡＴ */
-    { 0xf59e, NULL },   //  CHARA_BELONG,
+    { 0xf59e, NULL },   //  CHARA_BELONG,       /* chara 付随物 */
     { 0x6b6c, NULL },   //  CHARA_BLACKSMOKE,   /* chara 黒煙 */
     { 0x8185, NULL },   //  CHARA_BLINKTEX,     /* chara 点滅テクスチャ */
     { 0x1158, NULL },   //  CHARA_BLOODY_MERYL, /* chara 血まみれメリル */
@@ -116,7 +116,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x7eca, NULL },   //  CHARA_C4WIRE,       /* chara ワイヤ */
     { 0x6e90, NULL },   //  CHARA_CAMERA,       /* chara カメラ */
     { 0x56cc, NULL },   //  CHARA_CAMERA2,      /* chara カメラ２ */
-    { 0xa9c5, NULL },   //  CHARA_GUNCAMERA,
+    { 0xa9c5, NULL },   //  CHARA_CAMERAGUN,    /* chara カメラ付随ガン */
     { 0x7bc2, NULL },   //  CHARA_CAMERASHAKE,  /* chara カメラ揺らし */
     { 0xb99f, NULL },   //  CHARA_CAPE,
     { 0x51c6, NULL },   //  CHARA_CAT_IN,
@@ -175,14 +175,14 @@ CHARA _StageCharacterEntries[] = {
     { 0xdb1f, NULL },   //  CHARA_GOAL,         /* chara ゴール */
     { 0x9eb7, NULL },   //  CHARA_GODZCOM,      /* chara ゴジラコマンダ */
     { 0xcb1f, NULL },   //  CHARA_GODZILA,      /* chara ゴジラ */
-    { 0x5f5a, NULL },   //  CHARA_GRD_CAM,
+    { 0x5f5a, NULL },   //  CHARA_GRD_CAM,      /* chara 監視カメラ主観 */
     { 0xcbeb, NULL },   //  CHARA_BG_HEX,
     { 0x0d9b, NULL },   //  CHARA_BG_HEX_S,
     { 0x42e4, NULL },   //  CHARA_HIYOKO,       /* chara ヒヨコ星 */
     { 0xdd8b, NULL },   //  CHARA_INTRUDECAM,   /* chara イントルードカメラ */
     { 0x8767, NULL },   //  CHARA_ITEM,         /* chara アイテム */
     { 0x6a48, NULL },   //  CHARA_JEEPSCROLL,   /* chara ジープスクロール */
-    { 0xa27e, NULL },   //  CHARA_JDRUM,
+    { 0xa27e, NULL },   //  CHARA_JDRUM,        /* chara ジープ戦ドラム */
     { 0xb757, NULL },   //  CHARA_B757_ED_TELOP,
     { 0x1ef9, NULL },   //  CHARA_JOHNNY,       /* chara ジョニー */
     { 0x81c7, NULL },   //  CHARA_JPEG,         /* chara ＪＰＥＧ */
@@ -249,8 +249,8 @@ CHARA _StageCharacterEntries[] = {
     { 0xb033, NULL },   //  CHARA_BG_ST2,
     { 0xb7ae, NULL },   //  CHARA_BG_SP_CM,
     { 0xbc76, NULL },   //  CHARA_BG_SP_ST,
-    { 0x9c6c, NULL },   //  CHARA_PK_GATE,
-    { 0xb47a, NULL },   //  CHARA_PJEEP,
+    { 0x9c6c, NULL },   //  CHARA_PK_GATE,      /* chara 駐車場ゲート */
+    { 0xb47a, NULL },   //  CHARA_PJEEP,        /* chara 駐車ジープ */
     { 0x9bc2, NULL },   //  CHARA_PLASMA,       /* chara プラズマ */
     { 0xfc0b, NULL },   //  CHARA_FLR_SPA,
     { 0x3ad2, NULL },   //  CHARA_3AD2,

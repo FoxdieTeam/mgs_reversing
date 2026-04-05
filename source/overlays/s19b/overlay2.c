@@ -870,6 +870,7 @@ const char s19b_aBlood_800DDC2C[] = "blood_1";
 const char s19b_dword_800DDC34[] = {'j', 'b', 'l', 'o'};
 const char s19b_dword_800DDC38[] = {'o', 'd', '.', 'c'};
 const char s19b_dword_800DDC3C[] = {0x0, 0x0, '@', 0x10};
+
 const char s19b_dword_800DDC40[] = {0x0, 0x8, 0x0, 0x0};
 const char s19b_dword_800DDC44[] = {0x0, 0x8, 0x0, 0x0};
 const char s19b_dword_800DDC48[] = {0x0, 0x8, 0x0, 0x0};
@@ -877,6 +878,7 @@ const char s19b_dword_800DDC4C[] = {0x0, 0x0, 0x0, 0x0};
 const char s19b_aBob_800DDC50[] = "19b_o4b";
 const char s19b_aBoa_800DDC58[] = "19b_o4a";
 const char s19b_aJdrumc_800DDC60[] = "jdrum.c";
+
 const char s19b_dword_800DDC68[] = {'j', 'b', 'l', 'a'};
 const char s19b_dword_800DDC6C[] = {'s', 't', '.', 'c'};
 const char s19b_dword_800DDC70[] = {0x0, 0x80, 0x1, '<'};

@@ -8,7 +8,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_ELEVPANEL,    /* chara エレベーターパネル */
     CHARA_UJI,          /* chara 蛆虫 */
     CHARA_TEXTURE,      /* chara テクスチャ */
-    CHARA_GUNCAMERA,
+    CHARA_CAMERAGUN,    /* chara カメラ付随ガン */
     CHARA_FADEIO,       /* chara 白黒フェド */
     CHARA_INTRUDECAM,   /* chara イントルードカメラ */
     CHARA_CAT_IN,

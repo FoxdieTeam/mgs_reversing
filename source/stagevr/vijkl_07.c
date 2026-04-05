@@ -18,7 +18,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x548e, (NEWCHARA)0x800e1280 },   //  CHARA_VRBOX2,       /* chara ＶＲＢＯＸ２ */
     { 0x4e95, (NEWCHARA)0x800d44d4 },   //  CHARA_BLOOD_POOL,   /* chara 血溜り */
     { 0xec77, (NEWCHARA)0x800c5230 },   //  CHARA_WALL,         /* chara 障害物 */
-    { 0xf59e, (NEWCHARA)0x800c2800 },   //  CHARA_BELONG,
+    { 0xf59e, (NEWCHARA)0x800c2800 },   //  CHARA_BELONG,       /* chara 付随物 */
     { 0x118c, (NEWCHARA)0x800d7404 },   //  CHARA_FINDTRAP,     /* chara 発見トラップ */
     { 0x7a05, (NEWCHARA)0x800d7e1c },   //  CHARA_CINEMA,       /* chara シネマスクリーン */
 
