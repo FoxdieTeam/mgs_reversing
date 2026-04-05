@@ -194,8 +194,6 @@ void drawBorder_800390FC(MenuWork *menuMan, u_long *ot)
 extern CONTROL         *GM_WhereList[96];
 extern int              gControlCount_800AB9B4;
 
-#define RGB(r, g, b) ((r) | (g << 8) | (b << 16))
-
 // Couldn't test it, but it should be the appropriate function name.
 void drawMap_800391D0(MenuWork *work, u_long *ot, int arg2)
 {
@@ -304,7 +302,7 @@ void drawMap_800391D0(MenuWork *work, u_long *ot, int arg2)
             cone.len = (rcos(control->rot.vx) * 6144) / 4096;
             cone.ang = 600;
 
-            draw_radar_vision_cone_80038F3C(work, ot, &cone, 0, 0, RGB(0, 160, 72), RGB(0, 0, 0), scale);
+            draw_radar_vision_cone_80038F3C(work, ot, &cone, 0, 0, MAKE_RGB(0, 160, 72), MAKE_RGB(0, 0, 0), scale);
         }
 
         for (count = gControlCount_800AB9B4 - 1; count > 0; count--)
