@@ -1328,7 +1328,7 @@ void title_open_800CE6AC(OpenWork *work, int index)
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800D2460.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800D2E44.s")
 
-void title_open_800D3500(OpenWork *work, int index)
+void title_open_800D3500(OpenWork *work, u_long *ot)
 {
     int i;
 
@@ -1409,7 +1409,7 @@ void title_open_800D3500(OpenWork *work, int index)
         }
     }
 
-    title_open_800C47B8(work, index);
+    title_open_800C47B8(work, ot);
 }
 
 #pragma INCLUDE_ASM("asm/overlays/title/OpenAct_800D37F4.s")
