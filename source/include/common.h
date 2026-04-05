@@ -104,10 +104,10 @@ typedef int             BOOL;
 /* simple version without bitmasks or zero-shift */
 #ifdef WORDS_BIGENDIAN
 #define MAKE_RGB(_r, _g, _b)                                    \
-        ((unsigned int)(((_r) << 24) | ((_g) << 16) | ((_g) << 8)))
+        ((unsigned int)(((_r) << 24) | ((_g) << 16) | ((_b) << 8)))
 #else
 #define MAKE_RGB(_r, _g, _b)                                    \
-        ((unsigned int)((_r) | ((_g) << 8) | ((_g) << 16)))
+        ((unsigned int)((_r) | ((_g) << 8) | ((_b) << 16)))
 #endif
 
 /* common colors */
