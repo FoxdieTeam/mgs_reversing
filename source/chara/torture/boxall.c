@@ -131,7 +131,7 @@ static inline void DrawMessage(short *x, short *y, char *message)
     MENU_Locate(*x + 161, *y + 105, 0x12);
     MENU_Printf(message);
 
-    menu_Text_Init_80038B98();
+    MENU_ResetText();
 }
 
 static void DrawItemTextCollected(Work *work)

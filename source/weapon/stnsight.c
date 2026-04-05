@@ -122,7 +122,7 @@ static void stnsight_act_helper_8006837C( Work *work )
     MENU_Color(COLOR_DARK_CYAN_R, COLOR_DARK_CYAN_G, COLOR_DARK_CYAN_B);
     MENU_Locate(180, 16, 0);
     MENU_Printf("LOCK_ON\n");
-    menu_Text_Init_80038B98();
+    MENU_ResetText();
 }
 
 static void stnsight_act_helper_80068420( Work *work, u_long *ot )
@@ -432,7 +432,7 @@ static void Act( Work *work )
     SetMissileRect(work, ot);
     stnsight_act_helper_80068BF4(work, ot);
     stnsight_act_helper_8006837C(work);
-    menu_Text_Init_80038B98();
+    MENU_ResetText();
 
     if (GV_PauseLevel != 0)
     {

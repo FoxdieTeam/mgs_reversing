@@ -196,7 +196,7 @@ static void DrawEnemyText(Work *work)
         MENU_Color(158, 184, 138);
         MENU_Locate(116, 98, 0);
         MENU_Printf("ENEMY\n");
-        menu_Text_Init_80038B98();
+        MENU_ResetText();
     }
 }
 
@@ -251,7 +251,7 @@ static void DrawMissileHud(Work *work)
     MENU_Locate(8, 152, 0);
     MENU_Printf("%d", ctrl.mov.vz);
 
-    menu_Text_Init_80038B98();
+    MENU_ResetText();
 }
 
 static void rmissile_act_helper_8006BD24(Work *work, int pad_status)

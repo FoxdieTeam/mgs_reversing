@@ -193,7 +193,7 @@ void MENU_ResetSystem(void)
     menu_prim.next = menu_prim.buf[GV_Clock];
     menu_prim.end = menu_prim.next + 0x2000;
     menu_prim.ot = DG_ChanlOTag(1);
-    menu_Text_Init_80038B98();
+    MENU_ResetText();
 }
 
 void MENU_Locate(int xpos, int ypos, int flags)
@@ -225,7 +225,7 @@ void MENU_Color(int r, int g, int b)
     config->color = color | code;
 }
 
-void menu_Text_Init_80038B98(void)
+void MENU_ResetText(void)
 {
     TextConfig *config = &gMenuTextConfig_8009E2E4;
     config->color = MAKE_RGBA(128,128,128, GPU_CODE_SPRT);

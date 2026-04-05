@@ -1102,7 +1102,7 @@ skip_fading:
                 MENU_Locate(0xA0, 0x82, 2);
                 MENU_Color(0x2E, 0x47, 0x3D);
                 MENU_Printf("PRESS SELECT TO EXIT");
-                menu_Text_Init_80038B98();
+                MENU_ResetText();
             }
         }
         break;
@@ -1587,7 +1587,7 @@ STATIC void menu_radio_update_80042198(MenuWork *work, u_long *ot)
                         MENU_Color(0xFF, 0xFF, 0xFF);
                         MENU_Locate(0xA0, 0x3F, 2);
                         MENU_Printf("PUSH SELECT");
-                        menu_Text_Init_80038B98();
+                        MENU_ResetText();
                     }
                     if (timer == 0 &&
                         (gRadioIncomingCall_8009E708.field_2_timer > 240 || gRadioIncomingCall_8009E708.field_8 != 0))

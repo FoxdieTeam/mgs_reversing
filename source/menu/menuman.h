@@ -399,7 +399,7 @@ void menu_radio_update_helper2_80038A7C(void);
 void MENU_ResetSystem(void);
 void MENU_Locate(int xpos, int ypos, int flags);
 void MENU_Color(int r, int g, int b);
-void menu_Text_Init_80038B98(void);
+void MENU_ResetText(void);
 void menu_Text_PrimUnknown_80038BB4(void);
 #ifdef _BUILDING_MENUMAN_
 int MENU_Printf(const char *fmt, const char *str, int param_3, int param_4, int param_5);

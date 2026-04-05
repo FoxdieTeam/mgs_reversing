@@ -289,7 +289,7 @@ static void Act(ItemWork *work)
             MENU_Locate(screen_pos.vx + 161, screen_pos.vy + 105, 0x12);
             MENU_Printf(message);
 
-            menu_Text_Init_80038B98();
+            MENU_ResetText();
         }
 
         if (work->text_counter > 90)

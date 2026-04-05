@@ -555,7 +555,7 @@ static void DrawHudText(Work *work)
         MENU_Color(101, 133, 77);
         MENU_Locate(32, 101, 1);
         MENU_Printf("%d", -work->field_6C_turn_vec.vx);
-        menu_Text_Init_80038B98();
+        MENU_ResetText();
     }
 }
 
