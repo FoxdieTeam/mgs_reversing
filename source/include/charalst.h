@@ -121,7 +121,7 @@
 #define CHARA_PAPER             { 0x5f02, s08b_paper_800DB87C }     // GV_StrCode("書類") takabe/paper.c
 #define CHARA_ZAKO11ECOM        { 0x5f0a, NewZakoCommander_800DAF38 } // GV_StrCode("ざこ１１ｅコマンダー") animal/zako11e/zk11ecom.c
 #define CHARA_ZAKO11FCOM        { 0x5f0e, NewZakoCommander_800D20D8 } // GV_StrCode("ざこ１１ｆコマンダー") animal/zako11f/zk11fcom.c
-#define CHARA_GRD_CAM           { 0x5f5a, ? }                       // thing/grd_cam.c (PC-ONLY)
+#define CHARA_GRD_CAM           { 0x5f5a, ? }                       // GV_StrCode("監視カメラ主観") thing/grd_cam.c (PC-ONLY)
 #define CHARA_RASEN             { 0x5fd9, NewRasen2_800CB008 }      // GV_StrCode("螺旋階段") takabe/rasen.c
 #define CHARA_SCN_BOMB          { 0x600d, ? }                       // okajima/scn_bomb.c (PC-ONLY)
 #define CHARA_RIPPLES           { 0x63aa, NewRipples }              // takabe/ripples.c

@@ -264,7 +264,7 @@
 #define CHARAID_PAPER           0x5f02  // GV_StrCode("書類")
 #define CHARAID_ZAKO11ECOM      0x5f0a  // GV_StrCode("ざこ１１ｅコマンダー")
 #define CHARAID_ZAKO11FCOM      0x5f0e  // GV_StrCode("ざこ１１ｆコマンダー")
-#define CHARAID_GRD_CAM         0x5f5a  //
+#define CHARAID_GRD_CAM         0x5f5a  // GV_StrCode("監視カメラ主観")
 #define CHARAID_RASEN           0x5fd9  // GV_StrCode("螺旋階段")
 #define CHARAID_SCN_BOMB        0x600d  //
 #define CHARAID_RIPPLES         0x63aa  //

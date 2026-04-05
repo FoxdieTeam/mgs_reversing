@@ -175,7 +175,7 @@ CHARA _StageCharacterEntries[] = {
     { 0xdb1f, NULL },   //  CHARA_GOAL,         /* chara ゴール */
     { 0x9eb7, NULL },   //  CHARA_GODZCOM,      /* chara ゴジラコマンダ */
     { 0xcb1f, NULL },   //  CHARA_GODZILA,      /* chara ゴジラ */
-    { 0x5f5a, NULL },   //  CHARA_GRD_CAM,
+    { 0x5f5a, NULL },   //  CHARA_GRD_CAM,      /* chara 監視カメラ主観 */
     { 0xcbeb, NULL },   //  CHARA_BG_HEX,
     { 0x0d9b, NULL },   //  CHARA_BG_HEX_S,
     { 0x42e4, NULL },   //  CHARA_HIYOKO,       /* chara ヒヨコ星 */
