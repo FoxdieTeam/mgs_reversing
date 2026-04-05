@@ -59,7 +59,7 @@ void menu_jimaku_act( MenuWork *work, u_long *ot )
 
         if ( gUnkJimakuStruct_800BDA70.field_1_type == 1 )
         {
-            config.colour = 0x64C8C8C8;
+            config.color = 0x64C8C8C8;
             config.flags = 0x12;
             config.xpos = 160;
             config.ypos = 80;

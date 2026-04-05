@@ -133,7 +133,7 @@ static void Act(Work *work)
         GCL_ExecProc(work->current_entry_proc_id, NULL);
         GV_DestroyActor(&work->actor);
     }
-    menu_Text_Init_80038B98();
+    MENU_ResetText();
     MENU_Locate(160, 120, 2);
 
 #ifdef DEV_EXE

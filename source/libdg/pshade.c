@@ -54,12 +54,12 @@ STATIC void prim_lighting( SVECTOR *pVerts, int numVerts, DG_LitVertex *pOut, DG
             if (--remaining == 0)
             {
                 DG_GetLightVector(&distance, plit->field_8_brightness, &pOut->intensity[1]);
-                LCOPY(&plit->field_C_colour, &pOut->color[1]);
+                LCOPY(&plit->field_C_color, &pOut->color[1]);
                 break;
             }
 
             DG_GetLightVector(&distance, brightness, &pOut->intensity[0]);
-            LCOPY(&plit->field_C_colour, &pOut->color[0]);
+            LCOPY(&plit->field_C_color, &pOut->color[0]);
         }
 
         switch (remaining)
@@ -98,18 +98,18 @@ STATIC void prim_80031B00( DG_MDL *mdl, DG_LIT *light, int n_lights )
 
 STATIC CVECTOR *SetUnlitCVector( DG_MDL *mdl, CVECTOR *cvec )
 {
-    int colour;
+    int color;
     int i;
 
-    colour = 0x3C808080;
+    color = 0x3C808080;
     if (mdl->flags & DG_MODEL_TRANS)
     {
-        colour = 0x3E808080;
+        color = 0x3E808080;
     }
 
     for (i = 4 * mdl->n_faces; i > 0; ++cvec, --i)
     {
-        LSTORE(colour, cvec);
+        LSTORE(color, cvec);
     }
 
     return cvec;

@@ -195,7 +195,7 @@ void menu_radio_draw_mem(MenuWork *work, u_long *ot)
         {
             config.xpos = x + 26;
             config.ypos = y + 136;
-            config.colour = 0x643D472E;
+            config.color = 0x643D472E;
             config.flags = 0;
 
             pMemory = &pCodec->field_10_array[temp_s0 + i];
@@ -209,7 +209,7 @@ void menu_radio_draw_mem(MenuWork *work, u_long *ot)
             _menu_number_draw_string(pPrim, &config, buffer);
 
             _NEW_PRIM(pTile, pPrim);
-            LSTORE(config.colour, &pTile->r0);
+            LSTORE(config.color, &pTile->r0);
             setXY0(pTile, x + 44, y + 139);
             setWH(pTile, 1, 2);
             setTile(pTile);

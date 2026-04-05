@@ -156,7 +156,7 @@ static int GM_Command_camera(unsigned char *top)
 static int GM_Command_map(unsigned char *top)
 {
     MAP *pMapRecord;
-    SVECTOR       colourVec;
+    SVECTOR       colorVec;
 
     if (GCL_GetOption('d'))
     {
@@ -221,8 +221,8 @@ static int GM_Command_map(unsigned char *top)
 
     if (GCL_GetOption('b'))
     {
-        GCL_StrToSV(GCL_GetParamResult(), &colourVec);
-        DG_SetRGB(colourVec.vx, colourVec.vy, colourVec.vz);
+        GCL_StrToSV(GCL_GetParamResult(), &colorVec);
+        DG_SetRGB(colorVec.vx, colorVec.vy, colorVec.vz);
     }
 
     return 0;

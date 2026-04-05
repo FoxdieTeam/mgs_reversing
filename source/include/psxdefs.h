@@ -55,6 +55,9 @@ typedef long (*openevent_cb_t)();
 // to specify them ourselves. libgs.h (which MGS does not use) provides
 // named constants, but they only account for the POLYGON types.
 
+#define GPU_CODE_SHADETEX       0x01    /* disables shading */
+#define GPU_CODE_SEMITRANS      0x02    /* enables semitransparency */
+
 #define GPU_CODE_POLY_F3        0x20    /* GPU_COM_F3   */
 #define GPU_CODE_POLY_FT3       0x24    /* GPU_COM_TF3  */
 #define GPU_CODE_POLY_F4        0x28    /* GPU_COM_F4   */

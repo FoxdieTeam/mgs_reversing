@@ -193,7 +193,7 @@ void menu_radio_codec_helper_helper14_helper5_800402A0(MenuPrim *pGlue, int para
 void menu_RadioCall_helper_800403E4(void);
 void menu_radio_update_helper3_80040498(MenuPrim *pGlue);
 void menu_radio_codec_helper_helper14_helper3_80040590(MenuPrim *pGlue, Radio_8009E664 *param_2, int cnt, int xoff, int yoff);
-void menu_radio_codec_helper_helper14_helper6_helper_8004064C(MenuPrim *pGlue, int xpos, int ypos, int colour, int idx);
+void menu_radio_codec_helper_helper14_helper6_helper_8004064C(MenuPrim *pGlue, int xpos, int ypos, int color, int idx);
 void menu_radio_codec_helper_helper14_helper6_800407A4(MenuPrim *pGlue, int xpos, int ypos, int flags);
 void menu_radio_codec_helper_helper14_helper4_800408BC(MenuPrim *pGlue, int param_2, int param_3, int param_4, int param_5, int param_6, int param_7);
 void menu_radio_codec_helper_helper15_80040B8C(MenuPrim *pGlue);

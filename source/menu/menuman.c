@@ -1,4 +1,4 @@
-#define _BUILDING_MENUMAN_
+#define __MENU_MENUMAN_C__
 #include "menuman.h"
 
 #include <stdio.h>
@@ -193,43 +193,43 @@ void MENU_ResetSystem(void)
     menu_prim.next = menu_prim.buf[GV_Clock];
     menu_prim.end = menu_prim.next + 0x2000;
     menu_prim.ot = DG_ChanlOTag(1);
-    menu_Text_Init_80038B98();
+    MENU_ResetText();
 }
 
 void MENU_Locate(int xpos, int ypos, int flags)
 {
-    TextConfig *pTextConfig = &gMenuTextConfig_8009E2E4;
+    TextConfig *config = &gMenuTextConfig_8009E2E4;
 
-    pTextConfig->xpos = xpos;
-    pTextConfig->ypos = ypos;
-    pTextConfig->flags = flags;
+    config->xpos = xpos;
+    config->ypos = ypos;
+    config->flags = flags;
 }
 
 void MENU_Color(int r, int g, int b)
 {
-    unsigned int newColour;
-    unsigned int unknown;
-    TextConfig  *pTextConfig = &gMenuTextConfig_8009E2E4;
+    unsigned int color;
+    unsigned int code;
+    TextConfig  *config = &gMenuTextConfig_8009E2E4;
 
-    if ((pTextConfig->flags & TextConfig_Flags_eSemiTransparent_20) != 0)
+    if ((config->flags & TextConfig_Flags_eSemiTransparent_20) != 0)
     {
-        newColour = r | g << 8 | b << 16;
-        unknown = 0x66000000;
+        color = MAKE_RGB(r, g, b);
+        code = ((GPU_CODE_SPRT | GPU_CODE_SEMITRANS) << RGBA_A_SHIFT);
     }
     else
     {
-        newColour = r | g << 8 | b << 16;
-        unknown = 0x64000000;
+        color = MAKE_RGB(r, g, b);
+        code = ((GPU_CODE_SPRT & ~GPU_CODE_SEMITRANS) << RGBA_A_SHIFT);
     }
 
-    pTextConfig->colour = newColour | unknown;
+    config->color = color | code;
 }
 
-void menu_Text_Init_80038B98(void)
+void MENU_ResetText(void)
 {
-    TextConfig *pTextConfig = &gMenuTextConfig_8009E2E4;
-    pTextConfig->colour = 0x64808080;
-    pTextConfig->flags = 0;
+    TextConfig *config = &gMenuTextConfig_8009E2E4;
+    config->color = MAKE_RGBA(128,128,128, GPU_CODE_SPRT);
+    config->flags = 0;
 }
 
 void menu_Text_PrimUnknown_80038BB4(void)

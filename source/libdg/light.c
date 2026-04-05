@@ -146,7 +146,7 @@ int DG_SetTmpLight( SVECTOR *svec, int brightness, int radius )
     light->pos = *svec;
     light->field_8_brightness = brightness;
     light->field_A_radius = radius;
-    *(int*)&light->field_C_colour = 0xFFFFFF;
+    *(int*)&light->field_C_color = 0xFFFFFF;
 
     return 0;
 }
@@ -228,9 +228,9 @@ int DG_GetLightMatrix( SVECTOR *vec, MATRIX *mtx )
                         DG_GetLightVector(&lightDistance, pLightIter->field_8_brightness, (SVECTOR *)lightOut);
                         lightOut++;
 
-                        pColorOut[0] = pLightIter->field_C_colour.r << 4;
-                        pColorOut[3] = pLightIter->field_C_colour.g << 4;
-                        pColorOut[6] = pLightIter->field_C_colour.b << 4;
+                        pColorOut[0] = pLightIter->field_C_color.r << 4;
+                        pColorOut[3] = pLightIter->field_C_color.g << 4;
+                        pColorOut[6] = pLightIter->field_C_color.b << 4;
                         pColorOut++;
 
                         if (--lightsAvailable == 0)

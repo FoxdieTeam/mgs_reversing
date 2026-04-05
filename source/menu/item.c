@@ -408,7 +408,7 @@ void menu_item_helper_8003B8F0(MenuWork *work, u_long *ot, int xpos, int ypos, M
             textConfig.xpos = xpos;
             textConfig.ypos = ypos + 14;
             textConfig.flags = 0;
-            textConfig.colour = 0x64808080;
+            textConfig.color = 0x64808080;
             _menu_number_draw_string(work->prim, &textConfig, "LV.");
             textConfig.ypos -= 2;
             _menu_number_draw(work->prim, &textConfig, GM_Items[IT_Card]);

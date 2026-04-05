@@ -48,33 +48,67 @@ typedef int             BOOL;
 
 /*---------------------------------------------------------------------------*/
 
+// NOTE: Within the PSX primitive structures, RGB color values are followed
+// by either a GPU primitive code or padding. We'll still consider the fourth
+// byte to be the "alpha" channel here.
+//
+// The GPU primitives store the RGB values in big-endian order (see P_TAG/P_CODE
+// in libgpu.h), but MGS handles the values by reading/writing the whole row as
+// a single 32-bit word, therefore R becomes the LSB, etc.
+
 /* RGBA8888 format */
 #ifdef WORDS_BIGENDIAN
 #define RGBA_R_SHIFT    (24)
+#define RGBA_R_MASK     (0xff000000)
 #define RGBA_G_SHIFT    (16)
+#define RGBA_G_MASK     (0x00ff0000)
 #define RGBA_B_SHIFT    ( 8)
+#define RGBA_B_MASK     (0x0000ff00)
 #define RGBA_A_SHIFT    ( 0)
+#define RGBA_A_MASK     (0x000000ff)
 #else
 #define RGBA_R_SHIFT    ( 0)
+#define RGBA_R_MASK     (0x000000ff)
 #define RGBA_G_SHIFT    ( 8)
+#define RGBA_G_MASK     (0x0000ff00)
 #define RGBA_B_SHIFT    (16)
+#define RGBA_B_MASK     (0x00ff0000)
 #define RGBA_A_SHIFT    (24)
+#define RGBA_A_MASK     (0xff000000)
 #endif
 
+//#define MAKE_RGB_WITHOUT_BITMASK
+#ifdef MAKE_RGB_WITHOUT_BITMASK
+#define MAKE_RGBA(_r,_g,_b,_a)                                  \
+        ((unsigned int)(((_r) << RGBA_R_SHIFT) |                \
+                        ((_g) << RGBA_G_SHIFT) |                \
+                        ((_b) << RGBA_B_SHIFT) |                \
+                        ((_a) << RGBA_A_SHIFT)))
+#else
 #define MAKE_RGBA(_r,_g,_b,_a)                                  \
         ((unsigned int)((((_r) & 0xff) << RGBA_R_SHIFT) |       \
                         (((_g) & 0xff) << RGBA_G_SHIFT) |       \
                         (((_b) & 0xff) << RGBA_B_SHIFT) |       \
                         (((_a) & 0xff) << RGBA_A_SHIFT)))
+#endif
 
 #define MAKE_RGB0(_r,_g,_b)     MAKE_RGBA(_r,_g,_b,0x00)
-#define MAKE_RGBX(_r,_g,_b)     MAKE_RGBA(_r,_g,_b,0xff)
+#define MAKE_RGBX(_r,_g,_b)     MAKE_RGBA(_r,_g,_b,0xff) /* full-alpha */
 #define MAKE_RGBH(_r,_g,_b)     MAKE_RGBA(_r,_g,_b,0x80) /* half-alpha */
 
 #define GET_R_FROM_RGBA(_rgba)  (((_rgba) >> RGBA_R_SHIFT) & 0xff)
 #define GET_G_FROM_RGBA(_rgba)  (((_rgba) >> RGBA_G_SHIFT) & 0xff)
 #define GET_B_FROM_RGBA(_rgba)  (((_rgba) >> RGBA_B_SHIFT) & 0xff)
 #define GET_A_FROM_RGBA(_rgba)  (((_rgba) >> RGBA_A_SHIFT) & 0xff)
+
+/* simple version without bitmasks or zero-shift */
+#ifdef WORDS_BIGENDIAN
+#define MAKE_RGB(_r, _g, _b)                                    \
+        ((unsigned int)(((_r) << 24) | ((_g) << 16) | ((_b) << 8)))
+#else
+#define MAKE_RGB(_r, _g, _b)                                    \
+        ((unsigned int)((_r) | ((_g) << 8) | ((_b) << 16)))
+#endif
 
 /* common colors */
 #define COLOR_BLACK     MAKE_RGB0(  0,  0,  0)  // 0x00000000

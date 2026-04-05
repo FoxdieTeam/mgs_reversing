@@ -521,7 +521,7 @@ static void Act(Work *work)
         work->frameCount++;
     }
 
-    menu_Text_Init_80038B98();
+    MENU_ResetText();
 }
 
 /*---------------------------------------------------------------------------*/

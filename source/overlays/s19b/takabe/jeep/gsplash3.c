@@ -95,10 +95,10 @@ void ShadePacks(POLY_FT4 *packs, int n_packs, short shade)
 
     shade *= 4;
 
-    color = (shade << 0) | (shade << 8) | (shade << 16);
+    color = MAKE_RGB(shade, shade, shade);
     for (i = n_packs - 1; i >= 0; i--)
     {
-        LSTORE((LLOAD(&packs->r0) & 0xFF000000) | color, &packs->r0);
+        LSTORE((LLOAD(&packs->r0) & RGBA_A_MASK) | color, &packs->r0);
         packs++;
     }
 }

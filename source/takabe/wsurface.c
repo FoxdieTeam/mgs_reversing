@@ -57,10 +57,10 @@ void Wsurface_800DAC14(POLY_GT4 *poly, DG_TEX *tex, WsurfaceWork *work)
             poly->tpage = tex->tpage;
             poly->clut = tex->clut;
 
-            LSTORE((LLOAD(&poly->r0) & 0xFF000000) | COLOR_GRAY, &poly->r0);
-            LSTORE((LLOAD(&poly->r1) & 0xFF000000) | COLOR_GRAY, &poly->r1);
-            LSTORE((LLOAD(&poly->r2) & 0xFF000000) | COLOR_GRAY, &poly->r2);
-            LSTORE((LLOAD(&poly->r3) & 0xFF000000) | COLOR_GRAY, &poly->r3);
+            LSTORE((LLOAD(&poly->r0) & RGBA_A_MASK) | COLOR_GRAY, &poly->r0);
+            LSTORE((LLOAD(&poly->r1) & RGBA_A_MASK) | COLOR_GRAY, &poly->r1);
+            LSTORE((LLOAD(&poly->r2) & RGBA_A_MASK) | COLOR_GRAY, &poly->r2);
+            LSTORE((LLOAD(&poly->r3) & RGBA_A_MASK) | COLOR_GRAY, &poly->r3);
 
             poly++;
         }
@@ -75,14 +75,14 @@ void Wsurface_800DAE3C(POLY_GT4 *packs, int shade, WsurfaceWork *work)
     POLY_GT4 *iter;
     int       i;
 
-    color = shade | (shade << 8) | (shade << 16);
+    color = MAKE_RGB(shade, shade, shade);
 
     iter = packs;
     fFC = work->fFC;
     for (i = 0; i < fFC; i++)
     {
-        LSTORE((LLOAD(&iter->r0) & 0xFF000000) | color, &iter->r0);
-        LSTORE((LLOAD(&iter->r1) & 0xFF000000) | color, &iter->r1);
+        LSTORE((LLOAD(&iter->r0) & RGBA_A_MASK) | color, &iter->r0);
+        LSTORE((LLOAD(&iter->r1) & RGBA_A_MASK) | color, &iter->r1);
         iter++;
     }
 
@@ -92,8 +92,8 @@ void Wsurface_800DAE3C(POLY_GT4 *packs, int shade, WsurfaceWork *work)
     iter = packs + inc;
     for (i = 0; i < fFC; i++)
     {
-        LSTORE((LLOAD(&iter->r2) & 0xFF000000) | color, &iter->r2);
-        LSTORE((LLOAD(&iter->r3) & 0xFF000000) | color, &iter->r3);
+        LSTORE((LLOAD(&iter->r2) & RGBA_A_MASK) | color, &iter->r2);
+        LSTORE((LLOAD(&iter->r3) & RGBA_A_MASK) | color, &iter->r3);
         iter++;
     }
 
@@ -103,8 +103,8 @@ void Wsurface_800DAE3C(POLY_GT4 *packs, int shade, WsurfaceWork *work)
     inc = work->fFC;
     for (i = 0; i < fFE; i++)
     {
-        LSTORE((LLOAD(&iter->r0) & 0xFF000000) | color, &iter->r0);
-        LSTORE((LLOAD(&iter->r2) & 0xFF000000) | color, &iter->r2);
+        LSTORE((LLOAD(&iter->r0) & RGBA_A_MASK) | color, &iter->r0);
+        LSTORE((LLOAD(&iter->r2) & RGBA_A_MASK) | color, &iter->r2);
         iter += inc;
     }
 
@@ -117,8 +117,8 @@ void Wsurface_800DAE3C(POLY_GT4 *packs, int shade, WsurfaceWork *work)
     inc = work->fFC;
     for (i = 0; i < fFE; i++)
     {
-        LSTORE((LLOAD(&iter->r1) & 0xFF000000) | color, &iter->r1);
-        LSTORE((LLOAD(&iter->r3) & 0xFF000000) | color, &iter->r3);
+        LSTORE((LLOAD(&iter->r1) & RGBA_A_MASK) | color, &iter->r1);
+        LSTORE((LLOAD(&iter->r3) & RGBA_A_MASK) | color, &iter->r3);
         iter += inc;
     }
 }

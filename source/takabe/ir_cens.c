@@ -96,7 +96,7 @@ void IrCens_800D9934(IrCensWork *work, int shade)
     poly0 = work->prim->packs[0];
     poly1 = work->prim->packs[1];
 
-    color = (LLOAD(&poly0->r0) & 0xFF000000) | (shade << 16) | (shade << 8) | shade;
+    color = (LLOAD(&poly0->r0) & RGBA_A_MASK) | (shade << 16) | (shade << 8) | shade;
 
     for (i = 8; i > 0; i--)
     {
@@ -170,13 +170,13 @@ void IrCens_800D99A4(IrCensWork *work, SVECTOR *arg1)
     vec = (VECTOR *)SCRPAD_ADDR;
     for (i = 8; i > 0; i--)
     {
-        color = (LLOAD(&poly0->r0) & 0xFF000000) | vec[0].pad;
+        color = (LLOAD(&poly0->r0) & RGBA_A_MASK) | vec[0].pad;
         LSTORE(color, &poly0->r0);
         LSTORE(color, &poly0->r2);
         LSTORE(color, &poly1->r0);
         LSTORE(color, &poly1->r2);
 
-        color = (LLOAD(&poly0->r0) & 0xFF000000) | vec[1].pad;
+        color = (LLOAD(&poly0->r0) & RGBA_A_MASK) | vec[1].pad;
         LSTORE(color, &poly0->r1);
         LSTORE(color, &poly0->r3);
         LSTORE(color, &poly1->r1);
@@ -196,9 +196,9 @@ void IrCens_800D9B5C(char *rgb0, char *rgb1, int inc)
 
     color = LLOAD(rgb0);
 
-    r = color & 0xFF;
-    g = ((color >> 8) & 0xFF);
-    b = ((color >> 16) & 0xFF);
+    r = GET_R_FROM_RGBA(color);
+    g = GET_G_FROM_RGBA(color);
+    b = GET_B_FROM_RGBA(color);
 
     r += inc;
     r = MIN(0x80, r);
@@ -209,7 +209,7 @@ void IrCens_800D9B5C(char *rgb0, char *rgb1, int inc)
     b += inc;
     b = MIN(0x80, b);
 
-    color = (color & 0xFF000000) | r | (g << 8) | (b << 16);
+    color = (color & RGBA_A_MASK) | r | (g << 8) | (b << 16);
     LSTORE(color, rgb1);
     LSTORE(color, rgb0);
 }

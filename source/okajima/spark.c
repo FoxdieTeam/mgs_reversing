@@ -203,14 +203,14 @@ static void spark_loader4_80074234(POLY_FT4 *poly, int count, DG_TEX *tex)
 //     poly[0...count]
 static void SetSparkShade(POLY_FT4 *poly, int count, int shade)
 {
-    int color = shade | (shade << 8) | (shade << 16);
+    int color = MAKE_RGB(shade, shade, shade);
     POLY_FT4 *currentPoly = poly;
 
     for (count--; count >= 0; count--, currentPoly++)
     {
         int *color_code = (int *)&currentPoly->r0;
 
-        *color_code &= 0xFF000000;
+        *color_code &= RGBA_A_MASK;
         *color_code |= color;
     }
 }

@@ -194,7 +194,7 @@ static void JiraiDisplayText(JiraiWork *work, int arg1)
         MENU_Locate(vec.vx + 161, vec.vy + 105, 0x12);
         MENU_Printf(text);
 
-        menu_Text_Init_80038B98();
+        MENU_ResetText();
     }
 }
 
