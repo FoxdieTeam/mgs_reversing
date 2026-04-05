@@ -5,12 +5,11 @@
 #include "libdg/libdg.h"
 #include "game/game.h"
 #include "takabe/thing.h"
-#include "strcode.h"
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL  GV_ACTOR_LEVEL3
-#define CHARA_NAME  CHARAID_CINEMA
+#define EXEC_LEVEL      GV_ACTOR_LEVEL3
+#define CHARA_NAME      0x7a05  // GV_StrCode("シネマスクリーン")
 
 typedef struct _PRIMS
 {
