@@ -122,12 +122,12 @@ void menu_draw_bar(MenuPrim *prim, long x, long y, long rest, long now, long max
     if ( !((int)bconf & 0x80000000) )
     {
         // Red flashing text when taking smoking or O2 damage
-        text_config.colour = 0x643030FF;
+        text_config.color = 0x643030FF;
     }
     else
     {
         // White color for everything else
-        text_config.colour = 0x64FFFFFF;
+        text_config.color = 0x64FFFFFF;
     }
 
     _menu_number_draw_string(prim, &text_config, bconf->name);

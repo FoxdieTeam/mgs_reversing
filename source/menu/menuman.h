@@ -370,7 +370,7 @@ typedef struct TextConfig
     int flags; // 0xF = alignement
     // the first byte is a flag or an offset (0x64 opaque, 0x65 semi-transparent)
     // the rest is BGR
-    int colour;
+    int color;
 } TextConfig;
 
 typedef struct Menu_Triangle

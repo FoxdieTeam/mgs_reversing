@@ -476,7 +476,7 @@ static inline RadioCoordsStru_8009E6FC *get_gRadioCoords(int idx)
 
 // Highlight the codec arrow buttons when changing frequency
 // (idx 0 = right, idx 1 = left)
-void menu_radio_codec_helper_helper14_helper6_helper_8004064C(MenuPrim *pGlue, int xpos, int ypos, int colour, int idx)
+void menu_radio_codec_helper_helper14_helper6_helper_8004064C(MenuPrim *pGlue, int xpos, int ypos, int color, int idx)
 {
     short                     coord;
     POLY_F3                  *pPoly;
@@ -486,8 +486,8 @@ void menu_radio_codec_helper_helper14_helper6_helper_8004064C(MenuPrim *pGlue, i
     _NEW_PRIM(pPoly, pGlue);
     _NEW_PRIM(pLine, pGlue);
 
-    LSTORE(colour, &pPoly->r0);
-    LSTORE(colour, &pLine->r0);
+    LSTORE(color, &pPoly->r0);
+    LSTORE(color, &pLine->r0);
 
     setPolyF3(pPoly);
     setLineF4(pLine);
@@ -521,16 +521,16 @@ void menu_radio_codec_helper_helper14_helper6_helper_8004064C(MenuPrim *pGlue, i
 // Highlight codec ui element depending on the action flags
 void menu_radio_codec_helper_helper14_helper6_800407A4(MenuPrim *pGlue, int xpos, int ypos, int flags)
 {
-    unsigned colour;
+    unsigned color;
 
     if (flags < 0)
     {
         flags = 0xf; // Go into all branches below
-        colour = 0x3d472e;
+        color = 0x3d472e;
     }
     else
     {
-        colour = 0x3d472e;
+        color = 0x3d472e;
     }
 
     // Highlight PTT text when calling
@@ -539,7 +539,7 @@ void menu_radio_codec_helper_helper14_helper6_800407A4(MenuPrim *pGlue, int xpos
         TextConfig conf;
         conf.xpos = xpos + 0x90;
         conf.ypos = ypos + 0x28;
-        conf.colour = 0x64000000 | colour;
+        conf.color = 0x64000000 | color;
         conf.flags = 0;
         _menu_number_draw_string2(pGlue, &conf, "P#3T#3T");
     }
@@ -549,17 +549,17 @@ void menu_radio_codec_helper_helper14_helper6_800407A4(MenuPrim *pGlue, int xpos
         TextConfig conf;
         conf.xpos = xpos + 0x86;
         conf.ypos = ypos + 0x77;
-        conf.colour = 0x64000000 | colour;
+        conf.color = 0x64000000 | color;
         conf.flags = 0;
         _menu_number_draw_string2(pGlue, &conf, "MEMORY");
     }
     if (flags & CODEC_ACTION_RIGHT)
     {
-        menu_radio_codec_helper_helper14_helper6_helper_8004064C(pGlue, xpos, ypos, colour, 0);
+        menu_radio_codec_helper_helper14_helper6_helper_8004064C(pGlue, xpos, ypos, color, 0);
     }
     if (flags & CODEC_ACTION_LEFT)
     {
-        menu_radio_codec_helper_helper14_helper6_helper_8004064C(pGlue, xpos, ypos, colour, 1);
+        menu_radio_codec_helper_helper14_helper6_helper_8004064C(pGlue, xpos, ypos, color, 1);
     }
     return;
 }
@@ -1785,12 +1785,12 @@ void _menu_number_draw(MenuPrim *prim, TextConfig *pSettings, int number)
     int     xpos;
     SPRT   *sprt;
     u_long *ot;
-    int     colour;
+    int     color;
 
     x0 = 0;
     firstSprt = 0;
     ot = prim->ot;
-    colour = pSettings->colour;
+    color = pSettings->color;
     minimumDigits = 0;
 
     if (pSettings->flags & TextConfig_Flags_ePadding_40)
@@ -1813,7 +1813,7 @@ void _menu_number_draw(MenuPrim *prim, TextConfig *pSettings, int number)
         }
 
         *sprt = gRadioNumberSprt_800bd9b0;
-        LSTORE(colour, &sprt->r0);
+        LSTORE(color, &sprt->r0);
         sprt->x0 = x0;
         sprt->y0 = pSettings->ypos;
         sprt->u0 = digit * 6 - 100;
@@ -1899,7 +1899,7 @@ void _menu_number_draw_string(MenuPrim *pGlue, TextConfig *pTextConfig, const ch
     SPRT        *pSprt;
     int          width;
     u_long      *ot;
-    int          colour;
+    int          color;
     const char  *str2;
     unsigned int c;
     unsigned int lc;
@@ -1913,7 +1913,7 @@ void _menu_number_draw_string(MenuPrim *pGlue, TextConfig *pTextConfig, const ch
     width = 0;
 
     ot = pGlue->ot;
-    colour = pTextConfig->colour;
+    color = pTextConfig->color;
 
     str2 = str;
 
@@ -2014,7 +2014,7 @@ void _menu_number_draw_string(MenuPrim *pGlue, TextConfig *pTextConfig, const ch
         *pSprt2 = gRadioNumberSprt2_800bd9d0;
 
         // draw the character sprite
-        LSTORE(colour, &pSprt2->r0);
+        LSTORE(color, &pSprt2->r0);
 
         pSprt2->x0 = width;
         pSprt2->y0 = pTextConfig->ypos;
@@ -2072,7 +2072,7 @@ int menu_number_draw(MenuWork *work, u_long *ot, int xpos, int ypos, int number,
 
     textConfig.xpos = xpos;
     textConfig.ypos = ypos;
-    textConfig.colour = 0x64808080;
+    textConfig.color = 0x64808080;
     textConfig.flags = flags;
     _menu_number_draw(work->prim, &textConfig, number);
     return textConfig.xpos;
@@ -2090,14 +2090,14 @@ int menu_number_draw_number2(MenuWork *work, int xpos, int ypos, int current, in
     textConfig.ypos = ypos;
     textConfig.flags = 0;
     // Use red color if "current" is 0, otherwise use grey
-    textConfig.colour = (current == 0 ? 0x64002080 : 0x64575757);
+    textConfig.color = (current == 0 ? 0x64002080 : 0x64575757);
     _menu_number_draw(work->prim, &textConfig, current);
 
     // Draw the "/" separator between the current and total numbers
     NEW_PRIM(pPrim, work);
 
     *pPrim = gRadioNumberSprt_800bd9b0;
-    LSTORE(textConfig.colour, &pPrim->r0);
+    LSTORE(textConfig.color, &pPrim->r0);
     pPrim->x0 = textConfig.xpos;
     pPrim->y0 = textConfig.ypos;
     pPrim->u0 = 224;
@@ -2116,7 +2116,7 @@ int menu_number_draw_string(MenuWork *work, u_long *ot, int xpos, int ypos, cons
 
     textConfig.xpos = xpos;
     textConfig.ypos = ypos;
-    textConfig.colour = 0x64808080;
+    textConfig.color = 0x64808080;
     textConfig.flags = flags;
     _menu_number_draw_string(work->prim, &textConfig, str);
     return textConfig.xpos;
@@ -2159,7 +2159,7 @@ void _menu_number_draw_string2(MenuPrim *pGlue, TextConfig *pTextConfig, const c
     SPRT        *pSprt;
     int          width;
     u_long      *ot;
-    int          colour;
+    int          color;
     const char  *str2;
     unsigned int c;
     unsigned int lc;
@@ -2174,7 +2174,7 @@ void _menu_number_draw_string2(MenuPrim *pGlue, TextConfig *pTextConfig, const c
     width = 0;
 
     ot = pGlue->ot;
-    colour = pTextConfig->colour;
+    color = pTextConfig->color;
 
     str2 = str;
 
@@ -2277,7 +2277,7 @@ void _menu_number_draw_string2(MenuPrim *pGlue, TextConfig *pTextConfig, const c
         *pSprt2 = gRadioStringSprt_800BD9F0;
 
         // draw the character sprite
-        LSTORE(colour, &pSprt2->r0);
+        LSTORE(color, &pSprt2->r0);
 
         pSprt2->x0 = width;
         pSprt2->y0 = pTextConfig->ypos;

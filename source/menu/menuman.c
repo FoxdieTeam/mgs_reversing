@@ -207,28 +207,28 @@ void MENU_Locate(int xpos, int ypos, int flags)
 
 void MENU_Color(int r, int g, int b)
 {
-    unsigned int newColour;
+    unsigned int newColor;
     unsigned int unknown;
     TextConfig  *pTextConfig = &gMenuTextConfig_8009E2E4;
 
     if ((pTextConfig->flags & TextConfig_Flags_eSemiTransparent_20) != 0)
     {
-        newColour = r | g << 8 | b << 16;
+        newColor = r | g << 8 | b << 16;
         unknown = 0x66000000;
     }
     else
     {
-        newColour = r | g << 8 | b << 16;
+        newColor = r | g << 8 | b << 16;
         unknown = 0x64000000;
     }
 
-    pTextConfig->colour = newColour | unknown;
+    pTextConfig->color = newColor | unknown;
 }
 
 void menu_Text_Init_80038B98(void)
 {
     TextConfig *pTextConfig = &gMenuTextConfig_8009E2E4;
-    pTextConfig->colour = 0x64808080;
+    pTextConfig->color = 0x64808080;
     pTextConfig->flags = 0;
 }
 

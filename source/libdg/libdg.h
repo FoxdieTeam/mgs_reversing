@@ -187,7 +187,7 @@ typedef struct DG_LIT
     SVECTOR        pos;
     unsigned short field_8_brightness;
     unsigned short field_A_radius;
-    CVECTOR        field_C_colour;
+    CVECTOR        field_C_color;
 } DG_LIT;
 
 typedef struct DG_FixedLight

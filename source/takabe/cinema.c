@@ -176,7 +176,7 @@ static int GetResources( Work *work, int time, int type )
     int      col;
     int      h1;
     int      h2;
-    int      colour;
+    int      color;
     PARAM   *params;
     PRIMS   *prims;
     TILE    *tile;
@@ -194,7 +194,7 @@ static int GetResources( Work *work, int time, int type )
     setPolyG4(poly);
     setSemiTrans(poly, 1);
 
-    colour = *(int*)&poly->r0;
+    color = *(int*)&poly->r0;
     poly->x1 = FRAME_WIDTH;
     poly->x3 = FRAME_WIDTH;
     poly->x0 = 0;
@@ -204,11 +204,11 @@ static int GetResources( Work *work, int time, int type )
     poly->y2 = h1;
     poly->y3 = h1;
 
-    colour &= 0xFF000000;
-    *(int*)&poly->r0 = colour;
-    *(int*)&poly->r1 = colour;
-    *(int*)&poly->r2 = colour;
-    *(int*)&poly->r3 = colour;
+    color &= 0xFF000000;
+    *(int*)&poly->r0 = color;
+    *(int*)&poly->r1 = color;
+    *(int*)&poly->r2 = color;
+    *(int*)&poly->r3 = color;
 
     prims->poly[0][1] = prims->poly[0][0];
 

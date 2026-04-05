@@ -745,7 +745,7 @@ STATIC void menu_radio_do_file_mode_helper2_helper_8004A4C4(MenuPrim *pGlue, Rad
     textConfig.xpos = pUnk->field_8 >> 16;
     textConfig.ypos = pUnk->field_10 >> 16; // pUnk->field_10 / 65536 wouldn't match
     textConfig.flags = 0x12;
-    textConfig.colour = pUnk->field_18 | 0x66000000;
+    textConfig.color = pUnk->field_18 | 0x66000000;
 
     _menu_number_draw_string2(pGlue, &textConfig, (char *)pUnk->field_4); // TODO: Fix cast
 }
@@ -1268,7 +1268,7 @@ STATIC void menu_radio_do_file_mode_save_memcard_8004B0A0(MenuWork *work, u_long
             } while (0);
         }
 
-        config.colour = 0x66748956;
+        config.color = 0x66748956;
         config.flags = 0;
         var_s5 += var_s0;
 
@@ -1417,7 +1417,7 @@ STATIC void menu_radio_do_file_mode_save_memcard_8004B0A0(MenuWork *work, u_long
 
     config.ypos = 68;
     config.flags = 0x2;
-    config.colour = 0x66748956;
+    config.color = 0x66748956;
 
     sprintf(freeBlocksText, "FREE: %d BLOCK%s", freeBlocksCount, (freeBlocksCount > 1) ? "S" : "");
     _menu_number_draw_string2(prim, &config, freeBlocksText);
@@ -1769,11 +1769,11 @@ STATIC void menu_radio_do_file_mode_helper16_8004C164(MenuPrim *pGlue, SELECT_IN
     textConfig.flags = 0x12;
     if (info->field_14 != 0)
     {
-        textConfig.colour = 0x66748956;
+        textConfig.color = 0x66748956;
     }
     else
     {
-        textConfig.colour = 0x663d482e;
+        textConfig.color = 0x663d482e;
     }
     textConfig.xpos = info->field_0_xpos;
     textConfig.ypos = info->field_2_ypos;
@@ -1794,7 +1794,7 @@ STATIC void menu_radio_do_file_mode_helper16_8004C164(MenuPrim *pGlue, SELECT_IN
 
         if (i == info->current_index)
         {
-            textConfig.colour = 0x66748956;
+            textConfig.color = 0x66748956;
             if (info->field_14 != 0)
             {
                 ypos += 16;
@@ -1803,7 +1803,7 @@ STATIC void menu_radio_do_file_mode_helper16_8004C164(MenuPrim *pGlue, SELECT_IN
         }
         else
         {
-            textConfig.colour = 0x663d482e;
+            textConfig.color = 0x663d482e;
         }
         _menu_number_draw_string2(pGlue, &textConfig, info->menu[i].mes);
     }
@@ -2080,7 +2080,7 @@ int menu_radio_do_file_mode(MenuWork *work, GV_PAD *pPad)
         textConfig1.xpos = 160;
         textConfig1.ypos = 0xC8;
         textConfig1.flags = 0x12;
-        textConfig1.colour = 0x66748956;
+        textConfig1.color = 0x66748956;
         _menu_number_draw_string2(work->prim, &textConfig1, "PRESS * TO EXIT");
         if (menu_radio_do_file_mode_helper17_8004C2E4(pPad, &res1, dword_800ABB74) != 0)
         {
@@ -2122,7 +2122,7 @@ int menu_radio_do_file_mode(MenuWork *work, GV_PAD *pPad)
             textConfig2.xpos = 160;
             textConfig2.ypos = 0xC8;
             textConfig2.flags = 0x12;
-            textConfig2.colour = 0x66748956;
+            textConfig2.color = 0x66748956;
             _menu_number_draw_string2(work->prim, &textConfig2, "PRESS * TO SELECT MEMORY CARD");
         }
         if (menu_radio_do_file_mode_helper13_8004BCF8(pPad, &res3, dword_800ABB70) != 0)

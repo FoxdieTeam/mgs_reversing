@@ -199,7 +199,7 @@ void camera_800C53B8(MenuPrim *pGlue, RadioFileModeStruElem *pElem)
     textConfig.xpos = pUnk->field_8 >> 16;
     textConfig.ypos = pUnk->field_10 >> 16; // pUnk->field_10 / 65536 wouldn't match
     textConfig.flags = 0x12;
-    textConfig.colour = pUnk->field_18 | 0x66000000;
+    textConfig.color = pUnk->field_18 | 0x66000000;
 
     _menu_number_draw_string2(pGlue, &textConfig, (char *)pUnk->field_4); // TODO: Fix cast
 }
@@ -762,11 +762,11 @@ void camera_800C714C(MenuPrim *pGlue, SELECT_INFO *info)
     textConfig.flags = 0x12;
     if (info->field_14 != 0)
     {
-        textConfig.colour = 0x66748956;
+        textConfig.color = 0x66748956;
     }
     else
     {
-        textConfig.colour = 0x663d482e;
+        textConfig.color = 0x663d482e;
     }
     textConfig.xpos = info->field_0_xpos;
     textConfig.ypos = info->field_2_ypos;
@@ -787,7 +787,7 @@ void camera_800C714C(MenuPrim *pGlue, SELECT_INFO *info)
 
         if (i == info->current_index)
         {
-            textConfig.colour = 0x66748956;
+            textConfig.color = 0x66748956;
             if (info->field_14 != 0)
             {
                 ypos += 16;
@@ -796,7 +796,7 @@ void camera_800C714C(MenuPrim *pGlue, SELECT_INFO *info)
         }
         else
         {
-            textConfig.colour = 0x663d482e;
+            textConfig.color = 0x663d482e;
         }
         _menu_number_draw_string2(pGlue, &textConfig, info->menu[i].mes);
     }
