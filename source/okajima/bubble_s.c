@@ -8,7 +8,18 @@
 
 #include "takabe/ripple.h" // for NewRipple
 
-typedef struct _BubbleSWork
+/*----------------------------------------------------------------*/
+
+#define EXEC_LEVEL      GV_ACTOR_LEVEL4
+
+#define UP_SPEED        15
+#define MIN_BUBBLE_SIZE 20
+#define MAX_BUBBLE_SIZE 40
+#define RANDAM_WIDTH    16
+
+/*----------------------------------------------------------------*/
+
+typedef struct _Work
 {
     GV_ACT   actor;
     int      map;
@@ -26,65 +37,48 @@ typedef struct _BubbleSWork
     int      bounded;
     SVECTOR  bounds[2];
     int      fC4;
-} BubbleSWork;
+} Work;
 
-#define EXEC_LEVEL      GV_ACTOR_LEVEL4
+/*----------------------------------------------------------------*/
 
-#define UP_SPEED        15
-#define MIN_BUBBLE_SIZE 20
-#define MAX_BUBBLE_SIZE 40
-#define RANDAM_WIDTH    16
-
-void BubbleSShadePacks_800D5324(POLY_FT4 *packs, int shade)
+static void ShadePacks(POLY_FT4 *packs, int shade)
 {
     setRGB0(packs, shade, shade, shade);
 }
 
-int BubbleSGetSvecs_800D5334(char *opt, SVECTOR *svec)
+static int GetSvecs(char *opt, SVECTOR *nodes)
 {
-    int   count;
+    int   n_nodes;
     char *result;
 
-    count = 0;
+    n_nodes = 0;
 
     while ((result = GCL_GetParamResult()) != NULL)
     {
-        GCL_StrToSV(result, svec);
+        GCL_StrToSV(result, nodes);
 
-        svec++;
-        count++;
+        nodes++;
+        n_nodes++;
     }
-
-    return count;
+    return n_nodes;
 }
 
-void BubbleSInitPacks_800D5388(POLY_FT4 *packs, int n_packs, DG_TEX *tex)
+// clang-format off
+/*----------------------------------------------------------------*/
+static void InitPacks( POLY_FT4 *packs, int n_packs, DG_TEX *tex )
 {
-    int x, y, w, h;
-
-    while (--n_packs >= 0)
-    {
-        setPolyFT4(packs);
-        setSemiTrans(packs, 1);
-        setRGB0(packs, 0, 0, 0);
-
-        x = tex->off_x;
-        w = tex->w;
-        y = tex->off_y;
-        h = tex->h;
-
-        setUVWH(packs, x, y, w, h);
-
-        packs->tpage = tex->tpage;
-
-        packs->clut = tex->clut;
-        packs->tpage |= 0x20;
-
-        packs++;
+    while ( --n_packs >= 0 ) {
+        setPolyFT4( packs ) ;
+        setSemiTrans( packs, 1 ) ;
+//      setRGB0( packs, MAX_COLOR, MAX_COLOR, MAX_COLOR );
+        setRGB0( packs, 0, 0, 0 );
+        DG_SetPacketTexture4( packs, tex ) ;
+        packs->tpage|=1<<5; /* 半透明属性を設定(libgpu.hを参照) */
+        packs ++ ;
     }
 }
 
-void BubbleSPrimsRectSet_800D5414(BubbleSWork *work, int i)
+static void PrimsRectSet( Work *work, int i )
 {
     SVECTOR     speed;
     int         size,dis;
@@ -112,6 +106,8 @@ void BubbleSPrimsRectSet_800D5414(BubbleSWork *work, int i)
     work->rect[i].w=rtemp1;
     work->rect[i].h=size;
 
+
+// clang-format on
     if (work->fC4 == 0)
     {
         if (work->pos[i].vy > work->bounds[1].vy)
@@ -128,7 +124,6 @@ void BubbleSPrimsRectSet_800D5414(BubbleSWork *work, int i)
 
                 NewRipple(&mat, 2000);
             }
-
         }
         return;
     }
@@ -150,9 +145,9 @@ void BubbleSPrimsRectSet_800D5414(BubbleSWork *work, int i)
     }
 }
 
-int BubbleSBoundInCheck_800D5678(SVECTOR *bound, SVECTOR *check)
+static int BoundInCheck( SVECTOR *bound, SVECTOR *check )
 {
-    if ( !(check->vx <= bound[0].vx)  )
+    if ( !(check->vx <= bound[0].vx) )
     {
         if ( check->vy > bound[0].vy )
         {
@@ -171,11 +166,10 @@ int BubbleSBoundInCheck_800D5678(SVECTOR *bound, SVECTOR *check)
             }
         }
     }
-
     return 0;
 }
 
-int BubbleSCheckMessage_800D5708(unsigned short name, int n_hashes, unsigned short *hashes)
+static int CheckMessage(unsigned short name, int n_hashes, unsigned short *hashes)
 {
     GV_MSG *msg;
     int     n_msgs;
@@ -202,7 +196,7 @@ int BubbleSCheckMessage_800D5708(unsigned short name, int n_hashes, unsigned sho
     return found;
 }
 
-void BubbleSAct_800D57A0(BubbleSWork *work)
+static void Act(Work *work)
 {
     SVECTOR        headpos;
     unsigned short hash[2];
@@ -218,7 +212,7 @@ void BubbleSAct_800D57A0(BubbleSWork *work)
     hash[0] = GV_StrCode("バブルはじけろ"); // bubble popped
     hash[1] = GV_StrCode("kill");
 
-    found = BubbleSCheckMessage_800D5708(work->name, 2, hash);
+    found = CheckMessage(work->name, 2, hash);
 
     switch (found)
     {
@@ -234,7 +228,7 @@ void BubbleSAct_800D57A0(BubbleSWork *work)
 
     if (work->fC4 == 0)
     {
-        if (BubbleSBoundInCheck_800D5678(work->bounds, &headpos))
+        if (BoundInCheck(work->bounds, &headpos))
         {
             if (work->fA8 == 0)
             {
@@ -297,22 +291,22 @@ void BubbleSAct_800D57A0(BubbleSWork *work)
         poly = work->prim[i]->packs[GV_Clock];
         if (work->f80[i])
         {
-            BubbleSShadePacks_800D5324(poly, 64);
-            BubbleSPrimsRectSet_800D5414(work, i);
+            ShadePacks(poly, 64);
+            PrimsRectSet(work, i);
         }
         else
         {
-            BubbleSShadePacks_800D5324(poly, 0);
+            ShadePacks(poly, 0);
         }
     }
 }
 
-void BubbleSDestroyPrim_800D5ACC(BubbleSWork *work, int index)
+static void DestroyPrim(Work *work, int index)
 {
     GM_FreePrim(work->prim[index]);
 }
 
-void BubbleSDie_800D5B10(BubbleSWork *work)
+static void Die(Work *work)
 {
     int i;
 
@@ -322,7 +316,7 @@ void BubbleSDie_800D5B10(BubbleSWork *work)
     }
 }
 
-int BubbleSInitPrims_800D5B74(BubbleSWork *work)
+static int InitPrims(Work *work)
 {
     DG_TEX  *tex;
     int      i;
@@ -345,7 +339,7 @@ int BubbleSInitPrims_800D5B74(BubbleSWork *work)
         {
             if (i > 0)
             {
-                BubbleSDestroyPrim_800D5ACC(work, i);
+                DestroyPrim(work, i);
             }
 
             return -1;
@@ -353,14 +347,14 @@ int BubbleSInitPrims_800D5B74(BubbleSWork *work)
 
         prim->raise = k500;
 
-        BubbleSInitPacks_800D5388(prim->packs[0], 1, tex);
-        BubbleSInitPacks_800D5388(prim->packs[1], 1, tex);
+        InitPacks(prim->packs[0], 1, tex);
+        InitPacks(prim->packs[1], 1, tex);
     }
 
     return 0;
 }
 
-int BubbleSGetResources_800D5C94(BubbleSWork *work, int name, int map)
+static int GetResources(Work *work, int name, int map)
 {
     char *opt;
     int i;
@@ -376,7 +370,7 @@ int BubbleSGetResources_800D5C94(BubbleSWork *work, int name, int map)
     if (opt != 0)
     {
         work->bounded = 1;
-        BubbleSGetSvecs_800D5334(opt, work->bounds);
+        GetSvecs(opt, work->bounds);
     } else
     {
         work->bounded = 0;
@@ -395,14 +389,14 @@ int BubbleSGetResources_800D5C94(BubbleSWork *work, int name, int map)
     opt = GCL_GetOption('s');
     if (opt != 0)
     {
-        BubbleSGetSvecs_800D5334(opt, &work->speed);
+        GetSvecs(opt, &work->speed);
     }
     else
     {
         work->speed = DG_ZeroVector;
     }
 
-    if (BubbleSInitPrims_800D5B74(work) < 0)
+    if (InitPrims(work) < 0)
     {
         return -1;
     }
@@ -418,16 +412,18 @@ int BubbleSGetResources_800D5C94(BubbleSWork *work, int name, int map)
     return 0;
 }
 
+/*----------------------------------------------------------------*/
+
 void *NewBubbleS(int name, int where, int argc, char **argv)
 {
-    BubbleSWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(BubbleSWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, BubbleSAct_800D57A0, BubbleSDie_800D5B10, "bubble_s.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "bubble_s.c");
 
-        if (BubbleSGetResources_800D5C94(work, name, where) < 0)
+        if (GetResources(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
