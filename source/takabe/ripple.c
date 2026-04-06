@@ -22,8 +22,9 @@ typedef struct _Work
 } Work;
 
 /*---------------------------------------------------------------------------*/
+// clang-format off
 
-static void s00a_ripple_800D7AC0( SVECTOR* pos, int n_vec, int scale )
+static void s00a_ripple_800D7AC0( SVECTOR *pos, int n_vec, int scale )
 {
     SVECTOR wave_pos[4];
     MATRIX mat;
@@ -54,6 +55,7 @@ static void s00a_ripple_800D7AC0( SVECTOR* pos, int n_vec, int scale )
         pos += 4 ;
         rot.vy += 512 ;
     }
+
 }
 
     /*
@@ -81,12 +83,13 @@ static void ShadePacks( POLY_FT4 *packs0, POLY_FT4 *packs1, int n_packs, short b
     while ( -- n_packs >= 0 ) {
         setRGB0( packs0, bright, bright, bright ) ;
         setRGB0( packs1, bright, bright, bright ) ;
-        packs0++;
-        packs1++;
+        packs0 ++ ;
+        packs1 ++ ;
     }
 }
 
 /*---------------------------------------------------------------------------*/
+// clang-format on
 
 static void Act( Work *work )
 {
