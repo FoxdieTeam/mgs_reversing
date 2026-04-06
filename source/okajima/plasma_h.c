@@ -34,20 +34,23 @@ static int DirVecXY( SVECTOR *from, SVECTOR *to, SVECTOR *rot )
 {
     int dx, dy, dz;
     int dis;
-    int height;
+    int vec_vx, vec_vy, vec_vz;
 
     dx = (from->vx - to->vx) / 16;
     dy = (from->vy - to->vy) / 16;
     dz = (from->vz - to->vz) / 16;
-
     dis = SquareRoot0(dx * dx + dy * dy + dz * dz) * 16;
-    height = to->vy - from->vy;
+// clang-format off
 
-    rot->vy = ratan2(to->vx - from->vx, to->vz - from->vz) & 0xFFF;
-    rot->vx = ratan2(dis, height) & 0xFFF;
+    vec_vx  = (long)(to->vx - from->vx);
+    vec_vy  = (long)(to->vy - from->vy);
+    vec_vz  = (long)(to->vz - from->vz);
+    rot->vy = ( 4095 & ratan2( vec_vx, vec_vz ) ) ;
+    rot->vx = ( 4095 & ratan2( dis, vec_vy ) ) ;
     rot->vz = 0;
 
-    return dis;
+    return  dis;
+
 }
 
 /*----------------------------------------------------------------*/
@@ -83,6 +86,7 @@ static void PlasmaEdgeInit( Work *work, SVECTOR *pos1, SVECTOR *pos2 )
     work->len_g[12] = GV_RandU(1024) + 2048;
     work->len_l[12] = (limit * GV_RandU(4096)) / 4096;
     work->ang_l[16] = work->ang_l[12] + GV_RandS(512);
+// clang-format on
 
     if (work->len_g[8] < work->len_g[4])
     {
