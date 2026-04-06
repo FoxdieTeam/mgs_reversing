@@ -415,7 +415,7 @@ int VrwindowGetResources_800D8024(VrwindowWork *work, int map)
     return 0;
 }
 
-void *NewVrwindow_800D81AC(int name, int where)
+void *NewVrWindow(int name, int where)
 {
     VrwindowWork *work;
     int           i;

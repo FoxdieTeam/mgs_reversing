@@ -1534,7 +1534,7 @@ void title_open_800D4464(OpenWork *work, int name, POLY_GT4 *poly, int x0, int y
 #pragma INCLUDE_ASM("asm/overlays/title/OpenGetResources_800D4584.s")
 int  OpenGetResources_800D4584(OpenWork *work, int);
 
-void *NewOpen_800D6814(int arg0, int arg1)
+void *NewOpen(int arg0, int arg1)
 {
     OpenWork *work;
 

@@ -114,7 +114,7 @@ int BlinkTxGetResources_800DEBB4(BlinkTxWork *work, int map, int n_prims)
     return 0;
 }
 
-void *NewBlinkTx_800DECD8(int name, int where, int argc, char **argv)
+void *NewBlinkTexture(int name, int where, int argc, char **argv)
 {
     BlinkTxWork *work;
     char        *opt;

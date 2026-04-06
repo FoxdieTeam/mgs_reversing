@@ -293,7 +293,7 @@ int LiftGetResources_800DE070(LiftWork *work, int name, int map)
     return 0;
 }
 
-void *NewLift_800DE25C(int name, int where)
+void *NewLift(int name, int where)
 {
     LiftWork *work;
 

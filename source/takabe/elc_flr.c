@@ -109,7 +109,7 @@ int ElcFlrGetResources_800D4988(ElcFlrWork *work, int name, int map)
     return 0;
 }
 
-void *NewElcFlr_800D4A18(int name, int where)
+void *NewElectricFloor(int name, int where)
 {
     ElcFlrWork *work;
 

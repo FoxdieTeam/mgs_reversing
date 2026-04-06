@@ -576,7 +576,7 @@ extern void ZakoDie_800D3C84();
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL4
 
-void *s11e_zako11e_800D42E0( int name, int where, int argc, char **argv )
+void *NewZako11E( int name, int where, int argc, char **argv )
 {
     ZakoWork *work ;
 

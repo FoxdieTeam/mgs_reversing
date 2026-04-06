@@ -10,7 +10,7 @@
 
 // There are two actors in this file
 
-// Created by NewSnake03c1_800CDAEC
+// Created by NewPrisonSnake
 typedef struct Snake03c1Work
 {
     GV_ACT         actor;
@@ -29,7 +29,7 @@ typedef struct Snake03c1Work
     int            procs[4];
 } Snake03c1Work;
 
-// Created by NewSnake03c2_800CDF18
+// Created by NewPrisonSnake2
 typedef struct Snake03c2Work
 {
     GV_ACT actor;
@@ -201,7 +201,7 @@ int Snake03c1GetResources_800CD98C(Snake03c1Work *work, int arg1, int arg2)
     return 0;
 }
 
-void *NewSnake03c1_800CDAEC(int name, int where)
+void *NewPrisonSnake(int name, int where)
 {
     Snake03c1Work *work;
 
@@ -371,7 +371,7 @@ int Snake03c2GetResources_800CDEF8(Snake03c2Work *work)
     return 0;
 }
 
-void *NewSnake03c2_800CDF18()
+void *NewPrisonSnake2()
 {
     Snake03c2Work *work;
 

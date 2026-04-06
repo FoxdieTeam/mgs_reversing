@@ -195,7 +195,7 @@ int Panel2GetResources_800E1460(Panel2Work *work, int name, int where)
     return 0;
 }
 
-void *NewPanel2_800E1728(int name, int where, int argc, char **argv)
+void *NewPanel2(int name, int where, int argc, char **argv)
 {
     Panel2Work *work;
 

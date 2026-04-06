@@ -448,9 +448,7 @@ void AsiatoInit_800D199C(AsiatoWork *work)
     work->field_24 = 0;
 }
 
-void AsiatoAct_800D18C8(AsiatoWork *work);
-
-void *NewAsiato_800D1A14(int name, int where, int argc, char **argv)
+void *NewAsiato(int name, int where, int argc, char **argv)
 {
     AsiatoWork *work;
 
@@ -464,9 +462,9 @@ void *NewAsiato_800D1A14(int name, int where, int argc, char **argv)
     return (void *)work;
 }
 
-void *NewAsiatoKun_800D1A70(int name, int where, int argc, char **argv)
+void *NewAsiatoKun(int name, int where, int argc, char **argv)
 {
-    // Identical to NewAsiato_800D1A14
+    // Identical to NewAsiato
     AsiatoWork *work;
 
     work = GV_NewActor(EXEC_LEVEL, sizeof(AsiatoWork));

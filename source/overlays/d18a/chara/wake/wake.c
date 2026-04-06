@@ -205,7 +205,7 @@ int WakeGetResources_800C615C(WakeWork *work, int where)
     return 0;
 }
 
-void *NewWake_800C6298(int where)
+void *NewWake(int where)
 {
     WakeWork *work;
 

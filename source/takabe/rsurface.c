@@ -108,7 +108,7 @@ int RippleSurfaceGetResources_800D8148(RSurfaceWork *work, int name, int where)
     return 0;
 }
 
-void *NewRippleSurface_800D8244(int name, int where, int argc, char **argv)
+void *NewRippleSurface(int name, int where, int argc, char **argv)
 {
     RSurfaceWork *work;
 

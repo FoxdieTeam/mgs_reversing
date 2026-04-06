@@ -272,7 +272,7 @@ void EdTelopGetResources_800C5504(EdTelopWork *work)
     }
 }
 
-void *NewEdTelop_800C563C(int arg0)
+void *NewEndingTelop(int arg0)
 {
     EdTelopWork *work;
 

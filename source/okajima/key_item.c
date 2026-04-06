@@ -247,7 +247,7 @@ void KeyItemRun_800C8948(int where)
     }
 }
 
-void *NewKeyItem_800C8E18(int name, int where)
+void *NewKeyItem(int name, int where)
 {
     Work *work;
 

@@ -2699,7 +2699,7 @@ static void Johnny_800C873C(Work *work, int action)
             GCL_ExecProc(work->proc_id[5], NULL);
             GCL_ExecProc(work->proc_id[3], NULL);
             work->unkB4E = 1;
-            NewHiyoko_800D0210(&work->body.objs->objs[6].world, -1);
+            NewHiyoko(&work->body.objs->objs[6].world, -1);
             UnsetTargetClass( work->target, TARGET_FLAG );
             work->unkB1C |= 0x80000000;
         }
@@ -3070,7 +3070,7 @@ static void Johnny_800C9144(Work *work, int action)
             SetAction(work, 40);
 
             work->unkB4C++;
-            NewHiyoko_800D0210(&work->body.objs->objs[6].world, -1);
+            NewHiyoko(&work->body.objs->objs[6].world, -1);
         }
         break;
 

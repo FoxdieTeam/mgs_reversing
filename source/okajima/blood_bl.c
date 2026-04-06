@@ -194,7 +194,7 @@ int BloodBlGetResources_800CD520(BloodBlWork *work, int map)
     return 0;
 }
 
-void *NewBloodBl_800CD7CC(int name, int where)
+void *NewBloodBl(int name, int where)
 {
     BloodBlWork *work;
 

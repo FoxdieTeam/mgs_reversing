@@ -160,7 +160,7 @@ void ItemDotDie_800CC7B0(ItemDotWork *work)
     GM_FreeControl(&work->control);
 }
 
-void *NewItemDot_800CC7D0(int name, int where)
+void *NewItemDot(int name, int where)
 {
     ItemDotWork *work;
 

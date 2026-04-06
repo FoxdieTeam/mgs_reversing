@@ -183,7 +183,7 @@ int WallSpaGetResources_800CB428(WallSpaWork *work, int name, int map)
     return 0;
 }
 
-void *NewWallSpa_800CB4A4(int name, int where)
+void *NewWallSpark(int name, int where)
 {
     WallSpaWork *work;
 

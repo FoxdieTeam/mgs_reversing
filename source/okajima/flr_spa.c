@@ -235,7 +235,7 @@ int FlrSpaGetResources_800D0EC8(FlrSpaWork *work, int name, int map)
     return 0;
 }
 
-void *NewFlrSpa_800D0F78(int name, int where)
+void *NewFloorSpark(int name, int where)
 {
     FlrSpaWork *work;
 

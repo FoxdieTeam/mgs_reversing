@@ -1526,7 +1526,7 @@ int RevolverGetResources_800C8FD4(RevolverWork *work, int arg1, int arg2)
     return 0;
 }
 
-void *NewRevolver_800C929C(int arg0, int arg1)
+void *NewTortureOcelot(int arg0, int arg1)
 {
     RevolverWork *work;
 

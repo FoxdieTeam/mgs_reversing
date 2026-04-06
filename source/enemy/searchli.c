@@ -1120,7 +1120,7 @@ void SearchlightDie_800D9274(SearchlightWork *work)
     GM_FreePrim(work->fFC.prim);
 }
 
-void *NewSearchlight_800D92BC(int name, int where, int argc, char **argv)
+void *NewSearchlight(int name, int where, int argc, char **argv)
 {
     SearchlightWork *work;
 

@@ -1104,7 +1104,7 @@ void Ending2GetResources_800C77F8(Ending2Work *work, int field_48)
     }
 }
 
-void *NewEnding2_800C7BE8(int arg0)
+void *NewEndingRoll(int arg0)
 {
     Ending2Work *work;
 

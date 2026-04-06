@@ -309,7 +309,7 @@ int ShuterGetResources_800DF7F4(ShuterWork *work, int name, int map)
     return 0;
 }
 
-void *NewShuter_800DFB44(int name, int where, int argc, char **argv)
+void *NewShutter(int name, int where, int argc, char **argv)
 {
     ShuterWork *work;
 

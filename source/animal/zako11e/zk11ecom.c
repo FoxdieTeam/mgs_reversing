@@ -968,7 +968,7 @@ extern void ZakoCommanderDie_800DAC5C();
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL4
 
-void *NewZakoCommander_800DAF38( int name, int where, int argc, char **argv )
+void *NewZako11ECommander( int name, int where, int argc, char **argv )
 {
     ZakoCommanderWork *work ;
 

@@ -518,7 +518,7 @@ int RasenElGetResources_800CCB9C(RasenElWork *work, int name, int map)
     return 0;
 }
 
-void *NewRasenEl_800CCF38(int arg0, int arg1)
+void *NewRasenElevator(int arg0, int arg1)
 {
     RasenElWork *work;
 

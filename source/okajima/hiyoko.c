@@ -216,7 +216,7 @@ void HiyokoDie_800D0150(HiyokoWork *work)
     GM_FreePrim(work->prim);
 }
 
-void *NewHiyoko_800D018C(int name, int where, int argc, char **argv)
+void *NewHiyokoGcl(int name, int where, int argc, char **argv)
 {
     HiyokoWork *work;
 
@@ -235,7 +235,7 @@ void *NewHiyoko_800D018C(int name, int where, int argc, char **argv)
     return (void *)work;
 }
 
-void *NewHiyoko_800D0210(MATRIX *world, int arg1)
+void *NewHiyoko(MATRIX *world, int arg1)
 {
     HiyokoWork *work;
 

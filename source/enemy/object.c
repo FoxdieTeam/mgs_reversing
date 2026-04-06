@@ -551,7 +551,7 @@ void ObjectCharaDie_800DA368(ObjectWork *work)
     GM_FreeTarget(work->field_180);
 }
 
-void *NewObjectChara_800DA3A4(int name, int where, int argc, char **argv)
+void *NewMovingObject(int name, int where, int argc, char **argv)
 {
     ObjectWork *work;
 

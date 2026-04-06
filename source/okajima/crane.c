@@ -1047,7 +1047,7 @@ void CraneDie_800D5724(CraneWork *work)
     }
 }
 
-void *NewCrane_800D57A0(int name, int where)
+void *NewCrane(int name, int where)
 {
     CraneWork *work;
 

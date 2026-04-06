@@ -985,7 +985,7 @@ temp_label_end4:
     return 0;
 }
 
-void *NewPatrolLamp_800D7A2C(int name, int where, int argc, char **argv)
+void *NewPatrolLamp(int name, int where, int argc, char **argv)
 {
     PatoLmpWork *work;
 

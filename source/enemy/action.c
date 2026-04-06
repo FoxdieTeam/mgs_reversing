@@ -14,7 +14,7 @@
 #include "sound/g_sound.h"
 
 // from takabe/mosaic.h
-extern void *NewMosaicSet_800DC9F4( MATRIX *, int, int, int );
+extern void *NewMosaic( MATRIX *, int, int, int );
 
 short ActTable_800C3358[54] =
 {
@@ -1630,7 +1630,7 @@ void s00a_command_800C8C98( WatcherWork *work, int time )
         UnsetAction( work, ACTION25 );
         if ( work->mosaic == NULL )
         {
-            work->mosaic = NewMosaicSet_800DC9F4(&work->body.objs->objs[0].world, 300, 4, -250 );
+            work->mosaic = NewMosaic(&work->body.objs->objs[0].world, 300, 4, -250 );
         }
         GM_SeSet( &work->control.mov, 0xB9 );
     }
@@ -1663,7 +1663,7 @@ void s00a_command_800C8DF8( WatcherWork *work, int time )
         UnsetAction( work, ACTION25 );
         if ( work->mosaic == NULL )
         {
-            work->mosaic = NewMosaicSet_800DC9F4(&work->body.objs->objs[0].world, 300, 4, -250 );
+            work->mosaic = NewMosaic(&work->body.objs->objs[0].world, 300, 4, -250 );
         }
     }
 

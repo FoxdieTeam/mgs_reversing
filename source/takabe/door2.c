@@ -314,7 +314,7 @@ int Door2GetResources_800DD7C8(Door2Work *work, int name, int map)
     return 0;
 }
 
-void *NewDoor2_800DD9E4(int name, int where)
+void *NewDoor2(int name, int where)
 {
     Door2Work *work;
 

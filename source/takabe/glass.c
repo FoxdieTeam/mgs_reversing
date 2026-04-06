@@ -314,7 +314,7 @@ int GlassGetResources_800D335C(GlassWork *work, int name, int map)
     return 0;
 }
 
-void *NewGlass_800D37A4(int name, int where)
+void *NewGlass(int name, int where)
 {
     GlassWork *work;
 

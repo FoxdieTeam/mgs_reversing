@@ -665,7 +665,7 @@ int PlasmaGetResources_800CD040(PlasmaWork *work, SVECTOR *arg1, SVECTOR *arg2, 
     return 0;
 }
 
-void *NewPlasma_800CD110(int name, int where)
+void *NewPlasmaGcl(int name, int where)
 {
     PlasmaWork *work;
 

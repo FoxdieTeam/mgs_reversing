@@ -1022,7 +1022,7 @@ static int GetResources(EvPanelWork *work, int map, int name, int button_count)
 
 /*---------------------------------------------------------------------------*/
 
-void *NewEvPanel(int name, int where, int argc, char **argv)
+void *NewElevatorPanel(int name, int where, int argc, char **argv)
 {
     EvPanelWork *work;
     int          button_count;

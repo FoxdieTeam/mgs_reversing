@@ -2122,7 +2122,7 @@ int TortureGetResources_800C6B3C(TortureWork *work, int name, int map)
     return 0;
 }
 
-void *NewTorture_800C6E1C(int name, int where)
+void *NewTorture(int name, int where)
 {
     TortureWork *work;
 

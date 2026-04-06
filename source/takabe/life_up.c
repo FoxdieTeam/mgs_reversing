@@ -111,7 +111,7 @@ STATIC int LifeUpGetResources_800DF334(LifeUpWork *work, int name, int map)
     return 0;
 }
 
-void *NewLifeUp_800DF428(int name, int where)
+void *NewLifeUp(int name, int where)
 {
     LifeUpWork *work;
 

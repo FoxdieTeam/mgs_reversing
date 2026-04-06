@@ -234,7 +234,7 @@ int AsiotoGetResources_800C3B94(Work *work)
     return 0;
 }
 
-void *NewAsioto_800C3E08(int name, int where, int argc, char **argv)
+void *NewAsiotoKun(int name, int where, int argc, char **argv)
 {
     Work *work;
 

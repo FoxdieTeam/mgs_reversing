@@ -9,7 +9,7 @@
 #include "game/game.h"
 #include "linkvar.h"
 
-// Actor created by NewRasen_800CBA7C
+// Actor created by NewRasen
 typedef struct _RasenWork
 {
     GV_ACT actor;
@@ -22,7 +22,7 @@ typedef struct _Rasen2Item
     LIT     *lit;
 } Rasen2Item;
 
-// Actor created by NewRasen2_800CB008
+// Actor created by NewRasen2
 typedef struct _Rasen2Work
 {
     GV_ACT         actor;
@@ -398,7 +398,7 @@ void Rasen2Die_800CAB74(Rasen2Work *work)
 void     Rasen_800CB34C();
 void     Rasen2_800CB150(Rasen2Work *work);
 DG_OBJS *Rasen2_800CB250(int index, Rasen2Work *work);
-void    *NewRasen_800CBA7C(void);
+void    *NewRasen(void);
 
 int Rasen2GetResources_800CAC64(Rasen2Work *work, int name, int where)
 {
@@ -505,7 +505,7 @@ int Rasen2GetResources_800CAC64(Rasen2Work *work, int name, int where)
 
     s11c_dword_800D2C74 = work;
 
-    work->field_238 = NewRasen_800CBA7C();
+    work->field_238 = NewRasen();
 
     rasen_800D2C84.field_0 = GM_Camera.eye;
     rasen_800D2C84.field_8 = GM_Camera.center;
@@ -513,7 +513,7 @@ int Rasen2GetResources_800CAC64(Rasen2Work *work, int name, int where)
     return 0;
 }
 
-void *NewRasen2_800CB008(int name, int where)
+void *NewRasen2(int name, int where)
 {
     Rasen2Work *work;
 
@@ -794,7 +794,7 @@ void RasenDie_800CBA74(RasenWork *work)
 {
 }
 
-void *NewRasen_800CBA7C(void)
+void *NewRasen(void)
 {
     RasenWork *work;
 

@@ -199,7 +199,7 @@ int Monitor1GetResources_800DCC90(Monitor1Work *work, int arg1, int arg2)
     return 0;
 }
 
-void *NewMonitor1_800DCDE0(int arg0, int arg1)
+void *NewMonitor1(int arg0, int arg1)
 {
     Monitor1Work *work;
 
