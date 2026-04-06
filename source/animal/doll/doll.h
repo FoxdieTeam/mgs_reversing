@@ -91,6 +91,6 @@ typedef struct _DollWork
     short          fE82;
 } DollWork;
 
-void *NewDoll_800DCD78(int name, int where, int argc, char **argv);
+void *NewDemoDoll(int name, int where, int argc, char **argv);
 
 #endif // __MGS_ANIMAL_DOLL_H__

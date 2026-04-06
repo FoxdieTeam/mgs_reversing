@@ -326,19 +326,9 @@ int Eventmouse_800C9828(EventmouseWork *work)
 
 void Eventmouse_800C9890(POLY_FT4 *poly, DG_TEX *tex)
 {
-    int x, y, w, h;
-
     setPolyFT4(poly);
     setSemiTrans(poly, 1);
-
-    x = tex->off_x;
-    w = tex->w;
-    y = tex->off_y;
-    h = tex->h;
-    setUVWH(poly, x, y, w, h);
-
-    poly->tpage = tex->tpage;
-    poly->clut = tex->clut;
+    DG_SetPacketTexture4(poly, tex);
 }
 
 void Eventmouse_800C98F0(EventmouseWork *work)

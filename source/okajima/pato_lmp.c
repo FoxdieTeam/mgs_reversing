@@ -109,29 +109,13 @@ void s00a_pato_lmp_800D5F1C( POLY_FT4* poly, int rgb )
 
 void s00a_pato_lmp_800D5F38(POLY_FT4 *polys, int count, DG_TEX *tex)
 {
-    int offx, width;
-    int offy, height;
-
     while (--count >= 0)
     {
         setPolyFT4(polys);
         setSemiTrans(polys, 1);
-
-        offx = tex->off_x;
-        width = tex->w;
-        offy = tex->off_y;
-        height = tex->h;
-
-        setUVWH(polys, offx, offy, width, height);
-
-        polys->tpage = tex->tpage;
-        polys->clut = tex->clut;
+        DG_SetPacketTexture4(polys, tex);
         polys->tpage |= 0x60;
-
-        polys->r0 = 0;
-        polys->g0 = 0;
-        polys->b0 = 0;
-
+        setRGB0(polys, 0, 0, 0);
         polys++;
     }
 }
@@ -985,7 +969,7 @@ temp_label_end4:
     return 0;
 }
 
-void *NewPatrolLamp_800D7A2C(int name, int where, int argc, char **argv)
+void *NewPatrolLamp(int name, int where, int argc, char **argv)
 {
     PatoLmpWork *work;
 

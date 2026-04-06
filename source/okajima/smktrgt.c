@@ -308,7 +308,7 @@ void SmktrgtDie_800DC408(SmktrgtWork *work)
 {
 }
 
-void *NewSmktrgt_800DC410(int name, int map)
+void *NewSmokeTarget(int name, int map)
 {
     SmktrgtWork *work;
 

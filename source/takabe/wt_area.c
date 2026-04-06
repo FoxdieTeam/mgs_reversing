@@ -18,22 +18,22 @@ extern void NewSplash2_800DB4E0( int angy, SVECTOR *pos, int noripple );
 
 /*---------------------------------------------------------------------------*/
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
+
 typedef struct _Work
 {
-    GV_ACT actor;
-    int where;            //0x20
-    int name;             //0x24
+    GV_ACT  actor;
+    int     where;        //0x20
+    int     name;         //0x24
     SVECTOR bound[2];     //0x28
     CVECTOR color;        //0x38
-    int snake_catch;      //0x3C
-    int splash_flag;      //0x40
-    int field_44;         //0x44
-    int field_48;         //0x48
-    int field_4C;         //0x4C
-    int proc_id;          //0x50
+    int     snake_catch;  //0x3C
+    int     splash_flag;  //0x40
+    int     field_44;     //0x44
+    int     field_48;     //0x48
+    int     field_4C;     //0x4C
+    int     proc_id;      //0x50
 } Work;
-
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 /*---------------------------------------------------------------------------*/
 
@@ -228,8 +228,9 @@ static void Act( Work *work )
 
 /*---------------------------------------------------------------------------*/
 
-static void Die( void )
+static void Die( Work *work )
 {
+    /* do nothing */
 }
 
 /*---------------------------------------------------------------------------*/
@@ -262,7 +263,7 @@ static int GetResources( Work *work, int name, int where )
 
 /*---------------------------------------------------------------------------*/
 
-void *NewWaterArea(int name, int where, int argc, char **argv)
+void *NewWaterArea( int name, int where, int argc, char **argv )
 {
     Work *work ;
 

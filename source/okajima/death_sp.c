@@ -196,7 +196,7 @@ int DeathSpGetResources_800D00F4(DeathSpWork *work, int name, int map)
     return 0;
 }
 
-void *NewDeathSp_800D025C(int name, int where)
+void *NewDeathSpark(int name, int where)
 {
     DeathSpWork *work;
 

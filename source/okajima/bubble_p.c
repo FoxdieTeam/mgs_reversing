@@ -37,21 +37,10 @@ void BubblePShadePack_800D96AC(POLY_FT4 *packs, int shade, int index)
 
 void BubblePInitPack_800D96CC(POLY_FT4 *pack, DG_TEX *tex)
 {
-    int x, y, w, h;
-
     setPolyFT4(pack);
     setSemiTrans(pack, 1);
     setRGB0(pack, 64, 64, 128);
-
-    x = tex->off_x;
-    w = tex->w;
-    y = tex->off_y;
-    h = tex->h;
-    setUVWH(pack, x, y, w, h);
-
-    pack->tpage = tex->tpage;
-    pack->clut = tex->clut;
-
+    DG_SetPacketTexture4(pack, tex);
     pack->tpage |= 0x60;
 }
 

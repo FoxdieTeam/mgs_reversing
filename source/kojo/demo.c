@@ -33,18 +33,21 @@ static int demothrd_8007CFE8(DemoWork *work, DMO_ADJ *adjust);
 static void demothrd_m1e1_8007D404(DemoWork *work, DMO_ADJ *adjust, DMO_MDL *model_file, DEMO_MODEL *model);
 static void demothrd_hind_8007D9C8(DemoWork *work, DMO_ADJ *adjust, DMO_MDL *model_file, DEMO_MODEL *model);
 
-void AN_CaterpillerSmoke(SVECTOR *pos);
-void demothrd_2_8007DA94(SVECTOR *pPosition, SVECTOR *pRotation);
-void sub_8007DC24(SVECTOR *pPosition);
-void sub_8007DD80(short param_1, SVECTOR *pPos);
-void sub_8007DF10(SVECTOR *pRotation, SVECTOR *pTranslation);
-void sub_8007E0AC(int y, SVECTOR *pPosition);
+/* in anime/effect/m1e1.c */
+extern void AN_CaterpillerSmoke(SVECTOR *pos);
+extern void demothrd_2_8007DA94(SVECTOR *pPosition, SVECTOR *pRotation);
+extern void sub_8007DC24(SVECTOR *pPosition);
+extern void sub_8007DD80(short param_1, SVECTOR *pPos);
+extern void sub_8007DF10(SVECTOR *pRotation, SVECTOR *pTranslation);
+extern void sub_8007E0AC(int y, SVECTOR *pPosition);
 
-void InitChain(ACTNODE *root);
-void InsertChain(ACTNODE *root, ACTNODE *node);
-void RemoveChain(ACTNODE *root, ACTNODE *node);
+/* in kojo/unknown.c */
+extern void InitChain(ACTNODE *root);
+extern void InsertChain(ACTNODE *root, ACTNODE *node);
+extern void RemoveChain(ACTNODE *root, ACTNODE *node);
 
-void DemoScreenChanl(DG_CHANL *chanl, int idx);
+/* in demoscrn.c */
+extern void DemoScreenChanl(DG_CHANL *chanl, int idx);
 
 /*---------------------------------------------------------------------------*/
 

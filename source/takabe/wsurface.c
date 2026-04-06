@@ -438,7 +438,7 @@ int WsurfaceGetResources_800DB684(WsurfaceWork *work, int name, int map)
     return 0;
 }
 
-void *NewWsurface_800DB9BC(int name, int where, int argc, char **argv)
+void *NewWaterSurface(int name, int where, int argc, char **argv)
 {
     WsurfaceWork *work;
 

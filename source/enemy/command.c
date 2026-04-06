@@ -1309,7 +1309,7 @@ void CommandGetResources_800D04F4( CommanderWork *work, int name, int where )
     }
 }
 
-void *NewCommand_800D0908(int name, int where, int argc, char **argv)
+void *NewCommander(int name, int where, int argc, char **argv)
 {
     CommanderWork *work ;
 

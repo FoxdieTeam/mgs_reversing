@@ -1,7 +1,8 @@
+#include "libhzd.h"
+
 #include "common.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
-#include "libhzd/libhzd.h"
 #include "inline_n.h"
 
 /*possible funcs

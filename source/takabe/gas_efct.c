@@ -222,7 +222,7 @@ int GasEffectGetResources_800C4D98(GasEfctWork *work, int name, int where)
     return 0;
 }
 
-void *NewGasEffect_800C4E5C(int name, int where, int argc, char **argv)
+void *NewGasEffectSet(int name, int where, int argc, char **argv)
 {
     GasEfctWork *work;
 
@@ -244,7 +244,7 @@ void *NewGasEffect_800C4E5C(int name, int where, int argc, char **argv)
     return (void *)work;
 }
 
-void *NewGasEffect_800C4EF8(SVECTOR *arg0, int arg1, int arg2)
+void *NewGasEffect(SVECTOR *arg0, int arg1, int arg2)
 {
     GasEfctWork *work;
 

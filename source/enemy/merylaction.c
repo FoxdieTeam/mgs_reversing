@@ -10,7 +10,7 @@
 #include "sound/g_sound.h"
 
 // from takabe/mosaic.h
-extern void *NewMosaicSet_800DC9F4( MATRIX *, int, int, int );
+extern void *NewMosaic( MATRIX *, int, int, int );
 
 extern ENEMY_COMMAND EnemyCommand_800E0D98;
 extern unsigned int  COM_GameStatus_800E0F3C;
@@ -1925,7 +1925,7 @@ void s07a_meryl_unk_800DA610( WatcherWork *work, int time )
         UnsetAction( work, ACTION25 );
         if ( work->mosaic == NULL )
         {
-            work->mosaic = NewMosaicSet_800DC9F4(&work->body.objs->objs[0].world, 300, 4, -250 );
+            work->mosaic = NewMosaic(&work->body.objs->objs[0].world, 300, 4, -250 );
         }
         GM_SeSet( &work->control.mov, 0xB9 );
     }
@@ -1958,7 +1958,7 @@ void s07a_meryl_unk_800DA75C( WatcherWork *work, int time )
         UnsetAction( work, ACTION25 );
         if ( work->mosaic == NULL )
         {
-            work->mosaic = NewMosaicSet_800DC9F4(&work->body.objs->objs[0].world, 300, 4, -250 );
+            work->mosaic = NewMosaic(&work->body.objs->objs[0].world, 300, 4, -250 );
         }
     }
 

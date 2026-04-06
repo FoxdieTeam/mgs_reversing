@@ -12,6 +12,8 @@ extern void NewSplash2_800DB6F0( int angy, SVECTOR *pos, int noripple );
 
 /*---------------------------------------------------------------------------*/
 
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
+
 typedef struct _Work
 {
     GV_ACT  actor;
@@ -26,8 +28,6 @@ typedef struct _Work
     int     field_4C;     //0x4C
     int     proc_id;      //0x50
 } Work;
-
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 /*---------------------------------------------------------------------------*/
 
@@ -49,12 +49,12 @@ static int BoundInCheck( SVECTOR *bound, SVECTOR *check )
 
 static void ExecProc( int proc_id, int mode )
 {
-    GCL_ARGS    args;
-    long        data = mode;
-    if ( proc_id == 0 ) return;
-    args.argc = 1;
-    args.argv = &data;
-    GCL_ExecProc(proc_id, &args);
+    GCL_ARGS    args ;
+    long        data = mode ;
+    if ( proc_id == 0 ) return ;
+    args.argc = 1 ;
+    args.argv = &data ;
+    GCL_ExecProc( proc_id, &args );
 }
 
 /*---------------------------------------------------------------------------*/
@@ -187,8 +187,11 @@ static void Act( Work *work )
     }
 }
 
+/*---------------------------------------------------------------------------*/
+
 static void Die( Work *work )
 {
+    /* do nothing */
 }
 
 /*---------------------------------------------------------------------------*/
@@ -236,5 +239,5 @@ void *NewWaterArea2( int name, int where, int argc, char **argv )
         work->where = where;
         work->name  = name;
     }
-    return (void *)work ;
+    return (void *)work;
 }

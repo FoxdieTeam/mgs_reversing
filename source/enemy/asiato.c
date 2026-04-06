@@ -75,20 +75,6 @@ void AsiatoCharAct_800D0E10(AsiatoCharWork *work)
     AsiatoCharColor_800D0DD4(work->field_20, work->field_24, color, color, color);
 }
 
-static inline void AsiatoTexPack(POLY_FT4 *pack, DG_TEX *tex)
-{
-    int x, y, w, h;
-
-    x = tex->off_x;
-    w = tex->w;
-    y = tex->off_y;
-    h = tex->h;
-    setUVWH(pack, x, y, w, h);
-
-    pack->tpage = tex->tpage;
-    pack->clut = tex->clut;
-}
-
 void AsiatoCharTexture_800D0E9C(POLY_FT4 *poly, DG_TEX *tex, int arg3, int r, int g, int b)
 {
     setPolyFT4(poly);
@@ -102,12 +88,12 @@ void AsiatoCharTexture_800D0E9C(POLY_FT4 *poly, DG_TEX *tex, int arg3, int r, in
 
         setSemiTrans(poly, 1);
 
-        AsiatoTexPack(poly, tex);
+        DG_SetPacketTexture4(poly, tex);
         poly->tpage = (poly->tpage & 0xFF9F) | (arg3 << 5);
     }
     else
     {
-        AsiatoTexPack(poly, tex);
+        DG_SetPacketTexture4(poly, tex);
     }
 }
 
@@ -448,9 +434,7 @@ void AsiatoInit_800D199C(AsiatoWork *work)
     work->field_24 = 0;
 }
 
-void AsiatoAct_800D18C8(AsiatoWork *work);
-
-void *NewAsiato_800D1A14(int name, int where, int argc, char **argv)
+void *NewAsiato(int name, int where, int argc, char **argv)
 {
     AsiatoWork *work;
 
@@ -464,9 +448,9 @@ void *NewAsiato_800D1A14(int name, int where, int argc, char **argv)
     return (void *)work;
 }
 
-void *NewAsiatoKun_800D1A70(int name, int where, int argc, char **argv)
+void *NewAsiatoKun(int name, int where, int argc, char **argv)
 {
-    // Identical to NewAsiato_800D1A14
+    // Identical to NewAsiato
     AsiatoWork *work;
 
     work = GV_NewActor(EXEC_LEVEL, sizeof(AsiatoWork));

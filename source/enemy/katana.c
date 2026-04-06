@@ -127,7 +127,6 @@ void s08c_katana_800C5294(POLY_GT4 *poly, DG_TEX *tex, int abr, int r, int g, in
             y = tex->off_y;
             h = tex->h;
             setUVWH(poly, x, y, w, h);
-
             poly->tpage = tex->tpage;
             poly->clut = tex->clut;
 
@@ -140,7 +139,6 @@ void s08c_katana_800C5294(POLY_GT4 *poly, DG_TEX *tex, int abr, int r, int g, in
             y2 = tex->off_y;
             h2 = tex->h;
             setUVWH(poly, x2, y2, w2, h2);
-
             poly->tpage = tex->tpage;
             poly->clut = tex->clut;
         }

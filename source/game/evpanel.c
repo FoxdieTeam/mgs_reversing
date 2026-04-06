@@ -100,21 +100,13 @@ static void s03e_evpanel_800C33E0(DG_PRIM *prim, int texid)
     int       i;
     POLY_FT4 *poly;
     DG_TEX   *tex;
-    int       x, y, w, h;
 
     for (i = 0; i < 2; i++)
     {
         poly = prim->packs[i];
         tex = DG_GetTexture(texid);
 
-        x = tex->off_x;
-        w = tex->w;
-        y = tex->off_y;
-        h = tex->h;
-        setUVWH(poly, x, y, w, h);
-
-        poly->tpage = tex->tpage;
-        poly->clut = tex->clut;
+        DG_SetPacketTexture4(poly, tex);
     }
 }
 
@@ -1022,7 +1014,7 @@ static int GetResources(EvPanelWork *work, int map, int name, int button_count)
 
 /*---------------------------------------------------------------------------*/
 
-void *NewEvPanel(int name, int where, int argc, char **argv)
+void *NewElevatorPanel(int name, int where, int argc, char **argv)
 {
     EvPanelWork *work;
     int          button_count;

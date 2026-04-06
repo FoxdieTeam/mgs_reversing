@@ -298,7 +298,7 @@ int AtGetResources_800D75BC(AtWork *work, int name, int map)
     return 0;
 }
 
-void *NewAt_800D78A4(int name, int where)
+void *NewAt(int name, int where)
 {
     AtWork *work;
 

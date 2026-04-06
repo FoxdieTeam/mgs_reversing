@@ -91,25 +91,13 @@ void Splash_800C89F4(SVECTOR *pVecsA, SVECTOR *pVecsB, int count)
 
 void Splash_800C8AD8(POLY_FT4 *pPolys, int primCount, DG_TEX *pTex, int rgb)
 {
-    int x, y, w, h;
-
     while (--primCount >= 0)
     {
         setPolyFT4(pPolys);
         setSemiTrans(pPolys, 1);
-        x = pTex->off_x;
-        w = pTex->w;
-        y = pTex->off_y;
-        h = pTex->h;
-
-        setUVWH(pPolys, x, y, w, h);
-
-        pPolys->tpage = pTex->tpage;
-        pPolys->clut = pTex->clut;
+        DG_SetPacketTexture4(pPolys, pTex);
         pPolys->tpage |= 0x20;
-
         setRGB0(pPolys, rgb / 2, rgb, rgb);
-
         pPolys++;
     }
 }

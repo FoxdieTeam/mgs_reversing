@@ -90,19 +90,9 @@ void Ductmouse_800DA3DC(DuctmouseWork *work)
 
 void Ductmouse_800DA55C(POLY_FT4 *poly, DG_TEX *tex)
 {
-    int x, y, w, h;
-
     setPolyFT4(poly);
     setSemiTrans(poly, 1);
-
-    x = tex->off_x;
-    w = tex->w;
-    y = tex->off_y;
-    h = tex->h;
-    setUVWH(poly, x, y, w, h);
-
-    poly->tpage = tex->tpage;
-    poly->clut = tex->clut;
+    DG_SetPacketTexture4(poly, tex);
 }
 
 void Ductmouse_800DA5BC(DuctmouseWork *work)
@@ -334,7 +324,7 @@ int DuctmouseGetResources_800DAA1C(DuctmouseWork *work, int name, int where)
     return 0;
 }
 
-void *NewDuctmouse_800DACC8(int name, int where, int argc, char **argv)
+void *NewDuctMouse(int name, int where, int argc, char **argv)
 {
     DuctmouseWork *work;
 

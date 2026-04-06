@@ -502,7 +502,7 @@ int PLampGetResources_800CD6E4(PLampWork *work, int map, int n_verts)
     return 0;
 }
 
-void *NewPLamp_800CD948(int name, int where)
+void *NewPilotLamp(int name, int where)
 {
     PLampWork *work;
     int        n_verts;

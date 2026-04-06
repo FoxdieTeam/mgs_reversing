@@ -1359,7 +1359,7 @@ void GunCame_Die_800C911C(GunCameWork *work)
     GM_FreePrim(work->field_328);
 }
 
-void *NewGunCame_800C9190(int name, int where, int argc, char **argv)
+void *NewGunCamera(int name, int where, int argc, char **argv)
 {
     GunCameWork *work;
 

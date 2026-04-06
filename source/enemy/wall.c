@@ -1,6 +1,10 @@
 #include "wall.h"
 
 #include <stdio.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
@@ -188,7 +192,7 @@ int WallGetResources_800C34F0(work, pos, dir, def_model, map)
     return 0;
 }
 
-void *NewWall_800C3688(SVECTOR *pos, SVECTOR *dir)
+void *NewWall(SVECTOR *pos, SVECTOR *dir)
 {
     Work *work;
 
@@ -208,7 +212,7 @@ void *NewWall_800C3688(SVECTOR *pos, SVECTOR *dir)
     return (void *)work;
 }
 
-void *NewWall_800C3718(int name, int where, int argc, char **argv)
+void *NewWallGcl(int name, int where, int argc, char **argv)
 {
     SVECTOR pos;
     SVECTOR dir;

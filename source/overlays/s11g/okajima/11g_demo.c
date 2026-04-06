@@ -161,7 +161,7 @@ void s11g_11g_demo_800CB7FC(void)
     setVector(&col0, 64, 64, 64);
     setVector(&col1, 8, 8, 8);
 
-    NewRedAlert2_800C4E84(0, 1, &col0, &col1, 1, 2);
+    NewRedAlert2(0, 1, &col0, &col1, 1, 2);
 }
 
 void s11g_11g_demo_800CB858(SVECTOR *pos, int se_id)

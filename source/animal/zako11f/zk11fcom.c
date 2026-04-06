@@ -972,7 +972,7 @@ void ZakoCommanderGetResources_800D1EC8(Zako11FCommanderWork *work, int name, in
     Zako11FCommand_800D5AF8.field_0x110 = 0;
 }
 
-void *NewZakoCommander_800D20D8( int name, int where )
+void *NewZako11FCommander( int name, int where )
 {
     Zako11FCommanderWork *work ;
 

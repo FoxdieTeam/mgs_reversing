@@ -392,7 +392,7 @@ int d03a_red_alrt_800C4BB0(RedAlrtWork *work, int name, int length, SVECTOR *col
     return 0;
 }
 
-void *NewRedAlert_800C4DF0(int name, int where, int argc, char **argv)
+void *NewRedAlert(int name, int where, int argc, char **argv)
 {
     RedAlrtWork *work;
 
@@ -411,7 +411,7 @@ void *NewRedAlert_800C4DF0(int name, int where, int argc, char **argv)
     return (void *)work;
 }
 
-void *NewRedAlert2_800C4E84(int name, int length, SVECTOR *color1, SVECTOR *color2, int arg4, int arg5)
+void *NewRedAlert2(int name, int length, SVECTOR *color1, SVECTOR *color2, int arg4, int arg5)
 {
     RedAlrtWork *work;
 

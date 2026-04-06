@@ -136,6 +136,7 @@ void *NewInverlt2_800D0FF4(SVECTOR *arg0, int arg1, int arg2, int arg3, int r, i
         setUVWH(&POLY[0], x, y, w, h);
         POLY[0].tpage = tex->tpage;
         POLY[0].clut = tex->clut;
+        //DG_SetPacketTexture4(&POLY[0], tex);
 
         x2 = tex->off_x;
         w2 = tex->w;
@@ -144,6 +145,7 @@ void *NewInverlt2_800D0FF4(SVECTOR *arg0, int arg1, int arg2, int arg3, int r, i
         setUVWH(&POLY[1], x2, y2, w2, h2);
         POLY[1].tpage = tex->tpage;
         POLY[1].clut = tex->clut;
+        //DG_SetPacketTexture4(&POLY[1], tex);
 
         setSemiTrans(&POLY[0], 1);
         setSemiTrans(&POLY[1], 1);

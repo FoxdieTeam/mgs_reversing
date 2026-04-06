@@ -712,7 +712,7 @@ void CrowDie_800DEC78(CrowWork *work)
     }
 }
 
-void *NewCrow_800DED08(int name, int where)
+void *NewCrow(int name, int where)
 {
     CrowWork *work;
     char     *opt;

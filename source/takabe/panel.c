@@ -345,7 +345,7 @@ int PanelGetResources_800D210C(PanelWork *work, int name, int map)
     return 0;
 }
 
-void *NewPanel_800D2680(int name, int where)
+void *NewPanel(int name, int where)
 {
     PanelWork *work;
 

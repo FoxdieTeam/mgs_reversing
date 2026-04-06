@@ -89,7 +89,7 @@ int MosaicGetResources_800DC9D0(MosaicWork *arg0, void *arg1, int arg2, int arg3
     return 0;
 }
 
-void *NewMosaicSet_800DC9F4(void *arg0, int arg1, int arg2, int arg3)
+void *NewMosaic(void *arg0, int arg1, int arg2, int arg3)
 {
     MosaicWork *work;
 
@@ -108,7 +108,7 @@ void *NewMosaicSet_800DC9F4(void *arg0, int arg1, int arg2, int arg3)
     return (void *)work;
 }
 
-void *NewMosaic_800DCABC(int name, int where, int argc, char **argv)
+void *NewMosaicSet(int name, int where, int argc, char **argv)
 {
     SVECTOR     vec;
     MosaicWork *work;

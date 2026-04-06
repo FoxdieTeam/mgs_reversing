@@ -170,7 +170,6 @@ int HdBul2_800C5DB4( HdBul2Work *work )
     int       i, j;
     POLY_FT4 *poly;
     int       rnd;
-    int       x, y, w, h;
 
     vertices = work->vertices;
     prim = work->prim = GM_MakePrim( DG_PRIM_POLY_FT4, 4, vertices, NULL );
@@ -199,18 +198,8 @@ int HdBul2_800C5DB4( HdBul2Work *work )
             poly->b0 = ( ( rnd - 32 ) / 3 ) * 2;
 
             setSemiTrans( poly, 1 );
-
-            x = tex->off_x;
-            w = tex->w;
-            y = tex->off_y;
-            h = tex->h;
-            setUVWH( poly, x, y, w, h );
-
-            poly->tpage = tex->tpage;
-            poly->clut = tex->clut;
-
+            DG_SetPacketTexture4( poly, tex );
             poly->tpage |= 0x20;
-
             poly++;
         }
     }

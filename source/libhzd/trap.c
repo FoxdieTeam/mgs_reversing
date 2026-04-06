@@ -1,7 +1,8 @@
+#include "libhzd.h"
+
 #include "common.h"
 #include "strcode.h"
 #include "game/game.h"
-#include "libhzd/libhzd.h"
 
 static inline int CheckTrapBounds(void)
 {

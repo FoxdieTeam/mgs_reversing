@@ -390,7 +390,7 @@ int MirrorGetResources_800E07F8(MirrorWork *work, int name, int map)
     return 0;
 }
 
-void *NewMirror_800E085C(int name, int where)
+void *NewMirror(int name, int where)
 {
     MirrorWork *work;
 

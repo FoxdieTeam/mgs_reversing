@@ -229,7 +229,7 @@ int DummyWallGetResources_800D7178(DummyWallWork *work, int name, int where)
     return 0;
 }
 
-void *NewDummyWall_800D7384(int name, int where, int argc, char **argv)
+void *NewDummyWall(int name, int where, int argc, char **argv)
 {
     DummyWallWork *work;
 

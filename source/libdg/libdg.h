@@ -620,7 +620,7 @@ static inline u_long *DG_ChanlOTag(int index)
     return DG_Chanl(index)->ot[GV_Clock];
 }
 
-static inline void DG_SetPacketTexture( POLY_FT4 *packs0, DG_TEX *tex )
+static inline void DG_SetPacketTexture( POLY_FT4 *packs, DG_TEX *tex )
 {
     int x, y, w, h;
     x = tex->off_x ;
@@ -628,14 +628,14 @@ static inline void DG_SetPacketTexture( POLY_FT4 *packs0, DG_TEX *tex )
     y = tex->off_y ;
     h = tex->h ;
 
-    setUVWH( packs0, x, y, w, h ) ;
+    setUVWH( packs, x, y, w, h ) ;
 }
 
-static inline void DG_SetPacketTexture4( POLY_FT4 *packs0, DG_TEX *tex )
+static inline void DG_SetPacketTexture4( POLY_FT4 *packs, DG_TEX *tex )
 {
-    DG_SetPacketTexture( packs0, tex ) ;
-    packs0->tpage = tex->tpage ;
-    packs0->clut = tex->clut ;
+    DG_SetPacketTexture( packs, tex ) ;
+    packs->tpage = tex->tpage ;
+    packs->clut = tex->clut ;
 }
 
 /*---------------------------------------------------------------------------*/

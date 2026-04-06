@@ -219,7 +219,7 @@ int SmokeGetResources_800D2B0C(SmokeWork *work, int where)
     return -1;
 }
 
-void *NewSmoke_800D2BEC(int name, int where, int argc, char **argv)
+void *NewSmoke(int name, int where, int argc, char **argv)
 {
     SmokeWork *work;
 
