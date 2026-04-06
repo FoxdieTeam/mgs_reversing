@@ -67,7 +67,7 @@ static int GetSvecs(char *opt, SVECTOR *nodes)
 /*----------------------------------------------------------------*/
 static void InitPacks( POLY_FT4 *packs, int n_packs, DG_TEX *tex )
 {
-    while ( --n_packs >= 0 ) {
+    while ( -- n_packs >= 0 ) {
         setPolyFT4( packs ) ;
         setSemiTrans( packs, 1 ) ;
 //      setRGB0( packs, MAX_COLOR, MAX_COLOR, MAX_COLOR );
