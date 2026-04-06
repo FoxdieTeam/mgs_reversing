@@ -3,6 +3,7 @@
 
 #include <sys/types.h>
 #include <libgte.h>
+#include "inline_n.h"
 #include <gtemac.h>
 #include "fmt_hzd.h"    // for HZD_VEC
 
