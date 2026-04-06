@@ -1,10 +1,10 @@
 #ifndef __MGS_FMT_TEX_H__
 #define __MGS_FMT_TEX_H__
+// clang-format off
 
 #include <sys/types.h>
 
-typedef struct PCXINFO
-{
+typedef struct PCXINFO {
     unsigned short  magic;      /* always 12345 */
     unsigned short  flags;
     unsigned short  px, py;     /* pixel X/Y coords */
@@ -12,8 +12,7 @@ typedef struct PCXINFO
     unsigned short  n_colors;
 } PCXINFO;
 
-typedef struct PCXDATA
-{
+typedef struct PCXDATA {
     unsigned char   manufacturer;
     unsigned char   version;
     unsigned char   encoding;
@@ -32,7 +31,6 @@ typedef struct PCXDATA
     unsigned char   data[ 0 ];  /* image data */
 } PCXDATA;
 
-/*
 typedef struct {
     u_char mode;
     u_char bit;
@@ -44,6 +42,6 @@ typedef struct {
     u_short cx, cy;
     u_short n_data;
 } PLL_HEADER;
-*/
 
+// clang-format on
 #endif // __MGS_FMT_TEX_H__
