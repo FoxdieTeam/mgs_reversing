@@ -43,6 +43,8 @@ void *NewInverlt2_800D0FF4(SVECTOR *arg0, int arg1, int arg2, int arg3, int r, i
     Work         *work;
     DG_TEX       *tex;
     int           i;
+    int           x, y, w, h;
+    int           x2, y2, w2, h2;
 
     work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work == NULL)
@@ -127,8 +129,23 @@ void *NewInverlt2_800D0FF4(SVECTOR *arg0, int arg1, int arg2, int arg3, int r, i
         setRGB0(&POLY[0], work->fC4, work->fC8, work->fCC);
         setRGB0(&POLY[1], work->fC4 - 5, work->fC8 - 5, work->fCC - 5);
 
-        DG_SetPacketTexture4(&POLY[0], tex);
-        DG_SetPacketTexture4(&POLY[1], tex);
+        x = tex->off_x;
+        w = tex->w;
+        y = tex->off_y;
+        h = tex->h;
+        setUVWH(&POLY[0], x, y, w, h);
+        POLY[0].tpage = tex->tpage;
+        POLY[0].clut = tex->clut;
+        //DG_SetPacketTexture4(&POLY[0], tex);
+
+        x2 = tex->off_x;
+        w2 = tex->w;
+        y2 = tex->off_y;
+        h2 = tex->h;
+        setUVWH(&POLY[1], x2, y2, w2, h2);
+        POLY[1].tpage = tex->tpage;
+        POLY[1].clut = tex->clut;
+        //DG_SetPacketTexture4(&POLY[1], tex);
 
         setSemiTrans(&POLY[0], 1);
         setSemiTrans(&POLY[1], 1);
