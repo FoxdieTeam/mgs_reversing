@@ -34,6 +34,14 @@
 #define CLAMP(x, min, max) (MAX(MIN(x, max), min))
 #endif
 
+#ifndef SWAP
+#define SWAP(name, a, b)        \
+do {                            \
+    typeof(a) (name) = (a);     \
+    (a) = (b); (b) = (name);    \
+} while (0)
+#endif
+
 /*---------------------------------------------------------------------------*/
 // NOTE: (bool)0.5 evaluates to true, whereas (int)0.5 evaluates to 0.
 

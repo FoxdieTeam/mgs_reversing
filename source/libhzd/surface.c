@@ -3,59 +3,10 @@
 #include "common.h"
 #include "inline_n.h"
 #include "inline_x.h"
+#include "inline_hzd.h"
 #include "psxdefs.h"            // for getScratchAddr2
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"        // for GV_VecLen3
-
-#define AssignVecXYXZ(dst, src)                    \
-{                                                  \
-    ((SVECTOR *)dst)->vx = ((SVECTOR *)src)->vx;   \
-    ((SVECTOR *)dst)->vy = ((SVECTOR *)src)->vz;   \
-}
-
-#define AssignVecXZXY(dst, src)                    \
-{                                                  \
-    ((SVECTOR *)dst)->vx = ((SVECTOR *)src)->vx;   \
-    ((SVECTOR *)dst)->vz = ((SVECTOR *)src)->vy;   \
-}
-
-static inline void SwapNegateVecXY(SVECTOR *dst, SVECTOR *src)
-{
-    dst->vx = -src->vy;
-    dst->vy = src->vx;
-}
-
-static inline int get_area(SVECTOR *x, SVECTOR* y, SVECTOR *z)
-{
-    SwapNegateVecXY(x, y);
-    gte_NormalClip(0, *(int *)y, *(int *)x, z);
-    return SquareRoot0(*(int *)z);
-}
-
-static inline int get_area2(SVECTOR *x, SVECTOR* y, SVECTOR *z)
-{
-    gte_NormalClip(0, *(int *)x, *(int *)y, z);
-    return *(int *)z;
-}
-
-static inline void IntVecXY(SVECTOR *dst, SVECTOR *src, int scale, int len)
-{
-    dst->vx = (src->vx * scale) / len;
-    dst->vy = (src->vy * scale) / len;
-}
-
-static inline void SubVecXY(SVECTOR *dst, SVECTOR *a, SVECTOR *b)
-{
-    dst->vx = a->vx - b->vx;
-    dst->vy = a->vy - b->vy;
-}
-
-static inline void SubVecXYZ(HZD_VEC *dst, HZD_FLR *a, HZD_VEC *b)
-{
-    dst->x = a->p1.x - b->x;
-    dst->z = a->p1.y - b->y;
-    dst->y = a->p1.z - b->z;
-}
 
 int HZD_StepCheck( SVECTOR *nears, int count, int scale, SVECTOR *out )
 {
@@ -81,8 +32,8 @@ int HZD_StepCheck( SVECTOR *nears, int count, int scale, SVECTOR *out )
         return 1;
     }
 
-    AssignVecXYXZ(0x1F80000C, nears);
-    area = get_area((SVECTOR *)0x1F800004, (SVECTOR *)0x1F80000C, (SVECTOR *)0x1F800008);
+    CopyToHzdVec(0x1F80000C, nears);
+    area = Len2D((SVECTOR *)0x1F80000C);
 
     if ( area >= scale )
     {
@@ -96,29 +47,24 @@ int HZD_StepCheck( SVECTOR *nears, int count, int scale, SVECTOR *out )
 
     if ( count == 2 )
     {
-        AssignVecXYXZ(0x1F800010, &nears[1]);
-        area2 = get_area((SVECTOR *)0x1F800004, (SVECTOR *)0x1F800010, (SVECTOR *)0x1F800008);
+        CopyToHzdVec(0x1F800010, &nears[1]);
+        area2 = Len2D((SVECTOR *)0x1F800010);
 
         if ( area2 < scale )
         {
-            IntVecXY((SVECTOR *)0x1F800014, (SVECTOR *)0x1F80000C, scale, area);
-            IntVecXY((SVECTOR *)0x1F800018, (SVECTOR *)0x1F800010, scale, area2);
+            Mul2D((SVECTOR *)0x1F800014, (SVECTOR *)0x1F80000C, scale, area);
+            Mul2D((SVECTOR *)0x1F800018, (SVECTOR *)0x1F800010, scale, area2);
 
-            SubVecXY((SVECTOR *)0x1F800014, (SVECTOR *)0x1F800014, (SVECTOR *)0x1F80000C);
-            SubVecXY((SVECTOR *)0x1F800018, (SVECTOR *)0x1F800018, (SVECTOR *)0x1F800010);
+            Sub2D((SVECTOR *)0x1F800014, (SVECTOR *)0x1F800014, (SVECTOR *)0x1F80000C);
+            Sub2D((SVECTOR *)0x1F800018, (SVECTOR *)0x1F800018, (SVECTOR *)0x1F800010);
 
-            SwapNegateVecXY((SVECTOR *)0x1F800004, (SVECTOR *)0x1F800014);
-            area3 = get_area2((SVECTOR *)0x1F800014, (SVECTOR *)0x1F800004, (SVECTOR *)0x1F800008);
-
-            SwapNegateVecXY((SVECTOR *)0x1F800004, (SVECTOR *)0x1F800018);
-            area4 = get_area2((SVECTOR *)0x1F800018, (SVECTOR *)0x1F800004, (SVECTOR *)0x1F800008);
-
-            SwapNegateVecXY((SVECTOR *)0x1F800004, (SVECTOR *)0x1F800018);
-            area5 = get_area2((SVECTOR *)0x1F800014, (SVECTOR *)0x1F800004, (SVECTOR *)0x1F800008);
+            area3 = Dot2D((SVECTOR *)0x1F800014, (SVECTOR *)0x1F800014);
+            area4 = Dot2D((SVECTOR *)0x1F800018, (SVECTOR *)0x1F800018);
+            area5 = Dot2D((SVECTOR *)0x1F800014, (SVECTOR *)0x1F800018);
 
             if ((area5 < area3) && (area5 < area4))
             {
-                area6 = get_area2((SVECTOR *)0x1F800014, (SVECTOR *)0x1F800018, (SVECTOR *)0x1F800008);
+                area6 = Det2D((SVECTOR *)0x1F800014, (SVECTOR *)0x1F800018);
 
                 if ( area6 != 0 )
                 {
@@ -145,10 +91,10 @@ int HZD_StepCheck( SVECTOR *nears, int count, int scale, SVECTOR *out )
         }
     }
 
-    IntVecXY((SVECTOR *)0x1F800014, (SVECTOR *)0x1F80000C, scale, area);
-    SubVecXY((SVECTOR *)0x1F800014, (SVECTOR *)0x1F80000C, (SVECTOR *)0x1F800014);
+    Mul2D((SVECTOR *)0x1F800014, (SVECTOR *)0x1F80000C, scale, area);
+    Sub2D((SVECTOR *)0x1F800014, (SVECTOR *)0x1F80000C, (SVECTOR *)0x1F800014);
 
-    AssignVecXZXY(out, (SVECTOR *)0x1F800014);
+    CopyFromHzdVec(out, (SVECTOR *)0x1F800014);
     return 1;
 }
 
