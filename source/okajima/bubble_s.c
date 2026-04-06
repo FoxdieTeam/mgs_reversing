@@ -147,24 +147,14 @@ static void PrimsRectSet( Work *work, int i )
 
 static int BoundInCheck( SVECTOR *bound, SVECTOR *check )
 {
-    if ( !(check->vx <= bound[0].vx) )
+    if ( check->vx > bound[0].vx &&
+         check->vy > bound[0].vy &&
+         check->vz > bound[0].vz &&
+         check->vx < bound[1].vx &&
+         check->vy < bound[1].vy &&
+         check->vz < bound[1].vz )
     {
-        if ( check->vy > bound[0].vy )
-        {
-            if ( !(check->vz <= bound[0].vz) )
-            {
-                if ( check->vx < bound[1].vx )
-                {
-                    if ( !(bound[1].vy <= check->vy) )
-                    {
-                        if ( !(check->vz >= bound[1].vz) )
-                        {
-                            return 1;
-                        }
-                    }
-                }
-            }
-        }
+        return 1;
     }
     return 0;
 }
