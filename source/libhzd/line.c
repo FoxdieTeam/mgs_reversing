@@ -102,7 +102,7 @@ STATIC int CheckWallBounds(void)
 
     if (z1 > z2)
     {
-        SWAP(swap, z1, z2);
+        SWAP(z1, z2);
     }
 
     if (z1 > getScratchAddr2(SVECTOR, 0x2C)->vz || z2 < getScratchAddr2(SVECTOR, 0x24)->vz)

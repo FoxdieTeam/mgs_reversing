@@ -8,7 +8,7 @@ STATIC u_char ZoneDistance(u_char *route, int from, int to, int n_zones)
 {
     if (to < from)
     {
-        SWAP(swap, to, from);
+        SWAP(to, from);
     }
     else if (from == to)
     {
