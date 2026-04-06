@@ -35,11 +35,11 @@
 #endif
 
 #ifndef SWAP
-#define SWAP(name, a, b)        \
-do {                            \
-    typeof(a) (name) = (a);     \
-    (a) = (b); (b) = (name);    \
-} while (0)
+#define SWAP(a, b)                                              \
+    do {                                                        \
+        __typeof__(a) _temp = (a);                              \
+        (a) = (b); (b) = _temp;                                 \
+    } while (0)
 #endif
 
 /*---------------------------------------------------------------------------*/

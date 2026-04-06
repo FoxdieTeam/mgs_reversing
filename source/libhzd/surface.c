@@ -1,9 +1,9 @@
 #include "libhzd.h"
+#include "private.h"
 
 #include "common.h"
 #include "inline_n.h"
 #include "inline_x.h"
-#include "inline_hzd.h"
 #include "psxdefs.h"            // for getScratchAddr2
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"        // for GV_VecLen3

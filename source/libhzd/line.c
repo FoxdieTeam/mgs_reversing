@@ -1,11 +1,11 @@
 #include "libhzd.h"
+#include "private.h"
 
 #include "common.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "inline_n.h"
 #include "inline_x.h"
-#include "inline_hzd.h"
 #include "game/map.h"   // for GM_IterHazard
 #include "psxdefs.h"    // for getScratchAddr2
 
@@ -102,7 +102,7 @@ STATIC int CheckWallBounds(void)
 
     if (z1 > z2)
     {
-        SWAP(swap, z1, z2);
+        SWAP(z1, z2);
     }
 
     if (z1 > getScratchAddr2(SVECTOR, 0x2C)->vz || z2 < getScratchAddr2(SVECTOR, 0x24)->vz)

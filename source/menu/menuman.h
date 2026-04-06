@@ -635,12 +635,12 @@ void menu_radio_codec_helper_helper_8004E198(int toFind);
 /*---------------------------------------------------------------------------*/
 
 // For MenuPrim
-#define _NEW_PRIM(_prim, _buf)         \
-    {                                  \
-        typeof(_prim) p;               \
-        p = (typeof(_prim))_buf->next; \
-        _buf->next += sizeof(*_prim);  \
-        _prim = p;                     \
+#define _NEW_PRIM(_prim, _buf)                                  \
+    {                                                           \
+        __typeof__(_prim) p;                                    \
+        p = (__typeof__(_prim))_buf->next;                      \
+        _buf->next += sizeof(*_prim);                           \
+        _prim = p;                                              \
     }
 
 // For MenuWork

@@ -1,9 +1,11 @@
-#ifndef __MGS_INLINE_HZD_H__
-#define __MGS_INLINE_HZD_H__
+#ifndef __MGS_LIBHZD_PRIVATE_H__
+#define __MGS_LIBHZD_PRIVATE_H__
 
 #include <sys/types.h>
 #include <libgte.h>
+#include "inline_n.h"
 #include <gtemac.h>
+#include "fmt_hzd.h"    // for HZD_VEC
 
 #define CopyToHzdVec(dst, src)                  \
 {                                               \
@@ -54,4 +56,4 @@ static inline long Len2D(SVECTOR *vec)
     return SquareRoot0(Dot2D(vec, vec));
 }
 
-#endif // __MGS_INLINE_HZD_H__
+#endif // __MGS_LIBHZD_PRIVATE_H__
