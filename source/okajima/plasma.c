@@ -92,8 +92,6 @@ void PlasmaShadePacks_800CBCD8(POLY_FT4 *packs, int shade)
 
 void PlasmaTexPacks_800CBCE8(PlasmaWork *work, POLY_FT4 *packs, int n_packs, DG_TEX *tex)
 {
-    int x, y, w, h;
-
     while (--n_packs >= 0)
     {
         setPolyFT4(packs);
@@ -108,17 +106,8 @@ void PlasmaTexPacks_800CBCE8(PlasmaWork *work, POLY_FT4 *packs, int n_packs, DG_
             setRGB0(packs, 80, 80, 80);
         }
 
-        x = tex->off_x;
-        w = tex->w;
-        y = tex->off_y;
-        h = tex->h;
-        setUVWH(packs, x, y, w, h);
-
-        packs->tpage = tex->tpage;
-
-        packs->clut = tex->clut;
+        DG_SetPacketTexture4(packs, tex);
         packs->tpage |= 0x20;
-
         packs++;
     }
 }

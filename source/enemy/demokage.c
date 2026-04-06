@@ -165,7 +165,6 @@ int DemoKageGetResources_800C466C(DemokageWork *work, OBJECT *parent, SVECTOR ar
     DG_TEX   *tex;
     int       i;
     POLY_FT4 *poly;
-    int       x, y, w, h;
     SVECTOR  *vec;
 
     work->prim = GM_MakePrim(DG_PRIM_POLY_FT4, 1, work->f28, NULL);
@@ -189,17 +188,8 @@ int DemoKageGetResources_800C466C(DemokageWork *work, OBJECT *parent, SVECTOR ar
 
         setPolyFT4(poly);
         setSemiTrans(poly, 1);
-
         setRGB0(poly, r, g, b);
-
-        x = tex->off_x;
-        w = tex->w;
-        y = tex->off_y;
-        h = tex->h;
-        setUVWH(poly, x, y, w, h);
-
-        poly->tpage = tex->tpage;
-        poly->clut = tex->clut;
+        DG_SetPacketTexture4(poly, tex);
     }
 
     vec = work->f28;

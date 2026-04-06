@@ -995,19 +995,9 @@ void DogDie_800D2798(DogWork *work)
 // Duplicate of Eventmouse_800C9890
 void Dog_800D2864(POLY_FT4 *poly, DG_TEX *tex)
 {
-    int x, y, w, h;
-
     setPolyFT4(poly);
     setSemiTrans(poly, 1);
-
-    x = tex->off_x;
-    w = tex->w;
-    y = tex->off_y;
-    h = tex->h;
-    setUVWH(poly, x, y, w, h);
-
-    poly->tpage = tex->tpage;
-    poly->clut = tex->clut;
+    DG_SetPacketTexture4(poly, tex);
 }
 
 int DogGetSvec_800D28C4(char *opt, SVECTOR *out)

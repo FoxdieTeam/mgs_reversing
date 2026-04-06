@@ -149,21 +149,10 @@ void Splash3Die_800C80D0(Splash3Work *work)
 
 static inline void Splash3InitPack(POLY_FT4 *pack, DG_TEX *tex)
 {
-    int x, y, w, h;
-
     setPolyFT4(pack);
     setSemiTrans(pack, 1);
-
-    x = tex->off_x;
-    w = tex->w;
-    y = tex->off_y;
-    h = tex->h;
-    setUVWH(pack, x, y, w, h);
-
-    pack->tpage = tex->tpage;
-    pack->clut = tex->clut;
+    DG_SetPacketTexture4(pack, tex);
     pack->tpage |= 0x20;
-
     setRGB0(pack, 255, 255, 255);
 }
 

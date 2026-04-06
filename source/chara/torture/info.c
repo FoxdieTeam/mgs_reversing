@@ -107,7 +107,6 @@ static int GetResources(Work *work, u_short name1, u_short name2, int *abe)
     POLY_FT4 *poly;
     int       i;
     DG_TEX   *tex;
-    int       x, y, w, h;
 
     texlist = work->tex;
     texlist[0] = DG_GetTexture(name1);
@@ -133,14 +132,7 @@ static int GetResources(Work *work, u_short name1, u_short name2, int *abe)
             tex = texlist[0];
         }
 
-        x = tex->off_x;
-        w = tex->w;
-        y = tex->off_y;
-        h = tex->h;
-        setUVWH(poly, x, y, w, h);
-
-        poly->tpage = tex->tpage;
-        poly->clut = tex->clut;
+        DG_SetPacketTexture4(poly, tex);
 
         if (abe[i & 1] != 0)
         {

@@ -95,9 +95,6 @@ void WindcrclScaleVecs_800CF08C(SVECTOR *out, int scale1, int scale2, int scale3
 
 void d01a_windcrcl_800CF2FC(POLY_FT4 *packs0, POLY_FT4 *packs1, int n_packs, DG_TEX *tex)
 {
-    int x, y, w, h;
-    int x2, y2, w2, h2;
-
     while (--n_packs >= 0)
     {
         setPolyFT4(packs0);
@@ -106,23 +103,8 @@ void d01a_windcrcl_800CF2FC(POLY_FT4 *packs0, POLY_FT4 *packs1, int n_packs, DG_
         setPolyFT4(packs1);
         setSemiTrans(packs1, 1);
 
-        x = tex->off_x;
-        w = tex->w;
-        y = tex->off_y;
-        h = tex->h;
-
-        setUVWH(packs0, x, y, w, h);
-        packs0->tpage = tex->tpage;
-        packs0->clut = tex->clut;
-
-        x2 = tex->off_x;
-        w2 = tex->w;
-        y2 = tex->off_y;
-        h2 = tex->h;
-
-        setUVWH(packs1, x2, y2, w2, h2);
-        packs1->tpage = tex->tpage;
-        packs1->clut = tex->clut;
+        DG_SetPacketTexture4(packs0, tex);
+        DG_SetPacketTexture4(packs1, tex);
 
         packs0++;
         packs1++;

@@ -108,29 +108,13 @@ void BubbleDisplaySceneAct_800D87D0(BubDSnWork *work)
 
 void BubbleDisplayScene_800D8C00(POLY_FT4 *polys, int count, DG_TEX *tex)
 {
-    int offx, width;
-    int offy, height;
-
     while (--count >= 0)
     {
         setPolyFT4(polys);
         setSemiTrans(polys, 1);
-
-        polys->r0 = 0x80;
-        polys->g0 = 0x80;
-        polys->b0 = 0x80;
-
-        offx = tex->off_x;
-        width = tex->w;
-        offy = tex->off_y;
-        height = tex->h;
-
-        setUVWH(polys, offx, offy, width, height);
-
-        polys->tpage = tex->tpage;
-        polys->clut = tex->clut;
+        setRGB0(polys, 128, 128, 128);
+        DG_SetPacketTexture4(polys, tex);
         polys->tpage |= 0x60;
-
         polys++;
     }
 }

@@ -53,20 +53,6 @@ void BloodClAct_800C9A80(BloodClWork *work)
 {
 }
 
-static inline void BloodClTexPack(POLY_FT4 *pack, DG_TEX *tex)
-{
-    int x, y, w, h;
-
-    x = tex->off_x;
-    w = tex->w;
-    y = tex->off_y;
-    h = tex->h;
-    setUVWH(pack, x, y, w, h);
-
-    pack->tpage = tex->tpage;
-    pack->clut = tex->clut;
-}
-
 int BloodClGetResources_800C9A88(BloodClWork *work, int map)
 {
     SVECTOR   pos[16];
@@ -179,8 +165,8 @@ int BloodClGetResources_800C9A88(BloodClWork *work, int map)
         setPolyFT4(packs1);
         setSemiTrans(packs1, 1);
 
-        BloodClTexPack(packs0, tex);
-        BloodClTexPack(packs1, tex);
+        DG_SetPacketTexture4(packs0, tex);
+        DG_SetPacketTexture4(packs1, tex);
 
         setRGB0(packs0, color.vx, color.vy, color.vz);
         setRGB0(packs1, color.vx, color.vy, color.vz);

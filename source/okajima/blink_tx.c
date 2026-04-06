@@ -20,24 +20,12 @@ RECT blink_tx_rect = {1000, 1000, 2000, 2000};
 
 void BlinkTxShadePacks_800DEA9C(POLY_FT4 *packs, int n_packs, DG_TEX *tex, int shade)
 {
-    int x, y, w, h;
-
     while (--n_packs >= 0)
     {
         setPolyFT4(packs);
         setSemiTrans(packs, 1);
         setRGB0(packs, shade, shade, shade);
-
-        x = tex->off_x;
-        w = tex->w;
-        y = tex->off_y;
-        h = tex->h;
-
-        setUVWH(packs, x, y, w, h);
-
-        packs->tpage = tex->tpage;
-        packs->clut = tex->clut;
-
+        DG_SetPacketTexture4(packs, tex);
         packs++;
     }
 }

@@ -239,7 +239,6 @@ static int InitPrim(Work *work)
     DG_TEX   *tex;
     int       i, j;
     POLY_FT4 *poly;
-    int       x, y, w, h;
     SVECTOR  *vertices;
 
     raise = 250;
@@ -265,15 +264,7 @@ static int InitPrim(Work *work)
         setPolyFT4(poly);
         setSemiTrans(poly, 1);
         setRGB0(poly, 72, 72, 72);
-
-        x = tex->off_x;
-        w = tex->w;
-        y = tex->off_y;
-        h = tex->h;
-        setUVWH(poly, x, y, w, h);
-
-        poly->tpage = tex->tpage;
-        poly->clut = tex->clut;
+        DG_SetPacketTexture4(poly, tex);
     }
 
     vertices = work->vertices;

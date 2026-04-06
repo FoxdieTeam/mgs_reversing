@@ -106,8 +106,6 @@ void KatanaAct_800C5210(KatanaWork *work)
 void s08c_katana_800C5294(POLY_GT4 *poly, DG_TEX *tex, int abr, int r, int g, int b)
 {
     int i;
-    int x, y, w, h;
-    int x2, y2, w2, h2;
 
     for (i = 0; i < 8; i++, poly++)
     {
@@ -121,28 +119,12 @@ void s08c_katana_800C5294(POLY_GT4 *poly, DG_TEX *tex, int abr, int r, int g, in
         if (abr < 4)
         {
             setSemiTrans(poly, 1);
-
-            x = tex->off_x;
-            w = tex->w;
-            y = tex->off_y;
-            h = tex->h;
-            setUVWH(poly, x, y, w, h);
-
-            poly->tpage = tex->tpage;
-            poly->clut = tex->clut;
-
+            DG_SetPacketTexture4(poly, tex);
             poly->tpage = (poly->tpage & ~0x60) | (abr << 5);
         }
         else
         {
-            x2 = tex->off_x;
-            w2 = tex->w;
-            y2 = tex->off_y;
-            h2 = tex->h;
-            setUVWH(poly, x2, y2, w2, h2);
-
-            poly->tpage = tex->tpage;
-            poly->clut = tex->clut;
+            DG_SetPacketTexture4(poly, tex);
         }
     }
 }

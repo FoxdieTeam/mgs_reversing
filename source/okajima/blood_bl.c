@@ -75,20 +75,6 @@ void BloodBlAct_800CD450(BloodBlWork *work)
     }
 }
 
-static inline void BloodBlTexPack(POLY_FT4 *pack, DG_TEX *tex)
-{
-    int x, y, w, h;
-
-    x = tex->off_x;
-    w = tex->w;
-    y = tex->off_y;
-    h = tex->h;
-    setUVWH(pack, x, y, w, h);
-
-    pack->tpage = tex->tpage;
-    pack->clut = tex->clut;
-}
-
 int BloodBlGetResources_800CD520(BloodBlWork *work, int map)
 {
     SVECTOR   color;
@@ -182,8 +168,8 @@ int BloodBlGetResources_800CD520(BloodBlWork *work, int map)
     setPolyFT4(pack1);
     setSemiTrans(pack1, 1);
 
-    BloodBlTexPack(pack0, tex);
-    BloodBlTexPack(pack1, tex);
+    DG_SetPacketTexture4(pack0, tex);
+    DG_SetPacketTexture4(pack1, tex);
 
     setRGB0(pack0, color.vx, color.vy, color.vz);
     setRGB0(pack1, color.vx, color.vy, color.vz);
