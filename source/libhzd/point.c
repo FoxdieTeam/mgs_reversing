@@ -3,65 +3,37 @@
 #include "common.h"
 #include "inline_n.h"
 #include "inline_x.h"
+#include "inline_hzd.h"
 #include "psxdefs.h"    // for getScratchAddr2
 #include "libdg/libdg.h"
 
-static inline void SwapNegateVecXY(SVECTOR *dst, SVECTOR *src)
+static void CopyVector(SVECTOR *src, HZD_VEC *dst)
 {
-    dst->vx = -src->vy;
-    dst->vy = src->vx;
+    dst->x = src->vx;
+    dst->y = src->vy;
+    dst->z = src->vz;
 }
 
-static inline void SubVecXY(SVECTOR *dst, SVECTOR *a, SVECTOR *b)
+static void CreateBoundingBox(HZD_VEC *vec, int range)
 {
-    dst->vx = a->vx - b->vx;
-    dst->vy = a->vy - b->vy;
-}
+    SVECTOR *min;
+    SVECTOR *max;
+    int      comp;
 
-static inline void SubVecXYZ(HZD_VEC *dst, HZD_FLR *a, HZD_VEC *b)
-{
-    dst->x = a->p1.x - b->x;
-    dst->z = a->p1.y - b->y;
-    dst->y = a->p1.z - b->z;
-}
+    min = (SVECTOR *)(SCRPAD_ADDR + 0x14);
+    max = (SVECTOR *)(SCRPAD_ADDR + 0x1C);
 
-STATIC void HZD_CopyVector(SVECTOR *src, SVECTOR *dst)
-{
-    dst->vx = src->vx;
-    dst->vz = src->vy;
-    dst->vy = src->vz;
-}
+    comp = vec->x;
+    min->vx = comp - range;
+    max->vx = comp + range;
 
-STATIC void HZD_800288E0(SVECTOR *vec, int delta)
-{
-    int      iVar;
-    short    sVar;
-    SVECTOR *vec_1 = getScratchAddr2(SVECTOR, 0x14);
-    SVECTOR *vec_2 = getScratchAddr2(SVECTOR, 0x1c);
+    comp = vec->z;
+    min->vz = comp - range;
+    max->vz = comp + range;
 
-    iVar = vec->vx;
-
-    sVar = iVar - delta;
-    vec_1->vx = sVar;
-
-    sVar = iVar + delta;
-    vec_2->vx = sVar;
-
-    iVar = vec->vy;
-    sVar = iVar - delta;
-
-    vec_1->vz = sVar;
-    vec_2->vz = iVar + delta;
-
-    iVar = vec->vz;
-    vec_2->vy = iVar;
-    vec_1->vy = iVar;
-}
-
-static inline int ReadOpz(void)
-{
-    int *scr_top = (int *)SCRPAD_ADDR;
-    return scr_top[2];
+    comp = vec->y;
+    max->vy = comp;
+    min->vy = comp;
 }
 
 STATIC int HZD_80028930(void)
@@ -73,12 +45,10 @@ STATIC int HZD_80028930(void)
     short *ptr1;
     short *ptr2;
 
-    SubVecXY((SVECTOR *)0x1F800038, (SVECTOR *)0x1F80002C, (SVECTOR *)0x1F800024);
-    SubVecXY((SVECTOR *)0x1F800034, (SVECTOR *)0x1F80000C, (SVECTOR *)0x1F800024);
-    SwapNegateVecXY((SVECTOR *)0x1F800004, (SVECTOR *)0x1F800034);
+    Sub2D((SVECTOR *)0x1F800038, (SVECTOR *)0x1F80002C, (SVECTOR *)0x1F800024);
+    Sub2D((SVECTOR *)0x1F800034, (SVECTOR *)0x1F80000C, (SVECTOR *)0x1F800024);
 
-    gte_NormalClip(0, *(int *)0x1F800038, *(int *)0x1F800004, 0x1F800008);
-    opz = ReadOpz();
+    opz = Dot2D((SVECTOR *)0x1F800038, (SVECTOR *)0x1F800034);
 
     *(int *)0x1F80004C = 1;
     *(int *)0x1F8000AC = 1;
@@ -86,24 +56,20 @@ STATIC int HZD_80028930(void)
     if (opz < 0)
     {
         *(int *)0x1F8000A8 = 0;
-        SubVecXY((SVECTOR *)0x1F80005C, (SVECTOR *)0x1F800024, (SVECTOR *)0x1F80000C);
+        Sub2D((SVECTOR *)0x1F80005C, (SVECTOR *)0x1F800024, (SVECTOR *)0x1F80000C);
     }
     else
     {
-        SwapNegateVecXY((SVECTOR *)0x1F800004, (SVECTOR *)0x1F800038);
-
-        gte_NormalClip(0, *(int *)0x1F800038, *(int *)0x1F800004, 0x1F800008);
-        opz2 = ReadOpz();
+        opz2 = Dot2D((SVECTOR *)0x1F800038, (SVECTOR *)0x1F800038);
 
         if (opz2 < opz)
         {
             *(int *)0x1F8000A8 = 1;
-            SubVecXY((SVECTOR *)0x1F80005C, (SVECTOR *)0x1F80002C, (SVECTOR *)0x1F80000C);
+            Sub2D((SVECTOR *)0x1F80005C, (SVECTOR *)0x1F80002C, (SVECTOR *)0x1F80000C);
         }
         else
         {
-            gte_NormalClip(0, *(int *)0x1F800038, *(int *)0x1F800034, 0x1F800008);
-            opz3 = ReadOpz();
+            opz3 = Det2D((SVECTOR *)0x1F800038, (SVECTOR *)0x1F800034);
 
             gte_ldlzc(opz2);
             gte_stlzc(0x1F8000A4);
@@ -146,17 +112,13 @@ STATIC int HZD_80028930(void)
         }
     }
 
-    SwapNegateVecXY((SVECTOR *)0x1F800004, (SVECTOR *)0x1F80005C);
-
-    gte_NormalClip(0, *(int *)0x1F80005C, *(int *)0x1F800004, 0x1F800008);
-    *(int *)0x1F800050 = ReadOpz();
-
-    return *(int *)0x1F800008;
+    *(int *)0x1F800050 = Dot2D((SVECTOR *)0x1F80005C, (SVECTOR *)0x1F80005C);
+    return *(int *)0x1F800050;
 }
 
 STATIC void HZD_80028CF8(void)
 {
-    gte_lddp((*(int *)0x1F8000A8 * 4096) / (*(int *)0x1F8000AC));
+    gte_lddp((*(int *)0x1F8000A8 * 4096) / *(int *)0x1F8000AC);
     gte_ld_intpol_sv0((SVECTOR *)0x1F800030);
     gte_ldopv2SV((SVECTOR *)0x1F800028);
     gte_intpl();
@@ -273,12 +235,6 @@ STATIC void PointTestSegment(HZD_SEG *wall, int index, int flags)
     *(int *)0x1F800048 += 1;
 }
 
-static inline void AddVecXY(SVECTOR *dst, SVECTOR *a, SVECTOR *b)
-{
-    dst->vx = a->vx + b->vx;
-    dst->vy = a->vy + b->vy;
-}
-
 static inline void sub_helper_80029098(void)
 {
     if (*(int *)0x1F800084 == 0)
@@ -295,7 +251,7 @@ static inline void sub_helper_80029098(void)
     }
     else
     {
-        AddVecXY((SVECTOR *)0x1F8000A0, (SVECTOR *)0x1F80000C, (SVECTOR *)0x1F800094);
+        Add2D((SVECTOR *)0x1F8000A0, (SVECTOR *)0x1F80000C, (SVECTOR *)0x1F800094);
 
         if (*(int *)0x1F8000A0 != *(int *)0x1F80007C && *(int *)0x1F8000A0 != *(int *)0x1F800080)
         {
@@ -322,8 +278,8 @@ int HZD_PointCheck(HZD_HDL *hzd, SVECTOR *point, int range, int flag, int exclud
 
     pArea = hzd->group;
 
-    HZD_CopyVector(point, (SVECTOR *)0x1F80000C);
-    HZD_800288E0((SVECTOR *)0x1F80000C, range);
+    CopyVector(point, (HZD_VEC *)0x1F80000C);
+    CreateBoundingBox((HZD_VEC *)0x1F80000C, range);
 
     *(int *)0x1F800048 = 0;
 
@@ -425,9 +381,9 @@ void HZD_PointNearVec(SVECTOR *points)
     HZD_SEG *wall2;
 
     wall1 = getScratchAddr2(HZD_SEG, 0x68);
-    points->vx = wall1[1].p1.x;
-    points->vy = 0;
-    points->vz = wall1[1].p1.z;
+    points[0].vx = wall1[1].p1.x;
+    points[0].vy = 0;
+    points[0].vz = wall1[1].p1.z;
 
     wall2 = getScratchAddr2(HZD_SEG, 0x84);
     points[1].vx = wall2[1].p1.x;

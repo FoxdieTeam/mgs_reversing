@@ -4,12 +4,6 @@
 #include "common.h"
 #include "libdg/libdg.h" // for DG_PointCheck
 
-#define SWAP(name, a, b)                \
-do {                                    \
-    typeof(a) (name) = (a);             \
-    (a) = (b); (b) = (name);            \
-} while (0)
-
 STATIC u_char ZoneDistance(u_char *route, int from, int to, int n_zones)
 {
     if (to < from)

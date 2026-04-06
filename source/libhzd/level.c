@@ -23,7 +23,7 @@
  * and his enemies, ie Snake will constantly fall into and come back out from
  * the floor as he runs around.
  */
-STATIC void HZD_CopyVector2(SVECTOR *src, HZD_VEC *dst)
+static void CopyVector(SVECTOR *src, HZD_VEC *dst)
 {
     dst->x = src->vx;
     dst->y = src->vy;
@@ -205,7 +205,7 @@ int HZD_LevelTestHazard(HZD_HDL *hdl, SVECTOR *point, int flags)
 
     pArea = hdl->group;
 
-    HZD_CopyVector2(point, &POINT);
+    CopyVector(point, &POINT);
 
     pScr = (int *)getScratchAddr(0);
     pScr[16] = 0;
@@ -266,7 +266,7 @@ void HZD_LevelMinMaxHeights(int *levels)
 
 int HZD_SlopeFloorLevel(SVECTOR *point, HZD_FLR *floor)
 {
-    HZD_CopyVector2(point, &POINT);
+    CopyVector(point, &POINT);
     return HZD_LevelHeight(floor);
 }
 
@@ -275,7 +275,7 @@ int HZD_LevelTestFloor(HZD_FLR *floor, SVECTOR *point)
     SCRPAD_DATA *scrpad;
     SCRPAD_DATA *scrpad2;
 
-    HZD_CopyVector2(point, &POINT);
+    CopyVector(point, &POINT);
 
     scrpad = (SCRPAD_DATA *)SCRPAD_ADDR;
     scrpad->min_floor = NULL;

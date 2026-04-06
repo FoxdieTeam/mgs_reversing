@@ -5,6 +5,7 @@
 #include "libgv/libgv.h"
 #include "inline_n.h"
 #include "inline_x.h"
+#include "inline_hzd.h"
 #include "game/map.h"   // for GM_IterHazard
 #include "psxdefs.h"    // for getScratchAddr2
 
@@ -15,24 +16,6 @@ typedef struct SPAD_DATA
 } SPAD_DATA;
 
 #define SPAD ((SPAD_DATA *)getScratchAddr(0))
-
-static inline void SwapNegateVecXY(SVECTOR *dst, SVECTOR *src)
-{
-    dst->vx = -src->vy;
-    dst->vy = src->vx;
-}
-
-static inline void SubVecXY(SVECTOR *dst, SVECTOR *a, SVECTOR *b)
-{
-    dst->vx = a->vx - b->vx;
-    dst->vy = a->vy - b->vy;
-}
-
-#define SWAP(name, a, b)                \
-do {                                    \
-    typeof(a) (name) = (a);             \
-    (a) = (b); (b) = (name);            \
-} while (0)
 
 STATIC int ComputeDirection(void)
 {
@@ -45,11 +28,7 @@ STATIC int ComputeDirection(void)
     pVec1->y = pVec2->y - pVec3->y;
     pVec1->z = pVec2->z - pVec3->z;
 
-    SwapNegateVecXY((SVECTOR *)0x1F800004, (SVECTOR *)0x1F80001C);
-
-    gte_NormalClip(0, SPAD->vec[3].long_access[0], SPAD->vec[0].long_access[0], &SPAD->vec[0].long_access[1]);
-
-    area = SquareRoot0(*(long *)getScratchAddr(2));
+    area = Len2D((SVECTOR *)0x1F80001C);
     if (area == 0)
     {
         return 0;
@@ -166,7 +145,7 @@ STATIC int CalculateHitTime(void)
     // Can't get the code to generate a useless absolute load without this
     register long *t0 asm("t0");
 
-    SubVecXY((SVECTOR *)0x1F800048, (SVECTOR *)0x1F80003C, (SVECTOR *)0x1F800034);
+    Sub2D((SVECTOR *)0x1F800048, (SVECTOR *)0x1F80003C, (SVECTOR *)0x1F800034);
 
     a = *(long *)0x1F800048;
 
@@ -178,7 +157,7 @@ STATIC int CalculateHitTime(void)
     pa = (SVECTOR *)0x1F80000C;
     pb = (SVECTOR *)0x1F800034;
 
-    SubVecXY(ptr, pa, pb);
+    Sub2D(ptr, pa, pb);
     ptr = 0;
 
     gte_read_opz(opz_a);
@@ -468,11 +447,11 @@ STATIC int HZD_80027D80(HZD_FLR *floor)
     }
 }
 
-static inline void SubVecXYZ(HZD_VEC *dst, HZD_FLR *a, HZD_VEC *b)
+static inline void GetFloorHeight(SVECTOR *dst, HZD_FLR *a, HZD_VEC *b)
 {
-    dst->x = a->p1.x - b->x;
-    dst->z = a->p1.y - b->y;
-    dst->y = a->p1.z - b->z;
+    dst->vx = a->p1.x - b->x;
+    dst->vy = a->p1.y - b->y;
+    dst->vz = a->p1.z - b->z;
 }
 
 static inline int GetScratch(int offset)
@@ -556,8 +535,8 @@ STATIC void TestFloor(HZD_FLR *floor)
         SetScratch(0x21, floor->p2.h);
         gte_ldlvl(0x1F80007C);
 
-        SubVecXYZ((HZD_VEC *)0x1F8000B0, (HZD_FLR *)0x1F800004, (HZD_VEC *)0x1F80000C);
-        SubVecXYZ((HZD_VEC *)0x1F8000B6, floor, (HZD_VEC *)0x1F80000C);
+        GetFloorHeight((SVECTOR *)0x1F8000B0, (HZD_FLR *)0x1F800004, (HZD_VEC *)0x1F80000C);
+        GetFloorHeight((SVECTOR *)0x1F8000B6, floor, (HZD_VEC *)0x1F80000C);
 
         gte_SetRotMatrix(0x1F8000B0);
         gte_rtir();
