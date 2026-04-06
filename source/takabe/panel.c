@@ -76,7 +76,6 @@ void PanelTexPack_800D1BD0(POLY_GT4 *pack, DG_TEX *tex, int size, PanelWork *wor
         y3 = tex->off_y;
         h3 = tex->h;
         setUVWH(pack, x3, y3, w3, h3);
-        //DG_SetPacketTexture(pack, tex);
     }
 
     pack->tpage = tex->tpage;
