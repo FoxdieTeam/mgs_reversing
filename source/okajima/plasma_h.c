@@ -5,214 +5,217 @@
 #include "libdg/libdg.h"
 #include "game/game.h"
 
-typedef struct _PlasmaHWork
+/*----------------------------------------------------------------*/
+
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
+
+typedef struct _Work
 {
     GV_ACT   actor;
     int      map;
     char     pad1[0x4];
     DG_PRIM *prim;
-    int      len;
+    int      terminal_len;
     SVECTOR  f30[17];
     SVECTOR  verts[68];
-    SVECTOR  pos1;
-    SVECTOR  pos2;
-    SVECTOR  rot;
-    int      f2F0[17];
-    int      f334[17];
-    int      f378[17];
+    SVECTOR  pos_terminal0;
+    SVECTOR  pos_terminal1;
+    SVECTOR  terminal_rot;
+    int      ang_l[17];
+    int      len_g[17];
+    int      len_l[17];
     int      count;
     int      time;
-} PlasmaHWork;
+} Work;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL4
+/*----------------------------------------------------------------*/
 
-int s08a_plasma_h_800D100C(SVECTOR *a, SVECTOR *b, SVECTOR *out)
+static int DirVecXY( SVECTOR *from, SVECTOR *to, SVECTOR *rot )
 {
     int dx, dy, dz;
-    int len;
+    int dis;
     int height;
 
-    dx = (a->vx - b->vx) / 16;
-    dy = (a->vy - b->vy) / 16;
-    dz = (a->vz - b->vz) / 16;
+    dx = (from->vx - to->vx) / 16;
+    dy = (from->vy - to->vy) / 16;
+    dz = (from->vz - to->vz) / 16;
 
-    len = SquareRoot0(dx * dx + dy * dy + dz * dz) * 16;
-    height = b->vy - a->vy;
+    dis = SquareRoot0(dx * dx + dy * dy + dz * dz) * 16;
+    height = to->vy - from->vy;
 
-    out->vy = ratan2(b->vx - a->vx, b->vz - a->vz) & 0xFFF;
-    out->vx = ratan2(len, height) & 0xFFF;
-    out->vz = 0;
+    rot->vy = ratan2(to->vx - from->vx, to->vz - from->vz) & 0xFFF;
+    rot->vx = ratan2(dis, height) & 0xFFF;
+    rot->vz = 0;
 
-    return len;
+    return dis;
 }
 
-void s08a_plasma_h_800D1118(PlasmaHWork *work, POLY_FT4 *packs, int n_packs, DG_TEX *tex)
+/*----------------------------------------------------------------*/
+static void InitPacks( Work *work, POLY_FT4 *packs, int n_packs, DG_TEX *tex )
 {
-    while (--n_packs >= 0)
-    {
-        setPolyFT4(packs);
-        setSemiTrans(packs, 1);
-        setRGB0(packs, 100, 100, 250);
-        DG_SetPacketTexture4(packs, tex);
-        packs->tpage |= 0x20;
-        packs++;
+    while ( -- n_packs >= 0 ) {
+        setPolyFT4( packs ) ;
+        setSemiTrans( packs, 1 ) ;
+        setRGB0( packs, 100, 100, 250 );
+        DG_SetPacketTexture4( packs, tex ) ;
+        packs->tpage|=1<<5; /* 半透明属性を設定(libgpu.hを参照) */
+        packs ++ ;
     }
 }
 
-void s08a_plasma_h_800D11AC(PlasmaHWork *work, SVECTOR *pos1, SVECTOR *pos2)
+static void PlasmaEdgeInit( Work *work, SVECTOR *pos1, SVECTOR *pos2 )
 {
-    int len;
+    int limit;
 
-    work->pos1 = *pos1;
-    work->pos2 = *pos2;
+    work->pos_terminal0 = *pos1;
+    work->pos_terminal1 = *pos2;
+    work->terminal_len=DirVecXY( &work->pos_terminal0, &work->pos_terminal1, &work->terminal_rot );
 
-    work->len = s08a_plasma_h_800D100C(&work->pos1, &work->pos2, &work->rot);
-    len = work->len / 4;
+    limit=work->terminal_len/4;
+    work->ang_l[0]  = GV_RandU(4096);
+    work->ang_l[4]  = GV_RandU(512);
+    work->len_g[4]  = GV_RandU(1024);
+    work->len_l[4]  = (limit * GV_RandU(4096)) / 4096;
+    work->ang_l[8]  = work->ang_l[4] + GV_RandS(512);
+    work->len_g[8]  = GV_RandU(1024) + 1024;
+    work->len_l[8]  = (limit * 2 * GV_RandU(4096)) / 4096;
+    work->ang_l[12] = work->ang_l[8] + GV_RandS(512);
+    work->len_g[12] = GV_RandU(1024) + 2048;
+    work->len_l[12] = (limit * GV_RandU(4096)) / 4096;
+    work->ang_l[16] = work->ang_l[12] + GV_RandS(512);
 
-    work->f2F0[0] = GV_RandU(4096);
-    work->f2F0[4] = GV_RandU(512);
-    work->f334[4] = GV_RandU(1024);
-    work->f378[4] = (len * GV_RandU(4096)) / 4096;
-    work->f2F0[8] = work->f2F0[4] + GV_RandS(512);
-    work->f334[8] = GV_RandU(1024) + 1024;
-    work->f378[8] = (len * 2 * GV_RandU(4096)) / 4096;
-    work->f2F0[12] = work->f2F0[8] + GV_RandS(512);
-    work->f334[12] = GV_RandU(1024) + 2048;
-    work->f378[12] = (len * GV_RandU(4096)) / 4096;
-    work->f2F0[16] = work->f2F0[12] + GV_RandS(512);
-
-    if (work->f334[8] < work->f334[4])
+    if (work->len_g[8] < work->len_g[4])
     {
-        work->f334[4] = work->f334[8];
+        work->len_g[4] = work->len_g[8];
     }
 
-    if (work->f334[12] < work->f334[4])
+    if (work->len_g[12] < work->len_g[4])
     {
-        work->f334[4] = work->f334[12];
+        work->len_g[4] = work->len_g[12];
     }
 
-    if (work->f334[12] < work->f334[8])
+    if (work->len_g[12] < work->len_g[8])
     {
-        work->f334[8] = work->f334[12];
+        work->len_g[8] = work->len_g[12];
     }
 
-    work->f30[0] = work->pos1;
-    work->f30[16] = work->pos2;
+    work->f30[0] = work->pos_terminal0;
+    work->f30[16] = work->pos_terminal1;
 
-    work->f334[0] = 0;
-    work->f334[16] = 4096;
-    work->f378[0] = 0;
-    work->f378[16] = 0;
+    work->len_g[0] = 0;
+    work->len_g[16] = 4096;
+    work->len_l[0] = 0;
+    work->len_l[16] = 0;
 }
 
-void s08a_plasma_h_800D13B4(PlasmaHWork *work)
+static void s08a_plasma_h_800D13B4(Work *work)
 {
     int len;
     int tmp;
 
-    len = work->len / 4;
+    len = work->terminal_len / 4;
 
-    work->f2F0[0] = work->f2F0[0] + GV_RandS(128);
-    work->f2F0[4] = work->f2F0[4] + GV_RandS(64);
-    work->f334[4] = work->f334[4] + GV_RandS(32);
+    work->ang_l[0] = work->ang_l[0] + GV_RandS(128);
+    work->ang_l[4] = work->ang_l[4] + GV_RandS(64);
+    work->len_g[4] = work->len_g[4] + GV_RandS(32);
 
-    work->f378[4] += GV_RandS(32);
+    work->len_l[4] += GV_RandS(32);
 
-    if (work->f378[4] < 0)
+    if (work->len_l[4] < 0)
     {
-        work->f378[4] = 0;
+        work->len_l[4] = 0;
     }
 
-    if (work->f378[4] > len)
+    if (work->len_l[4] > len)
     {
-        work->f378[4] = len;
+        work->len_l[4] = len;
     }
 
-    work->f2F0[8] += GV_RandS(64);
+    work->ang_l[8] += GV_RandS(64);
 
-    if (work->f2F0[8] > (work->f2F0[4] + 512))
+    if (work->ang_l[8] > (work->ang_l[4] + 512))
     {
-        work->f2F0[8] = work->f2F0[4] + GV_RandS(512);
+        work->ang_l[8] = work->ang_l[4] + GV_RandS(512);
     }
 
-    if (work->f2F0[8] < (work->f2F0[4] - 512))
+    if (work->ang_l[8] < (work->ang_l[4] - 512))
     {
-        work->f2F0[8] = work->f2F0[4] + GV_RandS(512);
+        work->ang_l[8] = work->ang_l[4] + GV_RandS(512);
     }
 
-    work->f334[8] += GV_RandS(32);
-    work->f378[8] += GV_RandS(64) + 16;
+    work->len_g[8] += GV_RandS(32);
+    work->len_l[8] += GV_RandS(64) + 16;
 
-    if (work->f378[8] < 0)
+    if (work->len_l[8] < 0)
     {
-        work->f378[8] = 0;
+        work->len_l[8] = 0;
     }
 
-    if (work->f378[8] > len)
+    if (work->len_l[8] > len)
     {
-        work->f378[8] = len;
+        work->len_l[8] = len;
     }
 
-    work->f2F0[12] += GV_RandS(64);
+    work->ang_l[12] += GV_RandS(64);
 
-    if (work->f2F0[12] > (work->f2F0[8] + 512))
+    if (work->ang_l[12] > (work->ang_l[8] + 512))
     {
-        work->f2F0[12] = work->f2F0[8] + GV_RandS(512);
+        work->ang_l[12] = work->ang_l[8] + GV_RandS(512);
     }
 
-    if (work->f2F0[12] < (work->f2F0[8] - 512))
+    if (work->ang_l[12] < (work->ang_l[8] - 512))
     {
-        work->f2F0[12] = work->f2F0[8] + GV_RandS(512);
+        work->ang_l[12] = work->ang_l[8] + GV_RandS(512);
     }
 
-    work->f334[12] += GV_RandS(32);
-    work->f378[12] += GV_RandS(32);
+    work->len_g[12] += GV_RandS(32);
+    work->len_l[12] += GV_RandS(32);
 
-    if (work->f378[12] < 0)
+    if (work->len_l[12] < 0)
     {
-        work->f378[12] = 0;
+        work->len_l[12] = 0;
     }
 
-    if (work->f378[12] > (len * 2))
+    if (work->len_l[12] > (len * 2))
     {
-        work->f378[12] = len * 2;
+        work->len_l[12] = len * 2;
     }
 
-    if (work->f334[8] < work->f334[4])
+    if (work->len_g[8] < work->len_g[4])
     {
-        tmp = work->f334[4];
-        work->f334[4] = work->f334[8];
-        work->f334[8] = tmp;
+        tmp = work->len_g[4];
+        work->len_g[4] = work->len_g[8];
+        work->len_g[8] = tmp;
     }
 
-    if (work->f334[12] < work->f334[4])
+    if (work->len_g[12] < work->len_g[4])
     {
-        tmp = work->f334[4];
-        work->f334[4] = work->f334[12];
-        work->f334[12] = tmp;
+        tmp = work->len_g[4];
+        work->len_g[4] = work->len_g[12];
+        work->len_g[12] = tmp;
     }
 
-    if (work->f334[12] < work->f334[8])
+    if (work->len_g[12] < work->len_g[8])
     {
-        tmp = work->f334[8];
-        work->f334[8] = work->f334[12];
-        work->f334[12] = tmp;
+        tmp = work->len_g[8];
+        work->len_g[8] = work->len_g[12];
+        work->len_g[12] = tmp;
     }
 }
 
-void s08a_plasma_h_800D1638(PlasmaHWork *work, int a, int b)
+static void s08a_plasma_h_800D1638(Work *work, int a, int b)
 {
     int m, p;
 
     m = a - b;
     p = a + b;
 
-    work->f334[a] = work->f334[m] + ((work->f334[p] - work->f334[m]) * 3) / 4;
-    work->f378[a] = work->f378[m] + (work->f378[p] - work->f378[m]) / 2;
-    work->f2F0[a] = work->f2F0[m] + (work->f2F0[p] - work->f2F0[m]) / 2;
+    work->len_g[a] = work->len_g[m] + ((work->len_g[p] - work->len_g[m]) * 3) / 4;
+    work->len_l[a] = work->len_l[m] + (work->len_l[p] - work->len_l[m]) / 2;
+    work->ang_l[a] = work->ang_l[m] + (work->ang_l[p] - work->ang_l[m]) / 2;
 }
 
-void PlasmaAct_800D16D0(PlasmaHWork *work)
+static void Act(Work *work)
 {
     SVECTOR  sp10;
     SVECTOR  rot;
@@ -253,12 +256,12 @@ void PlasmaAct_800D16D0(PlasmaHWork *work)
     sp10.vx = 0;
 
     verts = work->f30;
-    var_s5 = work->f334;
-    var_s4 = work->f378;
-    var_s2 = work->f2F0;
+    var_s5 = work->len_g;
+    var_s4 = work->len_l;
+    var_s2 = work->ang_l;
     for (i = 0; i < 17;)
     {
-        sp10.vy = (*var_s5 * work->len) / 4096;
+        sp10.vy = (*var_s5 * work->terminal_len) / 4096;
         sp10.vz = *var_s4;
 
         rot.vy = *var_s2;
@@ -273,10 +276,10 @@ void PlasmaAct_800D16D0(PlasmaHWork *work)
         var_s2++;
     }
 
-    DG_SetPos2(&work->pos1, &work->rot);
+    DG_SetPos2(&work->pos_terminal0, &work->terminal_rot);
     DG_PutVector(work->f30, work->f30, 17);
 
-    len = work->len / 128;
+    len = work->terminal_len / 128;
     sp10.vx = len + GV_RandS(16);
     sp10.vy = len + GV_RandS(16);
     sp10.vz = len;
@@ -299,12 +302,12 @@ void PlasmaAct_800D16D0(PlasmaHWork *work)
     }
 }
 
-void PlasmaDie_800D19B4(PlasmaHWork *work)
+static void Die(Work *work)
 {
     GM_FreePrim(work->prim);
 }
 
-int s08a_plasma_h_800D19F0(PlasmaHWork *work)
+static int s08a_plasma_h_800D19F0(Work *work)
 {
     DG_TEX  *tex;
     DG_PRIM *prim;
@@ -325,13 +328,13 @@ int s08a_plasma_h_800D19F0(PlasmaHWork *work)
 
     prim->raise = 200;
 
-    s08a_plasma_h_800D1118(work, prim->packs[0], 17, tex);
-    s08a_plasma_h_800D1118(work, prim->packs[1], 17, tex);
+    InitPacks(work, prim->packs[0], 17, tex);
+    InitPacks(work, prim->packs[1], 17, tex);
 
     return 0;
 }
 
-int PlasmaHGetResources_800D1ABC(PlasmaHWork *work, SVECTOR *pos1, SVECTOR *pos2, int time)
+static int GetResources(Work *work, SVECTOR *pos1, SVECTOR *pos2, int time)
 {
     work->map = GM_CurrentMap;
     work->time = time;
@@ -341,22 +344,24 @@ int PlasmaHGetResources_800D1ABC(PlasmaHWork *work, SVECTOR *pos1, SVECTOR *pos2
         return -1;
     }
 
-    s08a_plasma_h_800D11AC(work, pos1, pos2);
+    PlasmaEdgeInit(work, pos1, pos2);
 
     work->count = 0;
     return 0;
 }
 
-void *NewPlasmaH_800D1B2C(SVECTOR *pos1, SVECTOR *pos2, int time)
-{
-    PlasmaHWork *work;
+/*----------------------------------------------------------------*/
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(PlasmaHWork));
+void *NewPlasmaH(SVECTOR *pos1, SVECTOR *pos2, int time)
+{
+    Work *work;
+
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, PlasmaAct_800D16D0, PlasmaDie_800D19B4, "plasma_h.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "plasma_h.c");
 
-        if (PlasmaHGetResources_800D1ABC(work, pos1, pos2, time) < 0)
+        if (GetResources(work, pos1, pos2, time) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

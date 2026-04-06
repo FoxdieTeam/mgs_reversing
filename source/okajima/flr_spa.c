@@ -5,6 +5,7 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 
+#include "okajima/plasma_h.h"   // for NewPlasmaH
 #include "takabe/spark2.h"      // for NewSpark2_800CA714
 
 typedef struct _FlrSpaWork
@@ -20,8 +21,6 @@ typedef struct _FlrSpaWork
     int     timer;
     int     reload;
 } FlrSpaWork;
-
-void *NewPlasmaH_800D1B2C(SVECTOR *pos1, SVECTOR *pos2, int time);
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL4
 
@@ -137,7 +136,7 @@ void FlrSpaMain_800D0A90(FlrSpaWork *work)
         }
 
         work->pos2 = pos2;
-        NewPlasmaH_800D1B2C(&work->pos1, &work->pos2, work->timer);
+        NewPlasmaH(&work->pos1, &work->pos2, work->timer);
 
         if (GM_PlayerPosition.vz > -6000)
         {
