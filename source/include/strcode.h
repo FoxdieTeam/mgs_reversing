@@ -303,7 +303,7 @@
 #define CHARAID_JPEG            0x81c7  // GV_StrCode("ＪＰＥＧ")
 #define CHARAID_RSURFACE        0x81ea  //
 #define CHARAID_SCN_ANIM        0x8427  //
-#define CHARAID_FONT_TEXT       0x84e1  //
+#define CHARAID_FONTTEXT        0x84e1  //
 #define CHARAID_ITEM            0x8767  // GV_StrCode("アイテム")
 #define CHARAID_VRDEMO          0x8a46  // GV_StrCode("ＶＲデモ")
 #define CHARAID_LANDING         0x8b1a  //
@@ -339,7 +339,7 @@
 #define CHARAID_VALCAN          0x9ff5  // GV_StrCode("バルカン")
 #define CHARAID_9FFD_2ND        0x9ffd  //
 #define CHARAID_FADEIO          0xa12e  //
-#define CHARAID_JDRUM           0xa27e  // GV_StrCode("ジープ戦ドラム")
+#define CHARAID_JEEPDRUM        0xa27e  // GV_StrCode("ジープ戦ドラム")
 #define CHARAID_SAFETY          0xa2b5  //
 #define CHARAID_CRANE           0xa3fb  // GV_StrCode("クレーン")
 #define CHARAID_PRISONSNAKE     0xa404  // GV_StrCode("独房スネーク")
@@ -368,7 +368,7 @@
 #define CHARAID_DYNWALL         0xb103  // GV_StrCode("透明壁")
 #define CHARAID_VR_SNAKE        0xb162  //
 #define CHARAID_MINENE          0xb30a  //
-#define CHARAID_PJEEP           0xb47a  // GV_StrCode("駐車ジープ")
+#define CHARAID_PK_JEEP         0xb47a  // GV_StrCode("駐車ジープ")
 #define CHARAID_DEMOCANCEL      0xb4e6  // GV_StrCode("デモキャンセル")
 #define CHARAID_DRUMCAN         0xb58d  // GV_StrCode("ドラム缶")
 #define CHARAID_B757_ED_TELOP   0xb757  //
