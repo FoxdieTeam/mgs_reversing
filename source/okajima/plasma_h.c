@@ -1,5 +1,9 @@
 #include "plasma_h.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
