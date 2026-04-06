@@ -18,8 +18,7 @@ typedef struct _Work
     int      terminal_len;
     SVECTOR  f30[17];
     SVECTOR  verts[68];
-    SVECTOR  pos_terminal0;
-    SVECTOR  pos_terminal1;
+    SVECTOR  pos_terminal[2];
     SVECTOR  terminal_rot;
     int      ang_l[17];
     int      len_g[17];
@@ -70,9 +69,9 @@ static void PlasmaEdgeInit( Work *work, SVECTOR *pos1, SVECTOR *pos2 )
 {
     int limit;
 
-    work->pos_terminal0 = *pos1;
-    work->pos_terminal1 = *pos2;
-    work->terminal_len=DirVecXY( &work->pos_terminal0, &work->pos_terminal1, &work->terminal_rot );
+    work->pos_terminal[0] = *pos1;
+    work->pos_terminal[1] = *pos2;
+    work->terminal_len=DirVecXY( &work->pos_terminal[0], &work->pos_terminal[1], &work->terminal_rot );
 
     limit=work->terminal_len/4;
     work->ang_l[0]  = GV_RandU(4096);
@@ -103,8 +102,8 @@ static void PlasmaEdgeInit( Work *work, SVECTOR *pos1, SVECTOR *pos2 )
         work->len_g[8] = work->len_g[12];
     }
 
-    work->f30[0] = work->pos_terminal0;
-    work->f30[16] = work->pos_terminal1;
+    work->f30[0] = work->pos_terminal[0];
+    work->f30[16] = work->pos_terminal[1];
 
     work->len_g[0] = 0;
     work->len_g[16] = 4096;
@@ -280,7 +279,7 @@ static void Act(Work *work)
         var_s2++;
     }
 
-    DG_SetPos2(&work->pos_terminal0, &work->terminal_rot);
+    DG_SetPos2(&work->pos_terminal[0], &work->terminal_rot);
     DG_PutVector(work->f30, work->f30, 17);
 
     len = work->terminal_len / 128;
