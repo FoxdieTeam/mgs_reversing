@@ -1,7 +1,8 @@
+#include "libhzd.h"
+
 #include <stdio.h>
 #include "common.h"
-#include "libhzd/libhzd.h"
-#include "libdg/libdg.h"
+#include "libdg/libdg.h" // for DG_PointCheck
 
 #define SWAP(name, a, b)                \
 do {                                    \
