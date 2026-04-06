@@ -34,6 +34,8 @@ void *NewFamasLight(MATRIX *world)
     DG_TEX       *tex;
     Work         *work;
     DG_PRIM      *prim;
+    int           x, y, w, h;
+    int           x2, y2, w2, h2;
 
     tex = DG_GetTexture(GV_StrCode("famas_l"));
     if (tex == NULL)
@@ -61,8 +63,23 @@ void *NewFamasLight(MATRIX *world)
 
 #define POLY ((POLY_FT4 *)work->prim->packs[0])
 
-    DG_SetPacketTexture4(&POLY[0], tex);
-    DG_SetPacketTexture4(&POLY[1], tex);
+    x = tex->off_x;
+    w = tex->w;
+    y = tex->off_y;
+    h = tex->h;
+    setUVWH(&POLY[0], x, y, w, h);
+    POLY[0].tpage = tex->tpage;
+    POLY[0].clut = tex->clut;
+    //DG_SetPacketTexture4(&POLY[0], tex);
+
+    x2 = tex->off_x;
+    w2 = tex->w;
+    y2 = tex->off_y;
+    h2 = tex->h;
+    setUVWH(&POLY[1], x2, y2, w2, h2);
+    POLY[1].tpage = tex->tpage;
+    POLY[1].clut = tex->clut;
+    //DG_SetPacketTexture4(&POLY[1], tex);
 
     POLY[0].tpage &= ~0x60;
     POLY[1].tpage &= ~0x60;
