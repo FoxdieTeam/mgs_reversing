@@ -1,4 +1,5 @@
 #include "enemy.h"
+#include "enemy/eyeflash.h"     // for NewEyeflash
 
 #include <stdio.h>
 #include <sys/types.h>
@@ -45,7 +46,6 @@ int s00a_dword_800C3524[32] =
     0x00000000, 0x00000000, 0x00000000, 0x0000001F
 };
 
-extern void NewEyeflash_800D0CF4( MATRIX *, SVECTOR *, const char *, int );
 extern char NearAsiato_800D13A0();
 extern void CleanAsiato_800D1378();
 
@@ -964,7 +964,7 @@ int s00a_command_800CBDFC( WatcherWork* work )
     if ( count == 0 )
     {
         ENE_PutMark_800C9378( work, 0 );
-        NewEyeflash_800D0CF4( &work->body.objs->objs[6].world, &work->control.mov, aKirari_800E06E8, 0 );
+        NewEyeflash( &work->body.objs->objs[6].world, &work->control.mov, aKirari_800E06E8, 0 );
         COM_VibTime_800E0F68 = 10;
     }
 

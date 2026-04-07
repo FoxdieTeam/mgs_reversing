@@ -5,6 +5,6 @@
 #include <libgte.h>
 #include <libgpu.h>
 
-void *NewEyeflash_800D0CF4(MATRIX *arg0, SVECTOR *arg1, int arg2, int arg3);
+void *NewEyeflash(MATRIX *world, SVECTOR *arg1, const char *texture, int arg3);
 
 #endif // __MGS_ENEMY_EYEFLASH_H__

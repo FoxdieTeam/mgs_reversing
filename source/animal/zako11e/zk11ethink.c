@@ -1,5 +1,11 @@
 #include "enemy/enemy.h"
+#include "enemy/eyeflash.h"     // for NewEyeflash
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
+#include "libgv/libgv.h"
 #include "libhzd/libhzd.h"
 #include "linkvar.h"
 #include "sound/g_sound.h"
@@ -179,7 +185,6 @@ int s11e_zk11ecom_800D8B04( ZakoWork *work )
 }
 
 extern void ZAKO11E_PutMark_800D7C10( ZakoWork *work, int mark );
-extern void NewEyeflash_800D0CF4( MATRIX *, SVECTOR *, const char *, int );
 
 int s11e_zk11ecom_800D8DC4( ZakoWork* work )
 {
@@ -187,7 +192,7 @@ int s11e_zk11ecom_800D8DC4( ZakoWork* work )
     {
         ZAKO11E_PutMark_800D7C10( work, 0 );
         GM_SeSet( &work->control.mov, SE_EXCLAMATION );
-        NewEyeflash_800D0CF4( &work->body.objs->objs[6].world, &work->control.mov, "kirari01", 0 );
+        NewEyeflash( &work->body.objs->objs[6].world, &work->control.mov, "kirari01", 0 );
     }
 
     if ( work->count3 < 20 )

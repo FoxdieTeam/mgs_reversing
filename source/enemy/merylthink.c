@@ -1,6 +1,12 @@
 #include "enemy/enemy.h"
+#include "enemy/eyeflash.h"     // for NewEyeflash
 
 #include <stdio.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
+#include "common.h"
 #include "mts/mts.h" // for fprintf
 #include "libgv/libgv.h"
 #include "libhzd/libhzd.h"
@@ -21,7 +27,6 @@ extern int           COM_PlayerAddress_800E0D90;
 extern int           COM_PlayerMap_800E0F1C;
 
 
-extern void NewEyeflash_800D0CF4( MATRIX *, SVECTOR *, const char *, int );
 void ENE_PutMark_800D998C( WatcherWork *work, int mark );
 
 #define T_NOISE 0
@@ -1135,7 +1140,7 @@ int s07a_meryl_unk_800DCBF4( WatcherWork* work )
     if ( count == 0 )
     {
         ENE_PutMark_800D998C( work, 0 );
-        NewEyeflash_800D0CF4( &work->body.objs->objs[6].world, &work->control.mov, s07a_aKirari_800E3084, 0 );
+        NewEyeflash( &work->body.objs->objs[6].world, &work->control.mov, s07a_aKirari_800E3084, 0 );
         COM_VibTime_800E0F68 = 10;
     }
 
