@@ -283,7 +283,7 @@ static void Die(Work *work)
     Die2(work);
 }
 
-static int GetResources(Work *work, int name, int arg2)
+static int GetResources(Work *work, int name, int where)
 {
     int    *arr;
     int     i;
@@ -311,7 +311,7 @@ static int GetResources(Work *work, int name, int arg2)
 
 /*---------------------------------------------------------------------------*/
 
-void *NewVoiceSystem(int name, int arg1)
+void *NewVoiceSystem(int name, int where)
 {
     Work *work;
 
@@ -319,7 +319,7 @@ void *NewVoiceSystem(int name, int arg1)
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "voicesys.c");
-        if (GetResources(work, name, arg1) < 0)
+        if (GetResources(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
