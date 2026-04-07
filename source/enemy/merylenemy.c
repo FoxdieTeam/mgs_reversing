@@ -17,8 +17,10 @@ extern int COM_ALERT_DECREMENT_800E0F60;
 extern ENEMY_COMMAND EnemyCommand_800E0D98;
 
 extern int sna_current_item_8004FB38(void);
-extern int AsiatoCheck_800D16C0( HZD_HDL*, SVECTOR* );
-extern int SearchNearAsiato_800D13B0( HZD_HDL*, SVECTOR*, short, short, short );
+
+// in enemy/asiato.c
+extern int AsiatoCheck( HZD_HDL *, SVECTOR * );
+extern int SearchNearAsiato( HZD_HDL *, SVECTOR *, short, short, short );
 
 // Identical to s00a_command_800C9878
 void s07a_meryl_unk_800DA948( WatcherWork* work )
@@ -216,12 +218,12 @@ void s07a_meryl_unk_800DAE00( WatcherWork* work )
 
     hzd = work->control.map->hzd;
     vision = &work->vision;
-    if ( !( AsiatoCheck_800D16C0( hzd, &ctrl->mov ) ) )
+    if ( !( AsiatoCheck( hzd, &ctrl->mov ) ) )
     {
         return;
     }
 
-    if ( SearchNearAsiato_800D13B0( hzd, &ctrl->mov, vision->facedir, vision->angle, vision->length ) < 0 )
+    if ( SearchNearAsiato( hzd, &ctrl->mov, vision->facedir, vision->angle, vision->length ) < 0 )
     {
         return;
     }

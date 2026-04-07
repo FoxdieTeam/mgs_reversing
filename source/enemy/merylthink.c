@@ -33,7 +33,11 @@ void ENE_PutMark_800D998C( WatcherWork *work, int mark );
 
 extern CONTROL      *GM_WhereList[94];
 
-extern char NearAsiato_800D13A0();
+// in enemy/asiato.c
+extern void AsiatoPos( signed char, SVECTOR * );
+extern int NextAsiato( HZD_HDL *, signed char, SVECTOR * );
+extern void CleanAsiato(void);
+extern char NearAsiato(void);
 
 // Identical to s00a_command_800CAACC
 void s07a_meryl_unk_800DB340( WatcherWork* work )
@@ -268,12 +272,10 @@ void s07a_meryl_unk_800DB804( WatcherWork* work )
     work->target_map = work->start_map;
 }
 
-extern void AsiatoPos_800D129C( signed char, SVECTOR * );
-
 // Identical to s00a_command_800CB1C4
 void s07a_meryl_unk_800DB88C( WatcherWork* work )
 {
-    AsiatoPos_800D129C( work->field_BA0, &work->target_pos );
+    AsiatoPos( work->field_BA0, &work->target_pos );
     work->target_addr = HZD_GetAddress( work->control.map->hzd, &work->target_pos, -1 );
     work->target_map = work->control.map->index;
 }
@@ -568,7 +570,7 @@ void s07a_meryl_unk_800DBE9C( WatcherWork *work )
 {
     work->think2 = 5;
     work->think3 = 5;
-    work->field_BA0 = NearAsiato_800D13A0();
+    work->field_BA0 = NearAsiato();
     work->count3 = 0;
 }
 
@@ -1272,13 +1274,11 @@ int s07a_meryl_unk_800DCED0(SVECTOR* svec, SVECTOR* svec2, int a1) {
     return 1;
 }
 
-int NextAsiato_800D12D0( HZD_HDL*, signed char, SVECTOR * );
-
 int s07a_meryl_unk_800DCF24( WatcherWork *work )
 {
     int x;
 
-    x = NextAsiato_800D12D0( work->control.map->hzd, work->field_BA0, &work->control.mov );
+    x = NextAsiato( work->control.map->hzd, work->field_BA0, &work->control.mov );
 
     if ( x >= 0 )
     {
@@ -2322,8 +2322,6 @@ void s07a_meryl_unk_800DE360( WatcherWork *work )
     }
 }
 
-extern void CleanAsiato_800D1378();
-
 void s07a_meryl_unk_800DE61C( WatcherWork *work )
 {
     switch ( work->think3 )
@@ -2360,7 +2358,7 @@ void s07a_meryl_unk_800DE61C( WatcherWork *work )
             else
             {
                 work->think3 = 11;
-                CleanAsiato_800D1378();
+                CleanAsiato();
                 work->count3 = 0;
             }
         }
@@ -2384,7 +2382,7 @@ void s07a_meryl_unk_800DE61C( WatcherWork *work )
     if ( work->alert_level > 1 )
     {
         s07a_meryl_unk_800DBAB4( work );
-        CleanAsiato_800D1378();
+        CleanAsiato();
     }
     else if ( work->field_BA1 & 2 )
     {
@@ -2393,13 +2391,13 @@ void s07a_meryl_unk_800DE61C( WatcherWork *work )
     else if ( work->field_BA1 & 4 )
     {
         s07a_meryl_unk_800DBD54( work );
-        CleanAsiato_800D1378();
+        CleanAsiato();
     }
 
     else if ( work->field_BA1 & 1 )
     {
         s07a_meryl_unk_800DBD90( work );
-        CleanAsiato_800D1378();
+        CleanAsiato();
     }
 }
 
@@ -2878,7 +2876,7 @@ void s07a_meryl_unk_800DF234( WatcherWork *work )
 
             if ( work->think2 == 5 )
             {
-                CleanAsiato_800D1378();
+                CleanAsiato();
             }
 
             work->think2 = 6;

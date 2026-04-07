@@ -40,11 +40,11 @@ static void ShadePacks(DG_PRIM *prim, DG_TEX *tex, int r, int g, int b)
     setRGB0(poly, r, g, b);
 }
 
-static void SetSvect(SVECTOR *vec, int x, int y, int z)
+static void SetPos(SVECTOR *out, int x, int y, int z)
 {
-    vec->vx = x;
-    vec->vy = y;
-    vec->vz = z;
+    out->vx = x;
+    out->vy = y;
+    out->vz = z;
 }
 
 static void Act(Work *work)
@@ -91,17 +91,17 @@ static int GetResources(Work *work, int which, int height, int arg3)
 
     if (which == 1)
     {
-        SetSvect(&work->pos[1], -70, 0, -140);
-        SetSvect(&work->pos[0], 70, 0, -140);
-        SetSvect(&work->pos[3], -70, 0, 140);
-        SetSvect(&work->pos[2], 70, 0, 140);
+        SetPos(&work->pos[1], -70, 0, -140);
+        SetPos(&work->pos[0], 70, 0, -140);
+        SetPos(&work->pos[3], -70, 0, 140);
+        SetPos(&work->pos[2], 70, 0, 140);
     }
     else
     {
-        SetSvect(&work->pos[0], -70, 0, -140);
-        SetSvect(&work->pos[1], 70, 0, -140);
-        SetSvect(&work->pos[2], -70, 0, 140);
-        SetSvect(&work->pos[3], 70, 0, 140);
+        SetPos(&work->pos[0], -70, 0, -140);
+        SetPos(&work->pos[1], 70, 0, -140);
+        SetPos(&work->pos[2], -70, 0, 140);
+        SetPos(&work->pos[3], 70, 0, 140);
     }
 
     prim = GM_MakePrim(DG_PRIM_POLY_FT4, 1, work->pos, NULL);

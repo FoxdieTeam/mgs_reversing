@@ -46,8 +46,11 @@ int s00a_dword_800C3524[32] =
     0x00000000, 0x00000000, 0x00000000, 0x0000001F
 };
 
-extern char NearAsiato_800D13A0();
-extern void CleanAsiato_800D1378();
+// in enemy/asiato.c
+extern void AsiatoPos( signed char, SVECTOR * );
+extern int NextAsiato( HZD_HDL *, signed char, SVECTOR * );
+extern void CleanAsiato(void);
+extern char NearAsiato(void);
 
 int s00a_command_800CA898( WatcherWork* work, HZD_ZON* zone )
 {
@@ -392,11 +395,9 @@ void s00a_command_800CB13C( WatcherWork* work )
     work->target_map = work->start_map;
 }
 
-extern void AsiatoPos_800D129C( signed char, SVECTOR * );
-
 void s00a_command_800CB1C4( WatcherWork* work )
 {
-    AsiatoPos_800D129C( work->field_BA0, &work->target_pos );
+    AsiatoPos( work->field_BA0, &work->target_pos );
     work->target_addr = HZD_GetAddress( work->control.map->hzd, &work->target_pos, -1 );
     work->target_map = work->control.map->index;
 }
@@ -620,7 +621,7 @@ void s00a_command_800CB628( WatcherWork *work )
 {
     work->think2 = 5;
     work->think3 = 5;
-    work->field_BA0 = NearAsiato_800D13A0();
+    work->field_BA0 = NearAsiato();
     work->count3 = 0;
 }
 
@@ -1146,13 +1147,11 @@ int s00a_command_800CC240(SVECTOR* svec, SVECTOR* svec2, int a1) {
     return 1;
 }
 
-int NextAsiato_800D12D0( HZD_HDL*, signed char, SVECTOR * );
-
 int s00a_command_800CC294( WatcherWork *work )
 {
     int x;
 
-    x = NextAsiato_800D12D0( work->control.map->hzd, work->field_BA0, &work->control.mov );
+    x = NextAsiato( work->control.map->hzd, work->field_BA0, &work->control.mov );
 
     if ( x >= 0 )
     {
@@ -2310,7 +2309,7 @@ void s00a_command_800CDB88( WatcherWork *work )
             else
             {
                 work->think3 = 11;
-                CleanAsiato_800D1378();
+                CleanAsiato();
                 work->count3 = 0;
             }
         }
@@ -2334,12 +2333,12 @@ void s00a_command_800CDB88( WatcherWork *work )
     if ( work->field_BA1 & 4 )
     {
         s00a_command_800CB3F0( work );
-        CleanAsiato_800D1378();
+        CleanAsiato();
     }
     else if ( work->alert_level > 1 )
     {
         s00a_command_800CB240( work );
-        CleanAsiato_800D1378();
+        CleanAsiato();
     }
     else if ( work->field_BA1 & 2 )
     {
@@ -2348,7 +2347,7 @@ void s00a_command_800CDB88( WatcherWork *work )
     else if ( work->field_BA1 & 1 )
     {
         s00a_command_800CB504( work );
-        CleanAsiato_800D1378();
+        CleanAsiato();
     }
 }
 
@@ -2844,7 +2843,7 @@ void s00a_command_800CE830( WatcherWork *work )
 
             if ( work->think2 == 5 )
             {
-                CleanAsiato_800D1378();
+                CleanAsiato();
             }
 
             work->think2 = 6;
