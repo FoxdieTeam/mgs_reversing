@@ -19,7 +19,7 @@ extern CONTROL *GM_WhereList[96];
 
 #define SEGMENT_ATR ( HZD_SEG_NO_NAVIGATE )
 
-typedef struct AsiatoCharWork
+typedef struct _AsiatoCharWork
 {
     GV_ACT   actor;
     DG_PRIM *prim;
@@ -49,22 +49,22 @@ static void AsiatoChar_ShadePacks(DG_PRIM *prim, DG_TEX *tex, int r, int g, int 
     setRGB0(poly, r, g, b);
 }
 
-static void AsiatoChar_SetPos(SVECTOR *out, short vx, short vy, short vz)
+static void AsiatoChar_SetPos(SVECTOR *vec, short x, short y, short z)
 {
-    out->vx = vx;
-    out->vy = vy;
-    out->vz = vz;
+    vec->vx = x;
+    vec->vy = y;
+    vec->vz = z;
 }
 
 static void AsiatoChar_Act(AsiatoCharWork *work)
 {
-    int color;
+    int shade;
     if (++work->field_48 > 390)
     {
         GV_DestroyActor(&work->actor);
     }
-    color = 48 - work->field_48 * 48 / 690;
-    AsiatoChar_ShadePacks(work->prim, work->tex, color, color, color);
+    shade = 48 - work->field_48 * 48 / 690;
+    AsiatoChar_ShadePacks(work->prim, work->tex, shade, shade, shade);
 }
 
 static void AsiatoChar_InitPacks(POLY_FT4 *poly, DG_TEX *tex, int abr, int r, int g, int b)
@@ -76,7 +76,7 @@ static void AsiatoChar_InitPacks(POLY_FT4 *poly, DG_TEX *tex, int abr, int r, in
     {
         setSemiTrans(poly, 1);
         DG_SetPacketTexture4(poly, tex);
-        poly->tpage = (poly->tpage & 0xFF9F) | (abr << 5);
+        poly->tpage = (poly->tpage & ~0x60) | (abr << 5);
     }
     else
     {
@@ -134,6 +134,8 @@ static void AsiatoChar_Die(AsiatoCharWork *work)
     AsiatoPositions[work->field_4C].pad = 0;
     AsiatoPositions[48].vy--;
 }
+
+/*---------------------------------------------------------------------------*/
 
 void *NewAsiatoChar(MATRIX *world, int arg1, int arg2, int arg3, int arg4)
 {
@@ -242,7 +244,7 @@ int SearchNearAsiato( HZD_HDL *hzd, SVECTOR *mov, int facedir, int vision_unk, i
     return s4;
 }
 
-static int s00a_asiato_800D1500( HZD_HDL *hzd, SVECTOR *pos, int name )
+static int asiato_800D1500( HZD_HDL *hzd, SVECTOR *pos, int name )
 {
     int i;
     int test;
@@ -274,7 +276,7 @@ static int s00a_asiato_800D1500( HZD_HDL *hzd, SVECTOR *pos, int name )
     return 0;
 }
 
-static int s00a_asiato_800D15D8( HZD_HDL *hzd, SVECTOR *pos )
+static int asiato_800D15D8( HZD_HDL *hzd, SVECTOR *pos )
 {
     int i;
     int test;
@@ -313,23 +315,23 @@ int AsiatoCheck( HZD_HDL *hzd, SVECTOR *pos )
         return 0;
     }
 
-    return s00a_asiato_800D15D8( hzd, pos );
+    return asiato_800D15D8( hzd, pos );
 }
 
 /*---------------------------------------------------------------------------*/
 
-typedef struct AsiatoWork
+typedef struct _AsiatoWork
 {
     GV_ACT actor;
     int    field_20;
     int    field_24;
 } AsiatoWork;
 
-static int s00a_asiato_800D16F8(AsiatoWork *work, HZD_HDL *hdl, SVECTOR *pos)
+static int asiato_800D16F8(AsiatoWork *work, HZD_HDL *hdl, SVECTOR *pos)
 {
     work->field_20 = 0;
 
-    if (s00a_asiato_800D1500(hdl, pos, HASH_POOL))
+    if (asiato_800D1500(hdl, pos, HASH_POOL))
     {
         work->field_24 = 60;
         return 0;
@@ -342,7 +344,7 @@ static int s00a_asiato_800D16F8(AsiatoWork *work, HZD_HDL *hdl, SVECTOR *pos)
         return 1;
     }
 
-    return s00a_asiato_800D1500(hdl, pos, HASH_ASIATO);
+    return asiato_800D1500(hdl, pos, HASH_ASIATO);
 }
 
 static int AsiatoIsAllowedOnMove_800D179C()
@@ -351,12 +353,12 @@ static int AsiatoIsAllowedOnMove_800D179C()
     return (GM_PlayerStatus & (PLAYER_CAUTION | PLAYER_MOVE | PLAYER_GROUND)) == PLAYER_MOVE;
 }
 
-static int s00a_asiato_800D17BC(AsiatoWork *work)
+static int asiato_800D17BC(AsiatoWork *work)
 {
     HZD_HDL *hdl;
 
     hdl = GM_WhereList[0]->map->hzd;
-    if (!AsiatoIsAllowedOnMove_800D179C() || !s00a_asiato_800D16F8(work, hdl, &GM_PlayerPosition))
+    if (!AsiatoIsAllowedOnMove_800D179C() || !asiato_800D16F8(work, hdl, &GM_PlayerPosition))
     {
         return 0;
     }
@@ -388,7 +390,7 @@ static void Act(AsiatoWork *work)
     int     temp_v0;
     DG_OBJ *obj;
 
-    temp_v0 = s00a_asiato_800D17BC(work);
+    temp_v0 = asiato_800D17BC(work);
     if ((temp_v0 != 0) && (AsiatoPositions[48].vy < 48))
     {
         if (temp_v0 == 1)

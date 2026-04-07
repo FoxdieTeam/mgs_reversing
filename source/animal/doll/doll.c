@@ -13,7 +13,7 @@
 short s01a_word_800C3CD4[8] = {31000, 15, 30, 60, 90, 32000, 32001, 30000};
 
 void *NewGunLight_800D3AD4(MATRIX *world, int **enable);
-void *s01a_blink_tx_800DD60C(CONTROL *, OBJECT *, int, int *);
+void *NewAsiato2(CONTROL *, OBJECT *, int, int *);
 
 void Demodoll_800DDEAC(DollWork *);
 void Demodoll_800DDF18(DollWork *);
@@ -703,7 +703,7 @@ int DollGetResources_800DCAA4(DollWork *work, int name, int map)
     if (opt != NULL)
     {
         work->fE58 |= 0x20;
-        work->fE04 = s01a_blink_tx_800DD60C(&work->control, &work->body, GCL_StrToInt(opt), (int *)work->fE00);
+        work->fE04 = NewAsiato2(&work->control, &work->body, GCL_StrToInt(opt), (int *)work->fE00);
     }
 
     work->fE00[0] = 0;

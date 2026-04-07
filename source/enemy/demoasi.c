@@ -40,11 +40,11 @@ static void ShadePacks(DG_PRIM *prim, DG_TEX *tex, int r, int g, int b)
     setRGB0(poly, r, g, b);
 }
 
-static void SetPos(SVECTOR *out, int x, int y, int z)
+static void SetPos(SVECTOR *vec, int x, int y, int z)
 {
-    out->vx = x;
-    out->vy = y;
-    out->vz = z;
+    vec->vx = x;
+    vec->vy = y;
+    vec->vz = z;
 }
 
 static void Act(Work *work)
