@@ -32,7 +32,7 @@ typedef struct AsiatoCharWork
 
 /*---------------------------------------------------------------------------*/
 
-int SECTION(".bss") NearAsiato;
+int SECTION(".bss") NearAsiatoDist;
 int SECTION(".bss") s00a_dword_800E0F94;
 SVECTOR SECTION(".bss") AsiatoPositions[49];
 
@@ -201,7 +201,7 @@ void CleanAsiato(void)
 
 int NearAsiato(void)
 {
-    return NearAsiato;
+    return NearAsiatoDist;
 }
 
 int SearchNearAsiato( HZD_HDL *hzd, SVECTOR *mov, int facedir, int vision_unk, int length )
@@ -234,11 +234,11 @@ int SearchNearAsiato( HZD_HDL *hzd, SVECTOR *mov, int facedir, int vision_unk, i
 
     if ( max_len == 100000000 )
     {
-        NearAsiato = -1;
+        NearAsiatoDist = -1;
         return -1;
     }
 
-    NearAsiato = s4;
+    NearAsiatoDist = s4;
     return s4;
 }
 
