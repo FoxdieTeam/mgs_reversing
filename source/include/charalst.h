@@ -31,7 +31,7 @@
 #define CHARA_ARRAY             { 0x2a90, ? }                       // takabe/gclarray.c
 #define CHARA_ASIATOKUN         { 0x02c4, NewAsiatoKun }            // GV_StrCode("足跡君") enemy/asiato.c
 #define CHARA_ASIOTOKUN         { 0x92bc, NewAsiotoKun }            // GV_StrCode("足音君") enemy/asioto.c
-#define CHARA_AT                { 0x9988, NewAt }                   // GV_StrCode("ＡＴ") onoda/s04b/at.c
+#define CHARA_AT                { 0x9988, NewArmsTechPresident }    // GV_StrCode("ＡＴ") onoda/s04b/at.c
 #define CHARA_BELONG            { 0xf59e, NewBelong }               // GV_StrCode("付随物") chara/others/belong.c
 #define CHARA_BLACKSMOKE        { 0x6b6c, ? }                       // GV_StrCode("黒煙") animal/liquid/b_smoke.c
 #define CHARA_BLINKTEX          { 0x8185, NewBlinkTexture }         // GV_StrCode("点滅テクスチャ") okajima/blink_tx.c
@@ -204,7 +204,7 @@
 #define CHARA_RASEN             { 0x5fd9, NewRasen2 }               // GV_StrCode("螺旋階段") takabe/rasen.c
 #define CHARA_RASEN_EL          { 0xaa21, NewRasenElevator }        // GV_StrCode("螺旋階段エレベータ") takabe/rasen_el.c
 #define CHARA_REDALERT          { 0xe397, NewRedAlert }             // GV_StrCode("レッドアラート") okajima/red_alrt.c
-#define CHARA_REVOLVER04        { 0x05af, s04c_revolver_800D2028 }  // GV_StrCode("ボス") onoda/s04b/revolver.c
+#define CHARA_REVOLVER04        { 0x05af, NewOcelotBoss }           // GV_StrCode("ボス") onoda/s04b/revolver.c
 #define CHARA_RSURFACE          { 0x81ea, NewRippleSurface }        // takabe/rsurface.c
 #define CHARA_RIPPLES           { 0x63aa, NewRipples }              // takabe/ripples.c
 #define CHARA_ROPE              { 0xbda8, s11d_rope_800C9500 }      // --> chara/rope/rope.c
@@ -517,9 +517,9 @@ void *NewDemoSelect();                  /* onoda/demosel/demosel.c      */
 void *NewOpen();                        /* onoda/open/open.c            */
 void *NewOption();                      /* onoda/option/opt.c           */
 void *NewPreviousOperation();           /* onoda/preope/preope.c        */
-void *NewAt();                          /* onoda/s04b/at.c              */
+void *NewArmsTechPresident();           /* onoda/s04b/at.c              */
 void *NewCape();                        /* onoda/s04b/cape.c            */
-void *s04c_revolver_800D2028();         /* onoda/s04b/revolver.c        */
+void *NewOcelotBoss();                  /* onoda/s04b/revolver.c        */
 void *NewWire();                        /* onoda/s04b/wire.c            */
 void *NewBreakObject();                 /* takabe/breakobj.c            */
 void *NewCameraShake();                 /* takabe/camshake.c            */
