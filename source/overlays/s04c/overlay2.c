@@ -14,10 +14,12 @@ int s04c_dword_800C3488 = 0x1F40E890;
 int s04c_dword_800C348C = 0x2422ED72;
 int s04c_dword_800C3490 = 0x00000014;
 int s04c_dword_800C3494 = 0x0000003C;
+
 int s04c_dword_800C3498 = 0x00000000;
 int s04c_dword_800C349C = 0x0000003C;
 int s04c_dword_800C34A0 = 0xC5680000;
 int s04c_dword_800C34A4 = 0x0000003C;
+
 int s04c_dword_800C34A8 = 0xFFF30FFE;
 int s04c_dword_800C34AC = 0x0010FFE9;
 int s04c_dword_800C34B0 = 0x0FFBFFCA;
@@ -26,10 +28,12 @@ int s04c_dword_800C34B8 = 0x0000FFC5;
 int s04c_dword_800C34BC = 0xFFFFFF65;
 int s04c_dword_800C34C0 = 0x0000003E;
 int s04c_dword_800C34C4 = 0x000001D5;
+
 int s04c_dword_800C34C8 = 0x00000000;
 int s04c_dword_800C34CC = 0x00000064;
 int s04c_dword_800C34D0 = 0x0000FC00;
 int s04c_dword_800C34D4 = 0x00000000;
+
 int s04c_dword_800C34D8 = 0x00030000;
 int s04c_dword_800C34DC = 0x00010002;
 int s04c_dword_800C34E0 = 0x00010003;
@@ -38,10 +42,12 @@ int s04c_dword_800C34E8 = 0x00020001;
 int s04c_dword_800C34EC = 0x00000003;
 int s04c_dword_800C34F0 = 0x00000002;
 int s04c_dword_800C34F4 = 0x00030001;
+
 int s04c_dword_800C34F8 = 0x00010003;
 int s04c_dword_800C34FC = 0x00020001;
 int s04c_dword_800C3500 = 0x00000002;
 int s04c_dword_800C3504 = 0x00030000;
+
 int s04c_dword_800C3508 = 0x00040005;
 int s04c_dword_800C350C = 0x00060007;
 int s04c_dword_800C3510 = 0x00000001;

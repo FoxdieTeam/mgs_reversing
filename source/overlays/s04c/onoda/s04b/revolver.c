@@ -1,16 +1,19 @@
 #include "common.h"
 #include "linkvar.h"
+#include "strcode.h"
+#include "chara/snake/sna_init.h"
 #include "chara/snake/shadow.h"
 #include "game/game.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 #include "menu/menuman.h"
+#include "okajima/blood.h"
 #include "takabe/thing.h"
 
 #define EXEC_LEVEL      5
 
-#define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE)
+#define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE )
 #define TARGET_FLAG     ( TARGET_SEEK | TARGET_PUSH | TARGET_POWER )
 
 #define REVJOINT_NUM    17
@@ -25,41 +28,44 @@ typedef struct _RevolverWork
     MOTION_SEGMENT m_segs1[REVJOINT_NUM + 1];
     MOTION_SEGMENT m_segs2[REVJOINT_NUM + 1];
     SVECTOR        rots[REVJOINT_NUM];
-    char           pad1[0x90];
+    SVECTOR        adjust[REVJOINT_NUM];
+    SVECTOR        field_7F4;
     MATRIX         light[2];
     TARGET        *target;
     HOMING        *hom;
     MENU_BAR_CONF  lifebar;
     int            field_850;
     int            field_854;
-    char           pad15[0x4];
+    char           pad1[0x4];
     DG_TEX        *field_85C;
     DG_TEX        *field_860;
     DG_TEX        *field_864;
     SVECTOR        field_868;
-    char           pad3[0x4];
+    char           pad2[0x4];
     int            field_874;
-    char           pad4[0x4];
+    int            field_878;
     int            field_87C;
     int            field_880;
-    char           pad5[0x4];
+    int            field_884;
     int            field_888;
     int            field_88C;
     int            field_890;
-    char           pad6[0xC];
+    char           pad3[0xC];
     int            field_8A0;
     int            field_8A4;
     int            field_8A8;
     int            field_8AC;
-    char           pad7[0x28];
+    char           pad4[0x20];
+    int            field_8D0;
+    int            field_8D4;
     GV_ACT        *shadow;
-    char           pad8[0x4];
+    char           pad5[0x4];
     int            field_8E0;
-    char           pad17[0x8];
+    char           pad6[0x8];
     int            field_8EC;
-    char           pad9[0xC];
+    char           pad7[0xC];
     int            field_8FC[2];
-    char           pad18[0x50];
+    char           pad8[0x50];
     void          *field_954;
     void          *field_958;
     void          *field_95C;
@@ -81,8 +87,14 @@ SVECTOR revolver_target_size = {400, 900, 400};
 
 extern char s04c_dword_800C3468[]; // = "OCELOT"
 
-extern void *s04c_dword_800DBE14;
-extern int   s04c_dword_800DBE20;
+extern SVECTOR s04c_dword_800C3498[2];
+extern MATRIX  s04c_dword_800C34A8;
+extern SVECTOR s04c_dword_800C34C8;
+extern SVECTOR s04c_dword_800C34D0;
+
+extern void   *s04c_dword_800DBE14;
+extern SVECTOR s04c_dword_800DBE18;
+extern int     s04c_dword_800DBE20;
 
 MenuPrim *MENU_GetPrimInfo(void);
 
@@ -100,7 +112,7 @@ void s04c_revolver_800CF418(void)
 }
 
 void s04c_revolver_800CF420(RevolverWork *work)
-{    
+{
     if (work->body.action2 != 14)
     {
         work->field_888 = 1;
@@ -132,40 +144,211 @@ void s04c_revolver_800CF4A0(RevolverWork *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF518.s")
-void s04c_revolver_800CF584(void *s0)
+void s04c_revolver_800CF518(RevolverWork *work)
 {
-    // Check if the short at offset 0xB0 is NOT 9
-    if (*(short *)((char *)s0 + 0xb0) != 9)
+    work->field_888 = 0;
+
+    GM_ConfigObjectOverride(&work->body, 3, 0, 4, 0);
+    work->m_ctrl.info2.field_14 = 0;
+
+    if (work->field_880 == 0)
     {
-        // Added (OBJECT *) cast here
-        GM_ConfigObjectOverride((OBJECT *)((char *)s0 + 0xa0), 9, 0, 4, -1);
+        GM_ConfigObjectAction(&work->body, 0, 0, 4);
     }
-    // Set short at offset 0x19C to 0
-    *(short *)((char *)s0 + 0x19c) = 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF5D0.s")
-void s04c_revolver_800CF650(void *s0)
+void s04c_revolver_800CF584(RevolverWork *work)
 {
-    // Check if the short at offset 0xB0 is NOT 13
-    if (*(short *)((char *)s0 + 0xb0) != 13)
+    if (work->body.action2 != 9)
     {
-        // Added (OBJECT *) cast here
-        GM_ConfigObjectOverride((OBJECT *)((char *)s0 + 0xa0), 13, 0, 4, -1);
+        GM_ConfigObjectOverride(&work->body, 9, 0, 4, -1);
     }
-    *(short *)((char *)s0 + 0x19c) = 0;
+
+    work->m_ctrl.info1.field_14 = 0;
 }
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF69C.s")
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF71C.s")
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF748.s")
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF7AC.s")
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF7FC.s")
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF868.s")
+
+void s04c_revolver_800CF5D0(RevolverWork *work)
+{
+    if (work->field_888 != 0)
+    {
+        GM_ConfigObjectOverride(&work->body, 3, 0, 4, 0x1F801);
+    }
+    else
+    {
+        GM_ConfigObjectOverride(&work->body, 3, 0, 4, 0);
+    }
+
+    if (work->field_880 != 0)
+    {
+        work->m_ctrl.info1.field_14 = 1;
+    }
+    else
+    {
+        GM_ConfigObjectAction(&work->body, 0, 0, 4);
+    }
+}
+
+void s04c_revolver_800CF650(RevolverWork *work)
+{
+    if (work->body.action2 != 13)
+    {
+        GM_ConfigObjectOverride(&work->body, 13, 0, 4, -1);
+    }
+
+    work->m_ctrl.info1.field_14 = 0;
+}
+
+void s04c_revolver_800CF69C(RevolverWork *work)
+{
+    if (work->field_888 != 0)
+    {
+        GM_ConfigObjectOverride(&work->body, 3, 0, 4, 0x1F801);
+    }
+    else
+    {
+         GM_ConfigObjectOverride(&work->body, 3, 0, 4, 0);
+    }
+
+    if (work->field_880 != 0)
+    {
+        work->m_ctrl.info1.field_14 = 1;
+    }
+    else
+    {
+        GM_ConfigObjectAction(&work->body, 0, 0, 4);
+    }
+}
+
+void s04c_revolver_800CF71C(RevolverWork *work)
+{
+    GM_ConfigObjectAction(&work->body, 0, 0, 4);
+}
+
+void s04c_revolver_800CF748(RevolverWork *work)
+{
+    work->field_880 = 1;
+    work->field_884 = 0;
+
+    GM_ConfigObjectAction(&work->body, 8, 0, 4);
+
+    if (work->field_888 != 0)
+    {
+        work->m_ctrl.info1.mask = 0x1F801;
+        work->m_ctrl.info2.mask = ~0x1F801;
+    }
+}
+
+void s04c_revolver_800CF7AC(RevolverWork *work)
+{
+    work->field_880 = 0;
+
+    GM_ConfigObjectAction(&work->body, 0, 0, 4);
+
+    if (work->field_888 != 0)
+    {
+        work->m_ctrl.info1.mask = -1;
+        work->m_ctrl.info2.mask = 0;
+    }
+}
+
+void s04c_revolver_800CF7FC(RevolverWork *work)
+{
+    int mov;
+
+    sna_act_helper2_helper2_80033054(work->control.name, &work->field_7F4);
+    work->adjust[1].vy = GV_NearExp4P(work->adjust[1].vy, work->field_8D0);
+
+    mov = GV_NearExp4P(work->adjust[2].vx, work->field_8D4);
+    work->adjust[2].vx = mov;
+    work->adjust[7].vx = work->field_7F4.vx + mov;
+    work->adjust[8].vx = mov;
+
+    GM_ConfigMotionAdjust(&work->body, work->adjust);
+}
+
+void s04c_revolver_800CF868(RevolverWork* work, int unit, int count)
+{
+    MATRIX world;
+
+    DG_SetPos(&work->body.objs->objs[unit].world);
+    DG_MovePos(&s04c_dword_800C34C8);
+    DG_RotatePos(&s04c_dword_800C34D0);
+    ReadRotMatrix(&world);
+    NewBlood(&world, count);
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CF8D8.s")
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CFAF0.s")
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CFBE0.s")
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CFC3C.s")
+
+int s04c_revolver_800CFAF0(RevolverWork *work, int turn)
+{
+    SVECTOR point[2];
+    SVECTOR temp;
+    MATRIX  world;
+    int     len;
+    int     len2;
+
+    temp.vx = temp.vz = 0;
+    temp.vy = turn;
+
+    DG_SetPos2(&work->control.mov, &temp);
+    ReadRotMatrix(&world);
+    CompMatrix(&world, &s04c_dword_800C34A8, &world);
+
+    DG_SetPos(&world);
+    DG_PutVector(s04c_dword_800C3498, point, 2);
+
+    HZD_LineCheck(work->control.map->hzd, &point[0], &point[1], 0xF, 0);
+    HZD_LineNearVec(&point[1]);
+
+    GV_SubVec3(&s04c_dword_800DBE18, &point[0], &temp);
+    len = GV_VecLen3(&temp);
+
+    GV_SubVec3(&point[1], &point[0], &point[0]);
+    len2 = GV_VecLen3(&point[0]);
+
+    return len <= len2;
+}
+
+int s04c_revolver_800CFBE0(int x, int z)
+{
+    int v0, v1;
+
+    x += 2500;
+    z -= 6000;
+
+    v0 = abs(x) > abs(z);
+    v1 = v0 ^ 1;
+
+    if (x > 0)
+    {
+        if (z > 0)
+        {
+            return 1 - v1;
+        }
+        else
+        {
+            return 2 + v1;
+        }
+    }
+    else
+    {
+        if (z > 0)
+        {
+            return 6 + v1;
+
+        }
+        else
+        {
+            return 5 - v1;
+        }
+    }
+}
+
+void s04c_revolver_800CFC3C(void)
+{
+    s04c_revolver_800CFBE0(GM_PlayerPosition.vx, GM_PlayerPosition.vz);
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CFC6C.s")
 
 void s04c_revolver_800CFD08(SVECTOR *arg0, int arg1)
@@ -175,15 +358,12 @@ void s04c_revolver_800CFD08(SVECTOR *arg0, int arg1)
     case 0:
         arg0->vx = -15000 - arg0->vx;
         break;
-
     case 1:
         arg0->vx = 5000 - arg0->vx;
         break;
-
     case 2:
         arg0->vz = 2000 - arg0->vz;
         break;
-
     case 3:
         arg0->vz = 22000 - arg0->vz;
         break;
@@ -278,7 +458,7 @@ int GetResources(RevolverWork *work, int name, int where)
     {
         return -1;
     }
-        
+
     pos = GCL_GetOption('p');
     dir = GCL_GetOption('d');
     GM_ConfigControlString(control, pos, dir);
@@ -291,7 +471,7 @@ int GetResources(RevolverWork *work, int name, int where)
     model = GV_StrCode("rev_gun");
     motion = GV_StrCode("revolver");
     GM_InitObject(body, model, BODY_FLAG, motion);
-        
+
     GM_ConfigObjectJoint(body);
     GM_ConfigMotionControl(body, &work->m_ctrl, GV_StrCode("revolver"), work->m_segs1, work->m_segs2, control, work->rots);
     GM_ConfigObjectLight(body, work->light);
@@ -359,9 +539,9 @@ int GetResources(RevolverWork *work, int name, int where)
     work->field_854 = 1024;
     work->field_850 = 1024;
 
-    work->field_85C = DG_GetTexture(0xCB50); // tama_01
-    work->field_860 = DG_GetTexture(0xCB51); // tama_02
-    work->field_864 = DG_GetTexture(0xCB52); // tama_03
+    work->field_85C = DG_GetTexture(PCX_TAMA_01);
+    work->field_860 = DG_GetTexture(PCX_TAMA_02);
+    work->field_864 = DG_GetTexture(PCX_TAMA_03);
 
     work->field_964 = 4000;
     work->field_8EC = 0;
@@ -403,9 +583,7 @@ void *NewOcelotBoss(int name, int where)
     return work;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revbullt_800D20BC.s")
 
-/*
 void s04c_revbullt_800D20BC(RevolverWork *work)
 {
     int            x, y;
@@ -416,16 +594,16 @@ void s04c_revbullt_800D20BC(RevolverWork *work)
     RevolverPrims *prims;
     SPRT          *sprt;
     int            i;
-    
+
     x = 148;
     y = 28;
 
-    tex1 = work->field_85c[5];
+    tex1 = work->field_85C;
 
     if (work->field_874)
     {
         start = work->field_874;
-        tex2 = work->field_854[5];
+        tex2 = work->field_864;
     }
     else
     {
@@ -435,7 +613,7 @@ void s04c_revbullt_800D20BC(RevolverWork *work)
 
     prim = MENU_GetPrimInfo();
 
-    if (prim->mPrimBuf.mFreeLocation + sizeof(*prims) <= prim->mPrimBuf.mOtEnd)
+    if (prim->next + sizeof(*prims) <= prim->end)
     {
         _NEW_PRIM(prims, prim);
     }
@@ -462,11 +640,11 @@ void s04c_revbullt_800D20BC(RevolverWork *work)
 
             x += 6;
 
-            addPrim(prim->mPrimBuf.mOt, sprt);
+            addPrim(prim->ot, sprt);
             sprt++;
         }
 
-        addPrim(prim->mPrimBuf.mOt, &prims->tpage[0]);
+        addPrim(prim->ot, &prims->tpage[0]);
 
         for (i = start; i < 6; i++)
         {
@@ -478,12 +656,11 @@ void s04c_revbullt_800D20BC(RevolverWork *work)
             sprt->clut = tex1->clut;
 
             x += 6;
-            
-            addPrim(prim->mPrimBuf.mOt, sprt);
+
+            addPrim(prim->ot, sprt);
             sprt++;
         }
 
-        addPrim(prim->mPrimBuf.mOt, &prims->tpage[1]);
+        addPrim(prim->ot, &prims->tpage[1]);
     }
 }
-*/
