@@ -6,9 +6,11 @@
 #include "libgv/libgv.h"
 #include "libhzd/libhzd.h"
 #include "libgcl/libgcl.h"
-#include "chara/snake/shadow.h"
 #include "game/game.h"
 #include "strcode.h"
+
+#include "chara/snake/shadow.h" // for NewShadow2
+#include "enemy/dymc_seg.h"     // for NewDynamicSegment
 
 extern ENEMY_COMMAND EnemyCommand_800E0D98;
 extern SVECTOR       ENEMY_TARGET_SIZE_800C35A4;
@@ -540,8 +542,6 @@ int s07a_meryl7_800D5DD4( WatcherWork *work )
 extern const char s07a_dword_800E2E98[];
 extern const char s07a_dword_800E2EA0[];
 
-extern void *s07a_dymc_seg_800D65C8(int arg0, SVECTOR *min, SVECTOR *max, int min_h, int max_h, int flag, void **arg6);
-
 void s07a_meryl7_800D5E34( WatcherWork *work )
 {
     int flag;
@@ -557,7 +557,7 @@ void s07a_meryl7_800D5E34( WatcherWork *work )
     max.vy = 0;
     max.vz = -0x251C;
 
-    s07a_dymc_seg_800D65C8( GV_StrCode( s07a_dword_800E2E98 ), &min, &max, 3000, 3000, 0xFE, (void**)&s07a_dword_800E3650 );
+    NewDynamicSegment( GV_StrCode( s07a_dword_800E2E98 ), &min, &max, 3000, 3000, 0xFE, (void**)&s07a_dword_800E3650 );
 
     flag = 0xF7;
 
@@ -568,7 +568,7 @@ void s07a_meryl7_800D5E34( WatcherWork *work )
     max.vx = 0x1B58;
     max.vy = 0;
     max.vz = -0x4844;
-    s07a_dymc_seg_800D65C8( GV_StrCode( s07a_dword_800E2EA0 ), &min, &max, 3000, 3000, 0xF7, (void**)&s07a_dword_800E3654 );
+    NewDynamicSegment( GV_StrCode( s07a_dword_800E2EA0 ), &min, &max, 3000, 3000, 0xF7, (void**)&s07a_dword_800E3654 );
 }
 
 extern const char s07a_aErrnotenoughwork_800E2EAC[];// = "Err not enough work !!\n";
