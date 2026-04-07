@@ -15,10 +15,6 @@ typedef struct _Asiato2CharWork
     GV_ACT   actor;
     DG_PRIM *prim;
     DG_TEX  *tex;
-    //SVECTOR  f28;
-    //SVECTOR  f30;
-    //SVECTOR  f38;
-    //SVECTOR  f40;
     SVECTOR  pos[4];
     int      f48;
     int      f4C;
