@@ -9,20 +9,24 @@
 #include "libdg/libdg.h"
 #include "game/game.h"
 
-typedef struct _DemokageWork
-{
-    GV_ACT   actor;  // 0
-    OBJECT  *parent; // 20
-    DG_PRIM *prim;   // 24
-    SVECTOR  f28[4]; // 28
-    SVECTOR  f48;    // 48
-    int     *f50;    // 50
-    int     *f54;    // 54
-} DemokageWork;
+/*---------------------------------------------------------------------------*/
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-int d11c_800C425C(int a, int b, int c)
+typedef struct _Work
+{
+    GV_ACT   actor;
+    OBJECT  *parent;
+    DG_PRIM *prim;
+    SVECTOR  f28[4];
+    SVECTOR  f48;
+    int     *f50;
+    int     *f54;
+} Work;
+
+/*---------------------------------------------------------------------------*/
+
+static int Max3(int a, int b, int c)
 {
     int max;
 
@@ -32,7 +36,7 @@ int d11c_800C425C(int a, int b, int c)
     return max;
 }
 
-int d11c_800C4284(int a, int b, int c)
+static int Min3(int a, int b, int c)
 {
     int min;
 
@@ -42,7 +46,7 @@ int d11c_800C4284(int a, int b, int c)
     return min;
 }
 
-int d11c_800C42AC(SVECTOR *vec1, SVECTOR *vec2)
+static int d11c_800C42AC(SVECTOR *vec1, SVECTOR *vec2)
 {
     SVECTOR diff;
 
@@ -50,7 +54,7 @@ int d11c_800C42AC(SVECTOR *vec1, SVECTOR *vec2)
     return GV_VecDir2(&diff);
 }
 
-void d11c_800C42D4(DemokageWork *work)
+static void d11c_800C42D4(Work *work)
 {
     SVECTOR  sp10[4];
     SVECTOR *vec;
@@ -86,11 +90,11 @@ void d11c_800C42D4(DemokageWork *work)
         GV_DirVec2(yaw - *work->f50, dist, &sp10[i]);
     }
 
-    tmp = d11c_800C425C(sp10[1].vz, sp10[2].vz, sp10[3].vz);
-    z = (tmp - d11c_800C4284(sp10[1].vz, sp10[2].vz, sp10[3].vz)) / 2;
+    tmp = Max3(sp10[1].vz, sp10[2].vz, sp10[3].vz);
+    z = (tmp - Min3(sp10[1].vz, sp10[2].vz, sp10[3].vz)) / 2;
 
-    tmp = d11c_800C425C(sp10[1].vx, sp10[2].vx, sp10[3].vx);
-    x = (tmp - d11c_800C4284(sp10[1].vx, sp10[2].vx, sp10[3].vx)) / 2;
+    tmp = Max3(sp10[1].vx, sp10[2].vx, sp10[3].vx);
+    x = (tmp - Min3(sp10[1].vx, sp10[2].vx, sp10[3].vx)) / 2;
 
     vec2 = work->f28;
 
@@ -125,7 +129,7 @@ void d11c_800C42D4(DemokageWork *work)
     }
 }
 
-void d11c_800C44F8(DemokageWork *work)
+static void d11c_800C44F8(Work *work)
 {
     SVECTOR vec;
 
@@ -139,7 +143,9 @@ void d11c_800C44F8(DemokageWork *work)
     work->prim->world.t[1] = *work->f54;
 }
 
-void DemoKageAct_800C45AC(DemokageWork *work)
+/*---------------------------------------------------------------------------*/
+
+static void Act(Work *work)
 {
     if (work->parent->objs->flag & DG_FLAG_INVISIBLE)
     {
@@ -154,12 +160,12 @@ void DemoKageAct_800C45AC(DemokageWork *work)
     }
 }
 
-void DemoKageDie_800C4630(DemokageWork *work)
+static void Die(Work *work)
 {
     GM_FreePrim(work->prim);
 }
 
-int DemoKageGetResources_800C466C(DemokageWork *work, OBJECT *parent, SVECTOR arg2, int *arg3, int *arg4, char r, char g, char b, int unused)
+static int GetResources(Work *work, OBJECT *parent, SVECTOR arg2, int *arg3, int *arg4, char r, char g, char b, int unused)
 {
     DG_PRIM  *prim;
     DG_TEX   *tex;
@@ -212,19 +218,21 @@ int DemoKageGetResources_800C466C(DemokageWork *work, OBJECT *parent, SVECTOR ar
     return 0;
 }
 
-void *NewDemoKage_800C48A4(OBJECT *parent, SVECTOR arg1, int *arg2, int *arg3, char r, char g, char b, int unused)
-{
-    DemokageWork *work;
+/*---------------------------------------------------------------------------*/
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(DemokageWork));
+void *NewDemoKage(OBJECT *parent, SVECTOR arg1, int *arg2, int *arg3, char r, char g, char b, int unused)
+{
+    Work *work;
+
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work == NULL)
     {
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, DemoKageAct_800C45AC, DemoKageDie_800C4630, "demokage.c");
+    GV_SetNamedActor(&work->actor, Act, Die, "demokage.c");
 
-    if (DemoKageGetResources_800C466C(work, parent, arg1, arg2, arg3, r, g, b, unused) < 0)
+    if (GetResources(work, parent, arg1, arg2, arg3, r, g, b, unused) < 0)
     {
         GV_DestroyActor(&work->actor);
         return NULL;
