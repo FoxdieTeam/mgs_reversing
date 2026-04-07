@@ -6,7 +6,7 @@ typedef struct _CapeWork
     GV_ACT   actor;
     DG_PRIM *prim;
     GV_PAD  *pad;
-    SVECTOR  verts[4][6][4]; // TODO: is this one big array here?
+    SVECTOR  verts[96];
     SVECTOR  f328[4];
     SVECTOR  f348[4][7];
     SVECTOR  f428[4][7];
@@ -266,7 +266,7 @@ void s04c_cape_800D83D4(CapeWork *work);
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_cape_800D8724.s")
 void s04c_cape_800D8724(CapeWork *work);
 
-static void Act(CapeWork *work)
+void cape_Act(CapeWork *work)
 {
     work->fA70 = 0;
     s04c_cape_800D79C8(work);
@@ -281,19 +281,18 @@ static void Die(CapeWork* work)
     GM_FreePrim(work->prim);
 }
 
-static inline void CapeInitPack(POLY_GT4 *poly, DG_TEX *tex)
+static inline void SetPacketTexture(POLY_GT4 *pack, DG_TEX *tex)
 {
-    int u0, u1;
-    int v0, v1;
+    int u0, v0, u1, v1;
 
     u0 = tex->off_x;
     u1 = u0 + tex->w + 1;
     v0 = tex->off_y;
     v1 = v0 + tex->h + 1;
-    setUV4(poly, u0, v0, u1, v0, u0, v1, u1, v1);
+    setUV4(pack, u0, v0, u1, v0, u0, v1, u1, v1);
 
-    poly->tpage = tex->tpage;
-    poly->clut = tex->clut;
+    pack->tpage = tex->tpage;
+    pack->clut = tex->clut;
 }
 
 static int GetResources(CapeWork *work, SVECTOR *arg1, SVECTOR *arg2, MATRIX *light, MATRIX *color)
@@ -311,7 +310,7 @@ static int GetResources(CapeWork *work, SVECTOR *arg1, SVECTOR *arg2, MATRIX *li
 
     work->pad = &GV_PadData[0];
 
-    prim = GM_MakePrim(DG_PRIM_POLY_GT4, 24, (SVECTOR *)work->verts, NULL);
+    prim = GM_MakePrim(DG_PRIM_POLY_GT4, 24, work->verts, NULL);
     work->prim = prim;
 
     packs0 = prim->packs[0];
@@ -324,8 +323,8 @@ static int GetResources(CapeWork *work, SVECTOR *arg1, SVECTOR *arg2, MATRIX *li
         SetPolyGT4(packs0);
         SetPolyGT4(packs1);
 
-        CapeInitPack(packs0, tex);
-        CapeInitPack(packs1, tex);
+        SetPacketTexture(packs0, tex);
+        SetPacketTexture(packs1, tex);
 
         setRGB0(packs0, 128, 128, 128);
         setRGB1(packs0, 128, 128, 128);
@@ -366,7 +365,7 @@ void *NewCape(SVECTOR *arg0, SVECTOR *arg1, MATRIX *light, MATRIX *color)
     work = GV_NewActor(EXEC_LEVEL, sizeof(CapeWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, Act, Die, "cape.c");
+        GV_SetNamedActor(&work->actor, cape_Act, Die, "cape.c");
 
         if (GetResources(work, arg0, arg1, light, color) < 0)
         {

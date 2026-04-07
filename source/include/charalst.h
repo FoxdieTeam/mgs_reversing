@@ -204,7 +204,7 @@
 #define CHARA_RASEN             { 0x5fd9, NewRasen2 }               // GV_StrCode("螺旋階段") takabe/rasen.c
 #define CHARA_RASEN_EL          { 0xaa21, NewRasenElevator }        // GV_StrCode("螺旋階段エレベータ") takabe/rasen_el.c
 #define CHARA_REDALERT          { 0xe397, NewRedAlert }             // GV_StrCode("レッドアラート") okajima/red_alrt.c
-#define CHARA_REVOLVER04        { 0x05af, s04c_revolver_800D2028 }  // GV_StrCode("ボス") onoda/s04b/revolver.c
+#define CHARA_REVOLVER04        { 0x05af, NewOcelotBoss }           // GV_StrCode("ボス") onoda/s04b/revolver.c
 #define CHARA_RSURFACE          { 0x81ea, NewRippleSurface }        // takabe/rsurface.c
 #define CHARA_RIPPLES           { 0x63aa, NewRipples }              // takabe/ripples.c
 #define CHARA_ROPE              { 0xbda8, s11d_rope_800C9500 }      // --> chara/rope/rope.c
@@ -519,7 +519,7 @@ void *NewOption();                      /* onoda/option/opt.c           */
 void *NewPreviousOperation();           /* onoda/preope/preope.c        */
 void *NewArmsTechPresident();           /* onoda/s04b/at.c              */
 void *NewCape();                        /* onoda/s04b/cape.c            */
-void *s04c_revolver_800D2028();         /* onoda/s04b/revolver.c        */
+void *NewOcelotBoss();                  /* onoda/s04b/revolver.c        */
 void *NewWire();                        /* onoda/s04b/wire.c            */
 void *NewBreakObject();                 /* takabe/breakobj.c            */
 void *NewCameraShake();                 /* takabe/camshake.c            */

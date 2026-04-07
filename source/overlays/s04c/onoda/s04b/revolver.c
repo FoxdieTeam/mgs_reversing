@@ -1,14 +1,10 @@
 #include "common.h"
-#include "libgv/libgv.h"
-#include "libdg/libdg.h"
-#include "libgcl/libgcl.h"
-#include "game/game.h"
 #include "linkvar.h"
-#include "menu/menuman.h"
-
 #include "chara/snake/shadow.h"
 #include "game/game.h"
+#include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
+#include "libgv/libgv.h"
 #include "menu/menuman.h"
 #include "takabe/thing.h"
 
@@ -31,7 +27,7 @@ typedef struct _RevolverWork
     SVECTOR        rots[REVJOINT_NUM];
     char           pad1[0x90];
     MATRIX         light[2];
-    TARGET        *field_83C;
+    TARGET        *target;
     HOMING        *hom;
     MENU_BAR_CONF  lifebar;
     int            field_850;
@@ -67,7 +63,7 @@ typedef struct _RevolverWork
     void          *field_954;
     void          *field_958;
     void          *field_95C;
-    int            field_960;
+    int            hp;
     int            field_964;
     int            field_968;
     int            field_96C;
@@ -241,7 +237,7 @@ void Die(RevolverWork *work)
 
     GM_FreeControl(&work->control);
     GM_FreeObject(&work->body);
-    GM_FreeTarget(work->field_83C);
+    GM_FreeTarget(work->target);
     GV_DestroyActor(work->shadow);
 
     GM_GameStatus &= ~STATE_SHOW_LIFEBAR;
@@ -252,7 +248,7 @@ int s04c_revolver_800D1C60(RevolverWork *work)
     TARGET *target;
 
     target = GM_AllocTarget();
-    work->field_83C = target;
+    work->target = target;
     if (target == NULL)
     {
         return -1;
@@ -320,7 +316,7 @@ int GetResources(RevolverWork *work, int name, int where)
     indices.vz = 13;
     indices.pad = 16;
 
-    work->shadow = NewShadow_800602CC(control, body, indices);
+    work->shadow = NewShadow(control, body, indices);
     if (!work->shadow)
     {
         return -1;
@@ -373,12 +369,12 @@ int GetResources(RevolverWork *work, int name, int where)
 
     GM_GameStatus |= STATE_SHOW_LIFEBAR;
 
-    work->field_960 = THING_Gcl_GetIntDefault('h', 1024);
+    work->hp = THING_Gcl_GetIntDefault('h', 1024);
     work->field_96C = 30;
     work->field_970 = 30;
     work->field_974 = 180;
 
-    work->field_83C->field_26_hp = work->field_960;
+    work->target->life = work->hp;
 
     s04c_revolver_800D04B8(work->field_8FC, 6);
 
@@ -388,7 +384,7 @@ int GetResources(RevolverWork *work, int name, int where)
     return 0;
 }
 
-void *NewRevolver(int name, int where)
+void *NewOcelotBoss(int name, int where)
 {
     RevolverWork *work;
 
