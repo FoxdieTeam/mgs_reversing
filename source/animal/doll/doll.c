@@ -7,13 +7,14 @@
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
-#include "chara/snake/shadow.h"
 #include "strcode.h"
+
+#include "chara/snake/shadow.h" // for NewShadow
+#include "enemy/asiato2.h"      // for NewAsiato2
 
 short s01a_word_800C3CD4[8] = {31000, 15, 30, 60, 90, 32000, 32001, 30000};
 
 void *NewGunLight_800D3AD4(MATRIX *world, int **enable);
-void *NewAsiato2(CONTROL *, OBJECT *, int, int *);
 
 void Demodoll_800DDEAC(DollWork *);
 void Demodoll_800DDF18(DollWork *);
