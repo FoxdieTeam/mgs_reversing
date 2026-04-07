@@ -121,6 +121,9 @@
 #define PCX_CD_KEIKOKU          0xa1bc // GV_StrCode( "cd_keikoku" )
 #define PCX_HEAD_LIGHT          0x5699 // GV_StrCode( "head_light" )
 #define PCX_M19_C2_GLASS1HLF    0x3cb9 // GV_StrCode( "m19_c2_glass1hlf" )
+#define PCX_TAMA_01             0xcb50 // GV_StrCode( "tama_01" )
+#define PCX_TAMA_02             0xcb51 // GV_StrCode( "tama_02" )
+#define PCX_TAMA_03             0xcb52 // GV_StrCode( "tama_03" )
 
 //-----------------------------------------------------------------------------
 // Model files (.kmd)
