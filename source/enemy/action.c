@@ -505,10 +505,10 @@ void ActGrenade_800C67EC( WatcherWork *work, int time )
 
     if ( time == 0 )
     {
-        extern  void     *NewGrenadeEnemy_800D2138( CONTROL *, OBJECT *, int, unsigned int *, SVECTOR *, int ) ;
+        extern  void     *NewGrenadeEnemy( CONTROL *, OBJECT *, int, u_long *, SVECTOR *, int ) ;
 
-        work->subweapon = NewGrenadeEnemy_800D2138( &(work->control), &(work->body), 9,
-                                                    &(work->trigger), &GM_PlayerPosition, ENEMY_SIDE ) ;
+        work->subweapon = NewGrenadeEnemy( &(work->control), &(work->body), 9,
+                                           &(work->trigger), &GM_PlayerPosition, ENEMY_SIDE ) ;
 
         if ( GM_PlayerStatus & PLAYER_INTRUDE )
         {
