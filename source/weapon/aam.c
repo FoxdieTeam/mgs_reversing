@@ -35,7 +35,7 @@ typedef struct _Work
     CONTROL        *control;
     OBJECT         *parent;
     int             num_parent;
-    unsigned int   *flags;
+    u_long         *flags;
     int             which_side;
     int             cooldown;
     GV_ACT         *sight;
@@ -51,11 +51,11 @@ char byte_8009F414[] = {145, 4, 75, 10, 0};
 
 static void Act(Work *work)
 {
-    MATRIX       world;
-    MATRIX       pos;
-    SVECTOR      rot;
-    unsigned int flags;
-    int          ammo;
+    MATRIX      world;
+    MATRIX      pos;
+    SVECTOR     rot;
+    u_long      flags;
+    int         ammo;
 
     if (!work->sight)
     {
@@ -163,7 +163,7 @@ static int GetResources(Work *work, OBJECT *parent, int num_parent)
 
 /*---------------------------------------------------------------------------*/
 
-void *NewAAM(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side)
+void *NewAAM(CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int which_side)
 {
     Work *work;
 

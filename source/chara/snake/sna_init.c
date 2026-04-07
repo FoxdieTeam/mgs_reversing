@@ -231,7 +231,7 @@ char SECTION(".data") dword_8009EF20[] = {148, 4, 0, 0};
 char SECTION(".data") dword_8009EF24[] = {0, 2, 127, 2, 0, 0, 0, 0};
 char SECTION(".data") dword_8009EF2C[] = {60, 2, 200, 4, 40, 2, 0, 0};
 
-typedef void *(*WeaponCreateFn)(CONTROL *, OBJECT *, int, unsigned int *, int);
+typedef void *(*WeaponCreateFn)(CONTROL *, OBJECT *, int, u_long *, int);
 typedef void (*WeaponStateFn)(SnaInitWork *, int);
 
 typedef struct WeaponCreateEntry

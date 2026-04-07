@@ -34,7 +34,7 @@ typedef struct _Work
     OBJECT  *parent;
     OBJECT   object;
     int      num_parent;
-    int     *flags;
+    u_long  *flags;
     SVECTOR  pos;
     int      timer;
     int      type;
@@ -48,7 +48,7 @@ static void Act(Work *work)
 {
     SVECTOR  pos;
     SVECTOR  step;
-    int      flags;
+    u_long   flags;
     MATRIX  *world;
     CONTROL *control;
     SVECTOR *var_s2;

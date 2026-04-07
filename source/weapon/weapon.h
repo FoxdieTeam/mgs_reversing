@@ -1,6 +1,7 @@
 #ifndef __MGS_WEAPON_H__
 #define __MGS_WEAPON_H__
 
+#include <sys/types.h>
 #include "game/game.h"      // for OBJECT, CONTROL
 
 #define WEAPON_TAKE     1
@@ -15,21 +16,21 @@ enum GRENADE_TYPE
     GRD_TBOMB   = 3
 };
 
-void *NewSOCOM( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side );
-void *NewFAMAS( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side );
+void *NewSOCOM( CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int which_side );
+void *NewFAMAS( CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int which_side );
 
-void *NewGrenade( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side );
-void *NewStanGrenade( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side );
-void *NewChaffGrenade( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side );
-void *NewTimerBomb( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side );
+void *NewGrenade( CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int which_side );
+void *NewStanGrenade( CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int which_side );
+void *NewChaffGrenade( CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int which_side );
+void *NewTimerBomb( CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int which_side );
 
-void *NewRCM( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side );
-void *NewAAM( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side );
+void *NewRCM( CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int which_side );
+void *NewAAM( CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int which_side );
 
-void *NewMine( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side );
-void *NewBomb( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side );
+void *NewMine( CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int which_side );
+void *NewBomb( CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int which_side );
 
-void *NewRifle( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side );
+void *NewRifle( CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int which_side );
 
 void *NewStnSight( CONTROL *control );
 

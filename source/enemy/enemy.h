@@ -104,7 +104,7 @@ typedef struct _WatcherWork
     WatcherPad     pad;                        //0xB38
     short          field_B4C;                  //0xB4C
     short          field_B4E;                  //0xB4E
-    unsigned int   trigger;                    //0xB50
+    u_long         trigger;                    //0xB50
     GV_ACT        *subweapon;                  //0xB54
     short          field_B58;                  //0xB58
     short          field_B5A;                  //0xB5A
@@ -221,7 +221,7 @@ typedef struct _ZakoWork
     WatcherPad     pad;                        //0xB38
     short          field_B4C;                  //0xB4C
     short          field_B4E;                  //0xB4E
-    unsigned int   trigger;                    //0xB50
+    u_long         trigger;                    //0xB50
     GV_ACT        *subweapon;                  //0xB54
     short          field_B58;                  //0xB58
     short          field_B5A;                  //0xB5A
@@ -339,7 +339,7 @@ typedef struct _Zako11FWork
     WatcherPad     pad;                        //0xB38
     short          field_B4C;                  //0xB4C
     short          field_B4E;                  //0xB4E
-    unsigned int   trigger;                    //0xB50
+    u_long         trigger;                    //0xB50
     GV_ACT        *subweapon;                  //0xB54
     short          field_B58;                  //0xB58
     short          field_B5A;                  //0xB5A

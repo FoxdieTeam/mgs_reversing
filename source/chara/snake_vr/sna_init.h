@@ -249,7 +249,7 @@ typedef struct SnaInitWork
     GV_ACT             *field_908_weapon_actor;
     TSnakeFunction      field_90C_pWeaponFn;
     int                 field_910;
-    int                 field_914_trigger;
+    u_long              field_914_trigger;
     short              *field_918_n_bullets;
     int                 field_91C_weapon_idx;
     int                 field_920_tbl;
