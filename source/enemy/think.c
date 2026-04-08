@@ -1984,7 +1984,7 @@ void s00a_command_800CD210( WatcherWork* work )
     }
     else if ( work->alert_level > 2 )
     {
-        ENE_SetGopointLast_800CEB00();
+        ENE_SetGopointLast();
         s00a_command_800CB240( work );
     }
 }
@@ -2368,7 +2368,7 @@ void s00a_command_800CDD80( WatcherWork *work )
                 work->pad.sound = 246;
             }
             work->alert_level = 255;
-            ENE_SetGopointLast_800CEB00();
+            ENE_SetGopointLast();
         }
         break;
         case 16:
@@ -2380,14 +2380,14 @@ void s00a_command_800CDD80( WatcherWork *work )
             }
             else
             {
-                ENE_SetGopointLast_800CEB00();
+                ENE_SetGopointLast();
                 s00a_command_800CB2F4( work );
             }
             work->alert_level = 255;
         }
         break;
         case 17:
-        ENE_SetGopointLast_800CEB00();
+        ENE_SetGopointLast();
         s00a_command_800CB258( work );
         work->pad.sound   = 246;
         work->alert_level = 255;
@@ -2477,7 +2477,7 @@ void s00a_command_800CDE90( WatcherWork *work ) {
 
     if ( work->vision.field_B92 == 2 )
     {
-        ENE_SetGopointLast_800CEB00();
+        ENE_SetGopointLast();
         work->alert_level = 0xFF;
         return;
     }
@@ -2531,7 +2531,7 @@ void s00a_command_800CE0B8( WatcherWork *work )
         work->alert_level = 255;
     }
 
-    ENE_SetGopointLast_800CEB00();
+    ENE_SetGopointLast();
 }
 
 void s00a_command_800CE1E0( WatcherWork* work )

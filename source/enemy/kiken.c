@@ -5,16 +5,20 @@
 #include "enemy/enemy.h"
 #include "strcode.h"
 
-typedef struct _KikenWork
+/*---------------------------------------------------------------------------*/
+
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
+
+typedef struct _Work
 {
     GV_ACT actor;
     int    active;
     int    name;
-} KikenWork;
+} Work;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL4
+/*---------------------------------------------------------------------------*/
 
-int KikenCheckMessage_800D6C64(KikenWork *work)
+static int CheckMessage(Work *work)
 {
     GV_MSG *msg;
     int     code;
@@ -25,11 +29,11 @@ int KikenCheckMessage_800D6C64(KikenWork *work)
 
         if (code == HASH_LEAVE)
         {
-            work->active = 0;
+            work->active = FALSE;
         }
         else if (code == HASH_ENTER)
         {
-            work->active = 1;
+            work->active = TRUE;
         }
 
         return code;
@@ -38,38 +42,41 @@ int KikenCheckMessage_800D6C64(KikenWork *work)
     return -1;
 }
 
-void KikenAct_800D6CC8(KikenWork *work)
+static void Act(Work *work)
 {
-    KikenCheckMessage_800D6C64(work);
+    CheckMessage(work);
 
-    if (work->active != 0)
+    if (work->active)
     {
-        ENE_SetTopCommAL_800CEAE8(0xFF);
-        ENE_SetGopointLast_800CEB00();
+        ENE_SetTopCommAL(255);
+        ENE_SetGopointLast();
     }
 }
 
-void KikenDie_800D6D0C(KikenWork *work)
+static void Die(Work *work)
 {
+    /* do nothing */
 }
 
-int KikenGetResources_800D6D14(KikenWork *work, int name)
+static int GetResources(Work *work, int name)
 {
     work->name = name;
-    work->active = 0;
+    work->active = FALSE;
     return 0;
 }
 
+/*---------------------------------------------------------------------------*/
+
 void *NewKikenKun(int name, int where, int argc, char **argv)
 {
-    KikenWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(KikenWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, KikenAct_800D6CC8, KikenDie_800D6D0C, "kiken.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "kiken.c");
 
-        if (KikenGetResources_800D6D14(work, name) < 0)
+        if (GetResources(work, name) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

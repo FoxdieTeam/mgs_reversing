@@ -133,17 +133,17 @@ int s00a_command_800CEA9C( int val )
     return 0;
 }
 
-void ENE_SetTopCommAL_800CEAE8( int alert )
+void ENE_SetTopCommAL( int alert )
 {
     TOPCOMMAND_800E0F20.alert = alert;
 }
 
-void ENE_SetTopCommMD_800CEAF4( int mode )
+void ENE_SetTopCommMD( int mode )
 {
     TOPCOMMAND_800E0F20.mode = mode;
 }
 
-void ENE_SetGopointLast_800CEB00(void)
+void ENE_SetGopointLast(void)
 {
     EnemyCommand_800E0D98.com_addr = COM_PlayerAddress_800E0D90;
     EnemyCommand_800E0D98.com_pos  = COM_PlayerPosition_800E0F30;
@@ -624,7 +624,7 @@ void s00a_command_800CF6A0( int val, ENEMY_COMMAND* command )
         command->alert = TOPCOMMAND_800E0F20.alert;
     }
 
-    ENE_SetTopCommAL_800CEAE8( 0 );
+    ENE_SetTopCommAL( 0 );
 }
 
 void s00a_command_800CF704( ENEMY_COMMAND *command )

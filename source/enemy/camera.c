@@ -265,8 +265,8 @@ int s01a_camera_800D515C(CameraWork *work)
     }
     if (field_1EC == 35)
     {
-        ENE_SetTopCommAL_800CEAE8(0xFF);
-        ENE_SetGopointLast_800CEB00();
+        ENE_SetTopCommAL(255);
+        ENE_SetGopointLast();
         return 1;
     }
 
@@ -548,8 +548,8 @@ void s01a_camera_800D5970(CameraWork *work)
         if (work->field_1E8 == 4)
         {
             s01a_camera_800D509C(work);
-            ENE_SetTopCommAL_800CEAE8(0xFF);
-            ENE_SetGopointLast_800CEB00();
+            ENE_SetTopCommAL(255);
+            ENE_SetGopointLast();
             if (!s01a_camera_800D4E08(work))
             {
                 work->field_1E8 = 0;
@@ -590,8 +590,8 @@ void s01a_camera_800D5A68(CameraWork *work)
     }
     if (s01a_camera_800D4E08(work))
     {
-        ENE_SetTopCommAL_800CEAE8(0xFF);
-        ENE_SetGopointLast_800CEB00();
+        ENE_SetTopCommAL(255);
+        ENE_SetGopointLast();
         COM_VibTime_800E0F68 = 0xA;
         s00a_command_800CEC40(&work->control.mov, 0x20);
         AN_Unknown_800CA1EC(&work->body.objs[1].world, 0);

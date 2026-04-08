@@ -2432,7 +2432,7 @@ void s07a_meryl_unk_800DE810( WatcherWork *work )
         if (s07a_meryl_unk_800DCBF4( work ) != 0)
         {
             s07a_meryl_unk_800DBACC( work );
-            ENE_SetGopointLast_800CEB00();
+            ENE_SetGopointLast();
         }
     }
 }
