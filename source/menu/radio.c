@@ -2003,7 +2003,7 @@ void _menu_number_draw_string(MenuPrim *pGlue, TextConfig *pTextConfig, const ch
         // draw the character sprite
         LSTORE(color, &pSprt2->r0);
 
-        setXY0(pSprt2. width, pTextConfig->ypos);
+        setXY0(pSprt2, width, pTextConfig->ypos);
         setUV0(pSprt2, tpx, tpy);
 
         addPrim(ot, pSprt2);
