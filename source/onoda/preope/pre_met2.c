@@ -679,7 +679,7 @@ static void PreMet2_800C5CE4(Work *work)
     }
 }
 
-static void PreMet2_800C62B0(Work *work)
+static void SetPreMet2JimakuColor(Work *work)
 {
     int color;
     int shade, shade2;
@@ -715,7 +715,7 @@ static void PreMet2_800C62B0(Work *work)
     }
 }
 
-static void PreMet2_800C63B4(Work *work)
+static void PrintPageNo(Work *work)
 {
     int r, g, b;
 
@@ -757,8 +757,8 @@ static void Act(Work *work)
     {
         PreMet2_800C5CE4(work);
     }
-    PreMet2_800C62B0(work);
-    PreMet2_800C63B4(work);
+    SetPreMet2JimakuColor(work);
+    PrintPageNo(work);
     PreMet2_800C50D4(work, DG_ChanlOTag(1));
     PreMet2ShadePacks_800C5A98(work);
     work->field_64++;
@@ -778,7 +778,7 @@ static void Die(Work *work)
 }
 
 // Duplicate of camera_800CE4F8
-static void PreMet2_800C66D0(Work *work, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int semiTrans)
+static void Init_Res_NT(Work *work, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int semiTrans)
 {
     setPolyFT4(poly);
     setRGB0(poly, 128, 128, 128);
@@ -794,10 +794,10 @@ static void PreMet2_800C66D0(Work *work, POLY_FT4 *poly, int x0, int y0, int x1,
 }
 
 // Duplicate of camera_800CE568
-static void PreMet2_800C6740(Work *work, int texid, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int semiTrans, int arg9)
+static void Init_Res(Work *work, int texid, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int semiTrans, int arg9)
 {
     DG_TEX *tex;
-    PreMet2_800C66D0(work, poly, x0, y0, x1, y1, semiTrans);
+    Init_Res_NT(work, poly, x0, y0, x1, y1, semiTrans);
     tex = DG_GetTexture(texid);
 
     if (arg9 == 0)
@@ -872,37 +872,37 @@ static int GetResources(Work *work, int arg1, int *arg2, PreEntries *arg3)
     poly = work->field_68;
     i = 0;
 
-    PreMet2_800C6740(work, GV_StrCode("pre_up2_l"), poly, -160, -112, 0, -82, 0, 0);
+    Init_Res(work, GV_StrCode("pre_up2_l"), poly, -160, -112, 0, -82, 0, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_28[i] = 768;
     i++;
 
-    PreMet2_800C6740(work, GV_StrCode("pre_up_r"), poly, 0, -112, 160, -82, 0, 0);
+    Init_Res(work, GV_StrCode("pre_up_r"), poly, 0, -112, 160, -82, 0, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_28[i] = 768;
     i++;
 
-    PreMet2_800C6740(work, GV_StrCode("pre_down_l"), poly, -160, 82, 0, 112, 0, 0);
+    Init_Res(work, GV_StrCode("pre_down_l"), poly, -160, 82, 0, 112, 0, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_28[i] = 768;
     i++;
 
-    PreMet2_800C6740(work, GV_StrCode("pre_down_r"), poly, 0, 82, 160, 112, 0, 0);
+    Init_Res(work, GV_StrCode("pre_down_r"), poly, 0, 82, 160, 112, 0, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_28[i] = 768;
     i++;
 
-    PreMet2_800C6740(work, GV_StrCode("pre_met2_l"), poly, -160, -82, 0, 82, 0, 0);
+    Init_Res(work, GV_StrCode("pre_met2_l"), poly, -160, -82, 0, 82, 0, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_28[i] = 768;
     i++;
 
-    PreMet2_800C6740(work, GV_StrCode("pre_met2_r"), poly, 0, -82, 160, 82, 0, 0);
+    Init_Res(work, GV_StrCode("pre_met2_r"), poly, 0, -82, 160, 82, 0, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_28[i] = 768;
@@ -911,47 +911,47 @@ static int GetResources(Work *work, int arg1, int *arg2, PreEntries *arg3)
     poly2 = work->field_158;
     i = 0;
 
-    PreMet2_800C6740(work, GV_StrCode("cur_lu"), poly2, 0, 0, 0, 0, 1, 0);
+    Init_Res(work, GV_StrCode("cur_lu"), poly2, 0, 0, 0, 0, 1, 0);
     poly2++;
     work->field_40[i] = 0;
     i++;
 
-    PreMet2_800C6740(work, GV_StrCode("cur_ru"), poly2, 0, 0, 0, 0, 1, 0);
+    Init_Res(work, GV_StrCode("cur_ru"), poly2, 0, 0, 0, 0, 1, 0);
     poly2++;
     work->field_40[i] = 0;
     i++;
 
-    PreMet2_800C6740(work, GV_StrCode("cur_ld"), poly2, 0, 0, 0, 0, 1, 0);
+    Init_Res(work, GV_StrCode("cur_ld"), poly2, 0, 0, 0, 0, 1, 0);
     poly2++;
     work->field_40[i] = 0;
     i++;
 
-    PreMet2_800C6740(work, GV_StrCode("cur_rd"), poly2, 0, 0, 0, 0, 1, 0);
+    Init_Res(work, GV_StrCode("cur_rd"), poly2, 0, 0, 0, 0, 1, 0);
     poly2++;
     work->field_40[i] = 0;
     i++;
 
-    PreMet2_800C6740(work, GV_StrCode("cur_u"), poly2, 0, 0, 0, 0, 1, 2);
+    Init_Res(work, GV_StrCode("cur_u"), poly2, 0, 0, 0, 0, 1, 2);
     poly2++;
     work->field_40[i] = 0;
     i++;
 
-    PreMet2_800C6740(work, GV_StrCode("cur_d"), poly2, 0, 0, 0, 0, 1, 2);
+    Init_Res(work, GV_StrCode("cur_d"), poly2, 0, 0, 0, 0, 1, 2);
     poly2++;
     work->field_40[i] = 0;
     i++;
 
-    PreMet2_800C6740(work, GV_StrCode("cur_l"), poly2, 0, 0, 0, 0, 1, 1);
+    Init_Res(work, GV_StrCode("cur_l"), poly2, 0, 0, 0, 0, 1, 1);
     poly2++;
     work->field_40[i] = 0;
     i++;
 
-    PreMet2_800C6740(work, GV_StrCode("cur_r"), poly2, 0, 0, 0, 0, 1, 1);
+    Init_Res(work, GV_StrCode("cur_r"), poly2, 0, 0, 0, 0, 1, 1);
     poly2++;
     work->field_40[i] = 0;
     i++;
 
-    PreMet2_800C6740(work, GV_StrCode("cur_c"), poly2, 0, 0, 0, 0, 1, 3);
+    Init_Res(work, GV_StrCode("cur_c"), poly2, 0, 0, 0, 0, 1, 3);
     poly2++;
     work->field_40[i] = 0;
     i++;
@@ -1004,7 +1004,7 @@ static int GetResources(Work *work, int arg1, int *arg2, PreEntries *arg3)
 
 /*---------------------------------------------------------------------------*/
 
-void *NewPreOpeMetal2(int arg0, int *arg1, PreEntries *arg2)
+void *NewPreMetal2(int arg0, int *arg1, PreEntries *arg2)
 {
     Work *work;
 

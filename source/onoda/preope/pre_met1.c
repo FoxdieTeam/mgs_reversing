@@ -679,7 +679,7 @@ static void PreMet1_800C5CE4(Work *work)
     }
 }
 
-static void PreMet1_800C62B0(Work *work)
+static void SetPreMet1JimakuColor(Work *work)
 {
     int color;
     int shade, shade2;
@@ -715,7 +715,7 @@ static void PreMet1_800C62B0(Work *work)
     }
 }
 
-static void PreMet1_800C63B4(Work *work)
+static void PrintPageNo(Work *work)
 {
     int r, g, b;
 
@@ -757,8 +757,8 @@ static void Act(Work *work)
     {
         PreMet1_800C5CE4(work);
     }
-    PreMet1_800C62B0(work);
-    PreMet1_800C63B4(work);
+    SetPreMet1JimakuColor(work);
+    PrintPageNo(work);
     PreMet1_800C50D4(work, DG_ChanlOTag(1));
     PreMet1ShadePacks_800C5A98(work);
     work->field_64++;
@@ -778,7 +778,7 @@ static void Die(Work *work)
 }
 
 // Duplicate of camera_800CE4F8
-static void PreMet1_800C66D0(Work *work, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int semiTrans)
+static void Init_Res_NT(Work *work, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int semiTrans)
 {
     setPolyFT4(poly);
     setRGB0(poly, 128, 128, 128);
@@ -797,7 +797,7 @@ static void PreMet1_800C66D0(Work *work, POLY_FT4 *poly, int x0, int y0, int x1,
 static void Init_Res(Work *work, int texid, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int semiTrans, int arg9)
 {
     DG_TEX *tex;
-    PreMet1_800C66D0(work, poly, x0, y0, x1, y1, semiTrans);
+    Init_Res_NT(work, poly, x0, y0, x1, y1, semiTrans);
     tex = DG_GetTexture(texid);
 
     if (arg9 == 0)
@@ -1004,7 +1004,7 @@ static int GetResources(Work *work, int arg1, int *arg2, PreEntries *arg3)
 
 /*---------------------------------------------------------------------------*/
 
-void *NewPreOpeMetal1(int arg0, int *arg1, PreEntries *arg2)
+void *NewPreMetal1(int arg0, int *arg1, PreEntries *arg2)
 {
     Work *work;
 
