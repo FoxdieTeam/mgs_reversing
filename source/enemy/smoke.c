@@ -113,7 +113,7 @@ void s00a_smoke_800D2888(POLY_FT4 *prim, DG_TEX *unused, short color)
 
     setPolyFT4(prim);
     setSemiTrans(prim, 1);
-    setRGB0(poly, color, color, color);
+    setRGB0(prim, color, color, color);
 
     width = tex1->w;
     offx = tex1->off_x;
