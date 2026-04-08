@@ -63,9 +63,14 @@ typedef struct _RevolverWork
     int            field_8E0;
     char           pad6[0x8];
     int            field_8EC;
-    char           pad7[0xC];
+    char           pad9[0xC];
     int            field_8FC[2];
-    char           pad8[0x50];
+    char           pad10[0x18];
+    SVECTOR        field_91C;
+    int            field_924[4];
+    SVECTOR        field_934;
+    int            field_93C;
+    char           pad12[0x14];
     void          *field_954;
     void          *field_958;
     void          *field_95C;
@@ -91,6 +96,13 @@ extern SVECTOR s04c_dword_800C3498[2];
 extern MATRIX  s04c_dword_800C34A8;
 extern SVECTOR s04c_dword_800C34C8;
 extern SVECTOR s04c_dword_800C34D0;
+extern short   s04c_dword_800C3518[];
+extern short   s04c_dword_800C3528[];
+extern short   s04c_dword_800C3538[];
+extern short   s04c_dword_800C3548[];
+extern short   s04c_dword_800C3558[];
+extern short   s04c_dword_800C3568[];
+extern short   s04c_dword_800C3578[];
 
 extern void   *s04c_dword_800DBE14;
 extern SVECTOR s04c_dword_800DBE18;
@@ -370,15 +382,107 @@ void s04c_revolver_800CFD08(SVECTOR *arg0, int arg1)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CFD84.s")
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CFE44.s")
+/* TODO: figure out what this struct is */
+typedef struct _Unk
+{
+    SVECTOR vec;
+    char    pad1[0x18];
+    int     val;
+} Unk;
+
+int s04c_revolver_800CFD84(RevolverWork *work)
+{
+    Unk     *pos;
+    SVECTOR *rot;
+    int     *type;
+    int      i;
+
+    pos = (Unk *)&work->field_91C;
+    rot = &work->field_934;
+    type = work->field_924;
+
+    work->field_91C = s04c_dword_800DBE18;
+
+    for (i = pos->val; i > 0; i--)
+    {
+        s04c_revolver_800CFD08(&pos->vec, *type++);
+    }
+
+    GV_SubVec3(&pos->vec, &work->control.mov, rot);
+    return ratan2(rot->vx, rot->vz) & 0xFFF;
+}
+
+int s04c_revolver_800CFE44(int arg0, int arg1)
+{
+    int side;
+    int diff;
+
+    side = (s04c_revolver_800CFBE0(GM_PlayerPosition.vx, GM_PlayerPosition.vz) - arg0) & 7;
+
+    if ((side < 2) || (side > 5))
+    {
+        if (side < 4)
+        {
+            return (arg0 - 1) & 7;
+        }
+        else
+        {
+            return (arg0 + 1) & 7;
+        }
+    }
+    else
+    {
+        diff = (arg1 - arg0) & 7;
+
+        if (diff < 4)
+        {
+            return (arg0 + 1) & 7;
+        }
+        else
+        {
+            return (arg0 - 1) & 7;
+        }
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CFED4.s")
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800D00B4.s")
+
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800D02C8.s")
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800D03C0.s")
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800D03EC.s")
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800D0418.s")
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800D0444.s")
+int s04c_revolver_800D02C8(RevolverWork *work, short *, short *);
+
+int s04c_revolver_800D03C0(RevolverWork *work)
+{
+    return s04c_revolver_800D02C8(work, s04c_dword_800C3518, s04c_dword_800C3528);
+}
+
+int s04c_revolver_800D03EC(RevolverWork *work)
+{
+    return s04c_revolver_800D02C8(work, s04c_dword_800C3538, s04c_dword_800C3548);
+}
+
+int s04c_revolver_800D0418(RevolverWork *work)
+{
+    return s04c_revolver_800D02C8(work, s04c_dword_800C3558, s04c_dword_800C3568);
+}
+
+int s04c_revolver_800D0444(RevolverWork *work)
+{
+    int side;
+    int shift;
+
+    side = s04c_revolver_800CFBE0(work->control.mov.vx, work->control.mov.vz);
+    shift = s04c_revolver_800CFBE0(GM_PlayerPosition.vx, GM_PlayerPosition.vz);
+
+    if ((s04c_dword_800C3578[side] >> shift) & 1)
+    {
+        return -1;
+    }
+    else
+    {
+        return 0;
+    }
+}
 
 void s04c_revolver_800D04B8(int *arg0, int arg1)
 {

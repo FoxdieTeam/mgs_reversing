@@ -29,7 +29,7 @@ static void set_song(int song)
     }
 }
 
-static void set_song2(int song)
+void GM_SetSong(int song)
 {
     if (song == 0)
     {

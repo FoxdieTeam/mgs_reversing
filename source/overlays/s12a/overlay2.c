@@ -2,21 +2,6 @@
 #include <libgte.h>
 #include <libgpu.h>
 
-int s12a_dword_800C3498 = 0x00000000;
-int s12a_dword_800C349C = 0x00000064;
-int s12a_dword_800C34A0 = 0x0000FC00;
-int s12a_dword_800C34A4 = 0x00000000;
-int s12a_dword_800C34A8 = 0xF830000A;
-int s12a_dword_800C34AC = 0x0000FFBA;
-int s12a_dword_800C34B0 = 0xFCE0000A;
-int s12a_dword_800C34B4 = 0x0000FF88;
-
-const int s12a_dword_800DD13C = 0x800CEFAC;
-const int s12a_dword_800DD140 = 0x800CEFAC;
-const int s12a_dword_800DD144 = 0x800CEFB8;
-const int s12a_dword_800DD148 = 0x800CEFC4;
-const int s12a_dword_800DD14C = 0x800CEFD0;
-const char s12a_dword_800DD150[] = {0x0, 0x0, 0x0, 0x0};
 const int s12a_dword_800DD154 = 0x800D17D0;
 const int s12a_dword_800DD158 = 0x800D1828;
 const int s12a_dword_800DD15C = 0x800D18A8;
