@@ -180,7 +180,7 @@ void menu_draw_bar(MenuPrim *prim, long x, long y, long rest, long now, long max
     setRGB3(pPoly,
         (bconf->left[0] + ((bconf->right[0] - bconf->left[0]) * (pPoly->x3 - pPoly->x0)) / 128),
         (bconf->left[1] + ((bconf->right[1] - bconf->left[1]) * (pPoly->x3 - pPoly->x0)) / 128),
-        (bconf->left[2] + ((bconf->right[2] - bconf->left[2]) * (pPoly->x3 - pPoly->x0)) / 128;));
+        (bconf->left[2] + ((bconf->right[2] - bconf->left[2]) * (pPoly->x3 - pPoly->x0)) / 128));
 
     setPolyG4(pPoly);
     addPrim(ot, pPoly);
