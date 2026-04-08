@@ -11,10 +11,9 @@
 
 #include "chara/snake/shadow.h" // for NewShadow
 #include "enemy/asiato2.h"      // for NewAsiato2
+#include "enemy/glight.h"       // for NewGunLight
 
 short s01a_word_800C3CD4[8] = {31000, 15, 30, 60, 90, 32000, 32001, 30000};
-
-void *NewGunLight_800D3AD4(MATRIX *world, int **enable);
 
 void Demodoll_800DDEAC(DollWork *);
 void Demodoll_800DDF18(DollWork *);
@@ -377,7 +376,7 @@ int s01a_doll_800DC1AC(DollWork *work, int name, int map)
 
     if (weapon == KMD_FAMAS)
     {
-        work->glight = NewGunLight_800D3AD4(&body->objs->objs[4].world, NULL);
+        work->glight = NewGunLight(&body->objs->objs[4].world, NULL);
         if (work->glight == NULL)
         {
             return -1;

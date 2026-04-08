@@ -6,8 +6,10 @@
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
-#include "chara/snake/shadow.h"
 #include "strcode.h"
+
+#include "chara/snake/shadow.h" // for NewShadow2
+#include "enemy/glight.h"       // for NewGunLight
 
 /*
 extern ENEMY_COMMAND EnemyCommand_800E0D98;
@@ -38,7 +40,6 @@ extern int  Zako11EPushMove_800D889C( ZakoWork *work );
 extern int  Zako11EActionMain_800D8830( ZakoWork *work );
 extern void ZAKO11E_SetPutChar_800D8004( ZakoWork *work, int put );
 
-extern void *NewGunLight_800D3AD4( MATRIX* mat, int **enable );
 extern void *NewKogaku2(CONTROL *pCtrl, OBJECT *pObj, int unit);
 
 void RootFlagCheck_800D34C8( ZakoWork *work )
@@ -268,7 +269,7 @@ int s11e_zako11e_800D3990( ZakoWork* work, int name, int where )
     shadow.vx  = 0;
 
     work->shadow = (void*)NewShadow2( ctrl, body, shadow,  &work->shadow_enable ) ;
-    work->glight = NewGunLight_800D3AD4( &( body->objs->objs[4].world ), &work->glight_enable ) ;
+    work->glight = NewGunLight( &( body->objs->objs[4].world ), &work->glight_enable ) ;
 
     ZAKO11E_SetPutChar_800D8004( work, 0 );
     s11e_zako11e_800D3934( work );

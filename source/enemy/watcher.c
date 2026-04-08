@@ -11,9 +11,11 @@
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
-#include "chara/snake/shadow.h"
 #include "game/game.h"
 #include "strcode.h"
+
+#include "chara/snake/shadow.h" // for NewShadow2
+#include "enemy/glight.h"       // for NewGunLight
 
 int s00a_dword_800C3328[8]  = { 2500, 3500, 4000, 5000, 5500, 5600, 5700, 5800 };
 unsigned short s00a_dword_800C3348[8] = { 450, 15, 30, 60, 90, 0, 32001, 30000 };
@@ -35,8 +37,6 @@ const char aWatcharcactionpointerr_800DFCCC[] = "watchar.c : action point Err\n"
 const char aWatcherc_800DFCEC[] = "watcher.c";
 
 extern GM_CAMERA      GM_Camera;
-
-extern void *NewGunLight_800D3AD4( MATRIX* mat, int **enable );
 
 /*  ルート変更フラグチェック
     指定フラグが立てば次のルートへ変更
@@ -346,7 +346,7 @@ int s00a_watcher_800C45D4( WatcherWork* work, int name, int where )
     shadow.vx  = 0;
 
     work->field_AF0 = (void*)NewShadow2( ctrl, body, shadow,  &work->field_AF4 ) ;
-    work->field_AF8 = NewGunLight_800D3AD4( &( body->objs->objs[4].world ), &work->field_AFC ) ;
+    work->field_AF8 = NewGunLight( &( body->objs->objs[4].world ), &work->field_AFC ) ;
 
     ENE_SetPutChar_800C979C( work, 0 );
     s00a_watcher_800C4578 ( work );

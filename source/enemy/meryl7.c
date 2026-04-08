@@ -11,6 +11,7 @@
 
 #include "chara/snake/shadow.h" // for NewShadow2
 #include "enemy/dymc_seg.h"     // for NewDynamicSegment
+#include "enemy/glight.h"       // for NewGunLight
 
 extern ENEMY_COMMAND EnemyCommand_800E0D98;
 extern SVECTOR       ENEMY_TARGET_SIZE_800C35A4;
@@ -23,8 +24,6 @@ extern SVECTOR       COM_NO_POINT_800C35D4;
 extern unsigned short COM_EYE_LENGTH_800E0D8C;
 
 extern GM_CAMERA      GM_Camera;
-
-extern void *NewGunLight_800D3AD4( MATRIX* mat, int **enable );
 
 /*  Modified version of RootFlagCheck_800C3EE8
     (last two switch cases removed)
@@ -395,7 +394,7 @@ int s07a_meryl7_800D5908( WatcherWork* work, int name, int where )
     shadow.vx  = 0;
 
     work->field_AF0 = (void*)NewShadow2( ctrl, body, shadow,  &work->field_AF4 ) ;
-    work->field_AF8 = NewGunLight_800D3AD4( &( body->objs->objs[4].world ), &work->field_AFC ) ;
+    work->field_AF8 = NewGunLight( &( body->objs->objs[4].world ), &work->field_AFC ) ;
 
     ENE_SetPutChar_800D9D6C( work, 0 );
     s07a_meryl7_800D58AC ( work );
