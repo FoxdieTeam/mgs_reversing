@@ -31,7 +31,7 @@ static void ShadePacks( POLY_FT4 *packs, int n_packs, DG_TEX *unused, char shade
     while ( --n_packs >= 0 ) {
         setPolyFT4( packs );
         setSemiTrans( packs, 1 );
-        setRGB0(packs, shade, shade, shade);
+        setRGB0( packs, shade, shade, shade );
         DG_SetPacketTexture( packs, tex ) ;
         packs->tpage = tex->tpage;
         packs->clut = tex->clut;
