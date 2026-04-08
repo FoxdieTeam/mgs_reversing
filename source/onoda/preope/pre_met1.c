@@ -192,7 +192,7 @@ static void PreMet1_800C50D4(Work *work, u_long *ot)
 
             setUV0(sprt, 0, work->field_464[j].field_1F6);
 
-            sprt->clut = getClut(work->field_464[j].field_1F8, work->field_464[j].field_1FA);
+            setClut(sprt, work->field_464[j].field_1F8, work->field_464[j].field_1FA);
 
             sprt->x0 += work->field_9594;
 
@@ -222,7 +222,7 @@ static void PreMet1_800C50D4(Work *work, u_long *ot)
 
             setUV0(sprt, 0, work->field_464[j].field_202);
 
-            sprt->clut = getClut(work->field_464[j].field_1F8, work->field_464[j].field_1FA);
+            setClut(sprt, work->field_464[j].field_1F8, work->field_464[j].field_1FA);
 
             sprt->x0 += work->field_9594;
 

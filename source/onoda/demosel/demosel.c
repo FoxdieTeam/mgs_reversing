@@ -207,7 +207,7 @@ static void demosel_800C3880(Work *work, u_long *ot)
         LCOPY(&work->f5D0[index].rect.w, &text_sprt->w);
         text_sprt->u0 = 0;
         text_sprt->v0 = work->f5D0[index].f2;
-        text_sprt->clut = getClut(work->f5D0[index].f4, work->f5D0[index].f6);
+        setClut(text_sprt, work->f5D0[index].f4, work->f5D0[index].f6);
         setSprt(text_sprt);
         addPrim(ot, text_sprt);
 

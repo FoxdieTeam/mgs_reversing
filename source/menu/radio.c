@@ -796,9 +796,8 @@ int draw_radio_message(MenuWork *work, u_long *ot)
 
     pPrim->u0 = (RADIO_MES_VRAM_POS_800AB630.x % 64) * 4;
     pPrim->v0 = RADIO_MES_VRAM_POS_800AB630.y;
-    pPrim->w = 252;
-    pPrim->h = 76;
-    pPrim->clut = 32700;
+    setWH(pPrim, 252, 76);
+    setClut(pPrim, 960, 510);
     pPrim->x0 = (FRAME_WIDTH - kcb->max_width) / 2;
     pPrim->y0 = 132;
 
@@ -1745,14 +1744,14 @@ void menu_number_init(MenuWork *work)
     setRGB0(sprt, 128, 128, 128);
     setUV0(sprt, 0x9c, 0xe8);
     setWH(sprt, 6, 7);
-    sprt->clut = 0x7ffc;
+    setClut(sprt, 960, 511);
 
     sprt = &gRadioNumberSprt2_800bd9d0;
     setSprt(sprt);
     setRGB0(sprt, 128, 128, 128);
     setUV0(sprt, 0, 0xed);
     setWH(sprt, 6, 5);
-    sprt->clut = 0x7ffc;
+    setClut(sprt, 960, 511);
 
     menu_set_string2();
 }

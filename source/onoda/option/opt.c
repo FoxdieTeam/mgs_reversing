@@ -224,7 +224,7 @@ static void option_800C3664(OptionWork *work, u_long *ot)
             LCOPY(&work->fEC4[index].rect.x, &sprt->x0);
             LCOPY(&work->fEC4[index].rect.w, &sprt->w);
             setUV0(sprt, 0, work->fEC4[index].f2);
-            sprt->clut = getClut(work->fEC4[index].f4, work->fEC4[index].f6);
+            setClut(sprt, work->fEC4[index].f4, work->fEC4[index].f6);
             setSprt(sprt);
             addPrim(ot, sprt);
 
@@ -267,7 +267,7 @@ static void option_800C3664(OptionWork *work, u_long *ot)
         LCOPY(&work->fEC4[index].rect.x, &sprt->x0);
         LCOPY(&work->fEC4[index].rect.w, &sprt->w);
         setUV0(sprt, 0, work->fEC4[index].f2);
-        sprt->clut = getClut(work->fEC4[index].f4, work->fEC4[index].f6);
+        setClut(sprt, work->fEC4[index].f4, work->fEC4[index].f6);
         setSprt(sprt);
         addPrim(ot, sprt);
 

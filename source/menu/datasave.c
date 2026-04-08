@@ -1018,7 +1018,7 @@ static void set_sprt_default(SPRT *sprt)
 {
     setRGB0_Fast(sprt, 0x80808080);
     setSprt(sprt);
-    sprt->clut = 32700;
+    setClut(sprt, 960, 510);
 }
 
 // See also drawCaption_800C5EB4() in camera.c
