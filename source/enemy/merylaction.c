@@ -382,7 +382,7 @@ void s07a_meryl_unk_800D76CC( WatcherWork *work, int time )
 
     if ( CheckDamage_800D6B30( work ) )
     {
-        UnsetCameraActCall_800D047C( );
+        UnsetCameraActCall( );
         COM_GameStatus_800E0F3C &= ~COM_ST_DANBOWL ;
         return;
     }
@@ -393,7 +393,7 @@ void s07a_meryl_unk_800D76CC( WatcherWork *work, int time )
         {
             SetMode( work, ActStandStill_800D7008 ) ;
         }
-        UnsetCameraActCall_800D047C( );
+        UnsetCameraActCall( );
         COM_GameStatus_800E0F3C &= ~COM_ST_DANBOWL ;
         return ;
     }
@@ -401,7 +401,7 @@ void s07a_meryl_unk_800D76CC( WatcherWork *work, int time )
     if ( time == 0 ) {
         SetMode2( work, ActOverScoutD_800D9FE0 ) ;
         SetAction( work, STANDSTILL, ACTINTERP ) ;
-        SetCameraActCall_800D043C( );
+        SetCameraActCall( );
     }
 
     if ( time == 60 ) {
@@ -423,7 +423,7 @@ void s07a_meryl_unk_800D76CC( WatcherWork *work, int time )
     }
 
     if ( time > 150  ) {
-        UnsetCameraActCall_800D047C( );
+        UnsetCameraActCall( );
         work->actend = 1 ;
         SetMode( work, ActStandStill_800D7008 ) ;
         COM_GameStatus_800E0F3C &= ~COM_ST_DANBOWL ;

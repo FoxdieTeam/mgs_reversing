@@ -554,8 +554,8 @@ void *AN_Unknown_800CA1EC( MATRIX* mat, int mark );
 void  ENE_SetGopointLast_800CEB00();
 void  ENE_SetTopCommAL_800CEAE8( int alert );
 
-void SetCameraActCall_800D043C();
-void UnsetCameraActCall_800D047C();
+void SetCameraActCall(void);
+void UnsetCameraActCall(void);
 
 //watcher.c
 #define EN_FASEOUT 0x10000000

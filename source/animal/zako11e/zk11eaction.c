@@ -5,6 +5,7 @@
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "game/item.h"
+#include "game/vibrate.h"
 #include "linkvar.h"
 #include "sound/g_sound.h"
 
@@ -586,7 +587,6 @@ void s11e_zk11ecom_800D5A84( ZakoWork* work )
 extern unsigned char s11e_dword_800C3658;
 extern unsigned char s11e_dword_800C365C;
 
-extern void NewPadVibration( unsigned char *ptr, int flags );
 extern void s11e_zk11ecom_800D649C( ZakoWork *work, int time );
 
 void s11e_zk11ecom_800D5B04( ZakoWork *work, int time )

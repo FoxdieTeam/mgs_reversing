@@ -485,8 +485,6 @@ void s11e_zk11ecom_800DA4D0( int val, ZAKO_COMMAND* command )
     ZAKO11E_SetTopCommAL_800D9A84( 0 );
 }
 
-extern void GM_AlertModeSet( int a1 );
-
 void s11e_zk11ecom_800DA534( ZAKO_COMMAND *command )
 {
     int alert;
@@ -821,8 +819,9 @@ void s11e_zk11ecom_800DA85C(void)
     ZakoCommand_800DF280.field_0x10++;
 }
 
+/*---------------------------------------------------------------------------*/
 
-void ZakoCommanderAct_800DABF4( ZakoCommanderWork* work )
+static void Act( ZakoCommanderWork* work )
 {
     s11e_zk11ecom_800DA85C();
     s11e_zk11ecom_800DA784();
@@ -835,9 +834,8 @@ void ZakoCommanderAct_800DABF4( ZakoCommanderWork* work )
     }
 }
 
-void ZakoCommanderDie_800DAC5C( void )
+static void Die( ZakoCommanderWork* work )
 {
-
     if ( ZakoCommand_800DF280.field_0x118 >= 0 )
     {
         GCL_ExecProc( ZakoCommand_800DF280.field_0x118, NULL );
@@ -845,7 +843,7 @@ void ZakoCommanderDie_800DAC5C( void )
     }
 }
 
-void ZakoCommanderGetResources_800DACA0( ZakoCommanderWork *work, int name, int where )
+static void GetResources( ZakoCommanderWork *work, int name, int where )
 {
     int i;
     char *ops;
@@ -963,8 +961,7 @@ void ZakoCommanderGetResources_800DACA0( ZakoCommanderWork *work, int name, int 
     GM_VoxStream( ZakoCommand_800DF280.field_0x114, 0x40000000 );
 }
 
-extern void ZakoCommanderAct_800DABF4();
-extern void ZakoCommanderDie_800DAC5C();
+/*---------------------------------------------------------------------------*/
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL4
 
@@ -974,8 +971,8 @@ void *NewZako11ECommander( int name, int where, int argc, char **argv )
 
     work = GV_NewActor( EXEC_LEVEL, sizeof( ZakoCommanderWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor( &( work->actor ), ZakoCommanderAct_800DABF4, ZakoCommanderDie_800DAC5C, "zk11ecom.c" );
-        ZakoCommanderGetResources_800DACA0( work, name, where );
+        GV_SetNamedActor( &( work->actor ), Act, Die, "zk11ecom.c" );
+        GetResources( work, name, where );
     }
     return (void *)work;
 }
