@@ -124,9 +124,9 @@ static inline int CheckInBounds(Work *work, short x, short y, short z)
         y > work->bound[0].vy && y < work->bound[1].vy &&
         z > work->bound[0].vz && z < work->bound[1].vz)
     {
-        return 1;
+        return TRUE;
     }
-    return 0;
+    return FALSE;
 }
 
 static void Act(Work *work)
