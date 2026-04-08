@@ -1747,9 +1747,7 @@ void menu_number_init(MenuWork *work)
 
     sprt = &gRadioNumberSprt_800bd9b0;
     setSprt(sprt);
-    sprt->r0 = 128;
-    sprt->g0 = 128;
-    sprt->b0 = 128;
+    setRGB0(sprt, 128, 128, 128);
     sprt->u0 = 0x9c;
     sprt->v0 = 0xe8;
     sprt->w = 6;
@@ -1758,9 +1756,7 @@ void menu_number_init(MenuWork *work)
 
     sprt = &gRadioNumberSprt2_800bd9d0;
     setSprt(sprt);
-    sprt->r0 = 128;
-    sprt->g0 = 128;
-    sprt->b0 = 128;
+    setRGB0(sprt, 128, 128, 128);
     sprt->u0 = 0;
     sprt->v0 = 0xed;
     sprt->w = 6;
@@ -2047,9 +2043,7 @@ void menu_number_draw_magazine(MenuWork *work, u_long *ot, int xoff, int yoff,
         {
             if (i < pSubCnt2)
             {
-                sprt->r0 = 128;
-                sprt->g0 = 32;
-                sprt->b0 = 32;
+                setRGB0(sprt, 128, 32, 32);
             }
             sprt->u0 = 0xD8;
             sprt->v0 = 0xE8;

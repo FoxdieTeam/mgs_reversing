@@ -760,10 +760,9 @@ static void demosel_800C46BC(Work *work)
             r0 = dst->r0;
             g0 = dst->g0;
             b0 = dst->b0;
-
-            dst->r0 = r0 - r0 * work->fDC8 / 16;
-            dst->g0 = g0 - g0 * work->fDC8 / 16;
-            dst->b0 = b0 - b0 * work->fDC8 / 16;
+            setRGB0(dst, r0 - r0 * work->fDC8 / 16,
+                         g0 - g0 * work->fDC8 / 16,
+                         b0 - b0 * work->fDC8 / 16);
         }
 
         SSTOREL(work->f2D4[i], dst);

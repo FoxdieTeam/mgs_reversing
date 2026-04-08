@@ -303,9 +303,7 @@ static int WaterViewCreatePrims(Work *work)
     tile->w = FRAME_WIDTH;
     tile->h = 6;
 
-    tile->r0 = 0;
-    tile->g0 = 0;
-    tile->b0 = 0;
+    setRGB0(tile, 0, 0, 0);
 
     tile[1] = tile[0];
 
@@ -323,9 +321,7 @@ static int WaterViewCreatePrims(Work *work)
     tile2->w = FRAME_WIDTH;
     tile2->h = FRAME_HEIGHT;
 
-    tile2->r0 = 0;
-    tile2->g0 = 0;
-    tile2->b0 = 0;
+    setRGB0(tile2, 0, 0, 0);
 
     tile2[1] = tile2[0];
 

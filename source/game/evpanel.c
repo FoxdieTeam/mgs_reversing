@@ -254,16 +254,12 @@ static void EvPanelUpdateHighlightedButton_800C3778(EvPanelWork *work)
             if (j == work->current_button_idx)
             {
                 // Highlighted
-                poly->r0 = GET_R_FROM_RGBA(COLOR_WHITE); // 255;
-                poly->g0 = GET_G_FROM_RGBA(COLOR_WHITE); // 255;
-                poly->b0 = GET_B_FROM_RGBA(COLOR_WHITE); // 255;
+                setRGB0(poly, 255, 255, 255);
             }
             else
             {
                 // Not highlighted
-                poly->r0 = GET_R_FROM_RGBA(COLOR_GRAY); // 128;
-                poly->g0 = GET_G_FROM_RGBA(COLOR_GRAY); // 128;
-                poly->b0 = GET_B_FROM_RGBA(COLOR_GRAY); // 128;
+                setRGB0(poly, 128, 128, 128);
             }
 
             poly++;
@@ -287,15 +283,11 @@ static void s03e_evpanel_800C37FC(EvPanelWork *work, int index)
 
         if (index != 0)
         {
-            poly->r0 = 97;
-            poly->g0 = 128;
-            poly->b0 = 138;
+            setRGB0(poly, 97, 128, 138);
         }
         else
         {
-            poly->r0 = 32;
-            poly->g0 = 32;
-            poly->b0 = 32;
+            setRGB0(poly, 32, 32, 32);
         }
     }
 }
@@ -858,9 +850,7 @@ static void s03e_evpanel_800C45E4(POLY_FT4 *packs, DG_TEX *tex, int n_packs)
         packs->tpage = tex->tpage;
         packs->clut = tex->clut;
 
-        packs->r0 = 128;
-        packs->g0 = 128;
-        packs->b0 = 128;
+        setRGB0(packs, 128, 128, 128);
 
         packs++;
     }

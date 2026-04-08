@@ -37,9 +37,7 @@ int s00a_smoke_800D2694(SmokeWork *work)
 
     poly = work->field_20->packs[GV_Clock];
     color = work->field_3C / 2;
-    poly->r0 = color;
-    poly->g0 = color;
-    poly->b0 = color;
+    setRGB0(poly, color, color, color);
     work->field_3C++;
     return 0;
 }
@@ -56,9 +54,7 @@ int s00a_smoke_800D26F0(SmokeWork *work)
 
     poly = work->field_20->packs[GV_Clock];
     color = 64 - work->field_3C / 2;
-    poly->r0 = color;
-    poly->g0 = color;
-    poly->b0 = color;
+    setRGB0(poly, color, color, color);
     work->field_3C++;
     return 0;
 }
@@ -117,10 +113,7 @@ void s00a_smoke_800D2888(POLY_FT4 *prim, DG_TEX *unused, short color)
 
     setPolyFT4(prim);
     setSemiTrans(prim, 1);
-
-    prim->r0 = color;
-    prim->g0 = color;
-    prim->b0 = color;
+    setRGB0(poly, color, color, color);
 
     width = tex1->w;
     offx = tex1->off_x;

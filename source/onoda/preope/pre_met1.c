@@ -386,15 +386,18 @@ static void PreMet1ShadePacks_800C5A98(Work *work)
             r0 = poly_dst->r0;
             g0 = poly_dst->g0;
             b0 = poly_dst->b0;
-            setRGB0(poly_dst, r0 - r0 * work->field_64 / 16, g0 - g0 * work->field_64 / 16,
-                    b0 - b0 * work->field_64 / 16);
+            setRGB0(poly_dst, r0 - r0 * work->field_64 / 16,
+                              g0 - g0 * work->field_64 / 16,
+                              b0 - b0 * work->field_64 / 16);
         }
         else if (work->field_2C8 == 0)
         {
             r0 = poly_dst->r0;
             g0 = poly_dst->g0;
             b0 = poly_dst->b0;
-            setRGB0(poly_dst, r0 * work->field_64 / 16, g0 * work->field_64 / 16, b0 * work->field_64 / 16);
+            setRGB0(poly_dst, r0 * work->field_64 / 16,
+                              g0 * work->field_64 / 16,
+                              b0 * work->field_64 / 16);
         }
 
         SSTOREL(work->z[i], poly_dst); // some modification of POLY_FT4 tag?
@@ -780,9 +783,7 @@ static void Die(Work *work)
 static void PreMet1_800C66D0(Work *work, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int semiTrans)
 {
     setPolyFT4(poly);
-    poly->r0 = 0x80;
-    poly->g0 = 0x80;
-    poly->b0 = 0x80;
+    setRGB0(poly, 128, 128, 128);
     poly->x0 = x0;
     poly->y0 = y0;
     poly->y1 = y0;

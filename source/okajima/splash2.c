@@ -136,9 +136,7 @@ void Splash2Act_800DAF38( Work *work )
 
         vecs->vy -= 7;
 
-        poly->r0 = color.vx;
-        poly->g0 = color.vy;
-        poly->b0 = color.vz;
+        setRGB0(poly, color.vx, color.vy, color.vz);
     }
 
     if ( (work->noripple != 1) && (GV_RandU(32) == 0) )
@@ -164,9 +162,7 @@ static inline void InitPacks( POLY_FT4 *pack, DG_TEX *tex, int r, int g, int b )
 
     pack->tpage |= 0x20;
 
-    pack->r0 = r;
-    pack->g0 = g;
-    pack->b0 = b;
+    setRGB0(pack, r, g, b);
 }
 
 int SplashGetResources_800DB210( Work *work, MATRIX *matrix, int noripple, int r, int g, int b )

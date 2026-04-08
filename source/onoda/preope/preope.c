@@ -603,9 +603,7 @@ static void Die(Work *work)
 static void PreopeSetPolyFT4_800C4504(Work *work, POLY_FT4 *pPoly, int x0, int y0, int x1, int y1, int semiTrans)
 {
     setPolyFT4(pPoly);
-    pPoly->r0 = 0x80;
-    pPoly->g0 = 0x80;
-    pPoly->b0 = 0x80;
+    setRGB0(pPoly, 128, 128, 128);
     pPoly->x0 = x0;
     pPoly->y0 = y0;
     pPoly->y1 = y0;
