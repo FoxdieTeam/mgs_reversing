@@ -20,6 +20,7 @@ void  AN_Breath(MATRIX *world);
 
 void s12a_wolf2_800CED18(Wolf2Work *work);
 void s12a_wolf2_800CED38(Wolf2Work *work);
+
 void s12a_wolf2_800D1EBC(Wolf2Work *work);
 void s12a_wolf2_800D2E0C(Wolf2Work *work);
 
