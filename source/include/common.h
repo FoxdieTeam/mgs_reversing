@@ -67,23 +67,20 @@ typedef int             BOOL;
 /* RGBA8888 format */
 #ifdef WORDS_BIGENDIAN
 #define RGBA_R_SHIFT    (24)
-#define RGBA_R_MASK     (0xff000000)
 #define RGBA_G_SHIFT    (16)
-#define RGBA_G_MASK     (0x00ff0000)
 #define RGBA_B_SHIFT    ( 8)
-#define RGBA_B_MASK     (0x0000ff00)
 #define RGBA_A_SHIFT    ( 0)
-#define RGBA_A_MASK     (0x000000ff)
 #else
 #define RGBA_R_SHIFT    ( 0)
-#define RGBA_R_MASK     (0x000000ff)
 #define RGBA_G_SHIFT    ( 8)
-#define RGBA_G_MASK     (0x0000ff00)
 #define RGBA_B_SHIFT    (16)
-#define RGBA_B_MASK     (0x00ff0000)
 #define RGBA_A_SHIFT    (24)
-#define RGBA_A_MASK     (0xff000000)
 #endif
+
+#define RGBA_R_MASK     (0xff << RGBA_R_SHIFT)
+#define RGBA_G_MASK     (0xff << RGBA_G_SHIFT)
+#define RGBA_B_MASK     (0xff << RGBA_B_SHIFT)
+#define RGBA_A_MASK     (0xff << RGBA_A_SHIFT)
 
 //#define MAKE_RGB_WITHOUT_BITMASK
 #ifdef MAKE_RGB_WITHOUT_BITMASK
