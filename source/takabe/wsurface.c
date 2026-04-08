@@ -140,14 +140,11 @@ void Wsurface_800DAFE8(POLY_GT4 *poly, DVECTOR *in, WsurfaceWork *work)
 
         for (j = 0; j < work->fFC; j++)
         {
-            poly->u0 = vec0->vx;
-            poly->v0 = vec0->vy;
-            poly->u1 = vec1->vx;
-            poly->v1 = vec1->vy;
-            poly->u2 = vec2->vx;
-            poly->v2 = vec2->vy;
-            poly->u3 = vec3->vx;
-            poly->v3 = vec3->vy;
+            setUV4(poly,
+                vec0->vx, vec0->vy,
+                vec1->vx, vec1->vy,
+                vec2->vx, vec2->vy,
+                vec3->vx, vec3->vy);
 
             vec0++;
             vec1++;

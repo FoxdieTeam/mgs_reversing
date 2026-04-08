@@ -599,12 +599,9 @@ void initSprt_80039D5C(SPRT *pSprt, int x, int y, radar_uv *pRadarUV, int rgb)
 {
     short clut;
 
-    pSprt->x0 = x;
-    pSprt->y0 = y;
-    pSprt->u0 = pRadarUV->field_0_x;
-    pSprt->v0 = pRadarUV->field_1_y;
-    pSprt->w = pRadarUV->field_2_w;
-    pSprt->h = pRadarUV->field_3_h;
+    setXY0(pSprt, x, y);
+    setUV0(pSprt, pRadarUV->field_0_x, pRadarUV->field_1_y);
+    setWH(pSprt, pRadarUV->field_2_w, pRadarUV->field_3_h);
 
     do {} while (0); // Force a match
 

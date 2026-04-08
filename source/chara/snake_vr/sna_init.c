@@ -6171,14 +6171,7 @@ void sna_anim_claymore_helper_80058780(SnaInitWork *work, int time)
 
     for ( i = 0; i < 2; i++ )
     {
-        pPoly->u0 = x;
-        pPoly->v0 = y;
-        pPoly->u1 = w;
-        pPoly->v1 = y;
-        pPoly->u2 = x;
-        pPoly->v2 = y;
-        pPoly->u3 = w;
-        pPoly->v3 = y;
+        setUV4(pPoly, x, y, w, y, x, y, w, y);
         pPoly++;
     }
 

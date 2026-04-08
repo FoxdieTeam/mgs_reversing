@@ -571,14 +571,7 @@ STATIC int menu_draw_tex_debug(MenuWork *work, u_long *ot)
     pPoly->y2 = y0 + height;
     pPoly->y3 = y0 + height;
     pPoly->x3 = x0 + width;
-    pPoly->u0 = offx;
-    pPoly->v0 = offy;
-    pPoly->u1 = offx + width;
-    pPoly->v1 = offy;
-    pPoly->u2 = offx;
-    pPoly->v2 = offy + height;
-    pPoly->u3 = offx + width;
-    pPoly->v3 = offy + height;
+    setUVWH(pPoly, offx, offy, width, height);
 
     addPrim(ot, pPoly);
     return 1;

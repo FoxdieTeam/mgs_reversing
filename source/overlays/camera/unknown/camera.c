@@ -884,10 +884,8 @@ void camera_800C85D8(void)
 
     sprt = &camera_sprt_800D0780;
     LSTORE(0x80808080, &sprt->r0);
-    sprt->u0 = 0;
-    sprt->v0 = 242;
-    sprt->w = 8;
-    sprt->h = 6;
+    setUV0(sprt, 0, 242);
+    setWH(sprt, 8, 6);
     setSprt(sprt);
     setClut(sprt, 976, 511);
 }

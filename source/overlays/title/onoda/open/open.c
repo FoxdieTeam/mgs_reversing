@@ -274,8 +274,7 @@ void title_open_800C47B8(OpenWork *work, u_long *ot)
                 LSTORE(0x808080, &sprt->r0);
                 LCOPY(&work->unk[count].rect.x, &sprt->x0);
                 LCOPY(&work->unk[count].rect.w, &sprt->w);
-                sprt->u0 = 0;
-                sprt->v0 = work->unk[count].f2;
+                setUV0(sprt, 0, work->unk[count].f2);
                 setClut(sprt, work->unk[count].f4, work->unk[count].f6);
                 setSprt(sprt);
                 addPrim(ot, sprt);
@@ -462,17 +461,7 @@ void title_open_800C5238(POLY_FT4 *poly, DG_TEX *tex, int scale, int width, int 
     xoff  = title_open_800C4B2C(w - width);
     yoff = title_open_800C4B2C(h - height);
 
-    poly->u0 = x + xoff;
-    poly->v0 = y + yoff;
-
-    poly->u1 = x + xoff + width;
-    poly->v1 = y + yoff;
-
-    poly->u2 = x + xoff;
-    poly->v2 = y + yoff + height;
-
-    poly->u3 = x + xoff + width;
-    poly->v3 = y + yoff + height;
+    setUVWH(poly, x + xoff, y + yoff, width, height);
 
     poly->tpage = tex->tpage;
     poly->clut = tex->clut;

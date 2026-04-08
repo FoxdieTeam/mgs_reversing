@@ -48,21 +48,16 @@ void telop_800DD550(TelopSub *sub, int x, int y, DG_TEX *arg3, DG_TEX *arg4)
     SetSprt(sprt);
     SetSemiTrans(sprt, 1);
     setRGB0(sprt, 0, 0, 0);
-    sprt->x0 = x;
-    sprt->y0 = y;
-    sprt->u0 = arg4->off_x;
-    sprt->v0 = arg4->off_y;
-    sprt->w = arg4->w + 1;
-    sprt->h = arg4->h + 1;
+    setXY0(sprt, x, y);
+    setUV0(sprt, arg4->off_x, arg4->off_y);
+    setWH(sprt, arg4->w + 1, arg4->h + 1);
     sprt->clut = arg4->clut;
 
     sub->prims[0].sprt2 = sub->prims[0].sprt1;
 
     sprt = &sub->prims[0].sprt2;
-    sprt->u0 = arg3->off_x;
-    sprt->v0 = arg3->off_y;
-    sprt->w = arg3->w + 1;
-    sprt->h = arg3->h + 1;
+    setUV0(sprt, arg3->off_x, arg3->off_y);
+    setWH(sprt, arg3->w + 1, arg3->h + 1);
     sprt->clut = arg3->clut;
 
     tpage = arg3->tpage & ~0x60;

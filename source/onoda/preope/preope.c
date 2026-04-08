@@ -187,8 +187,7 @@ static void Preope_800C356C(Work *work, u_long *ot)
         LSTORE(COLOR_GRAY, &text_sprt->r0);
         LCOPY(&work->field_394[index].rect.x, &text_sprt->x0);
         LCOPY(&work->field_394[index].rect.w, &text_sprt->w);
-        text_sprt->u0 = 0;
-        text_sprt->v0 = work->field_394[index].f2;
+        setUV0(text_sprt, 0, work->field_394[index].f2);
         text_sprt->clut = getClut(work->field_394[index].f4, work->field_394[index].f6);
         setSprt(text_sprt);
         addPrim(ot, text_sprt);

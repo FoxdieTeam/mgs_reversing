@@ -190,8 +190,7 @@ static void PreMet2_800C50D4(Work *work, u_long *ot)
             LCOPY(&work->field_464[j].field_1E8, &sprt->x0);
             LCOPY(&work->field_464[j].field_1F0, &sprt->w);
 
-            sprt->u0 = 0;
-            sprt->v0 = work->field_464[j].field_1F6;
+            setUV0(sprt, 0, work->field_464[j].field_1F6);
 
             sprt->clut = getClut(work->field_464[j].field_1F8, work->field_464[j].field_1FA);
 
@@ -221,8 +220,7 @@ static void PreMet2_800C50D4(Work *work, u_long *ot)
             LCOPY(&work->field_464[j].field_1EC, &sprt->x0);
             LCOPY(&work->field_464[j].field_1FC, &sprt->w);
 
-            sprt->u0 = 0;
-            sprt->v0 = work->field_464[j].field_202;
+            setUV0(sprt, 0, work->field_464[j].field_202);
 
             sprt->clut = getClut(work->field_464[j].field_1F8, work->field_464[j].field_1FA);
 
