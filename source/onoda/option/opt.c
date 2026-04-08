@@ -923,7 +923,15 @@ static void option_800C4AE8(OptionWork *work, int name, POLY_FT4 *poly)
     y = tex->off_y;
     h = tex->h;
 
-    setUVWH(poly, x, y, w + 1, h + 1);
+    poly->u0 = x;
+    poly->v0 = y;
+    poly->u1 = x + w + 1;
+    poly->v1 = y;
+    poly->u2 = x;
+    poly->v2 = y + h + 1;
+    poly->u3 = x + w + 1;
+    poly->v3 = y + h + 1;
+    //setUVWH(poly, x, y, w + 1, h + 1);
 
     poly->tpage = tex->tpage;
     poly->clut = tex->clut;
