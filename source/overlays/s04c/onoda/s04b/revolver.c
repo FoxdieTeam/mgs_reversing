@@ -447,7 +447,9 @@ int s04c_revolver_800CFE44(int arg0, int arg1)
 
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CFED4.s")
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800D00B4.s")
+
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800D02C8.s")
+int s04c_revolver_800D02C8(RevolverWork *work, short *, short *);
 
 int s04c_revolver_800D03C0(RevolverWork *work)
 {
@@ -456,12 +458,12 @@ int s04c_revolver_800D03C0(RevolverWork *work)
 
 int s04c_revolver_800D03EC(RevolverWork *work)
 {
-    return s04c_revolver_800D02C8(work, &s04c_dword_800C3538, &s04c_dword_800C3548);
+    return s04c_revolver_800D02C8(work, s04c_dword_800C3538, s04c_dword_800C3548);
 }
 
 int s04c_revolver_800D0418(RevolverWork *work)
 {
-    return s04c_revolver_800D02C8(work, &s04c_dword_800C3558, s04c_dword_800C3568);
+    return s04c_revolver_800D02C8(work, s04c_dword_800C3558, s04c_dword_800C3568);
 }
 
 int s04c_revolver_800D0444(RevolverWork *work)
