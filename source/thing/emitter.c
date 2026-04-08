@@ -35,7 +35,7 @@ static void ShadePacks( POLY_FT4 *packs, int n_packs, DG_TEX *unused, char shade
         DG_SetPacketTexture( packs, tex ) ;
         packs->tpage = tex->tpage;
         packs->clut = tex->clut;
-        packs++
+        packs++;
     }
 }
 
