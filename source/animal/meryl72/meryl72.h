@@ -91,7 +91,7 @@ typedef struct Meryl72Work
     int            count3;
     int            next_node;
     Meryl72Pad     pad;             //0xACC
-    unsigned int   trigger;         //0xAE0
+    u_long         trigger;         //0xAE0
     GV_ACT        *subweapon;       //0xAE4
     short          fAE8;
     short          fAEA;

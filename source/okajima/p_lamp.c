@@ -78,14 +78,7 @@ void PLamp_800CCBA8(POLY_FT4 *poly, DG_TEX *tex, int r, int g, int b)
     y = tex->off_y;
     h = tex->h;
 
-    poly->u0 = x;
-    poly->v0 = y;
-    poly->u1 = x + w;
-    poly->v1 = y;
-    poly->u2 = x;
-    poly->v2 = y + h;
-    poly->u3 = x + w;
-    poly->v3 = y + h;
+    setUVWH(poly, x, y, w, h);
 
     poly->tpage = tex->tpage;
     poly->clut = tex->clut;

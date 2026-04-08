@@ -30,6 +30,8 @@ extern BLAST_DATA    blast_data_8009F4B8[8];
 #define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE \
                         | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE )
 
+/*---------------------------------------------------------------------------*/
+
 typedef struct _Work
 {
     GV_ACT         actor;
@@ -37,7 +39,7 @@ typedef struct _Work
     OBJECT        *parent;
     OBJECT_NO_ROTS object;
     int            num_parent;
-    int           *flags;
+    u_long        *flags;
     SVECTOR        pos;
     int            timer;
     int            grenade_type;
@@ -81,7 +83,7 @@ static void Act( Work *work )
     unsigned int  parent_objs_flag;
     SVECTOR      *svector;
     SVECTOR      *ctrl_pos;
-    int           flags;
+    u_long        flags;
     int           grenade_type;
     int           ammo;
     MATRIX       *world;
@@ -234,7 +236,7 @@ static int GetResources( Work *work, OBJECT *parent, int num_parent, int grd_typ
 /*---------------------------------------------------------------------------*/
 
 static void *InitGrenade( CONTROL *control, OBJECT *parent, int num_parent,
-                          int *flags, int which_side, int grd_type )
+                          u_long *flags, int which_side, int grd_type )
 {
     Work *work;
 
@@ -264,22 +266,22 @@ static void *InitGrenade( CONTROL *control, OBJECT *parent, int num_parent,
     return (void *)work;
 }
 
-void *NewGrenade( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side )
+void *NewGrenade( CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int which_side )
 {
     return InitGrenade( control, parent, num_parent, flags, which_side, GRD_GRENADE );
 }
 
-void *NewStanGrenade( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side )
+void *NewStanGrenade( CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int which_side )
 {
     return InitGrenade( control, parent, num_parent, flags, which_side, GRD_STUN );
 }
 
-void *NewChaffGrenade( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side )
+void *NewChaffGrenade( CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int which_side )
 {
     return InitGrenade( control, parent, num_parent, flags, which_side, GRD_CHAFF );
 }
 
-void *NewTimerBomb( CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side )
+void *NewTimerBomb( CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int which_side )
 {
     return InitGrenade( control, parent, num_parent, flags, which_side, GRD_TBOMB );
 }

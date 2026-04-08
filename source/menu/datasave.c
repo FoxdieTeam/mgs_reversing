@@ -1018,7 +1018,7 @@ static void set_sprt_default(SPRT *sprt)
 {
     setRGB0_Fast(sprt, 0x80808080);
     setSprt(sprt);
-    sprt->clut = 32700;
+    setClut(sprt, 960, 510);
 }
 
 // See also drawCaption_800C5EB4() in camera.c
@@ -1359,13 +1359,9 @@ STATIC void menu_radio_do_file_mode_save_memcard_8004B0A0(MenuWork *work, u_long
         _NEW_PRIM(pSprt, prim);
         set_sprt_default(pSprt);
 
-        pSprt->u0 = sp94;
-        pSprt->v0 = sp98;
-
-        pSprt->w = 128;
-        pSprt->h = 14;
-        pSprt->x0 = s8;
-        pSprt->y0 = s6 + 2;
+        setUV0(pSprt, sp94, sp98);
+        setWH(pSprt, 128, 14);
+        setXY0(pSprt, s8, s6 + 2);
 
         addPrim(ot, pSprt);
 

@@ -45,11 +45,7 @@ void GunLightInitPacks_800D394C(POLY_FT4 *poly, DG_TEX *tex, int color)
     short clut;
 
     setPolyFT4(poly);
-
-    poly->r0 = color;
-    poly->g0 = color;
-    poly->b0 = color;
-
+    setRGB0(poly, color, color, color);
     setSemiTrans(poly, 1);
 
     u0 = tex->off_x;

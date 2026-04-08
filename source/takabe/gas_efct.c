@@ -319,13 +319,9 @@ void d11c_800C5094(GasEfctWork *work, int arg1)
     gte_stsv(&sp30);
     gte_ldv0(&work->f34);
     gte_ll();
-    poly->r0 = sp30.vx;
-    poly->g0 = sp30.vy;
-    poly->b0 = sp30.vz;
+    setRGB0(poly, sp30.vx, sp30.vy, sp30.vz);
     gte_stsv(&sp30);
-    poly->r1 = sp30.vx;
-    poly->g1 = sp30.vy;
-    poly->b1 = sp30.vz;
+    setRGB1(poly, sp30.vx, sp30.vy, sp30.vz);
 
     col0 = LLOAD(&poly->r0);
     col1 = LLOAD(&poly->r1);

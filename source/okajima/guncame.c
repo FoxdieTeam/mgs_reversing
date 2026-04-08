@@ -1258,14 +1258,7 @@ void GunCame_800C8E04(POLY_FT4 *poly, DG_TEX *tex, int col)
     y_offset = tex->off_y;
     height = y_offset + tex->h;
 
-    poly->u0 = x_offset;
-    poly->v0 = y_offset;
-    poly->u1 = width;
-    poly->v1 = y_offset;
-    poly->u2 = x_offset;
-    poly->v2 = height;
-    poly->u3 = width;
-    poly->v3 = height;
+    setUV4(poly, x_offset, y_offset, width, y_offset, x_offset, height, width, height);
 
     poly->tpage = tex->tpage;
     poly->clut = (unsigned short) tex->clut;

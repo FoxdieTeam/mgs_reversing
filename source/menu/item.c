@@ -352,7 +352,7 @@ void menu_drawPalKey_8003B794(MenuWork *work, u_long *ot, int id)
     pSprt->w = pImgItem->w * 4;
     pSprt->h = pImgItem->h;
     LSTORE(0x80808080, &pSprt->r0);
-    pSprt->clut = getClut(pal_rect.x, pal_rect.y);
+    setClut(pSprt, pal_rect.x, pal_rect.y);
     setSprt(pSprt);
     addPrim(ot, pSprt);
 }

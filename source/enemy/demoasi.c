@@ -1,12 +1,20 @@
 #include "demoasi.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "game/game.h"
 #include "strcode.h"
 
-typedef struct _DemoasiWork
+/*---------------------------------------------------------------------------*/
+
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
+
+typedef struct _Work
 {
     GV_ACT   actor;
     int      map;
@@ -14,14 +22,14 @@ typedef struct _DemoasiWork
     DG_TEX  *tex;
     MATRIX  *world;
     char     pad2[0x10];
-    SVECTOR  prim_vecs[4];
+    SVECTOR  pos[4];
     int      f60;
     int      f64;
-} DemoasiWork;
+} Work;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL4
+/*---------------------------------------------------------------------------*/
 
-void Demoasi_800C3D88(DG_PRIM *prim, DG_TEX *tex, int r, int g, int b)
+static void ShadePacks(DG_PRIM *prim, DG_TEX *tex, int r, int g, int b)
 {
     POLY_FT4 *poly;
 
@@ -32,14 +40,14 @@ void Demoasi_800C3D88(DG_PRIM *prim, DG_TEX *tex, int r, int g, int b)
     setRGB0(poly, r, g, b);
 }
 
-void Demoasi_800C3DB4(SVECTOR *vec, int x, int y, int z)
+static void SetPos(SVECTOR *vec, int x, int y, int z)
 {
     vec->vx = x;
     vec->vy = y;
     vec->vz = z;
 }
 
-void DemoasiAct_800C3DC4(DemoasiWork *work)
+static void Act(Work *work)
 {
     int t;
     int shade;
@@ -53,11 +61,11 @@ void DemoasiAct_800C3DC4(DemoasiWork *work)
     if (t < 690)
     {
         shade = 48 - ((690 - t) * 48) / 690;
-        Demoasi_800C3D88(work->prim, work->tex, shade, shade, shade);
+        ShadePacks(work->prim, work->tex, shade, shade, shade);
     }
 }
 
-void Demoasi_800C3E6C(POLY_FT4 *poly, DG_TEX *tex, int abr, int r, int g, int b)
+static void InitPacks(POLY_FT4 *poly, DG_TEX *tex, int abr, int r, int g, int b)
 {
     setPolyFT4(poly);
     setRGB0(poly, r, g, b);
@@ -74,7 +82,7 @@ void Demoasi_800C3E6C(POLY_FT4 *poly, DG_TEX *tex, int abr, int r, int g, int b)
     }
 }
 
-int DemoasiGetResources_800C3F60(DemoasiWork *work, int which, int height, int arg3)
+static int GetResources(Work *work, int which, int height, int arg3)
 {
     DG_PRIM *prim;
     DG_TEX  *tex;
@@ -83,20 +91,20 @@ int DemoasiGetResources_800C3F60(DemoasiWork *work, int which, int height, int a
 
     if (which == 1)
     {
-        Demoasi_800C3DB4(&work->prim_vecs[1], -70, 0, -140);
-        Demoasi_800C3DB4(&work->prim_vecs[0], 70, 0, -140);
-        Demoasi_800C3DB4(&work->prim_vecs[3], -70, 0, 140);
-        Demoasi_800C3DB4(&work->prim_vecs[2], 70, 0, 140);
+        SetPos(&work->pos[1], -70, 0, -140);
+        SetPos(&work->pos[0], 70, 0, -140);
+        SetPos(&work->pos[3], -70, 0, 140);
+        SetPos(&work->pos[2], 70, 0, 140);
     }
     else
     {
-        Demoasi_800C3DB4(&work->prim_vecs[0], -70, 0, -140);
-        Demoasi_800C3DB4(&work->prim_vecs[1], 70, 0, -140);
-        Demoasi_800C3DB4(&work->prim_vecs[2], -70, 0, 140);
-        Demoasi_800C3DB4(&work->prim_vecs[3], 70, 0, 140);
+        SetPos(&work->pos[0], -70, 0, -140);
+        SetPos(&work->pos[1], 70, 0, -140);
+        SetPos(&work->pos[2], -70, 0, 140);
+        SetPos(&work->pos[3], 70, 0, 140);
     }
 
-    prim = GM_MakePrim(DG_PRIM_POLY_FT4, 1, work->prim_vecs, NULL);
+    prim = GM_MakePrim(DG_PRIM_POLY_FT4, 1, work->pos, NULL);
     work->prim = prim;
     if (prim == NULL)
     {
@@ -115,8 +123,8 @@ int DemoasiGetResources_800C3F60(DemoasiWork *work, int which, int height, int a
         return -1;
     }
 
-    Demoasi_800C3E6C(prim->packs[0], tex, 2, 48, 48, 48);
-    Demoasi_800C3E6C(prim->packs[1], tex, 2, 48, 48, 48);
+    InitPacks(prim->packs[0], tex, 2, 48, 48, 48);
+    InitPacks(prim->packs[1], tex, 2, 48, 48, 48);
 
     DG_SetPos(work->world);
     DG_PutPrim(&work->prim->world);
@@ -124,23 +132,25 @@ int DemoasiGetResources_800C3F60(DemoasiWork *work, int which, int height, int a
     return 0;
 }
 
-void DemoasiDie_800C4110(DemoasiWork *work)
+static void Die(Work *work)
 {
     GM_FreePrim(work->prim);
 }
 
-void *NewDemoasi_800C414C(MATRIX *world, int which, int height)
-{
-    DemoasiWork *work;
+/*---------------------------------------------------------------------------*/
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(DemoasiWork));
+void *NewDemoAsiato(MATRIX *world, int which, int height)
+{
+    Work *work;
+
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, DemoasiAct_800C3DC4, DemoasiDie_800C4110, "demoasi.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "demoasi.c");
 
         work->world = world;
 
-        if (DemoasiGetResources_800C3F60(work, which, height, 690) < 0)
+        if (GetResources(work, which, height, 690) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
@@ -150,18 +160,18 @@ void *NewDemoasi_800C414C(MATRIX *world, int which, int height)
     return (void *)work;
 }
 
-void *NewDemoasi_800C41F4(MATRIX *world, int which, int height, int arg3)
+void *NewDemoAsiato2(MATRIX *world, int which, int height, int arg3)
 {
-    DemoasiWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(DemoasiWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, DemoasiAct_800C3DC4, DemoasiDie_800C4110, "demoasi.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "demoasi.c");
 
         work->world = world;
 
-        if (DemoasiGetResources_800C3F60(work, which, height, arg3) < 0)
+        if (GetResources(work, which, height, arg3) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

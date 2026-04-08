@@ -320,8 +320,8 @@
 #define CHARA_000C              { 0x000c, ? }                       // --> anime/animconv/anime.c
 #define CHARA_000D_D_BLOODS     { 0x000d, NewDBloods_800D5B70 }     // okajima/d_bloods.c
 #define CHARA_000E              { 0x000e, AN_Breath }               // --> anime/animconv/anime.c
-#define CHARA_000F_DEMOKAGE     { 0x000f, NewDemoKage_800C48A4 }    // enemy/demokage.c
-#define CHARA_0010_DEMOASI      { 0x0010, NewDemoasi_800C414C }     // enemy/demoasi.c
+#define CHARA_000F_DEMOKAGE     { 0x000f, NewDemoKage }             // enemy/demokage.c
+#define CHARA_0010_DEMOASI      { 0x0010, NewDemoAsiato }           // enemy/demoasi.c
 #define CHARA_0011              { 0x0011, s08c_800C4194 }           // --> anime/animconv/anime.c
 #define CHARA_0012_BUBBLE_T     { 0x0012, NewBubbleT_800DA380 }     // okajima/bubble_t.c
 #define CHARA_0013_BUBBLE_P     { 0x0013, NewBubbleP_800D9D94 }     // okajima/bubble_p.c
@@ -438,8 +438,8 @@ void *NewAsiatoKun();                   /* enemy/asiato.c               */
 void *NewAsiotoKun();                   /* enemy/asioto.c               */
 void *NewCamera_800D67F8();             /* enemy/camera.c               */
 void *NewCommander();                   /* enemy/command.c              */
-void *NewDemoasi_800C414C();            /* enemy/demoasi.c              */
-void *NewDemoKage_800C48A4();           /* enemy/demokage.c             */
+void *NewDemoAsiato();                  /* enemy/demoasi.c              */
+void *NewDemoKage();                    /* enemy/demokage.c             */
 void *NewKatana_800C5660();             /* enemy/katana.c               */
 void *NewKikenKun();                    /* enemy/kiken.c                */
 void *NewEnemyMeryl_800D63A4();         /* enemy/meryl7.c               */

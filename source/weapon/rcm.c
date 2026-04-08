@@ -30,7 +30,7 @@ typedef struct _Work
     CONTROL       *control;
     OBJECT        *parent;
     int            num_parent;
-    unsigned int  *flags;
+    u_long        *flags;
     int            which_side;
     int            counter;
     DG_PRIM       *prim;
@@ -74,7 +74,7 @@ static void SetLightTexture(POLY_FT4 *poly, DG_TEX *tex)
  * @param   work    Pointer to the Work structure containing missile data.
  * @param   flags   Integer flags indicating the current state or input.
  */
-static void UpdateLight(Work *work, int flags)
+static void UpdateLight(Work *work, u_long flags)
 {
     int      shade;
     LINE_G2 *prim;
@@ -116,7 +116,7 @@ static void UpdateLight(Work *work, int flags)
 static void Act(Work *work)
 {
     int     mapBit;
-    int     p_flags;
+    u_long  p_flags;
     int     ammo_count;
     MATRIX  mt1;
     MATRIX  mt2;
@@ -258,7 +258,7 @@ static int GetResources(Work *work, OBJECT *parent, int unit)
  *
  * @returns The actor's work area.
  */
-void *NewRCM(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side)
+void *NewRCM(CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int which_side)
 {
     Work *work;
 

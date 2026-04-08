@@ -367,8 +367,8 @@ void Searchli_800D7A4C(SearchlightWork *work)
     case 1:
         if (s01a_searchli_800D763C(work))
         {
-            ENE_SetTopCommAL_800CEAE8(255);
-            ENE_SetGopointLast_800CEB00();
+            ENE_SetTopCommAL(255);
+            ENE_SetGopointLast();
             work->f294 = 1;
             work->f29C = 4;
             work->f2A0 = 0;
@@ -404,8 +404,8 @@ void Searchli_800D7BB8(SearchlightWork *work)
 
         if (s01a_searchli_800D73D8(work))
         {
-            ENE_SetTopCommAL_800CEAE8(255);
-            ENE_SetGopointLast_800CEB00();
+            ENE_SetTopCommAL(255);
+            ENE_SetGopointLast();
         }
         break;
 
@@ -451,8 +451,8 @@ void Searchli_800D7C58(SearchlightWork *work)
 
     if (s01a_searchli_800D73D8(work))
     {
-        ENE_SetTopCommAL_800CEAE8(255);
-        ENE_SetGopointLast_800CEB00();
+        ENE_SetTopCommAL(255);
+        ENE_SetGopointLast();
         s00a_command_800CEC40(&work->control.mov, 64);
         COM_VibTime_800E0F68 = 10;
         work->f294 = 1;

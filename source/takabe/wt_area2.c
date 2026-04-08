@@ -40,9 +40,9 @@ static int BoundInCheck( SVECTOR *bound, SVECTOR *check )
          check->vy > bound[0].vy && check->vy < bound[1].vy &&
          check->vz > bound[0].vz && check->vz < bound[1].vz )
     {
-        return 1;
+        return TRUE;
     }
-    return 0;
+    return FALSE;
 }
 
 /*---------------------------------------------------------------------------*/

@@ -158,9 +158,9 @@ static int BoundInCheck( SVECTOR *bound, SVECTOR *check )
          check->vy < bound[1].vy &&
          check->vz < bound[1].vz )
     {
-        return 1;
+        return TRUE;
     }
-    return 0;
+    return FALSE;
 }
 
 static int CheckMessage(unsigned short name, int n_hashes, unsigned short *hashes)

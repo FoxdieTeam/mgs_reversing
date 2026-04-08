@@ -104,7 +104,7 @@ typedef struct _WatcherWork
     WatcherPad     pad;                        //0xB38
     short          field_B4C;                  //0xB4C
     short          field_B4E;                  //0xB4E
-    unsigned int   trigger;                    //0xB50
+    u_long         trigger;                    //0xB50
     GV_ACT        *subweapon;                  //0xB54
     short          field_B58;                  //0xB58
     short          field_B5A;                  //0xB5A
@@ -221,7 +221,7 @@ typedef struct _ZakoWork
     WatcherPad     pad;                        //0xB38
     short          field_B4C;                  //0xB4C
     short          field_B4E;                  //0xB4E
-    unsigned int   trigger;                    //0xB50
+    u_long         trigger;                    //0xB50
     GV_ACT        *subweapon;                  //0xB54
     short          field_B58;                  //0xB58
     short          field_B5A;                  //0xB5A
@@ -339,7 +339,7 @@ typedef struct _Zako11FWork
     WatcherPad     pad;                        //0xB38
     short          field_B4C;                  //0xB4C
     short          field_B4E;                  //0xB4E
-    unsigned int   trigger;                    //0xB50
+    u_long         trigger;                    //0xB50
     GV_ACT        *subweapon;                  //0xB54
     short          field_B58;                  //0xB58
     short          field_B5A;                  //0xB5A
@@ -551,11 +551,13 @@ void  s00a_command_800D0344( void ) ;
 void  EnemyPushMove_800CA0E8( WatcherWork* work );
 void  EnemyActionMain_800CA07C( WatcherWork* work );
 void *AN_Unknown_800CA1EC( MATRIX* mat, int mark );
-void  ENE_SetGopointLast_800CEB00();
-void  ENE_SetTopCommAL_800CEAE8( int alert );
 
-void SetCameraActCall_800D043C();
-void UnsetCameraActCall_800D047C();
+void  ENE_SetTopCommAL( int alert );
+void  ENE_SetTopCommMD( int mode );
+void  ENE_SetGopointLast(void);
+
+void SetCameraActCall(void);
+void UnsetCameraActCall(void);
 
 //watcher.c
 #define EN_FASEOUT 0x10000000

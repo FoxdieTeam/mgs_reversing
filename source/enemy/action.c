@@ -349,7 +349,7 @@ void s00a_command_800C6320( WatcherWork *work, int time )
 
     if ( CheckDamage_800C5424( work ) )
     {
-        UnsetCameraActCall_800D047C( );
+        UnsetCameraActCall( );
         COM_GameStatus_800E0F3C &= ~COM_ST_DANBOWL ;
         printf(" ~COM_ST_DANBOWL 0 !! \n ") ;
         return;
@@ -361,7 +361,7 @@ void s00a_command_800C6320( WatcherWork *work, int time )
         {
             SetMode( work, ActStandStill_800C5C84 ) ;
         }
-        UnsetCameraActCall_800D047C( );
+        UnsetCameraActCall( );
         COM_GameStatus_800E0F3C &= ~COM_ST_DANBOWL ;
         printf(" ~COM_ST_DANBOWL 1 !! \n ") ;
         return ;
@@ -370,7 +370,7 @@ void s00a_command_800C6320( WatcherWork *work, int time )
     if ( time == 0 ) {
         SetMode2( work, ActOverScoutD_800C85DC ) ;
         SetAction( work, STANDSTILL, ACTINTERP ) ;
-        SetCameraActCall_800D043C( );
+        SetCameraActCall( );
     }
 
     if ( time == 60 ) {
@@ -393,7 +393,7 @@ void s00a_command_800C6320( WatcherWork *work, int time )
     }
 
     if ( time > 150  ) {
-        UnsetCameraActCall_800D047C( );
+        UnsetCameraActCall( );
         work->actend = 1 ;
         SetMode( work, ActStandStill_800C5C84 ) ;
         COM_GameStatus_800E0F3C &= ~COM_ST_DANBOWL ;
@@ -505,10 +505,10 @@ void ActGrenade_800C67EC( WatcherWork *work, int time )
 
     if ( time == 0 )
     {
-        extern  void     *NewGrenadeEnemy_800D2138( CONTROL *, OBJECT *, int, unsigned int *, SVECTOR *, int ) ;
+        extern  void     *NewGrenadeEnemy( CONTROL *, OBJECT *, int, u_long *, SVECTOR *, int ) ;
 
-        work->subweapon = NewGrenadeEnemy_800D2138( &(work->control), &(work->body), 9,
-                                                    &(work->trigger), &GM_PlayerPosition, ENEMY_SIDE ) ;
+        work->subweapon = NewGrenadeEnemy( &(work->control), &(work->body), 9,
+                                           &(work->trigger), &GM_PlayerPosition, ENEMY_SIDE ) ;
 
         if ( GM_PlayerStatus & PLAYER_INTRUDE )
         {

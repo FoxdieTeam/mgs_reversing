@@ -157,9 +157,7 @@ void menu_draw_bar(MenuPrim *prim, long x, long y, long rest, long now, long max
         pTile_2->w = diff;
         pTile_2->h = sp2C;
 
-        pTile_2->r0 = 200;
-        pTile_2->g0 = 0;
-        pTile_2->b0 = 0;
+        setRGB0(pTile_2, 200, 0, 0);
 
         addPrim(ot, pTile_2);
     }
@@ -170,18 +168,19 @@ void menu_draw_bar(MenuPrim *prim, long x, long y, long rest, long now, long max
 
     // Set the color of the bar as gradient fill. The color is interpolated
     // between the left and right color.
-    pPoly->r0 = bconf->left[0];
-    pPoly->g0 = bconf->left[1];
-    pPoly->b0 = bconf->left[2];
-    pPoly->r1 = bconf->left[0] + ((bconf->right[0] - bconf->left[0]) * (pPoly->x1 - pPoly->x0)) / 128;
-    pPoly->g1 = bconf->left[1] + ((bconf->right[1] - bconf->left[1]) * (pPoly->x1 - pPoly->x0)) / 128;
-    pPoly->b1 = bconf->left[2] + ((bconf->right[2] - bconf->left[2]) * (pPoly->x1 - pPoly->x0)) / 128;
-    pPoly->r2 = bconf->left[0] + ((bconf->right[0] - bconf->left[0]) * (pPoly->x2 - pPoly->x0)) / 128;
-    pPoly->g2 = bconf->left[1] + ((bconf->right[1] - bconf->left[1]) * (pPoly->x2 - pPoly->x0)) / 128;
-    pPoly->b2 = bconf->left[2] + ((bconf->right[2] - bconf->left[2]) * (pPoly->x2 - pPoly->x0)) / 128;
-    pPoly->r3 = bconf->left[0] + ((bconf->right[0] - bconf->left[0]) * (pPoly->x3 - pPoly->x0)) / 128;
-    pPoly->g3 = bconf->left[1] + ((bconf->right[1] - bconf->left[1]) * (pPoly->x3 - pPoly->x0)) / 128;
-    pPoly->b3 = bconf->left[2] + ((bconf->right[2] - bconf->left[2]) * (pPoly->x3 - pPoly->x0)) / 128;
+    setRGB0(pPoly, bconf->left[0], bconf->left[1], bconf->left[2]);
+    setRGB1(pPoly,
+        (bconf->left[0] + ((bconf->right[0] - bconf->left[0]) * (pPoly->x1 - pPoly->x0)) / 128),
+        (bconf->left[1] + ((bconf->right[1] - bconf->left[1]) * (pPoly->x1 - pPoly->x0)) / 128),
+        (bconf->left[2] + ((bconf->right[2] - bconf->left[2]) * (pPoly->x1 - pPoly->x0)) / 128));
+    setRGB2(pPoly,
+        (bconf->left[0] + ((bconf->right[0] - bconf->left[0]) * (pPoly->x2 - pPoly->x0)) / 128),
+        (bconf->left[1] + ((bconf->right[1] - bconf->left[1]) * (pPoly->x2 - pPoly->x0)) / 128),
+        (bconf->left[2] + ((bconf->right[2] - bconf->left[2]) * (pPoly->x2 - pPoly->x0)) / 128));
+    setRGB3(pPoly,
+        (bconf->left[0] + ((bconf->right[0] - bconf->left[0]) * (pPoly->x3 - pPoly->x0)) / 128),
+        (bconf->left[1] + ((bconf->right[1] - bconf->left[1]) * (pPoly->x3 - pPoly->x0)) / 128),
+        (bconf->left[2] + ((bconf->right[2] - bconf->left[2]) * (pPoly->x3 - pPoly->x0)) / 128));
 
     setPolyG4(pPoly);
     addPrim(ot, pPoly);

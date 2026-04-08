@@ -318,12 +318,11 @@ static void sgtrect3_act_helper_80070568(Work *work, u_long *ot, LINE_F3 *lineF3
                 multiplicand = 0;
             }
 
-            firstLineF4->r0 = (unsigned int)(work->field_2C_rgb.rgbChars[0] * multiplicand) >> 4;
-            firstLineF4->g0 = (unsigned int)(work->field_2C_rgb.rgbChars[1] * multiplicand) >> 4;
-            firstLineF4->b0 = (unsigned int)(work->field_2C_rgb.rgbChars[2] * multiplicand) >> 4;
-            secondLineF4->r0 = firstLineF4->r0;
-            secondLineF4->g0 = firstLineF4->g0;
-            secondLineF4->b0 = firstLineF4->b0;
+            setRGB0(firstLineF4,
+                ((unsigned int)(work->field_2C_rgb.rgbChars[0] * multiplicand) >> 4),
+                ((unsigned int)(work->field_2C_rgb.rgbChars[1] * multiplicand) >> 4),
+                ((unsigned int)(work->field_2C_rgb.rgbChars[2] * multiplicand) >> 4));
+            setRGB0(secondLineF4, firstLineF4->r0, firstLineF4->g0, firstLineF4->b0);
         }
 
         addPrimEX(ot, firstLineF4);

@@ -66,9 +66,7 @@ static void InitParticleColor(TILE *tile)
 
     for (i = 64; i > 0; i--)
     {
-        tile->r0 = 255;
-        tile->g0 = 255;
-        tile->b0 = 0;
+        setRGB0(tile, 255, 255, 0);
         tile++;
     }
 }

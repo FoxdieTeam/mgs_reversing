@@ -265,8 +265,8 @@ int s01a_camera_800D515C(CameraWork *work)
     }
     if (field_1EC == 35)
     {
-        ENE_SetTopCommAL_800CEAE8(0xFF);
-        ENE_SetGopointLast_800CEB00();
+        ENE_SetTopCommAL(255);
+        ENE_SetGopointLast();
         return 1;
     }
 
@@ -548,8 +548,8 @@ void s01a_camera_800D5970(CameraWork *work)
         if (work->field_1E8 == 4)
         {
             s01a_camera_800D509C(work);
-            ENE_SetTopCommAL_800CEAE8(0xFF);
-            ENE_SetGopointLast_800CEB00();
+            ENE_SetTopCommAL(255);
+            ENE_SetGopointLast();
             if (!s01a_camera_800D4E08(work))
             {
                 work->field_1E8 = 0;
@@ -590,8 +590,8 @@ void s01a_camera_800D5A68(CameraWork *work)
     }
     if (s01a_camera_800D4E08(work))
     {
-        ENE_SetTopCommAL_800CEAE8(0xFF);
-        ENE_SetGopointLast_800CEB00();
+        ENE_SetTopCommAL(255);
+        ENE_SetGopointLast();
         COM_VibTime_800E0F68 = 0xA;
         s00a_command_800CEC40(&work->control.mov, 0x20);
         AN_Unknown_800CA1EC(&work->body.objs[1].world, 0);
@@ -986,14 +986,7 @@ void s01a_camera_800D648C(POLY_FT4 *poly, DG_TEX *tex, int col)
     y_offset = tex->off_y;
     height = y_offset + tex->h;
 
-    poly->u0 = x_offset;
-    poly->v0 = y_offset;
-    poly->u1 = width;
-    poly->v1 = y_offset;
-    poly->u2 = x_offset;
-    poly->v2 = height;
-    poly->u3 = width;
-    poly->v3 = height;
+    setUV4(poly, x_offset, y_offset, width, y_offset, x_offset, height, width, height);
 
     poly->tpage = tex->tpage;
     poly->clut = (unsigned short)tex->clut;

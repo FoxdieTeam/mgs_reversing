@@ -12,6 +12,7 @@
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
+#include "game/vibrate.h"
 #include "linkvar.h"
 #include "sound/g_sound.h"
 #include "strcode.h"
@@ -95,9 +96,6 @@ int s00a_dword_800C35E4[] = {
 const char aCresetposd_800E07FC[] = " c_reset_pos = %d \n";
 const char aKottida_800E0810[] = "kottida !!\n";
 
-void GM_AlertModeSet( int );
-void NewPadVibration( unsigned char *ptr, int flags );
-
 #define EXEC_LEVEL GV_ACTOR_LEVEL4
 
 int s00a_command_800CEA2C( WatcherWork *work )
@@ -135,17 +133,17 @@ int s00a_command_800CEA9C( int val )
     return 0;
 }
 
-void ENE_SetTopCommAL_800CEAE8( int alert )
+void ENE_SetTopCommAL( int alert )
 {
     TOPCOMMAND_800E0F20.alert = alert;
 }
 
-void ENE_SetTopCommMD_800CEAF4( int mode )
+void ENE_SetTopCommMD( int mode )
 {
     TOPCOMMAND_800E0F20.mode = mode;
 }
 
-void ENE_SetGopointLast_800CEB00(void)
+void ENE_SetGopointLast(void)
 {
     EnemyCommand_800E0D98.com_addr = COM_PlayerAddress_800E0D90;
     EnemyCommand_800E0D98.com_pos  = COM_PlayerPosition_800E0F30;
@@ -626,7 +624,7 @@ void s00a_command_800CF6A0( int val, ENEMY_COMMAND* command )
         command->alert = TOPCOMMAND_800E0F20.alert;
     }
 
-    ENE_SetTopCommAL_800CEAE8( 0 );
+    ENE_SetTopCommAL( 0 );
 }
 
 void s00a_command_800CF704( ENEMY_COMMAND *command )
@@ -1043,7 +1041,7 @@ void s00a_command_800D0218(void)
     }
 }
 
-void CommandAct_800D0258( CommanderWork* work )
+static void Act( CommanderWork* work )
 {
     if (GM_CheckMessage( &work->actor , work->name, HASH_KILL) != NULL)
     {
@@ -1061,9 +1059,9 @@ void CommandAct_800D0258( CommanderWork* work )
     EnemyCommand_800E0D98.field_0x0C++;
 }
 
-void CommandDie_800D02EC( void )
+static void Die( CommanderWork* work )
 {
-    return;
+    /* do nothing */
 }
 
 void s00a_command_800D02F4(void)
@@ -1099,7 +1097,9 @@ void s00a_command_800D0344(void)
     s00a_dword_800E0D2C++;
 }
 
-void SetCameraActCall_800D043C()
+/*---------------------------------------------------------------------------*/
+
+void SetCameraActCall(void)
 {
     if ( COM_GameStatus_800E0F3C & 0x1000 ) return;
 
@@ -1109,7 +1109,7 @@ void SetCameraActCall_800D043C()
 
 }
 
-void UnsetCameraActCall_800D047C()
+void UnsetCameraActCall(void)
 {
     if ( !( COM_GameStatus_800E0F3C & 0x1000 ) ) return;
 
@@ -1121,7 +1121,9 @@ void UnsetCameraActCall_800D047C()
     GM_Camera.flags &= ~( 2 ) ;
 }
 
-void CommandGetResources_800D04F4( CommanderWork *work, int name, int where )
+/*---------------------------------------------------------------------------*/
+
+static void GetResources( CommanderWork *work, int name, int where )
 {
     int i;
     char *ops;
@@ -1309,14 +1311,16 @@ void CommandGetResources_800D04F4( CommanderWork *work, int name, int where )
     }
 }
 
+/*---------------------------------------------------------------------------*/
+
 void *NewCommander(int name, int where, int argc, char **argv)
 {
     CommanderWork *work ;
 
     work = GV_NewActor( EXEC_LEVEL, sizeof( CommanderWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor( &( work->actor ), CommandAct_800D0258, CommandDie_800D02EC, "command.c" );
-        CommandGetResources_800D04F4( work, name, where );
+        GV_SetNamedActor( &( work->actor ), Act, Die, "command.c" );
+        GetResources( work, name, where );
     }
     return (void *)work;
 }

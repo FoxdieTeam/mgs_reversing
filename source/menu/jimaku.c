@@ -41,8 +41,7 @@ void menu_jimaku_act( MenuWork *work, u_long *ot )
             LCOPY(&gUnkJimakuStruct_800BDA70.field_4_x, &pSprt->x0);
             LCOPY(&gUnkJimakuStruct_800BDA70.field_8_w, &pSprt->w);
             setClut(pSprt, 960, 510);
-            pSprt->u0 = 0;
-            pSprt->v0 = 0;
+            setUV0(pSprt, 0, 0);
             setSprt(pSprt);
             addPrim(ot, pSprt);
 

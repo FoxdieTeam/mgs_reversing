@@ -424,12 +424,9 @@ void menu_radio_update_helper3_80040498(MenuPrim *pGlue)
     _NEW_PRIM(pPrim, pGlue);
 
     LSTORE(0x80808080, &pPrim->r0);
-    pPrim->u0 = 0;
-    pPrim->v0 = 116;
-    pPrim->x0 = 130;
-    pPrim->y0 = 49;
-    pPrim->w = 60;
-    pPrim->h = 12;
+    setUV0(pPrim, 0, 116);
+    setXY0(pPrim, 130, 49);
+    setWH(pPrim, 60, 12);
     pPrim->clut = gRadioClut_800ABAFC;
 
     setSprt(pPrim);
@@ -601,10 +598,8 @@ void menu_radio_codec_helper_helper14_helper4_800408BC(MenuPrim *pGlue, int x, i
     }
 
     pSprt->v0 = y;
-    pSprt->w = w;
-    pSprt->h = h;
-    pSprt->x0 = x2;
-    pSprt->y0 = y2;
+    setWH(pSprt, w, h);
+    setXY0(pSprt, x2, y2);
 
     setSprt(pSprt);
     LSTORE(0x66000000 | color2, &pSprt->r0);
@@ -801,9 +796,8 @@ int draw_radio_message(MenuWork *work, u_long *ot)
 
     pPrim->u0 = (RADIO_MES_VRAM_POS_800AB630.x % 64) * 4;
     pPrim->v0 = RADIO_MES_VRAM_POS_800AB630.y;
-    pPrim->w = 252;
-    pPrim->h = 76;
-    pPrim->clut = 32700;
+    setWH(pPrim, 252, 76);
+    setClut(pPrim, 960, 510);
     pPrim->x0 = (FRAME_WIDTH - kcb->max_width) / 2;
     pPrim->y0 = 132;
 
@@ -1747,25 +1741,17 @@ void menu_number_init(MenuWork *work)
 
     sprt = &gRadioNumberSprt_800bd9b0;
     setSprt(sprt);
-    sprt->r0 = 128;
-    sprt->g0 = 128;
-    sprt->b0 = 128;
-    sprt->u0 = 0x9c;
-    sprt->v0 = 0xe8;
-    sprt->w = 6;
-    sprt->h = 7;
-    sprt->clut = 0x7ffc;
+    setRGB0(sprt, 128, 128, 128);
+    setUV0(sprt, 0x9c, 0xe8);
+    setWH(sprt, 6, 7);
+    setClut(sprt, 960, 511);
 
     sprt = &gRadioNumberSprt2_800bd9d0;
     setSprt(sprt);
-    sprt->r0 = 128;
-    sprt->g0 = 128;
-    sprt->b0 = 128;
-    sprt->u0 = 0;
-    sprt->v0 = 0xed;
-    sprt->w = 6;
-    sprt->h = 5;
-    sprt->clut = 0x7ffc;
+    setRGB0(sprt, 128, 128, 128);
+    setUV0(sprt, 0, 0xed);
+    setWH(sprt, 6, 5);
+    setClut(sprt, 960, 511);
 
     menu_set_string2();
 }
@@ -2016,10 +2002,8 @@ void _menu_number_draw_string(MenuPrim *pGlue, TextConfig *pTextConfig, const ch
         // draw the character sprite
         LSTORE(color, &pSprt2->r0);
 
-        pSprt2->x0 = width;
-        pSprt2->y0 = pTextConfig->ypos;
-        pSprt2->u0 = tpx;
-        pSprt2->v0 = tpy;
+        setXY0(pSprt2, width, pTextConfig->ypos);
+        setUV0(pSprt2, tpx, tpy);
 
         addPrim(ot, pSprt2);
         width += skip;
@@ -2047,17 +2031,13 @@ void menu_number_draw_magazine(MenuWork *work, u_long *ot, int xoff, int yoff,
         {
             if (i < pSubCnt2)
             {
-                sprt->r0 = 128;
-                sprt->g0 = 32;
-                sprt->b0 = 32;
+                setRGB0(sprt, 128, 32, 32);
             }
-            sprt->u0 = 0xD8;
-            sprt->v0 = 0xE8;
+            setUV0(sprt, 0xD8, 0xE8);
         }
         else
         {
-            sprt->u0 = 0xDC;
-            sprt->v0 = 0xE8;
+            setUV0(sprt, 0xDC, 0xE8);
         }
 
         sprt->w = 4;
@@ -2279,10 +2259,8 @@ void _menu_number_draw_string2(MenuPrim *pGlue, TextConfig *pTextConfig, const c
         // draw the character sprite
         LSTORE(color, &pSprt2->r0);
 
-        pSprt2->x0 = width;
-        pSprt2->y0 = pTextConfig->ypos;
-        pSprt2->u0 = tpx;
-        pSprt2->v0 = tpy;
+        setXY0(pSprt2, width, pTextConfig->ypos);
+        setUV0(pSprt2, tpx, tpy);
 
         addPrim(ot, pSprt2);
         width += skip;

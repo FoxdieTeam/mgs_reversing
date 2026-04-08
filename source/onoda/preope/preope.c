@@ -88,8 +88,8 @@ static signed char text_outline_direction_offsets_800C3248[] = {
 
 /*---------------------------------------------------------------------------*/
 
-extern void *NewPreOpeMetal1(int, int *, Unknown *);
-extern void *NewPreOpeMetal2(int, int *, Unknown *);
+extern void *NewPreMetal1(int, int *, Unknown *);
+extern void *NewPreMetal2(int, int *, Unknown *);
 
 // Duplicate of Change_800C364C
 static void Preope_800C32E0(Work *work, int index)
@@ -187,9 +187,8 @@ static void Preope_800C356C(Work *work, u_long *ot)
         LSTORE(COLOR_GRAY, &text_sprt->r0);
         LCOPY(&work->field_394[index].rect.x, &text_sprt->x0);
         LCOPY(&work->field_394[index].rect.w, &text_sprt->w);
-        text_sprt->u0 = 0;
-        text_sprt->v0 = work->field_394[index].f2;
-        text_sprt->clut = getClut(work->field_394[index].f4, work->field_394[index].f6);
+        setUV0(text_sprt, 0, work->field_394[index].f2);
+        setClut(text_sprt, work->field_394[index].f4, work->field_394[index].f6);
         setSprt(text_sprt);
         addPrim(ot, text_sprt);
 
@@ -502,7 +501,7 @@ static void Preope_800C41D4(Work *work)
             {
                 Preope_800C3820(work);
                 work->field_A838 = 0;
-                work->field_A830 = NewPreOpeMetal1(work->map, &work->field_A838, work->field_714);
+                work->field_A830 = NewPreMetal1(work->map, &work->field_A838, work->field_714);
                 work->field_A828 = 1;
             }
             break;
@@ -543,7 +542,7 @@ static void Preope_800C41D4(Work *work)
             {
                 Preope_800C3820(work);
                 work->field_A83C = 0;
-                work->field_A834 = NewPreOpeMetal2(work->map, &work->field_A83C, work->field_4614);
+                work->field_A834 = NewPreMetal2(work->map, &work->field_A83C, work->field_4614);
                 work->field_A82C = 1;
             }
             break;
@@ -600,12 +599,10 @@ static void Die(Work *work)
 /*---------------------------------------------------------------------------*/
 
 // Duplicate of camera_800CE4F8
-static void PreopeSetPolyFT4_800C4504(Work *work, POLY_FT4 *pPoly, int x0, int y0, int x1, int y1, int semiTrans)
+static void Init_Res_NT(Work *work, POLY_FT4 *pPoly, int x0, int y0, int x1, int y1, int semiTrans)
 {
     setPolyFT4(pPoly);
-    pPoly->r0 = 0x80;
-    pPoly->g0 = 0x80;
-    pPoly->b0 = 0x80;
+    setRGB0(pPoly, 128, 128, 128);
     pPoly->x0 = x0;
     pPoly->y0 = y0;
     pPoly->y1 = y0;
@@ -618,10 +615,10 @@ static void PreopeSetPolyFT4_800C4504(Work *work, POLY_FT4 *pPoly, int x0, int y
 }
 
 // Duplicate of camera_800CE568
-static void PreopeInitRes_800C4574(Work *work, int hashCode, POLY_FT4 *pPoly, int x0, int y0, int x1, int y1, int semiTrans, int arg9)
+static void Init_Res(Work *work, int hashCode, POLY_FT4 *pPoly, int x0, int y0, int x1, int y1, int semiTrans, int arg9)
 {
     DG_TEX *tex;
-    PreopeSetPolyFT4_800C4504(work, pPoly, x0, y0, x1, y1, semiTrans);
+    Init_Res_NT(work, pPoly, x0, y0, x1, y1, semiTrans);
     tex = DG_GetTexture(hashCode);
 
     if (arg9 == 0)
@@ -708,40 +705,40 @@ static int GetResources(Work *work, int map)
     i = 0;
 
     // pre_back_l = left side of the menu background
-    PreopeInitRes_800C4574(work, GV_StrCode("pre_back_l"), poly, -160, -112, 0, 112, 0, 0);
+    Init_Res(work, GV_StrCode("pre_back_l"), poly, -160, -112, 0, 112, 0, 0);
     poly++;
     work->field_284[i] = 768;
     i++;
 
     // pre_back_r = right side of the menu background
-    PreopeInitRes_800C4574(work, GV_StrCode("pre_back_r"), poly, 0, -112, 160, 112, 0, 0);
+    Init_Res(work, GV_StrCode("pre_back_r"), poly, 0, -112, 160, 112, 0, 0);
     poly++;
     work->field_284[i] = 768;
     i++;
 
     // "pre_pre" = the title of the menu ("PREVIOUS OPERATIONS")
-    PreopeInitRes_800C4574(work, GV_StrCode("pre_pre"), poly, -82, -94, 82, -82, 1, 0);
+    Init_Res(work, GV_StrCode("pre_pre"), poly, -82, -94, 82, -82, 1, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_284[i] = 256;
     i++;
 
     // "pre_met" = the first button, representing pre_met1 ("METAL GEAR")
-    PreopeInitRes_800C4574(work, GV_StrCode("pre_met"), poly, -42, -42, 42, -36, 1, 0);
+    Init_Res(work, GV_StrCode("pre_met"), poly, -42, -42, 42, -36, 1, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_284[i] = 256;
     i++;
 
     // "pre_met2" = the second button, representing pre_met2 ("METAL GEAR2 SOLID SNAKE")
-    PreopeInitRes_800C4574(work, GV_StrCode("pre_met2"), poly, -90, 6, 90, 12, 1, 0);
+    Init_Res(work, GV_StrCode("pre_met2"), poly, -90, 6, 90, 12, 1, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_284[i] = 256;
     i++;
 
     // "pre_exit" = "EXIT" button
-    PreopeInitRes_800C4574(work, GV_StrCode("pre_exit"), poly, -28, 46, 28, 58, 1, 0);
+    Init_Res(work, GV_StrCode("pre_exit"), poly, -28, 46, 28, 58, 1, 0);
     setRGB0(poly, 86, 137, 116);
     poly++;
     work->field_284[i] = 256;
@@ -753,55 +750,55 @@ static int GetResources(Work *work, int map)
     i = 0;
 
     // Top left rounded corner of a highlighted button
-    PreopeInitRes_800C4574(work, GV_StrCode("cur_lu"), poly2, 0, 0, 0, 0, 1, 0);
+    Init_Res(work, GV_StrCode("cur_lu"), poly2, 0, 0, 0, 0, 1, 0);
     poly2++;
     work->field_29C[i] = 0;
     i++;
 
     // Top right rounded corner of a highlighted button
-    PreopeInitRes_800C4574(work, GV_StrCode("cur_ru"), poly2, 0, 0, 0, 0, 1, 0);
+    Init_Res(work, GV_StrCode("cur_ru"), poly2, 0, 0, 0, 0, 1, 0);
     poly2++;
     work->field_29C[i] = 0;
     i++;
 
     // Bottom left rounded corner of a highlighted button
-    PreopeInitRes_800C4574(work, GV_StrCode("cur_ld"), poly2, 0, 0, 0, 0, 1, 0);
+    Init_Res(work, GV_StrCode("cur_ld"), poly2, 0, 0, 0, 0, 1, 0);
     poly2++;
     work->field_29C[i] = 0;
     i++;
 
     // Bottom right rounded corner of a highlighted button
-    PreopeInitRes_800C4574(work, GV_StrCode("cur_rd"), poly2, 0, 0, 0, 0, 1, 0);
+    Init_Res(work, GV_StrCode("cur_rd"), poly2, 0, 0, 0, 0, 1, 0);
     poly2++;
     work->field_29C[i] = 0;
     i++;
 
     // Top middle part of a highlighted button
-    PreopeInitRes_800C4574(work, GV_StrCode("cur_u"), poly2, 0, 0, 0, 0, 1, 2);
+    Init_Res(work, GV_StrCode("cur_u"), poly2, 0, 0, 0, 0, 1, 2);
     poly2++;
     work->field_29C[i] = 0;
     i++;
 
     // Bottom middle part of a highlighted button
-    PreopeInitRes_800C4574(work, GV_StrCode("cur_d"), poly2, 0, 0, 0, 0, 1, 2);
+    Init_Res(work, GV_StrCode("cur_d"), poly2, 0, 0, 0, 0, 1, 2);
     poly2++;
     work->field_29C[i] = 0;
     i++;
 
     // Left middle part of a highlighted button
-    PreopeInitRes_800C4574(work, GV_StrCode("cur_l"), poly2, 0, 0, 0, 0, 1, 1);
+    Init_Res(work, GV_StrCode("cur_l"), poly2, 0, 0, 0, 0, 1, 1);
     poly2++;
     work->field_29C[i] = 0;
     i++;
 
     // Right middle part of a highlighted button
-    PreopeInitRes_800C4574(work, GV_StrCode("cur_r"), poly2, 0, 0, 0, 0, 1, 1);
+    Init_Res(work, GV_StrCode("cur_r"), poly2, 0, 0, 0, 0, 1, 1);
     poly2++;
     work->field_29C[i] = 0;
     i++;
 
     // Central part of a highlighted button
-    PreopeInitRes_800C4574(work, GV_StrCode("cur_c"), poly2, 0, 0, 0, 0, 1, 3);
+    Init_Res(work, GV_StrCode("cur_c"), poly2, 0, 0, 0, 0, 1, 3);
     poly2++;
     work->field_29C[i] = 0;
     i++;

@@ -368,8 +368,8 @@ void IrCensAct_800D9EF8(IrCensWork *work)
     {
         if (GM_Target_8002E1B8(&sp20, &sp28, work->map, &sp18, ENEMY_SIDE))
         {
-            ENE_SetTopCommAL_800CEAE8(0xFF);
-            ENE_SetGopointLast_800CEB00();
+            ENE_SetTopCommAL(255);
+            ENE_SetGopointLast();
 
             if (GM_AlertMode != ALERT_ACTIVE)
             {

@@ -826,7 +826,9 @@ void s11i_zk11fcom_800D19D4(void)
     Zako11FCommand_800D5AF8.field_0x10++;
 }
 
-void ZakoCommanderAct_800D1DB0(Zako11FCommanderWork *work)
+/*---------------------------------------------------------------------------*/
+
+static void Act(Zako11FCommanderWork *work)
 {
     if (GM_CheckMessage(&work->actor, work->name, HASH_KILL))
     {
@@ -846,9 +848,12 @@ void ZakoCommanderAct_800D1DB0(Zako11FCommanderWork *work)
     }
 }
 
-void ZakoCommanderDie_800D1E30(Zako11FCommanderWork *work)
+static void Die(Zako11FCommanderWork *work)
 {
+    /* do nothing */
 }
+
+/*---------------------------------------------------------------------------*/
 
 int ZakoCommander_800D1E38(void)
 {
@@ -877,7 +882,7 @@ int ZakoCommander_800D1E38(void)
     return i;
 }
 
-void ZakoCommanderGetResources_800D1EC8(Zako11FCommanderWork *work, int name, int where)
+static void GetResources(Zako11FCommanderWork *work, int name, int where)
 {
     int   i;
     char *opt;
@@ -972,14 +977,16 @@ void ZakoCommanderGetResources_800D1EC8(Zako11FCommanderWork *work, int name, in
     Zako11FCommand_800D5AF8.field_0x110 = 0;
 }
 
+/*---------------------------------------------------------------------------*/
+
 void *NewZako11FCommander( int name, int where )
 {
     Zako11FCommanderWork *work ;
 
     work = GV_NewActor( EXEC_LEVEL, sizeof( Zako11FCommanderWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor( &( work->actor ), ZakoCommanderAct_800D1DB0, ZakoCommanderDie_800D1E30, "zk11fcom.c" );
-        ZakoCommanderGetResources_800D1EC8( work, name, where );
+        GV_SetNamedActor( &( work->actor ), Act, Die, "zk11fcom.c" );
+        GetResources( work, name, where );
     }
     return (void *)work;
 }

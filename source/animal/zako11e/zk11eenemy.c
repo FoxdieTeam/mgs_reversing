@@ -13,8 +13,9 @@ extern int          ZAKO11E_EYE_LENGTH_800C3904;
 
 extern CONTROL *GM_WhereList[94];
 
-extern int AsiatoCheck_800D16C0( HZD_HDL*, SVECTOR* );
-extern int SearchNearAsiato_800D13B0( HZD_HDL*, SVECTOR*, short, short, short );
+// in enemy/asiato.c
+extern int AsiatoCheck( HZD_HDL *, SVECTOR * );
+extern int SearchNearAsiato( HZD_HDL *, SVECTOR *, short, short, short );
 
 void s11e_zk11ecom_800D80E0( ZakoWork* work )
 {
@@ -176,12 +177,12 @@ void s11e_zk11ecom_800D8498( ZakoWork* work )
 
     hzd = work->control.map->hzd;
     vision = &work->vision;
-    if ( !( AsiatoCheck_800D16C0( hzd, &ctrl->mov ) ) )
+    if ( !( AsiatoCheck( hzd, &ctrl->mov ) ) )
     {
         return;
     }
 
-    if ( SearchNearAsiato_800D13B0( hzd, &ctrl->mov, vision->facedir, vision->angle, vision->length ) < 0 )
+    if ( SearchNearAsiato( hzd, &ctrl->mov, vision->facedir, vision->angle, vision->length ) < 0 )
     {
         return;
     }

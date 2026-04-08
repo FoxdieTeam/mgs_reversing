@@ -76,11 +76,10 @@ int s07a_dword_800C377C = 0x0000E2B4;
 const char s07a_aErrerrerrsettimeover_800E2E40[] = "Err Err Err  Set time Over\n";
 const char s07a_aErrerrerrsetdirover_800E2E5C[] = "Err Err Err  Set Dir Over\n";
 const char s07a_aErrerrerrsoundbuffover_800E2E78[] = "Err Err Err Sound Buff Over !!\n";
-const char s07a_dword_800E2E98[] = {0xa5, 0xe1, 0xa5, 0xa4};
-const char s07a_dword_800E2E9C[] = {0xa5, 0xf3, 0x0, 0x0};
-const char s07a_dword_800E2EA0[] = {0xbd, 0xf7, 0xbb, 0xd2};
-const char s07a_dword_800E2EA4[] = {0xa5, 0xc8, 0xa5, 0xa4};
-const char s07a_dword_800E2EA8[] = {0xa5, 0xec, 0x0, 0x0};
+
+const char s07a_dword_800E2E98[] = "メイン";
+const char s07a_dword_800E2EA0[] = "女子トイレ";
+
 const char s07a_aErrnotenoughwork_800E2EAC[] = "Err not enough work !!\n";
 const char s07a_aMerylcactionpointerr_800E2EC4[] = "meryl.c : action point Err\n";
 const char s07a_aAsiatoooo_800E2EE0[] = "asiatoooo";

@@ -237,17 +237,7 @@ void Valcan_800D9028(POLY_FT4 *prims, DG_TEX *tex)
     t_v0 = tex->off_y;
     t_v2 = t_v0 + tex->h;
 
-    prims->u0 = t_u0;
-    prims->v0 = t_v0;
-
-    prims->u1 = t_u1;
-    prims->v1 = t_v0;
-
-    prims->u2 = t_u0;
-    prims->v2 = t_v2;
-
-    prims->u3 = t_u1;
-    prims->v3 = t_v2;
+    setUV4(prims, t_u0, t_v0, t_u1, t_v0, t_u0, t_v2, t_u1, t_v2);
 
     prims->tpage = tex->tpage;
     prims->clut = tex->clut;

@@ -868,9 +868,7 @@ static void SetPolyTexture(POLY_FT4 *poly, DG_TEX *tex, int n_poly)
     set_poly_tex(poly, tex);
     poly->tpage = (poly->tpage & ~0x0060) | 0x20;
 
-    poly->r0 = 0;
-    poly->g0 = 0;
-    poly->b0 = 0;
+    setRGB0(poly, 0, 0, 0);
 
     poly++;
     n_poly--;

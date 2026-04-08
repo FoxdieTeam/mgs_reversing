@@ -32,7 +32,7 @@ typedef struct _Work
     CONTROL       *control;
     OBJECT        *parent;
     int            num_parent;
-    int           *flags;
+    u_long        *flags;
     int            field_54;
     int            counter;
     int            mp5_flag;    // Use H&K MP5 (for VERY EASY)
@@ -45,7 +45,7 @@ STATIC SVECTOR stru_800AB850 = { 5, -500, 80, 0 };
 static void Act(Work *work)
 {
     int mp5_flag;
-    int flags;
+    u_long flags;
     CONTROL *ctrl1;
 
     int newSize;
@@ -186,7 +186,7 @@ static int GetResources(Work *work, OBJECT *parent, int num_parent, int mp5flag)
 
 /*---------------------------------------------------------------------------*/
 
-static void *InitFAMAS(CONTROL *control, OBJECT *parent, int num_parent, int *flags, int mp5flag)
+static void *InitFAMAS(CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int mp5flag)
 {
     int mag_size;
 
@@ -234,7 +234,7 @@ static void *InitFAMAS(CONTROL *control, OBJECT *parent, int num_parent, int *fl
     return (void *)work;
 }
 
-void *NewFAMAS(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side)
+void *NewFAMAS(CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int which_side)
 {
     return InitFAMAS(control, parent, num_parent, flags, (unsigned int)GM_DifficultyFlag >> 31);
 }

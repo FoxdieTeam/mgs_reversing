@@ -38,7 +38,7 @@ typedef struct _Work
     CONTROL       *control;
     OBJECT        *parent;
     int            num_parent;
-    int           *flags;
+    u_long        *flags;
     short          bullet_type;
     short          field_56;
     DG_PRIM       *prim1;
@@ -229,7 +229,7 @@ static int socom_act_helper_80065408( Work *work )
 static void Act( Work *work )
 {
     int color;
-    unsigned int flags;
+    u_long flags;
     MATRIX  MStack48;
     MATRIX *world;
     int mag_size;
@@ -432,7 +432,7 @@ static int GetResources( Work *actor, OBJECT *parent, int num_parent )
 
 /*---------------------------------------------------------------------------*/
 
-void *NewSOCOM( CONTROL *control, OBJECT *parent, int num_parent,  unsigned int *flags, int which_side )
+void *NewSOCOM( CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int which_side )
 {
     Work *work;
     int mag_size;

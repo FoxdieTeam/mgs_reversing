@@ -154,15 +154,11 @@ static void VibEdit_800C36BC(VibEditWork *work)
     {
         if (work->field_38 == i && work->field_3C == 1)
         {
-            tile->r0 = 0;
-            tile->g0 = 80;
-            tile->b0 = 200;
+            setRGB0(tile, 0, 80, 200);
         }
         else
         {
-            tile->r0 = 100;
-            tile->g0 = 180;
-            tile->b0 = 180;
+            setRGB0(tile, 100, 180, 180);
         }
 
         tile->x0 = x0;
@@ -183,15 +179,11 @@ static void VibEdit_800C36BC(VibEditWork *work)
     {
         if (work->field_38 == i && work->field_3C == 0)
         {
-            tile->r0 = 200;
-            tile->g0 = 80;
-            tile->b0 = 0;
+            setRGB0(tile, 200, 80, 0);
         }
         else
         {
-            tile->r0 = 180;
-            tile->g0 = 180;
-            tile->b0 = 100;
+            setRGB0(tile, 180, 180, 100);
         }
 
         tile->x0 = x0;

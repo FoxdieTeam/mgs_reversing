@@ -28,7 +28,7 @@ typedef struct _Work
     OBJECT        *parent;
     OBJECT_NO_ROTS object;
     int            num_parent;
-    int           *flags;
+    u_long        *flags;
     int            f54;
     int            which_side;
 } Work;
@@ -38,7 +38,7 @@ typedef struct _Work
 static void Act( Work *work )
 {
     int ammo;
-    int flags;
+    u_long flags;
     MATRIX *world;
     DG_OBJS *parent;
 
@@ -109,7 +109,7 @@ static int GetResources(Work *work, OBJECT *parent, int num_parent)
 
 /*---------------------------------------------------------------------------*/
 
-void *NewBomb(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side)
+void *NewBomb(CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int which_side)
 {
     Work *work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)

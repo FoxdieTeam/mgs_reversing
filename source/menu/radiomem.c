@@ -219,7 +219,7 @@ void menu_radio_draw_mem(MenuWork *work, u_long *ot)
             LSTORE(0x80808080, &pSprt->r0);
             setUV0(pSprt, (i & 1) ? 96 : 0, ((i / 2) * 12) + 4);
             setWH(pSprt, 96, 12);
-            pSprt->clut = getClut(960, 510);
+            setClut(pSprt, 960, 510);
             setXY0(pSprt, x + 64, y + 133);
             setSprt(pSprt);
             addPrim(ot, pSprt);

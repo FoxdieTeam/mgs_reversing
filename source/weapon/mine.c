@@ -29,7 +29,7 @@ typedef struct _Work
     OBJECT        *parent;
     OBJECT_NO_ROTS object;
     int            num_parent;
-    int           *flags;
+    u_long        *flags;
     int            counter;
 } Work;
 
@@ -110,7 +110,7 @@ static int GetResources(Work *work, OBJECT *parent, int num_parent)
 
 /*---------------------------------------------------------------------------*/
 
-void *NewMine(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side)
+void *NewMine(CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int which_side)
 {
     Work *work;
 

@@ -186,7 +186,7 @@ static void Change_800C38D0( Work *work, u_long *ot )
         LCOPY( &work->f14C[ index ].rect.w, &sprt->w );
         sprt->u0 = 0;
         sprt->v0 = work->f14C[ index ].f2;
-        sprt->clut = getClut( work->f14C[ index ].f4, work->f14C[ index ].f6 );
+        setClut( sprt, work->f14C[ index ].f4, work->f14C[ index ].f6 );
         setSprt( sprt );
         addPrim( ot, sprt );
 

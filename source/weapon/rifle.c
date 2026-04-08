@@ -37,7 +37,7 @@ typedef struct _Work
     CONTROL       *control;
     OBJECT        *parent;
     int            num_parent;
-    int           *flags;
+    u_long        *flags;
     int            which_side;
     int            field_58;
     void          *field_5c;
@@ -108,7 +108,7 @@ static void Act(Work *work)
     SVECTOR vec;
 
     int temp_s1;
-    int temp_s2;
+    u_long flags;
     int temp_v0;
     int temp_v0_2;
     short zoomLevel;
@@ -125,18 +125,18 @@ static void Act(Work *work)
 
     DG_InvisibleObjs(work->object.objs);
 
-    temp_s2 = *work->flags;
+    flags = *work->flags;
 
     if ((GM_Camera.first_person == 1) &&
         !work->field_5c &&
-        (temp_s2 & 1) &&
+        (flags & 1) &&
         (work->parent->objs->flag & DG_FLAG_INVISIBLE))
     {
         work->field_5c = (void *)NewRifleSight(1);
         sd_set_cli(0x01ffff20, SD_ASYNC);
     }
 
-    if (temp_s2 & 1)
+    if (flags & 1)
     {
         temp_v0 = work->field_58;
         work->field_58++;
@@ -164,12 +164,12 @@ static void Act(Work *work)
 
     temp_s1 = GM_Magazine;
 
-    if (!temp_s1 && (temp_s2 & 2))
+    if (!temp_s1 && (flags & 2))
     {
         GM_SeSet(&work->control->mov, SE_KARASHT);
         GM_SetNoise(5, 2, &work->control->mov);
     }
-    else if ((temp_s1 > 0) && (temp_s2 & 2))
+    else if ((temp_s1 > 0) && (flags & 2))
     {
         vec.vx = work->control->rot.vx - 0x400;
         vec.vy = work->control->rot.vy;
@@ -230,7 +230,7 @@ static int GetResources(Work *work, OBJECT *parent, int num_parent)
 
 /*---------------------------------------------------------------------------*/
 
-void *NewRifle(CONTROL *control, OBJECT *parent, int num_parent, unsigned int *flags, int which_side)
+void *NewRifle(CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int which_side)
 {
     Work *work;
     int mag_size, ammo;

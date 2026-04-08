@@ -7,35 +7,48 @@
 
 #include "common.h"
 #include "libgv/libgv.h"
-#include "bullet/tenage.h"
 #include "game/game.h"
-#include "weapon/weapon.h"
 #include "strcode.h"
 
-typedef struct _GrenadeEnemyWork
+#include "bullet/tenage.h"      // for NewTenage3
+#include "weapon/weapon.h"      // for GRD_*
+
+extern void *NewBlast(MATRIX *world /*, BLAST_DATA *blast_data */);
+
+/*---------------------------------------------------------------------------*/
+
+#define EXEC_LEVEL      GV_ACTOR_LEVEL5
+
+#define GRENADE_MODEL   0x3b88  // GV_StrCode("grenade")
+
+#define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE \
+                        | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE \
+                        | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE )
+
+/*---------------------------------------------------------------------------*/
+
+typedef struct _Work
 {
     GV_ACT   actor;
     CONTROL *control;
     OBJECT  *parent;
     OBJECT   object;
     int      num_parent;
-    int     *f110;
-    SVECTOR  f114;
+    u_long  *flags;
+    SVECTOR  pos;
     int      timer;
     int      type;
-} GrenadeEnemyWork;
+} Work;
+
+/*---------------------------------------------------------------------------*/
 
 SVECTOR svec_800C360C[2] = {{0, 80, 80, 0}, {0, 20, 500, 0}};
 
-void *NewBlast(MATRIX *);
-
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
-
-void GrenadeEnemyAct_800D1DDC(GrenadeEnemyWork *work)
+static void Act(Work *work)
 {
     SVECTOR  pos;
     SVECTOR  step;
-    int      temp_s3;
+    u_long   flags;
     MATRIX  *world;
     CONTROL *control;
     SVECTOR *var_s2;
@@ -45,10 +58,10 @@ void GrenadeEnemyAct_800D1DDC(GrenadeEnemyWork *work)
 
     GM_ActObject2(&work->object);
 
-    temp_s3 = *work->f110;
+    flags = *work->flags;
     world = &work->parent->objs->objs[work->num_parent].world;
 
-    if (temp_s3 & 0x1)
+    if (flags & 0x1)
     {
         if (--work->timer <= 0)
         {
@@ -57,18 +70,18 @@ void GrenadeEnemyAct_800D1DDC(GrenadeEnemyWork *work)
             work->timer = 120;
         }
 
-        if (temp_s3 & 0x6)
+        if (flags & 0x6)
         {
             control = work->control;
             DG_SetPos2(&control->mov, &control->rot);
 
-            var_s2 = (temp_s3 & 0x4) ? &svec_800C360C[1] : &svec_800C360C[0];
+            var_s2 = (flags & 0x4) ? &svec_800C360C[1] : &svec_800C360C[0];
 
-            work->f114.vy = control->mov.vy;
+            work->pos.vy = control->mov.vy;
 
-            dist = GV_DiffVec3(&control->mov, &work->f114);
+            dist = GV_DiffVec3(&control->mov, &work->pos);
 
-            if (temp_s3 & 0x2)
+            if (flags & 0x2)
             {
                 dist /= 2;
             }
@@ -81,7 +94,7 @@ void GrenadeEnemyAct_800D1DDC(GrenadeEnemyWork *work)
             pos.vy = world->t[1];
             pos.vz = world->t[2];
 
-            NewTenage3(&pos, &step, work->timer, work->type, KMD_GRENADE, 0, 0);
+            NewTenage3(&pos, &step, work->timer, work->type, GRENADE_MODEL, 0, 0);
             work->timer = 120;
         }
 
@@ -94,35 +107,37 @@ void GrenadeEnemyAct_800D1DDC(GrenadeEnemyWork *work)
     }
 }
 
-void GrenadeEnemyDie_800D1FAC(GrenadeEnemyWork *work)
+static void Die(Work *work)
 {
     GM_FreeObject(&work->object);
 }
 
-int GrenadeEnemyGetResources_800D1FCC(GrenadeEnemyWork *work, OBJECT *parent, int num_parent, int unused)
+static int GetResources(Work *work, OBJECT *parent, int num_parent, int unused)
 {
     OBJECT *object;
 
     object = &work->object;
 
-    printf("grenade model=%d \n", KMD_GRENADE);
+    printf("grenade model=%d \n", GRENADE_MODEL);
 
-    GM_InitObject(object, KMD_GRENADE, 0x36D, 0);
+    GM_InitObject(object, GRENADE_MODEL, BODY_FLAG, 0);
     GM_ConfigObjectRoot(object, parent, num_parent);
 
     return 0;
 }
 
-void *NewGrenadeEnemy_800D203C(CONTROL *control, OBJECT *parent, int num_parent, int *arg3, int unused, SVECTOR *arg6, int type)
-{
-    GrenadeEnemyWork *work;
+/*---------------------------------------------------------------------------*/
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(GrenadeEnemyWork));
+static void *InitGrenadeEnemy(CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int side, SVECTOR *pos, int type)
+{
+    Work *work;
+
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, GrenadeEnemyAct_800D1DDC, GrenadeEnemyDie_800D1FAC, "grnad_e.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "grnad_e.c");
 
-        if (GrenadeEnemyGetResources_800D1FCC(work, parent, num_parent, type) < 0)
+        if (GetResources(work, parent, num_parent, type) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
@@ -131,23 +146,21 @@ void *NewGrenadeEnemy_800D203C(CONTROL *control, OBJECT *parent, int num_parent,
         work->control = control;
         work->parent = parent;
         work->num_parent = num_parent;
-
-        work->f110 = arg3;
+        work->flags = flags;
         work->timer = 120;
         work->type = type;
-
-        work->f114 = *arg6;
+        work->pos = *pos;
     }
 
     return (void *)work;
 }
 
-void NewGrenadeEnemy_800D2138(CONTROL *control, OBJECT *parent, int num_parent, int *arg3, SVECTOR *arg4, int arg5)
+void *NewGrenadeEnemy(CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, SVECTOR *pos, int side)
 {
-    NewGrenadeEnemy_800D203C(control, parent, num_parent, arg3, arg5, arg4, GRD_GRENADE);
+    return InitGrenadeEnemy(control, parent, num_parent, flags, side, pos, GRD_GRENADE);
 }
 
-void NewGrenadeEnemy_800D2168(CONTROL *control, OBJECT *parent, int num_parent, int *arg3, SVECTOR *arg4, int arg5)
+void *NewGrenadeEnemy2(CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, SVECTOR *pos, int side)
 {
-    NewGrenadeEnemy_800D203C(control, parent, num_parent, arg3, arg5, arg4, GRD_STUN);
+    return InitGrenadeEnemy(control, parent, num_parent, flags, side, pos, GRD_STUN);
 }

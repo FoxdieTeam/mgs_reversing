@@ -1,35 +1,41 @@
 #include "eyeflash.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "game/game.h"
 
-typedef struct EyeflashWork
+/*---------------------------------------------------------------------------*/
+
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
+
+typedef struct _Work
 {
     GV_ACT   actor;
     SVECTOR  field_20;
-    DG_PRIM *field_28;
-    MATRIX  *field_2C;
-    RECT     field_30;
+    DG_PRIM *prim;
+    MATRIX  *world;
+    RECT     rect;
     int      field_38;
-    DG_TEX  *field_3C;
-} EyeflashWork;
+    DG_TEX  *tex;
+} Work;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+/*---------------------------------------------------------------------------*/
 
 SVECTOR eyeflash_svec = {0, 80, 50, 0};
 const RECT eyeflash_rect = {175, 100, 350, 200};
 
-void s00a_eyeflash_800D0984(POLY_FT4 *poly, DG_TEX *tex)
+static void InitPacks(POLY_FT4 *poly, DG_TEX *tex)
 {
     int u0, u1;
     int v0, v1;
 
     setPolyFT4(poly);
-    poly->r0 = 0x64;
-    poly->g0 = 0x64;
-    poly->b0 = 0x64;
+    setRGB0(poly, 100, 100, 100);
     setSemiTrans(poly, 1);
 
     u0 = tex->off_x;
@@ -47,7 +53,7 @@ void s00a_eyeflash_800D0984(POLY_FT4 *poly, DG_TEX *tex)
     poly->clut = tex->clut;
 }
 
-void s00a_eyeflash_800D0A28(EyeflashWork *work)
+static void s00a_eyeflash_800D0A28(Work *work)
 {
     DG_TEX   *tex;
     int       field_38;
@@ -63,8 +69,8 @@ void s00a_eyeflash_800D0A28(EyeflashWork *work)
         field_38 -= 3;
     }
 
-    tex = work->field_3C;
-    poly = work->field_28->packs[GV_Clock];
+    tex = work->tex;
+    poly = work->prim->packs[GV_Clock];
 
     u0 = tex->off_x + (tex->w + 1) * field_38 / 3;
     u1 = tex->off_x + (tex->w + 1) * (field_38 + 1) / 3 - 1;
@@ -88,22 +94,22 @@ void s00a_eyeflash_800D0A28(EyeflashWork *work)
     poly->tpage = tpage;
 }
 
-void s00a_eyeflash_800D0B18(EyeflashWork *work)
+static void Act(Work *work)
 {
     if (--work->field_38 == 0)
     {
         GV_DestroyActor(&work->actor);
     }
-    work->field_28->world = *work->field_2C;
+    work->prim->world = *work->world;
     s00a_eyeflash_800D0A28(work);
 }
 
-void s00a_eyeflash_800D0BA4(EyeflashWork *work)
+static void Die(Work *work)
 {
-    GM_FreePrim(work->field_28);
+    GM_FreePrim(work->prim);
 }
 
-int s00a_eyeflash_800D0BE0(EyeflashWork *work, int arg1)
+static int GetResources(Work *work, const char *texture)
 {
     DG_PRIM *prim;
     RECT     unused;
@@ -111,17 +117,17 @@ int s00a_eyeflash_800D0BE0(EyeflashWork *work, int arg1)
 
     unused = eyeflash_rect; // let's waste cycles
 
-    work->field_30 = eyeflash_rect;
-    work->field_28 = prim = GM_MakePrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 1, &eyeflash_svec, &work->field_30);
+    work->rect = eyeflash_rect;
+    work->prim = prim = GM_MakePrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 1, &eyeflash_svec, &work->rect);
 
     if (prim)
     {
         prim->raise = 1000;
-        work->field_3C = tex = DG_GetTexture(GV_StrCode("kirari"));
+        work->tex = tex = DG_GetTexture(GV_StrCode("kirari"));
         if (tex)
         {
-            s00a_eyeflash_800D0984(prim->packs[0], tex);
-            s00a_eyeflash_800D0984(prim->packs[1], tex);
+            InitPacks(prim->packs[0], tex);
+            InitPacks(prim->packs[1], tex);
             return 0;
         }
     }
@@ -129,19 +135,21 @@ int s00a_eyeflash_800D0BE0(EyeflashWork *work, int arg1)
     return -1;
 }
 
-void *NewEyeflash_800D0CF4(MATRIX *arg0, SVECTOR *arg1, int arg2, int arg3)
-{
-    EyeflashWork *work;
+/*---------------------------------------------------------------------------*/
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(EyeflashWork));
+void *NewEyeflash(MATRIX *world, SVECTOR *arg1, const char *texture, int arg3)
+{
+    Work *work;
+
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, s00a_eyeflash_800D0B18, s00a_eyeflash_800D0BA4, "eyeflash.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "eyeflash.c");
         work->field_20 = *arg1;
         work->field_38 = 6;
-        work->field_2C = arg0;
+        work->world = world;
         work->field_20.vy += arg3;
-        if (s00a_eyeflash_800D0BE0(work, arg2) < 0)
+        if (GetResources(work, texture) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
