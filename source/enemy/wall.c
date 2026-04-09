@@ -16,15 +16,15 @@
 
 #define EXEC_LEVEL      GV_ACTOR_LEVEL5
 
-#define FLAG_0057       ( DG_FLAG_TEXT | DG_FLAG_PAINT | DG_FLAG_TRANS \
+#define FLAG_UNLIT      ( DG_FLAG_TEXT | DG_FLAG_PAINT | DG_FLAG_TRANS \
                         | DG_FLAG_BOUND | DG_FLAG_ONEPIECE )
 
-#define FLAG_035D       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE \
+#define FLAG_UNLIT_IR   ( DG_FLAG_TEXT | DG_FLAG_PAINT | DG_FLAG_TRANS \
+                        | DG_FLAG_BOUND | DG_FLAG_ONEPIECE | DG_FLAG_IRTEXTURE )
+
+#define FLAG_AMBIENT    ( DG_FLAG_TEXT | DG_FLAG_SHADE | DG_FLAG_TRANS \
                         | DG_FLAG_BOUND | DG_FLAG_ONEPIECE \
                         | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE )
-
-#define FLAG_0257       ( DG_FLAG_TEXT | DG_FLAG_PAINT | DG_FLAG_TRANS \
-                        | DG_FLAG_BOUND | DG_FLAG_ONEPIECE | DG_FLAG_IRTEXTURE )
 
 /*---------------------------------------------------------------------------*/
 
@@ -35,9 +35,9 @@ typedef struct _Work
     MATRIX  light[2];
     SVECTOR position;
     int     name;
-    int     active;
+    int     visible;
     short   g_flag;
-    short   f156;
+    short   ir_flag;
 } Work;
 
 /*---------------------------------------------------------------------------*/
@@ -50,18 +50,18 @@ static void CheckMessage(Work *work)
     {
         if (msg->message[0] == HASH_LEAVE)
         {
-            work->active = FALSE;
+            work->visible = FALSE;
         }
         else if (msg->message[0] == HASH_ENTER)
         {
-            work->active = TRUE;
+            work->visible = TRUE;
         }
     }
 }
 
 static void SetVisibility(Work *work)
 {
-    if (work->active)
+    if (work->visible)
     {
         DG_VisibleObjs(work->object.objs);
     }
@@ -91,27 +91,27 @@ static void WriteObjsPacket(DG_OBJS *objs)
     }
 }
 
-static void wall_800C33A0(Work *work)
+static void SetLighting(Work *work)
 {
     if (work->g_flag)
     {
         if (GM_GameStatus & STATE_THERMG)
         {
-            if (!work->f156)
+            if (!work->ir_flag)
             {
-                work->object.flag = FLAG_035D;
-                work->object.objs->flag = FLAG_035D;
+                work->object.flag = FLAG_AMBIENT;
+                work->object.objs->flag = FLAG_AMBIENT;
                 DG_GetLightMatrix2(&work->position, work->light);
                 GM_ConfigObjectLight(&work->object, work->light);
-                work->f156 = TRUE;
+                work->ir_flag = TRUE;
             }
         }
-        else if (work->f156)
+        else if (work->ir_flag)
         {
-            work->object.flag = FLAG_0257;
-            work->object.objs->flag = FLAG_0257;
+            work->object.flag = FLAG_UNLIT_IR;
+            work->object.objs->flag = FLAG_UNLIT_IR;
             WriteObjsPacket(work->object.objs);
-            work->f156 = FALSE;
+            work->ir_flag = FALSE;
         }
     }
 }
@@ -120,7 +120,7 @@ static void Act(Work *work)
 {
     CheckMessage(work);
     SetVisibility(work);
-    wall_800C33A0(work);
+    SetLighting(work);
 
     if (GM_CheckMessage(&work->actor, work->name, HASH_KILL))
     {
@@ -132,7 +132,7 @@ static void Die(Work *work)
 {
     printf("destroy\n");
 
-    work->object.objs->flag = FLAG_0057;
+    work->object.objs->flag = FLAG_UNLIT;
     GM_FreeObject(&work->object);
 }
 
@@ -187,11 +187,11 @@ static int GetResources(work, pos, dir, def_model, map)
 
     if (!work->g_flag)
     {
-        GM_InitObject(object, model, FLAG_0057, map);
+        GM_InitObject(object, model, FLAG_UNLIT, map);
     }
     else
     {
-        GM_InitObject(object, model, FLAG_035D, map);
+        GM_InitObject(object, model, FLAG_AMBIENT, map);
     }
 
     GM_ConfigObjectJoint(object);
@@ -203,8 +203,8 @@ static int GetResources(work, pos, dir, def_model, map)
     ScaleMatrix(&work->object.objs->world, &scale);
     GM_ReshadeObjs(object->objs);
 
-    work->active = TRUE;
-    work->f156 = TRUE;
+    work->visible = TRUE;
+    work->ir_flag = TRUE;
     return 0;
 }
 
