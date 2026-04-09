@@ -350,6 +350,7 @@ NEWCHARA GM_GetChara(unsigned char *script);
 NEWCHARA GM_GetCharaID(int chara_id);
 
 /* alert.c */
+void GM_SetSong(int song);
 int  GM_GetNoiseSound(int flag, int noise);
 void GM_SoundStart(void);
 void GM_AlertSound(void);
