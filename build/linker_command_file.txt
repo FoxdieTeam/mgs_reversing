@@ -1739,7 +1739,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\okajima\blur.obj", overlay
     include "{{OBJ_DIR}}\overlays\s12a\okajima\wolf\wolf2.obj", overlay
     include "{{OBJ_DIR}}\overlays\s12a\okajima\wolf\unknown.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s12a\overlay2.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\rcm.obj", overlay
     include "{{OBJ_DIR}}\overlays\s12a\okajima\wolf\action.obj", overlay
     include "{{OBJ_DIR}}\okajima\d_bloods.obj", overlay

@@ -13,8 +13,10 @@ extern SVECTOR          svector_8009F478;
 extern GM_CAMERA        GM_Camera;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 
-RECT        wolf2_800C3490 = {0, 0, 2, 2};
-extern char wolf2_800DD6B8[5];
+static RECT wolf2_prim_rect = {0, 0, 2, 2};
+
+static char SECTION(".bss") wolf2_name[16];
+SVECTOR SECTION(".bss") wolf2_position;
 
 void  AN_Breath(MATRIX *world);
 
@@ -190,9 +192,9 @@ void wolf2_SetLifebar(Wolf2Work *work)
 
     work->fA44 = (work->fA40 / 8) * 8;
 
-    memcpy(wolf2_800DD6B8, "WOLF", sizeof(wolf2_800DD6B8));
+    strcpy(wolf2_name, "WOLF");
     lifebar = &work->lifebar;
-    lifebar->name = wolf2_800DD6B8;
+    lifebar->name = wolf2_name;
     lifebar->left[0] = 16;
     lifebar->left[1] = 111;
     lifebar->left[2] = 159;
@@ -644,7 +646,7 @@ int wolf2_GetResources2(Wolf2Work *work, int name, int where)
 
     work->lsight_prim->prim_count = 8;
 
-    work->f7E0 = prim = GM_MakePrim(DG_PRIM_OFFSET | DG_PRIM_TILE, 2, work->f7E4, &wolf2_800C3490);
+    work->f7E0 = prim = GM_MakePrim(DG_PRIM_OFFSET | DG_PRIM_TILE, 2, work->f7E4, &wolf2_prim_rect);
     if (!prim)
     {
         return -1;
