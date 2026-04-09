@@ -112,9 +112,6 @@ void s12a_wolf2_800CEF50(Wolf2Work *work)
     }
 }
 
-// jump table padding
-const char s12a_dword_800DD150[] = {0x0, 0x0, 0x0, 0x0};
-
 void s12a_wolf2_800CEFF0(Wolf2Work *work, int arg1)
 {
     s12a_wolf2_800CEF50(work);
@@ -134,7 +131,104 @@ void s12a_wolf2_800CF03C(SVECTOR *vecs, int count)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s12a/s12a_wolf2_800CF084.s")
+void s12a_wolf2_800CF084(Wolf2Work *work, int arg1, int arg2, int arg3)
+{
+    int x, y, z;
+    int ax;
+    int len;
+    int temp_s0;
+    int temp_s1;
+    int temp_v1;
+    int temp_v0;
+    int var_s3;
+    int var_s4;
+    int var_s5;
+
+    var_s5 = arg3;
+
+    if (work->f6D4 == 20)
+    {
+        return;
+    }
+
+    var_s4 = 0;
+    var_s3 = 0;
+
+    if (work->f718 == 0)
+    {
+        temp_v1 = work->f71C;
+
+        switch (work->f720)
+        {
+        case 0:
+            if (arg1 < temp_v1)
+            {
+                arg1 = 0;
+            }
+            else if (arg1 <= temp_v1 + 32)
+            {
+                arg1 = temp_v1 - arg1;
+            }
+            else if (arg1 <= temp_v1 + 96)
+            {
+                temp_v0 = arg1 - temp_v1;
+                arg1 = temp_v0 - 64;
+            }
+            else if (arg1 <= temp_v1 + 128)
+            {
+                temp_v0 = arg1 - 64;
+                arg1 = temp_v1 - temp_v0;
+            }
+            else
+            {
+                arg1 = 0;
+            }
+
+            var_s4 = (arg2 * arg1) / 32;
+            var_s3 = (var_s5 * arg1) / 32;
+            break;
+        case 1:
+        case 2:
+        case 3:
+            if (arg1 < 0)
+            {
+                var_s4 = 0;
+                var_s3 = 0;
+                work->f710 = 0;
+                work->f714 = 0;
+            }
+            else
+            {
+                temp_s1 = rsin(arg1 * 32);
+                temp_s0 = rsin(arg1 * 16);
+
+                if (temp_s1 == 0)
+                {
+                    work->f714 = GV_RandS(16);
+                    var_s5 = work->f714;
+                }
+
+                var_s4 = temp_s0 / 1024;
+                var_s3 = (var_s5 * temp_s1) / 4096;
+            }
+            break;
+        }
+    }
+
+    x = (work->f9FC.vx - work->body.objs->objs[4].world.t[0]) >> 1;
+    z = (work->f9FC.vz - work->body.objs->objs[4].world.t[2]) >> 1;
+
+    arg3 = (var_s3 + ratan2(x, z)) & 0xFFF;
+
+    len = SquareRoot0(z * z + x * x);
+    y = (work->f9FC.vy - work->body.objs->objs[4].world.t[1]) >> 1;
+    ax = (ratan2(len, y) - 1024 + var_s4) & 0xFFF;
+
+    work->adjust[4].vx = ax;
+    work->adjust[6].vx = ax;
+    work->adjust[7].vx = ax;
+    work->adjust[1].vy = arg3;
+}
 
 void s12a_wolf2_800CF294(TILE *packs)
 {
@@ -576,8 +670,424 @@ int s12a_wolf2_800D0CAC(Wolf2Work *work)
     return 1;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s12a/s12a_wolf2_800D0ED4.s")
-void s12a_wolf2_800D0ED4(Wolf2Work *work);
+void s12a_wolf2_800D0ED4(Wolf2Work *work)
+{
+    SVECTOR pos;
+    SVECTOR rot;
+    SVECTOR local_20;
+    SVECTOR local_18;
+    int     x, y, z;
+    int     len;
+    int     rnd;
+
+    switch (work->f6D4)
+    {
+    case 18:
+        work->f9FC = GM_PlayerPosition;
+
+        s12a_wolf2_800CED64(work);
+        work->f720 = GV_RandU(4);
+        work->f9A8 = 0;
+
+        s12a_wolf2_800CF03C(work->adjust, 16);
+        work->f6F4 = 0;
+        work->f6F8 = 0;
+
+        s12a_wolf2_800D0B04(work, 1);
+        work->f6D4 = 19;
+
+        pos = work->f888[work->f880];
+        x = (pos.vx - work->f9FC.vx) >> 4;
+        y = (pos.vy - work->f9FC.vy) >> 4;
+        z = (pos.vz - work->f9FC.vz) >> 4;
+
+        len = SquareRoot0(x * x + y * y + z * z) << 4;
+        s12a_wolf2_800CEED4(len, &work->f9FC, &pos, &rot);
+        rot.vx -= 1024;
+
+        DG_SetPos2(&pos, &rot);
+
+        local_20 = DG_ZeroVector;
+        local_20.vz = -1500;
+        DG_PutVector(&local_20, &local_20, 1);
+        work->f988 = local_20;
+        /* fallthrough */
+    case 19:
+        s12a_wolf2_800D0C1C(work, 1);
+
+        local_18.vx = ABS(work->control.mov.vx - work->f988.vx);
+        local_18.vz = ABS(work->control.mov.vz - work->f988.vz);
+
+        if (local_18.vx < 200)
+        {
+            work->control.turn = DG_ZeroVector;
+            work->control.rot = DG_ZeroVector;
+
+            if (((work->f99C == 1) && (work->f988.vx > -4000 && work->f988.vx < 7000)) ||
+                ((GV_RandU(16) == 0) && (work->f800[work->f880] != 1)))
+            {
+                work->f6D4 = 18;
+                break;
+            }
+
+            switch (work->f800[work->f880])
+            {
+            case 0:
+                GM_SeSet2(0, 31, SE_READY_WEAPON);
+                s12a_wolf2_800CEFF0(work, 6);
+                s12a_wolf2_800D0904(work, 3, 0, 0);
+                break;
+            case 1:
+                GM_SeSet2(0, 31, SE_READY_WEAPON);
+                s12a_wolf2_800CEFF0(work, 7);
+                s12a_wolf2_800D08D8(work, 11);
+                break;
+            case 2:
+                work->f6F8 = 0;
+                work->f6D4 = 20;
+                s12a_wolf2_800CEDC0(work);
+                s12a_wolf2_800D08D8(work, 13);
+                break;
+            case 3:
+                work->f6D4 = 30;
+                break;
+            }
+        }
+        else
+        {
+            s12a_wolf2_800D0848(work, 25, 19);
+        }
+        break;
+    case 30:
+        work->f9A8 = 1;
+        s12a_wolf2_800D0904(work, 3, 0, 31);
+
+        work->f6F4 = GV_RandU(32) + 150;
+        break;
+    case 31:
+        s12a_wolf2_800D08D8(work, 0);
+
+        if (work->f6F4-- <= 0)
+        {
+            work->f6D4 = 33;
+        }
+        break;
+    case 20:
+        work->f6D4 = 21;
+        s12a_wolf2_800CEDC0(work);
+        /* fallthrough */
+    case 21:
+        pos = work->f888[work->f880];
+        x = (pos.vx - GM_PlayerPosition.vx) / 16;
+        y = (pos.vy - GM_PlayerPosition.vy) / 16;
+        z = (pos.vz - GM_PlayerPosition.vz) / 16;
+        len = SquareRoot0(x * x + y * y + z * z) << 4;
+
+        s12a_wolf2_800CEED4(len, &GM_PlayerPosition, &pos, &rot);
+        rot.vx -= 1024;
+
+
+        DG_SetPos2(&pos, &rot);
+
+        local_20 = DG_ZeroVector;
+        local_20.vz = -1000;
+        DG_PutVector(&local_20, &local_20, 1);
+
+        x = (local_20.vx - work->control.mov.vx) / 16;
+        y = (local_20.vy - work->control.mov.vy) / 16;
+        z = (local_20.vz - work->control.mov.vz) / 16;
+        len = SquareRoot0(x * x + y * y + z * z) << 4;
+
+        if (len > 1100)
+        {
+            work->f6D4 = 18;
+            s12a_wolf2_800D08D8(work, 13);
+        }
+        else
+        {
+            work->control.mov = local_20;
+            work->f9F8 = 0;
+
+            rnd = GV_RandU(1024);
+            s12a_wolf2_800CEF50(work);
+
+            if (work->f6F8 == 30)
+            {
+                if (GV_RandU(8) == 0)
+                {
+                    work->f6D4 = 18;
+                }
+
+                s12a_wolf2_800D08D8(work, 13);
+            }
+            else
+            {
+                if ((rnd <= 512) && (work->f6F8 >= 240))
+                {
+                    work->f6F8 = 0;
+                    work->f6E4 = 1;
+                    work->f6F4++;
+
+                    switch (s12a_wolf2_800D0CAC(work))
+                    {
+                    case 0:
+                        work->f6D4 = 18;
+                        break;
+                    case 1:
+                        work->f6D4 = 22;
+                        GM_SeSet2(0, 31, SE_READY_WEAPON);
+                        s12a_wolf2_800CED64(work);
+                        break;
+                    case 2:
+                        work->f6D4 = 26;
+                        GM_SeSet2(0, 31, SE_READY_WEAPON);
+                        s12a_wolf2_800CED64(work);
+                        break;
+                    case 3:
+                        if (GV_RandU(2) == 0)
+                        {
+                            work->f6D4 = 22;
+                        }
+                        else
+                        {
+                            work->f6D4 = 26;
+                        }
+
+                        GM_SeSet2(0, 31, SE_READY_WEAPON);
+                        s12a_wolf2_800CED64(work);
+                        break;
+                    }
+                }
+                else if (rnd <= work->f6F4)
+                {
+                    work->f6D4 = 18;
+                    s12a_wolf2_800CED64(work);
+                }
+                else
+                {
+                    s12a_wolf2_800D08D8(work, 13);
+                    break;
+                }
+
+                s12a_wolf2_800D08D8(work, 13);
+            }
+        }
+        break;
+    case 22:
+        work->f9F8 = 1;
+        s12a_wolf2_800D0848(work, 14, 23);
+        break;
+    case 23:
+        s12a_wolf2_800D09D4(work, 18);
+
+        if ((work->f6E8-- < 0) || s12a_wolf2_800D0734(work))
+        {
+            work->f6D4 = 24;
+        }
+
+        s12a_wolf2_800D08D8(work, 15);
+        break;
+    case 24:
+        work->f9F8 = 0;
+        s12a_wolf2_800D0358(work);
+
+        work->f6D4 = 25;
+        s12a_wolf2_800D08D8(work, 16);
+        break;
+    case 25:
+        s12a_wolf2_800D0848(work, 17, 20);
+        break;
+    case 26:
+        work->f9F8 = 1;
+        s12a_wolf2_800D0848(work, 18, 27);
+        break;
+    case 27:
+        s12a_wolf2_800D09D4(work, 18);
+
+        if ((work->f6E8-- < 0) || s12a_wolf2_800D0734(work))
+        {
+            work->f6D4 = 28;
+        }
+
+        s12a_wolf2_800D08D8(work, 19);
+        break;
+    case 28:
+        work->f9F8 = 0;
+        s12a_wolf2_800D0358(work);
+
+        work->f6D4 = 29;
+        s12a_wolf2_800D08D8(work, 20);
+        break;
+    case 29:
+        s12a_wolf2_800D0848(work, 21, 20);
+        break;
+    case 6:
+        work->f6F4 = 1;
+        s12a_wolf2_800D0904(work, 3, 0, 0);
+        break;
+    case 7:
+        work->f6F4 = 1;
+        s12a_wolf2_800D08D8(work, 11);
+        s12a_wolf2_800CEFF0(work, 1);
+        break;
+    case 0:
+        work->fA2C = -1;
+
+        s12a_wolf2_800CEE78(work);
+        work->f9F8 = 1;
+
+        s12a_wolf2_800D09D4(work, 4);
+
+        if ((work->f6E8-- < 0) || s12a_wolf2_800D0734(work))
+        {
+            work->f6D4 = 2;
+        }
+        else
+        {
+            s12a_wolf2_800D08D8(work, 0);
+        }
+        break;
+    case 1:
+        s12a_wolf2_800CEE1C(work);
+
+        if (!s12a_wolf2_800D01D8(work))
+        {
+            work->f6E8 = 30;
+        }
+
+        work->f6D4 = 34;
+        /* fallthrough */
+    case 34:
+        work->f9F8 = 1;
+        s12a_wolf2_800D09D4(work, 5);
+
+        if ((work->f6E8-- < 0) || s12a_wolf2_800D0734(work))
+        {
+            work->f6D4 = 3;
+        }
+        else
+        {
+            s12a_wolf2_800D08D8(work, 11);
+        }
+        break;
+    case 2:
+        s12a_wolf2_800D08A0(work, 1);
+        work->f9F8 = 0;
+
+        s12a_wolf2_800D0358(work);
+
+        if (work->f6DC <= 0)
+        {
+            work->f6D4 = 16;
+            work->f6DC = work->f6E0;
+        }
+        else if (GV_RandU(2) == 0)
+        {
+            work->f6D4 = 4;
+        }
+        else
+        {
+            work->f6F4 = 1;
+            s12a_wolf2_800CEFF0(work, 0);
+        }
+        break;
+    case 3:
+        s12a_wolf2_800D08A0(work, 12);
+        work->f9F8 = 0;
+
+        s12a_wolf2_800D0358(work);
+
+        if (work->f6DC <= 0)
+        {
+            work->f6D4 = 17;
+            work->f6DC = work->f6E0;
+        }
+        else
+        {
+            work->f6D4 = 5;
+        }
+        break;
+    case 16:
+        s12a_wolf2_800D0848(work, 24, 0);
+        break;
+    case 17:
+        s12a_wolf2_800D0848(work, 23, 1);
+        break;
+    case 4:
+        work->f9F8 = 0;
+        s12a_wolf2_800D0848(work, 2, 18);
+        break;
+    case 5:
+        work->f9F8 = 0;
+        work->f6D4 = 18;
+        break;
+    case 8:
+        s12a_wolf2_800D0848(work, 7, 18);
+        break;
+    case 9:
+        if (work->fA4C != -1)
+        {
+            GM_GameStatus |= STATE_PADRELEASE;
+        }
+
+        if (work->f6C0 != 10)
+        {
+            work->f6C0 = 10;
+            GM_ConfigObjectAction(&work->body, 10, 0, 0);
+        }
+        else if (work->body.is_end == 1)
+        {
+            work->f6C0 = 9;
+            GM_ConfigObjectAction(&work->body, 9, 0, 0);
+
+            work->f6F4 = 90;
+            work->f6D4 = 11;
+        }
+        break;
+    case 10:
+    case 33:
+        s12a_wolf2_800D0848(work, 2, 18);
+        break;
+    case 12:
+        if (GV_RandU(16) < 2)
+        {
+            s12a_wolf2_800D0848(work, 6, 15);
+        }
+        else
+        {
+            s12a_wolf2_800D0848(work, 6, 4);
+        }
+        break;
+    case 13:
+        if (work->fA4C != -1)
+        {
+            GM_GameStatus |= STATE_PADRELEASE;
+        }
+
+        work->f6F4 = 90;
+        s12a_wolf2_800D0904(work, 8, 9, 11);
+        break;
+    case 15:
+        work->f6F4 = 1;
+        s12a_wolf2_800CEFF0(work, 0);
+        s12a_wolf2_800D08D8(work, 0);
+        break;
+    case 11:
+        s12a_wolf2_800D0848(work, 9, 11);
+        work->f9BC = 1;
+
+        if (work->f6F4 > 0)
+        {
+            work->f6F4--;
+
+            if ((work->fA4C != -1) && (GM_SnakeCurrentHealth != 0) && (GM_GameOverTimer == 0))
+            {
+                GCL_ForceExecProc(work->fA4C, 0);
+            }
+        }
+        break;
+    }
+}
 
 void s12a_wolf2_800D1B64(Wolf2Work *work)
 {
@@ -632,6 +1142,27 @@ void s12a_wolf2_800D1BE8(Wolf2Work *work)
     gUnkCameraStruct2_800B7868.eye = eye;
     gUnkCameraStruct2_800B7868.center = center;
 }
+
+const char s12a_aSnpded_800DD1E0[] = "snp_ded0";
+const char s12a_aSniper_800DD1EC[] = "sniper";
+const char s12a_aRifle_800DD1F4[] = "rifle";
+const int s12a_dword_800DD1FC = 0x800D2B88;
+const int s12a_dword_800DD200 = 0x800D2C00;
+const int s12a_dword_800DD204 = 0x800D2B88;
+const int s12a_dword_800DD208 = 0x800D2C00;
+const int s12a_dword_800DD20C = 0x800D2C00;
+const int s12a_dword_800DD210 = 0x800D2C00;
+const int s12a_dword_800DD214 = 0x800D2B88;
+const int s12a_dword_800DD218 = 0x800D2C00;
+const int s12a_dword_800DD21C = 0x800D2C00;
+const int s12a_dword_800DD220 = 0x800D2C00;
+const int s12a_dword_800DD224 = 0x800D2B88;
+const int s12a_dword_800DD228 = 0x800D2C00;
+const int s12a_dword_800DD22C = 0x800D2C00;
+const int s12a_dword_800DD230 = 0x800D2C00;
+const int s12a_dword_800DD234 = 0x800D2C00;
+const int s12a_dword_800DD238 = 0x800D2C00;
+const int s12a_dword_800DD23C = 0x800D2B88;
 
 #pragma INCLUDE_ASM("asm/overlays/s12a/s12a_wolf2_800D1EBC.s")
 

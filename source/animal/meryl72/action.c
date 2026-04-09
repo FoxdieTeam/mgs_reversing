@@ -1306,7 +1306,7 @@ void s07c_meryl72_unk1_800CA538( Meryl72Work *work, int time )
         GM_GameStatus |= STATE_PADRELEASE;
         if ( GM_StreamStatus() == -1 )
         {
-            GM_VoxStream( work->voices[ s2] , 0 );
+            GM_VoxStream( work->voices[s2] , 0 );
         }
     }
 

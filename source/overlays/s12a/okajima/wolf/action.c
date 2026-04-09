@@ -7,7 +7,7 @@
 SVECTOR wolf2_800C3560 = {0, 0, 100};
 SVECTOR wolf2_800C3568 = {-1024, 0, 0};
 
-extern SVECTOR wolf2_800DD6C8;
+extern SVECTOR wolf2_position;
 
 void   NewBlood( MATRIX *, int );
 void * NewDBloods_800D5B70( SVECTOR *, int, int, int );
@@ -102,7 +102,7 @@ void s12a_wolf2_800D37A8(Wolf2Work *work)
 
     target = work->f65C;
 
-    wolf2_800DD6C8 = work->control.mov;
+    wolf2_position = work->control.mov;
 
     switch(work->f690)
     {
