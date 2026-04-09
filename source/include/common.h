@@ -64,7 +64,8 @@ typedef int             BOOL;
 // in libgpu.h), but MGS handles the values by reading/writing the whole row as
 // a single 32-bit word, therefore R becomes the LSB, etc.
 
-/* RGBA8888 format */
+/*----- RGBA8888 format -----*/
+
 #ifdef WORDS_BIGENDIAN
 #define RGBA_R_SHIFT    (24)
 #define RGBA_G_SHIFT    (16)
@@ -82,8 +83,8 @@ typedef int             BOOL;
 #define RGBA_B_MASK     (0xff << RGBA_B_SHIFT)
 #define RGBA_A_MASK     (0xff << RGBA_A_SHIFT)
 
-//#define MAKE_RGB_WITHOUT_BITMASK
-#ifdef MAKE_RGB_WITHOUT_BITMASK
+//#define MAKE_RGBA_WITHOUT_BITMASK
+#ifdef MAKE_RGBA_WITHOUT_BITMASK
 #define MAKE_RGBA(_r,_g,_b,_a)                                  \
         ((unsigned int)(((_r) << RGBA_R_SHIFT) |                \
                         ((_g) << RGBA_G_SHIFT) |                \
@@ -115,7 +116,8 @@ typedef int             BOOL;
         ((unsigned int)((_r) | ((_g) << 8) | ((_b) << 16)))
 #endif
 
-/* common colors */
+/*----- Common Colors -----*/
+
 #define COLOR_BLACK     MAKE_RGB0(  0,  0,  0)  // 0x00000000
 #define COLOR_WHITE     MAKE_RGB0(255,255,255)  // 0x00ffffff
 #define COLOR_GRAY      MAKE_RGB0(128,128,128)  // 0x00808080
