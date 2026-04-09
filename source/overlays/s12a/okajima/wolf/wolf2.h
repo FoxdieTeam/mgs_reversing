@@ -61,7 +61,7 @@ typedef struct Wolf2Work
     int            f714;
     int            f718;
     int            f71C;
-    char           pad8[0x4];
+    int            f720;
     int            f724;
     int            f728;
     char           pad9[0x1C];
