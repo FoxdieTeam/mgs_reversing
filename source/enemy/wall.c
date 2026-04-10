@@ -12,40 +12,56 @@
 #include "game/game.h"
 #include "strcode.h"
 
+/*---------------------------------------------------------------------------*/
+
+#define EXEC_LEVEL      GV_ACTOR_LEVEL5
+
+#define FLAG_UNLIT      ( DG_FLAG_TEXT | DG_FLAG_PAINT | DG_FLAG_TRANS \
+                        | DG_FLAG_BOUND | DG_FLAG_ONEPIECE )
+
+#define FLAG_UNLIT_IR   ( DG_FLAG_TEXT | DG_FLAG_PAINT | DG_FLAG_TRANS \
+                        | DG_FLAG_BOUND | DG_FLAG_ONEPIECE | DG_FLAG_IRTEXTURE )
+
+#define FLAG_AMBIENT    ( DG_FLAG_TEXT | DG_FLAG_SHADE | DG_FLAG_TRANS \
+                        | DG_FLAG_BOUND | DG_FLAG_ONEPIECE \
+                        | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE )
+
+/*---------------------------------------------------------------------------*/
+
 typedef struct _Work
 {
     GV_ACT  actor;
     OBJECT  object;
     MATRIX  light[2];
     SVECTOR position;
-    int     hash;
-    int     f150;
-    short   f154;
-    short   f156;
+    int     name;
+    int     visible;
+    short   g_flag;
+    short   ir_flag;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+/*---------------------------------------------------------------------------*/
 
-void asioto_800C3278(Work *work)
+static void CheckMessage(Work *work)
 {
     GV_MSG *msg;
 
-    if (GV_ReceiveMessage(work->hash, &msg))
+    if (GV_ReceiveMessage(work->name, &msg))
     {
         if (msg->message[0] == HASH_LEAVE)
         {
-            work->f150 = 0;
+            work->visible = FALSE;
         }
         else if (msg->message[0] == HASH_ENTER)
         {
-            work->f150 = 1;
+            work->visible = TRUE;
         }
     }
 }
 
-void asioto_800C32D8(Work *work)
+static void SetVisibility(Work *work)
 {
-    if (work->f150 != 0)
+    if (work->visible)
     {
         DG_VisibleObjs(work->object.objs);
     }
@@ -55,7 +71,7 @@ void asioto_800C32D8(Work *work)
     }
 }
 
-void asioto_800C3320(DG_OBJS *objs)
+static void WriteObjsPacket(DG_OBJS *objs)
 {
     DG_OBJ *obj;
     int     i;
@@ -75,52 +91,52 @@ void asioto_800C3320(DG_OBJS *objs)
     }
 }
 
-void asioto_800C33A0(Work *work)
+static void SetLighting(Work *work)
 {
-    if (work->f154 != 0)
+    if (work->g_flag)
     {
         if (GM_GameStatus & STATE_THERMG)
         {
-            if (work->f156 == 0)
+            if (!work->ir_flag)
             {
-                work->object.flag = 0x35D;
-                work->object.objs->flag = 0x35D;
+                work->object.flag = FLAG_AMBIENT;
+                work->object.objs->flag = FLAG_AMBIENT;
                 DG_GetLightMatrix2(&work->position, work->light);
                 GM_ConfigObjectLight(&work->object, work->light);
-                work->f156 = 1;
+                work->ir_flag = TRUE;
             }
         }
-        else if (work->f156 != 0)
+        else if (work->ir_flag)
         {
-            work->object.flag = 0x257;
-            work->object.objs->flag = 0x257;
-            asioto_800C3320(work->object.objs);
-            work->f156 = 0;
+            work->object.flag = FLAG_UNLIT_IR;
+            work->object.objs->flag = FLAG_UNLIT_IR;
+            WriteObjsPacket(work->object.objs);
+            work->ir_flag = FALSE;
         }
     }
 }
 
-void WallAct_800C345C(Work *work)
+static void Act(Work *work)
 {
-    asioto_800C3278(work);
-    asioto_800C32D8(work);
-    asioto_800C33A0(work);
+    CheckMessage(work);
+    SetVisibility(work);
+    SetLighting(work);
 
-    if (GM_CheckMessage(&work->actor, work->hash, HASH_KILL))
+    if (GM_CheckMessage(&work->actor, work->name, HASH_KILL))
     {
         GV_DestroyActor(&work->actor);
     }
 }
 
-void WallDie_800C34B0(Work *work)
+static void Die(Work *work)
 {
     printf("destroy\n");
 
-    work->object.objs->flag = DG_FLAG_ONEPIECE | DG_FLAG_BOUND | DG_FLAG_TRANS | DG_FLAG_PAINT | DG_FLAG_TEXT;
+    work->object.objs->flag = FLAG_UNLIT;
     GM_FreeObject(&work->object);
 }
 
-int WallGetResources_800C34F0(work, pos, dir, def_model, map)
+static int GetResources(work, pos, dir, def_model, map)
     Work *work;
     SVECTOR *pos;
     SVECTOR *dir;
@@ -169,13 +185,13 @@ int WallGetResources_800C34F0(work, pos, dir, def_model, map)
     GM_CurrentMap = map;
     object = &work->object;
 
-    if (work->f154 == 0)
+    if (!work->g_flag)
     {
-        GM_InitObject(object, model, 0x57, map);
+        GM_InitObject(object, model, FLAG_UNLIT, map);
     }
     else
     {
-        GM_InitObject(object, model, 0x35d, map);
+        GM_InitObject(object, model, FLAG_AMBIENT, map);
     }
 
     GM_ConfigObjectJoint(object);
@@ -187,10 +203,12 @@ int WallGetResources_800C34F0(work, pos, dir, def_model, map)
     ScaleMatrix(&work->object.objs->world, &scale);
     GM_ReshadeObjs(object->objs);
 
-    work->f150 = 1;
-    work->f156 = 1;
+    work->visible = TRUE;
+    work->ir_flag = TRUE;
     return 0;
 }
+
+/*---------------------------------------------------------------------------*/
 
 void *NewWall(SVECTOR *pos, SVECTOR *dir)
 {
@@ -199,10 +217,10 @@ void *NewWall(SVECTOR *pos, SVECTOR *dir)
     work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, NULL, WallDie_800C34B0, "wall.c");
+        GV_SetNamedActor(&work->actor, NULL, Die, "wall.c");
 
-        // Why? WallGetResources_800C34F0 is missing two last arguments, leading to nasty UB
-        if (WallGetResources_800C34F0(work, pos, dir) < 0)
+        // Why? GetResources is missing two last arguments, leading to nasty UB
+        if (GetResources(work, pos, dir) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
@@ -223,7 +241,7 @@ void *NewWallGcl(int name, int where, int argc, char **argv)
     work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, WallAct_800C345C, WallDie_800C34B0, "wall.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "wall.c");
 
         param = GCL_GetOption('t');
         if (param != 0)
@@ -263,20 +281,20 @@ void *NewWallGcl(int name, int where, int argc, char **argv)
         param = GCL_GetOption('g');
         if (param != 0)
         {
-            work->f154 = GCL_StrToInt(param);
+            work->g_flag = GCL_StrToInt(param);
         }
         else
         {
-            work->f154 = 0;
+            work->g_flag = FALSE;
         }
 
-        if (WallGetResources_800C34F0(work, &pos, &dir, model, where) < 0)
+        if (GetResources(work, &pos, &dir, model, where) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
         }
 
-        work->hash = name;
+        work->name = name;
     }
 
     return (void *)work;

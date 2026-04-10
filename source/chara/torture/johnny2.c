@@ -5,7 +5,9 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "game/game.h"
-#include "chara/snake/shadow.h"
+
+#include "chara/snake/shadow.h" // for NewShadow
+#include "enemy/glight.h"       // for NewGunLight
 
 typedef struct _Work
 {
@@ -31,8 +33,6 @@ typedef struct _Work
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 extern int s03c_dword_800C33D8;
-
-void *NewGunLight_800D3AD4(MATRIX *world, int **pvisible);
 
 static void Act(Work *work)
 {
@@ -123,7 +123,7 @@ static void Die(Work *work)
 static void InitExtra(Work *work)
 {
     work->weapon = NewJohnnyFamas(&work->control, &work->body, 4, &work->trigger);
-    work->gunlight = NewGunLight_800D3AD4(&work->body.objs->objs[4].world, &work->enable_gunlight);
+    work->gunlight = NewGunLight(&work->body.objs->objs[4].world, &work->enable_gunlight);
 
     work->field_7EE = 0;
     work->field_7EC = 0;

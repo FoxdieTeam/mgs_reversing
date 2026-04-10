@@ -9,13 +9,25 @@
 #include "game/game.h"
 #include "anime/animconv/anime.h"
 
-typedef struct ObjectWork
+extern int GM_GameFlag_800E0F64;
+
+/*---------------------------------------------------------------------------*/
+// NOTE: This is apparently the scrapped forklift actor that would roam around
+// the Heliport in early versions of the game, as seen in the E3 & TGS 1997
+// trailers ( https://www.youtube.com/watch?v=x3Y5TS6_NxQ&t=247 ).
+
+#define EXEC_LEVEL      GV_ACTOR_LEVEL4
+
+#define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE \
+                        | DG_FLAG_GBOUND | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE )
+
+typedef struct _Work
 {
     GV_ACT  actor;
     CONTROL control;
     OBJECT  field_9C;
     TARGET *field_180;
-    MATRIX  field_184;
+    MATRIX  light;
     int     field_1A4;
     int     field_1A8;
     int     field_1AC;
@@ -62,16 +74,14 @@ typedef struct ObjectWork
     short   field_286;
     int     field_288;
     int     field_28C;
-} ObjectWork;
+} Work;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL4
+/*---------------------------------------------------------------------------*/
 
 SVECTOR object_svec1_800C3CAC = {1000, 2000, 1500, 0};
 SVECTOR object_svec2_800C3CB4 = {1500, 2000, 1500, 0};
 
-extern int     GM_GameFlag_800E0F64;
-
-int s01a_object_800D98B0(ObjectWork *work, int threshold)
+static int s01a_object_800D98B0(Work *work, int threshold)
 {
     SVECTOR svec;
     int     vx, vz;
@@ -87,7 +97,7 @@ int s01a_object_800D98B0(ObjectWork *work, int threshold)
     return -1;
 }
 
-int s01a_object_800D991C(char *opt, DVECTOR *out)
+static int s01a_object_800D991C(char *opt, DVECTOR *out)
 {
     int   count;
     char *param;
@@ -106,7 +116,7 @@ int s01a_object_800D991C(char *opt, DVECTOR *out)
     return count;
 }
 
-int s01a_object_800D9984(char *opt, short *params)
+static int s01a_object_800D9984(char *opt, short *params)
 {
     int            count;
     unsigned char *param;
@@ -118,7 +128,7 @@ int s01a_object_800D9984(char *opt, short *params)
     return count;
 }
 
-void s01a_object_800D99DC(ObjectWork *work)
+static void s01a_object_800D99DC(Work *work)
 {
     SVECTOR svec;
 
@@ -146,7 +156,7 @@ void s01a_object_800D99DC(ObjectWork *work)
     }
 }
 
-void s01a_object_800D9A88(ObjectWork *work)
+static void s01a_object_800D9A88(Work *work)
 {
     SVECTOR diff;
     int     index;
@@ -187,7 +197,7 @@ void s01a_object_800D9A88(ObjectWork *work)
     }
 }
 
-int s01a_object_800D9BA0(ObjectWork *work)
+static int s01a_object_800D9BA0(Work *work)
 {
     int field_284;
 
@@ -208,7 +218,7 @@ int s01a_object_800D9BA0(ObjectWork *work)
     return 0;
 }
 
-int s01a_object_800D9C10(ObjectWork *work)
+static int s01a_object_800D9C10(Work *work)
 {
     int field_284;
 
@@ -240,7 +250,7 @@ int s01a_object_800D9C10(ObjectWork *work)
     return 0;
 }
 
-int s01a_object_800D9C8C(ObjectWork *work)
+static int s01a_object_800D9C8C(Work *work)
 {
     SVECTOR diff;
     int     yaw;
@@ -291,12 +301,12 @@ int s01a_object_800D9C8C(ObjectWork *work)
     return 0;
 }
 
-int s01a_object_800D9DAC(ObjectWork *work)
+static int s01a_object_800D9DAC(Work *work)
 {
     return --work->field_260 < 1;
 }
 
-int s01a_object_800D9DC4(ObjectWork *work)
+static int s01a_object_800D9DC4(Work *work)
 {
     switch (work->field_25C)
     {
@@ -316,7 +326,7 @@ int s01a_object_800D9DC4(ObjectWork *work)
     }
 }
 
-int s01a_object_800D9E20(ObjectWork *work)
+static int s01a_object_800D9E20(Work *work)
 {
     switch (work->field_25C)
     {
@@ -368,7 +378,7 @@ int s01a_object_800D9E20(ObjectWork *work)
     return 0;
 }
 
-void s01a_object_800D9F10(ObjectWork *work)
+static void s01a_object_800D9F10(Work *work)
 {
     switch (work->field_258)
     {
@@ -392,7 +402,7 @@ void s01a_object_800D9F10(ObjectWork *work)
     }
 }
 
-void s01a_object_800D9F9C(ObjectWork *work)
+static void s01a_object_800D9F9C(Work *work)
 {
     int field_254;
 
@@ -410,7 +420,7 @@ void s01a_object_800D9F9C(ObjectWork *work)
     }
 }
 
-void ObjectCharaAct_800D9FE0(ObjectWork *work)
+static void Act(Work *work)
 {
     TARGET *target;
 
@@ -423,7 +433,7 @@ void ObjectCharaAct_800D9FE0(ObjectWork *work)
     }
     GM_ActControl(&work->control);
     GM_ActObject2(&work->field_9C);
-    DG_GetLightMatrix2(&work->control.mov, &work->field_184);
+    DG_GetLightMatrix2(&work->control.mov, &work->light);
 
     target = work->field_180;
     if (target->damaged & TARGET_PUSH)
@@ -433,7 +443,7 @@ void ObjectCharaAct_800D9FE0(ObjectWork *work)
     GM_MoveTarget(target, &work->control.mov);
 }
 
-void s01a_object_800DA08C(ObjectWork *work)
+static void s01a_object_800DA08C(Work *work)
 {
     TARGET *target;
 
@@ -450,7 +460,7 @@ void s01a_object_800DA08C(ObjectWork *work)
     target->field_3C = 1;
 }
 
-int s01a_object_800DA108(ObjectWork *work, int unused, int unused2)
+static int s01a_object_800DA108(Work *work, int unused, int unused2)
 {
     char *opt;
 
@@ -491,12 +501,12 @@ int s01a_object_800DA108(ObjectWork *work, int unused, int unused2)
     return 0;
 }
 
-int ObjectGetResources_800DA1E8(ObjectWork *work, int arg1)
+static int GetResources(Work *work, int arg1)
 {
     CONTROL *ctrl;
     OBJECT  *obj;
     int      type;
-    char    *str;
+    char    *name;
 
     ctrl = &work->control;
     if (GM_InitControl(ctrl, 0, arg1) < 0)
@@ -513,53 +523,55 @@ int ObjectGetResources_800DA1E8(ObjectWork *work, int arg1)
     type = 0x41;
 
     obj = &work->field_9C;
-    str = GCL_GetOption('n');
+    name = GCL_GetOption('n');
 
-    if (str != 0)
+    if (name != NULL)
     {
-        type = GCL_StrToInt(str);
+        type = GCL_StrToInt(name);
     }
 
     if ((type & 0xFF) == 0x41)
     {
-        str = "rift";
+        name = "rift";
         work->field_28C = 0;
     }
     else if ((type & 0xFF) == 0x4B)
     {
-        str = "m13_crane";
+        name = "m13_crane";
         work->field_28C = 2;
     }
     else
     {
-        str = "rift";
+        name = "rift";
         work->field_28C = 1;
     }
 
-    GM_InitObject(obj, GV_StrCode(str), 0x32D, 0);
+    GM_InitObject(obj, GV_StrCode(name), BODY_FLAG, 0);
     GM_ConfigObjectJoint(obj);
-    GM_ConfigObjectLight(obj, &work->field_184);
+    GM_ConfigObjectLight(obj, &work->light);
     GM_ConfigObjectStep(obj, &work->control.step);
 
     return 0;
 }
 
-void ObjectCharaDie_800DA368(ObjectWork *work)
+static void Die(Work *work)
 {
     GM_FreeControl(&work->control);
     GM_FreeObject(&work->field_9C);
     GM_FreeTarget(work->field_180);
 }
 
+/*---------------------------------------------------------------------------*/
+
 void *NewMovingObject(int name, int where, int argc, char **argv)
 {
-    ObjectWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(ObjectWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, ObjectCharaAct_800D9FE0, ObjectCharaDie_800DA368, "object.c");
-        if (ObjectGetResources_800DA1E8(work, where) < 0)
+        GV_SetNamedActor(&work->actor, Act, Die, "object.c");
+        if (GetResources(work, where) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

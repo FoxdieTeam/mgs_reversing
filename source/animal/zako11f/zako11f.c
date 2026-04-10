@@ -4,8 +4,10 @@
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
-#include "chara/snake/shadow.h"
 #include "strcode.h"
+
+#include "chara/snake/shadow.h" // for NewShadow2
+#include "enemy/glight.h"       // for NewGunLight
 
 void RootFlagCheck_800C86F0( Zako11FWork *work )
 {
@@ -179,8 +181,6 @@ void s11i_zako11f_800C8B3C( Zako11FWork* work )
     work->time2 = 0;
 }
 
-extern void *NewGunLight_800D3AD4( MATRIX* mat, int **enable );
-
 extern void *NewKogaku2(CONTROL *pCtrl, OBJECT *pObj, int unit);
 extern void ZAKO11F_SetPutChar_800CD700( Zako11FWork *work, int put );
 
@@ -245,7 +245,7 @@ int s11i_zako11f_800C8B98( Zako11FWork* work, int name, int where )
     shadow.vx  = 0;
 
     work->shadow = NewShadow2( ctrl, body, shadow,  &work->shadow_enable ) ;
-    work->glight = NewGunLight_800D3AD4( &( body->objs->objs[4].world ), &work->glight_enable ) ;
+    work->glight = NewGunLight( &( body->objs->objs[4].world ), &work->glight_enable ) ;
 
     ZAKO11F_SetPutChar_800CD700( work, 0 );
     s11i_zako11f_800C8B3C( work );

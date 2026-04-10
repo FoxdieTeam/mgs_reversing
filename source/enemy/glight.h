@@ -5,6 +5,6 @@
 #include <libgte.h>
 #include <libgpu.h>
 
-void *NewGunLight_800D3AD4(MATRIX *world, int **pvisible);
+void *NewGunLight(MATRIX *world, int **pvisible);
 
 #endif // __MGS_ENEMY_GLIGHT_H__

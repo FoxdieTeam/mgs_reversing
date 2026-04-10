@@ -1,24 +1,32 @@
 #include "glight.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "game/game.h"
 
-typedef struct GlightWork
+/*---------------------------------------------------------------------------*/
+
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
+
+typedef struct _Work
 {
     GV_ACT   actor;
     DG_PRIM *prim;
     MATRIX  *world;
     int      visible;
-} GlightWork;
+} Work;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+/*---------------------------------------------------------------------------*/
 
-RECT glight_rect = {40, 40, 80, 80};
-SVECTOR glight_svec = {0, 65136, 60, 0};
+static RECT glight_rect = {40, 40, 80, 80};
+static SVECTOR glight_pos = {0, 65136, 60, 0};
 
-void GunLightAct_800D387C(GlightWork *work)
+static void Act(Work *work)
 {
     work->prim->world = *work->world;
 
@@ -32,12 +40,12 @@ void GunLightAct_800D387C(GlightWork *work)
     }
 }
 
-void GunLightDie_800D3910(GlightWork *work)
+static void Die(Work *work)
 {
     GM_FreePrim(work->prim);
 }
 
-void GunLightInitPacks_800D394C(POLY_FT4 *poly, DG_TEX *tex, int color)
+static void InitPacks(POLY_FT4 *poly, DG_TEX *tex, int shade)
 {
     int   tpage1, tpage2;
     int   u0, u1;
@@ -45,7 +53,7 @@ void GunLightInitPacks_800D394C(POLY_FT4 *poly, DG_TEX *tex, int color)
     short clut;
 
     setPolyFT4(poly);
-    setRGB0(poly, color, color, color);
+    setRGB0(poly, shade, shade, shade);
     setSemiTrans(poly, 1);
 
     u0 = tex->off_x;
@@ -70,13 +78,13 @@ void GunLightInitPacks_800D394C(POLY_FT4 *poly, DG_TEX *tex, int color)
     poly->clut = clut;
 }
 
-int GunLightGetResources_800D39D0(GlightWork *work, MATRIX *world, int **pvisible)
+static int GetResources(Work *work, MATRIX *world, int **pvisible)
 {
     DG_TEX *tex;
 
     work->world = world;
 
-    work->prim = GM_MakePrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 1, &glight_svec, &glight_rect);
+    work->prim = GM_MakePrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 1, &glight_pos, &glight_rect);
     if (work->prim == NULL)
     {
         return -1;
@@ -87,7 +95,7 @@ int GunLightGetResources_800D39D0(GlightWork *work, MATRIX *world, int **pvisibl
         *pvisible = &work->visible;
     }
 
-    work->visible = 1;
+    work->visible = TRUE;
 
     work->prim->group_id = 0;
     work->prim->raise = 200;
@@ -98,22 +106,24 @@ int GunLightGetResources_800D39D0(GlightWork *work, MATRIX *world, int **pvisibl
         return -1;
     }
 
-    GunLightInitPacks_800D394C(work->prim->packs[0], tex, 250);
-    GunLightInitPacks_800D394C(work->prim->packs[1], tex, 200);
+    InitPacks(work->prim->packs[0], tex, 250);
+    InitPacks(work->prim->packs[1], tex, 200);
 
     return 0;
 }
 
-void *NewGunLight_800D3AD4(MATRIX *world, int **pvisible)
-{
-    GlightWork *work;
+/*---------------------------------------------------------------------------*/
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(GlightWork));
+void *NewGunLight(MATRIX *world, int **pvisible)
+{
+    Work *work;
+
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, GunLightAct_800D387C, GunLightDie_800D3910, "glight.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "glight.c");
 
-        if (GunLightGetResources_800D39D0(work, world, pvisible) < 0)
+        if (GetResources(work, world, pvisible) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

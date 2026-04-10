@@ -9,14 +9,15 @@
 #include "game/game.h"
 #include "linkvar.h"
 #include "game/vibrate.h"
-#include "chara/snake/shadow.h"
 #include "chara/snake/sna_init.h"
 #include "chara/snake/sna_hzd.h"
-#include "okajima/blood.h"
 #include "sound/g_sound.h"
 #include "strcode.h"
 
-#include "okajima/hiyoko.h"
+#include "chara/snake/shadow.h" // for NewShadow
+#include "enemy/glight.h"       // for NewGunLight
+#include "okajima/blood.h"      // for NewBlood
+#include "okajima/hiyoko.h"     // for NewHiyoko
 #include "takabe/fadeio.h"      // for NewFadeInOut
 
 struct _Work;
@@ -122,7 +123,6 @@ void  s03b_boxall_800C93F0(int, int);
 void  OpenCinemaScreen(int, int);
 int   s03b_boxall_800C93AC(int arg0);
 int   s03b_boxall_800C95EC(void);
-void *NewGunLight_800D3AD4(MATRIX *world, int **pvisible);
 void *AN_Unknown_800CA1EC(MATRIX *mat, int mark);
 
 static void Johnny_800C6FC0(Work *work, int arg1);
@@ -3636,7 +3636,7 @@ static void InitExtra(Work *work)
     char *option;
 
     work->weapon = NewJohnnyFamas(&work->control, &work->body, 4, &work->trigger);
-    work->gunlight = NewGunLight_800D3AD4(&work->body.objs->objs[4].world, &work->enable_gunlight);
+    work->gunlight = NewGunLight(&work->body.objs->objs[4].world, &work->enable_gunlight);
     work->unkB5A = 0;
     work->unkB58 = 0;
     work->unkB5E = 0;
