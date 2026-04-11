@@ -248,4 +248,10 @@ enum // GM_ItemTypes[]
     // ...
 };
 
+/* TODO: move */
+static inline int GM_InBox(void)
+{
+    return (GM_CurrentItemId == IT_Box1) || (GM_CurrentItemId == IT_Box2) || (GM_CurrentItemId == IT_Box3);
+}
+
 #endif // __MGS_LINKVAR_H__
