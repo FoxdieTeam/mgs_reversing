@@ -79,7 +79,8 @@ typedef struct Wolf2Work
     int            f78C;
     char           pad9[0x14];
     int            f7A4;
-    char           pad10[0x2C];
+    char           pad10[0x24];
+    SVECTOR        f7CC;
     int            f7D4;
     int            f7D8;
     int            f7DC;
