@@ -28,6 +28,7 @@ extern SVECTOR wolf2_position;
 
 void *AN_Unknown_800CA1EC( MATRIX* mat, int mark );
 void NewAnime_8005E1A0( MATRIX* mat );
+void s01a_object_800D952C( SVECTOR *pos, short scr_num );
 
 void s12a_wolf2_800CED64(Wolf2Work *work)
 {
@@ -253,8 +254,272 @@ void s12a_wolf2_800CF294(TILE *packs)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s12a/s12a_wolf2_800CF2C4.s")
-void s12a_wolf2_800CF2C4(Wolf2Work *work);
+void s12a_wolf2_800CF2C4(Wolf2Work *work)
+{
+    SVECTOR   sp18;
+    SVECTOR   sp20;
+    SVECTOR   sp28;
+    SVECTOR   sp30;
+    VECTOR    sp38;
+    VECTOR    sp48;
+    MATRIX    sp58;
+    MATRIX    sp78;
+    short     sp98[2];
+    long      p;
+    long      flag;
+    int       height;
+    int       count;
+    MAP      *map;
+    int       i;
+    int       hit;
+    int       hit_target;
+    int       dist;
+    DG_CHANL *chanl;
+    int       step;
+    int       zoom;
+
+    if (work->f9F8 != 1)
+    {
+        DG_InvisiblePrim(work->f7E0);
+        DG_InvisiblePrim(work->lsight_prim);
+        return;
+    }
+
+    DG_VisiblePrim(work->f7E0);
+    DG_VisiblePrim(work->lsight_prim);
+
+    map = work->control.map;
+
+    height = 0;
+    step = 30000;
+    count = (work->f6D8 / step) + 1;
+
+    sp18.vx = 0;
+    sp18.vy = -step;
+    sp18.vz = 0;
+
+    sp20.vx = 0;
+    sp20.vy = -550;
+    sp20.vz = 100;
+
+    sp58 = work->body.objs->objs[4].world;
+    sp58.t[0] = 0;
+    sp58.t[1] = 0;
+    sp58.t[2] = 0;
+
+    DG_SetPos(&sp58);
+    DG_PutVector(&sp18, &sp18, 1);
+
+    sp58 = work->body.objs->objs[4].world;
+    DG_SetPos(&sp58);
+    DG_PutVector(&sp20, &sp20, 1);
+
+    work->f7E4[0] = sp20;
+    work->f7E4[1] = sp20;
+
+    hit = 0;
+    hit_target = 0;
+
+    s12a_wolf2_800CF294(work->f7E0->packs[GV_Clock]);
+
+    sp30 = sp20;
+
+    for (i = 0; i < count; i++)
+    {
+        sp28 = sp20;
+        sp38.vx = sp20.vx + sp18.vx;
+        sp38.vy = sp20.vy + sp18.vy;
+        sp38.vz = sp20.vz + sp18.vz;
+
+        if ((abs(sp38.vx) > 32768) || (abs(sp38.vy) > 32768) || (abs(sp38.vz) > 32768))
+        {
+            if (sp38.vx > 32700)
+            {
+                sp18.vy = (sp18.vy * (32700 - sp20.vx)) / sp18.vx;
+                sp18.vz = (sp18.vz * (32700 - sp20.vx)) / sp18.vx;
+                sp38.vx = 32700;
+                sp38.vy = sp20.vy + sp18.vy;
+                sp38.vz = sp20.vz + sp18.vz;
+                sp48.vx = 32700 - sp20.vx;
+            }
+            else if (sp38.vx < -32700)
+            {
+                sp18.vy = (sp18.vy * (-32700 - sp20.vx)) / sp18.vx;
+                sp18.vz = (sp18.vz * (-32700 - sp20.vx)) / sp18.vx;
+                sp38.vx = -32700;
+                sp38.vy = sp20.vy + sp18.vy;
+                sp38.vz = sp20.vz + sp18.vz;
+                sp48.vx = -32700 - sp20.vx;
+            }
+
+            if (sp38.vy > 32700)
+            {
+                sp18.vx = (sp18.vx * (32700 - sp20.vy)) / sp18.vy;
+                sp18.vz = (sp18.vz * (32700 - sp20.vy)) / sp18.vy;
+                sp38.vx = sp20.vx + sp18.vx;
+                sp38.vy = 32700;
+                sp38.vz = sp20.vz + sp18.vz;
+                sp48.vy = 32700 - sp20.vy;
+            }
+            else if (sp38.vy < -32700)
+            {
+                sp18.vx = (sp18.vx * (-32700 - sp20.vy)) / sp18.vy;
+                sp18.vz = (sp18.vz * (-32700 - sp20.vy)) / sp18.vy;
+                sp38.vx = sp20.vx + sp18.vx;
+                sp38.vy = -32700;
+                sp38.vz = sp20.vz + sp18.vz;
+                sp48.vy = -32700 - sp20.vy;
+            }
+
+            if (sp38.vz > 32700)
+            {
+                sp18.vy = (sp18.vy * (32700 - sp20.vz)) / sp18.vz;
+                sp18.vx = (sp18.vx * (32700 - sp20.vz)) / sp18.vz;
+                sp38.vx = sp20.vx + sp18.vx;
+                sp38.vy = sp20.vy + sp18.vy;
+                sp38.vz = 32700;
+                sp48.vz = 32700 - sp20.vz;
+            }
+            else if (sp38.vz < -32700)
+            {
+                sp18.vy = (sp18.vy * (-32700 - sp20.vz)) / sp18.vz;
+                sp18.vx = (sp18.vx * (-32700 - sp20.vz)) / sp18.vz;
+                sp38.vx = sp20.vx + sp18.vx;
+                sp38.vy = sp20.vy + sp18.vy;
+                sp38.vz = -32700;
+                sp48.vz = -32700 - sp20.vz;
+            }
+        }
+
+        sp20.vx = sp38.vx;
+        sp20.vy = sp38.vy;
+        sp20.vz = sp38.vz;
+
+        if (GM_Target_8002E1B8(&sp28, &sp20, map->index, &sp20, ENEMY_SIDE))
+        {
+            hit = 1;
+            hit_target = 1;
+        }
+
+        if (HZD_LineCheck(map->hzd, &sp28, &sp20, 5, 4))
+        {
+            HZD_LineNearVec(&sp20);
+            hit = 1;
+        }
+
+        if (hit == 0)
+        {
+            continue;
+        }
+
+        sp20.vx += GV_RandS(16);
+        sp20.vy += GV_RandS(16);
+        sp20.vz += GV_RandS(16);
+
+        DG_PointCheck(&work->control.mov, 1);
+
+        if ((work->control.mov.pad == 1) &&
+            (GM_Camera.zoom > 900) &&
+            (work->f9A8 == 0) &&
+            (hit_target == 1) &&
+            ((GM_CurrentWeaponId == WP_Rifle) || (GM_CurrentItemId == IT_Scope)))
+        {
+            chanl = DG_Chanl(0);
+            DG_Clip(&chanl->clip_rect, chanl->clip_distance);
+            gte_SetRotMatrix(&chanl->eye_inv);
+            gte_SetTransMatrix(&chanl->eye_inv);
+            RotTransPers(&sp20, (long *)sp98, &p, &flag);
+
+            dist = (ABS(160 - sp98[0]) + ABS(102 - sp98[1])) & 0xFFF;
+            if (dist < 90)
+            {
+                work->fA64 = 1;
+                GM_SeSet2(0, 127, 99);
+
+                DG_InvisiblePrim(work->f7E0);
+                DG_InvisiblePrim(work->lsight_prim);
+
+                i = (90 - dist) / 2 + 160;
+                if (i > work->fA10.vx)
+                {
+                    work->fA10.vx = i;
+                    work->fA10.vy = i / 4;
+                    work->fA10.vz = 0;
+                }
+
+                sp78 = sp58;
+                sp78.t[0] = (work->f9FC.vx * 3 + work->body.objs->objs[4].world.t[0]) / 4;
+                sp78.t[1] = (work->f9FC.vy * 3 + work->body.objs->objs[4].world.t[1]) / 4;
+                sp78.t[2] = (work->f9FC.vz * 3 + work->body.objs->objs[4].world.t[2]) / 4;
+                DG_SetPos(&sp78);
+
+                sp18 = DG_ZeroVector;
+                zoom = (GM_Camera.zoom - 320) * 17000 / 3401 + 1000;
+                sp18.vy = zoom - work->f6D8 / 4;
+                DG_PutVector(&sp18, &sp30, 1);
+
+                sp30.vx += GV_RandS(8);
+                sp30.vy += GV_RandS(8);
+                sp30.vz += GV_RandS(8);
+                s01a_object_800D952C(&sp30, 0);
+
+                sp30.vx += GV_RandS(128);
+                sp30.vy += GV_RandS(128);
+                sp30.vz += GV_RandS(128);
+                s01a_object_800D952C(&sp30, 1);
+
+                sp18.vx = work->body.objs->objs[4].world.t[0];
+                sp18.vy = work->body.objs->objs[4].world.t[1];
+                sp18.vz = work->body.objs->objs[4].world.t[2];
+
+                for (i = 0; i < 8; i++)
+                {
+                    work->lsight_verts[i * 2] = sp18;
+                    work->lsight_verts[i * 2 + 1] = sp18;
+                }
+            }
+
+            return;
+        }
+
+        GV_SubVec3(&sp28, &sp20, &sp18);
+        height = i * 30000 + GV_VecLen3(&sp18);
+        break;
+    }
+
+    sp18.vx = 0;
+    sp18.vy = -height / 8;
+    sp18.vz = 0;
+
+    sp20 = sp30;
+
+    if (work->f6FC <= 0)
+    {
+        for (i = 0; i < 8; i++)
+        {
+            work->lsight_verts[i * 2] = sp20;
+            work->lsight_verts[i * 2 + 1] = sp20;
+        }
+    }
+    else
+    {
+        for (i = 0; i < 8; i++)
+        {
+            sp58.t[0] = sp20.vx;
+            sp58.t[1] = sp20.vy;
+            sp58.t[2] = sp20.vz;
+
+            work->lsight_verts[i * 2] = sp20;
+
+            DG_SetPos(&sp58);
+            DG_PutVector(&sp18, &sp20, 1);
+
+            work->lsight_verts[i * 2 + 1] = sp20;
+        }
+    }
+
+    work->f7E4[1] = work->f7CC;
+}
 
 void s12a_wolf2_800D0168(Wolf2Work *work, int unit, int count)
 {

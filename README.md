@@ -463,7 +463,7 @@ Individual overlay progress:
             <td><b>s12a</b></td>
             <td>107 KB</td>
             <td>Snowfield</td>
-            <td>🚧 Work in progress</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s12b</b></td>
