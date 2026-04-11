@@ -5,6 +5,16 @@
 #include "libgcl/libgcl.h"
 #include "okajima/blood.h"
 #include "okajima/bullet.h"
+#include "weapon/weapon.h"
+
+#define TARGET_FLAG    ( TARGET_AVAIL | TARGET_POWER | TARGET_SEEK )
+
+#define MOTION_DATA    GV_StrCode("sniper")
+#define BODY_DATA      GV_StrCode("snp_ded0")
+#define WEAPON_DATA    GV_StrCode("rifle")
+
+#define BODY_FLAG      ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_GBOUND | DG_FLAG_IRTEXTURE )
+#define WEAPON_FLAG    ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE )
 
 static SVECTOR s12a_dword_800C3498 = {0, 0, 100};
 static SVECTOR s12a_dword_800C34A0 = {-1024, 0, 0};
@@ -13,6 +23,8 @@ static SVECTOR s12a_dword_800C34B0 = {10, -800, -120};
 
 extern GM_CAMERA        GM_Camera;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
+
+extern SVECTOR wolf2_position;
 
 void *AN_Unknown_800CA1EC( MATRIX* mat, int mark );
 void NewAnime_8005E1A0( MATRIX* mat );
@@ -242,6 +254,7 @@ void s12a_wolf2_800CF294(TILE *packs)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s12a/s12a_wolf2_800CF2C4.s")
+void s12a_wolf2_800CF2C4(Wolf2Work *work);
 
 void s12a_wolf2_800D0168(Wolf2Work *work, int unit, int count)
 {
@@ -1143,28 +1156,464 @@ void s12a_wolf2_800D1BE8(Wolf2Work *work)
     gUnkCameraStruct2_800B7868.center = center;
 }
 
-const char s12a_aSnpded_800DD1E0[] = "snp_ded0";
-const char s12a_aSniper_800DD1EC[] = "sniper";
-const char s12a_aRifle_800DD1F4[] = "rifle";
-const int s12a_dword_800DD1FC = 0x800D2B88;
-const int s12a_dword_800DD200 = 0x800D2C00;
-const int s12a_dword_800DD204 = 0x800D2B88;
-const int s12a_dword_800DD208 = 0x800D2C00;
-const int s12a_dword_800DD20C = 0x800D2C00;
-const int s12a_dword_800DD210 = 0x800D2C00;
-const int s12a_dword_800DD214 = 0x800D2B88;
-const int s12a_dword_800DD218 = 0x800D2C00;
-const int s12a_dword_800DD21C = 0x800D2C00;
-const int s12a_dword_800DD220 = 0x800D2C00;
-const int s12a_dword_800DD224 = 0x800D2B88;
-const int s12a_dword_800DD228 = 0x800D2C00;
-const int s12a_dword_800DD22C = 0x800D2C00;
-const int s12a_dword_800DD230 = 0x800D2C00;
-const int s12a_dword_800DD234 = 0x800D2C00;
-const int s12a_dword_800DD238 = 0x800D2C00;
-const int s12a_dword_800DD23C = 0x800D2B88;
+void s12a_wolf2_800D1EBC(Wolf2Work *work)
+{
+    SVECTOR target_pos;
+    MATRIX  world1;
+    MATRIX  world2;
+    TARGET *target1;
+    TARGET *target2;
+    u_long *ot;
+    u_short x, y, z;
 
-#pragma INCLUDE_ASM("asm/overlays/s12a/s12a_wolf2_800D1EBC.s")
+    work->fA64 = 0;
+
+    world1 = work->body.objs->objs[work->fA5C].world;
+    world2 = work->body.objs->objs[work->fA60].world;
+
+    target1 = work->f65C;
+    target2 = work->f660;
+
+    if ((work->f99C == 0) && (GM_CurrentWeaponId == WP_Nikita))
+    {
+        target1->class &= ~TARGET_FLAG;
+        target1->class |= TARGET_AVAIL;
+        target2->class &= ~TARGET_FLAG;
+        target2->class |= TARGET_AVAIL;
+        work->fA54 = 90;
+    }
+    else if (work->fA54 > 0)
+    {
+        work->fA54--;
+    }
+    else
+    {
+        work->fA54 = 0;
+        target1->class |= TARGET_FLAG;
+        target2->class |= TARGET_FLAG;
+    }
+
+    if ((work->f99C == 0) || (work->f9C8 == -1))
+    {
+        GM_GameStatus &= ~STATE_PADRELEASE;
+    }
+
+    GM_GameStatus |= GAME_FLAG_BIT_09;
+
+    if (work->voices[0] > 0)
+    {
+        work->voices[0]--;
+    }
+
+    if (work->f9C8 != -1)
+    {
+        if (work->f9CC == 2)
+        {
+            if (work->f9F0 != 1)
+            {
+                work->f9F0 = 1;
+                NewRifleSightFast();
+                GM_GameStatus |= ( STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF );
+            }
+
+            s12a_wolf2_800D1BE8(work);
+
+            if (!(GM_PlayerStatus & STATE_JAMMING) || GM_InBox())
+            {
+                work->f9CC = 3;
+            }
+        }
+
+        if (work->f9CC > 2)
+        {
+            work->f9CC++;
+            s12a_wolf2_800D1BE8(work);
+
+            GV_DemoPadStatus[0] = 0;
+            GV_DemoPadStatus[1] = 0;
+
+            if (work->f9CC == 40)
+            {
+                GV_DemoPadStatus[0] = PAD_CROSS;
+            }
+            else if (work->f9CC == 70)
+            {
+                GV_DemoPadStatus[0] = PAD_UP;
+            }
+            else if (work->f9CC == 85)
+            {
+                GV_DemoPadStatus[0] = PAD_CROSS;
+            }
+            else if (work->f9CC == 119)
+            {
+                GM_SeSet2(0, 63, SE_RADIO_INCOMING);
+            }
+            else if (work->f9CC == 149)
+            {
+                if ((work->last_weapon == WP_Rifle) || (work->last_weapon == WP_Stinger))
+                {
+                    GM_CurrentWeaponId = work->last_weapon;
+                }
+
+                if ((work->last_item == IT_Scope) || (work->last_item == IT_Camera) ||
+                    (work->last_item == IT_NVG) || (work->last_item == IT_ThermG))
+                {
+                    GM_CurrentItemId = work->last_item;
+                }
+
+                GV_DemoPadStatus[0] = ( PAD_L1 | PAD_R1 );
+            }
+            else if (work->f9CC > 149)
+            {
+                GM_GameStatus &= ~STATE_PADDEMO;
+                s12a_wolf2_800D1B94(work);
+                GV_DestroyActor(work);
+            }
+        }
+
+        if ((work->f9CC == 1) && (GM_SnakeCurrentHealth != 0) && (GM_GameOverTimer == 0))
+        {
+            work->f9CC = 2;
+
+            GV_DemoPadStatus[0] = 0;
+            GV_DemoPadStatus[1] = 0;
+
+            GM_GameStatus |= STATE_PADDEMO;
+
+            if (GM_PlayerPosition.vx < 13000)
+            {
+                work->fA18.vx = 7464;
+                work->fA18.vy = 8000;
+                work->fA18.vz = -14000;
+            }
+            else
+            {
+                work->fA18.vx = 55000;
+                work->fA18.vy = 8000;
+                work->fA18.vz = -14000;
+            }
+        }
+    }
+
+    if (((GV_Time % 15) == 0) && (GV_RandU(2) == 0))
+    {
+        work->f9FC.vx = GM_PlayerBody->objs->objs[4].world.t[0];
+        work->f9FC.vy = GM_PlayerBody->objs->objs[4].world.t[1];
+        work->f9FC.vz = GM_PlayerBody->objs->objs[4].world.t[2];
+
+        if (work->f9E8 == 2)
+        {
+            if (s12a_wolf2_800D0298(work))
+            {
+                work->fA04 = 1;
+                work->f9FC = wolf2_position;
+            }
+            else
+            {
+                work->fA04 = 0;
+            }
+        }
+    }
+
+    work->f6D8 = s12a_wolf2_800D07D8(work, &work->control.mov);
+
+    if ((work->f6FC > 0) &&
+        (work->f9D0 > GM_PlayerPosition.vz) &&
+        ~(GM_PlayerStatus & STATE_JAMMING) &&
+        (GM_CurrentWeaponId != WP_Rifle) &&
+        (GM_SnakeCurrentHealth != 0) &&
+        (GM_GameOverTimer == 0))
+    {
+        GM_GameStatus |= STATE_PADRELEASE;
+
+        if ((GM_CurrentItemId == IT_Scope) || (GM_CurrentItemId == IT_Camera) ||
+            (GM_CurrentItemId == IT_NVG) || (GM_CurrentItemId == IT_ThermG))
+        {
+            GM_CurrentItemId = IT_None;
+        }
+
+        if ((GM_CurrentWeaponId == WP_Rifle) || (GM_CurrentWeaponId == WP_Stinger))
+        {
+            GM_CurrentWeaponId = WP_None;
+        }
+
+        work->f718 = 1;
+        work->f6E8 = 0;
+
+        work->control.rot = work->f990;
+
+        work->f65C->damaged &= ~TARGET_POWER;
+        work->f660->damaged &= ~TARGET_POWER;
+
+        if (work->fA08 == 0)
+        {
+            work->fA08 = 1;
+        }
+
+        if ((work->f9C8 == -1) || (work->fA70 == 0))
+        {
+            s12a_wolf2_800D0358(work);
+        }
+
+        if (work->fA08 == 1)
+        {
+            work->fA08 = 2;
+        }
+    }
+    else if ((work->fA68 != 1) || (work->fA6C != 0))
+    {
+        if (work->f9C8 != -1)
+        {
+            DG_InvisiblePrim(work->f7E0);
+            DG_InvisiblePrim(work->lsight_prim);
+
+            target1->class |= TARGET_NO_LOCKON;
+            target2->class |= TARGET_NO_LOCKON;
+
+            target1->damaged |= TARGET_POWER;
+            target2->damaged |= TARGET_POWER;
+
+            GM_MoveTarget(target1, &target_pos);
+            GM_MoveTarget(target2, &target_pos);
+
+            target1->center.vx = world1.t[0] + ((SVECTOR *)&work->f6AC)->vx;
+            target1->center.vy = world1.t[1] + ((SVECTOR *)&work->f6AC)->vy;
+            target1->center.vz = world1.t[2] + ((SVECTOR *)&work->f6AC)->vz;
+            target2->center.vx = world2.t[0] + work->f6B4.vx;
+            target2->center.vy = world2.t[1] + work->f6B4.vy;
+            target2->center.vz = world2.t[2] + work->f6B4.vz;
+            return;
+        }
+
+        work->f718 = 0;
+
+        switch (work->f6CC)
+        {
+        case 0:
+            s12a_wolf2_800D0980(work);
+            work->f6CC = 1;
+            break;
+        case 1:
+            s12a_wolf2_800D1B64(work);
+            break;
+        }
+
+        if (work->f6FC < 1)
+        {
+            target_pos.vx = 0;
+            target_pos.vy = -10000;
+            target_pos.vz = 0;
+
+            target1->class |= TARGET_NO_LOCKON;
+            target2->class |= TARGET_NO_LOCKON;
+
+            GM_MoveTarget(target1, &target_pos);
+            GM_MoveTarget(target2, &target_pos);
+
+            work->fA10 = DG_ZeroVector;
+            return;
+        }
+
+        s12a_wolf2_800CF084(work, work->f6E8, work->f710, work->f714);
+    }
+
+    s12a_wolf2_800CF2C4(work);
+
+    if (GM_CurrentWeaponId == WP_Rifle)
+    {
+        if (work->fA10.vx > 0)
+        {
+            ot = DG_Chanl(0)->ot[GV_Clock];
+            addPrim(ot, &work->alloc->tile[GV_Clock]);
+            addPrim(ot, &work->alloc->tpage[GV_Clock]);
+        }
+
+        setRGB0(&work->alloc->tile[GV_Clock], work->fA10.vx, work->fA10.vy, work->fA10.vz);
+
+        work->fA10.vx -= work->fA10.vx / 8;
+        work->fA10.vy -= work->fA10.vy / 8;
+        work->fA10.vz -= work->fA10.vz / 8;
+
+        x = work->fA10.vx - 1;
+        if (x < 31)
+        {
+            work->fA10.vx--;
+        }
+
+        y = work->fA10.vy - 1;
+        if (y < 31)
+        {
+            work->fA10.vy--;
+        }
+
+        z = work->fA10.vz - 1;
+        if (z < 31)
+        {
+            work->fA10.vz--;
+        }
+    }
+    else
+    {
+        work->fA10 = DG_ZeroVector;
+    }
+
+    if (GM_CurrentWeaponId == WP_Stinger)
+    {
+        target_pos.vx = 0;
+        target_pos.vy = -10000;
+        target_pos.vz = 0;
+
+        target1->class |= TARGET_NO_LOCKON;
+        target2->class |= TARGET_NO_LOCKON;
+
+        GM_MoveTarget(target1, &target_pos);
+        GM_MoveTarget(target2, &target_pos);
+    }
+    else
+    {
+        target1->class &= ~TARGET_NO_LOCKON;
+        target2->class &= ~TARGET_NO_LOCKON;
+
+        target_pos.vx = work->body.objs->objs[0].world.t[0];
+        target_pos.vy = work->body.objs->objs[0].world.t[1] + ((SVECTOR *)&work->f6AC)->vy;
+        target_pos.vz = work->body.objs->objs[0].world.t[2];
+        GM_MoveTarget(target1, &target_pos);
+
+        target_pos.vy = work->body.objs->objs[0].world.t[1] + work->f6B4.vy;
+        GM_MoveTarget(target2, &target_pos);
+    }
+
+    target1->center.vx = world1.t[0] + ((SVECTOR *)&work->f6AC)->vx;
+    target1->center.vy = world1.t[1] + ((SVECTOR *)&work->f6AC)->vy;
+    target1->center.vz = world1.t[2] + ((SVECTOR *)&work->f6AC)->vz;
+    target2->center.vx = world2.t[0] + work->f6B4.vx;
+    target2->center.vy = world2.t[1] + work->f6B4.vy;
+    target2->center.vz = world2.t[2] + work->f6B4.vz;
+
+    if ((((target1->damaged & TARGET_POWER) || (target2->damaged & TARGET_POWER)) && (work->f748 == 0) && (work->fA54 == 0)) ||
+        ((work->fA68 == 1) && (work->fA6C == 0)))
+    {
+        work->fA6C = 1;
+        work->fA2C = 60;
+        work->f9F8 = 0;
+
+        if (target1->damaged & TARGET_POWER)
+        {
+            s12a_wolf2_800D0168(work, 6, 2);
+        }
+        else
+        {
+            s12a_wolf2_800D0168(work, 14, 2);
+        }
+
+        s12a_wolf2_800CF03C(work->adjust, 16);
+
+        work->f748 = 1;
+        work->f6FC--;
+        work->fA40 -= work->fA48;
+
+        switch(work->f6D4)
+        {
+        case 0:
+        case 2:
+        case 6:
+        case 10:
+        case 16:
+            if (work->f6FC <= 0)
+            {
+                if (GM_GameOverTimer == 0)
+                {
+                    /* Outdoor ambience */
+                    GM_SetSong(0x1000001);
+                }
+
+                work->f6D4 = 13;
+
+                DG_InvisiblePrim(work->f7E0);
+                DG_InvisiblePrim(work->lsight_prim);
+
+                if (work->fA68 == 0)
+                {
+                    GM_SeSet2(0, 31, 130);
+                }
+            }
+            else
+            {
+                work->f6D4 = 12;
+
+                if (GV_RandU(2) != 0)
+                {
+                    GM_SeSet2(0, 31, 128);
+                }
+                else
+                {
+                    GM_SeSet2(0, 31, 129);
+                }
+            }
+            break;
+        default:
+            if (work->f6FC <= 0)
+            {
+                if (GM_GameOverTimer == 0)
+                {
+                    /* Outdoor ambience */
+                    GM_SetSong(0x1000001);
+                }
+
+                work->f6D4 = 9;
+
+                DG_InvisiblePrim(work->f7E0);
+                DG_InvisiblePrim(work->lsight_prim);
+
+                if (work->fA68 == 0)
+                {
+                    GM_SeSet2(0, 31, 130);
+                }
+            }
+            else
+            {
+                if (GV_RandU(2) != 0)
+                {
+                    GM_SeSet2(0, 31, 128);
+                }
+                else
+                {
+                    GM_SeSet2(0, 31, 129);
+                }
+
+                work->f6D4 = 8;
+            }
+            break;
+        }
+
+        if ((work->f6FC < 1) && (work->f99C != 0))
+        {
+            GM_FreeObject(&work->body);
+            GM_FreeObject(&work->weapon);
+
+            GM_InitObject(&work->body, BODY_DATA, BODY_FLAG, MOTION_DATA);
+            GM_ConfigObjectJoint(&work->body);
+            GM_ConfigMotionControl(&work->body, &work->m_ctrl, MOTION_DATA, work->m_segs, NULL, &work->control, work->rots);
+            GM_ConfigObjectLight(&work->body, work->light);
+
+            GM_InitObject(&work->weapon, WEAPON_DATA, WEAPON_FLAG, 0);
+            GM_ConfigObjectLight(&work->weapon, work->light);
+            GM_ConfigObjectRoot(&work->weapon, &work->body, 4);
+
+            DG_InvisibleObjs(work->weapon.objs);
+        }
+    }
+
+    s12a_wolf2_800D078C(work);
+
+    work->f6F0--;
+    work->f6F8++;
+
+    if (work->fA2C > 0)
+    {
+        work->fA2C--;
+    }
+}
 
 void s12a_wolf2_800D2E0C(Wolf2Work *work)
 {
