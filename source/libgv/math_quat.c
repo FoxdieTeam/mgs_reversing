@@ -1,5 +1,9 @@
+#include "libgv.h"
+
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 #include "inline_n.h"
-#include "libgv/libgv.h"
 
 // The functions below are based on code listings from the article
 // "Rotating Objects Using Quaternions" by Nick Bobick.
