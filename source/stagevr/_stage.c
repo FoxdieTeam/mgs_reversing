@@ -161,7 +161,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x76fe, NULL },   //  CHARA_ENV_TEST,     /* chara 環境マッピングテスト */
     { 0xa12e, NULL },   //  CHARA_FADEIO,       /* chara 白黒フェド */
     { 0xc73e, NULL },   //  CHARA_FALL_SPLASH,
-    { 0x5d64, NULL },   //  CHARA_O2_DAMAGE,
+    { 0x5d64, NULL },   //  CHARA_FEWDAMAGE,
     { 0x118c, NULL },   //  CHARA_FINDTRAP,     /* chara 発見トラップ */
     { 0xd6fb, NULL },   //  CHARA_FOG,          /* chara 黒フォグ */
     { 0x84e1, NULL },   //  CHARA_FONTTEXT,

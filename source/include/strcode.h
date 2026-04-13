@@ -242,7 +242,7 @@
 #define CHARAID_ENV_TEST        0x76fe  // GV_StrCode("環境マッピングテスト")
 #define CHARAID_FADEIO          0xa12e  // GV_StrCode("白黒フェド")
 #define CHARAID_FALL_SPLASH     0xc73e  //
-#define CHARAID_O2_DAMAGE       0x5d64  //
+#define CHARAID_FEWDAMAGE       0x5d64  //
 #define CHARAID_FINDTRAP        0x118c  // GV_StrCode("発見トラップ")
 #define CHARAID_FOG             0xd6fb  // GV_StrCode("黒フォグ")
 #define CHARAID_FONTTEXT        0x84e1  //

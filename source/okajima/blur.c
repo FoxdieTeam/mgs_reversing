@@ -35,13 +35,13 @@ typedef struct _BlurWork
     char    pad3[0x8];
 } BlurWork;
 
-TILE   SECTION(".bss") d01a_dword_800D1428[2];
-DR_STP SECTION(".bss") d01a_dword_800D1448[2];
+TILE   SECTION(".bss") d01a_dword_800D1428[2];  // tileb.104 (?)
+DR_STP SECTION(".bss") d01a_dword_800D1448[2];  // stpp.106 (?)
 int    SECTION(".bss") d01a_dword_800D1460;
 int    SECTION(".bss") d01a_dword_800D1464;
 DR_STP SECTION(".bss") d01a_dword_800D1468[2];
 
-void d01a_blur_800CCB28(void)
+static void BG_Clear(void)
 {
     u_long *ot;
     TILE   *tile;
@@ -69,7 +69,7 @@ void d01a_blur_800CCB28(void)
     addPrim(ot, stp2);
 }
 
-void d01a_blur_800CCCC8(POLY_FT4 *packs, BlurWork *work, int arg3, int abr, int arg5, int arg6)
+static void InitPacks(POLY_FT4 *packs, BlurWork *work, int arg3, int abr, int arg5, int arg6)
 {
     int var_s2;
     int xoff, yoff;
@@ -231,7 +231,7 @@ void d01a_blur_800CCCC8(POLY_FT4 *packs, BlurWork *work, int arg3, int abr, int 
     }
 }
 
-void BlurAct_800CD274(BlurWork *work)
+static void Act(BlurWork *work)
 {
     u_long   *ot;
     POLY_FT4 *prim;
@@ -247,7 +247,7 @@ void BlurAct_800CD274(BlurWork *work)
 
     work->f5C++;
 
-    d01a_blur_800CCB28();
+    BG_Clear();
 
     if (work->f60 > 0)
     {
@@ -279,7 +279,7 @@ void BlurAct_800CD274(BlurWork *work)
         break;
     }
 
-    d01a_blur_800CCCC8(prim, work, 0, GV_Clock, var_t1, var_t0);
+    InitPacks(prim, work, 0, GV_Clock, var_t1, var_t0);
 
     for (i = 0; i < 4; i++)
     {
@@ -288,7 +288,7 @@ void BlurAct_800CD274(BlurWork *work)
     }
 }
 
-void BlurDie_800CD3E8(BlurWork *work)
+static void Die(BlurWork *work)
 {
     if (work->f24[0].poly != NULL)
     {
@@ -296,7 +296,7 @@ void BlurDie_800CD3E8(BlurWork *work)
     }
 }
 
-int BlurGetResources_800CD418(BlurWork *work, int arg1, int arg2, int arg3)
+static int GetResources(BlurWork *work, int arg1, int arg2, int arg3)
 {
     POLY_FT4 *polys;
     polys = GV_Malloc(sizeof(POLY_FT4) * 8);
@@ -323,8 +323,8 @@ int BlurGetResources_800CD418(BlurWork *work, int arg1, int arg2, int arg3)
         break;
     }
 
-    d01a_blur_800CCCC8(work->f24[0].poly, work, 1, 0, arg3, 1);
-    d01a_blur_800CCCC8(work->f24[1].poly, work, 1, 1, arg3, 1);
+    InitPacks(work->f24[0].poly, work, 1, 0, arg3, 1);
+    InitPacks(work->f24[1].poly, work, 1, 1, arg3, 1);
 
     work->f5C = GV_RandU(4096);
     work->f60 = 4;
@@ -348,16 +348,16 @@ int BlurGetResources_800CD418(BlurWork *work, int arg1, int arg2, int arg3)
 
 #define EXEC_LEVEL GV_ACTOR_AFTER2
 
-void *NewBlur_800CD530(int name, int where, int argc, char **argv)
+void *NewBlurSet(int name, int where, int argc, char **argv)
 {
     BlurWork *work;
 
     work = GV_NewActor(EXEC_LEVEL, sizeof(BlurWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, BlurAct_800CD274, BlurDie_800CD3E8, "blur.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "blur.c");
 
-        if (BlurGetResources_800CD418(work, name, where, argc) < 0)
+        if (GetResources(work, name, where, argc) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
@@ -369,7 +369,7 @@ void *NewBlur_800CD530(int name, int where, int argc, char **argv)
     return (void *)work;
 }
 
-void *NewBlur_800CD5D8(int arg0)
+void *NewBlur(int arg0)
 {
     BlurWork *work;
     char     *opt;
@@ -384,7 +384,7 @@ void *NewBlur_800CD5D8(int arg0)
     work = GV_NewActor(EXEC_LEVEL, sizeof(BlurWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, BlurAct_800CD274, BlurDie_800CD3E8, "blur.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "blur.c");
 
         opt = GCL_GetOption('d');
         if (opt != NULL)
@@ -394,7 +394,7 @@ void *NewBlur_800CD5D8(int arg0)
             var_s2 = GCL_StrToInt(opt);
         }
 
-        if (BlurGetResources_800CD418(work, var_s4, var_s3, var_s2) < 0)
+        if (GetResources(work, var_s4, var_s3, var_s2) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

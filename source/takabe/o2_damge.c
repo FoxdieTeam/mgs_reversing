@@ -195,7 +195,7 @@ int O2DamageGetResources_800DE8FC(O2DamgeWork *work, int name, int where)
     return 0;
 }
 
-void *NewO2Damage(int name, int where, int argc, char **argv)
+void *NewFewDamageSet(int name, int where, int argc, char **argv)
 {
     O2DamgeWork *work;
 

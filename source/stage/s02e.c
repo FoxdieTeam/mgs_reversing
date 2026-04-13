@@ -25,7 +25,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x81ea, (NEWCHARA)0x800dbcdc },   //  CHARA_RSURFACE,
     { 0x6e90, (NEWCHARA)0x800d5c44 },   //  CHARA_CAMERA,       /* chara カメラ */
     { 0x1ad3, (NEWCHARA)0x800c57c0 },   //  CHARA_TEXTURE,      /* chara テクスチャ */
-    { 0x5d64, (NEWCHARA)0x800e12ac },   //  CHARA_O2_DAMAGE,
+    { 0x5d64, (NEWCHARA)0x800e12ac },   //  CHARA_FEWDAMAGE,
     { 0x43a0, (NEWCHARA)0x800da66c },   //  CHARA_CENSOR,       /* chara 赤外線センサー */
     { 0x5a50, (NEWCHARA)0x800dcbd0 },   //  CHARA_GASEFFECT,    // duplicate
     { 0x8d5a, (NEWCHARA)0x800e14e8 },   //  CHARA_GASDAMAGE,    /* chara ガスダメージ */

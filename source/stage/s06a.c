@@ -13,7 +13,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_WATCHER,      /* chara 巡回兵 */
     CHARA_SHUTTER,      /* chara シャッター */
     CHARA_GASEFFECT,    /* chara ガス効果 */
-    CHARA_O2_DAMAGE,
+    CHARA_FEWDAMAGE,
     CHARA_ELEVPANEL,    /* chara エレベーターパネル */
     CHARA_PATOLAMP,     /* chara パトランプ */
     CHARA_ASIOTOKUN,    /* chara 足音君 */

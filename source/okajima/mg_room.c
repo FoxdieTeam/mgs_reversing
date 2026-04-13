@@ -261,7 +261,7 @@ int MgRoomGetResources_800DB218(MgRoom *work)
     return 0;
 }
 
-void *NewMgRoom_800DB458(void)
+void *NewMGRoom(void)
 {
     MgRoom *work;
 

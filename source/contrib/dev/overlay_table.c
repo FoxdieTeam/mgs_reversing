@@ -31,7 +31,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_RSURFACE,
     CHARA_TELOP,        /* chara テロップ */
     CHARA_BUBBLE,       /* chara 泡 */
-    CHARA_O2_DAMAGE,
+    CHARA_FEWDAMAGE,
 
     CHARA_0003_FADEIO,
     CHARA_0004_FADEIO,
