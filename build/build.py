@@ -446,11 +446,20 @@ def gen_build_target(targetName):
         g_size = get_file_global_size(cFile)
 
         ninja.build(cPreProcFile, "psyq_c_preprocess_44", cFile, implicit=[cPreProcHeadersFixedFile])
-        ninja.build([cAsmPreProcFile, cAsmPreProcFileDeps, cDynDepFile], "asm_include_preprocess_44", cPreProcFile)
-        ninja.build(cConvertedFile, "convert_c_encoding", cAsmPreProcFile)
+
+        if "overlays/" in cFile:
+            ninja.build([cAsmPreProcFile, cAsmPreProcFileDeps, cDynDepFile], "asm_include_preprocess_44", cPreProcFile)
+            ninja.build(cConvertedFile, "convert_c_encoding", cAsmPreProcFile)
+        else:
+            ninja.build(cConvertedFile, "convert_c_encoding", cPreProcFile)
+
         ninja.build(cAsmFile, compiler, cConvertedFile, variables= { "gSize": g_size })
-        ninja.build(cTempOFile, aspsx, cAsmFile, variables= { "gSize": g_size })
-        ninja.build(cOFile, "asm_include_postprocess", cTempOFile, implicit=[cAsmPreProcFileDeps, cDynDepFile], dyndep=cDynDepFile)
+
+        if "overlays/" in cFile:
+            ninja.build(cTempOFile, aspsx, cAsmFile, variables= { "gSize": g_size })
+            ninja.build(cOFile, "asm_include_postprocess", cTempOFile, implicit=[cAsmPreProcFileDeps, cDynDepFile], dyndep=cDynDepFile)
+        else:
+            ninja.build(cOFile, aspsx, cAsmFile, variables= { "gSize": g_size })
 
         linkerDeps.append(cOFile)
 
