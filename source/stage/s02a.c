@@ -24,7 +24,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_WATCHER,      /* chara 巡回兵 */
     CHARA_CAMERA,       /* chara カメラ */
     CHARA_TEXTURE,      /* chara テクスチャ */
-    CHARA_O2_DAMAGE,
+    CHARA_FEWDAMAGE,
 
     CHARA_0004_FADEIO,
     CHARA_000F_DEMOKAGE,

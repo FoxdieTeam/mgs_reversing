@@ -25,7 +25,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_RSURFACE,
     CHARA_CAMERA,       /* chara カメラ */
     CHARA_TEXTURE,      /* chara テクスチャ */
-    CHARA_O2_DAMAGE,
+    CHARA_FEWDAMAGE,
     CHARA_CENSOR,       /* chara 赤外線センサー */
     CHARA_GASEFFECT,    // duplicate
     CHARA_GASDAMAGE,    /* chara ガスダメージ */

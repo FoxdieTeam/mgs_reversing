@@ -144,7 +144,7 @@ char s03b_dword_800C32D8[] =
 char SECTION(".bss") s03b_dword_800D32F0[16];
 
 void *NewPlasma_800CD1A4(OBJECT *, int, int, int, int, int);
-void *NewBlur_800CD530(int, int, int);
+void *NewBlurSet(int, int, int); /* in okajima/blur.c */
 
 void s03b_boxall_800C9328(void);
 int s03b_boxall_800C93AC(int arg0);
@@ -605,7 +605,7 @@ void s03b_torture_800C4740(TortureWork *work)
 
         if (work->f8FC == 0)
         {
-            work->f8FC = NewBlur_800CD530(1, 0, 0);
+            work->f8FC = NewBlurSet(1, 0, 0);
         }
 
         if (++work->f81A == 200)

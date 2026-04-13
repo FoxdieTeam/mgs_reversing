@@ -92,7 +92,7 @@
 #define CHARA_ENV_TEST          { 0x76fe, ? }                       // GV_StrCode("環境マッピングテスト") takabe/env_test.c (PC-ONLY)
 #define CHARA_FADEIO            { 0xa12e, NewFadeInOutSet }         // GV_StrCode("白黒フェド") takabe/fadeio.c
 #define CHARA_FALL_SPLASH       { 0xc73e, NewFallSplash }           // okajima/fall_spl.c
-#define CHARA_O2_DAMAGE         { 0x5d64, NewO2Damage }             // takabe/o2_damge.c
+#define CHARA_FEWDAMAGE         { 0x5d64, NewFewDamageSet }         // takabe/o2_damge.c
 #define CHARA_FINDTRAP          { 0x118c, NewFindTrap }             // GV_StrCode("発見トラップ") takabe/findtrap.c
 #define CHARA_FOG               { 0xd6fb, NewFog }                  // GV_StrCode("黒フォグ") takabe/fog.c
 #define CHARA_FONTTEXT          { 0x84e1, NewFonttext_800C446C }    // chara/others/fonttext.c
@@ -102,7 +102,7 @@
 #define CHARA_GASEFFECT         { 0x5a50, NewGasEffectSet }         // GV_StrCode("ガス効果") takabe/gas_efct.c
 #define CHARA_JEEP_EMY          { 0x2477, NewJeepEnemy }            // takabe/jeep_emy/jeep_emy.c
 #define CHARA_GHOST             { 0xccd3, ? }                       // GV_StrCode("ゴースト") ??? (PC-ONLY)
-#define CHARA_GLASS             { 0x8e70, NewGlass }                // GV_StrCode("ガラス") takabe/glass.c
+#define CHARA_GLASS             { 0x8e70, NewGlassSet }             // GV_StrCode("ガラス") takabe/glass.c
 #define CHARA_GOAL              { 0xdb1f, ? }                       // GV_StrCode("ゴール") koba/vr/goal.c
 #define CHARA_GODZCOM           { 0x9eb7, ? }                       // GV_StrCode("ゴジラコマンダ") animal/godzila/godzcom.c
 #define CHARA_GODZILA           { 0xcb1f, ? }                       // GV_StrCode("ゴジラ") animal/godzila/godzila.c
@@ -342,7 +342,7 @@
 #define CHARA_0022_GMSIGHT      { 0x0022, ? }                       // equip/gmsight.c
 #define CHARA_0023_D_BLOODS     { 0x0023, ? }                       // okajima/d_bloods.c
 #define CHARA_0024_PLASMA       { 0x0024, ? }                       // okajima/plasma.c
-#define CHARA_0025_BLUR         { 0x0025, NewBlur_800CD530 }        // okajima/blur.c
+#define CHARA_0025_BLUR         { 0x0025, NewBlurSet }              // okajima/blur.c
 #define CHARA_0026              { 0x0026, ? }                       // --> anime/animconv/anime.c (PC-ONLY)
 #define CHARA_0027              { 0x0027, ? }                       // --> anime/animconv/anime.c
 #define CHARA_0028_SEPIA        { 0x0028, NewSepia_800C5214 }       // takabe/sepia.c
@@ -380,7 +380,7 @@
 #define CHARA_0048_BLOODDRP     { 0x0048, ? }                       // kojo/blooddrp.c
 #define CHARA_0049_WINDCRCL     { 0x0049, ? }                       // takabe/windcrcl.c
 #define CHARA_004A_BOMBLED      { 0x004a, NewBombLed }              // animal/liquid/bombled.c
-#define CHARA_004B_MG_ROOM      { 0x004b, NewMgRoom_800DB458 }      // okajima/mg_room.c
+#define CHARA_004B_MG_ROOM      { 0x004b, NewMGRoom }               // okajima/mg_room.c
 #define CHARA_004C_TELOP        { 0x004c, NewTelop2 }               // takabe/telop.c
 
 /*---------------------------------------------------------------------------*/
@@ -473,7 +473,7 @@ void *NewBlinkTexture();                /* okajima/blink_tx.c           */
 void *NewBlood();                       /* okajima/blood.c              */
 void *NewBloodBl();                     /* okajima/blood_bl.c           */
 void *NewBloodCl();                     /* okajima/blood_cl.c           */
-void *NewBlur_800CD530();               /* okajima/blur.c               */
+void *NewBlurSet();                     /* okajima/blur.c               */
 void *NewBlurPure();                    /* okajima/blurpure.c           */
 void *NewBubbleDisplayScene_800D90B4(); /* okajima/bub_d_sn.c           */
 void *NewBubbleP_800D9D94();            /* okajima/bubble_p.c           */
@@ -491,7 +491,7 @@ void *NewGunCamera();                   /* okajima/guncame.c            */
 void *NewHiyokoGcl();                   /* okajima/hiyoko.c             */
 void *NewItemDot();                     /* okajima/item_dot.c           */
 void *NewKeyItem();                     /* okajima/key_item.c           */
-void *NewMgRoom_800DB458();             /* okajima/mg_room.c            */
+void *NewMGRoom();                      /* okajima/mg_room.c            */
 void *NewMouse();                       /* okajima/mouse.c              */
 void *NewPilotLamp();                   /* okajima/p_lamp.c             */
 void *NewPatrolLamp();                  /* okajima/pato_lmp.c           */
@@ -548,7 +548,7 @@ void *NewFurnace();                     /* takabe/furnace.c             */
 void *NewGasEffectSet();                /* takabe/gas_efct.c            */
 void *NewGasEffect();                   /* takabe/gas_efct.c            */
 void *NewGasDamage();                   /* takabe/gasdamge.c            */
-void *NewGlass();                       /* takabe/glass.c               */
+void *NewGlassSet();                    /* takabe/glass.c               */
 void *NewGoggle();                      /* takabe/goggle.c              */
 void *NewGoggleIr();                    /* takabe/goggleir.c            */
 void *NewIrSensor();                    /* takabe/ir_cens.c             */
@@ -560,7 +560,7 @@ void *NewLift();                        /* takabe/lift.c                */
 void *NewMirror();                      /* takabe/mirror.c              */
 void *NewMonitor1();                    /* takabe/monitor1.c            */
 void *NewMosaicSet();                   /* takabe/mosaic.c              */
-void *NewO2Damage();                    /* takabe/o2_damge.c            */
+void *NewFewDamageSet();                /* takabe/o2_damge.c            */
 void *NewPadDemo();                     /* takabe/pad_demo.c            */
 void *NewPanel();                       /* takabe/panel.c               */
 void *NewPanel2();                      /* takabe/panel2.c              */

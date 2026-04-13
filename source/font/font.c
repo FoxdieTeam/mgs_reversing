@@ -15,8 +15,8 @@ STATIC int      rubi_display_flag = TRUE;
 STATIC RubiRes *gRubiRes_800AB6B4 = NULL;
 STATIC int      dword_800AB6B8 = 0;
 STATIC int      font_palette_800AB6BC = 0;
-STATIC int      r_flag_800AB6C0 = 0;
-STATIC int      rubi_flag_800AB6C4 = 0;
+STATIC int      r_flag = 0;
+STATIC int      rubi_flag = 0;
 
 // Menu-related?
 
@@ -1037,11 +1037,11 @@ long font_draw_string(KCB *kcb, long xtop, long ytop, const char *string, long c
                 m += 2;
                 // fallthrough
             case MAP_ASCII('{'):
-                r_flag_800AB6C0 = 1;
+                r_flag = 1;
 
                 if (rubi_display_flag)
                 {
-                    rubi_flag_800AB6C4 = 1;
+                    rubi_flag = 1;
                     set_rubi_left_pos(xmax, x, y);
 
                     d = PEEK_CHAR(m);
@@ -1106,7 +1106,7 @@ long font_draw_string(KCB *kcb, long xtop, long ytop, const char *string, long c
                     dword_800AB6B8 = 1;
                 }
 
-                r_flag_800AB6C0 = 1;
+                r_flag = 1;
                 break;
 
             case MAP_ASCII('2'):
@@ -1139,15 +1139,15 @@ long font_draw_string(KCB *kcb, long xtop, long ytop, const char *string, long c
                 break;
             }
         }
-        else if (r_flag_800AB6C0 &&
+        else if (r_flag &&
                  (current_code == 0x9002 || current_code == 0x9004 || current_code == ascii_closing_bracket))
         {
-            if (rubi_flag_800AB6C4 == 1 && (current_code == 0x9002 || current_code == 0x9004))
+            if (rubi_flag == 1 && (current_code == 0x9002 || current_code == 0x9004))
             {
                 font_draw_rubi_string(font_buffer, x, y, width_info, m + 2);
             }
 
-            rubi_flag_800AB6C4 = 0;
+            rubi_flag = 0;
 
             do
             {
@@ -1162,7 +1162,7 @@ long font_draw_string(KCB *kcb, long xtop, long ytop, const char *string, long c
             }
 
             dword_800AB6B8 = 0;
-            r_flag_800AB6C0 = 0;
+            r_flag = 0;
             counter2 = 0;
             goto block_155;
         }
@@ -1297,7 +1297,7 @@ long font_draw_string(KCB *kcb, long xtop, long ytop, const char *string, long c
                     else if (current_code & 0x4000)
                     {
                         current_char = current_code2;
-                        if (!r_flag_800AB6C0 ||
+                        if (!r_flag ||
                             (current_char != 0x9002 && current_char != 0x9004 && current_char != ascii_closing_bracket))
                         {
                             d = PEEK_CHAR(m + 2);
@@ -1333,7 +1333,7 @@ long font_draw_string(KCB *kcb, long xtop, long ytop, const char *string, long c
                         }
                     }
                 }
-                if (rubi_flag_800AB6C4)
+                if (rubi_flag)
                 {
                     set_rubi_left_xmax(x + counter2);
                 }
@@ -1355,9 +1355,9 @@ long font_draw_string(KCB *kcb, long xtop, long ytop, const char *string, long c
 
                 if (kcb->flag & 1 || y + 11 >= height_info || counter1 >= kcb->field_01)
                 {
-                    if (rubi_flag_800AB6C4)
+                    if (rubi_flag)
                     {
-                        rubi_flag_800AB6C4 = 2;
+                        rubi_flag = 2;
                     }
 
                     if (*m)
