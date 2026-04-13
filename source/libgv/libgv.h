@@ -344,46 +344,46 @@ int  GV_GetPadDirNoPadOrg(unsigned int);
 /*------ Math Operations ----------------------------------------------------*/
 
 /* math.c */
-void    GV_AddVec3(SVECTOR *vec1, SVECTOR *vec2, SVECTOR *dst);
-void    GV_SubVec3(SVECTOR *vec1, SVECTOR *vec2, SVECTOR *dst);
-int     GV_VecLen3(SVECTOR *vec);
-void    GV_LenVec3(SVECTOR *in, SVECTOR *out, int denom, int num);
-int     GV_DiffVec3(SVECTOR *vec1, SVECTOR *vec2);
-int     GV_VecDir2(SVECTOR *vec);
-void    GV_DirVec2(int angle, int radius, SVECTOR *out);
-void    GV_DirVec3(SVECTOR *angle, int length, SVECTOR *pDstVec);
-unsigned int GV_DiffDirU(int from, int to);
-int     GV_DiffDirS(int from, int to);
-int     GV_DiffDirAbs(int from, int to);
-int     GV_RandU(unsigned int input);
-int     GV_RandS(int input);
+extern  void    GV_AddVec3( SVECTOR *vec1, SVECTOR *vec2, SVECTOR *dst );
+extern  void    GV_SubVec3( SVECTOR *vec1, SVECTOR *vec2, SVECTOR *dst );
+extern  int     GV_VecLen3( SVECTOR *vec );
+extern  void    GV_LenVec3( SVECTOR *in, SVECTOR *out, int denom, int num );
+extern  int     GV_DiffVec3( SVECTOR *vec1, SVECTOR *vec2 );
+extern  int     GV_VecDir2( SVECTOR *vec );
+extern  void    GV_DirVec2( int angle, int radius, SVECTOR *out );
+extern  void    GV_DirVec3( SVECTOR *angle, int length, SVECTOR *pDstVec );
+extern  unsigned int GV_DiffDirU( int from, int to );
+extern  int     GV_DiffDirS( int from, int to );
+extern  int     GV_DiffDirAbs( int from, int to );
+extern  int     GV_RandU( unsigned int input );
+extern  int     GV_RandS( int input );
 
 /* math_near.c */
-int     GV_NearExp2(int from, int to);
-int     GV_NearExp4(int from, int to);
-int     GV_NearExp8(int from, int to);
-int     GV_NearPhase(int from, int to);
-int     GV_NearRange(int from, int to, int range);
-int     GV_NearSpeed(int from, int to, int range);
-int     GV_NearTime(int from, int to, int interp);
-int     GV_NearExp2P(int from, int to);
-int     GV_NearExp4P(int from, int to);
-int     GV_NearExp8P(int from, int to);
-int     GV_NearTimeP(int from, int to, int interp);
-void    GV_NearExp2V(short *from, short *to, int count);
-void    GV_NearExp4V(short *from, short *to, int count);
-void    GV_NearExp8V(short *from, short *to, int count);
-void    GV_NearPhaseV(short *from, short *to, int count);
-void    GV_NearRangeV(short *from, short *to, int range, int count);
-void    GV_NearSpeedV(short *from, short *to, int range, int count);
-void    GV_NearTimeV(short *from, short *to, int interp, int count);
-void    GV_NearExp2PV(short *from, short *to, int count);
-void    GV_NearExp4PV(short *from, short *to, int count);
-void    GV_NearExp8PV(short *from, short *to, int count);
-void    GV_NearRangeExp2V(short *from, short *to, int range, int count);
-void    GV_NearRangeExp4V(short *from, short *to, int range, int count);
-void    GV_NearRangeExp8V(short *from, short *to, int range, int count);
-void    GV_NearTimePV(short *from, short *to, int interp, int count);
+extern  int     GV_NearExp2( int from, int to );
+extern  int     GV_NearExp4( int from, int to );
+extern  int     GV_NearExp8( int from, int to );
+extern  int     GV_NearPhase( int from, int to );
+extern  int     GV_NearRange( int from, int to, int range );
+extern  int     GV_NearSpeed( int from, int to, int range );
+extern  int     GV_NearTime( int from, int to, int interp );
+extern  int     GV_NearExp2P( int from, int to );
+extern  int     GV_NearExp4P( int from, int to );
+extern  int     GV_NearExp8P( int from, int to );
+extern  int     GV_NearTimeP( int from, int to, int interp );
+extern  void    GV_NearExp2V( short *from, short *to, int count );
+extern  void    GV_NearExp4V( short *from, short *to, int count );
+extern  void    GV_NearExp8V( short *from, short *to, int count );
+extern  void    GV_NearPhaseV( short *from, short *to, int count );
+extern  void    GV_NearRangeV( short *from, short *to, int range, int count );
+extern  void    GV_NearSpeedV( short *from, short *to, int range, int count );
+extern  void    GV_NearTimeV( short *from, short *to, int interp, int count );
+extern  void    GV_NearExp2PV( short *from, short *to, int count );
+extern  void    GV_NearExp4PV( short *from, short *to, int count );
+extern  void    GV_NearExp8PV( short *from, short *to, int count );
+extern  void    GV_NearRangeExp2V( short *from, short *to, int range, int count );
+extern  void    GV_NearRangeExp4V( short *from, short *to, int range, int count );
+extern  void    GV_NearRangeExp8V( short *from, short *to, int range, int count );
+extern  void    GV_NearTimePV( short *from, short *to, int interp, int count );
 
 /* math_quat.c */
 typedef struct {                /* short word type quaternion */
@@ -391,12 +391,12 @@ typedef struct {                /* short word type quaternion */
     short   z, w;
 } SQUAT;
 
-void    GV_QuatToMat(SQUAT *quat, MATRIX *mat);
-void    GV_EulerToQuat(SVECTOR *rot, SQUAT *quat);
-void    GV_MatToQuat(MATRIX *mat, SQUAT *quat);
-void    GV_QuatSlerp(SQUAT *from, SQUAT *to, int t, SQUAT *res);
-void    GV_QuatNormalize(SQUAT *quat);
-void    GV_QuatMul(SQUAT *q1, SQUAT *q2, SQUAT *res);
+extern  void    GV_QuatToMat( SQUAT *quat, MATRIX *mat );
+extern  void    GV_EulerToQuat( SVECTOR *rot, SQUAT *quat );
+extern  void    GV_MatToQuat( MATRIX *mat, SQUAT *quat );
+extern  void    GV_QuatSlerp( SQUAT *from, SQUAT *to, int t, SQUAT *res );
+extern  void    GV_QuatNormalize( SQUAT *quat );
+extern  void    GV_QuatMul( SQUAT *q1, SQUAT *q2, SQUAT *res );
 
 /*---------------------------------------------------------------------------*/
 
