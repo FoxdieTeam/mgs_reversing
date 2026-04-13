@@ -7,6 +7,8 @@
 // This article originally appeared in the February 1998 issue of
 // Game Developer Magazine.
 
+// clang-format off
+
 void GV_QuatToMat( SQUAT *quat, MATRIX *mat )
 {
     int wx, wy, wz, xx, yy, yz, xy, xz, zz, x2, y2, z2;
@@ -183,3 +185,5 @@ void GV_QuatMul( SQUAT *q1, SQUAT *q2, SQUAT *res )
 
     GV_QuatNormalize( res );
 }
+
+// clang-format on
