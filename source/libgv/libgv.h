@@ -385,6 +385,19 @@ void    GV_NearRangeExp4V(short *from, short *to, int range, int count);
 void    GV_NearRangeExp8V(short *from, short *to, int range, int count);
 void    GV_NearTimePV(short *from, short *to, int interp, int count);
 
+/* math_quat.c */
+typedef struct {                /* short word type quaternion */
+    short   x, y;
+    short   z, w;
+} SQUAT;
+
+void    GV_QuatToMat(SQUAT *quat, MATRIX *mat);
+void    GV_EulerToQuat(SVECTOR *rot, SQUAT *quat);
+void    GV_MatToQuat(MATRIX *mat, SQUAT *quat);
+void    GV_QuatSlerp(SQUAT *from, SQUAT *to, int t, SQUAT *res);
+void    GV_QuatNormalize(SQUAT *quat);
+void    GV_QuatMul(SQUAT *q1, SQUAT *q2, SQUAT *res);
+
 /*---------------------------------------------------------------------------*/
 
 static inline short FP_Extend(short value)
