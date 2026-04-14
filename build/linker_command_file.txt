@@ -2750,16 +2750,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s08b\s08b_gsplash_800DBFB0.obj", overlay
     include "{{OBJ_DIR}}\overlays\s08b\s08b_gsplash_800DBFEC.obj", overlay
     include "{{OBJ_DIR}}\overlays\s08b\s08b_gsplash_800DC0D8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s08b\s08b_pfall_800DC1C4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s08b\s08b_pfall_800DC348.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s08b\s08b_pfall_800DC548.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s08b\s08b_pfall_800DC620.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s08b\s08b_pfall_800DC660.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s08b\s08b_pfall_800DC70C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s08b\s08b_pfall_800DC748.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s08b\s08b_pfall_800DC838.obj", overlay
 
-    include "{{OBJ_DIR}}\overlays\s08b\takabe\monitor1.obj", overlay
+    include "{{OBJ_DIR}}\takabe\pfall.obj", overlay
+    include "{{OBJ_DIR}}\takabe\monitor1.obj", overlay
     include "{{OBJ_DIR}}\overlays\s08b\anime\effect\smoke4.obj", overlay
     include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
@@ -2772,7 +2765,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\takabe\focus.obj", overlay
     include "{{OBJ_DIR}}\takabe\windcrcl.obj", overlay
     include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s08b\takabe\panel2.obj", overlay
+    include "{{OBJ_DIR}}\takabe\panel2.obj", overlay
     include "{{OBJ_DIR}}\takabe\object.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\CDROM.OBJ", overlay

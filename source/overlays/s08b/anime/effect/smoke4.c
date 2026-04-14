@@ -18,9 +18,9 @@ const char s08b_dword_800E417C[] = {0x1, 0xff, '\n', 0x0};
 const char s08b_dword_800E4180[] = {'\n', 0x0, '\n', 0x2};
 const char s08b_dword_800E4184[] = {0x0, 0x1, 0xd, 0xf};
 
-ANIMATION anm_800C3620 = {PCX_SMOKE, 8, 4, 30, 1, 255, 1, 100, 100, 80, NULL, (char *)s08b_dword_800E4150};
+ANIMATION anm_panel_smoke = {PCX_SMOKE, 8, 4, 30, 1, 255, 1, 100, 100, 80, NULL, (char *)s08b_dword_800E4150};
 
-void AN_Unknown_800DCE84(SVECTOR *pos)
+void AN_PanelSmoke(SVECTOR *pos)
 {
     PRESCRIPT sp10;
 
@@ -32,8 +32,8 @@ void AN_Unknown_800DCE84(SVECTOR *pos)
     sp10.speed.vz = GV_RandU(4) - 2;
 
     sp10.s_anim = 0;
-    anm_800C3620.pre_script = &sp10;
+    anm_panel_smoke.pre_script = &sp10;
     sp10.scr_num = 0;
 
-    NewAnime(NULL, NULL, &anm_800C3620);
+    NewAnime(NULL, NULL, &anm_panel_smoke);
 }

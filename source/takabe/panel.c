@@ -30,7 +30,7 @@ typedef struct _PanelWork
 
 int panel_base_color = 0x3C808080;
 
-void AN_Unknown_800DCE84(SVECTOR *pos);
+void AN_PanelSmoke(SVECTOR *pos);
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
@@ -132,7 +132,7 @@ void PanelAct_800D1E58(PanelWork *work)
         PanelTexPack_800D1BD0(work->prim->packs[0], work->tex, 1, work);
         PanelTexPack_800D1BD0(work->prim->packs[1], work->tex, 1, work);
 
-        AN_Unknown_800DCE84(&work->pos);
+        AN_PanelSmoke(&work->pos);
         NewSpark2_800CA714(&work->world);
         GM_SeSet(&work->pos, SE_ELECTRIC_PANEL);
 

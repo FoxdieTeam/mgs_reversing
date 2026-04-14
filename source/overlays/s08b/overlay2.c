@@ -733,8 +733,6 @@ const char s08b_aGlass_800E4110[] = "glass";
 const char s08b_dword_800E4118[] = {'g', 's', 'p', 'l'};
 const char s08b_dword_800E411C[] = {'a', 's', 'h', '.'};
 const char s08b_dword_800E4120[] = {'c', 0x0, 0x2, '$'};
-const char s08b_aPaper_800E4124[] = "paper";
-const char s08b_aPfallc_800E412C[] = "pfall.c";
 
 
 int SECTION(".bss") s08b_dword_800E4314;
