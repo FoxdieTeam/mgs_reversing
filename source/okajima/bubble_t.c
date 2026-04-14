@@ -11,27 +11,31 @@
 
 #include "takabe/ripple.h" // for NewRipple
 
-typedef struct _BubbleTWork
+/*---------------------------------------------------------------------------*/
+
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
+
+typedef struct _Work
 {
     GV_ACT   actor;
     int      map;
     DG_PRIM *prim;
     RECT     prim_rect;
-    SVECTOR  prim_vecs[1];
+    SVECTOR  prim_pos[1];
     int      ripple;
     int      height;
     int     *destroy;
     int      time;
-} BubbleTWork;
+} Work;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL4
+/*---------------------------------------------------------------------------*/
 
-void BubbleTShadePacks_800D9EEC(POLY_FT4 *packs, int shade)
+static void ShadePacks(POLY_FT4 *packs, int shade)
 {
     setRGB0(packs, shade, shade, shade);
 }
 
-void BubbleTInitPacks_800D9EFC(POLY_FT4 *packs, int n_packs, DG_TEX *tex)
+static void InitPacks(POLY_FT4 *packs, int n_packs, DG_TEX *tex)
 {
     while (--n_packs >= 0)
     {
@@ -44,14 +48,14 @@ void BubbleTInitPacks_800D9EFC(POLY_FT4 *packs, int n_packs, DG_TEX *tex)
     }
 }
 
-void BubbleTUpdatePacks_800D9F8C(BubbleTWork *work)
+static void UpdatePacks(Work *work)
 {
     MATRIX   world;
     int      i;
     SVECTOR *vec;
     int      y;
 
-    for (i = 0, vec = work->prim_vecs; i <= 0; i++, vec++)
+    for (i = 0, vec = work->prim_pos; i <= 0; i++, vec++)
     {
         if (vec->vy > (work->height - 32))
         {
@@ -69,8 +73,8 @@ void BubbleTUpdatePacks_800D9F8C(BubbleTWork *work)
                 GV_DestroyActor(&work->actor);
             }
 
-            BubbleTShadePacks_800D9EEC(((POLY_FT4 *)work->prim->packs[0]) + i, 0);
-            BubbleTShadePacks_800D9EEC(((POLY_FT4 *)work->prim->packs[1]) + i, 0);
+            ShadePacks(((POLY_FT4 *)work->prim->packs[0]) + i, 0);
+            ShadePacks(((POLY_FT4 *)work->prim->packs[1]) + i, 0);
         }
         else
         {
@@ -82,7 +86,9 @@ void BubbleTUpdatePacks_800D9F8C(BubbleTWork *work)
     }
 }
 
-void BubbleTAct_800DA11C(BubbleTWork *work)
+/*---------------------------------------------------------------------------*/
+
+static void Act(Work *work)
 {
     if (*work->destroy == 1)
     {
@@ -90,15 +96,17 @@ void BubbleTAct_800DA11C(BubbleTWork *work)
     }
 
     GM_CurrentMap = work->map;
-    BubbleTUpdatePacks_800D9F8C(work);
+    UpdatePacks(work);
 }
 
-void BubbleTDie_800DA170(BubbleTWork *work)
+static void Die(Work *work)
 {
     GM_FreePrim(work->prim);
 }
 
-int BubbleTCreatePacks_800DA1AC(BubbleTWork *work)
+/*---------------------------------------------------------------------------*/
+
+static int CreatePacks(Work *work)
 {
     int      rnd;
     DG_TEX  *tex;
@@ -116,7 +124,7 @@ int BubbleTCreatePacks_800DA1AC(BubbleTWork *work)
         return -1;
     }
 
-    prim = GM_MakePrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 1, work->prim_vecs, &work->prim_rect);
+    prim = GM_MakePrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 1, work->prim_pos, &work->prim_rect);
     work->prim = prim;
     if (prim == NULL)
     {
@@ -125,13 +133,13 @@ int BubbleTCreatePacks_800DA1AC(BubbleTWork *work)
 
     prim->raise = 0;
 
-    BubbleTInitPacks_800D9EFC(prim->packs[0], 1, tex);
-    BubbleTInitPacks_800D9EFC(prim->packs[1], 1, tex);
+    InitPacks(prim->packs[0], 1, tex);
+    InitPacks(prim->packs[1], 1, tex);
 
     return 0;
 }
 
-int BubbleTGetResources_800DA29C(BubbleTWork *work, SVECTOR *pos, int height, int ripple, int *destroy)
+static int GetResources(Work *work, SVECTOR *pos, int height, int ripple, int *destroy)
 {
     SVECTOR *vec;
     int      i;
@@ -143,12 +151,12 @@ int BubbleTGetResources_800DA29C(BubbleTWork *work, SVECTOR *pos, int height, in
 
     work->map = GM_CurrentMap;
 
-    if (BubbleTCreatePacks_800DA1AC(work) < 0)
+    if (CreatePacks(work) < 0)
     {
         return -1;
     }
 
-    for (i = 0, vec = work->prim_vecs; i <= 0; i++, vec++)
+    for (i = 0, vec = work->prim_pos; i <= 0; i++, vec++)
     {
         vec->vx = pos->vx + GV_RandS(64) * i;
         vec->vy = pos->vy + GV_RandU(32) * i;
@@ -158,21 +166,23 @@ int BubbleTGetResources_800DA29C(BubbleTWork *work, SVECTOR *pos, int height, in
     return 0;
 }
 
-void *NewBubbleT_800DA380(SVECTOR *pos, int height, int ripple, int *destroy)
+/*---------------------------------------------------------------------------*/
+
+void *NewBubbleT(SVECTOR *pos, int height, int ripple, int *destroy)
 {
-    BubbleTWork *work;
+    Work *work;
 
     if (height < pos->vy)
     {
         return NULL;
     }
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(BubbleTWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, BubbleTAct_800DA11C, BubbleTDie_800DA170, "bubble_t.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "bubble_t.c");
 
-        if (BubbleTGetResources_800DA29C(work, pos, height, ripple, destroy) < 0)
+        if (GetResources(work, pos, height, ripple, destroy) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
