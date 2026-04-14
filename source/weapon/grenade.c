@@ -172,7 +172,9 @@ static void Act( Work *work )
                 tenage_vec2.vx += ctrl_pos->vx - work->pos.vx;
                 tenage_vec2.vz += ctrl_pos->vz - work->pos.vz;
             }
-            INIT_VEC( tenage_vec1, world->t[ 0 ], world->t[ 1 ], world->t[ 2 ] );
+            tenage_vec1.vx = world->t[ 0 ];
+            tenage_vec1.vy = world->t[ 1 ];
+            tenage_vec1.vz = world->t[ 2 ];
             tenage = NewTenage( &tenage_vec1,
                                 &tenage_vec2,
                                 work->timer,

@@ -328,10 +328,6 @@ enum DG_CHANL
     DG_CHANL_UNIT_MAX
 };
 
-// TODO: these belong to takabe/paper.c
-#define RevisionDir( a )  a &= 4095
-#define INIT_VEC( vec,xx,yy,zz ) { (vec).vx = xx; (vec).vy = yy; (vec).vz = zz; }
-
 /*---------------------------------------------------------------------------*/
 
 static inline void DG_GroupObjs( DG_OBJS *objs, int group_id )
