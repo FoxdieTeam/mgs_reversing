@@ -5,9 +5,9 @@
 #include <libgte.h>
 #include <libgpu.h>
 
-void *NewBulletEnemy(MATRIX *arg0, int whichSide, int arg2, int arg3, int arg4);
-void *NewBullet(MATRIX *pMtx, int whichSide, int a3, int noiseLen);
-void *NewBulletEx(int a1, MATRIX* pMtx, int a3, int a4, int a5, int a6, int a7, int a8, int a9);
-void *NewBullet2(MATRIX *pMtx, int a2, int a3, int a4, int a5, int a6, int a7, int a8);
+void *NewBulletEnemy(MATRIX *pMtx, int side, int arg2, int noise_len, int arg4);
+void *NewBullet(MATRIX *pMtx, int side, int a3, int noise_len);
+void *NewBulletEx(int flag, MATRIX* pMtx, int side, int a4, int noise_len, int a6, int damage, int a8, int a9);
+void *NewBullet2(MATRIX *pMtx, int side, int a3, int noise_len, int a5, int damage, int a7, int a8);
 
 #endif // __MGS_OKAJIMA_BULLET_H__
