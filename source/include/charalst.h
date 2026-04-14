@@ -91,7 +91,7 @@
 #define CHARA_ENV_SOUND         { 0x3f9a, NewEnvSound }             // GV_StrCode("環境音") takabe/env_snd.c
 #define CHARA_ENV_TEST          { 0x76fe, ? }                       // GV_StrCode("環境マッピングテスト") takabe/env_test.c (PC-ONLY)
 #define CHARA_FADEIO            { 0xa12e, NewFadeInOutSet }         // GV_StrCode("白黒フェド") takabe/fadeio.c
-#define CHARA_FALL_SPLASH       { 0xc73e, NewFallSplash }           // okajima/fall_spl.c
+#define CHARA_FALL_SPLASH       { 0xc73e, NewFallSplash }           // GV_StrCode("滝しぶき") okajima/fall_spl.c
 #define CHARA_FEWDAMAGE         { 0x5d64, NewFewDamageSet }         // takabe/o2_damge.c
 #define CHARA_FINDTRAP          { 0x118c, NewFindTrap }             // GV_StrCode("発見トラップ") takabe/findtrap.c
 #define CHARA_FOG               { 0xd6fb, NewFog }                  // GV_StrCode("黒フォグ") takabe/fog.c
@@ -231,7 +231,7 @@
 #define CHARA_FAA8_MOVIE        { 0xfaa8, ? }                       // chara/movie/movie.c
 #define CHARA_SPHERE            { 0x73ea, NewSphere }               // GV_StrCode("天球") thing/sphere.c
 #define CHARA_SPHERE2           { 0xbee1, ? }                       // GV_StrCode("天球２") thing/sphere2.c
-#define CHARA_SELECT            { 0xd2f6, NewSelect }               // game/select.c
+#define CHARA_SELECT            { 0xd2f6, NewSelect }               // GV_StrCode("ステージセレクト") game/select.c
 #define CHARA_SMKTRGT           { 0x175b, NewSmokeTarget }          // okajima/smktrgt.c
 #define CHARA_TELOP             { 0x7ff7, NewTelopSet }             // GV_StrCode("テロップ") takabe/telop.c
 #define CHARA_TEXANIME          { 0xdcac, ? }                       // GV_StrCode("テクスチャアニメ") enemy/texanime.c (PC-ONLY)
