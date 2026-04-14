@@ -1,79 +1,88 @@
 #include "bub_d_sn.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "game/game.h"
 
-typedef struct BubDSnWork
-{
-    GV_ACT   actor;
-    int      field_20;
-    int      field_24;
-    DG_PRIM *field_28;
-    DG_PRIM *field_2C;
-    DG_PRIM *field_30;
-    SVECTOR  field_34[4];
-    SVECTOR  field_54[16];
-    SVECTOR  field_D4[16];
-    short    field_154;
-    short    field_156;
-    short    field_158;
-    short    field_15A;
-    RECT     field_15C;
-    RECT     field_164;
-    RECT     field_16C;
-    DG_TEX  *field_174;
-    DG_TEX  *field_178;
-    DG_TEX  *field_17C;
-} BubDSnWork;
+/*---------------------------------------------------------------------------*/
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-// Duplicate of Splash2ShadePacks_800DAF0C
-void BubbleDisplayScene_800D87A4(POLY_FT4 *packs, int n_packs, int shade, DG_TEX *tex)
+typedef struct _Work
 {
-    for (n_packs--; n_packs >= 0; packs++, n_packs--)
+    GV_ACT   actor;
+    int      map;
+    int      field_24;
+    DG_PRIM *prim1;
+    DG_PRIM *prim2;
+    DG_PRIM *prim3;
+    SVECTOR  pos1[4];
+    SVECTOR  pos2[16];
+    SVECTOR  pos3[16];
+    short    field_154;
+    short    field_156;
+    short    field_158;
+    short    pad0;
+    RECT     rect1;
+    RECT     rect2;
+    RECT     rect3;
+    DG_TEX  *tex1;
+    DG_TEX  *tex2;
+    DG_TEX  *tex3;
+} Work;
+
+/*---------------------------------------------------------------------------*/
+
+// Duplicate of Splash2ShadePacks_800DAF0C
+static void ShadePacks(POLY_FT4 *packs, int n_packs, int shade, DG_TEX *tex)
+{
+    while (--n_packs >= 0)
     {
         setRGB0(packs, shade, shade, shade);
+        packs++;
     }
 }
 
-void BubbleDisplaySceneAct_800D87D0(BubDSnWork *work)
+static void Act(Work *work)
 {
     SVECTOR *iter1, *iter2, *iter3;
     int      div1, div2;
     int      i;
     short    pos;
 
-    GM_CurrentMap = work->field_20;
+    GM_CurrentMap = work->map;
     if (++work->field_24 >= 48)
     {
         GV_DestroyActor(&work->actor);
         return;
     }
 
-    iter1 = work->field_34;
-    iter2 = work->field_54;
-    iter3 = work->field_D4;
+    iter1 = work->pos1;
+    iter2 = work->pos2;
+    iter3 = work->pos3;
 
     pos = work->field_24 + 10;
-    work->field_15C.x = pos;
-    work->field_15C.y = pos;
-    work->field_15C.w = pos * 2;
-    work->field_15C.h = pos * 2;
+    work->rect1.x = pos;
+    work->rect1.y = pos;
+    work->rect1.w = pos * 2;
+    work->rect1.h = pos * 2;
 
     pos = work->field_24 / 2 + 20;
-    work->field_164.x = pos;
-    work->field_164.y = pos;
-    work->field_164.w = pos * 2;
-    work->field_164.h = pos * 2;
+    work->rect2.x = pos;
+    work->rect2.y = pos;
+    work->rect2.w = pos * 2;
+    work->rect2.h = pos * 2;
 
     pos = work->field_24 / 2 + 20;
-    work->field_16C.x = pos;
-    work->field_16C.y = pos;
-    work->field_16C.w = pos * 2;
-    work->field_16C.h = pos * 2;
+    work->rect3.x = pos;
+    work->rect3.y = pos;
+    work->rect3.w = pos * 2;
+    work->rect3.h = pos * 2;
 
     for (i = 0; i < 4; i++, iter1++)
     {
@@ -97,18 +106,18 @@ void BubbleDisplaySceneAct_800D87D0(BubDSnWork *work)
 
     div2 = (48 - work->field_24) * 255 / 48;
 
-    BubbleDisplayScene_800D87A4(work->field_28->packs[GV_Clock], 4, div2, work->field_174);
-    BubbleDisplayScene_800D87A4(work->field_2C->packs[GV_Clock], 16, div2, work->field_178);
-    BubbleDisplayScene_800D87A4(work->field_30->packs[GV_Clock], 16, div2, work->field_17C);
+    ShadePacks(work->prim1->packs[GV_Clock], 4, div2, work->tex1);
+    ShadePacks(work->prim2->packs[GV_Clock], 16, div2, work->tex2);
+    ShadePacks(work->prim3->packs[GV_Clock], 16, div2, work->tex3);
 
     work->field_154 = (work->field_154 * 15) / 16;
     work->field_156 = (work->field_156 * 15) / 16;
     work->field_158 = (work->field_158 * 15) / 16;
 }
 
-void BubbleDisplayScene_800D8C00(POLY_FT4 *polys, int count, DG_TEX *tex)
+static void InitPacks(POLY_FT4 *polys, int n_packs, DG_TEX *tex)
 {
-    while (--count >= 0)
+    while (--n_packs >= 0)
     {
         setPolyFT4(polys);
         setSemiTrans(polys, 1);
@@ -119,24 +128,24 @@ void BubbleDisplayScene_800D8C00(POLY_FT4 *polys, int count, DG_TEX *tex)
     }
 }
 
-int BubbleDisplaySceneGetResources_800D8C90(BubDSnWork *work, int where)
+static int GetResources(Work *work, int where)
 {
     DG_PRIM *prim;
     SVECTOR *iter1, *iter2, *iter3;
     DG_TEX  *tex;
     int      i;
 
-    work->field_20 = where;
-    work->field_15C.x = 0;
-    work->field_15C.y = 0;
-    work->field_15C.w = 0;
-    work->field_15C.h = 0;
+    work->map = where;
+    work->rect1.x = 0;
+    work->rect1.y = 0;
+    work->rect1.w = 0;
+    work->rect1.h = 0;
 
-    work->field_16C = work->field_164 = work->field_15C;
+    work->rect3 = work->rect2 = work->rect1;
 
-    prim = GM_MakePrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 4, work->field_34, &work->field_15C);
+    prim = GM_MakePrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 4, work->pos1, &work->rect1);
 
-    work->field_28 = prim;
+    work->prim1 = prim;
     if (prim == NULL)
     {
         return -1;
@@ -144,18 +153,18 @@ int BubbleDisplaySceneGetResources_800D8C90(BubDSnWork *work, int where)
     prim->raise = 300;
 
     tex = DG_GetTexture(GV_StrCode("awa_s"));
-    work->field_174 = tex;
+    work->tex1 = tex;
     if (tex == NULL)
     {
         return -1;
     }
 
-    BubbleDisplayScene_800D8C00(prim->packs[0], 4, tex);
-    BubbleDisplayScene_800D8C00(prim->packs[1], 4, tex);
+    InitPacks(prim->packs[0], 4, tex);
+    InitPacks(prim->packs[1], 4, tex);
 
-    prim = GM_MakePrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 16, work->field_54, &work->field_164);
+    prim = GM_MakePrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 16, work->pos2, &work->rect2);
 
-    work->field_2C = prim;
+    work->prim2 = prim;
     if (prim == NULL)
     {
         return -1;
@@ -163,18 +172,18 @@ int BubbleDisplaySceneGetResources_800D8C90(BubDSnWork *work, int where)
     prim->raise = 300;
 
     tex = DG_GetTexture(GV_StrCode("awa_2"));
-    work->field_178 = tex;
+    work->tex2 = tex;
     if (tex == NULL)
     {
         return -1;
     }
 
-    BubbleDisplayScene_800D8C00(prim->packs[0], 16, tex);
-    BubbleDisplayScene_800D8C00(prim->packs[1], 16, tex);
+    InitPacks(prim->packs[0], 16, tex);
+    InitPacks(prim->packs[1], 16, tex);
 
-    prim = GM_MakePrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 16, work->field_D4, &work->field_16C);
+    prim = GM_MakePrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 16, work->pos3, &work->rect3);
 
-    work->field_30 = prim;
+    work->prim3 = prim;
     if (prim == NULL)
     {
         return -1;
@@ -182,18 +191,18 @@ int BubbleDisplaySceneGetResources_800D8C90(BubDSnWork *work, int where)
     prim->raise = 300;
 
     tex = DG_GetTexture(GV_StrCode("awa_3"));
-    work->field_17C = tex;
+    work->tex3 = tex;
     if (tex == NULL)
     {
         return -1;
     }
 
-    BubbleDisplayScene_800D8C00(prim->packs[0], 16, tex);
-    BubbleDisplayScene_800D8C00(prim->packs[1], 16, tex);
+    InitPacks(prim->packs[0], 16, tex);
+    InitPacks(prim->packs[1], 16, tex);
 
-    iter1 = work->field_34;
-    iter2 = work->field_54;
-    iter3 = work->field_D4;
+    iter1 = work->pos1;
+    iter2 = work->pos2;
+    iter3 = work->pos3;
 
     work->field_24 = 0;
     work->field_154 = 0;
@@ -220,30 +229,31 @@ int BubbleDisplaySceneGetResources_800D8C90(BubDSnWork *work, int where)
 
     DG_SetPos(&GM_PlayerBody->objs->objs[6].world);
 
-    DG_PutVector(work->field_34, work->field_34, 4);
-    DG_PutVector(work->field_54, work->field_54, 16);
-    DG_PutVector(work->field_D4, work->field_D4, 16);
+    DG_PutVector(work->pos1, work->pos1, 4);
+    DG_PutVector(work->pos2, work->pos2, 16);
+    DG_PutVector(work->pos3, work->pos3, 16);
 
     return 0;
 }
 
-void BubbleDisplaySceneDie_800D902C(BubDSnWork *work)
+static void Die(Work *work)
 {
-    GM_FreePrim(work->field_28);
-    GM_FreePrim(work->field_2C);
-    GM_FreePrim(work->field_30);
+    GM_FreePrim(work->prim1);
+    GM_FreePrim(work->prim2);
+    GM_FreePrim(work->prim3);
 }
 
-void *NewBubbleDisplayScene_800D90B4(int name, int where, int argc, char **argv)
-{
-    BubDSnWork *work;
+/*---------------------------------------------------------------------------*/
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(BubDSnWork));
+void *NewBubbleDSn(int name, int where, int argc, char **argv)
+{
+    Work *work;
+
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, BubbleDisplaySceneAct_800D87D0,
-                         BubbleDisplaySceneDie_800D902C, "bub_d_sn.c");
-        if (BubbleDisplaySceneGetResources_800D8C90(work, where) < 0)
+        GV_SetNamedActor(&work->actor, Act, Die, "bub_d_sn.c");
+        if (GetResources(work, where) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
