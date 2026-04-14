@@ -1,24 +1,32 @@
 #include "blink_tx.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 
-typedef struct _BlinkTxWork
+/*---------------------------------------------------------------------------*/
+
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
+
+typedef struct _Work
 {
     GV_ACT   actor;
     DG_PRIM *prim;
     SVECTOR  pos[8];
     char     pad[0x4];
-} BlinkTxWork;
+} Work;
 
-RECT blink_tx_rect = {1000, 1000, 2000, 2000};
+/*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+static RECT blink_tx_rect = {1000, 1000, 2000, 2000};
 
-void BlinkTxShadePacks_800DEA9C(POLY_FT4 *packs, int n_packs, DG_TEX *tex, int shade)
+static void InitPacks(POLY_FT4 *packs, int n_packs, DG_TEX *tex, int shade)
 {
     while (--n_packs >= 0)
     {
@@ -30,12 +38,12 @@ void BlinkTxShadePacks_800DEA9C(POLY_FT4 *packs, int n_packs, DG_TEX *tex, int s
     }
 }
 
-void BlinkTxDie_800DEB24(BlinkTxWork *work)
+static void Die(Work *work)
 {
     GM_FreePrim(work->prim);
 }
 
-int BlinkTxGetSvecs_800DEB60(char *opt, SVECTOR *out)
+static int GetSvecs(char *opt, SVECTOR *out)
 {
     int   count;
     char *param;
@@ -53,7 +61,7 @@ int BlinkTxGetSvecs_800DEB60(char *opt, SVECTOR *out)
     return count;
 }
 
-int BlinkTxGetResources_800DEBB4(BlinkTxWork *work, int map, int n_prims)
+static int GetResources(Work *work, int map, int n_prims)
 {
     DG_PRIM *prim;
     char    *opt;
@@ -90,33 +98,35 @@ int BlinkTxGetResources_800DEBB4(BlinkTxWork *work, int map, int n_prims)
 
     if (GCL_GetOption('n'))
     {
-        BlinkTxShadePacks_800DEA9C(prim->packs[0], n_prims, tex, 36);
-        BlinkTxShadePacks_800DEA9C(prim->packs[1], n_prims, tex, 36);
+        InitPacks(prim->packs[0], n_prims, tex, 36);
+        InitPacks(prim->packs[1], n_prims, tex, 36);
     }
     else
     {
-        BlinkTxShadePacks_800DEA9C(prim->packs[0], n_prims, tex, 30);
-        BlinkTxShadePacks_800DEA9C(prim->packs[1], n_prims, tex, 36);
+        InitPacks(prim->packs[0], n_prims, tex, 30);
+        InitPacks(prim->packs[1], n_prims, tex, 36);
     }
 
     return 0;
 }
 
+/*---------------------------------------------------------------------------*/
+
 void *NewBlinkTexture(int name, int where, int argc, char **argv)
 {
-    BlinkTxWork *work;
-    char        *opt;
-    int          n_prims;
+    Work    *work;
+    char    *opt;
+    int     n_prims;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(BlinkTxWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, NULL, BlinkTxDie_800DEB24, "blink_tx.c");
+        GV_SetNamedActor(&work->actor, NULL, Die, "blink_tx.c");
 
         opt = GCL_GetOption('p');
-        n_prims = BlinkTxGetSvecs_800DEB60(opt, work->pos);
+        n_prims = GetSvecs(opt, work->pos);
 
-        if (BlinkTxGetResources_800DEBB4(work, where, n_prims) < 0)
+        if (GetResources(work, where, n_prims) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
