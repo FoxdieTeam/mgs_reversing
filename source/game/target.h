@@ -69,7 +69,7 @@ static inline void UnsetTargetClass( TARGET *target, unsigned int flag )
     target->class &= ~( flag );
 }
 
-#define TARGET_ARRAY_LENGTH 64
+#define TARGET_MAX 64
 
 /* target.c */
 int GM_TargetIntersects(TARGET *a, TARGET *b);
