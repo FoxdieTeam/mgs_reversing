@@ -207,7 +207,7 @@ gap                                     gap_800B58CC[0x14]; // 20 bytes
 HZD_BIND BSS      gBindsArray_800b58e0[128]; // 0xC00 (3072) bytes
 
 /* game/target.obj */
-TARGET BSS          gTargets_800B64E0[TARGET_ARRAY_LENGTH]; // 0x1200 (4608) bytes
+TARGET BSS          gTargets_800B64E0[TARGET_MAX]; // 0x1200 (4608) bytes
 
 /* game/alert.obj */
 char BSS            noise_sounds[4][3]; // 0xC (12) bytes

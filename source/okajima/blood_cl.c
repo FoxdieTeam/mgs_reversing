@@ -1,22 +1,30 @@
 #include "blood_cl.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 
-typedef struct _BloodClWork
+/*---------------------------------------------------------------------------*/
+
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
+
+typedef struct _Work
 {
     GV_ACT   actor;
     DG_PRIM *prim;
     SVECTOR  vecs[64];
     int      map;
-} BloodClWork;
+} Work;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL4
+/*---------------------------------------------------------------------------*/
 
-int BloodClGetSvecs_800C99AC(char *opt, SVECTOR *out)
+static int GetSvecs(char *opt, SVECTOR *out)
 {
     int   count;
     char *res;
@@ -33,7 +41,7 @@ int BloodClGetSvecs_800C99AC(char *opt, SVECTOR *out)
     return count;
 }
 
-void BloodClGetInts_800C9A00(char *opt, int *out)
+static void GetInts(char *opt, int *out)
 {
     char *res;
 
@@ -44,16 +52,19 @@ void BloodClGetInts_800C9A00(char *opt, int *out)
     }
 }
 
-void BloodClDie_800C9A44(BloodClWork *work)
+/*---------------------------------------------------------------------------*/
+
+static void Die(Work *work)
 {
     GM_FreePrim(work->prim);
 }
 
-void BloodClAct_800C9A80(BloodClWork *work)
+static void Act(Work *work)
 {
+    /* do nothing */
 }
 
-int BloodClGetResources_800C9A88(BloodClWork *work, int map)
+static int GetResources(Work *work, int map)
 {
     SVECTOR   pos[16];
     SVECTOR   dir[16];
@@ -82,18 +93,18 @@ int BloodClGetResources_800C9A88(BloodClWork *work, int map)
     opt = GCL_GetOption('p');
     if (opt != NULL)
     {
-        n_prims = BloodClGetSvecs_800C99AC(opt, pos);
+        n_prims = GetSvecs(opt, pos);
 
         opt = GCL_GetOption('d');
         if (opt != NULL)
         {
-            BloodClGetSvecs_800C99AC(opt, dir);
+            GetSvecs(opt, dir);
         }
 
         opt = GCL_GetOption('s');
         if (opt != NULL)
         {
-            BloodClGetInts_800C9A00(opt, size);
+            GetInts(opt, size);
         }
     }
 
@@ -111,7 +122,7 @@ int BloodClGetResources_800C9A88(BloodClWork *work, int map)
     opt = GCL_GetOption('c');
     if (opt != NULL)
     {
-        BloodClGetSvecs_800C99AC(opt, &color);
+        GetSvecs(opt, &color);
     }
 
     work->map = map;
@@ -181,16 +192,18 @@ int BloodClGetResources_800C9A88(BloodClWork *work, int map)
     return 0;
 }
 
+/*---------------------------------------------------------------------------*/
+
 void *NewBloodCl(int name, int where)
 {
-    BloodClWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(BloodClWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, BloodClAct_800C9A80, BloodClDie_800C9A44, "blood_cl.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "blood_cl.c");
 
-        if (BloodClGetResources_800C9A88(work, where) < 0)
+        if (GetResources(work, where) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

@@ -221,7 +221,7 @@
 #define CHARA_SNAKE             { 0x21ca, NewSnake }                // GV_StrCode("スネーク") chara/snake/sna_init.c
 #define CHARA_SNAKE18           { 0x760e, d18a_snake18_800D4E94 }   // GV_StrCode("スネーク１８") animal/snake18/snake18.c
 #define CHARA_SNAKEWARP         { 0x672e, ? }                       // GV_StrCode("スネークワープ") enemy/snwarp.c
-#define CHARA_BUB_D_SN          { 0xc0fe, NewBubbleDisplayScene_800D90B4 } // okajima/bub_d_sn.c
+#define CHARA_BUB_D_SN          { 0xc0fe, NewBubbleDSn }            // okajima/bub_d_sn.c
 #define CHARA_SNE17A            { 0xa791, ? }                       // chara/sne17a/sne17a.c (PC-ONLY)
 #define CHARA_SNEBREATH         { 0x4170, NewSnakeBreath }          // GV_StrCode("スネーク息") chara/snake/breath.c
 #define CHARA_SNOW              { 0x18e3, NewSnow }                 // GV_StrCode("雪") thing/snow.c
@@ -323,7 +323,7 @@
 #define CHARA_000F_DEMOKAGE     { 0x000f, NewDemoKage }             // enemy/demokage.c
 #define CHARA_0010_DEMOASI      { 0x0010, NewDemoAsiato }           // enemy/demoasi.c
 #define CHARA_0011              { 0x0011, s08c_800C4194 }           // --> anime/animconv/anime.c
-#define CHARA_0012_BUBBLE_T     { 0x0012, NewBubbleT_800DA380 }     // okajima/bubble_t.c
+#define CHARA_0012_BUBBLE_T     { 0x0012, NewBubbleT }              // okajima/bubble_t.c
 #define CHARA_0013_BUBBLE_P     { 0x0013, NewBubbleP_800D9D94 }     // okajima/bubble_p.c
 #define CHARA_0014_SCOPE        { 0x0014, NewScope }                // equip/scope.c
 #define CHARA_0015_GOGGLE       { 0x0015, NewGoggle }               // takabe/goggle.c
@@ -475,10 +475,10 @@ void *NewBloodBl();                     /* okajima/blood_bl.c           */
 void *NewBloodCl();                     /* okajima/blood_cl.c           */
 void *NewBlurSet();                     /* okajima/blur.c               */
 void *NewBlurPure();                    /* okajima/blurpure.c           */
-void *NewBubbleDisplayScene_800D90B4(); /* okajima/bub_d_sn.c           */
+void *NewBubbleDSn();                   /* okajima/bub_d_sn.c           */
 void *NewBubbleP_800D9D94();            /* okajima/bubble_p.c           */
 void *NewBubbleS();                     /* okajima/bubble_s.c           */
-void *NewBubbleT_800DA380();            /* okajima/bubble_t.c           */
+void *NewBubbleT();                     /* okajima/bubble_t.c           */
 void *NewBulletEx();                    /* okajima/bullet.c             */
 void *NewCrane();                       /* okajima/crane.c              */
 void *NewDBloods_800D5B70();            /* okajima/d_bloods.c           */

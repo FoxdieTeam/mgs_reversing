@@ -5,6 +5,6 @@
 #include <libgte.h>
 #include <libgpu.h>
 
-void *NewBubbleT_800DA380(SVECTOR *pos, int height, int ripple, int *destroy);
+void *NewBubbleT(SVECTOR *pos, int height, int ripple, int *destroy);
 
 #endif // __MGS_OKAJIMA_BUBBLE_T_H__

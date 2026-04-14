@@ -27,7 +27,7 @@
 // Two indicies are maintained:
 // - gTargets_lastSlotUsed_800ABA68:
 //      slots [0, gTargets_lastSlotUsed_800ABA68) are potentially used
-//      slots [gTargets_lastSlotUsed_800ABA68, TARGET_ARRAY_LENGTH) are definitely not used
+//      slots [gTargets_lastSlotUsed_800ABA68, TARGET_MAX) are definitely not used
 // - gTargets_orphanedSlots_800ABA6C:
 //      how many slots [0, gTargets_lastSlotUsed_800ABA68) are not used
 //
@@ -60,7 +60,7 @@
 //   - [Target1, Target2, Target5, FREE, FREE, FREE, FREE...]
 //     gTargets_lastSlotUsed_800ABA68 = 3, gTargets_orphanedSlots_800ABA6C = 0
 //
-extern TARGET gTargets_800B64E0[TARGET_ARRAY_LENGTH];
+extern TARGET gTargets_800B64E0[TARGET_MAX];
 
 STATIC int SECTION(".sbss") gTargets_lastSlotUsed_800ABA68;
 STATIC int SECTION(".sbss") gTargets_orphanedSlots_800ABA6C;
@@ -123,7 +123,7 @@ TARGET *GM_AllocTarget(void)
         // There are no "holes" in the gTargets_800B64E0 array
         // so let's just take the next slot and increment gTargets_lastSlotUsed_800ABA68
 
-        if (gTargets_lastSlotUsed_800ABA68 >= TARGET_ARRAY_LENGTH)
+        if (gTargets_lastSlotUsed_800ABA68 >= TARGET_MAX)
         {
             // Out of memory...
             return NULL;

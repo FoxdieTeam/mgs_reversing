@@ -15,7 +15,7 @@
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-typedef struct _BloodWork
+typedef struct _Work
 {
     GV_ACT   actor;
     int      field_20_map;
@@ -23,14 +23,14 @@ typedef struct _BloodWork
     SVECTOR  field_28[16];
     SVECTOR  field_A8[64];
     int      field_2A8;
-    int      field_2AC_prim_count;
-} BloodWork;
+    int      n_packs;
+} Work;
 
 /*---------------------------------------------------------------------------*/
 
 STATIC RECT rect_8009F60C = {50, 50, 100, 100};
 
-STATIC void blood_loader2_helper2_80072080(MATRIX *pMtx, SVECTOR *arg1, SVECTOR *arg2, int count, int arg4)
+static void blood_80072080(MATRIX *pMtx, SVECTOR *arg1, SVECTOR *arg2, int count, int arg4)
 {
     SVECTOR vecs[4];
     int sp30;
@@ -124,7 +124,7 @@ STATIC void blood_loader2_helper2_80072080(MATRIX *pMtx, SVECTOR *arg1, SVECTOR 
     }
 }
 
-STATIC void blood_act_helper_80072394(SVECTOR *pVecsA, SVECTOR *pVecsB, int count)
+static void blood_80072394(SVECTOR *pVecsA, SVECTOR *pVecsB, int count)
 {
     int x, y, z;
 
@@ -148,40 +148,40 @@ STATIC void blood_act_helper_80072394(SVECTOR *pVecsA, SVECTOR *pVecsB, int coun
     }
 }
 
-STATIC void blood_loader2_helper_80072478(POLY_FT4 *pPolys, int primCount, DG_TEX *pTex, int count)
+static void InitPacks(POLY_FT4 *packs, int n_packs, DG_TEX *tex, int count)
 {
-    while (--primCount >= 0)
+    while (--n_packs >= 0)
     {
-        setPolyFT4(pPolys);
-        setSemiTrans(pPolys, 1);
-        DG_SetPacketTexture4(pPolys, pTex);
+        setPolyFT4(packs);
+        setSemiTrans(packs, 1);
+        DG_SetPacketTexture4(packs, tex);
 
         // Some silly code to force the compiler
         // to emit "li t2, 2" and not clobber
         // a3 register (storing "count" variable).
         if (count == 2)
         {
-            pPolys->tpage |= 0x20;
+            packs->tpage |= 0x20;
         }
         else
         {
-            pPolys->tpage |= 0x20;
+            packs->tpage |= 0x20;
         }
 
-        pPolys++;
+        packs++;
     }
 }
 
-STATIC void blood_act_helper_8007250C(POLY_FT4 *pPolys, int count, int shade)
+static void ShadePacks(POLY_FT4 *packs, int n_packs, int shade)
 {
-    while (--count >= 0)
+    while (--n_packs >= 0)
     {
-        setRGB0(pPolys, shade, shade, shade);
-        pPolys++;
+        setRGB0(packs, shade, shade, shade);
+        packs++;
     }
 }
 
-STATIC void blood_Act(BloodWork *work)
+static void Act(Work *work)
 {
     int temp_s0;
     DG_PRIM *prim;
@@ -195,19 +195,19 @@ STATIC void blood_Act(BloodWork *work)
         return;
     }
 
-    blood_act_helper_80072394(work->field_28, work->field_A8, work->field_2AC_prim_count);
+    blood_80072394(work->field_28, work->field_A8, work->n_packs);
 
     prim = work->field_24_prims;
-    blood_act_helper_8007250C(prim->packs[0], work->field_2AC_prim_count, temp_s0 * 8);
-    blood_act_helper_8007250C(prim->packs[1], work->field_2AC_prim_count, temp_s0 * 8);
+    ShadePacks(prim->packs[0], work->n_packs, temp_s0 * 8);
+    ShadePacks(prim->packs[1], work->n_packs, temp_s0 * 8);
 }
 
-STATIC void blood_Die(BloodWork *work)
+static void Die(Work *work)
 {
     GM_FreePrim(work->field_24_prims);
 }
 
-STATIC int blood_GetResources(BloodWork *work, MATRIX *arg1, int count)
+static int GetResources(Work *work, MATRIX *arg1, int count)
 {
     DG_PRIM *prim;
     DG_TEX  *tex;
@@ -216,16 +216,16 @@ STATIC int blood_GetResources(BloodWork *work, MATRIX *arg1, int count)
 
     if (count < 11)
     {
-        work->field_2AC_prim_count = 16;
+        work->n_packs = 16;
     }
     else
     {
-        work->field_2AC_prim_count = count - 10;
+        work->n_packs = count - 10;
     }
 
-    blood_loader2_helper2_80072080(arg1, work->field_28, work->field_A8, work->field_2AC_prim_count, count);
+    blood_80072080(arg1, work->field_28, work->field_A8, work->n_packs, count);
 
-    prim = GM_MakePrim(DG_PRIM_POLY_FT4, work->field_2AC_prim_count, work->field_A8, &rect_8009F60C);
+    prim = GM_MakePrim(DG_PRIM_POLY_FT4, work->n_packs, work->field_A8, &rect_8009F60C);
     work->field_24_prims = prim;
 
     if (!prim)
@@ -240,8 +240,8 @@ STATIC int blood_GetResources(BloodWork *work, MATRIX *arg1, int count)
         return -1;
     }
 
-    blood_loader2_helper_80072478(prim->packs[0], work->field_2AC_prim_count, tex, count);
-    blood_loader2_helper_80072478(prim->packs[1], work->field_2AC_prim_count, tex, count);
+    InitPacks(prim->packs[0], work->n_packs, tex, count);
+    InitPacks(prim->packs[1], work->n_packs, tex, count);
 
     work->field_2A8 = 16;
     return 0;
@@ -257,7 +257,7 @@ void *NewBlood(MATRIX *arg0, int count)
     int angle;
     short divisor;
     int i;
-    BloodWork *work;
+    Work *work;
 
     work = NULL;
 
@@ -286,16 +286,16 @@ void *NewBlood(MATRIX *arg0, int count)
 
     for (i = 0; i < count; i++)
     {
-        work = GV_NewActor(EXEC_LEVEL, sizeof(BloodWork));
+        work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
 
         if (!work)
         {
             continue;
         }
 
-        GV_SetNamedActor(&work->actor, &blood_Act, &blood_Die, "blood.c");
+        GV_SetNamedActor(&work->actor, &Act, &Die, "blood.c");
 
-        if (blood_GetResources(work, arg0, count) < 0)
+        if (GetResources(work, arg0, count) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

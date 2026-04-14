@@ -205,7 +205,7 @@ void Valcan_800D8DD8(ValcanWork *work)
     HZD_SetDynamicSegment(&work->field_928, &work->field_928);
 }
 
-// Identical to BloodClGetInts_800C9A00
+// Identical to blood_cl.c: GetInts
 void ValcanGetInts_800D8E88(unsigned char *opt, int *out)
 {
     char *res;

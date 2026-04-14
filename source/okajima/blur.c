@@ -11,13 +11,15 @@
 #include "game/game.h"
 #include "strcode.h"
 
+/*---------------------------------------------------------------------------*/
+
 typedef struct _BlurSub
 {
     POLY_FT4 *poly;
     char      pad[0xC];
 } BlurSub;
 
-typedef struct _BlurWork
+typedef struct _Work
 {
     GV_ACT  actor;
     int     f20;
@@ -33,13 +35,17 @@ typedef struct _BlurWork
     int     f70;
     int     f74;
     char    pad3[0x8];
-} BlurWork;
+} Work;
+
+/*---------------------------------------------------------------------------*/
 
 TILE   SECTION(".bss") d01a_dword_800D1428[2];  // tileb.104 (?)
 DR_STP SECTION(".bss") d01a_dword_800D1448[2];  // stpp.106 (?)
 int    SECTION(".bss") d01a_dword_800D1460;
 int    SECTION(".bss") d01a_dword_800D1464;
 DR_STP SECTION(".bss") d01a_dword_800D1468[2];
+
+/*---------------------------------------------------------------------------*/
 
 static void BG_Clear(void)
 {
@@ -69,7 +75,7 @@ static void BG_Clear(void)
     addPrim(ot, stp2);
 }
 
-static void InitPacks(POLY_FT4 *packs, BlurWork *work, int arg3, int abr, int arg5, int arg6)
+static void InitPacks(POLY_FT4 *packs, Work *work, int arg3, int abr, int arg5, int arg6)
 {
     int var_s2;
     int xoff, yoff;
@@ -231,7 +237,9 @@ static void InitPacks(POLY_FT4 *packs, BlurWork *work, int arg3, int abr, int ar
     }
 }
 
-static void Act(BlurWork *work)
+/*---------------------------------------------------------------------------*/
+
+static void Act(Work *work)
 {
     u_long   *ot;
     POLY_FT4 *prim;
@@ -288,7 +296,7 @@ static void Act(BlurWork *work)
     }
 }
 
-static void Die(BlurWork *work)
+static void Die(Work *work)
 {
     if (work->f24[0].poly != NULL)
     {
@@ -296,7 +304,7 @@ static void Die(BlurWork *work)
     }
 }
 
-static int GetResources(BlurWork *work, int arg1, int arg2, int arg3)
+static int GetResources(Work *work, int arg1, int arg2, int arg3)
 {
     POLY_FT4 *polys;
     polys = GV_Malloc(sizeof(POLY_FT4) * 8);
@@ -346,13 +354,15 @@ static int GetResources(BlurWork *work, int arg1, int arg2, int arg3)
     return 0;
 }
 
+/*---------------------------------------------------------------------------*/
+
 #define EXEC_LEVEL GV_ACTOR_AFTER2
 
 void *NewBlurSet(int name, int where, int argc, char **argv)
 {
-    BlurWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(BlurWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "blur.c");
@@ -371,17 +381,17 @@ void *NewBlurSet(int name, int where, int argc, char **argv)
 
 void *NewBlur(int arg0)
 {
-    BlurWork *work;
-    char     *opt;
-    int       var_s2;
-    int       var_s3;
-    int       var_s4;
+    Work   *work;
+    char   *opt;
+    int     var_s2;
+    int     var_s3;
+    int     var_s4;
 
     var_s4 = 0;
     var_s3 = 0;
     var_s2 = 0;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(BlurWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "blur.c");

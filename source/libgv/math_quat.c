@@ -1,11 +1,17 @@
+#include "libgv.h"
+
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 #include "inline_n.h"
-#include "libgv/libgv.h"
 
 // The functions below are based on code listings from the article
 // "Rotating Objects Using Quaternions" by Nick Bobick.
 // http://www.gamasutra.com/features/19980703/quaternions_01.htm
 // This article originally appeared in the February 1998 issue of
 // Game Developer Magazine.
+
+// clang-format off
 
 void GV_QuatToMat( SQUAT *quat, MATRIX *mat )
 {
@@ -15,21 +21,21 @@ void GV_QuatToMat( SQUAT *quat, MATRIX *mat )
     x2 = quat->x + quat->x;
     y2 = quat->y + quat->y;
     z2 = quat->z + quat->z;
-    xx = quat->x * x2; xy = quat->x * y2; xz = quat->x * z2;
-    yy = quat->y * y2; yz = quat->y * z2; zz = quat->z * z2;
-    wx = quat->w * x2; wy = quat->w * y2; wz = quat->w * z2;
+    xx = quat->x * x2;  xy = quat->x * y2;  xz = quat->x * z2;
+    yy = quat->y * y2;  yz = quat->y * z2;  zz = quat->z * z2;
+    wx = quat->w * x2;  wy = quat->w * y2;  wz = quat->w * z2;
 
-    mat->m[0][0] = ( 4096 * 4096 - (yy + zz) ) / 4096 ;
-    mat->m[0][1] = (xy - wz) / 4096 ;
-    mat->m[0][2] = (xz + wy) / 4096 ;
+    mat->m[0][0] = (4096 * 4096 - (yy + zz)) / 4096;
+    mat->m[0][1] = (xy - wz) / 4096;
+    mat->m[0][2] = (xz + wy) / 4096;
 
-    mat->m[1][0] = (xy + wz) / 4096 ;
-    mat->m[1][1] = ( 4096 * 4096 - (xx + zz) ) / 4096 ;
-    mat->m[1][2] = (yz - wx) / 4096 ;
+    mat->m[1][0] = (xy + wz) / 4096;
+    mat->m[1][1] = (4096 * 4096 - (xx + zz)) / 4096;
+    mat->m[1][2] = (yz - wx) / 4096;
 
-    mat->m[2][0] = (xz - wy) / 4096 ;
-    mat->m[2][1] = (yz + wx) / 4096 ;
-    mat->m[2][2] = ( 4096 * 4096 - (xx + yy) ) / 4096 ;
+    mat->m[2][0] = (xz - wy) / 4096;
+    mat->m[2][1] = (yz + wx) / 4096;
+    mat->m[2][2] = (4096 * 4096 - (xx + yy)) / 4096;
 
     mat->t[0] = 0;
     mat->t[1] = 0;
@@ -40,13 +46,14 @@ void GV_EulerToQuat( SVECTOR *rot, SQUAT *quat )
 {
     int cr, cp, cy, sr, sp, sy, cpcy, spsy;
 
-    cr = rcos(rot->vx / 2);
-    cp = rcos(rot->vy / 2);
-    cy = rcos(rot->vz / 2);
+    /* calculate trig identities */
+    cr = rcos( rot->vx / 2 );
+    cp = rcos( rot->vy / 2 );
+    cy = rcos( rot->vz / 2 );
 
-    sr = rsin(rot->vx / 2);
-    sp = rsin(rot->vy / 2);
-    sy = rsin(rot->vz / 2);
+    sr = rsin( rot->vx / 2 );
+    sp = rsin( rot->vy / 2 );
+    sy = rsin( rot->vz / 2 );
 
     cpcy = (cp * cy) / 32;
     spsy = (sp * sy) / 32;
@@ -117,10 +124,10 @@ void GV_QuatSlerp( SQUAT *from, SQUAT *to, int t, SQUAT *res)
     /* adjust signs (if necessary) */
     if ( cosom < 0 ){
         cosom = -cosom;
-        to1[0] = -to->x;
-        to1[1] = -to->y;
-        to1[2] = -to->z;
-        to1[3] = -to->w;
+        to1[0] = - to->x;
+        to1[1] = - to->y;
+        to1[2] = - to->z;
+        to1[3] = - to->w;
     } else {
         to1[0] = to->x;
         to1[1] = to->y;
@@ -152,8 +159,8 @@ void GV_QuatSlerp( SQUAT *from, SQUAT *to, int t, SQUAT *res)
 
 void GV_QuatNormalize( SQUAT *quat )
 {
-    VECTOR vec;
-    int    ww, len;
+    VECTOR  vec;
+    int     ww, len;
 
     gte_ldsv(quat);
     gte_sqr0();
@@ -163,9 +170,8 @@ void GV_QuatNormalize( SQUAT *quat )
     len = ww;
     len += vec.vx + vec.vy + vec.vz;
 
-    len = SquareRoot0(len);
-    if ( len > 0 )
-    {
+    len = SquareRoot0( len );
+    if ( len > 0 ){
         len = 4096 * 4096 / len;
         quat->x = ( quat->x * len ) >> 12 ;
         quat->y = ( quat->y * len ) >> 12 ;
@@ -183,3 +189,5 @@ void GV_QuatMul( SQUAT *q1, SQUAT *q2, SQUAT *res )
 
     GV_QuatNormalize( res );
 }
+
+// clang-format on
