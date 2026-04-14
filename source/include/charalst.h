@@ -53,7 +53,7 @@
 #define CHARA_CAT_IN            { 0x51c6, NewZoom_800DFA88 }        // takabe/cat_in.c
 #define CHARA_CDCHANGE          { 0xf722, NewCdChange }             // GV_StrCode("ＣＤ交換") onoda/change/change.c
 #define CHARA_CENSOR            { 0x43a0, NewIrSensor }             // GV_StrCode("赤外線センサー") takabe/ir_cens.c
-#define CHARA_CHAIR             { 0x788d, s08b_chair_800DAB50 }     // GV_StrCode("椅子") takabe/chair.c
+#define CHARA_CHAIR             { 0x788d, NewChair }                // GV_StrCode("椅子") takabe/chair.c
 #define CHARA_CINEMA            { 0x7a05, NewCinemaScreenSet }      // GV_StrCode("シネマスクリーン") takabe/cinema.c
 #define CHARA_CLAYMORE          { 0x3c0c, NewScenarioJirai }        // GV_StrCode("クレイモア地雷") bullet/jirai.c
 #define CHARA_COMMANDER         { 0xc6d7, NewCommander }            // GV_StrCode("コマンダー") enemy/command.c
@@ -166,7 +166,7 @@
 #define CHARA_PADVIBRATE        { 0xfed1, NewPadVibrationGcl }      // GV_StrCode("パッド振動") game/vibrate.c
 #define CHARA_PANEL             { 0x20f2, NewPanel }                // GV_StrCode("パネル") takabe/panel.c
 #define CHARA_PANEL2            { 0xdd95, NewPanel2 }               // GV_StrCode("パネル２") takabe/panel2.c
-#define CHARA_PAPER             { 0x5f02, s08b_paper_800DB87C }     // GV_StrCode("書類") takabe/paper.c
+#define CHARA_PAPER             { 0x5f02, NewPaper }                // GV_StrCode("書類") takabe/paper.c
 #define CHARA_PATOLAMP          { 0x30ce, NewPatrolLamp }           // GV_StrCode("パトランプ") okajima/pato_lmp.c
 #define CHARA_FDB6_POCKET       { 0xfdb6, ? }                       // menu/pocket.c
 #define CHARA_8FDC_POCKET       { 0x8fdc, ? }                       // --> menu/pocket.c
@@ -524,7 +524,7 @@ void *NewWire();                        /* onoda/s04b/wire.c            */
 void *NewBreakObject();                 /* takabe/breakobj.c            */
 void *NewCameraShake();                 /* takabe/camshake.c            */
 void *NewZoom_800DFA88();               /* takabe/cat_in.c              */
-void *s08b_chair_800DAB50();            /* takabe/chair.c               */
+void *NewChair();                       /* takabe/chair.c               */
 void *NewCinemaScreenSet();             /* takabe/cinema.c              */
 void *NewDoor2();                       /* takabe/door2.c               */
 void *NewDummyFloor();                  /* takabe/dummy_fl.c            */
@@ -564,7 +564,7 @@ void *NewFewDamageSet();                /* takabe/o2_damge.c            */
 void *NewPadDemo();                     /* takabe/pad_demo.c            */
 void *NewPanel();                       /* takabe/panel.c               */
 void *NewPanel2();                      /* takabe/panel2.c              */
-void *s08b_paper_800DB87C();            /* takabe/paper.c               */
+void *NewPaper();                       /* takabe/paper.c               */
 void *NewPutObject();                   /* takabe/put_obj.c             */
 void *NewRasen2();                      /* takabe/rasen.c               */
 void *NewRasenElevator();               /* takabe/rasen_el.c            */

@@ -733,18 +733,6 @@ const char s08b_aPlasma_800E40D8[] = "plasma";
 const char s08b_dword_800E40E0[] = {'p', 'l', 'a', 's'};
 const char s08b_dword_800E40E4[] = {'m', 'a', '_', 'l'};
 const char s08b_dword_800E40E8[] = {'.', 'c', 0x0, 0x2};
-const char s08b_aIsu_800E40EC[] = "isu";
-const char s08b_aChairc_800E40F0[] = "chair.c";
-const char s08b_aGlass_800E40F8[] = "glass";
-const char s08b_aGlassc_800E4100[] = "glass.c";
-const char s08b_aPaperc_800E4108[] = "paper.c";
-const char s08b_aGlass_800E4110[] = "glass";
-const char s08b_dword_800E4118[] = {'g', 's', 'p', 'l'};
-const char s08b_dword_800E411C[] = {'a', 's', 'h', '.'};
-const char s08b_dword_800E4120[] = {'c', 0x0, 0xe, 'H'};
-const char s08b_aPaper_800E4124[] = "paper";
-const char s08b_aPfallc_800E412C[] = "pfall.c";
-
 
 int SECTION(".bss") s08b_dword_800E4314;
 int SECTION(".bss") s08b_dword_800E4318;
