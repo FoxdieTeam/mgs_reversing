@@ -1,67 +1,90 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 #include "game/game.h"
-#include "takabe/pfall.h"
-#include "takabe/thing.h"
+#include "takabe/pfall.h"       // for NewPaperFall
+#include "takabe/thing.h"       // for THING_Gcl_GetSVector
 
-typedef struct _Work
+// clang-format off
+
+#define RevisionDir( a )  a &= 4095
+#define INIT_VEC(vec,xx,yy,zz) {(vec).vx = xx;(vec).vy = yy;(vec).vz = zz;}
+
+/*----------------------------------------------------------------*/
+extern void fprintf( long stream, char *format, ... );
+#define FPRI(a) fprintf(1,(a))
+
+#define PAPER_X 300
+#define PAPER_Y 300
+#define PAPER_Z 300
+
+
+/*----------------------------------------------------------------*/
+typedef struct  {
+    GV_ACT      actor ;
+
+    TARGET      *target ;
+    MATRIX      mat ;
+    SVECTOR     set;
+    SVECTOR     size;
+    int         map ;
+    int         count ;
+} Work ;
+
+/*----------------------------------------------------------------*/
+static void Act( Work *work )
 {
-    GV_ACT  actor;
-    TARGET *target;
-    MATRIX  world;
-    SVECTOR pos;
-    char    pad1[0x8];
-    int     map;
-    int     time;
-} Work;
+    TARGET      *trg ;
 
-#define EXEC_LEVEL 5
+    //OPERATOR() ;
 
-static void Act(Work *work)
-{
-    MATRIX  world;
-    TARGET *target;
+    GM_SetCurrentMap( work->map ) ;
 
-    GM_CurrentMap = work->map;
+    trg = work->target ;
 
-    target = work->target;
-
-    if (work->time != 0)
+// clang-format on
+    if ( work->count )
     {
-        work->time--;
+        work->count--;
     }
     else
     {
-        target->class = TARGET_POWER;
+        trg->class = TARGET_POWER;
     }
 
-    if (target->damaged & TARGET_POWER)
+    if (trg->damaged & TARGET_POWER)
     {
-        target->damaged &= ~TARGET_POWER;
+        trg->damaged &= ~TARGET_POWER;
 
-        if (target->life != 0)
+        if (trg->life != 0)
         {
-            target->life = 0;
+            trg->life = 0;
 
-            if (work->time == 0)
+            if (work->count == 0)
             {
-                GM_SeSet(&work->pos, SE_UNK064);
+                MATRIX world;
+
+                GM_SeSet(&work->set, SE_UNK064);
 
                 world = DG_ZeroMatrix;
-                world.t[0] = work->world.t[0];
-                world.t[1] = work->world.t[1];
-                world.t[2] = work->world.t[2];
-                RotMatrixY(ratan2(target->scale.vx, target->scale.vz), &world);
+                world.t[0] = work->mat.t[0];
+                world.t[1] = work->mat.t[1];
+                world.t[2] = work->mat.t[2];
+                RotMatrixY(ratan2(trg->scale.vx, trg->scale.vz), &world);
                 NewPaperFall(&world);
 
-                work->time = 25;
-                target->class = TARGET_AVAIL;
+                work->count = 25;
+                trg->class = TARGET_AVAIL;
             }
 
-            target->scale = DG_ZeroVector;
+            trg->scale = DG_ZeroVector;
         }
     }
 
-    GM_MoveTarget(target, &work->pos);
-    GM_PushTarget(target);
+    GM_MoveTarget(trg, &work->set);
+    GM_PushTarget(trg);
 }
 
 static void Die(Work *work)
@@ -76,9 +99,7 @@ static void InitTarget(Work *work)
     TARGET *target;
 
     scale = DG_ZeroVector;
-    size.vx = 300;
-    size.vy = 500;
-    size.vz = 300;
+    INIT_VEC(size, PAPER_X, 500, PAPER_Z);
 
     work->target = target = GM_AllocTarget();
     target->scale = DG_ZeroVector;
@@ -88,14 +109,18 @@ static void InitTarget(Work *work)
 
 static int GetResources(Work *work, int name, int where)
 {
-    THING_Gcl_GetSVector('p', &work->pos);
+    THING_Gcl_GetSVector('p', &work->set);
     InitTarget(work);
-    RotMatrix(&DG_ZeroVector, &work->world);
-    work->world.t[0] = work->pos.vx;
-    work->world.t[1] = work->pos.vy;
-    work->world.t[2] = work->pos.vz;
+    RotMatrix(&DG_ZeroVector, &work->mat);
+    work->mat.t[0] = work->set.vx;
+    work->mat.t[1] = work->set.vy;
+    work->mat.t[2] = work->set.vz;
     return 0;
 }
+
+/*----------------------------------------------------------------*/
+
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void *NewPaper(int name, int where)
 {
@@ -112,7 +137,7 @@ void *NewPaper(int name, int where)
             return NULL;
         }
 
-        work->time = 0;
+        work->count = 0;
         work->map = where;
     }
 
