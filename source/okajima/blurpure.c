@@ -10,6 +10,15 @@
 #include "game/game.h"
 #include "strcode.h"
 
+/*---------------------------------------------------------------------------*/
+
+#define EXEC_LEVEL  GV_ACTOR_AFTER2
+
+/* TODO: move */
+#define OT_LEN      256
+
+/*---------------------------------------------------------------------------*/
+
 typedef struct _BLUR_PRIMS
 {
     TILE     tile[2];
@@ -30,10 +39,7 @@ typedef struct _Work
     int         name;
 } Work;
 
-#define EXEC_LEVEL  GV_ACTOR_AFTER2
-
-/* TODO: move */
-#define OT_LEN      256
+/*---------------------------------------------------------------------------*/
 
 static void ClearScreen(Work *work)
 {
@@ -118,6 +124,8 @@ static void DrawEffect(Work *work)
     addPrim(ot, tpage);
 }
 
+/*---------------------------------------------------------------------------*/
+
 static void Act(Work *work)
 {
     if (work->name != -1)
@@ -159,6 +167,8 @@ static int GetResources(Work *work)
     return 0;
 }
 
+/*---------------------------------------------------------------------------*/
+
 void *NewBlurPure(void)
 {
     Work *work;
@@ -180,7 +190,7 @@ void *NewBlurPure(void)
     return (void *)work;
 }
 
-void *NewBlurPure2(int name, int where, int argc, char **argv)
+void *NewBlurPureSet(int name, int where, int argc, char **argv)
 {
     Work *work;
 
