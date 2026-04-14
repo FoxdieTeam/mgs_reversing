@@ -2662,7 +2662,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s08b\s08b_bunsin2_800D5850.obj", overlay
     include "{{OBJ_DIR}}\overlays\s08b\s08b_bunsin2_800D594C.obj", overlay
 
-
     include "{{OBJ_DIR}}\overlays\s08b\s08b_tenmetu_800D59F0.obj", overlay
     include "{{OBJ_DIR}}\overlays\s08b\s08b_tenmetu_800D5A4C.obj", overlay
     include "{{OBJ_DIR}}\overlays\s08b\s08b_tenmetu_800D5AB8.obj", overlay
@@ -2724,33 +2723,11 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s08b\s08b_plasma_l_800DA2C8.obj", overlay
     include "{{OBJ_DIR}}\overlays\s08b\s08b_plasma_l_800DA394.obj", overlay
     include "{{OBJ_DIR}}\overlays\s08b\s08b_plasma_l_800DA404.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s08b\s08b_chair_800DA4A8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s08b\s08b_chair_800DA4F0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s08b\s08b_chair_800DA550.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s08b\s08b_chair_800DA870.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s08b\s08b_chair_800DA8AC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s08b\s08b_chair_800DA968.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s08b\s08b_chair_800DAB50.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s08b\s08b_glass_800DABF0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s08b\s08b_glass_800DAFC0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s08b\s08b_glass_800DAFD8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s08b\s08b_glass_800DB04C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s08b\s08b_glass_800DB0C4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s08b\s08b_glass_800DB50C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s08b\s08b_paper_800DB5A8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s08b\s08b_paper_800DB728.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s08b\s08b_paper_800DB74C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s08b\s08b_paper_800DB81C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s08b\s08b_paper_800DB87C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s08b\s08b_gsplash_800DB918.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s08b\s08b_gsplash_800DBB84.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s08b\s08b_gsplash_800DBD84.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s08b\s08b_gsplash_800DBEAC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s08b\s08b_gsplash_800DBEEC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s08b\s08b_gsplash_800DBFB0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s08b\s08b_gsplash_800DBFEC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s08b\s08b_gsplash_800DC0D8.obj", overlay
 
+    include "{{OBJ_DIR}}\takabe\chair.obj", overlay
+    include "{{OBJ_DIR}}\takabe\glass.obj", overlay
+    include "{{OBJ_DIR}}\takabe\paper.obj", overlay
+    include "{{OBJ_DIR}}\takabe\gsplash.obj", overlay
     include "{{OBJ_DIR}}\takabe\pfall.obj", overlay
     include "{{OBJ_DIR}}\takabe\monitor1.obj", overlay
     include "{{OBJ_DIR}}\overlays\s08b\anime\effect\smoke4.obj", overlay
