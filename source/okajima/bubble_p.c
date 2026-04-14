@@ -9,7 +9,11 @@
 #include "libdg/libdg.h"
 #include "game/game.h"
 
-typedef struct _BubblePWork
+/*---------------------------------------------------------------------------*/
+
+#define EXEC_LEVEL GV_ACTOR_LEVEL4
+
+typedef struct _Work
 {
     GV_ACT   actor;
     int      map;
@@ -17,17 +21,17 @@ typedef struct _BubblePWork
     DG_PRIM *prim;
     RECT     rect;
     char     pad2[0x10];
-    SVECTOR  f44[3];
+    SVECTOR  pos[3];
     SVECTOR  f5C[3];
     int      f74;
     int      f78;
     int      f7C;
     int      f80;
-} BubblePWork;
+} Work;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL4
+/*---------------------------------------------------------------------------*/
 
-void BubblePShadePack_800D96AC(POLY_FT4 *packs, int shade, int index)
+static void ShadePack(POLY_FT4 *packs, int shade, int index)
 {
     POLY_FT4 *pack;
 
@@ -35,7 +39,7 @@ void BubblePShadePack_800D96AC(POLY_FT4 *packs, int shade, int index)
     setRGB0(pack, shade, shade, shade);
 }
 
-void BubblePInitPack_800D96CC(POLY_FT4 *pack, DG_TEX *tex)
+static void InitPack(POLY_FT4 *pack, DG_TEX *tex)
 {
     setPolyFT4(pack);
     setSemiTrans(pack, 1);
@@ -44,7 +48,7 @@ void BubblePInitPack_800D96CC(POLY_FT4 *pack, DG_TEX *tex)
     pack->tpage |= 0x60;
 }
 
-void BubblePUpdatePacks_800D9748(BubblePWork *work)
+static void UpdatePacks(Work *work)
 {
     int       size;
     SVECTOR  *vec1;
@@ -55,7 +59,7 @@ void BubblePUpdatePacks_800D9748(BubblePWork *work)
 
     size = ((((work->f7C * work->f7C) / 2) + 400) * work->f78) >> 8;
 
-    vec1 = work->f44;
+    vec1 = work->pos;
     vec2 = work->f5C;
 
     for (i = 0; i < 3; i++)
@@ -89,7 +93,7 @@ void BubblePUpdatePacks_800D9748(BubblePWork *work)
             shade = 0;
         }
 
-        BubblePShadePack_800D96AC(packs, shade, 0);
+        ShadePack(packs, shade, 0);
     }
 
     if (work->f74 < 20)
@@ -104,17 +108,19 @@ void BubblePUpdatePacks_800D9748(BubblePWork *work)
             shade = 0;
         }
 
-        BubblePShadePack_800D96AC(packs, shade, 1);
+        ShadePack(packs, shade, 1);
     }
 
     if (work->f74 < 10)
     {
         work->f80 = (work->f80 + work->f74) >> 1;
-        BubblePShadePack_800D96AC(packs, work->f80, 2);
+        ShadePack(packs, work->f80, 2);
     }
 }
 
-void BubblePAct_800D9974(BubblePWork *work)
+/*---------------------------------------------------------------------------*/
+
+static void Act(Work *work)
 {
     GM_CurrentMap = work->map;
 
@@ -125,22 +131,24 @@ void BubblePAct_800D9974(BubblePWork *work)
         GV_DestroyActor(&work->actor);
     }
 
-    BubblePUpdatePacks_800D9748(work);
+    UpdatePacks(work);
 }
 
-void BubblePDie_800D99CC(BubblePWork *work)
+static void Die(Work *work)
 {
     GM_FreePrim(work->prim);
 }
 
-int BubblePCreatePacks_800D9A08(BubblePWork *work)
+/*---------------------------------------------------------------------------*/
+
+static int CreatePacks(Work *work)
 {
     DG_PRIM  *prim;
     POLY_FT4 *packs0;
     POLY_FT4 *packs1;
     DG_TEX   *tex;
 
-    prim = GM_MakePrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 3, work->f44, &work->rect);
+    prim = GM_MakePrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 3, work->pos, &work->rect);
     work->prim = prim;
     if (prim == NULL)
     {
@@ -158,8 +166,8 @@ int BubblePCreatePacks_800D9A08(BubblePWork *work)
         return -1;
     }
 
-    BubblePInitPack_800D96CC(packs0, tex);
-    BubblePInitPack_800D96CC(packs1, tex);
+    InitPack(packs0, tex);
+    InitPack(packs1, tex);
 
     packs0++;
     packs1++;
@@ -170,8 +178,8 @@ int BubblePCreatePacks_800D9A08(BubblePWork *work)
         return -1;
     }
 
-    BubblePInitPack_800D96CC(packs0, tex);
-    BubblePInitPack_800D96CC(packs1, tex);
+    InitPack(packs0, tex);
+    InitPack(packs1, tex);
 
     packs0++;
     packs1++;
@@ -182,14 +190,14 @@ int BubblePCreatePacks_800D9A08(BubblePWork *work)
         return -1;
     }
 
-    BubblePInitPack_800D96CC(packs0, tex);
-    BubblePInitPack_800D96CC(packs1, tex);
+    InitPack(packs0, tex);
+    InitPack(packs1, tex);
 
     work->f80 = 128;
     return 0;
 }
 
-int BubblePGetResources_800D9B58(BubblePWork *work, SVECTOR *arg1, SVECTOR *arg2, int arg3)
+static int GetResources(Work *work, SVECTOR *arg1, SVECTOR *arg2, int arg3)
 {
     SVECTOR vec;
     int     i;
@@ -205,10 +213,10 @@ int BubblePGetResources_800D9B58(BubblePWork *work, SVECTOR *arg1, SVECTOR *arg2
 
     for (i = 0; i < 3; i++)
     {
-        work->f44[i] = *arg1;
-        work->f44[i].vx += (GV_RandS(256) * work->f78) >> 8;
-        work->f44[i].vy += (GV_RandS(256) * work->f78) >> 8;
-        work->f44[i].vz += (GV_RandS(256) * work->f78) >> 8;
+        work->pos[i] = *arg1;
+        work->pos[i].vx += (GV_RandS(256) * work->f78) >> 8;
+        work->pos[i].vy += (GV_RandS(256) * work->f78) >> 8;
+        work->pos[i].vz += (GV_RandS(256) * work->f78) >> 8;
 
         work->f5C[i].vx = ((arg2->vx + (arg2->vx * GV_RandU(4))) * work->f78) >> 8;
         work->f5C[i].vy = ((arg2->vy + (arg2->vy * GV_RandU(4))) * work->f78) >> 8;
@@ -217,7 +225,7 @@ int BubblePGetResources_800D9B58(BubblePWork *work, SVECTOR *arg1, SVECTOR *arg2
 
     work->f7C = 0;
 
-    if (BubblePCreatePacks_800D9A08(work) < 0)
+    if (CreatePacks(work) < 0)
     {
         return -1;
     }
@@ -225,18 +233,20 @@ int BubblePGetResources_800D9B58(BubblePWork *work, SVECTOR *arg1, SVECTOR *arg2
     return 0;
 }
 
+/*---------------------------------------------------------------------------*/
+
 void *NewBubbleP_800D9D94(SVECTOR *arg0, SVECTOR *arg1, int arg2)
 {
-    BubblePWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(BubblePWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, BubblePAct_800D9974, BubblePDie_800D99CC, "bubble_p.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "bubble_p.c");
 
         work->f74 = 40;
 
-        if (BubblePGetResources_800D9B58(work, arg0, arg1, arg2) < 0)
+        if (GetResources(work, arg0, arg1, arg2) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
@@ -248,16 +258,16 @@ void *NewBubbleP_800D9D94(SVECTOR *arg0, SVECTOR *arg1, int arg2)
 
 void *NewBubbleP_800D9E40(SVECTOR *arg0, SVECTOR *arg1, int arg2)
 {
-    BubblePWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(BubblePWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, BubblePAct_800D9974, BubblePDie_800D99CC, "bubble_p.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "bubble_p.c");
 
         work->f74 = 8;
 
-        if (BubblePGetResources_800D9B58(work, arg0, arg1, arg2) < 0)
+        if (GetResources(work, arg0, arg1, arg2) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
