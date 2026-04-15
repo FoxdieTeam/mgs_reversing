@@ -1528,7 +1528,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
     include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
     include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15c\takabe\dymc_flr.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dymc_flr.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_003.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
@@ -1716,7 +1716,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
     include "{{OBJ_DIR}}\takabe\camshake.obj", overlay
     include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15c\takabe\dymc_flr.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dymc_flr.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_002.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
