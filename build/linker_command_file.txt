@@ -2140,7 +2140,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\enemy\wall.obj", overlay
     include "{{OBJ_DIR}}\enemy\demokage.obj", overlay
     include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\d18a\animal\liquid\bombled.obj", overlay
+    include "{{OBJ_DIR}}\animal\liquid\bombled.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\rcm2.obj", overlay
     include "{{OBJ_DIR}}\animal\doll\doll.obj", overlay
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
