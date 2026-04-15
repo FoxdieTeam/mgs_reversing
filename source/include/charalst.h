@@ -77,7 +77,7 @@
 #define CHARA_DRUMCAN           { 0xb58d, ? }                       // GV_StrCode("ドラム缶") takabe/drum.c
 #define CHARA_DRUMCAN2          { 0x4be8, ? }                       // GV_StrCode("ドラム缶２") takabe/drum2.c
 #define CHARA_DUCTMOUSE         { 0x3303, NewDuctMouse }            // okajima/ductmous.c
-#define CHARA_DYNFLOOR          { 0xaf6c, s15c_dymc_flr_800E1C70 }  // GV_StrCode("透明床") takabe/dymc_flr.c
+#define CHARA_DYNFLOOR          { 0xaf6c, NewDynamicFloorSet }      // GV_StrCode("透明床") takabe/dymc_flr.c
 #define CHARA_DYNWALL           { 0xb103, NewDynamicWallSet }       // GV_StrCode("透明壁") takabe/dymc_seg.c
 #define CHARA_ED_TELOP          { 0xe75a, NewEndingTelop }          // GV_StrCode("エンディングテロップ") takabe/ed_telop.c
 #define CHARA_ELECDAMAGE        { 0x107c, NewElectricDamage }       // GV_StrCode("電流床ダメージ") takabe/elc_damg.c
@@ -529,7 +529,7 @@ void *NewCinemaScreenSet();             /* takabe/cinema.c              */
 void *NewDoor2();                       /* takabe/door2.c               */
 void *NewDummyFloor();                  /* takabe/dummy_fl.c            */
 void *NewDummyWall();                   /* takabe/dummy_wl.c            */
-void *s15c_dymc_flr_800E1C70();         /* takabe/dymc_flr.c            */
+void *NewDynamicFloorSet();             /* takabe/dymc_flr.c            */
 void *NewDynamicWallSet();              /* takabe/dymc_seg.c            */
 void *NewEndingTelop();                 /* takabe/ed_telop.c            */
 void *EdTelop_800C4F18();               /* takabe/ed_telop.c (?)        */

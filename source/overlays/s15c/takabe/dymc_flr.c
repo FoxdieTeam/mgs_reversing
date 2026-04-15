@@ -1,30 +1,37 @@
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
-#include "strcode.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
 #include "game/game.h"
+#include "strcode.h"
 #include "takabe/thing.h"
 
-typedef struct DymcFloorWork
-{
-    GV_ACT actor;
-    int name;
-    int where;
-    HZD_HDL *hdl;
-    HZD_FLR flr;
-} DymcFloorWork;
+/*---------------------------------------------------------------------------*/
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-unsigned short dymc_flr_msgs_800C3630[2] = {HASH_ON2, HASH_OFF2};
+typedef struct _Work
+{
+    GV_ACT      actor;
+    int         map;
+    int         name;
+    HZD_HDL    *hzd;
+    HZD_FLR     flr;
+} Work;
 
-void s15c_dymc_flr_800E18BC(HZD_FLR *flr, SVECTOR *svec)
+/*---------------------------------------------------------------------------*/
+
+static unsigned short mesg_list[2] = {HASH_ON2, HASH_OFF2};
+
+static void s15c_dymc_flr_800E18BC(HZD_FLR *flr, SVECTOR *pos)
 {
     VECTOR vec1, vec2;
-
-    HZD_VEC *hzdvecIter;
-    SVECTOR *vecIter;
+    HZD_VEC *hzdvec;
+    SVECTOR *svec;
 
     int xmin, ymin, zmin;
     int xmax, ymax, zmax;
@@ -39,39 +46,39 @@ void s15c_dymc_flr_800E18BC(HZD_FLR *flr, SVECTOR *svec)
     ymin = 32000;
     xmin = 32000;
 
-    vecIter = svec;
-    hzdvecIter = &flr->p1;
-    for (i = 4; i > 0; vecIter++, hzdvecIter++, i--)
+    svec = pos;
+    hzdvec = &flr->p1;
+    for (i = 4; i > 0; svec++, hzdvec++, i--)
     {
-        hzdvecIter->x = vecIter->vx;
-        hzdvecIter->y = vecIter->vy;
-        hzdvecIter->z = vecIter->vz;
+        hzdvec->x = svec->vx;
+        hzdvec->y = svec->vy;
+        hzdvec->z = svec->vz;
 
-        if (xmax < vecIter->vx)
+        if (xmax < svec->vx)
         {
-            xmax = vecIter->vx;
+            xmax = svec->vx;
         }
-        if (vecIter->vx < xmin)
+        if (svec->vx < xmin)
         {
-            xmin = vecIter->vx;
-        }
-
-        if (ymax < vecIter->vy)
-        {
-            ymax = vecIter->vy;
-        }
-        if (vecIter->vy < ymin)
-        {
-            ymin = vecIter->vy;
+            xmin = svec->vx;
         }
 
-        if (zmax < vecIter->vz)
+        if (ymax < svec->vy)
         {
-            zmax = vecIter->vz;
+            ymax = svec->vy;
         }
-        if (vecIter->vz < zmin)
+        if (svec->vy < ymin)
         {
-            zmin = vecIter->vz;
+            ymin = svec->vy;
+        }
+
+        if (zmax < svec->vz)
+        {
+            zmax = svec->vz;
+        }
+        if (svec->vz < zmin)
+        {
+            zmin = svec->vz;
         }
     }
 
@@ -82,13 +89,13 @@ void s15c_dymc_flr_800E18BC(HZD_FLR *flr, SVECTOR *svec)
     flr->b2.y = ymax;
     flr->b2.z = zmax;
 
-    vec1.vx = (svec[1].vx - svec[0].vx) / 4;
-    vec1.vy = (svec[1].vy - svec[0].vy) / 4;
-    vec1.vz = (svec[1].vz - svec[0].vz) / 4;
+    vec1.vx = (pos[1].vx - pos[0].vx) / 4;
+    vec1.vy = (pos[1].vy - pos[0].vy) / 4;
+    vec1.vz = (pos[1].vz - pos[0].vz) / 4;
 
-    vec2.vx = (svec[2].vx - svec[1].vx) / 4;
-    vec2.vy = (svec[2].vy - svec[1].vy) / 4;
-    vec2.vz = (svec[2].vz - svec[1].vz) / 4;
+    vec2.vx = (pos[2].vx - pos[1].vx) / 4;
+    vec2.vy = (pos[2].vy - pos[1].vy) / 4;
+    vec2.vz = (pos[2].vz - pos[1].vz) / 4;
 
     VectorNormal(&vec1, &vec1);
     VectorNormal(&vec2, &vec2);
@@ -98,55 +105,56 @@ void s15c_dymc_flr_800E18BC(HZD_FLR *flr, SVECTOR *svec)
     flr->p2.h = vec1.vz >> 4;
 }
 
-void s15c_dymc_flr_800E1B00(DymcFloorWork *work)
+static void Act(Work *work)
 {
-    GM_CurrentMap = work->name;
-    if (THING_Msg_CheckMessage(work->where, 2, dymc_flr_msgs_800C3630) == 1)
+    GM_CurrentMap = work->map;
+    if (THING_Msg_CheckMessage(work->name, 2, mesg_list) == 1)
     {
         GV_DestroyActor(&work->actor);
     }
 }
 
-void s15c_dymc_flr_800E1B54(DymcFloorWork *work)
+static void Die(Work *work)
 {
-    HZD_DequeueDynamicFloor(work->hdl, &work->flr);
+    HZD_DequeueDynamicFloor(work->hzd, &work->flr);
 }
 
-
-int s15c_dymc_flr_800E1B7C(DymcFloorWork *work, int name, int where)
+static int GetResources(Work *work, int name, int where)
 {
-    SVECTOR svecs[4];
-    int h;
+    SVECTOR pos[4];
+    int s_param;
 
     GM_CurrentMap = where;
-    work->name = where;
-    work->where = name;
+    work->map = where;
+    work->name = name;
 
     if (GCL_GetOption('p'))
     {
-        GCL_StrToSV(GCL_GetParamResult(), &svecs[0]);
-        GCL_StrToSV(GCL_GetParamResult(), &svecs[1]);
-        GCL_StrToSV(GCL_GetParamResult(), &svecs[2]);
-        GCL_StrToSV(GCL_GetParamResult(), &svecs[3]);
+        GCL_StrToSV(GCL_GetParamResult(), &pos[0]);
+        GCL_StrToSV(GCL_GetParamResult(), &pos[1]);
+        GCL_StrToSV(GCL_GetParamResult(), &pos[2]);
+        GCL_StrToSV(GCL_GetParamResult(), &pos[3]);
     }
-    h = THING_Gcl_GetInt('s');
+    s_param = THING_Gcl_GetInt('s');
 
-    s15c_dymc_flr_800E18BC(&work->flr, svecs);
-    work->hdl = GM_GetMap(where)->hzd;
-    HZD_QueueDynamicFloor(work->hdl, &work->flr);
-    work->flr.b1.h |= h << 8;
+    s15c_dymc_flr_800E18BC(&work->flr, pos);
+    work->hzd = GM_GetMap(where)->hzd;
+    HZD_QueueDynamicFloor(work->hzd, &work->flr);
+    work->flr.b1.h |= s_param << 8;
     return 0;
 }
 
-void *s15c_dymc_flr_800E1C70(int name, int where, int argc, char **argv)
-{
-    DymcFloorWork *work;
+/*---------------------------------------------------------------------------*/
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(DymcFloorWork));
+void *NewDynamicFloorSet(int name, int where, int argc, char **argv)
+{
+    Work *work;
+
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, s15c_dymc_flr_800E1B00, s15c_dymc_flr_800E1B54, "dymc_flr.c");
-        if (s15c_dymc_flr_800E1B7C(work, name, where) < 0)
+        GV_SetNamedActor(&work->actor, Act, Die, "dymc_flr.c");
+        if (GetResources(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
@@ -154,4 +162,3 @@ void *s15c_dymc_flr_800E1C70(int name, int where, int argc, char **argv)
     }
     return (void *)work;
 }
-
