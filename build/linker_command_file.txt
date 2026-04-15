@@ -2046,7 +2046,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s04c\onoda\s04b\revolver.obj", overlay
     include "{{OBJ_DIR}}\overlays\s04c\takabe\revbullt.obj", overlay
     include "{{OBJ_DIR}}\overlays\s04c\onoda\s04b\wire.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s04c\onoda\s04b\at.obj", overlay
+    include "{{OBJ_DIR}}\onoda\s04b\at.obj", overlay
     include "{{OBJ_DIR}}\overlays\s04c\onoda\s04b\cape.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\CDROM.OBJ", overlay
