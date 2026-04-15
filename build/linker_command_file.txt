@@ -2136,7 +2136,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\stage\d18a.obj", overlay
     include "{{OBJ_DIR}}\game\movie.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\smoke_ln.obj", overlay
-    include "{{OBJ_DIR}}\overlays\d18a\chara\wake\wake.obj", overlay
+    include "{{OBJ_DIR}}\chara\wake\wake.obj", overlay
     include "{{OBJ_DIR}}\enemy\wall.obj", overlay
     include "{{OBJ_DIR}}\enemy\demokage.obj", overlay
     include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
