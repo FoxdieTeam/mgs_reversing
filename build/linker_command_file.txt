@@ -2150,7 +2150,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\okajima\flr_spa.obj", overlay
     include "{{OBJ_DIR}}\okajima\plasma_h.obj", overlay
     include "{{OBJ_DIR}}\takabe\panel.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s08b\anime\effect\smoke4.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\smoke4.obj", overlay
     include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
     include "{{OBJ_DIR}}\takabe\glass.obj", overlay
     include "{{OBJ_DIR}}\takabe\gsplash.obj", overlay
@@ -2770,7 +2770,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\takabe\gsplash.obj", overlay
     include "{{OBJ_DIR}}\takabe\pfall.obj", overlay
     include "{{OBJ_DIR}}\takabe\monitor1.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s08b\anime\effect\smoke4.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\smoke4.obj", overlay
     include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
     include "{{OBJ_DIR}}\takabe\gas_efct.obj", overlay
