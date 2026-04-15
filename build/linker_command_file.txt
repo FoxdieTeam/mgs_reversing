@@ -1568,9 +1568,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "ending" or OVERLAY == "endingr" %}
     include "{{OBJ_DIR}}\stage\ending.obj", overlay
-
-    include "{{OBJ_DIR}}\overlays\ending\overlay2.obj", overlay
-
     include "{{OBJ_DIR}}\game\movie.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\smoke_ln.obj", overlay
     include "{{OBJ_DIR}}\thing\sphere.obj", overlay
