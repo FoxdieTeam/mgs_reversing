@@ -27,7 +27,7 @@ typedef struct _Work
 
 static unsigned short mesg_list[2] = {HASH_ON2, HASH_OFF2};
 
-static void s15c_dymc_flr_800E18BC(HZD_FLR *flr, SVECTOR *pos)
+static void InitFloor(HZD_FLR *flr, SVECTOR *pos)
 {
     VECTOR vec1, vec2;
     HZD_VEC *hzdvec;
@@ -137,7 +137,7 @@ static int GetResources(Work *work, int name, int where)
     }
     s_param = THING_Gcl_GetInt('s');
 
-    s15c_dymc_flr_800E18BC(&work->flr, pos);
+    InitFloor(&work->flr, pos);
     work->hzd = GM_GetMap(where)->hzd;
     HZD_QueueDynamicFloor(work->hzd, &work->flr);
     work->flr.b1.h |= s_param << 8;
