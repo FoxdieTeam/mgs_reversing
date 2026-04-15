@@ -2037,7 +2037,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
     include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
     include "{{OBJ_DIR}}\takabe\focus.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s04c\takabe\voicesys.obj", overlay
+    include "{{OBJ_DIR}}\takabe\voicesys.obj", overlay
     include "{{OBJ_DIR}}\takabe\sepia.obj", overlay
     include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
 
@@ -2411,7 +2411,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s19b\overlay6.obj", overlay
 
     include "{{OBJ_DIR}}\overlays\s19b\takabe\democame.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s04c\takabe\voicesys.obj", overlay
+    include "{{OBJ_DIR}}\takabe\voicesys.obj", overlay
     include "{{OBJ_DIR}}\takabe\unknown4.obj", overlay
     include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
 
