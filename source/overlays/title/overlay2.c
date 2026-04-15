@@ -1,7 +1,5 @@
 #include "common.h"
 
-int fonttext_dword_800C32B0 = 0x00000000;
-
 int open_800C32B4[1] = {0x00000001}; // { int, DVECTOR, int }[24]
 int title_dword_800C32B8 = 0x00BE00A0;
 int title_dword_800C32BC = 0x00000000;

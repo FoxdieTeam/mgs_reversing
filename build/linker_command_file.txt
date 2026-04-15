@@ -528,10 +528,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\stage\title.obj", overlay
     include "{{OBJ_DIR}}\onoda\change\safety.obj", overlay
     include "{{OBJ_DIR}}\safechk.obj", overlay
+    include "{{OBJ_DIR}}\overlays\title\chara\others\fonttext.obj", overlay
 
     include "{{OBJ_DIR}}\overlays\title\overlay2.obj", overlay
 
-    include "{{OBJ_DIR}}\overlays\title\chara\others\fonttext.obj", overlay
     include "{{OBJ_DIR}}\overlays\title\onoda\open\open.obj", overlay
 
     include "{{OBJ_DIR}}\overlays\title\overlay3.obj", overlay

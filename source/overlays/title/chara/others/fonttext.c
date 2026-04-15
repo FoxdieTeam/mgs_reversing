@@ -27,7 +27,7 @@ typedef struct _Work
 
 /*---------------------------------------------------------------------------*/
 
-extern int fonttext_dword_800C32B0;
+int fonttext_dword_800C32B0 = 0;
 
 static int CheckMessage( Work *work, int name )
 {
