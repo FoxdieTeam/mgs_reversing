@@ -1825,9 +1825,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s11d\chara\rope\dsmoke2.obj", overlay
     include "{{OBJ_DIR}}\chara\torture\unknown5.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11d\chara\rope\landing.obj", overlay
-
-    include "{{OBJ_DIR}}\overlays\s11d\overlay3.obj", overlay
-
+    include "{{OBJ_DIR}}\takabe\cineutil.obj", overlay
     include "{{OBJ_DIR}}\chara\torture\info.obj", overlay
     include "{{OBJ_DIR}}\chara\rope\pipe.obj", overlay
     include "{{OBJ_DIR}}\thing\snow.obj", overlay

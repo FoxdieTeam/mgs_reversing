@@ -121,7 +121,7 @@
 #define CHARA_KEY_ITEM          { 0xc6ac, NewKeyItem }              // okajima/key_item.c
 #define CHARA_KIKENKUN          { 0x52bf, NewKikenKun }             // GV_StrCode("危険君") enemy/kiken.c
 #define CHARA_A6F6              { 0xa6f6, ? }                       // --> kmdarutl.c
-#define CHARA_LANDING           { 0x8b1a, s11d_landing_800CDA20 }   // chara/rope/landing.c
+#define CHARA_LANDING           { 0x8b1a, NewLanding }              // chara/rope/landing.c
 #define CHARA_LIFEUP            { 0x711f, NewLifeUp }               // GV_StrCode("ライフ増加") takabe/life_up.c
 #define CHARA_LIFT              { 0x425f, NewLift }                 // GV_StrCode("リフト") takabe/lift.c
 #define CHARA_LIFT2             { 0x921b, ? }                       // GV_StrCode("リフト２") takabe/lift2.c (PC-ONLY)
@@ -420,7 +420,7 @@ void *NewFontText();                    /* chara/others/fonttext.c      */
 void *NewIntrudeCamera();               /* chara/others/intr_cam.c      */
 void *NewMotionSoundEffect();           /* chara/others/motse.c         */
 void *s11d_dsmoke2_800CCD54();          /* chara/rope/dsmoke2.c         */
-void *s11d_landing_800CDA20();          /* chara/rope/landing.c         */
+void *NewLanding();                     /* chara/rope/landing.c         */
 void *NewPipe();                        /* chara/rope/pipe.c            */
 void *NewSnakeBreath();                 /* chara/snake/breath.c         */
 void *NewSnake();                       /* chara/snake/sna_init.c       */
