@@ -1,47 +1,53 @@
 #include "dymc_seg.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
-#include "bullet/jirai.h"
-#include "game/game.h"
-#include "takabe/thing.h"
-#include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
+#include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
+#include "game/game.h"
 #include "strcode.h"
+#include "takabe/thing.h"
 
-typedef struct DymcSegWork
-{
-    GV_ACT   actor;
-    int      map;
-    int      name;
-    HZD_HDL *hzd;
-    HZD_SEG  seg;
-} DymcSegWork;
-
-unsigned short dymc_seg_hashes[] = {HASH_ON2, HASH_OFF2};
+/*---------------------------------------------------------------------------*/
 
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
-void DymcSegAct_800C4A44(DymcSegWork *work)
+typedef struct _Work
+{
+    GV_ACT      actor;
+    int         map;
+    int         name;
+    HZD_HDL    *hzd;
+    HZD_SEG     seg;
+} Work;
+
+/*---------------------------------------------------------------------------*/
+
+static unsigned short mesg_list[] = {HASH_ON2, HASH_OFF2};
+
+static void Act(Work *work)
 {
     GM_CurrentMap = work->map;
 
-    if (THING_Msg_CheckMessage(work->name, 2, dymc_seg_hashes) == 1)
+    if (THING_Msg_CheckMessage(work->name, 2, mesg_list) == 1)
     {
         GV_DestroyActor(&work->actor);
     }
 }
 
-void DymcSegDie_800C4A98(DymcSegWork *work)
+static void Die(Work *work)
 {
     HZD_DequeueDynamicSegment(work->hzd, &work->seg);
 }
 
-int DymcSegGetResources_800C4AC0(DymcSegWork *work, int name, int where)
+static int GetResources(Work *work, int name, int where)
 {
-    SVECTOR  min, max;
-    int      height;
-    int      flags;
+    SVECTOR min, max;
+    int     height, flags;
     HZD_SEG *seg;
     SVECTOR *vec;
 
@@ -80,21 +86,21 @@ int DymcSegGetResources_800C4AC0(DymcSegWork *work, int name, int where)
     return 0;
 }
 
+/*---------------------------------------------------------------------------*/
+
 void *NewDynamicWallSet(int name, int where, int argc, char **argv)
 {
-    DymcSegWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(DymcSegWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, DymcSegAct_800C4A44, DymcSegDie_800C4A98, "dymc_seg.c");
-
-        if (DymcSegGetResources_800C4AC0(work, name, where) < 0)
+        GV_SetNamedActor(&work->actor, Act, Die, "dymc_seg.c");
+        if (GetResources(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
         }
     }
-
     return (void *)work;
 }
