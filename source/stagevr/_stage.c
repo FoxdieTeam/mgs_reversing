@@ -20,7 +20,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x000a, NULL },   //  CHARA_000A_SPLASH,
     { 0x0025, NULL },   //  CHARA_0025_BLUR,
     { 0x004a, NULL },   //  CHARA_004A_BOMBLED,
-    { 0x000e, NULL },   //  CHARA_000E,
+    { 0x000e, NULL },   //  CHARA_000E_BREATH,
     { 0x0012, NULL },   //  CHARA_0012_BUBBLE_T,
     { 0x0013, NULL },   //  CHARA_0013_BUBBLE_P,
     { 0x000b, NULL },   //  CHARA_000B_BULLET,

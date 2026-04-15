@@ -319,7 +319,7 @@
 #define CHARA_000B_BULLET       { 0x000b, NewBulletEx }             // okajima/bullet.c
 #define CHARA_000C              { 0x000c, ? }                       // --> anime/animconv/anime.c
 #define CHARA_000D_D_BLOODS     { 0x000d, NewDBloods_800D5B70 }     // okajima/d_bloods.c
-#define CHARA_000E              { 0x000e, AN_Breath }               // --> anime/animconv/anime.c
+#define CHARA_000E_BREATH       { 0x000e, AN_Breath }               // --> anime/animconv/anime.c
 #define CHARA_000F_DEMOKAGE     { 0x000f, NewDemoKage }             // enemy/demokage.c
 #define CHARA_0010_DEMOASI      { 0x0010, NewDemoAsiato }           // enemy/demoasi.c
 #define CHARA_0011              { 0x0011, s08c_800C4194 }           // --> anime/animconv/anime.c

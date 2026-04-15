@@ -475,7 +475,7 @@
 #define CHARAID_000B_BULLET     0x000b
 #define CHARAID_000C            0x000c
 #define CHARAID_000D_D_BLOODS   0x000d
-#define CHARAID_000E            0x000e
+#define CHARAID_000E_BREATH     0x000e
 #define CHARAID_000F_DEMOKAGE   0x000f
 #define CHARAID_0010_DEMOASI    0x0010
 #define CHARAID_0011            0x0011
