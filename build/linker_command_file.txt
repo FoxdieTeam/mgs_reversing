@@ -319,6 +319,7 @@ bss     group bss
     section .sbss,  bss
     section .bss,   bss
 
+;==============================================================================
 {% if OVERLAY %}
 
 ; PSYQ - TODO: how to use inclib effectively in overlays?
@@ -374,12 +375,15 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 
 {% endif %}
 
+;------------------------------------------------------------------------------
 {% if OVERLAY == "sound" %}
     include "{{OBJ_DIR}}\stage\sound.obj", overlay
     include "{{OBJ_DIR}}\game\sndtst.obj", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY in ["select1", "select2", "select3", "select4", "selectd"] %}
     include "{{OBJ_DIR}}\stage\select1.obj", overlay
     include "{{OBJ_DIR}}\game\select.obj", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "change" %}
     include "{{OBJ_DIR}}\stage\change.obj", overlay
     include "{{OBJ_DIR}}\onoda\change\change.obj", overlay
@@ -391,6 +395,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\E03.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\E04.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libapi\A81.OBJ", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "s16b" %}
     include "{{OBJ_DIR}}\stage\s16b.obj", overlay
     include "{{OBJ_DIR}}\enemy\wall.obj", overlay
@@ -400,6 +405,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
     include "{{OBJ_DIR}}\takabe\sepia.obj", overlay
     include "{{OBJ_DIR}}\takabe\shakemdl.obj", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "camera" %}
     include "{{OBJ_DIR}}\stage\camera.obj", overlay
 
@@ -407,6 +413,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 
     include "{{OBJ_DIR}}\overlays\camera\unknown\camera.obj", overlay
     inclib "libpress.lib", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "select" %}
     include "{{OBJ_DIR}}\stage\select.obj", overlay
     include "{{OBJ_DIR}}\game\select.obj", overlay
@@ -416,6 +423,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libsn\CREAT.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libsn\WRITE.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libsn\SNWRITE.OBJ", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "d11c" %}
     include "{{OBJ_DIR}}\stage\d11c.obj", overlay
     include "{{OBJ_DIR}}\game\lamp.obj", overlay
@@ -427,6 +435,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "s00a" %}
     include "{{OBJ_DIR}}\stage\s00a.obj", overlay
     include "{{OBJ_DIR}}\game\pad.obj", overlay
@@ -480,6 +489,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P36.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P39.OBJ", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "d03a" %}
     include "{{OBJ_DIR}}\stage\d03a.obj", overlay
     include "{{OBJ_DIR}}\enemy\demokage.obj", overlay
@@ -494,6 +504,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "s03e" or OVERLAY == "s03er" %}
     include "{{OBJ_DIR}}\stage\s03e.obj", overlay
     include "{{OBJ_DIR}}\game\evpanel.obj", overlay
@@ -511,6 +522,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
     include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
     include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "title" %}
     include "{{OBJ_DIR}}\stage\title.obj", overlay
     include "{{OBJ_DIR}}\onoda\change\safety.obj", overlay
@@ -531,6 +543,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\E03.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\E04.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libapi\A81.OBJ", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "s01a" %}
     include "{{OBJ_DIR}}\stage\s01a.obj", overlay
     include "{{OBJ_DIR}}\game\cancel.obj", overlay
@@ -585,9 +598,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "d01a" %}
     include "{{OBJ_DIR}}\stage\d01a.obj", overlay
-
     include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
     include "{{OBJ_DIR}}\thing\snow.obj", overlay
     include "{{OBJ_DIR}}\thing\emitter.obj", overlay
@@ -610,6 +623,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\kojo\famaslit.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "s02c" or OVERLAY == "s02e" %}
     include "{{OBJ_DIR}}\stage\s02c.obj", overlay
     include "{{OBJ_DIR}}\game\evpanel.obj", overlay
@@ -667,9 +681,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P39.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "s16c" %}
     include "{{OBJ_DIR}}\stage\s16c.obj", overlay
-
     include "{{OBJ_DIR}}\enemy\watcher.obj", overlay
     include "{{OBJ_DIR}}\enemy\check.obj", overlay
     include "{{OBJ_DIR}}\enemy\action.obj", overlay
@@ -710,6 +724,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "s06a" %}
     include "{{OBJ_DIR}}\stage\s06a.obj", overlay
     include "{{OBJ_DIR}}\game\evpanel.obj", overlay
@@ -758,6 +773,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "s02a" %}
     include "{{OBJ_DIR}}\stage\s02a.obj", overlay
     include "{{OBJ_DIR}}\game\evpanel.obj", overlay
@@ -813,6 +829,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P39.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "s02d" %}
     include "{{OBJ_DIR}}\stage\s02d.obj", overlay
     include "{{OBJ_DIR}}\game\evpanel.obj", overlay
@@ -866,6 +883,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P39.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "s12c" %}
     include "{{OBJ_DIR}}\stage\s12c.obj", overlay
     include "{{OBJ_DIR}}\game\lamp.obj", overlay
@@ -897,6 +915,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_002.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "s07a" %}
     include "{{OBJ_DIR}}\stage\s07a.obj", overlay
     include "{{OBJ_DIR}}\game\evpanel.obj", overlay
@@ -945,6 +964,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
     include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
     include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "s04a" %}
     include "{{OBJ_DIR}}\stage\s04a.obj", overlay
     include "{{OBJ_DIR}}\game\evpanel.obj", overlay
@@ -981,6 +1001,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_003.OBJ", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "s02b" %}
     include "{{OBJ_DIR}}\stage\s02b.obj", overlay
     include "{{OBJ_DIR}}\game\evpanel.obj", overlay
@@ -1037,6 +1058,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P39.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "s16a" %}
     include "{{OBJ_DIR}}\stage\s16a.obj", overlay
 
@@ -1074,6 +1096,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P39.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "d16e" %}
     include "{{OBJ_DIR}}\stage\d16e.obj", overlay
     include "{{OBJ_DIR}}\enemy\camera.obj", overlay
@@ -1104,6 +1127,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "s16d" %}
     include "{{OBJ_DIR}}\stage\s16d.obj", overlay
 
@@ -1155,6 +1179,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "s20a" or OVERLAY == "s20ar" %}
     include "{{OBJ_DIR}}\stage\s20a.obj", overlay
     include "{{OBJ_DIR}}\thing\sphere.obj", overlay
@@ -1174,6 +1199,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "s03a" or OVERLAY == "s03ar" %}
     include "{{OBJ_DIR}}\stage\s03a.obj", overlay
     include "{{OBJ_DIR}}\game\evpanel.obj", overlay
@@ -1216,6 +1242,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P36.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "d00a" %}
     include "{{OBJ_DIR}}\stage\d00a.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
@@ -1265,6 +1292,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P36.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P39.OBJ", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "s15b" %}
     include "{{OBJ_DIR}}\stage\s15b.obj", overlay
     include "{{OBJ_DIR}}\game\lamp.obj", overlay
@@ -1289,6 +1317,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P34.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_003.OBJ", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "s11e" %}
     include "{{OBJ_DIR}}\stage\s11e.obj", overlay
     include "{{OBJ_DIR}}\game\lamp.obj", overlay
@@ -1337,6 +1366,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P34.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "s07c" or OVERLAY == "s07cr" %}
     include "{{OBJ_DIR}}\stage\s07c.obj", overlay
     include "{{OBJ_DIR}}\game\evpanel.obj", overlay
@@ -1373,6 +1403,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P36.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "s08c" or OVERLAY == "s08cr" %}
     include "{{OBJ_DIR}}\stage\s08c.obj", overlay
     include "{{OBJ_DIR}}\game\pad.obj", overlay
@@ -1410,6 +1441,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "s11i" %}
     include "{{OBJ_DIR}}\stage\s11i.obj", overlay
 
@@ -1452,6 +1484,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
     include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
     include "{{OBJ_DIR}}\kojo\sstorm.obj", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "s15c" %}
     include "{{OBJ_DIR}}\stage\s15c.obj", overlay
     include "{{OBJ_DIR}}\game\lamp.obj", overlay
@@ -1532,6 +1565,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_003.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "ending" or OVERLAY == "endingr" %}
     include "{{OBJ_DIR}}\stage\ending.obj", overlay
 
@@ -1568,11 +1602,13 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\LIBPRESS.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\VLC_C.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\BUILD.OBJ", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "preope" %}
     include "{{OBJ_DIR}}\stage\preope.obj", overlay
     include "{{OBJ_DIR}}\onoda\preope\preope.obj", overlay
     include "{{OBJ_DIR}}\onoda\preope\pre_met1.obj", overlay
     include "{{OBJ_DIR}}\onoda\preope\pre_met2.obj", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "opening" %}
     include "{{OBJ_DIR}}\stage\opening.obj", overlay
     include "{{OBJ_DIR}}\game\cancel.obj", overlay
@@ -1600,6 +1636,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P36.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P39.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "roll" %}
     include "{{OBJ_DIR}}\stage\roll.obj", overlay
     include "{{OBJ_DIR}}\game\movie.obj", overlay
@@ -1623,6 +1660,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\LIBPRESS.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\VLC_C.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\BUILD.OBJ", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "s03b" %}
     include "{{OBJ_DIR}}\stage\s03b.obj", overlay
     include "{{OBJ_DIR}}\game\lamp.obj", overlay
@@ -1653,6 +1691,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P36.OBJ", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "s11g" %}
     include "{{OBJ_DIR}}\stage\s11g.obj", overlay
     include "{{OBJ_DIR}}\game\lamp.obj", overlay
@@ -1692,6 +1731,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "s11c" %}
     include "{{OBJ_DIR}}\stage\s11c.obj", overlay
     include "{{OBJ_DIR}}\game\evpanel.obj", overlay
@@ -1720,6 +1760,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_002.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "s12a" %}
     include "{{OBJ_DIR}}\stage\s12a.obj", overlay
     include "{{OBJ_DIR}}\game\movie.obj", overlay
@@ -1773,9 +1814,11 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\LIBPRESS.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\VLC_C.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\BUILD.OBJ", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "option" %}
     include "{{OBJ_DIR}}\stage\option.obj", overlay
     include "{{OBJ_DIR}}\onoda\option\opt.obj", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "s03c" %}
     include "{{OBJ_DIR}}\stage\s03c.obj", overlay
     include "{{OBJ_DIR}}\game\lamp.obj", overlay
@@ -1814,6 +1857,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "s11d" %}
     include "{{OBJ_DIR}}\stage\s11d.obj", overlay
     include "{{OBJ_DIR}}\game\lamp.obj", overlay
@@ -1978,6 +2022,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_003.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\FGO_03.OBJ", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "s04c" %}
     include "{{OBJ_DIR}}\stage\s04c.obj", overlay
     include "{{OBJ_DIR}}\game\movie.obj", overlay
@@ -2033,10 +2078,12 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\LIBPRESS.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\VLC_C.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\BUILD.OBJ", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "demosel" %}
     include "{{OBJ_DIR}}\stage\demosel.obj", overlay
     include "{{OBJ_DIR}}\onoda\demosel\demosel.obj", overlay
     include "{{OBJ_DIR}}\onoda\change\met_logo.obj", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "s13a" %}
     include "{{OBJ_DIR}}\stage\s13a.obj", overlay
     include "{{OBJ_DIR}}\game\lamp.obj", overlay
@@ -2089,6 +2136,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P39.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "s08a" %}
     include "{{OBJ_DIR}}\stage\s08a.obj", overlay
     include "{{OBJ_DIR}}\game\evpanel.obj", overlay
@@ -2132,6 +2180,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_11.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\RMAT_01.OBJ", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "d18a" or OVERLAY == "d18ar" %}
     include "{{OBJ_DIR}}\stage\d18a.obj", overlay
     include "{{OBJ_DIR}}\game\movie.obj", overlay
@@ -2323,6 +2372,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\LIBPRESS.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\VLC_C.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\BUILD.OBJ", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "s19b" or OVERLAY == "s19br" %}
     include "{{OBJ_DIR}}\stage\s19b.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19b\menu\countdwn.obj", overlay
@@ -2383,6 +2433,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\SMP_01.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\SMP_04.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\FGO_03.OBJ", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "s08b" or OVERLAY == "s08br" %}
     include "{{OBJ_DIR}}\stage\s08b.obj", overlay
     include "{{OBJ_DIR}}\game\movie.obj", overlay
@@ -2763,6 +2814,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\LIBPRESS.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\VLC_C.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\BUILD.OBJ", overlay
+;------------------------------------------------------------------------------
 {% endif %}
 
 {% endif %}
