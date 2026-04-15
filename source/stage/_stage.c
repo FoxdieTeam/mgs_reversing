@@ -20,7 +20,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x000a, NULL },   //  CHARA_000A_SPLASH,
     { 0x0025, NULL },   //  CHARA_0025_BLUR,
     { 0x004a, NULL },   //  CHARA_004A_BOMBLED,
-    { 0x000e, NULL },   //  CHARA_000E,
+    { 0x000e, NULL },   //  CHARA_000E_BREATH,
     { 0x0012, NULL },   //  CHARA_0012_BUBBLE_T,
     { 0x0013, NULL },   //  CHARA_0013_BUBBLE_P,
     { 0x000b, NULL },   //  CHARA_000B_BULLET,
@@ -160,7 +160,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x3f9a, NULL },   //  CHARA_ENV_SOUND,    /* chara 環境音 */
     { 0x76fe, NULL },   //  CHARA_ENV_TEST,     /* chara 環境マッピングテスト */
     { 0xa12e, NULL },   //  CHARA_FADEIO,       /* chara 白黒フェド */
-    { 0xc73e, NULL },   //  CHARA_FALL_SPLASH,  /* chara 滝しぶき */
+    { 0xc73e, NULL },   //  CHARA_FALLSPLASH,   /* chara 滝しぶき */
     { 0x5d64, NULL },   //  CHARA_FEWDAMAGE,
     { 0x118c, NULL },   //  CHARA_FINDTRAP,     /* chara 発見トラップ */
     { 0xd6fb, NULL },   //  CHARA_FOG,          /* chara 黒フォグ */
@@ -298,7 +298,7 @@ CHARA _StageCharacterEntries[] = {
     { 0xfaa8, NULL },   //  CHARA_FAA8_MOVIE,
     { 0x73ea, NULL },   //  CHARA_SPHERE,       /* chara 天球 */
     { 0xbee1, NULL },   //  CHARA_SPHERE2,      /* chara 天球２ */
-    { 0xd2f6, NULL },   //  CHARA_SELECT,       /* chara ステージセレクト */
+    { 0xd2f6, NULL },   //  CHARA_STAGESELECT,  /* chara ステージセレクト */
     { 0x175b, NULL },   //  CHARA_SMKTRGT,
     { 0x7ff7, NULL },   //  CHARA_TELOP,        /* chara テロップ */
     { 0xdcac, NULL },   //  CHARA_TEXANIME,     /* chara テクスチャアニメ */

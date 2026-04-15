@@ -77,7 +77,7 @@
 #define CHARA_DRUMCAN           { 0xb58d, ? }                       // GV_StrCode("ドラム缶") takabe/drum.c
 #define CHARA_DRUMCAN2          { 0x4be8, ? }                       // GV_StrCode("ドラム缶２") takabe/drum2.c
 #define CHARA_DUCTMOUSE         { 0x3303, NewDuctMouse }            // okajima/ductmous.c
-#define CHARA_DYNFLOOR          { 0xaf6c, s15c_dymc_flr_800E1C70 }  // GV_StrCode("透明床") takabe/dymc_flr.c
+#define CHARA_DYNFLOOR          { 0xaf6c, NewDynamicFloorSet }      // GV_StrCode("透明床") takabe/dymc_flr.c
 #define CHARA_DYNWALL           { 0xb103, NewDynamicWallSet }       // GV_StrCode("透明壁") takabe/dymc_seg.c
 #define CHARA_ED_TELOP          { 0xe75a, NewEndingTelop }          // GV_StrCode("エンディングテロップ") takabe/ed_telop.c
 #define CHARA_ELECDAMAGE        { 0x107c, NewElectricDamage }       // GV_StrCode("電流床ダメージ") takabe/elc_damg.c
@@ -91,11 +91,11 @@
 #define CHARA_ENV_SOUND         { 0x3f9a, NewEnvSound }             // GV_StrCode("環境音") takabe/env_snd.c
 #define CHARA_ENV_TEST          { 0x76fe, ? }                       // GV_StrCode("環境マッピングテスト") takabe/env_test.c (PC-ONLY)
 #define CHARA_FADEIO            { 0xa12e, NewFadeInOutSet }         // GV_StrCode("白黒フェド") takabe/fadeio.c
-#define CHARA_FALL_SPLASH       { 0xc73e, NewFallSplash }           // GV_StrCode("滝しぶき") okajima/fall_spl.c
+#define CHARA_FALLSPLASH        { 0xc73e, NewFallSplash }           // GV_StrCode("滝しぶき") okajima/fall_spl.c
 #define CHARA_FEWDAMAGE         { 0x5d64, NewFewDamageSet }         // takabe/o2_damge.c
 #define CHARA_FINDTRAP          { 0x118c, NewFindTrap }             // GV_StrCode("発見トラップ") takabe/findtrap.c
 #define CHARA_FOG               { 0xd6fb, NewFog }                  // GV_StrCode("黒フォグ") takabe/fog.c
-#define CHARA_FONTTEXT          { 0x84e1, NewFonttext_800C446C }    // chara/others/fonttext.c
+#define CHARA_FONTTEXT          { 0x84e1, NewFontText }             // chara/others/fonttext.c
 #define CHARA_MOTIONSE          { 0x0fad, NewMotionSoundEffect }    // chara/others/motse.c
 #define CHARA_FURNACE           { 0xadd8, NewFurnace }              // GV_StrCode("溶鉱炉") takabe/furnace.c
 #define CHARA_GASDAMAGE         { 0x8d5a, NewGasDamage }            // GV_StrCode("ガスダメージ") takabe/gasdamge.c
@@ -208,7 +208,7 @@
 #define CHARA_RSURFACE          { 0x81ea, NewRippleSurface }        // takabe/rsurface.c
 #define CHARA_RIPPLES           { 0x63aa, NewRipples }              // takabe/ripples.c
 #define CHARA_ROPE              { 0xbda8, s11d_rope_800C9500 }      // --> chara/rope/rope.c
-#define CHARA_PIPE              { 0xc35f, NewPipe_800CE73C }        // chara/rope/pipe.c
+#define CHARA_PIPE              { 0xc35f, NewPipe }                 // chara/rope/pipe.c
 #define CHARA_11E9_HIND         { 0x11e9, s11d_hind_800CB708 }      // chara/hind/hind.c
 #define CHARA_HIND2             { 0xb959, NewHind2 }                // chara/hind2/hind2.c
 #define CHARA_SAVE_DATA         { 0x9302, ? }                       // GV_StrCode("セーブデータ") menu/mload.c
@@ -231,7 +231,7 @@
 #define CHARA_FAA8_MOVIE        { 0xfaa8, ? }                       // chara/movie/movie.c
 #define CHARA_SPHERE            { 0x73ea, NewSphere }               // GV_StrCode("天球") thing/sphere.c
 #define CHARA_SPHERE2           { 0xbee1, ? }                       // GV_StrCode("天球２") thing/sphere2.c
-#define CHARA_SELECT            { 0xd2f6, NewSelect }               // GV_StrCode("ステージセレクト") game/select.c
+#define CHARA_STAGESELECT       { 0xd2f6, NewSelect }               // GV_StrCode("ステージセレクト") game/select.c
 #define CHARA_SMKTRGT           { 0x175b, NewSmokeTarget }          // okajima/smktrgt.c
 #define CHARA_TELOP             { 0x7ff7, NewTelopSet }             // GV_StrCode("テロップ") takabe/telop.c
 #define CHARA_TEXANIME          { 0xdcac, ? }                       // GV_StrCode("テクスチャアニメ") enemy/texanime.c (PC-ONLY)
@@ -319,7 +319,7 @@
 #define CHARA_000B_BULLET       { 0x000b, NewBulletEx }             // okajima/bullet.c
 #define CHARA_000C              { 0x000c, ? }                       // --> anime/animconv/anime.c
 #define CHARA_000D_D_BLOODS     { 0x000d, NewDBloods_800D5B70 }     // okajima/d_bloods.c
-#define CHARA_000E              { 0x000e, AN_Breath }               // --> anime/animconv/anime.c
+#define CHARA_000E_BREATH       { 0x000e, AN_Breath }               // --> anime/animconv/anime.c
 #define CHARA_000F_DEMOKAGE     { 0x000f, NewDemoKage }             // enemy/demokage.c
 #define CHARA_0010_DEMOASI      { 0x0010, NewDemoAsiato }           // enemy/demoasi.c
 #define CHARA_0011              { 0x0011, s08c_800C4194 }           // --> anime/animconv/anime.c
@@ -416,12 +416,12 @@ void *NewHind();                        /* kojo/hind.c                  */
 void *s11d_hind_800CB708();             /* chara/hind/hind.c            */
 void *NewHind2();                       /* chara/hind2/hind2.c          */
 void *NewBelong();                      /* chara/others/belong.c        */
-void *NewFonttext_800C446C();           /* chara/others/fonttext.c      */
+void *NewFontText();                    /* chara/others/fonttext.c      */
 void *NewIntrudeCamera();               /* chara/others/intr_cam.c      */
 void *NewMotionSoundEffect();           /* chara/others/motse.c         */
 void *s11d_dsmoke2_800CCD54();          /* chara/rope/dsmoke2.c         */
 void *s11d_landing_800CDA20();          /* chara/rope/landing.c         */
-void *NewPipe_800CE73C();               /* chara/rope/pipe.c            */
+void *NewPipe();                        /* chara/rope/pipe.c            */
 void *NewSnakeBreath();                 /* chara/snake/breath.c         */
 void *NewSnake();                       /* chara/snake/sna_init.c       */
 void *NewTortureBed();                  /* chara/torture/bed.c          */
@@ -529,7 +529,7 @@ void *NewCinemaScreenSet();             /* takabe/cinema.c              */
 void *NewDoor2();                       /* takabe/door2.c               */
 void *NewDummyFloor();                  /* takabe/dummy_fl.c            */
 void *NewDummyWall();                   /* takabe/dummy_wl.c            */
-void *s15c_dymc_flr_800E1C70();         /* takabe/dymc_flr.c            */
+void *NewDynamicFloorSet();             /* takabe/dymc_flr.c            */
 void *NewDynamicWallSet();              /* takabe/dymc_seg.c            */
 void *NewEndingTelop();                 /* takabe/ed_telop.c            */
 void *EdTelop_800C4F18();               /* takabe/ed_telop.c (?)        */

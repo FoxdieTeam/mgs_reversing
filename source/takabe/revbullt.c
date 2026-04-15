@@ -1,13 +1,25 @@
+//#include "revbullt.h"
+
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "anime/animconv/anime.h"
 #include "game/game.h"
 #include "linkvar.h"
+#include "anime/animconv/anime.h"
 #include "okajima/spark.h"
 #include "sound/g_sound.h"
 
-typedef struct _RevbulltWork
+/*---------------------------------------------------------------------------*/
+
+#define EXEC_LEVEL      GV_ACTOR_LEVEL5
+
+#define SEGMENT_ATR     ( HZD_SEG_NO_NAVIGATE )
+
+typedef struct _Work
 {
     GV_ACT   actor;
     int      map;
@@ -28,28 +40,36 @@ typedef struct _RevbulltWork
     int      f148;
     int      f14C;
     int      bounces;
-} RevbulltWork;
+} Work;
 
-#define SEGMENT_ATR ( HZD_SEG_NO_NAVIGATE )
+/*---------------------------------------------------------------------------*/
 
-const SVECTOR s04c_dword_800DBAE4 = {0, -750, 0, 0};
+const SVECTOR s04c_dword_800DBAE4 = { 0, -750, 0, 0 };
 
-SVECTOR s04c_dword_800C35B0[4] = {{15, 0, 0, 0}, {-15, 0, 0, 0}, {0, 0, 15, 0}, {0, 0, -15, 0}};
-SVECTOR s04c_dword_800C35D0[2] = {{0, -100, 0, 0}, {5, -10740, 32, 0}};
-SVECTOR s04c_dword_800C35E0 = {100, 100, 100, 0};
+SVECTOR s04c_dword_800C35B0[4] = {
+    {  15, 0,   0, 0 },
+    { -15, 0,   0, 0 },
+    {   0, 0,  15, 0 },
+    {   0, 0, -15, 0 }
+};
+
+SVECTOR s04c_dword_800C35D0[2] = {
+    { 0, -100,    0, 0 },
+    { 5, -10740, 32, 0 }
+};
+
+SVECTOR s04c_dword_800C35E0 = { 100, 100, 100, 0 };
 
 int s04c_dword_800DBE20;
 
-void *NewRevolverBullet(MATRIX *world, int bounces);
-
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+/*---------------------------------------------------------------------------*/
 
 static void TransformPrim(SVECTOR *verts)
 {
     DG_PutVector(s04c_dword_800C35B0, verts, 4);
 }
 
-static void PushPrim(RevbulltWork *work)
+static void PushPrim(Work *work)
 {
     SVECTOR *verts;
     int      i;
@@ -64,7 +84,7 @@ static void PushPrim(RevbulltWork *work)
     }
 }
 
-static void PushPrim2(RevbulltWork *work)
+static void PushPrim2(Work *work)
 {
     SVECTOR *verts;
     int      i;
@@ -79,7 +99,7 @@ static void PushPrim2(RevbulltWork *work)
     TransformPrim(verts);
 }
 
-static void InitPrim(RevbulltWork *work)
+static void InitPrim(Work *work)
 {
     SVECTOR *src;
     SVECTOR *dst;
@@ -139,7 +159,7 @@ static void InitPacks(POLY_FT4 *packs, DG_TEX *tex)
     }
 }
 
-static int CalculateHit(RevbulltWork *work, MATRIX *world)
+static int CalculateHit(Work *work, MATRIX *world)
 {
     SVECTOR  sp18[2];
     int      ret;
@@ -179,7 +199,7 @@ static int CalculateHit(RevbulltWork *work, MATRIX *world)
     return len;
 }
 
-static void Act(RevbulltWork *work)
+static void Act(Work *work)
 {
     MATRIX  world;
     SVECTOR sp38;
@@ -230,6 +250,9 @@ static void Act(RevbulltWork *work)
 
                 if (work->bounces > 0)
                 {
+                    // The call is coming from INSIDE the actor...
+                    extern void *NewRevolverBullet(MATRIX *world, int bounces);
+
                     NewRevolverBullet(&world, work->bounces - 1);
                     NewAnime_8005E508(&work->position);
                     GM_SeSetMode(&work->f24, 176, GM_SEMODE_BOMB);
@@ -265,12 +288,12 @@ static void Act(RevbulltWork *work)
     }
 }
 
-static void Die(RevbulltWork *work)
+static void Die(Work *work)
 {
     GM_FreePrim(work->prim);
 }
 
-static void CreateTarget(RevbulltWork *work, int side)
+static void CreateTarget(Work *work, int side)
 {
     SVECTOR pos;
     TARGET *target;
@@ -295,7 +318,7 @@ static void CreateTarget(RevbulltWork *work, int side)
     GM_Target_8002DCCC(target, 1, 1, damage, 0, &pos);
 }
 
-static int GetResources(RevbulltWork *work, MATRIX *world, int visible, int arg3)
+static int GetResources(Work *work, MATRIX *world, int visible, int arg3)
 {
     SVECTOR  sp18;
     int      k500 = 1000;
@@ -357,11 +380,13 @@ static int GetResources(RevbulltWork *work, MATRIX *world, int visible, int arg3
     return 0;
 }
 
+/*---------------------------------------------------------------------------*/
+
 void *NewRevolverBullet(MATRIX *world, int bounces)
 {
-    RevbulltWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(RevbulltWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "revbullt.c");

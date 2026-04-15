@@ -241,7 +241,7 @@
 #define CHARAID_ENV_SOUND       0x3f9a  // GV_StrCode("環境音")
 #define CHARAID_ENV_TEST        0x76fe  // GV_StrCode("環境マッピングテスト")
 #define CHARAID_FADEIO          0xa12e  // GV_StrCode("白黒フェド")
-#define CHARAID_FALL_SPLASH     0xc73e  //
+#define CHARAID_FALLSPLASH      0xc73e  // GV_StrCode("滝しぶき")
 #define CHARAID_FEWDAMAGE       0x5d64  //
 #define CHARAID_FINDTRAP        0x118c  // GV_StrCode("発見トラップ")
 #define CHARAID_FOG             0xd6fb  // GV_StrCode("黒フォグ")
@@ -381,7 +381,7 @@
 #define CHARAID_FAA8_MOVIE      0xfaa8  //
 #define CHARAID_SPHERE          0x73ea  // GV_StrCode("天球")
 #define CHARAID_SPHERE2         0xbee1  // GV_StrCode("天球２")
-#define CHARAID_SELECT          0xd2f6  //
+#define CHARAID_STAGESELECT     0xd2f6  // GV_StrCode("ステージセレクト")
 #define CHARAID_SMKTRGT         0x175b  //
 #define CHARAID_TELOP           0x7ff7  // GV_StrCode("テロップ")
 #define CHARAID_TEXANIME        0xdcac  // GV_StrCode("テクスチャアニメ")
@@ -475,7 +475,7 @@
 #define CHARAID_000B_BULLET     0x000b
 #define CHARAID_000C            0x000c
 #define CHARAID_000D_D_BLOODS   0x000d
-#define CHARAID_000E            0x000e
+#define CHARAID_000E_BREATH     0x000e
 #define CHARAID_000F_DEMOKAGE   0x000f
 #define CHARAID_0010_DEMOASI    0x0010
 #define CHARAID_0011            0x0011

@@ -866,9 +866,9 @@ void camera_800C8564(int arg0, int arg1, char *arg2)
     camera_800C8314(arg0, arg1);
 }
 
-void camera_800C85B8(int *arg0, int arg1, int arg2, int arg3)
+void camera_800C85B8(int *arg0, int r, int g, int b)
 {
-    arg0[3] = (arg1 | (arg2 << 8) | (arg3 << 16) | 0x64000000);
+    arg0[3] = (r | (g << 8) | (b << 16) | (GPU_CODE_SPRT << 24));
 }
 
 void camera_800C85D8(void)

@@ -12,7 +12,7 @@ The repository builds or aims to build the following artifacts:
 <table>
     <tbody>
         <tr>
-            <td colspan=2 align=center><b><code>SLPM_862.47</code> (main executable)</b></td>
+            <td colspan=2 align=center><b><code>SLPM_862.47</code>/<code>SLPM_862.48</code> (main executable)</b></td>
         </tr>
         <tr>
             <td><b>Status</b></td>
@@ -29,22 +29,6 @@ The repository builds or aims to build the following artifacts:
         <tr>
             <td><b>Building</b></td>
             <td><code>python build.py</code></td>
-        </tr>
-        <tr>
-            <td colspan=2 align=center><b><code>SLPM_862.48</code> (main executable)</b></td>
-        </tr>
-        <tr>
-            <td><b>Status</b></td>
-            <td rowspan=4><b>✔️ 100% decompiled!</b> Identical to <code>SLPM_862.47</code> (main executable).</td>
-        </tr>
-        <tr>
-            <td><b>Size</b></td>
-        </tr>
-        <tr>
-            <td><b>SHA256</b></td>
-        </tr>
-        <tr>
-            <td><b>Building</b></td>
         </tr>
         <tr>
             <td colspan=2 align=center><b><code>SLPM_862.49</code> (main executable)</b></td>
@@ -75,7 +59,7 @@ The repository builds or aims to build the following artifacts:
 <table>
     <tbody>
         <tr>
-            <td colspan=2 align=center><b>Overlays on <code>SLPM-86247</code></b></td>
+            <td colspan=2 align=center><b>Overlays on <code>SLPM-86247</code>/<code>SLPM-86248</code></b></td>
         </tr>
         <tr>
             <td><b>Status</b></td>
@@ -1020,13 +1004,6 @@ Individual overlay SHA256:
     </table>
 </details>
 </td>
-        </tr>
-        <tr>
-            <td colspan=2 align=center><b>Overlays on <code>SLPM-86248</code></b></td>
-        </tr>
-        <tr>
-            <td><b>Status</b></td>
-            <td>Identical to <code>SLPM-86247</code> overlays.</td>
         </tr>
         <tr>
             <td colspan=2 align=center><b>Overlays on <code>SLPM-86249</code></b></td>

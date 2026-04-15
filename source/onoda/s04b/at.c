@@ -1,4 +1,10 @@
+#include "at.h"
+
 #include <stdio.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
@@ -6,6 +12,12 @@
 #include "game/game.h"
 #include "linkvar.h"
 #include "okajima/blood.h"
+
+/*---------------------------------------------------------------------------*/
+
+#define EXEC_LEVEL      GV_ACTOR_LEVEL5
+#define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND \
+                        | DG_FLAG_SHADE | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE )
 
 typedef struct _AtWork
 {
@@ -32,13 +44,14 @@ typedef struct _AtWork
     int            update;
 } AtWork;
 
+/*---------------------------------------------------------------------------*/
+
 char    at_lifebar_name[] = "BAKER";
 SVECTOR at_bloodpos = {0, 0, 100, 0};
 SVECTOR at_bloodrot = {-1024, 0, 0, 0};
 SVECTOR at_target_size = {400, 900, 400, 0};
 
-#define EXEC_LEVEL      GV_ACTOR_LEVEL5
-#define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE )
+/*---------------------------------------------------------------------------*/
 
 static void SetBlood(AtWork *work, int index, int count)
 {
@@ -298,6 +311,8 @@ static int GetResources(AtWork *work, int name, int map)
 
     return 0;
 }
+
+/*---------------------------------------------------------------------------*/
 
 void *NewArmsTechPresident(int name, int where)
 {

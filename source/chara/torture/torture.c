@@ -220,7 +220,7 @@ int s03b_torture_800C3F7C(GV_PAD *pad)
         return 0;
     }
 
-    if ((pad->status & (PAD_LEFT | PAD_DOWN | PAD_RIGHT | PAD_UP)) == 0)
+    if (!(pad->status & PAD_UDLR))
     {
         return 0;
     }

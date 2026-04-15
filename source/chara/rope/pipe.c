@@ -1,12 +1,24 @@
+#include "pipe.h"
+
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
-#include "game/vibrate.h"
-#include "bullet/blast.h"
+#include "game/vibrate.h"       // for NewPadVibration
+#include "bullet/blast.h"       // for NewBlast
 
-typedef struct PipeWork
+extern BLAST_DATA blast_data_8009F4B8[8]; // in bullet/blast.c
+
+/*---------------------------------------------------------------------------*/
+
+#define EXEC_LEVEL GV_ACTOR_AFTER
+
+typedef struct _Work
 {
     GV_ACT         actor;
     OBJECT_NO_ROTS object;
@@ -17,17 +29,15 @@ typedef struct PipeWork
     int            where;
     int            counter;
     int            counter2;
-} PipeWork;
+} Work;
 
-#define EXEC_LEVEL GV_ACTOR_AFTER
+/*---------------------------------------------------------------------------*/
 
 unsigned char pipe_vibration1_800C3360[] = {0x7F, 0x02, 0x00, 0x00};
 unsigned char pipe_vibration2_800C3364[] = {0xAF, 0x04, 0x41, 0x04, 0x00, 0x00, 0x00, 0x00};
 
-extern BLAST_DATA blast_data_8009F4B8[8];
-
 // Duplicate of Snake03c2GetRaise_800CDB78
-int PipeGetRaise_800CE058(DG_MDL *mdl)
+static int GetRaise(DG_MDL *mdl)
 {
     unsigned int flags;
     int          raise;
@@ -46,7 +56,7 @@ int PipeGetRaise_800CE058(DG_MDL *mdl)
 }
 
 // Modified Snake03c2_800CDBC8
-int Pipe_800CE0A8(PipeWork *work)
+static int Pipe_800CE0A8(Work *work)
 {
     DG_MDL  *mdl, *mdl2;
     DG_OBJ  *obj;
@@ -81,14 +91,14 @@ int Pipe_800CE0A8(PipeWork *work)
             obj->extend = &objs->objs[mdl2->extend];
         }
 
-        obj->raise = PipeGetRaise_800CE058(mdl);
+        obj->raise = GetRaise(mdl);
         obj->n_packs = mdl2->n_faces;
     }
 
     return 0;
 }
 
-void Pipe_800CE1B8(PipeWork *work)
+static void Pipe_800CE1B8(Work *work)
 {
     MATRIX mat;
 
@@ -112,7 +122,7 @@ void Pipe_800CE1B8(PipeWork *work)
     }
 }
 
-void PipeAct_800CE2A4(PipeWork *work)
+static void Act(Work *work)
 {
     MATRIX mat;
 
@@ -149,7 +159,7 @@ void PipeAct_800CE2A4(PipeWork *work)
     }
 }
 
-void PipeDie_800CE404(PipeWork *work)
+static void Die(Work *work)
 {
     GM_FreeObject((OBJECT *)&work->object);
 
@@ -159,7 +169,7 @@ void PipeDie_800CE404(PipeWork *work)
     }
 }
 
-int PipeInitTarget_800CE444(PipeWork *work)
+static int InitTarget(Work *work)
 {
     SVECTOR svec1, svec2;
     TARGET *target;
@@ -185,7 +195,7 @@ int PipeInitTarget_800CE444(PipeWork *work)
     return 0;
 }
 
-void PipeGetInts_800CE52C(PipeWork *work)
+static void GetInts(Work *work)
 {
     int    i;
     short *out;
@@ -210,14 +220,14 @@ void PipeGetInts_800CE52C(PipeWork *work)
     }
 }
 
-int PipeInitObject_800CE5A4(PipeWork *work)
+static int InitObject(Work *work)
 {
     SVECTOR         svec1, svec2;
     MATRIX          world;
     OBJECT_NO_ROTS *object;
     int             i;
 
-    PipeGetInts_800CE52C(work);
+    GetInts(work);
 
     object = &work->object;
     GM_InitObjectNoRots(object, work->model_ids[0], 0x6D, 0);
@@ -239,16 +249,16 @@ int PipeInitObject_800CE5A4(PipeWork *work)
     return 0;
 }
 
-int PipeGetResources_800CE6DC(PipeWork *work, int name, int where)
+static int GetResources(Work *work, int name, int where)
 {
     GM_CurrentMap = where;
 
-    if (PipeInitTarget_800CE444(work) < 0)
+    if (InitTarget(work) < 0)
     {
         return -1;
     }
 
-    if (PipeInitObject_800CE5A4(work) < 0)
+    if (InitObject(work) < 0)
     {
         return -1;
     }
@@ -258,18 +268,20 @@ int PipeGetResources_800CE6DC(PipeWork *work, int name, int where)
     return 0;
 }
 
-void *NewPipe_800CE73C(int name, int where, int argc, char **argv)
-{
-    PipeWork *work;
+/*---------------------------------------------------------------------------*/
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(PipeWork));
+void *NewPipe(int name, int where, int argc, char **argv)
+{
+    Work *work;
+
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work == NULL)
     {
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, PipeAct_800CE2A4, PipeDie_800CE404, "pipe.c");
-    if (PipeGetResources_800CE6DC(work, name, where) < 0)
+    GV_SetNamedActor(&work->actor, Act, Die, "pipe.c");
+    if (GetResources(work, name, where) < 0)
     {
         GV_DestroyActor(&work->actor);
         return NULL;
