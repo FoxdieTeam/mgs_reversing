@@ -2,7 +2,7 @@
 #include "charalst.h"
 
 CHARA _StageCharacterEntries[] = {
-    CHARA_SELECT,       /* chara ステージセレクト */
+    CHARA_STAGESELECT,  /* chara ステージセレクト */
     CHARA_VIBEDITOR,
 
     CHARA_END

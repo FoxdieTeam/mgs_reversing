@@ -7,7 +7,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_ASIOTOKUN,    /* chara 足音君 */
     CHARA_FADEIO,       /* chara 白黒フェド */
     CHARA_DYNWALL,      /* chara 透明壁 */
-    CHARA_SELECT,       /* chara ステージセレクト */
+    CHARA_STAGESELECT,  /* chara ステージセレクト */
     CHARA_VIBEDITOR,
     CHARA_RIPPLES,
     CHARA_PADCONTROL,   /* chara パッドコントロール */
