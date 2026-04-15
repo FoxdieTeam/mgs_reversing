@@ -7,11 +7,6 @@
 
 // Modified versions of functions from libdg
 
-extern int s12c_dword_800DA414;
-extern int s12c_dword_800DA418;
-extern int s12c_dword_800DA41C;
-extern int s12c_dword_800DA420;
-extern int s12c_dword_800DA424;
 extern int s12c_800DA428;
 extern int s12c_800DA42C;
 extern int s12c_800DA430;

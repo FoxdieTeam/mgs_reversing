@@ -16,7 +16,9 @@ extern BLAST_DATA blast_data_8009F4B8[8]; // in bullet/blast.c
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL GV_ACTOR_AFTER
+#define EXEC_LEVEL  GV_ACTOR_AFTER
+
+#define MODEL_FLAG  ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE )
 
 typedef struct _Work
 {
@@ -24,8 +26,8 @@ typedef struct _Work
     OBJECT_NO_ROTS object;
     MATRIX         light[2];
     TARGET        *target;
-    SVECTOR        svec;
-    unsigned short model_ids[2];
+    SVECTOR        pos;
+    u_short        models[2];
     int            where;
     int            counter;
     int            counter2;
@@ -36,7 +38,6 @@ typedef struct _Work
 unsigned char pipe_vibration1_800C3360[] = {0x7F, 0x02, 0x00, 0x00};
 unsigned char pipe_vibration2_800C3364[] = {0xAF, 0x04, 0x41, 0x04, 0x00, 0x00, 0x00, 0x00};
 
-// Duplicate of Snake03c2GetRaise_800CDB78
 static int GetRaise(DG_MDL *mdl)
 {
     unsigned int flags;
@@ -55,8 +56,7 @@ static int GetRaise(DG_MDL *mdl)
     return raise;
 }
 
-// Modified Snake03c2_800CDBC8
-static int Pipe_800CE0A8(Work *work)
+static int SwitchModel(Work *work)
 {
     DG_MDL  *mdl, *mdl2;
     DG_OBJ  *obj;
@@ -72,7 +72,7 @@ static int Pipe_800CE0A8(Work *work)
         DG_FreeObjPacket(obj, 1);
     }
 
-    objs->def = GV_GetCache(GV_CacheID(work->model_ids[1], 'k'));
+    objs->def = GV_GetCache(GV_CacheID(work->models[1], 'k'));
 
     count = objs->def->n_models;
     mdl = objs->def->model;
@@ -98,7 +98,7 @@ static int Pipe_800CE0A8(Work *work)
     return 0;
 }
 
-static void Pipe_800CE1B8(Work *work)
+static void Destroy(Work *work)
 {
     MATRIX mat;
 
@@ -106,9 +106,9 @@ static void Pipe_800CE1B8(Work *work)
     {
         mat = DG_ZeroMatrix;
 
-        mat.t[0] = work->svec.vx;
-        mat.t[1] = work->svec.vy;
-        mat.t[2] = work->svec.vz;
+        mat.t[0] = work->pos.vx;
+        mat.t[1] = work->pos.vy;
+        mat.t[2] = work->pos.vz;
 
         NewBlast(&mat, &blast_data_8009F4B8[1]);
         NewPadVibration(pipe_vibration1_800C3360, 1);
@@ -117,7 +117,7 @@ static void Pipe_800CE1B8(Work *work)
         GM_FreeTarget(work->target);
         work->target = NULL;
         work->counter2 = 1;
-        Pipe_800CE0A8(work);
+        SwitchModel(work);
         work->counter = 0;
     }
 }
@@ -130,12 +130,12 @@ static void Act(Work *work)
     if (work->counter < 4)
     {
         work->counter++;
-        DG_GetLightMatrix2(&work->svec, work->light);
+        DG_GetLightMatrix2(&work->pos, work->light);
     }
 
     if (work->counter2 == 0)
     {
-        Pipe_800CE1B8(work);
+        Destroy(work);
     }
     else if (work->counter2 < 16)
     {
@@ -144,13 +144,13 @@ static void Act(Work *work)
         {
             mat = DG_ZeroMatrix;
 
-            mat.t[0] = work->svec.vx;
-            mat.t[1] = work->svec.vy;
-            mat.t[2] = work->svec.vz;
+            mat.t[0] = work->pos.vx;
+            mat.t[1] = work->pos.vy;
+            mat.t[2] = work->pos.vz;
 
-            mat.t[0] += GV_RandS(0x800);
-            mat.t[1] += GV_RandS(0x800);
-            mat.t[2] += GV_RandS(0x800);
+            mat.t[0] += GV_RandS(2048);
+            mat.t[1] += GV_RandS(2048);
+            mat.t[2] += GV_RandS(2048);
 
             NewBlast(&mat, &blast_data_8009F4B8[1]);
             NewPadVibration(pipe_vibration1_800C3360, 1);
@@ -171,15 +171,15 @@ static void Die(Work *work)
 
 static int InitTarget(Work *work)
 {
-    SVECTOR svec1, svec2;
+    SVECTOR size, pos;
     TARGET *target;
 
-    svec1.vx = 1500;
-    svec1.vy = 750;
-    svec1.vz = 4000;
+    size.vx = 1500;
+    size.vy = 750;
+    size.vz = 4000;
 
-    GCL_StrToSV(GCL_GetOption('t'), &svec2);
-    work->svec = svec2;
+    GCL_StrToSV(GCL_GetOption('t'), &pos);
+    work->pos = pos;
 
     work->target = target = GM_AllocTarget();
     if (target == NULL)
@@ -187,9 +187,9 @@ static int InitTarget(Work *work)
         return -1;
     }
 
-    GM_SetTarget(target, 0x14, 1, &svec1);
+    GM_SetTarget(target, ( TARGET_POWER | TARGET_SEEK ), PLAYER_SIDE, &size);
     GM_Target_8002DCCC(target, 1, 0, 1, -1, &DG_ZeroVector);
-    GM_MoveTarget(target, &work->svec);
+    GM_MoveTarget(target, &work->pos);
 
     work->counter = 0;
     return 0;
@@ -207,7 +207,7 @@ static void GetInts(Work *work)
     }
 
     i = 0;
-    out = work->model_ids;
+    out = work->models;
     while ((res = GCL_GetParamResult()))
     {
         if (i == 2)
@@ -222,7 +222,7 @@ static void GetInts(Work *work)
 
 static int InitObject(Work *work)
 {
-    SVECTOR         svec1, svec2;
+    SVECTOR         dir, pos;
     MATRIX          world;
     OBJECT_NO_ROTS *object;
     int             i;
@@ -230,12 +230,12 @@ static int InitObject(Work *work)
     GetInts(work);
 
     object = &work->object;
-    GM_InitObjectNoRots(object, work->model_ids[0], 0x6D, 0);
+    GM_InitObjectNoRots(object, work->models[0], MODEL_FLAG, 0);
     GM_ConfigObjectLight((OBJECT *)object, work->light);
 
-    GCL_StrToSV(GCL_GetOption('d'), &svec1);
-    GCL_StrToSV(GCL_GetOption('p'), &svec2);
-    DG_SetPos2(&svec2, &svec1);
+    GCL_StrToSV(GCL_GetOption('d'), &dir);
+    GCL_StrToSV(GCL_GetOption('p'), &pos);
+    DG_SetPos2(&pos, &dir);
 
     ReadRotMatrix(&world);
     work->object.objs->world = world;
