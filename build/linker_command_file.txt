@@ -2105,9 +2105,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\okajima\mouse.obj", overlay
     include "{{OBJ_DIR}}\okajima\pato_lmp.obj", overlay
     include "{{OBJ_DIR}}\okajima\guncame.obj", overlay
-
-    include "{{OBJ_DIR}}\overlays\s13a\overlay2.obj", overlay
-
     include "{{OBJ_DIR}}\anime\effect\socom.obj", overlay
     include "{{OBJ_DIR}}\okajima\smktrgt.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\smoke3.obj", overlay
