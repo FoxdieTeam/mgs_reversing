@@ -50,20 +50,6 @@ int s11d_dword_800C3314 = 0x00000BA4;
 int s11d_dword_800C3318 = 0x01180118;
 int s11d_dword_800C331C = 0x00000118;
 int s11d_dword_800C3320 = 0x00000024;
-int s11d_dword_800C3324 = 0x00000000;
-int s11d_dword_800C3328 = 0x00000000;
-int s11d_dword_800C332C = 0xFFFFFFFF;
-int s11d_dword_800C3330 = 0xFFFFFFFF;
-int s11d_dword_800C3334 = 0x00000000;
-int s11d_dword_800C3338 = 0x00000000;
-int s11d_dword_800C333C = 0x00000000;
-int s11d_dword_800C3340 = 0x00000000;
-int s11d_dword_800C3344 = 0x00000000;
-int s11d_dword_800C3348 = 0x0000027F;
-int s11d_dword_800C334C = 0x000002FF;
-int s11d_dword_800C3350 = 0x00000000;
-int s11d_dword_800C3354 = 0x00000000;
-int s11d_dword_800C3358 = 0x00000000;
 
 
 const char s11d_aTosi_800D1D5C[] = "to_s11i";
@@ -124,24 +110,9 @@ const char s11d_aSmoke_800D1E64[] = "smoke";
 const char s11d_dword_800D1E6C[] = {'d', 's', 'm', 'o'};
 const char s11d_dword_800D1E70[] = {'k', 'e', '2', '.'};
 const char s11d_dword_800D1E74[] = {'c', 0x0, 'c', 0x94};
-const char s11d_aTimeoutd_800D1E78[] = "timeout %d\n";
-const char s11d_aShadow_800D1E84[] = "shadow";
-const char s11d_aWire_800D1E8C[] = "wire";
-const char s11d_aSnake_800D1E94[] = "snake";
-const char s11d_aSned_800D1E9C[] = "sne_11d2";
-const char s11d_dword_800D1EA8[] = {'l', 'a', 'n', 'd'};
-const char s11d_dword_800D1EAC[] = {'i', 'n', 'g', '.'};
-const char s11d_dword_800D1EB0[] = {'c', 0x0, 'c', 0x94};
-
 
 int SECTION(".bss") s11d_dword_800D1F78;
 int SECTION(".bss") s11d_dword_800D1F7C;
 int SECTION(".bss") s11d_dword_800D1F80;
 int SECTION(".bss") s11d_dword_800D1F84;
 int SECTION(".bss") s11d_dword_800D1F88;
-int SECTION(".bss") s11d_dword_800D1F8C;
-int SECTION(".bss") s11d_dword_800D1F90;
-int SECTION(".bss") s11d_dword_800D1F94;
-int SECTION(".bss") s11d_dword_800D1F98;
-int SECTION(".bss") s11d_dword_800D1F9C;
-int SECTION(".bss") s11d_dword_800D1FA0;
