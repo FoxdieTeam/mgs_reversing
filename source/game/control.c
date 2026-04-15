@@ -10,7 +10,7 @@
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
-#include "game/map.h"
+#include "game.h"
 #include "strcode.h"
 
 int SECTION(".sbss") GM_CurrentMap;
