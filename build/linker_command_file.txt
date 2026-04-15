@@ -1067,9 +1067,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\enemy\wall.obj", overlay
     include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
     include "{{OBJ_DIR}}\okajima\guncame.obj", overlay
-
-    include "{{OBJ_DIR}}\overlays\s16a\overlay2.obj", overlay
-
     include "{{OBJ_DIR}}\anime\effect\socom.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
     include "{{OBJ_DIR}}\okajima\key_item.obj", overlay
