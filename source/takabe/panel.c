@@ -121,7 +121,7 @@ void PanelAct_800D1E58(PanelWork *work)
         return;
     }
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     target = work->target;
     if ((target->damaged & TARGET_POWER) && (work->f86 == 0))
@@ -222,7 +222,7 @@ int PanelGetResources_800D210C(PanelWork *work, int name, int map)
     DG_TEX  *tex;
     int      rotate;
 
-    GM_CurrentMap = map;
+    GM_SetCurrentMap(map);
 
     e12.vx = 0;
     e12.vy = 0;

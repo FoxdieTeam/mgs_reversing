@@ -99,7 +99,7 @@ void s19b_jblood_800C8BEC(Work *work)
     int      time;
     DG_PRIM *prim;
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     time = --work->field_2A8;
     if (time <= 0)

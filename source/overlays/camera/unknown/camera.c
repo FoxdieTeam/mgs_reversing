@@ -1017,7 +1017,7 @@ int CameraGetResources_800CE6EC(CameraWork *work, int map)
     POLY_FT4 *poly;
     int       i;
 
-    GM_CurrentMap = map;
+    GM_SetCurrentMap(map);
 
     work->prim1 = GM_MakePrim(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 4, NULL, NULL);
     work->prim2 = GM_MakePrim(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 9, NULL, NULL);

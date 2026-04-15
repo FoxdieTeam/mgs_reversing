@@ -132,7 +132,7 @@ static void Act(Work *work)
     int          i;
     S11ObjsObj2 *obj2;
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     if (work->f25A0 > 2)
     {
@@ -554,7 +554,7 @@ static int GetResources(Work *work, int map)
     work->f25A8 = 0;
 
     work->map = map;
-    GM_CurrentMap = map;
+    GM_SetCurrentMap(map);
 
     InitObjects(work);
 

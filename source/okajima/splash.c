@@ -115,7 +115,7 @@ void SplashAct_800C8BA8(SplashWork *work)
 {
     int time;
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     time = --work->time;
     if (work->time <= 0)

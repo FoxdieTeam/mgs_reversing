@@ -340,7 +340,7 @@ void PlasmaAct_800CC67C(PlasmaWork *work)
     SVECTOR       *base;
     SVECTOR       *verts;
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     if (work->f3AC != 255)
     {
@@ -544,7 +544,7 @@ int PlasmaGetResources_800CCD6C(PlasmaWork *work, int name, int map)
     work->name = name;
 
     work->map = map;
-    GM_CurrentMap = map;
+    GM_SetCurrentMap(map);
 
     opt = GCL_GetOption('b');
     if (opt == NULL)

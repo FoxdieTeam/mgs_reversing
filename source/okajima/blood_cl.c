@@ -126,7 +126,7 @@ static int GetResources(Work *work, int map)
     }
 
     work->map = map;
-    GM_CurrentMap = map;
+    GM_SetCurrentMap(map);
 
     for (i = 0; i < n_prims; i++)
     {

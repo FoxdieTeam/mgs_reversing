@@ -152,7 +152,7 @@ static int GetResources(Work *work, int map)
     }
 
     work->map = map;
-    GM_CurrentMap = map;
+    GM_SetCurrentMap(map);
 
     prim = GM_MakePrim(DG_PRIM_POLY_FT4, 1, work->verts, NULL);
     work->prim = prim;

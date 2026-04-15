@@ -210,7 +210,7 @@ static void Act(Work *work)
     unsigned int   xw;
     int            lhs, rhs;
 
-    GM_CurrentMap = work->field_24;
+    GM_SetCurrentMap(work->field_24);
     work->field_44++;
 
     mesg_list[0] = GV_StrCode("run");

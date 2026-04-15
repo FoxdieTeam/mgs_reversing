@@ -109,7 +109,7 @@ void RedAlertAct_800C45E4(RedAlrtWork *work)
     int     found;
     u_long *ot;
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     if (work->f6C == 1 && --work->f68 < 0)
     {
@@ -235,7 +235,7 @@ int d03a_red_alrt_800C4958(RedAlrtWork *work, int name, int map)
     work->name = name;
     work->map = map;
 
-    GM_CurrentMap = map;
+    GM_SetCurrentMap(map);
 
     opt = GCL_GetOption('t');
     if (opt != 0)

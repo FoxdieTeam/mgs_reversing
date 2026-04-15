@@ -127,7 +127,7 @@ static void UpdateTarget(AtWork *work)
 static void Act(AtWork *work)
 {
     DG_GetLightMatrix2(&work->control.mov, work->light);
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
     DG_SetPos(&work->body.objs->world);
 
     GM_ActObject2(&work->body);
@@ -226,7 +226,7 @@ static int GetResources(AtWork *work, int name, int map)
     OBJECT        *body;
     MENU_BAR_CONF *lifebar;
 
-    GM_CurrentMap = map;
+    GM_SetCurrentMap(map);
 
     work->state = 0;
 

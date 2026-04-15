@@ -109,7 +109,7 @@ static void Act(Work *work)
     short    shade;
     DG_PRIM *prim;
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     count = --work->count;
     if (count <= 0)

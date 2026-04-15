@@ -126,7 +126,7 @@ static void Act(Work *work)
 {
     MATRIX mat;
 
-    GM_CurrentMap = work->where;
+    GM_SetCurrentMap(work->where);
     if (work->counter < 4)
     {
         work->counter++;
@@ -251,7 +251,7 @@ static int InitObject(Work *work)
 
 static int GetResources(Work *work, int name, int where)
 {
-    GM_CurrentMap = where;
+    GM_SetCurrentMap(where);
 
     if (InitTarget(work) < 0)
     {

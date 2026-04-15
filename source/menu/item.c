@@ -1056,7 +1056,7 @@ void UpdateEnvironmentalEffects_8003C4EC(void)
                 blastData.field_C = 2000;
                 blastData.weapon = WP_Max;
 
-                GM_CurrentMap = GM_PlayerMap;
+                GM_SetCurrentMap(GM_PlayerMap);
 
                 mtx = DG_ZeroMatrix;
                 mtx.t[0] = GM_PlayerPosition.vx;

@@ -65,7 +65,7 @@ static void Act(Work *work)
     CheckMessage(work);
     if (work->field_54 != 1)
     {
-        GM_CurrentMap = work->control->map->index;
+        GM_SetCurrentMap(work->control->map->index);
         DG_GroupObjsEx(work->field_28.objs);
         if (work->field_24->objs->flag & DG_FLAG_INVISIBLE)
         {

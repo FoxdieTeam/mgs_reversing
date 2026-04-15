@@ -148,7 +148,7 @@ static int GetResources(PadDemoWork *work, int name, int map)
 {
     int filename;
 
-    GM_CurrentMap = map;
+    GM_SetCurrentMap(map);
 
     work->map = map;
     work->name = name;

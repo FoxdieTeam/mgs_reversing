@@ -249,7 +249,7 @@ static void Act(ItemWork *work)
     LINE_F4    *line;
     int         x, y;
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     if (work->message_full)
     {
@@ -375,7 +375,7 @@ static void Act(ItemWork *work)
     }
     else
     {
-        GM_CurrentMap = control->map->index;
+        GM_SetCurrentMap(control->map->index);
 
         if (work->message_full)
         {
@@ -639,7 +639,7 @@ static int GetResources(ItemWork *work, int name, int where)
     int             raise;
     DG_TEX         *tex;
 
-    GM_CurrentMap = where;
+    GM_SetCurrentMap(where);
     work->map = where;
 
     control = &work->control;

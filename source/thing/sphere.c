@@ -220,7 +220,7 @@ static int GetResources(Work *work, int map)
     int       index;
     POLY_FT4 *poly;
 
-    GM_CurrentMap = map;
+    GM_SetCurrentMap(map);
 
     opt = GCL_GetOption('c');
     GCL_StrToSV(opt, &color);

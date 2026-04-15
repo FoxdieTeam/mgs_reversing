@@ -105,7 +105,7 @@ static void Act(Work *work)
     SVECTOR *vec5;
     int     *vec6;
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     work->fD88++;
 
@@ -276,7 +276,7 @@ static int GetResources(Work *work, int map)
     int      index;
 
     work->map = map;
-    GM_CurrentMap = map;
+    GM_SetCurrentMap(map);
 
     CheckMessages(work);
 

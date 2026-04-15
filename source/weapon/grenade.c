@@ -91,7 +91,7 @@ static void Act( Work *work )
     SVECTOR       tenage_vec2;
     GV_ACT       *tenage;
 
-    GM_CurrentMap = work->control->map->index;
+    GM_SetCurrentMap( work->control->map->index );
     DG_GroupObjsEx( work->object.objs );
     parent_objs_flag = ( work->parent->objs->flag & 0xFF ) >> 7;
 

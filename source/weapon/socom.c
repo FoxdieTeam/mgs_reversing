@@ -241,7 +241,7 @@ static void Act( Work *work )
         return;
     }
 
-    GM_CurrentMap = work->control->map->index;
+    GM_SetCurrentMap( work->control->map->index );
 
     DG_GroupObjsEx( work->object.objs );
     DG_GroupPrim( work->prim1, DG_CurrentGroupID );

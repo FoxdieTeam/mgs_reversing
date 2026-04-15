@@ -95,7 +95,7 @@ static void Act(Work *work)
         GV_DestroyActor(&work->actor);
     }
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
     UpdatePacks(work);
 }
 

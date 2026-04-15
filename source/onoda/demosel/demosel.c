@@ -1411,7 +1411,7 @@ static int GetResources(Work *work, int map)
     int       i;
     POLY_FT4 *poly2;
 
-    GM_CurrentMap = map;
+    GM_SetCurrentMap(map);
 
     work->fDB8 = 832;
     work->fDBC = 256;

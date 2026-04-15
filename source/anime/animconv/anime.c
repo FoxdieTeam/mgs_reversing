@@ -1227,7 +1227,7 @@ static void Act(AnimeWork *work)
         ++item;
     }
     anime_act_helper_8005F094(work);
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
     if (work->world)
     {
         DG_SetPos(work->world);

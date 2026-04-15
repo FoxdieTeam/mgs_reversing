@@ -422,7 +422,7 @@ static void Act(Work *work)
     }
 
     GM_ActControl(&work->control);
-    GM_CurrentMap = work->where;
+    GM_SetCurrentMap(work->where);
     GM_ActObject2((OBJECT *)&work->object);
 
     pVecs = work->field_C0;

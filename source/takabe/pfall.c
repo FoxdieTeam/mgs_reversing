@@ -158,7 +158,7 @@ static void Act(Work *work)
     short time;
     short shade;
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     time = --work->time;
     if (time <= 0)

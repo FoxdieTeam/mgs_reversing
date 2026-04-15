@@ -38,7 +38,7 @@ void s15b_fall_spl_800C7B60(FallSplWork *work)
     SVECTOR pos;
     int     rand;
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
     rand = GV_RandU(0x100);
     pos.vx = work->limit[0].vx + (work->limit[1].vx - work->limit[0].vx) * rand / 256;
     pos.vy = work->limit[0].vy + (work->limit[1].vy - work->limit[0].vy) * rand / 256;

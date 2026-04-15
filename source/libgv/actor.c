@@ -185,7 +185,7 @@ void GV_ExecActorSystem(void)
                     current->act(current);
                 }
 
-                GM_CurrentMap = 0;
+                GM_SetCurrentMap(0);
                 // continue to the next actor until we reach the end of the list
                 actor = next;
                 if (!next)

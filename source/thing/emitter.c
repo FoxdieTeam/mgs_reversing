@@ -75,7 +75,7 @@ static int GetResources( Work *work, int map, int count )
 
     n = 1000;
 
-    GM_CurrentMap = map;
+    GM_SetCurrentMap(map);
 
     work->prim = GM_MakePrim( DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, count, work->vecs, &rect_800C3320 );
     prim = work->prim;

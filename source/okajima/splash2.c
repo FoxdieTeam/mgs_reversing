@@ -87,7 +87,7 @@ void Splash2Act_800DAF38( Work *work )
     int       i;
     int       x, y, z;
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     timer = --work->timer;
     if ( work->timer <= 0 )

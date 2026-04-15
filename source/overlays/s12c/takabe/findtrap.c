@@ -47,7 +47,7 @@ static void Act(Work *work)
 {
     int field_22;
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     switch (THING_Msg_CheckMessage(work->name, 4, msg_list))
     {
@@ -146,7 +146,7 @@ static void Die(Work *work)
 static int GetResources(Work *work, int name, int where)
 {
     work->name = name;
-    GM_CurrentMap = where;
+    GM_SetCurrentMap(where);
     work->map = where;
     THING_Gcl_GetSVector('p', &work->pos);
     work->proc_id = THING_Gcl_GetInt('e');

@@ -239,7 +239,7 @@ void CrowAct_800DDD08(CrowWork *work)
     int        rand3;
     int        i;
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     Crow_800DDB50(work);
 

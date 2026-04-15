@@ -61,7 +61,7 @@ static void Act(Work *work)
         return;
     }
 
-    GM_CurrentMap = work->where;
+    GM_SetCurrentMap(work->where);
 
     target = work->target;
     if (target != NULL)
@@ -124,7 +124,7 @@ static int GetResources(Work *work, int name, int where)
     pos = &work->pos;
 
     work->name = name;
-    GM_CurrentMap = where;
+    GM_SetCurrentMap(where);
     work->where = where;
 
     THING_Gcl_GetSVector('p', pos);

@@ -103,7 +103,7 @@ void WallSpaAct_800CB300(WallSpaWork *work)
     SVECTOR        speed;
     unsigned short hashes[2];
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     hashes[0] = GV_StrCode("はじめ");
     hashes[1] = GV_StrCode("やめ");
@@ -160,7 +160,7 @@ int WallSpaGetResources_800CB428(WallSpaWork *work, int name, int map)
     work->name = name;
 
     work->map = map;
-    GM_CurrentMap = map;
+    GM_SetCurrentMap(map);
 
     opt = GCL_GetOption('b');
     if (opt == NULL)

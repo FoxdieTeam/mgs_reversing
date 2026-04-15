@@ -100,7 +100,7 @@ static void Act(Work *work)
         break;
     }
 
-    GM_CurrentMap = GM_PlayerMap;
+    GM_SetCurrentMap(GM_PlayerMap);
 
     DG_SetPos(&work->world);
     DG_MovePos(&work->field_48);
@@ -141,7 +141,7 @@ static int GetResources(Work *work, MATRIX *world, SVECTOR *arg2)
     int             dir;
 
     obj = &work->body;
-    GM_CurrentMap = GM_PlayerMap;
+    GM_SetCurrentMap(GM_PlayerMap);
     GM_InitObjectNoRots(obj, BOX_MODEL, BODY_FLAG, 0);
     GM_ConfigObjectLight((OBJECT *)obj, work->light);
 

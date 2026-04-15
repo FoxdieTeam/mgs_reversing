@@ -73,7 +73,7 @@ static int CheckMessage(Work *work)
 
 static void Act(Work *work)
 {
-    GM_CurrentMap =  work->control->map->index;
+    GM_SetCurrentMap(work->control->map->index);
 
     DG_GroupObjsEx(work->object.objs);
 

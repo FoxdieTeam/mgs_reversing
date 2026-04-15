@@ -61,7 +61,7 @@ void HiyokoAct_800CFD44(HiyokoWork *work)
         work->pos.vz = work->world->t[2];
     }
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     rot = DG_ZeroVector;
     rot.vy = GV_Time * 256;

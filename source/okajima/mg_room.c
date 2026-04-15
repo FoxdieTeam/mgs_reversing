@@ -126,7 +126,7 @@ void MgRoom_800DAF34(MgRoom *work)
 
 void MgRoomAct_800DAFAC(MgRoom *work)
 {
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     MgRoom_800DADDC(work);
     MgRoom_800DAF34(work);

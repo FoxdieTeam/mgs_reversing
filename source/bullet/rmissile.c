@@ -479,7 +479,7 @@ static void rmissile_act_helper_8006C114(Work *work)
         DG_SetPos2(position, &work->control.rot);
         ReadRotMatrix(&rotation);
 
-        GM_CurrentMap = work->control.map->index;
+        GM_SetCurrentMap(work->control.map->index);
 
         if (GM_GameStatus & (STATE_PADRELEASE | STATE_PADDEMO | STATE_DEMO))
         {
@@ -638,7 +638,7 @@ static void Act(Work *work)
         /* player has unequipped the Nikita launcher */
         if (!work->field_112)
         {
-            GM_CurrentMap = work->control.map->index;
+            GM_SetCurrentMap(work->control.map->index);
             DG_SetPos2(&work->control.mov, &work->control.rot);
             ReadRotMatrix(&rotation);
 

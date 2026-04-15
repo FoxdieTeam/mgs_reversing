@@ -94,7 +94,7 @@ static void Act(Work *work)
     int          i;
     FLOOR_OBJ   *flap;
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     s01a_800E2364(&work->f164, &GM_PlayerControl->mov, &sp10);
 
@@ -335,7 +335,7 @@ static int GetResources(Work *work, int name, int map)
     int        xmax, xmin;
     int        zmax, zmin;
 
-    GM_CurrentMap = map;
+    GM_SetCurrentMap(map);
 
     THING_Gcl_GetSVector('p', &pos);
     THING_Gcl_GetSVector('d', &dir);

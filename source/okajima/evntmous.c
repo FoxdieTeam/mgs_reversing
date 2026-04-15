@@ -553,7 +553,7 @@ void EventMouseAct_800C9F14(EventmouseWork *work)
         GM_ConfigControlAttribute(control, RADAR_OFF);
     }
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     Eventmouse_800C98F0(work);
 

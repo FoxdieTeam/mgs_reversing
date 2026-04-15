@@ -24,7 +24,7 @@ static void Act(Work *work)
 {
     int time;
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
     time = ++work->time;
 
     if (time == 1)

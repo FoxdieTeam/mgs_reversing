@@ -791,7 +791,7 @@ void GunCame_Act_800C80F4(GunCameWork *work)
         DG_VisiblePrim(work->field_328);
     }
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     work->field_3FC.vx = (work->field_3FC.vx * 15 + work->field_3F4.vx) / 16;
     work->field_3FC.vy = (work->field_3FC.vy * 15 + work->field_3F4.vy) / 16;

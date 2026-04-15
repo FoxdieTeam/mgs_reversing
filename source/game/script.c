@@ -788,7 +788,7 @@ static int GM_Command_demo(unsigned char *top)
         cb_proc = 0;
     }
 
-    GM_CurrentMap = gBinds_800ABA60;
+    GM_SetCurrentMap(gBinds_800ABA60);
 
     if ( code >= 0 )
     {
@@ -1087,7 +1087,7 @@ static int GM_Command_demodebug(unsigned char *top)
         demodebug_finish_proc = -1;
     }
     tmp = GM_CurrentMap;
-    GM_CurrentMap = gBinds_800ABA60;
+    GM_SetCurrentMap(gBinds_800ABA60);
     if (filename)
     {
         demo = DM_ThreadFile(flags, filename);
@@ -1096,7 +1096,7 @@ static int GM_Command_demodebug(unsigned char *top)
     {
         demo = DM_ThreadStream(flags, ivar);
     }
-    GM_CurrentMap = tmp;
+    GM_SetCurrentMap(tmp);
     if (!demo)
     {
         printf("Error demo thread\n");

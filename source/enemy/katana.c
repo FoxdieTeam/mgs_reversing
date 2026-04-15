@@ -90,7 +90,7 @@ void s08c_katana_800C5100(KatanaWork *work)
 
 void KatanaAct_800C5210(KatanaWork *work)
 {
-    GM_CurrentMap = work->where;
+    GM_SetCurrentMap(work->where);
     s08c_katana_800C5040(work);
     s08c_katana_800C5100(work);
     if (*work->field_40 > 0)

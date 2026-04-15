@@ -164,7 +164,7 @@ void FlrSpaAct_800D0E24(FlrSpaWork *work)
 {
     unsigned short hashes[2];
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     hashes[0] = GV_StrCode("はじめ");
     hashes[1] = GV_StrCode("やめ");
@@ -199,7 +199,7 @@ int FlrSpaGetResources_800D0EC8(FlrSpaWork *work, int name, int map)
     work->name = name;
     work->map = map;
 
-    GM_CurrentMap = map;
+    GM_SetCurrentMap(map);
 
     opt = GCL_GetOption('t');
     if (opt != NULL)

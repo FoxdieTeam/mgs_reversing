@@ -482,7 +482,7 @@ static int GetResources(Work *work, int map)
     int        n_entries;
     DG_PRIM   *prim;
 
-    GM_CurrentMap = map;
+    GM_SetCurrentMap(map);
 
     Snow_800C5260(work->colors, 32);
 

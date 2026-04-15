@@ -454,7 +454,7 @@ void MouseAct_800D4904(MouseWork *work)
     TARGET     *target;
     OBJECT     *object;
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     entry = work->entries;
     for (i = 0; i < work->nentries; i++, entry++)

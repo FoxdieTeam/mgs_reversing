@@ -27,7 +27,7 @@ void MeltDieAct_800E0DC8(MeltDieWork *work)
 {
     SVECTOR svec;
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     if (--work->counter > 0)
     {

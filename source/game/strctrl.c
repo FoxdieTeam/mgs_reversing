@@ -36,7 +36,7 @@ static void Act( StreamCtrlWork *work )
     int sd_code;
     int stream_data;
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
     FS_StreamSync();
     switch ( work->field_20_state )
     {

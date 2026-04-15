@@ -402,7 +402,7 @@ static void Act(AsiatoWork *work)
             obj = &GM_PlayerBody->objs->objs[15];
         }
         RecordAsiatoPosition();
-        GM_CurrentMap = (*GM_WhereList)->map->index;
+        GM_SetCurrentMap((*GM_WhereList)->map->index);
         NewAsiatoChar(&obj->world, temp_v0, (*GM_WhereList)->levels[0], AsiatoPositions[48].vx - 1, work->field_20);
     }
 }

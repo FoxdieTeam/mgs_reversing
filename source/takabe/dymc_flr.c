@@ -109,7 +109,7 @@ static void InitFloor(HZD_FLR *flr, SVECTOR *pos)
 
 static void Act(Work *work)
 {
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
     if (THING_Msg_CheckMessage(work->name, 2, mesg_list) == 1)
     {
         GV_DestroyActor(&work->actor);
@@ -126,7 +126,7 @@ static int GetResources(Work *work, int name, int where)
     SVECTOR pos[4];
     int s_param;
 
-    GM_CurrentMap = where;
+    GM_SetCurrentMap(where);
     work->map = where;
     work->name = name;
 

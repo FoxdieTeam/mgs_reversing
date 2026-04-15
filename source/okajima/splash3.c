@@ -88,7 +88,7 @@ void Splash3Act_800C7F1C(Splash3Work *work)
     SVECTOR  *vec;
     int       x, y, z;
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     g = --work->time;
     if (work->time <= 0)

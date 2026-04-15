@@ -34,7 +34,7 @@ void SmokeLnAct_800CDB38(SmokeLnWork *work)
     SVECTOR pos;
     int     rnd;
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     if (--work->time < 0)
     {

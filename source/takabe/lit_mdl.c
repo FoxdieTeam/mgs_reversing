@@ -161,7 +161,7 @@ void s01a_lit_mdl_800E2928(LitMdlWork *work)
     int mat3;
     int field_C4;
 
-    GM_CurrentMap = work->field_20;
+    GM_SetCurrentMap(work->field_20);
     work->field_88_root = DG_ZeroMatrix;
 
     mat1 = work->field_A8->m[0][2];

@@ -690,7 +690,7 @@ static int GetResources(Work *work, int map)
     int       i, j;
     int       index;
 
-    GM_CurrentMap = map;
+    GM_SetCurrentMap(map);
 
     work->map = map;
     work->field_A814 = 832;

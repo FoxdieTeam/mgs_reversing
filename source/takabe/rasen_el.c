@@ -102,7 +102,7 @@ void RasenElAct_800CC454(RasenElWork *work)
     int       dy;
     int       status;
 
-    GM_CurrentMap = rasen_el_800D2CA4[rasen_800C3404];
+    GM_SetCurrentMap(rasen_el_800D2CA4[rasen_800C3404]);
 
     check = 0;
 
@@ -406,7 +406,7 @@ int RasenElGetResources_800CCB9C(RasenElWork *work, int name, int map)
     int     texid;
     int     f230;
 
-    GM_CurrentMap = map;
+    GM_SetCurrentMap(map);
 
     work->map = map;
     work->name = name;

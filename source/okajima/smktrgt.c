@@ -219,7 +219,7 @@ void SmktrgtAct_800DC19C(SmktrgtWork *work)
 
     if (work->map & GM_PlayerMap)
     {
-        GM_CurrentMap = work->map;
+        GM_SetCurrentMap(work->map);
 
         for (i = 0; i < work->f920; i++)
         {
@@ -235,7 +235,7 @@ int SmktrgtGetResources_800DC210(SmktrgtWork *work, int name, int map)
     int count;
 
     work->map = map;
-    GM_CurrentMap = map;
+    GM_SetCurrentMap(map);
 
     opt = GCL_GetOption('m');
     if (opt != NULL)

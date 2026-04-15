@@ -185,7 +185,7 @@ void GsplashAct_800D3E14(GsplashWork *work)
     short    shade;
     DG_PRIM *prim;
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     time = --work->fAB4;
     if (time <= 0)

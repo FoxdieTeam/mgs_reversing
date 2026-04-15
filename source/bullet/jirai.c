@@ -511,7 +511,7 @@ static int GetResources(JiraiWork *work, MATRIX *world, HZD_FLR *floor)
     control = &work->control;
     work->field_138_gcl = -1;
     work->field_13C_idx = -1;
-    GM_CurrentMap = map;
+    GM_SetCurrentMap(map);
     work->map = map;
     if (GM_InitControl(control, GM_Next_BulName_8004FBA0(), 0) < 0)
     {

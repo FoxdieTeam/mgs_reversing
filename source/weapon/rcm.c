@@ -127,7 +127,7 @@ static void Act(Work *work)
     DG_GroupObjsEx(work->object.objs);
     DG_GroupPrim(work->prim, DG_CurrentGroupID);
 
-    GM_CurrentMap = mapBit;
+    GM_SetCurrentMap(mapBit);
 
     if ((work->parent->objs->flag & DG_FLAG_INVISIBLE) || (GM_PlayerStatus & PLAYER_CB_BOX))
     {

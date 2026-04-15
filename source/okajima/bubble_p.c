@@ -122,7 +122,7 @@ static void UpdatePacks(Work *work)
 
 static void Act(Work *work)
 {
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     work->f7C++;
 

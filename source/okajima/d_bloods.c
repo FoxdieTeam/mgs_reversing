@@ -35,7 +35,7 @@ void DBloodsAct_800D50B4(DBloodsWork *work)
     int     iVar2;
     int     iVar4;
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     switch(work->f8C)
     {

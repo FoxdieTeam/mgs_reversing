@@ -948,7 +948,7 @@ static int s03e_evpanel_800C47D0(EvPanelWork *work, DG_PRIM **out, SVECTOR *vec,
 
 static int GetResources(EvPanelWork *work, int map, int name, int button_count)
 {
-    GM_CurrentMap = map;
+    GM_SetCurrentMap(map);
 
     if (!GCL_GetOption('p'))
     {

@@ -87,7 +87,7 @@ static void Act(BakudanWork *work)
         }
     }
 
-    GM_CurrentMap = work->map_index;
+    GM_SetCurrentMap(work->map_index);
 
     GM_ActObject2((OBJECT *)&work->kmd);
     DG_GetLightMatrix(&control->mov, work->light_mtx);

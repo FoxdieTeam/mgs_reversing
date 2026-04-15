@@ -48,7 +48,7 @@ static void Act(Work *work)
     int     flag;
     OBJECT *object;
 
-    GM_CurrentMap = work->where;
+    GM_SetCurrentMap(work->where);
 
     flag = THING_Msg_CheckMessage(work->name, 2, breakobj_msgs_800C36E8) == 0;
 
@@ -122,7 +122,7 @@ static int GetResources(Work *work, int name, int where)
     svec1 = &work->svec1;
 
     work->name = name;
-    GM_CurrentMap = where;
+    GM_SetCurrentMap(where);
     work->where = where;
 
     THING_Gcl_GetSVector('p', svec1);

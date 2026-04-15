@@ -54,7 +54,7 @@ static void Act(Work *work)
     SVECTOR *var_s2;
     int      dist;
 
-    GM_CurrentMap = work->control->map->index;
+    GM_SetCurrentMap(work->control->map->index);
 
     GM_ActObject2(&work->object);
 

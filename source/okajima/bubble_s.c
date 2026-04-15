@@ -199,7 +199,7 @@ static void Act(Work *work)
     int            interp;
     POLY_FT4      *poly;
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     work->fA0++;
 
@@ -358,7 +358,7 @@ static int GetResources(Work *work, int name, int map)
     work->name = name;
     work->map = map;
 
-    GM_CurrentMap = map;
+    GM_SetCurrentMap(map);
 
     opt = GCL_GetOption('b');
     if (opt != 0)

@@ -308,7 +308,7 @@ void WsurfaceAct_800DB564(WsurfaceWork *work)
 {
     unsigned short hashes[2];
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     hashes[0] = GV_StrCode("実行");
     hashes[1] = GV_StrCode("停止");
@@ -352,7 +352,7 @@ int WsurfaceGetResources_800DB684(WsurfaceWork *work, int name, int map)
     DG_PRIM *prim;
     int      i;
 
-    GM_CurrentMap = map;
+    GM_SetCurrentMap(map);
 
     THING_Gcl_GetSVector('p', &sp18);
 

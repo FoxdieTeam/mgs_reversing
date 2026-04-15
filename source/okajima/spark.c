@@ -220,7 +220,7 @@ static void Act(Work *work)
     int updated_f170;
     int lightRadius;
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     updated_f170 = work->f170_counter - 1;
     work->f170_counter = updated_f170;

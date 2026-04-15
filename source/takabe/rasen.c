@@ -307,7 +307,7 @@ void Rasen2Act_800CA79C(Rasen2Work *work)
 
         DG_SetCurrentGroup(mapid);
         playermap = GM_PlayerMap;
-        GM_CurrentMap = mapid;
+        GM_SetCurrentMap(mapid);
         GM_PlayerMap = mapid;
         GM_PlayerControl->map->used = 0;
         GM_PlayerControl->map = new_map;
@@ -435,7 +435,7 @@ int Rasen2GetResources_800CAC64(Rasen2Work *work, int name, int where)
         map = GM_FindMap(GCL_StrToInt(GCL_GetParamResult()))->index;
     }
 
-    GM_CurrentMap = map;
+    GM_SetCurrentMap(map);
     work->field_20 = map;
     work->field_24 = name;
 

@@ -81,7 +81,7 @@ void GlassAct_800D302C(GlassWork *work)
     int     check;
     int     size;
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     target = work->target;
     if (target->damaged & TARGET_POWER)
@@ -205,7 +205,7 @@ int GlassGetResources_800D335C(GlassWork *work, int name, int map)
     HZD_SEG *maxb;
     HZD_SEG *minb;
 
-    GM_CurrentMap = map;
+    GM_SetCurrentMap(map);
 
     THING_Gcl_GetSVector('p', &work->pos);
     THING_Gcl_GetSVector('d', &work->dir);

@@ -207,7 +207,7 @@ static void Act(Work *work)
 
     if (work->f140 == 0)
     {
-        GM_CurrentMap = work->map;
+        GM_SetCurrentMap(work->map);
 
         GV_AddVec3(&work->f24, &work->f2C, &sp38);
 

@@ -380,7 +380,7 @@ void PLamp_800CD570(PLampWork *work)
 
 void PLampAct_800CD5C0(PLampWork *work)
 {
-    GM_CurrentMap = work->where;
+    GM_SetCurrentMap(work->where);
     PLamp_800CD570(work);
     if (work->field_1D8 == 0 && (work->target->damaged & TARGET_POWER))
     {
@@ -426,7 +426,7 @@ int PLampGetResources_800CD6E4(PLampWork *work, int map, int n_verts)
     work->has_prims = 0;
     work->where = map;
 
-    GM_CurrentMap = map;
+    GM_SetCurrentMap(map);
 
     for (i = 0; i < 16; i++)
     {

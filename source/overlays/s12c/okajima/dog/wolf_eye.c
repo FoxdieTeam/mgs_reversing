@@ -48,7 +48,7 @@ void WolfEye_800D355C(POLY_FT4 *packs, int n_packs, DG_TEX *tex)
 
 void WolfEyeAct_800D35EC(WolfEyeWork *work)
 {
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     if (--work->timer < 0)
     {

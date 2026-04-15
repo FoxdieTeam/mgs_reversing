@@ -113,7 +113,7 @@ static void Act(Work *work)
     int temp_v0_2;
     short zoomLevel;
 
-    GM_CurrentMap = work->control->map->index;
+    GM_SetCurrentMap(work->control->map->index);
     DG_GroupObjsEx(work->object.objs);
 
     if (!(work->parent->objs->flag & DG_FLAG_INVISIBLE))

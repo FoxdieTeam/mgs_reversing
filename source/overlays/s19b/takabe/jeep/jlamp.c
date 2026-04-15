@@ -55,7 +55,7 @@ static void ShadePacks(DG_PRIM *prim, int shade, int index)
 
 static void Act(Work *work)
 {
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
     
     work->pos.vx += s19b_dword_800DE658.pos.vx;
     work->pos.vy += s19b_dword_800DE658.pos.vy;

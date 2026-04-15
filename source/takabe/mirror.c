@@ -78,7 +78,7 @@ void MirrorAct_800DFDDC(MirrorWork *work)
     long         *mtx_temp2;
 
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     n_msgs = GV_ReceiveMessage(work->name, &msg);
 
@@ -375,7 +375,7 @@ void MirrorDie_800E0670(MirrorWork *work)
 
 int MirrorGetResources_800E07F8(MirrorWork *work, int name, int map)
 {
-    GM_CurrentMap = map;
+    GM_SetCurrentMap(map);
 
     work->name = name;
     work->map = map;

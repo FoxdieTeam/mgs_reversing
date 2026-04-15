@@ -121,7 +121,7 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
     var_s6 = 0;
     var_s5 = 0;
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     found = THING_Msg_CheckMessage(work->name, 4, elevator_hash_800C3634);
     message = THING_Msg_GetResult();

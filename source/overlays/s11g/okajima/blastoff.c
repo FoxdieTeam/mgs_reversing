@@ -76,7 +76,7 @@ static void UpdatePrim(Work *work)
 
 static void Act(Work *work)
 {
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     work->field_2C = work->field_34;
     work->field_34 = *work->field_3C;

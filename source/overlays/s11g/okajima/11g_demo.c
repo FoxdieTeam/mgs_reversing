@@ -188,7 +188,7 @@ void s11g_11g_demo_800CB994(Work *work)
     int      temp;
     int      temp2;
     
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     GM_GameStatus |= 0x4A0040;
     GM_GameStatus |= 0x10000000;
@@ -515,7 +515,7 @@ static int GetResources(Work *work, int name, int map)
     sp50 = work->f366C;
     sp54 = work->f36B4;
 
-    GM_CurrentMap = map;
+    GM_SetCurrentMap(map);
 
     work->name = name;
     work->map = map;

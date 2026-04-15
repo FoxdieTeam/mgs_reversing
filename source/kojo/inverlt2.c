@@ -179,7 +179,7 @@ static void Act(Work *work)
     temp_s3 = work->fD4 - work->fD0;
     temp_lo = ((work->fD8 - temp_s3) * 100) / work->fD8;
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     if ((temp_lo == 0) && (work->fE8 == 0))
     {

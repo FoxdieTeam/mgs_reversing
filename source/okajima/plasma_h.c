@@ -236,7 +236,7 @@ static void Act(Work *work)
     int      len;
     SVECTOR *iter;
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     if (work->count > work->time)
     {

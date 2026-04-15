@@ -590,7 +590,7 @@ static void Act(Work *work)
 
     if (work->flags & 0x8000)
     {
-        GM_CurrentMap = work->control->map->index;
+        GM_SetCurrentMap(work->control->map->index);
         DG_GroupObjsEx(work->object.objs);
 
         if ((GM_PlayerStatus & PLAYER_NOT_SIGHT) != 0)

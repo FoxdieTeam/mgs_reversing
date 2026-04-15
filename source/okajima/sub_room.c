@@ -178,7 +178,7 @@ void SubRoom_800C7678(SubRoomWork *work)
 
 void SubRoomAct_800C7750(SubRoomWork *work)
 {
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     SubRoom_800C73E4(work);
     SubRoom_800C751C(work);

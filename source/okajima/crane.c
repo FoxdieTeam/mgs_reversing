@@ -665,7 +665,7 @@ void CraneAct_800D4C28(CraneWork *work)
     SVECTOR *rot;
     TARGET  *target;
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     hzd = GM_GetMap(work->map)->hzd;
 

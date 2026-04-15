@@ -59,7 +59,7 @@ static void Act(Work *work)
     MATRIX mtx;
     MATRIX *pMtx;
 
-    GM_CurrentMap = work->control->map->index;
+    GM_SetCurrentMap(work->control->map->index);
     DG_GroupObjsEx(work->obj.objs);
 
     mp5_flag = work->mp5_flag;

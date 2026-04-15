@@ -73,7 +73,7 @@ void DummyWallAct_800D6E64(DummyWallWork *work)
     OBJECT        *obj;
 
     target = work->field_148;
-    GM_CurrentMap = work->field_20;
+    GM_SetCurrentMap(work->field_20);
 
     if ((target->damaged & TARGET_POWER || work->field_168 != 0) && work->field_164 == 0)
     {
@@ -168,7 +168,7 @@ int DummyWallGetResources_800D7178(DummyWallWork *work, int name, int where)
     OBJECT  *obj;
     int      param1, param2;
 
-    GM_CurrentMap = where;
+    GM_SetCurrentMap(where);
     work->field_20 = where;
 
     svec3 = &work->field_14C;

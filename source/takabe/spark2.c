@@ -150,7 +150,7 @@ void s03e_spark2_800CA428(Spark2Work *work)
     int      old_time;
     int      brightness;
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     if (work->time == 32)
     {

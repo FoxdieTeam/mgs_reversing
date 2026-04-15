@@ -403,7 +403,7 @@ static int GetResources(Work *work, int map)
 {
     int i;
 
-    GM_CurrentMap = map;
+    GM_SetCurrentMap(map);
 
     work->f188 = 0;
     InitWindowText(&work->kcb, work->m_rect.w, work->m_rect.h + 18, work);

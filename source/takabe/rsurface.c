@@ -45,7 +45,7 @@ void RippleSurfaceAct_800D7FC4(RSurfaceWork *work)
     RSurfaceElem *elem;
     SVECTOR      *field_4;
 
-    GM_CurrentMap = work->field_20;
+    GM_SetCurrentMap(work->field_20);
 
     s00a_rsurface_800D82E0(work);
 
@@ -87,7 +87,7 @@ void RippleSurfaceDie_800D8140(RSurfaceWork *work)
 
 int RippleSurfaceGetResources_800D8148(RSurfaceWork *work, int name, int where)
 {
-    GM_CurrentMap = where;
+    GM_SetCurrentMap(where);
     if (GCL_GetOption('p'))
     {
         GCL_StrToSV(GCL_GetParamResult(), &work->field_68);

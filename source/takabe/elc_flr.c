@@ -30,7 +30,7 @@ void ElcFlrAct_800D47CC(ElcFlrWork *work)
     int     i, j;
     long   *iter2;
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     switch (THING_Msg_CheckMessage(work->name, 2, elc_flr_800C36DC))
     {
@@ -92,7 +92,7 @@ int ElcFlrGetResources_800D4988(ElcFlrWork *work, int name, int map)
 {
     OBJECT *object;
 
-    GM_CurrentMap = map;
+    GM_SetCurrentMap(map);
 
     work->map = map;
     work->name = name;

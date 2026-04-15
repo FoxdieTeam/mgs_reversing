@@ -21,7 +21,7 @@ static void Act(Work *work)
 {
     SVECTOR pos;
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     pos.vx = work->field_24.vx + (work->field_2C.vx - work->field_24.vx) * work->field_44 / work->field_40 + GV_RandS(32768) * work->field_34 / 32768;
     pos.vy = work->field_24.vy + (work->field_2C.vy - work->field_24.vy) * work->field_44 / work->field_40 + GV_RandS(32768) * work->field_34 / 32768;

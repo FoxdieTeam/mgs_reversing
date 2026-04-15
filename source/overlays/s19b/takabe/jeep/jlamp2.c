@@ -64,7 +64,7 @@ static void Act(Work *work)
     SVECTOR  *vertex;
     int       shade;
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     eye = &DG_Chanl(0)->eye;
 

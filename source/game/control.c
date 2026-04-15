@@ -84,7 +84,7 @@ int GM_InitControl(CONTROL *control, int scriptData, int scriptBinds)
 {
     MAP *pMapRec;
     const int mapId = scriptBinds ? scriptBinds : GM_CurrentMap;
-    GM_CurrentMap = mapId;
+    GM_SetCurrentMap(mapId);
 
     GV_ZeroMemory(control, sizeof(CONTROL));
 
@@ -336,7 +336,7 @@ void GM_ActControl(CONTROL *control)
 
     CheckMessage(control);
 
-    GM_CurrentMap = control->map->index;
+    GM_SetCurrentMap(control->map->index);
 
     if (control->step_size > 0)
     {

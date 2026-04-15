@@ -31,7 +31,7 @@ static unsigned short mesg_list[] = {HASH_ON2, HASH_OFF2};
 
 static void Act(Work *work)
 {
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     if (THING_Msg_CheckMessage(work->name, 2, mesg_list) == 1)
     {
@@ -51,7 +51,7 @@ static int GetResources(Work *work, int name, int where)
     HZD_SEG *seg;
     SVECTOR *vec;
 
-    GM_CurrentMap = where;
+    GM_SetCurrentMap(where);
 
     work->map = where;
     work->name = name;

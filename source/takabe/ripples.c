@@ -27,7 +27,7 @@ typedef struct _Work
 
 static void Act(Work *work)
 {
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
     if (--work->field_48 < 0)
     {
         NewRipple(&work->mat, work->scale);

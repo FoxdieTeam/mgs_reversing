@@ -179,7 +179,7 @@ void s13a_door2_800DD2EC(POLY_FT4 *packs0, POLY_FT4 *packs1, DG_TEX *tex)
 
 void Door2Act_800DD5C0(Door2Work *work)
 {
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     switch (THING_Msg_CheckMessage(work->name, 2, door2_800C37B4))
     {
@@ -258,7 +258,7 @@ int Door2GetResources_800DD7C8(Door2Work *work, int name, int map)
     DG_PRIM *prim2;
     DG_TEX  *tex;
 
-    GM_CurrentMap = map;
+    GM_SetCurrentMap(map);
 
     THING_Gcl_GetSVector('p', &work->pos);
 

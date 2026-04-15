@@ -229,7 +229,7 @@ STATIC void claymore_Act(ClaymoreWork *work)
     {
         int field_10C = work->field_10C;
 
-        GM_CurrentMap = work->field_20_map;
+        GM_SetCurrentMap(work->field_20_map);
         work->field_10C += 1500;
         if (work->field_10C < work->field_108)
         {

@@ -290,7 +290,7 @@ void IrCensAct_800D9EF8(IrCensWork *work)
     int      scale;
     int      len;
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     switch (THING_Msg_CheckMessage(work->name, 3, s02c_dword_800C3714))
     {
@@ -460,7 +460,7 @@ int IrCensGetResources_800DA418(IrCensWork *work, int name, int map)
     DG_PRIM *prim;
     DG_TEX  *tex;
 
-    GM_CurrentMap = map;
+    GM_SetCurrentMap(map);
 
     opt = GCL_GetOption('p');
     if (opt != NULL)

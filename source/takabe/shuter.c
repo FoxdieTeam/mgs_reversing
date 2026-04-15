@@ -60,7 +60,7 @@ void ShuterAct_800DF484(ShuterWork *work)
 {
     int found;
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     found = THING_Msg_CheckMessage(work->name, 2, shuter_msgs_800C3738);
     if (found == 0 && work->open != 1)
@@ -205,7 +205,7 @@ int ShuterGetResources_800DF7F4(ShuterWork *work, int name, int map)
     int      model;
     DG_MDL  *mdl;
 
-    GM_CurrentMap = map;
+    GM_SetCurrentMap(map);
 
     work->map = map;
     work->name = name;

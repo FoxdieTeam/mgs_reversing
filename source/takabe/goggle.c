@@ -107,7 +107,7 @@ static void Act(Work *work)
         new_map = work->control->map->index;
         DG_GroupObjsEx(work->object.objs);
 
-        GM_CurrentMap = new_map;
+        GM_SetCurrentMap(new_map);
         if (work->parent_obj->objs->flag & DG_FLAG_INVISIBLE)
         {
             DG_InvisibleObjs(work->object.objs);

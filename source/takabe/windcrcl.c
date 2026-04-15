@@ -130,7 +130,7 @@ void WindcrclAct_800CF414(WindcrclWork *work)
     int      cosv;
     int      sinv;
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     time = --work->time;
     if (time <= 0)

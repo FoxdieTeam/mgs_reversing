@@ -55,7 +55,7 @@ static void Act(Work *work)
     int      i;
     short    pos;
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
     if (++work->field_24 >= 48)
     {
         GV_DestroyActor(&work->actor);

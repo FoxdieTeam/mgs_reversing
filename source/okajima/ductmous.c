@@ -209,7 +209,7 @@ void Ductmouse_800DA5BC(DuctmouseWork *work)
 
 void DuctmouseAct_800DA978(DuctmouseWork *work)
 {
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     Ductmouse_800DA5BC(work);
 

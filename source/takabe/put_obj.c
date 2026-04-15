@@ -62,7 +62,7 @@ static int GetResources(Work *work, int name, int where)
     DG_OBJ   *objsIter2;
     DG_OBJ   *objsIter1;
 
-    GM_CurrentMap = where;
+    GM_SetCurrentMap(where);
     work->model_name = THING_Gcl_GetInt('m');
 
     def = GV_GetCache(GV_CacheID(work->model_name, 'k'));

@@ -635,7 +635,7 @@ static int GetResources( Work *work, int map )
 {
     int i;
 
-    GM_CurrentMap = map;
+    GM_SetCurrentMap(map);
 
     work->pad_data = &GV_PadData[ 2 ];
 

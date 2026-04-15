@@ -52,7 +52,7 @@ static void Act(ScnMarkWork *work)
     u_short hashes[7];
     int     found;
 
-    GM_CurrentMap = GM_PlayerMap;
+    GM_SetCurrentMap(GM_PlayerMap);
 
     hashes[0] = GV_StrCode("B_MARK");
     hashes[1] = GV_StrCode("Q_MARK");

@@ -50,7 +50,7 @@ void DeathSpAct_800CFE1C(DeathSpWork *work)
     int     i;
     int     index;
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     for (i = 0; i < 2; i++)
     {
@@ -134,7 +134,7 @@ int DeathSpGetResources_800D00F4(DeathSpWork *work, int name, int map)
     work->name = name;
     work->map = map;
 
-    GM_CurrentMap = map;
+    GM_SetCurrentMap(map);
 
     work->s_time = 0;
 

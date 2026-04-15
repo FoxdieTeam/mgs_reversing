@@ -282,7 +282,7 @@ static void Act(Asiato2Work *work)
 
     asiato2_800DD42C(work);
 
-    GM_CurrentMap = work->control->map->index;
+    GM_SetCurrentMap(work->control->map->index);
 
     NewAsiato2Char(world, which, work->control->levels[0], asiato2_800E4FC0.index - 1, work->f28, work->control->rot.vy, work->f30);
 }

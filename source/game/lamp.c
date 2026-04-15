@@ -278,7 +278,7 @@ static int GetResources(Work *work, int map, int name, int a3, int a4)
     int      param4;
     int      param5;
 
-    GM_CurrentMap = map;
+    GM_SetCurrentMap(map);
     GCL_StrToSV(GCL_GetParamResult(), &svec1);
     GCL_StrToSV(GCL_GetParamResult(), &svec2);
     param1 = GCL_GetNextParamValue();

@@ -39,7 +39,7 @@ void FogAct_800D4074(FogWork *work)
 {
     int scale;
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     scale = work->scale;
     scale += (255 - scale) * (GM_Camera.zoom - 360) / 3640;
@@ -61,7 +61,7 @@ int FogGetResources_800D4130(FogWork *work, int name, int map)
 
     work->name = name;
 
-    GM_CurrentMap = map;
+    GM_SetCurrentMap(map);
     work->map = map;
 
     temp_s2 = THING_Gcl_GetIntDefault('s', 50);

@@ -182,7 +182,7 @@ static int GetResources(work, pos, dir, def_model, map)
         break;
     }
 
-    GM_CurrentMap = map;
+    GM_SetCurrentMap(map);
     object = &work->object;
 
     if (!work->g_flag)

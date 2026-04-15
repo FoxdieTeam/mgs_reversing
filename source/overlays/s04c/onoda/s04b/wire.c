@@ -67,7 +67,7 @@ static void CheckWireCut(WireWork *work)
     int   px, pz;
     int   x, z;
 
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     px = GM_PlayerPosition.vx;
     pz = GM_PlayerPosition.vz;
@@ -322,7 +322,7 @@ static void CheckWireCut(WireWork *work)
 
 static void TriggerDetonation(WireWork *work)
 {
-    GM_CurrentMap = work->map;
+    GM_SetCurrentMap(work->map);
 
     switch (work->f166C)
     {

@@ -2374,7 +2374,7 @@ static int GetResources(OptionWork *work, int map)
     POLY_FT4 *po;
     int       i;
 
-    GM_CurrentMap = map;
+    GM_SetCurrentMap(map);
 
     work->field_24 = GM_MakePrim(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 27, NULL, NULL);
     work->field_28 = GM_MakePrim(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 9, NULL, NULL);
