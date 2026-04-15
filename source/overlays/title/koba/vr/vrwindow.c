@@ -62,7 +62,7 @@ int vrwindow_Y1 = 256;
 int vrwindow_X2 = 896;
 int vrwindow_Y2 = 510;
 
-extern char vrwindow_800D92D4[100];
+char SECTION(".bss") vrwindow_strbuf[100];
 
 /*---------------------------------------------------------------------------*/
 
@@ -156,14 +156,14 @@ static int PrintMessage(Work *work, int size)
 
         if (size < len)
         {
-            strncpy(vrwindow_800D92D4, work->b_text[work->f34 + i], size);
+            strncpy(vrwindow_strbuf, work->b_text[work->f34 + i], size);
 
             idx = work->f180;
             work->f180 = 0;
 
             while (idx < size)
             {
-                if ((work->f180 != 0) || (vrwindow_800D92D4[idx] > 0x1F && vrwindow_800D92D4[idx] < 0x7F))
+                if ((work->f180 != 0) || (vrwindow_strbuf[idx] > 0x1F && vrwindow_strbuf[idx] < 0x7F))
                 {
                     work->f180 = 0;
                 }
@@ -177,21 +177,21 @@ static int PrintMessage(Work *work, int size)
 
             if (size != 0 && work->f180 != 0)
             {
-                vrwindow_800D92D4[size - 1] = '\0';
+                vrwindow_strbuf[size - 1] = '\0';
                 work->f180 = size - 1;
             }
             else
             {
-                vrwindow_800D92D4[size] = '\0';
+                vrwindow_strbuf[size] = '\0';
                 work->f180 = size;
             }
 
-            if (work->f180 != 0 && vrwindow_800D92D4[work->f180 - 1] != ' ')
+            if (work->f180 != 0 && vrwindow_strbuf[work->f180 - 1] != ' ')
             {
                 GM_SeSet2(0, 63, 179);
             }
 
-            font_draw_string(&work->kcb, 0, i * 18, vrwindow_800D92D4, work->kcb.color);
+            font_draw_string(&work->kcb, 0, i * 18, vrwindow_strbuf, work->kcb.color);
             font_update(&work->kcb);
             break;
         }
