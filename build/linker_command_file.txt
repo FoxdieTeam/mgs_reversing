@@ -351,7 +351,8 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}.bin")
       OVERLAY == "s11g" or
       OVERLAY == "s15b" or
       OVERLAY == "s16b" or
-      OVERLAY == "s20a" or OVERLAY == "s20ar" %}
+      OVERLAY == "s20a" or OVERLAY == "s20ar" or 
+      OVERLAY == "title" %}
 
 {% if OVERLAY_SUFFIX == "lhs" %}
     section overlay.sbss,  overlay
