@@ -537,7 +537,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\title\overlay3.obj", overlay
 
     include "{{OBJ_DIR}}\onoda\change\met_logo.obj", overlay
-    include "{{OBJ_DIR}}\overlays\title\koba\vr\vrwindow.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrwindow.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libc2\STRNCPY.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libc2\EXIT.OBJ", overlay
