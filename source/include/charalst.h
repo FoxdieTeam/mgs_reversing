@@ -95,7 +95,7 @@
 #define CHARA_FEWDAMAGE         { 0x5d64, NewFewDamageSet }         // takabe/o2_damge.c
 #define CHARA_FINDTRAP          { 0x118c, NewFindTrap }             // GV_StrCode("発見トラップ") takabe/findtrap.c
 #define CHARA_FOG               { 0xd6fb, NewFog }                  // GV_StrCode("黒フォグ") takabe/fog.c
-#define CHARA_FONTTEXT          { 0x84e1, NewFonttext_800C446C }    // chara/others/fonttext.c
+#define CHARA_FONTTEXT          { 0x84e1, NewFontText }             // chara/others/fonttext.c
 #define CHARA_MOTIONSE          { 0x0fad, NewMotionSoundEffect }    // chara/others/motse.c
 #define CHARA_FURNACE           { 0xadd8, NewFurnace }              // GV_StrCode("溶鉱炉") takabe/furnace.c
 #define CHARA_GASDAMAGE         { 0x8d5a, NewGasDamage }            // GV_StrCode("ガスダメージ") takabe/gasdamge.c
@@ -416,7 +416,7 @@ void *NewHind();                        /* kojo/hind.c                  */
 void *s11d_hind_800CB708();             /* chara/hind/hind.c            */
 void *NewHind2();                       /* chara/hind2/hind2.c          */
 void *NewBelong();                      /* chara/others/belong.c        */
-void *NewFonttext_800C446C();           /* chara/others/fonttext.c      */
+void *NewFontText();                    /* chara/others/fonttext.c      */
 void *NewIntrudeCamera();               /* chara/others/intr_cam.c      */
 void *NewMotionSoundEffect();           /* chara/others/motse.c         */
 void *s11d_dsmoke2_800CCD54();          /* chara/rope/dsmoke2.c         */

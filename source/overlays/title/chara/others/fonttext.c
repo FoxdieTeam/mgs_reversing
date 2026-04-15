@@ -1,45 +1,53 @@
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
-#include "menu/menuman.h"
-#include "libdg/libdg.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
+#include "menu/menuman.h"
 #include "strcode.h"
+
+/*---------------------------------------------------------------------------*/
+
+#define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 typedef struct _Work
 {
     GV_ACT  actor;
     int     map;
     int     flags;
-    int     hash;
+    int     name;
     SVECTOR color;
-    SVECTOR position;
+    SVECTOR pos;
     char   *text;
     RECT    offset;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+/*---------------------------------------------------------------------------*/
 
 extern int fonttext_dword_800C32B0;
 
-int FonttextPollMessages_800C41EC( Work *work, int hash )
+static int CheckMessage( Work *work, int name )
 {
-    GV_MSG *message;
+    GV_MSG *msg;
     int     count;
 
-    count = GV_ReceiveMessage( hash, &message );
+    count = GV_ReceiveMessage( name, &msg );
     if ( count > 0 )
     {
-        for ( count--; count >= 0; count--, message++ )
+        for ( count--; count >= 0; count--, msg++ )
         {
-            if ( message->message[0] == HASH_KILL )
+            if ( msg->message[0] == HASH_KILL )
             {
                 return 1;
             }
 
-            if ( message->message[0] == 0xB84C )
+            if ( msg->message[0] == 0xB84C )
             {
-                work->offset.w = message->message[1];
-                work->offset.h = message->message[2];
+                work->offset.w = msg->message[1];
+                work->offset.h = msg->message[2];
             }
         }
     }
@@ -47,11 +55,11 @@ int FonttextPollMessages_800C41EC( Work *work, int hash )
     return 0;
 }
 
-void FonttextAct_800C4290( Work *work )
+static void Act( Work *work )
 {
     int x, y;
 
-    if ( FonttextPollMessages_800C41EC( work, work->hash ) || fonttext_dword_800C32B0 == work->hash )
+    if ( CheckMessage( work, work->name ) || fonttext_dword_800C32B0 == work->name )
     {
         fonttext_dword_800C32B0 = 0;
         GV_DestroyActor( &( work->actor ) );
@@ -61,7 +69,7 @@ void FonttextAct_800C4290( Work *work )
     x = work->offset.x;
     y = work->offset.y;
 
-    MENU_Locate( work->position.vx + x, work->position.vy + y, work->flags );
+    MENU_Locate( work->pos.vx + x, work->pos.vy + y, work->flags );
     MENU_Color( work->color.vx, work->color.vy, work->color.vz );
     MENU_Printf( "%s", work->text );
 
@@ -69,13 +77,14 @@ void FonttextAct_800C4290( Work *work )
     work->offset.y += work->offset.h;
 }
 
-void FonttextDie_800C4350( Work *work )
+static void Die( Work *work )
 {
+    /* do nothing */
 }
 
-int FonttextGetResources_800C4358( Work *work )
+static int GetResources( Work *work )
 {
-    SVECTOR position;
+    SVECTOR pos;
     int     flags;
 
     if ( !GCL_GetOption( 't' ) )
@@ -93,14 +102,14 @@ int FonttextGetResources_800C4358( Work *work )
 
     if ( GCL_GetOption( 'l' ) )
     {
-        GCL_ReadParamVector( &position );
+        GCL_ReadParamVector( &pos );
     }
     else
     {
-        position = DG_ZeroVector;
+        pos = DG_ZeroVector;
     }
 
-    work->position = position;
+    work->pos = pos;
 
     if ( GCL_GetOption( 'c' ) )
     {
@@ -117,23 +126,25 @@ int FonttextGetResources_800C4358( Work *work )
     return 0;
 }
 
-void *NewFonttext_800C446C( int name, int where )
+/*---------------------------------------------------------------------------*/
+
+void *NewFontText( int name, int where )
 {
     Work *work;
 
     work = GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
     if ( work != NULL )
     {
-        GV_SetNamedActor( &( work->actor ), FonttextAct_800C4290, FonttextDie_800C4350, "fonttext.c" );
+        GV_SetNamedActor( &( work->actor ), Act, Die, "fonttext.c" );
 
-        if ( FonttextGetResources_800C4358( work ) < 0 )
+        if ( GetResources( work ) < 0 )
         {
             GV_DestroyActor( &( work->actor ) );
             return NULL;
         }
 
         work->map = where;
-        work->hash = name;
+        work->name = name;
     }
 
     return (void *)work;
