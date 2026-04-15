@@ -2004,7 +2004,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s11d\s11d_info_800CDB5C.obj", overlay
 
     include "{{OBJ_DIR}}\chara\torture\info.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11d\chara\rope\pipe.obj", overlay
+    include "{{OBJ_DIR}}\chara\rope\pipe.obj", overlay
     include "{{OBJ_DIR}}\thing\snow.obj", overlay
     include "{{OBJ_DIR}}\thing\sphere.obj", overlay
     include "{{OBJ_DIR}}\enemy\asioto.obj", overlay

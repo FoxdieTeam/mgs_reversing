@@ -1,3 +1,5 @@
+#include "pipe.h"
+
 #include <sys/types.h>
 #include <libgte.h>
 #include <libgpu.h>
