@@ -1444,9 +1444,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "s11i" %}
     include "{{OBJ_DIR}}\stage\s11i.obj", overlay
-
-    include "{{OBJ_DIR}}\overlays\s11i\overlay2.obj", overlay
-
     include "{{OBJ_DIR}}\game\lamp.obj", overlay
     include "{{OBJ_DIR}}\chara\snake\breath.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
