@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 
 #include "common.h"
 #include "libgv/libgv.h"
@@ -9,19 +12,33 @@
 #include "game/game.h"
 #include "sound/g_sound.h"
 
-typedef struct VrwindowWork
+/*---------------------------------------------------------------------------*/
+
+#define EXEC_LEVEL              GV_ACTOR_LEVEL2
+
+#define VRWIN_STATE_0           0
+#define VRWIN_STATE_1           1
+#define VRWIN_STATE_2           2
+#define VRWIN_STATE_3           3
+#define VRWIN_STATE_4           4
+#define VRWIN_STATE_5           5
+#define VRWIN_STATE_CLOSED      6
+
+/*---------------------------------------------------------------------------*/
+
+typedef struct _Work
 {
     GV_ACT         actor;
-    RECT           f20;
-    RECT           f28;
-    short          f30;
+    RECT           m_rect;      // margin?
+    RECT           w_rect;      // window?
+    short          step;
     int            f34;
-    char           f38;
-    int            f3C;
-    char           f40;
-    char          *f44[16];
-    unsigned short name;
-    unsigned short clut;
+    char           state;
+    int            proc;
+    char           i_num;       // number of lines
+    char          *b_text[16];
+    u_short        name;
+    u_short        clut;
     KCB            kcb;
     SPRT           sprts[2];
     TILE           tiles[2];
@@ -31,23 +48,25 @@ typedef struct VrwindowWork
     int            f16C;
     char           pad[0x4];
     RECT           f174;
-    int            f17C;
+    int            flag;
     int            f180;
     void          *font_buffer;
     short          f188;
     short          f18A;
-} VrwindowWork;
+} Work;
 
-int vrwindow_800C3774 = 896;
-int vrwindow_800C3778 = 256;
-int vrwindow_800C377C = 896;
-int vrwindow_800C3780 = 510;
+/*---------------------------------------------------------------------------*/
 
-extern char vrwindow_800D92D4[];
+int vrwindow_X1 = 896;
+int vrwindow_Y1 = 256;
+int vrwindow_X2 = 896;
+int vrwindow_Y2 = 510;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL2
+extern char vrwindow_800D92D4[100];
 
-void Vrwindow_800D73A4(VrwindowWork *work, RECT *rect)
+/*---------------------------------------------------------------------------*/
+
+static void Vrwindow_800D73A4(Work *work, RECT *rect)
 {
     setXY0(&work->tiles[GV_Clock], rect->x, rect->y);
     setWH(&work->tiles[GV_Clock], rect->w, rect->h);
@@ -63,7 +82,7 @@ void Vrwindow_800D73A4(VrwindowWork *work, RECT *rect)
            rect->x + rect->w, rect->y + rect->h);
 }
 
-int Vrwindow_800D74AC(VrwindowWork *work)
+static int CheckMessage(Work *work)
 {
     GV_MSG *msg;
     int     n_msgs;
@@ -80,45 +99,45 @@ int Vrwindow_800D74AC(VrwindowWork *work)
     return 0;
 }
 
-void Vrwindow_800D7510(VrwindowWork *work)
+static void CloseWindow(Work *work)
 {
-    if (!(GV_PadData[2].status & 0xF0F0))
+    if (!(GV_PadData[2].status & (PAD_UDLR | PAD_ABXY)))
     {
         return;
     }
 
-    if (work->f3C != 0)
+    if (work->proc != 0)
     {
-        GCL_ExecProc(work->f3C, NULL);
+        GCL_ExecProc(work->proc, NULL);
     }
 
     GM_SeSet2(0, 63, SE_MENU_SELECT);
 
-    switch (work->f38)
+    switch (work->state)
     {
-    case 0:
-        work->f38 = 4;
-        work->f30 = 0;
+    case VRWIN_STATE_0:
+        work->state = VRWIN_STATE_4;
+        work->step = 0;
         break;
 
-    case 1:
-        work->f38 = 5;
-        work->f30 = 4 - work->f30;
+    case VRWIN_STATE_1:
+        work->state = VRWIN_STATE_5;
+        work->step = 4 - work->step;
         break;
 
-    case 2:
-        work->f38 = 4;
-        work->f30 = 4 - work->f30;
+    case VRWIN_STATE_2:
+        work->state = VRWIN_STATE_4;
+        work->step = 4 - work->step;
         break;
 
-    case 3:
-        work->f38 = 4;
-        work->f30 = 0;
+    case VRWIN_STATE_3:
+        work->state = VRWIN_STATE_4;
+        work->step = 0;
         break;
     }
 }
 
-int Vrwindow_800D75D8(VrwindowWork *work, int size)
+static int PrintMessage(Work *work, int size)
 {
     int i;
     int len;
@@ -128,16 +147,16 @@ int Vrwindow_800D75D8(VrwindowWork *work, int size)
 
     for (i = 0; i < work->f16C; i++)
     {
-        if (i >= work->f40)
+        if (i >= work->i_num)
         {
             break;
         }
 
-        len = strlen(work->f44[work->f34 + i]);
+        len = strlen(work->b_text[work->f34 + i]);
 
         if (size < len)
         {
-            strncpy(vrwindow_800D92D4, work->f44[work->f34 + i], size);
+            strncpy(vrwindow_800D92D4, work->b_text[work->f34 + i], size);
 
             idx = work->f180;
             work->f180 = 0;
@@ -177,14 +196,14 @@ int Vrwindow_800D75D8(VrwindowWork *work, int size)
             break;
         }
 
-        font_draw_string(&work->kcb, 0, i * 18, work->f44[work->f34 + i], work->kcb.color);
+        font_draw_string(&work->kcb, 0, i * 18, work->b_text[work->f34 + i], work->kcb.color);
         font_update(&work->kcb);
 
         size -= len;
         work->f180 = 0;
     }
 
-    if (i == work->f16C || i == work->f40)
+    if (i == work->f16C || i == work->i_num)
     {
         return 0;
     }
@@ -192,7 +211,7 @@ int Vrwindow_800D75D8(VrwindowWork *work, int size)
     return 1;
 }
 
-void VrwindowAct_800D7818(VrwindowWork *work)
+static void Act(Work *work)
 {
     RECT rect;
 
@@ -209,100 +228,100 @@ void VrwindowAct_800D7818(VrwindowWork *work)
         }
     }
 
-    switch(work->f38)
+    switch (work->state)
     {
-    case 0:
-        if (Vrwindow_800D74AC(work))
+    case VRWIN_STATE_0:
+        if (CheckMessage(work))
         {
-            work->f38 = 4;
+            work->state = VRWIN_STATE_4;
         }
 
         addPrim(DG_ChanlOTag(1), &work->sprts[GV_Clock]);
-        Vrwindow_800D7510(work);
+        CloseWindow(work);
         break;
 
-    case 1:
-        rect.w = (work->f28.w * work->f30) / 5;
+    case VRWIN_STATE_1:
+        rect.w = (work->w_rect.w * work->step) / 5;
         rect.h = 1;
-        rect.x = work->f28.x + (work->f28.w - rect.w) / 2;
-        rect.y = work->f28.y + work->f28.h / 2;
+        rect.x = work->w_rect.x + (work->w_rect.w - rect.w) / 2;
+        rect.y = work->w_rect.y + work->w_rect.h / 2;
         Vrwindow_800D73A4(work, &rect);
 
-        if (++work->f30 == 5)
+        if (++work->step == 5)
         {
-            work->f38 = 2;
-            work->f30 = 0;
+            work->state = VRWIN_STATE_2;
+            work->step = 0;
         }
 
-        Vrwindow_800D7510(work);
+        CloseWindow(work);
         break;
 
-    case 2:
-        rect.w = work->f28.w;
-        rect.h = work->f28.h * work->f30 / 4;
-        rect.x = work->f28.x;
-        rect.y = work->f28.y + (work->f28.h - rect.h) / 2;
+    case VRWIN_STATE_2:
+        rect.w = work->w_rect.w;
+        rect.h = work->w_rect.h * work->step / 4;
+        rect.x = work->w_rect.x;
+        rect.y = work->w_rect.y + (work->w_rect.h - rect.h) / 2;
         Vrwindow_800D73A4(work, &rect);
 
-        if (++work->f30 == 5)
+        if (++work->step == 5)
         {
-            work->f38 = 3;
-            work->f30 = 0;
+            work->state = VRWIN_STATE_3;
+            work->step = 0;
         }
 
-        Vrwindow_800D7510(work);
+        CloseWindow(work);
         break;
 
-    case 3:
-        work->f30 += 2;
-        if (!Vrwindow_800D75D8(work, work->f30))
+    case VRWIN_STATE_3:
+        work->step += 2;
+        if (!PrintMessage(work, work->step))
         {
-            work->f30 -= strlen(work->f44[work->f34]) * 2;
+            work->step -= strlen(work->b_text[work->f34]) * 2;
             work->f180 = 0;
 
-            if (work->f40 <= (work->f34++ + work->f16C))
+            if (work->i_num <= (work->f34++ + work->f16C))
             {
-                work->f38 = 0;
-                work->f30 = 0;
+                work->state = VRWIN_STATE_0;
+                work->step = 0;
             }
         }
 
-        Vrwindow_800D73A4(work, &work->f28);
+        Vrwindow_800D73A4(work, &work->w_rect);
 
         addPrim(DG_ChanlOTag(1), &work->sprts[GV_Clock]);
-        Vrwindow_800D7510(work);
+        CloseWindow(work);
         break;
 
-    case 4:
-        rect.w = work->f28.w;
-        rect.h = work->f28.h * (4 - work->f30) / 4;
-        rect.x = work->f28.x;
-        rect.y = work->f28.y + (work->f28.h - rect.h) / 2;
+    case VRWIN_STATE_4:
+        rect.w = work->w_rect.w;
+        rect.h = work->w_rect.h * (4 - work->step) / 4;
+        rect.x = work->w_rect.x;
+        rect.y = work->w_rect.y + (work->w_rect.h - rect.h) / 2;
         Vrwindow_800D73A4(work, &rect);
 
-        if (++work->f30 == 5)
+        if (++work->step == 5)
         {
-            work->f38 = 5;
-            work->f30 = 0;
+            work->state = VRWIN_STATE_5;
+            work->step = 0;
         }
         break;
 
-    case 5:
-        rect.w = work->f28.w * (4 - work->f30) / 4;
+    case VRWIN_STATE_5:
+        rect.w = work->w_rect.w * (4 - work->step) / 4;
         rect.h = 1;
-        rect.x = work->f28.x + (work->f28.w - rect.w) / 2;
-        rect.y = work->f28.y + work->f28.h / 2;
+        rect.x = work->w_rect.x + (work->w_rect.w - rect.w) / 2;
+        rect.y = work->w_rect.y + work->w_rect.h / 2;
         Vrwindow_800D73A4(work, &rect);
 
-        if (++work->f30 == 5)
+        if (++work->step == 5)
         {
-            work->f38 = 6;
-            work->f30 = 0;
+            work->state = VRWIN_STATE_CLOSED;
+            work->step = 0;
         }
         break;
 
-    case 6:
-        if (++work->f30 == 3)
+    case VRWIN_STATE_CLOSED:
+        if (++work->step == 3)
         {
             GV_DestroyActor(&work->actor);
             GV_PauseLevel &= ~4;
@@ -316,11 +335,11 @@ void VrwindowAct_800D7818(VrwindowWork *work)
     addPrim(DG_ChanlOTag(1), &work->tpages[GV_Clock]);
 }
 
-void Vrwindow_800D7ED8(RECT *rect);
+static void Vrwindow_800D7ED8(RECT *rect);
 
-void VrwindowDie_800D7E10(VrwindowWork *work)
+static void Die(Work *work)
 {
-    if (work->f17C != 0)
+    if (work->flag)
     {
         Vrwindow_800D7ED8(&work->f174);
     }
@@ -328,39 +347,39 @@ void VrwindowDie_800D7E10(VrwindowWork *work)
     GV_Free(work->font_buffer);
 }
 
-void Vrwindow_800D7E54(VrwindowWork *work, RECT *rect)
+static void Vrwindow_800D7E54(Work *work, RECT *rect)
 {
-    rect->x = vrwindow_800C3774;
-    rect->y = vrwindow_800C3778;
-    rect->w = work->f20.w / 4;
-    rect->h = work->f20.h;
+    rect->x = vrwindow_X1;
+    rect->y = vrwindow_Y1;
+    rect->w = work->m_rect.w / 4;
+    rect->h = work->m_rect.h;
 
-    vrwindow_800C3778 += work->f28.h;
-    if (vrwindow_800C3778 > 512)
+    vrwindow_Y1 += work->w_rect.h;
+    if (vrwindow_Y1 > 512)
     {
         printf("vrwindow: Can\'t alloc !! \n");
     }
 }
 
-void Vrwindow_800D7ED8(RECT *rect)
+static void Vrwindow_800D7ED8(RECT *rect)
 {
-    vrwindow_800C3778 = 256;
-    vrwindow_800C377C = 960;
+    vrwindow_Y1 = 256;
+    vrwindow_X2 = 960;
 }
 
-unsigned short Vrwindow_800D7EF4(RECT *rect)
+static u_short Vrwindow_800D7EF4(RECT *rect)
 {
-    rect->x = vrwindow_800C377C;
-    rect->y = vrwindow_800C3780;
+    rect->x = vrwindow_X2;
+    rect->y = vrwindow_Y2;
     rect->w = 16;
     rect->h = 1;
 
-    vrwindow_800C377C += 16;
+    vrwindow_X2 += 16;
 
     return getClut(rect->x, rect->y);
 }
 
-void Vrwindow_800D7F48(KCB *kcb, int x, int y, VrwindowWork *work)
+static void InitWindowText(KCB *kcb, int x, int y, Work *work)
 {
     RECT rect;
 
@@ -378,30 +397,30 @@ void Vrwindow_800D7F48(KCB *kcb, int x, int y, VrwindowWork *work)
     font_clut_update(kcb);
 }
 
-int VrwindowGetResources_800D8024(VrwindowWork *work, int map)
+static int GetResources(Work *work, int map)
 {
     int i;
 
     GM_CurrentMap = map;
 
     work->f188 = 0;
-    Vrwindow_800D7F48(&work->kcb, work->f20.w, work->f20.h + 18, work);
+    InitWindowText(&work->kcb, work->m_rect.w, work->m_rect.h + 18, work);
 
     for (i = 0; i < 2; i++)
     {
         setDrawTPage(&work->tpages[i], 1, 0, getTPage(0, 0, 896, 256));
 
         LSTORE(COLOR_GRAY, &work->sprts[i].r0);
-        LCOPY(&work->f20.x, &work->sprts[i].x0);
-        LCOPY(&work->f20.w, &work->sprts[i].w);
+        LCOPY(&work->m_rect.x, &work->sprts[i].x0);
+        LCOPY(&work->m_rect.w, &work->sprts[i].w);
         setSprt(&work->sprts[i]);
         setUV0(&work->sprts[i], (work->f174.x - 896) * 4, work->f174.y);
         work->sprts[i].clut = work->clut;
 
         setTile(&work->tiles[i]);
         setRGB0(&work->tiles[i], 0, 0, 0);
-        setXY0(&work->tiles[i], work->f28.x, work->f28.y);
-        setWH(&work->tiles[i], work->f28.w, work->f28.h);
+        setXY0(&work->tiles[i], work->w_rect.x, work->w_rect.y);
+        setWH(&work->tiles[i], work->w_rect.w, work->w_rect.h);
         setSemiTrans(&work->tiles[i], 1);
 
         setLineF3(&work->lines1[i]);
@@ -415,19 +434,21 @@ int VrwindowGetResources_800D8024(VrwindowWork *work, int map)
     return 0;
 }
 
+/*---------------------------------------------------------------------------*/
+
 void *NewVrWindow(int name, int where)
 {
-    VrwindowWork *work;
-    int           i;
-    int           width;
+    Work    *work;
+    int     i;
+    int     width;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(VrwindowWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, VrwindowAct_800D7818, VrwindowDie_800D7E10, "vrwindow.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "vrwindow.c");
 
-        work->f38 = 1;
-        work->f30 = 0;
+        work->state = VRWIN_STATE_1;
+        work->step = 0;
         work->f34 = 0;
 
         GM_SeSet2(0, 63, SE_MENU_SELECT);
@@ -441,14 +462,14 @@ void *NewVrWindow(int name, int where)
             work->f18A = 1;
         }
 
-        work->f40 = GCL_StrToInt(GCL_GetOption('i'));
+        work->i_num = GCL_StrToInt(GCL_GetOption('i'));
 
         if (GCL_GetOption('b'))
         {
-            for (i = 0; i < work->f40; i++)
+            for (i = 0; i < work->i_num; i++)
             {
-                work->f44[i] = GCL_ReadString((char *)GCL_GetParamResult());
-                if (work->f44[i] == 0)
+                work->b_text[i] = GCL_ReadString((char *)GCL_GetParamResult());
+                if (work->b_text[i] == 0)
                 {
                     break;
                 }
@@ -457,71 +478,71 @@ void *NewVrWindow(int name, int where)
 
         if (GCL_GetOption('w'))
         {
-            work->f28.x = GCL_StrToInt((char *)GCL_GetParamResult());
-            work->f28.y = GCL_StrToInt((char *)GCL_GetParamResult());
-            work->f28.w = GCL_StrToInt((char *)GCL_GetParamResult());
-            work->f28.h = GCL_StrToInt((char *)GCL_GetParamResult());
+            work->w_rect.x = GCL_StrToInt((char *)GCL_GetParamResult());
+            work->w_rect.y = GCL_StrToInt((char *)GCL_GetParamResult());
+            work->w_rect.w = GCL_StrToInt((char *)GCL_GetParamResult());
+            work->w_rect.h = GCL_StrToInt((char *)GCL_GetParamResult());
 
-            width = work->f28.w;
+            width = work->w_rect.w;
             if (width & 3)
             {
-                work->f28.w += 4 - (width % 4);
+                work->w_rect.w += 4 - (width % 4);
             }
 
-            work->f28.h = (work->f40 * 18) + 18;
-            work->f28.x = (FRAME_WIDTH - work->f28.w) >> 1;
-            work->f28.y = (FRAME_HEIGHT - work->f28.h) >> 1;
+            work->w_rect.h = (work->i_num * 18) + 18;
+            work->w_rect.x = (FRAME_WIDTH - work->w_rect.w) >> 1;
+            work->w_rect.y = (FRAME_HEIGHT - work->w_rect.h) >> 1;
         }
         else
         {
-            work->f28.x = 0;
-            work->f28.y = 0;
-            work->f28.w = 256;
-            work->f28.h = 13;
+            work->w_rect.x = 0;
+            work->w_rect.y = 0;
+            work->w_rect.w = 256;
+            work->w_rect.h = 13;
         }
 
         if (GCL_GetOption('m'))
         {
-            work->f20.x = work->f28.x + GCL_StrToInt((char *)GCL_GetParamResult());
-            work->f20.y = work->f28.y + GCL_StrToInt((char *)GCL_GetParamResult());
-            work->f20.w = GCL_StrToInt((char *)GCL_GetParamResult());
-            work->f20.h = GCL_StrToInt((char *)GCL_GetParamResult());
+            work->m_rect.x = work->w_rect.x + GCL_StrToInt((char *)GCL_GetParamResult());
+            work->m_rect.y = work->w_rect.y + GCL_StrToInt((char *)GCL_GetParamResult());
+            work->m_rect.w = GCL_StrToInt((char *)GCL_GetParamResult());
+            work->m_rect.h = GCL_StrToInt((char *)GCL_GetParamResult());
         }
         else
         {
-            work->f20.x = work->f28.x;
-            work->f20.y = work->f28.y;
-            work->f20.w = work->f28.w;
-            work->f20.h = work->f28.h;
+            work->m_rect.x = work->w_rect.x;
+            work->m_rect.y = work->w_rect.y;
+            work->m_rect.w = work->w_rect.w;
+            work->m_rect.h = work->w_rect.h;
         }
 
-        work->f20.x = work->f28.x + 16;
-        work->f20.y = work->f28.y + 12;
-        work->f20.w = work->f28.w - 16;
-        work->f20.h = work->f28.h - 12;
+        work->m_rect.x = work->w_rect.x + 16;
+        work->m_rect.y = work->w_rect.y + 12;
+        work->m_rect.w = work->w_rect.w - 16;
+        work->m_rect.h = work->w_rect.h - 12;
 
         if (GCL_GetOption('p'))
         {
-            work->f3C = GCL_StrToInt((char *)GCL_GetParamResult());
+            work->proc = GCL_StrToInt((char *)GCL_GetParamResult());
         }
         else
         {
-            work->f3C = 0;
+            work->proc = 0;
         }
 
         if (GCL_GetOption('f'))
         {
-            work->f17C = 1;
+            work->flag = TRUE;
         }
         else
         {
-            work->f17C = 0;
+            work->flag = FALSE;
         }
 
         work->name = name;
-        work->f16C = work->f20.h / 18;
+        work->f16C = work->m_rect.h / 18;
 
-        if (VrwindowGetResources_800D8024(work, where) < 0)
+        if (GetResources(work, where) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
