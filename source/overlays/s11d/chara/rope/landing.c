@@ -1,0 +1,25 @@
+#include "common.h"
+
+// TODO: some of these may be duplicates of s03c_otacom (= s03b\unknown5.obj)
+#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_landing_800CCDE0.s")
+#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_landing_800CCE64.s")
+#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_landing_800CCEA8.s")
+#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_landing_800CCEBC.s")
+#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_landing_800CD094.s")
+#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_landing_800CD0A4.s")
+#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_landing_800CD0B4.s")
+#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_landing_800CD0C4.s")
+#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_landing_800CD0D4.s")
+#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_landing_800CD10C.s")
+#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_landing_800CD144.s")
+#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_landing_800CD154.s")
+#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_landing_800CD378.s")
+#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_landing_800CD424.s")
+#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_landing_800CD614.s")
+#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_landing_800CD810.s")
+#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_landing_800CDA20.s")
+
+// TODO: check these belong here
+#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_info_800CDAAC.s")
+#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_info_800CDAF8.s")
+#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_info_800CDB5C.s")

@@ -1,31 +1,10 @@
 #include "common.h"
 
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_srl_800CB1B4.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_srl_800CB2EC.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_srl_800CB364.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_srl_800CB380.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_srl_800CB3C8.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_srl_800CB418.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_srl_800CB470.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_srl_800CB4C0.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_srl_800CB518.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_srl_800CB52C.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_srl_800CB5C4.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_srl_800CB824.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_srl_800CB848.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_srl_800CC204.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_srl_800CC26C.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_srl_800CC338.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_srl_800CC480.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_srl_800CC514.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_srl_800CC618.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_srl_800CC858.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_srl_800CCDC0.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_srl_800CCED0.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_srl_800CCF7C.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_srl_800CD028.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_srl_800CD190.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_srl_800CD23C.s")
+const char s19b_aLightoverjeepsrlc_800DDC94[] = "<<<<< light over !!!!!!!(jeep.srl.c) >>>>>\n";
+const char s19b_aMaxlightd_800DDCC0[] = "max light:%d\n";
+const char s19b_aJsnake_800DDCD0[] = "j_snake";
+const char s19b_aJeepsrlc_800DDCD8[] = "jeep_srl.c";
+
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_srl_800CD638.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_srl_800CD790.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_srl_800CD7B4.s")
