@@ -1,3 +1,5 @@
+//#include "revbullt.h"
+
 #include <sys/types.h>
 #include <libgte.h>
 #include <libgpu.h>
@@ -248,6 +250,7 @@ static void Act(Work *work)
 
                 if (work->bounces > 0)
                 {
+                    // The call is coming from INSIDE the actor...
                     extern void *NewRevolverBullet(MATRIX *world, int bounces);
 
                     NewRevolverBullet(&world, work->bounces - 1);
