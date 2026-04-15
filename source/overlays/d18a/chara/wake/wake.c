@@ -1,10 +1,23 @@
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "chara/snake/sna_init.h"
 
-typedef struct WakeWork
+extern GM_CAMERA        GM_Camera;
+extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
+
+/*---------------------------------------------------------------------------*/
+
+#define EXEC_LEVEL      GV_ACTOR_LEVEL5
+
+#define MESG_UNK_7E11   0x7e11
+
+typedef struct _Work
 {
     GV_ACT  actor;
     SVECTOR field_20;
@@ -15,35 +28,32 @@ typedef struct WakeWork
     int     unused1;
     int     unused2;
     int     where;
-} WakeWork;
+} Work;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+/*---------------------------------------------------------------------------*/
 
-extern GM_CAMERA        GM_Camera;
-extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
-
-void WakePollMessages_800C5D78(WakeWork *work)
+static void CheckMessage(Work *work)
 {
-    GV_MSG *message;
+    GV_MSG *msg;
     int     count;
 
-    count = GV_ReceiveMessage(work->where, &message);
+    count = GV_ReceiveMessage(work->where, &msg);
     if (count > 0)
     {
-        for (count--; count >= 0; count--, message++)
+        for (count--; count >= 0; count--, msg++)
         {
-            if (message->message[0] == 0x7E11 && message->message_len >= 4)
+            if (msg->message[0] == MESG_UNK_7E11 && msg->message_len >= 4)
             {
-                work->field_38.vx = message->message[1];
-                work->field_38.vy = message->message[2];
-                work->field_38.vz = message->message[3];
+                work->field_38.vx = msg->message[1];
+                work->field_38.vy = msg->message[2];
+                work->field_38.vz = msg->message[3];
             }
         }
     }
 }
 
 // Modified s03b_torture_800C3F7C
-int Wake_800C5E24(GV_PAD *pad)
+static int CheckPadDirInput(GV_PAD *pad)
 {
     char *analog;
     int   i;
@@ -54,7 +64,7 @@ int Wake_800C5E24(GV_PAD *pad)
         return 0;
     }
 
-    if (!(pad->status & (PAD_LEFT | PAD_DOWN | PAD_RIGHT | PAD_UP)))
+    if (!(pad->status & PAD_UDLR))
     {
         return 0;
     }
@@ -74,7 +84,7 @@ int Wake_800C5E24(GV_PAD *pad)
     return 0;
 }
 
-void WakeCheckPad_800C5E8C(WakeWork *work)
+static void CheckPad(Work *work)
 {
     short         status;
     unsigned char left_dy;
@@ -90,7 +100,7 @@ void WakeCheckPad_800C5E8C(WakeWork *work)
     GM_CheckShukanReverse(&status);
     GM_CheckShukanReverseAnalog(&left_dy);
 
-    if (Wake_800C5E24(pad))
+    if (CheckPadDirInput(pad))
     {
         coord = work->field_38.vx;
         if (status & PAD_UP)
@@ -148,7 +158,9 @@ void WakeCheckPad_800C5E8C(WakeWork *work)
     gUnkCameraStruct_800B77B8.eye = work->player_pos;
 }
 
-void WakeAct_800C60BC(WakeWork *work)
+/*---------------------------------------------------------------------------*/
+
+static void Act(Work *work)
 {
     if (GM_PlayerStatus & PLAYER_SECOND_CONTROLLER)
     {
@@ -158,17 +170,17 @@ void WakeAct_800C60BC(WakeWork *work)
     {
         work->pad = &GV_PadData[0];
     }
-    WakePollMessages_800C5D78(work);
-    WakeCheckPad_800C5E8C(work);
+    CheckMessage(work);
+    CheckPad(work);
     GM_PlayerPosition = work->player_pos;
 }
 
-void WakeDie_800C6140(WakeWork *work)
+static void Die(Work *work)
 {
     GM_PlayerStatus &= ~PLAYER_MENU_DISABLE;
 }
 
-int WakeGetResources_800C615C(WakeWork *work, int where)
+static int GetResources(Work *work, int where)
 {
     if (!GCL_GetOption('b'))
     {
@@ -205,19 +217,21 @@ int WakeGetResources_800C615C(WakeWork *work, int where)
     return 0;
 }
 
+/*---------------------------------------------------------------------------*/
+
 void *NewWake(int where)
 {
-    WakeWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(WakeWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work == NULL)
     {
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, WakeAct_800C60BC, WakeDie_800C6140, "wake.c");
+    GV_SetNamedActor(&work->actor, Act, Die, "wake.c");
 
-    if (WakeGetResources_800C615C(work, where) < 0)
+    if (GetResources(work, where) < 0)
     {
         GV_DestroyActor(&work->actor);
         return NULL;
