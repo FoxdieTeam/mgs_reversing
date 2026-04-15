@@ -208,7 +208,7 @@
 #define CHARA_RSURFACE          { 0x81ea, NewRippleSurface }        // takabe/rsurface.c
 #define CHARA_RIPPLES           { 0x63aa, NewRipples }              // takabe/ripples.c
 #define CHARA_ROPE              { 0xbda8, s11d_rope_800C9500 }      // --> chara/rope/rope.c
-#define CHARA_PIPE              { 0xc35f, NewPipe_800CE73C }        // chara/rope/pipe.c
+#define CHARA_PIPE              { 0xc35f, NewPipe }                 // chara/rope/pipe.c
 #define CHARA_11E9_HIND         { 0x11e9, s11d_hind_800CB708 }      // chara/hind/hind.c
 #define CHARA_HIND2             { 0xb959, NewHind2 }                // chara/hind2/hind2.c
 #define CHARA_SAVE_DATA         { 0x9302, ? }                       // GV_StrCode("セーブデータ") menu/mload.c
@@ -421,7 +421,7 @@ void *NewIntrudeCamera();               /* chara/others/intr_cam.c      */
 void *NewMotionSoundEffect();           /* chara/others/motse.c         */
 void *s11d_dsmoke2_800CCD54();          /* chara/rope/dsmoke2.c         */
 void *s11d_landing_800CDA20();          /* chara/rope/landing.c         */
-void *NewPipe_800CE73C();               /* chara/rope/pipe.c            */
+void *NewPipe();                        /* chara/rope/pipe.c            */
 void *NewSnakeBreath();                 /* chara/snake/breath.c         */
 void *NewSnake();                       /* chara/snake/sna_init.c       */
 void *NewTortureBed();                  /* chara/torture/bed.c          */
