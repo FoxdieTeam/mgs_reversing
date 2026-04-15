@@ -3,22 +3,34 @@
 #include "anime/animconv/anime.h"
 #include "strcode.h"
 
-const char s08b_dword_800E4150[] = {0x0, '3', 0x1, 0x0};
-const char s08b_dword_800E4154[] = {0x5, 0x1, 0xfe, 0xc};
-const char s08b_dword_800E4158[] = {0x0, 0x4, 0x1, 0xff};
-const char s08b_dword_800E415C[] = {'\n', 0x0, '\n', 0x0};
-const char s08b_dword_800E4160[] = {'\n', 0x2, 0x0, 0x1};
-const char s08b_dword_800E4164[] = {0xd, 0xc, 0x0, ' '};
-const char s08b_dword_800E4168[] = {0x1, 0xff, 0x4, 0x0};
-const char s08b_dword_800E416C[] = {0x0, 0x0, 0x14, 0x0};
-const char s08b_dword_800E4170[] = {0x0, 0x2, 0x0, 0x1};
-const char s08b_dword_800E4174[] = {0xd, 0xc, 0x0, '/'};
-const char s08b_dword_800E4178[] = {0x8, 0xff, 0xff, 0xff};
-const char s08b_dword_800E417C[] = {0x1, 0xff, '\n', 0x0};
-const char s08b_dword_800E4180[] = {'\n', 0x0, '\n', 0x2};
-const char s08b_dword_800E4184[] = {0x0, 0x1, 0xd, 0xf};
+/*---------------------------------------------------------------------------*/
 
-ANIMATION anm_panel_smoke = {PCX_SMOKE, 8, 4, 30, 1, 255, 1, 100, 100, 80, NULL, (char *)s08b_dword_800E4150};
+static const char anm_panel_smoke_data[] = {
+    0x00,0x33,0x01,0x00, 0x05,0x01,0xfe,0x0c,
+    0x00,0x04,0x01,0xff, 0x0a,0x00,0x0a,0x00,
+    0x0a,0x02,0x00,0x01, 0x0d,0x0c,0x00,0x20,
+    0x01,0xff,0x04,0x00, 0x00,0x00,0x14,0x00,
+    0x00,0x02,0x00,0x01, 0x0d,0x0c,0x00,0x2f,
+    0x08,0xff,0xff,0xff, 0x01,0xff,0x0a,0x00,
+    0x0a,0x00,0x0a,0x02, 0x00,0x01,0x0d,0x0f
+};
+
+static ANIMATION anm_panel_smoke = {
+    PCX_SMOKE,                      // field_0_texture_hash
+    8,                              // field_2
+    4,                              // field_4
+    30,                             // n_anims
+    1,                              // n_vertices
+    255,                            // field_A
+    1,                              // field_C
+    100,                            // field_E_xw
+    100,                            // field_10_yh
+    80,                             // field_12_rgb
+    NULL,                           // pre_script
+    (char *)anm_panel_smoke_data    // field_18_ptr
+};
+
+/*---------------------------------------------------------------------------*/
 
 void AN_PanelSmoke(SVECTOR *pos)
 {
