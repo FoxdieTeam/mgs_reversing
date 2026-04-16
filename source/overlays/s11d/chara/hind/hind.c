@@ -1,7 +1,5 @@
 #include "common.h"
 
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800C958C.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800C96D0.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800C976C.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800C97B8.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800C97F0.s")

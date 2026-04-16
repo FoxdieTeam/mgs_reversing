@@ -19,18 +19,18 @@ typedef struct PRESCRIPT
 
 typedef struct ANIMATION
 {
-    unsigned short field_0_texture_hash;
-    short          field_2;
-    short          field_4;
-    short          n_anims;
-    short          n_vertices;
-    short          field_A;
-    short          field_C;
-    short          field_E_xw;
-    short          field_10_yh;
-    short          field_12_rgb;
-    PRESCRIPT     *pre_script;
-    char          *field_18_ptr;
+    u_short    field_0_texture_hash;
+    short      field_2;
+    short      field_4;
+    short      n_anims;
+    short      n_vertices;
+    short      field_A;
+    short      field_C;
+    short      field_E_xw;
+    short      field_10_yh;
+    short      field_12_rgb;
+    PRESCRIPT *pre_script;
+    char      *field_18_ptr;
 } ANIMATION;
 
 void *NewAnime(MATRIX *world, int map, ANIMATION *animation);

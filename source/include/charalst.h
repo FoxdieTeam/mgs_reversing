@@ -64,7 +64,7 @@
 #define CHARA_CROW              { 0x8e60, NewCrow }                 // GV_StrCode("カラス") okajima/valcan/crow.c
 #define CHARA_DEATHSPARK        { 0xbe79, NewDeathSpark }           // GV_StrCode("送別火花") okajima/death_sp.c
 #define CHARA_DAMAGESMOKE       { 0x6a98, ? }                       // GV_StrCode("ダメージ煙") chara/rope/dsmoke.c (PC-ONLY)
-#define CHARA_DAMAGESMOKE2      { 0x76bc, s11d_dsmoke2_800CCD54 }   // GV_StrCode("ダメージ煙２") chara/rope/dsmoke2.c
+#define CHARA_DAMAGESMOKE2      { 0x76bc, NewDamageSmoke2 }         // GV_StrCode("ダメージ煙２") chara/rope/dsmoke2.c
 #define CHARA_DEMOCANCEL        { 0xb4e6, NewDemoCancel }           // GV_StrCode("デモキャンセル") game/cancel.c
 #define CHARA_DEMODOLL          { 0xe97e, NewDemoDoll }             // GV_StrCode("デモ人形") animal/doll/doll.c
 #define CHARA_DEMOSEL           { 0x3686, NewDemoSelect }           // GV_StrCode("デモ劇場") onoda/demosel/demosel.c
@@ -419,7 +419,7 @@ void *NewBelong();                      /* chara/others/belong.c        */
 void *NewFontText();                    /* chara/others/fonttext.c      */
 void *NewIntrudeCamera();               /* chara/others/intr_cam.c      */
 void *NewMotionSoundEffect();           /* chara/others/motse.c         */
-void *s11d_dsmoke2_800CCD54();          /* chara/rope/dsmoke2.c         */
+void *NewDamageSmoke2();                /* chara/rope/dsmoke2.c         */
 void *NewLanding();                     /* chara/rope/landing.c         */
 void *NewPipe();                        /* chara/rope/pipe.c            */
 void *NewSnakeBreath();                 /* chara/snake/breath.c         */
