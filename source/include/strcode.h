@@ -124,6 +124,7 @@
 #define PCX_TAMA_01             0xcb50 // GV_StrCode( "tama_01" )
 #define PCX_TAMA_02             0xcb51 // GV_StrCode( "tama_02" )
 #define PCX_TAMA_03             0xcb52 // GV_StrCode( "tama_03" )
+#define PCX_M60_FLASH           0xc61c // GV_StrCode( "m60_flash" )
 
 //-----------------------------------------------------------------------------
 // Model files (.kmd)

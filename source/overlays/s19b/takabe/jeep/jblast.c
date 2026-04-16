@@ -12,9 +12,7 @@ typedef struct _Work
     TARGET   target;
 } Work;
 
-extern SVECTOR s19b_dword_800C349C;
-
-extern const char s19b_dword_800DDC68[]; // = "jblast.c"
+SVECTOR s19b_dword_800C349C = {100, 0, 0};
 
 void s19b_jblood_800C8610(SVECTOR *);
 
@@ -87,7 +85,7 @@ void *NewJeepBlast(MATRIX *world, BLAST_DATA *blast)
     work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work)
     {
-        GV_SetNamedActor(work, Act, Die, s19b_dword_800DDC68);
+        GV_SetNamedActor(work, Act, Die, "jblast.c");
 
         if (GetResources(blast, work, world) < 0)
         {
