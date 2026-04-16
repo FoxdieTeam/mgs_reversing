@@ -39,7 +39,7 @@ void *NewJeepBlast(MATRIX *world, BLAST_DATA *blast);
 void *NewJeepDrumSmoke(MATRIX *world, int, int);
 void *NewJeepDrumFire(MATRIX *world, int, int);
 
-void s19b_jdrum_800C90BC(Work *work)
+static void Act(Work *work)
 {
     VECTOR   scale = {2048, 2048, 2048};
     MATRIX   world;
@@ -129,7 +129,7 @@ void s19b_jdrum_800C90BC(Work *work)
     GM_MoveTarget(target, &work->control.mov);
 }
 
-void s19b_jdrum_800C9374(Work *work)
+static void Die(Work *work)
 {
     GM_FreeHomingTarget(work->hom);
     GM_FreeControl(&work->control);
@@ -137,7 +137,7 @@ void s19b_jdrum_800C9374(Work *work)
     GM_FreeTarget(work->target);
 }
 
-void s19b_jdrum_800C93BC(Work *work)
+static void InitTarget(Work *work)
 {
     TARGET *target;
 
@@ -149,7 +149,7 @@ void s19b_jdrum_800C93BC(Work *work)
     GM_MoveTarget(target, &work->control.mov);
 }
 
-int s19b_jdrum_800C9438(Work *work, int name, int where)
+static int GetResources(Work *work, int name, int where)
 {
     CONTROL *control;
     OBJECT  *body;
@@ -185,7 +185,7 @@ int s19b_jdrum_800C9438(Work *work, int name, int where)
     GM_InitObject(body, BODY_MODEL, BODY_FLAG, 0);
     GM_ConfigObjectLight(body, work->light);
 
-    s19b_jdrum_800C93BC(work);
+    InitTarget(work);
 
     work->hom = GM_AllocHomingTarget(&body->objs->world, &work->control);
     if (work->hom)
@@ -208,9 +208,9 @@ void *NewJeepDrum(int name, int where)
     work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(work, s19b_jdrum_800C90BC, s19b_jdrum_800C9374, "jdrum.c");
+        GV_SetNamedActor(work, Act, Die, "jdrum.c");
 
-        if (s19b_jdrum_800C9438(work, name, where) < 0)
+        if (GetResources(work, name, where) < 0)
         {
             GV_DestroyActor(work);
             return NULL;

@@ -48,7 +48,7 @@ void s19b_jbullet_800C5F7C(void *);
 #define BODY_FLAG   ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_GBOUND )
 #define WEAPON_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE )
 
-void s19b_jeep_emy_800C48B0(Work* work)
+static void Act(Work *work)
 {
     VECTOR   scale = {2048, 2048, 2048};
     VECTOR   player_dist;
@@ -151,7 +151,7 @@ void s19b_jeep_emy_800C48B0(Work* work)
     }
 }
 
-void s19b_jeep_emy_800C4BC0(SVECTOR *vec)
+static void GetMidpoint(SVECTOR *vec)
 {
     vec->vx /= 2;
     vec->vy /= 2;
@@ -159,7 +159,7 @@ void s19b_jeep_emy_800C4BC0(SVECTOR *vec)
     GV_AddVec3(vec, &s19b_dword_800DE690, vec);
 }
 
-int GetResources(Work *work, int name, int where)
+static int GetResources(Work *work, int name, int where)
 {
     CONTROL *control;
     char    *pos;
@@ -188,11 +188,11 @@ int GetResources(Work *work, int name, int where)
         for (i = work->field_8FC; i > 0; i--, vec++)
         {
             GCL_StrToSV(GCL_GetParamResult(), vec);
-            s19b_jeep_emy_800C4BC0(vec);
+            GetMidpoint(vec);
         }
     }
 
-    s19b_jeep_emy_800C4BC0(&control->mov);
+    GetMidpoint(&control->mov);
 
     body = &work->body;
     weapon = &work->weapon;
@@ -247,7 +247,7 @@ void *NewJeepEnemy(int name, int where)
     work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work)
     {
-        GV_SetNamedActor(work, s19b_jeep_emy_800C48B0, Die, "jeep_emy.c");
+        GV_SetNamedActor(work, Act, Die, "jeep_emy.c");
 
         if (GetResources(work, name, where) < 0)
         {

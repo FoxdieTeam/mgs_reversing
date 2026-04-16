@@ -15,7 +15,6 @@ SVECTOR lamp_falloff = {0, 0, 4096};
 RECT lamp_rect = {200, 200, 400, 400};
 SVECTOR lamp_position[] = {{330, 890, 1436}, {-330, 890, 1436}};
 
-/* TODO: static */
 static void InitPacks(DG_PRIM *prim, DG_TEX *tex)
 {
     POLY_FT4 *packs0;

@@ -37,10 +37,10 @@ typedef struct _Work
     DVECTOR  flags[16];
 } Work;
 
-void s19b_jdrumfir_800C9D18(Work *work);
-void s19b_jdrumfir_800C9DDC(Work *work, int);
+static void InitPrim(Work *work);
+static void UpdatePrim(Work *work, int);
 
-void s19b_jdrumsmk_800C99A0(Work *work)
+static void Act(Work *work)
 {
     GM_CurrentMap = work->map;
 
@@ -61,13 +61,13 @@ void s19b_jdrumsmk_800C99A0(Work *work)
 
     if (work->unk54 > 0)
     {
-        s19b_jdrumfir_800C9DDC(work, 1);
+        UpdatePrim(work, 1);
         work->unk54--;
         work->unk5C++;
         return;
     }
 
-    s19b_jdrumfir_800C9DDC(work, 1);
+    UpdatePrim(work, 1);
 
     if (work->unk58 == 0)
     {
@@ -80,12 +80,12 @@ void s19b_jdrumsmk_800C99A0(Work *work)
     work->unk5C++;
 }
 
-void s19b_jdrumsmk_800C9AEC(Work *work)
+static void Die(Work *work)
 {
     GM_FreePrim(work->prim);
 }
 
-int s19b_jdrumsmk_800C9B28(Work *work, MATRIX *world, int arg2, int arg3)
+static int GetResources(Work *work, MATRIX *world, int arg2, int arg3)
 {
     work->map = GM_CurrentMap;
 
@@ -94,7 +94,7 @@ int s19b_jdrumsmk_800C9B28(Work *work, MATRIX *world, int arg2, int arg3)
     work->unk50 = arg2;
     work->unk54 = arg3;
 
-    s19b_jdrumfir_800C9D18(work);
+    InitPrim(work);
 
     work->unk58 = 80;
     work->unk5C = 20;
@@ -108,9 +108,9 @@ void *NewJeepDrumSmoke(MATRIX *world, int arg1, int arg2)
     work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(work, s19b_jdrumsmk_800C99A0, s19b_jdrumsmk_800C9AEC, "jdrumsmk.c");
+        GV_SetNamedActor(work, Act, Die, "jdrumsmk.c");
 
-        if (s19b_jdrumsmk_800C9B28(work, world, arg1, arg2) < 0)
+        if (GetResources(work, world, arg1, arg2) < 0)
         {
             GV_DestroyActor(work);
             return NULL;
@@ -120,7 +120,7 @@ void *NewJeepDrumSmoke(MATRIX *world, int arg1, int arg2)
     return work;
 }
 
-void s19b_jdrumfir_800C9C5C(POLY_FT4 *packs, DG_TEX *tex, int n_packs)
+static void InitPacks(POLY_FT4 *packs, DG_TEX *tex, int n_packs)
 {
     int x, y, w, h;
 
@@ -149,7 +149,7 @@ void s19b_jdrumfir_800C9C5C(POLY_FT4 *packs, DG_TEX *tex, int n_packs)
     }
 }
 
-void s19b_jdrumfir_800C9D18(Work *work)
+static void InitPrim(Work *work)
 {
     DG_TEX  *tex;
     DG_PRIM *prim;
@@ -157,14 +157,14 @@ void s19b_jdrumfir_800C9D18(Work *work)
     work->tex = tex = DG_GetTexture(PCX_SMOKE);
     work->prim = prim = Takabe_MakeIndividualRect3DPrim(16, work->vertices);
 
-    s19b_jdrumfir_800C9C5C(prim->packs[0], tex, 16);
-    s19b_jdrumfir_800C9C5C(prim->packs[1], tex, 16);
+    InitPacks(prim->packs[0], tex, 16);
+    InitPacks(prim->packs[1], tex, 16);
 
     prim->world = DG_ZeroMatrix;
     prim->raise = 250;
 }
 
-void s19b_jdrumfir_800C9DDC(Work *work, int arg1)
+static void UpdatePrim(Work *work, int arg1)
 {
     DVECTOR  *flag;
     SVECTOR  *vert;
