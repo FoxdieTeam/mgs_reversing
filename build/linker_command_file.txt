@@ -2057,13 +2057,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s19b\takabe\jeep\jblast.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19b\takabe\jeep\jdrumsmk.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19b\takabe\jeep\jdrumfir.obj", overlay
-
-    include "{{OBJ_DIR}}\overlays\{{OVERLAY}}\overlay2_2.obj", overlay
-
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
     include "{{OBJ_DIR}}\overlays\s12c\takabe\fog.obj", overlay
     include "{{OBJ_DIR}}\overlays\s12c\takabe\libdg2.obj", overlay
-
     include "{{OBJ_DIR}}\overlays\s19b\takabe\jeep_srl.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19b\takabe\jeep\jeep_gls.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19b\takabe\jeep\jeep_gte.obj", overlay

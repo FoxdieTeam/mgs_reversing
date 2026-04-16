@@ -23,36 +23,30 @@ typedef struct _Work
 } Work;
 
 #define EXEC_LEVEL  5
-#define BODY_MODEL  GV_StrCode(s19b_aBoa_800DDC58)
-#define BODY_MODEL2 GV_StrCode(s19b_aBob_800DDC50)
+#define BODY_MODEL  GV_StrCode("19b_o4a")
+#define BODY_MODEL2 GV_StrCode("19b_o4b")
 #define BODY_FLAG   ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE )
 #define TARGET_FLAG ( TARGET_POWER | TARGET_SEEK )
 
 extern BLAST_DATA blast_data_8009F4B8[8];
 
-extern SVECTOR s19b_dword_800C3494;
-extern VECTOR  s19b_dword_800DDC40;
+SVECTOR s19b_dword_800C3494 = {435, 375, 185};
+
 extern SVECTOR s19b_dword_800DE670;
 extern SVECTOR s19b_dword_800DE690;
 
-extern const char s19b_aBob_800DDC50[];    // = "19b_o4b"
-extern const char s19b_aBoa_800DDC58[];    // = "19b_o4a"
-extern const char s19b_aJdrumc_800DDC60[]; // = "jdrum.c"
-
 void *NewJeepBlast(MATRIX *world, BLAST_DATA *blast);
-void *s19b_jdrumsmk_800C9BB8(MATRIX *world, int, int);
-void *s19b_jdrumfir_800CA344(MATRIX *world, int, int);
+void *NewJeepDrumSmoke(MATRIX *world, int, int);
+void *NewJeepDrumFire(MATRIX *world, int, int);
 
 void s19b_jdrum_800C90BC(Work *work)
 {
-    VECTOR   scale;
+    VECTOR   scale = {2048, 2048, 2048};
     MATRIX   world;
     CONTROL *control;
     int      changed;
     TARGET  *target;
     OBJECT  *body;
-
-    scale = s19b_dword_800DDC40;
 
     work->field_1F4 = FALSE;
 
@@ -126,10 +120,10 @@ void s19b_jdrum_800C90BC(Work *work)
     {
         world = work->body.objs->world;
         NewJeepBlast(&work->body.objs->world, blast_data_8009F4B8);
-        s19b_jdrumsmk_800C9BB8(&work->body.objs->world, 0, 150);
+        NewJeepDrumSmoke(&work->body.objs->world, 0, 150);
 
         world.t[1] -= work->height;
-        s19b_jdrumfir_800CA344(&world, 0, 30);
+        NewJeepDrumFire(&world, 0, 30);
     }
 
     GM_MoveTarget(target, &work->control.mov);
@@ -214,7 +208,7 @@ void *NewJeepDrum(int name, int where)
     work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(work, s19b_jdrum_800C90BC, s19b_jdrum_800C9374, s19b_aJdrumc_800DDC60);
+        GV_SetNamedActor(work, s19b_jdrum_800C90BC, s19b_jdrum_800C9374, "jdrum.c");
 
         if (s19b_jdrum_800C9438(work, name, where) < 0)
         {
