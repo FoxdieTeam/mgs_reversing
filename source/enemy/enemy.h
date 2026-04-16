@@ -588,14 +588,14 @@ typedef void( *PUTFUNC )( WatcherWork * ) ;
 typedef void( *ZAKOPUTFUNC )( ZakoWork * ) ;
 typedef void( *ZAKO11FPUTFUNC )( Zako11FWork * ) ;
 
-void ENE_PutMark_800C9378( WatcherWork *work, int mark ) ;
-void ENE_PutBlood_800C8FF8( WatcherWork *work, int put, int i ) ;
-void ENE_PutItem_800C90CC( WatcherWork *work ) ;
-int  ENE_SetPutChar_800C979C( WatcherWork *work, int put ) ;
+void ENE_PutMark( WatcherWork *work, int mark ) ;
+void ENE_PutBlood( WatcherWork *work, int put, int i ) ;
+void ENE_PutItem( WatcherWork *work ) ;
+int  ENE_SetPutChar( WatcherWork *work, int put ) ;
 
-void ENE_PutFog_800C9068( WatcherWork *work ) ;
-int  ENE_ClearPutChar_800C97E4( WatcherWork *work, void *func ) ;
-void ENE_ExecPutChar_800C9818( WatcherWork *work ) ;
+void ENE_PutFog( WatcherWork *work ) ;
+int  ENE_ClearPutChar( WatcherWork *work, void *func ) ;
+void ENE_ExecPutChar( WatcherWork *work ) ;
 
 //route.c
 void s00a_command_800CB0E0( WatcherWork* work );

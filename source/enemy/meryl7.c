@@ -327,7 +327,7 @@ void s07a_meryl7_800D58AC( WatcherWork* work )
     work->time2 = 0;
 }
 
-int ENE_SetPutChar_800D9D6C( WatcherWork *work, int put ); // ENE_SetPutChar_800C979C
+int ENE_SetPutChar_800D9D6C( WatcherWork *work, int put ); // ENE_SetPutChar
 
 // Modified s00a_watcher_800C45D4
 int s07a_meryl7_800D5908( WatcherWork* work, int name, int where )

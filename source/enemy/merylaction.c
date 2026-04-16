@@ -42,8 +42,8 @@ extern void s07a_meryl_unk_800D8AA0( WatcherWork* work, int time );
 extern void s07a_meryl_unk_800D89D8( WatcherWork* work, int time );
 
 extern void ENE_PutItem_800D9810( WatcherWork* work );
-extern int  ENE_SetPutChar_800D9D6C( WatcherWork *work, int idx ); //int ENE_SetPutChar_800C979C( WatcherWork *work, int idx )
-extern void ENE_PutBlood_800D973C( WatcherWork *, int , int ); //ENE_PutBlood_800C8FF8
+extern int  ENE_SetPutChar_800D9D6C( WatcherWork *work, int idx ); //int ENE_SetPutChar( WatcherWork *work, int idx )
+extern void ENE_PutBlood_800D973C( WatcherWork *, int , int ); //ENE_PutBlood
 extern void ENE_PutFog_800D97AC( WatcherWork* work ); //ENE_PutFog
 extern int ENE_ClearPutChar_800D9DB4( WatcherWork *work, void *func );
 

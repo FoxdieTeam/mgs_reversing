@@ -964,7 +964,7 @@ int s00a_command_800CBDFC( WatcherWork* work )
 
     if ( count == 0 )
     {
-        ENE_PutMark_800C9378( work, 0 );
+        ENE_PutMark( work, 0 );
         NewEyeflash( &work->body.objs->objs[6].world, &work->control.mov, aKirari_800E06E8, 0 );
         COM_VibTime_800E0F68 = 10;
     }
@@ -984,7 +984,7 @@ int s00a_command_800CBE90( WatcherWork* work )
 {
     if ( work->count3 == 0 )
     {
-        ENE_PutMark_800C9378( work, 0 );
+        ENE_PutMark( work, 0 );
         s00a_command_800CC210( work );
         COM_VibTime_800E0F68 = 10;
     }
@@ -1295,7 +1295,7 @@ int Think3_NoiseModeWatch_800CC5C0( WatcherWork *work )
             }
             if( work->modetime[(  T_NOISE  )]  <= 3 )
             {
-                ENE_PutMark_800C9378( work ,BW_MARK );
+                ENE_PutMark( work ,BW_MARK );
             }
             if ( !( work->act_status & 0x00000080 ) )
             {
@@ -1306,7 +1306,7 @@ int Think3_NoiseModeWatch_800CC5C0( WatcherWork *work )
         {
             if( work->modetime[(  T_NOISE  )] ) return 1;
             work->pad.sound = 0x95;
-            ENE_PutMark_800C9378( work ,BW_MARK );
+            ENE_PutMark( work ,BW_MARK );
             work->pad.dir = work->sn_dir;
         }
     }
@@ -1369,7 +1369,7 @@ int s00a_command_800CC7A4( WatcherWork *work )
 
     if ( work->count3 == 0 )
     {
-        ENE_PutMark_800C9378( work, BW_MARK );
+        ENE_PutMark( work, BW_MARK );
     }
 
     if ( work->count3 > 30 )
@@ -1401,7 +1401,7 @@ int s00a_command_800CC83C( WatcherWork* work )
         {
             work->pad.sound = 150;
         }
-        ENE_PutMark_800C9378( work, 5 );
+        ENE_PutMark( work, 5 );
         work->pad.dir = work->sn_dir;
     }
     else
@@ -1439,7 +1439,7 @@ int s00a_command_800CC90C( WatcherWork *work )
     if ( work->count3 == 30 )
     {
         work->pad.sound = 136;
-        ENE_PutMark_800C9378( work, 5 );
+        ENE_PutMark( work, 5 );
     }
 
     if ( work->count3 > 29 && s00a_command_800CB6CC( work ) )
@@ -1456,7 +1456,7 @@ int s00a_command_800CC99C( WatcherWork *work )
     if ( work->count3 == 0 )
     {
         work->pad.sound = 136;
-        ENE_PutMark_800C9378( work, BW_MARK );
+        ENE_PutMark( work, BW_MARK );
         work->pad.dir = work->sn_dir;
     }
     else
@@ -1481,7 +1481,7 @@ int s00a_command_800CCA28( WatcherWork *work )
 {
     if ( work->count3 == 20 )
     {
-        ENE_PutMark_800C9378( work, 5 );
+        ENE_PutMark( work, 5 );
         if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
         {
             work->pad.sound = 244;
@@ -1505,7 +1505,7 @@ int s00a_command_800CCA9C( WatcherWork *work )
 {
     if ( work->count3 == 20 )
     {
-        ENE_PutMark_800C9378( work, 5 );
+        ENE_PutMark( work, 5 );
         work->pad.sound = 244;
     }
 
@@ -1523,7 +1523,7 @@ int s00a_command_800CCAFC( WatcherWork *work )
     work->pad.press |= 0x4;
     if ( work->count3 == 20 )
     {
-        ENE_PutMark_800C9378( work, 5 );
+        ENE_PutMark( work, 5 );
         if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
         {
             work->pad.sound = 242;

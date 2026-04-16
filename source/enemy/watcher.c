@@ -348,7 +348,7 @@ int s00a_watcher_800C45D4( WatcherWork* work, int name, int where )
     work->field_AF0 = (void*)NewShadow2( ctrl, body, shadow,  &work->field_AF4 ) ;
     work->field_AF8 = NewGunLight( &( body->objs->objs[4].world ), &work->field_AFC ) ;
 
-    ENE_SetPutChar_800C979C( work, 0 );
+    ENE_SetPutChar( work, 0 );
     s00a_watcher_800C4578 ( work );
 
     return 0;
@@ -610,7 +610,7 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
         work->param_area = GCL_StrToInt( ( char* )opt );
     }
 
-    if ( work->param_area == 'S' ) ENE_SetPutChar_800C979C( work, PUTBREATH ) ; /* 白い息はく */
+    if ( work->param_area == 'S' ) ENE_SetPutChar( work, PUTBREATH ) ; /* 白い息はく */
     work->scale = 4096 ;            /* スケール */
 
     if ( ( opt = GCL_GetOption( 's' ) ) != NULL ) work->scale += GCL_StrToInt( ( char* )opt );

@@ -361,7 +361,7 @@ void EnemyActionMain_800CA07C( WatcherWork *work )
         s00a_command_800C9D28(work);
         s00a_command_800C9D7C(work);
         Enemy_Think_800CE99C(work);
-        ENE_ExecPutChar_800C9818(work);
+        ENE_ExecPutChar(work);
     }
 
     s00a_command_800C82B0(work);
