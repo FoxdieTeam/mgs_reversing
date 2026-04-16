@@ -1,6 +1,5 @@
 #include "common.h"
 
-
 int s11d_dword_800C3260 = 0x0000047F;
 int s11d_dword_800C3264 = 0x02FF01E1;
 int s11d_dword_800C3268 = 0x00000000;
@@ -30,27 +29,6 @@ int s11d_dword_800C32C4 = 0x0000FC00;
 int s11d_dword_800C32C8 = 0x00000000;
 int s11d_dword_800C32CC = 0x0384012C;
 int s11d_dword_800C32D0 = 0x0000012C;
-int s11d_dword_800C32D4 = 0x0008512D;
-int s11d_dword_800C32D8 = 0x001E0004;
-int s11d_dword_800C32DC = 0x00000001;
-int s11d_dword_800C32E0 = 0x05DC0002;
-int s11d_dword_800C32E4 = 0x004005DC;
-int s11d_dword_800C32E8 = 0x00000000;
-int s11d_dword_800C32EC = 0x800D1DCC;
-int s11d_dword_800C32F0 = 0x0008512D;
-int s11d_dword_800C32F4 = 0x001E0004;
-int s11d_dword_800C32F8 = 0x00000001;
-int s11d_dword_800C32FC = 0x03200001;
-int s11d_dword_800C3300 = 0x00400320;
-int s11d_dword_800C3304 = 0x00000000;
-int s11d_dword_800C3308 = 0x800D1DE8;
-int s11d_dword_800C330C = 0x00000060;
-int s11d_dword_800C3310 = 0xFA600000;
-int s11d_dword_800C3314 = 0x00000BA4;
-int s11d_dword_800C3318 = 0x01180118;
-int s11d_dword_800C331C = 0x00000118;
-int s11d_dword_800C3320 = 0x00000024;
-
 
 const char s11d_aTosi_800D1D5C[] = "to_s11i";
 const int s11d_dword_800D1D64 = 0x800C5458;
@@ -75,41 +53,6 @@ const char s11d_aSnake_800D1DB4[] = "snake";
 const char s11d_aSned_800D1DBC[] = "sne_11d";
 const char s11d_dword_800D1DC4[] = {'r', 'o', 'p', 'e'};
 const char s11d_dword_800D1DC8[] = {'.', 'c', 0x0, 0xa4};
-const char s11d_dword_800D1DCC[] = {0x0, 0x15, 0x1, 0x0};
-const char s11d_dword_800D1DD0[] = {0x5, 0x1, 0xfe, 0xc};
-const char s11d_dword_800D1DD4[] = {0x0, 0x7, '\n', 0x0};
-const char s11d_dword_800D1DD8[] = {0xc8, 0x0, 0xc8, 0x1};
-const char s11d_dword_800D1DDC[] = {0xff, 0x8, 0xf8, 0xf8};
-const char s11d_dword_800D1DE0[] = {0xf8, 0x2, 0x0, 0x1};
-const char s11d_dword_800D1DE4[] = {0xd, 0xf, 0x0, 0x0};
-const char s11d_dword_800D1DE8[] = {0x0, '6', 0x2, 0x0};
-const char s11d_dword_800D1DEC[] = {0x7, 0x0, 0x1c, 0x1};
-const char s11d_dword_800D1DF0[] = {0xfe, 0xc, 0x0, 0x7};
-const char s11d_dword_800D1DF4[] = {'\n', 0x1, ',', 0x1};
-const char s11d_dword_800D1DF8[] = {',', 0x1, 0xff, 0x8};
-const char s11d_dword_800D1DFC[] = {0xf8, 0xf8, 0xf8, 0x2};
-const char s11d_dword_800D1E00[] = {0x0, 0x1, 0xd, 0xf};
-const char s11d_dword_800D1E04[] = {0x1, 0xfe, '\n', 0x1};
-const char s11d_dword_800D1E08[] = {0xf4, 0x1, 0xf4, 0x8};
-const char s11d_dword_800D1E0C[] = {0xbe, 0xbe, 0xbe, 0x2};
-const char s11d_dword_800D1E10[] = {0x0, 0x1, 0xc, 0x0};
-const char s11d_dword_800D1E14[] = {0xf, '\n', 0x0, 0xc8};
-const char s11d_dword_800D1E18[] = {0x0, 0xc8, 0x1, 0xff};
-const char s11d_dword_800D1E1C[] = {0x8, 0xf0, 0xf0, 0xf0};
-const char s11d_dword_800D1E20[] = {0x2, 0x0, 0x1, 0xd};
-const char s11d_dword_800D1E24[] = {0xf, 0x0, 'i', 0x89};
-const char s11d_aInvalidattackmode_800D1E28[] = "invalid attack mode\n";
-const char s11d_aSocomf_800D1E40[] = "socom_f";
-const char s11d_dword_800D1E48[] = {'h', 'i', 'n', 'd'};
-const char s11d_dword_800D1E4C[] = {'.', 'c', 0x0, 0xa7};
-const char s11d_aBullet_800D1E50[] = "bullet";
-const char s11d_dword_800D1E58[] = {'h', 'i', 'n', 'd'};
-const char s11d_dword_800D1E5C[] = {'_', 'b', 'u', 'l'};
-const char s11d_dword_800D1E60[] = {'.', 'c', 0x0, 0x8c};
-const char s11d_aSmoke_800D1E64[] = "smoke";
-const char s11d_dword_800D1E6C[] = {'d', 's', 'm', 'o'};
-const char s11d_dword_800D1E70[] = {'k', 'e', '2', '.'};
-const char s11d_dword_800D1E74[] = {'c', 0x0, 'c', 0x94};
 
 int SECTION(".bss") s11d_dword_800D1F78;
 int SECTION(".bss") s11d_dword_800D1F7C;

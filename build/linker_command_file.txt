@@ -1820,6 +1820,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s11d\overlay2.obj", overlay
 
     include "{{OBJ_DIR}}\overlays\s11d\chara\rope\rope.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11d\anime\effect\rope.obj", overlay
+
+    include "{{OBJ_DIR}}\overlays\s11d\overlay3.obj", overlay
+
     include "{{OBJ_DIR}}\overlays\s11d\chara\hind\hind.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11d\chara\hind\hind_bul.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11d\chara\rope\dsmoke2.obj", overlay
