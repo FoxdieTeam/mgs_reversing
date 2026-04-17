@@ -51,7 +51,7 @@ char* extendedInfo[] = {
 
 /*---------------------------------------------------------------------------*/
 
-static void SelectUpdateCurrentEntry(Work *work, int dir)
+static void UpdateCurrentEntry(Work *work, int dir)
 {
     int   i;
     int   proc_id;
@@ -113,13 +113,13 @@ static void Act(Work *work)
         {
             if (--work->movement_delay_remaining < 0)
             {
-                SelectUpdateCurrentEntry(work, dir);
+                UpdateCurrentEntry(work, dir);
                 work->movement_delay_remaining = 2;
             }
         }
         else
         {
-            SelectUpdateCurrentEntry(work, dir);
+            UpdateCurrentEntry(work, dir);
             work->movement_delay_remaining = 10;
             work->previous_dir = dir;
         }
@@ -162,7 +162,7 @@ static int GetResources(Work *work, int where, int name)
     work->gcl_menu_entries = GCL_GetParamResult();
     work->current_idx = 0;
     work->previous_dir = 0;
-    SelectUpdateCurrentEntry(work, 0);
+    UpdateCurrentEntry(work, 0);
     return 0;
 }
 
