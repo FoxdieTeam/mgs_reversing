@@ -43,24 +43,20 @@ int SECTION(".bss") s19b_dword_800DE64C;
 int SECTION(".bss") s19b_dword_800DE650;
 int SECTION(".bss") s19b_dword_800DE654;
 
-int SECTION(".bss") s19b_dword_800DE658;
-
+int SECTION(".bss") s19b_dword_800DE658; // Takabe_JeepSystem
 int SECTION(".bss") s19b_dword_800DE65C;
 int SECTION(".bss") s19b_dword_800DE660;
 int SECTION(".bss") s19b_dword_800DE664;
 int SECTION(".bss") s19b_dword_800DE668;
 int SECTION(".bss") s19b_dword_800DE66C;
-
 int SECTION(".bss") s19b_dword_800DE670;
 int SECTION(".bss") s19b_dword_800DE674;
-
 int SECTION(".bss") s19b_dword_800DE678;
 int SECTION(".bss") s19b_dword_800DE67C;
 int SECTION(".bss") s19b_dword_800DE680;
 int SECTION(".bss") s19b_dword_800DE684;
 int SECTION(".bss") s19b_dword_800DE688;
 int SECTION(".bss") s19b_dword_800DE68C;
-
 int SECTION(".bss") s19b_dword_800DE690;
 int SECTION(".bss") s19b_dword_800DE694;
 int SECTION(".bss") s19b_dword_800DE698;
@@ -87,7 +83,8 @@ int SECTION(".bss") s19b_dword_800DE6E8;
 int SECTION(".bss") s19b_dword_800DE6EC;
 int SECTION(".bss") s19b_dword_800DE6F0;
 int SECTION(".bss") s19b_dword_800DE6F4;
-int SECTION(".bss") s19b_dword_800DE6F8;
+
+int SECTION(".bss") s19b_dword_800DE6F8; // Takabe_JeepSystem end maybe
 int SECTION(".bss") s19b_dword_800DE6FC;
 int SECTION(".bss") s19b_dword_800DE700;
 int SECTION(".bss") s19b_dword_800DE704;

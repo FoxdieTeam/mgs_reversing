@@ -252,11 +252,11 @@ STATIC const unsigned char blast_anim_data_high[290] = {
     0x0d,0x0f
 };
 
-STATIC ANIMATION blast_anim_single   = { PCX_BOMB1_FL, 4, 4, 16, 1, 2000, 1, 1000, 1000, 128, NULL, (void *)blast_anim_data_single };
-STATIC ANIMATION blast_anim_random   = { PCX_BOMB1_FL, 4, 4, 16, 1, 2000, 1, 1000, 1000, 128, NULL, (void *)blast_anim_data_random };
-STATIC ANIMATION blast_anim_mini     = { PCX_BOMB1_FL, 4, 4, 16, 1, 2000, 1,  500,  500, 128, NULL, (void *)blast_anim_data_mini };
-STATIC ANIMATION blast_anim_minimini = { PCX_BOMB1_FL, 4, 4, 16, 1, 2000, 1,  200,  200, 128, NULL, (void *)blast_anim_data_minimini };
-STATIC ANIMATION blast_anim_high     = { PCX_BOMB1_FL, 4, 4, 16, 1, 2000, 1, 1000, 1000, 128, NULL, (void *)blast_anim_data_high };
+ANIMATION blast_anim_single   = { PCX_BOMB1_FL, 4, 4, 16, 1, 2000, 1, 1000, 1000, 128, NULL, (void *)blast_anim_data_single };
+ANIMATION blast_anim_random   = { PCX_BOMB1_FL, 4, 4, 16, 1, 2000, 1, 1000, 1000, 128, NULL, (void *)blast_anim_data_random };
+ANIMATION blast_anim_mini     = { PCX_BOMB1_FL, 4, 4, 16, 1, 2000, 1,  500,  500, 128, NULL, (void *)blast_anim_data_mini };
+ANIMATION blast_anim_minimini = { PCX_BOMB1_FL, 4, 4, 16, 1, 2000, 1,  200,  200, 128, NULL, (void *)blast_anim_data_minimini };
+ANIMATION blast_anim_high     = { PCX_BOMB1_FL, 4, 4, 16, 1, 2000, 1, 1000, 1000, 128, NULL, (void *)blast_anim_data_high };
 
 void AN_Blast_Single(SVECTOR *pos)
 {
