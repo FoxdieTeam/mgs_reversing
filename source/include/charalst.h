@@ -231,7 +231,7 @@
 #define CHARA_FAA8_MOVIE        { 0xfaa8, ? }                       // chara/movie/movie.c
 #define CHARA_SPHERE            { 0x73ea, NewSphere }               // GV_StrCode("天球") thing/sphere.c
 #define CHARA_SPHERE2           { 0xbee1, ? }                       // GV_StrCode("天球２") thing/sphere2.c
-#define CHARA_STAGESELECT       { 0xd2f6, NewStageSelect }          // GV_StrCode("ステージセレクト") game/select.c
+#define CHARA_STAGESELECT       { 0xd2f6, NewSelect }               // GV_StrCode("ステージセレクト") game/select.c
 #define CHARA_SMKTRGT           { 0x175b, NewSmokeTarget }          // okajima/smktrgt.c
 #define CHARA_TELOP             { 0x7ff7, NewTelopSet }             // GV_StrCode("テロップ") takabe/telop.c
 #define CHARA_TEXANIME          { 0xdcac, ? }                       // GV_StrCode("テクスチャアニメ") enemy/texanime.c (PC-ONLY)
@@ -460,7 +460,7 @@ void *NewMovieGCL();                    /* game/movie.c                 */
 void *NewPadControl();                  /* game/pad.c                   */
 void *NewPoint();                       /* game/point.c                 */
 void *GM_SetSecondAvailable();          /* game/second.c                */
-void *NewStageSelect();                 /* game/select.c                */
+void *NewSelect();                      /* game/select.c                */
 void *NewSoundTest();                   /* game/sndtst.c                */
 void *NewToBeContinued();               /* game/tobcnt.c                */
 void *NewPadVibrationGcl();             /* game/vibrate.c               */
