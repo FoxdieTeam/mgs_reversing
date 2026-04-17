@@ -168,7 +168,7 @@ static int GetResources(Work *work, int where, int name)
 
 /*---------------------------------------------------------------------------*/
 
-void *NewSelect(int name, int where, int argc, char **argv)
+void *NewStageSelect(int name, int where, int argc, char **argv)
 {
     Work *work;
 
