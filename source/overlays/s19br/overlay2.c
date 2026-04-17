@@ -319,14 +319,6 @@ const int s19b_dword_800DDA00 = 0x800C62D8;
 const int s19b_dword_800DDA04 = 0x800C62F0;
 const int s19b_dword_800DDA08 = 0x800C6300;
 const int s19b_dword_800DDA0C = 0x800C6318;
-const char s19b_aBullet_800DDA10[] = "bullet";
-const char s19b_dword_800DDA18[] = {'j', 'b', 'u', 'l'};
-const char s19b_dword_800DDA1C[] = {'l', 'e', 't', '.'};
-const char s19b_dword_800DDA20[] = {'c', 0x0, 0x80, 0x0};
-const char s19b_aSparkfl_800DDA24[] = "spark_fl";
-const char s19b_dword_800DDA30[] = {'j', 's', 'p', 'a'};
-const char s19b_dword_800DDA34[] = {'r', 'k', '.', 'c'};
-const char s19b_dword_800DDA38[] = {0x0, '(', '@', 0x2};
 
 int SECTION(".bss") s19b_dword_800DDF08;
 int SECTION(".bss") s19b_dword_800DDF0C;
