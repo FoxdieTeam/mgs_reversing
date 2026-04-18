@@ -3,9 +3,9 @@
 #include "common.h"
 #include "takabe/cinema.h"      // for NewCinemaScreen, NewCinemaScreenClose
 
-int   cinema_screen_alive = FALSE;
-int   cinema_screen_time = 0;
-void *cinema_screen_actor = NULL;
+static int   cinema_screen_alive = FALSE;
+static int   cinema_screen_time = 0;
+static void *cinema_screen_actor = NULL;
 
 void OpenCinemaScreen(int type, int time)
 {
