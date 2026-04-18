@@ -9,11 +9,9 @@
 #include "game/game.h"
 #include "game/vibrate.h"       // for NewPadVibration
 #include "chara/snake/shadow.h" // for NewShadow
+#include "takabe/cineutil.h"    // for OpenCinemaScreen, etc.
 
 extern UnkCameraStruct gUnkCameraStruct_800B77B8;
-
-extern void OpenCinemaScreen(int type, int time);
-extern void CloseCinemaScreen(void);
 
 /*---------------------------------------------------------------------------*/
 

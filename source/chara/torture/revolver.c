@@ -12,6 +12,7 @@
 #include "strcode.h"
 
 #include "takabe/fadeio.h"      // for NewFadeInOut
+#include "takabe/cineutil.h"    // for OpenCinemaScreen, etc.
 
 typedef struct RevolverWork
 {
@@ -118,9 +119,6 @@ int  s03b_boxall_800C95FC(void);
 int  s03b_boxall_800C961C(int);
 int  s03b_boxall_800C9654(int);
 int  s03b_boxall_800C968C(void);
-void OpenCinemaScreen(int, int);
-void CloseCinemaScreen(void);
-void CheckCinemaTimeout(void);
 
 void s03b_800CA868(void);
 
