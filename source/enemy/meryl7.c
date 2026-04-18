@@ -228,8 +228,8 @@ int s07a_meryl7_800D5614( WatcherWork *work )
     return s07a_meryl7_800D5520( &GM_PlayerPosition );
 }
 
-void EnemyPushMove_800DB23C( WatcherWork *work ); // EnemyPushMove
-void EnemyActionMain_800DB1D0( WatcherWork *work ); // EnemyActionMain
+void MerylPushMove( WatcherWork *work ); // EnemyPushMove
+void MerylActionMain( WatcherWork *work ); // EnemyActionMain
 
 // Modified version of WatcherAct_800C430C
 void EnemyMerylAct_800D5638( WatcherWork *work )
@@ -251,14 +251,14 @@ void EnemyMerylAct_800D5638( WatcherWork *work )
     s07a_meryl7_800D5614( work );
     if ( !work->faseout )
     {
-        EnemyPushMove_800DB23C( work );
+        MerylPushMove( work );
         GM_ActControl( ctrl );
         GM_ActObject2( &( work->body ) );
         GM_ActObject2( &( work->weapon ) );
 
         DG_GetLightMatrix2( &( ctrl->mov ), work->light );
 
-        EnemyActionMain_800DB1D0( work );
+        MerylActionMain( work );
         trgt = work->target;
         GM_MoveTarget( trgt, &( ctrl->mov ) );
 
@@ -327,7 +327,7 @@ void s07a_meryl7_800D58AC( WatcherWork* work )
     work->time2 = 0;
 }
 
-int ENE_SetPutChar_800D9D6C( WatcherWork *work, int put ); // ENE_SetPutChar
+int MERYL_SetPutChar( WatcherWork *work, int put );
 
 // Modified s00a_watcher_800C45D4
 int s07a_meryl7_800D5908( WatcherWork* work, int name, int where )
@@ -396,7 +396,7 @@ int s07a_meryl7_800D5908( WatcherWork* work, int name, int where )
     work->field_AF0 = (void*)NewShadow2( ctrl, body, shadow,  &work->field_AF4 ) ;
     work->field_AF8 = NewGunLight( &( body->objs->objs[4].world ), &work->field_AFC ) ;
 
-    ENE_SetPutChar_800D9D6C( work, 0 );
+    MERYL_SetPutChar( work, 0 );
     s07a_meryl7_800D58AC ( work );
 
     return 0;
@@ -680,7 +680,7 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
         work->param_area = GCL_StrToInt( ( char* )opt );
     }
 
-    if ( work->param_area == 'S' ) ENE_SetPutChar_800D9D6C( work, PUTBREATH ) ; /* 白い息はく */
+    if ( work->param_area == 'S' ) MERYL_SetPutChar( work, PUTBREATH ) ; /* 白い息はく */
     work->scale = 4096 ;            /* スケール */
 
     if ( ( opt = GCL_GetOption( 's' ) ) != NULL ) work->scale += GCL_StrToInt( ( char* )opt );

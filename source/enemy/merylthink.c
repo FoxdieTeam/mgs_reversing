@@ -26,7 +26,7 @@ extern int           COM_PlayerAddress;
 extern int           COM_PlayerMap;
 
 
-void ENE_PutMark_800D998C( WatcherWork *work, int mark );
+void MERYL_PutMark( WatcherWork *work, int mark );
 
 #define T_NOISE 0
 
@@ -1140,7 +1140,7 @@ int s07a_meryl_unk_800DCBF4( WatcherWork* work )
 
     if ( count == 0 )
     {
-        ENE_PutMark_800D998C( work, 0 );
+        MERYL_PutMark( work, 0 );
         NewEyeflash( &work->body.objs->objs[6].world, &work->control.mov, s07a_aKirari_800E3084, 0 );
         COM_VibTime = 10;
     }
@@ -1173,7 +1173,7 @@ int s07a_meryl_unk_800DCCEC( WatcherWork* work )
 {
     if ( work->count3 == 0 )
     {
-        ENE_PutMark_800D998C( work, 0 );
+        MERYL_PutMark( work, 0 );
         s07a_meryl_unk_800DCCBC( work );
     }
 
@@ -1415,14 +1415,14 @@ int Think3_NoiseModeWatch_800DD1EC( WatcherWork *work )
             }
             if( work->modetime[(  T_NOISE  )]  <= 3 )
             {
-                ENE_PutMark_800D998C( work ,BW_MARK );
+                MERYL_PutMark( work ,BW_MARK );
             }
             work->pad.dir = work->sn_dir;
         }
         else
         {
             if( work->modetime[(  T_NOISE  )] ) return 1;
-            ENE_PutMark_800D998C( work ,BW_MARK );
+            MERYL_PutMark( work ,BW_MARK );
             work->pad.dir = work->sn_dir;
         }
     }
@@ -1479,7 +1479,7 @@ int s07a_meryl_unk_800DD354( WatcherWork *work )
 
     if ( work->count3 == 0 )
     {
-        ENE_PutMark_800D998C( work, BW_MARK );
+        MERYL_PutMark( work, BW_MARK );
     }
 
     if ( work->count3 > 30 )
@@ -1508,7 +1508,7 @@ int s07a_meryl_unk_800DD3EC( WatcherWork* work )
             GM_SeSet( &work->control.mov, 0xC0 );
         }
 
-        ENE_PutMark_800D998C( work, 5 );
+        MERYL_PutMark( work, 5 );
         work->pad.dir = work->sn_dir;
     }
     else
@@ -1547,7 +1547,7 @@ int s07a_meryl_unk_800DD4C0( WatcherWork *work )
     if ( work->count3 == 30 )
     {
         GM_SeSet( &work->control.mov, 0xC0 );
-        ENE_PutMark_800D998C( work, 5 );
+        MERYL_PutMark( work, 5 );
     }
 
     if ( work->count3 > 29 && s07a_meryl_unk_800DC3E0( work ) )
@@ -1564,7 +1564,7 @@ int s07a_meryl_unk_800DD554( WatcherWork *work )
     if ( work->count3 == 0 )
     {
         GM_SeSet( &work->control.mov, 0xC0 );
-        ENE_PutMark_800D998C( work, BW_MARK );
+        MERYL_PutMark( work, BW_MARK );
         work->pad.dir = work->sn_dir;
     }
     else
@@ -1585,7 +1585,7 @@ int s07a_meryl_unk_800DD5D0( WatcherWork *work )
 {
     if ( work->count3 == 20 )
     {
-        ENE_PutMark_800D998C( work, 5 );
+        MERYL_PutMark( work, 5 );
     }
 
     if ( s07a_meryl_unk_800DC3E0( work ) )
@@ -1601,7 +1601,7 @@ int s07a_meryl_unk_800DD628( WatcherWork *work )
 {
     if ( work->count3 == 20 )
     {
-        ENE_PutMark_800D998C( work, 5 );
+        MERYL_PutMark( work, 5 );
     }
 
     if ( s07a_meryl_unk_800DC3E0( work ) )
@@ -1618,7 +1618,7 @@ int s07a_meryl_unk_800DD680( WatcherWork *work )
     work->pad.press |= 0x4;
     if ( work->count3 == 20 )
     {
-        ENE_PutMark_800D998C( work, 5 );
+        MERYL_PutMark( work, 5 );
     }
 
     if ( work->count3 > 120 )

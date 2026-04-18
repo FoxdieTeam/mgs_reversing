@@ -41,11 +41,11 @@ extern void s07a_meryl_unk_800D9410( WatcherWork* work, int time );
 extern void s07a_meryl_unk_800D8AA0( WatcherWork* work, int time );
 extern void s07a_meryl_unk_800D89D8( WatcherWork* work, int time );
 
-extern void ENE_PutItem_800D9810( WatcherWork* work );
-extern int  ENE_SetPutChar_800D9D6C( WatcherWork *work, int idx ); //int ENE_SetPutChar( WatcherWork *work, int idx )
-extern void ENE_PutBlood_800D973C( WatcherWork *, int , int ); //ENE_PutBlood
-extern void ENE_PutFog_800D97AC( WatcherWork* work ); //ENE_PutFog
-extern int ENE_ClearPutChar_800D9DB4( WatcherWork *work, void *func );
+extern void MERYL_PutItem( WatcherWork* work );
+extern int  MERYL_SetPutChar( WatcherWork *work, int idx );
+extern void MERYL_PutBlood( WatcherWork *, int , int );
+extern void MERYL_PutFog( WatcherWork* work );
+extern int MERYL_ClearPutChar( WatcherWork *work, void *func );
 
 extern int AttackForce_800D6C6C( WatcherWork *work );
 
@@ -501,7 +501,7 @@ void s07a_meryl_unk_800D7A90( WatcherWork* work, int time )
     if ( time == 0 )
     {
         SetAction( work, ACTION4, 0 ) ;
-        ENE_SetPutChar_800D9D6C( work, 3 ) ;
+        MERYL_SetPutChar( work, 3 ) ;
         GM_ConfigMotionAdjust( &( work->body ), work->adjust ) ;
     }
 
@@ -541,7 +541,7 @@ void s07a_meryl_unk_800D7B48( WatcherWork* work, int time )
     if ( time == 2  || time == 4 || time == 6 )
     {
         SetAction( work, ACTION6, 0 );
-        ENE_SetPutChar_800D9D6C( work, GUNSHOOT );
+        MERYL_SetPutChar( work, GUNSHOOT );
     }
 
     ReviseReadyGun_800D6BE4( work );
@@ -683,7 +683,7 @@ void s07a_meryl_unk_800D7F70( WatcherWork* work, int time )
             {
                 GM_SeSet( &ctrl->mov, 0xC3 ) ;
                 GM_SeSet( &ctrl->mov, SE_HIT_FLOOR ) ;
-                ENE_PutBlood_800D973C( work, 6, 0 ) ;
+                MERYL_PutBlood( work, 6, 0 ) ;
                 GM_SetNoise( 0x64, 4, &work->control.mov ) ;
             }
         }
@@ -706,7 +706,7 @@ void s07a_meryl_unk_800D7F70( WatcherWork* work, int time )
             GM_SeSet( &ctrl->mov, 0xC3 ) ;
             GM_SeSet( &ctrl->mov, SE_HIT_FLOOR ) ;
             GM_SetNoise( 0x64, 4, &work->control.mov ) ;
-            ENE_PutBlood_800D973C( work, 6, 1 ) ;
+            MERYL_PutBlood( work, 6, 1 ) ;
             SetMode( work, s07a_meryl_unk_800D8798 );
         }
     }
@@ -756,7 +756,7 @@ void s07a_meryl_unk_800D8290( WatcherWork *work, int time )
 
     if ( target->damaged & TARGET_POWER )
     {
-        ENE_PutBlood_800D973C( work, 5, 0 );
+        MERYL_PutBlood( work, 5, 0 );
         GM_SeSet( &work->control.mov, 0xBE );
         target->scale = DG_ZeroVector;
         target->life_lost = 0;
@@ -966,7 +966,7 @@ void s07a_meryl_unk_800D89D8( WatcherWork *work, int time )
 
     if ( time == 4 )
     {
-        ENE_PutItem_800D9810( work );
+        MERYL_PutItem( work );
     }
 
     if ( work->body.is_end )
@@ -1035,11 +1035,11 @@ void s07a_meryl_unk_800D8BA4( WatcherWork* work, int time )
         if ( target->a_mode == 3 )
         {
             GM_SeSet( &work->control.mov, SE_PUNCH_HIT );
-            ENE_PutFog_800D97AC( work );
+            MERYL_PutFog( work );
         }
         else
         {
-            ENE_PutBlood_800D973C( work, 5, 0 );
+            MERYL_PutBlood( work, 5, 0 );
 
         }
     }
@@ -1070,7 +1070,7 @@ void s07a_meryl_unk_800D8CB4( WatcherWork *work, int time )
             GM_SeSet( &ctrl->mov, SE_PUNCH_HIT );
             SetAction( work, ACTION34, ACTINTERP );
             GM_SeSet( &ctrl->mov, 0xC3 );
-            ENE_PutBlood_800D973C( work, 5, 0 );
+            MERYL_PutBlood( work, 5, 0 );
             work->field_B5A = 17;
             break;
         case 1:
@@ -1079,16 +1079,16 @@ void s07a_meryl_unk_800D8CB4( WatcherWork *work, int time )
             {
                 if ( GM_CurrentWeaponId == WP_Rifle )
                 {
-                    ENE_PutBlood_800D973C( work, 6, 2 );
+                    MERYL_PutBlood( work, 6, 2 );
                 }
                 else
                 {
-                    ENE_PutBlood_800D973C( work, 6, 1 );
+                    MERYL_PutBlood( work, 6, 1 );
                 }
             }
             else
             {
-                ENE_PutBlood_800D973C( work, 5, 0 );
+                MERYL_PutBlood( work, 5, 0 );
 
             }
             GM_SeSet( &ctrl->mov, 0xC3 );
@@ -1097,13 +1097,13 @@ void s07a_meryl_unk_800D8CB4( WatcherWork *work, int time )
         case 3:
             GM_SeSet( &ctrl->mov, 0xC3 );
             SetAction( work, ACTION35, ACTINTERP );
-            ENE_PutBlood_800D973C( work, 5, 0 );
+            MERYL_PutBlood( work, 5, 0 );
             work->field_B5A = 17;
             break;
         case 2:
             GM_SeSet( &ctrl->mov, 0xC4 );
             SetAction( work, ACTION36, ACTINTERP );
-            ENE_PutBlood_800D973C( work, 5, 0 );
+            MERYL_PutBlood( work, 5, 0 );
             work->field_B5A = 22;
             break;
         case 4:
@@ -1197,7 +1197,7 @@ void s07a_meryl_unk_800D8CB4( WatcherWork *work, int time )
         {
             GM_SeSet( &ctrl->mov, SE_HIT_FLOOR ) ;
             GM_SetNoise( 0x64, 4, &ctrl->mov ) ;
-            ENE_PutBlood_800D973C( work, 6, 0 ) ;
+            MERYL_PutBlood( work, 6, 0 ) ;
         }
     }
 
@@ -1263,7 +1263,7 @@ void s07a_meryl_unk_800D9230( WatcherWork* work, int time )
         work->unknown.field_1E = 1;
         work->target->scale = DG_ZeroVector;
         GM_SeSet( &ctrl->mov, SE_HIT_FLOOR );
-        ENE_PutBlood_800D973C( work, 6, 1 );
+        MERYL_PutBlood( work, 6, 1 );
         SetMode( work, s07a_meryl_unk_800D9410 );
     }
 }
@@ -1412,7 +1412,7 @@ void s07a_meryl_unk_800D952C( WatcherWork *work )
 
 
 //put funcs
-void ENE_PutBlood_800D973C( WatcherWork* work, int obj_idx, int count )
+void MERYL_PutBlood( WatcherWork* work, int obj_idx, int count )
 {
     MATRIX mat;
     DG_SetPos( &work->body.objs->objs[ obj_idx ].world );
@@ -1422,7 +1422,7 @@ void ENE_PutBlood_800D973C( WatcherWork* work, int obj_idx, int count )
     NewBlood( &mat, count );
 }
 
-void ENE_PutFog_800D97AC(WatcherWork *work )
+void MERYL_PutFog(WatcherWork *work )
 {
     MATRIX mat;
     SVECTOR svec;
@@ -1439,7 +1439,7 @@ void ENE_PutFog_800D97AC(WatcherWork *work )
     AN_Fog( &svec );
 }
 
-void ENE_PutItem_800D9810( WatcherWork* work )
+void MERYL_PutItem( WatcherWork* work )
 {
     int rand;
     SVECTOR svec;
@@ -1504,7 +1504,7 @@ void ENE_PutItem_800D9810( WatcherWork* work )
     NewItemPut( &ctrl->mov, &svec, &item );
 }
 
-void ENE_PutMark_800D998C( WatcherWork *work, int mark )
+void MERYL_PutMark( WatcherWork *work, int mark )
 {
     MATRIX *mat;
     if ( !( work->control.map->index & GM_PlayerMap ) )
@@ -1537,7 +1537,7 @@ int s07a_meryl_unk_800D9A28( SVECTOR* svec )
     return 1;
 }
 
-void ENE_PutSound_800D9A6C( WatcherWork *work, int mark )
+void MERYL_PutSound( WatcherWork *work, int mark )
 {
     int a3;
     int a2;
@@ -1574,7 +1574,7 @@ void ENE_PutSound_800D9A6C( WatcherWork *work, int mark )
     }
 }
 
-void ENE_PutBreath_800D9B14( WatcherWork *work, int arg1 )
+void MERYL_PutBreath( WatcherWork *work, int arg1 )
 {
     int frame;
     if ( EnemyCommand.mode == TOP_COMM_ALERT )
@@ -1623,7 +1623,7 @@ void ENE_PutBreath_800D9B14( WatcherWork *work, int arg1 )
     }
 }
 
-void ENE_PutLSight_800D9C5C( WatcherWork* work )
+void MERYL_PutLSight( WatcherWork* work )
 {
     if ( work->vision.field_B92 == 2 )
     {
@@ -1631,7 +1631,7 @@ void ENE_PutLSight_800D9C5C( WatcherWork* work )
     }
 }
 
-void ENE_PutBullet_800D9C98( WatcherWork *work )
+void MERYL_PutBullet( WatcherWork *work )
 {
     MATRIX* mat;
     SVECTOR svec;
@@ -1651,10 +1651,10 @@ void ENE_PutBullet_800D9C98( WatcherWork *work )
     NewAnime_8005D6BC(mat, 0);
     NewAnime_8005D604(&local_mat);
 
-    ENE_ClearPutChar_800D9DB4( work, ENE_PutBullet_800D9C98 );
+    MERYL_ClearPutChar( work, MERYL_PutBullet );
 }
 
-int ENE_SetPutChar_800D9D6C( WatcherWork *work, int idx )
+int MERYL_SetPutChar( WatcherWork *work, int idx )
 {
     int i;
 
@@ -1669,7 +1669,7 @@ int ENE_SetPutChar_800D9D6C( WatcherWork *work, int idx )
     return 0;
 }
 
-int ENE_ClearPutChar_800D9DB4( WatcherWork *work, void *func )
+int MERYL_ClearPutChar( WatcherWork *work, void *func )
 {
     int i;
 
@@ -1684,7 +1684,7 @@ int ENE_ClearPutChar_800D9DB4( WatcherWork *work, void *func )
     return 0;
 }
 
-void ENE_ExecPutChar_800D9DE8( WatcherWork* work )
+void MERYL_ExecPutChar( WatcherWork* work )
 {
     int i;
 
