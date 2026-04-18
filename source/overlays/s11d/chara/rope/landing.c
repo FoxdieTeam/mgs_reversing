@@ -1,15 +1,30 @@
-#include "game/game.h"
-#include "game/vibrate.h"
-#include "libgcl/libgcl.h"
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 
+#include "common.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
+#include "libgcl/libgcl.h"
+#include "game/game.h"
+#include "game/vibrate.h"       // for NewPadVibration
 #include "chara/snake/shadow.h" // for NewShadow
 
-#define EXEC_LEVEL 5
+extern UnkCameraStruct gUnkCameraStruct_800B77B8;
 
-#define NUM_JOINT   16
-#define MOTION_DATA GV_StrCode("sne_11d2")
-#define BODY_MODEL  GV_StrCode("snake")
-#define BODY_FLAG   ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_GBOUND )
+extern void OpenCinemaScreen(int type, int time);
+extern void CloseCinemaScreen(void);
+
+/*---------------------------------------------------------------------------*/
+
+#define EXEC_LEVEL      GV_ACTOR_LEVEL5
+
+#define NUM_JOINT       16
+#define MOTION_DATA     GV_StrCode("sne_11d2")
+#define BODY_MODEL      GV_StrCode("snake")
+#define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_GBOUND )
+
+/*---------------------------------------------------------------------------*/
 
 typedef struct _Work
 {
@@ -36,10 +51,7 @@ typedef struct _Work
 static u_char s11d_dword_800C3348[] = {0x7F, 0x02, 0x00, 0x00};
 static u_char s11d_dword_800C334C[] = {0xFF, 0x02, 0x00, 0x00};
 
-extern UnkCameraStruct gUnkCameraStruct_800B77B8;
-
-void OpenCinemaScreen(int type, int time);
-void CloseCinemaScreen(void);
+/*---------------------------------------------------------------------------*/
 
 static void Act(Work *work)
 {
@@ -110,6 +122,8 @@ static void Act(Work *work)
     }
 }
 
+/*---------------------------------------------------------------------------*/
+
 static void Die(Work *work)
 {
     CloseCinemaScreen();
@@ -126,6 +140,8 @@ static void Die(Work *work)
 
     GM_GameStatus &= ~( STATE_PAUSE_ONLY | STATE_PADRELEASE );
 }
+
+/*---------------------------------------------------------------------------*/
 
 static int InitShadow(Work *work)
 {
@@ -315,6 +331,8 @@ static int GetResources(Work *work, int name, int where)
     OpenCinemaScreen(1, 30000);
     return 0;
 }
+
+/*---------------------------------------------------------------------------*/
 
 void *NewLanding(int name, int where)
 {
