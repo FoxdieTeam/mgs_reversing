@@ -247,7 +247,7 @@ static int GetResources(Work *work, MATRIX *world, MATRIX *root, int count)
     return 0;
 }
 
-void *NewJeepBlood(MATRIX *root, int count, MATRIX *world)
+void *NewJeepBlood(MATRIX *world, int count, MATRIX *root)
 {
     SVECTOR rand;
     SVECTOR rot;
@@ -261,7 +261,7 @@ void *NewJeepBlood(MATRIX *root, int count, MATRIX *world)
 
     if (count == 0)
     {
-        DG_SetPos(root);
+        DG_SetPos(world);
 
         ang = GV_RandU(4096);
         rand.vx = rcos(ang) / 4;
@@ -279,14 +279,14 @@ void *NewJeepBlood(MATRIX *root, int count, MATRIX *world)
         rot.vy /= 4;
         rot.vz /= 4;
 
-        if (world)
+        if (root)
         {
-            pos.vx -= world->t[0];
-            pos.vy -= world->t[1];
-            pos.vz -= world->t[2];
+            pos.vx -= root->t[0];
+            pos.vy -= root->t[1];
+            pos.vz -= root->t[2];
         }
 
-        s19b_jblood_800C8448(&pos, &rot, world);
+        s19b_jblood_800C8448(&pos, &rot, root);
     }
     else
     {
@@ -297,7 +297,7 @@ void *NewJeepBlood(MATRIX *root, int count, MATRIX *world)
             {
                 GV_SetNamedActor(work, Act, Die, "jblood.c");
 
-                if (GetResources(work, root, world, count) < 0)
+                if (GetResources(work, world, root, count) < 0)
                 {
                     GV_DestroyActor(work);
                     return NULL;
