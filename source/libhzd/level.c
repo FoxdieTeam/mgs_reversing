@@ -12,17 +12,6 @@
  HZD_GetLevelAtr
 */
 
-/**
- * Used in collision detection, called every frame for Snake and each enemy on the map.
- *
- * In Snake's case, the first argument is snake->control->field_0_vec.
- * Whether for Snake or not, the second argument is always the scratchpad
- * address 0x1f80000c.
- *
- * Disabling this function badly messes up collision detection for both Snake
- * and his enemies, ie Snake will constantly fall into and come back out from
- * the floor as he runs around.
- */
 static void CopyVector(SVECTOR *src, HZD_VEC *dst)
 {
     dst->x = src->vx;
