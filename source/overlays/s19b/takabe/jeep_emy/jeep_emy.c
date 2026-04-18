@@ -1,7 +1,25 @@
+#include <rand.h>
+
+#include "linkvar.h"
+#include "strcode.h"
 #include "game/game.h"
 #include "libgcl/libgcl.h"
 #include "takabe/thing.h"
-#include "strcode.h"
+
+typedef struct _JEEP_SYSTEM
+{
+    char     pad1[0x4];
+    CONTROL *control;
+    char     pad2[0x10];
+    SVECTOR  pos;
+    char     pad3[0x40];
+    OBJECT  *body;
+    char     pad4[0x18];
+    int      field_7C;
+    MATRIX   world;
+} JEEP_SYSTEM;
+
+extern JEEP_SYSTEM s19b_dword_800DE658; // Takabe_JeepSystem
 
 typedef struct _Work
 {
@@ -22,17 +40,23 @@ typedef struct _Work
     HOMING        *hom;
     char           pad1[0xC];
     int            field_8E0;
-    int            field_8E4;
-    int            field_8E8;
+    SVECTOR        field_8E4;
     SVECTOR        field_8EC;
     SVECTOR        field_8F4;
     int            field_8FC;
-    SVECTOR        field_900[8];
+    SVECTOR        field_900[4];
+    void          *field_920;
     char           pad2[0x4];
+    int            field_928;
+    char           pad3[0x8];
+    int            field_934;
+    char           pad4[0x4];
+    int            field_93C;
+    char           pad5[0x4];
     int            field_944;
     int            field_948;
     int            field_94C;
-    char           pad3[0x44];
+    char           pad6[0x44];
 } Work;
 
 extern GM_CAMERA GM_Camera;
@@ -41,6 +65,13 @@ extern SVECTOR s19b_dword_800DE670;
 extern SVECTOR s19b_dword_800DE690;
 
 void s01a_800E2364(MATRIX *mtx, SVECTOR *in, VECTOR *out);
+void *NewJeepBlood(MATRIX *world, int count, MATRIX *root);
+
+void s19b_jbullet_800C5560(void);
+void s19b_jbullet_800C5654(void);
+void s19b_jbullet_800C5714(void);
+void s19b_jbullet_800C58CC(void);
+void s19b_jbullet_800C598C(void);
 void s19b_jbullet_800C5F7C(void *);
 
 #define EXEC_LEVEL 5
@@ -82,8 +113,8 @@ static void Act(Work *work)
 
     if (work->field_8E0 != 0)
     {
-        control->step.vx = work->field_8E4;
-        control->step.vz = work->field_8E8;
+        control->step.vx = work->field_8E4.vx;
+        control->step.vz = work->field_8E4.vz;
     }
 
     update = 0;
@@ -258,3 +289,218 @@ void *NewJeepEnemy(int name, int where)
 
     return work;
 }
+
+/* TODO: Fix */
+int s19b_dword_800C32BC = 0x01433201;
+int s19b_dword_800C32C0 = 0x000A0013;
+int s19b_dword_800C32C4 = 0x00090016;
+int s19b_dword_800C32C8 = 0x001B0008;
+int s19b_dword_800C32CC = 0x00070003;
+int s19b_dword_800C32D0 = 0x00180026;
+int s19b_dword_800C32D4 = 0x00110017;
+int s19b_dword_800C32D8 = 0x002B0012;
+int s19b_dword_800C32DC = 0x00000016;
+
+static SVECTOR s19b_dword_800C32E0 = {0, 0, 100};
+static SVECTOR s19b_dword_800C32E8 = {-1024, 0, 0};
+
+void s19b_jbullet_800C4F54(Work *work, int unit, int count)
+{
+    MATRIX  matrix;
+    MATRIX *root;
+
+    root = &work->body.objs->objs[unit].world;
+    DG_SetPos(root);
+    DG_MovePos(&s19b_dword_800C32E0);
+    DG_RotatePos(&s19b_dword_800C32E8);
+    ReadRotMatrix(&matrix);
+    NewJeepBlood(&matrix, count, root);
+}
+
+int s19b_jbullet_800C4FD4(SVECTOR *vec)
+{
+    return abs(vec->vx) + abs(vec->vy) + abs(vec->vz);
+}
+
+int s19b_jbullet_800C5010(Work *work)
+{
+    SVECTOR sp10;
+    TARGET *trg;
+    int     len;
+
+    trg = work->target1;
+    if (trg->damaged & TARGET_POWER)
+    {
+        if (trg->a_mode == 1)
+        {
+            trg->scale = DG_ZeroVector;
+
+            if (trg->life <= 0)
+            {
+                work->field_934 = 0;
+                work->field_920 = s19b_jbullet_800C598C;
+            }
+            else
+            {
+                work->field_920 = s19b_jbullet_800C58CC;
+            }
+
+            work->field_928 = 0;
+
+            work->control.turn.vz = 0;
+            work->control.turn.vx = 0;
+        }
+        else
+        {
+            trg->scale = DG_ZeroVector;
+            trg->life_lost = 0;
+            trg->damaged = 0;
+            goto check_next;
+        }
+
+        trg->life_lost = 0;
+        trg->damaged = 0;
+
+        work->field_8F4 = work->field_900[(rand() * work->field_8FC) >> 15];
+
+        s19b_dword_800DE658.field_7C = 1;
+        return 1;
+    }
+
+check_next:
+    trg = work->target2;
+    if (trg->damaged & TARGET_POWER)
+    {
+        if (trg->a_mode == 2)
+        {
+            sp10.vx = trg->scale.vx;
+            sp10.vy = 0;
+            sp10.vz = trg->scale.vz;
+
+            len = s19b_jbullet_800C4FD4(&trg->scale);
+            GV_LenVec3(&sp10, &work->field_8E4, GV_VecLen3(&sp10), len / 4);
+
+            work->field_8E0 = 1;
+
+            if (len < 100)
+            {
+                work->field_934 = 2;
+            }
+            else
+            {
+                work->field_934 = 1;
+            }
+
+            work->field_920 = s19b_jbullet_800C598C;
+            work->field_928 = 0;
+
+            work->control.turn.vz = 0;
+            work->control.turn.vx = 0;
+
+            work->target1->life = 0;
+        }
+        else
+        {
+            trg->life = 100;
+            trg->scale = DG_ZeroVector;
+            return 0;
+        }
+
+        trg->life_lost = 0;
+        trg->damaged = 0;
+        return 1;
+    }
+
+    return 0;
+}
+
+int s19b_jbullet_800C5258(Work *work)
+{
+    return s19b_jbullet_800C5010(work) != 0;
+}
+
+static SVECTOR s19b_dword_800C32F0 = {200, 500, 200};
+static SVECTOR s19b_dword_800C32F8 = {0, 0, 0};
+
+void s19b_jbullet_800C5278(Work *work)
+{
+    TARGET *trg;
+    int     life;
+
+    trg = work->target1;
+
+    if (GM_DifficultyFlag > DIFFICULTY_EASY)
+    {
+        life = 255 + GM_DifficultyFlag * 64;
+    }
+    else
+    {
+        life = 255;
+    }
+
+
+    GM_SetTarget(trg, (TARGET_POWER | TARGET_SEEK), ENEMY_SIDE, &s19b_dword_800C32F0);
+    GM_Target_8002DCCC(trg, 1, -1, life, 7, &s19b_dword_800C32F8);
+
+    trg = work->target2;
+    GM_SetTarget(trg, (TARGET_POWER | TARGET_SEEK), ENEMY_SIDE, &s19b_dword_800C32F0);
+    GM_Target_8002DCCC(trg, 1, -1, 100, 0, &s19b_dword_800C32F8);
+}
+
+int s19b_jbullet_800C5348(Work *work)
+{
+    if (work->field_93C & 0x4)
+    {
+        work->field_920 = s19b_jbullet_800C5654;
+        work->field_928 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        return 1;
+    }
+
+    if (work->field_93C & 0x1)
+    {
+        work->field_920 = s19b_jbullet_800C5714;
+        work->field_928 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        return 1;
+    }
+
+    if (work->field_93C & 0x100)
+    {
+        work->field_920 = s19b_jbullet_800C5560;
+        work->field_928 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        return 1;
+    }
+
+    return 0;
+}
+
+#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jbullet_800C53C0.s")
+#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jbullet_800C543C.s")
+#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jbullet_800C54D0.s")
+#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jbullet_800C5560.s")
+#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jbullet_800C5654.s")
+#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jbullet_800C5714.s")
+#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jbullet_800C57E8.s")
+#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jbullet_800C58CC.s")
+#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jbullet_800C598C.s")
+#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jbullet_800C5C50.s")
+#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jbullet_800C5D18.s")
+#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jbullet_800C5E40.s")
+#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jbullet_800C5E60.s")
+#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jbullet_800C5F2C.s")
+#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jbullet_800C5F7C.s")
+#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jbullet_800C5FB0.s")
+#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jbullet_800C63DC.s")
+#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jbullet_800C6404.s")
+#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jbullet_800C6428.s")
+#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jbullet_800C645C.s")
+#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jbullet_800C649C.s")
+#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jbullet_800C6524.s")
+#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jbullet_800C65A8.s")
+#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jbullet_800C666C.s")
+#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jbullet_800C66BC.s")
