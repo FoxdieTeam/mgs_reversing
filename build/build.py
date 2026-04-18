@@ -117,7 +117,8 @@ def ninja_run():
         r'ending2\.c:\d+: warning: `var_s6\' might be used uninitialized in this function',
         r'smoke\.c:\d+: warning: `s00a_dword_800C34C8\' defined but not used',
         r'smoke3\.c:\d+: warning: unused variable `unused\'',
-        r'alert\.c:\d+: warning: `set_song2\' defined but not used'
+        r'alert\.c:\d+: warning: `set_song2\' defined but not used',
+        r'jspark\.c:\d+: warning: unused variable `unused\'',
     ]
 
     if os.environ.get('APPVEYOR'):

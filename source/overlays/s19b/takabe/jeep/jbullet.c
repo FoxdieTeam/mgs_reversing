@@ -54,11 +54,7 @@ static SVECTOR s19b_dword_800C33C0 = {100, 100, 100};
 static SVECTOR s19b_dword_800C33C8 = {0, 0, 0};
 static SVECTOR s19b_dword_800C33D0 = {0, 400, 0};
 
-/* TODO: move */
-int s19b_dword_800C33D8 = 0xFFFFFFFF;
-int s19b_dword_800C33DC = 0x00000000;
-
-void s19b_jspark_800C7EDC(MATRIX *, int); /* NewJeepSpark */
+void NewJeepSpark(MATRIX *, int);
 
 static void InitVertices(SVECTOR *vecs, int scale)
 {
@@ -323,11 +319,11 @@ static void Act(Work *work)
 
             if (work->spark_flag & 0x200)
             {
-                s19b_jspark_800C7EDC(&inv, 1);
+                NewJeepSpark(&inv, 1);
             }
             else if (work->spark_flag & 0x100)
             {
-                s19b_jspark_800C7EDC(&inv, work->mode2 == 2);
+                NewJeepSpark(&inv, work->mode2 == 2);
             }
 
             GM_SeSet(&work->hit_point, SE_REBDRM01);

@@ -48,7 +48,7 @@ int *Voicesys_800CE278(int unused)
     return voicesys_800DBD60.voxCodes;
 }
 
-void Voicesys_800CE2D0()
+void Voicesys_800CE2D0(void)
 {
     if (voicesys_800DBD60.field_28 == 0)
     {
