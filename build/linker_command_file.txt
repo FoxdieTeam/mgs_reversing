@@ -2066,9 +2066,11 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\{{OVERLAY}}\overlay2.obj", overlay
 
     include "{{OBJ_DIR}}\overlays\s19b\takabe\jeep\gsplash3.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s19b\takabe\jeep\unknown.obj", overlay
 
     include "{{OBJ_DIR}}\overlays\{{OVERLAY}}\overlay3.obj", overlay
 
+    include "{{OBJ_DIR}}\okajima\blur.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19b\takabe\jeep\jlamp.obj", overlay
 
     include "{{OBJ_DIR}}\overlays\{{OVERLAY}}\overlay4.obj", overlay
