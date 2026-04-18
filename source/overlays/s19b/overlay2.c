@@ -52,36 +52,6 @@ int s19b_dword_800C3374 = 0x800DD9A8;
 int s19b_dword_800C3378 = 0xFAD3DCD3;
 int s19b_dword_800C337C = 0x00001968;
 
-int s19b_dword_800C3380 = 0x00000000;
-int s19b_dword_800C3384 = 0x00000000;
-int s19b_dword_800C3388 = 0x00000000;
-int s19b_dword_800C338C = 0x00000000;
-int s19b_dword_800C3390 = 0x00000000;
-int s19b_dword_800C3394 = 0x00000000;
-int s19b_dword_800C3398 = 0x00000000;
-int s19b_dword_800C339C = 0x00000000;
-
-int s19b_dword_800C33A0 = 0x01900000;
-int s19b_dword_800C33A4 = 0x00000000;
-int s19b_dword_800C33A8 = 0x00000000;
-int s19b_dword_800C33AC = 0x00000000;
-int s19b_dword_800C33B0 = 0x00000000;
-int s19b_dword_800C33B4 = 0x00000000;
-int s19b_dword_800C33B8 = 0xC5680000;
-int s19b_dword_800C33BC = 0x00000000;
-
-int s19b_dword_800C33C0 = 0x00640064;
-int s19b_dword_800C33C4 = 0x00000064;
-
-int s19b_dword_800C33C8 = 0x00000000;
-int s19b_dword_800C33CC = 0x00000000;
-
-int s19b_dword_800C33D0 = 0x01900000;
-int s19b_dword_800C33D4 = 0x00000000;
-
-int s19b_dword_800C33D8 = 0xFFFFFFFF;
-int s19b_dword_800C33DC = 0x00000000;
-
 const char s19b_dword_800DD63C[] = {0x1, 'V', 0x4, 0x0};
 const char s19b_dword_800DD640[] = {0xb, 0x0, '^', 0x0};
 const char s19b_dword_800DD644[] = {0xb1, 0x1, 0x9, 0x1};
