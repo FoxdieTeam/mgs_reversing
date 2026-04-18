@@ -906,7 +906,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
     include "{{OBJ_DIR}}\overlays\s12c\takabe\libdg2.obj", overlay
     include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s12c\takabe\findtrap.obj", overlay
+    include "{{OBJ_DIR}}\takabe\findtrap.obj", overlay
     include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
     include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
     include "{{OBJ_DIR}}\takabe\tracktrp.obj", overlay
@@ -1228,7 +1228,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\takabe\gas_efct.obj", overlay
     include "{{OBJ_DIR}}\takabe\mosaic.obj", overlay
     include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s12c\takabe\findtrap.obj", overlay
+    include "{{OBJ_DIR}}\takabe\findtrap.obj", overlay
     include "{{OBJ_DIR}}\takabe\telop.obj", overlay
     include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
     include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
@@ -1743,7 +1743,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
     include "{{OBJ_DIR}}\overlays\s12c\takabe\libdg2.obj", overlay
     include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s12c\takabe\findtrap.obj", overlay
+    include "{{OBJ_DIR}}\takabe\findtrap.obj", overlay
     include "{{OBJ_DIR}}\takabe\life_up.obj", overlay
     include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
     include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
@@ -1828,7 +1828,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s11d\chara\hind\hind_bul.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11d\chara\rope\dsmoke2.obj", overlay
     include "{{OBJ_DIR}}\chara\torture\unknown5.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11d\chara\rope\landing.obj", overlay
+    include "{{OBJ_DIR}}\chara\rope\landing.obj", overlay
     include "{{OBJ_DIR}}\takabe\cineutil.obj", overlay
     include "{{OBJ_DIR}}\chara\torture\info.obj", overlay
     include "{{OBJ_DIR}}\chara\rope\pipe.obj", overlay

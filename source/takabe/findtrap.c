@@ -1,5 +1,9 @@
 #include "findtrap.h"
 
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
@@ -7,6 +11,15 @@
 #include "game/game.h"
 #include "takabe/thing.h"
 #include "strcode.h"
+
+extern GM_CAMERA       GM_Camera;
+extern UnkCameraStruct gUnkCameraStruct_800B77B8;
+extern int             dword_8009F470;
+extern DG_CHANL        DG_Chanls[3];
+
+/*---------------------------------------------------------------------------*/
+
+#define EXEC_LEVEL      GV_ACTOR_LEVEL5
 
 typedef struct _Work
 {
@@ -18,11 +31,11 @@ typedef struct _Work
     int     proc_id;
     int     flag;
     int     wait;
-    int     field_44; /* unused */
-    int     field_48; /* unused */
+    int     field_44;   /* unused */
+    int     field_48;   /* unused */
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+/*---------------------------------------------------------------------------*/
 
 static short msg_list[4] = {HASH_ENTER, HASH_LEAVE, 0x42DC, HASH_KILL};
 
@@ -35,17 +48,14 @@ GV_PAD        SECTION(".bss") s12c_dword_800DAA70[2];
 int           SECTION(".bss") s12c_dword_800DAA90;
 TGMCameraFunc SECTION(".bss") s12c_dword_800DAA94;
 
-extern GM_CAMERA       GM_Camera;
-extern UnkCameraStruct gUnkCameraStruct_800B77B8;
-extern int             dword_8009F470;
-extern DG_CHANL        DG_Chanls[3];
+/*---------------------------------------------------------------------------*/
 
 static void FindEvent2(void);
 static void FindEvent1(void);
 
 static void Act(Work *work)
 {
-    int field_22;
+    int fpv_flag;
 
     GM_CurrentMap = work->map;
 
@@ -71,9 +81,9 @@ static void Act(Work *work)
     {
         if (work->flag == 1)
         {
-            field_22 = GM_Camera.first_person;
+            fpv_flag = GM_Camera.first_person;
 
-            if (field_22 == work->flag && !(GM_Camera.flags & 0x100) &&
+            if (fpv_flag == work->flag && !(GM_Camera.flags & 0x100) &&
                 (GV_PadData->status & PAD_TRIANGLE) && dword_8009F470 == 0)
             {
                 MATRIX   eye_inv;
@@ -92,7 +102,7 @@ static void Act(Work *work)
                 size = &work->size;
                 if (sxy.vx < size->vx && -size->vx < sxy.vx && sxy.vy < size->vy && -size->vy < sxy.vy)
                 {
-                    work->pos.pad = field_22;
+                    work->pos.pad = fpv_flag;
                 }
                 else
                 {
@@ -155,6 +165,8 @@ static int GetResources(Work *work, int name, int where)
     return 0;
 }
 
+/*---------------------------------------------------------------------------*/
+
 void *NewFindTrap(int name, int where, int argc, char **argv)
 {
     Work *work;
@@ -171,6 +183,8 @@ void *NewFindTrap(int name, int where, int argc, char **argv)
     }
     return (void *)work;
 }
+
+/*---------------------------------------------------------------------------*/
 
 static void FindEvent1(void)
 {

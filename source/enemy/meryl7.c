@@ -13,15 +13,15 @@
 #include "enemy/dymc_seg.h"     // for NewDynamicSegment
 #include "enemy/glight.h"       // for NewGunLight
 
-extern ENEMY_COMMAND EnemyCommand_800E0D98;
-extern SVECTOR       ENEMY_TARGET_SIZE_800C35A4;
-extern SVECTOR       ENEMY_TARGET_FORCE_800C35AC;
-extern SVECTOR       ENEMY_ATTACK_SIZE_800C35B4;
-extern SVECTOR       ENEMY_ATTACK_FORCE_800C35BC;
-extern SVECTOR       ENEMY_TOUCH_SIZE_800C35C4;
-extern SVECTOR       ENEMY_TOUCH_FORCE_800C35CC;
-extern SVECTOR       COM_NO_POINT_800C35D4;
-extern unsigned short COM_EYE_LENGTH_800E0D8C;
+extern ENEMY_COMMAND EnemyCommand;
+extern SVECTOR       ENEMY_TARGET_SIZE;
+extern SVECTOR       ENEMY_TARGET_FORCE;
+extern SVECTOR       ENEMY_ATTACK_SIZE;
+extern SVECTOR       ENEMY_ATTACK_FORCE;
+extern SVECTOR       ENEMY_TOUCH_SIZE;
+extern SVECTOR       ENEMY_TOUCH_FORCE;
+extern SVECTOR       COM_NO_POINT;
+extern unsigned short COM_EYE_LENGTH;
 
 extern GM_CAMERA      GM_Camera;
 
@@ -78,7 +78,7 @@ int s07a_meryl7_800D50F8( WatcherWork* work )
             work->act_status = EN_FASEOUT ;
             break;
         case 0x1DC4:
-            if ( EnemyCommand_800E0D98.field_0xC8[ work->field_B78 ].field_04 == 2 )
+            if ( EnemyCommand.field_0xC8[ work->field_B78 ].field_04 == 2 )
             {
                 work->visible = 1;
             }
@@ -228,8 +228,8 @@ int s07a_meryl7_800D5614( WatcherWork *work )
     return s07a_meryl7_800D5520( &GM_PlayerPosition );
 }
 
-void EnemyPushMove_800DB23C( WatcherWork *work ); // EnemyPushMove_800CA0E8
-void EnemyActionMain_800DB1D0( WatcherWork *work ); // EnemyActionMain_800CA07C
+void MerylPushMove( WatcherWork *work ); // EnemyPushMove
+void MerylActionMain( WatcherWork *work ); // EnemyActionMain
 
 // Modified version of WatcherAct_800C430C
 void EnemyMerylAct_800D5638( WatcherWork *work )
@@ -251,14 +251,14 @@ void EnemyMerylAct_800D5638( WatcherWork *work )
     s07a_meryl7_800D5614( work );
     if ( !work->faseout )
     {
-        EnemyPushMove_800DB23C( work );
+        MerylPushMove( work );
         GM_ActControl( ctrl );
         GM_ActObject2( &( work->body ) );
         GM_ActObject2( &( work->weapon ) );
 
         DG_GetLightMatrix2( &( ctrl->mov ), work->light );
 
-        EnemyActionMain_800DB1D0( work );
+        MerylActionMain( work );
         trgt = work->target;
         GM_MoveTarget( trgt, &( ctrl->mov ) );
 
@@ -295,19 +295,19 @@ void s07a_meryl7_800D5780( WatcherWork *work )
     life   = work->param_life;
     faint  = work->param_faint;
 
-    GM_SetTarget( target, TARGET_FLAG, ENEMY_SIDE, &ENEMY_TARGET_SIZE_800C35A4 );
-    GM_Target_8002DCCC( target, 1, -1, life, faint, &ENEMY_TARGET_FORCE_800C35AC );
+    GM_SetTarget( target, TARGET_FLAG, ENEMY_SIDE, &ENEMY_TARGET_SIZE );
+    GM_Target_8002DCCC( target, 1, -1, life, faint, &ENEMY_TARGET_FORCE );
     GM_Target_8002DCB4( target, -1, faint, NULL, NULL);
 
     GM_TargetBody( target, &( work->body.objs->objs[1].world ) );
 
     target2 = &work->field_904;
-    GM_SetTarget( target2, TARGET_POWER, PLAYER_SIDE, &ENEMY_ATTACK_SIZE_800C35B4 );
-    GM_Target_8002DCCC( target2, 7, 5, 0, 3, &ENEMY_ATTACK_FORCE_800C35BC );
+    GM_SetTarget( target2, TARGET_POWER, PLAYER_SIDE, &ENEMY_ATTACK_SIZE );
+    GM_Target_8002DCCC( target2, 7, 5, 0, 3, &ENEMY_ATTACK_FORCE );
 
     target2 = &work->field_94C;
-    GM_SetTarget( target2, ( TARGET_TOUCH ), ENEMY_SIDE, &ENEMY_TOUCH_SIZE_800C35C4 );
-    GM_Target_8002DCCC( target2, 7, 5, 0, 0, &ENEMY_TOUCH_FORCE_800C35CC );
+    GM_SetTarget( target2, ( TARGET_TOUCH ), ENEMY_SIDE, &ENEMY_TOUCH_SIZE );
+    GM_Target_8002DCCC( target2, 7, 5, 0, 0, &ENEMY_TOUCH_FORCE );
 }
 
 // Identical to s00a_watcher_800C4578
@@ -327,7 +327,7 @@ void s07a_meryl7_800D58AC( WatcherWork* work )
     work->time2 = 0;
 }
 
-int ENE_SetPutChar_800D9D6C( WatcherWork *work, int put ); // ENE_SetPutChar_800C979C
+int MERYL_SetPutChar( WatcherWork *work, int put );
 
 // Modified s00a_watcher_800C45D4
 int s07a_meryl7_800D5908( WatcherWork* work, int name, int where )
@@ -396,7 +396,7 @@ int s07a_meryl7_800D5908( WatcherWork* work, int name, int where )
     work->field_AF0 = (void*)NewShadow2( ctrl, body, shadow,  &work->field_AF4 ) ;
     work->field_AF8 = NewGunLight( &( body->objs->objs[4].world ), &work->field_AFC ) ;
 
-    ENE_SetPutChar_800D9D6C( work, 0 );
+    MERYL_SetPutChar( work, 0 );
     s07a_meryl7_800D58AC ( work );
 
     return 0;
@@ -680,7 +680,7 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
         work->param_area = GCL_StrToInt( ( char* )opt );
     }
 
-    if ( work->param_area == 'S' ) ENE_SetPutChar_800D9D6C( work, PUTBREATH ) ; /* 白い息はく */
+    if ( work->param_area == 'S' ) MERYL_SetPutChar( work, PUTBREATH ) ; /* 白い息はく */
     work->scale = 4096 ;            /* スケール */
 
     if ( ( opt = GCL_GetOption( 's' ) ) != NULL ) work->scale += GCL_StrToInt( ( char* )opt );
@@ -723,8 +723,8 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
     work->field_B94 = 0;
     work->pad.sound = 0;
     work->pad.time  = 0;
-    work->vision.length = COM_EYE_LENGTH_800E0D8C;
-    work->field_BA4 = COM_NO_POINT_800C35D4;
+    work->vision.length = COM_EYE_LENGTH;
+    work->field_BA4 = COM_NO_POINT;
 
     work->subweapon = 0;
 
@@ -747,7 +747,7 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
         work->field_BA3 |= 0x10;
     }
 
-    GM_ConfigControlRadarparam( &work->control, 0, 0x200, COM_EYE_LENGTH_800E0D8C, 0 );
+    GM_ConfigControlRadarparam( &work->control, 0, 0x200, COM_EYE_LENGTH, 0 );
     work->start_pos = work->nodes[ 0 ] ;
     work->start_map = GM_CurrentMap;
     addr = HZD_GetAddress( work->control.map->hzd, &( work->control.mov ), -1 );

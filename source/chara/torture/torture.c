@@ -14,6 +14,7 @@
 #include "strcode.h"
 
 #include "takabe/fadeio.h"      // for NewFadeInOut
+#include "takabe/cineutil.h"    // for OpenCinemaScreen, etc.
 
 struct _TortureWork;
 typedef void (*TTortureFn)(struct _TortureWork *, int);
@@ -152,9 +153,6 @@ void s03b_boxall_800C93F0(int, int);
 void s03b_boxall_800C9404(void);
 int  s03b_boxall_800C95EC(void);
 int  s03b_boxall_800C9654(int);
-void OpenCinemaScreen(int, int);
-void CloseCinemaScreen(void);
-void CheckCinemaTimeout(void);
 
 void s03b_torture_800C4C48(TortureWork *work, int);
 void s03b_torture_800C5AF8(TortureWork *work, int);

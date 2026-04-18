@@ -19,6 +19,7 @@
 #include "okajima/blood.h"      // for NewBlood
 #include "okajima/hiyoko.h"     // for NewHiyoko
 #include "takabe/fadeio.h"      // for NewFadeInOut
+#include "takabe/cineutil.h"    // for OpenCinemaScreen, etc.
 
 struct _Work;
 typedef void (*ACTION)(struct _Work *work, int action);
@@ -117,10 +118,7 @@ void  AN_Fog(SVECTOR *svec);
 void  AN_Sleep( SVECTOR *svec );
 void  s03b_boxall_800C9328(void);
 void  s03b_boxall_800C9404(void);
-void  CloseCinemaScreen(void);
-void  CheckCinemaTimeout(void);
 void  s03b_boxall_800C93F0(int, int);
-void  OpenCinemaScreen(int, int);
 int   s03b_boxall_800C93AC(int arg0);
 int   s03b_boxall_800C95EC(void);
 void *AN_Unknown_800CA1EC(MATRIX *mat, int mark);

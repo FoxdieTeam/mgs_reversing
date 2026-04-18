@@ -548,8 +548,8 @@ int   s00a_command_800D0128( char *ops );
 void  s00a_command_800D018C( CommanderWork* work ) ;
 void  s00a_command_800D0218( void ) ;
 void  s00a_command_800D0344( void ) ;
-void  EnemyPushMove_800CA0E8( WatcherWork* work );
-void  EnemyActionMain_800CA07C( WatcherWork* work );
+void  EnemyPushMove( WatcherWork* work );
+void  EnemyActionMain( WatcherWork* work );
 void *AN_Unknown_800CA1EC( MATRIX* mat, int mark );
 
 void  ENE_SetTopCommAL( int alert );
@@ -588,14 +588,14 @@ typedef void( *PUTFUNC )( WatcherWork * ) ;
 typedef void( *ZAKOPUTFUNC )( ZakoWork * ) ;
 typedef void( *ZAKO11FPUTFUNC )( Zako11FWork * ) ;
 
-void ENE_PutMark_800C9378( WatcherWork *work, int mark ) ;
-void ENE_PutBlood_800C8FF8( WatcherWork *work, int put, int i ) ;
-void ENE_PutItem_800C90CC( WatcherWork *work ) ;
-int  ENE_SetPutChar_800C979C( WatcherWork *work, int put ) ;
+void ENE_PutMark( WatcherWork *work, int mark ) ;
+void ENE_PutBlood( WatcherWork *work, int put, int i ) ;
+void ENE_PutItem( WatcherWork *work ) ;
+int  ENE_SetPutChar( WatcherWork *work, int put ) ;
 
-void ENE_PutFog_800C9068( WatcherWork *work ) ;
-int  ENE_ClearPutChar_800C97E4( WatcherWork *work, void *func ) ;
-void ENE_ExecPutChar_800C9818( WatcherWork *work ) ;
+void ENE_PutFog( WatcherWork *work ) ;
+int  ENE_ClearPutChar( WatcherWork *work, void *func ) ;
+void ENE_ExecPutChar( WatcherWork *work ) ;
 
 //route.c
 void s00a_command_800CB0E0( WatcherWork* work );
@@ -782,7 +782,7 @@ void ActOverScoutD_800C85DC( WatcherWork *work, int time );
 #define TH3_ATTACK_GRENADE 0x18 //?
 #define TH3_ATTACK_HANDGUN 0x15
 
-void Enemy_Think_800CE99C( WatcherWork * work );
+void Enemy_Think( WatcherWork * work );
 void AN_Piyopiyo( SVECTOR *svec );
 void AN_Sleep( SVECTOR *svec );
 void AN_Fog( SVECTOR *svec );

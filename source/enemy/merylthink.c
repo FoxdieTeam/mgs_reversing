@@ -14,20 +14,19 @@
 
 #define SEGMENT_ATR ( HZD_SEG_NO_NAVIGATE )
 
-extern ENEMY_COMMAND EnemyCommand_800E0D98;
-extern unsigned int  COM_GameStatus_800E0F3C;
-extern SVECTOR       COM_PlayerPosition_800E0F30;
-extern SVECTOR       COM_PlayerPositionOne_800E0D48[8];
-extern int           COM_PlayerMapOne_800E0F70[8];
-extern int           COM_PlayerAddressOne_800E0F40[8];
-extern int           COM_VibTime_800E0F68;
-extern int           COM_PlayerMap_800E0F1C;
-extern int           COM_SHOOTRANGE_800E0D88;
-extern int           COM_PlayerAddress_800E0D90;
-extern int           COM_PlayerMap_800E0F1C;
+extern ENEMY_COMMAND EnemyCommand;
+extern unsigned int  COM_GameStatus;
+extern SVECTOR       COM_PlayerPosition;
+extern SVECTOR       COM_PlayerPositionOne[8];
+extern int           COM_PlayerMapOne[8];
+extern int           COM_PlayerAddressOne[8];
+extern int           COM_VibTime;
+extern int           COM_SHOOTRANGE;
+extern int           COM_PlayerAddress;
+extern int           COM_PlayerMap;
 
 
-void ENE_PutMark_800D998C( WatcherWork *work, int mark );
+void MERYL_PutMark( WatcherWork *work, int mark );
 
 #define T_NOISE 0
 
@@ -49,9 +48,9 @@ void s07a_meryl_unk_800DB340( WatcherWork* work )
 
 void s07a_meryl_unk_800DB378( WatcherWork* work )
 {
-    work->target_addr = COM_PlayerAddress_800E0D90;
-    work->target_pos  = COM_PlayerPosition_800E0F30;
-    work->target_map  = COM_PlayerMap_800E0F1C;
+    work->target_addr = COM_PlayerAddress;
+    work->target_pos  = COM_PlayerPosition;
+    work->target_map  = COM_PlayerMap;
 }
 
 void s07a_meryl_unk_800DB3C0( WatcherWork* work )
@@ -66,7 +65,7 @@ void s07a_meryl_unk_800DB3C0( WatcherWork* work )
     work->target_pos.vx = zone->x;
     work->target_pos.vy = zone->y;
     work->target_pos.vz = zone->z;
-    work->target_map = COM_PlayerMap_800E0F1C;
+    work->target_map = COM_PlayerMap;
 }
 
 int s07a_meryl_unk_800DB470( WatcherWork *work, HZD_ZON *zone )
@@ -205,14 +204,14 @@ loop:
     work->target_pos.vx = zone3->x;
     work->target_pos.vy = zone3->y;
     work->target_pos.vz = zone3->z;
-    work->target_map = COM_PlayerMap_800E0F1C;
+    work->target_map = COM_PlayerMap;
 }
 
 void s07a_meryl_unk_800DB768( WatcherWork* work )
 {
-        work->target_addr = EnemyCommand_800E0D98.com_addr;
-        work->target_pos  = EnemyCommand_800E0D98.com_pos;
-        work->target_map  = EnemyCommand_800E0D98.com_map;
+        work->target_addr = EnemyCommand.com_addr;
+        work->target_pos  = EnemyCommand.com_pos;
+        work->target_map  = EnemyCommand.com_map;
 }
 
 // Identical to s00a_command_800CB0E0
@@ -312,7 +311,7 @@ void s07a_meryl_unk_800DB908( WatcherWork* work )
     work->target_pos.vx = zone->x;
     work->target_pos.vy = zone->y;
     work->target_pos.vz = zone->z;
-    work->target_map = COM_PlayerMap_800E0F1C;
+    work->target_map = COM_PlayerMap;
 }
 
 extern SVECTOR s07a_dword_800C3778;
@@ -332,7 +331,7 @@ void s07a_meryl_unk_800DB9B8( WatcherWork* work )
     work->target_pos.vx = zone->x;
     work->target_pos.vy = zone->y;
     work->target_pos.vz = zone->z;
-    work->target_map = COM_PlayerMap_800E0F1C;
+    work->target_map = COM_PlayerMap;
 }
 
 
@@ -394,7 +393,7 @@ void s07a_meryl_unk_800DBB68( WatcherWork *work )
         s07a_meryl_unk_800DB768( work );
         work->think1 = 1;
 
-        if ( EnemyCommand_800E0D98.field_0x40 == 1 )
+        if ( EnemyCommand.field_0x40 == 1 )
         {
             work->think2 = 8;
             work->think3 = 18;
@@ -440,7 +439,7 @@ extern void s07a_meryl_unk_800DBD54( WatcherWork *work );
 
 void s07a_meryl_unk_800DBC78( WatcherWork* work )
 {
-    EnemyCommand_800E0D98.field_0x40 = 0;
+    EnemyCommand.field_0x40 = 0;
     if ( work->act_status & 4 )
     {
         work->think1 = 2;
@@ -637,7 +636,7 @@ int s07a_meryl_unk_800DC00C( WatcherWork *work )
         work->count3 = 0;
     }
 
-    if ( EnemyCommand_800E0D98.mode != TOP_COMM_TRAVEL )
+    if ( EnemyCommand.mode != TOP_COMM_TRAVEL )
     {
         work->count3 = 0;
     }
@@ -738,7 +737,7 @@ void s07a_meryl_unk_800DC214( WatcherWork *work )
         return;
     }
 
-    mode = EnemyCommand_800E0D98.mode;
+    mode = EnemyCommand.mode;
     if ( mode == TOP_COMM_ALERT )
     {
         s07a_meryl_unk_800DB908( work );
@@ -1056,7 +1055,7 @@ start:
     work->pad.time = work->field_BB0[ time ];
     work->pad.tmp  = s07a_dword_800C36F0[ act ];
 
-    if ( COM_GameStatus_800E0F3C & 1 )
+    if ( COM_GameStatus & 1 )
     {
         if ( work->pad.tmp == 0x80 || work->pad.tmp == 0x200 || work->pad.tmp == 0x400 || work->pad.tmp == 0x800 )
         {
@@ -1141,9 +1140,9 @@ int s07a_meryl_unk_800DCBF4( WatcherWork* work )
 
     if ( count == 0 )
     {
-        ENE_PutMark_800D998C( work, 0 );
+        MERYL_PutMark( work, 0 );
         NewEyeflash( &work->body.objs->objs[6].world, &work->control.mov, s07a_aKirari_800E3084, 0 );
-        COM_VibTime_800E0F68 = 10;
+        COM_VibTime = 10;
     }
 
     if ( count < 20 )
@@ -1174,7 +1173,7 @@ int s07a_meryl_unk_800DCCEC( WatcherWork* work )
 {
     if ( work->count3 == 0 )
     {
-        ENE_PutMark_800D998C( work, 0 );
+        MERYL_PutMark( work, 0 );
         s07a_meryl_unk_800DCCBC( work );
     }
 
@@ -1311,13 +1310,13 @@ int s07a_meryl_unk_800DCFD4( WatcherWork *work )
     unsigned int count;
     if ( work->count3 == 0 )
     {
-       if ( COM_GameStatus_800E0F3C & 0x2000 )
+       if ( COM_GameStatus & 0x2000 )
        {
            work->think3 = 13;
            return 0;
        }
 
-        COM_GameStatus_800E0F3C |= 0x2000;
+        COM_GameStatus |= 0x2000;
         work->pad.dir = work->sn_dir;
     }
 
@@ -1337,7 +1336,7 @@ int s07a_meryl_unk_800DCFD4( WatcherWork *work )
 
 int s07a_meryl_unk_800DD05C( WatcherWork *work )
 {
-    if ( !( COM_GameStatus_800E0F3C & 0x2000 ) )
+    if ( !( COM_GameStatus & 0x2000 ) )
     {
         return 1;
     }
@@ -1408,7 +1407,7 @@ int Think3_NoiseModeWatch_800DD1EC( WatcherWork *work )
 
     if( work->count3 == 0)
     {
-        if( EnemyCommand_800E0D98.mode  == TOP_COMM_TRAVEL )
+        if( EnemyCommand.mode  == TOP_COMM_TRAVEL )
         {
             if( work->modetime[(  T_NOISE  )]  <= 1 )
             {
@@ -1416,14 +1415,14 @@ int Think3_NoiseModeWatch_800DD1EC( WatcherWork *work )
             }
             if( work->modetime[(  T_NOISE  )]  <= 3 )
             {
-                ENE_PutMark_800D998C( work ,BW_MARK );
+                MERYL_PutMark( work ,BW_MARK );
             }
             work->pad.dir = work->sn_dir;
         }
         else
         {
             if( work->modetime[(  T_NOISE  )] ) return 1;
-            ENE_PutMark_800D998C( work ,BW_MARK );
+            MERYL_PutMark( work ,BW_MARK );
             work->pad.dir = work->sn_dir;
         }
     }
@@ -1480,7 +1479,7 @@ int s07a_meryl_unk_800DD354( WatcherWork *work )
 
     if ( work->count3 == 0 )
     {
-        ENE_PutMark_800D998C( work, BW_MARK );
+        MERYL_PutMark( work, BW_MARK );
     }
 
     if ( work->count3 > 30 )
@@ -1504,12 +1503,12 @@ int s07a_meryl_unk_800DD3EC( WatcherWork* work )
 {
     if ( work->count3 == 0 )
     {
-        if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
+        if ( EnemyCommand.mode == TOP_COMM_TRAVEL )
         {
             GM_SeSet( &work->control.mov, 0xC0 );
         }
 
-        ENE_PutMark_800D998C( work, 5 );
+        MERYL_PutMark( work, 5 );
         work->pad.dir = work->sn_dir;
     }
     else
@@ -1548,7 +1547,7 @@ int s07a_meryl_unk_800DD4C0( WatcherWork *work )
     if ( work->count3 == 30 )
     {
         GM_SeSet( &work->control.mov, 0xC0 );
-        ENE_PutMark_800D998C( work, 5 );
+        MERYL_PutMark( work, 5 );
     }
 
     if ( work->count3 > 29 && s07a_meryl_unk_800DC3E0( work ) )
@@ -1565,7 +1564,7 @@ int s07a_meryl_unk_800DD554( WatcherWork *work )
     if ( work->count3 == 0 )
     {
         GM_SeSet( &work->control.mov, 0xC0 );
-        ENE_PutMark_800D998C( work, BW_MARK );
+        MERYL_PutMark( work, BW_MARK );
         work->pad.dir = work->sn_dir;
     }
     else
@@ -1586,7 +1585,7 @@ int s07a_meryl_unk_800DD5D0( WatcherWork *work )
 {
     if ( work->count3 == 20 )
     {
-        ENE_PutMark_800D998C( work, 5 );
+        MERYL_PutMark( work, 5 );
     }
 
     if ( s07a_meryl_unk_800DC3E0( work ) )
@@ -1602,7 +1601,7 @@ int s07a_meryl_unk_800DD628( WatcherWork *work )
 {
     if ( work->count3 == 20 )
     {
-        ENE_PutMark_800D998C( work, 5 );
+        MERYL_PutMark( work, 5 );
     }
 
     if ( s07a_meryl_unk_800DC3E0( work ) )
@@ -1619,7 +1618,7 @@ int s07a_meryl_unk_800DD680( WatcherWork *work )
     work->pad.press |= 0x4;
     if ( work->count3 == 20 )
     {
-        ENE_PutMark_800D998C( work, 5 );
+        MERYL_PutMark( work, 5 );
     }
 
     if ( work->count3 > 120 )
@@ -1905,7 +1904,7 @@ static inline void think_reset( WatcherWork *work )
 
 static inline void think_reset2( WatcherWork *work )
 {
-    if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
+    if ( EnemyCommand.mode == TOP_COMM_TRAVEL )
     {
         work->next_node--;
         s07a_meryl_unk_800DB804( work );
@@ -2115,7 +2114,7 @@ void s07a_meryl_unk_800DE0C8( WatcherWork *work )
             s07a_meryl_unk_800DB378( work );
             work->think3 = 9;
             work->count3 = 0;
-            if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
+            if ( EnemyCommand.mode == TOP_COMM_TRAVEL )
             {
                 work->pad.mode = 0;
             }
@@ -2255,7 +2254,7 @@ void s07a_meryl_unk_800DE360( WatcherWork *work )
             {
                 work->modetime[(  T_NOISE  )]++;
                 work->think3 = 9;
-                if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL && work->modetime[(  T_NOISE  )] < 2 )
+                if ( EnemyCommand.mode == TOP_COMM_TRAVEL && work->modetime[(  T_NOISE  )] < 2 )
                 {
                     work->pad.mode = 0;
                 }
@@ -2496,7 +2495,7 @@ void s07a_meryl_unk_800DE908( WatcherWork *work )
 
     if ( work->field_B7C == 0xFF )
     {
-        if ( work->field_C04 != COM_PlayerAddress_800E0D90 )
+        if ( work->field_C04 != COM_PlayerAddress )
         {
             if ( work->field_BFC < 0xDAD )
             {
@@ -2588,7 +2587,7 @@ void s07a_meryl_unk_800DEBF8( WatcherWork* work )
         }
         if ( s07a_meryl_unk_800DCD58( work ) )
         {
-            if ( EnemyCommand_800E0D98.field_0x40 == 1  || ( work->field_B7C != 0xFF) )
+            if ( EnemyCommand.field_0x40 == 1  || ( work->field_B7C != 0xFF) )
             {
                 s07a_meryl_unk_800DBB3C( work );
             }
@@ -2603,11 +2602,11 @@ void s07a_meryl_unk_800DEBF8( WatcherWork* work )
     break;
     }
 
-    if ( ( work->field_B7C == 0xFF) || EnemyCommand_800E0D98.field_0x40 != 1 )
+    if ( ( work->field_B7C == 0xFF) || EnemyCommand.field_0x40 != 1 )
     {
         if ( work->vision.field_B92 == 2 )
         {
-            if ( EnemyCommand_800E0D98.field_0x40 != 1 )
+            if ( EnemyCommand.field_0x40 != 1 )
             {
                 work->think2 = 7;
                 work->think3 = 17;
@@ -2784,7 +2783,7 @@ void s07a_meryl_unk_800DF038( WatcherWork *work )
         break;
     }
 
-    if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
+    if ( EnemyCommand.mode == TOP_COMM_TRAVEL )
     {
         return;
     }
@@ -2817,7 +2816,7 @@ void s07a_meryl_unk_800DF17C( WatcherWork* work )
         break;
     }
 
-    if ( EnemyCommand_800E0D98.mode != TOP_COMM_ALERT )
+    if ( EnemyCommand.mode != TOP_COMM_ALERT )
     {
         s07a_meryl_unk_800DBC78( work );
     }
@@ -2855,12 +2854,12 @@ void s07a_meryl_unk_800DF234( WatcherWork *work )
         break;
     }
 
-    if ( EnemyCommand_800E0D98.mode == TOP_COMM_ALERT )
+    if ( EnemyCommand.mode == TOP_COMM_ALERT )
     {
         s07a_meryl_unk_800DBB68( work );
     }
 
-    if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
+    if ( EnemyCommand.mode == TOP_COMM_TRAVEL )
     {
         work->think1 = 0;
         if ( work->think2 != 7 && work->think2 != 4 )

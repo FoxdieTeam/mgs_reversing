@@ -9,6 +9,7 @@
 #include "sound/g_sound.h"
 
 #include "takabe/spark2.h"      // for NewSpark2_800CA714
+#include "takabe/cineutil.h"    // for OpenCinemaScreen, etc.
 
 typedef struct _Work
 {
@@ -35,9 +36,6 @@ typedef struct _Work
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 void AN_Unknown_800CCA40(SVECTOR *pos);
-
-void OpenCinemaScreen(int, int);
-void CloseCinemaScreen(void);
 
 int  s03b_boxall_800C93AC(int arg0);
 void s03b_boxall_800C9404(void);

@@ -7,6 +7,7 @@
 #include "game/game.h"
 
 #include "takabe/fadeio.h"      // for NewFadeInOut
+#include "takabe/cineutil.h"    // for OpenCinemaScreen, etc.
 
 // There are two actors in this file
 
@@ -41,10 +42,6 @@ typedef struct Snake03c2Work
 #define EXEC_LEVEL GV_ACTOR_LEVEL5
 
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
-
-void OpenCinemaScreen(int, int);
-void CloseCinemaScreen(void);
-void CheckCinemaTimeout(void);
 
 void Snake03c1Act_800CD698(Snake03c1Work *work)
 {

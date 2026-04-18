@@ -6,13 +6,12 @@
 #include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
 
+#include "takabe/cineutil.h"    // for OpenCinemaScreen, etc.
+
 #define TH1_PHASE0 0
 #define TH1_PHASE1 1
 #define TH1_PHASE2 2
 #define TH1_PHASE3 3
-
-void OpenCinemaScreen(int type, int time);
-void CloseCinemaScreen(void);
 
 void s07c_meryl72_unk2_800CC9A8(Meryl72Work *work)
 {

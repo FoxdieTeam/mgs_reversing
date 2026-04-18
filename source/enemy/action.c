@@ -29,12 +29,12 @@ short ActTable_800C3358[54] =
 SVECTOR s00a_dword_800C33C4 = { -150,  0, 300 };
 SVECTOR s00a_dword_800C33CC = { 0,  -550, 950 };
 
-extern ENEMY_COMMAND     EnemyCommand_800E0D98;
-extern SVECTOR           COM_NO_POINT_800C35D4;
-extern TOPCOMMAND_STRUCT TOPCOMMAND_800E0F20;
-extern int               COM_EYE_LENGTH_800E0D8C;
-extern unsigned int      COM_GameStatus_800E0F3C;
-extern int               COM_VibTime_800E0F68;
+extern ENEMY_COMMAND     EnemyCommand;
+extern SVECTOR           COM_NO_POINT;
+extern TOPCOMMAND_STRUCT TOPCOMMAND;
+extern int               COM_EYE_LENGTH;
+extern unsigned int      COM_GameStatus;
+extern int               COM_VibTime;
 
 extern int GV_NearExp4P(int from, int to);
 
@@ -111,12 +111,12 @@ void ActStandStill_800C5C84(WatcherWork* work, int time )
     SetTargetClass( work->target, TARGET_FLAG );
     work->act_status |= 1;
 
-    if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
+    if ( EnemyCommand.mode == TOP_COMM_TRAVEL )
     {
         work->target->class |= TARGET_C4 ;
     }
 
-    work->vision.length = COM_EYE_LENGTH_800E0D8C ;
+    work->vision.length = COM_EYE_LENGTH ;
 
     if ( time == 0 )
     {
@@ -166,12 +166,12 @@ void s00a_command_800C5E48( WatcherWork* work, int time )
 
     SetTargetClass( work->target, TARGET_FLAG );
 
-    if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
+    if ( EnemyCommand.mode == TOP_COMM_TRAVEL )
     {
         work->target->class |= TARGET_C4 ;
     }
 
-    work->vision.length = COM_EYE_LENGTH_800E0D8C ;
+    work->vision.length = COM_EYE_LENGTH ;
     work->act_status |= 0x100;
     work->control.step = DG_ZeroVector;
 
@@ -287,7 +287,7 @@ void s00a_command_800C6164( WatcherWork *work, int time )
 
     ctrl = &( work->control );
     SetTargetClass( work->target, TARGET_FLAG );
-    work->vision.length = COM_EYE_LENGTH_800E0D8C ;
+    work->vision.length = COM_EYE_LENGTH ;
 
     if ( time == 0 )
     {
@@ -317,7 +317,7 @@ void s00a_command_800C624C( WatcherWork *work, int time )
 
     ctrl = &( work->control );
     SetTargetClass( work->target, TARGET_FLAG );
-    work->vision.length = COM_EYE_LENGTH_800E0D8C ;
+    work->vision.length = COM_EYE_LENGTH ;
 
     if ( time == 0 )
     {
@@ -344,13 +344,13 @@ void s00a_command_800C624C( WatcherWork *work, int time )
 void s00a_command_800C6320( WatcherWork *work, int time )
 {
     SetTargetClass( work->target, TARGET_FLAG ) ;
-    work->vision.length = COM_EYE_LENGTH_800E0D8C;
+    work->vision.length = COM_EYE_LENGTH;
     work->unknown.field_1E = 0;
 
     if ( CheckDamage_800C5424( work ) )
     {
         UnsetCameraActCall( );
-        COM_GameStatus_800E0F3C &= ~COM_ST_DANBOWL ;
+        COM_GameStatus &= ~COM_ST_DANBOWL ;
         printf(" ~COM_ST_DANBOWL 0 !! \n ") ;
         return;
     }
@@ -362,7 +362,7 @@ void s00a_command_800C6320( WatcherWork *work, int time )
             SetMode( work, ActStandStill_800C5C84 ) ;
         }
         UnsetCameraActCall( );
-        COM_GameStatus_800E0F3C &= ~COM_ST_DANBOWL ;
+        COM_GameStatus &= ~COM_ST_DANBOWL ;
         printf(" ~COM_ST_DANBOWL 1 !! \n ") ;
         return ;
     }
@@ -396,7 +396,7 @@ void s00a_command_800C6320( WatcherWork *work, int time )
         UnsetCameraActCall( );
         work->actend = 1 ;
         SetMode( work, ActStandStill_800C5C84 ) ;
-        COM_GameStatus_800E0F3C &= ~COM_ST_DANBOWL ;
+        COM_GameStatus &= ~COM_ST_DANBOWL ;
         printf(" ~COM_ST_DANBOWL 2 !! \n ");
         return ;
     }
@@ -409,7 +409,7 @@ void s00a_command_800C65A8( WatcherWork* work, int time )
 {
     int press;
     SetTargetClass( work->target, TARGET_FLAG );
-    work->vision.length = COM_EYE_LENGTH_800E0D8C ;
+    work->vision.length = COM_EYE_LENGTH ;
     press = work->pad.press;
 
     if ( time == 0 )
@@ -470,12 +470,12 @@ void s00a_command_800C65A8( WatcherWork* work, int time )
 void s00a_command_800C6724( WatcherWork* work, int time )
 {
     SetTargetClass( work->target, TARGET_FLAG );
-    work->vision.length = COM_EYE_LENGTH_800E0D8C ;
+    work->vision.length = COM_EYE_LENGTH ;
 
     if ( time == 0 )
     {
         SetAction( work, ACTION4, 0 ) ;
-        ENE_SetPutChar_800C979C( work, 3 ) ;
+        ENE_SetPutChar( work, 3 ) ;
         GM_ConfigMotionAdjust( &( work->body ), work->adjust ) ;
     }
 
@@ -501,7 +501,7 @@ void ActGrenade_800C67EC( WatcherWork *work, int time )
 {
     int check = 0;
     SetTargetClass( work->target, TARGET_FLAG ) ;
-    work->vision.length = COM_EYE_LENGTH_800E0D8C ;
+    work->vision.length = COM_EYE_LENGTH ;
 
     if ( time == 0 )
     {
@@ -575,7 +575,7 @@ void ActGrenade_800C67EC( WatcherWork *work, int time )
 void s00a_command_800C6A40( WatcherWork* work, int time )
 {
     SetTargetClass( work->target, TARGET_FLAG );
-    work->vision.length = COM_EYE_LENGTH_800E0D8C ;
+    work->vision.length = COM_EYE_LENGTH ;
     work->unknown.field_1E = 0;
 
     if ( time == 0 )
@@ -660,7 +660,7 @@ void s00a_command_800C6BCC( WatcherWork* work, int time )
             {
                 GM_SeSetMode( &ctrl->mov, 0x8E, GM_SEMODE_BOMB ) ;
                 GM_SeSetMode( &ctrl->mov, SE_HIT_FLOOR, GM_SEMODE_BOMB ) ;
-                ENE_PutBlood_800C8FF8( work, 6, 0 ) ;
+                ENE_PutBlood( work, 6, 0 ) ;
                 GM_SetNoise( 0x64, 4, &work->control.mov ) ;
             }
             //if they fall from a height?
@@ -688,7 +688,7 @@ void s00a_command_800C6BCC( WatcherWork* work, int time )
         {
             GM_SeSetMode( &ctrl->mov, SE_HIT_FLOOR, GM_SEMODE_BOMB ) ;
             GM_SetNoise( 0x64, 4, &work->control.mov ) ;
-            ENE_PutBlood_800C8FF8( work, 6, 1 ) ;
+            ENE_PutBlood( work, 6, 1 ) ;
 
             if ( work->target->life <= 0 )
             {
@@ -758,7 +758,7 @@ void s00a_command_800C6FA8( WatcherWork* work, int time )
 
     if ( target->damaged & TARGET_POWER )
     {
-        ENE_PutBlood_800C8FF8( work, 5, 0 );
+        ENE_PutBlood( work, 5, 0 );
         GM_SeSet( &work->control.mov, 0x8F );
         target->scale = DG_ZeroVector;
         target->life_lost = 0;
@@ -795,7 +795,7 @@ void s00a_command_800C6FA8( WatcherWork* work, int time )
 
         if ( s2 == 0x30 && !( work->field_B5C & 7  ) )
         {
-            COM_VibTime_800E0F68 = 4;
+            COM_VibTime = 4;
         }
         work->control.turn = GM_PlayerControl->rot;
         s00a_command_800C6EC8( work );
@@ -997,7 +997,7 @@ void s00a_command_800C77C8( WatcherWork* work, int time )
 
     work->unknown.field_1E = 0;
     SetTargetClass( work->target, TARGET_FLAG );
-    work->vision.length = COM_EYE_LENGTH_800E0D8C ;
+    work->vision.length = COM_EYE_LENGTH ;
     work->act_status |= 0x08;
 
     if ( CheckDamage_800C5424( work ) )
@@ -1013,11 +1013,11 @@ void s00a_command_800C77C8( WatcherWork* work, int time )
         if ( target->a_mode == 3 )
         {
             GM_SeSet( &work->control.mov, SE_PUNCH_HIT );
-            ENE_PutFog_800C9068( work );
+            ENE_PutFog( work );
         }
         else
         {
-            ENE_PutBlood_800C8FF8( work, 5, 0 );
+            ENE_PutBlood( work, 5, 0 );
         }
         GM_SeSetMode( &work->control.mov, 0x8D, GM_SEMODE_BOMB );
     }
@@ -1050,7 +1050,7 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
             GM_SeSet( &ctrl->mov, SE_PUNCH_HIT );
             SetAction( work, ACTION34, ACTINTERP );
             GM_SeSetMode( &ctrl->mov, 0x8E, GM_SEMODE_BOMB );
-            ENE_PutBlood_800C8FF8( work, 5, 0 );
+            ENE_PutBlood( work, 5, 0 );
             work->field_B5A = 17;
             break;
         case 1:
@@ -1059,18 +1059,18 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
             {
                 if ( GM_CurrentWeaponId == WP_Rifle )
                 {
-                    ENE_PutBlood_800C8FF8( work, 6, 2 );
+                    ENE_PutBlood( work, 6, 2 );
                 }
                 else
                 {
-                    ENE_PutBlood_800C8FF8( work, 6, 1 );
+                    ENE_PutBlood( work, 6, 1 );
                 }
                 GM_SeSetMode( &ctrl->mov, 0x91, GM_SEMODE_BOMB );
                 work->field_B5A = 46;
             }
             else
             {
-                ENE_PutBlood_800C8FF8( work, 5, 0 );
+                ENE_PutBlood( work, 5, 0 );
                 GM_SeSetMode( &ctrl->mov, 0x8E, GM_SEMODE_BOMB );
                 if ( work->target->a_mode == 3 )
                 {
@@ -1082,13 +1082,13 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
         case 3:
             GM_SeSetMode( &ctrl->mov, 0x8E, GM_SEMODE_BOMB );
             SetAction( work, ACTION35, ACTINTERP );
-            ENE_PutBlood_800C8FF8( work, 5, 0 );
+            ENE_PutBlood( work, 5, 0 );
             work->field_B5A = 17;
             break;
         case 2:
             GM_SeSetMode( &ctrl->mov, 0x8E, GM_SEMODE_BOMB );
             SetAction( work, ACTION36, ACTINTERP );
-            ENE_PutBlood_800C8FF8( work, 5, 0 );
+            ENE_PutBlood( work, 5, 0 );
             work->field_B5A = 37;
             break;
         case 4:
@@ -1164,7 +1164,7 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
         {
             GM_SeSetMode( &ctrl->mov, SE_HIT_FLOOR, GM_SEMODE_BOMB ) ;
             GM_SetNoise( 0x64, 4, &ctrl->mov ) ;
-            ENE_PutBlood_800C8FF8( work, 6, 0 ) ;
+            ENE_PutBlood( work, 6, 0 ) ;
         }
         else
         {
@@ -1244,7 +1244,7 @@ void s00a_command_800C7E28( WatcherWork* work, int time )
             work->unknown.field_1E = 1;
             work->target->scale = DG_ZeroVector;
             GM_SeSetMode( &ctrl->mov, SE_HIT_FLOOR, GM_SEMODE_BOMB );
-            ENE_PutBlood_800C8FF8( work, 6, 1 );
+            ENE_PutBlood( work, 6, 1 );
             SetMode( work, s00a_command_800C8054 );
         }
     }
@@ -1278,9 +1278,9 @@ void s00a_command_800C8054( WatcherWork *work, int time )
         GM_TargetBody( work->target, NULL );
     }
 
-    if ( time == 4 && TOPCOMMAND_800E0F20.mode == 0 )
+    if ( time == 4 && TOPCOMMAND.mode == 0 )
     {
-        ENE_PutItem_800C90CC( work );
+        ENE_PutItem( work );
     }
 
     if ( time & 2 )
@@ -1306,8 +1306,8 @@ void s00a_command_800C818C( WatcherWork *work, int time )
     if ( time == 0 )
     {
         work->visible = 0;
-        work->control.mov = COM_NO_POINT_800C35D4;
-        EnemyCommand_800E0D98.field_0xC8[ work->field_B78 ].field_04 = 1;
+        work->control.mov = COM_NO_POINT;
+        EnemyCommand.field_0xC8[ work->field_B78 ].field_04 = 1;
 
         if ( !work->field_C48 )
         {
@@ -1320,10 +1320,10 @@ void s00a_command_800C818C( WatcherWork *work, int time )
         }
     }
 
-    if ( EnemyCommand_800E0D98.field_0xC8[ work->field_B78 ].field_04 == 2 )
+    if ( EnemyCommand.field_0xC8[ work->field_B78 ].field_04 == 2 )
     {
         s00a_command_800C55B0( work );
-        printf("enemy reset max=%d num=%d \n", EnemyCommand_800E0D98.reset_enemy_max, EnemyCommand_800E0D98.reset_enemy_num);
+        printf("enemy reset max=%d num=%d \n", EnemyCommand.reset_enemy_max, EnemyCommand.reset_enemy_num);
         SetMode( work, ActStandStill_800C5C84) ;
     }
 }
@@ -1707,16 +1707,16 @@ const char *s00a_off_800C33F4[3] = {
     "FA-MAS/BULLET * 25"
 };
 
-void ENE_PutSound_800C9414( WatcherWork* work );
-void ENE_PutBreath_800C94B8( WatcherWork *work, int arg1 );
-void ENE_PutLSight_800C9600( WatcherWork* work );
-void ENE_PutBulletEx_800C963C( WatcherWork *work );
+void ENE_PutSound( WatcherWork* work );
+void ENE_PutBreath( WatcherWork *work, int arg1 );
+void ENE_PutLSight( WatcherWork* work );
+void ENE_PutBulletEx( WatcherWork *work );
 
 void *PutFuncList_800C3400[4] = {
-    ENE_PutSound_800C9414,
-    ENE_PutBreath_800C94B8,
-    ENE_PutLSight_800C9600,
-    ENE_PutBulletEx_800C963C
+    ENE_PutSound,
+    ENE_PutBreath,
+    ENE_PutLSight,
+    ENE_PutBulletEx
 };
 
 SVECTOR s00a_dword_800C3410 = { 5, -500, 80, 0 };
@@ -1730,7 +1730,7 @@ extern void  NewBlood( MATRIX *, int );
 extern void  NewLSight( SVECTOR *from, SVECTOR *to, int color ) ;
 extern void  AN_Breath( MATRIX * );
 
-void ENE_PutBlood_800C8FF8( WatcherWork* work, int obj_idx, int count )
+void ENE_PutBlood( WatcherWork* work, int obj_idx, int count )
 {
     MATRIX mat;
     DG_SetPos(&work->body.objs->objs[obj_idx].world);
@@ -1740,7 +1740,7 @@ void ENE_PutBlood_800C8FF8( WatcherWork* work, int obj_idx, int count )
     NewBlood( &mat, count );
 }
 
-void ENE_PutFog_800C9068( WatcherWork* work )
+void ENE_PutFog( WatcherWork* work )
 {
     MATRIX mat;
     SVECTOR svec;
@@ -1757,7 +1757,7 @@ void ENE_PutFog_800C9068( WatcherWork* work )
     AN_Fog( &svec );
 }
 
-void ENE_PutItem_800C90CC( WatcherWork *work )
+void ENE_PutItem( WatcherWork *work )
 {
     int a1;
     int a2;
@@ -1876,7 +1876,7 @@ void ENE_PutItem_800C90CC( WatcherWork *work )
     }
 }
 
-void ENE_PutMark_800C9378( WatcherWork *work, int mark )
+void ENE_PutMark( WatcherWork *work, int mark )
 {
     MATRIX *mat;
     if ( !( work->control.map->index & GM_PlayerMap ) )
@@ -1899,12 +1899,12 @@ void ENE_PutMark_800C9378( WatcherWork *work, int mark )
     work->mark_time = 30;
 }
 
-void ENE_PutSound_800C9414( WatcherWork* work )
+void ENE_PutSound( WatcherWork* work )
 {
     int a1, a3;
     int a2;
     int v1;
-    if ( !EnemyCommand_800E0D98.field_0x17A ) return;
+    if ( !EnemyCommand.field_0x17A ) return;
 
     a3 = work->unknown.last_set;
     a2 = work->m_ctrl.info1.frame;
@@ -1936,10 +1936,10 @@ void ENE_PutSound_800C9414( WatcherWork* work )
     }
 }
 
-void ENE_PutBreath_800C94B8( WatcherWork *work, int arg1 )
+void ENE_PutBreath( WatcherWork *work, int arg1 )
 {
     int frame;
-    if ( EnemyCommand_800E0D98.mode == TOP_COMM_ALERT )
+    if ( EnemyCommand.mode == TOP_COMM_ALERT )
     {
         return;
     }
@@ -1985,7 +1985,7 @@ void ENE_PutBreath_800C94B8( WatcherWork *work, int arg1 )
     }
 }
 
-void ENE_PutLSight_800C9600( WatcherWork* work )
+void ENE_PutLSight( WatcherWork* work )
 {
     if ( work->vision.field_B92 == 2 )
     {
@@ -1993,7 +1993,7 @@ void ENE_PutLSight_800C9600( WatcherWork* work )
     }
 }
 
-void ENE_PutBulletEx_800C963C( WatcherWork *work )
+void ENE_PutBulletEx( WatcherWork *work )
 {
     int damage;
     MATRIX* mat;
@@ -2040,10 +2040,10 @@ void ENE_PutBulletEx_800C963C( WatcherWork *work )
     GM_SeSetMode( &work->control.mov, SE_ENEMY_SHOT, GM_SEMODE_BOMB );
     NewAnime_8005D6BC( mat, 0 );
     NewAnime_8005D604( &local_mat );
-    ENE_ClearPutChar_800C97E4( work, ENE_PutBulletEx_800C963C );
+    ENE_ClearPutChar( work, ENE_PutBulletEx );
 }
 
-int ENE_SetPutChar_800C979C( WatcherWork *work, int idx )
+int ENE_SetPutChar( WatcherWork *work, int idx )
 {
     int i;
 
@@ -2058,7 +2058,7 @@ int ENE_SetPutChar_800C979C( WatcherWork *work, int idx )
     return 0;
 }
 
-int ENE_ClearPutChar_800C97E4( WatcherWork *work, void *func )
+int ENE_ClearPutChar( WatcherWork *work, void *func )
 {
     int i;
 
@@ -2073,7 +2073,7 @@ int ENE_ClearPutChar_800C97E4( WatcherWork *work, void *func )
     return 0;
 }
 
-void ENE_ExecPutChar_800C9818( WatcherWork* work )
+void ENE_ExecPutChar( WatcherWork* work )
 {
     int i;
 

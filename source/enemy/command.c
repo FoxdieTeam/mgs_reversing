@@ -30,54 +30,54 @@ int SECTION(".bss") s00a_dword_800E0D34;
 
 SVECTOR SECTION(".bss") s00a_dword_800E0D38;
 
-int SECTION(".bss") COM_PlayerOnZone_800E0D40;
+int SECTION(".bss") COM_PlayerOnZone;
 
-int SECTION(".bss") COM_NoiseMinDisID_800E0D44;
+int SECTION(".bss") COM_NoiseMinDisID;
 
-SVECTOR SECTION(".bss") COM_PlayerPositionOne_800E0D48[8];
+SVECTOR SECTION(".bss") COM_PlayerPositionOne[8];
 
-int SECTION(".bss") COM_SHOOTRANGE_800E0D88;
-int SECTION(".bss") COM_EYE_LENGTH_800E0D8C;
-int SECTION(".bss") COM_PlayerAddress_800E0D90;
-unsigned int SECTION(".bss") ENE_SPECIAL_FLAG_800E0D94;
+int SECTION(".bss") COM_SHOOTRANGE;
+int SECTION(".bss") COM_EYE_LENGTH;
+int SECTION(".bss") COM_PlayerAddress;
+unsigned int SECTION(".bss") ENE_SPECIAL_FLAG;
 
-ENEMY_COMMAND SECTION(".bss")  EnemyCommand_800E0D98;
+ENEMY_COMMAND SECTION(".bss") EnemyCommand;
 
-int SECTION(".bss") COM_PlayerMap_800E0F1C;
+int SECTION(".bss") COM_PlayerMap;
 
-TOPCOMMAND_STRUCT SECTION(".bss") TOPCOMMAND_800E0F20;
+TOPCOMMAND_STRUCT SECTION(".bss") TOPCOMMAND;
 
 TOPCOMMAND_STRUCT SECTION(".bss") s00a_dword_800E0F28;
 
-SVECTOR SECTION(".bss")  COM_PlayerPosition_800E0F30;
+SVECTOR SECTION(".bss")  COM_PlayerPosition;
 
-int SECTION(".bss") COM_NOISEMODE_DIS_800E0F38;
+int SECTION(".bss") COM_NOISEMODE_DIS;
 
-unsigned int SECTION(".bss") COM_GameStatus_800E0F3C;
+unsigned int SECTION(".bss") COM_GameStatus;
 
-int SECTION(".bss") COM_PlayerAddressOne_800E0F40[8];
+int SECTION(".bss") COM_PlayerAddressOne[8];
 
-int SECTION(".bss") COM_ALERT_DECREMENT_800E0F60;
+int SECTION(".bss") COM_ALERT_DECREMENT;
 
 int SECTION(".bss") GM_GameFlag_800E0F64;
 
-int SECTION(".bss") COM_VibTime_800E0F68;
+int SECTION(".bss") COM_VibTime;
 
 int SECTION(".bss") s00a_dword_800E0F6C;
 
-int SECTION(".bss") COM_PlayerMapOne_800E0F70[8];
+int SECTION(".bss") COM_PlayerMapOne[8];
 
 extern int       GM_event_camera_flag;
 extern CONTROL  *GM_WhereList[94];
 extern GM_CAMERA GM_Camera;
 
-SVECTOR ENEMY_TARGET_SIZE_800C35A4  = { 300, 1000, 300 };
-SVECTOR ENEMY_TARGET_FORCE_800C35AC = { 0, 0, 0 };
-SVECTOR ENEMY_ATTACK_SIZE_800C35B4  = { 800, 500, 800 };
-SVECTOR ENEMY_ATTACK_FORCE_800C35BC = { 100, 0, 0 };
-SVECTOR ENEMY_TOUCH_SIZE_800C35C4   = { 300, 800, 300 };
-SVECTOR ENEMY_TOUCH_FORCE_800C35CC  = { 0, 0, 0, 0 };
-SVECTOR COM_NO_POINT_800C35D4       = { 30000, 30000, 30000 };
+SVECTOR ENEMY_TARGET_SIZE   = { 300, 1000, 300 };
+SVECTOR ENEMY_TARGET_FORCE  = { 0, 0, 0 };
+SVECTOR ENEMY_ATTACK_SIZE   = { 800, 500, 800 };
+SVECTOR ENEMY_ATTACK_FORCE  = { 100, 0, 0 };
+SVECTOR ENEMY_TOUCH_SIZE    = { 300, 800, 300 };
+SVECTOR ENEMY_TOUCH_FORCE   = { 0, 0, 0, 0 };
+SVECTOR COM_NO_POINT        = { 30000, 30000, 30000 };
 
 unsigned char s00a_dword_800C35DC[4] = { 1,   1, 0, 0 };
 unsigned char s00a_dword_800C35E0[4] = { 255, 1, 0, 0 };
@@ -103,11 +103,11 @@ int s00a_command_800CEA2C( WatcherWork *work )
     int i;
     for ( i = 0 ; i <  8 ; i++ )
     {
-        if ( EnemyCommand_800E0D98.field_0xC8[i].watcher == 0 )
+        if ( EnemyCommand.field_0xC8[i].watcher == 0 )
         {
-            EnemyCommand_800E0D98.field_0xC8[i].watcher = work; //update to be a struct with watcher ptr as 4th attribute
-            EnemyCommand_800E0D98.field_0xC8[i].field_04 = 2;
-            COM_PlayerAddressOne_800E0F40[i] = -1;
+            EnemyCommand.field_0xC8[i].watcher = work; //update to be a struct with watcher ptr as 4th attribute
+            EnemyCommand.field_0xC8[i].field_04 = 2;
+            COM_PlayerAddressOne[i] = -1;
             return i;
         }
     }
@@ -117,15 +117,15 @@ int s00a_command_800CEA2C( WatcherWork *work )
 
 void s00a_command_800CEA84( int idx, int val )
 {
-    EnemyCommand_800E0D98.field_0x148[ idx ] = val;
+    EnemyCommand.field_0x148[ idx ] = val;
 }
 
 int s00a_command_800CEA9C( int val )
 {
     int i;
-    for ( i = 0 ; i < EnemyCommand_800E0D98.field_0x08 ; i++ )
+    for ( i = 0 ; i < EnemyCommand.field_0x08 ; i++ )
     {
-        if ( EnemyCommand_800E0D98.field_0x148[i] == val )
+        if ( EnemyCommand.field_0x148[i] == val )
         {
             return 1;
         }
@@ -135,33 +135,33 @@ int s00a_command_800CEA9C( int val )
 
 void ENE_SetTopCommAL( int alert )
 {
-    TOPCOMMAND_800E0F20.alert = alert;
+    TOPCOMMAND.alert = alert;
 }
 
 void ENE_SetTopCommMD( int mode )
 {
-    TOPCOMMAND_800E0F20.mode = mode;
+    TOPCOMMAND.mode = mode;
 }
 
 void ENE_SetGopointLast(void)
 {
-    EnemyCommand_800E0D98.com_addr = COM_PlayerAddress_800E0D90;
-    EnemyCommand_800E0D98.com_pos  = COM_PlayerPosition_800E0F30;
-    EnemyCommand_800E0D98.com_map  = COM_PlayerMap_800E0F1C;
-    EnemyCommand_800E0D98.field_0x40 = 1;
+    EnemyCommand.com_addr = COM_PlayerAddress;
+    EnemyCommand.com_pos  = COM_PlayerPosition;
+    EnemyCommand.com_map  = COM_PlayerMap;
+    EnemyCommand.field_0x40 = 1;
 }
 
 void s00a_command_800CEB54(void)
 {
-    EnemyCommand_800E0D98.com_addr = HZD_GetAddress( GM_WhereList[0]->map->hzd, &GM_NoisePosition, -1 );
-    EnemyCommand_800E0D98.com_pos = GM_NoisePosition;
-    EnemyCommand_800E0D98.com_map = GM_PlayerMap;
+    EnemyCommand.com_addr = HZD_GetAddress( GM_WhereList[0]->map->hzd, &GM_NoisePosition, -1 );
+    EnemyCommand.com_pos = GM_NoisePosition;
+    EnemyCommand.com_map = GM_PlayerMap;
 }
 
 int s00a_command_800CEBCC( int map_id, int val )
 {
     int i;
-    A4_STRUCT *unk = &EnemyCommand_800E0D98.field_0xA4;
+    A4_STRUCT *unk = &EnemyCommand.field_0xA4;
 
     if ( unk->map_id == map_id )
     {
@@ -194,15 +194,15 @@ void s00a_command_800CEC40( SVECTOR *mov , int flag )
 
 void s00a_command_800CEC90( void )
 {
-    if ( COM_VibTime_800E0F68 > 0 )
+    if ( COM_VibTime > 0 )
     {
         NewPadVibration( s00a_dword_800C35DC, 1 );
         NewPadVibration( s00a_dword_800C35E0, 2 );
-        COM_VibTime_800E0F68--;
+        COM_VibTime--;
         return;
     }
 
-    COM_VibTime_800E0F68 = 0;
+    COM_VibTime = 0;
 }
 
 void s00a_command_800CECF4(void)
@@ -223,9 +223,9 @@ void s00a_command_800CECF4(void)
 void s00a_command_800CED48( void )
 {
     int i;
-    for ( i = 0; i < EnemyCommand_800E0D98.field_0x08 ; i++ )
+    for ( i = 0; i < EnemyCommand.field_0x08 ; i++ )
     {
-        EnemyCommand_800E0D98.field_0x148[i] = 255;
+        EnemyCommand.field_0x148[i] = 255;
     }
 }
 
@@ -281,8 +281,8 @@ void s00a_command_800CEE98(void)
     SVECTOR svec;
 
     i = 0;
-    delta = GV_Time % EnemyCommand_800E0D98.field_0x54;
-    total = EnemyCommand_800E0D98.field_0x54;
+    delta = GV_Time % EnemyCommand.field_0x54;
+    total = EnemyCommand.field_0x54;
     reset_pos = 0;
 
     for ( ; i < total ; i++  )
@@ -293,7 +293,7 @@ void s00a_command_800CEE98(void)
             s0 -= total;
         }
 
-        zone = &EnemyCommand_800E0D98.map->hzd->header->zones[ EnemyCommand_800E0D98.field_0x58[ s0 ] ];
+        zone = &EnemyCommand.map->hzd->header->zones[ EnemyCommand.field_0x58[ s0 ] ];
 
         svec.vx = zone->x;
         svec.vy = GM_PlayerPosition.vy;
@@ -309,18 +309,18 @@ void s00a_command_800CEE98(void)
 
     }
 
-    EnemyCommand_800E0D98.c_reset_pos = reset_pos;
+    EnemyCommand.c_reset_pos = reset_pos;
     fprintf( 1, aCresetposd_800E07FC, reset_pos );
 }
 
 int s00a_command_800CEFE4( int val )
 {
-    return  EnemyCommand_800E0D98.field_0x0C % val;
+    return  EnemyCommand.field_0x0C % val;
 }
 
 void s00a_command_800CF024( int *val )
 {
-    if ( COM_GameStatus_800E0F3C & 1 )
+    if ( COM_GameStatus & 1 )
     {
         *val = 0x82;
     }
@@ -419,13 +419,13 @@ int s00a_command_800CF13C( int val )
 
 void s00a_command_800CF200(void)
 {
-    if ( EnemyCommand_800E0D98.field_0x170 < 6000 && ( mts_get_tick_count() - EnemyCommand_800E0D98.field_0x174 ) > 40 )
+    if ( EnemyCommand.field_0x170 < 6000 && ( mts_get_tick_count() - EnemyCommand.field_0x174 ) > 40 )
     {
-       if ( EnemyCommand_800E0D98.field_0x17A && GM_CurrentWeaponId != WP_Rifle )
+       if ( EnemyCommand.field_0x17A && GM_CurrentWeaponId != WP_Rifle )
        {
            GM_SeSetMode( &GM_PlayerPosition, SE_HEARTBEAT, GM_SEMODE_REAL );
        }
-       EnemyCommand_800E0D98.field_0x174 = mts_get_tick_count();
+       EnemyCommand.field_0x174 = mts_get_tick_count();
     }
 }
 
@@ -445,7 +445,7 @@ void s00a_command_800CF298( ENEMY_COMMAND* command )
     for ( i = 0 ; i < command->field_0x08 ; i ++ )
     {
         //WatcherWork *work;
-        work = command->field_0xC8[ EnemyCommand_800E0D98.field_0x68[ i ] ].watcher;
+        work = command->field_0xC8[ EnemyCommand.field_0x68[ i ] ].watcher;
 
         if ( work->act_status & 0x10000000 )
         {
@@ -476,22 +476,22 @@ void s00a_command_800CF298( ENEMY_COMMAND* command )
                 dists[ i - 1 ] = temp1;
                 dists[ i ] = temp2;
 
-                temp4 = EnemyCommand_800E0D98.field_0x68[ i - 1 ];
-                temp3 = EnemyCommand_800E0D98.field_0x68[ i  ];
+                temp4 = EnemyCommand.field_0x68[ i - 1 ];
+                temp3 = EnemyCommand.field_0x68[ i  ];
                 t4 = t2;
 
-                EnemyCommand_800E0D98.field_0x68[ i - 1 ] = temp3;
-                EnemyCommand_800E0D98.field_0x68[ i ] = temp4;
+                EnemyCommand.field_0x68[ i - 1 ] = temp3;
+                EnemyCommand.field_0x68[ i ] = temp4;
             }
         }
     }
 
-    EnemyCommand_800E0D98.field_0x170 = dists[0];
+    EnemyCommand.field_0x170 = dists[0];
 
     for ( i = 0 ; i < command->field_0x08 ; i++ )
     {
         //WatcherWork *work;
-        work = command->field_0xC8[ EnemyCommand_800E0D98.field_0x68[ i ] ].watcher;
+        work = command->field_0xC8[ EnemyCommand.field_0x68[ i ] ].watcher;
         work->field_BFC = s00a_dword_800C35E4[ i ];
         work->field_C00 = i;
     }
@@ -503,13 +503,13 @@ void s00a_command_800CF420( ENEMY_COMMAND* command )
     int dis;
     int sound;
     WatcherWork *work;
-    EnemyCommand_800E0D98.field_0x1C--;
-    if ( EnemyCommand_800E0D98.field_0x1C < 0 )
+    EnemyCommand.field_0x1C--;
+    if ( EnemyCommand.field_0x1C < 0 )
     {
-        EnemyCommand_800E0D98.field_0x1C = 0;
+        EnemyCommand.field_0x1C = 0;
     }
 
-    if ( EnemyCommand_800E0D98.field_0x1C > 0 )
+    if ( EnemyCommand.field_0x1C > 0 )
     {
         return;
     }
@@ -532,7 +532,7 @@ void s00a_command_800CF420( ENEMY_COMMAND* command )
 
     if ( sound )
     {
-        EnemyCommand_800E0D98.field_0x1C = 0x1E;
+        EnemyCommand.field_0x1C = 0x1E;
         GM_SeSet( NULL, s00a_command_800CF13C( sound ) );
     }
 }
@@ -565,14 +565,14 @@ void s00a_command_800CF504( WATCHER *struct_c8 , int i )
         {
             struct_c8->field_08 = 2;
             struct_c8->field_00 = 0;
-            EnemyCommand_800E0D98.reset_enemy_num++;
+            EnemyCommand.reset_enemy_num++;
         }
         return;
     case 2:
-        switch ( EnemyCommand_800E0D98.mode )
+        switch ( EnemyCommand.mode )
         {
         case TOP_COMM_TRAVEL:
-            if ( EnemyCommand_800E0D98.field_0x168 & 1 )
+            if ( EnemyCommand.field_0x168 & 1 )
             {
                 s00a_command_800CEE98();
                 struct_c8->field_04 = x;
@@ -580,17 +580,17 @@ void s00a_command_800CF504( WATCHER *struct_c8 , int i )
             }
         return;
         case TOP_COMM_ALERT:
-                if ( EnemyCommand_800E0D98.reset_enemy_num < EnemyCommand_800E0D98.reset_enemy_max + 1  || EnemyCommand_800E0D98.reset_enemy_max == 255 )
+                if ( EnemyCommand.reset_enemy_num < EnemyCommand.reset_enemy_max + 1  || EnemyCommand.reset_enemy_max == 255 )
                 {
-                    if ( EnemyCommand_800E0D98.reset_enemy_num < 0 )
+                    if ( EnemyCommand.reset_enemy_num < 0 )
                     {
-                        EnemyCommand_800E0D98.reset_enemy_num = 0;
+                        EnemyCommand.reset_enemy_num = 0;
                     }
 
                     s00a_command_800CEE98();
                     struct_c8->field_04 = x;
                     struct_c8->field_08 = 0;
-                    printf( (char *)s00a_aResetmaxdnumd_800E083C, EnemyCommand_800E0D98.reset_enemy_max, EnemyCommand_800E0D98.reset_enemy_num );
+                    printf( (char *)s00a_aResetmaxdnumd_800E083C, EnemyCommand.reset_enemy_max, EnemyCommand.reset_enemy_num );
                 }
             return;
         }
@@ -619,9 +619,9 @@ void s00a_command_800CF6A0( int val, ENEMY_COMMAND* command )
         command->alert = val;
     }
 
-    if ( command->alert < TOPCOMMAND_800E0F20.alert )
+    if ( command->alert < TOPCOMMAND.alert )
     {
-        command->alert = TOPCOMMAND_800E0F20.alert;
+        command->alert = TOPCOMMAND.alert;
     }
 
     ENE_SetTopCommAL( 0 );
@@ -634,30 +634,30 @@ void s00a_command_800CF704( ENEMY_COMMAND *command )
     switch ( command->mode )
     {
         default:
-            TOPCOMMAND_800E0F20.mode = command->mode;
+            TOPCOMMAND.mode = command->mode;
             return;
         case 0:
-            COM_EYE_LENGTH_800E0D8C = EnemyCommand_800E0D98.field_0x88.vx;
-            COM_SHOOTRANGE_800E0D88 = EnemyCommand_800E0D98.field_0x88.vx + 500;
+            COM_EYE_LENGTH = EnemyCommand.field_0x88.vx;
+            COM_SHOOTRANGE = EnemyCommand.field_0x88.vx + 500;
             if ( command->alert >= 255 )
             {
                 command->alert = 255;
                 GM_AlertModeSet(3);
                 command->mode = 1;
-                EnemyCommand_800E0D98.reset_enemy_num = 0;
-                COM_GameStatus_800E0F3C |= 0x1;
+                EnemyCommand.reset_enemy_num = 0;
+                COM_GameStatus |= 0x1;
 
-                if ( !( COM_GameStatus_800E0F3C & 2 ) )
+                if ( !( COM_GameStatus & 2 ) )
                 {
                     GM_EnemyWatchCount ++;
                     printf( (char *)aGmenemywatchcountd_800E0854, GM_EnemyWatchCount );
                 }
-                EnemyCommand_800E0D98.field_0x182 = 0;
+                EnemyCommand.field_0x182 = 0;
             }
         break;
         case 1:
-            COM_EYE_LENGTH_800E0D8C = EnemyCommand_800E0D98.field_0x88.vy;
-            COM_SHOOTRANGE_800E0D88 = EnemyCommand_800E0D98.field_0x88.vy + 500;
+            COM_EYE_LENGTH = EnemyCommand.field_0x88.vy;
+            COM_SHOOTRANGE = EnemyCommand.field_0x88.vy + 500;
 
             if ( command->alert <= 0 )
             {
@@ -666,7 +666,7 @@ void s00a_command_800CF704( ENEMY_COMMAND *command )
                 command->field_0x10 = 300;
                 GM_SetAlertMax( 0x100 );
                 s00a_command_800CED48();
-                EnemyCommand_800E0D98.field_0x182 = 1;
+                EnemyCommand.field_0x182 = 1;
                 return;
             }
             alert = command->alert;
@@ -677,16 +677,16 @@ void s00a_command_800CF704( ENEMY_COMMAND *command )
             GM_SetAlertMax( alert );
         break;
         case 2:
-            COM_EYE_LENGTH_800E0D8C = EnemyCommand_800E0D98.field_0x88.vz;
-            COM_SHOOTRANGE_800E0D88 = EnemyCommand_800E0D98.field_0x88.vz + 500;
+            COM_EYE_LENGTH = EnemyCommand.field_0x88.vz;
+            COM_SHOOTRANGE = EnemyCommand.field_0x88.vz + 500;
             command->field_0x10--;
             if ( command->field_0x10 <= 0 )
             {
                 GM_AlertModeSet(0);
                 command->mode = 0;
                 command->field_0x10 = 0;
-                EnemyCommand_800E0D98.field_0x180 = 0;
-                EnemyCommand_800E0D98.field_0x182 = 0;
+                EnemyCommand.field_0x180 = 0;
+                EnemyCommand.field_0x182 = 0;
             }
             if ( command->alert >= 255 )
             {
@@ -704,7 +704,7 @@ void s00a_command_800CF704( ENEMY_COMMAND *command )
         break;
     }
 
-    TOPCOMMAND_800E0F20.mode = command->mode;
+    TOPCOMMAND.mode = command->mode;
 }
 
 int s00a_command_800CF940( HZD_HDL *hzd, SVECTOR *pos, SVECTOR *pos2 )
@@ -731,7 +731,7 @@ int s00a_command_800CF9A0( WatcherWork *work, int dis, int idx )
 
     ctrl = &work->control;
 
-    if ( TOPCOMMAND_800E0F20.mode == 1 )
+    if ( TOPCOMMAND.mode == 1 )
     {
         goto exit;
     }
@@ -741,12 +741,12 @@ int s00a_command_800CF9A0( WatcherWork *work, int dis, int idx )
         goto exit;
     }
 
-    if ( ((WatcherWork *)EnemyCommand_800E0D98.field_0xC8[ idx ].watcher)->act_status & 0x10000028 )
+    if ( ((WatcherWork *)EnemyCommand.field_0xC8[ idx ].watcher)->act_status & 0x10000028 )
     {
        goto exit;
     }
 
-    if ( GV_DiffVec3( &GM_NoisePosition, &ctrl->mov ) >= COM_NOISEMODE_DIS_800E0F38 )
+    if ( GV_DiffVec3( &GM_NoisePosition, &ctrl->mov ) >= COM_NOISEMODE_DIS )
     {
         goto exit;
     }
@@ -755,7 +755,7 @@ int s00a_command_800CF9A0( WatcherWork *work, int dis, int idx )
 
     if ( x < 300 && x < dis )
     {
-        COM_NoiseMinDisID_800E0D44 = idx;
+        COM_NoiseMinDisID = idx;
         dis = x;
     }
 
@@ -773,43 +773,43 @@ void s00a_command_800CFA94( CommanderWork* work )
     alert = 0;
     dis = 0x7530;
 
-    COM_NoiseMinDisID_800E0D44 = -1;
-    EnemyCommand_800E0D98.field_0x98 = 0;
+    COM_NoiseMinDisID = -1;
+    EnemyCommand.field_0x98 = 0;
 
-    for ( i = 0; i < EnemyCommand_800E0D98.field_0x08; i++ )
+    for ( i = 0; i < EnemyCommand.field_0x08; i++ )
     {
-        if ( EnemyCommand_800E0D98.field_0xC8[ i ].field_04 == 2 )
+        if ( EnemyCommand.field_0xC8[ i ].field_04 == 2 )
         {
-            watcher = EnemyCommand_800E0D98.field_0xC8[ i ].watcher;
+            watcher = EnemyCommand.field_0xC8[ i ].watcher;
             alert =  s00a_command_800CF688( alert, watcher->alert_level );
             dis   =  s00a_command_800CF9A0( watcher, dis, i );
             if ( !watcher->faseout )
             {
-                EnemyCommand_800E0D98.field_0x98++;
+                EnemyCommand.field_0x98++;
             }
         }
-        else if ( EnemyCommand_800E0D98.field_0xC8[ i ].field_04 == 1 )
+        else if ( EnemyCommand.field_0xC8[ i ].field_04 == 1 )
         {
-            s00a_command_800CF504( &EnemyCommand_800E0D98.field_0xC8[ i ], i );
+            s00a_command_800CF504( &EnemyCommand.field_0xC8[ i ], i );
         }
     }
 
-    s00a_command_800CF420( &EnemyCommand_800E0D98 );
-    s00a_command_800CF6A0( alert, &EnemyCommand_800E0D98 );
-    s00a_command_800CF704( &EnemyCommand_800E0D98 );
-    s00a_command_800CF298( &EnemyCommand_800E0D98 );
+    s00a_command_800CF420( &EnemyCommand );
+    s00a_command_800CF6A0( alert, &EnemyCommand );
+    s00a_command_800CF704( &EnemyCommand );
+    s00a_command_800CF298( &EnemyCommand );
 
-    if ( EnemyCommand_800E0D98.field_0x98 == 0 )
+    if ( EnemyCommand.field_0x98 == 0 )
     {
         s00a_dword_800E0D30 |= 2;
-        if ( EnemyCommand_800E0D98.field_0x17C >= 0 )
+        if ( EnemyCommand.field_0x17C >= 0 )
         {
-            GCL_ExecProc( EnemyCommand_800E0D98.field_0x17C, NULL );
-            EnemyCommand_800E0D98.field_0x17C = -1;
+            GCL_ExecProc( EnemyCommand.field_0x17C, NULL );
+            EnemyCommand.field_0x17C = -1;
         }
     }
 
-    EnemyCommand_800E0D98.field_0x168 = 0;
+    EnemyCommand.field_0x168 = 0;
 }
 
 int s00a_command_800CFC04( WatcherWork *work, HZD_ZON* zone )
@@ -891,13 +891,13 @@ void s00a_command_800CFDC8( WatcherWork* work, int addr, int idx )
     HZD_ZON *zone;
     HZD_ZON *zone2;
     HZD_HDL *hzd;
-    COM_PlayerAddressOne_800E0F40[ idx ] = (addr | addr << 8);
+    COM_PlayerAddressOne[ idx ] = (addr | addr << 8);
 
     hzd = work->control.map->hzd;
     zone2 = &hzd->header->zones[ addr ];
     zone = zone2;
 
-    pos = &COM_PlayerPositionOne_800E0D48[ idx ];
+    pos = &COM_PlayerPositionOne[ idx ];
 
     pos->vx = zone->x;
     pos->vy = zone->y;
@@ -907,7 +907,7 @@ void s00a_command_800CFDC8( WatcherWork* work, int addr, int idx )
 
     if ( map != NULL )
     {
-        COM_PlayerMapOne_800E0F70[ idx ] = map->index;
+        COM_PlayerMapOne[ idx ] = map->index;
     }
     else
     {
@@ -929,23 +929,23 @@ void s00a_command_800CFEA8( void )
 
     if ( addr == addr2 && addr != 0xFF )
     {
-        COM_PlayerAddress_800E0D90  = GM_PlayerAddress;
-        COM_PlayerPosition_800E0F30 = GM_PlayerPosition;
-        COM_PlayerMap_800E0F1C      = GM_PlayerMap;
+        COM_PlayerAddress  = GM_PlayerAddress;
+        COM_PlayerPosition = GM_PlayerPosition;
+        COM_PlayerMap      = GM_PlayerMap;
     }
 
     if ( addr == 0xFF || addr2 == 0xFF )
     {
-        COM_PlayerOnZone_800E0D40 = 0;
+        COM_PlayerOnZone = 0;
     }
     else
     {
-        COM_PlayerOnZone_800E0D40 = 1;
+        COM_PlayerOnZone = 1;
     }
 
-    for ( i = 0; i < EnemyCommand_800E0D98.field_0x08 ; i++ )
+    for ( i = 0; i < EnemyCommand.field_0x08 ; i++ )
     {
-        work = EnemyCommand_800E0D98.field_0xC8[ i ].watcher;
+        work = EnemyCommand.field_0xC8[ i ].watcher;
 
         if ( addr == addr2 && addr != 0xFF )
         {
@@ -958,13 +958,13 @@ void s00a_command_800CFEA8( void )
 
             if ( check )
             {
-                COM_PlayerAddressOne_800E0F40[ i ]  = GM_PlayerAddress;
-                COM_PlayerPositionOne_800E0D48[ i ] = GM_PlayerPosition;
-                COM_PlayerMapOne_800E0F70[ i ]      = GM_PlayerMap;
+                COM_PlayerAddressOne[ i ]  = GM_PlayerAddress;
+                COM_PlayerPositionOne[ i ] = GM_PlayerPosition;
+                COM_PlayerMapOne[ i ]      = GM_PlayerMap;
             }
         }
 
-        if ( COM_PlayerAddressOne_800E0F40[ i ] == -1 )
+        if ( COM_PlayerAddressOne[ i ] == -1 )
         {
             if ( addr != 0xFF )
             {
@@ -1022,11 +1022,11 @@ void s00a_command_800D018C( CommanderWork* work )
         switch (msg->message[0])
         {
         case HASH_SOUND_ON:
-            EnemyCommand_800E0D98.field_0x17A = 1;
+            EnemyCommand.field_0x17A = 1;
             break;
 
         case HASH_SOUND_OFF:
-            EnemyCommand_800E0D98.field_0x17A = 0;
+            EnemyCommand.field_0x17A = 0;
             break;
         }
     }
@@ -1034,10 +1034,10 @@ void s00a_command_800D018C( CommanderWork* work )
 
 void s00a_command_800D0218(void)
 {
-    if ( EnemyCommand_800E0D98.field_0x182 && GM_NoisePower == 0xFF )
+    if ( EnemyCommand.field_0x182 && GM_NoisePower == 0xFF )
     {
-        EnemyCommand_800E0D98.field_0x182 = 0;
-        EnemyCommand_800E0D98.field_0x180++;
+        EnemyCommand.field_0x182 = 0;
+        EnemyCommand.field_0x180++;
     }
 }
 
@@ -1056,7 +1056,7 @@ static void Act( CommanderWork* work )
     s00a_command_800CFA94( work );
     s00a_command_800CEC90();
     s00a_command_800CECF4();
-    EnemyCommand_800E0D98.field_0x0C++;
+    EnemyCommand.field_0x0C++;
 }
 
 static void Die( CommanderWork* work )
@@ -1075,7 +1075,7 @@ void s00a_command_800D02F4(void)
 void s00a_command_800D0344(void)
 {
     int flag;
-    if ( !( COM_GameStatus_800E0F3C & 0x1000 ) )
+    if ( !( COM_GameStatus & 0x1000 ) )
     {
         return;
     }
@@ -1101,9 +1101,9 @@ void s00a_command_800D0344(void)
 
 void SetCameraActCall(void)
 {
-    if ( COM_GameStatus_800E0F3C & 0x1000 ) return;
+    if ( COM_GameStatus & 0x1000 ) return;
 
-    COM_GameStatus_800E0F3C |= 0x1000 ;
+    COM_GameStatus |= 0x1000 ;
     GM_GameStatus  |= STATE_PADRELEASE ;
     s00a_dword_800E0D2C = 0 ;
 
@@ -1111,9 +1111,9 @@ void SetCameraActCall(void)
 
 void UnsetCameraActCall(void)
 {
-    if ( !( COM_GameStatus_800E0F3C & 0x1000 ) ) return;
+    if ( !( COM_GameStatus & 0x1000 ) ) return;
 
-    COM_GameStatus_800E0F3C &= ~( 0x1000 ) ;
+    COM_GameStatus &= ~( 0x1000 ) ;
     GM_GameStatus  &= ~( STATE_PADRELEASE ) ;
 
     GM_SetCameraCallbackFunc( 1, NULL ) ;
@@ -1131,183 +1131,183 @@ static void GetResources( CommanderWork *work, int name, int where )
     work->name = name;
 
     GM_GameFlag_800E0F64  = 0;
-    EnemyCommand_800E0D98.field_0x17A = 1;
+    EnemyCommand.field_0x17A = 1;
 
-    COM_PlayerAddress_800E0D90  = 0;
-    EnemyCommand_800E0D98.alert  = 0;
-    EnemyCommand_800E0D98.field_0x170 = 0;
+    COM_PlayerAddress  = 0;
+    EnemyCommand.alert  = 0;
+    EnemyCommand.field_0x170 = 0;
 
-    EnemyCommand_800E0D98.field_0x180 = 0;
-    EnemyCommand_800E0D98.field_0x182 = 0;
-    EnemyCommand_800E0D98.field_0x40  = 0;
+    EnemyCommand.field_0x180 = 0;
+    EnemyCommand.field_0x182 = 0;
+    EnemyCommand.field_0x40  = 0;
 
-    COM_PlayerPosition_800E0F30 = DG_ZeroVector;
-    COM_PlayerMap_800E0F1C = where;
-    COM_VibTime_800E0F68 = 0;
+    COM_PlayerPosition = DG_ZeroVector;
+    COM_PlayerMap = where;
+    COM_VibTime = 0;
     s00a_dword_800E0CA0 = 0;
     s00a_dword_800E0D30 = 0;
     s00a_dword_800E0D2C = 0;
 
     for ( i = 0 ; i < 8 ; i++ )
     {
-        EnemyCommand_800E0D98.field_0xC8[i].field_00  = 0;
-        EnemyCommand_800E0D98.field_0xC8[i].field_04  = 0;
-        EnemyCommand_800E0D98.field_0xC8[i].field_08  = 0;
-        EnemyCommand_800E0D98.field_0xC8[i].watcher   = 0;
+        EnemyCommand.field_0xC8[i].field_00  = 0;
+        EnemyCommand.field_0xC8[i].field_04  = 0;
+        EnemyCommand.field_0xC8[i].field_08  = 0;
+        EnemyCommand.field_0xC8[i].watcher   = 0;
     }
 
     for ( i = 0 ; i < 8 ; i++ )
     {
-        EnemyCommand_800E0D98.field_0x68[i]  = i;
-        EnemyCommand_800E0D98.field_0x20[i]  = 0;
-        EnemyCommand_800E0D98.field_0x148[i] = 0xFF;
+        EnemyCommand.field_0x68[i]  = i;
+        EnemyCommand.field_0x20[i]  = 0;
+        EnemyCommand.field_0x148[i] = 0xFF;
     }
     //v_option( where );
-    EnemyCommand_800E0D98.field_0x0C = 0;
-    EnemyCommand_800E0D98.mode       = 0;
+    EnemyCommand.field_0x0C = 0;
+    EnemyCommand.mode       = 0;
 
-    TOPCOMMAND_800E0F20.mode = 0;
-    TOPCOMMAND_800E0F20.alert= 0;
-    EnemyCommand_800E0D98.map = GM_GetMap( where );
+    TOPCOMMAND.mode = 0;
+    TOPCOMMAND.alert= 0;
+    EnemyCommand.map = GM_GetMap( where );
 
     ops = GCL_GetOption( 'v' );
     if ( ops )
     {
-        EnemyCommand_800E0D98.field_0x54 = s00a_command_800CEDE8( ops, EnemyCommand_800E0D98.field_0x58 , where );
+        EnemyCommand.field_0x54 = s00a_command_800CEDE8( ops, EnemyCommand.field_0x58 , where );
     }
     else
     {
-        EnemyCommand_800E0D98.field_0x54 = 1;
-        EnemyCommand_800E0D98.field_0x58[0] = 0;
+        EnemyCommand.field_0x54 = 1;
+        EnemyCommand.field_0x58[0] = 0;
     }
 
-    EnemyCommand_800E0D98.reset_enemy_max = 5;
+    EnemyCommand.reset_enemy_max = 5;
 
     ops = GCL_GetOption( 'b');
     if ( ops )
     {
-        EnemyCommand_800E0D98.reset_enemy_max = GCL_StrToInt( ops );
+        EnemyCommand.reset_enemy_max = GCL_StrToInt( ops );
     }
 
-    EnemyCommand_800E0D98.field_0x88.vx = 0xFA0;
-    EnemyCommand_800E0D98.field_0x88.vy = 0xFA0;
-    EnemyCommand_800E0D98.field_0x88.vz = 0xFA0;
+    EnemyCommand.field_0x88.vx = 0xFA0;
+    EnemyCommand.field_0x88.vy = 0xFA0;
+    EnemyCommand.field_0x88.vz = 0xFA0;
 
     ops = GCL_GetOption( 'l' );
     if ( ops )
     {
-        GCL_StrToSV( ops, &EnemyCommand_800E0D98.field_0x88 );
+        GCL_StrToSV( ops, &EnemyCommand.field_0x88 );
     }
 
     //loc_800D06A0:
-    COM_NOISEMODE_DIS_800E0F38 = 0x1F40;
+    COM_NOISEMODE_DIS = 0x1F40;
 
     ops = GCL_GetOption( 'y' );
     if ( ops )
     {
-        COM_NOISEMODE_DIS_800E0F38 = GCL_StrToInt( ops );
+        COM_NOISEMODE_DIS = GCL_StrToInt( ops );
     }
 
-    printf( ( void* )&aCom_noisemode_disD_800E0940 , COM_NOISEMODE_DIS_800E0F38 );
-    EnemyCommand_800E0D98.field_0x88.pad = 0;
+    printf( ( void* )&aCom_noisemode_disD_800E0940 , COM_NOISEMODE_DIS );
+    EnemyCommand.field_0x88.pad = 0;
 
     ops = GCL_GetOption( 't' );
     if ( ops ) {
-        EnemyCommand_800E0D98.field_0x88.pad = GCL_StrToInt( ops );
+        EnemyCommand.field_0x88.pad = GCL_StrToInt( ops );
     }
 
-    switch ( EnemyCommand_800E0D98.field_0x88.pad )
+    switch ( EnemyCommand.field_0x88.pad )
     {
         case 0:
-            COM_ALERT_DECREMENT_800E0F60 = 4;
+            COM_ALERT_DECREMENT = 4;
             break;
         case 1:
-            COM_ALERT_DECREMENT_800E0F60 = 3;
+            COM_ALERT_DECREMENT = 3;
             break;
         case 2:
-            COM_ALERT_DECREMENT_800E0F60 = EnemyCommand_800E0D98.field_0x88.pad;
+            COM_ALERT_DECREMENT = EnemyCommand.field_0x88.pad;
             break;
         default:
-            COM_ALERT_DECREMENT_800E0F60 = 4;
+            COM_ALERT_DECREMENT = 4;
     }
 
-    printf( ( void* )&aEeeDDDTD_800E095C, EnemyCommand_800E0D98.field_0x88.vx, EnemyCommand_800E0D98.field_0x88.vy, EnemyCommand_800E0D98.field_0x88.vz, COM_ALERT_DECREMENT_800E0F60  );
+    printf( ( void* )&aEeeDDDTD_800E095C, EnemyCommand.field_0x88.vx, EnemyCommand.field_0x88.vy, EnemyCommand.field_0x88.vz, COM_ALERT_DECREMENT  );
 
-    EnemyCommand_800E0D98.field_0x1C  = 0x1E;
-    EnemyCommand_800E0D98.c_reset_pos = 0;
-    EnemyCommand_800E0D98.field_0x16C = 0;
-    EnemyCommand_800E0D98.field_0x174 = 0;
+    EnemyCommand.field_0x1C  = 0x1E;
+    EnemyCommand.c_reset_pos = 0;
+    EnemyCommand.field_0x16C = 0;
+    EnemyCommand.field_0x174 = 0;
 
     s00a_dword_800E0F28.mode = 0;
-    EnemyCommand_800E0D98.field_0x178 = 0;
-    COM_EYE_LENGTH_800E0D8C = EnemyCommand_800E0D98.field_0x88.vx;
-    COM_SHOOTRANGE_800E0D88 = EnemyCommand_800E0D98.field_0x88.vx + 0x1F4;
+    EnemyCommand.field_0x178 = 0;
+    COM_EYE_LENGTH = EnemyCommand.field_0x88.vx;
+    COM_SHOOTRANGE = EnemyCommand.field_0x88.vx + 0x1F4;
 
     ops = GCL_GetOption( 'w' );
     if ( ops )
     {
-        EnemyCommand_800E0D98.field_0x178 = GCL_StrToInt( ops );
+        EnemyCommand.field_0x178 = GCL_StrToInt( ops );
     }
 
     ops = GCL_GetOption( 'z' );
     if ( ops )
     {
-        *(int*)(&EnemyCommand_800E0D98.field_0x17C) = GCL_StrToInt( GCL_GetParamResult() );
+        *(int*)(&EnemyCommand.field_0x17C) = GCL_StrToInt( GCL_GetParamResult() );
     }
     else
     {
-        *(int*)(&EnemyCommand_800E0D98.field_0x17C) = -1;
+        *(int*)(&EnemyCommand.field_0x17C) = -1;
     }
 
-    COM_GameStatus_800E0F3C = 0;
+    COM_GameStatus = 0;
 
     ops = GCL_GetOption( 'a' );
     if ( ops )
     {
-        COM_GameStatus_800E0F3C |= GCL_StrToInt( ops );
+        COM_GameStatus |= GCL_StrToInt( ops );
     }
 
     ops = GCL_GetOption( 'j' );
     if ( ops )
     {
-        EnemyCommand_800E0D98.field_0xA4.n_entry = s00a_command_800CED88( ops, &EnemyCommand_800E0D98.field_0xA4 );
+        EnemyCommand.field_0xA4.n_entry = s00a_command_800CED88( ops, &EnemyCommand.field_0xA4 );
     }
     else
     {
-        EnemyCommand_800E0D98.field_0xA4.n_entry = 1;
-        EnemyCommand_800E0D98.field_0xA4.field_04->field_00 = 0;
-        EnemyCommand_800E0D98.field_0xA4.field_04->field_02 = 0;
+        EnemyCommand.field_0xA4.n_entry = 1;
+        EnemyCommand.field_0xA4.field_04->field_00 = 0;
+        EnemyCommand.field_0xA4.field_04->field_02 = 0;
     }
 
-    EnemyCommand_800E0D98.field_0xA4.map_id  = where;
-    EnemyCommand_800E0D98.field_0x08 = 0;
+    EnemyCommand.field_0xA4.map_id  = where;
+    EnemyCommand.field_0x08 = 0;
 
     ops = GCL_GetOption( 'n' );
     if ( ops )
     {
-        EnemyCommand_800E0D98.field_0x08 = s00a_command_800D0128( ops );
+        EnemyCommand.field_0x08 = s00a_command_800D0128( ops );
     }
 
     ops = GCL_GetOption( 'm' );
     if ( ops )
     {
-        EnemyCommand_800E0D98.field_0x08 += s00a_command_800D0128( ops );
+        EnemyCommand.field_0x08 += s00a_command_800D0128( ops );
     }
 
-    EnemyCommand_800E0D98.field_0x00 = 0;
+    EnemyCommand.field_0x00 = 0;
 
     ops = GCL_GetOption( 'c' );
     if ( ops )
     {
-        EnemyCommand_800E0D98.field_0x00 = s00a_command_800D0128( ops );
+        EnemyCommand.field_0x00 = s00a_command_800D0128( ops );
     }
 
-    EnemyCommand_800E0D98.field_0x04 = 0;
+    EnemyCommand.field_0x04 = 0;
 
     ops = GCL_GetOption( 's' );
     if ( ops )
     {
-        EnemyCommand_800E0D98.field_0x04 = s00a_command_800D0128( ops );
+        EnemyCommand.field_0x04 = s00a_command_800D0128( ops );
     }
 }
 
