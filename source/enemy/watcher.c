@@ -20,15 +20,15 @@
 int s00a_dword_800C3328[8]  = { 2500, 3500, 4000, 5000, 5500, 5600, 5700, 5800 };
 unsigned short s00a_dword_800C3348[8] = { 450, 15, 30, 60, 90, 0, 32001, 30000 };
 
-extern ENEMY_COMMAND  EnemyCommand_800E0D98;
-extern SVECTOR        ENEMY_TARGET_SIZE_800C35A4;
-extern SVECTOR        ENEMY_TARGET_FORCE_800C35AC;
-extern SVECTOR        ENEMY_ATTACK_SIZE_800C35B4;
-extern SVECTOR        ENEMY_ATTACK_FORCE_800C35BC;
-extern SVECTOR        ENEMY_TOUCH_SIZE_800C35C4;
-extern SVECTOR        ENEMY_TOUCH_FORCE_800C35CC;
-extern SVECTOR        COM_NO_POINT_800C35D4;
-extern unsigned short COM_EYE_LENGTH_800E0D8C;
+extern ENEMY_COMMAND  EnemyCommand;
+extern SVECTOR        ENEMY_TARGET_SIZE;
+extern SVECTOR        ENEMY_TARGET_FORCE;
+extern SVECTOR        ENEMY_ATTACK_SIZE;
+extern SVECTOR        ENEMY_ATTACK_FORCE;
+extern SVECTOR        ENEMY_TOUCH_SIZE;
+extern SVECTOR        ENEMY_TOUCH_FORCE;
+extern SVECTOR        COM_NO_POINT;
+extern unsigned short COM_EYE_LENGTH;
 
 const char aErrerrerrsettimeover_800DFC7C[] = "Err Err Err  Set time Over\n";
 const char aErrerrerrsetdirover_800DFC98[] = "Err Err Err  Set Dir Over\n";
@@ -88,7 +88,7 @@ int RootFlagCheck_800C3EE8( WatcherWork* work )
             work->act_status = EN_FASEOUT ;
             break;
         case 0x1DC4:
-            if ( EnemyCommand_800E0D98.field_0xC8[ work->field_B78 ].field_04 == 2 )
+            if ( EnemyCommand.field_0xC8[ work->field_B78 ].field_04 == 2 )
             {
                 work->visible = 1;
             }
@@ -207,14 +207,14 @@ void WatcherAct_800C430C( WatcherWork *work )
     s00a_watcher_800C410C( work );
     if ( !work->faseout )
     {
-        EnemyPushMove_800CA0E8( work );
+        EnemyPushMove( work );
         GM_ActControl( ctrl );
         GM_ActObject2( &( work->body ) );
         GM_ActObject2( &( work->weapon ) );
 
         DG_GetLightMatrix2( &( ctrl->mov ), work->light );
 
-        EnemyActionMain_800CA07C( work );
+        EnemyActionMain( work );
         trgt = work->target;
         GM_MoveTarget( trgt, &( ctrl->mov ) );
 
@@ -251,19 +251,19 @@ void InitTarget_800C444C( WatcherWork *work )
     life   = work->param_life;
     faint  = work->param_faint;
 
-    GM_SetTarget( target, TARGET_FLAG, ENEMY_SIDE, &ENEMY_TARGET_SIZE_800C35A4 );
-    GM_Target_8002DCCC( target, 1, -1, life, faint, &ENEMY_TARGET_FORCE_800C35AC );
+    GM_SetTarget( target, TARGET_FLAG, ENEMY_SIDE, &ENEMY_TARGET_SIZE );
+    GM_Target_8002DCCC( target, 1, -1, life, faint, &ENEMY_TARGET_FORCE );
     GM_Target_8002DCB4( target, -1, faint, NULL, NULL);
 
     GM_TargetBody( target, &( work->body.objs->objs[1].world ) );
 
     target2 = &work->field_904;
-    GM_SetTarget( target2, TARGET_POWER, PLAYER_SIDE, &ENEMY_ATTACK_SIZE_800C35B4 );
-    GM_Target_8002DCCC( target2, 7, 5, 0, 3, &ENEMY_ATTACK_FORCE_800C35BC );
+    GM_SetTarget( target2, TARGET_POWER, PLAYER_SIDE, &ENEMY_ATTACK_SIZE );
+    GM_Target_8002DCCC( target2, 7, 5, 0, 3, &ENEMY_ATTACK_FORCE );
 
     target2 = &work->field_94C;
-    GM_SetTarget( target2, ( TARGET_TOUCH ), ENEMY_SIDE, &ENEMY_TOUCH_SIZE_800C35C4 );
-    GM_Target_8002DCCC( target2, 7, 5, 0, 0, &ENEMY_TOUCH_FORCE_800C35CC );
+    GM_SetTarget( target2, ( TARGET_TOUCH ), ENEMY_SIDE, &ENEMY_TOUCH_SIZE );
+    GM_Target_8002DCCC( target2, 7, 5, 0, 0, &ENEMY_TOUCH_FORCE );
 }
 
 void s00a_watcher_800C4578( WatcherWork* work )
@@ -660,8 +660,8 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
     work->field_B96 = 0;
     work->pad.sound = 0;
     work->pad.time  = 0;
-    work->vision.length = COM_EYE_LENGTH_800E0D8C;
-    work->field_BA4 = COM_NO_POINT_800C35D4;
+    work->vision.length = COM_EYE_LENGTH;
+    work->field_BA4 = COM_NO_POINT;
     work->subweapon = 0;
     work->field_C48 = 0;
     work->faseout = 0;
@@ -686,7 +686,7 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
         work->field_BA3 |= 0x10;
     }
 
-    GM_ConfigControlRadarparam( &work->control , 0, 0x200, COM_EYE_LENGTH_800E0D8C, 0 );
+    GM_ConfigControlRadarparam( &work->control , 0, 0x200, COM_EYE_LENGTH, 0 );
     work->start_pos = work->nodes[ 0 ] ;
     work->start_map = GM_CurrentMap;
     addr = HZD_GetAddress( work->control.map->hzd, &( work->control.mov ), -1 );

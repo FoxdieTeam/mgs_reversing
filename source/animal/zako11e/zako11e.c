@@ -12,15 +12,15 @@
 #include "enemy/glight.h"       // for NewGunLight
 
 /*
-extern ENEMY_COMMAND EnemyCommand_800E0D98;
-extern SVECTOR       ENEMY_TARGET_SIZE_800C35A4;
-extern SVECTOR       ENEMY_TARGET_FORCE_800C35AC;
-extern SVECTOR       ENEMY_ATTACK_SIZE_800C35B4;
-extern SVECTOR       ENEMY_ATTACK_FORCE_800C35BC;
-extern SVECTOR       ENEMY_TOUCH_SIZE_800C35C4;
-extern SVECTOR       ENEMY_TOUCH_FORCE_800C35CC;
-extern SVECTOR       COM_NO_POINT_800C35D4;
-extern int           COM_EYE_LENGTH_800E0D8C;
+extern ENEMY_COMMAND EnemyCommand;
+extern SVECTOR       ENEMY_TARGET_SIZE;
+extern SVECTOR       ENEMY_TARGET_FORCE;
+extern SVECTOR       ENEMY_ATTACK_SIZE;
+extern SVECTOR       ENEMY_ATTACK_FORCE;
+extern SVECTOR       ENEMY_TOUCH_SIZE;
+extern SVECTOR       ENEMY_TOUCH_FORCE;
+extern SVECTOR       COM_NO_POINT;
+extern int           COM_EYE_LENGTH;
 
 extern GM_CAMERA      GM_Camera;
 */

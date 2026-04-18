@@ -96,8 +96,8 @@ SVECTOR Size_800C3B70 = {300, 300, 300, 0};
 
 extern char s01a_dword_800E44CC[];
 
-extern TOPCOMMAND_STRUCT TOPCOMMAND_800E0F20;
-extern int               COM_VibTime_800E0F68;
+extern TOPCOMMAND_STRUCT TOPCOMMAND;
+extern int               COM_VibTime;
 
 extern CONTROL         *GM_WhereList[96];
 
@@ -183,7 +183,7 @@ int s01a_camera_800D4E08(CameraWork *work)
             return 0;
         }
     }
-    if (TOPCOMMAND_800E0F20.mode != 1)
+    if (TOPCOMMAND.mode != 1)
     {
         if (GM_PlayerStatus & PLAYER_CB_BOX)
         {
@@ -260,7 +260,7 @@ int s01a_camera_800D515C(CameraWork *work)
     {
         s00a_command_800CEC40(&work->control.mov, 32);
         AN_Unknown_800CA1EC(&work->body.objs[1].world, 0);
-        COM_VibTime_800E0F68 = 10;
+        COM_VibTime = 10;
         s01a_camera_800D50EC(work);
     }
     if (field_1EC == 35)
@@ -525,9 +525,9 @@ void s01a_camera_800D57CC(CameraWork *work)
         break;
     }
 
-    if (TOPCOMMAND_800E0F20.mode == 1)
+    if (TOPCOMMAND.mode == 1)
     {
-        work->field_1E0 = TOPCOMMAND_800E0F20.mode;
+        work->field_1E0 = TOPCOMMAND.mode;
         work->field_1E8 = 0;
         work->field_1EC = 0;
         s01a_camera_800D4CFC(work->field_194, work->field_198, 0xFF, 0, 0);
@@ -560,7 +560,7 @@ void s01a_camera_800D5970(CameraWork *work)
     {
         work->field_1E8 = 4;
     }
-    if (TOPCOMMAND_800E0F20.mode != 1)
+    if (TOPCOMMAND.mode != 1)
     {
         work->field_1E0 = 2;
         work->field_1E8 = 6;
@@ -581,7 +581,7 @@ void s01a_camera_800D5A68(CameraWork *work)
     if (work->field_1E8 == 6)
     {
         s01a_camera_800D53E4(work);
-        if (TOPCOMMAND_800E0F20.mode == 0)
+        if (TOPCOMMAND.mode == 0)
         {
             work->field_1E0 = 0;
             work->field_1E8 = 7;
@@ -592,7 +592,7 @@ void s01a_camera_800D5A68(CameraWork *work)
     {
         ENE_SetTopCommAL(255);
         ENE_SetGopointLast();
-        COM_VibTime_800E0F68 = 0xA;
+        COM_VibTime = 0xA;
         s00a_command_800CEC40(&work->control.mov, 0x20);
         AN_Unknown_800CA1EC(&work->body.objs[1].world, 0);
         s01a_camera_800D50EC(work);
@@ -601,9 +601,9 @@ void s01a_camera_800D5A68(CameraWork *work)
         work->field_1EC = 0;
         s01a_camera_800D4CFC(work->field_194, work->field_198, 0xFF, 0, 0);
     }
-    else if (TOPCOMMAND_800E0F20.mode == 1)
+    else if (TOPCOMMAND.mode == 1)
     {
-        work->field_1E0 = TOPCOMMAND_800E0F20.mode;
+        work->field_1E0 = TOPCOMMAND.mode;
         work->field_1E8 = 0;
         work->field_1EC = 0;
         s01a_camera_800D4CFC(work->field_194, work->field_198, 0xFF, 0, 0);
@@ -629,7 +629,7 @@ void s01a_camera_800D5B9C(CameraWork *work)
             s01a_camera_800D5504(work);
             return;
         }
-        switch (TOPCOMMAND_800E0F20.mode)
+        switch (TOPCOMMAND.mode)
         {
         case 0:
             work->field_1E0 = 0;
@@ -637,13 +637,13 @@ void s01a_camera_800D5B9C(CameraWork *work)
             work->field_1EC = 0;
             break;
         case 1:
-            work->field_1E0 = TOPCOMMAND_800E0F20.mode;
+            work->field_1E0 = TOPCOMMAND.mode;
             work->field_1E8 = 0;
             work->field_1EC = 0;
             s01a_camera_800D4CFC(work->field_194, work->field_198, 0xFF, 0, 0);
             break;
         case 2:
-            work->field_1E0 = TOPCOMMAND_800E0F20.mode;
+            work->field_1E0 = TOPCOMMAND.mode;
             work->field_1E8 = field_1E8;
             work->field_1EC = 0;
             s01a_camera_800D4CFC(work->field_194, work->field_198, 0xFF, 0xFF, 0);

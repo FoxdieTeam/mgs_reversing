@@ -15,15 +15,15 @@
 
 #define SEGMENT_ATR ( HZD_SEG_NO_NAVIGATE )
 
-extern ENEMY_COMMAND EnemyCommand_800E0D98;
-extern unsigned int  COM_GameStatus_800E0F3C;
-extern SVECTOR       COM_PlayerPosition_800E0F30;
-extern SVECTOR       COM_PlayerPositionOne_800E0D48[8];
-extern int           COM_PlayerMapOne_800E0F70[8];
-extern int           COM_PlayerAddressOne_800E0F40[8];
-extern int           COM_VibTime_800E0F68;
-extern int           COM_PlayerMap_800E0F1C;
-extern int           COM_SHOOTRANGE_800E0D88;
+extern ENEMY_COMMAND EnemyCommand;
+extern unsigned int  COM_GameStatus;
+extern SVECTOR       COM_PlayerPosition;
+extern SVECTOR       COM_PlayerPositionOne[8];
+extern int           COM_PlayerMapOne[8];
+extern int           COM_PlayerAddressOne[8];
+extern int           COM_VibTime;
+extern int           COM_PlayerMap;
+extern int           COM_SHOOTRANGE;
 
 const char aErrerrerrnotlinkroutedtod_800E0690[] = " Err Err Err Not Link Route [%d] to [%d] !!!!\n";
 const char aErrnozoneidingcl_800E06C0[] = "!!!!!!Err No Zone ID In Gcl !!!!!!!!\n";
@@ -139,9 +139,9 @@ void s00a_command_800CAACC( WatcherWork* work )
 
 void s00a_command_800CAB04( WatcherWork* work )
 {
-    work->target_addr = COM_PlayerAddressOne_800E0F40[ work->field_B78 ];
-    work->target_pos  = COM_PlayerPositionOne_800E0D48[ work->field_B78 ];
-    work->target_map  = COM_PlayerMapOne_800E0F70[ work->field_B78 ];
+    work->target_addr = COM_PlayerAddressOne[ work->field_B78 ];
+    work->target_pos  = COM_PlayerPositionOne[ work->field_B78 ];
+    work->target_map  = COM_PlayerMapOne[ work->field_B78 ];
 }
 
 extern CONTROL *GM_WhereList[94];
@@ -171,7 +171,7 @@ void s00a_command_800CAB74( WatcherWork* work )
     if ( map == NULL )
     {
         printf( (char *)aErrnozoneidingcl_800E06C0 );
-        work->target_map = COM_PlayerMapOne_800E0F70[ work->field_B78 ];
+        work->target_map = COM_PlayerMapOne[ work->field_B78 ];
     }
     else
     {
@@ -313,7 +313,7 @@ loop:
     work->target_pos.vx = zone3->x;
     work->target_pos.vy = zone3->y;
     work->target_pos.vz = zone3->z;
-    work->target_map = COM_PlayerMap_800E0F1C;
+    work->target_map = COM_PlayerMap;
 }
 
 void s00a_command_800CAFD4( WatcherWork* work )
@@ -322,22 +322,22 @@ void s00a_command_800CAFD4( WatcherWork* work )
 
     if ( !work->field_C34 )
     {
-        work->target_addr = EnemyCommand_800E0D98.com_addr;
-        work->target_pos  = EnemyCommand_800E0D98.com_pos;
-        work->target_map  = EnemyCommand_800E0D98.com_map;
+        work->target_addr = EnemyCommand.com_addr;
+        work->target_pos  = EnemyCommand.com_pos;
+        work->target_map  = EnemyCommand.com_map;
         return;
     }
 
-    addr = EnemyCommand_800E0D98.com_addr;
+    addr = EnemyCommand.com_addr;
     if ( s00a_command_800CA898( work, &work->control.map->hzd->header->zones[ addr ] ) )
     {
         s00a_command_800CAA2C( work, s00a_command_800CA8E0( work, addr ) );
         return;
     }
 
-    work->target_addr = EnemyCommand_800E0D98.com_addr;
-    work->target_pos  = EnemyCommand_800E0D98.com_pos;
-    work->target_map  = EnemyCommand_800E0D98.com_map;
+    work->target_addr = EnemyCommand.com_addr;
+    work->target_pos  = EnemyCommand.com_pos;
+    work->target_map  = EnemyCommand.com_map;
 }
 
 void s00a_command_800CB0E0( WatcherWork* work )
@@ -455,7 +455,7 @@ void s00a_command_800CB2F4( WatcherWork *work )
         s00a_command_800CAFD4( work );
         work->think1 = 1;
 
-        if ( EnemyCommand_800E0D98.field_0x40 == 1 )
+        if ( EnemyCommand.field_0x40 == 1 )
         {
             work->think2 = 8;
             work->think3 = 18;
@@ -516,7 +516,7 @@ void s00a_command_800CB3F0( WatcherWork *work )
 
 void s00a_command_800CB42C( WatcherWork* work )
 {
-    EnemyCommand_800E0D98.field_0x40 = 0;
+    EnemyCommand.field_0x40 = 0;
     if ( work->act_status & 4 )
     {
         work->think1 = 2;
@@ -882,7 +882,7 @@ start:
     work->pad.time = work->field_BB0[ time ];
     work->pad.tmp  = s00a_dword_800C3524[ act ];
 
-    if ( COM_GameStatus_800E0F3C & 1 )
+    if ( COM_GameStatus & 1 )
     {
         if ( work->pad.tmp == 0x80 || work->pad.tmp == 0x200 || work->pad.tmp == 0x400 || work->pad.tmp == 0x800 )
         {
@@ -966,7 +966,7 @@ int s00a_command_800CBDFC( WatcherWork* work )
     {
         ENE_PutMark( work, 0 );
         NewEyeflash( &work->body.objs->objs[6].world, &work->control.mov, aKirari_800E06E8, 0 );
-        COM_VibTime_800E0F68 = 10;
+        COM_VibTime = 10;
     }
 
     if ( count < 20 )
@@ -986,7 +986,7 @@ int s00a_command_800CBE90( WatcherWork* work )
     {
         ENE_PutMark( work, 0 );
         s00a_command_800CC210( work );
-        COM_VibTime_800E0F68 = 10;
+        COM_VibTime = 10;
     }
 
     if ( work->count3 > 20 )
@@ -1181,17 +1181,17 @@ int s00a_command_800CC344( WatcherWork *work )
 {
     if ( work->count3 == 0 )
     {
-       if ( COM_GameStatus_800E0F3C & 0x2000 )
+       if ( COM_GameStatus & 0x2000 )
        {
            work->think3 = 13;
            return 0;
        }
 
-        COM_GameStatus_800E0F3C |= 0x2000;
+        COM_GameStatus |= 0x2000;
         work->pad.dir = work->sn_dir;
     }
 
-    if ( work->count3 == 63 && !( work->field_BA1 & 16 ) && EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
+    if ( work->count3 == 63 && !( work->field_BA1 & 16 ) && EnemyCommand.mode == TOP_COMM_TRAVEL )
     {
         work->pad.sound = 140;
     }
@@ -1209,7 +1209,7 @@ int s00a_command_800CC344( WatcherWork *work )
 
 int s00a_command_800CC40C( WatcherWork *work )
 {
-    if ( !( COM_GameStatus_800E0F3C & 0x2000 ) )
+    if ( !( COM_GameStatus & 0x2000 ) )
     {
         return 1;
     }
@@ -1287,7 +1287,7 @@ int Think3_NoiseModeWatch_800CC5C0( WatcherWork *work )
 
     if( work->count3 == 0)
     {
-        if( EnemyCommand_800E0D98.mode  == TOP_COMM_TRAVEL )
+        if( EnemyCommand.mode  == TOP_COMM_TRAVEL )
         {
             if( work->modetime[(  T_NOISE  )]  <= 1 )
             {
@@ -1320,7 +1320,7 @@ int Think3_NoiseModeWatch_800CC5C0( WatcherWork *work )
         case 0:
             if( work->count3 >= 16)
             {
-                if( EnemyCommand_800E0D98.mode  == TOP_COMM_TRAVEL )
+                if( EnemyCommand.mode  == TOP_COMM_TRAVEL )
                 {
                     if ( !(work->act_status & 0x00000080 ) )
                     {
@@ -1393,7 +1393,7 @@ int s00a_command_800CC83C( WatcherWork* work )
 {
     if ( work->count3 == 0 )
     {
-        if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
+        if ( EnemyCommand.mode == TOP_COMM_TRAVEL )
         {
             work->pad.sound = 136;
         }
@@ -1466,7 +1466,7 @@ int s00a_command_800CC99C( WatcherWork *work )
 
     if ( work->count3 >= 16 )
     {
-        if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
+        if ( EnemyCommand.mode == TOP_COMM_TRAVEL )
         {
             work->pad.sound = 243;
         }
@@ -1482,7 +1482,7 @@ int s00a_command_800CCA28( WatcherWork *work )
     if ( work->count3 == 20 )
     {
         ENE_PutMark( work, 5 );
-        if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
+        if ( EnemyCommand.mode == TOP_COMM_TRAVEL )
         {
             work->pad.sound = 244;
         }
@@ -1524,7 +1524,7 @@ int s00a_command_800CCAFC( WatcherWork *work )
     if ( work->count3 == 20 )
     {
         ENE_PutMark( work, 5 );
-        if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
+        if ( EnemyCommand.mode == TOP_COMM_TRAVEL )
         {
             work->pad.sound = 242;
         }
@@ -1716,7 +1716,7 @@ int Think3_AttackSetup_800CCE08( WatcherWork *work )
                 return 0x18;
             }
 
-            if ( work->sn_dis < COM_SHOOTRANGE_800E0D88 && work->vision.field_B92 == 2 )
+            if ( work->sn_dis < COM_SHOOTRANGE && work->vision.field_B92 == 2 )
             {
                 if ( work->sn_dis < 1000 &&                 /* 距離が近かなかったら */
                     !(GM_PlayerStatus & PLAYER_SQUAT) &&    /* しゃがんでなかったら */
@@ -1733,7 +1733,7 @@ int Think3_AttackSetup_800CCE08( WatcherWork *work )
     }
     else
     {
-        if ( work->sn_dis < COM_SHOOTRANGE_800E0D88 && work->vision.field_B92 == 2 && (work->count3 & 1) )
+        if ( work->sn_dis < COM_SHOOTRANGE && work->vision.field_B92 == 2 && (work->count3 & 1) )
         {
             if ( work->sn_dis < 1000 &&                 /* 距離が近かなかったら */
                 !(GM_PlayerStatus & PLAYER_SQUAT) &&    /* しゃがんでなかったら */
@@ -1861,7 +1861,7 @@ static inline void think_reset( WatcherWork *work )
 
 static inline void think_reset2( WatcherWork *work )
 {
-    if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
+    if ( EnemyCommand.mode == TOP_COMM_TRAVEL )
     {
         work->next_node--;
         s00a_command_800CB13C( work );
@@ -2052,7 +2052,7 @@ void s00a_command_800CD608( WatcherWork *work )
             s00a_command_800CAB04( work );
             work->think3 = 9;
             work->count3 = 0;
-            if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
+            if ( EnemyCommand.mode == TOP_COMM_TRAVEL )
             {
                 work->pad.mode = 0;
             }
@@ -2203,7 +2203,7 @@ void s00a_command_800CD8B0( WatcherWork *work )
                 {
                     work->modetime[(  T_NOISE  )]++;
                     work->think3 = 9;
-                    if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL && work->modetime[(  T_NOISE  )] < 2 )
+                    if ( EnemyCommand.mode == TOP_COMM_TRAVEL && work->modetime[(  T_NOISE  )] < 2 )
                     {
                         work->pad.mode = 0;
                     }
@@ -2359,7 +2359,7 @@ void s00a_command_800CDD80( WatcherWork *work )
         if ( s00a_command_800CBDFC( work ) )
         {
             s00a_command_800CB2C8( work );
-            if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
+            if ( EnemyCommand.mode == TOP_COMM_TRAVEL )
             {
                 work->pad.sound = 240;
             }
@@ -2374,7 +2374,7 @@ void s00a_command_800CDD80( WatcherWork *work )
         case 16:
         if ( s00a_command_800CBE90( work ) )
         {
-            if ( EnemyCommand_800E0D98.field_0x180 < 2 )
+            if ( EnemyCommand.field_0x180 < 2 )
             {
                 s00a_command_800CB394( work );
             }
@@ -2442,7 +2442,7 @@ void s00a_command_800CDE90( WatcherWork *work ) {
     {
         if ( work->field_B7C == 0xFF )
         {
-            if ( work->field_C04 != COM_PlayerAddressOne_800E0F40[ work->field_B78 ] )
+            if ( work->field_C04 != COM_PlayerAddressOne[ work->field_B78 ] )
             {
                 if ( work->field_BFC < 0xDAD )
                 {
@@ -2552,7 +2552,7 @@ void s00a_command_800CE1E0( WatcherWork* work )
         }
         if ( s00a_command_800CC064( work ) )
         {
-            if ( EnemyCommand_800E0D98.field_0x40 == 1  || ( work->field_B7C != 0xFF) )
+            if ( EnemyCommand.field_0x40 == 1  || ( work->field_B7C != 0xFF) )
             {
                 s00a_command_800CB2C8( work );
             }
@@ -2564,7 +2564,7 @@ void s00a_command_800CE1E0( WatcherWork* work )
         }
     break;
     case 30:
-        if ( EnemyCommand_800E0D98.field_0x40 == 1 )
+        if ( EnemyCommand.field_0x40 == 1 )
         {
             s00a_command_800CB2C8( work );
             return;
@@ -2573,11 +2573,11 @@ void s00a_command_800CE1E0( WatcherWork* work )
 
     }
 
-    if ( ( work->field_B7C == 0xFF) || EnemyCommand_800E0D98.field_0x40 != 1 )
+    if ( ( work->field_B7C == 0xFF) || EnemyCommand.field_0x40 != 1 )
     {
         if ( work->vision.field_B92 == 2 )
         {
-            if ( EnemyCommand_800E0D98.field_0x40 != 1 )
+            if ( EnemyCommand.field_0x40 != 1 )
             {
                 work->think2 = 7;
                 work->think3 = 17;
@@ -2751,7 +2751,7 @@ void s00a_command_800CE634( WatcherWork *work )
         break;
     }
 
-    if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
+    if ( EnemyCommand.mode == TOP_COMM_TRAVEL )
     {
         return;
     }
@@ -2784,7 +2784,7 @@ void s00a_command_800CE778( WatcherWork* work )
         break;
     }
 
-    if ( EnemyCommand_800E0D98.mode != TOP_COMM_ALERT )
+    if ( EnemyCommand.mode != TOP_COMM_ALERT )
     {
         s00a_command_800CB42C( work );
     }
@@ -2822,12 +2822,12 @@ void s00a_command_800CE830( WatcherWork *work )
         break;
     }
 
-    if ( EnemyCommand_800E0D98.mode == TOP_COMM_ALERT )
+    if ( EnemyCommand.mode == TOP_COMM_ALERT )
     {
         s00a_command_800CB2F4( work );
     }
 
-    if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
+    if ( EnemyCommand.mode == TOP_COMM_TRAVEL )
     {
         work->think1 = 0;
         if ( work->think2 != 7 && work->think2 != 4 )
@@ -2853,7 +2853,7 @@ void s00a_command_800CE830( WatcherWork *work )
     }
 }
 
-void Enemy_Think_800CE99C( WatcherWork* work )
+void Enemy_Think( WatcherWork* work )
 {
     work->pad.dir = -1;
     work->pad.press = 0;

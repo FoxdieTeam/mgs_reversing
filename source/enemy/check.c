@@ -12,17 +12,17 @@
 extern void s00a_command_800C6BCC( WatcherWork *work, int time );
 extern void s00a_command_800C6FA8( WatcherWork *work, int time );
 
-extern ENEMY_COMMAND     EnemyCommand_800E0D98;
-extern SVECTOR           ENEMY_TARGET_SIZE_800C35A4;
-extern SVECTOR           ENEMY_TARGET_FORCE_800C35AC;
-extern SVECTOR           ENEMY_ATTACK_SIZE_800C35B4;
-extern SVECTOR           ENEMY_ATTACK_FORCE_800C35BC;
-extern SVECTOR           ENEMY_TOUCH_SIZE_800C35C4;
-extern SVECTOR           ENEMY_TOUCH_FORCE_800C35CC;
-extern TOPCOMMAND_STRUCT TOPCOMMAND_800E0F20;
-extern SVECTOR           COM_NO_POINT_800C35D4;
-extern int               COM_EYE_LENGTH_800E0D8C;
-extern int               COM_PlayerAddressOne_800E0F40[8];
+extern ENEMY_COMMAND     EnemyCommand;
+extern SVECTOR           ENEMY_TARGET_SIZE;
+extern SVECTOR           ENEMY_TARGET_FORCE;
+extern SVECTOR           ENEMY_ATTACK_SIZE;
+extern SVECTOR           ENEMY_ATTACK_FORCE;
+extern SVECTOR           ENEMY_TOUCH_SIZE;
+extern SVECTOR           ENEMY_TOUCH_FORCE;
+extern TOPCOMMAND_STRUCT TOPCOMMAND;
+extern SVECTOR           COM_NO_POINT;
+extern int               COM_EYE_LENGTH;
+extern int               COM_PlayerAddressOne[8];
 
 int s00a_command_800C50B0( WatcherWork *work )
 {
@@ -137,7 +137,7 @@ int s00a_command_800C5370( WatcherWork * work )
     {
         SetMode( work, s00a_command_800C7354 ) ;
 
-        if ( TOPCOMMAND_800E0F20.mode == TOP_COMM_TRAVEL )
+        if ( TOPCOMMAND.mode == TOP_COMM_TRAVEL )
         {
             work->target->faint = 0;
         }
@@ -173,19 +173,19 @@ void InitTarget_800C5484( WatcherWork *work )
     life   = work->param_life;
     faint  = work->param_faint;
 
-    GM_SetTarget( target, TARGET_FLAG, ENEMY_SIDE, &ENEMY_TARGET_SIZE_800C35A4 );
-    GM_Target_8002DCCC( target, 1, -1, life, faint, &ENEMY_TARGET_FORCE_800C35AC );
+    GM_SetTarget( target, TARGET_FLAG, ENEMY_SIDE, &ENEMY_TARGET_SIZE );
+    GM_Target_8002DCCC( target, 1, -1, life, faint, &ENEMY_TARGET_FORCE );
     GM_Target_8002DCB4( target, -1, faint, NULL, NULL);
 
     GM_TargetBody( target, &( work->body.objs->objs[1].world ) );
 
     target2 = &work->field_904;
-    GM_SetTarget( target2, TARGET_POWER, PLAYER_SIDE, &ENEMY_ATTACK_SIZE_800C35B4 );
-    GM_Target_8002DCCC( target2, 7, 5, 0, 3, &ENEMY_ATTACK_FORCE_800C35BC );
+    GM_SetTarget( target2, TARGET_POWER, PLAYER_SIDE, &ENEMY_ATTACK_SIZE );
+    GM_Target_8002DCCC( target2, 7, 5, 0, 3, &ENEMY_ATTACK_FORCE );
 
     target2 = &work->field_94C;
-    GM_SetTarget( target2, ( TARGET_TOUCH ), ENEMY_SIDE, &ENEMY_TOUCH_SIZE_800C35C4 );
-    GM_Target_8002DCCC( target2, 7, 5, 0, 0, &ENEMY_TOUCH_FORCE_800C35CC );
+    GM_SetTarget( target2, ( TARGET_TOUCH ), ENEMY_SIDE, &ENEMY_TOUCH_SIZE );
+    GM_Target_8002DCCC( target2, 7, 5, 0, 0, &ENEMY_TOUCH_FORCE );
 }
 
 void s00a_command_800C55B0( WatcherWork* work )
@@ -202,9 +202,9 @@ void s00a_command_800C55B0( WatcherWork* work )
     GM_ConfigControlAttribute( ctrl, 0xD );
     InitTarget_800C5484( work );
 
-    warp = HZD_NavigateBound( EnemyCommand_800E0D98.map->hzd, (char)COM_PlayerAddressOne_800E0F40[ work->field_B78 ], EnemyCommand_800E0D98.field_0x58 [ EnemyCommand_800E0D98.c_reset_pos ], 200 );
+    warp = HZD_NavigateBound( EnemyCommand.map->hzd, (char)COM_PlayerAddressOne[ work->field_B78 ], EnemyCommand.field_0x58 [ EnemyCommand.c_reset_pos ], 200 );
 
-    printf( (char *)aPlayxresetdwarpd_800DFD1C, (char)COM_PlayerAddressOne_800E0F40[ work->field_B78 ], EnemyCommand_800E0D98.field_0x58 [ EnemyCommand_800E0D98.c_reset_pos ], warp );
+    printf( (char *)aPlayxresetdwarpd_800DFD1C, (char)COM_PlayerAddressOne[ work->field_B78 ], EnemyCommand.field_0x58 [ EnemyCommand.c_reset_pos ], warp );
 
     zone = &ctrl->map->hzd->header->zones[ warp ];
     ctrl->mov.vx = zone->x;
@@ -233,7 +233,7 @@ void s00a_command_800C55B0( WatcherWork* work )
     work->target_pos   = work->start_pos;
 
     work->vision.angle = 512;
-    work->vision.length    = COM_EYE_LENGTH_800E0D8C;
+    work->vision.length    = COM_EYE_LENGTH;
 
     work->alert_level    = 0;
     work->vision.facedir = 0;
@@ -247,7 +247,7 @@ void s00a_command_800C55B0( WatcherWork* work )
     work->field_C08 = val;
     work->field_BF0 = val;
 
-    work->field_BA4 = COM_NO_POINT_800C35D4;
+    work->field_BA4 = COM_NO_POINT;
     work->field_BA2 = 0;
     GM_TargetBody( work->target, &( work->body.objs->objs[1].world ) );
 
@@ -326,7 +326,7 @@ void s00a_command_800C59F8( WatcherWork *work )
     TARGET* target;
 
     target = &work->field_904;
-    GM_Target_8002DCCC(target, 7, 5, 0, 3, &ENEMY_ATTACK_FORCE_800C35BC);
+    GM_Target_8002DCCC(target, 7, 5, 0, 3, &ENEMY_ATTACK_FORCE);
     GM_MoveTarget( target, &work->control.mov );
     GM_PowerTarget( target );
 }

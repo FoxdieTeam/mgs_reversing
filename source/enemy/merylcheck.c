@@ -3,8 +3,8 @@
 #include "common.h"
 #include "libdg/libdg.h"
 
-extern TOPCOMMAND_STRUCT TOPCOMMAND_800E0F20;
-extern SVECTOR ENEMY_ATTACK_FORCE_800C35BC;
+extern TOPCOMMAND_STRUCT TOPCOMMAND;
+extern SVECTOR ENEMY_ATTACK_FORCE;
 
 extern void s07a_meryl_unk_800D8CB4( WatcherWork *work, int time );
 extern void s07a_meryl_unk_800D8BA4( WatcherWork *work, int time );
@@ -162,7 +162,7 @@ int s07a_meryl_unk_800D6A50( WatcherWork * work )
     {
         SetMode( work, s07a_meryl_unk_800D8654 ) ;
 
-        if ( TOPCOMMAND_800E0F20.mode == TOP_COMM_TRAVEL )
+        if ( TOPCOMMAND.mode == TOP_COMM_TRAVEL )
         {
             work->target->faint = 0;
         }
@@ -250,7 +250,7 @@ void s07a_meryl_unk_800D6D7C( WatcherWork *work)
     TARGET* target;
 
     target = &work->field_904;
-    GM_Target_8002DCCC(target, 7, 5, 0, 3, &ENEMY_ATTACK_FORCE_800C35BC);
+    GM_Target_8002DCCC(target, 7, 5, 0, 3, &ENEMY_ATTACK_FORCE);
     GM_MoveTarget( target, &work->control.mov );
     GM_PowerTarget( target );
 }

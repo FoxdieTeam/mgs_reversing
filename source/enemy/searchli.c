@@ -67,10 +67,10 @@ typedef struct _SearchlightWork
 } SearchlightWork;
 
 extern CONTROL *GM_WhereList[96];
-extern int     COM_VibTime_800E0F68;
+extern int     COM_VibTime;
 
-extern ENEMY_COMMAND     EnemyCommand_800E0D98;
-extern TOPCOMMAND_STRUCT TOPCOMMAND_800E0F20;
+extern ENEMY_COMMAND     EnemyCommand;
+extern TOPCOMMAND_STRUCT TOPCOMMAND;
 
 const SVECTOR s01a_svec_800E4660 = {0, 0, 65024};
 
@@ -127,7 +127,7 @@ int s01a_searchli_800D73D8(SearchlightWork *work)
         return 0;
     }
 
-    if ((TOPCOMMAND_800E0F20.mode != 1) && (GM_PlayerStatus & PLAYER_CB_BOX))
+    if ((TOPCOMMAND.mode != 1) && (GM_PlayerStatus & PLAYER_CB_BOX))
     {
         if (work->f290 == 0)
         {
@@ -202,7 +202,7 @@ int s01a_searchli_800D763C(SearchlightWork *work)
     if (work->f2A0 == 0)
     {
         s00a_command_800CEC40(pos, 64);
-        COM_VibTime_800E0F68 = 10;
+        COM_VibTime = 10;
     }
 
     if (work->f2A0 < 0 || work->f2A0 > 14)
@@ -376,13 +376,13 @@ void Searchli_800D7A4C(SearchlightWork *work)
         break;
     }
 
-    if (TOPCOMMAND_800E0F20.mode == 1)
+    if (TOPCOMMAND.mode == 1)
     {
-        work->f294 = TOPCOMMAND_800E0F20.mode;
+        work->f294 = TOPCOMMAND.mode;
 
         do {} while (0);
 
-        if (work->f294 == EnemyCommand_800E0D98.field_0x40)
+        if (work->f294 == EnemyCommand.field_0x40)
         {
             work->f29C = 4;
         }
@@ -417,7 +417,7 @@ void Searchli_800D7BB8(SearchlightWork *work)
         break;
     }
 
-    if (TOPCOMMAND_800E0F20.mode != 1)
+    if (TOPCOMMAND.mode != 1)
     {
         work->f294 = 2;
         work->f29C = 5;
@@ -432,7 +432,7 @@ void Searchli_800D7C58(SearchlightWork *work)
     case 5:
         Searchli_800D783C(work);
 
-        if (TOPCOMMAND_800E0F20.mode == 0)
+        if (TOPCOMMAND.mode == 0)
         {
             work->f29C = 6;
             work->f2A0 = 0;
@@ -454,12 +454,12 @@ void Searchli_800D7C58(SearchlightWork *work)
         ENE_SetTopCommAL(255);
         ENE_SetGopointLast();
         s00a_command_800CEC40(&work->control.mov, 64);
-        COM_VibTime_800E0F68 = 10;
+        COM_VibTime = 10;
         work->f294 = 1;
         work->f29C = 4;
         work->f2A0 = 0;
     }
-    else if (TOPCOMMAND_800E0F20.mode == 1)
+    else if (TOPCOMMAND.mode == 1)
     {
         work->f294 = 1;
         work->f29C = 4;

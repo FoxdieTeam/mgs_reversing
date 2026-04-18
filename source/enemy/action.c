@@ -29,12 +29,12 @@ short ActTable_800C3358[54] =
 SVECTOR s00a_dword_800C33C4 = { -150,  0, 300 };
 SVECTOR s00a_dword_800C33CC = { 0,  -550, 950 };
 
-extern ENEMY_COMMAND     EnemyCommand_800E0D98;
-extern SVECTOR           COM_NO_POINT_800C35D4;
-extern TOPCOMMAND_STRUCT TOPCOMMAND_800E0F20;
-extern int               COM_EYE_LENGTH_800E0D8C;
-extern unsigned int      COM_GameStatus_800E0F3C;
-extern int               COM_VibTime_800E0F68;
+extern ENEMY_COMMAND     EnemyCommand;
+extern SVECTOR           COM_NO_POINT;
+extern TOPCOMMAND_STRUCT TOPCOMMAND;
+extern int               COM_EYE_LENGTH;
+extern unsigned int      COM_GameStatus;
+extern int               COM_VibTime;
 
 extern int GV_NearExp4P(int from, int to);
 
@@ -111,12 +111,12 @@ void ActStandStill_800C5C84(WatcherWork* work, int time )
     SetTargetClass( work->target, TARGET_FLAG );
     work->act_status |= 1;
 
-    if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
+    if ( EnemyCommand.mode == TOP_COMM_TRAVEL )
     {
         work->target->class |= TARGET_C4 ;
     }
 
-    work->vision.length = COM_EYE_LENGTH_800E0D8C ;
+    work->vision.length = COM_EYE_LENGTH ;
 
     if ( time == 0 )
     {
@@ -166,12 +166,12 @@ void s00a_command_800C5E48( WatcherWork* work, int time )
 
     SetTargetClass( work->target, TARGET_FLAG );
 
-    if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
+    if ( EnemyCommand.mode == TOP_COMM_TRAVEL )
     {
         work->target->class |= TARGET_C4 ;
     }
 
-    work->vision.length = COM_EYE_LENGTH_800E0D8C ;
+    work->vision.length = COM_EYE_LENGTH ;
     work->act_status |= 0x100;
     work->control.step = DG_ZeroVector;
 
@@ -287,7 +287,7 @@ void s00a_command_800C6164( WatcherWork *work, int time )
 
     ctrl = &( work->control );
     SetTargetClass( work->target, TARGET_FLAG );
-    work->vision.length = COM_EYE_LENGTH_800E0D8C ;
+    work->vision.length = COM_EYE_LENGTH ;
 
     if ( time == 0 )
     {
@@ -317,7 +317,7 @@ void s00a_command_800C624C( WatcherWork *work, int time )
 
     ctrl = &( work->control );
     SetTargetClass( work->target, TARGET_FLAG );
-    work->vision.length = COM_EYE_LENGTH_800E0D8C ;
+    work->vision.length = COM_EYE_LENGTH ;
 
     if ( time == 0 )
     {
@@ -344,13 +344,13 @@ void s00a_command_800C624C( WatcherWork *work, int time )
 void s00a_command_800C6320( WatcherWork *work, int time )
 {
     SetTargetClass( work->target, TARGET_FLAG ) ;
-    work->vision.length = COM_EYE_LENGTH_800E0D8C;
+    work->vision.length = COM_EYE_LENGTH;
     work->unknown.field_1E = 0;
 
     if ( CheckDamage_800C5424( work ) )
     {
         UnsetCameraActCall( );
-        COM_GameStatus_800E0F3C &= ~COM_ST_DANBOWL ;
+        COM_GameStatus &= ~COM_ST_DANBOWL ;
         printf(" ~COM_ST_DANBOWL 0 !! \n ") ;
         return;
     }
@@ -362,7 +362,7 @@ void s00a_command_800C6320( WatcherWork *work, int time )
             SetMode( work, ActStandStill_800C5C84 ) ;
         }
         UnsetCameraActCall( );
-        COM_GameStatus_800E0F3C &= ~COM_ST_DANBOWL ;
+        COM_GameStatus &= ~COM_ST_DANBOWL ;
         printf(" ~COM_ST_DANBOWL 1 !! \n ") ;
         return ;
     }
@@ -396,7 +396,7 @@ void s00a_command_800C6320( WatcherWork *work, int time )
         UnsetCameraActCall( );
         work->actend = 1 ;
         SetMode( work, ActStandStill_800C5C84 ) ;
-        COM_GameStatus_800E0F3C &= ~COM_ST_DANBOWL ;
+        COM_GameStatus &= ~COM_ST_DANBOWL ;
         printf(" ~COM_ST_DANBOWL 2 !! \n ");
         return ;
     }
@@ -409,7 +409,7 @@ void s00a_command_800C65A8( WatcherWork* work, int time )
 {
     int press;
     SetTargetClass( work->target, TARGET_FLAG );
-    work->vision.length = COM_EYE_LENGTH_800E0D8C ;
+    work->vision.length = COM_EYE_LENGTH ;
     press = work->pad.press;
 
     if ( time == 0 )
@@ -470,7 +470,7 @@ void s00a_command_800C65A8( WatcherWork* work, int time )
 void s00a_command_800C6724( WatcherWork* work, int time )
 {
     SetTargetClass( work->target, TARGET_FLAG );
-    work->vision.length = COM_EYE_LENGTH_800E0D8C ;
+    work->vision.length = COM_EYE_LENGTH ;
 
     if ( time == 0 )
     {
@@ -501,7 +501,7 @@ void ActGrenade_800C67EC( WatcherWork *work, int time )
 {
     int check = 0;
     SetTargetClass( work->target, TARGET_FLAG ) ;
-    work->vision.length = COM_EYE_LENGTH_800E0D8C ;
+    work->vision.length = COM_EYE_LENGTH ;
 
     if ( time == 0 )
     {
@@ -575,7 +575,7 @@ void ActGrenade_800C67EC( WatcherWork *work, int time )
 void s00a_command_800C6A40( WatcherWork* work, int time )
 {
     SetTargetClass( work->target, TARGET_FLAG );
-    work->vision.length = COM_EYE_LENGTH_800E0D8C ;
+    work->vision.length = COM_EYE_LENGTH ;
     work->unknown.field_1E = 0;
 
     if ( time == 0 )
@@ -795,7 +795,7 @@ void s00a_command_800C6FA8( WatcherWork* work, int time )
 
         if ( s2 == 0x30 && !( work->field_B5C & 7  ) )
         {
-            COM_VibTime_800E0F68 = 4;
+            COM_VibTime = 4;
         }
         work->control.turn = GM_PlayerControl->rot;
         s00a_command_800C6EC8( work );
@@ -997,7 +997,7 @@ void s00a_command_800C77C8( WatcherWork* work, int time )
 
     work->unknown.field_1E = 0;
     SetTargetClass( work->target, TARGET_FLAG );
-    work->vision.length = COM_EYE_LENGTH_800E0D8C ;
+    work->vision.length = COM_EYE_LENGTH ;
     work->act_status |= 0x08;
 
     if ( CheckDamage_800C5424( work ) )
@@ -1278,7 +1278,7 @@ void s00a_command_800C8054( WatcherWork *work, int time )
         GM_TargetBody( work->target, NULL );
     }
 
-    if ( time == 4 && TOPCOMMAND_800E0F20.mode == 0 )
+    if ( time == 4 && TOPCOMMAND.mode == 0 )
     {
         ENE_PutItem( work );
     }
@@ -1306,8 +1306,8 @@ void s00a_command_800C818C( WatcherWork *work, int time )
     if ( time == 0 )
     {
         work->visible = 0;
-        work->control.mov = COM_NO_POINT_800C35D4;
-        EnemyCommand_800E0D98.field_0xC8[ work->field_B78 ].field_04 = 1;
+        work->control.mov = COM_NO_POINT;
+        EnemyCommand.field_0xC8[ work->field_B78 ].field_04 = 1;
 
         if ( !work->field_C48 )
         {
@@ -1320,10 +1320,10 @@ void s00a_command_800C818C( WatcherWork *work, int time )
         }
     }
 
-    if ( EnemyCommand_800E0D98.field_0xC8[ work->field_B78 ].field_04 == 2 )
+    if ( EnemyCommand.field_0xC8[ work->field_B78 ].field_04 == 2 )
     {
         s00a_command_800C55B0( work );
-        printf("enemy reset max=%d num=%d \n", EnemyCommand_800E0D98.reset_enemy_max, EnemyCommand_800E0D98.reset_enemy_num);
+        printf("enemy reset max=%d num=%d \n", EnemyCommand.reset_enemy_max, EnemyCommand.reset_enemy_num);
         SetMode( work, ActStandStill_800C5C84) ;
     }
 }
@@ -1904,7 +1904,7 @@ void ENE_PutSound( WatcherWork* work )
     int a1, a3;
     int a2;
     int v1;
-    if ( !EnemyCommand_800E0D98.field_0x17A ) return;
+    if ( !EnemyCommand.field_0x17A ) return;
 
     a3 = work->unknown.last_set;
     a2 = work->m_ctrl.info1.frame;
@@ -1939,7 +1939,7 @@ void ENE_PutSound( WatcherWork* work )
 void ENE_PutBreath( WatcherWork *work, int arg1 )
 {
     int frame;
-    if ( EnemyCommand_800E0D98.mode == TOP_COMM_ALERT )
+    if ( EnemyCommand.mode == TOP_COMM_ALERT )
     {
         return;
     }

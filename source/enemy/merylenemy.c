@@ -10,11 +10,11 @@
 
 extern CONTROL *GM_WhereList[94];
 
-extern int COM_EYE_LENGTH_800E0D8C;
-extern int COM_NOISEMODE_DIS_800E0F38;
-extern int COM_ALERT_DECREMENT_800E0F60;
+extern int COM_EYE_LENGTH;
+extern int COM_NOISEMODE_DIS;
+extern int COM_ALERT_DECREMENT;
 
-extern ENEMY_COMMAND EnemyCommand_800E0D98;
+extern ENEMY_COMMAND EnemyCommand;
 
 extern int sna_current_item_8004FB38(void);
 
@@ -127,7 +127,7 @@ void s07a_meryl_unk_800DAA60( WatcherWork* work )
         }
         return;
     case 200:
-        if ( GV_DiffVec3( &GM_NoisePosition, &ctrl->mov ) < COM_NOISEMODE_DIS_800E0F38 )
+        if ( GV_DiffVec3( &GM_NoisePosition, &ctrl->mov ) < COM_NOISEMODE_DIS )
         {
             break;
         }
@@ -135,7 +135,7 @@ void s07a_meryl_unk_800DAA60( WatcherWork* work )
     case 255:
         break;
     case 100:
-        if ( GV_DiffVec3( &GM_NoisePosition, &ctrl->mov ) < COM_NOISEMODE_DIS_800E0F38 && ( s07a_meryl_unk_800DAA00( ctrl->map->hzd, &ctrl->mov, &GM_NoisePosition ) < 300 ) )
+        if ( GV_DiffVec3( &GM_NoisePosition, &ctrl->mov ) < COM_NOISEMODE_DIS && ( s07a_meryl_unk_800DAA00( ctrl->map->hzd, &ctrl->mov, &GM_NoisePosition ) < 300 ) )
         {
             work->field_BA1 |= 1;
             GM_NoiseLength = 0;
@@ -158,12 +158,12 @@ void s07a_meryl_unk_800DAC50( WatcherWork *work )
         return;
     }
 
-    if ( EnemyCommand_800E0D98.mode == 2 && EnemyCommand_800E0D98.field_0x10 == 300 )
+    if ( EnemyCommand.mode == 2 && EnemyCommand.field_0x10 == 300 )
     {
         return;
     }
 
-    if ( EnemyCommand_800E0D98.field_0x0C % EnemyCommand_800E0D98.field_0x08 == work->field_B78 )
+    if ( EnemyCommand.field_0x0C % EnemyCommand.field_0x08 == work->field_B78 )
     {
         work->field_BA2 = 0;
     }
@@ -172,7 +172,7 @@ void s07a_meryl_unk_800DAC50( WatcherWork *work )
     {
         if ( ( GV_DiffVec3( &work->field_BA4, &GM_PlayerPosition ) > 50 ) || ( work->field_BAC != GM_WhereList[0]->rot.vy ) )
         {
-            if ( EnemyCommand_800E0D98.mode != TOP_COMM_ALERT )
+            if ( EnemyCommand.mode != TOP_COMM_ALERT )
             {
                 work->field_BA4 = GM_PlayerPosition;
                 work->field_BAC = GM_WhereList[0]->rot.vy;
@@ -236,7 +236,7 @@ void s07a_meryl_unk_800DAEAC( WatcherWork* work )
     work->field_BA1 = 0;
     s07a_meryl_unk_800DAA60( work );
 
-    if ( EnemyCommand_800E0D98.mode != TOP_COMM_ALERT )
+    if ( EnemyCommand.mode != TOP_COMM_ALERT )
     {
         s07a_meryl_unk_800DA974( work );
         s07a_meryl_unk_800DAC50( work );
@@ -254,7 +254,7 @@ void s07a_meryl_unk_800DAF00( WatcherWork* work )
             if ( work->field_B94 != 2 || !( GM_PlayerStatus & PLAYER_INTRUDE ) || work->vision.length == 0 )
             {
                 work->field_B94 = 0;
-                work->alert_level -= COM_ALERT_DECREMENT_800E0F60;
+                work->alert_level -= COM_ALERT_DECREMENT;
             }
             break;
         case 1:
@@ -311,10 +311,10 @@ void s07a_meryl_unk_800DAFD8( WatcherWork* work )
         return;
     }
 
-    if ( EnemyCommand_800E0D98.field_0x0C % EnemyCommand_800E0D98.field_0x08 == work->field_B78 )
+    if ( EnemyCommand.field_0x0C % EnemyCommand.field_0x08 == work->field_B78 )
     {
         //ridiculous, but its the only way it matches
-        if ( COM_EYE_LENGTH_800E0D8C + 2000 >= dis )
+        if ( COM_EYE_LENGTH + 2000 >= dis )
         {
             if ( 2000 >= diff )
             {

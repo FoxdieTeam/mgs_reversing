@@ -11,12 +11,12 @@
 
 extern CONTROL *GM_WhereList[94];
 
-extern ENEMY_COMMAND EnemyCommand_800E0D98;
+extern ENEMY_COMMAND EnemyCommand;
 
-extern int       COM_NOISEMODE_DIS_800E0F38;
-extern int       COM_NoiseMinDisID_800E0D44;
-extern int       COM_ALERT_DECREMENT_800E0F60;
-extern int       COM_EYE_LENGTH_800E0D8C;
+extern int       COM_NOISEMODE_DIS;
+extern int       COM_NoiseMinDisID;
+extern int       COM_ALERT_DECREMENT;
+extern int       COM_EYE_LENGTH;
 
 extern int sna_current_item_8004FB38(void);
 
@@ -110,7 +110,7 @@ void s00a_command_800C9930( WatcherWork* work )
         }
         return;
     case 200:
-        if ( GV_DiffVec3( &GM_NoisePosition, &ctrl->mov ) < COM_NOISEMODE_DIS_800E0F38 )
+        if ( GV_DiffVec3( &GM_NoisePosition, &ctrl->mov ) < COM_NOISEMODE_DIS )
         {
             break;
         }
@@ -118,7 +118,7 @@ void s00a_command_800C9930( WatcherWork* work )
     case 255:
         break;
     case 100:
-        if ( work->field_B78 == COM_NoiseMinDisID_800E0D44 )
+        if ( work->field_B78 == COM_NoiseMinDisID )
         {
             work->field_BA1 |= 1;
             GM_NoiseLength = 0;
@@ -139,12 +139,12 @@ void s00a_command_800C9ACC( WatcherWork *work )
         return;
     }
 
-    if ( EnemyCommand_800E0D98.mode == 2 && EnemyCommand_800E0D98.field_0x10 == 300 )
+    if ( EnemyCommand.mode == 2 && EnemyCommand.field_0x10 == 300 )
     {
         return;
     }
 
-    if ( EnemyCommand_800E0D98.field_0x0C % EnemyCommand_800E0D98.field_0x08 == work->field_B78 )
+    if ( EnemyCommand.field_0x0C % EnemyCommand.field_0x08 == work->field_B78 )
     {
         work->field_BA2 = 0;
     }
@@ -153,7 +153,7 @@ void s00a_command_800C9ACC( WatcherWork *work )
     {
         if ( ( GV_DiffVec3( &work->field_BA4, &GM_PlayerPosition ) > 50 ) || ( work->field_BAC != GM_WhereList[0]->rot.vy ) )
         {
-            if ( EnemyCommand_800E0D98.mode != TOP_COMM_ALERT )
+            if ( EnemyCommand.mode != TOP_COMM_ALERT )
             {
                 work->field_BA4 = GM_PlayerPosition;
                 work->field_BAC = GM_WhereList[0]->rot.vy;
@@ -216,7 +216,7 @@ void s00a_command_800C9D28( WatcherWork* work )
     work->field_BA1 = 0;
     s00a_command_800C9930( work );
 
-    if ( EnemyCommand_800E0D98.mode != TOP_COMM_ALERT )
+    if ( EnemyCommand.mode != TOP_COMM_ALERT )
     {
         s00a_command_800C98A4( work );
         s00a_command_800C9ACC( work );
@@ -234,7 +234,7 @@ void s00a_command_800C9D7C( WatcherWork* work )
             if ( work->field_B94 != 2 || GM_PlayerStatus & PLAYER_HIDDEN || !( GM_PlayerStatus & ( PLAYER_INTRUDE | PLAYER_NOHIDDEN ) ) || work->vision.length == 0 )
             {
                 work->field_B94 = 0;
-                work->alert_level -= COM_ALERT_DECREMENT_800E0F60;
+                work->alert_level -= COM_ALERT_DECREMENT;
             }
             break;
         case 1:
@@ -296,11 +296,11 @@ void s00a_command_800C9E68( WatcherWork* work )
         return;
     }
 
-    if ( EnemyCommand_800E0D98.field_0x0C % EnemyCommand_800E0D98.field_0x08 == work->field_B78 )
+    if ( EnemyCommand.field_0x0C % EnemyCommand.field_0x08 == work->field_B78 )
     {
         x = 2000;
         //ridiculous, but its the only way it matches
-        if ( COM_EYE_LENGTH_800E0D8C + x >= dis )
+        if ( COM_EYE_LENGTH + x >= dis )
         {
             if ( x >= diff )
             {
@@ -352,7 +352,7 @@ void s00a_command_800C9E68( WatcherWork* work )
     }
 }
 
-void EnemyActionMain_800CA07C( WatcherWork *work )
+void EnemyActionMain( WatcherWork *work )
 {
      if ( work->unknown.last_set < 0x31 )
      {
@@ -360,14 +360,14 @@ void EnemyActionMain_800CA07C( WatcherWork *work )
         s00a_command_800C9E68(work);
         s00a_command_800C9D28(work);
         s00a_command_800C9D7C(work);
-        Enemy_Think_800CE99C(work);
+        Enemy_Think(work);
         ENE_ExecPutChar(work);
     }
 
     s00a_command_800C82B0(work);
 }
 
-void EnemyPushMove_800CA0E8( WatcherWork *work )
+void EnemyPushMove( WatcherWork *work )
 {
     int s1;
     CONTROL *ctrl;

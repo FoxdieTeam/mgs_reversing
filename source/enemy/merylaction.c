@@ -12,10 +12,10 @@
 // from takabe/mosaic.h
 extern void *NewMosaic( MATRIX *, int, int, int );
 
-extern ENEMY_COMMAND EnemyCommand_800E0D98;
-extern unsigned int  COM_GameStatus_800E0F3C;
-extern int           COM_EYE_LENGTH_800E0D8C;
-extern int           COM_VibTime_800E0F68;
+extern ENEMY_COMMAND EnemyCommand;
+extern unsigned int  COM_GameStatus;
+extern int           COM_EYE_LENGTH;
+extern int           COM_VibTime;
 
 extern SVECTOR s07a_dword_800C3694;
 
@@ -136,12 +136,12 @@ void ActStandStill_800D7008( WatcherWork* work, int time )
     SetTargetClass( work->target, TARGET_FLAG );
     work->act_status |= 1;
 
-    if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
+    if ( EnemyCommand.mode == TOP_COMM_TRAVEL )
     {
         work->target->class |= TARGET_C4 ;
     }
 
-    work->vision.length = COM_EYE_LENGTH_800E0D8C ;
+    work->vision.length = COM_EYE_LENGTH ;
 
     if ( time == 0 )
     {
@@ -193,12 +193,12 @@ void s07a_meryl_unk_800D71B0( WatcherWork* work, int time )
     SetTargetClass( work->target, TARGET_FLAG );
 
     work->act_status |= 0x1;
-    if ( EnemyCommand_800E0D98.mode == TOP_COMM_TRAVEL )
+    if ( EnemyCommand.mode == TOP_COMM_TRAVEL )
     {
         work->target->class |= TARGET_C4 ;
     }
 
-    work->vision.length = COM_EYE_LENGTH_800E0D8C ;
+    work->vision.length = COM_EYE_LENGTH ;
 
     if ( CheckDamage_800D6B30( work ) || CheckPad_800D6DE4( work ) )
     {
@@ -321,7 +321,7 @@ void s07a_meryl_unk_800D7504( WatcherWork* work, int time )
     ctrl = &( work->control );
     work->act_status |= 0x01;
     SetTargetClass( work->target, TARGET_FLAG );
-    work->vision.length = COM_EYE_LENGTH_800E0D8C ;
+    work->vision.length = COM_EYE_LENGTH ;
 
     if ( time == 0 )
     {
@@ -351,7 +351,7 @@ void s07a_meryl_unk_800D75F8( WatcherWork* work, int time )
 
     ctrl = &( work->control );
     SetTargetClass( work->target, TARGET_FLAG );
-    work->vision.length = COM_EYE_LENGTH_800E0D8C ;
+    work->vision.length = COM_EYE_LENGTH ;
 
     if ( time == 0 )
     {
@@ -378,12 +378,12 @@ void s07a_meryl_unk_800D75F8( WatcherWork* work, int time )
 void s07a_meryl_unk_800D76CC( WatcherWork *work, int time )
 {
     SetTargetClass( work->target, TARGET_FLAG ) ;
-    work->vision.length = COM_EYE_LENGTH_800E0D8C;
+    work->vision.length = COM_EYE_LENGTH;
 
     if ( CheckDamage_800D6B30( work ) )
     {
         UnsetCameraActCall( );
-        COM_GameStatus_800E0F3C &= ~COM_ST_DANBOWL ;
+        COM_GameStatus &= ~COM_ST_DANBOWL ;
         return;
     }
 
@@ -394,7 +394,7 @@ void s07a_meryl_unk_800D76CC( WatcherWork *work, int time )
             SetMode( work, ActStandStill_800D7008 ) ;
         }
         UnsetCameraActCall( );
-        COM_GameStatus_800E0F3C &= ~COM_ST_DANBOWL ;
+        COM_GameStatus &= ~COM_ST_DANBOWL ;
         return ;
     }
 
@@ -426,7 +426,7 @@ void s07a_meryl_unk_800D76CC( WatcherWork *work, int time )
         UnsetCameraActCall( );
         work->actend = 1 ;
         SetMode( work, ActStandStill_800D7008 ) ;
-        COM_GameStatus_800E0F3C &= ~COM_ST_DANBOWL ;
+        COM_GameStatus &= ~COM_ST_DANBOWL ;
         return ;
     }
     work->control.turn.vy = work->sn_dir;
@@ -437,7 +437,7 @@ void ActReadyGun_800D7924( WatcherWork* work, int time )
 {
     int press;
     SetTargetClass( work->target, TARGET_FLAG );
-    work->vision.length = COM_EYE_LENGTH_800E0D8C ;
+    work->vision.length = COM_EYE_LENGTH ;
     press = work->pad.press;
 
     if ( time == 0 )
@@ -496,7 +496,7 @@ void ActReadyGun_800D7924( WatcherWork* work, int time )
 void s07a_meryl_unk_800D7A90( WatcherWork* work, int time )
 {
     SetTargetClass( work->target, TARGET_FLAG );
-    work->vision.length = COM_EYE_LENGTH_800E0D8C ;
+    work->vision.length = COM_EYE_LENGTH ;
 
     if ( time == 0 )
     {
@@ -520,7 +520,7 @@ void s07a_meryl_unk_800D7B48( WatcherWork* work, int time )
 {
     SVECTOR *rot;
     SetTargetClass( work->target, TARGET_FLAG );
-    work->vision.length = COM_EYE_LENGTH_800E0D8C ;
+    work->vision.length = COM_EYE_LENGTH ;
 
     if ( time == 0 )
     {
@@ -561,7 +561,7 @@ void s07a_meryl_unk_800D7B48( WatcherWork* work, int time )
 void ActGrenade_800D7C98( WatcherWork* work, int time )
 {
     SetTargetClass( work->target, TARGET_FLAG ) ;
-    work->vision.length = COM_EYE_LENGTH_800E0D8C ;         /* 視力 */
+    work->vision.length = COM_EYE_LENGTH ;         /* 視力 */
 
     if ( time == 0 )
     {
@@ -602,7 +602,7 @@ void ActGrenade_800D7C98( WatcherWork* work, int time )
 void s07a_meryl_unk_800D7DF0( WatcherWork* work, int time )
 {
     SetTargetClass( work->target, TARGET_FLAG );
-    work->vision.length = COM_EYE_LENGTH_800E0D8C ;
+    work->vision.length = COM_EYE_LENGTH ;
 
     if ( time == 0 )
     {
@@ -788,7 +788,7 @@ void s07a_meryl_unk_800D8290( WatcherWork *work, int time )
 
         if ( s2 == 0x30 && !( work->field_B5C & 7  ) )
         {
-            COM_VibTime_800E0F68 = 4;
+            COM_VibTime = 4;
         }
         work->control.turn = GM_PlayerControl->rot;
         s07a_meryl_unk_800D8210( work );
@@ -1018,7 +1018,7 @@ void s07a_meryl_unk_800D8BA4( WatcherWork* work, int time )
 
     work->unknown.field_1E = 0;
     SetTargetClass( work->target, TARGET_FLAG );
-    work->vision.length = COM_EYE_LENGTH_800E0D8C ;
+    work->vision.length = COM_EYE_LENGTH ;
     work->act_status |= 0x08;
 
     if ( CheckDamage_800D6B30( work ) )
@@ -1577,7 +1577,7 @@ void ENE_PutSound_800D9A6C( WatcherWork *work, int mark )
 void ENE_PutBreath_800D9B14( WatcherWork *work, int arg1 )
 {
     int frame;
-    if ( EnemyCommand_800E0D98.mode == TOP_COMM_ALERT )
+    if ( EnemyCommand.mode == TOP_COMM_ALERT )
     {
         return;
     }
