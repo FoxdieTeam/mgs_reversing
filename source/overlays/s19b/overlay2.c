@@ -2,23 +2,6 @@
 #include "strcode.h"
 #include "anime/animconv/anime.h"
 
-int s19b_dword_800C32BC = 0x01433201;
-int s19b_dword_800C32C0 = 0x000A0013;
-int s19b_dword_800C32C4 = 0x00090016;
-int s19b_dword_800C32C8 = 0x001B0008;
-int s19b_dword_800C32CC = 0x00070003;
-int s19b_dword_800C32D0 = 0x00180026;
-int s19b_dword_800C32D4 = 0x00110017;
-int s19b_dword_800C32D8 = 0x002B0012;
-int s19b_dword_800C32DC = 0x00000016;
-int s19b_dword_800C32E0 = 0x00000000;
-int s19b_dword_800C32E4 = 0x00000064;
-int s19b_dword_800C32E8 = 0x0000FC00;
-int s19b_dword_800C32EC = 0x00000000;
-int s19b_dword_800C32F0 = 0x01F400C8;
-int s19b_dword_800C32F4 = 0x000000C8;
-int s19b_dword_800C32F8 = 0x00000000;
-int s19b_dword_800C32FC = 0x00000000;
 int s19b_dword_800C3300 = 0xFE0C0005;
 int s19b_dword_800C3304 = 0x00000050;
 int s19b_dword_800C3308 = 0x0001DCD3;

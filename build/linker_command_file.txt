@@ -2048,7 +2048,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s19b\takabe\jeep_emy\jeep_emy.obj", overlay
 
     include "{{OBJ_DIR}}\overlays\{{OVERLAY}}\overlay2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19b\unknown.obj", overlay
 
     include "{{OBJ_DIR}}\overlays\s19b\takabe\jeep\jbullet.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19b\takabe\jeep\jspark.obj", overlay
