@@ -124,7 +124,7 @@ static void Act(Work *work)
             control->level_flag = 0;
             control->step.vy = -control->step.vy / 2;
 
-            GM_SeSet(&control->mov, SE_UNK061);
+            GM_SeSet(&control->mov, SE_CHAIR);
 
             if (control->step.vy < 32)
             {

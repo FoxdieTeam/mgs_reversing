@@ -66,7 +66,7 @@ static void Act( Work *work )
             {
                 MATRIX world;
 
-                GM_SeSet(&work->set, SE_UNK064);
+                GM_SeSet(&work->set, SE_PAPER);
 
                 world = DG_ZeroMatrix;
                 world.t[0] = work->mat.t[0];

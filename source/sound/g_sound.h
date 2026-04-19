@@ -120,12 +120,14 @@
 #define SE_SPARKS               SE_HIBANA01
 #define SE_PANEL01              ( 60)
 #define SE_ELECTRIC_PANEL       SE_PANEL01
-#define SE_UNK061               ( 61)
+#define SE_CHAIR01              ( 61)
+#define SE_CHAIR                SE_CHAIR01
 #define SE_REBGLASS             ( 62)
 #define SE_BROKEN_GLASS         SE_REBGLASS
 #define SE_GLASS11              ( 63)
 #define SE_GLASS_SHATTER        SE_GLASS11
-#define SE_UNK064               ( 64)
+#define SE_PAPER01              ( 64)
+#define SE_PAPER                SE_PAPER01
 #define SE_BAKUHA01             ( 65)           // 爆破
 #define SE_BLAST                SE_BAKUHA01
 #define SE_CHAF0002             ( 66)
