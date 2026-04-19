@@ -125,6 +125,7 @@
 #define PCX_TAMA_02             0xcb51 // GV_StrCode( "tama_02" )
 #define PCX_TAMA_03             0xcb52 // GV_StrCode( "tama_03" )
 #define PCX_M60_FLASH           0xc61c // GV_StrCode( "m60_flash" )
+#define PCX_JEEP_BONBORI_ADD    0xa7fc // GV_StrCode( "jeep_bonbori_add" )
 
 //-----------------------------------------------------------------------------
 // Model files (.kmd)

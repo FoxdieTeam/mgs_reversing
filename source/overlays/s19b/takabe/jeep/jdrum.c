@@ -2,6 +2,24 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 
+typedef struct _JEEP_SYSTEM
+{
+    char     pad1[0x4];
+    CONTROL *control;
+    char     pad2[0x10];
+    SVECTOR  pos;
+    char     pad3[0x18];
+    SVECTOR  field_38;
+    char     pad4[0x20];
+    OBJECT  *body;
+    char     pad5[0x18];
+    int      field_7C;
+    MATRIX   world;
+    char     pad6[0xCC];
+} JEEP_SYSTEM;
+
+extern JEEP_SYSTEM Takabe_JeepSystem;
+
 typedef struct _Work
 {
     GV_ACT  actor;
@@ -31,9 +49,6 @@ typedef struct _Work
 extern BLAST_DATA blast_data_8009F4B8[8];
 
 SVECTOR s19b_dword_800C3494 = {435, 375, 185};
-
-extern SVECTOR s19b_dword_800DE670;
-extern SVECTOR s19b_dword_800DE690;
 
 void *NewJeepBlast(MATRIX *world, BLAST_DATA *blast);
 void *NewJeepDrumSmoke(MATRIX *world, int, int);
@@ -99,8 +114,8 @@ static void Act(Work *work)
         GM_ConfigControlHazard(control, -1, -2, -1);
     }
 
-    GV_AddVec3(&control->mov, &s19b_dword_800DE670, &control->mov);
-    work->depth += s19b_dword_800DE670.vz;
+    GV_AddVec3(&control->mov, &Takabe_JeepSystem.pos, &control->mov);
+    work->depth += Takabe_JeepSystem.pos.vz;
     if (work->depth > 32000)
     {
         GV_DestroyActor(work);
@@ -172,7 +187,7 @@ static int GetResources(Work *work, int name, int where)
         control->mov.vy = 0;
         control->mov.vz /= 2;
 
-        GV_AddVec3(&control->mov, &s19b_dword_800DE690, &control->mov);
+        GV_AddVec3(&control->mov, &Takabe_JeepSystem.field_38, &control->mov);
 
         work->depth = control->mov.vz;
         if (work->depth > 0)

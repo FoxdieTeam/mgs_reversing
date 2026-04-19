@@ -10,7 +10,7 @@ typedef struct _JEEP_SYSTEM
     OBJECT  *body;
 } JEEP_SYSTEM;
 
-extern JEEP_SYSTEM s19b_dword_800DE658; // Takabe_JeepSystem
+extern JEEP_SYSTEM Takabe_JeepSystem;
 
 typedef struct _Work
 {
@@ -56,10 +56,10 @@ static void ShadePacks(DG_PRIM *prim, int shade, int index)
 static void Act(Work *work)
 {
     GM_CurrentMap = work->map;
-    
-    work->pos.vx += s19b_dword_800DE658.pos.vx;
-    work->pos.vy += s19b_dword_800DE658.pos.vy;
-    work->depth += s19b_dword_800DE658.pos.vz;
+
+    work->pos.vx += Takabe_JeepSystem.pos.vx;
+    work->pos.vy += Takabe_JeepSystem.pos.vy;
+    work->depth += Takabe_JeepSystem.pos.vz;
 
     work->pos.vz = work->depth;
 
