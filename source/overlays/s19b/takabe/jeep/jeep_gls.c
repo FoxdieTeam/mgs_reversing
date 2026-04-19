@@ -6,10 +6,14 @@ typedef struct _JEEP_SYSTEM
     CONTROL *control;
     char     pad2[0x10];
     SVECTOR  pos;
-    char     pad3[0x40];
+    char     pad3[0x18];
+    SVECTOR  field_38;
+    char     pad4[0x20];
     OBJECT  *body;
-    char     pad4[0x1C];
+    char     pad5[0x18];
+    int      field_7C;
     MATRIX   world;
+    char     pad6[0xCC];
 } JEEP_SYSTEM;
 
 extern JEEP_SYSTEM Takabe_JeepSystem;
@@ -35,22 +39,7 @@ extern VECTOR  s19b_dword_800C3730;
 extern SVECTOR s19b_dword_800C3740;
 extern SVECTOR s19b_dword_800C3748;
 
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CE400.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CE52C.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CE5F8.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CE628.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CE83C.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CE8B8.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CE8DC.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CEB2C.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CEC24.s")
-
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CEDFC.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CEE7C.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CEFE4.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CF088.s")
-
-// file split
+void *NewGlassSplash3(MATRIX *world);
 
 void s19b_jeep_gls_800CF0B0(Work *work)
 {

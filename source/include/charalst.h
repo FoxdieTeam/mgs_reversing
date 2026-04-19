@@ -112,7 +112,7 @@
 #define CHARA_HIYOKO            { 0x42e4, NewHiyokoGcl }            // GV_StrCode("ヒヨコ星") okajima/hiyoko.c
 #define CHARA_INTRUDECAM        { 0xdd8b, NewIntrudeCamera }        // GV_StrCode("イントルードカメラ") chara/others/intr_cam.c
 #define CHARA_ITEM              { 0x8767, NewItem }                 // GV_StrCode("アイテム") game/item.c
-#define CHARA_JEEPSCROLL        { 0x6a48, s19b_jeep_srl_800CE36C }  // GV_StrCode("ジープスクロール") takabe/jeep_srl.c
+#define CHARA_JEEPSCROLL        { 0x6a48, NewJeepScroll }           // GV_StrCode("ジープスクロール") takabe/jeep_srl.c
 #define CHARA_JEEPDRUM          { 0xa27e, NewJeepDrum }             // GV_StrCode("ジープ戦ドラム") takabe/jeep/jdrum.c
 #define CHARA_B757_ED_TELOP     { 0xb757, EdTelop_800C4F18 }        // takabe/ed_telop.c (?)
 #define CHARA_JOHNNY            { 0x1ef9, NewJohnny }               // GV_StrCode("ジョニー") chara/torture/johnny.c
@@ -554,7 +554,7 @@ void *NewGoggleIr();                    /* takabe/goggleir.c            */
 void *NewIrSensor();                    /* takabe/ir_cens.c             */
 void *NewJeepDrum();                    /* takabe/jeep/jdrum.c          */
 void *NewJeepEnemy();                   /* takabe/jeep_emy/jeep_emy.c   */
-void *s19b_jeep_srl_800CE36C();         /* takabe/jeep_srl.c            */
+void *NewJeepScroll();                  /* takabe/jeep_srl.c            */
 void *NewLifeUp();                      /* takabe/life_up.c             */
 void *NewLift();                        /* takabe/lift.c                */
 void *NewMirror();                      /* takabe/mirror.c              */

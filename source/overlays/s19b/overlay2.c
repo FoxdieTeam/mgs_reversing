@@ -329,7 +329,3 @@ int s19b_dword_800C3A4C = 0x0000FC63;
 int s19b_dword_800C3A50 = 0xFC5C00B4;
 int s19b_dword_800C3A54 = 0x0000FEAC;
 int s19b_dword_800C3A58 = 0x00000000;
-
-const char s19b_dword_800DDCE4[] = {'j', '_', 'l', 'i'};
-const char s19b_dword_800DDCE8[] = {'q', 'u', 'i', 'd'};
-const char s19b_dword_800DDCEC[] = {0x0, 0x0, 'C', 0x90};
