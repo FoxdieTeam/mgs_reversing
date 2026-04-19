@@ -12,14 +12,16 @@ typedef struct _JEEP_SYSTEM
     CONTROL *control;
     char     pad2[0x10];
     SVECTOR  pos;
-    char     pad3[0x40];
+    char     pad3[0x18];
+    SVECTOR  field_38;
+    char     pad4[0x20];
     OBJECT  *body;
-    char     pad4[0x18];
+    char     pad5[0x18];
     int      field_7C;
     MATRIX   world;
 } JEEP_SYSTEM;
 
-extern JEEP_SYSTEM s19b_dword_800DE658; /* Takabe_JeepSystem */
+extern JEEP_SYSTEM Takabe_JeepSystem;
 
 struct _Work;
 typedef void (*JBULLET_FN)(struct _Work *, int);
@@ -85,9 +87,6 @@ static SVECTOR s19b_dword_800C3300 = {5, -500, 80};
 
 extern GM_CAMERA GM_Camera;
 
-extern SVECTOR s19b_dword_800DE670;
-extern SVECTOR s19b_dword_800DE690;
-
 void s01a_800E2364(MATRIX *mtx, SVECTOR *in, VECTOR *out);
 void *NewJeepBlood(MATRIX *world, int count, MATRIX *root);
 void *NewJeepBullet2(MATRIX *world, int side, int mode, int mode2);
@@ -130,14 +129,14 @@ static void Act(Work *work)
     int      n_models;
 
     control = &work->control;
-    GV_AddVec3(&control->mov, &s19b_dword_800DE670, &control->mov);
-    GV_AddVec3(&work->field_8EC, &s19b_dword_800DE670, &work->field_8EC);
-    GV_AddVec3(&work->field_8F4, &s19b_dword_800DE670, &work->field_8F4);
+    GV_AddVec3(&control->mov, &Takabe_JeepSystem.pos, &control->mov);
+    GV_AddVec3(&work->field_8EC, &Takabe_JeepSystem.pos, &work->field_8EC);
+    GV_AddVec3(&work->field_8F4, &Takabe_JeepSystem.pos, &work->field_8F4);
 
     vec = work->field_900;
     for (i = work->field_8FC; i > 0; i--, vec++)
     {
-        GV_AddVec3(vec, &s19b_dword_800DE670, vec);
+        GV_AddVec3(vec, &Takabe_JeepSystem.pos, vec);
     }
 
     if (control->mov.vz > 16000)
@@ -223,7 +222,7 @@ static void GetMidpoint(SVECTOR *vec)
     vec->vx /= 2;
     vec->vy /= 2;
     vec->vz /= 2;
-    GV_AddVec3(vec, &s19b_dword_800DE690, vec);
+    GV_AddVec3(vec, &Takabe_JeepSystem.field_38, vec);
 }
 
 static int GetResources(Work *work, int name, int where)
@@ -385,7 +384,7 @@ int s19b_jbullet_800C5010(Work *work)
 
         work->field_8F4 = work->field_900[(rand() * work->field_8FC) >> 15];
 
-        s19b_dword_800DE658.field_7C = 1;
+        Takabe_JeepSystem.field_7C = 1;
         return 1;
     }
 
@@ -571,12 +570,12 @@ void s19b_jbullet_800C5560(Work *work, int arg1)
 
         GM_SeSet2(0, 63, SE_ALERT_SIREN);
 
-        if (s19b_dword_800DE658.field_7C == 0)
+        if (Takabe_JeepSystem.field_7C == 0)
         {
             Voicesys_800CE2D0();
         }
 
-        s19b_dword_800DE658.field_7C = 1;
+        Takabe_JeepSystem.field_7C = 1;
     }
 
     work->target1->class |= ( TARGET_POWER | TARGET_SEEK );

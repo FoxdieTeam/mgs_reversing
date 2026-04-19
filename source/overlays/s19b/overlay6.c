@@ -1,99 +1,24 @@
 #include "common.h"
+#include "game/game.h"
+
+typedef struct _JEEP_SYSTEM
+{
+    char     pad1[0x4];
+    CONTROL *control;
+    char     pad2[0x10];
+    SVECTOR  pos;
+    char     pad3[0x40];
+    OBJECT  *body;
+    char     pad4[0x1C];
+    MATRIX   world;
+    char     pad5[0xCC];
+} JEEP_SYSTEM;
 
 int SECTION(".bss") s19b_dword_800DE648;
 int SECTION(".bss") s19b_dword_800DE64C;
 int SECTION(".bss") s19b_dword_800DE650;
 int SECTION(".bss") s19b_dword_800DE654;
-int SECTION(".bss") s19b_dword_800DE658; // Takabe_JeepSystem
-int SECTION(".bss") s19b_dword_800DE65C;
-int SECTION(".bss") s19b_dword_800DE660;
-int SECTION(".bss") s19b_dword_800DE664;
-int SECTION(".bss") s19b_dword_800DE668;
-int SECTION(".bss") s19b_dword_800DE66C;
-int SECTION(".bss") s19b_dword_800DE670;
-int SECTION(".bss") s19b_dword_800DE674;
-int SECTION(".bss") s19b_dword_800DE678;
-int SECTION(".bss") s19b_dword_800DE67C;
-int SECTION(".bss") s19b_dword_800DE680;
-int SECTION(".bss") s19b_dword_800DE684;
-int SECTION(".bss") s19b_dword_800DE688;
-int SECTION(".bss") s19b_dword_800DE68C;
-int SECTION(".bss") s19b_dword_800DE690;
-int SECTION(".bss") s19b_dword_800DE694;
-int SECTION(".bss") s19b_dword_800DE698;
-int SECTION(".bss") s19b_dword_800DE69C;
-int SECTION(".bss") s19b_dword_800DE6A0;
-int SECTION(".bss") s19b_dword_800DE6A4;
-int SECTION(".bss") s19b_dword_800DE6A8;
-int SECTION(".bss") s19b_dword_800DE6AC;
-int SECTION(".bss") s19b_dword_800DE6B0;
-int SECTION(".bss") s19b_dword_800DE6B4;
-int SECTION(".bss") s19b_dword_800DE6B8;
-int SECTION(".bss") s19b_dword_800DE6BC;
-int SECTION(".bss") s19b_dword_800DE6C0;
-int SECTION(".bss") s19b_dword_800DE6C4;
-int SECTION(".bss") s19b_dword_800DE6C8;
-int SECTION(".bss") s19b_dword_800DE6CC;
-int SECTION(".bss") s19b_dword_800DE6D0;
-int SECTION(".bss") s19b_dword_800DE6D4;
-int SECTION(".bss") s19b_dword_800DE6D8;
-int SECTION(".bss") s19b_dword_800DE6DC;
-int SECTION(".bss") s19b_dword_800DE6E0;
-int SECTION(".bss") s19b_dword_800DE6E4;
-int SECTION(".bss") s19b_dword_800DE6E8;
-int SECTION(".bss") s19b_dword_800DE6EC;
-int SECTION(".bss") s19b_dword_800DE6F0;
-int SECTION(".bss") s19b_dword_800DE6F4;
 
-int SECTION(".bss") s19b_dword_800DE6F8; // Takabe_JeepSystem END maybe
-int SECTION(".bss") s19b_dword_800DE6FC;
-int SECTION(".bss") s19b_dword_800DE700;
-int SECTION(".bss") s19b_dword_800DE704;
-int SECTION(".bss") s19b_dword_800DE708;
-int SECTION(".bss") s19b_dword_800DE70C;
-int SECTION(".bss") s19b_dword_800DE710;
-int SECTION(".bss") s19b_dword_800DE714;
-int SECTION(".bss") s19b_dword_800DE718;
-int SECTION(".bss") s19b_dword_800DE71C;
-int SECTION(".bss") s19b_dword_800DE720;
-int SECTION(".bss") s19b_dword_800DE724;
-int SECTION(".bss") s19b_dword_800DE728;
-int SECTION(".bss") s19b_dword_800DE72C;
-int SECTION(".bss") s19b_dword_800DE730;
-int SECTION(".bss") s19b_dword_800DE734;
-int SECTION(".bss") s19b_dword_800DE738;
-int SECTION(".bss") s19b_dword_800DE73C;
-int SECTION(".bss") s19b_dword_800DE740;
-int SECTION(".bss") s19b_dword_800DE744;
-int SECTION(".bss") s19b_dword_800DE748;
-int SECTION(".bss") s19b_dword_800DE74C;
-int SECTION(".bss") s19b_dword_800DE750;
-int SECTION(".bss") s19b_dword_800DE754;
-int SECTION(".bss") s19b_dword_800DE758;
-int SECTION(".bss") s19b_dword_800DE75C;
-int SECTION(".bss") s19b_dword_800DE760;
-int SECTION(".bss") s19b_dword_800DE764;
-int SECTION(".bss") s19b_dword_800DE768;
-int SECTION(".bss") s19b_dword_800DE76C;
-int SECTION(".bss") s19b_dword_800DE770;
-int SECTION(".bss") s19b_dword_800DE774;
-int SECTION(".bss") s19b_dword_800DE778;
-int SECTION(".bss") s19b_dword_800DE77C;
-int SECTION(".bss") s19b_dword_800DE780;
-int SECTION(".bss") s19b_dword_800DE784;
-int SECTION(".bss") s19b_dword_800DE788;
-int SECTION(".bss") s19b_dword_800DE78C;
-int SECTION(".bss") s19b_dword_800DE790;
-int SECTION(".bss") s19b_dword_800DE794;
-int SECTION(".bss") s19b_dword_800DE798;
-int SECTION(".bss") s19b_dword_800DE79C;
-int SECTION(".bss") s19b_dword_800DE7A0;
-int SECTION(".bss") s19b_dword_800DE7A4;
-int SECTION(".bss") s19b_dword_800DE7A8;
-int SECTION(".bss") s19b_dword_800DE7AC;
-int SECTION(".bss") s19b_dword_800DE7B0;
-int SECTION(".bss") s19b_dword_800DE7B4;
-int SECTION(".bss") s19b_dword_800DE7B8;
-int SECTION(".bss") s19b_dword_800DE7BC;
-int SECTION(".bss") s19b_dword_800DE7C0;
+JEEP_SYSTEM SECTION(".bss") Takabe_JeepSystem;
+
 int SECTION(".bss") s19b_dword_800DE7C4;

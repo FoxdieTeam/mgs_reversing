@@ -1,4 +1,5 @@
 #include "common.h"
+#include "libdg/libdg.h"
 
 int s19b_dword_800C3530 = 0x1B3FCB82;
 int s19b_dword_800C3534 = 0x1F3F1B40;
@@ -128,18 +129,15 @@ int s19b_dword_800C3720 = 0x07C8020B;
 int s19b_dword_800C3724 = 0x06A4030B;
 int s19b_dword_800C3728 = 0x2F3F1F65;
 int s19b_dword_800C372C = 0x14400000;
-int s19b_dword_800C3730 = 0x00000800;
-int s19b_dword_800C3734 = 0x00000800;
-int s19b_dword_800C3738 = 0x00000800;
-int s19b_dword_800C373C = 0x00000000;
-int s19b_dword_800C3740 = 0x04260000;
-int s19b_dword_800C3744 = 0x00000659;
-int s19b_dword_800C3748 = 0x04260000;
-int s19b_dword_800C374C = 0x00000177;
-int s19b_dword_800C3750 = 0x0232FB1E;
-int s19b_dword_800C3754 = 0x0000055F;
-int s19b_dword_800C3758 = 0x023204E2;
-int s19b_dword_800C375C = 0x00000271;
+
+VECTOR s19b_dword_800C3730 = {2048, 2048, 2048};
+
+SVECTOR s19b_dword_800C3740 = {0, 1062, 1625};
+SVECTOR s19b_dword_800C3748 = {0, 1062, 375};
+
+SVECTOR s19b_dword_800C3750 = {-1250, 562, 1375};
+SVECTOR s19b_dword_800C3758 = {1250, 562, 625};
+
 int s19b_dword_800C3760 = 0x0BB801F4;
 int s19b_dword_800C3764 = 0x00001388;
 int s19b_dword_800C3768 = 0x00000000;
@@ -335,18 +333,3 @@ int s19b_dword_800C3A58 = 0x00000000;
 const char s19b_dword_800DDCE4[] = {'j', '_', 'l', 'i'};
 const char s19b_dword_800DDCE8[] = {'q', 'u', 'i', 'd'};
 const char s19b_dword_800DDCEC[] = {0x0, 0x0, 'C', 0x90};
-const char s19b_aBo_800DDCF0[] = "19b_o1";
-const char s19b_dword_800DDCF8[] = {'j', 'e', 'e', 'p'};
-const char s19b_dword_800DDCFC[] = {'_', 'g', 'l', 's'};
-const char s19b_dword_800DDD00[] = {'.', 'c', 0x0, 0x8e};
-const char s19b_dword_800DDD04[] = {0x0, 0x8, 0x0, 0x0};
-const char s19b_dword_800DDD08[] = {0x0, 0x8, 0x0, 0x0};
-const char s19b_dword_800DDD0C[] = {0x0, 0x8, 0x0, 0x0};
-const char s19b_dword_800DDD10[] = {0x0, 0x0, 0x0, 0x0};
-const char s19b_aBob_800DDD14[] = "19b_o3b";
-const char s19b_aBoc_800DDD1C[] = "19b_o3c";
-const char s19b_aBo_800DDD24[] = "19b_o2";
-const char s19b_aBoa_800DDD2C[] = "19b_o3a";
-const char s19b_dword_800DDD34[] = {'j', 'e', 'e', 'p'};
-const char s19b_dword_800DDD38[] = {'_', 'g', 't', 'e'};
-const char s19b_dword_800DDD3C[] = {'.', 'c', 0x0, 0x14};

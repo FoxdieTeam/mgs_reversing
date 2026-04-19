@@ -13,7 +13,7 @@ typedef struct _JEEP_SYSTEM
     MATRIX   world;
 } JEEP_SYSTEM;
 
-extern JEEP_SYSTEM s19b_dword_800DE658; /* Takabe_JeepSystem */
+extern JEEP_SYSTEM Takabe_JeepSystem;
 
 /* TODO: Commonise */
 struct _Work;
@@ -135,7 +135,7 @@ void s19b_jbullet_800C6524(Work *work)
         break;
     }
 
-    if (s19b_dword_800DE658.field_7C != 0)
+    if (Takabe_JeepSystem.field_7C != 0)
     {
         work->field_948 = 1;
         work->field_94C = 2;

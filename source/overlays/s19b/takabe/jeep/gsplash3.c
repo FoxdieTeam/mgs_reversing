@@ -11,7 +11,7 @@ typedef struct _JEEP_SYSTEM
     OBJECT  *body;
 } JEEP_SYSTEM;
 
-extern JEEP_SYSTEM s19b_dword_800DE658; // Takabe_JeepSystem
+extern JEEP_SYSTEM Takabe_JeepSystem;
 
 typedef struct _Work
 {
@@ -131,9 +131,9 @@ static void Act(Work *work)
         ShadePacks(prim->packs[GV_Clock], 24, shade);
     }
 
-    prim->world.t[0] += s19b_dword_800DE658.pos.vx;
-    prim->world.t[1] += s19b_dword_800DE658.pos.vy;
-    prim->world.t[2] += s19b_dword_800DE658.pos.vz;
+    prim->world.t[0] += Takabe_JeepSystem.pos.vx;
+    prim->world.t[1] += Takabe_JeepSystem.pos.vy;
+    prim->world.t[2] += Takabe_JeepSystem.pos.vz;
 }
 
 static void Die(Work *work)

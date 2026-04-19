@@ -14,7 +14,7 @@ typedef struct _JEEP_SYSTEM
     MATRIX   world;
 } JEEP_SYSTEM;
 
-extern JEEP_SYSTEM s19b_dword_800DE658; // Takabe_JeepSystem
+extern JEEP_SYSTEM Takabe_JeepSystem;
 
 #define EXEC_LEVEL 5
 
@@ -44,9 +44,9 @@ static void Act(Work *work)
 {
     GM_CurrentMap = work->map;
 
-    work->prim->world.t[0] += s19b_dword_800DE658.pos.vx;
-    work->prim->world.t[1] += s19b_dword_800DE658.pos.vy;
-    work->prim->world.t[2] += s19b_dword_800DE658.pos.vz;
+    work->prim->world.t[0] += Takabe_JeepSystem.pos.vx;
+    work->prim->world.t[1] += Takabe_JeepSystem.pos.vy;
+    work->prim->world.t[2] += Takabe_JeepSystem.pos.vz;
 
     if (work->prim->world.t[2] > 32000)
     {

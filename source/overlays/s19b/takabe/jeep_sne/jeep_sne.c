@@ -40,7 +40,7 @@ typedef struct _Work
     SVECTOR        pos;
 } Work;
 
-extern JEEP_SYSTEM s19b_dword_800DE658; // Takabe_JeepSystem
+extern JEEP_SYSTEM Takabe_JeepSystem;
 
 extern SVECTOR s19b_dword_800C39F8;
 
@@ -128,8 +128,8 @@ int s19b_jeep_sne_800D4D34(Work *work, int name)
 
     work->hp = GM_SnakeCurrentHealth;
 
-    s19b_dword_800DE658.snake_body = body;
-    work->pos = s19b_dword_800DE658.control->mov;
+    Takabe_JeepSystem.snake_body = body;
+    work->pos = Takabe_JeepSystem.control->mov;
     return 0;
 }
 

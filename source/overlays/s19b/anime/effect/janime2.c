@@ -14,7 +14,7 @@ typedef struct _JEEP_SYSTEM
     MATRIX   world;
 } JEEP_SYSTEM;
 
-extern JEEP_SYSTEM s19b_dword_800DE658; // Takabe_JeepSystem
+extern JEEP_SYSTEM Takabe_JeepSystem;
 
 extern ANIMATION blast_anim_mini;
 
@@ -308,9 +308,9 @@ void s19b_jblood_800C850C(MATRIX *world, MATRIX *world2)
     DG_SetPos(world2);
     DG_RotVector(&vec, pos, 1);
 
-    pos->vx += world->t[0] - s19b_dword_800DE658.world.t[0];
-    pos->vy += world->t[1] - s19b_dword_800DE658.world.t[1];
-    pos->vz += world->t[2] - s19b_dword_800DE658.world.t[2];
+    pos->vx += world->t[0] - Takabe_JeepSystem.world.t[0];
+    pos->vy += world->t[1] - Takabe_JeepSystem.world.t[1];
+    pos->vz += world->t[2] - Takabe_JeepSystem.world.t[2];
 
     vec.vx = 0;
     vec.vy = 10;
@@ -323,7 +323,7 @@ void s19b_jblood_800C850C(MATRIX *world, MATRIX *world2)
     anm = &s19b_dword_800C346C;
     anm->pre_script = &pre;
 
-    NewAnime( &s19b_dword_800DE658.world, 0, anm );
+    NewAnime( &Takabe_JeepSystem.world, 0, anm );
 }
 
 void s19b_jblood_800C8610(SVECTOR *pos)
@@ -331,9 +331,9 @@ void s19b_jblood_800C8610(SVECTOR *pos)
     PRESCRIPT  pre;
     ANIMATION *anm;
 
-    pre.pos.vx = pos->vx - s19b_dword_800DE658.world.t[0];
-    pre.pos.vy = pos->vy - s19b_dword_800DE658.world.t[1];
-    pre.pos.vz = pos->vz - s19b_dword_800DE658.world.t[2];
+    pre.pos.vx = pos->vx - Takabe_JeepSystem.world.t[0];
+    pre.pos.vy = pos->vy - Takabe_JeepSystem.world.t[1];
+    pre.pos.vz = pos->vz - Takabe_JeepSystem.world.t[2];
 
     pre.speed = DG_ZeroVector;
 
@@ -343,5 +343,5 @@ void s19b_jblood_800C8610(SVECTOR *pos)
     anm = &blast_anim_mini;
     anm->pre_script = &pre;
 
-    NewAnime( &s19b_dword_800DE658.world, 0, anm );
+    NewAnime( &Takabe_JeepSystem.world, 0, anm );
 }

@@ -1,4 +1,3 @@
-
 #include "game/game.h"
 #include "takabe/cinema.h"
 
@@ -19,7 +18,7 @@ typedef struct _JEEP_SYSTEM
     int      field_128;
 } JEEP_SYSTEM;
 
-extern JEEP_SYSTEM s19b_dword_800DE658; // Takabe_JeepSystem
+extern JEEP_SYSTEM Takabe_JeepSystem;
 
 typedef struct _Work
 {
@@ -45,8 +44,8 @@ void s19b_jlamp_800D0648(SVECTOR *from, SVECTOR *to, SVECTOR *ang, int *len)
 void s19b_jlamp_800D06E0(Work *work)
 {
     NewCinemaScreen(300, 0);
-    work->field_44 = &s19b_dword_800DE658.field_128;
-    s19b_dword_800DE658.field_54 |= 0x10000000;
+    work->field_44 = &Takabe_JeepSystem.field_128;
+    Takabe_JeepSystem.field_54 |= 0x10000000;
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D072C.s")

@@ -16,7 +16,7 @@ typedef struct _Work
 
 RECT s19b_dword_800C348C = {50, 50, 100, 100};
 
-extern SVECTOR s19b_dword_800DE658[]; // JeepSystem
+extern SVECTOR Takabe_JeepSystem[];
 
 void s19b_jblood_800C8448(SVECTOR *pos, SVECTOR *speed, MATRIX *world);
 
@@ -204,9 +204,9 @@ static void Act(Work *work)
     ShadePacks(prim->packs[0], 16, time * 16);
     ShadePacks(prim->packs[1], 16, time * 16);
 
-    work->world.t[0] += s19b_dword_800DE658[3].vx;
-    work->world.t[1] += s19b_dword_800DE658[3].vy;
-    work->world.t[2] += s19b_dword_800DE658[3].vz;
+    work->world.t[0] += Takabe_JeepSystem[3].vx;
+    work->world.t[1] += Takabe_JeepSystem[3].vy;
+    work->world.t[2] += Takabe_JeepSystem[3].vz;
 
     DG_SetPos(&work->world);
     DG_PutPrim(&work->prim->world);
