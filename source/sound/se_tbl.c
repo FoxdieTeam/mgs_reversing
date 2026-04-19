@@ -68,10 +68,10 @@ SETBL se_tbl[128] = {
     { 0x90, 0x02, 0x00, 0x00, { chaf000300, chaf000301, se_dummy   }}, /* 58 */
     { 0x60, 0x01, 0x01, 0x00, { hibana0100, se_dummy,   se_dummy   }}, /* 59 */
     { 0x40, 0x01, 0x01, 0x00, { panel0100,  se_dummy,   se_dummy   }}, /* 60 */
-    { 0x30, 0x01, 0x01, 0x00, { seunk06100, se_dummy,   se_dummy   }}, /* 61 */
+    { 0x30, 0x01, 0x01, 0x00, { chair0100,  se_dummy,   se_dummy   }}, /* 61 */
     { 0x40, 0x01, 0x01, 0x00, { rebglass00, se_dummy,   se_dummy   }}, /* 62 */
     { 0x60, 0x01, 0x01, 0x00, { glass1100,  se_dummy,   se_dummy   }}, /* 63 */
-    { 0x30, 0x01, 0x01, 0x00, { seunk06400, se_dummy,   se_dummy   }}, /* 64 */
+    { 0x30, 0x01, 0x01, 0x00, { paper0100,  se_dummy,   se_dummy   }}, /* 64 */
     { 0x90, 0x02, 0x01, 0x00, { bakuha0100, bakuha0101, se_dummy   }}, /* 65 */
     { 0x70, 0x01, 0x01, 0x00, { chaf000200, se_dummy,   se_dummy   }}, /* 66 */
     { 0x30, 0x01, 0x01, 0x00, { backcls100, se_dummy,   se_dummy   }}, /* 67 */
