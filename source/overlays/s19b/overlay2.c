@@ -289,10 +289,13 @@ int s19b_dword_800C39AC = 0x00000000;
 int s19b_dword_800C39B0 = 0x047E045A;
 int s19b_dword_800C39B4 = 0x0F3F02BC;
 int s19b_dword_800C39B8 = 0x00001921;
+
 int s19b_dword_800C39BC = 0x01B8016D;
 int s19b_dword_800C39C0 = 0x000002A5;
+
 int s19b_dword_800C39C4 = 0x01B8013B;
 int s19b_dword_800C39C8 = 0x0000016D;
+
 int s19b_dword_800C39CC = 0x00000000;
 int s19b_dword_800C39D0 = 0x01C20000;
 int s19b_dword_800C39D4 = 0x0000012C;

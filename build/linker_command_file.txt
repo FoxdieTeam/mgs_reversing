@@ -2075,6 +2075,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 
     include "{{OBJ_DIR}}\overlays\{{OVERLAY}}\overlay4.obj", overlay
 
+    include "{{OBJ_DIR}}\takabe\object.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19b\takabe\jeep.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19b\takabe\jeep_mrl\jeep_mrl.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19b\takabe\jeep_sne\jeep_sne.obj", overlay
