@@ -358,7 +358,6 @@ void sd_set(int sound_code)
             se_rev_on = 1;
             vox_rev_on = 1;
             return;
-
         case 0xFF0000F4:
             StrFadeOut(0x64);
             printf("*** STR FO(S) ***\n");
@@ -426,7 +425,6 @@ void sd_set(int sound_code)
         case 0xFF0000FE:
             stop_jouchuu_se = 1;
             return;
-
         case 0xFFFFFFEC:
             SpuSetIRQ(SPU_OFF);
             return;
