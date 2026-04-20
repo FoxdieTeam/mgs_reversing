@@ -48,7 +48,7 @@ typedef struct _RevolverWork
     int            field_880;
     int            field_884;
     int            field_888;
-    int            field_88C;
+    int            enable_shadow;
     int            field_890;
     char           pad3[0xC];
     int            field_8A0;
@@ -625,7 +625,7 @@ int GetResources(RevolverWork *work, int name, int where)
 
     work->field_874 = 6;
     work->field_880 = 0;
-    work->field_88C = 0;
+    work->enable_shadow = 0;
     work->field_8A4 = 0;
     work->field_8A8 = 0;
     work->field_8AC = 0;

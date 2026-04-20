@@ -229,10 +229,9 @@ typedef struct SnaInitWork
     int                 field_7A0_msg_count;
     GV_MSG              field_7A4_msgs[8];
     int                 field_844;
-    MATRIX              field_848_lighting_mtx; // .t is R, G, B
-    MATRIX              field_868_lighting_mtx2;
-    GV_ACT             *field_888_pShadow;
-    int                *field_88C; // shadow enabled?
+    MATRIX              light[2];
+    GV_ACT             *shadow;
+    int                *enable_shadow;
     unsigned short      field_890_autoaim_max_dist;
     unsigned short      field_892_autoaim_min_angle;
     SnaFlag1            field_894_flags1;
