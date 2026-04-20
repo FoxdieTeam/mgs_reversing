@@ -14,23 +14,23 @@ extern void AN_Breath( MATRIX *world );
 
 typedef struct _Work
 {
-    GV_ACT         actor;
-    unsigned short name;
-    unsigned short visible;
-    int            time;
+    GV_ACT  actor;
+    u_short name;
+    u_short visible;
+    int     time;
 } Work;
 
 static void Act( Work *work )
 {
-    GV_MSG    *message;
-    int        length;
-    OBJECT    *object;
+    GV_MSG *msg;
+    int     n_msgs;
+    OBJECT *body;
 
-    length = GV_ReceiveMessage( work->name, &message );
+    n_msgs = GV_ReceiveMessage( work->name, &msg );
 
-    for (; length > 0 ; --length, ++message )
+    for (; n_msgs > 0 ; --n_msgs, ++msg )
     {
-        switch ( message->message[0] )
+        switch ( msg->message[0] )
         {
             case HASH_ENTER:
                 work->visible = TRUE;
@@ -43,17 +43,17 @@ static void Act( Work *work )
     if ( work->visible && GM_AlertMode != ALERT_ACTIVE &&
         !( GM_PlayerStatus & ( PLAYER_WATCH | PLAYER_INTRUDE | PLAYER_MOVE | PLAYER_GAME_OVER ) ) )
     {
-        object = GM_PlayerBody;
-        if  ( object != NULL && ( GV_Time % work->time == 0 ) )
+        body = GM_PlayerBody;
+        if  ( body != NULL && ( GV_Time % work->time == 0 ) )
         {
-            AN_Breath( &object->objs->objs[6].world );
+            AN_Breath( &body->objs->objs[6].world );
         }
     }
 }
 
 static void Die( Work *work )
 {
-    return;
+    /* do nothing */
 }
 
 static int GetResources( Work *work, int name, int where )
@@ -72,7 +72,7 @@ static int GetResources( Work *work, int name, int where )
     return 0;
 }
 
-void *NewSnakeBreath(int name, int where, int argc, char **argv)
+void *NewSnakeBreath( int name, int where, int argc, char **argv )
 {
     Work *work ;
 

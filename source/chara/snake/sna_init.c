@@ -79,8 +79,8 @@ extern short              snake_weapon_idx_800BDCBA;
 extern short              snake_mag_size_800BDCB8;
 extern short              snake_weapon_max_ammo_800BDCBC;
 
-#define TARGET_FLAG ( TARGET_POWER | TARGET_CAPTURE | TARGET_PUSH | TARGET_TOUCH | TARGET_SEEK )
-#define BODY_FLAG   ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE )
+#define TARGET_FLAG ( TARGET_CAPTURE | TARGET_POWER | TARGET_PUSH | TARGET_SEEK | TARGET_TOUCH )
+#define BODY_FLAG   ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_GBOUND | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE )
 
 #define SEGMENT_ATR ( HZD_SEG_NO_COLLIDE )
 
@@ -4466,7 +4466,7 @@ void sna_anim_dying_80055524(SnaInitWork *work, int time)
             work->control.mov.vy = y_pos;
             work->body.objs->world.t[1] = y_pos;
 
-            DG_GetLightMatrix2(&work->control.mov, &work->field_848_lighting_mtx);
+            DG_GetLightMatrix2(&work->control.mov, work->light);
         }
     }
     else
@@ -4604,12 +4604,12 @@ void sna_anim_mini_cutscene_800559D8(SnaInitWork *work, int time)
         sna_set_invuln_8004F2A0(work, 0);
         GM_ClearPlayerStatusFlag(PLAYER_GROUND | PLAYER_SQUAT);
 
-        work->field_A00.field_0_ivec.vz = -1;
-        work->field_A00.field_0_ivec.vx = GM_PlayerAddress;
-        work->field_A00.field_0_ivec.pad = GM_PlayerAddress;
+        work->field_A00.target_next = -1;
+        work->field_A00.addr = GM_PlayerAddress;
+        work->field_A00.next = GM_PlayerAddress;
 
-        sna_act_unk_helper2_helper2_800605DC(&work->field_A00, work->control.map->hzd, &work->field_9E4.field_9F4);
-        temp_v0 = HZD_GetAddress(work->control.map->hzd, &work->field_9E4.field_9F4,  work->field_A00.field_0_ivec.vy);
+        NavigateSetTarget(&work->field_A00, work->control.map->hzd, &work->field_9E4.field_9F4);
+        temp_v0 = HZD_GetAddress(work->control.map->hzd, &work->field_9E4.field_9F4,  work->field_A00.target);
 
         temp_v1_2 = (temp_v0 >> 8) & 0xff;
         temp_v0_2 = temp_v0 & 0xff;
@@ -4669,14 +4669,14 @@ void sna_anim_mini_cutscene_800559D8(SnaInitWork *work, int time)
 
     if (!(pStr->field_9EC_flags3 & 0x200))
     {
-        work->field_A00.field_0_ivec.vx = GM_PlayerAddress;
-        sna_unk_helper2_helper_8006070C(&work->field_A00, &work->control);
+        work->field_A00.addr = GM_PlayerAddress;
+        NavigateUpdate(&work->field_A00, &work->control);
     }
 
     GV_NearExp4PV(&work->control.rot.vx, &work->control.turn.vx, 3);
     GV_NearExp4PV(&work->control.rot.vx, &work->control.turn.vx, 3);
 
-    if (sna_act_unk_helper2_helper3_80060684(&work->field_A00, &work->control.mov) < pStr->field_9F4.pad)
+    if (NavigateGetTargetDist(&work->field_A00, &work->control.mov) < pStr->field_9F4.pad)
     {
         sna_clear_invuln_8004F2EC(work);
         GM_ClearPlayerStatusFlag(PLAYER_MOVE);
@@ -7234,7 +7234,7 @@ static inline void sna_init_main_logic_helper3_800596FC(SnaInitWork *work)
             iVar8 = iVar8 + iVar9;
             work->control.mov.vy = iVar8;
             work->body.objs->world.t[1] = work->control.mov.vy;
-            DG_GetLightMatrix2(&work->control.mov, &work->field_848_lighting_mtx);
+            DG_GetLightMatrix2(&work->control.mov, work->light);
         }
         else if ((uVar13 & 0x100) == 0)
         {
@@ -7980,7 +7980,7 @@ static inline void sna_act_helper2_8005AD10(SnaInitWork *work)
     }
 }
 
-void sna_act_8005AD10(SnaInitWork *work)
+static void Act(SnaInitWork *work)
 {
     SVECTOR vec;
     SVECTOR vec2;
@@ -8125,8 +8125,8 @@ void sna_act_8005AD10(SnaInitWork *work)
     }
 
     sna_clear_flags1_8004E308(work, SNA_FLAG1_UNK25);
-    DG_GetLightMatrix2(&work->control.mov, &work->field_848_lighting_mtx);
-    *work->field_88C = dword_800ABA1C == 0;
+    DG_GetLightMatrix2(&work->control.mov, work->light);
+    *work->enable_shadow = dword_800ABA1C == 0;
     GM_MoveTarget(work->field_89C_pTarget, &work->control.mov);
 
     vec2 = work->control.mov;
@@ -8197,7 +8197,7 @@ void sna_act_8005AD10(SnaInitWork *work)
     }
 }
 
-void sna_kill_8005B52C(SnaInitWork *work)
+static void Die(SnaInitWork *work)
 {
     CONTROL     *pCtrl;
     GV_ACT      *pShadow;
@@ -8217,7 +8217,7 @@ void sna_kill_8005B52C(SnaInitWork *work)
 
     GM_PlayerStance = work->field_A26_stance;
 
-    pShadow = work->field_888_pShadow;
+    pShadow = work->shadow;
     if (pShadow)
     {
         GV_DestroyOtherActor(pShadow);
@@ -8246,7 +8246,7 @@ void sna_kill_8005B52C(SnaInitWork *work)
     }
 }
 
-static inline int sna_LoadSnake2(SnaInitWork *work)
+static inline int InitLaserSight(SnaInitWork *work)
 {
     SVECTOR  *temp_s1;
     SVECTOR  *temp_s2;
@@ -8312,7 +8312,7 @@ static inline int sna_LoadSnake2(SnaInitWork *work)
     return 0;
 }
 
-static inline void sna_LoadSnake3(SnaInitWork *work)
+static inline void InitEmpty(SnaInitWork *work)
 {
     u_short t1, t2;
     short   stance;
@@ -8431,7 +8431,7 @@ static inline void sna_LoadSnake3(SnaInitWork *work)
     work->field_9B0_pad_ptr = GV_PadData;
 }
 
-static inline void sna_LoadSnake4( POLY_FT4 *packs, int n_packs, DG_TEX *tex )
+static inline void InitPacks( POLY_FT4 *packs, int n_packs, DG_TEX *tex )
 {
     char u, v;
     int  i;
@@ -8452,36 +8452,34 @@ static inline void sna_LoadSnake4( POLY_FT4 *packs, int n_packs, DG_TEX *tex )
     }
 }
 
-static inline int sna_LoadSnake(SnaInitWork *work, int scriptData, int scriptBinds)
+static inline int GetResources(SnaInitWork *work, int name, int where)
 {
-    CONTROL    *pCtrl;
-    OBJECT        *pObject;
-    TARGET *pTarget;
-    HITTABLE *pJiraiUnk;
-    SVECTOR       shadow;
-    SVECTOR       vec;
-    SVECTOR       *pVec;
-    int           tmp, model, i;
-    char          *param_pos, *param_dir;
+    SVECTOR   shadow;
+    SVECTOR   vec;
+    int       attr;
+    CONTROL  *control;
+    OBJECT   *body;
+    int       model;
+    SVECTOR  *size;
+    TARGET   *trg;
+    HITTABLE *hittable;
+    int       i;
 
-    pCtrl = &work->control;
-    if (GM_InitControl(pCtrl, scriptData, scriptBinds) < 0)
+    attr = RADAR_VISIBLE;
+
+    control = &work->control;
+    if (GM_InitControl(control, name, where) < 0)
     {
         return -1;
     }
 
-    param_pos = (char*)GCL_GetOption('p'); // pos
-    param_dir = (char*)GCL_GetOption('d'); // dir
-    GM_ConfigControlString(pCtrl, param_pos, param_dir);
-    GM_ConfigControlHazard(pCtrl, 0, 450, 450);
+    GM_ConfigControlString(control, GCL_GetOption('p'), GCL_GetOption('d'));
+    GM_ConfigControlHazard(control, 0, 450, 450);
+    control->exclude_flag = SEGMENT_ATR;
+    GM_ConfigControlAttribute(control, attr);
+    GM_ConfigControlTrapCheck(control);
 
-    tmp = 1;
-    pCtrl->exclude_flag = tmp;
-
-    GM_ConfigControlAttribute(pCtrl, tmp);
-    GM_ConfigControlTrapCheck(pCtrl);
-
-    pObject = &work->body;
+    body = &work->body;
 
     model = KMD_SNAKE;
     if (GCL_GetOption('m')) // model
@@ -8489,51 +8487,43 @@ static inline int sna_LoadSnake(SnaInitWork *work, int scriptData, int scriptBin
         model = GCL_StrToInt(GCL_GetParamResult());
     }
 
-    GM_InitObject(pObject, model, BODY_FLAG, OAR_SNAKE);
+    GM_InitObject(body, model, BODY_FLAG, OAR_SNAKE);
+    GM_ConfigObjectJoint(body);
+    GM_ConfigMotionControl(body, &work->m_ctrl, OAR_SNAKE, work->m_segs1, work->m_segs2, control, work->rots);
+    GM_ConfigObjectLight(body, work->light);
 
-    GM_ConfigObjectJoint(pObject);
-    GM_ConfigMotionControl(pObject,
-                           &work->m_ctrl,
-                           OAR_SNAKE,
-                           work->m_segs1,
-                           work->m_segs2,
-                           pCtrl,
-                           work->rots);
-    GM_ConfigObjectLight(pObject, &work->field_848_lighting_mtx);
-
-    GM_PlayerControl = pCtrl;
+    GM_PlayerControl = control;
     GM_PlayerPosition = work->control.mov;
-    GM_PlayerBody = pObject;
+    GM_PlayerBody = body;
 
     sna_8004EB14(work);
 
-    if (sna_LoadSnake2(work) < 0)
+    if (InitLaserSight(work) < 0)
     {
         return -1;
     }
 
-    sna_LoadSnake3(work);
+    InitEmpty(work);
 
-    pVec = &vec;
-    setVector(pVec, 300, 650, 300);
+    size = &vec;
+    setVector(size, 300, 650, 300);
 
-    pTarget = work->field_89C_pTarget = GM_AllocTarget();
-
-    GM_SetTarget(pTarget, 159, PLAYER_SIDE, pVec);
-    GM_Target_8002DCCC(pTarget, 1, -1, GM_SnakeCurrentHealth, 0, &DG_ZeroVector);
-    GM_Target_8002DCB4(pTarget, 0, 0, &work->field_8F4, &work->field_8FC);
-    GM_MoveTarget(pTarget, &work->control.mov);
+    trg = work->field_89C_pTarget = GM_AllocTarget();
+    GM_SetTarget(trg, ( TARGET_AVAIL | TARGET_FLAG ), PLAYER_SIDE, size);
+    GM_Target_8002DCCC(trg, 1, -1, GM_SnakeCurrentHealth, 0, &DG_ZeroVector);
+    GM_Target_8002DCB4(trg, 0, 0, &work->field_8F4, &work->field_8FC);
+    GM_MoveTarget(trg, &work->control.mov);
 
     work->field_A22_snake_current_health = GM_SnakeCurrentHealth;
 
-    sna_LoadSnake4(work->field_950, 2, DG_GetTexture(PCX_EMPTY2));
+    InitPacks(work->field_950, 2, DG_GetTexture(PCX_EMPTY2));
 
     shadow.vx  = 0;
     shadow.vy  = 6;
     shadow.vz  = 12;
     shadow.pad = 15;
 
-    work->field_888_pShadow = NewShadow2(pCtrl, pObject, shadow, &work->field_88C);
+    work->shadow = NewShadow2(control, body, shadow, &work->enable_shadow);
 
     dword_800ABA1C = 0;
     GM_BombSeg = 0;
@@ -8546,29 +8536,21 @@ static inline int sna_LoadSnake(SnaInitWork *work, int scriptData, int scriptBin
     dword_800BDD28 = 0;
     tenage_ctrls_count_800BDD70 = 0;
 
-    pJiraiUnk = GM_C4Datas;
-    i = 0;
-
-    while (i < C4_COUNT)
+    hittable = GM_C4Datas;
+    for (i = 0; i < C4_COUNT; i++, hittable++)
     {
-        i++;
-        pJiraiUnk->type = WP_C4;
-        pJiraiUnk->actor = NULL;
-        pJiraiUnk++;
+        hittable->type = WP_C4;
+        hittable->actor = NULL;
     }
 
     dword_8009F434 = 0;
     bakudan_count_8009F42C = 0;
 
-    pJiraiUnk = GM_ClayDatas;
-    i = 0;
-
-    while (i < 8)
+    hittable = GM_ClayDatas;
+    for (i = 0; i < 8; i++, hittable++)
     {
-        i++;
-        pJiraiUnk->type = WP_Claymore;
-        pJiraiUnk->actor = NULL;
-        pJiraiUnk++;
+        hittable->type = WP_Claymore;
+        hittable->actor = NULL;
     }
 
     dword_8009F440 = 0;
@@ -8622,9 +8604,9 @@ void *NewSnake(int name, int where, int argc, char **argv)
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, &sna_act_8005AD10, &sna_kill_8005B52C, "sna_init.c");
+    GV_SetNamedActor(&work->actor, Act, Die, "sna_init.c");
 
-    if (sna_LoadSnake(work, name, where) < 0)
+    if (GetResources(work, name, where) < 0)
     {
         GV_DestroyActor(&work->actor);
         return NULL;

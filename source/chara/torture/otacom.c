@@ -7,7 +7,7 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "chara/snake/sna_init.h"
-#include "chara/snake/sna_hzd.h"
+#include "chara/snake/navigate.h"
 #include "chara/snake/shadow.h"
 #include "equip/equip.h"
 #include "sound/g_sound.h"
@@ -27,7 +27,7 @@ typedef struct OtacomWork
     GV_ACT        *shadow;
     GV_ACT        *kogaku;
     int            bound_where;
-    SnaAutoMove    field_7E4;
+    NAVIGATE       nav;
     int            field_804;
     int            mode;
     int            timer;
@@ -121,11 +121,10 @@ void Otacom_800CB494(OtacomWork *work, int timer)
         break;
 
     case 1:
-        work->field_7E4.field_0_ivec.vx = HZD_GetAddress(
-            work->control.map->hzd, &work->control.mov, work->field_7E4.field_0_ivec.vx);
-        sna_unk_helper2_helper_8006070C(&work->field_7E4, &work->control);
+        work->nav.addr = HZD_GetAddress(work->control.map->hzd, &work->control.mov, work->nav.addr);
+        NavigateUpdate(&work->nav, &work->control);
 
-        if (sna_act_unk_helper2_helper3_80060684(&work->field_7E4, &work->control.mov) < 250)
+        if (NavigateGetTargetDist(&work->nav, &work->control.mov) < 250)
         {
             if (work->object.action != 1)
             {
@@ -283,12 +282,11 @@ void Otacom_800CB838(OtacomWork *work, int timer)
             GM_SeSetMode(&control->mov, SE_NINJA_STEALTH, GM_SEMODE_BOMB);
         }
 
-        work->field_7E4.field_0_ivec.vx = HZD_GetAddress(
-            work->control.map->hzd, &work->control.mov, work->field_7E4.field_0_ivec.vx);
+        work->nav.addr = HZD_GetAddress(work->control.map->hzd, &work->control.mov, work->nav.addr);
 
-        sna_unk_helper2_helper_8006070C(&work->field_7E4, &work->control);
+        NavigateUpdate(&work->nav, &work->control);
 
-        if (sna_act_unk_helper2_helper3_80060684(&work->field_7E4, &work->control.mov) < 250)
+        if (NavigateGetTargetDist(&work->nav, &work->control.mov) < 250)
         {
             if (work->object.action != 1)
             {
@@ -498,7 +496,7 @@ int OtacomGetResources_800CBDB4(OtacomWork *work, int arg1, int arg2)
     Otacom_800CBCC4(work);
     Otacom_800CBD3C(work);
 
-    sub_80060548(&work->field_7E4, work->control.map->hzd, &work->control.mov);
+    NagivateInit(&work->nav, work->control.map->hzd, &work->control.mov);
 
     if (GCL_GetOption('a'))
     {
@@ -509,7 +507,7 @@ int OtacomGetResources_800CBDB4(OtacomWork *work, int arg1, int arg2)
         svec = DG_ZeroVector;
     }
 
-    sna_act_unk_helper2_helper2_800605DC(&work->field_7E4, work->control.map->hzd, &svec);
+    NavigateSetTarget(&work->nav, work->control.map->hzd, &svec);
 
     work->timer = 0;
 
