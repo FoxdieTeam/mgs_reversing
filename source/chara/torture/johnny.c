@@ -10,7 +10,7 @@
 #include "linkvar.h"
 #include "game/vibrate.h"
 #include "chara/snake/sna_init.h"
-#include "chara/snake/sna_hzd.h"
+#include "chara/snake/navigate.h"
 #include "sound/g_sound.h"
 #include "strcode.h"
 
@@ -48,7 +48,7 @@ typedef struct _Work
     SVECTOR       *unkAD0;
     int            unkAD4;
     int            unkAD8;
-    SnaAutoMove    sna_auto_move;
+    NAVIGATE       nav;
     SVECTOR        unkAFC;
     SVECTOR        unkB04;
     int            unkB0C;
@@ -112,7 +112,7 @@ extern GM_CAMERA        GM_Camera;
 
 extern int s03c_dword_800C33D8;
 
-void sub_80060644(SnaAutoMove *pAutoMove);
+void NavigateSetTargetPlayer(NAVIGATE *pAutoMove);
 
 void  AN_Fog(SVECTOR *svec);
 void  AN_Sleep( SVECTOR *svec );
@@ -1612,11 +1612,10 @@ static void Johnny_800C6918(Work *work, int arg1)
         object = &work->body;
         GM_ConfigMotionAdjust(object, work->adjust);
         SetAction(work, 2);
-        sna_act_unk_helper2_helper2_800605DC(&work->sna_auto_move, work->control.map->hzd,
-                                             work->unk850[3]);
+        NavigateSetTarget(&work->nav, work->control.map->hzd, work->unk850[3]);
     }
     Johnny_800C4734(work);
-    if (sna_unk_helper2_helper_8006070C(&work->sna_auto_move, &work->control) < 0)
+    if (NavigateUpdate(&work->nav, &work->control) < 0)
     {
         Johnny_800C4720(work, 3);
         work->unkB38 = Johnny_800C65F8;
@@ -1708,7 +1707,7 @@ static void Johnny_800C6C10(Work *work, int action)
 
         GM_ConfigMotionAdjust(object, work->adjust);
         SetAction(work, 1);
-        sna_act_unk_helper2_helper2_800605DC(&work->sna_auto_move, work->control.map->hzd,
+        NavigateSetTarget(&work->nav, work->control.map->hzd,
                                              work->unk850[0]);
 
         unkB1C = work->unkB1C;
@@ -1727,9 +1726,9 @@ static void Johnny_800C6C10(Work *work, int action)
     }
 
     Johnny_800C4734(work);
-    sna_unk_helper2_helper_8006070C(&work->sna_auto_move, &work->control);
+    NavigateUpdate(&work->nav, &work->control);
 
-    if (sub_800606E4(&work->sna_auto_move, &work->control.mov, 250))
+    if (NavigateTargetNear(&work->nav, &work->control.mov, 250))
     {
         GM_ConfigMotionAdjust(&work->body, NULL);
         ClearAdjust(work);
@@ -1782,7 +1781,7 @@ static void Johnny_800C6D84(Work *work, int action)
         }
 
         Johnny_800C4F24(work, 1);
-        work->sna_auto_move.field_0_ivec.vz = -1;
+        work->nav.target_next = -1;
     }
 
     if (GM_PlayerStatus & PLAYER_INTRUDE)
@@ -1791,14 +1790,14 @@ static void Johnny_800C6D84(Work *work, int action)
         pos.vz = 8000;
         pos.vy = 0;
 
-        sna_act_unk_helper2_helper2_800605DC(&work->sna_auto_move, work->control.map->hzd, &pos);
+        NavigateSetTarget(&work->nav, work->control.map->hzd, &pos);
     }
     else
     {
-        sub_80060644(&work->sna_auto_move);
+        NavigateSetTargetPlayer(&work->nav);
     }
 
-    sna_unk_helper2_helper_8006070C(&work->sna_auto_move, &work->control);
+    NavigateUpdate(&work->nav, &work->control);
 
     if ((len < 1500) && ((GM_PlayerStatus & PLAYER_INTRUDE) || (Johnny_800C4194(work) < 0)))
     {
@@ -1829,13 +1828,13 @@ static void Johnny_800C6FC0(Work *work, int action)
 
         SetAction(work, 2);
 
-        sna_act_unk_helper2_helper2_800605DC(&work->sna_auto_move, work->control.map->hzd, &work->unkB04);
+        NavigateSetTarget(&work->nav, work->control.map->hzd, &work->unkB04);
         Johnny_800C4F24(work, 1);
     }
 
-    sna_unk_helper2_helper_8006070C(&work->sna_auto_move, &work->control);
+    NavigateUpdate(&work->nav, &work->control);
 
-    if (sub_800606E4(&work->sna_auto_move, &work->control.mov, 450))
+    if (NavigateTargetNear(&work->nav, &work->control.mov, 450))
     {
         GV_SubVec3(&GM_PlayerPosition, &work->control.mov, &diff);
         len = GV_VecLen3(&diff);
@@ -2036,11 +2035,11 @@ static void Johnny_800C753C(Work *work, int action)
         switch (work->unkB50)
         {
         case 0:
-            sna_act_unk_helper2_helper2_800605DC(&work->sna_auto_move, work->control.map->hzd, &s03c_dword_800C32E4);
+            NavigateSetTarget(&work->nav, work->control.map->hzd, &s03c_dword_800C32E4);
             break;
 
         case 1:
-            sna_act_unk_helper2_helper2_800605DC(&work->sna_auto_move, work->control.map->hzd, &work->unkB04);
+            NavigateSetTarget(&work->nav, work->control.map->hzd, &work->unkB04);
             break;
 
         case 2:
@@ -2050,12 +2049,12 @@ static void Johnny_800C753C(Work *work, int action)
                 mov.vz = 8000;
                 mov.vy = 0;
 
-                sna_act_unk_helper2_helper2_800605DC(&work->sna_auto_move, work->control.map->hzd, &mov);
+                NavigateSetTarget(&work->nav, work->control.map->hzd, &mov);
             }
             else
             {
-                work->sna_auto_move.field_0_ivec.vz = -1;
-                sub_80060644(&work->sna_auto_move);
+                work->nav.target_next = -1;
+                NavigateSetTargetPlayer(&work->nav);
             }
             break;
         }
@@ -2108,9 +2107,9 @@ static void Johnny_800C753C(Work *work, int action)
         return;
     }
 
-    sna_unk_helper2_helper_8006070C(&work->sna_auto_move, &work->control);
+    NavigateUpdate(&work->nav, &work->control);
 
-    if (sub_800606E4(&work->sna_auto_move, &work->control.mov, 500))
+    if (NavigateTargetNear(&work->nav, &work->control.mov, 500))
     {
         work->unkB50++;
 
@@ -2230,14 +2229,14 @@ static void Johnny_800C7A64(Work *work, int action)
 
         SetAction(work, 2);
 
-        work->sna_auto_move.field_0_ivec.vz = -1;
+        work->nav.target_next = -1;
     }
 
     switch (work->unkB4C)
     {
     case 0:
-        sub_80060644(&work->sna_auto_move);
-        sna_unk_helper2_helper_8006070C(&work->sna_auto_move, &work->control);
+        NavigateSetTargetPlayer(&work->nav);
+        NavigateUpdate(&work->nav, &work->control);
 
         len = Johnny_800C4804(work);
         if (len < 5000)
@@ -2308,7 +2307,7 @@ static void Johnny_800C7BF8(Work *work, int action)
             pos.vy = 0;
             pos.vz = -1500;
 
-            sna_act_unk_helper2_helper2_800605DC(&work->sna_auto_move, work->control.map->hzd, &pos);
+            NavigateSetTarget(&work->nav, work->control.map->hzd, &pos);
             work->unkB4C = 2;
         }
         break;
@@ -2334,8 +2333,8 @@ static void Johnny_800C7BF8(Work *work, int action)
 
         if (work->unkB4C == 2)
         {
-            sna_unk_helper2_helper_8006070C(&work->sna_auto_move, &work->control);
-            len = sna_act_unk_helper2_helper3_80060684(&work->sna_auto_move, &work->control.mov);
+            NavigateUpdate(&work->nav, &work->control);
+            len = NavigateGetTargetDist(&work->nav, &work->control.mov);
 
             if (len < 500)
             {
@@ -3092,7 +3091,7 @@ static void Johnny_800C92E0(Work *work, int arg1)
         SetAction(work, 0);
         work->unkB1C |= 0x20;
         GM_GameStatus |= STATE_PADRELEASE;
-        sna_act_unk_helper2_helper2_800605DC(&work->sna_auto_move, work->control.map->hzd,
+        NavigateSetTarget(&work->nav, work->control.map->hzd,
                                              &work->unkB04);
     }
     if (arg1 == 8)
@@ -3110,8 +3109,8 @@ static void Johnny_800C92E0(Work *work, int arg1)
         switch (work->unkB4C)
         {
         case 0:
-            sna_unk_helper2_helper_8006070C(&work->sna_auto_move, &work->control);
-            if (sna_act_unk_helper2_helper3_80060684(&work->sna_auto_move, &work->control.mov) < 500)
+            NavigateUpdate(&work->nav, &work->control);
+            if (NavigateGetTargetDist(&work->nav, &work->control.mov) < 500)
             {
                 work->unkB4C++;
             }
@@ -3524,8 +3523,7 @@ static void Act(Work *work)
     GM_MoveTarget(work->target, &control->mov);
     DG_GetLightMatrix2(&control->mov, work->light);
     work->control.height = work->body.height;
-    work->sna_auto_move.field_0_ivec.vx = HZD_GetAddress(
-        work->control.map->hzd, &control->mov, work->sna_auto_move.field_0_ivec.vx);
+    work->nav.addr = HZD_GetAddress(work->control.map->hzd, &control->mov, work->nav.addr);
     Johnny_800C9D64(work);
     if (work->unkB30.vy < 0 && work->control.level_flag != 0)
     {
@@ -3734,7 +3732,7 @@ static void InitExtra(Work *work)
     work->unkB1C |= 0x20000000;
     work->player_status = GM_PlayerStatus & ~STATE_SHOW_RADAR;
     work->unkB30 = DG_ZeroVector;
-    sub_80060548(&work->sna_auto_move, work->control.map->hzd, &work->control.mov);
+    NagivateInit(&work->nav, work->control.map->hzd, &work->control.mov);
 }
 
 static void InitSounds(Work *work)

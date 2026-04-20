@@ -4604,12 +4604,12 @@ void sna_anim_mini_cutscene_800559D8(SnaInitWork *work, int time)
         sna_set_invuln_8004F2A0(work, 0);
         GM_ClearPlayerStatusFlag(PLAYER_GROUND | PLAYER_SQUAT);
 
-        work->field_A00.field_0_ivec.vz = -1;
-        work->field_A00.field_0_ivec.vx = GM_PlayerAddress;
-        work->field_A00.field_0_ivec.pad = GM_PlayerAddress;
+        work->field_A00.target_next = -1;
+        work->field_A00.addr = GM_PlayerAddress;
+        work->field_A00.next = GM_PlayerAddress;
 
-        sna_act_unk_helper2_helper2_800605DC(&work->field_A00, work->control.map->hzd, &work->field_9E4.field_9F4);
-        temp_v0 = HZD_GetAddress(work->control.map->hzd, &work->field_9E4.field_9F4,  work->field_A00.field_0_ivec.vy);
+        NavigateSetTarget(&work->field_A00, work->control.map->hzd, &work->field_9E4.field_9F4);
+        temp_v0 = HZD_GetAddress(work->control.map->hzd, &work->field_9E4.field_9F4,  work->field_A00.target);
 
         temp_v1_2 = (temp_v0 >> 8) & 0xff;
         temp_v0_2 = temp_v0 & 0xff;
@@ -4669,14 +4669,14 @@ void sna_anim_mini_cutscene_800559D8(SnaInitWork *work, int time)
 
     if (!(pStr->field_9EC_flags3 & 0x200))
     {
-        work->field_A00.field_0_ivec.vx = GM_PlayerAddress;
-        sna_unk_helper2_helper_8006070C(&work->field_A00, &work->control);
+        work->field_A00.addr = GM_PlayerAddress;
+        NavigateUpdate(&work->field_A00, &work->control);
     }
 
     GV_NearExp4PV(&work->control.rot.vx, &work->control.turn.vx, 3);
     GV_NearExp4PV(&work->control.rot.vx, &work->control.turn.vx, 3);
 
-    if (sna_act_unk_helper2_helper3_80060684(&work->field_A00, &work->control.mov) < pStr->field_9F4.pad)
+    if (NavigateGetTargetDist(&work->field_A00, &work->control.mov) < pStr->field_9F4.pad)
     {
         sna_clear_invuln_8004F2EC(work);
         GM_ClearPlayerStatusFlag(PLAYER_MOVE);

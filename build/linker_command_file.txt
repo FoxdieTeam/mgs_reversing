@@ -145,7 +145,7 @@
     ; chara/snake (cont.)
     include "{{OBJ_DIR}}\chara\snake\shadow.obj"
     include "{{OBJ_DIR}}\chara\snake\afterse.obj"
-    include "{{OBJ_DIR}}\chara\snake\sna_hzd.obj"
+    include "{{OBJ_DIR}}\chara\snake\navigate.obj"
 
     ; equip
     include "{{OBJ_DIR}}\equip\bodyarm.obj"

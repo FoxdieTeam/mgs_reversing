@@ -7,6 +7,7 @@
 #include <libgte.h>
 #include <libgpu.h>
 
+#include "chara/snake/navigate.h"
 #include "libgv/libgv.h"
 #include "game/game.h"
 
@@ -201,13 +202,6 @@ typedef struct UnkSnakeStruct2
     SVECTOR        field_9F4;
 } UnkSnakeStruct2;
 
-typedef struct SnaAutoMove // @ field_A00 in SnaInitWork
-{
-    VECTOR field_0_ivec; // dunno why int vector. this is something like the direction snake is moving
-    SVECTOR field_10_vec1; // these last two are related to the target position snake wants to move to
-    SVECTOR field_18_vec2;
-} SnaAutoMove;
-
 struct SnaInitWork;
 typedef void (*TSnakeFunction)(struct SnaInitWork *, int);
 
@@ -276,7 +270,7 @@ typedef struct SnaInitWork
     short               field_9D0[10];
     UnkSnakeStruct2     field_9E4;
     void               *field_9FC;
-    SnaAutoMove         field_A00; // auto movement of snake during mini cutscenes. some above fields may also be this
+    NAVIGATE            field_A00; // auto movement of snake during mini cutscenes. some above fields may also be this
     short               field_A20;
     short               field_A22_snake_current_health;
     char                field_A24_invuln_frames;
@@ -471,16 +465,16 @@ int  sub_80051BA4(SnaInitWork *work);
 int  sub_8004EFE4(SnaInitWork *work, int param_2);
 int  sub_8004E5E8(SnaInitWork *work, int param_2);
 int  sub_8004E808(SnaInitWork *work, int, int, int, int); // dummy signature
-int  sna_act_unk_helper2_helper3_80060684(SnaAutoMove *, SVECTOR *);
-int sub_800606E4(SnaAutoMove *param_1, SVECTOR *param_2, int param_3);
+int  NavigateGetTargetDist(NAVIGATE *, SVECTOR *);
+int NavigateTargetNear(NAVIGATE *param_1, SVECTOR *param_2, int param_3);
 void sna_anim_claymore_helper_80058780(SnaInitWork *work, int time);
 void sna_act_unk2_80051170(TARGET *pTarget);
 void sna_act_helper3_helper_80056650(SnaInitWork *work, int time);
 void sna_act_unk_helper3_80055DD8(SnaInitWork *work, int time);
 void sna_anim_mini_cutscene_800559D8(SnaInitWork *work, int time);
 void sna_anim_dying_80055524(SnaInitWork *work, int time);
-void sna_act_unk_helper2_helper2_800605DC(SnaAutoMove *autoMove, HZD_HDL *pHzd, SVECTOR *pVec);
-int  sna_unk_helper2_helper_8006070C(SnaAutoMove *pAutoMove, CONTROL *pControl);
+void NavigateSetTarget(NAVIGATE *autoMove, HZD_HDL *pHzd, SVECTOR *pVec);
+int  NavigateUpdate(NAVIGATE *pAutoMove, CONTROL *pControl);
 void sna_80057A90(SnaInitWork *work, int time);
 void sna_8004EF14(SnaInitWork *work);
 void *NewSnake(int name, int where, int argc, char **argv);
