@@ -1031,7 +1031,7 @@ void s07a_meryl_unk_800D8BA4( WatcherWork* work, int time )
     {
         SetAction( work, ACTION15, ACTINTERP ) ;
 
-        GM_SeSet( &work->control.mov, 0xC3  );
+        GM_SeSet( &work->control.mov, 0xC3 );
         if ( target->a_mode == 3 )
         {
             GM_SeSet( &work->control.mov, SE_PUNCH_HIT );
@@ -1886,7 +1886,7 @@ void s07a_meryl_unk_800DA3F8( WatcherWork *work, int time )
                 int res = GV_RandU( 12 );
                 if ( res > 10 )
                 {
-                    work->pad.sound = 0xF0;
+                    work->pad.sound = 240;
                 }
             }
         }

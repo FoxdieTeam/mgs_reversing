@@ -211,8 +211,8 @@ int AsiotoGetResources_800C3B94(Work *work)
         return -1;
     }
 
-    work->se_duct[0][0] = 5;
-    work->se_duct[0][1] = 6;
+    work->se_duct[0][0] = SE_CRAWL_LEFT;
+    work->se_duct[0][1] = SE_CRAWL_RIGHT;
 
     i = 0;
     if (GCL_GetOption('i'))

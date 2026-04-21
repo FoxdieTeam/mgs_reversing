@@ -155,14 +155,13 @@ void s11e_zk11ecom_800D9DBC( int* val )
 {
     switch ( s11e_zk11ecom_800D9D7C( 2 ) )
     {
-
     case 0:
         fprintf( 1, "dareda!!\n" );
-        *val = 0x80;
+        *val = VO_ENEMY_WHOSTHAT;
         break;
     case 1:
         fprintf( 1, "dareda!!\n" );
-        *val = 0x80;
+        *val = VO_ENEMY_WHOSTHAT;
         break;
     }
 }
@@ -171,14 +170,13 @@ void s11e_zk11ecom_800D9E10( int* val )
 {
     switch ( s11e_zk11ecom_800D9D7C( 2 ) )
     {
-
     case 0:
         fprintf( 1, "nanno otoda!!\n" );
-        *val = 0x87;
+        *val = VO_ENEMY_THATNOISE;
         break;
     case 1:
         fprintf( 1, "nanno otoda!!\n" );
-        *val = 0x87;
+        *val = VO_ENEMY_THATNOISE;
         break;
     }
 }
@@ -187,14 +185,13 @@ void s11e_zk11ecom_800D9E64( int* val )
 {
     switch ( s11e_zk11ecom_800D9D7C( 2 ) )
     {
-
     case 0:
         fprintf( 1, "tadano hakoka\n" );
-        *val = 0x8B;
+        *val = VO_ENEMY_JUSTABOX;
         break;
     case 1:
         fprintf( 1, "tadano hakoka\n" );
-        *val = 0x8B;
+        *val = VO_ENEMY_JUSTABOX;
         break;
     }
 }
@@ -203,14 +200,13 @@ void s11e_zk11ecom_800D9EB8( int* val )
 {
     switch ( s11e_zk11ecom_800D9D7C( 2 ) )
     {
-
     case 0:
         fprintf( 1, "kono asiatoha??\n" );
-        *val = 0x8A;
+        *val = VO_ENEMY_FOOTPRINTS;
         break;
     case 1:
         fprintf( 1, "kono asiatoha??\n" );
-        *val = 0x8A;
+        *val = VO_ENEMY_FOOTPRINTS;
         break;
     }
 }
@@ -219,14 +215,13 @@ void s11e_zk11ecom_800D9F0C( int* val )
 {
     switch ( s11e_zk11ecom_800D9D7C( 2 ) )
     {
-
     case 0:
         fprintf( 1, "kinoseika !!\n" );
-        *val = 0x86;
+        *val = VO_ENEMY_NOTHINGHERE;
         break;
     case 1:
         fprintf( 1, "kinoseika !!\n" );
-        *val = 0x86;
+        *val = VO_ENEMY_NOTHINGHERE;
         break;
     }
 }
@@ -237,15 +232,15 @@ void s11e_zk11ecom_800D9F60( int* val )
     {
     case 0:
         fprintf( 1, "itazo \n" );
-        *val = 0x82;
+        *val = VO_ENEMY_LETSGO;
         return;
     case 1:
         fprintf( 1, "kottida!!\n" );
-        *val = 0x81;
+        *val = VO_ENEMY_THISWAY;
         break;
     case 2:
         fprintf( 1, "kottida!!\n" );
-        *val = 0x81;
+        *val = VO_ENEMY_THISWAY;
         break;
     }
 }
@@ -254,14 +249,13 @@ void s11e_zk11ecom_800D9FF0( int* val )
 {
     switch ( s11e_zk11ecom_800D9D7C( 2 ) )
     {
-
     case 0:
         fprintf( 1, "haitini modoruzo!!\n" );
-        *val = 0x85;
+        *val = VO_ENEMY_RETURN;
         break;
     case 1:
         fprintf( 1, "haitini modoruzo!!\n" );
-        *val = 0x85;
+        *val = VO_ENEMY_RETURN;
         break;
     }
 }
@@ -272,7 +266,7 @@ void s11e_zk11ecom_800DA044( int* val )
     {
     case 0:
         fprintf( 1, "kottida !!\n" );
-        *val = 0x81;
+        *val = VO_ENEMY_THISWAY;
         return;
     case 1:
         *val = 0;
@@ -280,33 +274,34 @@ void s11e_zk11ecom_800DA044( int* val )
     }
 }
 
-int s11e_zk11ecom_800DA0A8( int val ) {
-    switch( val )
+int s11e_zk11ecom_800DA0A8( int val )
+{
+    switch ( val )
     {
-        case 240:
-            s11e_zk11ecom_800D9DBC( &val );
-            break;
-        case 241:
-            s11e_zk11ecom_800D9E10( &val );
-            break;
-        case 242:
-            s11e_zk11ecom_800D9E64( &val );
-            break;
-        case 243:
-            s11e_zk11ecom_800D9EB8( &val );
-            break;
-        case 244:
-            s11e_zk11ecom_800D9F0C( &val );
-            break;
-        case 245:
-            s11e_zk11ecom_800D9FF0( &val );
-            break;
-        case 246:
-            s11e_zk11ecom_800D9F60( &val );
-            break;
-        case 247:
-            s11e_zk11ecom_800DA044( &val );
-            break;
+    case 240:
+        s11e_zk11ecom_800D9DBC( &val );
+        break;
+    case 241:
+        s11e_zk11ecom_800D9E10( &val );
+        break;
+    case 242:
+        s11e_zk11ecom_800D9E64( &val );
+        break;
+    case 243:
+        s11e_zk11ecom_800D9EB8( &val );
+        break;
+    case 244:
+        s11e_zk11ecom_800D9F0C( &val );
+        break;
+    case 245:
+        s11e_zk11ecom_800D9FF0( &val );
+        break;
+    case 246:
+        s11e_zk11ecom_800D9F60( &val );
+        break;
+    case 247:
+        s11e_zk11ecom_800DA044( &val );
+        break;
     }
 
     return val;
@@ -400,7 +395,7 @@ void s11e_zk11ecom_800DA2BC( ZAKO_COMMAND* command )
                 sound = work->pad.sound;
                 dis = work->sn_dis;
             }
-            work->pad.sound = 0;
+            work->pad.sound = SE_DUMMY;
         }
     }
 
