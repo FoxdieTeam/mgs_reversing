@@ -1,6 +1,10 @@
 #ifndef __G_SOUND_H__
 #define __G_SOUND_H__
 
+/*---------------------------------------------------------------------------*/
+/*  Resident Sound Effects                                                   */
+/*---------------------------------------------------------------------------*/
+
 #define SE_DUMMY                (  0)
 #define SE_SHOT_01              (  1)
 #define SE_SOCOM_SHOT           SE_SHOT_01
@@ -155,7 +159,7 @@
 #define SE_LOCKON1              ( 79)
 #define SE_STINGER_LOCKON       SE_LOCKON1
 #define SE_NINJA02              ( 80)
-#define SE_HIZA01               ( 81)
+#define SE_HIZA01               ( 81)           // 膝
 #define SE_ENEMY_COLLAPSE       SE_HIZA01
 #define SE_SHOT_S01             ( 82)
 #define SE_SOCOM_SUPPRESSED     SE_SHOT_S01
