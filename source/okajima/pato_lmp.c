@@ -48,7 +48,7 @@ typedef struct _PatoLmpWork
     int            field_1958;
     int            field_195C;
     int            field_1960;
-    int            field_1964;
+    int            sound;
 } PatoLmpWork;
 
 const char s00a_dword_800E0ADC[] = "開く";
@@ -435,7 +435,7 @@ void PatrolLampAct_800D6678(PatoLmpWork *work)
             {
                 if (work->field_195C == work->field_1950)
                 {
-                    GM_SeSet2(0, 127, work->field_1964);
+                    GM_SeSet2(0, 127, work->sound);
                 }
             }
         }
@@ -618,11 +618,11 @@ int PatrolLampGetResources_800D6E28(PatoLmpWork *work, int name, int map)
     opt = GCL_GetOption('s');
     if (opt)
     {
-        work->field_1964 = GCL_StrToInt( ( char* ) opt );
+        work->sound = GCL_StrToInt( ( char* ) opt );
     }
     else
     {
-        work->field_1964 = 181;
+        work->sound = 181;
     }
 
     if (GCL_GetOption('w'))

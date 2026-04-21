@@ -2896,7 +2896,7 @@ void sna_anim_wall_crouch_80052CCC(SnaInitWork *work, int time)
             sound2 = SE_WALLPRESS;
             if (GM_CheckPlayerStatusFlag(PLAYER_IN_THE_WATER) != 0)
             {
-                sound2 = 0xb7;
+                sound2 = 183;
             }
             GM_SeSet(&work->control.mov, sound2);
             work->control.turn.vy = dword_800ABBD0 - 2048;
@@ -3379,7 +3379,7 @@ void sna_anim_wall_move_helper_800538CC(SnaInitWork *work, int time)
 
 void sna_anim_wall_crouch_helper_80053A54(SnaInitWork *work, int time)
 {
-    int var_s0;
+    int sound;
 
     if (work->field_A38_local_data != 0)
     {
@@ -3396,14 +3396,14 @@ void sna_anim_wall_crouch_helper_80053A54(SnaInitWork *work, int time)
         if (!sna_8004E808(work, 0, 0, 0, 1100))
         {
             GM_ClearPlayerStatusFlag(PLAYER_SQUAT);
-            var_s0 = SE_CHANGE_STANCE;
+            sound = SE_CHANGE_STANCE;
 
             if (GM_CheckPlayerStatusFlag(PLAYER_IN_THE_WATER))
             {
-                var_s0 = 183;
+                sound = 183;
             }
 
-            GM_SeSet(&work->control.mov, var_s0);
+            GM_SeSet(&work->control.mov, sound);
             sna_start_anim_8004E1F4(work, &sna_anim_wall_idle_and_c4_80052A5C);
         }
     }
