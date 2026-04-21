@@ -53,9 +53,9 @@
 #define SE_ISEL01               ( 23)
 #define SE_ITEM_SELECT          SE_ISEL01
 #define SE_PDMG01               ( 24)
-#define SE_PLAYER_DAMAGE_LIGHT  SE_PDMG01
+#define SE_PLAYER_DAMAGE1       SE_PDMG01
 #define SE_PDMG02               ( 25)
-#define SE_PLAYER_DAMAGE_HEAVY  SE_PDMG02
+#define SE_PLAYER_DAMAGE2       SE_PDMG02
 #define SE_POUT0001             ( 26)
 #define SE_PLAYEROUT            SE_POUT0001
 #define SE_RIFLE01              ( 27)

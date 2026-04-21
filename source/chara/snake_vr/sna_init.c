@@ -7153,7 +7153,7 @@ static inline void sna_init_main_logic_helper4_800596FC(SnaInitWork *work)
                         sna_start_anim_8004E1F4(work, &sna_anim_shot_flinch_800544E0);
                     }
 
-                    GM_SeSet2(0, 63, SE_PLAYER_DAMAGE_LIGHT);
+                    GM_SeSet2(0, 63, SE_PLAYER_DAMAGE1);
 
                     NewPadVibration(dword_8009EED4, 1);
                     NewPadVibration(dword_8009EED8, 2);
@@ -7184,7 +7184,7 @@ static inline void sna_init_main_logic_helper4_800596FC(SnaInitWork *work)
                         sub_8004F204(work);
                     }
 
-                    GM_SeSet2(0, 63, SE_PLAYER_DAMAGE_HEAVY);
+                    GM_SeSet2(0, 63, SE_PLAYER_DAMAGE2);
 
                     NewPadVibration(dword_8009EEE0, 1);
                     NewPadVibration(dword_8009EEE4, 2);
@@ -7208,13 +7208,13 @@ static inline void sna_init_main_logic_helper4_800596FC(SnaInitWork *work)
                 {
                 case 1:
                 case 3:
-                    GM_SeSet2(0, 63, SE_PLAYER_DAMAGE_LIGHT);
+                    GM_SeSet2(0, 63, SE_PLAYER_DAMAGE1);
                     NewPadVibration(dword_8009EED4, 1);
                     NewPadVibration(dword_8009EED8, 2);
                     break;
 
                 default:
-                    GM_SeSet2(0, 63, SE_PLAYER_DAMAGE_HEAVY);
+                    GM_SeSet2(0, 63, SE_PLAYER_DAMAGE2);
                     NewPadVibration(dword_8009EEE0, 1);
                     NewPadVibration(dword_8009EEE4, 2);
                     break;
