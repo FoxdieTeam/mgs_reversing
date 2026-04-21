@@ -12,6 +12,7 @@ int s04c_dword_800C3480 = 0x09C4EE6C;
 int s04c_dword_800C3484 = 0x0EA6E98A;
 int s04c_dword_800C3488 = 0x1F40E890;
 int s04c_dword_800C348C = 0x2422ED72;
+
 int s04c_dword_800C3490 = 0x00000014;
 int s04c_dword_800C3494 = 0x0000003C;
 
@@ -88,16 +89,17 @@ int s04c_dword_800C3578 = 0x00180060;
 int s04c_dword_800C357C = 0x00600081;
 int s04c_dword_800C3580 = 0x00810006;
 int s04c_dword_800C3584 = 0x00060018;
+
 int s04c_dword_800C3588 = 0x00BA0003;
 int s04c_dword_800C358C = 0x00BB0803;
 int s04c_dword_800C3590 = 0x00BB080E;
 int s04c_dword_800C3594 = 0x00BA130E;
+
 int s04c_dword_800C3598 = 0x00A00003;
 int s04c_dword_800C359C = 0x00A10803;
 int s04c_dword_800C35A0 = 0x00A1080E;
 int s04c_dword_800C35A4 = 0x00A0130E;
 
-int   SECTION(".bss") s04c_dword_800DBE10;
-void *SECTION(".bss") s04c_dword_800DBE14;
-int   SECTION(".bss") s04c_dword_800DBE18;
-int   SECTION(".bss") s04c_dword_800DBE1C;
+short  *SECTION(".bss") s04c_dword_800DBE10;
+void   *SECTION(".bss") s04c_dword_800DBE14;
+SVECTOR SECTION(".bss") s04c_dword_800DBE18;
