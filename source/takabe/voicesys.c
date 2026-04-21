@@ -56,12 +56,12 @@ void Voicesys_800CE2D0(void)
     }
 }
 
-void Voicesys_800CE300()
+void Voicesys_800CE300(void)
 {
     voicesys_800DBD60.field_24 = 1;
 }
 
-void Voicesys_800CE310()
+void Voicesys_800CE310(void)
 {
     voicesys_800DBD60.field_24 = 2;
 }
@@ -71,7 +71,7 @@ void Voicesys_800CE320(int flags)
     voicesys_800DBD60.flags = flags;
 }
 
-void Voicesys_800CE32C()
+void Voicesys_800CE32C(void)
 {
     int voxCode;
     int status;
@@ -204,7 +204,7 @@ void Voicesys_800CE5F8(int index, int field_18)
     }
 }
 
-int Voicesys_800CE694()
+int Voicesys_800CE694(void)
 {
     return (voicesys_800DBD60.flags & 2) > 0;
 }
@@ -227,7 +227,7 @@ void Voicesys_800CE6AC(int arg0)
     }
 }
 
-void Voicesys_800CE734()
+void Voicesys_800CE734(void)
 {
     if (voicesys_800DBD60.field_28 == 0)
     {
