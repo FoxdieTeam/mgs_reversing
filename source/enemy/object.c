@@ -9,7 +9,7 @@
 #include "game/game.h"
 #include "anime/animconv/anime.h"
 
-extern int GM_GameFlag_800E0F64;
+extern int GM_GameFlag;
 
 /*---------------------------------------------------------------------------*/
 // NOTE: This is apparently the scrapped forklift actor that would roam around
@@ -426,7 +426,7 @@ static void Act(Work *work)
 
     s01a_object_800D9F9C(work);
     s01a_object_800D99DC(work);
-    if (work->field_28C == 1 && GM_GameFlag_800E0F64 & 1)
+    if (work->field_28C == 1 && GM_GameFlag & 1)
     {
         work->control.mov.vy = 10000;
         work->control.step.vy = 0;

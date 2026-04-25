@@ -59,7 +59,7 @@ int SECTION(".bss") COM_PlayerAddressOne[8];
 
 int SECTION(".bss") COM_ALERT_DECREMENT;
 
-int SECTION(".bss") GM_GameFlag_800E0F64;
+int SECTION(".bss") GM_GameFlag;
 
 int SECTION(".bss") COM_VibTime;
 
@@ -1129,7 +1129,7 @@ static void GetResources( CommanderWork *work, int name, int where )
 
     work->name = name;
 
-    GM_GameFlag_800E0F64  = 0;
+    GM_GameFlag  = 0;
     EnemyCommand.field_0x17A = 1;
 
     COM_PlayerAddress  = 0;
