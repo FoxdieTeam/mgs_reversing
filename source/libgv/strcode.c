@@ -26,14 +26,32 @@
  */
 int GV_StrCode( const char *string )
 {
-    u_char  c;
+    u_char c;
     u_char *p = (u_char *)string;
     u_short id = 0;
 
-    while ((c = *p++))
-    {
+    while (( c = *p++ )) {
         id = ((id << 5) | (id >> 11));
         id += c;
     }
     return id;
 }
+
+// This algorithm appears to be derived from Daniel J. Bernstein's "djb2"
+// (also known as DJBX33A), first reported on Usenet's comp.lang.c in 1991.
+//
+// Reference implementation:
+// http://www.cse.yorku.ca/~oz/hash.html
+//
+//    unsigned long
+//    hash(unsigned char *str)
+//    {
+//        unsigned long hash = 5381;
+//        int c;
+//
+//        while (c = *str++)
+//            hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
+//
+//        return hash;
+//    }
+//
