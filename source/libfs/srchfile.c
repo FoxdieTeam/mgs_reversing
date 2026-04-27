@@ -107,10 +107,10 @@ static inline char GetXaAttribute(int dir_record, int name_length, int base_leng
 
     xa_record = name_length;
     xa_record += dir_record;
-    xa_record = xa_record + base_length;
+    xa_record += base_length;
 
     padding = name_length & 1;
-    xa_record = xa_record - padding;
+    xa_record -= padding;
     return *((char *)xa_record + 3);
 }
 
