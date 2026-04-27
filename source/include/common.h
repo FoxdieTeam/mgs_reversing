@@ -144,12 +144,6 @@ typedef int             BOOL;
 
 #define SECTION(x)      __attribute__((section(x)))
 
-#define CATSTR_(pre, post) pre##post
-#define CATSTR(pre, post) CATSTR_(pre, post)
-
-#define STATIC_ASSERT(cond, msg) \
-    typedef char CATSTR(__static_assert_t_, __LINE__)[(cond)?1:-1]
-
 /*---------------------------------------------------------------------------*/
 
 #define SCREEN_WIDTH    (320)
