@@ -56,6 +56,22 @@ typedef int             BOOL;
 
 /*---------------------------------------------------------------------------*/
 
+/* Read (unaligned) big-endian words. */
+#define read_msb_ushort(p) \
+        ((unsigned short)((p[0] << 8) | (p[1])))
+
+#define read_msb_ulong(p) \
+        ((unsigned int)((p[0] << 24) | (p[1] << 16) | (p[2] <<  8) | (p[3])))
+
+/* Read (unaligned) little-endian words. */
+#define read_lsb_ushort(p) \
+        ((unsigned short)((p[0]) | (p[1] << 8)))
+
+#define read_lsb_ulong(p) \
+        ((unsigned int)((p[0]) | (p[1] <<  8) | (p[2] << 16) | (p[3] << 24)))
+
+/*---------------------------------------------------------------------------*/
+
 // NOTE: Within the PSX primitive structures, RGB color values are followed
 // by either a GPU primitive code or padding. We'll still consider the fourth
 // byte to be the "alpha" channel here.
