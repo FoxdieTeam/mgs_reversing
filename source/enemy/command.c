@@ -59,7 +59,7 @@ int SECTION(".bss") COM_PlayerAddressOne[8];
 
 int SECTION(".bss") COM_ALERT_DECREMENT;
 
-int SECTION(".bss") GM_GameFlag_800E0F64;
+int SECTION(".bss") GM_GameFlag;
 
 int SECTION(".bss") COM_VibTime;
 
@@ -322,32 +322,32 @@ void s00a_command_800CF024( int *val )
 {
     if ( COM_GameStatus & 1 )
     {
-        *val = 0x82;
+        *val = VO_ENEMY_LETSGO;
     }
     else
     {
-        *val = 0x80;
+        *val = VO_ENEMY_WHOSTHAT;
     }
 }
 
 void s00a_command_800CF050( int *val )
 {
-    *val = 0x87;
+    *val = VO_ENEMY_THATNOISE;
 }
 
 void s00a_command_800CF05C( int *val )
 {
-    *val = 0x8B;
+    *val = VO_ENEMY_JUSTABOX;
 }
 
 void s00a_command_800CF068( int *val )
 {
-    *val = 0x8A;
+    *val = VO_ENEMY_FOOTPRINTS;
 }
 
 void s00a_command_800CF074( int *val )
 {
-    *val = 0x86;
+    *val = VO_ENEMY_NOTHINGHERE;
 }
 
 void s00a_command_800CF080( int* val )
@@ -355,18 +355,18 @@ void s00a_command_800CF080( int* val )
     switch( s00a_command_800CEFE4( 3 ) )
     {
     case 0:
-        *val = 0x82;
+        *val = VO_ENEMY_LETSGO;
         break;
     case 1:
     case 2:
-        *val = 0x81;
+        *val = VO_ENEMY_THISWAY;
         break;
     }
 }
 
 void s00a_command_800CF0CC( int *val )
 {
-    *val = 0x85;
+    *val = VO_ENEMY_RETURN;
 }
 
 void s00a_command_800CF0D8( int* val )
@@ -375,7 +375,7 @@ void s00a_command_800CF0D8( int* val )
     {
     case 0:
         fprintf( 1, aKottida_800E0810 );
-        *val = 0x81;
+        *val = VO_ENEMY_THISWAY;
         return;
     case 1:
         *val = 0;
@@ -383,35 +383,34 @@ void s00a_command_800CF0D8( int* val )
     }
 }
 
-
 int s00a_command_800CF13C( int val )
 {
     switch( val )
     {
-        case 240:
-            s00a_command_800CF024( &val );
-            break;
-        case 241:
-            s00a_command_800CF050( &val );
-            break;
-        case 242:
-            s00a_command_800CF05C( &val );
-            break;
-        case 243:
-            s00a_command_800CF068( &val );
-            break;
-        case 244:
-            s00a_command_800CF074( &val );
-            break;
-        case 245:
-            s00a_command_800CF0CC( &val );
-            break;
-        case 246:
-            s00a_command_800CF080( &val );
-            break;
-        case 247:
-            s00a_command_800CF0D8( &val );
-            break;
+    case 240:
+        s00a_command_800CF024( &val );
+        break;
+    case 241:
+        s00a_command_800CF050( &val );
+        break;
+    case 242:
+        s00a_command_800CF05C( &val );
+        break;
+    case 243:
+        s00a_command_800CF068( &val );
+        break;
+    case 244:
+        s00a_command_800CF074( &val );
+        break;
+    case 245:
+        s00a_command_800CF0CC( &val );
+        break;
+    case 246:
+        s00a_command_800CF080( &val );
+        break;
+    case 247:
+        s00a_command_800CF0D8( &val );
+        break;
     }
 
     return val;
@@ -526,7 +525,7 @@ void s00a_command_800CF420( ENEMY_COMMAND* command )
                 sound = work->pad.sound;
                 dis = work->sn_dis;
             }
-            work->pad.sound = 0;
+            work->pad.sound = SE_DUMMY;
         }
     }
 
@@ -1130,7 +1129,7 @@ static void GetResources( CommanderWork *work, int name, int where )
 
     work->name = name;
 
-    GM_GameFlag_800E0F64  = 0;
+    GM_GameFlag  = 0;
     EnemyCommand.field_0x17A = 1;
 
     COM_PlayerAddress  = 0;

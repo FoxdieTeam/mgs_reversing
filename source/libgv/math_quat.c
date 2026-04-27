@@ -7,9 +7,20 @@
 
 // The functions below are based on code listings from the article
 // "Rotating Objects Using Quaternions" by Nick Bobick.
-// http://www.gamasutra.com/features/19980703/quaternions_01.htm
+//
 // This article originally appeared in the February 1998 issue of
-// Game Developer Magazine.
+// Game Developer Magazine. A digital version can be found here:
+// https://archive.org/details/GDM_February_1998/page/n20/mode/1up
+//
+// Originally available online via Gamasutra:
+// http://www.gamasutra.com/features/19980703/quaternions_01.htm
+// Currently available via Game Developer's online publicaton:
+// https://www.gamedeveloper.com/programming/rotating-objects-using-quaternions
+//
+// NOTE: The code listings have lost all indentation and empty lines
+// in the migration between websites, and QuatToMatrix has been modified
+// to access the elements of the output matrix in a different order.
+// MGS reflects the original, correct ordering from the print edition.
 
 // clang-format off
 
@@ -128,7 +139,7 @@ void GV_QuatSlerp( SQUAT *from, SQUAT *to, int t, SQUAT *res)
         to1[1] = - to->y;
         to1[2] = - to->z;
         to1[3] = - to->w;
-    } else {
+    } else  {
         to1[0] = to->x;
         to1[1] = to->y;
         to1[2] = to->z;

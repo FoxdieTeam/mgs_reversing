@@ -38,7 +38,7 @@ STATIC FS_DIR_INFO fs_dir_info = {};
 
 /*---------------------------------------------------------------------------*/
 
-static int FS_CdStageReadCallback(CDBIOS_TASK *task)
+static int CdStageReadCallback(CDBIOS_TASK *task)
 {
     unsigned int size, rounded;
 
@@ -73,7 +73,7 @@ void FS_CdStageFileInit(void *buffer, int sector)
     int table_size;
 
     fs_dir_info.pos = sector;
-    CDBIOS_ReadRequest(buffer, sector, FS_SECTOR_SIZE, &FS_CdStageReadCallback);
+    CDBIOS_ReadRequest(buffer, sector, FS_SECTOR_SIZE, &CdStageReadCallback);
 
     while (CDBIOS_ReadSync() > 0)
     {

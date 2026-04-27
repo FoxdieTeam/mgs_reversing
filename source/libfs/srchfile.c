@@ -9,24 +9,19 @@ extern const char *MGS_DiskName[3]; /* in main.c */
 
 /*---------------------------------------------------------------------------*/
 
-// Used for reading words LSB (little-endian) or MSB (big-endian) words
-// from the ISO-9660 file system records. The PSX is a little-endian machine
-// so the big-endian implementation is just for future portability.
-#ifdef WORDS_BIGENDIAN
-/* read 16-bit value */
-#define read_lsb_ushort(p)  (p[1] | (p[0] << 8))
-#define read_msb_ushort(p)  (p[0] | (p[1] << 8))
-/* read 32-bit value */
-#define read_lsb_ulong(p)   (p[3] | (p[2] << 8) | (p[1] << 16) | (p[0] << 24))
-#define read_msb_ulong(p)   (p[0] | (p[1] << 8) | (p[2] << 16) | (p[3] << 24))
-#else
-/* read 16-bit value */
-#define read_lsb_ushort(p)  (p[0] | (p[1] << 8))
-#define read_msb_ushort(p)  (p[1] | (p[0] << 8))
-/* read 32-bit value */
-#define read_lsb_ulong(p)   (p[0] | (p[1] << 8) | (p[2] << 16) | (p[3] << 24))
-#define read_msb_ulong(p)   (p[3] | (p[2] << 8) | (p[1] << 16) | (p[0] << 24))
-#endif
+/* Read (unaligned) big-endian words. */
+#define read_msb_ushort(p) \
+        ((unsigned short)((p[0] << 8) | (p[1])))
+
+#define read_msb_ulong(p) \
+        ((unsigned int)((p[0] << 24) | (p[1] << 16) | (p[2] <<  8) | (p[3])))
+
+/* Read (unaligned) little-endian words. */
+#define read_lsb_ushort(p) \
+        ((unsigned short)((p[0]) | (p[1] << 8)))
+
+#define read_lsb_ulong(p) \
+        ((unsigned int)((p[0]) | (p[1] <<  8) | (p[2] << 16) | (p[3] << 24)))
 
 /*---------------------------------------------------------------------------*/
 /**
@@ -37,7 +32,7 @@ extern const char *MGS_DiskName[3]; /* in main.c */
  * @param[in]   src     input string pointer
  * @param[in]   length  input string length
  */
-static void FS_GetFileName(char *dest, char *src, int length)
+static void GetFileName(char *dest, char *src, int length)
 {
     while (length > 0)
     {
@@ -64,7 +59,7 @@ static void FS_GetFileName(char *dest, char *src, int length)
  * @param[in]   sector  sector number from whence to read
  * @param[in]   size    number of bytes to read
  */
-static int FS_ReadCdSector(void *buffer, int sector, int size)
+static int ReadCdSector(void *buffer, int sector, int size)
 {
     CDBIOS_ReadRequest(buffer, sector + 150, size, NULL);
 
@@ -89,7 +84,7 @@ static int FS_ReadCdSector(void *buffer, int sector, int size)
  * @retval      non-NULL        pointer to FS_FILE_INFO record
  * @retval      NULL            file not found
  */
-static FS_FILE_INFO *FS_GetFileInfo(char *filename, FS_FILE_INFO *finfo)
+static FS_FILE_INFO *GetFileInfo(char *filename, FS_FILE_INFO *finfo)
 {
     FS_FILE_INFO *ip;
 
@@ -103,6 +98,7 @@ static FS_FILE_INFO *FS_GetFileInfo(char *filename, FS_FILE_INFO *finfo)
     return NULL;
 }
 
+/*---------------------------------------------------------------------------*/
 // See: https://psx-spx.consoledev.net/cdromdrive/#cdrom-iso-file-and-directory-descriptors
 static inline char GetXaAttribute(int dir_record, int name_length, int base_length)
 {
@@ -111,10 +107,10 @@ static inline char GetXaAttribute(int dir_record, int name_length, int base_leng
 
     xa_record = name_length;
     xa_record += dir_record;
-    xa_record = xa_record + base_length;
+    xa_record += base_length;
 
     padding = name_length & 1;
-    xa_record = xa_record - padding;
+    xa_record -= padding;
     return *((char *)xa_record + 3);
 }
 
@@ -135,7 +131,7 @@ static inline char GetXaAttribute(int dir_record, int name_length, int base_leng
  * @retval          -1      on failure
  * @retval          >= 0    disc number (0: Disc 1, 1: Disc 2)
  */
-static int FS_ReadCdDirectory(char *buffer, FS_FILE_INFO *finfo)
+static int ReadCdDirectory(char *buffer, FS_FILE_INFO *finfo)
 {
     int base_length;            /* minimum record length */
     int name_length;
@@ -166,12 +162,12 @@ static int FS_ReadCdDirectory(char *buffer, FS_FILE_INFO *finfo)
         if (name_length != 1)
         {
             name_ptr = &dir_record[33];
-            FS_GetFileName(name_buf, name_ptr, name_length);
+            GetFileName(name_buf, name_ptr, name_length);
 
             /* check if the record is a file */
             if ((dir_record[25] & 2) == 0)
             {
-                found = FS_GetFileInfo(name_buf, file_info);
+                found = GetFileInfo(name_buf, file_info);
 
                 /* write the position to the table entry */
                 if (found)
@@ -255,7 +251,7 @@ int FS_CdMakePositionTable(char *buffer, FS_FILE_INFO *finfo)
     char dir_name[16];
 
     /* read ISO-9660 volume descriptor */
-    FS_ReadCdSector(buffer, 16, FS_SECTOR_SIZE);
+    ReadCdSector(buffer, 16, FS_SECTOR_SIZE);
 
     /* check system identifier */
     if (strncmp(buffer + 0x08, "PLAYSTATION", 11) != 0)
@@ -266,7 +262,7 @@ int FS_CdMakePositionTable(char *buffer, FS_FILE_INFO *finfo)
 
     /* read ISO-9660 path table */
     path_table_size = *(int *)(buffer + 0x84);
-    FS_ReadCdSector(buffer, *(int *)(buffer + 0x8C), path_table_size);
+    ReadCdSector(buffer, *(int *)(buffer + 0x8C), path_table_size);
 
     /* align to the next multiple of 4 */
     dir_buffer = buffer + ((((unsigned int)path_table_size + 3) >> 2) << 2);
@@ -279,7 +275,7 @@ int FS_CdMakePositionTable(char *buffer, FS_FILE_INFO *finfo)
         dir_name_length = *path_table_ptr;
         path_entry_size = 8 + dir_name_length;
 
-        FS_GetFileName(dir_name, path_table_ptr + 8, dir_name_length);
+        GetFileName(dir_name, path_table_ptr + 8, dir_name_length);
 
         /* get directory LBA number */
         dir_lba_ptr = path_table_ptr + 2;
@@ -289,8 +285,8 @@ int FS_CdMakePositionTable(char *buffer, FS_FILE_INFO *finfo)
         if (strcmp(dir_name, "MGS") == 0)
         {
             printf("MGS read_sector %d\n", read_sector);
-            FS_ReadCdSector(dir_buffer, read_sector, FS_SECTOR_SIZE);
-            retval = FS_ReadCdDirectory(dir_buffer, finfo);
+            ReadCdSector(dir_buffer, read_sector, FS_SECTOR_SIZE);
+            retval = ReadCdDirectory(dir_buffer, finfo);
         }
 
         /* account for the padding field if the length is odd */

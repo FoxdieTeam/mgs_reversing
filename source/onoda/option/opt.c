@@ -1438,7 +1438,7 @@ static void option_800C5698(OptionWork *work)
     }
 }
 
-static inline void SetGameStatusFlags( OptionWork *work )
+static inline void SetGameOptionFlag( OptionWork *work )
 {
     GM_SeSet2( 0, 63, SE_MENU_EXIT ) ;
 
@@ -1569,7 +1569,7 @@ static void option_800C5950( OptionWork *work )
         }
         else if ( press & PAD_CROSS )
         {
-            SetGameStatusFlags( work ) ;
+            SetGameOptionFlag( work ) ;
         }
     break;
     case 2:
@@ -1603,7 +1603,7 @@ static void option_800C5950( OptionWork *work )
         }
         else if ( press & PAD_CROSS )
         {
-            SetGameStatusFlags( work ) ;
+            SetGameOptionFlag( work ) ;
         }
     break;
     case 5:
@@ -1635,7 +1635,7 @@ static void option_800C5950( OptionWork *work )
         }
         else if ( press & PAD_CROSS )
         {
-            SetGameStatusFlags( work ) ;
+            SetGameOptionFlag( work ) ;
         }
     break;
     case 6:
@@ -1657,7 +1657,7 @@ static void option_800C5950( OptionWork *work )
         }
         else if ( press & PAD_CROSS )
         {
-            SetGameStatusFlags( work ) ;
+            SetGameOptionFlag( work ) ;
         }
     break;
     case 7:
@@ -1678,7 +1678,7 @@ static void option_800C5950( OptionWork *work )
     case 10:
         if ( press & ( PAD_START | PAD_CROSS | PAD_CIRCLE ) )
         {
-            SetGameStatusFlags( work ) ;
+            SetGameOptionFlag( work ) ;
         }
         else if ( press & PAD_UP )
         {

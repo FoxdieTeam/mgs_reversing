@@ -1193,7 +1193,7 @@ int s00a_command_800CC344( WatcherWork *work )
 
     if ( work->count3 == 63 && !( work->field_BA1 & 16 ) && EnemyCommand.mode == TOP_COMM_TRAVEL )
     {
-        work->pad.sound = 140;
+        work->pad.sound = VO_ENEMY_INMYWAY;
     }
 
     if ( work->actend || work->count3 >= 301 )
@@ -1228,7 +1228,7 @@ int s00a_command_800CC44C( WatcherWork *work )
 
     if ( count == 0 && work->field_C00 == 0 )
     {
-        work->pad.sound = 132;
+        work->pad.sound = VO_ENEMY_WHEREDHEGO;
     }
 
     v1 = count / 30;
@@ -1291,7 +1291,7 @@ int Think3_NoiseModeWatch_800CC5C0( WatcherWork *work )
         {
             if( work->modetime[(  T_NOISE  )]  <= 1 )
             {
-                work->pad.sound = (  0x88   ) ;
+                work->pad.sound = (  0x88   ) ; // VO_ENEMY_HUH
             }
             if( work->modetime[(  T_NOISE  )]  <= 3 )
             {
@@ -1305,7 +1305,7 @@ int Think3_NoiseModeWatch_800CC5C0( WatcherWork *work )
         else
         {
             if( work->modetime[(  T_NOISE  )] ) return 1;
-            work->pad.sound = 0x95;
+            work->pad.sound = VO_ENEMY_THATSOUND;
             ENE_PutMark( work ,BW_MARK );
             work->pad.dir = work->sn_dir;
         }
@@ -1324,7 +1324,7 @@ int Think3_NoiseModeWatch_800CC5C0( WatcherWork *work )
                 {
                     if ( !(work->act_status & 0x00000080 ) )
                     {
-                        work->pad.sound = 0xF1;
+                        work->pad.sound = 241;
                     }
                 }
                 return 1;
@@ -1395,11 +1395,11 @@ int s00a_command_800CC83C( WatcherWork* work )
     {
         if ( EnemyCommand.mode == TOP_COMM_TRAVEL )
         {
-            work->pad.sound = 136;
+            work->pad.sound = VO_ENEMY_HUH;
         }
         else
         {
-            work->pad.sound = 150;
+            work->pad.sound = VO_ENEMY_WHATSTHAT;
         }
         ENE_PutMark( work, 5 );
         work->pad.dir = work->sn_dir;
@@ -1438,7 +1438,7 @@ int s00a_command_800CC90C( WatcherWork *work )
 
     if ( work->count3 == 30 )
     {
-        work->pad.sound = 136;
+        work->pad.sound = VO_ENEMY_HUH;
         ENE_PutMark( work, 5 );
     }
 
@@ -1455,7 +1455,7 @@ int s00a_command_800CC99C( WatcherWork *work )
 {
     if ( work->count3 == 0 )
     {
-        work->pad.sound = 136;
+        work->pad.sound = VO_ENEMY_HUH;
         ENE_PutMark( work, BW_MARK );
         work->pad.dir = work->sn_dir;
     }
@@ -1488,7 +1488,7 @@ int s00a_command_800CCA28( WatcherWork *work )
         }
         else
         {
-            work->pad.sound = 132;
+            work->pad.sound = VO_ENEMY_WHEREDHEGO;
         }
     }
 
@@ -1609,7 +1609,7 @@ int s00a_command_800CCCAC( WatcherWork *work )
         work->pad.press |= 0x100000;
         if ( work->act_status & 1 )
         {
-            work->pad.sound = 131;
+            work->pad.sound = VO_ENEMY_EATTHIS;
         }
 
     }

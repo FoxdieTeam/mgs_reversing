@@ -227,14 +227,14 @@ void s07c_meryl72_unk1_800C8A30( Meryl72Work* work, int time )
 
     if ( time == 98 )
     {
-        GM_SeSet( &( work->control.mov ), 0x38 );
+        GM_SeSet( &( work->control.mov ), SE_PUNCH_SWING );
         if ( !work->stage )
         {
-            GM_SeSet( &( work->control.mov ), 0xBD );
+            GM_SeSet( &( work->control.mov ), 189 );
         }
         else
         {
-            GM_SeSet( &( work->control.mov ), 0xC7 );
+            GM_SeSet( &( work->control.mov ), 199 );
         }
     }
 
@@ -242,11 +242,11 @@ void s07c_meryl72_unk1_800C8A30( Meryl72Work* work, int time )
     {
         if ( !work->stage )
         {
-            GM_SeSet( &( work->control.mov ), 0xB0 );
+            GM_SeSet( &( work->control.mov ), 176 );
         }
         else
         {
-            GM_SeSet( &( work->control.mov ), 0xC8 );
+            GM_SeSet( &( work->control.mov ), 200 );
         }
         if ( s07c_meryl72_unk1_800C829C( work ) )
         {
@@ -278,7 +278,7 @@ void s07c_meryl72_unk1_800C8BC4( Meryl72Work* work, int time )
 
     if ( time == 30 )
     {
-        GM_SeSetMode( &( work->control.mov ), 0xC1, 1 );
+        GM_SeSetMode( &( work->control.mov ), 193, 1 );
     }
 
     if ( work->body.is_end )
@@ -308,7 +308,7 @@ void s07c_meryl72_unk1_800C8C7C( Meryl72Work* work, int time )
     if ( time == 90 )
     {
         GM_CurrentItemId = -1;
-        GM_SeSet( &( work->control.mov ), 0x14 );
+        GM_SeSet( &( work->control.mov ), SE_ITEM_EQUIP );
     }
 
     if ( time == 95 )
@@ -326,14 +326,14 @@ void s07c_meryl72_unk1_800C8C7C( Meryl72Work* work, int time )
 
     if ( time == 193 )
     {
-        GM_SeSet( &( work->control.mov ), 0x38 );
+        GM_SeSet( &( work->control.mov ), SE_PUNCH_SWING );
         if ( !work->stage )
         {
-            GM_SeSet( &( work->control.mov ), 0xBD );
+            GM_SeSet( &( work->control.mov ), 189 );
         }
         else
         {
-            GM_SeSet( &( work->control.mov ), 0xC7 );
+            GM_SeSet( &( work->control.mov ), 199 );
         }
     }
 
@@ -341,11 +341,11 @@ void s07c_meryl72_unk1_800C8C7C( Meryl72Work* work, int time )
     {
         if ( !work->stage )
         {
-            GM_SeSet( &( work->control.mov ), 0xB0 );
+            GM_SeSet( &( work->control.mov ), 176 );
         }
         else
         {
-            GM_SeSet( &( work->control.mov ), 0xC8 );
+            GM_SeSet( &( work->control.mov ), 200 );
         }
         if ( s07c_meryl72_unk1_800C829C( work ) )
         {
@@ -383,20 +383,20 @@ void s07c_meryl72_unk1_800C8E74( Meryl72Work* work, int time )
 
     if ( time == 63 )
     {
-        GM_SeSet( &( work->control.mov ), 0x38 );
+        GM_SeSet( &( work->control.mov ), SE_PUNCH_SWING );
         if ( !work->stage )
         {
-            GM_SeSet( &( work->control.mov ), 0xBD );
+            GM_SeSet( &( work->control.mov ), 189 );
         }
         else
         {
-            GM_SeSet( &( work->control.mov ), 0xC7 );
+            GM_SeSet( &( work->control.mov ), 199 );
         }
     }
 
     if ( time == 67 && AttackForce_800C80DC( work, 1 ) )
     {
-        GM_SeSet( &( work->control.mov ), 0x35 );
+        GM_SeSet( &( work->control.mov ), SE_KICK_HIT );
         if ( s07c_meryl72_unk1_800C829C( work ) )
         {
             ExecProc_800C7C58( work, 2 );
@@ -782,13 +782,13 @@ void s07c_meryl72_unk1_800C9970( Meryl72Work* work, int time )
     {
         if ( !work->stage )
         {
-            GM_SeSet( &ctrl->mov, 0xC3 );
+            GM_SeSet( &ctrl->mov, 195 );
         }
         else
         {
-            GM_SeSet( &ctrl->mov, 0xC2 );
+            GM_SeSet( &ctrl->mov, 194 );
         }
-        GM_SeSet( &ctrl->mov, 0x33 );
+        GM_SeSet( &ctrl->mov, SE_HIT_FLOOR );
     }
 
     if ( work->body.is_end )
@@ -829,11 +829,11 @@ void s07c_meryl72_unk1_800C9B30( Meryl72Work* work, int time )
         work->fAEC = 0;
         if ( !work->stage )
         {
-            GM_SeSet( &work->control.mov, 0xBE );
+            GM_SeSet( &work->control.mov, 190 );
         }
         else
         {
-            GM_SeSet( &work->control.mov, 0xC4 );
+            GM_SeSet( &work->control.mov, 196 );
         }
     }
 
@@ -841,11 +841,11 @@ void s07c_meryl72_unk1_800C9B30( Meryl72Work* work, int time )
     {
         if ( !work->stage )
         {
-            GM_SeSet( &work->control.mov, 0xBE );
+            GM_SeSet( &work->control.mov, 190 );
         }
         else
         {
-            GM_SeSet( &work->control.mov, 0xC4 );
+            GM_SeSet( &work->control.mov, 196 );
         }
         work->fAEA = target->faint;
     }
@@ -855,11 +855,11 @@ void s07c_meryl72_unk1_800C9B30( Meryl72Work* work, int time )
         ML72_PutBlood_800CB2EC( work, 5, 0 ) ;
         if ( !work->stage )
         {
-            GM_SeSet( &work->control.mov, 0xC3 );
+            GM_SeSet( &work->control.mov, 195 );
         }
         else
         {
-            GM_SeSet( &work->control.mov, 0xC2);
+            GM_SeSet( &work->control.mov, 194 );
         }
         target->scale = DG_ZeroVector;
         target->life_lost = 0;
@@ -994,12 +994,12 @@ void s07c_meryl72_unk1_800C9F98( Meryl72Work *work, int time )
 
     if ( time == time_offset + 48 )
     {
-        GM_SeSet( &ctrl->mov, 0x51 );
+        GM_SeSet( &ctrl->mov, SE_ENEMY_COLLAPSE );
     }
 
     if ( time == time_offset + 74 )
     {
-        GM_SeSet( &ctrl->mov, 0x33 );
+        GM_SeSet( &ctrl->mov, SE_HIT_FLOOR );
     }
 
     if ( time >= time_offset + 50 && work->body.is_end )
@@ -1078,7 +1078,7 @@ void s07c_meryl72_unk1_800CA278( Meryl72Work *work, int time )
         {
             SetAction( work, ACTION53, ACTINTERP );
         }
-        GM_SeSet( &work->control.mov, 0x36 );
+        GM_SeSet( &work->control.mov, SE_ITEM_CURSOR );
     }
 
     if ( work->body.is_end )
@@ -1143,16 +1143,16 @@ void s07c_meryl72_unk1_800CA408( Meryl72Work* work, int time )
         SetAction( work, ACTION20, ACTINTERP ) ;
         if ( !work->stage )
         {
-            GM_SeSet( &work->control.mov, 0xC3 );
+            GM_SeSet( &work->control.mov, 195 );
         }
         else
         {
-            GM_SeSet( &work->control.mov, 0xC2);
+            GM_SeSet( &work->control.mov, 194 );
         }
 
         if ( target->a_mode == 3 )
         {
-            GM_SeSet( &work->control.mov, 0x34 );
+            GM_SeSet( &work->control.mov, SE_PUNCH_HIT );
             ML72_PutBreath_800CB35C( work ); // putfog
         }
         else
@@ -1191,15 +1191,15 @@ void s07c_meryl72_unk1_800CA538( Meryl72Work *work, int time )
         switch( unk->field_14 )
         {
         case 0:
-            GM_SeSet( &ctrl->mov, 0x34 );
+            GM_SeSet( &ctrl->mov, SE_PUNCH_HIT );
             SetAction( work, ACTION40, ACTINTERP );
             if ( !work->stage )
             {
-                GM_SeSet( &ctrl->mov, 0xC3 );
+                GM_SeSet( &ctrl->mov, 195 );
             }
             else
             {
-                GM_SeSet( &ctrl->mov, 0xC2);
+                GM_SeSet( &ctrl->mov, 194 );
             }
             ML72_PutBlood_800CB2EC( work, 5, 0 );
             work->fAEA = 17;
@@ -1211,11 +1211,11 @@ void s07c_meryl72_unk1_800CA538( Meryl72Work *work, int time )
             {
                 if ( !work->stage )
                 {
-                    GM_SeSet( &ctrl->mov, 0xC4 );
+                    GM_SeSet( &ctrl->mov, 196 );
                 }
                 else
                 {
-                    GM_SeSet( &ctrl->mov, 0xC3);
+                    GM_SeSet( &ctrl->mov, 195 );
                 }
                 if ( GM_CurrentWeaponId == WP_Rifle )
                 {
@@ -1227,7 +1227,7 @@ void s07c_meryl72_unk1_800CA538( Meryl72Work *work, int time )
                 }
                 if ( work->target->a_mode == 3 )
                 {
-                    GM_SeSet( &work->control.mov, 0x34 );
+                    GM_SeSet( &work->control.mov, SE_PUNCH_HIT );
                 }
             }
             else
@@ -1235,11 +1235,11 @@ void s07c_meryl72_unk1_800CA538( Meryl72Work *work, int time )
 
                 if ( !work->stage )
                 {
-                    GM_SeSet( &ctrl->mov, 0xC3 );
+                    GM_SeSet( &ctrl->mov, 195 );
                 }
                 else
                 {
-                    GM_SeSet( &ctrl->mov, 0xC2) ;
+                    GM_SeSet( &ctrl->mov, 194 );
                 }
                 ML72_PutBlood_800CB2EC( work, 5, 0 );
             }
@@ -1249,11 +1249,11 @@ void s07c_meryl72_unk1_800CA538( Meryl72Work *work, int time )
         case 4:
             if ( !work->stage )
             {
-                GM_SeSet( &ctrl->mov, 0xC3 );
+                GM_SeSet( &ctrl->mov, 195 );
             }
             else
             {
-                GM_SeSet( &ctrl->mov, 0xC2);
+                GM_SeSet( &ctrl->mov, 194 );
             }
             s2 = 0xF;
             SetAction( work, ACTION41, ACTINTERP );
@@ -1263,11 +1263,11 @@ void s07c_meryl72_unk1_800CA538( Meryl72Work *work, int time )
         case 3:
             if ( !work->stage )
             {
-                GM_SeSet( &ctrl->mov, 0xC3 );
+                GM_SeSet( &ctrl->mov, 195 );
             }
             else
             {
-                GM_SeSet( &ctrl->mov, 0xC2) ;
+                GM_SeSet( &ctrl->mov, 194 );
             }
             s2 = 0x11;
             SetAction( work, ACTION42, ACTINTERP );
@@ -1277,14 +1277,14 @@ void s07c_meryl72_unk1_800CA538( Meryl72Work *work, int time )
         case 5:
             if ( !work->stage )
             {
-                GM_SeSet( &ctrl->mov, 0xBF );
+                GM_SeSet( &ctrl->mov, 191 );
             }
             else
             {
-                GM_SeSet( &ctrl->mov, 0xC5 );
+                GM_SeSet( &ctrl->mov, 197 );
             }
             s2 = 0xF;
-            GM_SeSet( &ctrl->mov, 0x90 );
+            GM_SeSet( &ctrl->mov, 144 );
             SetAction( work, ACTION34, ACTINTERP );
             work->fAEA = 67;
             break;
@@ -1316,7 +1316,7 @@ void s07c_meryl72_unk1_800CA538( Meryl72Work *work, int time )
     case 1:
         if ( time == 24 )
         {
-            GM_SeSet( &work->control.mov, 0x51 );
+            GM_SeSet( &work->control.mov, 81 );
         }
         break;
     case 0:
@@ -1340,7 +1340,7 @@ void s07c_meryl72_unk1_800CA538( Meryl72Work *work, int time )
 
     if ( time == work->fAEA )
     {
-        GM_SeSet( &work->control.mov, 0x33 ) ;
+        GM_SeSet( &work->control.mov, SE_HIT_FLOOR ) ;
     }
 
     if ( work->body.is_end )

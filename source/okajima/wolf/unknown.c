@@ -434,7 +434,7 @@ void s12a_wolf2_800CF2C4(Wolf2Work *work)
             if (dist < 90)
             {
                 work->fA64 = 1;
-                GM_SeSet2(0, 127, 99);
+                GM_SeSet2(0, 127, SE_LASER_SIGHT);
 
                 DG_InvisiblePrim(work->f7E0);
                 DG_InvisiblePrim(work->lsight_prim);
