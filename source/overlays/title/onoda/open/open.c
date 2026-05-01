@@ -151,14 +151,7 @@ extern signed char open_800C3400[16];
 extern int title_dword_800D92D0;
 extern int title_dword_800C33D4;
 
-extern const char title_aOpbackr_800D8AB0[];             // = "op_back_r"
-extern const char title_aOpbackl_800D8ABC[];             // = "op_back_l"
 
-extern const char title_aVeryeasy_800D8F6C[];            // = "VERY EASY"
-extern const char title_aEasy_800D8F78[];                // = "EASY"
-extern const char title_aNormal_800D8F80[];              // = "NORMAL"
-extern const char title_aHard_800D8F88[];                // = "HARD"
-extern const char title_aExtreme_800D8F90[];             // = "EXTREME"
 extern const char title_aMemorycardslot_800D8FAC[];      // = "MEMORY CARD SLOT 1  :  "
 extern const char title_aFull_800D8FC4[];                // = "   FULL"
 extern const char title_aNocard_800D8FCC[];              // = "NO CARD"
@@ -1174,7 +1167,112 @@ void title_open_800CDB9C(POLY_FT4 *poly, DG_TEX *tex, int arg2)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CDBF8.s")
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800CDE44.s")
+extern void title_open_800CDBF8(OpenWork *work, int index);
+
+void title_open_800CDE44(OpenWork *work, int index)
+{
+    POLY_FT4 *pack;
+    int       shade;
+    int       left;
+    int       right;
+    int       top;
+    int       bot;
+    int       t3;
+    int       x_aa0;
+    int       x_aa4;
+    int       v;
+
+    pack = work->f18C_polys;
+    pack += index;
+
+    switch (work->fA84)
+    {
+    case 0:
+        if (work->f170 < 0x80)
+        {
+            break;
+        }
+        v = work->f168;
+        work->f170 = 0;
+        work->fA84 = 1;
+        work->fAA0 = -v;
+        work->fAA4 = (-v) + 0xA0;
+        title_open_800CDBF8(work, index);
+        break;
+
+    case 1:
+        shade = work->f170 * 2;
+        setRGB0(&pack[0], shade, shade, shade);
+        setRGB0(&pack[1], shade, shade, shade);
+        setRGB0(&pack[2], shade, shade, shade);
+        t3 = work->f170 + 0xC8;
+        left = (-(t3 * 0xA0)) / 200;
+        top = (-(t3 * 0x70)) / 200;
+        right = (t3 * 0xA0) / 200;
+        bot = (t3 * 0x70) / 200;
+        x_aa0 = (work->fAA0 * t3) / 200;
+        x_aa4 = (work->fAA4 * t3) / 200;
+        setXY4(&pack[0], left,  top, x_aa0, top, left,  bot, x_aa0, bot);
+        setXY4(&pack[1], x_aa0, top, x_aa4, top, x_aa0, bot, x_aa4, bot);
+        setXY4(&pack[2], x_aa4, top, right, top, x_aa4, bot, right, bot);
+        if (work->f170 < 0x40)
+        {
+            break;
+        }
+        work->fA84 = 2;
+        work->f170 = 0;
+        break;
+
+    case 2:
+        setRGB0(&pack[0], 0x80, 0x80, 0x80);
+        setRGB0(&pack[1], 0x80, 0x80, 0x80);
+        setRGB0(&pack[2], 0x80, 0x80, 0x80);
+        t3 = work->f170 + 0x108;
+        left = (-(t3 * 0xA0)) / 200;
+        top = (-(t3 * 0x70)) / 200;
+        right = (t3 * 0xA0) / 200;
+        bot = (t3 * 0x70) / 200;
+        x_aa0 = (work->fAA0 * t3) / 200;
+        x_aa4 = (work->fAA4 * t3) / 200;
+        setXY4(&pack[0], left,  top, x_aa0, top, left,  bot, x_aa0, bot);
+        setXY4(&pack[1], x_aa0, top, x_aa4, top, x_aa0, bot, x_aa4, bot);
+        setXY4(&pack[2], x_aa4, top, right, top, x_aa4, bot, right, bot);
+        if (work->f170 < 0x40)
+        {
+            break;
+        }
+        work->fA84 = 3;
+        work->f170 = 0;
+        break;
+
+    case 3:
+        shade = 0x80 - work->f170;
+        setRGB0(&pack[0], shade, shade, shade);
+        setRGB0(&pack[1], shade, shade, shade);
+        setRGB0(&pack[2], shade, shade, shade);
+        t3 = work->f170 + 0x148;
+        left = (-(t3 * 0xA0)) / 200;
+        top = (-(t3 * 0x70)) / 200;
+        right = (t3 * 0xA0) / 200;
+        bot = (t3 * 0x70) / 200;
+        x_aa0 = (work->fAA0 * t3) / 256;
+        x_aa4 = (work->fAA4 * t3) / 256;
+        setXY4(&pack[0], left,  top, x_aa0, top, left,  bot, x_aa0, bot);
+        setXY4(&pack[1], x_aa0, top, x_aa4, top, x_aa0, bot, x_aa4, bot);
+        setXY4(&pack[2], x_aa4, top, right, top, x_aa4, bot, right, bot);
+        if (work->f170 < 0x80)
+        {
+            break;
+        }
+        v = work->f168;
+        work->fA84 = 1;
+        work->f170 = 0;
+        work->fAA0 = -v;
+        work->fAA4 = (-v) + 0xA0;
+        title_open_800CDBF8(work, index);
+        break;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CE378.s")
 
 void title_open_800CE4A8(OpenWork *work, int index)
