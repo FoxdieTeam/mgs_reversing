@@ -1,5 +1,7 @@
 #include "common.h"
 
+#include "snake18.h"
+
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CABEC.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CAC68.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CACD0.s")
@@ -22,7 +24,13 @@
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB60C.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB710.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB760.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB7BC.s")
+void d18a_snake18_800CB7BC(Snake18Work *work, int arg1)
+{
+    work->f854 = arg1;
+    work->f858 = 0;
+    work->f86E = 0;
+    work->f86C = 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB7D0.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB838.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB888.s")
