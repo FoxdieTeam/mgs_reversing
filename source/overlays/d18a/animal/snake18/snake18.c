@@ -278,22 +278,7 @@ void d18a_snake18_800CB34C(Snake18Arg0 *arg0)
     GM_PlayerStatus |= 0x8001;
 }
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB378.s")
-extern unsigned short d18a_dword_800C37E0;
-
-void d18a_snake18_800CB3E8(Snake18Work *work)
-{
-    unsigned short *src = &d18a_dword_800C37E0;
-    int tmp;
-
-    work->f7E4 |= 0x800;
-    work->f900 = 0x1C2;
-    GM_Camera.first_person = 1;
-    tmp = *src;
-    work->f8F8 = -4;
-    work->f8C8 = 0x140;
-    work->f8CC = tmp;
-    work->f8D0 = tmp;
-}
+#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB3E8.s")
 extern void d18a_snake18_800CB2EC(Snake18Work *work);
 
 void d18a_snake18_800CB42C(Snake18Work *work)
@@ -503,7 +488,24 @@ void d18a_snake18_800CE7BC(void)
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CEDB0.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CEE60.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CEEAC.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CEF0C.s")
+extern void d18a_snake18_800D0A10(void);
+extern void d18a_snake18_800D1750(void);
+
+void d18a_snake18_800CEF0C(Snake18Work *work, int arg1)
+{
+    register Snake18Work *w asm("$6") = work;
+    int                   status;
+
+    if (arg1 != 0)
+    {
+        return;
+    }
+
+    w->f8BC = d18a_snake18_800D0A10;
+    status = GM_PlayerStatus;
+    w->f8C0 = d18a_snake18_800D1750;
+    GM_PlayerStatus = status | 0x10;
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CEF44.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CF03C.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CF198.s")
