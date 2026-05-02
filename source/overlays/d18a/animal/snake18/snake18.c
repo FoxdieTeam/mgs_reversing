@@ -278,7 +278,16 @@ void d18a_snake18_800CB34C(Snake18Arg0 *arg0)
 }
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB378.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB3E8.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB42C.s")
+extern void d18a_snake18_800CB2EC(Snake18Work *work);
+
+void d18a_snake18_800CB42C(Snake18Work *work)
+{
+    work->f900 = 0x1C2;
+    work->f7E4 &= ~0x800;
+    GM_Camera.first_person = 0;
+    work->f8F8 = 4;
+    d18a_snake18_800CB2EC(work);
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB470.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB514.s")
 void d18a_snake18_800CB59C(Snake18Work *work)
