@@ -24,7 +24,44 @@ void d18a_snake18_800CABEC(Snake18Work *arg0)
         }
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CAC68.s")
+int d18a_snake18_800CAC68(int arg0, int arg1)
+{
+    int temp_v1;
+
+    if (arg1 < 0)
+    {
+        return 0;
+    }
+
+    temp_v1 = (arg1 - arg0) & 0xFFF;
+
+    if (temp_v1 < 0x800)
+    {
+        if (temp_v1 < 0x100)
+        {
+            return 1;
+        }
+
+        if (temp_v1 >= 0x501)
+        {
+            return 3;
+        }
+
+        return 4;
+    }
+
+    if (temp_v1 >= 0xF01)
+    {
+        return 1;
+    }
+
+    if (temp_v1 < 0xB00)
+    {
+        return 3;
+    }
+
+    return 2;
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CACD0.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CAD90.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CAEC0.s")
