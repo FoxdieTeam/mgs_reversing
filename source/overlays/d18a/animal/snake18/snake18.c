@@ -114,10 +114,14 @@ typedef struct _Snake18Arg0
     short unk6C;
     char  pad2[0x98 - 0x6C - sizeof(short)];
     short unk98;
-    char  pad3[0x8FE - 0x98 - sizeof(short)];
+    char  pad3[0x8F8 - 0x98 - sizeof(short)];
+    short unk8F8;
+    char  pad3b[0x8FE - 0x8F8 - sizeof(short)];
     short unk8FE;
     char  pad4[0x902 - 0x8FE - sizeof(short)];
     short unk902;
+    char  pad5[0x926 - 0x902 - sizeof(short)];
+    short unk926;
 } Snake18Arg0;
 
 extern HZD_FLR *d18a_dword_800DAF00[2];
@@ -237,7 +241,15 @@ int d18a_snake18_800CB280(Snake18Work *work, int arg1)
     return -1;
 }
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB2EC.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB34C.s")
+extern GM_CAMERA GM_Camera;
+
+void d18a_snake18_800CB34C(Snake18Arg0 *arg0)
+{
+    GM_Camera.first_person = 1;
+    arg0->unk926 = 0;
+    arg0->unk8F8 = -4;
+    GM_PlayerStatus |= 0x8001;
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB378.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB3E8.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB42C.s")
