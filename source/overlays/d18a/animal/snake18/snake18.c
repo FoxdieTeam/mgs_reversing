@@ -108,7 +108,71 @@ int d18a_snake18_800CAF20(Snake18Work *work)
 
     return 1;
 }
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB030.s")
+typedef struct _Snake18Arg0
+{
+    char  pad1[0x6C];
+    short unk6C;
+    char  pad2[0x98 - 0x6C - sizeof(short)];
+    short unk98;
+    char  pad3[0x8FE - 0x98 - sizeof(short)];
+    short unk8FE;
+    char  pad4[0x902 - 0x8FE - sizeof(short)];
+    short unk902;
+} Snake18Arg0;
+
+extern HZD_FLR *d18a_dword_800DAF00[2];
+
+void d18a_snake18_800CB030(Snake18Arg0 *arg0)
+{
+    SVECTOR  vec;
+    SVECTOR  sp18;
+    short    temp_s1;
+    int      temp_v0;
+    int      var_v1;
+    HZD_FLR *temp_a1;
+
+    temp_s1 = arg0->unk8FE;
+    if (temp_s1 != 2)
+    {
+        arg0->unk902 = 0;
+        return;
+    }
+
+    vec.vy = 0;
+    vec.vx = 0;
+    vec.vz = 0x2EE;
+    DG_PutVector(&vec, &vec, 1);
+
+    temp_a1 = d18a_dword_800DAF00[0];
+
+    if ((temp_a1 == NULL) || (temp_a1->b1.h == temp_s1))
+    {
+        arg0->unk902 = 0;
+        if (!(GM_PlayerStatus & 1))
+        {
+            arg0->unk6C = 0;
+        }
+    }
+    else
+    {
+        temp_v0 = HZD_SlopeFloorLevel(&vec, temp_a1) - arg0->unk98;
+        sp18.vx = temp_v0;
+        sp18.vz = SquareRoot0(0x89544 - (temp_v0 * temp_v0));
+        var_v1 = -GV_VecDir2(&sp18);
+
+        if (var_v1 < -0x800)
+        {
+            var_v1 += 0x1000;
+        }
+
+        arg0->unk902 = var_v1;
+
+        if (!(GM_PlayerStatus & 1))
+        {
+            arg0->unk6C = var_v1;
+        }
+    }
+}
 extern int d18a_dword_800DAEF0;
 
 int d18a_snake18_800CB134(Snake18Work *work)
