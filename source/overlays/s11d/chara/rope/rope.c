@@ -1,5 +1,17 @@
 #include "common.h"
 
+typedef struct _RopeWork
+{
+    char  pad0[0x28];
+    short field_28;
+    short field_2A;
+    short field_2C;
+    char  pad1[0x6E - 0x2C - sizeof(short)];
+    short field_6E;
+    char  pad2[0xF70 - 0x6E - sizeof(short)];
+    int   field_F70;
+} RopeWork;
+
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C3D50.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C3DF0.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C3E50.s")
@@ -32,7 +44,13 @@
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C5B10.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C5E74.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C61D8.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C6240.s")
+void s11d_rope_800C6240(RopeWork *work)
+{
+    work->field_6E = 0x800;
+    work->field_2C = 0;
+    work->field_28 = 0;
+    work->field_F70 &= ~0x80;
+}
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C6264.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C62E0.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C634C.s")
