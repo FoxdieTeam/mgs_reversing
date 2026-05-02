@@ -750,7 +750,23 @@ void s12c_dog_800CB114(DogWork *work, int index)
     cone->_pad = 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CB180.s")
+void s12c_dog_800CB180(DogWork *work, int index)
+{
+    RADAR_CONE *cone;
+
+    cone = &work->field_28[index].radar_cone;
+
+    cone->dir = work->field_28[index].rot.vy + work->field_F2A[index].field_0;
+
+    if (index != 2)
+    {
+        cone->len = work->field_1574[index] * 4000 / 255;
+    }
+    else
+    {
+        cone->len = work->field_1574[2] * 5000 / 255;
+    }
+}
 
 void Dog_800CB23C(DogWork *work, int arg1, int field_1510, int index)
 {
