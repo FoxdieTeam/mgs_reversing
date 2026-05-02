@@ -203,7 +203,34 @@ int d18a_snake18_800CB134(Snake18Work *work)
 
     return 0;
 }
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB1C8.s")
+extern char    *d18a_dword_800DAEFC;
+extern HZD_FLR *d18a_dword_800DAF10;
+
+int d18a_snake18_800CB1C8(Snake18Work *work)
+{
+    char    *p;
+    HZD_FLR *floor;
+    int      min;
+    int      max;
+    int      cur;
+
+    p = d18a_dword_800DAEFC;
+    if (*p & 0x90)
+    {
+        return 0;
+    }
+
+    floor = d18a_dword_800DAF10;
+    min = floor->b1.y;
+    max = min + floor->b1.h;
+    cur = work->control.mov.vy;
+
+    if (cur > min && cur < max)
+    {
+        return 1;
+    }
+    return 0;
+}
 void d18a_snake18_800CB228(Snake18Work *work, int arg1)
 {
     int var_v1;
