@@ -5,7 +5,9 @@ typedef struct _Work
     GV_ACT actor;
     char   pad1[0x194E];
     short  field_196E;
-    char   pad2[0x19D0 - 0x196E - sizeof(short)];
+    char   pad2[0x19B0 - 0x196E - sizeof(short)];
+    int    field_19B0;
+    char   pad3[0x19D0 - 0x19B0 - sizeof(int)];
     int    field_19D0;
 } Work;
 
@@ -145,7 +147,16 @@ int s08b_bunsin2_800CF958(void)
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D0330.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D0410.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D044C.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D0530.s")
+int s08b_bunsin2_800D0530(Work *work)
+{
+    int v;
+
+    v = work->field_19D0;
+    work->field_19B0 = 22;
+    v++;
+    work->field_19D0 = v;
+    return v >= 0x1F;
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D0550.s")
 int s08b_bunsin2_800D0688(Work *work)
 {
