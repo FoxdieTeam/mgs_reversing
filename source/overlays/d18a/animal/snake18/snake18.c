@@ -668,7 +668,22 @@ void d18a_snake18_800D0B4C(Snake18Work *work)
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D1814.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D18EC.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D198C.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D1A08.s")
+void d18a_snake18_800D1A08(Snake18Work *work)
+{
+    int arg;
+    void (*func)(Snake18Work *, int);
+
+    if ((work->f868 & 0x40) && (GM_PlayerStatus & 0x800))
+    {
+        func = (void (*)(Snake18Work *, int))work->f854;
+        if (func != NULL)
+        {
+            arg = work->f858;
+            work->f858 = arg + 1;
+            func(work, arg);
+        }
+    }
+}
 extern void d18a_snake18_800D24CC(Snake18Work *work);
 extern void d18a_snake18_800CE7BC(void);
 
