@@ -1,14 +1,54 @@
 #ifndef __MGS_OVERLAYS_D18A_ANIMAL_SNAKE18_H__
 #define __MGS_OVERLAYS_D18A_ANIMAL_SNAKE18_H__
 
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
+#include "game/game.h"
+#include "game/control.h"
+#include "game/target.h"
+
+typedef struct _Snake18Type
+{
+    char *str;
+    char *str2;
+} Snake18Type;
+
 typedef struct _Snake18Work
 {
-    char  pad0[0x854];
-    int   f854;
-    int   f858;
-    char  pad1[0x86C - 0x858 - sizeof(int)];
-    short f86C;
-    short f86E;
+    GV_ACT  actor;       // 0x000
+    CONTROL control;     // 0x020
+    OBJECT  body;        // 0x09C
+    char    pad_184[0x184 - 0x09C - sizeof(OBJECT)];
+    SVECTOR f184;        // 0x184
+    int     f18C;        // 0x18C
+    char    pad_19C[0x19C - 0x18C - sizeof(int)];
+    SVECTOR f19C;        // 0x19C
+    int     f1A4;        // 0x1A4
+    char    pad_1B0[0x1B0 - 0x1A4 - sizeof(int)];
+    short   f1B0;        // 0x1B0
+    char    pad_1C0[0x1C0 - 0x1B0 - sizeof(short)];
+    int     f1C0;        // 0x1C0
+    char    pad_7E4[0x7E4 - 0x1C0 - sizeof(int)];
+    int     f7E4;        // 0x7E4
+    char    pad_7EC[0x7EC - 0x7E4 - sizeof(int)];
+    TARGET  f7EC;        // 0x7EC
+    char    pad_834[0x834 - 0x7EC - sizeof(TARGET)];
+    int     f834;        // 0x834
+    char    pad_840[0x840 - 0x834 - sizeof(int)];
+    int    *f840;        // 0x840
+    char    pad_848[0x848 - 0x840 - sizeof(int *)];
+    SVECTOR f848;        // 0x848
+    char    pad_854[0x854 - 0x848 - sizeof(SVECTOR)];
+    int     f854;        // 0x854
+    int     f858;        // 0x858
+    char    pad_86C[0x86C - 0x858 - sizeof(int)];
+    short   f86C;        // 0x86C
+    short   f86E;        // 0x86E
+    char    pad_8A4[0x8A4 - 0x86E - sizeof(short)];
+    short  *f8A4;        // 0x8A4
+    Snake18Type *f8A8;   // 0x8A8
+    char    pad_930[0x930 - 0x8A8 - sizeof(Snake18Type *)];
+    int     f930;        // 0x930
 } Snake18Work;
 
 #endif // __MGS_OVERLAYS_D18A_ANIMAL_SNAKE18_H__
