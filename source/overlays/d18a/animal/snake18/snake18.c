@@ -426,7 +426,21 @@ int d18a_snake18_800CB9CC(Snake18Work *arg0, Snake18Arg9CC *arg1)
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CBA64.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CBB34.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CBBC8.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CBD34.s")
+extern void d18a_snake18_800CF990(void);
+
+void d18a_snake18_800CBD34(Snake18Work *work)
+{
+    if (work->f864 == 6)
+    {
+        return;
+    }
+    if (((unsigned short)work->f8A4[1]) & 0x20)
+    {
+        work->f8B4 = d18a_snake18_800CF990;
+        work->f8B8 = 0;
+        work->f7E4 |= 0x100;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CBD80.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CBE58.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CBEC0.s")

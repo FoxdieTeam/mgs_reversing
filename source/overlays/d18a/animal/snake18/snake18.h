@@ -42,7 +42,9 @@ typedef struct _Snake18Work
     int     f854;        // 0x854
     int     f858;        // 0x858
     int     f85C;        // 0x85C
-    char    pad_868[0x868 - 0x85C - sizeof(int)];
+    char    pad_864[0x864 - 0x85C - sizeof(int)];
+    int     f864;        // 0x864
+    char    pad_868[0x868 - 0x864 - sizeof(int)];
     int     f868;        // 0x868
     short   f86C;        // 0x86C
     short   f86E;        // 0x86E
