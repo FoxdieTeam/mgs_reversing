@@ -114,5 +114,48 @@ void s19b_spark2_m_800DA55C(Spark2MWork *work)
     GM_FreePrim(work->prim);
 }
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800DA598.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800DA6D8.s")
+extern int s19b_spark2_m_800DA598(Spark2MWork *work, int arg);
+extern const char aSpark2mC_800DDEB0[];
+
+#define EXEC_LEVEL 5
+#define DCache 0x1F8003FC
+
+#define SetSpadStack(addr)                                                                                             \
+    {                                                                                                                  \
+        __asm__ volatile("move $8,%0" ::"r"(addr) : "$8", "memory");                                                   \
+        __asm__ volatile("sw $29,0($8)" ::: "$8", "memory");                                                           \
+        __asm__ volatile("addiu $8,$8,-4" ::: "$8", "memory");                                                         \
+        __asm__ volatile("move $29,$8" ::: "$8", "memory");                                                            \
+    }
+
+#define ResetSpadStack()                                                                                               \
+    {                                                                                                                  \
+        __asm__ volatile("addiu $29,$29,4" ::: "$29", "memory");                                                       \
+        __asm__ volatile("lw $29,0($29)" ::: "$29", "memory");                                                         \
+    }
+
+GV_ACT *NewSpark2M_800DA6D8(int arg0)
+{
+    Spark2MWork *work;
+
+    work = (Spark2MWork *)GV_NewActor(EXEC_LEVEL, sizeof(Spark2MWork));
+    if (work != NULL)
+    {
+        GV_SetNamedActor(&work->actor, s19b_spark2_m_800DA46C, s19b_spark2_m_800DA55C, aSpark2mC_800DDEB0);
+
+        SetSpadStack(DCache);
+
+        if (s19b_spark2_m_800DA598(work, arg0) < 0)
+        {
+            ResetSpadStack();
+
+            GV_DestroyActor(&work->actor);
+            return NULL;
+        }
+
+        ResetSpadStack();
+    }
+
+    return &work->actor;
+}
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_fadeio_800DA784.s")

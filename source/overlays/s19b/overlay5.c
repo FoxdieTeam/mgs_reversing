@@ -44,4 +44,4 @@ const int s19b_dword_800DDEA0 = 0x800D9B10;
 const int s19b_dword_800DDEA4 = 0x800D9B20;
 const char s19b_dword_800DDEA8[] = {0x0, 0x0, 0x0, 0x0};
 const char s19b_dword_800DDEAC[] = {'2', 0x2, 0x0, 0x0};
-const char s19b_dword_800DDEB0[] = {'s', 'p', 'a', 'r', 'k', '2', '_', 'm', '.', 'c', 0x0, 0x8c};
+const char aSpark2mC_800DDEB0[] = {'s', 'p', 'a', 'r', 'k', '2', '_', 'm', '.', 'c', 0x0, 0x8c};
