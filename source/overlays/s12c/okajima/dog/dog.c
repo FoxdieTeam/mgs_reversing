@@ -5,6 +5,12 @@
 #include "game/game.h"
 #include "okajima/blood.h"
 
+typedef struct _Unk_Dog0
+{
+    short field_0;       // 0x00
+    char  pad2[0x8E];    // size 0x90 total
+} Unk_Dog0;
+
 typedef struct DogWork
 {
     GV_ACT   actor;
@@ -12,7 +18,9 @@ typedef struct DogWork
     int      field_24;
     CONTROL  field_28[3];
     OBJECT   field_19C[3];
-    char     pad448[0xD40];
+    char     pad448[0xAE2];
+    Unk_Dog0 field_F2A[3];
+    char     pad10DA[0xAE];
     TARGET  *field_1188[3];
     TARGET   field_1194[3];
     HOMING  *field_126C[3];
@@ -31,7 +39,9 @@ typedef struct DogWork
     int      field_1528;
     char     pad152C[0x30];
     int      field_155C[3];
-    char     pad1568[0x24];
+    char     pad1568[0xC];
+    int      field_1574[3];
+    char     pad1580[0xC];
     int      field_158C[3];
     char     pad1598[0x24];
     int      field_15BC[3];
@@ -719,7 +729,27 @@ void Dog_800CB0C8(int *arg0, int arg1, int arg2)
     *arg0 = ((*arg0 * (arg2 - 1)) + arg1) / arg2;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CB114.s")
+void s12c_dog_800CB114(DogWork *work, int index)
+{
+    RADAR_CONE *cone;
+
+    cone = &work->field_28[index].radar_cone;
+
+    cone->dir = work->field_28[index].rot.vy + work->field_F2A[index].field_0;
+
+    if (index != 2)
+    {
+        cone->len = 4000;
+        cone->ang = 700;
+    }
+    else
+    {
+        cone->len = 5000;
+        cone->ang = 400;
+    }
+    cone->_pad = 0;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CB180.s")
 
 void Dog_800CB23C(DogWork *work, int arg1, int field_1510, int index)
