@@ -1,5 +1,7 @@
 #include "common.h"
 
+extern int s19b_dword_800DE64C;
+
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D2CE8.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D2D3C.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D2E78.s")
@@ -8,7 +10,10 @@
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D36A4.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D37D0.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D3928.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D399C.s")
+int s19b_jeep_mrl_800D399C(void)
+{
+    return *(int *)((char *)s19b_dword_800DE64C + 0x3D0);
+}
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D39B4.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D39F0.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D3A54.s")
