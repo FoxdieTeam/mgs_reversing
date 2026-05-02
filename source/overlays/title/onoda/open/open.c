@@ -160,6 +160,12 @@ extern const char title_aNormal_800D8F80[];              // = "NORMAL"
 extern const char title_aHard_800D8F88[];                // = "HARD"
 extern const char title_aExtreme_800D8F90[];             // = "EXTREME"
 
+extern const char title_aClearflagd_800D8B30[];          // = "clear flag %d\n"
+extern const char title_aCleardataexistss_800D8B40[];    // = "clear data exists %s\n"
+extern const char title_aBislpm_800D8B58[];              // = "BISLPM-86111"
+extern const char title_aOldclearflagd_800D8B68[];       // = "old clear flag %d\n"
+extern const char title_aOldcleardataexistss_800D8B7C[]; // = "old clear data exists %s\n"
+
 extern const char title_aMemorycardslot_800D8FAC[];      // = "MEMORY CARD SLOT 1  :  "
 extern const char title_aFull_800D8FC4[];                // = "   FULL"
 extern const char title_aNocard_800D8FCC[];              // = "NO CARD"
@@ -1423,7 +1429,53 @@ void title_open_800CE6AC(OpenWork *work, int index)
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CE748.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CEB14.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CF794.s")
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800D1B74.s")
+void title_open_800D1B74(char *name)
+{
+    int   i;
+    char *str;
+
+    if (title_dword_800D92D0 == 1)
+    {
+        return;
+    }
+
+    str = MGS_MemoryCardName;
+    for (i = 0; i < 12; i++)
+    {
+        if (name[i] != str[i])
+        {
+            goto skip;
+        }
+    }
+
+    printf(title_aClearflagd_800D8B30, name[17] - '@');
+
+    if (name[12] == 'G' && ((name[17] - '@') & 0x7))
+    {
+        title_dword_800D92D0 = 1;
+        printf(title_aCleardataexistss_800D8B40, name);
+    }
+
+    return;
+
+skip:
+    str = (char *)title_aBislpm_800D8B58;
+    for (i = 0; i < 12; i++)
+    {
+        if (name[i] != str[i])
+        {
+            return;
+        }
+    }
+
+    printf(title_aOldclearflagd_800D8B68, name[17] - '@');
+
+    if (name[12] == 'G' && ((name[17] - '@') & 0x7))
+    {
+        title_dword_800D92D0 = 1;
+        printf(title_aOldcleardataexistss_800D8B7C, name);
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800D1CB4.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800D2374.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800D2460.s")
