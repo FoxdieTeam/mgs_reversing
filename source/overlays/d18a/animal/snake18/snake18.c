@@ -69,7 +69,23 @@ int d18a_snake18_800CAC68(int arg0, int arg1)
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB030.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB134.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB1C8.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB228.s")
+void d18a_snake18_800CB228(Snake18Work *work, int arg1)
+{
+    int var_v1;
+
+    var_v1 = GV_DiffDirS(arg1, work->control.rot.vy);
+
+    if (var_v1 >= 0x81)
+    {
+        var_v1 = 0x80;
+    }
+    else if (var_v1 < -0x80)
+    {
+        var_v1 = -0x80;
+    }
+
+    work->control.turn.vz = var_v1;
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB280.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB2EC.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB34C.s")
