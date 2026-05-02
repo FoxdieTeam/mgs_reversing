@@ -151,6 +151,14 @@ extern signed char open_800C3400[16];
 extern int title_dword_800D92D0;
 extern int title_dword_800C33D4;
 
+extern const char title_aOpbackr_800D8AB0[];             // = "op_back_r"
+extern const char title_aOpbackl_800D8ABC[];             // = "op_back_l"
+
+extern const char title_aVeryeasy_800D8F6C[];            // = "VERY EASY"
+extern const char title_aEasy_800D8F78[];                // = "EASY"
+extern const char title_aNormal_800D8F80[];              // = "NORMAL"
+extern const char title_aHard_800D8F88[];                // = "HARD"
+extern const char title_aExtreme_800D8F90[];             // = "EXTREME"
 extern const char title_aMemorycardslot_800D8FAC[];      // = "MEMORY CARD SLOT 1  :  "
 extern const char title_aFull_800D8FC4[];                // = "   FULL"
 extern const char title_aNocard_800D8FCC[];              // = "NO CARD"

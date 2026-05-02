@@ -163,7 +163,7 @@ void *AN_Unknown_800CA1EC(MATRIX *mat, int mark);
 void Voicesys_800CE2D0(void);
 void Voicesys_800CE300(void);
 void Voicesys_800CE310(void);
-void Voicesys_800CE5F8(int, int);
+void Voicesys_800CE5F8(int index, int field_18);
 int  Voicesys_800CE694(void);
 void Voicesys_800CE734(void);
 
