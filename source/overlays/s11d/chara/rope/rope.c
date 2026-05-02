@@ -1,4 +1,5 @@
 #include "common.h"
+#include "game/camera.h"
 
 typedef struct _RopeWork
 {
@@ -10,7 +11,9 @@ typedef struct _RopeWork
     short  field_6E;
     char   pad2[0x804 - 0x6E - sizeof(short)];
     short *field_804;
-    char   pad3[0xF70 - 0x804 - sizeof(short *)];
+    char   pad3a[0xEDC - 0x804 - sizeof(short *)];
+    int    field_EDC;
+    char   pad3b[0xF70 - 0xEDC - sizeof(int)];
     int    field_F70;
     char   pad4[0xF7C - 0xF70 - sizeof(int)];
     int    field_F7C;
@@ -27,7 +30,13 @@ typedef struct _RopeWork
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C4574.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C45F8.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C4648.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C481C.s")
+extern UnkCameraStruct gUnkCameraStruct_800B77B8;
+
+void s11d_rope_800C481C(RopeWork *work)
+{
+    gUnkCameraStruct_800B77B8.rotate.vy = work->field_EDC / 48 + 0x800;
+    GM_CameraSetRotation(&gUnkCameraStruct_800B77B8.rotate);
+}
 void s11d_rope_800C486C(RopeWork *work)
 {
     short *p = work->field_804;
