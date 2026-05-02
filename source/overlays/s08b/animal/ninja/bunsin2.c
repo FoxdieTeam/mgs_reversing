@@ -64,8 +64,19 @@ int Bunsin2_800C8F04(void)
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CCE34.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CCF8C.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CD000.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CD298.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CD2C0.s")
+int s08b_bunsin2_800CD298(int a, int b, int c)
+{
+    if (b < a) b = a;
+    if (c < b) c = b;
+    return c;
+}
+
+int s08b_bunsin2_800CD2C0(int a, int b, int c)
+{
+    if (a < b) b = a;
+    if (b < c) c = b;
+    return c;
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CD2E8.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CD544.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CD5AC.s")
