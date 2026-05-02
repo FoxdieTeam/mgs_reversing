@@ -49,15 +49,31 @@ typedef struct _Snake18Work
     char    pad_8A4[0x8A4 - 0x86E - sizeof(short)];
     short  *f8A4;        // 0x8A4
     Snake18Type *f8A8;   // 0x8A8
-    char    pad_8F8[0x8F8 - 0x8A8 - sizeof(Snake18Type *)];
+    void   *f8AC;        // 0x8AC (callback pointer)
+    int     f8B0;        // 0x8B0
+    char    pad_8BC[0x8BC - 0x8B0 - sizeof(int)];
+    void   *f8BC;        // 0x8BC (callback pointer)
+    void   *f8C0;        // 0x8C0 (callback pointer)
+    char    pad_8C8[0x8C8 - 0x8C0 - sizeof(void *)];
+    short   f8C8;        // 0x8C8
+    char    pad_8CC[0x8CC - 0x8C8 - sizeof(short)];
+    short   f8CC;        // 0x8CC
+    char    pad_8D0[0x8D0 - 0x8CC - sizeof(short)];
+    short   f8D0;        // 0x8D0
+    char    pad_8F8[0x8F8 - 0x8D0 - sizeof(short)];
     short   f8F8;        // 0x8F8
-    char    pad_900[0x900 - 0x8F8 - sizeof(short)];
+    char    pad_8FC[0x8FC - 0x8F8 - sizeof(short)];
+    char    f8FC;        // 0x8FC
+    char    pad_900[0x900 - 0x8FC - sizeof(char)];
     short   f900;        // 0x900
     char    pad_90C[0x90C - 0x900 - sizeof(short)];
     char    f90C;        // 0x90C
     char    f90D;        // 0x90D
     char    f90E;        // 0x90E
-    char    pad_930[0x930 - 0x90E - sizeof(char)];
+    char    pad_910[0x910 - 0x90E - sizeof(char)];
+    short   f910;        // 0x910
+    short   f912;        // 0x912
+    char    pad_930[0x930 - 0x912 - sizeof(short)];
     int     f930;        // 0x930
 } Snake18Work;
 
