@@ -54,7 +54,10 @@ void s19b_jlamp_800D06E0(Work *work)
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D08C8.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D08F0.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D0928.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D094C.s")
+void s19b_jlamp_800D094C(void)
+{
+    NewCinemaScreen(270, 0);
+}
 extern void Voicesys_800CE2D0(void);
 
 void s19b_jlamp_800D0970(void)
