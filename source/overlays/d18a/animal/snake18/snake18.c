@@ -1,4 +1,5 @@
 #include "common.h"
+#include "game/vibrate.h"
 
 #include "snake18.h"
 
@@ -174,7 +175,26 @@ void d18a_snake18_800CB838(Snake18Work *work)
         work->f85C = (int)(work->f85C | 9);
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB888.s")
+extern char d18a_dword_800C3860[];
+extern char d18a_dword_800C3864[];
+
+void d18a_snake18_800CB888(Snake18Work *work)
+{
+    if (work->f90C != 0)
+    {
+        NewPadVibration(d18a_dword_800C3860, 1);
+        work->f90C = (unsigned char)(work->f90C - 1);
+    }
+
+    if (work->f90D != 0)
+    {
+        NewPadVibration(d18a_dword_800C3864, 2);
+        work->f90D = (unsigned char)(work->f90D - 1);
+        return;
+    }
+
+    work->f90E = 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB908.s")
 typedef struct _Snake18Arg9CC
 {
