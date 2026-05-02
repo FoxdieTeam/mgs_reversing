@@ -367,6 +367,7 @@ const char d18a_dword_800DA7F8[] = {'e', '1', '8', '.'};
 const char d18a_dword_800DA7FC[] = {'c', 0x0, 0x0, '\n'};
 
 
+int SECTION(".bss") d18a_dword_800DAEA0;
 int SECTION(".bss") d18a_dword_800DAEA4;
 int SECTION(".bss") d18a_dword_800DAEA8;
 int SECTION(".bss") d18a_dword_800DAEAC;
@@ -395,4 +396,3 @@ int SECTION(".bss") d18a_dword_800DAF04;
 int SECTION(".bss") d18a_dword_800DAF08;
 int SECTION(".bss") d18a_dword_800DAF0C;
 int SECTION(".bss") d18a_dword_800DAF10;
-int SECTION(".bss") d18a_dword_800DAF14;
