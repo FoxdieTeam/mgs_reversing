@@ -706,7 +706,29 @@ void d18a_snake18_800D1A6C(Snake18Work *work, int arg1)
         }
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D1ACC.s")
+extern void d18a_snake18_800D2660(Snake18Work *work);
+
+void d18a_snake18_800D1ACC(Snake18Work *work, int arg1)
+{
+    if (arg1 != 0)
+    {
+        return;
+    }
+
+    {
+        Snake18Type *t;
+        int new_act;
+        work->f8BC = d18a_snake18_800D2660;
+        t = work->f8A8;
+        work->f8C0 = d18a_snake18_800CE7BC;
+        GM_PlayerStatus |= 0x10;
+        new_act = (unsigned char)t->str2[1];
+        if (work->body.action != new_act)
+        {
+            GM_ConfigObjectAction(&work->body, new_act, 0, 4);
+        }
+    }
+}
 extern void d18a_snake18_800D26E4(Snake18Work *work);
 
 void d18a_snake18_800D1B3C(Snake18Work *work, int arg1)
