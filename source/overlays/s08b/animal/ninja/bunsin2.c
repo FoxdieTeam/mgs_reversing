@@ -321,7 +321,17 @@ void s08b_bunsin2_800D0B1C(Work *work)
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D53E8.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D5434.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D5498.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D54CC.s")
+void s08b_bunsin2_800D54CC(void *arg0)
+{
+    int i;
+    char *p = (char *)arg0;
+    for (i = 0; i < 16; i++)
+    {
+        int *q = *(int **)(p + 0x88);
+        *q |= 2;
+        p += 0x5C;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D54FC.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D5530.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D5600.s")
