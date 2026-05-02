@@ -158,4 +158,7 @@ GV_ACT *NewSpark2M_800DA6D8(int arg0)
 
     return &work->actor;
 }
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_fadeio_800DA784.s")
+void s19b_fadeio_800DA784(void)
+{
+    GV_ZeroMemory(&Takabe_JeepSystem, 0x16C);
+}
