@@ -43,8 +43,10 @@ void s08b_plasma_l_800D9F1C(Work *work, int arg1, int arg2)
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_plasma_l_800D9FB4.s")
 void s08b_plasma_l_800D9FB4(Work *);
 
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_plasma_l_800DA28C.s")
-void s08b_plasma_l_800DA28C(Work *);
+void s08b_plasma_l_800DA28C(Work *work)
+{
+    GM_FreePrim(work->prim);
+}
 
 int s08b_plasma_l_800DA2C8(Work *work)
 {
