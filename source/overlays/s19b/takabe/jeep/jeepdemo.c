@@ -7,7 +7,9 @@ typedef struct _JEEP_SYSTEM
     CONTROL *control;
     char     pad2[0x10];
     SVECTOR  pos;
-    char     pad3[0x34];
+    char     pad3a[0x4C - 0x20];
+    int      field_4C;
+    char     pad3b[0x54 - 0x4C - sizeof(int)];
     int      field_54;
     char     pad4[0x8];
     OBJECT  *body;
@@ -29,6 +31,8 @@ typedef struct _Work
     GV_ACT actor;
     char   pad1[0x24];
     void  *field_44;
+    char   pad2[0x4C - 0x44 - sizeof(void *)];
+    int    field_4C;
 } Work;
 
 extern int s19b_dword_800DE5D0;
@@ -77,7 +81,11 @@ void s19b_jlamp_800D0990(Work *work)
     work->field_44 = &Takabe_JeepSystem.field_138;
     Voicesys_800CE2D0();
 }
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D09B8.s")
+void s19b_jlamp_800D09B8(Work *work)
+{
+    work->field_44 = NULL;
+    Takabe_JeepSystem.field_4C &= ~0x40000;
+}
 void s19b_jlamp_800D09DC(void)
 {
     GM_SeSet(NULL, 0xB5);
