@@ -501,7 +501,28 @@ void d18a_snake18_800CE7BC(void)
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CED2C.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CEDB0.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CEE60.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CEEAC.s")
+extern void d18a_snake18_800D09B4(Snake18Work *work);
+extern void d18a_snake18_800D1750(void);
+
+void d18a_snake18_800CEEAC(Snake18Work *work, int arg1)
+{
+    if (arg1 != 0)
+    {
+        return;
+    }
+
+    {
+        Snake18Type *t = work->f8A8;
+        int new_act;
+        work->f8BC = d18a_snake18_800D09B4;
+        work->f8C0 = d18a_snake18_800D1750;
+        new_act = (unsigned char)t->str[3];
+        if (work->body.action != new_act)
+        {
+            GM_ConfigObjectAction(&work->body, new_act, 0, 4);
+        }
+    }
+}
 extern void d18a_snake18_800D0A10(void);
 extern void d18a_snake18_800D1750(void);
 
