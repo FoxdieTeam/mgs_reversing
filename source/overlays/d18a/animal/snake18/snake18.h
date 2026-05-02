@@ -49,7 +49,11 @@ typedef struct _Snake18Work
     char    pad_8A4[0x8A4 - 0x86E - sizeof(short)];
     short  *f8A4;        // 0x8A4
     Snake18Type *f8A8;   // 0x8A8
-    char    pad_930[0x930 - 0x8A8 - sizeof(Snake18Type *)];
+    char    pad_90C[0x90C - 0x8A8 - sizeof(Snake18Type *)];
+    char    f90C;        // 0x90C
+    char    f90D;        // 0x90D
+    char    f90E;        // 0x90E
+    char    pad_930[0x930 - 0x90E - sizeof(char)];
     int     f930;        // 0x930
 } Snake18Work;
 
