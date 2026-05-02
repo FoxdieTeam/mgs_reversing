@@ -86,7 +86,23 @@ void d18a_snake18_800CB228(Snake18Work *work, int arg1)
 
     work->control.turn.vz = var_v1;
 }
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB280.s")
+int d18a_snake18_800CB280(Snake18Work *work, int arg1)
+{
+    if (arg1 == 0)
+    {
+        return work->f8A8->str[0];
+    }
+    else if (arg1 == 1)
+    {
+        return work->f8A8->str[2];
+    }
+    else if (arg1 == 2)
+    {
+        return work->f8A8->str[3];
+    }
+
+    return -1;
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB2EC.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB34C.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB378.s")
