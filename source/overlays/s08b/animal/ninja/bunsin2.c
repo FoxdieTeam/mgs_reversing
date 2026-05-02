@@ -155,7 +155,13 @@ int s08b_bunsin2_800CF958(void)
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CFA30.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CFA80.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CFB98.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CFC64.s")
+extern void s08b_bunsin2_800CEEB8(Work *work, int arg);
+
+void s08b_bunsin2_800CFC64(Work *work)
+{
+    work->field_19D0++;
+    s08b_bunsin2_800CEEB8(work, 500);
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CFC90.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CFCF8.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CFD88.s")
