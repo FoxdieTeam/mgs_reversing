@@ -912,7 +912,16 @@ void camera_800C864C(CameraWork *work)
         work->field_688[i] = NULL;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C869C.s")
+
+void camera_800C869C(CameraWork *work)
+{
+    int i;
+
+    for (i = 8; i >= 0; i--)
+    {
+        work->field_664[i] = NULL;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C86BC.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C884C.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C89DC.s")
