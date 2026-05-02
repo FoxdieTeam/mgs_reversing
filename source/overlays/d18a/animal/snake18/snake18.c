@@ -151,7 +151,13 @@ void d18a_snake18_800CB7BC(Snake18Work *work, int arg1)
     work->f86C = 0;
 }
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB7D0.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB838.s")
+void d18a_snake18_800CB838(Snake18Work *work)
+{
+    if (!(work->f868 & 4) && (GM_PlayerStatus & 0x800) && (work->f86C != 3))
+    {
+        work->f85C = (int)(work->f85C | 9);
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB888.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB908.s")
 typedef struct _Snake18Arg9CC

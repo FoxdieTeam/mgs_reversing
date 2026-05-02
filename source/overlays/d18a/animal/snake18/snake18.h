@@ -41,7 +41,9 @@ typedef struct _Snake18Work
     char    pad_854[0x854 - 0x848 - sizeof(SVECTOR)];
     int     f854;        // 0x854
     int     f858;        // 0x858
-    char    pad_86C[0x86C - 0x858 - sizeof(int)];
+    int     f85C;        // 0x85C
+    char    pad_868[0x868 - 0x85C - sizeof(int)];
+    int     f868;        // 0x868
     short   f86C;        // 0x86C
     short   f86E;        // 0x86E
     char    pad_8A4[0x8A4 - 0x86E - sizeof(short)];
