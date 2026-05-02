@@ -119,7 +119,17 @@ int s08b_bunsin2_800CD2C0(int a, int b, int c)
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CEE68.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CEEB8.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CEF34.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CEF94.s")
+int s08b_bunsin2_800CEF94(int *p, int n, int initial)
+{
+    int sum = 0;
+    int i;
+    for (i = 0; i < n; i++)
+    {
+        sum += *p;
+        p = (int *)((char *)p + 0x104);
+    }
+    return sum + initial;
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CEFC0.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CEFF4.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CF150.s")
