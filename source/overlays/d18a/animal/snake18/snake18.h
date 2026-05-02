@@ -30,7 +30,7 @@ typedef struct _Snake18Work
     int     f1C0;        // 0x1C0
     char    pad_7E4[0x7E4 - 0x1C0 - sizeof(int)];
     int     f7E4;        // 0x7E4
-    char    pad_7EC[0x7EC - 0x7E4 - sizeof(int)];
+    short  *f7E8;        // 0x7E8 (pointer slot, used by 800CC8E0 etc.)
     TARGET  f7EC;        // 0x7EC
     char    pad_834[0x834 - 0x7EC - sizeof(TARGET)];
     int     f834;        // 0x834

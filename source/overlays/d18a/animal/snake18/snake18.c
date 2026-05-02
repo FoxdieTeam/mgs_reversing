@@ -395,7 +395,13 @@ void d18a_snake18_800CC008(void)
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CC6CC.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CC7F4.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CC8B0.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CC8E0.s")
+void d18a_snake18_800CC8E0(Snake18Work *arg0)
+{
+    short *p = arg0->f7E8;
+    short v = *p;
+    GM_PlayerStatus &= 0xFF7FFFFF;
+    *p = v | 0x9E;
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CC90C.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CCB0C.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CCB50.s")
