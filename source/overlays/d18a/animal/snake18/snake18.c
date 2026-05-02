@@ -544,8 +544,25 @@ void d18a_snake18_800CF718(int arg0, int arg1)
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D0054.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D00E0.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D01D8.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D0974.s")
-extern void d18a_snake18_800D0974(Snake18Work *work);
+void d18a_snake18_800D0974(Snake18Work *work)
+{
+    unsigned short flag = (unsigned short)work->f8A4[0];
+    int turn_y;
+
+    if (flag & 0xA000)
+    {
+        turn_y = work->control.turn.vy;
+        if (flag & 0x8000)
+        {
+            turn_y += 0x20;
+        }
+        else
+        {
+            turn_y -= 0x20;
+        }
+        work->control.turn.vy = turn_y;
+    }
+}
 
 void d18a_snake18_800D09B4(Snake18Work *work)
 {
