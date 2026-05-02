@@ -109,7 +109,33 @@ int d18a_snake18_800CAF20(Snake18Work *work)
     return 1;
 }
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB030.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB134.s")
+extern int d18a_dword_800DAEF0;
+
+int d18a_snake18_800CB134(Snake18Work *work)
+{
+    int temp_s0;
+    int temp_s0_2;
+    int temp_s0_3;
+
+    if (work->control.touch_flag < 2)
+    {
+        return 0;
+    }
+
+    temp_s0 = GV_VecDir2(&work->control.nearvecs[0]);
+    temp_s0_2 = GV_VecDir2(&work->control.nearvecs[1]);
+    temp_s0_3 = GV_DiffDirAbs(d18a_dword_800DAEF0, temp_s0);
+
+    if (((GV_DiffDirAbs(d18a_dword_800DAEF0, temp_s0_2) + 0x380) < 0x701U))
+    {
+        if (((temp_s0_3 + 0x380) < 0x701U))
+        {
+            return 1;
+        }
+    }
+
+    return 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB1C8.s")
 void d18a_snake18_800CB228(Snake18Work *work, int arg1)
 {
