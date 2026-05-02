@@ -126,7 +126,20 @@ int d18a_snake18_800CB710(Snake18Work *work, int a1)
 
     return -1;
 }
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB760.s")
+void d18a_snake18_800CB760(Snake18Work *work, int arg1)
+{
+    if (arg1 != work->f18C)
+    {
+        work->f1A4 = (int)~arg1;
+        work->f18C = arg1;
+
+        if ((arg1 == 0xFFFF) && (d18a_snake18_800CB710(work, 2) >= 0))
+        {
+            work->f1C0 = 4;
+            work->f1B0 = 2;
+        }
+    }
+}
 void d18a_snake18_800CB7BC(Snake18Work *work, int arg1)
 {
     work->f854 = arg1;
