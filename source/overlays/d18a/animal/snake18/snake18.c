@@ -150,7 +150,23 @@ void d18a_snake18_800CB7BC(Snake18Work *work, int arg1)
     work->f86E = 0;
     work->f86C = 0;
 }
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB7D0.s")
+extern SVECTOR d18a_dword_800C3850;
+extern SVECTOR d18a_dword_800C3858;
+extern void NewBlood(MATRIX *mat, int count);
+
+void d18a_snake18_800CB7D0(Snake18Work *work, int arg1)
+{
+    MATRIX *mat;
+    MATRIX  sp10;
+
+    mat = &work->body.objs->objs[arg1].world;
+
+    DG_SetPos(mat);
+    DG_MovePos(&d18a_dword_800C3850);
+    DG_RotatePos(&d18a_dword_800C3858);
+    ReadRotMatrix(&sp10);
+    NewBlood(&sp10, 1);
+}
 void d18a_snake18_800CB838(Snake18Work *work)
 {
     if (!(work->f868 & 4) && (GM_PlayerStatus & 0x800) && (work->f86C != 3))
