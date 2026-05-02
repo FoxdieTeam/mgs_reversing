@@ -51,7 +51,8 @@ typedef struct _Snake18Work
     Snake18Type *f8A8;   // 0x8A8
     void   *f8AC;        // 0x8AC (callback pointer)
     int     f8B0;        // 0x8B0
-    char    pad_8BC[0x8BC - 0x8B0 - sizeof(int)];
+    void   *f8B4;        // 0x8B4 (callback pointer)
+    int     f8B8;        // 0x8B8
     void   *f8BC;        // 0x8BC (callback pointer)
     void   *f8C0;        // 0x8C0 (callback pointer)
     char    pad_8C8[0x8C8 - 0x8C0 - sizeof(void *)];

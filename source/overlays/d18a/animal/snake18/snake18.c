@@ -500,7 +500,16 @@ void d18a_snake18_800CE7BC(void)
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CECE0.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CED2C.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CEDB0.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CEE60.s")
+void d18a_snake18_800CEE60(Snake18Work *work)
+{
+    int arg;
+    if (((unsigned char *)&work->f7E4)[1] & 1)
+    {
+        arg = work->f8B8;
+        work->f8B8 = arg + 1;
+        ((void (*)(Snake18Work *, int))work->f8B4)(work, arg);
+    }
+}
 extern void d18a_snake18_800D09B4(Snake18Work *work);
 extern void d18a_snake18_800D1750(void);
 
