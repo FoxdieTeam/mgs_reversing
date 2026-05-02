@@ -64,7 +64,11 @@ void s19b_jlamp_800D08C8(Work *work)
     work->field_44 = &Takabe_JeepSystem.field_128;
     Voicesys_800CE2D0();
 }
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D08F0.s")
+void s19b_jlamp_800D08F0(void)
+{
+    GM_GameStatus &= ~0x40000000;
+    Takabe_JeepSystem.field_54 &= ~0x10000000;
+}
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D0928.s")
 void s19b_jlamp_800D094C(void)
 {
