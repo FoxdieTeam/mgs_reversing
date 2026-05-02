@@ -304,7 +304,11 @@ void d18a_snake18_800CE7BC(void)
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D4784.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D48FC.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D49FC.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D4B84.s")
+int d18a_snake18_800D4B84(Snake18Work *work)
+{
+    d18a_snake18_800CB2EC(work);
+    return 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D4BA4.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D4C44.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D4E94.s")
