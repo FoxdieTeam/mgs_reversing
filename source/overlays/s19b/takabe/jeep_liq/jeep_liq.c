@@ -33,7 +33,15 @@ void s19b_jeep_liq_800D76F8(JeepLiqWork *work, int arg1)
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D79EC.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7A5C.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7ACC.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7B3C.s")
+void s19b_jeep_liq_800D7B3C(JeepLiqWork *work, int arg1)
+{
+    if (work->field_3E8 != arg1)
+    {
+        work->field_3E8 = arg1;
+        work->field_3E4 = 0;
+        work->field_3E0 = 0;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7B60.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7BB0.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7C0C.s")
