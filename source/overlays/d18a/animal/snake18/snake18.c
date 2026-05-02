@@ -26,6 +26,7 @@ void d18a_snake18_800CABEC(Snake18Work *arg0)
         }
     }
 }
+
 int d18a_snake18_800CAC68(int arg0, int arg1)
 {
     int temp_v1;
@@ -88,6 +89,7 @@ void d18a_snake18_800CB228(Snake18Work *work, int arg1)
 
     work->control.turn.vz = var_v1;
 }
+
 int d18a_snake18_800CB280(Snake18Work *work, int arg1)
 {
     if (arg1 == 0)
@@ -126,6 +128,7 @@ int d18a_snake18_800CB710(Snake18Work *work, int a1)
 
     return -1;
 }
+
 void d18a_snake18_800CB760(Snake18Work *work, int arg1)
 {
     if (arg1 != work->f18C)
@@ -151,7 +154,30 @@ void d18a_snake18_800CB7BC(Snake18Work *work, int arg1)
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB838.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB888.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB908.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB9CC.s")
+typedef struct _Snake18Arg9CC
+{
+    char pad0[0x18];
+    int  f18;
+    int  f1C;
+} Snake18Arg9CC;
+
+extern void GM_Target_8002DCB4(TARGET *target, int a_mode, int faint, int *a4, SVECTOR *a5);
+
+int d18a_snake18_800CB9CC(Snake18Work *arg0, Snake18Arg9CC *arg1)
+{
+    SVECTOR sp18;
+    TARGET *temp_s1;
+    int     temp_v0;
+
+    temp_s1 = &arg0->f7EC;
+    GM_SetTarget(temp_s1, 2, arg0->f930, (SVECTOR *)((char *)arg1 + 0x8));
+    GM_Target_8002DCB4(temp_s1, arg1->f18, arg1->f1C, (int *)((char *)arg0 + 0x840), &arg0->f848);
+    DG_PutVector((SVECTOR *)arg1, &sp18, 1);
+    GM_MoveTarget(temp_s1, &sp18);
+    temp_v0 = (int)GM_CaptureTarget(temp_s1);
+    arg0->f834 = temp_v0;
+    return temp_v0 != 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CBA64.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CBB34.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CBBC8.s")
