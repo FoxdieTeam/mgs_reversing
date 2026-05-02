@@ -38,130 +38,7 @@
 #include "sound/sd_cli.h"
 #include "sound/g_sound.h"
 
-typedef struct _Unknown
-{
-    SPRT  sprt[2];
-    SPRT  sprt2[2][4];
-    char *string;
-    short num;
-    short num2;
-    RECT  rect;
-    short f0;
-    short f2;
-    short f4;
-    short f6;
-} Unknown;
-
-typedef struct _OpenWork
-{
-    GV_ACT   actor;
-    DG_PRIM *prim[4];
-    int      f30[22];
-    char     pad[0x58];
-    int      fE0[6];
-    int      fF8[18];
-    int      f140[9];
-    int      f164;
-    int      f168;
-    int      f16C;
-    int      f170;
-    int      f174;
-    int      f178;
-    int      f17C;
-    int      f180;
-    int      f184;
-    int      f188;
-    POLY_FT4 f18C_polys[22];
-    POLY_FT4 f4FC_polys[18];
-    POLY_FT4 f7CC_polys[9];
-    POLY_GT4 f934_polys[6];
-    short   *fA6C;
-    int      fA70;
-    int      fA74;
-    int      fA78;
-    int      fA7C;
-    int      fA80;
-    int      fA84;
-    int      fA88;
-    int      fA8C;
-    int      fA90;
-    int      fA94;
-    int      fA98;
-    int      fA9C;
-    int      fAA0;
-    int      fAA4;
-    char     fAA8;
-    char     fAA9;
-    char     fAAA;
-    char     fAAB;
-    char     fAAC;
-    char     fAAD;
-    char     fAAE;
-    char     fAAF;
-    char     pad6[0x8];
-    int      fAB8;
-    char     pad7[0x1C];
-    int      fAD8;
-    int      fADC;
-    int      fAE0;
-    int      fAE4;
-    int      fAE8;
-    int      fAEC;
-    int      fAF0;
-    int      fAF4;
-    int      fAF8;
-    int      fAFC;
-    int      fB00;
-    int      fB04;
-    int      fB08;
-    int      fB0C;
-    int      fB10;
-    int      fB14;
-    int      fB18;
-    int      fB1C;
-    int      fB20;
-    int      fB24;
-    int      fB28;
-    int      fB2C;
-    int      fB30;
-    int      fB34;
-    int      fB38;
-    int      fB3C;
-    int      fB40;
-    int      fB44;
-    int      fB48;
-    KCB      kcb[24];
-    char     pad8[0x14];
-    DR_TPAGE tpage[2];
-    char     pad9[0x8];
-    Unknown  unk[24];
-    int      f2498;
-    int      f249C;
-    int      f24A0;
-    int      f24A4;
-    char     pad10[0x4];
-    int      f24AC;
-    int      f24B0;
-    int      f24B4;
-    int      f24B8;
-    int      f24BC;
-    int      f24C0;
-    int      f24C4;
-    int      f24C8;
-    int      f24CC;
-    int      f24D0;
-    int      f24D4;
-    int      f24D8;
-    int      f24DC;
-    int      f24E0;
-    int      f24E4;
-    int      f24E8;
-    int      f24EC;
-    int      f24F0;
-    int      f24F4;
-    int      f24F8_proc;
-    char     pad11[8];
-} OpenWork;
+#include "openwork.h"
 
 extern void  title_open_800C5644(OpenWork *work, int index);
 extern void  title_open_800C5CB8(OpenWork *work);
@@ -466,6 +343,8 @@ const char title_aYourgamelikethis_800D9008[] = "YOUR GAME LIKE THIS?";
 const char title_aYes_800D9020[] = "YES";
 const char title_aNo_800D9024[] = "NO";
 
+/* Top-level title-screen state machine. Dispatches on work->fA74; each case
+ * runs its one-time init when work->fB0C is set, then renders this frame. */
 void OpenAct_800D37F4(OpenWork *work)
 {
     u_long   *ot;
@@ -857,6 +736,8 @@ void OpenAct_800D37F4(OpenWork *work)
     title_open_800C53E0(work);
 }
 
+/* Actor destructor: frees the four DG primitives and each font character
+ * block's backing buffer. */
 void OpenDie_800D4098(OpenWork *work)
 {
     int      i;
@@ -874,6 +755,9 @@ void OpenDie_800D4098(OpenWork *work)
     }
 }
 
+/* Build a flat-shaded textured quad at neutral brightness (128,128,128 = no
+ * tint) with the given vertex rectangle and semi-transparency mode. UV/tpage
+ * are filled in later by the caller (typically via the helper below). */
 void title_open_800D4174(OpenWork *work, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int abe)
 {
     setPolyFT4(poly);
@@ -882,6 +766,9 @@ void title_open_800D4174(OpenWork *work, POLY_FT4 *poly, int x0, int y0, int x1,
     SetSemiTrans(poly, abe);
 }
 
+/* Bind tex to poly's UV/tpage/clut. uo/vo (0 or 1) extend the U/V range past
+ * the texture's nominal w/h to compensate for PS1's UV truncation when the
+ * sampler clips on the right/bottom edge. */
 static inline void title_open_helper_800D41E4(POLY_FT4 *poly, DG_TEX *tex, int uo, int vo)
 {
     int u0, u1;
@@ -922,6 +809,8 @@ void title_open_800D41E4(OpenWork *work, int name, POLY_FT4 *poly, int x0, int y
     }
 }
 
+/* Like title_open_800D41E4 but with RGB0 set to (0,0,0). On a textured poly
+ * an all-zero RGB darkens the texture to black — used as a fade overlay. */
 void title_open_800D4368(OpenWork *work, int name, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int abe)
 {
     DG_TEX *tex;
@@ -946,6 +835,8 @@ void title_open_800D4368(OpenWork *work, int name, POLY_FT4 *poly, int x0, int y
     SetSemiTrans(poly, abe);
 }
 
+/* Gouraud variant of title_open_800D4368: same black-tint textured quad but
+ * as POLY_GT4, so the per-vertex colors can be ramped later for a gradient. */
 void title_open_800D4464(OpenWork *work, int name, POLY_GT4 *poly, int x0, int y0, int x1, int y1, int abe)
 {
     DG_TEX *tex;
@@ -976,6 +867,9 @@ void title_open_800D4464(OpenWork *work, int name, POLY_GT4 *poly, int x0, int y
 #pragma INCLUDE_ASM("asm/overlays/title/OpenGetResources_800D4584.s")
 int  OpenGetResources_800D4584(OpenWork *work, int);
 
+/* Actor constructor for the title screen. Allocates the OpenWork, registers
+ * the act/die pair, then loads resources; on resource failure the actor is
+ * destroyed and NULL is returned. */
 void *NewOpen(int arg0, int arg1)
 {
     OpenWork *work;
