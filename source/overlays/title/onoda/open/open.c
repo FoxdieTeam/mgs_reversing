@@ -1428,6 +1428,9 @@ void title_open_800CE6AC(OpenWork *work, int index)
 
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CE748.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CEB14.s")
+#pragma INCLUDE_ASM("asm/overlays/title/title_open_800CEF54.s")
+#pragma INCLUDE_ASM("asm/overlays/title/title_open_800CF504.s")
+#pragma INCLUDE_ASM("asm/overlays/title/title_open_800CF610.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CF794.s")
 void title_open_800D1B74(char *name)
 {
