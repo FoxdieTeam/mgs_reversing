@@ -78,7 +78,12 @@ void s19b_jlamp_800D0990(Work *work)
     Voicesys_800CE2D0();
 }
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D09B8.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D09DC.s")
+void s19b_jlamp_800D09DC(void)
+{
+    GM_SeSet(NULL, 0xB5);
+    GM_SetSound(0x01FFFF0B, 0);
+    GM_SetSound(0xFF0000FE, 0);
+}
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D0A20.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D0ABC.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D0C44.s")
