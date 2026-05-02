@@ -16,6 +16,10 @@ typedef struct _JEEP_SYSTEM
     MATRIX   world;
     char     pad6[0x88];
     int      field_128;
+    char     pad7[0x130 - 0x128 - sizeof(int)];
+    int      field_130;
+    char     pad8[0x138 - 0x130 - sizeof(int)];
+    int      field_138;
 } JEEP_SYSTEM;
 
 extern JEEP_SYSTEM Takabe_JeepSystem;
@@ -48,23 +52,32 @@ void s19b_jlamp_800D06E0(Work *work)
     Takabe_JeepSystem.field_54 |= 0x10000000;
 }
 
+extern void Voicesys_800CE2D0(void);
+
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D072C.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D07EC.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D087C.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D08C8.s")
+void s19b_jlamp_800D08C8(Work *work)
+{
+    work->field_44 = &Takabe_JeepSystem.field_128;
+    Voicesys_800CE2D0();
+}
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D08F0.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D0928.s")
 void s19b_jlamp_800D094C(void)
 {
     NewCinemaScreen(270, 0);
 }
-extern void Voicesys_800CE2D0(void);
 
 void s19b_jlamp_800D0970(void)
 {
     Voicesys_800CE2D0();
 }
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D0990.s")
+void s19b_jlamp_800D0990(Work *work)
+{
+    work->field_44 = &Takabe_JeepSystem.field_138;
+    Voicesys_800CE2D0();
+}
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D09B8.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D09DC.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D0A20.s")
