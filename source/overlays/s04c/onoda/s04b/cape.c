@@ -260,8 +260,58 @@ void s04c_cape_800D7E6C(CapeWork *work)
     work->f904[0][6].b = work->f808[4][6].b;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_cape_800D83D4.s")
-void s04c_cape_800D83D4(CapeWork *work);
+void s04c_cape_800D83D4(CapeWork *work)
+{
+    POLY_GT4 *packs0;
+    POLY_GT4 *packs1;
+    int       i, j, k;
+
+    packs0 = work->prim->packs[0];
+    packs1 = work->prim->packs[1];
+
+    k = 0;
+
+    for (i = 0; i < 4; i++)
+    {
+        for (j = 1; j < 7; j++)
+        {
+            work->verts[k].vx = work->fA7C.vx + (work->f5E8[i][j - 1].vx - work->fA7C.vx) * 4;
+            work->verts[k].vy = work->fA7C.vy + (work->f5E8[i][j - 1].vy - work->fA7C.vy) * 4;
+            work->verts[k].vz = work->fA7C.vz + (work->f5E8[i][j - 1].vz - work->fA7C.vz) * 4;
+            k++;
+
+            setRGB0(packs0, work->f894[i][j - 1].r, work->f894[i][j - 1].g, work->f894[i][j - 1].b);
+            setRGB0(packs1, work->f894[i][j - 1].r, work->f894[i][j - 1].g, work->f894[i][j - 1].b);
+
+            work->verts[k].vx = work->fA7C.vx + (work->f5E8[i + 1][j - 1].vx - work->fA7C.vx) * 4;
+            work->verts[k].vy = work->fA7C.vy + (work->f5E8[i + 1][j - 1].vy - work->fA7C.vy) * 4;
+            work->verts[k].vz = work->fA7C.vz + (work->f5E8[i + 1][j - 1].vz - work->fA7C.vz) * 4;
+            k++;
+
+            setRGB1(packs0, work->f894[i + 1][j - 1].r, work->f894[i + 1][j - 1].g, work->f894[i + 1][j - 1].b);
+            setRGB1(packs1, work->f894[i + 1][j - 1].r, work->f894[i + 1][j - 1].g, work->f894[i + 1][j - 1].b);
+
+            work->verts[k].vx = work->fA7C.vx + (work->f5E8[i][j].vx - work->fA7C.vx) * 4;
+            work->verts[k].vy = work->fA7C.vy + (work->f5E8[i][j].vy - work->fA7C.vy) * 4;
+            work->verts[k].vz = work->fA7C.vz + (work->f5E8[i][j].vz - work->fA7C.vz) * 4;
+            k++;
+
+            setRGB2(packs0, work->f894[i][j].r, work->f894[i][j].g, work->f894[i][j].b);
+            setRGB2(packs1, work->f894[i][j].r, work->f894[i][j].g, work->f894[i][j].b);
+
+            work->verts[k].vx = work->fA7C.vx + (work->f5E8[i + 1][j].vx - work->fA7C.vx) * 4;
+            work->verts[k].vy = work->fA7C.vy + (work->f5E8[i + 1][j].vy - work->fA7C.vy) * 4;
+            work->verts[k].vz = work->fA7C.vz + (work->f5E8[i + 1][j].vz - work->fA7C.vz) * 4;
+            k++;
+
+            setRGB3(packs0, work->f894[i + 1][j].r, work->f894[i + 1][j].g, work->f894[i + 1][j].b);
+            setRGB3(packs1, work->f894[i + 1][j].r, work->f894[i + 1][j].g, work->f894[i + 1][j].b);
+
+            packs0++;
+            packs1++;
+        }
+    }
+}
 
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_cape_800D8724.s")
 void s04c_cape_800D8724(CapeWork *work);
