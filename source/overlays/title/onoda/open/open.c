@@ -1482,6 +1482,9 @@ skip:
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800D1CB4.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800D2374.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800D2460.s")
+#pragma INCLUDE_ASM("asm/overlays/title/title_open_800D2A00.s")
+#pragma INCLUDE_ASM("asm/overlays/title/title_open_800D2AFC.s")
+#pragma INCLUDE_ASM("asm/overlays/title/title_open_800D2CA8.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800D2E44.s")
 
 void title_open_800D3500(OpenWork *work, u_long *ot)
