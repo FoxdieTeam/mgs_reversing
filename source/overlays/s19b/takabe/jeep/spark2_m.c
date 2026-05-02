@@ -1,5 +1,6 @@
 #include "common.h"
 #include "game/game.h"
+#include "psxdefs.h"
 
 typedef struct _Spark2MWork
 {
@@ -114,5 +115,33 @@ void s19b_spark2_m_800DA55C(Spark2MWork *work)
     GM_FreePrim(work->prim);
 }
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800DA598.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800DA6D8.s")
+extern int s19b_spark2_m_800DA598(Spark2MWork *work, int arg);
+extern const char aSpark2mC_800DDEB0[];
+
+#define EXEC_LEVEL 5
+
+GV_ACT *NewSpark2M_800DA6D8(int arg0)
+{
+    Spark2MWork *work;
+
+    work = (Spark2MWork *)GV_NewActor(EXEC_LEVEL, sizeof(Spark2MWork));
+    if (work != NULL)
+    {
+        GV_SetNamedActor(&work->actor, s19b_spark2_m_800DA46C, s19b_spark2_m_800DA55C, aSpark2mC_800DDEB0);
+
+        SetSpadStack(SPAD_STACK_ADDR);
+
+        if (s19b_spark2_m_800DA598(work, arg0) < 0)
+        {
+            ResetSpadStack();
+
+            GV_DestroyActor(&work->actor);
+            return NULL;
+        }
+
+        ResetSpadStack();
+    }
+
+    return &work->actor;
+}
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_fadeio_800DA784.s")
