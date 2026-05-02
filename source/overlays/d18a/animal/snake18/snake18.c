@@ -2,6 +2,8 @@
 
 #include "snake18.h"
 
+int d18a_snake18_800CB710(Snake18Work *work, int a1);
+
 void d18a_snake18_800CABEC(Snake18Work *arg0)
 {
     int            i;
@@ -112,7 +114,18 @@ int d18a_snake18_800CB280(Snake18Work *work, int arg1)
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB514.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB59C.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB60C.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB710.s")
+int d18a_snake18_800CB710(Snake18Work *work, int a1)
+{
+    SVECTOR *vec = (a1 == 1) ? &work->f184 : &work->f19C;
+    int      val = (a1 == 1) ? work->body.action : work->body.action2;
+
+    if ((vec->vx + vec->vy) == 1)
+    {
+        return val;
+    }
+
+    return -1;
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB760.s")
 void d18a_snake18_800CB7BC(Snake18Work *work, int arg1)
 {
