@@ -449,7 +449,14 @@ void d18a_snake18_800CE7BC(void)
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CF198.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CF39C.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CF574.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CF718.s")
+void d18a_snake18_800CF718(int arg0, int arg1)
+{
+    if (arg1 == 0x258)
+    {
+        GM_GameOverTimer = 0;
+        GM_GameOver();
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CF744.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CF850.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CF990.s")
