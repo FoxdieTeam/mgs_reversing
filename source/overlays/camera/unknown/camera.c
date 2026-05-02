@@ -345,7 +345,10 @@ void camera_800C5970(int idx, int param_2, int param_3, int param_4, int param_5
     pElem->field_4 = divisor;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C5AE8.s")
+void camera_800C5AE8(int index)
+{
+    camera_dword_800D075C->field_0_array[index].field_0 = 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C5B00.s")
 void camera_800C5B00(int param_1, int param_2, int param_3, int param_4, int divisor);
 
