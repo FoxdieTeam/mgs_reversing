@@ -28,7 +28,13 @@ typedef struct _RopeWork
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C45F8.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C4648.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C481C.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C486C.s")
+void s11d_rope_800C486C(RopeWork *work)
+{
+    short *p = work->field_804;
+    work->field_F7C = 32;
+    work->field_F70 |= 0x8000;
+    *p &= ~0x14;
+}
 void s11d_rope_800C4898(RopeWork *work, int arg1)
 {
     short *p = work->field_804;
@@ -36,7 +42,12 @@ void s11d_rope_800C4898(RopeWork *work, int arg1)
     work->field_F70 |= 0x8000;
     *p &= ~0x14;
 }
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C48C0.s")
+void s11d_rope_800C48C0(RopeWork *work)
+{
+    short *p = work->field_804;
+    work->field_F70 &= ~0x8000;
+    *p |= 0x14;
+}
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C48EC.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C4B78.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C4DE0.s")
