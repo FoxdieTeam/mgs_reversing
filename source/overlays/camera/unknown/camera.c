@@ -893,7 +893,25 @@ void camera_800C85D8(void)
     setClut(sprt, 976, 511);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C864C.s")
+void camera_800C864C(CameraWork *work)
+{
+    int i;
+
+    for (i = 3; i >= 0; i--)
+    {
+        work->field_654[i] = 0;
+    }
+
+    for (i = 8; i >= 0; i--)
+    {
+        work->field_664[i] = NULL;
+    }
+
+    for (i = 0x19; i >= 0; i--)
+    {
+        work->field_688[i] = NULL;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C869C.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C86BC.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C884C.s")
