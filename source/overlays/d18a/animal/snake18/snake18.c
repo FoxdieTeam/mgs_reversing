@@ -2,7 +2,28 @@
 
 #include "snake18.h"
 
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CABEC.s")
+void d18a_snake18_800CABEC(Snake18Work *arg0)
+{
+    int            i;
+    unsigned char *p;
+    short         *temp;
+
+    temp = arg0->f8A4;
+    arg0->f7E4 &= ~0x4000;
+    if ((temp[5] != 0) && (((unsigned short)temp[0] & 0xF000) != 0))
+    {
+        p = (unsigned char *)temp + 0xC;
+        for (i = 0; i < 4; p++)
+        {
+            i += 1;
+            if ((*p - 0x50) >= 0x61U)
+            {
+                arg0->f7E4 |= 0x4000;
+                return;
+            }
+        }
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CAC68.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CACD0.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CAD90.s")
