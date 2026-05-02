@@ -58,7 +58,13 @@ void s19b_jlamp_800D06E0(Work *work)
 
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D072C.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D07EC.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D087C.s")
+extern int s19b_dword_800DE5B8;
+
+void s19b_jlamp_800D087C(void)
+{
+    GV_DestroyActorQuick((GV_ACT *)s19b_dword_800DE5B8);
+    Takabe_JeepSystem.field_4C = (Takabe_JeepSystem.field_4C & ~0x10000) | 0x20000;
+}
 void s19b_jlamp_800D08C8(Work *work)
 {
     work->field_44 = &Takabe_JeepSystem.field_128;
