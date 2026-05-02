@@ -179,7 +179,20 @@ int d18a_snake18_800CB280(Snake18Work *work, int arg1)
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB42C.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB470.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB514.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB59C.s")
+void d18a_snake18_800CB59C(Snake18Work *work)
+{
+    short temp_s0;
+
+    if (d18a_dword_800DAEF0 >= 0)
+    {
+        temp_s0 = work->control.turn.vy;
+
+        if (GV_DiffDirS(temp_s0, d18a_dword_800DAEF0) != 0)
+        {
+            work->control.turn.vy = GV_NearSpeed(GV_NearPhase(temp_s0, d18a_dword_800DAEF0), d18a_dword_800DAEF0, 0x40);
+        }
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB60C.s")
 int d18a_snake18_800CB710(Snake18Work *work, int a1)
 {
