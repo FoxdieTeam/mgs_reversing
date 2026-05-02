@@ -1,4 +1,12 @@
 #include "common.h"
+#include "game/game.h"
+
+typedef struct _Spark2MWork
+{
+    GV_ACT   actor;
+    int      map;
+    DG_PRIM *prim;
+} Spark2MWork;
 
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D8724.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D87A4.s")
@@ -48,7 +56,10 @@
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800DA3EC.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800DA41C.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800DA46C.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800DA55C.s")
+void s19b_spark2_m_800DA55C(Spark2MWork *work)
+{
+    GM_FreePrim(work->prim);
+}
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800DA598.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800DA6D8.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_fadeio_800DA784.s")
