@@ -282,7 +282,16 @@ int s08b_bunsin2_800D0278(BunshinWork *work)
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D02A0.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D02E8.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D0330.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D0410.s")
+int s08b_bunsin2_800D0410(BunshinWork *work)
+{
+    if (!(GM_GameStatus & STATE_CHAFF))
+    {
+        return 1;
+    }
+    work->field_19B0 = 27;
+    work->field_19D0++;
+    return 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D044C.s")
 int s08b_bunsin2_800D0530(BunshinWork *work)
 {
