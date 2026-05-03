@@ -12,7 +12,9 @@ typedef struct _BunshinWork
     OBJECT       body;           // 0x020
     char         pad_after_body[0x748 - 0x20 - sizeof(OBJECT)];
     SVECTOR      field_748;      // 0x748
-    char         pad_before_clones[0x920 - 0x748 - sizeof(SVECTOR)];
+    char         pad_to_7DC[0x7DC - 0x748 - sizeof(SVECTOR)];
+    DG_OBJS     *field_7DC;      // 0x7DC
+    char         pad_before_clones[0x920 - 0x7DC - sizeof(DG_OBJS *)];
     BunshinClone clones[16];     // 0x920 (16 * 0x104 = 0x1040, ends at 0x1960)
     char         pad1b[0x1964 - 0x1960];
     short        field_1964;
@@ -126,7 +128,14 @@ int s08b_bunsin2_800CD2C0(int a, int b, int c)
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CD770.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CD808.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CD87C.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CD8D8.s")
+extern void s08b_bunsin2_800CD87C(void);
+extern int  s08b_bunsin2_800CD95C(BunshinWork *work, int target);
+
+void s08b_bunsin2_800CD8D8(BunshinWork *work)
+{
+    work->field_7DC->flag &= ~DG_FLAG_INVISIBLE;
+    s08b_bunsin2_800CD95C(work, (int)s08b_bunsin2_800CD87C);
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CD914.s")
 int s08b_bunsin2_800CD95C(BunshinWork *work, int target)
 {
