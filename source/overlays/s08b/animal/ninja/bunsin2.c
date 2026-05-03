@@ -1,4 +1,5 @@
 #include "game/game.h"
+#include "game/target.h"
 
 typedef struct _BunshinClone
 {
@@ -14,7 +15,9 @@ typedef struct _BunshinWork
     SVECTOR      field_748;      // 0x748
     char         pad_to_7DC[0x7DC - 0x748 - sizeof(SVECTOR)];
     DG_OBJS     *field_7DC;      // 0x7DC
-    char         pad_before_clones[0x920 - 0x7DC - sizeof(DG_OBJS *)];
+    char         pad_to_8C4[0x8C4 - 0x7DC - sizeof(DG_OBJS *)];
+    TARGET      *field_8C4;      // 0x8C4
+    char         pad_before_clones[0x920 - 0x8C4 - sizeof(TARGET *)];
     BunshinClone clones[16];     // 0x920 (16 * 0x104 = 0x1040, ends at 0x1960)
     char         pad1b[0x1964 - 0x1960];
     short        field_1964;
@@ -50,7 +53,19 @@ int Bunsin2_800C8F04(void)
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800C908C.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800C9120.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800C933C.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800C9514.s")
+int s08b_bunsin2_800C9514(BunshinWork *work)
+{
+    TARGET *target = work->field_8C4;
+
+    if (target->damaged & TARGET_POWER)
+    {
+        int ret = target->a_mode;
+        target->damage = 0;
+        target->damaged = 0;
+        return ret;
+    }
+    return -1;
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800C9548.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800C9588.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800C9978.s")
