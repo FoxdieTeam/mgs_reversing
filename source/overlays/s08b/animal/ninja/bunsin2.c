@@ -19,7 +19,10 @@ typedef struct _BunshinWork
     short        field_1966;
     SVECTOR      field_1968;     // 0x1968
     int          field_1970;     // 0x1970
-    char         pad2[0x19A8 - 0x1970 - sizeof(int)];
+    char         pad1d[0x1988 - 0x1970 - sizeof(int)];
+    int          field_1988;     // 0x1988
+    SVECTOR      field_198C;     // 0x198C
+    char         pad2[0x19A8 - 0x198C - sizeof(SVECTOR)];
     int          field_19A8;
     char         pad2b[0x19B0 - 0x19A8 - sizeof(int)];
     int          field_19B0;
@@ -155,7 +158,11 @@ void s08b_bunsin2_800CDF68(BunshinWork *work)
     work->field_1970 = GM_PlayerAddress;
 }
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CDFA0.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CDFF8.s")
+void s08b_bunsin2_800CDFF8(BunshinWork *work)
+{
+    work->field_1968 = work->field_198C;
+    work->field_1970 = work->field_1988;
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CE024.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CE064.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CE0A4.s")
