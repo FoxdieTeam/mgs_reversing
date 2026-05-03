@@ -10,7 +10,9 @@ typedef struct _BunshinWork
 {
     GV_ACT       actor;          // 0x000
     OBJECT       body;           // 0x020
-    char         pad1[0x920 - 0x20 - sizeof(OBJECT)];
+    char         pad_after_body[0x748 - 0x20 - sizeof(OBJECT)];
+    SVECTOR      field_748;      // 0x748
+    char         pad_before_clones[0x920 - 0x748 - sizeof(SVECTOR)];
     BunshinClone clones[16];     // 0x920 (16 * 0x104 = 0x1040, ends at 0x1960)
     char         pad1b[0x1964 - 0x1960];
     short        field_1964;
@@ -78,7 +80,14 @@ int Bunsin2_800C8F04(void)
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CC90C.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CCA4C.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CCAF0.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CCD18.s")
+extern void sna_act_helper2_helper2_80033054(int id, SVECTOR *vec);
+
+void s08b_bunsin2_800CCD18(BunshinWork *work)
+{
+    sna_act_helper2_helper2_80033054(
+        (unsigned short)work->body.rots[1].vz,
+        &work->field_748);
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CCD40.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CCD74.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CCDBC.s")
