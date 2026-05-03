@@ -460,7 +460,14 @@ void s08b_bunsin2_800D54CC(void *arg0)
         p += 0x5C;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D54FC.s")
+void s08b_bunsin2_800D54FC(DG_OBJS *objs)
+{
+    int i;
+    for (i = 0; i < 16; i++)
+    {
+        objs->objs[i].model->flags &= ~DG_FLAG_PAINT;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D5530.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D5600.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D5734.s")
