@@ -67,7 +67,17 @@ int s08b_bunsin2_800C9514(BunshinWork *work)
     }
     return -1;
 }
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800C9548.s")
+extern int s08b_bunsin2_800C933C(BunshinWork *work);
+
+int s08b_bunsin2_800C9548(BunshinWork *work)
+{
+    if (s08b_bunsin2_800C933C(work))
+    {
+        work->field_8C4->class = TARGET_AVAIL;
+        return 1;
+    }
+    return 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800C9588.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800C9978.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800C9B38.s")
