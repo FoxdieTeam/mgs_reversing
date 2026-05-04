@@ -369,7 +369,20 @@ int s08b_bunsin2_800CF958(void)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CF960.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CFA30.s")
+int s08b_bunsin2_800CFA30(BunshinWork *work)
+{
+    int v = ++work->field_19D0;
+    if (v == 1)
+    {
+        work->field_19B0 = 25;
+        return 0;
+    }
+    if (v >= 71)
+    {
+        work->field_19B0 = 28;
+    }
+    return work->field_19D0 >= 161;
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CFA80.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CFB98.s")
 void s08b_bunsin2_800CFC64(BunshinWork *work)
