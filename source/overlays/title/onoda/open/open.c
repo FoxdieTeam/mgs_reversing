@@ -1353,7 +1353,45 @@ skip:
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800D1CB4.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800D2374.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800D2460.s")
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800D2A00.s")
+extern void title_open_800D2374(OpenWork *work);
+extern void title_open_800D2460(OpenWork *work);
+
+void title_open_800D2A00(OpenWork *work)
+{
+    GCL_ARGS args;
+    long     argv[3];
+
+    args.argc = 3;
+    args.argv = argv;
+    argv[0] = work->f24D0;
+    argv[1] = work->fB28;
+    argv[2] = title_dword_800D92D0;
+
+    if (work->f24BC)
+    {
+        work->f24B4++;
+    }
+
+    title_open_800D2374(work);
+    title_open_800C47B8(work, DG_ChanlOTag(1));
+    title_open_800D2460(work);
+
+    if (work->f24EC == 0)
+    {
+        if (work->f24B0 >= 0xA0)
+        {
+            work->f24EC = 1;
+        }
+    }
+
+    work->f24B0++;
+
+    if (work->f24B4 >= 0x48)
+    {
+        GCL_ExecProc(title_dword_800C33D4, &args);
+        GV_DestroyActor(work);
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800D2AFC.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800D2CA8.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800D2E44.s")
