@@ -16,6 +16,8 @@ typedef struct _Work
     int    field_19D0;
     char   pad4[0x1A28 - 0x19D0 - sizeof(int)];
     int    field_1A28;
+    char   pad5[0x1A40 - 0x1A28 - sizeof(int)];
+    int    field_1A40[8];
 } Work;
 
 int Bunsin2_800C8F04(void) 
@@ -93,7 +95,19 @@ int s08b_bunsin2_800CD2C0(int a, int b, int c)
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CD87C.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CD8D8.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CD914.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CD95C.s")
+int s08b_bunsin2_800CD95C(Work *work, int target)
+{
+    int i;
+    for (i = 0; i < 8; i++)
+    {
+        if (work->field_1A40[i] == target)
+        {
+            work->field_1A40[i] = 0;
+            return 1;
+        }
+    }
+    return 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CD990.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CD9F0.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CDA40.s")
