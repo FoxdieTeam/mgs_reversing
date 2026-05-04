@@ -211,7 +211,14 @@ void s08b_bunsin2_800CDFF8(BunshinWork *work)
     work->field_1968 = work->field_198C;
     work->field_1970 = work->field_1988;
 }
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CE024.s")
+extern int s08b_dword_800C358C;
+extern int s08b_dword_800C3594;
+
+void s08b_bunsin2_800CE024(BunshinWork *work)
+{
+    work->field_1968 = *(SVECTOR *)&s08b_dword_800C358C;
+    work->field_1970 = s08b_dword_800C3594 | (s08b_dword_800C3594 << 8);
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CE064.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CE0A4.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CE180.s")
