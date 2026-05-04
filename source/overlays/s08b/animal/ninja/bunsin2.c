@@ -528,7 +528,18 @@ void s08b_bunsin2_800D54FC(DG_OBJS *objs)
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D5530.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D5600.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D5734.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D57F0.s")
+extern void s08b_bunsin2_800D5530(BunshinWork *work);
+extern void s08b_bunsin2_800D5600(BunshinWork *work);
+extern void s08b_bunsin2_800D5734(BunshinWork *work);
+
+void s08b_bunsin2_800D57F0(BunshinWork *work)
+{
+    s08b_bunsin2_800D5530(work);
+    s08b_bunsin2_800D5600(work);
+    s08b_bunsin2_800D5734(work);
+    DG_GetLightMatrix2(*(SVECTOR **)((char *)work + 0x108),
+                       (MATRIX *)((char *)work + 0x1540));
+}
 void s08b_bunsin2_800D5830(BunshinWork *work)
 {
     GM_FreeObject(&work->body);
