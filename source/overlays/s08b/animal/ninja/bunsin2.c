@@ -173,7 +173,21 @@ void s08b_bunsin2_800CD8D8(BunshinWork *work)
     work->field_7DC->flag &= ~DG_FLAG_INVISIBLE;
     s08b_bunsin2_800CD95C(work, (int)s08b_bunsin2_800CD87C);
 }
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CD914.s")
+extern int s08b_dword_800C3418;
+
+int s08b_bunsin2_800CD914(BunshinWork *work, int idx)
+{
+    int i;
+    for (i = 0; i < 8; i++)
+    {
+        if (work->field_1A40[i] == NULL)
+        {
+            work->field_1A40[i] = ((void **)&s08b_dword_800C3418)[idx];
+            return 1;
+        }
+    }
+    return 0;
+}
 int s08b_bunsin2_800CD95C(BunshinWork *work, int target)
 {
     int i;
