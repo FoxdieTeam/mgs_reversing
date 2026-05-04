@@ -305,7 +305,19 @@ int s08b_bunsin2_800CEE18(BunshinWork *work)
     work->field_19B4 = ret;
     return (unsigned int)ret >> 31;
 }
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CEE68.s")
+int s08b_bunsin2_800CEE68(BunshinWork *work)
+{
+    int ret;
+    if ((work->field_19D0 & 0x1F) == 0)
+    {
+        work->field_1978 = -1;
+        work->field_1974 = -1;
+        s08b_bunsin2_800CECB4(work);
+    }
+    ret = s08b_bunsin2_800CECB4(work);
+    work->field_19B4 = ret;
+    return (unsigned int)ret >> 31;
+}
 int s08b_bunsin2_800CEEB8(BunshinWork *work, int arg1)
 {
     SVECTOR vec;
