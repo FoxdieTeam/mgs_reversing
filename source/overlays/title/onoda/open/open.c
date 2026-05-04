@@ -1570,9 +1570,100 @@ skip:
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800D1CB4.s")
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800D2374.s")
+/* Moved from openact.c to open.c so open.obj's rdata extends to 0x800D8CD0,
+ * where gcc's auto-emitted switch table for 800D2374 lands. */
+const int  title_dword_800D8B00 = 0x800CEB74;
+const int  title_dword_800D8B04 = 0x800CEC14;
+const int  title_dword_800D8B08 = 0x800CEC68;
+const int  title_dword_800D8B0C = 0x800CED18;
+const int  title_dword_800D8B10 = 0x800CEDC8;
+const int  title_dword_800D8B14 = 0x800CEE20;
+const int  title_dword_800D8B18 = 0x800CF808;
+const int  title_dword_800D8B1C = 0x800CFDE4;
+const int  title_dword_800D8B20 = 0x800D03C0;
+const int  title_dword_800D8B24 = 0x800D09A8;
+const int  title_dword_800D8B28 = 0x800D0F80;
+const int  title_dword_800D8B2C = 0x800D1550;
+const char title_aClearflagd_800D8B30[] = "clear flag %d\n";
+const char title_aCleardataexistss_800D8B40[] = "clear data exists %s\n";
+const char title_aBislpm_800D8B58[] = "BISLPM-86111";
+const char title_aOldclearflagd_800D8B68[] = "old clear flag %d\n";
+const char title_aOldcleardataexistss_800D8B7C[] = "old clear data exists %s\n";
+const char title_aGamedatafind_800D8B98[] = "gamedata find!\n";
+const char title_aFlagx_800D8BA8[] = "flag = %x\n";
+const char title_aFlagnewx_800D8BB4[] = "flag_new = %x\n";
+const char title_aThisisrank_800D8BC4[] = "This Is Rank 0\n";
+const char title_aThisisrank_800D8BD4[] = "This Is Rank 1\n";
+const char title_aThisisrank_800D8BE4[] = "This Is Rank 2\n";
+const char title_aThisisrank_800D8BF4[] = "This Is Rank 3\n";
+const char title_aThisisrank_800D8C04[] = "This Is Rank 4\n";
+const char title_aThisisrank_800D8C14[] = "This Is Rank 5\n";
+const char title_aThisisrank_800D8C24[] = "This Is Rank 6\n";
+const char title_aPhotodatafind_800D8C34[] = "photodata find!\n";
+const char title_aVrfind_800D8C48[] = "VR find!\n";
+const char title_aTitlememcardcheckreult_800D8C54[] = "-- Title MemCard Check Reult! --\n";
+const char title_aSaveflagd_800D8C78[] = "save_flag = %d\n";
+const char title_aPhotoflagd_800D8C88[] = "photo_flag = %d\n";
+const char title_aVrflagd_800D8C9C[] = "vr_flag = %d\n";
+const char title_aSperankd_800D8CAC[] = "spe_rank = %d\n";
+const char title_aDemorankd_800D8CBC[] = "demo_rank = %d\n";
+const char title_dword_800D8CCC[] = {0x0, 0x0, 0x0, 0x0};
+
+void title_open_800D2374(OpenWork *work)
+{
+    int i;
+
+    for (i = 0; i < 24; i++)
+    {
+        title_open_800C4AD0(work, i, 0);
+    }
+
+    if (work->f24BC)
+    {
+        register int dummy asm("$4") = work->f24B4;
+        asm volatile ("" : : "r" (dummy));
+        return;
+    }
+
+    if (work->f24EC == 0)
+    {
+        return;
+    }
+
+    switch (work->f24AC)
+    {
+    case 0:
+    case 1:
+    case 2:
+        title_open_800C4AD0(work, 0, 0x6739);
+        break;
+    case 3:
+    case 4:
+        title_open_800C4AD0(work, 1, 0x6739);
+        title_open_800C4AD0(work, 2, 0x6739);
+        break;
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+        title_open_800C4AD0(work, 3, 0x6739);
+        break;
+    case 9:
+        break;
+    case 10:
+        title_open_800C4AD0(work, 5, 0x6739);
+        break;
+    }
+}
+
+/* Tail strings moved from openact.c so openact.obj.rdata starts at
+ * 0x800D8D58 (mod 8 = 0), preserving .align 3 for OpenAct's switch table. */
+const char title_aCdcaseopen_800D8CFC[] = "CD CASE OPEN!!\n";
+const char title_aCdnormalspeedsetfailed_800D8D0C[] = "CD NORMAL SPEED SET FAILED!!\n";
+const char title_aCdnormalspeedsetsuccess_800D8D2C[] = "CD NORMAL SPEED SET SUCCESS!!\n";
+const char title_a_800D8D4C[] = "???????\n";
+
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800D2460.s")
-extern void title_open_800D2374(OpenWork *work);
 extern void title_open_800D2460(OpenWork *work);
 
 void title_open_800D2A00(OpenWork *work)
