@@ -1,6 +1,7 @@
 #include "common.h"
 #include "game/camera.h"
 #include "game/target.h"
+#include "game/vibrate.h"
 
 typedef struct _RopeWork
 {
@@ -88,7 +89,14 @@ void s11d_rope_800C6240(RopeWork *work)
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C62E0.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C634C.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C6478.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C650C.s")
+extern int s11d_dword_800C32B4;
+extern int s11d_dword_800C32B8;
+
+void s11d_rope_800C650C(void)
+{
+    NewPadVibration((unsigned char *)&s11d_dword_800C32B4, 1);
+    NewPadVibration((unsigned char *)&s11d_dword_800C32B8, 2);
+}
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C6544.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C6834.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C697C.s")
