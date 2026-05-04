@@ -1,17 +1,19 @@
 #include "common.h"
 #include "game/camera.h"
+#include "game/target.h"
 
 typedef struct _RopeWork
 {
-    char   pad0[0x28];
+    GV_ACT actor;
+    char   pad0[0x28 - sizeof(GV_ACT)];
     short  field_28;
     short  field_2A;
     short  field_2C;
     char   pad1[0x6E - 0x2C - sizeof(short)];
     short  field_6E;
     char   pad2[0x804 - 0x6E - sizeof(short)];
-    short *field_804;
-    char   pad3a[0xEDC - 0x804 - sizeof(short *)];
+    TARGET *target;
+    char   pad3a[0xEDC - 0x804 - sizeof(TARGET *)];
     int    field_EDC;
     char   pad3b[0xF70 - 0xEDC - sizeof(int)];
     int    field_F70;
@@ -39,23 +41,24 @@ void s11d_rope_800C481C(RopeWork *work)
 }
 void s11d_rope_800C486C(RopeWork *work)
 {
-    short *p = work->field_804;
+    TARGET *target = work->target;
     work->field_F7C = 32;
     work->field_F70 |= 0x8000;
-    *p &= ~0x14;
+    target->class &= ~(TARGET_POWER | TARGET_SEEK);
+
 }
 void s11d_rope_800C4898(RopeWork *work, int arg1)
 {
-    short *p = work->field_804;
+    TARGET *target = work->target;
     work->field_F7C = arg1;
     work->field_F70 |= 0x8000;
-    *p &= ~0x14;
+    target->class &= ~(TARGET_POWER | TARGET_SEEK);
 }
 void s11d_rope_800C48C0(RopeWork *work)
 {
-    short *p = work->field_804;
+    TARGET *target = work->target;
     work->field_F70 &= ~0x8000;
-    *p |= 0x14;
+    target->class |= (TARGET_POWER | TARGET_SEEK);
 }
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C48EC.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C4B78.s")
