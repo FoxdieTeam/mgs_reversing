@@ -1,9 +1,28 @@
 #include "common.h"
+#include "libgv/libgv.h"
+#include "game/game.h"
+#include "game/control.h"
+
+typedef struct _HindWork
+{
+    GV_ACT  actor;       // 0x00
+    CONTROL control;     // 0x20
+} HindWork;
 
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800C976C.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800C97B8.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800C97F0.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800C9838.s")
+
+void s11d_hind_800C9838(HindWork *work)
+{
+    SVECTOR svec;
+    (void)svec;
+
+    if ((GV_Time & 3) == 0)
+    {
+        GM_SeSetMode(&work->control.mov, 0xB6, GM_SEMODE_BOMB);
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800C9870.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800C9908.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800C99A8.s")
