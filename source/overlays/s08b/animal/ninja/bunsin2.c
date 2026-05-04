@@ -11,15 +11,19 @@ typedef struct _BunshinWork
 {
     GV_ACT       actor;          // 0x000
     OBJECT       body;           // 0x020
-    char         pad_after_body[0x748 - 0x20 - sizeof(OBJECT)];
+    char         pad_after_body[0x108 - 0x20 - sizeof(OBJECT)];
+    SVECTOR     *field_108;      // 0x108
+    char         pad_to_748[0x748 - 0x108 - sizeof(SVECTOR *)];
     SVECTOR      field_748;      // 0x748
     char         pad_to_7DC[0x7DC - 0x748 - sizeof(SVECTOR)];
     DG_OBJS     *field_7DC;      // 0x7DC
     char         pad_to_8C4[0x8C4 - 0x7DC - sizeof(DG_OBJS *)];
     TARGET      *field_8C4;      // 0x8C4
-    char         pad_before_clones[0x920 - 0x8C4 - sizeof(TARGET *)];
-    BunshinClone clones[16];     // 0x920 (16 * 0x104 = 0x1040, ends at 0x1960)
-    char         pad1b[0x1964 - 0x1960];
+    char         pad_to_clones[0x920 - 0x8C4 - sizeof(TARGET *)];
+    BunshinClone clones[11];     // 0x920..0x144B (11 * 0x104 = 0xB2C)
+    char         pad_to_1540[0x1540 - (0x920 + 11 * 0x104)];
+    MATRIX       field_1540;     // 0x1540 (size 0x20)
+    char         pad1b[0x1964 - 0x1540 - sizeof(MATRIX)];
     short        field_1964;
     short        field_1966;
     SVECTOR      field_1968;     // 0x1968
@@ -599,15 +603,12 @@ void s08b_bunsin2_800D5498(void)
         }
     }
 }
-void s08b_bunsin2_800D54CC(void *arg0)
+void s08b_bunsin2_800D54CC(DG_OBJS *objs)
 {
     int i;
-    char *p = (char *)arg0;
     for (i = 0; i < 16; i++)
     {
-        int *q = *(int **)(p + 0x88);
-        *q |= 2;
-        p += 0x5C;
+        objs->objs[i].model->flags |= DG_FLAG_PAINT;
     }
 }
 void s08b_bunsin2_800D54FC(DG_OBJS *objs)
@@ -630,8 +631,7 @@ void s08b_bunsin2_800D57F0(BunshinWork *work)
     s08b_bunsin2_800D5530(work);
     s08b_bunsin2_800D5600(work);
     s08b_bunsin2_800D5734(work);
-    DG_GetLightMatrix2(*(SVECTOR **)((char *)work + 0x108),
-                       (MATRIX *)((char *)work + 0x1540));
+    DG_GetLightMatrix2(work->field_108, &work->field_1540);
 }
 void s08b_bunsin2_800D5830(BunshinWork *work)
 {
