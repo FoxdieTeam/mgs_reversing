@@ -28,7 +28,9 @@ typedef struct _BunshinWork
     short        field_1966;
     SVECTOR      field_1968;     // 0x1968
     int          field_1970;     // 0x1970
-    char         pad1d[0x1988 - 0x1970 - sizeof(int)];
+    int          field_1974;     // 0x1974
+    int          field_1978;     // 0x1978
+    char         pad1d[0x1988 - 0x1978 - sizeof(int)];
     int          field_1988;     // 0x1988
     SVECTOR      field_198C;     // 0x198C
     char         pad2[0x19A8 - 0x198C - sizeof(SVECTOR)];
@@ -288,7 +290,21 @@ void s08b_bunsin2_800CE064(BunshinWork *work)
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CEA34.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CEB40.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CECB4.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CEE18.s")
+extern int s08b_bunsin2_800CECB4(BunshinWork *work);
+
+int s08b_bunsin2_800CEE18(BunshinWork *work)
+{
+    int ret;
+    if ((work->field_19D0 & 0x1F) == 0)
+    {
+        work->field_1978 = -1;
+        work->field_1974 = -1;
+        s08b_bunsin2_800CECB4(work);
+    }
+    ret = s08b_bunsin2_800CECB4(work);
+    work->field_19B4 = ret;
+    return (unsigned int)ret >> 31;
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CEE68.s")
 int s08b_bunsin2_800CEEB8(BunshinWork *work, int arg1)
 {
