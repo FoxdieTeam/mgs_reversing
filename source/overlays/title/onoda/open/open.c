@@ -28,6 +28,11 @@ extern signed char open_800C3400[16];
 extern int title_dword_800D92D0;
 extern int title_dword_800C33D4;
 
+extern const char title_aVeryeasy_800D8F6C[];            // = "VERY EASY"
+extern const char title_aEasy_800D8F78[];                // = "EASY"
+extern const char title_aNormal_800D8F80[];              // = "NORMAL"
+extern const char title_aHard_800D8F88[];                // = "HARD"
+extern const char title_aExtreme_800D8F90[];             // = "EXTREME"
 
 extern const char title_aClearflagd_800D8B30[];          // = "clear flag %d\n"
 extern const char title_aCleardataexistss_800D8B40[];    // = "clear data exists %s\n"
@@ -1156,7 +1161,221 @@ void title_open_800CDE44(OpenWork *work, int index)
         break;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800CE378.s")
+/* Strings + reverse-transcribed tables that previously lived at
+ * 0x800D8848..0x800D8AE7 in openact.c. Moved here so open.obj's rdata
+ * grows by 0x2A0 bytes. gcc's auto-emitted switch jump table for
+ * title_open_800CE378's switch (5 entries, 0x14 bytes) then lands at
+ * 0x800D8848 + 0x2A0 = 0x800D8AE8, replacing the 5 manual entries that
+ * were removed from openact.c. Placed BEFORE the function definition so
+ * gcc emits these strings first, then the function's switch table.
+ * Placed AFTER all preceding C functions in source order so their auto-
+ * emitted switch tables come first in open.obj.rdata, leaving the strings
+ * to land starting at 0x800D8848.
+ */
+const char title_aGameleveld_800D8848[] = "\n Game Level = %d\n\n";
+const char title_aErrormemcardcheckerror_800D885C[] = "ERROR!!!! MEMCARD Check ERROR!!!\n";
+const char title_aSppre_800D8880[] = "sp_pre";
+const char title_aSpexit_800D8888[] = "sp_exit";
+const char title_aSpalbum_800D8890[] = "sp_album";
+const char title_aSpdemo_800D889C[] = "sp_demo";
+const char title_aSpon_800D88A4[] = "sp_on";
+const char title_aSpoffw_800D88AC[] = "sp_off_w";
+const char title_aSponw_800D88B8[] = "sp_on_w";
+const char title_aSpoff_800D88C0[] = "sp_off";
+const char title_aDsppmode_800D88C8[] = "d3_sp_1p_mode";
+const int title_dword_800D88D8 = 0x800C6398;
+const int title_dword_800D88DC = 0x800C63C0;
+const int title_dword_800D88E0 = 0x800CCDA0;
+const int title_dword_800D88E4 = 0x800CCDA0;
+const int title_dword_800D88E8 = 0x800C63E8;
+const int title_dword_800D88EC = 0x800C6414;
+const int title_dword_800D88F0 = 0x800C6440;
+const int title_dword_800D88F4 = 0x800C6C50;
+const int title_dword_800D88F8 = 0x800C805C;
+const int title_dword_800D88FC = 0x800C8104;
+const int title_dword_800D8900 = 0x800C8110;
+const int title_dword_800D8904 = 0x800C812C;
+const int title_dword_800D8908 = 0x800C8148;
+const int title_dword_800D890C = 0x800C8164;
+const int title_dword_800D8910 = 0x800CCCE4;
+const int title_dword_800D8914 = 0x800CCD10;
+const int title_dword_800D8918 = 0x800C8104;
+const int title_dword_800D891C = 0x800CCDA0;
+const int title_dword_800D8920 = 0x800C7A5C;
+const int title_dword_800D8924 = 0x800C7A5C;
+const int title_dword_800D8928 = 0x800C7A0C;
+const int title_dword_800D892C = 0x800C760C;
+const int title_dword_800D8930 = 0x800C6484;
+const int title_dword_800D8934 = 0x800C65CC;
+const int title_dword_800D8938 = 0x800C6714;
+const int title_dword_800D893C = 0x800C6868;
+const int title_dword_800D8940 = 0x800C69B0;
+const int title_dword_800D8944 = 0x800C6B00;
+const int title_dword_800D8948 = 0x800C6C80;
+const int title_dword_800D894C = 0x800C6E48;
+const int title_dword_800D8950 = 0x800C6FB4;
+const int title_dword_800D8954 = 0x800C7128;
+const int title_dword_800D8958 = 0x800C72AC;
+const int title_dword_800D895C = 0x800C7440;
+const int title_dword_800D8960 = 0x800C8194;
+const int title_dword_800D8964 = 0x800C88F4;
+const int title_dword_800D8968 = 0x800C911C;
+const int title_dword_800D896C = 0x800C9C98;
+const int title_dword_800D8970 = 0x800CA8A4;
+const int title_dword_800D8974 = 0x800CB0B8;
+const int title_dword_800D8978 = 0x800CB99C;
+const int title_dword_800D897C = 0x800CC2B8;
+const int title_dword_800D8980 = 0x800C8924;
+const int title_dword_800D8984 = 0x800C8D80;
+const int title_dword_800D8988 = 0x800C8D88;
+const int title_dword_800D898C = 0x800C906C;
+const int title_dword_800D8990 = 0x800C906C;
+const int title_dword_800D8994 = 0x800C906C;
+const int title_dword_800D8998 = 0x800C906C;
+const int title_dword_800D899C = 0x800C8DE0;
+const int title_dword_800D89A0 = 0x800C8E34;
+const char title_dword_800D89A4[] = {0x0, 0x0, 0x0, 0x0};
+const int title_dword_800D89A8 = 0x800C914C;
+const int title_dword_800D89AC = 0x800C95C8;
+const int title_dword_800D89B0 = 0x800C9AE4;
+const int title_dword_800D89B4 = 0x800C95D0;
+const int title_dword_800D89B8 = 0x800C9AE4;
+const int title_dword_800D89BC = 0x800C9628;
+const int title_dword_800D89C0 = 0x800C9AE4;
+const int title_dword_800D89C4 = 0x800C9854;
+const int title_dword_800D89C8 = 0x800C98AC;
+const char title_dword_800D89CC[] = {0x0, 0x0, 0x0, 0x0};
+const int title_dword_800D89D0 = 0x800C9CC8;
+const int title_dword_800D89D4 = 0x800CA1A0;
+const int title_dword_800D89D8 = 0x800CA1C0;
+const int title_dword_800D89DC = 0x800CA1FC;
+const int title_dword_800D89E0 = 0x800CA678;
+const int title_dword_800D89E4 = 0x800CA240;
+const int title_dword_800D89E8 = 0x800CA678;
+const int title_dword_800D89EC = 0x800CA3EC;
+const int title_dword_800D89F0 = 0x800CA440;
+const char title_dword_800D89F4[] = {0x0, 0x0, 0x0, 0x0};
+const int title_dword_800D89F8 = 0x800CA8D4;
+const int title_dword_800D89FC = 0x800CAD4C;
+const int title_dword_800D8A00 = 0x800CB038;
+const int title_dword_800D8A04 = 0x800CB038;
+const int title_dword_800D8A08 = 0x800CB038;
+const int title_dword_800D8A0C = 0x800CB038;
+const int title_dword_800D8A10 = 0x800CAD54;
+const int title_dword_800D8A14 = 0x800CADAC;
+const int title_dword_800D8A18 = 0x800CAE00;
+const char title_dword_800D8A1C[] = {0x0, 0x0, 0x0, 0x0};
+const int title_dword_800D8A20 = 0x800CB0E8;
+const int title_dword_800D8A24 = 0x800CB5BC;
+const int title_dword_800D8A28 = 0x800CB5DC;
+const int title_dword_800D8A2C = 0x800CB8E8;
+const int title_dword_800D8A30 = 0x800CB8E8;
+const int title_dword_800D8A34 = 0x800CB8E8;
+const int title_dword_800D8A38 = 0x800CB618;
+const int title_dword_800D8A3C = 0x800CB65C;
+const int title_dword_800D8A40 = 0x800CB6B0;
+const char title_dword_800D8A44[] = {0x0, 0x0, 0x0, 0x0};
+const int title_dword_800D8A48 = 0x800CB9CC;
+const int title_dword_800D8A4C = 0x800CBEC0;
+const int title_dword_800D8A50 = 0x800CC1EC;
+const int title_dword_800D8A54 = 0x800CBEE0;
+const int title_dword_800D8A58 = 0x800CC1EC;
+const int title_dword_800D8A5C = 0x800CC1EC;
+const int title_dword_800D8A60 = 0x800CBF1C;
+const int title_dword_800D8A64 = 0x800CBF60;
+const int title_dword_800D8A68 = 0x800CBFB4;
+const char title_dword_800D8A6C[] = {0x0, 0x0, 0x0, 0x0};
+const int title_dword_800D8A70 = 0x800CC2E8;
+const int title_dword_800D8A74 = 0x800CC838;
+const int title_dword_800D8A78 = 0x800CC858;
+const int title_dword_800D8A7C = 0x800CC8A8;
+const int title_dword_800D8A80 = 0x800CCBA0;
+const int title_dword_800D8A84 = 0x800CCBA0;
+const int title_dword_800D8A88 = 0x800CC8D0;
+const int title_dword_800D8A8C = 0x800CC914;
+const int title_dword_800D8A90 = 0x800CC968;
+const char title_dword_800D8A94[] = {0x0, 0x0, 0x0, 0x0};
+const int title_dword_800D8A98 = 0x800CCE20;
+const int title_dword_800D8A9C = 0x800CCFB0;
+const int title_dword_800D8AA0 = 0x800CCE58;
+const int title_dword_800D8AA4 = 0x800CCEC0;
+const int title_dword_800D8AA8 = 0x800CCF5C;
+const int title_dword_800D8AAC = 0x800CCFB0;
+const char title_aOpbackr_800D8AB0[] = "op_back_r";
+const char title_aOpbackl_800D8ABC[] = "op_back_l";
+const int title_dword_800D8AC8 = 0x800CD850;
+const int title_dword_800D8ACC = 0x800CD86C;
+const int title_dword_800D8AD0 = 0x800CD8CC;
+const int title_dword_800D8AD4 = 0x800CD928;
+const int title_dword_800D8AD8 = 0x800CD994;
+const int title_dword_800D8ADC = 0x800CDA08;
+const int title_dword_800D8AE0 = 0x800CDA68;
+const char title_dword_800D8AE4[] = {0x0, 0x0, 0x0, 0x0};
+
+void title_open_800CE378(OpenWork *work, int idx)
+{
+    POLY_FT4 *poly = work->f18C_polys;
+    int       v;
+
+    poly += idx;
+
+    switch (work->fA8C)
+    {
+    case 0:
+        if (work->f178 >= 0x80)
+        {
+            work->fA8C = 1;
+            work->f178 = 0;
+        }
+        break;
+    case 1:
+        v = work->f178;
+        poly->r0 = v;
+        poly->g0 = v;
+        poly->b0 = v;
+        if (work->f178 >= 0x80)
+        {
+            work->fA8C = 2;
+            work->f178 = 0;
+        }
+        break;
+    case 2:
+        v = work->f178 * 4 + 0x80;
+        poly->r0 = v;
+        poly->g0 = v;
+        poly->b0 = v;
+        if (work->f178 >= 0x1F)
+        {
+            work->fA8C = 3;
+            work->f178 = 0;
+        }
+        break;
+    case 3:
+        v = 0xFF - (work->f178 * 4) / 3;
+        poly->r0 = v;
+        poly->g0 = v;
+        poly->b0 = v;
+        if (work->f178 >= 0x60)
+        {
+            work->fA8C = 4;
+            work->f178 = 0;
+            poly->r0 = 0x80;
+            poly->g0 = 0x80;
+            poly->b0 = 0x80;
+        }
+        break;
+    case 4:
+        break;
+    }
+}
+
+/* Tail-piece moved from openact.c. Placed after 800CE378's auto-emitted
+ * switch table so it lands at 0x800D8AFC (right after the table at
+ * 0x800D8AE8..0x800D8AFB). This makes openact.obj.rdata start at 0x800D8B00
+ * (8-byte aligned) so the .obj-local offset of title_aNo_800D9024 keeps the
+ * same alignment-mod-8 as in the original openact.obj.
+ */
+const char title_dword_800D8AFC[] = {0x0, 0x0, 0x0, 0x0};
 
 void title_open_800CE4A8(OpenWork *work, int index)
 {
