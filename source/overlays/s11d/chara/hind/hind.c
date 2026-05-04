@@ -12,7 +12,25 @@ typedef struct _HindWork
     short   f97A;        // 0x97A
 } HindWork;
 
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800C976C.s")
+int s11d_hind_800C976C(short *p, int target, int step)
+{
+    short val = *p;
+    int   diff = target - val;
+
+    if (diff < -step)
+    {
+        *p = val - step;
+    }
+    else if (diff > step)
+    {
+        *p = val + step;
+    }
+    else
+    {
+        *p = val + diff;
+    }
+    return *p == target;
+}
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800C97B8.s")
 void s11d_hind_800C97F0(HindWork *work)
 {
