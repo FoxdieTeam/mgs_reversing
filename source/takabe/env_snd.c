@@ -11,10 +11,10 @@ typedef struct _EnvSndWork
     int     map;
     int     name;
     int     f28;
-    SVECTOR f2C;
-    short   f34;
-    short   f36;
-    short   f38;
+    SVECTOR pos;
+    short   size;   // "radius"?
+    short   noise;
+    short   type;
     short   f3A;
     short   f3C;
     short   f3E;
@@ -60,27 +60,27 @@ void EnvSndAct_800DF1F8(EnvSndWork *work)
 
     if (work->f40 <= 0)
     {
-        switch (work->f38)
+        switch (work->type)
         {
         case 1:
-            GM_SeSetMode(&work->f2C, work->f36, GM_SEMODE_NORMAL);
+            GM_SeSetMode(&work->pos, work->noise, GM_SEMODE_NORMAL);
             break;
 
         case 2:
-            GM_SeSetMode(&work->f2C, work->f36, GM_SEMODE_CAMERA);
+            GM_SeSetMode(&work->pos, work->noise, GM_SEMODE_CAMERA);
             break;
 
         case 3:
-            GM_SeSetMode(&work->f2C, work->f36, GM_SEMODE_REAL);
+            GM_SeSetMode(&work->pos, work->noise, GM_SEMODE_REAL);
             break;
 
         case 4:
-            GM_SeSetMode(&work->f2C, work->f36, GM_SEMODE_BOMB);
+            GM_SeSetMode(&work->pos, work->noise, GM_SEMODE_BOMB);
             break;
 
         case 0:
         default:
-            GM_SeSetSize(&work->f2C, work->f36, work->f34);
+            GM_SeSetSize(&work->pos, work->noise, work->size);
             break;
         }
 
@@ -105,11 +105,11 @@ int EnvSndGetResources_800DF3A4(EnvSndWork *work, int name, int where)
     work->name = name;
     work->map = where;
 
-    THING_Gcl_GetSVector('p', &work->f2C);
+    THING_Gcl_GetSVector('p', &work->pos);
 
-    work->f34 = THING_Gcl_GetInt('r');
-    work->f36 = THING_Gcl_GetInt('n');
-    work->f38 = THING_Gcl_GetInt('t');
+    work->size = THING_Gcl_GetInt('r');
+    work->noise = THING_Gcl_GetInt('n');
+    work->type = THING_Gcl_GetInt('t');
     work->f3A = THING_Gcl_GetInt('i');
     work->f3C = THING_Gcl_GetInt('c');
     work->f28 = THING_Gcl_GetInt('s');

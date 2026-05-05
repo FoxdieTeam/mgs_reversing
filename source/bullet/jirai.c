@@ -112,7 +112,7 @@ static void JiraiDisplayText(JiraiWork *work, int arg1)
     SVECTOR vec;
     MATRIX *matrix;
     int temp_a2;
-    int var_a1;
+    int sound;
     int r, g, b;
     const char *text;
 
@@ -141,13 +141,13 @@ static void JiraiDisplayText(JiraiWork *work, int arg1)
         {
             if (GM_Weapons[WP_Claymore] >= GM_WeaponsMax[WP_Claymore])
             {
-                var_a1 = SE_ITEM_FULL;
+                sound = SE_ITEM_FULL;
                 work->field_150 = temp_a2;
             }
             else
             {
                 work->control.radar_atr = RADAR_OFF;
-                var_a1 = SE_ITEM_GET;
+                sound = SE_ITEM_GET;
 
                 if (GM_Weapons[WP_Claymore] < 0)
                 {
@@ -160,7 +160,7 @@ static void JiraiDisplayText(JiraiWork *work, int arg1)
                 work->field_150 = 0;
             }
 
-            GM_SeSetMode(&work->control.mov, var_a1, GM_SEMODE_BOMB);
+            GM_SeSetMode(&work->control.mov, sound, GM_SEMODE_BOMB);
         }
 
         if (work->field_150 != 0)

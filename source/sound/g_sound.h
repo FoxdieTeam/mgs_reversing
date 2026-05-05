@@ -1,6 +1,10 @@
 #ifndef __G_SOUND_H__
 #define __G_SOUND_H__
 
+/*---------------------------------------------------------------------------*/
+/*  Resident Sound Effects                                                   */
+/*---------------------------------------------------------------------------*/
+
 #define SE_DUMMY                (  0)
 #define SE_SHOT_01              (  1)
 #define SE_SOCOM_SHOT           SE_SHOT_01
@@ -49,9 +53,9 @@
 #define SE_ISEL01               ( 23)
 #define SE_ITEM_SELECT          SE_ISEL01
 #define SE_PDMG01               ( 24)
-#define SE_PLAYER_DAMAGE_LIGHT  SE_PDMG01
+#define SE_PLAYER_DAMAGE1       SE_PDMG01
 #define SE_PDMG02               ( 25)
-#define SE_PLAYER_DAMAGE_HEAVY  SE_PDMG02
+#define SE_PLAYER_DAMAGE2       SE_PDMG02
 #define SE_POUT0001             ( 26)
 #define SE_PLAYEROUT            SE_POUT0001
 #define SE_RIFLE01              ( 27)
@@ -155,7 +159,7 @@
 #define SE_LOCKON1              ( 79)
 #define SE_STINGER_LOCKON       SE_LOCKON1
 #define SE_NINJA02              ( 80)
-#define SE_HIZA01               ( 81)
+#define SE_HIZA01               ( 81)           // 膝
 #define SE_ENEMY_COLLAPSE       SE_HIZA01
 #define SE_SHOT_S01             ( 82)
 #define SE_SOCOM_SUPPRESSED     SE_SHOT_S01
@@ -244,5 +248,54 @@
 #define SE_IDEC04               (127)
 #define SE_MENU_TOGGLE          SE_IDEC04
 #define SE_TBL_MAX              (128)
+
+/*---------------------------------------------------------------------------*/
+/*  Non-Resident Sound Effects                                               */
+/*---------------------------------------------------------------------------*/
+// NOTE: The original filenames of the efx sequences are unknown,
+// so we're just going to define our "friendly" names directly here.
+
+/*----- Enemy Soldier -----*/
+
+#define VO_ENEMY_WHOSTHAT       (128)   // 兵士「誰だ！」
+                                        // Soldier: Who's that!?
+#define VO_ENEMY_THISWAY        (129)   // 兵士「（無線）こっちだ！」
+                                        // Soldier: (radio) This way!
+#define VO_ENEMY_LETSGO         (130)   // 兵士「（無線）行くぞ！」
+                                        // Soldier: (radio) There he is!
+#define VO_ENEMY_EATTHIS        (131)   // 兵士「くらえ！」
+                                        // Soldier: Eat this!
+#define VO_ENEMY_WHEREDHEGO     (132)   // 兵士「どこ行った？」
+                                        // Soldier: Where'd he go?
+#define VO_ENEMY_RETURN         (133)   // 兵士「（無線）配置に戻るぞ！」
+                                        // Soldier: (radio) Return to your positions!
+#define VO_ENEMY_NOTHINGHERE    (134)   // 兵士「気のせいか」
+                                        // Soldier: Hm...
+#define VO_ENEMY_THATNOISE      (135)   // 兵士「何の音だ？」
+                                        // Soldier: What was that noise?
+#define VO_ENEMY_HUH            (136)   // 兵士「ん？」
+                                        // Soldier: Huh?
+#define VO_ENEMY_UNUSED10       (137)   // 兵士「何か動いたぞ！」
+                                        // 
+#define VO_ENEMY_FOOTPRINTS     (138)   // 兵士「この足跡は？」
+                                        // Soldier: Whose footprints are these?
+#define VO_ENEMY_JUSTABOX       (139)   // 兵士「ただの箱か」
+                                        // Soldier: Just a box.
+#define VO_ENEMY_INMYWAY        (140)   // 兵士「邪魔だ！」
+                                        // Soldier: Get out of the way!
+
+#define VO_ENEMY_PUNCHED        (141)
+#define VO_ENEMY_THROWN         (142)
+#define VO_ENEMY_GRABBED        (143)
+#define VO_ENEMY_SNAPPED        (144)
+#define VO_ENEMY_KILLED         (145)
+#define VO_ENEMY_YAWN           (146)
+#define VO_ENEMY_SNORE          (147)
+#define VO_ENEMY_SNEEZE         (148)
+
+#define VO_ENEMY_THATSOUND      (149)   // 兵士「今の音は！」
+                                        // Soldier: I heard something!
+#define VO_ENEMY_WHATSTHAT      (150)   // 兵士「何だ？」
+                                        // Soldier: What's that?
 
 #endif // __G_SOUND_H__

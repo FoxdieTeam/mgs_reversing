@@ -83,6 +83,20 @@ typedef int             BOOL;
 #define RGBA_B_MASK     (0xff << RGBA_B_SHIFT)
 #define RGBA_A_MASK     (0xff << RGBA_A_SHIFT)
 
+#define MAKE_RGB_WITHOUT_BITMASK
+#ifdef MAKE_RGB_WITHOUT_BITMASK
+/* simple version without setting the alpha channel */
+#define MAKE_RGB(_r, _g, _b)                                    \
+        ((unsigned int)(((_r) << RGBA_R_SHIFT) |                \
+                        ((_g) << RGBA_G_SHIFT) |                \
+                        ((_b) << RGBA_B_SHIFT)))
+#else
+#define MAKE_RGB(_r, _g, _b)                                    \
+        ((unsigned int)((((_r) & 0xff) << RGBA_R_SHIFT) |       \
+                        (((_g) & 0xff) << RGBA_G_SHIFT) |       \
+                        (((_b) & 0xff) << RGBA_B_SHIFT)))
+#endif
+
 //#define MAKE_RGBA_WITHOUT_BITMASK
 #ifdef MAKE_RGBA_WITHOUT_BITMASK
 #define MAKE_RGBA(_r,_g,_b,_a)                                  \
@@ -107,15 +121,6 @@ typedef int             BOOL;
 #define GET_B_FROM_RGBA(_rgba)  (((_rgba) >> RGBA_B_SHIFT) & 0xff)
 #define GET_A_FROM_RGBA(_rgba)  (((_rgba) >> RGBA_A_SHIFT) & 0xff)
 
-/* simple version without bitmasks or zero-shift */
-#ifdef WORDS_BIGENDIAN
-#define MAKE_RGB(_r, _g, _b)                                    \
-        ((unsigned int)(((_r) << 24) | ((_g) << 16) | ((_b) << 8)))
-#else
-#define MAKE_RGB(_r, _g, _b)                                    \
-        ((unsigned int)((_r) | ((_g) << 8) | ((_b) << 16)))
-#endif
-
 /*----- Common Colors -----*/
 
 #define COLOR_BLACK     MAKE_RGB0(  0,  0,  0)  // 0x00000000
@@ -138,12 +143,6 @@ typedef int             BOOL;
 #endif
 
 #define SECTION(x)      __attribute__((section(x)))
-
-#define CATSTR_(pre, post) pre##post
-#define CATSTR(pre, post) CATSTR_(pre, post)
-
-#define STATIC_ASSERT(cond, msg) \
-    typedef char CATSTR(__static_assert_t_, __LINE__)[(cond)?1:-1]
 
 /*---------------------------------------------------------------------------*/
 

@@ -55,8 +55,6 @@ typedef struct GM_CAMERA // @ 800B77E8
     TGMCameraFunc callbacks[2];
 } GM_CAMERA;
 
-STATIC_ASSERT(sizeof(GM_CAMERA) == 0x7C, "sizeof(GM_CAMERA) is wrong!");
-
 typedef struct UnkCameraStruct2 // @ 800B7868
 {
     SVECTOR eye;

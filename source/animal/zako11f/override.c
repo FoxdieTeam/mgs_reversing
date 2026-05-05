@@ -551,7 +551,7 @@ void s11i_zk11fcom_800D06A4( Zako11FWork *work )
             work->think2 = 3;
             work->think3 = 16;
             work->pad.mode = 1;
-            work->pad.sound = 0xF0;
+            work->pad.sound = 240;
             work->think1 = 0;
             work->count3 = 0;
             work->alert_level = 0xFF;
@@ -562,7 +562,7 @@ void s11i_zk11fcom_800D06A4( Zako11FWork *work )
         if (s11i_zk11fcom_800CFEA4(work))
         {
             s11i_zk11fcom_800CFA88(work);
-            work->pad.sound = 0xF0;
+            work->pad.sound = 240;
             work->alert_level = 0xFF;
         }
         break;

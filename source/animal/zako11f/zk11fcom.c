@@ -193,12 +193,12 @@ void s11i_zk11fcom_800D0FEC( int *se_id )
     {
     case 0:
         fprintf( 1, "dareda!!\n" );
-        *se_id = 0x80;
+        *se_id = VO_ENEMY_WHOSTHAT;
         break;
 
     case 1:
         fprintf( 1, "dareda!!\n" );
-        *se_id = 0x80;
+        *se_id = VO_ENEMY_WHOSTHAT;
         break;
     }
 }
@@ -209,12 +209,12 @@ void s11i_zk11fcom_800D1040( int *se_id )
     {
     case 0:
         fprintf( 1, "nanno otoda!!\n" );
-        *se_id = 0x87;
+        *se_id = VO_ENEMY_THATNOISE;
         break;
 
     case 1:
         fprintf( 1, "nanno otoda!!\n" );
-        *se_id = 0x87;
+        *se_id = VO_ENEMY_THATNOISE;
         break;
     }
 }
@@ -225,12 +225,12 @@ void s11i_zk11fcom_800D1094( int *se_id )
     {
     case 0:
         fprintf( 1, "tadano hakoka\n" );
-        *se_id = 0x8B;
+        *se_id = VO_ENEMY_JUSTABOX;
         break;
 
     case 1:
         fprintf( 1, "tadano hakoka\n" );
-        *se_id = 0x8B;
+        *se_id = VO_ENEMY_JUSTABOX;
         break;
     }
 }
@@ -241,12 +241,12 @@ void s11i_zk11fcom_800D10E8( int *se_id )
     {
     case 0:
         fprintf( 1, "kono asiatoha??\n" );
-        *se_id = 0x8A;
+        *se_id = VO_ENEMY_FOOTPRINTS;
         break;
 
     case 1:
         fprintf( 1, "kono asiatoha??\n" );
-        *se_id = 0x8A;
+        *se_id = VO_ENEMY_FOOTPRINTS;
         break;
     }
 }
@@ -257,12 +257,12 @@ void s11i_zk11fcom_800D113C( int *se_id )
     {
     case 0:
         fprintf( 1, "kinoseika !!\n" );
-        *se_id = 0x86;
+        *se_id = VO_ENEMY_NOTHINGHERE;
         break;
 
     case 1:
         fprintf( 1, "kinoseika !!\n" );
-        *se_id = 0x86;
+        *se_id = VO_ENEMY_NOTHINGHERE;
         break;
     }
 }
@@ -273,17 +273,17 @@ void s11i_zk11fcom_800D1190( int *se_id )
     {
     case 0:
         fprintf( 1, "itazo \n" );
-        *se_id = 0x82;
+        *se_id = VO_ENEMY_LETSGO;
         break;
 
     case 1:
         fprintf( 1, "kottida!!\n" );
-        *se_id = 0x81;
+        *se_id = VO_ENEMY_THISWAY;
         break;
 
     case 2:
         fprintf( 1, "kottida!!\n" );
-        *se_id = 0x81;
+        *se_id = VO_ENEMY_THISWAY;
         break;
     }
 }
@@ -294,12 +294,12 @@ void s11i_zk11fcom_800D1220( int *se_id )
     {
     case 0:
         fprintf( 1, "haitini modoruzo!!\n" );
-        *se_id = 0x85;
+        *se_id = VO_ENEMY_RETURN;
         break;
 
     case 1:
         fprintf( 1, "haitini modoruzo!!\n" );
-        *se_id = 0x85;
+        *se_id = VO_ENEMY_RETURN;
         break;
     }
 }
@@ -310,7 +310,7 @@ void s11i_zk11fcom_800D1274( int *se_id )
     {
     case 0:
         fprintf( 1, "kottida !!\n" );
-        *se_id = 0x81;
+        *se_id = VO_ENEMY_THISWAY;
         break;
 
     case 1:
@@ -321,39 +321,39 @@ void s11i_zk11fcom_800D1274( int *se_id )
 
 int s11i_zk11fcom_800D12D8( int se_id )
 {
-    switch( se_id )
+    switch ( se_id )
     {
-        case 240:
-            s11i_zk11fcom_800D0FEC( &se_id );
-            break;
+    case 240:
+        s11i_zk11fcom_800D0FEC( &se_id );
+        break;
 
-        case 241:
-            s11i_zk11fcom_800D1040( &se_id );
-            break;
+    case 241:
+        s11i_zk11fcom_800D1040( &se_id );
+        break;
 
-        case 242:
-            s11i_zk11fcom_800D1094( &se_id );
-            break;
+    case 242:
+        s11i_zk11fcom_800D1094( &se_id );
+        break;
 
-        case 243:
-            s11i_zk11fcom_800D10E8( &se_id );
-            break;
+    case 243:
+        s11i_zk11fcom_800D10E8( &se_id );
+        break;
 
-        case 244:
-            s11i_zk11fcom_800D113C( &se_id );
-            break;
+    case 244:
+        s11i_zk11fcom_800D113C( &se_id );
+        break;
 
-        case 245:
-            s11i_zk11fcom_800D1220( &se_id );
-            break;
+    case 245:
+        s11i_zk11fcom_800D1220( &se_id );
+        break;
 
-        case 246:
-            s11i_zk11fcom_800D1190( &se_id );
-            break;
+    case 246:
+        s11i_zk11fcom_800D1190( &se_id );
+        break;
 
-        case 247:
-            s11i_zk11fcom_800D1274( &se_id );
-            break;
+    case 247:
+        s11i_zk11fcom_800D1274( &se_id );
+        break;
     }
 
     return se_id;

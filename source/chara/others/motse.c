@@ -12,7 +12,7 @@
 typedef struct MotseElem
 {
     int param1;
-    int param2;
+    int sound;
 } MotseElem;
 
 typedef struct _Work
@@ -36,7 +36,7 @@ static void Act(Work *work)
         {
             if (elem->param1 == dword_800AB9D4)
             {
-                GM_SeSetMode(&GM_PlayerControl->mov, elem->param2, GM_SEMODE_BOMB);
+                GM_SeSetMode(&GM_PlayerControl->mov, elem->sound, GM_SEMODE_BOMB);
                 return;
             }
         }
@@ -63,7 +63,7 @@ static int GetResources(Work *work, int name)
     for (i = 0; (param = GCL_GetParamResult()) && i != count; i++, elems++)
     {
         elems->param1 = GCL_StrToInt(param);
-        elems->param2 = GCL_StrToInt(GCL_GetParamResult());
+        elems->sound = GCL_StrToInt(GCL_GetParamResult());
     }
 
     return 0;

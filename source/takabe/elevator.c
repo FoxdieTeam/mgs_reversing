@@ -53,10 +53,10 @@ typedef struct _ElevatorWork
     int      f5AC;
     int      f5B0;
     short    f5B4;
-    short    f5B6;
-    short    f5B8;
-    short    f5BA;
-    int      f5BC;
+    short    sound1;
+    short    sound2;
+    short    sound3;
+    int      size;
     int      f5C0;
     int      f5C4;
     int      f5C8;
@@ -115,7 +115,7 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
     HZD_FLR       *floor;
     int            n_floors;
     SVECTOR       *mov;
-    SVECTOR       *var_s0_4;
+    SVECTOR       *pos;
     int            n_messages;
 
     var_s6 = 0;
@@ -365,11 +365,11 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
 
     if (work->f58C & 0x20)
     {
-        var_s0_4 = &work->f570;
+        pos = &work->f570;
     }
     else
     {
-        var_s0_4 = &work->f578;
+        pos = &work->f578;
     }
 
     if (work->f58C & 0x1)
@@ -387,8 +387,8 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
 
     if (var_s6 == 0)
     {
-        Elevator_800D9FC4(work, var_s0_4);
-        DG_SetPos2(var_s0_4, &DG_ZeroVector);
+        Elevator_800D9FC4(work, pos);
+        DG_SetPos2(pos, &DG_ZeroVector);
         GM_ActObject2(&work->object1);
     }
 
@@ -396,17 +396,17 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
 
     if (var_s5 & 0x9)
     {
-        GM_SeSetSize(var_s0_4, work->f5B6, work->f5BC);
+        GM_SeSetSize(pos, work->sound1, work->size);
     }
 
     if (var_s5 & 0x12)
     {
-        GM_SeSetSize(var_s0_4, work->f5B8, work->f5BC);
+        GM_SeSetSize(pos, work->sound2, work->size);
     }
 
     if (var_s5 & 0x24)
     {
-        GM_SeSetSize(var_s0_4, work->f5BA, work->f5BC);
+        GM_SeSetSize(pos, work->sound3, work->size);
     }
 
     if (((work->f58C & 0xC) == 0xC) && (work->f594 == CHARAID_SNAKE))
@@ -435,9 +435,9 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
             DG_VisibleObjs(work->object2.objs);
         }
 
-        sp20.x = var_s0_4->vx;
-        sp20.y = var_s0_4->vz;
-        sp20.z = var_s0_4->vy + work->f5AC;
+        sp20.x = pos->vx;
+        sp20.y = pos->vz;
+        sp20.z = pos->vy + work->f5AC;
 
         DG_SetPos2((SVECTOR *)&sp20, &DG_ZeroVector);
         GM_ActObject2(&work->object2);
@@ -575,19 +575,19 @@ error:
     work->f5D0 = THING_Gcl_GetInt('p');
     work->f5B0 = THING_Gcl_GetInt('x');
 
-    work->f5B6 = 184;
-    work->f5B8 = 185;
-    work->f5BA = 186;
+    work->sound1 = 184;
+    work->sound2 = 185;
+    work->sound3 = 186;
     work->f5B4 = 8;
-    work->f5BC = 2000;
+    work->size = 2000;
 
     if (GCL_GetOption('X'))
     {
-        work->f5B6 = GCL_StrToInt(GCL_GetParamResult());
-        work->f5B8 = GCL_StrToInt(GCL_GetParamResult());
-        work->f5BA = GCL_StrToInt(GCL_GetParamResult());
+        work->sound1 = GCL_StrToInt(GCL_GetParamResult());
+        work->sound2 = GCL_StrToInt(GCL_GetParamResult());
+        work->sound3 = GCL_StrToInt(GCL_GetParamResult());
         work->f5B4 = GCL_StrToInt(GCL_GetParamResult());
-        work->f5BC = GCL_StrToInt(GCL_GetParamResult());
+        work->size = GCL_StrToInt(GCL_GetParamResult());
     }
 
     filename = THING_Gcl_GetShort('h');

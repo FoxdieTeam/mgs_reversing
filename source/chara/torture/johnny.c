@@ -851,7 +851,7 @@ static void Johnny_800C5168(Work *work)
                 work->unkB3C = 0;
 
                 GM_SeSet(&work->control.mov, SE_PUNCH_HIT);
-                GM_SeSet(&work->control.mov, 141);
+                GM_SeSet(&work->control.mov, VO_ENEMY_PUNCHED);
 
                 AN_Fog(&work->control.mov);
 
@@ -871,7 +871,7 @@ static void Johnny_800C5168(Work *work)
                 work->unkB3C = 0;
 
                 GM_SeSet(&work->control.mov, SE_KICK_HIT);
-                GM_SeSet(&work->control.mov, 142);
+                GM_SeSet(&work->control.mov, VO_ENEMY_THROWN);
 
                 AN_Fog(&work->control.mov);
 
@@ -893,7 +893,7 @@ static void Johnny_800C5168(Work *work)
                 work->unkB1C |= 0x400;
 
                 AN_Fog(&work->control.mov);
-                GM_SeSet(&work->control.mov, 141);
+                GM_SeSet(&work->control.mov, VO_ENEMY_PUNCHED);
             }
             else
             {
@@ -908,7 +908,7 @@ static void Johnny_800C5168(Work *work)
                 work->unkB30.vz *= 4;
 
                 AN_Fog(&work->control.mov);
-                GM_SeSet(&work->control.mov, 142);
+                GM_SeSet(&work->control.mov, VO_ENEMY_THROWN);
             }
         }
         else
@@ -944,7 +944,7 @@ static void Johnny_800C5168(Work *work)
         {
             target->class |= TARGET_DOWN;
 
-            GM_SeSet(&work->control.mov, 143);
+            GM_SeSet(&work->control.mov, VO_ENEMY_GRABBED);
 
             work->unkBE4 = 0;
             work->unkB38 = Johnny_800C8B14;
@@ -1064,7 +1064,7 @@ static void Johnny_800C57D0(Work *work, int arg1)
     }
     if (arg1 == 24)
     {
-        GM_SeSet2(0, 0x3F, 0x92);
+        GM_SeSet2(0, 0x3F, VO_ENEMY_YAWN);
     }
 
     if (work->body.is_end != 0)
@@ -1171,7 +1171,7 @@ static void Johnny_800C5A7C(Work *work, int action)
     case 0:
         if (!(action & 0x3F))
         {
-            GM_SeSet2(0, 63, 147);
+            GM_SeSet2(0, 63, VO_ENEMY_SNORE);
         }
 
         if (action == 348)
@@ -2650,7 +2650,7 @@ static void Johnny_800C8654(Work *work, int action)
     }
     if (action == 20)
     {
-        GM_SeSet(&work->control.mov, 0x8D);
+        GM_SeSet(&work->control.mov, VO_ENEMY_PUNCHED);
         GM_SeSet(&work->control.mov, SE_HIT_FLOOR);
     }
     if (work->body.is_end != 0)
@@ -2845,7 +2845,7 @@ static void Johnny_800C8B14(Work *work, int action)
     {
         work->target->captured = 0;
         work->target->faint = 0;
-        GM_SeSet(&work->control.mov, 0x8E);
+        GM_SeSet(&work->control.mov, VO_ENEMY_THROWN);
         work->unkB38 = Johnny_800C8C34;
         work->unkB4E = 0;
         work->unkB4C = 0;
@@ -2878,7 +2878,7 @@ static void Johnny_800C8CD4(Work *work, int action)
 {
     if (action == 0)
     {
-        GM_SeSet(&work->control.mov, 0x8F);
+        GM_SeSet(&work->control.mov, VO_ENEMY_GRABBED);
         SetAction(work, 28);
         work->unkBE4 = 0;
     }
@@ -2899,8 +2899,8 @@ static void Johnny_800C8D58(Work *work, int action)
     if (action == 0)
     {
         work->control.radar_atr &= ~RADAR_SIGHT;
-        GM_SeSet(&work->control.mov, 0x8E);
-        GM_SeSet(&work->control.mov, 0x90);
+        GM_SeSet(&work->control.mov, VO_ENEMY_THROWN);
+        GM_SeSet(&work->control.mov, VO_ENEMY_SNAPPED);
         SetAction(work, 29);
         work->target->life -= 255;
         GM_TotalEnemiesKilled++;
@@ -2967,7 +2967,7 @@ static void Johnny_800C8E84(Work *work, int action)
             work->target->captured = 0;
             work->target->faint = 0;
 
-            GM_SeSet(&control->mov, 0x8E);
+            GM_SeSet(&control->mov, VO_ENEMY_THROWN);
 
             work->unkB38 = Johnny_800C8C34;
             work->unkB4E = 0;
