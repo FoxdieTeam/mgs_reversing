@@ -20,8 +20,20 @@ typedef struct _CapeWork
     int      f7F8[4];
     CVECTOR  f808[5][7];
     CVECTOR  f894[4][7];
-    CVECTOR  f904[4][7];
-    char     pad2[0xFC];
+    CVECTOR  f904[7];
+    char     pad_920[0x920 - 0x904 - sizeof(CVECTOR[7])];
+    int      f920[7];
+    int      f93C[7];
+    int      f958[7];
+    int      f974[7];
+    int      f990[7];
+    int      f9AC[7];
+    int      f9C8[7];
+    int      f9E4[7];
+    int      fA00[7];
+    int      fA1C[7];
+    int      fA38[7];
+    int      fA54[7];
     int      fA70;
     MATRIX  *light;
     MATRIX  *color;
@@ -244,20 +256,20 @@ void s04c_cape_800D7E6C(CapeWork *work)
         work->f894[i][6].b = (work->f808[i][6].b + work->f808[i + 1][6].b) / 2;
     }
 
-    work->f904[0][0].r = work->f808[4][1].r;
-    work->f904[0][0].g = work->f808[4][1].g;
-    work->f904[0][0].b = work->f808[4][1].b;
+    work->f904[0].r = work->f808[4][1].r;
+    work->f904[0].g = work->f808[4][1].g;
+    work->f904[0].b = work->f808[4][1].b;
 
     for (j = 1; j < 6; j++)
     {
-        work->f904[0][j].r = (work->f808[4][j].r + work->f808[4][j + 1].r) / 2;
-        work->f904[0][j].g = (work->f808[4][j].g + work->f808[4][j + 1].g) / 2;
-        work->f904[0][j].b = (work->f808[4][j].b + work->f808[4][j + 1].b) / 2;
+        work->f904[j].r = (work->f808[4][j].r + work->f808[4][j + 1].r) / 2;
+        work->f904[j].g = (work->f808[4][j].g + work->f808[4][j + 1].g) / 2;
+        work->f904[j].b = (work->f808[4][j].b + work->f808[4][j + 1].b) / 2;
     }
 
-    work->f904[0][6].r = work->f808[4][6].r;
-    work->f904[0][6].g = work->f808[4][6].g;
-    work->f904[0][6].b = work->f808[4][6].b;
+    work->f904[6].r = work->f808[4][6].r;
+    work->f904[6].g = work->f808[4][6].g;
+    work->f904[6].b = work->f808[4][6].b;
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_cape_800D83D4.s")
@@ -265,7 +277,6 @@ void s04c_cape_800D83D4(CapeWork *work);
 
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_cape_800D8724.s")
 void s04c_cape_800D8724(CapeWork *work);
-
 void cape_Act(CapeWork *work)
 {
     work->fA70 = 0;
