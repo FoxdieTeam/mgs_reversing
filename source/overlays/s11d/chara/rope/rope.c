@@ -1,6 +1,7 @@
 #include "common.h"
 #include "game/camera.h"
 #include "game/target.h"
+#include "game/vibrate.h"
 
 typedef struct _RopeWork
 {
@@ -13,9 +14,13 @@ typedef struct _RopeWork
     short  field_6E;
     char   pad2[0x804 - 0x6E - sizeof(short)];
     TARGET *target;
-    char   pad3a[0xEDC - 0x804 - sizeof(TARGET *)];
+    char   pad3a[0xEA8 - 0x804 - sizeof(TARGET *)];
+    short *field_EA8;
+    char   pad3b[0xEB4 - 0xEA8 - sizeof(short *)];
+    int    field_EB4;
+    char   pad3c[0xEDC - 0xEB4 - sizeof(int)];
     int    field_EDC;
-    char   pad3b[0xF70 - 0xEDC - sizeof(int)];
+    char   pad3d[0xF70 - 0xEDC - sizeof(int)];
     int    field_F70;
     char   pad4[0xF7C - 0xF70 - sizeof(int)];
     int    field_F7C;
@@ -64,7 +69,25 @@ void s11d_rope_800C48C0(RopeWork *work)
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C4B78.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C4DE0.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C4ECC.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C4F84.s")
+int s11d_rope_800C4F84(RopeWork *work)
+{
+    unsigned short v = *work->field_EA8;
+
+    if (!(v & 0xA000))
+    {
+        return 0;
+    }
+
+    if (v & 0x2000)
+    {
+        work->field_EB4 = 1;
+    }
+    else
+    {
+        work->field_EB4 = -1;
+    }
+    return 1;
+}
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C4FC8.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C502C.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C5298.s")
@@ -88,7 +111,14 @@ void s11d_rope_800C6240(RopeWork *work)
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C62E0.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C634C.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C6478.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C650C.s")
+extern int s11d_dword_800C32B4;
+extern int s11d_dword_800C32B8;
+
+void s11d_rope_800C650C(void)
+{
+    NewPadVibration((unsigned char *)&s11d_dword_800C32B4, 1);
+    NewPadVibration((unsigned char *)&s11d_dword_800C32B8, 2);
+}
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C6544.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C6834.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C697C.s")
