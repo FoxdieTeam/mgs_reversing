@@ -28,13 +28,25 @@ void s08b_plasma_l_800D9A00(Work *, POLY_FT4 *, int, DG_TEX *);
 
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_plasma_l_800D9A90.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_plasma_l_800D9C98.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_plasma_l_800D9F1C.s")
+void s08b_plasma_l_800D9F1C(Work *work, int arg1, int arg2)
+{
+    int v1, v2;
+
+    v1 = arg1 - arg2;
+    v2 = arg1 + arg2;
+
+    work->field_334[arg1] = work->field_334[v1] + ((work->field_334[v2] - work->field_334[v1]) * 3) / 4;
+    work->field_378[arg1] = work->field_378[v1] + (work->field_378[v2] - work->field_378[v1]) / 2;
+    work->field_2F0[arg1] = work->field_2F0[v1] + (work->field_2F0[v2] - work->field_2F0[v1]) / 2;
+}
 
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_plasma_l_800D9FB4.s")
 void s08b_plasma_l_800D9FB4(Work *);
 
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_plasma_l_800DA28C.s")
-void s08b_plasma_l_800DA28C(Work *);
+void s08b_plasma_l_800DA28C(Work *work)
+{
+    GM_FreePrim(work->prim);
+}
 
 int s08b_plasma_l_800DA2C8(Work *work)
 {

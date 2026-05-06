@@ -1,8 +1,16 @@
 #include "common.h"
 
+extern int s08b_dword_800E4318;
+extern int s08b_dword_800E4320;
+
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C7914.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C796C.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C79D4.s")
+
+void s08b_ninja_800C79D4(int a0)
+{
+    *(int *)s08b_dword_800E4318 = a0;
+    s08b_dword_800E4320 = 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C79F0.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C7A3C.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C7B68.s")
