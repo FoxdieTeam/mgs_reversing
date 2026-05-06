@@ -308,7 +308,34 @@ void camera_800C5750(void)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C5778.s")
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C5898.s")
+
+void camera_800C5898(int idx, int param_2, int param_3, int divisor, SELECT_INFO *field_14)
+{
+    RadioFileModeUnk1     *pUnk;
+    RadioFileModeStruElem *pElem;
+
+    pElem = &camera_dword_800D075C->field_0_array[idx];
+    pUnk = &camera_dword_800D075C->field_220_unk1;
+
+    pElem->field_8_pFn = camera_800C5684;
+    pElem->field_C_unk1 = pUnk;
+
+    if (divisor <= 0)
+    {
+        pUnk->field_4 = param_2 * 65536;
+        pUnk->field_C = param_3 * 65536;
+        pElem->field_0 = 2;
+    }
+    else
+    {
+        pUnk->field_8 = (param_2 * 65536 - pUnk->field_4) / divisor;
+        pUnk->field_10 = (param_3 * 65536 - pUnk->field_C) / divisor;
+        pElem->field_0 = 1;
+    }
+
+    pUnk->field_14 = (int)field_14;
+    pElem->field_4 = divisor;
+}
 
 void camera_800C5440(MenuPrim *pGlue, RadioFileModeStruElem *pElem);
 
