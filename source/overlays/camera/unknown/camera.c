@@ -808,7 +808,45 @@ void camera_800C714C(MenuPrim *pGlue, SELECT_INFO *info)
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C72CC.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C73E4.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C7FF4.s")
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C80E4.s")
+extern void camera_800C7FF4(int code, char **a, char **b);
+
+extern const char camera_aSssss_800D0120[];
+extern const char camera_dword_800D011C[];
+extern const char camera_dword_800D012C[];
+extern int        camera_dword_800C38D4;
+extern int        camera_dword_800D0774;
+
+void camera_800C80E4(char *out, MEM_CARD *unused, int hours, int minutes)
+{
+    char  playTime[11];
+    char *discard;
+    char *areaName;
+
+    playTime[0] = 0x82;
+    playTime[1] = (hours / 10) + 0x4F;
+    playTime[2] = 0x82;
+    playTime[3] = (hours % 10) + 0x4F;
+    playTime[4] = 0x81;
+    playTime[5] = 0x46;
+    playTime[6] = 0x82;
+    playTime[7] = (minutes / 10) + 0x4F;
+    playTime[8] = 0x82;
+    playTime[9] = (minutes % 10) + 0x4F;
+    playTime[10] = '\0';
+
+    if (camera_dword_800D0774 == 0)
+    {
+        camera_800C7FF4(1, &discard, &areaName);
+        areaName = (char *)&camera_dword_800C38D4;
+    }
+    else
+    {
+        camera_800C7FF4(camera_dword_800D0774, &discard, &areaName);
+    }
+
+    sprintf(out, (char *)camera_aSssss_800D0120,
+            camera_dword_800D012C, camera_dword_800D011C, playTime, camera_dword_800D011C, areaName);
+}
 
 extern const char camera_aPhotod_800D0138[];
 
