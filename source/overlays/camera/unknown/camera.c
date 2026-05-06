@@ -809,7 +809,13 @@ void camera_800C714C(MenuPrim *pGlue, SELECT_INFO *info)
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C73E4.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C7FF4.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C80E4.s")
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C8208.s")
+
+extern const char camera_aPhotod_800D0138[];
+
+void camera_800C8208(char *out, char *in)
+{
+    sprintf(out, (char *)camera_aPhotod_800D0138, in[6] - 0x40);
+}
 
 void jpegcam_initSaveBuffer_800C8234(char *arg0)
 {
