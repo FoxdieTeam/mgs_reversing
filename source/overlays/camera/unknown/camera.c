@@ -307,7 +307,43 @@ void camera_800C5750(void)
     GV_FreeMemory(GV_NORMAL_MEMORY, camera_dword_800D075C);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C5778.s")
+extern int camera_dword_800C3888;
+
+void camera_800C5778(int idx, int param_2, int param_3, int divisor, int idx2)
+{
+    RadioFileModeUnk2     *pUnk;
+    RadioFileModeStruElem *pElem;
+
+    pUnk = &camera_dword_800D075C->field_c0_array[idx];
+    pElem = &camera_dword_800D075C->field_0_array[idx];
+
+    pUnk->field_4 = ((int *)&camera_dword_800C3888)[idx2];
+
+    pElem->field_8_pFn = camera_800C53B8;
+    pElem->field_C_unk1 = (RadioFileModeUnk1 *)pUnk;
+
+    if (idx2 < 0)
+    {
+        pElem->field_0 = 0;
+        return;
+    }
+
+    if (divisor <= 0)
+    {
+        pUnk->field_8 = param_2 * 65536;
+        pUnk->field_10 = param_3 * 65536;
+        pElem->field_0 = 2;
+    }
+    else
+    {
+        pUnk->field_C = (param_2 * 65536 - pUnk->field_8) / divisor;
+        pUnk->field_14 = (param_3 * 65536 - pUnk->field_10) / divisor;
+        pElem->field_0 = 1;
+    }
+
+    pUnk->field_18 = 0x748956;
+    pElem->field_4 = divisor;
+}
 
 void camera_800C5898(int idx, int param_2, int param_3, int divisor, SELECT_INFO *field_14)
 {
