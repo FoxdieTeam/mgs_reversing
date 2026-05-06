@@ -317,7 +317,7 @@ void camera_800C5778(int idx, int param_2, int param_3, int divisor, int idx2)
     pUnk = &camera_dword_800D075C->field_c0_array[idx];
     pElem = &camera_dword_800D075C->field_0_array[idx];
 
-    pUnk->field_4 = ((int *)&camera_dword_800C3888)[idx2];
+    pUnk->field_4 = (const char *)((int *)&camera_dword_800C3888)[idx2];
 
     pElem->field_8_pFn = camera_800C53B8;
     pElem->field_C_unk1 = (RadioFileModeUnk1 *)pUnk;
@@ -870,8 +870,37 @@ void camera_800C714C(MenuPrim *pGlue, SELECT_INFO *info)
 
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C72CC.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C73E4.s")
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C7FF4.s")
-extern void camera_800C7FF4(int code, char **a, char **b);
+extern int        camera_dword_800D0770;
+extern int        camera_dword_800D0728;
+extern int        camera_dword_800D0774;
+extern const char camera_aNoplace_800D0110[];
+extern const char camera_dword_800D011C[];
+
+void camera_800C7FF4(int code, char **pAreaNameForMenu, char **pAreaNameForSaveData)
+{
+    int i;
+
+    if (code == 0)
+    {
+        *pAreaNameForMenu = (char *)camera_aNoplace_800D0110;
+        *pAreaNameForSaveData = (char *)camera_dword_800D011C;
+    }
+
+    GCL_SetArgTop((unsigned char *)camera_dword_800D0770);
+
+    for (i = 0; i < code; i++)
+    {
+        if (GCL_GetParamResult() == 0)
+        {
+            return;
+        }
+        *pAreaNameForMenu = GCL_ReadString((char *)GCL_GetParamResult());
+        if (camera_dword_800D0774 > 0 && camera_dword_800D0728 == 0)
+        {
+            *pAreaNameForSaveData = GCL_ReadString((char *)GCL_GetParamResult());
+        }
+    }
+}
 
 extern const char camera_aSssss_800D0120[];
 extern const char camera_dword_800D011C[];
