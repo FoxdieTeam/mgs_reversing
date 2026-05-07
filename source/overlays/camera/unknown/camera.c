@@ -307,8 +307,71 @@ void camera_800C5750(void)
     GV_FreeMemory(GV_NORMAL_MEMORY, camera_dword_800D075C);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C5778.s")
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C5898.s")
+extern int camera_dword_800C3888;
+
+void camera_800C5778(int idx, int param_2, int param_3, int divisor, int idx2)
+{
+    RadioFileModeUnk2     *pUnk;
+    RadioFileModeStruElem *pElem;
+
+    pUnk = &camera_dword_800D075C->field_c0_array[idx];
+    pElem = &camera_dword_800D075C->field_0_array[idx];
+
+    pUnk->field_4 = (const char *)((int *)&camera_dword_800C3888)[idx2];
+
+    pElem->field_8_pFn = camera_800C53B8;
+    pElem->field_C_unk1 = (RadioFileModeUnk1 *)pUnk;
+
+    if (idx2 < 0)
+    {
+        pElem->field_0 = 0;
+        return;
+    }
+
+    if (divisor <= 0)
+    {
+        pUnk->field_8 = param_2 * 65536;
+        pUnk->field_10 = param_3 * 65536;
+        pElem->field_0 = 2;
+    }
+    else
+    {
+        pUnk->field_C = (param_2 * 65536 - pUnk->field_8) / divisor;
+        pUnk->field_14 = (param_3 * 65536 - pUnk->field_10) / divisor;
+        pElem->field_0 = 1;
+    }
+
+    pUnk->field_18 = 0x748956;
+    pElem->field_4 = divisor;
+}
+
+void camera_800C5898(int idx, int param_2, int param_3, int divisor, SELECT_INFO *field_14)
+{
+    RadioFileModeUnk1     *pUnk;
+    RadioFileModeStruElem *pElem;
+
+    pElem = &camera_dword_800D075C->field_0_array[idx];
+    pUnk = &camera_dword_800D075C->field_220_unk1;
+
+    pElem->field_8_pFn = camera_800C5684;
+    pElem->field_C_unk1 = pUnk;
+
+    if (divisor <= 0)
+    {
+        pUnk->field_4 = param_2 * 65536;
+        pUnk->field_C = param_3 * 65536;
+        pElem->field_0 = 2;
+    }
+    else
+    {
+        pUnk->field_8 = (param_2 * 65536 - pUnk->field_4) / divisor;
+        pUnk->field_10 = (param_3 * 65536 - pUnk->field_C) / divisor;
+        pElem->field_0 = 1;
+    }
+
+    pUnk->field_14 = (int)field_14;
+    pElem->field_4 = divisor;
+}
 
 void camera_800C5440(MenuPrim *pGlue, RadioFileModeStruElem *pElem);
 
@@ -345,7 +408,10 @@ void camera_800C5970(int idx, int param_2, int param_3, int param_4, int param_5
     pElem->field_4 = divisor;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C5AE8.s")
+void camera_800C5AE8(int index)
+{
+    camera_dword_800D075C->field_0_array[index].field_0 = 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C5B00.s")
 void camera_800C5B00(int param_1, int param_2, int param_3, int param_4, int divisor);
 
@@ -804,9 +870,82 @@ void camera_800C714C(MenuPrim *pGlue, SELECT_INFO *info)
 
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C72CC.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C73E4.s")
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C7FF4.s")
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C80E4.s")
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C8208.s")
+extern int        camera_dword_800D0770;
+extern int        camera_dword_800D0728;
+extern int        camera_dword_800D0774;
+extern const char camera_aNoplace_800D0110[];
+extern const char camera_dword_800D011C[];
+
+void camera_800C7FF4(int code, char **pAreaNameForMenu, char **pAreaNameForSaveData)
+{
+    int i;
+
+    if (code == 0)
+    {
+        *pAreaNameForMenu = (char *)camera_aNoplace_800D0110;
+        *pAreaNameForSaveData = (char *)camera_dword_800D011C;
+    }
+
+    GCL_SetArgTop((unsigned char *)camera_dword_800D0770);
+
+    for (i = 0; i < code; i++)
+    {
+        if (GCL_GetParamResult() == 0)
+        {
+            return;
+        }
+        *pAreaNameForMenu = GCL_ReadString((char *)GCL_GetParamResult());
+        if (camera_dword_800D0774 > 0 && camera_dword_800D0728 == 0)
+        {
+            *pAreaNameForSaveData = GCL_ReadString((char *)GCL_GetParamResult());
+        }
+    }
+}
+
+extern const char camera_aSssss_800D0120[];
+extern const char camera_dword_800D011C[];
+extern const char camera_dword_800D012C[];
+extern int        camera_dword_800C38D4;
+extern int        camera_dword_800D0774;
+
+void camera_800C80E4(char *out, MEM_CARD *unused, int hours, int minutes)
+{
+    char  playTime[11];
+    char *discard;
+    char *areaName;
+
+    playTime[0] = 0x82;
+    playTime[1] = (hours / 10) + 0x4F;
+    playTime[2] = 0x82;
+    playTime[3] = (hours % 10) + 0x4F;
+    playTime[4] = 0x81;
+    playTime[5] = 0x46;
+    playTime[6] = 0x82;
+    playTime[7] = (minutes / 10) + 0x4F;
+    playTime[8] = 0x82;
+    playTime[9] = (minutes % 10) + 0x4F;
+    playTime[10] = '\0';
+
+    if (camera_dword_800D0774 == 0)
+    {
+        camera_800C7FF4(1, &discard, &areaName);
+        areaName = (char *)&camera_dword_800C38D4;
+    }
+    else
+    {
+        camera_800C7FF4(camera_dword_800D0774, &discard, &areaName);
+    }
+
+    sprintf(out, (char *)camera_aSssss_800D0120,
+            camera_dword_800D012C, camera_dword_800D011C, playTime, camera_dword_800D011C, areaName);
+}
+
+extern const char camera_aPhotod_800D0138[];
+
+void camera_800C8208(char *out, char *in)
+{
+    sprintf(out, (char *)camera_aPhotod_800D0138, in[6] - 0x40);
+}
 
 void jpegcam_initSaveBuffer_800C8234(char *arg0)
 {
@@ -890,8 +1029,35 @@ void camera_800C85D8(void)
     setClut(sprt, 976, 511);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C864C.s")
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C869C.s")
+void camera_800C864C(CameraWork *work)
+{
+    int i;
+
+    for (i = 3; i >= 0; i--)
+    {
+        work->field_654[i] = 0;
+    }
+
+    for (i = 8; i >= 0; i--)
+    {
+        work->field_664[i] = NULL;
+    }
+
+    for (i = 0x19; i >= 0; i--)
+    {
+        work->field_688[i] = NULL;
+    }
+}
+
+void camera_800C869C(CameraWork *work)
+{
+    int i;
+
+    for (i = 8; i >= 0; i--)
+    {
+        work->field_664[i] = NULL;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C86BC.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C884C.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C89DC.s")
