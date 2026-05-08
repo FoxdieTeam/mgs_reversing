@@ -358,7 +358,7 @@ extern  int     GV_DiffDirAbs( int from, int to );
 extern  int     GV_RandU( unsigned int input );
 extern  int     GV_RandS( int input );
 
-/* math_near.c */
+/* near.c */
 extern  int     GV_NearExp2( int from, int to );
 extern  int     GV_NearExp4( int from, int to );
 extern  int     GV_NearExp8( int from, int to );
@@ -385,7 +385,7 @@ extern  void    GV_NearRangeExp4V( short *from, short *to, int range, int count 
 extern  void    GV_NearRangeExp8V( short *from, short *to, int range, int count );
 extern  void    GV_NearTimePV( short *from, short *to, int interp, int count );
 
-/* math_quat.c */
+/* quat.c */
 typedef struct {                /* short word type quaternion */
     short   x, y;
     short   z, w;
