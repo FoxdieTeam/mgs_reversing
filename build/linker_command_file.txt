@@ -67,7 +67,7 @@
     include "{{OBJ_DIR}}\game\control.obj"
 
     ; libgv.lib (cont.)
-    include "{{OBJ_DIR}}\libgv\math_near.obj"
+    include "{{OBJ_DIR}}\libgv\near.obj"
 
     ; libhzd.lib (cont.)
     include "{{OBJ_DIR}}\libhzd\surface.obj"

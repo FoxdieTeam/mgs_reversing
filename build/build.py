@@ -343,7 +343,7 @@ def get_file_global_size(file):
         "/libgv/debug.c",
         "/libgv/gvd.c",
         "/libgv/math.c",
-        "/libgv/math_near.c",
+        "/libgv/near.c",
         "/libgv/memory.c",
         "/libgv/message.c",
         "/libgv/pad.c",
