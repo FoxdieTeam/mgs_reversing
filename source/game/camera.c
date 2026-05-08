@@ -407,8 +407,8 @@ STATIC int camera_act_helper2_helper_8002F384(int arg0)
     int var_s7;
 
     int (*var_s4)(int, int);
-    void (*var_s5)(short *, short *, int);
-    void (*var_s6)(short *, short *, int);
+    void (*var_s5)(void *, void *, int);
+    void (*var_s6)(void *, void *, int);
 
     var_s7 = 0;
 

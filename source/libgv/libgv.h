@@ -364,26 +364,29 @@ extern  int     GV_NearExp4( int from, int to );
 extern  int     GV_NearExp8( int from, int to );
 extern  int     GV_NearPhase( int from, int to );
 extern  int     GV_NearRange( int from, int to, int range );
-extern  int     GV_NearSpeed( int from, int to, int range );
+extern  int     GV_NearSpeed( int from, int to, int speed );
 extern  int     GV_NearTime( int from, int to, int interp );
+
 extern  int     GV_NearExp2P( int from, int to );
 extern  int     GV_NearExp4P( int from, int to );
 extern  int     GV_NearExp8P( int from, int to );
 extern  int     GV_NearTimeP( int from, int to, int interp );
-extern  void    GV_NearExp2V( short *from, short *to, int count );
-extern  void    GV_NearExp4V( short *from, short *to, int count );
-extern  void    GV_NearExp8V( short *from, short *to, int count );
-extern  void    GV_NearPhaseV( short *from, short *to, int count );
-extern  void    GV_NearRangeV( short *from, short *to, int range, int count );
-extern  void    GV_NearSpeedV( short *from, short *to, int range, int count );
-extern  void    GV_NearTimeV( short *from, short *to, int interp, int count );
-extern  void    GV_NearExp2PV( short *from, short *to, int count );
-extern  void    GV_NearExp4PV( short *from, short *to, int count );
-extern  void    GV_NearExp8PV( short *from, short *to, int count );
-extern  void    GV_NearRangeExp2V( short *from, short *to, int range, int count );
-extern  void    GV_NearRangeExp4V( short *from, short *to, int range, int count );
-extern  void    GV_NearRangeExp8V( short *from, short *to, int range, int count );
-extern  void    GV_NearTimePV( short *from, short *to, int interp, int count );
+
+extern  void    GV_NearExp2V( void *vfrom, void *vto, int n );
+extern  void    GV_NearExp4V( void *vfrom, void *vto, int n );
+extern  void    GV_NearExp8V( void *vfrom, void *vto, int n );
+extern  void    GV_NearPhaseV( void *vfrom, void *vto, int n );
+extern  void    GV_NearRangeV( void *vfrom, void *vto, int range, int n );
+extern  void    GV_NearSpeedV( void *vfrom, void *vto, int speed, int n );
+extern  void    GV_NearTimeV( void *vfrom, void *vto, int interp, int n );
+
+extern  void    GV_NearExp2PV( void *vfrom, void *vto, int n );
+extern  void    GV_NearExp4PV( void *vfrom, void *vto, int n );
+extern  void    GV_NearExp8PV( void *vfrom, void *vto, int n );
+extern  void    GV_NearExp2SV( void *vfrom, void *vto, int speed, int n );
+extern  void    GV_NearExp4SV( void *vfrom, void *vto, int speed, int n );
+extern  void    GV_NearExp8SV( void *vfrom, void *vto, int speed, int n );
+extern  void    GV_NearTimePV( void *vfrom, void *vto, int interp, int n );
 
 /* quat.c */
 typedef struct {                /* short word type quaternion */
