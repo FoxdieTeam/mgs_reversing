@@ -2,143 +2,111 @@
 #include <stdio.h>
 #include <stddef.h>
 
-extern GV_CACHE_PAGE GV_CacheSystem;
-extern GV_LOADFUNC  GV_LoaderFunctions[GV_MAX_LOADERS];
+#define CACHEID_RESIDENT 0x01000000
+
+#define SET_SPEC( _id, _spec )  ( (_id) + ( (_spec) << 16 ) )
+#define GET_SPEC( _id )         ( (_id & ~CACHEID_RESIDENT) >> 16 )
+
+#define NEVER_USED  (0)
+
+extern GV_LOADFUNC Loaders[ MAX_LOADERS ];
+
+extern CACHE Caches[ MAX_CACHES ];
+static CACHE *SECTION(".sbss") EmptyCache;
+
+STATIC CACHE *SECTION(".sbss") GV_ResidentCache;
+STATIC int    SECTION(".sbss") GV_ResidentCacheSize;
 
 /*---------------------------------------------------------------------------*/
-
-#define RESIDENT_FLAG   0x01000000
-
-STATIC GV_CACHE_TAG *SECTION(".sbss") GV_CurrentTag;
-STATIC GV_CACHE_TAG *SECTION(".sbss") GV_ResidentCache;
-STATIC int           SECTION(".sbss") GV_ResidentCacheSize;
 
 /**
  * @brief Searches the cache for an entry matching a given ID and returns the
  * tag of a matching entry if found.
- * GV_CurrentTag is also set to the first free cache entry if one is found.
+ * EmptyCache is also set to the first free cache entry if one is found.
  *
  * @param id The ID to search for in the cache.
  */
-static GV_CACHE_TAG *GetCacheTag(int id)
+static CACHE *FindCache( int id )
 {
-    GV_CACHE_TAG *current;
-    int           start;
-    GV_CACHE_TAG *tag;
-    int           left;
-    int           i;
-    int           current_id;
+    CACHE *cp, *empty;
+    int    mod, this;
+    int    i, j;
 
-    current = NULL;
-    start = id % MAX_CACHE_TAGS;
-    tag = &GV_CacheSystem.tags[start];
-    left = MAX_CACHE_TAGS - start;
+    empty = NULL;
+    mod = id % MAX_CACHES;
+    cp = Caches + mod;
+    j = MAX_CACHES - mod;
 
-    for (i = MAX_CACHE_TAGS; i > 0; i--)
+    for ( i = MAX_CACHES; i > 0; i-- )
     {
-        current_id = tag->id & 0xFFFFFF;
-
-        if (current_id == 0)
+        this = 0xFFFFFF & cp->id;
+        if ( this == NEVER_USED )
         {
-            if (!current)
-            {
-                current = tag;
-            }
-
+            if ( empty == NULL ) empty = cp;
             break;
         }
-
-        left--;
-
-        if (current_id == id)
+        if ( this == id )
         {
-            return tag;
+            return cp;
         }
-
-        tag++;
-
-        if (left == 0)
-        {
-            tag = GV_CacheSystem.tags;
-        }
+        cp++;
+        if ( --j == 0 ) cp = Caches;
     }
 
-    GV_CurrentTag = current;
+    EmptyCache = empty;
     return NULL;
 }
+
+/* --------------------------------------------------------- */
 
 /**
  * @brief Returns the cache ID of a file using its hashed name and extension.
  *
- * @param   name    strcode hash of the filename (without extension).
- * @param   ext     The first character of the file extension.
+ * @param   root_id    strcode hash of the filename (without extension).
+ * @param   spec     The first character of the file extension.
  */
-int GV_CacheID(int name, int ext)
+int GV_CacheID( int root_id, int spec )
 {
-    ext -= 'a';
-
-    if (ext > 25)
-    {
-        ext += 32;
-    }
-
-    return name + (ext << 16);
+    spec -= 'a';
+    if ( spec > 25 ) spec += 32;
+    return SET_SPEC( root_id, spec );
 }
 
 /**
  * @brief Returns the cache ID of a file using its name and extension.
  *
- * @param   name    The name of the file (without extension).
- * @param   ext     The first character of the file extension.
+ * @param   root_name    The name of the file (without extension).
+ * @param   spec     The first character of the file extension.
  */
-int GV_CacheID2(const char *name, int ext)
+int GV_CacheID2( const char *root_name, int spec )
 {
-    int hash;
-
-    hash = GV_StrCode(name);
-    return GV_CacheID(hash, ext);
+    return GV_CacheID( GV_StrCode( root_name ), spec );
 }
 
 /**
  * @brief Returns the cache ID of a file using its full file name as a string.
  * The character found after the first '.' is considered the extension.
  *
- * @param   filename    The full name of the file with extension.
+ * @param   name    The full name of the file with extension.
  */
-int GV_CacheID3(char *filename)
+int GV_CacheID3( char *name )
 {
-    char  buf[32];
-    char *iter;
-    char  c;
+    char root[ 32 ];
+    char c, *cp, *cp2;
 
-    iter = buf;
-    c = *filename++;
-
-    if (c == '.')
+    cp = name;
+    cp2 = root;
+    do
     {
-        *iter = '\0';
-        goto exit;
-    }
+        if ( ( c = *cp++ ) == '.' )
+        {
+            *cp2 = '\0';
+            break;
+        }
+        *cp2++ = c;
+    } while ( c != '\0' );
 
-    // won't match with a real loop
-loop:
-    *iter++ = c;
-    if (c == '\0')
-    {
-        goto exit;
-    }
-
-    c = *filename++;
-    if (c == '.')
-    {
-        *iter = '\0';
-        goto exit;
-    }
-
-    goto loop;
-
-exit:
-    return GV_CacheID2(buf, *filename);
+    return GV_CacheID2( root, cp[0] );
 }
 
 /**
@@ -148,16 +116,11 @@ exit:
  *
  * @returns NULL if the file couldn't be found.
  */
-void *GV_GetCache(int id)
+void *GV_GetCache( int id )
 {
-    GV_CACHE_TAG *tag;
+    CACHE *cp;
 
-    tag = GetCacheTag(id);
-    if (tag)
-    {
-        return tag->ptr;
-    }
-
+    if ( ( cp = FindCache( id ) ) != NULL ) return cp->buf;
     return NULL;
 }
 
@@ -165,14 +128,14 @@ void *GV_GetCache(int id)
  * @brief Sets the data pointer of a cache entry given its ID.
  *
  * @param id The ID to search for in the cache.
- * @param ptr The data pointer to be written into the cache entry.
+ * @param buf The data pointer to be written into the cache entry.
  */
-int GV_SetCache(int id, void *ptr)
+int GV_SetCache( int id, void *buf )
 {
-    if (!GetCacheTag(id) && GV_CurrentTag)
+    if ( FindCache(id) == NULL && EmptyCache != NULL )
     {
-        GV_CurrentTag->id = id;
-        GV_CurrentTag->ptr = ptr;
+        EmptyCache->id = id;
+        EmptyCache->buf = buf;
         return 0;
     }
     return -1;
@@ -181,27 +144,30 @@ int GV_SetCache(int id, void *ptr)
 /**
  * @brief Sets the loader callback for a given file extension.
  *
- * @param ext The file extension to set a loader callback for.
- * @param func The function pointer to the loader callback.
+ * @param spec The file extension to set a loader callback for.
+ * @param init The function pointer to the loader callback.
  */
-void GV_SetLoader(int ext, GV_LOADFUNC func)
+void GV_SetLoader( int spec, GV_LOADFUNC init )
 {
-    ext -= 'a';
-    GV_LoaderFunctions[ext] = func;
+    int type;
+
+    type = spec - 'a';
+    Loaders[ type ] = init;
 }
 
 /**
  * @brief Initialises the loader callbacks by setting them all to NULL.
  */
-void GV_InitLoader(void)
+void GV_ResetLoader( void )
 {
-    GV_LOADFUNC *loader;
+    GV_LOADFUNC *func;
     int          i;
 
-    loader = GV_LoaderFunctions;
-    for (i = GV_MAX_LOADERS; i > 0; i--)
+    func = Loaders;
+    for ( i = MAX_LOADERS; i > 0; i-- )
     {
-        *loader++ = NULL;
+        *func = NULL;
+        func++;
     }
 }
 
@@ -209,16 +175,16 @@ void GV_InitLoader(void)
  * @brief Initialises the cache system by marking all entries as unused.
  * Also initialises the resident cache as empty.
  */
-void GV_InitCacheSystem(void)
+void GV_InitCacheSystem( void )
 {
-    GV_CACHE_TAG *tag;
-    int           i;
+    CACHE *cp;
+    int    i;
 
-    tag = GV_CacheSystem.tags;
-    for (i = MAX_CACHE_TAGS; i > 0; i--)
+    cp = Caches;
+    for ( i = MAX_CACHES; i > 0; i-- )
     {
-        tag->id = 0;
-        tag++;
+        cp->id = NEVER_USED;
+        cp++;
     }
 
     GV_ResidentCache = NULL;
@@ -228,41 +194,31 @@ void GV_InitCacheSystem(void)
 /**
  * @brief Saves all cache entries marked as resident to GV_ResidentCache.
  */
-void GV_SaveResidentFileCache(void)
+void GV_SaveResidentFileCache( void )
 {
-    GV_CACHE_TAG *tag;
-    int           size;
-    int           i;
-    GV_CACHE_TAG *resident;
+    CACHE *cp;
+    int    i, size;
 
-    tag = GV_CacheSystem.tags;
+    cp = Caches;
     size = 0;
-    for (i = MAX_CACHE_TAGS; i > 0; i--)
+    for ( i = MAX_CACHES; i > 0; i-- )
     {
-        if (tag->id & RESIDENT_FLAG)
-        {
-            size++;
-        }
-
-        tag++;
+        if ( cp->id & CACHEID_RESIDENT ) size++;
+        cp++;
     }
 
-    if (size)
+    if ( size != 0 )
     {
-        resident = GV_AllocResidentMemory(size * sizeof(GV_CACHE_TAG));
+        CACHE *res;
 
-        GV_ResidentCache = resident;
+        res = GV_AllocResidentMemory( size * sizeof(CACHE) );
+        GV_ResidentCache = res;
         GV_ResidentCacheSize = size;
-
-        tag = GV_CacheSystem.tags;
-        for (i = MAX_CACHE_TAGS; i > 0; i--)
+        cp = Caches;
+        for ( i = MAX_CACHES; i > 0; i-- )
         {
-            if (tag->id & RESIDENT_FLAG)
-            {
-                *resident++ = *tag;
-            }
-
-            tag++;
+            if ( cp->id & CACHEID_RESIDENT ) *res++ = *cp;
+            cp++;
         }
     }
 }
@@ -271,25 +227,25 @@ void GV_SaveResidentFileCache(void)
  * @brief Frees the cache system by marking all entries as unused.
  * Then loads all resident entries from GV_ResidentCache.
  */
-void GV_FreeCacheSystem(void)
+void GV_FreeCacheSystem( void )
 {
-    GV_CACHE_TAG *tag;
-    int           i;
+    CACHE *cp;
+    int    i;
 
-    tag = GV_CacheSystem.tags;
-    for (i = MAX_CACHE_TAGS; i > 0; i--)
+    cp = Caches;
+    for ( i = MAX_CACHES; i > 0; i-- )
     {
-        tag->id = 0;
-        tag++;
+        cp->id = NEVER_USED;
+        cp++;
     }
 
-    tag = GV_ResidentCache;
-    if (tag)
+    cp = GV_ResidentCache;
+    if ( cp != NULL )
     {
-        for (i = GV_ResidentCacheSize; i > 0; i--)
+        for ( i = GV_ResidentCacheSize; i > 0; i-- )
         {
-            GV_SetCache(tag->id, tag->ptr);
-            tag++;
+            GV_SetCache( cp->id, cp->buf );
+            cp++;
         }
     }
 }
@@ -297,61 +253,40 @@ void GV_FreeCacheSystem(void)
 /**
  * @brief Sets the current free cache tag.
  *
- * @param ptr The data pointer of the file to write.
- * @param id The ID of the file to write.
- * @param region The region of the file to write.
+ * @param data The data pointer of the file to write.
+ * @param name The ID of the file to write.
+ * @param cache_mode The region of the file to write.
  */
-static inline void SetCurrentTag(void *ptr, int id, int region)
+static inline void SetCurrentTag( void *data, int name, int cache_mode )
 {
-    if (region != GV_REGION_CACHE)
+    if ( cache_mode != GV_INIT_CACHE )
     {
-        id |= RESIDENT_FLAG;
+        name |= CACHEID_RESIDENT;
     }
-
-    GV_CurrentTag->id = id;
-    GV_CurrentTag->ptr = ptr;
-}
-
-/**
- * @brief Returns the loader function for a file given its ID.
- *
- * @param id The ID of the file to return the loader function for.
- */
-static inline GV_LOADFUNC GetLoadFunc(int id)
-{
-    GV_LOADFUNC *loader;
-
-    loader = GV_LoaderFunctions;
-
-    if (id < 0)
-    {
-        id += 0xFFFF;
-    }
-
-    return loader[id >> 16];
+    EmptyCache->id = name;
+    EmptyCache->buf = data;
 }
 
 /**
  * @brief Loads a given file by calling its loader function.
  * Also inserts the file into the file cache depending on the region.
  *
- * @param ptr The data pointer of the file being loaded.
- * @param id The ID of the file being loaded.
- * @param region The region of the file being loaded.
+ * @param data The data pointer of the file being loaded.
+ * @param name The ID of the file being loaded.
+ * @param cache_mode The region of the file being loaded.
  */
-int GV_LoadInit(void *ptr, int id, int region)
+int GV_LoadInit( void *data, int name, int cache_mode )
 {
-    GV_LOADFUNC   func;
-    int           ret;
-    GV_CACHE_TAG *tag;
+    GV_LOADFUNC func;
+    int         ret;
 
-    if (region == GV_REGION_NOCACHE)
+    if ( cache_mode == GV_INIT_NOCACHE )
     {
-        func = GetLoadFunc(id);
-        if (func)
+        func = Loaders[ name / 65536 ];
+        if ( func != NULL )
         {
-            ret = func(ptr, id);
-            if (ret <= 0)
+            ret = func( data, name );
+            if ( ret <= 0 )
             {
                 return ret;
             }
@@ -359,22 +294,22 @@ int GV_LoadInit(void *ptr, int id, int region)
     }
     else
     {
-        if (GetCacheTag(id) || !GV_CurrentTag)
+        CACHE *cp;
+
+        if ( FindCache( name ) != NULL || EmptyCache == NULL )
         {
-            printf("id conflict\n");
+            printf( "id conflict\n" );
             return -1;
         }
-
-        tag = GV_CurrentTag;
-        SetCurrentTag(ptr, id, region);
-
-        func = GetLoadFunc(id);
-        if (func)
+        cp = EmptyCache;
+        SetCurrentTag( data, name, cache_mode );
+        func = Loaders[ name / 65536 ];
+        if ( func != NULL )
         {
-            ret = func(ptr, id);
-            if (ret <= 0)
+            ret = func( data, name );
+            if ( ret <= 0 )
             {
-                tag->id = 0;
+                cp->id = NEVER_USED;
                 return ret;
             }
         }

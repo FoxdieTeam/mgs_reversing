@@ -147,40 +147,35 @@ void GV_DestroyOtherActor( void *target );
 
 enum GV_CACHE_REGION
 {
-    GV_REGION_NOCACHE,
-    GV_REGION_CACHE,
-    GV_REGION_RESIDENT,
+    GV_INIT_NOCACHE,
+    GV_INIT_CACHE,
+    GV_INIT_RESIDENT,
 };
 
-typedef struct GV_CACHE_TAG
+typedef struct CACHE
 {
     int   id;
-    void *ptr;
-} GV_CACHE_TAG;
+    void *buf;
+} CACHE;
 
-#define MAX_CACHE_TAGS 128
+#define MAX_CACHES 128
 
-typedef struct GV_CACHE_PAGE
-{
-    GV_CACHE_TAG tags[MAX_CACHE_TAGS];
-} GV_CACHE_PAGE;
+#define MAX_LOADERS  26  // 'a'～'z'
 
-#define GV_MAX_LOADERS  26  // 'a'～'z'
-
-typedef int (*GV_LOADFUNC)(unsigned char *data, int id);
+typedef int ( *GV_LOADFUNC )( void *data, int id );
 
 /* cache.c */
-int   GV_CacheID(int name, int ext);
-int   GV_CacheID2(const char *name, int ext);
-int   GV_CacheID3(char *filename);
-void *GV_GetCache(int id);
-int   GV_SetCache(int id, void *ptr);
-void  GV_SetLoader(int ext, GV_LOADFUNC func);
-void  GV_InitLoader(void);
-void  GV_InitCacheSystem(void);
-void  GV_SaveResidentFileCache(void);
-void  GV_FreeCacheSystem(void);
-int   GV_LoadInit(void *ptr, int id, int region);
+int   GV_CacheID( int root_id, int spec );
+int   GV_CacheID2( const char *root_name, int spec );
+int   GV_CacheID3( char *name );
+void *GV_GetCache( int id );
+int   GV_SetCache( int id, void *buf );
+void  GV_SetLoader( int spec, GV_LOADFUNC init );
+void  GV_ResetLoader( void );
+void  GV_InitCacheSystem( void );
+void  GV_SaveResidentFileCache( void );
+void  GV_FreeCacheSystem( void );
+int   GV_LoadInit( void *data, int name, int cache_mode );
 
 /*------ Memory Management --------------------------------------------------*/
 
