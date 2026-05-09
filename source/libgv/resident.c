@@ -7,9 +7,7 @@ extern unsigned char *StageCharacterEntries;
 unsigned char *SECTION(".sbss") GV_ResidentMemoryBottom;
 STATIC int     SECTION(".sbss") dword_800AB944;
 
-// TODO: Use sizeof(resident)+1 when the start is known
-// TODO: hardcoded address
-void *GV_ResidentAreaBottom = GV_NORMAL_MEMORY_TOP;
+void *GV_ResidentAreaBottom = RESIDENT_BOTTOM;
 
 void GV_InitResidentMemory( void )
 {

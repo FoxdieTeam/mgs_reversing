@@ -179,17 +179,24 @@ int   GV_LoadInit( void *data, int name, int cache_mode );
 
 /*------ Memory Management --------------------------------------------------*/
 
+#define PACK_SIZE       (188 * 1024) /* 188KiB */
+#define MEM_SIZE        (428 * 1024) /* 428KiB */
+
+#define MEM_BOTTOM      ((void *)0x801E0000)
+
+#define PACK_ADDR0      (MEM_BOTTOM - PACK_SIZE * 2)
+#define PACK_ADDR1      (MEM_BOTTOM - PACK_SIZE)
+
+#define MEM_ADDR        (PACK_ADDR0 - MEM_SIZE)
+#define RESIDENT_BOTTOM (MEM_ADDR)
+
+#define GV_MEMORY_STATIC        0
+#define GV_MEMORY_DYNAMIC       1
+
 #define GV_PACKET_MEMORY0       0
 #define GV_PACKET_MEMORY1       1
 #define GV_NORMAL_MEMORY        2   // known memleak constant
-#define GV_MEMORY_MAX           3
-
-#define GV_NORMAL_MEMORY_TOP    ((void *)0x80117000)
-#define GV_NORMAL_MEMORY_SIZE   0x6b000 /* 428KiB */
-
-#define GV_PACKET_MEMORY0_TOP   ((void *)0x80182000)
-#define GV_PACKET_MEMORY1_TOP   ((void *)0x801b1000)
-#define GV_PACKET_MEMORY_SIZE   0x2f000 /* 188KiB */
+#define MAX_MEMSYS              3
 
 enum GV_ALLOC_STATE
 {

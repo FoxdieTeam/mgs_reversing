@@ -27,12 +27,12 @@ extern Work GV_Work;
 
 /*---------------------------------------------------------------------------*/
 
-static void GV_ExceptionCallback(void)
+static void Excep_callback( void )
 {
-    printf("HANGUP: %s\n", GV_DebugMes);
+    printf( "HANGUP: %s\n", GV_DebugMes );
 }
 
-static void Act(Work *work)
+static void Act( Work *work )
 {
     int ticks;
 
@@ -43,51 +43,51 @@ static void Act(Work *work)
     GV_PassageTime = ticks - GV_LastTickCount;
     GV_LastTickCount = ticks;
 
-    if (DG_HikituriFlag == 0)
+    if ( DG_HikituriFlag == 0 )
     {
         // Flip active buffer
         GV_Clock ^= 1;
     }
 
-    if (GV_PauseLevel == 0)
+    if ( GV_PauseLevel == 0 )
     {
         GV_ClearMessageSystem();
     }
 }
 
-void GV_ResetPacketMemory(void)
+void GV_ResetPacketMemory( void )
 {
-    GV_InitMemorySystem(GV_PACKET_MEMORY0, 1, GV_PACKET_MEMORY0_TOP, GV_PACKET_MEMORY_SIZE);
-    GV_InitMemorySystem(GV_PACKET_MEMORY1, 1, GV_PACKET_MEMORY1_TOP, GV_PACKET_MEMORY_SIZE);
+    GV_InitMemorySystem( GV_PACKET_MEMORY0, GV_MEMORY_DYNAMIC, PACK_ADDR0, PACK_SIZE );
+    GV_InitMemorySystem( GV_PACKET_MEMORY1, GV_MEMORY_DYNAMIC, PACK_ADDR1, PACK_SIZE );
 }
 
-void GV_SetPacketTempMemory(void)
+void GV_SetPacketTempMemory( void )
 {
-    GV_InitMemorySystem(GV_PACKET_MEMORY0, 0, GV_PACKET_MEMORY0_TOP, (GV_PACKET_MEMORY_SIZE * 2));
-    GV_InitMemorySystem(GV_PACKET_MEMORY1, 0, NULL, 0);
+    GV_InitMemorySystem( GV_PACKET_MEMORY0, GV_MEMORY_STATIC, PACK_ADDR0, PACK_SIZE * 2 );
+    GV_InitMemorySystem( GV_PACKET_MEMORY1, GV_MEMORY_STATIC, NULL, 0 );
 }
 
-static void GV_InitMemory(void)
+static void ResetMemorySystem( void )
 {
     GV_InitMemorySystemAll();
     GV_ResetPacketMemory();
-    GV_InitMemorySystem(GV_NORMAL_MEMORY, 0, GV_NORMAL_MEMORY_TOP, GV_NORMAL_MEMORY_SIZE);
-    printf("RESIDENT TOP %X\n", (unsigned int)GV_ResidentMemoryBottom);
+    GV_InitMemorySystem( GV_NORMAL_MEMORY, GV_MEMORY_STATIC, MEM_ADDR, MEM_SIZE );
+    printf( "RESIDENT TOP %X\n", (unsigned int)GV_ResidentMemoryBottom );
 }
 
-void GV_ResetSystem(void)
+void GV_ResetSystem( void )
 {
     GV_InitMessageSystem();
     GV_InitPadSystem();
 }
 
-void GV_ResetMemory(void)
+void GV_ResetMemory( void )
 {
     GV_FreeCacheSystem();
-    GV_InitMemory();
+    ResetMemorySystem();
 }
 
-void GV_StartDaemon(void)
+void GV_StartDaemon( void )
 {
     GV_InitActorSystem();
     GV_InitResidentMemory();
@@ -95,11 +95,11 @@ void GV_StartDaemon(void)
     GV_InitCacheSystem();
     GV_ResetSystem();
 
-    GV_InitActor(GV_ACTOR_DAEMON, &GV_Work.actor, NULL);
-    GV_SetNamedActor(&GV_Work.actor, Act, NULL, "gvd.c");
+    GV_InitActor( GV_ACTOR_DAEMON, &GV_Work.actor, NULL );
+    GV_SetNamedActor( &GV_Work.actor, Act, NULL, "gvd.c" );
 
     GV_Clock = 0;
     GV_Time = 0;
 
-    mts_set_exception_func(GV_ExceptionCallback);
+    mts_set_exception_func( Excep_callback );
 }

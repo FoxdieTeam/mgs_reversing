@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "common.h"
 
-extern GV_HEAP MemorySystems_800AD2F0[GV_MEMORY_MAX];
+extern GV_HEAP MemorySystems_800AD2F0[MAX_MEMSYS];
 
 /* Unused, does it really belong to memory.c ? */
 STATIC short SECTION(".sbss") dword_800AB93C;
@@ -294,7 +294,7 @@ void GV_InitMemorySystemAll(void)
 {
     int i;
 
-    for (i = 0; i < GV_MEMORY_MAX; i++)
+    for (i = 0; i < MAX_MEMSYS; i++)
     {
         GV_InitMemorySystem(i, 0, NULL, 0);
     }

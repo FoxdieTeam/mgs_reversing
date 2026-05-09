@@ -29,7 +29,7 @@ int FS_ResetCdFilePosition(void *buffer)
 void FS_CDInit(void)
 {
     CDBIOS_Reset();
-    FS_DiskNum = FS_ResetCdFilePosition(GV_NORMAL_MEMORY_TOP);
+    FS_DiskNum = FS_ResetCdFilePosition(MEM_ADDR);
     FS_StreamCD();
     FS_StreamTaskInit();
     mts_wait_vbl(2);

@@ -10,11 +10,11 @@
 80014B1C 8 PCopen
 80014B24 8 PCread
 80014B2C 8 PCclose
-80014B34 44 GV_ExceptionCallback
+80014B34 44 Excep_callback
 80014B60 120 gvd_Act
 80014BD8 80 GV_ResetPacketMemory
 80014C28 72 GV_SetPacketTempMemory
-80014C70 88 GV_InitMemory
+80014C70 88 ResetMemorySystem
 80014CC8 40 GV_ResetSystem
 80014CF0 40 GV_ResetMemory
 80014D18 128 GV_StartDaemon
@@ -29,7 +29,7 @@
 80015164 100 GV_DestroyActorQuick
 800151C8 16 GV_DestroyActor
 800151D8 104 GV_DestroyOtherActor
-80015240 156 GV_FindCache
+80015240 156 FindCache
 800152DC 32 GV_CacheID
 800152FC 48 GV_CacheID2
 8001532C 96 GV_CacheID3
