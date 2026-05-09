@@ -16,7 +16,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL              GV_ACTOR_LEVEL2
+#define EXEC_LEVEL              GV_ACTOR_ASSIST
 
 #define VRWIN_STATE_0           0
 #define VRWIN_STATE_1           1

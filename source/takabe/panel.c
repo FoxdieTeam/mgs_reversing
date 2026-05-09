@@ -32,7 +32,7 @@ int panel_base_color = 0x3C808080;
 
 void AN_PanelSmoke(SVECTOR *pos);
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 void PanelTexPack_800D1BD0(POLY_GT4 *pack, DG_TEX *tex, int size, PanelWork *work)
 {

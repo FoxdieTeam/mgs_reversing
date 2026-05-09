@@ -19,7 +19,7 @@ typedef struct _Work
     DG_OBJS *objs[0];
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 static void Act(Work *work)
 {

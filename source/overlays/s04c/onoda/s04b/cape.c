@@ -28,7 +28,7 @@ typedef struct _CapeWork
     SVECTOR  fA7C;
 } CapeWork;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 void s04c_cape_800D7938(CapeWork *work)
 {

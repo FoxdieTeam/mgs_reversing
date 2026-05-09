@@ -28,7 +28,7 @@ typedef struct _WsurfaceWork
     char     pad2[0x2];
 } WsurfaceWork;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 void Wsurface_800DAC14(POLY_GT4 *poly, DG_TEX *tex, WsurfaceWork *work)
 {

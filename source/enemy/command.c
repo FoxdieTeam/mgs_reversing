@@ -96,7 +96,7 @@ int s00a_dword_800C35E4[] = {
 const char aCresetposd_800E07FC[] = " c_reset_pos = %d \n";
 const char aKottida_800E0810[] = "kottida !!\n";
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL4
+#define EXEC_LEVEL GV_ACTOR_PREV
 
 int s00a_command_800CEA2C( WatcherWork *work )
 {

@@ -15,7 +15,7 @@ extern UnkCameraStruct gUnkCameraStruct_800B77B8;
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL      GV_ACTOR_LEVEL5
+#define EXEC_LEVEL      GV_ACTOR_USER
 
 #define NUM_JOINT       16
 #define MOTION_DATA     GV_StrCode("sne_11d2")

@@ -30,7 +30,7 @@ typedef struct _Work
     SVECTOR        svec_7F8;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 extern int s03c_dword_800C33D8;
 

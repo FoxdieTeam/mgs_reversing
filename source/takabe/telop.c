@@ -37,7 +37,7 @@ typedef struct _TelopWork2
     int       count;
 } TelopWork2;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL3
+#define EXEC_LEVEL GV_ACTOR_PREV2
 
 void telop_800DD550(TelopSub *sub, int x, int y, DG_TEX *arg3, DG_TEX *arg4)
 {

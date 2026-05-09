@@ -18,7 +18,7 @@ typedef struct SmokeWork
     int      field_3C;
 } SmokeWork;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 const char aSmoke[] = "smoke";
 const char aSmokeC[] = "smoke.c";

@@ -9,7 +9,7 @@
 
 extern void AN_Breath( MATRIX *world );
 
-#define EXEC_LEVEL      GV_ACTOR_LEVEL5
+#define EXEC_LEVEL      GV_ACTOR_USER
 #define DEFAULT_TIME    64
 
 typedef struct _Work

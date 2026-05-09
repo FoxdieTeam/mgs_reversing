@@ -16,7 +16,7 @@ extern int GM_GameFlag;
 // the Heliport in early versions of the game, as seen in the E3 & TGS 1997
 // trailers ( https://www.youtube.com/watch?v=x3Y5TS6_NxQ&t=247 ).
 
-#define EXEC_LEVEL      GV_ACTOR_LEVEL4
+#define EXEC_LEVEL      GV_ACTOR_PREV
 
 #define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE \
                         | DG_FLAG_GBOUND | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE )

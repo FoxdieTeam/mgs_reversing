@@ -30,7 +30,7 @@ typedef struct _Work
     int      fE8;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 /*---------------------------------------------------------------------------*/
 

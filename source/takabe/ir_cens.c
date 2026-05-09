@@ -44,7 +44,7 @@ typedef struct _IrCensWork
 unsigned short s02c_dword_800C3714[] = {HASH_KILL, 0xDCFC, 0xE102};
 const SVECTOR  s02c_dword_800E3900 = {0, 512, 1024, 0};
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 void IrCens_800D97E8(POLY_GT4 *poly, DG_TEX *tex, int arg2)
 {

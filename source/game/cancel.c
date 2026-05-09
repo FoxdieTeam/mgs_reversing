@@ -10,7 +10,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL3
+#define EXEC_LEVEL GV_ACTOR_PREV2
 
 typedef struct _Work
 {

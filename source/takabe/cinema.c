@@ -8,7 +8,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL      GV_ACTOR_LEVEL3
+#define EXEC_LEVEL      GV_ACTOR_PREV2
 #define CHARA_NAME      0x7a05  // GV_StrCode("シネマスクリーン")
 
 typedef struct _PRIMS

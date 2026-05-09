@@ -18,7 +18,7 @@ typedef struct _Work
     int    noise[4];
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL4
+#define EXEC_LEVEL GV_ACTOR_PREV
 
 int asioto_800C38AC(Work *work)
 {

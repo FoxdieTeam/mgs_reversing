@@ -24,7 +24,7 @@ typedef struct _EnvSndWork
 
 unsigned short env_snd_hashes[] = { 0xBA27, 0x560E };
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 void EnvSndAct_800DF1F8(EnvSndWork *work)
 {

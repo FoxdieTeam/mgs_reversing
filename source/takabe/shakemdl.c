@@ -9,7 +9,7 @@
 
 /*----------------------------------------------------------------*/
 
-#define EXEC_LEVEL  GV_ACTOR_LEVEL5
+#define EXEC_LEVEL  GV_ACTOR_USER
 
 #define ROT_GROUP   16
 

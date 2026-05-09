@@ -275,7 +275,7 @@ void *NewTenage(SVECTOR *pos, SVECTOR *step, int fuse_time, int type, int model)
         return NULL;
     }
 
-    work = GV_NewActor(GV_ACTOR_LEVEL5, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
 
     if (work)
     {

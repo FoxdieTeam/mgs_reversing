@@ -15,7 +15,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL  GV_ACTOR_LEVEL5
+#define EXEC_LEVEL  GV_ACTOR_USER
 #define PAGE_COUNT  14
 
 typedef struct PreMet2Prims

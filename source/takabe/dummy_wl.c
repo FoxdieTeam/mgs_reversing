@@ -51,7 +51,7 @@ typedef struct DummyWallWork
     HZD_SEG  field_19C;
 } DummyWallWork;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 SVECTOR s04a_dword_800C3620 = {100, 100, 100};
 

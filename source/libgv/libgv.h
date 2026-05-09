@@ -98,13 +98,15 @@ typedef struct      // private to libgv/actor.c
 enum {
     GV_ACTOR_DAEMON,    // 0
     GV_ACTOR_MANAGER,   // 1
-    GV_ACTOR_LEVEL2,    // 2 (ZOE1: GV_LEVEL_ASSIST)
-    GV_ACTOR_LEVEL3,    // 3 (ZOE1: GV_LEVEL_PREPARE)
-    GV_ACTOR_LEVEL4,    // 4 (ZOE1: GV_LEVEL_ACTOR)
-    GV_ACTOR_LEVEL5,    // 5 (ZOE1: GV_LEVEL_MODIFY)
-//--- memleak ---
-    GV_ACTOR_AFTER,     // 6 (ZOE1: GV_LEVEL_REFER)
-    GV_ACTOR_AFTER2,    // 7 (ZOE1: GV_LEVEL_PAUSE)
+    GV_ACTOR_ASSIST,    // 2
+
+    GV_ACTOR_PREV2,     // 3
+    GV_ACTOR_PREV,      // 4
+
+    GV_ACTOR_USER,      // 5
+
+    GV_ACTOR_AFTER,     // 6
+    GV_ACTOR_AFTER2,    // 7
 
     GV_ACTOR_DAEMON2,   // 8
     GV_ACTOR_LEVEL      // 9

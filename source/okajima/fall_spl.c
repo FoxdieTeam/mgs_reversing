@@ -14,7 +14,7 @@ typedef struct FallSplWork
     SVECTOR limit[2];
 } FallSplWork;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 void *NewSplash3_800C83D0(int dir, SVECTOR *pos);
 

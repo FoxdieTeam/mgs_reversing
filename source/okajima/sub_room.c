@@ -31,7 +31,7 @@ typedef struct _SubRoomWork
     GV_ACT  *txtscn;
 } SubRoomWork;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL4
+#define EXEC_LEVEL GV_ACTOR_PREV
 
 void SubRoomShadePacks_800C729C(POLY_FT4 *packs, int n_packs, DG_TEX *tex, SVECTOR *color)
 {

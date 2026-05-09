@@ -17,7 +17,7 @@ extern void *NewBlast(MATRIX *world /*, BLAST_DATA *blast_data */);
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL      GV_ACTOR_LEVEL5
+#define EXEC_LEVEL      GV_ACTOR_USER
 
 #define GRENADE_MODEL   0x3b88  // GV_StrCode("grenade")
 

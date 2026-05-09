@@ -33,10 +33,10 @@ static struct
 {
     {  0, 7 },  // 0: GV_ACTOR_DAEMON
     {  0, 7 },  // 1: GV_ACTOR_MANAGER
-    {  9, 4 },  // 2: GV_ACTOR_LEVEL2
-    {  9, 4 },  // 3: GV_ACTOR_LEVEL3
-    { 15, 4 },  // 4: GV_ACTOR_LEVEL4
-    { 15, 4 },  // 5: GV_ACTOR_LEVEL5
+    {  9, 4 },  // 2: GV_ACTOR_ASSIST
+    {  9, 4 },  // 3: GV_ACTOR_PREV2
+    { 15, 4 },  // 4: GV_ACTOR_PREV
+    { 15, 4 },  // 5: GV_ACTOR_USER
     { 15, 4 },  // 6: GV_ACTOR_AFTER
     {  9, 4 },  // 7: GV_ACTOR_AFTER2
     {  0, 7 }   // 8: GV_ACTOR_DAEMON2

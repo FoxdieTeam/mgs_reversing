@@ -698,7 +698,7 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
     work->field_C14 = work->start_pos;
 }
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL4
+#define EXEC_LEVEL GV_ACTOR_PREV
 
 void *NewSnakeWatcher(int name, int where, int argc, char **argv)
 {

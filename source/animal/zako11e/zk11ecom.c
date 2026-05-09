@@ -958,7 +958,7 @@ static void GetResources( ZakoCommanderWork *work, int name, int where )
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL4
+#define EXEC_LEVEL GV_ACTOR_PREV
 
 void *NewZako11ECommander( int name, int where, int argc, char **argv )
 {

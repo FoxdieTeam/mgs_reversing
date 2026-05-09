@@ -22,7 +22,7 @@ typedef struct ElcDamgWork
     int    proc_id;
 } ElcDamgWork;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 unsigned short s08a_dword_800C36E0[2] = {HASH_ON2, HASH_OFF2};
 

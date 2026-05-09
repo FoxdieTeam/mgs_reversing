@@ -33,7 +33,7 @@ typedef struct _Work
 
 RECT uji_rect = {100, 100, 200, 200};
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL4
+#define EXEC_LEVEL GV_ACTOR_PREV
 
 static int GetSvectors(char *opt, SVECTOR *out)
 {

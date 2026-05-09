@@ -575,7 +575,7 @@ void ZakoGetResources_800D3EC8( ZakoWork *work, int name, int where )
 extern void ZakoAct_800D3684();
 extern void ZakoDie_800D3C84();
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL4
+#define EXEC_LEVEL GV_ACTOR_PREV
 
 void *NewZako11E( int name, int where, int argc, char **argv )
 {

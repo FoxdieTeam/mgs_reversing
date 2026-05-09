@@ -19,7 +19,7 @@ typedef struct MeltDieWork
     int svec_vz;
 } MeltDieWork;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 void AN_Unknown_800DC94C(SVECTOR *pos);
 

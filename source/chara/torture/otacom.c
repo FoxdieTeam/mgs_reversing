@@ -35,7 +35,7 @@ typedef struct OtacomWork
     int            procs[3];
 } OtacomWork;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 int s03c_dword_800C33D8 = 0;
 

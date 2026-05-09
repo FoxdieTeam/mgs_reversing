@@ -40,7 +40,7 @@ typedef struct _Rasen2Work
 } Rasen2Work;
 
 #define EXEC_LEVEL      GV_ACTOR_MANAGER
-#define EXEC_LEVEL2     GV_ACTOR_LEVEL5
+#define EXEC_LEVEL2     GV_ACTOR_USER
 
 int rasen_800C3404 = 0;
 int rasen_800C3408 = 0;

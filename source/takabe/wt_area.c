@@ -18,7 +18,7 @@ extern void NewSplash2_800DB4E0( int angy, SVECTOR *pos, int noripple );
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 typedef struct _Work
 {

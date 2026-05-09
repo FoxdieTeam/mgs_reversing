@@ -15,7 +15,7 @@ typedef struct _Work
     int     field_44;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL4
+#define EXEC_LEVEL GV_ACTOR_PREV
 
 static void Act(Work *work)
 {

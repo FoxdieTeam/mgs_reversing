@@ -60,7 +60,7 @@ typedef struct Ending2Work
     DISPENV      field_325C;
 } Ending2Work;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 // Similar in usage to struct in movie.c
 // (but different order of fields)

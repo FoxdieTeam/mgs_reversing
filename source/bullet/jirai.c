@@ -576,7 +576,7 @@ void *NewJirai(MATRIX *world, HZD_FLR *floor)
         return NULL;
     }
 
-    work = GV_NewActor(GV_ACTOR_LEVEL5, sizeof(JiraiWork));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(JiraiWork));
     if (work)
     {
         work->field_104_vec = GM_PlayerControl->rot;

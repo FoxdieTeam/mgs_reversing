@@ -26,7 +26,7 @@ void s12a_wolf2_800CED38(Wolf2Work *work);
 void s12a_wolf2_800D1EBC(Wolf2Work *work);
 void s12a_wolf2_800D2E0C(Wolf2Work *work);
 
-#define EXEC_LEVEL      GV_ACTOR_LEVEL4
+#define EXEC_LEVEL      GV_ACTOR_PREV
 
 #define MOTION_DATA     GV_StrCode("sniper")
 #define BODY_DATA       GV_StrCode("sniper")

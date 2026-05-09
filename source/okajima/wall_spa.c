@@ -20,7 +20,7 @@ typedef struct _WallSpaWork
 void *NewPlasma_800CD30C(SVECTOR *arg0, SVECTOR *arg1, int arg2, int arg3);
 void AN_Smoke_800CE164(SVECTOR *pos, SVECTOR *speed, int index, int script);
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL4
+#define EXEC_LEVEL GV_ACTOR_PREV
 
 int WallSpaGetSvecs_800CB080(char *opt, SVECTOR *out)
 {

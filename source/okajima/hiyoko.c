@@ -25,7 +25,7 @@ typedef struct _HiyokoWork
     int      f74;
 } HiyokoWork;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 int HiyokoGetSvec_800CFD04(char *opt, SVECTOR *out)
 {

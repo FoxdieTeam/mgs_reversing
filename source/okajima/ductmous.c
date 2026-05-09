@@ -33,7 +33,7 @@ SVECTOR mouse_offsets[2] = {{48, 0, 96, 0}, {-48, 0, 96, 0}};
 
 void AN_Unknown_800CA458(MATRIX *, int);
 
-#define EXEC_LEVEL      GV_ACTOR_LEVEL5
+#define EXEC_LEVEL      GV_ACTOR_USER
 #define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE | DG_FLAG_ONEPIECE )
 
 int Ductmouse_800DA2EC(SVECTOR *a, SVECTOR *b)

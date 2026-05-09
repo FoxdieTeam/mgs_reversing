@@ -10,7 +10,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL      GV_ACTOR_LEVEL3
+#define EXEC_LEVEL      GV_ACTOR_PREV2
 
 #define MODE_FADEOUT    (0 << 0)    // 0x0000
 #define MODE_FADEIN     (1 << 0)    // 0x0001
