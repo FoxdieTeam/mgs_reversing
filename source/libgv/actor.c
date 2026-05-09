@@ -71,7 +71,7 @@ void GV_InitActorSystem( void )
         list->kill_level = levels[ i ].kill;
         list++;
     }
-    GV_PauseLevel = 0;
+    GV_PauseLevel = GV_PAUSE_NOSTOP;
 }
 
 /**
