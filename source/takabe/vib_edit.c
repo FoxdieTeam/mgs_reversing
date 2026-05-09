@@ -28,7 +28,7 @@ extern int PCclose(int fd);
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL      GV_ACTOR_LEVEL3
+#define EXEC_LEVEL      GV_ACTOR_PREV2
 
 #define VIB_EDIT_FILE   "VIB_EDIT.DAT"
 

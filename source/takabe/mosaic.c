@@ -31,7 +31,7 @@ typedef struct MosaicWork
     int    field_68;
 } MosaicWork;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL3
+#define EXEC_LEVEL GV_ACTOR_PREV2
 
 unsigned short mosaic_mes_list[] = {HASH_ON2, HASH_OFF2};
 

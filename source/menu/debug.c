@@ -611,7 +611,7 @@ void menu_viewer_act(MenuWork *work, u_long *ot)
     {
         if (menu_current_debug_screen_800ABB20 == 5)
         {
-            GV_PauseLevel &= ~4;
+            GV_PauseLevel &= ~GV_PAUSE_MENU;
         }
         menu_current_debug_screen_800ABB20++;
         if (menu_current_debug_screen_800ABB20 == 6)
@@ -620,7 +620,7 @@ void menu_viewer_act(MenuWork *work, u_long *ot)
         }
         if (menu_current_debug_screen_800ABB20 == 5)
         {
-            GV_PauseLevel |= 4;
+            GV_PauseLevel |= GV_PAUSE_MENU;
         }
     }
     else if (menu_current_debug_screen_800ABB20 != 0)

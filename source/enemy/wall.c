@@ -14,7 +14,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL      GV_ACTOR_LEVEL5
+#define EXEC_LEVEL      GV_ACTOR_USER
 
 #define FLAG_UNLIT      ( DG_FLAG_TEXT | DG_FLAG_PAINT | DG_FLAG_TRANS \
                         | DG_FLAG_BOUND | DG_FLAG_ONEPIECE )

@@ -14,7 +14,7 @@ extern int  GM_CameraShakeOffset;
 
 /*----------------------------------------------------------------*/
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 typedef struct _Work
 {

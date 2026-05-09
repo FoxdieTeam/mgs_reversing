@@ -18,7 +18,7 @@ typedef struct _ScnMarkWork
 
 void * AN_Unknown_800CA1EC(MATRIX *pos, int mark);
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL4
+#define EXEC_LEVEL GV_ACTOR_PREV
 
 static int CheckMessages(u_short name, int n_hashes, u_short *hashes)
 {

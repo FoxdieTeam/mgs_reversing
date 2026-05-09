@@ -11,7 +11,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL      GV_ACTOR_LEVEL5
+#define EXEC_LEVEL      GV_ACTOR_USER
 
 #define SHADOW_FLAG     ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE \
                         | DG_FLAG_GBOUND  | DG_FLAG_ONEPIECE | DG_FLAG_AMBIENT )

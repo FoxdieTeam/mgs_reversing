@@ -60,7 +60,7 @@ char           s04c_dword_800C35EC[] = {0x7F, 0x03, 0x00, 0x00};
 SVECTOR        s04c_dword_800C35F0 = {2000, 2000, 2000, 0};
 SVECTOR        s04c_dword_800C35F8 = {2500, 10000, 2500, 0};
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 static void CheckWireCut(WireWork *work)
 {

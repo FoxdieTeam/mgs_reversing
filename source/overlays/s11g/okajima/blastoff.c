@@ -20,7 +20,7 @@ typedef struct _Work
     SVECTOR  vertices[16];
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 static void UpdatePrim(Work *work)
 {

@@ -32,7 +32,7 @@ SVECTOR        door2_800C37B8[2] = {{500, 2500, 0, 0}, {-500, 0, 0, 0}};
 
 const char door2_800E3334[11] = {0, 2, 1, 2, 1, 2, 1, 2, 1, 2, 3};
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 void s13a_door2_800DD0FC(SVECTOR *verts, Door2Work *work)
 {

@@ -16,7 +16,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL              GV_ACTOR_LEVEL2
+#define EXEC_LEVEL              GV_ACTOR_ASSIST
 
 #define VRWIN_STATE_0           0
 #define VRWIN_STATE_1           1
@@ -225,7 +225,7 @@ static void Act(Work *work)
         }
         else if (work->f188 == 10)
         {
-            GV_PauseLevel |= 4;
+            GV_PauseLevel |= GV_PAUSE_MENU;
             work->f188++;
         }
     }
@@ -326,7 +326,7 @@ static void Act(Work *work)
         if (++work->step == 3)
         {
             GV_DestroyActor(&work->actor);
-            GV_PauseLevel &= ~4;
+            GV_PauseLevel &= ~GV_PAUSE_MENU;
         }
         return;
     }

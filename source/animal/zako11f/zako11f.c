@@ -556,7 +556,7 @@ void Zako11FGetResources_800C9070( Zako11FWork *work, int name, int where )
     work->field_C1C = work->start_pos;
 }
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL4
+#define EXEC_LEVEL GV_ACTOR_PREV
 
 void *NewZako11F( int name, int where, int argc, char **argv )
 {

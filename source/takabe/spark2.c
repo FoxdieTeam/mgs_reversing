@@ -30,7 +30,7 @@ typedef struct _Spark2Prim
 
 const SVECTOR spark2_light_pos = {0, 0, 500, 0};
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 void s03e_spark2_800CA0E8(int count)
 {

@@ -1014,7 +1014,7 @@ void *NewCameraSystem(void)
 {
     GV_ACT *work;
 
-    work = GV_NewActor(GV_ACTOR_LEVEL2, sizeof(GV_ACT));
+    work = GV_NewActor(GV_ACTOR_ASSIST, sizeof(GV_ACT));
     if (work)
     {
         GV_SetNamedActor(work, Act, NULL, "camera.c");

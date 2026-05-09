@@ -759,7 +759,7 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
     work->field_C14 = work->start_pos;
 }
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL4
+#define EXEC_LEVEL GV_ACTOR_PREV
 
 extern const char s07a_aMeryl7_800E2F04[];
 extern const char s07a_aEnemyworksized_800E2EEC[];

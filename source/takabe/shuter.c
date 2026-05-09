@@ -54,7 +54,7 @@ void Shuter_800DFDD0(ShuterWork *work);
 void Shuter_800DFE24(ShuterWork *work);
 void Shuter_800DFF34(OBJECT *, int, int);
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 void ShuterAct_800DF484(ShuterWork *work)
 {

@@ -88,7 +88,7 @@ void s01a_object_800D9424(CONTROL *, int);
 void s01a_800E2364(MATRIX *, SVECTOR *, VECTOR *);
 void s01a_lit_mdl_800E2D3C(GV_ACT *, int angle);
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL4
+#define EXEC_LEVEL GV_ACTOR_PREV
 
 void s01a_searchli_800D7320(DG_PRIM *prim, DG_TEX *tex, int r, int g, int b)
 {

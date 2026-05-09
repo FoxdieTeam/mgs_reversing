@@ -14,7 +14,7 @@
 
 /*----------------------------------------------------------------*/
 
-#define EXEC_LEVEL      GV_ACTOR_LEVEL4
+#define EXEC_LEVEL      GV_ACTOR_PREV
 
 #define UP_SPEED        15
 #define MIN_BUBBLE_SIZE 20

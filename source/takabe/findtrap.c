@@ -19,7 +19,7 @@ extern DG_CHANL        DG_Chanls[3];
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL      GV_ACTOR_LEVEL5
+#define EXEC_LEVEL      GV_ACTOR_USER
 
 typedef struct _Work
 {

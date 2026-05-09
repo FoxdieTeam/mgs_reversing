@@ -11,12 +11,12 @@ STATIC int     SECTION(".sbss") dword_800AB944;
 // TODO: hardcoded address
 void *GV_ResidentAreaBottom = GV_NORMAL_MEMORY_TOP;
 
-void GV_InitResidentMemory(void)
+void GV_InitResidentMemory( void )
 {
     GV_ResidentMemoryBottom = GV_ResidentAreaBottom;
 }
 
-void GV_SaveResidentTop(void)
+void GV_SaveResidentTop( void )
 {
     GV_ResidentAreaBottom = GV_ResidentMemoryBottom;
 }
@@ -29,7 +29,7 @@ void GV_SaveResidentTop(void)
  *
  * @return  pointer to the new resident memory bottom
  */
-void *GV_AllocResidentMemory(long size)
+void *GV_AllocResidentMemory( long size )
 {
 #ifdef DEV_EXE
     // linker-defined symbol

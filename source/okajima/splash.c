@@ -15,7 +15,7 @@ typedef struct SplashWork
     int      time;
 } SplashWork;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 RECT rect_800C3420 = {50, 50, 100, 100};
 

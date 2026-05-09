@@ -77,7 +77,7 @@ typedef struct GunCameWork
     int      field_418;
 } GunCameWork;
 
-#define EXEC_LEVEL  GV_ACTOR_LEVEL4
+#define EXEC_LEVEL  GV_ACTOR_PREV
 
 #define SEGMENT_ATR ( 0 )
 

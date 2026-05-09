@@ -31,7 +31,7 @@ typedef struct RSurfaceWork
     short        field_86;
 } RSurfaceWork;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 extern CONTROL *GM_WhereList[96];
 extern int      gControlCount_800AB9B4;

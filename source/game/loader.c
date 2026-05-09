@@ -16,7 +16,7 @@ typedef struct _Work
     int     time;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL2
+#define EXEC_LEVEL GV_ACTOR_ASSIST
 
 static void Act(Work *work)
 {

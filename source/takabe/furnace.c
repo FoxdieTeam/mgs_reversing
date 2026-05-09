@@ -20,7 +20,7 @@ void *NewMeltDie_800E0F5C(SVECTOR *arg1, int arg2);
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 typedef struct _Work
 {

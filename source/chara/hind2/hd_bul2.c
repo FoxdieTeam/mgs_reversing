@@ -21,7 +21,7 @@ typedef struct _HdBul2Work
 
 SVECTOR s11i_800C32C8 = {200, 200, 200, 0};
 
-#define EXEC_LEVEL  GV_ACTOR_LEVEL5
+#define EXEC_LEVEL  GV_ACTOR_USER
 
 #define SEGMENT_ATR ( HZD_SEG_NO_PLAYER )
 

@@ -15,7 +15,7 @@ extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL      GV_ACTOR_LEVEL5
+#define EXEC_LEVEL      GV_ACTOR_USER
 
 #define MESG_UNK_7E11   0x7e11
 

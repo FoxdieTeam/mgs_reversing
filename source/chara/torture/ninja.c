@@ -33,7 +33,7 @@ typedef struct _Work
     int            procs[4];
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 void AN_Unknown_800CCA40(SVECTOR *pos);
 

@@ -7,7 +7,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL      GV_ACTOR_LEVEL4
+#define EXEC_LEVEL      GV_ACTOR_PREV
 
 #define BOX_MODEL       GV_StrCode("cb_box")
 #define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE \

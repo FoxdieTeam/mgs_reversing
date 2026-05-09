@@ -16,7 +16,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL  GV_ACTOR_LEVEL5
+#define EXEC_LEVEL  GV_ACTOR_USER
 
 #define SEGMENT_ATR ( HZD_SEG_NO_PLAYER )
 

@@ -810,9 +810,9 @@ static void JpegcamProcessInput(Work *work)
             work->field_68 = 0;
             GM_GameStatus |= STATE_TAKING_PHOTO;
 
-            if (!(GV_PauseLevel & 1))
+            if (!(GV_PauseLevel & GV_PAUSE_STOP))
             {
-                GV_PauseLevel |= 4;
+                GV_PauseLevel |= GV_PAUSE_MENU;
             }
 
             if (work->field_90_pSight)
@@ -870,8 +870,8 @@ static void JpegcamTakePhoto(Work *work)
     }
     else if (state == 4)
     {
-        GV_PauseLevel &= ~4;
-        GV_PauseLevel |= 1;
+        GV_PauseLevel &= ~GV_PAUSE_MENU;
+        GV_PauseLevel |= GV_PAUSE_STOP;
         DG_FreeObjectQueue();
         GV_SetPacketTempMemory();
         DG_UnDrawFrameCount = 1;
@@ -912,7 +912,7 @@ static void JpegcamTakePhoto(Work *work)
         menu_radio_8004D35C();
         GM_GameStatus &= ~STATE_TAKING_PHOTO;
         GV_ResetPacketMemory();
-        GV_PauseLevel &= ~1;
+        GV_PauseLevel &= ~GV_PAUSE_STOP;
         DG_RestartMainChanlSystem();
         work->state = 0;
         work->field_90_pSight = NewSight(CAMERA_SIGHT2, CAMERA_SIGHT, &GM_CurrentItemId, IT_Camera, NULL);
@@ -982,7 +982,7 @@ static void Act(Work *work)
     {
         if ((work->field_70 == 1) && (work->state < 4))
         {
-            GV_PauseLevel &= ~4;
+            GV_PauseLevel &= ~GV_PAUSE_MENU;
         }
 
         GV_DestroyActor(&work->actor);
@@ -1021,7 +1021,7 @@ static void Act(Work *work)
         break;
 
     case 1:
-        if ((work->state < 5) && (GV_PauseLevel & 1))
+        if ((work->state < 5) && (GV_PauseLevel & GV_PAUSE_STOP))
         {
             work->state = 0;
             return;

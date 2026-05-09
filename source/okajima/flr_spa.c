@@ -22,7 +22,7 @@ typedef struct _FlrSpaWork
     int     reload;
 } FlrSpaWork;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL4
+#define EXEC_LEVEL GV_ACTOR_PREV
 
 int FlrSpaGetSvecs_800D09A4(char *opt, SVECTOR *out)
 {

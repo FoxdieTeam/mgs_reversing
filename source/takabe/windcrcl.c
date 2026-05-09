@@ -23,7 +23,7 @@ typedef struct _WindcrclWork
     int      time;
 } WindcrclWork;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 typedef struct WindcrclScratch
 {

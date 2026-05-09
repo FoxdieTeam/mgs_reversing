@@ -57,7 +57,7 @@ typedef struct _MouseWork
     MouseEntry entries[0];
 } MouseWork;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL4
+#define EXEC_LEVEL GV_ACTOR_PREV
 
 void s00a_mouse_800D3B68(MouseWork *work, OBJECT *object)
 {

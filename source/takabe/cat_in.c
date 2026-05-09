@@ -31,8 +31,8 @@ typedef struct _ZoomWork
 
 unsigned short cat_in_mes_list[] = { HASH_KILL };
 
-#define EXEC_LEVEL  GV_ACTOR_LEVEL2
-#define EXEC_LEVEL2 GV_ACTOR_LEVEL5
+#define EXEC_LEVEL  GV_ACTOR_ASSIST
+#define EXEC_LEVEL2 GV_ACTOR_USER
 
 void ZoomCameraAct_800DF740( ZoomCameraWork *cam )
 {

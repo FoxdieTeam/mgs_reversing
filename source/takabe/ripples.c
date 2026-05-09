@@ -9,7 +9,7 @@
 
 #include "takabe/ripple.h"      // for NewRipple
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 typedef struct _Work
 {

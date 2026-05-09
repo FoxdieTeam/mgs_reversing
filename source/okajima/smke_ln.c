@@ -27,7 +27,7 @@ typedef struct _SmokeLnWork
 
 void AN_Smoke_800CE2C4(SVECTOR *pos, SVECTOR *speed, int, int, int, int, int);
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL4
+#define EXEC_LEVEL GV_ACTOR_PREV
 
 void SmokeLnAct_800CDB38(SmokeLnWork *work)
 {

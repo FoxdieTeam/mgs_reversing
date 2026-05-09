@@ -89,49 +89,59 @@ typedef struct _GV_ACT
 
 typedef struct      // private to libgv/actor.c
 {
-    GV_ACT first;
-    GV_ACT last;
-    short  pause;
-    short  kill;
-} ActorList;
+    GV_ACT start;
+    GV_ACT end;
+    short  pause_level;
+    short  kill_level;
+} AList;
 
 enum {
     GV_ACTOR_DAEMON,    // 0
     GV_ACTOR_MANAGER,   // 1
-    GV_ACTOR_LEVEL2,    // 2 (ZOE1: GV_LEVEL_ASSIST)
-    GV_ACTOR_LEVEL3,    // 3 (ZOE1: GV_LEVEL_PREPARE)
-    GV_ACTOR_LEVEL4,    // 4 (ZOE1: GV_LEVEL_ACTOR)
-    GV_ACTOR_LEVEL5,    // 5 (ZOE1: GV_LEVEL_MODIFY)
-//--- memleak ---
-    GV_ACTOR_AFTER,     // 6 (ZOE1: GV_LEVEL_REFER)
-    GV_ACTOR_AFTER2,    // 7 (ZOE1: GV_LEVEL_PAUSE)
+    GV_ACTOR_ASSIST,    // 2
+
+    GV_ACTOR_PREV2,     // 3
+    GV_ACTOR_PREV,      // 4
+
+    GV_ACTOR_USER,      // 5
+
+    GV_ACTOR_AFTER,     // 6
+    GV_ACTOR_AFTER2,    // 7
 
     GV_ACTOR_DAEMON2,   // 8
     GV_ACTOR_LEVEL      // 9
 };
+
+#define GV_KILL_LEVEL_NORMAL    (0x04)
+#define GV_KILL_LEVEL_MANAGER   (0x07)
+
+#define GV_PAUSE_NOSTOP     0x00
+#define GV_PAUSE_STOP       0x01
+#define GV_PAUSE_PAUSE      0x02
+#define GV_PAUSE_MENU       0x04
+#define GV_PAUSE_READERROR  0x08
+
+#define GV_LEVEL_NORMAL     (GV_PAUSE_STOP|GV_PAUSE_PAUSE|GV_PAUSE_MENU|GV_PAUSE_READERROR)
+#define GV_LEVEL_STOP       (GV_PAUSE_STOP|GV_PAUSE_READERROR)
 
 /* actor.c */
 #ifndef __LIBGV_ACTOR_C__
 extern int GV_PauseLevel;
 #endif
 
-void GV_InitActorSystem(void);
-void GV_ConfigActorSystem(int exec_level, short pause, short kill);
-void GV_DumpActorSystem(void);
-void GV_ExecActorSystem(void);
-void GV_DestroyActorSystem(int exec_level);
-void GV_InitActor(int exec_level, void *actor, GV_FREEFUNC free_func);
-void *GV_NewActor(int exec_level, int size);
+void GV_InitActorSystem( void );
+void GV_ConfigActorSystem( int level, short pause, short kill );
+void GV_DumpActorSystem( void );
+void GV_ExecActorSystem( void );
+void GV_DestroyActorSystem( int kill );
+void GV_InitActor( int level, void *this, GV_FREEFUNC free );
+void *GV_NewActor( int level, int size );
+void GV_SetNamedActor( void *this, void *act, void *die, const char *name );
+void GV_DestroyActor( void *this );
+void GV_DestroyActorQuick( void *this );
+void GV_DestroyOtherActor( void *target );
 
-void GV_SetNamedActor(void *actor, void *act_func, void *die_func,
-                      const char *filename);
-
-#define GV_SetActor(_actor, _act, _die) \
-    GV_SetNamedActor(_actor, _act, _die, __FILE__)
-
-void GV_DestroyActor(void *actor);
-void GV_DestroyActorQuick(void *actor);
-void GV_DestroyOtherActor(void *actor);
+#define GV_SetActor( _this, _act, _die ) GV_SetNamedActor( _this, _act, _die, __FILE__ )
 
 /*------ Cache System -------------------------------------------------------*/
 
@@ -238,9 +248,9 @@ void *GV_GetMaxFreeMemory(int which);
 void *GV_SplitMemory(int which, void *addr, int size);
 
 /* resident.c */
-void  GV_InitResidentMemory(void);
-void  GV_SaveResidentTop(void);
-void *GV_AllocResidentMemory(long size);
+void  GV_InitResidentMemory( void );
+void  GV_SaveResidentTop( void );
+void *GV_AllocResidentMemory( long size );
 
 /*------ Message Handling ---------------------------------------------------*/
 

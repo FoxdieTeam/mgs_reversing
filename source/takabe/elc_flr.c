@@ -18,7 +18,7 @@ typedef struct _ElcFlrWork
     int    f150;
 } ElcFlrWork;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 unsigned short elc_flr_800C36DC[] = {HASH_ON2, HASH_OFF2};
 

@@ -28,7 +28,7 @@ typedef struct _O2DamgeWork
     int    f54;
 } O2DamgeWork;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 void ExecProc_800DE580(int proc, long arg)
 {

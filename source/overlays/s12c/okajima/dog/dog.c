@@ -61,7 +61,7 @@ typedef struct DogWork
     char     pad17B8[0x30];
 } DogWork;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 int s12c_dword_800C3430 = 0x000001F4;
 int s12c_dword_800C3434 = 0x000003E8;

@@ -120,7 +120,7 @@ static int GetResources(Work *work, int name, int where)
 
 /*----------------------------------------------------------------*/
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 void *NewPaper(int name, int where)
 {

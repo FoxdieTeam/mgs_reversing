@@ -15,7 +15,7 @@ extern CONTROL *GM_WhereList[96];
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL  GV_ACTOR_LEVEL4
+#define EXEC_LEVEL  GV_ACTOR_PREV
 
 #define SEGMENT_ATR ( HZD_SEG_NO_NAVIGATE )
 

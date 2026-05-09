@@ -8,7 +8,7 @@
 
 void *NewEventmouse_800CA6F4(HZD_PTP *points, int n_points, int, int, int, int);
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 typedef struct _Work {
     GV_ACT actor;

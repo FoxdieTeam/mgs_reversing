@@ -13,7 +13,7 @@ extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 typedef struct _SnowEntry
 {

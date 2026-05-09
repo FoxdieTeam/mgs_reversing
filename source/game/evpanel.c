@@ -17,7 +17,7 @@ extern int          GM_CameraShakeOffset;
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL4
+#define EXEC_LEVEL GV_ACTOR_PREV
 
 //  #61808a  97,128,138
 //  #202020  32, 32, 32

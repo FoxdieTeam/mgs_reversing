@@ -45,7 +45,7 @@ static void PadDemo_800DCBE8(PadDemoWork *work)
 {
     unsigned short status;
 
-    if (GV_PauseLevel & 8)
+    if (GV_PauseLevel & GV_PAUSE_READERROR)
     {
         return;
     }
@@ -113,7 +113,7 @@ static void Act(PadDemoWork *work)
 {
     if (GM_StreamStatus() == 0)
     {
-        GV_PauseLevel |= 4;
+        GV_PauseLevel |= GV_PAUSE_MENU;
         GM_GameStatus |= STATE_PADRELEASE;
         DG_UnDrawFrameCount = 3;
     }
@@ -123,7 +123,7 @@ static void Act(PadDemoWork *work)
         work->actor.act = (GV_ACTFUNC)PadDemo_800DCBE8;
         GM_GameStatus |= (STATE_PADRELEASE | GAME_FLAG_BIT_13);
         DG_UnDrawFrameCount = 4;
-        GV_PauseLevel &= ~4;
+        GV_PauseLevel &= ~GV_PAUSE_MENU;
         PadDemo_800DCBE8(work);
     }
 }

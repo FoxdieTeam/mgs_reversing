@@ -30,7 +30,7 @@ typedef struct _Work
     short   unused2;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 /*---------------------------------------------------------------------------*/
 

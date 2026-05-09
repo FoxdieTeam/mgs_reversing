@@ -210,7 +210,7 @@ static void GM_CreateLoader(void)
 
 static void GM_HidePauseScreen(void)
 {
-    GV_PauseLevel &= ~2;
+    GV_PauseLevel &= ~GV_PAUSE_PAUSE;
     GM_SetSound(0x01ffff02, SD_ASYNC);
     MENU_JimakuClear();
     GM_GameStatus &= ~GAME_FLAG_BIT_08;
@@ -221,7 +221,7 @@ static void GM_ShowPauseScreen(void)
     char *areaName;
 
     areaName = "";
-    GV_PauseLevel |= 2;
+    GV_PauseLevel |= GV_PAUSE_PAUSE;
     GM_SetSound(0x01ffff01, SD_ASYNC);
     if (GM_StageName)
     {
@@ -352,11 +352,11 @@ static void Act(gameWork *work)
     GM_PadVibration2 = 0;
     GM_PadVibration = 0;
 
-    if ((GV_PauseLevel & 8) != 0)
+    if ((GV_PauseLevel & GV_PAUSE_READERROR) != 0)
     {
         if (!str_mute_fg && CDBIOS_TaskState() != 3)
         {
-            GV_PauseLevel &= ~8;
+            GV_PauseLevel &= ~GV_PAUSE_READERROR;
         }
         else
         {
@@ -365,10 +365,10 @@ static void Act(gameWork *work)
     }
     else if (str_mute_fg || CDBIOS_TaskState() == 3)
     {
-        GV_PauseLevel |= 8;
+        GV_PauseLevel |= GV_PAUSE_READERROR;
     }
 
-    if ((GV_PauseLevel & 2) == 0)
+    if ((GV_PauseLevel & GV_PAUSE_PAUSE) == 0)
     {
         int minutes;
         gTotalFrameTime += GV_PassageTime;
@@ -453,7 +453,7 @@ static void Act(gameWork *work)
                         }
                         else
                         {
-                            GV_DestroyActorSystem(GV_ACTOR_LEVEL4);
+                            GV_DestroyActorSystem( GV_KILL_LEVEL_NORMAL );
                         }
                     }
                     else if (GM_StreamStatus() == status)
@@ -469,15 +469,15 @@ static void Act(gameWork *work)
         }
         else
         {
-            if (GM_LoadRequest != 0 && (GV_PauseLevel & 2) == 0)
+            if (GM_LoadRequest != 0 && (GV_PauseLevel & GV_PAUSE_PAUSE) == 0)
             {
                 if ((GM_LoadRequest & 0x80) != 0)
                 {
                     DG_UnDrawFrameCount = 0x7fff0000;
                 }
 
-                GV_DestroyActorSystem(GV_ACTOR_LEVEL4);
-                GV_PauseLevel &= ~8;
+                GV_DestroyActorSystem( GV_KILL_LEVEL_NORMAL );
+                GV_PauseLevel &= ~GV_PAUSE_READERROR;
                 GM_ResetMapModel();
                 GM_StreamPlayStop();
                 work->killing_count = 3;
@@ -499,7 +499,7 @@ static void Act(gameWork *work)
                     GM_TogglePauseScreen();
                 }
             }
-            else if ((GV_PauseLevel & 2) != 0)
+            else if ((GV_PauseLevel & GV_PAUSE_PAUSE) != 0)
             {
                 GM_HidePauseScreen();
             }
@@ -580,7 +580,7 @@ static void Act(gameWork *work)
     }
     else
     {
-        GV_PauseLevel &= ~8;
+        GV_PauseLevel &= ~GV_PAUSE_READERROR;
 
         if ((--work->killing_count <= 0))
         {

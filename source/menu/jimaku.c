@@ -85,7 +85,7 @@ void menu_jimaku_act( MenuWork *work, u_long *ot )
                     return;
                 }
 
-                GV_PauseLevel &= ~1;
+                GV_PauseLevel &= ~GV_PAUSE_STOP;
                 DG_RestartMainChanlSystem();
                 gUnkJimakuStruct_800BDA70.field_2_timer = 1;
 
@@ -169,7 +169,7 @@ void MENU_AreaNameWrite(char *areaName)
 void NewJimakuStr(char *str, int int_1)
 {
     MENU_JimakuWrite(str, -1);
-    GV_PauseLevel |= 1;
+    GV_PauseLevel |= GV_PAUSE_STOP;
     gUnkJimakuStruct_800BDA70.field_3C = int_1;
     DG_FreeObjectQueue();
 }
@@ -192,6 +192,6 @@ void NewJimaku(void)
         gUnkJimakuStruct_800BDA70.field_3C = -1;
     }
 
-    GV_PauseLevel |= 1;
+    GV_PauseLevel |= GV_PAUSE_STOP;
     DG_FreeObjectQueue();
 }

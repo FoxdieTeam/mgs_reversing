@@ -37,7 +37,7 @@ typedef struct _PlasmaWork
     int      f3BC;
 } PlasmaWork;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL4
+#define EXEC_LEVEL GV_ACTOR_PREV
 
 // Identical to UjiGetSvecs_800C39E8
 int PlasmaGetSvecs_800CBBEC(char *opt, SVECTOR *svec)

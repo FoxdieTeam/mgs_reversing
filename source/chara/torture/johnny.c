@@ -89,7 +89,7 @@ typedef struct _Work
     int            unkBE4;
 } Work;
 
-#define EXEC_LEVEL  GV_ACTOR_LEVEL5
+#define EXEC_LEVEL  GV_ACTOR_USER
 
 #define SEGMENT_ATR (0)
 

@@ -21,7 +21,7 @@ extern int              okajima_CHAF_LIFE;
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL      GV_ACTOR_LEVEL5
+#define EXEC_LEVEL      GV_ACTOR_USER
 
 #define CHAFF_LIFETIME  300
 

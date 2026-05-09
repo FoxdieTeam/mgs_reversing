@@ -11,7 +11,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL      GV_ACTOR_LEVEL2
+#define EXEC_LEVEL      GV_ACTOR_ASSIST
 
 #define SCANLINE_NUM    (FRAME_HEIGHT/2)
 

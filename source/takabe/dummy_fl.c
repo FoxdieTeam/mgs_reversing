@@ -83,7 +83,7 @@ void s01a_800E2364(MATRIX *mtx, SVECTOR *in, VECTOR *out);
 static void InitPreshadeObject(Work *work, FLOOR_OBJ *flr_obj, int model_name, int map);
 static void MakeFloor(SVECTOR *in, HZD_FLR *floor);
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 static void Act(Work *work)
 {

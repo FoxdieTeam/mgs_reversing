@@ -39,7 +39,7 @@ typedef struct Snake03c2Work
     int    procs[4];
 } Snake03c2Work;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
 

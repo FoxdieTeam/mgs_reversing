@@ -21,7 +21,7 @@ typedef struct KatanaWork
     int      field_14C;
 } KatanaWork;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL4
+#define EXEC_LEVEL GV_ACTOR_PREV
 
 void s08c_katana_800C5040(KatanaWork *work)
 {

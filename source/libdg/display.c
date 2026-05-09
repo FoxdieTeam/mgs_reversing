@@ -101,13 +101,13 @@ void DG_SwapFrame(void)
 {
     int activeBuffer = GV_Clock;
 
-    if ((GV_PauseLevel & 8) != 0 || DG_UnDrawFrameCount > 0)
+    if ((GV_PauseLevel & GV_PAUSE_READERROR) != 0 || DG_UnDrawFrameCount > 0)
     {
         if (DG_CurrentBuffer < 0)
         {
             DG_CurrentBuffer = activeBuffer;
         }
-        if ((GV_PauseLevel & 8) == 0)
+        if ((GV_PauseLevel & GV_PAUSE_READERROR) == 0)
         {
             --DG_UnDrawFrameCount;
         }

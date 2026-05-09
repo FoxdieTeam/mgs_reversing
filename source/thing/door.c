@@ -51,7 +51,7 @@ typedef struct _Work
     DoorLeafData   leaves[1]; // 1 or more leaves
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 /*---------------------------------------------------------------------------*/
 

@@ -25,7 +25,7 @@ typedef struct _Work
     int      f170_counter;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 /*---------------------------------------------------------------------------*/
 

@@ -59,7 +59,7 @@ SVECTOR eventmous_vecs[2] = {{48, 0, 96, 0}, {-48, 0, 96, 0}};
 void   AN_Unknown_800CA320( MATRIX *, int );
 void   NewSplash2_800DB6F0( int, SVECTOR *, int );
 
-#define EXEC_LEVEL      GV_ACTOR_LEVEL5
+#define EXEC_LEVEL      GV_ACTOR_USER
 #define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE | DG_FLAG_ONEPIECE )
 
 void Eventmouse_800C8E88(EventmouseWork *work, SVECTOR *arg1, int arg2)

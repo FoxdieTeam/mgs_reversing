@@ -12,7 +12,7 @@ extern void s08c_800C42B0(SVECTOR *pos);
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL GV_ACTOR_LEVEL5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 typedef struct _Work
 {
