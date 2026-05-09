@@ -70,7 +70,7 @@ CACHE BSS   Caches[MAX_CACHES]; // 0x400 (1024) bytes
 GV_HEAP BSS         MemorySystems_800AD2F0[3]; // 0x3030 (12336) bytes
 
 /* libgv/message.obj */
-MESSAGE_LIST BSS    message_list_800B0320[2]; // 0x288 (648) bytes
+MESSAGE_LIST BSS    message_list[2]; // 0x288 (648) bytes
 
 /* libgv/pad.obj */
 int BSS             dword_800B05A8[6]; // 0x18 (24) bytes

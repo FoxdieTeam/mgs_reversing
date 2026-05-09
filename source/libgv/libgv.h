@@ -258,23 +258,25 @@ void *GV_AllocResidentMemory( long size );
 
 typedef struct          // from memleak
 {
-    unsigned short address;
-    unsigned short _len;
-    unsigned short message[7];
-    unsigned short message_len;
+    u_short address;
+    u_short _len;
+    u_short message[7];
+    u_short message_len;
 } GV_MSG;
+
+#define MAX_MESSAGES 16
 
 typedef struct          // private to libgv/message.c
 {
     int     num;
-    GV_MSG  msg[16];
+    GV_MSG  messages[ MAX_MESSAGES ];
 } MESSAGE_LIST;
 
 /* message.c */
-void GV_InitMessageSystem(void);
-void GV_ClearMessageSystem(void);
-int  GV_SendMessage(GV_MSG *send);
-int  GV_ReceiveMessage(int address, GV_MSG **msg_ptr);
+void GV_InitMessageSystem( void );
+void GV_ClearMessageSystem( void );
+int  GV_SendMessage( GV_MSG *send );
+int  GV_ReceiveMessage( int address, GV_MSG **msg_ptr );
 
 /*------ Input Processing ---------------------------------------------------*/
 

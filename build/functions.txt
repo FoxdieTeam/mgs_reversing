@@ -69,7 +69,7 @@
 800163B0 20 GV_InitResidentMemory
 800163C4 20 GV_SaveResidentTop
 800163D8 84 GV_AllocResidentMemory
-8001642C 128 GV_ReserveMessage
+8001642C 128 slide_message_forward
 800164AC 28 GV_InitMessageSystem
 800164C8 60 GV_ClearMessageSystem
 80016504 284 GV_SendMessage
