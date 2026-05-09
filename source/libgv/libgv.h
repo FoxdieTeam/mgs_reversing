@@ -355,19 +355,19 @@ int  GV_GetPadDirNoPadOrg(unsigned int);
 
 /*------ Math Operations ----------------------------------------------------*/
 
-/* math.c */
-extern  void    GV_AddVec3( SVECTOR *vec1, SVECTOR *vec2, SVECTOR *dst );
-extern  void    GV_SubVec3( SVECTOR *vec1, SVECTOR *vec2, SVECTOR *dst );
+/* util.c */
+extern  void    GV_AddVec3( SVECTOR *vec1, SVECTOR *vec2, SVECTOR *vec3 );
+extern  void    GV_SubVec3( SVECTOR *vec1, SVECTOR *vec2, SVECTOR *vec3 );
 extern  int     GV_VecLen3( SVECTOR *vec );
-extern  void    GV_LenVec3( SVECTOR *in, SVECTOR *out, int denom, int num );
+extern  void    GV_LenVec3( SVECTOR *vec1, SVECTOR *vec2, int len1, int len2 );
 extern  int     GV_DiffVec3( SVECTOR *vec1, SVECTOR *vec2 );
 extern  int     GV_VecDir2( SVECTOR *vec );
-extern  void    GV_DirVec2( int angle, int radius, SVECTOR *out );
-extern  void    GV_DirVec3( SVECTOR *angle, int length, SVECTOR *pDstVec );
-extern  unsigned int GV_DiffDirU( int from, int to );
+extern  void    GV_DirVec2( int dir, int len, SVECTOR *vec );
+extern  void    GV_DirVec3( SVECTOR *dir, int len, SVECTOR *vec );
+extern  int     GV_DiffDirU( int from, int to );
 extern  int     GV_DiffDirS( int from, int to );
 extern  int     GV_DiffDirAbs( int from, int to );
-extern  int     GV_RandU( unsigned int input );
+extern  int     GV_RandU( int input );
 extern  int     GV_RandS( int input );
 
 /* near.c */

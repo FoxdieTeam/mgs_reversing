@@ -20,7 +20,7 @@
     include "{{OBJ_DIR}}\libgv\message.obj"
     include "{{OBJ_DIR}}\libgv\pad.obj"
     include "{{OBJ_DIR}}\libgv\strcode.obj"
-    include "{{OBJ_DIR}}\libgv\math.obj"
+    include "{{OBJ_DIR}}\libgv\util.obj"
 
     ; libdg.lib
     include "{{OBJ_DIR}}\libdg\display.obj"
