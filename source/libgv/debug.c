@@ -1,24 +1,23 @@
-// Not sure of the actual name of this file
-
 #include "libgv.h"
 #include <stdio.h>
 
 const char *GV_DebugMes = "none";
 
-void GV_Assert(char *filename, int line)
+void GV_Assert( char *file, int line )
 {
-    printf("Assertion failed: %s, line %d\n", filename, line);
+    printf( "Assertion failed: %s, line %d\n", file, line );
+
 #ifdef DEV_EXE
     HANGUP();
 #endif
 }
 
-void GV_Warning(char *format, int id)
+void GV_Warning( char *format, int id )
 {
-    printf(format, id);
+    printf( format, id );
 }
 
-void GV_Error(char *format, int id)
+void GV_Error( char *format, int id )
 {
-    GV_Warning(format, id);
+    GV_Warning( format, id );
 }
