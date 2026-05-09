@@ -272,7 +272,7 @@ static int LoadCacheSection( FS_STAGE_INFO *info, int unused )
 
         if ( info->tag_start1[-1].mode != 'c' || info->tag_end2 >= next_tag )
         {
-            GV_LoadInit(info->current_ptr + tag->size, get_cache_id(tag), GV_REGION_CACHE);
+            GV_LoadInit(info->current_ptr + tag->size, get_cache_id(tag), GV_INIT_CACHE);
         }
         else
         {
@@ -321,7 +321,7 @@ static int LoadDataArchives( FS_STAGE_INFO *info )
         limit = (DARFILE_TAG *)-1;
     }
 
-    region = ( ( info->tag->mode ) == 'r' ) ? GV_REGION_RESIDENT : GV_REGION_NOCACHE;
+    region = ( ( info->tag->mode ) == 'r' ) ? GV_INIT_RESIDENT : GV_INIT_NOCACHE;
 
     while ( limit >= ( ntag + 1 ) )
     {
@@ -346,7 +346,7 @@ static int LoadDataArchives( FS_STAGE_INFO *info )
             break;
         }
 
-        if ( region != GV_REGION_NOCACHE )
+        if ( region != GV_INIT_NOCACHE )
         {
             ptr = GV_AllocResidentMemory( ntag->size );
             GV_CopyMemory( ntag + 1, ptr, ntag->size );

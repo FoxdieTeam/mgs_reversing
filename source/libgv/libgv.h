@@ -147,54 +147,56 @@ void GV_DestroyOtherActor( void *target );
 
 enum GV_CACHE_REGION
 {
-    GV_REGION_NOCACHE,
-    GV_REGION_CACHE,
-    GV_REGION_RESIDENT,
+    GV_INIT_NOCACHE,
+    GV_INIT_CACHE,
+    GV_INIT_RESIDENT,
 };
 
-typedef struct GV_CACHE_TAG
+typedef struct CACHE
 {
     int   id;
-    void *ptr;
-} GV_CACHE_TAG;
+    void *buf;
+} CACHE;
 
-#define MAX_CACHE_TAGS 128
+#define MAX_CACHES 128
 
-typedef struct GV_CACHE_PAGE
-{
-    GV_CACHE_TAG tags[MAX_CACHE_TAGS];
-} GV_CACHE_PAGE;
+#define MAX_LOADERS  26  // 'a'～'z'
 
-#define GV_MAX_LOADERS  26  // 'a'～'z'
-
-typedef int (*GV_LOADFUNC)(unsigned char *data, int id);
+typedef int ( *GV_LOADFUNC )( void *data, int id );
 
 /* cache.c */
-int   GV_CacheID(int name, int ext);
-int   GV_CacheID2(const char *name, int ext);
-int   GV_CacheID3(char *filename);
-void *GV_GetCache(int id);
-int   GV_SetCache(int id, void *ptr);
-void  GV_SetLoader(int ext, GV_LOADFUNC func);
-void  GV_InitLoader(void);
-void  GV_InitCacheSystem(void);
-void  GV_SaveResidentFileCache(void);
-void  GV_FreeCacheSystem(void);
-int   GV_LoadInit(void *ptr, int id, int region);
+int   GV_CacheID( int root_id, int spec );
+int   GV_CacheID2( const char *root_name, int spec );
+int   GV_CacheID3( char *name );
+void *GV_GetCache( int id );
+int   GV_SetCache( int id, void *buf );
+void  GV_SetLoader( int spec, GV_LOADFUNC init );
+void  GV_ResetLoader( void );
+void  GV_InitCacheSystem( void );
+void  GV_SaveResidentFileCache( void );
+void  GV_FreeCacheSystem( void );
+int   GV_LoadInit( void *data, int name, int cache_mode );
 
 /*------ Memory Management --------------------------------------------------*/
+
+#define PACK_SIZE       (188 * 1024) /* 188KiB */
+#define MEM_SIZE        (428 * 1024) /* 428KiB */
+
+#define MEM_BOTTOM      ((void *)0x801E0000)
+
+#define PACK_ADDR0      (MEM_BOTTOM - PACK_SIZE * 2)
+#define PACK_ADDR1      (MEM_BOTTOM - PACK_SIZE)
+
+#define MEM_ADDR        (PACK_ADDR0 - MEM_SIZE)
+#define RESIDENT_BOTTOM (MEM_ADDR)
+
+#define GV_MEMORY_STATIC        0
+#define GV_MEMORY_DYNAMIC       1
 
 #define GV_PACKET_MEMORY0       0
 #define GV_PACKET_MEMORY1       1
 #define GV_NORMAL_MEMORY        2   // known memleak constant
-#define GV_MEMORY_MAX           3
-
-#define GV_NORMAL_MEMORY_TOP    ((void *)0x80117000)
-#define GV_NORMAL_MEMORY_SIZE   0x6b000 /* 428KiB */
-
-#define GV_PACKET_MEMORY0_TOP   ((void *)0x80182000)
-#define GV_PACKET_MEMORY1_TOP   ((void *)0x801b1000)
-#define GV_PACKET_MEMORY_SIZE   0x2f000 /* 188KiB */
+#define MAX_MEMSYS              3
 
 enum GV_ALLOC_STATE
 {
@@ -256,23 +258,25 @@ void *GV_AllocResidentMemory( long size );
 
 typedef struct          // from memleak
 {
-    unsigned short address;
-    unsigned short _len;
-    unsigned short message[7];
-    unsigned short message_len;
+    u_short address;
+    u_short _len;
+    u_short message[7];
+    u_short message_len;
 } GV_MSG;
+
+#define MAX_MESSAGES 16
 
 typedef struct          // private to libgv/message.c
 {
     int     num;
-    GV_MSG  msg[16];
+    GV_MSG  messages[ MAX_MESSAGES ];
 } MESSAGE_LIST;
 
 /* message.c */
-void GV_InitMessageSystem(void);
-void GV_ClearMessageSystem(void);
-int  GV_SendMessage(GV_MSG *send);
-int  GV_ReceiveMessage(int address, GV_MSG **msg_ptr);
+void GV_InitMessageSystem( void );
+void GV_ClearMessageSystem( void );
+int  GV_SendMessage( GV_MSG *send );
+int  GV_ReceiveMessage( int address, GV_MSG **msg_ptr );
 
 /*------ Input Processing ---------------------------------------------------*/
 
@@ -353,19 +357,19 @@ int  GV_GetPadDirNoPadOrg(unsigned int);
 
 /*------ Math Operations ----------------------------------------------------*/
 
-/* math.c */
-extern  void    GV_AddVec3( SVECTOR *vec1, SVECTOR *vec2, SVECTOR *dst );
-extern  void    GV_SubVec3( SVECTOR *vec1, SVECTOR *vec2, SVECTOR *dst );
+/* util.c */
+extern  void    GV_AddVec3( SVECTOR *vec1, SVECTOR *vec2, SVECTOR *vec3 );
+extern  void    GV_SubVec3( SVECTOR *vec1, SVECTOR *vec2, SVECTOR *vec3 );
 extern  int     GV_VecLen3( SVECTOR *vec );
-extern  void    GV_LenVec3( SVECTOR *in, SVECTOR *out, int denom, int num );
+extern  void    GV_LenVec3( SVECTOR *vec1, SVECTOR *vec2, int len1, int len2 );
 extern  int     GV_DiffVec3( SVECTOR *vec1, SVECTOR *vec2 );
 extern  int     GV_VecDir2( SVECTOR *vec );
-extern  void    GV_DirVec2( int angle, int radius, SVECTOR *out );
-extern  void    GV_DirVec3( SVECTOR *angle, int length, SVECTOR *pDstVec );
-extern  unsigned int GV_DiffDirU( int from, int to );
+extern  void    GV_DirVec2( int dir, int len, SVECTOR *vec );
+extern  void    GV_DirVec3( SVECTOR *dir, int len, SVECTOR *vec );
+extern  int     GV_DiffDirU( int from, int to );
 extern  int     GV_DiffDirS( int from, int to );
 extern  int     GV_DiffDirAbs( int from, int to );
-extern  int     GV_RandU( unsigned int input );
+extern  int     GV_RandU( int input );
 extern  int     GV_RandS( int input );
 
 /* near.c */

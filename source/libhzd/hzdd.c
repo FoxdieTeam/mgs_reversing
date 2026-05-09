@@ -12,7 +12,7 @@ int SECTION(".sbss") dword_800AB9AC; // unused
 
 void HZD_StartDaemon(void)
 {
-    GV_SetLoader('h', (GV_LOADFUNC)&HZD_LoadInitHzd);
+    GV_SetLoader('h', HZD_LoadInitHzd);
 }
 
 STATIC void HZD_ProcessTraps(HZD_TRG *trap, int n_traps)

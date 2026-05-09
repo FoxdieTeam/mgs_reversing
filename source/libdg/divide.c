@@ -1,7 +1,7 @@
 #include "libdg.h"
 #include "common.h"
 
-extern GV_HEAP       MemorySystems_800AD2F0[GV_MEMORY_MAX];
+extern GV_HEAP       MemorySystems_800AD2F0[MAX_MEMSYS];
 extern unsigned int *ptr_800B1400[256];
 
 typedef struct DG_DivideMem

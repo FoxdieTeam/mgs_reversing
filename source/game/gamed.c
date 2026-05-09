@@ -709,7 +709,7 @@ void GM_GameOver(void)
  *  @retval     1       on success
  *  @retval     <= 0    on failure (but this can't happen)
  */
-static int GM_LoadInitBin(unsigned char *buf, int id)
+static int GM_LoadInitBin(void *buf, int id)
 {
 #ifdef DEV_EXE
     return 1; // the overlay is embedded in the executable in dev variant

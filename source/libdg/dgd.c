@@ -143,7 +143,7 @@ void DG_StartDaemon(void)
     GV_SetLoader('l', DG_LoadInitLit);      // *.lit format
     GV_SetLoader('n', DG_LoadInitNar);      // *.nar format
     GV_SetLoader('o', DG_LoadInitOar);      // *.oar format
-    GV_SetLoader('z', DG_LoadInitKmdar);    // *.zmd format
+    GV_SetLoader('z', DG_LoadInitZmd);      // *.zmd format
     GV_SetLoader('i', DG_LoadInitImg);      // *.img format
     GV_SetLoader('s', DG_LoadInitSgt);      // *.sgt format
 

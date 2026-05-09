@@ -60,17 +60,17 @@ AList BSS       ActorList[GV_ACTOR_LEVEL]; // 0x264 (612) bytes
 gap                                     gap_800ACE7C[0x4]; // 4 bytes
 
 /* libgv/cache.obj */
-GV_LOADFUNC BSS     GV_LoaderFunctions[GV_MAX_LOADERS]; // 0x68 (104) bytes
+GV_LOADFUNC BSS     Loaders[MAX_LOADERS]; // 0x68 (104) bytes
 
 gap                                     gap_800ACEE8[0x8]; // 8 bytes
 
-GV_CACHE_PAGE BSS   GV_CacheSystem; // 0x400 (1024) bytes
+CACHE BSS   Caches[MAX_CACHES]; // 0x400 (1024) bytes
 
 /* libgv/memory.obj */
 GV_HEAP BSS         MemorySystems_800AD2F0[3]; // 0x3030 (12336) bytes
 
 /* libgv/message.obj */
-MESSAGE_LIST BSS    message_list_800B0320[2]; // 0x288 (648) bytes
+MESSAGE_LIST BSS    message_list[2]; // 0x288 (648) bytes
 
 /* libgv/pad.obj */
 int BSS             dword_800B05A8[6]; // 0x18 (24) bytes

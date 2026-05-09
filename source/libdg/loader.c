@@ -79,7 +79,7 @@ static void LinkModelToParent(DG_MDL *mdl, DG_MDL *parent)
     }
 }
 
-int DG_LoadInitKmd(unsigned char *buf, int id)
+int DG_LoadInitKmd(void *buf, int id)
 {
     DG_DEF *def = (DG_DEF *)buf;
     DG_MDL *mdl = def->model;
@@ -122,14 +122,14 @@ int DG_LoadInitKmd(unsigned char *buf, int id)
 
 /*---------------------------------------------------------------------------*/
 
-int DG_LoadInitNar(unsigned char *buf, int id)
+int DG_LoadInitNar(void *buf, int id)
 {
     DG_NARS *nar = (DG_NARS *)buf;
     nar->unknown1 = (u_char *)nar + (u_int)nar->unknown1;
     return 1;
 }
 
-int DG_LoadInitOar(unsigned char *buf, int id)
+int DG_LoadInitOar(void *buf, int id)
 {
     DG_OAR *oar = (DG_OAR *)buf;
     oar->archive = (MOTION_ARCHIVE*)&oar->oarData[ ( ( (oar->n_joint + 2) ) * oar->n_motion) * 2 ];
@@ -137,7 +137,7 @@ int DG_LoadInitOar(unsigned char *buf, int id)
     return 1;
 }
 
-int DG_LoadInitImg(unsigned char *buf, int id)
+int DG_LoadInitImg(void *buf, int id)
 {
     DG_IMG *img = (DG_IMG *)buf;
     img->textures = (unsigned short *)((char *)img + (unsigned int)img->textures);
@@ -146,7 +146,7 @@ int DG_LoadInitImg(unsigned char *buf, int id)
     return 1;
 }
 
-int DG_LoadInitSgt(unsigned char *buf, int id)
+int DG_LoadInitSgt(void *buf, int id)
 {
     SgtFile *sgt = (SgtFile *)buf;
     sgt->unknown1 = (u_char *)sgt + (u_int)sgt->unknown1;
@@ -157,7 +157,7 @@ int DG_LoadInitSgt(unsigned char *buf, int id)
     return 1;
 }
 
-int DG_LoadInitLit(unsigned char *buf, int id)
+int DG_LoadInitLit(void *buf, int id)
 {
     return 1;
 }
@@ -301,7 +301,7 @@ static void DG_PcxReadPalette(unsigned char *pcxPalette, unsigned char *imageDat
     }
 }
 
-int DG_LoadInitPcx(unsigned char *buf, int id)
+int DG_LoadInitPcx(void *buf, int id)
 {
     PCXDATA       *pcx;
     unsigned short flags;
@@ -368,7 +368,7 @@ int DG_LoadInitPcx(unsigned char *buf, int id)
 
 /*---------------------------------------------------------------------------*/
 
-int DG_LoadInitKmdar(unsigned char *buf, int id)
+int DG_LoadInitZmd(void *buf, int id)
 {
     DG_ZMD_DEF  *zmd = (DG_ZMD_DEF *)buf;
     DG_KMDPACK  *kmd = &zmd->kmd[0];

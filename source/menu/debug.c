@@ -8,7 +8,7 @@
 #include "mts/mts.h"
 #include "mts/mts_pad.h"
 
-extern GV_HEAP MemorySystems_800AD2F0[ GV_MEMORY_MAX ];
+extern GV_HEAP MemorySystems_800AD2F0[ MAX_MEMSYS ];
 extern DG_TEX  TexSets[DG_MAX_TEXTURES];
 extern unsigned short gOldRootCnt_800B1DC8[32];
 

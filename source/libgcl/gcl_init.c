@@ -18,7 +18,7 @@ int SECTION(".sbss") dword_800AB994;
  *  @retval     1       on success
  *  @retval     <= 0    on failure (but this can't happen)
  */
-static int GCL_InitFunc(unsigned char *top, int id)
+static int GCL_InitFunc(void *top, int id)
 {
     if (id == scenerio_code)
     {
