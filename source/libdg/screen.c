@@ -4,18 +4,35 @@
 #include <libgpu.h>
 #include "common.h"
 
+typedef	struct
+{
+    MATRIX eye;
+    MATRIX world;
+    MATRIX temp[ 24 ];
+    MATRIX root;
+    MATRIX world2;
+} ScrPad;
+
+#define	SCRPAD  ((ScrPad *)SCRPAD_ADDR)
+
+#define	EYE     (&(SCRPAD->eye))
+#define	WORLD   (&(SCRPAD->world))
+#define	TEMP    (SCRPAD->temp)
+#define	ROOT    (&(SCRPAD->root))
+#define	WORLD2  (&(SCRPAD->world2))
+
 STATIC void DG_ScreenModelsSingle( DG_OBJS *objs, int n_models )
 {
     DG_OBJ *obj;
 
     // view x world -> screen
-    gte_CompMatrix(getScratchAddr(0), getScratchAddr(8), getScratchAddr(16));
+    gte_CompMatrix(EYE, WORLD, TEMP);
 
     obj = objs->objs;
     for (; n_models > 0; n_models--)
     {
-        obj->world = *(MATRIX *)getScratchAddr(8);
-        obj->screen = *(MATRIX *)getScratchAddr(16);
+        obj->world = *WORLD;
+        obj->screen = *TEMP;
         obj++;
     }
 }
@@ -25,10 +42,10 @@ void DG_ScreenModels( DG_OBJS *objs, int n_models )
     MATRIX *screen;
     DG_OBJ *obj;
 
-    gte_SetRotMatrix((MATRIX *)getScratchAddr(0));
-    gte_SetTransMatrix((MATRIX *)getScratchAddr(0));
+    gte_SetRotMatrix(EYE);
+    gte_SetTransMatrix(EYE);
 
-    screen = (MATRIX *)getScratchAddr(16);
+    screen = TEMP;
 
     obj = objs->objs;
     for (; n_models > 0; n_models--)
@@ -46,10 +63,10 @@ STATIC void DG_ScreenModelsUnk400( DG_OBJS *objs, int n_models )
     MATRIX *screen;
     DG_OBJ *obj;
 
-    gte_SetRotMatrix((MATRIX *)getScratchAddr(0));
-    gte_SetTransMatrix((MATRIX *)getScratchAddr(0));
+    gte_SetRotMatrix(EYE);
+    gte_SetTransMatrix(EYE);
 
-    screen = (MATRIX *)getScratchAddr(16);
+    screen = TEMP;
 
     obj = objs->objs;
     for (; n_models > 0; n_models--)
@@ -74,15 +91,15 @@ STATIC void DG_ApplyMovs( DG_OBJS *objs, int n_models )
 
     movs = objs->movs;
 
-    world = (MATRIX *)getScratchAddr(8);
+    world = WORLD;
     gte_SetRotMatrix(world);
 
-    out = (MATRIX *)getScratchAddr(16);
+    out = TEMP;
 
     obj = objs->objs;
     for (; n_models > 0; n_models--)
     {
-        parent = (MATRIX *)getScratchAddr(16) + obj->model->parent;
+        parent = TEMP + obj->model->parent;
 
         gte_SetTransMatrix(parent);
         gte_ldv0(movs);
@@ -112,14 +129,14 @@ STATIC void DG_ApplyRots( DG_OBJS *objs, int n_models )
     MATRIX  *parent;
     MATRIX  *modelm;
 
-    out = (MATRIX *)getScratchAddr( 16 );
+    out = TEMP;
     obj = objs->objs;
-    world = (MATRIX *)getScratchAddr( 216 );
+    world = WORLD2;
     rots = objs->rots;
     adjust = objs->adjust;
     waist_rot = objs->waist_rot;
     model = obj->model;
-    root = (MATRIX *)getScratchAddr( 208 );
+    root = ROOT;
 
     if ( waist_rot )
     {
@@ -136,18 +153,18 @@ STATIC void DG_ApplyRots( DG_OBJS *objs, int n_models )
 
     if ( !adjust )
     {
-        gte_CompMatrix( getScratchAddr( 8 ), root, root );
+        gte_CompMatrix( WORLD, root, root );
     }
     else
     {
-        *world = *(MATRIX *)getScratchAddr( 8 );
-        *(MATRIX *)getScratchAddr( 8 ) = DG_ZeroMatrix;
+        *world = *WORLD;
+        *WORLD = DG_ZeroMatrix;
     }
 
     for ( i = n_models; i > 0; i-- )
     {
         model = obj->model;
-        parent = (MATRIX *)getScratchAddr( 16 ) + model->parent;
+        parent = TEMP + model->parent;
 
         RotMatrixZYX_gte( rots, out );
 
@@ -185,7 +202,7 @@ STATIC void DG_ApplyRots( DG_OBJS *objs, int n_models )
 
     if ( adjust )
     {
-        out = (MATRIX *)getScratchAddr( 16 );
+        out = TEMP;
         obj = objs->objs;
 
         gte_SetRotMatrix( world );
@@ -212,7 +229,7 @@ STATIC void DG_ScreenObjs( DG_OBJS *objs )
         objs->world = *objs->root;
     }
 
-    *(MATRIX *)getScratchAddr(8) = objs->world;
+    *WORLD = objs->world;
 
     if (objs->flag & DG_FLAG_ONEPIECE)
     {
@@ -246,8 +263,8 @@ void DG_ScreenChanl( DG_CHANL *chanl, int idx )
 
     queue = chanl->queue;
 
-    *(MATRIX *)getScratchAddr(0) = chanl->eye_inv;
-    DG_AdjustOverscan((MATRIX *)getScratchAddr(0));
+    *EYE = chanl->eye_inv;
+    DG_AdjustOverscan(EYE);
 
     for (i = chanl->objs_index; i > 0; i--)
     {
