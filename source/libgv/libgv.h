@@ -141,7 +141,7 @@ void GV_DestroyActor( void *this );
 void GV_DestroyActorQuick( void *this );
 void GV_DestroyOtherActor( void *target );
 
-#define GV_SetActor( _this, _act, _die ) GV_SetNamedActor( _actor, _act, _die, __FILE__ )
+#define GV_SetActor( _this, _act, _die ) GV_SetNamedActor( _this, _act, _die, __FILE__ )
 
 /*------ Cache System -------------------------------------------------------*/
 
