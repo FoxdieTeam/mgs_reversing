@@ -30,6 +30,7 @@
     include "{{OBJ_DIR}}\libdg\light.obj"
     include "{{OBJ_DIR}}\libdg\opack.obj"
     include "{{OBJ_DIR}}\libdg\prim.obj"
+    include "{{OBJ_DIR}}\libdg\pos.obj"
     include "{{OBJ_DIR}}\libdg\screen.obj"
     include "{{OBJ_DIR}}\libdg\shade.obj"
     include "{{OBJ_DIR}}\libdg\sort.obj"

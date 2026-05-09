@@ -325,6 +325,7 @@ def get_file_global_size(file):
         "/libdg/obj.c",
         "/libdg/opack.c",
         "/libdg/palette.c",
+        "/libdg/pos.c",
         "/libdg/prim.c",
         "/libdg/pshade.c",
         "/libdg/screen.c",
