@@ -55,7 +55,7 @@ int BSS             pad_800ACBF4; // 0x4 (4) bytes
 GV_ACT BSS          GV_Work; // 0x20 (32) bytes
 
 /* libgv/actor.obj */
-ActorList BSS       gActorsList_800ACC18[GV_ACTOR_LEVEL]; // 0x264 (612) bytes
+AList BSS       ActorList[GV_ACTOR_LEVEL]; // 0x264 (612) bytes
 
 gap                                     gap_800ACE7C[0x4]; // 4 bytes
 

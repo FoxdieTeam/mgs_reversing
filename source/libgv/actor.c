@@ -21,17 +21,16 @@
 int SECTION(".sbss") GV_PauseLevel;
 STATIC int SECTION(".sbss") dword_800AB92C; //maybe unused
 
-extern ActorList gActorsList_800ACC18[GV_ACTOR_LEVEL];
-
-typedef struct
-{
-    short pause;
-    short kill;
-} PauseKill;
+extern AList ActorList[ GV_ACTOR_LEVEL ];
 
 // initialization structure for the actor lists
 // the pause and kill levels are set for each list
-STATIC PauseKill gPauseKills_8009D308[GV_ACTOR_LEVEL] = {
+static struct
+{
+    short pause;
+    short kill;
+} levels[ GV_ACTOR_LEVEL ] =
+{
     {  0, 7 },  // 0: GV_ACTOR_DAEMON
     {  0, 7 },  // 1: GV_ACTOR_MANAGER
     {  9, 4 },  // 2: GV_ACTOR_LEVEL2
@@ -48,49 +47,47 @@ STATIC PauseKill gPauseKills_8009D308[GV_ACTOR_LEVEL] = {
 /**
  * @brief Initialize the actors lists and set the pause and kill levels.
  */
-void GV_InitActorSystem(void)
+void GV_InitActorSystem( void )
 {
-    int         i;
-    ActorList  *lp = gActorsList_800ACC18;
+    AList *list;
+    int    i;
 
-    for (i = 0; i < GV_ACTOR_LEVEL; i++)
+    list = ActorList;
+    for ( i = 0; i < GV_ACTOR_LEVEL; i++ )
     {
-        GV_ACT *first = &lp->first;
-        GV_ACT *last = &lp->last;
+        GV_ACT *start, *end;
 
-        first->prev = NULL;
-        first->next = last;
+        start = &list->start;
+        end = &list->end;
+        start->prev = NULL;
+        start->next = end;
+        end->prev = start;
+        end->next = NULL;
 
-        last->prev = first;
-        last->next = NULL;
+        start->act = start->die = NULL;
+        end->act = end->die = NULL;
 
-        first->die = NULL;
-        first->act = NULL;
-
-        last->die = NULL;
-        last->act = NULL;
-
-        lp->pause = gPauseKills_8009D308[i].pause;
-        lp->kill = gPauseKills_8009D308[i].kill;
-
-        lp++;
+        list->pause = levels[ i ].pause;
+        list->kill = levels[ i ].kill;
+        list++;
     }
-
     GV_PauseLevel = 0;
 }
 
 /**
  * @brief Set the pause and kill levels for an actor list.
  *
- * @param exec_level of the actor list
+ * @param level of the actor list
  * @param pause level to set for the pause flag
  * @param kill level to set for the kill flag
  */
-void GV_ConfigActorSystem(int exec_level, short pause, short kill)
+void GV_ConfigActorSystem( int level, short pause, short kill )
 {
-    ActorList *lp = &gActorsList_800ACC18[exec_level];
-    lp->pause = pause;
-    lp->kill = kill;
+    AList *list;
+
+    list = &ActorList[ level ];
+    list->pause = pause;
+    list->kill = kill;
 }
 
 /**
@@ -98,57 +95,46 @@ void GV_ConfigActorSystem(int exec_level, short pause, short kill)
  * Iterate over all actors in all actor lists and print their name and update
  * function.
  */
-void GV_DumpActorSystem(void)
+void GV_DumpActorSystem( void )
 {
-    int         i;
-    ActorList  *lp = gActorsList_800ACC18;
+    AList *list;
+    int    i;
 
+    list = ActorList;
     cprintf("--DumpActorSystem--\n");
 
-    for (i = 0; i < GV_ACTOR_LEVEL; i++)
+    for ( i = 0; i < GV_ACTOR_LEVEL; i++ )
     {
-        GV_ACT *actor;
-
-        cprintf("Lv %d Pause %d Kill %d\n", i, lp->pause, lp->kill);
-
-        actor = &lp->first;
-
-        for (;;)
+        cprintf( "Lv %d Pause %d Kill %d\n", i, list->pause, list->kill );
         {
-            GV_ACT *next = actor->next;
+            GV_ACT *this, *next;
 
-            if (actor->act)
+            this = &list->start;
+            do
             {
-                int unknown;
-                if (actor->count > 0)
+                next = this->next;
+                if ( this->act != NULL )
                 {
-                    // TODO: I've yet to see this condition be hit - perhaps an
-                    // unused feature of the actor system?
-                    unknown = (actor->runtime * 100) / actor->count;
+                    int c;
+                    if ( this->count > 0 )
+                    {
+                        c = this->runtime * 100 / this->count;
+                    }
+                    else
+                    {
+                        c = 0;
+                    }
+                    cprintf("Lv%d %04d.%02d %08X %s\n",
+                            i,
+                            c / 100,
+                            c % 100,
+                            this->act,
+                            this->filename);
+                    this->runtime = this->count = 0;
                 }
-                else
-                {
-                    unknown = 0;
-                }
-
-                cprintf("Lv%d %04d.%02d %08X %s\n", i,
-                        unknown / 100,
-                        unknown % 100,
-                        actor->act,
-                        actor->filename);
-
-                actor->count = 0;
-                actor->runtime = 0;
-            }
-
-            actor = next;
-
-            if (!next)
-            {
-                break;
-            }
+            } while ( ( this = next ) != NULL );
         }
-        lp++;
+        list++;
     }
 }
 
@@ -157,139 +143,121 @@ void GV_DumpActorSystem(void)
  * Iterate over all actors in all actor lists and call their update function.
  * This function is invoked continuously and represent the main game loop.
  */
-void GV_ExecActorSystem(void)
+void GV_ExecActorSystem( void )
 {
-    extern int GM_CurrentMap;
+    AList *list;
+    int    i, pause;
 
-    int         i;
-    ActorList  *lp = gActorsList_800ACC18;
-
-    // for every actor list
-    for (i = GV_ACTOR_LEVEL; i > 0; i--)
+    list = ActorList;
+    for ( i = GV_ACTOR_LEVEL; i > 0; i-- )
     {
-        // don't execute actors when the pause flag matches the
-        // current pause level
-        const int pause_level = GV_PauseLevel;
-        if ((lp->pause & pause_level) == 0)
+        void ( *act )( GV_ACT * );
+        GV_ACT *this, *next;
+
+        pause = GV_PauseLevel;
+        if ( ( list->pause & pause ) == 0 )
         {
-            // iterate over all actors in the list
-            GV_ACT *actor = &lp->first;
-            for (;;)
+            this = &list->start;
+            do
             {
+                extern int GM_CurrentMap;
 
-                GV_ACT *current = actor;
-                GV_ACT *next = current->next;
-                // if the actor has an update function, call it
-                if (current->act)
+                next = this->next;
+                if ( ( act = this->act ) != NULL )
                 {
-                    current->act(current);
+                    act( this );
                 }
-
                 GM_CurrentMap = 0;
-                // continue to the next actor until we reach the end of the list
-                actor = next;
-                if (!next)
-                {
-                    break;
-                }
-            }
+            } while ( ( this = next ) != NULL );
         }
-        lp++;
+        list++;
     }
 }
 
 /**
  * @brief Deferred destruction of actors in the actor system.
  *
- * @param exec_level The level at which to destroy actors.
+ * @param kill The level at which to destroy actors.
  */
-void GV_DestroyActorSystem(int exec_level)
+void GV_DestroyActorSystem( int kill )
 {
-    int         i;
-    ActorList  *lp = gActorsList_800ACC18;
+    AList *list;
+    int    i;
 
-    // iterate over all actor lists
-    for (i = GV_ACTOR_LEVEL; i > 0; i--)
+    list = ActorList;
+    for ( i = GV_ACTOR_LEVEL; i > 0; i-- )
     {
-        // check only for lists with a specific kill level
-        if (lp->kill <= exec_level)
-        {
-            GV_ACT *actor = &lp->first;
-            for (;;)
-            {
+        GV_ACT *this, *next;
 
-                GV_ACT *current = actor;
-                GV_ACT *next = current->next;
-                // if the actor has an update function or
-                // a shutdown function, call it
-                if (current->act || current->die)
+        if ( list->kill <= kill )
+        {
+            this = &list->start;
+            do
+            {
+                next = this->next;
+                if ( this->act || this->die )
                 {
-                    GV_DestroyActor(current);
+                    GV_DestroyActor( this );
                 }
-                // continue to the next actor until we reach the end of the list
-                actor = next;
-                if (!next)
-                {
-                    break;
-                }
-            }
+            } while ( ( this = next ) != NULL );
         }
-        lp++;
+        list++;
     }
 }
 
 /**
  * @brief Initialize an actor and add it at the end of the selected list
  *
- * @param exec_level The id of the list where the actor will be added.
- * @param actor The actor to add.
- * @param free_func The function to call when freeing the actor.
+ * @param level The id of the list where the actor will be added.
+ * @param this The actor to add.
+ * @param free The function to call when freeing the actor.
  */
-void GV_InitActor(int exec_level, void *actor, GV_FREEFUNC free_func)
+void GV_InitActor( int level, void *this, GV_FREEFUNC free )
 {
-    GV_ACT *act = (GV_ACT *)actor;
-    GV_ACT *last = &gActorsList_800ACC18[exec_level].last;
-    GV_ACT *last_prev = last->prev;
+    GV_ACT *actor, *next, *prev;
 
-    last->prev = act;
-    last_prev->next = act;
+    actor = (GV_ACT *)this;
+    next = &ActorList[ level ].end;
+    prev = next->prev;
 
-    act->next = last;
-    act->prev = last_prev;
+    next->prev = actor;
+    prev->next = actor;
+    actor->next = next;
+    actor->prev = prev;
 
-    act->die = NULL;
-    act->act = NULL;
-    act->free = free_func;
+    actor->act = actor->die = NULL;
+    actor->free = free;
 }
 
 /**
  * @brief Allocate memory for an actor and initialize it.
  *
- * @param exec_level The id of the execution list where the actor will be added.
+ * @param level The id of the execution list where the actor will be added.
  * @param size The size of the actor.
  * @return GV_ACT* The allocated actor.
  */
-void *GV_NewActor(int exec_level, int size)
+void *GV_NewActor( int level, int size )
 {
-    GV_ACT *actor = GV_Malloc(size);
-    if (actor)
+    GV_ACT *this;
+
+    this = GV_Malloc( size );
+    if ( this != NULL )
     {
-        GV_ZeroMemory(actor, size);
-        GV_InitActor(exec_level, actor, GV_Free);
+        GV_ZeroMemory( this, size );
+        GV_InitActor( level, this, GV_Free );
     }
-    return (void *)actor;
+    return (void *)this;
 }
 
-void GV_SetNamedActor(void *actor, void *act_func,
-                      void *die_func, const char *filename)
+void GV_SetNamedActor( void *this, void *act, void *die, const char *name )
 {
-    GV_ACT *act = (GV_ACT *)actor;
+    GV_ACT *actor;
 
-    act->act = (GV_ACTFUNC)act_func;
-    act->die = (GV_ACTFUNC)die_func;
-    act->filename = filename;
-    act->count = 0;
-    act->runtime = 0;
+    actor = (GV_ACT *)this;
+    actor->act = (GV_ACTFUNC)act;
+    actor->die = (GV_ACTFUNC)die;
+    actor->filename = name;
+    actor->runtime = actor->count = 0;
 }
 
 // Removes from linked list and calls shutdown/free funcs
@@ -297,38 +265,30 @@ void GV_SetNamedActor(void *actor, void *act_func,
  * @brief Destroys an actor quickly by removing it from the actor list.
  * If the actor has a destructor and memory freeing functions, they are called.
  *
- * @param actor Pointer to the actor to be destroyed.
+ * @param this Pointer to the actor to be destroyed.
  */
-void GV_DestroyActorQuick(void *actor)
+void GV_DestroyActorQuick( void *this )
 {
-    GV_ACT *act = (GV_ACT *)actor;
-    GV_ACT *prev;
-    GV_ACT *next;
+    GV_ACT *actor, *next, *prev;
+    void ( *die )( GV_ACT * ) ;
+    void ( *free )( void * ) ;
 
-    // Get points to current next/prev
-    next = act->next;
-    prev = act->prev;
+    actor = (GV_ACT *)this;
+    next = actor->next;
+    prev = actor->prev;
 
-    // Set the next actor prev to the actor behind to remove us from the back chain
     next->prev = prev;
-
-    // Set the prev actor next to the actor ahead to remove us from the forward chain
     prev->next = next;
+    actor->next = actor->prev = NULL;
 
-    // Our prev/next are no longer valid
-    act->prev = NULL;
-    act->next = NULL;
-
-    // Same purpose as C++ destructor
-    if (act->die)
+    if ( ( die = actor->die ) != NULL )
     {
-        act->die(act);
+        die( actor );
     }
 
-    // Memory freeing function
-    if (act->free)
+    if ( ( free = actor->free ) != NULL )
     {
-        act->free(act);
+        free( actor );
     }
 }
 
@@ -338,31 +298,32 @@ void GV_DestroyActorQuick(void *actor)
  *
  * @param actor The actor to destroy.
  */
-void GV_DestroyActor(void *actor)
+void GV_DestroyActor( void *this )
 {
-    ((GV_ACT *)actor)->act = (GV_ACTFUNC)GV_DestroyActorQuick;
+    ( (GV_ACT *)this )->act = (GV_ACTFUNC)GV_DestroyActorQuick;
 }
 
-void GV_DestroyOtherActor(void *actor)
+void GV_DestroyOtherActor( void *target )
 {
-    GV_ACT     *next;
-    ActorList  *lp;
-    int         i;
+    AList  *list;
+    int     i;
 
-    lp = gActorsList_800ACC18;
-    for (i = GV_ACTOR_LEVEL; i > 0; i--)
+    list = ActorList;
+    for ( i = GV_ACTOR_LEVEL; i > 0; i-- )
     {
-        GV_ACT *current = &lp->first;
-        do {
-            next = current->next;
-            if (current == actor)
+        GV_ACT *this, *next;
+
+        this = &list->start;
+        do
+        {
+            next = this->next;
+            if ( this == target )
             {
-                GV_DestroyActor(current);
+                GV_DestroyActor( this );
                 return;
             }
-            current = next;
-        } while (next);
-        lp++;
+        } while ( ( this = next ) != NULL );
+        list++;
     }
 
     printf("#");

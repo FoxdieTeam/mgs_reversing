@@ -89,11 +89,11 @@ typedef struct _GV_ACT
 
 typedef struct      // private to libgv/actor.c
 {
-    GV_ACT first;
-    GV_ACT last;
+    GV_ACT start;
+    GV_ACT end;
     short  pause;
     short  kill;
-} ActorList;
+} AList;
 
 enum {
     GV_ACTOR_DAEMON,    // 0
@@ -115,23 +115,19 @@ enum {
 extern int GV_PauseLevel;
 #endif
 
-void GV_InitActorSystem(void);
-void GV_ConfigActorSystem(int exec_level, short pause, short kill);
-void GV_DumpActorSystem(void);
-void GV_ExecActorSystem(void);
-void GV_DestroyActorSystem(int exec_level);
-void GV_InitActor(int exec_level, void *actor, GV_FREEFUNC free_func);
-void *GV_NewActor(int exec_level, int size);
+void GV_InitActorSystem( void );
+void GV_ConfigActorSystem( int level, short pause, short kill );
+void GV_DumpActorSystem( void );
+void GV_ExecActorSystem( void );
+void GV_DestroyActorSystem( int kill );
+void GV_InitActor( int level, void *this, GV_FREEFUNC free );
+void *GV_NewActor( int level, int size );
+void GV_SetNamedActor( void *this, void *act, void *die, const char *name );
+void GV_DestroyActor( void *this );
+void GV_DestroyActorQuick( void *this );
+void GV_DestroyOtherActor( void *target );
 
-void GV_SetNamedActor(void *actor, void *act_func, void *die_func,
-                      const char *filename);
-
-#define GV_SetActor(_actor, _act, _die) \
-    GV_SetNamedActor(_actor, _act, _die, __FILE__)
-
-void GV_DestroyActor(void *actor);
-void GV_DestroyActorQuick(void *actor);
-void GV_DestroyOtherActor(void *actor);
+#define GV_SetActor( _this, _act, _die ) GV_SetNamedActor( _actor, _act, _die, __FILE__ )
 
 /*------ Cache System -------------------------------------------------------*/
 
@@ -238,9 +234,9 @@ void *GV_GetMaxFreeMemory(int which);
 void *GV_SplitMemory(int which, void *addr, int size);
 
 /* resident.c */
-void  GV_InitResidentMemory(void);
-void  GV_SaveResidentTop(void);
-void *GV_AllocResidentMemory(long size);
+void  GV_InitResidentMemory( void );
+void  GV_SaveResidentTop( void );
+void *GV_AllocResidentMemory( long size );
 
 /*------ Message Handling ---------------------------------------------------*/
 
