@@ -443,7 +443,7 @@ static void Act( Work *work )
 
     ot = DG_ChanlOTag(1);
 
-    if (GV_PauseLevel & 8)
+    if (GV_PauseLevel & GV_PAUSE_READERROR)
     {
         return;
     }
@@ -473,7 +473,7 @@ static void Act( Work *work )
                 return;
             }
 
-            GV_PauseLevel |= 1;
+            GV_PauseLevel |= GV_PAUSE_STOP;
             DG_FreeObjectQueue();
             DG_ReloadPalette();
             DG_SetRGB(0, 0, 0);
@@ -548,7 +548,7 @@ static void Die( Work *work )
 {
     char *stage_name;
 
-    GV_PauseLevel &= ~1;
+    GV_PauseLevel &= ~GV_PAUSE_STOP;
     DG_RestartMainChanlSystem();
     GM_StreamPlayStop();
     GM_GameOverTimer = 0;

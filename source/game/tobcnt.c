@@ -494,7 +494,7 @@ static void Act( Work *work )
                 work->time = 256;
                 work->timeout = 300;
 
-                GV_PauseLevel |= 1;
+                GV_PauseLevel |= GV_PAUSE_STOP;
                 DG_FreeObjectQueue();
                 GM_GameStatus |= STATE_ALL_OFF;
             }
@@ -549,7 +549,7 @@ static void Die( Work *work )
 
     stage_name = "title";
 
-    GV_PauseLevel &= ~1;
+    GV_PauseLevel &= ~GV_PAUSE_STOP;
     DG_RestartMainChanlSystem();
     GM_StreamPlayStop();
 

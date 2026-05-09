@@ -91,8 +91,8 @@ typedef struct      // private to libgv/actor.c
 {
     GV_ACT start;
     GV_ACT end;
-    short  pause;
-    short  kill;
+    short  pause_level;
+    short  kill_level;
 } AList;
 
 enum {
@@ -111,6 +111,18 @@ enum {
     GV_ACTOR_DAEMON2,   // 8
     GV_ACTOR_LEVEL      // 9
 };
+
+#define GV_KILL_LEVEL_NORMAL    (0x04)
+#define GV_KILL_LEVEL_MANAGER   (0x07)
+
+#define GV_PAUSE_NOSTOP     0x00
+#define GV_PAUSE_STOP       0x01
+#define GV_PAUSE_PAUSE      0x02
+#define GV_PAUSE_MENU       0x04
+#define GV_PAUSE_READERROR  0x08
+
+#define GV_LEVEL_NORMAL     (GV_PAUSE_STOP|GV_PAUSE_PAUSE|GV_PAUSE_MENU|GV_PAUSE_READERROR)
+#define GV_LEVEL_STOP       (GV_PAUSE_STOP|GV_PAUSE_READERROR)
 
 /* actor.c */
 #ifndef __LIBGV_ACTOR_C__

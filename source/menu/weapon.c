@@ -1395,7 +1395,7 @@ void menu_weapon_update_helper2_8003E674(MenuWork *work, u_long *ot)
         if (sub_8003D568() != 0)
         {
             work->field_2A_state = MENU_CLOSED;
-            GV_PauseLevel &= ~4;
+            GV_PauseLevel &= ~GV_PAUSE_MENU;
             menu_weapon_update_helper2_helper2_8003E3B0(work);
         }
         else
@@ -1428,7 +1428,7 @@ void menu_weapon_update_8003E990(MenuWork *work, u_long *ot)
                 if (menu_weapon_update_helper_8003E4B8(work))
                 {
                     work->field_2A_state = MENU_RIGHT_OPEN;
-                    GV_PauseLevel |= 4;
+                    GV_PauseLevel |= GV_PAUSE_MENU;
                     sub_8003D520();
                 }
             }

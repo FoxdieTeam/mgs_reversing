@@ -1508,7 +1508,7 @@ STATIC void menu_radio_update_80042198(MenuWork *work, u_long *ot)
                 work->field_2A_state = MENU_CODEC_OPEN;
                 menu_radio_update_helper2_80038A7C();
                 MENU_JimakuClear();
-                GV_PauseLevel |= 1;
+                GV_PauseLevel |= GV_PAUSE_STOP;
                 DG_FreeObjectQueue();
                 DG_BackGroundBlack();
                 GV_SetPacketTempMemory();
@@ -1601,7 +1601,7 @@ STATIC void menu_radio_update_80042198(MenuWork *work, u_long *ot)
             menu_radio_update_helper_80038A6C();
             menu_radio_update_helper6_80047D40(work);
             GV_ResetPacketMemory();
-            GV_PauseLevel &= ~1;
+            GV_PauseLevel &= ~GV_PAUSE_STOP;
             DG_RestartMainChanlSystem();
             menu_radio_init_nullsub_80042190(work);
             DrawSync(0);

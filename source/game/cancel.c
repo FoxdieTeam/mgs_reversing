@@ -53,13 +53,13 @@ static void Act(Work *work)
         work->actor.act = (GV_ACTFUNC)Act2;
         DG_UnDrawFrameCount = 0x7FFF0000;
         work->timer = 0;
-        GV_PauseLevel |= 4;
+        GV_PauseLevel |= GV_PAUSE_MENU;
     }
 }
 
 static void Die(Work *work)
 {
-    GV_PauseLevel &= ~4;
+    GV_PauseLevel &= ~GV_PAUSE_MENU;
 
     if (work->proc >= 0)
     {

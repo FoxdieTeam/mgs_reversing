@@ -31,15 +31,15 @@ static struct
     short kill;
 } levels[ GV_ACTOR_LEVEL ] =
 {
-    {  0, 7 },  // 0: GV_ACTOR_DAEMON
-    {  0, 7 },  // 1: GV_ACTOR_MANAGER
-    {  9, 4 },  // 2: GV_ACTOR_ASSIST
-    {  9, 4 },  // 3: GV_ACTOR_PREV2
-    { 15, 4 },  // 4: GV_ACTOR_PREV
-    { 15, 4 },  // 5: GV_ACTOR_USER
-    { 15, 4 },  // 6: GV_ACTOR_AFTER
-    {  9, 4 },  // 7: GV_ACTOR_AFTER2
-    {  0, 7 }   // 8: GV_ACTOR_DAEMON2
+    { GV_PAUSE_NOSTOP, GV_KILL_LEVEL_MANAGER }, // GV_ACTOR_DAEMON
+    { GV_PAUSE_NOSTOP, GV_KILL_LEVEL_MANAGER }, // GV_ACTOR_MANAGER
+    { GV_LEVEL_STOP,   GV_KILL_LEVEL_NORMAL  }, // GV_ACTOR_ASSIST
+    { GV_LEVEL_STOP,   GV_KILL_LEVEL_NORMAL  }, // GV_ACTOR_PREV2
+    { GV_LEVEL_NORMAL, GV_KILL_LEVEL_NORMAL  }, // GV_ACTOR_PREV
+    { GV_LEVEL_NORMAL, GV_KILL_LEVEL_NORMAL  }, // GV_ACTOR_USER
+    { GV_LEVEL_NORMAL, GV_KILL_LEVEL_NORMAL  }, // GV_ACTOR_AFTER
+    { GV_LEVEL_STOP,   GV_KILL_LEVEL_NORMAL  }, // GV_ACTOR_AFTER2
+    { GV_PAUSE_NOSTOP, GV_KILL_LEVEL_MANAGER }  // GV_ACTOR_DAEMON2
 };
 
 /*---------------------------------------------------------------------------*/
@@ -67,8 +67,8 @@ void GV_InitActorSystem( void )
         start->act = start->die = NULL;
         end->act = end->die = NULL;
 
-        list->pause = levels[ i ].pause;
-        list->kill = levels[ i ].kill;
+        list->pause_level = levels[ i ].pause;
+        list->kill_level = levels[ i ].kill;
         list++;
     }
     GV_PauseLevel = 0;
@@ -86,8 +86,8 @@ void GV_ConfigActorSystem( int level, short pause, short kill )
     AList *list;
 
     list = &ActorList[ level ];
-    list->pause = pause;
-    list->kill = kill;
+    list->pause_level = pause;
+    list->kill_level = kill;
 }
 
 /**
@@ -105,7 +105,7 @@ void GV_DumpActorSystem( void )
 
     for ( i = 0; i < GV_ACTOR_LEVEL; i++ )
     {
-        cprintf( "Lv %d Pause %d Kill %d\n", i, list->pause, list->kill );
+        cprintf( "Lv %d Pause %d Kill %d\n", i, list->pause_level, list->kill_level );
         {
             GV_ACT *this, *next;
 
@@ -155,7 +155,7 @@ void GV_ExecActorSystem( void )
         GV_ACT *this, *next;
 
         pause = GV_PauseLevel;
-        if ( ( list->pause & pause ) == 0 )
+        if ( ( list->pause_level & pause ) == 0 )
         {
             this = &list->start;
             do
@@ -189,7 +189,7 @@ void GV_DestroyActorSystem( int kill )
     {
         GV_ACT *this, *next;
 
-        if ( list->kill <= kill )
+        if ( list->kill_level <= kill )
         {
             this = &list->start;
             do

@@ -67,7 +67,7 @@ void menuman_act_800386A4(MenuWork *work)
     pOtStart = (&menu_prim)->ot;
     work->field_24_pInput = &GM_CurrentPadData[2];
     menu_jimaku_act(work, pOtStart);
-    if ( ( !(GV_PauseLevel & 2) && (GM_LoadComplete > 0) ) &&
+    if ( ( !(GV_PauseLevel & GV_PAUSE_PAUSE) && (GM_LoadComplete > 0) ) &&
          ( !GM_LoadRequest ) )
     {
         idx_as_flag = 1;

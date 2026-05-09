@@ -360,7 +360,7 @@ static void Die(MovieWork *work)
 
     GV_ResetPacketMemory();
 
-    GV_PauseLevel &= ~1;
+    GV_PauseLevel &= ~GV_PAUSE_STOP;
 
     DG_RestartMainChanlSystem();
 
@@ -417,7 +417,7 @@ void *NewMovie(unsigned int code)
     movie_work.end_proc = -1;
     movie_work.f40 = 11;
 
-    GV_PauseLevel |= 1;
+    GV_PauseLevel |= GV_PAUSE_STOP;
 
     movie_work.f42 = frame - 1;
     movie_work.n_frames = 0;

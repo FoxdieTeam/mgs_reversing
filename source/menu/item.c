@@ -742,7 +742,7 @@ void menu_item_update_helper2_8003BF1C(MenuWork *work, u_long *ot)
         {
             work->field_2A_state = MENU_CLOSED;
             // Unpause the gameplay
-            GV_PauseLevel &= ~4;
+            GV_PauseLevel &= ~GV_PAUSE_MENU;
             menu_8003BBEC(work);
         }
         else
@@ -1117,7 +1117,7 @@ void menu_item_update_8003C95C(MenuWork *work, u_long *ot)
                     {
                         work->field_2A_state = MENU_LEFT_OPEN;
                         // Pause the gameplay while the menu is open
-                        GV_PauseLevel |= 4;
+                        GV_PauseLevel |= GV_PAUSE_MENU;
                     }
                 }
                 // Quick item equip (L1)
