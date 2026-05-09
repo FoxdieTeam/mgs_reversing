@@ -499,14 +499,14 @@ void DG_SetLightMatrix( MATRIX* mtx, int trans_x );
 int  DG_GetLightMatrix2( SVECTOR *vec, MATRIX *mtx );
 
 /* loader.c */
-int DG_LoadInitKmd( unsigned char *buf, int id );
-int DG_LoadInitNar( unsigned char *buf, int id );
-int DG_LoadInitOar( unsigned char *buf, int id );
-int DG_LoadInitImg( unsigned char *buf, int id );
-int DG_LoadInitSgt( unsigned char *buf, int id );
-int DG_LoadInitLit( unsigned char *buf, int id );
-int DG_LoadInitPcx( unsigned char *buf, int id );
-int DG_LoadInitKmdar( unsigned char *buf, int id );
+int DG_LoadInitKmd( void *buf, int id );
+int DG_LoadInitNar( void *buf, int id );
+int DG_LoadInitOar( void *buf, int id );
+int DG_LoadInitImg( void *buf, int id );
+int DG_LoadInitSgt( void *buf, int id );
+int DG_LoadInitLit( void *buf, int id );
+int DG_LoadInitPcx( void *buf, int id );
+int DG_LoadInitZmd(void *buf, int id );
 
 /* matrix.c */
 void DG_MatrixRot( MATRIX *mat, SVECTOR *svec );
