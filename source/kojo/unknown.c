@@ -324,6 +324,8 @@ VECTOR * sub_8007F1DC(VECTOR *out, DG_VECTOR *arg1, VECTOR *arg2)
     return out;
 }
 
+/*---------------------------------------------------------------------------*/
+
 void InitChain(ACTNODE *root)
 {
     if (root)
@@ -333,7 +335,7 @@ void InitChain(ACTNODE *root)
     }
 }
 
-void InsertChain(ACTNODE *root, ACTNODE *node)
+void NextChain(ACTNODE *root, ACTNODE *node)
 {
     if (root && node)
     {
@@ -353,7 +355,7 @@ void InsertChain(ACTNODE *root, ACTNODE *node)
     }
 }
 
-void RemoveChain(ACTNODE *root, ACTNODE *node)
+void DeleteChain(ACTNODE *root, ACTNODE *node)
 {
     int equal;
 
@@ -375,6 +377,8 @@ void RemoveChain(ACTNODE *root, ACTNODE *node)
         InitChain(node);
     }
 }
+
+/*---------------------------------------------------------------------------*/
 
 typedef struct
 {

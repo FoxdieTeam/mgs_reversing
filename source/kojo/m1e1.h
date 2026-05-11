@@ -9,7 +9,11 @@
 #include "libgv/libgv.h"
 #include "game/game.h"
 
-typedef struct M1E1Work
+/******************************************************************************
+ * definitions and typedefs and structures
+ */
+
+typedef struct tagM1E1ACTOR
 {
     GV_ACT  actor;
     CONTROL control;
@@ -47,10 +51,14 @@ typedef struct M1E1Work
     int     field_F6C;
     int     nCaterSoundTCount;
     int     nCaterSoundStartTCount;
-} M1E1Work;
+} M1E1ACTOR, *LPM1E1ACTOR;
+
+/******************************************************************************
+ * prototypes
+ */
 
 /* m1e1catr.c */
-void M1E1Caterpiller(M1E1Work *work);
+void M1E1Caterpiller(LPM1E1ACTOR lpAct);
 void M1E1GetCaterpillerVertex(OBJECT *obj1, OBJECT *obj2, SVECTOR *pos, int a4);
 
 #endif // __MGS_KOJO_M1E1_H__
