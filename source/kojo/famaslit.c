@@ -31,7 +31,7 @@ typedef struct tagFAMASLIGHT
     int         nMap;
     DG_PRIM     *prim;
     MATRIX      *world;
-} FAMASLIGHT *LPFAMASLIGHT;
+} FAMASLIGHT, *LPFAMASLIGHT;
 
 /******************************************************************************
  * locals
