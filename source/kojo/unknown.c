@@ -1,8 +1,16 @@
 #include "kojo/demo.h"
 
+/******************************************************************************
+ * definitions and typedefs and structures
+ */
+
 #define __detx(a, b, c) (((b).y - (a).y) * ((c).z - (b).z) - ((b).z - (a).z) * ((c).y - (b).y))
 #define __dety(a, b, c) (((b).z - (a).z) * ((c).x - (b).x) - ((b).x - (a).x) * ((c).z - (b).z))
 #define __detz(a, b, c) (((b).x - (a).x) * ((c).y - (b).y) - ((b).y - (a).y) * ((c).x - (b).x))
+
+/******************************************************************************
+ * publics
+ */
 
 void sub_8007E1C0(HZD_VEC *pOut, HZD_VEC *pOut2, MATRIX *pTransform, SVECTOR *pMin, SVECTOR *pMax)
 {
@@ -324,7 +332,9 @@ VECTOR * sub_8007F1DC(VECTOR *out, DG_VECTOR *arg1, VECTOR *arg2)
     return out;
 }
 
-/*---------------------------------------------------------------------------*/
+/******************************************************************************
+ * publics
+ */
 
 void InitChain(ACTNODE *root)
 {
@@ -378,7 +388,9 @@ void DeleteChain(ACTNODE *root, ACTNODE *node)
     }
 }
 
-/*---------------------------------------------------------------------------*/
+/******************************************************************************
+ * definitions and typedefs and structures
+ */
 
 typedef struct
 {
@@ -390,6 +402,10 @@ typedef struct
 } SCRPAD_DATA_8007F3F8;
 
 SVECTOR svector_8009F7AC = {0, 255, 0, 0};
+
+/******************************************************************************
+ * publics
+ */
 
 void sub_8007F3F8(HZD_SEG *pIn, HZD_FLR *pOut, MATRIX *pTransform, SVECTOR *pMin, SVECTOR *pMax)
 {

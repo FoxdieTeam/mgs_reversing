@@ -1,3 +1,15 @@
+/******************************************************************************
+ * System   : METALGEAR^3 for PlayStation
+ * Computer : PlayStation
+ * OS       : PlayStation
+ * Compiler : psyq
+ * Module   : 
+ */
+
+/******************************************************************************
+ * included
+ */
+
 #include "demo.h"
 
 #include <stdio.h>
@@ -11,12 +23,18 @@
 
 extern int demodebug_finish_proc;
 
-/*---------------------------------------------------------------------------*/
+/******************************************************************************
+ * functions
+ */
 
 static void ActStream(LPMGSDEMOACT lpAct);
 static void DieStream(LPMGSDEMOACT lpAct);
 static void ActFile(LPMGSDEMOACT lpAct);
 static void DieFile(LPMGSDEMOACT lpAct);
+
+/******************************************************************************
+ * publics
+ */
 
 int DM_ThreadStream(int flag, int unused)
 {
@@ -98,7 +116,9 @@ int DM_ThreadFile(int flag, char *filename)
     return 1;
 }
 
-/*---------------------------------------------------------------------------*/
+/******************************************************************************
+ * statics
+ */
 
 static void ActStream(LPMGSDEMOACT lpAct)
 {

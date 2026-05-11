@@ -1,3 +1,15 @@
+/******************************************************************************
+ * System   : METALGEAR^3 for PlayStation
+ * Computer : PlayStation
+ * OS       : PlayStation
+ * Compiler : psyq
+ * Module   : 
+ */
+
+/******************************************************************************
+ * included
+ */
+
 #include "famaslit.h"
 
 #include <sys/types.h>
@@ -9,33 +21,43 @@
 #include "libdg/libdg.h"
 #include "game/game.h"
 
-/*---------------------------------------------------------------------------*/
+/******************************************************************************
+ * definitions and typedefs and structures
+ */
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
-typedef struct _Work
+typedef struct tagFAMASLIGHT
 {
-    GV_ACT   actor;
-    int      map;
-    DG_PRIM *prim;
-    MATRIX  *world;
-} Work;
+    GV_ACT      actor;
+    int         nMap;
+    DG_PRIM     *prim;
+    MATRIX      *world;
+} FAMASLIGHT *LPFAMASLIGHT;
+
+/******************************************************************************
+ * locals
+ */
 
 static RECT     famaslit_rect = {40, 40, 80, 80};
 static SVECTOR  famaslit_svec = {0, -400, 60, 0};
 
-/*---------------------------------------------------------------------------*/
+/******************************************************************************
+ * functions
+ */
 
-static void Act(Work *work);
-static void Die(Work *work);
+static void Act(LPFAMASLIGHT lpAct);
+static void Die(LPFAMASLIGHT lpAct);
+
+/******************************************************************************
+ * publics
+ */
 
 void *NewFamasLight(MATRIX *world)
 {
-    DG_TEX       *tex;
-    Work         *work;
-    DG_PRIM      *prim;
-    int           x, y, w, h;
-    int           x2, y2, w2, h2;
+    DG_TEX          *tex;
+    LPFAMASLIGHT    lpAct;
+    DG_PRIM         *prim;
+    int             x, y, w, h;
+    int             x2, y2, w2, h2;
 
     tex = DG_GetTexture(GV_StrCode("famas_l"));
     if (tex == NULL)
@@ -43,25 +65,25 @@ void *NewFamasLight(MATRIX *world)
         return NULL;
     }
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
-    if (work == NULL)
+    lpAct = GV_NewActor(GV_ACTOR_USER, sizeof(FAMASLIGHT));
+    if (lpAct == NULL)
     {
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, Act, Die, "famaslit.c");
+    GV_SetNamedActor(&lpAct->actor, Act, Die, "famaslit.c");
 
-    work->world = world;
-    work->map = GM_CurrentMap;
+    lpAct->world = world;
+    lpAct->nMap = GM_CurrentMap;
 
     prim = GM_MakePrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 1, &famaslit_svec, &famaslit_rect);
-    work->prim = prim;
+    lpAct->prim = prim;
 
     DG_GroupPrim(prim, 0);
 
-    work->prim->raise = 400;
+    lpAct->prim->raise = 400;
 
-#define POLY ((POLY_FT4 *)work->prim->packs[0])
+#define POLY ((POLY_FT4 *)lpAct->prim->packs[0])
 
     x = tex->off_x;
     w = tex->w;
@@ -98,18 +120,20 @@ void *NewFamasLight(MATRIX *world)
 
 #undef POLY
 
-    return (void *)work;
+    return (void *)lpAct;
 }
 
-/*---------------------------------------------------------------------------*/
+/******************************************************************************
+ * statics
+ */
 
-static void Act(Work *work)
+static void Act(LPFAMASLIGHT lpAct)
 {
-    work->prim->world = *work->world;
-    DG_VisiblePrim(work->prim);
+    lpAct->prim->world = *lpAct->world;
+    DG_VisiblePrim(lpAct->prim);
 }
 
-static void Die(Work *work)
+static void Die(LPFAMASLIGHT lpAct)
 {
-    GM_FreePrim(work->prim);
+    GM_FreePrim(lpAct->prim);
 }

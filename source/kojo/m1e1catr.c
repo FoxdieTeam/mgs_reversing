@@ -1,3 +1,7 @@
+/******************************************************************************
+ * included
+ */
+
 #include <stddef.h>
 #include <stdlib.h>
 #include <sys/types.h>
@@ -14,9 +18,17 @@
 extern void AN_CaterpillerSmoke(SVECTOR *pos);
 extern void demothrd_2_8007DA94(SVECTOR *pPosition, SVECTOR *pRotation);
 
+/******************************************************************************
+ * definitions and typedefs and structures
+ */
+
 #define SE_M1E1_CATERPILLERDEAD1    (182)
 #define SE_M1E1_CATERPILLERDEAD2    (190)
 #define M1E1_SOUNDCATERPILLERDEAD1  (30)
+
+/******************************************************************************
+ * publics
+ */
 
 void M1E1Caterpiller(LPM1E1ACTOR lpAct)
 {
