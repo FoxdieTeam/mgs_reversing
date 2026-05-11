@@ -67,38 +67,52 @@ def ninja_run():
     # warrnings that were probably in the original code
     # TODO: hide these when building locally
     warning_whitelist = [
-        r'select\.c:\d+: warning: control reaches end of non-void function',
-        r'select\.c:\d+: warning: unsigned int format, pointer arg \(arg 2\)',
-        r'sd_drv\.c:\d+: warning: `temp\' might be used uninitialized in this function',
-        r'stream\.c:\d+: warning: `dir_idx\' might be used uninitialized in this function',
-        r'sd_main\.c:\d+: warning: unused variable `buffer\'',
-        r'sd_drv\.c:\d+: warning: unused variable `temp\'',
+        # in mts
+        r'mts_new\.c:\d+: warning: control reaches end of non-void function',
+        # in sound
         r'sd_cli\.c:\d+: warning: control reaches end of non-void function',
-        r'radiomes\.c:\d+: warning: unused variable `pad\'',
-        r'radiomem\.c:\d+: warning: unused variable `pad\'',
-        r'item\.c:\d+: warning: `state\' might be used uninitialized in this function',
-        r'memcard\.c:\d+: warning: `op\' might be used uninitialized in this function',
-        r'memcard\.c:\d+: warning: `count\' might be used uninitialized in this function',
-        r'door\.c:\d+: warning: unused variable `pad\'',
+        r'sd_drv\.c:\d+: warning: unused variable `temp\'',
+        r'sd_drv\.c:\d+: warning: `temp\' might be used uninitialized in this function',
+        r'sd_main\.c:\d+: warning: unused variable `buffer\'',
+        # in chara
+        r'torture\.c:\d+: warning: unused variable `pad\'',
+        # in enemy (& friends)
+        r'action.c:\d+: warning: assignment of read-only location',
+        # in font
+        r'font\.c:\d+: warning: `m2\' might be used uninitialized in this function',
+        # in game
+        r'alert\.c:\d+: warning: `set_song2\' defined but not used',
+        r'control\.c:\d+: warning: `vy\' might be used uninitialized in this function',
         r'motion\.c:\d+: warning: `time\' might be used uninitialized in this function',
         r'motion\.c:\d+: warning: unused variable `unused\'',
         r'motion\.c:\d+: warning: `archive2\' might be used uninitialized in this function',
         r'motion\.c:\d+: warning: `shift2\' might be used uninitialized in this function',
         r'motion\.c:\d+: warning: `archive\' might be used uninitialized in this function',
-        r'memcard\.c:\d+: warning: `return\' with no value, in function returning non-void',
-        r'main\.c:\d+: warning: control reaches end of non-void function',
-        r'control\.c:\d+: warning: `vy\' might be used uninitialized in this function',
-        r'font\.c:\d+: warning: `m2\' might be used uninitialized in this function',
-        r'radar\.c:\d+: warning: `pWalls\' might be used uninitialized in this function',
-        r'radar\.c:\d+: warning: `ppWalls\' might be used uninitialized in this function',
         r'sndtst\.c:\d+: warning: `name\' might be used uninitialized in this function',
         r'sndtst\.c:\d+: warning: `code\' might be used uninitialized in this function',
         r'select\.c:\d+: warning: `proc_id\' might be used uninitialized in this function',
         r'select\.c:\d+: warning: `entry_name\' might be used uninitialized in this function',
-        r'mts_new\.c:\d+: warning: control reaches end of non-void function',
-        r'mosaic\.c:\d+: warning: unused variable `unused\'',
-        r'vib_edit.c:\d+: warning: too many arguments for format',
-        r'action.c:\d+: warning: assignment of read-only location',
+        # in libfs
+        r'select\.c:\d+: warning: control reaches end of non-void function',
+        r'select\.c:\d+: warning: unsigned int format, pointer arg \(arg 2\)',
+        # in main
+        r'main\.c:\d+: warning: control reaches end of non-void function',
+        # in memcard
+        r'memcard\.c:\d+: warning: `op\' might be used uninitialized in this function',
+        r'memcard\.c:\d+: warning: `count\' might be used uninitialized in this function',
+        r'memcard\.c:\d+: warning: `return\' with no value, in function returning non-void',
+        # in menu
+        r'item\.c:\d+: warning: `state\' might be used uninitialized in this function',
+        r'radar\.c:\d+: warning: `pWalls\' might be used uninitialized in this function',
+        r'radar\.c:\d+: warning: `ppWalls\' might be used uninitialized in this function',
+        r'radiomem\.c:\d+: warning: unused variable `pad\'',
+        r'radiomes\.c:\d+: warning: unused variable `pad\'',
+        # in okajima
+        r'blur\.c:\d+: warning: unused variable `pad1\'',
+        r'blur\.c:\d+: warning: unused variable `pad2\'',
+        r'blur\.c:\d+: warning: unused variable `pad3\'',
+        # in thing
+        r'door\.c:\d+: warning: unused variable `pad\'',
         r'sphere.c:\d+: warning: `xoff\' might be used uninitialized in this function',
         r'sphere.c:\d+: warning: `yoff\' might be used uninitialized in this function',
         r'sphere.c:\d+: warning: `tpage\' might be used uninitialized in this function',
@@ -107,17 +121,16 @@ def ninja_run():
         r'sphere.c:\d+: warning: `v0\' might be used uninitialized in this function',
         r'sphere.c:\d+: warning: `u1\' might be used uninitialized in this function',
         r'sphere.c:\d+: warning: `v1\' might be used uninitialized in this function',
-        r'blur\.c:\d+: warning: unused variable `pad1\'',
-        r'blur\.c:\d+: warning: unused variable `pad2\'',
-        r'blur\.c:\d+: warning: unused variable `pad3\'',
-        r'rcm2\.c:\d+: warning: unused variable `mat\'',
+        # in takabe
         r'ending2\.c:\d+: warning: unused variable `pad\'',
-        r'torture\.c:\d+: warning: unused variable `pad\'',
         r'ending2\.c:\d+: warning: `var_s1\' might be used uninitialized in this function',
         r'ending2\.c:\d+: warning: `var_s6\' might be used uninitialized in this function',
+        r'mosaic\.c:\d+: warning: unused variable `unused\'',
+        r'vib_edit.c:\d+: warning: too many arguments for format',
+        # in anime (misc.)
+        r'rcm2\.c:\d+: warning: unused variable `mat\'',
         r'smoke\.c:\d+: warning: `s00a_dword_800C34C8\' defined but not used',
         r'smoke3\.c:\d+: warning: unused variable `unused\'',
-        r'alert\.c:\d+: warning: `set_song2\' defined but not used',
         r'jspark\.c:\d+: warning: unused variable `unused\'',
     ]
 
