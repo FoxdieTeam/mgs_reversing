@@ -11,76 +11,71 @@
 
 extern int demodebug_finish_proc;
 
-/* from demo.c */
-extern int CreateDemo(DemoWork *work, DMO_DEF *def);
-extern int DestroyDemo(DemoWork *work);
-extern int FrameRunDemo(DemoWork *work, DMO_DAT *data);
-
 /*---------------------------------------------------------------------------*/
 
-static void StreamAct(DemoWork *work);
-static void StreamDie(DemoWork *work);
-static void FileAct(DemoWork *work);
-static void FileDie(DemoWork *work);
+static void ActStream(LPMGSDEMOACT lpAct);
+static void DieStream(LPMGSDEMOACT lpAct);
+static void ActFile(LPMGSDEMOACT lpAct);
+static void DieFile(LPMGSDEMOACT lpAct);
 
 int DM_ThreadStream(int flag, int unused)
 {
-    DemoWork *work;
+    LPMGSDEMOACT lpAct;
 
-    work = GV_NewActor(GV_ACTOR_MANAGER, sizeof(DemoWork));
-    if (!work)
+    lpAct = GV_NewActor(GV_ACTOR_MANAGER, sizeof(MGSDEMOACT));
+    if (!lpAct)
     {
         return 0;
     }
 
-    work->flag = flag;
-    work->frame = -1;
+    lpAct->flag = flag;
+    lpAct->frame = -1;
 
-    GV_SetNamedActor(&work->actor, &StreamAct, &StreamDie, "demothrd.c");
+    GV_SetNamedActor(&lpAct->actor, &ActStream, &DieStream, "demothrd.c");
 
-    work->map = GM_CurrentMap;
+    lpAct->map = GM_CurrentMap;
     FS_StreamOpen();
     return 1;
 }
 
 int DM_ThreadFile(int flag, char *filename)
 {
-    DemoWork   *work;
+    LPMGSDEMOACT lpAct;
     int         fd;
     char       *buffer;
     int         fsize, length;
 
-    work = GV_NewActor(GV_ACTOR_MANAGER, sizeof(DemoWork));
+    lpAct = GV_NewActor(GV_ACTOR_MANAGER, sizeof(MGSDEMOACT));
 
-    if ( !work )
+    if ( !lpAct )
     {
         return 0;
     }
 
-    work->flag = flag;
-    work->frame = -1;
+    lpAct->flag = flag;
+    lpAct->frame = -1;
 
-    GV_SetNamedActor(&work->actor, &FileAct, &FileDie, "demothrd.c");
+    GV_SetNamedActor(&lpAct->actor, &ActFile, &DieFile, "demothrd.c");
 
-    work->map = GM_CurrentMap;
+    lpAct->map = GM_CurrentMap;
     FS_EnableMemfile(0, 0);
-    work->stream = (void *)0x80200000;
+    lpAct->stream = (void *)0x80200000;
 
-    MakeFullPath(filename, (char *)&work->chain.used);
-    printf("Demo file = \"%s\"\n", (char *)&work->chain.used);
+    MakeFullPath(filename, (char *)&lpAct->chain.used);
+    printf("Demo file = \"%s\"\n", (char *)&lpAct->chain.used);
 
-    fd = PCopen((char *)&work->chain.used, 0, 0);
+    fd = PCopen((char *)&lpAct->chain.used, 0, 0);
     if ( fd < 0 )
     {
-        printf("\"%s\" not found\n", (char *)&work->chain.used);
-        GV_DestroyActor(&work->actor);
+        printf("\"%s\" not found\n", (char *)&lpAct->chain.used);
+        GV_DestroyActor(&lpAct->actor);
         return 0;
     }
 
     fsize = PClseek(fd, 0, 2);
     PClseek(fd, 0, 0);
 
-    buffer = (char *)work->stream;
+    buffer = (char *)lpAct->stream;
 
     while ( fsize > 0 )
     {
@@ -92,7 +87,7 @@ int DM_ThreadFile(int flag, char *filename)
         if ( length < 0 )
         {
             PCclose(fd);
-            GV_DestroyActor(&work->actor);
+            GV_DestroyActor(&lpAct->actor);
             return 0;
         }
 
@@ -105,7 +100,7 @@ int DM_ThreadFile(int flag, char *filename)
 
 /*---------------------------------------------------------------------------*/
 
-static void StreamAct(DemoWork *work)
+static void ActStream(LPMGSDEMOACT lpAct)
 {
     int      ticks;
     char    *data;
@@ -115,38 +110,38 @@ static void StreamAct(DemoWork *work)
 
     ticks = FS_StreamGetTick();
 
-    if (work->frame == -1)
+    if (lpAct->frame == -1)
     {
         data = FS_StreamGetData(5);
 
         if (data)
         {
             def = (DMO_DEF *)(data - 4);
-            status = CreateDemo(work, def);
+            status = CreateDemo(lpAct, def);
 
             FS_StreamClear(data);
 
             if (status == 0)
             {
-                GV_DestroyActor(&work->actor);
+                GV_DestroyActor(&lpAct->actor);
             }
 
-            work->frame = 0;
+            lpAct->frame = 0;
         }
 
         return;
     }
 
-    if (work->start_time == 0)
+    if (lpAct->start_time == 0)
     {
-        work->start_time = ticks - 2;
+        lpAct->start_time = ticks - 2;
     }
 
-    work->frame = (ticks - work->start_time) / 2;
+    lpAct->frame = (ticks - lpAct->start_time) / 2;
     status = 0;
     temp = 0;
 
-    if (work->frame <= work->header->n_frames)
+    if (lpAct->frame <= lpAct->header->n_frames)
     {
         while (1)
         {
@@ -156,14 +151,14 @@ static void StreamAct(DemoWork *work)
             {
                 if (FS_StreamGetEndFlag() == 1)
                 {
-                    GV_DestroyActor(&work->actor);
+                    GV_DestroyActor(&lpAct->actor);
                 }
 
                 return;
             }
 
             def = (DMO_DEF *)(data - 4);
-            if (def->frame >= work->frame)
+            if (def->frame >= lpAct->frame)
             {
                 break;
             }
@@ -171,7 +166,7 @@ static void StreamAct(DemoWork *work)
             FS_StreamClear(data);
         }
 
-        status = FrameRunDemo(work, (DMO_DAT *)def);
+        status = FrameRunDemo(lpAct, (DMO_DAT *)def);
 
         if (status == 0)
         {
@@ -185,18 +180,18 @@ static void StreamAct(DemoWork *work)
 
     if (status == temp)
     {
-        GV_DestroyActor(&work->actor);
+        GV_DestroyActor(&lpAct->actor);
     }
 }
 
-static void StreamDie(DemoWork *work)
+static void DieStream(LPMGSDEMOACT lpAct)
 {
-    DestroyDemo(work);
+    DestroyDemo(lpAct);
     FS_StreamClose();
     DG_UnDrawFrameCount = 0x7fff0000;
 }
 
-static void FileAct(DemoWork *work)
+static void ActFile(LPMGSDEMOACT lpAct)
 {
     int time;
     int new_time;
@@ -204,47 +199,47 @@ static void FileAct(DemoWork *work)
 
     time = VSync(-1);
 
-    if (work->frame == -1)
+    if (lpAct->frame == -1)
     {
-        if (!CreateDemo(work, (DMO_DEF *)work->stream))
+        if (!CreateDemo(lpAct, (DMO_DEF *)lpAct->stream))
         {
             printf("Error:Initialize demo\n");
-            GV_DestroyActor(&work->actor);
+            GV_DestroyActor(&lpAct->actor);
         }
 
-        work->frame = 0;
+        lpAct->frame = 0;
         return;
     }
 
-    if (work->start_time == 0)
+    if (lpAct->start_time == 0)
     {
-        work->start_time = time - 2;
+        lpAct->start_time = time - 2;
         printf("PlayDemoSound\n");
     }
 
-    if (work->flag & 4)
+    if (lpAct->flag & 4)
     {
-        new_time = work->frame + 1;
+        new_time = lpAct->frame + 1;
     }
     else
     {
-        new_time = (time - work->start_time) / 2;
+        new_time = (time - lpAct->start_time) / 2;
     }
 
-    work->frame = new_time;
+    lpAct->frame = new_time;
 
-    if (work->header->n_frames < work->frame)
+    if (lpAct->header->n_frames < lpAct->frame)
     {
         success = 0;
     }
     else
     {
-        while (work->frame != work->stream->frame)
+        while (lpAct->frame != lpAct->stream->frame)
         {
-            work->stream = (DMO_DEF *)((char *)work->stream + work->stream->tag);
+            lpAct->stream = (DMO_DEF *)((char *)lpAct->stream + lpAct->stream->tag);
         }
 
-        success = FrameRunDemo(work, (DMO_DAT *)work->stream);
+        success = FrameRunDemo(lpAct, (DMO_DAT *)lpAct->stream);
     }
 
     if (GV_PadData[1].status & PAD_CROSS)
@@ -254,13 +249,13 @@ static void FileAct(DemoWork *work)
 
     if (success == 0)
     {
-        GV_DestroyActor(&work->actor);
+        GV_DestroyActor(&lpAct->actor);
     }
 }
 
-static void FileDie(DemoWork *work)
+static void DieFile(LPMGSDEMOACT lpAct)
 {
-    DestroyDemo(work);
+    DestroyDemo(lpAct);
     FS_EnableMemfile(1, 1);
 
     if (demodebug_finish_proc != -1)

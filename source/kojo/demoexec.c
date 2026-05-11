@@ -25,13 +25,13 @@ extern GM_CAMERA        GM_Camera;
 
 /*---------------------------------------------------------------------------*/
 
-static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node);
-static void RemoveType(DemoWork *work, int type);
-static int demothrd_8007CDF8(DemoWork *work, DMO_DAT *data, ACTNODE *node);
-static int demothrd_1_FrameRunDemo_helper4_8007CF14(DemoWork *work, DMO_DAT *data);
-static int demothrd_8007CFE8(DemoWork *work, DMO_ADJ *adjust);
-static void demothrd_m1e1_8007D404(DemoWork *work, DMO_ADJ *adjust, DMO_MDL *model_file, DEMO_MODEL *model);
-static void demothrd_hind_8007D9C8(DemoWork *work, DMO_ADJ *adjust, DMO_MDL *model_file, DEMO_MODEL *model);
+static BOOL ShowEffect(LPMGSDEMOACT lpAct, DMO_DATA_0x36 *data, ACTNODE *node);
+static void KillEffect(LPMGSDEMOACT lpAct, int type);
+static BOOL ShowEffectExecute(LPMGSDEMOACT lpAct, DMO_DAT *data, ACTNODE *node);
+static BOOL ShowEffectStop(LPMGSDEMOACT lpAct, DMO_DAT *data);
+static BOOL ShowScene(LPMGSDEMOACT lpAct, DMO_ADJ *adjust);
+static void demothrd_m1e1_8007D404(LPMGSDEMOACT lpAct, DMO_ADJ *adjust, DMO_MDL *model_file, DEMO_MODEL *model);
+static void demothrd_hind_8007D9C8(LPMGSDEMOACT lpAct, DMO_ADJ *adjust, DMO_MDL *model_file, DEMO_MODEL *model);
 
 /* in anime/effect/m1e1.c */
 extern void AN_CaterpillerSmoke(SVECTOR *pos);
@@ -41,17 +41,12 @@ extern void sub_8007DD80(short param_1, SVECTOR *pPos);
 extern void sub_8007DF10(SVECTOR *pRotation, SVECTOR *pTranslation);
 extern void sub_8007E0AC(int y, SVECTOR *pPosition);
 
-/* in kojo/unknown.c */
-extern void InitChain(ACTNODE *root);
-extern void InsertChain(ACTNODE *root, ACTNODE *node);
-extern void RemoveChain(ACTNODE *root, ACTNODE *node);
-
 /* in demoscrn.c */
 extern void DemoScreenChanl(DG_CHANL *chanl, int idx);
 
 /*---------------------------------------------------------------------------*/
 
-int CreateDemo(DemoWork *work, DMO_DEF *header)
+BOOL CreateDemo(LPMGSDEMOACT lpAct, DMO_DEF *header)
 {
     DMO_MAP    *maps;
     DMO_MDL    *models;
@@ -61,46 +56,46 @@ int CreateDemo(DemoWork *work, DMO_DEF *header)
     DMO_MDL    *model_file;
     MATRIX     *light;
 
-    work->old_screen = DG_SetChanlSystemUnits(DG_SCREEN_CHANL, DemoScreenChanl);
-    work->old_game_status = GM_GameStatus;
-    work->old_camera = GM_Camera;
-    work->old_item = GM_CurrentItemId;
-    work->old_weapon = GM_CurrentWeaponId;
+    lpAct->old_screen = DG_SetChanlSystemUnits(DG_SCREEN_CHANL, DemoScreenChanl);
+    lpAct->old_game_status = GM_GameStatus;
+    lpAct->old_camera = GM_Camera;
+    lpAct->old_item = GM_CurrentItemId;
+    lpAct->old_weapon = GM_CurrentWeaponId;
 
     OFFSET_TO_PTR(header, &header->maps);
     OFFSET_TO_PTR(header, &header->models);
 
-    InitChain(&work->chain);
+    InitChain(&lpAct->chain);
 
-    work->header = GV_Malloc(sizeof(DMO_DEF));
-    if (!work->header)
+    lpAct->header = GV_Malloc(sizeof(DMO_DEF));
+    if (!lpAct->header)
     {
         return 0;
     }
 
-    *work->header = *header;
-    work->header->maps = NULL;
-    work->header->models = NULL;    
+    *lpAct->header = *header;
+    lpAct->header->maps = NULL;
+    lpAct->header->models = NULL;    
 
     maps = GV_Malloc((sizeof(DMO_MAP) * header->n_maps) | 1);
-    work->header->maps = maps;
+    lpAct->header->maps = maps;
     if (!maps)
     {
         return 0;
     }
 
     models = GV_Malloc((sizeof(DMO_MDL) * header->n_models) | 1);
-    work->header->models = models;
+    lpAct->header->models = models;
     if (!models)
     {
         return 0;
     }
 
-    memcpy(work->header->maps, header->maps, sizeof(DMO_MAP) * work->header->n_maps);
-    memcpy(work->header->models, header->models, sizeof(DMO_MDL) * work->header->n_models);
+    memcpy(lpAct->header->maps, header->maps, sizeof(DMO_MAP) * lpAct->header->n_maps);
+    memcpy(lpAct->header->models, header->models, sizeof(DMO_MDL) * lpAct->header->n_models);
 
-    map = work->header->maps;
-    for (i = 0; i < work->header->n_maps; i++)
+    map = lpAct->header->maps;
+    for (i = 0; i < lpAct->header->n_maps; i++)
     {
         if (!GV_GetCache(map->cache_id))
         {
@@ -111,17 +106,17 @@ int CreateDemo(DemoWork *work, DMO_DEF *header)
         map++;
     }
 
-    work->models = GV_Malloc((sizeof(DEMO_MODEL) * work->header->n_models) | 1);
-    if (!work->models)
+    lpAct->models = GV_Malloc((sizeof(DEMO_MODEL) * lpAct->header->n_models) | 1);
+    if (!lpAct->models)
     {
         return 0;
     }
 
-    memset(work->models, 0, sizeof(DEMO_MODEL) * work->header->n_models);
+    memset(lpAct->models, 0, sizeof(DEMO_MODEL) * lpAct->header->n_models);
 
-    model_file = work->header->models;
-    model = work->models;
-    for (i = 0; i < work->header->n_models; i++, model_file++, model++)
+    model_file = lpAct->header->models;
+    model = lpAct->models;
+    for (i = 0; i < lpAct->header->n_models; i++, model_file++, model++)
     {
         if (!GV_GetCache(model_file->cache_id))
         {
@@ -129,7 +124,7 @@ int CreateDemo(DemoWork *work, DMO_DEF *header)
             return 0;
         }
 
-        if (GM_InitControl(&model->control, model_file->name, work->map) < 0)
+        if (GM_InitControl(&model->control, model_file->name, lpAct->map) < 0)
         {
             printf("Error init control ( Scene = No.%d )\n", i + 1);
             return 0;
@@ -263,39 +258,39 @@ int CreateDemo(DemoWork *work, DMO_DEF *header)
         return 0;
     }
 
-    if (GM_InitControl(&work->control, 0, work->map) < 0)
+    if (GM_InitControl(&lpAct->control, 0, lpAct->map) < 0)
     {
         printf("Error init control ( null.kmd )\n");
         return 0;
     }
 
-    work->control.step_size = 0;
-    work->control.interp = 0;
+    lpAct->control.step_size = 0;
+    lpAct->control.interp = 0;
 
-    GM_InitObject(&work->object, GV_StrCode("null"), BODY_FLAG, 0);
+    GM_InitObject(&lpAct->object, GV_StrCode("null"), BODY_FLAG, 0);
 
-    GM_ConfigObjectJoint(&work->object);
-    GM_ConfigObjectLight(&work->object, work->light);
+    GM_ConfigObjectJoint(&lpAct->object);
+    GM_ConfigObjectLight(&lpAct->object, lpAct->light);
 
-    DG_InvisibleObjs(work->object.objs);
+    DG_InvisibleObjs(lpAct->object.objs);
 
     GM_GameStatus |= STATE_DEMO;
     return 1;
 }
 
-int DestroyDemo(DemoWork *work)
+BOOL DestroyDemo(LPMGSDEMOACT lpAct)
 {
     ACTNODE    *node;
     DMO_MDL    *model_file;
     DEMO_MODEL *model;
     int         i;
 
-    if (work->flag & 0x2)
+    if (lpAct->flag & 0x2)
     {
         GM_GameStatus |= STATE_DEMO_VERBOSE;
     }
 
-    for (node = work->chain.next; node != &work->chain; node = work->chain.next)
+    for (node = lpAct->chain.next; node != &lpAct->chain; node = lpAct->chain.next)
     {
         if (node->actor1)
         {
@@ -307,15 +302,15 @@ int DestroyDemo(DemoWork *work)
             GV_DestroyOtherActor(node->actor2);
         }
 
-        RemoveChain(&work->chain, node);
+        DeleteChain(&lpAct->chain, node);
         GV_Free(node);
     }
 
-    if (work->models)
+    if (lpAct->models)
     {
-        model_file = work->header->models;
-        model = work->models;
-        for (i = 0; i < work->header->n_models; i++, model_file++, model++)
+        model_file = lpAct->header->models;
+        model = lpAct->models;
+        for (i = 0; i < lpAct->header->n_models; i++, model_file++, model++)
         {
             GM_FreeObject(&model->object);
 
@@ -336,37 +331,37 @@ int DestroyDemo(DemoWork *work)
         }
 
         GM_FreeControl(&model->control);
-        GV_Free(work->models);
+        GV_Free(lpAct->models);
     }
 
-    GM_FreeObject(&work->object);
-    GM_FreeControl(&work->control);
+    GM_FreeObject(&lpAct->object);
+    GM_FreeControl(&lpAct->control);
 
-    if (work->header)
+    if (lpAct->header)
     {
-        if (work->header->maps)
+        if (lpAct->header->maps)
         {
-            GV_Free(work->header->maps);
+            GV_Free(lpAct->header->maps);
         }
 
-        if (work->header->models)
+        if (lpAct->header->models)
         {
-            GV_Free(work->header->models);
+            GV_Free(lpAct->header->models);
         }
 
-        GV_Free(work->header);
+        GV_Free(lpAct->header);
     }
 
     GM_GameStatus &= ~STATE_DEMO;
-    DG_SetChanlSystemUnits(DG_SCREEN_CHANL, work->old_screen);
-    GM_GameStatus = work->old_game_status;
-    GM_Camera = work->old_camera;
-    GM_CurrentItemId = work->old_item;
-    GM_CurrentWeaponId = work->old_weapon;
+    DG_SetChanlSystemUnits(DG_SCREEN_CHANL, lpAct->old_screen);
+    GM_GameStatus = lpAct->old_game_status;
+    GM_Camera = lpAct->old_camera;
+    GM_CurrentItemId = lpAct->old_item;
+    GM_CurrentWeaponId = lpAct->old_weapon;
     return 1;
 }
 
-int FrameRunDemo(DemoWork *work, DMO_DAT *data)
+BOOL FrameRunDemo(LPMGSDEMOACT lpAct, DMO_DAT *data)
 {
     SVECTOR   diff;
     SVECTOR   rot;
@@ -381,27 +376,27 @@ int FrameRunDemo(DemoWork *work, DMO_DAT *data)
     OFFSET_TO_PTR(data, &data->chara);
     OFFSET_TO_PTR(data, &data->adjust);
 
-    work->control.mov.vx = data->eye_x;
-    work->control.mov.vy = data->eye_y;
-    work->control.mov.vz = data->eye_z;
+    lpAct->control.mov.vx = data->eye_x;
+    lpAct->control.mov.vy = data->eye_y;
+    lpAct->control.mov.vz = data->eye_z;
 
     diff.vx = (data->center_x - data->eye_x) >> 2;
     diff.vx = (data->center_y - data->eye_y) >> 2;
     diff.vx = (data->center_z - data->eye_z) >> 2;
 
     radius = SquareRoot0(diff.vx  * diff.vx  + diff.vz * diff.vz);
-    work->control.rot.vx = ratan2(diff.vy, radius);
-    work->control.rot.vy = ratan2(diff.vx, diff.vz);
-    work->control.rot.vz = data->roll;
+    lpAct->control.rot.vx = ratan2(diff.vy, radius);
+    lpAct->control.rot.vy = ratan2(diff.vx, diff.vz);
+    lpAct->control.rot.vz = data->roll;
 
-    GM_ActControl(&work->control);
-    GM_ActObject2(&work->object);
-    DG_GetLightMatrix(&work->control.mov, work->light);
+    GM_ActControl(&lpAct->control);
+    GM_ActObject2(&lpAct->object);
+    DG_GetLightMatrix(&lpAct->control.mov, lpAct->light);
 
-    work->field_268 = 0;
-    work->field_26C = 0;
+    lpAct->field_268 = 0;
+    lpAct->field_26C = 0;
 
-    for (node = work->chain.next; node != &work->chain; node = node->next)
+    for (node = lpAct->chain.next; node != &lpAct->chain; node = node->next)
     {
         node->used = 0;
     }
@@ -409,9 +404,9 @@ int FrameRunDemo(DemoWork *work, DMO_DAT *data)
     chara = data->chara;
     for ( i = 0; i < data->n_charas; i++, chara++ )
     {
-        node = work->chain.next;
+        node = lpAct->chain.next;
 
-        if ( node != &work->chain )
+        if ( node != &lpAct->chain )
         {
             do
             {
@@ -423,7 +418,7 @@ int FrameRunDemo(DemoWork *work, DMO_DAT *data)
 
                 node = node->next;
             }
-            while (node != &work->chain);
+            while (node != &lpAct->chain);
 
             if ( node->chara.field_0 == chara->field_0 )
             {
@@ -438,44 +433,44 @@ int FrameRunDemo(DemoWork *work, DMO_DAT *data)
         }
 
         memset(node, 0, sizeof(ACTNODE));
-        InsertChain(&work->chain, node);
+        NextChain(&lpAct->chain, node);
         node->used = 1;
 
         node->chara = *chara;
 
         // This function uses offset 0x34 of chara despite it seemingly only being 0x34 bytes in size
-        if ( !MakeChara(work, (DMO_DATA_0x36 *)chara, node) )
+        if ( !ShowEffect(lpAct, (DMO_DATA_0x36 *)chara, node) )
         {
             return 0;
         }
     }
 
-    for ( iter = work->chain.next; iter != &work->chain; )
+    for ( iter = lpAct->chain.next; iter != &lpAct->chain; )
     {
         node = iter;
         iter = node->next;
 
         if ( node->used != 1 && !node->actor1 )
         {
-            RemoveChain(&work->chain, node);
+            DeleteChain(&lpAct->chain, node);
             GV_Free(node);
         }
     }
 
-    for ( node = work->chain.next; node != &work->chain; node = node->next )
+    for ( node = lpAct->chain.next; node != &lpAct->chain; node = node->next )
     {
-        if ( !demothrd_8007CDF8(work, data, node) )
+        if ( !ShowEffectExecute(lpAct, data, node) )
         {
             return 0;
         }
     }
 
-    demothrd_1_FrameRunDemo_helper4_8007CF14(work, data);
+    ShowEffectStop(lpAct, data);
 
     adjust = data->adjust;
     for ( i = 0; i < data->n_adjusts; i++, adjust++ )
     {
-        if ( !demothrd_8007CFE8(work, adjust) )
+        if ( !ShowScene(lpAct, adjust) )
         {
             return 0;
         }
@@ -521,7 +516,7 @@ int FrameRunDemo(DemoWork *work, DMO_DAT *data)
     return 1;
 }
 
-static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
+static BOOL ShowEffect(LPMGSDEMOACT lpAct, DMO_DATA_0x36 *data, ACTNODE *node)
 {
     // TODO: Some funcptr calls are first cast to VoidMakeChara. This is a hack
     // to prevent those cases from being merged (GCC "cross jump" optimization).
@@ -554,30 +549,30 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
 
     switch (data->field_4_type)
     {
-    case 0x1:
-        funcptr = GM_GetCharaID(0x1);
+    case EFFECT_EXPLOSION:
+        funcptr = GM_GetCharaID(CHARAID_0001_BLAST);
         if (funcptr != NULL)
         {
             funcptr(&mat1, &blast_data_8009F4B8[3]);
         }
         break;
 
-    case 0x2:
-        funcptr = GM_GetCharaID(0x2);
+    case EFFECT_SMOKE:
+        funcptr = GM_GetCharaID(CHARAID_0002);
         if (funcptr != NULL)
         {
             funcptr(&svec1);
         }
         break;
 
-    case 0x3:
-    case 0x4:
-        RemoveType(work, 4);
+    case EFFECT_FADEIN:
+    case EFFECT_FADEOUT:
+        KillEffect(lpAct, EFFECT_FADEOUT);
 
         switch (data->field_4_type)
         {
-        case 0x3:
-            funcptr = GM_GetCharaID(3);
+        case EFFECT_FADEIN:
+            funcptr = GM_GetCharaID(CHARAID_0003_FADEIO);
             if (funcptr != NULL)
             {
                 if (data->data.variant_0x3.field_18 == 0)
@@ -591,8 +586,8 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
             }
             break;
 
-        case 0x4:
-            funcptr = GM_GetCharaID(4);
+        case EFFECT_FADEOUT:
+            funcptr = GM_GetCharaID(CHARAID_0004_FADEIO);
             if (funcptr != NULL)
             {
                 if (data->data.variant_0x4.field_18 == 0)
@@ -608,8 +603,8 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
         }
         break;
 
-    case 0x5:
-        funcptr = GM_GetCharaID(5);
+    case EFFECT_TEXT:
+        funcptr = GM_GetCharaID(CHARAID_0005_TELOP);
         if (funcptr != NULL)
         {
             funcptr(data->data.variant_0x5.field_18, data->data.variant_0x5.field_1A, 0, data->data.variant_0x5.field_14,
@@ -617,8 +612,8 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
         }
         break;
 
-    case 0x6:
-        funcptr = GM_GetCharaID(6);
+    case EFFECT_SURPRISEDMARK:
+        funcptr = GM_GetCharaID(CHARAID_0006);
         if (funcptr != NULL)
         {
             if (data->data.variant_0x6.field_14 == 0)
@@ -632,8 +627,8 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
         }
         break;
 
-    case 0x7:
-        funcptr = GM_GetCharaID(7);
+    case EFFECT_QUESTIONMARK:
+        funcptr = GM_GetCharaID(CHARAID_0007);
         if (funcptr != NULL)
         {
             if (data->data.variant_0x7.field_14 == 0)
@@ -647,18 +642,18 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
         }
         break;
 
-    case 0x8:
-        funcptr = GM_GetCharaID(0x8);
+    case EFFECT_SLEEPMARK:
+        funcptr = GM_GetCharaID(CHARAID_0008);
         if (funcptr != NULL)
         {
             funcptr(&svec1);
         }
         break;
 
-    case 0x9:
+    case EFFECT_BLOOD:
         if (data->data.variant_0x9.field_14 != 4)
         {
-            funcptr = GM_GetCharaID(9);
+            funcptr = GM_GetCharaID(CHARAID_0009_BLOOD);
             if (funcptr != NULL)
             {
                 funcptr(&mat2, data->data.variant_0x9.field_14);
@@ -666,15 +661,15 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
         }
         else
         {
-            funcptr = GM_GetCharaID(0xA);
+            funcptr = GM_GetCharaID(CHARAID_000A_SPLASH);
             if (funcptr != NULL)
             {
                 funcptr(&mat2, 0xFF);
             }
         }
         break;
-    case 0xA:
-        funcptr = GM_GetCharaID(0xB);
+    case EFFECT_BULLET:
+        funcptr = GM_GetCharaID(CHARAID_000B_BULLET);
         if (funcptr != NULL)
         {
             funcptr(data->data.variant_0xA.field_14, &mat2, data->data.variant_0xA.field_18,
@@ -682,16 +677,16 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
                     data->data.variant_0xA.field_20, data->data.variant_0xA.field_22, data->data.variant_0xA.field_24);
         }
         break;
-    case 0xB:
-        funcptr = GM_GetCharaID(0xC);
+    case EFFECT_MISSILESMOKE:
+        funcptr = GM_GetCharaID(CHARAID_000C);
         if (funcptr != NULL)
         {
             funcptr(&mat2);
         }
         break;
 
-    case 0xC:
-        funcptr = GM_GetCharaID(0xD);
+    case EFFECT_BLOODCIRCLE:
+        funcptr = GM_GetCharaID(CHARAID_000D_D_BLOODS);
         if (funcptr != NULL)
         {
             if (data->data.variant_0xC.field_14 >= 4 && data->data.variant_0xC.field_14 <= 7)
@@ -707,19 +702,19 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
         }
         break;
 
-    case 0xD:
-        funcptr = GM_GetCharaID(0xe);
+    case EFFECT_BREATH:
+        funcptr = GM_GetCharaID(CHARAID_000E_BREATH);
         if (funcptr != NULL)
         {
             funcptr(&mat2);
         }
         break;
 
-    case 0xE:
-        pModel = work->models;
-        pDmoModel = work->header->models;
+    case EFFECT_SHADOW:
+        pModel = lpAct->models;
+        pDmoModel = lpAct->header->models;
 
-        for (i = 0; i < work->header->n_models; i++, pDmoModel++, pModel++)
+        for (i = 0; i < lpAct->header->n_models; i++, pDmoModel++, pModel++)
         {
             if (pDmoModel->type == data->data.variant_0xE.field_14)
             {
@@ -727,12 +722,12 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
             }
         }
 
-        if (i >= work->header->n_models)
+        if (i >= lpAct->header->n_models)
         {
             break;
         }
 
-        for (pIter = work->chain.next; pIter != &work->chain; pIter = pIter->next)
+        for (pIter = lpAct->chain.next; pIter != &lpAct->chain; pIter = pIter->next)
         {
             if (pIter->chara.field_4_type == 0xE && pIter->chara.field_14_type == data->data.variant_0xE.field_14)
             {
@@ -746,7 +741,7 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
 
         if (data->data.variant_0xE.field_20 != 1)
         {
-            funcptr = GM_GetCharaID(0xF);
+            funcptr = GM_GetCharaID(CHARAID_000F_DEMOKAGE);
             if (funcptr != NULL)
             {
                 node->actor1 =
@@ -757,9 +752,9 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
         }
         break;
 
-    case 0xF:
+    case EFFECT_FOOTPRINTS:
         svec1.vy += 0x64;
-        hzdret = HZD_LevelTestHazard(work->control.map->hzd, &svec1, 1);
+        hzdret = HZD_LevelTestHazard(lpAct->control.map->hzd, &svec1, 1);
 
         do {} while (0);
         HZD_LevelMinMaxHeights(levels);
@@ -778,14 +773,14 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
             svec1.vy = data->field_E_vec2.vy;
         }
 
-        funcptr = GM_GetCharaID(0x10);
+        funcptr = GM_GetCharaID(CHARAID_0010_DEMOASI);
         if (funcptr != NULL)
         {
             node->actor1 = funcptr(&mat2, data->data.variant_0xF.field_14, svec1.vy);
         }
         break;
 
-    case 0x10:
+    case EFFECT_MESSAGE:
         memset(&msg, 0, sizeof(msg));
         msg.address = data->data.variant_0x10.address;
         msg.message[0] = data->data.variant_0x10.message[0];
@@ -799,21 +794,21 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
         GV_SendMessage(&msg);
         break;
 
-    case 0x11:
-        funcptr = GM_GetCharaID(0x11);
+    case EFFECT_NINJAEYE:
+        funcptr = GM_GetCharaID(CHARAID_0011);
         if (funcptr != NULL)
         {
             ((VoidMakeChara)funcptr)(&mat2);
         }
         break;
 
-    case 0x12:
+    case EFFECT_BUBBLE:
         if (data->data.variant_0x12.field_14 == 0)
         {
-            funcptr = GM_GetCharaID(0x12);
+            funcptr = GM_GetCharaID(CHARAID_0012_BUBBLE_T);
             if (funcptr != NULL)
             {
-                funcptr(&svec1, data->data.variant_0x12.field_20, data->data.variant_0x12.field_24, &work->field_26C,
+                funcptr(&svec1, data->data.variant_0x12.field_20, data->data.variant_0x12.field_24, &lpAct->field_26C,
                         data->data.variant_0x12.field_26, data->data.variant_0x12.field_28,
                         data->data.variant_0x12.field_2A);
             }
@@ -824,28 +819,31 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
             svec3.vy = data->data.variant_0x12.field_18;
             svec3.vz = data->data.variant_0x12.field_1A;
 
-            funcptr = GM_GetCharaID(0x13);
+            funcptr = GM_GetCharaID(CHARAID_0013_BUBBLE_P);
             if (funcptr != NULL)
             {
-                funcptr(&svec1, &svec3, data->data.variant_0x12.field_1C, &work->field_26C,
+                funcptr(&svec1, &svec3, data->data.variant_0x12.field_1C, &lpAct->field_26C,
                         data->data.variant_0x12.field_26, data->data.variant_0x12.field_28,
                         data->data.variant_0x12.field_2A);
             }
         }
         else
         {
-            work->field_26C = 1;
+            lpAct->field_26C = 1;
         }
         break;
 
-    case 0x13:
-    case 0x14:
-    case 0x15:
-    case 0x1E:
-        pIter = work->chain.next;
-        while (pIter != &work->chain)
+    case EFFECT_SCOPE:
+    case EFFECT_DARKVISIBLEGOGGLE:
+    case EFFECT_IRRAYSGOGGLE:
+    case EFFECT_GUSMASK:
+        pIter = lpAct->chain.next;
+        while (pIter != &lpAct->chain)
         {
-            if (pIter->chara.field_4_type == 0x13 || pIter->chara.field_4_type == 0x14 || pIter->chara.field_4_type == 0x15 || pIter->chara.field_4_type == 0x1E)
+            if (pIter->chara.field_4_type == EFFECT_SCOPE ||
+                pIter->chara.field_4_type == EFFECT_DARKVISIBLEGOGGLE ||
+                pIter->chara.field_4_type == EFFECT_IRRAYSGOGGLE ||
+                pIter->chara.field_4_type == EFFECT_GUSMASK)
             {
                 if (pIter->actor1 != NULL)
                 {
@@ -863,27 +861,27 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
 
         switch (data->field_4_type)
         {
-        case 0x13:
+        case EFFECT_SCOPE:
             if (data->data.variant_0x13.field_14 != 1)
             {
-                funcptr = GM_GetCharaID(0x14);
+                funcptr = GM_GetCharaID(CHARAID_0014_SCOPE);
                 if (funcptr != NULL)
                 {
-                    node->actor1 = funcptr(&work->control, &work->object, 0);
+                    node->actor1 = funcptr(&lpAct->control, &lpAct->object, 0);
                 }
             }
             break;
 
-        case 0x14:
+        case EFFECT_DARKVISIBLEGOGGLE:
             if (data->data.variant_0x14.field_14 != 1)
             {
-                funcptr = GM_GetCharaID(0x15);
+                funcptr = GM_GetCharaID(CHARAID_0015_GOGGLE);
                 if (funcptr != NULL)
                 {
-                    node->actor1 = funcptr(&work->control, &work->object, 0);
+                    node->actor1 = funcptr(&lpAct->control, &lpAct->object, 0);
                     if (data->data.variant_0x14.field_16 != 0)
                     {
-                        funcptr = GM_GetCharaID(0x16);
+                        funcptr = GM_GetCharaID(CHARAID_0016_GGLSIGHT);
                         if (funcptr != NULL)
                         {
                             node->actor2 = funcptr(5);
@@ -893,16 +891,16 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
             }
             break;
 
-        case 0x15:
+        case EFFECT_IRRAYSGOGGLE:
             if (data->data.variant_0x15.field_14 != 1)
             {
-                funcptr = GM_GetCharaID(0x17);
+                funcptr = GM_GetCharaID(CHARAID_0017_GOGGLEIR);
                 if (funcptr != NULL)
                 {
-                    node->actor1 = funcptr(&work->control, &work->object, 0);
+                    node->actor1 = funcptr(&lpAct->control, &lpAct->object, 0);
                     if (data->data.variant_0x15.field_16 != 0)
                     {
-                        funcptr = GM_GetCharaID(0x18);
+                        funcptr = GM_GetCharaID(CHARAID_0018_GGLSIGHT);
                         if (funcptr != NULL)
                         {
                             node->actor2 = funcptr(6);
@@ -912,10 +910,10 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
             }
             break;
 
-        case 0x1E:
+        case EFFECT_GUSMASK:
             if (data->data.variant_0x1E.field_14 != 1)
             {
-                funcptr = GM_GetCharaID(0x22);
+                funcptr = GM_GetCharaID(CHARAID_0022_GMSIGHT);
                 if (funcptr != NULL)
                 {
                     node->actor1 = funcptr();
@@ -925,19 +923,19 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
         }
         break;
 
-    case 0x16:
-        funcptr = GM_GetCharaID(0x19);
+    case EFFECT_GUNSMOKE:
+        funcptr = GM_GetCharaID(CHARAID_0019);
         if (funcptr != NULL)
         {
             funcptr(&svec1);
         }
         break;
 
-    case 0x17:
-        pModel = work->models;
-        pDmoModel = work->header->models;
+    case EFFECT_OPTICSCAMOUFLAGE:
+        pModel = lpAct->models;
+        pDmoModel = lpAct->header->models;
 
-        for (i = 0; i < work->header->n_models; i++, pDmoModel++, pModel++)
+        for (i = 0; i < lpAct->header->n_models; i++, pDmoModel++, pModel++)
         {
             if (pDmoModel->type == data->data.variant_0x17.field_18)
             {
@@ -945,13 +943,13 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
             }
         }
 
-        if (i >= work->header->n_models)
+        if (i >= lpAct->header->n_models)
         {
             break;
         }
 
-        pIter = work->chain.next;
-        while (pIter != &work->chain)
+        pIter = lpAct->chain.next;
+        while (pIter != &lpAct->chain)
         {
             if ((pIter->chara.field_4_type == 0x17) && (pIter->chara.field_18_xy == data->data.variant_0x17.field_18))
             {
@@ -968,27 +966,28 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
         {
             if (data->data.variant_0x17.field_1C == 0)
             {
-                funcptr = GM_GetCharaID(0x1A);
+                funcptr = GM_GetCharaID(CHARAID_001A_KOGAKU2);
                 if (funcptr != NULL)
                 {
-                    node->actor1 = funcptr(&work->control, &pModel->object, 0);
+                    node->actor1 = funcptr(&lpAct->control, &pModel->object, 0);
                 }
             }
             else
             {
-                funcptr = GM_GetCharaID(0x1B);
+                funcptr = GM_GetCharaID(CHARAID_001B_KOGAKU3);
                 if (funcptr != NULL)
                 {
-                    node->actor1 = funcptr(&work->control, &pModel->object, 0);
+                    node->actor1 = funcptr(&lpAct->control, &pModel->object, 0);
                 }
             }
         }
         break;
-    case 0x18:
-        pModel = work->models;
-        pDmoModel = work->header->models;
 
-        for (i = 0; i < work->header->n_models; i++, pDmoModel++, pModel++)
+    case EFFECT_ENVIRONMENTMAPPING:
+        pModel = lpAct->models;
+        pDmoModel = lpAct->header->models;
+
+        for (i = 0; i < lpAct->header->n_models; i++, pDmoModel++, pModel++)
         {
             if (pDmoModel->type == data->data.variant_0x18.field_18)
             {
@@ -996,13 +995,13 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
             }
         }
 
-        if (i >= work->header->n_models)
+        if (i >= lpAct->header->n_models)
         {
             break;
         }
 
-        pIter = work->chain.next;
-        while (pIter != &work->chain)
+        pIter = lpAct->chain.next;
+        while (pIter != &lpAct->chain)
         {
             if ((pIter->chara.field_4_type == 0x18) && (pIter->chara.field_18_xy == data->data.variant_0x18.field_18))
             {
@@ -1016,18 +1015,19 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
         }
         if (data->data.variant_0x18.field_14 == 0)
         {
-            funcptr = GM_GetCharaID(0x1C);
+            funcptr = GM_GetCharaID(CHARAID_001C_ENVMAP3);
             if (funcptr != NULL)
             {
                 node->actor1 = funcptr(&pModel->object, data->data.variant_0x18.field_1C);
             }
         }
         break;
-    case 0x19:
-        pModel = work->models;
-        pDmoModel = work->header->models;
 
-        for (i = 0; i < work->header->n_models; i++, pDmoModel++, pModel++)
+    case EFFECT_PLASMA:
+        pModel = lpAct->models;
+        pDmoModel = lpAct->header->models;
+
+        for (i = 0; i < lpAct->header->n_models; i++, pDmoModel++, pModel++)
         {
             if (pDmoModel->type == data->data.variant_0x19.field_14)
             {
@@ -1035,30 +1035,32 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
             }
         }
 
-        if (i >= work->header->n_models)
+        if (i >= lpAct->header->n_models)
         {
             break;
         }
 
-        funcptr = GM_GetCharaID(0x1D);
+        funcptr = GM_GetCharaID(CHARAID_001D_PLASMA);
         if (funcptr != NULL)
         {
             funcptr(&pModel->object, data->data.variant_0x19.field_18, data->data.variant_0x19.field_1A,
                     data->data.variant_0x19.field_1C, data->data.variant_0x19.field_20);
         }
         break;
-    case 0x1A:
-        funcptr = GM_GetCharaID(0x1E);
+
+    case EFFECT_WINDCIRCLE:
+        funcptr = GM_GetCharaID(CHARAID_001E_WINDCRCL);
         if (funcptr != NULL)
         {
             funcptr(&mat2, data->data.variant_0x1A.field_14);
         }
         break;
-    case 0x1B:
-        RemoveType(work, 0x1B);
+
+    case EFFECT_SEPIA:
+        KillEffect(lpAct, EFFECT_SEPIA);
         if (data->data.variant_0x1B.field_14 == 0)
         {
-            funcptr = GM_GetCharaID(0x1F);
+            funcptr = GM_GetCharaID(CHARAID_001F_SEPIA);
             if (funcptr != NULL)
             {
                 node->actor1 = funcptr(data->data.variant_0x1B.field_16, data->data.variant_0x1B.field_18,
@@ -1066,9 +1068,10 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
             }
         }
         break;
-    case 0x1C:
-        pIter = work->chain.next;
-        while (pIter != &work->chain && (pIter->chara.field_4_type != 0x1C || pIter->actor1 == NULL))
+
+    case EFFECT_METALGEARLASER:
+        pIter = lpAct->chain.next;
+        while (pIter != &lpAct->chain && (pIter->chara.field_4_type != 0x1C || pIter->actor1 == NULL))
         {
             pIter = pIter->next;
         }
@@ -1078,9 +1081,9 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
         svec2.vx = data->data.variant_0x1C.field_1A;
         svec2.vy = data->data.variant_0x1C.field_1C;
         svec2.vz = data->data.variant_0x1C.field_1E;
-        if (pIter == &work->chain)
+        if (pIter == &lpAct->chain)
         {
-            funcptr = GM_GetCharaID(0x20);
+            funcptr = GM_GetCharaID(CHARAID_0020_MGREXLZR);
             if (funcptr != NULL)
             {
                 node->actor1 = funcptr(&node->field_58);
@@ -1093,24 +1096,25 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
         }
         DG_SetPos2(&svec1, &svec2);
         ReadRotMatrix(&pIter->field_58);
-
         break;
-    case 0x1D:
-        RemoveType(work, 0x1D);
+
+    case EFFECT_UNSHAPEVIEW:
+        KillEffect(lpAct, EFFECT_UNSHAPEVIEW);
         if (data->data.variant_0x1D.field_14 == 0)
         {
-            funcptr = GM_GetCharaID(0x21);
+            funcptr = GM_GetCharaID(CHARAID_0021_FOCUS);
             if (funcptr != NULL)
             {
                 node->actor1 = funcptr(data->data.variant_0x1D.field_18, data->data.variant_0x1D.field_1C);
             }
         }
         break;
-    case 0x1F:
-        pIter = work->chain.next;
-        work->field_268 = 1;
-        work->field_26C = 1;
-        while (pIter != &work->chain)
+
+    case EFFECT_STOP:
+        pIter = lpAct->chain.next;
+        lpAct->field_268 = 1;
+        lpAct->field_26C = 1;
+        while (pIter != &lpAct->chain)
         {
             if (pIter->actor1 != NULL)
             {
@@ -1125,13 +1129,14 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
             pIter = pIter->next;
         }
         break;
-    case 0x20:
+
+    case EFFECT_URINATIONCIRCLE:
         if (data->data.variant_0x20.field_20 == 1)
         {
-            pIter = work->chain.next;
-            while (pIter != &work->chain)
+            pIter = lpAct->chain.next;
+            while (pIter != &lpAct->chain)
             {
-                if (pIter->chara.field_4_type == 0x20)
+                if (pIter->chara.field_4_type == EFFECT_URINATIONCIRCLE)
                 {
                     if (pIter->actor1 != NULL)
                     {
@@ -1144,7 +1149,7 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
         }
         else
         {
-            funcptr = GM_GetCharaID(0x23);
+            funcptr = GM_GetCharaID(CHARAID_0023_D_BLOODS);
             if (funcptr != NULL)
             {
                 if (data->data.variant_0x20.field_14 >= 2 && data->data.variant_0x20.field_14 <= 5)
@@ -1160,21 +1165,23 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
             }
         }
         break;
-    case 0x21:
+
+    case EFFECT_PLASMA2:
         svec3.vx = data->data.variant_0x21.field_14;
         svec3.vy = data->data.variant_0x21.field_16;
         svec3.vz = data->data.variant_0x21.field_18;
-        funcptr = GM_GetCharaID(0x24);
+        funcptr = GM_GetCharaID(CHARAID_0024_PLASMA);
         if (funcptr != NULL)
         {
             funcptr(&svec1, &svec3, data->data.variant_0x21.field_1C);
         }
         break;
-    case 0x22:
-        RemoveType(work, 0x22);
+
+    case EFFECT_BLUR:
+        KillEffect(lpAct, EFFECT_BLUR);
         if (data->data.variant_0x22.field_14 == 0)
         {
-            funcptr = GM_GetCharaID(0x25);
+            funcptr = GM_GetCharaID(CHARAID_0025_BLUR);
             if (funcptr != NULL)
             {
                 node->actor1 = funcptr(data->data.variant_0x22.field_16, data->data.variant_0x22.field_18,
@@ -1182,13 +1189,14 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
             }
         }
         break;
-    case 0x23:
+
+    case EFFECT_STEAMSMOKE:
         svec3.vx = data->data.variant_0x23.field_14;
         svec3.vy = data->data.variant_0x23.field_16;
         svec3.vz = data->data.variant_0x23.field_18;
         if (data->data.variant_0x23.field_1A != 4)
         {
-            funcptr = GM_GetCharaID(0x26);
+            funcptr = GM_GetCharaID(CHARAID_0026);
             if (funcptr != NULL)
             {
                 ((VoidMakeChara)funcptr)(&svec1, &svec3, data->data.variant_0x23.field_1A);
@@ -1196,7 +1204,7 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
         }
         else
         {
-            funcptr = GM_GetCharaID(0x27);
+            funcptr = GM_GetCharaID(CHARAID_0027);
             if (funcptr != NULL)
             {
                 ((VoidMakeChara)funcptr)(&svec1, &svec3, data->data.variant_0x23.field_1C & 0xFF,
@@ -1205,12 +1213,13 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
             }
         }
         break;
-    case 0x24:
-        RemoveType(work, 0x24);
+
+    case EFFECT_MONOTONE:
+        KillEffect(lpAct, EFFECT_MONOTONE);
 
         if (data->data.variant_0x24.field_14 == 0)
         {
-            funcptr = GM_GetCharaID(0x28);
+            funcptr = GM_GetCharaID(CHARAID_0028_SEPIA);
             if (funcptr != NULL)
             {
                 node->actor1 = funcptr();
@@ -1218,12 +1227,12 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
         }
         break;
 
-    case 0x25:
-        RemoveType(work, 0x25);
+    case EFFECT_RIFLESIGHT:
+        KillEffect(lpAct, EFFECT_RIFLESIGHT);
 
         if (data->data.variant_0x25.field_14 == 0)
         {
-            funcptr = GM_GetCharaID(0x29);
+            funcptr = GM_GetCharaID(CHARAID_0029_RFSIGHT);
             if (funcptr != NULL)
             {
                 node->actor1 = funcptr();
@@ -1231,11 +1240,11 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
         }
         break;
 
-    case 0x26:
-        pModel = work->models;
-        pDmoModel = work->header->models;
+    case EFFECT_MI24HIND:
+        pModel = lpAct->models;
+        pDmoModel = lpAct->header->models;
 
-        for (i = 0; i < work->header->n_models; i++, pDmoModel++, pModel++)
+        for (i = 0; i < lpAct->header->n_models; i++, pDmoModel++, pModel++)
         {
             if (pDmoModel->filename == GV_StrCode("hind"))
             {
@@ -1247,25 +1256,25 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
             }
         }
 
-        if (i >= work->header->n_models)
+        if (i >= lpAct->header->n_models)
         {
             break;
         }
 
         pModel->extra->object[0][0].objs = data->data.variant_0x26.field_14;
         pModel->extra->object[0][0].flag = data->data.variant_0x26.field_18;
-
         break;
-    case 0x27:
-        funcptr = GM_GetCharaID(0x2a);
+
+    case EFFECT_BLACKSMOKE:
+        funcptr = GM_GetCharaID(CHARAID_002A);
         if (funcptr != NULL)
         {
             funcptr(&svec1);
         }
         break;
 
-    case 0x28:
-        funcptr = GM_GetCharaID(0x2B);
+    case EFFECT_URINATIONCIRCLE2:
+        funcptr = GM_GetCharaID(CHARAID_002B_D_BLOODS);
         if (funcptr != NULL)
         {
             if (data->data.variant_0x28.field_14 >= 0 && data->data.variant_0x28.field_14 <= 3)
@@ -1281,27 +1290,27 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
         }
         break;
 
-    case 0x29:
-        pIter = work->chain.next;
+    case EFFECT_SIGHT:
+        pIter = lpAct->chain.next;
 
-        if (pIter != &work->chain)
+        if (pIter != &lpAct->chain)
         {
-            while ((pIter->chara.field_4_type != 0x29) || !pIter->actor1)
+            while ((pIter->chara.field_4_type != EFFECT_SIGHT) || !pIter->actor1)
             {
                 pIter = pIter->next;
 
-                if (pIter == &work->chain)
+                if (pIter == &lpAct->chain)
                 {
                     break;
                 }
             }
         }
 
-        if (pIter == &work->chain)
+        if (pIter == &lpAct->chain)
         {
             if (data->data.variant_0x29.field_14 != 1)
             {
-                funcptr = GM_GetCharaID(0x2C);
+                funcptr = GM_GetCharaID(CHARAID_002C_SIGHT);
                 if (funcptr != NULL)
                 {
                     node->actor1 = funcptr(data->data.variant_0x29.field_1C, &data->data.variant_0x29.field_16);
@@ -1314,7 +1323,7 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
             {
                 GV_DestroyOtherActor(pIter->actor1);
                 pIter->actor1 = NULL;
-                funcptr = GM_GetCharaID(0x2C);
+                funcptr = GM_GetCharaID(CHARAID_002C_SIGHT);
                 if (funcptr != NULL)
                 {
                     node->actor1 = funcptr(data->data.variant_0x29.field_1C, &data->data.variant_0x29.field_16);
@@ -1337,11 +1346,11 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
         }
         break;
 
-    case 0x2A:
-        pModel = work->models;
-        pDmoModel = work->header->models;
+    case EFFECT_NINJASWORD:
+        pModel = lpAct->models;
+        pDmoModel = lpAct->header->models;
 
-        for (i = 0; i < work->header->n_models; i++, pDmoModel++, pModel++)
+        for (i = 0; i < lpAct->header->n_models; i++, pDmoModel++, pModel++)
         {
             if (pDmoModel->type == data->data.variant_0x2A.field_14)
             {
@@ -1349,15 +1358,16 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
             }
         }
 
-        if (i >= work->header->n_models)
+        if (i >= lpAct->header->n_models)
         {
             break;
         }
 
-        pIter = work->chain.next;
-        while (pIter != &work->chain)
+        pIter = lpAct->chain.next;
+        while (pIter != &lpAct->chain)
         {
-            if ((pIter->chara.field_4_type == 0x2A) && (pIter->chara.field_14_type == data->data.variant_0x2A.field_14))
+            if ((pIter->chara.field_4_type == EFFECT_NINJASWORD) &&
+                (pIter->chara.field_14_type == data->data.variant_0x2A.field_14))
             {
                 if (pIter->actor1 != NULL)
                 {
@@ -1369,7 +1379,7 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
         }
         if (data->data.variant_0x2A.field_18 != 1)
         {
-            funcptr = GM_GetCharaID(0x2D);
+            funcptr = GM_GetCharaID(CHARAID_002D_KATANA);
             if (funcptr != NULL)
             {
                 node->actor1 = funcptr(&pModel->object.objs->objs[4]);
@@ -1377,12 +1387,12 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
         }
         break;
 
-    case 0x2B:
-        pIter = work->chain.next;
+    case EFFECT_SUBMARINEROOM:
+        pIter = lpAct->chain.next;
 
-        while (pIter != &work->chain)
+        while (pIter != &lpAct->chain)
         {
-            if (pIter->chara.field_4_type == 0x2B)
+            if (pIter->chara.field_4_type == EFFECT_SUBMARINEROOM)
             {
                 if (pIter->actor1 != NULL)
                 {
@@ -1395,7 +1405,7 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
 
         if (data->data.variant_0x2B.field_14 == 0)
         {
-            funcptr = GM_GetCharaID(0x2E);
+            funcptr = GM_GetCharaID(CHARAID_002E_SUB_ROOM);
             if (funcptr != NULL)
             {
                 node->actor1 = funcptr();
@@ -1403,21 +1413,22 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
         }
         break;
 
-    case 0x2C:
+    case EFFECT_BLACKSMOKE2:
         svec3.vx = data->data.variant_0x2C.field_14;
         svec3.vy = data->data.variant_0x2C.field_16;
         svec3.vz = data->data.variant_0x2C.field_18;
-        funcptr = GM_GetCharaID(0x2F);
+        funcptr = GM_GetCharaID(CHARAID_002F);
         if (funcptr != NULL)
         {
             funcptr(&svec1, &svec3, data->data.variant_0x2C.field_1A, data->data.variant_0x2C.field_1C);
         }
         break;
-    case 0x2D:
+
+    case EFFECT_BLASTLINE:
         svec3.vx = data->data.variant_0x2D.field_14;
         svec3.vy = data->data.variant_0x2D.field_16;
         svec3.vz = data->data.variant_0x2D.field_18;
-        funcptr = GM_GetCharaID(0x30);
+        funcptr = GM_GetCharaID(CHARAID_0030_BLST_LN);
         if (funcptr != NULL)
         {
             funcptr(data->data.variant_0x2D.field_22, data->data.variant_0x2D.field_1C, data->data.variant_0x2D.field_20,
@@ -1425,14 +1436,14 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
         }
         break;
 
-    case 0x2E:
+    case EFFECT_SMOKELINE:
         svec3.vx = data->data.variant_0x2E.field_14;
         svec3.vy = data->data.variant_0x2E.field_16;
         svec3.vz = data->data.variant_0x2E.field_18;
         svec4.vx = data->data.variant_0x2E.field_1A;
         svec4.vy = data->data.variant_0x2E.field_1C;
         svec4.vz = data->data.variant_0x2E.field_1E;
-        funcptr = GM_GetCharaID(0x31);
+        funcptr = GM_GetCharaID(CHARAID_0031_SMKE_LN);
         if (funcptr != NULL)
         {
             funcptr(data->data.variant_0x2E.field_26, data->data.variant_0x2E.field_20, data->data.variant_0x2E.field_24,
@@ -1441,47 +1452,47 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
         }
         break;
 
-    case 0x2F:
-        funcptr = GM_GetCharaID(0x32);
+    case EFFECT_SHELLSMOKE:
+        funcptr = GM_GetCharaID(CHARAID_0032_M1E1SMKE);
         if (funcptr != NULL)
         {
             funcptr(data->data.variant_0x2F.field_14, &svec1, &svec2);
         }
         break;
 
-    case 0x30:
-        funcptr = GM_GetCharaID(0x33);
+    case EFFECT_CATERPILLERSMOKE:
+        funcptr = GM_GetCharaID(CHARAID_0033);
         if (funcptr != NULL)
         {
             funcptr(&svec2, &svec1);
         }
         break;
 
-    case 0x31:
-        funcptr = GM_GetCharaID(0x34);
+    case EFFECT_CROWEYE:
+        funcptr = GM_GetCharaID(CHARAID_0034);
         if (funcptr != NULL)
         {
             funcptr(&svec1);
         }
         break;
 
-    case 0x32:
-        funcptr = GM_GetCharaID(0x35);
+    case EFFECT_OCEROTTEBULLETFIRE:
+        funcptr = GM_GetCharaID(CHARAID_0035);
         if (funcptr != NULL)
         {
             funcptr(&mat2);
         }
         break;
 
-    case 0x33:
-        funcptr = GM_GetCharaID(0x36);
+    case EFFECT_OCEROTTEBULLETSMOKE:
+        funcptr = GM_GetCharaID(CHARAID_0036);
         if (funcptr != NULL)
         {
             funcptr(&svec1);
         }
         break;
 
-    case 0x34:
+    case EFFECT_ENVIRONMENTLIGHT:
         svec3.vx = data->data.variant_0x34.field_24;
         svec3.vy = data->data.variant_0x34.field_26;
         svec3.vz = data->data.variant_0x34.field_28;
@@ -1490,7 +1501,7 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
         svec4.vz = data->data.variant_0x34.field_2E;
         if (data->data.variant_0x34.field_30 == 0)
         {
-            funcptr = GM_GetCharaID(0x37);
+            funcptr = GM_GetCharaID(CHARAID_0037_RED_ALRT);
             if (funcptr != NULL)
             {
                 funcptr(data->data.variant_0x34.field_14, data->data.variant_0x34.field_18, &svec3, &svec4,
@@ -1508,8 +1519,8 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
         }
         break;
 
-    case 0x35:
-        funcptr = GM_GetCharaID(0x39);
+    case EFFECT_CRASHSMOKE:
+        funcptr = GM_GetCharaID(CHARAID_0039_CRSH_SMK);
         if (funcptr != NULL)
         {
             funcptr(&svec1, &svec2, data->data.variant_0x35.field_18, data->data.variant_0x35.field_1C,
@@ -1519,8 +1530,8 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
         }
         break;
 
-    case 0x37:
-        funcptr = GM_GetCharaID(0x3A);
+    case EFFECT_CELOFAN:
+        funcptr = GM_GetCharaID(CHARAID_003A_CELOFAN);
         if (funcptr != NULL)
         {
             funcptr(data->data.variant_0x37.field_14, data->data.variant_0x37.field_18, data->data.variant_0x37.field_1C,
@@ -1530,18 +1541,19 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
         }
         break;
 
-    case 0x38:
-        funcptr = GM_GetCharaID(0x3B);
+    case EFFECT_INVERSLIGHT:
+        funcptr = GM_GetCharaID(CHARAID_003B_INVERLT);
         if (funcptr != NULL)
         {
             ((VoidMakeChara)funcptr)(&svec1);
         }
         break;
-    case 0x39:
+
+    case EFFECT_SPACK:
         switch (data->data.variant_0x39.field_14)
         {
         case 0:
-            funcptr = GM_GetCharaID(0x3C);
+            funcptr = GM_GetCharaID(CHARAID_003C_SPARK2);
             if (funcptr != NULL)
             {
                 ((VoidMakeChara)funcptr)(&mat2);
@@ -1549,7 +1561,7 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
             break;
 
         case 1:
-            funcptr = GM_GetCharaID(0x3D);
+            funcptr = GM_GetCharaID(CHARAID_003D_SPARK);
             if (funcptr != 0)
             {
                 funcptr(&mat2, 0);
@@ -1557,7 +1569,7 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
             break;
 
         case 2:
-            funcptr = GM_GetCharaID(0x3D);
+            funcptr = GM_GetCharaID(CHARAID_003D_SPARK);
             if (funcptr != 0)
             {
                 funcptr(&mat2, 1);
@@ -1565,18 +1577,19 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
             break;
         }
         break;
-    case 0x3A:
+
+    case EFFECT_STEAMEXPLOSION:
         svec3.vx = data->data.variant_0x3A.field_14;
         svec3.vy = data->data.variant_0x3A.field_16;
         svec3.vz = data->data.variant_0x3A.field_18;
-        funcptr = GM_GetCharaID(0x3E);
+        funcptr = GM_GetCharaID(CHARAID_003E);
         if (funcptr != NULL)
         {
             funcptr(&svec1, &svec3);
         }
         break;
-    case 0x3B:
-        funcptr = GM_GetCharaID(0x3F);
+    case EFFECT_INVERSLIGHT2:
+        funcptr = GM_GetCharaID(CHARAID_003F_INVERLT2);
         if (funcptr != NULL)
         {
             funcptr(&svec1, data->data.variant_0x3B.field_14, data->data.variant_0x3B.field_18,
@@ -1584,8 +1597,8 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
                     data->data.variant_0x3B.field_24, data->data.variant_0x3B.field_26, data->data.variant_0x3B.field_28);
         }
         break;
-    case 0x3C:
-        funcptr = GM_GetCharaID(0x40);
+    case EFFECT_CELOFAN2:
+        funcptr = GM_GetCharaID(CHARAID_0040_CELOFAN2);
         if (funcptr != NULL)
         {
             funcptr(data->data.variant_0x3C.field_14, data->data.variant_0x3C.field_18, data->data.variant_0x3C.field_1C,
@@ -1595,11 +1608,12 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
                     data->data.variant_0x3C.field_34);
         }
         break;
-    case 0x3D:
-        pModel = work->models;
-        pDmoModel = work->header->models;
 
-        for (i = 0; i < work->header->n_models; i++, pDmoModel++, pModel++)
+    case EFFECT_NINJALASER:
+        pModel = lpAct->models;
+        pDmoModel = lpAct->header->models;
+
+        for (i = 0; i < lpAct->header->n_models; i++, pDmoModel++, pModel++)
         {
             if (pDmoModel->type == data->data.variant_0x3D.field_18)
             {
@@ -1607,28 +1621,29 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
             }
         }
 
-        if (i >= work->header->n_models)
+        if (i >= lpAct->header->n_models)
         {
             break;
         }
 
-        funcptr = GM_GetCharaID(0x41);
+        funcptr = GM_GetCharaID(CHARAID_0041_NINJALZR);
         if (funcptr != NULL)
         {
             funcptr(&pModel->object.objs[6].world.m[1][1], data->data.variant_0x3D.field_14,
                     data->data.variant_0x3D.field_16);
         }
         break;
-    case 0x3E:
-        pIter = work->chain.next;
 
-        if (pIter != &work->chain)
+    case EFFECT_GUSEFFECT:
+        pIter = lpAct->chain.next;
+
+        if (pIter != &lpAct->chain)
         {
-            while ((pIter->chara.field_4_type != 0x3e) || !pIter->actor1)
+            while ((pIter->chara.field_4_type != EFFECT_GUSEFFECT) || !pIter->actor1)
             {
                 pIter = pIter->next;
 
-                if (pIter == &work->chain)
+                if (pIter == &lpAct->chain)
                 {
                     break;
                 }
@@ -1637,13 +1652,13 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
 
         if (data->data.variant_0x3E.field_14 == 0)
         {
-            if (pIter != &work->chain)
+            if (pIter != &lpAct->chain)
             {
                 GV_DestroyOtherActor(pIter->actor1);
                 pIter->actor1 = NULL;
             }
 
-            funcptr = GM_GetCharaID(0x42);
+            funcptr = GM_GetCharaID(CHARAID_0042_GAS_EFCT);
             if (funcptr != NULL)
             {
                 svec3.vx = data->data.variant_0x3E.field_16;
@@ -1655,7 +1670,7 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
         }
         else if (data->data.variant_0x3E.field_14 == 1)
         {
-            if (pIter != &work->chain)
+            if (pIter != &lpAct->chain)
             {
                 GV_DestroyOtherActor(pIter->actor1);
                 pIter->actor1 = NULL;
@@ -1663,7 +1678,7 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
         }
         else if (data->data.variant_0x3E.field_14 == 2)
         {
-            if (pIter != &work->chain)
+            if (pIter != &lpAct->chain)
             {
                 memset(&msg, 0, sizeof(msg));
                 msg.address = 0x3B8E;
@@ -1683,11 +1698,11 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
         }
         break;
 
-    case 0x3F:
-        pModel = work->models;
-        pDmoModel = work->header->models;
+    case EFFECT_SUBMARINEWATER:
+        pModel = lpAct->models;
+        pDmoModel = lpAct->header->models;
 
-        for (i = 0; i < work->header->n_models; i++, pDmoModel++, pModel++)
+        for (i = 0; i < lpAct->header->n_models; i++, pDmoModel++, pModel++)
         {
             if (pDmoModel->type == data->data.variant_0x3F.field_18)
             {
@@ -1695,15 +1710,16 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
             }
         }
 
-        if (i >= work->header->n_models)
+        if (i >= lpAct->header->n_models)
         {
             break;
         }
 
-        pIter = work->chain.next;
-        while (pIter != &work->chain)
+        pIter = lpAct->chain.next;
+        while (pIter != &lpAct->chain)
         {
-            if ((pIter->chara.field_4_type == 0x3F) && (pIter->chara.field_18_xy == data->data.variant_0x3F.field_18))
+            if ((pIter->chara.field_4_type == EFFECT_SUBMARINEWATER) &&
+                (pIter->chara.field_18_xy == data->data.variant_0x3F.field_18))
             {
                 if (pIter->actor1 != NULL)
                 {
@@ -1716,16 +1732,16 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
 
         if (data->data.variant_0x3F.field_14 != 1)
         {
-            funcptr = GM_GetCharaID(0x43);
+            funcptr = GM_GetCharaID(CHARAID_0043_SUB_EFCT);
             if (funcptr != NULL)
             {
                 node->actor1 = funcptr(&pModel->object, &pModel->control.rot);
             }
         }
-
         break;
-    case 0x36:
-    case 0x40:
+
+    case EFFECT_PADVIBRATION:
+    case EFFECT_PADVIBRATION2:
         if (data->data.variant_0x36.field_14 != 0)
         {
             GM_PadVibration = 1;
@@ -1735,11 +1751,12 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
             GM_PadVibration2 = data->data.variant_0x36.field_18;
         }
         break;
-    case 0x41:
-        RemoveType(work, 0x41);
+
+    case EFFECT_GHOST:
+        KillEffect(lpAct, EFFECT_GHOST);
         if (data->data.variant_0x41.field_14 == 0)
         {
-            funcptr = GM_GetCharaID(0x44);
+            funcptr = GM_GetCharaID(CHARAID_0044_BLURPURE);
             if (funcptr != NULL)
             {
                 node->actor1 = funcptr();
@@ -1747,15 +1764,15 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
         }
         break;
 
-    case 0x42:
+    case EFFECT_LIGHT:
         DG_SetTmpLight(&svec1, data->data.variant_0x42.field_14, data->data.variant_0x42.field_16);
         break;
 
-    case 0x43:
-        pModel = work->models;
-        pDmoModel = work->header->models;
+    case EFFECT_FAMASLIGHT:
+        pModel = lpAct->models;
+        pDmoModel = lpAct->header->models;
 
-        for (i = 0; i < work->header->n_models; i++, pDmoModel++, pModel++)
+        for (i = 0; i < lpAct->header->n_models; i++, pDmoModel++, pModel++)
         {
             if (pDmoModel->type == data->data.variant_0x43.field_14)
             {
@@ -1763,16 +1780,17 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
             }
         }
 
-        if (i >= work->header->n_models)
+        if (i >= lpAct->header->n_models)
         {
             break;
         }
 
-        pIter = work->chain.next;
+        pIter = lpAct->chain.next;
 
-        while (pIter != &work->chain)
+        while (pIter != &lpAct->chain)
         {
-            if ((pIter->chara.field_4_type == 0x43) && (pIter->chara.field_14_type == data->data.variant_0x43.field_14))
+            if ((pIter->chara.field_4_type == EFFECT_FAMASLIGHT) &&
+                (pIter->chara.field_14_type == data->data.variant_0x43.field_14))
             {
                 if (pIter->actor1 != NULL)
                 {
@@ -1785,18 +1803,19 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
 
         if (data->data.variant_0x43.field_18 != 1)
         {
-            funcptr = GM_GetCharaID(0x45);
+            funcptr = GM_GetCharaID(CHARAID_0045_FAMASLIT);
             if (funcptr != NULL)
             {
                 node->actor1 = funcptr(pModel->object.objs + 1);
             }
         }
         break;
-    case 0x44:
-        pModel = work->models;
-        pDmoModel = work->header->models;
 
-        for (i = 0; i < work->header->n_models; i++, pDmoModel++, pModel++)
+    case EFFECT_HUMANSHADOW:
+        pModel = lpAct->models;
+        pDmoModel = lpAct->header->models;
+
+        for (i = 0; i < lpAct->header->n_models; i++, pDmoModel++, pModel++)
         {
             if (pDmoModel->type == data->data.variant_0x44.field_18)
             {
@@ -1804,31 +1823,31 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
             }
         }
 
-        if (i >= work->header->n_models)
+        if (i >= lpAct->header->n_models)
         {
             break;
         }
 
-        pIter = work->chain.next;
+        pIter = lpAct->chain.next;
 
-        if (pIter != &work->chain)
+        if (pIter != &lpAct->chain)
         {
-            while ((pIter->chara.field_4_type != 0x44) || !pIter->actor1)
+            while ((pIter->chara.field_4_type != EFFECT_HUMANSHADOW) || !pIter->actor1)
             {
                 pIter = pIter->next;
 
-                if (pIter == &work->chain)
+                if (pIter == &lpAct->chain)
                 {
                     break;
                 }
             }
         }
 
-        if (pIter == &work->chain)
+        if (pIter == &lpAct->chain)
         {
             if (data->data.variant_0x44.field_14 != 1)
             {
-                funcptr = GM_GetCharaID(0x46);
+                funcptr = GM_GetCharaID(CHARAID_0046_REALSHDW);
 
                 if (funcptr != NULL)
                 {
@@ -1863,42 +1882,44 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
         }
         break;
 
-    case 0x45:
-        funcptr = GM_GetCharaID(0x47);
+    case EFFECT_BLOODHAZARD:
+        funcptr = GM_GetCharaID(CHARAID_0047_BLOODHZD);
         if (funcptr != NULL)
         {
             node->actor1 = funcptr(&mat2, data->data.variant_0x45.field_14, data->data.variant_0x45.field_16,
                                              data->data.variant_0x45.field_18, data->data.variant_0x45.field_1A);
         }
         break;
-    case 0x46:
-        funcptr = GM_GetCharaID(0x48);
+
+    case EFFECT_BLOODDRIP:
+        funcptr = GM_GetCharaID(CHARAID_0048_BLOODDRP);
         if (funcptr != NULL)
         {
             funcptr(&svec1, data->data.variant_0x46.field_14, data->data.variant_0x46.field_16);
         }
         break;
-    case 0x47:
-        funcptr = GM_GetCharaID(0x49);
+
+    case EFFECT_NINJAGROUND:
+        funcptr = GM_GetCharaID(CHARAID_0049_WINDCRCL);
         if (funcptr != NULL)
         {
             funcptr(&mat2, 400, 400, 400, 10);
         }
         break;
 
-    case 0x48:
-        funcptr = GM_GetCharaID(0x4A);
+    case EFFECT_BOMBLIGHT:
+        funcptr = GM_GetCharaID(CHARAID_004A_BOMBLED);
         if (funcptr != NULL)
         {
             ((VoidMakeChara)funcptr)(&svec1);
         }
         break;
 
-    case 0x49:
-        pIter = work->chain.next;
-        while (pIter != &work->chain)
+    case EFFECT_MGCROOMDISPLAY:
+        pIter = lpAct->chain.next;
+        while (pIter != &lpAct->chain)
         {
-            if (pIter->chara.field_4_type == 0x49)
+            if (pIter->chara.field_4_type == EFFECT_MGCROOMDISPLAY)
             {
                 if (pIter->actor1 != NULL)
                 {
@@ -1911,7 +1932,7 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
 
         if (data->data.variant_0x49.field_14 == 0)
         {
-            funcptr = GM_GetCharaID(0x4B);
+            funcptr = GM_GetCharaID(CHARAID_004B_MG_ROOM);
             if (funcptr != NULL)
             {
                 node->actor1 = funcptr();
@@ -1919,8 +1940,8 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
         }
         break;
 
-    case 0x4A:
-        funcptr = GM_GetCharaID(0x4C);
+    case EFFECT_TEXT2:
+        funcptr = GM_GetCharaID(CHARAID_004C_TELOP);
 
         if (funcptr != NULL)
         {
@@ -1933,7 +1954,7 @@ static int MakeChara(DemoWork *work, DMO_DATA_0x36 *data, ACTNODE *node)
     return 1;
 }
 
-static void RemoveType(DemoWork *work, int type)
+static void KillEffect(LPMGSDEMOACT lpAct, int type)
 {
     ACTNODE *pSubIter; // $s0
     ACTNODE *pCur; // $a0
@@ -1941,8 +1962,8 @@ static void RemoveType(DemoWork *work, int type)
     GV_ACT *pPrevious; // $a0
     GV_ACT *pNext; // $a0
 
-    pSubIter = work->chain.next;
-    pCur = &work->chain;
+    pSubIter = lpAct->chain.next;
+    pCur = &lpAct->chain;
     if ( pSubIter != pCur )
     {
         pCur_ = pCur;
@@ -1969,13 +1990,13 @@ static void RemoveType(DemoWork *work, int type)
     }
 }
 
-static int demothrd_8007CDF8(DemoWork *work, DMO_DAT *data, ACTNODE *node)
+static BOOL ShowEffectExecute(LPMGSDEMOACT lpAct, DMO_DAT *data, ACTNODE *node)
 {
     DMO_ADJ *adjust;
     int idx;
     HZD_VEC vec2;
     SVECTOR vecPos;
-    if (node->chara.field_4_type == 14)
+    if (node->chara.field_4_type == EFFECT_SHADOW)
     {
         adjust = data->adjust;
         {
@@ -1993,7 +2014,7 @@ static int demothrd_8007CDF8(DemoWork *work, DMO_DAT *data, ACTNODE *node)
                 vecPos.vx = adjust->pos_x;
                 vecPos.vy = adjust->pos_y;
                 vecPos.vz = adjust->pos_z;
-                idx = HZD_LevelTestHazard(work->control.map->hzd, &vecPos, 1);
+                idx = HZD_LevelTestHazard(lpAct->control.map->hzd, &vecPos, 1);
                 HZD_LevelMinMaxHeights((int *)&vec2);
                 node->field_48 = adjust->rot_y;
                 if ((idx & 1) != 0)
@@ -2015,7 +2036,7 @@ static int demothrd_8007CDF8(DemoWork *work, DMO_DAT *data, ACTNODE *node)
     return 1;
 }
 
-static int demothrd_1_FrameRunDemo_helper4_8007CF14(DemoWork *work, DMO_DAT *data)
+static BOOL ShowEffectStop(LPMGSDEMOACT lpAct, DMO_DAT *data)
 {
     DMO_CHA *pIter;
     int i;
@@ -2027,20 +2048,20 @@ static int demothrd_1_FrameRunDemo_helper4_8007CF14(DemoWork *work, DMO_DAT *dat
     for (i = 0; i < data->n_charas; ++pIter)
     {
         ++i;
-        if (pIter->field_4_type == 28)
+        if (pIter->field_4_type == EFFECT_METALGEARLASER)
         {
             return 1;
         }
     }
 
-    pNext = work->chain.next;
-    new_var = &work->chain;
+    pNext = lpAct->chain.next;
+    new_var = &lpAct->chain;
     if (pNext != new_var)
     {
-        if (pNext->chara.field_4_type != 28)
+        if (pNext->chara.field_4_type != EFFECT_METALGEARLASER)
         {
             new_var2 = new_var;
-            root = &work->chain;
+            root = &lpAct->chain;
             while (1)
             {
                 pNext = pNext->next;
@@ -2048,27 +2069,27 @@ static int demothrd_1_FrameRunDemo_helper4_8007CF14(DemoWork *work, DMO_DAT *dat
                 {
                     break;
                 }
-                if (pNext->chara.field_4_type == 28)
+                if (pNext->chara.field_4_type == EFFECT_METALGEARLASER)
                 {
-                    root = &work->chain;
+                    root = &lpAct->chain;
                     break;
                 }
             }
 
         }
     }
-    if (pNext != (&work->chain))
+    if (pNext != (&lpAct->chain))
     {
         GV_DestroyOtherActor(pNext->actor1);
-        root = &work->chain;
+        root = &lpAct->chain;
         pNext->actor1 = 0;
-        RemoveChain(root, pNext);
+        DeleteChain(root, pNext);
         GV_Free(pNext);
     }
     return 1;
 }
 
-static int demothrd_8007CFE8(DemoWork *work, DMO_ADJ *adjust)
+static BOOL ShowScene(LPMGSDEMOACT lpAct, DMO_ADJ *adjust)
 {
     DMO_MDL    *model_file;
     DEMO_MODEL *model;
@@ -2077,9 +2098,9 @@ static int demothrd_8007CFE8(DemoWork *work, DMO_ADJ *adjust)
 
     OFFSET_TO_PTR(adjust, &adjust->rots);
 
-    model_file = work->header->models;
-    model = work->models;
-    for (i = 0; i < work->header->n_models; i++, model_file++, model++)
+    model_file = lpAct->header->models;
+    model = lpAct->models;
+    for (i = 0; i < lpAct->header->n_models; i++, model_file++, model++)
     {
         if (model_file->type == adjust->type)
         {
@@ -2087,7 +2108,7 @@ static int demothrd_8007CFE8(DemoWork *work, DMO_ADJ *adjust)
         }
     }
 
-    if (i >= work->header->n_models)
+    if (i >= lpAct->header->n_models)
     {
         return 0;
     }
@@ -2140,11 +2161,11 @@ static int demothrd_8007CFE8(DemoWork *work, DMO_ADJ *adjust)
 
             if (model_file->filename == GV_StrCode("m1e1") || model_file->filename == GV_StrCode("m1e1demo"))
             {
-                demothrd_m1e1_8007D404(work, adjust, model_file, model);
+                demothrd_m1e1_8007D404(lpAct, adjust, model_file, model);
             }
             else if (model_file->filename == GV_StrCode("hind") || model_file->filename == GV_StrCode("hinddemo"))
             {
-                demothrd_hind_8007D9C8(work, adjust, model_file, model);
+                demothrd_hind_8007D9C8(lpAct, adjust, model_file, model);
             }
 
             GM_ActMotion(&model->object);
@@ -2168,7 +2189,7 @@ static inline int magic_calc(SVECTOR* vecTmp, DEMO_MODEL *model)
     return (distance1 * (1024 - tmp4)) / 1024;
 }
 
-static void demothrd_m1e1_8007D404(DemoWork *work, DMO_ADJ *adjust, DMO_MDL *model_file, DEMO_MODEL *model)
+static void demothrd_m1e1_8007D404(LPMGSDEMOACT lpAct, DMO_ADJ *adjust, DMO_MDL *model_file, DEMO_MODEL *model)
 {
     DEMO_M1E1 *data;
     int tmp1;
@@ -2273,7 +2294,7 @@ static void demothrd_m1e1_8007D404(DemoWork *work, DMO_ADJ *adjust, DMO_MDL *mod
     }
 }
 
-static void demothrd_hind_8007D9C8(DemoWork *work, DMO_ADJ *adjust, DMO_MDL *model_file, DEMO_MODEL *model)
+static void demothrd_hind_8007D9C8(LPMGSDEMOACT lpAct, DMO_ADJ *adjust, DMO_MDL *model_file, DEMO_MODEL *model)
 {
     DEMO_HIND *pTmp = (DEMO_HIND *)model->extra; // TODO: Would be cleaner as a union
 

@@ -10,14 +10,15 @@
 #include "game/game.h"
 #include "m1e1.h"
 
-void demothrd_2_8007DA94(SVECTOR *pPosition, SVECTOR *pRotation);
-void AN_CaterpillerSmoke(SVECTOR *pos); // todo: split demo.c
+// in anime/effect/m1e1.c
+extern void AN_CaterpillerSmoke(SVECTOR *pos);
+extern void demothrd_2_8007DA94(SVECTOR *pPosition, SVECTOR *pRotation);
 
 #define SE_M1E1_CATERPILLERDEAD1    (182)
 #define SE_M1E1_CATERPILLERDEAD2    (190)
 #define M1E1_SOUNDCATERPILLERDEAD1  (30)
 
-void M1E1Caterpiller(M1E1Work *lpAct)
+void M1E1Caterpiller(LPM1E1ACTOR lpAct)
 {
     SVECTOR svect1;
     SVECTOR svect2;
