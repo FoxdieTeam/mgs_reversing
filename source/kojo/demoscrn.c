@@ -1,4 +1,23 @@
+/******************************************************************************
+ * System   : METALGEAR^3 for PlayStation
+ * Computer : PlayStation
+ * OS       : PlayStation
+ * Compiler : psyq
+ * Module   : 
+ */
+
+/******************************************************************************
+ * included
+ */
+
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 #include "libdg/libdg.h"
+
+/******************************************************************************
+ * functions
+ */
 
 void DemoScreenModelsSingle(DG_OBJS *pObjs, int n_models)
 {

@@ -1,3 +1,15 @@
+/******************************************************************************
+ * System   : METALGEAR^3 for PlayStation
+ * Computer : PlayStation
+ * OS       : PlayStation
+ * Compiler : psyq
+ * Module   : 
+ */
+
+/******************************************************************************
+ * included
+ */
+
 #include "inverlt2.h"
 
 #include <sys/types.h>
@@ -8,126 +20,133 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "game/game.h"
-#include "okajima/stngrnd.h"
 
-/*---------------------------------------------------------------------------*/
+#include "okajima/stngrnd.h"    // for AN_Stn_G_*
 
-typedef struct _Work
+/******************************************************************************
+ * definitions and typedefs and structures
+ */
+
+typedef struct tagINVERSLIGHT2
 {
-    GV_ACT   actor;
-    int      map;
-    DG_PRIM *prim[8];
-    RECT     rect[8];
-    SVECTOR  vec[8];
-    int      fC4;
-    int      fC8;
-    int      fCC;
-    int      fD0;
-    int      fD4;
-    int      fD8;
-    int      fDC;
-    SVECTOR  fE0;
-    int      fE8;
-} Work;
+    GV_ACT      actor;
+    int         nMap;
+    DG_PRIM     *prim[8];
+    RECT        rect[8];
+    SVECTOR     vec[8];
+    int         nR;
+    int         nG;
+    int         nB;
+    int         fD0;
+    int         fD4;
+    int         fD8;
+    int         fDC;
+    SVECTOR     fE0;
+    int         fE8;
+} INVERSLIGHT2, *LPINVERSLIGHT2;
 
-#define EXEC_LEVEL GV_ACTOR_USER
+/******************************************************************************
+ * functions
+ */
 
-/*---------------------------------------------------------------------------*/
+static void Act(LPINVERSLIGHT2 lpAct);
+static void Die(LPINVERSLIGHT2 lpAct);
+static void InitRects(LPINVERSLIGHT2 lpAct, int scale);
 
-static void Act(Work *work);
-static void Die(Work *work);
-static void InitRects(Work *work, int scale);
+/******************************************************************************
+ * publics
+ */
 
-void *NewInverlt2_800D0FF4(SVECTOR *arg0, int arg1, int arg2, int arg3, int r, int g, int b, int arg7, int arg8)
+void *NewInverseLight2(SVECTOR *arg0, int arg1, int arg2, int arg3, int nR, int nG, int nB, int arg7, int arg8)
 {
-    Work         *work;
+    LPINVERSLIGHT2 lpAct;
     DG_TEX       *tex;
     int           i;
     int           x, y, w, h;
     int           x2, y2, w2, h2;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
-    if (work == NULL)
+    lpAct = GV_NewActor(GV_ACTOR_USER, sizeof(INVERSLIGHT2));
+    if (lpAct == NULL)
     {
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, Act, Die, "inverlt2.c");
+    GV_SetNamedActor(&lpAct->actor, Act, Die, "inverlt2.c");
 
-    work->fC4 = r;
-    work->fC8 = g;
-    work->fCC = b;
+    lpAct->nR = nR;
+    lpAct->nG = nG;
+    lpAct->nB = nB;
 
-    work->fD0 = arg1;
-    work->fD4 = arg1;
-    work->fD8 = arg2;
-    work->fDC = arg3;
+    lpAct->fD0 = arg1;
+    lpAct->fD4 = arg1;
+    lpAct->fD8 = arg2;
+    lpAct->fDC = arg3;
 
-    work->map = GM_CurrentMap;
+    lpAct->nMap = GM_CurrentMap;
 
-    work->fE0 = *arg0;
+    lpAct->fE0 = *arg0;
 
-    if (work->fC4 < 5)
+    if (lpAct->nR < 5)
     {
-        work->fC4 = 5;
+        lpAct->nR = 5;
     }
 
-    if (work->fC8 < 5)
+    if (lpAct->nG < 5)
     {
-        work->fC8 = 5;
+        lpAct->nG = 5;
     }
 
-    if (work->fCC < 5)
+    if (lpAct->nB < 5)
     {
-        work->fCC = 5;
+        lpAct->nB = 5;
     }
 
-    if (work->fD8 <= 0)
+    if (lpAct->fD8 <= 0)
     {
-        work->fD8 = 1;
+        lpAct->fD8 = 1;
     }
 
-    work->rect[0].w = arg7 / 6;
-    work->rect[0].h = arg7 / 6;
-    work->rect[1].w = arg7 / 3;
-    work->rect[1].h = arg7 / 3;
-    work->rect[2].w = arg7 / 2;
-    work->rect[2].h = arg7 / 2;
-    work->rect[3].w = (arg7 * 4) / 6;
-    work->rect[3].h = (arg7 * 4) / 6;
-    work->rect[4].w = (arg7 * 5) / 6;
-    work->rect[4].h = (arg7 * 5) / 6;
-    work->rect[5].w = arg7;
-    work->rect[5].h = arg7;
-    work->rect[6].w = arg8 / 2;
-    work->rect[6].h = arg8 / 2;
-    work->rect[7].w = arg8;
-    work->rect[7].h = arg8;
+    lpAct->rect[0].w = arg7 / 6;
+    lpAct->rect[0].h = arg7 / 6;
+    lpAct->rect[1].w = arg7 / 3;
+    lpAct->rect[1].h = arg7 / 3;
+    lpAct->rect[2].w = arg7 / 2;
+    lpAct->rect[2].h = arg7 / 2;
+    lpAct->rect[3].w = (arg7 * 4) / 6;
+    lpAct->rect[3].h = (arg7 * 4) / 6;
+    lpAct->rect[4].w = (arg7 * 5) / 6;
+    lpAct->rect[4].h = (arg7 * 5) / 6;
+    lpAct->rect[5].w = arg7;
+    lpAct->rect[5].h = arg7;
+    lpAct->rect[6].w = arg8 / 2;
+    lpAct->rect[6].h = arg8 / 2;
+    lpAct->rect[7].w = arg8;
+    lpAct->rect[7].h = arg8;
 
-    work->vec[0].vz = 320;
-    work->vec[1].vz = 320;
-    work->vec[2].vz = 320;
-    work->vec[3].vz = 320;
-    work->vec[4].vz = 320;
-    work->vec[5].vz = 320;
-    work->vec[6].vz = 320;
-    work->vec[7].vz = 320;
+    lpAct->vec[0].vz = 320;
+    lpAct->vec[1].vz = 320;
+    lpAct->vec[2].vz = 320;
+    lpAct->vec[3].vz = 320;
+    lpAct->vec[4].vz = 320;
+    lpAct->vec[5].vz = 320;
+    lpAct->vec[6].vz = 320;
+    lpAct->vec[7].vz = 320;
 
-    InitRects(work, 100);
+    InitRects(lpAct, 100);
 
     tex = DG_GetTexture(GV_StrCode("refrection6"));
 
     for (i = 0; i < 8; i++)
     {
-        work->prim[i] =  GM_MakePrim(DG_PRIM_OFFSET | DG_PRIM_WORLD | DG_PRIM_POLY_FT4, 1, &work->vec[i], &work->rect[i]);
+        lpAct->prim[i] =  GM_MakePrim(DG_PRIM_OFFSET | DG_PRIM_WORLD | DG_PRIM_POLY_FT4, 1, &lpAct->vec[i], &lpAct->rect[i]);
 
-        work->prim[i]->raise = 320;
+        lpAct->prim[i]->raise = 320;
 
-#define POLY ((POLY_FT4 *)work->prim[i]->packs[0])
+#define POLY ((POLY_FT4 *)lpAct->prim[i]->packs[0])
         setPolyFT4(&POLY[0]);
         setPolyFT4(&POLY[1]);
-        setRGB0(&POLY[0], work->fC4, work->fC8, work->fCC);
-        setRGB0(&POLY[1], work->fC4 - 5, work->fC8 - 5, work->fCC - 5);
+        setRGB0(&POLY[0], lpAct->nR, lpAct->nG, lpAct->nB);
+        setRGB0(&POLY[1], lpAct->nR - 5, lpAct->nG - 5, lpAct->nB - 5);
 
         x = tex->off_x;
         w = tex->w;
@@ -152,112 +171,114 @@ void *NewInverlt2_800D0FF4(SVECTOR *arg0, int arg1, int arg2, int arg3, int r, i
 #undef POLY
     }
 
-    return (void *)work;
+    return (void *)lpAct;
 }
 
-/*---------------------------------------------------------------------------*/
+/******************************************************************************
+ * statics
+ */
 
 // Can't match below function without this macro
 #define ACTASSERT(cond)                         \
 do {                                            \
     if (cond) {                                 \
-        GV_DestroyActor(&work->actor);          \
+        GV_DestroyActor(&lpAct->actor);         \
         return;                                 \
     }                                           \
 } while (0)
 
-static void Act(Work *work)
+static void Act(LPINVERSLIGHT2 lpAct)
 {
     int temp_s3;
     int temp_lo;
     int temp_a1;
-    int r, g, b;
+    int nR, nG, nB;
     int i;
 
-    ACTASSERT(work->fD0 <= 0);
+    ACTASSERT(lpAct->fD0 <= 0);
 
-    temp_s3 = work->fD4 - work->fD0;
-    temp_lo = ((work->fD8 - temp_s3) * 100) / work->fD8;
+    temp_s3 = lpAct->fD4 - lpAct->fD0;
+    temp_lo = ((lpAct->fD8 - temp_s3) * 100) / lpAct->fD8;
 
-    GM_CurrentMap = work->map;
+    GM_CurrentMap = lpAct->nMap;
 
-    if ((temp_lo == 0) && (work->fE8 == 0))
+    if ((temp_lo == 0) && (lpAct->fE8 == 0))
     {
-        work->fE8 = 1;
-        AN_Stn_G_Sonic(&work->fE0);
-        AN_Stn_G_Center(&work->fE0);
+        lpAct->fE8 = 1;
+        AN_Stn_G_Sonic(&lpAct->fE0);
+        AN_Stn_G_Center(&lpAct->fE0);
         sub_800790E8();
     }
-    else if (work->fE8 == 1)
+    else if (lpAct->fE8 == 1)
     {
-        work->fE8 = 2;
+        lpAct->fE8 = 2;
         sub_8007913C();
     }
 
-    InitRects(work, temp_lo);
+    InitRects(lpAct, temp_lo);
 
-    if (work->fDC < temp_s3)
+    if (lpAct->fDC < temp_s3)
     {
-        temp_a1 = work->fD4 - work->fDC;
+        temp_a1 = lpAct->fD4 - lpAct->fDC;
         if (temp_a1 <= 0)
         {
             temp_lo = 0;
         }
         else
         {
-            temp_lo = ((work->fD4 - temp_s3) * 100) / temp_a1;
+            temp_lo = ((lpAct->fD4 - temp_s3) * 100) / temp_a1;
         }
 
-        r = (work->fC4 * temp_lo) / 100;
-        g = (work->fC8 * temp_lo) / 100;
-        b = (work->fCC * temp_lo) / 100;
+        nR = (lpAct->nR * temp_lo) / 100;
+        nG = (lpAct->nG * temp_lo) / 100;
+        nB = (lpAct->nB * temp_lo) / 100;
 
-        if (r < 5)
+        if (nR < 5)
         {
-            r = 5;
+            nR = 5;
         }
 
-        if (g < 5)
+        if (nG < 5)
         {
-            g = 5;
+            nG = 5;
         }
 
-        if (b < 5)
+        if (nB < 5)
         {
-            b = 5;
+            nB = 5;
         }
 
         for (i = 0; i < 8; i++)
         {
-            ((POLY_FT4 *)work->prim[i]->packs[0])[0].r0 = r;
-            ((POLY_FT4 *)work->prim[i]->packs[0])[0].g0 = g;
-            ((POLY_FT4 *)work->prim[i]->packs[0])[0].b0 = b;
+            ((POLY_FT4 *)lpAct->prim[i]->packs[0])[0].r0 = nR;
+            ((POLY_FT4 *)lpAct->prim[i]->packs[0])[0].g0 = nG;
+            ((POLY_FT4 *)lpAct->prim[i]->packs[0])[0].b0 = nB;
 
-            ((POLY_FT4 *)work->prim[i]->packs[0])[1].r0 = r - 5;
-            ((POLY_FT4 *)work->prim[i]->packs[0])[1].g0 = g - 5;
-            ((POLY_FT4 *)work->prim[i]->packs[0])[1].b0 = b - 5;
+            ((POLY_FT4 *)lpAct->prim[i]->packs[0])[1].r0 = nR - 5;
+            ((POLY_FT4 *)lpAct->prim[i]->packs[0])[1].g0 = nG - 5;
+            ((POLY_FT4 *)lpAct->prim[i]->packs[0])[1].b0 = nB - 5;
         }
     }
 
-    work->fD0--;
+    lpAct->fD0--;
 }
 
-static void Die(Work *work)
+static void Die(LPINVERSLIGHT2 lpAct)
 {
     int i;
 
-    if (work->fE8 == 1)
+    if (lpAct->fE8 == 1)
     {
         sub_8007913C();
     }
 
     for (i = 0; i < 8; i++)
     {
-        GM_FreePrim(work->prim[i]);
+        GM_FreePrim(lpAct->prim[i]);
     }
 }
 
-static void InitRects(Work *work, int scale)
+static void InitRects(LPINVERSLIGHT2 lpAct, int scale)
 {
     SVECTOR sxy;
     SVECTOR sp18;
@@ -268,7 +289,7 @@ static void InitRects(Work *work, int scale)
 
     SetRotMatrix(&DG_Chanl(0)->eye_inv);
     SetTransMatrix(&DG_Chanl(0)->eye_inv);
-    RotTransPers(&work->fE0, (long *)&sxy, &p, &flag);
+    RotTransPers(&lpAct->fE0, (long *)&sxy, &p, &flag);
 
     if (sxy.vy == 0)
     {
@@ -300,30 +321,30 @@ static void InitRects(Work *work, int scale)
         sp18.vy *= -1;
     }
 
-    work->rect[0].x = (work->rect[0].w / 2) - sxy.vx + (sp18.vx / 6);
-    work->rect[0].y = (work->rect[0].h / 2) - sxy.vy + (sp18.vy / 6);
+    lpAct->rect[0].x = (lpAct->rect[0].w / 2) - sxy.vx + (sp18.vx / 6);
+    lpAct->rect[0].y = (lpAct->rect[0].h / 2) - sxy.vy + (sp18.vy / 6);
 
-    work->rect[1].x = (work->rect[1].w / 2) - sxy.vx + (sp18.vx / 3);
-    work->rect[1].y = (work->rect[1].h / 2) - sxy.vy + (sp18.vy / 3);
+    lpAct->rect[1].x = (lpAct->rect[1].w / 2) - sxy.vx + (sp18.vx / 3);
+    lpAct->rect[1].y = (lpAct->rect[1].h / 2) - sxy.vy + (sp18.vy / 3);
 
-    work->rect[2].x = (work->rect[2].w / 2) - sxy.vx + (sp18.vx / 2);
-    work->rect[2].y = (work->rect[2].h / 2) - sxy.vy + (sp18.vy / 2);
+    lpAct->rect[2].x = (lpAct->rect[2].w / 2) - sxy.vx + (sp18.vx / 2);
+    lpAct->rect[2].y = (lpAct->rect[2].h / 2) - sxy.vy + (sp18.vy / 2);
 
-    work->rect[3].x = (work->rect[3].w / 2) - sxy.vx + ((sp18.vx * 4) / 6);
-    work->rect[3].y = (work->rect[3].h / 2) - sxy.vy + ((sp18.vy * 4) / 6);
+    lpAct->rect[3].x = (lpAct->rect[3].w / 2) - sxy.vx + ((sp18.vx * 4) / 6);
+    lpAct->rect[3].y = (lpAct->rect[3].h / 2) - sxy.vy + ((sp18.vy * 4) / 6);
 
-    work->rect[4].x = (work->rect[4].w / 2) - sxy.vx + ((sp18.vx * 5) / 6);
-    work->rect[4].y = (work->rect[4].h / 2) - sxy.vy + ((sp18.vy * 5) / 6);
+    lpAct->rect[4].x = (lpAct->rect[4].w / 2) - sxy.vx + ((sp18.vx * 5) / 6);
+    lpAct->rect[4].y = (lpAct->rect[4].h / 2) - sxy.vy + ((sp18.vy * 5) / 6);
 
-    work->rect[5].x = (work->rect[5].w / 2) - sxy.vx + sp18.vx;
-    work->rect[5].y = (work->rect[5].h / 2) - sxy.vy + sp18.vy;
+    lpAct->rect[5].x = (lpAct->rect[5].w / 2) - sxy.vx + sp18.vx;
+    lpAct->rect[5].y = (lpAct->rect[5].h / 2) - sxy.vy + sp18.vy;
 
     sp18.vx >>= 1;
     sp18.vy >>= 1;
 
-    work->rect[6].x = (work->rect[6].w / 2) - sxy.vx + (-sp18.vx / 2);
-    work->rect[6].y = (work->rect[6].h / 2) - sxy.vy + (-sp18.vy / 2);
+    lpAct->rect[6].x = (lpAct->rect[6].w / 2) - sxy.vx + (-sp18.vx / 2);
+    lpAct->rect[6].y = (lpAct->rect[6].h / 2) - sxy.vy + (-sp18.vy / 2);
 
-    work->rect[7].x = (work->rect[7].w / 2) - sxy.vx - sp18.vx;
-    work->rect[7].y = (work->rect[7].h / 2) - sxy.vy - sp18.vy;
+    lpAct->rect[7].x = (lpAct->rect[7].w / 2) - sxy.vx - sp18.vx;
+    lpAct->rect[7].y = (lpAct->rect[7].h / 2) - sxy.vy - sp18.vy;
 }

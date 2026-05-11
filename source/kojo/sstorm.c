@@ -1,7 +1,23 @@
+/******************************************************************************
+ * System   : METALGEAR^3 for PlayStation
+ * Computer : PlayStation
+ * OS       : PlayStation
+ * Compiler : psyq
+ * Module   : 雪嵐
+ */
+
+/******************************************************************************
+ * included
+ */
+
 #include "sstorm.h"
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
@@ -10,48 +26,50 @@
 
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 
-/*---------------------------------------------------------------------------*/
+/******************************************************************************
+ * definitions and typedefs and structures
+ */
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
-typedef struct _Work
+typedef struct tagSNOWSTORM
 {
-    GV_ACT    actor;
-    int       field_20;
-    int       field_24;
-    short     field_28;
-    short     field_2A;
-    short     field_2C;
-    short     field_2E;
-    short     field_30;
-    short     field_32;
-    short     field_34;
-    short     field_36;
-    int       field_38;
-    int       field_3C;
-    int       field_40;
-    int       field_44;
-    SVECTOR   field_48;
-    ANIMATION anime;
-    char      field_6C[21];
-    int       field_84;
-    int       field_88;
-    int       field_8C;
-    int       field_90;
-    int       field_94;
-    int       field_98;
-    int       field_9C;
-    int       field_A0;
-    int       field_A4;
-    int       field_A8;
-    int       field_AC;
-    int       field_B0;
-    int       field_B4;
-    int       field_B8;
-    PRESCRIPT pre_script;
-} Work;
+    GV_ACT      actor;
+    int         field_20;
+    int         field_24;
+    short       field_28;
+    short       field_2A;
+    short       field_2C;
+    short       field_2E;
+    short       field_30;
+    short       field_32;
+    short       field_34;
+    short       field_36;
+    int         field_38;
+    int         field_3C;
+    BOOL        bActive;
+    int         field_44;
+    SVECTOR     field_48;
+    ANIMATION   anime;
+    char        field_6C[21];
+    int         field_84;
+    int         field_88;
+    int         field_8C;
+    int         field_90;
+    int         field_94;
+    int         field_98;
+    int         field_9C;
+    int         field_A0;
+    int         field_A4;
+    int         field_A8;
+    int         field_AC;
+    int         field_B0;
+    int         field_B4;
+    int         field_B8;
+    PRESCRIPT   pre_script;
+} SNOWSTORM, *LPSNOWSTORM;
 
-/*---------------------------------------------------------------------------*/
+/******************************************************************************
+ * locals
+ */
 
 static char s11i_dword_800C36B4[] = {
     0x00,0x10,0x01,0x00, 0x05,0x01,0xFE,0x0C,
@@ -59,65 +77,71 @@ static char s11i_dword_800C36B4[] = {
     0x02,0x00,0x01,0x0D, 0x0F
 };
 
-/*---------------------------------------------------------------------------*/
+/******************************************************************************
+ * functions
+ */
 
-static void Act(Work *);
-static void Die(Work *);
+static void Act(LPSNOWSTORM lpAct);
+static void Die(LPSNOWSTORM lpAct);
 static int CheckMessage(unsigned short name, int nhashes, unsigned short *hashes);
+
+/******************************************************************************
+ * publics
+ */
 
 void *NewSnowStorm(int arg0, int arg1)
 {
-    Work       *work;
+    LPSNOWSTORM lpAct;
     SVECTOR     svec1, svec2;
     short       field_30;
     int         xw, xw2;
     char       *param;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
-    if (work == NULL)
+    lpAct = GV_NewActor(GV_ACTOR_USER, sizeof(SNOWSTORM));
+    if (lpAct == NULL)
     {
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, Act, Die, "sstorm.c");
+    GV_SetNamedActor(&lpAct->actor, Act, Die, "sstorm.c");
 
-    work->field_40 = 1;
-    work->field_38 = 4;
-    work->field_20 = arg0;
-    work->field_24 = arg1;
-    work->field_3C = 2000;
+    lpAct->bActive = TRUE;
+    lpAct->field_38 = 4;
+    lpAct->field_20 = arg0;
+    lpAct->field_24 = arg1;
+    lpAct->field_3C = 2000;
 
     if (GCL_GetOption('a'))
     {
         param = GCL_GetParamResult();
         if (param)
         {
-            work->field_28 = GCL_StrToInt(param);
+            lpAct->field_28 = GCL_StrToInt(param);
         }
         param = GCL_GetParamResult();
         if (param)
         {
-            work->field_2A = GCL_StrToInt(param);
+            lpAct->field_2A = GCL_StrToInt(param);
         }
         param = GCL_GetParamResult();
         if (param)
         {
-            work->field_2C = GCL_StrToInt(param);
+            lpAct->field_2C = GCL_StrToInt(param);
         }
         param = GCL_GetParamResult();
         if (param)
         {
-            work->field_30 = GCL_StrToInt(param);
+            lpAct->field_30 = GCL_StrToInt(param);
         }
         param = GCL_GetParamResult();
         if (param)
         {
-            work->field_32 = GCL_StrToInt(param);
+            lpAct->field_32 = GCL_StrToInt(param);
         }
         param = GCL_GetParamResult();
         if (param)
         {
-            work->field_34 = GCL_StrToInt(param);
+            lpAct->field_34 = GCL_StrToInt(param);
         }
     }
 
@@ -126,12 +150,12 @@ void *NewSnowStorm(int arg0, int arg1)
         param = GCL_GetParamResult();
         if (param)
         {
-            work->field_38 = GCL_StrToInt(param);
+            lpAct->field_38 = GCL_StrToInt(param);
         }
         param = GCL_GetParamResult();
         if (param)
         {
-            work->field_3C = GCL_StrToInt(param);
+            lpAct->field_3C = GCL_StrToInt(param);
         }
     }
 
@@ -161,194 +185,195 @@ void *NewSnowStorm(int arg0, int arg1)
             DG_SetPos2(&svec1, &svec2);
             svec1.vz = GCL_StrToInt(param) / 3;
             DG_PutVector(&svec1, &svec1, 1);
-            work->field_48.vx = svec1.vx;
-            work->field_48.vy = svec1.vy;
-            work->field_48.vz = svec1.vz;
+            lpAct->field_48.vx = svec1.vx;
+            lpAct->field_48.vy = svec1.vy;
+            lpAct->field_48.vz = svec1.vz;
         }
     }
 
-    field_30 = work->field_30;
-    xw = work->field_32 - work->field_2A;
+    field_30 = lpAct->field_30;
+    xw = lpAct->field_32 - lpAct->field_2A;
 
-    work->anime.field_E_xw = field_30 - work->field_28;
-    if (xw < work->anime.field_E_xw)
+    lpAct->anime.field_E_xw = field_30 - lpAct->field_28;
+    if (xw < lpAct->anime.field_E_xw)
     {
-        xw = work->anime.field_E_xw;
+        xw = lpAct->anime.field_E_xw;
     }
-    work->anime.field_E_xw = xw;
+    lpAct->anime.field_E_xw = xw;
 
-    xw2 = work->field_34 - work->field_2C;
-    if (xw2 < work->anime.field_E_xw)
+    xw2 = lpAct->field_34 - lpAct->field_2C;
+    if (xw2 < lpAct->anime.field_E_xw)
     {
-        xw2 = work->anime.field_E_xw;
+        xw2 = lpAct->anime.field_E_xw;
     }
-    work->anime.field_E_xw = xw2;
+    lpAct->anime.field_E_xw = xw2;
 
-    work->anime.field_2 = 1;
-    work->anime.field_4 = 1;
-    work->anime.n_anims = 1;
-    work->anime.n_vertices = 1;
-    work->anime.field_C = 3;
-    work->anime.field_12_rgb = 0xFF;
-    work->anime.pre_script = &work->pre_script;
-    work->anime.field_18_ptr = work->field_6C;
-    work->anime.field_A = work->field_3C;
-    work->anime.field_10_yh = work->anime.field_E_xw;
+    lpAct->anime.field_2 = 1;
+    lpAct->anime.field_4 = 1;
+    lpAct->anime.n_anims = 1;
+    lpAct->anime.n_vertices = 1;
+    lpAct->anime.field_C = 3;
+    lpAct->anime.field_12_rgb = 0xFF;
+    lpAct->anime.pre_script = &lpAct->pre_script;
+    lpAct->anime.field_18_ptr = lpAct->field_6C;
+    lpAct->anime.field_A = lpAct->field_3C;
+    lpAct->anime.field_10_yh = lpAct->anime.field_E_xw;
 
-    return (void *)work;
+    return (void *)lpAct;
 }
 
-/*---------------------------------------------------------------------------*/
+/******************************************************************************
+ * statics
+ */
 
-static void Act(Work *work)
+static void Act(LPSNOWSTORM lpAct)
 {
-    VECTOR         sp10;
-    SVECTOR        sp20;
-    SVECTOR        sp28;
+    VECTOR         vect;
+    SVECTOR        svect1;
+    SVECTOR        svect2;
     unsigned short mesg_list[2];
     int            div;
     unsigned int   xw;
     int            lhs, rhs;
 
-    GM_CurrentMap = work->field_24;
-    work->field_44++;
+    GM_CurrentMap = lpAct->field_24;
+    lpAct->field_44++;
 
     mesg_list[0] = GV_StrCode("run");
     mesg_list[1] = GV_StrCode("stop");
 
-    switch (CheckMessage(work->field_20, COUNTOF(mesg_list), mesg_list))
+    switch (CheckMessage(lpAct->field_20, COUNTOF(mesg_list), mesg_list))
     {
     case 0:
-        work->field_40 = 1;
+        lpAct->bActive = TRUE;
         printf("s-end\n");
         break;
     case 1:
-        work->field_40 = 0;
+        lpAct->bActive = FALSE;
         printf("s-start\n");
         break;
     }
 
-    if (work->field_40 == 0 || work->field_44 % work->field_38 != 0)
+    if (lpAct->bActive == FALSE || lpAct->field_44 % lpAct->field_38 != 0)
     {
         return;
     }
 
     if (GM_lpsvectWind == NULL)
     {
-        work->pre_script.speed = work->field_48;
+        lpAct->pre_script.speed = lpAct->field_48;
     }
     else
     {
-        work->pre_script.speed = *GM_lpsvectWind;
+        lpAct->pre_script.speed = *GM_lpsvectWind;
     }
-    sp10.vx = work->field_28 + (rand() & 0xFF) * (work->field_30 - work->field_28) / 256;
-    sp10.vy = work->field_2A + (rand() & 0xFF) * (work->field_32 - work->field_2A) / 256;
-    sp10.vz = work->field_2C + (rand() & 0xFF) * (work->field_34 - work->field_2C) / 256;
+    vect.vx = lpAct->field_28 + (rand() & 0xFF) * (lpAct->field_30 - lpAct->field_28) / 256;
+    vect.vy = lpAct->field_2A + (rand() & 0xFF) * (lpAct->field_32 - lpAct->field_2A) / 256;
+    vect.vz = lpAct->field_2C + (rand() & 0xFF) * (lpAct->field_34 - lpAct->field_2C) / 256;
 
-    sp20 = work->pre_script.speed;
-    sp20.vx = sp20.vx < 0 ? -sp20.vx : sp20.vx;
-    sp20.vy = sp20.vy < 0 ? -sp20.vy : sp20.vy;
-    sp20.vz = sp20.vz < 0 ? -sp20.vz : sp20.vz;
+    svect1 = lpAct->pre_script.speed;
+    svect1.vx = svect1.vx < 0 ? -svect1.vx : svect1.vx;
+    svect1.vy = svect1.vy < 0 ? -svect1.vy : svect1.vy;
+    svect1.vz = svect1.vz < 0 ? -svect1.vz : svect1.vz;
 
-    if (sp20.vx > sp20.vy && sp20.vz < sp20.vx)
+    if (svect1.vx > svect1.vy && svect1.vz < svect1.vx)
     {
-        if (work->pre_script.speed.vx < 0)
+        if (lpAct->pre_script.speed.vx < 0)
         {
-            sp10.vx = work->field_30 + work->anime.field_E_xw / 4;
+            vect.vx = lpAct->field_30 + lpAct->anime.field_E_xw / 4;
         }
         else
         {
-            sp10.vx = work->field_28 - work->anime.field_E_xw / 4;
+            vect.vx = lpAct->field_28 - lpAct->anime.field_E_xw / 4;
         }
     }
-    else if (sp20.vy > sp20.vx && sp20.vz < sp20.vy)
+    else if (svect1.vy > svect1.vx && svect1.vz < svect1.vy)
     {
-        if (work->pre_script.speed.vy < 0)
+        if (lpAct->pre_script.speed.vy < 0)
         {
-            sp10.vy = work->field_32 + work->anime.field_E_xw / 4;
+            vect.vy = lpAct->field_32 + lpAct->anime.field_E_xw / 4;
         }
         else
         {
-            sp10.vy = work->field_2A - work->anime.field_E_xw / 4;
+            vect.vy = lpAct->field_2A - lpAct->anime.field_E_xw / 4;
         }
     }
     else
     {
-        if (work->pre_script.speed.vz < 0)
+        if (lpAct->pre_script.speed.vz < 0)
         {
-            sp10.vz = work->field_34 + work->anime.field_E_xw / 4;
+            vect.vz = lpAct->field_34 + lpAct->anime.field_E_xw / 4;
         }
         else
         {
-            sp10.vz = work->field_2C - work->anime.field_E_xw / 4;
+            vect.vz = lpAct->field_2C - lpAct->anime.field_E_xw / 4;
         }
     }
 
-    sp10.vx += GM_PlayerPosition.vx;
-    sp10.vy += GM_PlayerPosition.vy;
-    sp10.vz += GM_PlayerPosition.vz;
+    vect.vx += GM_PlayerPosition.vx;
+    vect.vy += GM_PlayerPosition.vy;
+    vect.vz += GM_PlayerPosition.vz;
 
     if (GM_PlayerStatus & PLAYER_WATCH)
     {
-        sp20.vx = gUnkCameraStruct2_800B7868.center.vx - gUnkCameraStruct2_800B7868.eye.vx;
-        sp20.vy = gUnkCameraStruct2_800B7868.center.vy - gUnkCameraStruct2_800B7868.eye.vy;
-        sp20.vz = gUnkCameraStruct2_800B7868.center.vz - gUnkCameraStruct2_800B7868.eye.vz;
+        svect1.vx = gUnkCameraStruct2_800B7868.center.vx - gUnkCameraStruct2_800B7868.eye.vx;
+        svect1.vy = gUnkCameraStruct2_800B7868.center.vy - gUnkCameraStruct2_800B7868.eye.vy;
+        svect1.vz = gUnkCameraStruct2_800B7868.center.vz - gUnkCameraStruct2_800B7868.eye.vz;
 
-        sp28.vx = -ratan2(sp20.vy, SquareRoot0(sp20.vx * sp20.vx + sp20.vz * sp20.vz));
-        sp28.vy = ratan2(sp20.vx, sp20.vz);
-        sp28.vz = 0;
+        svect2.vx = -ratan2(svect1.vy, SquareRoot0(svect1.vx * svect1.vx + svect1.vz * svect1.vz));
+        svect2.vy = ratan2(svect1.vx, svect1.vz);
+        svect2.vz = 0;
 
-        memset(&sp20, 0, sizeof(SVECTOR));
-        DG_SetPos2(&sp20, &sp28);
+        memset(&svect1, 0, sizeof(SVECTOR));
+        DG_SetPos2(&svect1, &svect2);
 
-        sp20.vz = (work->anime.field_E_xw * 2) / 3;
-        DG_PutVector(&sp20, &sp20, 1);
+        svect1.vz = (lpAct->anime.field_E_xw * 2) / 3;
+        DG_PutVector(&svect1, &svect1, 1);
 
-        sp10.vx += sp20.vx;
-        sp10.vy += sp20.vy;
-        sp10.vz += sp20.vz;
+        vect.vx += svect1.vx;
+        vect.vy += svect1.vy;
+        vect.vz += svect1.vz;
     }
-    sp10.vx = sp10.vx < 32000 ? sp10.vx : 32000;
-    sp10.vx = sp10.vx > -32000 ? sp10.vx : -32000;
-    sp10.vy = sp10.vy < 32000 ? sp10.vy : 32000;
-    sp10.vy = sp10.vy > -32000 ? sp10.vy : -32000;
-    sp10.vz = sp10.vz < 32000 ? sp10.vz : 32000;
-    sp10.vz = sp10.vz > -32000 ? sp10.vz : -32000;
+    vect.vx = MIN(vect.vx, 32000);
+    vect.vx = MAX(vect.vx, -32000);
+    vect.vy = MIN(vect.vy, 32000);
+    vect.vy = MAX(vect.vy, -32000);
+    vect.vz = MIN(vect.vz, 32000);
+    vect.vz = MAX(vect.vz, -32000);
 
-    work->pre_script.pos.vx = sp10.vx;
-    work->pre_script.pos.vy = sp10.vy;
-    work->pre_script.pos.vz = sp10.vz;
+    lpAct->pre_script.pos.vx = vect.vx;
+    lpAct->pre_script.pos.vy = vect.vy;
+    lpAct->pre_script.pos.vz = vect.vz;
 
-    div = SquareRoot0(work->pre_script.speed.vx * work->pre_script.speed.vx +
-                      work->pre_script.speed.vy * work->pre_script.speed.vy +
-                      work->pre_script.speed.vz * work->pre_script.speed.vz);
-    memcpy(work->field_6C, s11i_dword_800C36B4, 21);
-    xw = work->anime.field_E_xw / div + 1;
+    div = SquareRoot0(lpAct->pre_script.speed.vx * lpAct->pre_script.speed.vx +
+                      lpAct->pre_script.speed.vy * lpAct->pre_script.speed.vy +
+                      lpAct->pre_script.speed.vz * lpAct->pre_script.speed.vz);
+    memcpy(lpAct->field_6C, s11i_dword_800C36B4, 21);
+    xw = lpAct->anime.field_E_xw / div + 1;
 
     lhs = xw >> 8;
     rhs = (xw & 0xFF) << 8;
-    *(short *)&work->field_6C[8] = (lhs & 0xFF) | rhs;
+    *(short *)&lpAct->field_6C[8] = (lhs & 0xFF) | rhs;
 
     switch (rand() % 3)
     {
     case 0:
-        work->anime.field_0_texture_hash = GV_StrCode("snow_ex1");
+        lpAct->anime.field_0_texture_hash = GV_StrCode("snow_ex1");
         break;
     case 1:
-        work->anime.field_0_texture_hash = GV_StrCode("snow_ex2");
+        lpAct->anime.field_0_texture_hash = GV_StrCode("snow_ex2");
         break;
     case 2:
-        work->anime.field_0_texture_hash = GV_StrCode("snow_ex3");
+        lpAct->anime.field_0_texture_hash = GV_StrCode("snow_ex3");
         break;
     }
-    NewAnime(NULL, NULL, &work->anime);
+    NewAnime(NULL, NULL, &lpAct->anime);
 }
 
-static void Die(Work *work)
+static void Die(LPSNOWSTORM lpAct)
 {
+    /* do nothing */
 }
-
-/*---------------------------------------------------------------------------*/
 
 // Less optimized version of d03a_red_alrt_800C437C (lol)
 static int CheckMessage(unsigned short name, int nhashes, unsigned short *hashes)

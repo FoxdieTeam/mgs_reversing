@@ -368,7 +368,7 @@
 #define CHARA_003C_SPACK        { 0x003c, NewSpark2_800CA714 }      // takabe/spark2.c
 #define CHARA_003D_SPACK2       { 0x003d, NewSpark }                // okajima/spark.c
 #define CHARA_003E_STEAMEXPLOSION { 0x003e, ? }                     // --> anime/animconv/anime.c
-#define CHARA_003F_INVERSLIGHT2 { 0x003f, NewInverlt2_800D0FF4 }    // kojo/inverlt2.c
+#define CHARA_003F_INVERSLIGHT2 { 0x003f, NewInverseLight2 }        // kojo/inverlt2.c
 #define CHARA_0040_CELOFAN2     { 0x0040, ? }                       // kojo/celofan2.c (PC-ONLY)
 #define CHARA_0041_NINJALASER   { 0x0041, ? }                       // kojo/ninjalzr.c
 #define CHARA_0042_GUSEFFECT    { 0x0042, NewGasEffect }            // takabe/gas_efct.c
@@ -466,7 +466,7 @@ void *NewToBeContinued();               /* game/tobcnt.c                */
 void *NewPadVibrationGcl();             /* game/vibrate.c               */
 void *NewVrWindow();                    /* koba/vr/vrwindow.c           */
 void *NewFamasLight();                  /* kojo/famaslit.c              */
-void *NewInverlt2_800D0FF4();           /* kojo/inverlt2.c              */
+void *NewInverseLight2();               /* kojo/inverlt2.c              */
 void *NewSnowStorm();                   /* kojo/sstorm.c                */
 void *NewStage11GDemo();                /* okajima/11g_demo.c           */
 void *NewBlinkTexture();                /* okajima/blink_tx.c           */

@@ -1,3 +1,15 @@
+/******************************************************************************
+ * System   : METALGEAR^3 for PlayStation
+ * Computer : PlayStation
+ * OS       : PlayStation
+ * Compiler : psyq
+ * Module   : 
+ */
+
+/******************************************************************************
+ * included
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
@@ -23,7 +35,9 @@ extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 extern BLAST_DATA       blast_data_8009F4B8[8];
 extern GM_CAMERA        GM_Camera;
 
-/*---------------------------------------------------------------------------*/
+/******************************************************************************
+ * functions
+ */
 
 static BOOL ShowEffect(LPMGSDEMOACT lpAct, DMO_DATA_0x36 *data, ACTNODE *node);
 static void KillEffect(LPMGSDEMOACT lpAct, int type);
@@ -44,7 +58,9 @@ extern void sub_8007E0AC(int y, SVECTOR *pPosition);
 /* in demoscrn.c */
 extern void DemoScreenChanl(DG_CHANL *chanl, int idx);
 
-/*---------------------------------------------------------------------------*/
+/******************************************************************************
+ * publics
+ */
 
 BOOL CreateDemo(LPMGSDEMOACT lpAct, DMO_DEF *header)
 {
@@ -515,6 +531,10 @@ BOOL FrameRunDemo(LPMGSDEMOACT lpAct, DMO_DAT *data)
     ApplyMatrixLV(&DG_Chanl(0)->eye_inv, &trans, (VECTOR *)DG_Chanl(0)->eye_inv.t);
     return 1;
 }
+
+/******************************************************************************
+ * statics
+ */
 
 static BOOL ShowEffect(LPMGSDEMOACT lpAct, DMO_DATA_0x36 *data, ACTNODE *node)
 {
