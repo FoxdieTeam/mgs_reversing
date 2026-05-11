@@ -663,7 +663,7 @@ VECTOR *sub_8007F1DC(VECTOR *out, DG_VECTOR *arg1, VECTOR *arg2);
 extern int DM_ThreadStream(int flag, int unused);
 extern int DM_ThreadFile(int flag, char *filename);
 
-/* demo.c */
+/* demoexec.c */
 extern BOOL CreateDemo(LPMGSDEMOACT lpAct, DMO_DEF *def);
 extern BOOL DestroyDemo(LPMGSDEMOACT lpAct);
 extern BOOL FrameRunDemo(LPMGSDEMOACT lpAct, DMO_DAT *data);
