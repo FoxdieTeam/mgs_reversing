@@ -558,7 +558,7 @@ static BOOL ShowEffect(LPMGSDEMOACT lpAct, DMO_DATA_0x36 *data, ACTNODE *node)
         break;
 
     case EFFECT_SMOKE:
-        funcptr = GM_GetCharaID(CHARAID_0002);
+        funcptr = GM_GetCharaID(CHARAID_0002_SMOKE);
         if (funcptr != NULL)
         {
             funcptr(&svec1);
