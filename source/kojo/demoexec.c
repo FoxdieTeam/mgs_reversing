@@ -25,7 +25,7 @@ extern GM_CAMERA        GM_Camera;
 
 /*---------------------------------------------------------------------------*/
 
-static BOOL MakeChara(LPMGSDEMOACT lpAct, DMO_DATA_0x36 *data, ACTNODE *node);
+static BOOL ShowEffect(LPMGSDEMOACT lpAct, DMO_DATA_0x36 *data, ACTNODE *node);
 static void KillEffect(LPMGSDEMOACT lpAct, int type);
 static BOOL ShowEffectExecute(LPMGSDEMOACT lpAct, DMO_DAT *data, ACTNODE *node);
 static BOOL ShowEffectStop(LPMGSDEMOACT lpAct, DMO_DAT *data);
@@ -439,7 +439,7 @@ BOOL FrameRunDemo(LPMGSDEMOACT lpAct, DMO_DAT *data)
         node->chara = *chara;
 
         // This function uses offset 0x34 of chara despite it seemingly only being 0x34 bytes in size
-        if ( !MakeChara(lpAct, (DMO_DATA_0x36 *)chara, node) )
+        if ( !ShowEffect(lpAct, (DMO_DATA_0x36 *)chara, node) )
         {
             return 0;
         }
@@ -516,7 +516,7 @@ BOOL FrameRunDemo(LPMGSDEMOACT lpAct, DMO_DAT *data)
     return 1;
 }
 
-static BOOL MakeChara(LPMGSDEMOACT lpAct, DMO_DATA_0x36 *data, ACTNODE *node)
+static BOOL ShowEffect(LPMGSDEMOACT lpAct, DMO_DATA_0x36 *data, ACTNODE *node)
 {
     // TODO: Some funcptr calls are first cast to VoidMakeChara. This is a hack
     // to prevent those cases from being merged (GCC "cross jump" optimization).

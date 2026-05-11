@@ -168,7 +168,7 @@ typedef struct DMO_DATA_0x36
 
     // TODO: Is there a cleaner way to model this structure?
     // Some of the variants are very similar. Once all
-    // MakeChara functions are decompiled those fields
+    // ShowEffect functions are decompiled those fields
     // should be named properly (and maybe it'll be easier
     // to find patterns then).
     union {
