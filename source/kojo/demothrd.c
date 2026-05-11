@@ -11,11 +11,6 @@
 
 extern int demodebug_finish_proc;
 
-/* from demo.c */
-extern BOOL CreateDemo(LPMGSDEMOACT lpAct, DMO_DEF *def);
-extern BOOL DestroyDemo(LPMGSDEMOACT lpAct);
-extern BOOL FrameRunDemo(LPMGSDEMOACT lpAct, DMO_DAT *data);
-
 /*---------------------------------------------------------------------------*/
 
 static void ActStream(LPMGSDEMOACT lpAct);

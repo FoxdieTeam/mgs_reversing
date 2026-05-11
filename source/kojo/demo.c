@@ -41,11 +41,6 @@ extern void sub_8007DD80(short param_1, SVECTOR *pPos);
 extern void sub_8007DF10(SVECTOR *pRotation, SVECTOR *pTranslation);
 extern void sub_8007E0AC(int y, SVECTOR *pPosition);
 
-/* in common.c */
-extern void InitChain(ACTNODE *root);
-extern void NextChain(ACTNODE *root, ACTNODE *node);
-extern void DeleteChain(ACTNODE *root, ACTNODE *node);
-
 /* in demoscrn.c */
 extern void DemoScreenChanl(DG_CHANL *chanl, int idx);
 

@@ -649,13 +649,23 @@ typedef struct DMO_DATA_0x36
  * prototypes
  */
 
+/* common.c */
+extern void InitChain(ACTNODE *root);
+extern void NextChain(ACTNODE *root, ACTNODE *node);
+extern void DeleteChain(ACTNODE *root, ACTNODE *node);
+
 /* unknown.c */
 void    sub_8007F06C(DG_VECTOR *param_1, VECTOR *param_2, VECTOR *param_3);
 void    sub_8007F0D0(VECTOR *out, VECTOR *a, VECTOR *b, VECTOR *c);
 VECTOR *sub_8007F1DC(VECTOR *out, DG_VECTOR *arg1, VECTOR *arg2);
 
 /* demothrd.c */
-int DM_ThreadStream(int flag, int unused);
-int DM_ThreadFile(int flag, char *filename);
+extern int DM_ThreadStream(int flag, int unused);
+extern int DM_ThreadFile(int flag, char *filename);
+
+/* demo.c */
+extern BOOL CreateDemo(LPMGSDEMOACT lpAct, DMO_DEF *def);
+extern BOOL DestroyDemo(LPMGSDEMOACT lpAct);
+extern BOOL FrameRunDemo(LPMGSDEMOACT lpAct, DMO_DAT *data);
 
 #endif // __MGS_KOJO_DEMO_H__
