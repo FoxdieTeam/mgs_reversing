@@ -26,9 +26,9 @@ CHARA _StageCharacterEntries[] = {
     CHARA_PADCONTROL,   /* chara パッドコントロール */
     CHARA_CAMERASHAKE,  /* chara カメラ揺らし */
 
-    CHARA_0003_FADEIO,
-    CHARA_0004_FADEIO,
-    CHARA_000F_DEMOKAGE,
+    CHARA_0003_FADEIN,
+    CHARA_0004_FADEOUT,
+    CHARA_000F_SHADOW,
 
     CHARA_END
 };
