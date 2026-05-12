@@ -194,30 +194,30 @@ void *NewSnowStorm(int arg0, int arg1)
     field_30 = lpAct->field_30;
     xw = lpAct->field_32 - lpAct->field_2A;
 
-    lpAct->anime.field_E_xw = field_30 - lpAct->field_28;
-    if (xw < lpAct->anime.field_E_xw)
+    lpAct->anime.size_w = field_30 - lpAct->field_28;
+    if (xw < lpAct->anime.size_w)
     {
-        xw = lpAct->anime.field_E_xw;
+        xw = lpAct->anime.size_w;
     }
-    lpAct->anime.field_E_xw = xw;
+    lpAct->anime.size_w = xw;
 
     xw2 = lpAct->field_34 - lpAct->field_2C;
-    if (xw2 < lpAct->anime.field_E_xw)
+    if (xw2 < lpAct->anime.size_w)
     {
-        xw2 = lpAct->anime.field_E_xw;
+        xw2 = lpAct->anime.size_w;
     }
-    lpAct->anime.field_E_xw = xw2;
+    lpAct->anime.size_w = xw2;
 
-    lpAct->anime.field_2 = 1;
-    lpAct->anime.field_4 = 1;
-    lpAct->anime.n_anims = 1;
-    lpAct->anime.n_vertices = 1;
-    lpAct->anime.field_C = 3;
-    lpAct->anime.field_12_rgb = 0xFF;
+    lpAct->anime.texdev_x = 1;
+    lpAct->anime.texdev_y = 1;
+    lpAct->anime.n_anime = 1;
+    lpAct->anime.n_verts = 1;
+    lpAct->anime.amb = 3;
+    lpAct->anime.v = 0xFF;
     lpAct->anime.pre_script = &lpAct->pre_script;
-    lpAct->anime.field_18_ptr = lpAct->field_6C;
-    lpAct->anime.field_A = lpAct->field_3C;
-    lpAct->anime.field_10_yh = lpAct->anime.field_E_xw;
+    lpAct->anime.script = lpAct->field_6C;
+    lpAct->anime.raise = lpAct->field_3C;
+    lpAct->anime.size_h = lpAct->anime.size_w;
 
     return (void *)lpAct;
 }
@@ -280,33 +280,33 @@ static void Act(LPSNOWSTORM lpAct)
     {
         if (lpAct->pre_script.speed.vx < 0)
         {
-            vect.vx = lpAct->field_30 + lpAct->anime.field_E_xw / 4;
+            vect.vx = lpAct->field_30 + lpAct->anime.size_w / 4;
         }
         else
         {
-            vect.vx = lpAct->field_28 - lpAct->anime.field_E_xw / 4;
+            vect.vx = lpAct->field_28 - lpAct->anime.size_w / 4;
         }
     }
     else if (svect1.vy > svect1.vx && svect1.vz < svect1.vy)
     {
         if (lpAct->pre_script.speed.vy < 0)
         {
-            vect.vy = lpAct->field_32 + lpAct->anime.field_E_xw / 4;
+            vect.vy = lpAct->field_32 + lpAct->anime.size_w / 4;
         }
         else
         {
-            vect.vy = lpAct->field_2A - lpAct->anime.field_E_xw / 4;
+            vect.vy = lpAct->field_2A - lpAct->anime.size_w / 4;
         }
     }
     else
     {
         if (lpAct->pre_script.speed.vz < 0)
         {
-            vect.vz = lpAct->field_34 + lpAct->anime.field_E_xw / 4;
+            vect.vz = lpAct->field_34 + lpAct->anime.size_w / 4;
         }
         else
         {
-            vect.vz = lpAct->field_2C - lpAct->anime.field_E_xw / 4;
+            vect.vz = lpAct->field_2C - lpAct->anime.size_w / 4;
         }
     }
 
@@ -327,7 +327,7 @@ static void Act(LPSNOWSTORM lpAct)
         memset(&svect1, 0, sizeof(SVECTOR));
         DG_SetPos2(&svect1, &svect2);
 
-        svect1.vz = (lpAct->anime.field_E_xw * 2) / 3;
+        svect1.vz = (lpAct->anime.size_w * 2) / 3;
         DG_PutVector(&svect1, &svect1, 1);
 
         vect.vx += svect1.vx;
@@ -349,7 +349,7 @@ static void Act(LPSNOWSTORM lpAct)
                       lpAct->pre_script.speed.vy * lpAct->pre_script.speed.vy +
                       lpAct->pre_script.speed.vz * lpAct->pre_script.speed.vz);
     memcpy(lpAct->field_6C, s11i_dword_800C36B4, 21);
-    xw = lpAct->anime.field_E_xw / div + 1;
+    xw = lpAct->anime.size_w / div + 1;
 
     lhs = xw >> 8;
     rhs = (xw & 0xFF) << 8;
@@ -358,13 +358,13 @@ static void Act(LPSNOWSTORM lpAct)
     switch (rand() % 3)
     {
     case 0:
-        lpAct->anime.field_0_texture_hash = GV_StrCode("snow_ex1");
+        lpAct->anime.tex = GV_StrCode("snow_ex1");
         break;
     case 1:
-        lpAct->anime.field_0_texture_hash = GV_StrCode("snow_ex2");
+        lpAct->anime.tex = GV_StrCode("snow_ex2");
         break;
     case 2:
-        lpAct->anime.field_0_texture_hash = GV_StrCode("snow_ex3");
+        lpAct->anime.tex = GV_StrCode("snow_ex3");
         break;
     }
     NewAnime(NULL, NULL, &lpAct->anime);

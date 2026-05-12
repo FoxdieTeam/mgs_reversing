@@ -15,18 +15,18 @@ static const char anim_data_800CC124[] = {
 };
 
 static ANIMATION anm_800C3B78 = {
-    PCX_SOCOM_F,                // field_0_texture_hash
-    2,                          // field_2
-    2,                          // field_4
-    4,                          // n_anims
-    1,                          // n_vertices
-    300,                        // field_A
-    1,                          // field_C
-    800,                        // field_E_xw
-    800,                        // field_10_yh
-    128,                        // field_12_rgb
+    PCX_SOCOM_F,                // tex
+    2,                          // texdev_x
+    2,                          // texdev_y
+    4,                          // n_anime
+    1,                          // n_verts
+    300,                        // raise
+    1,                          // amb
+    800,                        // size_w
+    800,                        // size_h
+    128,                        // v
     NULL,                       // pre_script
-    (char *)anim_data_800CC124  // field_18_ptr
+    (char *)anim_data_800CC124  // script
 };
 
 /*---------------------------------------------------------------------------*/
@@ -38,18 +38,18 @@ static const char anim_data_800CC14C[] = {
 };
 
 static ANIMATION anm_800C3B94 = {
-    PCX_SMOKE,                  // field_0_texture_hash
-    8,                          // field_2
-    4,                          // field_4
-    30,                         // n_anims
-    1,                          // n_vertices
-    500,                        // field_A
-    1,                          // field_C
-    400,                        // field_E_xw
-    400,                        // field_10_yh
-    128,                        // field_12_rgb
+    PCX_SMOKE,                  // tex
+    8,                          // texdev_x
+    4,                          // texdev_y
+    30,                         // n_anime
+    1,                          // n_verts
+    500,                        // raise
+    1,                          // amb
+    400,                        // size_w
+    400,                        // size_h
+    128,                        // v
     NULL,                       // pre_script
-    (char *)anim_data_800CC14C  // field_18_ptr
+    (char *)anim_data_800CC14C  // script
 };
 
 /*---------------------------------------------------------------------------*/
@@ -71,18 +71,18 @@ static const char anim_data_800CC164[] = {
 };
 
 static ANIMATION anm_800C3BB0 = {
-    PCX_SMOKE,                  // field_0_texture_hash
-    8,                          // field_2
-    4,                          // field_4
-    30,                         // n_anims
-    1,                          // n_vertices
-    500,                        // field_A
-    1,                          // field_C
-    400,                        // field_E_xw
-    400,                        // field_10_yh
-    128,                        // field_12_rgb
+    PCX_SMOKE,                  // tex
+    8,                          // texdev_x
+    4,                          // texdev_y
+    30,                         // n_anime
+    1,                          // n_verts
+    500,                        // raise
+    1,                          // amb
+    400,                        // size_w
+    400,                        // size_h
+    128,                        // v
     NULL,                       // pre_script
-    (char *)anim_data_800CC164  // field_18_ptr
+    (char *)anim_data_800CC164  // script
 };
 
 /*---------------------------------------------------------------------------*/
@@ -106,18 +106,18 @@ static const char anim_data_800CC1CC[] = {
 };
 
 static ANIMATION anm_800C3BCC = {
-    PCX_SMOKE,                  // field_0_texture_hash
-    8,                          // field_2
-    4,                          // field_4
-    30,                         // n_anims
-    1,                          // n_vertices
-    500,                        // field_A
-    1,                          // field_C
-    400,                        // field_E_xw
-    400,                        // field_10_yh
-    0,                          // field_12_rgb
+    PCX_SMOKE,                  // tex
+    8,                          // texdev_x
+    4,                          // texdev_y
+    30,                         // n_anime
+    1,                          // n_verts
+    500,                        // raise
+    1,                          // amb
+    400,                        // size_w
+    400,                        // size_h
+    0,                          // v
     NULL,                       // pre_script
-    (char *)anim_data_800CC1CC  // field_18_ptr
+    (char *)anim_data_800CC1CC  // script
 };
 
 /*---------------------------------------------------------------------------*/
@@ -139,18 +139,18 @@ static const char anim_data_800CC244[] = {
 };
 
 static ANIMATION anm_800C3BE8 = {
-    PCX_SMOKE,                  // field_0_texture_hash
-    8,                          // field_2
-    4,                          // field_4
-    30,                         // n_anims
-    1,                          // n_vertices
-    500,                        // field_A
-    2,                          // field_C
-    400,                        // field_E_xw
-    400,                        // field_10_yh
-    32,                         // field_12_rgb
+    PCX_SMOKE,                  // tex
+    8,                          // texdev_x
+    4,                          // texdev_y
+    30,                         // n_anime
+    1,                          // n_verts
+    500,                        // raise
+    2,                          // amb
+    400,                        // size_w
+    400,                        // size_h
+    32,                         // v
     NULL,                       // pre_script
-    (char *)anim_data_800CC244  // field_18_ptr
+    (char *)anim_data_800CC244  // script
 };
 
 /*---------------------------------------------------------------------------*/
@@ -447,37 +447,37 @@ void AN_Unknown_800D70E4(SVECTOR *pos, char r, char g, char b)
     anm = &anm_800C3BCC;
     anm->pre_script = &pre;
 
-    anm->field_18_ptr[12] = r;
-    anm->field_18_ptr[13] = g;
-    anm->field_18_ptr[14] = b;
+    anm->script[12] = r;
+    anm->script[13] = g;
+    anm->script[14] = b;
 
-    anm->field_18_ptr[35] = r;
-    anm->field_18_ptr[36] = g;
-    anm->field_18_ptr[37] = b;
+    anm->script[35] = r;
+    anm->script[36] = g;
+    anm->script[37] = b;
 
-    anm->field_18_ptr[63] = r;
-    anm->field_18_ptr[64] = g;
-    anm->field_18_ptr[65] = b;
+    anm->script[63] = r;
+    anm->script[64] = g;
+    anm->script[65] = b;
 
-    anm->field_18_ptr[91] = r;
-    anm->field_18_ptr[92] = g;
-    anm->field_18_ptr[93] = b;
+    anm->script[91] = r;
+    anm->script[92] = g;
+    anm->script[93] = b;
 
-    anm->field_18_ptr[26] = -((r - 1) / 7);
-    anm->field_18_ptr[27] = -((g - 1) / 7);
-    anm->field_18_ptr[28] = -((b - 1) / 7);
+    anm->script[26] = -((r - 1) / 7);
+    anm->script[27] = -((g - 1) / 7);
+    anm->script[28] = -((b - 1) / 7);
 
-    anm->field_18_ptr[54] = -((r - 1) / 7);
-    anm->field_18_ptr[55] = -((g - 1) / 7);
-    anm->field_18_ptr[56] = -((b - 1) / 7);
+    anm->script[54] = -((r - 1) / 7);
+    anm->script[55] = -((g - 1) / 7);
+    anm->script[56] = -((b - 1) / 7);
 
-    anm->field_18_ptr[82] = -((r - 1) / 7);
-    anm->field_18_ptr[83] = -((g - 1) / 7);
-    anm->field_18_ptr[84] = -((b - 1) / 7);
+    anm->script[82] = -((r - 1) / 7);
+    anm->script[83] = -((g - 1) / 7);
+    anm->script[84] = -((b - 1) / 7);
 
-    anm->field_18_ptr[110] = -((r - 1) / 7);
-    anm->field_18_ptr[111] = -((g - 1) / 7);
-    anm->field_18_ptr[112] = -((b - 1) / 7);
+    anm->script[110] = -((r - 1) / 7);
+    anm->script[111] = -((g - 1) / 7);
+    anm->script[112] = -((b - 1) / 7);
 
     NewAnime(NULL, 0, anm);
 }

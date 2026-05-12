@@ -241,8 +241,8 @@ STATIC ANIMATION stun_g_sonic_anim = {
     PCX_SONIC,                      // texture_hash
     1,                              //
     1,                              //
-    1,                              // n_anims
-    1,                              // n_vertices
+    1,                              // n_anime
+    1,                              // n_verts
     500,                            //
     3,                              //
     800,                            // xw
@@ -278,8 +278,8 @@ STATIC ANIMATION stun_g_center_anim = {
     PCX_LENSE_FLARE1,               // texture_hash
     1,                              //
     1,                              //
-    1,                              // n_anims
-    1,                              // n_vertices
+    1,                              // n_anime
+    1,                              // n_verts
     500,                            //
     3,                              //
     600,                            // xw

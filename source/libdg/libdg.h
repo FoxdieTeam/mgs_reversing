@@ -388,6 +388,11 @@ static inline void DG_InvisiblePrim( DG_PRIM *prim )
     prim->type |= DG_PRIM_INVISIBLE;
 }
 
+static inline void DG_RaisePrim( DG_PRIM *prim, int raise )
+{
+    prim->raise = raise;
+}
+
 static inline void DG_UnShadeObjs( DG_OBJS *objs )
 {
     objs->flag &= ~DG_FLAG_SHADE;

@@ -15,32 +15,32 @@ static const char anim_data_800D13CC[] = {
 };
 
 static ANIMATION anm_800C32F0 = {
-    PCX_RCM_L,                  // field_0_texture_hash
-    1,                          // field_2
-    1,                          // field_4
-    1,                          // n_anims
-    1,                          // n_vertices
-    250,                        // field_A
-    1,                          // field_C
-    40,                         // field_E_xw
-    40,                         // field_10_yh
-    255,                        // field_12_rgb
+    PCX_RCM_L,                  // tex
+    1,                          // texdev_x
+    1,                          // texdev_y
+    1,                          // n_anime
+    1,                          // n_verts
+    250,                        // raise
+    1,                          // amb
+    40,                         // size_w
+    40,                         // size_h
+    255,                        // v
     NULL,                       // pre_script
-    (char *)anim_data_800D13CC  // field_18_ptr
+    (char *)anim_data_800D13CC  // script
 };
 static ANIMATION anm_800C330C = {
-    PCX_RCM_L,                  // field_0_texture_hash
-    1,                          // field_2
-    1,                          // field_4
-    1,                          // n_anims
-    1,                          // n_vertices
-    2500,                       // field_A
-    1,                          // field_C
-    40,                         // field_E_xw
-    40,                         // field_10_yh
-    255,                        // field_12_rgb
+    PCX_RCM_L,                  // tex
+    1,                          // texdev_x
+    1,                          // texdev_y
+    1,                          // n_anime
+    1,                          // n_verts
+    2500,                       // raise
+    1,                          // amb
+    40,                         // size_w
+    40,                         // size_h
+    255,                        // v
     NULL,                       // pre_script
-    (char *)anim_data_800D13CC  // field_18_ptr
+    (char *)anim_data_800D13CC  // script
 };
 
 /*---------------------------------------------------------------------------*/

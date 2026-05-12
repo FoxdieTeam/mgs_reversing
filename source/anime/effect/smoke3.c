@@ -14,18 +14,18 @@ static const char s13a_dword_800E31C8[] = {
 };
 
 static ANIMATION anm_800C370C = {
-    PCX_SMOKE,                  // field_0_texture_hash
-    8,                          // field_2
-    4,                          // field_4
-    30,                         // n_anims
-    8,                          // n_vertices
-    500,                        // field_A
-    3,                          // field_C
-    300,                        // field_E_xw
-    300,                        // field_10_yh
-    64,                         // field_12_rgb
+    PCX_SMOKE,                  // tex
+    8,                          // texdev_x
+    4,                          // texdev_y
+    30,                         // n_anime
+    8,                          // n_verts
+    500,                        // raise
+    3,                          // amb
+    300,                        // size_w
+    300,                        // size_h
+    64,                         // v
     NULL,                       // pre_script
-    (char *)s13a_dword_800E31C8 // field_18_ptr
+    (char *)s13a_dword_800E31C8 // script
 };
 
 /*---------------------------------------------------------------------------*/
@@ -54,18 +54,18 @@ static const char s13a_dword_800E31E4[] = {
 };
 
 static ANIMATION anm_800C3728 = {
-    PCX_SMOKE,                  // field_0_texture_hash
-    8,                          // field_2
-    4,                          // field_4
-    30,                         // n_anims
-    1,                          // n_vertices
-    500,                        // field_A
-    1,                          // field_C
-    300,                        // field_E_xw
-    300,                        // field_10_yh
-    128,                        // field_12_rgb
+    PCX_SMOKE,                  // tex
+    8,                          // texdev_x
+    4,                          // texdev_y
+    30,                         // n_anime
+    1,                          // n_verts
+    500,                        // raise
+    1,                          // amb
+    300,                        // size_w
+    300,                        // size_h
+    128,                        // v
     NULL,                       // pre_script
-    (char *)s13a_dword_800E31E4 // field_18_ptr
+    (char *)s13a_dword_800E31E4 // script
 };
 
 /*---------------------------------------------------------------------------*/
@@ -80,18 +80,18 @@ static const char s13a_dword_800E3280[] = {
 };
 
 static ANIMATION anm_800C3744 = {
-    PCX_SMOKE,                  // field_0_texture_hash
-    8,                          // field_2
-    4,                          // field_4
-    30,                         // n_anims
-    1,                          // n_vertices
-    500,                        // field_A
-    1,                          // field_C
-    300,                        // field_E_xw
-    300,                        // field_10_yh
-    0,                          // field_12_rgb
+    PCX_SMOKE,                  // tex
+    8,                          // texdev_x
+    4,                          // texdev_y
+    30,                         // n_anime
+    1,                          // n_verts
+    500,                        // raise
+    1,                          // amb
+    300,                        // size_w
+    300,                        // size_h
+    0,                          // v
     NULL,                       // pre_script
-    (char *)s13a_dword_800E3280 // field_18_ptr
+    (char *)s13a_dword_800E3280 // script
 };
 
 /*---------------------------------------------------------------------------*/
@@ -103,18 +103,18 @@ static const char s13a_dword_800E32AC[] = {
 };
 
 static ANIMATION anm_800C3760 = {
-    PCX_SMOKE,                  // field_0_texture_hash
-    8,                          // field_2
-    4,                          // field_4
-    30,                         // n_anims
-    1,                          // n_vertices
-    500,                        // field_A
-    3,                          // field_C
-    300,                        // field_E_xw
-    300,                        // field_10_yh
-    255,                        // field_12_rgb
+    PCX_SMOKE,                  // tex
+    8,                          // texdev_x
+    4,                          // texdev_y
+    30,                         // n_anime
+    1,                          // n_verts
+    500,                        // raise
+    3,                          // amb
+    300,                        // size_w
+    300,                        // size_h
+    255,                        // v
     NULL,                       // pre_script
-    (char *)s13a_dword_800E32AC // field_18_ptr
+    (char *)s13a_dword_800E32AC // script
 };
 
 /*---------------------------------------------------------------------------*/
@@ -131,18 +131,18 @@ static const char s13a_dword_800E32C4[] = {
 };
 
 static ANIMATION anm_800C377C = {
-    PCX_SMOKE,                  // field_0_texture_hash
-    8,                          // field_2
-    4,                          // field_4
-    30,                         // n_anims
-    1,                          // n_vertices
-    0,                          // field_A
-    1,                          // field_C
-    800,                        // field_E_xw
-    800,                        // field_10_yh
-    64,                         // field_12_rgb
+    PCX_SMOKE,                  // tex
+    8,                          // texdev_x
+    4,                          // texdev_y
+    30,                         // n_anime
+    1,                          // n_verts
+    0,                          // raise
+    1,                          // amb
+    800,                        // size_w
+    800,                        // size_h
+    64,                         // v
     NULL,                       // pre_script
-    (char *)s13a_dword_800E32C4 // field_18_ptr
+    (char *)s13a_dword_800E32C4 // script
 };
 
 /*---------------------------------------------------------------------------*/
@@ -155,18 +155,18 @@ static const char s13a_dword_800E3304[] = {
 };
 
 static ANIMATION anm_800C3798 = {
-    PCX_SMOKE,                  // field_0_texture_hash
-    8,                          // field_2
-    4,                          // field_4
-    30,                         // n_anims
-    1,                          // n_vertices
-    0,                          // field_A
-    1,                          // field_C
-    400,                        // field_E_xw
-    400,                        // field_10_yh
-    32,                         // field_12_rgb
+    PCX_SMOKE,                  // tex
+    8,                          // texdev_x
+    4,                          // texdev_y
+    30,                         // n_anime
+    1,                          // n_verts
+    0,                          // raise
+    1,                          // amb
+    400,                        // size_w
+    400,                        // size_h
+    32,                         // v
     NULL,                       // pre_script
-    (char *)s13a_dword_800E3304 // field_18_ptr
+    (char *)s13a_dword_800E3304 // script
 };
 
 /*---------------------------------------------------------------------------*/
@@ -239,12 +239,12 @@ void AN_Unknown_800DC6AC(SVECTOR *pos, SVECTOR *speed, char r, char g, char b)
 
     anm = &anm_800C3744;
     anm->pre_script = &pre;
-    anm->field_18_ptr[6] = r;
-    anm->field_18_ptr[7] = g;
-    anm->field_18_ptr[8] = b;
-    anm->field_18_ptr[34] = -((r - 1) / 10);
-    anm->field_18_ptr[35] = -((g - 1) / 10);
-    anm->field_18_ptr[36] = -((b - 1) / 10);
+    anm->script[6] = r;
+    anm->script[7] = g;
+    anm->script[8] = b;
+    anm->script[34] = -((r - 1) / 10);
+    anm->script[35] = -((g - 1) / 10);
+    anm->script[36] = -((b - 1) / 10);
     NewAnime(NULL, 0, anm);
 }
 
