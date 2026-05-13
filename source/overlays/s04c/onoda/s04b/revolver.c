@@ -355,19 +355,19 @@ void s04c_revolver_800CF8D8(RevolverWork *work)
         switch (target->a_mode)
         {
         case 3:
-            target->life--;
+            target->vital--;
             GM_SeSet(&work->control.mov, 52);
             break;
         case 4:
-            target->life -= 3;
+            target->vital -= 3;
             GM_SeSet(&work->control.mov, 53);
             break;
         case 2:
             if (target->weapon == WP_C4)
             {
                 life = (work->life_now * work->hp) / 1024;
-                life -= (life - target->life) * 2 / 3;
-                target->life = life;
+                life -= (life - target->vital) * 2 / 3;
+                target->vital = life;
             }
             /* fallthrough */
         default:
@@ -375,12 +375,12 @@ void s04c_revolver_800CF8D8(RevolverWork *work)
             break;
         }
 
-        if ((GM_GameOverTimer != 0) && (work->target->life <= 0))
+        if ((GM_GameOverTimer != 0) && (work->target->vital <= 0))
         {
-            work->target->life = 1;
+            work->target->vital = 1;
         }
 
-        life = work->target->life;
+        life = work->target->vital;
         work->life_now = (life * 1024) / work->hp;
         if (life > 0)
         {
@@ -1498,20 +1498,20 @@ static void Act(RevolverWork *work)
         {
             if (work->control.mov.vx > -2500)
             {
-                GM_CameraList[3].trg[0] = work->control.mov.vx - 1000;
+                GM_CameraList[3].trg.vx = work->control.mov.vx - 1000;
             }
             else
             {
-                GM_CameraList[3].trg[0] = work->control.mov.vx + 1000;
+                GM_CameraList[3].trg.vx = work->control.mov.vx + 1000;
             }
 
             if (work->control.mov.vz > 6000)
             {
-                GM_CameraList[3].trg[2] = work->control.mov.vz - 1000;
+                GM_CameraList[3].trg.vz = work->control.mov.vz - 1000;
             }
             else
             {
-                GM_CameraList[3].trg[2] = work->control.mov.vz + 1000;
+                GM_CameraList[3].trg.vz = work->control.mov.vz + 1000;
             }
         }
     }
@@ -1544,7 +1544,7 @@ static int InitTarget(RevolverWork *work)
     }
 
     GM_SetTarget(target, TARGET_FLAG, ENEMY_SIDE, &revolver_target_size);
-    GM_Target_8002DCCC(target, 1, -1, 0, 0, &DG_ZeroVector);
+    GM_SetPowerTarget(target, POWER_DECREASE, -1, 0, 0, &DG_ZeroVector);
 
     return 0;
 }
@@ -1651,7 +1651,7 @@ static int GetResources(RevolverWork *work, int name, int where)
     work->field_970 = 30;
     work->field_974 = 180;
 
-    work->target->life = work->hp;
+    work->target->vital = work->hp;
 
     s04c_revolver_800D04B8(&work->state, 6);
 

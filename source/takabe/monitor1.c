@@ -49,12 +49,12 @@ static void Act(Work *work)
     work->flag2 = 0;
     DG_GetLightMatrix(&control->mov, light);
 
-    if ((target->damaged & TARGET_POWER) && target->life != 255 && work->broken == 0)
+    if ((target->damaged & TARGET_POWER) && target->vital != 255 && work->broken == 0)
     {
         work->flag = 1;
         work->broken = 1;
 
-        target->life = 255;
+        target->vital = 255;
         target->damaged &= ~TARGET_POWER;
 
         GM_SeSet(&control->mov, SE_ELECTRIC_PANEL);
@@ -157,7 +157,7 @@ static void InitTarget(Work *work)
     target = GM_AllocTarget();
     work->target = target;
     GM_SetTarget(target, TARGET_POWER | TARGET_SEEK, NO_SIDE, &size);
-    GM_Target_8002DCCC(target, 1, -1, 255, 0, &scale);
+    GM_SetPowerTarget(target, POWER_DECREASE, -1, 255, 0, &scale);
 }
 
 static int GetResources(Work *work, int name, int where)

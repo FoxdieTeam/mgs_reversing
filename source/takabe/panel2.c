@@ -108,7 +108,7 @@ static void InitTarget(Work *work)
     target = GM_AllocTarget();
     work->target = target;
     GM_SetTarget(target, TARGET_SEEK | TARGET_POWER, NO_SIDE, &work->size);
-    GM_Target_8002DCCC(target, 1, -1, 2, 0, &DG_ZeroVector);
+    GM_SetPowerTarget(target, POWER_DECREASE, -1, 2, 0, &DG_ZeroVector);
 }
 
 static int GetResources(Work *work, int name, int where)

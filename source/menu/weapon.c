@@ -19,7 +19,7 @@ void sub_8003D34C(Menu_Item_Unknown *a1, int a2);
 
 // menu related?
 
-extern GM_CAMERA GM_Camera;
+extern GM_CameraSystemWork GM_Camera;
 
 STATIC PANEL_CONF *dword_800AB584 = NULL;
 
@@ -726,7 +726,7 @@ int menu_8003DA9C(Menu_Inventory *pMenu, GV_PAD *pPad)
 {
     struct PANEL_CONF *pPanelConf; // $a0
 
-    if ((GM_Camera.flags & 0x101) != 0)
+    if ((GM_Camera.flag & 0x101) != 0)
     {
     ret_zero:
         return 0;

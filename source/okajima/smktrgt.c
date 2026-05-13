@@ -37,10 +37,10 @@ int s13a_smktrgt_800DBBC0(SmktrgtWork *work)
     for (i = 0; i < work->f920; i++)
     {
         GM_SetTarget(&work->target[i * 2], TARGET_POWER, NO_SIDE, &s13a_800C36FC);
-        GM_Target_8002DCCC(&work->target[i * 2], 0, 3, 32, 0, &DG_ZeroVector);
+        GM_SetPowerTarget(&work->target[i * 2], POWER_ONCE, 3, 32, 0, &DG_ZeroVector);
 
         GM_SetTarget(&work->target[i * 2 + 1], TARGET_POWER, NO_SIDE, &s13a_800C3704);
-        GM_Target_8002DCCC(&work->target[i * 2 + 1], 0, 3, 32, 0, &DG_ZeroVector);
+        GM_SetPowerTarget(&work->target[i * 2 + 1], POWER_ONCE, 3, 32, 0, &DG_ZeroVector);
     }
 
     return 0;
@@ -126,7 +126,7 @@ void s13a_smktrgt_800DBD60(SmktrgtWork *work, int index)
                 {
                     sp38 = DG_ZeroVector;
 
-                    target2->life = 32;
+                    target2->vital = 32;
                     GM_MoveTarget(target2, &work->fA24[index]);
                     GM_PowerTarget(target2);
 
@@ -192,11 +192,11 @@ void s13a_smktrgt_800DBD60(SmktrgtWork *work, int index)
             }
             else
             {
-                target2->life = 32;
+                target2->vital = 32;
                 GM_MoveTarget(target2, &work->fB64[index]);
                 GM_PowerTarget(target2);
 
-                target1->life = 32;
+                target1->vital = 32;
                 GM_MoveTarget(target1, &work->fBE4[index]);
                 GM_PowerTarget(target1);
 

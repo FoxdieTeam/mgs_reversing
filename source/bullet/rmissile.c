@@ -25,8 +25,8 @@ extern int              dword_800BDEF8[];
 extern int              GM_CameraTrackSave;
 extern SVECTOR          GM_CameraRotateSave;
 extern int              GM_event_camera_flag;
-extern GM_CAMERA        GM_Camera;
-extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
+extern GM_CameraSystemWork        GM_Camera;
+extern GM_SnakeCameraWork  GM_SnakeCamera;
 extern CAMERA           GM_CameraList[8];
 
 /*---------------------------------------------------------------------------*/
@@ -81,8 +81,8 @@ typedef struct _Work
     short           cam_interp;
     SVECTOR         cam_pos;
     POLY_F4        *fuel_bar[2];
-    GM_CAMERA       saved_camera;
-    UnkCameraStruct saved_camera_unk;
+    GM_CameraSystemWork       saved_camera;
+    GM_SnakeCameraWork saved_camera_unk;
     CAMERA          saved_camera_list[8];
     int             saved_camera_track;
     SVECTOR         saved_camera_rotate;
@@ -109,7 +109,7 @@ SVECTOR svector_8009F488 = {100, 100, 100, 0};
 static void SaveCameraState(Work *work)
 {
     GV_CopyMemory(&GM_Camera,                 &work->saved_camera,        sizeof(work->saved_camera));
-    GV_CopyMemory(&gUnkCameraStruct_800B77B8, &work->saved_camera_unk,    sizeof(work->saved_camera_unk));
+    GV_CopyMemory(&GM_SnakeCamera, &work->saved_camera_unk,    sizeof(work->saved_camera_unk));
     GV_CopyMemory(GM_CameraList,              &work->saved_camera_list,   sizeof(work->saved_camera_list));
     GV_CopyMemory(&GM_CameraRotateSave,       &work->saved_camera_rotate, sizeof(work->saved_camera_rotate));
 
@@ -120,7 +120,7 @@ static void SaveCameraState(Work *work)
 static void ResetCameraState(Work *work)
 {
     GV_CopyMemory(&work->saved_camera,        &GM_Camera,                 sizeof(work->saved_camera));
-    GV_CopyMemory(&work->saved_camera_unk,    &gUnkCameraStruct_800B77B8, sizeof(work->saved_camera_unk));
+    GV_CopyMemory(&work->saved_camera_unk,    &GM_SnakeCamera, sizeof(work->saved_camera_unk));
     GV_CopyMemory(&work->saved_camera_list,   &GM_CameraList,             sizeof(work->saved_camera_list));
     GV_CopyMemory(&work->saved_camera_rotate, &GM_CameraRotateSave,       sizeof(work->saved_camera_rotate));
 
@@ -265,9 +265,9 @@ static void rmissile_act_helper_8006BD24(Work *work, int pad_status)
     {
         SetFirstPersonView(work);
 
-        gUnkCameraStruct_800B77B8.rotate2.vx = 0;
-        gUnkCameraStruct_800B77B8.rotate2.vy = work->control.rot.vy;
-        gUnkCameraStruct_800B77B8.rotate2.vz = 0;
+        GM_SnakeCamera.rotate2.vx = 0;
+        GM_SnakeCamera.rotate2.vy = work->control.rot.vy;
+        GM_SnakeCamera.rotate2.vz = 0;
 
         DG_InvisibleObjs(work->object.objs);
 
@@ -394,7 +394,7 @@ static void rmissile_act_helper_8006BFD4(Work *work)
         if (work->field_116)
         {
             work->field_116--;
-            gUnkCameraStruct_800B77B8.eye.vy += GV_RandS(512) * work->field_116 / 32;
+            GM_SnakeCamera.position.vy += GV_RandS(512) * work->field_116 / 32;
         }
 
         work->speed = MISSILE_SPEED_FAST;
@@ -680,13 +680,13 @@ static void Act(Work *work)
 
         if (!work->field_117)
         {
-            gUnkCameraStruct_800B77B8.eye = work->control.mov;
+            GM_SnakeCamera.position = work->control.mov;
         }
         else
         {
             vector = work->cam_pos;
             GV_NearTimeV(&work->cam_pos.vx, &GM_PlayerPosition.vx, work->cam_interp, 3);
-            gUnkCameraStruct_800B77B8.eye = work->cam_pos;
+            GM_SnakeCamera.position = work->cam_pos;
 
             if (work->cam_interp > 0)
             {
@@ -786,7 +786,7 @@ static int InitTarget(Work *work, int side)
     TARGET *target = &work->target;
 
     GM_SetTarget(target, TARGET_POWER, side, &svector_8009F488);
-    GM_Target_8002DCCC(target, 0, -1, 1, 0, &DG_ZeroVector);
+    GM_SetPowerTarget(target, POWER_ONCE, -1, 1, 0, &DG_ZeroVector);
     GM_MoveTarget(target, &work->control.mov);
     return 0;
 }

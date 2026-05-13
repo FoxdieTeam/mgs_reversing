@@ -73,7 +73,7 @@ static void SetGrenadeTarget( void )
     pos.vy = 250;
     pos.vx = 250;
     GM_SetTarget( &target, 4, NO_SIDE, &pos );
-    GM_Target_8002DCCC( &target, 3, 1, TARGET_C4, -1, (SVECTOR *)&DG_ZeroVector );
+    GM_SetPowerTarget( &target, POWER_CONST, 1, TARGET_C4, -1, (SVECTOR *)&DG_ZeroVector );
     GM_MoveTarget( &target, &GM_PlayerPosition );
     GM_PowerTarget( &target );
 }

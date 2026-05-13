@@ -191,7 +191,7 @@ static void Act(Work *work)
                         size.vy = 100;
                         size.vz = 100;
                         GM_SetTarget(&target, TARGET_POWER, ENEMY_SIDE, &size);
-                        GM_Target_8002DCCC(&target, 1, 2, ATTACK_DAMAGE, 0, &DG_ZeroVector);
+                        GM_SetPowerTarget(&target, POWER_DECREASE, 2, ATTACK_DAMAGE, 0, &DG_ZeroVector);
                         GM_MoveTarget(&target, &GM_PlayerControl->mov);
                         GM_PowerTarget(&target);
                     }

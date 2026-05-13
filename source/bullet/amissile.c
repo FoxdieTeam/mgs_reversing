@@ -15,7 +15,7 @@
 
 extern TARGET          *target_800BDF00;
 extern BLAST_DATA       blast_data_8009F4B8[8];
-extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
+extern GM_SnakeCameraWork  GM_SnakeCamera;
 
 /*---------------------------------------------------------------------------*/
 // Anti-Air Missile (Stinger)
@@ -269,7 +269,7 @@ static void Act(Work *work)
 
     if (--work->field_128 > 0)
     {
-        gUnkCameraStruct_800B77B8.eye.vy += GV_RandS(512) * work->field_128 / 8;
+        GM_SnakeCamera.position.vy += GV_RandS(512) * work->field_128 / 8;
 
         if (work->field_120 >= 14)
         {

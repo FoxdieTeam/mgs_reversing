@@ -7,7 +7,7 @@
 #include "linkvar.h"
 
 extern int       dword_8009F46C;
-extern GM_CAMERA GM_Camera;
+extern GM_CameraSystemWork GM_Camera;
 
 /*---------------------------------------------------------------------------*/
 

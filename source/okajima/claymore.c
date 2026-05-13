@@ -311,7 +311,7 @@ STATIC void claymore_loader_80073930(ClaymoreWork *work)
     vec.vx = work->field_34.vx / 32;
     vec.vy = work->field_34.vy / 32;
     vec.vz = work->field_34.vz / 32;
-    GM_Target_8002DCCC(pTarget, 0, 2, 256, 0, &vec);
+    GM_SetPowerTarget(pTarget, POWER_ONCE, 2, 256, 0, &vec);
     pTarget->weapon = WP_Claymore;
 }
 

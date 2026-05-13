@@ -103,7 +103,7 @@ int GM_TargetIntersectsNoSide(TARGET *a, TARGET *b)
             MapContains(a->map, b->map));
 }
 
-void GM_ResetTargets(void)
+void GM_InitTargetSystem(void)
 {
     gTargets_lastSlotUsed_800ABA68 = 0;
     gTargets_orphanedSlots_800ABA6C = 0;
@@ -277,7 +277,7 @@ int GM_TouchTarget(TARGET *target)
     iter = gTargets_800B64E0;
     i = gTargets_lastSlotUsed_800ABA68;
 
-    hp = target->life;
+    hp = target->vital;
 
     iter = gTargets_800B64E0;
     for (i = gTargets_lastSlotUsed_800ABA68; i > 0; iter++, i--)
@@ -297,9 +297,9 @@ int GM_TouchTarget(TARGET *target)
         // Touch if there is an intersection for the class
         if (GM_TargetIntersects(iter, target))
         {
-            oldhp = iter->life;
-            iter->life -= hp;
-            iter->life_lost += oldhp - iter->life;
+            oldhp = iter->vital;
+            iter->vital -= hp;
+            iter->damage += oldhp - iter->vital;
 
             iter->damaged |= TARGET_TOUCH;
             target->damaged |= TARGET_TOUCH;
@@ -310,19 +310,17 @@ int GM_TouchTarget(TARGET *target)
     return (target->damaged & TARGET_TOUCH) >> 7;
 }
 
-static inline int sub_helper_8002D7DC(int mode, int a, int b)
+static inline int UpdatePowerParam( int type, int a, int b )
 {
-    switch (mode & 0x3)
+    switch ( type & 0x3 )
     {
-    case 0:
+    case POWER_ONCE:
         return 0;
-
-    case 1:
+    case POWER_DECREASE:
         return a - b;
-
-    case 2:
-        return (a > b) ? a : 0;
-
+    case POWER_THRESHOLD:
+        return ( a > b ) ? a : 0;
+    case POWER_CONST:
     default:
         return a;
     }
@@ -346,7 +344,7 @@ int GM_PowerTarget(TARGET *target)
     int     i;
     int     hp_diff;
 
-    hp = target->life;
+    hp = target->vital;
     p_mode = target->p_mode;
 
     iter = gTargets_800B64E0;
@@ -369,24 +367,24 @@ int GM_PowerTarget(TARGET *target)
 
         iter->damaged |= TARGET_POWER;
 
-        hp2 = iter->life;
-        iter->life = sub_helper_8002D7DC(iter->p_mode, hp2, hp);
-        hp = sub_helper_8002D7DC(p_mode, hp, hp2);
+        hp2 = iter->vital;
+        iter->vital = UpdatePowerParam(iter->p_mode, hp2, hp);
+        hp = UpdatePowerParam(p_mode, hp, hp2);
 
-        iter->life_lost += hp2 - iter->life;
+        iter->damage += hp2 - iter->vital;
         iter->faint -= target->faint;
         iter->a_mode = target->a_mode;
         iter->weapon = target->weapon;
 
-        if (p_mode & 0x4)
+        if (p_mode & POWER_EXPLODE)
         {
             GV_SubVec3(&iter->center, &target->center, &dist);
-            SCALE_VXZ(&dist, target->scale.vx, &scaled);
-            GV_AddVec3(&iter->scale, &scaled, &iter->scale);
+            SCALE_VXZ(&dist, target->force.vx, &scaled);
+            GV_AddVec3(&iter->force, &scaled, &iter->force);
         }
         else
         {
-            GV_AddVec3(&iter->scale, &target->scale, &iter->scale);
+            GV_AddVec3(&iter->force, &target->force, &iter->force);
         }
 
         if (hp < 0)
@@ -395,8 +393,8 @@ int GM_PowerTarget(TARGET *target)
         }
     }
 
-    hp_diff = target->life - hp;
-    target->life = hp;
+    hp_diff = target->vital - hp;
+    target->vital = hp;
 
     if (hp_diff > 0)
     {
@@ -547,7 +545,7 @@ void GM_SetTarget(TARGET *target, int class, int side, SVECTOR *size)
     target->field_3C = 0;
 }
 
-void GM_Target_8002DCB4(TARGET *target, int a_mode, int faint, int *a4, SVECTOR *a5)
+void GM_SetCaptureTarget(TARGET *target, int a_mode, int faint, int *a4, SVECTOR *a5)
 {
     target->field_18 = a4;
     target->a_mode = a_mode;
@@ -555,14 +553,14 @@ void GM_Target_8002DCB4(TARGET *target, int a_mode, int faint, int *a4, SVECTOR 
     target->field_1C = a5;
 }
 
-void GM_Target_8002DCCC(TARGET *target, int p_mode, int a_mode, int life, int faint, SVECTOR *scale)
+void GM_SetPowerTarget(TARGET *target, int p_mode, int a_mode, int vital, int faint, SVECTOR *force)
 {
     target->p_mode = p_mode;
     target->a_mode = a_mode;
-    target->life = life;
-    target->life_lost = 0;
+    target->vital = vital;
+    target->damage = 0;
     target->faint = faint;
-    target->scale = *scale;
+    target->force = *force;
     target->weapon = WP_None;
 }
 
@@ -571,28 +569,28 @@ void GM_TargetBody(TARGET *target, MATRIX *body)
     target->body = body;
 }
 
-void sub_8002DD1C(SVECTOR *svec1, SVECTOR *svec2, TARGET *target)
+void sub_8002DD1C(SVECTOR *from, SVECTOR *to, TARGET *target)
 {
     int coord1, coord2;
-    int diff;
+    int size;
 
-    coord1 = svec1->vx;
-    coord2 = svec2->vx;
-    diff = (coord1 - coord2) / 2;
+    coord1 = from->vx;
+    coord2 = to->vx;
+    size = (coord1 - coord2) / 2;
     target->center.vx = (coord1 + coord2) / 2;
-    target->size.vx = abs(diff);
+    target->size.vx = abs(size);
 
-    coord1 = svec1->vy;
-    coord2 = svec2->vy;
-    diff = (coord1 - coord2) / 2;
+    coord1 = from->vy;
+    coord2 = to->vy;
+    size = (coord1 - coord2) / 2;
     target->center.vy = (coord1 + coord2) / 2;
-    target->size.vy = abs(diff);
+    target->size.vy = abs(size);
 
-    coord1 = svec1->vz;
-    coord2 = svec2->vz;
-    diff = (coord1 - coord2) / 2;
+    coord1 = from->vz;
+    coord2 = to->vz;
+    size = (coord1 - coord2) / 2;
     target->center.vz = (coord1 + coord2) / 2;
-    target->size.vz = abs(diff);
+    target->size.vz = abs(size);
 }
 
 #define sub_8002DDE0_helper(AXIS1, AXIS2, AXIS3)                                                                       \
@@ -688,7 +686,7 @@ int GM_Target_8002E1B8(SVECTOR *pVec, SVECTOR *pVec1, int map_bit, SVECTOR *pVec
     return bResult;
 }
 
-int sub_8002E2A8(SVECTOR *arg0, SVECTOR *arg1, int map, SVECTOR *arg3)
+int sub_8002E2A8(SVECTOR *from, SVECTOR *to, int map, SVECTOR *arg3)
 {
     TARGET  target;
     TARGET *iter;
@@ -697,7 +695,7 @@ int sub_8002E2A8(SVECTOR *arg0, SVECTOR *arg1, int map, SVECTOR *arg3)
     target.map = map;
     target.side = NO_SIDE;
 
-    sub_8002DD1C(arg0, arg1, &target);
+    sub_8002DD1C(from, to, &target);
 
     iter = gTargets_800B64E0;
     count = gTargets_lastSlotUsed_800ABA68;
@@ -707,7 +705,7 @@ int sub_8002E2A8(SVECTOR *arg0, SVECTOR *arg1, int map, SVECTOR *arg3)
         if (((iter->field_3C & 0x1) != 0) &&
             ((iter->class & TARGET_SEEK) != 0) &&
             GM_TargetIntersects(iter, &target) &&
-            sub_8002DDE0(arg0, arg1, iter, arg3))
+            sub_8002DDE0(from, to, iter, arg3))
         {
             return 1;
         }

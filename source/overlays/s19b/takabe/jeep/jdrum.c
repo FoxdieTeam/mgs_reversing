@@ -75,11 +75,11 @@ static void Act(Work *work)
     {
         target->damaged &= ~TARGET_POWER;
 
-        if (target->life < 0 && work->field_1F0 == 0)
+        if (target->vital < 0 && work->field_1F0 == 0)
         {
             work->field_1EC = 1;
             work->field_1F0 = 1;
-            target->life = 255;
+            target->vital = 255;
             work->hom->flag = FALSE;
             work->target->side = BOTH_SIDE;
             work->target->class = TARGET_AVAIL;
@@ -160,7 +160,7 @@ static void InitTarget(Work *work)
     work->target = target;
 
     GM_SetTarget(target, TARGET_FLAG, ENEMY_SIDE, &s19b_dword_800C3494);
-    GM_Target_8002DCCC(target, 1, -1, 150, 0, &DG_ZeroVector);
+    GM_SetPowerTarget(target, POWER_DECREASE, -1, 150, 0, &DG_ZeroVector);
     GM_MoveTarget(target, &work->control.mov);
 }
 

@@ -316,9 +316,9 @@ static void Act(LPSNOWSTORM lpAct)
 
     if (GM_PlayerStatus & PLAYER_WATCH)
     {
-        svect1.vx = gUnkCameraStruct2_800B7868.center.vx - gUnkCameraStruct2_800B7868.eye.vx;
-        svect1.vy = gUnkCameraStruct2_800B7868.center.vy - gUnkCameraStruct2_800B7868.eye.vy;
-        svect1.vz = gUnkCameraStruct2_800B7868.center.vz - gUnkCameraStruct2_800B7868.eye.vz;
+        svect1.vx = gUnkCameraStruct2_800B7868.target.vx - gUnkCameraStruct2_800B7868.position.vx;
+        svect1.vy = gUnkCameraStruct2_800B7868.target.vy - gUnkCameraStruct2_800B7868.position.vy;
+        svect1.vz = gUnkCameraStruct2_800B7868.target.vz - gUnkCameraStruct2_800B7868.position.vz;
 
         svect2.vx = -ratan2(svect1.vy, SquareRoot0(svect1.vx * svect1.vx + svect1.vz * svect1.vz));
         svect2.vy = ratan2(svect1.vx, svect1.vz);

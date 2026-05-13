@@ -212,7 +212,7 @@ static void InitTarget(Work *work)
         GM_SetTarget(target, TARGET_POWER, NO_SIDE, &size);
     }
 
-    GM_Target_8002DCCC(target, 1, -1, 0, 60, &scale);
+    GM_SetPowerTarget(target, POWER_DECREASE, -1, 0, 60, &scale);
 }
 
 static int GetResources(Work *work, int name, int where)

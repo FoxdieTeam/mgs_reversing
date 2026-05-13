@@ -56,9 +56,9 @@ void s19b_jeep_gls_800CF0B0(Work *work)
     {
         trg->damaged &= ~TARGET_POWER;
 
-        if (trg->life < 0)
+        if (trg->vital < 0)
         {
-            trg->life = 255;
+            trg->vital = 255;
             DG_InvisibleObjs(work->body.objs);
             work->target->class = TARGET_AVAIL;
             dead = 1;
@@ -110,7 +110,7 @@ void s19b_jeep_gls_800CF2F4(Work *work)
 void s19b_jeep_gls_800CF330(Work *work)
 {
     SVECTOR size;
-    SVECTOR scale;
+    SVECTOR force;
     DG_MDL *model;
     TARGET* trg;
 
@@ -120,11 +120,11 @@ void s19b_jeep_gls_800CF330(Work *work)
     size.vy = (model->max.vy - model->min.vy) / 4 + 100;
     size.vz = (model->max.vz - model->min.vz) / 4;
 
-    scale = DG_ZeroVector;
+    force = DG_ZeroVector;
 
     trg = work->target = GM_AllocTarget();
     GM_SetTarget(trg, ( TARGET_POWER | TARGET_SEEK ), ENEMY_SIDE, &size);
-    GM_Target_8002DCCC(trg, 1, -1, 3, 0, &scale);
+    GM_SetPowerTarget(trg, POWER_DECREASE, -1, 3, 0, &force);
     GM_MoveTarget(trg, &work->control.mov);
 }
 

@@ -324,7 +324,7 @@ int HdBul2GetResources( HdBul2Work *work, SVECTOR *arg1, SVECTOR *arg2 )
 
     target = &work->target;
     GM_SetTarget( target, TARGET_POWER, ENEMY_SIDE, &s11i_800C32C8 );
-    GM_Target_8002DCCC( target, 0, 1, GM_SnakeMaxHealth / 8, 0, &DG_ZeroVector );
+    GM_SetPowerTarget( target, POWER_ONCE, 1, GM_SnakeMaxHealth / 8, 0, &DG_ZeroVector );
 
     step = &work->control.step;
     GV_SubVec3( arg2, &control->mov, &diff );

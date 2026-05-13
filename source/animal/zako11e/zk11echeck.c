@@ -66,7 +66,7 @@ int s11e_zk11ecom_800D4440( ZakoWork *work ) {
     switch ( val )
     {
     case 2:
-        target->scale = DG_ZeroVector;
+        target->force = DG_ZeroVector;
         if ( target->faint <= 0 )
         {
             work->unknown.field_14 = 1;
@@ -82,8 +82,8 @@ int s11e_zk11ecom_800D4440( ZakoWork *work ) {
         SetZakoMode( work, s11e_zk11ecom_800D649C ) ;
         break;
     case 0:
-        target->scale = DG_ZeroVector;
-        if ( target->life <= 0  || ( work->local_data - target->life ) >= 192 )
+        target->force = DG_ZeroVector;
+        if ( target->vital <= 0  || ( work->local_data - target->vital ) >= 192 )
         {
             work->unknown.field_14 = 1;
             SetZakoMode( work, s11e_zk11ecom_800D649C ) ;
@@ -95,7 +95,7 @@ int s11e_zk11ecom_800D4440( ZakoWork *work ) {
         }
         break;
     case 1:
-        if ( s11e_zk11ecom_800D4404( &target->scale ) < 100 )
+        if ( s11e_zk11ecom_800D4404( &target->force ) < 100 )
         {
             work->unknown.field_14 = 3;
         }
@@ -117,7 +117,7 @@ int s11e_zk11ecom_800D4440( ZakoWork *work ) {
         break;
     }
 
-    target->life_lost = 0;
+    target->damage = 0;
     target->damaged = 0;
     return 1;
 }
@@ -237,7 +237,7 @@ int AttackForce_800D48B0( ZakoWork * work )
     GM_SetTarget( target, TARGET_POWER, ENEMY_SIDE, &size );
     DG_SetPos2( &work->control.mov, &work->control.rot );
     DG_RotVector( &force, &svec, 1 );
-    GM_Target_8002DCCC( target, 0, 2, 32, 1, &svec );
+    GM_SetPowerTarget( target, POWER_ONCE, 2, 32, 1, &svec );
     DG_PutVector( &rp_shift, &work->punch.center, 1 );
     return GM_PowerTarget( target );
 }
@@ -247,7 +247,7 @@ void s11e_zk11ecom_800D49C0( ZakoWork *work )
     TARGET* target;
 
     target = &work->field_904;
-    GM_Target_8002DCCC( target, 7, 5, 0, 3, &ZAKO_ATTACK_FORCE_800C38E4 );
+    GM_SetPowerTarget( target, POWER_CONST | POWER_EXPLODE, 5, 0, 3, &ZAKO_ATTACK_FORCE_800C38E4 );
     GM_MoveTarget( target, &work->control.mov );
     GM_PowerTarget( target );
 }

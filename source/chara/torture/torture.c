@@ -77,8 +77,8 @@ typedef struct _TortureWork
     GV_ACT        *f900;
 } TortureWork;
 
-extern UnkCameraStruct gUnkCameraStruct_800B77B8;
-extern GM_CAMERA       GM_Camera;
+extern GM_SnakeCameraWork GM_SnakeCamera;
+extern GM_CameraSystemWork       GM_Camera;
 
 // unused
 int s03b_dword_800C3290 = 0x027F0200;
@@ -1044,7 +1044,7 @@ void s03b_torture_800C50A8(TortureWork *work, int arg1)
         work->control.step.vz = 32;
 
         dir = (GV_Clock != 0) ? -1 : 1;
-        gUnkCameraStruct_800B77B8.eye.vy += dir * GV_RandU(8);
+        GM_SnakeCamera.position.vy += dir * GV_RandU(8);
 
     case 1:
         if (++work->f81A == 16)
@@ -1114,9 +1114,9 @@ void s03b_torture_800C5420(TortureWork *work, int arg1)
         GM_CameraSetTrack(work->f89C.vz);
         GM_CameraSetRotation(&work->f8AC);
 
-        gUnkCameraStruct_800B77B8.eye.vx = work->body.objs->objs[6].world.t[0];
-        gUnkCameraStruct_800B77B8.eye.vy = work->body.objs->objs[6].world.t[1];
-        gUnkCameraStruct_800B77B8.eye.vz = work->body.objs->objs[6].world.t[2];
+        GM_SnakeCamera.position.vx = work->body.objs->objs[6].world.t[0];
+        GM_SnakeCamera.position.vy = work->body.objs->objs[6].world.t[1];
+        GM_SnakeCamera.position.vz = work->body.objs->objs[6].world.t[2];
 
         sub_8003081C();
 
@@ -1814,7 +1814,7 @@ void Torture_800C64BC(TortureWork *work)
 
 void TortureAct_800C6600(TortureWork *work)
 {
-    UnkCameraStruct *cam;
+    GM_SnakeCameraWork *cam;
     int              f800;
 
     GV_PadMask &= ~0x800;
@@ -1831,10 +1831,10 @@ void TortureAct_800C6600(TortureWork *work)
 
     GM_PlayerPosition = work->control.mov;
 
-    cam = &gUnkCameraStruct_800B77B8;
-    cam->eye.vx = work->body.objs->objs[6].world.t[0];
-    cam->eye.vy = work->body.objs->objs[6].world.t[1];
-    cam->eye.vz = work->body.objs->objs[6].world.t[2];
+    cam = &GM_SnakeCamera;
+    cam->position.vx = work->body.objs->objs[6].world.t[0];
+    cam->position.vy = work->body.objs->objs[6].world.t[1];
+    cam->position.vz = work->body.objs->objs[6].world.t[2];
 
     GM_SnakeCurrentHealth = (work->f804 > 0) ? work->f804 : 0;
 
@@ -2092,12 +2092,12 @@ int TortureGetResources_800C6B3C(TortureWork *work, int name, int map)
     GM_PlayerControl = control;
     GM_PlayerBody = body;
 
-    gUnkCameraStruct_800B77B8.rotate2 = control->rot;
-    gUnkCameraStruct_800B77B8.eye = control->mov;
+    GM_SnakeCamera.rotate2 = control->rot;
+    GM_SnakeCamera.position = control->mov;
 
-    work->body.objs->objs[6].world.t[0] = gUnkCameraStruct_800B77B8.eye.vx;
-    work->body.objs->objs[6].world.t[1] = gUnkCameraStruct_800B77B8.eye.vy;
-    work->body.objs->objs[6].world.t[2] = gUnkCameraStruct_800B77B8.eye.vz;
+    work->body.objs->objs[6].world.t[0] = GM_SnakeCamera.position.vx;
+    work->body.objs->objs[6].world.t[1] = GM_SnakeCamera.position.vy;
+    work->body.objs->objs[6].world.t[2] = GM_SnakeCamera.position.vz;
 
     GM_AlertMode = 10;
     GM_PlayerStatus |= PLAYER_MENU_DISABLE;

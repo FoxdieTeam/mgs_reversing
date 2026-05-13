@@ -14,7 +14,7 @@
 #include "sound/g_sound.h"
 
 extern int amissile_alive_8009F490;
-extern UnkCameraStruct gUnkCameraStruct_800B77B8;
+extern GM_SnakeCameraWork GM_SnakeCamera;
 extern TARGET *target_800BDF00;
 extern int dword_800AB8A4;
 
@@ -80,11 +80,11 @@ static void Act(Work *work)
     {
         if (work->cooldown >= 27)
         {
-            gUnkCameraStruct_800B77B8.rotate2.vx += (30 - work->cooldown) * -36;
+            GM_SnakeCamera.rotate2.vx += (30 - work->cooldown) * -36;
         }
         else if (work->cooldown > 14)
         {
-            gUnkCameraStruct_800B77B8.rotate2.vx += (work->cooldown - 12) * -12;
+            GM_SnakeCamera.rotate2.vx += (work->cooldown - 12) * -12;
         }
 
         work->cooldown--;
@@ -113,7 +113,7 @@ static void Act(Work *work)
 
             RotMatrixYXZ(&rot, &world);
             rot.vx = 0;
-            DG_SetPos2(&gUnkCameraStruct_800B77B8.eye, &rot);
+            DG_SetPos2(&GM_SnakeCamera.position, &rot);
             DG_MovePos(&svector_800AB8A4);
             ReadRotMatrix(&pos);
 

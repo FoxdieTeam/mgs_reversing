@@ -18,14 +18,14 @@
 #include "sound/g_sound.h"
 #include "strcode.h"
 
-extern GM_CAMERA           GM_Camera;
+extern GM_CameraSystemWork           GM_Camera;
 extern int                 dword_8009F604;
 extern TMat8x8B            gJpegcamMatrix2_800BDCD8;
-extern UnkCameraStruct     gUnkCameraStruct_800B77B8;
+extern GM_SnakeCameraWork     GM_SnakeCamera;
 extern char               *dword_800BDCC8;
 extern int                 dword_800BDCCC;
 extern int                 dword_800BDCD0;
-extern UnkCameraStruct     gUnkCameraStruct_800B77B8;
+extern GM_SnakeCameraWork     GM_SnakeCamera;
 
 extern short dword_800ABBD4;
 extern short dword_800ABBDC;
@@ -574,9 +574,9 @@ static int JpegcamGetZoomLimit(Work *work)
     else
     {
         world = GM_PlayerBody->objs->world;
-        world.t[0] = gUnkCameraStruct_800B77B8.eye.vx;
-        world.t[1] = gUnkCameraStruct_800B77B8.eye.vy;
-        world.t[2] = gUnkCameraStruct_800B77B8.eye.vz;
+        world.t[0] = GM_SnakeCamera.position.vx;
+        world.t[1] = GM_SnakeCamera.position.vy;
+        world.t[2] = GM_SnakeCamera.position.vz;
         DG_SetPos(&world);
 
         DG_PutVector(dword_8009F3AC, &vector1, 2);
@@ -628,7 +628,7 @@ static void JpegcamProcessInput(Work *work)
         press = 0;
     }
 
-    if ((GM_Camera.first_person != 1) || (GM_Camera.flags & 0x100))
+    if ((GM_Camera.first_person != 1) || (GM_Camera.flag & 0x100))
     {
         status = 0;
         press = 0;
@@ -1040,7 +1040,7 @@ static void Act(Work *work)
 static void Die(Work *work)
 {
     GM_Camera.zoom = 320;
-    gUnkCameraStruct_800B77B8.rotate2 = work->field_54_vec;
+    GM_SnakeCamera.rotate2 = work->field_54_vec;
 
     GM_GameStatus &= ~STATE_JPEGCAM;
     GM_GameStatus &= ~STATE_TAKING_PHOTO;

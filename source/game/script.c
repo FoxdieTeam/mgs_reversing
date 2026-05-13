@@ -15,7 +15,7 @@
 #include "strcode.h"
 
 extern  CAMERA          GM_CameraList[8];
-extern  GM_CAMERA       GM_Camera;
+extern  GM_CameraSystemWork       GM_Camera;
 extern  HZD_BIND        gBindsArray_800b58e0[128];
 extern  int             dword_8009F46C;
 extern  SVECTOR         svector_8009F478;
@@ -79,7 +79,7 @@ static int GM_Command_camera(unsigned char *top)
     {
         GCL_StrToSV(GCL_GetParamResult(), &vec1);
         GCL_StrToSV(GCL_GetParamResult(), &vec2);
-        GM_CameraSetBounds(&vec1, &vec2, isEnabled);
+        GM_CameraSetBound(&vec1, &vec2, isEnabled);
     }
 
     if (GCL_GetOption('t')) // track
@@ -91,7 +91,7 @@ static int GM_Command_camera(unsigned char *top)
     {
         GCL_StrToSV(GCL_GetParamResult(), &vec1);
         GCL_StrToSV(GCL_GetParamResult(), &vec2);
-        GM_CameraSetLimits(&vec1, &vec2, isEnabled);
+        GM_CameraSetLimit(&vec1, &vec2, isEnabled);
     }
 
     if (GCL_GetOption('r')) // rotate
@@ -111,23 +111,23 @@ static int GM_Command_camera(unsigned char *top)
             cam = &GM_CameraList[camera_id];
 
             cam->field_10_param1 = GCL_GetNextParamValue();
-            cam->field_11_param2 = GCL_GetNextParamValue();
-            cam->field_12_param3 = GCL_GetNextParamValue();
-            cam->field_13_param_p = param_p;
+            cam->interp = GCL_GetNextParamValue();
+            cam->type = GCL_GetNextParamValue();
+            cam->pad_type = param_p;
 
             GCL_StrToSV(GCL_GetParamResult(), &cam->pos);
-            GCL_StrToSV(GCL_GetParamResult(), (SVECTOR *)&cam->trg);
+            GCL_StrToSV(GCL_GetParamResult(), &cam->trg);
 
             if (GCL_GetParamResult())
             {
-                cam->field_0e_alertMask = GCL_GetNextParamValue();
+                cam->trg.pad = GCL_GetNextParamValue();
             }
             else
             {
-                cam->field_0e_alertMask = 0;
+                cam->trg.pad = 0;
             }
 
-            GM_CameraSetAlertMask(camera_id, cam->field_0e_alertMask);
+            GM_CameraSetAlertMask(camera_id, cam->trg.pad);
         }
     }
 

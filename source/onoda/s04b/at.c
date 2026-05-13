@@ -85,19 +85,19 @@ static void UpdateTarget(AtWork *work)
                 break;
 
             case 2:
-                target->life = 0;
+                target->vital = 0;
                 break;
 
             case 3:
-                target->life -= 10;
+                target->vital -= 10;
                 break;
 
             case 4:
-                target->life -= 20;
+                target->vital -= 20;
                 break;
             }
 
-            hp = target->life;
+            hp = target->vital;
             if (hp < 0)
             {
                 hp = 0;
@@ -133,7 +133,7 @@ static void Act(AtWork *work)
     GM_ActObject2(&work->body);
 
     UpdateTarget(work);
-    work->target->life_lost = 0;
+    work->target->damage = 0;
 
     switch (work->state)
     {
@@ -215,7 +215,7 @@ static int CreateTarget(AtWork *work)
     }
 
     GM_SetTarget(target, TARGET_SEEK | TARGET_POWER, ENEMY_SIDE, &at_target_size);
-    GM_Target_8002DCCC(target, 1, -1, 128, 0, &DG_ZeroVector);
+    GM_SetPowerTarget(target, POWER_DECREASE, -1, 128, 0, &DG_ZeroVector);
     GM_MoveTarget(target, &work->control.mov);
     return 0;
 }
@@ -289,7 +289,7 @@ static int GetResources(AtWork *work, int name, int map)
     work->f730 = 0;
     work->anim_timer = 0;
 
-    work->target->life = work->max_hp;
+    work->target->vital = work->max_hp;
 
     if (GCL_GetOption('u'))
     {

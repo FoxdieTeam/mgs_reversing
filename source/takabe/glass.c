@@ -109,7 +109,7 @@ void GlassAct_800D302C(GlassWork *work)
                 GM_SeSet(&work->pos, SE_GLASS_SHATTER);
 
                 DG_TransposeMatrix(&work->world, &world);
-                gte_ApplyMatrixSV(&world, &target->scale, &sp30);
+                gte_ApplyMatrixSV(&world, &target->force, &sp30);
 
                 if (sp30.vz > 0)
                 {
@@ -166,7 +166,7 @@ void GlassCreateTarget_800D32E4(GlassWork *work, SVECTOR *size)
     work->target = target;
 
     GM_SetTarget(target, ( TARGET_SEEK | TARGET_POWER ), NO_SIDE, size);
-    GM_Target_8002DCCC(target, 1, -1, 0, 0, &DG_ZeroVector);
+    GM_SetPowerTarget(target, POWER_DECREASE, -1, 0, 0, &DG_ZeroVector);
 }
 
 static inline void GlassClampSize(SVECTOR *size)

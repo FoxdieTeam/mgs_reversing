@@ -37,12 +37,12 @@ typedef struct _RopeWork
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C4574.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C45F8.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C4648.s")
-extern UnkCameraStruct gUnkCameraStruct_800B77B8;
+extern GM_SnakeCameraWork GM_SnakeCamera;
 
 void s11d_rope_800C481C(RopeWork *work)
 {
-    gUnkCameraStruct_800B77B8.rotate.vy = work->field_EDC / 48 + 0x800;
-    GM_CameraSetRotation(&gUnkCameraStruct_800B77B8.rotate);
+    GM_SnakeCamera.rotate.vy = work->field_EDC / 48 + 0x800;
+    GM_CameraSetRotation(&GM_SnakeCamera.rotate);
 }
 void s11d_rope_800C486C(RopeWork *work)
 {

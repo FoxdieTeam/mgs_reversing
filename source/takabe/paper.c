@@ -58,9 +58,9 @@ static void Act( Work *work )
     {
         trg->damaged &= ~TARGET_POWER;
 
-        if (trg->life != 0)
+        if (trg->vital != 0)
         {
-            trg->life = 0;
+            trg->vital = 0;
 
             if (work->count == 0)
             {
@@ -72,14 +72,14 @@ static void Act( Work *work )
                 world.t[0] = work->mat.t[0];
                 world.t[1] = work->mat.t[1];
                 world.t[2] = work->mat.t[2];
-                RotMatrixY(ratan2(trg->scale.vx, trg->scale.vz), &world);
+                RotMatrixY(ratan2(trg->force.vx, trg->force.vz), &world);
                 NewPaperFall(&world);
 
                 work->count = 25;
                 trg->class = TARGET_AVAIL;
             }
 
-            trg->scale = DG_ZeroVector;
+            trg->force = DG_ZeroVector;
         }
     }
 
@@ -102,9 +102,9 @@ static void InitTarget(Work *work)
     INIT_VEC(size, PAPER_X, 500, PAPER_Z);
 
     work->target = target = GM_AllocTarget();
-    target->scale = DG_ZeroVector;
+    target->force = DG_ZeroVector;
     GM_SetTarget(target, TARGET_POWER, NO_SIDE, &size);
-    GM_Target_8002DCCC(target, 1, -1, 0, 0, &scale);
+    GM_SetPowerTarget(target, POWER_DECREASE, -1, 0, 0, &scale);
 }
 
 static int GetResources(Work *work, int name, int where)

@@ -64,10 +64,10 @@ int s07c_meryl72_unk1_800C7D1C( Meryl72Work *work )
         switch ( target->a_mode )
         {
         case 3:
-            target->scale = DG_ZeroVector;
-            target->life -= GM_SnakeMaxHealth / 48;
+            target->force = DG_ZeroVector;
+            target->vital -= GM_SnakeMaxHealth / 48;
 
-            if ( ( target->faint <= 0 ) || ( ( target->life << 16 ) <= 0 ) )
+            if ( ( target->faint <= 0 ) || ( ( target->vital << 16 ) <= 0 ) )
             {
                 work->f8BC.field_14 = 1;
                 SetMode( work, s07c_meryl72_unk1_800CA538 ) ;
@@ -80,12 +80,12 @@ int s07c_meryl72_unk1_800C7D1C( Meryl72Work *work )
             break;
         case 4:
             work->f8BC.field_14 = 0;
-            target->life -= GM_SnakeMaxHealth / 32;
+            target->vital -= GM_SnakeMaxHealth / 32;
             SetMode( work, s07c_meryl72_unk1_800CA538 ) ;
             break;
         case 1:
-            target->scale = DG_ZeroVector;
-            if ( target->life <= 0 )
+            target->force = DG_ZeroVector;
+            if ( target->vital <= 0 )
             {
                 work->f8BC.field_14 = 1;
                 SetMode( work, s07c_meryl72_unk1_800CA538 ) ;
@@ -100,10 +100,10 @@ int s07c_meryl72_unk1_800C7D1C( Meryl72Work *work )
             SetMode( work, s07c_meryl72_unk1_800CA538 ) ;
         }
 
-        target->life_lost = 0;
+        target->damage = 0;
         target->damaged = 0;
 
-        if ( target->life <= 0 && !GM_GameOverTimer && GM_SnakeCurrentHealth > 0 )
+        if ( target->vital <= 0 && !GM_GameOverTimer && GM_SnakeCurrentHealth > 0 )
         {
             ExecProc_800C7C58( work, 1 ) ;
             GM_GameOver();
@@ -207,13 +207,13 @@ int AttackForce_800C80DC( Meryl72Work * work, int check )
     if ( !check )
     {
         DG_RotVector( &force, &svec, 1 );
-        GM_Target_8002DCCC( target, 0, 2, 16, 1, &svec );
+        GM_SetPowerTarget( target, POWER_ONCE, 2, 16, 1, &svec );
         DG_PutVector( &rp_shift, &work->punch.center, 1 );
     }
     else
     {
         DG_RotVector( &force2, &svec, 1 );
-        GM_Target_8002DCCC( target, 0, 2, 16, 1, &svec );
+        GM_SetPowerTarget( target, POWER_ONCE, 2, 16, 1, &svec );
         DG_PutVector( &rp_shift2, &work->punch.center, 1 );
     }
 

@@ -11,8 +11,8 @@
 #include "linkvar.h"
 #include "sound/g_sound.h"
 
-extern GM_CAMERA GM_Camera;
-extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
+extern GM_CameraSystemWork GM_Camera;
+extern GM_SnakeCameraWork  GM_SnakeCamera;
 
 extern void *NewBullet(MATRIX *pMtx, int a2, int a3, int noiseLen);
 
@@ -66,9 +66,9 @@ static int GetZoomLimit(void)
     {
         eye = &mtx;
         mtx = GM_PlayerBody->objs->world;
-        mtx.t[0] = gUnkCameraStruct_800B77B8.eye.vx;
-        mtx.t[1] = gUnkCameraStruct_800B77B8.eye.vy;
-        mtx.t[2] = gUnkCameraStruct_800B77B8.eye.vz;
+        mtx.t[0] = GM_SnakeCamera.position.vx;
+        mtx.t[1] = GM_SnakeCamera.position.vy;
+        mtx.t[2] = GM_SnakeCamera.position.vz;
     }
 
     DG_SetPos(eye);

@@ -17,10 +17,10 @@ typedef struct TARGET
     SVECTOR *field_1C; /* unused */
     MATRIX  *body;
     short    p_mode;
-    short    life;
-    short    life_lost;
+    short    vital;
+    short    damage;
     short    faint;
-    SVECTOR  scale;
+    SVECTOR  force;
     SVECTOR  offset;
     short    field_3C;
     short    a_mode;
@@ -44,6 +44,15 @@ enum
     TARGET_NO_LOCKON = 0x200,
     TARGET_C4_CLEAR  = 0x400,
     TARGET_DIE       = 0x800,
+};
+
+enum
+{
+    POWER_ONCE      = 0,
+    POWER_DECREASE  = 1,
+    POWER_THRESHOLD = 2,
+    POWER_CONST     = 3,
+    POWER_EXPLODE   = 4,
 };
 
 enum
@@ -75,7 +84,7 @@ static inline void UnsetTargetClass( TARGET *target, unsigned int flag )
 int GM_TargetIntersects(TARGET *a, TARGET *b);
 int GM_TargetIntersectsNoSide(TARGET *a, TARGET *b);
 
-void    GM_ResetTargets(void);
+void    GM_InitTargetSystem(void);
 TARGET *GM_AllocTarget(void);
 void    GM_FreeTarget(TARGET *target);
 void    GM_MoveTarget(TARGET *target, SVECTOR *pVec);
@@ -85,8 +94,8 @@ int     GM_TouchTarget(TARGET *target);
 int     GM_PowerTarget(TARGET *target);
 int     GM_PushTarget(TARGET *target);
 void    GM_SetTarget(TARGET *target, int class, int side, SVECTOR *size);
-void    GM_Target_8002DCB4(TARGET *target, int a_mode, int faint, int *a4, SVECTOR *a5);
-void    GM_Target_8002DCCC(TARGET *target, int p_mode, int a_mode, int life, int faint, SVECTOR *scale);
+void    GM_SetCaptureTarget(TARGET *target, int a_mode, int faint, int *a4, SVECTOR *a5);
+void    GM_SetPowerTarget(TARGET *target, int p_mode, int a_mode, int vital, int faint, SVECTOR *force);
 void    GM_TargetBody(TARGET *target, MATRIX *body) ;
 void    sub_8002DD1C(SVECTOR *a1, SVECTOR *a2, TARGET *a3);
 int     sub_8002DDE0(SVECTOR *a1, SVECTOR *a2, TARGET *a3, SVECTOR *a4);

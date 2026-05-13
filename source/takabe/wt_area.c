@@ -12,7 +12,7 @@
 
 extern CONTROL         *tenage_ctrls_800BDD30[16];
 extern int              tenage_ctrls_count_800BDD70;
-extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
+extern GM_SnakeCameraWork  GM_SnakeCamera;
 
 extern void NewSplash2_800DB4E0( int angy, SVECTOR *pos, int noripple );
 
@@ -141,7 +141,7 @@ static void Act( Work *work )
 
     if ( GM_PlayerStatus & PLAYER_INTRUDE )
     {
-        snake_pos = gUnkCameraStruct_800B77B8.eye;
+        snake_pos = GM_SnakeCamera.position;
     }
     else
     {

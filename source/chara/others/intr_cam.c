@@ -6,7 +6,7 @@
 #include "game/game.h"
 #include "strcode.h"
 
-extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
+extern GM_SnakeCameraWork  GM_SnakeCamera;
 
 /*---------------------------------------------------------------------------*/
 
@@ -45,7 +45,7 @@ static void CheckMessage(Work *work)
 
         case HASH_ON:
             work->state = 1;
-            work->eye = gUnkCameraStruct_800B77B8.eye;
+            work->eye = GM_SnakeCamera.position;
             break;
 
         case HASH_OFF:
@@ -83,7 +83,7 @@ static void Act(Work *work)
         work->interp--;
     }
     GV_NearTimeV(&work->eye.vx, &work->pos.vx, interp, 3);
-    gUnkCameraStruct_800B77B8.eye = work->eye;
+    GM_SnakeCamera.position = work->eye;
 }
 
 static void Die(Work *work)

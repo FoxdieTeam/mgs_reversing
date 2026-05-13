@@ -12,7 +12,7 @@ typedef struct _SEPARAM
     short vol;
 } SEPARAM;
 
-extern GM_CAMERA        GM_Camera;
+extern GM_CameraSystemWork        GM_Camera;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 
 static inline void GM_Sound( int pan, int vol, int se_id, int exclude )

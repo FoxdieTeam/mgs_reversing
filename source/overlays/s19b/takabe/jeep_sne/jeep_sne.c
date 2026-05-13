@@ -79,7 +79,7 @@ void s19b_jeep_sne_800D4CA0(Work *work)
     hp = GM_SnakeCurrentHealth;
 
     GM_SetTarget(target, ( TARGET_POWER | TARGET_SEEK ), PLAYER_SIDE, &s19b_dword_800C39F8);
-    GM_Target_8002DCCC(target, 1, -1, hp, 0, &DG_ZeroVector);
+    GM_SetPowerTarget(target, POWER_DECREASE, -1, hp, 0, &DG_ZeroVector);
     target->map = work->root_ctrl->map->index;
 }
 

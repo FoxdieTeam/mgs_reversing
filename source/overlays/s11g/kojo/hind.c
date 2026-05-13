@@ -649,23 +649,23 @@ void *NewHind(int name, int where)
     GM_InitObject(&work->move_missile_body, GV_StrCode("hindmsil"), 0x25D, 0);
     GM_ConfigObjectJoint(&work->move_missile_body);
     GM_ConfigObjectLight(&work->move_missile_body, work->move_missile_light);
-    GM_SetTarget(&work->field_57C, 4, 2, &s11g_dword_800C3598);
+    GM_SetTarget(&work->field_57C, TARGET_POWER, ENEMY_SIDE, &s11g_dword_800C3598);
 
     switch (GM_DifficultyFlag)
     {
     default:
     case -1:
     case 0:
-        GM_Target_8002DCCC(&work->field_57C, 7, 2, 0x100, 0, &s11g_dword_800C35A0);
+        GM_SetPowerTarget(&work->field_57C, POWER_CONST | POWER_EXPLODE, 2, 0x100, 0, &s11g_dword_800C35A0);
         break;
     case 1:
-        GM_Target_8002DCCC(&work->field_57C, 7, 2, 0x200, 0, &s11g_dword_800C35A0);
+        GM_SetPowerTarget(&work->field_57C, POWER_CONST | POWER_EXPLODE, 2, 0x200, 0, &s11g_dword_800C35A0);
         break;
     case 2:
-        GM_Target_8002DCCC(&work->field_57C, 7, 2, 0x400, 0, &s11g_dword_800C35A0);
+        GM_SetPowerTarget(&work->field_57C, POWER_CONST | POWER_EXPLODE, 2, 0x400, 0, &s11g_dword_800C35A0);
         break;
     case 3:
-        GM_Target_8002DCCC(&work->field_57C, 7, 2, 0x800, 0, &s11g_dword_800C35A0);
+        GM_SetPowerTarget(&work->field_57C, POWER_CONST | POWER_EXPLODE, 2, 0x800, 0, &s11g_dword_800C35A0);
         break;
     }
 

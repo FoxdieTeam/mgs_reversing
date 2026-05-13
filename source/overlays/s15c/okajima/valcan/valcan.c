@@ -476,7 +476,7 @@ int ValcanGetResources2_800D9774(ValcanWork *work)
     if (target != NULL)
     {
         GM_SetTarget(target, 0x15, 2, &s15c_dword_800C35F0);
-        GM_Target_8002DCCC(target, 1, -1, work->field_6A8, 0xFF, &DG_ZeroVector);
+        GM_SetPowerTarget(target, POWER_DECREASE, -1, work->field_6A8, 0xFF, &DG_ZeroVector);
         work->field_900 = work->field_6A8;
 
         target2 = GM_AllocTarget();
@@ -534,7 +534,7 @@ void Valcan_800D990C(ValcanWork *work)
     if (now < 0)
     {
         now = 0;
-        work->field_664->life = 0;
+        work->field_664->vital = 0;
         work->field_900 = 0;
     }
 

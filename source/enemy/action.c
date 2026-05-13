@@ -666,7 +666,7 @@ void s00a_command_800C6BCC( WatcherWork* work, int time )
             //if they fall from a height?
             else if ( ctrl->mov.vy - ctrl->levels[0] > 3000 )
             {
-                work->target->life = 0;
+                work->target->vital = 0;
                 GM_SeSetMode( &ctrl->mov, VO_ENEMY_THROWN, GM_SEMODE_BOMB ) ;
             }
         }
@@ -690,7 +690,7 @@ void s00a_command_800C6BCC( WatcherWork* work, int time )
             GM_SetNoise( 0x64, 4, &work->control.mov ) ;
             ENE_PutBlood( work, 6, 1 ) ;
 
-            if ( work->target->life <= 0 )
+            if ( work->target->vital <= 0 )
             {
                 SetMode( work, s00a_command_800C8054 );
             }
@@ -760,11 +760,11 @@ void s00a_command_800C6FA8( WatcherWork* work, int time )
     {
         ENE_PutBlood( work, 5, 0 );
         GM_SeSet( &work->control.mov, VO_ENEMY_GRABBED );
-        target->scale = DG_ZeroVector;
-        target->life_lost = 0;
+        target->force = DG_ZeroVector;
+        target->damage = 0;
         target->damaged = TARGET_STALE;
 
-        if ( target->life <= 0 )
+        if ( target->vital <= 0 )
         {
             v1 = target->a_mode;
             if ( v1 == 1 )
@@ -813,7 +813,7 @@ void s00a_command_800C6FA8( WatcherWork* work, int time )
     case 0x27:
         work->unknown.field_14 = 4;
         target->side = ENEMY_SIDE;
-        target->life = 0;
+        target->vital = 0;
         SetMode( work, s00a_command_800C78E0 );
         return;
     default:
@@ -1039,7 +1039,7 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
     unk = &work->unknown;
     work->unknown.field_1E = 0;
     work->act_status |= 0x8;
-    work->control.step = work->target->scale;
+    work->control.step = work->target->force;
 
     ctrl = &work->control;
     if ( time == 0 )
@@ -1055,7 +1055,7 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
             break;
         case 1:
             SetAction( work, ACTION37, ACTINTERP );
-            if ( work->target->life <= 0 )
+            if ( work->target->vital <= 0 )
             {
                 if ( GM_CurrentWeaponId == WP_Rifle )
                 {
@@ -1170,7 +1170,7 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
         {
             if (ctrl->mov.vy - ctrl->levels[0] > 3000)
             {
-                work->target->life = 0;
+                work->target->vital = 0;
                 SetMode( work, s00a_command_800C7E28 );
                 return;
             }
@@ -1180,8 +1180,8 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
     if ( work->body.is_end )
     {
         work->unknown.field_1E = 1;
-        work->target->scale = DG_ZeroVector;
-        if ( work->target->life <= 0 )
+        work->target->force = DG_ZeroVector;
+        if ( work->target->vital <= 0 )
         {
             SetMode( work, s00a_command_800C8054 );
         }
@@ -1212,7 +1212,7 @@ void s00a_command_800C7E28( WatcherWork* work, int time )
 
     if ( work->unknown.last_set < 39 )
     {
-        ctrl->step = work->target->scale;
+        ctrl->step = work->target->force;
         if ( work->body.is_end )
         {
             if ( work->unknown.field_14 < 3 )
@@ -1236,13 +1236,13 @@ void s00a_command_800C7E28( WatcherWork* work, int time )
     {
         if ( !ctrl->touch_flag )
         {
-            ctrl->step = work->target->scale;
+            ctrl->step = work->target->force;
         }
 
         if ( ctrl->level_flag )
         {
             work->unknown.field_1E = 1;
-            work->target->scale = DG_ZeroVector;
+            work->target->force = DG_ZeroVector;
             GM_SeSetMode( &ctrl->mov, SE_HIT_FLOOR, GM_SEMODE_BOMB );
             ENE_PutBlood( work, 6, 1 );
             SetMode( work, s00a_command_800C8054 );

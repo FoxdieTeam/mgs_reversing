@@ -80,7 +80,7 @@ void s19b_jeep_800D2800(Work *work)
 
     trg = &work->target2;
     GM_SetTarget(trg, TARGET_POWER, PLAYER_SIDE, &s19b_dword_800C39C4);
-    GM_Target_8002DCCC(trg, 5, 2, 8, 0, &DG_ZeroVector);
+    GM_SetPowerTarget(trg, POWER_DECREASE | POWER_EXPLODE, 2, 8, 0, &DG_ZeroVector);
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_800D2880.s")

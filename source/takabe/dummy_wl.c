@@ -79,7 +79,7 @@ void DummyWallAct_800D6E64(DummyWallWork *work)
     {
         target->damaged &= ~TARGET_POWER;
         if (work->field_168 != 0 ||
-            (target->a_mode == 2 && (target->weapon == WP_C4 || target->weapon == WP_Stinger) && target->life < -128))
+            (target->a_mode == 2 && (target->weapon == WP_C4 || target->weapon == WP_Stinger) && target->vital < -128))
         {
             work->field_164 = 1;
             if (work->field_168 == 0)
@@ -112,13 +112,13 @@ void DummyWallAct_800D6E64(DummyWallWork *work)
                 GCL_ExecProc(work->field_188, NULL);
             }
         }
-        target->life = 0;
+        target->vital = 0;
     }
 
     svec2 = &work->field_15C;
     GM_MoveTarget(target, svec2);
 
-    target->life = 0;
+    target->vital = 0;
     target->damaged &= ~TARGET_PUSH;
 
     DG_SetPos2(&work->field_14C, &work->field_154);
@@ -156,7 +156,7 @@ void DummyWall_800D7104(DummyWallWork *work)
 
     work->field_148 = target;
     GM_SetTarget(target, 0x204, 2, &s04a_dword_800C3620);
-    GM_Target_8002DCCC(target, 1, -1, 0, 0, &DG_ZeroVector);
+    GM_SetPowerTarget(target, POWER_DECREASE, -1, 0, 0, &DG_ZeroVector);
     target->damaged = TARGET_STALE;
 }
 

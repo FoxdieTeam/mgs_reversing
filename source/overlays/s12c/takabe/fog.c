@@ -23,7 +23,7 @@ int SECTION(".bss") s12c_800DA42C;
 int SECTION(".bss") s12c_800DA430;
 int SECTION(".bss") s12c_800DA434;
 
-extern GM_CAMERA GM_Camera;
+extern GM_CameraSystemWork GM_Camera;
 
 void s12c_800D497C(int, int);
 void s12c_800D4AB4(int);
