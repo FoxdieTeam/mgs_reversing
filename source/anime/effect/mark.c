@@ -54,18 +54,18 @@ static const char anm_mark_data_800DFEB4[] = {
 };
 
 static ANIMATION anm_mark_form_800C3418 = {
-    PCX_B_MARK,                     // field_0_texture_hash
-    1,                              // field_2
-    1,                              // field_4
-    1,                              // n_anims
-    1,                              // n_vertices
-    500,                            // field_A
-    1,                              // field_C
-    80,                             // field_E_xw
-    80,                             // field_10_yh
-    0,                              // field_12_rgb
+    PCX_B_MARK,                     // tex
+    1,                              // texdev_x
+    1,                              // texdev_y
+    1,                              // n_anime
+    1,                              // n_verts
+    500,                            // raise
+    1,                              // amb
+    80,                             // size_w
+    80,                             // size_h
+    0,                              // v
     NULL,                           // pre_script
-    (char *)anm_mark_data_800DFEB4  // field_18_ptr
+    (char *)anm_mark_data_800DFEB4  // script
 };
 
 /*---------------------------------------------------------------------------*/
@@ -107,18 +107,18 @@ static const char anm_mark_data_800E0018[] = {
 };
 
 static ANIMATION anm_mark_form_800C3434 = {
-    PCX_Q_MARK,                     // field_0_texture_hash
-    1,                              // field_2
-    1,                              // field_4
-    1,                              // n_anims
-    1,                              // n_vertices
-    500,                            // field_A
-    1,                              // field_C
-    80,                             // field_E_xw
-    80,                             // field_10_yh
-    0,                              // field_12_rgb
+    PCX_Q_MARK,                     // tex
+    1,                              // texdev_x
+    1,                              // texdev_y
+    1,                              // n_anime
+    1,                              // n_verts
+    500,                            // raise
+    1,                              // amb
+    80,                             // size_w
+    80,                             // size_h
+    0,                              // v
     NULL,                           // pre_script
-    (char *)anm_mark_data_800E0018  // field_18_ptr
+    (char *)anm_mark_data_800E0018  // script
 };
 
 /*---------------------------------------------------------------------------*/
@@ -160,18 +160,18 @@ static const char anm_mark_data_800E011C[] = {
 };
 
 static ANIMATION anm_mark_form_800C3450 = {
-    PCX_Q_MARK,                     // field_0_texture_hash
-    1,                              // field_2
-    1,                              // field_4
-    1,                              // n_anims
-    1,                              // n_vertices
-    500,                            // field_A
-    1,                              // field_C
-    80,                             // field_E_xw
-    80,                             // field_10_yh
-    0,                              // field_12_rgb
+    PCX_Q_MARK,                     // tex
+    1,                              // texdev_x
+    1,                              // texdev_y
+    1,                              // n_anime
+    1,                              // n_verts
+    500,                            // raise
+    1,                              // amb
+    80,                             // size_w
+    80,                             // size_h
+    0,                              // v
     NULL,                           // pre_script
-    (char *)anm_mark_data_800E011C  // field_18_ptr
+    (char *)anm_mark_data_800E011C  // script
 };
 
 /*---------------------------------------------------------------------------*/
@@ -182,18 +182,18 @@ static const char anm_mark_data_800E0220[] = {
 };
 
 static ANIMATION anm_mark_form_800C346C = {
-    PCX_HEART,                      // field_0_texture_hash
-    1,                              // field_2
-    1,                              // field_4
-    1,                              // n_anims
-    1,                              // n_vertices
-    0,                              // field_A
-    1,                              // field_C
-    70,                             // field_E_xw
-    70,                             // field_10_yh
-    255,                            // field_12_rgb
+    PCX_HEART,                      // tex
+    1,                              // texdev_x
+    1,                              // texdev_y
+    1,                              // n_anime
+    1,                              // n_verts
+    0,                              // raise
+    1,                              // amb
+    70,                             // size_w
+    70,                             // size_h
+    255,                            // v
     NULL,                           // pre_script
-    (char *)anm_mark_data_800E0220  // field_18_ptr
+    (char *)anm_mark_data_800E0220  // script
 };
 
 /*---------------------------------------------------------------------------*/
@@ -228,31 +228,31 @@ void *AN_Unknown_800CA1EC( MATRIX *mat, int mark )
     switch ( mark )
     {
     case 0:
-        anm_mark_form_800C3418.field_0_texture_hash = mark_tex_list[TEX_B_MARK];
+        anm_mark_form_800C3418.tex = mark_tex_list[TEX_B_MARK];
         anim = &anm_mark_form_800C3418;
         break;
     case 1:
-        anm_mark_form_800C3418.field_0_texture_hash = mark_tex_list[TEX_Q_MARK];
+        anm_mark_form_800C3418.tex = mark_tex_list[TEX_Q_MARK];
         anim = &anm_mark_form_800C3418;
         break;
     case 2:
-        anm_mark_form_800C3434.field_0_texture_hash = mark_tex_list[TEX_B_MARK];
+        anm_mark_form_800C3434.tex = mark_tex_list[TEX_B_MARK];
         anim = &anm_mark_form_800C3434;
         break;
     case 3:
-        anm_mark_form_800C3434.field_0_texture_hash = mark_tex_list[TEX_Q_MARK];
+        anm_mark_form_800C3434.tex = mark_tex_list[TEX_Q_MARK];
         anim = &anm_mark_form_800C3434;
         break;
     case 4:
-        anm_mark_form_800C3450.field_0_texture_hash = mark_tex_list[TEX_B_MARK];
+        anm_mark_form_800C3450.tex = mark_tex_list[TEX_B_MARK];
         anim = &anm_mark_form_800C3450;
         break;
     case 5:
-        anm_mark_form_800C3450.field_0_texture_hash = mark_tex_list[TEX_Q_MARK];
+        anm_mark_form_800C3450.tex = mark_tex_list[TEX_Q_MARK];
         anim = &anm_mark_form_800C3450;
         break;
     case 6:
-        anm_mark_form_800C3418.field_0_texture_hash = mark_tex_list[TEX_HEART];
+        anm_mark_form_800C3418.tex = mark_tex_list[TEX_HEART];
         anim = &anm_mark_form_800C3418;
         pre.scr_num = 1;
         break;
@@ -281,31 +281,31 @@ void *AN_Unknown_800CA320( MATRIX *mat, int mark )
     switch ( mark )
     {
     case 0:
-        anm_mark_form_800C3418.field_0_texture_hash = mark_tex_list[TEX_B_MARK];
+        anm_mark_form_800C3418.tex = mark_tex_list[TEX_B_MARK];
         anim = &anm_mark_form_800C3418;
         break;
     case 1:
-        anm_mark_form_800C3418.field_0_texture_hash = mark_tex_list[TEX_Q_MARK];
+        anm_mark_form_800C3418.tex = mark_tex_list[TEX_Q_MARK];
         anim = &anm_mark_form_800C3418;
         break;
     case 2:
-        anm_mark_form_800C3434.field_0_texture_hash = mark_tex_list[TEX_B_MARK];
+        anm_mark_form_800C3434.tex = mark_tex_list[TEX_B_MARK];
         anim = &anm_mark_form_800C3434;
         break;
     case 3:
-        anm_mark_form_800C3434.field_0_texture_hash = mark_tex_list[TEX_Q_MARK];
+        anm_mark_form_800C3434.tex = mark_tex_list[TEX_Q_MARK];
         anim = &anm_mark_form_800C3434;
         break;
     case 4:
-        anm_mark_form_800C3450.field_0_texture_hash = mark_tex_list[TEX_B_MARK];
+        anm_mark_form_800C3450.tex = mark_tex_list[TEX_B_MARK];
         anim = &anm_mark_form_800C3450;
         break;
     case 5:
-        anm_mark_form_800C3450.field_0_texture_hash = mark_tex_list[TEX_Q_MARK];
+        anm_mark_form_800C3450.tex = mark_tex_list[TEX_Q_MARK];
         anim = &anm_mark_form_800C3450;
         break;
     case 6:
-        anm_mark_form_800C3418.field_0_texture_hash = mark_tex_list[TEX_HEART];
+        anm_mark_form_800C3418.tex = mark_tex_list[TEX_HEART];
         anim = &anm_mark_form_800C3418;
         pre.scr_num = 2;
         break;
@@ -334,32 +334,32 @@ void *AN_Unknown_800CA458( MATRIX *mat, int mark )
     switch ( mark )
     {
     case 0:
-        anm_mark_form_800C3418.field_0_texture_hash = mark_tex_list[TEX_B_MARK];
+        anm_mark_form_800C3418.tex = mark_tex_list[TEX_B_MARK];
         anim = &anm_mark_form_800C3418;
         pre.scr_num = 3;
         break;
     case 1:
-        anm_mark_form_800C3418.field_0_texture_hash = mark_tex_list[TEX_Q_MARK];
+        anm_mark_form_800C3418.tex = mark_tex_list[TEX_Q_MARK];
         anim = &anm_mark_form_800C3418;
         break;
     case 2:
-        anm_mark_form_800C3434.field_0_texture_hash = mark_tex_list[TEX_B_MARK];
+        anm_mark_form_800C3434.tex = mark_tex_list[TEX_B_MARK];
         anim = &anm_mark_form_800C3434;
         break;
     case 3:
-        anm_mark_form_800C3434.field_0_texture_hash = mark_tex_list[TEX_Q_MARK];
+        anm_mark_form_800C3434.tex = mark_tex_list[TEX_Q_MARK];
         anim = &anm_mark_form_800C3434;
         break;
     case 4:
-        anm_mark_form_800C3450.field_0_texture_hash = mark_tex_list[TEX_B_MARK];
+        anm_mark_form_800C3450.tex = mark_tex_list[TEX_B_MARK];
         anim = &anm_mark_form_800C3450;
         break;
     case 5:
-        anm_mark_form_800C3450.field_0_texture_hash = mark_tex_list[TEX_Q_MARK];
+        anm_mark_form_800C3450.tex = mark_tex_list[TEX_Q_MARK];
         anim = &anm_mark_form_800C3450;
         break;
     case 6:
-        anm_mark_form_800C3418.field_0_texture_hash = mark_tex_list[TEX_HEART];
+        anm_mark_form_800C3418.tex = mark_tex_list[TEX_HEART];
         anim = &anm_mark_form_800C3418;
         pre.scr_num = 3;
         break;

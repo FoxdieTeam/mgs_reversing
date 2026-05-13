@@ -19,24 +19,22 @@ typedef struct PRESCRIPT
 
 typedef struct ANIMATION
 {
-    u_short    field_0_texture_hash;
-    short      field_2;
-    short      field_4;
-    short      n_anims;
-    short      n_vertices;
-    short      field_A;
-    short      field_C;
-    short      field_E_xw;
-    short      field_10_yh;
-    short      field_12_rgb;
+    u_short    tex;
+    short      texdev_x, texdev_y;
+    short      n_anime;
+    short      n_verts;
+    short      raise;
+    short      amb;
+    short      size_w, size_h;
+    short      v;
     PRESCRIPT *pre_script;
-    char      *field_18_ptr;
+    char      *script;
 } ANIMATION;
 
-void *NewAnime(MATRIX *world, int map, ANIMATION *animation);
-void *NewAnime2(DG_PRIM *prim, int map, ANIMATION *animation);
+void *NewAnime( MATRIX *world, int map, ANIMATION *animation );
+void *NewAnime2( MATRIX *world, int map, ANIMATION *animation );
 
-// TODO: figure out better names for these
+// TODO: New header
 void *NewAnime_8005D604(MATRIX *pMtx);
 
 void NewAnime_8005DF50(SVECTOR *v1, SVECTOR *v2);

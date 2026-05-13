@@ -317,8 +317,8 @@ STATIC ANIMATION blood_anim = {
     PCX_BLOOD_2,                // texture_hash
     1,                          //
     1,                          //
-    1,                          // n_anims
-    1,                          // n_vertices
+    1,                          // n_anime
+    1,                          // n_verts
     500,                        //
     3,                          //
     300,                        // xw

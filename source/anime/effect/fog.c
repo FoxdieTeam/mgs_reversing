@@ -14,18 +14,18 @@ static const char anm_fog_data[] = {
 };
 
 static ANIMATION anm_fog_form = {
-    PCX_PCH_FOG,                // field_0_texture_hash
-    1,                          // field_2
-    1,                          // field_4
-    1,                          // n_anims
-    1,                          // n_vertices
-    800,                        // field_A
-    3,                          // field_C
-    600,                        // field_E_xw
-    600,                        // field_10_yh
-    250,                        // field_12_rgb
+    PCX_PCH_FOG,                // tex
+    1,                          // texdev_x
+    1,                          // texdev_y
+    1,                          // n_anime
+    1,                          // n_verts
+    800,                        // raise
+    3,                          // amb
+    600,                        // size_w
+    600,                        // size_h
+    250,                        // v
     NULL,                       // pre_script
-    (char *)anm_fog_data        // field_18_ptr
+    (char *)anm_fog_data        // script
 };
 
 /*---------------------------------------------------------------------------*/

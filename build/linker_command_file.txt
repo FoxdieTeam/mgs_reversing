@@ -141,6 +141,7 @@
     include "{{OBJ_DIR}}\game\vibrate.obj"
 
     ; anime
+    include "{{OBJ_DIR}}\anime\effect\bullet.obj"
     include "{{OBJ_DIR}}\anime\animconv\anime.obj"
 
     ; chara/snake (cont.)

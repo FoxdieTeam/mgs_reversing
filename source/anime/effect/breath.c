@@ -19,18 +19,18 @@ static const char anm_breath_data[] = {
 };
 
 static ANIMATION anm_breath_form = {
-    PCX_SMOKE,                  // field_0_texture_hash
-    8,                          // field_2
-    4,                          // field_4
-    30,                         // n_anims
-    1,                          // n_vertices
-    300,                        // field_A
-    1,                          // field_C
-    500,                        // field_E_xw
-    500,                        // field_10_yh
-    0,                          // field_12_rgb
+    PCX_SMOKE,                  // tex
+    8,                          // texdev_x
+    4,                          // texdev_y
+    30,                         // n_anime
+    1,                          // n_verts
+    300,                        // raise
+    1,                          // amb
+    500,                        // size_w
+    500,                        // size_h
+    0,                          // v
     NULL,                       // pre_script
-    (char *)anm_breath_data     // field_18_ptr
+    (char *)anm_breath_data     // script
 };
 
 /*---------------------------------------------------------------------------*/
@@ -46,18 +46,18 @@ static const char anm_unknown_data[] = {
 };
 
 static ANIMATION anm_unknown = {
-    PCX_SMOKE,                  // field_0_texture_hash
-    8,                          // field_2
-    4,                          // field_4
-    30,                         // n_anims
-    1,                          // n_vertices
-    300,                        // field_A
-    1,                          // field_C
-    500,                        // field_E_xw
-    500,                        // field_10_yh
-    0,                          // field_12_rgb
+    PCX_SMOKE,                  // tex
+    8,                          // texdev_x
+    4,                          // texdev_y
+    30,                         // n_anime
+    1,                          // n_verts
+    300,                        // raise
+    1,                          // amb
+    500,                        // size_w
+    500,                        // size_h
+    0,                          // v
     NULL,                       // pre_script
-    (char *)anm_unknown_data    // field_18_ptr
+    (char *)anm_unknown_data    // script
 };
 
 /*---------------------------------------------------------------------------*/

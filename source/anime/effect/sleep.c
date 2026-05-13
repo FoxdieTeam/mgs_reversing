@@ -29,18 +29,18 @@ static const char anm_sleep_data[] = {
 };
 
 static ANIMATION anm_sleep_form = {
-    PCX_ZZZ,                    // field_0_texture_hash
-    1,                          // field_2
-    1,                          // field_4
-    1,                          // n_anims
-    1,                          // n_vertices
-    0,                          // field_A
-    1,                          // field_C
-    2,                          // field_E_xw
-    2,                          // field_10_yh
-    0,                          // field_12_rgb
+    PCX_ZZZ,                    // tex
+    1,                          // texdev_x
+    1,                          // texdev_y
+    1,                          // n_anime
+    1,                          // n_verts
+    0,                          // raise
+    1,                          // amb
+    2,                          // size_w
+    2,                          // size_h
+    0,                          // v
     NULL,                       // pre_script
-    (char *)anm_sleep_data      // field_18_ptr
+    (char *)anm_sleep_data      // script
 };
 
 /*---------------------------------------------------------------------------*/
