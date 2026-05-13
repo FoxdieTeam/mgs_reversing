@@ -135,6 +135,9 @@ static void AddVec( SVECTOR *vec, u_char *data, int code )
     vec->vz += NextShort( data + 4, code );
 }
 
+/*---------------------------------------------------------------------------*/
+/* Anime Pattern */
+
 static int ScriptA( Work *work, int index )
 {
     Unit  *unit;
@@ -161,6 +164,9 @@ static int ScriptA( Work *work, int index )
     return 0;
 }
 
+/*---------------------------------------------------------------------------*/
+/* Wait Time */
+
 static int ScriptW( Work *work, int index )
 {
     Unit *unit;
@@ -171,6 +177,9 @@ static int ScriptW( Work *work, int index )
     unit->dataptr += 3;
     return 1;
 }
+
+/*---------------------------------------------------------------------------*/
+/* Position */
 
 static int ScriptP( Work *work, int index )
 {
@@ -183,6 +192,9 @@ static int ScriptP( Work *work, int index )
     return 0;
 }
 
+/*---------------------------------------------------------------------------*/
+/* Movement */
+
 static int ScriptM( Work *work, int index )
 {
     Unit *unit;
@@ -193,6 +205,9 @@ static int ScriptM( Work *work, int index )
     unit->dataptr += 7;
     return 0;
 }
+
+/*---------------------------------------------------------------------------*/
+/* Speed */
 
 static int ScriptS( Work *work, int index )
 {
@@ -205,6 +220,9 @@ static int ScriptS( Work *work, int index )
     return 0;
 }
 
+/*---------------------------------------------------------------------------*/
+/* Gravity */
+
 static int ScriptG( Work *work, int index )
 {
     Unit *unit;
@@ -215,6 +233,9 @@ static int ScriptG( Work *work, int index )
     unit->dataptr += 7;
     return 0;
 }
+
+/*---------------------------------------------------------------------------*/
+/* Semi-transparency */
 
 static int ScriptT( Work *work, int index )
 {
@@ -250,6 +271,9 @@ static int ScriptT( Work *work, int index )
     return 0;
 }
 
+/*---------------------------------------------------------------------------*/
+/* Color */
+
 static int ScriptV( Work *work, int index )
 {
     u_char  v[3];
@@ -274,6 +298,8 @@ static int ScriptV( Work *work, int index )
     return 0;
 }
 
+/*---------------------------------------------------------------------------*/
+
 static void ShadePacks( Work *work )
 {
     POLY_FT4 *pack;
@@ -290,6 +316,9 @@ static void ShadePacks( Work *work )
     }
 }
 
+/*---------------------------------------------------------------------------*/
+/* Point Light */
+
 static int ScriptF( Work *work, int index )
 {
     Unit *unit;
@@ -302,6 +331,9 @@ static int ScriptF( Work *work, int index )
     unit->dataptr += 3;
     return 0;
 }
+
+/*---------------------------------------------------------------------------*/
+/* Size */
 
 static int ScriptZ( Work *work, int index )
 {
@@ -330,6 +362,9 @@ static int ScriptZ( Work *work, int index )
     return 0;
 }
 
+/*---------------------------------------------------------------------------*/
+/* Noise */
+
 static int ScriptN( Work *work, int index )
 {
     Unit *unit;
@@ -340,6 +375,9 @@ static int ScriptN( Work *work, int index )
     unit->dataptr += 2;
     return 0;
 }
+
+/*---------------------------------------------------------------------------*/
+/* Start Loop (Open?) */
 
 static int ScriptO( Work *work, int index )
 {
@@ -357,6 +395,9 @@ static int ScriptO( Work *work, int index )
     unit->loop_s[ now_loop ] = unit->dataptr;
     return 0;
 }
+
+/*---------------------------------------------------------------------------*/
+/* End Loop (Close?) */
 
 static int ScriptC( Work *work, int index )
 {
@@ -383,6 +424,8 @@ static int ScriptC( Work *work, int index )
     return 0;
 }
 
+/*---------------------------------------------------------------------------*/
+
 static int ScriptL( Work *work, int index )
 {
     Unit *unit;
@@ -392,12 +435,17 @@ static int ScriptL( Work *work, int index )
     return 1;
 }
 
+/*---------------------------------------------------------------------------*/
+/* End Script */
+
 static int ScriptE( Work *work, int index )
 {
     DG_InvisiblePrim( work->prim );
     GV_DestroyActor( work );
     return 1;
 }
+
+/*---------------------------------------------------------------------------*/
 
 static void ApplySpeed( SVECTOR *vert, Unit *unit )
 {
@@ -406,7 +454,7 @@ static void ApplySpeed( SVECTOR *vert, Unit *unit )
     vert->vz += unit->speed.vz;
 }
 
-/*----------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
 
 static int ( *ScriptAct[] )( Work *, int ) = {
     ScriptA,
@@ -426,7 +474,7 @@ static int ( *ScriptAct[] )( Work *, int ) = {
     ScriptE
 };
 
-/*----------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
 
 static void Act( Work *work )
 {

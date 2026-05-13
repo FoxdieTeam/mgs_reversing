@@ -6,8 +6,7 @@
 
 #include <sys/types.h>
 #include <libgte.h>
-#include "libgv/libgv.h"
-#include "libdg/libdg.h"
+#include <libgpu.h>
 
 typedef struct PRESCRIPT
 {
