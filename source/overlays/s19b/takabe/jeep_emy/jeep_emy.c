@@ -354,9 +354,9 @@ int s19b_jbullet_800C5010(Work *work)
     {
         if (trg->a_mode == 1)
         {
-            trg->scale = DG_ZeroVector;
+            trg->force = DG_ZeroVector;
 
-            if (trg->life <= 0)
+            if (trg->vital <= 0)
             {
                 work->field_934 = 0;
                 work->field_920 = s19b_jbullet_800C598C;
@@ -373,13 +373,13 @@ int s19b_jbullet_800C5010(Work *work)
         }
         else
         {
-            trg->scale = DG_ZeroVector;
-            trg->life_lost = 0;
+            trg->force = DG_ZeroVector;
+            trg->damage = 0;
             trg->damaged = 0;
             goto check_next;
         }
 
-        trg->life_lost = 0;
+        trg->damage = 0;
         trg->damaged = 0;
 
         work->field_8F4 = work->field_900[(rand() * work->field_8FC) >> 15];
@@ -394,11 +394,11 @@ check_next:
     {
         if (trg->a_mode == 2)
         {
-            sp10.vx = trg->scale.vx;
+            sp10.vx = trg->force.vx;
             sp10.vy = 0;
-            sp10.vz = trg->scale.vz;
+            sp10.vz = trg->force.vz;
 
-            len = s19b_jbullet_800C4FD4(&trg->scale);
+            len = s19b_jbullet_800C4FD4(&trg->force);
             GV_LenVec3(&sp10, &work->field_8E4, GV_VecLen3(&sp10), len / 4);
 
             work->field_8E0 = 1;
@@ -418,16 +418,16 @@ check_next:
             work->control.turn.vz = 0;
             work->control.turn.vx = 0;
 
-            work->target1->life = 0;
+            work->target1->vital = 0;
         }
         else
         {
-            trg->life = 100;
-            trg->scale = DG_ZeroVector;
+            trg->vital = 100;
+            trg->force = DG_ZeroVector;
             return 0;
         }
 
-        trg->life_lost = 0;
+        trg->damage = 0;
         trg->damaged = 0;
         return 1;
     }
@@ -458,11 +458,11 @@ void s19b_jbullet_800C5278(Work *work)
 
 
     GM_SetTarget(trg, (TARGET_POWER | TARGET_SEEK), ENEMY_SIDE, &s19b_dword_800C32F0);
-    GM_Target_8002DCCC(trg, 1, -1, life, 7, &s19b_dword_800C32F8);
+    GM_SetPowerTarget(trg, POWER_DECREASE, -1, life, 7, &s19b_dword_800C32F8);
 
     trg = work->target2;
     GM_SetTarget(trg, (TARGET_POWER | TARGET_SEEK), ENEMY_SIDE, &s19b_dword_800C32F0);
-    GM_Target_8002DCCC(trg, 1, -1, 100, 0, &s19b_dword_800C32F8);
+    GM_SetPowerTarget(trg, POWER_DECREASE, -1, 100, 0, &s19b_dword_800C32F8);
 }
 
 int s19b_jbullet_800C5348(Work *work)
@@ -729,7 +729,7 @@ void s19b_jbullet_800C58CC(Work *work, int arg1)
 void s19b_jbullet_800C598C(Work *work, int arg1)
 {
     work->control.step_size = 500;
-    work->control.step = work->target1->scale;
+    work->control.step = work->target1->force;
 
     if (arg1 == 0)
     {
@@ -739,7 +739,7 @@ void s19b_jbullet_800C598C(Work *work, int arg1)
             work->field_930 = 6;
             GM_ConfigObjectAction(&work->body, s19b_dword_800C32C0[6], 0, 4);
 
-            if (work->target1->life <= 0)
+            if (work->target1->vital <= 0)
             {
                 s19b_jbullet_800C4F54(work, 6, 1);
             }
@@ -803,9 +803,9 @@ void s19b_jbullet_800C598C(Work *work, int arg1)
     if (work->body.is_end)
     {
         work->control.step_size = -1;
-        work->target1->scale = DG_ZeroVector;
+        work->target1->force = DG_ZeroVector;
 
-        if (work->target1->life <= 0)
+        if (work->target1->vital <= 0)
         {
             work->field_920 = s19b_jbullet_800C5D18;
         }

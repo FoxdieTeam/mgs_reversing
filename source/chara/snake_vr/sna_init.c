@@ -750,9 +750,9 @@ void UpdateLife_8004F6E8(SnaInitWork *work)
     {
         target = work->field_89C_pTarget;
 
-        if (target->life_lost > 0)
+        if (target->damage > 0)
         {
-            target->life += target->life_lost;
+            target->vital += target->damage;
 
             sna_act_unk2_80051170(work->field_89C_pTarget);
             sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK25);
@@ -767,19 +767,19 @@ void UpdateLife_8004F6E8(SnaInitWork *work)
     }
 
     if (sna_check_flags1_8004E31C(work,SNA_FLAG1_UNK25) &&
-        (GM_SnakeCurrentHealth == work->field_89C_pTarget->life))
+        (GM_SnakeCurrentHealth == work->field_89C_pTarget->vital))
     {
         return;
     }
 
     if ((work->field_9A8_current_item == IT_BodyArmor) && (work->field_89C_pTarget->a_mode == 1))
     {
-        work->field_89C_pTarget->life_lost /= 2;
-        work->field_89C_pTarget->life += work->field_89C_pTarget->life_lost;
-        work->field_89C_pTarget->life_lost = 0;
+        work->field_89C_pTarget->damage /= 2;
+        work->field_89C_pTarget->vital += work->field_89C_pTarget->damage;
+        work->field_89C_pTarget->damage = 0;
     }
 
-    health = work->field_89C_pTarget->life + GM_SnakeCurrentHealth - work->field_A22_snake_current_health;
+    health = work->field_89C_pTarget->vital + GM_SnakeCurrentHealth - work->field_A22_snake_current_health;
 
     if (health > GM_SnakeMaxHealth)
     {
@@ -800,7 +800,7 @@ void UpdateLife_8004F6E8(SnaInitWork *work)
         health = 0;
     }
 
-    work->field_89C_pTarget->life = health;
+    work->field_89C_pTarget->vital = health;
     work->field_A22_snake_current_health = health;
     GM_SnakeCurrentHealth = health;
 
@@ -944,7 +944,7 @@ int sub_8004FCB8(SnaInitWork *work, PUNCH *punch, int a_mode)
     target = &work->field_8A0_target;
     GM_SetTarget(target, 4, PLAYER_SIDE, &punch->size);
     DG_RotVector(&punch->field_10, &vec, 1);
-    GM_Target_8002DCCC(target, 3, a_mode, punch->life, punch->faint, &vec);
+    GM_SetPowerTarget(target, POWER_CONST, a_mode, punch->life, punch->faint, &vec);
     DG_PutVector(&punch->field_0, &vec, 1);
 
     line[0].vx = work->body.objs->objs[5].world.t[0];
@@ -974,7 +974,7 @@ int sna_8004FDE8(SnaInitWork *work, Target_Data *pTargetData)
     }
 
     GM_SetTarget(&work->field_8A0_target, flags, PLAYER_SIDE, &pTargetData->field_8_size);
-    GM_Target_8002DCB4(&work->field_8A0_target, pTargetData->field_18, pTargetData->field_1C, &work->field_8F4, &work->field_8FC);
+    GM_SetCaptureTarget(&work->field_8A0_target, pTargetData->field_18, pTargetData->field_1C, &work->field_8F4, &work->field_8FC);
     DG_PutVector(&pTargetData->field_0, &vec, 1);
     GM_MoveTarget(&work->field_8A0_target, &vec);
 
@@ -1750,10 +1750,10 @@ helper3:
 
 void sna_act_unk2_80051170(TARGET *param_1)
 {
-    param_1->life_lost = 0;
+    param_1->damage = 0;
     param_1->faint = 0;
     param_1->damaged &= ~(0x80 | 0x04);
-    param_1->scale = DG_ZeroVector;
+    param_1->force = DG_ZeroVector;
     param_1->weapon = WP_None;
     param_1->a_mode = 0;
 }
@@ -3118,7 +3118,7 @@ void sna_anim_shot_flinch_800544E0(SnaInitWork *work, int time)
         work->field_9CC_anim_update_fn_1p = sna_fn_80052540;
         sna_set_invuln_8004F2A0(work, 0);
 
-        if (work->field_89C_pTarget->life < 1)
+        if (work->field_89C_pTarget->vital < 1)
         {
             GM_SeSet2(0, 0x3f, SE_PLAYEROUT);
             sna_8004F8E4(work, work->field_A26_stance == SNA_STANCE_CROUCH ? 125 : 128);
@@ -3165,7 +3165,7 @@ void sna_act_helper2_helper7_80054648(SnaInitWork *work, int time)
 
         SetAction_8004E22C(work, work->actpack->special2->field_4, 4);
 
-        if (work->field_89C_pTarget->life <= 0)
+        if (work->field_89C_pTarget->vital <= 0)
         {
             GM_SeSet2(0, 63, SE_PLAYEROUT);
             sna_8004F8E4(work, 128);
@@ -3198,7 +3198,7 @@ void sna_anim_knockdown_80054710(SnaInitWork *work, int time)
 
         SetAction_8004E22C(work, bVar1, 4);
 
-        if (work->field_89C_pTarget->life < 1 && GM_GameOverTimer == 0)
+        if (work->field_89C_pTarget->vital < 1 && GM_GameOverTimer == 0)
         {
             GM_SeSet2(0, 0x3f, SE_PLAYEROUT);
             GM_GameOverTimer = -1;
@@ -3272,7 +3272,7 @@ void sna_anim_knockdown_idle_80054930(SnaInitWork *work, int time)
             action_flag = work->actpack->damage->field_5;
         }
         SetAction_8004E22C(work, action_flag, 4);
-        if (work->field_89C_pTarget->life <= 0)
+        if (work->field_89C_pTarget->vital <= 0)
         {
             v5 = 127;
             if (work->field_A54.prone_bool_thing == 1)
@@ -3339,7 +3339,7 @@ void sna_anim_knockdown_shot_80054B50(SnaInitWork *work)
 
     GM_ClearPlayerStatusFlag(PLAYER_DAMAGED);
 
-    if (work->field_89C_pTarget->life <= 0 && !GM_GameOverTimer)
+    if (work->field_89C_pTarget->vital <= 0 && !GM_GameOverTimer)
     {
         GM_SeSet2(0, 63, SE_PLAYEROUT);
         sna_8004F8E4(work, work->field_A54.prone_bool_thing == 1 ? 126 : 127);
@@ -3374,7 +3374,7 @@ void sna_anim_knockdown_shot_tank_80054C08(SnaInitWork *work, int time)
 
         SetAction_8004E22C(work, bVar1, 4);
 
-        if (work->field_89C_pTarget->life < 1 && GM_GameOverTimer == 0)
+        if (work->field_89C_pTarget->vital < 1 && GM_GameOverTimer == 0)
         {
             GM_SeSet2(0, 0x3f, SE_PLAYEROUT);
             GM_GameOverTimer = -1;
@@ -6389,7 +6389,7 @@ void sna_anim_choke_kill_80058F88(SnaInitWork *work, int time)
         SetAction_8004E22C(work, action_flag, 4);
 
         field_8E8_pTarget->a_mode = action_flag;
-        field_8E8_pTarget->life_lost = 5;
+        field_8E8_pTarget->damage = 5;
         field_8E8_pTarget->faint--;
         work->field_A54.choke_count = 0;
     }
@@ -6427,7 +6427,7 @@ void sna_anim_choke_drag_80059054(SnaInitWork *work, int time)
     }
     else
     {
-        if (!((work->field_8E8_pTarget->life > 0) &&
+        if (!((work->field_8E8_pTarget->vital > 0) &&
               ((iVar3 < 0x5a && work->field_8E8_pTarget->captured != 0))))
         {
 
@@ -6567,7 +6567,7 @@ void sna_anim_choke_helper_8005951C(SnaInitWork *work, int time)
 
     sinceLastChoke = ++work->field_904_frames_last_choke;
 
-    if (((work->field_8E8_pTarget->life < 1 || sinceLastChoke >= 90) ||
+    if (((work->field_8E8_pTarget->vital < 1 || sinceLastChoke >= 90) ||
          work->field_8E8_pTarget->captured == 0))
     {
         sna_sub_8004E41C(work, 2);
@@ -6975,9 +6975,9 @@ static inline void sna_init_main_logic_helper3_800596FC(SnaInitWork *work)
         {
             pTarget = work->field_89C_pTarget;
 
-            if (pTarget->life_lost > 0)
+            if (pTarget->damage > 0)
             {
-                pTarget->life += pTarget->life_lost;
+                pTarget->vital += pTarget->damage;
                 sna_act_unk2_80051170(work->field_89C_pTarget);
             }
 
@@ -7160,7 +7160,7 @@ static inline void sna_init_main_logic_helper4_800596FC(SnaInitWork *work)
                 }
                 else
                 {
-                    work->field_A2C = pTarget->scale;
+                    work->field_A2C = pTarget->force;
                     work->field_A2C.vx /= 2;
                     work->field_A2C.vy /= 4;
                     work->field_A2C.vz /= 2;
@@ -7199,7 +7199,7 @@ static inline void sna_init_main_logic_helper4_800596FC(SnaInitWork *work)
             {
                 sna_set_invuln_8004F2A0(work, 0x20);
 
-                if (pTarget->life_lost > 0)
+                if (pTarget->damage > 0)
                 {
                     sna_act_helper2_helper4_8004F090(work, pTarget->a_mode);
                 }
@@ -7220,7 +7220,7 @@ static inline void sna_init_main_logic_helper4_800596FC(SnaInitWork *work)
                     break;
                 }
 
-                if ((pTarget->life < 1) && ((GM_GameOverTimer > -2) && (GM_GameOverTimer < 1)))
+                if ((pTarget->vital < 1) && ((GM_GameOverTimer > -2) && (GM_GameOverTimer < 1)))
                 {
                     if (GM_CheckPlayerStatusFlag(PLAYER_INTRUDE | PLAYER_GROUND))
                     {
@@ -7722,7 +7722,7 @@ static void Act(SnaInitWork *work)
     sna_init_main_logic_800596FC(work);
 
     pTarget2 = work->field_89C_pTarget;
-    pTarget2->scale = work->control.step;
+    pTarget2->force = work->control.step;
     GM_PushTarget(pTarget2);
 
     if (GM_Camera.first_person != 0)
@@ -8074,8 +8074,8 @@ static inline int GetResources(SnaInitWork *work, int scriptData, int scriptBind
 
     trg = work->field_89C_pTarget = GM_AllocTarget();
     GM_SetTarget(trg, ( TARGET_AVAIL | TARGET_FLAG ), PLAYER_SIDE, size);
-    GM_Target_8002DCCC(trg, 1, -1, GM_SnakeCurrentHealth, 0, &DG_ZeroVector);
-    GM_Target_8002DCB4(trg, 0, 0, &work->field_8F4, &work->field_8FC);
+    GM_SetPowerTarget(trg, POWER_DECREASE, -1, GM_SnakeCurrentHealth, 0, &DG_ZeroVector);
+    GM_SetCaptureTarget(trg, 0, 0, &work->field_8F4, &work->field_8FC);
     GM_MoveTarget(trg, &work->control.mov);
 
     work->field_A22_snake_current_health = GM_SnakeCurrentHealth;

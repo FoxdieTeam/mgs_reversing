@@ -809,9 +809,9 @@ static void Johnny_800C50D0(Work *work)
 static void Johnny_800C5124(TARGET *target)
 {
     target->a_mode = 0;
-    target->life_lost = 0;
+    target->damage = 0;
     target->damaged &= ~(TARGET_TOUCH | TARGET_POWER | TARGET_CAPTURE);
-    target->scale = DG_ZeroVector;
+    target->force = DG_ZeroVector;
 }
 
 static void Johnny_800C8400(Work *work, int action);
@@ -897,7 +897,7 @@ static void Johnny_800C5168(Work *work)
             }
             else
             {
-                work->unkB30 = target->scale;
+                work->unkB30 = target->force;
 
                 work->unkB38 = Johnny_800C854C;
                 work->unkB4E = 0;
@@ -2564,7 +2564,7 @@ static void Johnny_800C8400(Work *work, int action)
     {
         work->unkB1C &= ~0x200;
 
-        if (work->target->life <= 0)
+        if (work->target->vital <= 0)
         {
             work->unkB38 = Johnny_800C9144;
             work->unkB4E = 0;
@@ -2606,7 +2606,7 @@ static void Johnny_800C854C(Work *work, int action)
     {
         work->unkB1C |= 0x200;
         SetAction(work, 20);
-        work->target->life--;
+        work->target->vital--;
     }
 
     if (action < 12)
@@ -2617,7 +2617,7 @@ static void Johnny_800C854C(Work *work, int action)
     if (work->body.is_end != 0)
     {
         work->unkB50 = 1;
-        if (work->target->life > 0)
+        if (work->target->vital > 0)
         {
             work->unkB38 = Johnny_800C873C;
         }
@@ -2646,7 +2646,7 @@ static void Johnny_800C8654(Work *work, int action)
     {
         SetAction(work, 19);
         work->control.turn.vy = GM_PlayerControl->turn.vy + 2048;
-        work->target->life--;
+        work->target->vital--;
     }
     if (action == 20)
     {
@@ -2656,7 +2656,7 @@ static void Johnny_800C8654(Work *work, int action)
     if (work->body.is_end != 0)
     {
         work->unkB50 = 2;
-        if (work->target->life > 0)
+        if (work->target->vital > 0)
         {
             work->unkB38 = Johnny_800C873C;
         }
@@ -2902,7 +2902,7 @@ static void Johnny_800C8D58(Work *work, int action)
         GM_SeSet(&work->control.mov, VO_ENEMY_THROWN);
         GM_SeSet(&work->control.mov, VO_ENEMY_SNAPPED);
         SetAction(work, 29);
-        work->target->life -= 255;
+        work->target->vital -= 255;
         GM_TotalEnemiesKilled++;
     }
     if (action > 48 && action < 60)
@@ -3572,7 +3572,7 @@ static int InitTarget(Work *work)
     }
 
     GM_SetTarget(target, ( TARGET_AVAIL | TARGET_FLAG ), ENEMY_SIDE, &target_size);
-    GM_Target_8002DCCC(target, 1, -1, 192, 10, &DG_ZeroVector);
+    GM_SetPowerTarget(target, POWER_DECREASE, -1, 192, 10, &DG_ZeroVector);
     work->homing = GM_AllocHomingTarget(&work->body.objs->objs[6].world, &work->control);
     work->homing->flag = TRUE;
     return 0;

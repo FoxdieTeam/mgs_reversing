@@ -315,7 +315,7 @@ static void CreateTarget(Work *work, int side)
         damage = 48;
     }
 
-    GM_Target_8002DCCC(target, 1, 1, damage, 0, &pos);
+    GM_SetPowerTarget(target, POWER_DECREASE, 1, damage, 0, &pos);
 }
 
 static int GetResources(Work *work, MATRIX *world, int visible, int arg3)

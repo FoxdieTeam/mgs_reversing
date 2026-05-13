@@ -224,7 +224,7 @@ int s11i_asiato_800C9924( Zako11FWork *work )
     switch ( a_mode )
     {
     case 2:
-        target->scale = DG_ZeroVector;
+        target->force = DG_ZeroVector;
         if ( target->faint <= 0 )
         {
             work->unknown.field_14 = 1;
@@ -240,8 +240,8 @@ int s11i_asiato_800C9924( Zako11FWork *work )
         SetZako11FMode( work, s11i_asiato_800CBACC ) ;
         break;
     case 0:
-        target->scale = DG_ZeroVector;
-        if ( target->life <= 0 )
+        target->force = DG_ZeroVector;
+        if ( target->vital <= 0 )
         {
             work->unknown.field_14 = 1;
             SetZako11FMode( work, s11i_asiato_800CBACC ) ;
@@ -252,7 +252,7 @@ int s11i_asiato_800C9924( Zako11FWork *work )
         }
         break;
     case 1:
-        if ( s11i_asiato_800C98E8( &target->scale ) < 100 )
+        if ( s11i_asiato_800C98E8( &target->force ) < 100 )
         {
             work->unknown.field_14 = 3;
         }
@@ -274,7 +274,7 @@ int s11i_asiato_800C9924( Zako11FWork *work )
         break;
     }
 
-    target->life_lost = 0;
+    target->damage = 0;
     target->damaged = 0;
     return 1;
 }
@@ -372,7 +372,7 @@ int AttackForce_800C9D38( Zako11FWork *work )
     GM_SetTarget( target, TARGET_POWER, ENEMY_SIDE, &size );
     DG_SetPos2( &work->control.mov, &work->control.rot );
     DG_RotVector( &force, &svec, 1 );
-    GM_Target_8002DCCC( target, 0, 2, 32, 1, &svec );
+    GM_SetPowerTarget( target, POWER_ONCE, 2, 32, 1, &svec );
     DG_PutVector( &rp_shift, &work->punch.center, 1 );
     return GM_PowerTarget( target );
 }
@@ -385,7 +385,7 @@ void s11i_asiato_800C9E48( Zako11FWork *work )
     TARGET *target;
 
     target = &work->field_904;
-    GM_Target_8002DCCC( target, 7, 5, 0, 3, &ZAKO11F_ATTACK_FORCE_800C3674 );
+    GM_SetPowerTarget( target, POWER_CONST | POWER_EXPLODE, 5, 0, 3, &ZAKO11F_ATTACK_FORCE_800C3674 );
     GM_MoveTarget( target, &work->control.mov );
     GM_PowerTarget( target );
 }
@@ -982,7 +982,7 @@ void s11i_asiato_800CADDC( Zako11FWork *work, int time )
             // if they fall from a height?
             else if ( control->mov.vy - control->levels[0] > 3000 )
             {
-                work->target->life = 0;
+                work->target->vital = 0;
                 GM_SeSet( &control->mov, VO_ENEMY_THROWN ) ;
             }
         }
@@ -1007,7 +1007,7 @@ void s11i_asiato_800CADDC( Zako11FWork *work, int time )
 
         ZAKO11F_PutBlood_800CCFD4( work, 6, 1 ) ;
 
-        if ( work->target->life <= 0 )
+        if ( work->target->vital <= 0 )
         {
             SetZako11FMode( work, s11i_asiato_800CC218 );
         }
@@ -1067,11 +1067,11 @@ void s11i_asiato_800CB140( Zako11FWork *work, int time )
     {
         ZAKO11F_PutBlood_800CCFD4( work, 5, 0 );
         GM_SeSet( &work->control.mov, VO_ENEMY_GRABBED );
-        target->scale = DG_ZeroVector;
-        target->life_lost = 0;
+        target->force = DG_ZeroVector;
+        target->damage = 0;
         target->damaged = TARGET_STALE;
 
-        if ( target->life <= 0 )
+        if ( target->vital <= 0 )
         {
             a_mode = target->a_mode;
             if (target->a_mode == 1)
@@ -1128,7 +1128,7 @@ void s11i_asiato_800CB140( Zako11FWork *work, int time )
     case 39:
         work->unknown.field_14 = 4;
         target->side = ENEMY_SIDE;
-        target->life = 0;
+        target->vital = 0;
         SetZako11FMode( work, s11i_asiato_800CBACC );
         return;
 
@@ -1366,12 +1366,12 @@ void s11i_asiato_800CBACC(Zako11FWork *work, int time)
     unk = &work->unknown;
     work->unknown.field_1E = 0;
     work->act_status |= 0x8;
-    work->control.step = work->target->scale;
+    work->control.step = work->target->force;
 
     control = &work->control;
     if (time == 0)
     {
-        if (work->target->life <= 0)
+        if (work->target->vital <= 0)
         {
             GM_SeSetMode(&work->control.mov, VO_ENEMY_PUNCHED, GM_SEMODE_BOMB);
             s11i_zk11fcom_800D0DB8();
@@ -1389,7 +1389,7 @@ void s11i_asiato_800CBACC(Zako11FWork *work, int time)
 
         case 1:
             SetAction(work, ACTION37, ACTINTERP);
-            if (work->target->life <= 0)
+            if (work->target->vital <= 0)
             {
                 if (GM_CurrentWeaponId == WP_Rifle)
                 {
@@ -1509,12 +1509,12 @@ void s11i_asiato_800CBACC(Zako11FWork *work, int time)
         }
         else if (control->mov.vy - control->levels[0] > 3000)
         {
-            if (work->target->life > 0)
+            if (work->target->vital > 0)
             {
                 s11i_zk11fcom_800D0DB8();
             }
 
-            work->target->life = 0;
+            work->target->vital = 0;
             SetZako11FMode(work, s11i_asiato_800CC038);
             return;
         }
@@ -1523,9 +1523,9 @@ void s11i_asiato_800CBACC(Zako11FWork *work, int time)
     if (work->body.is_end)
     {
         work->unknown.field_1E = 1;
-        work->target->scale = DG_ZeroVector;
+        work->target->force = DG_ZeroVector;
 
-        if (work->target->life <= 0)
+        if (work->target->vital <= 0)
         {
             SetZako11FMode(work, s11i_asiato_800CC218);
         }
@@ -1545,7 +1545,7 @@ void s11i_asiato_800CC038(Zako11FWork *work, int time)
     work->unknown.field_1E = 0;
     work->act_status |= 0x8;
 
-    control->step = work->target->scale;
+    control->step = work->target->force;
 
     if (time == 0 && work->unknown.field_14 != 2)
     {
@@ -1581,7 +1581,7 @@ void s11i_asiato_800CC038(Zako11FWork *work, int time)
     else if (control->level_flag != 0)
     {
         work->unknown.field_1E = 1;
-        work->target->scale = DG_ZeroVector;
+        work->target->force = DG_ZeroVector;
         GM_SeSet(&control->mov, SE_HIT_FLOOR);
         ZAKO11F_PutBlood_800CCFD4(work, 6, 1);
         SetZako11FMode(work, s11i_asiato_800CC218);

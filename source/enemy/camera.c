@@ -782,7 +782,7 @@ void CameraAct_800D5F64(CameraWork *work)
         {
             if (target->a_mode != 2)
             {
-                target->life_lost = 0;
+                target->damage = 0;
                 target->damaged = 0;
             }
             else

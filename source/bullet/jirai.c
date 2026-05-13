@@ -352,8 +352,8 @@ static void Act(JiraiWork *work)
         work->field_154 = 1;
 #endif
 
-        GM_SetTarget(&target, 4, NO_SIDE, &target2->size);
-        GM_Target_8002DCCC(&target, 1, 2, 128, 0, &DG_ZeroVector);
+        GM_SetTarget(&target, TARGET_POWER, NO_SIDE, &target2->size);
+        GM_SetPowerTarget(&target, POWER_DECREASE, 2, 128, 0, &DG_ZeroVector);
         GM_MoveTarget(&target, &target2->center);
 
         GM_PowerTarget(&target);

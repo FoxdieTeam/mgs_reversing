@@ -55,14 +55,14 @@ static void set_target(BLAST_DATA *blast, Work *work)
 
     size.vx = size.vy = size.vz = blast->field_8_z / 2;
     GM_SetTarget(target, TARGET_POWER, NO_SIDE, &size);
-    GM_Target_8002DCCC(target, 7, 2, blast->field_0, blast->field_4 - 3, &s19b_dword_800C349C);
+    GM_SetPowerTarget(target, POWER_CONST | POWER_EXPLODE, 2, blast->field_0, blast->field_4 - 3, &s19b_dword_800C349C);
     GM_MoveTarget(target, &work->pos);
     GM_PowerTarget(target);
 
     size.vx = size.vy = size.vz = blast->field_C;
     s19b_dword_800C349C.vx = 50;
     GM_SetTarget(target, TARGET_POWER, NO_SIDE, &size);
-    GM_Target_8002DCCC(target, 7, 2, 1, 3, &s19b_dword_800C349C);
+    GM_SetPowerTarget(target, POWER_CONST | POWER_EXPLODE, 2, 1, 3, &s19b_dword_800C349C);
     GM_MoveTarget(target, &work->pos);
     GM_PowerTarget(target);
 }

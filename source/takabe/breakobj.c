@@ -105,7 +105,7 @@ static void InitBreakTarget(Work *work)
     {
         work->target = target = GM_AllocTarget();
         GM_SetTarget(target, 4, 2, &breakobj_svec_800C36EC);
-        GM_Target_8002DCCC(target, 1, -1, 0, 0, &DG_ZeroVector);
+        GM_SetPowerTarget(target, POWER_DECREASE, -1, 0, 0, &DG_ZeroVector);
         target->damaged = 0;
     }
 }

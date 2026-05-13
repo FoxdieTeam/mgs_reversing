@@ -861,11 +861,11 @@ void s07c_meryl72_unk1_800C9B30( Meryl72Work* work, int time )
         {
             GM_SeSet( &work->control.mov, 194 );
         }
-        target->scale = DG_ZeroVector;
-        target->life_lost = 0;
+        target->force = DG_ZeroVector;
+        target->damage = 0;
         target->damaged = TARGET_STALE;
 
-        if ( target->life <= 0 )
+        if ( target->vital <= 0 )
         {
             work->f8BC.field_14 = 6;
             target->side = ENEMY_SIDE;
@@ -917,7 +917,7 @@ void s07c_meryl72_unk1_800C9B30( Meryl72Work* work, int time )
     case 0x27:
         work->f8BC.field_14 = 5;
         target->side = ENEMY_SIDE;
-        target->life = 0;
+        target->vital = 0;
         if ( !GM_GameOverTimer && GM_SnakeCurrentHealth > 0 )
         {
             ExecProc_800C7C58( work, 1 ) ;
@@ -1180,7 +1180,7 @@ void s07c_meryl72_unk1_800CA538( Meryl72Work *work, int time )
     s2 = 0xF;
     unk = (UNK*)&work->f8BC;
     work->f8BC.field_1C = 0;
-    work->control.step = work->target->scale;
+    work->control.step = work->target->force;
     ctrl = &work->control;
 
 
@@ -1207,7 +1207,7 @@ void s07c_meryl72_unk1_800CA538( Meryl72Work *work, int time )
             break;
         case 1:
             SetAction( work, ACTION43, ACTINTERP );
-            if ( work->target->life <= 0 )
+            if ( work->target->vital <= 0 )
             {
                 if ( !work->stage )
                 {
@@ -1301,7 +1301,7 @@ void s07c_meryl72_unk1_800CA538( Meryl72Work *work, int time )
         }
     }
 
-    if ( time == 2 && work->target->life <= 0 )
+    if ( time == 2 && work->target->vital <= 0 )
     {
         GM_GameStatus |= STATE_PADRELEASE;
         if ( GM_StreamStatus() == -1 )
@@ -1346,8 +1346,8 @@ void s07c_meryl72_unk1_800CA538( Meryl72Work *work, int time )
     if ( work->body.is_end )
     {
         work->f8BC.field_1C = 1;
-        work->target->scale = DG_ZeroVector;
-        if ( work->target->life <= 0 )
+        work->target->force = DG_ZeroVector;
+        if ( work->target->vital <= 0 )
         {
             SetMode( work, s07c_meryl72_unk1_800CAA48 );
         }

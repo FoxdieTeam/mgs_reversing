@@ -173,19 +173,19 @@ void InitTarget_800D3800( ZakoWork *work )
     faint  = work->param_faint;
 
     GM_SetTarget( target, TARGET_FLAG, ENEMY_SIDE, &ZAKO_TARGET_SIZE_800C38CC );
-    GM_Target_8002DCCC( target, 1, -1, life, faint, &ZAKO_TARGET_FORCE_800C38D4 );
-    GM_Target_8002DCB4( target, -1, faint, NULL, NULL);
+    GM_SetPowerTarget( target, POWER_DECREASE, -1, life, faint, &ZAKO_TARGET_FORCE_800C38D4 );
+    GM_SetCaptureTarget( target, -1, faint, NULL, NULL);
 
     GM_TargetBody( target, &( work->body.objs->objs[1].world ) );
 
     work->local_data = work->param_life;
     target2 = &work->field_904;
     GM_SetTarget( target2, TARGET_POWER, PLAYER_SIDE, &ZAKO_ATTACK_SIZE_800C38DC );
-    GM_Target_8002DCCC( target2, 7, 5, 0, 3, &ZAKO_ATTACK_FORCE_800C38E4 );
+    GM_SetPowerTarget( target2, POWER_CONST | POWER_EXPLODE, 5, 0, 3, &ZAKO_ATTACK_FORCE_800C38E4 );
 
     target2 = &work->field_94C;
     GM_SetTarget( target2, ( TARGET_TOUCH ), ENEMY_SIDE, &ZAKO_TOUCH_SIZE_800C38EC );
-    GM_Target_8002DCCC( target2, 7, 5, 0, 0, &ZAKO_TOUCH_FORCE_800C38F4 );
+    GM_SetPowerTarget( target2, POWER_CONST | POWER_EXPLODE, 5, 0, 0, &ZAKO_TOUCH_FORCE_800C38F4 );
 }
 
 void s11e_zako11e_800D3934( ZakoWork* work )

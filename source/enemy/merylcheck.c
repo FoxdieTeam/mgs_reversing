@@ -92,7 +92,7 @@ int s07a_meryl_unk_800D6860( WatcherWork *work )
     switch ( val )
     {
     case 2:
-        target->scale = DG_ZeroVector;
+        target->force = DG_ZeroVector;
         if ( target->faint <= 0 )
         {
             work->unknown.field_14 = 1;
@@ -108,8 +108,8 @@ int s07a_meryl_unk_800D6860( WatcherWork *work )
         SetMode( work, s07a_meryl_unk_800D8CB4 ) ;
         break;
     case 0:
-        target->scale = DG_ZeroVector;
-        if ( target->life <= 0 )
+        target->force = DG_ZeroVector;
+        if ( target->vital <= 0 )
         {
             work->unknown.field_14 = 1;
             SetMode( work, s07a_meryl_unk_800D8CB4 ) ;
@@ -120,7 +120,7 @@ int s07a_meryl_unk_800D6860( WatcherWork *work )
         }
         break;
     case 1:
-        if ( s07a_meryl_unk_800D6824( &target->scale ) < 100 )
+        if ( s07a_meryl_unk_800D6824( &target->force ) < 100 )
         {
             work->unknown.field_14 = 3;
         }
@@ -142,7 +142,7 @@ int s07a_meryl_unk_800D6860( WatcherWork *work )
         break;
     }
 
-    target->life_lost = 0;
+    target->damage = 0;
     target->damaged = 0;
     return 1;
 }
@@ -240,7 +240,7 @@ int AttackForce_800D6C6C( WatcherWork *work )
     GM_SetTarget( target, 4, ENEMY_SIDE, &size );
     DG_SetPos2( &work->control.mov, &work->control.rot );
     DG_RotVector( &force, &svec, 1 );
-    GM_Target_8002DCCC( target, 0, 2, 32, 1, &svec );
+    GM_SetPowerTarget( target, POWER_ONCE, 2, 32, 1, &svec );
     DG_PutVector( &rp_shift, &work->punch.center, 1 );
     return GM_PowerTarget( target );
 }
@@ -250,7 +250,7 @@ void s07a_meryl_unk_800D6D7C( WatcherWork *work)
     TARGET* target;
 
     target = &work->field_904;
-    GM_Target_8002DCCC(target, 7, 5, 0, 3, &ENEMY_ATTACK_FORCE);
+    GM_SetPowerTarget(target, POWER_CONST | POWER_EXPLODE, 5, 0, 3, &ENEMY_ATTACK_FORCE);
     GM_MoveTarget( target, &work->control.mov );
     GM_PowerTarget( target );
 }

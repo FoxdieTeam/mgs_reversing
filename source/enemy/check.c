@@ -71,7 +71,7 @@ int s00a_command_800C5194( WatcherWork *work ) {
     switch ( val )
     {
     case 2:
-        target->scale = DG_ZeroVector;
+        target->force = DG_ZeroVector;
         if ( target->faint <= 0 )
         {
             work->unknown.field_14 = 1;
@@ -87,8 +87,8 @@ int s00a_command_800C5194( WatcherWork *work ) {
         SetMode( work, s00a_command_800C78E0 ) ;
         break;
     case 0:
-        target->scale = DG_ZeroVector;
-        if ( target->life <= 0 )
+        target->force = DG_ZeroVector;
+        if ( target->vital <= 0 )
         {
             work->unknown.field_14 = 1;
             SetMode( work, s00a_command_800C78E0 ) ;
@@ -99,7 +99,7 @@ int s00a_command_800C5194( WatcherWork *work ) {
         }
         break;
     case 1:
-        if ( s00a_command_800C5158( &target->scale ) < 100 )
+        if ( s00a_command_800C5158( &target->force ) < 100 )
         {
             work->unknown.field_14 = 3;
         }
@@ -118,7 +118,7 @@ int s00a_command_800C5194( WatcherWork *work ) {
         break;
     }
 
-    target->life_lost = 0;
+    target->damage = 0;
     target->damaged = 0;
     return 1;
 }
@@ -174,18 +174,18 @@ void InitTarget_800C5484( WatcherWork *work )
     faint  = work->param_faint;
 
     GM_SetTarget( target, TARGET_FLAG, ENEMY_SIDE, &ENEMY_TARGET_SIZE );
-    GM_Target_8002DCCC( target, 1, -1, life, faint, &ENEMY_TARGET_FORCE );
-    GM_Target_8002DCB4( target, -1, faint, NULL, NULL);
+    GM_SetPowerTarget( target, POWER_DECREASE, -1, life, faint, &ENEMY_TARGET_FORCE );
+    GM_SetCaptureTarget( target, -1, faint, NULL, NULL);
 
     GM_TargetBody( target, &( work->body.objs->objs[1].world ) );
 
     target2 = &work->field_904;
     GM_SetTarget( target2, TARGET_POWER, PLAYER_SIDE, &ENEMY_ATTACK_SIZE );
-    GM_Target_8002DCCC( target2, 7, 5, 0, 3, &ENEMY_ATTACK_FORCE );
+    GM_SetPowerTarget( target2, POWER_CONST | POWER_EXPLODE, 5, 0, 3, &ENEMY_ATTACK_FORCE );
 
     target2 = &work->field_94C;
     GM_SetTarget( target2, ( TARGET_TOUCH ), ENEMY_SIDE, &ENEMY_TOUCH_SIZE );
-    GM_Target_8002DCCC( target2, 7, 5, 0, 0, &ENEMY_TOUCH_FORCE );
+    GM_SetPowerTarget( target2, POWER_CONST | POWER_EXPLODE, 5, 0, 0, &ENEMY_TOUCH_FORCE );
 }
 
 void s00a_command_800C55B0( WatcherWork* work )
@@ -316,7 +316,7 @@ int AttackForce_800C58E8( WatcherWork * work )
     GM_SetTarget( target, 4, ENEMY_SIDE, &size );
     DG_SetPos2( &work->control.mov, &work->control.rot );
     DG_RotVector( &force, &svec, 1 );
-    GM_Target_8002DCCC( target, 0, 2, 32, 1, &svec );
+    GM_SetPowerTarget( target, POWER_ONCE, 2, 32, 1, &svec );
     DG_PutVector( &rp_shift, &work->punch.center, 1 );
     return GM_PowerTarget( target );
 }
@@ -326,7 +326,7 @@ void s00a_command_800C59F8( WatcherWork *work )
     TARGET* target;
 
     target = &work->field_904;
-    GM_Target_8002DCCC(target, 7, 5, 0, 3, &ENEMY_ATTACK_FORCE);
+    GM_SetPowerTarget(target, POWER_CONST | POWER_EXPLODE, 5, 0, 3, &ENEMY_ATTACK_FORCE);
     GM_MoveTarget( target, &work->control.mov );
     GM_PowerTarget( target );
 }

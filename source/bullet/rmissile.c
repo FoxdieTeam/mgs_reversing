@@ -786,7 +786,7 @@ static int InitTarget(Work *work, int side)
     TARGET *target = &work->target;
 
     GM_SetTarget(target, TARGET_POWER, side, &svector_8009F488);
-    GM_Target_8002DCCC(target, 0, -1, 1, 0, &DG_ZeroVector);
+    GM_SetPowerTarget(target, POWER_ONCE, -1, 1, 0, &DG_ZeroVector);
     GM_MoveTarget(target, &work->control.mov);
     return 0;
 }

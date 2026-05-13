@@ -252,18 +252,18 @@ void InitTarget_800C444C( WatcherWork *work )
     faint  = work->param_faint;
 
     GM_SetTarget( target, TARGET_FLAG, ENEMY_SIDE, &ENEMY_TARGET_SIZE );
-    GM_Target_8002DCCC( target, 1, -1, life, faint, &ENEMY_TARGET_FORCE );
-    GM_Target_8002DCB4( target, -1, faint, NULL, NULL);
+    GM_SetPowerTarget( target, POWER_DECREASE, -1, life, faint, &ENEMY_TARGET_FORCE );
+    GM_SetCaptureTarget( target, -1, faint, NULL, NULL);
 
     GM_TargetBody( target, &( work->body.objs->objs[1].world ) );
 
     target2 = &work->field_904;
     GM_SetTarget( target2, TARGET_POWER, PLAYER_SIDE, &ENEMY_ATTACK_SIZE );
-    GM_Target_8002DCCC( target2, 7, 5, 0, 3, &ENEMY_ATTACK_FORCE );
+    GM_SetPowerTarget( target2, POWER_CONST | POWER_EXPLODE, 5, 0, 3, &ENEMY_ATTACK_FORCE );
 
     target2 = &work->field_94C;
     GM_SetTarget( target2, ( TARGET_TOUCH ), ENEMY_SIDE, &ENEMY_TOUCH_SIZE );
-    GM_Target_8002DCCC( target2, 7, 5, 0, 0, &ENEMY_TOUCH_FORCE );
+    GM_SetPowerTarget( target2, POWER_CONST | POWER_EXPLODE, 5, 0, 0, &ENEMY_TOUCH_FORCE );
 }
 
 void s00a_watcher_800C4578( WatcherWork* work )

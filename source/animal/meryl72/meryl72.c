@@ -92,9 +92,9 @@ void s07c_meryl72_800C6C48( Meryl72Work *work )
     param = &work->param;
     target = work->target;
 
-    if ( param->life != target->life )
+    if ( param->life != target->vital )
     {
-        param->life = target->life;
+        param->life = target->vital;
         work->fC36 = 150;
     }
 
@@ -171,12 +171,12 @@ void s07c_meryl72_800C6E48( Meryl72Work *work )
     faint = work->param.faint;
 
     GM_SetTarget( target, TARGET_FLAG, ENEMY_SIDE, &s07c_dword_800C32F0 );
-    GM_Target_8002DCCC( target, 1, -1, life, faint, &s07c_dword_800C32F8 );
-    GM_Target_8002DCB4( target, -1, faint, NULL, NULL );
+    GM_SetPowerTarget( target, POWER_DECREASE, -1, life, faint, &s07c_dword_800C32F8 );
+    GM_SetCaptureTarget( target, -1, faint, NULL, NULL );
     GM_TargetBody( target, &work->body.objs->objs[1].world );
 
     GM_SetTarget( &work->target2, TARGET_POWER | TARGET_TOUCH, PLAYER_SIDE, &s07c_dword_800C3300 );
-    GM_Target_8002DCCC( &work->target2, 7, 5, 0, 0, &s07c_dword_800C3308 );
+    GM_SetPowerTarget( &work->target2, POWER_CONST | POWER_EXPLODE, 5, 0, 0, &s07c_dword_800C3308 );
 }
 
 void s07c_meryl72_800C6F30( Meryl72Work *work )
@@ -277,7 +277,7 @@ void s07c_meryl72_800C7194( Meryl72Work *work )
         args.argc = 1;
         args.argv = data;
 
-        data[0] = work->target->life;
+        data[0] = work->target->vital;
         GCL_ForceExecProc( work->fC3C, &args );
     }
 }

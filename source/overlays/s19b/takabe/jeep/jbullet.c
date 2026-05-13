@@ -357,11 +357,11 @@ static int InitTarget(Work *work, int side)
 
     if (side == PLAYER_SIDE)
     {
-        GM_Target_8002DCCC(trg, 3, 1, work->life, 0, &scale);
+        GM_SetPowerTarget(trg, POWER_CONST, 1, work->life, 0, &scale);
     }
     else
     {
-        GM_Target_8002DCCC(trg, 3, 1, (work->life * 2) / 3, 0, &scale);
+        GM_SetPowerTarget(trg, POWER_CONST, 1, (work->life * 2) / 3, 0, &scale);
     }
 
     return 0;

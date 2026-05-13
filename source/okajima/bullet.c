@@ -512,21 +512,21 @@ static void Die(Work *work)
 
 static int SetTarget( Work *work, int side )
 {
-    SVECTOR pos;
+    SVECTOR force;
 
     GM_SetTarget( &work->target, TARGET_POWER, side, &svec_8009F6EC );
 
-    pos.vx = work->field_120.vx >> 3; // divide 8 won't match
-    pos.vy = work->field_120.vy >> 3;
-    pos.vz = work->field_120.vz >> 3;
+    force.vx = work->field_120.vx >> 3;
+    force.vy = work->field_120.vy >> 3;
+    force.vz = work->field_120.vz >> 3;
 
     if ( work->flags & 0x800 )
     {
-        GM_Target_8002DCCC( &work->target, 0, 2, work->damage, 0, &pos );
+        GM_SetPowerTarget( &work->target, POWER_ONCE, 2, work->damage, 0, &force );
     }
     else
     {
-        GM_Target_8002DCCC( &work->target, 0, 1, work->damage, 0, &pos );
+        GM_SetPowerTarget( &work->target, POWER_ONCE, 1, work->damage, 0, &force );
     }
 
     return 0;

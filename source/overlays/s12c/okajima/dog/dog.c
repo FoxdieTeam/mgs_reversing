@@ -624,10 +624,10 @@ void Dog_800CAB68(DogWork *work, int index, int hp)
     }
 
     target = &work->field_1194[index];
-    target->life = hp;
-    target->scale.vx = GV_RandU(32);
-    target->scale.vy = GV_RandU(32);
-    target->scale.vz = GV_RandU(32);
+    target->vital = hp;
+    target->force.vx = GV_RandU(32);
+    target->force.vy = GV_RandU(32);
+    target->force.vz = GV_RandU(32);
     GM_MoveTarget(target, &GM_PlayerPosition);
     GM_PowerTarget(target);
 }
@@ -716,12 +716,12 @@ void Dog_800CAFB0(DogWork *work, int index)
         svec2.vz = 500;
     }
     target1 = work->field_1188[index];
-    GM_SetTarget(target1, 0x1D, 2, &svec1);
-    GM_Target_8002DCCC(target1, 1, -1, work->unk14B4, 0xFF, &DG_ZeroVector);
+    GM_SetTarget(target1, ( 0x1D ), ENEMY_SIDE, &svec1);
+    GM_SetPowerTarget(target1, POWER_DECREASE, -1, work->unk14B4, 0xFF, &DG_ZeroVector);
 
     target2 = &work->field_1194[index];
-    GM_SetTarget(target2, 4, 2, &svec2);
-    GM_Target_8002DCCC(target2, 0, 2, 0, 0, &DG_ZeroVector);
+    GM_SetTarget(target2, TARGET_POWER, ENEMY_SIDE, &svec2);
+    GM_SetPowerTarget(target2, POWER_ONCE, 2, 0, 0, &DG_ZeroVector);
 }
 
 void Dog_800CB0C8(int *arg0, int arg1, int arg2)

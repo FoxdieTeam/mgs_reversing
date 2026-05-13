@@ -78,7 +78,7 @@ static void Act(Work *work)
 
             if (trg->a_mode == 2)
             {
-                trg->life = 255;
+                trg->vital = 255;
                 DG_InvisibleObjs(work->body.objs);
 
                 gate1 = &work->gates[0];
@@ -95,7 +95,7 @@ static void Act(Work *work)
                 gate1[0].pos.vx = control->mov.vx + trg->size.vx / 2;
                 gate1[1].pos.vx = control->mov.vx - trg->size.vx / 2;
 
-                gate1[0].step = gate1[1].step = trg->scale;
+                gate1[0].step = gate1[1].step = trg->force;
 
                 gate1[0].turn.vx = 300;
                 gate1[0].turn.vy = -160;
@@ -194,7 +194,7 @@ static void Die(Work *work)
 static void InitTarget(Work *work)
 {
     SVECTOR size;
-    SVECTOR scale;
+    SVECTOR force;
     DG_MDL *model;
     TARGET *trg;
 
@@ -203,12 +203,12 @@ static void InitTarget(Work *work)
     size.vy = (model->max.vy - model->min.vy) / 4;
     size.vz = (model->max.vz - model->min.vz) / 4;
 
-    scale = DG_ZeroVector;
+    force = DG_ZeroVector;
     size.vy = 1000;
 
     trg = work->target = GM_AllocTarget();
     GM_SetTarget(trg, TARGET_POWER, NO_SIDE, &size);
-    GM_Target_8002DCCC(trg, 1, -1, 3, 0, &scale);
+    GM_SetPowerTarget(trg, POWER_DECREASE, -1, 3, 0, &force);
     GM_MoveTarget(trg, &work->control.mov);
 }
 

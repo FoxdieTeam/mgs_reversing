@@ -105,7 +105,7 @@ static void InitBlastTarget(BLAST_DATA *blast_data, Work *work, int side)
         GM_SetTarget(target, 4, ENEMY_SIDE, &size);
     }
 
-    GM_Target_8002DCCC(target, 7, 2, blast_data->field_0 >> 1, blast_data->field_4, svector_8009F558);
+    GM_SetPowerTarget(target, POWER_CONST | POWER_EXPLODE, 2, blast_data->field_0 >> 1, blast_data->field_4, svector_8009F558);
 
     target->weapon = blast_data->weapon;
 
@@ -124,7 +124,7 @@ static void InitBlastTarget(BLAST_DATA *blast_data, Work *work, int side)
         GM_SetTarget(target, 4, ENEMY_SIDE, &size);
     }
 
-    GM_Target_8002DCCC(target, 7, 2, blast_data->field_0 >> 1, 3, svector_8009F558);
+    GM_SetPowerTarget(target, POWER_CONST | POWER_EXPLODE, 2, blast_data->field_0 >> 1, 3, svector_8009F558);
 
     target->weapon = blast_data->weapon;
 

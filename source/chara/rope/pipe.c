@@ -188,7 +188,7 @@ static int InitTarget(Work *work)
     }
 
     GM_SetTarget(target, ( TARGET_POWER | TARGET_SEEK ), PLAYER_SIDE, &size);
-    GM_Target_8002DCCC(target, 1, 0, 1, -1, &DG_ZeroVector);
+    GM_SetPowerTarget(target, POWER_DECREASE, 0, 1, -1, &DG_ZeroVector);
     GM_MoveTarget(target, &work->pos);
 
     work->counter = 0;

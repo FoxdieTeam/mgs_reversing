@@ -405,8 +405,8 @@ int s11d_dsmoke2_800CCAB4(Work *work)
     }
 
     size.vx = size.vy = size.vz = 250;
-    GM_SetTarget(&work->target, 4, 2, &size);
-    GM_Target_8002DCCC(&work->target, 3, 2, dsmoke2_life, -1, &DG_ZeroVector);
+    GM_SetTarget(&work->target, TARGET_POWER, ENEMY_SIDE, &size);
+    GM_SetPowerTarget(&work->target, POWER_CONST, 2, dsmoke2_life, -1, &DG_ZeroVector);
 
     work->field_B2 = 0;
     work->field_BE = 0;
