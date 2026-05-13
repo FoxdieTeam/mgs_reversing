@@ -10,9 +10,9 @@
 #include "linkvar.h"
 #include "sound/g_sound.h"
 
-extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
+extern GM_SnakeCameraWork  GM_SnakeCamera;
 extern int              dword_8009F604;
-extern GM_CAMERA        GM_Camera;
+extern GM_CameraSystemWork        GM_Camera;
 extern short            dword_800ABBDC;
 extern short            dword_800ABBD4;
 
@@ -94,9 +94,9 @@ static int GetZoomLimit(Work *work)
         objs = GM_PlayerBody->objs;
         eye = &mtx;
         mtx = GM_PlayerBody->objs->world;
-        mtx.t[0] = gUnkCameraStruct_800B77B8.eye.vx;
-        mtx.t[1] = gUnkCameraStruct_800B77B8.eye.vy;
-        mtx.t[2] = gUnkCameraStruct_800B77B8.eye.vz;
+        mtx.t[0] = GM_SnakeCamera.position.vx;
+        mtx.t[1] = GM_SnakeCamera.position.vy;
+        mtx.t[2] = GM_SnakeCamera.position.vz;
     }
     DG_SetPos(eye);
     DG_PutVector(svecs_8009F2C8, vecs, 2);

@@ -2,7 +2,7 @@
 #include "game/game.h"
 #include "strcode.h"
 
-extern GM_CAMERA GM_Camera;
+extern GM_CameraSystemWork GM_Camera;
 
 SECTION(".bss") int     s03b_dword_800D3318;
 SECTION(".bss") int     s03b_dword_800D331C;
@@ -56,9 +56,9 @@ void s03b_800CA5DC(void)
             }
         }
 
-        GM_Camera.field_28 = 0;
-        GM_Camera.eye = s03b_dword_800D3320;
-        GM_Camera.center = s03b_dword_800D3328;
+        GM_Camera.type = 0;
+        GM_Camera.position = s03b_dword_800D3320;
+        GM_Camera.target = s03b_dword_800D3328;
     }
 }
 
@@ -66,10 +66,10 @@ void s03b_800CA794(void)
 {
     if (s03b_dword_800C33A0 == 0)
     {
-        GM_Camera.flags = 2;
+        GM_Camera.flag = 2;
         GM_Camera.interp = 0;
-        GM_Camera.field_2A = 0;
-        s03b_dword_800D3318 = GM_Camera.field_28;
+        GM_Camera.interp_mode = 0;
+        s03b_dword_800D3318 = GM_Camera.type;
         GM_SetCameraCallbackFunc(1, s03b_800CA5DC);
         s03b_dword_800C33A0 = 1;
     }
@@ -79,10 +79,10 @@ void s03b_800CA7FC(void)
 {
     if (s03b_dword_800C33A0 != 0)
     {
-        GM_Camera.field_2A = 2;
+        GM_Camera.interp_mode = 2;
         GM_Camera.interp = 0;
-        GM_Camera.field_28 = s03b_dword_800D3318;
-        GM_Camera.flags &= ~0x2;
+        GM_Camera.type = s03b_dword_800D3318;
+        GM_Camera.flag &= ~0x2;
         GM_SetCameraCallbackFunc(1, NULL);
         s03b_dword_800C33A0 = 0;
     }

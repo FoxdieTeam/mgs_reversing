@@ -23,7 +23,7 @@ extern SVECTOR       ENEMY_TOUCH_FORCE;
 extern SVECTOR       COM_NO_POINT;
 extern unsigned short COM_EYE_LENGTH;
 
-extern GM_CAMERA      GM_Camera;
+extern GM_CameraSystemWork      GM_Camera;
 
 /*  Modified version of RootFlagCheck_800C3EE8
     (last two switch cases removed)

@@ -59,8 +59,8 @@ int SECTION(".bss") rasen_el_800D2CBC;
 
 extern int             gControlCount_800AB9B4;
 extern CONTROL        *GM_WhereList[96];
-extern UnkCameraStruct gUnkCameraStruct_800B77B8;
-extern GM_CAMERA       GM_Camera;
+extern GM_SnakeCameraWork GM_SnakeCamera;
+extern GM_CameraSystemWork       GM_Camera;
 
 extern int            rasen_800C3404;
 extern int            rasen_800C3408;
@@ -165,12 +165,12 @@ void RasenElAct_800CC454(RasenElWork *work)
                     work->f2C4 = 2;
                     work->f234 &= ~4;
 
-                    if ((GM_Camera.flags & 0x200) != 0)
+                    if ((GM_Camera.flag & 0x200) != 0)
                     {
                         GM_SetCameraCallbackFunc(0, NULL);
 
                         GM_Camera.first_person = 0;
-                        GM_Camera.flags &= ~0x200;
+                        GM_Camera.flag &= ~0x200;
                         GM_PlayerStatus &= ~PLAYER_PAD_OFF;
 
                         DG_VisibleObjs(GM_PlayerBody->objs);
@@ -229,12 +229,12 @@ void RasenElAct_800CC454(RasenElWork *work)
                 work->f2C4 = 0;
                 work->f234 &= ~4;
 
-                if ((GM_Camera.flags & 0x200) != 0)
+                if ((GM_Camera.flag & 0x200) != 0)
                 {
                     GM_SetCameraCallbackFunc(0, NULL);
 
                     GM_Camera.first_person = 0;
-                    GM_Camera.flags &= ~0x200;
+                    GM_Camera.flag &= ~0x200;
                     GM_PlayerStatus &= ~PLAYER_PAD_OFF;
 
                     DG_VisibleObjs(GM_PlayerBody->objs);
@@ -352,9 +352,9 @@ void RasenElAct_800CC454(RasenElWork *work)
     work->f2F0 = GV_NearExp2(work->f2F0, dy);
     rasen_el_800D2CAC.vy += work->f2F0;
 
-    if ((GM_Camera.flags & 0x200) != 0)
+    if ((GM_Camera.flag & 0x200) != 0)
     {
-        gUnkCameraStruct_800B77B8.eye = rasen_el_800D2CAC;
+        GM_SnakeCamera.position = rasen_el_800D2CAC;
     }
 
     status = GV_PadData[0].status;
@@ -374,11 +374,11 @@ void RasenElAct_800CC454(RasenElWork *work)
 
 void RasenElDie_800CCAC4(RasenElWork *work)
 {
-    if (GM_Camera.flags & 0x200)
+    if (GM_Camera.flag & 0x200)
     {
         GM_SetCameraCallbackFunc(0, NULL);
         GM_Camera.first_person = 0;
-        GM_Camera.flags &= ~0x200;
+        GM_Camera.flag &= ~0x200;
         GM_PlayerStatus &= ~PLAYER_PAD_OFF;
         work->f248 = 3;
     }
@@ -633,12 +633,12 @@ void s11c_800CD21C(void)
         rasen_el_800D2CAC.vy += 32000;
     }
 
-    GM_Camera.eye = rasen_el_800D2CAC;
+    GM_Camera.position = rasen_el_800D2CAC;
     GM_Camera.rotate.vx = rasen_el_800D2CB4.vx;
     GM_Camera.rotate.vy = GV_NearExp4P(GM_Camera.rotate.vy, rasen_el_800D2CB4.vy + rasen_el_800D2CBC);
     GM_Camera.track = 3000;
-    GM_Camera.field_28 = 1;
-    gUnkCameraStruct_800B77B8.center = gUnkCameraStruct_800B77B8.eye;
+    GM_Camera.type = 1;
+    GM_SnakeCamera.target = GM_SnakeCamera.position;
     GM_Camera.rotate.vz = rasen_el_800D2CB4.vz;
 
     GV_OriginPadSystem(rasen_el_800D2CB4.vy + 2048);
@@ -670,7 +670,7 @@ void s11c_800CD340(RasenElWork *work, int arg1)
                 GM_CurrentItemId == IT_Box2 ||
                 GM_CurrentItemId == IT_Box3)
             {
-                if (!(GM_Camera.flags & 0x200))
+                if (!(GM_Camera.flag & 0x200))
                 {
                     work->f2D8 = -1;
                 }
@@ -682,7 +682,7 @@ void s11c_800CD340(RasenElWork *work, int arg1)
 
             if (GM_PlayerStatus & (PLAYER_ATTACK | PLAYER_DAMAGED))
             {
-                if (!(GM_Camera.flags & 0x200))
+                if (!(GM_Camera.flag & 0x200))
                 {
                     work->f2D8 = -1;
                 }
@@ -703,7 +703,7 @@ void s11c_800CD340(RasenElWork *work, int arg1)
             GM_SetCameraCallbackFunc(0, s11c_800CD21C);
 
             GM_Camera.first_person = 1;
-            GM_Camera.flags |= 0x200;
+            GM_Camera.flag |= 0x200;
 
             rasen_el_800D2CBC = 0;
 
@@ -798,7 +798,7 @@ void s11c_800CD340(RasenElWork *work, int arg1)
             GM_SetCameraCallbackFunc(0, NULL);
 
             GM_Camera.first_person = 0;
-            GM_Camera.flags &= ~0x200;
+            GM_Camera.flag &= ~0x200;
             DG_VisibleObjs(GM_PlayerBody->objs);
             GM_PlayerStatus &= ~PLAYER_PAD_OFF;
 

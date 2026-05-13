@@ -12,11 +12,11 @@
 
 #include "meryl72.h"
 
-extern GM_CAMERA        GM_Camera;
+extern GM_CameraSystemWork        GM_Camera;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 
 int       SECTION(".bss") meryl72_800D5274;
-GM_CAMERA SECTION(".bss") meryl72_camera_800D5278;
+GM_CameraSystemWork SECTION(".bss") meryl72_camera_800D5278;
 int       SECTION(".bss") meryl72_800D52F4;
 SVECTOR   SECTION(".bss") meryl72_800D52F8;
 
@@ -294,10 +294,10 @@ void s07c_meryl72_800C722C( void )
     memcpy( &meryl72_camera_800D5278, &GM_Camera, sizeof(GM_Camera) );
 
     GM_Camera.rotate.vx = 480;
-    GM_Camera.field_28 = 2;
-    GM_Camera.field_2A = 2;
+    GM_Camera.type = 2;
+    GM_Camera.interp_mode = 2;
     GM_Camera.interp = 0;
-    GM_Camera.flags |= 0x2;
+    GM_Camera.flag |= 0x2;
 }
 
 void s07c_meryl72_800C730C(void)

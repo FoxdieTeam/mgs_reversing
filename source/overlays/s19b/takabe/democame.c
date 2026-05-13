@@ -42,7 +42,7 @@ typedef struct _Work
     char         pad1[0x18];
 } Work;
 
-extern GM_CAMERA        GM_Camera;
+extern GM_CameraSystemWork        GM_Camera;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 
 #define EXEC_LEVEL 6
@@ -235,8 +235,8 @@ void *NewDemoCamera(DemocameUnk *unk)
     {
         GV_SetNamedActor(work, s19b_democame_800DB968, s19b_democame_800DBD38, "democame.c");
 
-        work->eye = gUnkCameraStruct2_800B7868.eye;
-        work->center = gUnkCameraStruct2_800B7868.center;
+        work->eye = gUnkCameraStruct2_800B7868.position;
+        work->center = gUnkCameraStruct2_800B7868.target;
         work->rotate = gUnkCameraStruct2_800B7868.rotate;
         work->track = gUnkCameraStruct2_800B7868.track;
         work->type = gUnkCameraStruct2_800B7868.type;

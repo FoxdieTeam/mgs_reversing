@@ -14,7 +14,7 @@
 #include "sound/g_sound.h"
 #include "strcode.h"
 
-extern GM_CAMERA GM_Camera;
+extern GM_CameraSystemWork GM_Camera;
 
 /*---------------------------------------------------------------------------*/
 

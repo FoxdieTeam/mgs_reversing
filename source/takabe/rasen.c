@@ -77,14 +77,14 @@ void Takabe_RefreshObjectPacks(DG_OBJS *objs);
 void Takabe_ReshadeModel(DG_OBJS *objs, LIT *lit);
 void Takabe_FreeDuplicateMemory();
 
-extern GM_CAMERA       GM_Camera;
+extern GM_CameraSystemWork       GM_Camera;
 extern CONTROL        *GM_WhereList[96];
 extern int             gControlCount_800AB9B4;
 extern int             bakudan_count_8009F42C;
 extern HITTABLE        GM_C4Datas[C4_COUNT];
 extern HITTABLE        GM_ClayDatas[8];
 extern int             counter_8009F448;
-extern UnkCameraStruct gUnkCameraStruct_800B77B8;
+extern GM_SnakeCameraWork GM_SnakeCamera;
 
 void Rasen2IterBakudanJirai_800CA3A4(Rasen2Work *work, MAP *oldMap, MAP *newMap)
 {
@@ -275,12 +275,12 @@ void Rasen2Act_800CA79C(Rasen2Work *work)
             msg_arg2 = msgs->message[1];
             if (msg_arg2 == -1)
             {
-                GM_Camera.flags &= ~2;
+                GM_Camera.flag &= ~2;
             }
             else
             {
                 rasen_800C340C = msg_arg2;
-                GM_Camera.flags |= 2;
+                GM_Camera.flag |= 2;
             }
         }
         else if (msgs->message[0] == 0x72D2)
@@ -340,7 +340,7 @@ void Rasen2Act_800CA79C(Rasen2Work *work)
         }
     }
 
-    if ((GM_PlayerStatus & PLAYER_WATCH) && !(GM_Camera.flags & 0x100))
+    if ((GM_PlayerStatus & PLAYER_WATCH) && !(GM_Camera.flag & 0x100))
     {
         if (GM_PlayerMap & work->field_28)
         {
@@ -375,7 +375,7 @@ void Rasen2Die_800CAB74(Rasen2Work *work)
 {
     int i, j;
 
-    GM_Camera.flags &= ~2;
+    GM_Camera.flag &= ~2;
     GM_SetCameraCallbackFunc(1, NULL);
     for (i = 0; i < 3; i++)
     {
@@ -492,7 +492,7 @@ int Rasen2GetResources_800CAC64(Rasen2Work *work, int name, int where)
 
     GM_SetCameraCallbackFunc(1, Rasen_800CB34C);
 
-    GM_Camera.flags |= 2;
+    GM_Camera.flag |= 2;
 
     if (work->field_2C > 10)
     {
@@ -507,8 +507,8 @@ int Rasen2GetResources_800CAC64(Rasen2Work *work, int name, int where)
 
     work->field_238 = NewRasen();
 
-    rasen_800D2C84.field_0 = GM_Camera.eye;
-    rasen_800D2C84.field_8 = GM_Camera.center;
+    rasen_800D2C84.field_0 = GM_Camera.position;
+    rasen_800D2C84.field_8 = GM_Camera.target;
 
     return 0;
 }
@@ -623,28 +623,28 @@ void Rasen_800CB34C()
 
     if (rasen_800C340C == 2)
     {
-        GM_Camera.eye = rasen_800D2C84.field_0;
-        GM_Camera.center = rasen_800D2C84.field_8;
-        GM_Camera.field_28 = 0;
-        GV_SubVec3(&GM_Camera.center, &GM_Camera.eye, &svec);
+        GM_Camera.position = rasen_800D2C84.field_0;
+        GM_Camera.target = rasen_800D2C84.field_8;
+        GM_Camera.type = 0;
+        GV_SubVec3(&GM_Camera.target, &GM_Camera.position, &svec);
         GV_OriginPadSystem(GV_VecDir2(&svec) + 2048);
-        GM_CameraSetBounds(&rasen_800C3418, &rasen_800C3420, 0);
-        GM_CameraSetLimits(&rasen_800C3418, &rasen_800C3420, 0);
+        GM_CameraSetBound(&rasen_800C3418, &rasen_800C3420, 0);
+        GM_CameraSetLimit(&rasen_800C3418, &rasen_800C3420, 0);
         GM_Camera.rotate.vy = rasen_800D2C84.field_18;
     }
     else if (rasen_800C340C == 1)
     {
-        GM_Camera.eye = rasen_800D2C84.field_0;
-        GM_Camera.center = rasen_800D2C84.field_8;
-        GM_Camera.field_28 = 0;
+        GM_Camera.position = rasen_800D2C84.field_0;
+        GM_Camera.target = rasen_800D2C84.field_8;
+        GM_Camera.type = 0;
         GV_OriginPadSystem(rasen_800D2C84.field_18 + 2048);
         GM_Camera.rotate.vy = rasen_800D2C84.field_18;
     }
     else
     {
-        GM_Camera.eye = rasen_800D2C84.field_0;
-        GM_Camera.center = rasen_800D2C84.field_8;
-        GM_Camera.field_28 = 0;
+        GM_Camera.position = rasen_800D2C84.field_0;
+        GM_Camera.target = rasen_800D2C84.field_8;
+        GM_Camera.type = 0;
         GV_OriginPadSystem(0);
         GM_Camera.rotate.vy = 2048;
     }
@@ -670,20 +670,20 @@ void RasenAct_800CB530(RasenWork *work)
 
     if (rasen_800D2C84.field_1C != 0)
     {
-        if (gUnkCameraStruct_800B77B8.eye.vy - GM_PlayerControl->mov.vy >= 0)
+        if (GM_SnakeCamera.position.vy - GM_PlayerControl->mov.vy >= 0)
         {
-            if (gUnkCameraStruct_800B77B8.eye.vy - GM_PlayerControl->mov.vy > 20000)
+            if (GM_SnakeCamera.position.vy - GM_PlayerControl->mov.vy > 20000)
             {
                 goto add_vec; // FIXME: match without goto
             }
         }
         else
         {
-            if (GM_PlayerControl->mov.vy - gUnkCameraStruct_800B77B8.eye.vy > 20000)
+            if (GM_PlayerControl->mov.vy - GM_SnakeCamera.position.vy > 20000)
             {
             add_vec:
-                GV_AddVec3(&gUnkCameraStruct_800B77B8.eye, &GM_Camera.pan,
-                           &gUnkCameraStruct_800B77B8.eye);
+                GV_AddVec3(&GM_SnakeCamera.position, &GM_Camera.pan,
+                           &GM_SnakeCamera.position);
             }
         }
     }
@@ -697,14 +697,14 @@ void RasenAct_800CB530(RasenWork *work)
 
     if (GM_WhereList[0]->name)
     {
-        if (GM_UnkFlagBE || GM_Camera.first_person == 0 || (GM_Camera.flags & 0x200))
+        if (GM_UnkFlagBE || GM_Camera.first_person == 0 || (GM_Camera.flag & 0x200))
         {
             level = GM_PlayerControl->levels[0] + 1100;
 
             if (level >= 16000 - s11c_dword_800C3410 && rasen_800C3404 < 2)
             {
                 svec1.vy = -32000;
-                sub_8003049C(&svec1);
+                GM_PanCamera(&svec1);
                 GM_Camera.pan.pad = 0;
                 rasen_800D2C84.field_1C = 1;
                 rasen_800C3408 = 1;
@@ -715,7 +715,7 @@ void RasenAct_800CB530(RasenWork *work)
             else if (level < -16000 - s11c_dword_800C3410 && rasen_800C3404 > 0)
             {
                 svec1.vy = 32000;
-                sub_8003049C(&svec1);
+                GM_PanCamera(&svec1);
                 GM_Camera.pan.pad = 0;
                 rasen_800D2C84.field_1C = 1;
                 rasen_800C3408 = 2;
@@ -742,26 +742,26 @@ void RasenAct_800CB530(RasenWork *work)
             rasen_800D2C84.field_8.vy += 32000;
         }
         GV_NearExp4V(&rasen_800D2C84.field_0.vx, &field_10->vx, 3);
-        GV_NearExp4V(&rasen_800D2C84.field_8.vx, &gUnkCameraStruct_800B77B8.center.vx, 3);
+        GV_NearExp4V(&rasen_800D2C84.field_8.vx, &GM_SnakeCamera.target.vx, 3);
         GV_SubVec3(&rasen_800D2C84.field_8, &rasen_800D2C84.field_0, &svec2);
         rasen_800D2C84.field_18 = GV_VecDir2(&svec2);
     }
     else if (rasen_800C340C == 1)
     {
         svec3 = DG_ZeroVector;
-        svec3.vy = gUnkCameraStruct_800B77B8.center.vy + 2000;
+        svec3.vy = GM_SnakeCamera.target.vy + 2000;
         svec3.vx += 500;
         svec3.vz -= 500;
 
-        GV_SubVec3(&gUnkCameraStruct_800B77B8.center, &svec3, &svec4);
+        GV_SubVec3(&GM_SnakeCamera.target, &svec3, &svec4);
         GV_LenVec3(&svec4, &svec4, GV_VecLen3(&svec4), 3000);
         GV_SubVec3(&svec3, &svec4, &rasen_800D2C84.field_0);
-        rasen_800D2C84.field_8 = gUnkCameraStruct_800B77B8.center;
+        rasen_800D2C84.field_8 = GM_SnakeCamera.target;
         rasen_800D2C84.field_18 = GV_VecDir2(&svec4);
     }
     else
     {
-        svec5 = gUnkCameraStruct_800B77B8.center;
+        svec5 = GM_SnakeCamera.target;
         svec5.vz += 400;
 
         if (HZD_LevelTestHazard(GM_GetMap(rasen_el_800D2CA4[rasen_800C3404])->hzd, &svec5, 3) & 2)
@@ -779,7 +779,7 @@ void RasenAct_800CB530(RasenWork *work)
         }
         svec5.vy -= 300;
         rasen_800D2C84.field_0 = svec5;
-        rasen_800D2C84.field_8 = gUnkCameraStruct_800B77B8.center;
+        rasen_800D2C84.field_8 = GM_SnakeCamera.target;
     }
 
     GM_Camera.pan.pad = 0;

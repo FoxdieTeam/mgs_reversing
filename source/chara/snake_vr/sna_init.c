@@ -43,7 +43,7 @@ short        SECTION(".sbss") dword_800ABBD4;
 void        *SECTION(".sbss") GM_BombSeg;
 short        SECTION(".sbss") dword_800ABBDC;
 
-extern GM_CAMERA          GM_Camera;
+extern GM_CameraSystemWork          GM_Camera;
 extern unsigned short     GM_WeaponTypes[];
 extern unsigned short     GM_ItemTypes[];
 extern void              *dword_8009EEA4[];
@@ -51,7 +51,7 @@ extern int                bakudan_count_8009F42C;
 //extern int                gSnaMoveDir_800ABBA4;
 extern int                counter_8009F448;
 extern int                tabako_dword_8009F2C0;
-extern UnkCameraStruct    gUnkCameraStruct_800B77B8;
+extern GM_SnakeCameraWork    GM_SnakeCamera;
 extern CONTROL        *tenage_ctrls_800BDD30[16];
 extern HITTABLE           GM_C4Datas[C4_COUNT];
 extern HITTABLE           GM_ClayDatas[8];
@@ -380,7 +380,7 @@ void sna_8004EE28(SnaInitWork *snake)
     SetRotMatrix(&mat1);
 
     vx = (vec.vx / 16) * 16;
-    gUnkCameraStruct_800B77B8.rotate2.vx = vx;
+    GM_SnakeCamera.rotate2.vx = vx;
 }
 
 void sub_8004EEB0(SnaInitWork *work)
@@ -5038,7 +5038,7 @@ void sna_fn_80052540(SnaInitWork *work, int time)
         sna_knockdown_getup_80050668(work);
     }
 
-    gUnkCameraStruct_800B77B8.eye.vy += 320;
+    GM_SnakeCamera.position.vy += 320;
     sna_8004EE28(work);
 }
 
@@ -5261,7 +5261,7 @@ void sna_anim_psg1_80056DDC(SnaInitWork *work, int time)
 
         if (GM_CheckPlayerStatusFlag(PLAYER_INVINCIBLE) && (GM_Camera.first_person != 0))
         {
-            gUnkCameraStruct_800B77B8.eye.vy += GV_RandU(16) * work->field_A24_invuln_frames;
+            GM_SnakeCamera.position.vy += GV_RandU(16) * work->field_A24_invuln_frames;
         }
 
         break;
@@ -7072,7 +7072,7 @@ static inline void sna_init_main_logic_helper4_800596FC(SnaInitWork *work)
                     (!sna_init_main_logic_helper4_helper2_800596FC(work) || (work->field_9AC & 0x2)) &&
                     !sna_check_flags1_8004E31C(work, 1))
                 {
-                    gUnkCameraStruct_800B77B8.eye.vy += GV_RandS(16) * iframes;
+                    GM_SnakeCamera.position.vy += GV_RandS(16) * iframes;
                 }
             }
             else
@@ -7716,8 +7716,8 @@ static void Act(SnaInitWork *work)
 
     work->field_A60 = vec2;
 
-    gUnkCameraStruct_800B77B8.rotate2 = work->control.rot;
-    gUnkCameraStruct_800B77B8.rotate2.vy &= 0xFFF;
+    GM_SnakeCamera.rotate2 = work->control.rot;
+    GM_SnakeCamera.rotate2.vy &= 0xFFF;
 
     sna_init_main_logic_800596FC(work);
 
@@ -7727,11 +7727,11 @@ static void Act(SnaInitWork *work)
 
     if (GM_Camera.first_person != 0)
     {
-        GV_NearExp4V(&gUnkCameraStruct_800B77B8.eye.vx, &work->field_A60.vx, 3);
+        GV_NearExp4V(&GM_SnakeCamera.position.vx, &work->field_A60.vx, 3);
     }
     else
     {
-        gUnkCameraStruct_800B77B8.eye = vec2;
+        GM_SnakeCamera.position = vec2;
     }
 
     GM_PlayerPosition = vec = work->control.mov;
@@ -7747,13 +7747,13 @@ static void Act(SnaInitWork *work)
 
     if ( GM_CheckPlayerStatusFlag(PLAYER_INTRUDE) )
     {
-        if ( gUnkCameraStruct_800B77B8.eye.vy < (level + 150) )
+        if ( GM_SnakeCamera.position.vy < (level + 150) )
         {
-            gUnkCameraStruct_800B77B8.eye.vy = level + 150;
+            GM_SnakeCamera.position.vy = level + 150;
         }
-        else if ( gUnkCameraStruct_800B77B8.eye.vy > (level + 250) )
+        else if ( GM_SnakeCamera.position.vy > (level + 250) )
         {
-            gUnkCameraStruct_800B77B8.eye.vy = level + 250;
+            GM_SnakeCamera.position.vy = level + 250;
         }
     }
 
@@ -7917,7 +7917,7 @@ static inline void InitEmpty(SnaInitWork *work)
     work->field_A44 = work->control.mov;
     work->field_A60 = work->control.mov;
 
-    gUnkCameraStruct_800B77B8.eye = work->field_A60;
+    GM_SnakeCamera.position = work->field_A60;
 
     if (GCL_GetOption('o')) // oar
     {

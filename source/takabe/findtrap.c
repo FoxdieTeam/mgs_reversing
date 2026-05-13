@@ -12,8 +12,8 @@
 #include "takabe/thing.h"
 #include "strcode.h"
 
-extern GM_CAMERA       GM_Camera;
-extern UnkCameraStruct gUnkCameraStruct_800B77B8;
+extern GM_CameraSystemWork       GM_Camera;
+extern GM_SnakeCameraWork GM_SnakeCamera;
 extern int             dword_8009F470;
 extern DG_CHANL        DG_Chanls[3];
 
@@ -83,7 +83,7 @@ static void Act(Work *work)
         {
             fpv_flag = GM_Camera.first_person;
 
-            if (fpv_flag == work->flag && !(GM_Camera.flags & 0x100) &&
+            if (fpv_flag == work->flag && !(GM_Camera.flag & 0x100) &&
                 (GV_PadData->status & PAD_TRIANGLE) && dword_8009F470 == 0)
             {
                 MATRIX   eye_inv;
@@ -114,19 +114,19 @@ static void Act(Work *work)
                     work->flag |= 2;
                     GM_GameStatus |= STATE_PADDEMO;
                     GV_DemoPadStatus[0] = GV_PadData->status & PAD_TRIANGLE;
-                    s12c_dword_800DAA90 = GM_Camera.flags & 0x200;
-                    s12c_dword_800DAA94 = GM_Camera.callbacks[0];
+                    s12c_dword_800DAA90 = GM_Camera.flag & 0x200;
+                    s12c_dword_800DAA94 = GM_Camera.callback[0];
                     GM_SetCameraCallbackFunc(0, FindEvent1);
-                    GM_Camera.flags |= 0x200;
-                    GV_SubVec3(&work->pos, &GM_Camera.eye, &svec);
+                    GM_Camera.flag |= 0x200;
+                    GV_SubVec3(&work->pos, &GM_Camera.position, &svec);
                     s12c_dword_800DAA50.vz = 0;
                     s12c_dword_800DAA50.vy = GV_VecDir2(&svec) & 0xFFF;
                     s12c_dword_800DAA50.vx =
                         ratan2(-svec.vy, SquareRoot0(svec.vx * svec.vx + svec.vz * svec.vz)) & 0xFFF;
                     s12c_dword_800DAA5C = 0;
-                    gUnkCameraStruct_800B77B8.rotate2.vy &= 0xFFF;
+                    GM_SnakeCamera.rotate2.vy &= 0xFFF;
                     wait = work->wait;
-                    s12c_dword_800DAA60 = gUnkCameraStruct_800B77B8.rotate2;
+                    s12c_dword_800DAA60 = GM_SnakeCamera.rotate2;
                     s12c_dword_800DAA68 = GM_PlayerControl->rot;
                     s12c_dword_800DAA70[0] = GV_PadData[0];
                     s12c_dword_800DAA70[1] = GV_PadData[1];
@@ -150,7 +150,7 @@ static void Act(Work *work)
 static void Die(Work *work)
 {
     GM_GameStatus &= ~STATE_PADDEMO;
-    GM_Camera.flags &= ~0x200;
+    GM_Camera.flag &= ~0x200;
 }
 
 static int GetResources(Work *work, int name, int where)
@@ -200,7 +200,7 @@ static void FindEvent1(void)
             GM_Camera.rotate.vx &= 0xFFF;
             GV_NearTimePV(&GM_Camera.rotate.vx, &s12c_dword_800DAA50.vx, temp_a2, 3);
         }
-        GM_Camera.field_28 = 1;
+        GM_Camera.type = 1;
         if (--s12c_dword_800DAA58 < 0)
         {
             s12c_dword_800DAA5C = 1;
@@ -218,19 +218,19 @@ static void FindEvent2(void)
         s12c_dword_800DAA58--;
         GM_Camera.rotate.vy &= 0xFFF;
         GM_Camera.rotate.vx &= 0xFFF;
-        GV_NearTimePV(&GM_Camera.rotate.vx, &gUnkCameraStruct_800B77B8.rotate2.vx, temp_a3, 3);
+        GV_NearTimePV(&GM_Camera.rotate.vx, &GM_SnakeCamera.rotate2.vx, temp_a3, 3);
     }
     GM_PlayerControl->rot = s12c_dword_800DAA68;
-    GM_Camera.field_28 = 1;
+    GM_Camera.type = 1;
     if (--s12c_dword_800DAA58 < 0)
     {
         s12c_dword_800DAA5C = 0;
         GM_GameStatus &= ~STATE_PADDEMO;
-        GM_Camera.flags &= ~0x200;
+        GM_Camera.flag &= ~0x200;
         GM_SetCameraCallbackFunc(0, NULL);
         GV_PadData[0] = s12c_dword_800DAA70[0];
         GV_PadData[1] = s12c_dword_800DAA70[1];
-        GM_Camera.flags |= s12c_dword_800DAA90;
-        GM_Camera.callbacks[0] = s12c_dword_800DAA94;
+        GM_Camera.flag |= s12c_dword_800DAA90;
+        GM_Camera.callback[0] = s12c_dword_800DAA94;
     }
 }

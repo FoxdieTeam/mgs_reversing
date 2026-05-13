@@ -7,7 +7,7 @@
 
 extern DG_CHANL         DG_Chanls[3];
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
-extern GM_CAMERA        GM_Camera;
+extern GM_CameraSystemWork        GM_Camera;
 extern int              MENU_RadarScale;
 extern int              amissile_alive_8009F490;
 
@@ -26,9 +26,9 @@ void s11g_blastoff_800DBF88(HindWork *work);
 void Hind_LookAt_800D2C1C(SVECTOR *eye, SVECTOR *center)
 {
     DG_LookAt(&DG_Chanls[1], eye, center, 320);
-    GM_Camera.field_2A = 0;
-    gUnkCameraStruct2_800B7868.eye = *eye;
-    gUnkCameraStruct2_800B7868.center = *center;
+    GM_Camera.interp_mode = 0;
+    gUnkCameraStruct2_800B7868.position = *eye;
+    gUnkCameraStruct2_800B7868.target = *center;
 }
 
 void s11g_hind_800D2CB4(HindWork *work)
@@ -163,9 +163,9 @@ void s11g_hind_800D2F60(HindWork *work)
         return;
     }
 
-    sp30.vx = (work->move_missile_pos_v.vx - gUnkCameraStruct2_800B7868.eye.vx) >> 2;
-    sp30.vy = (work->move_missile_pos_v.vy - gUnkCameraStruct2_800B7868.eye.vy) >> 2;
-    sp30.vz = (work->move_missile_pos_v.vz - gUnkCameraStruct2_800B7868.eye.vz) >> 2;
+    sp30.vx = (work->move_missile_pos_v.vx - gUnkCameraStruct2_800B7868.position.vx) >> 2;
+    sp30.vy = (work->move_missile_pos_v.vy - gUnkCameraStruct2_800B7868.position.vy) >> 2;
+    sp30.vz = (work->move_missile_pos_v.vz - gUnkCameraStruct2_800B7868.position.vz) >> 2;
 
     len = SquareRoot0(sp30.vx * sp30.vx + sp30.vy * sp30.vy + sp30.vz * sp30.vz) * 4;
 
@@ -175,9 +175,9 @@ void s11g_hind_800D2F60(HindWork *work)
     work->move_missile_pos.vy = sp38.vy;
     work->move_missile_pos.vz = sp38.vz;
 
-    sp30.vx = sp38.vx - gUnkCameraStruct2_800B7868.eye.vx;
-    sp30.vy = sp38.vy - gUnkCameraStruct2_800B7868.eye.vy;
-    sp30.vz = sp38.vz - gUnkCameraStruct2_800B7868.eye.vz;
+    sp30.vx = sp38.vx - gUnkCameraStruct2_800B7868.position.vx;
+    sp30.vy = sp38.vy - gUnkCameraStruct2_800B7868.position.vy;
+    sp30.vz = sp38.vz - gUnkCameraStruct2_800B7868.position.vz;
 
     len2 = SquareRoot0(sp30.vx * sp30.vx + sp30.vy * sp30.vy + sp30.vz * sp30.vz);
     if (len == 0)
@@ -502,7 +502,7 @@ void HindAct(HindWork *work)
 
     if (amissile_alive_8009F490 != 1)
     {
-        work->field_A78 = gUnkCameraStruct2_800B7868.eye;
+        work->field_A78 = gUnkCameraStruct2_800B7868.position;
     }
 
     scale.vx = work->field_A78.vx;

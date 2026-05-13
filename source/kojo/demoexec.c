@@ -33,7 +33,7 @@
 
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 extern BLAST_DATA       blast_data_8009F4B8[8];
-extern GM_CAMERA        GM_Camera;
+extern GM_CameraSystemWork        GM_Camera;
 
 /******************************************************************************
  * functions
@@ -492,13 +492,13 @@ BOOL FrameRunDemo(LPMGSDEMOACT lpAct, DMO_DAT *data)
         }
     }
 
-    gUnkCameraStruct2_800B7868.eye.vx = data->eye_x;
-    gUnkCameraStruct2_800B7868.eye.vy = data->eye_y;
-    gUnkCameraStruct2_800B7868.eye.vz = data->eye_z;
+    gUnkCameraStruct2_800B7868.position.vx = data->eye_x;
+    gUnkCameraStruct2_800B7868.position.vy = data->eye_y;
+    gUnkCameraStruct2_800B7868.position.vz = data->eye_z;
 
-    gUnkCameraStruct2_800B7868.center.vx = data->center_x;
-    gUnkCameraStruct2_800B7868.center.vy = data->center_y;
-    gUnkCameraStruct2_800B7868.center.vz = data->center_z;
+    gUnkCameraStruct2_800B7868.target.vx = data->center_x;
+    gUnkCameraStruct2_800B7868.target.vy = data->center_y;
+    gUnkCameraStruct2_800B7868.target.vz = data->center_z;
 
     DG_Chanl(0)->clip_distance = data->clip_dist;
 

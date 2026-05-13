@@ -41,7 +41,7 @@ typedef struct Snake03c2Work
 
 #define EXEC_LEVEL GV_ACTOR_USER
 
-extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
+extern GM_SnakeCameraWork  GM_SnakeCamera;
 
 void Snake03c1Act_800CD698(Snake03c1Work *work)
 {
@@ -63,7 +63,7 @@ void Snake03c1Act_800CD698(Snake03c1Work *work)
     work->control.mov.vy = work->object.height;
     work->control.height = work->object.height;
 
-    gUnkCameraStruct_800B77B8.eye = work->control.mov;
+    GM_SnakeCamera.position = work->control.mov;
 
     field_7E8 = work->field_7E8++;
 

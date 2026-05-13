@@ -12,7 +12,7 @@
 #include "takabe/cinema.h"
 
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
-extern GM_CAMERA        GM_Camera;
+extern GM_CameraSystemWork        GM_Camera;
 
 void AN_Smoke_800CE164(SVECTOR *pos, SVECTOR *speed, int index, int script);
 
@@ -573,9 +573,9 @@ void s11g_hind_800D5820(HindWork *work)
 
     if (GM_GameStatus & STATE_BEHIND_CAMERA)
     {
-        pos.vx = (gUnkCameraStruct2_800B7868.eye.vx * 7 + work->field_4BC.vx) / 8;
-        pos.vy = gUnkCameraStruct2_800B7868.eye.vy;
-        pos.vz = (gUnkCameraStruct2_800B7868.eye.vz * 7 + work->field_4BC.vz) / 8;
+        pos.vx = (gUnkCameraStruct2_800B7868.position.vx * 7 + work->field_4BC.vx) / 8;
+        pos.vy = gUnkCameraStruct2_800B7868.position.vy;
+        pos.vz = (gUnkCameraStruct2_800B7868.position.vz * 7 + work->field_4BC.vz) / 8;
     }
     else
     {

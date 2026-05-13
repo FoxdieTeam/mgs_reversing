@@ -22,7 +22,7 @@ int SECTION(".bss") s00a_dword_800E0CA4;
 int SECTION(".bss") s00a_dword_800E0CA8;
 int SECTION(".bss") s00a_dword_800E0CAC;
 
-GM_CAMERA SECTION(".bss") s00a_dword_800E0CB0;
+GM_CameraSystemWork SECTION(".bss") s00a_dword_800E0CB0;
 
 int SECTION(".bss") s00a_dword_800E0D2C;
 int SECTION(".bss") s00a_dword_800E0D30;
@@ -69,7 +69,7 @@ int SECTION(".bss") COM_PlayerMapOne[8];
 
 extern int       GM_event_camera_flag;
 extern CONTROL  *GM_WhereList[94];
-extern GM_CAMERA GM_Camera;
+extern GM_CameraSystemWork GM_Camera;
 
 SVECTOR ENEMY_TARGET_SIZE   = { 300, 1000, 300 };
 SVECTOR ENEMY_TARGET_FORCE  = { 0, 0, 0 };
@@ -1081,7 +1081,7 @@ void s00a_command_800D0344(void)
 
     if ( s00a_dword_800E0D2C > 4 )
     {
-        if ( !( GM_Camera.flags & 3 ) )
+        if ( !( GM_Camera.flag & 3 ) )
         {
             s00a_dword_800E0CB0 = GM_Camera;
             flag = 0x40;
@@ -1089,7 +1089,7 @@ void s00a_command_800D0344(void)
             {
                 flag = 0x80;
             }
-            GM_Camera.flags |= ( 2 | flag );
+            GM_Camera.flag |= ( 2 | flag );
             GM_SetCameraCallbackFunc( 1, s00a_command_800D02F4 );
         }
     }
@@ -1117,7 +1117,7 @@ void UnsetCameraActCall(void)
 
     GM_SetCameraCallbackFunc( 1, NULL ) ;
     s00a_dword_800E0D2C = 0 ;
-    GM_Camera.flags &= ~( 2 ) ;
+    GM_Camera.flag &= ~( 2 ) ;
 }
 
 /*---------------------------------------------------------------------------*/

@@ -1498,20 +1498,20 @@ static void Act(RevolverWork *work)
         {
             if (work->control.mov.vx > -2500)
             {
-                GM_CameraList[3].trg[0] = work->control.mov.vx - 1000;
+                GM_CameraList[3].trg.vx = work->control.mov.vx - 1000;
             }
             else
             {
-                GM_CameraList[3].trg[0] = work->control.mov.vx + 1000;
+                GM_CameraList[3].trg.vx = work->control.mov.vx + 1000;
             }
 
             if (work->control.mov.vz > 6000)
             {
-                GM_CameraList[3].trg[2] = work->control.mov.vz - 1000;
+                GM_CameraList[3].trg.vz = work->control.mov.vz - 1000;
             }
             else
             {
-                GM_CameraList[3].trg[2] = work->control.mov.vz + 1000;
+                GM_CameraList[3].trg.vz = work->control.mov.vz + 1000;
             }
         }
     }

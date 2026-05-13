@@ -11,54 +11,49 @@
 typedef struct CAMERA
 {
     SVECTOR     pos;
-    short       trg[3]; // SVECTOR w/ padding as alertMask?
-    short       field_0e_alertMask;
+    SVECTOR     trg;             // pad = alert mask
     signed char field_10_param1; // example: d:CAM_FIX
-    u_char      field_11_param2; // example: d:CAM_INTERP_LINER
-    char        field_12_param3; // example: d:CAM_CAM_TO_TRG
-    char        field_13_param_p;
+    u_char      interp;          // example: d:CAM_INTERP_LINER
+    char        type;            // example: d:CAM_CAM_TO_TRG
+    char        pad_type;
 } CAMERA;
-
-// probably belongs in camera.h or something
-// camera references this is a lot
-typedef struct UnkCameraStruct // @ 800B77B8
-{
-    SVECTOR eye;
-    SVECTOR center;
-    SVECTOR rotate;
-    int     track;
-    SVECTOR field_1C;
-    int     interp;
-    SVECTOR rotate2; // Not sure why there's two
-} UnkCameraStruct;
 
 typedef void (*TGMCameraFunc)(void);
 
-// see comment above
-// extern demothrd_2Vec stru_800B77E8[9];
-typedef struct GM_CAMERA // @ 800B77E8
+typedef struct
 {
-    SVECTOR       eye;
-    SVECTOR       center;
+    SVECTOR       position;
+    SVECTOR       target;
     SVECTOR       rotate;
-    int           flags;
+    int           flag;
     int           track;
     short         zoom; // Min 320, max 3200. Up to 320 levels?
     short         first_person;
     short         alert_mask;
     short         interp;
-    short         field_28;
-    short         field_2A;
+    short         type;
+    short         interp_mode;
     SVECTOR       pan;
-    SVECTOR       bounds[2][2];
-    SVECTOR       limits[2][2];
-    TGMCameraFunc callbacks[2];
-} GM_CAMERA;
+    SVECTOR       bound[2][2];
+    SVECTOR       limit[2][2];
+    TGMCameraFunc callback[2];
+} GM_CameraSystemWork;
 
-typedef struct UnkCameraStruct2 // @ 800B7868
+typedef struct
 {
-    SVECTOR eye;
-    SVECTOR center;
+    SVECTOR position;
+    SVECTOR target;
+    SVECTOR rotate;
+    int     track;
+    SVECTOR pan;
+    int     interp;
+    SVECTOR rotate2; // Not sure why there's two
+} GM_SnakeCameraWork;
+
+typedef struct
+{
+    SVECTOR position;
+    SVECTOR target;
     SVECTOR rotate;
     int     track;
     int     zoom;
@@ -67,13 +62,13 @@ typedef struct UnkCameraStruct2 // @ 800B7868
 
 /* camera.c */
 void GM_SetCameraCallbackFunc(int index, TGMCameraFunc func);
-void sub_8003049C(SVECTOR *a1);
+void GM_PanCamera(SVECTOR *a1);
 void *NewCameraSystem(void);
 void GM_Reset_helper3_80030760();
 void sub_8003081C();
 void GM_CameraSetAlertMask(unsigned int id, unsigned int mask);
-void GM_CameraSetBounds(SVECTOR *min, SVECTOR *max, int param_e);
-void GM_CameraSetLimits(SVECTOR *min, SVECTOR *max, int param_e);
+void GM_CameraSetBound(SVECTOR *min, SVECTOR *max, int param_e);
+void GM_CameraSetLimit(SVECTOR *min, SVECTOR *max, int param_e);
 void GM_CameraSetRotation(SVECTOR *rot);
 void GM_CameraSetTrack(int track);
 void GM_CameraEventReset(void);

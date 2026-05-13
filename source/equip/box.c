@@ -8,7 +8,7 @@
 #include "thing/sight.h"
 
 extern int dword_8009F604;
-extern GM_CAMERA GM_Camera;
+extern GM_CameraSystemWork GM_Camera;
 
 /*---------------------------------------------------------------------------*/
 

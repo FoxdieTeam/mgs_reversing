@@ -10,8 +10,8 @@
 #include "game/game.h"
 #include "chara/snake/sna_init.h"
 
-extern GM_CAMERA        GM_Camera;
-extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
+extern GM_CameraSystemWork        GM_Camera;
+extern GM_SnakeCameraWork  GM_SnakeCamera;
 
 /*---------------------------------------------------------------------------*/
 
@@ -156,8 +156,8 @@ static void CheckPad(Work *work)
         work->field_30.vx = -1000;
     }
 
-    GV_NearExp4PV(&gUnkCameraStruct_800B77B8.rotate2.vx, &work->field_30.vx, 3);
-    gUnkCameraStruct_800B77B8.eye = work->player_pos;
+    GV_NearExp4PV(&GM_SnakeCamera.rotate2.vx, &work->field_30.vx, 3);
+    GM_SnakeCamera.position = work->player_pos;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -212,7 +212,7 @@ static int GetResources(Work *work, int where)
     work->where = where;
 
     GM_Camera.first_person = 2;
-    gUnkCameraStruct_800B77B8.rotate2 = work->field_30;
+    GM_SnakeCamera.rotate2 = work->field_30;
 
     GM_PlayerStatus |= PLAYER_MENU_DISABLE;
 

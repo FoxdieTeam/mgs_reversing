@@ -107,8 +107,8 @@ SVECTOR s03c_dword_800C32E4 = {0, 0, 3500, 0};
 SVECTOR s03c_dword_800C32EC = {0, 0, 300};
 SVECTOR target_size = {300, 750, 300};
 
-extern UnkCameraStruct  gUnkCameraStruct_800B77B8;
-extern GM_CAMERA        GM_Camera;
+extern GM_SnakeCameraWork  GM_SnakeCamera;
+extern GM_CameraSystemWork        GM_Camera;
 
 extern int s03c_dword_800C33D8;
 
@@ -2318,18 +2318,18 @@ static void Johnny_800C7BF8(Work *work, int action)
 
         GM_Camera.first_person = 1;
 
-        gUnkCameraStruct_800B77B8.eye = GM_PlayerPosition;
-        gUnkCameraStruct_800B77B8.eye.vy += 500;
+        GM_SnakeCamera.position = GM_PlayerPosition;
+        GM_SnakeCamera.position.vy += 500;
 
-        gUnkCameraStruct_800B77B8.rotate2.vz = 0;
-        gUnkCameraStruct_800B77B8.rotate2.vx = 0;
+        GM_SnakeCamera.rotate2.vz = 0;
+        GM_SnakeCamera.rotate2.vx = 0;
 
         campos.vx = 5500;
         campos.vz = 750;
         campos.vy = 0;
 
         GV_SubVec3(&campos, &GM_PlayerPosition, &diff);
-        gUnkCameraStruct_800B77B8.rotate2.vy = GV_VecDir2(&diff);
+        GM_SnakeCamera.rotate2.vy = GV_VecDir2(&diff);
 
         if (work->unkB4C == 2)
         {
@@ -2422,15 +2422,15 @@ static void Johnny_800C7F78(Work *work, int action)
 
     GM_Camera.first_person = 1;
 
-    gUnkCameraStruct_800B77B8.eye.vx = sp40.t[0];
-    gUnkCameraStruct_800B77B8.eye.vy = sp40.t[1];
-    gUnkCameraStruct_800B77B8.eye.vz = sp40.t[2];
+    GM_SnakeCamera.position.vx = sp40.t[0];
+    GM_SnakeCamera.position.vy = sp40.t[1];
+    GM_SnakeCamera.position.vz = sp40.t[2];
 
-    GV_SubVec3(&GM_PlayerPosition, &gUnkCameraStruct_800B77B8.eye, &diff);
+    GV_SubVec3(&GM_PlayerPosition, &GM_SnakeCamera.position, &diff);
 
-    gUnkCameraStruct_800B77B8.rotate2.vx = 320;
-    gUnkCameraStruct_800B77B8.rotate2.vz = 0;
-    gUnkCameraStruct_800B77B8.rotate2.vy = GV_VecDir2(&diff);
+    GM_SnakeCamera.rotate2.vx = 320;
+    GM_SnakeCamera.rotate2.vz = 0;
+    GM_SnakeCamera.rotate2.vy = GV_VecDir2(&diff);
 
     if (work->unkB1C & 0x4000000)
     {

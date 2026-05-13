@@ -152,7 +152,7 @@ typedef struct tagMGSDEMOACT
     int          field_26C; /* unused */
     DG_CHANLFUNC old_screen;
     int          old_game_status;
-    GM_CAMERA    old_camera;
+    GM_CameraSystemWork    old_camera;
     int          old_item;
     int          old_weapon;
 } MGSDEMOACT, *PMGSDEMOACT, *LPMGSDEMOACT;

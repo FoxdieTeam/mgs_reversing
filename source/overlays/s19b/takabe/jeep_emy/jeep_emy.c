@@ -85,7 +85,7 @@ static SVECTOR s19b_dword_800C32F0 = {200, 500, 200};
 static SVECTOR s19b_dword_800C32F8 = {0, 0, 0};
 static SVECTOR s19b_dword_800C3300 = {5, -500, 80};
 
-extern GM_CAMERA GM_Camera;
+extern GM_CameraSystemWork GM_Camera;
 
 void s01a_800E2364(MATRIX *mtx, SVECTOR *in, VECTOR *out);
 void *NewJeepBlood(MATRIX *world, int count, MATRIX *root);

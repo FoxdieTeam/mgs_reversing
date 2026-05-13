@@ -21,7 +21,7 @@ static SVECTOR s12a_dword_800C34A0 = {-1024, 0, 0};
 static SVECTOR s12a_dword_800C34A8 = {10, -2000, -70};
 static SVECTOR s12a_dword_800C34B0 = {10, -800, -120};
 
-extern GM_CAMERA        GM_Camera;
+extern GM_CameraSystemWork        GM_Camera;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 
 extern SVECTOR wolf2_position;
@@ -1414,11 +1414,11 @@ void s12a_wolf2_800D1BE8(Wolf2Work *work)
 
     DG_LookAt(DG_Chanl(0), &eye, &center, 3721);
 
-    GM_Camera.field_2A = 0;
+    GM_Camera.interp_mode = 0;
     GM_Camera.zoom = 3721;
 
-    gUnkCameraStruct2_800B7868.eye = eye;
-    gUnkCameraStruct2_800B7868.center = center;
+    gUnkCameraStruct2_800B7868.position = eye;
+    gUnkCameraStruct2_800B7868.target = center;
 }
 
 void s12a_wolf2_800D1EBC(Wolf2Work *work)

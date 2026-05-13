@@ -11,7 +11,7 @@
 #include "chara/snake/shadow.h" // for NewShadow
 #include "takabe/cineutil.h"    // for OpenCinemaScreen, etc.
 
-extern UnkCameraStruct gUnkCameraStruct_800B77B8;
+extern GM_SnakeCameraWork GM_SnakeCamera;
 
 /*---------------------------------------------------------------------------*/
 
@@ -61,9 +61,9 @@ static void Act(Work *work)
     GM_ActObject(&work->body);
     DG_GetLightMatrix(&work->control.mov, work->light);
 
-    gUnkCameraStruct_800B77B8.eye = work->control.mov;
-    gUnkCameraStruct_800B77B8.rotate2 = work->control.rot;
-    gUnkCameraStruct_800B77B8.track = 4000;
+    GM_SnakeCamera.position = work->control.mov;
+    GM_SnakeCamera.rotate2 = work->control.rot;
+    GM_SnakeCamera.track = 4000;
 
     work->control.height = work->body.height;
 

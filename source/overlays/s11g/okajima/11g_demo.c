@@ -49,7 +49,7 @@ typedef struct _Work
 
 VECTOR body_scale = {4096, 4096, 4096};
 
-extern GM_CAMERA        GM_Camera;
+extern GM_CameraSystemWork        GM_Camera;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 
 void  NewAnime_8005E774(SVECTOR *pos);
@@ -147,10 +147,10 @@ void s11g_11g_demo_800CB67C(SVECTOR *vec, SVECTOR *pos, int len)
 void s11g_11g_demo_800CB764(Work *work)
 {    
     DG_LookAt(DG_Chanl(0), &work->f3B54, &work->f3B5C, 320);
-    GM_Camera.field_2A = 0;
+    GM_Camera.interp_mode = 0;
     GM_Camera.zoom = 320;
-    gUnkCameraStruct2_800B7868.eye = work->f3B54;
-    gUnkCameraStruct2_800B7868.center = work->f3B5C;
+    gUnkCameraStruct2_800B7868.position = work->f3B54;
+    gUnkCameraStruct2_800B7868.target = work->f3B5C;
 }
 
 void s11g_11g_demo_800CB7FC(void)

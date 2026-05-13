@@ -12,7 +12,7 @@
 #include "sound/g_sound.h"
 #include "strcode.h"
 
-extern GM_CAMERA    GM_Camera;
+extern GM_CameraSystemWork    GM_Camera;
 extern int          GM_CameraShakeOffset;
 
 /*---------------------------------------------------------------------------*/
@@ -339,9 +339,9 @@ static void s03e_evpanel_800C3950(EvPanelWork *work, short arg1)
 
 static void s03e_evpanel_800C3994(void)
 {
-    GM_Camera.eye = s03e_dword_800CC6B8->f84;
+    GM_Camera.position = s03e_dword_800CC6B8->f84;
     GM_Camera.rotate = s03e_dword_800CC6B8->f8C;
-    GM_Camera.field_28 = 1;
+    GM_Camera.type = 1;
 }
 
 static void s03e_evpanel_800C39F8(EvPanelWork *work)
@@ -350,12 +350,12 @@ static void s03e_evpanel_800C39F8(EvPanelWork *work)
 
     GM_SetCameraCallbackFunc(1, s03e_evpanel_800C3994);
 
-    work->field_4C = GM_Camera.flags;
+    work->field_4C = GM_Camera.flag;
     work->f8C.vy = work->field_48;
     work->field_4A = work->field_48;
 
-    GM_Camera.flags = 0x2;
-    GM_Camera.field_2A = 2;
+    GM_Camera.flag = 0x2;
+    GM_Camera.interp_mode = 2;
     GM_Camera.interp = 30;
 
     GM_PlayerStatus |= PLAYER_PAD_OFF;
@@ -375,8 +375,8 @@ static void s03e_evpanel_800C39F8(EvPanelWork *work)
 
 static void s03e_evpanel_800C3AD0(EvPanelWork *work)
 {
-    GM_Camera.flags = work->field_4C;
-    GM_Camera.field_2A = 2;
+    GM_Camera.flag = work->field_4C;
+    GM_Camera.interp_mode = 2;
     GM_Camera.interp = 30;
 
     GM_SetCameraCallbackFunc(1, NULL);
@@ -447,7 +447,7 @@ static void Act(EvPanelWork *work)
             work->field_4A = work->f8C.vy;
         }
 
-        GM_Camera.field_2A = 0;
+        GM_Camera.interp_mode = 0;
         GM_Camera.interp = -1;
 
         work->field_36 = 25;
