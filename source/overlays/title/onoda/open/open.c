@@ -1566,7 +1566,79 @@ void title_open_800CF504(OpenWork *work, int index)
         break;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800CF610.s")
+void title_open_800CF610(OpenWork *work, int index)
+{
+    POLY_GT4 *p;
+    int counter, r_val;
+
+    p = work->f934_polys;
+    p += index;
+
+    switch (work->fA98)
+    {
+    case 2:
+        p->r0 = 0xFF;
+        p->g0 = 0x40;
+        p->b0 = 0x40;
+        p->r1 = 0xFF;
+        p->g1 = 0x40;
+        p->b1 = 0x40;
+        p->r2 = 0xFF;
+        p->g2 = 0x40;
+        p->b2 = 0x40;
+        p->r3 = 0xFF;
+        p->g3 = 0x40;
+        p->b3 = 0x40;
+        if (work->f184 >= 0x20)
+        {
+            work->fA98 = 3;
+            work->f184 = 0;
+        }
+        break;
+    case 3:
+        r_val = 0xFF - work->f184 * 8;
+        counter = 0x40 - work->f184 * 2;
+        p->r0 = r_val;
+        p->g0 = counter;
+        p->b0 = counter;
+        p->r1 = r_val;
+        p->g1 = counter;
+        p->b1 = counter;
+        p->r2 = r_val;
+        p->g2 = counter;
+        p->b2 = counter;
+        p->r3 = r_val;
+        p->g3 = counter;
+        p->b3 = counter;
+        if (work->f184 >= 0x18)
+        {
+            work->fA98 = 4;
+            work->f184 = 0;
+        }
+        break;
+    case 4:
+        r_val = work->f184 * 8 + 0x3F;
+        counter = work->f184 * 2 + 0x10;
+        p->r0 = r_val;
+        p->g0 = counter;
+        p->b0 = counter;
+        p->r1 = r_val;
+        p->g1 = counter;
+        p->b1 = counter;
+        p->r2 = r_val;
+        p->g2 = counter;
+        p->b2 = counter;
+        p->r3 = r_val;
+        p->g3 = counter;
+        p->b3 = counter;
+        if (work->f184 >= 0x18)
+        {
+            work->fA98 = 2;
+            work->f184 = 0;
+        }
+        break;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CF794.s")
 void title_open_800D1B74(char *name)
 {
