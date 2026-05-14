@@ -16,6 +16,9 @@ import ninja_syntax
 
 os.environ['WINEDEBUG'] = '-all'
 os.environ['TMPDIR'] = tempfile.gettempdir()
+# MoltenVK logs can flood stdout on macOS when Wine/Wibo child processes start.
+# Keep this overrideable from the shell by using setdefault.
+os.environ.setdefault('MVK_CONFIG_LOG_LEVEL', '0')
 
 has_wine = bool(which('wine'))
 has_wibo = bool(which('wibo'))

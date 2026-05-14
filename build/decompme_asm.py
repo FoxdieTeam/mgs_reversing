@@ -10,6 +10,7 @@ import os
 import subprocess
 import sys
 import platform
+from shutil import which
 from glob import glob
 from iterfzf import iterfzf
 from capstone import Cs, CS_ARCH_MIPS, CS_MODE_MIPS32
@@ -17,9 +18,22 @@ from capstone.mips import *
 
 def clipboard(data):
     if os.name == 'nt':
-        subprocess.run(['clip'], input=data.encode())
-    else:
-        subprocess.run(['xclip', '-selection', 'clipboard'], input=data.encode())
+        subprocess.run(['clip'], input=data.encode(), check=True)
+        return True
+
+    if platform.system() == 'Darwin':
+        subprocess.run(['pbcopy'], input=data.encode(), check=True)
+        return True
+
+    if which('xclip'):
+        subprocess.run(['xclip', '-selection', 'clipboard'], input=data.encode(), check=True)
+        return True
+
+    if which('xsel'):
+        subprocess.run(['xsel', '--clipboard', '--input'], input=data.encode(), check=True)
+        return True
+
+    return False
 
 # def hexdump(data):
 #     return ' '.join(['{:02X}'.format(x) for x in data])
@@ -292,12 +306,15 @@ def main(path):
                 lines = patchSymbolsVars(lines)
             text = '\n'.join(lines) + '\n'
 
-            # xclip causes crashes under WSL
+            # Clipboard helpers can be unavailable or unreliable on some hosts.
             if "microsoft-standard" in platform.uname().release:
                 print(text)
             else:
-                clipboard(text)
-                print('asm is now on your clipboard to paste into decomp.me')
+                if clipboard(text):
+                    print('asm is now on your clipboard to paste into decomp.me')
+                else:
+                    print(text)
+                    print('No supported clipboard command found; printed asm to stdout instead.')
         else:
             print('Error: filename', path, 'should end with a 32-bit hex address suffix (for example sub_80027384.s)')
     else:
