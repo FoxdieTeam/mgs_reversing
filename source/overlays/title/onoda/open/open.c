@@ -1519,7 +1519,53 @@ void title_open_800CE6AC(OpenWork *work, int index)
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CE748.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CEB14.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CEF54.s")
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800CF504.s")
+
+void title_open_800CF504(OpenWork *work, int index)
+{
+    POLY_FT4 *p;
+    int counter, r_val;
+
+    p = work->f18C_polys;
+    p += index;
+
+    switch (work->fA98)
+    {
+    case 2:
+        p->r0 = 0xFF;
+        p->g0 = 0x40;
+        p->b0 = 0x40;
+        if (work->f184 >= 0x20)
+        {
+            work->fA98 = 3;
+            work->f184 = 0;
+        }
+        break;
+    case 3:
+        r_val = ~(work->f184 * 8);
+        counter = 0x40 - work->f184 * 2;
+        p->r0 = r_val;
+        p->g0 = counter;
+        p->b0 = counter;
+        if (work->f184 >= 0x18)
+        {
+            work->fA98 = 4;
+            work->f184 = 0;
+        }
+        break;
+    case 4:
+        r_val = work->f184 * 8 + 0x3F;
+        counter = work->f184 * 2 + 0x10;
+        p->r0 = r_val;
+        p->g0 = counter;
+        p->b0 = counter;
+        if (work->f184 >= 0x18)
+        {
+            work->fA98 = 2;
+            work->f184 = 0;
+        }
+        break;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CF610.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CF794.s")
 void title_open_800D1B74(char *name)
