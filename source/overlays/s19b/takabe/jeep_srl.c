@@ -26,7 +26,11 @@ extern JEEP_SYSTEM Takabe_JeepSystem;
 typedef struct _Work
 {
     GV_ACT work;
-    char   pad1[0xC50];
+    char   pad1[0xC50 - 0x20];
+    int    field_C50;
+    int    field_C54;
+    short *field_C58;
+    char   pad1b[0xC70 - 0xC58 - sizeof(short *)];
     int    field_C70;
     int    field_C74;
     char   pad2[0xC];
@@ -42,7 +46,15 @@ void *NewJeepLamp(SVECTOR *root_pos, int tex_id, int unused);
 void *s19b_jeep2_800D6F24(int name, int map); // NewJeep2
 
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_srl_800CD638.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_srl_800CD790.s")
+extern int s19b_dword_800C354C;
+
+void s19b_jeep_srl_800CD790(Work *work)
+{
+    short *p = (short *)&s19b_dword_800C354C;
+    work->field_C58 = p;
+    work->field_C50 = p[1];
+    work->field_C54 = p[6];
+}
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_srl_800CD7B4.s")
 
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_srl_800CDAA4.s")
@@ -78,7 +90,12 @@ void *NewJeepScroll(int name, int where)
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CE5F8.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CE628.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CE83C.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CE8B8.s")
+void s19b_jeep_gls_800CE8B8(SVECTOR *src, SVECTOR *dst)
+{
+    dst->vx = src->vx;
+    dst->vy = src->vz;
+    dst->vz = src->vy;
+}
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CE8DC.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CEB2C.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CEC24.s")
