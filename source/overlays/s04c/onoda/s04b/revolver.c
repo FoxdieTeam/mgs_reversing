@@ -125,6 +125,9 @@ extern SVECTOR s04c_dword_800C3498[2];
 extern MATRIX  s04c_dword_800C34A8;
 extern SVECTOR s04c_dword_800C34C8;
 extern SVECTOR s04c_dword_800C34D0;
+extern short   s04c_dword_800C34D8[][2];
+extern short   s04c_dword_800C34F8[];
+extern short   s04c_dword_800C3508[];
 extern short   s04c_dword_800C3518[];
 extern short   s04c_dword_800C3528[];
 extern short   s04c_dword_800C3538[];
@@ -471,7 +474,43 @@ int s04c_revolver_800CFC3C(RevolverWork *work)
     return s04c_revolver_800CFBE0(GM_PlayerPosition.vx, GM_PlayerPosition.vz);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CFC6C.s")
+void s04c_revolver_800CFC6C(RevolverWork *work, int flag)
+{
+    SVECTOR *base = &work->field_91C;
+    int f8A0, f8A4;
+    int a_val;
+    int m;
+
+    *(int *)((char *)base + 0x20) = 0;
+    f8A4 = work->field_8A4;
+    f8A0 = work->field_8A0;
+    a_val = s04c_dword_800C34F8[f8A4];
+
+    if (f8A4 == s04c_dword_800C3508[f8A0])
+    {
+        *(int *)((char *)base + 0x20) = 1;
+        *(int *)((char *)base + 0x8) = a_val;
+        return;
+    }
+
+    m = s04c_dword_800C34D8[f8A0][0];
+    if (a_val == m)
+    {
+        m = s04c_dword_800C34D8[f8A0][1];
+    }
+
+    if (flag == 0)
+    {
+        *(int *)((char *)base + 0x20) = 1;
+        *(int *)((char *)base + 0x8) = m;
+    }
+    else
+    {
+        *(int *)((char *)base + 0x20) = 2;
+        *(int *)((char *)base + 0x8) = a_val;
+        *(int *)((char *)base + 0xC) = m;
+    }
+}
 
 void s04c_revolver_800CFD08(SVECTOR *arg0, int arg1)
 {
