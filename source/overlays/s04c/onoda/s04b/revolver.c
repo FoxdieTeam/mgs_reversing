@@ -158,6 +158,7 @@ void *AN_Unknown_800CA1EC(MATRIX *mat, int mark);
 void Voicesys_800CE2D0(void);
 void Voicesys_800CE300(void);
 void Voicesys_800CE310(void);
+void Voicesys_800CE5F8(int, int);
 int  Voicesys_800CE694(void);
 void Voicesys_800CE734(void);
 
@@ -779,8 +780,124 @@ void s04c_revolver_800D04B8(STATE *state, int value)
     state->time = 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800D04C4.s")
-void s04c_revolver_800D04C4(RevolverWork *work, STATE *state);
+void s04c_revolver_800D04C4(RevolverWork *work, STATE *state)
+{
+    SVECTOR diff;
+    int     dir;
+    int     extra_action;
+    int     ok;
+    int     x, z;
+
+    (void)state->state;
+    GV_SubVec3(&s04c_dword_800DBE18, &work->control.mov, &diff);
+
+    if (GM_GameOverTimer != 0)
+    {
+        work->control.turn.vy = ratan2(diff.vx, diff.vz);
+        s04c_revolver_800CF71C(work);
+        return;
+    }
+
+    if (work->field_874 <= 0)
+    {
+        s04c_revolver_800D04B8(state, 3);
+        s04c_revolver_800CF748(work);
+
+        if ((work->field_8EC == 0) && (work->field_8F0 < 3))
+        {
+            if (work->field_8F8 == 0)
+            {
+                Voicesys_800CE2D0();
+                work->field_8F8 = 1;
+            }
+            return;
+        }
+
+        s04c_revolver_800CF3DC(0x84);
+        return;
+    }
+
+    if (work->field_964 < GV_VecLen3(&diff))
+    {
+        if (s04c_revolver_800D0444(work))
+        {
+            state->field_C++;
+            dir = ratan2(diff.vx, diff.vz);
+            {
+                int dir_short = (short)dir;
+
+                work->control.turn.vy = dir;
+                if (s04c_revolver_800CFAF0(work, dir_short))
+                {
+                    if (state->field_C < 0)
+                    {
+                        state->field_C = 0;
+                    }
+                    if (state->field_C < 5)
+                    {
+                        return;
+                    }
+
+                    state->field_C = 0;
+                    work->field_93C = 0;
+                    work->field_934 = diff;
+                    extra_action = dir_short;
+                }
+                else
+                {
+                    if (state->field_C < 5)
+                    {
+                        return;
+                    }
+                    state->field_C = -60;
+
+                    if (state->field_8 == 0)
+                    {
+                        work->field_93C = 0;
+                        work->field_934 = diff;
+                        state->field_8 += 1;
+                        Voicesys_800CE5F8(8, 1);
+                        s04c_revolver_800D04B8(state, 5);
+                        return;
+                    }
+
+                    work->field_8A4 = s04c_revolver_800CFC3C(work);
+                    s04c_revolver_800CFC6C(work, 1);
+                    extra_action = s04c_revolver_800CFD84(work);
+
+                    if (GV_RandU(0x20) < 8)
+                    {
+                        s04c_revolver_800CF3DC(0x82);
+                    }
+                }
+
+                s04c_revolver_800D04B8(state, 2);
+                work->control.interp = 1;
+                work->field_870 = 0;
+                work->control.turn.vy = dir_short;
+                work->field_8D0 = extra_action - dir_short;
+                GM_ConfigObjectAction(&work->body, 6, 0, 4);
+            }
+
+            x = work->field_934.vx;
+            z = work->field_934.vz;
+            work->field_8D4 = -ratan2(work->field_934.vy, SquareRoot0(x * x + z * z));
+            return;
+        }
+        ok = s04c_revolver_800D03C0(work);
+    }
+    else
+    {
+        ok = s04c_revolver_800D03C0(work);
+        s04c_revolver_800CF3DC(0x83);
+    }
+
+    s04c_revolver_800D04B8(state, 1);
+    if (!ok)
+    {
+        s04c_revolver_800CF4A0(work);
+    }
+}
 
 void s04c_revolver_800D07F4(RevolverWork *work, STATE *state)
 {
