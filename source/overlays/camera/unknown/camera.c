@@ -92,7 +92,7 @@ extern char camera_aRequestx_800CFF3C[];
 extern char camera_aNomemoryforstack_800CFF54[];
 extern const char camera_a_800D0144[];
 
-int camera_800C3ED8(CameraWork *);
+void camera_800C3ED8(CameraWork *);
 int camera_800CDF18(CameraWork *);
 
 void camera_800C3A7C(unsigned long *runlevel, RECT *pRect)
@@ -183,7 +183,42 @@ void camera_800C3D3C(CameraWork *work)
     SetSemiTrans(p, 0);
     work->field_654[1] = 0x800;
 }
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C3ED8.s")
+void camera_800C3ED8(CameraWork *work)
+{
+    POLY_FT4 *src;
+    POLY_FT4 *dst;
+    int       i;
+
+    src = work->polys_lr;
+    dst = (POLY_FT4 *)work->prim1->packs[GV_Clock];
+    for (i = 0; i < 4; i++)
+    {
+        *dst = *src;
+        *(short *)dst = (short)work->field_654[i];
+        src++;
+        dst++;
+    }
+
+    src = work->polys;
+    dst = (POLY_FT4 *)work->prim2->packs[GV_Clock];
+    for (i = 0; i < 9; i++)
+    {
+        *dst = *src;
+        *(short *)dst = (short)(int)work->field_664[i];
+        src++;
+        dst++;
+    }
+
+    src = work->polys2;
+    dst = (POLY_FT4 *)work->prim3->packs[GV_Clock];
+    for (i = 0; i < 26; i++)
+    {
+        *dst = *src;
+        *(short *)dst = (short)(int)work->field_688[i];
+        src++;
+        dst++;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C408C.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C4184.s")
 void camera_800C4184(CameraWork* work);
