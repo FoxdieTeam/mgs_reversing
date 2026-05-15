@@ -740,7 +740,86 @@ int camera_800C6A40(MenuWork *work, MEM_CARD *pMemcard, const char *param_3,
     return info->max_num != 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C6CCC.s")
+extern int camera_dword_800C3434;
+
+// duplicate of menu_radio_do_file_mode_helper13_8004BCF8
+int camera_800C6CCC(GV_PAD *pPad, int *pOut, SELECT_INFO *info)
+{
+    int newDir;
+    int field_20;
+    int press;
+    int status;
+
+    if (camera_dword_800C3434 != 0)
+    {
+        camera_dword_800C3434 = 0;
+        pPad->press |= PAD_CIRCLE;
+    }
+    else
+    {
+        status = pPad->status;
+        if (info->max_num != 0)
+        {
+            if (status & (PAD_DOWN | PAD_UP))
+            {
+                newDir = 1;
+                if (status & PAD_UP)
+                {
+                    newDir = -1;
+                }
+                if (info->current_dir == newDir)
+                {
+                    if (--info->scroll_delay < 0)
+                    {
+                        updateCurrentEntry_800C6984(info, newDir);
+                        info->scroll_delay = 2;
+                    }
+                }
+                else
+                {
+                    updateCurrentEntry_800C6984(info, newDir);
+                    info->scroll_delay = 10;
+                    info->current_dir = newDir;
+                }
+            }
+            else
+            {
+                info->current_dir = 0;
+            }
+        }
+    }
+    press = pPad->press;
+    if (press & PAD_CIRCLE)
+    {
+        GM_SeSet2(0, 0x3F, SE_MENU_SELECT);
+        if (info->max_num == 0)
+        {
+            *pOut = -1;
+            return 1;
+        }
+        field_20 = info->menu[info->current_index].field_20;
+        *pOut = field_20;
+        if (camera_dword_800D072C->field_0[0] == 71)
+        {
+            if (field_20 < 16)
+            {
+                camera_dword_800C342C = info->current_index;
+            }
+            else
+            {
+                camera_dword_800C342C = -1;
+            }
+        }
+        return 1;
+    }
+    if (press & PAD_CROSS)
+    {
+        GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+        *pOut = info->field_E;
+        return 1;
+    }
+    return 0;
+}
 
 extern int camera_dword_800C3884;
 extern const char *gMemoryCardNames_800C38C4[];
