@@ -13,6 +13,7 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
+#include "libfs/libfs.h"
 #include "menu/menuman.h"
 #include "menu/radio.h"
 #include "memcard/memcard.h"
@@ -218,7 +219,50 @@ void camera_800C3ED8(CameraWork *work)
         dst++;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C408C.s")
+extern int camera_dword_800C3218[];
+extern const char camera_aChecktextureid_800CFAC0[];
+extern const char camera_aThisidisexistsoiclearthisid_800CFAD4[];
+extern const char camera_aThisidisnotexist_800CFAFC[];
+extern const char camera_aTextureloadimagefinish_800CFB14[];
+
+int camera_800C408C(CameraWork *unused, int idx)
+{
+    int   *base;
+    int   *entry;
+    int    id;
+    int    sector;
+    int    size;
+    void  *buf;
+    DG_TEX *tex;
+
+    base   = camera_dword_800C3218;
+    entry  = base + idx * 3;
+    size   = entry[2];
+    id     = entry[0];
+    sector = entry[1];
+    buf    = GV_Malloc(size);
+    FS_LoadFileRequest(6, sector, size, buf);
+    while (FS_LoadFileSync() > 0)
+    {
+        mts_wait_vbl(1);
+    }
+    printf((char *)camera_aChecktextureid_800CFAC0);
+    tex = DG_GetTexture(id);
+    if (tex->id != 0)
+    {
+        tex->id = 0;
+        printf((char *)camera_aThisidisexistsoiclearthisid_800CFAD4);
+    }
+    else
+    {
+        printf((char *)camera_aThisidisnotexist_800CFAFC);
+    }
+    DG_LoadInitPcx(buf, id);
+    printf((char *)camera_aTextureloadimagefinish_800CFB14);
+    GV_Free(buf);
+    return id;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C4184.s")
 void camera_800C4184(CameraWork* work);
 
