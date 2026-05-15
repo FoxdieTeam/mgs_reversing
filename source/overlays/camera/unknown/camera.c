@@ -29,7 +29,7 @@ typedef struct CameraWork
     int      f20;
     GV_PAD  *pad;
     int      f28;
-    char     padding1[0x4];
+    int      f2C;
     DG_PRIM *prim1, *prim2, *prim3;
     POLY_FT4 polys_lr[2];
     char     padding2[0x50];
@@ -1348,7 +1348,53 @@ void camera_800C869C(CameraWork *work)
 }
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C86BC.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C884C.s")
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C89DC.s")
+extern void camera_800C86BC(CameraWork *work, int x, int y, int w, int h, int color, int unused);
+
+void camera_800C89DC(CameraWork *work)
+{
+    POLY_FT4 *p = work->polys_lr;
+    int counter = work->field_4938;
+    int rgb;
+
+    if (counter < 31)
+    {
+        return;
+    }
+
+    if (counter < 47)
+    {
+        work->field_654[3] = 0x100;
+        rgb = (counter - 30) * 255 / 16;
+        goto set_rgb;
+    }
+    if (counter < 75)
+    {
+        work->field_654[2] = 0;
+        work->field_4934 = 0;
+        work->field_688[2] = (GV_ACT *)0x200;
+        work->field_688[3] = (GV_ACT *)0x200;
+        work->field_688[4] = (GV_ACT *)0x200;
+        work->field_688[25] = NULL;
+        work->field_688[22] = NULL;
+        return;
+    }
+    if (counter >= 91)
+    {
+        goto reset;
+    }
+    rgb = 0xFF - (counter - 74) * 255 / 16;
+set_rgb:
+    p[3].r0 = rgb;
+    p[3].g0 = rgb;
+    p[3].b0 = rgb;
+    return;
+
+reset:
+    work->f28 = 3;
+    work->f2C = 0;
+    work->field_4938 = 0;
+    camera_800C86BC(work, -0x90, 0x5A, 0x70, 0xC, 0xFF, 0);
+}
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C8AD4.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800CA918.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800CB024.s")
