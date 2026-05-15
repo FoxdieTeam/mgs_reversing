@@ -30,7 +30,8 @@ typedef struct CameraWork
     int      f28;
     char     padding1[0x4];
     DG_PRIM *prim1, *prim2, *prim3;
-    char     padding2[0xA0];
+    POLY_FT4 polys_lr[2];
+    char     padding2[0x50];
     POLY_FT4 polys[9];
     POLY_FT4 polys2[26];
     int      field_654[4];
@@ -46,7 +47,11 @@ typedef struct CameraWork
     char     padding5[0x4000];
     int      field_4934;
     int      field_4938;
-    char     padding6[0xa4];
+    char     padding6[0x2C];
+    int      field_4968;
+    int      field_496C;
+    int      field_4970;
+    char     padding6b[0x6C];
     int      f49E0;
     char    *f49E4;
 } CameraWork;
@@ -127,7 +132,54 @@ void camera_800C3A7C(unsigned long *runlevel, RECT *pRect)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C3B9C.s")
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C3D3C.s")
+void camera_800C3D3C(CameraWork *work)
+{
+    POLY_FT4 *p;
+    int len = 9;
+    int code = 0x2C;
+    int vmax = 0xB0;
+    int umax;
+    short y_top = -0x5A;
+    short y_bot = 0x56;
+
+    p = &work->polys_lr[0];
+    umax = 0x90;
+    setlen(p, len);
+    setcode(p, code);
+    p->u0 = 0;    p->v0 = 0;
+    p->u1 = umax; p->v1 = 0;
+    p->u2 = 0;    p->v2 = vmax;
+    p->u3 = umax; p->v3 = vmax;
+    p->tpage = GetTPage(2, 0, 0, 0x100);
+    p->r0 = work->field_4968;
+    p->g0 = work->field_496C;
+    p->b0 = work->field_4970;
+    p->x0 = -0x90; p->y0 = y_top;
+    p->x1 = 0;     p->y1 = y_top;
+    p->x2 = -0x90; p->y2 = y_bot;
+    p->x3 = 0;     p->y3 = y_bot;
+    SetSemiTrans(p, 0);
+    work->field_654[0] = 0x800;
+
+    p = &work->polys_lr[1];
+    umax = 0xA0;
+    setlen(p, len);
+    setcode(p, code);
+    p->u0 = 0x10; p->v0 = 0;
+    p->u1 = umax; p->v1 = 0;
+    p->u2 = 0x10; p->v2 = vmax;
+    p->u3 = umax; p->v3 = vmax;
+    p->tpage = GetTPage(2, 0, 0x80, 0x100);
+    p->r0 = work->field_4968;
+    p->g0 = work->field_496C;
+    p->b0 = work->field_4970;
+    p->x0 = 0;    p->y0 = y_top;
+    p->x1 = 0x90; p->y1 = y_top;
+    p->x2 = 0;    p->y2 = y_bot;
+    p->x3 = 0x90; p->y3 = y_bot;
+    SetSemiTrans(p, 0);
+    work->field_654[1] = 0x800;
+}
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C3ED8.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C408C.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C4184.s")
