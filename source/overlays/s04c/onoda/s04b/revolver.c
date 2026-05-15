@@ -738,8 +738,48 @@ int s04c_revolver_800D00B4(RevolverWork *work)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800D02C8.s")
-int s04c_revolver_800D02C8(RevolverWork *work, short *, short *);
+int s04c_revolver_800D02C8(RevolverWork *work, short *arg1, short *arg2)
+{
+    int side1;
+    int side2;
+    int index;
+    register int temp_v1 asm("v1");
+
+    side1 = s04c_revolver_800CFBE0(work->control.mov.vx, work->control.mov.vz);
+    side2 = s04c_revolver_800CFBE0(GM_PlayerPosition.vx, GM_PlayerPosition.vz);
+
+    s04c_dword_800DBE10 = arg1;
+    index = arg1[side2];
+
+    temp_v1 = ((side2 - side1) & 7) >= 4;
+
+    if (index == side1)
+    {
+        work->field_868.vx = s04c_dword_800C3470[side1][0];
+        work->field_868.vz = s04c_dword_800C3470[side1][1];
+        return -1;
+    }
+
+    if (((index - side1) & 7) < 4)
+    {
+        if (temp_v1 == 0)
+        {
+            index = arg2[side2];
+            s04c_dword_800DBE10 = arg2;
+        }
+    }
+    else
+    {
+        if (temp_v1 == 1)
+        {
+            index = arg2[side2];
+            s04c_dword_800DBE10 = arg2;
+        }
+    }
+
+    work->field_8A0 = side1;
+    return s04c_revolver_800CFED4(work, index);
+}
 
 int s04c_revolver_800D03C0(RevolverWork *work)
 {
