@@ -264,8 +264,75 @@ int camera_800C408C(CameraWork *unused, int idx)
     return id;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C4184.s")
-void camera_800C4184(CameraWork* work);
+extern const char camera_aCamexflush_800CFB30[];
+
+void camera_800C4184(CameraWork *work)
+{
+    POLY_FT4 *p;
+    DG_TEX   *tex;
+
+    p = &work->polys_lr[2];
+    setPolyFT4(p);
+    p->r0 = work->field_4968;
+    p->g0 = work->field_496C;
+    p->b0 = work->field_4970;
+    p->x0 = -0x7F; p->y0 = -0x52;
+    p->x1 = 0x7F;  p->y1 = -0x52;
+    p->x2 = -0x7F; p->y2 = 0x4E;
+    p->x3 = 0x7F;  p->y3 = 0x4E;
+    tex = DG_GetTexture(camera_800C408C(work, work->field_4934 - 1));
+    {
+        int off_x = tex->off_x;
+        int w     = tex->w;
+        int off_y = tex->off_y;
+        int h     = tex->h;
+        int u_right  = off_x + w + 1;
+        int v_bottom = off_y + h + 1;
+        p->u0 = off_x;
+        p->v0 = off_y;
+        p->u1 = u_right;
+        p->v1 = off_y;
+        p->u2 = off_x;
+        p->v2 = v_bottom;
+        p->u3 = u_right;
+        p->v3 = v_bottom;
+    }
+    p->tpage = tex->tpage;
+    p->clut  = tex->clut;
+    SetSemiTrans(p, 1);
+    work->field_654[2] = 0x600;
+
+    p = &work->polys_lr[3];
+    setPolyFT4(p);
+    p->r0 = 0;
+    p->g0 = 0;
+    p->b0 = 0;
+    p->x0 = -0xA0; p->y0 = -0x70;
+    p->x1 = 0xA0;  p->y1 = -0x70;
+    p->x2 = -0xA0; p->y2 = 0x70;
+    p->x3 = 0xA0;  p->y3 = 0x70;
+    tex = DG_GetTexture(GV_StrCode(camera_aCamexflush_800CFB30));
+    {
+        int off_x = tex->off_x;
+        int w     = tex->w;
+        int off_y = tex->off_y;
+        int h     = tex->h;
+        int u_right  = off_x + w;
+        int v_bottom = off_y + h;
+        p->u0 = off_x;
+        p->v0 = off_y;
+        p->u1 = u_right;
+        p->v1 = off_y;
+        p->u2 = off_x;
+        p->v2 = v_bottom;
+        p->u3 = u_right;
+        p->v3 = v_bottom;
+    }
+    p->tpage = tex->tpage;
+    p->clut  = tex->clut;
+    SetSemiTrans(p, 1);
+    work->field_654[3] = 0;
+}
 
 void camera_800C4350(CameraWork* work) {
 
