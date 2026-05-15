@@ -1078,7 +1078,24 @@ void camera_800C869C(CameraWork *work)
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800CBDE4.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800CC3C8.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800CCBB0.s")
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800CD0A0.s")
+void camera_800CD0A0(MenuPrim *pGlue, int x, int y, int w, int h)
+{
+    TILE *pTile;
+
+    _NEW_PRIM(pTile, pGlue);
+
+    LSTORE(0x72A452, &pTile->r0);
+    setTile(pTile);
+    pTile->x0 = x;
+    pTile->y0 = y;
+    pTile->w = w;
+    pTile->h = h;
+    setSemiTrans(pTile, 0);
+    addPrim(pGlue->ot, pTile);
+
+    radio_draw_face_frame(pGlue, x, y, w, h);
+    radio_draw_face_frame(pGlue, x, y, w, h);
+}
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800CD198.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800CD790.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800CDAB4.s")
