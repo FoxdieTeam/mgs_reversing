@@ -412,8 +412,34 @@ void camera_800C5AE8(int index)
 {
     camera_dword_800D075C->field_0_array[index].field_0 = 0;
 }
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C5B00.s")
-void camera_800C5B00(int param_1, int param_2, int param_3, int param_4, int divisor);
+// duplicate of sub_8004ABF0 in datasave.c
+void camera_800C5B00(int param_1, int param_2, int param_3, int param_4, int divisor)
+{
+    RadioFileModeStruElem *pElem = &camera_dword_800D075C->field_0_array[11];
+    RadioFileModeUnk1     *pUnk = (RadioFileModeUnk1 *)&(camera_dword_800D075C->field_220_unk1).field_18;
+
+    pElem->field_8_pFn = camera_800C553C;
+    pElem->field_C_unk1 = pUnk;
+
+    if (divisor <= 0)
+    {
+        pUnk->field_4 = param_1 * 65536;
+        pUnk->field_C = param_2 * 65536;
+        pUnk->field_14 = param_3 * 65536;
+        pUnk->field_1C = param_4 * 65536;
+        pElem->field_0 = 2;
+    }
+    else
+    {
+        pUnk->field_8 = (param_1 * 65536 - pUnk->field_4) / divisor;
+        pUnk->field_10 = (param_2 * 65536 - pUnk->field_C) / divisor;
+        pUnk->field_18 = (param_3 * 65536 - pUnk->field_14) / divisor;
+        pUnk->field_20 = (param_4 * 65536 - pUnk->field_1C) / divisor;
+        pElem->field_0 = 1;
+    }
+
+    pElem->field_4 = divisor;
+}
 
 void camera_800C5C54(MenuPrim *pGlue) // duplicate of menu_radio_do_file_mode_helper6_8004AD40
 {
