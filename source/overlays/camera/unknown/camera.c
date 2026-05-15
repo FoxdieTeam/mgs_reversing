@@ -51,7 +51,10 @@ typedef struct CameraWork
     int      field_4968;
     int      field_496C;
     int      field_4970;
-    char     padding6b[0x6C];
+    char     padding6b[0x44];
+    int      field_49B8;
+    int      field_49BC;
+    char     padding6c[0x20];
     int      f49E0;
     char    *f49E4;
 } CameraWork;
@@ -1267,7 +1270,61 @@ void camera_800C869C(CameraWork *work)
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800CA918.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800CB024.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800CB8AC.s")
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800CBCC8.s")
+extern void camera_800C884C(CameraWork *work, int x, int y, int w, int h, int color, int unused);
+
+void camera_800CBCC8(CameraWork *work)
+{
+    GV_PAD   *pad   = work->pad;
+    int       state = work->field_49BC;
+    u_short   press = pad->press;
+
+    switch (state)
+    {
+    case 0:
+        if (press & PAD_RIGHT)
+        {
+            work->field_49BC = 1;
+            camera_800C884C(work, 0x30, 0x5A, 0x26, 0xC, 0xFF, 0);
+            GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+            break;
+        }
+        if (press & PAD_CIRCLE)
+        {
+            work->field_49B8 = 2;
+            work->field_4938 = 0;
+            camera_800C869C(work);
+            GM_SeSet2(0, 0x3F, 0xB1);
+            break;
+        }
+        if (!(press & PAD_CROSS))
+        {
+            break;
+        }
+        goto exit_action;
+    case 1:
+        if (press & PAD_LEFT)
+        {
+            work->field_49BC = 0;
+            camera_800C884C(work, 3, 0x5A, 0x1A, 0xC, 0xFF, 0);
+            GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+            break;
+        }
+        if (press & PAD_CIRCLE)
+        {
+            goto exit_action;
+        }
+        if (!(press & PAD_CROSS))
+        {
+            break;
+        }
+    exit_action:
+        work->field_49B8 = 3;
+        work->field_4938 = 0;
+        camera_800C869C(work);
+        GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+        break;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800CBDE4.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800CC3C8.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800CCBB0.s")
