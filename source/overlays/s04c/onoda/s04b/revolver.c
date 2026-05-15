@@ -477,20 +477,26 @@ int s04c_revolver_800CFC3C(RevolverWork *work)
 
 void s04c_revolver_800CFC6C(RevolverWork *work, int flag)
 {
-    SVECTOR *base = &work->field_91C;
+    struct
+    {
+        SVECTOR vec0;       /* 0x00 = work->field_91C */
+        int     sectors[4]; /* 0x08 = work->field_924 */
+        SVECTOR vec1;       /* 0x18 = work->field_934 */
+        int     status;     /* 0x20 = work->field_93C */
+    } *sub = (void *)&work->field_91C;
     int f8A0, f8A4;
     int a_val;
     int m;
 
-    *(int *)((char *)base + 0x20) = 0;
+    sub->status = 0;
     f8A4 = work->field_8A4;
     f8A0 = work->field_8A0;
     a_val = s04c_dword_800C34F8[f8A4];
 
     if (f8A4 == s04c_dword_800C3508[f8A0])
     {
-        *(int *)((char *)base + 0x20) = 1;
-        *(int *)((char *)base + 0x8) = a_val;
+        sub->status = 1;
+        sub->sectors[0] = a_val;
         return;
     }
 
@@ -502,14 +508,14 @@ void s04c_revolver_800CFC6C(RevolverWork *work, int flag)
 
     if (flag == 0)
     {
-        *(int *)((char *)base + 0x20) = 1;
-        *(int *)((char *)base + 0x8) = m;
+        sub->status = 1;
+        sub->sectors[0] = m;
     }
     else
     {
-        *(int *)((char *)base + 0x20) = 2;
-        *(int *)((char *)base + 0x8) = a_val;
-        *(int *)((char *)base + 0xC) = m;
+        sub->status = 2;
+        sub->sectors[0] = a_val;
+        sub->sectors[1] = m;
     }
 }
 
