@@ -1128,7 +1128,17 @@ void camera_800C82EC(void)
     camera_800C82B0(&camera_dword_800C38E0, 1);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C8314.s")
+void camera_800C8314(MenuPrim *pGlue, SELECT_INFO *info)
+{
+    DR_TPAGE *prim;
+
+    prim = (DR_TPAGE *)pGlue->next;
+    pGlue->next += sizeof(DR_TPAGE);
+
+    setlen(prim, 1);
+    prim->code[0] = 0xE100061F | ((*(int *)((char *)info + 8) >> 3) & 0x60);
+    addPrim(pGlue->ot, prim);
+}
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C838C.s")
 
 void camera_800C8554(int *arg0, int arg1, int arg2, int arg3)
@@ -1138,16 +1148,15 @@ void camera_800C8554(int *arg0, int arg1, int arg2, int arg3)
     arg0[2] = arg3;
 }
 
-int camera_800C8314(int, int);
 int camera_800C838C(int, int, char *);
 
-void camera_800C8564(int arg0, int arg1, char *arg2)
+void camera_800C8564(MenuPrim *pGlue, SELECT_INFO *info, char *arg2)
 {
     char sp10[64];
 
     sprintf(sp10, arg2);
-    camera_800C838C(arg0, arg1, sp10);
-    camera_800C8314(arg0, arg1);
+    camera_800C838C((int)pGlue, (int)info, sp10);
+    camera_800C8314(pGlue, info);
 }
 
 void camera_800C85B8(int *arg0, int r, int g, int b)
