@@ -152,7 +152,31 @@ int s11d_rope_800C5298(RopeWork *work)
     }
     return 0;
 }
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C52F0.s")
+int s11d_rope_800C52F0(RopeWork *work)
+{
+    unsigned short v;
+
+    if (work->field_F74 & 0x2000)
+    {
+        return 0;
+    }
+
+    v = *work->field_EA8;
+    if (!(v & 0xA000))
+    {
+        return 0;
+    }
+
+    if (v & 0x2000)
+    {
+        work->field_EB4 = 1;
+    }
+    else
+    {
+        work->field_EB4 = -1;
+    }
+    return 1;
+}
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C5348.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C5410.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C54CC.s")
