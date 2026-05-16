@@ -14,7 +14,8 @@ typedef struct _RopeWork
     short  field_6E;
     char   pad2[0x804 - 0x6E - sizeof(short)];
     TARGET *target;
-    char   pad3a[0xEA8 - 0x804 - sizeof(TARGET *)];
+    char   pad3a[0xEA4 - 0x804 - sizeof(TARGET *)];
+    short *field_EA4;
     short *field_EA8;
     char   pad3b[0xEB4 - 0xEA8 - sizeof(short *)];
     int    field_EB4;
@@ -22,8 +23,11 @@ typedef struct _RopeWork
     int    field_EDC;
     char   pad3d[0xF70 - 0xEDC - sizeof(int)];
     int    field_F70;
-    char   pad4[0xF7C - 0xF70 - sizeof(int)];
+    int    field_F74;
+    char   pad4[0xF7C - 0xF74 - sizeof(int)];
     int    field_F7C;
+    char   pad5[0xF88 - 0xF7C - sizeof(int)];
+    short  field_F88;
 } RopeWork;
 
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C3D50.s")
@@ -32,7 +36,20 @@ typedef struct _RopeWork
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C4274.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C42F4.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C4404.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C44A4.s")
+void s11d_rope_800C44A4(RopeWork *work)
+{
+    int flag = work->field_F74 & ~2;
+
+    work->field_F74 = flag;
+    if (work->field_F70 & 0x2000)
+    {
+        return;
+    }
+    if (work->field_EA4[2] > work->field_F88)
+    {
+        work->field_F74 = flag | 2;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C44F0.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C4574.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C45F8.s")
