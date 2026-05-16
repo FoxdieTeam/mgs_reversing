@@ -1333,8 +1333,7 @@ void camera_800C8314(MenuPrim *prim, SELECT_INFO *info)
 {
     DR_TPAGE *pTpage;
 
-    pTpage = (DR_TPAGE *)prim->next;
-    prim->next += sizeof(DR_TPAGE);
+    _NEW_PRIM(pTpage, prim);
 
     setlen(pTpage, 1);
     pTpage->code[0] = 0xE100061F | ((*(int *)((char *)info + 8) >> 3) & 0x60);
