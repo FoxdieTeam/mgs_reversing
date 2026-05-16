@@ -34,6 +34,14 @@ typedef struct
 
 typedef struct
 {
+    SVECTOR pos;        /* 0x00 — target position */
+    int     sectors[4]; /* 0x08 — sector list */
+    SVECTOR dir;        /* 0x18 — direction vector */
+    int     count;      /* 0x20 — number of valid sectors */
+} ROUTE;
+
+typedef struct
+{
     SVECTOR field_940;
     int     field_948;
     int     field_94C;
@@ -92,10 +100,7 @@ typedef struct _RevolverWork
     int            field_8F8;
     STATE          state;
     char           pad4[0x4];
-    SVECTOR        field_91C;
-    int            field_924[4];
-    SVECTOR        field_934;
-    int            field_93C;
+    ROUTE          route;
     PARAM          param;
     void          *field_954;
     void          *field_958;
@@ -125,6 +130,9 @@ extern SVECTOR s04c_dword_800C3498[2];
 extern MATRIX  s04c_dword_800C34A8;
 extern SVECTOR s04c_dword_800C34C8;
 extern SVECTOR s04c_dword_800C34D0;
+extern short   s04c_dword_800C34D8[][2];
+extern short   s04c_dword_800C34F8[];
+extern short   s04c_dword_800C3508[];
 extern short   s04c_dword_800C3518[];
 extern short   s04c_dword_800C3528[];
 extern short   s04c_dword_800C3538[];
@@ -155,6 +163,7 @@ void *AN_Unknown_800CA1EC(MATRIX *mat, int mark);
 void Voicesys_800CE2D0(void);
 void Voicesys_800CE300(void);
 void Voicesys_800CE310(void);
+void Voicesys_800CE5F8(int, int);
 int  Voicesys_800CE694(void);
 void Voicesys_800CE734(void);
 
@@ -471,7 +480,43 @@ int s04c_revolver_800CFC3C(RevolverWork *work)
     return s04c_revolver_800CFBE0(GM_PlayerPosition.vx, GM_PlayerPosition.vz);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800CFC6C.s")
+void s04c_revolver_800CFC6C(RevolverWork *work, int flag)
+{
+    ROUTE *r = &work->route;
+    int f8A0, f8A4;
+    int a_val;
+    int m;
+
+    r->count = 0;
+    f8A4 = work->field_8A4;
+    f8A0 = work->field_8A0;
+    a_val = s04c_dword_800C34F8[f8A4];
+
+    if (f8A4 == s04c_dword_800C3508[f8A0])
+    {
+        r->count = 1;
+        r->sectors[0] = a_val;
+        return;
+    }
+
+    m = s04c_dword_800C34D8[f8A0][0];
+    if (a_val == m)
+    {
+        m = s04c_dword_800C34D8[f8A0][1];
+    }
+
+    if (flag == 0)
+    {
+        r->count = 1;
+        r->sectors[0] = m;
+    }
+    else
+    {
+        r->count = 2;
+        r->sectors[0] = a_val;
+        r->sectors[1] = m;
+    }
+}
 
 void s04c_revolver_800CFD08(SVECTOR *arg0, int arg1)
 {
@@ -492,33 +537,25 @@ void s04c_revolver_800CFD08(SVECTOR *arg0, int arg1)
     }
 }
 
-/* TODO: figure out what this struct is */
-typedef struct _Unk
-{
-    SVECTOR vec;
-    char    pad1[0x18];
-    int     val;
-} Unk;
-
 int s04c_revolver_800CFD84(RevolverWork *work)
 {
-    Unk     *pos;
+    ROUTE   *r;
     SVECTOR *rot;
     int     *type;
     int      i;
 
-    pos = (Unk *)&work->field_91C;
-    rot = &work->field_934;
-    type = work->field_924;
+    r = &work->route;
+    rot = &r->dir;
+    type = r->sectors;
 
-    work->field_91C = s04c_dword_800DBE18;
+    r->pos = s04c_dword_800DBE18;
 
-    for (i = pos->val; i > 0; i--)
+    for (i = r->count; i > 0; i--)
     {
-        s04c_revolver_800CFD08(&pos->vec, *type++);
+        s04c_revolver_800CFD08(&r->pos, *type++);
     }
 
-    GV_SubVec3(&pos->vec, &work->control.mov, rot);
+    GV_SubVec3(&r->pos, &work->control.mov, rot);
     return ratan2(rot->vx, rot->vz) & 0xFFF;
 }
 
@@ -698,8 +735,48 @@ int s04c_revolver_800D00B4(RevolverWork *work)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800D02C8.s")
-int s04c_revolver_800D02C8(RevolverWork *work, short *, short *);
+int s04c_revolver_800D02C8(RevolverWork *work, short *arg1, short *arg2)
+{
+    int side1;
+    int side2;
+    int index;
+    register int temp_v1 asm("v1");
+
+    side1 = s04c_revolver_800CFBE0(work->control.mov.vx, work->control.mov.vz);
+    side2 = s04c_revolver_800CFBE0(GM_PlayerPosition.vx, GM_PlayerPosition.vz);
+
+    s04c_dword_800DBE10 = arg1;
+    index = arg1[side2];
+
+    temp_v1 = ((side2 - side1) & 7) >= 4;
+
+    if (index == side1)
+    {
+        work->field_868.vx = s04c_dword_800C3470[side1][0];
+        work->field_868.vz = s04c_dword_800C3470[side1][1];
+        return -1;
+    }
+
+    if (((index - side1) & 7) < 4)
+    {
+        if (temp_v1 == 0)
+        {
+            index = arg2[side2];
+            s04c_dword_800DBE10 = arg2;
+        }
+    }
+    else
+    {
+        if (temp_v1 == 1)
+        {
+            index = arg2[side2];
+            s04c_dword_800DBE10 = arg2;
+        }
+    }
+
+    work->field_8A0 = side1;
+    return s04c_revolver_800CFED4(work, index);
+}
 
 int s04c_revolver_800D03C0(RevolverWork *work)
 {
@@ -740,8 +817,124 @@ void s04c_revolver_800D04B8(STATE *state, int value)
     state->time = 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_revolver_800D04C4.s")
-void s04c_revolver_800D04C4(RevolverWork *work, STATE *state);
+void s04c_revolver_800D04C4(RevolverWork *work, STATE *state)
+{
+    SVECTOR diff;
+    int     dir;
+    int     extra_action;
+    int     ok;
+    int     x, z;
+
+    (void)state->state;
+    GV_SubVec3(&s04c_dword_800DBE18, &work->control.mov, &diff);
+
+    if (GM_GameOverTimer != 0)
+    {
+        work->control.turn.vy = ratan2(diff.vx, diff.vz);
+        s04c_revolver_800CF71C(work);
+        return;
+    }
+
+    if (work->field_874 <= 0)
+    {
+        s04c_revolver_800D04B8(state, 3);
+        s04c_revolver_800CF748(work);
+
+        if ((work->field_8EC == 0) && (work->field_8F0 < 3))
+        {
+            if (work->field_8F8 == 0)
+            {
+                Voicesys_800CE2D0();
+                work->field_8F8 = 1;
+            }
+            return;
+        }
+
+        s04c_revolver_800CF3DC(0x84);
+        return;
+    }
+
+    if (work->field_964 < GV_VecLen3(&diff))
+    {
+        if (s04c_revolver_800D0444(work))
+        {
+            state->field_C++;
+            dir = ratan2(diff.vx, diff.vz);
+            {
+                int dir_short = (short)dir;
+
+                work->control.turn.vy = dir;
+                if (s04c_revolver_800CFAF0(work, dir_short))
+                {
+                    if (state->field_C < 0)
+                    {
+                        state->field_C = 0;
+                    }
+                    if (state->field_C < 5)
+                    {
+                        return;
+                    }
+
+                    state->field_C = 0;
+                    work->route.count = 0;
+                    work->route.dir = diff;
+                    extra_action = dir_short;
+                }
+                else
+                {
+                    if (state->field_C < 5)
+                    {
+                        return;
+                    }
+                    state->field_C = -60;
+
+                    if (state->field_8 == 0)
+                    {
+                        work->route.count = 0;
+                        work->route.dir = diff;
+                        state->field_8 += 1;
+                        Voicesys_800CE5F8(8, 1);
+                        s04c_revolver_800D04B8(state, 5);
+                        return;
+                    }
+
+                    work->field_8A4 = s04c_revolver_800CFC3C(work);
+                    s04c_revolver_800CFC6C(work, 1);
+                    extra_action = s04c_revolver_800CFD84(work);
+
+                    if (GV_RandU(0x20) < 8)
+                    {
+                        s04c_revolver_800CF3DC(0x82);
+                    }
+                }
+
+                s04c_revolver_800D04B8(state, 2);
+                work->control.interp = 1;
+                work->field_870 = 0;
+                work->control.turn.vy = dir_short;
+                work->field_8D0 = extra_action - dir_short;
+                GM_ConfigObjectAction(&work->body, 6, 0, 4);
+            }
+
+            x = work->route.dir.vx;
+            z = work->route.dir.vz;
+            work->field_8D4 = -ratan2(work->route.dir.vy, SquareRoot0(x * x + z * z));
+            return;
+        }
+        ok = s04c_revolver_800D03C0(work);
+    }
+    else
+    {
+        ok = s04c_revolver_800D03C0(work);
+        s04c_revolver_800CF3DC(0x83);
+    }
+
+    s04c_revolver_800D04B8(state, 1);
+    if (!ok)
+    {
+        s04c_revolver_800CF4A0(work);
+    }
+}
 
 void s04c_revolver_800D07F4(RevolverWork *work, STATE *state)
 {
@@ -767,8 +960,8 @@ void s04c_revolver_800D07F4(RevolverWork *work, STATE *state)
             work->field_8A0 = work->param.field_94C;
             s04c_revolver_800CF518(work);
             work->enable_shadow = 0;
-            work->field_93C = 0;
-            work->field_934 = diff;
+            work->route.count = 0;
+            work->route.dir = diff;
             s04c_revolver_800D04B8(state, 2);
             work->field_870 = 0;
             state->field_C = 0;
@@ -778,9 +971,9 @@ void s04c_revolver_800D07F4(RevolverWork *work, STATE *state)
             GM_ConfigObjectAction(&work->body, 6, 0, 4);
             state->field_18 = 1;
 
-            x = work->field_934.vx;
-            z = work->field_934.vz;
-            work->field_8D4 = -ratan2(work->field_934.vy, SquareRoot0(x * x + z * z));
+            x = work->route.dir.vx;
+            z = work->route.dir.vz;
+            work->field_8D4 = -ratan2(work->route.dir.vy, SquareRoot0(x * x + z * z));
             return;
         }
 
@@ -869,8 +1062,8 @@ void s04c_revolver_800D0A94(RevolverWork* work, STATE *state)
             return;
         }
 
-        work->field_93C = 0;
-        work->field_934 = diff;
+        work->route.count = 0;
+        work->route.dir = diff;
         s04c_revolver_800D04B8(state, 2);
         work->field_870 = 0;
         state->field_C = 0;
@@ -878,7 +1071,7 @@ void s04c_revolver_800D0A94(RevolverWork* work, STATE *state)
         work->control.interp = 1;
         work->field_8D0 = 0;
         GM_ConfigObjectAction(&work->body, 6, 0, 4);
-        work->field_8D4 = -ratan2(work->field_934.vy, len);
+        work->field_8D4 = -ratan2(work->route.dir.vy, len);
     }
 
     work->field_870++;
@@ -908,7 +1101,7 @@ void s04c_revolver_800D0A94(RevolverWork* work, STATE *state)
         DG_SetPos(&work->field_8B0);
         DG_MovePos(&s04c_dword_800C3490);
         ReadRotMatrix(&world);
-        NewRevolverBullet(&world, work->field_93C);
+        NewRevolverBullet(&world, work->route.count);
         GM_SeSetPan(&work->control.mov, 178, 63);
         NewAnime_8005E574(&world);
         NewAnime_8005E6A4(&work->control.mov);
