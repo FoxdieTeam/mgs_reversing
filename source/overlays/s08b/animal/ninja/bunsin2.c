@@ -1,24 +1,48 @@
 #include "game/game.h"
+#include "game/target.h"
 
-typedef struct _Work
+typedef struct _BunshinClone
 {
-    GV_ACT actor;       // 0x00
-    OBJECT body;        // 0x20
-    char   pad1[0x196E - 0x20 - sizeof(OBJECT)];
-    short  field_196E;
-    char   pad2[0x19A8 - 0x196E - sizeof(short)];
-    int    field_19A8;
-    char   pad2b[0x19B0 - 0x19A8 - sizeof(int)];
-    int    field_19B0;
-    int    field_19B4;
-    char   pad3[0x19CC - 0x19B4 - sizeof(int)];
-    int    field_19CC;
-    int    field_19D0;
-    char   pad4[0x1A28 - 0x19D0 - sizeof(int)];
-    int    field_1A28;
-    char   pad5[0x1A40 - 0x1A28 - sizeof(int)];
-    int    field_1A40[8];
-} Work;
+    int  field_0;
+    char pad[0x104 - sizeof(int)];
+} BunshinClone;
+
+typedef struct _BunshinWork
+{
+    GV_ACT       actor;          // 0x000
+    OBJECT       body;           // 0x020
+    char         pad_after_body[0x748 - 0x20 - sizeof(OBJECT)];
+    SVECTOR      field_748;      // 0x748
+    char         pad_to_7DC[0x7DC - 0x748 - sizeof(SVECTOR)];
+    DG_OBJS     *field_7DC;      // 0x7DC
+    char         pad_to_8C4[0x8C4 - 0x7DC - sizeof(DG_OBJS *)];
+    TARGET      *field_8C4;      // 0x8C4
+    char         pad_before_clones[0x920 - 0x8C4 - sizeof(TARGET *)];
+    BunshinClone clones[16];     // 0x920 (16 * 0x104 = 0x1040, ends at 0x1960)
+    char         pad1b[0x1964 - 0x1960];
+    short        field_1964;
+    short        field_1966;
+    SVECTOR      field_1968;     // 0x1968
+    int          field_1970;     // 0x1970
+    char         pad1d[0x1988 - 0x1970 - sizeof(int)];
+    int          field_1988;     // 0x1988
+    SVECTOR      field_198C;     // 0x198C
+    char         pad2[0x19A8 - 0x198C - sizeof(SVECTOR)];
+    int          field_19A8;
+    char         pad2b[0x19B0 - 0x19A8 - sizeof(int)];
+    int          field_19B0;
+    int          field_19B4;
+    char         pad3[0x19CC - 0x19B4 - sizeof(int)];
+    int          field_19CC;
+    int          field_19D0;
+    char         pad4[0x19F4 - 0x19D0 - sizeof(int)];
+    int          field_19F4;     // 0x19F4
+    char         pad5[0x1A28 - 0x19F4 - sizeof(int)];
+    int          field_1A28;     // 0x1A28
+    int          field_1A2C;     // 0x1A2C
+    char         pad6[0x1A40 - 0x1A2C - sizeof(int)];
+    void        *field_1A40[8];  // 0x1A40
+} BunshinWork;
 
 int Bunsin2_800C8F04(void) 
 {
@@ -30,8 +54,30 @@ int Bunsin2_800C8F04(void)
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800C908C.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800C9120.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800C933C.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800C9514.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800C9548.s")
+int s08b_bunsin2_800C9514(BunshinWork *work)
+{
+    TARGET *target = work->field_8C4;
+
+    if (target->damaged & TARGET_POWER)
+    {
+        int ret = target->a_mode;
+        target->damage = 0;
+        target->damaged = 0;
+        return ret;
+    }
+    return -1;
+}
+extern int s08b_bunsin2_800C933C(BunshinWork *work);
+
+int s08b_bunsin2_800C9548(BunshinWork *work)
+{
+    if (s08b_bunsin2_800C933C(work))
+    {
+        work->field_8C4->class = TARGET_AVAIL;
+        return 1;
+    }
+    return 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800C9588.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800C9978.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800C9B38.s")
@@ -65,13 +111,28 @@ int Bunsin2_800C8F04(void)
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CC90C.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CCA4C.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CCAF0.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CCD18.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CCD40.s")
+extern void sna_act_helper2_helper2_80033054(int id, SVECTOR *vec);
+
+void s08b_bunsin2_800CCD18(BunshinWork *work)
+{
+    sna_act_helper2_helper2_80033054(
+        (unsigned short)work->body.rots[1].vz,
+        &work->field_748);
+}
+extern unsigned int jimctrl_helper_80037F68(unsigned int header);
+
+void s08b_bunsin2_800CCD40(BunshinWork *work)
+{
+    work->field_19F4 = 0;
+    work->field_19F4 = jimctrl_helper_80037F68(
+        (unsigned short)work->body.rots[1].vz) & 0xFF;
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CCD74.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CCDBC.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CCE34.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CCF8C.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CD000.s")
+
 int s08b_bunsin2_800CD298(int a, int b, int c)
 {
     if (b < a) b = a;
@@ -93,16 +154,23 @@ int s08b_bunsin2_800CD2C0(int a, int b, int c)
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CD770.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CD808.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CD87C.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CD8D8.s")
+extern void s08b_bunsin2_800CD87C(void);
+extern int  s08b_bunsin2_800CD95C(BunshinWork *work, int target);
+
+void s08b_bunsin2_800CD8D8(BunshinWork *work)
+{
+    work->field_7DC->flag &= ~DG_FLAG_INVISIBLE;
+    s08b_bunsin2_800CD95C(work, (int)s08b_bunsin2_800CD87C);
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CD914.s")
-int s08b_bunsin2_800CD95C(Work *work, int target)
+int s08b_bunsin2_800CD95C(BunshinWork *work, int target)
 {
     int i;
     for (i = 0; i < 8; i++)
     {
-        if (work->field_1A40[i] == target)
+        if ((int)work->field_1A40[i] == target)
         {
-            work->field_1A40[i] = 0;
+            work->field_1A40[i] = NULL;
             return 1;
         }
     }
@@ -111,15 +179,46 @@ int s08b_bunsin2_800CD95C(Work *work, int target)
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CD990.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CD9F0.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CDA40.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CDB10.s")
+extern void s08b_bunsin2_800CDA40(BunshinWork *work);
+extern void s08b_bunsin2_800CD9F0(BunshinWork *work);
+extern void s08b_bunsin2_800D4ED0(BunshinWork *work);
+extern void s08b_bunsin2_800CD000(BunshinWork *work);
+extern void s08b_bunsin2_800CD990(BunshinWork *work);
+
+void s08b_bunsin2_800CDB10(BunshinWork *work)
+{
+    s08b_bunsin2_800CDA40(work);
+    s08b_bunsin2_800CD9F0(work);
+    s08b_bunsin2_800D4ED0(work);
+    s08b_bunsin2_800CD000(work);
+    s08b_bunsin2_800CD990(work);
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CDB54.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CDBAC.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CDDD8.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CDE74.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CDF68.s")
+extern int     GM_PlayerAddress;
+extern SVECTOR GM_PlayerPosition;
+
+void s08b_bunsin2_800CDF68(BunshinWork *work)
+{
+    work->field_1968 = GM_PlayerPosition;
+    work->field_1970 = GM_PlayerAddress;
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CDFA0.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CDFF8.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CE024.s")
+void s08b_bunsin2_800CDFF8(BunshinWork *work)
+{
+    work->field_1968 = work->field_198C;
+    work->field_1970 = work->field_1988;
+}
+extern int s08b_dword_800C358C;
+extern int s08b_dword_800C3594;
+
+void s08b_bunsin2_800CE024(BunshinWork *work)
+{
+    work->field_1968 = *(SVECTOR *)&s08b_dword_800C358C;
+    work->field_1970 = s08b_dword_800C3594 | (s08b_dword_800C3594 << 8);
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CE064.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CE0A4.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CE180.s")
@@ -135,16 +234,32 @@ int s08b_bunsin2_800CD95C(Work *work, int target)
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CECB4.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CEE18.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CEE68.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CEEB8.s")
+int s08b_bunsin2_800CEEB8(BunshinWork *work, int arg1)
+{
+    SVECTOR vec;
+    int     dx, dz;
+
+    dx = work->field_1968.vx - *(short *)&work->body.objs;
+    vec.vx = dx;
+    dz = work->field_1968.vz - *(short *)&work->body.flag;
+    vec.vz = dz;
+
+    if (dx > -arg1 && dx < arg1 && dz > -arg1 && dz < arg1)
+    {
+        return 1;
+    }
+    work->field_19B4 = GV_VecDir2(&vec);
+    return 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CEF34.s")
-int s08b_bunsin2_800CEF94(int *p, int n, int initial)
+int s08b_bunsin2_800CEF94(BunshinClone *p, int n, int initial)
 {
     int sum = 0;
     int i;
     for (i = 0; i < n; i++)
     {
-        sum += *p;
-        p = (int *)((char *)p + 0x104);
+        sum += p->field_0;
+        p++;
     }
     return sum + initial;
 }
@@ -173,9 +288,7 @@ int s08b_bunsin2_800CF958(void)
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CFA30.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CFA80.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CFB98.s")
-extern void s08b_bunsin2_800CEEB8(Work *work, int arg);
-
-void s08b_bunsin2_800CFC64(Work *work)
+void s08b_bunsin2_800CFC64(BunshinWork *work)
 {
     work->field_19D0++;
     s08b_bunsin2_800CEEB8(work, 500);
@@ -189,7 +302,7 @@ void s08b_bunsin2_800CFC64(Work *work)
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D0078.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D018C.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D0200.s")
-int s08b_bunsin2_800D0278(Work *work)
+int s08b_bunsin2_800D0278(BunshinWork *work)
 {
     if (work->field_19D0 >= 0x79)
     {
@@ -200,9 +313,18 @@ int s08b_bunsin2_800D0278(Work *work)
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D02A0.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D02E8.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D0330.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D0410.s")
+int s08b_bunsin2_800D0410(BunshinWork *work)
+{
+    if (!(GM_GameStatus & STATE_CHAFF))
+    {
+        return 1;
+    }
+    work->field_19B0 = 27;
+    work->field_19D0++;
+    return 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D044C.s")
-int s08b_bunsin2_800D0530(Work *work)
+int s08b_bunsin2_800D0530(BunshinWork *work)
 {
     int v;
 
@@ -213,17 +335,17 @@ int s08b_bunsin2_800D0530(Work *work)
     return v >= 0x1F;
 }
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D0550.s")
-int s08b_bunsin2_800D0688(Work *work)
+int s08b_bunsin2_800D0688(BunshinWork *work)
 {
     return work->field_19D0++;
 }
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D06A0.s")
 
-int s08b_bunsin2_800D0720(Work *work)
+int s08b_bunsin2_800D0720(BunshinWork *work)
 {
     int val;
 
-    val = work->field_196E;
+    val = work->field_1968.pad;
     return val & 0x1F;
 }
 
@@ -234,9 +356,19 @@ int s08b_bunsin2_800D0720(Work *work)
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D08C8.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D093C.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D09C4.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D0A54.s")
+int s08b_bunsin2_800D0A54(BunshinWork *work)
+{
+    work->field_19B0 = 8;
+    work->field_19B4 = work->field_1A28;
+    if (work->field_1A2C < 2000)
+    {
+        return 1;
+    }
+    work->field_19D0++;
+    return 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D0A90.s")
-void s08b_bunsin2_800D0B1C(Work *work)
+void s08b_bunsin2_800D0B1C(BunshinWork *work)
 {
     work->field_19B0 = 7;
     if (work->field_19D0 >= 11)
@@ -253,7 +385,7 @@ void s08b_bunsin2_800D0B1C(Work *work)
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D0CD8.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D0D80.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D0EB8.s")
-int s08b_bunsin2_800D0F54(Work *work)
+int s08b_bunsin2_800D0F54(BunshinWork *work)
 {
     work->field_19B0 = 7;
     work->field_19B4 = work->field_1A28;
@@ -347,7 +479,26 @@ int s08b_bunsin2_800D0F54(Work *work)
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D4FBC.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D53E8.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D5434.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D5498.s")
+extern int s08b_dword_800C3610;
+extern int s08b_dword_800C3614;
+extern int s08b_dword_800C3618;
+
+void s08b_bunsin2_800D5498(void)
+{
+    int v;
+
+    v = s08b_dword_800C3614;
+    if (v != 0)
+    {
+        v--;
+        s08b_dword_800C3614 = v;
+        if (v == 0)
+        {
+            s08b_dword_800C3618 = 0;
+            s08b_dword_800C3610 = 0;
+        }
+    }
+}
 void s08b_bunsin2_800D54CC(void *arg0)
 {
     int i;
@@ -359,12 +510,19 @@ void s08b_bunsin2_800D54CC(void *arg0)
         p += 0x5C;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D54FC.s")
+void s08b_bunsin2_800D54FC(DG_OBJS *objs)
+{
+    int i;
+    for (i = 0; i < 16; i++)
+    {
+        objs->objs[i].model->flags &= ~DG_FLAG_PAINT;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D5530.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D5600.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D5734.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D57F0.s")
-void s08b_bunsin2_800D5830(Work *work)
+void s08b_bunsin2_800D5830(BunshinWork *work)
 {
     GM_FreeObject(&work->body);
 }
