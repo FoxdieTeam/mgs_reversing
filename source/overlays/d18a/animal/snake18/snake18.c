@@ -522,7 +522,27 @@ void d18a_snake18_800CCB0C(TARGET *target)
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CD4C0.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CD64C.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CD768.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CD808.s")
+extern void d18a_snake18_800CDFC8(void);
+extern void d18a_snake18_800D1424(void);
+
+void d18a_snake18_800CD808(Snake18Work *work, int arg1)
+{
+    int new_action;
+    if (arg1 != 0)
+    {
+        return;
+    }
+    work->f8FE = 2;
+    work->f900 = 0x1C2;
+    work->f8BC = d18a_snake18_800CDFC8;
+    work->f8C0 = d18a_snake18_800D1424;
+    GM_PlayerStatus |= PLAYER_GROUND;
+    new_action = ((unsigned char *)work->f8A8->str)[3];
+    if (work->body.action != new_action)
+    {
+        GM_ConfigObjectAction(&work->body, new_action, 0, 4);
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CD888.s")
 extern void d18a_snake18_800CE210(void);
 extern void d18a_snake18_800D1424(void);
