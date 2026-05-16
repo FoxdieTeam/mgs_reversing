@@ -19,9 +19,31 @@ typedef struct _RopeWork
     short *field_EA8;
     char   pad3b[0xEB4 - 0xEA8 - sizeof(short *)];
     int    field_EB4;
-    char   pad3c[0xEDC - 0xEB4 - sizeof(int)];
+    char   pad3c[0xEC8 - 0xEB4 - sizeof(int)];
+    int    field_EC8;
+    int    field_ECC;
+    int    field_ED0;
+    char   pad3c1[0xED8 - 0xED0 - sizeof(int)];
+    int    field_ED8;
+    char   pad3c2[0xEDC - 0xED8 - sizeof(int)];
     int    field_EDC;
-    char   pad3d[0xF70 - 0xEDC - sizeof(int)];
+    char   pad3c3[0xEE8 - 0xEDC - sizeof(int)];
+    int    field_EE8;
+    int    field_EEC;
+    int    field_EF0;
+    int    field_EF4;
+    char   pad3c4[0xF04 - 0xEF4 - sizeof(int)];
+    int    field_F04;
+    int    field_F08;
+    int    field_F0C;
+    char   pad3c5[0xF14 - 0xF0C - sizeof(int)];
+    int    field_F14;
+    char   pad3c6[0xF24 - 0xF14 - sizeof(int)];
+    int    field_F24;
+    int    field_F28;
+    int    field_F2C;
+    int    field_F30;
+    char   pad3d[0xF70 - 0xF30 - sizeof(int)];
     int    field_F70;
     int    field_F74;
     char   pad4[0xF7C - 0xF74 - sizeof(int)];
@@ -112,7 +134,29 @@ int s11d_rope_800C4F84(RopeWork *work)
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C5348.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C5410.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C54CC.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C5538.s")
+
+void s11d_rope_800C5538(RopeWork *work)
+{
+    int *cluster1 = &work->field_EC8;  /* offsets EC8..EF4 */
+    int *cluster2 = &work->field_F04;  /* offsets F04..F30 */
+
+    cluster2[1]  = 0;  /* field_F08 */
+    cluster1[1]  = 0;  /* field_ECC */
+    cluster1[8]  = 0;  /* field_EE8 */
+    cluster1[4]  = 0;  /* field_ED8 */
+    cluster1[2]  = 0;  /* field_ED0 */
+    cluster1[0]  = 0;  /* field_EC8 */
+    cluster2[8]  = 0;  /* field_F24 */
+    cluster2[4]  = 0;  /* field_F14 */
+    cluster2[2]  = 0;  /* field_F0C */
+    cluster2[0]  = 0;  /* field_F04 */
+    cluster1[11] = 0;  /* field_EF4 */
+    cluster1[10] = 0;  /* field_EF0 */
+    cluster1[9]  = 0;  /* field_EEC */
+    cluster2[11] = 0;  /* field_F30 */
+    cluster2[10] = 0;  /* field_F2C */
+    cluster2[9]  = 0;  /* field_F28 */
+}
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C5584.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C5B10.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C5E74.s")
