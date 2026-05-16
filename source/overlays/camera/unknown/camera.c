@@ -242,7 +242,7 @@ int camera_800C408C(CameraWork *unused, int idx)
     id     = entry[0];
     sector = entry[1];
     buf    = GV_Malloc(size);
-    FS_LoadFileRequest(6, sector, size, buf);
+    FS_LoadFileRequest(FS_FILEID_BRF, sector, size, buf);
     while (FS_LoadFileSync() > 0)
     {
         mts_wait_vbl(1);
