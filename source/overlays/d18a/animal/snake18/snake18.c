@@ -655,7 +655,30 @@ void d18a_snake18_800CFEE8(Snake18Work *work, int arg1)
     }
     GM_PlayerStatus &= ~PLAYER_MENU_DISABLE;
 }
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CFF5C.s")
+extern void d18a_snake18_800D0B4C(Snake18Work *work);
+extern void d18a_snake18_800D18EC(void);
+
+void d18a_snake18_800CFF5C(Snake18Work *work, int arg1)
+{
+    char *p_a8;
+    char *p;
+    int   new_action;
+    if (arg1 != 0)
+    {
+        return;
+    }
+    work->f8BC = d18a_snake18_800D0B4C;
+    p_a8 = (char *)work->f8A8;
+    work->f8C0 = d18a_snake18_800D18EC;
+    work->f8FE = 0;
+    p = *(char **)(p_a8 + 0x18);
+    GM_PlayerStatus &= ~(PLAYER_GROUND | PLAYER_SQUAT);
+    new_action = ((unsigned char *)p)[2];
+    if (work->body.action != new_action)
+    {
+        GM_ConfigObjectAction(&work->body, new_action, 0, 4);
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CFFD4.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D0054.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D00E0.s")
