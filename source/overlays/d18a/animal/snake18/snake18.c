@@ -283,7 +283,7 @@ extern unsigned short d18a_dword_800C37E0;
 
 void d18a_snake18_800CB3E8(Snake18Work *work)
 {
-    register int tmp asm("$3");
+    unsigned short tmp;
 
     work->f7E4 |= 0x800;
     work->f900 = 0x1C2;
@@ -462,9 +462,8 @@ void d18a_snake18_800CC008(void)
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CC7F4.s")
 void d18a_snake18_800CC8B0(Snake18Work *work, char arg1)
 {
-    short *p = work->f7E8;
-    register int mask asm("$6") = 0x800000;
-
+    int    mask = 0x800000;
+    short *p    = work->f7E8;
     GM_PlayerStatus |= mask;
     work->f8FC = arg1;
     *p &= 0xFF61;
@@ -552,17 +551,16 @@ extern void d18a_snake18_800D1750(void);
 
 void d18a_snake18_800CEF0C(Snake18Work *work, int arg1)
 {
-    register Snake18Work *w asm("$6") = work;
-    int                   status;
+    int status;
 
     if (arg1 != 0)
     {
         return;
     }
 
-    w->f8BC = d18a_snake18_800D0A10;
+    work->f8BC = d18a_snake18_800D0A10;
     status = GM_PlayerStatus;
-    w->f8C0 = d18a_snake18_800D1750;
+    work->f8C0 = d18a_snake18_800D1750;
     GM_PlayerStatus = status | 0x10;
 }
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CEF44.s")
