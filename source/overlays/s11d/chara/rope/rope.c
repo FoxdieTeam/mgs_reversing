@@ -38,12 +38,18 @@ typedef struct _RopeWork
     int    field_F0C;
     char   pad3c5[0xF14 - 0xF0C - sizeof(int)];
     int    field_F14;
-    char   pad3c6[0xF24 - 0xF14 - sizeof(int)];
+    char   pad3c6a[0xF20 - 0xF14 - sizeof(int)];
+    int    field_F20;
+    char   pad3c6b[0xF24 - 0xF20 - sizeof(int)];
     int    field_F24;
     int    field_F28;
     int    field_F2C;
     int    field_F30;
-    char   pad3d[0xF70 - 0xF30 - sizeof(int)];
+    char   pad3d0[0xF60 - 0xF30 - sizeof(int)];
+    int    field_F60;
+    int    field_F64;
+    int    field_F68;
+    char   pad3d1[0xF70 - 0xF68 - sizeof(int)];
     int    field_F70;
     int    field_F74;
     char   pad4[0xF7C - 0xF74 - sizeof(int)];
@@ -234,7 +240,25 @@ void s11d_rope_800C6240(RopeWork *work)
     work->field_F70 &= ~0x80;
 }
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C6264.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C62E0.s")
+void s11d_rope_800C62E0(RopeWork *work)
+{
+    int *p_F04 = &work->field_F04;
+
+    if (work->field_F74 & 0x4000)
+    {
+        return;
+    }
+    p_F04[2] = (work->field_F74 & 0x10) ? 1 : -1;
+    p_F04[0] = 0x30;
+    work->field_F74 |= 0x200;
+    p_F04[1] = p_F04[7];
+    work->field_F60 = -8;
+    work->field_F68 = -8;
+    if (work->field_F74 & 0x1000)
+    {
+        work->field_F64 = -8;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C634C.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C6478.s")
 extern int s11d_dword_800C32B4;
