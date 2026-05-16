@@ -1,4 +1,5 @@
 #include "common.h"
+#include "game/camera.h"
 #include "game/vibrate.h"
 
 #include "snake18.h"
@@ -268,7 +269,7 @@ int d18a_snake18_800CB280(Snake18Work *work, int arg1)
     return -1;
 }
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB2EC.s")
-extern GM_CAMERA GM_Camera;
+extern GM_CameraSystemWork GM_Camera;
 
 void d18a_snake18_800CB34C(Snake18Arg0 *arg0)
 {
@@ -406,7 +407,7 @@ typedef struct _Snake18Arg9CC
     int  f1C;
 } Snake18Arg9CC;
 
-extern void GM_Target_8002DCB4(TARGET *target, int a_mode, int faint, int *a4, SVECTOR *a5);
+#include "game/target.h"
 
 int d18a_snake18_800CB9CC(Snake18Work *arg0, Snake18Arg9CC *arg1)
 {
@@ -416,7 +417,7 @@ int d18a_snake18_800CB9CC(Snake18Work *arg0, Snake18Arg9CC *arg1)
 
     temp_s1 = &arg0->f7EC;
     GM_SetTarget(temp_s1, 2, arg0->f930, (SVECTOR *)((char *)arg1 + 0x8));
-    GM_Target_8002DCB4(temp_s1, arg1->f18, arg1->f1C, (int *)((char *)arg0 + 0x840), &arg0->f848);
+    GM_SetCaptureTarget(temp_s1, arg1->f18, arg1->f1C, (int *)((char *)arg0 + 0x840), &arg0->f848);
     DG_PutVector((SVECTOR *)arg1, &sp18, 1);
     GM_MoveTarget(temp_s1, &sp18);
     temp_v0 = (int)GM_CaptureTarget(temp_s1);
