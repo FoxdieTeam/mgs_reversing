@@ -461,7 +461,23 @@ void d18a_snake18_800CBE58(Snake18Work *work)
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CBEC0.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CBF98.s")
+extern void d18a_snake18_800CFD18(void);
+
+void d18a_snake18_800CBF98(Snake18Work *work)
+{
+    unsigned short counter;
+    if (!(GM_StatusEvent & 2)) return;
+    if (GM_PlayerStatus & PLAYER_ACT_ONLY) return;
+
+    counter = work->f92E + 1;
+    work->f92E = counter;
+    if (counter < 300) return;
+
+    work->f92E = 0;
+    work->f8B4 = d18a_snake18_800CFD18;
+    work->f8B8 = 0;
+    work->f7E4 |= 0x100;
+}
 
 void d18a_snake18_800CC008(void)
 {
