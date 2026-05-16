@@ -1,6 +1,7 @@
 #include "common.h"
 #include "game/camera.h"
 #include "game/vibrate.h"
+#include "linkvar.h"
 
 #include "snake18.h"
 
@@ -443,7 +444,22 @@ void d18a_snake18_800CBD34(Snake18Work *work)
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CBD80.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CBE58.s")
+extern short GM_WeaponChanged;
+
+void d18a_snake18_800CBE58(Snake18Work *work)
+{
+    int state = work->f864;
+    if (state == 5 || state == 6 || state == 2 || state == 7 || state == 8)
+    {
+        short *p = work->f860;
+        if (*p == 0)
+        {
+            *p = -1;
+            GM_CurrentWeaponId = -1;
+            GM_WeaponChanged = 1;
+        }
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CBEC0.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CBF98.s")
 
