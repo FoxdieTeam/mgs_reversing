@@ -129,7 +129,29 @@ int s11d_rope_800C4F84(RopeWork *work)
 }
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C4FC8.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C502C.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C5298.s")
+int s11d_rope_800C5298(RopeWork *work)
+{
+    int flag = work->field_F74;
+
+    if (!(flag & 0x4000))
+    {
+        return 0;
+    }
+    if (flag & 0x1000)
+    {
+        return 0;
+    }
+    if (flag & 0x400000)
+    {
+        return 0;
+    }
+    if (*work->field_EA8 & 0x20)
+    {
+        work->field_F74 = flag | 0x400000;
+        return 1;
+    }
+    return 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C52F0.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C5348.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C5410.s")
