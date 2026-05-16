@@ -476,7 +476,13 @@ void d18a_snake18_800CC8E0(Snake18Work *arg0)
     *p = v | 0x9E;
 }
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CC90C.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CCB0C.s")
+void d18a_snake18_800CCB0C(TARGET *target)
+{
+    target->damaged &= ~(TARGET_CAPTURE | TARGET_POWER | TARGET_TOUCH);
+    target->damage = 0;
+    target->faint = 0;
+    target->force = DG_ZeroVector;
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CCB50.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CCF30.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CD040.s")
