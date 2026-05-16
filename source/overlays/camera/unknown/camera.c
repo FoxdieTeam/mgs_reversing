@@ -1491,11 +1491,14 @@ void camera_800CBCC8(CameraWork *work)
             GM_SeSet2(0, 0x3F, 0xB1);
             break;
         }
-        if (!(press & PAD_CROSS))
+        if (press & PAD_CROSS)
         {
-            break;
+            work->field_49B8 = 3;
+            work->field_4938 = 0;
+            camera_800C869C(work);
+            GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
         }
-        goto exit_action;
+        break;
     case 1:
         if (press & PAD_LEFT)
         {
@@ -1506,17 +1509,19 @@ void camera_800CBCC8(CameraWork *work)
         }
         if (press & PAD_CIRCLE)
         {
-            goto exit_action;
-        }
-        if (!(press & PAD_CROSS))
-        {
+            work->field_49B8 = 3;
+            work->field_4938 = 0;
+            camera_800C869C(work);
+            GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
             break;
         }
-    exit_action:
-        work->field_49B8 = 3;
-        work->field_4938 = 0;
-        camera_800C869C(work);
-        GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+        if (press & PAD_CROSS)
+        {
+            work->field_49B8 = 3;
+            work->field_4938 = 0;
+            camera_800C869C(work);
+            GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+        }
         break;
     }
 }
