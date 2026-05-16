@@ -656,11 +656,11 @@ void d18a_snake18_800D0B4C(Snake18Work *work)
     work->control.turn.vx = 0;
 }
 extern void d18a_snake18_800D0054(void);
-extern int d18a_snake18_800CAEC0(Snake18Work *work);
 
 void d18a_snake18_800D0B84(Snake18Work *work)
 {
-    register int state asm("$5") = d18a_dword_800DAEF0;
+    extern int d18a_snake18_800CAEC0(Snake18Work *work, int state);
+    int state = d18a_dword_800DAEF0;
     if (state < 0)
     {
         work->f8AC = d18a_snake18_800D0054;
@@ -673,7 +673,7 @@ void d18a_snake18_800D0B84(Snake18Work *work)
     }
     else
     {
-        work->control.turn.vy = d18a_snake18_800CAEC0(work);
+        work->control.turn.vy = d18a_snake18_800CAEC0(work, state);
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D0BF4.s")
