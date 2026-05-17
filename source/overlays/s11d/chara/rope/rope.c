@@ -41,9 +41,12 @@ typedef struct _RopeWork
     short  field_186;
     char   pad2b[0x7DC - 0x186 - sizeof(short)];
     DG_OBJS *field_7DC;
-    char   pad2c[0x804 - 0x7DC - sizeof(DG_OBJS *)];
+    char   pad2c[0x800 - 0x7DC - sizeof(DG_OBJS *)];
+    void  *field_800;
     TARGET *target;
-    char   pad3a1[0xA14 - 0x804 - sizeof(TARGET *)];
+    char   pad3a0[0x810 - 0x804 - sizeof(TARGET *)];
+    DG_PRIM *field_810;
+    char   pad3a1[0xA14 - 0x810 - sizeof(DG_PRIM *)];
     struct RopeA14Rec *field_A14;
     char   pad3a2[0xEA0 - 0xA14 - sizeof(struct RopeA14Rec *)];
     int    field_EA0;
@@ -865,7 +868,56 @@ void s11d_rope_800C8250(RopeWork *work)
     s11d_rope_800C5410();
 }
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C8364.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C868C.s")
+extern void TortureInfoKill(void);
+extern void s03b_boxall_800C9328(void);
+extern int  GM_GameStatus;
+extern CONTROL *GM_PlayerControl;
+extern OBJECT  *GM_PlayerBody;
+
+void s11d_rope_800C868C(RopeWork *work)
+{
+    DG_PRIM *prim;
+    CONTROL *control;
+    OBJECT  *obj;
+
+    TortureInfoKill();
+    GV_DestroyActor(work->field_800);
+    control = (CONTROL *)&work->field_20;
+    GM_FreeControl(control);
+    obj = (OBJECT *)&work->field_9C;
+    GM_FreeObject(obj);
+    GM_FreeTarget(work->target);
+
+    prim = work->field_810;
+    if (prim)
+    {
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
+    }
+    prim = (DG_PRIM *)work->field_A14;
+    if (prim)
+    {
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
+    }
+    prim = (DG_PRIM *)work->field_7DC;
+    if (prim)
+    {
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
+    }
+
+    GM_GameStatus &= ~STATE_MENU_OFF;
+    if (GM_PlayerControl == control)
+    {
+        GM_PlayerControl = NULL;
+    }
+    if (GM_PlayerBody == obj)
+    {
+        GM_PlayerBody = NULL;
+    }
+    s03b_boxall_800C9328();
+}
 extern int     s11d_dword_800C32CC;
 extern SVECTOR DG_ZeroVector;
 
