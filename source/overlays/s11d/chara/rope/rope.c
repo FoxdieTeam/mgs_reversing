@@ -5,9 +5,9 @@
 
 typedef struct _RopeWork
 {
-    GV_ACT actor;
-    char   pad0[0x28 - sizeof(GV_ACT)];
-    short  field_28;
+    GV_ACT  actor;
+    SVECTOR field_20;
+    short   field_28;
     short  field_2A;
     short  field_2C;
     char   pad1[0x6E - 0x2C - sizeof(short)];
@@ -47,7 +47,9 @@ typedef struct _RopeWork
     int    field_F28;
     int    field_F2C;
     int    field_F30;
-    char   pad3d0[0xF60 - 0xF30 - sizeof(int)];
+    char   pad3d00[0xF58 - 0xF30 - sizeof(int)];
+    SVECTOR field_F58;
+    char   pad3d01[0xF60 - 0xF58 - sizeof(SVECTOR)];
     int    field_F60;
     int    field_F64;
     int    field_F68;
@@ -63,7 +65,19 @@ typedef struct _RopeWork
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C3D50.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C3DF0.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C3E50.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C4274.s")
+void s11d_rope_800C4274(RopeWork *work)
+{
+    DG_SetPos2(&work->field_20, (SVECTOR *)&work->field_28);
+    if (work->field_F70 & 0x80)
+    {
+        SVECTOR vec;
+        vec.vz = 0;
+        vec.vx = 0;
+        vec.vy = work->field_6E;
+        GV_NearExp4PV(&work->field_F58, &vec, 3);
+        DG_SetPos2(&work->field_20, &work->field_F58);
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C42F4.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C4404.s")
 void s11d_rope_800C44A4(RopeWork *work)
