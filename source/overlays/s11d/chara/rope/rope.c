@@ -24,7 +24,9 @@ typedef struct _RopeWork
     short  field_6C;
     short  field_6E;
     short  field_70;
-    char   pad2a[0x9C - 0x70 - sizeof(short)];
+    char   pad2a1[0x98 - 0x70 - sizeof(short)];
+    short  field_98;
+    char   pad2a2[0x9C - 0x98 - sizeof(short)];
     DG_OBJS *field_9C;
     char   pad2b[0x7DC - 0x9C - sizeof(DG_OBJS *)];
     DG_OBJS *field_7DC;
@@ -36,7 +38,8 @@ typedef struct _RopeWork
     int    field_EA0;
     short *field_EA4;
     short *field_EA8;
-    char   pad3b[0xEB4 - 0xEA8 - sizeof(short *)];
+    int    field_EAC;
+    char   pad3b[0xEB4 - 0xEAC - sizeof(int)];
     int    field_EB4;
     char   pad3c[0xEC8 - 0xEB4 - sizeof(int)];
     int    field_EC8;
@@ -141,7 +144,51 @@ void s11d_rope_800C4274(RopeWork *work)
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C42F4.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C4404.s")
+extern void s11d_rope_800C7138(RopeWork *work);
+
+void s11d_rope_800C4404(RopeWork *work)
+{
+    int target_y;
+    int delta;
+    int field_98_val;
+
+    if (work->field_F60 < 0)
+    {
+        return;
+    }
+    if (work->field_EAC == (int)s11d_rope_800C7138)
+    {
+        return;
+    }
+
+    field_98_val = work->field_98;
+
+    if (work->target->size.vy == 200)
+    {
+        target_y = work->field_20.vy - 250;
+    }
+    else
+    {
+        target_y = work->field_20.vy - 950;
+    }
+
+    delta = target_y - field_98_val;
+
+    if (delta > 0 && delta < 500)
+    {
+        work->field_20.vy -= delta;
+        return;
+    }
+    if (delta >= 0)
+    {
+        return;
+    }
+    if (delta < -499)
+    {
+        return;
+    }
+    work->field_20.vy += delta;
+}
 void s11d_rope_800C44A4(RopeWork *work)
 {
     int flag = work->field_F74 & ~2;
