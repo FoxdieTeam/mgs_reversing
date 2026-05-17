@@ -14,7 +14,9 @@ typedef struct _RopeWork
     short  field_6E;
     char   pad2a[0x9C - 0x6E - sizeof(short)];
     DG_OBJS *field_9C;
-    char   pad2b[0x804 - 0x9C - sizeof(DG_OBJS *)];
+    char   pad2b[0x7DC - 0x9C - sizeof(DG_OBJS *)];
+    DG_OBJS *field_7DC;
+    char   pad2c[0x804 - 0x7DC - sizeof(DG_OBJS *)];
     TARGET *target;
     char   pad3a[0xEA4 - 0x804 - sizeof(TARGET *)];
     short *field_EA4;
@@ -398,7 +400,18 @@ void s11d_rope_800C650C(void)
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C7D20.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C7EC4.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C7F8C.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C8200.s")
+extern void GM_GameOver(void);
+
+void s11d_rope_800C8200(RopeWork *work, int arg1)
+{
+    if (arg1 != 0)
+    {
+        return;
+    }
+    work->field_9C->flag |= DG_FLAG_INVISIBLE;
+    *(int *)&work->field_7DC->def |= 0x100;
+    GM_GameOver();
+}
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C8250.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C8364.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C868C.s")
