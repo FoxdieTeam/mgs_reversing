@@ -168,7 +168,39 @@ void s11d_rope_800C4274(RopeWork *work)
         DG_SetPos2(&work->field_20, &work->field_F58);
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C42F4.s")
+extern MATRIX *CompMatrix(MATRIX *m1, MATRIX *m2, MATRIX *out);
+
+void s11d_rope_800C42F4(DG_OBJS *objs, VECTOR *out)
+{
+    MATRIX   mat;
+    MATRIX   rot;
+    SVECTOR *rots;
+    DG_OBJ  *obj;
+    DG_MDL  *mdl;
+    int      i;
+
+    mat = objs->world;
+    rots = objs->rots;
+    obj = objs->objs;
+    i = 0;
+
+    do
+    {
+        mdl = obj->model;
+        RotMatrixZYX(rots, &rot);
+        rot.t[0] = mdl->pos.vx;
+        rot.t[1] = mdl->pos.vy;
+        rot.t[2] = mdl->pos.vz;
+        CompMatrix(&mat, &rot, &mat);
+        obj++;
+        rots++;
+        i++;
+    } while (i < 5);
+
+    out->vx = mat.t[0];
+    out->vy = mat.t[1];
+    out->vz = mat.t[2];
+}
 extern void s11d_rope_800C7138(RopeWork *work);
 
 void s11d_rope_800C4404(RopeWork *work)
