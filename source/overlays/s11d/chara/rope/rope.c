@@ -92,7 +92,31 @@ typedef struct _RopeWork
     int    field_1088[4];
 } RopeWork;
 
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C3D50.s")
+int s11d_rope_800C3D50(CONTROL *control, int arg1)
+{
+    if (arg1 == 0)
+    {
+        return 0;
+    }
+
+    HZD_PointNearSurface(control->nears);
+    HZD_PointNearVec(control->nearvecs);
+
+    if (control->nearvecs[0].vx != 0)
+    {
+        arg1--;
+        if (arg1 == 1)
+        {
+            control->nearvecs[0] = control->nearvecs[1];
+            control->nears[0] = control->nears[1];
+            if (control->nearvecs[0].vx != 0)
+            {
+                arg1 = 0;
+            }
+        }
+    }
+    return arg1;
+}
 void s11d_rope_800C3DF0(CONTROL *control, HZD_HDL *hzd)
 {
     if (!(control->skip_flag & CTRL_SKIP_TRAP))
