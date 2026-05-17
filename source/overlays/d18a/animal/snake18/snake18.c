@@ -1,41 +1,558 @@
 #include "common.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
+#include "game/game.h"
+#include "game/control.h"
+#include "game/target.h"
+#include "game/camera.h"
+#include "game/vibrate.h"
+#include "linkvar.h"
 
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CABEC.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CAC68.s")
+typedef struct _Snake18Type
+{
+    char *str;
+    char *str2;
+} Snake18Type;
+
+typedef struct _Snake18Work
+{
+    GV_ACT  actor;       // 0x000
+    CONTROL control;     // 0x020
+    OBJECT  body;        // 0x09C
+    char    pad_184[0x184 - 0x09C - sizeof(OBJECT)];
+    SVECTOR f184;        // 0x184
+    int     f18C;        // 0x18C
+    char    pad_19C[0x19C - 0x18C - sizeof(int)];
+    SVECTOR f19C;        // 0x19C
+    int     f1A4;        // 0x1A4
+    char    pad_1B0[0x1B0 - 0x1A4 - sizeof(int)];
+    short   f1B0;        // 0x1B0
+    char    pad_1C0[0x1C0 - 0x1B0 - sizeof(short)];
+    int     f1C0;        // 0x1C0
+    char    pad_7E4[0x7E4 - 0x1C0 - sizeof(int)];
+    int     f7E4;        // 0x7E4
+    short  *f7E8;        // 0x7E8 (pointer slot, used by 800CC8E0 etc.)
+    TARGET  f7EC;        // 0x7EC
+    char    pad_834[0x834 - 0x7EC - sizeof(TARGET)];
+    int     f834;        // 0x834
+    char    pad_840[0x840 - 0x834 - sizeof(int)];
+    int    *f840;        // 0x840
+    char    pad_848[0x848 - 0x840 - sizeof(int *)];
+    SVECTOR f848;        // 0x848
+    char    pad_854[0x854 - 0x848 - sizeof(SVECTOR)];
+    int     f854;        // 0x854
+    int     f858;        // 0x858
+    int     f85C;        // 0x85C
+    short  *f860;        // 0x860
+    int     f864;        // 0x864
+    char    pad_868[0x868 - 0x864 - sizeof(int)];
+    int     f868;        // 0x868
+    short   f86C;        // 0x86C
+    short   f86E;        // 0x86E
+    char    pad_8A4[0x8A4 - 0x86E - sizeof(short)];
+    short  *f8A4;        // 0x8A4
+    Snake18Type *f8A8;   // 0x8A8
+    void   *f8AC;        // 0x8AC (callback pointer)
+    int     f8B0;        // 0x8B0
+    void   *f8B4;        // 0x8B4 (callback pointer)
+    int     f8B8;        // 0x8B8
+    void   *f8BC;        // 0x8BC (callback pointer)
+    void   *f8C0;        // 0x8C0 (callback pointer)
+    char    pad_8C8[0x8C8 - 0x8C0 - sizeof(void *)];
+    short   f8C8;        // 0x8C8
+    char    pad_8CC[0x8CC - 0x8C8 - sizeof(short)];
+    short   f8CC;        // 0x8CC
+    char    pad_8D0[0x8D0 - 0x8CC - sizeof(short)];
+    short   f8D0;        // 0x8D0
+    char    pad_8F8[0x8F8 - 0x8D0 - sizeof(short)];
+    short   f8F8;        // 0x8F8
+    char    pad_8FC[0x8FC - 0x8F8 - sizeof(short)];
+    char    f8FC;        // 0x8FC
+    char    pad_8FE[0x8FE - 0x8FC - sizeof(char)];
+    short   f8FE;        // 0x8FE
+    short   f900;        // 0x900
+    char    pad_90C[0x90C - 0x900 - sizeof(short)];
+    char    f90C;        // 0x90C
+    char    f90D;        // 0x90D
+    char    f90E;        // 0x90E
+    char    pad_910[0x910 - 0x90E - sizeof(char)];
+    short   f910;        // 0x910
+    short   f912;        // 0x912
+    char    pad_92E[0x92E - 0x912 - sizeof(short)];
+    short   f92E;        // 0x92E
+    int     f930;        // 0x930
+} Snake18Work;
+
+int d18a_snake18_800CB710(Snake18Work *work, int a1);
+
+void d18a_snake18_800CABEC(Snake18Work *arg0)
+{
+    int            i;
+    unsigned char *p;
+    short         *temp;
+
+    temp = arg0->f8A4;
+    arg0->f7E4 &= ~0x4000;
+    if ((temp[5] != 0) && (((unsigned short)temp[0] & 0xF000) != 0))
+    {
+        p = (unsigned char *)temp + 0xC;
+        for (i = 0; i < 4; p++)
+        {
+            i += 1;
+            if ((*p - 0x50) >= 0x61U)
+            {
+                arg0->f7E4 |= 0x4000;
+                return;
+            }
+        }
+    }
+}
+
+int d18a_snake18_800CAC68(int arg0, int arg1)
+{
+    int temp_v1;
+
+    if (arg1 < 0)
+    {
+        return 0;
+    }
+
+    temp_v1 = (arg1 - arg0) & 0xFFF;
+
+    if (temp_v1 < 0x800)
+    {
+        if (temp_v1 < 0x100)
+        {
+            return 1;
+        }
+
+        if (temp_v1 >= 0x501)
+        {
+            return 3;
+        }
+
+        return 4;
+    }
+
+    if (temp_v1 >= 0xF01)
+    {
+        return 1;
+    }
+
+    if (temp_v1 < 0xB00)
+    {
+        return 3;
+    }
+
+    return 2;
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CACD0.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CAD90.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CAEC0.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CAF20.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB030.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB134.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB1C8.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB228.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB280.s")
+int d18a_snake18_800CAF20(Snake18Work *work)
+{
+    int      levels[2];
+    SVECTOR  sp18;
+    CONTROL *control;
+    int      temp;
+
+    control = &work->control;
+    if ((control->levels[1] - control->mov.vy) >= 0x5DC)
+    {
+        sp18.vy = 0;
+        sp18.vx = 0;
+        sp18.vz = 0xC8;
+
+        DG_PutVector(&sp18, &sp18, 1);
+        levels[0] = 0;
+        temp = 0x7FFF;
+        levels[1] = temp;
+        HZD_LevelTestHazard(control->map->hzd, &sp18, 3);
+        HZD_LevelMinMaxHeights(levels);
+
+        if ((levels[1] - sp18.vy) >= 0x5DC)
+        {
+            sp18.vy = 0;
+            sp18.vx = 0;
+            sp18.vz = -0x3E8;
+
+            DG_PutVector(&sp18, &sp18, 1);
+            levels[0] = 0;
+            levels[1] = temp;
+            HZD_LevelTestHazard(control->map->hzd, &sp18, 3);
+            HZD_LevelMinMaxHeights(levels);
+
+            return (levels[1] - sp18.vy) < 0x5DC;
+        }
+    }
+
+    return 1;
+}
+typedef struct _Snake18Arg0
+{
+    char  pad1[0x6C];
+    short unk6C;
+    char  pad2[0x98 - 0x6C - sizeof(short)];
+    short unk98;
+    char  pad3[0x8F8 - 0x98 - sizeof(short)];
+    short unk8F8;
+    char  pad3b[0x8FE - 0x8F8 - sizeof(short)];
+    short unk8FE;
+    char  pad4[0x902 - 0x8FE - sizeof(short)];
+    short unk902;
+    char  pad5[0x926 - 0x902 - sizeof(short)];
+    short unk926;
+} Snake18Arg0;
+
+extern HZD_FLR *d18a_dword_800DAF00[2];
+
+void d18a_snake18_800CB030(Snake18Arg0 *arg0)
+{
+    SVECTOR  vec;
+    SVECTOR  sp18;
+    short    temp_s1;
+    int      temp_v0;
+    int      var_v1;
+    HZD_FLR *temp_a1;
+
+    temp_s1 = arg0->unk8FE;
+    if (temp_s1 != 2)
+    {
+        arg0->unk902 = 0;
+        return;
+    }
+
+    vec.vy = 0;
+    vec.vx = 0;
+    vec.vz = 0x2EE;
+    DG_PutVector(&vec, &vec, 1);
+
+    temp_a1 = d18a_dword_800DAF00[0];
+
+    if ((temp_a1 == NULL) || (temp_a1->b1.h == temp_s1))
+    {
+        arg0->unk902 = 0;
+        if (!(GM_PlayerStatus & 1))
+        {
+            arg0->unk6C = 0;
+        }
+    }
+    else
+    {
+        temp_v0 = HZD_SlopeFloorLevel(&vec, temp_a1) - arg0->unk98;
+        sp18.vx = temp_v0;
+        sp18.vz = SquareRoot0(0x89544 - (temp_v0 * temp_v0));
+        var_v1 = -GV_VecDir2(&sp18);
+
+        if (var_v1 < -0x800)
+        {
+            var_v1 += 0x1000;
+        }
+
+        arg0->unk902 = var_v1;
+
+        if (!(GM_PlayerStatus & 1))
+        {
+            arg0->unk6C = var_v1;
+        }
+    }
+}
+extern int d18a_dword_800DAEF0;
+
+int d18a_snake18_800CB134(Snake18Work *work)
+{
+    int temp_s0;
+    int temp_s0_2;
+    int temp_s0_3;
+
+    if (work->control.touch_flag < 2)
+    {
+        return 0;
+    }
+
+    temp_s0 = GV_VecDir2(&work->control.nearvecs[0]);
+    temp_s0_2 = GV_VecDir2(&work->control.nearvecs[1]);
+    temp_s0_3 = GV_DiffDirAbs(d18a_dword_800DAEF0, temp_s0);
+
+    if (((GV_DiffDirAbs(d18a_dword_800DAEF0, temp_s0_2) + 0x380) < 0x701U))
+    {
+        if (((temp_s0_3 + 0x380) < 0x701U))
+        {
+            return 1;
+        }
+    }
+
+    return 0;
+}
+extern char    *d18a_dword_800DAEFC;
+extern HZD_FLR *d18a_dword_800DAF10;
+
+int d18a_snake18_800CB1C8(Snake18Work *work)
+{
+    char    *p;
+    HZD_FLR *floor;
+    int      min;
+    int      max;
+    int      cur;
+
+    p = d18a_dword_800DAEFC;
+    if (*p & 0x90)
+    {
+        return 0;
+    }
+
+    floor = d18a_dword_800DAF10;
+    min = floor->b1.y;
+    max = min + floor->b1.h;
+    cur = work->control.mov.vy;
+
+    if (cur > min && cur < max)
+    {
+        return 1;
+    }
+    return 0;
+}
+void d18a_snake18_800CB228(Snake18Work *work, int arg1)
+{
+    int var_v1;
+
+    var_v1 = GV_DiffDirS(arg1, work->control.rot.vy);
+
+    if (var_v1 >= 0x81)
+    {
+        var_v1 = 0x80;
+    }
+    else if (var_v1 < -0x80)
+    {
+        var_v1 = -0x80;
+    }
+
+    work->control.turn.vz = var_v1;
+}
+
+int d18a_snake18_800CB280(Snake18Work *work, int arg1)
+{
+    if (arg1 == 0)
+    {
+        return work->f8A8->str[0];
+    }
+    else if (arg1 == 1)
+    {
+        return work->f8A8->str[2];
+    }
+    else if (arg1 == 2)
+    {
+        return work->f8A8->str[3];
+    }
+
+    return -1;
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB2EC.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB34C.s")
+extern GM_CameraSystemWork GM_Camera;
+
+void d18a_snake18_800CB34C(Snake18Arg0 *arg0)
+{
+    GM_Camera.first_person = 1;
+    arg0->unk926 = 0;
+    arg0->unk8F8 = -4;
+    GM_PlayerStatus |= 0x8001;
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB378.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB3E8.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB42C.s")
+extern short d18a_dword_800C37E0;
+
+void d18a_snake18_800CB3E8(Snake18Work *work)
+{
+    work->f7E4 |= 0x800;
+    work->f900 = 0x1C2;
+    GM_Camera.first_person = 1;
+    work->f8F8 = -4;
+    work->f8CC = d18a_dword_800C37E0;
+    work->f8D0 = d18a_dword_800C37E0;
+    work->f8C8 = 0x140;
+}
+extern void d18a_snake18_800CB2EC(Snake18Work *work);
+
+void d18a_snake18_800CB42C(Snake18Work *work)
+{
+    work->f900 = 0x1C2;
+    work->f7E4 &= ~0x800;
+    GM_Camera.first_person = 0;
+    work->f8F8 = 4;
+    d18a_snake18_800CB2EC(work);
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB470.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB514.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB59C.s")
+void d18a_snake18_800CB59C(Snake18Work *work)
+{
+    short temp_s0;
+
+    if (d18a_dword_800DAEF0 >= 0)
+    {
+        temp_s0 = work->control.turn.vy;
+
+        if (GV_DiffDirS(temp_s0, d18a_dword_800DAEF0) != 0)
+        {
+            work->control.turn.vy = GV_NearSpeed(GV_NearPhase(temp_s0, d18a_dword_800DAEF0), d18a_dword_800DAEF0, 0x40);
+        }
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB60C.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB710.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB760.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB7BC.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB7D0.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB838.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB888.s")
+int d18a_snake18_800CB710(Snake18Work *work, int a1)
+{
+    SVECTOR *vec = (a1 == 1) ? &work->f184 : &work->f19C;
+    int      val = (a1 == 1) ? work->body.action : work->body.action2;
+
+    if ((vec->vx + vec->vy) == 1)
+    {
+        return val;
+    }
+
+    return -1;
+}
+
+void d18a_snake18_800CB760(Snake18Work *work, int arg1)
+{
+    if (arg1 != work->f18C)
+    {
+        work->f1A4 = (int)~arg1;
+        work->f18C = arg1;
+
+        if ((arg1 == 0xFFFF) && (d18a_snake18_800CB710(work, 2) >= 0))
+        {
+            work->f1C0 = 4;
+            work->f1B0 = 2;
+        }
+    }
+}
+void d18a_snake18_800CB7BC(Snake18Work *work, int arg1)
+{
+    work->f854 = arg1;
+    work->f858 = 0;
+    work->f86E = 0;
+    work->f86C = 0;
+}
+extern SVECTOR d18a_dword_800C3850;
+extern SVECTOR d18a_dword_800C3858;
+extern void NewBlood(MATRIX *mat, int count);
+
+void d18a_snake18_800CB7D0(Snake18Work *work, int arg1)
+{
+    MATRIX *mat;
+    MATRIX  sp10;
+
+    mat = &work->body.objs->objs[arg1].world;
+
+    DG_SetPos(mat);
+    DG_MovePos(&d18a_dword_800C3850);
+    DG_RotatePos(&d18a_dword_800C3858);
+    ReadRotMatrix(&sp10);
+    NewBlood(&sp10, 1);
+}
+void d18a_snake18_800CB838(Snake18Work *work)
+{
+    if (!(work->f868 & 4) && (GM_PlayerStatus & 0x800) && (work->f86C != 3))
+    {
+        work->f85C = (int)(work->f85C | 9);
+    }
+}
+extern char d18a_dword_800C3860[];
+extern char d18a_dword_800C3864[];
+
+void d18a_snake18_800CB888(Snake18Work *work)
+{
+    if (work->f90C != 0)
+    {
+        NewPadVibration(d18a_dword_800C3860, 1);
+        work->f90C = (unsigned char)(work->f90C - 1);
+    }
+
+    if (work->f90D != 0)
+    {
+        NewPadVibration(d18a_dword_800C3864, 2);
+        work->f90D = (unsigned char)(work->f90D - 1);
+        return;
+    }
+
+    work->f90E = 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB908.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB9CC.s")
+typedef struct _Snake18Arg9CC
+{
+    char pad0[0x18];
+    int  f18;
+    int  f1C;
+} Snake18Arg9CC;
+
+#include "game/target.h"
+
+int d18a_snake18_800CB9CC(Snake18Work *arg0, Snake18Arg9CC *arg1)
+{
+    SVECTOR sp18;
+    TARGET *temp_s1;
+    int     temp_v0;
+
+    temp_s1 = &arg0->f7EC;
+    GM_SetTarget(temp_s1, 2, arg0->f930, (SVECTOR *)((char *)arg1 + 0x8));
+    GM_SetCaptureTarget(temp_s1, arg1->f18, arg1->f1C, (int *)((char *)arg0 + 0x840), &arg0->f848);
+    DG_PutVector((SVECTOR *)arg1, &sp18, 1);
+    GM_MoveTarget(temp_s1, &sp18);
+    temp_v0 = (int)GM_CaptureTarget(temp_s1);
+    arg0->f834 = temp_v0;
+    return temp_v0 != 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CBA64.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CBB34.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CBBC8.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CBD34.s")
+extern void d18a_snake18_800CF990(void);
+
+void d18a_snake18_800CBD34(Snake18Work *work)
+{
+    if (work->f864 == 6)
+    {
+        return;
+    }
+    if (((unsigned short)work->f8A4[1]) & 0x20)
+    {
+        work->f8B4 = d18a_snake18_800CF990;
+        work->f8B8 = 0;
+        work->f7E4 |= 0x100;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CBD80.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CBE58.s")
+extern short GM_WeaponChanged;
+
+void d18a_snake18_800CBE58(Snake18Work *work)
+{
+    int state = work->f864;
+    if (state == 5 || state == 6 || state == 2 || state == 7 || state == 8)
+    {
+        short *p = work->f860;
+        if (*p == 0)
+        {
+            *p = -1;
+            GM_CurrentWeaponId = -1;
+            GM_WeaponChanged = 1;
+        }
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CBEC0.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CBF98.s")
+extern void d18a_snake18_800CFD18(void);
+
+void d18a_snake18_800CBF98(Snake18Work *work)
+{
+    unsigned short counter;
+    if (!(GM_StatusEvent & 2)) return;
+    if (GM_PlayerStatus & PLAYER_ACT_ONLY) return;
+
+    counter = work->f92E + 1;
+    work->f92E = counter;
+    if (counter < 300) return;
+
+    work->f92E = 0;
+    work->f8B4 = d18a_snake18_800CFD18;
+    work->f8B8 = 0;
+    work->f7E4 |= 0x100;
+}
 
 void d18a_snake18_800CC008(void)
 {
@@ -50,10 +567,29 @@ void d18a_snake18_800CC008(void)
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CC490.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CC6CC.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CC7F4.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CC8B0.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CC8E0.s")
+void d18a_snake18_800CC8B0(Snake18Work *work, char arg1)
+{
+    int    mask = 0x800000;
+    short *p    = work->f7E8;
+    GM_PlayerStatus |= mask;
+    work->f8FC = arg1;
+    *p &= 0xFF61;
+}
+void d18a_snake18_800CC8E0(Snake18Work *arg0)
+{
+    short *p = arg0->f7E8;
+    short v = *p;
+    GM_PlayerStatus &= 0xFF7FFFFF;
+    *p = v | 0x9E;
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CC90C.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CCB0C.s")
+void d18a_snake18_800CCB0C(TARGET *target)
+{
+    target->damaged &= ~(TARGET_CAPTURE | TARGET_POWER | TARGET_TOUCH);
+    target->damage = 0;
+    target->faint = 0;
+    target->force = DG_ZeroVector;
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CCB50.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CCF30.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CD040.s")
@@ -61,9 +597,48 @@ void d18a_snake18_800CC008(void)
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CD4C0.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CD64C.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CD768.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CD808.s")
+extern void d18a_snake18_800CDFC8(void);
+extern void d18a_snake18_800D1424(void);
+
+void d18a_snake18_800CD808(Snake18Work *work, int arg1)
+{
+    int new_action;
+    if (arg1 != 0)
+    {
+        return;
+    }
+    work->f8FE = 2;
+    work->f900 = 0x1C2;
+    work->f8BC = d18a_snake18_800CDFC8;
+    work->f8C0 = d18a_snake18_800D1424;
+    GM_PlayerStatus |= PLAYER_GROUND;
+    new_action = ((unsigned char *)work->f8A8->str)[3];
+    if (work->body.action != new_action)
+    {
+        GM_ConfigObjectAction(&work->body, new_action, 0, 4);
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CD888.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CD930.s")
+extern void d18a_snake18_800CE210(void);
+extern void d18a_snake18_800D1424(void);
+
+void d18a_snake18_800CD930(Snake18Work *work, int arg1)
+{
+    int new_action;
+    if (arg1 != 0)
+    {
+        return;
+    }
+    work->f900 = 0x1C2;
+    work->f8BC = d18a_snake18_800CE210;
+    work->f8C0 = d18a_snake18_800D1424;
+    GM_PlayerStatus |= 0x10;
+    new_action = ((unsigned char *)work->f8A8->str2)[3];
+    if (work->body.action != new_action)
+    {
+        GM_ConfigObjectAction(&work->body, new_action, 0, 4);
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CD9A8.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CDB04.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CDC3C.s")
@@ -81,7 +656,25 @@ void d18a_snake18_800CE7BC(void)
     /* do nothing */
 }
 
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CE7C4.s")
+extern void d18a_snake18_800CED2C(void);
+extern void d18a_snake18_800D1424(void);
+
+void d18a_snake18_800CE7C4(Snake18Work *work, int arg1)
+{
+    int new_action;
+    if (arg1 != 0)
+    {
+        return;
+    }
+    work->f8BC = d18a_snake18_800CED2C;
+    work->f8C0 = d18a_snake18_800D1424;
+    GM_PlayerStatus |= 0x10;
+    new_action = ((unsigned char *)work->f8A8->str2)[1];
+    if (work->body.action != new_action)
+    {
+        GM_ConfigObjectAction(&work->body, new_action, 0, 4);
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CE834.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CE8E0.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CE998.s")
@@ -91,32 +684,231 @@ void d18a_snake18_800CE7BC(void)
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CECE0.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CED2C.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CEDB0.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CEE60.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CEEAC.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CEF0C.s")
+void d18a_snake18_800CEE60(Snake18Work *work)
+{
+    int arg;
+    if (((unsigned char *)&work->f7E4)[1] & 1)
+    {
+        arg = work->f8B8;
+        work->f8B8 = arg + 1;
+        ((void (*)(Snake18Work *, int))work->f8B4)(work, arg);
+    }
+}
+extern void d18a_snake18_800D09B4(Snake18Work *work);
+extern void d18a_snake18_800D1750(void);
+
+void d18a_snake18_800CEEAC(Snake18Work *work, int arg1)
+{
+    if (arg1 != 0)
+    {
+        return;
+    }
+
+    {
+        Snake18Type *t = work->f8A8;
+        int new_act;
+        work->f8BC = d18a_snake18_800D09B4;
+        work->f8C0 = d18a_snake18_800D1750;
+        new_act = (unsigned char)t->str[3];
+        if (work->body.action != new_act)
+        {
+            GM_ConfigObjectAction(&work->body, new_act, 0, 4);
+        }
+    }
+}
+extern void d18a_snake18_800D0A10(void);
+extern void d18a_snake18_800D1750(void);
+
+void d18a_snake18_800CEF0C(Snake18Work *work, int arg1)
+{
+    int status;
+
+    if (arg1 != 0)
+    {
+        return;
+    }
+
+    work->f8BC = d18a_snake18_800D0A10;
+    status = GM_PlayerStatus;
+    work->f8C0 = d18a_snake18_800D1750;
+    GM_PlayerStatus = status | 0x10;
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CEF44.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CF03C.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CF198.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CF39C.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CF574.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CF718.s")
+void d18a_snake18_800CF718(int arg0, int arg1)
+{
+    if (arg1 == 0x258)
+    {
+        GM_GameOverTimer = 0;
+        GM_GameOver();
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CF744.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CF850.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CF990.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CFB04.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CFD18.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CFEE8.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CFF5C.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CFFD4.s")
+extern void d18a_snake18_800CE7BC(void);
+
+void d18a_snake18_800CFEE8(Snake18Work *work, int arg1)
+{
+    int new_action;
+    if (arg1 != 0)
+    {
+        return;
+    }
+    work->f8BC = d18a_snake18_800CE7BC;
+    work->f8C0 = d18a_snake18_800CE7BC;
+    new_action = d18a_snake18_800CB280(work, work->f8FE);
+    if (work->body.action != new_action)
+    {
+        GM_ConfigObjectAction(&work->body, new_action, 0, 4);
+    }
+    GM_PlayerStatus &= ~PLAYER_MENU_DISABLE;
+}
+extern void d18a_snake18_800D0B4C(Snake18Work *work);
+extern void d18a_snake18_800D18EC(void);
+
+void d18a_snake18_800CFF5C(Snake18Work *work, int arg1)
+{
+    char *p_a8;
+    char *p;
+    int   new_action;
+    if (arg1 != 0)
+    {
+        return;
+    }
+    work->f8BC = d18a_snake18_800D0B4C;
+    p_a8 = (char *)work->f8A8;
+    work->f8C0 = d18a_snake18_800D18EC;
+    work->f8FE = 0;
+    p = *(char **)(p_a8 + 0x18);
+    GM_PlayerStatus &= ~(PLAYER_GROUND | PLAYER_SQUAT);
+    new_action = ((unsigned char *)p)[2];
+    if (work->body.action != new_action)
+    {
+        GM_ConfigObjectAction(&work->body, new_action, 0, 4);
+    }
+}
+extern void d18a_snake18_800D0B84(Snake18Work *work);
+extern void d18a_snake18_800D18EC(void);
+
+void d18a_snake18_800CFFD4(Snake18Work *work, int arg1)
+{
+    char *p_a8;
+    char *p;
+    int   new_action;
+    if (arg1 != 0)
+    {
+        return;
+    }
+    work->f8BC = d18a_snake18_800D0B84;
+    p_a8 = (char *)work->f8A8;
+    work->f8C0 = d18a_snake18_800D18EC;
+    p = *(char **)(p_a8 + 0x18);
+    GM_PlayerStatus |= 0x10;
+    new_action = ((unsigned char *)p)[3];
+    if (work->body.action != new_action)
+    {
+        GM_ConfigObjectAction(&work->body, new_action, 0, 4);
+    }
+    GM_ConfigControlInterp(&work->control, 4);
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D0054.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D00E0.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D01D8.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D0974.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D09B4.s")
+void d18a_snake18_800D0974(Snake18Work *work)
+{
+    unsigned short flag = (unsigned short)work->f8A4[0];
+    int turn_y;
+
+    if (flag & 0xA000)
+    {
+        turn_y = work->control.turn.vy;
+        if (flag & 0x8000)
+        {
+            turn_y += 0x20;
+        }
+        else
+        {
+            turn_y -= 0x20;
+        }
+        work->control.turn.vy = turn_y;
+    }
+}
+
+void d18a_snake18_800D09B4(Snake18Work *work)
+{
+    if (((unsigned short)work->f8A4[0]) & 0x5000)
+    {
+        work->f8AC = d18a_snake18_800CEF0C;
+        work->f8B0 = 0;
+        work->f912 = 0;
+        work->f910 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+    }
+    else
+    {
+        d18a_snake18_800D0974(work);
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D0A10.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D0AF8.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D0B4C.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D0B84.s")
+extern void d18a_snake18_800CF850(void);
+
+void d18a_snake18_800D0AF8(Snake18Work *work)
+{
+    if ((((unsigned short)work->f8A4[1]) & 0xFFEF) != 0)
+    {
+        work->f8AC = d18a_snake18_800CF850;
+        work->f8B0 = 0;
+        work->f912 = 0;
+        work->f910 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        GM_PlayerStatus &= ~0x40;
+    }
+}
+extern void d18a_snake18_800CFFD4(Snake18Work *work, int arg1);
+
+void d18a_snake18_800D0B4C(Snake18Work *work)
+{
+    if (d18a_dword_800DAEF0 < 0)
+    {
+        return;
+    }
+
+    work->f8AC = d18a_snake18_800CFFD4;
+    work->f8B0 = 0;
+    work->f912 = 0;
+    work->f910 = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
+}
+extern void d18a_snake18_800D0054(void);
+
+void d18a_snake18_800D0B84(Snake18Work *work)
+{
+    extern int d18a_snake18_800CAEC0(Snake18Work *work, int state);
+    int state = d18a_dword_800DAEF0;
+    if (state < 0)
+    {
+        work->f8AC = d18a_snake18_800D0054;
+        work->f8B0 = 0;
+        work->f912 = 0;
+        work->f910 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        GM_PlayerStatus &= ~0x10;
+    }
+    else
+    {
+        work->control.turn.vy = d18a_snake18_800CAEC0(work, state);
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D0BF4.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D0E3C.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D1064.s")
@@ -128,10 +920,90 @@ void d18a_snake18_800CE7BC(void)
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D1814.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D18EC.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D198C.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D1A08.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D1A6C.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D1ACC.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D1B3C.s")
+void d18a_snake18_800D1A08(Snake18Work *work)
+{
+    int arg;
+    void (*func)(Snake18Work *, int);
+
+    if ((work->f868 & 0x40) && (GM_PlayerStatus & 0x800))
+    {
+        func = (void (*)(Snake18Work *, int))work->f854;
+        if (func != NULL)
+        {
+            arg = work->f858;
+            work->f858 = arg + 1;
+            func(work, arg);
+        }
+    }
+}
+extern void d18a_snake18_800D24CC(Snake18Work *work);
+extern void d18a_snake18_800CE7BC(void);
+
+void d18a_snake18_800D1A6C(Snake18Work *work, int arg1)
+{
+    if (arg1 != 0)
+    {
+        return;
+    }
+
+    {
+        Snake18Type *t = work->f8A8;
+        int new_act;
+        work->f8BC = d18a_snake18_800D24CC;
+        work->f8C0 = d18a_snake18_800CE7BC;
+        new_act = (unsigned char)t->str[1];
+        if (work->body.action != new_act)
+        {
+            GM_ConfigObjectAction(&work->body, new_act, 0, 4);
+        }
+    }
+}
+extern void d18a_snake18_800D2660(Snake18Work *work);
+
+void d18a_snake18_800D1ACC(Snake18Work *work, int arg1)
+{
+    if (arg1 != 0)
+    {
+        return;
+    }
+
+    {
+        Snake18Type *t;
+        int new_act;
+        work->f8BC = d18a_snake18_800D2660;
+        t = work->f8A8;
+        work->f8C0 = d18a_snake18_800CE7BC;
+        GM_PlayerStatus |= 0x10;
+        new_act = (unsigned char)t->str2[1];
+        if (work->body.action != new_act)
+        {
+            GM_ConfigObjectAction(&work->body, new_act, 0, 4);
+        }
+    }
+}
+extern void d18a_snake18_800D26E4(Snake18Work *work);
+
+void d18a_snake18_800D1B3C(Snake18Work *work, int arg1)
+{
+    if (arg1 != 0)
+    {
+        return;
+    }
+
+    {
+        Snake18Type *t;
+        int new_act;
+        work->f8BC = d18a_snake18_800D26E4;
+        t = work->f8A8;
+        work->f8C0 = d18a_snake18_800CE7BC;
+        GM_PlayerStatus |= 0x10;
+        new_act = (unsigned char)t->str2[0];
+        if (work->body.action != new_act)
+        {
+            GM_ConfigObjectAction(&work->body, new_act, 0, 4);
+        }
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D1BAC.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D1CE8.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D1F90.s")
@@ -154,7 +1026,11 @@ void d18a_snake18_800CE7BC(void)
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D4784.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D48FC.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D49FC.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D4B84.s")
+int d18a_snake18_800D4B84(Snake18Work *work)
+{
+    d18a_snake18_800CB2EC(work);
+    return 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D4BA4.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D4C44.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D4E94.s")
