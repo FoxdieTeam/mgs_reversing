@@ -341,7 +341,59 @@ void s11d_rope_800C48C0(RopeWork *work)
 }
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C48EC.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C4B78.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C4DE0.s")
+int s11d_rope_800C4DE0(RopeWork *work)
+{
+    int            flags;
+    int            newflags;
+    unsigned short ea8_val;
+
+    flags = work->field_F74;
+    newflags = flags & 0xFEFDFFFF;
+    work->field_F74 = newflags;
+
+    if (!(flags & 0x10))
+    {
+        return 0;
+    }
+    if (newflags & 0x00200000)
+    {
+        return 0;
+    }
+    if (work->field_F6C >= 0)
+    {
+        return 0;
+    }
+
+    work->field_F74 = newflags | 0x00200000;
+    work->field_EB4 = 0;
+
+    ea8_val = *work->field_EA8;
+    if (ea8_val & 0x2000)
+    {
+        work->field_EB4 = 1;
+    }
+    else if (ea8_val & 0x8000)
+    {
+        work->field_EB4 = -1;
+    }
+
+    ea8_val = *work->field_EA8;
+    if (ea8_val & 0x4000)
+    {
+        work->field_F74 |= 0x00020000;
+    }
+    else if (ea8_val & 0x1000)
+    {
+        work->field_F74 |= 0x01000000;
+    }
+
+    if (work->field_F7C != 0)
+    {
+        return 1;
+    }
+    s11d_rope_800C4898(work, 0);
+    return 1;
+}
 void s11d_rope_800C4ECC(RopeWork *work)
 {
     int flags = work->field_F70;
