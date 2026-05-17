@@ -29,7 +29,9 @@ typedef struct _RopeWork
     int    field_ED8;
     char   pad3c2[0xEDC - 0xED8 - sizeof(int)];
     int    field_EDC;
-    char   pad3c3[0xEE8 - 0xEDC - sizeof(int)];
+    char   pad3c3a[0xEE4 - 0xEDC - sizeof(int)];
+    int    field_EE4;
+    char   pad3c3b[0xEE8 - 0xEE4 - sizeof(int)];
     int    field_EE8;
     int    field_EEC;
     int    field_EF0;
@@ -329,7 +331,29 @@ void s11d_rope_800C6240(RopeWork *work)
     work->field_28 = 0;
     work->field_F70 &= ~0x80;
 }
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C6264.s")
+void s11d_rope_800C6264(RopeWork *work)
+{
+    int *cluster = &work->field_EC8;   /* [0]=EC8 [1]=ECC [2]=ED0 [5]=EDC [7]=EE4 */
+    int  val = cluster[7];
+    int  abs_val = (val < 0) ? -val : val;
+    int  flag;
+
+    if (abs_val < 0x21)
+    {
+        return;
+    }
+
+    cluster[2] = (cluster[5] > 0) ? -1 : 1;
+    cluster[0] = 0x18;
+    cluster[1] = cluster[7];
+    work->field_F60 = -8;
+    flag = work->field_F74 | 0x100;
+    work->field_F74 = flag;
+    if (flag & 0x1000)
+    {
+        work->field_F64 = -8;
+    }
+}
 void s11d_rope_800C62E0(RopeWork *work)
 {
     int *p_F04 = &work->field_F04;
