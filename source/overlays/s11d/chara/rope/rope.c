@@ -36,7 +36,9 @@ typedef struct _RopeWork
     DG_OBJS *field_9C;
     char   pad2b1[0xAA - 0x9C - sizeof(DG_OBJS *)];
     short  field_AA;
-    char   pad2b[0x7DC - 0xAA - sizeof(short)];
+    char   pad2b2[0xB6 - 0xAA - sizeof(short)];
+    short  field_B6;
+    char   pad2b[0x7DC - 0xB6 - sizeof(short)];
     DG_OBJS *field_7DC;
     char   pad2c[0x804 - 0x7DC - sizeof(DG_OBJS *)];
     TARGET *target;
@@ -47,9 +49,12 @@ typedef struct _RopeWork
     short *field_EA4;
     short *field_EA8;
     int    field_EAC;
-    char   pad3b[0xEB4 - 0xEAC - sizeof(int)];
+    int    field_EB0;
     int    field_EB4;
-    char   pad3c[0xEC8 - 0xEB4 - sizeof(int)];
+    char   pad3c0[0xEBC - 0xEB4 - sizeof(int)];
+    short  field_EBC;
+    short  field_EBE;
+    char   pad3c[0xEC8 - 0xEBC - sizeof(short) * 2];
     int    field_EC8;
     int    field_ECC;
     int    field_ED0;
@@ -647,7 +652,33 @@ void s11d_rope_800C650C(void)
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C7320.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C7530.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C766C.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C7A4C.s")
+extern void s11d_rope_800C6834(RopeWork *work);
+
+void s11d_rope_800C7A4C(RopeWork *work, int arg1)
+{
+    if (arg1 == 0)
+    {
+        work->field_F74 = (work->field_F74 & 0xFF9FFFFF) | 0x00010000;
+        GM_SeSetMode(&work->field_20, 25, 1);
+        work->field_F70 |= 0x100;
+        if (work->field_AA != 9)
+        {
+            GM_ConfigObjectAction((OBJECT *)&work->field_9C, 9, 0, 4);
+        }
+        work->field_6E = 0x800;
+        s11d_rope_800C4898(work, 0);
+    }
+    if (work->field_B6 != 0)
+    {
+        s11d_rope_800C486C(work);
+        work->field_EAC = (int)s11d_rope_800C6834;
+        work->field_EB0 = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        work->field_F70 &= ~0x100;
+    }
+    work->field_66 -= 0x80;
+}
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C7B2C.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C7D20.s")
 extern SVECTOR GM_PlayerPosition;
