@@ -1431,7 +1431,10 @@ void camera_800C89DC(CameraWork *work)
     {
         work->field_654[3] = 0x100;
         rgb = (counter - 30) * 255 / 16;
-        goto set_rgb;
+        p[3].r0 = rgb;
+        p[3].g0 = rgb;
+        p[3].b0 = rgb;
+        return;
     }
     if (counter < 75)
     {
@@ -1444,18 +1447,15 @@ void camera_800C89DC(CameraWork *work)
         work->field_688[22] = NULL;
         return;
     }
-    if (counter >= 91)
+    if (counter < 91)
     {
-        goto reset;
+        rgb = 0xFF - (counter - 74) * 255 / 16;
+        p[3].r0 = rgb;
+        p[3].g0 = rgb;
+        p[3].b0 = rgb;
+        return;
     }
-    rgb = 0xFF - (counter - 74) * 255 / 16;
-set_rgb:
-    p[3].r0 = rgb;
-    p[3].g0 = rgb;
-    p[3].b0 = rgb;
-    return;
 
-reset:
     work->f28 = 3;
     work->f2C = 0;
     work->field_4938 = 0;
