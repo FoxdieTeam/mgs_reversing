@@ -79,7 +79,35 @@ void s11d_rope_800C44A4(RopeWork *work)
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C44F0.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C4574.s")
+void s11d_rope_800C4574(RopeWork *work)
+{
+    short         *p;
+    unsigned char *bytes;
+    int            i;
+
+    work->field_F74 &= ~0x8000;
+
+    p = work->field_EA8;
+    if (p[5] == 0)
+    {
+        return;
+    }
+    if (!((unsigned short)*p & 0xF000))
+    {
+        return;
+    }
+
+    bytes = (unsigned char *)p + 0xC;
+    for (i = 0; i < 4; i++)
+    {
+        if ((unsigned char)(*bytes - 0x40) >= 0x81)
+        {
+            work->field_F74 |= 0x8000;
+            return;
+        }
+        bytes++;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C45F8.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C4648.s")
 extern GM_SnakeCameraWork GM_SnakeCamera;
