@@ -98,11 +98,16 @@ typedef struct _RopeWork
     int    field_F74;
     int    field_F78;
     int    field_F7C;
-    char   pad5[0xF88 - 0xF7C - sizeof(int)];
+    char   pad5[0xF84 - 0xF7C - sizeof(int)];
+    short  field_F84;
+    short  field_F86;
     short  field_F88;
-    char   pad6a1[0xF94 - 0xF88 - sizeof(short)];
+    char   pad6a0[0xF8C - 0xF88 - sizeof(short)];
+    short  field_F8C;
+    short  field_F8E;
+    char   pad6a1[0xF94 - 0xF8E - sizeof(short)];
     short  field_F94;
-    char   pad6a2[0xF98 - 0xF94 - sizeof(short)];
+    short  field_F96;
     short  field_F98;
     char   pad6a3[0xF9C - 0xF98 - sizeof(short)];
     int    field_F9C;
@@ -826,7 +831,53 @@ void s11d_rope_800C8C04(RopeWork *work)
     cluster2[14] = (int)&work->field_6C;               /* field_F3C */
 }
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C8C88.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C8EE4.s")
+extern int s11d_dword_800D1F7C;
+extern int s11d_dword_800D1F80;
+
+void s11d_rope_800C8EE4(RopeWork *work)
+{
+    short         *base = (short *)&work->field_F84;
+    unsigned char *param;
+
+    param = GCL_GetOption('a');
+    if (param)
+    {
+        GCL_StrToSV(param, (SVECTOR *)&base[4]);
+    }
+    else
+    {
+        base[4] = 0x1770;
+        base[5] = 0x6590;
+    }
+    ((short *)&s11d_dword_800D1F7C)[0] = base[5];
+    ((short *)&s11d_dword_800D1F80)[0] = base[4];
+
+    param = GCL_GetOption('i');
+    if (param)
+    {
+        GCL_StrToSV(param, (SVECTOR *)base);
+    }
+    else
+    {
+        base[0] = -0x1B58;
+        base[1] = -0x30D4;
+        base[2] = 0;
+    }
+    ((short *)&s11d_dword_800D1F7C)[1] = base[1];
+    ((short *)&s11d_dword_800D1F80)[1] = base[0];
+
+    param = GCL_GetOption('r');
+    if (param)
+    {
+        GCL_StrToSV(param, (SVECTOR *)&base[8]);
+    }
+    else
+    {
+        base[8] = -0xBB8;
+        base[9] = 0x7530;
+        base[10] = 0x258;
+    }
+}
 int s11d_rope_800C8FDC(RopeWork *work)
 {
     int      i;
