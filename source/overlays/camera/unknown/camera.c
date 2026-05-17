@@ -13,6 +13,7 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
+#include "libfs/libfs.h"
 #include "menu/menuman.h"
 #include "menu/radio.h"
 #include "memcard/memcard.h"
@@ -28,9 +29,10 @@ typedef struct CameraWork
     int      f20;
     GV_PAD  *pad;
     int      f28;
-    char     padding1[0x4];
+    int      f2C;
     DG_PRIM *prim1, *prim2, *prim3;
-    char     padding2[0xA0];
+    POLY_FT4 polys_lr[2];
+    char     padding2[0x50];
     POLY_FT4 polys[9];
     POLY_FT4 polys2[26];
     int      field_654[4];
@@ -46,7 +48,14 @@ typedef struct CameraWork
     char     padding5[0x4000];
     int      field_4934;
     int      field_4938;
-    char     padding6[0xa4];
+    char     padding6[0x2C];
+    int      field_4968;
+    int      field_496C;
+    int      field_4970;
+    char     padding6b[0x44];
+    int      field_49B8;
+    int      field_49BC;
+    char     padding6c[0x20];
     int      f49E0;
     char    *f49E4;
 } CameraWork;
@@ -84,7 +93,7 @@ extern char camera_aRequestx_800CFF3C[];
 extern char camera_aNomemoryforstack_800CFF54[];
 extern const char camera_a_800D0144[];
 
-int camera_800C3ED8(CameraWork *);
+void camera_800C3ED8(CameraWork *);
 int camera_800CDF18(CameraWork *);
 
 void camera_800C3A7C(unsigned long *runlevel, RECT *pRect)
@@ -127,11 +136,203 @@ void camera_800C3A7C(unsigned long *runlevel, RECT *pRect)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C3B9C.s")
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C3D3C.s")
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C3ED8.s")
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C408C.s")
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C4184.s")
-void camera_800C4184(CameraWork* work);
+void camera_800C3D3C(CameraWork *work)
+{
+    POLY_FT4 *p;
+    int len = 9;
+    int code = 0x2C;
+    int vmax = 0xB0;
+    int umax;
+    short y_top = -0x5A;
+    short y_bot = 0x56;
+
+    p = &work->polys_lr[0];
+    umax = 0x90;
+    setlen(p, len);
+    setcode(p, code);
+    p->u0 = 0;    p->v0 = 0;
+    p->u1 = umax; p->v1 = 0;
+    p->u2 = 0;    p->v2 = vmax;
+    p->u3 = umax; p->v3 = vmax;
+    p->tpage = GetTPage(2, 0, 0, 0x100);
+    p->r0 = work->field_4968;
+    p->g0 = work->field_496C;
+    p->b0 = work->field_4970;
+    p->x0 = -0x90; p->y0 = y_top;
+    p->x1 = 0;     p->y1 = y_top;
+    p->x2 = -0x90; p->y2 = y_bot;
+    p->x3 = 0;     p->y3 = y_bot;
+    SetSemiTrans(p, 0);
+    work->field_654[0] = 0x800;
+
+    p = &work->polys_lr[1];
+    umax = 0xA0;
+    setlen(p, len);
+    setcode(p, code);
+    p->u0 = 0x10; p->v0 = 0;
+    p->u1 = umax; p->v1 = 0;
+    p->u2 = 0x10; p->v2 = vmax;
+    p->u3 = umax; p->v3 = vmax;
+    p->tpage = GetTPage(2, 0, 0x80, 0x100);
+    p->r0 = work->field_4968;
+    p->g0 = work->field_496C;
+    p->b0 = work->field_4970;
+    p->x0 = 0;    p->y0 = y_top;
+    p->x1 = 0x90; p->y1 = y_top;
+    p->x2 = 0;    p->y2 = y_bot;
+    p->x3 = 0x90; p->y3 = y_bot;
+    SetSemiTrans(p, 0);
+    work->field_654[1] = 0x800;
+}
+void camera_800C3ED8(CameraWork *work)
+{
+    POLY_FT4 *src;
+    POLY_FT4 *dst;
+    int       i;
+
+    src = work->polys_lr;
+    dst = (POLY_FT4 *)work->prim1->packs[GV_Clock];
+    for (i = 0; i < 4; i++)
+    {
+        *dst = *src;
+        *(short *)dst = (short)work->field_654[i];
+        src++;
+        dst++;
+    }
+
+    src = work->polys;
+    dst = (POLY_FT4 *)work->prim2->packs[GV_Clock];
+    for (i = 0; i < 9; i++)
+    {
+        *dst = *src;
+        *(short *)dst = (short)(int)work->field_664[i];
+        src++;
+        dst++;
+    }
+
+    src = work->polys2;
+    dst = (POLY_FT4 *)work->prim3->packs[GV_Clock];
+    for (i = 0; i < 26; i++)
+    {
+        *dst = *src;
+        *(short *)dst = (short)(int)work->field_688[i];
+        src++;
+        dst++;
+    }
+}
+extern int camera_dword_800C3218[];
+extern const char camera_aChecktextureid_800CFAC0[];
+extern const char camera_aThisidisexistsoiclearthisid_800CFAD4[];
+extern const char camera_aThisidisnotexist_800CFAFC[];
+extern const char camera_aTextureloadimagefinish_800CFB14[];
+
+int camera_800C408C(CameraWork *unused, int idx)
+{
+    int   *base;
+    int   *entry;
+    int    id;
+    int    sector;
+    int    size;
+    void  *buf;
+    DG_TEX *tex;
+
+    base   = camera_dword_800C3218;
+    entry  = base + idx * 3;
+    size   = entry[2];
+    id     = entry[0];
+    sector = entry[1];
+    buf    = GV_Malloc(size);
+    FS_LoadFileRequest(FS_FILEID_BRF, sector, size, buf);
+    while (FS_LoadFileSync() > 0)
+    {
+        mts_wait_vbl(1);
+    }
+    printf((char *)camera_aChecktextureid_800CFAC0);
+    tex = DG_GetTexture(id);
+    if (tex->id != 0)
+    {
+        tex->id = 0;
+        printf((char *)camera_aThisidisexistsoiclearthisid_800CFAD4);
+    }
+    else
+    {
+        printf((char *)camera_aThisidisnotexist_800CFAFC);
+    }
+    DG_LoadInitPcx(buf, id);
+    printf((char *)camera_aTextureloadimagefinish_800CFB14);
+    GV_Free(buf);
+    return id;
+}
+
+extern const char camera_aCamexflush_800CFB30[];
+
+void camera_800C4184(CameraWork *work)
+{
+    POLY_FT4 *p;
+    DG_TEX   *tex;
+
+    p = &work->polys_lr[2];
+    setPolyFT4(p);
+    p->r0 = work->field_4968;
+    p->g0 = work->field_496C;
+    p->b0 = work->field_4970;
+    p->x0 = -0x7F; p->y0 = -0x52;
+    p->x1 = 0x7F;  p->y1 = -0x52;
+    p->x2 = -0x7F; p->y2 = 0x4E;
+    p->x3 = 0x7F;  p->y3 = 0x4E;
+    tex = DG_GetTexture(camera_800C408C(work, work->field_4934 - 1));
+    {
+        int off_x = tex->off_x;
+        int w     = tex->w;
+        int off_y = tex->off_y;
+        int h     = tex->h;
+        int u_right  = off_x + w + 1;
+        int v_bottom = off_y + h + 1;
+        p->u0 = off_x;
+        p->v0 = off_y;
+        p->u1 = u_right;
+        p->v1 = off_y;
+        p->u2 = off_x;
+        p->v2 = v_bottom;
+        p->u3 = u_right;
+        p->v3 = v_bottom;
+    }
+    p->tpage = tex->tpage;
+    p->clut  = tex->clut;
+    SetSemiTrans(p, 1);
+    work->field_654[2] = 0x600;
+
+    p = &work->polys_lr[3];
+    setPolyFT4(p);
+    p->r0 = 0;
+    p->g0 = 0;
+    p->b0 = 0;
+    p->x0 = -0xA0; p->y0 = -0x70;
+    p->x1 = 0xA0;  p->y1 = -0x70;
+    p->x2 = -0xA0; p->y2 = 0x70;
+    p->x3 = 0xA0;  p->y3 = 0x70;
+    tex = DG_GetTexture(GV_StrCode(camera_aCamexflush_800CFB30));
+    {
+        int off_x = tex->off_x;
+        int w     = tex->w;
+        int off_y = tex->off_y;
+        int h     = tex->h;
+        int u_right  = off_x + w;
+        int v_bottom = off_y + h;
+        p->u0 = off_x;
+        p->v0 = off_y;
+        p->u1 = u_right;
+        p->v1 = off_y;
+        p->u2 = off_x;
+        p->v2 = v_bottom;
+        p->u3 = u_right;
+        p->v3 = v_bottom;
+    }
+    p->tpage = tex->tpage;
+    p->clut  = tex->clut;
+    SetSemiTrans(p, 1);
+    work->field_654[3] = 0;
+}
 
 void camera_800C4350(CameraWork* work) {
 
@@ -186,7 +387,7 @@ void move_coord_800C5388(int *arr, int len)
 }
 
 // Copy of menu_radio_do_file_mode_helper2_helper_8004A4C4
-void camera_800C53B8(MenuPrim *pGlue, RadioFileModeStruElem *pElem)
+void camera_800C53B8(MenuPrim *prim, RadioFileModeStruElem *pElem)
 {
     RadioFileModeUnk1 *pUnk;
     TextConfig         textConfig;
@@ -202,11 +403,11 @@ void camera_800C53B8(MenuPrim *pGlue, RadioFileModeStruElem *pElem)
     textConfig.flags = 0x12;
     textConfig.color = pUnk->field_18 | 0x66000000;
 
-    _menu_number_draw_string2(pGlue, &textConfig, (char *)pUnk->field_4); // TODO: Fix cast
+    _menu_number_draw_string2(prim, &textConfig, (char *)pUnk->field_4); // TODO: Fix cast
 }
 
 // Copy of menu_radio_do_file_mode_helper4_helper_8004A54C
-void camera_800C5440(MenuPrim *pGlue, RadioFileModeStruElem *pElem)
+void camera_800C5440(MenuPrim *prim, RadioFileModeStruElem *pElem)
 {
     LINE_F2           *pPrim;
     RadioFileModeUnk1 *pUnk;
@@ -219,7 +420,7 @@ void camera_800C5440(MenuPrim *pGlue, RadioFileModeStruElem *pElem)
 
     if (pUnk->field_4 != pUnk->field_14 || pUnk->field_C != pUnk->field_1C)
     {
-        _NEW_PRIM(pPrim, pGlue);
+        _NEW_PRIM(pPrim, prim);
 
         LSTORE(pUnk->field_24, &pPrim->r0);
         pPrim->x0 = pUnk->field_4 >> 16;
@@ -227,12 +428,12 @@ void camera_800C5440(MenuPrim *pGlue, RadioFileModeStruElem *pElem)
         pPrim->x1 = pUnk->field_14 >> 16;
         pPrim->y1 = pUnk->field_1C >> 16; // pUnk->field_1C / 65536 wouldn't match
         setLineF2(pPrim);
-        addPrim(pGlue->ot, pPrim);
+        addPrim(prim->ot, pPrim);
     }
 }
 
 // duplicate of sub_8004A648
-void camera_800C553C(MenuPrim *pGlue, RadioFileModeStruElem *pElem)
+void camera_800C553C(MenuPrim *prim, RadioFileModeStruElem *pElem)
 {
     RadioFileModeUnk1 *pUnk;
     int                x, y, w, h;
@@ -250,7 +451,7 @@ void camera_800C553C(MenuPrim *pGlue, RadioFileModeStruElem *pElem)
     x -= w / 2;
     y -= h / 2;
 
-    _NEW_PRIM(pTile, pGlue);
+    _NEW_PRIM(pTile, prim);
 
     LSTORE(0x72A452, &pTile->r0);
     setTile(pTile);
@@ -259,16 +460,16 @@ void camera_800C553C(MenuPrim *pGlue, RadioFileModeStruElem *pElem)
     pTile->w = w;
     pTile->h = h;
     setSemiTrans(pTile, 0);
-    addPrim(pGlue->ot, pTile);
+    addPrim(prim->ot, pTile);
 
-    radio_draw_face_frame(pGlue, x, y, w, h);
-    radio_draw_face_frame(pGlue, x, y, w, h);
+    radio_draw_face_frame(prim, x, y, w, h);
+    radio_draw_face_frame(prim, x, y, w, h);
 }
 
-void camera_800C714C(MenuPrim *pGlue, SELECT_INFO *info);
+void camera_800C714C(MenuPrim *prim, SELECT_INFO *info);
 
 // duplicate of menu_radio_do_file_mode_helper3_helper_8004A790
-void camera_800C5684(MenuPrim *pGlue, RadioFileModeStruElem *pElem)
+void camera_800C5684(MenuPrim *prim, RadioFileModeStruElem *pElem)
 {
     RadioFileModeUnk1 *pUnk;
 
@@ -280,7 +481,7 @@ void camera_800C5684(MenuPrim *pGlue, RadioFileModeStruElem *pElem)
 
     *(short *)pUnk->field_14 = pUnk->field_4 >> 16; // TODO: Fix type of field_14
     *(short *)(pUnk->field_14 + 2) = pUnk->field_C >> 16; // pUnk->field_C / 65536 wouldn't match
-    camera_800C714C(pGlue, (SELECT_INFO *)pUnk->field_14);
+    camera_800C714C(prim, (SELECT_INFO *)pUnk->field_14);
 }
 
 // duplicate of init_file_mode_helper2_8004A800
@@ -374,7 +575,7 @@ void camera_800C5898(int idx, int param_2, int param_3, int divisor, SELECT_INFO
     pElem->field_4 = divisor;
 }
 
-void camera_800C5440(MenuPrim *pGlue, RadioFileModeStruElem *pElem);
+void camera_800C5440(MenuPrim *prim, RadioFileModeStruElem *pElem);
 
 void camera_800C5970(int idx, int param_2, int param_3, int param_4, int param_5, int divisor) // duplicate of menu_radio_do_file_mode_helper4_8004AA68
 {
@@ -444,7 +645,7 @@ void camera_800C5B00(int param_1, int param_2, int param_3, int param_4, int div
     pElem->field_4 = divisor;
 }
 
-void camera_800C5C54(MenuPrim *pGlue) // duplicate of menu_radio_do_file_mode_helper6_8004AD40
+void camera_800C5C54(MenuPrim *prim) // duplicate of menu_radio_do_file_mode_helper6_8004AD40
 {
     int                    i;
     RadioFileModeStruElem *pElem;
@@ -460,7 +661,7 @@ void camera_800C5C54(MenuPrim *pGlue) // duplicate of menu_radio_do_file_mode_he
             }
             else
             {
-                pElem->field_8_pFn(pGlue, pElem);
+                pElem->field_8_pFn(prim, pElem);
                 if (pElem->field_0 == 1 && --pElem->field_4 == 0)
                 {
                     pElem->field_0 = 2;
@@ -925,7 +1126,7 @@ void camera_800C703C(MenuWork *work, const char **srcs, int cnt, int field_4, co
 }
 
 // duplicate of menu_radio_do_file_mode_helper16_8004C164
-void camera_800C714C(MenuPrim *pGlue, SELECT_INFO *info)
+void camera_800C714C(MenuPrim *prim, SELECT_INFO *info)
 {
     int        i;
     int        xpos, ypos;
@@ -942,7 +1143,7 @@ void camera_800C714C(MenuPrim *pGlue, SELECT_INFO *info)
     }
     textConfig.xpos = info->field_0_xpos;
     textConfig.ypos = info->field_2_ypos;
-    _menu_number_draw_string2(pGlue, &textConfig, info->message);
+    _menu_number_draw_string2(prim, &textConfig, info->message);
     if (info->max_num == 1)
     {
         xpos = info->field_0_xpos;
@@ -970,7 +1171,7 @@ void camera_800C714C(MenuPrim *pGlue, SELECT_INFO *info)
         {
             textConfig.color = 0x663d482e;
         }
-        _menu_number_draw_string2(pGlue, &textConfig, info->menu[i].mes);
+        _menu_number_draw_string2(prim, &textConfig, info->menu[i].mes);
     }
 }
 
@@ -1128,7 +1329,16 @@ void camera_800C82EC(void)
     camera_800C82B0(&camera_dword_800C38E0, 1);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C8314.s")
+void camera_800C8314(MenuPrim *prim, SELECT_INFO *info)
+{
+    DR_TPAGE *pTpage;
+
+    _NEW_PRIM(pTpage, prim);
+
+    setlen(pTpage, 1);
+    pTpage->code[0] = 0xE100061F | ((*(int *)((char *)info + 8) >> 3) & 0x60);
+    addPrim(prim->ot, pTpage);
+}
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C838C.s")
 
 void camera_800C8554(int *arg0, int arg1, int arg2, int arg3)
@@ -1138,16 +1348,15 @@ void camera_800C8554(int *arg0, int arg1, int arg2, int arg3)
     arg0[2] = arg3;
 }
 
-int camera_800C8314(int, int);
 int camera_800C838C(int, int, char *);
 
-void camera_800C8564(int arg0, int arg1, char *arg2)
+void camera_800C8564(MenuPrim *prim, SELECT_INFO *info, char *arg2)
 {
     char sp10[64];
 
     sprintf(sp10, arg2);
-    camera_800C838C(arg0, arg1, sp10);
-    camera_800C8314(arg0, arg1);
+    camera_800C838C((int)prim, (int)info, sp10);
+    camera_800C8314(prim, info);
 }
 
 void camera_800C85B8(int *arg0, int r, int g, int b)
@@ -1205,21 +1414,125 @@ void camera_800C869C(CameraWork *work)
 }
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C86BC.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C884C.s")
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C89DC.s")
+extern void camera_800C86BC(CameraWork *work, int x, int y, int w, int h, int color, int unused);
+
+void camera_800C89DC(CameraWork *work)
+{
+    POLY_FT4 *p = work->polys_lr;
+    int counter = work->field_4938;
+    int rgb;
+
+    if (counter < 31)
+    {
+        return;
+    }
+
+    if (counter < 47)
+    {
+        work->field_654[3] = 0x100;
+        rgb = (counter - 30) * 255 / 16;
+        p[3].r0 = rgb;
+        p[3].g0 = rgb;
+        p[3].b0 = rgb;
+        return;
+    }
+    if (counter < 75)
+    {
+        work->field_654[2] = 0;
+        work->field_4934 = 0;
+        work->field_688[2] = (GV_ACT *)0x200;
+        work->field_688[3] = (GV_ACT *)0x200;
+        work->field_688[4] = (GV_ACT *)0x200;
+        work->field_688[25] = NULL;
+        work->field_688[22] = NULL;
+        return;
+    }
+    if (counter < 91)
+    {
+        rgb = 0xFF - (counter - 74) * 255 / 16;
+        p[3].r0 = rgb;
+        p[3].g0 = rgb;
+        p[3].b0 = rgb;
+        return;
+    }
+
+    work->f28 = 3;
+    work->f2C = 0;
+    work->field_4938 = 0;
+    camera_800C86BC(work, -0x90, 0x5A, 0x70, 0xC, 0xFF, 0);
+}
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C8AD4.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800CA918.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800CB024.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800CB8AC.s")
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800CBCC8.s")
+extern void camera_800C884C(CameraWork *work, int x, int y, int w, int h, int color, int unused);
+
+void camera_800CBCC8(CameraWork *work)
+{
+    GV_PAD   *pad   = work->pad;
+    int       state = work->field_49BC;
+    u_short   press = pad->press;
+
+    switch (state)
+    {
+    case 0:
+        if (press & PAD_RIGHT)
+        {
+            work->field_49BC = 1;
+            camera_800C884C(work, 0x30, 0x5A, 0x26, 0xC, 0xFF, 0);
+            GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+            break;
+        }
+        if (press & PAD_CIRCLE)
+        {
+            work->field_49B8 = 2;
+            work->field_4938 = 0;
+            camera_800C869C(work);
+            GM_SeSet2(0, 0x3F, 0xB1);
+            break;
+        }
+        if (press & PAD_CROSS)
+        {
+            work->field_49B8 = 3;
+            work->field_4938 = 0;
+            camera_800C869C(work);
+            GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+        }
+        break;
+    case 1:
+        if (press & PAD_LEFT)
+        {
+            work->field_49BC = 0;
+            camera_800C884C(work, 3, 0x5A, 0x1A, 0xC, 0xFF, 0);
+            GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+            break;
+        }
+        if (press & PAD_CIRCLE)
+        {
+            work->field_49B8 = 3;
+            work->field_4938 = 0;
+            camera_800C869C(work);
+            GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+            break;
+        }
+        if (press & PAD_CROSS)
+        {
+            work->field_49B8 = 3;
+            work->field_4938 = 0;
+            camera_800C869C(work);
+            GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+        }
+        break;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800CBDE4.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800CC3C8.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800CCBB0.s")
-void camera_800CD0A0(MenuPrim *pGlue, int x, int y, int w, int h)
+void camera_800CD0A0(MenuPrim *prim, int x, int y, int w, int h)
 {
     TILE *pTile;
 
-    pTile = (TILE *)pGlue->next;
-    pGlue->next = (u_char *)(pTile + 1);
+    _NEW_PRIM(pTile, prim);
     LSTORE(0x72A452, &pTile->r0);
     setTile(pTile);
     pTile->x0 = x;
@@ -1227,10 +1540,10 @@ void camera_800CD0A0(MenuPrim *pGlue, int x, int y, int w, int h)
     pTile->w = w;
     pTile->h = h;
     setSemiTrans(pTile, 0);
-    addPrim(pGlue->ot, pTile);
+    addPrim(prim->ot, pTile);
 
-    radio_draw_face_frame(pGlue, x, y, w, h);
-    radio_draw_face_frame(pGlue, x, y, w, h);
+    radio_draw_face_frame(prim, x, y, w, h);
+    radio_draw_face_frame(prim, x, y, w, h);
 }
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800CD198.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800CD790.s")
