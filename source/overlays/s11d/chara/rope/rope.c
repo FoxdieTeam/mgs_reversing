@@ -1,7 +1,9 @@
 #include "common.h"
 #include "game/camera.h"
+#include "game/control.h"
 #include "game/target.h"
 #include "game/vibrate.h"
+#include "libhzd/libhzd.h"
 #include "linkvar.h"
 
 struct RopeA14Rec
@@ -78,7 +80,15 @@ typedef struct _RopeWork
 } RopeWork;
 
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C3D50.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C3DF0.s")
+void s11d_rope_800C3DF0(CONTROL *control, HZD_HDL *hzd)
+{
+    if (!(control->skip_flag & CTRL_SKIP_TRAP))
+    {
+        control->event.pos = control->mov;
+        control->event.pos.pad = control->rot.vy;
+        HZD_EnterTrap(hzd, &control->event);
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C3E50.s")
 void s11d_rope_800C4274(RopeWork *work)
 {
