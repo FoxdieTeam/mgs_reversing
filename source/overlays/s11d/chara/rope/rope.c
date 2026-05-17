@@ -80,7 +80,7 @@ typedef struct _RopeWork
     short  field_F88;
     char   pad6a[0x107C - 0xF88 - sizeof(short)];
     int    field_107C[3];
-    char   pad6b[0x1098 - 0x107C - sizeof(int) * 3];
+    int    field_1088[4];
 } RopeWork;
 
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C3D50.s")
@@ -571,7 +571,30 @@ void s11d_rope_800C90BC(RopeWork *work)
         i++;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C9134.s")
+void s11d_rope_800C9134(RopeWork *work)
+{
+    int  *p;
+    int   i;
+    unsigned char *param;
+
+    if (!GCL_GetOption('v'))
+    {
+        return;
+    }
+
+    i = 0;
+    p = work->field_1088;
+    while ((param = GCL_GetParamResult()))
+    {
+        if (i == 4)
+        {
+            return;
+        }
+        *p = GCL_StrToInt(param);
+        p++;
+        i++;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C91AC.s")
 extern const char s11d_dword_800D1DC4[];
 extern void s11d_rope_800C8364(RopeWork *work);
