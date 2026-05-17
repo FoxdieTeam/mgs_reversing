@@ -20,7 +20,10 @@ typedef struct _RopeWork
     short   field_28;
     short  field_2A;
     short  field_2C;
-    char   pad1[0x6C - 0x2C - sizeof(short)];
+    char   pad1a[0x36 - 0x2C - sizeof(short)];
+    short  field_36;
+    short  field_38;
+    char   pad1b[0x6C - 0x38 - sizeof(short)];
     short  field_6C;
     short  field_6E;
     short  field_70;
@@ -441,7 +444,37 @@ int s11d_rope_800C52F0(RopeWork *work)
     }
     return 1;
 }
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C5348.s")
+extern const char s11d_aTosi_800D1D5C[];
+
+void s11d_rope_800C5348(RopeWork *work)
+{
+    int     code;
+    u_short *names;
+    int     count;
+    TARGET *target;
+
+    code = GV_StrCode(s11d_aTosi_800D1D5C);
+
+    names = (u_short *)&work->field_38;
+    count = work->field_36;
+    target = work->target;
+
+    while (count > 0)
+    {
+        count--;
+        if (*names == code)
+        {
+            s11d_rope_800C4898(work, 0);
+            target->vital += target->damage;
+            target->damage = 0;
+            target->faint = 0;
+            target->damaged &= ~4;
+            target->force = DG_ZeroVector;
+            return;
+        }
+        names++;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C5410.s")
 extern CONTROL *GM_WhereList[96];
 extern int gControlCount_800AB9B4;
