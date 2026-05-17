@@ -24,9 +24,8 @@ typedef struct _RopeWork
     char   pad1a[0x36 - 0x2C - sizeof(short)];
     short  field_36;
     short  field_38;
-    char   pad1b1[0x66 - 0x38 - sizeof(short)];
-    short  field_66;
-    char   pad1b2[0x6C - 0x66 - sizeof(short)];
+    char   pad1b[0x64 - 0x38 - sizeof(short)];
+    SVECTOR field_64;
     short  field_6C;
     short  field_6E;
     short  field_70;
@@ -38,7 +37,9 @@ typedef struct _RopeWork
     short  field_AA;
     char   pad2b2[0xB6 - 0xAA - sizeof(short)];
     short  field_B6;
-    char   pad2b[0x7DC - 0xB6 - sizeof(short)];
+    char   pad2b3[0x186 - 0xB6 - sizeof(short)];
+    short  field_186;
+    char   pad2b[0x7DC - 0x186 - sizeof(short)];
     DG_OBJS *field_7DC;
     char   pad2c[0x804 - 0x7DC - sizeof(DG_OBJS *)];
     TARGET *target;
@@ -739,7 +740,7 @@ void s11d_rope_800C7A4C(RopeWork *work, int arg1)
         work->field_EBC = 0;
         work->field_F70 &= ~0x100;
     }
-    work->field_66 -= 0x80;
+    work->field_64.vy -= 0x80;
 }
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C7B2C.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C7D20.s")
@@ -758,7 +759,7 @@ void s11d_rope_800C7EC4(RopeWork *work, int arg1)
             GM_ConfigObjectAction((OBJECT *)&work->field_9C, 14, 0, 4);
         }
     }
-    work->field_66 -= 0x20;
+    work->field_64.vy -= 0x20;
     if (arg1 == 8)
     {
         GM_PlayerPosition = work->field_20;
@@ -781,7 +782,56 @@ void s11d_rope_800C8200(RopeWork *work, int arg1)
     *(int *)&work->field_7DC->def |= 0x100;
     GM_GameOver();
 }
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C8250.s")
+extern int GM_PlayerAction;
+extern int dword_800AB9D4;
+extern int s11d_dword_800D1F84;
+extern void s11d_rope_800C44A4(RopeWork *work);
+extern void s11d_rope_800C4648(RopeWork *work);
+extern void s11d_rope_800C481C(RopeWork *work);
+extern void s11d_rope_800C4574(RopeWork *work);
+extern void s11d_rope_800C44F0(RopeWork *work);
+extern void s11d_rope_800C5348(RopeWork *work);
+extern void s11d_rope_800C48EC(RopeWork *work);
+extern void s11d_rope_800C4B78(RopeWork *work);
+extern void s11d_rope_800C4ECC(RopeWork *work);
+extern void s11d_rope_800C45F8(RopeWork *work);
+extern void s11d_rope_800C5B10(RopeWork *work);
+extern void s11d_rope_800C5E74(RopeWork *work);
+extern void s11d_rope_800C502C(RopeWork *work);
+extern void s11d_rope_800C5410(void);
+extern void s11d_rope_800C6478(RopeWork *work);
+
+void s11d_rope_800C8250(RopeWork *work)
+{
+    void (*state_fn)(RopeWork *, int);
+
+    work->field_64 = DG_ZeroVector;
+
+    s11d_rope_800C54CC(work);
+    s11d_rope_800C44A4(work);
+    s11d_rope_800C4648(work);
+    s11d_rope_800C481C(work);
+    s11d_rope_800C4574(work);
+    s11d_rope_800C44F0(work);
+    s11d_rope_800C5348(work);
+    s11d_rope_800C48EC(work);
+    s11d_rope_800C4B78(work);
+    s11d_rope_800C4ECC(work);
+    s11d_rope_800C45F8(work);
+    s11d_rope_800C6478(work);
+    s11d_rope_800C5B10(work);
+
+    state_fn = (void (*)(RopeWork *, int))work->field_EAC;
+    state_fn(work, work->field_EB0++);
+
+    s11d_rope_800C5E74(work);
+    s11d_rope_800C502C(work);
+
+    s11d_dword_800D1F84 = (work->field_F70 & 2) > 0;
+    GM_PlayerAction = work->field_AA;
+    dword_800AB9D4 = work->field_186;
+    s11d_rope_800C5410();
+}
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C8364.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C868C.s")
 extern int     s11d_dword_800C32CC;
