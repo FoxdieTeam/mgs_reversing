@@ -358,20 +358,17 @@ void d18a_snake18_800CB34C(Snake18Arg0 *arg0)
     GM_PlayerStatus |= 0x8001;
 }
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB378.s")
-extern volatile unsigned short d18a_dword_800C37E0;
+extern short d18a_dword_800C37E0;
 
 void d18a_snake18_800CB3E8(Snake18Work *work)
 {
-    unsigned short tmp;
-
     work->f7E4 |= 0x800;
     work->f900 = 0x1C2;
     GM_Camera.first_person = 1;
-    tmp = d18a_dword_800C37E0;
-    *(volatile short *)&work->f8F8 = -4;
+    work->f8F8 = -4;
+    work->f8CC = d18a_dword_800C37E0;
+    work->f8D0 = d18a_dword_800C37E0;
     work->f8C8 = 0x140;
-    work->f8CC = tmp;
-    work->f8D0 = tmp;
 }
 extern void d18a_snake18_800CB2EC(Snake18Work *work);
 
