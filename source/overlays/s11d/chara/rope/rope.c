@@ -14,16 +14,48 @@ typedef struct _RopeWork
     short  field_6E;
     char   pad2[0x804 - 0x6E - sizeof(short)];
     TARGET *target;
-    char   pad3a[0xEA8 - 0x804 - sizeof(TARGET *)];
+    char   pad3a[0xEA4 - 0x804 - sizeof(TARGET *)];
+    short *field_EA4;
     short *field_EA8;
     char   pad3b[0xEB4 - 0xEA8 - sizeof(short *)];
     int    field_EB4;
-    char   pad3c[0xEDC - 0xEB4 - sizeof(int)];
+    char   pad3c[0xEC8 - 0xEB4 - sizeof(int)];
+    int    field_EC8;
+    int    field_ECC;
+    int    field_ED0;
+    char   pad3c1[0xED8 - 0xED0 - sizeof(int)];
+    int    field_ED8;
+    char   pad3c2[0xEDC - 0xED8 - sizeof(int)];
     int    field_EDC;
-    char   pad3d[0xF70 - 0xEDC - sizeof(int)];
+    char   pad3c3[0xEE8 - 0xEDC - sizeof(int)];
+    int    field_EE8;
+    int    field_EEC;
+    int    field_EF0;
+    int    field_EF4;
+    char   pad3c4[0xF04 - 0xEF4 - sizeof(int)];
+    int    field_F04;
+    int    field_F08;
+    int    field_F0C;
+    char   pad3c5[0xF14 - 0xF0C - sizeof(int)];
+    int    field_F14;
+    char   pad3c6a[0xF20 - 0xF14 - sizeof(int)];
+    int    field_F20;
+    char   pad3c6b[0xF24 - 0xF20 - sizeof(int)];
+    int    field_F24;
+    int    field_F28;
+    int    field_F2C;
+    int    field_F30;
+    char   pad3d0[0xF60 - 0xF30 - sizeof(int)];
+    int    field_F60;
+    int    field_F64;
+    int    field_F68;
+    char   pad3d1[0xF70 - 0xF68 - sizeof(int)];
     int    field_F70;
-    char   pad4[0xF7C - 0xF70 - sizeof(int)];
+    int    field_F74;
+    char   pad4[0xF7C - 0xF74 - sizeof(int)];
     int    field_F7C;
+    char   pad5[0xF88 - 0xF7C - sizeof(int)];
+    short  field_F88;
 } RopeWork;
 
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C3D50.s")
@@ -32,7 +64,20 @@ typedef struct _RopeWork
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C4274.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C42F4.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C4404.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C44A4.s")
+void s11d_rope_800C44A4(RopeWork *work)
+{
+    int flag = work->field_F74 & ~2;
+
+    work->field_F74 = flag;
+    if (work->field_F70 & 0x2000)
+    {
+        return;
+    }
+    if (work->field_EA4[2] > work->field_F88)
+    {
+        work->field_F74 = flag | 2;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C44F0.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C4574.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C45F8.s")
@@ -88,14 +133,101 @@ int s11d_rope_800C4F84(RopeWork *work)
     }
     return 1;
 }
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C4FC8.s")
+int s11d_rope_800C4FC8(RopeWork *work)
+{
+    unsigned short v;
+
+    v = *work->field_EA8;
+    if (!(v & 0x2000))
+    {
+        if (work->field_EB4 == 1)
+        {
+            return 1;
+        }
+    }
+
+    v = *work->field_EA8;
+    if ((v & 0x8000) == 0 && work->field_EB4 == -1)
+    {
+        return 1;
+    }
+    return 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C502C.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C5298.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C52F0.s")
+int s11d_rope_800C5298(RopeWork *work)
+{
+    int flag = work->field_F74;
+
+    if (!(flag & 0x4000))
+    {
+        return 0;
+    }
+    if (flag & 0x1000)
+    {
+        return 0;
+    }
+    if (flag & 0x400000)
+    {
+        return 0;
+    }
+    if (*work->field_EA8 & 0x20)
+    {
+        work->field_F74 = flag | 0x400000;
+        return 1;
+    }
+    return 0;
+}
+int s11d_rope_800C52F0(RopeWork *work)
+{
+    unsigned short v;
+
+    if (work->field_F74 & 0x2000)
+    {
+        return 0;
+    }
+
+    v = *work->field_EA8;
+    if (!(v & 0xA000))
+    {
+        return 0;
+    }
+
+    if (v & 0x2000)
+    {
+        work->field_EB4 = 1;
+    }
+    else
+    {
+        work->field_EB4 = -1;
+    }
+    return 1;
+}
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C5348.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C5410.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C54CC.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C5538.s")
+
+void s11d_rope_800C5538(RopeWork *work)
+{
+    int *cluster1 = &work->field_EC8;  /* offsets EC8..EF4 */
+    int *cluster2 = &work->field_F04;  /* offsets F04..F30 */
+
+    cluster2[1]  = 0;  /* field_F08 */
+    cluster1[1]  = 0;  /* field_ECC */
+    cluster1[8]  = 0;  /* field_EE8 */
+    cluster1[4]  = 0;  /* field_ED8 */
+    cluster1[2]  = 0;  /* field_ED0 */
+    cluster1[0]  = 0;  /* field_EC8 */
+    cluster2[8]  = 0;  /* field_F24 */
+    cluster2[4]  = 0;  /* field_F14 */
+    cluster2[2]  = 0;  /* field_F0C */
+    cluster2[0]  = 0;  /* field_F04 */
+    cluster1[11] = 0;  /* field_EF4 */
+    cluster1[10] = 0;  /* field_EF0 */
+    cluster1[9]  = 0;  /* field_EEC */
+    cluster2[11] = 0;  /* field_F30 */
+    cluster2[10] = 0;  /* field_F2C */
+    cluster2[9]  = 0;  /* field_F28 */
+}
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C5584.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C5B10.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C5E74.s")
@@ -108,7 +240,25 @@ void s11d_rope_800C6240(RopeWork *work)
     work->field_F70 &= ~0x80;
 }
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C6264.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C62E0.s")
+void s11d_rope_800C62E0(RopeWork *work)
+{
+    int *p_F04 = &work->field_F04;
+
+    if (work->field_F74 & 0x4000)
+    {
+        return;
+    }
+    p_F04[2] = (work->field_F74 & 0x10) ? 1 : -1;
+    p_F04[0] = 0x30;
+    work->field_F74 |= 0x200;
+    p_F04[1] = p_F04[7];
+    work->field_F60 = -8;
+    work->field_F68 = -8;
+    if (work->field_F74 & 0x1000)
+    {
+        work->field_F64 = -8;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C634C.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C6478.s")
 extern int s11d_dword_800C32B4;
