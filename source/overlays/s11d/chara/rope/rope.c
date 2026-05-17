@@ -64,6 +64,7 @@ typedef struct _RopeWork
     int    field_F7C;
     char   pad5[0xF88 - 0xF7C - sizeof(int)];
     short  field_F88;
+    char   pad6[0x1098 - 0xF88 - sizeof(short)];
 } RopeWork;
 
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C3D50.s")
@@ -424,4 +425,23 @@ void s11d_rope_800C8200(RopeWork *work, int arg1)
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C90BC.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C9134.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C91AC.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C9500.s")
+extern const char s11d_dword_800D1DC4[];
+extern void s11d_rope_800C8364(RopeWork *work);
+extern void s11d_rope_800C868C(RopeWork *work);
+extern int  s11d_rope_800C91AC(RopeWork *work, int arg1, int arg2);
+
+RopeWork *s11d_rope_800C9500(int arg0, int arg1)
+{
+    RopeWork *work = GV_NewActor(5, sizeof(RopeWork));
+    if (work == NULL)
+    {
+        return NULL;
+    }
+    GV_SetNamedActor(work, s11d_rope_800C8364, s11d_rope_800C868C, s11d_dword_800D1DC4);
+    if (s11d_rope_800C91AC(work, arg0, arg1) < 0)
+    {
+        GV_DestroyActor(work);
+        return NULL;
+    }
+    return work;
+}
