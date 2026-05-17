@@ -89,7 +89,9 @@ typedef struct _RopeWork
     int    field_F34;
     int    field_F38;
     int    field_F3C;
-    char   pad3d00[0xF50 - 0xF3C - sizeof(int)];
+    char   pad3d00a[0xF44 - 0xF3C - sizeof(int)];
+    short  field_F44;
+    char   pad3d00b[0xF50 - 0xF44 - sizeof(short)];
     SVECTOR field_F50;
     SVECTOR field_F58;
     char   pad3d01[0xF60 - 0xF58 - sizeof(SVECTOR)];
@@ -748,7 +750,68 @@ void s11d_rope_800C650C(void)
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C6F28.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C7138.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C7320.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C7530.s")
+extern void s11d_rope_800C650C(void);
+extern void s11d_rope_800C6834(RopeWork *work);
+extern void s11d_rope_800C6B18(RopeWork *work);
+extern void s11d_rope_800C766C(RopeWork *work);
+
+void s11d_rope_800C7530(RopeWork *work, int arg1)
+{
+    void           *state_fn;
+    unsigned short  ea8_val;
+
+    if (arg1 == 0)
+    {
+        work->field_F74 &= ~0x10000;
+        work->field_F70 &= ~0xFF;
+        if (work->field_AA != 1)
+        {
+            GM_ConfigObjectAction((OBJECT *)&work->field_9C, 1, 0, 4);
+        }
+        work->field_F44 = 0;
+    }
+
+    if (!(work->field_F74 & 0x300))
+    {
+        if (work->field_AA != 1)
+        {
+            GM_ConfigObjectAction((OBJECT *)&work->field_9C, 1, 0, 4);
+        }
+        ea8_val = *work->field_EA8;
+        if (ea8_val & 0x8000)
+        {
+            work->field_6E = 0x600;
+        }
+        else if (ea8_val & 0x2000)
+        {
+            work->field_6E = -0x600;
+        }
+    }
+
+    if (work->field_F74 & 0x2000)
+    {
+        GM_SeSetMode(&work->field_20, 0xb2, 1);
+        s11d_rope_800C650C();
+        state_fn = s11d_rope_800C6834;
+    }
+    else if (s11d_rope_800C5298(work))
+    {
+        state_fn = s11d_rope_800C6B18;
+    }
+    else if (s11d_rope_800C4DE0(work))
+    {
+        state_fn = s11d_rope_800C766C;
+    }
+    else
+    {
+        return;
+    }
+
+    work->field_EAC = (int)state_fn;
+    work->field_EB0 = 0;
+    work->field_EBE = 0;
+    work->field_EBC = 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C766C.s")
 extern void s11d_rope_800C6834(RopeWork *work);
 
