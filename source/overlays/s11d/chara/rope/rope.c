@@ -1,6 +1,7 @@
 #include "common.h"
 #include "game/camera.h"
 #include "game/control.h"
+#include "game/game.h"
 #include "game/target.h"
 #include "game/vibrate.h"
 #include "libgcl/libgcl.h"
@@ -23,7 +24,9 @@ typedef struct _RopeWork
     char   pad1a[0x36 - 0x2C - sizeof(short)];
     short  field_36;
     short  field_38;
-    char   pad1b[0x6C - 0x38 - sizeof(short)];
+    char   pad1b1[0x66 - 0x38 - sizeof(short)];
+    short  field_66;
+    char   pad1b2[0x6C - 0x66 - sizeof(short)];
     short  field_6C;
     short  field_6E;
     short  field_70;
@@ -31,7 +34,9 @@ typedef struct _RopeWork
     short  field_98;
     char   pad2a2[0x9C - 0x98 - sizeof(short)];
     DG_OBJS *field_9C;
-    char   pad2b[0x7DC - 0x9C - sizeof(DG_OBJS *)];
+    char   pad2b1[0xAA - 0x9C - sizeof(DG_OBJS *)];
+    short  field_AA;
+    char   pad2b[0x7DC - 0xAA - sizeof(short)];
     DG_OBJS *field_7DC;
     char   pad2c[0x804 - 0x7DC - sizeof(DG_OBJS *)];
     TARGET *target;
@@ -645,7 +650,31 @@ void s11d_rope_800C650C(void)
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C7A4C.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C7B2C.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C7D20.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C7EC4.s")
+extern SVECTOR GM_PlayerPosition;
+
+void s11d_rope_800C7EC4(RopeWork *work, int arg1)
+{
+    if (arg1 == 0)
+    {
+        work->field_F74 |= 0x02000000;
+        work->field_70 = 0;
+        work->field_6C = 0;
+        GM_SnakeCurrentHealth = 0;
+        if (work->field_AA != 14)
+        {
+            GM_ConfigObjectAction((OBJECT *)&work->field_9C, 14, 0, 4);
+        }
+    }
+    work->field_66 -= 0x20;
+    if (arg1 == 8)
+    {
+        GM_PlayerPosition = work->field_20;
+    }
+    if (arg1 == 24)
+    {
+        GM_GameOver();
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C7F8C.s")
 extern void GM_GameOver(void);
 
