@@ -393,7 +393,23 @@ void s11d_rope_800C5538(RopeWork *work)
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C5584.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C5B10.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C5E74.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C61D8.s")
+extern SVECTOR s11d_dword_800C32BC;
+extern SVECTOR s11d_dword_800C32C4;
+extern void NewBlood(MATRIX *mat, int count);
+
+void s11d_rope_800C61D8(RopeWork *work, int idx)
+{
+    MATRIX *mat;
+    MATRIX  sp10;
+
+    mat = &work->field_9C->objs[idx].world;
+
+    DG_SetPos(mat);
+    DG_MovePos(&s11d_dword_800C32BC);
+    DG_RotatePos(&s11d_dword_800C32C4);
+    ReadRotMatrix(&sp10);
+    NewBlood(&sp10, 1);
+}
 void s11d_rope_800C6240(RopeWork *work)
 {
     work->field_6E = 0x800;
