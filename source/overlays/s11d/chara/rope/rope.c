@@ -120,25 +120,32 @@ void s11d_rope_800C44F0(RopeWork *work)
         work->field_9C->flag |= DG_FLAG_INVISIBLE;
     }
 }
+typedef struct {
+    unsigned short field_00;
+    short          pad_02[4];
+    short          field_0A;
+    unsigned char  field_0C[4];
+} RopeEA8Rec;
+
 void s11d_rope_800C4574(RopeWork *work)
 {
-    short         *p;
+    RopeEA8Rec    *rec;
     unsigned char *bytes;
     int            i;
 
     work->field_F74 &= ~0x8000;
 
-    p = work->field_EA8;
-    if (p[5] == 0)
+    rec = (RopeEA8Rec *)work->field_EA8;
+    if (rec->field_0A == 0)
     {
         return;
     }
-    if (!((unsigned short)*p & 0xF000))
+    if (!(rec->field_00 & 0xF000))
     {
         return;
     }
 
-    bytes = (unsigned char *)p + 0xC;
+    bytes = rec->field_0C;
     for (i = 0; i < 4; i++)
     {
         if ((unsigned char)(*bytes - 0x40) >= 0x81)
