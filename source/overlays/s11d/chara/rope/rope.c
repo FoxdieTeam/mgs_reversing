@@ -29,7 +29,8 @@ typedef struct _RopeWork
     TARGET *target;
     char   pad3a1[0xA14 - 0x804 - sizeof(TARGET *)];
     struct RopeA14Rec *field_A14;
-    char   pad3a2[0xEA4 - 0xA14 - sizeof(struct RopeA14Rec *)];
+    char   pad3a2[0xEA0 - 0xA14 - sizeof(struct RopeA14Rec *)];
+    int    field_EA0;
     short *field_EA4;
     short *field_EA8;
     char   pad3b[0xEB4 - 0xEA8 - sizeof(short *)];
@@ -330,7 +331,42 @@ int s11d_rope_800C52F0(RopeWork *work)
 }
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C5348.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C5410.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C54CC.s")
+extern CONTROL *GM_WhereList[96];
+extern int gControlCount_800AB9B4;
+
+void s11d_rope_800C54CC(RopeWork *work)
+{
+    CONTROL **wherelist;
+    int      i;
+    u_short  target_name;
+    CONTROL *ctrl;
+
+    if (work->field_EA4)
+    {
+        return;
+    }
+    if (!work->field_EA0)
+    {
+        return;
+    }
+
+    wherelist = GM_WhereList;
+    i = gControlCount_800AB9B4;
+    target_name = (u_short)work->field_EA0;
+    if (i <= 0)
+    {
+        return;
+    }
+    do
+    {
+        ctrl = *wherelist++;
+        if (ctrl->name == target_name)
+        {
+            work->field_EA4 = (short *)ctrl;
+            return;
+        }
+    } while (--i > 0);
+}
 
 void s11d_rope_800C5538(RopeWork *work)
 {
