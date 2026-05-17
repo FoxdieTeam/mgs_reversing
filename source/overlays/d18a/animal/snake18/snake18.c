@@ -151,7 +151,7 @@ int d18a_snake18_800CAC68(int arg0, int arg1)
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CAEC0.s")
 int d18a_snake18_800CAF20(Snake18Work *work)
 {
-    HZD_VEC  sp10;
+    int      levels[2];
     SVECTOR  sp18;
     CONTROL *control;
     int      temp;
@@ -164,25 +164,25 @@ int d18a_snake18_800CAF20(Snake18Work *work)
         sp18.vz = 0xC8;
 
         DG_PutVector(&sp18, &sp18, 1);
-        sp10.long_access[0] = 0;
+        levels[0] = 0;
         temp = 0x7FFF;
-        sp10.long_access[1] = temp;
+        levels[1] = temp;
         HZD_LevelTestHazard(control->map->hzd, &sp18, 3);
-        HZD_LevelMinMaxHeights((int *)&sp10);
+        HZD_LevelMinMaxHeights(levels);
 
-        if ((sp10.long_access[1] - sp18.vy) >= 0x5DC)
+        if ((levels[1] - sp18.vy) >= 0x5DC)
         {
             sp18.vy = 0;
             sp18.vx = 0;
             sp18.vz = -0x3E8;
 
             DG_PutVector(&sp18, &sp18, 1);
-            sp10.long_access[0] = 0;
-            sp10.long_access[1] = temp;
+            levels[0] = 0;
+            levels[1] = temp;
             HZD_LevelTestHazard(control->map->hzd, &sp18, 3);
-            HZD_LevelMinMaxHeights((int *)&sp10);
+            HZD_LevelMinMaxHeights(levels);
 
-            return (sp10.long_access[1] - sp18.vy) < 0x5DC;
+            return (levels[1] - sp18.vy) < 0x5DC;
         }
     }
 
