@@ -3,6 +3,7 @@
 #include "game/control.h"
 #include "game/target.h"
 #include "game/vibrate.h"
+#include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
 #include "linkvar.h"
 
@@ -77,7 +78,9 @@ typedef struct _RopeWork
     int    field_F7C;
     char   pad5[0xF88 - 0xF7C - sizeof(int)];
     short  field_F88;
-    char   pad6[0x1098 - 0xF88 - sizeof(short)];
+    char   pad6a[0x107C - 0xF88 - sizeof(short)];
+    int    field_107C[3];
+    char   pad6b[0x1098 - 0x107C - sizeof(int) * 3];
 } RopeWork;
 
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C3D50.s")
@@ -544,7 +547,30 @@ int s11d_rope_800C879C(RopeWork *work)
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C8C88.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C8EE4.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C8FDC.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C90BC.s")
+void s11d_rope_800C90BC(RopeWork *work)
+{
+    int  *p;
+    int   i;
+    unsigned char *param;
+
+    if (!GCL_GetOption('w'))
+    {
+        return;
+    }
+
+    i = 0;
+    p = work->field_107C;
+    while ((param = GCL_GetParamResult()))
+    {
+        if (i == 3)
+        {
+            return;
+        }
+        *p = GCL_StrToInt(param);
+        p++;
+        i++;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C9134.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C91AC.s")
 extern const char s11d_dword_800D1DC4[];
