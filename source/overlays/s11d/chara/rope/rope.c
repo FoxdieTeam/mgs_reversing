@@ -104,7 +104,12 @@ typedef struct _RopeWork
     short  field_F94;
     char   pad6a2[0xF98 - 0xF94 - sizeof(short)];
     short  field_F98;
-    char   pad6a3[0x107C - 0xF98 - sizeof(short)];
+    char   pad6a3[0xF9C - 0xF98 - sizeof(short)];
+    int    field_F9C;
+    int    field_FA0;
+    int    field_FA4[16];
+    SVECTOR field_FE4[16];
+    char   pad6a4[0x107C - 0xFE4 - sizeof(SVECTOR) * 16];
     int    field_107C[3];
     int    field_1088[4];
 } RopeWork;
@@ -770,7 +775,51 @@ void s11d_rope_800C8C04(RopeWork *work)
 }
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C8C88.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C8EE4.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C8FDC.s")
+int s11d_rope_800C8FDC(RopeWork *work)
+{
+    int      i;
+    int      j;
+    SVECTOR *p1;
+    int     *p2;
+
+    i = 0;
+    j = 0;
+
+    if (GCL_GetOption('c'))
+    {
+        p1 = work->field_FE4;
+        while (GCL_GetParamResult())
+        {
+            if (j == 16)
+            {
+                break;
+            }
+            GCL_StrToSV(GCL_GetParamResult(), p1);
+            p1++;
+            j++;
+        }
+    }
+
+    if (GCL_GetOption('h'))
+    {
+        unsigned char *param;
+        p2 = work->field_FA4;
+        while ((param = GCL_GetParamResult()))
+        {
+            if (i == 16)
+            {
+                break;
+            }
+            *p2 = GCL_StrToInt(param);
+            p2++;
+            i++;
+        }
+    }
+
+    work->field_F9C = j;
+    work->field_FA0 = 0;
+    return 0;
+}
 void s11d_rope_800C90BC(RopeWork *work)
 {
     int  *p;
