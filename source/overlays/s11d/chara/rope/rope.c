@@ -12,7 +12,9 @@ typedef struct _RopeWork
     short  field_2C;
     char   pad1[0x6E - 0x2C - sizeof(short)];
     short  field_6E;
-    char   pad2[0x804 - 0x6E - sizeof(short)];
+    char   pad2a[0x9C - 0x6E - sizeof(short)];
+    DG_OBJS *field_9C;
+    char   pad2b[0x804 - 0x9C - sizeof(DG_OBJS *)];
     TARGET *target;
     char   pad3a[0xEA4 - 0x804 - sizeof(TARGET *)];
     short *field_EA4;
@@ -52,7 +54,7 @@ typedef struct _RopeWork
     char   pad3d1[0xF70 - 0xF68 - sizeof(int)];
     int    field_F70;
     int    field_F74;
-    char   pad4[0xF7C - 0xF74 - sizeof(int)];
+    int    field_F78;
     int    field_F7C;
     char   pad5[0xF88 - 0xF7C - sizeof(int)];
     short  field_F88;
@@ -78,7 +80,46 @@ void s11d_rope_800C44A4(RopeWork *work)
         work->field_F74 = flag | 2;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C44F0.s")
+extern GM_CameraSystemWork GM_Camera;
+
+void s11d_rope_800C44F0(RopeWork *work)
+{
+    int counter = work->field_F78;
+    int next;
+
+    if (counter == 0)
+    {
+        return;
+    }
+    if (counter > 0)
+    {
+        if (GM_Camera.first_person != 0)
+        {
+            return;
+        }
+        next = counter - 1;
+        work->field_F78 = next;
+        if (next != 0)
+        {
+            return;
+        }
+        work->field_9C->flag &= ~DG_FLAG_INVISIBLE;
+    }
+    else
+    {
+        if (GM_Camera.first_person == 0)
+        {
+            return;
+        }
+        next = counter + 1;
+        work->field_F78 = next;
+        if (next != 0)
+        {
+            return;
+        }
+        work->field_9C->flag |= DG_FLAG_INVISIBLE;
+    }
+}
 void s11d_rope_800C4574(RopeWork *work)
 {
     short         *p;
