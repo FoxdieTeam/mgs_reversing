@@ -2,6 +2,7 @@
 #include "game/camera.h"
 #include "game/target.h"
 #include "game/vibrate.h"
+#include "linkvar.h"
 
 typedef struct _RopeWork
 {
@@ -435,7 +436,28 @@ void s11d_rope_800C8200(RopeWork *work, int arg1)
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C8250.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C8364.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C868C.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C879C.s")
+extern int     s11d_dword_800C32CC;
+extern SVECTOR DG_ZeroVector;
+
+int s11d_rope_800C879C(RopeWork *work)
+{
+    TARGET *target;
+    int     vital;
+
+    work->target = target = GM_AllocTarget();
+    if (target == NULL)
+    {
+        return -1;
+    }
+
+    GM_SetTarget(target, 0x15, 1, (SVECTOR *)&s11d_dword_800C32CC);
+
+    vital = GM_SnakeMaxHealth;
+    GM_SetPowerTarget(target, 1, -1, vital, 0, &DG_ZeroVector);
+    GM_SnakeCurrentHealth = vital;
+
+    return 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C882C.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C8C04.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C8C88.s")
