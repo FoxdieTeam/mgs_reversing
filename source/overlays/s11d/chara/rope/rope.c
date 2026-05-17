@@ -20,9 +20,11 @@ typedef struct _RopeWork
     short   field_28;
     short  field_2A;
     short  field_2C;
-    char   pad1[0x6E - 0x2C - sizeof(short)];
+    char   pad1[0x6C - 0x2C - sizeof(short)];
+    short  field_6C;
     short  field_6E;
-    char   pad2a[0x9C - 0x6E - sizeof(short)];
+    short  field_70;
+    char   pad2a[0x9C - 0x70 - sizeof(short)];
     DG_OBJS *field_9C;
     char   pad2b[0x7DC - 0x9C - sizeof(DG_OBJS *)];
     DG_OBJS *field_7DC;
@@ -40,31 +42,34 @@ typedef struct _RopeWork
     int    field_EC8;
     int    field_ECC;
     int    field_ED0;
-    char   pad3c1[0xED8 - 0xED0 - sizeof(int)];
+    int    field_ED4;
     int    field_ED8;
-    char   pad3c2[0xEDC - 0xED8 - sizeof(int)];
     int    field_EDC;
-    char   pad3c3a[0xEE4 - 0xEDC - sizeof(int)];
+    int    field_EE0;
     int    field_EE4;
-    char   pad3c3b[0xEE8 - 0xEE4 - sizeof(int)];
     int    field_EE8;
     int    field_EEC;
     int    field_EF0;
     int    field_EF4;
-    char   pad3c4[0xF04 - 0xEF4 - sizeof(int)];
+    int    field_EF8;
+    int    field_EFC;
+    int    field_F00;
     int    field_F04;
     int    field_F08;
     int    field_F0C;
-    char   pad3c5[0xF14 - 0xF0C - sizeof(int)];
+    int    field_F10;
     int    field_F14;
-    char   pad3c6a[0xF20 - 0xF14 - sizeof(int)];
+    int    field_F18;
+    int    field_F1C;
     int    field_F20;
-    char   pad3c6b[0xF24 - 0xF20 - sizeof(int)];
     int    field_F24;
     int    field_F28;
     int    field_F2C;
     int    field_F30;
-    char   pad3d00[0xF58 - 0xF30 - sizeof(int)];
+    int    field_F34;
+    int    field_F38;
+    int    field_F3C;
+    char   pad3d00[0xF58 - 0xF3C - sizeof(int)];
     SVECTOR field_F58;
     char   pad3d01[0xF60 - 0xF58 - sizeof(SVECTOR)];
     int    field_F60;
@@ -78,7 +83,11 @@ typedef struct _RopeWork
     int    field_F7C;
     char   pad5[0xF88 - 0xF7C - sizeof(int)];
     short  field_F88;
-    char   pad6a[0x107C - 0xF88 - sizeof(short)];
+    char   pad6a1[0xF94 - 0xF88 - sizeof(short)];
+    short  field_F94;
+    char   pad6a2[0xF98 - 0xF94 - sizeof(short)];
+    short  field_F98;
+    char   pad6a3[0x107C - 0xF98 - sizeof(short)];
     int    field_107C[3];
     int    field_1088[4];
 } RopeWork;
@@ -543,7 +552,29 @@ int s11d_rope_800C879C(RopeWork *work)
     return 0;
 }
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C882C.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C8C04.s")
+void s11d_rope_800C8C04(RopeWork *work)
+{
+    int *cluster1;
+    int *cluster2;
+
+    s11d_rope_800C5538(work);
+
+    cluster1 = &work->field_EC8;
+    cluster2 = &work->field_F04;
+
+    cluster1[6]  = 0;                                  /* field_EE0 */
+    cluster1[5]  = 0;                                  /* field_EDC */
+    cluster2[6]  = 0;                                  /* field_F1C */
+    cluster2[5]  = 0;                                  /* field_F18 */
+    cluster1[3]  = 0x18;                               /* field_ED4 */
+    cluster2[3]  = 0x40;                               /* field_F10 */
+    cluster1[12] = work->field_F94;                    /* field_EF8 */
+    cluster2[12] = work->field_F98;                    /* field_F34 */
+    cluster1[13] = (int)&work->field_20;               /* field_EFC */
+    cluster2[13] = (int)&work->field_20.vz;            /* field_F38 */
+    cluster1[14] = (int)&work->field_70;               /* field_F00 */
+    cluster2[14] = (int)&work->field_6C;               /* field_F3C */
+}
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C8C88.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C8EE4.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C8FDC.s")
