@@ -57,7 +57,8 @@ typedef struct _RopeWork
     int    field_F60;
     int    field_F64;
     int    field_F68;
-    char   pad3d1[0xF70 - 0xF68 - sizeof(int)];
+    char   pad3d1[0xF6C - 0xF68 - sizeof(int)];
+    int    field_F6C;
     int    field_F70;
     int    field_F74;
     int    field_F78;
@@ -377,7 +378,25 @@ void s11d_rope_800C62E0(RopeWork *work)
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C634C.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C6478.s")
+void s11d_rope_800C6478(RopeWork *work)
+{
+    if (work->field_EA8[1] & 0x40)
+    {
+        work->field_F6C = -8;
+    }
+    if (work->field_F6C < 0)
+    {
+        work->field_F6C += 1;
+    }
+    if (!(work->field_EA8[0] & 0x40))
+    {
+        work->field_F74 &= ~0x200000;
+    }
+    if (!(work->field_EA8[0] & 0x20))
+    {
+        work->field_F74 &= ~0x400000;
+    }
+}
 extern int s11d_dword_800C32B4;
 extern int s11d_dword_800C32B8;
 
