@@ -72,7 +72,8 @@ typedef struct _RopeWork
     int    field_F34;
     int    field_F38;
     int    field_F3C;
-    char   pad3d00[0xF58 - 0xF3C - sizeof(int)];
+    char   pad3d00[0xF50 - 0xF3C - sizeof(int)];
+    SVECTOR field_F50;
     SVECTOR field_F58;
     char   pad3d01[0xF60 - 0xF58 - sizeof(SVECTOR)];
     int    field_F60;
@@ -323,7 +324,35 @@ void s11d_rope_800C48C0(RopeWork *work)
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C48EC.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C4B78.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C4DE0.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C4ECC.s")
+void s11d_rope_800C4ECC(RopeWork *work)
+{
+    int flags = work->field_F70;
+
+    if (flags & 0x6033)
+    {
+        return;
+    }
+
+    if (*work->field_EA8 & 0x10)
+    {
+        if (GM_Camera.first_person == 0)
+        {
+            work->field_F70 = flags | 0x1000;
+            work->field_F78 = -4;
+            GM_Camera.first_person = 1;
+            work->field_F50 = GM_SnakeCamera.rotate2;
+        }
+    }
+    else
+    {
+        if (GM_Camera.first_person != 0)
+        {
+            work->field_F70 = flags & ~0x1000;
+            work->field_F78 = 4;
+            GM_Camera.first_person = 0;
+        }
+    }
+}
 int s11d_rope_800C4F84(RopeWork *work)
 {
     unsigned short v = *work->field_EA8;
