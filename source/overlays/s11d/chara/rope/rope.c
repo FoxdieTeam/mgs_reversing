@@ -4,6 +4,12 @@
 #include "game/vibrate.h"
 #include "linkvar.h"
 
+struct RopeA14Rec
+{
+    char  pad_00[0x2A];
+    short field_2A;
+};
+
 typedef struct _RopeWork
 {
     GV_ACT  actor;
@@ -19,7 +25,9 @@ typedef struct _RopeWork
     DG_OBJS *field_7DC;
     char   pad2c[0x804 - 0x7DC - sizeof(DG_OBJS *)];
     TARGET *target;
-    char   pad3a[0xEA4 - 0x804 - sizeof(TARGET *)];
+    char   pad3a1[0xA14 - 0x804 - sizeof(TARGET *)];
+    struct RopeA14Rec *field_A14;
+    char   pad3a2[0xEA4 - 0xA14 - sizeof(struct RopeA14Rec *)];
     short *field_EA4;
     short *field_EA8;
     char   pad3b[0xEB4 - 0xEA8 - sizeof(short *)];
@@ -177,7 +185,18 @@ void s11d_rope_800C4574(RopeWork *work)
         bytes++;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C45F8.s")
+void s11d_rope_800C45F8(RopeWork *work)
+{
+    int diff = 3000 - work->field_20.vy;
+
+    if (diff < 0)
+    {
+        work->field_A14->field_2A = 0x20;
+        return;
+    }
+    diff /= 500;
+    work->field_A14->field_2A = 0x20 - diff;
+}
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C4648.s")
 extern GM_SnakeCameraWork GM_SnakeCamera;
 
