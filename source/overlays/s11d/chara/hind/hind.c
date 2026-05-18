@@ -16,14 +16,22 @@ typedef struct _HindWork
     char    pad_1c9[0x1CC - 0x1C8 - sizeof(unsigned char)];
     unsigned short field_1CC;
     unsigned short field_1CE;
-    char    pad_1d0[0x910 - 0x1CC - sizeof(unsigned short) * 2];
+    char    pad_1d0[0x1E8 - 0x1CC - sizeof(unsigned short) * 2];
+    short   field_1E8;
+    short   field_1EA;
+    short   field_1EC;
+    char    pad_1ee[0x1F0 - 0x1EC - sizeof(short)];
+    short   field_1F0;
+    char    pad_1f2[0x910 - 0x1F0 - sizeof(short)];
     unsigned short *field_910;
     unsigned short  field_914;
-    char    pad_916[0x924 - 0x914 - sizeof(unsigned short)];
+    short   field_916;
+    char    pad_918[0x924 - 0x914 - sizeof(short) * 2];
     DG_PRIM *field_924;
     char    pad_928[0x93C - 0x924 - sizeof(DG_PRIM *)];
     int     field_93C[7];
-    char    pad_958[0x978 - 0x93C - sizeof(int) * 7];
+    int     field_958;
+    char    pad_95c[0x978 - 0x958 - sizeof(int)];
     short   f978;        // 0x978
     short   f97A;        // 0x97A
 } HindWork;
@@ -98,7 +106,40 @@ void s11d_hind_800C9870(HindWork *work)
     work->field_1CE = 0xFFFF;
     work->field_1C4 = 0;
 }
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800C9908.s")
+void s11d_hind_800C9908(HindWork *work, int arg1)
+{
+    unsigned short *event;
+    int masked;
+    int shifted;
+
+    arg1--;
+    work->field_914 = arg1;
+    event = (unsigned short *)((char *)work + (arg1 * 256 + 0x210));
+    work->field_916 = 1;
+    work->field_910 = event;
+
+    masked = event[3] & 0x1F;
+    shifted = masked << 5;
+    if (shifted != 0)
+    {
+        work->field_1F0 = shifted;
+    }
+
+    if (*(int *)&work->field_1C8 & 0x10)
+    {
+        *(int *)&work->field_1C8 |= 0x20;
+        work->field_958 = 0;
+        work->field_1EA = 0;
+        work->field_1E8 = 0;
+        work->field_1EC = work->control.mov.vy;
+    }
+
+    *(int *)&work->field_1C8 &= ~0x80;
+    if ((((unsigned char *)work->field_910)[6] >> 5) == 4)
+    {
+        *(int *)&work->field_1C8 |= 0x80;
+    }
+}
 extern void s11d_hind_800C9908(HindWork *work, int arg1);
 
 void s11d_hind_800C99A8(HindWork *work)
