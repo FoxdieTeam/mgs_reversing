@@ -7,7 +7,10 @@ typedef struct _HindWork
 {
     GV_ACT  actor;       // 0x00
     CONTROL control;     // 0x20
-    char    pad_978[0x978 - 0x20 - sizeof(CONTROL)];
+    DG_OBJS *field_9C;
+    char    pad_a0[0x924 - 0x9C - sizeof(DG_OBJS *)];
+    DG_PRIM *field_924;
+    char    pad_928[0x978 - 0x924 - sizeof(DG_PRIM *)];
     short   f978;        // 0x978
     short   f97A;        // 0x97A
 } HindWork;
@@ -69,7 +72,19 @@ void s11d_hind_800C9838(HindWork *work)
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CAD9C.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CAE6C.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CAF20.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CAF9C.s")
+void s11d_hind_800CAF9C(HindWork *work)
+{
+    DG_PRIM *prim;
+
+    GM_FreeControl(&work->control);
+    GM_FreeObject((OBJECT *)&work->field_9C);
+    prim = work->field_924;
+    if (prim)
+    {
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CAFEC.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CB054.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CB178.s")
