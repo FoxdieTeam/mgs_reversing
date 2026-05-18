@@ -64,7 +64,17 @@ void s15c_dyncon_800D603C(void *base, int i)
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D82FC.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D8510.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D88C8.s")
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D89F8.s")
+extern void s15c_dyncon_800D82FC(void *work);
+extern void s15c_dyncon_800D88C8(void *work);
+
+void s15c_dyncon_800D89F8(void *work)
+{
+    s15c_dyncon_800D82FC(work);
+    if (*(int *)((char *)work + 0x4050) == 1)
+    {
+        s15c_dyncon_800D88C8(work);
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D8A34.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D8A9C.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D8C9C.s")
