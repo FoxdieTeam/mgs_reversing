@@ -510,7 +510,7 @@ static int GM_Command_start(unsigned char *top)
 
     if (GCL_GetOption('f')) // font
     {
-        font_resident_load_set();
+        font_load();
     }
 
     if (GCL_GetOption('v'))

@@ -368,7 +368,7 @@ int DG_LoadInitPcx(void *buf, int id)
 
 /*---------------------------------------------------------------------------*/
 
-int DG_LoadInitZmd(void *buf, int id)
+int DG_LoadInitKmdar(void *buf, int id)
 {
     DG_ZMD_DEF  *zmd = (DG_ZMD_DEF *)buf;
     DG_KMDPACK  *kmd = &zmd->kmd[0];

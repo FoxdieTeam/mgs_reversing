@@ -80,7 +80,7 @@ char *zendata[] = {NULL, NULL, NULL, NULL};
 
 #define GETCODE( code ) ( ( code ) & ~( TOP_KINSOKU_MASK | BACK_KINSOKU_MASK ) )
 
-void font_resident_load_set(void)
+void font_load(void)
 {
     char *temp_a1;
     char *ptr;
@@ -110,7 +110,7 @@ void font_resident_load_set(void)
     }
 }
 
-void font_set_top_addr(int type, void *addr)
+void font_set_font_addr(int type, void *addr)
 {
     zendata[type] = addr;
 }
@@ -466,7 +466,7 @@ static void put_zenkaku_4bpp(char *buffer, int x, int y, int width, char *glyph)
 }
 
 // Observations about the font.res file used by the font library:
-// Big Endian in memory, byte swapped at runtime in font_resident_load_set().
+// Big Endian in memory, byte swapped at runtime in font_load().
 // The file begins with an 8-byte 'header' that has two 32-bit words.
 // Bytes 0-3 is the size of 'Table 1' which describes the ASCII glyphs. (96 entries for font.res)
 // Bytes 4-7 is the offset for the font loaded to index 0. (offset 2306 for font.res)

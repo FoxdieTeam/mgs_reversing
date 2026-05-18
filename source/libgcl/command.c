@@ -151,7 +151,7 @@ int GCL_LoadScript(unsigned char *datatop)
     current_script.script_body = tmp + sizeof(int);
 
     // Points to script data end
-    font_set_top_addr(2, current_script.script_body + GCL_GetLong(tmp) + sizeof(int));
+    font_set_font_addr(2, current_script.script_body + GCL_GetLong(tmp) + sizeof(int));
 
     return 0;
 }

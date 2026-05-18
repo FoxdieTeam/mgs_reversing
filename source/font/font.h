@@ -37,8 +37,8 @@ typedef struct _KCB
 #define IS_HANKAKU( a ) ( (a) < 0x8100 )
 
 /* font.c */
-void  font_resident_load_set( void );
-void  font_set_top_addr( int type, void *addr );
+void  font_load( void );
+void  font_set_font_addr( int type, void *addr );
 void  font_free( void );
 int   font_init_kcb( KCB *kcb, RECT *rect, int x, int y );
 int   font_set_kcb( KCB *kcb, int width, int height, int c_skip, int l_skip, int t_skip, int flag );
