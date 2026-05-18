@@ -7,8 +7,11 @@ typedef struct _HindBulWork
 {
     GV_ACT  actor;       // 0x00
     CONTROL control;     // 0x20
-    char    pad_a0[0xF8 - 0x20 - sizeof(CONTROL)];
+    char    pad_a0[0xE8 - 0x20 - sizeof(CONTROL)];
+    int     field_E8;
+    char    pad_ec[0xF8 - 0xE8 - sizeof(int)];
     DG_PRIM *field_F8;
+    char    pad_fc[0x17C - 0xF8 - sizeof(DG_PRIM *)];
 } HindBulWork;
 
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_bul_800CB794.s")
@@ -47,4 +50,27 @@ void s11d_hind_bul_800CBA14(HindBulWork *work)
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_bul_800CBA5C.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_bul_800CBBA8.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_bul_800CBE4C.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_bul_800CBFD8.s")
+extern int  s11d_dword_800D1F88;
+extern void s11d_hind_bul_800CB938(HindBulWork *work);
+extern int  s11d_hind_bul_800CBE4C(HindBulWork *work, int arg0, int arg1);
+extern const char s11d_dword_800D1E58[];
+
+HindBulWork *s11d_hind_bul_800CBFD8(int arg0, int arg1, int arg2, int arg3)
+{
+    HindBulWork *work;
+
+    work = GV_NewActor(5, sizeof(HindBulWork));
+    if (work == NULL)
+    {
+        return NULL;
+    }
+    GV_SetNamedActor(work, s11d_hind_bul_800CB938, s11d_hind_bul_800CBA14, s11d_dword_800D1E58);
+    if (s11d_hind_bul_800CBE4C(work, arg0, arg1) < 0)
+    {
+        GV_DestroyActor(work);
+        return NULL;
+    }
+    s11d_dword_800D1F88 = arg3;
+    work->field_E8 = arg2;
+    return work;
+}
