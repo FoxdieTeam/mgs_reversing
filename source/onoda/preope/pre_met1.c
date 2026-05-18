@@ -153,12 +153,12 @@ static void PreMet1_800C4FD4(Work *work, int index)
         font_clut_update(kcb);
 
         work->field_464[i].field_1F0 = 256;
-        work->field_464[i].field_1F2 = kcb->short3 - 1;
+        work->field_464[i].field_1F2 = kcb->max_height - 1;
         work->field_464[i].field_1E8 = premet1_800C3250[index].field_0;
         work->field_464[i].field_1EA = premet1_800C3250[index].field_2;
 
         work->field_464[i].field_1FC = 128;
-        work->field_464[i].field_1FE = kcb->short3 - 1;
+        work->field_464[i].field_1FE = kcb->max_height - 1;
         work->field_464[i].field_1EC = premet1_800C3250[index].field_0 + 256;
         work->field_464[i].field_1EE = premet1_800C3250[index].field_2;
 
@@ -309,7 +309,7 @@ static void PreMet1SetColor_800C5738(Work *work, int index, int fore)
 
 static void *PreMet1GetClutBuffer_800C5788(KCB *kcb)
 {
-    return kcb->font_clut_buffer;
+    return kcb->cbuffer;
 }
 
 static void PreMet1_800C5794(Work *work)

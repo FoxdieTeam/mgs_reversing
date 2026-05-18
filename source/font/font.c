@@ -9,28 +9,78 @@
 #include "libgv/libgv.h"
 #include "linkvar.h"
 
+// This struct describes the structure of
+// "rubi.res" file.
+//
+// Note that 'r' (0x72) can be either a ".rar",
+// ".res" or ".rpk" file. It looks like different
+// ".res" files could have different data structure,
+// for example "rubi.res" file has a different structure
+// and it is not the same as ResHeader in menu/.
+//
+typedef struct RubiRes
+{
+    char field_0;
+    char field_1[9];
+} RubiRes;
+
 STATIC char    *gFontBegin = NULL;
 STATIC char    *gFontEnd = NULL;
 STATIC int      rubi_display_flag = TRUE;
 STATIC RubiRes *gRubiRes_800AB6B4 = NULL;
 STATIC int      dword_800AB6B8 = 0;
-STATIC int      font_palette_800AB6BC = 0;
+STATIC int      font_color = 0;
 STATIC int      r_flag = 0;
 STATIC int      rubi_flag = 0;
 
 // Menu-related?
 
 char *SECTION(".sbss") dword_800ABB28;
-int   SECTION(".sbss") rubi_left_pos_x_800ABB2C;
-int   SECTION(".sbss") rubi_left_pos_y_800ABB30;
-int   SECTION(".sbss") rubi_left_pos_xmax_800ABB34;
+int   SECTION(".sbss") rubi_left_x;
+int   SECTION(".sbss") rubi_left_y;
+int   SECTION(".sbss") rubi_orikaeshi_xmax;
 
-char *dword_8009E75C[] = {NULL, NULL, NULL, NULL};
+char *zendata[] = {NULL, NULL, NULL, NULL};
 
 #define HASH_font   0xCA68  // GV_StrCode("font")
 #define HASH_rubi   0xE0E3  // GV_StrCode("rubi")
 
-void font_load(void)
+#define PEEK_CHAR( code, m )                     \
+    if ( *( m ) < 0x80 )                         \
+    {                                            \
+        ( code ) = 0x8000 | *( m );              \
+    }                                            \
+    else                                         \
+    {                                            \
+        ( code ) = ( *( m ) << 8 ) | *( m + 1 ); \
+    }
+
+#define GETNEXTCHAR( code, m )                   \
+    if ( *( m ) < 0x80 )                         \
+    {                                            \
+        ( code ) = 0x8000 | *( m );              \
+        ( m )++;                                 \
+    }                                            \
+    else                                         \
+    {                                            \
+        ( code ) = ( *( m ) << 8 ) | *( m + 1 ); \
+        ( m ) += 2;                              \
+    }
+
+
+#define SKIPNEXTCHAR( m ) \
+    if ( *( m ) < 0x80 )  \
+    {                     \
+        ( m )++;          \
+    }                     \
+    else                  \
+    {                     \
+        ( m ) += 2;       \
+    }
+
+#define GETCODE( code ) ( ( code ) & ~( TOP_KINSOKU_MASK | BACK_KINSOKU_MASK ) )
+
+void font_resident_load_set(void)
 {
     char *temp_a1;
     char *ptr;
@@ -51,7 +101,7 @@ void font_load(void)
 
         gFontBegin = temp_a1 + 8;
         gFontEnd = temp_a1 + LLOAD(temp_a1 + 0);
-        dword_8009E75C[0] = temp_a1 + LLOAD(temp_a1 + 4);
+        zendata[0] = temp_a1 + LLOAD(temp_a1 + 4);
 
         for (ptr = temp_a1 + 8; ptr < gFontEnd; ptr += 4)
         {
@@ -60,9 +110,9 @@ void font_load(void)
     }
 }
 
-void font_set_font_addr(int arg1, void *data)
+void font_set_top_addr(int type, void *addr)
 {
-    dword_8009E75C[arg1] = data;
+    zendata[type] = addr;
 }
 
 void font_free(void)
@@ -70,81 +120,74 @@ void font_free(void)
     return;
 }
 
-int font_init_kcb(KCB *kcb, RECT *rect_data, int x, int y)
+int font_init_kcb(KCB *kcb, RECT *rect, int x, int y)
 {
     memset(kcb, 0, 44);
-    kcb->rect_data = rect_data;
-    kcb->font_rect = *rect_data;
-    kcb->font_clut_rect.w = 16;
-    kcb->font_clut_rect.h = 1;
-    kcb->font_clut_rect.x = x;
-    kcb->font_clut_rect.y = y;
+    kcb->rect_ptr = rect;
+    kcb->rect = *rect;
+    kcb->crect.w = 16;
+    kcb->crect.h = 1;
+    kcb->crect.x = x;
+    kcb->crect.y = y;
     return font_set_kcb(kcb, -1, -1, 0, 0, 4, 0);
 }
 
-// letter_spacing - space between letters
+// c_skip - space between letters
 //                  lower values - letters close to each other
 //                  h i g h e r  v a l u e s - letters farther apart
-// top_padding - vertical space before a line
-// maximum_width - if the text is longer than (roughly) maximum_width number of characters it will wrap
+// l_skip - vertical space before a line
+// width - if the text is longer than (roughly) width number of characters it will wrap
 //                 -1 - no limit
-int font_set_kcb(KCB *kcb, int maximum_width, int arg2, int letter_spacing,
-                 int top_padding, int arg5, int arg6)
+int font_set_kcb(KCB *kcb, int width, int height, int c_skip, int l_skip, int t_skip, int flag)
 {
-    int quotient0;
-    int quotient1;
-    int val0;
+    int w, h;
+    int w2;
 
-    if (arg6 >= 0)
+    if (flag >= 0)
     {
-        kcb->flag = arg6;
-    }
-    if (arg5 >= 0)
-    {
-        kcb->field_04 = arg5;
-    }
-    if (letter_spacing >= 0)
-    {
-        kcb->xtop = letter_spacing;
-    }
-    if (top_padding >= 0)
-    {
-        kcb->ytop = top_padding;
+        kcb->flag = flag;
     }
 
-    quotient0 = (kcb->rect_data->w * 4) / (kcb->xtop + 12);
-
-    quotient1 = kcb->rect_data->h / (kcb->ytop + 12);
-
-    val0 = quotient0 + 1;
-    if ((arg6 & 0x2) == 0)
+    if (t_skip >= 0)
     {
-        val0 = quotient0;
+        kcb->t_skip = t_skip;
     }
 
-    if (maximum_width > 0 && val0 >= maximum_width)
+    if (c_skip >= 0)
     {
-        kcb->field_00 = maximum_width;
-    }
-    else if (kcb->field_00 != 0)
-    {
-        if (val0 < kcb->field_00)
-        {
-            kcb->field_00 = val0;
-        }
-    }
-    else
-    {
-        kcb->field_00 = val0;
+        kcb->c_skip = c_skip;
     }
 
-    if (arg2 > 0 && quotient1 >= arg2)
+    if (l_skip >= 0)
     {
-        kcb->field_01 = arg2;
+        kcb->l_skip = l_skip;
     }
-    else if (kcb->field_01 == 0 || quotient1 < kcb->field_01)
+
+    w = (kcb->rect_ptr->w * 4) / (kcb->c_skip + 12);
+    h = kcb->rect_ptr->h / (kcb->l_skip + 12);
+
+    w2 = w + 1;
+    if ( !( flag & FONT_NO_KINSOKU ) )
     {
-        kcb->field_01 = quotient1;
+        w2 = w;
+    }
+
+    if (width > 0 && width <= w2)
+    {
+        kcb->c_width = width;
+    }
+    else if (kcb->c_width == 0 || w2 < kcb->c_width)
+    {
+        kcb->c_width = w2;
+    }
+
+    if (height > 0 && height <= h)
+    {
+        kcb->c_height = height;
+    }
+    else if (kcb->c_height == 0 || h < kcb->c_height)
+    {
+        kcb->c_height = h;
     }
 
     return 0;
@@ -163,7 +206,7 @@ void font_set_color(KCB *kcb, int code, int fore, int back)
         return;
     }
 
-    pClut = (unsigned short *)kcb->font_clut_buffer + code * 4;
+    pClut = (unsigned short *)kcb->cbuffer + code * 4;
 
     fr = fore & 0x1f;
     fg = (fore >> 5) & 0x1f;
@@ -201,34 +244,34 @@ void font_set_color(KCB *kcb, int code, int fore, int back)
 
 int font_get_buffer_size(KCB *kcb)
 {
-    short val_1 = (kcb->xtop + 0xc) * kcb->field_00 - kcb->xtop;
-    int   val_2 = (int)val_1 + 7;
-    kcb->short1 = val_1;
+    short w = (kcb->c_skip + 12) * kcb->c_width - kcb->c_skip;
+    int   val_2 = (int)w + 7;
+    kcb->width = w;
     if (val_2 < 0)
     {
-        val_2 = kcb->short1 + 14;
+        val_2 = kcb->width + 14;
     }
 
-    kcb->width_info = ((val_2 >> 3) << 2);
-    kcb->height_info = (kcb->ytop + 12) * kcb->field_01 + 2;
-    kcb->font_rect.w = kcb->width_info / 2;
-    kcb->font_rect.h = kcb->height_info;
+    kcb->row = ((val_2 >> 3) << 2);
+    kcb->height = (kcb->l_skip + 12) * kcb->c_height + 2;
+    kcb->rect.w = kcb->row / 2;
+    kcb->rect.h = kcb->height;
 
-    return kcb->width_info * kcb->height_info + 32;
+    return kcb->row * kcb->height + 32;
 }
 
 void font_set_buffer(KCB *kcb, void *buffer)
 {
-    kcb->font_clut_buffer = buffer;
-    kcb->font_buffer = buffer + 0x20;
+    kcb->cbuffer = buffer;
+    kcb->buffer = buffer + 0x20;
 }
 
 void *font_get_buffer_ptr(KCB *kcb)
 {
-    return kcb->font_clut_buffer;
+    return kcb->cbuffer;
 }
 
-static int font_get_glyph_index(int code)
+static int get_zen_font_data(int code)
 {
     int new_var2;
     int var_v0;
@@ -265,7 +308,7 @@ static int font_get_glyph_index(int code)
     return var_v0 + 1;
 }
 
-static unsigned int font_get_glyph_config(int a1)
+static unsigned int get_hantable(int a1)
 {
     if (a1 > 0)
     {
@@ -280,7 +323,7 @@ static unsigned int font_get_glyph_config(int a1)
     return LLOAD(&gFontBegin[4 * a1]);
 }
 
-static void font_draw_glyph(char *buffer, int x, int y, int width, char *glyph)
+static void put_zenkaku_4bpp(char *buffer, int x, int y, int width, char *glyph)
 {
     unsigned int i;
     int          j;
@@ -300,7 +343,7 @@ static void font_draw_glyph(char *buffer, int x, int y, int width, char *glyph)
     int          new_var;
     int          new_var2;
 
-    temp_v0 = font_palette_800AB6BC;
+    temp_v0 = font_color;
     temp_t3 = (temp_v0 << 6) | (temp_v0 << 2);
 
     if (dword_800AB6B8 != 0)
@@ -379,7 +422,7 @@ static void font_draw_glyph(char *buffer, int x, int y, int width, char *glyph)
     }
 
     var_t5 = 4;
-    new_var2 = (font_palette_800AB6BC & 0xff) << 2;
+    new_var2 = (font_color & 0xff) << 2;
     var_t4 = *var_a1;
 
     for (i = 0; i < 12; i++)
@@ -423,7 +466,7 @@ static void font_draw_glyph(char *buffer, int x, int y, int width, char *glyph)
 }
 
 // Observations about the font.res file used by the font library:
-// Big Endian in memory, byte swapped at runtime in font_load().
+// Big Endian in memory, byte swapped at runtime in font_resident_load_set().
 // The file begins with an 8-byte 'header' that has two 32-bit words.
 // Bytes 0-3 is the size of 'Table 1' which describes the ASCII glyphs. (96 entries for font.res)
 // Bytes 4-7 is the offset for the font loaded to index 0. (offset 2306 for font.res)
@@ -440,7 +483,7 @@ static void font_draw_glyph(char *buffer, int x, int y, int width, char *glyph)
 // The glyphs used for the ASCII range are 12 pixels tall with a width specified by bits 27:24.
 // Each pixel in memory is 2 bits. It is combined with a 2-bit color index in the font buffer.
 // The pixel can then be drawn using a 16 entry LUT on the GPU side.
-static int font_draw_ascii_glyph(char *buffer, int x, int y, int width, unsigned char code)
+static int put_hankaku_4bpp(char *buffer, int x, int y, int width, unsigned char code)
 {
     char *location, *location2, *location3, *location4, *locationIter;
     char *font_location;
@@ -451,20 +494,20 @@ static int font_draw_ascii_glyph(char *buffer, int x, int y, int width, unsigned
     unsigned short glyph7, glyph8;
 
     int shift, shift2;
-    int i, j, y2, counter, retval, loops;
+    int i, j, y2, counter, result, loops;
 
     location = buffer + x / 2 + y * width;
 
     if (code > 0 && code < 0xFF)
     {
-        glyph = font_get_glyph_config(code);
+        glyph = get_hantable(code);
         font_location = gFontEnd + (glyph & 0xFFFFFF);
-        retval = (glyph >> 24) & 0xF;
+        result = (glyph >> 24) & 0xF;
         loops = 12;
 
         if (dword_800AB6B8)
         {
-            shift = (retval + 1) / 2 - 1;
+            shift = (result + 1) / 2 - 1;
 
             if (rubi_display_flag)
             {
@@ -475,7 +518,7 @@ static int font_draw_ascii_glyph(char *buffer, int x, int y, int width, unsigned
                 y2 = y - 2;
             }
 
-            glyph2 = font_palette_800AB6BC;
+            glyph2 = font_color;
 
             location3 = buffer + (x + shift) / 2;
             location2 = location3 + (y2 - 1) * width;
@@ -497,13 +540,13 @@ static int font_draw_ascii_glyph(char *buffer, int x, int y, int width, unsigned
         location = location + width * (glyph >> 28);
         locationIter = location;
 
-        glyph8 = (font_palette_800AB6BC & 0xFF) << 2;
+        glyph8 = (font_color & 0xFF) << 2;
 
         for (i = 0; i < loops; location += width, locationIter = location, i++)
         {
             shift2 = (1 - x % 2) * 4;
 
-            for (j = 0; j < retval; j++)
+            for (j = 0; j < result; j++)
             {
                 glyph7 = (glyph5 & 0xFF) >> 6;
 
@@ -543,7 +586,7 @@ static int font_draw_ascii_glyph(char *buffer, int x, int y, int width, unsigned
         y2 = 18;
         shift = x % 2;
 
-        glyph6 = font_palette_800AB6BC & 0xFF;
+        glyph6 = font_color & 0xFF;
 
         location = location + width * 5;
 
@@ -567,9 +610,9 @@ static int font_draw_ascii_glyph(char *buffer, int x, int y, int width, unsigned
             *location |= (glyph4 & 0xFF) << (4 - shift);
         }
 
-        retval = 18;
+        result = 18;
     }
-    return retval;
+    return result;
 }
 
 static unsigned int font_get_glyph_width(int a1)
@@ -579,39 +622,39 @@ static unsigned int font_get_glyph_width(int a1)
         return 0;
     }
 
-    if (a1 < 0x8100)
+    if ( IS_HANKAKU( a1 ) )
     {
         if ((a1 != 0x8023) && ((a1 < 0x8010) || (a1 >= 0x8020)))
         {
-            return (font_get_glyph_config(a1 & 0xFF) >> 24) & 0xF;
+            return (get_hantable(a1 & 0xFF) >> 24) & 0xF;
         }
     }
 
     return 12;
 }
 
-void font_set_rubi_display_mode(int display_flag)
+void font_set_rubi_display_mode(int flag)
 {
-    rubi_display_flag = display_flag;
+    rubi_display_flag = flag;
 }
 
 static void set_rubi_left_pos(int xmax, int x, int y)
 {
-    rubi_left_pos_x_800ABB2C = x;
-    rubi_left_pos_y_800ABB30 = y;
-    rubi_left_pos_xmax_800ABB34 = xmax;
+    rubi_left_x = x;
+    rubi_left_y = y;
+    rubi_orikaeshi_xmax = xmax;
 }
 
-static void set_rubi_left_xmax(int xmax)
+static void set_rubi_orikaeshi(int xmax)
 {
-    rubi_left_pos_xmax_800ABB34 = xmax;
+    rubi_orikaeshi_xmax = xmax;
 }
 
 #define ASCII_TO_RUBI(c) (c + 0x8000)
 
 static int get_rubi_char_index(int c)
 {
-    if (c < 0x8100)
+    if ( IS_HANKAKU( c ) )
     {
         if (c >= ASCII_TO_RUBI('0') && c <= ASCII_TO_RUBI('9'))
         {
@@ -668,55 +711,54 @@ static int get_rubi_char_index(int c)
     return -1;
 }
 
-static int font_draw_rubi_string_helper(int *length, const char *str)
+static int get_rubi_width( int *count, const char *string )
 {
-    RubiRes    *rubiRes;
-    int         rubiCode;
-    int         retval; // some sort of length corrected by rubi codes?
-    int         i, idx;
-    const char *strIter;
+    RubiRes    *res;
+    const char *m;
+    int         n, w;
 
-    rubiRes = gRubiRes_800AB6B4;
-    retval = 0;
+    res = gRubiRes_800AB6B4;
 
-    for (i = 0, strIter = str;; i++)
+    w = 0;
+    n = 0;
+    m = string;
+
+    for ( ;; )
     {
-        if (strIter[0] < 128)
-        {
-            rubiCode = strIter[0] | 0x8000;
-            strIter += 1;
-        }
-        else
-        {
-            rubiCode = (strIter[0] << 8) | strIter[1];
-            strIter += 2;
-        }
+        int code, rubi;
 
-        rubiCode &= ~0x6000;
-        if (rubiCode == 0x807D)
+        GETNEXTCHAR( code, m );
+        code = GETCODE( code );
+
+        if ( code == CODE( '}' ) )
+        {
             break;
-
-        idx = get_rubi_char_index(rubiCode);
-        if (idx < 0)
-        {
-            printf("Wrong rubi code %x\n", rubiCode);
-            idx = 0;
         }
 
-        if (idx == 0)
+        rubi = get_rubi_char_index( code );
+        if ( rubi < 0 )
         {
-            retval += 4;
+            printf("Wrong rubi code %x\n", code);
+            rubi = 0;
+        }
+
+        if ( rubi == 0 )
+        {
+            w += 4;
         }
         else
         {
-            retval += rubiRes[idx - 1].field_0;
+            w += res[rubi - 1].field_0;
         }
+
+        n++;
     }
-    *length = i;
-    return retval;
+
+    *count = n;
+    return w;
 }
 
-static int font_draw_rubi_string_helper2(char *buffer, int x, int y, int width, int arg4)
+static int put_rubi(char *buffer, int x, int y, int width, int arg4)
 {
     int          oddIter, var_a1, j, var_t3, i, var_v0_2, rubiField0, var_t0;
     unsigned int var_v0;
@@ -796,7 +838,7 @@ static int font_draw_rubi_string_helper2(char *buffer, int x, int y, int width, 
     return rubiField0;
 }
 
-static void font_draw_rubi_string(char *buffer, int x, int y, int width, const char *arg4)
+static void draw_rubi_string(char *buffer, int x, int y, int width, const char *arg4)
 {
     int         iterCount;
     int         len;
@@ -812,13 +854,13 @@ static void font_draw_rubi_string(char *buffer, int x, int y, int width, const c
     {
         return;
     }
-    len = font_draw_rubi_string_helper(&iterCount, str);
+    len = get_rubi_width(&iterCount, str);
     pos_y_2 = y;
 
-    if (rubi_left_pos_y_800ABB30 < pos_y_2)
+    if (rubi_left_y < pos_y_2)
     {
-        pos_x = rubi_left_pos_xmax_800ABB34 - rubi_left_pos_x_800ABB2C;
-        pos_y = rubi_left_pos_y_800ABB30;
+        pos_x = rubi_orikaeshi_xmax - rubi_left_x;
+        pos_y = rubi_left_y;
         if (x / 2 >= pos_x)
         {
             do
@@ -826,13 +868,13 @@ static void font_draw_rubi_string(char *buffer, int x, int y, int width, const c
                 pos_y = y;
             } while (0);
             pos_x = x;
-            rubi_left_pos_x_800ABB2C = 0;
+            rubi_left_x = 0;
         }
     }
     else
     {
         pos_y = pos_y_2;
-        pos_x = x - rubi_left_pos_x_800ABB2C;
+        pos_x = x - rubi_left_x;
     }
 
     x_offset = 1;
@@ -850,10 +892,10 @@ static void font_draw_rubi_string(char *buffer, int x, int y, int width, const c
         }
     }
     len += x_offset * iterCount;
-    pos_x = rubi_left_pos_x_800ABB2C + (pos_x - len) / 2;
-    if (rubi_left_pos_xmax_800ABB34 < pos_x + len)
+    pos_x = rubi_left_x + (pos_x - len) / 2;
+    if (rubi_orikaeshi_xmax < pos_x + len)
     {
-        pos_x = rubi_left_pos_xmax_800ABB34 - len;
+        pos_x = rubi_orikaeshi_xmax - len;
     }
     if (pos_x < 0)
     {
@@ -892,49 +934,10 @@ static void font_draw_rubi_string(char *buffer, int x, int y, int width, const c
         }
         else
         {
-            pos_x_2 +=
-                font_draw_rubi_string_helper2(buffer, pos_x_2, pos_y - 6, width, rubiIndex - 1) + x_offset;
+            pos_x_2 += put_rubi(buffer, pos_x_2, pos_y - 6, width, rubiIndex - 1) + x_offset;
         }
     }
 }
-
-#define MAP_ASCII(c) (0x8000 | (unsigned char)(c))
-
-#define MSB_NOT_SET(c) (((signed char)(c)) >= 0)
-#define TWO_BYTE_CHAR(p) ((((unsigned char *)(p))[0] << 8) | ((unsigned char *)(p))[1])
-
-// Returns to the 1-or-2-byte character at `p`.
-#define PEEK_CHAR(p) (MSB_NOT_SET(*(p)) ? MAP_ASCII(*(p)) : TWO_BYTE_CHAR(p))
-
-// Reads the next character at p, assigns it into `dest`, and advances p to the next char.
-// NOTE: This macro is not properly guarded, so it can't be used anywhere a normal statement
-//       could. However, guarding it with `do {...} while(0)` makes the optimizer produce
-//       different code.
-#define READ_CHAR(dest, p)                                      \
-    if (MSB_NOT_SET(*(p)))                                      \
-    {                                                           \
-        dest = MAP_ASCII(*(p));                                 \
-        ++(p);                                                  \
-    }                                                           \
-    else                                                        \
-    {                                                           \
-        (dest) = TWO_BYTE_CHAR((p));                            \
-        (p) += 2;                                               \
-    }
-
-// Advances p to the next char, skipping the current one.
-// NOTE: This macro is not properly guarded, so it can't be used anywhere a normal statement
-//       could. However, guarding it with `do {...} while(0)` makes the optimizer produce
-//       different code.
-#define SKIP_CHAR(p)                                            \
-    if (MSB_NOT_SET(*(p)))                                      \
-    {                                                           \
-        ++(p);                                                  \
-    }                                                           \
-    else                                                        \
-    {                                                           \
-        (p) += 2;                                               \
-    }
 
 long font_draw_string(KCB *kcb, long xtop, long ytop, const char *string, long color)
 {
@@ -944,26 +947,26 @@ long font_draw_string(KCB *kcb, long xtop, long ytop, const char *string, long c
     const char *m2;
 
     int flag1, counter1;
-    int xmax;
-    int height_info, width_info;
-    int retval;
+    int buf_width;
+    int height, width_info;
+    int result;
 
     const char *m;
 
-    int flag2;
+    int cr_flag;
 
-    int var_a0;
-    int current_code;
+    int next_width;
+    int next_mdata;
 
-    int   counter2;
-    int   current_char;
+    int   dx;
+    int   mdata;
     int   coord;
     short character_mask = 0x9FFF;
     int   d;
 
     int idx1;
-    int current_code2;
-    int ascii_closing_bracket = MAP_ASCII('}');
+    int next_code;
+    int ascii_closing_bracket = CODE('}');
 
     char *ptr;
 
@@ -975,89 +978,89 @@ long font_draw_string(KCB *kcb, long xtop, long ytop, const char *string, long c
 
     counter1 = 0;
     dword_800AB6B8 = 0;
-    xmax = kcb->short1;
-    font_buffer = kcb->font_buffer;
-    height_info = kcb->height_info;
+    buf_width = kcb->width;
+    font_buffer = kcb->buffer;
+    height = kcb->height;
 
-    if (!(kcb->flag & 2))
+    if (!(kcb->flag & FONT_NO_KINSOKU))
     {
-        xmax -= 12;
+        buf_width -= 12;
     }
 
     x = xtop;
     m = string;
 
-    retval = 0;
+    result = 0;
     flag1 = 0;
-    font_palette_800AB6BC = color;
-    kcb->short3 = kcb->ytop + 0xe;
-    kcb->flag = kcb->flag & 0xEF;
+    font_color = color;
+    kcb->max_height = kcb->l_skip + 14;
+    kcb->flag &= ~FONT_CLEAN;
     kcb->max_width = 0;
-    flag2 = 0;
-    width_info = kcb->width_info;
+    cr_flag = 0;
+    width_info = kcb->row;
     y = ytop;
 
     while (*m)
     {
         // Fetch byte code and convert ASCII to an unused part of the SJIS map
         // 0x80xx is unused by SJIS
-        current_char = PEEK_CHAR(m);
+        PEEK_CHAR(mdata, m);
 
         // 0x8000 - 0x807F represents the standard ASCII range now
         // Character codes are either 8xxx or 9xxx from this point on.
         // This leaves two unused bits (0x2000 and 0x4000) that are used
         // as flags below. The logic below uses character_mask (0x9FFF)
         // in order to get the character code without flags.
-        current_code = current_char & character_mask;
+        next_mdata = mdata & character_mask;
 
         // If character is an ASCII control code with no flags set,
         // consume it and move on to the next step.
-        if (current_char < MAP_ASCII(' '))
+        if (mdata < CODE(' '))
         {
-            READ_CHAR(current_char, m);
+            GETNEXTCHAR(mdata, m);
         }
-        else if (current_code == MAP_ASCII('#'))
+        else if (next_mdata == CODE('#'))
         {
-            SKIP_CHAR(m); // skip '#'
+            SKIPNEXTCHAR(m); // skip '#'
 
-            READ_CHAR(d, m); // consume "command" char
+            GETNEXTCHAR(d, m); // consume "command" char
             d &= character_mask;
 
             switch (d)
             {
-            case MAP_ASCII('1'):
-                current_code = MAP_ASCII('@');
+            case CODE('1'):
+                next_mdata = CODE('@');
                 goto block_136;
 
-            case MAP_ASCII('N'):
-                current_char = MAP_ASCII('\n');
+            case CODE('N'):
+                mdata = CODE('\n');
                 break;
 
-            case MAP_ASCII('R'):
+            case CODE('R'):
                 m += 2;
                 // fallthrough
-            case MAP_ASCII('{'):
+            case CODE('{'):
                 r_flag = 1;
 
                 if (rubi_display_flag)
                 {
                     rubi_flag = 1;
-                    set_rubi_left_pos(xmax, x, y);
+                    set_rubi_left_pos(buf_width, x, y);
 
-                    d = PEEK_CHAR(m);
+                    PEEK_CHAR(d, m);
                     d &= character_mask;
 
-                    if (d == MAP_ASCII('!'))
+                    if (d == CODE('!'))
                     {
                         m += 2;
                     }
                 }
                 else
                 {
-                    d = PEEK_CHAR(m);
+                    PEEK_CHAR(d, m);
                     d &= character_mask;
 
-                    if (d == MAP_ASCII('!'))
+                    if (d == CODE('!'))
                     {
                         while (1)
                         {
@@ -1066,10 +1069,10 @@ long font_draw_string(KCB *kcb, long xtop, long ytop, const char *string, long c
                                 break;
                             }
 
-                            READ_CHAR(d, m);
+                            GETNEXTCHAR(d, m);
                             d &= character_mask;
 
-                            if (d == MAP_ASCII(','))
+                            if (d == CODE(','))
                             {
                                 goto block_110;
                             }
@@ -1078,30 +1081,30 @@ long font_draw_string(KCB *kcb, long xtop, long ytop, const char *string, long c
                 }
                 break;
 
-            case MAP_ASCII('-'):
+            case CODE('-'):
             case 0x9006:
-                counter2 = font_draw_ascii_glyph(font_buffer, x, y, width_info, 0);
+                dx = put_hankaku_4bpp(font_buffer, x, y, width_info, 0);
                 goto block_155;
 
-            case MAP_ASCII('S'):
-                current_char = 0x8009;
+            case CODE('S'):
+                mdata = 0x8009;
                 break;
 
-            case MAP_ASCII('W'):
+            case CODE('W'):
                 if (kcb->max_width < x)
                 {
                     kcb->max_width = x;
                 }
-                counter2 = 0;
+                dx = 0;
                 if (flag1)
                 {
-                    goto error;
+                    goto OVER;
                 }
                 goto block_155;
 
-            case MAP_ASCII('T'):
+            case CODE('T'):
                 m += 2;
-                if (kcb->ytop >= 3)
+                if (kcb->l_skip >= 3)
                 {
                     dword_800AB6B8 = 1;
                 }
@@ -1109,12 +1112,12 @@ long font_draw_string(KCB *kcb, long xtop, long ytop, const char *string, long c
                 r_flag = 1;
                 break;
 
-            case MAP_ASCII('2'):
-                current_code = MAP_ASCII('~'); // This represents the overline character in SJIS
+            case CODE('2'):
+                next_mdata = CODE('~'); // This represents the overline character in SJIS
                 goto block_136;
 
             case 0x901D:
-                current_code = (GM_OptionFlag & OPTION_BUTTON_MASK) == OPTION_BUTTON_TYPE_C ? 0x9024 : 0x901D;
+                next_mdata = (GM_OptionFlag & OPTION_BUTTON_MASK) == OPTION_BUTTON_TYPE_C ? 0x9024 : 0x901D;
                 goto block_136;
 
             case 0x901E:
@@ -1122,13 +1125,13 @@ long font_draw_string(KCB *kcb, long xtop, long ytop, const char *string, long c
                 switch (GM_OptionFlag & OPTION_BUTTON_MASK)
                 {
                 case OPTION_BUTTON_TYPE_A:
-                    current_code = d;
+                    next_mdata = d;
                     break;
                 case OPTION_BUTTON_TYPE_B:
-                    current_code = 0x9018;
+                    next_mdata = 0x9018;
                     break;
                 case OPTION_BUTTON_TYPE_C:
-                    current_code = 0x901D;
+                    next_mdata = 0x901D;
                     break;
                 }
                 goto block_136;
@@ -1140,251 +1143,246 @@ long font_draw_string(KCB *kcb, long xtop, long ytop, const char *string, long c
             }
         }
         else if (r_flag &&
-                 (current_code == 0x9002 || current_code == 0x9004 || current_code == ascii_closing_bracket))
+                 (next_mdata == 0x9002 || next_mdata == 0x9004 || next_mdata == ascii_closing_bracket))
         {
-            if (rubi_flag == 1 && (current_code == 0x9002 || current_code == 0x9004))
+            if (rubi_flag == 1 && (next_mdata == 0x9002 || next_mdata == 0x9004))
             {
-                font_draw_rubi_string(font_buffer, x, y, width_info, m + 2);
+                draw_rubi_string(font_buffer, x, y, width_info, m + 2);
             }
 
             rubi_flag = 0;
 
             do
             {
-                READ_CHAR(current_code, m);
-                current_code &= character_mask;
-            } while (current_code != ascii_closing_bracket);
+                GETNEXTCHAR(next_mdata, m);
+                next_mdata &= character_mask;
+            } while (next_mdata != ascii_closing_bracket);
 
-            current_code = PEEK_CHAR(m);
-            if (current_code == MAP_ASCII('#'))
+            PEEK_CHAR(next_mdata, m);
+            if (next_mdata == CODE('#'))
             {
-                SKIP_CHAR(m);
+                SKIPNEXTCHAR(m);
             }
 
             dword_800AB6B8 = 0;
             r_flag = 0;
-            counter2 = 0;
+            dx = 0;
             goto block_155;
         }
-        else if (current_code == MAP_ASCII('|'))
+        else if (next_mdata == CODE('|'))
         {
-            SKIP_CHAR(m);
-            current_char = MAP_ASCII('\n');
+            SKIPNEXTCHAR(m);
+            mdata = CODE('\n');
         }
 
     block_110:
         // is it an ASCII control character?
-        if (current_char < MAP_ASCII(' '))
+        if (mdata < CODE(' '))
         {
-            switch (current_char)
+            switch (mdata)
             {
-            case MAP_ASCII('\n'):
-                if (!flag2)
+            case CODE('\n'):
+                if (cr_flag == FALSE)
                 {
+                    /* goto DO_CR; */
                     if (kcb->max_width < x)
                     {
                         kcb->max_width = x;
                     }
                     x = xtop;
-                    coord = kcb->ytop + 12;
+                    coord = kcb->l_skip + 12;
                     y += coord;
                     coord = y + 14;
                     counter1 += 1;
-                    kcb->short3 = y + 14;
-                    if (height_info <= y + 11)
+                    kcb->max_height = y + 14;
+                    if (height <= y + 11)
                     {
-                        goto error;
+                        goto OVER;
                     }
 
-                    if (kcb->flag & 1)
+                    if (kcb->flag & FONT_NO_ORIKAESHI)
                     {
-                        goto error;
+                        goto OVER;
                     }
-                    if (counter1 >= kcb->field_01)
+                    if (counter1 >= kcb->c_height)
                     {
-                        goto error;
+                        goto OVER;
                     }
                     break;
                 }
-                flag2 = 0;
+                cr_flag = 0;
                 break;
 
-            case MAP_ASCII('\t'):
-                coord = kcb->xtop + 12;
-                var_a0 = coord * kcb->field_04;
-                if (var_a0 > 0)
+            case CODE('\t'):
+                coord = kcb->c_skip + 12;
+                next_width = coord * kcb->t_skip;
+                if (next_width > 0)
                 {
-                    x = (x / var_a0 + 1) * var_a0;
+                    x = (x / next_width + 1) * next_width;
                 }
                 break;
 
-            case MAP_ASCII('\f'):
-                READ_CHAR(current_char, m);
-                font_palette_800AB6BC = current_char - MAP_ASCII('0');
+            case CODE('\f'):
+                GETNEXTCHAR(mdata, m);
+                font_color = mdata - CODE('0');
                 break;
             }
             continue;
         }
 
         m2 = m;
-        READ_CHAR(current_char, m);
-        current_code = current_char & character_mask;
+        GETNEXTCHAR(mdata, m);
+        next_mdata = mdata & character_mask;
 
     block_136:
         // is it an ASCII character?
-        if (current_code <= MAP_ASCII(0xFF))
+        if (next_mdata <= CODE(0xFF))
         {
-            counter2 = font_draw_ascii_glyph(font_buffer, x, y, width_info, current_code & 0xFF);
-            counter2 += kcb->xtop;
-            if (current_code == MAP_ASCII('!') || current_code == MAP_ASCII('?'))
+            dx = put_hankaku_4bpp(font_buffer, x, y, width_info, next_mdata & 0xFF);
+            dx += kcb->c_skip;
+            if (next_mdata == CODE('!') || next_mdata == CODE('?'))
             {
-                current_code = PEEK_CHAR(m);
-                current_code = current_code & character_mask;
-                if (current_code != MAP_ASCII('!') && current_code != MAP_ASCII('?'))
+                PEEK_CHAR(next_mdata, m);
+                next_mdata = next_mdata & character_mask;
+                if (next_mdata != CODE('!') && next_mdata != CODE('?'))
                 {
-                    if (current_code != MAP_ASCII('(') && current_code != MAP_ASCII(')') &&
-                        (current_code < 0x9009 || current_code > 0x900E) && current_code != 0x9015)
+                    if (next_mdata != CODE('(') && next_mdata != CODE(')') &&
+                        (next_mdata < 0x9009 || next_mdata > 0x900E) && next_mdata != 0x9015)
                     {
-                        counter2 += 8;
+                        dx += 8;
                     }
                     else
                     {
-                        counter2 += 2;
+                        dx += 2;
                     }
                 }
             }
         }
         else
         {
-            idx1 = font_get_glyph_index(current_code);
+            idx1 = get_zen_font_data(next_mdata);
             if (idx1 > 0)
             {
-                ptr = dword_8009E75C[idx1 >> 12] + ((idx1 & 0xFFF) - 1) * 36;
+                ptr = zendata[idx1 >> 12] + ((idx1 & 0xFFF) - 1) * 36;
             }
             else
             {
                 ptr = 0;
             }
-            font_draw_glyph(font_buffer, x, y, width_info, ptr);
-            coord = kcb->xtop;
-            counter2 = coord + 0xC;
+            put_zenkaku_4bpp(font_buffer, x, y, width_info, ptr);
+            coord = kcb->c_skip;
+            dx = coord + 0xC;
         }
 
         flag1 = 1;
 
     block_155:
-        current_code = PEEK_CHAR(m);
-        current_code2 = current_code & character_mask;
+        PEEK_CHAR(next_mdata, m);
+        next_code = next_mdata & character_mask;
 
-        var_a0 = font_get_glyph_width(current_code2);
-        coord = x + counter2;
-        if (var_a0 > 0)
+        next_width = font_get_glyph_width(next_code);
+        if ( next_width > 0
+             && ( x + dx + next_width + kcb->c_skip - 1 ) >= buf_width )
         {
-            coord += var_a0;
-            d = kcb->xtop;
-            coord += d;
-            coord -= 1;
-            if (coord >= xmax)
+            if (!(kcb->flag & FONT_NO_KINSOKU))
             {
-                if (!(kcb->flag & 2))
+                if (mdata & BACK_KINSOKU_MASK)
                 {
-                    if (current_char & 0x2000)
+                    put_zenkaku_4bpp(font_buffer, x, y, width_info, 0);
+                    m = m2;
+                    dx = 0;
+                }
+                else if (next_mdata & TOP_KINSOKU_MASK)
+                {
+                    mdata = next_code;
+                    if (r_flag && (mdata == 0x9002 || mdata == 0x9004 || mdata == ascii_closing_bracket))
                     {
-                        font_draw_glyph(font_buffer, x, y, width_info, 0);
-                        m = m2;
-                        counter2 = 0;
+                        goto NO_KINSOKU;
                     }
-                    else if (current_code & 0x4000)
+                    else
                     {
-                        current_char = current_code2;
-                        if (!r_flag ||
-                            (current_char != 0x9002 && current_char != 0x9004 && current_char != ascii_closing_bracket))
+                        PEEK_CHAR(d, m + 2);
+                        if (mdata == 0x9003 || !(d & TOP_KINSOKU_MASK) || (d & character_mask) == 0x8123)
                         {
-                            d = PEEK_CHAR(m + 2);
-                            if (current_char == 0x9003 || !(d & 0x4000) || (d & character_mask) == 0x8123)
-                            {
-                                READ_CHAR(current_char, m);
-                                current_code = current_char & character_mask;
+                            GETNEXTCHAR(mdata, m);
+                            next_mdata = mdata & character_mask;
 
-                                if (current_code <= 0x80FF)
+                            if ( IS_HANKAKU( next_mdata ) )
+                            {
+                                dx += put_hankaku_4bpp(font_buffer, x + dx, y, width_info, next_mdata & 0xFF);
+                            }
+                            else
+                            {
+                                idx1 = get_zen_font_data(next_mdata);
+                                if (idx1 > 0)
                                 {
-                                    counter2 += font_draw_ascii_glyph(font_buffer, x + counter2, y,
-                                                                      width_info, current_code & 0xFF);
+                                    ptr = zendata[idx1 >> 12] + ((idx1 & 0xFFF) - 1) * 36;
                                 }
                                 else
                                 {
-                                    idx1 = font_get_glyph_index(current_code);
-                                    if (idx1 > 0)
-                                    {
-                                        ptr = dword_8009E75C[idx1 >> 12] + ((idx1 & 0xFFF) - 1) * 36;
-                                    }
-                                    else
-                                    {
-                                        ptr = 0;
-                                    }
-                                    font_draw_glyph(font_buffer, x + counter2, y, width_info, ptr);
-                                    counter2 += 12;
+                                    ptr = 0;
                                 }
+
+                                put_zenkaku_4bpp(font_buffer, x + dx, y, width_info, ptr);
+                                dx += 12;
                             }
                         }
-                        else
-                        {
-                            goto block_194;
-                        }
                     }
                 }
+            }
+
+            if (rubi_flag)
+            {
+                set_rubi_orikaeshi(x + dx);
+            }
+
+            result = 1;
+            cr_flag = 1;
+
+            if (x + dx > kcb->max_width)
+            {
+                kcb->max_width = x + dx;
+            }
+
+            x = xtop;
+
+            coord = kcb->l_skip + 12;
+            y += coord;
+
+            counter1 += 1;
+            kcb->max_height = y + 14;
+
+            if (kcb->flag & FONT_NO_ORIKAESHI || y + 12 - 1 >= height || counter1 >= kcb->c_height)
+            {
                 if (rubi_flag)
                 {
-                    set_rubi_left_xmax(x + counter2);
+                    rubi_flag = 2;
                 }
-                retval = 1;
-                flag2 = 1;
 
-                if (x + counter2 > kcb->max_width)
+                if (*m)
                 {
-                    kcb->max_width = x + counter2;
+                    goto OVER;
                 }
 
-                x = xtop;
-
-                coord = kcb->ytop + 12;
-                y += coord;
-
-                counter1 += 1;
-                kcb->short3 = y + 14;
-
-                if (kcb->flag & 1 || y + 11 >= height_info || counter1 >= kcb->field_01)
-                {
-                    if (rubi_flag)
-                    {
-                        rubi_flag = 2;
-                    }
-
-                    if (*m)
-                    {
-                        goto error;
-                    }
-
-                    return 0;
-                }
-
-                goto block_195;
+                return 0;
             }
         }
+        else
+        {
+NO_KINSOKU:
+            x += dx;
+            cr_flag = 0;
+        }
 
-    block_194:
-        x += counter2;
-        flag2 = 0;
-
-    block_195:
-        if (x > kcb->max_width)
+        if ( kcb->max_width < x )
         {
             kcb->max_width = x;
         }
     }
-    return retval;
 
-error:
+    return result;
+
+OVER:
     if (kcb->max_width < x)
     {
         kcb->max_width = x;
@@ -1399,30 +1397,30 @@ void font_clear(KCB *kcb)
     int *font_buffer;
     int  i;
 
-    if (!(kcb->flag & 0x10))
+    if (!(kcb->flag & FONT_CLEAN))
     {
-        font_buffer = kcb->font_buffer;
-        i = (unsigned int)(kcb->width_info * kcb->height_info) / 4;
+        font_buffer = kcb->buffer;
+        i = (unsigned int)(kcb->row * kcb->height) / 4;
         for (; i > 0; i--)
         {
             *font_buffer++ = 0;
         }
-        kcb->flag |= 0x10;
+        kcb->flag |= FONT_CLEAN;
     }
 }
 
 void font_update(KCB *kcb)
 {
-    LoadImage(&kcb->font_rect, kcb->font_buffer);
+    LoadImage(&kcb->rect, kcb->buffer);
 }
 
 void font_clut_update(KCB *kcb)
 {
-    LoadImage(&kcb->font_clut_rect, kcb->font_clut_buffer);
+    LoadImage(&kcb->crect, kcb->cbuffer);
 }
 
 void font_print_string(KCB *kcb, const char *string)
 {
     font_clear(kcb);
-    font_draw_string(kcb, 0, kcb->ytop, string, kcb->color);
+    font_draw_string(kcb, 0, kcb->l_skip, string, kcb->color);
 }

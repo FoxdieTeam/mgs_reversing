@@ -221,7 +221,7 @@ void Open_800C4674(OpenWork *work, int index)
     font_clut_update(kcb);
 
     work->unk[index].rect.w = kcb->max_width;
-    work->unk[index].rect.h = kcb->short3 - 1;
+    work->unk[index].rect.h = kcb->max_height - 1;
 
     if (open_800C32B4[index].f0 == 0)
     {
@@ -231,7 +231,7 @@ void Open_800C4674(OpenWork *work, int index)
     else if (open_800C32B4[index].f0 == 1)
     {
         work->unk[index].rect.x = open_800C32B4[index].f4.vx - kcb->max_width / 2;
-        work->unk[index].rect.y = open_800C32B4[index].f4.vy - kcb->short3 / 2;
+        work->unk[index].rect.y = open_800C32B4[index].f4.vy - kcb->max_height / 2;
     }
 
     work->unk[index].string = 0;
@@ -312,7 +312,7 @@ void title_open_800C4AD0(OpenWork *work, int index, int color)
 
 void * title_open_800C4B20(KCB *kcb)
 {
-    return kcb->font_clut_buffer;
+    return kcb->cbuffer;
 }
 
 int title_open_800C4B2C(int val)

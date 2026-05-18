@@ -720,10 +720,10 @@ void drawCaption_800C5EB4(MenuWork *work, const char *caption)
 
     kcb = work->field_214_font;
 
-    height = kcb->height_info;
-    kcb->height_info = 14;
+    height = kcb->height;
+    kcb->height = 14;
     font_clear(kcb);
-    kcb->height_info = height;
+    kcb->height = height;
 
     font_draw_string(kcb, 0, 0, caption, 0);
     font_update(kcb);
