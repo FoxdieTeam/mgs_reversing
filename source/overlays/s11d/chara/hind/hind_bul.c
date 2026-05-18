@@ -10,7 +10,7 @@ typedef struct _HindBulWork
     char    pad_a0[0xE8 - 0x20 - sizeof(CONTROL)];
     int     field_E8;
     char    pad_ec[0xF8 - 0xE8 - sizeof(int)];
-    DG_PRIM *field_F8;
+    DG_PRIM *prim;
     char    pad_fc[0x17C - 0xF8 - sizeof(DG_PRIM *)];
 } HindBulWork;
 
@@ -28,24 +28,17 @@ void s11d_hind_bul_800CB888(HindBulWork *work)
     svec_b.vz = work->control.step.vz;
     svec_a.vx = GV_VecDir2(&svec_b);
 
-    RotMatrixYXZ(&svec_a, (MATRIX *)work->field_F8);
+    RotMatrixYXZ(&svec_a, &work->prim->world);
 
-    work->field_F8->world.t[0] = work->control.mov.vx;
-    work->field_F8->world.t[1] = work->control.mov.vy;
-    work->field_F8->world.t[2] = work->control.mov.vz;
+    work->prim->world.t[0] = work->control.mov.vx;
+    work->prim->world.t[1] = work->control.mov.vy;
+    work->prim->world.t[2] = work->control.mov.vz;
 }
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_bul_800CB938.s")
 void s11d_hind_bul_800CBA14(HindBulWork *work)
 {
-    DG_PRIM *prim;
-
     GM_FreeControl(&work->control);
-    prim = work->field_F8;
-    if (prim)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->prim);
 }
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_bul_800CBA5C.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_bul_800CBBA8.s")
