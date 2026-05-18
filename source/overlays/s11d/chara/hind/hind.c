@@ -10,7 +10,9 @@ typedef struct _HindWork
     DG_OBJS *field_9C;
     char    pad_a0[0x180 - 0x9C - sizeof(DG_OBJS *)];
     MATRIX  field_180;
-    char    pad_1a0[0x924 - 0x180 - sizeof(MATRIX)];
+    char    pad_1a0[0x1C8 - 0x180 - sizeof(MATRIX)];
+    unsigned char field_1C8;
+    char    pad_1c9[0x924 - 0x1C8 - sizeof(unsigned char)];
     DG_PRIM *field_924;
     char    pad_928[0x978 - 0x924 - sizeof(DG_PRIM *)];
     short   f978;        // 0x978
@@ -66,7 +68,21 @@ void s11d_hind_800C9838(HindWork *work)
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800C9B94.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800C9C7C.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800C9D60.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CA424.s")
+extern SVECTOR GM_PlayerPosition;
+
+void s11d_hind_800CA424(HindWork *work)
+{
+    SVECTOR svec_b;
+    SVECTOR svec_a;
+
+    if (work->field_1C8 >> 7)
+    {
+        svec_a = GM_PlayerPosition;
+        svec_a.vx = 0;
+        GV_SubVec3(&svec_a, &work->control.mov, &svec_b);
+        work->control.turn.vy = GV_VecDir2(&svec_b);
+    }
+}
 void s11d_hind_800CA49C(HindWork *work)
 {
     if (work->control.mov.vz < -14000 &&
