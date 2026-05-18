@@ -23,7 +23,7 @@ extern short            dword_800ABBD4;
 #define SCOPE_SIGHT     0x51c8  // GV_StrCode("scope")
 #define SCOPE_MODEL     GV_StrCode("goggles")
 
-#define SEGMENT_ATR     ( HZD_SEG_NO_RADAR|HZD_SEG_NO_COLLIDE )
+#define SEGMENT_ATR     ( HZD_SEG_NO_DISP_RADAR|HZD_SEG_NO_COLLIDE )
 
 #define HUD_DISP_DELAY  16
 
@@ -101,9 +101,9 @@ static int GetZoomLimit(Work *work)
     DG_SetPos(eye);
     DG_PutVector(svecs_8009F2C8, vecs, 2);
     bCalcLen = 0;
-    if ( HZD_LineCheck(work->map->hzd, vecs, &vecs[1], HZD_CHECK_ALL, SEGMENT_ATR) )
+    if ( HZD_OnlineHazardCheck(work->map->hzd, vecs, &vecs[1], HZD_CHK_ALL, SEGMENT_ATR) )
     {
-        HZD_LineNearVec(&vecs[1]);
+        HZD_GetOnlinePoint(&vecs[1]);
         bCalcLen = 1;
     }
 

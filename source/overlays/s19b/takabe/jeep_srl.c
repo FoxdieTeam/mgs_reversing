@@ -21,7 +21,7 @@ typedef struct _JEEP_SYSTEM
 
 extern JEEP_SYSTEM Takabe_JeepSystem;
 
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_PREV
 
 typedef struct _Work
 {

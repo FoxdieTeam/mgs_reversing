@@ -31,7 +31,7 @@ void s11e_zk11ecom_800D89E8( ZakoWork* work )
     HZD_HDL *hzd;
     void *a1;
     MAP *map;
-    HZD_MAP *hdr;
+    HZD_DEF *hdr;
 
     v0 = work->field_B78;
     do {} while (0);
@@ -40,7 +40,7 @@ void s11e_zk11ecom_800D89E8( ZakoWork* work )
     v1 = v1 + v0;
     hzd = map->hzd;
     a2 = v0 << 8;
-    hdr = hzd->header;
+    hdr = hzd->def;
     v0 = v0 | a2;
     a1 = hdr->zones;
     v1 = v1 << 3;
@@ -117,7 +117,7 @@ int s11e_zk11ecom_800D8B04( ZakoWork *work )
     {
         target_pos = &work->target_pos;
         temp_addr  = s11e_zk11ecom_800D9B60( work->control.map->index , work->target_map );
-        zone = &hzd->header->zones[ temp_addr ];
+        zone = &hzd->def->zones[ temp_addr ];
         target_pos->vx = zone->x;
         target_pos->vy = zone->y;
         target_pos->vz = zone->z;
@@ -148,7 +148,7 @@ int s11e_zk11ecom_800D8B04( ZakoWork *work )
 
                 addr2 = s11e_zk11ecom_800D9B60( work->target_map, ctrl->map->index );
                 ctrl->map = GM_GetMap( work->target_map );
-                zone = &ctrl->map->hzd->header->zones[ addr2 ];
+                zone = &ctrl->map->hzd->def->zones[ addr2 ];
                 work->control.mov.vx = zone->x;
                 ctrl->mov.vy = zone->y;
                 ctrl->mov.vz = zone->z;
@@ -157,8 +157,8 @@ int s11e_zk11ecom_800D8B04( ZakoWork *work )
                 return ctrl->rot.vy;
         }
 
-        addr3 = HZD_LinkRoute( hzd, addr2, addr, &ctrl->mov );
-        zone = &hzd->header->zones[ addr3 ];
+        addr3 = HZD_Navigate( hzd, addr2, addr, &ctrl->mov );
+        zone = &hzd->def->zones[ addr3 ];
         if ( work->field_BFC == 0xFA0 )
         {
             work->field_C1C.vx = zone->x + 0xFA;
@@ -622,7 +622,7 @@ void s11e_zk11ecom_800D9654( ZakoWork *work ) {
             work->count3 = 0;
         }
 
-        if (!(HZD_ZoneContains( work->control.map->hzd, &work->control.mov, work->field_B78 )))
+        if (!(HZD_InsideZone( work->control.map->hzd, &work->control.mov, work->field_B78 )))
         {
             s11e_zk11ecom_800D8A44( work );
         }

@@ -138,7 +138,7 @@
 #define CHARA_MERYL72           { 0xe271, NewMeryl72_800C7BC4 }     // animal/meryl72/meryl72.c
 #define CHARA_MGREX             { 0x4754, ? }                       // kojo/mgrex.c
 #define CHARA_MG_DEMO1          { 0x954b, ? }                       // takabe/mg_demo1.c
-#define CHARA_1787_HIND         { 0x1787, NewHind }                 // kojo/hind.c
+#define CHARA_1787_HIND         { 0x1787, NewHindBoss }             // kojo/hind.c
 #define CHARA_MINENE            { 0xb30a, ? }                       // enemy/minene.c
 #define CHARA_MIRROR            { 0xc218, NewMirror }               // takabe/mirror.c
 #define CHARA_SAFETY            { 0xa2b5, Safety_800C47A0 }         // safety.c
@@ -207,9 +207,9 @@
 #define CHARA_REVOLVER04        { 0x05af, NewOcelotBoss }           // GV_StrCode("ボス") onoda/s04b/revolver.c
 #define CHARA_RSURFACE          { 0x81ea, NewRippleSurface }        // takabe/rsurface.c
 #define CHARA_RIPPLES           { 0x63aa, NewRipples }              // takabe/ripples.c
-#define CHARA_ROPE              { 0xbda8, s11d_rope_800C9500 }      // --> chara/rope/rope.c
+#define CHARA_ROPE              { 0xbda8, NewRope }                 // --> chara/rope/rope.c
 #define CHARA_PIPE              { 0xc35f, NewPipe }                 // chara/rope/pipe.c
-#define CHARA_11E9_HIND         { 0x11e9, s11d_hind_800CB708 }      // chara/hind/hind.c
+#define CHARA_11E9_HIND         { 0x11e9, NewHind }                 // chara/hind/hind.c
 #define CHARA_HIND2             { 0xb959, NewHind2 }                // chara/hind2/hind2.c
 #define CHARA_SAVE_DATA         { 0x9302, ? }                       // GV_StrCode("セーブデータ") menu/mload.c
 #define CHARA_SCN_BOMB          { 0x600d, ? }                       // okajima/scn_bomb.c (PC-ONLY)
@@ -399,7 +399,7 @@ void *NewAnime_8005E574();              /* --> anime/animconv/anime.c   */
 void *NewAnime_8005E6A4();              /* --> anime/animconv/anime.c   */
 void *demothrd_2_8007DA94();            /* --> anime/animconv/anime.c   */
 void *s08c_800C4194();                  /* --> anime/animconv/anime.c   */
-void *s11d_rope_800C9500();             /* --> chara/rope/rope.c        */
+void *NewRope();                        /* --> chara/rope/rope.c        */
 void *NewCountdownGcl();                /* --> menu/countdwn.c          */
 void *NewCamera_800CF388();             /* ???/camera.c                 */
 void *NewDemoDoll();                    /* animal/doll/doll.c           */
@@ -412,8 +412,8 @@ void *NewZako11ECommander();            /* animal/zako11e/zk11ecom.c    */
 void *NewZako11F();                     /* animal/zako11f/zako11f.c     */
 void *NewZako11FCommander();            /* animal/zako11f/zk11fcom.c    */
 void *NewScenarioJirai();               /* bullet/jirai.c               */
-void *NewHind();                        /* kojo/hind.c                  */
-void *s11d_hind_800CB708();             /* chara/hind/hind.c            */
+void *NewHindBoss();                    /* kojo/hind.c                  */
+void *NewHind();                        /* chara/hind/hind.c            */
 void *NewHind2();                       /* chara/hind2/hind2.c          */
 void *NewBelong();                      /* chara/others/belong.c        */
 void *NewFontText();                    /* chara/others/fonttext.c      */

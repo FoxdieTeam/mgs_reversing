@@ -146,7 +146,7 @@ void s11e_zk11ecom_800D4DD4( ZakoWork* work, int time )
     ctrl = &(work->control );
     dir = work->pad.dir;
     field_8E0 = work->unknown.last_set;
-    svec = work->control.nearvecs;
+    svec = work->control.vecs;
 
     if ( (work->pad.mode & 0x1) && ( work->unknown.last_set != ACTION2 ) )
     {
@@ -155,14 +155,14 @@ void s11e_zk11ecom_800D4DD4( ZakoWork* work, int time )
 
     if ( dir >= 0 )
     {
-        s0 = ctrl->touch_flag;
+        s0 = ctrl->n_touches;
         if ( s0 > 0 )
         {
             dist = GV_VecDir2( svec );
 
             if ( s0 >= 2 )
             {
-                tmp = GV_VecDir2( &ctrl->nearvecs[1] );
+                tmp = GV_VecDir2( &ctrl->vecs[1] );
                 if ( GV_DiffDirAbs( dir, tmp ) < GV_DiffDirAbs( dir, dist ) )
                 {
                     dist = tmp;
@@ -392,7 +392,7 @@ void s11e_zk11ecom_800D5410( ZakoWork* work, int time )
 void ActGrenade_800D54C8( ZakoWork* work, int time )
 {
     SetTargetClass( work->target, TARGET_FLAG ) ;
-    work->vision.length = ZAKO11E_EYE_LENGTH_800C3904 ;         /* 視力 */
+    work->vision.length = ZAKO11E_EYE_LENGTH_800C3904 ;         /* �???? */
 
     if ( time == 0 )
     {
@@ -532,7 +532,7 @@ void s11e_zk11ecom_800D57A0( ZakoWork* work, int time )
         }
         if ( work->body.is_end )
         {
-            if ( !ctrl->level_flag )
+            if ( !ctrl->grounded )
             {
                 SetAction( work, ACTION40, ACTINTERP );
             }
@@ -544,7 +544,7 @@ void s11e_zk11ecom_800D57A0( ZakoWork* work, int time )
     }
     else
     {
-        if ( ctrl->level_flag )
+        if ( ctrl->grounded )
         {
             GM_SeSet( &ctrl->mov, VO_ENEMY_PUNCHED ) ;
             GM_SeSet( &ctrl->mov, SE_HIT_FLOOR ) ;
@@ -1048,7 +1048,7 @@ void s11e_zk11ecom_800D649C( ZakoWork *work, int time )
         break;
     }
 
-    if ( time > 16 && ctrl->level_flag )
+    if ( time > 16 && ctrl->grounded )
     {
         ctrl->step = DG_ZeroVector;
     }
@@ -1102,7 +1102,7 @@ void s11e_zk11ecom_800D69F8( ZakoWork* work, int time )
         GM_SeSet( &ctrl->mov, VO_ENEMY_THROWN );
     }
 
-    if ( time > 16 && ctrl->level_flag )
+    if ( time > 16 && ctrl->grounded )
     {
         ctrl->step = DG_ZeroVector;
     }
@@ -1128,7 +1128,7 @@ void s11e_zk11ecom_800D69F8( ZakoWork* work, int time )
             }
         }
     }
-    else if ( ctrl->level_flag )
+    else if ( ctrl->grounded )
     {
         work->unknown.field_1E = 1;
         work->target->force = DG_ZeroVector;
@@ -1255,11 +1255,11 @@ void s11e_zk11ecom_800D6DDC( ZakoWork *work )
 
     if ( !unk->field_1E )
     {
-        ctrl->step_size = GV_NearExp2( ctrl->step_size, unk->field_1C );
+        ctrl->r_sphere = GV_NearExp2( ctrl->r_sphere, unk->field_1C );
     }
     else
     {
-        ctrl->step_size = -1;
+        ctrl->r_sphere = -1;
     }
 
     if ( work->target->class & TARGET_POWER )
@@ -1271,7 +1271,7 @@ void s11e_zk11ecom_800D6DDC( ZakoWork *work )
         work->hom->flag = FALSE;
     }
 
-    if ( unk->field_04 < 0 && ctrl->level_flag )
+    if ( unk->field_04 < 0 && ctrl->grounded )
     {
         unk->field_04 = 0;
     }

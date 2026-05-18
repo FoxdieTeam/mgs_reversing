@@ -42,10 +42,10 @@ typedef struct _Work
     char         pad1[0x18];
 } Work;
 
+#define EXEC_LEVEL GV_ACTOR_AFTER
+
 extern GM_CameraSystemWork        GM_Camera;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
-
-#define EXEC_LEVEL 6
 
 void s19b_democame_800DB578(SVECTOR *in, SVECTOR *out, SVECTOR *angle, int *length);
 void s19b_democame_800DB5C4(SVECTOR *out, SVECTOR *in, SVECTOR *angle, int *length);

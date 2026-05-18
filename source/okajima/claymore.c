@@ -192,14 +192,14 @@ STATIC int claymore_loader_helper_800735A0(ClaymoreWork *work, SVECTOR *arg1, SV
 
     var_s2 = 0;
 
-    if (HZD_LineCheck(claymore_MAP_800bdf08->hzd, &vec, &vec2, HZD_CHECK_ALL, SEGMENT_ATR))
+    if (HZD_OnlineHazardCheck(claymore_MAP_800bdf08->hzd, &vec, &vec2, HZD_CHK_ALL, SEGMENT_ATR))
     {
-        HZD_LineNearVec(&vec2);
-        floor = HZD_LineNearSurface();
+        HZD_GetOnlinePoint(&vec2);
+        floor = HZD_GetOnlineHazard();
 
         if ((int)floor < 0)
         {
-            HZD_SurfaceNormal(floor, &work->field_118);
+            HZD_GetNormal(floor, &work->field_118);
         }
         else
         {

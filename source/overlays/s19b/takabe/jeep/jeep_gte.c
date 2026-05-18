@@ -14,7 +14,7 @@ typedef struct _JEEP_SYSTEM
 
 extern JEEP_SYSTEM Takabe_JeepSystem;
 
-#define EXEC_LEVEL  5
+#define EXEC_LEVEL  GV_ACTOR_USER
 
 #define BODY_FLAG   ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE )
 #define BODY_MODEL  GV_StrCode("19b_o2")

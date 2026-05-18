@@ -177,7 +177,7 @@ int s01a_camera_800D4E08(CameraWork *work)
     }
     if (work->field_1C8 != 0)
     {
-        if (HZD_LineCheck(ctrl->map->hzd, &ctrl->mov, &GM_PlayerPosition, HZD_CHECK_ALL, SEGMENT_ATR) != 0)
+        if (HZD_OnlineHazardCheck(ctrl->map->hzd, &ctrl->mov, &GM_PlayerPosition, HZD_CHK_ALL, SEGMENT_ATR) != 0)
         {
             work->field_1DC = 0;
             return 0;
@@ -673,7 +673,7 @@ void s01a_camera_800D5C7C(CameraWork *work)
 
 void s01a_camera_800D5D10(CameraWork *work)
 {
-    work->control.radar_cone.dir = work->control.rot.vy;
+    work->control.radar_param.dir = work->control.rot.vy;
 }
 
 void s01a_camera_800D5D1C(CameraWork *work)
@@ -830,16 +830,16 @@ void CameraAct_800D5F64(CameraWork *work)
 void s01a_camera_800D6174(CameraWork *work)
 {
     CONTROL    *ctrl;
-    RADAR_CONE *cone;
+    RADAR_SIGHT_PARAM *r_param;
 
     ctrl = &work->control;
     ctrl->radar_atr |= RADAR_UNK3;
 
-    cone = &work->control.radar_cone;
-    cone->dir = 0;
-    cone->len = work->field_27E;
-    cone->ang = work->field_280 * 2;
-    cone->_pad = 0;
+    r_param = &work->control.radar_param;
+    r_param->dir = 0;
+    r_param->dis = work->field_27E;
+    r_param->range = work->field_280 * 2;
+    r_param->r = 0;
 }
 
 int s01a_camera_800D61AC(CameraWork *work, int arg1, int arg2)

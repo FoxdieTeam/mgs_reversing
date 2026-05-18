@@ -19,7 +19,7 @@ typedef struct _Work
     int      field_3C0;
 } Work;
 
-#define EXEC_LEVEL 4
+#define EXEC_LEVEL GV_ACTOR_PREV
 
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_plasma_l_800D98F4.s")
 

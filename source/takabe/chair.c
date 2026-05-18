@@ -18,7 +18,7 @@ typedef struct _Work
     int     proc_id;
 } Work;
 
-#define EXEC_LEVEL  5
+#define EXEC_LEVEL  GV_ACTOR_USER
 
 #define BODY_MODEL  GV_StrCode("isu")
 #define BODY_FLAG   ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_GBOUND )
@@ -119,9 +119,9 @@ static void Act(Work *work)
 
     if (work->hit)
     {
-        if (control->level_flag != 0)
+        if (control->grounded != 0)
         {
-            control->level_flag = 0;
+            control->grounded = 0;
             control->step.vy = -control->step.vy / 2;
 
             GM_SeSet(&control->mov, SE_CHAIR);

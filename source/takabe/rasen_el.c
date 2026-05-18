@@ -57,7 +57,7 @@ SVECTOR SECTION(".bss") rasen_el_800D2CAC;
 SVECTOR SECTION(".bss") rasen_el_800D2CB4;
 int SECTION(".bss") rasen_el_800D2CBC;
 
-extern int             gControlCount_800AB9B4;
+extern int             GM_N_WhereList;
 extern CONTROL        *GM_WhereList[96];
 extern GM_SnakeCameraWork GM_SnakeCamera;
 extern GM_CameraSystemWork       GM_Camera;
@@ -283,7 +283,7 @@ void RasenElAct_800CC454(RasenElWork *work)
     if ((work->f234 & 4) != 0)
     {
         where = GM_WhereList;
-        for (i = gControlCount_800AB9B4; i > 0; i--)
+        for (i = GM_N_WhereList; i > 0; i--)
         {
             control = *where;
             if (control->name == work->f23C)

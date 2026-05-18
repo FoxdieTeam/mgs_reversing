@@ -1177,13 +1177,13 @@ void s03b_revolver_800C89C8(RevolverWork *work)
     int     code;
     int     action;
 
-    n_msgs = work->control.n_messages;
+    n_msgs = work->control.n_msg;
     if (n_msgs == 0)
     {
         return;
     }
 
-    msg = &work->control.messages[n_msgs] - 1;
+    msg = &work->control.msg[n_msgs] - 1;
     for (i = n_msgs; i > 0; i--, msg--)
     {
         flag = 1;
@@ -1300,7 +1300,7 @@ void RevolverAct_800C8CE4(RevolverWork *work)
 
     Revolver_800C8CA8(work);
 
-    if (work->field_8C0.vy < 0 && work->control.level_flag != 0)
+    if (work->field_8C0.vy < 0 && work->control.grounded != 0)
     {
         work->field_8C0.vy = 0;
     }
@@ -1352,7 +1352,7 @@ int Revolver_800C8E34(RevolverWork *work)
         route_idx = GCL_StrToInt(GCL_GetParamResult());
     }
 
-    routes = work->control.map->hzd->header->routes;
+    routes = work->control.map->hzd->def->routes;
     routes += route_idx; // Why?
 
     if (s03b_revolver_800C8DD0(routes, &work->field_834, work->field_838) < 0)
@@ -1460,7 +1460,7 @@ int RevolverGetResources_800C8FD4(RevolverWork *work, int arg1, int arg2)
 
     GM_ConfigControlString(control, GCL_GetOption('p'), GCL_GetOption('d'));
     GM_ConfigControlHazard(control, control->mov.vy, -1, -1);
-    control->exclude_flag = 2;
+    control->seg_flag = 2;
     GM_ConfigControlAttribute(control, 1);
 
     object = &work->field_9C;

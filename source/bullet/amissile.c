@@ -285,7 +285,7 @@ static void Act(Work *work)
     result = CheckMessage();
 
     // this is probably also an inline
-    if (work->control.touch_flag <= 0 && !work->control.level_flag)
+    if (work->control.n_touches <= 0 && !work->control.grounded)
     {
         if (++work->field_120 != 90 &&
             !GM_Target_8002E1B8(&control->mov, &addition, work->control.map->index, &addition, 1) &&
@@ -400,7 +400,7 @@ static int GetResources(Work *work, MATRIX *world, int side)
     body = &work->body;
 
     control->skip_flag |= CTRL_SKIP_NEAR_CHECK;
-    control->exclude_flag = 8;
+    control->seg_flag = 8;
 
     GM_InitObjectNoRots(body, STINGER_MODEL, BODY_FLAG, 0);
 

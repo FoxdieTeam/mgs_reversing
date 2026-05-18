@@ -33,7 +33,7 @@ void s11i_zk11fcom_800CFA2C( Zako11FWork *work )
 
     index = addr << 1;
     index = index + addr;
-    zone = (HZD_ZON *)((char *)work->control.map->hzd->header->zones + index * 8);
+    zone = (HZD_ZON *)((char *)work->control.map->hzd->def->zones + index * 8);
 
     work->target_addr = addr | addr << 8;
 
@@ -113,7 +113,7 @@ int s11i_zk11fcom_800CFB64( Zako11FWork *work )
         target_pos = &work->target_pos;
         route = s11i_zk11fcom_800D0D34( work->control.map->index , work->target_map );
 
-        zone = &hzd->header->zones[ route ];
+        zone = &hzd->def->zones[ route ];
         target_pos->vx = zone->x;
         target_pos->vy = zone->y;
         target_pos->vz = zone->z;
@@ -147,7 +147,7 @@ int s11i_zk11fcom_800CFB64( Zako11FWork *work )
 
                 addr2 = s11i_zk11fcom_800D0D34( work->target_map, control->map->index );
                 control->map = GM_GetMap( work->target_map );
-                zone = &control->map->hzd->header->zones[ addr2 ];
+                zone = &control->map->hzd->def->zones[ addr2 ];
                 work->control.mov.vx = zone->x;
                 control->mov.vy = zone->y;
                 control->mov.vz = zone->z;
@@ -156,8 +156,8 @@ int s11i_zk11fcom_800CFB64( Zako11FWork *work )
                 return control->rot.vy;
         }
 
-        addr3 = HZD_LinkRoute( hzd, addr2, addr, &control->mov );
-        zone = &hzd->header->zones[ addr3 ];
+        addr3 = HZD_Navigate( hzd, addr2, addr, &control->mov );
+        zone = &hzd->def->zones[ addr3 ];
         if ( work->field_BFC == 0xFA0 )
         {
             work->field_C1C.vx = zone->x + 0xFA;
@@ -670,7 +670,7 @@ void s11i_zk11fcom_800D078C( Zako11FWork *work )
                 break;
             }
         }
-        else if (HZD_ZoneContains(work->control.map->hzd, &work->control.mov, work->param.field_B7C))
+        else if (HZD_InsideZone(work->control.map->hzd, &work->control.mov, work->param.field_B7C))
         {
             break;
         }

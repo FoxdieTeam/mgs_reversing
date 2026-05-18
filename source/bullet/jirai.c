@@ -228,7 +228,7 @@ static void Act(JiraiWork *work)
         }
         else if (work->field_140 != 0)
         {
-            HZD_ExecLeaveEvent(work->control.map->hzd, &work->control.event);
+            HZD_ExecLeaveEvent(work->control.map->hzd, &work->control.evt);
             GV_DestroyActor(&work->actor);
         }
         else
@@ -357,7 +357,7 @@ static void Act(JiraiWork *work)
         GM_MoveTarget(&target, &target2->center);
 
         GM_PowerTarget(&target);
-        HZD_ExecLeaveEvent(work->control.map->hzd, &work->control.event);
+        HZD_ExecLeaveEvent(work->control.map->hzd, &work->control.evt);
     }
 
     if (work->field_10E == TRUE)
@@ -504,7 +504,7 @@ static int GetResources(JiraiWork *work, MATRIX *world, HZD_FLR *floor)
     CONTROL        *control;
     HITTABLE       *hittable;
     MATRIX          matrix;
-    RADAR_CONE     *cone;
+    RADAR_SIGHT_PARAM *r_param;
     OBJECT_NO_ROTS *obj;
 
     map = GM_PlayerMap;
@@ -557,11 +557,11 @@ static int GetResources(JiraiWork *work, MATRIX *world, HZD_FLR *floor)
     hittable->control = control;
     hittable->data = floor;
 
-    cone = &work->control.radar_cone;
-    cone->len = 2000;
-    cone->ang = 1024;
+    r_param = &work->control.radar_param;
+    r_param->dis = 2000;
+    r_param->range = 1024;
     ++counter_8009F448;
-    cone->dir = GM_PlayerControl->rot.vy;
+    r_param->dir = GM_PlayerControl->rot.vy;
     return 0;
 }
 
@@ -598,7 +598,7 @@ static int GetResources2(JiraiWork *work, MATRIX *world, int map)
 {
     MATRIX          matrix;
     CONTROL        *ctrl;
-    RADAR_CONE     *cone;
+    RADAR_SIGHT_PARAM *r_param;
     OBJECT_NO_ROTS *obj;
 
     work->map = map;
@@ -650,10 +650,10 @@ static int GetResources2(JiraiWork *work, MATRIX *world, int map)
     work->field_13C_idx = -1;
     work->field_140 = 0;
 
-    cone = &ctrl->radar_cone;
-    cone->len = 2000;
-    cone->ang = 1024;
-    cone->dir = ctrl->rot.vy - 1024;
+    r_param = &ctrl->radar_param;
+    r_param->dis = 2000;
+    r_param->range = 1024;
+    r_param->dir = ctrl->rot.vy - 1024;
 
     return 0;
 }

@@ -30,10 +30,10 @@ void s01a_doll_800DBE0C(DollWork *work)
     int      n_msgs;
 
     control = &work->control;
-    control->n_messages = GV_ReceiveMessage(control->name, &control->messages);
+    control->n_msg = GV_ReceiveMessage(control->name, &control->msg);
 
-    msg = control->messages;
-    n_msgs = control->n_messages;
+    msg = control->msg;
+    n_msgs = control->n_msg;
 
     while (n_msgs > 0)
     {
@@ -88,7 +88,7 @@ int s01a_doll_800DBF28(DollWork *work)
     int      i;
 
     hzd = work->control.map->hzd;
-    route = hzd->header->routes;
+    route = hzd->def->routes;
     route += work->fA8C[work->fA86];
 
     work->fA90 = route->n_points;
@@ -274,10 +274,10 @@ int s01a_doll_800DC1AC(DollWork *work, int name, int map)
         GM_ConfigControlAttribute(control, radar_atr | RADAR_SIGHT | RADAR_VISIBLE);
     }
 
-    control->step_size = -1;
+    control->r_sphere = -1;
     GM_ConfigControlInterp(control, 4);
     GM_ConfigControlTrapCheck(control);
-    control->exclude_flag = 1;
+    control->seg_flag = 1;
 
     work->fE58 |= 0x1;
 

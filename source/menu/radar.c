@@ -117,7 +117,7 @@ void MENU_SetRadarFunc(TRadarFn_800AB48C func)
     gFn_radar_800AB48C = func;
 }
 
-void draw_radar_vision_cone_80038F3C(MenuWork *work, u_long *ot, RADAR_CONE *cone, int x, int y, int color,
+void draw_radar_vision_cone_80038F3C(MenuWork *work, u_long *ot, RADAR_SIGHT_PARAM *r_param, int x, int y, int color,
                                      int fadeColor, int scale)
 {
     SVECTOR  right;
@@ -127,13 +127,13 @@ void draw_radar_vision_cone_80038F3C(MenuWork *work, u_long *ot, RADAR_CONE *con
     int      len;
     int      dir;
 
-    len = ((cone->len * scale / 4096) * 3) / 2;
-    GV_DirVec2(cone->dir, len, &front);
+    len = ((r_param->dis * scale / 4096) * 3) / 2;
+    GV_DirVec2(r_param->dir, len, &front);
 
-    dir = GV_DiffDirU(cone->dir, cone->ang / 2);
+    dir = GV_DiffDirU(r_param->dir, r_param->range / 2);
     GV_DirVec2(dir, len, &right);
 
-    dir = GV_DiffDirU(cone->dir, -cone->ang / 2);
+    dir = GV_DiffDirU(r_param->dir, -r_param->range / 2);
     GV_DirVec2(dir, len, &left);
 
     NEW_PRIM(poly, work);
@@ -192,12 +192,12 @@ void drawBorder_800390FC(MenuWork *menuMan, u_long *ot)
 // clang-format on
 
 extern CONTROL         *GM_WhereList[96];
-extern int              gControlCount_800AB9B4;
+extern int              GM_N_WhereList;
 
 // Couldn't test it, but it should be the appropriate function name.
 void drawMap_800391D0(MenuWork *work, u_long *ot, int arg2)
 {
-    RADAR_CONE cone;
+    RADAR_SIGHT_PARAM cone;
 
     CONTROL   **entities;
     MAP *pMap;
@@ -299,13 +299,13 @@ void drawMap_800391D0(MenuWork *work, u_long *ot, int arg2)
         {
             // Draw Snake's vision cone in first person
             cone.dir = control->rot.vy;
-            cone.len = (rcos(control->rot.vx) * 6144) / 4096;
-            cone.ang = 600;
+            cone.dis = (rcos(control->rot.vx) * 6144) / 4096;
+            cone.range = 600;
 
             draw_radar_vision_cone_80038F3C(work, ot, &cone, 0, 0, MAKE_RGB(0, 160, 72), MAKE_RGB(0, 0, 0), scale);
         }
 
-        for (count = gControlCount_800AB9B4 - 1; count > 0; count--)
+        for (count = GM_N_WhereList - 1; count > 0; count--)
         {
             control = *entities++;
             radar_atr = control->radar_atr;
@@ -379,7 +379,7 @@ void drawMap_800391D0(MenuWork *work, u_long *ot, int arg2)
                         if (radar_atr & RADAR_SIGHT)
                         {
                             int idx = radar_atr >> 12;
-                            draw_radar_vision_cone_80038F3C(work, ot, &control->radar_cone, x, z,
+                            draw_radar_vision_cone_80038F3C(work, ot, &control->radar_param, x, z,
                                                             visionConeColors_8009E2F4[idx].mainColor, visionConeColors_8009E2F4[idx].fadeColor,
                                                             scale);
                         }
@@ -432,8 +432,8 @@ void drawMap_800391D0(MenuWork *work, u_long *ot, int arg2)
         scratchShort = (short *)svec;
         area_bits = HZD_CurrentGroup;
 
-        area_mask = 1 << pMap->hzd->header->n_groups;
-        areas = pMap->hzd->header->n_groups * 24;
+        area_mask = 1 << pMap->hzd->def->n_groups;
+        areas = pMap->hzd->def->n_groups * 24;
 
         while (1)
         {
@@ -452,7 +452,7 @@ void drawMap_800391D0(MenuWork *work, u_long *ot, int arg2)
                     continue;
                 }
 
-                pArea = (HZD_GRP *)((char *)pMap->hzd->header->groups + areas);
+                pArea = (HZD_GRP *)((char *)pMap->hzd->def->groups + areas);
                 pWallFlags = pArea->wallsFlags;
                 pWallFlags2 = (char *)pArea->wallsFlags + pArea->n_walls;
                 pWalls = pArea->walls;

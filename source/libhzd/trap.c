@@ -4,150 +4,175 @@
 #include "strcode.h"
 #include "game/game.h"
 
-static inline int CheckTrapBounds(void)
+typedef	struct
 {
-    HZD_VEC *pos;
-    HZD_SEG *box;
+    HZD_VEC from;
+    HZD_SEG current;
+    u_int   n_inside;
+    u_short inside[6];
+} ScrPad;
 
-    pos = (HZD_VEC *)(SCRPAD_ADDR + 0);
-    box = (HZD_SEG *)(SCRPAD_ADDR + 8);
+#define SCRPAD      ((ScrPad *)SCRPAD_ADDR)
 
-    if (pos->x < box->p1.x || pos->x >= box->p2.x ||
-        pos->z < box->p1.z || pos->z >= box->p2.z ||
-        pos->y < box->p1.y || pos->y >= box->p2.y)
+#define	FROM		(&(SCRPAD->from))
+#define	CURRENT		(&(SCRPAD->current))
+#define	N_INSIDE    (&(SCRPAD->n_inside))
+#define	INSIDE      (SCRPAD->inside)
+
+/*----------------------------------------------------------------*/
+
+static inline void CopyInsideList(HZD_EVT *ev)
+{
+    u_short *from, *to;
+    int      i;
+
+    from = ev->inside;
+    to = INSIDE;
+    *N_INSIDE = ev->n_inside;
+    for (i = ev->n_inside; i > 0; i--)
     {
-        return 0;
+        *to++ = *from++;
     }
-
-    return 1;
 }
 
-static inline int HZD_8002A27C_helper2(unsigned short *ptrIn, unsigned int target)
+// TODO: remove in argument
+static inline int DeleteInsideList(u_short *in, int name)
 {
-    int             count = *(unsigned int *)0x1F800018;
-    unsigned short *ptr = (unsigned short *)0x1F80001C;
+    u_short *inside;
+    int      i;
 
-    for (; count > 0; count--)
+    inside = INSIDE;
+    for (i = *N_INSIDE; i > 0; i--)
     {
-        if (*ptr++ == target)
+        if (*inside++ == name)
         {
-            *(int *)0x1F800018 -= 1;
-            ptr[-1] = (ptrIn + 0x0E)[*(int *)0x1F800018];
+            (*N_INSIDE)--;
+            inside[-1] = (in + 0x0E)[*N_INSIDE];
             return 1;
         }
     }
     return 0;
 }
 
-STATIC void HZD_8002A27C(HZD_HDL *hzd, HZD_EVT *event)
+static inline int AppendInsideList(u_short *inside, int n_inside, int name)
 {
-    HZD_GRP *group;
-    HZD_TRG *trigger;
-    int      count;
+    int i;
 
-    int             i, j;
-    unsigned int    name_id;
-    unsigned short *pSlots;
-    unsigned short *ptr;
-    int             a1;
-
-    group = hzd->group;
-    trigger = group->triggers;
-
-    event->type = HASH_ENTER;
-
-    count = 0;
-    for (i = group->n_triggers - hzd->n_cameras; i > 0; i--, trigger++)
+    for (i = n_inside; i > 0; i--)
     {
-        ptr = (unsigned short *)SCRPAD_ADDR;
-        *(HZD_SEG *)(SCRPAD_ADDR + 8) = *(HZD_SEG *)trigger;
+        if (*inside++ == name)
+        {
+            return n_inside;
+        }
+    }
 
-        if (!CheckTrapBounds())
+    *inside = name;
+    return n_inside + 1;
+}
+
+/*----------------------------------------------------------------*/
+
+static inline int InsideTrap(void)
+{
+    int d;
+
+    d = FROM->x;
+    if (d < CURRENT->p1.x || d >= CURRENT->p2.x) return 0;
+    d = FROM->z;
+    if (d < CURRENT->p1.z || d >= CURRENT->p2.z) return 0;
+    d = FROM->y;
+    if (d < CURRENT->p1.y || d >= CURRENT->p2.y) return 0;
+    return 1;
+}
+
+static void ExecEnterEvent(HZD_HDL *hzd, HZD_EVT *ev)
+{
+    HZD_GRP *grp;
+    HZD_TRP *trp;
+    void    *scr;
+    int      i, n_inside;
+    int      name;
+
+    grp = hzd->grp;
+    trp = (HZD_TRP *)grp->triggers;
+
+    ev->type = HASH_ENTER;
+
+    n_inside = 0;
+    for (i = grp->n_triggers - hzd->n_cameras; i > 0; i--, trp++)
+    {
+        scr = SCRPAD;
+        *CURRENT = *(HZD_SEG *)trp;
+
+        if (!InsideTrap())
         {
             continue;
         }
 
-        name_id = trigger->trap.name_id;
-        event->last = name_id;
+        name = trp->name_id;
+        ev->object = name;
 
-        if (!HZD_8002A27C_helper2(ptr, name_id))
+        if (!DeleteInsideList(scr, name))
         {
-            HZD_80029D50(hzd, event, 1);
+            HZD_ExecEvent(hzd, ev, 1);
         }
         else
         {
-            HZD_80029D50(hzd, event, 2);
+            HZD_ExecEvent(hzd, ev, 2);
         }
 
-        a1 = count;
-
-        pSlots = event->triggers;
-        for (j = count; j > 0; j--)
-        {
-            if (*pSlots++ == name_id)
-            {
-                count = a1;
-                goto loop;
-            }
-        }
-
-        *pSlots = name_id;
-        count = a1 + 1;
-
-loop:
+        n_inside = AppendInsideList(ev->inside, n_inside, name);
     }
 
-    event->n_triggers = count;
+    ev->n_inside = n_inside;
 }
 
-STATIC void HZD_8002A4B8(HZD_HDL *hzd, HZD_EVT *event)
+static void ExecLeaveEvent(HZD_HDL *hzd, HZD_EVT *ev)
 {
-    int    count;
-    short *pData;
-
-    pData = (short *)getScratchAddr(7);
-
-    event->type = HASH_LEAVE;
-
-    for (count = *getScratchAddr(6); count > 0; count--)
-    {
-        event->last = *pData++;
-        HZD_80029D50(hzd, event, 0);
-    }
-}
-
-void HZD_EnterTrap(HZD_HDL *hzd, HZD_EVT *event)
-{
-    SVECTOR *pSrcVec;
-    short   *pArr;
-    short   *pScr;
-    short    tmp;
+    u_short *inside;
     int      i;
 
-    pSrcVec = &event->pos;
+    ev->type = HASH_LEAVE;
 
-    *(short *)0x1F800000 = pSrcVec->vx;
+    inside = INSIDE;
+    for (i = *N_INSIDE; i > 0; i--)
+    {
+        ev->object = *inside++;
+        HZD_ExecEvent(hzd, ev, 0);
+    }
+}
+
+void HZD_EnterTrap(HZD_HDL *hzd, HZD_EVT *ev)
+{
+    SVECTOR *mov;
+    short    tmp;
+    u_short *from, *to;
+    int      i;
+
+    mov = &ev->mov;
+
+    *(short *)0x1F800000 = mov->vx;
     do {} while (0);
 
-    *(short *)0x1F800004 = pSrcVec->vy;
-    pArr = event->triggers;
+    *(short *)0x1F800004 = mov->vy;
+    from = ev->inside;
     do {} while (0);
 
-    tmp = pSrcVec->vz;
-    pScr = (short *)getScratchAddr(7);
+    tmp = mov->vz;
+    to = INSIDE;
 
     do {} while (0);
 
     *(short *)0x1F800002 = tmp;
-    *getScratchAddr(6) = event->n_triggers;
+    *N_INSIDE = ev->n_inside;
 
-    for (i = event->n_triggers; i > 0; i--)
+    for (i = ev->n_inside; i > 0; i--)
     {
-        *pScr++ = *pArr++;
+        *to++ = *from++;
     }
 
-    HZD_8002A27C(hzd, event);
-    HZD_8002A4B8(hzd, event);
+    ExecEnterEvent(hzd, ev);
+    ExecLeaveEvent(hzd, ev);
 }
 
 // TODO: move
@@ -169,13 +194,13 @@ HZD_TRP *HZD_CheckBehindTrap(HZD_HDL *hzd, SVECTOR *pos)
     int      i;
     HZD_TRP *trap;
 
-    HZD_COPY_VEC(SCRPAD_ADDR + 0, pos);
+    HZD_COPY_VEC(FROM, pos);
 
     for (i = hzd->n_cameras, trap = hzd->traps; i > 0; i--, trap++)
     {
-        *(HZD_SEG *)(SCRPAD_ADDR + 8) = *(HZD_SEG *)trap;
+        *CURRENT = *(HZD_SEG *)trap;
 
-        if (CheckTrapBounds())
+        if (InsideTrap())
         {
             return trap;
         }

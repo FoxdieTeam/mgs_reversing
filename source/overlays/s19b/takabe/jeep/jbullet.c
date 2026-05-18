@@ -1,6 +1,6 @@
 #include "game/game.h"
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 // TODO: This type of struct is seen in other places that make use of HZD_FLR.
 typedef struct _BULLET_VECS
@@ -214,17 +214,17 @@ static int FindIntersection(Work *work, MATRIX *world, int mode2)
 
     while (1)
     {
-        if ((work->hit_test == 1) && HZD_LineCheck(map->hzd, &from, &to, 0xF, 0x4))
+        if ((work->hit_test == 1) && HZD_OnlineHazardCheck(map->hzd, &from, &to, HZD_CHK_ALL, HZD_SEG_NO_PLAYER))
         {
-            HZD_LineNearVec(&work->hit_point);
-            work->hit_surface = HZD_LineNearSurface();
-            work->hit_flag = HZD_LineNearFlag();
+            HZD_GetOnlinePoint(&work->hit_point);
+            work->hit_surface = HZD_GetOnlineHazard();
+            work->hit_flag = HZD_GetOnlineHazardAtr();
 
             if ((int)work->hit_surface & 0x80000000)
             {
                 /* hit wall */
                 work->hit_type = 1;
-                HZD_SurfaceNormal(work->hit_surface, &work->normal);
+                HZD_GetNormal(work->hit_surface, &work->normal);
             }
             else
             {

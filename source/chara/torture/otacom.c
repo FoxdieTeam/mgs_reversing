@@ -6,8 +6,8 @@
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
+#include "game/navi.h"
 #include "chara/snake/sna_init.h"
-#include "chara/snake/navigate.h"
 #include "chara/snake/shadow.h"
 #include "equip/equip.h"
 #include "sound/g_sound.h"
@@ -122,7 +122,7 @@ void Otacom_800CB494(OtacomWork *work, int timer)
 
     case 1:
         work->nav.addr = HZD_GetAddress(work->control.map->hzd, &work->control.mov, work->nav.addr);
-        NavigateUpdate(&work->nav, &work->control);
+        GM_ZoneNavi(&work->nav, &work->control);
 
         if (NavigateGetTargetDist(&work->nav, &work->control.mov) < 250)
         {
@@ -284,7 +284,7 @@ void Otacom_800CB838(OtacomWork *work, int timer)
 
         work->nav.addr = HZD_GetAddress(work->control.map->hzd, &work->control.mov, work->nav.addr);
 
-        NavigateUpdate(&work->nav, &work->control);
+        GM_ZoneNavi(&work->nav, &work->control);
 
         if (NavigateGetTargetDist(&work->nav, &work->control.mov) < 250)
         {

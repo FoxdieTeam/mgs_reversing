@@ -21,16 +21,9 @@ int s11d_dword_800C32A4 = 0x04460296;
 int s11d_dword_800C32A8 = 0x021E0332;
 int s11d_dword_800C32AC = 0x00000000;
 int s11d_dword_800C32B0 = 0x000003AA;
-int s11d_dword_800C32B4 = 0x0000017F;
-int s11d_dword_800C32B8 = 0x000002D2;
-int s11d_dword_800C32BC = 0x00000000;
-int s11d_dword_800C32C0 = 0x00000064;
-int s11d_dword_800C32C4 = 0x0000FC00;
-int s11d_dword_800C32C8 = 0x00000000;
-int s11d_dword_800C32CC = 0x0384012C;
-int s11d_dword_800C32D0 = 0x0000012C;
 
 const char s11d_aTosi_800D1D5C[] = "to_s11i";
+
 const int s11d_dword_800D1D64 = 0x800C5458;
 const int s11d_dword_800D1D68 = 0x800C5458;
 const int s11d_dword_800D1D6C = 0x800C54A8;
@@ -51,8 +44,6 @@ const char s11d_aWire_800D1DA4[] = "wire";
 const char s11d_aShadow_800D1DAC[] = "shadow";
 const char s11d_aSnake_800D1DB4[] = "snake";
 const char s11d_aSned_800D1DBC[] = "sne_11d";
-const char s11d_dword_800D1DC4[] = {'r', 'o', 'p', 'e'};
-const char s11d_dword_800D1DC8[] = {'.', 'c', 0x0, 0xa4};
 
 int SECTION(".bss") s11d_dword_800D1F78;
 int SECTION(".bss") s11d_dword_800D1F7C;

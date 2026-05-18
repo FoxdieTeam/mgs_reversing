@@ -7,6 +7,10 @@
 #include <gtemac.h>
 #include "fmt_hzd.h"    // for HZD_VEC
 
+#define	ZONE_HEIGHT (2000)
+
+#define	MAX_ROUTE	(255)
+
 #define CopyToHzdVec(dst, src)                  \
 {                                               \
     ((HZD_VEC *)dst)->x = ((SVECTOR *)src)->vx; \

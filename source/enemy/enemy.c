@@ -27,12 +27,12 @@ extern int SearchNearAsiato( HZD_HDL *, SVECTOR *, short, short, short );
 void s00a_command_800C9878( WatcherWork* work )
 {
     VISION     *vision = &work->vision;
-    RADAR_CONE *cone   = &work->control.radar_cone;
+    RADAR_SIGHT_PARAM *r_param   = &work->control.radar_param;
 
-    cone->dir = vision->facedir;
-    cone->len = vision->length;
-    cone->ang = vision->angle * 2;
-    cone->_pad = 0;
+    r_param->dir = vision->facedir;
+    r_param->dis = vision->length;
+    r_param->range = vision->angle * 2;
+    r_param->r = 0;
 }
 
 void s00a_command_800C98A4( WatcherWork *work )
@@ -307,7 +307,7 @@ void s00a_command_800C9E68( WatcherWork* work )
                 if ( dis < 500 || GV_DiffDirAbs( work->vision.facedir, dir ) < work->vision.angle )
                 {
                     map = work->control.map;
-                    if ( !( HZD_LineCheck( map->hzd, pos, &ctrl->mov, HZD_CHECK_ALL, SEGMENT_ATR ) ) )
+                    if ( !( HZD_OnlineHazardCheck( map->hzd, pos, &ctrl->mov, HZD_CHK_ALL, SEGMENT_ATR ) ) )
                     {
                         if ( !( sub_8002E2A8( &ctrl->mov, pos, map->index, &svec ) ) )
                         {
@@ -414,5 +414,5 @@ void EnemyPushMove( WatcherWork *work )
 
     ctrl = &work->control;
     ctrl->turn.vy = s1;
-    ctrl->step_size = GV_NearExp2( ctrl->step_size, work->unknown.field_1C );
+    ctrl->r_sphere = GV_NearExp2( ctrl->r_sphere, work->unknown.field_1C );
 }

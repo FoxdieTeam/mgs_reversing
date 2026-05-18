@@ -355,7 +355,7 @@ static void Act(ItemWork *work)
 
     if (work->state == 1)
     {
-        if ((control->level_flag != 0) && (control->step.vy < 0))
+        if ((control->grounded != 0) && (control->step.vy < 0))
         {
             control->step.vy = -control->step.vy / 16;
 

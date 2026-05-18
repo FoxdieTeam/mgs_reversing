@@ -44,7 +44,7 @@ extern JEEP_SYSTEM Takabe_JeepSystem;
 
 extern SVECTOR s19b_dword_800C39F8;
 
-#define EXEC_LEVEL  6
+#define EXEC_LEVEL  GV_ACTOR_AFTER
 
 #define MOTION_DATA GV_StrCode("sne_19b")
 #define BODY_DATA   GV_StrCode("snake")
@@ -121,7 +121,7 @@ int s19b_jeep_sne_800D4D34(Work *work, int name)
 
     s19b_jeep_sne_800D4CA0(work);
 
-    control->step_size = -2;
+    control->r_sphere = -2;
 
     GM_PlayerBody = body;
     GM_PlayerControl = control;

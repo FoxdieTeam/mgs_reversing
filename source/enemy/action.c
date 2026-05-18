@@ -185,7 +185,7 @@ void s00a_command_800C5E48( WatcherWork* work, int time )
     ctrl = &(work->control );
     dir = work->pad.dir;
     field_8E0 = work->unknown.last_set;
-    svec = work->control.nearvecs;
+    svec = work->control.vecs;
 
     if ( (work->pad.mode & 0x1) && ( work->unknown.last_set != ACTION2 ) )
     {
@@ -194,14 +194,14 @@ void s00a_command_800C5E48( WatcherWork* work, int time )
 
     if ( dir >= 0 )
     {
-        s0 = ctrl->touch_flag;
+        s0 = ctrl->n_touches;
         if ( s0 > 0 )
         {
             dist = GV_VecDir2( svec );
 
             if ( s0 >= 2 )
             {
-                tmp = GV_VecDir2( &ctrl->nearvecs[1] );
+                tmp = GV_VecDir2( &ctrl->vecs[1] );
                 if ( GV_DiffDirAbs( dir, tmp ) < GV_DiffDirAbs( dir, dist ) )
                 {
                     dist = tmp;
@@ -672,7 +672,7 @@ void s00a_command_800C6BCC( WatcherWork* work, int time )
         }
         if ( work->body.is_end )
         {
-            if ( !ctrl->level_flag )
+            if ( !ctrl->grounded )
             {
                 SetAction( work, ACTION40, ACTINTERP );
             }
@@ -684,7 +684,7 @@ void s00a_command_800C6BCC( WatcherWork* work, int time )
     }
     else
     {
-        if ( ctrl->level_flag )
+        if ( ctrl->grounded )
         {
             GM_SeSetMode( &ctrl->mov, SE_HIT_FLOOR, GM_SEMODE_BOMB ) ;
             GM_SetNoise( 0x64, 4, &work->control.mov ) ;
@@ -1153,7 +1153,7 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
         break;
     }
 
-    if ( time > 16 && ctrl->level_flag )
+    if ( time > 16 && ctrl->grounded )
     {
         ctrl->step = DG_ZeroVector;
     }
@@ -1205,7 +1205,7 @@ void s00a_command_800C7E28( WatcherWork* work, int time )
         GM_SeSetMode( &ctrl->mov, VO_ENEMY_KILLED, GM_SEMODE_BOMB );
     }
 
-    if ( time > 16 && ctrl->level_flag )
+    if ( time > 16 && ctrl->grounded )
     {
         ctrl->step = DG_ZeroVector;
     }
@@ -1234,12 +1234,12 @@ void s00a_command_800C7E28( WatcherWork* work, int time )
     }
     else
     {
-        if ( !ctrl->touch_flag )
+        if ( !ctrl->n_touches )
         {
             ctrl->step = work->target->force;
         }
 
-        if ( ctrl->level_flag )
+        if ( ctrl->grounded )
         {
             work->unknown.field_1E = 1;
             work->target->force = DG_ZeroVector;
@@ -1373,11 +1373,11 @@ void s00a_command_800C82B0( WatcherWork *work )
 
     if ( !unk->field_1E )
     {
-        ctrl->step_size = GV_NearExp2( ctrl->step_size, unk->field_1C );
+        ctrl->r_sphere = GV_NearExp2( ctrl->r_sphere, unk->field_1C );
     }
     else
     {
-        ctrl->step_size = -1;
+        ctrl->r_sphere = -1;
     }
 
     if ( work->target->class & TARGET_POWER )
@@ -1389,7 +1389,7 @@ void s00a_command_800C82B0( WatcherWork *work )
         work->hom->flag = FALSE;
     }
 
-    if ( unk->field_04 < 0 && ctrl->level_flag )
+    if ( unk->field_04 < 0 && ctrl->grounded )
     {
         unk->field_04 = 0;
     }

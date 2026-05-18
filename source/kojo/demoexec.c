@@ -146,7 +146,7 @@ BOOL CreateDemo(LPMGSDEMOACT lpAct, DMO_DEF *header)
             return 0;
         }
 
-        model->control.step_size = 0;
+        model->control.r_sphere = 0;
         model->control.interp = 0;
 
         if (model_file->flag & 0x1)
@@ -280,7 +280,7 @@ BOOL CreateDemo(LPMGSDEMOACT lpAct, DMO_DEF *header)
         return 0;
     }
 
-    lpAct->control.step_size = 0;
+    lpAct->control.r_sphere = 0;
     lpAct->control.interp = 0;
 
     GM_InitObject(&lpAct->object, GV_StrCode("null"), BODY_FLAG, 0);
@@ -774,10 +774,10 @@ static BOOL ShowEffect(LPMGSDEMOACT lpAct, DMO_DATA_0x36 *data, ACTNODE *node)
 
     case EFFECT_FOOTPRINTS:
         svec1.vy += 0x64;
-        hzdret = HZD_LevelTestHazard(lpAct->control.map->hzd, &svec1, 1);
+        hzdret = HZD_LevelHazardCheck(lpAct->control.map->hzd, &svec1, HZD_CHK_F_FLOOR);
 
         do {} while (0);
-        HZD_LevelMinMaxHeights(levels);
+        HZD_GetLevelHeight(levels);
 
         if (hzdret & 1)
         {
@@ -2034,8 +2034,8 @@ static BOOL ShowEffectExecute(LPMGSDEMOACT lpAct, DMO_DAT *data, ACTNODE *node)
                 vecPos.vx = adjust->pos_x;
                 vecPos.vy = adjust->pos_y;
                 vecPos.vz = adjust->pos_z;
-                idx = HZD_LevelTestHazard(lpAct->control.map->hzd, &vecPos, 1);
-                HZD_LevelMinMaxHeights((int *)&vec2);
+                idx = HZD_LevelHazardCheck(lpAct->control.map->hzd, &vecPos, HZD_CHK_F_FLOOR);
+                HZD_GetLevelHeight((int *)&vec2);
                 node->field_48 = adjust->rot_y;
                 if ((idx & 1) != 0)
                 {

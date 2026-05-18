@@ -26,12 +26,12 @@ int asioto_800C38AC(Work *work)
     int      i;
     int      j;
 
-    event = &GM_PlayerControl->event;
-    for (i = 0; i < event->n_triggers; i++)
+    event = &GM_PlayerControl->evt;
+    for (i = 0; i < event->n_inside; i++)
     {
         for (j = 0; j < work->count; j++)
         {
-            if (event->triggers[i] == work->hash[j])
+            if (event->inside[i] == work->hash[j])
             {
                 return j;
             }
@@ -99,7 +99,7 @@ void AsiotoAct_800C39E8(Work *work)
                     return;
                 }
 
-                bank = GM_PlayerControl->nearvecs[0].pad & 3;
+                bank = GM_PlayerControl->vecs[0].pad & 3;
                 GM_SeSet(&GM_PlayerPosition, work->se_duct[bank][index]);
             }
         }
@@ -123,7 +123,7 @@ void AsiotoAct_800C39E8(Work *work)
             }
             else
             {
-                bank = GM_PlayerControl->nearvecs[0].pad & 3;
+                bank = GM_PlayerControl->vecs[0].pad & 3;
                 GM_SeSet(&GM_PlayerPosition, work->se2[bank][index]);
             }
         }

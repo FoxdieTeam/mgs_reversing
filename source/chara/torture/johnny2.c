@@ -88,7 +88,7 @@ static void Act(Work *work)
             GM_ConfigObjectAction(body, 9, 0, 4);
         }
     }
-    if (work->svec_7F8.vy < 0 && work->control.level_flag != 0)
+    if (work->svec_7F8.vy < 0 && work->control.grounded != 0)
     {
         work->svec_7F8.vy = 0;
     }
@@ -96,7 +96,7 @@ static void Act(Work *work)
     work->svec_7F8.vy -= 32;
 
     work->control.step.vy = work->control.step.vy + work->svec_7F8.vy;
-    work->control.radar_cone.dir = work->control.rot.vy;
+    work->control.radar_param.dir = work->control.rot.vy;
 }
 
 static void Die(Work *work)
@@ -136,7 +136,7 @@ static int GetResources(Work *work)
     SVECTOR     indices;
     CONTROL    *control;
     OBJECT     *obj;
-    RADAR_CONE *cone;
+    RADAR_SIGHT_PARAM *r_param;
 
     control = &work->control;
     if (GM_InitControl(control, GV_StrCode("ジョニー"), 0) < 0)
@@ -151,14 +151,14 @@ static int GetResources(Work *work)
     control->mov.vz = 750;
     control->mov.vy = 750;
 
-    cone = &work->control.radar_cone;
+    r_param = &work->control.radar_param;
     obj = &work->body;
 
     control->rot.vy = 1024;
     control->turn.vy = 1024;
 
-    cone->len = 6000;
-    cone->ang = 1024;
+    r_param->dis = 6000;
+    r_param->range = 1024;
 
     GM_InitObject(obj, GV_StrCode("johnny"), 0x32D, GV_StrCode("joh_03c"));
     GM_ConfigObjectJoint(obj);

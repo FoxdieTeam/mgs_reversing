@@ -16,7 +16,7 @@
 
 extern  CAMERA          GM_CameraList[8];
 extern  GM_CameraSystemWork       GM_Camera;
-extern  HZD_BIND        gBindsArray_800b58e0[128];
+extern  HZD_BND        gBindsArray_800b58e0[128];
 extern  int             dword_8009F46C;
 extern  SVECTOR         svector_8009F478;
 
@@ -244,7 +244,7 @@ static int GM_Command_mapdef(unsigned char *top)
 
 static int GM_Command_trap(unsigned char *top)
 {
-    HZD_BIND *pBind;
+    HZD_BND *pBind;
     int         i, arg, code, value;
     int         tmp;
 
@@ -284,7 +284,7 @@ static int GM_Command_trap(unsigned char *top)
     gBindsArray_800b58e0[i].field_8_param_i_c_flags = 0;
 
     GCL_GetNextValue(GCL_GetParamResult(), &code, &value);
-    gBindsArray_800b58e0[i].field_14_proc_and_block = value;
+    gBindsArray_800b58e0[i].command = value;
     gBindsCount_800ABA64++;
 
     tmp = gBinds_800ABA60;
@@ -299,7 +299,7 @@ static int GM_Command_trap(unsigned char *top)
 static int GM_Command_ntrap(unsigned char *top)
 {
     // int bindIdx;
-    HZD_BIND *pBind;
+    HZD_BND *pBind;
     int         flags;
     int         arg;
     int         tmp;
@@ -379,12 +379,12 @@ static int GM_Command_ntrap(unsigned char *top)
         {
             printf("ntrap:can't set every\n");
         }
-        pBind->field_10_every = GCL_GetNextParamValue();
+        pBind->time = GCL_GetNextParamValue();
     }
     if (GCL_GetOption('p')) // proc
     {
         flags |= 0x80;
-        pBind->field_14_proc_and_block = GCL_GetNextParamValue();
+        pBind->command = GCL_GetNextParamValue();
     }
     if (GCL_GetOption('e')) // exec
     {
@@ -395,7 +395,7 @@ static int GM_Command_ntrap(unsigned char *top)
             printf("ntrap:can't set proc and block\n");
         }
         GCL_GetNextValue(GCL_GetParamResult(), &code, &value);
-        pBind->field_14_proc_and_block = value;
+        pBind->command = value;
     }
     pBind->field_B_param_e = flags;
     gBindsCount_800ABA64++;

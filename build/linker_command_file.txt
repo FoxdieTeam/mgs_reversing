@@ -51,6 +51,7 @@
 
     ; libhzd.lib
     include "{{OBJ_DIR}}\libhzd\hzdd.obj"
+    include "{{OBJ_DIR}}\libhzd\route.obj"
 
     ; libfs.lib
     include "{{OBJ_DIR}}\libfs\fscd.obj"
@@ -71,11 +72,11 @@
     include "{{OBJ_DIR}}\libgv\near.obj"
 
     ; libhzd.lib (cont.)
-    include "{{OBJ_DIR}}\libhzd\surface.obj"
-    include "{{OBJ_DIR}}\libhzd\line.obj"
-    include "{{OBJ_DIR}}\libhzd\point.obj"
+    include "{{OBJ_DIR}}\libhzd\vector.obj"
+    include "{{OBJ_DIR}}\libhzd\online.obj"
+    include "{{OBJ_DIR}}\libhzd\near.obj"
     include "{{OBJ_DIR}}\libhzd\level.obj"
-    include "{{OBJ_DIR}}\libhzd\event.obj"
+    include "{{OBJ_DIR}}\libhzd\bind.obj"
     include "{{OBJ_DIR}}\libhzd\trap.obj"
 
     ; game.lib (cont.)
@@ -135,7 +136,7 @@
 {% endif %}
 
     ; libhzd.lib (cont.)
-    include "{{OBJ_DIR}}\libhzd\zone.obj
+    include "{{OBJ_DIR}}\libhzd\navigate.obj
 
     ; game.lib (cont.)
     include "{{OBJ_DIR}}\game\vibrate.obj"
@@ -147,7 +148,9 @@
     ; chara/snake (cont.)
     include "{{OBJ_DIR}}\chara\snake\shadow.obj"
     include "{{OBJ_DIR}}\chara\snake\afterse.obj"
-    include "{{OBJ_DIR}}\chara\snake\navigate.obj"
+
+    ; game.lib (cont.)
+    include "{{OBJ_DIR}}\game\navi.obj"
 
     ; equip
     include "{{OBJ_DIR}}\equip\bodyarm.obj"

@@ -79,7 +79,7 @@ void Takabe_FreeDuplicateMemory();
 
 extern GM_CameraSystemWork       GM_Camera;
 extern CONTROL        *GM_WhereList[96];
-extern int             gControlCount_800AB9B4;
+extern int             GM_N_WhereList;
 extern int             bakudan_count_8009F42C;
 extern HITTABLE        GM_C4Datas[C4_COUNT];
 extern HITTABLE        GM_ClayDatas[8];
@@ -164,7 +164,7 @@ void Rasen2SearchWhereList_800CA568(Rasen2Work *work, MAP *toFind, MAP *map)
     control = GM_WhereList;
     if (rasen_800C3408 == 1)
     {
-        for (count = gControlCount_800AB9B4; count > 0; count--, control++)
+        for (count = GM_N_WhereList; count > 0; count--, control++)
         {
             if ((*control)->name > 0 && (*control)->name < 64 &&
                 (*control)->mov.vy > 0 && (*control)->map == toFind)
@@ -176,7 +176,7 @@ void Rasen2SearchWhereList_800CA568(Rasen2Work *work, MAP *toFind, MAP *map)
     }
     else if (rasen_800C3408 == 2)
     {
-        for (count = gControlCount_800AB9B4; count > 0; count--, control++)
+        for (count = GM_N_WhereList; count > 0; count--, control++)
         {
             if ((*control)->name > 0 && (*control)->name < 64 &&
                 (*control)->mov.vy < 0 && (*control)->map == toFind)
@@ -764,10 +764,10 @@ void RasenAct_800CB530(RasenWork *work)
         svec5 = GM_SnakeCamera.target;
         svec5.vz += 400;
 
-        if (HZD_LevelTestHazard(GM_GetMap(rasen_el_800D2CA4[rasen_800C3404])->hzd, &svec5, 3) & 2)
+        if (HZD_LevelHazardCheck(GM_GetMap(rasen_el_800D2CA4[rasen_800C3404])->hzd, &svec5, HZD_CHK_FLOOR) & 2)
         {
             svec5.vy += 6000;
-            HZD_LevelMinMaxHeights(levels);
+            HZD_GetLevelHeight(levels);
             if (svec5.vy > levels[1])
             {
                 svec5.vy = levels[1];

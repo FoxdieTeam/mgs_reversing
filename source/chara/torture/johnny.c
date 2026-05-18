@@ -7,10 +7,10 @@
 #include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
 #include "game/game.h"
+#include "game/navi.h"
 #include "linkvar.h"
 #include "game/vibrate.h"
 #include "chara/snake/sna_init.h"
-#include "chara/snake/navigate.h"
 #include "sound/g_sound.h"
 #include "strcode.h"
 
@@ -155,12 +155,12 @@ static int Johnny_800C4194(Work *work)
 
     player_pos = GM_PlayerPosition;
     control_mov = work->control.mov;
-    if (HZD_LineCheck(work->control.map->hzd, &player_pos, &control_mov, ( HZD_CHECK_DYNSEG | HZD_CHECK_SEG ), SEGMENT_ATR) == 0)
+    if (HZD_OnlineHazardCheck(work->control.map->hzd, &player_pos, &control_mov, HZD_CHK_SEGMENT, SEGMENT_ATR) == 0)
     {
         return -1;
     }
 
-    HZD_LineNearVec(&control_mov);
+    HZD_GetOnlinePoint(&control_mov);
     GV_SubVec3(&control_mov, &player_pos, &player_pos);
     return GV_VecLen3(&player_pos);
 }
@@ -214,9 +214,9 @@ static int Johnny_800C4388(Work *work, int hash)
         return 1;
     }
 
-    triggers = work->control.event.triggers;
+    triggers = work->control.evt.inside;
 
-    for (i = work->control.event.n_triggers; i > 0; i--, triggers++)
+    for (i = work->control.evt.n_inside; i > 0; i--, triggers++)
     {
         if (*triggers == hash)
         {
@@ -231,9 +231,9 @@ static int Johnny_800C43D0(unsigned short hash)
     int             i;
     unsigned short *triggers;
 
-    triggers = GM_PlayerControl->event.triggers;
+    triggers = GM_PlayerControl->evt.inside;
 
-    for (i = GM_PlayerControl->event.n_triggers; i > 0; i--, triggers++)
+    for (i = GM_PlayerControl->evt.n_inside; i > 0; i--, triggers++)
     {
         if (*triggers == hash)
         {
@@ -251,8 +251,8 @@ static void Johnny_800C4418(Work *work)
 
     new_unkB24 = 0;
 
-    triggers = GM_PlayerControl->event.triggers;
-    for (i = GM_PlayerControl->event.n_triggers; i > 0; i--, triggers++)
+    triggers = GM_PlayerControl->evt.inside;
+    for (i = GM_PlayerControl->evt.n_inside; i > 0; i--, triggers++)
     {
         if (*triggers == 0x41A5)
         {
@@ -712,7 +712,7 @@ static void Johnny_800C4E9C(Work *work)
     MulMatrix0(&mat2, world, &mat2);
     DG_MatrixRotZYX(&mat2, &svec);
     SetRotMatrix(&mat1);
-    work->control.radar_cone.dir = svec.vy + work->control.rot.vy;
+    work->control.radar_param.dir = svec.vy + work->control.rot.vy;
 }
 
 static void Johnny_800C4F24(Work *work, int arg1)
@@ -1615,7 +1615,7 @@ static void Johnny_800C6918(Work *work, int arg1)
         NavigateSetTarget(&work->nav, work->control.map->hzd, work->unk850[3]);
     }
     Johnny_800C4734(work);
-    if (NavigateUpdate(&work->nav, &work->control) < 0)
+    if (GM_ZoneNavi(&work->nav, &work->control) < 0)
     {
         Johnny_800C4720(work, 3);
         work->unkB38 = Johnny_800C65F8;
@@ -1726,7 +1726,7 @@ static void Johnny_800C6C10(Work *work, int action)
     }
 
     Johnny_800C4734(work);
-    NavigateUpdate(&work->nav, &work->control);
+    GM_ZoneNavi(&work->nav, &work->control);
 
     if (NavigateTargetNear(&work->nav, &work->control.mov, 250))
     {
@@ -1797,7 +1797,7 @@ static void Johnny_800C6D84(Work *work, int action)
         NavigateSetTargetPlayer(&work->nav);
     }
 
-    NavigateUpdate(&work->nav, &work->control);
+    GM_ZoneNavi(&work->nav, &work->control);
 
     if ((len < 1500) && ((GM_PlayerStatus & PLAYER_INTRUDE) || (Johnny_800C4194(work) < 0)))
     {
@@ -1832,7 +1832,7 @@ static void Johnny_800C6FC0(Work *work, int action)
         Johnny_800C4F24(work, 1);
     }
 
-    NavigateUpdate(&work->nav, &work->control);
+    GM_ZoneNavi(&work->nav, &work->control);
 
     if (NavigateTargetNear(&work->nav, &work->control.mov, 450))
     {
@@ -2107,7 +2107,7 @@ static void Johnny_800C753C(Work *work, int action)
         return;
     }
 
-    NavigateUpdate(&work->nav, &work->control);
+    GM_ZoneNavi(&work->nav, &work->control);
 
     if (NavigateTargetNear(&work->nav, &work->control.mov, 500))
     {
@@ -2236,7 +2236,7 @@ static void Johnny_800C7A64(Work *work, int action)
     {
     case 0:
         NavigateSetTargetPlayer(&work->nav);
-        NavigateUpdate(&work->nav, &work->control);
+        GM_ZoneNavi(&work->nav, &work->control);
 
         len = Johnny_800C4804(work);
         if (len < 5000)
@@ -2333,7 +2333,7 @@ static void Johnny_800C7BF8(Work *work, int action)
 
         if (work->unkB4C == 2)
         {
-            NavigateUpdate(&work->nav, &work->control);
+            GM_ZoneNavi(&work->nav, &work->control);
             len = NavigateGetTargetDist(&work->nav, &work->control.mov);
 
             if (len < 500)
@@ -3109,7 +3109,7 @@ static void Johnny_800C92E0(Work *work, int arg1)
         switch (work->unkB4C)
         {
         case 0:
-            NavigateUpdate(&work->nav, &work->control);
+            GM_ZoneNavi(&work->nav, &work->control);
             if (NavigateGetTargetDist(&work->nav, &work->control.mov) < 500)
             {
                 work->unkB4C++;
@@ -3182,13 +3182,13 @@ static void Johnny_800C9644(Work *work)
     int     message_len;
     GV_MSG *msgs;
 
-    if (work->control.n_messages == 0)
+    if (work->control.n_msg == 0)
     {
         return;
     }
 
-    msgs = &work->control.messages[work->control.n_messages] - 1;
-    for (i = work->control.n_messages; i > 0; i--, msgs--)
+    msgs = &work->control.msg[work->control.n_msg] - 1;
+    for (i = work->control.n_msg; i > 0; i--, msgs--)
     {
         message_len = msgs->message_len;
         if (message_len >= 2 && msgs->message[0] == 0x10BA)
@@ -3525,7 +3525,7 @@ static void Act(Work *work)
     work->control.height = work->body.height;
     work->nav.addr = HZD_GetAddress(work->control.map->hzd, &control->mov, work->nav.addr);
     Johnny_800C9D64(work);
-    if (work->unkB30.vy < 0 && work->control.level_flag != 0)
+    if (work->unkB30.vy < 0 && work->control.grounded != 0)
     {
         work->unkB30.vy = 0;
     }
@@ -3608,8 +3608,8 @@ static int InitRoute(Work *work)
     int      i;
 
     n_out = work->unk83C;
-    n_routes = work->control.map->hzd->header->n_routes;
-    routes = work->control.map->hzd->header->routes;
+    n_routes = work->control.map->hzd->def->n_routes;
+    routes = work->control.map->hzd->def->routes;
     for (i = 0; i < n_routes; routes++, n_out++, i++)
     {
         if (ReadRoute(routes, n_out, work->unk850[i]) < 0)
@@ -3790,19 +3790,19 @@ static int GetResources(Work *work, int name, int where)
     SVECTOR     indices;
     CONTROL    *control;
     OBJECT     *object;
-    RADAR_CONE *cone;
+    RADAR_SIGHT_PARAM *r_param;
 
     control = &work->control;
     if (GM_InitControl(control, name, where) >= 0)
     {
         GM_ConfigControlString(control, GCL_GetOption('p'), GCL_GetOption('d'));
         GM_ConfigControlHazard(control, control->mov.vy, 450, 450);
-        control->exclude_flag = 2;
+        control->seg_flag = 2;
         GM_ConfigControlAttribute(control, 5);
 
-        cone = &work->control.radar_cone;
-        cone->len = 6000;
-        cone->ang = 1024;
+        r_param = &work->control.radar_param;
+        r_param->dis = 6000;
+        r_param->range = 1024;
 
         object = &work->body;
         GM_InitObject(object, GV_StrCode("johnny"), 0x32D, GV_StrCode("joh_03c"));

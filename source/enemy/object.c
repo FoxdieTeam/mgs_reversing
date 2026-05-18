@@ -150,7 +150,7 @@ static void s01a_object_800D99DC(Work *work)
 
     work->control.height = 20;
     work->control.step.vy -= 16;
-    if (work->control.step.vy < 0 && work->control.level_flag != 0)
+    if (work->control.step.vy < 0 && work->control.grounded != 0)
     {
         work->control.step.vy = 0;
     }
