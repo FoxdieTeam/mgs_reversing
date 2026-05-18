@@ -67,7 +67,19 @@ void s11d_hind_800C9838(HindWork *work)
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800C9C7C.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800C9D60.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CA424.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CA49C.s")
+void s11d_hind_800CA49C(HindWork *work)
+{
+    if (work->control.mov.vz < -14000 &&
+        work->control.mov.vx >= -3999 &&
+        work->control.mov.vx < 3000)
+    {
+        work->field_9C->flag |= DG_FLAG_INVISIBLE;
+    }
+    else
+    {
+        work->field_9C->flag &= ~DG_FLAG_INVISIBLE;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CA504.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CA6D8.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CABA8.s")
