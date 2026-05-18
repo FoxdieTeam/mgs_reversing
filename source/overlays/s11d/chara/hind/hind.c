@@ -106,4 +106,23 @@ void s11d_hind_800CAF9C(HindWork *work)
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CB178.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CB310.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CB3A0.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CB708.s")
+extern int s11d_hind_800CB3A0(HindWork *work, int arg1, int arg2);
+extern const char s11d_dword_800D1E48[];
+
+HindWork *s11d_hind_800CB708(int arg1, int arg2)
+{
+    HindWork *work;
+
+    work = GV_NewActor(5, sizeof(HindWork));
+    if (work == NULL)
+    {
+        return NULL;
+    }
+    GV_SetNamedActor(work, s11d_hind_800CAF20, s11d_hind_800CAF9C, s11d_dword_800D1E48);
+    if (s11d_hind_800CB3A0(work, arg1, arg2) < 0)
+    {
+        GV_DestroyActor(work);
+        return NULL;
+    }
+    return work;
+}
