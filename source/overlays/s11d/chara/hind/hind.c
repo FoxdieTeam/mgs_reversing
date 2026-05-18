@@ -1,5 +1,6 @@
 #include "common.h"
 #include "libgv/libgv.h"
+#include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "game/control.h"
 
@@ -22,11 +23,14 @@ typedef struct _HindWork
     short   field_1EC;
     char    pad_1ee[0x1F0 - 0x1EC - sizeof(short)];
     short   field_1F0;
-    char    pad_1f2[0x910 - 0x1F0 - sizeof(short)];
+    char    pad_1f2[0x202 - 0x1F0 - sizeof(short)];
+    unsigned short field_202[8];
+    char    pad_212[0x910 - 0x212];
     unsigned short *field_910;
     unsigned short  field_914;
-    short   field_916;
-    char    pad_918[0x924 - 0x914 - sizeof(short) * 2];
+    unsigned short field_916;
+    int     field_918;
+    char    pad_91c[0x924 - 0x918 - sizeof(int)];
     DG_PRIM *field_924;
     char    pad_928[0x93C - 0x924 - sizeof(DG_PRIM *)];
     int     field_93C[7];
@@ -56,6 +60,8 @@ int s11d_hind_800C976C(short *p, int target, int step)
     return *p == target;
 }
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800C97B8.s")
+extern void s11d_hind_800C97B8(HindWork *work);
+
 void s11d_hind_800C97F0(HindWork *work)
 {
     if (work->f978 > 0)
@@ -152,6 +158,7 @@ void s11d_hind_800C99A8(HindWork *work)
     s11d_hind_800C9908(work, a1);
 }
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800C99F4.s")
+extern void s11d_hind_800C99F4(HindWork *work);
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800C9B94.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800C9C7C.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800C9D60.s")
@@ -186,7 +193,42 @@ void s11d_hind_800CA49C(HindWork *work)
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CA504.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CA6D8.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CABA8.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CAD9C.s")
+void s11d_hind_800CAD9C(HindWork *work)
+{
+    int masked;
+    int shifted;
+
+    s11d_hind_800C99F4(work);
+    if (work->field_918 == 0)
+    {
+        return;
+    }
+
+    s11d_hind_800C9870(work);
+
+    if (work->field_916 == work->field_202[work->field_914])
+    {
+        s11d_hind_800C99A8(work);
+        return;
+    }
+
+    work->control.interp = 0xF;
+    work->field_910 += 4;
+    work->field_916++;
+
+    masked = work->field_910[3] & 0x1F;
+    shifted = masked << 5;
+    if (shifted != 0)
+    {
+        work->field_1F0 = shifted;
+    }
+
+    *(int *)&work->field_1C8 &= ~0x80;
+    if ((((unsigned char *)work->field_910)[6] >> 5) == 4)
+    {
+        *(int *)&work->field_1C8 |= 0x80;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CAE6C.s")
 extern void s11d_hind_800CAE6C(HindWork *work);
 
