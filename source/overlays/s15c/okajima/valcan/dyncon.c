@@ -29,7 +29,17 @@ void s15c_dyncon_800D5EA8(void *base, int i,
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D5EDC.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D5F68.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D6004.s")
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D603C.s")
+void s15c_dyncon_800D603C(void *base, int i)
+{
+    int *p1 = (int *)((char *)base + i * 4 + 0x3F10);
+    int *p2 = (int *)((char *)base + i * 4 + 0x3F20);
+
+    *p1 = *p1 - 1;
+    if (*p1 == 0)
+    {
+        *p2 = *p2 + 1;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D6070.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D6128.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D61E0.s")
