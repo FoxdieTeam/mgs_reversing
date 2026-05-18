@@ -8,7 +8,9 @@ typedef struct _HindWork
     GV_ACT  actor;       // 0x00
     CONTROL control;     // 0x20
     DG_OBJS *field_9C;
-    char    pad_a0[0x924 - 0x9C - sizeof(DG_OBJS *)];
+    char    pad_a0[0x180 - 0x9C - sizeof(DG_OBJS *)];
+    MATRIX  field_180;
+    char    pad_1a0[0x924 - 0x180 - sizeof(MATRIX)];
     DG_PRIM *field_924;
     char    pad_928[0x978 - 0x924 - sizeof(DG_PRIM *)];
     short   f978;        // 0x978
@@ -71,7 +73,21 @@ void s11d_hind_800C9838(HindWork *work)
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CABA8.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CAD9C.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CAE6C.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CAF20.s")
+extern void s11d_hind_800CAE6C(HindWork *work);
+
+void s11d_hind_800CAF20(HindWork *work)
+{
+    CONTROL *ctrl = &work->control;
+    OBJECT  *body = (OBJECT *)&work->field_9C;
+
+    GM_ActControl(ctrl);
+    work->control.mov.vy += work->control.step.vy;
+    GM_ActObject2(body);
+    DG_GetLightMatrix(&ctrl->mov, &work->field_180);
+    s11d_hind_800C97B8(work);
+    s11d_hind_800C9838(work);
+    s11d_hind_800CAE6C(work);
+}
 void s11d_hind_800CAF9C(HindWork *work)
 {
     DG_PRIM *prim;
