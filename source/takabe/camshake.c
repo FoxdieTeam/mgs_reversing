@@ -65,7 +65,7 @@ static void Act( Work *work )
 
 static void Die( void )
 {
-    //OPERATOR() ;
+    OPERATOR() ;
 }
 
 /*----------------------------------------------------------------*/
