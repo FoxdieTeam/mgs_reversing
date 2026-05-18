@@ -14,7 +14,9 @@ typedef struct _HindWork
     unsigned char field_1C8;
     char    pad_1c9[0x924 - 0x1C8 - sizeof(unsigned char)];
     DG_PRIM *field_924;
-    char    pad_928[0x978 - 0x924 - sizeof(DG_PRIM *)];
+    char    pad_928[0x93C - 0x924 - sizeof(DG_PRIM *)];
+    int     field_93C[7];
+    char    pad_958[0x978 - 0x93C - sizeof(int) * 7];
     short   f978;        // 0x978
     short   f97A;        // 0x97A
 } HindWork;
@@ -132,7 +134,32 @@ void s11d_hind_800CAF9C(HindWork *work)
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CAFEC.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CB054.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CB178.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CB310.s")
+void s11d_hind_800CB310(HindWork *work)
+{
+    int *p;
+    int  i;
+    unsigned char *param;
+
+    if (!GCL_GetOption('h'))
+    {
+        return;
+    }
+
+    i = 0;
+    p = work->field_93C;
+    while ((param = GCL_GetParamResult()))
+    {
+        if (i == 7)
+        {
+            break;
+        }
+        *p = GCL_StrToInt(param);
+        p++;
+        i++;
+    }
+
+    *(int *)&work->field_1C8 |= 0x10;
+}
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CB3A0.s")
 extern int s11d_hind_800CB3A0(HindWork *work, int arg1, int arg2);
 extern const char s11d_dword_800D1E48[];
