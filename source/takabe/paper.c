@@ -38,7 +38,7 @@ static void Act( Work *work )
 {
     TARGET      *trg ;
 
-    //OPERATOR() ;
+    OPERATOR() ;
 
     GM_SetCurrentMap( work->map ) ;
 

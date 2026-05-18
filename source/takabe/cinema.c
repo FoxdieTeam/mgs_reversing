@@ -46,7 +46,7 @@ static void Act( Work *work )
     u_long *ot ;
     int     i, cols[2], mes ;
 
-    //OPERATOR() ;
+    OPERATOR() ;
 
     if ( GV_PauseLevel == 0 )
     {
@@ -266,7 +266,7 @@ void *NewCinemaScreen( int time, int type )
 {
     Work *work ;
 
-    //OPERATOR() ;
+    OPERATOR() ;
     work = GV_NewActor( EXEC_LEVEL, sizeof( Work ) ) ;
     if ( work != NULL ) {
         GV_SetNamedActor( &( work->actor ), Act, Die, "cinema.c" ) ;
@@ -292,7 +292,7 @@ void *NewCinemaScreenSet( int name, int where, int argc, char **argv )
     Work *work ;
     int time, type ;
 
-    //OPERATOR() ;
+    OPERATOR() ;
     work = GV_NewActor( EXEC_LEVEL, sizeof( Work ) ) ;
     if ( work != NULL ) {
         GV_SetNamedActor( &( work->actor ), Act, Die, "cinema.c" ) ;

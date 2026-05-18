@@ -511,7 +511,7 @@ int DG_LoadInitImg( void *buf, int id );
 int DG_LoadInitSgt( void *buf, int id );
 int DG_LoadInitLit( void *buf, int id );
 int DG_LoadInitPcx( void *buf, int id );
-int DG_LoadInitZmd(void *buf, int id );
+int DG_LoadInitKmdar(void *buf, int id );
 
 /* matrix.c */
 void DG_MatrixRot( MATRIX *mat, SVECTOR *svec );

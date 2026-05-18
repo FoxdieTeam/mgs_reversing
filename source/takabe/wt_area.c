@@ -75,7 +75,7 @@ static void Act( Work *work )
     MATRIX      mtx;
     MATRIX     *eye;
     int         i;
-    //OPERATOR() ;
+    OPERATOR() ;
     mtx = DG_ZeroMatrix;
 
     /* メッセージチェック */

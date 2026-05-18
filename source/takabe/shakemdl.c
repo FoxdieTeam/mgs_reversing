@@ -53,7 +53,7 @@ static int RestoreVerts( Work *work );
 static void Act( Work *work )
 {
     short *scrpad;
-    //OPERATOR();
+    OPERATOR();
 
     {/* メッセージチェック */
         GV_MSG *msg;
