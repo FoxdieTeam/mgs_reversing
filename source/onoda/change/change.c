@@ -137,7 +137,7 @@ static void Change_800C378C( Work *work, int index )
         font_clut_update( kcb );
 
         work->f14C[ index ].rect.w = kcb->max_width;
-        work->f14C[ index ].rect.h = kcb->short3 - 1;
+        work->f14C[ index ].rect.h = kcb->max_height - 1;
 
         unknown = &dword_800C3218[ index ];
 
@@ -149,7 +149,7 @@ static void Change_800C378C( Work *work, int index )
         else if ( unknown->num == 1 )
         {
             work->f14C[ index ].rect.x = unknown->x - kcb->max_width / 2;
-            work->f14C[ index ].rect.y = unknown->y - kcb->short3 / 2;
+            work->f14C[ index ].rect.y = unknown->y - kcb->max_height / 2;
         }
 
         work->f14C[ index ].string = NULL;
@@ -223,7 +223,7 @@ static void change_800C3B34( Work *work, int index, int color )
 
 static void *Change_800C3B84( KCB *kcb )
 {
-    return kcb->font_clut_buffer;
+    return kcb->cbuffer;
 }
 
 static void change_800C3B90( Work *work )

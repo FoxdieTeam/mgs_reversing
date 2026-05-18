@@ -174,7 +174,7 @@ static void option_800C352C(OptionWork *work, int index)
         font_update(kcb);
 
         work->fEC4[ index ].rect.w = kcb->max_width;
-        work->fEC4[ index ].rect.h = kcb->short3;
+        work->fEC4[ index ].rect.h = kcb->max_height;
 
         unknown = &dword_800C3218[ index ];
         if (unknown->num == 0)
@@ -185,7 +185,7 @@ static void option_800C352C(OptionWork *work, int index)
         else if (unknown->num == 1)
         {
             work->fEC4[index].rect.x = unknown->x - kcb->max_width / 2;
-            work->fEC4[index].rect.y = unknown->y - kcb->short3 / 2;
+            work->fEC4[index].rect.y = unknown->y - kcb->max_height / 2;
         }
 
         work->fEC4[index].string = NULL;
@@ -304,7 +304,7 @@ static void option_800C3B3C(OptionWork *work, int index, int color)
 
 static void *option_800C3B8C(KCB *kcb)
 {
-    return kcb->font_clut_buffer;
+    return kcb->cbuffer;
 }
 
 static void option_800C3B98(OptionWork *work)

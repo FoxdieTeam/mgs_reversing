@@ -954,8 +954,8 @@
 800448C0 432 menu_viewer_act
 80044A70 32 menu_viewer_init
 80044A90 12 menu_viewer_kill
-80044A9C 292 font_load
-80044BC0 24 font_set_font_addr
+80044A9C 292 font_resident_load_set
+80044BC0 24 font_set_top_addr
 80044BD8 8 font_free
 80044BE0 176 font_init_kcb
 80044C90 308 font_set_kcb

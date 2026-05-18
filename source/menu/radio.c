@@ -848,7 +848,7 @@ int menu_radio_codec_helper_helper12_80041280(MenuWork *work, u_long *ot, GV_PAD
     var_s7 = 0;
     var_s2 = 0;
     index = 0;
-    ypos = kcb->ytop;
+    ypos = kcb->l_skip;
 
     font_clear(kcb);
 

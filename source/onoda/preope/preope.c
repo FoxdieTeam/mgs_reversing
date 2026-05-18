@@ -139,7 +139,7 @@ static void Preope_800C3428(Work *work, int index)
         font_clut_update(kcb);
 
         work->field_394[index].rect.w = kcb->max_width;
-        work->field_394[index].rect.h = kcb->short3 - 1;
+        work->field_394[index].rect.h = kcb->max_height - 1;
 
         unknown = &dword_800C3218[index];
 
@@ -151,7 +151,7 @@ static void Preope_800C3428(Work *work, int index)
         else if (unknown->num == 1)
         {
             work->field_394[index].rect.x = unknown->x - kcb->max_width / 2;
-            work->field_394[index].rect.y = unknown->y - kcb->short3 / 2;
+            work->field_394[index].rect.y = unknown->y - kcb->max_height / 2;
         }
 
         work->field_394[index].string = NULL;
