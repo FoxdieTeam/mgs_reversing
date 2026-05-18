@@ -14,7 +14,18 @@
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D5A3C.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D5C38.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D5DC0.s")
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D5EA8.s")
+void s15c_dyncon_800D5EA8(void *base, int i,
+                          short ax, short ay, short az,
+                          short bx, short by, short bz)
+{
+    char *p = (char *)base + i * 8;
+    *(short *)(p + 0x3F60) = ax;
+    *(short *)(p + 0x3F62) = ay;
+    *(short *)(p + 0x3F64) = az;
+    *(short *)(p + 0x3F40) = bx;
+    *(short *)(p + 0x3F42) = by;
+    *(short *)(p + 0x3F44) = bz;
+}
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D5EDC.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D5F68.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D6004.s")
