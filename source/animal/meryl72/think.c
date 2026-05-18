@@ -94,8 +94,8 @@ int s07c_meryl72_unk2_800CCB64( Meryl72Work *work )
             return -1;
         }
 
-        link = HZD_LinkRoute( hzd, from_addr, to_addr, mov );
-        zone = &hzd->header->zones[ link ];
+        link = HZD_Navigate( hzd, from_addr, to_addr, mov );
+        zone = &hzd->def->zones[ link ];
 
         work->fB6C.vx = zone->x;
         work->fB6C.vy = zone->y;
@@ -625,7 +625,7 @@ void s07c_meryl72_unk2_800CD80C(Meryl72Work *work)
         if ((work->count3 % 32) == 0)
         {
             control = &work->control;
-            if (!HZD_ZoneContains(control->map->hzd, &control->mov, work->param.defends[0]))
+            if (!HZD_InsideZone(control->map->hzd, &control->mov, work->param.defends[0]))
             {
                 work->think3 = 2;
                 work->count3 = 0;
@@ -801,7 +801,7 @@ void s07c_meryl72_unk2_800CDEC4(Meryl72Work *work)
     }
 
     control = &work->control;
-    if ((work->count3 % 32) == 0 && !HZD_ZoneContains(control->map->hzd, &control->mov, work->param.defends[1]))
+    if ((work->count3 % 32) == 0 && !HZD_InsideZone(control->map->hzd, &control->mov, work->param.defends[1]))
     {
         work->think2 = 1;
         work->think3 = 2;

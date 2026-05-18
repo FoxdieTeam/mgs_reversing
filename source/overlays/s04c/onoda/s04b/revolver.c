@@ -13,7 +13,7 @@
 #include "takabe/revbullt.h"
 #include "takabe/thing.h"
 
-#define EXEC_LEVEL      5
+#define EXEC_LEVEL      GV_ACTOR_USER
 
 #define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE )
 #define BODY_MODEL      GV_StrCode("rev_gun")
@@ -428,8 +428,8 @@ int s04c_revolver_800CFAF0(RevolverWork *work, int turn)
     DG_SetPos(&world);
     DG_PutVector(s04c_dword_800C3498, point, 2);
 
-    HZD_LineCheck(work->control.map->hzd, &point[0], &point[1], 0xF, 0);
-    HZD_LineNearVec(&point[1]);
+    HZD_OnlineHazardCheck(work->control.map->hzd, &point[0], &point[1], HZD_CHK_ALL, 0);
+    HZD_GetOnlinePoint(&point[1]);
 
     GV_SubVec3(&s04c_dword_800DBE18, &point[0], &temp);
     len = GV_VecLen3(&temp);
@@ -1551,7 +1551,7 @@ void s04c_revolver_800D1760(RevolverWork *work)
 
     frame = work->body.m_ctrl->info2.frame;
 
-    if (work->control.nearvecs[0].pad == 2)
+    if (work->control.vecs[0].pad == 2)
     {
         for (i = 0; i < 4; i++)
         {

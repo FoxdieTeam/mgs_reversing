@@ -23,7 +23,7 @@ typedef struct _Work
     int      count;
 } Work;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 void MovePacks(SVECTOR *speeds, SVECTOR *vertices, int count)
 {

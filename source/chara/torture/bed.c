@@ -27,8 +27,8 @@ static inline int CheckMessages(Work *work)
 
     found = 0;
 
-    msg = &work->control.messages[work->control.n_messages] - 1;
-    for (i = work->control.n_messages; i > 0; i--)
+    msg = &work->control.msg[work->control.n_msg] - 1;
+    for (i = work->control.n_msg; i > 0; i--)
     {
         if (msg->message[0] == HASH_TURN)
         {
@@ -50,7 +50,7 @@ static void Act(Work *work)
 {
     int found;
 
-    if (work->control.n_messages == 0)
+    if (work->control.n_msg == 0)
     {
         found = 0;
     }

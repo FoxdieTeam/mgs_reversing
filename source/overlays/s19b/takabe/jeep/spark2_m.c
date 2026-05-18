@@ -118,7 +118,7 @@ void s19b_spark2_m_800DA55C(Spark2MWork *work)
 extern int s19b_spark2_m_800DA598(Spark2MWork *work, int arg);
 extern const char aSpark2mC_800DDEB0[];
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 GV_ACT *NewSpark2M_800DA6D8(int arg0)
 {

@@ -5,9 +5,9 @@
 #include <libgte.h>
 #include <libgpu.h>
 
-#include "navigate.h"
 #include "libgv/libgv.h"
 #include "game/game.h"
+#include "game/navi.h"
 
 typedef struct ACTSTILL
 {
@@ -470,7 +470,7 @@ void sna_act_unk_helper3_80055DD8(SnaInitWork *work, int time);
 void sna_anim_mini_cutscene_800559D8(SnaInitWork *work, int time);
 void sna_anim_dying_80055524(SnaInitWork *work, int time);
 void NavigateSetTarget(NAVIGATE *autoMove, HZD_HDL *pHzd, SVECTOR *pVec);
-int  NavigateUpdate(NAVIGATE *pAutoMove, CONTROL *pControl);
+int  GM_ZoneNavi(NAVIGATE *pAutoMove, CONTROL *pControl);
 void sna_80057A90(SnaInitWork *work, int time);
 void sna_8004EF14(SnaInitWork *work);
 void *NewSnake(int name, int where, int argc, char **argv);

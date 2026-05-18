@@ -101,7 +101,7 @@ int s11g_hind_800D4990(HindWork *work)
     midpoint.vy = (GM_PlayerPosition.vy + work->field_63C.vy) / 2;
     midpoint.vz = (GM_PlayerPosition.vz + work->field_63C.vz) / 2;
 
-    return HZD_LineCheck(work->control.map->hzd, &GM_PlayerPosition, &midpoint, ( HZD_CHECK_SEG | HZD_CHECK_FLR ), HZD_SEG_NO_PLAYER) != 0;
+    return HZD_OnlineHazardCheck(work->control.map->hzd, &GM_PlayerPosition, &midpoint, HZD_CHK_FIX, HZD_SEG_NO_PLAYER) != 0;
 }
 
 void s11g_hind_800D4A24(long *vec, long *pos, long *old, int len)

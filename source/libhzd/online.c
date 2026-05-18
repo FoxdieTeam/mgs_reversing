@@ -102,7 +102,7 @@ STATIC int CheckWallBounds(void)
 
     if (z1 > z2)
     {
-        SWAP(z1, z2);
+        SWAP( z1, z2 );
     }
 
     if (z1 > getScratchAddr2(SVECTOR, 0x2C)->vz || z2 < getScratchAddr2(SVECTOR, 0x24)->vz)
@@ -598,12 +598,12 @@ static inline void CopySvectorToSpad(int offset, SVECTOR *svec)
     spad_top[offset + 1] = svec->vz;
 }
 
-int HZD_LineCheck(HZD_HDL *hzd, SVECTOR *from, SVECTOR *to, int flag, int exclude)
+int HZD_OnlineHazardCheck(HZD_HDL *hzd, SVECTOR *from, SVECTOR *to, int chk_flag, int seg_flag)
 {
     int       count;
     int       n_areas, n_areas2;
     int       bit1, bit2;
-    HZD_GRP *pArea;
+    HZD_GRP  *pArea;
     int       current_group;
     HZD_FLR  *pFloor;
     HZD_SEG  *pWall;
@@ -636,13 +636,13 @@ int HZD_LineCheck(HZD_HDL *hzd, SVECTOR *from, SVECTOR *to, int flag, int exclud
         return 0;
     }
 
-    if (flag & HZD_CHECK_SEG)
+    if (chk_flag & HZD_CHK_F_SEGMENT)
     {
         char *scratchpad;
 
         bit2 = 1;
-        pArea = hzd->header->groups;
-        for (n_areas2 = hzd->header->n_groups; n_areas2 > 0; n_areas2--, bit2 <<= 1, pArea++)
+        pArea = hzd->def->groups;
+        for (n_areas2 = hzd->def->n_groups; n_areas2 > 0; n_areas2--, bit2 <<= 1, pArea++)
         {
             if (current_group & bit2)
             {
@@ -662,7 +662,7 @@ int HZD_LineCheck(HZD_HDL *hzd, SVECTOR *from, SVECTOR *to, int flag, int exclud
 
                 for (count = pArea->n_walls; count > 0; count--, pWall++, pFlags++)
                 {
-                    if (!((*pFlags) & exclude))
+                    if (!((*pFlags) & seg_flag))
                     {
                         TestSegment(pWall, count, *pFlags);
                     }
@@ -671,7 +671,7 @@ int HZD_LineCheck(HZD_HDL *hzd, SVECTOR *from, SVECTOR *to, int flag, int exclud
         }
     }
 
-    if (flag & HZD_CHECK_DYNSEG)
+    if (chk_flag & HZD_CHK_D_SEGMENT)
     {
         char *scratchpad;
 
@@ -692,14 +692,14 @@ int HZD_LineCheck(HZD_HDL *hzd, SVECTOR *from, SVECTOR *to, int flag, int exclud
 
                 pFlagsEnd2 = (pFlags + queue_size) + idx;
                 *((char **)(scratchpad + 0x70)) = pFlagsEnd2;
-            } while (0); // TODO: Is it the same macro as above in "if (flag & HZD_CHECK_SEG)" case?
+            } while (0); // TODO: Is it the same macro as above in "if (chk_flag & HZD_CHK_F_SEGMENT)" case?
 
             count = pNextMap->dynamic_queue_index;
             *((int *)0x1F800060) = 0;
 
             for (; count > 0; count--, ppWall++, pFlags++)
             {
-                if (!((*pFlags) & exclude))
+                if (!((*pFlags) & seg_flag))
                 {
                     TestSegment(*ppWall, count, *pFlags);
                 }
@@ -710,11 +710,11 @@ int HZD_LineCheck(HZD_HDL *hzd, SVECTOR *from, SVECTOR *to, int flag, int exclud
     *((int *)0x1F80005C) = HZD_80027BF8((SVECTOR *)0x1F800054);
     *((int *)0x1F800074) = 0xF4240;
 
-    if (flag & HZD_CHECK_FLR)
+    if (chk_flag & HZD_CHK_F_FLOOR)
     {
         bit1 = 1;
-        pArea = hzd->header->groups;
-        for (n_areas = hzd->header->n_groups; n_areas > 0; n_areas--, bit1 <<= 1, pArea++)
+        pArea = hzd->def->groups;
+        for (n_areas = hzd->def->n_groups; n_areas > 0; n_areas--, bit1 <<= 1, pArea++)
         {
             if (current_group & bit1)
             {
@@ -728,7 +728,7 @@ int HZD_LineCheck(HZD_HDL *hzd, SVECTOR *from, SVECTOR *to, int flag, int exclud
         }
     }
 
-    if (flag & HZD_CHECK_DYNFLR)
+    if (chk_flag & HZD_CHK_D_FLOOR)
     {
         pNextMap = NULL;
         while ((pNextMap = GM_IterHazard(pNextMap)))
@@ -753,36 +753,36 @@ int HZD_LineCheck(HZD_HDL *hzd, SVECTOR *from, SVECTOR *to, int flag, int exclud
     return 0;
 }
 
-void *HZD_LineNearSurface(void)
+void *HZD_GetOnlineHazard(void)
 {
     return *getScratchAddr2(void **, 0x64);
 }
 
-int HZD_LineNearFlag(void)
+int HZD_GetOnlineHazardAtr(void)
 {
     return *getScratchAddr2(short, 0x68);
 }
 
-void HZD_LineNearDir(SVECTOR *out)
+void HZD_GetOnlineVector(SVECTOR *vect_ptr)
 {
-    HZD_VEC *hit;
+    HZD_VEC *cross;
     HZD_VEC *from;
 
-    hit = getScratchAddr2(HZD_VEC, 0x54);
+    cross = getScratchAddr2(HZD_VEC, 0x54);
     from = getScratchAddr2(HZD_VEC, 0x0c);
 
-    out->vx = hit->x - from->x;
-    out->vy = hit->y - from->y;
-    out->vz = hit->z - from->z;
+    vect_ptr->vx = cross->x - from->x;
+    vect_ptr->vy = cross->y - from->y;
+    vect_ptr->vz = cross->z - from->z;
 }
 
-void HZD_LineNearVec(SVECTOR *out)
+void HZD_GetOnlinePoint(SVECTOR *ptp_ptr)
 {
-    HZD_VEC *hit;
+    HZD_VEC *cross;
 
-    hit = getScratchAddr2(HZD_VEC, 0x54);
+    cross = getScratchAddr2(HZD_VEC, 0x54);
 
-    out->vx = hit->x;
-    out->vy = hit->y;
-    out->vz = hit->z;
+    ptp_ptr->vx = cross->x;
+    ptp_ptr->vy = cross->y;
+    ptp_ptr->vz = cross->z;
 }

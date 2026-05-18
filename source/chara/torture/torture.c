@@ -523,13 +523,13 @@ void s03b_torture_800C4654(TortureWork *work)
     int     n_msgs;
     GV_MSG *msg;
 
-    if (work->control.n_messages == 0)
+    if (work->control.n_msg == 0)
     {
         return;
     }
 
-    n_msgs = work->control.n_messages;
-    msg = &work->control.messages[n_msgs] - 1;
+    n_msgs = work->control.n_msg;
+    msg = &work->control.msg[n_msgs] - 1;
 
     for (; n_msgs > 0; n_msgs--, msg--)
     {
@@ -1513,13 +1513,13 @@ void s03b_torture_800C5EC4(TortureWork *work)
         return;
     }
 
-    if (work->control.n_messages == 0)
+    if (work->control.n_msg == 0)
     {
         return;
     }
 
-    n_msgs = work->control.n_messages;
-    msg = &work->control.messages[n_msgs] - 1;
+    n_msgs = work->control.n_msg;
+    msg = &work->control.msg[n_msgs] - 1;
 
     for (; n_msgs > 0; n_msgs--, msg--)
     {

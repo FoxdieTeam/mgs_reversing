@@ -952,7 +952,7 @@ int sub_8004FCB8(SnaInitWork *work, PUNCH *punch, int a_mode)
     line[0].vz = work->body.objs->objs[5].world.t[2];
     line[1] = vec;
 
-    if ( sna_line_check(line, work->control.map->hzd, HZD_CHECK_ALL, SEGMENT_ATR) < 0 )
+    if ( sna_line_check(line, work->control.map->hzd, HZD_CHK_ALL, SEGMENT_ATR) < 0 )
     {
         GM_MoveTarget(target, &vec);
         return GM_PowerTarget(target);
@@ -1001,7 +1001,7 @@ int sna_8004FDE8(SnaInitWork *work, Target_Data *pTargetData)
         vecs[0] = work->control.mov;
         vecs[1] = pTarget->center;
 
-        if (sna_line_check(vecs, work->control.map->hzd, HZD_CHECK_ALL, SEGMENT_ATR) < 0)
+        if (sna_line_check(vecs, work->control.map->hzd, HZD_CHK_ALL, SEGMENT_ATR) < 0)
         {
             work->field_8E8_pTarget = pTarget;
             return 1;
@@ -1158,7 +1158,7 @@ void sna_8005027C(SnaInitWork *work, int time)
             pVec = &stru_8009EFD4[1];
         }
 
-        if (sna_8004F628(work, pVec, 300, HZD_CHECK_DYNSEG | HZD_CHECK_SEG, SEGMENT_ATR | HZD_SEG_NO_BEHIND | HZD_SEG_NO_HARITSUKI, -1) > 0)
+        if (sna_8004F628(work, pVec, 300, HZD_CHK_D_SEGMENT | HZD_CHK_F_SEGMENT, SEGMENT_ATR | HZD_SEG_NO_BEHIND | HZD_SEG_NO_HARITSUKI, -1) > 0)
         {
             sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK9);
             work->field_9C0 = sna_80057378;
@@ -1199,12 +1199,12 @@ void sna_80050440(SnaInitWork *work)
     if ((GM_GameOverTimer == 0) && (GM_SnakeCurrentHealth != 0))
     {
         pCtrl = &work->control;
-        pArr = pCtrl->event.triggers;
+        pArr = pCtrl->evt.inside;
 
         inDuct = GM_CheckPlayerStatusFlag(PLAYER_INTRUDE);
         GM_ClearPlayerStatusFlag(PLAYER_INTRUDE);
 
-        for (i = pCtrl->event.n_triggers; i > 0; pArr++, i--)
+        for (i = pCtrl->evt.n_inside; i > 0; pArr++, i--)
         {
             if (*pArr == 0x73D2)
             {
@@ -3454,14 +3454,14 @@ void sna_knock_80054D68(SnaInitWork *work, int time)
         vec.vy = 0;
         vec.vx = (dword_800ABBC4 == 4) ? 300 : -300;
 
-        if (sna_8004F628(work, &vec, -250, HZD_CHECK_DYNSEG | HZD_CHECK_SEG, SEGMENT_ATR | HZD_SEG_NO_BEHIND, var_t0))
+        if (sna_8004F628(work, &vec, -250, HZD_CHK_D_SEGMENT | HZD_CHK_F_SEGMENT, SEGMENT_ATR | HZD_SEG_NO_BEHIND, var_t0))
         {
-            temp_v0 = HZD_LineNearFlag();
+            temp_v0 = HZD_GetOnlineHazardAtr();
             code = (temp_v0 >> 8) & 7;
 
             if (code < 4)
             {
-                seg = HZD_LineNearSurface();
+                seg = HZD_GetOnlineHazard();
                 printf("seg %d %d %d %d : ", seg->b1.x, seg->b1.z, seg->b1.y, seg->b1.h);
                 printf("%d %d %d %d\n", seg->b2.x, seg->b2.z, seg->b2.y, seg->b2.h);
                 printf("code %d\n", code);
@@ -3698,14 +3698,14 @@ void sna_anim_dying_80055524(SnaInitWork *work, int time)
         {
             if ((unk2->field_9EC_flags3 & 0x4000) != 0)
             {
-                work->control.field_38 = -2;
-                work->control.step_size = -2;
+                work->control.s_sphere = -2;
+                work->control.r_sphere = -2;
                 work->field_A28 = -2;
             }
             else
             {
-                work->control.field_38 = -1;
-                work->control.step_size = -1;
+                work->control.s_sphere = -1;
+                work->control.r_sphere = -1;
                 work->field_A28 = -1;
             }
         }
@@ -3957,8 +3957,8 @@ void sna_anim_mini_cutscene_800559D8(SnaInitWork *work, int time)
         {
             GV_SubVec3(&pStr->field_9F4, &work->control.mov, &vec);
             work->control.turn.vy = GV_VecDir2(&vec);
-            work->control.field_38 = -1;
-            work->control.step_size = -1;
+            work->control.s_sphere = -1;
+            work->control.r_sphere = -1;
             work->field_A28 = -1;
         }
 
@@ -4004,7 +4004,7 @@ void sna_anim_mini_cutscene_800559D8(SnaInitWork *work, int time)
     if (!(pStr->field_9EC_flags3 & 0x200))
     {
         work->field_A00.addr = GM_PlayerAddress;
-        NavigateUpdate(&work->field_A00, &work->control);
+        GM_ZoneNavi(&work->field_A00, &work->control);
     }
 
     GV_NearExp4PV(&work->control.rot.vx, &work->control.turn.vx, 3);
@@ -4019,8 +4019,8 @@ void sna_anim_mini_cutscene_800559D8(SnaInitWork *work, int time)
 
         if (pStr->field_9EC_flags3 & 0x200)
         {
-            work->control.field_38 = 450;
-            work->control.step_size = 450;
+            work->control.s_sphere = 450;
+            work->control.r_sphere = 450;
             work->field_A28 = 450;
         }
 
@@ -4637,7 +4637,7 @@ void sna_80051A10(SnaInitWork *work, SVECTOR *pPos, SVECTOR *pOut, SVECTOR *pVec
     vec = *pPos;
     vec2 = *pVec;
 
-    if (sna_line_check(&vec, work->control.map->hzd, HZD_CHECK_ALL, SEGMENT_ATR) < 0)
+    if (sna_line_check(&vec, work->control.map->hzd, HZD_CHK_ALL, SEGMENT_ATR) < 0)
     {
         vec2 = *pVec;
     }
@@ -6650,11 +6650,11 @@ static inline int sna_init_main_logic_helper_helper_helper_800596FC(RECT *a, REC
 
 static inline int sna_init_main_logic_helper_helper_800596FC(SnaInitWork *work)
 {
-    HZD_FLR  *local_40[2];
+    HZD_SEG  *local_40[2];
     RECT      rect[2]; // Maybe vecs
     CONTROL  *pCtrl;
     SVECTOR  *pPosition;
-    HZD_FLR  *floor;
+    HZD_SEG  *seg;
     int       iVar9;
     int       iVar10;
     int       iVar17;
@@ -6668,16 +6668,16 @@ static inline int sna_init_main_logic_helper_helper_800596FC(SnaInitWork *work)
     pCtrl = &work->control;
     pPosition = &pCtrl->mov;
 
-    if (pCtrl->touch_flag == 1)
+    if (pCtrl->n_touches == 1)
     {
-        if (!(pCtrl->nearflags[0] & 0x40))
+        if (!(pCtrl->is_edge[0] & 0x40))
         {
-            floor = pCtrl->nears[0];
+            seg = pCtrl->segs[0];
 
-            rect[1].x = pPosition->vx - floor->b1.x;
-            rect[1].y = pPosition->vz - floor->b1.z;
-            rect[0].x = floor->b2.x - floor->b1.x;
-            rect[0].y = floor->b2.z - floor->b1.z;
+            rect[1].x = pPosition->vx - seg->p1.x;
+            rect[1].y = pPosition->vz - seg->p1.z;
+            rect[0].x = seg->p2.x - seg->p1.x;
+            rect[0].y = seg->p2.z - seg->p1.z;
 
             if (!sna_init_main_logic_helper_helper_helper_800596FC(&rect[0], &rect[1]))
             {
@@ -6688,23 +6688,23 @@ static inline int sna_init_main_logic_helper_helper_800596FC(SnaInitWork *work)
     }
     else
     {
-        pChk = work->control.nearflags;
+        pChk = work->control.is_edge;
         iVar9 = 0;
 
         for (i = 0; i < 2; i++, pChk++)
         {
-            floor = pCtrl->nears[i];
-            local_40[i] = floor;
+            seg = pCtrl->segs[i];
+            local_40[i] = seg;
 
             if (*pChk & 0x40)
             {
                 continue;
             }
 
-            rect[1].x = pPosition->vx - floor->b1.x;
-            rect[1].y = pPosition->vz - floor->b1.z;
-            rect[0].x = floor->b2.x - floor->b1.x;
-            rect[0].y = floor->b2.z - floor->b1.z;
+            rect[1].x = pPosition->vx - seg->p1.x;
+            rect[1].y = pPosition->vz - seg->p1.z;
+            rect[0].x = seg->p2.x - seg->p1.x;
+            rect[0].y = seg->p2.z - seg->p1.z;
 
             if (!sna_init_main_logic_helper_helper_helper_800596FC(&rect[0], &rect[1]))
             {
@@ -6716,10 +6716,10 @@ static inline int sna_init_main_logic_helper_helper_800596FC(SnaInitWork *work)
 
         if (iVar9 >= 2)
         {
-            iVar11 = GV_VecLen3(&pCtrl->nearvecs[0]);
-            iVar10 = GV_VecLen3(&pCtrl->nearvecs[1]);
-            iVar17 = GV_VecDir2(&pCtrl->nearvecs[0]);
-            iVar19 = GV_VecDir2(&pCtrl->nearvecs[1]);
+            iVar11 = GV_VecLen3(&pCtrl->vecs[0]);
+            iVar10 = GV_VecLen3(&pCtrl->vecs[1]);
+            iVar17 = GV_VecDir2(&pCtrl->vecs[0]);
+            iVar19 = GV_VecDir2(&pCtrl->vecs[1]);
 
             if (GV_DiffDirAbs(iVar17, iVar19) < 512)
             {
@@ -6757,21 +6757,21 @@ static inline void sna_init_main_logic_helper_800596FC(SnaInitWork *work)
     dir = gSnaMoveDir_800ABBA4;
 
     work->field_79C = 0;
-    cVar4 = work->control.touch_flag;
+    cVar4 = work->control.n_touches;
 
     if (cVar4 <= 0)
     {
         return;
     }
 
-    dword_800ABBAC = &work->control.nearvecs[0];
-    dword_800ABBB4 = &work->control.nearflags[0];
-    dword_800ABBA8 = GV_VecDir2(&work->control.nearvecs[0]);
+    dword_800ABBAC = &work->control.vecs[0];
+    dword_800ABBB4 = &work->control.is_edge[0];
+    dword_800ABBA8 = GV_VecDir2(&work->control.vecs[0]);
 
     if ((*dword_800ABBB4 & 0x40) == 0)
     {
         pVec_800ABBCC = dword_800ABBAC;
-        dword_800ABBB0 = work->control.nears[0];
+        dword_800ABBB0 = work->control.segs[0];
         dword_800ABBD0 = dword_800ABBA8;
     }
 
@@ -6782,19 +6782,19 @@ static inline void sna_init_main_logic_helper_800596FC(SnaInitWork *work)
 
     if (cVar4 != 1)
     {
-        iVar9 = GV_VecDir2(&work->control.nearvecs[1]);
+        iVar9 = GV_VecDir2(&work->control.vecs[1]);
         iVar10 = GV_DiffDirAbs(dir, dword_800ABBA8);
 
         if (GV_DiffDirAbs(dir, iVar9) < iVar10)
         {
-            dword_800ABBAC = &work->control.nearvecs[1];
-            dword_800ABBB4 = &work->control.nearflags[1];
-            dword_800ABBA8 = GV_VecDir2(&work->control.nearvecs[1]);
+            dword_800ABBAC = &work->control.vecs[1];
+            dword_800ABBB4 = &work->control.is_edge[1];
+            dword_800ABBA8 = GV_VecDir2(&work->control.vecs[1]);
 
             if ((*dword_800ABBB4 & 0x40) == 0)
             {
                 pVec_800ABBCC = dword_800ABBAC;
-                dword_800ABBB0 = work->control.nears[1];
+                dword_800ABBB0 = work->control.segs[1];
                 dword_800ABBD0 = dword_800ABBA8;
             }
         }
@@ -6811,9 +6811,9 @@ static inline void sna_init_main_logic_helper_800596FC(SnaInitWork *work)
 
     if (result != 2)
     {
-        pVec_800ABBCC = &work->control.nearvecs[result];
+        pVec_800ABBCC = &work->control.vecs[result];
         dword_800ABBD0 = GV_VecDir2(pVec_800ABBCC);
-        dword_800ABBB0 = work->control.nears[result];
+        dword_800ABBB0 = work->control.segs[result];
     }
 
     diff = GV_DiffDirS(dir, dword_800ABBD0);
@@ -6908,8 +6908,8 @@ static inline void sna_init_main_logic_helper3_800596FC(SnaInitWork *work)
 
     if (work->field_9E4.field_9F0 != 0)
     {
-        work->control.field_38 = 450;
-        work->control.step_size = 450;
+        work->control.s_sphere = 450;
+        work->control.r_sphere = 450;
         work->field_A28 = 450;
 
         if ((uVar13 & 0x4002) == 0)
@@ -7379,7 +7379,7 @@ void sna_init_main_logic_800596FC(SnaInitWork *work)
 
     work->field_89C_pTarget->size.vy = vy;
 
-    if ( (work->field_A2C.vy < 0) && (work->control.level_flag != 0) )
+    if ( (work->field_A2C.vy < 0) && (work->control.grounded != 0) )
     {
         work->field_A2C.vy = 0;
     }
@@ -7487,7 +7487,7 @@ void sna_init_main_logic_800596FC(SnaInitWork *work)
         work->field_9C0(work, work->field_9C4 - 1);
     }
 
-    work->control.step_size = GV_NearExp4(work->control.step_size, work->field_A28);
+    work->control.r_sphere = GV_NearExp4(work->control.r_sphere, work->field_A28);
     work->control.step.vy = work->field_A2C.vy;
 
     sna_init_main_logic_helper6_800596FC(work);
@@ -7518,8 +7518,8 @@ void sna_init_main_logic_800596FC(SnaInitWork *work)
 
     GM_ClearPlayerStatusFlag(PLAYER_NOHIDDEN | PLAYER_HIDDEN);
 
-    hzd_count = work->control.event.n_triggers;
-    pHzdVal = work->control.event.triggers;
+    hzd_count = work->control.evt.n_inside;
+    pHzdVal = work->control.evt.inside;
 
     while ( hzd_count > 0 )
     {
@@ -7585,7 +7585,7 @@ static inline void sna_act_helper2_8005AD10(SnaInitWork *work)
         work->control.step.vx = work->field_A68.vx;
         work->control.step.vz = work->field_A68.vz;
 
-        if ( work->control.level_flag & 1 )
+        if ( work->control.grounded & 1 )
         {
             sna_clear_flags1_8004E308(work, SNA_FLAG1_UNK24);
         }
@@ -7669,9 +7669,9 @@ static void Act(SnaInitWork *work)
     flr_800ABBB8[0] = NULL;
     dword_800ABBC0 = 0;
 
-    if ( work->control.step_size != -2 )
+    if ( work->control.r_sphere != -2 )
     {
-        HZD_LevelMinMaxFloors(flr_800ABBB8);
+        HZD_GetLevelHazard(flr_800ABBB8);
 
         if ( flr_800ABBB8[0] )
         {
@@ -7689,7 +7689,7 @@ static void Act(SnaInitWork *work)
         }
     }
 
-    if ( work->control.step_size == -2 )
+    if ( work->control.r_sphere == -2 )
     {
         work->control.mov.vy += work->body.height - height;
         DG_SetPos2(&work->control.mov, &work->control.rot);
@@ -8040,7 +8040,7 @@ static inline int GetResources(SnaInitWork *work, int scriptData, int scriptBind
 
     GM_ConfigControlString(control, GCL_GetOption('p'), GCL_GetOption('d'));
     GM_ConfigControlHazard(control, 0, 450, 450);
-    control->exclude_flag = SEGMENT_ATR;
+    control->seg_flag = SEGMENT_ATR;
     GM_ConfigControlAttribute(control, attr);
     GM_ConfigControlTrapCheck(control);
 

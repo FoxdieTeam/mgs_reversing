@@ -16,7 +16,7 @@ SVECTOR s19b_dword_800C349C = {100, 0, 0};
 
 void s19b_jblood_800C8610(SVECTOR *);
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 static void Act(Work *work)
 {

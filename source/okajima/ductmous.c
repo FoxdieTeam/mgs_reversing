@@ -229,7 +229,7 @@ int DuctmouseGetResources_800DAA1C(DuctmouseWork *work, int name, int where)
     MAP        *map;
     char       *opt;
     int         route_index;
-    HZD_MAP *hzd;
+    HZD_DEF *hzd;
     HZD_PAT    *route;
     HZD_PTP    *point;
     int         i;
@@ -251,7 +251,7 @@ int DuctmouseGetResources_800DAA1C(DuctmouseWork *work, int name, int where)
         route_index = 0;
     }
 
-    hzd = map->hzd->header;
+    hzd = map->hzd->def;
 
     if ((route_index + 1) > hzd->n_routes)
     {

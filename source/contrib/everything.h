@@ -45,10 +45,10 @@
 #include "game/motion.h"
 #include "game/vibrate.h"
 #include "font/font.h"
+#include "game/navi.h"
 
 #include "chara/snake/afterse.h"
 #include "chara/snake/shadow.h"
-#include "chara/snake/navigate.h"
 #include "chara/snake/sna_init.h"
 #include "anime/animconv/anime.h"
 #include "bullet/bullet.h"

@@ -44,7 +44,7 @@ typedef struct _MirrorWork
     GV_ACT      *kogaku;
 } MirrorWork;
 
-extern int      gControlCount_800AB9B4;
+extern int      GM_N_WhereList;
 extern CONTROL *GM_WhereList[96];
 
 void     Mirror_800E08F0(MirrorWork *work, int name);
@@ -419,7 +419,7 @@ void Mirror_800E08F0(MirrorWork *work, int name)
     DG_OBJ      *obj;
 
     where = GM_WhereList;
-    for (i = gControlCount_800AB9B4; i > 0; i--)
+    for (i = GM_N_WhereList; i > 0; i--)
     {
         control = *where;
         if (control->name == name)

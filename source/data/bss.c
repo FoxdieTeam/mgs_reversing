@@ -180,7 +180,7 @@ volatile long BSS   gMemCard_io_size; // 0x4 (4) bytes
 gap                                     gap_800B564C[0x4]; // 4 bytes
 
 /* game/control.obj */
-CONTROL BSS         gDefaultControl_800B5650; // 0x7C (124) bytes
+CONTROL BSS         DummyPlayer; // 0x7C (124) bytes
 
 gap                                     gap_800B56CC[0x4]; // 4 bytes
 
@@ -204,7 +204,7 @@ unsigned short BSS  GM_SystemCallbackProc[6]; // 0xC (12) bytes
 gap                                     gap_800B58CC[0x14]; // 20 bytes
 
 /* game/script.obj */
-HZD_BIND BSS      gBindsArray_800b58e0[128]; // 0xC00 (3072) bytes
+HZD_BND BSS      gBindsArray_800b58e0[128]; // 0xC00 (3072) bytes
 
 /* game/target.obj */
 TARGET BSS          gTargets_800B64E0[TARGET_MAX]; // 0x1200 (4608) bytes

@@ -49,10 +49,10 @@ static int CheckMessage(Work *work)
     int      n_msgs;
     u_short  code;
 
-    control->n_messages = GV_ReceiveMessage(control->name, &control->messages);
-    msg = control->messages;
+    control->n_msg = GV_ReceiveMessage(control->name, &control->msg);
+    msg = control->msg;
 
-    for (n_msgs = control->n_messages; n_msgs > 0; n_msgs--)
+    for (n_msgs = control->n_msg; n_msgs > 0; n_msgs--)
     {
         if (CB_BOX_MSG == msg->message[0])
         {

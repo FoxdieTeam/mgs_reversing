@@ -145,7 +145,7 @@ typedef struct {
     HZD_GRP     *groups;
     HZD_ZON     *zones;
     HZD_PAT     *routes;
-} HZD_MAP;
+} HZD_DEF;
 
 // clang-format on
 #endif // __MGS_FMT_HZD_H__

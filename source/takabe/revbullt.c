@@ -170,14 +170,14 @@ static int CalculateHit(Work *work, MATRIX *world)
     DG_PutVector(s04c_dword_800C35D0, sp18, 2);
 
     ret = 0;
-    if (HZD_LineCheck(GM_GetMap(work->map)->hzd, &sp18[0], &sp18[1], HZD_CHECK_ALL, SEGMENT_ATR))
+    if (HZD_OnlineHazardCheck(GM_GetMap(work->map)->hzd, &sp18[0], &sp18[1], HZD_CHK_ALL, SEGMENT_ATR))
     {
-        HZD_LineNearVec(&sp18[1]);
+        HZD_GetOnlinePoint(&sp18[1]);
 
-        floor = HZD_LineNearSurface();
+        floor = HZD_GetOnlineHazard();
         if (((int)floor & 0x80000000) != 0)
         {
-            HZD_SurfaceNormal(floor, &work->normal);
+            HZD_GetNormal(floor, &work->normal);
         }
         else
         {

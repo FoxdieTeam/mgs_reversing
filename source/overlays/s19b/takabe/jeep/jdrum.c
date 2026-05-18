@@ -40,7 +40,7 @@ typedef struct _Work
     int     field_1FC;
 } Work;
 
-#define EXEC_LEVEL  5
+#define EXEC_LEVEL  GV_ACTOR_USER
 #define BODY_MODEL  GV_StrCode("19b_o4a")
 #define BODY_MODEL2 GV_StrCode("19b_o4b")
 #define BODY_FLAG   ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE )

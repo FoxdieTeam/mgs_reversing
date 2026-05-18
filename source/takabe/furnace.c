@@ -9,7 +9,7 @@
 #include "takabe/thing.h"
 
 extern CONTROL *GM_WhereList[96];
-extern int      gControlCount_800AB9B4;
+extern int      GM_N_WhereList;
 extern int      tenage_ctrls_count_800BDD70;
 extern CONTROL *tenage_ctrls_800BDD30[16];
 extern int      dword_8009F49C;
@@ -88,7 +88,7 @@ static void Act(Work *work)
         GM_GameOver();
     }
 
-    for (wherelist = GM_WhereList, i = gControlCount_800AB9B4; i > 0; i--, wherelist++)
+    for (wherelist = GM_WhereList, i = GM_N_WhereList; i > 0; i--, wherelist++)
     {
         if (((*wherelist)->map->index & work->where) &&
             !((*wherelist)->skip_flag & CTRL_SKIP_TRAP) && (*wherelist)->name >= 64)

@@ -128,7 +128,7 @@ void s11e_zk11ecom_800D9C8C( void )
 
     for ( ; i < ZakoCommand_800DF280.field_0x34 ; i++  )
     {
-        zone = &ZakoCommand_800DF280.field_0x64->hzd->header->zones[ ZakoCommand_800DF280.field_0x38[ i ] ];
+        zone = &ZakoCommand_800DF280.field_0x64->hzd->def->zones[ ZakoCommand_800DF280.field_0x38[ i ] ];
 
         svec.vx = zone->x;
         svec.vy = GM_PlayerPosition.vy;

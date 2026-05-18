@@ -268,7 +268,7 @@ int GunCame_800C7224(GunCameWork *work)
             if ((work->field_368 >= dx) &&
                 (work->field_368 >= dy) &&
                 (work->field_364 >= GV_DiffVec3(&work->control.mov, &work->field_3AC[index])) &&
-                !HZD_LineCheck(work->control.map->hzd, &work->control.mov, &work->field_3AC[index], HZD_CHECK_ALL, SEGMENT_ATR))
+                !HZD_OnlineHazardCheck(work->control.map->hzd, &work->control.mov, &work->field_3AC[index], HZD_CHK_ALL, SEGMENT_ATR))
             {
                 success = 1;
                 work->field_39C = index;
@@ -680,7 +680,7 @@ void GunCame_800C7CE0(GunCameWork *work)
 
 void GunCame_800C8024(GunCameWork *work)
 {
-    work->control.radar_cone.dir = work->control.rot.vy;
+    work->control.radar_param.dir = work->control.rot.vy;
 }
 
 void GunCame_800C8030(GunCameWork *work)
@@ -998,16 +998,16 @@ void GunCame_Act_800C80F4(GunCameWork *work)
 void GunCame_800C8940(GunCameWork *work)
 {
     CONTROL    *control;
-    RADAR_CONE *cone;
+    RADAR_SIGHT_PARAM *r_param;
 
     control = &work->control;
     control->radar_atr |= 0x2000;
 
-    cone = &work->control.radar_cone;
-    cone->dir = 0;
-    cone->len = work->field_364;
-    cone->ang = work->field_368 * 2;
-    cone->_pad = 0;
+    r_param = &work->control.radar_param;
+    r_param->dir = 0;
+    r_param->dis = work->field_364;
+    r_param->range = work->field_368 * 2;
+    r_param->r = 0;
 }
 
 const SVECTOR s03e_svec_800CC0F4 = {0, -150, -400, 0};

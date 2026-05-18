@@ -197,10 +197,10 @@ static int asiato2_800DD308(Asiato2Work *work, int name)
     HZD_EVT *events;
     int      i;
 
-    events = &work->control->event;
-    for (i = 0; i < events->n_triggers; i++)
+    events = &work->control->evt;
+    for (i = 0; i < events->n_inside; i++)
     {
-        if (events->triggers[i] == name)
+        if (events->inside[i] == name)
         {
             return 1;
         }

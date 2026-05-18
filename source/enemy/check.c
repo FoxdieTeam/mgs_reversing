@@ -202,11 +202,11 @@ void s00a_command_800C55B0( WatcherWork* work )
     GM_ConfigControlAttribute( ctrl, 0xD );
     InitTarget_800C5484( work );
 
-    warp = HZD_NavigateBound( EnemyCommand.map->hzd, (char)COM_PlayerAddressOne[ work->field_B78 ], EnemyCommand.field_0x58 [ EnemyCommand.c_reset_pos ], 200 );
+    warp = HZD_BoundOutZone( EnemyCommand.map->hzd, (char)COM_PlayerAddressOne[ work->field_B78 ], EnemyCommand.field_0x58 [ EnemyCommand.c_reset_pos ], 200 );
 
     printf( (char *)aPlayxresetdwarpd_800DFD1C, (char)COM_PlayerAddressOne[ work->field_B78 ], EnemyCommand.field_0x58 [ EnemyCommand.c_reset_pos ], warp );
 
-    zone = &ctrl->map->hzd->header->zones[ warp ];
+    zone = &ctrl->map->hzd->def->zones[ warp ];
     ctrl->mov.vx = zone->x;
     ctrl->mov.vy = zone->y + 1000;
     ctrl->mov.vz = zone->z;

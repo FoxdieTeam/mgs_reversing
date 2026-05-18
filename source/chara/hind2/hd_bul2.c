@@ -140,9 +140,9 @@ int HdBul2_800C5C68( HdBul2Work *work, SVECTOR *arg1 )
     sp18 = work->control.mov;
     sp20 = *arg1;
 
-    if ( HZD_LineCheck( work->control.map->hzd, &sp18, &sp20, ( HZD_CHECK_SEG | HZD_CHECK_FLR ), SEGMENT_ATR ) )
+    if ( HZD_OnlineHazardCheck( work->control.map->hzd, &sp18, &sp20, HZD_CHK_FIX, SEGMENT_ATR ) )
     {
-        HZD_LineNearVec( &sp20 );
+        HZD_GetOnlinePoint( &sp20 );
         hit = 1;
         work->pos = sp20;
     }

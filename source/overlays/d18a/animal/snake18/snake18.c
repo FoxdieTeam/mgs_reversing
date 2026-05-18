@@ -167,8 +167,8 @@ int d18a_snake18_800CAF20(Snake18Work *work)
         levels[0] = 0;
         temp = 0x7FFF;
         levels[1] = temp;
-        HZD_LevelTestHazard(control->map->hzd, &sp18, 3);
-        HZD_LevelMinMaxHeights(levels);
+        HZD_LevelHazardCheck(control->map->hzd, &sp18, HZD_CHK_FLOOR);
+        HZD_GetLevelHeight(levels);
 
         if ((levels[1] - sp18.vy) >= 0x5DC)
         {
@@ -179,8 +179,8 @@ int d18a_snake18_800CAF20(Snake18Work *work)
             DG_PutVector(&sp18, &sp18, 1);
             levels[0] = 0;
             levels[1] = temp;
-            HZD_LevelTestHazard(control->map->hzd, &sp18, 3);
-            HZD_LevelMinMaxHeights(levels);
+            HZD_LevelHazardCheck(control->map->hzd, &sp18, HZD_CHK_FLOOR);
+            HZD_GetLevelHeight(levels);
 
             return (levels[1] - sp18.vy) < 0x5DC;
         }
@@ -265,13 +265,13 @@ int d18a_snake18_800CB134(Snake18Work *work)
     int temp_s0_2;
     int temp_s0_3;
 
-    if (work->control.touch_flag < 2)
+    if (work->control.n_touches < 2)
     {
         return 0;
     }
 
-    temp_s0 = GV_VecDir2(&work->control.nearvecs[0]);
-    temp_s0_2 = GV_VecDir2(&work->control.nearvecs[1]);
+    temp_s0 = GV_VecDir2(&work->control.vecs[0]);
+    temp_s0_2 = GV_VecDir2(&work->control.vecs[1]);
     temp_s0_3 = GV_DiffDirAbs(d18a_dword_800DAEF0, temp_s0);
 
     if (((GV_DiffDirAbs(d18a_dword_800DAEF0, temp_s0_2) + 0x380) < 0x701U))

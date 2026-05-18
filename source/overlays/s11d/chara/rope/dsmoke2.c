@@ -2,7 +2,7 @@
 #include "game/game.h"
 #include "libgcl/libgcl.h"
 
-#define EXEC_LEVEL 6
+#define EXEC_LEVEL GV_ACTOR_AFTER
 
 typedef struct _Work
 {

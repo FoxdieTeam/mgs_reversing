@@ -34,7 +34,7 @@ typedef struct RSurfaceWork
 #define EXEC_LEVEL GV_ACTOR_USER
 
 extern CONTROL *GM_WhereList[96];
-extern int      gControlCount_800AB9B4;
+extern int      GM_N_WhereList;
 
 void  s00a_rsurface_800D82E0(RSurfaceWork *work);
 
@@ -170,7 +170,7 @@ void s00a_rsurface_800D82E0(RSurfaceWork *work)
     }
 
     wherelistIter = GM_WhereList;
-    i = gControlCount_800AB9B4;
+    i = GM_N_WhereList;
     elemIter = &work->field_30[work->field_80];
 
     for (; i > 0; i--, wherelistIter++)

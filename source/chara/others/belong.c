@@ -9,7 +9,7 @@
 #include "strcode.h"
 
 extern CONTROL *GM_WhereList[96];
-extern int      gControlCount_800AB9B4;
+extern int      GM_N_WhereList;
 
 /*---------------------------------------------------------------------------*/
 
@@ -102,7 +102,7 @@ static int GetResources(Work *work, int name, int where)
 
     whereListIter = GM_WhereList;
     parent_obj = NULL;
-    for (i = gControlCount_800AB9B4 - 1; i >= 0; i--)
+    for (i = GM_N_WhereList - 1; i >= 0; i--)
     {
         control = *whereListIter++;
 

@@ -202,9 +202,9 @@ static int socom_act_helper_80065408( Work *work )
     DG_SetPos( &work->parent->objs->objs[ work->num_parent ].world );
     DG_PutVector( stru_8009F3D4, vecs, 2 );
     map = work->control->map;
-    if ( HZD_LineCheck( map->hzd, vecs, &vecs[ 1 ], HZD_CHECK_ALL, SEGMENT_ATR ) )
+    if ( HZD_OnlineHazardCheck( map->hzd, vecs, &vecs[ 1 ], HZD_CHK_ALL, SEGMENT_ATR ) )
     {
-        HZD_LineNearVec( &vecs[ 1 ] );
+        HZD_GetOnlinePoint( &vecs[ 1 ] );
         bCalcLen = 1;
     }
     if ( GM_Target_8002E1B8( vecs, &vecs[ 1 ], map->index, &vecs[ 1 ], 1 ) )

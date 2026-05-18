@@ -1,4 +1,4 @@
-#include "navigate.h"
+#include "navi.h"
 
 void NagivateInit(NAVIGATE *nav, HZD_HDL *hzd, SVECTOR *pos)
 {
@@ -40,7 +40,7 @@ int NavigateTargetNear(NAVIGATE *nav, SVECTOR *pos, int dist)
     return NavigateGetTargetDist(nav, pos) < dist;
 }
 
-int NavigateUpdate(NAVIGATE *nav, CONTROL *control)
+int GM_ZoneNavi(NAVIGATE *nav, CONTROL *control)
 {
     SVECTOR  diff;
     SVECTOR *pos;
@@ -77,8 +77,8 @@ int NavigateUpdate(NAVIGATE *nav, CONTROL *control)
             return -1;
         }
 
-        zon = HZD_LinkRoute(hzd, addr, target, &control->mov);
-        zone = &hzd->header->zones[zon];
+        zon = HZD_Navigate(hzd, addr, target, &control->mov);
+        zone = &hzd->def->zones[zon];
 
         nav->next_pos.vx = zone->x;
         nav->next_pos.vy = zone->y;

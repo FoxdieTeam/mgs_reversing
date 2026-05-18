@@ -9,7 +9,7 @@ typedef struct _Work
     DG_PRIM *prim;
 } Work;
 
-#define EXEC_LEVEL 7
+#define EXEC_LEVEL GV_ACTOR_AFTER2
 
 SVECTOR lamp_falloff = {0, 0, 4096};
 RECT lamp_rect = {200, 200, 400, 400};

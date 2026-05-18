@@ -83,7 +83,7 @@ static void Act(Work *work)
     level = control->levels[0] + 100;
     if (level >= vy)
     {
-        control->level_flag |= 1;
+        control->grounded |= 1;
         vy = level;
     }
     else
@@ -91,7 +91,7 @@ static void Act(Work *work)
         level = control->levels[1] - 100;
         if (level <= vy)
         {
-            control->level_flag |= 2;
+            control->grounded |= 2;
             vy = level;
         }
     }
@@ -138,14 +138,14 @@ static void Act(Work *work)
             break;
         }
 
-        HZD_ExecLeaveEvent(work->control.map->hzd, &work->control.event);
+        HZD_ExecLeaveEvent(work->control.map->hzd, &work->control.evt);
         GV_DestroyActor(&work->actor);
 
         GM_uBombHoming = 0;
         return;
     }
 
-    if (control->level_flag && work->step.vy <= 0)
+    if (control->grounded && work->step.vy <= 0)
     {
         work->step.vy = -work->step.vy / 8;
         work->step.vz /= 4;
@@ -174,9 +174,9 @@ static void Act(Work *work)
         work->step.vy -= 16;
     }
 
-    if (control->touch_flag > 0 && GM_CheckControlTouches(control, 300))
+    if (control->n_touches > 0 && GM_CheckControlTouches(control, 300))
     {
-        HZD_SurfaceNormal(control->nears[0], &vec);
+        HZD_GetNormal(control->segs[0], &vec);
         DG_ReflectVector(&vec, &work->step, &work->step);
 
         work->step.vx /= 4;
@@ -235,7 +235,7 @@ static int GetResources(Work *work, SVECTOR *pos, SVECTOR *step, int type, int m
         {
             GM_ConfigControlHazard(control, 100, -1, -1);
         }
-        control->exclude_flag = 4;
+        control->seg_flag = 4;
         if (side == PLAYER_SIDE)
         {
             control->mov = GM_PlayerPosition;

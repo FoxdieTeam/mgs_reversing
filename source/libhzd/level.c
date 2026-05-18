@@ -111,7 +111,7 @@ static inline void assign_subtract( int idx, short idx2, short idx3, short *val 
     ((short*)SCRPAD_ADDR)[idx] = ((short*)SCRPAD_ADDR)[idx2] - val[idx3];
 }
 
-STATIC int HZD_LevelHeight(HZD_FLR *floor)
+STATIC int SlopeFloorLevel(HZD_FLR *floor)
 {
     short *test;
     int x, y;
@@ -149,7 +149,7 @@ STATIC void HZD_LevelTest(HZD_FLR *floor)
         }
         else
         {
-            y = HZD_LevelHeight(floor);
+            y = SlopeFloorLevel(floor);
         }
 
         scrpad = (SCRPAD_DATA *)SCRPAD_ADDR;
@@ -183,7 +183,7 @@ static inline int HZD_PointInBounds(HZD_FLR *floor, HZD_VEC *point)
     return 1;
 }
 
-int HZD_LevelTestHazard(HZD_HDL *hdl, SVECTOR *point, int flags)
+int HZD_LevelHazardCheck( HZD_HDL *hzd, SVECTOR *from, int chk_flag )
 {
     HZD_GRP *pArea;
     int      *pScr;
@@ -192,9 +192,9 @@ int HZD_LevelTestHazard(HZD_HDL *hdl, SVECTOR *point, int flags)
     HZD_FLR **ppFloors;
     int      *pScr2;
 
-    pArea = hdl->group;
+    pArea = hzd->grp;
 
-    CopyVector(point, &POINT);
+    CopyVector(from, &POINT);
 
     pScr = (int *)getScratchAddr(0);
     pScr[16] = 0;
@@ -202,7 +202,7 @@ int HZD_LevelTestHazard(HZD_HDL *hdl, SVECTOR *point, int flags)
     pScr[17] = -1000000;
     pScr[18] = 1000000;
 
-    if (flags & 1)
+    if ( chk_flag & HZD_CHK_F_FLOOR )
     {
         floor = pArea->floors;
 
@@ -215,11 +215,11 @@ int HZD_LevelTestHazard(HZD_HDL *hdl, SVECTOR *point, int flags)
         }
     }
 
-    if (flags & 2)
+    if ( chk_flag & HZD_CHK_D_FLOOR )
     {
-        ppFloors = hdl->dynamic_floors;
+        ppFloors = hzd->dynamic_floors;
 
-        for (count = hdl->dynamic_floor_index; count > 0; count--, ppFloors++)
+        for (count = hzd->dynamic_floor_index; count > 0; count--, ppFloors++)
         {
             if (HZD_PointInBounds(*ppFloors, (HZD_VEC *)getScratchAddr(3)))
             {
@@ -237,34 +237,34 @@ int HZD_LevelTestHazard(HZD_HDL *hdl, SVECTOR *point, int flags)
     return (pScr2[15] == 0) ? 2 : 3;
 }
 
-void HZD_LevelMinMaxFloors(HZD_FLR **floors)
+void HZD_GetLevelHazard( HZD_FLR **flr )
 {
     SCRPAD_DATA *scrpad = (SCRPAD_DATA *)SCRPAD_ADDR;
 
-    floors[0] = scrpad->max_floor;
-    floors[1] = scrpad->min_floor;
+    flr[0] = scrpad->max_floor;
+    flr[1] = scrpad->min_floor;
 }
 
-void HZD_LevelMinMaxHeights(int *levels)
+void HZD_GetLevelHeight( int *lvl_ptr )
 {
     SCRPAD_DATA *scrpad = (SCRPAD_DATA *)SCRPAD_ADDR;
 
-    levels[0] = scrpad->max_level;
-    levels[1] = scrpad->min_level;
+    lvl_ptr[0] = scrpad->max_level;
+    lvl_ptr[1] = scrpad->min_level;
 }
 
-int HZD_SlopeFloorLevel(SVECTOR *point, HZD_FLR *floor)
+int HZD_SlopeFloorLevel( SVECTOR *mov, HZD_FLR *flr )
 {
-    CopyVector(point, &POINT);
-    return HZD_LevelHeight(floor);
+    CopyVector(mov, &POINT);
+    return SlopeFloorLevel(flr);
 }
 
-int HZD_LevelTestFloor(HZD_FLR *floor, SVECTOR *point)
+int HZD_GetFloorHit( HZD_FLR *flr, SVECTOR *mov )
 {
     SCRPAD_DATA *scrpad;
     SCRPAD_DATA *scrpad2;
 
-    CopyVector(point, &POINT);
+    CopyVector(mov, &POINT);
 
     scrpad = (SCRPAD_DATA *)SCRPAD_ADDR;
     scrpad->min_floor = NULL;
@@ -272,9 +272,9 @@ int HZD_LevelTestFloor(HZD_FLR *floor, SVECTOR *point)
     scrpad->max_level = -1000000;
     scrpad->min_level = 1000000;
 
-    if (HZD_PointInBounds(floor, &POINT))
+    if (HZD_PointInBounds(flr, &POINT))
     {
-        HZD_LevelTest(floor);
+        HZD_LevelTest(flr);
     }
 
     scrpad2 = (SCRPAD_DATA *)SCRPAD_ADDR;
@@ -287,7 +287,7 @@ int HZD_LevelTestFloor(HZD_FLR *floor, SVECTOR *point)
     return (!scrpad2->max_floor) ? 2 : 3;
 }
 
-int HZD_LevelMaxHeight(void)
+int HZD_GetFloorLevel( void )
 {
     if (!MAX_FLOOR)
     {

@@ -39,9 +39,9 @@ STATIC int d_blood_act_helper_800729B4(void)
         return 0;
     }
 
-    pArray = control->event.triggers;
+    pArray = control->evt.inside;
 
-    for (i = control->event.n_triggers; i > 0; i--, pArray++)
+    for (i = control->evt.n_inside; i > 0; i--, pArray++)
     {
         if (*pArray == 0xC09E)
         {

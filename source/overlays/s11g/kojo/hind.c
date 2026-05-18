@@ -21,7 +21,7 @@ static void GetInts(u_char *param, int *out)
     }
 }
 
-void *NewHind(int name, int where)
+void *NewHindBoss(int name, int where)
 {
     SVECTOR   svec;
     VECTOR    vec1, vec2, vec3;
@@ -379,7 +379,7 @@ void *NewHind(int name, int where)
         }
     }
 
-    work->control.step_size = -2;
+    work->control.r_sphere = -2;
     work->control.interp = 0;
 
     GM_ConfigControlAttribute(&work->control, 4);
@@ -526,8 +526,8 @@ void *NewHind(int name, int where)
     work->field_56C = -26200;
     work->field_570 = -26200;
 
-    walls = work->control.map->hzd->group->walls;
-    for (i = 0; i < work->control.map->hzd->group->n_walls; i++, walls++)
+    walls = work->control.map->hzd->grp->walls;
+    for (i = 0; i < work->control.map->hzd->grp->n_walls; i++, walls++)
     {
         work->field_558 = MIN(work->field_558, walls->p1.x);
         work->field_55C = MIN(work->field_55C, walls->p1.y);
@@ -546,8 +546,8 @@ void *NewHind(int name, int where)
         work->field_570 = MAX(work->field_570, walls->p2.z + walls->p2.h);
     }
 
-    floors = work->control.map->hzd->group->floors;
-    for (i = 0; i < work->control.map->hzd->group->n_floors; i++, floors++)
+    floors = work->control.map->hzd->grp->floors;
+    for (i = 0; i < work->control.map->hzd->grp->n_floors; i++, floors++)
     {
         work->field_558 = MIN(work->field_558, floors->b1.x);
         work->field_55C = MIN(work->field_55C, floors->b1.y);

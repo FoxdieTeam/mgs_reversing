@@ -203,7 +203,7 @@ int s11i_zako11f_800C8B98( Zako11FWork* work, int name, int where )
     GM_ConfigControlAttribute( ctrl, 13 );
     GM_ConfigControlInterp( ctrl, 4 );
 
-    ctrl->exclude_flag = 2;
+    ctrl->seg_flag = 2;
 
     GM_ConfigControlTrapCheck( ctrl );
 
@@ -278,7 +278,7 @@ int ReadNodes_800C8E4C( Zako11FWork* work )
     HZD_PAT *patrol;
     HZD_PTP *points;
 
-    patrol = work->control.map->hzd->header->routes;
+    patrol = work->control.map->hzd->def->routes;
     patrol = &patrol[ work->param.root ];
 
     work->n_nodes = patrol->n_points;

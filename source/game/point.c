@@ -24,14 +24,14 @@ static void Act(Work *work)
     int      message;
 
     control = &work->control;
-    n_msgs = GV_ReceiveMessage(control->name, &control->messages);
+    n_msgs = GV_ReceiveMessage(control->name, &control->msg);
 
     if (n_msgs <= 0)
     {
         return;
     }
 
-    msg = control->messages;
+    msg = control->msg;
     while (--n_msgs >= 0)
     {
         message = msg->message[0];

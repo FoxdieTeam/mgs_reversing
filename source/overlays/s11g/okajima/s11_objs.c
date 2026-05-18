@@ -40,7 +40,7 @@ typedef struct _Work
     int         f25AC;
 } Work;
 
-#define EXEC_LEVEL      5
+#define EXEC_LEVEL      GV_ACTOR_USER
 #define MODEL_FLAG      ( DG_FLAG_TEXT | DG_FLAG_PAINT | DG_FLAG_TRANS | DG_FLAG_ONEPIECE )
 
 #define ATTACK_DAMAGE   (256)
