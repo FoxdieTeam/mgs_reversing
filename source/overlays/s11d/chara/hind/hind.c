@@ -18,7 +18,8 @@ typedef struct _HindWork
     unsigned short field_1CE;
     char    pad_1d0[0x910 - 0x1CC - sizeof(unsigned short) * 2];
     unsigned short *field_910;
-    char    pad_914[0x924 - 0x910 - sizeof(unsigned short *)];
+    unsigned short  field_914;
+    char    pad_916[0x924 - 0x914 - sizeof(unsigned short)];
     DG_PRIM *field_924;
     char    pad_928[0x93C - 0x924 - sizeof(DG_PRIM *)];
     int     field_93C[7];
@@ -98,7 +99,17 @@ void s11d_hind_800C9870(HindWork *work)
     work->field_1C4 = 0;
 }
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800C9908.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800C99A8.s")
+extern void s11d_hind_800C9908(HindWork *work, int arg1);
+
+void s11d_hind_800C99A8(HindWork *work)
+{
+    int a1 = (work->field_910[3] & 0x1C00) >> 10;
+    if (a1 == 0)
+    {
+        a1 = work->field_914 + 1;
+    }
+    s11d_hind_800C9908(work, a1);
+}
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800C99F4.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800C9B94.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800C9C7C.s")
