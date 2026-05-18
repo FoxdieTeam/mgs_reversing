@@ -10,9 +10,15 @@ typedef struct _HindWork
     DG_OBJS *field_9C;
     char    pad_a0[0x180 - 0x9C - sizeof(DG_OBJS *)];
     MATRIX  field_180;
-    char    pad_1a0[0x1C8 - 0x180 - sizeof(MATRIX)];
+    char    pad_1a0[0x1C4 - 0x180 - sizeof(MATRIX)];
+    int     field_1C4;
     unsigned char field_1C8;
-    char    pad_1c9[0x924 - 0x1C8 - sizeof(unsigned char)];
+    char    pad_1c9[0x1CC - 0x1C8 - sizeof(unsigned char)];
+    unsigned short field_1CC;
+    unsigned short field_1CE;
+    char    pad_1d0[0x910 - 0x1CC - sizeof(unsigned short) * 2];
+    unsigned short *field_910;
+    char    pad_914[0x924 - 0x910 - sizeof(unsigned short *)];
     DG_PRIM *field_924;
     char    pad_928[0x93C - 0x924 - sizeof(DG_PRIM *)];
     int     field_93C[7];
@@ -63,7 +69,34 @@ void s11d_hind_800C9838(HindWork *work)
         GM_SeSetMode(&work->control.mov, 0xB6, GM_SEMODE_BOMB);
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800C9870.s")
+void s11d_hind_800C9870(HindWork *work)
+{
+    int v1 = (work->field_910[3] & 0x300) >> 8;
+
+    if (v1 == 3)
+    {
+        GV_DestroyActor(work);
+        return;
+    }
+
+    if (v1 == 1)
+    {
+        if (*(int *)&work->field_1C8 & 2)
+        {
+            work->field_1CC = 1;
+            work->field_1CE = ((unsigned char *)work->field_910)[6] >> 5;
+            return;
+        }
+    }
+    else if (v1 != 2)
+    {
+        return;
+    }
+
+    work->field_1CC = 0;
+    work->field_1CE = 0xFFFF;
+    work->field_1C4 = 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800C9908.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800C99A8.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800C99F4.s")
