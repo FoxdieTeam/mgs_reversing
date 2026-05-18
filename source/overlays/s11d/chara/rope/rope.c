@@ -17,27 +17,9 @@ struct RopeA14Rec
 typedef struct _RopeWork
 {
     GV_ACT  actor;
-    SVECTOR field_20;
-    short   field_28;
-    short  field_2A;
-    short  field_2C;
-    char   pad1a[0x36 - 0x2C - sizeof(short)];
-    short  field_36;
-    short  field_38;
-    char   pad1b[0x64 - 0x38 - sizeof(short)];
-    SVECTOR field_64;
-    short  field_6C;
-    short  field_6E;
-    short  field_70;
-    char   pad2a1[0x98 - 0x70 - sizeof(short)];
-    short  field_98;
-    char   pad2a2[0x9C - 0x98 - sizeof(short)];
-    DG_OBJS *field_9C;
-    char   pad2b1[0xAA - 0x9C - sizeof(DG_OBJS *)];
-    short  field_AA;
-    char   pad2b2[0xB6 - 0xAA - sizeof(short)];
-    short  field_B6;
-    char   pad2b3[0x186 - 0xB6 - sizeof(short)];
+    CONTROL control;
+    OBJECT  object;
+    char   pad_obj[0x186 - 0x9C - sizeof(OBJECT)];
     short  field_186;
     char   pad2b[0x7DC - 0x186 - sizeof(short)];
     DG_OBJS *field_7DC;
@@ -162,15 +144,15 @@ void s11d_rope_800C3DF0(CONTROL *control, HZD_HDL *hzd)
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C3E50.s")
 void s11d_rope_800C4274(RopeWork *work)
 {
-    DG_SetPos2(&work->field_20, (SVECTOR *)&work->field_28);
+    DG_SetPos2(&work->control.mov, &work->control.rot);
     if (work->field_F70 & 0x80)
     {
         SVECTOR vec;
         vec.vz = 0;
         vec.vx = 0;
-        vec.vy = work->field_6E;
+        vec.vy = work->control.turn.vy;
         GV_NearExp4PV(&work->field_F58, &vec, 3);
-        DG_SetPos2(&work->field_20, &work->field_F58);
+        DG_SetPos2(&work->control.mov, &work->field_F58);
     }
 }
 extern MATRIX *CompMatrix(MATRIX *m1, MATRIX *m2, MATRIX *out);
@@ -187,9 +169,8 @@ void s11d_rope_800C42F4(DG_OBJS *objs, VECTOR *out)
     mat = objs->world;
     rots = objs->rots;
     obj = objs->objs;
-    i = 0;
 
-    do
+    for (i = 0; i < 5; i++)
     {
         mdl = obj->model;
         RotMatrixZYX(rots, &rot);
@@ -199,8 +180,7 @@ void s11d_rope_800C42F4(DG_OBJS *objs, VECTOR *out)
         CompMatrix(&mat, &rot, &mat);
         obj++;
         rots++;
-        i++;
-    } while (i < 5);
+    }
 
     out->vx = mat.t[0];
     out->vy = mat.t[1];
@@ -223,22 +203,22 @@ void s11d_rope_800C4404(RopeWork *work)
         return;
     }
 
-    field_98_val = work->field_98;
+    field_98_val = work->control.levels[0];
 
     if (work->target->size.vy == 200)
     {
-        target_y = work->field_20.vy - 250;
+        target_y = work->control.mov.vy - 250;
     }
     else
     {
-        target_y = work->field_20.vy - 950;
+        target_y = work->control.mov.vy - 950;
     }
 
     delta = target_y - field_98_val;
 
     if (delta > 0 && delta < 500)
     {
-        work->field_20.vy -= delta;
+        work->control.mov.vy -= delta;
         return;
     }
     if (delta >= 0)
@@ -249,7 +229,7 @@ void s11d_rope_800C4404(RopeWork *work)
     {
         return;
     }
-    work->field_20.vy += delta;
+    work->control.mov.vy += delta;
 }
 void s11d_rope_800C44A4(RopeWork *work)
 {
@@ -288,7 +268,7 @@ void s11d_rope_800C44F0(RopeWork *work)
         {
             return;
         }
-        work->field_9C->flag &= ~DG_FLAG_INVISIBLE;
+        work->object.objs->flag &= ~DG_FLAG_INVISIBLE;
     }
     else
     {
@@ -302,35 +282,28 @@ void s11d_rope_800C44F0(RopeWork *work)
         {
             return;
         }
-        work->field_9C->flag |= DG_FLAG_INVISIBLE;
+        work->object.objs->flag |= DG_FLAG_INVISIBLE;
     }
 }
-typedef struct {
-    unsigned short field_00;
-    short          pad_02[4];
-    short          field_0A;
-    unsigned char  field_0C[4];
-} RopeEA8Rec;
-
 void s11d_rope_800C4574(RopeWork *work)
 {
-    RopeEA8Rec    *rec;
+    GV_PAD        *pad;
     unsigned char *bytes;
     int            i;
 
     work->field_F74 &= ~0x8000;
 
-    rec = (RopeEA8Rec *)work->field_EA8;
-    if (rec->field_0A == 0)
+    pad = (GV_PAD *)work->field_EA8;
+    if (pad->analog == 0)
     {
         return;
     }
-    if (!(rec->field_00 & 0xF000))
+    if (!(pad->status & 0xF000))
     {
         return;
     }
 
-    bytes = rec->field_0C;
+    bytes = &pad->right_dx;
     for (i = 0; i < 4; i++)
     {
         if ((unsigned char)(*bytes - 0x40) >= 0x81)
@@ -343,7 +316,7 @@ void s11d_rope_800C4574(RopeWork *work)
 }
 void s11d_rope_800C45F8(RopeWork *work)
 {
-    int diff = 3000 - work->field_20.vy;
+    int diff = 3000 - work->control.mov.vy;
 
     if (diff < 0)
     {
@@ -565,8 +538,8 @@ void s11d_rope_800C5348(RopeWork *work)
 
     code = GV_StrCode(s11d_aTosi_800D1D5C);
 
-    names = (u_short *)&work->field_38;
-    count = work->field_36;
+    names = work->control.event.triggers;
+    count = work->control.event.n_triggers;
     target = work->target;
 
     while (count > 0)
@@ -657,7 +630,7 @@ void s11d_rope_800C61D8(RopeWork *work, int idx)
     MATRIX *mat;
     MATRIX  sp10;
 
-    mat = &work->field_9C->objs[idx].world;
+    mat = &work->object.objs->objs[idx].world;
 
     DG_SetPos(mat);
     DG_MovePos(&s11d_dword_800C32BC);
@@ -667,9 +640,9 @@ void s11d_rope_800C61D8(RopeWork *work, int idx)
 }
 void s11d_rope_800C6240(RopeWork *work)
 {
-    work->field_6E = 0x800;
-    work->field_2C = 0;
-    work->field_28 = 0;
+    work->control.turn.vy = 0x800;
+    work->control.rot.vz = 0;
+    work->control.rot.vx = 0;
     work->field_F70 &= ~0x80;
 }
 void s11d_rope_800C6264(RopeWork *work)
@@ -764,33 +737,33 @@ void s11d_rope_800C7530(RopeWork *work, int arg1)
     {
         work->field_F74 &= ~0x10000;
         work->field_F70 &= ~0xFF;
-        if (work->field_AA != 1)
+        if (work->object.action != 1)
         {
-            GM_ConfigObjectAction((OBJECT *)&work->field_9C, 1, 0, 4);
+            GM_ConfigObjectAction(&work->object, 1, 0, 4);
         }
         work->field_F44 = 0;
     }
 
     if (!(work->field_F74 & 0x300))
     {
-        if (work->field_AA != 1)
+        if (work->object.action != 1)
         {
-            GM_ConfigObjectAction((OBJECT *)&work->field_9C, 1, 0, 4);
+            GM_ConfigObjectAction(&work->object, 1, 0, 4);
         }
         ea8_val = *work->field_EA8;
         if (ea8_val & 0x8000)
         {
-            work->field_6E = 0x600;
+            work->control.turn.vy = 0x600;
         }
         else if (ea8_val & 0x2000)
         {
-            work->field_6E = -0x600;
+            work->control.turn.vy = -0x600;
         }
     }
 
     if (work->field_F74 & 0x2000)
     {
-        GM_SeSetMode(&work->field_20, 0xb2, 1);
+        GM_SeSetMode(&work->control.mov, 0xb2, 1);
         s11d_rope_800C650C();
         state_fn = s11d_rope_800C6834;
     }
@@ -820,16 +793,16 @@ void s11d_rope_800C7A4C(RopeWork *work, int arg1)
     if (arg1 == 0)
     {
         work->field_F74 = (work->field_F74 & 0xFF9FFFFF) | 0x00010000;
-        GM_SeSetMode(&work->field_20, 25, 1);
+        GM_SeSetMode(&work->control.mov, 25, 1);
         work->field_F70 |= 0x100;
-        if (work->field_AA != 9)
+        if (work->object.action != 9)
         {
-            GM_ConfigObjectAction((OBJECT *)&work->field_9C, 9, 0, 4);
+            GM_ConfigObjectAction(&work->object, 9, 0, 4);
         }
-        work->field_6E = 0x800;
+        work->control.turn.vy = 0x800;
         s11d_rope_800C4898(work, 0);
     }
-    if (work->field_B6 != 0)
+    if (work->object.is_end != 0)
     {
         s11d_rope_800C486C(work);
         work->field_EAC = (int)s11d_rope_800C6834;
@@ -838,7 +811,7 @@ void s11d_rope_800C7A4C(RopeWork *work, int arg1)
         work->field_EBC = 0;
         work->field_F70 &= ~0x100;
     }
-    work->field_64.vy -= 0x80;
+    work->control.step.vy -= 0x80;
 }
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C7B2C.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C7D20.s")
@@ -849,18 +822,18 @@ void s11d_rope_800C7EC4(RopeWork *work, int arg1)
     if (arg1 == 0)
     {
         work->field_F74 |= 0x02000000;
-        work->field_70 = 0;
-        work->field_6C = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
         GM_SnakeCurrentHealth = 0;
-        if (work->field_AA != 14)
+        if (work->object.action != 14)
         {
-            GM_ConfigObjectAction((OBJECT *)&work->field_9C, 14, 0, 4);
+            GM_ConfigObjectAction(&work->object, 14, 0, 4);
         }
     }
-    work->field_64.vy -= 0x20;
+    work->control.step.vy -= 0x20;
     if (arg1 == 8)
     {
-        GM_PlayerPosition = work->field_20;
+        GM_PlayerPosition = work->control.mov;
     }
     if (arg1 == 24)
     {
@@ -876,7 +849,7 @@ void s11d_rope_800C8200(RopeWork *work, int arg1)
     {
         return;
     }
-    work->field_9C->flag |= DG_FLAG_INVISIBLE;
+    work->object.objs->flag |= DG_FLAG_INVISIBLE;
     *(int *)&work->field_7DC->def |= 0x100;
     GM_GameOver();
 }
@@ -903,7 +876,7 @@ void s11d_rope_800C8250(RopeWork *work)
 {
     void (*state_fn)(RopeWork *, int);
 
-    work->field_64 = DG_ZeroVector;
+    work->control.step = DG_ZeroVector;
 
     s11d_rope_800C54CC(work);
     s11d_rope_800C44A4(work);
@@ -926,7 +899,7 @@ void s11d_rope_800C8250(RopeWork *work)
     s11d_rope_800C502C(work);
 
     s11d_dword_800D1F84 = (work->field_F70 & 2) > 0;
-    GM_PlayerAction = work->field_AA;
+    GM_PlayerAction = work->object.action;
     dword_800AB9D4 = work->field_186;
     s11d_rope_800C5410();
 }
@@ -939,36 +912,20 @@ extern OBJECT  *GM_PlayerBody;
 
 void s11d_rope_800C868C(RopeWork *work)
 {
-    DG_PRIM *prim;
     CONTROL *control;
     OBJECT  *obj;
 
     TortureInfoKill();
     GV_DestroyActor(work->field_800);
-    control = (CONTROL *)&work->field_20;
+    control = &work->control;
     GM_FreeControl(control);
-    obj = (OBJECT *)&work->field_9C;
+    obj = &work->object;
     GM_FreeObject(obj);
     GM_FreeTarget(work->target);
 
-    prim = work->field_810;
-    if (prim)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
-    prim = (DG_PRIM *)work->field_A14;
-    if (prim)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
-    prim = (DG_PRIM *)work->field_7DC;
-    if (prim)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->field_810);
+    GM_FreePrim((DG_PRIM *)work->field_A14);
+    GM_FreePrim((DG_PRIM *)work->field_7DC);
 
     GM_GameStatus &= ~STATE_MENU_OFF;
     if (GM_PlayerControl == control)
@@ -1022,10 +979,10 @@ void s11d_rope_800C8C04(RopeWork *work)
     cluster2[3]  = 0x40;                               /* field_F10 */
     cluster1[12] = work->field_F94;                    /* field_EF8 */
     cluster2[12] = work->field_F98;                    /* field_F34 */
-    cluster1[13] = (int)&work->field_20;               /* field_EFC */
-    cluster2[13] = (int)&work->field_20.vz;            /* field_F38 */
-    cluster1[14] = (int)&work->field_70;               /* field_F00 */
-    cluster2[14] = (int)&work->field_6C;               /* field_F3C */
+    cluster1[13] = (int)&work->control.mov;               /* field_EFC */
+    cluster2[13] = (int)&work->control.mov.vz;            /* field_F38 */
+    cluster1[14] = (int)&work->control.turn.vz;               /* field_F00 */
+    cluster2[14] = (int)&work->control.turn.vx;               /* field_F3C */
 }
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C8C88.s")
 extern int s11d_dword_800D1F7C;
