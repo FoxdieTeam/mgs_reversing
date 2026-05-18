@@ -12,7 +12,25 @@ typedef struct _HindBulWork
 } HindBulWork;
 
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_bul_800CB794.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_bul_800CB888.s")
+extern SVECTOR DG_ZeroVector;
+
+void s11d_hind_bul_800CB888(HindBulWork *work)
+{
+    SVECTOR svec_a;
+    SVECTOR svec_b;
+
+    svec_a = DG_ZeroVector;
+    svec_a.vy = GV_VecDir2(&work->control.step);
+    svec_b.vx = work->control.step.vy;
+    svec_b.vz = work->control.step.vz;
+    svec_a.vx = GV_VecDir2(&svec_b);
+
+    RotMatrixYXZ(&svec_a, (MATRIX *)work->field_F8);
+
+    work->field_F8->world.t[0] = work->control.mov.vx;
+    work->field_F8->world.t[1] = work->control.mov.vy;
+    work->field_F8->world.t[2] = work->control.mov.vz;
+}
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_bul_800CB938.s")
 void s11d_hind_bul_800CBA14(HindBulWork *work)
 {
