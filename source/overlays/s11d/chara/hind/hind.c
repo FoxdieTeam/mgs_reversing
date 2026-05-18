@@ -8,8 +8,8 @@ typedef struct _HindWork
 {
     GV_ACT  actor;       // 0x00
     CONTROL control;     // 0x20
-    DG_OBJS *field_9C;
-    char    pad_a0[0x180 - 0x9C - sizeof(DG_OBJS *)];
+    OBJECT  object;      // 0x9C
+    char    pad_object[0x180 - 0x9C - sizeof(OBJECT)];
     MATRIX  field_180;
     char    pad_1a0[0x1C4 - 0x180 - sizeof(MATRIX)];
     int     field_1C4;
@@ -23,7 +23,10 @@ typedef struct _HindWork
     short   field_1EC;
     char    pad_1ee[0x1F0 - 0x1EC - sizeof(short)];
     short   field_1F0;
-    char    pad_1f2[0x202 - 0x1F0 - sizeof(short)];
+    char    pad_1f2[0x1F4 - 0x1F0 - sizeof(short)];
+    short   field_1F4;
+    short   field_1F6;
+    char    pad_1f8[0x202 - 0x1F8];
     unsigned short field_202[8];
     char    pad_212[0x910 - 0x212];
     unsigned short *field_910;
@@ -183,11 +186,11 @@ void s11d_hind_800CA49C(HindWork *work)
         work->control.mov.vx >= -3999 &&
         work->control.mov.vx < 3000)
     {
-        work->field_9C->flag |= DG_FLAG_INVISIBLE;
+        work->object.objs->flag |= DG_FLAG_INVISIBLE;
     }
     else
     {
-        work->field_9C->flag &= ~DG_FLAG_INVISIBLE;
+        work->object.objs->flag &= ~DG_FLAG_INVISIBLE;
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CA504.s")
@@ -235,7 +238,7 @@ extern void s11d_hind_800CAE6C(HindWork *work);
 void s11d_hind_800CAF20(HindWork *work)
 {
     CONTROL *ctrl = &work->control;
-    OBJECT  *body = (OBJECT *)&work->field_9C;
+    OBJECT  *body = &work->object;
 
     GM_ActControl(ctrl);
     work->control.mov.vy += work->control.step.vy;
@@ -250,7 +253,7 @@ void s11d_hind_800CAF9C(HindWork *work)
     DG_PRIM *prim;
 
     GM_FreeControl(&work->control);
-    GM_FreeObject((OBJECT *)&work->field_9C);
+    GM_FreeObject(&work->object);
     prim = work->field_924;
     if (prim)
     {
