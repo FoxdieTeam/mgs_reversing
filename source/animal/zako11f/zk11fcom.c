@@ -165,7 +165,7 @@ void s11i_zk11fcom_800D0EBC( void )
 
     for ( i = 0; i < Zako11FCommand_800D5AF8.n_zones ; i++ )
     {
-        zone = &Zako11FCommand_800D5AF8.map->hzd->header->zones[ Zako11FCommand_800D5AF8.zones[ i ] ];
+        zone = &Zako11FCommand_800D5AF8.map->hzd->def->zones[ Zako11FCommand_800D5AF8.zones[ i ] ];
 
         dest.vx = zone->x;
         dest.vy = GM_PlayerPosition.vy;

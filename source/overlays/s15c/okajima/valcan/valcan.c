@@ -581,9 +581,9 @@ void Valcan_800D9AB8(ValcanWork *work)
 
     control = &work->control;
     control->height = work->field_A0.height;
-    control->step_size = GV_NearExp2(control->step_size, 450);
+    control->r_sphere = GV_NearExp2(control->r_sphere, 450);
 
-    if (work->field_66C < 0 && control->level_flag != 0)
+    if (work->field_66C < 0 && control->grounded != 0)
     {
         work->field_66C = 0;
     }
@@ -684,14 +684,14 @@ void Valcan_800D9B5C(ValcanWork *work)
 
 void Valcan_800D9D90(ValcanWork *work)
 {
-    RADAR_CONE *cone;
+    RADAR_SIGHT_PARAM *r_param;
 
-    work->control.radar_cone.dir = work->control.rot.vy + work->field_5A4[6].vy;
+    work->control.radar_param.dir = work->control.rot.vy + work->field_5A4[6].vy;
 
-    cone = &work->control.radar_cone;
-    cone->len = work->field_944;
-    cone->ang = work->field_948;
-    cone->_pad = 0;
+    r_param = &work->control.radar_param;
+    r_param->dis = work->field_944;
+    r_param->range = work->field_948;
+    r_param->r = 0;
 }
 
 int Valcan_800D9DC0(ValcanWork *work, int param_2)
@@ -882,9 +882,9 @@ int Valcan_800DA558(ValcanWork *work, int arg1)
     var_s0 = 0;
     if (dword_8009F46C[0] == 1 || amissile_alive_8009F490 == 1)
     {
-        if (HZD_LineCheck(work->control.map->hzd, &svec1, &work->field_51C, ( HZD_CHECK_DYNSEG | HZD_CHECK_SEG ), SEGMENT_ATR) == 0)
+        if (HZD_OnlineHazardCheck(work->control.map->hzd, &svec1, &work->field_51C, HZD_CHK_SEGMENT, SEGMENT_ATR) == 0)
         {
-            if (HZD_LineCheck(work->control.map->hzd, &svec1, &GM_PlayerPosition, ( HZD_CHECK_DYNSEG | HZD_CHECK_SEG ), SEGMENT_ATR) == 0)
+            if (HZD_OnlineHazardCheck(work->control.map->hzd, &svec1, &GM_PlayerPosition, HZD_CHK_SEGMENT, SEGMENT_ATR) == 0)
             {
                 var_s0 = Valcan_800D9DC0(work, 1);
                 if (var_s0 < work->field_68C)
@@ -899,7 +899,7 @@ int Valcan_800DA558(ValcanWork *work, int arg1)
                 return 1;
             }
         }
-        else if (HZD_LineCheck(work->control.map->hzd, &svec1, &GM_PlayerPosition, ( HZD_CHECK_DYNSEG | HZD_CHECK_SEG ), SEGMENT_ATR) == 0)
+        else if (HZD_OnlineHazardCheck(work->control.map->hzd, &svec1, &GM_PlayerPosition, HZD_CHK_SEGMENT, SEGMENT_ATR) == 0)
         {
             var_s0 = Valcan_800D9DC0(work, 1);
             flag = 1;
@@ -911,7 +911,7 @@ int Valcan_800DA558(ValcanWork *work, int arg1)
             return 0;
         }
     }
-    else if (HZD_LineCheck(work->control.map->hzd, &svec1, &GM_PlayerPosition, ( HZD_CHECK_DYNSEG | HZD_CHECK_SEG ), SEGMENT_ATR) != 0)
+    else if (HZD_OnlineHazardCheck(work->control.map->hzd, &svec1, &GM_PlayerPosition, HZD_CHK_SEGMENT, SEGMENT_ATR) != 0)
     {
         work->field_788 = 0;
         return 0;

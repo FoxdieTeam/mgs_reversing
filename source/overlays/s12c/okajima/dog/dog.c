@@ -731,40 +731,39 @@ void Dog_800CB0C8(int *arg0, int arg1, int arg2)
 
 void s12c_dog_800CB114(DogWork *work, int index)
 {
-    RADAR_CONE *cone;
+    RADAR_SIGHT_PARAM *r_param;
 
-    cone = &work->field_28[index].radar_cone;
-
-    cone->dir = work->field_28[index].rot.vy + work->field_F2A[index].field_0;
+    r_param = &work->field_28[index].radar_param;
+    r_param->dir = work->field_28[index].rot.vy + work->field_F2A[index].field_0;
 
     if (index != 2)
     {
-        cone->len = 4000;
-        cone->ang = 700;
+        r_param->dis = 4000;
+        r_param->range = 700;
     }
     else
     {
-        cone->len = 5000;
-        cone->ang = 400;
+        r_param->dis = 5000;
+        r_param->range = 400;
     }
-    cone->_pad = 0;
+
+    r_param->r = 0;
 }
 
 void s12c_dog_800CB180(DogWork *work, int index)
 {
-    RADAR_CONE *cone;
+    RADAR_SIGHT_PARAM *r_param;
 
-    cone = &work->field_28[index].radar_cone;
-
-    cone->dir = work->field_28[index].rot.vy + work->field_F2A[index].field_0;
+    r_param = &work->field_28[index].radar_param;
+    r_param->dir = work->field_28[index].rot.vy + work->field_F2A[index].field_0;
 
     if (index != 2)
     {
-        cone->len = work->field_1574[index] * 4000 / 255;
+        r_param->dis = work->field_1574[index] * 4000 / 255;
     }
     else
     {
-        cone->len = work->field_1574[2] * 5000 / 255;
+        r_param->dis = work->field_1574[2] * 5000 / 255;
     }
 }
 

@@ -341,16 +341,16 @@ skip_clamp_z:
     {
         f168 = work->field_168;
 
-        if (f168 == 1 && HZD_LineCheck(map->hzd, &svec1, &svec2, HZD_CHECK_ALL, SEGMENT_ATR))
+        if (f168 == 1 && HZD_OnlineHazardCheck(map->hzd, &svec1, &svec2, HZD_CHK_ALL, SEGMENT_ATR))
         {
-            HZD_LineNearVec(&work->field_118);
-            work->floor = HZD_LineNearSurface();
-            work->field_16C = HZD_LineNearFlag();
+            HZD_GetOnlinePoint(&work->field_118);
+            work->floor = HZD_GetOnlineHazard();
+            work->field_16C = HZD_GetOnlineHazardAtr();
 
             if ((unsigned int)work->floor & 0x80000000) // Wall
             {
                 work->field_164 = f168;
-                HZD_SurfaceNormal(work->floor, &work->field_128);
+                HZD_GetNormal(work->floor, &work->field_128);
             }
             else // Floor
             {

@@ -18,6 +18,6 @@ void NavigateSetTarget(NAVIGATE *nav, HZD_HDL *hzd, SVECTOR *pos);
 void NavigateSetTargetPlayer(NAVIGATE *nav);
 int NavigateGetTargetDist(NAVIGATE *nav, SVECTOR *pos);
 int NavigateTargetNear(NAVIGATE *nav, SVECTOR *pos, int dist);
-int NavigateUpdate(NAVIGATE *nav, CONTROL *control);
+int GM_ZoneNavi(NAVIGATE *nav, CONTROL *control);
 
 #endif // __MGS_CHARA_NAVIGATE_H__

@@ -401,9 +401,9 @@ void s12a_wolf2_800CF2C4(Wolf2Work *work)
             hit_target = 1;
         }
 
-        if (HZD_LineCheck(map->hzd, &sp28, &sp20, 5, 4))
+        if (HZD_OnlineHazardCheck(map->hzd, &sp28, &sp20, HZD_CHK_FIX, HZD_SEG_NO_PLAYER))
         {
-            HZD_LineNearVec(&sp20);
+            HZD_GetOnlinePoint(&sp20);
             hit = 1;
         }
 
@@ -543,7 +543,7 @@ int s12a_wolf2_800D01D8(Wolf2Work *work)
     center.vx = (work->f9FC.vx + pos.vx) / 2;
     center.vy = (work->f9FC.vy + pos.vy) / 2;
     center.vz = (work->f9FC.vz + pos.vz) / 2;
-    return HZD_LineCheck(work->control.map->hzd, &pos, &center, 5, 4) != 0;
+    return HZD_OnlineHazardCheck(work->control.map->hzd, &pos, &center, HZD_CHK_FIX, HZD_SEG_NO_PLAYER) != 0;
 }
 
 int s12a_wolf2_800D0298(Wolf2Work *work)
@@ -557,7 +557,7 @@ int s12a_wolf2_800D0298(Wolf2Work *work)
     center.vx = (work->f9FC.vx + pos.vx) / 2;
     center.vy = (work->f9FC.vy + pos.vy) / 2;
     center.vz = (work->f9FC.vz + pos.vz) / 2;
-    return HZD_LineCheck(work->control.map->hzd, &work->f9FC, &center, 5, 4) != 0;
+    return HZD_OnlineHazardCheck(work->control.map->hzd, &work->f9FC, &center, HZD_CHK_FIX, HZD_SEG_NO_PLAYER) != 0;
 }
 
 void s12a_wolf2_800D0358(Wolf2Work *work)
@@ -906,7 +906,7 @@ int s12a_wolf2_800D0CAC(Wolf2Work *work)
     tgt = center;
     for (i = 0; i < 4; i++)
     {
-        if (!HZD_LineCheck(work->control.map->hzd, &pos, &tgt, 5, 2))
+        if (!HZD_OnlineHazardCheck(work->control.map->hzd, &pos, &tgt, HZD_CHK_FIX, HZD_SEG_NO_NAVIGATE))
         {
             break;
         }
@@ -921,7 +921,7 @@ int s12a_wolf2_800D0CAC(Wolf2Work *work)
     tgt = center;
     for (j = 0; j < 4; j++)
     {
-        if (!HZD_LineCheck(work->control.map->hzd, &pos, &tgt, 5, 2))
+        if (!HZD_OnlineHazardCheck(work->control.map->hzd, &pos, &tgt, HZD_CHK_FIX, HZD_SEG_NO_NAVIGATE))
         {
             break;
         }

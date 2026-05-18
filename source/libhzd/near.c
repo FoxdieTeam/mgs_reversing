@@ -262,7 +262,7 @@ static inline void sub_helper_80029098(void)
     *(int *)0x1F800048 = 1;
 }
 
-int HZD_PointCheck(HZD_HDL *hzd, SVECTOR *point, int range, int flag, int exclude)
+int HZD_NearHazardCheck(HZD_HDL *hzd, SVECTOR *from, int range, int chk_flag, int seg_flag)
 {
     HZD_GRP *pArea;
     int       n_unknown;
@@ -276,14 +276,14 @@ int HZD_PointCheck(HZD_HDL *hzd, SVECTOR *point, int range, int flag, int exclud
     int       idx;
     int       queue_size;
 
-    pArea = hzd->group;
+    pArea = hzd->grp;
 
-    CopyVector(point, (HZD_VEC *)0x1F80000C);
+    CopyVector(from, (HZD_VEC *)0x1F80000C);
     CreateBoundingBox((HZD_VEC *)0x1F80000C, range);
 
     *(int *)0x1F800048 = 0;
 
-    if (flag & HZD_CHECK_SEG)
+    if (chk_flag & HZD_CHK_F_SEGMENT)
     {
         n_unknown = pArea->n_flat_walls;
 
@@ -304,14 +304,14 @@ int HZD_PointCheck(HZD_HDL *hzd, SVECTOR *point, int range, int flag, int exclud
 
         for (i = pArea->n_walls; i > 0; i--, pWalls++, pFlags++)
         {
-            if ((*pFlags & exclude) == 0)
+            if ((*pFlags & seg_flag) == 0)
             {
                 PointTestSegment(pWalls, i, *pFlags);
             }
         }
     }
 
-    if (flag & HZD_CHECK_DYNSEG)
+    if (chk_flag & HZD_CHK_D_SEGMENT)
     {
         ppWalls = hzd->dynamic_segments;
         pFlags = hzd->dynamic_flags;
@@ -326,7 +326,7 @@ int HZD_PointCheck(HZD_HDL *hzd, SVECTOR *point, int range, int flag, int exclud
 
         for (i = hzd->dynamic_queue_index; i > 0; i--, ppWalls++, pFlags++)
         {
-            if ((*pFlags & exclude) == 0)
+            if ((*pFlags & seg_flag) == 0)
             {
                 PointTestSegment(*ppWalls, i, *pFlags);
             }
@@ -342,51 +342,30 @@ int HZD_PointCheck(HZD_HDL *hzd, SVECTOR *point, int range, int flag, int exclud
     return *(int *)0x1F800048;
 }
 
-/**
- * Used in collision detection (ie, called when Snake nears an obstacle or an edge).
- *
- * This function is called with the VECTOR[2]* snake->control->nears as its argument. Disabling it has no
- * obvious effects on collision or gameplay.
- */
-void HZD_PointNearSurface(void **surface)
+void HZD_GetNearHazard(HZD_SEG **segs)
 {
-    surface[0] = *(void **)(SCRPAD_ADDR + 0x70);
-    surface[1] = *(void **)(SCRPAD_ADDR + 0x8c);
+    segs[0] = *(HZD_SEG **)(SCRPAD_ADDR + 0x70);
+    segs[1] = *(HZD_SEG **)(SCRPAD_ADDR + 0x8c);
 }
 
-/**
- * Used in collision detection (ie, called when Snake nears an obstacle or an edge).
- *
- * This function is called with the char[2] snake->control->nearflags as its argument. Disabling it makes Snake
- * treat edges as if they were walls, eg in Dock he turns his back towards the water instead of running towards it on
- * the spot, except if one approaches it while running where he is programmed to dive into it.
- */
-void HZD_PointNearFlag(char *flags)
+void HZD_GetIsEdge(signed char *ie)
 {
-    flags[0] = *getScratchAddr2(char, 0x74);
-    flags[1] = *getScratchAddr2(char, 0x90);
+    ie[0] = *getScratchAddr2(char, 0x74);
+    ie[1] = *getScratchAddr2(char, 0x90);
 }
 
-/**
- * Fundamental function in collision detection, called when Snake nears an obstacle or an edge.
- *
- * This function is called with the SVECTOR[2] snake->control->nearvecs as an argument. Disabling it
- * disables collision for Snake, seemingly as those vectors are then passed to HZD_StepCheck() as its
- * first argument and used by it to determine values in the scratchpad which are then used at the end of that function
- * to create Snake's movement vector.
- */
-void HZD_PointNearVec(SVECTOR *points)
+void HZD_GetNearVector(SVECTOR *vect_ptr)
 {
     HZD_SEG *wall1;
     HZD_SEG *wall2;
 
     wall1 = getScratchAddr2(HZD_SEG, 0x68);
-    points[0].vx = wall1[1].p1.x;
-    points[0].vy = 0;
-    points[0].vz = wall1[1].p1.z;
+    vect_ptr[0].vx = wall1[1].p1.x;
+    vect_ptr[0].vy = 0;
+    vect_ptr[0].vz = wall1[1].p1.z;
 
     wall2 = getScratchAddr2(HZD_SEG, 0x84);
-    points[1].vx = wall2[1].p1.x;
-    points[1].vy = 0;
-    points[1].vz = wall2[1].p1.z;
+    vect_ptr[1].vx = wall2[1].p1.x;
+    vect_ptr[1].vy = 0;
+    vect_ptr[1].vz = wall2[1].p1.z;
 }

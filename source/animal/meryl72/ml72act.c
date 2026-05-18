@@ -13,13 +13,13 @@ void Meryl9Think_800D0154(Meryl72Work *);
 
 void s07c_meryl72_unk1_800CB660(Meryl72Work *work)
 {
-    RADAR_CONE *cone;
+    RADAR_SIGHT_PARAM *r_param;
 
-    cone = &work->control.radar_cone;
-    cone->dir = work->vision.facedir;
-    cone->len = work->vision.length;
-    cone->ang = 1024;
-    cone->_pad = 0;
+    r_param = &work->control.radar_param;
+    r_param->dir = work->vision.facedir;
+    r_param->dis = work->vision.length;
+    r_param->range = 1024;
+    r_param->r = 0;
 }
 
 void s07c_meryl72_unk1_800CB688(Meryl72Work *work)
@@ -238,7 +238,7 @@ void s07c_meryl72_unk1_800CBA9C(Meryl72Work* work)
     }
 
     map = work->control.map;
-    if (HZD_LineCheck(map->hzd, &GM_PlayerPosition, mov, HZD_CHECK_ALL, SEGMENT_ATR) ||
+    if (HZD_OnlineHazardCheck(map->hzd, &GM_PlayerPosition, mov, HZD_CHK_ALL, SEGMENT_ATR) ||
         sub_8002E2A8(mov, &GM_PlayerPosition, map->index, &sn_diff))
     {
         work->vision.field_06 = 0;
@@ -326,5 +326,5 @@ void s07c_meryl72_unk1_800CBCD8(Meryl72Work *work)
 
     control = &work->control;
     control->turn.vy = ang;
-    control->step_size = GV_NearExp2(control->step_size, work->f8BC.field_1A);
+    control->r_sphere = GV_NearExp2(control->r_sphere, work->f8BC.field_1A);
 }

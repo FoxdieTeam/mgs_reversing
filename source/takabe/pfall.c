@@ -1,6 +1,6 @@
 #include "game/game.h"
 
-#define EXEC_LEVEL  5
+#define EXEC_LEVEL  GV_ACTOR_USER
 
 #define PRIM_COUNT  8
 

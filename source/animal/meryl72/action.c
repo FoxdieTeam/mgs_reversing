@@ -111,7 +111,7 @@ void s07c_meryl72_unk1_800C86EC( Meryl72Work* work, int time )
     dir = work->pad.dir;
     ctrl = &(work->control );
     cur_act = work->f8BC.field_18;
-    svec = work->control.nearvecs;
+    svec = work->control.vecs;
 
     if ( (work->pad.mode & 0x1) && ( cur_act != ACTION2 ) )
     {
@@ -120,14 +120,14 @@ void s07c_meryl72_unk1_800C86EC( Meryl72Work* work, int time )
 
     if ( dir >= 0 )
     {
-        s0 = ctrl->touch_flag;
+        s0 = ctrl->n_touches;
         if ( s0 > 0 )
         {
             dist = GV_VecDir2( svec );
 
             if ( s0 >= 2 )
             {
-                tmp = GV_VecDir2( &ctrl->nearvecs[1] );
+                tmp = GV_VecDir2( &ctrl->vecs[1] );
                 if ( GV_DiffDirAbs( dir, tmp ) < GV_DiffDirAbs( dir, dist ) )
                 {
                     dist = tmp;
@@ -1333,7 +1333,7 @@ void s07c_meryl72_unk1_800CA538( Meryl72Work *work, int time )
         break;
     }
 
-    if ( time > 16 && work->control.level_flag )
+    if ( time > 16 && work->control.grounded )
     {
         work->control.step = DG_ZeroVector;
     }
@@ -1457,11 +1457,11 @@ void s07c_meryl72_unk1_800CABA0( Meryl72Work *work )
 
     if ( !unk->field_1C )
     {
-        ctrl->step_size = GV_NearExp2( ctrl->step_size, unk->field_1A );
+        ctrl->r_sphere = GV_NearExp2( ctrl->r_sphere, unk->field_1A );
     }
     else
     {
-        ctrl->step_size = -1;
+        ctrl->r_sphere = -1;
     }
 
     s07c_meryl72_unk1_800CAB68( work );
@@ -1477,7 +1477,7 @@ void s07c_meryl72_unk1_800CABA0( Meryl72Work *work )
         work->hom->flag = FALSE;
     }
 
-    if ( unk->field_04 < 0 && ctrl->level_flag )
+    if ( unk->field_04 < 0 && ctrl->grounded )
     {
         unk->field_04 = 0;
     }

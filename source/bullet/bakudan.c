@@ -131,7 +131,7 @@ static void Act(BakudanWork *work)
     {
         ReadRotMatrix(&rotation);
         NewBlast(&rotation, &blast_data_8009F4B8[1]);
-        HZD_ExecLeaveEvent(work->control.map->hzd, &work->control.event);
+        HZD_ExecLeaveEvent(work->control.map->hzd, &work->control.evt);
         GV_DestroyActor(&work->actor);
     }
     else if (world)

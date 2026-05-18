@@ -42,7 +42,7 @@ typedef struct _Work
     /* 0x3B98 */ int      f3B98;
 } Work;
 
-#define EXEC_LEVEL  4
+#define EXEC_LEVEL  GV_ACTOR_PREV
 
 #define BODY_DATA   GV_StrCode("stn_fr")
 #define BODY_FLAG   ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE )

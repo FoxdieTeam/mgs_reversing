@@ -109,7 +109,7 @@ void s19b_jbullet_800C5E40(Work *work, int);
 void s19b_jbullet_800C5F7C(Work *work);
 void s19b_jbullet_800C66BC(Work *work);
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 #define BODY_FLAG   ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_GBOUND )
 #define WEAPON_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE )
@@ -284,7 +284,7 @@ static int GetResources(Work *work, int name, int where)
         work->hom->flag = 1;
     }
 
-    control->step_size = -1;
+    control->r_sphere = -1;
 
     work->field_944 = 0;
     work->field_948 = 0;
@@ -728,7 +728,7 @@ void s19b_jbullet_800C58CC(Work *work, int arg1)
 
 void s19b_jbullet_800C598C(Work *work, int arg1)
 {
-    work->control.step_size = 500;
+    work->control.r_sphere = 500;
     work->control.step = work->target1->force;
 
     if (arg1 == 0)
@@ -790,7 +790,7 @@ void s19b_jbullet_800C598C(Work *work, int arg1)
         break;
     }
 
-    if ((arg1 > 16) && (work->control.level_flag != 0))
+    if ((arg1 > 16) && (work->control.grounded != 0))
     {
         work->control.step = DG_ZeroVector;
     }
@@ -802,7 +802,7 @@ void s19b_jbullet_800C598C(Work *work, int arg1)
 
     if (work->body.is_end)
     {
-        work->control.step_size = -1;
+        work->control.r_sphere = -1;
         work->target1->force = DG_ZeroVector;
 
         if (work->target1->vital <= 0)
@@ -930,7 +930,7 @@ void s19b_jbullet_800C5E60(Work *work)
     callback(work, count);
     control->height = body->height;
 
-    if ((work->field_8D4 < 0) && (control->level_flag != 0))
+    if ((work->field_8D4 < 0) && (control->grounded != 0))
     {
         work->field_8D4 = 0;
     }

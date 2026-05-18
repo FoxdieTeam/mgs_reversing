@@ -293,7 +293,7 @@ void s00a_command_800CEE98(void)
             s0 -= total;
         }
 
-        zone = &EnemyCommand.map->hzd->header->zones[ EnemyCommand.field_0x58[ s0 ] ];
+        zone = &EnemyCommand.map->hzd->def->zones[ EnemyCommand.field_0x58[ s0 ] ];
 
         svec.vx = zone->x;
         svec.vy = GM_PlayerPosition.vy;
@@ -839,21 +839,21 @@ int s00a_command_800CFC4C( WatcherWork* work, int r_zone )
     hzd = ctrl->map->hzd;
     addr = HZD_GetAddress( hzd, &ctrl->mov, -1 ) & 0xFF;
 
-    zone = &hzd->header->zones[ addr ];
+    zone = &hzd->def->zones[ addr ];
 
     pos.vx = zone->x;
     pos.vy = zone->y;
     pos.vz = zone->z;
 
-    r_zone_shift = HZD_addr_shift( r_zone );
+    r_zone_shift = HZD_ZoneAddress( r_zone );
 
     for (;;)
     {
         printf( (char *)aNowzonedrzoned_800E0874, addr, r_zone );
 
-        l_zone_shift = HZD_addr_shift( addr );
+        l_zone_shift = HZD_ZoneAddress( addr );
 
-        route_addr = HZD_LinkRoute( hzd,  l_zone_shift, r_zone_shift, &pos );
+        route_addr = HZD_Navigate( hzd,  l_zone_shift, r_zone_shift, &pos );
 
         if ( route_addr == addr )
         {
@@ -867,7 +867,7 @@ int s00a_command_800CFC4C( WatcherWork* work, int r_zone )
             return addr;
         }
 
-        zone = &hzd->header->zones[ route_addr ];
+        zone = &hzd->def->zones[ route_addr ];
 
         if ( !s00a_command_800CFC04( work, zone ) )
         {
@@ -893,7 +893,7 @@ void s00a_command_800CFDC8( WatcherWork* work, int addr, int idx )
     COM_PlayerAddressOne[ idx ] = (addr | addr << 8);
 
     hzd = work->control.map->hzd;
-    zone2 = &hzd->header->zones[ addr ];
+    zone2 = &hzd->def->zones[ addr ];
     zone = zone2;
 
     pos = &COM_PlayerPositionOne[ idx ];
@@ -950,7 +950,7 @@ void s00a_command_800CFEA8( void )
         {
 
             check = 0;
-            if ( !work->field_C34  || !s00a_command_800CFC04( work, &work->control.map->hzd->header->zones[ addr ] ) )
+            if ( !work->field_C34  || !s00a_command_800CFC04( work, &work->control.map->hzd->def->zones[ addr ] ) )
             {
                 check = 1;
             }
@@ -967,7 +967,7 @@ void s00a_command_800CFEA8( void )
         {
             if ( addr != 0xFF )
             {
-                check = s00a_command_800CFC04( work, &work->control.map->hzd->header->zones[ addr ] );
+                check = s00a_command_800CFC04( work, &work->control.map->hzd->def->zones[ addr ] );
 
                 if ( check )
                 {

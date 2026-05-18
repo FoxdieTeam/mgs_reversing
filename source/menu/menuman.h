@@ -412,7 +412,7 @@ void MENU_DrawBar2(int ypos, int rest, int now, int max, MENU_BAR_CONF *bconf);
 /* radar.c */
 void MENU_SetRadarScale(int);
 // void MENU_SetRadarFunc(TRadarFn_800AB48C func);
-// void draw_radar_vision_cone_80038F3C(MenuWork *work, char *ot, RADAR_CONE *cone, int x, int y, int color, int fadeColor, int scale);
+// void draw_radar_vision_cone_80038F3C(MenuWork *work, char *ot, RADAR_SIGHT_PARAM *r_param, int x, int y, int color, int fadeColor, int scale);
 // void drawBorder_800390FC(MenuWork *menuMan, unsigned char *ot);
 // void drawMap_800391D0(MenuWork *work, unsigned char *ot, int arg2);
 // void initSprt_80039D5C(SPRT *pSprt, int x, int y, radar_uv *pRadarUV, int rgb);

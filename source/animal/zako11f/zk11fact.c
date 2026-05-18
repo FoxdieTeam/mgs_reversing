@@ -18,15 +18,15 @@ void ZAKO11F_ExecPutChar_800CD77C( Zako11FWork *work );
 void s11i_asiato_800CD7DC(Zako11FWork *work)
 {
     VISION     *vision;
-    RADAR_CONE *cone;
+    RADAR_SIGHT_PARAM *r_param;
 
     vision = &work->vision;
-    cone = &work->control.radar_cone;
+    r_param = &work->control.radar_param;
 
-    cone->dir = vision->facedir;
-    cone->len = vision->length;
-    cone->ang = vision->angle * 2;
-    cone->_pad = 0;
+    r_param->dir = vision->facedir;
+    r_param->dis = vision->length;
+    r_param->range = vision->angle * 2;
+    r_param->r = 0;
 }
 
 void s11i_asiato_800CD808(Zako11FWork *work)
@@ -289,7 +289,7 @@ void s11i_asiato_800CDD64( Zako11FWork *work )
         }
 
         map = work->control.map;
-        if ( HZD_LineCheck( map->hzd, pos, mov, HZD_CHECK_ALL, SEGMENT_ATR ) )
+        if ( HZD_OnlineHazardCheck( map->hzd, pos, mov, HZD_CHK_ALL, SEGMENT_ATR ) )
         {
             work->vision.field_B92 = 0;
             return;
@@ -379,5 +379,5 @@ void Zako11FPushMove_800CDFAC( Zako11FWork *work )
 
     control = &work->control;
     control->turn.vy = ang;
-    control->step_size = GV_NearExp2( control->step_size, work->unknown.field_1C );
+    control->r_sphere = GV_NearExp2( control->r_sphere, work->unknown.field_1C );
 }

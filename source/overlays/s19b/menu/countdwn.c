@@ -28,7 +28,7 @@ int     SECTION(".bss") countdown_proc;
 DG_TEX *SECTION(".bss") warn1_texture;
 DG_TEX *SECTION(".bss") warn2_texture;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 STATIC void draw_image(MenuPrim *prim, int x, int y, char shade, DG_TEX *tex)
 {

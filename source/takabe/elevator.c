@@ -20,11 +20,11 @@ typedef struct _ElevatorWork
     OBJECT   object1; // OBJECT[2] ???
     OBJECT   object2;
     MATRIX   light[2];
-    HZD_MAP *hzm;     // HZD_MAP[5] ???
-    HZD_MAP *hzm1;
-    HZD_MAP *hzm2;
-    HZD_MAP *hzm3;
-    HZD_MAP *hzm4;
+    HZD_DEF *hzm;     // HZD_DEF[5] ???
+    HZD_DEF *hzm1;
+    HZD_DEF *hzm2;
+    HZD_DEF *hzm3;
+    HZD_DEF *hzm4;
     HZD_GRP *groups;   // HZD_GRP[5] ???
     HZD_GRP *groups1;
     HZD_GRP *groups2;
@@ -66,7 +66,7 @@ typedef struct _ElevatorWork
 
 extern int           bakudan_count_8009F42C;
 extern int           counter_8009F448;
-extern int           gControlCount_800AB9B4;
+extern int           GM_N_WhereList;
 extern CONTROL      *GM_WhereList[96];
 extern CONTROL      *tenage_ctrls_800BDD30[16];
 extern int           tenage_ctrls_count_800BDD70;
@@ -289,7 +289,7 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
         if (work->f58C & 0x4)
         {
             where = GM_WhereList;
-            for (n_controls = gControlCount_800AB9B4; n_controls > 0; n_controls--)
+            for (n_controls = GM_N_WhereList; n_controls > 0; n_controls--)
             {
                 control = *where;
                 if (control->name == work->f594)
@@ -341,9 +341,9 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
                     floor = work->floors;
                     for (n_floors = work->n_floors; n_floors > 0; n_floors--)
                     {
-                        if (HZD_LevelTestFloor(floor, &(*tenage)->mov) & 0x1)
+                        if (HZD_GetFloorHit(floor, &(*tenage)->mov) & 0x1)
                         {
-                            HZD_LevelMinMaxHeights((int *)&sp20);
+                            HZD_GetLevelHeight((int *)&sp20);
                             mov = &(*tenage)->mov;
 
                             if ((mov->vy - sp20.long_access[0]) < 200)

@@ -23,7 +23,7 @@ typedef struct _Work
     DG_PRIM *prim;
 } Work;
 
-#define EXEC_LEVEL 5
+#define EXEC_LEVEL GV_ACTOR_USER
 
 extern RECT s19b_dword_800C3988;
 

@@ -787,8 +787,8 @@ void CraneAct_800D4C28(CraneWork *work)
 
         if ((work->crash_flag == 2 && work->f378 > 300) || work->status == 2)
         {
-            HZD_QueueDynamicSegment2(hzd, &work->d_hzd_side[1], SEGMENT_ATR | HZD_SEG_NO_RADAR);
-            HZD_QueueDynamicSegment2(hzd, &work->d_hzd_side[3], SEGMENT_ATR | HZD_SEG_NO_RADAR);
+            HZD_QueueDynamicSegment2(hzd, &work->d_hzd_side[1], SEGMENT_ATR | HZD_SEG_NO_DISP_RADAR);
+            HZD_QueueDynamicSegment2(hzd, &work->d_hzd_side[3], SEGMENT_ATR | HZD_SEG_NO_DISP_RADAR);
         }
         else
         {
@@ -991,8 +991,8 @@ int s13a_crane_800D5394(CraneWork *work, int name)
 
     if (work->status == 2)
     {
-        HZD_QueueDynamicSegment2(hzd, &work->d_hzd_side[1], SEGMENT_ATR | HZD_SEG_NO_RADAR);
-        HZD_QueueDynamicSegment2(hzd, &work->d_hzd_side[3], SEGMENT_ATR | HZD_SEG_NO_RADAR);
+        HZD_QueueDynamicSegment2(hzd, &work->d_hzd_side[1], SEGMENT_ATR | HZD_SEG_NO_DISP_RADAR);
+        HZD_QueueDynamicSegment2(hzd, &work->d_hzd_side[3], SEGMENT_ATR | HZD_SEG_NO_DISP_RADAR);
     }
     else
     {

@@ -140,13 +140,13 @@ static void rmissile_8006B924(Work *work)
 
     ResetCameraState(work);
     GM_GameStatus &= ~GAME_FLAG_BIT_07;
-    HZD_ExecLeaveEvent(ctrl->map->hzd, &ctrl->event);
+    HZD_ExecLeaveEvent(ctrl->map->hzd, &ctrl->evt);
 
     ctrl = GM_PlayerControl;
 
     if (ctrl)
     {
-        HZD_ReExecEvent(ctrl->map->hzd, &ctrl->event, 0x102);
+        HZD_ReExecEvent(ctrl->map->hzd, &ctrl->evt, 0x102);
     }
 }
 
@@ -440,13 +440,13 @@ static void rmissile_act_helper_8006C114(Work *work)
     position = &work->control.mov;
     result = CheckMessage();
 
-    if (work->control.touch_flag <= 0 && !(work->control.level_flag & 2))
+    if (work->control.n_touches <= 0 && !(work->control.grounded & 2))
     {
         if (position->vy - work->field_108_svector.vy < 200)
         {
             if (++work->field_118 != 1000 && !GM_PowerTarget(&work->target) && !dword_8009F480 && !result)
             {
-                if (!HZD_PointCheck(work->control.map->hzd, position, 250, HZD_CHECK_ALL, SEGMENT_ATR))
+                if (!HZD_NearHazardCheck(work->control.map->hzd, position, 250, HZD_CHK_ALL, SEGMENT_ATR))
                 {
                     if (abs(position->vx) <= 30000 &&
                         abs(position->vy) <= 30000 &&
@@ -940,7 +940,7 @@ static int GetResources(Work *work, MATRIX *world, int side)
     svector_8009F478 = GM_PlayerPosition;
 
     GM_ConfigControlHazard(ctrl, 400, 0xC8, 0xC8);
-    ctrl->exclude_flag = GetEight();
+    ctrl->seg_flag = GetEight();
     GM_ConfigControlTrapCheck(ctrl);
 
     object = &work->object;

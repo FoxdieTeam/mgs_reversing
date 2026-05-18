@@ -76,9 +76,9 @@ static int GetZoomLimit(void)
 
     var_s2 = 0;
 
-    if (HZD_LineCheck(GM_PlayerControl->map->hzd, &vec[0], &vec[1], HZD_CHECK_ALL, SEGMENT_ATR))
+    if (HZD_OnlineHazardCheck(GM_PlayerControl->map->hzd, &vec[0], &vec[1], HZD_CHK_ALL, SEGMENT_ATR))
     {
-        HZD_LineNearVec(&vec[1]);
+        HZD_GetOnlinePoint(&vec[1]);
         var_s2 = 1;
     }
 

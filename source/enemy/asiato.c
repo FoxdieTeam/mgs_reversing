@@ -178,7 +178,7 @@ int NextAsiato(HZD_HDL *hdl, int idx, SVECTOR *svec2)
         return -1;
     }
 
-    if (HZD_LineCheck(hdl, svec2, vec, HZD_CHECK_ALL, SEGMENT_ATR))
+    if (HZD_OnlineHazardCheck(hdl, svec2, vec, HZD_CHK_ALL, SEGMENT_ATR))
     {
         return -1;
     }
@@ -226,7 +226,7 @@ int SearchNearAsiato( HZD_HDL *hzd, SVECTOR *mov, int facedir, int vision_unk, i
             len = GV_VecLen3( &svec );
 
             if ( len < max_len && len < length && GV_DiffDirAbs( facedir, GV_VecDir2(&svec) ) < vision_unk &&
-                !HZD_LineCheck(hzd, mov, &AsiatoPositions[i], HZD_CHECK_ALL, SEGMENT_ATR) )
+                !HZD_OnlineHazardCheck(hzd, mov, &AsiatoPositions[i], HZD_CHK_ALL, SEGMENT_ATR) )
             {
                 max_len = len;
                 s4 = i;
@@ -250,9 +250,9 @@ static int asiato_800D1500( HZD_HDL *hzd, SVECTOR *pos, int name )
     int test;
     HZD_TRG  *triggers;
 
-    triggers = hzd->group->triggers;
+    triggers = hzd->grp->triggers;
 
-    for ( i = 0 ; i < hzd->group->n_triggers ; i++ )
+    for ( i = 0 ; i < hzd->grp->n_triggers ; i++ )
     {
             if ( triggers->trap.name_id == name )
             {
@@ -282,9 +282,9 @@ static int asiato_800D15D8( HZD_HDL *hzd, SVECTOR *pos )
     int test;
     HZD_TRG  *triggers;
 
-    triggers = hzd->group->triggers;
+    triggers = hzd->grp->triggers;
 
-    for ( i = 0 ; i < hzd->group->n_triggers ; i++ )
+    for ( i = 0 ; i < hzd->grp->n_triggers ; i++ )
     {
             if ( triggers->trap.name_id == HASH_ASIATO || triggers->trap.name_id == HASH_POOLATO )
             {

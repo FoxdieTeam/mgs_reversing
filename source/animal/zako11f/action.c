@@ -364,7 +364,7 @@ int AttackForce_800C9D38( Zako11FWork *work )
 {
     TARGET *target;
     SVECTOR svec;
-    SVECTOR rp_shift  = {-200, 1000, 600}; /* å³ãƒ‘ãƒ³ãƒ */
+    SVECTOR rp_shift  = {-200, 1000, 600}; /* ?³ã????³ã?? */
     SVECTOR force     = {5, 0, 100};
     SVECTOR size      = {400, 1000, 400};
 
@@ -566,7 +566,7 @@ void s11i_asiato_800CA25C( Zako11FWork *work, int time )
     action = work->unknown.last_set;
     mindir = -1;
     dir = work->pad.dir;
-    svec = work->control.nearvecs;
+    svec = work->control.vecs;
 
     if ( (work->pad.mode & 0x1) && ( action != ACTION2 ) )
     {
@@ -575,7 +575,7 @@ void s11i_asiato_800CA25C( Zako11FWork *work, int time )
 
     if ( dir >= 0 )
     {
-        near = control->touch_flag;
+        near = control->n_touches;
 
         if ( near > 0 )
         {
@@ -583,7 +583,7 @@ void s11i_asiato_800CA25C( Zako11FWork *work, int time )
 
             if ( near >= 2 )
             {
-                mindir2 = GV_VecDir2( &control->nearvecs[1] );
+                mindir2 = GV_VecDir2( &control->vecs[1] );
 
                 if ( GV_DiffDirAbs( dir, mindir2 ) < GV_DiffDirAbs( dir, mindir ) )
                 {
@@ -989,7 +989,7 @@ void s11i_asiato_800CADDC( Zako11FWork *work, int time )
 
         if ( work->body.is_end )
         {
-            if ( control->level_flag == 0 )
+            if ( control->grounded == 0 )
             {
                 SetAction( work, ACTION40, ACTINTERP );
             }
@@ -999,7 +999,7 @@ void s11i_asiato_800CADDC( Zako11FWork *work, int time )
             }
         }
     }
-    else if ( control->level_flag )
+    else if ( control->grounded )
     {
         GM_SeSet( &control->mov, VO_ENEMY_PUNCHED );
         GM_SeSet( &control->mov, SE_HIT_FLOOR ) ;
@@ -1494,7 +1494,7 @@ void s11i_asiato_800CBACC(Zako11FWork *work, int time)
         break;
     }
 
-    if (time > 16 && control->level_flag)
+    if (time > 16 && control->grounded)
     {
         control->step = DG_ZeroVector;
     }
@@ -1552,7 +1552,7 @@ void s11i_asiato_800CC038(Zako11FWork *work, int time)
         GM_SeSet(&control->mov, VO_ENEMY_KILLED);
     }
 
-    if (time > 16 && control->level_flag)
+    if (time > 16 && control->grounded)
     {
         control->step = DG_ZeroVector;
     }
@@ -1578,7 +1578,7 @@ void s11i_asiato_800CC038(Zako11FWork *work, int time)
             }
         }
     }
-    else if (control->level_flag != 0)
+    else if (control->grounded != 0)
     {
         work->unknown.field_1E = 1;
         work->target->force = DG_ZeroVector;
@@ -1691,11 +1691,11 @@ void s11i_asiato_800CC39C(Zako11FWork *work)
 
     if (unk->field_1E == 0)
     {
-        control->step_size = GV_NearExp2(control->step_size, unk->field_1C);
+        control->r_sphere = GV_NearExp2(control->r_sphere, unk->field_1C);
     }
     else
     {
-        control->step_size = -1;
+        control->r_sphere = -1;
     }
 
     if (work->target->class & TARGET_POWER)
@@ -1707,7 +1707,7 @@ void s11i_asiato_800CC39C(Zako11FWork *work)
         work->hom->flag = FALSE;
     }
 
-    if (unk->field_04 < 0 && control->level_flag)
+    if (unk->field_04 < 0 && control->grounded)
     {
         unk->field_04 = 0;
     }

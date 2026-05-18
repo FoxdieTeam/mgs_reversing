@@ -55,11 +55,11 @@ unsigned short GM_ItemTypes[] = {
     0           // 25: ???
 };
 
-extern int         gLastBindNum_800AB9B8; //N_BindsLV
-extern HZD_BIND *gpBinds_800AB9BC;
+extern int      N_Binds;
+extern HZD_BND *Bind;
 
-int         SECTION(".sbss") gLastBindNum_800AB9B8;
-HZD_BIND *SECTION(".sbss") gpBinds_800AB9BC;
+int      SECTION(".sbss") N_Binds;
+HZD_BND *SECTION(".sbss") Bind;
 
 /*
 possible function names
@@ -68,7 +68,7 @@ possible function names
  Binds
  HZD_BindMapChangep
  HZD_SetEvent
- HZD_ExecBindX
+ HZD_ExecBind
  HZD_ExecEventRCM
  HZD_ExecEventL
  HZD_ReExecEventSub
@@ -77,20 +77,20 @@ possible function names
  HZD_EnterTrap
 */
 
-void HZD_SetBind( int param_1, HZD_BIND *bind, int n_bind )
+void HZD_SetBind( int param_1, HZD_BND *bind, int n_bind )
 {
-    gLastBindNum_800AB9B8 = n_bind;
-    gpBinds_800AB9BC = bind;
+    N_Binds = n_bind;
+    Bind = bind;
     return;
 }
 
 void HZD_BindMapChange( int map )
 {
-    HZD_BIND *bind;
+    HZD_BND *bind;
     int       i;
 
-    bind = gpBinds_800AB9BC;
-    for ( i = gLastBindNum_800AB9B8; i > 0; i-- )
+    bind = Bind;
+    for ( i = N_Binds; i > 0; i-- )
     {
         if ( !( bind->map & map ) )
         {
@@ -107,60 +107,50 @@ void HZD_SetEvent( HZD_EVT *event, int name )
     int             i;
 
     event->name = name;
-    event->n_triggers = 0;
-    event->last = 0;
+    event->n_inside = 0;
+    event->object = 0;
     event->type = 0;
 
-    tmp = event->triggers;
+    tmp = event->inside;
 
     for ( i = 6 ; i > 0 ; i-- )
     {
         *tmp++ = 0;
     }
 
-    event->pos.vz = 0;
-    event->pos.vy = 0;
-    event->pos.vx = 0;
+    event->mov.vz = 0;
+    event->mov.vy = 0;
+    event->mov.vx = 0;
 }
 
-void HZD_ExecBindX( HZD_BIND *pBind, HZD_EVT *event, int a3, int a4 )
+void HZD_ExecBind( HZD_BND *bnd, HZD_EVT *ev, int event, int type )
 {
-    int f_4; // $v1
-    int msg_type; // $a0
-    int x; // $t0
-    int y; // $t1
-    int z; // $a1
-    int f_10; // $v0
-    GCL_ARGS gclArgs; // [sp+10h] [-28h] BYREF
-    long args[8]; // [sp+18h] [-20h] BYREF
+    GCL_ARGS args;
+    long     buf[8], *p;
 
-    f_4 = event->last;
-    msg_type = event->name;
-    x = event->pos.vx;
-    y = event->pos.vy;
-    z= event->pos.vz;
-    gclArgs.argc = 7;
-    gclArgs.argv = args;
-    f_10 = pBind->field_10_every;
-    args[2] = a3;
-    args[6] = a4;
-    args[0] = f_4;
-    args[1] = msg_type;
-    args[3] = x;
-    args[4] = y;
-    args[5] = z;
+    p = buf;
+    *p++ = ev->object;
+    *p++ = ev->name;
+    *p++ = event;
+    *p++ = ev->mov.vx;
+    *p++ = ev->mov.vy;
+    *p++ = ev->mov.vz;
+    *p++ = type;
 
-    if ( f_10 )
+    args.argc = 7;
+    args.argv = buf;
+
+    if ( bnd->time != 0 )
     {
-        GM_DelayedExecCommand( pBind->field_14_proc_and_block, &gclArgs, f_10 );
+        GM_DelayedExecCommand( bnd->command, &args, bnd->time );
     }
-    else if ( ( pBind->field_B_param_e & 0x80 ) != 0 )
+    else if ( bnd->field_B_param_e & 0x80 )
     {
-        GCL_ExecProc( pBind->field_14_proc_and_block, &gclArgs );
+        GCL_ExecProc( (int)bnd->command, &args );
     }
     else
     {
-        GCL_ExecBlock( ( unsigned char * )pBind->field_14_proc_and_block, &gclArgs );
+        GCL_ExecBlock( (u_char *)bnd->command, &args );
     }
 }
 
@@ -169,9 +159,9 @@ static inline int HashMatch(unsigned short value, unsigned int hash)
     return (value == 0) || (value == hash);
 }
 
-void HZD_ExecEventRCM( HZD_HDL *hzd, HZD_EVT *event, int arg2 )
+static void HZD_ExecEventRCM( HZD_HDL *hzd, HZD_EVT *event, int mode )
 {
-    HZD_BIND  *pBind;
+    HZD_BND  *pBind;
     unsigned int hash;
     unsigned int name;
     unsigned int trigger;
@@ -179,12 +169,12 @@ void HZD_ExecEventRCM( HZD_HDL *hzd, HZD_EVT *event, int arg2 )
     unsigned int one;
     unsigned int name2;
 
-    pBind = gpBinds_800AB9BC;
+    pBind = Bind;
     hash = event->name;
     name = event->type;
-    trigger = event->last;
+    trigger = event->object;
 
-    count = gLastBindNum_800AB9B8;
+    count = N_Binds;
     for (count--; count >= 0; pBind++, count--)
     {
         one = 1;
@@ -219,9 +209,9 @@ void HZD_ExecEventRCM( HZD_HDL *hzd, HZD_EVT *event, int arg2 )
             continue;
         }
 
-        if ((arg2 != 0) && (one != 0))
+        if ((mode != 0) && (one != 0))
         {
-            if ((arg2 != one) && !(pBind->field_B_param_e & 0x40))
+            if ((mode != one) && !(pBind->field_B_param_e & 0x40))
             {
                 continue;
             }
@@ -234,12 +224,12 @@ void HZD_ExecEventRCM( HZD_HDL *hzd, HZD_EVT *event, int arg2 )
 
         if (HashMatch(pBind->field_2_param_m, name2))
         {
-            HZD_ExecBindX(pBind, event, name2, 2);
+            HZD_ExecBind(pBind, event, name2, 2);
         }
     }
 }
 
-static inline int HZD_helper2_80029D50(HZD_BIND *pBind, HZD_EVT *event)
+static inline int HZD_helper2_80029D50(HZD_BND *pBind, HZD_EVT *event)
 {
     int diff;
     int mask;
@@ -251,7 +241,7 @@ static inline int HZD_helper2_80029D50(HZD_BIND *pBind, HZD_EVT *event)
 
     if (pBind->field_B_param_e & 0x1)
     {
-        diff = (-pBind->field_C_param_d + event->pos.pad) & 0xFFF;
+        diff = (-pBind->field_C_param_d + event->mov.pad) & 0xFFF;
 
         if (diff > 2048)
         {
@@ -307,10 +297,9 @@ static inline int HZD_helper2_80029D50(HZD_BIND *pBind, HZD_EVT *event)
     return 1;
 }
 
-// HZD_ExecEventL ?
-void HZD_80029D50(HZD_HDL *hzd, HZD_EVT *event, int arg2)
+void HZD_ExecEvent(HZD_HDL *hzd, HZD_EVT *event, int mode)
 {
-    HZD_BIND   *pBind;
+    HZD_BND   *pBind;
     unsigned int  hash, hash2;
     unsigned int  name;
     unsigned int  trigger;
@@ -319,17 +308,17 @@ void HZD_80029D50(HZD_HDL *hzd, HZD_EVT *event, int arg2)
 
     if (event->name == CHARAID_RCM)
     {
-        HZD_ExecEventRCM(hzd, event, arg2);
+        HZD_ExecEventRCM(hzd, event, mode);
         return;
     }
 
-    pBind = gpBinds_800AB9BC;
+    pBind = Bind;
 
     hash = event->name;
     name = event->type;
-    trigger = event->last;
+    trigger = event->object;
 
-    count = gLastBindNum_800AB9B8;
+    count = N_Binds;
     for (count--; count >= 0; pBind++, count--)
     {
         if (!HashMatch(pBind->field_4, trigger) || !(pBind->map & hzd->map))
@@ -344,11 +333,11 @@ void HZD_80029D50(HZD_HDL *hzd, HZD_EVT *event, int arg2)
 
         hash2 = name;
 
-        if ((arg2 != 0) && HZD_helper2_80029D50(pBind, event))
+        if ((mode != 0) && HZD_helper2_80029D50(pBind, event))
         {
             if (!(pBind->field_B_param_e & 0xF))
             {
-                if ((arg2 != 1) && !(pBind->field_B_param_e & 0x40))
+                if ((mode != 1) && !(pBind->field_B_param_e & 0x40))
                 {
                     continue;
                 }
@@ -376,7 +365,7 @@ void HZD_80029D50(HZD_HDL *hzd, HZD_EVT *event, int arg2)
 
         if (HashMatch(pBind->field_2_param_m, hash2))
         {
-            HZD_ExecBindX(pBind, event, hash2, 0);
+            HZD_ExecBind(pBind, event, hash2, 0);
         }
     }
 }
@@ -384,14 +373,14 @@ void HZD_80029D50(HZD_HDL *hzd, HZD_EVT *event, int arg2)
 //HZD_ExecEventSub ?
 STATIC void HZD_8002A090(HZD_HDL *hzd, HZD_EVT *event, int flags, int hash)
 {
-    HZD_BIND     *pBinds;
+    HZD_BND     *pBinds;
     int             bindCount;
     int             msgType;
     unsigned short *pArray;
     int             count;
 
-    pBinds = gpBinds_800AB9BC;
-    bindCount = gLastBindNum_800AB9B8;
+    pBinds = Bind;
+    bindCount = N_Binds;
 
     msgType = event->name;
 
@@ -412,13 +401,13 @@ STATIC void HZD_8002A090(HZD_HDL *hzd, HZD_EVT *event, int flags, int hash)
             continue;
         }
 
-        pArray = event->triggers;
+        pArray = event->inside;
 
-        for (count = event->n_triggers; count > 0; count--, pArray++)
+        for (count = event->n_inside; count > 0; count--, pArray++)
         {
             if (HashMatch(pBinds->field_4, *pArray) && HashMatch(pBinds->field_2_param_m, hash))
             {
-                HZD_ExecBindX(pBinds, event, hash, 1);
+                HZD_ExecBind(pBinds, event, hash, 1);
             }
         }
     }

@@ -218,12 +218,12 @@ int sub_8004E4C0(SnaInitWork *work, int param_2)
 
 int sna_line_check(SVECTOR *line, HZD_HDL *hzd, int flag, int exclude)
 {
-    if (HZD_LineCheck(hzd, &line[0], &line[1], flag, exclude) == 0)
+    if (HZD_OnlineHazardCheck(hzd, &line[0], &line[1], flag, exclude) == 0)
     {
         return -1;
     }
 
-    HZD_LineNearVec(&line[1]);
+    HZD_GetOnlinePoint(&line[1]);
     GV_SubVec3(&line[1], line, line);
     return GV_VecLen3(line);
 }
@@ -232,8 +232,8 @@ void sub_8004E588(HZD_HDL *param_1, SVECTOR *param_2, int *levels)
 {
     unsigned int uVar1;
 
-    uVar1 = HZD_LevelTestHazard(param_1, param_2, 3);
-    HZD_LevelMinMaxHeights(levels);
+    uVar1 = HZD_LevelHazardCheck(param_1, param_2, HZD_CHK_FLOOR);
+    HZD_GetLevelHeight(levels);
     if ((uVar1 & 1) == 0)
     {
         levels[0] = -32767;
@@ -261,9 +261,9 @@ int sub_8004E5E8(SnaInitWork *work, int flag)
 
     i = -1;
 
-    if ((HZD_LevelMaxHeight() & flag) == 0)
+    if ((HZD_GetFloorLevel() & flag) == 0)
     {
-        HZD_LevelMinMaxFloors(flr);
+        HZD_GetLevelHazard(flr);
 
         if (vec.vy - levels[0] < 350)
         {
@@ -311,7 +311,7 @@ int sna_8004E71C(int a1, HZD_HDL *pHzd, SVECTOR *pVec, int a4)
 
     vec_saved = *pVec;
 
-    if ( sna_line_check(&vec, pHzd, HZD_CHECK_DYNSEG | HZD_CHECK_SEG, SEGMENT_ATR) >= 0 )
+    if ( sna_line_check(&vec, pHzd, HZD_CHK_D_SEGMENT | HZD_CHK_F_SEGMENT, SEGMENT_ATR) >= 0 )
     {
         *pVec = vec_saved;
     }
@@ -344,7 +344,7 @@ int sna_8004E808(SnaInitWork *work, int a2, int a3, int a4, int a5)
             return 1;
         }
 
-        if (sna_line_check(&SStack48, work->control.map->hzd, HZD_CHECK_DYNFLR | HZD_CHECK_FLR, SEGMENT_ATR) < 0)
+        if (sna_line_check(&SStack48, work->control.map->hzd, HZD_CHK_D_FLOOR | HZD_CHK_F_FLOOR, SEGMENT_ATR) < 0)
         {
             return 1;
         }
