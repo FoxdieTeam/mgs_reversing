@@ -7,9 +7,7 @@ void GV_Assert( char *file, int line )
 {
     printf( "Assertion failed: %s, line %d\n", file, line );
 
-#ifdef DEV_EXE
     HANGUP();
-#endif
 }
 
 void GV_Warning( char *format, int id )

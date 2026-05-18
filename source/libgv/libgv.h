@@ -39,29 +39,22 @@ void GV_Assert( char *, int );
 void GV_Warning( char *, int );
 void GV_Error( char *, int );
 
-// This will crash the program with the intention of invoking
-// the MTS exception handler screen (which was stubbed out).
+#ifdef DEV_EXE // #ifdef DEBUG
+#define ASSERT(c)       if (!(c)) { GV_Assert(__FILE__, __LINE__); }
+#define WARNING(f,v)    GV_Warning(f,v)
+#define ERROR(f,v)      GV_Error(f,v)
+#define OPERATOR()
+#define MARK(n)         (GV_DebugMes = (char *)n)
 #define HANGUP()        (*(int *)1 = 0)
-
-// TODO: Should these be wrapped with 'do {} while (0)'?
-#ifdef DEV_EXE
-#define ASSERT(cond)                                            \
-    if (!(cond)) {                                              \
-        GV_Assert(__FILE__, __LINE__);                          \
-        /* HANGUP */                                            \
-    }
-/* Unused, but should be correct. */
-#define XASSERT(cond, mesg)                                     \
-    if (!(cond)) {                                              \
-        GV_DebugMes = mesg;                                     \
-        GV_Assert(__FILE__, __LINE__);                          \
-        /* HANGUP */                                            \
-    }
 #else
 // NOTE: Assertions were disabled for INTEGRAL, but the US release
 // (and possibly others) were compiled with assertions still enabled.
-#define ASSERT(cond)            ((void)0)
-#define XASSERT(cond, mesg)     ((void)0)
+#define ASSERT(c)
+#define WARNING(f,v)
+#define ERROR(f,v)
+#define OPERATOR()
+#define MARK(n)
+#define HANGUP()
 #endif
 
 /*------ Actor Management ---------------------------------------------------*/
