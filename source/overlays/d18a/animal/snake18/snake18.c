@@ -410,8 +410,40 @@ void d18a_snake18_800CB42C(Snake18Work *work)
     work->f8F8 = 4;
     d18a_snake18_800CB2EC(work);
 }
-
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB470.s")
+void d18a_snake18_800CB470(Snake18Work *work)
+{
+    if (work->f8F8 == 0)
+    {
+        return;
+    }
+    if (work->f8F8 > 0)
+    {
+        if (GM_Camera.first_person != 0)
+        {
+            return;
+        }
+        work->f8F8 -= 1;
+        if (work->f8F8 != 0)
+        {
+            return;
+        }
+        GM_PlayerStatus &= ~0x8000;
+        work->body.objs->flag &= ~DG_FLAG_INVISIBLE;
+    }
+    else
+    {
+        if (GM_Camera.first_person == 0)
+        {
+            return;
+        }
+        work->f8F8 += 1;
+        if (work->f8F8 != 0)
+        {
+            return;
+        }
+        work->body.objs->flag |= DG_FLAG_INVISIBLE;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB514.s")
 
 void d18a_snake18_800CB59C(Snake18Work *work)
