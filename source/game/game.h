@@ -332,7 +332,7 @@ void GM_GameOver(void);
 void GM_StartDaemon(void);
 
 /* script.c */
-int  GM_InitBinds(void);
+int  GM_ResetScript(void);
 void GM_InitScript(void);
 
 /* area.c */

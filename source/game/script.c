@@ -1169,7 +1169,7 @@ STATIC GCL_COMMANDLIST Commands[] = {
 
 STATIC GCL_COMMANDDEF script_commands = GCL_COMMANDS(Commands);
 
-int GM_InitBinds(void)
+int GM_ResetScript(void)
 {
     gBinds_800ABA60 = 0;
     gBindsCount_800ABA64 = 0;
@@ -1179,6 +1179,6 @@ int GM_InitBinds(void)
 
 void GM_InitScript(void)
 {
-    GM_InitBinds();
+    GM_ResetScript();
     GCL_AddCommMulti(&script_commands);
 }

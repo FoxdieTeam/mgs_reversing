@@ -258,7 +258,7 @@ static void GM_ActInit(gameWork *work)
     GM_InitWhereSystem();
     GM_InitTargetSystem();
     GM_ResetHomingTargets();
-    GM_InitBinds();
+    GM_ResetScript();
     GM_InitGameSystem();
     GM_AlertModeInit();
 }
