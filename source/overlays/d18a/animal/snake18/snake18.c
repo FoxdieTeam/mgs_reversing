@@ -623,7 +623,34 @@ void d18a_snake18_800CC008(void)
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CC174.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CC288.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CC3C8.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CC410.s")
+extern SVECTOR d18a_dword_800C3868;
+
+int d18a_snake18_800CC410(Snake18Work *work)
+{
+    SVECTOR near;
+
+    if (work->control.vecs[0].pad == 1)
+    {
+        return 1;
+    }
+
+    if (HZD_OnlineHazardCheck(work->control.map->hzd, &work->control.mov,
+                              &d18a_dword_800C3868, HZD_CHK_F_SEGMENT, 4) == 0)
+    {
+        return 0;
+    }
+
+    HZD_GetOnlineVector(&near);
+
+    if (near.vx == 0)
+    {
+        if (near.vz == 0)
+        {
+            return 0;
+        }
+    }
+    return 1;
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CC490.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CC6CC.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CC7F4.s")
