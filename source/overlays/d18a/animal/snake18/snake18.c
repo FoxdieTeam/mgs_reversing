@@ -1042,7 +1042,22 @@ void d18a_snake18_800D1B3C(Snake18Work *work, int arg1)
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D2A80.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D2D88.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D2FBC.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D4084.s")
+void d18a_snake18_800D4084(void)
+{
+    int s = GM_PlayerStatus & 0x10054;
+    if (s != 0x10)
+    {
+        return;
+    }
+    if (dword_800AB9D4 == 8)
+    {
+        GM_SeSet(&GM_PlayerPosition, 0xA9);
+    }
+    else if (dword_800AB9D4 == s)
+    {
+        GM_SeSet(&GM_PlayerPosition, 0xA8);
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D40F0.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D4388.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D46CC.s")
