@@ -127,7 +127,7 @@ void d18a_snake18_800CFD18(void);
 void d18a_snake18_800CFFD4(Snake18Work *work, int arg1);
 void d18a_snake18_800D0054(Snake18Work *work, int arg1);
 void d18a_snake18_800D09B4(Snake18Work *work);
-void d18a_snake18_800D0A10(void);
+void d18a_snake18_800D0A10(Snake18Work *work);
 void d18a_snake18_800D0B4C(Snake18Work *work);
 void d18a_snake18_800D0B84(Snake18Work *work);
 void d18a_snake18_800D1424(void);
@@ -1222,8 +1222,53 @@ void d18a_snake18_800D09B4( Snake18Work *work )
         d18a_snake18_800D0974( work );
     }
 }
+extern void d18a_snake18_800CE998(Snake18Work *work);
 
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D0A10.s")
+void d18a_snake18_800D0A10(Snake18Work *work)
+{
+    int status;
+    int flag;
+    int new_action;
+
+    status = GM_PlayerStatus;
+    if (!(status & 2))
+    {
+        work->f8AC = d18a_snake18_800CE998;
+        work->f8B0 = 0;
+        work->f912 = 0;
+        work->f910 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        return;
+    }
+
+    flag = (unsigned short)work->pad->status;
+    if (!(flag & (PAD_U | PAD_D)))
+    {
+        GM_PlayerStatus = status & ~0x10;
+        work->f8AC = d18a_snake18_800CEEAC;
+        work->f8B0 = 0;
+        work->f912 = 0;
+        work->f910 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        return;
+    }
+
+    if (flag & PAD_U)
+    {
+        new_action = ((unsigned char *)work->f8A8->str2)[3];
+    }
+    else
+    {
+        new_action = ((unsigned char *)work->f8A8->str2)[4];
+    }
+    if (work->body.action != new_action)
+    {
+        GM_ConfigObjectAction(&work->body, new_action, 0, 4);
+    }
+    d18a_snake18_800D0974(work);
+}
 
 void d18a_snake18_800D0AF8( Snake18Work *work)
 {
@@ -1317,14 +1362,14 @@ extern GM_SnakeCameraWork GM_SnakeCamera;
 
 void d18a_snake18_800D1814(Snake18Work *work)
 {
-    if (!(work->f8A4[0] & 0x10))
+    if (!(work->pad->status & PAD_X))
     {
         d18a_snake18_800CB378(work);
     }
 
     if (work->f8AC == d18a_snake18_800CF744)
     {
-        if (work->f8A4[1] & ~0x10)
+        if (work->pad->press & ~PAD_X)
         {
             work->f8AC = d18a_snake18_800CF850;
             work->f8B0 = 0;
