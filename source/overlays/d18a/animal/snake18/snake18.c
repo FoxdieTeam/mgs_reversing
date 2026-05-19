@@ -944,8 +944,29 @@ void d18a_snake18_800D0B84(Snake18Work *work)
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D1750.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D1814.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D18EC.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D198C.s")
+extern GM_SnakeCameraWork GM_SnakeCamera;
+extern void d18a_snake18_800CB378(Snake18Work *work);
 
+void d18a_snake18_800D198C(Snake18Work *work, int amount)
+{
+    int scale;
+
+    if (!(work->pad->status & PAD_X))
+    {
+        d18a_snake18_800CB378(work);
+    }
+
+    if (amount < 0x21)
+    {
+        scale = 0x20 - amount;
+    }
+    else
+    {
+        scale = 0;
+    }
+
+    GM_SnakeCamera.position.vy += GV_RandU(0x10) * scale;
+}
 void d18a_snake18_800D1A08(Snake18Work *work)
 {
     int arg;
