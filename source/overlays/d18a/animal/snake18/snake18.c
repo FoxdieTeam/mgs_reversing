@@ -125,7 +125,7 @@ void d18a_snake18_800CF850(void);
 void d18a_snake18_800CF990(void);
 void d18a_snake18_800CFD18(void);
 void d18a_snake18_800CFFD4(Snake18Work *work, int arg1);
-void d18a_snake18_800D0054(void);
+void d18a_snake18_800D0054(Snake18Work *work, int arg1);
 void d18a_snake18_800D09B4(Snake18Work *work);
 void d18a_snake18_800D0A10(void);
 void d18a_snake18_800D0B4C(Snake18Work *work);
@@ -1039,8 +1039,32 @@ void d18a_snake18_800CFFD4(Snake18Work *work, int arg1)
     }
     GM_ConfigControlInterp(&work->control, 4);
 }
+void d18a_snake18_800D0054(Snake18Work *work, int arg1)
+{
+    int new_action;
 
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D0054.s")
+    if (arg1 == 0)
+    {
+        work->f8BC = d18a_snake18_800CE7BC;
+        work->f8C0 = d18a_snake18_800CE7BC;
+
+        new_action = ((unsigned char *)work->f8A8->field_18)[4];
+        if (work->body.action != new_action)
+        {
+            GM_ConfigObjectAction(&work->body, new_action, 0, 4);
+        }
+    }
+
+    if (work->body.is_end != 0)
+    {
+        work->f8AC = d18a_snake18_800CFF5C;
+        work->f8B0 = 0;
+        work->f912 = 0;
+        work->f910 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D00E0.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D01D8.s")
 
