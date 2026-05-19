@@ -21,28 +21,28 @@ typedef struct      // private to libgcl/command.c
     unsigned char  *script_body;
 } GCL_SCRIPT;
 
-typedef int (*GCL_COMMANDFUNC)(unsigned char *);
+typedef int (*GCL_COMMANDFUNC)(unsigned char *top);
 
-// A hashed name of a GCL command and pointer to function that implements the command
-typedef struct GCL_COMMANDLIST
-{
-    unsigned short  id;
-    GCL_COMMANDFUNC function;
+#define GCL_OK          0
+#define GCL_RETURN      1
+#define GCL_ERROR       -1
+
+typedef struct {
+    unsigned short id;
+    GCL_COMMANDFUNC func;
 } GCL_COMMANDLIST;
 
-// memleak
-typedef struct _gcl_commanddef
-{
+typedef struct _gcl_commanddef {
     struct _gcl_commanddef *next;
-    int                     n_commlist;
-    GCL_COMMANDLIST        *commlist;
+    int n_commlist;
+    GCL_COMMANDLIST *commlist;
 } GCL_COMMANDDEF;
 
-// memleak
-typedef struct
-{
-    unsigned short argc;
-    long          *argv;
+#define GCL_COMMANDS(a) { NULL, countof(a), a }
+
+typedef struct {
+    u_short argc;
+    long *argv;
 } GCL_ARGS;
 
 typedef struct GCL_Vars
@@ -72,59 +72,56 @@ typedef struct GCL_Vars
 #define RDCODE_SCRIPT           0x80
 #define RDCODE_ENDLINE          0xFF
 
-// GCL codes (.gcx files)
-#define GCLCODE_NULL            0
-#define GCLCODE_SHORT           1       // $w:
-#define GCLCODE_BYTE            2       // $b:
-#define GCLCODE_CHAR            3       //
-#define GCLCODE_FLAG            4       // $f: (boolean)
-#define GCLCODE_HASHED_STRING   6       // $s:, can also be a hashed proc name
-#define GCLCODE_STRING          7       //
-#define GCLCODE_PROC_CALL       8       // hashed proc name to call
-#define GCLCODE_SDCODE          9       //
-#define GCLCODE_TABLE_CODE      10      // .vox, .dmo and radio.dat
-#define GCLCODE_VARIABLE        0x10    // variables codes are: 0x11, 0x12, 0x13, 0x14, 0x16, 0x18
-#define GCLCODE_STACK_VAR       0x20
-#define GCLCODE_EXPRESSION      0x30
-#define GCLCODE_EXPR_OPERATOR   0x31
-#define GCLCODE_SCRIPT_DATA     0x40
-#define GCLCODE_PARAMETER       0x50
-#define GCLCODE_COMMAND         0x60
-#define GCLCODE_PROC            0x70
+/* ----- Types ----- */
 
-#define GCL_OP_NEGATE       1
-#define GCL_OP_NOT          2
-#define GCL_OP_COMPL        3
-#define GCL_OP_ADD          4
-#define GCL_OP_SUB          5
-#define GCL_OP_MUL          6
-#define GCL_OP_DIV          7
-#define GCL_OP_MOD          8
-#define GCL_OP_EQUALS       9
-#define GCL_OP_NOT_EQ       10
-#define GCL_OP_LESS         11
-#define GCL_OP_LESS_EQ      12
-#define GCL_OP_GREATER      13
-#define GCL_OP_GREATER_EQ   14
-#define GCL_OP_BITOR        15
-#define GCL_OP_BITAND       16
-#define GCL_OP_BITXOR       17
-#define GCL_OP_OR           18
-#define GCL_OP_AND          19
-#define GCL_OP_ASSIGN       20
+#define GCL_END         0x00
 
-#define GCL_IsVariable(gcl_code) ((gcl_code & 0xF0) == GCLCODE_VARIABLE)
-#define GCL_IsParam(gcl_code) ((gcl_code & 0xFF) == GCLCODE_PARAMETER)
+#define GCL_SHORT       0x01    // $w:
+#define GCL_BYTE        0x02    // $b:
+#define GCL_CHAR        0x03    // $c:
+#define GCL_BOOL        0x04    // $f:
+#define GCL_VECTOR      0x05    // $v:
+#define GCL_STRID       0x06    // $s:
+#define GCL_STRING      0x07    //
+#define GCL_PROCID      0x08    // $p:
+#define GCL_INT         0x09    // $i:
+#define GCL_LONG        GCL_INT
+#define GCL_SYMBOL      0x0a    // $t:
+
+#define GCL_TYPEMASK    0x0f
+#define GCL_TYPE(a)     ((a) & GCL_TYPEMASK)
+
+#define GCL_CONST       0x00
+#define GCL_VAR         0x10
+#define GCL_ARRAY       0x20
+
+#define GCL_EXPR        0x30
+#define GCL_OP          0x31
+
+#define GCL_ARG         0x40
+#define GCL_OPTION      0x50
+#define GCL_COMMAND     0x60
+#define GCL_PROC        0x70
+
+#define GCL_TAGMASK     0xf0
+#define GCL_TAG(a)      ((a) & GCL_TAGMASK)
+
+#define GCL_VAR_TYPE_GLOBAL 0x000000
+#define GCL_VAR_TYPE_LOCAL  0x100000
+#define GCL_VAR_TYPE_SYSTEM 0x400000
+#define GCL_VAR_TYPE_LINK   0x800000
+
+#define GCL_IsVariable(gcl_code)    ((gcl_code & 0xF0) == GCL_VAR)
+#define GCL_IsParam(gcl_code)       ((gcl_code & 0xFF) == GCL_OPTION)
 
 #define GCL_GetVarTypeCode(gcl_var) (((gcl_var << 1) >> 25) & 0xF)
 #define GCL_GetVarOffset(gcl_var)   (gcl_var & 0xFFFF)
-#define GCL_IsGameStateVar(gcl_var) ((gcl_var & 0xF00000) == 0x800000)
+#define GCL_IsGameStateVar(gcl_var) ((gcl_var & 0xF00000) == GCL_VAR_TYPE_LINK)
 #define GCL_GetFlagBitFlag(gcl_var) (char)(1 << (((gcl_var << 1) >> 17) & 0xF))
-#define GCL_StrHash(hash)           ((GCLCODE_HASHED_STRING << 16) | (hash))
 
 /*---------------------------------------------------------------------------*/
-
 // clang-format off
+
 static inline long GCL_GetLong( char *ptr )
 {
     unsigned char *p;
@@ -143,11 +140,8 @@ static inline char GCL_GetByte( char *ptr )
 {
     return *ptr;
 }
+
 // clang-format on
-
-#define GCL_AdvanceShort(p)     p += sizeof(unsigned short)
-#define GCL_AdvanceByte(p)      p += sizeof(unsigned char)
-
 /*---------------------------------------------------------------------------*/
 
 extern GCL_ARGS gcl_null_args;
@@ -156,9 +150,6 @@ extern GCL_ARGS gcl_null_args;
 void GCL_ChangeSenerioCode(int demo_flag);
 void GCL_StartDaemon(void);
 void GCL_ResetSystem(void);
-
-/* basic.c */
-void GCL_InitBasicCommands(void);
 
 /* command.c */
 int  GCL_AddCommMulti(GCL_COMMANDDEF *def);
@@ -169,8 +160,11 @@ int  GCL_LoadScript(unsigned char *datatop);
 int  GCL_ExecBlock(unsigned char *top, GCL_ARGS *args);
 void GCL_ExecScript(void);
 
+/* basic.c */
+void GCL_InitBasicCommands(void);
+
 /* expr.c */
-int GCL_Expr(unsigned char *pScript, int *retValue);
+int GCL_Expr(unsigned char *data, int *value);
 
 /* parse.c */
 void            GCL_SetArgTop(unsigned char *);

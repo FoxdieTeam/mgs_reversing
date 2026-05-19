@@ -151,6 +151,8 @@ int GCL_SetLoadFile(char *save_buf)
     return 1;
 }
 
+/*---------------------------------------------------------------------------*/
+
 void GCL_InitVar(void)
 {
     int option;
@@ -216,10 +218,10 @@ unsigned char *GCL_GetVar(unsigned char *top, int *type_p, int *value_p)
     ptr += GCL_GetVarOffset(gcl_var);
     switch (gcl_code)
     {
-    case GCLCODE_SHORT:         // $w:
-    case GCLCODE_HASHED_STRING: // $s:
-    case GCLCODE_PROC_CALL:
-        if (gcl_code == GCLCODE_SHORT)
+    case GCL_SHORT: // $w:
+    case GCL_STRID: // $s:
+    case GCL_PROCID:
+        if (gcl_code == GCL_SHORT)
         {
             *value_p = *((short *)ptr);
         }
@@ -229,12 +231,12 @@ unsigned char *GCL_GetVar(unsigned char *top, int *type_p, int *value_p)
         }
         break;
 
-    case GCLCODE_BYTE: // $b:
-    case GCLCODE_CHAR:
+    case GCL_BYTE: // $b:
+    case GCL_CHAR: // $c:
         *value_p = (unsigned char)*ptr;
         break;
 
-    case GCLCODE_FLAG: // $f:
+    case GCL_BOOL: // $f:
         *value_p = (*ptr & GCL_GetFlagBitFlag(gcl_var)) != 0;
         break;
 
@@ -263,18 +265,18 @@ unsigned char *GCL_SetVar(unsigned char *top, unsigned int value)
     ptr += GCL_GetVarOffset(gcl_var);
     switch (gcl_code)
     {
-    case GCLCODE_SHORT:
-    case GCLCODE_HASHED_STRING:
-    case GCLCODE_PROC_CALL:
+    case GCL_SHORT: // $w:
+    case GCL_STRID: // $s:
+    case GCL_PROCID:
         *(unsigned short *)ptr = value;
         break;
 
-    case GCLCODE_BYTE:
-    case GCLCODE_CHAR:
+    case GCL_BYTE: // $b:
+    case GCL_CHAR: // $c:
         *ptr = value;
         break;
 
-    case GCLCODE_FLAG:
+    case GCL_BOOL: // $f:
         bitFlag = GCL_GetFlagBitFlag(gcl_var);
         if (value)
         {
@@ -312,18 +314,18 @@ unsigned char *GCL_VarSaveBuffer(unsigned char *top)
     ptr += GCL_GetVarOffset(gcl_var);
     switch (gcl_code)
     {
-    case GCLCODE_SHORT:         // $w:
-    case GCLCODE_HASHED_STRING: // $s:
-    case GCLCODE_PROC_CALL:
+    case GCL_SHORT: // $w:
+    case GCL_STRID: // $s:
+    case GCL_PROCID:
         *(short *)ptr = (short)value;
         break;
 
-    case GCLCODE_BYTE: // $b:
-    case GCLCODE_CHAR:
+    case GCL_BYTE: // $b:
+    case GCL_CHAR: // $c:
         *ptr = (char)value;
         break;
 
-    case GCLCODE_FLAG: // $f:
+    case GCL_BOOL: // $f:
         bitFlag = GCL_GetFlagBitFlag(gcl_var);
         if (value)
         {
@@ -334,8 +336,8 @@ unsigned char *GCL_VarSaveBuffer(unsigned char *top)
             *ptr &= ~bitFlag;
         }
 
-    case 5:
-    case GCLCODE_STRING:
+    case GCL_VECTOR:
+    case GCL_STRING:
     default:
         break;
     }

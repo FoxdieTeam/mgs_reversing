@@ -35,7 +35,7 @@ exec_if:
         }
     }
 
-    return 0;
+    return GCL_OK;
 }
 
 static int GCL_Command_eval(unsigned char *top)
@@ -44,7 +44,7 @@ static int GCL_Command_eval(unsigned char *top)
     int value;
 
     GCL_GetNextValue(top, &code, &value);
-    return 0;
+    return GCL_OK;
 }
 
 static int GCL_Command_foreach(unsigned char *top)
@@ -60,7 +60,7 @@ static int GCL_Command_foreach(unsigned char *top)
     for (;;)
     {
         top = GCL_GetNextValue(top, &code, &value);
-        if ((char)code == GCLCODE_PARAMETER)
+        if ((char)code == GCL_OPTION)
         {
             break;
         }
@@ -77,22 +77,22 @@ static int GCL_Command_foreach(unsigned char *top)
         arg.argv++;
     }
 
-    return 0;
+    return GCL_OK;
 }
 
 static int GCL_Command_return(unsigned char *top)
 {
-    return 1;
+    return GCL_RETURN;
 }
 
 STATIC GCL_COMMANDLIST commlist[] = {
-    { CMD_if,      GCL_Command_if      },   // GV_StrCode("if")
-    { CMD_eval,    GCL_Command_eval    },   // GV_StrCode("eval")
-    { CMD_return,  GCL_Command_return  },   // GV_StrCode("return")
-    { CMD_foreach, GCL_Command_foreach }    // GV_StrCode("foreach")
+    { 0x0d86, GCL_Command_if },         // GV_StrCode("if")
+    { 0x64c0, GCL_Command_eval },       // GV_StrCode("eval")
+    { 0xcd3a, GCL_Command_return },     // GV_StrCode("return")
+    { 0x7636, GCL_Command_foreach },    // GV_StrCode("foreach")
 };
 
-STATIC GCL_COMMANDDEF builtin_commands = { NULL, COUNTOF(commlist), commlist };
+STATIC GCL_COMMANDDEF builtin_commands = GCL_COMMANDS(commlist);
 
 void GCL_InitBasicCommands(void)
 {
