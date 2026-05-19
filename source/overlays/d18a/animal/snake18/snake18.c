@@ -1216,4 +1216,23 @@ int d18a_snake18_800D4C44( Snake18Work *work, int name, int where )
 }
 
 const char d18a_dword_800DA7F4[] = "snake18.c";
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D4E94.s")
+
+extern void d18a_snake18_800D4388(GV_ACT *act);
+extern void d18a_snake18_800D46CC(GV_ACT *act);
+
+int d18a_snake18_800D4E94(int arg1, int arg2)
+{
+    GV_ACT *act = (GV_ACT *)GV_NewActor(4, 0x940);
+    if (act == NULL)
+    {
+        return 0;
+    }
+    GV_SetNamedActor(act, d18a_snake18_800D4388, d18a_snake18_800D46CC,
+                     d18a_dword_800DA7F4);
+    if (d18a_snake18_800D4C44((Snake18Work *)act, arg1, arg2) < 0)
+    {
+        GV_DestroyActor(act);
+        return 0;
+    }
+    return (int)act;
+}
