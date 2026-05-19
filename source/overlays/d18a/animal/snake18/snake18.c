@@ -15,6 +15,7 @@ typedef struct _Snake18Type
 {
     char *str;
     char *str2;
+    char *field_08;
 } Snake18Type;
 
 typedef struct _Snake18Work
@@ -757,8 +758,34 @@ void d18a_snake18_800CE7C4(Snake18Work *work, int arg1)
         GM_ConfigObjectAction(&work->body, new_action, 0, 4);
     }
 }
+void d18a_snake18_800CE834(Snake18Work *work, int arg1)
+{
+    int new_action;
 
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CE834.s")
+    if (arg1 == 0)
+    {
+        GM_SeSet(&work->control.mov, 8);
+        work->f8BC = d18a_snake18_800CE7BC;
+        work->f8C0 = d18a_snake18_800CE7BC;
+        GM_PlayerStatus |= 0x40;
+        new_action = ((unsigned char *)work->f8A8->field_08)[0];
+        if (work->body.action != new_action)
+        {
+            GM_ConfigObjectAction(&work->body, new_action, 0, 4);
+        }
+        work->f8FE = 2;
+    }
+
+    if (work->body.is_end != 0)
+    {
+        work->f8AC = d18a_snake18_800CD808;
+        work->f8B0 = 0;
+        work->f912 = 0;
+        work->f910 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CE8E0.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CE998.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CEA84.s")
