@@ -16,6 +16,8 @@ typedef struct _Snake18Type
     char *str;
     char *str2;
     char *field_08;
+    char  pad_18[0x18 - 0x08 - sizeof(char *)];
+    char *field_18;
 } Snake18Type;
 
 typedef struct _Snake18Work
@@ -130,7 +132,7 @@ void d18a_snake18_800D0B4C(Snake18Work *work);
 void d18a_snake18_800D0B84(Snake18Work *work);
 void d18a_snake18_800D1424(void);
 void d18a_snake18_800D1750(void);
-void d18a_snake18_800D18EC(void);
+void d18a_snake18_800D18EC(Snake18Work *work);
 void d18a_snake18_800D24CC(Snake18Work *work);
 void d18a_snake18_800D2660(Snake18Work *work);
 void d18a_snake18_800D26E4(Snake18Work *work);
@@ -1111,9 +1113,33 @@ void d18a_snake18_800D0B84(Snake18Work *work)
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D1598.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D1750.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D1814.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D18EC.s")
-extern GM_SnakeCameraWork GM_SnakeCamera;
 extern void d18a_snake18_800CB378(Snake18Work *work);
+
+void d18a_snake18_800D18EC(Snake18Work *work)
+{
+    int new_action;
+
+    GM_PlayerStatus &= ~0x10;
+    new_action = ((unsigned char *)work->f8A8->field_18)[2];
+    if (work->body.action != new_action)
+    {
+        GM_ConfigObjectAction(&work->body, new_action, 0, 4);
+    }
+
+    if (work->pad->status & PAD_X)
+    {
+        return;
+    }
+
+    d18a_snake18_800CB378(work);
+    work->f8AC = d18a_snake18_800CFF5C;
+    work->f8B0 = 0;
+    work->f912 = 0;
+    work->f910 = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
+}
+extern GM_SnakeCameraWork GM_SnakeCamera;
 
 void d18a_snake18_800D198C(Snake18Work *work, int amount)
 {
