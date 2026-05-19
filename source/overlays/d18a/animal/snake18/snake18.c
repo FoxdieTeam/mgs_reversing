@@ -16,7 +16,9 @@ typedef struct _Snake18Type
     char *str;
     char *str2;
     char *field_08;
-    char  pad_18[0x18 - 0x08 - sizeof(char *)];
+    char *field_0C;
+    char *field_10;
+    char  pad_18[0x18 - 0x10 - sizeof(char *)];
     char *field_18;
 } Snake18Type;
 
@@ -1011,7 +1013,43 @@ void d18a_snake18_800CE998(Snake18Work *work, int arg1)
     work->control.turn.vx = 0;
 }
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CEA84.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CEB78.s")
+extern void d18a_snake18_800D2A80(void);
+
+void d18a_snake18_800CEB78(Snake18Work *work, int arg1)
+{
+    int mask;
+    int new_action;
+
+    if (arg1 == 0)
+    {
+        mask = (GM_PlayerStatus & 0x10) ? 0x3FE : 0xFFFF;
+        new_action = ((unsigned char *)work->f8A8->field_10)[0];
+        if (work->body.action2 != new_action)
+        {
+            GM_ConfigObjectOverride(&work->body, new_action, 0, 4, mask);
+        }
+        work->f910 = 0;
+    }
+
+    if (work->f8A4[2] & 0x80)
+    {
+        work->f910 = 1;
+    }
+
+    if (work->f8A4[0] & 0x80)
+    {
+        work->f86E += 1;
+    }
+    else
+    {
+        work->f86E = 0;
+    }
+
+    if (arg1 == 4)
+    {
+        d18a_snake18_800CB7BC(work, (int)d18a_snake18_800D2A80);
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CEC68.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CECE0.s")
 extern void d18a_snake18_800CD64C(Snake18Work *work, int arg1);
