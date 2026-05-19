@@ -1309,7 +1309,40 @@ void d18a_snake18_800D1750(Snake18Work *work)
     d18a_snake18_800D0E3C(work);
     d18a_snake18_800D1064(work);
 }
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D1814.s")
+extern void d18a_snake18_800CB378(Snake18Work *work);
+extern void d18a_snake18_800CF03C(Snake18Work *work);
+extern void d18a_snake18_800CF744(Snake18Work *work);
+extern void d18a_snake18_800CB514(Snake18Work *work);
+extern GM_SnakeCameraWork GM_SnakeCamera;
+
+void d18a_snake18_800D1814(Snake18Work *work)
+{
+    if (!(work->f8A4[0] & 0x10))
+    {
+        d18a_snake18_800CB378(work);
+    }
+
+    if (work->f8AC == d18a_snake18_800CF744)
+    {
+        if (work->f8A4[1] & ~0x10)
+        {
+            work->f8AC = d18a_snake18_800CF850;
+            work->f8B0 = 0;
+            work->f912 = 0;
+            work->f910 = 0;
+            work->control.turn.vz = 0;
+            work->control.turn.vx = 0;
+            GM_PlayerStatus &= ~0x40;
+        }
+    }
+
+    GM_SnakeCamera.position.vy += 0x140;
+
+    if (work->f8AC != d18a_snake18_800CF03C)
+    {
+        d18a_snake18_800CB514(work);
+    }
+}
 extern void d18a_snake18_800CB378(Snake18Work *work);
 
 void d18a_snake18_800D18EC(Snake18Work *work)
