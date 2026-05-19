@@ -818,7 +818,40 @@ void d18a_snake18_800CE834(Snake18Work *work, int arg1)
         work->control.turn.vx = 0;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CE8E0.s")
+extern void d18a_snake18_800CD64C(Snake18Work *work);
+
+void d18a_snake18_800CE8E0(Snake18Work *work, int arg1)
+{
+    int new_action;
+
+    if (arg1 == 0)
+    {
+        GM_SeSet(&work->control.mov, 8);
+        work->f8FE = 0;
+        work->f8BC = d18a_snake18_800CE7BC;
+        work->f8C0 = d18a_snake18_800CE7BC;
+        new_action = ((unsigned char *)work->f8A8->field_08)[2];
+        if (work->body.action != new_action)
+        {
+            GM_ConfigObjectAction(&work->body, new_action, 0, 4);
+        }
+    }
+
+    if (arg1 == 2)
+    {
+        work->control.turn.vx = 0;
+    }
+
+    if (work->body.is_end != 0)
+    {
+        work->f8AC = d18a_snake18_800CD64C;
+        work->f8B0 = 0;
+        work->f912 = 0;
+        work->f910 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CE998.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CEA84.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CEB78.s")
@@ -852,7 +885,7 @@ void d18a_snake18_800CED2C(Snake18Work *work, int arg1)
     work->control.turn.vx = 0;
     GM_PlayerStatus &= ~0x10;
 }
-extern void d18a_snake18_800CE8E0(Snake18Work *work);
+extern void d18a_snake18_800CE8E0(Snake18Work *work, int arg1);
 
 void d18a_snake18_800CEDB0(Snake18Work *work)
 {
