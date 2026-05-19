@@ -74,7 +74,9 @@ typedef struct _Snake18Work
     short   f8FE;        // 0x8FE
     short   f900;        // 0x900
     short   f902;        // 0x902
-    char    pad_90C[0x90C - 0x902 - sizeof(short)];
+    char    pad_906[0x906 - 0x902 - sizeof(short)];
+    short   f906;        // 0x906
+    char    pad_90C[0x90C - 0x906 - sizeof(short)];
     char    f90C;        // 0x90C
     char    f90D;        // 0x90D
     char    f90E;        // 0x90E
@@ -657,7 +659,35 @@ void d18a_snake18_800CCB0C(TARGET *target)
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CD2C4.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CD4C0.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CD64C.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CD768.s")
+extern void d18a_snake18_800CDE8C(Snake18Work *work);
+
+void d18a_snake18_800CD768(Snake18Work *work, int arg1)
+{
+    int new_action;
+
+    if (arg1 != 0)
+    {
+        return;
+    }
+
+    if (work->f8FE == 0)
+    {
+        GM_SeSet(&work->control.mov, 8);
+    }
+    work->f8FE = 1;
+
+    work->f8BC = d18a_snake18_800CDE8C;
+    work->f8C0 = d18a_snake18_800D1424;
+    GM_PlayerStatus |= 0x20;
+
+    new_action = ((unsigned char *)work->f8A8->str)[2];
+    if (work->body.action != new_action)
+    {
+        GM_ConfigObjectAction(&work->body, new_action, 0, 4);
+    }
+
+    work->f906 = -0x80;
+}
 
 void d18a_snake18_800CD808(Snake18Work *work, int arg1)
 {
