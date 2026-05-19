@@ -115,7 +115,7 @@ int  d18a_snake18_800CB710(Snake18Work *work, int a1);
 void d18a_snake18_800CDFC8(void);
 void d18a_snake18_800CE210(void);
 void d18a_snake18_800CE7BC(void);
-void d18a_snake18_800CED2C(void);
+void d18a_snake18_800CED2C(Snake18Work *work, int arg1);
 void d18a_snake18_800CF850(void);
 void d18a_snake18_800CF990(void);
 void d18a_snake18_800CFD18(void);
@@ -765,7 +765,34 @@ void d18a_snake18_800CE7C4(Snake18Work *work, int arg1)
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CEB78.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CEC68.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CECE0.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CED2C.s")
+extern void d18a_snake18_800CD64C(Snake18Work *work);
+
+void d18a_snake18_800CED2C(Snake18Work *work, int arg1)
+{
+    if (arg1 == 2 && d18a_dword_800DAEF0 >= 0)
+    {
+        work->f8AC = d18a_snake18_800CD888;
+        work->f8B0 = 0;
+        work->f912 = 0;
+        work->f910 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        return;
+    }
+
+    if (work->body.is_end == 0)
+    {
+        return;
+    }
+
+    work->f8AC = d18a_snake18_800CD64C;
+    work->f8B0 = 0;
+    work->f912 = 0;
+    work->f910 = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
+    GM_PlayerStatus &= ~0x10;
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CEDB0.s")
 
 void d18a_snake18_800CEE60(Snake18Work *work)
