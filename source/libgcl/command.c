@@ -10,10 +10,7 @@ STATIC GCL_COMMANDDEF *commdef = 0;
 
 int GCL_AddCommMulti(GCL_COMMANDDEF *def)
 {
-    // Set the new chains next to the existing chain
     def->next = commdef;
-
-    // Update the existing chain to be the new chain
     commdef = def;
 
     return 0;
@@ -46,14 +43,14 @@ int GCL_Command(unsigned char *ptr)
     int ret;
 
     GCL_COMMANDLIST *cmd = FindCommand((unsigned short)GCL_GetShort(ptr));
-    GCL_AdvanceShort(ptr);
+    ptr += sizeof(unsigned short);
 
     GCL_SetCommandLine(ptr + GCL_GetByte(ptr));
-    GCL_AdvanceByte(ptr);
+    ptr += sizeof(unsigned char);
 
     GCL_SetArgTop(ptr); // save command return address?
 
-    ret = cmd->function(ptr);
+    ret = cmd->func(ptr);
 
     GCL_UnsetCommandLine();
 
@@ -115,7 +112,7 @@ static int GCL_Proc(unsigned char *ptr)
     int b2 = ptr[1];
 
     int proc_id = GCL_MakeShort(b2, b1);
-    GCL_AdvanceShort(ptr);
+    ptr += sizeof(unsigned short);
 
     arg_idx = 0;
 
@@ -163,7 +160,7 @@ int GCL_ExecBlock(unsigned char *top, GCL_ARGS *args)
     {
         switch (*top)
         {
-        case GCLCODE_EXPRESSION: {
+        case GCL_EXPR: {
             int auStack24[2]; // TODO: probably an arg pair ??
             GCL_Expr(top + 2, auStack24);
             top++;
@@ -171,7 +168,7 @@ int GCL_ExecBlock(unsigned char *top, GCL_ARGS *args)
         }
         break;
 
-        case GCLCODE_COMMAND:
+        case GCL_COMMAND:
             if (GCL_Command(top + 3) == 1)
             {
                 return 1;
@@ -180,13 +177,13 @@ int GCL_ExecBlock(unsigned char *top, GCL_ARGS *args)
             top += (short)GCL_MakeShort(top[1], top[0]);
             break;
 
-        case GCLCODE_PROC:
+        case GCL_PROC:
             GCL_Proc(top + 2);
             top++;
             top += *top;
             break;
 
-        case GCLCODE_NULL:
+        case GCL_END:
             GCL_UnsetArgStack(old_stack);
             return 0;
 

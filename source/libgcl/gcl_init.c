@@ -39,8 +39,8 @@ static int GCL_InitFunc(void *top, int id)
 void GCL_ChangeSenerioCode(int demo_flag)
 {
     scenerio_code = (demo_flag == TRUE)
-        ? GCL_StrHash(GCX_demo)         // 0x0006a242
-        : GCL_StrHash(GCX_scenerio);    // 0x0006ea54
+        ? ((GCL_STRID << 16) | 0xa242)  // GV_StrCode("demo")
+        : ((GCL_STRID << 16) | 0xea54); // GV_StrCode("scenerio")
 }
 
 void GCL_StartDaemon(void)

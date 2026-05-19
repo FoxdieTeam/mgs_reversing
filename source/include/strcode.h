@@ -2,46 +2,6 @@
 #define __MGS_STRCODE_H__
 
 //-----------------------------------------------------------------------------
-// GCL StrCodes
-//-----------------------------------------------------------------------------
-
-/* script filenames */
-#define GCX_scenerio            0xea54  // GV_StrCode("scenerio")
-#define GCX_demo                0xa242  // GV_StrCode("demo")
-
-/* libgcl/basic.c */
-#define CMD_if                  0x0d86  // GV_StrCode("if")
-#define CMD_eval                0x64c0  // GV_StrCode("eval")
-#define CMD_return              0xcd3a  // GV_StrCode("return")
-#define CMD_foreach             0x7636  // GV_StrCode("foreach")
-
-/* game/script.c */
-#define CMD_mesg                0x22ff  // GV_StrCode("mesg")
-#define CMD_trap                0xd4cb  // GV_StrCode("trap")
-#define CMD_chara               0x9906  // GV_StrCode("chara")
-#define CMD_map                 0xc091  // GV_StrCode("map")
-#define CMD_mapdef              0x7d50  // GV_StrCode("mapdef")
-#define CMD_camera              0xeee9  // GV_StrCode("camera")
-#define CMD_light               0x306a  // GV_StrCode("light")
-#define CMD_start               0x9a1f  // GV_StrCode("start")
-#define CMD_load                0xc8bb  // GV_StrCode("load")
-#define CMD_radio               0x24e1  // GV_StrCode("radio")
-#define CMD_restart             0xe43c  // GV_StrCode("restart")
-#define CMD_demo                0xa242  // GV_StrCode("demo")
-#define CMD_ntrap               0xdbab  // GV_StrCode("ntrap")
-#define CMD_delay               0x430d  // GV_StrCode("delay")
-#define CMD_pad                 0xcc85  // GV_StrCode("pad")
-#define CMD_varsave             0x5c9e  // GV_StrCode("varsave")
-#define CMD_system              0x4ad9  // GV_StrCode("system")
-#define CMD_sound               0x698d  // GV_StrCode("sound")
-#define CMD_menu                0x226d  // GV_StrCode("menu")
-#define CMD_rand                0x925e  // GV_StrCode("rand")
-#define CMD_func                0xe257  // GV_StrCode("func")
-#define CMD_demodebug           0xa2bf  // GV_StrCode("demodebug")
-#define CMD_print               0xb96e  // GV_StrCode("print")
-#define CMD_jimaku              0xec9d  // GV_StrCode("jimaku") // subtitle
-
-//-----------------------------------------------------------------------------
 
 #define HASH_PAN2               0x922b // GV_StrCode( "pan2" )
 #define HASH_ITEM               0x5d43 // GV_StrCode( "item" )

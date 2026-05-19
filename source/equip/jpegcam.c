@@ -634,7 +634,7 @@ static void JpegcamProcessInput(Work *work)
         press = 0;
     }
 
-    if (dword_8009F604 != CMD_camera)
+    if (dword_8009F604 != CAMERA_SIGHT)
     {
         status = 0;
         press = 0;

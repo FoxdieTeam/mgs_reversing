@@ -33,58 +33,58 @@ unsigned char *GCL_GetNextValue(unsigned char *top, int *type_p, int *value_p)
     *type_p = gcl_code;
     switch (gcl_code)
     {
-    case GCLCODE_NULL:
+    case GCL_END:
         ptr = 0;
         break;
 
-    case GCLCODE_SHORT:
+    case GCL_SHORT:
         *value_p = (short)GCL_GetShort(ptr);
         ptr += 2;
         break;
 
-    case GCLCODE_SDCODE:
-    case GCLCODE_TABLE_CODE:
+    case GCL_INT:
+    case GCL_SYMBOL:
         *value_p = (unsigned int)GCL_GetLong(ptr);
         ptr += 4;
         break;
 
-    case GCLCODE_HASHED_STRING:
-    case GCLCODE_PROC_CALL:
+    case GCL_STRID:
+    case GCL_PROCID:
         *value_p = (unsigned short)GCL_GetShort(ptr);
         ptr += 2;
         break;
 
-    case GCLCODE_BYTE:
-    case GCLCODE_CHAR:
-    case GCLCODE_FLAG:
+    case GCL_BYTE:
+    case GCL_CHAR:
+    case GCL_BOOL:
         *value_p = (unsigned char)GCL_GetByte(ptr);
         ptr += 1;
         break;
 
-    case GCLCODE_STRING:
+    case GCL_STRING:
         *value_p = (int)(ptr + 1);
         size = *ptr;
         goto ADD_SIZE_80020834;
 
-    case GCLCODE_STACK_VAR:
+    case GCL_ARRAY:
         *value_p = GCL_GetArgs(*ptr);
         *type_p = 1;
         ptr += 1;
         break;
 
-    case GCLCODE_SCRIPT_DATA:
+    case GCL_ARG:
         *value_p = (int)(ptr + 2);
         size = GCL_GetShort(ptr);
         ptr += size;
         break;
 
-    case GCLCODE_EXPRESSION:
+    case GCL_EXPR:
         *value_p = GCL_Expr(ptr + 1, value_p);
         size = *ptr;
         ptr += size;
         break;
 
-    case GCLCODE_PARAMETER:
+    case GCL_OPTION:
         *type_p |= *ptr << 16;
         *value_p = (int)(ptr + 2);
         size = ptr[1];
@@ -182,7 +182,7 @@ char *GCL_GetOption(char c)
     do
     {
         pScript = GCL_GetNextValue(pScript, &code, (int*)&value);
-        if (code == GCLCODE_NULL)
+        if (code == GCL_END)
         {
             return NULL;
         }
@@ -266,7 +266,7 @@ void GCL_DiscardValues(unsigned char *top)
     do
     {
         top = GCL_GetNextValue(top, &code, &value);
-    } while (code != GCLCODE_NULL);
+    } while (code != GCL_END);
 }
 
 void GCL_ParseInit(void)
