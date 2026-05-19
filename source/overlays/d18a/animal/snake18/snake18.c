@@ -793,8 +793,33 @@ void d18a_snake18_800CED2C(Snake18Work *work, int arg1)
     work->control.turn.vx = 0;
     GM_PlayerStatus &= ~0x10;
 }
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CEDB0.s")
+extern void d18a_snake18_800CE8E0(Snake18Work *work);
 
+void d18a_snake18_800CEDB0(Snake18Work *work)
+{
+    if (GM_PlayerStatus & 2)
+    {
+        return;
+    }
+    if (!(work->pad->press & PAD_B))
+    {
+        return;
+    }
+    if (d18a_snake18_800CAF20(work) != 0)
+    {
+        return;
+    }
+    work->f900 = 0x1C2;
+    d18a_snake18_800CC8E0(work);
+    work->f8AC = d18a_snake18_800CE8E0;
+    work->f8B0 = 0;
+    work->f912 = 0;
+    work->f910 = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
+    GM_PlayerStatus &= ~0x50;
+    work->f7E4 &= ~0x212;
+}
 void d18a_snake18_800CEE60(Snake18Work *work)
 {
     int arg;
