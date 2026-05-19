@@ -964,7 +964,52 @@ void d18a_snake18_800CE8E0(Snake18Work *work, int arg1)
         work->control.turn.vx = 0;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CE998.s")
+extern void d18a_snake18_800CEDB0(Snake18Work *work);
+extern void d18a_snake18_800CEF0C(Snake18Work *work, int arg1);
+extern const char d18a_aKore_800DA6A0[];
+extern int printf(/* const char *format, ... */);
+
+void d18a_snake18_800CE998(Snake18Work *work, int arg1)
+{
+    if (arg1 == 0)
+    {
+        work->f8BC = d18a_snake18_800CEDB0;
+        work->f8C0 = d18a_snake18_800CE7BC;
+        d18a_snake18_800CC8B0(work, 0);
+        work->f7E4 |= 0x232;
+        if (GM_PlayerStatus & 2)
+        {
+            d18a_snake18_800CB3E8(work);
+        }
+        else
+        {
+            d18a_snake18_800CB42C(work);
+        }
+    }
+
+    if (arg1 != 0x18)
+    {
+        return;
+    }
+
+    printf(d18a_aKore_800DA6A0);
+    d18a_snake18_800CC8E0(work);
+    work->f7E4 &= ~0x232;
+
+    if (GM_PlayerStatus & 2)
+    {
+        work->f8AC = d18a_snake18_800CEF0C;
+    }
+    else
+    {
+        work->f8AC = d18a_snake18_800CD930;
+    }
+    work->f8B0 = 0;
+    work->f912 = 0;
+    work->f910 = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CEA84.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CEB78.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CEC68.s")
@@ -1222,7 +1267,7 @@ void d18a_snake18_800D09B4( Snake18Work *work )
         d18a_snake18_800D0974( work );
     }
 }
-extern void d18a_snake18_800CE998(Snake18Work *work);
+extern void d18a_snake18_800CE998(Snake18Work *work, int arg1);
 
 void d18a_snake18_800D0A10(Snake18Work *work)
 {
