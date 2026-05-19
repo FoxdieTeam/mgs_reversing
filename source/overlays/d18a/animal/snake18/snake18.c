@@ -660,7 +660,54 @@ void d18a_snake18_800CCB0C(TARGET *target)
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CD040.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CD2C4.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CD4C0.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CD64C.s")
+extern void d18a_snake18_800CDD4C(Snake18Work *work);
+extern void d18a_snake18_800D1424(void);
+
+void d18a_snake18_800CD64C(Snake18Work *work, int arg1)
+{
+    int   new_action;
+    char *str;
+
+    if (arg1 == 0)
+    {
+        work->f8BC = d18a_snake18_800CDD4C;
+        work->f8FE = 0;
+        work->f8C0 = d18a_snake18_800D1424;
+
+        if (GM_AlertMode == 3 || GM_AlertMode == 4)
+        {
+            new_action = ((unsigned char *)work->f8A8->str)[1];
+        }
+        else
+        {
+            new_action = ((unsigned char *)work->f8A8->str)[0];
+        }
+        if (work->body.action != new_action)
+        {
+            GM_ConfigObjectAction(&work->body, new_action, 0, 4);
+        }
+    }
+
+    str = work->f8A8->str;
+    if (work->body.action == (unsigned char)str[0])
+    {
+        if (GM_AlertMode == 3 || GM_AlertMode == 4)
+        {
+            new_action = (unsigned char)str[1];
+            if (work->body.action != new_action)
+            {
+                GM_ConfigObjectAction(&work->body, new_action, 0, 4);
+            }
+        }
+    }
+
+    if (work->control.mov.vy < 0x1770)
+    {
+        work->control.mov.vx = 0x7D0;
+        work->control.mov.vy = 0x2F44;
+        work->control.mov.vz = 0x1F4;
+    }
+}
 extern void d18a_snake18_800CDE8C(Snake18Work *work);
 
 void d18a_snake18_800CD768(Snake18Work *work, int arg1)
@@ -818,7 +865,7 @@ void d18a_snake18_800CE834(Snake18Work *work, int arg1)
         work->control.turn.vx = 0;
     }
 }
-extern void d18a_snake18_800CD64C(Snake18Work *work);
+extern void d18a_snake18_800CD64C(Snake18Work *work, int arg1);
 
 void d18a_snake18_800CE8E0(Snake18Work *work, int arg1)
 {
@@ -857,7 +904,7 @@ void d18a_snake18_800CE8E0(Snake18Work *work, int arg1)
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CEB78.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CEC68.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CECE0.s")
-extern void d18a_snake18_800CD64C(Snake18Work *work);
+extern void d18a_snake18_800CD64C(Snake18Work *work, int arg1);
 
 void d18a_snake18_800CED2C(Snake18Work *work, int arg1)
 {
