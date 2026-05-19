@@ -108,7 +108,7 @@ typedef struct _OpenWork
     int      f249C;
     int      f24A0;
     int      f24A4;
-    char     pad10[0x4];
+    void    *mg_logo;
     int      f24AC;
     int      f24B0;
     int      f24B4;

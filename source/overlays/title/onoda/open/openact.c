@@ -459,7 +459,7 @@ void OpenAct_800D37F4(OpenWork *work)
 
             work->fB0C = 0;
             work->f24C4 = 0;
-            *(void **)((char *)work + 0x24A8) = NewMetalGearLogo(&work->f24C4);
+            work->mg_logo = NewMetalGearLogo(&work->f24C4);
         }
 
         title_open_800D2A00(work);
@@ -474,7 +474,7 @@ void OpenAct_800D37F4(OpenWork *work)
 
             work->fB0C = 0;
             work->f24C4 = 0;
-            *(void **)((char *)work + 0x24A8) = NewMetalGearLogo(&work->f24C4);
+            work->mg_logo = NewMetalGearLogo(&work->f24C4);
         }
 
         title_open_800D2AFC(work);
