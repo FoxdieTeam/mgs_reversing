@@ -1032,10 +1032,10 @@ void d18a_snake18_800CEA84(Snake18Work *work, int arg1)
             GM_ConfigObjectAction(&work->body, new_action, 0, 2);
         }
 
-        work->f1A4 = -1;
+        work->m_ctrl.info2.mask = -1;
         work->f7E4 |= 6;
         save_924 = work->f924;
-        work->f18C = 0;
+        work->m_ctrl.info1.mask = 0;
         work->f924 = 0;
         GM_PlayerStatus &= ~0x800;
         work->control.turn.vy = save_924;
@@ -1074,12 +1074,12 @@ void d18a_snake18_800CEB78(Snake18Work *work, int arg1)
         work->f910 = 0;
     }
 
-    if (work->f8A4[2] & 0x80)
+    if (work->pad->release & 0x80)
     {
         work->f910 = 1;
     }
 
-    if (work->f8A4[0] & 0x80)
+    if (work->pad->status & 0x80)
     {
         work->f86E += 1;
     }
@@ -1748,9 +1748,24 @@ int d18a_snake18_800D4B84( Snake18Work *work )
     d18a_snake18_800CB2EC( work );
     return 0;
 }
+extern SVECTOR d18a_dword_800C3A28;
 
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D4BA4.s")
-int d18a_snake18_800D4BA4( Snake18Work *work );
+int d18a_snake18_800D4BA4(Snake18Work *work)
+{
+    TARGET *target = GM_AllocTarget();
+    work->f7E8 = (short *)target;
+    if (target == NULL)
+    {
+        return -1;
+    }
+
+    GM_SetTarget(target, 0x9F, work->f930, &d18a_dword_800C3A28);
+    GM_SetPowerTarget(target, 1, -1, GM_SnakeCurrentHealth, 0, &DG_ZeroVector);
+    GM_SetCaptureTarget(target, 0, 0,
+                        (int *)((char *)work + 0x840),
+                        &work->f848);
+    return 0;
+}
 
 int d18a_snake18_800D4C44( Snake18Work *work, int name, int where )
 {
