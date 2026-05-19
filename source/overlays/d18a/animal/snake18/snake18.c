@@ -85,9 +85,9 @@ typedef struct _Snake18Work
     char    pad_910[0x910 - 0x90E - sizeof(char)];
     short   f910;        // 0x910
     short   f912;        // 0x912
-    char    pad_92E[0x926 - 0x912 - sizeof(short)];
+    char    pad_926[0x926 - 0x912 - sizeof(short)];
     short   f926;        // 0x926
-    char    pad_928[0x6];
+    char    pad_92E[0x92E - 0x926 - sizeof(short)];
     short   f92E;        // 0x92E
     int     f930;        // 0x930
 } Snake18Work;
@@ -131,7 +131,7 @@ void d18a_snake18_800D0A10(void);
 void d18a_snake18_800D0B4C(Snake18Work *work);
 void d18a_snake18_800D0B84(Snake18Work *work);
 void d18a_snake18_800D1424(void);
-void d18a_snake18_800D1750(void);
+void d18a_snake18_800D1750(Snake18Work *work);
 void d18a_snake18_800D18EC(Snake18Work *work);
 void d18a_snake18_800D24CC(Snake18Work *work);
 void d18a_snake18_800D2660(Snake18Work *work);
@@ -1215,7 +1215,35 @@ void d18a_snake18_800D0B84(Snake18Work *work)
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D1300.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D1424.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D1598.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D1750.s")
+extern void d18a_snake18_800D0E3C(Snake18Work *work);
+extern void d18a_snake18_800D1064(Snake18Work *work);
+
+void d18a_snake18_800D1750(Snake18Work *work)
+{
+    int new_action;
+
+    GM_PlayerStatus &= ~0x10;
+    new_action = ((unsigned char *)work->f8A8->str)[3];
+    if (work->body.action != new_action)
+    {
+        GM_ConfigObjectAction(&work->body, new_action, 0, 4);
+    }
+
+    if (!(work->pad->status & PAD_X))
+    {
+        work->f926 = 0;
+        work->f8AC = d18a_snake18_800CEEAC;
+        work->f8B0 = 0;
+        work->f912 = 0;
+        work->f910 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        GM_PlayerStatus &= ~0x8001;
+    }
+
+    d18a_snake18_800D0E3C(work);
+    d18a_snake18_800D1064(work);
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D1814.s")
 extern void d18a_snake18_800CB378(Snake18Work *work);
 
