@@ -30,11 +30,10 @@ enum GAMED_STATE {          // private to gamed.c
     WORKING     = 1
 };
 
-typedef struct gameWork     // private to gamed.c
-{
-    GV_ACT  actor;
-    int     status;         // enum GAMED_STATE
-    int     killing_count;  // name taken from MGS4
+typedef struct {            // private to gamed.c
+    GV_ACT actor;
+    enum GAMED_STATE status;
+    int killing_count;
 } gameWork;
 
 /*---------------------------------------------------------------------------*/
