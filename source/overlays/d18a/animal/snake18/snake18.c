@@ -578,8 +578,46 @@ void d18a_snake18_800CBD34( Snake18Work *work )
         work->f7E4 |= 0x100;
     }
 }
+extern int bakudan_count_8009F42C;
+extern int d18a_dword_800DAEF4;
+extern void d18a_snake18_800D22C8(Snake18Work *work);
 
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CBD80.s")
+void d18a_snake18_800CBD80(Snake18Work *work)
+{
+    if (work->f864 != 6)
+    {
+        return;
+    }
+    if (*work->f860 == 0)
+    {
+        return;
+    }
+    if (bakudan_count_8009F42C >= 0x10)
+    {
+        return;
+    }
+    if (!(GM_PlayerStatus & 0x10))
+    {
+        work->control.turn.vy = d18a_dword_800DAEF4;
+    }
+    if (!(work->pad->press & PAD_Y))
+    {
+        return;
+    }
+    if (work->f8B4 == d18a_snake18_800D22C8)
+    {
+        return;
+    }
+    if (d18a_snake18_800CB1C8(work) <= 0)
+    {
+        return;
+    }
+
+    work->f900 = 0x1C2;
+    work->f8B4 = d18a_snake18_800D22C8;
+    work->f8B8 = 0;
+    work->f7E4 |= 0x100;
+}
 
 void d18a_snake18_800CBE58(Snake18Work *work)
 {
