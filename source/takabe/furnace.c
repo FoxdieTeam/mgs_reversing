@@ -137,15 +137,15 @@ static int GetResources(Work *work, int name, int where)
 
     if (GCL_GetOption('b'))
     {
-        GCL_StrToSV(GCL_GetParamResult(), &work->bound[0]);
-        GCL_StrToSV(GCL_GetParamResult(), &work->bound[1]);
+        GCL_StrToSV(GCL_NextStr(), (short *)&work->bound[0]);
+        GCL_StrToSV(GCL_NextStr(), (short *)&work->bound[1]);
     }
 
     if (GCL_GetOption('c'))
     {
-        work->color.r = GCL_StrToInt(GCL_GetParamResult());
-        work->color.g = GCL_StrToInt(GCL_GetParamResult());
-        work->color.b = GCL_StrToInt(GCL_GetParamResult());
+        work->color.r = GCL_StrToInt(GCL_NextStr());
+        work->color.g = GCL_StrToInt(GCL_NextStr());
+        work->color.b = GCL_StrToInt(GCL_NextStr());
     }
 
     work->proc_id = THING_Gcl_GetInt('e');

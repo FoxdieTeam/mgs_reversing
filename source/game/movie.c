@@ -438,17 +438,17 @@ void *NewMovieGCL(unsigned int code)
 
     if (GCL_GetOption('i'))
     {
-        work->f40 += GCL_StrToInt(GCL_GetParamResult());
+        work->f40 += GCL_StrToInt(GCL_NextStr());
     }
 
     if (GCL_GetOption('o'))
     {
-        work->f42 -= GCL_StrToInt(GCL_GetParamResult());
+        work->f42 -= GCL_StrToInt(GCL_NextStr());
     }
 
     if (GCL_GetOption('p'))
     {
-        work->end_proc = GCL_StrToInt(GCL_GetParamResult());
+        work->end_proc = GCL_StrToInt(GCL_NextStr());
     }
 
     return (void *)work;

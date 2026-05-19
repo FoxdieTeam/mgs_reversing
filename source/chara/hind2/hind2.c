@@ -669,8 +669,8 @@ int Hind2GetResources( Hind2Work *work, int name, int map )
 
     if ( GCL_GetOption( 'w' ) )
     {
-        work->f1E0[ 0 ] = GCL_StrToInt( GCL_GetParamResult() );
-        work->f1E0[ 1 ] = GCL_StrToInt( GCL_GetParamResult() );
+        work->f1E0[ 0 ] = GCL_StrToInt( GCL_NextStr() );
+        work->f1E0[ 1 ] = GCL_StrToInt( GCL_NextStr() );
     }
     else
     {
@@ -680,7 +680,7 @@ int Hind2GetResources( Hind2Work *work, int name, int map )
 
     if ( GCL_GetOption( 'g' ) )
     {
-        GCL_StrToSV( GCL_GetParamResult(), &work->f1F4 );
+        GCL_StrToSV( GCL_NextStr(), (short *)&work->f1F4 );
     }
     else
     {
@@ -689,7 +689,7 @@ int Hind2GetResources( Hind2Work *work, int name, int map )
 
     if ( GCL_GetOption( 'e' ) )
     {
-        work->f288 = GCL_StrToInt( GCL_GetParamResult() );
+        work->f288 = GCL_StrToInt( GCL_NextStr() );
     }
     else
     {

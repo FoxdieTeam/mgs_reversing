@@ -6,8 +6,8 @@
 #include "menu/menuman.h"   // for RadioMemory
 #include "linkvar.h"
 
-extern short linkvarbuf[0x60];
-extern short sv_linkvarbuf[0x60];
+extern short linkvarbuf[ MAX_LINKVARBUF ];
+extern short sv_linkvarbuf[ MAX_LINKVARBUF ];
 
 extern GCL_Vars     gGcl_vars_800B3CC8;
 extern GCL_Vars     gGcl_memVars_800b4588;
@@ -153,7 +153,7 @@ int GCL_SetLoadFile(char *save_buf)
 
 /*---------------------------------------------------------------------------*/
 
-void GCL_InitVar(void)
+void GCL_InitVar( void )
 {
     int option;
     int difficulty;
@@ -162,32 +162,33 @@ void GCL_InitVar(void)
     difficulty = GM_DifficultyFlag;
 
     gGcl_vars_800B3CC8 = ( GCL_Vars ){{ 0 }};
-    memset(linkvarbuf, 0, 0xC0);
+    memset( linkvarbuf, 0, MAX_LINKVARBUF * sizeof(short) );
 
     GM_DifficultyFlag = difficulty;
     GM_OptionFlag = option;
 }
 
-void GCL_InitClearVar(void)
+void GCL_InitClearVar( void )
 {
     gGcl_vars_800B3CC8 = ( GCL_Vars ){{ 0 }};
-    memset(&GM_CurrentStageFlag, 0, 0xb4);
+    memset( &GM_CurrentStageFlag, 0, 0xb4 );
+
     GCL_SaveVar();
 }
 
-void GCL_SaveVar(void)
+void GCL_SaveVar( void )
 {
-    memcpy(sv_linkvarbuf, linkvarbuf, 0xC0);
+    memcpy( sv_linkvarbuf, linkvarbuf, MAX_LINKVARBUF * sizeof(short) );
     gGcl_memVars_800b4588 = gGcl_vars_800B3CC8;
-    strcpy(gStageName_800B4D88, GM_GetArea(0));
+    strcpy( gStageName_800B4D88, GM_GetArea( 0 ) );
 }
 
-void GCL_RestoreVar(void)
+void GCL_RestoreVar( void )
 {
-    memcpy(linkvarbuf, sv_linkvarbuf, 0x9C);
+    memcpy( linkvarbuf, sv_linkvarbuf, 0x9C );
     gGcl_vars_800B3CC8 = gGcl_memVars_800b4588;
 
-    GM_SetArea(GV_StrCode(gStageName_800B4D88), gStageName_800B4D88);
+    GM_SetArea( GV_StrCode( gStageName_800B4D88 ), gStageName_800B4D88 );
 }
 
 // This function takes a GCL variable and return the associated C variable
@@ -198,14 +199,15 @@ void GCL_RestoreVar(void)
 //    80 = linkvarbuf
 //  0002 = offset (not index) into linkvarbuf
 
-unsigned char *GCL_GetVar(unsigned char *top, int *type_p, int *value_p)
+char *GCL_GetVar( char *top, int *type_p, int *value_p )
 {
     int   gcl_var;
     int   gcl_code;
     char *ptr;
 
-    gcl_var = GCL_GetLong(top);
+    gcl_var = GCL_GetLong( top );
     gcl_code = GCL_GetVarTypeCode(gcl_var);
+
     *type_p = gcl_code;
     if (GCL_IsGameStateVar(gcl_var))
     {
@@ -223,11 +225,11 @@ unsigned char *GCL_GetVar(unsigned char *top, int *type_p, int *value_p)
     case GCL_PROCID:
         if (gcl_code == GCL_SHORT)
         {
-            *value_p = *((short *)ptr);
+            *value_p = *(short *)ptr;
         }
         else
         {
-            *value_p = *((unsigned short *)ptr);
+            *value_p = *(unsigned short *)ptr;
         }
         break;
 
@@ -246,7 +248,7 @@ unsigned char *GCL_GetVar(unsigned char *top, int *type_p, int *value_p)
     return top + sizeof(gcl_var);
 }
 
-unsigned char *GCL_SetVar(unsigned char *top, unsigned int value)
+char *GCL_SetVar( char *top, int value )
 {
     int   gcl_var, gcl_code;
     char *ptr;
@@ -294,7 +296,7 @@ unsigned char *GCL_SetVar(unsigned char *top, unsigned int value)
     return top + sizeof(gcl_var);
 }
 
-unsigned char *GCL_VarSaveBuffer(unsigned char *top)
+char *GCL_VarSaveBuffer( char *top )
 {
     int   gcl_var, gcl_code, value;
     char *ptr;

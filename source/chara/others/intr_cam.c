@@ -93,7 +93,7 @@ static void Die(Work *work)
 static int GetResources(Work *work)
 {
     GCL_GetOption('p');
-    GCL_StrToSV(GCL_GetParamResult(), &work->pos);
+    GCL_StrToSV(GCL_NextStr(), (short *)&work->pos);
     work->state = 2;
     work->interp = 8;
     return 0;

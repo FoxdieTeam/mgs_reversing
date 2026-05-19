@@ -173,8 +173,8 @@ int O2DamageGetResources_800DE8FC(O2DamgeWork *work, int name, int where)
 {
     if (GCL_GetOption('o'))
     {
-        work->f2C = GCL_StrToInt(GCL_GetParamResult());
-        work->f34 = GCL_StrToInt(GCL_GetParamResult());
+        work->f2C = GCL_StrToInt(GCL_NextStr());
+        work->f34 = GCL_StrToInt(GCL_NextStr());
     }
 
     work->f38 = THING_Gcl_GetInt('h');
@@ -184,8 +184,8 @@ int O2DamageGetResources_800DE8FC(O2DamgeWork *work, int name, int where)
 
     if (GCL_GetOption('i'))
     {
-        work->f48 = GCL_StrToInt(GCL_GetParamResult());
-        work->f4C = GCL_StrToInt(GCL_GetParamResult());
+        work->f48 = GCL_StrToInt(GCL_NextStr());
+        work->f4C = GCL_StrToInt(GCL_NextStr());
     }
 
     work->f30 = 0;

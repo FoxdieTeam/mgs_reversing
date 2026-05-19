@@ -452,12 +452,12 @@ void GM_ConfigControlString(CONTROL *ctrl, char *mov, char *rot)
 {
     if (mov)
     {
-        GCL_StrToSV(mov, &ctrl->mov);
+        GCL_StrToSV(mov, (short *)&ctrl->mov);
     }
 
     if (rot)
     {
-        GCL_StrToSV(rot, &ctrl->rot);
+        GCL_StrToSV(rot, (short *)&ctrl->rot);
     }
 
     ctrl->turn = ctrl->rot;

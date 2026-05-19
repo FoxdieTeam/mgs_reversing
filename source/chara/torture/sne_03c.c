@@ -152,7 +152,7 @@ void Snake03c1_800CD914(Snake03c1Work *work)
 
     i = 0;
     out = work->procs;
-    while ((res = GCL_GetParamResult()))
+    while ((res = GCL_NextStr()))
     {
         if (i == 4)
         {
@@ -182,7 +182,7 @@ int Snake03c1GetResources_800CD98C(Snake03c1Work *work, int arg1, int arg2)
     model = GCL_StrToInt(GCL_GetOption('m'));
     motion = GCL_StrToInt(GCL_GetOption('o'));
 
-    GCL_StrToSV(GCL_GetOption('t'), &work->svec7DC);
+    GCL_StrToSV(GCL_GetOption('t'), (short *)&work->svec7DC);
 
     GM_InitObject(&work->object, model & 0xFFFF, 0x2D, motion & 0xFFFF);
     GM_ConfigObjectJoint(&work->object);
@@ -350,7 +350,7 @@ void Snake03c2GetResources_800CDE80(Snake03c2Work *work)
 
     i = 0;
     out = work->procs;
-    while ((res = GCL_GetParamResult()))
+    while ((res = GCL_NextStr()))
     {
         if (i == 4)
         {

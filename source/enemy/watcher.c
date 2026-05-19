@@ -401,7 +401,7 @@ int s00a_watcher_800C4938( char *opt, char* c )
     int i;
     unsigned char *res;
 
-    for ( i = 0 ; ( res = GCL_GetParamResult() ) ; i++ )
+    for ( i = 0 ; ( res = GCL_NextStr() ) ; i++ )
     {
         *c = GCL_StrToInt( res );
          c++;
@@ -415,7 +415,7 @@ int s00a_watcher_800C4990( char *opt, short* s )
     int i;
     unsigned char *res;
 
-    for ( i = 0 ; ( res = GCL_GetParamResult() ) ; i++ )
+    for ( i = 0 ; ( res = GCL_NextStr() ) ; i++ )
     {
         *s = GCL_StrToInt( res );
          s++;
@@ -429,7 +429,7 @@ int s00a_watcher_800C49E8( char *opt, int* l )
     int i;
     unsigned char *res;
 
-    for ( i = 0 ; ( res = GCL_GetParamResult() ) ; i++ )
+    for ( i = 0 ; ( res = GCL_NextStr() ) ; i++ )
     {
         *l = GCL_StrToInt( res );
          l++;
@@ -556,7 +556,7 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
 
     if ( work->local_data == 3 )
     {
-        opt = GCL_GetParamResult();
+        opt = GCL_NextStr();
         if ( opt )
         {
             work->local_data2 = GCL_StrToInt( ( char* )opt );
@@ -578,7 +578,7 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
     opt = GCL_GetOption( 'e' );
     if ( opt )
     {
-        work->field_C3C = GCL_StrToInt( GCL_GetParamResult() );
+        work->field_C3C = GCL_StrToInt( GCL_NextStr() );
     }
     else
     {
@@ -592,7 +592,7 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
     opt = GCL_GetOption( 'n' );
     if ( opt )
     {
-        GCL_StrToSV( ( char* )opt, &svec );
+        GCL_StrToSV( ( char* )opt, (short *)&svec );
         if ( svec.vy < 0x7530 )
         {
             work->field_B7C = HZD_GetAddress( work->control.map->hzd, &svec, -1 );

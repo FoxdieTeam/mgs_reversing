@@ -805,7 +805,7 @@ static int GetResources(Work *work, int map)
 
     if (GCL_GetOption('e'))
     {
-        work->field_2C0 = GCL_StrToInt(GCL_GetParamResult());
+        work->field_2C0 = GCL_StrToInt(GCL_NextStr());
     }
     else
     {
@@ -814,7 +814,7 @@ static int GetResources(Work *work, int map)
 
     for (i = 0; i < 4; i++)
     {
-        work->field_394[i].string = GCL_ReadString(GCL_GetParamResult());
+        work->field_394[i].string = GCL_GetString(GCL_NextStr());
         work->field_394[i].num = 0;
         Preope_800C32E0(work, i);
     }
@@ -824,7 +824,7 @@ static int GetResources(Work *work, int map)
     {
         for (i = 0; i < 8; i++)
         {
-            work->field_714[index].string = GCL_ReadString(GCL_GetParamResult());
+            work->field_714[index].string = GCL_GetString(GCL_NextStr());
             index++;
         }
     }
@@ -834,7 +834,7 @@ static int GetResources(Work *work, int map)
     {
         for (i = 0; i < 8; i++)
         {
-            work->field_4614[index].string = GCL_ReadString(GCL_GetParamResult());
+            work->field_4614[index].string = GCL_GetString(GCL_NextStr());
             index++;
         }
     }

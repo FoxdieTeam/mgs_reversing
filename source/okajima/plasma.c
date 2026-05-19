@@ -47,9 +47,9 @@ int PlasmaGetSvecs_800CBBEC(char *opt, SVECTOR *svec)
 
     count = 0;
 
-    while ((result = GCL_GetParamResult()) != NULL)
+    while ((result = GCL_NextStr()) != NULL)
     {
-        GCL_StrToSV(result, svec);
+        GCL_StrToSV(result, (short *)svec);
         svec++;
         count++;
     }

@@ -223,7 +223,7 @@ static int GetResources(Work *work, int map)
     GM_CurrentMap = map;
 
     opt = GCL_GetOption('c');
-    GCL_StrToSV(opt, &color);
+    GCL_StrToSV(opt, (short *)&color);
 
     opt = GCL_GetOption('y');
     sphere_elevation = GCL_StrToInt(opt);

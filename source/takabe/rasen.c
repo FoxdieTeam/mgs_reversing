@@ -416,23 +416,23 @@ int Rasen2GetResources_800CAC64(Rasen2Work *work, int name, int where)
     }
 
     map_index_bit =
-        GM_FindMap(GCL_StrToInt(GCL_GetParamResult()))->index;
+        GM_FindMap(GCL_StrToInt(GCL_NextStr()))->index;
     rasen_el_800D2CA4[0] = map_index_bit;
     work->field_28 |= map_index_bit;
 
     map_index_bit =
-        GM_FindMap(GCL_StrToInt(GCL_GetParamResult()))->index;
+        GM_FindMap(GCL_StrToInt(GCL_NextStr()))->index;
     rasen_el_800D2CA4[1] = map_index_bit;
     work->field_28 |= map_index_bit;
 
     map_index_bit =
-        GM_FindMap(GCL_StrToInt(GCL_GetParamResult()))->index;
+        GM_FindMap(GCL_StrToInt(GCL_NextStr()))->index;
     rasen_el_800D2CA4[2] = map_index_bit;
     work->field_28 |= map_index_bit;
 
     if (GCL_GetOption('m'))
     {
-        map = GM_FindMap(GCL_StrToInt(GCL_GetParamResult()))->index;
+        map = GM_FindMap(GCL_StrToInt(GCL_NextStr()))->index;
     }
 
     GM_CurrentMap = map;
@@ -452,7 +452,7 @@ int Rasen2GetResources_800CAC64(Rasen2Work *work, int name, int where)
         work->field_2C = 0;
         for (i = 0; i < 16; i++)
         {
-            param = GCL_GetParamResult();
+            param = GCL_NextStr();
             if (param != NULL)
             {
                 work->field_30[i] = GCL_StrToInt(param);
@@ -467,7 +467,7 @@ int Rasen2GetResources_800CAC64(Rasen2Work *work, int name, int where)
         {
             for (j = 0; j < 16; j++)
             {
-                work->field_50[i][j] = GCL_StrToInt(GCL_GetParamResult());
+                work->field_50[i][j] = GCL_StrToInt(GCL_NextStr());
             }
         }
     }
@@ -487,7 +487,7 @@ int Rasen2GetResources_800CAC64(Rasen2Work *work, int name, int where)
 
     if (GCL_GetOption('c'))
     {
-        rasen_800C340C = GCL_StrToInt(GCL_GetParamResult());
+        rasen_800C340C = GCL_StrToInt(GCL_NextStr());
     }
 
     GM_SetCameraCallbackFunc(1, Rasen_800CB34C);

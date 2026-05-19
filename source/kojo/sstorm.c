@@ -113,32 +113,32 @@ void *NewSnowStorm(int arg0, int arg1)
 
     if (GCL_GetOption('a'))
     {
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             lpAct->field_28 = GCL_StrToInt(param);
         }
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             lpAct->field_2A = GCL_StrToInt(param);
         }
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             lpAct->field_2C = GCL_StrToInt(param);
         }
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             lpAct->field_30 = GCL_StrToInt(param);
         }
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             lpAct->field_32 = GCL_StrToInt(param);
         }
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             lpAct->field_34 = GCL_StrToInt(param);
@@ -147,12 +147,12 @@ void *NewSnowStorm(int arg0, int arg1)
 
     if (GCL_GetOption('e'))
     {
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             lpAct->field_38 = GCL_StrToInt(param);
         }
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             lpAct->field_3C = GCL_StrToInt(param);
@@ -161,22 +161,22 @@ void *NewSnowStorm(int arg0, int arg1)
 
     if (GCL_GetOption('p'))
     {
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             svec2.vx = (GCL_StrToInt(param) << 12) / 360;
         }
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             svec2.vy = (GCL_StrToInt(param) << 12) / 360;
         }
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             svec2.vz = (GCL_StrToInt(param) << 12) / 360;
         }
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             svec1.vx = 0;

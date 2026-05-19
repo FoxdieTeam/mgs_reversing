@@ -894,20 +894,20 @@ static int s03e_evpanel_800C47D0(EvPanelWork *work, DG_PRIM **out, SVECTOR *vec,
     DG_PRIM *prim;
     DG_TEX  *tex;
 
-    GCL_StrToSV(GCL_GetParamResult(), &trans);
-    GCL_StrToSV(GCL_GetParamResult(), &rot);
-    GCL_StrToSV(GCL_GetParamResult(), &sp48);
+    GCL_StrToSV(GCL_NextStr(), (short *)&trans);
+    GCL_StrToSV(GCL_NextStr(), (short *)&rot);
+    GCL_StrToSV(GCL_NextStr(), (short *)&sp48);
 
-    k500 = GCL_GetNextParamValue();
-    texid = GCL_GetNextParamValue();
+    k500 = GCL_GetNextInt();
+    texid = GCL_GetNextInt();
 
     if (n_prims == 1)
     {
         work->field_28 = texid;
 
-        if (GCL_GetParamResult())
+        if (GCL_NextStr())
         {
-            work->field_2A = GCL_GetNextParamValue();
+            work->field_2A = GCL_GetNextInt();
         }
         else
         {
@@ -983,11 +983,11 @@ static int GetResources(EvPanelWork *work, int map, int name, int button_count)
 
     if (GCL_GetOption('c'))
     {
-        GCL_StrToSV(GCL_GetParamResult(), &work->f84);
-        GCL_StrToSV(GCL_GetParamResult(), &work->f8C);
+        GCL_StrToSV(GCL_NextStr(), (short *)&work->f84);
+        GCL_StrToSV(GCL_NextStr(), (short *)&work->f8C);
 
-        work->field_3C = GCL_GetNextParamValue();
-        work->field_3E = GCL_GetNextParamValue();
+        work->field_3C = GCL_GetNextInt();
+        work->field_3E = GCL_GetNextInt();
 
         work->field_48 = work->f8C.vy;
 

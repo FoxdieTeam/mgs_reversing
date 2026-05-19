@@ -60,10 +60,10 @@ static int GetResources(Work *work, int name)
 
     GCL_GetOption('s');
 
-    for (i = 0; (param = GCL_GetParamResult()) && i != count; i++, elems++)
+    for (i = 0; (param = GCL_NextStr()) && i != count; i++, elems++)
     {
         elems->param1 = GCL_StrToInt(param);
-        elems->sound = GCL_StrToInt(GCL_GetParamResult());
+        elems->sound = GCL_StrToInt(GCL_NextStr());
     }
 
     return 0;

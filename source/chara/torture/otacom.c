@@ -406,7 +406,7 @@ void Otacom_800CBCC4(OtacomWork *work)
 
     i = 0;
     out = work->field_810;
-    while ((res = GCL_GetParamResult()))
+    while ((res = GCL_NextStr()))
     {
         if (i == 3)
         {
@@ -431,7 +431,7 @@ void Otacom_800CBD3C(OtacomWork *work)
 
     i = 0;
     out = work->procs;
-    while ((res = GCL_GetParamResult()))
+    while ((res = GCL_NextStr()))
     {
         if (i == 3)
         {
@@ -461,7 +461,7 @@ int OtacomGetResources_800CBDB4(OtacomWork *work, int arg1, int arg2)
 
     if (GCL_GetOption('m'))
     {
-        model = GCL_StrToInt(GCL_GetParamResult());
+        model = GCL_StrToInt(GCL_NextStr());
     }
     else
     {
@@ -470,7 +470,7 @@ int OtacomGetResources_800CBDB4(OtacomWork *work, int arg1, int arg2)
 
     if (GCL_GetOption('o'))
     {
-        motion = GCL_StrToInt(GCL_GetParamResult());
+        motion = GCL_StrToInt(GCL_NextStr());
     }
     else
     {
@@ -486,7 +486,7 @@ int OtacomGetResources_800CBDB4(OtacomWork *work, int arg1, int arg2)
 
     if (GCL_GetOption('b'))
     {
-        work->bound_where = GCL_StrToInt(GCL_GetParamResult());
+        work->bound_where = GCL_StrToInt(GCL_NextStr());
     }
     else
     {
@@ -500,7 +500,7 @@ int OtacomGetResources_800CBDB4(OtacomWork *work, int arg1, int arg2)
 
     if (GCL_GetOption('a'))
     {
-        GCL_StrToSV(GCL_GetParamResult(), &svec);
+        GCL_StrToSV(GCL_NextStr(), (short *)&svec);
     }
     else
     {
@@ -513,7 +513,7 @@ int OtacomGetResources_800CBDB4(OtacomWork *work, int arg1, int arg2)
 
     if (GCL_GetOption('c'))
     {
-        work->field_804 = GCL_StrToInt(GCL_GetParamResult());
+        work->field_804 = GCL_StrToInt(GCL_NextStr());
     }
     else
     {

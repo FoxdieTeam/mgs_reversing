@@ -1794,7 +1794,7 @@ static int GetResources(RevolverWork *work, int name, int where)
 
     if (GCL_GetOption('e'))
     {
-        work->proc_id = GCL_StrToInt(GCL_GetParamResult());
+        work->proc_id = GCL_StrToInt(GCL_NextStr());
     }
 
     work->pad = GV_PadData;

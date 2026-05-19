@@ -302,7 +302,7 @@ int s11i_zako11f_800C8EE8( char *opt, short* s )
     int i;
     unsigned char *res;
 
-    for ( i = 0 ; ( res = GCL_GetParamResult() ) ; i++ )
+    for ( i = 0 ; ( res = GCL_NextStr() ) ; i++ )
     {
         *s = GCL_StrToInt( res );
          s++;
@@ -316,7 +316,7 @@ int s11i_zako11f_800C8F40( char *opt, int* l )
     int i;
     unsigned char *res;
 
-    for ( i = 0 ; ( res = GCL_GetParamResult() ) ; i++ )
+    for ( i = 0 ; ( res = GCL_NextStr() ) ; i++ )
     {
         *l = GCL_StrToInt( res );
          l++;
@@ -462,7 +462,7 @@ void Zako11FGetResources_800C9070( Zako11FWork *work, int name, int where )
     opt = GCL_GetOption( 'n' );
     if ( opt )
     {
-        GCL_StrToSV( ( char* )opt, &svec );
+        GCL_StrToSV( ( char* )opt, (short *)&svec );
         if ( svec.vy < 0x7530 )
         {
             work->param.field_B7C = HZD_GetAddress( work->control.map->hzd, &svec, -1 );

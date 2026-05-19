@@ -57,9 +57,9 @@ static int GetSvecs(char *opt, SVECTOR *nodes)
 
     n_nodes = 0;
 
-    while ((result = GCL_GetParamResult()) != NULL)
+    while ((result = GCL_NextStr()) != NULL)
     {
-        GCL_StrToSV(result, nodes);
+        GCL_StrToSV(result, (short *)nodes);
 
         nodes++;
         n_nodes++;

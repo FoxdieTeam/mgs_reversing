@@ -178,7 +178,7 @@ static int InitTarget(Work *work)
     size.vy = 750;
     size.vz = 4000;
 
-    GCL_StrToSV(GCL_GetOption('t'), &pos);
+    GCL_StrToSV(GCL_GetOption('t'), (short *)&pos);
     work->pos = pos;
 
     work->target = target = GM_AllocTarget();
@@ -208,7 +208,7 @@ static void GetInts(Work *work)
 
     i = 0;
     out = work->models;
-    while ((res = GCL_GetParamResult()))
+    while ((res = GCL_NextStr()))
     {
         if (i == 2)
         {
@@ -233,8 +233,8 @@ static int InitObject(Work *work)
     GM_InitObjectNoRots(object, work->models[0], MODEL_FLAG, 0);
     GM_ConfigObjectLight((OBJECT *)object, work->light);
 
-    GCL_StrToSV(GCL_GetOption('d'), &dir);
-    GCL_StrToSV(GCL_GetOption('p'), &pos);
+    GCL_StrToSV(GCL_GetOption('d'), (short *)&dir);
+    GCL_StrToSV(GCL_GetOption('p'), (short *)&pos);
     DG_SetPos2(&pos, &dir);
 
     ReadRotMatrix(&world);

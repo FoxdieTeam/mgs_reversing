@@ -186,8 +186,8 @@ int DummyWallGetResources_800D7178(DummyWallWork *work, int name, int where)
     obj = &work->field_24;
 
     GCL_GetOption('m');
-    param2 = GCL_StrToInt(GCL_GetParamResult());
-    work->field_180 = GCL_StrToInt(GCL_GetParamResult());
+    param2 = GCL_StrToInt(GCL_NextStr());
+    work->field_180 = GCL_StrToInt(GCL_NextStr());
 
     DG_SetPos2(svec3, svec4);
 

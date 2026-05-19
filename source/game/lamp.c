@@ -12,7 +12,7 @@
 #include "game/game.h"
 #include "strcode.h"
 
-extern unsigned char *next_str_ptr;
+extern char *next_str_ptr;
 
 /*---------------------------------------------------------------------------*/
 
@@ -29,7 +29,7 @@ typedef struct _Work
     short          loops;
     int            field_2C_rgb;
     int            field_30;
-    unsigned char *field_34_gcl_nextStrPtr;
+    unsigned char *field_34_next_str_ptr;
     unsigned char *field_38;
     unsigned char *field_3C;
     SVECTOR        field_40_children[0];
@@ -88,7 +88,7 @@ static unsigned char *d11c_800C34C4(Work *work, int arg1)
 {
     unsigned char *strptr;
 
-    strptr = work->field_34_gcl_nextStrPtr;
+    strptr = work->field_34_next_str_ptr;
     while (strptr[0] == 'P')
     {
         if (strptr[1] == arg1)
@@ -150,24 +150,24 @@ static void d11c_800C361C(Work *work)
     }
     GCL_SetArgTop(work->field_3C);
 
-    while (GCL_GetParamResult())
+    while (GCL_NextStr())
     {
-        type = GCL_StrToInt(GCL_GetParamResult());
+        type = GCL_StrToInt(GCL_NextStr());
 
         switch (type)
         {
         case 0xDD19:
-            param1 = GCL_StrToInt(GCL_GetParamResult());
-            param2 = GCL_StrToInt(GCL_GetParamResult());
+            param1 = GCL_StrToInt(GCL_NextStr());
+            param2 = GCL_StrToInt(GCL_NextStr());
             d11c_800C326C(work, param1);
             work->field_30 = param2;
-            work->field_3C = GCL_GetParamResult();
+            work->field_3C = GCL_NextStr();
             return;
 
         case HASH_LOOP:
-            if (GCL_GetParamResult())
+            if (GCL_NextStr())
             {
-                loops = GCL_StrToInt(GCL_GetParamResult());
+                loops = GCL_StrToInt(GCL_NextStr());
             }
             else
             {
@@ -195,7 +195,7 @@ static void d11c_800C361C(Work *work)
             break;
 
         case 0x11F8:
-            d11c_800C3518(work, GCL_StrToInt(GCL_GetParamResult()));
+            d11c_800C3518(work, GCL_StrToInt(GCL_NextStr()));
             GCL_SetArgTop(work->field_3C);
 
         default:
@@ -279,20 +279,20 @@ static int GetResources(Work *work, int map, int name, int a3, int a4)
     int      param5;
 
     GM_CurrentMap = map;
-    GCL_StrToSV(GCL_GetParamResult(), &svec1);
-    GCL_StrToSV(GCL_GetParamResult(), &svec2);
-    param1 = GCL_GetNextParamValue();
-    param2 = GCL_GetNextParamValue();
-    param3 = GCL_GetNextParamValue();
+    GCL_StrToSV(GCL_NextStr(), (short *)&svec1);
+    GCL_StrToSV(GCL_NextStr(), (short *)&svec2);
+    param1 = GCL_GetNextInt();
+    param2 = GCL_GetNextInt();
+    param3 = GCL_GetNextInt();
     work->field_28_name = name;
     work->field_38 = 0;
     work->field_3C = 0;
     work->field_30 = -1;
-    work->field_34_gcl_nextStrPtr = next_str_ptr;
+    work->field_34_next_str_ptr = next_str_ptr;
 
     if (GCL_GetOption('I'))
     {
-        param4 = GCL_GetNextParamValue();
+        param4 = GCL_GetNextInt();
         primType = 0x1012;
     }
     else
@@ -308,7 +308,7 @@ static int GetResources(Work *work, int map, int name, int a3, int a4)
 
     if (GCL_GetOption('R'))
     {
-        param5 = GCL_GetNextParamValue();
+        param5 = GCL_GetNextInt();
     }
     else
     {
@@ -365,8 +365,8 @@ void *NewTextureLamp(int name, int where, int argc, char **argv)
 
     if (GCL_GetOption('D'))
     {
-        param1 = GCL_GetNextParamValue();
-        param2 = GCL_GetNextParamValue();
+        param1 = GCL_GetNextInt();
+        param2 = GCL_GetNextInt();
     }
     else
     {

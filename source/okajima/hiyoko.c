@@ -31,13 +31,13 @@ int HiyokoGetSvec_800CFD04(char *opt, SVECTOR *out)
 {
     char *res;
 
-    res = GCL_GetParamResult();
+    res = GCL_NextStr();
     if (res == NULL)
     {
         return 0;
     }
 
-    GCL_StrToSV(res, out);
+    GCL_StrToSV(res, (short *)out);
     return 1;
 }
 

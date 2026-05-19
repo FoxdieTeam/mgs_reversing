@@ -163,7 +163,7 @@ static int GetResources(PadDemoWork *work, int name, int map)
     if (GCL_GetOption('d'))
     {
         // s0102a1.con
-        filename = GCL_StrToInt(GCL_GetParamResult());
+        filename = GCL_StrToInt(GCL_NextStr());
         work->f38 = GV_GetCache(GV_CacheID(filename, 'c')) + 4;
     }
 
@@ -179,7 +179,7 @@ static int GetResources(PadDemoWork *work, int name, int map)
 
     if (GCL_GetOption('h'))
     {
-        work->f34 = GCL_StrToInt(GCL_GetParamResult());
+        work->f34 = GCL_StrToInt(GCL_NextStr());
     }
     else
     {
@@ -191,7 +191,7 @@ static int GetResources(PadDemoWork *work, int name, int map)
 
     if (GCL_GetOption('f'))
     {
-        work->proc = GCL_StrToInt(GCL_GetParamResult());
+        work->proc = GCL_StrToInt(GCL_NextStr());
     }
     else
     {

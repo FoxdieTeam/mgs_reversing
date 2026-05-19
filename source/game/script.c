@@ -31,7 +31,7 @@ char         SECTION(".sbss") * GM_StageName;
 
 /*---------------------------------------------------------------------------*/
 
-static int GM_Command_light(unsigned char *top)
+static int GM_Command_light(char *top)
 {
     char *light_dir;
     char *light_col;
@@ -40,17 +40,17 @@ static int GM_Command_light(unsigned char *top)
 
     if ((light_dir = GCL_GetOption('d')))
     {
-        GCL_StrToSV(light_dir, &vec);
+        GCL_StrToSV(light_dir, (short *)&vec);
         DG_SetMainLightDir(vec.vx, vec.vy, vec.vz);
     }
     if ((light_col = GCL_GetOption('c')))
     {
-        GCL_StrToSV(light_col, &vec);
+        GCL_StrToSV(light_col, (short *)&vec);
         DG_SetMainLightCol(vec.vx, vec.vy, vec.vz);
     }
     if ((light_ambient = GCL_GetOption('a')))
     {
-        GCL_StrToSV(light_ambient, &vec);
+        GCL_StrToSV(light_ambient, (short *)&vec);
         DG_SetAmbient(vec.vx, vec.vy, vec.vz);
     }
     return GCL_OK;
@@ -67,7 +67,7 @@ proc AGL_FIRST_VF {
             -3362,1759,4936 -2475,770,6672 1
 */
 
-static int GM_Command_camera(unsigned char *top)
+static int GM_Command_camera(char *top)
 {
     int     isEnabled, param_p, camera_id;
     SVECTOR vec1, vec2;
@@ -77,26 +77,26 @@ static int GM_Command_camera(unsigned char *top)
 
     if (GCL_GetOption('b')) // bound
     {
-        GCL_StrToSV(GCL_GetParamResult(), &vec1);
-        GCL_StrToSV(GCL_GetParamResult(), &vec2);
+        GCL_StrToSV(GCL_NextStr(), (short *)&vec1);
+        GCL_StrToSV(GCL_NextStr(), (short *)&vec2);
         GM_CameraSetBound(&vec1, &vec2, isEnabled);
     }
 
     if (GCL_GetOption('t')) // track
     {
-        GM_CameraSetTrack(GCL_GetNextParamValue());
+        GM_CameraSetTrack(GCL_GetNextInt());
     }
 
     if (GCL_GetOption('l')) // limit
     {
-        GCL_StrToSV(GCL_GetParamResult(), &vec1);
-        GCL_StrToSV(GCL_GetParamResult(), &vec2);
+        GCL_StrToSV(GCL_NextStr(), (short *)&vec1);
+        GCL_StrToSV(GCL_NextStr(), (short *)&vec2);
         GM_CameraSetLimit(&vec1, &vec2, isEnabled);
     }
 
     if (GCL_GetOption('r')) // rotate
     {
-        GCL_StrToSV(GCL_GetParamResult(), &vec1);
+        GCL_StrToSV(GCL_NextStr(), (short *)&vec1);
         GM_CameraSetRotation(&vec1);
     }
 
@@ -104,23 +104,23 @@ static int GM_Command_camera(unsigned char *top)
 
     if (GCL_GetOption('s')) // set
     {
-        camera_id = GCL_GetNextParamValue();
+        camera_id = GCL_GetNextInt();
         if (camera_id < 8)
         {
             printf("set camera %d\n", camera_id);
             cam = &GM_CameraList[camera_id];
 
-            cam->field_10_param1 = GCL_GetNextParamValue();
-            cam->interp = GCL_GetNextParamValue();
-            cam->type = GCL_GetNextParamValue();
+            cam->field_10_param1 = GCL_GetNextInt();
+            cam->interp = GCL_GetNextInt();
+            cam->type = GCL_GetNextInt();
             cam->pad_type = param_p;
 
-            GCL_StrToSV(GCL_GetParamResult(), &cam->pos);
-            GCL_StrToSV(GCL_GetParamResult(), &cam->trg);
+            GCL_StrToSV(GCL_NextStr(), (short *)&cam->pos);
+            GCL_StrToSV(GCL_NextStr(), (short *)&cam->trg);
 
-            if (GCL_GetParamResult())
+            if (GCL_NextStr())
             {
-                cam->trg.pad = GCL_GetNextParamValue();
+                cam->trg.pad = GCL_GetNextInt();
             }
             else
             {
@@ -133,12 +133,12 @@ static int GM_Command_camera(unsigned char *top)
 
     if (GCL_GetOption('a'))
     {
-        GM_Camera.alert_mask = GCL_GetNextParamValue();
+        GM_Camera.alert_mask = GCL_GetNextInt();
     }
 
     if (GCL_GetOption('c'))
     {
-        if (GCL_GetNextParamValue() == 0)
+        if (GCL_GetNextInt() == 0)
         {
             GM_GameStatus &= ~GAME_FLAG_BIT_07;
         }
@@ -153,7 +153,7 @@ static int GM_Command_camera(unsigned char *top)
 
 /*---------------------------------------------------------------------------*/
 
-static int GM_Command_map(unsigned char *top)
+static int GM_Command_map(char *top)
 {
     MAP *pMapRecord;
     SVECTOR       colorVec;
@@ -192,9 +192,9 @@ static int GM_Command_map(unsigned char *top)
     if (GCL_GetOption('a'))
     {
         gBinds_800ABA60 = 0;
-        while (GCL_GetParamResult())
+        while (GCL_NextStr())
         {
-            pMapRecord = GM_FindMap(GCL_GetNextParamValue());
+            pMapRecord = GM_FindMap(GCL_GetNextInt());
             if (pMapRecord == 0)
             {
                 return GCL_ERROR;
@@ -205,23 +205,23 @@ static int GM_Command_map(unsigned char *top)
 
     if (GCL_GetOption('p'))
     {
-        while (GCL_GetParamResult())
+        while (GCL_NextStr())
         {
-            GM_AddMap(GCL_GetNextParamValue());
+            GM_AddMap(GCL_GetNextInt());
         }
     }
 
     if (GCL_GetOption('m'))
     {
-        while (GCL_GetParamResult())
+        while (GCL_NextStr())
         {
-            GM_DelMap(GCL_GetNextParamValue());
+            GM_DelMap(GCL_GetNextInt());
         }
     }
 
     if (GCL_GetOption('b'))
     {
-        GCL_StrToSV(GCL_GetParamResult(), &colorVec);
+        GCL_StrToSV(GCL_NextStr(), (short *)&colorVec);
         DG_SetRGB(colorVec.vx, colorVec.vy, colorVec.vz);
     }
 
@@ -230,7 +230,7 @@ static int GM_Command_map(unsigned char *top)
 
 /*---------------------------------------------------------------------------*/
 
-static int GM_Command_mapdef(unsigned char *top)
+static int GM_Command_mapdef(char *top)
 {
     if (!GM_CreateMap())
     {
@@ -241,7 +241,7 @@ static int GM_Command_mapdef(unsigned char *top)
 
 /*---------------------------------------------------------------------------*/
 
-static int GM_Command_trap(unsigned char *top)
+static int GM_Command_trap(char *top)
 {
     HZD_BND *pBind;
     int         i, arg, code, value;
@@ -256,7 +256,7 @@ static int GM_Command_trap(unsigned char *top)
     pBind = gBindsArray_800b58e0 + i;
 
     // Trap id
-    arg = GCL_GetNextParamValue();
+    arg = GCL_GetNextInt();
     if (arg == HASH_TRAP_ALL)
     {
         arg = 0;
@@ -264,7 +264,7 @@ static int GM_Command_trap(unsigned char *top)
     gBindsArray_800b58e0[i].field_4 = arg;
 
     // Entity id
-    arg = GCL_GetNextParamValue();
+    arg = GCL_GetNextInt();
     if (arg == HASH_TRAP_ALL)
     {
         arg = 0;
@@ -272,7 +272,7 @@ static int GM_Command_trap(unsigned char *top)
     pBind->field_0 = arg;
 
     // Event condition
-    arg = GCL_GetNextParamValue();
+    arg = GCL_GetNextInt();
     if (arg == HASH_TRAP_ALL)
     {
         arg = 0;
@@ -282,7 +282,7 @@ static int GM_Command_trap(unsigned char *top)
     gBindsArray_800b58e0[i].field_B_param_e = 0; // exec
     gBindsArray_800b58e0[i].field_8_param_i_c_flags = 0;
 
-    GCL_GetNextValue(GCL_GetParamResult(), &code, &value);
+    GCL_GetNextValue(GCL_NextStr(), &code, &value);
     gBindsArray_800b58e0[i].command = value;
     gBindsCount_800ABA64++;
 
@@ -295,7 +295,7 @@ static int GM_Command_trap(unsigned char *top)
 
 /*---------------------------------------------------------------------------*/
 
-static int GM_Command_ntrap(unsigned char *top)
+static int GM_Command_ntrap(char *top)
 {
     // int bindIdx;
     HZD_BND *pBind;
@@ -309,13 +309,13 @@ static int GM_Command_ntrap(unsigned char *top)
     }
     // bindIdx = gBindsCount_800ABA64; // 780 gp
     pBind = gBindsArray_800b58e0 + gBindsCount_800ABA64;
-    arg = GCL_GetNextParamValue();
+    arg = GCL_GetNextInt();
     if (arg == HASH_TRAP_ALL)
     {
         arg = 0;
     }
     pBind->field_4 = arg;
-    arg = GCL_GetNextParamValue();
+    arg = GCL_GetNextInt();
     if (arg == HASH_TRAP_ALL)
     {
         arg = 0;
@@ -325,7 +325,7 @@ static int GM_Command_ntrap(unsigned char *top)
     flags = 0;                          // still s1
     if (GCL_GetOption('m'))             // mask
     {
-        arg = GCL_GetNextParamValue();
+        arg = GCL_GetNextInt();
         if (arg == HASH_TRAP_ALL)
         {
             arg = 0;
@@ -339,11 +339,11 @@ static int GM_Command_ntrap(unsigned char *top)
     if (GCL_GetOption('d')) // dir
     {
         flags |= 1;
-        pBind->field_C_param_d = GCL_GetNextParamValue();
+        pBind->field_C_param_d = GCL_GetNextInt();
 
-        if (GCL_GetParamResult())
+        if (GCL_NextStr())
         {
-            pBind->field_E_param_d_or_512 = GCL_GetNextParamValue();
+            pBind->field_E_param_d_or_512 = GCL_GetNextInt();
         }
         else
         {
@@ -353,12 +353,12 @@ static int GM_Command_ntrap(unsigned char *top)
     if (GCL_GetOption('b')) // button
     {
         flags |= 4;
-        pBind->field_A_param_b = GCL_GetNextParamValue();
+        pBind->field_A_param_b = GCL_GetNextInt();
     }
     if (GCL_GetOption('s')) // stance
     {
         flags |= 2;
-        pBind->field_9_param_s = GCL_GetNextParamValue();
+        pBind->field_9_param_s = GCL_GetNextInt();
     }
     if (GCL_GetOption('r')) // repeat
     {
@@ -378,12 +378,12 @@ static int GM_Command_ntrap(unsigned char *top)
         {
             printf("ntrap:can't set every\n");
         }
-        pBind->time = GCL_GetNextParamValue();
+        pBind->time = GCL_GetNextInt();
     }
     if (GCL_GetOption('p')) // proc
     {
         flags |= 0x80;
-        pBind->command = GCL_GetNextParamValue();
+        pBind->command = GCL_GetNextInt();
     }
     if (GCL_GetOption('e')) // exec
     {
@@ -393,7 +393,7 @@ static int GM_Command_ntrap(unsigned char *top)
         {
             printf("ntrap:can't set proc and block\n");
         }
-        GCL_GetNextValue(GCL_GetParamResult(), &code, &value);
+        GCL_GetNextValue(GCL_NextStr(), &code, &value);
         pBind->command = value;
     }
     pBind->field_B_param_e = flags;
@@ -407,24 +407,24 @@ static int GM_Command_ntrap(unsigned char *top)
 
 /*---------------------------------------------------------------------------*/
 
-static int GM_Command_delay(unsigned char *top)
+static int GM_Command_delay(char *top)
 {
     int time = 0;
     int proc = 0;
 
     if (GCL_GetOption('t')) // time
     {
-        time = GCL_GetNextParamValue();
+        time = GCL_GetNextInt();
     }
     if (GCL_GetOption('p')) // proc
     {
-        proc = GCL_GetNextParamValue();
+        proc = GCL_GetNextInt();
     }
     if (GCL_GetOption('e')) // exec
     {
         int code;
         int value;
-        GCL_GetNextValue(GCL_GetParamResult(), &code, &value);
+        GCL_GetNextValue(GCL_NextStr(), &code, &value);
         proc = value;
     }
     if (GCL_GetOption('g'))
@@ -441,7 +441,7 @@ static int GM_Command_delay(unsigned char *top)
 
 /*---------------------------------------------------------------------------*/
 
-static int GM_Command_mesg(unsigned char *top)
+static int GM_Command_mesg(char *top)
 {
     unsigned char *uParm1;
     int            iVar1;
@@ -450,10 +450,10 @@ static int GM_Command_mesg(unsigned char *top)
     GV_MSG         mesg;
     int            count;
 
-    mesg.address = GCL_GetNextParamValue();
+    mesg.address = GCL_GetNextInt();
     pMsgDst = &mesg.message[0];
     count = 0;
-    while (uParm1 = GCL_GetParamResult(), uParm1 != 0x0)
+    while (uParm1 = GCL_NextStr(), uParm1 != 0x0)
     {
         int iVar2 = GCL_StrToInt(uParm1);
         *pMsgDst = (short)iVar2;
@@ -478,10 +478,10 @@ static int GM_Command_chara(int argc, char **argv)
     int         name;
     NEWCHARA    func;
 
-    func = GM_GetChara(GCL_GetParamResult());
+    func = GM_GetChara(GCL_NextStr());
     if (func != NULL)
     {
-        name = GCL_StrToInt(GCL_GetParamResult());
+        name = GCL_StrToInt(GCL_NextStr());
         (*func)(name, gBinds_800ABA60, argc, argv);
         ret = GCL_OK;
     }
@@ -494,7 +494,7 @@ static int GM_Command_chara(int argc, char **argv)
 
 /*---------------------------------------------------------------------------*/
 
-static int GM_Command_start(unsigned char *top)
+static int GM_Command_start(char *top)
 {
     if (GCL_GetOption('s'))
     {
@@ -521,7 +521,7 @@ static int GM_Command_start(unsigned char *top)
 
     if (GCL_GetOption('d')) // demo (1 to use demo.gcx instead of scenerio.gcx)
     {
-        GCL_ChangeSenerioCode(GCL_GetNextParamValue());
+        GCL_ChangeSenerioCode(GCL_GetNextInt());
     }
 
     if (GCL_GetOption('c'))
@@ -535,12 +535,12 @@ static int GM_Command_start(unsigned char *top)
 
 /*---------------------------------------------------------------------------*/
 
-static int GM_Command_load(unsigned char *top)
+static int GM_Command_load(char *top)
 {
     char *scriptStageName;
     SVECTOR vec;
 
-    scriptStageName = GCL_ReadString(GCL_GetParamResult());
+    scriptStageName = GCL_GetString(GCL_NextStr());
     if (*scriptStageName == '\0')
     {
         GM_LoadRequest = 1;
@@ -549,7 +549,7 @@ static int GM_Command_load(unsigned char *top)
 
     if (GCL_GetOption('r'))
     {
-        if (!GCL_GetNextParamValue())
+        if (!GCL_GetNextInt())
         {
             // Hard restart?
             strcpy(dword_800ABA58, GM_GetArea((int)scriptStageName));
@@ -576,12 +576,12 @@ static int GM_Command_load(unsigned char *top)
 
     if (GCL_GetOption('m')) // map
     {
-        GM_CurrentMapFlag = GCL_GetNextParamValue();
+        GM_CurrentMapFlag = GCL_GetNextInt();
     }
 
     if (GCL_GetOption('p')) // pos
     {
-        GCL_StrToSV(GCL_GetParamResult(), &vec);
+        GCL_StrToSV(GCL_NextStr(), (short *)&vec);
         GM_SnakePosX = vec.vx;
         GM_SnakePosY = vec.vy;
         GM_SnakePosZ = vec.vz;
@@ -589,7 +589,7 @@ static int GM_Command_load(unsigned char *top)
 
     if (GCL_GetOption('s'))
     {
-        GM_LoadRequest = GCL_GetNextParamValue();
+        GM_LoadRequest = GCL_GetNextInt();
         if (GM_LoadRequest)
         {
             GM_LoadRequest |= 0x80;
@@ -610,23 +610,23 @@ static int GM_Command_load(unsigned char *top)
 
 /*---------------------------------------------------------------------------*/
 
-static int GM_Command_radio(unsigned char *top)
+static int GM_Command_radio(char *top)
 {
     int contactFrequency;
     int radioTableCode;
 
     if (GCL_GetOption('b'))
     {
-        while (GCL_GetParamResult())
+        while (GCL_NextStr())
         {
-            contactFrequency = GCL_GetNextParamValue();
-            radioTableCode = GCL_GetNextParamValue();
+            contactFrequency = GCL_GetNextInt();
+            radioTableCode = GCL_GetNextInt();
             MENU_SetRadioBaseCall(contactFrequency, radioTableCode);
         }
     }
     if (GCL_GetOption('o'))
     {
-        int hash = GCL_GetNextParamValue();
+        int hash = GCL_GetNextInt();
         if (hash == HASH_ENTER)
         {
             hash = 0;
@@ -639,10 +639,10 @@ static int GM_Command_radio(unsigned char *top)
         {
             printf("Wrong Code for radio over\n");
         }
-        while (GCL_GetParamResult())
+        while (GCL_NextStr())
         {
-            contactFrequency = GCL_GetNextParamValue();
-            radioTableCode = GCL_GetNextParamValue();
+            contactFrequency = GCL_GetNextInt();
+            radioTableCode = GCL_GetNextInt();
             if (hash)
             {
                 radioTableCode = -1;
@@ -652,13 +652,13 @@ static int GM_Command_radio(unsigned char *top)
     }
     if (GCL_GetOption('c')) // call
     {
-        MENU_RadioCall(GCL_GetNextParamValue(),  // contactFrequency
-                       GCL_GetNextParamValue(),  // radioTableCode
-                       GCL_GetNextParamValue()); // ring duration ?
+        MENU_RadioCall(GCL_GetNextInt(),  // contactFrequency
+                       GCL_GetNextInt(),  // radioTableCode
+                       GCL_GetNextInt()); // ring duration ?
     }
     if (GCL_GetOption('p')) // proc
     {
-        MENU_SetRadioCallbackProc(GCL_GetNextParamValue());
+        MENU_SetRadioCallbackProc(GCL_GetNextInt());
     }
     if (GCL_GetOption('r')) // reset
     {
@@ -666,8 +666,8 @@ static int GM_Command_radio(unsigned char *top)
     }
     if (GCL_GetOption('m')) // mesg string (example: "clear")
     {
-        MENU_SetRadioMemory(GCL_GetNextParamValue(), // contactFrequency
-                            GCL_ReadString(GCL_GetParamResult())); // string
+        MENU_SetRadioMemory(GCL_GetNextInt(), // contactFrequency
+                            GCL_GetString(GCL_NextStr())); // string
     }
     if (GCL_GetOption('d')) // disable?
     {
@@ -686,13 +686,13 @@ static int GM_Command_radio(unsigned char *top)
 
 /*---------------------------------------------------------------------------*/
 
-static int GM_Command_restart(unsigned char *top)
+static int GM_Command_restart(char *top)
 {
     int proc_id;
 
     if (GCL_GetOption('p')) // proc
     {
-        proc_id = GCL_GetNextParamValue();
+        proc_id = GCL_GetNextInt();
     }
     else
     {
@@ -716,11 +716,11 @@ static int GM_Command_restart(unsigned char *top)
 
 /*---------------------------------------------------------------------------*/
 
-static int GM_Command_varsave(unsigned char *top)
+static int GM_Command_varsave(char *top)
 {
     unsigned char *param;
 
-    param = GCL_GetParamResult();
+    param = GCL_NextStr();
     if (GCL_GetOption('a'))
     {
         GCL_SaveVar();
@@ -728,7 +728,7 @@ static int GM_Command_varsave(unsigned char *top)
     }
     while (*param)
     {
-        if (!GCL_IsVariable(*param))
+        if ( GCL_TAG( *param ) != GCL_VAR )
         {
             printf("VARSAVE: NOT VAR !!\n");
         }
@@ -739,7 +739,7 @@ static int GM_Command_varsave(unsigned char *top)
 
 /*---------------------------------------------------------------------------*/
 
-static int GM_Command_system(unsigned char *top)
+static int GM_Command_system(char *top)
 {
     static char options[5] = "gcawi";
 
@@ -749,7 +749,7 @@ static int GM_Command_system(unsigned char *top)
     {
         if (GCL_GetOption(options[i]))
         {
-            proc = GCL_GetNextParamValue();
+            proc = GCL_GetNextInt();
             if (!proc)
             {
                 printf("SYSTEM:%c:change proc name\n", options[i]);
@@ -760,14 +760,14 @@ static int GM_Command_system(unsigned char *top)
 
     if (GCL_GetOption('s'))
     {
-        GM_StageName = GCL_ReadString(GCL_GetParamResult());
+        GM_StageName = GCL_GetString(GCL_NextStr());
     }
     return GCL_OK;
 }
 
 /*---------------------------------------------------------------------------*/
 
-static int GM_Command_demo(unsigned char *top)
+static int GM_Command_demo(char *top)
 {
     int   code, cb_proc;
     char  *msg;
@@ -776,11 +776,11 @@ static int GM_Command_demo(unsigned char *top)
     {
         printf( "DEMO:NO CODE\n" );
     }
-    code = GCL_GetNextParamValue();
+    code = GCL_GetNextInt();
 
     if ( GCL_GetOption( 'p' ) ) // proc
     {
-        cb_proc = GCL_GetNextParamValue() | STATE_DEMO;
+        cb_proc = GCL_GetNextInt() | STATE_DEMO;
     }
     else
     {
@@ -808,7 +808,7 @@ static int GM_Command_demo(unsigned char *top)
 
         if ( GCL_GetOption( 'f' ) ) // file
         {
-            msg = GCL_ReadString( GCL_GetParamResult() );
+            msg = GCL_GetString( GCL_NextStr() );
         }
         else
         {
@@ -821,11 +821,11 @@ static int GM_Command_demo(unsigned char *top)
 
 /*---------------------------------------------------------------------------*/
 
-static int GM_Command_pad(unsigned char *top)
+static int GM_Command_pad(char *top)
 {
     if (GCL_GetOption('m'))
     {
-        GV_PadMask = GCL_GetNextParamValue();
+        GV_PadMask = GCL_GetNextInt();
         GM_GameStatus |= STATE_PADMASK;
     }
     if (GCL_GetOption('r')) // resume
@@ -842,7 +842,7 @@ static int GM_Command_pad(unsigned char *top)
 
 /*---------------------------------------------------------------------------*/
 
-static int GM_Command_sound(unsigned char *top)
+static int GM_Command_sound(char *top)
 {
     GM_AlertSound();
     return GCL_OK;
@@ -855,9 +855,9 @@ static unsigned int GM_Command_menu_helper(void)
     unsigned int ret = 0;
     int next;
 
-    while (GCL_GetParamResult())
+    while (GCL_NextStr())
     {
-        next = GCL_GetNextParamValue();
+        next = GCL_GetNextInt();
 
         if (next > 32)
         {
@@ -870,11 +870,11 @@ static unsigned int GM_Command_menu_helper(void)
     return ret;
 }
 
-static int GM_Command_menu(unsigned char *top)
+static int GM_Command_menu(char *top)
 {
     if (GCL_GetOption('j'))
     {
-        if (GCL_GetNextParamValue() & 1)
+        if (GCL_GetNextInt() & 1)
         {
             GM_GameStatus |= STATE_JAMMING;
         }
@@ -886,7 +886,7 @@ static int GM_Command_menu(unsigned char *top)
 
     if (GCL_GetOption('n'))
     {
-        if (GCL_GetNextParamValue() & 1)
+        if (GCL_GetNextInt() & 1)
         {
             disable_equipment();
         }
@@ -898,7 +898,7 @@ static int GM_Command_menu(unsigned char *top)
 
     if (GCL_GetOption('m'))
     {
-        if (!(GCL_GetNextParamValue() & 1))
+        if (!(GCL_GetNextInt() & 1))
         {
             GM_GameStatus |= STATE_MENU_OFF;
         }
@@ -910,7 +910,7 @@ static int GM_Command_menu(unsigned char *top)
 
     if (GCL_GetOption('l')) // lifebar
     {
-        switch (GCL_GetNextParamValue())
+        switch (GCL_GetNextInt())
         {
         case 0:
             GM_GameStatus |= STATE_LIFEBAR_OFF;
@@ -927,7 +927,7 @@ static int GM_Command_menu(unsigned char *top)
 
     if (GCL_GetOption('r'))
     {
-        switch (GCL_GetNextParamValue())
+        switch (GCL_GetNextInt())
         {
         case 0:
             GM_GameStatus |= STATE_RADAR_OFF;
@@ -946,7 +946,7 @@ static int GM_Command_menu(unsigned char *top)
 
     if (GCL_GetOption('p'))
     {
-        if (GCL_GetNextParamValue() & 1)
+        if (GCL_GetNextInt() & 1)
         {
             GM_GameStatus |= STATE_PAUSE_OFF;
         }
@@ -958,7 +958,7 @@ static int GM_Command_menu(unsigned char *top)
 
     if (GCL_GetOption('s'))
     {
-        MENU_SetRadarScale(GCL_GetNextParamValue());
+        MENU_SetRadarScale(GCL_GetNextInt());
     }
 
     if (GCL_GetOption('w')) // weapon
@@ -975,12 +975,12 @@ static int GM_Command_menu(unsigned char *top)
 
 /*---------------------------------------------------------------------------*/
 
-static int GM_Command_rand(unsigned char *top)
+static int GM_Command_rand(char *top)
 {
     int param;
     int randValue;
 
-    param = GCL_GetNextParamValue();
+    param = GCL_GetNextInt();
     randValue = rand();
     GM_LastResultFlag = randValue % param;
     return GCL_OK;
@@ -988,7 +988,7 @@ static int GM_Command_rand(unsigned char *top)
 
 /*---------------------------------------------------------------------------*/
 
-static int GM_Command_func(unsigned char *top)
+static int GM_Command_func(char *top)
 {
     SVECTOR     vec;
     CONTROL    *control;
@@ -997,7 +997,7 @@ static int GM_Command_func(unsigned char *top)
 
     if (GCL_GetOption('v')) // vector
     {
-        GCL_StrToSV(GCL_GetParamResult(), &vec);
+        GCL_StrToSV(GCL_NextStr(), (short *)&vec);
         GM_LastResultFlag = DG_PointCheckOne((DVECTOR *)&vec);
     }
     if (GCL_GetOption('s'))
@@ -1010,13 +1010,13 @@ static int GM_Command_func(unsigned char *top)
     }
     if (GCL_GetOption('a')) // area
     {
-        GM_LastResultFlag = GM_AreaHistory(GCL_GetNextParamValue());
+        GM_LastResultFlag = GM_AreaHistory(GCL_GetNextInt());
     }
     if (GCL_GetOption('p')) // photo (used for ghosts easter egg)
     {
-        param = GCL_GetNextParamValue();
-        GCL_StrToSV(GCL_GetParamResult(), &GM_PhotoViewPos);
-        if (GCL_GetNextParamValue() == HASH_LEAVE)
+        param = GCL_GetNextInt();
+        GCL_StrToSV(GCL_NextStr(), (short *)&GM_PhotoViewPos);
+        if (GCL_GetNextInt() == HASH_LEAVE)
         {
             param = 0;
         }
@@ -1024,7 +1024,7 @@ static int GM_Command_func(unsigned char *top)
     }
     if (GCL_GetOption('m')) // map
     {
-        map = GM_FindMap(GCL_GetNextParamValue());
+        map = GM_FindMap(GCL_GetNextInt());
         if (map && map->used)
         {
             GM_LastResultFlag = 1;
@@ -1052,7 +1052,7 @@ static int GM_Command_func(unsigned char *top)
 
 int demodebug_finish_proc = -1;
 
-static int GM_Command_demodebug(unsigned char *top)
+static int GM_Command_demodebug(char *top)
 {
     int   tmp, demo, flags, ivar;
     char *filename;
@@ -1071,15 +1071,15 @@ static int GM_Command_demodebug(unsigned char *top)
     }
     if (GCL_GetOption('s'))
     {
-        ivar = GCL_StrToInt(GCL_GetParamResult());
+        ivar = GCL_StrToInt(GCL_NextStr());
     }
     if (GCL_GetOption('f'))
     {
-        filename = GCL_ReadString(GCL_GetParamResult());
+        filename = GCL_GetString(GCL_NextStr());
     }
     if (GCL_GetOption('p'))
     {
-        demodebug_finish_proc = GCL_GetNextParamValue();
+        demodebug_finish_proc = GCL_GetNextInt();
     }
     else
     {
@@ -1105,7 +1105,7 @@ static int GM_Command_demodebug(unsigned char *top)
 
 /*---------------------------------------------------------------------------*/
 
-static int GM_Command_print(unsigned char *top)
+static int GM_Command_print(char *top)
 {
     int code;
     int value;
@@ -1129,7 +1129,7 @@ static int GM_Command_print(unsigned char *top)
 
 /*---------------------------------------------------------------------------*/
 
-static int GM_Command_jimaku(unsigned char *top)
+static int GM_Command_jimaku(char *top)
 {
     NewJimaku();
     return GCL_OK;

@@ -258,8 +258,8 @@ static int GetResources(AtWork *work, int name, int map)
 
     if (GCL_GetOption('h'))
     {
-        work->frac_hp = GCL_StrToInt(GCL_GetParamResult());
-        work->max_hp = GCL_StrToInt(GCL_GetParamResult());
+        work->frac_hp = GCL_StrToInt(GCL_NextStr());
+        work->max_hp = GCL_StrToInt(GCL_NextStr());
     }
     else
     {
@@ -283,7 +283,7 @@ static int GetResources(AtWork *work, int name, int map)
 
     if (GCL_GetOption('l'))
     {
-        work->draw_lifebar = GCL_StrToInt(GCL_GetParamResult());
+        work->draw_lifebar = GCL_StrToInt(GCL_NextStr());
     }
 
     work->f730 = 0;
@@ -293,7 +293,7 @@ static int GetResources(AtWork *work, int name, int map)
 
     if (GCL_GetOption('u'))
     {
-        work->update = GCL_StrToInt(GCL_GetParamResult());
+        work->update = GCL_StrToInt(GCL_NextStr());
     }
     else
     {
@@ -302,7 +302,7 @@ static int GetResources(AtWork *work, int name, int map)
 
     if (GCL_GetOption('e'))
     {
-        work->end_proc = GCL_StrToInt(GCL_GetParamResult());
+        work->end_proc = GCL_StrToInt(GCL_NextStr());
     }
     else
     {

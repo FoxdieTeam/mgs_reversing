@@ -135,8 +135,8 @@ static int GetResources(Work *work, int name, int where)
     object = &work->object;
 
     GCL_GetOption('m');
-    model = GCL_StrToInt(GCL_GetParamResult());
-    work->model = GCL_StrToInt(GCL_GetParamResult());
+    model = GCL_StrToInt(GCL_NextStr());
+    work->model = GCL_StrToInt(GCL_NextStr());
 
     DG_SetPos2(svec1, svec2);
     BreakObj_800D5AC0(object, model, work->where, 0x57);
@@ -158,7 +158,7 @@ static int GetResources(Work *work, int name, int where)
 
     if (GCL_GetOption('r'))
     {
-        work->raise = GCL_StrToInt(GCL_GetParamResult());
+        work->raise = GCL_StrToInt(GCL_NextStr());
         work->object.objs->objs[0].raise = work->raise;
     }
     else

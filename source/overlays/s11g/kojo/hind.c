@@ -15,7 +15,7 @@ static void GetInts(u_char *param, int *out)
 {
     u_char *result;
 
-    while ((result = GCL_GetParamResult()))
+    while ((result = GCL_NextStr()))
     {
         *out++ = GCL_StrToInt(result);
     }
@@ -53,19 +53,19 @@ void *NewHindBoss(int name, int where)
 
     if (GCL_GetOption('a'))
     {
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->body_light[0].t[0] = GCL_StrToInt(param);
         }
 
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->body_light[0].t[1] = GCL_StrToInt(param);
         }
 
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->body_light[0].t[2] = GCL_StrToInt(param);
@@ -77,13 +77,13 @@ void *NewHindBoss(int name, int where)
 
     if (GCL_GetOption('r'))
     {
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->field_41C = GCL_StrToInt(param);
         }
 
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->field_420 = GCL_StrToInt(param);
@@ -92,17 +92,17 @@ void *NewHindBoss(int name, int where)
 
     if (GCL_GetOption('e'))
     {
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->field_424 = GCL_StrToInt(param) * 1000000 / 108000 * 16;
         }
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->field_428 = GCL_StrToInt(param) * 16 / 30;
         }
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->field_42C = GCL_StrToInt(param) * 4096 / 360;
@@ -113,7 +113,7 @@ void *NewHindBoss(int name, int where)
 
     if (GCL_GetOption('d'))
     {
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->field_430 = work->field_434 = GCL_StrToInt(param);
@@ -121,22 +121,22 @@ void *NewHindBoss(int name, int where)
 
         work->damage = 1024 / work->field_430 + 1;
 
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->field_438 = (GCL_StrToInt(param) + 1);
         }
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->field_43C = GCL_StrToInt(param) * 1000000 / 108000 * 16;
         }
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->field_440 = GCL_StrToInt(param) * 16 / 30;
         }
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->field_444 = GCL_StrToInt(param);
@@ -150,47 +150,47 @@ void *NewHindBoss(int name, int where)
 
     if (GCL_GetOption('g'))
     {
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->field_448 = GCL_StrToInt(param) + 1;
         }
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->field_44C = GCL_StrToInt(param) * 4096 / 360;
         }
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->field_450 = GCL_StrToInt(param) * 4096 / 360;
         }
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->field_454 = GCL_StrToInt(param) * 4096 / 360;
         }
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->field_458 = GCL_StrToInt(param) * 4096 / 360;
         }
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->field_45C = GCL_StrToInt(param);
         }
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->field_460 = GCL_StrToInt(param);
         }
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->field_464 = GCL_StrToInt(param) * 1000;
         }
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->field_468 = GCL_StrToInt(param) * 1000000 / 108000;
@@ -199,52 +199,52 @@ void *NewHindBoss(int name, int where)
 
     if (GCL_GetOption('m'))
     {
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->field_46C = GCL_StrToInt(param);
         }
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->field_470 = GCL_StrToInt(param);
         }
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->field_474 = GCL_StrToInt(param) + 1;
         }
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->field_478 = GCL_StrToInt(param) * 4096 / 360;
         }
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->field_47C = GCL_StrToInt(param) * 4096 / 360;
         }
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->field_480 = GCL_StrToInt(param);
         }
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->field_484 = GCL_StrToInt(param);
         }
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->field_488 = GCL_StrToInt(param) * 1000;
         }
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->field_48C = GCL_StrToInt(param) * 1000000 / 108000;
         }
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             if (GCL_StrToInt(param) == 1)
@@ -256,19 +256,19 @@ void *NewHindBoss(int name, int where)
 
     if (GCL_GetOption('p'))
     {
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->field_4BC.vx = GCL_StrToInt(param) * 1000;
         }
 
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->field_4BC.vy = GCL_StrToInt(param) * 1000;
         }
 
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->field_4BC.vz = (GCL_StrToInt(param) * 1000);
@@ -277,25 +277,25 @@ void *NewHindBoss(int name, int where)
         work->field_5FC = work->field_4BC;
         work->field_60C = work->field_4BC;
 
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->control.turn.vx = GCL_StrToInt(param) * 4096 / 360;
         }
 
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->control.turn.vy = GCL_StrToInt(param) * 4096 / 360;
         }
 
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->control.turn.vz = GCL_StrToInt(param) * 4096 / 360;
         }
 
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             svec.vx = 0;
@@ -308,42 +308,42 @@ void *NewHindBoss(int name, int where)
             work->field_4E0 = svec.vy;
             work->field_4E4 = svec.vz;
         }
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->field_4A0 = GCL_StrToInt(param);
         }
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->field_494 = GCL_StrToInt(param) * 1000;
         }
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->field_498 = GCL_StrToInt(param) * 1000;
         }
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->field_49C = GCL_StrToInt(param) * 1000;
         }
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->field_4AA = GCL_StrToInt(param);
         }
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->field_4A4 = GCL_StrToInt(param) * 4096 / 360;
         }
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->field_4A6 = GCL_StrToInt(param) * 4096 / 360;
         }
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->field_4A8 = GCL_StrToInt(param) * 4096 / 360;
@@ -352,7 +352,7 @@ void *NewHindBoss(int name, int where)
 
     if (GCL_GetOption('b'))
     {
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->field_4AC = GCL_StrToInt(param);
@@ -361,7 +361,7 @@ void *NewHindBoss(int name, int where)
 
     if (GCL_GetOption('w'))
     {
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->field_4B0 = (GCL_StrToInt(param) * 1000);
@@ -372,7 +372,7 @@ void *NewHindBoss(int name, int where)
 
     if (GCL_GetOption('z'))
     {
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param)
         {
             work->end_proc = GCL_StrToInt(param);

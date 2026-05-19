@@ -184,7 +184,7 @@ void SmokeDie_800D2AA0(SmokeWork *work)
 
 void s00a_smoke_800D2ADC(SVECTOR *svec)
 {
-    GCL_StrToSV(GCL_GetParamResult(), svec);
+    GCL_StrToSV(GCL_NextStr(), (short *)svec);
 }
 
 int SmokeGetResources_800D2B0C(SmokeWork *work, int where)

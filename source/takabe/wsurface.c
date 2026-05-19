@@ -365,8 +365,8 @@ int WsurfaceGetResources_800DB684(WsurfaceWork *work, int name, int map)
 
     if (GCL_GetOption('b'))
     {
-        GCL_StrToSV(GCL_GetParamResult(), &sp38);
-        GCL_StrToSV(GCL_GetParamResult(), &sp30);
+        GCL_StrToSV(GCL_NextStr(), (short *)&sp38);
+        GCL_StrToSV(GCL_NextStr(), (short *)&sp30);
 
         sp18.vx = (sp30.vx + sp38.vx) / 2;
         sp18.vy = (sp30.vy + sp38.vy) / 2;

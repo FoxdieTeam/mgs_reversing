@@ -281,7 +281,7 @@ void radio_memsave_800477B0(menu_chara_struct *unk, unsigned char *pScript)
     int stageIndex = GCL_StrToInt(pScript);
 
     unk->field_0_state = 3;
-    unk->field_C_pScript = GCL_GetParamResult();
+    unk->field_C_pScript = GCL_NextStr();
     unk->field_1A_index = stageIndex;
     mts_slp_tsk();
     unk->field_18 &= ~0x100;

@@ -144,9 +144,9 @@ static int GetResources(Work *work, int name, int map)
 
     if (GCL_GetOption('e'))
     {
-        work->proc[0] = GCL_StrToInt(GCL_GetParamResult());
-        work->proc[1] = GCL_StrToInt(GCL_GetParamResult());
-        work->proc[2] = GCL_StrToInt(GCL_GetParamResult());
+        work->proc[0] = GCL_StrToInt(GCL_NextStr());
+        work->proc[1] = GCL_StrToInt(GCL_NextStr());
+        work->proc[2] = GCL_StrToInt(GCL_NextStr());
     }
 
     return 0;

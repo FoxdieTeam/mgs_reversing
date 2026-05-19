@@ -3748,7 +3748,7 @@ static void InitSounds(Work *work)
 
     i = 0;
     out = work->vox_ids;
-    while ((res = GCL_GetParamResult()))
+    while ((res = GCL_NextStr()))
     {
         if (i == 18)
         {
@@ -3773,7 +3773,7 @@ static void InitProcs(Work *work)
 
     i = 0;
     out = work->proc_id;
-    while ((res = GCL_GetParamResult()))
+    while ((res = GCL_NextStr()))
     {
         if (i == 8)
         {

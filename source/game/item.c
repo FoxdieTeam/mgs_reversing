@@ -690,7 +690,7 @@ static int GetResources(ItemWork *work, int name, int where)
     opt = GCL_GetOption('m');
     if (opt)
     {
-        work->message = GCL_ReadString(opt);
+        work->message = GCL_GetString(opt);
     }
 
     work->message_full = NULL;
@@ -705,11 +705,11 @@ static int GetResources(ItemWork *work, int name, int where)
     work->end_proc = 0;
     if (GCL_GetOption('e'))
     {
-        work->end_proc = GCL_StrToInt(GCL_GetParamResult());
+        work->end_proc = GCL_StrToInt(GCL_NextStr());
     }
     else if (GCL_GetOption('x'))
     {
-        GCL_GetNextValue(GCL_GetParamResult(), &code, &value);
+        GCL_GetNextValue(GCL_NextStr(), &code, &value);
         work->end_proc = value;
     }
 

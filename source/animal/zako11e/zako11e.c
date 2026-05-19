@@ -337,7 +337,7 @@ int s11e_zako11e_800D3D40( char *opt, short* s )
     int i;
     unsigned char *res;
 
-    for ( i = 0 ; ( res = GCL_GetParamResult() ) ; i++ )
+    for ( i = 0 ; ( res = GCL_NextStr() ) ; i++ )
     {
         *s = GCL_StrToInt( res );
          s++;
@@ -351,7 +351,7 @@ int s11e_zako11e_800D3D98( char *opt, int* l )
     int i;
     unsigned char *res;
 
-    for ( i = 0 ; ( res = GCL_GetParamResult() ) ; i++ )
+    for ( i = 0 ; ( res = GCL_NextStr() ) ; i++ )
     {
         *l = GCL_StrToInt( res );
          l++;
@@ -502,7 +502,7 @@ void ZakoGetResources_800D3EC8( ZakoWork *work, int name, int where )
     opt = GCL_GetOption( 'o' );
     if ( opt )
     {
-        work->field_C48 = GCL_StrToInt( GCL_GetParamResult() );
+        work->field_C48 = GCL_StrToInt( GCL_NextStr() );
     }
     else
     {

@@ -71,7 +71,7 @@ static int GetResources(Work *work)
 {
     if (GCL_GetOption('p'))
     {
-        work->proc = GCL_StrToInt(GCL_GetParamResult());
+        work->proc = GCL_StrToInt(GCL_NextStr());
     }
     else
     {
@@ -80,7 +80,7 @@ static int GetResources(Work *work)
 
     if (GCL_GetOption('m'))
     {
-        work->mask = GCL_StrToInt(GCL_GetParamResult());
+        work->mask = GCL_StrToInt(GCL_NextStr());
     }
     else
     {
@@ -89,7 +89,7 @@ static int GetResources(Work *work)
 
     if (GCL_GetOption('s'))
     {
-        work->step = GCL_StrToInt(GCL_GetParamResult());
+        work->step = GCL_StrToInt(GCL_NextStr());
     }
     else
     {

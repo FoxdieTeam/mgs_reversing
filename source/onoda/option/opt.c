@@ -2704,7 +2704,7 @@ static int GetResources(OptionWork *work, int map)
 
     if (GCL_GetOption('e'))
     {
-        work->f91C = GCL_StrToInt(GCL_GetParamResult());
+        work->f91C = GCL_StrToInt(GCL_NextStr());
     }
     else
     {
@@ -2713,7 +2713,7 @@ static int GetResources(OptionWork *work, int map)
 
     for (i = 0; i < 31; i++)
     {
-        work->fEC4[i].string = GCL_ReadString(GCL_GetParamResult());
+        work->fEC4[i].string = GCL_GetString(GCL_NextStr());
         work->fEC4[i].num = 0;
         option_800C339C(work, i);
     }

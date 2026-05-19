@@ -1888,7 +1888,7 @@ void Torture_800C6814(TortureWork *work)
     }
 
     iter = params;
-    while ((res = GCL_GetParamResult()))
+    while ((res = GCL_NextStr()))
     {
         *iter++ = GCL_StrToInt(res);
     }
@@ -1903,7 +1903,7 @@ void Torture_800C6814(TortureWork *work)
 
     if (GCL_GetOption('z'))
     {
-        work->f844 = GCL_StrToInt(GCL_GetParamResult());
+        work->f844 = GCL_StrToInt(GCL_NextStr());
     }
     else
     {
@@ -1923,9 +1923,9 @@ void Torture_800C68E8(TortureWork *work)
 
     count = 0;
     iter = work->f8BC;
-    while (GCL_GetParamResult())
+    while (GCL_NextStr())
     {
-        GCL_StrToSV(GCL_GetParamResult(), iter);
+        GCL_StrToSV(GCL_NextStr(), (short *)iter);
         iter++;
         count++;
     }
@@ -2000,7 +2000,7 @@ void Torture_800C6AB0(TortureWork *work)
     {
         count = 0;
         iter = work->f87C;
-        while ((res = GCL_GetParamResult()))
+        while ((res = GCL_NextStr()))
         {
             if (count == 8)
             {
@@ -2058,7 +2058,7 @@ int TortureGetResources_800C6B3C(TortureWork *work, int name, int map)
 
     if (GCL_GetOption('e'))
     {
-        work->f83C = GCL_StrToInt(GCL_GetParamResult());
+        work->f83C = GCL_StrToInt(GCL_NextStr());
     }
     else
     {
@@ -2067,7 +2067,7 @@ int TortureGetResources_800C6B3C(TortureWork *work, int name, int map)
 
     if (GCL_GetOption('s'))
     {
-        work->f838 = GCL_StrToInt(GCL_GetParamResult());
+        work->f838 = GCL_StrToInt(GCL_NextStr());
     }
     else
     {
@@ -2076,7 +2076,7 @@ int TortureGetResources_800C6B3C(TortureWork *work, int name, int map)
 
     if (GCL_GetOption('a'))
     {
-        work->f840 = GCL_StrToInt(GCL_GetParamResult());
+        work->f840 = GCL_StrToInt(GCL_NextStr());
     }
     else
     {

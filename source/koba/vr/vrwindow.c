@@ -470,7 +470,7 @@ void *NewVrWindow(int name, int where)
         {
             for (i = 0; i < work->i_num; i++)
             {
-                work->b_text[i] = GCL_ReadString((char *)GCL_GetParamResult());
+                work->b_text[i] = GCL_GetString((char *)GCL_NextStr());
                 if (work->b_text[i] == 0)
                 {
                     break;
@@ -480,10 +480,10 @@ void *NewVrWindow(int name, int where)
 
         if (GCL_GetOption('w'))
         {
-            work->w_rect.x = GCL_StrToInt((char *)GCL_GetParamResult());
-            work->w_rect.y = GCL_StrToInt((char *)GCL_GetParamResult());
-            work->w_rect.w = GCL_StrToInt((char *)GCL_GetParamResult());
-            work->w_rect.h = GCL_StrToInt((char *)GCL_GetParamResult());
+            work->w_rect.x = GCL_StrToInt((char *)GCL_NextStr());
+            work->w_rect.y = GCL_StrToInt((char *)GCL_NextStr());
+            work->w_rect.w = GCL_StrToInt((char *)GCL_NextStr());
+            work->w_rect.h = GCL_StrToInt((char *)GCL_NextStr());
 
             width = work->w_rect.w;
             if (width & 3)
@@ -505,10 +505,10 @@ void *NewVrWindow(int name, int where)
 
         if (GCL_GetOption('m'))
         {
-            work->m_rect.x = work->w_rect.x + GCL_StrToInt((char *)GCL_GetParamResult());
-            work->m_rect.y = work->w_rect.y + GCL_StrToInt((char *)GCL_GetParamResult());
-            work->m_rect.w = GCL_StrToInt((char *)GCL_GetParamResult());
-            work->m_rect.h = GCL_StrToInt((char *)GCL_GetParamResult());
+            work->m_rect.x = work->w_rect.x + GCL_StrToInt((char *)GCL_NextStr());
+            work->m_rect.y = work->w_rect.y + GCL_StrToInt((char *)GCL_NextStr());
+            work->m_rect.w = GCL_StrToInt((char *)GCL_NextStr());
+            work->m_rect.h = GCL_StrToInt((char *)GCL_NextStr());
         }
         else
         {
@@ -525,7 +525,7 @@ void *NewVrWindow(int name, int where)
 
         if (GCL_GetOption('p'))
         {
-            work->proc = GCL_StrToInt((char *)GCL_GetParamResult());
+            work->proc = GCL_StrToInt((char *)GCL_NextStr());
         }
         else
         {

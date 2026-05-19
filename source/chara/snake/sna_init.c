@@ -8356,21 +8356,21 @@ static inline void InitEmpty(SnaInitWork *work)
 
     if (GCL_GetOption('o')) // oar
     {
-        work->field_A5A = GCL_StrToInt(GCL_GetParamResult());
+        work->field_A5A = GCL_StrToInt(GCL_NextStr());
     }
 
     work->field_890_autoaim_max_dist = 6000;
 
     if (GCL_GetOption('l')) // len
     {
-        work->field_890_autoaim_max_dist = GCL_StrToInt(GCL_GetParamResult());
+        work->field_890_autoaim_max_dist = GCL_StrToInt(GCL_NextStr());
     }
 
     work->field_892_autoaim_min_angle = 512;
 
     if (GCL_GetOption('r')) // rot
     {
-        work->field_892_autoaim_min_angle = GCL_StrToInt(GCL_GetParamResult());
+        work->field_892_autoaim_min_angle = GCL_StrToInt(GCL_NextStr());
     }
 
     dword_800ABBDC = -1023;
@@ -8378,15 +8378,15 @@ static inline void InitEmpty(SnaInitWork *work)
 
     if (GCL_GetOption('t')) // turn
     {
-        dword_800ABBDC = GCL_StrToInt(GCL_GetParamResult());
-        dword_800ABBD4 = GCL_StrToInt(GCL_GetParamResult());
+        dword_800ABBDC = GCL_StrToInt(GCL_NextStr());
+        dword_800ABBD4 = GCL_StrToInt(GCL_NextStr());
     }
 
     work->field_A70 = -1;
 
     if (GCL_GetOption('e')) // exec
     {
-        work->field_A70 = GCL_StrToInt(GCL_GetParamResult());
+        work->field_A70 = GCL_StrToInt(GCL_NextStr());
     }
 
     temp_a1 = work->field_A26_stance;
@@ -8484,7 +8484,7 @@ static inline int GetResources(SnaInitWork *work, int name, int where)
     model = KMD_SNAKE;
     if (GCL_GetOption('m')) // model
     {
-        model = GCL_StrToInt(GCL_GetParamResult());
+        model = GCL_StrToInt(GCL_NextStr());
     }
 
     GM_InitObject(body, model, BODY_FLAG, OAR_SNAKE);

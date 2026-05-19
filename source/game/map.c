@@ -208,12 +208,12 @@ MAP *GM_CreateMap(void)
     int  name;
     int  area;
 
-    map = GM_GetNextMap(GCL_GetNextParamValue());
+    map = GM_GetNextMap(GCL_GetNextInt());
 
     if (GCL_GetOption('d')) // dynamic
     {
-        dyn_walls = GCL_GetNextParamValue();
-        dyn_floors = GCL_GetNextParamValue();
+        dyn_walls = GCL_GetNextInt();
+        dyn_floors = GCL_GetNextInt();
     }
     else
     {
@@ -227,13 +227,13 @@ MAP *GM_CreateMap(void)
         return NULL;
     }
 
-    name = GCL_GetNextParamValue();
-    area = GCL_GetNextParamValue();
+    name = GCL_GetNextInt();
+    area = GCL_GetNextInt();
     map->hzd = GM_LoadHazard(name, area, map->index, dyn_walls, dyn_floors);
 
     if (GCL_GetOption('l')) // lit
     {
-        map->lit = GV_GetCache(GV_CacheID(GCL_GetNextParamValue(), 'l'));
+        map->lit = GV_GetCache(GV_CacheID(GCL_GetNextInt(), 'l'));
     }
     else
     {
@@ -242,18 +242,18 @@ MAP *GM_CreateMap(void)
 
     if (GCL_GetOption('k')) // kmd
     {
-        while (GCL_GetParamResult())
+        while (GCL_NextStr())
         {
-            GM_LoadMapModel(GCL_GetNextParamValue(), map);
+            GM_LoadMapModel(GCL_GetNextInt(), map);
         }
     }
 
     map->zone = 0;
     if (GCL_GetOption('z')) // zone
     {
-        while (GCL_GetParamResult())
+        while (GCL_NextStr())
         {
-            map->zone = map->zone | (1 << GCL_GetNextParamValue());
+            map->zone = map->zone | (1 << GCL_GetNextInt());
         }
     }
 
@@ -277,10 +277,10 @@ MAP *GM_DefineMap(void)
     int area;
     int name;
 
-    while (GCL_GetParamResult())
+    while (GCL_NextStr())
     {
-        area = GCL_GetNextParamValue();
-        name = GCL_GetNextParamValue();
+        area = GCL_GetNextInt();
+        name = GCL_GetNextInt();
         GM_SetMap(area, name);
     }
 
@@ -346,9 +346,9 @@ int GM_ReloadMap(int preshade)
         map++;
     }
 
-    while (GCL_GetParamResult())
+    while (GCL_NextStr())
     {
-        name = GCL_GetNextParamValue();
+        name = GCL_GetNextInt();
         GM_AddMap(name);
     }
 

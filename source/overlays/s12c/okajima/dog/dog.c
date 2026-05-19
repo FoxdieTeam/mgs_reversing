@@ -1049,14 +1049,14 @@ int DogGetSvec_800D28C4(char *opt, SVECTOR *out)
 {
     char *res;
 
-    res = GCL_GetParamResult();
+    res = GCL_NextStr();
 
     if (res == NULL)
     {
         return 0;
     }
 
-    GCL_StrToSV(res, out);
+    GCL_StrToSV(res, (short *)out);
     return 1;
 }
 
@@ -1070,7 +1070,7 @@ int DogGetInts_800D2904(char *opt, int *out)
     count = 0;
     out2 = out;
 
-    while ((result = GCL_GetParamResult()) != NULL)
+    while ((result = GCL_NextStr()) != NULL)
     {
         *out2++ = GCL_StrToInt(result);
         count++;

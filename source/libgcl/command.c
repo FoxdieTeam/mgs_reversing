@@ -6,9 +6,11 @@
 
 extern GCL_SCRIPT current_script;
 
-STATIC GCL_COMMANDDEF *commdef = 0;
+STATIC GCL_COMMANDDEF *commdef = NULL;
 
-int GCL_AddCommMulti(GCL_COMMANDDEF *def)
+/*---------------------------------------------------------------------------*/
+
+int GCL_AddCommMulti( GCL_COMMANDDEF *def )
 {
     def->next = commdef;
     commdef = def;
@@ -16,193 +18,195 @@ int GCL_AddCommMulti(GCL_COMMANDDEF *def)
     return 0;
 }
 
-static GCL_COMMANDLIST *FindCommand(int id)
+static GCL_COMMANDLIST *FindCommand( int id )
 {
     GCL_COMMANDDEF *def;
 
-    for (def = commdef; def != NULL; def = def->next)
+    for ( def = commdef; def != NULL; def = def->next )
     {
         int i;
         GCL_COMMANDLIST *cl = def->commlist;
 
-        for (i = def->n_commlist; 0 < i; i--)
+        for ( i = def->n_commlist; i > 0; i-- )
         {
-            if (cl->id == id)
-            {
-                return cl;
-            }
+            if ( cl->id == id ) return cl;
             cl++;
         }
     }
-    printf("command not found\n");
+
+    printf( "command not found\n" );
     return NULL;
 }
 
-int GCL_Command(unsigned char *ptr)
+int GCL_Command( char *ptr )
 {
-    int ret;
+    u_short id;
+    GCL_COMMANDLIST *cl;
+    int ret, ofs;
 
-    GCL_COMMANDLIST *cmd = FindCommand((unsigned short)GCL_GetShort(ptr));
-    ptr += sizeof(unsigned short);
+    id = GCL_GetShort( ptr );
+    cl = FindCommand( id );
+    ptr += sizeof(short);
 
-    GCL_SetCommandLine(ptr + GCL_GetByte(ptr));
-    ptr += sizeof(unsigned char);
+    ofs = GCL_GetByte( ptr );
+    GCL_SetCommandLine( ptr + ofs );
+    ptr += sizeof(char);
 
-    GCL_SetArgTop(ptr); // save command return address?
+    GCL_SetArgTop( ptr );
 
-    ret = cmd->func(ptr);
+    ret = ( *cl->func )( ptr );
 
     GCL_UnsetCommandLine();
 
     return ret;
 }
 
-static GCL_PROC_TABLE *set_proc_table(GCL_PROC_TABLE *proc_table)
-{
-    GCL_PROC_TABLE *pt = proc_table;
-    while (*(int *)pt)
-    {
-        pt->proc_id = (unsigned short)GCL_GetShort((char *)&pt->proc_id);
-        pt->offset = (unsigned short)GCL_GetShort((char *)&pt->offset);
-        pt++;
-    }
-    return pt + 1;
-}
-
-static unsigned char *get_proc_block(int proc_id)
+static char *set_proc_table( char *proc_table )
 {
     GCL_PROC_TABLE *pt;
-    for (pt = current_script.proc_table; *(int *)pt; pt++)
+
+    pt = (GCL_PROC_TABLE *)proc_table;
+    while ( *(int *)pt != 0 )
     {
-        if (pt->proc_id == proc_id)
-        {
-            return current_script.proc_body + pt->offset;
-        }
+        pt->proc_id = GCL_GetShort( (char *)&pt->proc_id );
+        pt->offset = GCL_GetShort( (char *)&pt->offset );
+        pt++;
     }
-    printf("PROC %X NOT FOUND\n", proc_id);
+
+    return (char *)( pt + 1 );
+}
+
+static char *get_proc_block( int id )
+{
+    GCL_PROC_TABLE *pt;
+
+    pt = (GCL_PROC_TABLE *)current_script.proc_table;
+    while ( *(int *)pt != 0 )
+    {
+        if ( pt->proc_id == id ) return current_script.proc_body + pt->offset;
+        pt++;
+    }
+
+    printf( "PROC %X NOT FOUND\n", id );
     return NULL;
 }
 
-void GCL_ForceExecProc(int proc_id, GCL_ARGS *args)
+void GCL_ForceExecProc( int proc_id, GCL_ARGS *arg )
 {
-    GCL_ExecBlock(get_proc_block(proc_id) + 3, args);
+    GCL_ExecBlock( get_proc_block( proc_id ) + 3, arg );
 }
 
-int GCL_ExecProc(int proc_id, GCL_ARGS *args)
+int GCL_ExecProc( int proc_id, GCL_ARGS *arg )
 {
-    if (GM_LoadRequest || (GM_PlayerStatus & PLAYER_GAME_OVER))
+    if ( GM_LoadRequest != 0 || ( GM_PlayerStatus & PLAYER_GAME_OVER ) )
     {
-        printf("proc %d cancel\n", proc_id);
+        printf( "proc %d cancel\n", proc_id );
         return 0;
     }
-    return GCL_ExecBlock(get_proc_block(proc_id) + 3, args);
+
+    return GCL_ExecBlock( get_proc_block( proc_id ) + 3, arg );
 }
 
-#define GCL_MakeShort(b1, b2) ((b1) | (b2 << 8))
-
-static int GCL_Proc(unsigned char *ptr)
+static int GCL_Proc( char *p )
 {
-    long     argbuf[8];
-    GCL_ARGS args;
-    int      code;
-    int      value;
-    int      arg_idx;
+    long     argbuf[ GCL_MAX_ARGS ];
+    int      i, id;
+    GCL_ARGS arg;
 
-    int b1 = ptr[0];
-    int b2 = ptr[1];
+    id = (unsigned short)GCL_GetShort( p );
+    p += sizeof(short);
 
-    int proc_id = GCL_MakeShort(b2, b1);
-    ptr += sizeof(unsigned short);
-
-    arg_idx = 0;
-
-    // TODO: Can't match without comma operator ??
-    while (ptr = GCL_GetNextValue(ptr, &code, &value), code != 0)
+    for ( i = 0; ; i++ )
     {
-        if (arg_idx >= 8)
+        int type, value;
+
+        p = GCL_GetNextValue( p, &type, &value );
+        if ( type == GCL_END ) break;
+        if ( i >= 8 )
         {
-            printf("TOO MANY ARGS PROC\n");
+            printf( "TOO MANY ARGS PROC\n" );
         }
-        argbuf[arg_idx++] = value;
+        argbuf[ i ] = value;
     }
 
-    args.argc = arg_idx;
-    args.argv = argbuf;
+    arg.argc = i;
+    arg.argv = argbuf;
 
-    GCL_ExecProc(proc_id, &args);
+    GCL_ExecProc( id, &arg );
     return 0;
 }
 
-int GCL_LoadScript(unsigned char *datatop)
+int GCL_LoadScript( char *datatop )
 {
-    GCL_PROC_TABLE     *proc_table;
-    unsigned char      *tmp;
-    unsigned int        len;
+    char *proc, *script, *font;
+    int proclen;
 
-    proc_table = (GCL_PROC_TABLE *)(datatop + sizeof(int));
+    proc = datatop + sizeof(int);
+    proclen = GCL_GetLong( datatop );
+    current_script.proc_table = proc;
+    current_script.proc_body = set_proc_table( proc );
 
-    len = GCL_GetLong(datatop);
-    current_script.proc_table = proc_table;
-    current_script.proc_body = (char *)set_proc_table(proc_table);
-    tmp = ((char *)current_script.proc_table) + len;
-    current_script.script_body = tmp + sizeof(int);
+    script = current_script.proc_table + proclen;
+    current_script.script_body = script + sizeof(int);
 
-    // Points to script data end
-    font_set_font_addr(2, current_script.script_body + GCL_GetLong(tmp) + sizeof(int));
+    font = current_script.script_body + GCL_GetLong( script );
+    font_set_font_addr( 2, font + sizeof(int) );
 
     return 0;
 }
 
-int GCL_ExecBlock(unsigned char *top, GCL_ARGS *args)
+int GCL_ExecBlock( char *top, GCL_ARGS *arg )
 {
-    int *old_stack = GCL_SetArgStack(args);
-    while (top)
+    int value[ 2 ];
+    void *org_stack;
+
+    org_stack = GCL_SetArgStack( arg );
+    while ( top != NULL )
     {
-        switch (*top)
+        switch ( *top )
         {
-        case GCL_EXPR: {
-            int auStack24[2]; // TODO: probably an arg pair ??
-            GCL_Expr(top + 2, auStack24);
+        case GCL_EXPR:
+            GCL_Expr( top + 2, value );
             top++;
             top += *top;
-        }
-        break;
-
+            break;
         case GCL_COMMAND:
-            if (GCL_Command(top + 3) == 1)
+            if (GCL_Command( top + 3 ) == GCL_RETURN)
             {
-                return 1;
+                return GCL_RETURN;
             }
-            top++;
-            top += (short)GCL_MakeShort(top[1], top[0]);
-            break;
 
+            top++;
+            top += GCL_GetShort( top );
+            break;
         case GCL_PROC:
-            GCL_Proc(top + 2);
+            GCL_Proc( top + 2 );
             top++;
             top += *top;
             break;
-
         case GCL_END:
-            GCL_UnsetArgStack(old_stack);
+            GCL_UnsetArgStack( org_stack );
             return 0;
-
         default:
-            printf("SCRIPT COMMAND ERROR %x\n", (unsigned int)*top);
+            printf( "SCRIPT COMMAND ERROR %x\n", *top );
         }
     }
-    printf("ERROR in script\n");
+
+    printf( "ERROR in script\n" );
     return 1;
 }
 
 GCL_ARGS gcl_null_args = {};
 
-void GCL_ExecScript(void)
+void GCL_ExecScript( void )
 {
-    unsigned char *datatop = current_script.script_body;
-    if (*datatop != 0x40)
+    unsigned char *datatop;
+
+    datatop = (unsigned char *)current_script.script_body;
+    if ( *datatop != GCL_ARG )
     {
-        printf("NOT SCRIPT DATA !!\n");
+        printf( "NOT SCRIPT DATA !!\n" );
     }
-    GCL_ExecBlock(datatop + 3, &gcl_null_args);
+
+    GCL_ExecBlock( datatop + 3, &gcl_null_args );
 }

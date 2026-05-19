@@ -353,11 +353,11 @@ static int GetResources(Work *work, int name, int map)
 
     GCL_GetOption('m');
 
-    model = GCL_StrToInt(GCL_GetParamResult());
+    model = GCL_StrToInt(GCL_NextStr());
     InitPreshadeObject(work, &work->flr_obj[0], model, work->map);
     flr_obj[0].objs->light = work->light;
 
-    model = GCL_StrToInt(GCL_GetParamResult());
+    model = GCL_StrToInt(GCL_NextStr());
     InitPreshadeObject(work, &work->flr_obj[1], model, work->map);
     flr_obj[1].objs->light = work->light;
 

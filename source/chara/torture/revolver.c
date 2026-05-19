@@ -1349,7 +1349,7 @@ int Revolver_800C8E34(RevolverWork *work)
     route_idx = 0;
     if (opt)
     {
-        route_idx = GCL_StrToInt(GCL_GetParamResult());
+        route_idx = GCL_StrToInt(GCL_NextStr());
     }
 
     routes = work->control.map->hzd->def->routes;
@@ -1375,7 +1375,7 @@ void s03b_revolver_800C8EC0(RevolverWork *work)
     {
         i = 0;
         out = work->field_8D0;
-        while ((res = GCL_GetParamResult()))
+        while ((res = GCL_NextStr()))
         {
             if (i == 27)
             {
@@ -1407,7 +1407,7 @@ void s03b_revolver_800C8F4C(RevolverWork *work)
 
     i = 0;
     out = work->field_974;
-    while ((res = GCL_GetParamResult()))
+    while ((res = GCL_NextStr()))
     {
         if (i == 12)
         {
@@ -1435,7 +1435,7 @@ int RevolverGetResources_800C8FD4(RevolverWork *work, int arg1, int arg2)
 
     if (GCL_GetOption('o'))
     {
-        motion = GCL_StrToInt(GCL_GetParamResult());
+        motion = GCL_StrToInt(GCL_NextStr());
     }
     else
     {
@@ -1444,7 +1444,7 @@ int RevolverGetResources_800C8FD4(RevolverWork *work, int arg1, int arg2)
 
     if (GCL_GetOption('m'))
     {
-        GCL_StrToInt(GCL_GetParamResult());
+        GCL_StrToInt(GCL_NextStr());
     }
     else
     {
@@ -1489,7 +1489,7 @@ int RevolverGetResources_800C8FD4(RevolverWork *work, int arg1, int arg2)
 
     if (GCL_GetOption('e') != 0)
     {
-        work->field_8C8 = GCL_StrToInt(GCL_GetParamResult());
+        work->field_8C8 = GCL_StrToInt(GCL_NextStr());
     }
     else
     {
@@ -1498,14 +1498,14 @@ int RevolverGetResources_800C8FD4(RevolverWork *work, int arg1, int arg2)
 
     if (GCL_GetOption('c') != 0)
     {
-        work->field_940 = GCL_StrToInt(GCL_GetParamResult());
+        work->field_940 = GCL_StrToInt(GCL_NextStr());
     }
     else
     {
         work->field_940 = 0;
     }
 
-    if (GCL_GetOption('f') && GCL_StrToInt(GCL_GetParamResult()))
+    if (GCL_GetOption('f') && GCL_StrToInt(GCL_NextStr()))
     {
         work->field_948 |= 0x400;
     }

@@ -1236,14 +1236,14 @@ void camera_800C7FF4(int code, char **pAreaNameForMenu, char **pAreaNameForSaveD
 
     for (i = 0; i < code; i++)
     {
-        if (GCL_GetParamResult() == 0)
+        if (GCL_NextStr() == 0)
         {
             return;
         }
-        *pAreaNameForMenu = GCL_ReadString((char *)GCL_GetParamResult());
+        *pAreaNameForMenu = GCL_GetString((char *)GCL_NextStr());
         if (camera_dword_800D0774 > 0 && camera_dword_800D0728 == 0)
         {
-            *pAreaNameForSaveData = GCL_ReadString((char *)GCL_GetParamResult());
+            *pAreaNameForSaveData = GCL_GetString((char *)GCL_NextStr());
         }
     }
 }
@@ -1878,7 +1878,7 @@ int CameraGetResources_800CE6EC(CameraWork *work, int map)
 
     if (GCL_GetOption('e') != NULL)
     {
-        work->f20 = GCL_StrToInt(GCL_GetParamResult());
+        work->f20 = GCL_StrToInt(GCL_NextStr());
     }
     else
     {
@@ -1887,7 +1887,7 @@ int CameraGetResources_800CE6EC(CameraWork *work, int map)
 
     for (i = 0; i <= 0; i++)
     {
-        work->f49E4 = GCL_ReadString(GCL_GetParamResult());
+        work->f49E4 = GCL_GetString(GCL_NextStr());
     }
 
     work->pad = &GV_PadData[2];

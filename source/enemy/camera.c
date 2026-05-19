@@ -120,9 +120,9 @@ int s01a_camera_800D4D28(char *opt, SVECTOR *svecs)
     int            count;
     unsigned char *param;
 
-    for (count = 0; (param = GCL_GetParamResult()); svecs++, count++)
+    for (count = 0; (param = GCL_NextStr()); svecs++, count++)
     {
-        GCL_StrToSV(param, svecs);
+        GCL_StrToSV(param, (short *)svecs);
     }
     return count;
 }
@@ -932,7 +932,7 @@ int s01a_camera_800D61AC(CameraWork *work, int arg1, int arg2)
     }
     if (GCL_GetOption('e'))
     {
-        work->field_28C = GCL_StrToInt(GCL_GetParamResult());
+        work->field_28C = GCL_StrToInt(GCL_NextStr());
     }
     else
     {

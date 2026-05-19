@@ -998,7 +998,7 @@ void s11d_rope_800C8EE4(Work *work)
     param = GCL_GetOption('a');
     if (param)
     {
-        GCL_StrToSV(param, (SVECTOR *)&base[4]);
+        GCL_StrToSV(param, &base[4]);
     }
     else
     {
@@ -1011,7 +1011,7 @@ void s11d_rope_800C8EE4(Work *work)
     param = GCL_GetOption('i');
     if (param)
     {
-        GCL_StrToSV(param, (SVECTOR *)base);
+        GCL_StrToSV(param, base);
     }
     else
     {
@@ -1025,7 +1025,7 @@ void s11d_rope_800C8EE4(Work *work)
     param = GCL_GetOption('r');
     if (param)
     {
-        GCL_StrToSV(param, (SVECTOR *)&base[8]);
+        GCL_StrToSV(param, (short *)&base[8]);
     }
     else
     {
@@ -1048,13 +1048,13 @@ int s11d_rope_800C8FDC(Work *work)
     if (GCL_GetOption('c'))
     {
         p1 = work->field_FE4;
-        while (GCL_GetParamResult())
+        while (GCL_NextStr())
         {
             if (j == 16)
             {
                 break;
             }
-            GCL_StrToSV(GCL_GetParamResult(), p1);
+            GCL_StrToSV(GCL_NextStr(), (short *)p1);
             p1++;
             j++;
         }
@@ -1064,7 +1064,7 @@ int s11d_rope_800C8FDC(Work *work)
     {
         u_char *param;
         p2 = work->field_FA4;
-        while ((param = GCL_GetParamResult()))
+        while ((param = GCL_NextStr()))
         {
             if (i == 16)
             {
@@ -1094,7 +1094,7 @@ void s11d_rope_800C90BC(Work *work)
 
     i = 0;
     p = work->field_107C;
-    while ((param = GCL_GetParamResult()))
+    while ((param = GCL_NextStr()))
     {
         if (i == 3)
         {
@@ -1119,7 +1119,7 @@ void s11d_rope_800C9134(Work *work)
 
     i = 0;
     p = work->field_1088;
-    while ((param = GCL_GetParamResult()))
+    while ((param = GCL_NextStr()))
     {
         if (i == 4)
         {
