@@ -591,8 +591,31 @@ int d18a_snake18_800CB9CC(Snake18Work *arg0, Snake18Arg9CC *arg1)
     arg0->f834 = temp_v0;
     return temp_v0 != 0;
 }
+int d18a_snake18_800CBA64(Snake18Work *work, Snake18Arg9CC *arg1)
+{
+    TARGET *target;
+    SVECTOR vec;
+    TARGET *t;
 
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CBA64.s")
+    target = &work->f7EC;
+    GM_SetTarget(target, 0x40, work->f930, (SVECTOR *)((char *)arg1 + 0x8));
+    GM_SetCaptureTarget(target, arg1->f18, 0, &work->f840, &work->f848);
+    DG_PutVector((SVECTOR *)arg1, &vec, 1);
+    GM_MoveTarget(target, &vec);
+    t = GM_C4Target(target);
+    work->f834 = (int)t;
+    if (t == NULL)
+    {
+        return 0;
+    }
+    if (t->class & 0x20)
+    {
+        t->damaged &= ~0x40;
+        work->f834 = 0;
+        return 0;
+    }
+    return 1;
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CBB34.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CBBC8.s")
 
