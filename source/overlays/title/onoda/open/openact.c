@@ -1,28 +1,3 @@
-/* OpenAct_800D37F4 — top-level state machine for the title screen.
- *
- * Lives in its own translation unit (separate from open.c) for two reasons:
- *
- *   1. The original psyq compiled the switch on work->fA74 into a jump table
- *      at 0x800D9028 (22 entries) and the two sub-switches on work->fA78 into
- *      tables at 0x800D9080 / 0x800D9098 (6 entries each). Those tables were
- *      reverse-transcribed as `const int title_dword_*` declarations in
- *      overlay3.c. To get gcc to re-emit equivalent tables at the SAME
- *      addresses, we need open.obj's rdata + this file's rdata (in linker
- *      order) to fill exactly 0x988 bytes before the new switch tables.
- *      The strings that previously lived at 0x800D8848..0x800D9024 in
- *      overlay3.c (0x7E0 bytes) are moved here so openact.obj's rdata fills
- *      the right portion of the gap. Linker order is configured to be
- *      open.obj -> openact.obj -> overlay3.obj.
- *
- *   2. include_asm_fixup.py expects each INCLUDE_ASM stub function to end
- *      with a 3-instruction return at the very end of its byte range. When
- *      OpenAct's switch is in the same TU as INCLUDE_ASM stubs, gcc
- *      interleaves switch jump tables with .text in a way that inflates the
- *      reported size of an adjacent stub — fixup then reads garbage instead
- *      of the stub's return and can't determine which .s file to splice in.
- *      Putting OpenAct in its own (INCLUDE_ASM-free) TU sidesteps that.
- */
-
 #include <stdio.h>
 #include <sys/types.h>
 #include <libgte.h>
