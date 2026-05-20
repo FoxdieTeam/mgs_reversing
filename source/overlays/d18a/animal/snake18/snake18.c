@@ -42,8 +42,8 @@ typedef struct _Snake18Work
     char    pad_834[0x834 - 0x7EC - sizeof(TARGET)];
     int     f834;        // 0x834
     char    pad_840[0x840 - 0x834 - sizeof(int)];
-    int    *f840;        // 0x840
-    char    pad_848[0x848 - 0x840 - sizeof(int *)];
+    int     f840;        // 0x840
+    char    pad_848[0x848 - 0x840 - sizeof(int)];
     SVECTOR f848;        // 0x848
     char    pad_854[0x854 - 0x848 - sizeof(SVECTOR)];
     int     f854;        // 0x854
@@ -562,7 +562,7 @@ int d18a_snake18_800CB9CC(Snake18Work *arg0, Snake18Arg9CC *arg1)
 
     temp_s1 = &arg0->f7EC;
     GM_SetTarget(temp_s1, 2, arg0->f930, (SVECTOR *)((char *)arg1 + 0x8));
-    GM_SetCaptureTarget(temp_s1, arg1->f18, arg1->f1C, (int *)((char *)arg0 + 0x840), &arg0->f848);
+    GM_SetCaptureTarget(temp_s1, arg1->f18, arg1->f1C, &arg0->f840, &arg0->f848);
     DG_PutVector((SVECTOR *)arg1, &sp18, 1);
     GM_MoveTarget(temp_s1, &sp18);
     temp_v0 = (int)GM_CaptureTarget(temp_s1);
@@ -1761,9 +1761,7 @@ int d18a_snake18_800D4BA4(Snake18Work *work)
 
     GM_SetTarget(target, 0x9F, work->f930, &d18a_dword_800C3A28);
     GM_SetPowerTarget(target, 1, -1, GM_SnakeCurrentHealth, 0, &DG_ZeroVector);
-    GM_SetCaptureTarget(target, 0, 0,
-                        (int *)((char *)work + 0x840),
-                        &work->f848);
+    GM_SetCaptureTarget(target, 0, 0, &work->f840, &work->f848);
     return 0;
 }
 
