@@ -357,15 +357,6 @@ const char d18a_aKaze_800DA7B0[] = "kaze \n";
 const char d18a_aFirst_800DA7B8[] = "first\n";
 const char d18a_aSecond_800DA7C0[] = "second\n";
 const char d18a_aLsight_800DA7C8[] = "lsight";
-const char d18a_dword_800DA7D0[] = {0xa5, 0xb9, 0xa5, 0xcd};
-const char d18a_dword_800DA7D4[] = {0xa1, 0xbc, 0xa5, 0xaf};
-const char d18a_dword_800DA7D8[] = {0x0, 0x0, 0x0, 0x0};
-const char d18a_aSnenude_800DA7DC[] = "sne_nude";
-const char d18a_aIppanhei_800DA7E8[] = "ippanhei";
-const char d18a_dword_800DA7F4[] = {'s', 'n', 'a', 'k'};
-const char d18a_dword_800DA7F8[] = {'e', '1', '8', '.'};
-const char d18a_dword_800DA7FC[] = {'c', 0x0, 0x0, '\n'};
-
 
 int SECTION(".bss") d18a_dword_800DAEA0;
 int SECTION(".bss") d18a_dword_800DAEA4;
