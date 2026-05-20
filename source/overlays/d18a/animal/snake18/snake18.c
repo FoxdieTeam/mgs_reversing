@@ -22,6 +22,17 @@ typedef struct _Snake18Type
     char *field_18;
 } Snake18Type;
 
+typedef struct _Snake18Init
+{
+    char    pad_4[4];
+    short   f4;          // 0x8C8 in Snake18Work
+    char    pad_8[2];
+    short   f8;          // 0x8CC
+    char    pad_C[2];
+    short   fC;          // 0x8D0
+    char    pad_E[6];
+} Snake18Init;
+
 typedef struct _Snake18Work
 {
     GV_ACT         actor;         // 0x000
@@ -64,13 +75,8 @@ typedef struct _Snake18Work
     int     f8B8;        // 0x8B8
     void   *f8BC;        // 0x8BC (callback pointer)
     void   *f8C0;        // 0x8C0 (callback pointer)
-    char    pad_8C8[0x8C8 - 0x8C0 - sizeof(void *)];
-    short   f8C8;        // 0x8C8
-    char    pad_8CC[0x8CC - 0x8C8 - sizeof(short)];
-    short   f8CC;        // 0x8CC
-    char    pad_8D0[0x8D0 - 0x8CC - sizeof(short)];
-    short   f8D0;        // 0x8D0
-    char    pad_8F0[0x8F0 - 0x8D0 - sizeof(short)];
+    Snake18Init f8C4;    // 0x8C4 (20-byte init block; .f4=0x8C8 .f8=0x8CC .fC=0x8D0)
+    char    pad_8F0[0x8F0 - 0x8C4 - sizeof(Snake18Init)];
     int     f8F0;        // 0x8F0
     int     f8F4;        // 0x8F4
     short   f8F8;        // 0x8F8
@@ -390,8 +396,12 @@ int d18a_snake18_800CB280(Snake18Work *work, int arg1)
 
     return -1;
 }
+extern Snake18Init d18a_dword_800C383C;
 
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB2EC.s")
+void d18a_snake18_800CB2EC(Snake18Work *work)
+{
+    work->f8C4 = d18a_dword_800C383C;
+}
 
 void d18a_snake18_800CB34C( Snake18Work *work )
 {
@@ -419,9 +429,9 @@ void d18a_snake18_800CB3E8(Snake18Work *work)
     work->f900 = 0x1C2;
     GM_Camera.first_person = 1;
     work->f8F8 = -4;
-    work->f8CC = d18a_dword_800C37E0;
-    work->f8D0 = d18a_dword_800C37E0;
-    work->f8C8 = 0x140;
+    work->f8C4.f8 = d18a_dword_800C37E0;
+    work->f8C4.fC = d18a_dword_800C37E0;
+    work->f8C4.f4 = 0x140;
 }
 
 void d18a_snake18_800CB42C(Snake18Work *work)
