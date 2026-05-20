@@ -89,7 +89,9 @@ typedef struct _Snake18Work
     char    pad_910[0x910 - 0x90E - sizeof(char)];
     short   f910;        // 0x910
     short   f912;        // 0x912
-    char    pad_924[0x924 - 0x912 - sizeof(short)];
+    char    pad_91C[0x91C - 0x912 - sizeof(short)];
+    SVECTOR f91C;        // 0x91C (saved control.mov)
+    char    pad_924[0x924 - 0x91C - sizeof(SVECTOR)];
     short   f924;        // 0x924
     short   f926;        // 0x926
     char    pad_92E[0x92E - 0x926 - sizeof(short)];
@@ -398,8 +400,18 @@ void d18a_snake18_800CB34C( Snake18Work *work )
     work->f8F8 = -4;
     GM_PlayerStatus |= ( PLAYER_WATCH | PLAYER_MENU_DISABLE );
 }
-
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB378.s")
+void d18a_snake18_800CB378(Snake18Work *work)
+{
+    GM_Camera.first_person = 0;
+    work->f8F8 = 4;
+    work->f926 = 0;
+    GM_PlayerStatus &= ~1;
+    if (work->f7E4 & 0x8000)
+    {
+        work->f7E4 &= ~0x8000;
+        work->control.mov = work->f91C;
+    }
+}
 
 void d18a_snake18_800CB3E8(Snake18Work *work)
 {
