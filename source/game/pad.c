@@ -30,11 +30,11 @@ static int GetResources( Work *work )
     }
 
 
-    if ( GCL_GetParamResult() )
+    if ( GCL_NextStr() )
     {
-        work->status = GCL_StrToInt( GCL_GetParamResult() ) ;
-        work->unk2   = GCL_StrToInt( GCL_GetParamResult() ) ;
-        work->unk3   = GCL_GetParamResult() ;
+        work->status = GCL_StrToInt( GCL_NextStr() ) ;
+        work->unk2   = GCL_StrToInt( GCL_NextStr() ) ;
+        work->unk3   = GCL_NextStr() ;
         return 1 ;
     }
 
@@ -93,7 +93,7 @@ void *NewPadControl(int name, int where, int argc, char **argv)
 
         if ( GCL_GetOption( 'p' ) )
         {
-            work->unk4 = GCL_GetNextParamValue();
+            work->unk4 = GCL_GetNextInt();
         } else
         {
             work->unk4 = -1;

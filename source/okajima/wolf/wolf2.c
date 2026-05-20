@@ -126,9 +126,9 @@ int wolf2_GetSvecs(char *opt, SVECTOR *out)
     int count;
 
     count = 0;
-    while ((opt = GCL_GetParamResult()))
+    while ((opt = GCL_NextStr()))
     {
-        GCL_StrToSV(opt, out);
+        GCL_StrToSV(opt, (short *)out);
         out++;
         count++;
     }
@@ -138,10 +138,10 @@ int wolf2_GetSvecs(char *opt, SVECTOR *out)
 
 void wolf2_GetSvec(char *opt, SVECTOR *out)
 {
-    opt = GCL_GetParamResult();
+    opt = GCL_NextStr();
     if (opt)
     {
-        GCL_StrToSV(opt, out);
+        GCL_StrToSV(opt, (short *)out);
     }
 }
 
@@ -443,7 +443,7 @@ int wolf2_GetResources2(Wolf2Work *work, int name, int where)
     {
         for (i = 0; i < work->f7FC; i++)
         {
-            opt = GCL_GetParamResult();
+            opt = GCL_NextStr();
             if (opt)
             {
                 work->f800[i] = GCL_StrToInt(opt);

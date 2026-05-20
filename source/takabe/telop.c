@@ -214,13 +214,13 @@ int TelopGetResources_800DDA18(TelopWork2 *work, int unused, int unused2)
 
     for (count = work->count; count > 0; count--, sub++)
     {
-        x = GCL_StrToInt(GCL_GetParamResult());
-        y = GCL_StrToInt(GCL_GetParamResult());
+        x = GCL_StrToInt(GCL_NextStr());
+        y = GCL_StrToInt(GCL_NextStr());
 
-        sub->timer = GCL_StrToInt(GCL_GetParamResult()) * 2;
-        sub->reload = GCL_StrToInt(GCL_GetParamResult()) - 16;
+        sub->timer = GCL_StrToInt(GCL_NextStr()) * 2;
+        sub->reload = GCL_StrToInt(GCL_NextStr()) - 16;
 
-        tex = DG_GetTexture(GCL_StrToInt(GCL_GetParamResult()));
+        tex = DG_GetTexture(GCL_StrToInt(GCL_NextStr()));
         telop_800DD550(sub, x, y, tex, tex);
     }
 

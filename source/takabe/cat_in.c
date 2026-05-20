@@ -74,8 +74,8 @@ int ZoomCameraGetResources_800DF81C( ZoomCameraWork *cam, int name, int where )
         return -1;
     }
 
-    GCL_StrToSV( GCL_GetParamResult(), &cam->eye );
-    GCL_StrToSV( GCL_GetParamResult(), &cam->center );
+    GCL_StrToSV( GCL_NextStr(), (short *)&cam->eye );
+    GCL_StrToSV( GCL_NextStr(), (short *)&cam->center );
 
     cam->clip_distance = THING_Gcl_GetIntDefault( 'a', 320 );
     cam->enable_input = THING_Gcl_GetInt( 'm' );

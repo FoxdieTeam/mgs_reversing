@@ -1522,7 +1522,7 @@ static int GetResources(Work *work, int map)
 
     if (GCL_GetOption('e'))
     {
-        work->f318 = GCL_StrToInt(GCL_GetParamResult());
+        work->f318 = GCL_StrToInt(GCL_NextStr());
     }
     else
     {
@@ -1531,7 +1531,7 @@ static int GetResources(Work *work, int map)
 
     if (GCL_GetOption('d'))
     {
-        work->f31C = GCL_StrToInt(GCL_GetParamResult());
+        work->f31C = GCL_StrToInt(GCL_NextStr());
     }
     else
     {
@@ -1540,7 +1540,7 @@ static int GetResources(Work *work, int map)
 
     if (GCL_GetOption('g'))
     {
-        work->fDCC = GCL_StrToInt(GCL_GetParamResult());
+        work->fDCC = GCL_StrToInt(GCL_NextStr());
     }
     else
     {
@@ -1556,7 +1556,7 @@ static int GetResources(Work *work, int map)
 
     for (i = 0; i < 10; i++)
     {
-        work->f5D0[i].string = GCL_ReadString(GCL_GetParamResult());
+        work->f5D0[i].string = GCL_GetString(GCL_NextStr());
         work->f5D0[i].num = 0;
         demosel_800C35FC(work, i);
     }

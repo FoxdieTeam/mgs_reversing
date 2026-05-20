@@ -303,7 +303,7 @@ void s11d_hind_800CB310(Work *work)
 
     i = 0;
     p = work->field_93C;
-    while ((param = GCL_GetParamResult()))
+    while ((param = GCL_NextStr()))
     {
         if (i == 7)
         {

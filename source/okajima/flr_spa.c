@@ -31,9 +31,9 @@ int FlrSpaGetSvecs_800D09A4(char *opt, SVECTOR *out)
 
     count = 0;
 
-    while ((result = GCL_GetParamResult()) != NULL)
+    while ((result = GCL_NextStr()) != NULL)
     {
-        GCL_StrToSV(result, out);
+        GCL_StrToSV(result, (short *)out);
 
         out++;
         count++;

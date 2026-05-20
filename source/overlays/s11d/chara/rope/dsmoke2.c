@@ -372,12 +372,12 @@ int s11d_dsmoke2_800CCAB4(Work *work)
     int     difficulty;
     int     i;
 
-    GCL_StrToSV(GCL_GetOption('s'), &work->start);
-    GCL_StrToSV(GCL_GetOption('e'), &work->end);
+    GCL_StrToSV(GCL_GetOption('s'), (short *)&work->start);
+    GCL_StrToSV(GCL_GetOption('e'), (short *)&work->end);
 
     GCL_GetOption('i');
-    work->field_B4 = GCL_StrToInt(GCL_GetParamResult());
-    work->field_B6 = GCL_StrToInt(GCL_GetParamResult());
+    work->field_B4 = GCL_StrToInt(GCL_NextStr());
+    work->field_B6 = GCL_StrToInt(GCL_NextStr());
     work->field_BC = GCL_StrToInt(GCL_GetOption('d'));
     work->field_B8 = 0;
     work->field_BA = 0;
@@ -398,10 +398,10 @@ int s11d_dsmoke2_800CCAB4(Work *work)
     {
         for (i = 0; i < difficulty; i++)
         {
-            GCL_GetNextParamValue();
+            GCL_GetNextInt();
         }
 
-        dsmoke2_life = GCL_GetNextParamValue();
+        dsmoke2_life = GCL_GetNextInt();
     }
 
     size.vx = size.vy = size.vz = 250;
@@ -425,14 +425,14 @@ void s11d_dsmoke2_800CCC60(Work *work)
     {
         vec = work->vecs;
 
-        while ((res = GCL_GetParamResult()))
+        while ((res = GCL_NextStr()))
         {
             if (count == 3)
             {
                 break;
             }
 
-            GCL_StrToSV(res, vec);
+            GCL_StrToSV(res, (short *)vec);
             vec++;
             count++;
         }

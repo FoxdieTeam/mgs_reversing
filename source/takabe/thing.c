@@ -16,7 +16,7 @@ int THING_Gcl_GetIntDefault(char param, int def)
 {
     if (GCL_GetOption(param))
     {
-        return GCL_StrToInt(GCL_GetParamResult());
+        return GCL_StrToInt(GCL_NextStr());
     }
 
     return def;
@@ -49,7 +49,7 @@ void THING_Gcl_GetSVectorDefault(char param, short x, short y, short z, SVECTOR 
 {
     if (GCL_GetOption(param))
     {
-        GCL_StrToSV(GCL_GetParamResult(), vec);
+        GCL_StrToSV(GCL_NextStr(), (short *)vec);
         return;
     }
 

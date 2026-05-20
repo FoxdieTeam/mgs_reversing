@@ -36,9 +36,9 @@ static int GetSvecs(char *opt, SVECTOR *out)
 
     count = 0;
 
-    while ((res = GCL_GetParamResult()) != NULL)
+    while ((res = GCL_NextStr()) != NULL)
     {
-        GCL_StrToSV(res, out);
+        GCL_StrToSV(res, (short *)out);
         out++;
         count++;
     }

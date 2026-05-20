@@ -139,9 +139,9 @@ static int GetResources(Work *work, int name, int where)
     body = &work->body;
 
     GCL_GetOption('m');
-    work->model1 = GCL_StrToInt(GCL_GetParamResult());
+    work->model1 = GCL_StrToInt(GCL_NextStr());
 
-    model = GCL_StrToInt(GCL_GetParamResult());
+    model = GCL_StrToInt(GCL_NextStr());
     work->model2 = model;
     if (work->broken == 0)
     {
@@ -190,7 +190,7 @@ static int GetResources(Work *work, int name, int where)
 
     if (GCL_GetOption('r'))
     {
-        work->raise = GCL_StrToInt(GCL_GetParamResult());
+        work->raise = GCL_StrToInt(GCL_NextStr());
         work->body.objs->objs[0].raise = work->raise;
     }
     return 0;

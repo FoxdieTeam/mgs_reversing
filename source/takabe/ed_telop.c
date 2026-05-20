@@ -54,10 +54,10 @@ int EdTelop_800C4F18(void)
         return 1;
     }
 
-    str = GCL_ReadString(GCL_GetParamResult());
+    str = GCL_GetString(GCL_NextStr());
     if (GCL_GetOption('t'))
     {
-        MENU_JimakuWrite(str, GCL_GetNextParamValue());
+        MENU_JimakuWrite(str, GCL_GetNextInt());
     }
 
     return 1;

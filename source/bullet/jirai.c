@@ -473,7 +473,7 @@ static int InitJiraiTarget(JiraiWork *work, MATRIX *pMtx, int a3)
 
     if (GCL_GetOption('t'))
     {
-        GCL_StrToSV(GCL_GetParamResult(), &v12);
+        GCL_StrToSV(GCL_NextStr(), (short *)&v12);
     }
     GM_SetTarget(target, 9, NO_SIDE, &v12);
     target->field_3C |= 2;
@@ -639,7 +639,7 @@ static int GetResources2(JiraiWork *work, MATRIX *world, int map)
 
     if (GCL_GetOption('e'))
     {
-        work->field_138_gcl = GCL_StrToInt(GCL_GetParamResult());
+        work->field_138_gcl = GCL_StrToInt(GCL_NextStr());
     }
     else
     {

@@ -857,7 +857,7 @@ int menu_radio_codec_helper_helper12_80041280(MenuWork *work, u_long *ot, GV_PAD
     while (var_s2 >= 0)
     {
         color = 0;
-        string = GCL_ReadString(GCL_GetParamResult());
+        string = GCL_GetString(GCL_NextStr());
 
         if (index == pMenuChara->field_1A_index)
         {
@@ -865,7 +865,7 @@ int menu_radio_codec_helper_helper12_80041280(MenuWork *work, u_long *ot, GV_PAD
             var_s2 = 1;
         }
 
-        if (!GCL_GetParamResult())
+        if (!GCL_NextStr())
         {
             if (var_s2 == 0)
             {

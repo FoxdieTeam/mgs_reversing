@@ -235,10 +235,10 @@ int s00a_command_800CED88( char *ops, A4_STRUCT *unk )
     i = 0;
 
     do {
-        unk->field_04[i].field_00 = GCL_StrToInt( GCL_GetParamResult() );
-        unk->field_04[i].field_02 = GCL_StrToInt( GCL_GetParamResult() );
+        unk->field_04[i].field_00 = GCL_StrToInt( GCL_NextStr() );
+        unk->field_04[i].field_02 = GCL_StrToInt( GCL_NextStr() );
         i++;
-    } while ( GCL_GetParamResult() != NULL );
+    } while ( GCL_NextStr() != NULL );
 
     return i;
 }
@@ -251,9 +251,9 @@ int s00a_command_800CEDE8( char *ops, short *addr, int map_id )
     unsigned char *res;
     map = GM_GetMap( map_id );
 
-    for ( i = 0; ( res = GCL_GetParamResult() ) && i < 4 ; i++ )
+    for ( i = 0; ( res = GCL_NextStr() ) && i < 4 ; i++ )
     {
-        GCL_StrToSV( res, &svec );
+        GCL_StrToSV( res, (short *)&svec );
 
         if ( svec.vy < 30000 )
         {
@@ -1001,7 +1001,7 @@ int s00a_command_800D0128( char *arg0 )
         do
         {
             proc_id = GCL_StrToInt( res );
-            res = GCL_GetParamResult();
+            res = GCL_NextStr();
             GCL_ExecProc( proc_id, NULL );
             i++;
         } while ( res );
@@ -1195,7 +1195,7 @@ static void GetResources( CommanderWork *work, int name, int where )
     ops = GCL_GetOption( 'l' );
     if ( ops )
     {
-        GCL_StrToSV( ops, &EnemyCommand.field_0x88 );
+        GCL_StrToSV( ops, (short *)&EnemyCommand.field_0x88 );
     }
 
     //loc_800D06A0:
@@ -1251,7 +1251,7 @@ static void GetResources( CommanderWork *work, int name, int where )
     ops = GCL_GetOption( 'z' );
     if ( ops )
     {
-        *(int*)(&EnemyCommand.field_0x17C) = GCL_StrToInt( GCL_GetParamResult() );
+        *(int*)(&EnemyCommand.field_0x17C) = GCL_StrToInt( GCL_NextStr() );
     }
     else
     {

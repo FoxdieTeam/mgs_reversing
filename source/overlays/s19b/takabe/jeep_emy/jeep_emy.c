@@ -253,7 +253,7 @@ static int GetResources(Work *work, int name, int where)
         vec = work->field_900;
         for (i = work->field_8FC; i > 0; i--, vec++)
         {
-            GCL_StrToSV(GCL_GetParamResult(), vec);
+            GCL_StrToSV(GCL_NextStr(), (short *)vec);
             GetMidpoint(vec);
         }
     }

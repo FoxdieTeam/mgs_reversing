@@ -4,7 +4,7 @@
 #include "libgv/libgv.h"    // for GV_SetLoader
 
 int SECTION(".sbss") scenerio_code;
-int SECTION(".sbss") dword_800AB994;
+int SECTION(".sbss") dword_800AB994; // padding
 
 /**
  *  @brief      GCX bytecode initialization handler
@@ -18,41 +18,43 @@ int SECTION(".sbss") dword_800AB994;
  *  @retval     1       on success
  *  @retval     <= 0    on failure (but this can't happen)
  */
-static int GCL_InitFunc(void *top, int id)
+static int GCL_InitFunc( void *top, int id )
 {
-    if (id == scenerio_code)
+    if ( id == scenerio_code )
     {
-        GCL_LoadScript(top);
+        GCL_LoadScript( top );
     }
+
     return 1;
 }
 
 /**
  *  @brief      Sets which GCX script to load.
  *
- *  If @p demo_flag equals TRUE, demo.gcx will be set for execution
+ *  If @p demo equals TRUE, demo.gcx will be set for execution
  *  upon loading a stage, otherwise it will default to the standard
  *  scenerio.gcx script.
  *
- *  @param      demo_flag       Sets "demo.gcx" if TRUE
+ *  @param      demo       Sets "demo.gcx" if TRUE
  */
-void GCL_ChangeSenerioCode(int demo_flag)
+void GCL_ChangeSenerioCode( int demo )
 {
-    scenerio_code = (demo_flag == TRUE)
-        ? ((GCL_STRID << 16) | 0xa242)  // GV_StrCode("demo")
-        : ((GCL_STRID << 16) | 0xea54); // GV_StrCode("scenerio")
+    scenerio_code = ( demo == TRUE )
+        ? ( ( GCL_STRID << 16 ) | 0xa242 )  // GV_StrCode("demo")
+        : ( ( GCL_STRID << 16 ) | 0xea54 ); // GV_StrCode("scenerio")
 }
 
-void GCL_StartDaemon(void)
+void GCL_StartDaemon( void )
 {
     GCL_ParseInit();
     GCL_InitVar();
     GCL_InitBasicCommands();
-    GV_SetLoader('g', GCL_InitFunc);
-    GCL_ChangeSenerioCode(0);
+    GV_SetLoader( 'g', GCL_InitFunc );
+
+    GCL_ChangeSenerioCode( 0 );
 }
 
-void GCL_ResetSystem(void)
+void GCL_ResetSystem( void )
 {
     /* do nothing */
 }

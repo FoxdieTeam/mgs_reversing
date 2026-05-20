@@ -132,10 +132,10 @@ static int GetResources(Work *work, int name, int where)
 
     if (GCL_GetOption('p'))
     {
-        GCL_StrToSV(GCL_GetParamResult(), &pos[0]);
-        GCL_StrToSV(GCL_GetParamResult(), &pos[1]);
-        GCL_StrToSV(GCL_GetParamResult(), &pos[2]);
-        GCL_StrToSV(GCL_GetParamResult(), &pos[3]);
+        GCL_StrToSV(GCL_NextStr(), (short *)&pos[0]);
+        GCL_StrToSV(GCL_NextStr(), (short *)&pos[1]);
+        GCL_StrToSV(GCL_NextStr(), (short *)&pos[2]);
+        GCL_StrToSV(GCL_NextStr(), (short *)&pos[3]);
     }
     s_param = THING_Gcl_GetInt('s');
 

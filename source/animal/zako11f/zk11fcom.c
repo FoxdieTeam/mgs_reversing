@@ -127,10 +127,10 @@ int s11i_zk11fcom_800D0E04(char *opt, A4_STRUCT *out)
 
     do
     {
-        out->field_04[count].field_00 = GCL_StrToInt(GCL_GetParamResult());
-        out->field_04[count].field_02 = GCL_StrToInt(GCL_GetParamResult());
+        out->field_04[count].field_00 = GCL_StrToInt(GCL_NextStr());
+        out->field_04[count].field_02 = GCL_StrToInt(GCL_NextStr());
         count++;
-    } while (GCL_GetParamResult());
+    } while (GCL_NextStr());
 
     return count;
 }
@@ -142,7 +142,7 @@ int s11i_zk11fcom_800D0E64(char *opt, short *out)
 
     count = 0;
 
-    while ((param = GCL_GetParamResult()))
+    while ((param = GCL_NextStr()))
     {
         *out++ = GCL_StrToInt(param);
         count++;
@@ -566,7 +566,7 @@ int s11i_zk11fcom_800D18D0( char *opt )
     while (opt)
     {
         proc = GCL_StrToInt(opt);
-        opt = GCL_GetParamResult();
+        opt = GCL_NextStr();
 
         GCL_ExecProc(proc, NULL);
         count++;
@@ -875,7 +875,7 @@ int ZakoCommander_800D1E38(void)
         }
 
         Zako11FCommand_800D5AF8.field_0x124[i] = GCL_StrToInt(opt);
-        opt = GCL_GetParamResult();
+        opt = GCL_NextStr();
         i++;
     }
 
@@ -923,7 +923,7 @@ static void GetResources(Zako11FCommanderWork *work, int name, int where)
     opt = GCL_GetOption('e');
     if (opt)
     {
-        Zako11FCommand_800D5AF8.field_0x120 = GCL_StrToInt(GCL_GetParamResult());
+        Zako11FCommand_800D5AF8.field_0x120 = GCL_StrToInt(GCL_NextStr());
     }
     else
     {

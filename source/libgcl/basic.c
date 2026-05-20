@@ -2,35 +2,39 @@
 #include "common.h"
 #include "strcode.h"
 
-static int GCL_Command_if(unsigned char *top)
+static int GCL_Command_if( char *top )
 {
-    int   type, res;
-    int   block;
-    char *p = top;
-exec_else:
-    p = GCL_GetNextValue(p, &type, &res);
-exec_if:
-    p = GCL_GetNextValue(p, &type, &block);
+    int type, res;
+    char *p, *block;
 
-    if (res)
+    p = top;
+
+EXEC_IF:
+    p = GCL_GetNextValue( p, &type, &res );
+
+EXEC_ELSE:
+    p = GCL_GetNextValue( p, &type, (int *)&block );
+
+    if ( res )
     {
-        GCL_ExecBlock((unsigned char *)block, 0);
+        GCL_ExecBlock( block, NULL );
     }
     else
     {
-        p = GCL_GetNextValue(p, &type, &res);
-
-        if (p)
+        p = GCL_GetNextValue( p, &type, &res );
+        if ( p != NULL )
         {
+            type >>= 16;
             p = (char *)res;
 
-            switch (type >>= 16)
+            if ( type == 'e' )
             {
-            case 'e':
                 res = 1;
-                goto exec_if;
-            case 'i':
-                goto exec_else;
+                goto EXEC_ELSE;
+            }
+            else if ( type == 'i' )
+            {
+                goto EXEC_IF;
             }
         }
     }
@@ -38,63 +42,64 @@ exec_if:
     return GCL_OK;
 }
 
-static int GCL_Command_eval(unsigned char *top)
+static int GCL_Command_eval( char *top )
 {
-    int code;
-    int value;
+    int type, res;
 
-    GCL_GetNextValue(top, &code, &value);
+    GCL_GetNextValue( top, &type, &res );
+
     return GCL_OK;
 }
 
-static int GCL_Command_foreach(unsigned char *top)
+static int GCL_Command_foreach( char *top )
 {
-    long     argbuf[16];
-    long    *argbuf_p;
+    long argbuf[ GCL_PROC_MAX_ARGS ];
+    int i, type, value;
     GCL_ARGS arg;
-    int      i, code, value;
-    char    *exec_param;
+    long *p;
+    char *block;
 
-    // Parse args
-    argbuf_p = argbuf;
-    for (;;)
+    p = argbuf;
+    for ( ;; )
     {
-        top = GCL_GetNextValue(top, &code, &value);
-        if ((char)code == GCL_OPTION)
+        top = GCL_GetNextValue( top, &type, &value );
+        if ( ( type & 0xFF ) == GCL_OPTION )
         {
             break;
         }
-        *argbuf_p++ = value;
+        *p++ = value;
     }
-    // Loop on args
-    top = GCL_GetNextValue((char *)value, &code, &value);
-    exec_param = (char *)value; // "-do" parameter
+
+    top = GCL_GetNextValue( (char *)value, &type, &value );
+    block = (char *)value; // "-do" parameter
+
     arg.argc = 1;
     arg.argv = argbuf;
-    for (i = ((int)argbuf_p - (int)&argbuf) >> 2; i > 0; i--)
+
+    for ( i = p - argbuf; i > 0; i-- )
     {
-        GCL_ExecBlock(exec_param, &arg);
+        GCL_ExecBlock( block, &arg );
         arg.argv++;
     }
 
     return GCL_OK;
 }
 
-static int GCL_Command_return(unsigned char *top)
+static int GCL_Command_return( char *top )
 {
     return GCL_RETURN;
 }
 
-STATIC GCL_COMMANDLIST commlist[] = {
+static GCL_COMMANDLIST commlist[] = {
     { 0x0d86, GCL_Command_if },         // GV_StrCode("if")
     { 0x64c0, GCL_Command_eval },       // GV_StrCode("eval")
     { 0xcd3a, GCL_Command_return },     // GV_StrCode("return")
     { 0x7636, GCL_Command_foreach },    // GV_StrCode("foreach")
 };
 
-STATIC GCL_COMMANDDEF builtin_commands = GCL_COMMANDS(commlist);
+static GCL_COMMANDDEF builtin_commands = GCL_COMMANDS( commlist );
 
-void GCL_InitBasicCommands(void)
+void GCL_InitBasicCommands( void )
 {
-    GCL_AddCommMulti(&builtin_commands);
+    GCL_AddCommMulti( &builtin_commands );
 }

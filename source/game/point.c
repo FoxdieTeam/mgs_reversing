@@ -79,7 +79,7 @@ static int GetResources(Work *work, int where, int name)
     color = 1 << 12;
     if (GCL_GetOption('c'))
     {
-        color = GCL_GetNextParamValue() << 12;
+        color = GCL_GetNextInt() << 12;
     }
 
     GM_ConfigControlAttribute(&work->control, color | RADAR_ALL_MAP | RADAR_VISIBLE);

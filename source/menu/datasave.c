@@ -2204,14 +2204,14 @@ STATIC void getAreaName_8004CF20(int code, char **pAreaNameForMenu, char **pArea
     GCL_SetArgTop((char *)dword_800ABB8C);
     printf("code %d\n", code);
     for (i = 0; i < code; i++) {
-        if (GCL_GetParamResult() == 0)
+        if (GCL_NextStr() == 0)
         {
             return;
         }
-        *pAreaNameForMenu = GCL_ReadString(GCL_GetParamResult());
+        *pAreaNameForMenu = GCL_GetString(GCL_NextStr());
         if (dword_800ABB90 > 0 && dword_800ABB48 == 0)
         {
-            *pAreaNameForSaveData = GCL_ReadString(GCL_GetParamResult());
+            *pAreaNameForSaveData = GCL_GetString(GCL_NextStr());
         }
     }
 }

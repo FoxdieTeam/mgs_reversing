@@ -42,14 +42,14 @@ static int vibrate_act_helper_8005D3A4(Work *work)
 {
     GCL_SetArgTop(work->data);
 
-    if (!work->data || !GCL_GetParamResult())
+    if (!work->data || !GCL_NextStr())
     {
         return 0;
     }
 
-    work->increment = GCL_StrToInt(GCL_GetParamResult());
-    work->timer = 2 * GCL_StrToInt(GCL_GetParamResult());
-    work->data = GCL_GetParamResult();
+    work->increment = GCL_StrToInt(GCL_NextStr());
+    work->timer = 2 * GCL_StrToInt(GCL_NextStr());
+    work->data = GCL_NextStr();
 
     return 1;
 }

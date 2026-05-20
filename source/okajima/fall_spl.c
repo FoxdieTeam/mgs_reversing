@@ -24,9 +24,9 @@ int s15b_fall_spl_800C7B0C(char *opt, SVECTOR *out)
     unsigned char *param;
 
     count = 0;
-    while ((param = GCL_GetParamResult()))
+    while ((param = GCL_NextStr()))
     {
-        GCL_StrToSV(param, out);
+        GCL_StrToSV(param, (short *)out);
         out++;
         count++;
     }

@@ -655,7 +655,7 @@ static int Door_Gcl_GetIntDefault(unsigned char param, int def)
 {
     if (GCL_GetOption(param))
     {
-        return GCL_GetNextParamValue();
+        return GCL_GetNextInt();
     }
     return def;
 }
@@ -714,13 +714,13 @@ static int GetResources(Work *work, int name, int where)
 
     if (GCL_GetOption('g'))
     {
-        work->field_F4_param_g_v = GCL_GetNextParamValue();
+        work->field_F4_param_g_v = GCL_GetNextInt();
         if (!work->field_F4_param_g_v)
         {
             work->field_F4_param_g_v = -1;
         }
-        work->field_F8_maps[0] = GCL_GetNextParamValue();
-        work->field_F8_maps[1] = GCL_GetNextParamValue();
+        work->field_F8_maps[0] = GCL_GetNextInt();
+        work->field_F8_maps[1] = GCL_GetNextInt();
     }
     else
     {
@@ -729,8 +729,8 @@ static int GetResources(Work *work, int name, int where)
 
     if (GCL_GetOption('e')) // (sound) effect?
     {
-        work->field_FE_sound_effect = GCL_GetNextParamValue();
-        work->field_FF_e_param_v2 = GCL_GetNextParamValue();
+        work->field_FE_sound_effect = GCL_GetNextInt();
+        work->field_FF_e_param_v2 = GCL_GetNextInt();
     }
 
     if (work->leaf_count == 1 && have_c_param == 1) // $s0, $v1, 0x238
@@ -771,7 +771,7 @@ void *NewDoor(int name, int where, int argc, char **argv)
 
     if (GCL_GetOption('t'))
     {
-        leaf_count = GCL_StrToInt(GCL_GetParamResult());
+        leaf_count = GCL_StrToInt(GCL_NextStr());
     }
     else
     {

@@ -90,18 +90,18 @@ int RippleSurfaceGetResources_800D8148(RSurfaceWork *work, int name, int where)
     GM_CurrentMap = where;
     if (GCL_GetOption('p'))
     {
-        GCL_StrToSV(GCL_GetParamResult(), &work->field_68);
-        GCL_StrToSV(GCL_GetParamResult(), &work->field_70);
+        GCL_StrToSV(GCL_NextStr(), (short *)&work->field_68);
+        GCL_StrToSV(GCL_NextStr(), (short *)&work->field_70);
     }
     work->field_86 = 0x1000;
     work->field_84 = (work->field_68.vy + work->field_70.vy) / 2;
     if (GCL_GetOption('h'))
     {
-        work->field_84 = GCL_StrToInt(GCL_GetParamResult());
+        work->field_84 = GCL_StrToInt(GCL_NextStr());
     }
     if (GCL_GetOption('s'))
     {
-        work->field_86 = GCL_StrToInt(GCL_GetParamResult());
+        work->field_86 = GCL_StrToInt(GCL_NextStr());
     }
     work->field_82 = 0;
     work->field_78 = DG_ZeroVector;

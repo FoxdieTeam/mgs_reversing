@@ -205,8 +205,8 @@ int GasEffectGetResources_800C4D98(GasEfctWork *work, int name, int where)
 {
     if (GCL_GetOption('c'))
     {
-        GCL_StrToSV(GCL_GetParamResult(), &work->f2C);
-        GCL_StrToSV(GCL_GetParamResult(), &work->f34);
+        GCL_StrToSV(GCL_NextStr(), (short *)&work->f2C);
+        GCL_StrToSV(GCL_NextStr(), (short *)&work->f34);
     }
 
     work->f48 = THING_Gcl_GetIntDefault('s', 4096);

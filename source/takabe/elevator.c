@@ -583,11 +583,11 @@ error:
 
     if (GCL_GetOption('X'))
     {
-        work->sound1 = GCL_StrToInt(GCL_GetParamResult());
-        work->sound2 = GCL_StrToInt(GCL_GetParamResult());
-        work->sound3 = GCL_StrToInt(GCL_GetParamResult());
-        work->f5B4 = GCL_StrToInt(GCL_GetParamResult());
-        work->size = GCL_StrToInt(GCL_GetParamResult());
+        work->sound1 = GCL_StrToInt(GCL_NextStr());
+        work->sound2 = GCL_StrToInt(GCL_NextStr());
+        work->sound3 = GCL_StrToInt(GCL_NextStr());
+        work->f5B4 = GCL_StrToInt(GCL_NextStr());
+        work->size = GCL_StrToInt(GCL_NextStr());
     }
 
     filename = THING_Gcl_GetShort('h');
@@ -615,16 +615,16 @@ error:
     {
         work->f58C |= 0x10;
 
-        filename = GCL_StrToInt(GCL_GetParamResult());
+        filename = GCL_StrToInt(GCL_NextStr());
         work->hzm3 = GV_GetCache(GV_CacheID(filename, 'h'));
 
-        filename = GCL_StrToInt(GCL_GetParamResult());
+        filename = GCL_StrToInt(GCL_NextStr());
         work->hzm4 = GV_GetCache(GV_CacheID(filename, 'h'));
 
-        filename = GCL_StrToInt(GCL_GetParamResult());
+        filename = GCL_StrToInt(GCL_NextStr());
         work->hzm1 = GV_GetCache(GV_CacheID(filename, 'h'));
 
-        filename = GCL_StrToInt(GCL_GetParamResult());
+        filename = GCL_StrToInt(GCL_NextStr());
         work->hzm2 = GV_GetCache(GV_CacheID(filename, 'h'));
 
         work->groups3 = work->hzm3->groups;
@@ -648,7 +648,7 @@ error:
 
     if (GCL_GetOption('i'))
     {
-        f584 = GCL_StrToInt(GCL_GetParamResult());
+        f584 = GCL_StrToInt(GCL_NextStr());
         if (f584 >= 0)
         {
             work->f5C0 = 1;
@@ -663,11 +663,11 @@ error:
 
     if (GCL_GetOption('w'))
     {
-        work->f594 = GCL_StrToInt(GCL_GetParamResult());
+        work->f594 = GCL_StrToInt(GCL_NextStr());
         work->f58C |= 0x4;
     }
 
-    if (GCL_GetOption('a') && GCL_StrToInt(GCL_GetParamResult()) == 0)
+    if (GCL_GetOption('a') && GCL_StrToInt(GCL_NextStr()) == 0)
     {
         work->f58C &= ~0x20;
     }

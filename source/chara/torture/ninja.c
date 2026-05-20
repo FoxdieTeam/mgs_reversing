@@ -282,7 +282,7 @@ static void InitSounds(Work *work)
 
     i = 0;
     out = work->field_7FC;
-    while ((res = GCL_GetParamResult()))
+    while ((res = GCL_NextStr()))
     {
         if (i == 2)
         {
@@ -307,7 +307,7 @@ static void InitProc(Work *work)
 
     i = 0;
     out = work->procs;
-    while ((res = GCL_GetParamResult()))
+    while ((res = GCL_NextStr()))
     {
         if (i == 4)
         {
@@ -337,10 +337,10 @@ static int GetResources(Work *work, int name, int where)
     GM_ConfigControlHazard(control, 1000, -1, -1);
 
     GCL_GetOption('m');
-    model = GCL_StrToInt(GCL_GetParamResult());
+    model = GCL_StrToInt(GCL_NextStr());
 
     GCL_GetOption('o');
-    motion = GCL_StrToInt(GCL_GetParamResult());
+    motion = GCL_StrToInt(GCL_NextStr());
 
     body = &work->body;
     GM_InitObject(body, model & 0xFFFF, 0x2D, motion & 0xFFFF);
@@ -350,13 +350,13 @@ static int GetResources(Work *work, int name, int where)
     GM_ConfigObjectAction(body, 0, 0, 0);
 
     GCL_GetOption('b');
-    work->bound_where = GCL_StrToInt(GCL_GetParamResult());
+    work->bound_where = GCL_StrToInt(GCL_NextStr());
 
     InitSounds(work);
     InitProc(work);
 
     GCL_GetOption('a');
-    GCL_StrToSV(GCL_GetParamResult(), &work->field_7E4);
+    GCL_StrToSV(GCL_NextStr(), (short *)&work->field_7E4);
 
     work->unused3 = 0;
     work->timer = 0;

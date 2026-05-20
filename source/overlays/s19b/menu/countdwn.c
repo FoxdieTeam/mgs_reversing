@@ -116,12 +116,12 @@ void NewCountdownGcl(void)
 
     if (GCL_GetOption('t'))
     {
-        time = GCL_GetNextParamValue() * 30;
+        time = GCL_GetNextInt() * 30;
     }
 
     if (GCL_GetOption('p'))
     {
-        proc = GCL_GetNextParamValue();
+        proc = GCL_GetNextInt();
     }
 
     NewCountdown(time, proc);

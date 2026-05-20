@@ -42,14 +42,14 @@ static void RunScripts( Work *work, int param_2 )
 
     for ( i = 0; i <= work->field_30; i++ )
     {
-        if ( !GCL_GetParamResult() )
+        if ( !GCL_NextStr() )
         {
             work->field_30 = i;
             break;
         }
 
-        name = GCL_ReadString( GCL_GetParamResult() );
-        code = GCL_StrToInt( GCL_GetParamResult() );
+        name = GCL_GetString( GCL_NextStr() );
+        code = GCL_StrToInt( GCL_NextStr() );
     }
 
     work->field_28_name = name;
@@ -166,7 +166,7 @@ static int GetResources( Work *work, int where, int name )
         return -1;
     }
 
-    work->field_24 = GCL_GetParamResult();
+    work->field_24 = GCL_NextStr();
     work->field_30 = 0;
     work->field_38 = 0;
     RunScripts( work, 0 );

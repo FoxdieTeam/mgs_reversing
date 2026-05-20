@@ -48,12 +48,12 @@ static void set_noise_sound(int noise)
 
     for (i = 1; i < 4; i++)
     {
-        noise_sounds[i][noise] = GCL_GetNextParamValue();
+        noise_sounds[i][noise] = GCL_GetNextInt();
     }
 
-    if (GCL_GetParamResult())
+    if (GCL_NextStr())
     {
-        noise_sounds[0][noise] = GCL_GetNextParamValue();
+        noise_sounds[0][noise] = GCL_GetNextInt();
     }
 }
 
@@ -80,20 +80,20 @@ void GM_AlertSound(void)
 
     if (GCL_GetOption('b'))
     {
-        song_codes[0] = GCL_GetNextParamValue();
-        song_codes[1] = GCL_GetNextParamValue();
+        song_codes[0] = GCL_GetNextInt();
+        song_codes[1] = GCL_GetNextInt();
         song_status &= ~STATUS_BIT_0;
     }
 
     if (GCL_GetOption('s')) // song
     {
-        set_song(GCL_GetNextParamValue());
+        set_song(GCL_GetNextInt());
         song_status |= STATUS_BIT_0;
     }
 
     if (GCL_GetOption('c'))
     {
-        c_code = GCL_GetNextParamValue();
+        c_code = GCL_GetNextInt();
         GM_SetSound(c_code | 0x01ffff00, SD_ASYNC);
 
         /* song pause or song fade in */
@@ -109,7 +109,7 @@ void GM_AlertSound(void)
 
     if (GCL_GetOption('x'))
     {
-        x_code = GCL_GetNextParamValue();
+        x_code = GCL_GetNextInt();
 
         /* song fade out */
         if (x_code >= 0x01ffff0a && x_code <= 0x01ffff0d)
@@ -122,19 +122,19 @@ void GM_AlertSound(void)
 
     if (GCL_GetOption('e')) // emit
     {
-        GM_SeSet2(GCL_GetNextParamValue(),  // pan
-                  GCL_GetNextParamValue(),  // vol
-                  GCL_GetNextParamValue()); // se_id
+        GM_SeSet2(GCL_GetNextInt(),  // pan
+                  GCL_GetNextInt(),  // vol
+                  GCL_GetNextInt()); // se_id
     }
 
     if (GCL_GetOption('v')) // vox
     {
-        vox_code = GCL_GetNextParamValue();
+        vox_code = GCL_GetNextInt();
 
         proc = 0;
         if (GCL_GetOption('f')) // func
         {
-            proc = GCL_GetNextParamValue() | 0x80000000;
+            proc = GCL_GetNextInt() | 0x80000000;
         }
 
         GM_VoxStream(vox_code, proc);
@@ -142,7 +142,7 @@ void GM_AlertSound(void)
 
     if (GCL_GetOption('g'))
     {
-        GM_GameOverVox = GCL_GetNextParamValue();
+        GM_GameOverVox = GCL_GetNextInt();
     }
 
     if (GCL_GetOption('k'))

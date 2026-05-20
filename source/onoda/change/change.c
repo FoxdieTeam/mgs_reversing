@@ -646,7 +646,7 @@ static int GetResources( Work *work, int map )
 
     if ( GCL_GetOption( 'e' ) )
     {
-        work->proc = GCL_StrToInt( GCL_GetParamResult() );
+        work->proc = GCL_StrToInt( GCL_NextStr() );
     }
     else
     {
@@ -655,7 +655,7 @@ static int GetResources( Work *work, int map )
 
     for ( i = 0; i < 6; i++ )
     {
-        work->f14C[i].string = GCL_ReadString( GCL_GetParamResult() );
+        work->f14C[i].string = GCL_GetString( GCL_NextStr() );
         work->f14C[i].num = 0;
         Change_800C364C( work, i );
     }

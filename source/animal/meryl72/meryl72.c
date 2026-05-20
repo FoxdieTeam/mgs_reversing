@@ -359,7 +359,7 @@ int s07c_meryl72_800C74E0( char *opt, char *roots )
     char *param;
 
     count = 0;
-    while ( ( param = GCL_GetParamResult() ) )
+    while ( ( param = GCL_NextStr() ) )
     {
         *roots++ = GCL_StrToInt( param );
         count++;
@@ -375,7 +375,7 @@ int s07c_meryl72_800C7538( char *opt, int *voices )
     char *param;
 
     count = 0;
-    while ( ( param = GCL_GetParamResult() ) )
+    while ( ( param = GCL_NextStr() ) )
     {
         *voices++ = GCL_StrToInt( param );
         count++;
@@ -405,10 +405,10 @@ int s07c_meryl72_800C75F0( Meryl72Work *work, char *opt, char *defends )
     char   *param;
 
     count = 0;
-    while ( ( param = GCL_GetParamResult() ) )
+    while ( ( param = GCL_NextStr() ) )
     {
         *defends = GCL_StrToInt( param );
-        GCL_StrToSV( param, &zone );
+        GCL_StrToSV( param, (short *)&zone );
 
         if ( zone.vy < 30000 )
         {
@@ -452,7 +452,7 @@ int s07c_meryl72_800C76B0( Meryl72Work *work )
         }
 
         work->fC1C[ i ] = GCL_StrToInt( opt );
-        opt = GCL_GetParamResult();
+        opt = GCL_NextStr();
         i++;
     }
 
@@ -566,7 +566,7 @@ int Meryl72GetResources_800C7738( Meryl72Work *work, int arg1, int arg2 )
 
     if ( GCL_GetOption( 'e' ) )
     {
-        work->fC3C = GCL_StrToInt( GCL_GetParamResult() );
+        work->fC3C = GCL_StrToInt( GCL_NextStr() );
     }
     else
     {
@@ -575,7 +575,7 @@ int Meryl72GetResources_800C7738( Meryl72Work *work, int arg1, int arg2 )
 
     if ( GCL_GetOption( 'z' ) )
     {
-        work->proc_id = GCL_StrToInt( GCL_GetParamResult() );
+        work->proc_id = GCL_StrToInt( GCL_NextStr() );
     }
     else
     {

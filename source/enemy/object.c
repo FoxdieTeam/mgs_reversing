@@ -104,10 +104,10 @@ static int s01a_object_800D991C(char *opt, DVECTOR *out)
 
     count = 0;
 
-    while ((param = GCL_GetParamResult()) != NULL)
+    while ((param = GCL_NextStr()) != NULL)
     {
         out->vx = GCL_StrToInt(param);
-        out->vy = GCL_StrToInt(GCL_GetParamResult());
+        out->vy = GCL_StrToInt(GCL_NextStr());
         out++;
 
         count++;
@@ -121,7 +121,7 @@ static int s01a_object_800D9984(char *opt, short *params)
     int            count;
     unsigned char *param;
 
-    for (count = 0; (param = GCL_GetParamResult()) != NULL; params++, count++)
+    for (count = 0; (param = GCL_NextStr()) != NULL; params++, count++)
     {
         *params = GCL_StrToInt(param);
     }

@@ -460,7 +460,7 @@ int RasenElGetResources_800CCB9C(RasenElWork *work, int name, int map)
 
     if (GCL_GetOption('i'))
     {
-        f230 = GCL_StrToInt(GCL_GetParamResult());
+        f230 = GCL_StrToInt(GCL_NextStr());
         if (f230 >= 0)
         {
             work->f2C4 = 1;
@@ -475,7 +475,7 @@ int RasenElGetResources_800CCB9C(RasenElWork *work, int name, int map)
 
     if (GCL_GetOption('w'))
     {
-        work->f23C = GCL_StrToInt(GCL_GetParamResult());
+        work->f23C = GCL_StrToInt(GCL_NextStr());
         work->f234 |= 4;
     }
 
@@ -485,10 +485,10 @@ int RasenElGetResources_800CCB9C(RasenElWork *work, int name, int map)
 
     if (GCL_GetOption('b'))
     {
-        GCL_StrToSV(GCL_GetParamResult(), &work->f2E0);
-        GCL_StrToSV(GCL_GetParamResult(), &work->f2B0);
-        GCL_StrToSV(GCL_GetParamResult(), &work->f2B8);
-        texid = GCL_StrToInt(GCL_GetParamResult());
+        GCL_StrToSV(GCL_NextStr(), (short *)&work->f2E0);
+        GCL_StrToSV(GCL_NextStr(), (short *)&work->f2B0);
+        GCL_StrToSV(GCL_NextStr(), (short *)&work->f2B8);
+        texid = GCL_StrToInt(GCL_NextStr());
     }
     else
     {

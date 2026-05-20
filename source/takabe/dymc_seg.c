@@ -58,8 +58,8 @@ static int GetResources(Work *work, int name, int where)
 
     if (GCL_GetOption('p'))
     {
-        GCL_StrToSV(GCL_GetParamResult(), &min);
-        GCL_StrToSV(GCL_GetParamResult(), &max);
+        GCL_StrToSV(GCL_NextStr(), (short *)&min);
+        GCL_StrToSV(GCL_NextStr(), (short *)&max);
     }
 
     height = THING_Gcl_GetInt('h');

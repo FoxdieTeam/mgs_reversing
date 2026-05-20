@@ -52,9 +52,9 @@ int s13a_smktrgt_800DBCB4(char *opt, SVECTOR *out)
     char *res;
 
     count = 0;
-    while ((res = GCL_GetParamResult()) != NULL)
+    while ((res = GCL_NextStr()) != NULL)
     {
-        GCL_StrToSV(res, out);
+        GCL_StrToSV(res, (short *)out);
         out++;
         count++;
     }
@@ -70,7 +70,7 @@ int s13a_smktrgt_800DBD08(char *opt, int *out)
 
     count = 0;
     iter = out;
-    while ((res = GCL_GetParamResult()) != NULL)
+    while ((res = GCL_NextStr()) != NULL)
     {
         *iter++ = GCL_StrToInt(res);
         count++;

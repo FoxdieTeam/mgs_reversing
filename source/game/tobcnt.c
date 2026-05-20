@@ -602,7 +602,7 @@ void *NewToBeContinued(int name, int where, int argc, char **argv)
 
         if (GCL_GetOption('v'))
         {
-            work->vox = GCL_StrToInt(GCL_GetParamResult());
+            work->vox = GCL_StrToInt(GCL_NextStr());
         }
         else
         {

@@ -52,13 +52,13 @@ static int GetVecs( char *param, SVECTOR *out )
     count = 0;
     while ( 1 )
     {
-        res = GCL_GetParamResult();
+        res = GCL_NextStr();
         if ( res == NULL )
         {
             break;
         }
 
-        GCL_StrToSV( res, out );
+        GCL_StrToSV( res, (short *)out );
 
         out++;
         count++;

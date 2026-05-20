@@ -468,8 +468,8 @@ int IrCensGetResources_800DA418(IrCensWork *work, int name, int map)
         vec = work->f30;
         for (i = 0; i < 2; i++)
         {
-            GCL_StrToSV(opt, vec);
-            opt = GCL_GetParamResult();
+            GCL_StrToSV(opt, (short *)vec);
+            opt = GCL_NextStr();
             vec++;
         }
     }
@@ -493,8 +493,8 @@ int IrCensGetResources_800DA418(IrCensWork *work, int name, int map)
     opt = GCL_GetOption('b');
     if (opt != NULL)
     {
-        work->fFC = GCL_StrToInt(GCL_GetParamResult());
-        work->f100 = GCL_StrToInt(GCL_GetParamResult());
+        work->fFC = GCL_StrToInt(GCL_NextStr());
+        work->f100 = GCL_StrToInt(GCL_NextStr());
         work->fF4 = 1;
     }
 

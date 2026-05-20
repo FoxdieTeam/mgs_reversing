@@ -389,25 +389,25 @@ static void GetOptions(Work *work)
     opt = GCL_GetOption('l');
     if (opt != NULL)
     {
-        GCL_StrToSV(opt, &work->min);
+        GCL_StrToSV(opt, (short *)&work->min);
     }
 
     opt = GCL_GetOption('h');
     if (opt != NULL)
     {
-        GCL_StrToSV(opt, &work->max);
+        GCL_StrToSV(opt, (short *)&work->max);
     }
 
     opt = GCL_GetOption('s');
     if (opt != NULL)
     {
-        GCL_StrToSV(opt, &work->f30);
+        GCL_StrToSV(opt, (short *)&work->f30);
     }
 
     opt = GCL_GetOption('w');
     if (opt != NULL)
     {
-        GCL_StrToSV(opt, &work->f38);
+        GCL_StrToSV(opt, (short *)&work->f38);
     }
 
     opt = GCL_GetOption('n');
@@ -431,12 +431,12 @@ static void GetOptions(Work *work)
     work->f2550 = 6000;
     if (GCL_GetOption('c'))
     {
-        work->f2550 = GCL_StrToInt(GCL_GetParamResult());
+        work->f2550 = GCL_StrToInt(GCL_NextStr());
     }
 
     if (GCL_GetOption('f'))
     {
-        work->f254C = GCL_StrToInt(GCL_GetParamResult());
+        work->f254C = GCL_StrToInt(GCL_NextStr());
     }
 
     x = work->f30.vx;

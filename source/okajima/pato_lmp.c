@@ -95,9 +95,9 @@ int s00a_pato_lmp_800D5EC8(char *opt, SVECTOR *svecs)
     unsigned char *param;
 
     count = 0;
-    for (count = 0; (param = GCL_GetParamResult()); svecs++, count++)
+    for (count = 0; (param = GCL_NextStr()); svecs++, count++)
     {
-        GCL_StrToSV(param, svecs);
+        GCL_StrToSV(param, (short *)svecs);
     }
     return count;
 }
@@ -632,7 +632,7 @@ int PatrolLampGetResources_800D6E28(PatoLmpWork *work, int name, int map)
         {
             for (cos = 0; cos < 4; cos++)
             {
-                if ((str = GCL_GetParamResult()) == NULL)
+                if ((str = GCL_NextStr()) == NULL)
                 {
                     break;
                 }

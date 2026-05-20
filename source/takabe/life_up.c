@@ -79,17 +79,17 @@ STATIC int LifeUpGetResources_800DF334(LifeUpWork *work, int name, int map)
 {
     if (GCL_GetOption('m'))
     {
-        work->max = GCL_StrToInt(GCL_GetParamResult());
+        work->max = GCL_StrToInt(GCL_NextStr());
     }
 
     if (GCL_GetOption('e'))
     {
-        work->proc = GCL_StrToInt(GCL_GetParamResult());
+        work->proc = GCL_StrToInt(GCL_NextStr());
     }
 
     if (GCL_GetOption('c'))
     {
-        work->f24 = GCL_StrToInt(GCL_GetParamResult());
+        work->f24 = GCL_StrToInt(GCL_NextStr());
     }
     else
     {
@@ -98,7 +98,7 @@ STATIC int LifeUpGetResources_800DF334(LifeUpWork *work, int name, int map)
 
     if (GCL_GetOption('l'))
     {
-        work->f34 = GCL_StrToInt(GCL_GetParamResult());
+        work->f34 = GCL_StrToInt(GCL_NextStr());
     }
     else
     {

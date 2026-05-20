@@ -93,10 +93,10 @@ int s11e_zk11ecom_800D9BD4( char *ops, A4_STRUCT *unk )
     i = 0;
 
     do {
-        unk->field_04[ i ].field_00 = GCL_StrToInt( GCL_GetParamResult() );
-        unk->field_04[ i ].field_02 = GCL_StrToInt( GCL_GetParamResult() );
+        unk->field_04[ i ].field_00 = GCL_StrToInt( GCL_NextStr() );
+        unk->field_04[ i ].field_02 = GCL_StrToInt( GCL_NextStr() );
         i++;
-    } while ( GCL_GetParamResult() != NULL );
+    } while ( GCL_NextStr() != NULL );
 
 
     return i;
@@ -107,7 +107,7 @@ int s11e_zk11ecom_800D9C34( char *ops, short* s )
     int i;
     unsigned char *res;
 
-    for ( i = 0 ; ( res = GCL_GetParamResult() ) ; i++ )
+    for ( i = 0 ; ( res = GCL_NextStr() ) ; i++ )
     {
         *s = GCL_StrToInt( res );
         s++;
@@ -597,7 +597,7 @@ int s11e_zk11ecom_800DA7F8( char *arg0 )
         do
         {
             proc_id = GCL_StrToInt( res );
-            res = GCL_GetParamResult();
+            res = GCL_NextStr();
             GCL_ExecProc( proc_id, NULL );
             i++;
         } while ( res );
@@ -916,7 +916,7 @@ static void GetResources( ZakoCommanderWork *work, int name, int where )
     ops = GCL_GetOption( 'e' );
     if ( ops )
     {
-        ZakoCommand_800DF280.field_0x118 = GCL_StrToInt( GCL_GetParamResult() );
+        ZakoCommand_800DF280.field_0x118 = GCL_StrToInt( GCL_NextStr() );
     }
     else
     {
@@ -926,7 +926,7 @@ static void GetResources( ZakoCommanderWork *work, int name, int where )
     ops = GCL_GetOption( 'm' );
     if ( ops )
     {
-        ZakoCommand_800DF280.field_0x120 = GCL_StrToInt( GCL_GetParamResult() );
+        ZakoCommand_800DF280.field_0x120 = GCL_StrToInt( GCL_NextStr() );
     }
     else
     {
@@ -936,7 +936,7 @@ static void GetResources( ZakoCommanderWork *work, int name, int where )
     ops = GCL_GetOption( 'k' );
     if ( ops )
     {
-        ZakoCommand_800DF280.field_0x11C = GCL_StrToInt( GCL_GetParamResult() );
+        ZakoCommand_800DF280.field_0x11C = GCL_StrToInt( GCL_NextStr() );
     }
     else
     {

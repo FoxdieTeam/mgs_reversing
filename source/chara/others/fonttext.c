@@ -94,17 +94,17 @@ static int GetResources( Work *work )
         return -1;
     }
 
-    work->text = GCL_ReadString( GCL_GetParamResult() );
+    work->text = GCL_GetString( GCL_NextStr() );
 
     flags = 0;
     if ( GCL_GetOption( 'f' ) )
     {
-        flags = GCL_GetNextParamValue() ? 16 : 0;
+        flags = GCL_GetNextInt() ? 16 : 0;
     }
 
     if ( GCL_GetOption( 'l' ) )
     {
-        GCL_ReadParamVector( &pos );
+        GCL_GetNextSV( (short *)&pos );
     }
     else
     {
@@ -115,12 +115,12 @@ static int GetResources( Work *work )
 
     if ( GCL_GetOption( 'c' ) )
     {
-        GCL_ReadParamVector( &work->color );
+        GCL_GetNextSV( (short *)&work->color );
     }
 
     if ( GCL_GetOption( 's' ) )
     {
-        flags |= 0x20 | ( GCL_GetNextParamValue() << 8 );
+        flags |= 0x20 | ( GCL_GetNextInt() << 8 );
     }
 
     work->flags = flags;

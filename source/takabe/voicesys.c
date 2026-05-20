@@ -296,7 +296,7 @@ static int GetResources(Work *work, int name, int where)
         arr = Voicesys_800CE278(0);
         for (i = 32; i > 0; i--, arr++) 
         {
-            param = GCL_GetParamResult();
+            param = GCL_NextStr();
             if (param == NULL)
             {
                 *arr = -1;

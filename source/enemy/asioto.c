@@ -145,7 +145,7 @@ int AsiotoGetResources_800C3B94(Work *work)
 
     if (GCL_GetOption('t'))
     {
-        while ((result = GCL_GetParamResult()))
+        while ((result = GCL_NextStr()))
         {
             *hash++ = GCL_StrToInt(result);
             work->count++;
@@ -157,13 +157,13 @@ int AsiotoGetResources_800C3B94(Work *work)
     {
         for (; i < work->count; i++)
         {
-            if (!GCL_GetParamResult())
+            if (!GCL_NextStr())
             {
                 break;
             }
 
-            work->se[i][0] = GCL_StrToInt(GCL_GetParamResult());
-            work->se[i][1] = GCL_StrToInt(GCL_GetParamResult());
+            work->se[i][0] = GCL_StrToInt(GCL_NextStr());
+            work->se[i][1] = GCL_StrToInt(GCL_NextStr());
         }
 
         if (i != work->count)
@@ -181,13 +181,13 @@ int AsiotoGetResources_800C3B94(Work *work)
     {
         for (; i < 4; i++)
         {
-            if (!GCL_GetParamResult())
+            if (!GCL_NextStr())
             {
                 break;
             }
 
-            work->se2[i][0] = GCL_StrToInt(GCL_GetParamResult());
-            work->se2[i][1] = GCL_StrToInt(GCL_GetParamResult());
+            work->se2[i][0] = GCL_StrToInt(GCL_NextStr());
+            work->se2[i][1] = GCL_StrToInt(GCL_NextStr());
         }
     }
 
@@ -196,12 +196,12 @@ int AsiotoGetResources_800C3B94(Work *work)
     {
         for (; i < work->count; i++)
         {
-            if (!GCL_GetParamResult())
+            if (!GCL_NextStr())
             {
                 break;
             }
 
-            work->noise[i] = GCL_StrToInt(GCL_GetParamResult());
+            work->noise[i] = GCL_StrToInt(GCL_NextStr());
         }
     }
 
@@ -219,13 +219,13 @@ int AsiotoGetResources_800C3B94(Work *work)
     {
         for (; i < 4; i++)
         {
-            if (!GCL_GetParamResult())
+            if (!GCL_NextStr())
             {
                 break;
             }
 
-            work->se_duct[i][0] = GCL_StrToInt(GCL_GetParamResult());
-            work->se_duct[i][1] = GCL_StrToInt(GCL_GetParamResult());
+            work->se_duct[i][0] = GCL_StrToInt(GCL_NextStr());
+            work->se_duct[i][1] = GCL_StrToInt(GCL_NextStr());
 
             printf(" migi sodesuri %d \n", work->se_duct[i][0]);
         }

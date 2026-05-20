@@ -453,7 +453,7 @@ int s07a_meryl7_800D5C4C( char *opt, short* s )
     int i;
     unsigned char *res;
 
-    for ( i = 0 ; ( res = GCL_GetParamResult() ) ; i++ )
+    for ( i = 0 ; ( res = GCL_NextStr() ) ; i++ )
     {
         *s = GCL_StrToInt( res );
          s++;
@@ -468,7 +468,7 @@ int s07a_meryl7_800D5CA4( char *opt, int* l )
     int i;
     unsigned char *res;
 
-    for ( i = 0 ; ( res = GCL_GetParamResult() ) ; i++ )
+    for ( i = 0 ; ( res = GCL_NextStr() ) ; i++ )
     {
         *l = GCL_StrToInt( res );
          l++;
@@ -640,7 +640,7 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
     opt = GCL_GetOption( 'e' );
     if ( opt )
     {
-        work->field_C3C = GCL_StrToInt( GCL_GetParamResult() );
+        work->field_C3C = GCL_StrToInt( GCL_NextStr() );
     }
     else
     {
@@ -651,7 +651,7 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
     opt = GCL_GetOption( 'k' );
     if ( opt )
     {
-        s07a_dword_800E3658 = GCL_StrToInt( GCL_GetParamResult() );
+        s07a_dword_800E3658 = GCL_StrToInt( GCL_NextStr() );
     }
 
     s07a_meryl7_800D5DD4( work );
@@ -662,7 +662,7 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
     opt = GCL_GetOption( 'n' );
     if ( opt )
     {
-        GCL_StrToSV( ( char* )opt, &svec );
+        GCL_StrToSV( ( char* )opt, (short *)&svec );
         if ( svec.vy < 0x7530 )
         {
             work->field_B7C = HZD_GetAddress( work->control.map->hzd, &svec, -1 );

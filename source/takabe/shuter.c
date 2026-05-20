@@ -228,8 +228,8 @@ int ShuterGetResources_800DF7F4(ShuterWork *work, int name, int map)
 
     if (GCL_GetOption('e'))
     {
-        work->open_proc = GCL_StrToInt(GCL_GetParamResult());
-        work->close_proc = GCL_StrToInt(GCL_GetParamResult());
+        work->open_proc = GCL_StrToInt(GCL_NextStr());
+        work->close_proc = GCL_StrToInt(GCL_NextStr());
     }
 
     DG_SetPos2(pos, rot);

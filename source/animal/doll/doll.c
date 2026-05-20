@@ -117,7 +117,7 @@ int s01a_doll_800DBFC4(char *opt, char *out)
 
     count = 0;
 
-    while ((str = GCL_GetParamResult()) != NULL)
+    while ((str = GCL_NextStr()) != NULL)
     {
         *out++ = GCL_StrToInt(str);
         count++;
@@ -133,7 +133,7 @@ int s01a_doll_800DC01C(char *opt, short *out)
 
     count = 0;
 
-    while ((str = GCL_GetParamResult()) != NULL)
+    while ((str = GCL_NextStr()) != NULL)
     {
         *out++ = GCL_StrToInt(str);
         count++;
@@ -149,7 +149,7 @@ int s01a_doll_800DC074(char *opt, int *out)
 
     count = 0;
 
-    while ((str = GCL_GetParamResult()) != NULL)
+    while ((str = GCL_NextStr()) != NULL)
     {
         *out++ = GCL_StrToInt(str);
         count++;
@@ -319,7 +319,7 @@ int s01a_doll_800DC1AC(DollWork *work, int name, int map)
         work->fE18[0] = GCL_StrToInt(opt);
 
         i = 1;
-        while ((opt = GCL_GetParamResult()) != NULL)
+        while ((opt = GCL_NextStr()) != NULL)
         {
             if (i >= 8)
             {
@@ -425,9 +425,9 @@ int s01a_doll_800DC648(char *opt, DollWork *work)
     SVECTOR     entry;
     DollMotion *motion;
 
-    while ((opt = GCL_GetParamResult()) != NULL)
+    while ((opt = GCL_NextStr()) != NULL)
     {
-        GCL_StrToSV(opt, &entry);
+        GCL_StrToSV(opt, (short *)&entry);
 
         motion = &work->fC48[entry.vx];
 
@@ -472,7 +472,7 @@ int s01a_doll_800DC774(DollWork *work)
 
         work->fE60[i] = GCL_StrToInt(opt);
 
-        opt = GCL_GetParamResult();
+        opt = GCL_NextStr();
         i++;
     }
 
@@ -501,7 +501,7 @@ int s01a_doll_800DC7FC(DollWork *work)
 
         work->fE48[i] = GCL_StrToInt(opt);
 
-        opt = GCL_GetParamResult();
+        opt = GCL_NextStr();
         i++;
     }
 
@@ -654,7 +654,7 @@ int DollGetResources_800DCAA4(DollWork *work, int name, int map)
     opt = GCL_GetOption('e');
     if (opt != NULL)
     {
-        work->fE5C = GCL_StrToInt(GCL_GetParamResult());
+        work->fE5C = GCL_StrToInt(GCL_NextStr());
     }
     else
     {
@@ -666,7 +666,7 @@ int DollGetResources_800DCAA4(DollWork *work, int name, int map)
     opt = GCL_GetOption('z');
     if (opt != NULL)
     {
-        work->fE80 = GCL_StrToInt(GCL_GetParamResult());
+        work->fE80 = GCL_StrToInt(GCL_NextStr());
     }
 
     opt = GCL_GetOption('k');

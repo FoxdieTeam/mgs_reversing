@@ -99,7 +99,7 @@ int BedGetResources_800C6FD8(Work *work, int name, int map)
 
     if (GCL_GetOption('m'))
     {
-        model = GCL_StrToInt(GCL_GetParamResult());
+        model = GCL_StrToInt(GCL_NextStr());
     }
     else
     {
@@ -114,7 +114,7 @@ int BedGetResources_800C6FD8(Work *work, int name, int map)
         return -1;
     }
 
-    GCL_StrToSV(GCL_GetParamResult(), &work->pos);
+    GCL_StrToSV(GCL_NextStr(), (short *)&work->pos);
     return 0;
 }
 

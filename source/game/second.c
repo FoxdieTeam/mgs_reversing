@@ -43,7 +43,7 @@ void *NewSecond(int name, int where, int argc, char **argv)
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, NULL, "second.c");
-        work->message = GCL_ReadString(GCL_GetParamResult());
+        work->message = GCL_GetString(GCL_NextStr());
         work->using_pad2 = 0;
     }
     return (void *)work;

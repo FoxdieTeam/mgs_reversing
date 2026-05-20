@@ -72,8 +72,8 @@ static int GetResources(Work *work, int name, int where)
 
     for (i = work->n_objs; i > 0; i--)
     {
-        GCL_StrToSV(GCL_GetParamResult(), &svec1);
-        GCL_StrToSV(GCL_GetParamResult(), &svec2);
+        GCL_StrToSV(GCL_NextStr(), (short *)&svec1);
+        GCL_StrToSV(GCL_NextStr(), (short *)&svec2);
         DG_SetPos2(&svec1, &svec2);
 
         createdObjs = DG_MakeObjs(def, 0x57, 0);
@@ -115,15 +115,15 @@ void *NewPutObject(int name, int where, int argc, char **argv)
 
     n_objs = 0;
     GCL_GetOption('s');
-    while ((param = GCL_GetParamResult()))
+    while ((param = GCL_NextStr()))
     {
-        GCL_StrToSV(param, &svec);
-        param2 = GCL_GetParamResult();
+        GCL_StrToSV(param, (short *)&svec);
+        param2 = GCL_NextStr();
         if (param2 == NULL)
         {
             break;
         }
-        GCL_StrToSV(param2, &svec);
+        GCL_StrToSV(param2, (short *)&svec);
         n_objs++;
     }
     printf("(put_obj.c) total ojbect : %d \n", n_objs);

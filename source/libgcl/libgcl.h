@@ -16,12 +16,12 @@ typedef struct      // private to libgcl/command.c
 
 typedef struct      // private to libgcl/command.c
 {
-    GCL_PROC_TABLE *proc_table;
-    unsigned char  *proc_body;
-    unsigned char  *script_body;
+    char *proc_table;
+    char *proc_body;
+    char *script_body;
 } GCL_SCRIPT;
 
-typedef int (*GCL_COMMANDFUNC)(unsigned char *top);
+typedef int (*GCL_COMMANDFUNC)( char *top );
 
 #define GCL_OK          0
 #define GCL_RETURN      1
@@ -111,13 +111,15 @@ typedef struct GCL_Vars
 #define GCL_VAR_TYPE_SYSTEM 0x400000
 #define GCL_VAR_TYPE_LINK   0x800000
 
-#define GCL_IsVariable(gcl_code)    ((gcl_code & 0xF0) == GCL_VAR)
-#define GCL_IsParam(gcl_code)       ((gcl_code & 0xFF) == GCL_OPTION)
-
 #define GCL_GetVarTypeCode(gcl_var) (((gcl_var << 1) >> 25) & 0xF)
 #define GCL_GetVarOffset(gcl_var)   (gcl_var & 0xFFFF)
 #define GCL_IsGameStateVar(gcl_var) ((gcl_var & 0xF00000) == GCL_VAR_TYPE_LINK)
 #define GCL_GetFlagBitFlag(gcl_var) (char)(1 << (((gcl_var << 1) >> 17) & 0xF))
+
+#define GCL_MAX_ARGS        8
+#define GCL_PROC_MAX_ARGS   16
+
+#define MAX_LINKVARBUF 96
 
 /*---------------------------------------------------------------------------*/
 // clang-format off
@@ -147,52 +149,53 @@ static inline char GCL_GetByte( char *ptr )
 extern GCL_ARGS gcl_null_args;
 
 /* gcl_init.c */
-void GCL_ChangeSenerioCode(int demo_flag);
-void GCL_StartDaemon(void);
-void GCL_ResetSystem(void);
+void GCL_ChangeSenerioCode( int demo );
+void GCL_StartDaemon( void );
+void GCL_ResetSystem( void );
 
 /* command.c */
-int  GCL_AddCommMulti(GCL_COMMANDDEF *def);
-int  GCL_Command(unsigned char *ptr);
-void GCL_ForceExecProc(int proc_id, GCL_ARGS *args);
-int  GCL_ExecProc(int proc_id, GCL_ARGS *args);
-int  GCL_LoadScript(unsigned char *datatop);
-int  GCL_ExecBlock(unsigned char *top, GCL_ARGS *args);
-void GCL_ExecScript(void);
+int  GCL_AddCommMulti( GCL_COMMANDDEF *def );
+int  GCL_Command( char *ptr );
+void GCL_ForceExecProc( int proc_id, GCL_ARGS *arg );
+int  GCL_ExecProc( int proc_id, GCL_ARGS *arg );
+int  GCL_LoadScript( char *datatop );
+int  GCL_ExecBlock( char *top, GCL_ARGS *arg );
+void GCL_ExecScript( void );
 
 /* basic.c */
-void GCL_InitBasicCommands(void);
+void GCL_InitBasicCommands( void );
 
 /* expr.c */
-int GCL_Expr(unsigned char *data, int *value);
+int GCL_Expr( char *data, int *value );
 
 /* parse.c */
-void            GCL_SetArgTop(unsigned char *);
-unsigned char  *GCL_GetNextValue(unsigned char *top, int *type_p, int *value_p);
-int            *GCL_SetArgStack(GCL_ARGS *args);
-void            GCL_UnsetArgStack(void *stack);
-int             GCL_GetArgs(int argno);
-void            GCL_SetCommandLine(unsigned char *argtop);
-void            GCL_UnsetCommandLine(void);
-char           *GCL_GetOption(char c);
-int             GCL_StrToInt(unsigned char *pScript);
-int             GCL_StrToSV(unsigned char *pInScript, SVECTOR *pOut3Words);
-char           *GCL_ReadString(char *pScript);
-unsigned char  *GCL_GetParamResult(void);
-int             GCL_GetNextParamValue(void);
-void            GCL_ReadParamVector( SVECTOR * );
-void            GCL_ParseInit(void);
+void  GCL_SetArgTop( char *top );
+char *GCL_GetNextValue( char *top, int *type_p, int *value_p );
+void *GCL_SetArgStack( GCL_ARGS *args );
+void  GCL_UnsetArgStack( void *stack );
+int   GCL_GetArgs( int argno );
+void  GCL_SetCommandLine( char *argtop );
+void  GCL_UnsetCommandLine( void );
+char *GCL_GetOption( char c );
+int   GCL_StrToInt( char *ptr );
+int   GCL_StrToSV( char *ptr, short *vec );
+char *GCL_GetString( char *ptr );
+char *GCL_NextStr( void );
+int   GCL_GetNextInt( void );
+void  GCL_GetNextSV( short *vec );
+void  GCL_SkipCommand( char *ptr );
+void  GCL_ParseInit( void );
 
 /* variable.c */
-void            GCL_SaveLinkVar(short *gameVar);
-int             GCL_MakeSaveFile(char *saveBuf);
-int             GCL_SetLoadFile(char *saveBuf);
-void            GCL_InitVar(void);
-void            GCL_InitClearVar(void);
-void            GCL_SaveVar(void);
-void            GCL_RestoreVar(void);
-unsigned char  *GCL_GetVar(unsigned char *top, int *type_p, int *value_p);
-unsigned char  *GCL_SetVar(unsigned char *top, unsigned int value);
-unsigned char  *GCL_VarSaveBuffer(unsigned char *top);
+void  GCL_SaveLinkVar( short *ptr );
+int   GCL_MakeSaveFile( char *ptr );
+int   GCL_SetLoadFile( char *ptr );
+void  GCL_InitVar( void );
+void  GCL_InitClearVar( void );
+void  GCL_SaveVar( void );
+void  GCL_RestoreVar( void );
+char *GCL_GetVar( char *top, int *type_p, int *value_p );
+char *GCL_SetVar( char *top, int value );
+char *GCL_VarSaveBuffer( char *top );
 
 #endif // __MGS_LIBGCL_H__

@@ -262,7 +262,7 @@ void *NewWallGcl(int name, int where, int argc, char **argv)
         param = GCL_GetOption('p');
         if (param != 0)
         {
-            GCL_StrToSV(param, &pos);
+            GCL_StrToSV(param, (short *)&pos);
         }
         else
         {
@@ -272,7 +272,7 @@ void *NewWallGcl(int name, int where, int argc, char **argv)
         param = GCL_GetOption('d');
         if (param != 0)
         {
-            GCL_StrToSV(param, &dir);
+            GCL_StrToSV(param, (short *)&dir);
         } else
         {
             dir = DG_ZeroVector;

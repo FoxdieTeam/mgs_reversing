@@ -234,13 +234,13 @@ int PanelGetResources_800D210C(PanelWork *work, int name, int map)
         iter = work->verts;
         for (i = 0; i < 4; i++)
         {
-            GCL_StrToSV(opt, iter);
+            GCL_StrToSV(opt, (short *)iter);
 
             e12.vx += iter->vx;
             e12.vy += iter->vy;
             e12.vz += iter->vz;
 
-            opt = GCL_GetParamResult();
+            opt = GCL_NextStr();
             iter++;
         }
     }

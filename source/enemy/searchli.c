@@ -972,22 +972,22 @@ int Searchlight_800D8B84(SearchlightWork *work, int name, int map)
     work->angle = 300;
     if (GCL_GetOption('a'))
     {
-        work->angle = GCL_StrToInt(GCL_GetParamResult());
+        work->angle = GCL_StrToInt(GCL_NextStr());
     }
 
     if (GCL_GetOption('l'))
     {
-        work->f272 = GCL_StrToInt(GCL_GetParamResult());
+        work->f272 = GCL_StrToInt(GCL_NextStr());
     }
 
     work->f272 += work->angle;
 
     if (GCL_GetOption('t'))
     {
-        work->f274 = GCL_StrToInt(GCL_GetParamResult());
-        work->f276 = GCL_StrToInt(GCL_GetParamResult());
-        work->f26A = work->f278 = GCL_StrToInt(GCL_GetParamResult());
-        work->f27A = GCL_StrToInt(GCL_GetParamResult());
+        work->f274 = GCL_StrToInt(GCL_NextStr());
+        work->f276 = GCL_StrToInt(GCL_NextStr());
+        work->f26A = work->f278 = GCL_StrToInt(GCL_NextStr());
+        work->f27A = GCL_StrToInt(GCL_NextStr());
     }
     else
     {
@@ -1001,7 +1001,7 @@ int Searchlight_800D8B84(SearchlightWork *work, int name, int map)
 
     if (GCL_GetOption('z'))
     {
-        work->debug = GCL_StrToInt(GCL_GetParamResult());
+        work->debug = GCL_StrToInt(GCL_NextStr());
     }
 
     work->f294 = 0;

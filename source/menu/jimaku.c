@@ -80,8 +80,8 @@ void menu_jimaku_act( MenuWork *work, u_long *ot )
 
                 if ( gUnkJimakuStruct_800BDA70.field_40 != 0 )
                 {
-                    gUnkJimakuStruct_800BDA70.field_38_str = GCL_ReadString( gUnkJimakuStruct_800BDA70.field_40 );
-                    gUnkJimakuStruct_800BDA70.field_40 = GCL_GetParamResult();
+                    gUnkJimakuStruct_800BDA70.field_38_str = GCL_GetString( gUnkJimakuStruct_800BDA70.field_40 );
+                    gUnkJimakuStruct_800BDA70.field_40 = GCL_NextStr();
                     return;
                 }
 
@@ -178,13 +178,13 @@ void NewJimaku(void)
 {
     char *str;
 
-    str = GCL_ReadString(GCL_GetParamResult());
-    gUnkJimakuStruct_800BDA70.field_40 = GCL_GetParamResult();
+    str = GCL_GetString(GCL_NextStr());
+    gUnkJimakuStruct_800BDA70.field_40 = GCL_NextStr();
     MENU_JimakuWrite(str, -1);
 
     if (GCL_GetOption('e'))
     {
-        gUnkJimakuStruct_800BDA70.field_3C = GCL_StrToInt(GCL_GetParamResult());
+        gUnkJimakuStruct_800BDA70.field_3C = GCL_StrToInt(GCL_NextStr());
     }
 
     else

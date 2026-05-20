@@ -60,7 +60,7 @@ static int GetResources( Work *work, int name, int where )
 {
     if (GCL_GetOption('t'))
     {
-        work->time = GCL_StrToInt(GCL_GetParamResult());
+        work->time = GCL_StrToInt(GCL_NextStr());
     }
     else
     {

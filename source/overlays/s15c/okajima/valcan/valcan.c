@@ -210,7 +210,7 @@ void ValcanGetInts_800D8E88(unsigned char *opt, int *out)
 {
     char *res;
 
-    while ((res = GCL_GetParamResult()) != NULL)
+    while ((res = GCL_NextStr()) != NULL)
     {
         *out = GCL_StrToInt(res);
         out++;

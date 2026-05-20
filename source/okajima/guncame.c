@@ -192,9 +192,9 @@ int GunCame_800C7154(char *opt, SVECTOR *svec)
 
     count = 0;
 
-    while ((result = GCL_GetParamResult()) != NULL)
+    while ((result = GCL_NextStr()) != NULL)
     {
-        GCL_StrToSV(result, svec);
+        GCL_StrToSV(result, (short *)svec);
 
         svec++;
         count++;
@@ -1115,13 +1115,13 @@ int GunCame_800C8978(GunCameWork *work, int name, int map)
     opt = GCL_GetOption('g');
     if (opt != NULL)
     {
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param != NULL)
         {
             work->field_370 = GCL_StrToInt(param);
         }
 
-        param = GCL_GetParamResult();
+        param = GCL_NextStr();
         if (param != NULL)
         {
             work->field_374 = GCL_StrToInt(param);

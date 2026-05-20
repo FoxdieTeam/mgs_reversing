@@ -78,14 +78,14 @@ static void UpdateCurrentEntry(Work *work, int dir)
     GCL_SetArgTop(work->gcl_menu_entries);
     for (i = 0; i <= work->current_idx; i++)
     {
-        if (GCL_GetParamResult() == 0)
+        if (GCL_NextStr() == 0)
         {
             work->current_idx = i;
             break;
         }
         // entry_name = "s00a", "title", etc.
-        entry_name = GCL_ReadString(GCL_GetParamResult());
-        proc_id = GCL_StrToInt(GCL_GetParamResult());
+        entry_name = GCL_GetString(GCL_NextStr());
+        proc_id = GCL_StrToInt(GCL_NextStr());
     }
     work->current_entry_name = entry_name;
     work->current_entry_proc_id = proc_id;
@@ -159,7 +159,7 @@ static int GetResources(Work *work, int where, int name)
         return -1;
     }
 
-    work->gcl_menu_entries = GCL_GetParamResult();
+    work->gcl_menu_entries = GCL_NextStr();
     work->current_idx = 0;
     work->previous_dir = 0;
     UpdateCurrentEntry(work, 0);
