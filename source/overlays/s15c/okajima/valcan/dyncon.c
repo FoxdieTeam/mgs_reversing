@@ -2,6 +2,7 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libhzd/libhzd.h"
+#include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "game/map.h"
 
@@ -109,6 +110,22 @@ void s15c_dyncon_800D89F8(void *work)
         s15c_dyncon_800D88C8(work);
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D8A34.s")
+void s15c_dyncon_800D8A34(int unused, short *out, int count)
+{
+    int   i;
+    char *s;
+
+    (void)unused;
+    for (i = 0; i < count; i++)
+    {
+        s = GCL_NextStr();
+        if (s == NULL)
+        {
+            break;
+        }
+        *out = GCL_StrToInt(s);
+        out++;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D8A9C.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D8C9C.s")
