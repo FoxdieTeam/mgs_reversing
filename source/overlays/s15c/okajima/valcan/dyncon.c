@@ -1,6 +1,18 @@
 #include "common.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
+#include "game/game.h"
+#include "game/map.h"
 
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D3EBC.s")
+extern DG_OBJS *Takabe_MakePreshade(int model, LIT *lit);
+
+void s15c_dyncon_800D3EBC(OBJECT_NO_ROTS *obj, int model, int flag)
+{
+    GV_ZeroMemory(obj, sizeof(*obj));
+    obj->flag = flag;
+    obj->map_name = GM_CurrentMap;
+    obj->objs = Takabe_MakePreshade(model, GM_GetMap(GM_CurrentMap)->lit);
+}
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D3F24.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D5090.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D5114.s")
