@@ -1,6 +1,7 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "libhzd/libhzd.h"
 #include "game/game.h"
 #include "game/map.h"
 
@@ -38,7 +39,28 @@ void s15c_dyncon_800D5EA8(void *base, int i,
     *(short *)(p + 0x3F42) = by;
     *(short *)(p + 0x3F44) = bz;
 }
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D5EDC.s")
+extern void s15c_dyncon_800D5354(void *work, int a, int b);
+extern void s15c_dyncon_800D567C(void *work, int a, int b, int c);
+extern void s15c_dyncon_800D518C(void *work, int a, int b);
+extern void s15c_dyncon_800D5270(void *work, int a, int b);
+
+void s15c_dyncon_800D5EDC(void *work, int a1, int a2)
+{
+    if (a1 == 4)
+    {
+        return;
+    }
+    s15c_dyncon_800D5354(work, a1, 1);
+    s15c_dyncon_800D567C(work, a1, 1, a2);
+    if (*(int *)((char *)work + 0x4050) == 3)
+    {
+        s15c_dyncon_800D518C(work, a1, 1);
+    }
+    else
+    {
+        s15c_dyncon_800D5270(work, a1, 1);
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D5F68.s")
 void s15c_dyncon_800D6004(void *base, int i)
 {
