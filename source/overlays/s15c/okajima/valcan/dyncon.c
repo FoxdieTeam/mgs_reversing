@@ -62,7 +62,37 @@ void s15c_dyncon_800D5EDC(void *work, int a1, int a2)
         s15c_dyncon_800D5270(work, a1, 1);
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D5F68.s")
+typedef struct _DynStack
+{
+    char  pad[0x70];
+    short val_70;
+    short val_72;
+    short val_74;
+    short pad2;
+    short val_78;
+    short val_7A;
+    short val_7C;
+} DynStack;
+
+void s15c_dyncon_800D5F68(void *work, int index, int arg2, int a3_val,
+                          int sp28, int sp2c, int sp30, int sp34,
+                          int sp38, int sp3c)
+{
+    DynStack *item;
+
+    item = (DynStack *)((char *)work + (index * 156));
+
+    item->val_78 += (short)a3_val;
+    item->val_7A += (short)sp28;
+
+    item->val_7C += (short)sp2c;
+    item->val_70 += (short)sp30;
+
+    item->val_72 += (short)sp34;
+    item->val_74 += (short)sp38;
+
+    s15c_dyncon_800D5EDC(work, arg2, sp3c);
+}
 void s15c_dyncon_800D6004(void *base, int i)
 {
     int *p1 = (int *)((char *)base + i * 4 + 0x3F10);
