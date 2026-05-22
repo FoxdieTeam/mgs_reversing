@@ -27,7 +27,12 @@ void s15c_dyncon_800D3EBC(OBJECT_NO_ROTS *obj, int model, int flag)
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D59C0.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D5A3C.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D5C38.s")
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D5DC0.s")
+void s15c_dyncon_800D5DC0(SVECTOR *vec, SVECTOR *target, int len)
+{
+    vec->vx = (vec->vx * (len - 1) + target->vx) / len;
+    vec->vy = (vec->vy * (len - 1) + target->vy) / len;
+    vec->vz = (vec->vz * (len - 1) + target->vz) / len;
+}
 
 typedef struct _DynCon
 {
