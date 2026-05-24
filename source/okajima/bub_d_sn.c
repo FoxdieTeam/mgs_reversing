@@ -143,7 +143,7 @@ static int GetResources(Work *work, int where)
 
     work->rect3 = work->rect2 = work->rect1;
 
-    prim = GM_MakePrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 4, work->pos1, &work->rect1);
+    prim = GM_MakePrim(DG_PRIM_RECTANGLE | DG_PRIM_POLY_FT4, 4, work->pos1, &work->rect1);
 
     work->prim1 = prim;
     if (prim == NULL)
@@ -162,7 +162,7 @@ static int GetResources(Work *work, int where)
     InitPacks(prim->packs[0], 4, tex);
     InitPacks(prim->packs[1], 4, tex);
 
-    prim = GM_MakePrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 16, work->pos2, &work->rect2);
+    prim = GM_MakePrim(DG_PRIM_RECTANGLE | DG_PRIM_POLY_FT4, 16, work->pos2, &work->rect2);
 
     work->prim2 = prim;
     if (prim == NULL)
@@ -181,7 +181,7 @@ static int GetResources(Work *work, int where)
     InitPacks(prim->packs[0], 16, tex);
     InitPacks(prim->packs[1], 16, tex);
 
-    prim = GM_MakePrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 16, work->pos3, &work->rect3);
+    prim = GM_MakePrim(DG_PRIM_RECTANGLE | DG_PRIM_POLY_FT4, 16, work->pos3, &work->rect3);
 
     work->prim3 = prim;
     if (prim == NULL)

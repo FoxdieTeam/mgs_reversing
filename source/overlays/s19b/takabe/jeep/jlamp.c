@@ -95,7 +95,7 @@ static int GetResources(Work *work, SVECTOR *root_pos, int tex_id, int unused)
         work->depth -= 65536;
     }
 
-    work->prim = prim = GM_MakePrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 1, &work->pos, &s19b_dword_800C3988);
+    work->prim = prim = GM_MakePrim(DG_PRIM_RECTANGLE | DG_PRIM_POLY_FT4, 1, &work->pos, &s19b_dword_800C3988);
     if (!prim)
     {
         return -1;

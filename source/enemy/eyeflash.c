@@ -118,7 +118,7 @@ static int GetResources(Work *work, const char *texture)
     unused = eyeflash_rect; // let's waste cycles
 
     work->rect = eyeflash_rect;
-    work->prim = prim = GM_MakePrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 1, &eyeflash_svec, &work->rect);
+    work->prim = prim = GM_MakePrim(DG_PRIM_RECTANGLE | DG_PRIM_POLY_FT4, 1, &eyeflash_svec, &work->rect);
 
     if (prim)
     {

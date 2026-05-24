@@ -183,7 +183,7 @@ static int GetResources( Work *work, MATRIX *world, int *force )
     work->rect = rect;
     work->pos = pos;
 
-    prim = work->prim = GM_MakePrim( DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 1, &work->pos, &work->rect );
+    prim = work->prim = GM_MakePrim( DG_PRIM_RECTANGLE | DG_PRIM_POLY_FT4, 1, &work->pos, &work->rect );
     if ( prim == NULL )
     {
         return -1;

@@ -57,8 +57,7 @@ void DG_ScreenModels( DG_OBJS *objs, int n_models )
 }
 
 #ifdef VR_EXE
-// duplicate of DG_ScreenModels, but with added "*screen = obj->world;"
-STATIC void DG_ScreenModelsUnk400( DG_OBJS *objs, int n_models )
+STATIC void DG_ScreenModelsEnvmap( DG_OBJS *objs, int n_models )
 {
     MATRIX *screen;
     DG_OBJ *obj;
@@ -71,7 +70,6 @@ STATIC void DG_ScreenModelsUnk400( DG_OBJS *objs, int n_models )
     obj = objs->objs;
     for (; n_models > 0; n_models--)
     {
-        // Seems to destroy rots/movs for any child models
         *screen = obj->world;
 
         DG_CompMatrix(screen, &obj->screen);
@@ -236,9 +234,9 @@ STATIC void DG_ScreenObjs( DG_OBJS *objs )
         DG_ScreenModelsSingle(objs, n_models);
     }
 #ifdef VR_EXE
-    else if (objs->flag & DG_FLAG_UNKNOWN_400)
+    else if (objs->flag & DG_FLAG_ENVMAP)
     {
-        DG_ScreenModelsUnk400(objs, n_models);
+        DG_ScreenModelsEnvmap(objs, n_models);
     }
 #endif
     else

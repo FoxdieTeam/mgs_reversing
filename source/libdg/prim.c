@@ -127,7 +127,7 @@ STATIC void DG_AdjustLaserPrims( DG_PRIM *prim, int type )
 }
 
 // process vecs in spad
-STATIC SVECTOR *DG_TransformVertices( SVECTOR *in, int n_verts )
+STATIC SVECTOR *_RotTransPers( SVECTOR *in, int n_verts )
 {
     SVECTOR *out;
 
@@ -145,7 +145,7 @@ STATIC SVECTOR *DG_TransformVertices( SVECTOR *in, int n_verts )
     return in;
 }
 
-STATIC char *DG_WritePrimVertices( DG_PRIM *prim, char *out, int n_prims )
+STATIC char *_MakeXYZ( DG_PRIM *prim, char *out, int n_prims )
 {
     int      psize;
     int      verts;
@@ -195,7 +195,7 @@ STATIC char *DG_WritePrimVertices( DG_PRIM *prim, char *out, int n_prims )
     return out;
 }
 
-STATIC void DG_TransformPrim( DG_PRIM *prim )
+STATIC void MakePrims( DG_PRIM *prim )
 {
     int      n_verts;
     int      vert_batch;
@@ -222,15 +222,15 @@ STATIC void DG_TransformPrim( DG_PRIM *prim )
 
     for ( n_prims = prim->prim_count; n_prims > prim_batch; n_prims -= prim_batch )
     {
-        verts = DG_TransformVertices( verts, vert_batch );
-        packs = DG_WritePrimVertices( prim, packs, prim_batch );
+        verts = _RotTransPers( verts, vert_batch );
+        packs = _MakeXYZ( prim, packs, prim_batch );
     }
 
-    DG_TransformVertices( verts, ( n_prims * n_verts + 2 ) / 3 );
-    DG_WritePrimVertices( prim, packs, n_prims );
+    _RotTransPers( verts, ( n_prims * n_verts + 2 ) / 3 );
+    _MakeXYZ( prim, packs, n_prims );
 }
 
-STATIC char *DG_WritePrimVerticesOneFace( DG_PRIM *prim, char *out, int n_prims )
+STATIC char *_MakeXYZOneface( DG_PRIM *prim, char *out, int n_prims )
 {
     int      psize;
     int      verts;
@@ -292,7 +292,7 @@ STATIC char *DG_WritePrimVerticesOneFace( DG_PRIM *prim, char *out, int n_prims 
     return out;
 }
 
-STATIC void DG_TransformPrimOneFace( DG_PRIM *prim )
+STATIC void MakePrimsOneface( DG_PRIM *prim )
 {
     int      n_verts;
     int      vert_batch;
@@ -319,15 +319,15 @@ STATIC void DG_TransformPrimOneFace( DG_PRIM *prim )
 
     for ( n_prims = prim->prim_count; n_prims > prim_batch; n_prims -= prim_batch )
     {
-        verts = DG_TransformVertices( verts, vert_batch );
-        packs = DG_WritePrimVerticesOneFace( prim, packs, prim_batch );
+        verts = _RotTransPers( verts, vert_batch );
+        packs = _MakeXYZOneface( prim, packs, prim_batch );
     }
 
-    DG_TransformVertices( verts, ( n_prims * n_verts + 2 ) / 3 );
-    DG_WritePrimVerticesOneFace( prim, packs, n_prims );
+    _RotTransPers( verts, ( n_prims * n_verts + 2 ) / 3 );
+    _MakeXYZOneface( prim, packs, n_prims );
 }
 
-STATIC char *DG_WritePrimVerticesOffsetSingle( DG_PRIM *prim, char *out, int n_prims )
+STATIC char *_MakeXYZRectangleSingle( DG_PRIM *prim, char *out, int n_prims )
 {
     RECT    *rect;
     int      psize;
@@ -355,7 +355,7 @@ STATIC char *DG_WritePrimVerticesOffsetSingle( DG_PRIM *prim, char *out, int n_p
     return out;
 }
 
-STATIC void DG_TransformPrimOffsetSingle( DG_PRIM *prim )
+STATIC void MakePrimsRectangleSingle( DG_PRIM *prim )
 {
     SVECTOR *verts;
     char    *packs;
@@ -366,12 +366,12 @@ STATIC void DG_TransformPrimOffsetSingle( DG_PRIM *prim )
 
     for ( n_prims = prim->prim_count; n_prims > BATCH_SIZE; n_prims -= BATCH_SIZE )
     {
-        verts = DG_TransformVertices(verts, BATCH_SIZE / 3);
-        packs = DG_WritePrimVerticesOffsetSingle(prim, packs, BATCH_SIZE);
+        verts = _RotTransPers(verts, BATCH_SIZE / 3);
+        packs = _MakeXYZRectangleSingle(prim, packs, BATCH_SIZE);
     }
 
-    DG_TransformVertices(verts, ( n_prims + 2 ) / 3);
-    DG_WritePrimVerticesOffsetSingle(prim, packs, n_prims);
+    _RotTransPers(verts, ( n_prims + 2 ) / 3);
+    _MakeXYZRectangleSingle(prim, packs, n_prims);
 }
 
 #define INIT_GEOM_OFFSET( addr ) \
@@ -383,7 +383,7 @@ STATIC void DG_TransformPrimOffsetSingle( DG_PRIM *prim )
     ((VECTOR *)(addr))->vz = *(int *)&(vec)->vz; \
     gte_SetTransVector( addr );
 
-STATIC char *DG_WritePrimVerticesOffset( DG_PRIM *prim, char *out, int n_prims )
+STATIC char *_MakeXYZRectangle( DG_PRIM *prim, char *out, int n_prims )
 {
     SVECTOR  bound[2];
     RECT    *rect;
@@ -459,7 +459,7 @@ STATIC char *DG_WritePrimVerticesOffset( DG_PRIM *prim, char *out, int n_prims )
     return out;
 }
 
-STATIC void DG_TransformPrimOffset( DG_PRIM *prim )
+STATIC void MakePrimsRectangle( DG_PRIM *prim )
 {
     SVECTOR *verts;
     char    *packs;
@@ -470,15 +470,15 @@ STATIC void DG_TransformPrimOffset( DG_PRIM *prim )
 
     for ( n_prims = prim->prim_count; n_prims > (BATCH_SIZE - 3); n_prims -= (BATCH_SIZE - 3) )
     {
-        verts = DG_TransformVertices(verts, (BATCH_SIZE - 3) / 3);
-        packs = DG_WritePrimVerticesOffset(prim, packs, (BATCH_SIZE - 3));
+        verts = _RotTransPers(verts, (BATCH_SIZE - 3) / 3);
+        packs = _MakeXYZRectangle(prim, packs, (BATCH_SIZE - 3));
     }
 
-    DG_TransformVertices(verts, ( n_prims + 2 ) / 3);
-    DG_WritePrimVerticesOffset(prim, packs, n_prims);
+    _RotTransPers(verts, ( n_prims + 2 ) / 3);
+    _MakeXYZRectangle(prim, packs, n_prims);
 }
 
-STATIC void DG_TransformPrimFreePacks( DG_PRIM *prim )
+STATIC void MakePrimsFreePacks( DG_PRIM *prim )
 {
     int       prim_count;
     POLY_FT4 *packs;
@@ -486,7 +486,7 @@ STATIC void DG_TransformPrimFreePacks( DG_PRIM *prim )
     prim_count = prim->prim_count;
     packs = (POLY_FT4 *)prim->packs[GV_Clock];
 
-    DG_TransformVertices(prim->pos, prim->n_prims);
+    _RotTransPers(prim->pos, prim->n_prims);
     prim->handler(prim, packs, prim_count);
 }
 
@@ -542,7 +542,7 @@ void DG_PrimChanl( DG_CHANL *chanl, int idx )
             continue;
         }
 
-        if ( !( type & DG_PRIM_WORLD ) )
+        if ( !( type & DG_PRIM_ON_CAMERA ) )
         {
             if ( prim->root )
             {
@@ -565,32 +565,32 @@ void DG_PrimChanl( DG_CHANL *chanl, int idx )
 
         if ( !( type & DG_PRIM_FREEPACKS ) )
         {
-            if ( !( type & DG_PRIM_OFFSET ) )
+            if ( !( type & DG_PRIM_RECTANGLE ) )
             {
-                if ( type & DG_PRIM_ONEFACE )
+                if ( type & DG_PRIM_ONESIDE )
                 {
-                    DG_TransformPrimOneFace( prim );
+                    MakePrimsOneface( prim );
                 }
                 else
                 {
-                    DG_TransformPrim( prim );
+                    MakePrims( prim );
                 }
             }
             else
             {
                 if ( prim->verts == 1 )
                 {
-                    DG_TransformPrimOffsetSingle( prim );
+                    MakePrimsRectangleSingle( prim );
                 }
                 else
                 {
-                    DG_TransformPrimOffset( prim );
+                    MakePrimsRectangle( prim );
                 }
             }
         }
         else
         {
-            DG_TransformPrimFreePacks( prim );
+            MakePrimsFreePacks( prim );
         }
 
         type &= 0x1F;

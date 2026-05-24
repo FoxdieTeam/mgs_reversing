@@ -413,7 +413,7 @@ static int GetResources( Work *actor, OBJECT *parent, int num_parent )
                 SocomSetPolyTexture( newprim->packs[ 1 ], tex );
                 SocomInitVectors( actor );
                 newprim->root = &parent->objs->objs[ num_parent ].world;
-                actor->prim2 = prim = GM_MakePrim( DG_PRIM_OFFSET | DG_PRIM_TILE, 2, actor->field_110, &stru_800AB828 );
+                actor->prim2 = prim = GM_MakePrim( DG_PRIM_RECTANGLE | DG_PRIM_TILE, 2, actor->field_110, &stru_800AB828 );
                 actor->field_110[0] = actor->field_110[1] = stru_8009F3C4[0];
                 if ( prim )
                 {

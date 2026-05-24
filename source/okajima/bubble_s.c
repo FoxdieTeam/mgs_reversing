@@ -327,7 +327,7 @@ static int InitPrims(Work *work)
     {
         k500 = 100;
 
-        prim = GM_MakePrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 1, &work->pos[i], &work->rect[i]);
+        prim = GM_MakePrim(DG_PRIM_RECTANGLE | DG_PRIM_POLY_FT4, 1, &work->pos[i], &work->rect[i]);
         work->prim[i] = prim;
         if (prim == NULL)
         {

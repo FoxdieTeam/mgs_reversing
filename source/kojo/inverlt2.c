@@ -138,7 +138,7 @@ void *NewInverseLight2(SVECTOR *arg0, int arg1, int arg2, int arg3, int nR, int 
 
     for (i = 0; i < 8; i++)
     {
-        lpAct->prim[i] =  GM_MakePrim(DG_PRIM_OFFSET | DG_PRIM_WORLD | DG_PRIM_POLY_FT4, 1, &lpAct->vec[i], &lpAct->rect[i]);
+        lpAct->prim[i] =  GM_MakePrim(DG_PRIM_RECTANGLE | DG_PRIM_ON_CAMERA | DG_PRIM_POLY_FT4, 1, &lpAct->vec[i], &lpAct->rect[i]);
 
         lpAct->prim[i]->raise = 320;
 

@@ -755,7 +755,7 @@ static int GetResources(ItemWork *work, int name, int where)
 
         control->mov.vy += height;
 
-        shadow = GM_MakePrim(DG_PRIM_ONEFACE | DG_PRIM_POLY_FT4, 1, work->shadow_verts, NULL);
+        shadow = GM_MakePrim(DG_PRIM_ONESIDE | DG_PRIM_POLY_FT4, 1, work->shadow_verts, NULL);
         work->shadow = shadow;
         if (!shadow)
         {

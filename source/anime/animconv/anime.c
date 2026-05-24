@@ -18,7 +18,7 @@
 
 #define MAX_LOOP        4
 #define MAX_SCRIPT      4
-#define PRIM_TYPE       (DG_PRIM_OFFSET | DG_PRIM_POLY_FT4)
+#define PRIM_TYPE       (DG_PRIM_RECTANGLE | DG_PRIM_POLY_FT4)
 
 #define SCRIPT_RANDOM   0x80
 

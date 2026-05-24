@@ -84,7 +84,7 @@ static int GetResources(Work *work, MATRIX *world, int **pvisible)
 
     work->world = world;
 
-    work->prim = GM_MakePrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 1, &glight_pos, &glight_rect);
+    work->prim = GM_MakePrim(DG_PRIM_RECTANGLE | DG_PRIM_POLY_FT4, 1, &glight_pos, &glight_rect);
     if (work->prim == NULL)
     {
         return -1;
