@@ -111,7 +111,7 @@ static int GetResources(Work *work, MATRIX *root)
     work->map = GM_CurrentMap;
     work->root = root;
 
-    work->prim = prim = GM_MakePrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 2, lamp_position, &lamp_rect);
+    work->prim = prim = GM_MakePrim(DG_PRIM_RECTANGLE | DG_PRIM_POLY_FT4, 2, lamp_position, &lamp_rect);
     if (prim == NULL)
     {
         return -1;

@@ -150,7 +150,7 @@ static int GetResources(Work *work, int map)
         DG_PutVector(local, &work->vecs[i * 4], 4);
     }
 
-    prim = GM_MakePrim(DG_PRIM_ONEFACE | DG_PRIM_POLY_FT4, n_prims, work->vecs, NULL);
+    prim = GM_MakePrim(DG_PRIM_ONESIDE | DG_PRIM_POLY_FT4, n_prims, work->vecs, NULL);
     work->prim = prim;
     if (work->prim == NULL)
     {

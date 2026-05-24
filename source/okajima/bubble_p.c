@@ -148,7 +148,7 @@ static int CreatePacks(Work *work)
     POLY_FT4 *packs1;
     DG_TEX   *tex;
 
-    prim = GM_MakePrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 3, work->pos, &work->rect);
+    prim = GM_MakePrim(DG_PRIM_RECTANGLE | DG_PRIM_POLY_FT4, 3, work->pos, &work->rect);
     work->prim = prim;
     if (prim == NULL)
     {

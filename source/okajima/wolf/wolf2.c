@@ -646,7 +646,7 @@ int wolf2_GetResources2(Wolf2Work *work, int name, int where)
 
     work->lsight_prim->prim_count = 8;
 
-    work->f7E0 = prim = GM_MakePrim(DG_PRIM_OFFSET | DG_PRIM_TILE, 2, work->f7E4, &wolf2_prim_rect);
+    work->f7E0 = prim = GM_MakePrim(DG_PRIM_RECTANGLE | DG_PRIM_TILE, 2, work->f7E4, &wolf2_prim_rect);
     if (!prim)
     {
         return -1;

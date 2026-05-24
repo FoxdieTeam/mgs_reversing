@@ -693,14 +693,6 @@ const char s08b_aNjatrans_800E401C[] = "njatrans";
 const char s08b_dword_800E4028[] = {'b', 'u', 'n', 's'};
 const char s08b_dword_800E402C[] = {'i', 'n', '2', '.'};
 const char s08b_dword_800E4030[] = {'c', 0x0, 0xbf, 0xaf};
-const char s08b_dword_800E4034[] = {0x14, 0x0, 0x14, 0x0};
-const char s08b_dword_800E4038[] = {'(', 0x0, '(', 0x0};
-const char s08b_dword_800E403C[] = {0x0, 0x0, 0x0, 0x0};
-const char s08b_aD_800E4040[] = "d";
-const char s08b_aRcml_800E4044[] = "rcm_l";
-const char s08b_dword_800E404C[] = {'t', 'e', 'n', 'm'};
-const char s08b_dword_800E4050[] = {'e', 't', 'u', '.'};
-const char s08b_dword_800E4054[] = {'c', 0x0, 'Y', '$'};
 
 int SECTION(".bss") s08b_dword_800E4314;
 int SECTION(".bss") s08b_dword_800E4318;

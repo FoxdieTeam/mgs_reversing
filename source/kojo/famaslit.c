@@ -76,7 +76,7 @@ void *NewFamasLight(MATRIX *world)
     lpAct->world = world;
     lpAct->nMap = GM_CurrentMap;
 
-    prim = GM_MakePrim(DG_PRIM_OFFSET | DG_PRIM_POLY_FT4, 1, &famaslit_svec, &famaslit_rect);
+    prim = GM_MakePrim(DG_PRIM_RECTANGLE | DG_PRIM_POLY_FT4, 1, &famaslit_svec, &famaslit_rect);
     lpAct->prim = prim;
 
     DG_GroupPrim(prim, 0);

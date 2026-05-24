@@ -879,7 +879,7 @@ temp_label_end4:
         }
     }
 
-    prim = GM_MakePrim(DG_PRIM_ONEFACE | DG_PRIM_POLY_FT4, work->field_1004 * 2, (SVECTOR*)work->field_100C, NULL);
+    prim = GM_MakePrim(DG_PRIM_ONESIDE | DG_PRIM_POLY_FT4, work->field_1004 * 2, (SVECTOR*)work->field_100C, NULL);
     work->field_1008 = prim;
 
     if (!prim)

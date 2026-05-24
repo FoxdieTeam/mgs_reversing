@@ -136,7 +136,7 @@ enum {
         DG_FLAG_INVISIBLE       = 0x0080,       //
         DG_FLAG_AMBIENT         = 0x0100,       //
         DG_FLAG_IRTEXTURE       = 0x0200,       //
-        DG_FLAG_UNKNOWN_400     = 0x0400,       //
+        DG_FLAG_ENVMAP          = 0x0400,       //
 };
 // clang-format on
 
@@ -308,10 +308,15 @@ enum DG_PRIM_TYPE {
 enum {
         DG_PRIM_VISIBLE         = 0x0000,
         DG_PRIM_INVISIBLE       = 0x0100,
-        DG_PRIM_WORLD           = 0x0200,
-        DG_PRIM_OFFSET          = 0x0400,
+
+        DG_PRIM_ON_WORLD        = 0x0000,
+        DG_PRIM_ON_CAMERA       = 0x0200,
+
+        DG_PRIM_VERTICES        = 0x0000,
+        DG_PRIM_RECTANGLE       = 0x0400,
+
         DG_PRIM_SORTONLY        = 0x0800,
-        DG_PRIM_ONEFACE         = 0x1000,
+        DG_PRIM_ONESIDE         = 0x1000,
         DG_PRIM_FREEPACKS       = 0x2000,
 };
 // clang-format on
