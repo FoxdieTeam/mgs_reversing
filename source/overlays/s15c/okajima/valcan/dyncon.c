@@ -28,24 +28,37 @@ void s15c_dyncon_800D3EBC(OBJECT_NO_ROTS *obj, int model, int flag)
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D5A3C.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D5C38.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D5DC0.s")
-void s15c_dyncon_800D5EA8(void *base, int i,
+
+typedef struct _DynCon
+{
+    char    pad_0[0x3F00];
+    int     field_3F00[4];   /* 0x3F00 */
+    int     field_3F10[4];   /* 0x3F10 - countdown, reset to 32 (800D6004/603C) */
+    int     field_3F20[4];   /* 0x3F20 - cycle counter (800D6004/603C) */
+    int     field_3F30[4];   /* 0x3F30 */
+    SVECTOR field_3F40[4];   /* 0x3F40 */
+    SVECTOR field_3F60[4];   /* 0x3F60 */
+    char    pad_3F80[0x4050 - 0x3F80];
+    int     field_4050;      /* 0x4050 - mode/state (1 or 3) */
+} DynCon;
+
+void s15c_dyncon_800D5EA8(DynCon *work, int i,
                           short ax, short ay, short az,
                           short bx, short by, short bz)
 {
-    char *p = (char *)base + i * 8;
-    *(short *)(p + 0x3F60) = ax;
-    *(short *)(p + 0x3F62) = ay;
-    *(short *)(p + 0x3F64) = az;
-    *(short *)(p + 0x3F40) = bx;
-    *(short *)(p + 0x3F42) = by;
-    *(short *)(p + 0x3F44) = bz;
+    work->field_3F60[i].vx = ax;
+    work->field_3F60[i].vy = ay;
+    work->field_3F60[i].vz = az;
+    work->field_3F40[i].vx = bx;
+    work->field_3F40[i].vy = by;
+    work->field_3F40[i].vz = bz;
 }
 extern void s15c_dyncon_800D5354(void *work, int a, int b);
 extern void s15c_dyncon_800D567C(void *work, int a, int b, int c);
 extern void s15c_dyncon_800D518C(void *work, int a, int b);
 extern void s15c_dyncon_800D5270(void *work, int a, int b);
 
-void s15c_dyncon_800D5EDC(void *work, int a1, int a2)
+void s15c_dyncon_800D5EDC(DynCon *work, int a1, int a2)
 {
     if (a1 == 4)
     {
@@ -53,7 +66,7 @@ void s15c_dyncon_800D5EDC(void *work, int a1, int a2)
     }
     s15c_dyncon_800D5354(work, a1, 1);
     s15c_dyncon_800D567C(work, a1, 1, a2);
-    if (*(int *)((char *)work + 0x4050) == 3)
+    if (work->field_4050 == 3)
     {
         s15c_dyncon_800D518C(work, a1, 1);
     }
@@ -74,7 +87,7 @@ typedef struct _DynStack
     short val_7C;
 } DynStack;
 
-void s15c_dyncon_800D5F68(void *work, int index, int arg2, int a3_val,
+void s15c_dyncon_800D5F68(DynCon *work, int index, int arg2, int a3_val,
                           int sp28, int sp2c, int sp30, int sp34,
                           int sp38, int sp3c)
 {
@@ -93,27 +106,21 @@ void s15c_dyncon_800D5F68(void *work, int index, int arg2, int a3_val,
 
     s15c_dyncon_800D5EDC(work, arg2, sp3c);
 }
-void s15c_dyncon_800D6004(void *base, int i)
+void s15c_dyncon_800D6004(DynCon *work, int i)
 {
-    int *p1 = (int *)((char *)base + i * 4 + 0x3F10);
-    int *p2 = (int *)((char *)base + i * 4 + 0x3F20);
-
-    *p1 = *p1 - 1;
-    if (*p1 == 0)
+    work->field_3F10[i] = work->field_3F10[i] - 1;
+    if (work->field_3F10[i] == 0)
     {
-        *p1 = 32;
-        *p2 = *p2 + 1;
+        work->field_3F10[i] = 32;
+        work->field_3F20[i] = work->field_3F20[i] + 1;
     }
 }
-void s15c_dyncon_800D603C(void *base, int i)
+void s15c_dyncon_800D603C(DynCon *work, int i)
 {
-    int *p1 = (int *)((char *)base + i * 4 + 0x3F10);
-    int *p2 = (int *)((char *)base + i * 4 + 0x3F20);
-
-    *p1 = *p1 - 1;
-    if (*p1 == 0)
+    work->field_3F10[i] = work->field_3F10[i] - 1;
+    if (work->field_3F10[i] == 0)
     {
-        *p2 = *p2 + 1;
+        work->field_3F20[i] = work->field_3F20[i] + 1;
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D6070.s")
@@ -132,10 +139,10 @@ void s15c_dyncon_800D603C(void *base, int i)
 extern void s15c_dyncon_800D82FC(void *work);
 extern void s15c_dyncon_800D88C8(void *work);
 
-void s15c_dyncon_800D89F8(void *work)
+void s15c_dyncon_800D89F8(DynCon *work)
 {
     s15c_dyncon_800D82FC(work);
-    if (*(int *)((char *)work + 0x4050) == 1)
+    if (work->field_4050 == 1)
     {
         s15c_dyncon_800D88C8(work);
     }
