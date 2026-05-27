@@ -23,7 +23,7 @@ typedef struct _DynCon
     int     field_3F30[4];   /* 0x3F30 */
     SVECTOR field_3F40[4];   /* 0x3F40 */
     SVECTOR field_3F60[4];   /* 0x3F60 */
-    char    pad_3F80[0x3FA0 - 0x3F80];
+    short   field_3F80[4][4];/* 0x3F80 - bounds [min_x, min_z, max_x, max_z] per row */
     HZD_SEG slots[4][2];     /* 0x3FA0 - two HZD_SEG per row */
     int     field_4020[4];   /* 0x4020 - flag per row */
     char    pad_4030[0x4050 - 0x4030];
@@ -216,7 +216,33 @@ void s15c_dyncon_800D6070(DynCon *work, int row, int idx)
     item->val_72 += (work->field_3F40[idx].vy * work->field_3F10[idx]) / 128;
     item->val_74 += (work->field_3F40[idx].vz * work->field_3F10[idx]) / 128;
 }
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D6128.s")
+extern int s15c_dword_800E344C;
+
+void s15c_dyncon_800D6128(DynCon *work, SVECTOR *pos, int range)
+{
+    int  i;
+    int *out;
+
+    out = &s15c_dword_800E344C;
+    for (i = 0; i < 4; i++)
+    {
+        if (work->field_3F20[i] > 0)
+        {
+            if (work->field_3F80[i][0] - range < pos->vx &&
+                pos->vx < work->field_3F80[i][2] + range &&
+                work->field_3F80[i][1] - range < pos->vz &&
+                pos->vz < work->field_3F80[i][3] + range)
+            {
+                work->field_3F30[i] = 0;
+            }
+        }
+        else if (work->field_3F10[i] != 0)
+        {
+            work->field_3F30[i] = 0;
+        }
+        out[i] = work->field_3F30[i];
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D61E0.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D6434.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D6528.s")
