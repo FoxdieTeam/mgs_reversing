@@ -19,7 +19,10 @@ typedef struct _DynCon
     int     field_3F30[4];   /* 0x3F30 */
     SVECTOR field_3F40[4];   /* 0x3F40 */
     SVECTOR field_3F60[4];   /* 0x3F60 */
-    char    pad_3F80[0x4050 - 0x3F80];
+    char    pad_3F80[0x3FA0 - 0x3F80];
+    HZD_SEG slots[4][2];     /* 0x3FA0 - two HZD_SEG per row */
+    int     field_4020[4];   /* 0x4020 - flag per row */
+    char    pad_4030[0x4050 - 0x4030];
     int     field_4050;      /* 0x4050 - mode/state (1 or 3) */
 } DynCon;
 
@@ -31,8 +34,25 @@ void s15c_dyncon_800D3EBC(OBJECT_NO_ROTS *obj, int model, int flag)
     obj->objs = Takabe_MakePreshade(model, GM_GetMap(GM_CurrentMap)->lit);
 }
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D3F24.s")
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D5090.s")
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D5114.s")
+void s15c_dyncon_800D5090(DynCon *work, int i)
+{
+    HZD_HDL *hzd = GM_GetMap(work->map)->hzd;
+
+    HZD_QueueDynamicSegment2(hzd, &work->slots[i][0], 0x80);
+    HZD_QueueDynamicSegment2(hzd, &work->slots[i][1], 0x80);
+
+    work->field_4020[i] = 1;
+}
+
+void s15c_dyncon_800D5114(DynCon *work, int i)
+{
+    HZD_HDL *hzd = GM_GetMap(work->map)->hzd;
+
+    HZD_DequeueDynamicSegment(hzd, &work->slots[i][0]);
+    HZD_DequeueDynamicSegment(hzd, &work->slots[i][1]);
+
+    work->field_4020[i] = 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D518C.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D5270.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D5354.s")
