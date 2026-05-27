@@ -12,7 +12,11 @@ typedef struct _DynCon
 {
     GV_ACT  actor;           /* 0x00 */
     int     map;             /* 0x20 */
-    char    pad_24[0x3F00 - 0x24];
+    char    pad_24[0x35BC - 0x24];
+    HZD_SEG segs[4][2][4];   /* 0x35BC - four HZD_SEG per [i][j] */
+    char    pad_37BC[0x383C - 0x37BC];
+    HZD_FLR floors[4][2][2]; /* 0x383C - two HZD_FLR per [i][j] */
+    char    pad_3B3C[0x3F00 - 0x3B3C];
     int     field_3F00[4];   /* 0x3F00 */
     int     field_3F10[4];   /* 0x3F10 - countdown, reset to 32 (800D6004/603C) */
     int     field_3F20[4];   /* 0x3F20 - cycle counter (800D6004/603C) */
@@ -53,9 +57,42 @@ void s15c_dyncon_800D5114(DynCon *work, int i)
 
     work->field_4020[i] = 0;
 }
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D518C.s")
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D5270.s")
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D5354.s")
+void s15c_dyncon_800D518C(DynCon *work, int i, int j)
+{
+    HZD_HDL *hzd = GM_GetMap(work->map)->hzd;
+
+    HZD_QueueDynamicSegment2(hzd, &work->segs[i][j][0], 0x180);
+    HZD_QueueDynamicSegment2(hzd, &work->segs[i][j][1], 0x180);
+    HZD_QueueDynamicSegment2(hzd, &work->segs[i][j][2], 0x180);
+    HZD_QueueDynamicSegment2(hzd, &work->segs[i][j][3], 0x180);
+
+    HZD_QueueDynamicFloor(hzd, &work->floors[i][j][0]);
+    HZD_QueueDynamicFloor(hzd, &work->floors[i][j][1]);
+}
+void s15c_dyncon_800D5270(DynCon *work, int i, int j)
+{
+    HZD_HDL *hzd = GM_GetMap(work->map)->hzd;
+
+    HZD_QueueDynamicSegment2(hzd, &work->segs[i][j][0], 0x100);
+    HZD_QueueDynamicSegment2(hzd, &work->segs[i][j][1], 0x100);
+    HZD_QueueDynamicSegment2(hzd, &work->segs[i][j][2], 0x100);
+    HZD_QueueDynamicSegment2(hzd, &work->segs[i][j][3], 0x100);
+
+    HZD_QueueDynamicFloor(hzd, &work->floors[i][j][0]);
+    HZD_QueueDynamicFloor(hzd, &work->floors[i][j][1]);
+}
+void s15c_dyncon_800D5354(DynCon *work, int i, int j)
+{
+    HZD_HDL *hzd = GM_GetMap(work->map)->hzd;
+
+    HZD_DequeueDynamicSegment(hzd, &work->segs[i][j][0]);
+    HZD_DequeueDynamicSegment(hzd, &work->segs[i][j][1]);
+    HZD_DequeueDynamicSegment(hzd, &work->segs[i][j][2]);
+    HZD_DequeueDynamicSegment(hzd, &work->segs[i][j][3]);
+
+    HZD_DequeueDynamicFloor(hzd, &work->floors[i][j][0]);
+    HZD_DequeueDynamicFloor(hzd, &work->floors[i][j][1]);
+}
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D5428.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D567C.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D5910.s")
@@ -105,10 +142,7 @@ void s15c_dyncon_800D5EA8(DynCon *work, int i,
     work->field_3F40[i].vy = by;
     work->field_3F40[i].vz = bz;
 }
-extern void s15c_dyncon_800D5354(void *work, int a, int b);
 extern void s15c_dyncon_800D567C(void *work, int a, int b, int c);
-extern void s15c_dyncon_800D518C(void *work, int a, int b);
-extern void s15c_dyncon_800D5270(void *work, int a, int b);
 
 void s15c_dyncon_800D5EDC(DynCon *work, int a1, int a2)
 {
