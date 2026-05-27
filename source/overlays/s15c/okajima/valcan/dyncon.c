@@ -4,6 +4,7 @@
 #include "libhzd/libhzd.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
+#include "game/item.h"
 #include "game/map.h"
 
 extern DG_OBJS *Takabe_MakePreshade(int model, LIT *lit);
@@ -244,7 +245,45 @@ void s15c_dyncon_800D6128(DynCon *work, SVECTOR *pos, int range)
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D61E0.s")
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D6434.s")
+extern void *NewItemPut(SVECTOR *pos, SVECTOR *step, Item_Info *info);
+extern const char s15c_aNikitamissile_800E2D80[];
+extern const char s15c_aC_800E2D94[];
+extern const char s15c_aRation_800E2D9C[];
+
+void *s15c_dyncon_800D6434(DynCon *work, SVECTOR *pos, SVECTOR *step, int item_type)
+{
+    Item_Info item;
+
+    switch (item_type)
+    {
+    case 0:
+        item.message = s15c_aNikitamissile_800E2D80;
+        item.type    = 3;
+        item.id      = 3;
+        item.num     = 4;
+        break;
+    case 1:
+        item.message = s15c_aC_800E2D94;
+        item.id      = 6;
+        item.type    = 0;
+        item.num     = 2;
+        break;
+    case 2:
+        item.message = s15c_aC_800E2D94;
+        item.type    = 0;
+        item.id      = 6;
+        item.num     = item_type;
+        break;
+    case 3:
+        item.message = s15c_aRation_800E2D9C;
+        item.type    = 4;
+        item.id      = 0xD;
+        item.num     = 1;
+        break;
+    }
+    item.time = -1;
+    return NewItemPut(pos, step, &item);
+}
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D6528.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D7A84.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D7AB4.s")
