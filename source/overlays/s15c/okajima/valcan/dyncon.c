@@ -117,15 +117,14 @@ typedef struct _DynStack
     short val_78;
     short val_7A;
     short val_7C;
+    char  pad3[156 - 0x7E];
 } DynStack;
 
 void s15c_dyncon_800D5F68(DynCon *work, int index, int arg2, int a3_val,
                           int sp28, int sp2c, int sp30, int sp34,
                           int sp38, int sp3c)
 {
-    DynStack *item;
-
-    item = (DynStack *)((char *)work + (index * 156));
+    DynStack *item = (DynStack *)work + index;
 
     item->val_78 += (short)a3_val;
     item->val_7A += (short)sp28;
@@ -157,9 +156,7 @@ void s15c_dyncon_800D603C(DynCon *work, int i)
 }
 void s15c_dyncon_800D6070(DynCon *work, int row, int idx)
 {
-    DynStack *item;
-
-    item = (DynStack *)((char *)work + row * 156);
+    DynStack *item = (DynStack *)work + row;
 
     item->val_70 += (work->field_3F40[idx].vx * work->field_3F10[idx]) / 128;
     item->val_72 += (work->field_3F40[idx].vy * work->field_3F10[idx]) / 128;
