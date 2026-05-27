@@ -8,6 +8,21 @@
 
 extern DG_OBJS *Takabe_MakePreshade(int model, LIT *lit);
 
+typedef struct _DynCon
+{
+    GV_ACT  actor;           /* 0x00 */
+    int     map;             /* 0x20 */
+    char    pad_24[0x3F00 - 0x24];
+    int     field_3F00[4];   /* 0x3F00 */
+    int     field_3F10[4];   /* 0x3F10 - countdown, reset to 32 (800D6004/603C) */
+    int     field_3F20[4];   /* 0x3F20 - cycle counter (800D6004/603C) */
+    int     field_3F30[4];   /* 0x3F30 */
+    SVECTOR field_3F40[4];   /* 0x3F40 */
+    SVECTOR field_3F60[4];   /* 0x3F60 */
+    char    pad_3F80[0x4050 - 0x3F80];
+    int     field_4050;      /* 0x4050 - mode/state (1 or 3) */
+} DynCon;
+
 void s15c_dyncon_800D3EBC(OBJECT_NO_ROTS *obj, int model, int flag)
 {
     GV_ZeroMemory(obj, sizeof(*obj));
@@ -58,20 +73,6 @@ void s15c_dyncon_800D5DC0(SVECTOR *vec, SVECTOR *target, int len)
     vec->vy = (vec->vy * (len - 1) + target->vy) / len;
     vec->vz = (vec->vz * (len - 1) + target->vz) / len;
 }
-
-typedef struct _DynCon
-{
-    GV_ACT  actor;           /* 0x00 */
-    char    pad_20[0x3F00 - 0x20];
-    int     field_3F00[4];   /* 0x3F00 */
-    int     field_3F10[4];   /* 0x3F10 - countdown, reset to 32 (800D6004/603C) */
-    int     field_3F20[4];   /* 0x3F20 - cycle counter (800D6004/603C) */
-    int     field_3F30[4];   /* 0x3F30 */
-    SVECTOR field_3F40[4];   /* 0x3F40 */
-    SVECTOR field_3F60[4];   /* 0x3F60 */
-    char    pad_3F80[0x4050 - 0x3F80];
-    int     field_4050;      /* 0x4050 - mode/state (1 or 3) */
-} DynCon;
 
 void s15c_dyncon_800D5EA8(DynCon *work, int i,
                           short ax, short ay, short az,
@@ -154,7 +155,16 @@ void s15c_dyncon_800D603C(DynCon *work, int i)
         work->field_3F20[i] = work->field_3F20[i] + 1;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D6070.s")
+void s15c_dyncon_800D6070(DynCon *work, int row, int idx)
+{
+    DynStack *item;
+
+    item = (DynStack *)((char *)work + row * 156);
+
+    item->val_70 += (work->field_3F40[idx].vx * work->field_3F10[idx]) / 128;
+    item->val_72 += (work->field_3F40[idx].vy * work->field_3F10[idx]) / 128;
+    item->val_74 += (work->field_3F40[idx].vz * work->field_3F10[idx]) / 128;
+}
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D6128.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D61E0.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D6434.s")
