@@ -24,7 +24,32 @@ void s15c_dyncon_800D3EBC(OBJECT_NO_ROTS *obj, int model, int flag)
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D5428.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D567C.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D5910.s")
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D59C0.s")
+void s15c_dyncon_800D59C0(SVECTOR *vec, int code)
+{
+    switch (code)
+    {
+    case 0:
+        {
+            int x = vec->vx;
+            int z = vec->vz;
+            vec->vx = -x;
+            vec->vz = -z;
+        }
+        break;
+    case 1:
+        {
+            int x = vec->vx;
+            vec->vx = -x;
+        }
+        break;
+    case 3:
+        {
+            int z = vec->vz;
+            vec->vz = -z;
+        }
+        break;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D5A3C.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D5C38.s")
 void s15c_dyncon_800D5DC0(SVECTOR *vec, SVECTOR *target, int len)
