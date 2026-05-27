@@ -61,7 +61,8 @@ void s15c_dyncon_800D5DC0(SVECTOR *vec, SVECTOR *target, int len)
 
 typedef struct _DynCon
 {
-    char    pad_0[0x3F00];
+    GV_ACT  actor;           /* 0x00 */
+    char    pad_20[0x3F00 - 0x20];
     int     field_3F00[4];   /* 0x3F00 */
     int     field_3F10[4];   /* 0x3F10 - countdown, reset to 32 (800D6004/603C) */
     int     field_3F20[4];   /* 0x3F20 - cycle counter (800D6004/603C) */
@@ -157,6 +158,7 @@ void s15c_dyncon_800D603C(DynCon *work, int i)
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D6128.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D61E0.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D6434.s")
+#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D6528.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D7A84.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D7AB4.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D7D44.s")
@@ -195,4 +197,25 @@ void s15c_dyncon_800D8A34(int unused, short *out, int count)
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D8A9C.s")
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D8C9C.s")
+extern void s15c_dyncon_800D6528(void *work);
+extern int  s15c_dyncon_800D8A9C(DynCon *work, int arg);
+extern const char s15c_dword_800E2E30[];
+
+GV_ACT *s15c_dyncon_800D8C9C(int unused, int arg)
+{
+    DynCon *work;
+
+    (void)unused;
+
+    work = (DynCon *)GV_NewActor(GV_ACTOR_USER, 0x4170);
+    if (work != NULL)
+    {
+        GV_SetNamedActor(&work->actor, s15c_dyncon_800D6528, s15c_dyncon_800D89F8, s15c_dword_800E2E30);
+        if (s15c_dyncon_800D8A9C(work, arg) < 0)
+        {
+            GV_DestroyActor(&work->actor);
+            return NULL;
+        }
+    }
+    return &work->actor;
+}
