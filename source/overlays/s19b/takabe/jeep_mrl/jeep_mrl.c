@@ -1,23 +1,25 @@
 #include "common.h"
 
 typedef struct JeepWork {
-    unsigned char  field_0_pad[40];         // 0x00
-    unsigned char  control_dummy[124];      // 0x28
-    unsigned char  field_A4_pad[804];       // 0xA4
-    short          field_3C8_current_speed; // 0x3C8
-    short          field_3CA_target_speed;  // 0x3CA
-    int            field_3CC_timer;         // 0x3CC
-    int            field_3D0_unk;           // 0x3D0
-    unsigned char  field_3D4_pad[1044];     // 0x3D4
-    void          *field_7E8_target;        // 0x7E8
+    unsigned char  field_0_pad[40];         
+    unsigned char  control_dummy[124];      
+    unsigned char  field_A4_pad[804];       
+    short          field_3C8_current_speed; 
+    short          field_3CA_target_speed;  
+    int            field_3CC_timer;         
+    int            field_3D0_unk;           
+    unsigned char  field_3D4_pad[1044];     
+    void          *field_7E8_target;        
 } JeepWork;
 
 extern int s19b_dword_800DE64C;
-
+extern int rand(void);
 
 void s19b_jeep_mrl_800D2CE8(JeepWork *work);
 void s19b_jeep_mrl_800D2D3C(JeepWork *work);
+
 int GV_NearSpeed(int current_speed, int target_speed, int step_modifier);
+
 void GM_FreeTarget(void *target);
 void GM_FreeControl(void *control);
 void GM_FreeObject(void *object);
@@ -39,7 +41,7 @@ void rpk_jeep_speed_logic(JeepWork *work)
     s19b_jeep_mrl_800D2D3C(work);
 
     if ((work->field_3CC_timer & 0x3F) == 0) {
-        rand_val = rand(); // rand() is standard, cc1psx just gives a soft warning
+        rand_val = rand(); 
 
         target_speed = (((rand_val * 16) - rand_val) * 4) >> 15;
         work->field_3CA_target_speed = target_speed - 600;
