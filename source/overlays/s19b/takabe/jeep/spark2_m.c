@@ -1,18 +1,4 @@
-#include "common.h"
 #include "game/game.h"
-#include "psxdefs.h"
-
-typedef struct _Spark2MWork
-{
-    GV_ACT   actor;
-    int      map;
-    DG_PRIM *prim;
-    MATRIX   world;
-    SVECTOR  vecs[16];
-    SVECTOR  verts[32];
-    char     pad2[0x28];
-    int      f1F0;
-} Spark2MWork;
 
 typedef struct _JEEP_SYSTEM_S
 {
@@ -24,59 +10,104 @@ typedef struct _JEEP_SYSTEM_S
 
 extern JEEP_SYSTEM_S Takabe_JeepSystem;
 
-extern void s19b_spark2_m_800DA19C(SVECTOR *, SVECTOR *, int);
-extern void s19b_spark2_m_800DA314(void *, SVECTOR *, int);
-extern void s19b_spark2_m_800DA3EC(LINE_F2 *, int, int);
-extern void s19b_spark2_m_800DA41C(LINE_F2 *, int, int);
+typedef struct _Work
+{
+    GV_ACT   actor;
+    int      map;
+    DG_PRIM *prim;
+    MATRIX   world;
+    SVECTOR  speeds[16];
+    SVECTOR  verts[32];
+    char     unused[0x28];
+    int      time;
+} Work;
 
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D8724.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D87A4.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D88D8.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D8918.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D899C.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D8A48.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D8A88.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D8AAC.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D8ACC.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D8AEC.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D8B54.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D8BC8.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D8CEC.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D8E10.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D8F34.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D8FB0.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D902C.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D90A8.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D9148.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D91DC.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D92C8.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D932C.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D9390.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D9434.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D94C8.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D9558.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D95FC.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D964C.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D9680.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D9704.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D97A8.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D985C.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D9910.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D99C4.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D9A30.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D9A74.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D9AA8.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D9B38.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D9B88.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D9C04.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D9C90.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D9EC0.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800DA0B4.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800DA19C.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800DA314.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800DA3EC.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800DA41C.s")
-void s19b_spark2_m_800DA46C(Spark2MWork *work)
+static void InitVerts(SVECTOR *speeds, SVECTOR *verts, int count)
+{
+    MATRIX  mat;
+    SVECTOR rot;
+    SVECTOR pos;
+    int     x, y, z;
+
+    pos = DG_ZeroVector;
+
+    rot.vz = 0;
+
+    while (--count >= 0)
+    {
+        rot.vx = GV_RandS(256);
+        rot.vy = GV_RandS(256);
+
+        RotMatrixYXZ_gte(&rot, &mat);
+        DG_SetPos(&mat);
+
+        pos.vz = GV_RandU(256) + 64;
+        DG_RotVector(&pos, speeds, 1);
+
+        x = speeds->vx / 2;
+        y = speeds->vy / 2;
+        z = speeds->vz / 2;
+
+        verts[0].vx = x;
+        verts[0].vy = y;
+        verts[0].vz = z;
+
+        verts[1].vx = x / 4;
+        verts[1].vy = y / 4;
+        verts[1].vz = z / 4;
+
+        verts += 2;
+        speeds++;
+    }
+}
+
+static void UpdateVerts(SVECTOR *speeds, SVECTOR *verts, int count)
+{
+    int x, y, z;
+
+    while (--count >= 0)
+    {
+        x = speeds->vx;
+        y = speeds->vy;
+        z = speeds->vz;
+
+        verts[1] = verts[0];
+
+        verts->vx += x;
+        verts->vy += y - 16;
+        verts->vz += z;
+
+        speeds->vx = x - x / 4;
+        speeds->vy = y - y / 4;
+        speeds->vz = z - z / 4;
+
+        verts += 2;
+        speeds++;
+    }
+}
+
+static void InitPacks(LINE_F2 *packs, int n_packs, int bright)
+{
+    while (--n_packs >= 0)
+    {
+        setLineF2(packs);
+        packs++;
+    }
+}
+
+static void ShadePacks(LINE_F2 *packs, int n_packs, int bright)
+{
+    int color;
+
+    color = bright | (bright / 2) << 8 | (bright / 2) << 16;
+    while (--n_packs >= 0)
+    {
+        LSTORE((LLOAD(&packs->r0) & 0xFF000000) | color, &packs->r0);
+        packs++;
+    }
+}
+
+static void Act(Work *work)
 {
     int      time;
     DG_PRIM *prim;
@@ -84,14 +115,14 @@ void s19b_spark2_m_800DA46C(Spark2MWork *work)
 
     GM_CurrentMap = work->map;
 
-    time = --work->f1F0;
+    time = --work->time;
     if (time <= 0)
     {
         GV_DestroyActor(&work->actor);
         return;
     }
 
-    s19b_spark2_m_800DA314(work->vecs, work->verts, 16);
+    UpdateVerts(work->speeds, work->verts, 16);
 
     prim = work->prim;
 
@@ -101,7 +132,7 @@ void s19b_spark2_m_800DA46C(Spark2MWork *work)
         shade = 255;
     }
 
-    s19b_spark2_m_800DA41C((LINE_F2 *)prim->packs[GV_Clock], 16, shade);
+    ShadePacks(prim->packs[GV_Clock], 16, shade);
 
     work->world.t[0] += Takabe_JeepSystem.pos.vx;
     work->world.t[1] += Takabe_JeepSystem.pos.vy;
@@ -110,28 +141,51 @@ void s19b_spark2_m_800DA46C(Spark2MWork *work)
     DG_SetPos(&work->world);
     DG_PutPrim(&work->prim->world);
 }
-void s19b_spark2_m_800DA55C(Spark2MWork *work)
+
+static void Die(Work *work)
 {
     GM_FreePrim(work->prim);
 }
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800DA598.s")
-extern int s19b_spark2_m_800DA598(Spark2MWork *work, int arg);
-extern const char aSpark2mC_800DDEB0[];
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
-GV_ACT *NewSpark2M_800DA6D8(int arg0)
+static int GetResources(Work *work, MATRIX *world)
 {
-    Spark2MWork *work;
+    DG_PRIM *prim;
 
-    work = (Spark2MWork *)GV_NewActor(EXEC_LEVEL, sizeof(Spark2MWork));
+    work->map = GM_CurrentMap;
+
+    InitVerts(work->speeds, work->verts, 16);
+
+    prim = GM_MakePrim(DG_PRIM_LINE_F2, 16, work->verts, NULL);
+    work->prim = prim;
+    if (prim != NULL)
+    {
+        DG_SetPos(world);
+        DG_PutPrim(&prim->world);
+        work->world = *world;
+
+        InitPacks(prim->packs[0], 16, 0);
+        InitPacks(prim->packs[1], 16, 0);
+        ShadePacks(prim->packs[GV_Clock], 16, 255);
+
+        work->time = 16;
+        return 0;
+    }
+
+    return -1;
+}
+
+void *NewSpark2M(MATRIX *world)
+{
+    Work *work;
+
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, s19b_spark2_m_800DA46C, s19b_spark2_m_800DA55C, aSpark2mC_800DDEB0);
+        GV_SetNamedActor(&work->actor, Act, Die, "spark2_m.c");
 
         SetSpadStack(SPAD_STACK_ADDR);
 
-        if (s19b_spark2_m_800DA598(work, arg0) < 0)
+        if (GetResources(work, world) < 0)
         {
             ResetSpadStack();
 
@@ -141,9 +195,9 @@ GV_ACT *NewSpark2M_800DA6D8(int arg0)
 
         ResetSpadStack();
     }
-
-    return &work->actor;
+    return (void *)work;
 }
+
 void s19b_fadeio_800DA784(void)
 {
     GV_ZeroMemory(&Takabe_JeepSystem, 0x16C);
