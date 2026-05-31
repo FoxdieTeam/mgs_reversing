@@ -72,8 +72,20 @@ int s08b_plasma_l_800DA2C8(Work *work)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_plasma_l_800DA394.s")
-int s08b_plasma_l_800DA394(Work *, int, int, int);
+extern void s08b_plasma_l_800D9A90(Work *work, int arg1, int arg2);
+
+int s08b_plasma_l_800DA394(Work *work, int arg1, int arg2, int arg3)
+{
+    work->field_3C0 = arg3;
+    work->map = GM_CurrentMap;
+    if (s08b_plasma_l_800DA2C8(work) < 0)
+    {
+        return -1;
+    }
+    s08b_plasma_l_800D9A90(work, arg1, arg2);
+    work->field_3BC = 0;
+    return 0;
+}
 
 void *NewPlasmaL(int arg0, int arg1, int arg2)
 {
