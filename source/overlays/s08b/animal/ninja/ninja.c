@@ -19,7 +19,12 @@ void s08b_ninja_800C7914(short *a, short *b, short *out)
         *out = d;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C796C.s")
+void s08b_ninja_800C796C(short *a, short *b)
+{
+    a[0] = GV_NearRange(a[0], b[0], 0xFA);
+    a[1] = GV_NearRange(a[1], b[1], 0x64);
+    a[2] = GV_NearRange(a[2], b[2], 0xFA);
+}
 
 void s08b_ninja_800C79D4(int a0)
 {
