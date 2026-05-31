@@ -26,7 +26,7 @@ static int QueueWhere(CONTROL *where)
     int num;
 
     // スネーク must always be the first item
-    if (where->name == CHARAID_SNAKE)
+    if (where->name == SNAKE_NAME)
     {
         GM_WhereList[0] = where;
     }

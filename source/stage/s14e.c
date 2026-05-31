@@ -23,11 +23,11 @@ CHARA _StageCharacterEntries[] = {
     { 0xb103, (NEWCHARA)0x800db968 },   //  CHARA_DYNWALL,      /* chara 透明壁 */
     { 0x3f9a, (NEWCHARA)0x800dbc28 },   //  CHARA_ENV_SOUND,    /* chara 環境音 */
 
-    { 0x0003, (NEWCHARA)0x800daec4 },   //  CHARA_0003_FADEIN,
-    { 0x0004, (NEWCHARA)0x800daec4 },   //  CHARA_0004_FADEOUT,
-    { 0x000f, (NEWCHARA)0x800c5288 },   //  CHARA_000F_SHADOW,
-    { 0x0025, (NEWCHARA)0x800d2c2c },   //  CHARA_0025_BLUR,
-    { 0x0045, (NEWCHARA)0x800dc14c },   //  CHARA_0045_FAMASLIGHT,
+    { 0x0003, (NEWCHARA)0x800daec4 },   //  DEMO_FADEIN,
+    { 0x0004, (NEWCHARA)0x800daec4 },   //  DEMO_FADEOUT,
+    { 0x000f, (NEWCHARA)0x800c5288 },   //  DEMO_SHADOW,
+    { 0x0025, (NEWCHARA)0x800d2c2c },   //  DEMO_BLUR,
+    { 0x0045, (NEWCHARA)0x800dc14c },   //  DEMO_FAMASLIGHT,
 
     CHARA_END
 };

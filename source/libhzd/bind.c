@@ -196,7 +196,7 @@ static void HZD_ExecEventRCM( HZD_HDL *hzd, HZD_EVT *event, int mode )
                 continue;
             }
 
-            if (!HashMatch(pBind->field_0, CHARAID_SNAKE))
+            if (!HashMatch(pBind->field_0, SNAKE_NAME))
             {
                 continue;
             }
@@ -306,7 +306,7 @@ void HZD_ExecEvent(HZD_HDL *hzd, HZD_EVT *event, int mode)
     int           count;
     unsigned char flag;
 
-    if (event->name == CHARAID_RCM)
+    if (event->name == RCM_NAME)
     {
         HZD_ExecEventRCM(hzd, event, mode);
         return;

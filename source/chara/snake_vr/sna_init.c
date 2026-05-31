@@ -7499,7 +7499,7 @@ void sna_init_main_logic_800596FC(SnaInitWork *work)
             work->m_ctrl.info1.field_14 = 1;
         }
 
-        sna_act_helper2_helper2_80033054(CHARAID_SNAKE, &work->adjust[6]);
+        sna_act_helper2_helper2_80033054(SNAKE_NAME, &work->adjust[6]);
 
         if ( !work->body.objs->adjust && (work->m_ctrl.info1.field_14 == 1) )
         {

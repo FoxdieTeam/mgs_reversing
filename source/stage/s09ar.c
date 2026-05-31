@@ -18,7 +18,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x901e, (NEWCHARA)0x800d347c },   //  CHARA_SNOWAREA,
     { 0xb103, (NEWCHARA)0x800df8fc },   //  CHARA_DYNWALL,      /* chara 透明壁 */
 
-    { 0x000f, (NEWCHARA)0x800c5c7c },   //  CHARA_000F_SHADOW,
+    { 0x000f, (NEWCHARA)0x800c5c7c },   //  DEMO_SHADOW,
 
     CHARA_END
 };

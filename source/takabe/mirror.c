@@ -112,7 +112,7 @@ void MirrorAct_800DFDDC(MirrorWork *work)
         }
         else if (found != 0)
         {
-            if ((name == CHARAID_SNAKE) && (work->snake_flags & 0x1))
+            if ((name == SNAKE_NAME) && (work->snake_flags & 0x1))
             {
                 work->snake_flags &= ~0x1;
                 GV_DestroyActorQuick(work->kogaku);
@@ -155,7 +155,7 @@ void MirrorAct_800DFDDC(MirrorWork *work)
     entry = work->entries;
     for (i = 0; i < work->n_entries; i++)
     {
-        if (entry->name == CHARAID_SNAKE)
+        if (entry->name == SNAKE_NAME)
         {
             if (GM_CurrentItemId == IT_Stealth)
             {
@@ -327,7 +327,7 @@ void MirrorDie_800E0670(MirrorWork *work)
     entry = work->entries;
     for (i = 0; i < work->n_entries; i++)
     {
-        if ((entry->name == CHARAID_SNAKE) && (work->snake_flags & 0x1))
+        if ((entry->name == SNAKE_NAME) && (work->snake_flags & 0x1))
         {
             GV_DestroyActorQuick(work->kogaku);
         }
