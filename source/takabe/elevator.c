@@ -409,7 +409,7 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
         GM_SeSetSize(pos, work->sound3, work->size);
     }
 
-    if (((work->f58C & 0xC) == 0xC) && (work->f594 == CHARAID_SNAKE))
+    if (((work->f58C & 0xC) == 0xC) && (work->f594 == SNAKE_NAME))
     {
         if (var_s5 & 0x24)
         {

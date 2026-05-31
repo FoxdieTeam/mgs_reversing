@@ -255,6 +255,11 @@
 // NOTE: The original filenames of the efx sequences are unknown,
 // so we're just going to define our "friendly" names directly here.
 
+// 0x80～0x99 : Character voices
+// 0x9A～0x9F : Knocking sounds
+// 0xA0～0xAF : Footstep sounds
+// 0xB0～     : Stage-specific sounds
+
 /*----- Enemy Soldier -----*/
 
 #define VO_ENEMY_WHOSTHAT       (128)   // 兵士「誰だ！」

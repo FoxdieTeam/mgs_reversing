@@ -1,4 +1,12 @@
 /******************************************************************************
+ * System   : METALGEAR^3 for PlayStation
+ * Computer : PlayStation
+ * OS       : PlayStation
+ * Compiler : psyq
+ * Module   : M1E1 カタピラ
+ */
+
+/******************************************************************************
  * included
  */
 

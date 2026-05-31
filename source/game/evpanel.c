@@ -141,7 +141,7 @@ static int s03e_evpanel_800C3488(EvPanelWork *work)
 
             if (code == HASH_ENTER || code == HASH_LEAVE)
             {
-                if (msg->message[1] == CHARAID_SNAKE)
+                if (msg->message[1] == SNAKE_NAME)
                 {
                     message |= 0x100;
                 }
@@ -298,7 +298,7 @@ static void s03e_evpanel_800C3898(EvPanelWork *work)
 
     msg.address = work->field_3A;
     msg.message[0] = HASH_ENTER;
-    msg.message[1] = CHARAID_SNAKE;
+    msg.message[1] = SNAKE_NAME;
     msg.message_len = 2;
 
     GV_SendMessage(&msg);
@@ -313,7 +313,7 @@ static void s03e_evpanel_800C38F4(EvPanelWork *work)
 
     msg.address = work->field_3A;
     msg.message[0] = HASH_LEAVE;
-    msg.message[1] = CHARAID_SNAKE;
+    msg.message[1] = SNAKE_NAME;
     msg.message_len = 2;
 
     GV_SendMessage(&msg);

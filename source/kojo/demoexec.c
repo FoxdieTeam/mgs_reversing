@@ -23,6 +23,7 @@
 #include "game/game.h"
 #include "linkvar.h"
 #include "strcode.h"
+#include "charaid.h"
 #include "anime/animconv/anime.h"
 #include "bullet/blast.h"
 
