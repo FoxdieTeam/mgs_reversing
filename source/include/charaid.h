@@ -289,10 +289,6 @@
 #define CHARAID_3D78            0x3d78  //
 
 /*--- Polygon Demo Charas ---*/
-
-// NOTE: These are sequentially assigned IDs, not GV_StrCode results.
-// Still, it's useful to define named constants for these charas.
-
 #define DEMOID_EXPLOSION        0x0001
 #define DEMOID_SMOKE            0x0002
 #define DEMOID_FADEIN           0x0003

@@ -12,13 +12,13 @@ CHARA _StageCharacterEntries[] = {
     CHARA_TEXTURE,      /* chara テクスチャ */
     CHARA_BOXALL,       /* chara 全部箱 */
 
-    CHARA_0003_FADEIN,
-    CHARA_0004_FADEOUT,
-    CHARA_0005_TEXT,
-    CHARA_000F_SHADOW,
-    CHARA_0021_UNSHAPEVIEW,
-    CHARA_0025_BLUR,
-    CHARA_0028_MONOTONE,
+    DEMO_FADEIN,
+    DEMO_FADEOUT,
+    DEMO_TEXT,
+    DEMO_SHADOW,
+    DEMO_UNSHAPEVIEW,
+    DEMO_BLUR,
+    DEMO_MONOTONE,
 
     CHARA_END
 };

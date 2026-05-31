@@ -14,10 +14,10 @@ CHARA _StageCharacterEntries[] = {
     { 0x175b, (NEWCHARA)0x800dffe8 },   //  CHARA_SMKTRGT,
     { 0x41a3, (NEWCHARA)0x800c4488 },   //  CHARA_WAKE,         /* chara 覚醒スネーク */
 
-    { 0x0003, (NEWCHARA)0x800e1570 },   //  CHARA_0003_FADEIN,
-    { 0x0004, (NEWCHARA)0x800e1570 },   //  CHARA_0004_FADEOUT,
-    { 0x0025, (NEWCHARA)0x800e102c },   //  CHARA_0025_BLUR,
-    { 0x0028, (NEWCHARA)0x800e2b20 },   //  CHARA_0028_MONOTONE,
+    { 0x0003, (NEWCHARA)0x800e1570 },   //  DEMO_FADEIN,
+    { 0x0004, (NEWCHARA)0x800e1570 },   //  DEMO_FADEOUT,
+    { 0x0025, (NEWCHARA)0x800e102c },   //  DEMO_BLUR,
+    { 0x0028, (NEWCHARA)0x800e2b20 },   //  DEMO_MONOTONE,
 
     { 0xb4e6, (NEWCHARA)0x800c3ef4 },   //  CHARA_DEMOCANCEL,   /* chara デモキャンセル */
 
