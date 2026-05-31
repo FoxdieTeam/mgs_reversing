@@ -1,5 +1,6 @@
 #include "common.h"
 #include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 
@@ -67,7 +68,31 @@ void s08b_ninja_800C8354(void *work)
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C83CC.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C8558.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C8624.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C8798.s")
+void s08b_ninja_800C8798(void *work)
+{
+    void *p;
+
+    GM_FreeControl((CONTROL *)((char *)work + 0x20));
+    GM_FreeObject((OBJECT *)((char *)work + 0x9C));
+    GM_FreeObject((OBJECT *)((char *)work + 0x7DC));
+    GM_FreeHomingTarget(*(HOMING **)((char *)work + 0x910));
+    GV_DestroyActorQuick(*(void **)((char *)work + 0x1A20));
+    GV_DestroyActorQuick(*(void **)((char *)work + 0x1A24));
+    if (*(void **)((char *)work + 0x19BC) != NULL)
+    {
+        GV_DestroyActorQuick(*(void **)((char *)work + 0x19BC));
+    }
+    if (*(int *)((char *)work + 0x7D8) == 0)
+    {
+        GM_FreeTarget(*(TARGET **)((char *)work + 0x8C4));
+        p = *(void **)((char *)work + 0x1A80);
+        if (p != NULL)
+        {
+            DG_DequeuePrim((DG_PRIM *)p);
+            DG_FreePrim((DG_PRIM *)p);
+        }
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C8848.s")
 int s08b_ninja_800C8930(char *unused, int *out)
 {
