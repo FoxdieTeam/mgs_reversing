@@ -3,7 +3,20 @@
 extern int s08b_dword_800E4318;
 extern int s08b_dword_800E4320;
 
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C7914.s")
+void s08b_ninja_800C7914(short *a, short *b, short *out)
+{
+    int i;
+
+    for (i = 0; i < 3; i++, a++, b++, out++)
+    {
+        int d = *a - *b;
+        if (d != (short)d)
+        {
+            d = (d < 0) ? 0x8000 : 0x7FFF;
+        }
+        *out = d;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C796C.s")
 
 void s08b_ninja_800C79D4(int a0)
