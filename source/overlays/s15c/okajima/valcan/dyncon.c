@@ -13,11 +13,15 @@ typedef struct _DynCon
 {
     GV_ACT  actor;           /* 0x00 */
     int     map;             /* 0x20 */
-    char    pad_24[0x35BC - 0x24];
+    char    pad_24[0x3594 - 0x24];
+    int     field_3594[4][2];/* 0x3594 */
+    char    pad_35B4[0x35BC - 0x35B4];
     HZD_SEG segs[4][2][4];   /* 0x35BC - four HZD_SEG per [i][j] */
     char    pad_37BC[0x383C - 0x37BC];
     HZD_FLR floors[4][2][2]; /* 0x383C - two HZD_FLR per [i][j] */
-    char    pad_3B3C[0x3F00 - 0x3B3C];
+    char    pad_3B3C[0x3C0C - 0x3B3C];
+    SVECTOR field_3C0C[4];   /* 0x3C0C */
+    char    pad_3C2C[0x3F00 - 0x3C2C];
     int     field_3F00[4];   /* 0x3F00 */
     int     field_3F10[4];   /* 0x3F10 - countdown, reset to 32 (800D6004/603C) */
     int     field_3F20[4];   /* 0x3F20 - cycle counter (800D6004/603C) */
@@ -30,6 +34,19 @@ typedef struct _DynCon
     char    pad_4030[0x4050 - 0x4030];
     int     field_4050;      /* 0x4050 - mode/state (1 or 3) */
 } DynCon;
+
+typedef struct _DynStack
+{
+    char  pad[0x70];
+    short val_70;
+    short val_72;
+    short val_74;
+    short pad2;
+    short val_78;
+    short val_7A;
+    short val_7C;
+    char  pad3[156 - 0x7E];
+} DynStack;
 
 void s15c_dyncon_800D3EBC(OBJECT_NO_ROTS *obj, int model, int flag)
 {
@@ -162,7 +179,50 @@ void s15c_dyncon_800D5428(DynCon *work, int i, int depth)
         *(short *)(base + 0x3FBA) = a.vz + 0x9C4;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D567C.s")
+extern void s15c_dyncon_800D3F24(HZD_SEG *segs, HZD_FLR *floors, MATRIX *mtx,
+                                 SVECTOR *a, SVECTOR *b);
+extern void ReadRotMatrix(MATRIX *m);
+
+void s15c_dyncon_800D567C(DynCon *work, int s1, int s2, int code)
+{
+    MATRIX    mtx;
+    SVECTOR   pos;
+    SVECTOR   rot;
+    SVECTOR   a;
+    SVECTOR   b;
+    DynStack *ds;
+
+    ds  = (DynStack *)work + work->field_3594[s1][s2];
+    pos = *(SVECTOR *)&ds->val_70;
+    rot = DG_ZeroVector;
+
+    switch (code)
+    {
+    case 1:
+        a = work->field_3C0C[0];
+        b = work->field_3C0C[1];
+        ds = (DynStack *)work + work->field_3594[s1][s2];
+        rot.vy = ds->val_7A;
+        break;
+    case 2:
+        a = work->field_3C0C[2];
+        b = work->field_3C0C[3];
+        ds = (DynStack *)work + work->field_3594[s1][s2];
+        rot.vy = ds->val_7C + 0x800;
+        break;
+    case 3:
+        a = work->field_3C0C[2];
+        b = work->field_3C0C[3];
+        ds = (DynStack *)work + work->field_3594[s1][s2];
+        rot.vy = ds->val_7C - 0x400;
+        break;
+    }
+
+    DG_SetPos2(&pos, &rot);
+    ReadRotMatrix(&mtx);
+    s15c_dyncon_800D3F24(&work->segs[s1][s2][0], &work->floors[s1][s2][0],
+                         &mtx, &a, &b);
+}
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D5910.s")
 void s15c_dyncon_800D59C0(SVECTOR *vec, int code)
 {
@@ -210,7 +270,6 @@ void s15c_dyncon_800D5EA8(DynCon *work, int i,
     work->field_3F40[i].vy = by;
     work->field_3F40[i].vz = bz;
 }
-extern void s15c_dyncon_800D567C(void *work, int a, int b, int c);
 
 void s15c_dyncon_800D5EDC(DynCon *work, int a1, int a2)
 {
@@ -229,18 +288,6 @@ void s15c_dyncon_800D5EDC(DynCon *work, int a1, int a2)
         s15c_dyncon_800D5270(work, a1, 1);
     }
 }
-typedef struct _DynStack
-{
-    char  pad[0x70];
-    short val_70;
-    short val_72;
-    short val_74;
-    short pad2;
-    short val_78;
-    short val_7A;
-    short val_7C;
-    char  pad3[156 - 0x7E];
-} DynStack;
 
 void s15c_dyncon_800D5F68(DynCon *work, int index, int arg2, int a3_val,
                           int sp28, int sp2c, int sp30, int sp34,
