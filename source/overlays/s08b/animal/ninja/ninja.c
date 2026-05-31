@@ -1,9 +1,12 @@
 #include "common.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
+#include "game/game.h"
 
 extern int s08b_dword_800E4318;
 extern int s08b_dword_800E4320;
+extern int s08b_dword_800C3390;
+extern int s08b_dword_800C3398;
 
 void s08b_ninja_800C7914(short *a, short *b, short *out)
 {
@@ -53,7 +56,14 @@ void s08b_ninja_800C811C(void *work)
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C8170.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C81C8.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C8264.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C8354.s")
+void s08b_ninja_800C8354(void *work)
+{
+    TARGET *t = *(TARGET **)((char *)work + 0x8C4);
+
+    GM_SetTarget(t, 0x1F, 2, (SVECTOR *)&s08b_dword_800C3390);
+    GM_SetPowerTarget(t, 1, -1, 0xFF, 0xFF, (SVECTOR *)&s08b_dword_800C3398);
+    GM_SetCaptureTarget(t, -1, 0xFF, (int *)0, (SVECTOR *)0);
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C83CC.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C8558.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C8624.s")
