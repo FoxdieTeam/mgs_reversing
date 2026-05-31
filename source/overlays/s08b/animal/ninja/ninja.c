@@ -1,4 +1,6 @@
 #include "common.h"
+#include "libgv/libgv.h"
+#include "libgcl/libgcl.h"
 
 extern int s08b_dword_800E4318;
 extern int s08b_dword_800E4320;
@@ -32,7 +34,17 @@ void s08b_ninja_800C79D4(int a0)
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C7E14.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C7ED8.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C7F74.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C811C.s")
+void s08b_ninja_800C811C(void *work)
+{
+    short *p = *(short **)((char *)work + 0x8C4);
+
+    if (p[3] & 8)
+    {
+        GV_AddVec3((SVECTOR *)((char *)p + 0x34), (SVECTOR *)((char *)work + 0x64),
+                   (SVECTOR *)((char *)work + 0x64));
+        p[3] &= 0xFFF7;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C8170.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C81C8.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C8264.s")
@@ -42,9 +54,35 @@ void s08b_ninja_800C79D4(int a0)
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C8624.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C8798.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C8848.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C8930.s")
+int s08b_ninja_800C8930(char *unused, int *out)
+{
+    int   count = 0;
+    char *s;
+
+    (void)unused;
+    while ((s = GCL_NextStr()) != NULL)
+    {
+        *out = GCL_StrToInt(s);
+        out++;
+        count++;
+    }
+    return count;
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C8988.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C89E8.s")
+int s08b_ninja_800C89E8(char *unused, char *out)
+{
+    int   count = 0;
+    char *s;
+
+    (void)unused;
+    while ((s = GCL_NextStr()) != NULL)
+    {
+        *out = GCL_StrToInt(s);
+        out++;
+        count++;
+    }
+    return count;
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C8A40.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C8BE8.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C8DCC.s")
