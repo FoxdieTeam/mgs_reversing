@@ -54,7 +54,23 @@ extern SVECTOR s19b_dword_800C39F8;
 #define WEAPON_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE )
 
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D4188.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D424C.s")
+void s19b_jeep_sne_800D424C(void *obj, int arg1, int arg2, int arg3);
+void s19b_jeep_sne_800D4188(Work *work);
+
+void rpk_jeep_init_routine(Work *work, int flag)
+{
+
+    if (flag == 0) {
+
+        *(int *)((char *)work + 0x7FC) = 0;
+
+        
+        GM_ConfigObjectAction((void *)((char *)work + 0xA4), 0, 0, 4);
+    }
+
+
+    s19b_jeep_sne_800D4188(work);
+}
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D4290.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D43AC.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D4414.s")
