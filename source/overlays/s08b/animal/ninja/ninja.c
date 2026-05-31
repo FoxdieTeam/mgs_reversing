@@ -108,7 +108,23 @@ int s08b_ninja_800C8930(char *unused, int *out)
     }
     return count;
 }
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C8988.s")
+extern const char s08b_aErrerrerrsoundbuffover_800E3764[];
+
+int s08b_ninja_800C8988(void *work)
+{
+    char *opt = GCL_GetOption(0x76);
+
+    if (opt == NULL)
+    {
+        return 0;
+    }
+    if (s08b_ninja_800C8930(opt, (int *)((char *)work + 0x1A98)) < 0x23)
+    {
+        return 0;
+    }
+    fprintf(0, s08b_aErrerrerrsoundbuffover_800E3764);
+    return -1;
+}
 int s08b_ninja_800C89E8(char *unused, char *out)
 {
     int   count = 0;
