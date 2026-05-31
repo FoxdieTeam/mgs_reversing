@@ -94,7 +94,74 @@ void s15c_dyncon_800D5354(DynCon *work, int i, int j)
     HZD_DequeueDynamicFloor(hzd, &work->floors[i][j][0]);
     HZD_DequeueDynamicFloor(hzd, &work->floors[i][j][1]);
 }
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D5428.s")
+void s15c_dyncon_800D5428(DynCon *work, int i, int depth)
+{
+    SVECTOR a = DG_ZeroVector;
+    SVECTOR b = DG_ZeroVector;
+    int     flag = 0;
+    char   *base;
+
+    switch (i)
+    {
+    case 0:
+        a.vx = -0xDAC;
+        a.vz = -0x109A;
+        break;
+    case 1:
+        flag = 1;
+        a.vx = 0x1B58;
+        a.vz = -0x5DC;
+        break;
+    case 2:
+        flag = 1;
+        a.vx = -0x1B58;
+        a.vz = 0x1194;
+        break;
+    case 3:
+        a.vx = 0xDAC;
+        a.vz = 0x1D4C;
+        break;
+    }
+
+    (void)b;
+    base = (char *)work + i * 0x20;
+
+    *(short *)(base + 0x3FA4) = 0;
+    *(short *)(base + 0x3FA6) = 0xDAC;
+    *(short *)(base + 0x3FAC) = 0;
+    *(short *)(base + 0x3FAE) = 0xDAC;
+    *(short *)(base + 0x3FB4) = 0;
+    *(short *)(base + 0x3FB6) = 0xDAC;
+    *(short *)(base + 0x3FBC) = 0;
+    *(short *)(base + 0x3FBE) = 0xDAC;
+
+    if (flag == 0)
+    {
+        int div = depth * 1500 / 128;
+
+        *(short *)(base + 0x3FA0) = a.vx - 0x9C4;
+        *(short *)(base + 0x3FA2) = a.vz - div;
+        *(short *)(base + 0x3FA8) = a.vx + 0x9C4;
+        *(short *)(base + 0x3FAA) = a.vz - div;
+        *(short *)(base + 0x3FB0) = a.vx - 0x9C4;
+        *(short *)(base + 0x3FB2) = a.vz + div;
+        *(short *)(base + 0x3FB8) = a.vx + 0x9C4;
+        *(short *)(base + 0x3FBA) = a.vz + div;
+    }
+    else
+    {
+        int div = depth * 2000 / 128;
+
+        *(short *)(base + 0x3FA0) = a.vx - div;
+        *(short *)(base + 0x3FA2) = a.vz - 0x9C4;
+        *(short *)(base + 0x3FA8) = a.vx - div;
+        *(short *)(base + 0x3FAA) = a.vz + 0x9C4;
+        *(short *)(base + 0x3FB0) = a.vx + div;
+        *(short *)(base + 0x3FB2) = a.vz - 0x9C4;
+        *(short *)(base + 0x3FB8) = a.vx + div;
+        *(short *)(base + 0x3FBA) = a.vz + 0x9C4;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D567C.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D5910.s")
 void s15c_dyncon_800D59C0(SVECTOR *vec, int code)
