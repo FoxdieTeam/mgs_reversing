@@ -489,9 +489,39 @@ int s08b_bunsin2_800CFC90(BunshinWork *work)
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CFD88.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CFDE0.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CFE54.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D0004.s")
+extern void s08b_bunsin2_800CE398(BunshinWork *work);
+
+int s08b_bunsin2_800D0004(BunshinWork *work)
+{
+    if (work->field_19D0 == 0)
+    {
+        s08b_bunsin2_800CE398(work);
+        work->field_19B0 = 6;
+    }
+    if (work->field_19D0 >= 0x1F && work->body.rots[14].vy != 0)
+    {
+        return 1;
+    }
+    work->field_19D0++;
+    return 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D0078.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D018C.s")
+extern void s08b_bunsin2_800CE21C(BunshinWork *work);
+
+int s08b_bunsin2_800D018C(BunshinWork *work)
+{
+    if (work->field_19D0 == 0)
+    {
+        s08b_bunsin2_800CE21C(work);
+        work->field_19B0 = 5;
+    }
+    if (work->field_19D0 >= 0x3D && work->body.rots[14].vy != 0)
+    {
+        return 1;
+    }
+    work->field_19D0++;
+    return 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D0200.s")
 int s08b_bunsin2_800D0278(BunshinWork *work)
 {
@@ -662,7 +692,32 @@ int s08b_bunsin2_800D0F54(BunshinWork *work)
 }
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D0F88.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D1014.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D10C4.s")
+extern short linkvarbuf[0x60];
+
+int s08b_bunsin2_800D10C4(BunshinWork *work)
+{
+    if (GM_PlayerStatus & 0x1060)
+    {
+        work->field_19B0 = 0x12;
+    }
+    else if (linkvarbuf[14] == -1)
+    {
+        work->field_19B0 = 0x10;
+    }
+    else
+    {
+        work->field_19B0 = 0xD;
+    }
+    if (++work->field_19D0 == 1)
+    {
+        return 0;
+    }
+    if (work->field_19D0 >= 0x12D)
+    {
+        return 1;
+    }
+    return work->field_19A8;
+}
 int s08b_bunsin2_800D1138(BunshinWork *work)
 {
     if (work->field_19D0 == 0)
