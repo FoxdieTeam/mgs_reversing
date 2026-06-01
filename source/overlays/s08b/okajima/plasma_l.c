@@ -23,8 +23,19 @@ typedef struct _Work
 
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_plasma_l_800D98F4.s")
 
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_plasma_l_800D9A00.s")
-void s08b_plasma_l_800D9A00(Work *, POLY_FT4 *, int, DG_TEX *);
+void s08b_plasma_l_800D9A00(Work *work, POLY_FT4 *packs, int count, DG_TEX *tex)
+{
+    (void)work;
+    while (--count >= 0)
+    {
+        setPolyFT4(packs);
+        setSemiTrans(packs, 1);
+        setRGB0(packs, 0xFF, 0xFF, 0xFF);
+        DG_SetPacketTexture4(packs, tex);
+        packs->tpage |= 0x20;
+        packs++;
+    }
+}
 
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_plasma_l_800D9A90.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_plasma_l_800D9C98.s")
