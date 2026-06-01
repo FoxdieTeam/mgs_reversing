@@ -67,7 +67,17 @@ void s08b_ninja_800C79D4(int a0)
     *(int *)s08b_dword_800E4318 = a0;
     s08b_dword_800E4320 = 0;
 }
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C79F0.s")
+void s08b_ninja_800C79F0(void)
+{
+    GM_Camera.type = 0;
+    GM_Camera.position.vx = -0x1ABB;
+    GM_Camera.position.vy = 0x4A9;
+    GM_Camera.position.vz = -0x2A3;
+    GM_Camera.target.vx = -0x1EFF;
+    GM_Camera.target.vy = 0x4A9;
+    GM_Camera.target.vz = -0xAED;
+    s08b_dword_800E4320++;
+}
 int s08b_ninja_800C7A3C(void)
 {
     int ret = 1;
