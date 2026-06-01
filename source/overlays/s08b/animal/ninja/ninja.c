@@ -99,7 +99,19 @@ void s08b_ninja_800C7E14(void)
         s08b_dword_800E4320++;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C7ED8.s")
+void s08b_ninja_800C7ED8(void)
+{
+    SVECTOR vec;
+
+    vec = GM_Camera.target;
+    s08b_ninja_800C796C((short *)&vec, (short *)&GM_PlayerPosition);
+    GV_NearExp4V(&GM_Camera.target, &vec, 3);
+    GM_Camera.track = 0x1F40;
+    GM_Camera.rotate.vx = 0x280;
+    GM_Camera.rotate.vy = 0x800;
+    GM_Camera.rotate.vz = 0;
+    s08b_dword_800E4320++;
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C7F74.s")
 void s08b_ninja_800C811C(void *work)
 {
