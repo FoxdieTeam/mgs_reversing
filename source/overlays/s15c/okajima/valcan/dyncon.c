@@ -6,6 +6,7 @@
 #include "game/game.h"
 #include "game/item.h"
 #include "game/map.h"
+#include "linkvar.h"
 
 extern DG_OBJS *Takabe_MakePreshade(int model, LIT *lit);
 
@@ -181,7 +182,6 @@ void s15c_dyncon_800D5428(DynCon *work, int i, int depth)
 }
 extern void s15c_dyncon_800D3F24(HZD_SEG *segs, HZD_FLR *floors, MATRIX *mtx,
                                  SVECTOR *a, SVECTOR *b);
-extern void ReadRotMatrix(MATRIX *m);
 
 void s15c_dyncon_800D567C(DynCon *work, int s1, int s2, int code)
 {
@@ -373,25 +373,25 @@ void *s15c_dyncon_800D6434(DynCon *work, SVECTOR *pos, SVECTOR *step, int item_t
     case 0:
         item.message = s15c_aNikitamissile_800E2D80;
         item.type    = 3;
-        item.id      = 3;
+        item.id      = WP_Nikita;
         item.num     = 4;
         break;
     case 1:
         item.message = s15c_aC_800E2D94;
-        item.id      = 6;
+        item.id      = WP_C4;
         item.type    = 0;
         item.num     = 2;
         break;
     case 2:
         item.message = s15c_aC_800E2D94;
         item.type    = 0;
-        item.id      = 6;
-        item.num     = item_type;
+        item.id      = WP_C4;
+        item.num     = 2;
         break;
     case 3:
         item.message = s15c_aRation_800E2D9C;
         item.type    = 4;
-        item.id      = 0xD;
+        item.id      = IT_Ration;
         item.num     = 1;
         break;
     }
@@ -419,12 +419,12 @@ void s15c_dyncon_800D89F8(DynCon *work)
         s15c_dyncon_800D88C8(work);
     }
 }
-void s15c_dyncon_800D8A34(int unused, short *out, int count)
+void s15c_dyncon_800D8A34(char *opt, short *out, int count)
 {
     int   i;
     char *s;
 
-    (void)unused;
+    (void)opt;
     for (i = 0; i < count; i++)
     {
         s = GCL_NextStr();
@@ -441,17 +441,17 @@ extern void s15c_dyncon_800D6528(void *work);
 extern int  s15c_dyncon_800D8A9C(DynCon *work, int arg);
 extern const char s15c_dword_800E2E30[];
 
-GV_ACT *s15c_dyncon_800D8C9C(int unused, int arg)
+GV_ACT *s15c_dyncon_800D8C9C(int name, int where)
 {
     DynCon *work;
 
-    (void)unused;
+    (void)name;
 
     work = (DynCon *)GV_NewActor(GV_ACTOR_USER, 0x4170);
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, s15c_dyncon_800D6528, s15c_dyncon_800D89F8, s15c_dword_800E2E30);
-        if (s15c_dyncon_800D8A9C(work, arg) < 0)
+        if (s15c_dyncon_800D8A9C(work, where) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
