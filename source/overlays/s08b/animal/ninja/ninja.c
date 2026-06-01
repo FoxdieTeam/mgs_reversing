@@ -3,11 +3,34 @@
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
+#include "menu/menuman.h"
+
+typedef struct _NinjaWork
+{
+    GV_ACT          actor;       /* 0x000 */
+    CONTROL         control;     /* 0x020 */
+    char            pad_9C[0x9C - 0x20 - sizeof(CONTROL)];
+    OBJECT_NO_ROTS  body;        /* 0x09C */
+    char            pad_798[0x798 - 0x9C - sizeof(OBJECT_NO_ROTS)];
+    MATRIX          light;       /* 0x798 */
+    char            pad_7D8[0x7D8 - 0x798 - sizeof(MATRIX)];
+    int             field_7D8;   /* 0x7D8 */
+    char            pad_8C4[0x8C4 - 0x7D8 - 4];
+    TARGET         *target;      /* 0x8C4 */
+    char            pad_19D8[0x19D8 - 0x8C4 - 4];
+    int             field_19D8;  /* 0x19D8 */
+    char            pad_19E4[0x19E4 - 0x19D8 - 4];
+    int             field_19E4;  /* 0x19E4 */
+} NinjaWork;
 
 extern int s08b_dword_800E4318;
 extern int s08b_dword_800E4320;
 extern int s08b_dword_800C3390;
 extern int s08b_dword_800C3398;
+extern int s08b_dword_800C338C;
+extern int s08b_dword_800C3380;
+extern void s08b_bunsin2_800CDB10(NinjaWork *work);
+extern void s08b_ninja_800C81C8(NinjaWork *work);
 
 void s08b_ninja_800C7914(short *a, short *b, short *out)
 {
@@ -56,7 +79,36 @@ void s08b_ninja_800C811C(void *work)
 }
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C8170.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C81C8.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C8264.s")
+void s08b_ninja_800C8264(NinjaWork *work)
+{
+    CONTROL *c = &work->control;
+
+    s08b_ninja_800C811C(work);
+    GM_ActControl(c);
+    GM_ActObject2((OBJECT *)&work->body);
+    DG_GetLightMatrix2((SVECTOR *)c, &work->light);
+    s08b_bunsin2_800CDB10(work);
+    if (work->field_7D8 == 0)
+    {
+        GM_MoveTarget(work->target, (SVECTOR *)&work->control);
+        GM_PushTarget(work->target);
+    }
+    work->field_19D8++;
+    if (work->field_7D8 == 0)
+    {
+        if (work->field_19E4 < 0)
+        {
+            work->field_19E4 = 0;
+        }
+        if (work->field_19E4 < s08b_dword_800C338C)
+        {
+            s08b_dword_800C338C--;
+        }
+        MENU_DrawBar(0x10, 0x1C, s08b_dword_800C338C << 2, work->field_19E4 << 2,
+                     (MENU_BAR_CONF *)&s08b_dword_800C3380);
+    }
+    s08b_ninja_800C81C8(work);
+}
 void s08b_ninja_800C8354(void *work)
 {
     TARGET *t = *(TARGET **)((char *)work + 0x8C4);
