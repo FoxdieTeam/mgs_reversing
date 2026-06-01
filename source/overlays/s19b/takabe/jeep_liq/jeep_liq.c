@@ -6,7 +6,7 @@
 typedef struct _JeepLiqWork
 {
     GV_ACT          actor;        /* 0x000 */
-    CONTROL        *map;          /* 0x020 */
+    CONTROL        *control;      /* 0x020 */
     DG_PRIM        *prim;         /* 0x024 */
     MATRIX          world;        /* 0x028 */
     SVECTOR         vecs[11];     /* 0x048 */
@@ -235,26 +235,23 @@ void s19b_spark2_m_800D8A48(JeepLiqWork *work)
 
 void s19b_spark2_m_800D8A88(JeepLiqWork *work)
 {
-    short *p = (short *)work->map;
-    int    v = work->f930 - p[5];
+    int v = work->f930 - work->control->rot.vy;
     work->sv_7A0.vy = v;
     work->sv_7A8.vy = v;
 }
 
 void s19b_spark2_m_800D8AAC(JeepLiqWork *work)
 {
-    short *p    = (short *)work->map;
-    int    base = work->f930 + 0xCC0;
-    int    v    = base - p[5];
+    int base = work->f930 + 0xCC0;
+    int v    = base - work->control->rot.vy;
     work->sv_7A0.vy = v;
     work->sv_7A8.vy = v;
 }
 
 void s19b_spark2_m_800D8ACC(JeepLiqWork *work)
 {
-    short *p    = (short *)work->map;
-    int    base = work->f930 + 0x340;
-    int    v    = base - p[5];
+    int base = work->f930 + 0x340;
+    int v    = base - work->control->rot.vy;
     work->sv_7A0.vy = v;
     work->sv_7A8.vy = v;
 }
