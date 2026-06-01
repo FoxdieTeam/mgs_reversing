@@ -10,6 +10,7 @@
 #include "font/font.h"
 #include "menu/menuman.h"
 #include "game/game.h"
+#include "linkvar.h"
 #include "sound/sd_cli.h"
 #include "sound/g_sound.h"
 
@@ -1820,7 +1821,41 @@ void title_open_800D2A00(OpenWork *work)
         GV_DestroyActor(work);
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800D2AFC.s")
+void title_open_800D2AFC(OpenWork *work)
+{
+    GCL_ARGS args;
+    long     argv[3];
+
+    args.argc = 3;
+    args.argv = argv;
+    argv[0] = work->f24D0;
+    if (work->f24BC) { work->f24B4++; }
+    title_open_800D2374(work);
+    title_open_800C47B8(work, DG_ChanlOTag(1));
+    title_open_800D2460(work);
+    if (work->f24EC == 0) { if (work->f24B0 >= 0xA0) { work->f24EC = 1; } }
+    work->f24B0++;
+    if (work->f24B4 >= 0x48)
+    {
+        switch (work->fB48)
+        {
+        case 1: argv[1] = 1; argv[2] = 0; break;
+        case 2: argv[1] = 0; argv[2] = 0; break;
+        case 3: case 4: case 5: case 6:
+            switch (work->fB44)
+            {
+            case 0: argv[1] = 1; argv[2] = 0; break;
+            case 1: argv[1] = 0; argv[2] = 0; break;
+            case 2: argv[1] = 1; argv[2] = 1; break;
+            case 3: argv[1] = 0; argv[2] = 1; break;
+            }
+            break;
+        }
+        GM_OptionFlag &= 0xF7FF;
+        GCL_ExecProc(work->fAF4, &args);
+        GV_DestroyActor(work);
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800D2CA8.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800D2E44.s")
 
