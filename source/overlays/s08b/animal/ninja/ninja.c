@@ -21,7 +21,11 @@ typedef struct _NinjaWork
     int             field_19D8;  /* 0x19D8 */
     char            pad_19E4[0x19E4 - 0x19D8 - 4];
     int             field_19E4;  /* 0x19E4 */
-    char            pad_1B24[0x1B24 - 0x19E4 - 4];
+    char            pad_1A8C[0x1A8C - 0x19E4 - 4];
+    int             field_1A8C;  /* 0x1A8C */
+    int             field_1A90;  /* 0x1A90 */
+    int             field_1A94;  /* 0x1A94 */
+    char            pad_1B24[0x1B24 - 0x1A94 - 4];
     short           field_1B24;  /* 0x1B24 */
 } NinjaWork;
 
@@ -38,6 +42,12 @@ extern int  fprintf(int stream, const char *format, ...);
 extern GM_CameraSystemWork GM_Camera;
 extern char *s08b_dword_800E431C;
 extern int s08b_dword_800E4324;
+extern const char s08b_aNinjac_800E37F8[];
+extern int s08b_dword_800E4334;
+extern int s08b_dword_800E4338;
+extern int s08b_dword_800E433C;
+extern int s08b_dword_800E4340;
+extern int s08b_ninja_800C8BE8(NinjaWork *work, int arg1, int arg2);
 extern void s08b_ninja_800C79D4(int a0);
 extern void s08b_ninja_800C796C(short *a, short *b);
 
@@ -398,4 +408,53 @@ int s08b_ninja_800C89E8(char *unused, char *out)
 }
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C8A40.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C8BE8.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C8DCC.s")
+void *s08b_ninja_800C8DCC(int arg1, int arg2)
+{
+    NinjaWork *work;
+
+    work = GV_NewActor(GV_ACTOR_PREV, 0x1B34);
+    if (work != NULL)
+    {
+        GV_SetNamedActor(work, s08b_ninja_800C8264, s08b_ninja_800C8798,
+                         s08b_aNinjac_800E37F8);
+
+        if (GCL_GetOption(0x65) != 0)
+        {
+            work->field_1A8C = GCL_StrToInt(GCL_NextStr());
+        }
+        else
+        {
+            work->field_1A8C = -1;
+        }
+        if (GCL_GetOption(0x77) != 0)
+        {
+            work->field_1A90 = GCL_StrToInt(GCL_NextStr());
+        }
+        else
+        {
+            work->field_1A90 = -1;
+        }
+        if (GCL_GetOption(0x62) != 0)
+        {
+            work->field_1A94 = GCL_StrToInt(GCL_NextStr());
+        }
+        else
+        {
+            work->field_1A94 = -1;
+        }
+
+        work->field_7D8 = 0;
+
+        if (s08b_ninja_800C8BE8(work, arg1, arg2) < 0)
+        {
+            GV_DestroyActor(work);
+            return NULL;
+        }
+
+        s08b_dword_800E4340 = 0;
+        (&s08b_dword_800E4334)[0] = 1;
+        (&s08b_dword_800E4334)[1] = 0;
+        (&s08b_dword_800E4334)[2] = 0;
+    }
+    return work;
+}
