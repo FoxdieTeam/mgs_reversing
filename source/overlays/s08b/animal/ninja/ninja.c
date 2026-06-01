@@ -123,7 +123,52 @@ void s08b_ninja_800C7B68(void)
     GM_Camera.rotate.vz = 0;
     s08b_dword_800E4320++;
 }
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C7BC8.s")
+int s08b_ninja_800C7BC8(void)
+{
+    int ret = 1;
+
+    if (s08b_dword_800E4320 < 0x1F)
+    {
+        GM_Camera.rotate.vx = 0x280;
+        GM_Camera.rotate.vy = 0x800;
+        GM_Camera.rotate.vz = 0;
+        GM_Camera.track = 0x1F40;
+        GM_Camera.target = *(SVECTOR *)(s08b_dword_800E431C + 0x1968);
+        if (*(short *)(s08b_dword_800E431C + 0x1968) >= -0x7CF)
+        {
+            s08b_dword_800E4324 = 0;
+        }
+        else
+        {
+            s08b_dword_800E4324 = 1;
+        }
+    }
+    else
+    {
+        GM_Camera.type = 0;
+        if (s08b_dword_800E4324 == 0)
+        {
+            GM_Camera.position.vx = 0x71F;
+            GM_Camera.position.vy = 0x340;
+            GM_Camera.position.vz = -0x43B;
+            GM_Camera.target.vx = 0x9BF;
+            GM_Camera.target.vy = 0x3F7;
+            GM_Camera.target.vz = -0x784;
+        }
+        else
+        {
+            GM_Camera.position.vx = -0x12F8;
+            GM_Camera.position.vy = 0x22F;
+            GM_Camera.position.vz = 0xE5;
+            GM_Camera.target.vx = -0x18A0;
+            GM_Camera.target.vy = 0x8AE;
+            GM_Camera.target.vz = -0x130E;
+        }
+        ret = 0;
+    }
+    s08b_dword_800E4320++;
+    return ret;
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C7CF4.s")
 void s08b_ninja_800C7E14(void)
 {
