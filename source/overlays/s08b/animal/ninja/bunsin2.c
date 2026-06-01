@@ -41,7 +41,9 @@ typedef struct _BunshinWork
     int          field_19B0;
     int          field_19B4;
     int          field_19B8;     // 0x19B8
-    char         pad3[0x19C8 - 0x19B8 - sizeof(int)];
+    int          field_19BC;     // 0x19BC
+    int          field_19C0;     // 0x19C0
+    char         pad3[0x19C8 - 0x19C0 - sizeof(int)];
     int          field_19C8;     // 0x19C8
     int          field_19CC;
     int          field_19D0;
@@ -1008,7 +1010,25 @@ void s08b_bunsin2_800D3BD4(BunshinWork *work)
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D41DC.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D42D8.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D43D8.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D4460.s")
+extern int s08b_bunsin2_800CF464(BunshinWork *work);
+
+void s08b_bunsin2_800D4460(BunshinWork *work)
+{
+    if (s08b_bunsin2_800CF464(work) != 0)
+    {
+        work->field_19B8 = 1;
+        work->field_19D0 = 0;
+        work->field_19D4 = 0;
+        work->field_19C0 &= ~2;
+    }
+    else if (s08b_bunsin2_800D42D8(work) != 0)
+    {
+        work->field_19C8 = 4;
+        work->field_19CC = 0xA;
+        work->field_19D0 = 0;
+        work->field_19D4 = 0;
+    }
+}
 extern int s08b_bunsin2_800CF54C(BunshinWork *work);
 
 void s08b_bunsin2_800D44D0(BunshinWork *work)
