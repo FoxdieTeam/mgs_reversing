@@ -347,7 +347,24 @@ int s08b_bunsin2_800CEF94(BunshinClone *p, int n, int initial)
     }
     return sum + initial;
 }
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CEFC0.s")
+void s08b_bunsin2_800CEFC0(BunshinClone *clones, int val, short *out_count, short *out_rem)
+{
+    int cur = val;
+    int count = -1;
+
+    if (val >= 0)
+    {
+        do
+        {
+            val = cur;
+            count++;
+            cur = val - clones->field_0;
+            clones++;
+        } while (cur >= 0);
+    }
+    *out_count = count;
+    *out_rem = val;
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CEFF4.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CF150.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CF254.s")
