@@ -9,11 +9,9 @@ typedef struct _NinjaWork
 {
     GV_ACT          actor;       /* 0x000 */
     CONTROL         control;     /* 0x020 */
-    char            pad_9C[0x9C - 0x20 - sizeof(CONTROL)];
     OBJECT_NO_ROTS  body;        /* 0x09C */
     char            pad_798[0x798 - 0x9C - sizeof(OBJECT_NO_ROTS)];
-    MATRIX          light;       /* 0x798 */
-    char            pad_7D8[0x7D8 - 0x798 - sizeof(MATRIX)];
+    MATRIX          light[2];    /* 0x798 */
     int             field_7D8;   /* 0x7D8 */
     char            pad_8C4[0x8C4 - 0x7D8 - 4];
     TARGET         *target;      /* 0x8C4 */
@@ -47,7 +45,7 @@ extern int s08b_dword_800E4334;
 extern int s08b_dword_800E4338;
 extern int s08b_dword_800E433C;
 extern int s08b_dword_800E4340;
-extern int s08b_ninja_800C8BE8(NinjaWork *work, int arg1, int arg2);
+extern int s08b_ninja_800C8BE8(NinjaWork *work, int name, int where);
 extern void s08b_ninja_800C79D4(int a0);
 extern void s08b_ninja_800C796C(short *a, short *b);
 
@@ -301,7 +299,7 @@ void s08b_ninja_800C8264(NinjaWork *work)
     s08b_ninja_800C811C(work);
     GM_ActControl(c);
     GM_ActObject2((OBJECT *)&work->body);
-    DG_GetLightMatrix2((SVECTOR *)c, &work->light);
+    DG_GetLightMatrix2((SVECTOR *)c, work->light);
     s08b_bunsin2_800CDB10(work);
     if (work->field_7D8 == 0)
     {
@@ -337,8 +335,6 @@ void s08b_ninja_800C8354(void *work)
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C8624.s")
 void s08b_ninja_800C8798(void *work)
 {
-    void *p;
-
     GM_FreeControl((CONTROL *)((char *)work + 0x20));
     GM_FreeObject((OBJECT *)((char *)work + 0x9C));
     GM_FreeObject((OBJECT *)((char *)work + 0x7DC));
@@ -352,12 +348,7 @@ void s08b_ninja_800C8798(void *work)
     if (*(int *)((char *)work + 0x7D8) == 0)
     {
         GM_FreeTarget(*(TARGET **)((char *)work + 0x8C4));
-        p = *(void **)((char *)work + 0x1A80);
-        if (p != NULL)
-        {
-            DG_DequeuePrim((DG_PRIM *)p);
-            DG_FreePrim((DG_PRIM *)p);
-        }
+        GM_FreePrim(*(DG_PRIM **)((char *)work + 0x1A80));
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C8848.s")
@@ -408,7 +399,7 @@ int s08b_ninja_800C89E8(char *unused, char *out)
 }
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C8A40.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C8BE8.s")
-void *s08b_ninja_800C8DCC(int arg1, int arg2)
+void *s08b_ninja_800C8DCC(int name, int where)
 {
     NinjaWork *work;
 
@@ -445,7 +436,7 @@ void *s08b_ninja_800C8DCC(int arg1, int arg2)
 
         work->field_7D8 = 0;
 
-        if (s08b_ninja_800C8BE8(work, arg1, arg2) < 0)
+        if (s08b_ninja_800C8BE8(work, name, where) < 0)
         {
             GV_DestroyActor(work);
             return NULL;
