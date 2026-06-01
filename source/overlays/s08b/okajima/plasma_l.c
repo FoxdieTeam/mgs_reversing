@@ -92,7 +92,73 @@ void s08b_plasma_l_800D9A90(Work *work, SVECTOR *a, SVECTOR *b)
     work->field_378[16] = 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_plasma_l_800D9C98.s")
+void s08b_plasma_l_800D9C98(Work *work)
+{
+    int q;
+
+    q = work->field_2C / 4;
+
+    work->field_2F0[0] += GV_RandS(0x80);
+    work->field_2F0[4] += GV_RandS(0x40);
+    work->field_334[4] += GV_RandS(0x20);
+
+    work->field_378[4] += GV_RandS(0x20);
+    if (work->field_378[4] < 0)
+        work->field_378[4] = 0;
+    if (q < work->field_378[4])
+        work->field_378[4] = q;
+
+    work->field_2F0[8] += GV_RandS(0x40);
+    if (work->field_2F0[4] + 0x200 < work->field_2F0[8])
+        work->field_2F0[8] = work->field_2F0[4] + GV_RandS(0x200);
+    if (work->field_2F0[8] < work->field_2F0[4] - 0x200)
+        work->field_2F0[8] = work->field_2F0[4] + GV_RandS(0x200);
+
+    work->field_334[8] += GV_RandS(0x20);
+
+    {
+        int r = GV_RandS(0x40);
+        int t = work->field_378[8] + 0x10;
+        work->field_378[8] = t + r;
+    }
+    if (work->field_378[8] < 0)
+        work->field_378[8] = 0;
+    if (q < work->field_378[8])
+        work->field_378[8] = q;
+
+    work->field_2F0[12] += GV_RandS(0x40);
+    if (work->field_2F0[8] + 0x200 < work->field_2F0[12])
+        work->field_2F0[12] = work->field_2F0[8] + GV_RandS(0x200);
+    if (work->field_2F0[12] < work->field_2F0[8] - 0x200)
+        work->field_2F0[12] = work->field_2F0[8] + GV_RandS(0x200);
+
+    work->field_334[12] += GV_RandS(0x20);
+
+    work->field_378[12] += GV_RandS(0x20);
+    if (work->field_378[12] < 0)
+        work->field_378[12] = 0;
+    if (q * 2 < work->field_378[12])
+        work->field_378[12] = q * 2;
+
+    if (work->field_334[8] < work->field_334[4])
+    {
+        int t = work->field_334[4];
+        work->field_334[4] = work->field_334[8];
+        work->field_334[8] = t;
+    }
+    if (work->field_334[12] < work->field_334[4])
+    {
+        int t = work->field_334[4];
+        work->field_334[4] = work->field_334[12];
+        work->field_334[12] = t;
+    }
+    if (work->field_334[12] < work->field_334[8])
+    {
+        int t = work->field_334[8];
+        work->field_334[8] = work->field_334[12];
+        work->field_334[12] = t;
+    }
+}
 void s08b_plasma_l_800D9F1C(Work *work, int arg1, int arg2)
 {
     int v1, v2;
