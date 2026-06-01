@@ -375,7 +375,29 @@ int s08b_bunsin2_800CEEB8(BunshinWork *work, int arg1)
     work->field_19B4 = GV_VecDir2(&vec);
     return 0;
 }
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CEF34.s")
+extern short s08b_dword_800C3510[];
+
+int s08b_bunsin2_800CEF34(int a, int b)
+{
+    short *p;
+    int    i;
+
+    if (a > b)
+    {
+        int t = a;
+        a = b;
+        b = t;
+    }
+    p = s08b_dword_800C3510;
+    for (i = 0; i < 2; i++, p += 2)
+    {
+        if (a == p[0] && b == p[1])
+        {
+            return 1;
+        }
+    }
+    return 0;
+}
 int s08b_bunsin2_800CEF94(BunshinClone *p, int n, int initial)
 {
     int sum = 0;
@@ -581,7 +603,20 @@ int s08b_bunsin2_800D0814(BunshinWork *work)
     }
     return r1;
 }
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D0864.s")
+int s08b_bunsin2_800D0864(BunshinWork *work)
+{
+    SVECTOR vec;
+
+    GV_SubVec3(&work->field_1968, (SVECTOR *)&work->body, &vec);
+    vec.vy = 0;
+    work->field_19B4 = GV_VecDir2(&vec);
+    if (GV_VecLen3(&vec) < 0x12C)
+    {
+        return 1;
+    }
+    work->field_19D0++;
+    return 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D08C8.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D093C.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D09C4.s")
