@@ -39,10 +39,13 @@ typedef struct _BunshinWork
     char         pad2b[0x19B0 - 0x19A8 - sizeof(int)];
     int          field_19B0;
     int          field_19B4;
-    char         pad3[0x19CC - 0x19B4 - sizeof(int)];
+    char         pad3[0x19C8 - 0x19B4 - sizeof(int)];
+    int          field_19C8;     // 0x19C8
     int          field_19CC;
     int          field_19D0;
-    char         pad4[0x19F4 - 0x19D0 - sizeof(int)];
+    char         pad4a[0x19E0 - 0x19D0 - sizeof(int)];
+    int          field_19E0;     // 0x19E0
+    char         pad4b[0x19F4 - 0x19E0 - sizeof(int)];
     int          field_19F4;     // 0x19F4
     int          field_19F8;     // 0x19F8
     char         pad5[0x1A28 - 0x19F8 - sizeof(int)];
@@ -498,7 +501,24 @@ int s08b_bunsin2_800D0720(BunshinWork *work)
 
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D072C.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D0784.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D0814.s")
+extern int s08b_bunsin2_800CEE68(BunshinWork *work);
+extern int s08b_bunsin2_800CEF34(int a0, int a1);
+
+int s08b_bunsin2_800D0814(BunshinWork *work)
+{
+    int r1 = s08b_bunsin2_800CEE68(work);
+    int a0 = *(unsigned char *)&work->field_1978;
+    int a1 = *(unsigned char *)&work->field_197C;
+    int r2;
+
+    work->field_19D0++;
+    r2 = s08b_bunsin2_800CEF34(a0, a1);
+    if (r2 != 0)
+    {
+        return 2;
+    }
+    return r1;
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D0864.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D08C8.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D093C.s")
@@ -610,7 +630,18 @@ int s08b_bunsin2_800D1348(BunshinWork *work)
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D1DE0.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D1EC8.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D1F9C.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D2104.s")
+extern int s08b_bunsin2_800CFA30(BunshinWork *work);
+
+void s08b_bunsin2_800D2104(BunshinWork *work)
+{
+    if (work->field_19CC == 0 && s08b_bunsin2_800CFA30(work) != 0)
+    {
+        work->field_19C8 = 1;
+        work->field_19CC = 6;
+        work->field_19D0 = 0;
+        work->field_19E0 = 0;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D2158.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D21B8.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D231C.s")
