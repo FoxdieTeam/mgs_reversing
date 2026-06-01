@@ -36,6 +36,7 @@ extern void s08b_ninja_800C81C8(NinjaWork *work);
 extern int  s08b_ninja_800C8170(void);
 extern int  fprintf(int stream, const char *format, ...);
 extern GM_CameraSystemWork GM_Camera;
+extern char *s08b_dword_800E431C;
 extern void s08b_ninja_800C79D4(int a0);
 extern void s08b_ninja_800C796C(short *a, short *b);
 
@@ -67,7 +68,15 @@ void s08b_ninja_800C79D4(int a0)
 }
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C79F0.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C7A3C.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C7B68.s")
+void s08b_ninja_800C7B68(void)
+{
+    GM_Camera.track = 0x1F40;
+    GM_Camera.target = *(SVECTOR *)(s08b_dword_800E431C + 0x1968);
+    GM_Camera.rotate.vx = 0x280;
+    GM_Camera.rotate.vy = 0x800;
+    GM_Camera.rotate.vz = 0;
+    s08b_dword_800E4320++;
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C7BC8.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C7CF4.s")
 void s08b_ninja_800C7E14(void)
