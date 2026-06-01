@@ -12,7 +12,9 @@ typedef struct _JeepLiqWork
     SVECTOR         vecs[11];     /* 0x048 */
     char            pad_obj[0x0A4 - 0x048 - sizeof(SVECTOR[11])];
     OBJECT          obj;          /* 0x0A4 */
-    char            pad_1F0[0x1F0 - 0x0A4 - sizeof(OBJECT)];
+    MOTION_CONTROL  m_ctrl;       /* 0x188 */
+    /* m_segs1[17] @ 0x1D8 - poked as scalars below by the setters */
+    char            pad_seg1[0x1F0 - 0x188 - sizeof(MOTION_CONTROL)];
     int             f1F0;         /* 0x1F0 */
     char            pad_3D4[0x3D4 - 0x1F4];
     int             field_3D4;
@@ -21,16 +23,17 @@ typedef struct _JeepLiqWork
     int             field_3E0;
     int             field_3E4;
     int             field_3E8;
-    char            pad_730[0x730 - 0x3EC];
-    SVECTOR         sv_730;       /* 0x730 */
-    char            pad_750[0x750 - 0x730 - sizeof(SVECTOR)];
-    SVECTOR         sv_750;       /* 0x750 */
-    char            pad_7A0[0x7A0 - 0x750 - sizeof(SVECTOR)];
+    char            pad_segs2[0x43C - 0x3EC];
+    MOTION_SEGMENT  m_segs2[17];  /* 0x43C */
+    SVECTOR         svecs1[16];   /* 0x6A0 */
+    SVECTOR         svecs2[16];   /* 0x720 */
     SVECTOR         sv_7A0;       /* 0x7A0 */
     SVECTOR         sv_7A8;       /* 0x7A8 */
-    char            pad_8E4[0x8E4 - 0x7A8 - sizeof(SVECTOR)];
+    char            pad_7C0[0x7C0 - 0x7A8 - sizeof(SVECTOR)];
+    MATRIX          mtx[2];       /* 0x7C0 */
+    OBJECT          obj2;         /* 0x800 */
     TARGET         *f8E4;         /* 0x8E4 */
-    char            pad_8EC[0x8EC - 0x8E4 - sizeof(TARGET *)];
+    HOMING         *homing;       /* 0x8E8 */
     void           *f8EC;         /* 0x8EC */
     char            pad_8F4[0x8F4 - 0x8EC - sizeof(void *)];
     int             f8F4;         /* 0x8F4 */
@@ -229,8 +232,8 @@ int s19b_spark2_m_800D899C(JeepLiqWork *work)
 
 void s19b_spark2_m_800D8A48(JeepLiqWork *work)
 {
-    GV_NearExp4PV(&work->sv_730, &work->sv_7A0, 3);
-    GV_NearExp4PV(&work->sv_750, &work->sv_7A8, 3);
+    GV_NearExp4PV(&work->svecs2[2], &work->sv_7A0, 3);
+    GV_NearExp4PV(&work->svecs2[6], &work->sv_7A8, 3);
 }
 
 void s19b_spark2_m_800D8A88(JeepLiqWork *work)
