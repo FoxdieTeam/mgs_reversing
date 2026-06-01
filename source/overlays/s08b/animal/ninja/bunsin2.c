@@ -17,7 +17,8 @@ typedef struct _BunshinWork
     SVECTOR      field_748;      // 0x748
     char         pad_to_7DC[0x7DC - 0x748 - sizeof(SVECTOR)];
     DG_OBJS     *field_7DC;      // 0x7DC
-    char         pad_to_8C4[0x8C4 - 0x7DC - sizeof(DG_OBJS *)];
+    char         pad_to_8C0[0x8C0 - 0x7DC - sizeof(DG_OBJS *)];
+    int          field_8C0;      // 0x8C0
     TARGET      *field_8C4;      // 0x8C4
     char         pad_to_clones[0x920 - 0x8C4 - sizeof(TARGET *)];
     BunshinClone clones[11];     // 0x920..0x144B (11 * 0x104 = 0xB2C)
@@ -176,9 +177,19 @@ int s08b_bunsin2_800CD2C0(int a, int b, int c)
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CD690.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CD770.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CD808.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CD87C.s")
-extern void s08b_bunsin2_800CD87C(void);
 extern int  s08b_bunsin2_800CD95C(BunshinWork *work, int target);
+extern int  s08b_dword_800C343C;
+
+void s08b_bunsin2_800CD87C(BunshinWork *work)
+{
+    if (s08b_dword_800C343C == 8)
+    {
+        s08b_dword_800C343C = 0;
+        s08b_bunsin2_800CD95C(work, (int)s08b_bunsin2_800CD87C);
+        work->field_8C0 = 1;
+    }
+    s08b_dword_800C343C++;
+}
 
 void s08b_bunsin2_800CD8D8(BunshinWork *work)
 {
@@ -213,7 +224,20 @@ int s08b_bunsin2_800CD95C(BunshinWork *work, int target)
     }
     return 0;
 }
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CD990.s")
+void s08b_bunsin2_800CD990(BunshinWork *work)
+{
+    void (*f)(BunshinWork *);
+    int   i;
+
+    for (i = 0; i < 8; i++)
+    {
+        f = (void (*)(BunshinWork *))work->field_1A40[i];
+        if (f != NULL)
+        {
+            f(work);
+        }
+    }
+}
 void s08b_bunsin2_800CD9F0(BunshinWork *work)
 {
     TARGET        *target = work->field_8C4;
