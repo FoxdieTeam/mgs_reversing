@@ -37,6 +37,7 @@ extern int  s08b_ninja_800C8170(void);
 extern int  fprintf(int stream, const char *format, ...);
 extern GM_CameraSystemWork GM_Camera;
 extern char *s08b_dword_800E431C;
+extern int s08b_dword_800E4324;
 extern void s08b_ninja_800C79D4(int a0);
 extern void s08b_ninja_800C796C(short *a, short *b);
 
@@ -67,7 +68,52 @@ void s08b_ninja_800C79D4(int a0)
     s08b_dword_800E4320 = 0;
 }
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C79F0.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C7A3C.s")
+int s08b_ninja_800C7A3C(void)
+{
+    int ret = 1;
+
+    if (s08b_dword_800E4320 < 0x1F)
+    {
+        GM_Camera.rotate.vx = 0x280;
+        GM_Camera.rotate.vy = 0x800;
+        GM_Camera.rotate.vz = 0;
+        GM_Camera.track = 0x1F40;
+        GM_Camera.target = *(SVECTOR *)(s08b_dword_800E431C + 0x1968);
+        if (*(short *)(s08b_dword_800E431C + 0x1968) >= -0x7CF)
+        {
+            s08b_dword_800E4324 = 0;
+        }
+        else
+        {
+            s08b_dword_800E4324 = 1;
+        }
+    }
+    else
+    {
+        GM_Camera.type = 0;
+        if (s08b_dword_800E4324 == 0)
+        {
+            GM_Camera.position.vx = 0x960;
+            GM_Camera.position.vy = 0x25F;
+            GM_Camera.position.vz = -0x23F;
+            GM_Camera.target.vx = 0x10C9;
+            GM_Camera.target.vy = 0x8FB;
+            GM_Camera.target.vz = -0x1FDC;
+        }
+        else
+        {
+            GM_Camera.position.vx = -0x10DB;
+            GM_Camera.position.vy = 0x2A8;
+            GM_Camera.position.vz = 0x4D;
+            GM_Camera.target.vx = -0x20DF;
+            GM_Camera.target.vy = 0x950;
+            GM_Camera.target.vz = -0x19AE;
+        }
+        ret = 0;
+    }
+    s08b_dword_800E4320++;
+    return ret;
+}
 void s08b_ninja_800C7B68(void)
 {
     GM_Camera.track = 0x1F40;
