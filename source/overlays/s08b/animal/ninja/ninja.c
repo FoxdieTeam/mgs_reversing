@@ -35,6 +35,9 @@ extern void s08b_bunsin2_800CDB10(NinjaWork *work);
 extern void s08b_ninja_800C81C8(NinjaWork *work);
 extern int  s08b_ninja_800C8170(void);
 extern int  fprintf(int stream, const char *format, ...);
+extern GM_CameraSystemWork GM_Camera;
+extern void s08b_ninja_800C79D4(int a0);
+extern void s08b_ninja_800C796C(short *a, short *b);
 
 void s08b_ninja_800C7914(short *a, short *b, short *out)
 {
@@ -67,7 +70,26 @@ void s08b_ninja_800C79D4(int a0)
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C7B68.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C7BC8.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C7CF4.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C7E14.s")
+void s08b_ninja_800C7E14(void)
+{
+    SVECTOR vec;
+
+    vec = GM_Camera.target;
+    s08b_ninja_800C796C((short *)&vec, (short *)&GM_PlayerPosition);
+    GV_NearExp4V(&GM_Camera.target, &vec, 3);
+    GM_Camera.rotate.vx = 0x280;
+    GM_Camera.rotate.vy = GV_NearExp2(GM_Camera.rotate.vy, 0x800);
+    GM_Camera.rotate.vz = 0;
+    GM_Camera.track = GV_NearExp2(GM_Camera.track, 0xFA0);
+    if (s08b_dword_800E4320 >= 0x40)
+    {
+        s08b_ninja_800C79D4(2);
+    }
+    else
+    {
+        s08b_dword_800E4320++;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C7ED8.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C7F74.s")
 void s08b_ninja_800C811C(void *work)
