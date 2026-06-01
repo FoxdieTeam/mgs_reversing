@@ -21,6 +21,8 @@ typedef struct _NinjaWork
     int             field_19D8;  /* 0x19D8 */
     char            pad_19E4[0x19E4 - 0x19D8 - 4];
     int             field_19E4;  /* 0x19E4 */
+    char            pad_1B24[0x1B24 - 0x19E4 - 4];
+    short           field_1B24;  /* 0x1B24 */
 } NinjaWork;
 
 extern int s08b_dword_800E4318;
@@ -31,6 +33,8 @@ extern int s08b_dword_800C338C;
 extern int s08b_dword_800C3380;
 extern void s08b_bunsin2_800CDB10(NinjaWork *work);
 extern void s08b_ninja_800C81C8(NinjaWork *work);
+extern int  s08b_ninja_800C8170(void);
+extern int  fprintf(int stream, const char *format, ...);
 
 void s08b_ninja_800C7914(short *a, short *b, short *out)
 {
@@ -78,7 +82,27 @@ void s08b_ninja_800C811C(void *work)
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C8170.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C81C8.s")
+void s08b_ninja_800C81C8(NinjaWork *work)
+{
+    if (work->field_1B24 == 0)
+    {
+        if (s08b_ninja_800C8170() != 0 && (GM_PlayerStatus & 0x20000) &&
+            GM_NoisePower == 0x64)
+        {
+            work->field_1B24 = 0x5A;
+        }
+    }
+    else if (work->field_1B24 == 0x4B)
+    {
+        GM_SeSet((SVECTOR *)&work->control, 0x8F);
+    }
+
+    work->field_1B24--;
+    if (work->field_1B24 < 0)
+    {
+        work->field_1B24 = 0;
+    }
+}
 void s08b_ninja_800C8264(NinjaWork *work)
 {
     CONTROL *c = &work->control;
