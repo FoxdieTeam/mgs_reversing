@@ -21,7 +21,22 @@ typedef struct _Work
 
 #define EXEC_LEVEL GV_ACTOR_PREV
 
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_plasma_l_800D98F4.s")
+int s08b_plasma_l_800D98F4(SVECTOR *a, SVECTOR *b, SVECTOR *out)
+{
+    int dx = (a->vx - b->vx) / 16;
+    int dy = (a->vy - b->vy) / 16;
+    int dz = (a->vz - b->vz) / 16;
+    int dist = SquareRoot0(dx * dx + dy * dy + dz * dz);
+    int d  = dist << 4;
+    int ex = b->vx - a->vx;
+    int ez = b->vz - a->vz;
+    int ey = b->vy - a->vy;
+
+    out->vy = ratan2(ex, ez) & 0xFFF;
+    out->vx = ratan2(d, ey) & 0xFFF;
+    out->vz = 0;
+    return d;
+}
 
 void s08b_plasma_l_800D9A00(Work *work, POLY_FT4 *packs, int count, DG_TEX *tex)
 {
