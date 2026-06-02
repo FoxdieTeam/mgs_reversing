@@ -132,7 +132,8 @@ typedef struct _OpenWork
     int      f24F0;
     int      f24F4;
     int      f24F8_proc;
-    char     pad11[8];
+    int      f24FC;
+    char     pad11[4];
 } OpenWork;
 
 #endif /* __MGS_OVERLAYS_TITLE_OPEN_OPENWORK_H__ */
