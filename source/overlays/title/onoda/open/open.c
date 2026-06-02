@@ -1592,7 +1592,110 @@ void title_open_800CE6AC(OpenWork *work, int index)
 
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CE748.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CEB14.s")
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800CEF54.s")
+void title_open_800CEF54(OpenWork *work, int index)
+{
+    POLY_FT4 *pack;
+    int       r;
+    int       g;
+    int       b;
+    int       sr;
+    int       sg;
+    int       sb;
+    int       left;
+    int       right;
+    int       top;
+    int       bot;
+    int       t3;
+    int       x_aa0;
+    int       x_aa4;
+    int       v;
+
+    pack = work->f18C_polys;
+    pack += index;
+
+    r = work->fAAC;
+    g = work->fAAD;
+    b = work->fAAE;
+
+    switch (work->fA84)
+    {
+    case 1:
+        sr = (r * work->f170) / 64;
+        sg = (g * work->f170) / 64;
+        sb = (b * work->f170) / 64;
+        setRGB0(&pack[0], sr, sg, sb);
+        setRGB0(&pack[1], sr, sg, sb);
+        setRGB0(&pack[2], sr, sg, sb);
+        t3 = work->f170 + 0xC8;
+        left = (-(t3 * 0xA0)) / 200;
+        top = (-(t3 * 0x70)) / 200;
+        right = (t3 * 0xA0) / 200;
+        bot = (t3 * 0x70) / 200;
+        x_aa0 = (work->fAA0 * t3) / 200;
+        x_aa4 = (work->fAA4 * t3) / 200;
+        setXY4(&pack[0], left,  top, x_aa0, top, left,  bot, x_aa0, bot);
+        setXY4(&pack[1], x_aa0, top, x_aa4, top, x_aa0, bot, x_aa4, bot);
+        setXY4(&pack[2], x_aa4, top, right, top, x_aa4, bot, right, bot);
+        if (work->f170 < 0x40)
+        {
+            break;
+        }
+        work->fA84 = 2;
+        work->f170 = 0;
+        break;
+
+    case 2:
+        setRGB0(&pack[0], r, g, b);
+        setRGB0(&pack[1], r, g, b);
+        setRGB0(&pack[2], r, g, b);
+        t3 = work->f170 + 0x108;
+        left = (-(t3 * 0xA0)) / 200;
+        top = (-(t3 * 0x70)) / 200;
+        right = (t3 * 0xA0) / 200;
+        bot = (t3 * 0x70) / 200;
+        x_aa0 = (work->fAA0 * t3) / 200;
+        x_aa4 = (work->fAA4 * t3) / 200;
+        setXY4(&pack[0], left,  top, x_aa0, top, left,  bot, x_aa0, bot);
+        setXY4(&pack[1], x_aa0, top, x_aa4, top, x_aa0, bot, x_aa4, bot);
+        setXY4(&pack[2], x_aa4, top, right, top, x_aa4, bot, right, bot);
+        if (work->f170 < 0x40)
+        {
+            break;
+        }
+        work->fA84 = 3;
+        work->f170 = 0;
+        break;
+
+    case 3:
+        sr = (r * (0x80 - work->f170)) / 128;
+        sg = (g * (0x80 - work->f170)) / 128;
+        sb = (b * (0x80 - work->f170)) / 128;
+        setRGB0(&pack[0], sr, sg, sb);
+        setRGB0(&pack[1], sr, sg, sb);
+        setRGB0(&pack[2], sr, sg, sb);
+        t3 = work->f170 + 0x148;
+        left = (-(t3 * 0xA0)) / 200;
+        top = (-(t3 * 0x70)) / 200;
+        right = (t3 * 0xA0) / 200;
+        bot = (t3 * 0x70) / 200;
+        x_aa0 = (work->fAA0 * t3) / 200;
+        x_aa4 = (work->fAA4 * t3) / 200;
+        setXY4(&pack[0], left,  top, x_aa0, top, left,  bot, x_aa0, bot);
+        setXY4(&pack[1], x_aa0, top, x_aa4, top, x_aa0, bot, x_aa4, bot);
+        setXY4(&pack[2], x_aa4, top, right, top, x_aa4, bot, right, bot);
+        if (work->f170 < 0x80)
+        {
+            break;
+        }
+        v = work->f168;
+        work->fA84 = 1;
+        work->f170 = 0;
+        work->fAA0 = -v;
+        work->fAA4 = (-v) + 0xA0;
+        title_open_800CDBF8(work, index);
+        break;
+    }
+}
 
 void title_open_800CF504(OpenWork *work, int index)
 {

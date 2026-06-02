@@ -65,9 +65,9 @@ typedef struct _OpenWork
     char     fAA9;
     char     fAAA;
     char     fAAB;
-    char     fAAC;
-    char     fAAD;
-    char     fAAE;
+    u_char   fAAC;
+    u_char   fAAD;
+    u_char   fAAE;
     char     fAAF;
     OpenColor fAB0;
     OpenColor fAB4;
