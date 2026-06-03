@@ -15,8 +15,7 @@ typedef struct _DynCon
     GV_ACT  actor;           /* 0x00 */
     int     map;             /* 0x20 */
     char    pad_24[0x3594 - 0x24];
-    int     field_3594[4][2];/* 0x3594 */
-    char    pad_35B4[0x35BC - 0x35B4];
+    int     field_3594[5][2];/* 0x3594 */
     HZD_SEG segs[4][2][4];   /* 0x35BC - four HZD_SEG per [i][j] */
     char    pad_37BC[0x383C - 0x37BC];
     HZD_FLR floors[4][2][2]; /* 0x383C - two HZD_FLR per [i][j] */
@@ -401,7 +400,37 @@ void *s15c_dyncon_800D6434(DynCon *work, SVECTOR *pos, SVECTOR *step, int item_t
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D6528.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D7A84.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D7AB4.s")
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D7D44.s")
+int s15c_dyncon_800D7D44(DynCon *work)
+{
+    int i, j;
+
+    work->field_3594[0][0] = 3;
+    work->field_3594[0][1] = 7;
+    work->field_3594[1][0] = 41;
+    work->field_3594[1][1] = 45;
+    work->field_3594[2][0] = 48;
+    work->field_3594[2][1] = 52;
+    work->field_3594[3][0] = 66;
+    work->field_3594[3][1] = 70;
+    work->field_3594[4][0] = 37;
+    work->field_3594[4][1] = 39;
+
+    GM_CurrentMap = work->map;
+
+    for (i = 0; i < 5; i++)
+    {
+        for (j = 0; j < 2; j++)
+        {
+            if (i != 4)
+            {
+                s15c_dyncon_800D567C(work, i, j, 1);
+                s15c_dyncon_800D518C(work, i, j);
+            }
+        }
+    }
+
+    return 1;
+}
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D7E30.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D7EF4.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D7F88.s")
