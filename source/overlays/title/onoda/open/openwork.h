@@ -21,8 +21,6 @@ typedef struct _Unknown
     short f6;
 } Unknown;
 
-typedef struct { u_char r, g, b, w; } OpenColor;
-
 typedef struct _OpenWork
 {
     GV_ACT   actor;
@@ -61,16 +59,13 @@ typedef struct _OpenWork
     int      fA9C;
     int      fAA0;
     int      fAA4;
-    char     fAA8;
-    char     fAA9;
-    char     fAAA;
-    char     fAAB;
+    CVECTOR  fAA8;
     u_char   fAAC;
     u_char   fAAD;
     u_char   fAAE;
     char     fAAF;
-    OpenColor fAB0;
-    OpenColor fAB4;
+    CVECTOR  fAB0;
+    CVECTOR  fAB4;
     int      fAB8;
     char     pad7[0x1C];
     int      fAD8;

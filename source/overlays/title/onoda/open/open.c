@@ -499,86 +499,86 @@ void title_open_800C5760(OpenWork *work)
     if (work->fA6C[4] >= 0 && work->fA6C[4] < 512)
     {
         work->fA70 = 0;
-        r = work->fAA8 - 10;
-        g = work->fAA9 + 5;
-        b = work->fAAA + 5;
+        r = work->fAA8.r - 10;
+        g = work->fAA8.g + 5;
+        b = work->fAA8.b + 5;
     }
     else if (work->fA6C[4] >= 512 && work->fA6C[4] < 1024)
     {
         work->fA70 = 0;
-        r = work->fAA8 - 5;
-        g = work->fAA9;
-        b = work->fAAA + 10;
+        r = work->fAA8.r - 5;
+        g = work->fAA8.g;
+        b = work->fAA8.b + 10;
     }
     else if (work->fA6C[4] >= 1024 && work->fA6C[4] < 1536)
     {
         work->fA70 = 0;
-        r = work->fAA8;
-        g = work->fAA9 - 5;
-        b = work->fAAA + 5;
+        r = work->fAA8.r;
+        g = work->fAA8.g - 5;
+        b = work->fAA8.b + 5;
     }
     else if (work->fA6C[4] >= 1536 && work->fA6C[4] < 2048)
     {
         work->fA70 = 0;
-        r = work->fAA8 + 5;
-        g = work->fAA9 - 10;
-        b = work->fAAA;
+        r = work->fAA8.r + 5;
+        g = work->fAA8.g - 10;
+        b = work->fAA8.b;
     }
     else if (work->fA6C[4] >= 2048 && work->fA6C[4] < 2560)
     {
         work->fA70 = 0;
-        r = work->fAA8 + 10;
-        g = work->fAA9 - 5;
-        b = work->fAAA - 5;
+        r = work->fAA8.r + 10;
+        g = work->fAA8.g - 5;
+        b = work->fAA8.b - 5;
     }
     else if (work->fA6C[4] >= 2560 && work->fA6C[4] < 3072)
     {
         work->fA70 = 0;
-        r = work->fAA8 + 5;
-        g = work->fAA9;
-        b = work->fAAA - 10;
+        r = work->fAA8.r + 5;
+        g = work->fAA8.g;
+        b = work->fAA8.b - 10;
     }
     else if (work->fA6C[4] >= 3072 && work->fA6C[4] < 3584)
     {
         work->fA70 = 0;
-        r = work->fAA8;
-        g = work->fAA9 + 5;
-        b = work->fAAA - 5;
+        r = work->fAA8.r;
+        g = work->fAA8.g + 5;
+        b = work->fAA8.b - 5;
     }
     else if (work->fA6C[4] >= 3584 && work->fA6C[4] < 4096)
     {
         work->fA70 = 0;
-        r = work->fAA8 - 5;
-        g = work->fAA9 + 10;
-        b = work->fAAA;
+        r = work->fAA8.r - 5;
+        g = work->fAA8.g + 10;
+        b = work->fAA8.b;
     }
     else if (work->fA6C[4] == -1)
     {
         work->fA70++;
-        r = work->fAA8;
-        g = work->fAA9;
-        b = work->fAAA;
+        r = work->fAA8.r;
+        g = work->fAA8.g;
+        b = work->fAA8.b;
     }
     else
     {
-        r = work->fAA8;
-        g = work->fAA9;
-        b = work->fAAA;
+        r = work->fAA8.r;
+        g = work->fAA8.g;
+        b = work->fAA8.b;
     }
 
     if (r >= 0 && r < 255)
     {
-        work->fAA8 = r;
+        work->fAA8.r = r;
     }
 
     if (g >= 0 && g < 255)
     {
-        work->fAA9 = g;
+        work->fAA8.g = g;
     }
 
     if (b >= 0 && b < 255)
     {
-        work->fAAA = b;
+        work->fAA8.b = b;
     }
 }
 
@@ -1010,7 +1010,7 @@ const int title_dword_800D8A8C = 0x800CC914;
 const int title_dword_800D8A90 = 0x800CC968;
 const char title_dword_800D8A94[] = {0x0, 0x0, 0x0, 0x0};
 
-extern OpenColor title_dword_800C33D8[];
+extern CVECTOR title_dword_800C33D8[];
 
 void title_open_800CCDC8(OpenWork *work)
 {
@@ -1027,18 +1027,18 @@ void title_open_800CCDC8(OpenWork *work)
             return;
         }
 
-        if ((*(int *)&work->fAA8 & 0xFFFFFF) == 0x808080)
+        if ((LLOAD(&work->fAA8) & 0xFFFFFF) == 0x808080)
         {
             work->fA88 = 3;
             work->f174 = 0;
-            work->fAB0 = *(OpenColor *)&work->fAA8;
+            work->fAB0 = work->fAA8;
             work->fAB4 = title_dword_800C33D8[title_open_800C4B2C(8)];
         }
         else
         {
             work->fA88 = 1;
             work->f174 = 0;
-            work->fAB0 = *(OpenColor *)&work->fAA8;
+            work->fAB0 = work->fAA8;
             work->fAB4 = title_dword_800C33D8[9];
         }
         break;
@@ -1048,21 +1048,21 @@ void title_open_800CCDC8(OpenWork *work)
         {
             work->fA88 = 3;
             work->f174 = 0;
-            work->fAB0 = *(OpenColor *)&work->fAA8;
+            work->fAB0 = work->fAA8;
             work->fAB4 = title_dword_800C33D8[title_open_800C4B2C(8)];
         }
         break;
 
     case 3:
-        work->fAA8 = work->fAB0.r + (work->fAB4.r - work->fAB0.r) * work->f174 / 128;
-        work->fAA9 = work->fAB0.g + (work->fAB4.g - work->fAB0.g) * work->f174 / 128;
-        work->fAAA = work->fAB0.b + (work->fAB4.b - work->fAB0.b) * work->f174 / 128;
+        work->fAA8.r = work->fAB0.r + (work->fAB4.r - work->fAB0.r) * work->f174 / 128;
+        work->fAA8.g = work->fAB0.g + (work->fAB4.g - work->fAB0.g) * work->f174 / 128;
+        work->fAA8.b = work->fAB0.b + (work->fAB4.b - work->fAB0.b) * work->f174 / 128;
 
         if (work->f174 >= 128)
         {
             work->fA88 = 4;
             work->f174 = 0;
-            *(OpenColor *)&work->fAA8 = work->fAB4;
+            work->fAA8 = work->fAB4;
         }
         break;
 
@@ -1071,22 +1071,22 @@ void title_open_800CCDC8(OpenWork *work)
         {
             work->fA88 = 5;
             work->f174 = 0;
-            work->fAB0 = *(OpenColor *)&work->fAA8;
+            work->fAB0 = work->fAA8;
             work->fAB4 = title_dword_800C33D8[9];
         }
         break;
 
     case 1:
     case 5:
-        work->fAA8 = work->fAB0.r + (work->fAB4.r - work->fAB0.r) * work->f174 / 128;
-        work->fAA9 = work->fAB0.g + (work->fAB4.g - work->fAB0.g) * work->f174 / 128;
-        work->fAAA = work->fAB0.b + (work->fAB4.b - work->fAB0.b) * work->f174 / 128;
+        work->fAA8.r = work->fAB0.r + (work->fAB4.r - work->fAB0.r) * work->f174 / 128;
+        work->fAA8.g = work->fAB0.g + (work->fAB4.g - work->fAB0.g) * work->f174 / 128;
+        work->fAA8.b = work->fAB0.b + (work->fAB4.b - work->fAB0.b) * work->f174 / 128;
 
         if (work->f174 >= 128)
         {
             work->fA88 = 2;
             work->f174 = 0;
-            *(OpenColor *)&work->fAA8 = work->fAB4;
+            work->fAA8 = work->fAB4;
         }
         break;
     }
@@ -1098,9 +1098,9 @@ void title_open_800CD074(OpenWork *work)
     int val1, val2, val3;
     int val1_2, val2_2, val3_2;
 
-    val1 = work->fAA8;
-    val2 = work->fAA9;
-    val3 = work->fAAA;
+    val1 = work->fAA8.r;
+    val2 = work->fAA8.g;
+    val3 = work->fAA8.b;
     sqrt1 = SquareRoot0(val1 * val1 + val2 * val2 + val3 * val3);
 
     val1_2 = 0xFF - val1;

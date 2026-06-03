@@ -114,7 +114,7 @@ void title_open_800D2CA8(OpenWork *work, u_long *ot)
         break;
     case 7: title_open_800C4AD0(work, 0xD, 0x6739); break;
     case 4:
-        if ((u_int)(work->fB48 - 3) < 4)
+        if (work->fB48 >= 3 && work->fB48 < 7)
         {
             switch (work->fB44)
             {
