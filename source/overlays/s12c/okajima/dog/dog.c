@@ -35,7 +35,7 @@ typedef struct DogWork
     int      field_14F8[3];
     char     pad1504[0xC];
     int      field_1510[3];
-    char     pad151C[0xC];
+    int      field_151C[3];
     int      field_1528;
     char     pad152C[0x30];
     int      field_155C[3];
@@ -58,7 +58,9 @@ typedef struct DogWork
     char     pad1778[0x38];
     int      field_17B0;
     int      field_17B4;
-    char     pad17B8[0x30];
+    char     pad17B8[0x18];
+    int      field_17D0[3];
+    int      field_17DC[3];
 } DogWork;
 
 #define EXEC_LEVEL GV_ACTOR_USER
@@ -662,7 +664,36 @@ int Dog_800CABF4(SVECTOR *arg0, SVECTOR *arg1, SVECTOR *arg2)
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CAC84.s")
 int s12c_dog_800CAC84(DogWork *work, int, int);
 
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CAD8C.s")
+void s12c_dog_800CAD8C(DogWork *work, int idx)
+{
+    SVECTOR vec;
+    int     half;
+    int     state = work->field_1494[idx];
+    char   *base = (char *)work + idx * 0x90;
+
+    work->field_17D0[idx] = *(short *)(base + 0xF20);
+    work->field_17DC[idx] = *(short *)(base + 0xF28);
+
+    if (state == 0xB || state == 0x14)
+    {
+        if (work->field_151C[idx] >= 0xFA1)
+        {
+            *(short *)(base + 0xF20) = 0;
+            *(short *)(base + 0xF28) = 0;
+        }
+        else
+        {
+            vec.vx = *(short *)((char *)work->field_19C[idx].objs + 0x228);
+            vec.vy = *(short *)((char *)work->field_19C[idx].objs + 0x22C);
+            vec.vz = *(short *)((char *)work->field_19C[idx].objs + 0x230);
+            Dog_800CABF4(&vec, &GM_PlayerPosition, &vec);
+
+            half = vec.vx / 2;
+            *(short *)(base + 0xF20) = (half + work->field_17D0[idx] * 15) / 16;
+            *(short *)(base + 0xF28) = (half + work->field_17DC[idx] * 15) / 16;
+        }
+    }
+}
 
 void s12c_dog_800CAEC8(DogWork *work, int index, int mark)
 {
