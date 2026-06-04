@@ -84,7 +84,10 @@ typedef struct _Snake18Work
     void   *f8BC;        // 0x8BC (callback pointer)
     void   *f8C0;        // 0x8C0 (callback pointer)
     Snake18Init f8C4;    // 0x8C4 (20-byte init block; .f4=0x8C8 .f8=0x8CC .fC=0x8D0)
-    char    pad_8F0[0x8F0 - 0x8C4 - sizeof(Snake18Init)];
+    unsigned short f8D8; // 0x8D8
+    char    pad_8DA[0x8EE - 0x8D8 - sizeof(short)];
+    short   f8EE;        // 0x8EE
+    char    pad_8F0[0x8F0 - 0x8EE - sizeof(short)];
     int     f8F0;        // 0x8F0
     int     f8F4;        // 0x8F4
     short   f8F8;        // 0x8F8
@@ -108,7 +111,9 @@ typedef struct _Snake18Work
     char    pad_924[0x924 - 0x91C - sizeof(SVECTOR)];
     short   f924;        // 0x924
     short   f926;        // 0x926
-    char    pad_92E[0x92E - 0x926 - sizeof(short)];
+    char    pad_928[0x92A - 0x926 - sizeof(short)];
+    unsigned short f92A; // 0x92A
+    char    pad_92C[0x92E - 0x92A - sizeof(short)];
     short   f92E;        // 0x92E
     int     f930;        // 0x930
 } Snake18Work;
@@ -150,6 +155,7 @@ void d18a_snake18_800CF990(void);
 void d18a_snake18_800CFD18(void);
 void d18a_snake18_800CFFD4(Snake18Work *work, int arg1);
 void d18a_snake18_800D0054(Snake18Work *work, int arg1);
+void d18a_snake18_800D01D8(Snake18Work *work);
 void d18a_snake18_800D09B4(Snake18Work *work);
 void d18a_snake18_800D0A10(Snake18Work *work);
 void d18a_snake18_800D0B4C(Snake18Work *work);
@@ -818,7 +824,34 @@ int d18a_snake18_800CC410(Snake18Work *work)
 }
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CC490.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CC6CC.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CC7F4.s")
+void d18a_snake18_800CC7F4(Snake18Work *work)
+{
+    if (GM_PlayerStatus & 4)
+    {
+        return;
+    }
+    if (work->f92A == 0)
+    {
+        return;
+    }
+    if (work->f8D8 == 0)
+    {
+        return;
+    }
+
+    GM_ConfigMotionControl(&work->body, &work->m_ctrl, work->f92A,
+                           work->m_segs1, work->m_segs2, &work->control, work->rots);
+
+    work->f8AC = d18a_snake18_800D01D8;
+    work->f8B0 = 0;
+    work->f912 = 0;
+    work->f910 = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
+    work->f8EE = work->control.height;
+    GM_PlayerStatus |= 4;
+    d18a_snake18_800CB378(work);
+}
 
 void d18a_snake18_800CC8B0(Snake18Work *work, char arg1)
 {
