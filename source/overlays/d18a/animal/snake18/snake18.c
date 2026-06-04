@@ -121,6 +121,7 @@ extern SVECTOR  d18a_dword_800C3858;
 extern char     d18a_dword_800C3860[];
 extern char     d18a_dword_800C3864[];
 extern int      d18a_dword_800DAEF0;
+extern int      d18a_dword_800DAEF4;
 extern char    *d18a_dword_800DAEFC;
 extern HZD_FLR *d18a_dword_800DAF00[2];
 extern HZD_FLR *d18a_dword_800DAF10;
@@ -215,7 +216,32 @@ int d18a_snake18_800CAC68(int arg0, int arg1)
 
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CACD0.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CAD90.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CAEC0.s")
+int d18a_snake18_800CAEC0(Snake18Work *work, int state)
+{
+    int base;
+    int diff;
+
+    if (*d18a_dword_800DAEFC & 0x40)
+    {
+        return state;
+    }
+
+    base = d18a_dword_800DAEF4;
+    if (base >= 0)
+    {
+        diff = (state - base) & 0xFFF;
+        if (diff < 0x400)
+        {
+            state = base + 0x400;
+        }
+        if (diff >= 0xC01)
+        {
+            state = base - 0x400;
+        }
+    }
+
+    return state;
+}
 
 int d18a_snake18_800CAF20(Snake18Work *work)
 {
