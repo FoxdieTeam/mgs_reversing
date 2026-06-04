@@ -42,7 +42,13 @@ typedef struct _Snake18Work
     MOTION_SEGMENT m_segs1[17];   // 0x1D0
     MOTION_SEGMENT m_segs2[17];   // 0x434
     SVECTOR        rots[16];      // 0x698
-    char           pad_718[0x84];
+    char           pad_718[0x728 - 0x718];
+    short          f728;          // 0x728
+    char           pad_72A[0x748 - 0x728 - sizeof(short)];
+    short          f748;          // 0x748
+    char           pad_74A[0x750 - 0x748 - sizeof(short)];
+    short          f750;          // 0x750
+    char           pad_752[0x79C - 0x750 - sizeof(short)];
     MATRIX         light[2];      // 0x79C
     void          *shadow;        // 0x7DC
     int           *enable_shadow; // 0x7E0
@@ -1827,7 +1833,30 @@ void d18a_snake18_800D2660(Snake18Work *work, int arg1)
     GM_PlayerStatus &= ~0x10;
 }
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D26E4.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D281C.s")
+void d18a_snake18_800D281C(Snake18Work *work)
+{
+    int yaw;
+    int pitch;
+    int diff;
+
+    GM_GetHomingTarget(&work->body.objs->objs[6].world, work->control.rot.vy,
+                       &yaw, &pitch, work->control.map->index);
+
+    diff = work->f728 - pitch;
+    if (diff >= 0x41)
+        pitch = work->f728 - 0x40;
+    else if (diff < -0x40)
+        pitch = work->f728 + 0x40;
+
+    work->f728 = pitch;
+    work->f748 = pitch;
+    work->f750 = pitch * 3 / 2;
+
+    if (yaw >= 0)
+    {
+        work->control.turn.vy = yaw;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D28CC.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D2A80.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D2D88.s")
