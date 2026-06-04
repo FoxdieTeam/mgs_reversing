@@ -904,6 +904,8 @@ void Dog_800CB6DC(DogWork *work, int arg1, int arg2)
 
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CB714.s")
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CB97C.s")
+extern void s12c_dog_800CB97C(SVECTOR *arg0, SVECTOR *arg1, int arg2);
+extern void s12c_dog_800CA758(DogWork *work, int idx);
 
 void Dog_800CBBE8(DogWork *work, int index)
 {
@@ -995,7 +997,39 @@ void DogExecProc_800CEB2C(DogWork *work, int param)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CEB74.s")
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CF578.s")
+void s12c_dog_800CF578(DogWork *work, int idx)
+{
+    CONTROL *ctrl = &work->field_28[idx];
+    SVECTOR  vec;
+
+    switch (work->field_1510[idx])
+    {
+    case 0:
+        work->field_1510[idx] = 1;
+        GM_SeSetMode(&ctrl->mov, 0x8D, GM_SEMODE_NORMAL);
+        work->field_126C[idx]->flag = 0;
+        /* fall through */
+    case 1:
+        work->field_1574[idx] = 0;
+        Dog_800CB23C(work, 0x18, 5, idx);
+        break;
+    case 5:
+        if (work->field_151C[idx] >= 0xBB9)
+        {
+            Dog_800CABF4(&ctrl->mov, &GM_PlayerPosition, &vec);
+            vec.vx = 0;
+            s12c_dog_800CB97C((SVECTOR *)((char *)ctrl + 0x4C), &vec, 8);
+        }
+        Dog_800CB23C(work, 0x1C, 0xE, idx);
+        break;
+    case 0xE:
+        work->field_14F8[idx] = 6;
+        work->field_1510[idx] = 0;
+        s12c_dog_800CA758(work, idx);
+        work->field_126C[idx]->flag = 1;
+        break;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CF6CC.s")
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CFA30.s")
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800D0374.s")
