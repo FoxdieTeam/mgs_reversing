@@ -1,5 +1,6 @@
 #include "common.h"
 #include <libgte.h>
+#include "game/game.h"
 
 extern int s19b_dword_800DE64C;
 
@@ -25,5 +26,10 @@ int s19b_jeep_mrl_800D39B4(SVECTOR *dst)
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D3CA8.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D3D30.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D3E98.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D4098.s")
+void s19b_jeep_mrl_800D4098(void *work)
+{
+    GM_FreeTarget(*(TARGET **)((char *)work + 0x7E8));
+    GM_FreeControl((CONTROL *)((char *)work + 0x28));
+    GM_FreeObject((OBJECT *)((char *)work + 0xA4));
+}
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D40D4.s")
