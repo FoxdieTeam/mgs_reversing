@@ -1603,7 +1603,56 @@ void d18a_snake18_800D0B84(Snake18Work *work)
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D0E3C.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D1064.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D11A8.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D1300.s")
+void d18a_snake18_800D1300(Snake18Work *work)
+{
+    GV_PAD         *pad = work->pad;
+    unsigned short  status = pad->status;
+    int             turn;
+
+    if (!(status & 0xA000))
+    {
+        return;
+    }
+
+    turn = work->control.turn.vy;
+
+    if (status & 0x8000)
+    {
+        int n;
+        int d;
+
+        if (work->f7E4 & 0x4000)
+            n = 0x50 - pad->left_dx;
+        else
+            n = 1;
+
+        if (work->f7E4 & 0x4000)
+            d = 0x50;
+        else
+            d = 1;
+
+        turn += ((n & 0xFF) << 1) / d;
+    }
+    else
+    {
+        int n;
+        int d;
+
+        if (work->f7E4 & 0x4000)
+            n = pad->left_dx + 0x50;
+        else
+            n = 1;
+
+        if (work->f7E4 & 0x4000)
+            d = 0x4F;
+        else
+            d = 1;
+
+        turn -= ((n & 0xFF) << 1) / d;
+    }
+
+    work->control.turn.vy = turn;
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D1424.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D1598.s")
 extern void d18a_snake18_800D0E3C(Snake18Work *work);
