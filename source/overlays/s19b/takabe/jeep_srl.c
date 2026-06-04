@@ -87,7 +87,12 @@ void *NewJeepScroll(int name, int where)
 
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CE400.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CE52C.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CE5F8.s")
+void s19b_jeep_gls_800CE5F8(DG_OBJS *objs)
+{
+    DG_DequeueObjs(objs);
+    *(int *)((char *)objs + 0x8C) = 0;
+    DG_FreeObjs(objs);
+}
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CE628.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CE83C.s")
 void s19b_jeep_gls_800CE8B8(SVECTOR *src, SVECTOR *dst)
