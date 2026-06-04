@@ -502,7 +502,30 @@ void d18a_snake18_800CB470(Snake18Work *work)
         work->body.objs->flag |= DG_FLAG_INVISIBLE;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB514.s")
+void d18a_snake18_800CB514(Snake18Work *work)
+{
+    extern GM_SnakeCameraWork GM_SnakeCamera;
+    MATRIX   sp10;
+    MATRIX   sp30;
+    SVECTOR  sp50;
+    MATRIX  *mat;
+    int      angle;
+
+    mat = &work->body.objs->objs[6].world;
+
+    ReadRotMatrix(&sp10);
+    DG_TransposeMatrix(&sp10, &sp30);
+    MulMatrix0(&sp30, mat, &sp30);
+    DG_MatrixRotZYX(&sp30, &sp50);
+    SetRotMatrix(&sp10);
+
+    angle = sp50.vx;
+    if (angle < 0)
+        angle += 0xF;
+    angle &= 0xFFF0;
+
+    GM_SnakeCamera.rotate2.vx = angle;
+}
 
 void d18a_snake18_800CB59C(Snake18Work *work)
 {
