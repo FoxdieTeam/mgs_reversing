@@ -10,19 +10,18 @@
 //
 // This article originally appeared in the February 1998 issue of
 // Game Developer Magazine. A digital version can be found here:
+// https://media.gdcvault.com/GD_Mag_Archives/GDM_February_1998.pdf
+//
+// Game Developer Code, Feb.1998:
+// https://media.gdcvault.com/GD_Mag_Archives/feb98.zip
+//
+// Online mirrors:
 // https://archive.org/details/GDM_February_1998/page/n20/mode/1up
-//
-// Originally available online via Gamasutra:
-// http://www.gamasutra.com/features/19980703/quaternions_01.htm
-// Currently available via Game Developer's online publicaton:
-// https://www.gamedeveloper.com/programming/rotating-objects-using-quaternions
-//
-// NOTE: The code listings have lost all indentation and empty lines
-// in the migration between websites, and QuatToMatrix has been modified
-// to access the elements of the output matrix in a different order.
-// MGS reflects the original, correct ordering from the print edition.
+// https://github.com/dwilliamson/GDMagArchive/tree/master/feb98
 
 // clang-format off
+
+#define DELTA 0         // error tolerance
 
 void GV_QuatToMat( SQUAT *quat, MATRIX *mat )
 {
@@ -87,7 +86,9 @@ void GV_MatToQuat( MATRIX *mat, SQUAT *quat )
     /* check the diagonal */
     if ( tr > 0 ) {
         s = SquareRoot12( tr + 4096 );
+
         quat->w = s / 2;
+
         s = 2048 * 4096 / s;
 
         quat->x = ( mat->m[2][1] - mat->m[1][2] ) * s / 4096 ;
@@ -147,7 +148,7 @@ void GV_QuatSlerp( SQUAT *from, SQUAT *to, int t, SQUAT *res)
     }
 
     /* calculate coefficients */
-    if ( (4096 - cosom) > 0 ){
+    if ( (4096 - cosom) > DELTA ){
         /* standard case (slerp) */
         sinom = SquareRoot12(4096 - ( cosom * cosom ) / 4096);
         omega = ratan2(sinom, cosom);
