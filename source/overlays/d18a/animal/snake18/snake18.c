@@ -113,7 +113,7 @@ typedef struct _Snake18Work
     short   f926;        // 0x926
     char    pad_928[0x92A - 0x926 - sizeof(short)];
     unsigned short f92A; // 0x92A
-    char    pad_92C[0x92E - 0x92A - sizeof(short)];
+    unsigned short f92C; // 0x92C
     short   f92E;        // 0x92E
     int     f930;        // 0x930
 } Snake18Work;
@@ -156,6 +156,8 @@ void d18a_snake18_800CFD18(void);
 void d18a_snake18_800CFFD4(Snake18Work *work, int arg1);
 void d18a_snake18_800D0054(Snake18Work *work, int arg1);
 void d18a_snake18_800D01D8(Snake18Work *work);
+void d18a_snake18_800CFB04(Snake18Work *work);
+extern int d18a_dword_800C37E4[];
 void d18a_snake18_800D09B4(Snake18Work *work);
 void d18a_snake18_800D0A10(Snake18Work *work);
 void d18a_snake18_800D0B4C(Snake18Work *work);
@@ -767,7 +769,43 @@ void d18a_snake18_800CBE58(Snake18Work *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CBEC0.s")
+static inline int d18a_snake18_CBEC0_check(Snake18Work *work)
+{
+    unsigned int i;
+
+    if (!(GM_StatusEvent & 1))        return 0;
+    if (GM_AlertMode != 0)            return 0;
+    if (GM_PlayerStatus & 0x814)      return 0;
+    if (GM_PlayerStatus & 0x11002)    return 1;
+
+    for (i = 0; i < 3; i++)
+    {
+        if ((int)work->f8AC == d18a_dword_800C37E4[i])
+        {
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+void d18a_snake18_800CBEC0(Snake18Work *work)
+{
+    if (d18a_snake18_CBEC0_check(work))
+    {
+        work->f92C++;
+        if ((unsigned short)work->f92C >= 0x78)
+        {
+            work->f92C = 0;
+            work->f8AC = d18a_snake18_800CFB04;
+            work->f8B0 = 0;
+            work->f912 = 0;
+            work->f910 = 0;
+            work->control.turn.vz = 0;
+            work->control.turn.vx = 0;
+        }
+    }
+}
 
 void d18a_snake18_800CBF98(Snake18Work *work)
 {
