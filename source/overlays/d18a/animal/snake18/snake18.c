@@ -705,7 +705,7 @@ void d18a_snake18_800CBD34( Snake18Work *work )
 }
 extern int bakudan_count_8009F42C;
 extern int d18a_dword_800DAEF4;
-extern void d18a_snake18_800D22C8(Snake18Work *work);
+extern void d18a_snake18_800D22C8(Snake18Work *work, int a1);
 
 void d18a_snake18_800CBD80(Snake18Work *work)
 {
@@ -1852,7 +1852,42 @@ void d18a_snake18_800D1B3C(Snake18Work *work, int arg1)
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D1F90.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D200C.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D20EC.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D22C8.s")
+void d18a_snake18_800D22C8(Snake18Work *work, int a1)
+{
+    int s1 = work->f8FE;
+
+    work->control.turn.vy = *(unsigned short *)&d18a_dword_800DAEF4;
+
+    if (a1 == 0)
+    {
+        int act;
+
+        if (s1 == 0)
+            act = ((unsigned char *)work->f8A8->field_10)[6];
+        else
+            act = ((unsigned char *)work->f8A8->field_10)[7];
+
+        if (work->body.action2 != act)
+        {
+            GM_ConfigObjectOverride(&work->body, act, 0, 4, 0xFFFF);
+        }
+    }
+
+    if ((s1 == 0 && a1 == 6) || (s1 == 1 && a1 == 0xE))
+    {
+        work->f85C = 3;
+    }
+
+    if (work->body.time2 != 0 || work->body.action2 == 0)
+    {
+        if (work->body.action2 != 0)
+        {
+            GM_ConfigObjectOverride(&work->body, 0, 0, 4, 0);
+        }
+        work->f8B4 = 0;
+        work->f7E4 &= ~0x100;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D23F0.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D24CC.s")
 void d18a_snake18_800D2660(Snake18Work *work, int arg1)
