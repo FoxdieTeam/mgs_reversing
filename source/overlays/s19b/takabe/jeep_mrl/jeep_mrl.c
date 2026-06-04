@@ -1,4 +1,5 @@
 #include "common.h"
+#include <libgte.h>
 
 extern int s19b_dword_800DE64C;
 
@@ -14,7 +15,11 @@ int s19b_jeep_mrl_800D399C(void)
 {
     return *(int *)((char *)s19b_dword_800DE64C + 0x3D0);
 }
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D39B4.s")
+int s19b_jeep_mrl_800D39B4(SVECTOR *dst)
+{
+    *dst = *(SVECTOR *)((char *)s19b_dword_800DE64C + 0x28);
+    return *(short *)((char *)s19b_dword_800DE64C + 0x3C8);
+}
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D39F0.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D3A54.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D3CA8.s")
