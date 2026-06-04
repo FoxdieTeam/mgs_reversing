@@ -4,7 +4,19 @@
 
 extern int s19b_dword_800DE64C;
 
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D2CE8.s")
+void s19b_jeep_mrl_800D2CE8(void *work)
+{
+    if (*(int *)((char *)work + 0x3E0) == 0)
+    {
+        *(int *)((char *)work + 0x3D0) =
+            GV_NearSpeed(*(int *)((char *)work + 0x3D0), *(int *)((char *)work + 0x3D4), 5);
+    }
+    else
+    {
+        *(int *)((char *)work + 0x3D0) =
+            GV_NearSpeed(*(int *)((char *)work + 0x3D0), *(int *)((char *)work + 0x3D4), 10);
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D2D3C.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D2E78.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D32B4.s")
