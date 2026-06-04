@@ -107,9 +107,11 @@ typedef struct _Snake18Work
 
 typedef struct _Snake18Arg9CC
 {
-    char pad0[0x18];
-    int  f18;
-    int  f1C;
+    SVECTOR f0;
+    SVECTOR f8;
+    SVECTOR f10;
+    int     f18;
+    int     f1C;
 } Snake18Arg9CC;
 
 extern GM_CameraSystemWork GM_Camera;
@@ -623,7 +625,25 @@ void d18a_snake18_800CB888(Snake18Work *work)
     work->f90E = 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB908.s")
+void d18a_snake18_800CB908(Snake18Work *work, Snake18Arg9CC *arg1)
+{
+    TARGET *t = &work->f7EC;
+    SVECTOR sp18;
+    int     mode;
+
+    GM_SetTarget(t, 4, work->f930, &arg1->f8);
+    DG_RotVector(&arg1->f10, &sp18, 1);
+
+    mode = arg1->f1C;
+    if (mode == 1)
+        GM_SetPowerTarget(t, 3, 3, arg1->f18, mode, &sp18);
+    else
+        GM_SetPowerTarget(t, 3, 4, arg1->f18, mode, &sp18);
+
+    DG_PutVector(&arg1->f0, &sp18, 1);
+    GM_MoveTarget(t, &sp18);
+    GM_PowerTarget(t);
+}
 
 int d18a_snake18_800CB9CC(Snake18Work *arg0, Snake18Arg9CC *arg1)
 {
