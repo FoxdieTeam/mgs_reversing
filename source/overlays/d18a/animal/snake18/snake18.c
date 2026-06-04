@@ -72,7 +72,9 @@ typedef struct _Snake18Work
     int     f868;        // 0x868
     short   f86C;        // 0x86C
     short   f86E;        // 0x86E
-    char    pad_8A4[0x8A4 - 0x86E - sizeof(short)];
+    char    pad_870[0x874 - 0x86E - sizeof(short)];
+    DG_PRIM *f874;       // 0x874
+    char    pad_878[0x8A4 - 0x874 - sizeof(DG_PRIM *)];
     GV_PAD *pad;         // 0x8A4
     Snake18Type *f8A8;   // 0x8A8
     void   *f8AC;        // 0x8AC (callback pointer)
@@ -1963,7 +1965,35 @@ void d18a_snake18_800D4084(void)
 }
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D40F0.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D4388.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D46CC.s")
+void d18a_snake18_800D46CC(GV_ACT *act)
+{
+    Snake18Work *work = (Snake18Work *)act;
+    DG_PRIM     *prim;
+
+    GV_DestroyOtherActor(work->shadow);
+    GM_FreeControl(&work->control);
+    GM_FreeObject(&work->body);
+    GM_FreeTarget((TARGET *)work->f7E8);
+
+    prim = work->f874;
+    if (prim != 0)
+    {
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
+    }
+
+    GM_PlayerStance = work->f8FE;
+
+    if (GM_PlayerControl == &work->control)
+    {
+        GM_PlayerControl = 0;
+    }
+
+    if (GM_PlayerBody == &work->body)
+    {
+        GM_PlayerBody = 0;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D4784.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D48FC.s")
 
