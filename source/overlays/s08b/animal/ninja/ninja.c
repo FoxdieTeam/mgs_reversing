@@ -270,7 +270,21 @@ void s08b_ninja_800C811C(void *work)
         p[3] &= 0xFFF7;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C8170.s")
+int s08b_ninja_800C8170(void)
+{
+    HZD_EVT *evt = &GM_PlayerControl->evt;
+    int      i;
+
+    for (i = 0; i < evt->n_inside; i++)
+    {
+        if (evt->inside[i] == 0xFFC0)
+        {
+            return 1;
+        }
+    }
+
+    return 0;
+}
 void s08b_ninja_800C81C8(NinjaWork *work)
 {
     if (work->field_1B24 == 0)
