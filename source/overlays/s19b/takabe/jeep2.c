@@ -28,6 +28,14 @@ void s19b_jeep2_800D6A70(Jeep2Work *work)
     GM_FreeTarget(work->target);
     GV_DestroyActor(work->field_20);
 }
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep2_800D6AD8.s")
+extern int s19b_dword_800C3A94;
+
+void s19b_jeep2_800D6AD8(Jeep2Work *work)
+{
+    TARGET *target = GM_AllocTarget();
+
+    work->target = target;
+    GM_SetTarget(target, 8, 0, (SVECTOR *)&s19b_dword_800C3A94);
+}
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep2_800D6B18.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep2_800D6F24.s")
