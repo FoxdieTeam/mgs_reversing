@@ -5,7 +5,9 @@ typedef struct _JEEP_SYSTEM
 {
     char     pad1[0x4];
     CONTROL *control;
-    char     pad2[0x58];
+    char     pad2a[0x50 - 0x8];
+    int      field_50;
+    char     pad2b[0x60 - 0x50 - sizeof(int)];
     OBJECT  *snake_body;
 } JEEP_SYSTEM;
 
@@ -75,7 +77,14 @@ void s19b_jeep_sne_800D424C(Work *work, int arg1)
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D4660.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D46D4.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D4744.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D47B8.s")
+extern void s19b_jeep_sne_800D4744(Work *work);
+
+void s19b_jeep_sne_800D47B8(Work *work)
+{
+    *(int *)((char *)work + 0x800) = Takabe_JeepSystem.field_50;
+    Takabe_JeepSystem.field_50 &= 0xFFFF0000;
+    s19b_jeep_sne_800D4744(work);
+}
 
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D47F8.s")
 void s19b_jeep_sne_800D47F8(Work *);
