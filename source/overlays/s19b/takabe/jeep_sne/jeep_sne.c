@@ -53,7 +53,11 @@ typedef struct _Work
 
     TARGET        *target;            /* 0x910 */
 
-    char           pad3a[0x928 - 0x910 - sizeof(TARGET *)];
+    char           pad_918[0x918 - 0x910 - sizeof(TARGET *)];
+    void          *field_918;         /* 0x918 */
+    char           pad_920[0x920 - 0x918 - sizeof(void *)];
+    int            field_920;         /* 0x920 */
+    char           pad3a[0x928 - 0x920 - sizeof(int)];
     int            field_928;         /* 0x928 */
     char           pad3b[0x93C - 0x928 - sizeof(int)];
 
@@ -389,6 +393,7 @@ void *NewJeepSnake(CONTROL *root_ctrl, MATRIX *root_mat)
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp2_800D5484.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp2_800D55E8.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp2_800D571C.s")
+extern int s19b_dword_800C3A00;
 extern int s19b_dword_800C3A08;
 
 void s19b_jlamp2_800D5820(Work *work, int arg1)
@@ -403,8 +408,35 @@ void s19b_jlamp2_800D5820(Work *work, int arg1)
         work->field_7E0 = DG_ZeroVector;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp2_800D5894.s")
-extern void s19b_jlamp2_800D5894(void *work);
+extern void s19b_jlamp2_800D5328(Work *work, int arg1);
+
+void s19b_jlamp2_800D5894(Work *work)
+{
+    void (*fn)(Work *, int);
+    int   old;
+
+    work->target->class = 1;
+    old = work->field_920;
+    fn  = (void (*)(Work *, int))work->field_918;
+    work->field_920 = old + 1;
+    if (fn == 0)
+    {
+        fn = s19b_jlamp2_800D5328;
+        work->field_918 = (void *)fn;
+        if (work->field_928 != 0)
+        {
+            /* char* launder keeps the store ahead of the call (see 800D5820) */
+            *(int *)((char *)&work->field_928) = 0;
+            GM_ConfigObjectAction(&work->body, *(short *)&s19b_dword_800C3A00, 0, 4);
+            work->field_7E0 = DG_ZeroVector;
+        }
+    }
+    fn(work, old);
+    if (GM_GameStatus & 0x40000000)
+    {
+        work->target->class = 1;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp2_800D596C.s")
 extern void s19b_jlamp2_800D596C(void *work);
 
