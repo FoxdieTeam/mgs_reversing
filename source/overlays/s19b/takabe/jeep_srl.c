@@ -90,7 +90,7 @@ void *NewJeepScroll(int name, int where)
 void s19b_jeep_gls_800CE5F8(DG_OBJS *objs)
 {
     DG_DequeueObjs(objs);
-    *(int *)((char *)objs + 0x8C) = 0;
+    objs->objs[0].rgbs = NULL;
     DG_FreeObjs(objs);
 }
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CE628.s")
