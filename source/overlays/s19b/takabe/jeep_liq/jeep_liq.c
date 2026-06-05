@@ -2,6 +2,7 @@
 #include "game/game.h"
 #include "linkvar.h"
 #include "psxdefs.h"
+#include <rand.h>
 
 typedef struct _JeepLiqWork
 {
@@ -16,7 +17,10 @@ typedef struct _JeepLiqWork
     /* m_segs1[17] @ 0x1D8 - poked as scalars below by the setters */
     char            pad_seg1[0x1F0 - 0x188 - sizeof(MOTION_CONTROL)];
     int             f1F0;         /* 0x1F0 */
-    char            pad_3B4[0x3B4 - 0x1F4];
+    char            pad_3A0[0x3A0 - 0x1F4];
+    int             field_3A0;    /* 0x3A0 */
+    int             field_3A4;    /* 0x3A4 */
+    char            pad_3B4[0x3B4 - 0x3A4 - sizeof(int)];
     int             field_3B4;    /* 0x3B4 */
     char            pad_3D4[0x3D4 - 0x3B4 - sizeof(int)];
     int             field_3D4;
@@ -121,8 +125,19 @@ void s19b_jeep_liq_800D7B3C(JeepLiqWork *work, int arg1)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7B60.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7BB0.s")
+int s19b_jeep_liq_800D7B60(int center, int range)
+{
+    return (rand() * range >> 15) - range / 2 + center;
+}
+void s19b_jeep_liq_800D7BB0(JeepLiqWork *work)
+{
+    if (++work->field_3E0 == 0x1e)
+    {
+        work->field_3A4 = s19b_jeep_liq_800D7B60(0, 0x4b0);
+        work->field_3E0 = 0;
+    }
+    work->field_3A0 = GV_NearSpeed(work->field_3A0, work->field_3A4, 0x1e);
+}
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7C0C.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7CBC.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7D68.s")
