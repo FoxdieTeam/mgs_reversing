@@ -10,6 +10,8 @@ typedef struct _JEEP_SYSTEM
     int      field_50;
     char     pad2b[0x60 - 0x50 - sizeof(int)];
     OBJECT  *snake_body;
+    char     pad3[0x78 - 0x60 - sizeof(OBJECT *)];
+    int      field_78;
 } JEEP_SYSTEM;
 
 typedef struct _Work
@@ -391,7 +393,30 @@ void *NewJeepSnake(CONTROL *root_ctrl, MATRIX *root_mat)
 
 // new file
 
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp2_800D5054.s")
+extern void DG_SetPos(MATRIX *);
+extern void NewBlood(MATRIX *, int);
+extern void *NewJeepBlood(MATRIX *, int, DG_OBJ *);
+extern SVECTOR s19b_dword_800C3A28;
+extern SVECTOR s19b_dword_800C3A30;
+
+void s19b_jlamp2_800D5054(Work *work, int model, int arg2)
+{
+    MATRIX  mtx;
+    DG_OBJ *obj = &work->body.objs->objs[model];
+
+    DG_SetPos(&obj->world);
+    DG_MovePos(&s19b_dword_800C3A28);
+    DG_RotatePos(&s19b_dword_800C3A30);
+    ReadRotMatrix(&mtx);
+    if (Takabe_JeepSystem.field_78 == 0)
+    {
+        NewBlood(&mtx, arg2);
+    }
+    else
+    {
+        NewJeepBlood(&mtx, arg2, obj);
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp2_800D50F4.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp2_800D519C.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp2_800D5260.s")
