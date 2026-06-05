@@ -62,7 +62,27 @@ int s19b_jeep_mrl_800D39B4(SVECTOR *dst)
     *dst = s19b_dword_800DE64C->control.mov;
     return s19b_dword_800DE64C->field_3C8;
 }
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D39F0.s")
+extern CONTROL *GM_WhereList[96];
+extern int      GM_N_WhereList;
+
+int s19b_jeep_mrl_800D39F0(void)
+{
+    CONTROL **where = GM_WhereList;
+    MAP      *map   = (*where)->map;
+    int       count = 0;
+    int       n;
+
+    for (n = GM_N_WhereList; n > 0; n--)
+    {
+        CONTROL *control = *where;
+        if ((control->radar_atr & 1) && control->map == map)
+        {
+            count++;
+        }
+        where++;
+    }
+    return count;
+}
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D3A54.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D3CA8.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D3D30.s")
