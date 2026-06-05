@@ -116,7 +116,6 @@ void s15c_dyncon_800D5428(DynCon *work, int i, int depth)
     SVECTOR a = DG_ZeroVector;
     SVECTOR b = DG_ZeroVector;
     int     flag = 0;
-    char   *base;
 
     switch (i)
     {
@@ -141,42 +140,41 @@ void s15c_dyncon_800D5428(DynCon *work, int i, int depth)
     }
 
     (void)b;
-    base = (char *)work + i * 0x20;
 
-    *(short *)(base + 0x3FA4) = 0;
-    *(short *)(base + 0x3FA6) = 0xDAC;
-    *(short *)(base + 0x3FAC) = 0;
-    *(short *)(base + 0x3FAE) = 0xDAC;
-    *(short *)(base + 0x3FB4) = 0;
-    *(short *)(base + 0x3FB6) = 0xDAC;
-    *(short *)(base + 0x3FBC) = 0;
-    *(short *)(base + 0x3FBE) = 0xDAC;
+    work->slots[i][0].p1.y = 0;
+    work->slots[i][0].p1.h = 0xDAC;
+    work->slots[i][0].p2.y = 0;
+    work->slots[i][0].p2.h = 0xDAC;
+    work->slots[i][1].p1.y = 0;
+    work->slots[i][1].p1.h = 0xDAC;
+    work->slots[i][1].p2.y = 0;
+    work->slots[i][1].p2.h = 0xDAC;
 
     if (flag == 0)
     {
         int div = depth * 1500 / 128;
 
-        *(short *)(base + 0x3FA0) = a.vx - 0x9C4;
-        *(short *)(base + 0x3FA2) = a.vz - div;
-        *(short *)(base + 0x3FA8) = a.vx + 0x9C4;
-        *(short *)(base + 0x3FAA) = a.vz - div;
-        *(short *)(base + 0x3FB0) = a.vx - 0x9C4;
-        *(short *)(base + 0x3FB2) = a.vz + div;
-        *(short *)(base + 0x3FB8) = a.vx + 0x9C4;
-        *(short *)(base + 0x3FBA) = a.vz + div;
+        work->slots[i][0].p1.x = a.vx - 0x9C4;
+        work->slots[i][0].p1.z = a.vz - div;
+        work->slots[i][0].p2.x = a.vx + 0x9C4;
+        work->slots[i][0].p2.z = a.vz - div;
+        work->slots[i][1].p1.x = a.vx - 0x9C4;
+        work->slots[i][1].p1.z = a.vz + div;
+        work->slots[i][1].p2.x = a.vx + 0x9C4;
+        work->slots[i][1].p2.z = a.vz + div;
     }
     else
     {
         int div = depth * 2000 / 128;
 
-        *(short *)(base + 0x3FA0) = a.vx - div;
-        *(short *)(base + 0x3FA2) = a.vz - 0x9C4;
-        *(short *)(base + 0x3FA8) = a.vx - div;
-        *(short *)(base + 0x3FAA) = a.vz + 0x9C4;
-        *(short *)(base + 0x3FB0) = a.vx + div;
-        *(short *)(base + 0x3FB2) = a.vz - 0x9C4;
-        *(short *)(base + 0x3FB8) = a.vx + div;
-        *(short *)(base + 0x3FBA) = a.vz + 0x9C4;
+        work->slots[i][0].p1.x = a.vx - div;
+        work->slots[i][0].p1.z = a.vz - 0x9C4;
+        work->slots[i][0].p2.x = a.vx - div;
+        work->slots[i][0].p2.z = a.vz + 0x9C4;
+        work->slots[i][1].p1.x = a.vx + div;
+        work->slots[i][1].p1.z = a.vz - 0x9C4;
+        work->slots[i][1].p2.x = a.vx + div;
+        work->slots[i][1].p2.z = a.vz + 0x9C4;
     }
 }
 extern void s15c_dyncon_800D3F24(HZD_SEG *segs, HZD_FLR *floors, MATRIX *mtx,
@@ -453,7 +451,6 @@ void s15c_dyncon_800D8A34(char *opt, short *out, int count)
     int   i;
     char *s;
 
-    (void)opt;
     for (i = 0; i < count; i++)
     {
         s = GCL_NextStr();
@@ -474,7 +471,6 @@ GV_ACT *s15c_dyncon_800D8C9C(int name, int where)
 {
     DynCon *work;
 
-    (void)name;
 
     work = (DynCon *)GV_NewActor(GV_ACTOR_USER, 0x4170);
     if (work != NULL)
