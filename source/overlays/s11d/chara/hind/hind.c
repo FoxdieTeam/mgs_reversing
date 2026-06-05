@@ -286,8 +286,149 @@ void s11d_hind_800CAF9C(Work *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CAFEC.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CB054.s")
+int s11d_hind_800CAFEC(char *arg0, char *arg1, char *arg2)
+{
+    register int   count asm("a3");
+    register char *src asm("a0");
+    register char *src1 asm("v1");
+    register char *dst0 asm("t0");
+    register char *dst1 asm("a2");
+    register int   value asm("v0");
+
+    value = *(unsigned short *)arg0;
+    __asm__ volatile("" : "+r"(value));
+    count = value & 0xFFFF;
+    count--;
+    *(short *)arg1 = value;
+    src = *(char **)(arg0 + 4);
+    dst0 = arg2;
+
+    if (count >= 0)
+    {
+        dst1 = arg2 + 6;
+        src1 = src + 6;
+
+        do
+        {
+            value = *(unsigned short *)(src + 0);
+            src += 8;
+            *(short *)(dst0 + 0) = value;
+            value = *(unsigned short *)(src1 - 2);
+            count--;
+            *(short *)(dst1 - 4) = value;
+            value = *(unsigned short *)(src1 - 4);
+            dst0 += 8;
+            *(short *)(dst1 - 2) = value;
+            value = *(unsigned short *)(src1 + 0);
+            src1 += 8;
+            *(short *)(dst1 + 0) = value;
+            dst1 += 8;
+        } while (count >= 0);
+    }
+
+    return 0;
+}
+
+int s11d_hind_800CB054(char *work)
+{
+    register char *s5 asm("s5");
+    register int   s4 asm("s4");
+    register char *s3 asm("s3");
+    register char *s2 asm("s2");
+    register int   s1 asm("s1");
+    register int   s0 asm("s0");
+    register int   v0 asm("v0");
+    register int   v1 asm("v1");
+    register int   a0 asm("a0");
+    char          *ptr;
+
+    s5 = work;
+    ptr = *(char **)(s5 + 0x4C);
+    __asm__ volatile("" : : : "memory");
+    ptr = *(char **)(ptr + 0x8);
+    __asm__ volatile("nop");
+    ptr = *(char **)ptr;
+    s3 = s5 + 0x202;
+    s2 = *(char **)(ptr + 0x18);
+    s4 = *(short *)(ptr + 0xE);
+    s0 = 0;
+    *(short *)(s5 + 0x200) = s4;
+
+    if (s4 > 0)
+    {
+        s1 = 0x210;
+        do
+        {
+            if (s11d_hind_800CAFEC(s2, s3, s5 + s1) < 0)
+            {
+                return -1;
+            }
+            s1 += 0x100;
+            s0++;
+            s2 += 8;
+            s3 += 2;
+        } while (s0 < s4);
+    }
+
+    *(short *)(s5 + 0x1F0) = 0x20;
+    if (GCL_GetOption(0x72) == 0)
+    {
+        return -1;
+    }
+
+    v0 = GCL_StrToInt(GCL_NextStr());
+    s11d_hind_800C9908(s5, v0);
+
+    __asm__ volatile(".set noreorder
+"
+                     "lw    $3, 0x910(%1)
+"
+                     "lh    %0, 0x22(%1)
+"
+                     "lwl   $7, 0x3($3)
+"
+                     "lwr   $7, 0x0($3)
+"
+                     "lwl   $8, 0x7($3)
+"
+                     "lwr   $8, 0x4($3)
+"
+                     "swl   $7, 0x23(%1)
+"
+                     "swr   $7, 0x20(%1)
+"
+                     "swl   $8, 0x27(%1)
+"
+                     "swr   $8, 0x24(%1)
+"
+                     ".set reorder
+"
+                     : "=r"(a0)
+                     : "r"(s5)
+                     : "$3", "$7", "$8", "memory");
+
+    __asm__ volatile(".set noreorder
+"
+                     "lw    %1, 0x1C8(%3)
+"
+                     "addu  %0, $0, $0
+"
+                     "sh    %2, 0x22(%3)
+"
+                     "addiu %2, $0, -0x21
+"
+                     "sw    $0, 0x918(%3)
+"
+                     "and   %1, %1, %2
+"
+                     ".set reorder
+"
+                     : "=r"(v0), "=r"(v1), "+r"(a0)
+                     : "r"(s5)
+                     : "memory");
+    *(int *)(s5 + 0x1C8) = v1;
+    return v0;
+}
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CB178.s")
 
 void s11d_hind_800CB310(Work *work)
