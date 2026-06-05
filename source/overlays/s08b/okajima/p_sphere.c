@@ -1,6 +1,13 @@
 #include "common.h"
 #include "game/game.h"
 
+typedef struct _PSphereWork
+{
+    GV_ACT actor;       /* 0x000 */
+    OBJECT objs[2];     /* 0x020, 0x104 */
+    char   pad_1E8[0x2E4 - 0x1E8];
+} PSphereWork;
+
 int s08b_dword_800C3614 = 0x00000000;
 int s08b_dword_800C3618 = 0x00000000;
 int s08b_dword_800C361C = 0x00000000;
@@ -19,15 +26,13 @@ void s08b_p_sphere_800D8F20(void *unused, MATRIX **m, int scale)
     ScaleMatrix(*m, &v);
 }
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_p_sphere_800D8F50.s")
-void s08b_p_sphere_800D9574(void *work)
+void s08b_p_sphere_800D9574(PSphereWork *work)
 {
-    int off;
-    int i = 0;
+    int i;
 
-    for (off = 0x20; i < 2; off += 0xE4)
+    for (i = 0; i < 2; i++)
     {
-        GM_FreeObject((OBJECT *)((char *)work + off));
-        i++;
+        GM_FreeObject(&work->objs[i]);
     }
     s08b_dword_800C361C = 0;
 }
@@ -35,19 +40,19 @@ void s08b_p_sphere_800D9574(void *work)
 
 const char s08b_aPspherec_800E40CC[] = "p_sphere.c";
 
-extern void s08b_p_sphere_800D8F50(void *work);
-extern int  s08b_p_sphere_800D95CC(void *work, int arg0, int arg1);
+extern void s08b_p_sphere_800D8F50(PSphereWork *work);
+extern int  s08b_p_sphere_800D95CC(PSphereWork *work, int arg0, int arg1);
 
 void *s08b_p_sphere_800D9834(int arg0, int arg1)
 {
-    void *work;
+    PSphereWork *work;
 
     if (s08b_dword_800C361C == 1)
     {
         return NULL;
     }
 
-    work = GV_NewActor(4, 0x2E4);
+    work = GV_NewActor(4, sizeof(PSphereWork));
     if (work != NULL)
     {
         s08b_dword_800C361C = 1;
