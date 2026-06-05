@@ -63,7 +63,11 @@ typedef struct _Work
 
     int            hp;                /* 0x93C */
 
-    char           pad4[0x18];
+    int            field_940;         /* 0x940 */
+    int            field_944;         /* 0x944 */
+    char           pad_950[0x950 - 0x944 - sizeof(int)];
+    int            field_950;         /* 0x950 */
+    char           pad4[0x958 - 0x950 - sizeof(int)];
 
     SVECTOR        pos;               /* 0x958 */
 } Work;
@@ -390,7 +394,56 @@ void *NewJeepSnake(CONTROL *root_ctrl, MATRIX *root_mat)
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp2_800D519C.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp2_800D5260.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp2_800D5328.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp2_800D5484.s")
+extern void s19b_jlamp2_800D5054(Work *work, int arg1, int arg2);
+extern void s19b_jlamp2_800D5328(Work *work, int arg1);
+extern void s19b_jlamp2_800D571C(Work *work, int arg1);
+extern int  s19b_dword_800C3A00;
+
+void s19b_jlamp2_800D5484(Work *work, int arg1)
+{
+    work->field_944 = 4;
+    if (arg1 == 0)
+    {
+        work->field_940 = 1;
+        if (work->field_928 != 1)
+        {
+            *(int *)((char *)&work->field_928) = 1;
+            GM_ConfigObjectAction(&work->body, *(short *)((char *)&s19b_dword_800C3A00 + 2), 0, 4);
+            work->field_7E0 = DG_ZeroVector;
+        }
+        s19b_jlamp2_800D5054(work, 5, 0);
+        Takabe_JeepSystem.field_4C |= 1;
+        if (linkvarbuf[0xB] > 0)
+        {
+            GM_SeSet(&work->control.mov, 0x88);
+        }
+    }
+    if (work->body.is_end != 0)
+    {
+        if (work->field_950 == 0)
+        {
+            work->field_918 = (void *)s19b_jlamp2_800D5328;
+            work->field_920 = 0;
+            work->control.turn.vz = 0;
+            work->control.turn.vx = 0;
+            if (work->field_928 != 0)
+            {
+                *(int *)((char *)&work->field_928) = 0;
+                GM_ConfigObjectAction(&work->body, *(short *)&s19b_dword_800C3A00, 0, 4);
+                work->field_7E0 = DG_ZeroVector;
+            }
+            work->field_940 = 0;
+            work->field_944 = 0x2D;
+        }
+        else
+        {
+            work->field_918 = (void *)s19b_jlamp2_800D571C;
+            work->field_920 = 0;
+            work->control.turn.vz = 0;
+            work->control.turn.vx = 0;
+        }
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp2_800D55E8.s")
 extern void s19b_jlamp2_800D5820(Work *work, int arg1);
 extern void Voicesys_800CE310(void);
