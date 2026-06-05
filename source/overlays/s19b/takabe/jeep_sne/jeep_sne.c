@@ -44,6 +44,8 @@ typedef struct _Work
             int   field_800;          /* 0x800: flags */
             char  pad_818[0x818 - 0x800 - sizeof(int)];
             short field_818;          /* 0x818 */
+            char  pad_81C[0x81C - 0x818 - sizeof(short)];
+            short field_81C;          /* 0x81C */
         } st;
     } u;
 
@@ -87,7 +89,51 @@ void s19b_jeep_sne_800D424C(Work *work, int arg1)
     }
     s19b_jeep_sne_800D4188(work);
 }
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D4290.s")
+void s19b_jeep_sne_800D4290(Work *work, int arg1)
+{
+    SVECTOR sp10;
+    int     diff;
+
+    if (arg1 == 0)
+    {
+        work->u.st.field_7FC = 0;
+        GM_ConfigObjectAction(&work->body, 0, 0, 4);
+    }
+    if ((Takabe_JeepSystem.field_4C & 1) && GV_RandU(0x100) < 0x14)
+    {
+        GM_SeSet(&work->control.mov, work->u.st.field_81C);
+    }
+    GV_SubVec3(&GM_PlayerPosition, &work->control.mov, &sp10);
+
+    diff = (GM_PlayerControl->rot.vy - work->control.rot.vy) - work->root_ctrl->rot.vy;
+    diff &= 0xFFF;
+    if (diff & 0x800)
+    {
+        diff -= 0x1000;
+    }
+    if (diff < -0x400)
+    {
+        diff = -0x400;
+    }
+    if (diff > 0x400)
+    {
+        diff = 0x400;
+    }
+    /* 0x7E4 overlaps the field_7E0 SVECTOR (used by the jlamp2 actor) */
+    *(int *)((char *)work + 0x7E4) = diff;
+
+    if (work->u.st.field_800 & 0x10000)
+    {
+        *(int *)((char *)work + 0x7E4) = 0;
+        if (s19b_jeep_sne_800D4188(work) == 0)
+        {
+            work->u.st.field_7EC = (void *)s19b_jeep_sne_800D424C;
+            work->u.st.field_7F4 = 0;
+            work->control.turn.vz = 0;
+            work->control.turn.vx = 0;
+        }
+    }
+}
 void s19b_jeep_sne_800D43AC(Work *work, int arg1)
 {
     if (arg1 == 0)
