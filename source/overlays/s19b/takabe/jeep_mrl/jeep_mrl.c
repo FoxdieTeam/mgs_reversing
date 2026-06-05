@@ -6,7 +6,8 @@
 typedef struct _Work
 {
     GV_ACT   actor;                                    /* 0x000 */
-    char     pad_28[0x28 - sizeof(GV_ACT)];
+    int      field_20;                                 /* 0x020 */
+    int      field_24;                                 /* 0x024 */
     CONTROL  control;                                  /* 0x028 */
     OBJECT   body;                                     /* 0x0A4 */
     char     pad_3C8[0x3C8 - 0xA4 - sizeof(OBJECT)];
@@ -72,4 +73,26 @@ void s19b_jeep_mrl_800D4098(Work *work)
     GM_FreeControl(&work->control);
     GM_FreeObject(&work->body);
 }
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D40D4.s")
+extern void s19b_jeep_mrl_800D3D30(Work *work);
+extern int  s19b_jeep_mrl_800D3E98(Work *work, int name, int arg2);
+extern const char s19b_dword_800DDDF8[];
+extern const char s19b_aMeryl_800DDDCC[];
+
+void *s19b_jeep_mrl_800D40D4(int arg0, int arg1, int arg2)
+{
+    Work *work = GV_NewActor(GV_ACTOR_AFTER, 0x820);
+
+    if (work != NULL)
+    {
+        GV_SetNamedActor(work, s19b_jeep_mrl_800D3D30, s19b_jeep_mrl_800D4098,
+                         s19b_dword_800DDDF8);
+        work->field_20 = arg0;
+        work->field_24 = arg1;
+        if (s19b_jeep_mrl_800D3E98(work, GV_StrCode(s19b_aMeryl_800DDDCC), arg2) < 0)
+        {
+            GV_DestroyActor(work);
+            return NULL;
+        }
+    }
+    return work;
+}
