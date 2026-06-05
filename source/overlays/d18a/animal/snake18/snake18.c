@@ -1389,7 +1389,44 @@ void d18a_snake18_800CEF0C(Snake18Work *work, int arg1)
     GM_PlayerStatus = status | PLAYER_MOVE;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CEF44.s")
+extern void d18a_snake18_800CF744(Snake18Work *work);
+
+void d18a_snake18_800CEF44(Snake18Work *work, int arg1)
+{
+    int new_action;
+
+    if (arg1 == 0)
+    {
+        work->f8BC = d18a_snake18_800CE7BC;
+        work->f8C0 = d18a_snake18_800CE7BC;
+        d18a_snake18_800CC8B0(work, 0);
+        new_action = ((unsigned char *)work->f8A8->field_0C)[9];
+        if (work->body.action != new_action)
+        {
+            GM_ConfigObjectAction(&work->body, new_action, 0, 4);
+        }
+    }
+    if (arg1 == 0x14)
+    {
+        GM_SeSet(&work->control.mov, 0x26);
+    }
+    if (arg1 == 0x2D)
+    {
+        GM_SeSet(&work->control.mov, 0x33);
+    }
+    if (work->body.is_end != 0)
+    {
+        d18a_snake18_800CC8B0(work, 0x20);
+        work->f924 = 2;
+        work->f8AC = d18a_snake18_800CF744;
+        work->f8B0 = 0;
+        work->f912 = 0;
+        work->f910 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        GM_PlayerStatus &= ~PLAYER_DAMAGED;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CF03C.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CF198.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CF39C.s")
