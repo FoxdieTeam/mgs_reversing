@@ -37,7 +37,9 @@ typedef struct DogWork
     int      field_1510[3];
     int      field_151C[3];
     int      field_1528;
-    char     pad152C[0x30];
+    char     pad152C[0x152E - 0x152C];
+    SVECTOR  field_152E[3];
+    char     pad1546[0x155C - 0x152E - sizeof(SVECTOR[3])];
     int      field_155C[3];
     char     pad1568[0xC];
     int      field_1574[3];
@@ -45,9 +47,11 @@ typedef struct DogWork
     int      field_158C[3];
     char     pad1598[0x24];
     int      field_15BC[3];
-    char     pad15C8[0x38];
+    char     pad15C8[0x15FC - 0x15C8];
+    int      field_15FC;
     int      field_1600;
-    char     pad1604[0xC];
+    int      field_1604;
+    char     pad1608[0x1610 - 0x1604 - sizeof(int)];
     int      field_1610;
     char     pad1614[0x68];
     DG_PRIM *field_167C[3];
@@ -886,7 +890,62 @@ void s12c_dog_800CB42C(DogWork *work, int index1, int arg2, int arg3, int index2
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CB54C.s")
+int s12c_dog_800CB54C(DogWork *work, int index)
+{
+    CONTROL           *control;
+    RADAR_SIGHT_PARAM *radar;
+
+    if (!work->field_1604)
+    {
+        if (GM_PlayerPosition.vx > -3500)
+        {
+            if (GM_PlayerPosition.vx < 7000)
+            {
+                if (GM_PlayerPosition.vz > 2000)
+                {
+                    if (GM_PlayerPosition.vz < 7500)
+                    {
+                        return 0;
+                    }
+                }
+            }
+        }
+    }
+
+    control = &work->field_28[index];
+    radar = &control->radar_param;
+
+    if (control->map->index != GM_PlayerMap)
+    {
+        return 0;
+    }
+
+    if (GM_PlayerStatus & PLAYER_INTRUDE)
+    {
+        return 0;
+    }
+
+    if ((index != 2 && work->field_151C[index] > 1000) ||
+        (index == 2 && work->field_151C[index] > 1500))
+    {
+        if (work->field_151C[index] > radar->dis)
+        {
+            return 0;
+        }
+        if (GV_DiffDirAbs(radar->dir, work->field_152E[index].vx) > radar->range)
+        {
+            return 0;
+        }
+    }
+
+    if (HZD_OnlineHazardCheck(control->map->hzd, &GM_PlayerPosition, &control->mov, 0xF, 2))
+    {
+        return 0;
+    }
+
+    work->field_15FC = 0x300;
+    return 1;
+}
 
 void Dog_800CB6DC(DogWork *work, int arg1, int arg2)
 {
