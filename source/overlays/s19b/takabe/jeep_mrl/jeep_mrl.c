@@ -10,7 +10,9 @@ typedef struct _Work
     int      field_24;                                 /* 0x024 */
     CONTROL  control;                                  /* 0x028 */
     OBJECT   body;                                     /* 0x0A4 */
-    char     pad_3C8[0x3C8 - 0xA4 - sizeof(OBJECT)];
+    char     pad_2B0[0x2B0 - 0xA4 - sizeof(OBJECT)];
+    TARGET   field_2B0;                                /* 0x2B0 */
+    char     pad_3C8[0x3C8 - 0x2B0 - sizeof(TARGET)];
     short    field_3C8;                                /* 0x3C8 */
     short    field_3CA;                                /* 0x3CA */
     int      field_3CC;                                /* 0x3CC */
@@ -84,7 +86,23 @@ int s19b_jeep_mrl_800D39F0(void)
     return count;
 }
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D3A54.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D3CA8.s")
+extern SVECTOR s19b_dword_800C39D0[];
+extern int s19b_dword_800C399C;
+extern int s19b_dword_800C3994;
+extern void *NewPadVibration(unsigned char *, int);
+
+void s19b_jeep_mrl_800D3CA8(Work *work, int arg1)
+{
+    DG_SetPos2(&work->control.mov, &work->control.rot);
+    DG_PutVector(&s19b_dword_800C39D0[arg1], &work->field_2B0.center, 1);
+    work->field_2B0.vital = 8;
+    if (GM_PowerTarget(&work->field_2B0) == 0)
+    {
+        return;
+    }
+    NewPadVibration((unsigned char *)&s19b_dword_800C399C, 1);
+    NewPadVibration((unsigned char *)&s19b_dword_800C3994, 0);
+}
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D3D30.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D3E98.s")
 void s19b_jeep_mrl_800D4098(Work *work)
