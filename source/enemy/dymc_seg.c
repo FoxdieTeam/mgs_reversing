@@ -11,8 +11,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 typedef struct _Work
 {
     GV_ACT   actor;
@@ -21,33 +19,34 @@ typedef struct _Work
     HZD_SEG  seg;
     SVECTOR  min;
     SVECTOR  max;
-    int      field_48;
-    int      field_4C;
+    int      enable;
+    int      state;
 } Work;
 
 /*---------------------------------------------------------------------------*/
-
-extern char s07a_dword_800E2F10[];
 
 static void Act(Work *work)
 {
     HZD_SEG *seg;
 
     seg = &work->seg;
-    if (work->field_4C != 0)
+    if (work->state != 0)
     {
-        if (work->field_48 == 0)
+        if (work->enable == 0)
         {
-            work->field_4C = 0;
+            work->state = 0;
             seg->p1.y = work->min.vy - 10000;
             seg->p2.y = work->max.vy - 10000;
         }
     }
-    else if (work->field_48 != 0)
+    else
     {
-        work->field_4C = 1;
-        seg->p1.y = work->min.vy;
-        seg->p2.y = work->max.vy;
+        if (work->enable != 0)
+        {
+            work->state = 1;
+            seg->p1.y = work->min.vy;
+            seg->p2.y = work->max.vy;
+        }
     }
 }
 
@@ -56,7 +55,7 @@ static void Die(Work *work)
     HZD_DequeueDynamicSegment(work->hzd, &work->seg);
 }
 
-static int GetResources(Work *work, int map, SVECTOR *min, SVECTOR *max, int min_h, int max_h, int flag)
+static int GetResources(Work *work, int map, SVECTOR *min, SVECTOR *max, int minh, int maxh, int flag)
 {
     HZD_SEG *seg;
 
@@ -68,41 +67,38 @@ static int GetResources(Work *work, int map, SVECTOR *min, SVECTOR *max, int min
     seg->p1.x = min->vx;
     seg->p1.y = min->vy;
     seg->p1.z = min->vz;
-    seg->p1.h = min_h;
+    seg->p1.h = minh;
 
     seg->p2.x = max->vx;
     seg->p2.y = max->vy;
     seg->p2.z = max->vz;
-    seg->p2.h = max_h;
+    seg->p2.h = maxh;
 
     HZD_SetDynamicSegment(seg, seg);
+
     work->hzd = GM_FindMap(map)->hzd;
     HZD_QueueDynamicSegment2(work->hzd, seg, flag);
-
     return 0;
 }
 
 /*---------------------------------------------------------------------------*/
 
-void *NewDynamicSegment(int map, SVECTOR *min, SVECTOR *max, int min_h, int max_h, int flag, void **arg6)
+void *NewDynamicSegment(int map, SVECTOR *min, SVECTOR *max, int minh, int maxh, int flag, int **enable)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, Act, Die, s07a_dword_800E2F10);
-        if (GetResources(work, map, min, max, min_h, max_h, flag) < 0)
+        GV_SetNamedActor(&work->actor, Act, Die, "dymc_seg.c");
+        if (GetResources(work, map, min, max, minh, maxh, flag) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
         }
-        if (arg6 != NULL)
-        {
-            *arg6 = &work->field_48;
-        }
-        work->field_48 = 1;
-        work->field_4C = 1;
+        if (enable != NULL) *enable = &work->enable;
+        work->enable = 1;
+        work->state = 1;
     }
     return (void *)work;
 }
