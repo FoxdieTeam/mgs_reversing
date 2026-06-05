@@ -118,14 +118,14 @@ typedef struct _Snake18Work
     int     f930;        // 0x930
 } Snake18Work;
 
-typedef struct _Snake18Arg9CC
+typedef struct _PUNCH
 {
-    SVECTOR f0;
-    SVECTOR f8;
-    SVECTOR f10;
-    int     f18;
-    int     f1C;
-} Snake18Arg9CC;
+    SVECTOR field_0;
+    SVECTOR size;
+    SVECTOR field_10;
+    int     life;
+    int     faint;
+} PUNCH;
 
 extern GM_CameraSystemWork GM_Camera;
 
@@ -641,27 +641,27 @@ void d18a_snake18_800CB888(Snake18Work *work)
     work->f90E = 0;
 }
 
-void d18a_snake18_800CB908(Snake18Work *work, Snake18Arg9CC *arg1)
+void d18a_snake18_800CB908(Snake18Work *work, PUNCH *arg1)
 {
     TARGET *t = &work->f7EC;
     SVECTOR sp18;
     int     mode;
 
-    GM_SetTarget(t, 4, work->f930, &arg1->f8);
-    DG_RotVector(&arg1->f10, &sp18, 1);
+    GM_SetTarget(t, 4, work->f930, &arg1->size);
+    DG_RotVector(&arg1->field_10, &sp18, 1);
 
-    mode = arg1->f1C;
+    mode = arg1->faint;
     if (mode == 1)
-        GM_SetPowerTarget(t, 3, 3, arg1->f18, mode, &sp18);
+        GM_SetPowerTarget(t, 3, 3, arg1->life, mode, &sp18);
     else
-        GM_SetPowerTarget(t, 3, 4, arg1->f18, mode, &sp18);
+        GM_SetPowerTarget(t, 3, 4, arg1->life, mode, &sp18);
 
-    DG_PutVector(&arg1->f0, &sp18, 1);
+    DG_PutVector(&arg1->field_0, &sp18, 1);
     GM_MoveTarget(t, &sp18);
     GM_PowerTarget(t);
 }
 
-int d18a_snake18_800CB9CC(Snake18Work *arg0, Snake18Arg9CC *arg1)
+int d18a_snake18_800CB9CC(Snake18Work *arg0, PUNCH *arg1)
 {
     SVECTOR sp18;
     TARGET *temp_s1;
@@ -669,14 +669,14 @@ int d18a_snake18_800CB9CC(Snake18Work *arg0, Snake18Arg9CC *arg1)
 
     temp_s1 = &arg0->f7EC;
     GM_SetTarget(temp_s1, 2, arg0->f930, (SVECTOR *)((char *)arg1 + 0x8));
-    GM_SetCaptureTarget(temp_s1, arg1->f18, arg1->f1C, &arg0->f840, &arg0->f848);
+    GM_SetCaptureTarget(temp_s1, arg1->life, arg1->faint, &arg0->f840, &arg0->f848);
     DG_PutVector((SVECTOR *)arg1, &sp18, 1);
     GM_MoveTarget(temp_s1, &sp18);
     temp_v0 = (int)GM_CaptureTarget(temp_s1);
     arg0->f834 = temp_v0;
     return temp_v0 != 0;
 }
-int d18a_snake18_800CBA64(Snake18Work *work, Snake18Arg9CC *arg1)
+int d18a_snake18_800CBA64(Snake18Work *work, PUNCH *arg1)
 {
     TARGET *target;
     SVECTOR vec;
@@ -684,7 +684,7 @@ int d18a_snake18_800CBA64(Snake18Work *work, Snake18Arg9CC *arg1)
 
     target = &work->f7EC;
     GM_SetTarget(target, 0x40, work->f930, (SVECTOR *)((char *)arg1 + 0x8));
-    GM_SetCaptureTarget(target, arg1->f18, 0, &work->f840, &work->f848);
+    GM_SetCaptureTarget(target, arg1->life, 0, &work->f840, &work->f848);
     DG_PutVector((SVECTOR *)arg1, &vec, 1);
     GM_MoveTarget(target, &vec);
     t = GM_C4Target(target);
