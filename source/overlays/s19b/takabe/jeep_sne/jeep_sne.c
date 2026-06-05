@@ -419,7 +419,30 @@ void s19b_jlamp2_800D5054(Work *work, int model, int arg2)
         NewJeepBlood(&mtx, arg2, obj);
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp2_800D50F4.s")
+void s19b_jlamp2_800D5484(Work *work, int arg1);
+extern void *NewPadVibration(unsigned char *, int);
+extern int s19b_dword_800C3A14;
+extern int s19b_dword_800C3A18;
+
+int s19b_jlamp2_800D50F4(Work *work)
+{
+    TARGET *target = work->target;
+
+    if (target->damaged & TARGET_POWER)
+    {
+        target->force = DG_ZeroVector;
+        work->field_918 = (void *)s19b_jlamp2_800D5484;
+        work->field_920 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        target->damage = 0;
+        target->damaged = 0;
+        NewPadVibration((unsigned char *)&s19b_dword_800C3A14, 1);
+        NewPadVibration((unsigned char *)&s19b_dword_800C3A18, 2);
+        return 1;
+    }
+    return 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp2_800D519C.s")
 extern void *NewJeepBullet(MATRIX *world, int side, int mode, int mode2);
 extern void NewAnime_8005D604(MATRIX *world);
