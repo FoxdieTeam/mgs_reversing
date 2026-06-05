@@ -2,19 +2,34 @@
 #include <libgte.h>
 #include "game/game.h"
 
-extern int s19b_dword_800DE64C;
-
-void s19b_jeep_mrl_800D2CE8(void *work)
+typedef struct _Work
 {
-    if (*(int *)((char *)work + 0x3E0) == 0)
+    GV_ACT   actor;                                    /* 0x000 */
+    char     pad_28[0x28 - sizeof(GV_ACT)];
+    CONTROL  control;                                  /* 0x028 */
+    OBJECT   body;                                     /* 0x0A4 */
+    char     pad_3C8[0x3C8 - 0xA4 - sizeof(OBJECT)];
+    short    field_3C8;                                /* 0x3C8 */
+    char     pad_3D0[0x3D0 - 0x3C8 - sizeof(short)];
+    int      field_3D0;                                /* 0x3D0 */
+    int      field_3D4;                                /* 0x3D4 */
+    char     pad_3E0[0x3E0 - 0x3D4 - sizeof(int)];
+    int      field_3E0;                                /* 0x3E0 */
+    char     pad_7E8[0x7E8 - 0x3E0 - sizeof(int)];
+    TARGET  *target;                                   /* 0x7E8 */
+} Work;
+
+extern Work *s19b_dword_800DE64C;
+
+void s19b_jeep_mrl_800D2CE8(Work *work)
+{
+    if (work->field_3E0 == 0)
     {
-        *(int *)((char *)work + 0x3D0) =
-            GV_NearSpeed(*(int *)((char *)work + 0x3D0), *(int *)((char *)work + 0x3D4), 5);
+        work->field_3D0 = GV_NearSpeed(work->field_3D0, work->field_3D4, 5);
     }
     else
     {
-        *(int *)((char *)work + 0x3D0) =
-            GV_NearSpeed(*(int *)((char *)work + 0x3D0), *(int *)((char *)work + 0x3D4), 10);
+        work->field_3D0 = GV_NearSpeed(work->field_3D0, work->field_3D4, 10);
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D2D3C.s")
@@ -26,22 +41,22 @@ void s19b_jeep_mrl_800D2CE8(void *work)
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D3928.s")
 int s19b_jeep_mrl_800D399C(void)
 {
-    return *(int *)((char *)s19b_dword_800DE64C + 0x3D0);
+    return s19b_dword_800DE64C->field_3D0;
 }
 int s19b_jeep_mrl_800D39B4(SVECTOR *dst)
 {
-    *dst = *(SVECTOR *)((char *)s19b_dword_800DE64C + 0x28);
-    return *(short *)((char *)s19b_dword_800DE64C + 0x3C8);
+    *dst = s19b_dword_800DE64C->control.mov;
+    return s19b_dword_800DE64C->field_3C8;
 }
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D39F0.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D3A54.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D3CA8.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D3D30.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D3E98.s")
-void s19b_jeep_mrl_800D4098(void *work)
+void s19b_jeep_mrl_800D4098(Work *work)
 {
-    GM_FreeTarget(*(TARGET **)((char *)work + 0x7E8));
-    GM_FreeControl((CONTROL *)((char *)work + 0x28));
-    GM_FreeObject((OBJECT *)((char *)work + 0xA4));
+    GM_FreeTarget(work->target);
+    GM_FreeControl(&work->control);
+    GM_FreeObject(&work->body);
 }
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D40D4.s")
