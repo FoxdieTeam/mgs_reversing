@@ -51,7 +51,9 @@ typedef struct _Work
         } st;
     } u;
 
-    char           pad2[0x908 - 0x7E8 - sizeof(OBJECT)];
+    char           pad2a[0x8E4 - 0x7E8 - sizeof(OBJECT)];
+    MATRIX         field_8E4;         /* 0x8E4 */
+    char           pad2b[0x908 - 0x8E4 - sizeof(MATRIX)];
     int            field_908;         /* 0x908 */
     char           pad_910[0x910 - 0x908 - sizeof(int)];
 
@@ -419,7 +421,37 @@ void s19b_jlamp2_800D5054(Work *work, int model, int arg2)
 }
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp2_800D50F4.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp2_800D519C.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp2_800D5260.s")
+extern void *NewJeepBullet(MATRIX *world, int side, int mode, int mode2);
+extern void NewAnime_8005D604(MATRIX *world);
+extern void s19b_jblood_800C8070(MATRIX *world);
+extern SVECTOR s19b_dword_800C3A40;
+extern SVECTOR s19b_dword_800C3A38;
+
+void s19b_jlamp2_800D5260(Work *work)
+{
+    MATRIX  mtx;
+    SVECTOR svec;
+    long    flag;
+
+    RotMatrix(&s19b_dword_800C3A40, &mtx);
+    MulMatrix0(&work->field_8E4, &mtx, &mtx);
+    DG_SetPos(&work->field_8E4);
+    RotTrans(&s19b_dword_800C3A38, (VECTOR *)mtx.t, &flag);
+    NewJeepBullet(&mtx, 1, 1, 0);
+    svec.vx = *(short *)&mtx.t[0];
+    svec.vy = *(short *)&mtx.t[1];
+    svec.vz = *(short *)&mtx.t[2];
+    if (Takabe_JeepSystem.field_78 == 0)
+    {
+        GM_SeSet(&svec, 0x2E);
+        NewAnime_8005D604(&mtx);
+    }
+    else
+    {
+        GM_SeSet(&svec, 0x2E);
+        s19b_jblood_800C8070(&mtx);
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp2_800D5328.s")
 extern void s19b_jlamp2_800D5054(Work *work, int arg1, int arg2);
 extern void s19b_jlamp2_800D5328(Work *work, int arg1);
