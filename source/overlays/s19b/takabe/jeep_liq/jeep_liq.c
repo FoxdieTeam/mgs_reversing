@@ -16,14 +16,18 @@ typedef struct _JeepLiqWork
     /* m_segs1[17] @ 0x1D8 - poked as scalars below by the setters */
     char            pad_seg1[0x1F0 - 0x188 - sizeof(MOTION_CONTROL)];
     int             f1F0;         /* 0x1F0 */
-    char            pad_3D4[0x3D4 - 0x1F4];
+    char            pad_3B4[0x3B4 - 0x1F4];
+    int             field_3B4;    /* 0x3B4 */
+    char            pad_3D4[0x3D4 - 0x3B4 - sizeof(int)];
     int             field_3D4;
     int             field_3D8;
     int             field_3DC;
     int             field_3E0;
     int             field_3E4;
     int             field_3E8;
-    char            pad_segs2[0x43C - 0x3EC];
+    char            pad_3F8[0x3F8 - 0x3EC];
+    int             field_3F8;    /* 0x3F8 */
+    char            pad_segs2[0x43C - 0x3F8 - sizeof(int)];
     MOTION_SEGMENT  m_segs2[17];  /* 0x43C */
     SVECTOR         svecs1[16];   /* 0x6A0 */
     SVECTOR         svecs2[16];   /* 0x720 */
@@ -124,7 +128,16 @@ void s19b_jeep_liq_800D7B3C(JeepLiqWork *work, int arg1)
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7D68.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7E2C.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7F20.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D8014.s")
+void s19b_jeep_liq_800D8014(JeepLiqWork *work, int arg1)
+{
+    if (work->field_3F8 != arg1)
+    {
+        work->field_3F8 = arg1;
+        work->field_3E4 = 0;
+        work->field_3E0 = 0;
+        work->field_3B4 &= ~2;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D8044.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D8118.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D81A8.s")
