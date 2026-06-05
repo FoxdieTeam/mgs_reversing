@@ -324,7 +324,18 @@ void *NewJeepSnake(CONTROL *root_ctrl, MATRIX *root_mat)
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp2_800D5484.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp2_800D55E8.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp2_800D571C.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp2_800D5820.s")
+extern int s19b_dword_800C3A08;
+
+void s19b_jlamp2_800D5820(Work *work, int arg1)
+{
+    if (arg1 == 0 && *(int *)((char *)work + 0x928) != 5)
+    {
+        *(int *)((char *)work + 0x928) = 5;
+        GM_ConfigObjectAction((OBJECT *)((char *)work + 0xA4),
+                              *(short *)((char *)&s19b_dword_800C3A08 + 2), 0, 4);
+        *(SVECTOR *)((char *)work + 0x7E0) = DG_ZeroVector;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp2_800D5894.s")
 extern void s19b_jlamp2_800D5894(void *work);
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp2_800D596C.s")
