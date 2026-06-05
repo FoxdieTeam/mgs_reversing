@@ -57,7 +57,7 @@ extern SVECTOR s19b_dword_800C39F8;
 #define WEAPON_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE )
 
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D4188.s")
-extern void s19b_jeep_sne_800D4188(Work *work);
+extern int s19b_jeep_sne_800D4188(Work *work);
 
 void s19b_jeep_sne_800D424C(Work *work, int arg1)
 {
@@ -84,12 +84,100 @@ void s19b_jeep_sne_800D43AC(Work *work, int arg1)
         *(short *)((char *)work + 0x74) = 0;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D4414.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D4488.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D4500.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D4574.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D45E8.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D4660.s")
+extern void s19b_jeep_sne_800D4488(Work *work, int arg1);
+extern void s19b_jeep_sne_800D4500(Work *work, int arg1);
+extern void s19b_jeep_sne_800D45E8(Work *work, int arg1);
+extern void s19b_jeep_sne_800D4660(Work *work, int arg1);
+
+void s19b_jeep_sne_800D4414(Work *work, int arg1)
+{
+    if (arg1 == 0)
+    {
+        *(int *)((char *)work + 0x7FC) = 7;
+        GM_ConfigObjectAction((OBJECT *)((char *)work + 0xA4), 7, 0, 4);
+    }
+    if (s19b_jeep_sne_800D4188(work) != 0) return;
+    if (*(short *)((char *)work + 0xBE) == 0) return;
+    *(void **)((char *)work + 0x7EC) = (void *)s19b_jeep_sne_800D4488;
+    *(int *)((char *)work + 0x7F4) = 0;
+    *(short *)((char *)work + 0x78) = 0;
+    *(short *)((char *)work + 0x74) = 0;
+}
+
+void s19b_jeep_sne_800D4488(Work *work, int arg1)
+{
+    if (arg1 == 0)
+    {
+        *(int *)((char *)work + 0x7FC) = 8;
+        GM_ConfigObjectAction((OBJECT *)((char *)work + 0xA4), 8, 0, 0);
+    }
+    if (s19b_jeep_sne_800D4188(work) != 0) return;
+    if (*(int *)((char *)work + 0x800) & 0x20000) return;
+    *(void **)((char *)work + 0x7EC) = (void *)s19b_jeep_sne_800D4500;
+    *(int *)((char *)work + 0x7F4) = 0;
+    *(short *)((char *)work + 0x78) = 0;
+    *(short *)((char *)work + 0x74) = 0;
+}
+
+void s19b_jeep_sne_800D4500(Work *work, int arg1)
+{
+    if (arg1 == 0)
+    {
+        *(int *)((char *)work + 0x7FC) = 9;
+        GM_ConfigObjectAction((OBJECT *)((char *)work + 0xA4), 9, 0, 4);
+    }
+    if (s19b_jeep_sne_800D4188(work) != 0) return;
+    if (*(short *)((char *)work + 0xBE) == 0) return;
+    *(void **)((char *)work + 0x7EC) = (void *)s19b_jeep_sne_800D424C;
+    *(int *)((char *)work + 0x7F4) = 0;
+    *(short *)((char *)work + 0x78) = 0;
+    *(short *)((char *)work + 0x74) = 0;
+}
+
+void s19b_jeep_sne_800D4574(Work *work, int arg1)
+{
+    if (arg1 == 0)
+    {
+        *(int *)((char *)work + 0x7FC) = 1;
+        GM_ConfigObjectAction((OBJECT *)((char *)work + 0xA4), 1, 0, 4);
+    }
+    if (s19b_jeep_sne_800D4188(work) != 0) return;
+    if (*(short *)((char *)work + 0xBE) == 0) return;
+    *(void **)((char *)work + 0x7EC) = (void *)s19b_jeep_sne_800D45E8;
+    *(int *)((char *)work + 0x7F4) = 0;
+    *(short *)((char *)work + 0x78) = 0;
+    *(short *)((char *)work + 0x74) = 0;
+}
+
+void s19b_jeep_sne_800D45E8(Work *work, int arg1)
+{
+    if (arg1 == 0)
+    {
+        *(int *)((char *)work + 0x7FC) = 2;
+        GM_ConfigObjectAction((OBJECT *)((char *)work + 0xA4), 2, 0, 0);
+    }
+    if (s19b_jeep_sne_800D4188(work) != 0) return;
+    if (*(int *)((char *)work + 0x800) & 0x20000) return;
+    *(void **)((char *)work + 0x7EC) = (void *)s19b_jeep_sne_800D4660;
+    *(int *)((char *)work + 0x7F4) = 0;
+    *(short *)((char *)work + 0x78) = 0;
+    *(short *)((char *)work + 0x74) = 0;
+}
+
+void s19b_jeep_sne_800D4660(Work *work, int arg1)
+{
+    if (arg1 == 0)
+    {
+        *(int *)((char *)work + 0x7FC) = 3;
+        GM_ConfigObjectAction((OBJECT *)((char *)work + 0xA4), 3, 0, 4);
+    }
+    if (s19b_jeep_sne_800D4188(work) != 0) return;
+    if (*(short *)((char *)work + 0xBE) == 0) return;
+    *(void **)((char *)work + 0x7EC) = (void *)s19b_jeep_sne_800D424C;
+    *(int *)((char *)work + 0x7F4) = 0;
+    *(short *)((char *)work + 0x78) = 0;
+    *(short *)((char *)work + 0x74) = 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D46D4.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D4744.s")
 extern void s19b_jeep_sne_800D4744(Work *work);
