@@ -17,10 +17,14 @@ typedef struct _JeepLiqWork
     /* m_segs1[17] @ 0x1D8 - poked as scalars below by the setters */
     char            pad_seg1[0x1F0 - 0x188 - sizeof(MOTION_CONTROL)];
     int             f1F0;         /* 0x1F0 */
-    char            pad_3A0[0x3A0 - 0x1F4];
+    char            pad_360[0x360 - 0x1F4];
+    int             field_360;    /* 0x360 */
+    char            pad_3A0[0x3A0 - 0x360 - sizeof(int)];
     int             field_3A0;    /* 0x3A0 */
     int             field_3A4;    /* 0x3A4 */
-    char            pad_3B4[0x3B4 - 0x3A4 - sizeof(int)];
+    int             field_3A8;    /* 0x3A8 */
+    char            pad_3B0[0x3B0 - 0x3A8 - sizeof(int)];
+    int             field_3B0;    /* 0x3B0 */
     int             field_3B4;    /* 0x3B4 */
     char            pad_3D4[0x3D4 - 0x3B4 - sizeof(int)];
     int             field_3D4;
@@ -71,7 +75,11 @@ typedef struct _JEEP_SYSTEM_S
     CONTROL *control;
     char     pad2[0x10];
     SVECTOR  pos;
-    char     pad3[0x54 - 0x18 - sizeof(SVECTOR)];
+    char     pad3a[0x24 - 0x18 - sizeof(SVECTOR)];
+    short    field_24;
+    char     pad3b[0x30 - 0x24 - sizeof(short)];
+    int      field_30;
+    char     pad3c[0x54 - 0x30 - sizeof(int)];
     int      field_54;
 } JEEP_SYSTEM_S;
 
@@ -89,6 +97,9 @@ extern void *NewJeepBlood(MATRIX *world, int count, MATRIX *root);
 extern void *NewJeepBullet(MATRIX *world, int side, int mode, int mode2);
 extern void  s19b_jblood_800C7FB8(MATRIX *world);
 extern void  ReadRotMatrix(MATRIX *m);
+
+extern int   s19b_jeep_mrl_800D399C(void);
+extern int   s19b_jeep_liq_800D771C(int center, int from, int to);
 
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D6FB8.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7114.s")
@@ -108,10 +119,28 @@ void s19b_jeep_liq_800D76F8(JeepLiqWork *work, int arg1)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D771C.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D77F0.s")
+void s19b_jeep_liq_800D77F0(JeepLiqWork *work)
+{
+    int v = work->field_360 - (Takabe_JeepSystem.field_30 - Takabe_JeepSystem.field_24);
+    s19b_jeep_mrl_800D399C();
+    work->field_3B0 = s19b_jeep_liq_800D771C(work->field_3B0, 0x753, v);
+    work->field_3A8 = GV_NearSpeed(work->field_3A8, work->field_3B0, 5);
+}
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7860.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D797C.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D79EC.s")
+void s19b_jeep_liq_800D797C(JeepLiqWork *work)
+{
+    int v = work->field_360 - (Takabe_JeepSystem.field_30 - Takabe_JeepSystem.field_24);
+    s19b_jeep_mrl_800D399C();
+    work->field_3B0 = s19b_jeep_liq_800D771C(work->field_3B0, 0, v);
+    work->field_3A8 = GV_NearSpeed(work->field_3A8, work->field_3B0, 5);
+}
+void s19b_jeep_liq_800D79EC(JeepLiqWork *work)
+{
+    int v = work->field_360 - (Takabe_JeepSystem.field_30 - Takabe_JeepSystem.field_24);
+    s19b_jeep_mrl_800D399C();
+    work->field_3B0 = s19b_jeep_liq_800D771C(work->field_3B0, -0x177, v);
+    work->field_3A8 = GV_NearSpeed(work->field_3A8, work->field_3B0, 5);
+}
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7A5C.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7ACC.s")
 
