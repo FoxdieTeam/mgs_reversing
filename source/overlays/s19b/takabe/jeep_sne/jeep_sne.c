@@ -392,7 +392,45 @@ void *NewJeepSnake(CONTROL *root_ctrl, MATRIX *root_mat)
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp2_800D5328.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp2_800D5484.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp2_800D55E8.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp2_800D571C.s")
+extern void s19b_jlamp2_800D5820(Work *work, int arg1);
+extern void Voicesys_800CE310(void);
+extern void Voicesys_800CE5F8(int, int);
+extern void Voicesys_800CE734(void);
+extern void *NewPadVibration(unsigned char *, int);
+extern int  GM_GameOverTimer;
+extern int  s19b_dword_800C3A08;
+extern int  s19b_dword_800C3A20;
+extern int  s19b_dword_800C3A24;
+
+void s19b_jlamp2_800D571C(Work *work, int arg1)
+{
+    if (arg1 == 0)
+    {
+        if (work->field_928 != 4)
+        {
+            *(int *)((char *)&work->field_928) = 4;
+            GM_ConfigObjectAction(&work->body, *(short *)&s19b_dword_800C3A08, 0, 4);
+            work->field_7E0 = DG_ZeroVector;
+        }
+        Voicesys_800CE310();
+        Voicesys_800CE5F8(0xF, 1);
+        Voicesys_800CE734();
+    }
+    if (arg1 == 0x3D)
+    {
+        NewPadVibration((unsigned char *)&s19b_dword_800C3A20, 1);
+        NewPadVibration((unsigned char *)&s19b_dword_800C3A24, 2);
+        GM_SeSetMode(&work->control.mov, 0x33, 1);
+    }
+    if (work->body.is_end != 0)
+    {
+        GM_GameOverTimer = 1;
+        work->field_918 = (void *)s19b_jlamp2_800D5820;
+        work->field_920 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+    }
+}
 extern int s19b_dword_800C3A00;
 extern int s19b_dword_800C3A08;
 
