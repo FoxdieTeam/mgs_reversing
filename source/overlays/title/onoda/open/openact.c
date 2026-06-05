@@ -45,6 +45,9 @@ extern void  title_open_800D2AFC(OpenWork *work);
 extern void  title_open_800D2CA8(OpenWork *work, u_long *ot);
 extern void  title_open_800D2E44(OpenWork *work, u_long *ot);
 extern void  title_open_800D3500(OpenWork *work, u_long *ot);
+extern void  title_open_800C4AD0(OpenWork *work, int index, int color);
+extern void  title_open_800C47B8(OpenWork *work, u_long *ot);
+extern void  title_open_800C4F1C(OpenWork *work, int x0, int y0, int xsize, int ysize, int color, int mode);
 extern void *NewMetalGearLogo(int *exit);
 extern void *title_open_800C4B20(KCB *kcb);
 extern int   title_dword_800D92D0;
@@ -88,31 +91,125 @@ const int title_dword_800D8F20 = 0x800D27BC;
 const int title_dword_800D8F24 = 0x800D2984;
 const int title_dword_800D8F28 = 0x800D29B8;
 const char title_dword_800D8F2C[] = {0x0, 0x0, 0x0, 0x0};
-const int title_dword_800D8F30 = 0x800D2E20;
-const int title_dword_800D8F34 = 0x800D2D18;
-const int title_dword_800D8F38 = 0x800D2D24;
-const int title_dword_800D8F3C = 0x800D2D30;
-const int title_dword_800D8F40 = 0x800D2D94;
-const int title_dword_800D8F44 = 0x800D2D48;
-const int title_dword_800D8F48 = 0x800D2D3C;
-const int title_dword_800D8F4C = 0x800D2D88;
-const int title_dword_800D8F50 = 0x800D2E20;
-const char title_dword_800D8F54[] = {0x0, 0x0, 0x0, 0x0};
-const int title_dword_800D8F58 = 0x800D2E20;
-const int title_dword_800D8F5C = 0x800D2DDC;
-const int title_dword_800D8F60 = 0x800D2DEC;
-const int title_dword_800D8F64 = 0x800D2DFC;
-const int title_dword_800D8F68 = 0x800D2E0C;
+void title_open_800D2CA8(OpenWork *work, u_long *ot)
+{
+    int i;
+
+    for (i = 0; i < 24; i++)
+    {
+        title_open_800C4AD0(work, i, 0);
+    }
+
+    switch (work->fB3C)
+    {
+    case 1: title_open_800C4AD0(work, 6, 0x6739); break;
+    case 2: title_open_800C4AD0(work, 7, 0x6739); break;
+    case 3: title_open_800C4AD0(work, 8, 0x6739); break;
+    case 6: title_open_800C4AD0(work, 0xE, 0x6739); break;
+    case 5:
+        title_open_800C4AD0(work, 9, 0x6739);
+        title_open_800C4AD0(work, 0xA, 0x6739);
+        if (work->f24CC == 0) { title_open_800C4AD0(work, 0xB, 0x6739); }
+        else                  { title_open_800C4AD0(work, 0xC, 0x6739); }
+        break;
+    case 7: title_open_800C4AD0(work, 0xD, 0x6739); break;
+    case 4:
+        if (work->fB48 >= 3 && work->fB48 < 7)
+        {
+            switch (work->fB44)
+            {
+            case 1: title_open_800C4AD0(work, 0xF, 0x654A); break;
+            case 2: title_open_800C4AD0(work, 0x10, 0x2959); break;
+            case 3: title_open_800C4AD0(work, 0x11, 0x2959); break;
+            case 4: title_open_800C4AD0(work, 0x12, 0x6739); break;
+            case 0: break;
+            }
+        }
+        break;
+    case 0: break;
+    case 8: break;
+    }
+
+    title_open_800C47B8(work, ot);
+}
 const char title_aVeryeasy_800D8F6C[] = "VERY EASY";
 const char title_aEasy_800D8F78[] = "EASY";
 const char title_aNormal_800D8F80[] = "NORMAL";
 const char title_aHard_800D8F88[] = "HARD";
 const char title_aExtreme_800D8F90[] = "EXTREME";
-const int title_dword_800D8F98 = 0x800D2ED8;
-const int title_dword_800D8F9C = 0x800D3024;
-const int title_dword_800D8FA0 = 0x800D3170;
-const int title_dword_800D8FA4 = 0x800D32B4;
-const int title_dword_800D8FA8 = 0x800D33C4;
+void title_open_800D2E44(OpenWork *work, u_long *ot)
+{
+    if (title_dword_800D92D0)
+    {
+        GCL_ExecProc(work->f24FC, 0);
+    }
+
+    title_open_800C4AD0(work, 0xF, 0);
+    title_open_800C4AD0(work, 0x10, 0);
+    title_open_800C4AD0(work, 0x11, 0);
+
+    switch (work->f24E4 + 1)
+    {
+    case 0:
+        MENU_Locate(0x7C, 0x3C, 0x10); MENU_Color(0xC0, 0xC0, 0xC0); MENU_Printf(title_aVeryeasy_800D8F6C);
+        MENU_Locate(0x90, 0x56, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf(title_aEasy_800D8F78);
+        MENU_Locate(0x88, 0x70, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf(title_aNormal_800D8F80);
+        MENU_Locate(0x90, 0x8A, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf(title_aHard_800D8F88);
+        MENU_Locate(0x84, 0xA4, 0x10);
+        if (work->fB48) { MENU_Color(0x64, 0xA0, 0x87); } else { MENU_Color(0x40, 0x40, 0x40); }
+        MENU_Printf(title_aExtreme_800D8F90);
+        title_open_800C4F1C(work, -0x28, -0x36, 0x52, 9, 0xFF, 1);
+        title_open_800C4AD0(work, 0xF, 0x6739);
+        title_open_800C4AD0(work, 4, 0);
+        break;
+    case 1:
+        MENU_Locate(0x7C, 0x3C, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf(title_aVeryeasy_800D8F6C);
+        MENU_Locate(0x90, 0x56, 0x10); MENU_Color(0xC0, 0xC0, 0xC0); MENU_Printf(title_aEasy_800D8F78);
+        MENU_Locate(0x88, 0x70, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf(title_aNormal_800D8F80);
+        MENU_Locate(0x90, 0x8A, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf(title_aHard_800D8F88);
+        MENU_Locate(0x84, 0xA4, 0x10);
+        if (work->fB48) { MENU_Color(0x64, 0xA0, 0x87); } else { MENU_Color(0x40, 0x40, 0x40); }
+        MENU_Printf(title_aExtreme_800D8F90);
+        title_open_800C4F1C(work, -0x14, -0x1C, 0x2A, 9, 0xFF, 1);
+        title_open_800C4AD0(work, 0x10, 0x6739);
+        title_open_800C4AD0(work, 4, 0);
+        break;
+    case 2:
+        MENU_Locate(0x7C, 0x3C, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf(title_aVeryeasy_800D8F6C);
+        MENU_Locate(0x90, 0x56, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf(title_aEasy_800D8F78);
+        MENU_Locate(0x88, 0x70, 0x10); MENU_Color(0xC0, 0xC0, 0xC0); MENU_Printf(title_aNormal_800D8F80);
+        MENU_Locate(0x90, 0x8A, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf(title_aHard_800D8F88);
+        MENU_Locate(0x84, 0xA4, 0x10);
+        if (work->fB48) { MENU_Color(0x64, 0xA0, 0x87); } else { MENU_Color(0x40, 0x40, 0x40); }
+        MENU_Printf(title_aExtreme_800D8F90);
+        title_open_800C4F1C(work, -0x1C, -0x02, 0x3A, 9, 0xFF, 1);
+        title_open_800C4AD0(work, 4, 0);
+        title_open_800C4AD0(work, 0x11, 0x6739);
+        break;
+    case 3:
+        MENU_Locate(0x7C, 0x3C, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf(title_aVeryeasy_800D8F6C);
+        MENU_Locate(0x90, 0x56, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf(title_aEasy_800D8F78);
+        MENU_Locate(0x88, 0x70, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf(title_aNormal_800D8F80);
+        MENU_Locate(0x90, 0x8A, 0x10); MENU_Color(0xC0, 0xC0, 0xC0); MENU_Printf(title_aHard_800D8F88);
+        MENU_Locate(0x84, 0xA4, 0x10);
+        if (work->fB48) { MENU_Color(0x64, 0xA0, 0x87); } else { MENU_Color(0x40, 0x40, 0x40); }
+        MENU_Printf(title_aExtreme_800D8F90);
+        title_open_800C4F1C(work, -0x14, 0x18, 0x2A, 9, 0xFF, 1);
+        title_open_800C4AD0(work, 4, 0x6739);
+        break;
+    case 4:
+        MENU_Locate(0x7C, 0x3C, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf(title_aVeryeasy_800D8F6C);
+        MENU_Locate(0x90, 0x56, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf(title_aEasy_800D8F78);
+        MENU_Locate(0x88, 0x70, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf(title_aNormal_800D8F80);
+        MENU_Locate(0x90, 0x8A, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf(title_aHard_800D8F88);
+        MENU_Locate(0x84, 0xA4, 0x10); MENU_Color(0xC0, 0xC0, 0xC0); MENU_Printf(title_aExtreme_800D8F90);
+        title_open_800C4F1C(work, -0x20, 0x32, 0x46, 9, 0xFF, 1);
+        title_open_800C4AD0(work, 4, 0x6739);
+        break;
+    }
+
+    title_open_800C47B8(work, ot);
+}
 const char title_aMemorycardslot_800D8FAC[] = "MEMORY CARD SLOT 1  :  ";
 const char title_aFull_800D8FC4[] = "   FULL";
 const char title_aNocard_800D8FCC[] = "NO CARD";
@@ -121,6 +218,90 @@ const char title_aDoyouwanttocontinue_800D8FEC[] = "DO YOU WANT TO CONTINUE\n";
 const char title_aYourgamelikethis_800D9008[] = "YOUR GAME LIKE THIS?";
 const char title_aYes_800D9020[] = "YES";
 const char title_aNo_800D9024[] = "NO";
+
+void title_open_800D3500(OpenWork *work, u_long *ot)
+{
+    int i;
+
+    for (i = 0; i < 24; i++)
+    {
+        title_open_800C4AD0(work, i, 0);
+    }
+
+    if (work->fA74 >= 18 && work->fA74 <= 19)
+    {
+        title_open_800C4AD0(work, 21, 0x6739);
+
+        MENU_Locate(54, 60, 0x10);
+        MENU_Color(100, 160, 135);
+        MENU_Printf(title_aMemorycardslot_800D8FAC);
+
+        if (work->f24F0 == 3)
+        {
+            MENU_Locate(223, 60, 0x10);
+            MENU_Color(181, 85, 42);
+            MENU_Printf(title_aFull_800D8FC4);
+        }
+        else
+        {
+            MENU_Locate(223, 60, 0x10);
+            MENU_Color(181, 85, 42);
+            MENU_Printf(title_aNocard_800D8FCC);
+        }
+
+        MENU_Locate(54, 75, 0x10);
+        MENU_Color(100, 160, 135);
+        MENU_Printf(title_aMemorycardslot_800D8FD4);
+
+        if (work->f24F4 == 3)
+        {
+            MENU_Locate(223, 75, 0x10);
+            MENU_Color(181, 85, 42);
+            MENU_Printf(title_aFull_800D8FC4);
+        }
+        else
+        {
+            MENU_Locate(223, 75, 0x10);
+            MENU_Color(181, 85, 42);
+            MENU_Printf(title_aNocard_800D8FCC);
+        }
+
+        MENU_Locate(70, 100, 0x10);
+        MENU_Color(100, 160, 135);
+        MENU_Printf(title_aDoyouwanttocontinue_800D8FEC);
+
+        MENU_Locate(85, 115, 0x10);
+        MENU_Color(100, 160, 135);
+        MENU_Printf(title_aYourgamelikethis_800D9008);
+
+        if (work->f24E0 == 0)
+        {
+            MENU_Locate(100, 150, 0x10);
+            MENU_Color(192, 192, 192);
+            MENU_Printf(title_aYes_800D9020);
+
+            MENU_Locate(200, 150, 0x10);
+            MENU_Color(46, 72, 61);
+            MENU_Printf(title_aNo_800D9024);
+
+            title_open_800C4F1C(work, -68, 33, 40, 15, 255, 1);
+        }
+        else
+        {
+            MENU_Locate(100, 150, 0x10);
+            MENU_Color(46, 72, 61);
+            MENU_Printf(title_aYes_800D9020);
+
+            MENU_Locate(200, 150, 0x10);
+            MENU_Color(192, 192, 192);
+            MENU_Printf(title_aNo_800D9024);
+
+            title_open_800C4F1C(work, 28, 33, 40, 15, 255, 1);
+        }
+    }
+
+    title_open_800C47B8(work, ot);
+}
 
 /* Top-level title-screen state machine. Dispatches on work->fA74; each case
  * runs its one-time init when work->fB0C is set, then renders this frame. */

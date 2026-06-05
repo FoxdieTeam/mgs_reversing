@@ -10,6 +10,7 @@
 #include "font/font.h"
 #include "menu/menuman.h"
 #include "game/game.h"
+#include "linkvar.h"
 #include "sound/sd_cli.h"
 #include "sound/g_sound.h"
 
@@ -498,86 +499,86 @@ void title_open_800C5760(OpenWork *work)
     if (work->fA6C[4] >= 0 && work->fA6C[4] < 512)
     {
         work->fA70 = 0;
-        r = work->fAA8 - 10;
-        g = work->fAA9 + 5;
-        b = work->fAAA + 5;
+        r = work->fAA8.r - 10;
+        g = work->fAA8.g + 5;
+        b = work->fAA8.b + 5;
     }
     else if (work->fA6C[4] >= 512 && work->fA6C[4] < 1024)
     {
         work->fA70 = 0;
-        r = work->fAA8 - 5;
-        g = work->fAA9;
-        b = work->fAAA + 10;
+        r = work->fAA8.r - 5;
+        g = work->fAA8.g;
+        b = work->fAA8.b + 10;
     }
     else if (work->fA6C[4] >= 1024 && work->fA6C[4] < 1536)
     {
         work->fA70 = 0;
-        r = work->fAA8;
-        g = work->fAA9 - 5;
-        b = work->fAAA + 5;
+        r = work->fAA8.r;
+        g = work->fAA8.g - 5;
+        b = work->fAA8.b + 5;
     }
     else if (work->fA6C[4] >= 1536 && work->fA6C[4] < 2048)
     {
         work->fA70 = 0;
-        r = work->fAA8 + 5;
-        g = work->fAA9 - 10;
-        b = work->fAAA;
+        r = work->fAA8.r + 5;
+        g = work->fAA8.g - 10;
+        b = work->fAA8.b;
     }
     else if (work->fA6C[4] >= 2048 && work->fA6C[4] < 2560)
     {
         work->fA70 = 0;
-        r = work->fAA8 + 10;
-        g = work->fAA9 - 5;
-        b = work->fAAA - 5;
+        r = work->fAA8.r + 10;
+        g = work->fAA8.g - 5;
+        b = work->fAA8.b - 5;
     }
     else if (work->fA6C[4] >= 2560 && work->fA6C[4] < 3072)
     {
         work->fA70 = 0;
-        r = work->fAA8 + 5;
-        g = work->fAA9;
-        b = work->fAAA - 10;
+        r = work->fAA8.r + 5;
+        g = work->fAA8.g;
+        b = work->fAA8.b - 10;
     }
     else if (work->fA6C[4] >= 3072 && work->fA6C[4] < 3584)
     {
         work->fA70 = 0;
-        r = work->fAA8;
-        g = work->fAA9 + 5;
-        b = work->fAAA - 5;
+        r = work->fAA8.r;
+        g = work->fAA8.g + 5;
+        b = work->fAA8.b - 5;
     }
     else if (work->fA6C[4] >= 3584 && work->fA6C[4] < 4096)
     {
         work->fA70 = 0;
-        r = work->fAA8 - 5;
-        g = work->fAA9 + 10;
-        b = work->fAAA;
+        r = work->fAA8.r - 5;
+        g = work->fAA8.g + 10;
+        b = work->fAA8.b;
     }
     else if (work->fA6C[4] == -1)
     {
         work->fA70++;
-        r = work->fAA8;
-        g = work->fAA9;
-        b = work->fAAA;
+        r = work->fAA8.r;
+        g = work->fAA8.g;
+        b = work->fAA8.b;
     }
     else
     {
-        r = work->fAA8;
-        g = work->fAA9;
-        b = work->fAAA;
+        r = work->fAA8.r;
+        g = work->fAA8.g;
+        b = work->fAA8.b;
     }
 
     if (r >= 0 && r < 255)
     {
-        work->fAA8 = r;
+        work->fAA8.r = r;
     }
 
     if (g >= 0 && g < 255)
     {
-        work->fAA9 = g;
+        work->fAA8.g = g;
     }
 
     if (b >= 0 && b < 255)
     {
-        work->fAAA = b;
+        work->fAA8.b = b;
     }
 }
 
@@ -876,7 +877,220 @@ void title_open_800C61E0(OpenWork *work, GCL_ARGS *args)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800C628C.s")
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800CCDC8.s")
+/* Strings + reverse-transcribed tables for the still-INCLUDE_ASM
+ * title_open_800C628C (0x800D8848..0x800D8A97). Placed here, AFTER all the
+ * preceding C functions (so their auto-emitted switch tables fill
+ * 0x800D86A0..0x800D8848 first) and immediately BEFORE title_open_800CCDC8,
+ * so gcc emits these first and then 800CCDC8's own switch jump table lands
+ * exactly at 0x800D8A98. The 0x800D8AB0+ strings/tables (op_back, 800CD800's
+ * table, ...) stay after 800CCDC8 so they keep their addresses and
+ * title_open_800CE378's table still lands at 0x800D8AE8.
+ */
+const char title_aGameleveld_800D8848[] = "\n Game Level = %d\n\n";
+const char title_aErrormemcardcheckerror_800D885C[] = "ERROR!!!! MEMCARD Check ERROR!!!\n";
+const char title_aSppre_800D8880[] = "sp_pre";
+const char title_aSpexit_800D8888[] = "sp_exit";
+const char title_aSpalbum_800D8890[] = "sp_album";
+const char title_aSpdemo_800D889C[] = "sp_demo";
+const char title_aSpon_800D88A4[] = "sp_on";
+const char title_aSpoffw_800D88AC[] = "sp_off_w";
+const char title_aSponw_800D88B8[] = "sp_on_w";
+const char title_aSpoff_800D88C0[] = "sp_off";
+const char title_aDsppmode_800D88C8[] = "d3_sp_1p_mode";
+const int title_dword_800D88D8 = 0x800C6398;
+const int title_dword_800D88DC = 0x800C63C0;
+const int title_dword_800D88E0 = 0x800CCDA0;
+const int title_dword_800D88E4 = 0x800CCDA0;
+const int title_dword_800D88E8 = 0x800C63E8;
+const int title_dword_800D88EC = 0x800C6414;
+const int title_dword_800D88F0 = 0x800C6440;
+const int title_dword_800D88F4 = 0x800C6C50;
+const int title_dword_800D88F8 = 0x800C805C;
+const int title_dword_800D88FC = 0x800C8104;
+const int title_dword_800D8900 = 0x800C8110;
+const int title_dword_800D8904 = 0x800C812C;
+const int title_dword_800D8908 = 0x800C8148;
+const int title_dword_800D890C = 0x800C8164;
+const int title_dword_800D8910 = 0x800CCCE4;
+const int title_dword_800D8914 = 0x800CCD10;
+const int title_dword_800D8918 = 0x800C8104;
+const int title_dword_800D891C = 0x800CCDA0;
+const int title_dword_800D8920 = 0x800C7A5C;
+const int title_dword_800D8924 = 0x800C7A5C;
+const int title_dword_800D8928 = 0x800C7A0C;
+const int title_dword_800D892C = 0x800C760C;
+const int title_dword_800D8930 = 0x800C6484;
+const int title_dword_800D8934 = 0x800C65CC;
+const int title_dword_800D8938 = 0x800C6714;
+const int title_dword_800D893C = 0x800C6868;
+const int title_dword_800D8940 = 0x800C69B0;
+const int title_dword_800D8944 = 0x800C6B00;
+const int title_dword_800D8948 = 0x800C6C80;
+const int title_dword_800D894C = 0x800C6E48;
+const int title_dword_800D8950 = 0x800C6FB4;
+const int title_dword_800D8954 = 0x800C7128;
+const int title_dword_800D8958 = 0x800C72AC;
+const int title_dword_800D895C = 0x800C7440;
+const int title_dword_800D8960 = 0x800C8194;
+const int title_dword_800D8964 = 0x800C88F4;
+const int title_dword_800D8968 = 0x800C911C;
+const int title_dword_800D896C = 0x800C9C98;
+const int title_dword_800D8970 = 0x800CA8A4;
+const int title_dword_800D8974 = 0x800CB0B8;
+const int title_dword_800D8978 = 0x800CB99C;
+const int title_dword_800D897C = 0x800CC2B8;
+const int title_dword_800D8980 = 0x800C8924;
+const int title_dword_800D8984 = 0x800C8D80;
+const int title_dword_800D8988 = 0x800C8D88;
+const int title_dword_800D898C = 0x800C906C;
+const int title_dword_800D8990 = 0x800C906C;
+const int title_dword_800D8994 = 0x800C906C;
+const int title_dword_800D8998 = 0x800C906C;
+const int title_dword_800D899C = 0x800C8DE0;
+const int title_dword_800D89A0 = 0x800C8E34;
+const char title_dword_800D89A4[] = {0x0, 0x0, 0x0, 0x0};
+const int title_dword_800D89A8 = 0x800C914C;
+const int title_dword_800D89AC = 0x800C95C8;
+const int title_dword_800D89B0 = 0x800C9AE4;
+const int title_dword_800D89B4 = 0x800C95D0;
+const int title_dword_800D89B8 = 0x800C9AE4;
+const int title_dword_800D89BC = 0x800C9628;
+const int title_dword_800D89C0 = 0x800C9AE4;
+const int title_dword_800D89C4 = 0x800C9854;
+const int title_dword_800D89C8 = 0x800C98AC;
+const char title_dword_800D89CC[] = {0x0, 0x0, 0x0, 0x0};
+const int title_dword_800D89D0 = 0x800C9CC8;
+const int title_dword_800D89D4 = 0x800CA1A0;
+const int title_dword_800D89D8 = 0x800CA1C0;
+const int title_dword_800D89DC = 0x800CA1FC;
+const int title_dword_800D89E0 = 0x800CA678;
+const int title_dword_800D89E4 = 0x800CA240;
+const int title_dword_800D89E8 = 0x800CA678;
+const int title_dword_800D89EC = 0x800CA3EC;
+const int title_dword_800D89F0 = 0x800CA440;
+const char title_dword_800D89F4[] = {0x0, 0x0, 0x0, 0x0};
+const int title_dword_800D89F8 = 0x800CA8D4;
+const int title_dword_800D89FC = 0x800CAD4C;
+const int title_dword_800D8A00 = 0x800CB038;
+const int title_dword_800D8A04 = 0x800CB038;
+const int title_dword_800D8A08 = 0x800CB038;
+const int title_dword_800D8A0C = 0x800CB038;
+const int title_dword_800D8A10 = 0x800CAD54;
+const int title_dword_800D8A14 = 0x800CADAC;
+const int title_dword_800D8A18 = 0x800CAE00;
+const char title_dword_800D8A1C[] = {0x0, 0x0, 0x0, 0x0};
+const int title_dword_800D8A20 = 0x800CB0E8;
+const int title_dword_800D8A24 = 0x800CB5BC;
+const int title_dword_800D8A28 = 0x800CB5DC;
+const int title_dword_800D8A2C = 0x800CB8E8;
+const int title_dword_800D8A30 = 0x800CB8E8;
+const int title_dword_800D8A34 = 0x800CB8E8;
+const int title_dword_800D8A38 = 0x800CB618;
+const int title_dword_800D8A3C = 0x800CB65C;
+const int title_dword_800D8A40 = 0x800CB6B0;
+const char title_dword_800D8A44[] = {0x0, 0x0, 0x0, 0x0};
+const int title_dword_800D8A48 = 0x800CB9CC;
+const int title_dword_800D8A4C = 0x800CBEC0;
+const int title_dword_800D8A50 = 0x800CC1EC;
+const int title_dword_800D8A54 = 0x800CBEE0;
+const int title_dword_800D8A58 = 0x800CC1EC;
+const int title_dword_800D8A5C = 0x800CC1EC;
+const int title_dword_800D8A60 = 0x800CBF1C;
+const int title_dword_800D8A64 = 0x800CBF60;
+const int title_dword_800D8A68 = 0x800CBFB4;
+const char title_dword_800D8A6C[] = {0x0, 0x0, 0x0, 0x0};
+const int title_dword_800D8A70 = 0x800CC2E8;
+const int title_dword_800D8A74 = 0x800CC838;
+const int title_dword_800D8A78 = 0x800CC858;
+const int title_dword_800D8A7C = 0x800CC8A8;
+const int title_dword_800D8A80 = 0x800CCBA0;
+const int title_dword_800D8A84 = 0x800CCBA0;
+const int title_dword_800D8A88 = 0x800CC8D0;
+const int title_dword_800D8A8C = 0x800CC914;
+const int title_dword_800D8A90 = 0x800CC968;
+const char title_dword_800D8A94[] = {0x0, 0x0, 0x0, 0x0};
+
+extern CVECTOR title_dword_800C33D8[];
+
+void title_open_800CCDC8(OpenWork *work)
+{
+    if (work->fA70 < 3)
+    {
+        work->fA88 = 0;
+    }
+
+    switch (work->fA88)
+    {
+    case 0:
+        if (work->fA70 < 3)
+        {
+            return;
+        }
+
+        if ((LLOAD(&work->fAA8) & 0xFFFFFF) == 0x808080)
+        {
+            work->fA88 = 3;
+            work->f174 = 0;
+            work->fAB0 = work->fAA8;
+            work->fAB4 = title_dword_800C33D8[title_open_800C4B2C(8)];
+        }
+        else
+        {
+            work->fA88 = 1;
+            work->f174 = 0;
+            work->fAB0 = work->fAA8;
+            work->fAB4 = title_dword_800C33D8[9];
+        }
+        break;
+
+    case 2:
+        if (work->f174 >= 128)
+        {
+            work->fA88 = 3;
+            work->f174 = 0;
+            work->fAB0 = work->fAA8;
+            work->fAB4 = title_dword_800C33D8[title_open_800C4B2C(8)];
+        }
+        break;
+
+    case 3:
+        work->fAA8.r = work->fAB0.r + (work->fAB4.r - work->fAB0.r) * work->f174 / 128;
+        work->fAA8.g = work->fAB0.g + (work->fAB4.g - work->fAB0.g) * work->f174 / 128;
+        work->fAA8.b = work->fAB0.b + (work->fAB4.b - work->fAB0.b) * work->f174 / 128;
+
+        if (work->f174 >= 128)
+        {
+            work->fA88 = 4;
+            work->f174 = 0;
+            work->fAA8 = work->fAB4;
+        }
+        break;
+
+    case 4:
+        if (work->f174 >= 128)
+        {
+            work->fA88 = 5;
+            work->f174 = 0;
+            work->fAB0 = work->fAA8;
+            work->fAB4 = title_dword_800C33D8[9];
+        }
+        break;
+
+    case 1:
+    case 5:
+        work->fAA8.r = work->fAB0.r + (work->fAB4.r - work->fAB0.r) * work->f174 / 128;
+        work->fAA8.g = work->fAB0.g + (work->fAB4.g - work->fAB0.g) * work->f174 / 128;
+        work->fAA8.b = work->fAB0.b + (work->fAB4.b - work->fAB0.b) * work->f174 / 128;
+
+        if (work->f174 >= 128)
+        {
+            work->fA88 = 2;
+            work->f174 = 0;
+            work->fAA8 = work->fAB4;
+        }
+        break;
+    }
+}
 
 void title_open_800CD074(OpenWork *work)
 {
@@ -884,9 +1098,9 @@ void title_open_800CD074(OpenWork *work)
     int val1, val2, val3;
     int val1_2, val2_2, val3_2;
 
-    val1 = work->fAA8;
-    val2 = work->fAA9;
-    val3 = work->fAAA;
+    val1 = work->fAA8.r;
+    val2 = work->fAA8.g;
+    val3 = work->fAA8.b;
     sqrt1 = SquareRoot0(val1 * val1 + val2 * val2 + val3 * val3);
 
     val1_2 = 0xFF - val1;
@@ -1161,146 +1375,6 @@ void title_open_800CDE44(OpenWork *work, int index)
         break;
     }
 }
-/* Strings + reverse-transcribed tables that previously lived at
- * 0x800D8848..0x800D8AE7 in openact.c. Moved here so open.obj's rdata
- * grows by 0x2A0 bytes. gcc's auto-emitted switch jump table for
- * title_open_800CE378's switch (5 entries, 0x14 bytes) then lands at
- * 0x800D8848 + 0x2A0 = 0x800D8AE8, replacing the 5 manual entries that
- * were removed from openact.c. Placed BEFORE the function definition so
- * gcc emits these strings first, then the function's switch table.
- * Placed AFTER all preceding C functions in source order so their auto-
- * emitted switch tables come first in open.obj.rdata, leaving the strings
- * to land starting at 0x800D8848.
- */
-const char title_aGameleveld_800D8848[] = "\n Game Level = %d\n\n";
-const char title_aErrormemcardcheckerror_800D885C[] = "ERROR!!!! MEMCARD Check ERROR!!!\n";
-const char title_aSppre_800D8880[] = "sp_pre";
-const char title_aSpexit_800D8888[] = "sp_exit";
-const char title_aSpalbum_800D8890[] = "sp_album";
-const char title_aSpdemo_800D889C[] = "sp_demo";
-const char title_aSpon_800D88A4[] = "sp_on";
-const char title_aSpoffw_800D88AC[] = "sp_off_w";
-const char title_aSponw_800D88B8[] = "sp_on_w";
-const char title_aSpoff_800D88C0[] = "sp_off";
-const char title_aDsppmode_800D88C8[] = "d3_sp_1p_mode";
-const int title_dword_800D88D8 = 0x800C6398;
-const int title_dword_800D88DC = 0x800C63C0;
-const int title_dword_800D88E0 = 0x800CCDA0;
-const int title_dword_800D88E4 = 0x800CCDA0;
-const int title_dword_800D88E8 = 0x800C63E8;
-const int title_dword_800D88EC = 0x800C6414;
-const int title_dword_800D88F0 = 0x800C6440;
-const int title_dword_800D88F4 = 0x800C6C50;
-const int title_dword_800D88F8 = 0x800C805C;
-const int title_dword_800D88FC = 0x800C8104;
-const int title_dword_800D8900 = 0x800C8110;
-const int title_dword_800D8904 = 0x800C812C;
-const int title_dword_800D8908 = 0x800C8148;
-const int title_dword_800D890C = 0x800C8164;
-const int title_dword_800D8910 = 0x800CCCE4;
-const int title_dword_800D8914 = 0x800CCD10;
-const int title_dword_800D8918 = 0x800C8104;
-const int title_dword_800D891C = 0x800CCDA0;
-const int title_dword_800D8920 = 0x800C7A5C;
-const int title_dword_800D8924 = 0x800C7A5C;
-const int title_dword_800D8928 = 0x800C7A0C;
-const int title_dword_800D892C = 0x800C760C;
-const int title_dword_800D8930 = 0x800C6484;
-const int title_dword_800D8934 = 0x800C65CC;
-const int title_dword_800D8938 = 0x800C6714;
-const int title_dword_800D893C = 0x800C6868;
-const int title_dword_800D8940 = 0x800C69B0;
-const int title_dword_800D8944 = 0x800C6B00;
-const int title_dword_800D8948 = 0x800C6C80;
-const int title_dword_800D894C = 0x800C6E48;
-const int title_dword_800D8950 = 0x800C6FB4;
-const int title_dword_800D8954 = 0x800C7128;
-const int title_dword_800D8958 = 0x800C72AC;
-const int title_dword_800D895C = 0x800C7440;
-const int title_dword_800D8960 = 0x800C8194;
-const int title_dword_800D8964 = 0x800C88F4;
-const int title_dword_800D8968 = 0x800C911C;
-const int title_dword_800D896C = 0x800C9C98;
-const int title_dword_800D8970 = 0x800CA8A4;
-const int title_dword_800D8974 = 0x800CB0B8;
-const int title_dword_800D8978 = 0x800CB99C;
-const int title_dword_800D897C = 0x800CC2B8;
-const int title_dword_800D8980 = 0x800C8924;
-const int title_dword_800D8984 = 0x800C8D80;
-const int title_dword_800D8988 = 0x800C8D88;
-const int title_dword_800D898C = 0x800C906C;
-const int title_dword_800D8990 = 0x800C906C;
-const int title_dword_800D8994 = 0x800C906C;
-const int title_dword_800D8998 = 0x800C906C;
-const int title_dword_800D899C = 0x800C8DE0;
-const int title_dword_800D89A0 = 0x800C8E34;
-const char title_dword_800D89A4[] = {0x0, 0x0, 0x0, 0x0};
-const int title_dword_800D89A8 = 0x800C914C;
-const int title_dword_800D89AC = 0x800C95C8;
-const int title_dword_800D89B0 = 0x800C9AE4;
-const int title_dword_800D89B4 = 0x800C95D0;
-const int title_dword_800D89B8 = 0x800C9AE4;
-const int title_dword_800D89BC = 0x800C9628;
-const int title_dword_800D89C0 = 0x800C9AE4;
-const int title_dword_800D89C4 = 0x800C9854;
-const int title_dword_800D89C8 = 0x800C98AC;
-const char title_dword_800D89CC[] = {0x0, 0x0, 0x0, 0x0};
-const int title_dword_800D89D0 = 0x800C9CC8;
-const int title_dword_800D89D4 = 0x800CA1A0;
-const int title_dword_800D89D8 = 0x800CA1C0;
-const int title_dword_800D89DC = 0x800CA1FC;
-const int title_dword_800D89E0 = 0x800CA678;
-const int title_dword_800D89E4 = 0x800CA240;
-const int title_dword_800D89E8 = 0x800CA678;
-const int title_dword_800D89EC = 0x800CA3EC;
-const int title_dword_800D89F0 = 0x800CA440;
-const char title_dword_800D89F4[] = {0x0, 0x0, 0x0, 0x0};
-const int title_dword_800D89F8 = 0x800CA8D4;
-const int title_dword_800D89FC = 0x800CAD4C;
-const int title_dword_800D8A00 = 0x800CB038;
-const int title_dword_800D8A04 = 0x800CB038;
-const int title_dword_800D8A08 = 0x800CB038;
-const int title_dword_800D8A0C = 0x800CB038;
-const int title_dword_800D8A10 = 0x800CAD54;
-const int title_dword_800D8A14 = 0x800CADAC;
-const int title_dword_800D8A18 = 0x800CAE00;
-const char title_dword_800D8A1C[] = {0x0, 0x0, 0x0, 0x0};
-const int title_dword_800D8A20 = 0x800CB0E8;
-const int title_dword_800D8A24 = 0x800CB5BC;
-const int title_dword_800D8A28 = 0x800CB5DC;
-const int title_dword_800D8A2C = 0x800CB8E8;
-const int title_dword_800D8A30 = 0x800CB8E8;
-const int title_dword_800D8A34 = 0x800CB8E8;
-const int title_dword_800D8A38 = 0x800CB618;
-const int title_dword_800D8A3C = 0x800CB65C;
-const int title_dword_800D8A40 = 0x800CB6B0;
-const char title_dword_800D8A44[] = {0x0, 0x0, 0x0, 0x0};
-const int title_dword_800D8A48 = 0x800CB9CC;
-const int title_dword_800D8A4C = 0x800CBEC0;
-const int title_dword_800D8A50 = 0x800CC1EC;
-const int title_dword_800D8A54 = 0x800CBEE0;
-const int title_dword_800D8A58 = 0x800CC1EC;
-const int title_dword_800D8A5C = 0x800CC1EC;
-const int title_dword_800D8A60 = 0x800CBF1C;
-const int title_dword_800D8A64 = 0x800CBF60;
-const int title_dword_800D8A68 = 0x800CBFB4;
-const char title_dword_800D8A6C[] = {0x0, 0x0, 0x0, 0x0};
-const int title_dword_800D8A70 = 0x800CC2E8;
-const int title_dword_800D8A74 = 0x800CC838;
-const int title_dword_800D8A78 = 0x800CC858;
-const int title_dword_800D8A7C = 0x800CC8A8;
-const int title_dword_800D8A80 = 0x800CCBA0;
-const int title_dword_800D8A84 = 0x800CCBA0;
-const int title_dword_800D8A88 = 0x800CC8D0;
-const int title_dword_800D8A8C = 0x800CC914;
-const int title_dword_800D8A90 = 0x800CC968;
-const char title_dword_800D8A94[] = {0x0, 0x0, 0x0, 0x0};
-const int title_dword_800D8A98 = 0x800CCE20;
-const int title_dword_800D8A9C = 0x800CCFB0;
-const int title_dword_800D8AA0 = 0x800CCE58;
-const int title_dword_800D8AA4 = 0x800CCEC0;
-const int title_dword_800D8AA8 = 0x800CCF5C;
-const int title_dword_800D8AAC = 0x800CCFB0;
 const char title_aOpbackr_800D8AB0[] = "op_back_r";
 const char title_aOpbackl_800D8ABC[] = "op_back_l";
 const int title_dword_800D8AC8 = 0x800CD850;
@@ -1518,7 +1592,110 @@ void title_open_800CE6AC(OpenWork *work, int index)
 
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CE748.s")
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CEB14.s")
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800CEF54.s")
+void title_open_800CEF54(OpenWork *work, int index)
+{
+    POLY_FT4 *pack;
+    int       r;
+    int       g;
+    int       b;
+    int       sr;
+    int       sg;
+    int       sb;
+    int       left;
+    int       right;
+    int       top;
+    int       bot;
+    int       t3;
+    int       x_aa0;
+    int       x_aa4;
+    int       v;
+
+    pack = work->f18C_polys;
+    pack += index;
+
+    r = work->fAAC;
+    g = work->fAAD;
+    b = work->fAAE;
+
+    switch (work->fA84)
+    {
+    case 1:
+        sr = (r * work->f170) / 64;
+        sg = (g * work->f170) / 64;
+        sb = (b * work->f170) / 64;
+        setRGB0(&pack[0], sr, sg, sb);
+        setRGB0(&pack[1], sr, sg, sb);
+        setRGB0(&pack[2], sr, sg, sb);
+        t3 = work->f170 + 0xC8;
+        left = (-(t3 * 0xA0)) / 200;
+        top = (-(t3 * 0x70)) / 200;
+        right = (t3 * 0xA0) / 200;
+        bot = (t3 * 0x70) / 200;
+        x_aa0 = (work->fAA0 * t3) / 200;
+        x_aa4 = (work->fAA4 * t3) / 200;
+        setXY4(&pack[0], left,  top, x_aa0, top, left,  bot, x_aa0, bot);
+        setXY4(&pack[1], x_aa0, top, x_aa4, top, x_aa0, bot, x_aa4, bot);
+        setXY4(&pack[2], x_aa4, top, right, top, x_aa4, bot, right, bot);
+        if (work->f170 < 0x40)
+        {
+            break;
+        }
+        work->fA84 = 2;
+        work->f170 = 0;
+        break;
+
+    case 2:
+        setRGB0(&pack[0], r, g, b);
+        setRGB0(&pack[1], r, g, b);
+        setRGB0(&pack[2], r, g, b);
+        t3 = work->f170 + 0x108;
+        left = (-(t3 * 0xA0)) / 200;
+        top = (-(t3 * 0x70)) / 200;
+        right = (t3 * 0xA0) / 200;
+        bot = (t3 * 0x70) / 200;
+        x_aa0 = (work->fAA0 * t3) / 200;
+        x_aa4 = (work->fAA4 * t3) / 200;
+        setXY4(&pack[0], left,  top, x_aa0, top, left,  bot, x_aa0, bot);
+        setXY4(&pack[1], x_aa0, top, x_aa4, top, x_aa0, bot, x_aa4, bot);
+        setXY4(&pack[2], x_aa4, top, right, top, x_aa4, bot, right, bot);
+        if (work->f170 < 0x40)
+        {
+            break;
+        }
+        work->fA84 = 3;
+        work->f170 = 0;
+        break;
+
+    case 3:
+        sr = (r * (0x80 - work->f170)) / 128;
+        sg = (g * (0x80 - work->f170)) / 128;
+        sb = (b * (0x80 - work->f170)) / 128;
+        setRGB0(&pack[0], sr, sg, sb);
+        setRGB0(&pack[1], sr, sg, sb);
+        setRGB0(&pack[2], sr, sg, sb);
+        t3 = work->f170 + 0x148;
+        left = (-(t3 * 0xA0)) / 200;
+        top = (-(t3 * 0x70)) / 200;
+        right = (t3 * 0xA0) / 200;
+        bot = (t3 * 0x70) / 200;
+        x_aa0 = (work->fAA0 * t3) / 200;
+        x_aa4 = (work->fAA4 * t3) / 200;
+        setXY4(&pack[0], left,  top, x_aa0, top, left,  bot, x_aa0, bot);
+        setXY4(&pack[1], x_aa0, top, x_aa4, top, x_aa0, bot, x_aa4, bot);
+        setXY4(&pack[2], x_aa4, top, right, top, x_aa4, bot, right, bot);
+        if (work->f170 < 0x80)
+        {
+            break;
+        }
+        v = work->f168;
+        work->fA84 = 1;
+        work->f170 = 0;
+        work->fAA0 = -v;
+        work->fAA4 = (-v) + 0xA0;
+        title_open_800CDBF8(work, index);
+        break;
+    }
+}
 
 void title_open_800CF504(OpenWork *work, int index)
 {
@@ -1820,90 +1997,38 @@ void title_open_800D2A00(OpenWork *work)
         GV_DestroyActor(work);
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800D2AFC.s")
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800D2CA8.s")
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800D2E44.s")
-
-void title_open_800D3500(OpenWork *work, u_long *ot)
+void title_open_800D2AFC(OpenWork *work)
 {
-    int i;
+    GCL_ARGS args;
+    long     argv[3];
 
-    for (i = 0; i < 24; i++)
+    args.argc = 3;
+    args.argv = argv;
+    argv[0] = work->f24D0;
+    if (work->f24BC) { work->f24B4++; }
+    title_open_800D2374(work);
+    title_open_800C47B8(work, DG_ChanlOTag(1));
+    title_open_800D2460(work);
+    if (work->f24EC == 0) { if (work->f24B0 >= 0xA0) { work->f24EC = 1; } }
+    work->f24B0++;
+    if (work->f24B4 >= 0x48)
     {
-        title_open_800C4AD0(work, i, 0);
+        switch (work->fB48)
+        {
+        case 1: argv[1] = 1; argv[2] = 0; break;
+        case 2: argv[1] = 0; argv[2] = 0; break;
+        case 3: case 4: case 5: case 6:
+            switch (work->fB44)
+            {
+            case 0: argv[1] = 1; argv[2] = 0; break;
+            case 1: argv[1] = 0; argv[2] = 0; break;
+            case 2: argv[1] = 1; argv[2] = 1; break;
+            case 3: argv[1] = 0; argv[2] = 1; break;
+            }
+            break;
+        }
+        GM_OptionFlag &= 0xF7FF;
+        GCL_ExecProc(work->fAF4, &args);
+        GV_DestroyActor(work);
     }
-
-    if (work->fA74 >= 18 && work->fA74 <= 19)
-    {
-        title_open_800C4AD0(work, 21, 0x6739);
-
-        MENU_Locate(54, 60, 0x10);
-        MENU_Color(100, 160, 135);
-        MENU_Printf(title_aMemorycardslot_800D8FAC);
-
-        if (work->f24F0 == 3)
-        {
-            MENU_Locate(223, 60, 0x10);
-            MENU_Color(181, 85, 42);
-            MENU_Printf(title_aFull_800D8FC4);
-        }
-        else
-        {
-            MENU_Locate(223, 60, 0x10);
-            MENU_Color(181, 85, 42);
-            MENU_Printf(title_aNocard_800D8FCC);
-        }
-
-        MENU_Locate(54, 75, 0x10);
-        MENU_Color(100, 160, 135);
-        MENU_Printf(title_aMemorycardslot_800D8FD4);
-
-        if (work->f24F4 == 3)
-        {
-            MENU_Locate(223, 75, 0x10);
-            MENU_Color(181, 85, 42);
-            MENU_Printf(title_aFull_800D8FC4);
-        }
-        else
-        {
-            MENU_Locate(223, 75, 0x10);
-            MENU_Color(181, 85, 42);
-            MENU_Printf(title_aNocard_800D8FCC);
-        }
-
-        MENU_Locate(70, 100, 0x10);
-        MENU_Color(100, 160, 135);
-        MENU_Printf(title_aDoyouwanttocontinue_800D8FEC);
-
-        MENU_Locate(85, 115, 0x10);
-        MENU_Color(100, 160, 135);
-        MENU_Printf(title_aYourgamelikethis_800D9008);
-
-        if (work->f24E0 == 0)
-        {
-            MENU_Locate(100, 150, 0x10);
-            MENU_Color(192, 192, 192);
-            MENU_Printf(title_aYes_800D9020);
-
-            MENU_Locate(200, 150, 0x10);
-            MENU_Color(46, 72, 61);
-            MENU_Printf(title_aNo_800D9024);
-
-            title_open_800C4F1C(work, -68, 33, 40, 15, 255, 1);
-        }
-        else
-        {
-            MENU_Locate(100, 150, 0x10);
-            MENU_Color(46, 72, 61);
-            MENU_Printf(title_aYes_800D9020);
-
-            MENU_Locate(200, 150, 0x10);
-            MENU_Color(192, 192, 192);
-            MENU_Printf(title_aNo_800D9024);
-
-            title_open_800C4F1C(work, 28, 33, 40, 15, 255, 1);
-        }
-    }
-
-    title_open_800C47B8(work, ot);
 }
