@@ -1,5 +1,6 @@
 #include "common.h"
 #include <libgte.h>
+#include <rand.h>
 #include "game/game.h"
 
 typedef struct _Work
@@ -10,7 +11,8 @@ typedef struct _Work
     OBJECT   body;                                     /* 0x0A4 */
     char     pad_3C8[0x3C8 - 0xA4 - sizeof(OBJECT)];
     short    field_3C8;                                /* 0x3C8 */
-    char     pad_3D0[0x3D0 - 0x3C8 - sizeof(short)];
+    short    field_3CA;                                /* 0x3CA */
+    int      field_3CC;                                /* 0x3CC */
     int      field_3D0;                                /* 0x3D0 */
     int      field_3D4;                                /* 0x3D4 */
     char     pad_3E0[0x3E0 - 0x3D4 - sizeof(int)];
@@ -38,7 +40,18 @@ void s19b_jeep_mrl_800D2CE8(Work *work)
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D368C.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D36A4.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D37D0.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D3928.s")
+extern void s19b_jeep_mrl_800D2D3C(Work *work);
+
+void s19b_jeep_mrl_800D3928(Work *work)
+{
+    s19b_jeep_mrl_800D2CE8(work);
+    s19b_jeep_mrl_800D2D3C(work);
+    if ((work->field_3CC & 0x3F) == 0)
+    {
+        work->field_3CA = (rand() * 60 >> 15) - 0x258;
+    }
+    work->field_3C8 = GV_NearSpeed(work->field_3C8, work->field_3CA, 0x1E);
+}
 int s19b_jeep_mrl_800D399C(void)
 {
     return s19b_dword_800DE64C->field_3D0;
