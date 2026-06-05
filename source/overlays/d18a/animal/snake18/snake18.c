@@ -2073,22 +2073,14 @@ void d18a_snake18_800D4084(void)
 }
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D40F0.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D4388.s")
-void d18a_snake18_800D46CC(GV_ACT *act)
+void d18a_snake18_800D46CC(Snake18Work *work)
 {
-    Snake18Work *work = (Snake18Work *)act;
-    DG_PRIM     *prim;
-
     GV_DestroyOtherActor(work->shadow);
     GM_FreeControl(&work->control);
     GM_FreeObject(&work->body);
     GM_FreeTarget((TARGET *)work->f7E8);
 
-    prim = work->f874;
-    if (prim != 0)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->f874);
 
     GM_PlayerStance = work->f8FE;
 
@@ -2219,7 +2211,7 @@ int d18a_snake18_800D4C44( Snake18Work *work, int name, int where )
 const char d18a_dword_800DA7F4[] = "snake18.c";
 
 extern void d18a_snake18_800D4388(GV_ACT *act);
-extern void d18a_snake18_800D46CC(GV_ACT *act);
+extern void d18a_snake18_800D46CC(Snake18Work *work);
 
 int d18a_snake18_800D4E94(int arg1, int arg2)
 {
