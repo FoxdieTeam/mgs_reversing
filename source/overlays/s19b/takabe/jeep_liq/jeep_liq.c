@@ -100,13 +100,20 @@ extern void  ReadRotMatrix(MATRIX *m);
 
 extern int   s19b_jeep_mrl_800D399C(void);
 extern int   s19b_jeep_liq_800D771C(int center, int from, int to);
+extern void  s19b_jeep_liq_800D6FB8(JeepLiqWork *work);
 
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D6FB8.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7114.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7200.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7330.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D769C.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D76B0.s")
+void s19b_jeep_liq_800D76B0(JeepLiqWork *work)
+{
+    ((void (*)(void))work->field_3DC)();
+    work->field_3A0 = 0;
+    ((void (*)(JeepLiqWork *))work->field_3F8)(work);
+    s19b_jeep_liq_800D6FB8(work);
+}
 
 void s19b_jeep_liq_800D76F8(JeepLiqWork *work, int arg1)
 {
