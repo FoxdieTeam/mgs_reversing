@@ -141,8 +141,20 @@ void s19b_jeep_liq_800D79EC(JeepLiqWork *work)
     work->field_3B0 = s19b_jeep_liq_800D771C(work->field_3B0, -0x177, v);
     work->field_3A8 = GV_NearSpeed(work->field_3A8, work->field_3B0, 5);
 }
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7A5C.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7ACC.s")
+void s19b_jeep_liq_800D7A5C(JeepLiqWork *work)
+{
+    int v = work->field_360 - (Takabe_JeepSystem.field_30 - Takabe_JeepSystem.field_24);
+    s19b_jeep_mrl_800D399C();
+    work->field_3B0 = s19b_jeep_liq_800D771C(work->field_3B0, 0xbb8, v);
+    work->field_3A8 = GV_NearSpeed(work->field_3A8, work->field_3B0, 5);
+}
+void s19b_jeep_liq_800D7ACC(JeepLiqWork *work)
+{
+    int v = work->field_360 - (Takabe_JeepSystem.field_30 - Takabe_JeepSystem.field_24);
+    s19b_jeep_mrl_800D399C();
+    work->field_3B0 = s19b_jeep_liq_800D771C(work->field_3B0, 0x1194, v);
+    work->field_3A8 = GV_NearSpeed(work->field_3A8, work->field_3B0, 5);
+}
 
 void s19b_jeep_liq_800D7B3C(JeepLiqWork *work, int arg1)
 {
