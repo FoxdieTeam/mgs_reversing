@@ -94,7 +94,19 @@ void s19b_jeep_gls_800CE5F8(DG_OBJS *objs)
     DG_FreeObjs(objs);
 }
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CE628.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CE83C.s")
+void s19b_jeep_gls_800CE83C(SVECTOR *src, SVECTOR *dst)
+{
+    dst[0].vx  = src->vx;
+    dst[0].vz  = src->vy;
+    dst[0].vy  = src->vz;
+    dst[0].pad = src->pad;
+    src++;
+    dst[1].vx  = src->vx;
+    dst[1].vz  = src->vy;
+    dst[1].vy  = src->vz;
+    dst[1].pad = src->pad;
+    HZD_SetDynamicSegment((HZD_SEG *)dst, (HZD_SEG *)dst);
+}
 void s19b_jeep_gls_800CE8B8(SVECTOR *src, SVECTOR *dst)
 {
     dst->vx = src->vx;
