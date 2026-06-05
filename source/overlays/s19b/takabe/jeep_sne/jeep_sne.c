@@ -49,7 +49,9 @@ typedef struct _Work
         } st;
     } u;
 
-    char           pad2[0x910 - 0x7E8 - sizeof(OBJECT)];
+    char           pad2[0x908 - 0x7E8 - sizeof(OBJECT)];
+    int            field_908;         /* 0x908 */
+    char           pad_910[0x910 - 0x908 - sizeof(int)];
 
     TARGET        *target;            /* 0x910 */
 
@@ -444,7 +446,43 @@ void s19b_jlamp2_800D5484(Work *work, int arg1)
         }
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp2_800D55E8.s")
+extern int  s19b_jlamp2_800D50F4(Work *work);
+extern int  GV_RandS(int);
+extern int  s19b_dword_800C3A10;
+
+void s19b_jlamp2_800D55E8(Work *work, int arg1)
+{
+    if (s19b_jlamp2_800D50F4(work) != 0)
+    {
+        work->target->class = 1;
+        work->field_944 = 4;
+        work->field_908 += GV_RandS(0x200);
+        return;
+    }
+    if (arg1 == 0)
+    {
+        if (work->field_928 != 8)
+        {
+            *(int *)((char *)&work->field_928) = 8;
+            GM_ConfigObjectAction(&work->body, *(short *)&s19b_dword_800C3A10, 0, 4);
+            work->field_7E0 = DG_ZeroVector;
+        }
+        GM_SeSet(&work->control.mov, 0x88);
+    }
+    if (arg1 >= 0x15)
+    {
+        work->field_918 = (void *)s19b_jlamp2_800D5328;
+        work->field_920 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        if (work->field_928 != 0)
+        {
+            *(int *)((char *)&work->field_928) = 0;
+            GM_ConfigObjectAction(&work->body, *(short *)&s19b_dword_800C3A00, 0, 4);
+            work->field_7E0 = DG_ZeroVector;
+        }
+    }
+}
 extern void s19b_jlamp2_800D5820(Work *work, int arg1);
 extern void Voicesys_800CE310(void);
 extern void Voicesys_800CE5F8(int, int);
