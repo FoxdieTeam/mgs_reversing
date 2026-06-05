@@ -179,8 +179,22 @@ void s19b_jeep_sne_800D4660(Work *work, int arg1)
     *(short *)((char *)work + 0x74) = 0;
 }
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D46D4.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D4744.s")
-extern void s19b_jeep_sne_800D4744(Work *work);
+void s19b_jeep_sne_800D4744(Work *work)
+{
+    void (*fn)(Work *, int);
+    int   old = *(int *)((char *)work + 0x7F4);
+
+    *(int *)((char *)work + 0x7F4) = old + 1;
+    fn = *(void (**)(Work *, int))((char *)work + 0x7EC);
+    if (fn == 0)
+    {
+        fn = s19b_jeep_sne_800D424C;
+        *(void **)((char *)work + 0x7EC) = (void *)fn;
+        *(int *)((char *)work + 0x7FC) = 0;
+        GM_ConfigObjectAction((OBJECT *)((char *)work + 0xA4), 0, 0, 4);
+    }
+    fn(work, old);
+}
 
 void s19b_jeep_sne_800D47B8(Work *work)
 {
