@@ -7,6 +7,9 @@ typedef struct _BunshinClone
     char pad[0x104 - sizeof(int)];
 } BunshinClone;
 
+struct _BunshinWork;
+typedef void (*BunshinFunc)(struct _BunshinWork *);
+
 typedef struct _BunshinWork
 {
     GV_ACT       actor;          // 0x000
@@ -60,7 +63,7 @@ typedef struct _BunshinWork
     int          field_1A30;     // 0x1A30
     int          field_1A34;     // 0x1A34
     char         pad6[0x1A40 - 0x1A34 - sizeof(int)];
-    void        *field_1A40[8];  // 0x1A40
+    BunshinFunc  field_1A40[8];  // 0x1A40
 } BunshinWork;
 
 extern int s08b_bunsin2_800CEF34(int a0, int a1);
@@ -213,7 +216,7 @@ int s08b_bunsin2_800CD914(BunshinWork *work, int idx)
     {
         if (work->field_1A40[i] == NULL)
         {
-            work->field_1A40[i] = ((void **)&s08b_dword_800C3418)[idx];
+            work->field_1A40[i] = (BunshinFunc)((void **)&s08b_dword_800C3418)[idx];
             return 1;
         }
     }
@@ -234,12 +237,12 @@ int s08b_bunsin2_800CD95C(BunshinWork *work, int target)
 }
 void s08b_bunsin2_800CD990(BunshinWork *work)
 {
-    void (*f)(BunshinWork *);
-    int   i;
+    BunshinFunc f;
+    int         i;
 
     for (i = 0; i < 8; i++)
     {
-        f = (void (*)(BunshinWork *))work->field_1A40[i];
+        f = work->field_1A40[i];
         if (f != NULL)
         {
             f(work);
@@ -386,9 +389,7 @@ int s08b_bunsin2_800CEF34(int a, int b)
 
     if (a > b)
     {
-        int t = a;
-        a = b;
-        b = t;
+        SWAP(a, b);
     }
     p = s08b_dword_800C3510;
     for (i = 0; i < 2; i++, p += 2)
@@ -416,15 +417,12 @@ void s08b_bunsin2_800CEFC0(BunshinClone *clones, int val, short *out_count, shor
     int cur = val;
     int count = -1;
 
-    if (val >= 0)
+    while (cur >= 0)
     {
-        do
-        {
-            val = cur;
-            count++;
-            cur = val - clones->field_0;
-            clones++;
-        } while (cur >= 0);
+        val = cur;
+        count++;
+        cur = val - clones->field_0;
+        clones++;
     }
     *out_count = count;
     *out_rem = val;

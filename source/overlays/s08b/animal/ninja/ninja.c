@@ -13,17 +13,27 @@ typedef struct _NinjaWork
     char            pad_798[0x798 - 0x9C - sizeof(OBJECT_NO_ROTS)];
     MATRIX          light[2];    /* 0x798 */
     int             field_7D8;   /* 0x7D8 */
-    char            pad_8C4[0x8C4 - 0x7D8 - 4];
+    OBJECT          field_7DC;   /* 0x7DC */
+    char            pad_8C4[0x8C4 - 0x7DC - sizeof(OBJECT)];
     TARGET         *target;      /* 0x8C4 */
-    char            pad_19D8[0x19D8 - 0x8C4 - 4];
+    char            pad_910[0x910 - 0x8C4 - sizeof(TARGET *)];
+    HOMING         *field_910;   /* 0x910 */
+    char            pad_19BC[0x19BC - 0x910 - sizeof(HOMING *)];
+    void           *field_19BC;  /* 0x19BC */
+    char            pad_19D8[0x19D8 - 0x19BC - sizeof(void *)];
     int             field_19D8;  /* 0x19D8 */
     char            pad_19E4[0x19E4 - 0x19D8 - 4];
     int             field_19E4;  /* 0x19E4 */
-    char            pad_1A8C[0x1A8C - 0x19E4 - 4];
+    char            pad_1A20[0x1A20 - 0x19E4 - 4];
+    void           *field_1A20;  /* 0x1A20 */
+    void           *field_1A24;  /* 0x1A24 */
+    char            pad_1A80[0x1A80 - 0x1A24 - sizeof(void *)];
+    DG_PRIM        *field_1A80;  /* 0x1A80 */
+    char            pad_1A8C[0x1A8C - 0x1A80 - sizeof(DG_PRIM *)];
     int             field_1A8C;  /* 0x1A8C */
     int             field_1A90;  /* 0x1A90 */
     int             field_1A94;  /* 0x1A94 */
-    char            pad_1B24[0x1B24 - 0x1A94 - 4];
+    int             field_1A98[0x23]; /* 0x1A98 */
     short           field_1B24;  /* 0x1B24 */
 } NinjaWork;
 
@@ -259,15 +269,14 @@ void s08b_ninja_800C7ED8(void)
     s08b_dword_800E4320++;
 }
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C7F74.s")
-void s08b_ninja_800C811C(void *work)
+void s08b_ninja_800C811C(NinjaWork *work)
 {
-    short *p = *(short **)((char *)work + 0x8C4);
+    TARGET *target = work->target;
 
-    if (p[3] & 8)
+    if (target->damaged & 8)
     {
-        GV_AddVec3((SVECTOR *)((char *)p + 0x34), (SVECTOR *)((char *)work + 0x64),
-                   (SVECTOR *)((char *)work + 0x64));
-        p[3] &= 0xFFF7;
+        GV_AddVec3(&target->offset, &work->control.step, &work->control.step);
+        target->damaged &= 0xFFF7;
     }
 }
 int s08b_ninja_800C8170(void)
@@ -336,9 +345,9 @@ void s08b_ninja_800C8264(NinjaWork *work)
     }
     s08b_ninja_800C81C8(work);
 }
-void s08b_ninja_800C8354(void *work)
+void s08b_ninja_800C8354(NinjaWork *work)
 {
-    TARGET *t = *(TARGET **)((char *)work + 0x8C4);
+    TARGET *t = work->target;
 
     GM_SetTarget(t, 0x1F, 2, (SVECTOR *)&s08b_dword_800C3390);
     GM_SetPowerTarget(t, 1, -1, 0xFF, 0xFF, (SVECTOR *)&s08b_dword_800C3398);
@@ -347,22 +356,22 @@ void s08b_ninja_800C8354(void *work)
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C83CC.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C8558.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C8624.s")
-void s08b_ninja_800C8798(void *work)
+void s08b_ninja_800C8798(NinjaWork *work)
 {
-    GM_FreeControl((CONTROL *)((char *)work + 0x20));
-    GM_FreeObject((OBJECT *)((char *)work + 0x9C));
-    GM_FreeObject((OBJECT *)((char *)work + 0x7DC));
-    GM_FreeHomingTarget(*(HOMING **)((char *)work + 0x910));
-    GV_DestroyActorQuick(*(void **)((char *)work + 0x1A20));
-    GV_DestroyActorQuick(*(void **)((char *)work + 0x1A24));
-    if (*(void **)((char *)work + 0x19BC) != NULL)
+    GM_FreeControl(&work->control);
+    GM_FreeObject((OBJECT *)&work->body);
+    GM_FreeObject(&work->field_7DC);
+    GM_FreeHomingTarget(work->field_910);
+    GV_DestroyActorQuick(work->field_1A20);
+    GV_DestroyActorQuick(work->field_1A24);
+    if (work->field_19BC != NULL)
     {
-        GV_DestroyActorQuick(*(void **)((char *)work + 0x19BC));
+        GV_DestroyActorQuick(work->field_19BC);
     }
-    if (*(int *)((char *)work + 0x7D8) == 0)
+    if (work->field_7D8 == 0)
     {
-        GM_FreeTarget(*(TARGET **)((char *)work + 0x8C4));
-        GM_FreePrim(*(DG_PRIM **)((char *)work + 0x1A80));
+        GM_FreeTarget(work->target);
+        GM_FreePrim(work->field_1A80);
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C8848.s")
@@ -382,7 +391,7 @@ int s08b_ninja_800C8930(char *unused, int *out)
 }
 extern const char s08b_aErrerrerrsoundbuffover_800E3764[];
 
-int s08b_ninja_800C8988(void *work)
+int s08b_ninja_800C8988(NinjaWork *work)
 {
     char *opt = GCL_GetOption(0x76);
 
@@ -390,7 +399,7 @@ int s08b_ninja_800C8988(void *work)
     {
         return 0;
     }
-    if (s08b_ninja_800C8930(opt, (int *)((char *)work + 0x1A98)) < 0x23)
+    if (s08b_ninja_800C8930(opt, work->field_1A98) < 0x23)
     {
         return 0;
     }
