@@ -22,25 +22,44 @@ typedef struct _Work
     MOTION_CONTROL m_ctrl;
     MOTION_SEGMENT m_segs1[16 + 1];
     MOTION_SEGMENT m_segs2[16 + 1];
-    SVECTOR        rots[16];
-    SVECTOR        adjust[16];
-    MATRIX         light[2];
+    SVECTOR        rots[16];          /* 0x6A0 */
+    SVECTOR        adjust[16];        /* 0x720 */
+    MATRIX         light[2];          /* 0x7A0 */
 
-    char           pad1[0x8];
+    SVECTOR        field_7E0;         /* 0x7E0 */
 
-    OBJECT         weapon;
+    /* NewJeepSnake builds the weapon OBJECT here, while the per-frame state
+       handlers reuse the same bytes as their state block. */
+    union
+    {
+        OBJECT weapon;                /* 0x7E8 */
+        struct
+        {
+            char  pad_7EC[0x7EC - 0x7E8];
+            void *field_7EC;          /* 0x7EC: current state handler */
+            char  pad_7F4[0x7F4 - 0x7EC - sizeof(void *)];
+            int   field_7F4;          /* 0x7F4: frame counter */
+            char  pad_7FC[0x7FC - 0x7F4 - sizeof(int)];
+            int   field_7FC;          /* 0x7FC: action id */
+            int   field_800;          /* 0x800: flags */
+            char  pad_818[0x818 - 0x800 - sizeof(int)];
+            short field_818;          /* 0x818 */
+        } st;
+    } u;
 
-    char           pad2[0x44];
+    char           pad2[0x910 - 0x7E8 - sizeof(OBJECT)];
 
-    TARGET        *target;
+    TARGET        *target;            /* 0x910 */
 
-    char           pad3[0x28];
+    char           pad3a[0x928 - 0x910 - sizeof(TARGET *)];
+    int            field_928;         /* 0x928 */
+    char           pad3b[0x93C - 0x928 - sizeof(int)];
 
-    int            hp;
+    int            hp;                /* 0x93C */
 
     char           pad4[0x18];
 
-    SVECTOR        pos;
+    SVECTOR        pos;               /* 0x958 */
 } Work;
 
 extern JEEP_SYSTEM Takabe_JeepSystem;
@@ -63,8 +82,8 @@ void s19b_jeep_sne_800D424C(Work *work, int arg1)
 {
     if (arg1 == 0)
     {
-        *(int *)((char *)work + 0x7FC) = 0;
-        GM_ConfigObjectAction((OBJECT *)((char *)work + 0xA4), 0, 0, 4);
+        work->u.st.field_7FC = 0;
+        GM_ConfigObjectAction(&work->body, 0, 0, 4);
     }
     s19b_jeep_sne_800D4188(work);
 }
@@ -73,15 +92,15 @@ void s19b_jeep_sne_800D43AC(Work *work, int arg1)
 {
     if (arg1 == 0)
     {
-        *(int *)((char *)work + 0x7FC) = 7;
-        GM_ConfigObjectAction((OBJECT *)((char *)work + 0xA4), 7, 0, 4);
+        work->u.st.field_7FC = 7;
+        GM_ConfigObjectAction(&work->body, 7, 0, 4);
     }
-    if (*(int *)((char *)work + 0x800) & 0x10000)
+    if (work->u.st.field_800 & 0x10000)
     {
-        *(void **)((char *)work + 0x7EC) = (void *)s19b_jeep_sne_800D424C;
-        *(int *)((char *)work + 0x7F4) = 0;
-        *(short *)((char *)work + 0x78) = 0;
-        *(short *)((char *)work + 0x74) = 0;
+        work->u.st.field_7EC = (void *)s19b_jeep_sne_800D424C;
+        work->u.st.field_7F4 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
     }
 }
 extern void s19b_jeep_sne_800D4488(Work *work, int arg1);
@@ -93,125 +112,125 @@ void s19b_jeep_sne_800D4414(Work *work, int arg1)
 {
     if (arg1 == 0)
     {
-        *(int *)((char *)work + 0x7FC) = 7;
-        GM_ConfigObjectAction((OBJECT *)((char *)work + 0xA4), 7, 0, 4);
+        work->u.st.field_7FC = 7;
+        GM_ConfigObjectAction(&work->body, 7, 0, 4);
     }
     if (s19b_jeep_sne_800D4188(work) != 0) return;
-    if (*(short *)((char *)work + 0xBE) == 0) return;
-    *(void **)((char *)work + 0x7EC) = (void *)s19b_jeep_sne_800D4488;
-    *(int *)((char *)work + 0x7F4) = 0;
-    *(short *)((char *)work + 0x78) = 0;
-    *(short *)((char *)work + 0x74) = 0;
+    if (work->body.is_end == 0) return;
+    work->u.st.field_7EC = (void *)s19b_jeep_sne_800D4488;
+    work->u.st.field_7F4 = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
 }
 
 void s19b_jeep_sne_800D4488(Work *work, int arg1)
 {
     if (arg1 == 0)
     {
-        *(int *)((char *)work + 0x7FC) = 8;
-        GM_ConfigObjectAction((OBJECT *)((char *)work + 0xA4), 8, 0, 0);
+        work->u.st.field_7FC = 8;
+        GM_ConfigObjectAction(&work->body, 8, 0, 0);
     }
     if (s19b_jeep_sne_800D4188(work) != 0) return;
-    if (*(int *)((char *)work + 0x800) & 0x20000) return;
-    *(void **)((char *)work + 0x7EC) = (void *)s19b_jeep_sne_800D4500;
-    *(int *)((char *)work + 0x7F4) = 0;
-    *(short *)((char *)work + 0x78) = 0;
-    *(short *)((char *)work + 0x74) = 0;
+    if (work->u.st.field_800 & 0x20000) return;
+    work->u.st.field_7EC = (void *)s19b_jeep_sne_800D4500;
+    work->u.st.field_7F4 = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
 }
 
 void s19b_jeep_sne_800D4500(Work *work, int arg1)
 {
     if (arg1 == 0)
     {
-        *(int *)((char *)work + 0x7FC) = 9;
-        GM_ConfigObjectAction((OBJECT *)((char *)work + 0xA4), 9, 0, 4);
+        work->u.st.field_7FC = 9;
+        GM_ConfigObjectAction(&work->body, 9, 0, 4);
     }
     if (s19b_jeep_sne_800D4188(work) != 0) return;
-    if (*(short *)((char *)work + 0xBE) == 0) return;
-    *(void **)((char *)work + 0x7EC) = (void *)s19b_jeep_sne_800D424C;
-    *(int *)((char *)work + 0x7F4) = 0;
-    *(short *)((char *)work + 0x78) = 0;
-    *(short *)((char *)work + 0x74) = 0;
+    if (work->body.is_end == 0) return;
+    work->u.st.field_7EC = (void *)s19b_jeep_sne_800D424C;
+    work->u.st.field_7F4 = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
 }
 
 void s19b_jeep_sne_800D4574(Work *work, int arg1)
 {
     if (arg1 == 0)
     {
-        *(int *)((char *)work + 0x7FC) = 1;
-        GM_ConfigObjectAction((OBJECT *)((char *)work + 0xA4), 1, 0, 4);
+        work->u.st.field_7FC = 1;
+        GM_ConfigObjectAction(&work->body, 1, 0, 4);
     }
     if (s19b_jeep_sne_800D4188(work) != 0) return;
-    if (*(short *)((char *)work + 0xBE) == 0) return;
-    *(void **)((char *)work + 0x7EC) = (void *)s19b_jeep_sne_800D45E8;
-    *(int *)((char *)work + 0x7F4) = 0;
-    *(short *)((char *)work + 0x78) = 0;
-    *(short *)((char *)work + 0x74) = 0;
+    if (work->body.is_end == 0) return;
+    work->u.st.field_7EC = (void *)s19b_jeep_sne_800D45E8;
+    work->u.st.field_7F4 = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
 }
 
 void s19b_jeep_sne_800D45E8(Work *work, int arg1)
 {
     if (arg1 == 0)
     {
-        *(int *)((char *)work + 0x7FC) = 2;
-        GM_ConfigObjectAction((OBJECT *)((char *)work + 0xA4), 2, 0, 0);
+        work->u.st.field_7FC = 2;
+        GM_ConfigObjectAction(&work->body, 2, 0, 0);
     }
     if (s19b_jeep_sne_800D4188(work) != 0) return;
-    if (*(int *)((char *)work + 0x800) & 0x20000) return;
-    *(void **)((char *)work + 0x7EC) = (void *)s19b_jeep_sne_800D4660;
-    *(int *)((char *)work + 0x7F4) = 0;
-    *(short *)((char *)work + 0x78) = 0;
-    *(short *)((char *)work + 0x74) = 0;
+    if (work->u.st.field_800 & 0x20000) return;
+    work->u.st.field_7EC = (void *)s19b_jeep_sne_800D4660;
+    work->u.st.field_7F4 = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
 }
 
 void s19b_jeep_sne_800D4660(Work *work, int arg1)
 {
     if (arg1 == 0)
     {
-        *(int *)((char *)work + 0x7FC) = 3;
-        GM_ConfigObjectAction((OBJECT *)((char *)work + 0xA4), 3, 0, 4);
+        work->u.st.field_7FC = 3;
+        GM_ConfigObjectAction(&work->body, 3, 0, 4);
     }
     if (s19b_jeep_sne_800D4188(work) != 0) return;
-    if (*(short *)((char *)work + 0xBE) == 0) return;
-    *(void **)((char *)work + 0x7EC) = (void *)s19b_jeep_sne_800D424C;
-    *(int *)((char *)work + 0x7F4) = 0;
-    *(short *)((char *)work + 0x78) = 0;
-    *(short *)((char *)work + 0x74) = 0;
+    if (work->body.is_end == 0) return;
+    work->u.st.field_7EC = (void *)s19b_jeep_sne_800D424C;
+    work->u.st.field_7F4 = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
 }
 void s19b_jeep_sne_800D46D4(Work *work, int arg1)
 {
     if (arg1 == 0)
     {
-        *(int *)((char *)work + 0x7FC) = 0xD;
-        GM_ConfigObjectAction((OBJECT *)((char *)work + 0xA4), 0xD, 0, 4);
-        GM_SeSet((SVECTOR *)((char *)work + 0x28), *(short *)((char *)work + 0x818));
+        work->u.st.field_7FC = 0xD;
+        GM_ConfigObjectAction(&work->body, 0xD, 0, 4);
+        GM_SeSet(&work->control.mov, work->u.st.field_818);
     }
-    if (*(short *)((char *)work + 0xBE) == 0) return;
-    *(void **)((char *)work + 0x7EC) = (void *)s19b_jeep_sne_800D424C;
-    *(int *)((char *)work + 0x7F4) = 0;
-    *(short *)((char *)work + 0x78) = 0;
-    *(short *)((char *)work + 0x74) = 0;
+    if (work->body.is_end == 0) return;
+    work->u.st.field_7EC = (void *)s19b_jeep_sne_800D424C;
+    work->u.st.field_7F4 = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
 }
 void s19b_jeep_sne_800D4744(Work *work)
 {
     void (*fn)(Work *, int);
-    int   old = *(int *)((char *)work + 0x7F4);
+    int   old = work->u.st.field_7F4;
 
-    *(int *)((char *)work + 0x7F4) = old + 1;
-    fn = *(void (**)(Work *, int))((char *)work + 0x7EC);
+    work->u.st.field_7F4 = old + 1;
+    fn = (void (*)(Work *, int))work->u.st.field_7EC;
     if (fn == 0)
     {
         fn = s19b_jeep_sne_800D424C;
-        *(void **)((char *)work + 0x7EC) = (void *)fn;
-        *(int *)((char *)work + 0x7FC) = 0;
-        GM_ConfigObjectAction((OBJECT *)((char *)work + 0xA4), 0, 0, 4);
+        work->u.st.field_7EC = (void *)fn;
+        work->u.st.field_7FC = 0;
+        GM_ConfigObjectAction(&work->body, 0, 0, 4);
     }
     fn(work, old);
 }
 
 void s19b_jeep_sne_800D47B8(Work *work)
 {
-    *(int *)((char *)work + 0x800) = Takabe_JeepSystem.field_50;
+    work->u.st.field_800 = Takabe_JeepSystem.field_50;
     Takabe_JeepSystem.field_50 &= 0xFFFF0000;
     s19b_jeep_sne_800D4744(work);
 }
@@ -254,7 +273,7 @@ int s19b_jeep_sne_800D4D34(Work *work, int name)
     GM_PlayerStatus = 0;
 
     body = &work->body;
-    weapon = &work->weapon;
+    weapon = &work->u.weapon;
 
     GM_InitObject(body, BODY_DATA, BODY_FLAG, MOTION_DATA);
     GM_ConfigMotionControl(body, &work->m_ctrl, MOTION_DATA, work->m_segs1, work->m_segs2, control, work->rots);
@@ -286,7 +305,7 @@ void s19b_jeep_sne_800D4F5C(Work *work)
 {
     GM_FreeTarget(work->target);
     GM_FreeControl(&work->control);
-    GM_FreeObject(&work->weapon);
+    GM_FreeObject(&work->u.weapon);
     GM_FreeObject(&work->body);
     GM_PlayerControl = NULL;
     GM_PlayerBody = NULL;
@@ -328,12 +347,14 @@ extern int s19b_dword_800C3A08;
 
 void s19b_jlamp2_800D5820(Work *work, int arg1)
 {
-    if (arg1 == 0 && *(int *)((char *)work + 0x928) != 5)
+    if (arg1 == 0 && work->field_928 != 5)
     {
-        *(int *)((char *)work + 0x928) = 5;
-        GM_ConfigObjectAction((OBJECT *)((char *)work + 0xA4),
+        /* the char* launder keeps the store ahead of the call; a plain
+           work->field_928 = 5 sinks it into the delay slot and diverges */
+        *(int *)((char *)&work->field_928) = 5;
+        GM_ConfigObjectAction(&work->body,
                               *(short *)((char *)&s19b_dword_800C3A08 + 2), 0, 4);
-        *(SVECTOR *)((char *)work + 0x7E0) = DG_ZeroVector;
+        work->field_7E0 = DG_ZeroVector;
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp2_800D5894.s")
