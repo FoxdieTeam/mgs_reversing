@@ -393,7 +393,7 @@ extern const char s08b_aErrerrerrsoundbuffover_800E3764[];
 
 int s08b_ninja_800C8988(NinjaWork *work)
 {
-    char *opt = GCL_GetOption(0x76);
+    char *opt = GCL_GetOption('v');
 
     if (opt == NULL)
     {
@@ -432,7 +432,7 @@ void *s08b_ninja_800C8DCC(int name, int where)
         GV_SetNamedActor(work, s08b_ninja_800C8264, s08b_ninja_800C8798,
                          s08b_aNinjac_800E37F8);
 
-        if (GCL_GetOption(0x65) != 0)
+        if (GCL_GetOption('e') != 0)
         {
             work->field_1A8C = GCL_StrToInt(GCL_NextStr());
         }
@@ -440,7 +440,7 @@ void *s08b_ninja_800C8DCC(int name, int where)
         {
             work->field_1A8C = -1;
         }
-        if (GCL_GetOption(0x77) != 0)
+        if (GCL_GetOption('w') != 0)
         {
             work->field_1A90 = GCL_StrToInt(GCL_NextStr());
         }
@@ -448,7 +448,7 @@ void *s08b_ninja_800C8DCC(int name, int where)
         {
             work->field_1A90 = -1;
         }
-        if (GCL_GetOption(0x62) != 0)
+        if (GCL_GetOption('b') != 0)
         {
             work->field_1A94 = GCL_StrToInt(GCL_NextStr());
         }
