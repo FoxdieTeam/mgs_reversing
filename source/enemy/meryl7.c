@@ -478,8 +478,6 @@ int s07a_meryl7_800D5CA4( char *opt, int* l )
 }
 
 extern unsigned short s07a_dword_800C3618[];
-extern const char s07a_aErrerrerrsettimeover_800E2E40[];
-extern const char s07a_aErrerrerrsetdirover_800E2E5C[];
 
 int s07a_meryl7_800D5CFC( WatcherWork* work )
 {
@@ -498,7 +496,7 @@ int s07a_meryl7_800D5CFC( WatcherWork* work )
         ret = s07a_meryl7_800D5CA4( opt, &work->field_BB0[1] );
         if ( ret > 4 )
         {
-            printf( (char *)s07a_aErrerrerrsettimeover_800E2E40 ) ;
+            printf( "Err Err Err  Set time Over\n" ) ;
             return -1;
         }
     }
@@ -515,7 +513,7 @@ int s07a_meryl7_800D5CFC( WatcherWork* work )
         ret = s07a_meryl7_800D5C4C( opt, work->field_BD0 );
         if ( ret > 4 )
         {
-            printf( (char *)s07a_aErrerrerrsetdirover_800E2E5C ) ;
+            printf( "Err Err Err  Set Dir Over\n" ) ;
             return -1;
         }
     }
@@ -523,7 +521,6 @@ int s07a_meryl7_800D5CFC( WatcherWork* work )
     return 0;
 }
 
-extern const char s07a_aErrerrerrsoundbuffover_800E2E78[];
 int s07a_meryl7_800D5DD4( WatcherWork *work )
 {
     char *opt;
@@ -531,15 +528,12 @@ int s07a_meryl7_800D5DD4( WatcherWork *work )
     opt = GCL_GetOption('v');
     if (opt != NULL && s07a_meryl7_800D5CA4(opt, &work->field_C40) > 2)
     {
-        fprintf(0, s07a_aErrerrerrsoundbuffover_800E2E78);
+        fprintf(0, "Err Err Err Sound Buff Over !!\n");
         return -1;
     }
 
     return 0;
 }
-
-extern const char s07a_dword_800E2E98[];
-extern const char s07a_dword_800E2EA0[];
 
 void s07a_meryl7_800D5E34( WatcherWork *work )
 {
@@ -548,34 +542,30 @@ void s07a_meryl7_800D5E34( WatcherWork *work )
 
     flag = 0xFE;
 
-    min.vx = 0x157C;
+    min.vx = 5500;
     min.vy = 0;
-    min.vz = -0x251C;
+    min.vz = -9500;
 
-    max.vx = 0x1B58;
+    max.vx = 7000;
     max.vy = 0;
-    max.vz = -0x251C;
+    max.vz = -9500;
 
-    NewDynamicSegment( GV_StrCode( s07a_dword_800E2E98 ), &min, &max, 3000, 3000, 0xFE, (void**)&s07a_dword_800E3650 );
+    NewDynamicSegment( GV_StrCode( "メイン" ), &min, &max, 3000, 3000, flag, &s07a_dword_800E3650 );
 
     flag = 0xF7;
 
-    min.vx = 0x1194;
+    min.vx = 4500;
     min.vy = 0;
-    min.vz = -0x4844;
+    min.vz = -18500;
 
-    max.vx = 0x1B58;
+    max.vx = 7000;
     max.vy = 0;
-    max.vz = -0x4844;
-    NewDynamicSegment( GV_StrCode( s07a_dword_800E2EA0 ), &min, &max, 3000, 3000, 0xF7, (void**)&s07a_dword_800E3654 );
+    max.vz = -18500;
+    NewDynamicSegment( GV_StrCode( "女子トイレ" ), &min, &max, 3000, 3000, flag, &s07a_dword_800E3654 );
 }
-
-extern const char s07a_aErrnotenoughwork_800E2EAC[];// = "Err not enough work !!\n";
-extern const char s07a_aMerylcactionpointerr_800E2EC4[];// = "meryl.c : action point Err\n";
 
 extern int s07a_dword_800C35F8[8];
 extern int s07a_dword_800E3658;
-extern const char s07a_aAsiatoooo_800E2EE0[];
 
 void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
 {
@@ -589,7 +579,7 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
 
     if ( work->field_B78  << 24 < 0  )
     {
-       printf( (char *)s07a_aErrnotenoughwork_800E2EAC ) ;
+       printf( "Err not enough work !!\n" ) ;
     }
 
     s07a_meryl7_800D5CFC( work ) ;
@@ -689,7 +679,7 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
     //fprintf(0,"Life=%d Faint=%d Blood=%c Area=%c \n",
     //  work->param.life, work->param.faint, work->param.blood,work->param.area);
 
-    if( s07a_meryl7_800D5BB0( work ) < 0 ) printf( (char *)s07a_aMerylcactionpointerr_800E2EC4 );
+    if( s07a_meryl7_800D5BB0( work ) < 0 ) printf( "meryl.c : action point Err\n" );
 
     /*
         �????????????��?��?????????????????
@@ -743,7 +733,7 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
     opt = GCL_GetOption( 'c' );
     if ( opt )
     {
-        printf( (char *)s07a_aAsiatoooo_800E2EE0 );
+        printf( "asiatoooo" );
         work->field_BA3 |= 0x10;
     }
 
@@ -759,19 +749,14 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
     work->field_C14 = work->start_pos;
 }
 
-#define EXEC_LEVEL GV_ACTOR_PREV
-
-extern const char s07a_aMeryl7_800E2F04[];
-extern const char s07a_aEnemyworksized_800E2EEC[];
-
 void *NewEnemyMeryl_800D63A4( int name, int where, int argc, char **argv )
 {
     WatcherWork *work ;
 
-    printf( (char *)s07a_aEnemyworksized_800E2EEC, sizeof( WatcherWork ) );
-    work = GV_NewActor( EXEC_LEVEL, sizeof( WatcherWork ) ) ;
+    printf( " enemy work size = %d \n", sizeof( WatcherWork ) );
+    work = GV_NewActor( GV_ACTOR_PREV, sizeof( WatcherWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor( &( work->actor ), EnemyMerylAct_800D5638, EnemyMerylDie_800D5B90, s07a_aMeryl7_800E2F04 );
+        GV_SetNamedActor( &( work->actor ), EnemyMerylAct_800D5638, EnemyMerylDie_800D5B90, "meryl7.c" );
         EnemyMerylGetResources_800D5F24( work, name, where );
     }
     return (void *)work ;
