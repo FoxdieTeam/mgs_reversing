@@ -10,7 +10,7 @@ typedef struct _Work
     SVECTOR  field_30[17];
     SVECTOR  vertices[68];
     SVECTOR  field_2D8;
-    char     pad2[0x8];
+    SVECTOR  field_2E0;
     SVECTOR  field_2E8;
     int      field_2F0[17];
     int      field_334[17];
@@ -21,13 +21,144 @@ typedef struct _Work
 
 #define EXEC_LEVEL GV_ACTOR_PREV
 
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_plasma_l_800D98F4.s")
+int s08b_plasma_l_800D98F4(SVECTOR *a, SVECTOR *b, SVECTOR *out)
+{
+    int dx = (a->vx - b->vx) / 16;
+    int dy = (a->vy - b->vy) / 16;
+    int dz = (a->vz - b->vz) / 16;
+    int dist = SquareRoot0(dx * dx + dy * dy + dz * dz);
+    int d  = dist << 4;
+    int ex = b->vx - a->vx;
+    int ez = b->vz - a->vz;
+    int ey = b->vy - a->vy;
 
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_plasma_l_800D9A00.s")
-void s08b_plasma_l_800D9A00(Work *, POLY_FT4 *, int, DG_TEX *);
+    out->vy = ratan2(ex, ez) & 0xFFF;
+    out->vx = ratan2(d, ey) & 0xFFF;
+    out->vz = 0;
+    return d;
+}
 
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_plasma_l_800D9A90.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_plasma_l_800D9C98.s")
+void s08b_plasma_l_800D9A00(Work *work, POLY_FT4 *packs, int count, DG_TEX *tex)
+{
+    (void)work;
+    while (--count >= 0)
+    {
+        setPolyFT4(packs);
+        setSemiTrans(packs, 1);
+        setRGB0(packs, 0xFF, 0xFF, 0xFF);
+        DG_SetPacketTexture4(packs, tex);
+        packs->tpage |= 0x20;
+        packs++;
+    }
+}
+
+void s08b_plasma_l_800D9A90(Work *work, SVECTOR *a, SVECTOR *b)
+{
+    int d;
+    int q;
+    int r;
+
+    work->field_2D8 = *a;
+    work->field_2E0 = *b;
+    d = s08b_plasma_l_800D98F4(&work->field_2D8, &work->field_2E0, &work->field_2E8);
+    work->field_2C = d;
+    q = d / 4;
+
+    work->field_2F0[0]  = GV_RandU(0x1000);
+    work->field_2F0[4]  = GV_RandU(0x200);
+    work->field_334[4]  = GV_RandU(0x400);
+    work->field_378[4]  = q * GV_RandU(0x1000) / 4096;
+    work->field_2F0[8]  = work->field_2F0[4] + GV_RandS(0x200);
+    work->field_334[8]  = GV_RandU(0x400) + 0x400;
+    r = GV_RandU(0x1000) * 2;
+    work->field_378[8]  = q * r / 4096;
+    work->field_2F0[12] = work->field_2F0[8] + GV_RandS(0x200);
+    work->field_334[12] = GV_RandU(0x400) + 0x800;
+    work->field_378[12] = q * GV_RandU(0x1000) / 4096;
+    work->field_2F0[16] = work->field_2F0[12] + GV_RandS(0x200);
+
+    if (work->field_334[8] < work->field_334[4])
+        work->field_334[4] = work->field_334[8];
+    if (work->field_334[12] < work->field_334[4])
+        work->field_334[4] = work->field_334[12];
+    if (work->field_334[12] < work->field_334[8])
+        work->field_334[8] = work->field_334[12];
+
+    work->field_30[0]  = work->field_2D8;
+    work->field_30[16] = work->field_2E0;
+    work->field_334[0]  = 0;
+    work->field_334[16] = 0x1000;
+    work->field_378[0]  = 0;
+    work->field_378[16] = 0;
+}
+
+void s08b_plasma_l_800D9C98(Work *work)
+{
+    int q;
+
+    q = work->field_2C / 4;
+
+    work->field_2F0[0] += GV_RandS(0x80);
+    work->field_2F0[4] += GV_RandS(0x40);
+    work->field_334[4] += GV_RandS(0x20);
+
+    work->field_378[4] += GV_RandS(0x20);
+    if (work->field_378[4] < 0)
+        work->field_378[4] = 0;
+    if (q < work->field_378[4])
+        work->field_378[4] = q;
+
+    work->field_2F0[8] += GV_RandS(0x40);
+    if (work->field_2F0[4] + 0x200 < work->field_2F0[8])
+        work->field_2F0[8] = work->field_2F0[4] + GV_RandS(0x200);
+    if (work->field_2F0[8] < work->field_2F0[4] - 0x200)
+        work->field_2F0[8] = work->field_2F0[4] + GV_RandS(0x200);
+
+    work->field_334[8] += GV_RandS(0x20);
+
+    {
+        int r = GV_RandS(0x40);
+        int t = work->field_378[8] + 0x10;
+        work->field_378[8] = t + r;
+    }
+    if (work->field_378[8] < 0)
+        work->field_378[8] = 0;
+    if (q < work->field_378[8])
+        work->field_378[8] = q;
+
+    work->field_2F0[12] += GV_RandS(0x40);
+    if (work->field_2F0[8] + 0x200 < work->field_2F0[12])
+        work->field_2F0[12] = work->field_2F0[8] + GV_RandS(0x200);
+    if (work->field_2F0[12] < work->field_2F0[8] - 0x200)
+        work->field_2F0[12] = work->field_2F0[8] + GV_RandS(0x200);
+
+    work->field_334[12] += GV_RandS(0x20);
+
+    work->field_378[12] += GV_RandS(0x20);
+    if (work->field_378[12] < 0)
+        work->field_378[12] = 0;
+    if (q * 2 < work->field_378[12])
+        work->field_378[12] = q * 2;
+
+    if (work->field_334[8] < work->field_334[4])
+    {
+        int t = work->field_334[4];
+        work->field_334[4] = work->field_334[8];
+        work->field_334[8] = t;
+    }
+    if (work->field_334[12] < work->field_334[4])
+    {
+        int t = work->field_334[4];
+        work->field_334[4] = work->field_334[12];
+        work->field_334[12] = t;
+    }
+    if (work->field_334[12] < work->field_334[8])
+    {
+        int t = work->field_334[8];
+        work->field_334[8] = work->field_334[12];
+        work->field_334[12] = t;
+    }
+}
 void s08b_plasma_l_800D9F1C(Work *work, int arg1, int arg2)
 {
     int v1, v2;
@@ -72,8 +203,18 @@ int s08b_plasma_l_800DA2C8(Work *work)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_plasma_l_800DA394.s")
-int s08b_plasma_l_800DA394(Work *, int, int, int);
+int s08b_plasma_l_800DA394(Work *work, int arg1, int arg2, int arg3)
+{
+    work->field_3C0 = arg3;
+    work->map = GM_CurrentMap;
+    if (s08b_plasma_l_800DA2C8(work) < 0)
+    {
+        return -1;
+    }
+    s08b_plasma_l_800D9A90(work, (SVECTOR *)arg1, (SVECTOR *)arg2);
+    work->field_3BC = 0;
+    return 0;
+}
 
 void *NewPlasmaL(int arg0, int arg1, int arg2)
 {
