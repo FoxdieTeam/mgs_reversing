@@ -453,12 +453,12 @@ void s19b_jeep_liq_800D81A8(JeepLiqWork *work)
     work->field_3F0 = n + 1;
     if (n == 0)
     {
-        GM_GameStatus |= 0x104a2000;
+        GM_GameStatus |= STATE_RADIO_OFF | STATE_LIFEBAR_OFF | STATE_MENU_OFF | STATE_RADAR_OFF | STATE_PADRELEASE;
         s19b_jlamp_800D0A20(0);
     }
     else if (n >= 0x150)
     {
-        GM_GameStatus &= 0xefb5dfff;
+        GM_GameStatus &= ~(STATE_RADIO_OFF | STATE_LIFEBAR_OFF | STATE_MENU_OFF | STATE_RADAR_OFF | STATE_PADRELEASE);
         s19b_jeep_liq_800D8014(work, (int)s19b_jeep_liq_800D8044);
         s19b_jeep_liq_800D76F8(work, (int)s19b_jeep_liq_800D77F0);
         work->field_3D0 = (int)s19b_jeep_liq_800D7114;
