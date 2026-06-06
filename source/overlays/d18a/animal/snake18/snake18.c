@@ -865,7 +865,70 @@ void d18a_snake18_800CC008(void)
 
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CC010.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CC174.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CC288.s")
+extern int printf(/* const char *format, ... */);
+extern const char d18a_aClimbarea_800DA5A8[];
+extern const char d18a_aClimbarea_800DA5B8[];
+extern const char d18a_aClimbarea_800DA5C8[];
+extern const char d18a_aClimbarea_800DA5D8[];
+extern const char d18a_aClimbarea_800DA5E8[];
+extern const char d18a_aClimbarea_800DA5F8[];
+extern const char d18a_aClimbarea_800DA608[];
+extern const char d18a_aClimbarea_800DA618[];
+
+int d18a_snake18_800CC288(SVECTOR *pos, short *out)
+{
+    int vz = pos->vz;
+    int vx = pos->vx;
+
+    if (vz >= 0x128F)
+    {
+        printf(d18a_aClimbarea_800DA5A8);
+        *out = 0x800;
+        return 0;
+    }
+    if (vz < -0x4E2)
+    {
+        printf(d18a_aClimbarea_800DA5B8);
+        *out = 0xFE8;
+        return 4;
+    }
+    if (vx < -0x2EE)
+    {
+        printf(d18a_aClimbarea_800DA5C8);
+        *out = 0x400;
+        return 3;
+    }
+    if (vx < 0x4E2)
+    {
+        printf(d18a_aClimbarea_800DA5D8);
+        *out = 0x6D2;
+        return 2;
+    }
+    if (vx < 0x9C4)
+    {
+        printf(d18a_aClimbarea_800DA5E8);
+        *out = 0x480;
+        return 1;
+    }
+    if (vx < 0xCB2)
+    {
+        printf(d18a_aClimbarea_800DA5F8);
+        *out = 0xB42;
+        return 7;
+    }
+    else if (vx < 0x157C)
+    {
+        printf(d18a_aClimbarea_800DA608);
+        *out = 0x911;
+        return 6;
+    }
+    else
+    {
+        printf(d18a_aClimbarea_800DA618);
+        *out = 0xBE8;
+        return 5;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CC3C8.s")
 extern SVECTOR d18a_dword_800C3868;
 
