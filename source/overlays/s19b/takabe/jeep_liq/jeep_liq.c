@@ -33,7 +33,8 @@ typedef struct _JeepLiqWork
     int             field_3E0;
     int             field_3E4;
     int             field_3E8;
-    char            pad_3F8[0x3F8 - 0x3EC];
+    int             field_3EC;    /* 0x3EC */
+    char            pad_3F0[0x3F8 - 0x3EC - sizeof(int)];
     int             field_3F8;    /* 0x3F8 */
     char            pad_segs2[0x43C - 0x3F8 - sizeof(int)];
     MOTION_SEGMENT  m_segs2[17];  /* 0x43C */
@@ -393,7 +394,28 @@ void s19b_jeep_liq_800D8014(JeepLiqWork *work, int arg1)
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D8044.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D8118.s")
+extern int s19b_jeep_mrl_800D39B4(SVECTOR *dst);
+
+void s19b_jeep_liq_800D8118(JeepLiqWork *work)
+{
+    SVECTOR dst;
+    int     d;
+
+    s19b_jeep_mrl_800D39B4(&dst);
+    d = *(short *)&work->world - dst.vz;
+    if (d < 0)
+    {
+        work->field_3EC = 5;
+        s19b_jeep_liq_800D76F8(work, (int)s19b_jeep_liq_800D79EC);
+        s19b_jeep_liq_800D7B3C(work, (int)s19b_jeep_liq_800D7D68);
+    }
+    else
+    {
+        work->field_3EC = 2;
+        s19b_jeep_liq_800D76F8(work, (int)s19b_jeep_liq_800D79EC);
+        s19b_jeep_liq_800D7B3C(work, (int)s19b_jeep_liq_800D7F20);
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D81A8.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D8250.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D8420.s")
