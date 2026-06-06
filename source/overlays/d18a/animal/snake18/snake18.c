@@ -560,7 +560,42 @@ void d18a_snake18_800CB59C(Snake18Work *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CB60C.s")
+void d18a_snake18_800CB60C(Snake18Work *work)
+{
+    int turn;
+    int diff;
+    int action;
+
+    turn = work->control.turn.vy;
+    diff = GV_DiffDirS(turn, d18a_dword_800DAEF0);
+
+    if (diff == 0)
+    {
+        GM_PlayerStatus &= ~0x10;
+        action = work->f8A8->str[1];
+        if (work->body.action != action)
+        {
+            GM_ConfigObjectAction(&work->body, action, 0, 4);
+        }
+        return;
+    }
+    else if (diff < 0)
+    {
+        action = work->f8A8->str2[0xA];
+    }
+    else
+    {
+        action = work->f8A8->str2[0xB];
+    }
+
+    if (work->body.action != action)
+    {
+        GM_ConfigObjectAction(&work->body, action, 0, 4);
+    }
+
+    turn = GV_NearPhase(turn, d18a_dword_800DAEF0);
+    work->control.turn.vy = GV_NearSpeed(turn, d18a_dword_800DAEF0, 0x40);
+}
 
 int d18a_snake18_800CB710( Snake18Work *work, int a1 )
 {
