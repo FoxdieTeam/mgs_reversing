@@ -752,7 +752,7 @@ void s19b_jlamp2_800D5894(Work *work)
         }
     }
     fn(work, old);
-    if (GM_GameStatus & 0x40000000)
+    if (GM_GameStatus & STATE_PADDEMO)
     {
         work->target->class = 1;
     }
