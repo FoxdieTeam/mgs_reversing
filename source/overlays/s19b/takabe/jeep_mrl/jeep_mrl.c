@@ -12,7 +12,13 @@ typedef struct _Work
     OBJECT   body;                                     /* 0x0A4 */
     char     pad_2B0[0x2B0 - 0xA4 - sizeof(OBJECT)];
     TARGET   field_2B0;                                /* 0x2B0 */
-    char     pad_3C8[0x3C8 - 0x2B0 - sizeof(TARGET)];
+    char     pad_3A0[0x3A0 - 0x2B0 - sizeof(TARGET)];
+    short    field_3A0;                                /* 0x3A0 */
+    char     pad_3A4[0x3A4 - 0x3A0 - sizeof(short)];
+    short    field_3A4;                                /* 0x3A4 */
+    char     pad_3B8[0x3B8 - 0x3A4 - sizeof(short)];
+    SVECTOR  field_3B8;                                /* 0x3B8 */
+    char     pad_3C8[0x3C8 - 0x3B8 - sizeof(SVECTOR)];
     short    field_3C8;                                /* 0x3C8 */
     short    field_3CA;                                /* 0x3CA */
     int      field_3CC;                                /* 0x3CC */
@@ -37,7 +43,29 @@ void s19b_jeep_mrl_800D2CE8(Work *work)
         work->field_3D0 = GV_NearSpeed(work->field_3D0, work->field_3D4, 10);
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D2D3C.s")
+extern void s19b_jeep_gls_800CEC24(int arg0, SVECTOR *out);
+
+void s19b_jeep_mrl_800D2D3C(Work *work)
+{
+    CONTROL *ctl = &work->control;
+    SVECTOR  rot;
+    SVECTOR  vec;
+
+    memset(&vec, 0, 8);
+    vec.vz = work->field_3D0;
+    rot = vec;
+    DG_SetPos2(&DG_ZeroVector, &work->field_3B8);
+    DG_RotVector(&rot, &rot, 1);
+    work->field_3A0 = rot.vx;
+    work->field_3A4 = rot.vz;
+    s19b_jeep_gls_800CEC24(ctl->mov.vz - 0x640, &vec);
+    GV_SubVec3(&vec, &ctl->mov, &vec);
+    vec.vx += work->field_3C8;
+    vec.vx += rsin(work->field_3CC << 5) * 50 >> 12;
+    work->field_3B8.vy = GV_VecDir2(&vec);
+    work->field_3CC++;
+    work->field_3D4 = GV_NearSpeed(work->field_3D4, 0x190, 0xa);
+}
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D2E78.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D32B4.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D368C.s")
