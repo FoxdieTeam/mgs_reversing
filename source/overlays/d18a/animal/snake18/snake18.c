@@ -1022,16 +1022,16 @@ void d18a_snake18_800CCB0C(TARGET *target)
 extern unsigned short GM_WeaponTypes[];
 extern Snake18Type    d18a_dword_800C36C8[];
 
-typedef struct _Snake18WeaponDispatch
+typedef struct WeaponCreateEntry
 {
-    void *(*f0)(CONTROL *, OBJECT *, int, int *, int);
-    int     f4;
-} Snake18WeaponDispatch;
-extern Snake18WeaponDispatch d18a_dword_800C3878[];
+    void *mCreateActorFn;
+    void *mStateFn;
+} WeaponCreateEntry;
+extern WeaponCreateEntry d18a_dword_800C3878[];
 
 void d18a_snake18_800CCF30(Snake18Work *work)
 {
-    Snake18WeaponDispatch *e;
+    WeaponCreateEntry *e;
     void *(*fn)(CONTROL *, OBJECT *, int, int *, int);
     int wid;
     void *actor = work->f850;
@@ -1049,11 +1049,11 @@ void d18a_snake18_800CCF30(Snake18Work *work)
     e = &d18a_dword_800C3878[wid];
     if (GM_CurrentWeaponId >= 0)
     {
-        work->f860 = &linkvarbuf[GM_CurrentWeaponId + 17];
+        work->f860 = &GM_CurrentWeapon;
     }
 
-    d18a_snake18_800CB7BC(work, e->f4);
-    fn = e->f0;
+    d18a_snake18_800CB7BC(work, (int)e->mStateFn);
+    fn = e->mCreateActorFn;
     if (fn)
     {
         actor = fn(&work->control, &work->body, 4, &work->f85C, work->f930);
