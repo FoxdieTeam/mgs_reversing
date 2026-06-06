@@ -30,7 +30,9 @@ typedef struct _Snake18Init
     short   f8;          // 0x8CC
     char    pad_C[2];
     short   fC;          // 0x8D0
-    char    pad_E[6];
+    short   fE;          // 0x8D2
+    short   f10;         // 0x8D4
+    char    pad_12[2];
 } Snake18Init;
 
 typedef struct _Snake18Work
@@ -1851,7 +1853,52 @@ void d18a_snake18_800D0B84(Snake18Work *work)
 
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D0BF4.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D0E3C.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D1064.s")
+void d18a_snake18_800D1064(Snake18Work *work)
+{
+    unsigned short  status = work->pad->status;
+    int             turn;
+    int             n;
+    int             d;
+    Snake18Init    *init = &work->f8C4;
+
+    if (!(status & 0xA000))
+    {
+        return;
+    }
+
+    turn = work->control.turn.vy;
+
+    if (status & 0x8000)
+    {
+        if (work->f7E4 & 0x4000)
+            n = 0x50 - work->pad->left_dx;
+        else
+            n = 1;
+
+        if (work->f7E4 & 0x4000)
+            d = 0x50;
+        else
+            d = 1;
+
+        turn += init->f10 * (n & 0xFF) / d;
+    }
+    else
+    {
+        if (work->f7E4 & 0x4000)
+            n = work->pad->left_dx + 0x50;
+        else
+            n = 1;
+
+        if (work->f7E4 & 0x4000)
+            d = 0x4F;
+        else
+            d = 1;
+
+        turn -= init->fE * (n & 0xFF) / d;
+    }
+
+    work->control.turn.vy = turn;
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D11A8.s")
 void d18a_snake18_800D1300(Snake18Work *work)
 {
