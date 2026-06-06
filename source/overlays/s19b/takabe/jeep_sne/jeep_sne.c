@@ -92,8 +92,67 @@ extern SVECTOR s19b_dword_800C39F8;
 #define BODY_FLAG   ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_GBOUND )
 #define WEAPON_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE )
 
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D4188.s")
-extern int s19b_jeep_sne_800D4188(Work *work);
+extern void s19b_jeep_sne_800D424C(Work *work, int arg1);
+extern void s19b_jeep_sne_800D4290(Work *work, int arg1);
+extern void s19b_jeep_sne_800D43AC(Work *work, int arg1);
+extern void s19b_jeep_sne_800D4414(Work *work, int arg1);
+extern void s19b_jeep_sne_800D4574(Work *work, int arg1);
+extern void s19b_jeep_sne_800D46D4(Work *work, int arg1);
+
+int s19b_jeep_sne_800D4188(Work *work)
+{
+    int flags = work->u.st.field_800;
+
+    if (flags & 2)
+    {
+        work->u.st.field_7EC = (void *)s19b_jeep_sne_800D46D4;
+        work->u.st.field_7F4 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        return 1;
+    }
+    if (flags & 1)
+    {
+        work->u.st.field_7EC = (void *)s19b_jeep_sne_800D424C;
+        work->u.st.field_7F4 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        return 1;
+    }
+    if (flags & 0x20)
+    {
+        work->u.st.field_7EC = (void *)s19b_jeep_sne_800D4414;
+        work->u.st.field_7F4 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        return 1;
+    }
+    if (flags & 0x200)
+    {
+        work->u.st.field_7EC = (void *)s19b_jeep_sne_800D4574;
+        work->u.st.field_7F4 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        return 1;
+    }
+    if (flags & 0x1000)
+    {
+        work->u.st.field_7EC = (void *)s19b_jeep_sne_800D43AC;
+        work->u.st.field_7F4 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        return 1;
+    }
+    if ((flags & 0x10000) == 0)
+    {
+        work->u.st.field_7EC = (void *)s19b_jeep_sne_800D4290;
+        work->u.st.field_7F4 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        return 1;
+    }
+    return 0;
+}
 
 void s19b_jeep_sne_800D424C(Work *work, int arg1)
 {
