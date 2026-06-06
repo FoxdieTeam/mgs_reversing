@@ -2,6 +2,7 @@
 #include "game/game.h"
 #include "linkvar.h"
 #include "psxdefs.h"
+#include <rand.h>
 
 typedef struct _JeepLiqWork
 {
@@ -16,14 +17,28 @@ typedef struct _JeepLiqWork
     /* m_segs1[17] @ 0x1D8 - poked as scalars below by the setters */
     char            pad_seg1[0x1F0 - 0x188 - sizeof(MOTION_CONTROL)];
     int             f1F0;         /* 0x1F0 */
-    char            pad_3D4[0x3D4 - 0x1F4];
+    char            pad_360[0x360 - 0x1F4];
+    int             field_360;    /* 0x360 */
+    char            pad_3A0[0x3A0 - 0x360 - sizeof(int)];
+    int             field_3A0;    /* 0x3A0 */
+    int             field_3A4;    /* 0x3A4 */
+    int             field_3A8;    /* 0x3A8 */
+    char            pad_3B0[0x3B0 - 0x3A8 - sizeof(int)];
+    int             field_3B0;    /* 0x3B0 */
+    int             field_3B4;    /* 0x3B4 */
+    char            pad_3D0[0x3D0 - 0x3B4 - sizeof(int)];
+    int             field_3D0;    /* 0x3D0 */
     int             field_3D4;
     int             field_3D8;
     int             field_3DC;
     int             field_3E0;
     int             field_3E4;
     int             field_3E8;
-    char            pad_segs2[0x43C - 0x3EC];
+    int             field_3EC;    /* 0x3EC */
+    int             field_3F0;    /* 0x3F0 */
+    char            pad_3F4[0x3F8 - 0x3F0 - sizeof(int)];
+    int             field_3F8;    /* 0x3F8 */
+    char            pad_segs2[0x43C - 0x3F8 - sizeof(int)];
     MOTION_SEGMENT  m_segs2[17];  /* 0x43C */
     SVECTOR         svecs1[16];   /* 0x6A0 */
     SVECTOR         svecs2[16];   /* 0x720 */
@@ -63,8 +78,14 @@ typedef struct _JEEP_SYSTEM_S
     CONTROL *control;
     char     pad2[0x10];
     SVECTOR  pos;
-    char     pad3[0x54 - 0x18 - sizeof(SVECTOR)];
+    char     pad3a[0x24 - 0x18 - sizeof(SVECTOR)];
+    short    field_24;
+    char     pad3b[0x30 - 0x24 - sizeof(short)];
+    int      field_30;
+    char     pad3c[0x54 - 0x30 - sizeof(int)];
     int      field_54;
+    char     pad5c[0x5C - 0x54 - sizeof(int)];
+    int      field_5C;
 } JEEP_SYSTEM_S;
 
 extern JEEP_SYSTEM_S Takabe_JeepSystem;
@@ -82,12 +103,22 @@ extern void *NewJeepBullet(MATRIX *world, int side, int mode, int mode2);
 extern void  s19b_jblood_800C7FB8(MATRIX *world);
 extern void  ReadRotMatrix(MATRIX *m);
 
+extern int   s19b_jeep_mrl_800D399C(void);
+extern int   s19b_jeep_liq_800D771C(int center, int from, int to);
+extern void  s19b_jeep_liq_800D6FB8(JeepLiqWork *work);
+
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D6FB8.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7114.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7200.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7330.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D769C.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D76B0.s")
+void s19b_jeep_liq_800D76B0(JeepLiqWork *work)
+{
+    ((void (*)(void))work->field_3DC)();
+    work->field_3A0 = 0;
+    ((void (*)(JeepLiqWork *))work->field_3F8)(work);
+    s19b_jeep_liq_800D6FB8(work);
+}
 
 void s19b_jeep_liq_800D76F8(JeepLiqWork *work, int arg1)
 {
@@ -100,12 +131,72 @@ void s19b_jeep_liq_800D76F8(JeepLiqWork *work, int arg1)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D771C.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D77F0.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7860.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D797C.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D79EC.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7A5C.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7ACC.s")
+void s19b_jeep_liq_800D77F0(JeepLiqWork *work)
+{
+    int v = work->field_360 - (Takabe_JeepSystem.field_30 - Takabe_JeepSystem.field_24);
+    s19b_jeep_mrl_800D399C();
+    work->field_3B0 = s19b_jeep_liq_800D771C(work->field_3B0, 0x753, v);
+    work->field_3A8 = GV_NearSpeed(work->field_3A8, work->field_3B0, 5);
+}
+void s19b_jeep_liq_800D7860(JeepLiqWork *work)
+{
+    int s1 = work->field_360 - (Takabe_JeepSystem.field_30 - Takabe_JeepSystem.field_24);
+    int a1 = s19b_jeep_mrl_800D399C();
+
+    if (work->field_3D4 == 0)
+    {
+        if (work->field_3B4 & 8)
+        {
+            int v1 = work->field_3A8 - 0x32;
+            int v0;
+            work->field_3A8 = v1;
+            v0 = v1 - v1 / 16;
+            work->field_3A8 = v0;
+            work->field_3B0 = v0;
+            work->field_3D4 = 0x3c;
+            Takabe_JeepSystem.field_54 |= 2;
+        }
+        else if (s1 >= 0x5dd)
+        {
+            work->field_3B0 = GV_NearSpeed(work->field_3B0, a1 + 0x32, 7);
+            Takabe_JeepSystem.field_54 |= 0x1000;
+        }
+    }
+    else
+    {
+        work->field_3B0 = s19b_jeep_liq_800D771C(work->field_3B0, 0xbb8, s1);
+        work->field_3D4--;
+    }
+    work->field_3A8 = GV_NearSpeed(work->field_3A8, work->field_3B0, 5);
+}
+void s19b_jeep_liq_800D797C(JeepLiqWork *work)
+{
+    int v = work->field_360 - (Takabe_JeepSystem.field_30 - Takabe_JeepSystem.field_24);
+    s19b_jeep_mrl_800D399C();
+    work->field_3B0 = s19b_jeep_liq_800D771C(work->field_3B0, 0, v);
+    work->field_3A8 = GV_NearSpeed(work->field_3A8, work->field_3B0, 5);
+}
+void s19b_jeep_liq_800D79EC(JeepLiqWork *work)
+{
+    int v = work->field_360 - (Takabe_JeepSystem.field_30 - Takabe_JeepSystem.field_24);
+    s19b_jeep_mrl_800D399C();
+    work->field_3B0 = s19b_jeep_liq_800D771C(work->field_3B0, -0x177, v);
+    work->field_3A8 = GV_NearSpeed(work->field_3A8, work->field_3B0, 5);
+}
+void s19b_jeep_liq_800D7A5C(JeepLiqWork *work)
+{
+    int v = work->field_360 - (Takabe_JeepSystem.field_30 - Takabe_JeepSystem.field_24);
+    s19b_jeep_mrl_800D399C();
+    work->field_3B0 = s19b_jeep_liq_800D771C(work->field_3B0, 0xbb8, v);
+    work->field_3A8 = GV_NearSpeed(work->field_3A8, work->field_3B0, 5);
+}
+void s19b_jeep_liq_800D7ACC(JeepLiqWork *work)
+{
+    int v = work->field_360 - (Takabe_JeepSystem.field_30 - Takabe_JeepSystem.field_24);
+    s19b_jeep_mrl_800D399C();
+    work->field_3B0 = s19b_jeep_liq_800D771C(work->field_3B0, 0x1194, v);
+    work->field_3A8 = GV_NearSpeed(work->field_3A8, work->field_3B0, 5);
+}
 
 void s19b_jeep_liq_800D7B3C(JeepLiqWork *work, int arg1)
 {
@@ -117,21 +208,296 @@ void s19b_jeep_liq_800D7B3C(JeepLiqWork *work, int arg1)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7B60.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7BB0.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7C0C.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7CBC.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7D68.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7E2C.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7F20.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D8014.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D8044.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D8118.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D81A8.s")
+int s19b_jeep_liq_800D7B60(int center, int range)
+{
+    return (rand() * range >> 15) - range / 2 + center;
+}
+void s19b_jeep_liq_800D7BB0(JeepLiqWork *work)
+{
+    if (++work->field_3E0 == 0x1e)
+    {
+        work->field_3A4 = s19b_jeep_liq_800D7B60(0, 0x4b0);
+        work->field_3E0 = 0;
+    }
+    work->field_3A0 = GV_NearSpeed(work->field_3A0, work->field_3A4, 0x1e);
+}
+void s19b_jeep_liq_800D7C0C(JeepLiqWork *work)
+{
+    int n = work->field_3E0 + 1;
+    work->field_3E0 = n;
+
+    switch (work->field_3E4)
+    {
+    case 0:
+        work->field_3A4 = 0x546;
+        work->field_3A0 = GV_NearSpeed(work->field_3A0, 0x546, 0x32);
+        if (work->field_3E0 == 0x28)
+        {
+            work->field_3E4 = 1;
+            work->field_3E0 = 0x13;
+        }
+        break;
+    case 1:
+        if (n == 0x14)
+        {
+            work->field_3A4 = s19b_jeep_liq_800D7B60(0x4e2, 0xfa);
+            work->field_3E0 = 0;
+        }
+        work->field_3A0 = GV_NearSpeed(work->field_3A0, work->field_3A4, 0x1e);
+        break;
+    }
+}
+void s19b_jeep_liq_800D7CBC(JeepLiqWork *work)
+{
+    int n = work->field_3E0 + 1;
+    work->field_3E0 = n;
+
+    switch (work->field_3E4)
+    {
+    case 0:
+        work->field_3A4 = 0x5dc;
+        if (work->field_3E0 == 0x28)
+        {
+            work->field_3E4 = 1;
+            work->field_3E0 = 0x13;
+        }
+        work->field_3A0 = GV_NearSpeed(work->field_3A0, work->field_3A4, 0x32);
+        break;
+    case 1:
+        if (n == 0x14)
+        {
+            work->field_3A4 = s19b_jeep_liq_800D7B60(0x5dc, 0xfa);
+            work->field_3E0 = 0;
+        }
+        work->field_3A0 = GV_NearSpeed(work->field_3A0, work->field_3A4, 0x1e);
+        break;
+    }
+}
+void s19b_jeep_liq_800D7D68(JeepLiqWork *work)
+{
+    int n = work->field_3E0 + 1;
+    work->field_3E0 = n;
+
+    switch (work->field_3E4)
+    {
+    case 0:
+        if (n == 1)
+        {
+            work->field_3A4 = s19b_jeep_liq_800D7B60(0x2ee, 0x190);
+        }
+        else if (n == 0x1e)
+        {
+            work->field_3E4 = 1;
+            work->field_3E0 = 0;
+        }
+        work->field_3A0 = GV_NearSpeed(work->field_3A0, work->field_3A4, 0x32);
+        break;
+    case 1:
+        if (n == 1)
+        {
+            work->field_3A4 = -0x226;
+        }
+        else if (n == 0x3c)
+        {
+            work->field_3E4 = 0;
+            work->field_3E0 = 0;
+        }
+        work->field_3A0 = GV_NearSpeed(work->field_3A0, work->field_3A4, 0x64);
+        break;
+    }
+}
+void s19b_jeep_liq_800D7E2C(JeepLiqWork *work)
+{
+    int n = work->field_3E0 + 1;
+    work->field_3E0 = n;
+
+    switch (work->field_3E4)
+    {
+    case 0:
+        if (n == 1)
+        {
+            work->field_3A4 = s19b_jeep_liq_800D7B60(-0x2ee, 0x96);
+        }
+        else if (n == 0x3c)
+        {
+            work->field_3E4 = 1;
+            work->field_3E0 = 0;
+        }
+        {
+            int r = GV_NearSpeed(work->field_3A0, work->field_3A4, 0x4b);
+            work->field_3A0 = r;
+            if (r == work->field_3A4)
+            {
+                Takabe_JeepSystem.field_54 |= 0x2000;
+            }
+        }
+        break;
+    case 1:
+        if (n == 1)
+        {
+            work->field_3A4 = s19b_jeep_liq_800D7B60(-0x2ee, 0xfa);
+        }
+        else if (n == 0x1e)
+        {
+            work->field_3E4 = 1;
+            work->field_3E0 = 0;
+        }
+        work->field_3A0 = GV_NearSpeed(work->field_3A0, work->field_3A4, 0x19);
+        break;
+    }
+}
+void s19b_jeep_liq_800D7F20(JeepLiqWork *work)
+{
+    int n = work->field_3E0 + 1;
+    work->field_3E0 = n;
+
+    switch (work->field_3E4)
+    {
+    case 0:
+        if (n == 1)
+        {
+            work->field_3A4 = s19b_jeep_liq_800D7B60(0x2ee, 0x96);
+            work->field_3E0 = 0;
+        }
+        else if (n == 0x3c)
+        {
+            work->field_3E4 = 1;
+            work->field_3E0 = 0;
+        }
+        {
+            int r = GV_NearSpeed(work->field_3A0, work->field_3A4, 0x4b);
+            work->field_3A0 = r;
+            if (r == work->field_3A4)
+            {
+                Takabe_JeepSystem.field_54 |= 0x2000;
+            }
+        }
+        break;
+    case 1:
+        if (n == 1)
+        {
+            work->field_3A4 = s19b_jeep_liq_800D7B60(0x2ee, 0xfa);
+        }
+        else if (n == 0x1e)
+        {
+            work->field_3E4 = 1;
+            work->field_3E0 = 0;
+        }
+        work->field_3A0 = GV_NearSpeed(work->field_3A0, work->field_3A4, 0x19);
+        break;
+    }
+}
+void s19b_jeep_liq_800D8014(JeepLiqWork *work, int arg1)
+{
+    if (work->field_3F8 != arg1)
+    {
+        work->field_3F8 = arg1;
+        work->field_3E4 = 0;
+        work->field_3E0 = 0;
+        work->field_3B4 &= ~2;
+    }
+}
+extern unsigned char s19b_dword_800C3A9C[];
+extern int s19b_jeep_mrl_800D39B4(SVECTOR *dst);
+
+void s19b_jeep_liq_800D8044(JeepLiqWork *work)
+{
+    SVECTOR sp10;
+
+    s19b_jeep_mrl_800D39B4(&sp10);
+    if (Takabe_JeepSystem.field_5C != 0 && work->field_3F0 >= 0x15)
+    {
+        work->field_3F0 = 0;
+        if (work->field_3A0 > 0)
+        {
+            s19b_jeep_liq_800D7B3C(work, (int)s19b_jeep_liq_800D7E2C);
+        }
+        else
+        {
+            s19b_jeep_liq_800D7B3C(work, (int)s19b_jeep_liq_800D7F20);
+        }
+        Takabe_JeepSystem.field_54 |= 0x1000;
+        GM_SeSet((SVECTOR *)&work->prim, s19b_dword_800C3A9C[GV_RandU(4)]);
+    }
+    else
+    {
+        work->field_3F0++;
+    }
+}
+void s19b_jeep_liq_800D8118(JeepLiqWork *work)
+{
+    SVECTOR dst;
+    int     d;
+
+    s19b_jeep_mrl_800D39B4(&dst);
+    d = *(short *)&work->world - dst.vz;
+    if (d < 0)
+    {
+        work->field_3EC = 5;
+        s19b_jeep_liq_800D76F8(work, (int)s19b_jeep_liq_800D79EC);
+        s19b_jeep_liq_800D7B3C(work, (int)s19b_jeep_liq_800D7D68);
+    }
+    else
+    {
+        work->field_3EC = 2;
+        s19b_jeep_liq_800D76F8(work, (int)s19b_jeep_liq_800D79EC);
+        s19b_jeep_liq_800D7B3C(work, (int)s19b_jeep_liq_800D7F20);
+    }
+}
+extern void s19b_jlamp_800D0A20(int arg0);
+extern void s19b_jeep_liq_800D7114(JeepLiqWork *work);
+
+void s19b_jeep_liq_800D81A8(JeepLiqWork *work)
+{
+    int n = work->field_3F0;
+    work->field_3F0 = n + 1;
+    if (n == 0)
+    {
+        GM_GameStatus |= STATE_RADIO_OFF | STATE_LIFEBAR_OFF | STATE_MENU_OFF | STATE_RADAR_OFF | STATE_PADRELEASE;
+        s19b_jlamp_800D0A20(0);
+    }
+    else if (n >= 0x150)
+    {
+        GM_GameStatus &= ~(STATE_RADIO_OFF | STATE_LIFEBAR_OFF | STATE_MENU_OFF | STATE_RADAR_OFF | STATE_PADRELEASE);
+        s19b_jeep_liq_800D8014(work, (int)s19b_jeep_liq_800D8044);
+        s19b_jeep_liq_800D76F8(work, (int)s19b_jeep_liq_800D77F0);
+        work->field_3D0 = (int)s19b_jeep_liq_800D7114;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D8250.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D8420.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D8620.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D8670.s")
+void s19b_spark2_m_800D8620(JeepLiqWork *work)
+{
+    GM_FreeTarget(work->f8E4);
+    GM_FreeHomingTarget(work->homing);
+    GM_FreeObject(&work->obj2);
+    GM_FreeControl((CONTROL *)&work->world);
+    GM_FreeObject(&work->obj);
+}
+extern void s19b_jeep_liq_800D8250(JeepLiqWork *work);
+extern int  s19b_jeep_liq_800D8420(JeepLiqWork *work, int name);
+extern const char s19b_aJeepliqc_800DDE80[];
+extern const char s19b_dword_800DDE8C[];
+
+void *s19b_spark2_m_800D8670(CONTROL *arg0, DG_PRIM *arg1, int *arg2)
+{
+    JeepLiqWork *work = GV_NewActor(GV_ACTOR_USER, sizeof(JeepLiqWork));
+
+    if (work != NULL)
+    {
+        GV_SetNamedActor(work, s19b_jeep_liq_800D8250, s19b_spark2_m_800D8620,
+                         s19b_aJeepliqc_800DDE80);
+        work->control = arg0;
+        work->prim = arg1;
+        work->f944 = arg2;
+        if (s19b_jeep_liq_800D8420(work, GV_StrCode(s19b_dword_800DDE8C)) < 0)
+        {
+            GV_DestroyActor(work);
+            return NULL;
+        }
+    }
+    return work;
+}
 
 void s19b_spark2_m_800D8724(JeepLiqWork *work, int arg1, int arg2)
 {
