@@ -397,7 +397,14 @@ void s19b_jeep_liq_800D8014(JeepLiqWork *work, int arg1)
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D81A8.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D8250.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D8420.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D8620.s")
+void s19b_spark2_m_800D8620(JeepLiqWork *work)
+{
+    GM_FreeTarget(work->f8E4);
+    GM_FreeHomingTarget(work->homing);
+    GM_FreeObject(&work->obj2);
+    GM_FreeControl((CONTROL *)&work->world);
+    GM_FreeObject(&work->obj);
+}
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D8670.s")
 
 void s19b_spark2_m_800D8724(JeepLiqWork *work, int arg1, int arg2)
