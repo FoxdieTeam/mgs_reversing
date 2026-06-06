@@ -65,7 +65,8 @@ typedef struct _Work
     int            field_920;         /* 0x920 */
     char           pad3a[0x928 - 0x920 - sizeof(int)];
     int            field_928;         /* 0x928 */
-    char           pad3b[0x93C - 0x928 - sizeof(int)];
+    int            field_92C;         /* 0x92C */
+    char           pad3b[0x93C - 0x92C - sizeof(int)];
 
     int            hp;                /* 0x93C */
 
@@ -475,7 +476,58 @@ void s19b_jlamp2_800D5260(Work *work)
         s19b_jblood_800C8070(&mtx);
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp2_800D5328.s")
+extern int  s19b_jlamp2_800D519C(Work *work);
+extern int  s19b_dword_800C3A00;
+
+void s19b_jlamp2_800D5328(Work *work, int arg1)
+{
+    int flags = work->field_92C;
+
+    if (s19b_jlamp2_800D519C(work) != 0)
+    {
+        return;
+    }
+    if (flags & 1)
+    {
+        s19b_jlamp2_800D5260(work);
+    }
+    if (arg1 == 0)
+    {
+        if (work->field_928 != 0)
+        {
+            *(int *)((char *)&work->field_928) = 0;
+            GM_ConfigObjectAction(&work->body, *(short *)&s19b_dword_800C3A00, 0, 4);
+            work->field_7E0 = DG_ZeroVector;
+        }
+    }
+    if (flags & 2)
+    {
+        if (work->field_928 != 2)
+        {
+            *(int *)((char *)&work->field_928) = 2;
+            GM_ConfigObjectAction(&work->body, *(short *)((char *)&s19b_dword_800C3A00 + 4), 0, 4);
+            work->field_7E0 = DG_ZeroVector;
+        }
+    }
+    else if (flags & 4)
+    {
+        if (work->field_928 != 3)
+        {
+            *(int *)((char *)&work->field_928) = 3;
+            GM_ConfigObjectAction(&work->body, *(short *)((char *)&s19b_dword_800C3A00 + 6), 0, 4);
+            work->field_7E0 = DG_ZeroVector;
+        }
+    }
+    else
+    {
+        if (work->field_928 != 0)
+        {
+            *(int *)((char *)&work->field_928) = 0;
+            GM_ConfigObjectAction(&work->body, *(short *)&s19b_dword_800C3A00, 0, 4);
+            work->field_7E0 = DG_ZeroVector;
+        }
+    }
+}
 extern void s19b_jlamp2_800D5054(Work *work, int arg1, int arg2);
 extern void s19b_jlamp2_800D5328(Work *work, int arg1);
 extern void s19b_jlamp2_800D571C(Work *work, int arg1);
