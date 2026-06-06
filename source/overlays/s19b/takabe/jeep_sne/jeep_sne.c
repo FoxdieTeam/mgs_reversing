@@ -81,6 +81,11 @@ typedef struct _Work
 
 extern JEEP_SYSTEM Takabe_JeepSystem;
 
+/* gcc sinks a plain `work->field_928 = x` store into the branch-delay slot
+   of the following GM_ call; routing the store through a char* alias keeps
+   it in source order, matching the original. */
+#define SET_WEAPON_ACTION(work, val) (*(int *)((char *)&(work)->field_928) = (val))
+
 extern SVECTOR s19b_dword_800C39F8;
 
 #define EXEC_LEVEL  GV_ACTOR_AFTER
@@ -554,7 +559,7 @@ void s19b_jlamp2_800D5328(Work *work, int arg1)
     {
         if (work->field_928 != 0)
         {
-            *(int *)((char *)&work->field_928) = 0;
+            SET_WEAPON_ACTION(work, 0);
             GM_ConfigObjectAction(&work->body, *(short *)&s19b_dword_800C3A00, 0, 4);
             work->field_7E0 = DG_ZeroVector;
         }
@@ -563,7 +568,7 @@ void s19b_jlamp2_800D5328(Work *work, int arg1)
     {
         if (work->field_928 != 2)
         {
-            *(int *)((char *)&work->field_928) = 2;
+            SET_WEAPON_ACTION(work, 2);
             GM_ConfigObjectAction(&work->body, *(short *)((char *)&s19b_dword_800C3A00 + 4), 0, 4);
             work->field_7E0 = DG_ZeroVector;
         }
@@ -572,7 +577,7 @@ void s19b_jlamp2_800D5328(Work *work, int arg1)
     {
         if (work->field_928 != 3)
         {
-            *(int *)((char *)&work->field_928) = 3;
+            SET_WEAPON_ACTION(work, 3);
             GM_ConfigObjectAction(&work->body, *(short *)((char *)&s19b_dword_800C3A00 + 6), 0, 4);
             work->field_7E0 = DG_ZeroVector;
         }
@@ -581,7 +586,7 @@ void s19b_jlamp2_800D5328(Work *work, int arg1)
     {
         if (work->field_928 != 0)
         {
-            *(int *)((char *)&work->field_928) = 0;
+            SET_WEAPON_ACTION(work, 0);
             GM_ConfigObjectAction(&work->body, *(short *)&s19b_dword_800C3A00, 0, 4);
             work->field_7E0 = DG_ZeroVector;
         }
@@ -600,7 +605,7 @@ void s19b_jlamp2_800D5484(Work *work, int arg1)
         work->field_940 = 1;
         if (work->field_928 != 1)
         {
-            *(int *)((char *)&work->field_928) = 1;
+            SET_WEAPON_ACTION(work, 1);
             GM_ConfigObjectAction(&work->body, *(short *)((char *)&s19b_dword_800C3A00 + 2), 0, 4);
             work->field_7E0 = DG_ZeroVector;
         }
@@ -621,7 +626,7 @@ void s19b_jlamp2_800D5484(Work *work, int arg1)
             work->control.turn.vx = 0;
             if (work->field_928 != 0)
             {
-                *(int *)((char *)&work->field_928) = 0;
+                SET_WEAPON_ACTION(work, 0);
                 GM_ConfigObjectAction(&work->body, *(short *)&s19b_dword_800C3A00, 0, 4);
                 work->field_7E0 = DG_ZeroVector;
             }
@@ -654,7 +659,7 @@ void s19b_jlamp2_800D55E8(Work *work, int arg1)
     {
         if (work->field_928 != 8)
         {
-            *(int *)((char *)&work->field_928) = 8;
+            SET_WEAPON_ACTION(work, 8);
             GM_ConfigObjectAction(&work->body, *(short *)&s19b_dword_800C3A10, 0, 4);
             work->field_7E0 = DG_ZeroVector;
         }
@@ -668,7 +673,7 @@ void s19b_jlamp2_800D55E8(Work *work, int arg1)
         work->control.turn.vx = 0;
         if (work->field_928 != 0)
         {
-            *(int *)((char *)&work->field_928) = 0;
+            SET_WEAPON_ACTION(work, 0);
             GM_ConfigObjectAction(&work->body, *(short *)&s19b_dword_800C3A00, 0, 4);
             work->field_7E0 = DG_ZeroVector;
         }
@@ -690,7 +695,7 @@ void s19b_jlamp2_800D571C(Work *work, int arg1)
     {
         if (work->field_928 != 4)
         {
-            *(int *)((char *)&work->field_928) = 4;
+            SET_WEAPON_ACTION(work, 4);
             GM_ConfigObjectAction(&work->body, *(short *)&s19b_dword_800C3A08, 0, 4);
             work->field_7E0 = DG_ZeroVector;
         }
@@ -722,7 +727,7 @@ void s19b_jlamp2_800D5820(Work *work, int arg1)
     {
         /* the char* launder keeps the store ahead of the call; a plain
            work->field_928 = 5 sinks it into the delay slot and diverges */
-        *(int *)((char *)&work->field_928) = 5;
+        SET_WEAPON_ACTION(work, 5);
         GM_ConfigObjectAction(&work->body,
                               *(short *)((char *)&s19b_dword_800C3A08 + 2), 0, 4);
         work->field_7E0 = DG_ZeroVector;
@@ -746,7 +751,7 @@ void s19b_jlamp2_800D5894(Work *work)
         if (work->field_928 != 0)
         {
             /* char* launder keeps the store ahead of the call (see 800D5820) */
-            *(int *)((char *)&work->field_928) = 0;
+            SET_WEAPON_ACTION(work, 0);
             GM_ConfigObjectAction(&work->body, *(short *)&s19b_dword_800C3A00, 0, 4);
             work->field_7E0 = DG_ZeroVector;
         }
