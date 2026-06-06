@@ -28,6 +28,34 @@ void s19b_jeep2_800D6A70(Jeep2Work *work)
     GM_FreeTarget(work->target);
     GV_DestroyActor(work->field_20);
 }
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep2_800D6AD8.s")
+extern int s19b_dword_800C3A94;
+
+void s19b_jeep2_800D6AD8(Jeep2Work *work)
+{
+    TARGET *target = GM_AllocTarget();
+
+    work->target = target;
+    GM_SetTarget(target, TARGET_PUSH, NO_SIDE, (SVECTOR *)&s19b_dword_800C3A94);
+}
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep2_800D6B18.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep2_800D6F24.s")
+
+extern void s19b_jeep2_800D667C(Jeep2Work *work);
+extern int  s19b_jeep2_800D6B18(Jeep2Work *work, int arg0, int arg1);
+extern const char s19b_aJeepc_800DDE44[];
+
+void *s19b_jeep2_800D6F24(int arg0, int arg1)
+{
+    Jeep2Work *work = GV_NewActor(GV_ACTOR_USER, 0x3FC);
+
+    if (work != NULL)
+    {
+        GV_SetNamedActor(work, s19b_jeep2_800D667C, s19b_jeep2_800D6A70,
+                         s19b_aJeepc_800DDE44);
+        if (s19b_jeep2_800D6B18(work, arg0, arg1) < 0)
+        {
+            GV_DestroyActor(work);
+            return NULL;
+        }
+    }
+    return work;
+}
