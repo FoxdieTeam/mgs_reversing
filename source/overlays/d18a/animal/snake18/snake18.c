@@ -62,7 +62,7 @@ typedef struct _Snake18Work
     int     f840;        // 0x840
     char    pad_848[0x848 - 0x840 - sizeof(int)];
     SVECTOR f848;        // 0x848
-    char    pad_854[0x854 - 0x848 - sizeof(SVECTOR)];
+    void   *f850;        // 0x850
     int     f854;        // 0x854
     int     f858;        // 0x858
     int     f85C;        // 0x85C
@@ -954,7 +954,49 @@ void d18a_snake18_800CCB0C(TARGET *target)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CCB50.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CCF30.s")
+extern unsigned short GM_WeaponTypes[];
+extern Snake18Type    d18a_dword_800C36C8[];
+
+typedef struct _Snake18WeaponDispatch
+{
+    void *(*f0)(CONTROL *, OBJECT *, int, int *, int);
+    int     f4;
+} Snake18WeaponDispatch;
+extern Snake18WeaponDispatch d18a_dword_800C3878[];
+
+void d18a_snake18_800CCF30(Snake18Work *work)
+{
+    Snake18WeaponDispatch *e;
+    void *(*fn)(CONTROL *, OBJECT *, int, int *, int);
+    int wid;
+    void *actor = work->f850;
+
+    if (actor)
+    {
+        GV_DestroyActor(actor);
+    }
+
+    actor = NULL;
+    work->f864 = GM_CurrentWeaponId;
+    wid = GM_CurrentWeaponId;
+    work->f868 = GM_WeaponTypes[wid + 1];
+
+    e = &d18a_dword_800C3878[wid];
+    if (GM_CurrentWeaponId >= 0)
+    {
+        work->f860 = &linkvarbuf[GM_CurrentWeaponId + 17];
+    }
+
+    d18a_snake18_800CB7BC(work, e->f4);
+    fn = e->f0;
+    if (fn)
+    {
+        actor = fn(&work->control, &work->body, 4, &work->f85C, work->f930);
+    }
+    work->f850 = actor;
+
+    work->f8A8 = &d18a_dword_800C36C8[GM_CurrentWeaponId];
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CD040.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CD2C4.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CD4C0.s")
