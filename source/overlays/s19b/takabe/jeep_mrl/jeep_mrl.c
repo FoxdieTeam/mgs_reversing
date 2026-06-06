@@ -1,6 +1,6 @@
 #include "common.h"
 
-extern int s19b_dword_800DE64C;
+extern void *s19b_dword_800DE64C;
 
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D2CE8.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D2D3C.s")
@@ -10,10 +10,12 @@ extern int s19b_dword_800DE64C;
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D36A4.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D37D0.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D3928.s")
+
 int s19b_jeep_mrl_800D399C(void)
 {
     return *(int *)((char *)s19b_dword_800DE64C + 0x3D0);
 }
+
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D39B4.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D39F0.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D3A54.s")
@@ -22,3 +24,16 @@ int s19b_jeep_mrl_800D399C(void)
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D3E98.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D4098.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D40D4.s")
+#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D4188.s")
+#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D424C.s")
+#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D4290.s")
+#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D43AC.s")
+#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D4414.s")
+#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D4488.s")
+#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D4500.s")
+#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D4574.s")
+#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D45E8.s")
+#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D4660.s")
+#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D46D4.s")
+#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D4744.s")
+#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D47B8.s")

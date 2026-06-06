@@ -303,12 +303,10 @@ int s19b_dword_800C39D8 = 0x01C20000;
 int s19b_dword_800C39DC = 0x0000FED4;
 int s19b_dword_800C39E0 = 0x03930159;
 int s19b_dword_800C39E4 = 0x0000FE48;
-int s19b_dword_800C39E8 = 0x00000800;
-int s19b_dword_800C39EC = 0x00000800;
-int s19b_dword_800C39F0 = 0x00000800;
-int s19b_dword_800C39F4 = 0x00000000;
-int s19b_dword_800C39F8 = 0x02EE0096;
-int s19b_dword_800C39FC = 0x00000096;
+
+VECTOR s19b_dword_800C39E8 = {2048, 2048, 2048};
+SVECTOR s19b_dword_800C39F8 = {150, 750, 150};
+
 int s19b_dword_800C3A00 = 0x00010000;
 int s19b_dword_800C3A04 = 0x00030002;
 int s19b_dword_800C3A08 = 0x00050004;

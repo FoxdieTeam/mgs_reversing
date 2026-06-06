@@ -53,24 +53,10 @@ extern SVECTOR s19b_dword_800C39F8;
 #define BODY_FLAG   ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_GBOUND )
 #define WEAPON_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE )
 
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D4188.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D424C.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D4290.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D43AC.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D4414.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D4488.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D4500.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D4574.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D45E8.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D4660.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D46D4.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D4744.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D47B8.s")
-
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D47F8.s")
-void s19b_jeep_sne_800D47F8(Work *);
+void s19b_jeep_sne_800D47F8(Work *); // Act
 
-void s19b_jeep_sne_800D4CA0(Work *work)
+void InitTarget(Work *work)
 {
     TARGET *target;
     int     hp;
@@ -83,7 +69,7 @@ void s19b_jeep_sne_800D4CA0(Work *work)
     target->map = work->root_ctrl->map->index;
 }
 
-int s19b_jeep_sne_800D4D34(Work *work, int name)
+static int GetResources(Work *work, int name)
 {
     CONTROL *control;
     OBJECT  *body;
@@ -119,7 +105,7 @@ int s19b_jeep_sne_800D4D34(Work *work, int name)
 
     work->target = GM_AllocTarget();
 
-    s19b_jeep_sne_800D4CA0(work);
+    InitTarget(work);
 
     control->r_sphere = -2;
 
@@ -133,7 +119,7 @@ int s19b_jeep_sne_800D4D34(Work *work, int name)
     return 0;
 }
 
-void s19b_jeep_sne_800D4F5C(Work *work)
+static void Die(Work *work)
 {
     GM_FreeTarget(work->target);
     GM_FreeControl(&work->control);
@@ -150,12 +136,12 @@ void *NewJeepSnake(CONTROL *root_ctrl, MATRIX *root_mat)
     work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(work, s19b_jeep_sne_800D47F8, s19b_jeep_sne_800D4F5C, "jeep_sne.c");
+        GV_SetNamedActor(work, s19b_jeep_sne_800D47F8, Die, "jeep_sne.c");
 
         work->root_ctrl = root_ctrl;
         work->root_mat = root_mat;
 
-        if (s19b_jeep_sne_800D4D34(work, GV_StrCode("スネーク")) < 0)
+        if (GetResources(work, GV_StrCode("スネーク")) < 0)
         {
             GV_DestroyActor(work);
             return NULL;
@@ -164,8 +150,6 @@ void *NewJeepSnake(CONTROL *root_ctrl, MATRIX *root_mat)
 
     return work;
 }
-
-// new file
 
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp2_800D5054.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp2_800D50F4.s")
