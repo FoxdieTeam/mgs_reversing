@@ -26,7 +26,8 @@ typedef struct _JeepLiqWork
     char            pad_3B0[0x3B0 - 0x3A8 - sizeof(int)];
     int             field_3B0;    /* 0x3B0 */
     int             field_3B4;    /* 0x3B4 */
-    char            pad_3D4[0x3D4 - 0x3B4 - sizeof(int)];
+    char            pad_3D0[0x3D0 - 0x3B4 - sizeof(int)];
+    int             field_3D0;    /* 0x3D0 */
     int             field_3D4;
     int             field_3D8;
     int             field_3DC;
@@ -443,7 +444,26 @@ void s19b_jeep_liq_800D8118(JeepLiqWork *work)
         s19b_jeep_liq_800D7B3C(work, (int)s19b_jeep_liq_800D7F20);
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D81A8.s")
+extern void s19b_jlamp_800D0A20(int arg0);
+extern void s19b_jeep_liq_800D7114(JeepLiqWork *work);
+
+void s19b_jeep_liq_800D81A8(JeepLiqWork *work)
+{
+    int n = work->field_3F0;
+    work->field_3F0 = n + 1;
+    if (n == 0)
+    {
+        GM_GameStatus |= 0x104a2000;
+        s19b_jlamp_800D0A20(0);
+    }
+    else if (n >= 0x150)
+    {
+        GM_GameStatus &= 0xefb5dfff;
+        s19b_jeep_liq_800D8014(work, (int)s19b_jeep_liq_800D8044);
+        s19b_jeep_liq_800D76F8(work, (int)s19b_jeep_liq_800D77F0);
+        work->field_3D0 = (int)s19b_jeep_liq_800D7114;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D8250.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D8420.s")
 void s19b_spark2_m_800D8620(JeepLiqWork *work)
