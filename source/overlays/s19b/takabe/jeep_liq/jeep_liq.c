@@ -34,7 +34,8 @@ typedef struct _JeepLiqWork
     int             field_3E4;
     int             field_3E8;
     int             field_3EC;    /* 0x3EC */
-    char            pad_3F0[0x3F8 - 0x3EC - sizeof(int)];
+    int             field_3F0;    /* 0x3F0 */
+    char            pad_3F4[0x3F8 - 0x3F0 - sizeof(int)];
     int             field_3F8;    /* 0x3F8 */
     char            pad_segs2[0x43C - 0x3F8 - sizeof(int)];
     MOTION_SEGMENT  m_segs2[17];  /* 0x43C */
@@ -82,6 +83,8 @@ typedef struct _JEEP_SYSTEM_S
     int      field_30;
     char     pad3c[0x54 - 0x30 - sizeof(int)];
     int      field_54;
+    char     pad5c[0x5C - 0x54 - sizeof(int)];
+    int      field_5C;
 } JEEP_SYSTEM_S;
 
 extern JEEP_SYSTEM_S Takabe_JeepSystem;
@@ -393,9 +396,33 @@ void s19b_jeep_liq_800D8014(JeepLiqWork *work, int arg1)
         work->field_3B4 &= ~2;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D8044.s")
+extern unsigned char s19b_dword_800C3A9C[];
 extern int s19b_jeep_mrl_800D39B4(SVECTOR *dst);
 
+void s19b_jeep_liq_800D8044(JeepLiqWork *work)
+{
+    SVECTOR sp10;
+
+    s19b_jeep_mrl_800D39B4(&sp10);
+    if (Takabe_JeepSystem.field_5C != 0 && work->field_3F0 >= 0x15)
+    {
+        work->field_3F0 = 0;
+        if (work->field_3A0 > 0)
+        {
+            s19b_jeep_liq_800D7B3C(work, (int)s19b_jeep_liq_800D7E2C);
+        }
+        else
+        {
+            s19b_jeep_liq_800D7B3C(work, (int)s19b_jeep_liq_800D7F20);
+        }
+        Takabe_JeepSystem.field_54 |= 0x1000;
+        GM_SeSet((SVECTOR *)&work->prim, s19b_dword_800C3A9C[GV_RandU(4)]);
+    }
+    else
+    {
+        work->field_3F0++;
+    }
+}
 void s19b_jeep_liq_800D8118(JeepLiqWork *work)
 {
     SVECTOR dst;
