@@ -377,7 +377,7 @@ int s11d_hind_800CB054(char *work)
     }
 
     v0 = GCL_StrToInt(GCL_NextStr());
-    s11d_hind_800C9908(s5, v0);
+    s11d_hind_800C9908((Work *)s5, v0);
 
     __asm__ volatile(".set noreorder
 "
