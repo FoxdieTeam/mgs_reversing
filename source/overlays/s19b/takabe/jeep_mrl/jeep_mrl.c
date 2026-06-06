@@ -26,7 +26,8 @@ typedef struct _Work
     int      field_3D4;                                /* 0x3D4 */
     char     pad_3E0[0x3E0 - 0x3D4 - sizeof(int)];
     int      field_3E0;                                /* 0x3E0 */
-    char     pad_7E8[0x7E8 - 0x3E0 - sizeof(int)];
+    char     pad_7E4[0x7E4 - 0x3E0 - sizeof(int)];
+    int      field_7E4;                                /* 0x7E4 */
     TARGET  *target;                                   /* 0x7E8 */
     void    *field_7EC;                                /* 0x7EC: current state handler */
     char     pad_7F4[0x7F4 - 0x7EC - sizeof(void *)];
@@ -289,12 +290,11 @@ void s19b_jeep_mrl_800D4290(Work *work, int arg1)
     {
         diff = 0x400;
     }
-    /* scratch slot at 0x7E4 */
-    *(int *)((char *)work + 0x7E4) = diff;
+    work->field_7E4 = diff;
 
     if (work->field_800 & 0x10000)
     {
-        *(int *)((char *)work + 0x7E4) = 0;
+        work->field_7E4 = 0;
         if (s19b_jeep_mrl_800D4188(work) == 0)
         {
             work->field_7EC = (void *)s19b_jeep_mrl_800D424C;
