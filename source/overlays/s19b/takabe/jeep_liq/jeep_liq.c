@@ -474,7 +474,30 @@ void s19b_spark2_m_800D8620(JeepLiqWork *work)
     GM_FreeControl((CONTROL *)&work->world);
     GM_FreeObject(&work->obj);
 }
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D8670.s")
+extern void s19b_jeep_liq_800D8250(JeepLiqWork *work);
+extern int  s19b_jeep_liq_800D8420(JeepLiqWork *work, int name);
+extern const char s19b_aJeepliqc_800DDE80[];
+extern const char s19b_dword_800DDE8C[];
+
+void *s19b_spark2_m_800D8670(CONTROL *arg0, DG_PRIM *arg1, int *arg2)
+{
+    JeepLiqWork *work = GV_NewActor(GV_ACTOR_USER, sizeof(JeepLiqWork));
+
+    if (work != NULL)
+    {
+        GV_SetNamedActor(work, s19b_jeep_liq_800D8250, s19b_spark2_m_800D8620,
+                         s19b_aJeepliqc_800DDE80);
+        work->control = arg0;
+        work->prim = arg1;
+        work->f944 = arg2;
+        if (s19b_jeep_liq_800D8420(work, GV_StrCode(s19b_dword_800DDE8C)) < 0)
+        {
+            GV_DestroyActor(work);
+            return NULL;
+        }
+    }
+    return work;
+}
 
 void s19b_spark2_m_800D8724(JeepLiqWork *work, int arg1, int arg2)
 {
