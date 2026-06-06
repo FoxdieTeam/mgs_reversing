@@ -186,8 +186,58 @@ void s19b_jeep_liq_800D7BB0(JeepLiqWork *work)
     }
     work->field_3A0 = GV_NearSpeed(work->field_3A0, work->field_3A4, 0x1e);
 }
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7C0C.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7CBC.s")
+void s19b_jeep_liq_800D7C0C(JeepLiqWork *work)
+{
+    int n = work->field_3E0 + 1;
+    work->field_3E0 = n;
+
+    switch (work->field_3E4)
+    {
+    case 0:
+        work->field_3A4 = 0x546;
+        work->field_3A0 = GV_NearSpeed(work->field_3A0, 0x546, 0x32);
+        if (work->field_3E0 == 0x28)
+        {
+            work->field_3E4 = 1;
+            work->field_3E0 = 0x13;
+        }
+        break;
+    case 1:
+        if (n == 0x14)
+        {
+            work->field_3A4 = s19b_jeep_liq_800D7B60(0x4e2, 0xfa);
+            work->field_3E0 = 0;
+        }
+        work->field_3A0 = GV_NearSpeed(work->field_3A0, work->field_3A4, 0x1e);
+        break;
+    }
+}
+void s19b_jeep_liq_800D7CBC(JeepLiqWork *work)
+{
+    int n = work->field_3E0 + 1;
+    work->field_3E0 = n;
+
+    switch (work->field_3E4)
+    {
+    case 0:
+        work->field_3A4 = 0x5dc;
+        if (work->field_3E0 == 0x28)
+        {
+            work->field_3E4 = 1;
+            work->field_3E0 = 0x13;
+        }
+        work->field_3A0 = GV_NearSpeed(work->field_3A0, work->field_3A4, 0x32);
+        break;
+    case 1:
+        if (n == 0x14)
+        {
+            work->field_3A4 = s19b_jeep_liq_800D7B60(0x5dc, 0xfa);
+            work->field_3E0 = 0;
+        }
+        work->field_3A0 = GV_NearSpeed(work->field_3A0, work->field_3A4, 0x1e);
+        break;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7D68.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7E2C.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7F20.s")
