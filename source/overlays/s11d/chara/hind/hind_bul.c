@@ -2,6 +2,7 @@
 #include "libgv/libgv.h"
 #include "game/game.h"
 #include "game/control.h"
+#include "okajima/spark.h"
 
 typedef struct _HindBulWork
 {
