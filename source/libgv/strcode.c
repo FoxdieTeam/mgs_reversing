@@ -1,5 +1,7 @@
 #include <sys/types.h>
 
+#define BIT_LEN 16
+
 /**
  *  @brief Generate a simple hash from a string.
  *
@@ -31,7 +33,7 @@ int GV_StrCode( const char *string )
     u_short id = 0;
 
     while (( c = *p++ )) {
-        id = ((id << 5) | (id >> 11));
+        id = ((id << 5) | (id >> (BIT_LEN - 5)));
         id += c;
     }
     return id;
