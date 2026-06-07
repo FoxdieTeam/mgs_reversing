@@ -345,8 +345,8 @@ char *GM_GetArea(int flag);
 /* chara.c */
 void GM_InitChara(void);
 void GM_ResetChara(void);
-NEWCHARA GM_GetChara(unsigned char *script);
-NEWCHARA GM_GetCharaID(int chara_id);
+void *GM_GetChara(unsigned char *script);
+void *GM_GetCharaID(int chara_id);
 
 /* alert.c */
 void GM_SetSong(int song);

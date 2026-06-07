@@ -476,7 +476,7 @@ static int GM_Command_chara(int argc, char **argv)
 {
     int         ret;
     int         name;
-    NEWCHARA    func;
+    NEWCHARA   *func;
 
     func = GM_GetChara(GCL_NextStr());
     if (func != NULL)
