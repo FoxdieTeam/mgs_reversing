@@ -1,4 +1,4 @@
-// #include "common.h"
+#include "game/game.h"
 
 int s07a_dword_800C35F8[8] = { 2500, 3500, 4000, 5000, 5500, 5600, 5700, 5800 };
 unsigned short s07a_dword_800C3618[8] = { 450, 15, 30, 60, 90, 0, 32001, 30000 };
@@ -13,80 +13,67 @@ short ActTable_800C3628[54] =
     0x1D, 0x00, 0x01, 0x33, 0x11, 0x12, 0x2B, 0x16, 0x00
 };
 
-int s07a_dword_800C3694 = 0x0000FF6A;
-int s07a_dword_800C3698 = 0x0000012C;
-int s07a_dword_800C369C = 0x00000000;
-int s07a_dword_800C36A0 = 0x00000064;
-int s07a_dword_800C36A4 = 0x0000FC00;
-int s07a_dword_800C36A8 = 0x00000000;
-int s07a_dword_800C36AC = 0x00000000;
-int s07a_dword_800C36B0 = 0x00000064;
-int s07a_dword_800C36B4 = 0x0000FC00;
-int s07a_dword_800C36B8 = 0x00000000;
-int s07a_dword_800C36BC = 0x800E2FA4;
-int s07a_dword_800C36C0 = 0x800E2F98;
-int s07a_dword_800C36C4 = 0x800E2F8C;
-int s07a_dword_800C36C8 = 0x800D9A6C;
-int s07a_dword_800C36CC = 0x800D9B14;
-int s07a_dword_800C36D0 = 0x800D9C5C;
-int s07a_dword_800C36D4 = 0x800D9C98;
-int s07a_dword_800C36D8 = 0xFE0C0005;
-int s07a_dword_800C36DC = 0x00000050;
-int s07a_dword_800C36E0 = 0xFDDA0000;
-int s07a_dword_800C36E4 = 0x000003B6;
-int s07a_dword_800C36E8 = 0x00320064;
-int s07a_dword_800C36EC = 0x000A0019;
-int s07a_dword_800C36F0 = 0x00000000;
-int s07a_dword_800C36F4 = 0x00000001;
-int s07a_dword_800C36F8 = 0x00000002;
-int s07a_dword_800C36FC = 0x00000004;
-int s07a_dword_800C3700 = 0x00002000;
-int s07a_dword_800C3704 = 0x00000040;
-int s07a_dword_800C3708 = 0x00000080;
-int s07a_dword_800C370C = 0x00000200;
-int s07a_dword_800C3710 = 0x00000400;
-int s07a_dword_800C3714 = 0x00000800;
-int s07a_dword_800C3718 = 0x00000100;
-int s07a_dword_800C371C = 0x00800000;
-int s07a_dword_800C3720 = 0x01000000;
-int s07a_dword_800C3724 = 0x00000000;
-int s07a_dword_800C3728 = 0x00000000;
-int s07a_dword_800C372C = 0x00000000;
-int s07a_dword_800C3730 = 0x00000000;
-int s07a_dword_800C3734 = 0x00000001;
-int s07a_dword_800C3738 = 0x00000002;
-int s07a_dword_800C373C = 0x00000004;
-int s07a_dword_800C3740 = 0x00002000;
-int s07a_dword_800C3744 = 0x00000040;
-int s07a_dword_800C3748 = 0x00000080;
-int s07a_dword_800C374C = 0x00000200;
-int s07a_dword_800C3750 = 0x00000400;
-int s07a_dword_800C3754 = 0x00000800;
-int s07a_dword_800C3758 = 0x00000000;
-int s07a_dword_800C375C = 0x00000000;
-int s07a_dword_800C3760 = 0x00000000;
-int s07a_dword_800C3764 = 0x00000000;
-int s07a_dword_800C3768 = 0x00000000;
-int s07a_dword_800C376C = 0x0000001F;
-int s07a_dword_800C3770 = 0x00001D4C;
-int s07a_dword_800C3774 = 0x0000B1E0;
-int s07a_dword_800C3778 = 0x00001194;
-int s07a_dword_800C377C = 0x0000E2B4;
+SVECTOR s07a_dword_800C3694 = {-150, 0, 300};
+SVECTOR s07a_dword_800C369C = {0, 0, 100};
+SVECTOR s07a_dword_800C36A4 = {-1024, 0, 0};
+SVECTOR s07a_dword_800C36AC = {0, 0, 100};
+SVECTOR s07a_dword_800C36B4 = {-1024, 0, 0};
 
-const char s07a_aErrerrerrsettimeover_800E2E40[] = "Err Err Err  Set time Over\n";
-const char s07a_aErrerrerrsetdirover_800E2E5C[] = "Err Err Err  Set Dir Over\n";
-const char s07a_aErrerrerrsoundbuffover_800E2E78[] = "Err Err Err Sound Buff Over !!\n";
+char *s07a_dword_800C36BC[] =
+{
+    (char *)0x800E2FA4,
+    (char *)0x800E2F98,
+    (char *)0x800E2F8C
+};
 
-const char s07a_dword_800E2E98[] = "メイン";
-const char s07a_dword_800E2EA0[] = "女子トイレ";
+void *s07a_dword_800C36C8[] = 
+{
+    (void *)0x800D9A6C,
+    (void *)0x800D9B14,
+    (void *)0x800D9C5C,
+    (void *)0x800D9C98
+};
 
-const char s07a_aErrnotenoughwork_800E2EAC[] = "Err not enough work !!\n";
-const char s07a_aMerylcactionpointerr_800E2EC4[] = "meryl.c : action point Err\n";
-const char s07a_aAsiatoooo_800E2EE0[] = "asiatoooo";
-const char s07a_aEnemyworksized_800E2EEC[] = " enemy work size = %d \n";
-const char s07a_aMeryl7_800E2F04[] = "meryl7.c";
-const char s07a_dword_800E2F0D = 0x20;
-const char s07a_dword_800E2F0E = 0x20;
-const char s07a_dword_800E2F0F = 0x56;
-const char s07a_dword_800E2F10[] = "dymc_seg.c";
-const char s07a_dword_800E2F1B = 0x30;
+SVECTOR s07a_dword_800C36D8 = {5, -500, 80};
+SVECTOR s07a_dword_800C36E0 = {0, -550, 950};
+
+u_short s07a_dword_800C36E8[] = {100, 50, 25, 10};
+
+int s07a_dword_800C36F0[32] =
+{
+    0,
+    0x1,
+    0x2,
+    0x4,
+    0x2000,
+    0x40,
+    0x80,
+    0x200,
+    0x400,
+    0x800,
+    0x100,
+    0x800000,
+    0x1000000,
+    0,
+    0,
+    0,
+    0,
+    0x1,
+    0x2,
+    0x4,
+    0x2000,
+    0x40,
+    0x80,
+    0x200,
+    0x400,
+    0x800,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0x1F
+};
+
+SVECTOR s07a_dword_800C3770 = {7500, 0, -20000};
+SVECTOR s07a_dword_800C3778 = {4500, 0, -7500};

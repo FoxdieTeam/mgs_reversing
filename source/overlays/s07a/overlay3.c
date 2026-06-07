@@ -1,7 +1,7 @@
-const char rp_shift_800E2F40[] = {'8', 0xff, 0xe8, 0x3};
-const char s07a_dword_800E2F44[] = {'X', 0x2, 0x0, 0x0};
-const char force_800E2F48[] = {0x5, 0x0, 0x0, 0x0};
-const char s07a_aD_800E2F4C[] = "d";
-const char size_800E2F50[] = {0x90, 0x1, 0xe8, 0x3};
-const char s07a_dword_800E2F54[] = {0x90, 0x1, 0x0, 0x0};
+#include "game/game.h"
+
+const SVECTOR rp_shift_800E2F40 = {-200, 1000, 600};
+const SVECTOR force_800E2F48 = {5, 0, 100};
+const SVECTOR size_800E2F50 = {400, 1000, 400};
+
 const char s07a_dword_800E2F58[] = {0x0, 0x0, 0x0, 0x0};

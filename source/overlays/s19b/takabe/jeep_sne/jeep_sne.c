@@ -79,9 +79,9 @@ extern SVECTOR s19b_dword_800C39F8;
 #define WEAPON_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE )
 
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D47F8.s")
-void s19b_jeep_sne_800D47F8(Work *);
+void s19b_jeep_sne_800D47F8(Work *); // Act
 
-void s19b_jeep_sne_800D4CA0(Work *work)
+void InitTarget(Work *work)
 {
     TARGET *target;
     int     hp;
@@ -94,7 +94,7 @@ void s19b_jeep_sne_800D4CA0(Work *work)
     target->map = work->root_ctrl->map->index;
 }
 
-int s19b_jeep_sne_800D4D34(Work *work, int name)
+static int GetResources(Work *work, int name)
 {
     CONTROL *control;
     OBJECT  *body;
@@ -130,7 +130,7 @@ int s19b_jeep_sne_800D4D34(Work *work, int name)
 
     work->target = GM_AllocTarget();
 
-    s19b_jeep_sne_800D4CA0(work);
+    InitTarget(work);
 
     control->r_sphere = -2;
 
@@ -144,7 +144,7 @@ int s19b_jeep_sne_800D4D34(Work *work, int name)
     return 0;
 }
 
-void s19b_jeep_sne_800D4F5C(Work *work)
+static void Die(Work *work)
 {
     GM_FreeTarget(work->target);
     GM_FreeControl(&work->control);
@@ -161,12 +161,12 @@ void *NewJeepSnake(CONTROL *root_ctrl, MATRIX *root_mat)
     work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(work, s19b_jeep_sne_800D47F8, s19b_jeep_sne_800D4F5C, "jeep_sne.c");
+        GV_SetNamedActor(work, s19b_jeep_sne_800D47F8, Die, "jeep_sne.c");
 
         work->root_ctrl = root_ctrl;
         work->root_mat = root_mat;
 
-        if (s19b_jeep_sne_800D4D34(work, GV_StrCode("スネーク")) < 0)
+        if (GetResources(work, GV_StrCode("スネーク")) < 0)
         {
             GV_DestroyActor(work);
             return NULL;
@@ -175,8 +175,6 @@ void *NewJeepSnake(CONTROL *root_ctrl, MATRIX *root_mat)
 
     return work;
 }
-
-// new file
 
 extern void DG_SetPos(MATRIX *);
 extern void NewBlood(MATRIX *, int);
@@ -226,6 +224,7 @@ int s19b_jlamp2_800D50F4(Work *work)
     }
     return 0;
 }
+
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp2_800D519C.s")
 extern void *NewJeepBullet(MATRIX *world, int side, int mode, int mode2);
 extern void NewAnime_8005D604(MATRIX *world);

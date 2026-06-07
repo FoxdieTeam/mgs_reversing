@@ -97,6 +97,7 @@ void s19b_jeep_mrl_800D2D3C(Work *work)
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D368C.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D36A4.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D37D0.s")
+
 extern void s19b_jeep_mrl_800D2D3C(Work *work);
 
 void s19b_jeep_mrl_800D3928(Work *work)
@@ -109,6 +110,7 @@ void s19b_jeep_mrl_800D3928(Work *work)
     }
     work->field_3C8 = GV_NearSpeed(work->field_3C8, work->field_3CA, 0x1E);
 }
+
 int s19b_jeep_mrl_800D399C(void)
 {
     return s19b_dword_800DE64C->field_3D0;
@@ -139,6 +141,7 @@ int s19b_jeep_mrl_800D39F0(void)
     }
     return count;
 }
+
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D3A54.s")
 extern SVECTOR s19b_dword_800C39D0[];
 extern int s19b_dword_800C399C;
@@ -159,6 +162,7 @@ void s19b_jeep_mrl_800D3CA8(Work *work, int arg1)
 }
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D3D30.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D3E98.s")
+
 void s19b_jeep_mrl_800D4098(Work *work)
 {
     GM_FreeTarget(work->target);

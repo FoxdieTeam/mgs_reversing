@@ -73,9 +73,6 @@ int s07a_meryl_unk_800DB470( WatcherWork *work, HZD_ZON *zone )
     return ( (unsigned short)zone->padding - 2 ) < 2u;
 }
 
-extern const char s07a_aOkokokodd_800E2FB0[]; //" okokoko %d -> %d \n";
-extern const char s07a_aHazuredd_800E2FC4[];  //" hazure %d -> %d \n";
-
 int s07a_meryl_unk_800DB484( WatcherWork *work, int addr, int addr2 )
 {
     SVECTOR svec;
@@ -104,11 +101,11 @@ int s07a_meryl_unk_800DB484( WatcherWork *work, int addr, int addr2 )
 
     if ( HZD_OnlineHazardCheck( hzd, &svec, &svec2, HZD_CHK_D_SEGMENT, SEGMENT_ATR ) != 0 )
     {
-        printf((char *)s07a_aOkokokodd_800E2FB0, addr, addr2);
+        printf(" okokoko %d -> %d \n", addr, addr2);
         return 1;
     }
 
-    printf((char *)s07a_aHazuredd_800E2FC4, addr, addr2);
+    printf(" hazure %d -> %d \n", addr, addr2);
     return 0;
 }
 
@@ -294,8 +291,6 @@ void s07a_meryl_unk_800DB8EC( WatcherWork* work )
 
 extern SVECTOR s07a_dword_800C3770;
 
-extern const char s07a_aToilletzoned_800E2FD8[];// " toillet zone = %d \n";
-
 void s07a_meryl_unk_800DB908( WatcherWork* work )
 {
     int addr;
@@ -304,7 +299,7 @@ void s07a_meryl_unk_800DB908( WatcherWork* work )
 
     hzd = work->control.map->hzd;
     addr = HZD_GetAddress( hzd, &s07a_dword_800C3770, -1 ) & 0xFF;
-    printf((char *)s07a_aToilletzoned_800E2FD8, addr);
+    printf(" toillet zone = %d \n", addr);
     zone = &hzd->def->zones[ addr ];
     work->target_addr = addr | ( addr << 8 );
 
@@ -324,7 +319,7 @@ void s07a_meryl_unk_800DB9B8( WatcherWork* work )
 
     hzd = work->control.map->hzd;
     addr = HZD_GetAddress( hzd, &s07a_dword_800C3778, -1 ) & 0xFF;
-    printf((char *)s07a_aToilletzoned_800E2FD8, addr);
+    printf(" toillet zone = %d \n", addr);
     zone = &hzd->def->zones[ addr ];
     work->target_addr = addr | ( addr << 8 );
 
@@ -625,8 +620,6 @@ int s07a_meryl_unk_800DBFC8(SVECTOR* vec) {
     return 1;
 }
 
-extern const char s07a_aKroekroekrokeorkdd_800E2FF0[];// = " kroekroekrokeork %d %d\n";
-
 int s07a_meryl_unk_800DC00C( WatcherWork *work )
 {
     int count3 = work->count3;
@@ -653,7 +646,7 @@ int s07a_meryl_unk_800DC00C( WatcherWork *work )
 
     if ( s07a_meryl_unk_800DBFC8( &work->control.mov ) == 0 )
     {
-        printf( (char *)s07a_aKroekroekrokeorkdd_800E2FF0, work->control.mov.vx , work->control.mov.vz );
+        printf( " kroekroekrokeork %d %d\n", work->control.mov.vx , work->control.mov.vz );
         return 1;
     }
 
@@ -715,15 +708,13 @@ void s07a_meryl_unk_800DC18C( WatcherWork* work )
     work->alert_level = 0;
 }
 
-extern const char s07a_aOuttoilletgoaddrd_800E300C[];
-
 void s07a_meryl_unk_800DC214( WatcherWork *work )
 {
     int mode;
     if ( ( work->think3 == 40 ) && ( s07a_meryl_unk_800DCD58( work ) ) )
     {
         s07a_meryl_unk_800DB340( work );
-        printf( (char *)s07a_aOuttoilletgoaddrd_800E300C, work->target_addr );
+        printf( " out toillet go addr=%d \n", work->target_addr );
         work->next_node = work->n_nodes;
         s07a_meryl_unk_800DB8EC( work );
         work->count3 = 0;
@@ -752,11 +743,6 @@ void s07a_meryl_unk_800DC214( WatcherWork *work )
     work->alert_level = 0;
 }
 
-extern const char s07a_a_800E3028[];// = "0+";
-extern const char s07a_a_800E302C[];// = "1+";
-extern const char s07a_a_800E3030[];// = "2+";
-extern const char s07a_a_800E3034[];// = "3+";
-
 extern void s07a_meryl_unk_800DE810( WatcherWork *work );
 
 void s07a_meryl_unk_800DC310( WatcherWork *work )
@@ -764,19 +750,19 @@ void s07a_meryl_unk_800DC310( WatcherWork *work )
 
     switch ( work->think2 ) {
     case 14:
-        printf( (char *)s07a_a_800E3028 );
+        printf( "0+" );
         s07a_meryl_unk_800DC0DC( work );
         return;
     case 15:
-        printf( (char *)s07a_a_800E302C );
+        printf( "1+" );
         s07a_meryl_unk_800DC18C( work );
         return;
     case 16:
-        printf( (char *)s07a_a_800E3030 );
+        printf( "2+" );
         s07a_meryl_unk_800DC214( work );
         return;
     case 7:
-        printf( (char *)s07a_a_800E3034 );
+        printf( "3+" );
         work->control.radar_atr |= 0x1000;
         s07a_meryl_unk_800DE810( work );
         return;
@@ -957,8 +943,6 @@ int s07a_meryl_unk_800DC5B0( WatcherWork *work )
     return GV_VecDir2( &svec );
 }
 
-extern const char s07a_aCrootdrootdpatdnpointsd_800E3038[];// = "c_root= %d root %d pat %d n_points = %d \n";
-
 int s07a_meryl_unk_800DC7CC( WatcherWork *work )
 {
     int i;
@@ -972,7 +956,7 @@ int s07a_meryl_unk_800DC7CC( WatcherWork *work )
     patrol = map->hzd->def->routes;
     patrol = &patrol[ param->root ];
 
-    fprintf( 1, s07a_aCrootdrootdpatdnpointsd_800E3038, param->c_root, param->root, patrol, patrol->n_points );
+    fprintf( 1, "c_root= %d root %d pat %d n_points = %d \n", param->c_root, param->root, (int)patrol, patrol->n_points );
     work->n_nodes = patrol->n_points;
 
     if ( work->n_nodes <= 0 ) return -1;
@@ -994,8 +978,6 @@ int s07a_meryl_unk_800DC7CC( WatcherWork *work )
 
 extern unsigned short s07a_dword_800C36E8[4];
 extern int s07a_dword_800C36F0[32];
-
-extern const char s07a_aActdtimeddirdcond_800E3064[];// = "act=%d, time=%d dir=%d con=%d\n";
 
 extern int DirectTrace_800DCE48( WatcherWork *, int );
 
@@ -1019,7 +1001,7 @@ start:
 
     if ( work->field_B78 == 2 )
     {
-        printf( (char *)s07a_aActdtimeddirdcond_800E3064, act, time, dir, con );
+        printf( "act=%d, time=%d dir=%d con=%d\n", act, time, dir, con );
     }
 
     if ( s07a_dword_800C36F0[ act ] == 0x1F )
@@ -1130,8 +1112,6 @@ int s07a_meryl_unk_800DCB64( WatcherWork* work )
     return 0;
 }
 
-extern const char s07a_aKirari_800E3084[];// = "kirari01";
-
 int s07a_meryl_unk_800DCBF4( WatcherWork* work )
 {
     int count;
@@ -1141,7 +1121,7 @@ int s07a_meryl_unk_800DCBF4( WatcherWork* work )
     if ( count == 0 )
     {
         MERYL_PutMark( work, 0 );
-        NewEyeflash( &work->body.objs->objs[6].world, &work->control.mov, s07a_aKirari_800E3084, 0 );
+        NewEyeflash( &work->body.objs->objs[6].world, &work->control.mov, "kirari01", 0 );
         COM_VibTime = 10;
     }
 
@@ -1289,14 +1269,12 @@ int s07a_meryl_unk_800DCF24( WatcherWork *work )
     return 0;
 }
 
-extern const char s07a_aRootchange_800E3090[];// = " Root Change !!\n";
-
 int s07a_meryl_unk_800DCF78( WatcherWork* work )
 {
 
     if ( work->param_c_root != work->param_root )
     {
-        fprintf( 1, s07a_aRootchange_800E3090 );
+        fprintf( 1, " Root Change !!\n" );
         work->param_root = work->param_c_root;
         s07a_meryl_unk_800DC7CC( work );
         return 1;
