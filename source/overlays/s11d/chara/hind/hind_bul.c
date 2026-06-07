@@ -14,7 +14,33 @@ typedef struct _HindBulWork
     char    pad_fc[0x17C - 0xF8 - sizeof(DG_PRIM *)];
 } HindBulWork;
 
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_bul_800CB794.s")
+int s11d_hind_bul_800CB794(HindBulWork *work)
+{
+    SVECTOR pos;
+    SVECTOR out;
+    SVECTOR diff;
+    int     hit;
+
+    if (work->field_E8 == 0)
+    {
+        return 0;
+    }
+
+    pos = work->control.mov;
+    GV_SubVec3((SVECTOR *)((char *)work + 0xF0), &pos, &diff);
+    GV_LenVec3(&diff, &out, GV_VecLen3(&diff), 2000);
+    GV_AddVec3(&pos, &out, &out);
+
+    hit = GM_Target_8002E1B8(&pos, &out, *(int *)((char *)work + 0xEC), &out, ENEMY_SIDE);
+    if (hit)
+    {
+        GM_MoveTarget((TARGET *)((char *)work + 0x9C), &out);
+        GM_PowerTarget((TARGET *)((char *)work + 0x9C));
+    }
+
+    return hit;
+}
+
 extern SVECTOR DG_ZeroVector;
 
 void s11d_hind_bul_800CB888(HindBulWork *work)
@@ -34,7 +60,50 @@ void s11d_hind_bul_800CB888(HindBulWork *work)
     work->prim->world.t[1] = work->control.mov.vy;
     work->prim->world.t[2] = work->control.mov.vz;
 }
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_bul_800CB938.s")
+void s11d_hind_bul_800CB938(HindBulWork *work)
+{
+    MATRIX  mat;
+    SVECTOR rot;
+    VECTOR  scale;
+    int     temp;
+
+    GM_ActControl(&work->control);
+
+    *(int *)((char *)work + 0xE4) -= 2000;
+    temp = *(unsigned short *)((char *)work + 0x22) + *(unsigned short *)((char *)work + 0x66);
+    *(short *)((char *)work + 0x22) = temp;
+
+    s11d_hind_bul_800CB888(work);
+
+    if (s11d_hind_bul_800CB794(work) != 0)
+    {
+        GV_DestroyActor(work);
+        return;
+    }
+
+    if (*(int *)((char *)work + 0xE4) <= 0)
+    {
+        rot.vx = -1024;
+        rot.vz = 0;
+        rot.vy = 0;
+        RotMatrixYXZ(&rot, &mat);
+
+        mat.t[0] = *(short *)((char *)work + 0xF0);
+        mat.t[1] = *(short *)((char *)work + 0xF2);
+        mat.t[2] = *(short *)((char *)work + 0xF4);
+
+        GM_SeSet((SVECTOR *)((char *)work + 0xF0), 0xB5);
+
+        scale.vz = 0x2000;
+        scale.vy = 0x2000;
+        scale.vx = 0x2000;
+        ScaleMatrix(&mat, &scale);
+        NewSpark(&mat, 1);
+
+        GV_DestroyActor(work);
+    }
+}
+
 void s11d_hind_bul_800CBA14(HindBulWork *work)
 {
     GM_FreeControl(&work->control);
