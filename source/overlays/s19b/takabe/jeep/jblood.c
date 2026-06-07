@@ -209,7 +209,7 @@ static void Act(Work *work)
     work->world.t[2] += Takabe_JeepSystem[3].vz;
 
     DG_SetPos(&work->world);
-    DG_PutPrim(&work->prim->world);
+    DG_PutPrim(work->prim);
 }
 
 static void Die(Work *work)

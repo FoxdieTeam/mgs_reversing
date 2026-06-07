@@ -244,7 +244,7 @@ int GlassGetResources_800D335C(GlassWork *work, int name, int map)
     work->world.t[2] = work->pos.vz;
 
     DG_SetPos(&work->world);
-    DG_PutPrim(&prim->world);
+    DG_PutPrim(prim);
 
     GlassInitPacks_800D2E88(work->prim->packs[0], tex, 0);
     GlassInitPacks_800D2E88(work->prim->packs[1], tex, 0);

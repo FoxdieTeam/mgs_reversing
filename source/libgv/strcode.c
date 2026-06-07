@@ -1,5 +1,7 @@
 #include <sys/types.h>
 
+#define BIT_LEN 16
+
 /**
  *  @brief Generate a simple hash from a string.
  *
@@ -31,27 +33,15 @@ int GV_StrCode( const char *string )
     u_short id = 0;
 
     while (( c = *p++ )) {
-        id = ((id << 5) | (id >> 11));
+        id = ((id << 5) | (id >> (BIT_LEN - 5)));
         id += c;
     }
     return id;
 }
 
-// This algorithm appears to be derived from Daniel J. Bernstein's "djb2"
-// (also known as DJBX33A), first reported on Usenet's comp.lang.c in 1991.
+// This algorithm appears to be derived from "djb2" (aka. DJBX33A),
+// first described by Daniel J. Bernstein on Usenet's comp.lang.c in 1991.
 //
 // Reference implementation:
 // http://www.cse.yorku.ca/~oz/hash.html
-//
-//    unsigned long
-//    hash(unsigned char *str)
-//    {
-//        unsigned long hash = 5381;
-//        int c;
-//
-//        while (c = *str++)
-//            hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
-//
-//        return hash;
-//    }
 //

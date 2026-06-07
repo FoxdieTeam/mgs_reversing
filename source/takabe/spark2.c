@@ -187,7 +187,7 @@ void s03e_spark2_800CA428(Spark2Work *work)
     work->world.t[1] -= 16;
 
     DG_SetPos(&work->world);
-    DG_PutPrim(&prim->world);
+    DG_PutPrim(prim);
 }
 
 void s03e_spark2_800CA520(Spark2Work *work)
@@ -215,7 +215,7 @@ int s03e_spark2_800CA55C(Spark2Work *work, MATRIX *world)
     }
 
     DG_SetPos(world);
-    DG_PutPrim(&prim->world);
+    DG_PutPrim(prim);
 
     light_pos = spark2_light_pos;
     DG_PutVector(&light_pos, &work->light_pos, 1);

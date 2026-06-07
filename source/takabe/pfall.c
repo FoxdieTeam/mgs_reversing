@@ -199,7 +199,7 @@ static int GetResources(Work *work, MATRIX *world)
     }
 
     DG_SetPos(world);
-    DG_PutPrim(&prim->world);
+    DG_PutPrim(prim);
 
     tex = DG_GetTexture(GV_StrCode("paper"));
     if (tex == NULL)

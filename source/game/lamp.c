@@ -341,7 +341,7 @@ static int GetResources(Work *work, int map, int name, int a3, int a4)
     mat.t[2] = svec1.vz;
 
     DG_SetPos(&mat);
-    DG_PutPrim(&prim->world);
+    DG_PutPrim(prim);
 
     prim->raise = param3;
     work->field_26 = a3;

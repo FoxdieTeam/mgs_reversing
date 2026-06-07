@@ -140,7 +140,7 @@ static int Asiato2Char_GetResources(Asiato2CharWork *work, MATRIX *world, int ar
     Asiato2Char_InitPacks(prim->packs[1], tex, 2, 48, 48, 48);
 
     DG_SetPos2(&pos, &rot);
-    DG_PutPrim(&work->prim->world);
+    DG_PutPrim(work->prim);
 
     return 0;
 }

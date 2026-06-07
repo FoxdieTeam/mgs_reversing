@@ -231,7 +231,7 @@ int GsplashGetResources_800D3F14(GsplashWork *work, MATRIX *pos)
     }
 
     DG_SetPos(pos);
-    DG_PutPrim(&prim->world);
+    DG_PutPrim(prim);
 
     tex = DG_GetTexture(GV_StrCode("glass"));
     if (tex == NULL)

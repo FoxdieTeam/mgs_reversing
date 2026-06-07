@@ -114,7 +114,7 @@ static void Act( Work *work )
     work->mat.m[1][1] = v0;
     work->mat.m[2][2] = v0;
     DG_SetPos( &work->mat );
-    DG_PutPrim( (MATRIX*)work->prim );
+    DG_PutPrim( work->prim );
     prim = work->prim;
     ShadePacks( prim->packs[0], prim->packs[1], 8, temp / 2 );
 }

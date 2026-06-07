@@ -347,7 +347,7 @@ static void Act(Work *work)
                 Snow_800C5234(entry->prim->packs[GV_Clock], 32, work->colors);
             }
 
-            DG_PutPrim(&entry->prim->world);
+            DG_PutPrim(entry->prim);
             entry++;
         }
 

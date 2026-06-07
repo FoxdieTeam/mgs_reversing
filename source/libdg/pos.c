@@ -6,89 +6,93 @@
 
 extern DG_CHANL DG_Chanls[3];
 
-void DG_SetPos( MATRIX *matrix )
+/*---------------------------------------------------------------------------*/
+
+void DG_SetPos( MATRIX *world )
 {
-    gte_SetRotMatrix(matrix);
-    gte_SetTransMatrix(matrix);
+    gte_SetRotMatrix( world );
+    gte_SetTransMatrix( world );
 }
 
-void DG_SetPos2( SVECTOR *svector, SVECTOR *svector2 )
+void DG_SetPos2( SVECTOR *mov, SVECTOR *rot )
 {
-    MATRIX m;
-    RotMatrixYXZ_gte(svector2, &m);
+    MATRIX tmp_mat;
 
-    m.t[0] = svector->vx;
-    m.t[1] = svector->vy;
-    m.t[2] = svector->vz;
+    RotMatrixYXZ_gte( rot, &tmp_mat );
 
-    gte_SetRotMatrix(&m);
-    gte_SetTransMatrix(&m);
+    tmp_mat.t[0] = mov->vx;
+    tmp_mat.t[1] = mov->vy;
+    tmp_mat.t[2] = mov->vz;
+
+    gte_SetRotMatrix( &tmp_mat );
+    gte_SetTransMatrix( &tmp_mat );
 }
 
-void DG_MovePos( SVECTOR *svector )
+void DG_MovePos( SVECTOR *mov )
 {
-    VECTOR vec;
+    VECTOR tmp_vec;
 
-    gte_ldv0(svector);
+    gte_ldv0( mov );
     gte_rt();
-    gte_stlvnl(&vec);
-    gte_SetTransVector(&vec);
+    gte_stlvnl( &tmp_vec );
+    gte_SetTransVector( &tmp_vec );
 }
 
-void DG_RotatePos( SVECTOR *svector )
+void DG_RotatePos( SVECTOR *rot )
 {
-    MATRIX matrix;
+    MATRIX tmp_mat;
 
-    RotMatrixYXZ_gte(svector, &matrix);
-    MulRotMatrix(&matrix);
-    gte_SetRotMatrix(&matrix);
+    RotMatrixYXZ_gte( rot, &tmp_mat );
+    MulRotMatrix( &tmp_mat );
+    gte_SetRotMatrix( &tmp_mat );
 }
+
+/*---------------------------------------------------------------------------*/
 
 void DG_PutObjs( DG_OBJS *objs )
 {
-    gte_ReadRotMatrix(&objs->world);
+    gte_ReadRotMatrix( &objs->world );
 }
 
-void DG_PutPrim( MATRIX *matrix )
+void DG_PutPrim( DG_PRIM *prim )
 {
-    gte_ReadRotMatrix(matrix);
+    gte_ReadRotMatrix( &prim->world );
 }
 
-void DG_PutVector( SVECTOR *svector, SVECTOR *svector2, int count )
+void DG_PutVector( SVECTOR *from, SVECTOR *to, int n )
 {
-    while (--count > -1)
-    {
-        gte_ldv0(svector);
+    while (--n >= 0) {
+        gte_ldv0( from );
         gte_rt();
-        gte_stsv(svector2);
-        svector++;
-        svector2++;
+        gte_stsv( to );
+        from++;
+        to++;
     }
 }
 
-void DG_RotVector( SVECTOR *svector, SVECTOR *svector2, int count )
+void DG_RotVector( SVECTOR *from, SVECTOR *to, int n )
 {
-    while (--count > -1)
-    {
-        gte_ldsv(svector);
+    while (--n >= 0) {
+        gte_ldsv( from );
         gte_rtir();
-        gte_stsv(svector2);
-        svector++;
-        svector2++;
+        gte_stsv( to );
+        from++;
+        to++;
     }
 }
 
-void DG_PersVector( SVECTOR *svector, DVECTOR *dvector, int count )
+void DG_PersVector( SVECTOR *from, DVECTOR *to, int n )
 {
-    while (--count > -1)
-    {
-        gte_ldv0(svector);
+    while (--n >= 0) {
+        gte_ldv0( from );
         gte_rtps();
-        gte_stsxy(dvector);
-        svector++;
-        dvector++;
+        gte_stsxy( to );
+        from++;
+        to++;
     }
 }
+
+/*---------------------------------------------------------------------------*/
 
 #define MAX_X (unsigned int)385
 #define MAX_Y (unsigned int)305

@@ -127,7 +127,7 @@ static int GetResources(Work *work, int which, int height, int arg3)
     InitPacks(prim->packs[1], tex, 2, 48, 48, 48);
 
     DG_SetPos(work->world);
-    DG_PutPrim(&work->prim->world);
+    DG_PutPrim(work->prim);
 
     return 0;
 }

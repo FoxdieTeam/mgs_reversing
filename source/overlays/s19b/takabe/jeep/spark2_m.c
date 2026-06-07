@@ -139,7 +139,7 @@ static void Act(Work *work)
     work->world.t[2] += Takabe_JeepSystem.pos.vz;
 
     DG_SetPos(&work->world);
-    DG_PutPrim(&work->prim->world);
+    DG_PutPrim(work->prim);
 }
 
 static void Die(Work *work)
@@ -160,7 +160,7 @@ static int GetResources(Work *work, MATRIX *world)
     if (prim != NULL)
     {
         DG_SetPos(world);
-        DG_PutPrim(&prim->world);
+        DG_PutPrim(prim);
         work->world = *world;
 
         InitPacks(prim->packs[0], 16, 0);

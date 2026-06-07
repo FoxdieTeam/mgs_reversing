@@ -120,7 +120,7 @@ static int AsiatoChar_GetResources(AsiatoCharWork *work, MATRIX *world, int arg2
             AsiatoChar_InitPacks(prim->packs[0], tex, 2, 48, 48, 48);
             AsiatoChar_InitPacks(prim->packs[1], tex, 2, 48, 48, 48);
             DG_SetPos2(&svec2, &svec1);
-            DG_PutPrim(&work->prim->world);
+            DG_PutPrim(work->prim);
             return 0;
         }
     }

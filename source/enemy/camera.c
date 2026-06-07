@@ -770,7 +770,7 @@ void CameraAct_800D5F64(CameraWork *work)
     {
         GM_ActControl(ctrl);
         GM_ActObject2((OBJECT *)&work->body);
-        DG_PutPrim(&work->field_194->world);
+        DG_PutPrim(work->field_194);
         if (work->body.objs->bound_mode != 0)
         {
             DG_GetLightMatrix2(&ctrl->mov, &work->light);

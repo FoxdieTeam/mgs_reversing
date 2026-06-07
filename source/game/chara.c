@@ -24,9 +24,9 @@ void GM_InitChara(void)
 
 void GM_ResetChara(void)
 {
+#ifndef DEV_EXE
     CHARA *chara;
 
-#ifndef DEV_EXE
     chara = (CHARA *)StageCharacterEntries;
     // overwrite the first entry with the end-of-table marker
     *((int *)&chara->func) = 0;
@@ -34,32 +34,32 @@ void GM_ResetChara(void)
 #endif
 }
 
-NEWCHARA GM_GetChara(unsigned char *script)
+void *GM_GetChara(unsigned char *script)
 {
     return GM_GetCharaID(GCL_StrToInt(script));
 }
 
-NEWCHARA GM_GetCharaID(int chara_id)
+void *GM_GetCharaID(int chara_id)
 {
-    CHARA *chara_table;
+    CHARA *chara;
     int    i;
 
     for (i = 0; i < 2; i++)
     {
         // First, search the built-in charas
-        chara_table = &MainCharacterEntries[0];
+        chara = &MainCharacterEntries[0];
         if (i != 0)
         {
             // chara_id wasn't found in the main binary's built-ins,
             // so now we'll search the stage overlay's chara table.
-            chara_table = (CHARA *)StageCharacterEntries;
+            chara = (CHARA *)StageCharacterEntries;
         }
 
-        for (; chara_table->func != NULL; chara_table++)
+        for (; chara->func != NULL; chara++)
         {
-            if (chara_table->class_id == chara_id)
+            if (chara->class_id == chara_id)
             {
-                return chara_table->func;
+                return chara->func;
             }
         }
     }

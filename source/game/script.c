@@ -476,7 +476,7 @@ static int GM_Command_chara(int argc, char **argv)
 {
     int         ret;
     int         name;
-    NEWCHARA    func;
+    NEWCHARA   *func;
 
     func = GM_GetChara(GCL_NextStr());
     if (func != NULL)
@@ -1140,10 +1140,12 @@ static int GM_Command_jimaku(char *top)
 STATIC GCL_COMMANDLIST Commands[] = {
     { 0x22ff, GM_Command_mesg },        // GV_StrCode("mesg")
     { 0xd4cb, GM_Command_trap },        // GV_StrCode("trap")
-    // TODO: Why does this one have a different signature?
-    // Putting a breakpoint GM_Command_chara shows it receives
-    // trash argc and argv.
+
+    // BUG: Seems like earlier in development, GCL args were passed via
+    // main-style (int argc, char *argv[]) arguments. GM_Command_chara receives
+    // garbage arguments and passes them on to the actor callback.
     { 0x9906, (GCL_COMMANDFUNC)GM_Command_chara }, // GV_StrCode("chara")
+
     { 0xc091, GM_Command_map },         // GV_StrCode("map")
     { 0x7d50, GM_Command_mapdef },      // GV_StrCode("mapdef")
     { 0xeee9, GM_Command_camera },      // GV_StrCode("camera")

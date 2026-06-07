@@ -157,7 +157,7 @@ static int GetResources(Work *work, MATRIX *world)
     }
 
     DG_SetPos(world);
-    DG_PutPrim(&prim->world);
+    DG_PutPrim(prim);
 
     prim->raise = 500;
 
