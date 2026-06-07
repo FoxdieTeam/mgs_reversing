@@ -2124,8 +2124,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\{{OVERLAY}}\overlay2.obj", overlay
 
     include "{{OBJ_DIR}}\overlays\s08b\animal\ninja\ninja.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s08b\animal\ninja\bunsin2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s08b\animal\ninja\tenmetu.obj", overlay
+    include "{{OBJ_DIR}}\animal\ninja\bunsin2.obj", overlay
+    include "{{OBJ_DIR}}\animal\ninja\tenmetu.obj", overlay
     include "{{OBJ_DIR}}\okajima\d_bloods.obj", overlay
     include "{{OBJ_DIR}}\okajima\plasma.obj", overlay
     include "{{OBJ_DIR}}\okajima\blur.obj", overlay
