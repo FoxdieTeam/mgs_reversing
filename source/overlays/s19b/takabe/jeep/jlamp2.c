@@ -123,7 +123,7 @@ static int GetResources(Work *work, MATRIX *root)
     ShadePacks(prim, 128, 1);
 
     DG_SetPos(&DG_ZeroMatrix);
-    DG_PutPrim(&work->prim->world);
+    DG_PutPrim(work->prim);
     prim->root = root;
     return 0;
 }

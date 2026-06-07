@@ -150,7 +150,7 @@ void WindcrclAct_800CF414(WindcrclWork *work)
     work->f454 = GV_NearExp8(work->f454, 0);
 
     DG_SetPos(&work->world);
-    DG_PutPrim(&prim->world);
+    DG_PutPrim(prim);
     DG_VisiblePrim(prim);
 
     WindcrclShadePacks_800CF3D4(prim->packs[0], prim->packs[1], 32, time * 8);

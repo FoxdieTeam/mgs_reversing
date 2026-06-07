@@ -54,9 +54,9 @@ void DG_PutObjs( DG_OBJS *objs )
     gte_ReadRotMatrix( &objs->world );
 }
 
-void DG_PutPrim( MATRIX *matrix )
+void DG_PutPrim( DG_PRIM *prim )
 {
-    gte_ReadRotMatrix( matrix );
+    gte_ReadRotMatrix( &prim->world );
 }
 
 void DG_PutVector( SVECTOR *from, SVECTOR *to, int n )

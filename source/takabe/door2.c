@@ -290,10 +290,10 @@ int Door2GetResources_800DD7C8(Door2Work *work, int name, int map)
     }
 
     DG_SetPos(&sp20);
-    DG_PutPrim(&prim1->world);
+    DG_PutPrim(prim1);
 
     DG_SetPos(&sp40);
-    DG_PutPrim(&prim2->world);
+    DG_PutPrim(prim2);
 
     tex = DG_GetTexture(PCX_DOOR2);
     if (tex == NULL)

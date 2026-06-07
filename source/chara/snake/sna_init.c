@@ -6414,7 +6414,7 @@ void sna_anim_claymore_helper_80058780(SnaInitWork *work, int time)
 
         DG_GroupPrim(work->field_92C, DG_CurrentGroupID);
         DG_VisiblePrim(work->field_92C);
-        DG_PutPrim(&work->field_92C->world);
+        DG_PutPrim(work->field_92C);
 
         if ( !(work->field_9B0_pad_ptr->status & PAD_SQUARE) && (DG_UnDrawFrameCount == 0) )
         {

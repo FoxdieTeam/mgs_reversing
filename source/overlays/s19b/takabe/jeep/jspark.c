@@ -216,7 +216,7 @@ static void Act(Work *work)
     work->world.t[2] += Takabe_JeepSystem.pos.vz;
 
     DG_SetPos(&work->world);
-    DG_PutPrim(&work->prim->world);
+    DG_PutPrim(work->prim);
 
     val1 = work->count--;
     val2 = work->count;
@@ -261,7 +261,7 @@ static int GetResources(Work *work, MATRIX *world)
         work->world = *world;
 
         DG_SetPos(world);
-        DG_PutPrim(&prim->world);
+        DG_PutPrim(prim);
 
         work->pos.vx = world->t[0];
         work->pos.vy = world->t[1];

@@ -265,7 +265,7 @@ static int GetResources(Work *work, MATRIX *a2, int count)
     }
 
     DG_SetPos(a2);
-    DG_PutPrim(&prim->world);
+    DG_PutPrim(prim);
     work->f168.vx = a2->t[0];
     work->f168.vy = a2->t[1];
     work->f168.vz = a2->t[2];

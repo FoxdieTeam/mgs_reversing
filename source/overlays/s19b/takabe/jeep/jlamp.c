@@ -107,7 +107,7 @@ static int GetResources(Work *work, SVECTOR *root_pos, int tex_id, int unused)
     ShadePacks(prim, 128, 1);
 
     DG_SetPos(&DG_ZeroMatrix);
-    DG_PutPrim(&work->prim->world);
+    DG_PutPrim(work->prim);
     return 0;
 }
 

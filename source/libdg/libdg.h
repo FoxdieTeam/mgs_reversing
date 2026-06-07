@@ -566,7 +566,7 @@ void DG_SetPos2( SVECTOR *mov, SVECTOR *rot );
 void DG_MovePos( SVECTOR *mov );
 void DG_RotatePos( SVECTOR *rot );
 void DG_PutObjs( DG_OBJS *objs );
-void DG_PutPrim( MATRIX *matrix );
+void DG_PutPrim( DG_PRIM *prim );
 void DG_PutVector( SVECTOR *from, SVECTOR *to, int n );
 void DG_RotVector( SVECTOR *from, SVECTOR *to, int n );
 void DG_PersVector( SVECTOR *from, DVECTOR *to, int n );

@@ -515,7 +515,7 @@ static void Act( Work *work )
     if ( work->world != NULL )
     {
         DG_SetPos( work->world );
-        DG_PutPrim( &work->prim->world );
+        DG_PutPrim( work->prim );
     }
 }
 

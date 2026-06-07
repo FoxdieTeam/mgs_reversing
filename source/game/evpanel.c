@@ -935,7 +935,7 @@ static int s03e_evpanel_800C47D0(EvPanelWork *work, DG_PRIM **out, SVECTOR *vec,
     pos.t[2] = trans.vz;
 
     DG_SetPos(&pos);
-    DG_PutPrim(&prim->world);
+    DG_PutPrim(prim);
 
     prim->raise = k500;
 

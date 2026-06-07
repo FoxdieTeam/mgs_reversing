@@ -899,7 +899,7 @@ void GunCame_Act_800C80F4(GunCameWork *work)
 
         GM_ActObject2(&work->field_9C);
 
-        DG_PutPrim(&work->field_328->world);
+        DG_PutPrim(work->field_328);
         DG_SetPos(&work->world);
 
         GM_ActObject2(&work->field_1F4);

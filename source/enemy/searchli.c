@@ -744,7 +744,7 @@ void Searchli_800D80BC(SearchlightWork *work)
     Searchli_800D7DBC(temp_s0_8, sp50->pad2, 3);
 
     DG_SetPos2(temp_fp, temp_t0);
-    DG_PutPrim(&sp50->prim->world);
+    DG_PutPrim(sp50->prim);
 
     pos = s01a_svec_800E4660;
 

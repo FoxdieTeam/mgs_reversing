@@ -134,7 +134,7 @@ void Hind2_800C45E4( Hind2Work *work, SVECTOR arg1 )
         ReadRotMatrix( &sp10 );
 
         DG_VisiblePrim( prim );
-        DG_PutPrim( &prim->world );
+        DG_PutPrim( prim );
 
         rand_w = GV_RandU( 1024 ) % 2;
         rand_h = GV_RandU( 1024 ) % 2;
