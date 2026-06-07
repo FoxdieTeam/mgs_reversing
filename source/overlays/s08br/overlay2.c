@@ -188,6 +188,7 @@ const char s08b_aSlashdamaged_800E37BC[] = " slash damage=%d \n";
 const char s08b_aJumpdamaged_800E37D0[] = " jump damage=%d \n";
 const char s08b_aEledamaged_800E37E4[] = " ele damage=%d \n";
 const char s08b_aNinjac_800E37F8[] = "ninja.c";
+
 const int s08b_dword_800E3800 = 0x800C9154;
 const int s08b_dword_800E3804 = 0x800C9174;
 const int s08b_dword_800E3808 = 0x800C9184;
@@ -689,10 +690,6 @@ const int s08b_dword_800E400C = 0x800D52E4;
 const int s08b_dword_800E4010 = 0x800D52FC;
 const int s08b_dword_800E4014 = 0x800D530C;
 const int s08b_dword_800E4018 = 0x800D5324;
-const char s08b_aNjatrans_800E401C[] = "njatrans";
-const char s08b_dword_800E4028[] = {'b', 'u', 'n', 's'};
-const char s08b_dword_800E402C[] = {'i', 'n', '2', '.'};
-const char s08b_dword_800E4030[] = {'c', 0x0, 0xbf, 0xaf};
 
 int SECTION(".bss") s08b_dword_800E4314;
 int SECTION(".bss") s08b_dword_800E4318;
