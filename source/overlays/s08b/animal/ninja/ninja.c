@@ -2056,7 +2056,40 @@ int s08b_bunsin2_800D1588(Work *work)
     work->field_19D0 = work->field_19D0 + 1;
     return 0;
 }
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D1638.s")
+int s08b_bunsin2_800D1638(Work *work)
+{
+    int s = work->field_19D0;
+
+    if (s == 0xA)
+    {
+        if (GM_GameOverTimer == 0 && GM_SnakeCurrentHealth > 0)
+        {
+            GM_VoxStream(work->field_1A98[3], 0);
+        }
+    }
+    if (s >= 0x83 && GM_StreamStatus() == -1)
+    {
+        s08b_ninja_800C79D4(2);
+        GM_GameStatus &= ~(STATE_RADIO_OFF | STATE_LIFEBAR_OFF | STATE_MENU_OFF | STATE_PADRELEASE | 0x40);
+        s08b_bunsin2_800D5434();
+        return 1;
+    }
+    work->field_19B4 = work->field_1A28;
+    if (s < 0x64)
+    {
+        work->field_19B0 = 8;
+    }
+    else if (s == 0x64)
+    {
+        work->field_19B0 = 0xA;
+    }
+    else if (s >= 0xCD)
+    {
+        work->field_19B0 = 8;
+    }
+    work->field_19D0 = work->field_19D0 + 1;
+    return 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D1738.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D17F8.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D195C.s")
