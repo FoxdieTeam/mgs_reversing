@@ -98,6 +98,7 @@ void s11g_hind_800D9344(HindWork *work)
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D96B0.s")
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D9B80.s")
 
+void s11g_hind_800DA534(HindWork *work);
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800DA534.s")
 
 void s11g_hind_800DA614(HindWork *work)
