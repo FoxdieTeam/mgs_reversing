@@ -2150,7 +2150,27 @@ int s08b_bunsin2_800D17F8(Work *work)
     work->field_19D0 = work->field_19D0 + 1;
     return 0;
 }
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D195C.s")
+int s08b_bunsin2_800D195C(Work *work)
+{
+    if (work->field_19D0 == 0)
+    {
+        if (GM_StreamStatus() == -1 &&
+            GM_GameOverTimer == 0 &&
+            GM_SnakeCurrentHealth > 0)
+        {
+            GM_VoxStream(work->field_1A98[14], 0);
+        }
+    }
+    work->field_19B0 = 9;
+    work->field_19B4 = work->field_1A28;
+    work->field_19C0 |= 2;
+    if (work->field_19D0 >= 0x1F && GM_StreamStatus() == -1)
+    {
+        return 1;
+    }
+    work->field_19D0 = work->field_19D0 + 1;
+    return 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D1A18.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D1AF8.s")
 void s08b_bunsin2_800D1CF4(Work *work)
