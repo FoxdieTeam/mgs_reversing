@@ -1002,7 +1002,16 @@ void s08b_bunsin2_800CE398(Work *work);
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CE800.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CE8A0.s")
 
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CE9BC.s")
+void s08b_bunsin2_800CE9BC(Work *work)
+{
+    int idx = work->field_19E0;
+    MAP *map;
+
+    work->field_19E0 = idx + 1;
+    work->field_1968 = s08b_dword_800C34F8[idx];
+    map = work->control.map;
+    work->field_1970 = HZD_GetAddress(map->hzd, &work->field_1968, -1);
+}
 void s08b_bunsin2_800CE9BC(Work *work);
 
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CEA34.s")
