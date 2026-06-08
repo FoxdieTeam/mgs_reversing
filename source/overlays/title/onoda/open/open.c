@@ -1226,7 +1226,131 @@ void title_open_800CD320(OpenWork *work, int index)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CD3B8.s")
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800CD800.s")
+const char title_aOpbackr_800D8AB0[] = "op_back_r";
+const char title_aOpbackl_800D8ABC[] = "op_back_l";
+
+void title_open_800CD800(OpenWork *work, int index)
+{
+    POLY_FT4 *poly;
+    DG_TEX   *tex;
+    int       shade;
+
+    poly = work->f18C_polys;
+    poly += index;
+
+    switch (work->fA80)
+    {
+    case 0:
+        if (work->f16C >= 0x20)
+        {
+            work->fA80 = 1;
+            work->f16C = 0;
+        }
+        break;
+    case 1:
+        shade = work->f16C * 2;
+        poly->r0 = shade;
+        poly->g0 = shade;
+        poly->b0 = shade;
+        poly->y0--;
+        poly->y1--;
+        poly->y2--;
+        poly->y3--;
+        if (work->f16C >= 0x40)
+        {
+            work->fA80 = 2;
+            work->f16C = 0;
+            poly->r0 = 0x80;
+            poly->g0 = 0x80;
+            poly->b0 = 0x80;
+        }
+        break;
+    case 2:
+        poly->r0 = 0x80;
+        poly->g0 = 0x80;
+        poly->b0 = 0x80;
+        poly->y0--;
+        poly->y1--;
+        poly->y2--;
+        poly->y3--;
+        if (work->f16C >= 0x94)
+        {
+            work->fA80 = 3;
+            work->f16C = 0;
+        }
+        break;
+    case 3:
+        shade = 0x80 - work->f16C * 2;
+        poly->r0 = shade;
+        poly->g0 = shade;
+        poly->b0 = shade;
+        poly->y0--;
+        poly->y1--;
+        poly->y2--;
+        poly->y3--;
+        if (work->f16C >= 0x40)
+        {
+            work->fA80 = 4;
+            work->f16C = 0;
+            tex = DG_GetTexture(GV_StrCode(title_aOpbackl_800D8ABC));
+            title_open_800C5238(poly, tex, 6, 0x140, 0x1F4);
+            setXY4(poly, -0xA0, -0x70, 0xA0, -0x70, -0xA0, 0x184, 0xA0, 0x184);
+            title_open_800C5200(poly, 2);
+        }
+        break;
+    case 4:
+        shade = work->f16C * 2;
+        poly->r0 = shade;
+        poly->g0 = shade;
+        poly->b0 = shade;
+        poly->y0--;
+        poly->y1--;
+        poly->y2--;
+        poly->y3--;
+        if (work->f16C >= 0x40)
+        {
+            work->fA80 = 5;
+            work->f16C = 0;
+            poly->r0 = 0x80;
+            poly->g0 = 0x80;
+            poly->b0 = 0x80;
+        }
+        break;
+    case 5:
+        poly->r0 = 0x80;
+        poly->g0 = 0x80;
+        poly->b0 = 0x80;
+        poly->y0--;
+        poly->y1--;
+        poly->y2--;
+        poly->y3--;
+        if (work->f16C >= 0x94)
+        {
+            work->fA80 = 6;
+            work->f16C = 0;
+        }
+        break;
+    case 6:
+        shade = 0x80 - work->f16C * 2;
+        poly->r0 = shade;
+        poly->g0 = shade;
+        poly->b0 = shade;
+        poly->y0--;
+        poly->y1--;
+        poly->y2--;
+        poly->y3--;
+        if (work->f16C >= 0x40)
+        {
+            work->fA80 = 1;
+            work->f16C = 0;
+            tex = DG_GetTexture(GV_StrCode(title_aOpbackr_800D8AB0));
+            title_open_800C5238(poly, tex, 6, 0x140, 0x1F4);
+            setXY4(poly, -0xA0, -0x70, 0xA0, -0x70, -0xA0, 0x184, 0xA0, 0x184);
+            title_open_800C5200(poly, 2);
+        }
+        break;
+    }
+}
 
 void title_open_800CDB4C(POLY_FT4 *poly, DG_TEX *tex, int arg2)
 {
@@ -1375,15 +1499,6 @@ void title_open_800CDE44(OpenWork *work, int index)
         break;
     }
 }
-const char title_aOpbackr_800D8AB0[] = "op_back_r";
-const char title_aOpbackl_800D8ABC[] = "op_back_l";
-const int title_dword_800D8AC8 = 0x800CD850;
-const int title_dword_800D8ACC = 0x800CD86C;
-const int title_dword_800D8AD0 = 0x800CD8CC;
-const int title_dword_800D8AD4 = 0x800CD928;
-const int title_dword_800D8AD8 = 0x800CD994;
-const int title_dword_800D8ADC = 0x800CDA08;
-const int title_dword_800D8AE0 = 0x800CDA68;
 const char title_dword_800D8AE4[] = {0x0, 0x0, 0x0, 0x0};
 
 void title_open_800CE378(OpenWork *work, int idx)
