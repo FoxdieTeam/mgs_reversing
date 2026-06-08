@@ -2196,7 +2196,57 @@ int s08b_bunsin2_800D1A18(Work *work)
     work->field_19D0 = work->field_19D0 + 1;
     return 0;
 }
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D1AF8.s")
+int s08b_bunsin2_800D1AF8(Work *work)
+{
+    if (work->field_19D0 == 0)
+    {
+        if (GM_ItemTypes[GM_CurrentItemId + 1] & 2)
+        {
+            GM_CurrentItemId = -1;
+        }
+        if (GM_WeaponTypes[GM_CurrentWeaponId + 1] & 0x200)
+        {
+            GM_CurrentWeaponId = -1;
+        }
+        if (GM_GameOverTimer == 0 && GM_SnakeCurrentHealth > 0)
+        {
+            GM_GameStatus |= STATE_RADIO_OFF | STATE_LIFEBAR_OFF | STATE_MENU_OFF | STATE_PADRELEASE | 0x40;
+            s08b_ninja_800C79D4(8);
+        }
+    }
+    if (work->field_19D0 == 0x1E)
+    {
+        if (GM_StreamStatus() == -1 && GM_GameOverTimer == 0 && GM_SnakeCurrentHealth > 0)
+        {
+            GM_VoxStream(work->field_1A98[5], 0);
+        }
+    }
+    if (work->field_19D0 == 0x82)
+    {
+        if (GM_StreamStatus() == -1 && GM_GameOverTimer == 0 && GM_SnakeCurrentHealth > 0)
+        {
+            GM_VoxStream(work->field_1A98[10], 0);
+        }
+    }
+    work->field_19B4 = work->field_1A28;
+    if (work->field_19D0 >= 0x83)
+    {
+        work->field_19B0 = 0x17;
+    }
+    else
+    {
+        work->field_19B0 = 0x18;
+    }
+    if (work->field_19D0 >= 0xE7 && GM_StreamStatus() == -1)
+    {
+        s08b_ninja_800C79D4(1);
+        GM_GameStatus &= ~(STATE_RADIO_OFF | STATE_LIFEBAR_OFF | STATE_MENU_OFF | STATE_PADRELEASE | 0x40);
+        s08b_bunsin2_800D5434();
+        return 1;
+    }
+    work->field_19D0 = work->field_19D0 + 1;
+    return 0;
+}
 void s08b_bunsin2_800D1CF4(Work *work)
 {
     switch (work->field_19CC)
