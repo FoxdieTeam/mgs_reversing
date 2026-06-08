@@ -1457,8 +1457,51 @@ void camera_800C86BC(Work *work, int x, int y, int w, int h, int color, int unus
     p[8].x0 = xl1; p[8].y0 = yt1; p[8].x1 = xr0; p[8].y1 = yt1;
     p[8].x2 = xl1; p[8].y2 = yb0; p[8].x3 = xr0; p[8].y3 = yb0;
 }
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C884C.s")
-extern void camera_800C884C(Work *work, int x, int y, int w, int h, int color, int unused);
+void camera_800C884C(Work *work, int x, int y, int w, int h, int color, int unused)
+{
+    POLY_FT4 *p;
+    int i;
+    int xl0, xl1, xr0, xr1, yt0, yt1, yb0, yb1;
+    int xw, yh;
+
+    p = work->polys;
+    for (i = 0; i < 9; i++)
+    {
+        work->field_664[i] = (GV_ACT *)0x200;
+        p[i].r0 = color;
+        p[i].g0 = color;
+        p[i].b0 = color;
+    }
+
+    xw = x + w;
+    yh = y + h;
+    xl0 = x - 6;   xl1 = x + 2;
+    yt0 = y - 6;   yt1 = y + 2;
+    xr0 = xw - 2;  xr1 = xw + 6;
+    yb0 = yh - 2;  yb1 = yh + 6;
+
+    /* corners */
+    p[0].x0 = xl0; p[0].y0 = yt0; p[0].x1 = xl1; p[0].y1 = yt0;
+    p[0].x2 = xl0; p[0].y2 = yt1; p[0].x3 = xl1; p[0].y3 = yt1;
+    p[1].x0 = xr0; p[1].y0 = yt0; p[1].x1 = xr1; p[1].y1 = yt0;
+    p[1].x2 = xr0; p[1].y2 = yt1; p[1].x3 = xr1; p[1].y3 = yt1;
+    p[2].x0 = xl0; p[2].y0 = yb0; p[2].x1 = xl1; p[2].y1 = yb0;
+    p[2].x2 = xl0; p[2].y2 = yb1; p[2].x3 = xl1; p[2].y3 = yb1;
+    p[3].x0 = xr0; p[3].y0 = yb0; p[3].x1 = xr1; p[3].y1 = yb0;
+    p[3].x2 = xr0; p[3].y2 = yb1; p[3].x3 = xr1; p[3].y3 = yb1;
+    /* edges */
+    p[4].x0 = xl1; p[4].y0 = yt0; p[4].x1 = xr0; p[4].y1 = yt0;
+    p[4].x2 = xl1; p[4].y2 = yt1; p[4].x3 = xr0; p[4].y3 = yt1;
+    p[5].x0 = xl1; p[5].y0 = yb0; p[5].x1 = xr0; p[5].y1 = yb0;
+    p[5].x2 = xl1; p[5].y2 = yb1; p[5].x3 = xr0; p[5].y3 = yb1;
+    p[6].x0 = xl0; p[6].y0 = yt1; p[6].x1 = xl1; p[6].y1 = yt1;
+    p[6].x2 = xl0; p[6].y2 = yb0; p[6].x3 = xl1; p[6].y3 = yb0;
+    p[7].x0 = xr0; p[7].y0 = yt1; p[7].x1 = xr1; p[7].y1 = yt1;
+    p[7].x2 = xr0; p[7].y2 = yb0; p[7].x3 = xr1; p[7].y3 = yb0;
+    /* center */
+    p[8].x0 = xl1; p[8].y0 = yt1; p[8].x1 = xr0; p[8].y1 = yt1;
+    p[8].x2 = xl1; p[8].y2 = yb0; p[8].x3 = xr0; p[8].y3 = yb0;
+}
 
 void camera_800C89DC(Work *work)
 {
