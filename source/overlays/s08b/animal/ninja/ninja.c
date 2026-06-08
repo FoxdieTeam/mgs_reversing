@@ -938,7 +938,21 @@ void s08b_bunsin2_800CDBAC(Work *work)
     }
     s08b_dword_800C3588 = s08b_dword_800C3588 + 1;
 }
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CDDD8.s")
+void s08b_bunsin2_800CDDD8(Work *work)
+{
+    NinjaClone *c = &work->clones[work->field_1964];
+    int i = work->field_1966 + 1;
+    MAP *map;
+
+    if (i >= c->field_0)
+    {
+        i = 0;
+    }
+    work->field_1966 = i;
+    work->field_1968 = c->field_4[i];
+    map = work->control.map;
+    work->field_1970 = HZD_GetAddress(map->hzd, &work->field_1968, -1);
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CDE74.s")
 
 void s08b_bunsin2_800CDF68(Work *work)
