@@ -2967,7 +2967,24 @@ void s08b_bunsin2_800D4D18(Work *work)
     }
     work->field_19C0 |= 4;
 }
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D4DA8.s")
+void s08b_bunsin2_800D4DA8(Work *work)
+{
+    switch (work->field_19C8)
+    {
+    case 0:
+        s08b_bunsin2_800D2104(work);
+        break;
+    case 1:
+        s08b_bunsin2_800D39F8(work);
+        break;
+    case 6:
+        s08b_bunsin2_800D47E0(work);
+        break;
+    case 7:
+        s08b_bunsin2_800D2D3C(work);
+        break;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D4E3C.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D4ED0.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D4FBC.s")
