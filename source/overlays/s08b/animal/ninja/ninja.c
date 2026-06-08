@@ -1516,7 +1516,29 @@ int s08b_bunsin2_800D0688(Work *work)
     return work->field_19D0++;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D06A0.s")
+int s08b_bunsin2_800D06A0(Work *work)
+{
+    int count = work->field_19D0;
+    int n;
+
+    if (count == 0)
+    {
+        GM_StreamPlayStop();
+        work->field_19D0++;
+        return 0;
+    }
+    n = count + 1;
+    work->field_19D0 = n;
+    if (n >= 0x12D)
+    {
+        return 1;
+    }
+    if (n >= 0x79 && work->field_19A4 == 0)
+    {
+        return 1;
+    }
+    return work->field_19A8;
+}
 int s08b_bunsin2_800D0720(Work *work)
 {
     int val;
