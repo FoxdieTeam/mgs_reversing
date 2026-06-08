@@ -1975,7 +1975,40 @@ int s08b_bunsin2_800D138C(Work *work)
     work->field_19D0 = work->field_19D0 + 1;
     return 0;
 }
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D1400.s")
+int s08b_bunsin2_800D1400(Work *work)
+{
+    int cond;
+
+    switch (work->field_19E0)
+    {
+    case 1:
+        cond = work->field_19D0 < 0x1F;
+        break;
+    case 2:
+        cond = work->field_19D0 < 0x10;
+        break;
+    default:
+        cond = work->field_19D0 < 0xB;
+        break;
+    }
+
+    if (!cond)
+    {
+        return 1;
+    }
+
+    if (work->field_19D0 == 4 &&
+        work->field_19DC % 3 == 0 &&
+        GM_StreamStatus() == -1 &&
+        GM_GameOverTimer == 0 &&
+        GM_SnakeCurrentHealth > 0)
+    {
+        GM_VoxStream(work->field_1A98[7], 0);
+    }
+    work->field_19B0 = 0x1D;
+    work->field_19D0 = work->field_19D0 + 1;
+    return 0;
+}
 int s08b_bunsin2_800D1514(Work *work)
 {
     int below;
