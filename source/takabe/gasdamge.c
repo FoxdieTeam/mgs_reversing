@@ -6,7 +6,7 @@
 #include "linkvar.h"
 #include "takabe/thing.h"
 
-typedef struct GasDamgeWork {
+typedef struct _Work {
     GV_ACT actor;
     int    field_20;
     int    field_24;
@@ -17,13 +17,13 @@ typedef struct GasDamgeWork {
     int    field_38;
     int    field_3C;
     int    field_40;
-} GasDamgeWork;
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_USER
 
 int SECTION(".bss") s02c_dword_800E3F40;
 
-void GasDamageAct_800E1348(GasDamgeWork *work)
+void GasDamageAct_800E1348(Work *work)
 {
     int temp_a0;
     int temp_a0_2;
@@ -75,12 +75,12 @@ void GasDamageAct_800E1348(GasDamgeWork *work)
     s02c_dword_800E3F40 = 0;
 }
 
-void GasDamageDie_800E147C(GasDamgeWork *work)
+void GasDamageDie_800E147C(Work *work)
 {
     s02c_dword_800E3F40 = 0;
 }
 
-int GasDamageGetResources_800E1488(GasDamgeWork *work, int arg0, int arg1)
+int GasDamageGetResources_800E1488(Work *work, int arg0, int arg1)
 {
     work->field_2C = THING_Gcl_GetInt('o');
     work->field_34 = THING_Gcl_GetInt('h');
@@ -94,9 +94,9 @@ int GasDamageGetResources_800E1488(GasDamgeWork *work, int arg0, int arg1)
 
 void *NewGasDamage(int name, int where, int argc, char **argv)
 {
-    GasDamgeWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(GasDamgeWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, GasDamageAct_800E1348, GasDamageDie_800E147C, "gasdamge.c");

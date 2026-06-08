@@ -1,7 +1,7 @@
 #include "common.h"
 #include "game/game.h"
 
-typedef struct _CapeWork
+typedef struct _Work
 {
     GV_ACT   actor;
     DG_PRIM *prim;
@@ -26,11 +26,11 @@ typedef struct _CapeWork
     MATRIX  *light;
     MATRIX  *color;
     SVECTOR  fA7C;
-} CapeWork;
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_USER
 
-void s04c_cape_800D7938(CapeWork *work)
+void s04c_cape_800D7938(Work *work)
 {
     int i;
     int count;
@@ -54,7 +54,7 @@ void s04c_cape_800D7938(CapeWork *work)
     }
 }
 
-void s04c_cape_800D79C8(CapeWork *work)
+void s04c_cape_800D79C8(Work *work)
 {
     SVECTOR sp10;
     MATRIX  sp18;
@@ -86,7 +86,7 @@ void s04c_cape_800D79C8(CapeWork *work)
     }
 }
 
-void s04c_cape_800D7B2C(CapeWork *work)
+void s04c_cape_800D7B2C(Work *work)
 {
     int i, j;
 
@@ -103,7 +103,7 @@ void s04c_cape_800D7B2C(CapeWork *work)
     }
 }
 
-void s04c_cape_800D7BB4(CapeWork *work)
+void s04c_cape_800D7BB4(Work *work)
 {
     int a, b, c, d, e, f, g;
     int i, j;
@@ -147,7 +147,7 @@ void s04c_cape_800D7BB4(CapeWork *work)
     }
 }
 
-void s04c_cape_800D7D90(CapeWork *work)
+void s04c_cape_800D7D90(Work *work)
 {
     int i, j;
 
@@ -170,7 +170,7 @@ void s04c_cape_800D7D90(CapeWork *work)
     }
 }
 
-void s04c_cape_800D7E6C(CapeWork *work)
+void s04c_cape_800D7E6C(Work *work)
 {
     VECTOR  in0;
     VECTOR  in1;
@@ -260,7 +260,7 @@ void s04c_cape_800D7E6C(CapeWork *work)
     work->f904[0][6].b = work->f808[4][6].b;
 }
 
-void s04c_cape_800D83D4(CapeWork *work)
+void s04c_cape_800D83D4(Work *work)
 {
     POLY_GT4 *packs0;
     POLY_GT4 *packs1;
@@ -314,9 +314,9 @@ void s04c_cape_800D83D4(CapeWork *work)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_cape_800D8724.s")
-void s04c_cape_800D8724(CapeWork *work);
+void s04c_cape_800D8724(Work *work);
 
-void cape_Act(CapeWork *work)
+void cape_Act(Work *work)
 {
     work->fA70 = 0;
     s04c_cape_800D79C8(work);
@@ -326,7 +326,7 @@ void cape_Act(CapeWork *work)
     s04c_cape_800D83D4(work);
 }
 
-static void Die(CapeWork* work)
+static void Die(Work* work)
 {
     GM_FreePrim(work->prim);
 }
@@ -345,7 +345,7 @@ static inline void SetPacketTexture(POLY_GT4 *pack, DG_TEX *tex)
     pack->clut = tex->clut;
 }
 
-static int GetResources(CapeWork *work, SVECTOR *arg1, SVECTOR *arg2, MATRIX *light, MATRIX *color)
+static int GetResources(Work *work, SVECTOR *arg1, SVECTOR *arg2, MATRIX *light, MATRIX *color)
 {
     DG_PRIM  *prim;
     POLY_GT4 *packs0;
@@ -410,9 +410,9 @@ static int GetResources(CapeWork *work, SVECTOR *arg1, SVECTOR *arg2, MATRIX *li
 
 void *NewCape(SVECTOR *arg0, SVECTOR *arg1, MATRIX *light, MATRIX *color)
 {
-    CapeWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(CapeWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, cape_Act, Die, "cape.c");

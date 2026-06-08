@@ -3,7 +3,7 @@
 #include "libdg/libdg.h"
 #include "game/game.h"
 
-typedef struct _WolfEyeWork
+typedef struct _Work
 {
     GV_ACT   actor;
     int      map;
@@ -15,7 +15,7 @@ typedef struct _WolfEyeWork
     int      timer;
     MATRIX  *root;
     int     *visible;
-} WolfEyeWork;
+} Work;
 
 SVECTOR SECTION(".bss") s12c_800DA418;
 int SECTION(".bss") s12c_800DA420;
@@ -46,7 +46,7 @@ void WolfEye_800D355C(POLY_FT4 *packs, int n_packs, DG_TEX *tex)
     }
 }
 
-void WolfEyeAct_800D35EC(WolfEyeWork *work)
+void WolfEyeAct_800D35EC(Work *work)
 {
     GM_CurrentMap = work->map;
 
@@ -67,13 +67,13 @@ void WolfEyeAct_800D35EC(WolfEyeWork *work)
     }
 }
 
-void WolfEyeDie_800D36C0(WolfEyeWork *work)
+void WolfEyeDie_800D36C0(Work *work)
 {
     GM_FreePrim(work->prim_right);
     GM_FreePrim(work->prim_left);
 }
 
-int WolfEyeGetResources_800D3728(WolfEyeWork *work, MATRIX *root, int *visible)
+int WolfEyeGetResources_800D3728(Work *work, MATRIX *root, int *visible)
 {
     DG_TEX  *tex;
     DG_PRIM *prim;
@@ -151,9 +151,9 @@ int WolfEyeGetResources_800D3728(WolfEyeWork *work, MATRIX *root, int *visible)
 
 void *NewWolfEye_800D3930(MATRIX *root, int *visible)
 {
-    WolfEyeWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(WolfEyeWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, WolfEyeAct_800D35EC, WolfEyeDie_800D36C0, "wolf_eye.c");

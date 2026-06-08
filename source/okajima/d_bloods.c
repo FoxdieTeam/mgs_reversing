@@ -5,7 +5,7 @@
 #include "libdg/libdg.h"
 #include "game/game.h"
 
-typedef struct _DBloodsWork
+typedef struct _Work
 {
     GV_ACT   actor;
     DG_PRIM *prim;
@@ -18,18 +18,18 @@ typedef struct _DBloodsWork
     int      f8C;
     int      f90;
     int      f94;
-} DBloodsWork;
+} Work;
 
 int d00a_dword_800E1650;
 
 #define EXEC_LEVEL GV_ACTOR_AFTER2
 
-void DBloodsDie_800D5078(DBloodsWork *work)
+void DBloodsDie_800D5078(Work *work)
 {
     GM_FreePrim(work->prim);
 }
 
-void DBloodsAct_800D50B4(DBloodsWork *work)
+void DBloodsAct_800D50B4(Work *work)
 {
     SVECTOR sp10[4];
     int     iVar2;
@@ -313,7 +313,7 @@ void DBloods_800D57F0(POLY_FT4 *packs0, POLY_FT4 *packs1, int n_packs, DG_TEX *t
     }
 }
 
-int DBloods_800D591C(DBloodsWork *work, SVECTOR *arg1, int arg2, int arg3, int arg4)
+int DBloods_800D591C(Work *work, SVECTOR *arg1, int arg2, int arg3, int arg4)
 {
     work->f80 = 0;
     work->f84 = *arg1;
@@ -323,7 +323,7 @@ int DBloods_800D591C(DBloodsWork *work, SVECTOR *arg1, int arg2, int arg3, int a
     return 0;
 }
 
-int DBloods_800D5958(DBloodsWork *work, int arg1)
+int DBloods_800D5958(Work *work, int arg1)
 {
     SVECTOR  sp18;
     SVECTOR  sp20[4];
@@ -379,7 +379,7 @@ int DBloods_800D5958(DBloodsWork *work, int arg1)
     return 0;
 }
 
-int DBloodsGetResources_800D5B08(DBloodsWork *work, SVECTOR *arg1, int arg2, int arg3, int arg4)
+int DBloodsGetResources_800D5B08(Work *work, SVECTOR *arg1, int arg2, int arg3, int arg4)
 {
     work->map = GM_CurrentMap;
 
@@ -395,9 +395,9 @@ int DBloodsGetResources_800D5B08(DBloodsWork *work, SVECTOR *arg1, int arg2, int
 
 void *NewDBloods_800D5B70(SVECTOR *arg0, int arg1, int arg2, int arg3)
 {
-    DBloodsWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(DBloodsWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, DBloodsAct_800D50B4, DBloodsDie_800D5078, "d_bloods.c");

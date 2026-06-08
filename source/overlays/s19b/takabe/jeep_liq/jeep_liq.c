@@ -4,7 +4,7 @@
 #include "psxdefs.h"
 #include <rand.h>
 
-typedef struct _JeepLiqWork
+typedef struct _Work
 {
     GV_ACT          actor;        /* 0x000 */
     CONTROL        *control;      /* 0x020 */
@@ -70,7 +70,7 @@ typedef struct _JeepLiqWork
     int             f93C;         /* 0x93C */
     int             f940;         /* 0x940 */
     int            *f944;         /* 0x944 */
-} JeepLiqWork;
+} Work;
 
 typedef struct _JEEP_SYSTEM_S
 {
@@ -105,22 +105,22 @@ extern void  ReadRotMatrix(MATRIX *m);
 
 extern int   s19b_jeep_mrl_800D399C(void);
 extern int   s19b_jeep_liq_800D771C(int center, int from, int to);
-extern void  s19b_jeep_liq_800D6FB8(JeepLiqWork *work);
+extern void  s19b_jeep_liq_800D6FB8(Work *work);
 
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D6FB8.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7114.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7200.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7330.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D769C.s")
-void s19b_jeep_liq_800D76B0(JeepLiqWork *work)
+void s19b_jeep_liq_800D76B0(Work *work)
 {
     ((void (*)(void))work->field_3DC)();
     work->field_3A0 = 0;
-    ((void (*)(JeepLiqWork *))work->field_3F8)(work);
+    ((void (*)(Work *))work->field_3F8)(work);
     s19b_jeep_liq_800D6FB8(work);
 }
 
-void s19b_jeep_liq_800D76F8(JeepLiqWork *work, int arg1)
+void s19b_jeep_liq_800D76F8(Work *work, int arg1)
 {
     if (work->field_3DC != arg1)
     {
@@ -131,14 +131,14 @@ void s19b_jeep_liq_800D76F8(JeepLiqWork *work, int arg1)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D771C.s")
-void s19b_jeep_liq_800D77F0(JeepLiqWork *work)
+void s19b_jeep_liq_800D77F0(Work *work)
 {
     int v = work->field_360 - (Takabe_JeepSystem.field_30 - Takabe_JeepSystem.field_24);
     s19b_jeep_mrl_800D399C();
     work->field_3B0 = s19b_jeep_liq_800D771C(work->field_3B0, 0x753, v);
     work->field_3A8 = GV_NearSpeed(work->field_3A8, work->field_3B0, 5);
 }
-void s19b_jeep_liq_800D7860(JeepLiqWork *work)
+void s19b_jeep_liq_800D7860(Work *work)
 {
     int s1 = work->field_360 - (Takabe_JeepSystem.field_30 - Takabe_JeepSystem.field_24);
     int a1 = s19b_jeep_mrl_800D399C();
@@ -169,28 +169,28 @@ void s19b_jeep_liq_800D7860(JeepLiqWork *work)
     }
     work->field_3A8 = GV_NearSpeed(work->field_3A8, work->field_3B0, 5);
 }
-void s19b_jeep_liq_800D797C(JeepLiqWork *work)
+void s19b_jeep_liq_800D797C(Work *work)
 {
     int v = work->field_360 - (Takabe_JeepSystem.field_30 - Takabe_JeepSystem.field_24);
     s19b_jeep_mrl_800D399C();
     work->field_3B0 = s19b_jeep_liq_800D771C(work->field_3B0, 0, v);
     work->field_3A8 = GV_NearSpeed(work->field_3A8, work->field_3B0, 5);
 }
-void s19b_jeep_liq_800D79EC(JeepLiqWork *work)
+void s19b_jeep_liq_800D79EC(Work *work)
 {
     int v = work->field_360 - (Takabe_JeepSystem.field_30 - Takabe_JeepSystem.field_24);
     s19b_jeep_mrl_800D399C();
     work->field_3B0 = s19b_jeep_liq_800D771C(work->field_3B0, -0x177, v);
     work->field_3A8 = GV_NearSpeed(work->field_3A8, work->field_3B0, 5);
 }
-void s19b_jeep_liq_800D7A5C(JeepLiqWork *work)
+void s19b_jeep_liq_800D7A5C(Work *work)
 {
     int v = work->field_360 - (Takabe_JeepSystem.field_30 - Takabe_JeepSystem.field_24);
     s19b_jeep_mrl_800D399C();
     work->field_3B0 = s19b_jeep_liq_800D771C(work->field_3B0, 0xbb8, v);
     work->field_3A8 = GV_NearSpeed(work->field_3A8, work->field_3B0, 5);
 }
-void s19b_jeep_liq_800D7ACC(JeepLiqWork *work)
+void s19b_jeep_liq_800D7ACC(Work *work)
 {
     int v = work->field_360 - (Takabe_JeepSystem.field_30 - Takabe_JeepSystem.field_24);
     s19b_jeep_mrl_800D399C();
@@ -198,7 +198,7 @@ void s19b_jeep_liq_800D7ACC(JeepLiqWork *work)
     work->field_3A8 = GV_NearSpeed(work->field_3A8, work->field_3B0, 5);
 }
 
-void s19b_jeep_liq_800D7B3C(JeepLiqWork *work, int arg1)
+void s19b_jeep_liq_800D7B3C(Work *work, int arg1)
 {
     if (work->field_3E8 != arg1)
     {
@@ -212,7 +212,7 @@ int s19b_jeep_liq_800D7B60(int center, int range)
 {
     return (rand() * range >> 15) - range / 2 + center;
 }
-void s19b_jeep_liq_800D7BB0(JeepLiqWork *work)
+void s19b_jeep_liq_800D7BB0(Work *work)
 {
     if (++work->field_3E0 == 0x1e)
     {
@@ -221,7 +221,7 @@ void s19b_jeep_liq_800D7BB0(JeepLiqWork *work)
     }
     work->field_3A0 = GV_NearSpeed(work->field_3A0, work->field_3A4, 0x1e);
 }
-void s19b_jeep_liq_800D7C0C(JeepLiqWork *work)
+void s19b_jeep_liq_800D7C0C(Work *work)
 {
     int n = work->field_3E0 + 1;
     work->field_3E0 = n;
@@ -247,7 +247,7 @@ void s19b_jeep_liq_800D7C0C(JeepLiqWork *work)
         break;
     }
 }
-void s19b_jeep_liq_800D7CBC(JeepLiqWork *work)
+void s19b_jeep_liq_800D7CBC(Work *work)
 {
     int n = work->field_3E0 + 1;
     work->field_3E0 = n;
@@ -273,7 +273,7 @@ void s19b_jeep_liq_800D7CBC(JeepLiqWork *work)
         break;
     }
 }
-void s19b_jeep_liq_800D7D68(JeepLiqWork *work)
+void s19b_jeep_liq_800D7D68(Work *work)
 {
     int n = work->field_3E0 + 1;
     work->field_3E0 = n;
@@ -306,7 +306,7 @@ void s19b_jeep_liq_800D7D68(JeepLiqWork *work)
         break;
     }
 }
-void s19b_jeep_liq_800D7E2C(JeepLiqWork *work)
+void s19b_jeep_liq_800D7E2C(Work *work)
 {
     int n = work->field_3E0 + 1;
     work->field_3E0 = n;
@@ -346,7 +346,7 @@ void s19b_jeep_liq_800D7E2C(JeepLiqWork *work)
         break;
     }
 }
-void s19b_jeep_liq_800D7F20(JeepLiqWork *work)
+void s19b_jeep_liq_800D7F20(Work *work)
 {
     int n = work->field_3E0 + 1;
     work->field_3E0 = n;
@@ -387,7 +387,7 @@ void s19b_jeep_liq_800D7F20(JeepLiqWork *work)
         break;
     }
 }
-void s19b_jeep_liq_800D8014(JeepLiqWork *work, int arg1)
+void s19b_jeep_liq_800D8014(Work *work, int arg1)
 {
     if (work->field_3F8 != arg1)
     {
@@ -400,7 +400,7 @@ void s19b_jeep_liq_800D8014(JeepLiqWork *work, int arg1)
 extern unsigned char s19b_dword_800C3A9C[];
 extern int s19b_jeep_mrl_800D39B4(SVECTOR *dst);
 
-void s19b_jeep_liq_800D8044(JeepLiqWork *work)
+void s19b_jeep_liq_800D8044(Work *work)
 {
     SVECTOR sp10;
 
@@ -424,7 +424,7 @@ void s19b_jeep_liq_800D8044(JeepLiqWork *work)
         work->field_3F0++;
     }
 }
-void s19b_jeep_liq_800D8118(JeepLiqWork *work)
+void s19b_jeep_liq_800D8118(Work *work)
 {
     SVECTOR dst;
     int     d;
@@ -445,9 +445,9 @@ void s19b_jeep_liq_800D8118(JeepLiqWork *work)
     }
 }
 extern void s19b_jlamp_800D0A20(int arg0);
-extern void s19b_jeep_liq_800D7114(JeepLiqWork *work);
+extern void s19b_jeep_liq_800D7114(Work *work);
 
-void s19b_jeep_liq_800D81A8(JeepLiqWork *work)
+void s19b_jeep_liq_800D81A8(Work *work)
 {
     int n = work->field_3F0;
     work->field_3F0 = n + 1;
@@ -466,7 +466,7 @@ void s19b_jeep_liq_800D81A8(JeepLiqWork *work)
 }
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D8250.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D8420.s")
-void s19b_spark2_m_800D8620(JeepLiqWork *work)
+void s19b_spark2_m_800D8620(Work *work)
 {
     GM_FreeTarget(work->f8E4);
     GM_FreeHomingTarget(work->homing);
@@ -474,14 +474,14 @@ void s19b_spark2_m_800D8620(JeepLiqWork *work)
     GM_FreeControl((CONTROL *)&work->world);
     GM_FreeObject(&work->obj);
 }
-extern void s19b_jeep_liq_800D8250(JeepLiqWork *work);
-extern int  s19b_jeep_liq_800D8420(JeepLiqWork *work, int name);
+extern void s19b_jeep_liq_800D8250(Work *work);
+extern int  s19b_jeep_liq_800D8420(Work *work, int name);
 extern const char s19b_aJeepliqc_800DDE80[];
 extern const char s19b_dword_800DDE8C[];
 
 void *s19b_spark2_m_800D8670(CONTROL *arg0, DG_PRIM *arg1, int *arg2)
 {
-    JeepLiqWork *work = GV_NewActor(GV_ACTOR_USER, sizeof(JeepLiqWork));
+    Work *work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
 
     if (work != NULL)
     {
@@ -499,7 +499,7 @@ void *s19b_spark2_m_800D8670(CONTROL *arg0, DG_PRIM *arg1, int *arg2)
     return work;
 }
 
-void s19b_spark2_m_800D8724(JeepLiqWork *work, int arg1, int arg2)
+void s19b_spark2_m_800D8724(Work *work, int arg1, int arg2)
 {
     MATRIX  m;
     DG_OBJ *obj = &work->obj.objs->objs[arg1];
@@ -512,9 +512,9 @@ void s19b_spark2_m_800D8724(JeepLiqWork *work, int arg1, int arg2)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D87A4.s")
-extern int s19b_spark2_m_800D87A4(JeepLiqWork *work);
+extern int s19b_spark2_m_800D87A4(Work *work);
 
-int s19b_spark2_m_800D88D8(JeepLiqWork *work)
+int s19b_spark2_m_800D88D8(Work *work)
 {
     if (s19b_spark2_m_800D87A4(work) != 0)
     {
@@ -524,7 +524,7 @@ int s19b_spark2_m_800D88D8(JeepLiqWork *work)
     return 0;
 }
 
-void s19b_spark2_m_800D8918(JeepLiqWork *work)
+void s19b_spark2_m_800D8918(Work *work)
 {
     TARGET *target = work->f8E4;
     int     level  = GM_DifficultyFlag;
@@ -549,7 +549,7 @@ extern void s19b_spark2_m_800D8E10();
 extern void s19b_spark2_m_800D90A8();
 extern void s19b_spark2_m_800D92C8();
 
-int s19b_spark2_m_800D899C(JeepLiqWork *work)
+int s19b_spark2_m_800D899C(Work *work)
 {
     int v = work->f900;
 
@@ -596,20 +596,20 @@ int s19b_spark2_m_800D899C(JeepLiqWork *work)
     return 0;
 }
 
-void s19b_spark2_m_800D8A48(JeepLiqWork *work)
+void s19b_spark2_m_800D8A48(Work *work)
 {
     GV_NearExp4PV(&work->svecs2[2], &work->sv_7A0, 3);
     GV_NearExp4PV(&work->svecs2[6], &work->sv_7A8, 3);
 }
 
-void s19b_spark2_m_800D8A88(JeepLiqWork *work)
+void s19b_spark2_m_800D8A88(Work *work)
 {
     int v = work->f930 - work->control->rot.vy;
     work->sv_7A0.vy = v;
     work->sv_7A8.vy = v;
 }
 
-void s19b_spark2_m_800D8AAC(JeepLiqWork *work)
+void s19b_spark2_m_800D8AAC(Work *work)
 {
     int base = work->f930 + 0xCC0;
     int v    = base - work->control->rot.vy;
@@ -617,7 +617,7 @@ void s19b_spark2_m_800D8AAC(JeepLiqWork *work)
     work->sv_7A8.vy = v;
 }
 
-void s19b_spark2_m_800D8ACC(JeepLiqWork *work)
+void s19b_spark2_m_800D8ACC(Work *work)
 {
     int base = work->f930 + 0x340;
     int v    = base - work->control->rot.vy;
@@ -625,7 +625,7 @@ void s19b_spark2_m_800D8ACC(JeepLiqWork *work)
     work->sv_7A8.vy = v;
 }
 
-void s19b_spark2_m_800D8AEC(JeepLiqWork *work)
+void s19b_spark2_m_800D8AEC(Work *work)
 {
     MATRIX m;
 
@@ -637,7 +637,7 @@ void s19b_spark2_m_800D8AEC(JeepLiqWork *work)
     s19b_jblood_800C7FB8(&m);
 }
 
-void s19b_spark2_m_800D8B54(JeepLiqWork *work, int mode)
+void s19b_spark2_m_800D8B54(Work *work, int mode)
 {
     if (mode == 0)
     {
@@ -653,9 +653,9 @@ void s19b_spark2_m_800D8B54(JeepLiqWork *work, int mode)
     }
 }
 
-extern void s19b_spark2_m_800D8F34(JeepLiqWork *work, int mode);
+extern void s19b_spark2_m_800D8F34(Work *work, int mode);
 
-void s19b_spark2_m_800D8BC8(JeepLiqWork *work, int mode)
+void s19b_spark2_m_800D8BC8(Work *work, int mode)
 {
     int f900 = work->f900;
 
@@ -691,9 +691,9 @@ void s19b_spark2_m_800D8BC8(JeepLiqWork *work, int mode)
     work->f8E4->class |= 0x14;
 }
 
-extern void s19b_spark2_m_800D8FB0(JeepLiqWork *work, int mode);
+extern void s19b_spark2_m_800D8FB0(Work *work, int mode);
 
-void s19b_spark2_m_800D8CEC(JeepLiqWork *work, int mode)
+void s19b_spark2_m_800D8CEC(Work *work, int mode)
 {
     int f900 = work->f900;
 
@@ -729,9 +729,9 @@ void s19b_spark2_m_800D8CEC(JeepLiqWork *work, int mode)
     work->f8E4->class |= 0x14;
 }
 
-extern void s19b_spark2_m_800D902C(JeepLiqWork *work, int mode);
+extern void s19b_spark2_m_800D902C(Work *work, int mode);
 
-void s19b_spark2_m_800D8E10(JeepLiqWork *work, int mode)
+void s19b_spark2_m_800D8E10(Work *work, int mode)
 {
     int f900 = work->f900;
 
@@ -767,7 +767,7 @@ void s19b_spark2_m_800D8E10(JeepLiqWork *work, int mode)
     work->f8E4->class |= 0x14;
 }
 
-void s19b_spark2_m_800D8F34(JeepLiqWork *work, int mode)
+void s19b_spark2_m_800D8F34(Work *work, int mode)
 {
     if (mode == 0)
     {
@@ -787,7 +787,7 @@ void s19b_spark2_m_800D8F34(JeepLiqWork *work, int mode)
     work->f8E4->class |= 0x14;
 }
 
-void s19b_spark2_m_800D8FB0(JeepLiqWork *work, int mode)
+void s19b_spark2_m_800D8FB0(Work *work, int mode)
 {
     if (mode == 0)
     {
@@ -807,7 +807,7 @@ void s19b_spark2_m_800D8FB0(JeepLiqWork *work, int mode)
     work->f8E4->class |= 0x14;
 }
 
-void s19b_spark2_m_800D902C(JeepLiqWork *work, int mode)
+void s19b_spark2_m_800D902C(Work *work, int mode)
 {
     if (mode == 0)
     {
@@ -827,9 +827,9 @@ void s19b_spark2_m_800D902C(JeepLiqWork *work, int mode)
     work->f8E4->class |= 0x14;
 }
 
-extern void s19b_spark2_m_800D9148(JeepLiqWork *work);
+extern void s19b_spark2_m_800D9148(Work *work);
 
-void s19b_spark2_m_800D90A8(JeepLiqWork *work, int mode)
+void s19b_spark2_m_800D90A8(Work *work, int mode)
 {
     if (mode < 8)
     {
@@ -855,7 +855,7 @@ void s19b_spark2_m_800D90A8(JeepLiqWork *work, int mode)
 
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D9148.s")
 
-void s19b_spark2_m_800D91DC(JeepLiqWork *work, int mode)
+void s19b_spark2_m_800D91DC(Work *work, int mode)
 {
     if (mode < 8 && (work->f900 & 0x10))
     {
@@ -902,9 +902,9 @@ void s19b_spark2_m_800D91DC(JeepLiqWork *work, int mode)
     work->vecs[5].vz = 0;
 }
 
-void s19b_spark2_m_800D932C(JeepLiqWork *work, int mode);
+void s19b_spark2_m_800D932C(Work *work, int mode);
 
-void s19b_spark2_m_800D92C8(JeepLiqWork *work, int mode)
+void s19b_spark2_m_800D92C8(Work *work, int mode)
 {
     if (mode == 0)
     {
@@ -920,7 +920,7 @@ void s19b_spark2_m_800D92C8(JeepLiqWork *work, int mode)
     }
 }
 
-void s19b_spark2_m_800D932C(JeepLiqWork *work, int mode)
+void s19b_spark2_m_800D932C(Work *work, int mode)
 {
     if (mode == 0)
     {
@@ -936,7 +936,7 @@ void s19b_spark2_m_800D932C(JeepLiqWork *work, int mode)
     }
 }
 
-void s19b_spark2_m_800D9390(JeepLiqWork *work, int mode)
+void s19b_spark2_m_800D9390(Work *work, int mode)
 {
     if (mode == 0)
     {
@@ -957,7 +957,7 @@ void s19b_spark2_m_800D9390(JeepLiqWork *work, int mode)
     }
 }
 
-void s19b_spark2_m_800D9434(JeepLiqWork *work, int mode)
+void s19b_spark2_m_800D9434(Work *work, int mode)
 {
     if (s19b_spark2_m_800D899C(work) != 0)
     {
@@ -979,7 +979,7 @@ void s19b_spark2_m_800D9434(JeepLiqWork *work, int mode)
     work->vecs[5].vz = 0;
 }
 
-void s19b_spark2_m_800D94C8(JeepLiqWork *work, int mode)
+void s19b_spark2_m_800D94C8(Work *work, int mode)
 {
     work->f8E4->class |= 0x14;
     if (s19b_spark2_m_800D88D8(work) != 0)
@@ -1000,7 +1000,7 @@ void s19b_spark2_m_800D94C8(JeepLiqWork *work, int mode)
     }
 }
 
-void s19b_spark2_m_800D9558(JeepLiqWork *work)
+void s19b_spark2_m_800D9558(Work *work)
 {
     int   old;
     void *handler;
@@ -1016,7 +1016,7 @@ void s19b_spark2_m_800D9558(JeepLiqWork *work)
         handler       = (void *)s19b_spark2_m_800D8B54;
         work->f8EC    = handler;
     }
-    ((void (*)(JeepLiqWork *, int))handler)(work, old);
+    ((void (*)(Work *, int))handler)(work, old);
 
     s19b_spark2_m_800D8A48(work);
 
@@ -1027,7 +1027,7 @@ void s19b_spark2_m_800D9558(JeepLiqWork *work)
     }
 }
 
-void s19b_spark2_m_800D95FC(JeepLiqWork *work)
+void s19b_spark2_m_800D95FC(Work *work)
 {
     SVECTOR diff;
 
@@ -1037,9 +1037,9 @@ void s19b_spark2_m_800D95FC(JeepLiqWork *work)
     work->f934 = GV_VecLen3(&diff);
 }
 
-extern void s19b_spark2_m_800D9C04(JeepLiqWork *work);
+extern void s19b_spark2_m_800D9C04(Work *work);
 
-void s19b_spark2_m_800D964C(JeepLiqWork *work)
+void s19b_spark2_m_800D964C(Work *work)
 {
     s19b_spark2_m_800D95FC(work);
     s19b_spark2_m_800D9C04(work);
@@ -1047,9 +1047,9 @@ void s19b_spark2_m_800D964C(JeepLiqWork *work)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D9680.s")
-extern int s19b_spark2_m_800D9680(JeepLiqWork *work);
+extern int s19b_spark2_m_800D9680(Work *work);
 
-void s19b_spark2_m_800D9704(JeepLiqWork *work)
+void s19b_spark2_m_800D9704(Work *work)
 {
     if (s19b_spark2_m_800D9680(work) != 0)
     {
@@ -1087,7 +1087,7 @@ void s19b_spark2_m_800D9704(JeepLiqWork *work)
     work->f918 += 1;
 }
 
-void s19b_spark2_m_800D97A8(JeepLiqWork *work)
+void s19b_spark2_m_800D97A8(Work *work)
 {
     int v;
 
@@ -1118,7 +1118,7 @@ void s19b_spark2_m_800D97A8(JeepLiqWork *work)
     work->f918 += 1;
 }
 
-void s19b_spark2_m_800D985C(JeepLiqWork *work)
+void s19b_spark2_m_800D985C(Work *work)
 {
     int v;
 
@@ -1149,7 +1149,7 @@ void s19b_spark2_m_800D985C(JeepLiqWork *work)
     work->f918 += 1;
 }
 
-void s19b_spark2_m_800D9910(JeepLiqWork *work)
+void s19b_spark2_m_800D9910(Work *work)
 {
     int v;
 
@@ -1180,7 +1180,7 @@ void s19b_spark2_m_800D9910(JeepLiqWork *work)
     work->f918 += 1;
 }
 
-void s19b_spark2_m_800D99C4(JeepLiqWork *work)
+void s19b_spark2_m_800D99C4(Work *work)
 {
     int js = Takabe_JeepSystem.field_54;
     work->f900 |= 0x10;
@@ -1197,7 +1197,7 @@ void s19b_spark2_m_800D99C4(JeepLiqWork *work)
     work->f918 += 1;
 }
 
-void s19b_spark2_m_800D9A30(JeepLiqWork *work)
+void s19b_spark2_m_800D9A30(Work *work)
 {
     if (Takabe_JeepSystem.field_54 & 0x1000)
     {
@@ -1211,7 +1211,7 @@ void s19b_spark2_m_800D9A30(JeepLiqWork *work)
     }
 }
 
-void s19b_spark2_m_800D9A74(JeepLiqWork *work)
+void s19b_spark2_m_800D9A74(Work *work)
 {
     int new_f900 = work->f900 | 0x10;
     int js = Takabe_JeepSystem.field_54;
@@ -1224,9 +1224,9 @@ void s19b_spark2_m_800D9A74(JeepLiqWork *work)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D9AA8.s")
-extern void s19b_spark2_m_800D9AA8(JeepLiqWork *work);
+extern void s19b_spark2_m_800D9AA8(Work *work);
 
-void s19b_spark2_m_800D9B38(JeepLiqWork *work)
+void s19b_spark2_m_800D9B38(Work *work)
 {
     switch (work->f914)
     {
@@ -1239,7 +1239,7 @@ void s19b_spark2_m_800D9B38(JeepLiqWork *work)
     }
 }
 
-void s19b_spark2_m_800D9B88(JeepLiqWork *work)
+void s19b_spark2_m_800D9B88(Work *work)
 {
     switch (work->f910)
     {
@@ -1257,7 +1257,7 @@ void s19b_spark2_m_800D9B88(JeepLiqWork *work)
     }
 }
 
-void s19b_spark2_m_800D9C04(JeepLiqWork *work)
+void s19b_spark2_m_800D9C04(Work *work)
 {
     short *table = (short *)&s19b_dword_800C3AC8;
     int    idx;

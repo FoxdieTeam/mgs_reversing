@@ -16,10 +16,10 @@
 #include "takabe/fadeio.h"      // for NewFadeInOut
 #include "takabe/cineutil.h"    // for OpenCinemaScreen, etc.
 
-struct _TortureWork;
-typedef void (*TTortureFn)(struct _TortureWork *, int);
+struct _Work;
+typedef void (*TTortureFn)(struct _Work *, int);
 
-typedef struct _TortureWork
+typedef struct _Work
 {
     GV_ACT         actor;
     CONTROL        control;
@@ -75,7 +75,7 @@ typedef struct _TortureWork
     SVECTOR        f8BC[8];
     GV_ACT        *f8FC;
     GV_ACT        *f900;
-} TortureWork;
+} Work;
 
 extern GM_SnakeCameraWork GM_SnakeCamera;
 extern GM_CameraSystemWork       GM_Camera;
@@ -154,14 +154,14 @@ void s03b_boxall_800C9404(void);
 int  s03b_boxall_800C95EC(void);
 int  s03b_boxall_800C9654(int);
 
-void s03b_torture_800C4C48(TortureWork *work, int);
-void s03b_torture_800C5AF8(TortureWork *work, int);
-void s03b_torture_800C5E48(TortureWork *work, int);
+void s03b_torture_800C4C48(Work *work, int);
+void s03b_torture_800C5AF8(Work *work, int);
+void s03b_torture_800C5E48(Work *work, int);
 
 #define EXEC_LEVEL GV_ACTOR_USER
 #define BODY_FLAG  ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE )
 
-void s03b_torture_800C3E80(TortureWork *work)
+void s03b_torture_800C3E80(Work *work)
 {
     int index;
 
@@ -170,7 +170,7 @@ void s03b_torture_800C3E80(TortureWork *work)
     work->f808(work, index);
 }
 
-void s03b_torture_800C3EB8(TortureWork *work)
+void s03b_torture_800C3EB8(Work *work)
 {
     int f802;
     int index;
@@ -184,7 +184,7 @@ void s03b_torture_800C3EB8(TortureWork *work)
     }
 }
 
-void s03b_torture_800C3EF8(TortureWork *work)
+void s03b_torture_800C3EF8(Work *work)
 {
     if (work->f814 == 0)
     {
@@ -238,7 +238,7 @@ int s03b_torture_800C3F7C(GV_PAD *pad)
     return 0;
 }
 
-void s03b_torture_800C3FE4(TortureWork *work)
+void s03b_torture_800C3FE4(Work *work)
 {
     short         status;
     unsigned char ldy;
@@ -334,7 +334,7 @@ void s03b_torture_800C3FE4(TortureWork *work)
     }
 }
 
-void s03b_torture_800C421C(TortureWork *work)
+void s03b_torture_800C421C(Work *work)
 {
     work->f800 |= 0x1;
 
@@ -349,14 +349,14 @@ void s03b_torture_800C421C(TortureWork *work)
     }
 }
 
-void s03b_torture_800C4260(TortureWork *work)
+void s03b_torture_800C4260(Work *work)
 {
     work->f800 &= ~0x1;
     GM_Camera.first_person = 0;
     work->f814 = 4;
 }
 
-void s03b_torture_800C4284(TortureWork *work)
+void s03b_torture_800C4284(Work *work)
 {
     int f802;
     int f800;
@@ -380,7 +380,7 @@ void s03b_torture_800C4284(TortureWork *work)
     }
 }
 
-int s03b_torture_800C4314(TortureWork *work)
+int s03b_torture_800C4314(Work *work)
 {
     int f800;
 
@@ -395,7 +395,7 @@ int s03b_torture_800C4314(TortureWork *work)
     return 1;
 }
 
-void s03b_torture_800C435C(TortureWork *work, int vx)
+void s03b_torture_800C435C(Work *work, int vx)
 {
     GV_MSG msg;
     int    f802;
@@ -431,7 +431,7 @@ void s03b_torture_800C43F0(void)
     GV_SendMessage(&msg);
 }
 
-void s03b_torture_800C4438(TortureWork *work, int message)
+void s03b_torture_800C4438(Work *work, int message)
 {
     GV_MSG msg;
 
@@ -442,7 +442,7 @@ void s03b_torture_800C4438(TortureWork *work, int message)
     GV_SendMessage(&msg);
 }
 
-void s03b_torture_800C447C(TortureWork *work, int arg1, int arg2)
+void s03b_torture_800C447C(Work *work, int arg1, int arg2)
 {
     GV_MSG msg;
 
@@ -454,7 +454,7 @@ void s03b_torture_800C447C(TortureWork *work, int arg1, int arg2)
     GV_SendMessage(&msg);
 }
 
-void s03b_torture_800C44D0(TortureWork *work, int arg1, int arg2)
+void s03b_torture_800C44D0(Work *work, int arg1, int arg2)
 {
     int max, now;
 
@@ -497,7 +497,7 @@ void s03b_torture_800C44D0(TortureWork *work, int arg1, int arg2)
     MENU_DrawBar2(28, now, now, max, &work->time_conf);
 }
 
-int s03b_torture_800C45E4(TortureWork *work)
+int s03b_torture_800C45E4(Work *work)
 {
     MENU_BAR_CONF *conf;
 
@@ -518,7 +518,7 @@ int s03b_torture_800C45E4(TortureWork *work)
     return 0;
 }
 
-void s03b_torture_800C4654(TortureWork *work)
+void s03b_torture_800C4654(Work *work)
 {
     int     n_msgs;
     GV_MSG *msg;
@@ -540,7 +540,7 @@ void s03b_torture_800C4654(TortureWork *work)
     }
 }
 
-void s03b_torture_800C46B8(TortureWork *work, int arg1)
+void s03b_torture_800C46B8(Work *work, int arg1)
 {
     if (arg1 == 0)
     {
@@ -571,12 +571,12 @@ void s03b_torture_800C46B8(TortureWork *work, int arg1)
 // TODO: This is wrong.
 // All other accesses to f802 are doing weird things (lh vs lhu),
 // but we have been working around it by assigning them to ints.
-static inline char s03b_torture_helper_800C4740(TortureWork *work)
+static inline char s03b_torture_helper_800C4740(Work *work)
 {
     return LLOAD(&work->f802) >> 8;
 }
 
-void s03b_torture_800C4740(TortureWork *work)
+void s03b_torture_800C4740(Work *work)
 {
     int status;
     int vox_stream;
@@ -705,7 +705,7 @@ void s03b_torture_800C4740(TortureWork *work)
     }
 }
 
-void s03b_torture_800C4A08(TortureWork *work)
+void s03b_torture_800C4A08(Work *work)
 {
     if (work->f848 == 0)
     {
@@ -717,17 +717,17 @@ void s03b_torture_800C4A08(TortureWork *work)
     }
 }
 
-void s03b_torture_800C4A70(TortureWork *work)
+void s03b_torture_800C4A70(Work *work)
 {
     s03b_torture_800C4654(work);
 }
 
-void s03b_torture_800C4A90(TortureWork *work)
+void s03b_torture_800C4A90(Work *work)
 {
     s03b_torture_800C4A70(work);
 }
 
-void s03b_torture_800C4AB0(TortureWork *work, int arg1)
+void s03b_torture_800C4AB0(Work *work, int arg1)
 {
     OBJECT *body;
     int     i;
@@ -774,7 +774,7 @@ void s03b_torture_800C4AB0(TortureWork *work, int arg1)
     }
 }
 
-void s03b_torture_800C4C48(TortureWork *work, int arg1)
+void s03b_torture_800C4C48(Work *work, int arg1)
 {
     GCL_ARGS args;
     long     data[1];
@@ -841,7 +841,7 @@ void s03b_torture_800C4C48(TortureWork *work, int arg1)
     }
 }
 
-void s03b_torture_800C4DF0(TortureWork *work, int arg1)
+void s03b_torture_800C4DF0(Work *work, int arg1)
 {
     if (arg1 == 0)
     {
@@ -861,7 +861,7 @@ void s03b_torture_800C4DF0(TortureWork *work, int arg1)
     s03b_torture_800C4A08(work);
 }
 
-void s03b_torture_800C4E64(TortureWork *work, int arg1)
+void s03b_torture_800C4E64(Work *work, int arg1)
 {
     if (arg1 == 0)
     {
@@ -899,7 +899,7 @@ void s03b_torture_800C4E64(TortureWork *work, int arg1)
     work->control.turn.vx = work->f806;
 }
 
-void s03b_torture_800C4F54(TortureWork *work, int arg1)
+void s03b_torture_800C4F54(Work *work, int arg1)
 {
     if (arg1 == 0)
     {
@@ -950,7 +950,7 @@ void s03b_torture_800C4F54(TortureWork *work, int arg1)
     }
 }
 
-void s03b_torture_800C50A8(TortureWork *work, int arg1)
+void s03b_torture_800C50A8(Work *work, int arg1)
 {
     GV_MSG   msg;
     CONTROL *control;
@@ -1066,7 +1066,7 @@ void s03b_torture_800C50A8(TortureWork *work, int arg1)
     }
 }
 
-void s03b_torture_800C53C8(TortureWork *work, int arg1)
+void s03b_torture_800C53C8(Work *work, int arg1)
 {
     if (arg1 == 0)
     {
@@ -1083,10 +1083,10 @@ void s03b_torture_800C53C8(TortureWork *work, int arg1)
     s03b_torture_800C4A90(work);
 }
 
-void s03b_torture_800C5CC8(TortureWork *work, int arg1);
-void s03b_torture_800C59FC(TortureWork *work, int arg1);
+void s03b_torture_800C5CC8(Work *work, int arg1);
+void s03b_torture_800C59FC(Work *work, int arg1);
 
-void s03b_torture_800C5420(TortureWork *work, int arg1)
+void s03b_torture_800C5420(Work *work, int arg1)
 {
     int abe[2];
     int var_v1;
@@ -1275,7 +1275,7 @@ void s03b_torture_800C5420(TortureWork *work, int arg1)
     }
 }
 
-void s03b_torture_800C59FC(TortureWork *work, int arg1)
+void s03b_torture_800C59FC(Work *work, int arg1)
 {
     char pad[0x20];
 
@@ -1332,7 +1332,7 @@ void s03b_torture_800C59FC(TortureWork *work, int arg1)
     }
 }
 
-void s03b_torture_800C5AF8(TortureWork *work, int arg1)
+void s03b_torture_800C5AF8(Work *work, int arg1)
 {
     GCL_ARGS args;
     long     data;
@@ -1427,7 +1427,7 @@ void s03b_torture_800C5AF8(TortureWork *work, int arg1)
     }
 }
 
-void s03b_torture_800C5CC8(TortureWork *work, int arg1)
+void s03b_torture_800C5CC8(Work *work, int arg1)
 {
     char pad[32];
 
@@ -1481,7 +1481,7 @@ void s03b_torture_800C5CC8(TortureWork *work, int arg1)
     }
 }
 
-void s03b_torture_800C5E48(TortureWork *work, int arg1)
+void s03b_torture_800C5E48(Work *work, int arg1)
 {
     if (work->f834->press & PAD_CIRCLE)
     {
@@ -1500,7 +1500,7 @@ void s03b_torture_800C5E48(TortureWork *work, int arg1)
     }
 }
 
-void s03b_torture_800C5EC4(TortureWork *work)
+void s03b_torture_800C5EC4(Work *work)
 {
     GV_MSG *msg;
     int     i;
@@ -1552,7 +1552,7 @@ void s03b_torture_800C5EC4(TortureWork *work)
     }
 }
 
-void s03b_torture_800C6024(TortureWork *work)
+void s03b_torture_800C6024(Work *work)
 {
     int f802;
 
@@ -1574,7 +1574,7 @@ void s03b_torture_800C6024(TortureWork *work)
     }
 }
 
-void s03b_torture_800C6080(TortureWork *work)
+void s03b_torture_800C6080(Work *work)
 {
     int comp;
 
@@ -1617,7 +1617,7 @@ void s03b_torture_800C6080(TortureWork *work)
     }
 }
 
-void s03b_torture_800C61A4(TortureWork *work)
+void s03b_torture_800C61A4(Work *work)
 {
     int f802;
 
@@ -1639,7 +1639,7 @@ void s03b_torture_800C61A4(TortureWork *work)
     }
 }
 
-void s03b_torture_800C6204(TortureWork *work)
+void s03b_torture_800C6204(Work *work)
 {
     int f802;
 
@@ -1669,7 +1669,7 @@ void s03b_torture_800C6204(TortureWork *work)
     }
 }
 
-void s03b_torture_800C62C4(TortureWork *work)
+void s03b_torture_800C62C4(Work *work)
 {
     int f802;
 
@@ -1698,7 +1698,7 @@ void s03b_torture_800C62C4(TortureWork *work)
     }
 }
 
-void Torture_800C6380(TortureWork *work)
+void Torture_800C6380(Work *work)
 {
     int f802;
 
@@ -1723,7 +1723,7 @@ void Torture_800C6380(TortureWork *work)
     }
 }
 
-void Torture_800C6400(TortureWork *work)
+void Torture_800C6400(Work *work)
 {
     int f802;
 
@@ -1749,7 +1749,7 @@ void Torture_800C6400(TortureWork *work)
     }
 }
 
-void Torture_800C64BC(TortureWork *work)
+void Torture_800C64BC(Work *work)
 {
     s03b_torture_800C5EC4(work);
 
@@ -1812,7 +1812,7 @@ void Torture_800C64BC(TortureWork *work)
     s03b_torture_800C3FE4(work);
 }
 
-void TortureAct_800C6600(TortureWork *work)
+void TortureAct_800C6600(Work *work)
 {
     GM_SnakeCameraWork *cam;
     int              f800;
@@ -1853,7 +1853,7 @@ void TortureAct_800C6600(TortureWork *work)
     }
 }
 
-void TortureDie_800C6774(TortureWork *work)
+void TortureDie_800C6774(Work *work)
 {
     GM_FreeControl(&work->control);
     GM_FreeObject(&work->body);
@@ -1876,7 +1876,7 @@ void TortureDie_800C6774(TortureWork *work)
     }
 }
 
-void Torture_800C6814(TortureWork *work)
+void Torture_800C6814(Work *work)
 {
     int   params[7];
     int  *iter;
@@ -1911,7 +1911,7 @@ void Torture_800C6814(TortureWork *work)
     }
 }
 
-void Torture_800C68E8(TortureWork *work)
+void Torture_800C68E8(Work *work)
 {
     int      count;
     SVECTOR *iter;
@@ -1933,7 +1933,7 @@ void Torture_800C68E8(TortureWork *work)
     work->f8B8 = count;
 }
 
-void Torture_800C695C(TortureWork *work)
+void Torture_800C695C(Work *work)
 {
     char *opt;
 
@@ -1990,7 +1990,7 @@ void Torture_800C695C(TortureWork *work)
     }
 }
 
-void Torture_800C6AB0(TortureWork *work)
+void Torture_800C6AB0(Work *work)
 {
     int   count;
     int  *iter;
@@ -2019,7 +2019,7 @@ void Torture_800C6AB0(TortureWork *work)
     }
 }
 
-int TortureGetResources_800C6B3C(TortureWork *work, int name, int map)
+int TortureGetResources_800C6B3C(Work *work, int name, int map)
 {
     CONTROL *control;
     char    *pos;
@@ -2122,9 +2122,9 @@ int TortureGetResources_800C6B3C(TortureWork *work, int name, int map)
 
 void *NewTorture(int name, int where)
 {
-    TortureWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(TortureWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, TortureAct_800C6600, TortureDie_800C6774, "torture.c");

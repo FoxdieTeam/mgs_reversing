@@ -11,7 +11,7 @@
 #include "bullet/bakudan.h"
 #include "strcode.h"
 
-typedef struct _ElevatorWork
+typedef struct _Work
 {
     GV_ACT   actor;
     int      map;
@@ -62,7 +62,7 @@ typedef struct _ElevatorWork
     int      f5C8;
     int      f5CC;
     int      f5D0;
-} ElevatorWork;
+} Work;
 
 extern int           bakudan_count_8009F42C;
 extern int           counter_8009F448;
@@ -80,12 +80,12 @@ char elevator_vib_800C3644[] = {0x87, 0x04, 0x55, 0x01, 0x69, 0x01, 0x7D, 0x08, 
 char elevator_vib_800C3658[] = {0x7F, 0x04, 0x00, 0x00};
 char elevator_vib_800C365C[] = {0xA5, 0x06, 0x4B, 0x08, 0x2D, 0x0C, 0x00, 0x00};
 
-void Elevator_800D9FC4(ElevatorWork *, SVECTOR *);
-void Elevator_800DA140(ElevatorWork *);
-void Elevator_800DA268(ElevatorWork *);
-void Elevator_800DA358(ElevatorWork *, HZD_GRP *);
-void Elevator_800DA3F8(ElevatorWork *, HZD_GRP *);
-int  Elevator_800DA464(ElevatorWork *, void *);
+void Elevator_800D9FC4(Work *, SVECTOR *);
+void Elevator_800DA140(Work *);
+void Elevator_800DA268(Work *);
+void Elevator_800DA358(Work *, HZD_GRP *);
+void Elevator_800DA3F8(Work *, HZD_GRP *);
+int  Elevator_800DA464(Work *, void *);
 void Elevator_800DA57C(int proc, long arg);
 
 void      Takabe_ReshadeModel(DG_OBJS *objs, LIT *lit);
@@ -94,7 +94,7 @@ void      Takabe_FreeObjs(DG_OBJS *objs);
 
 #define EXEC_LEVEL GV_ACTOR_USER
 
-void ElevatorAct_800D8EA8(ElevatorWork *work)
+void ElevatorAct_800D8EA8(Work *work)
 {
     SVECTOR        sp10;
     SVECTOR        sp18;
@@ -457,17 +457,17 @@ void ElevatorAct_800D8EA8(ElevatorWork *work)
     }
 }
 
-void Elevator_800D9FC4(ElevatorWork *, SVECTOR *);
+void Elevator_800D9FC4(Work *, SVECTOR *);
 void Elevator_800DA534(HZD_VEC *, SVECTOR *, HZD_VEC *);
-void Elevator_800DA140(ElevatorWork *);
-void Elevator_800DA1F0(ElevatorWork *);
-void Elevator_800DA358(ElevatorWork *, HZD_GRP *);
+void Elevator_800DA140(Work *);
+void Elevator_800DA1F0(Work *);
+void Elevator_800DA358(Work *, HZD_GRP *);
 void Elevator_800DA4CC(OBJECT *, int, int);
-void Elevator_800DA268(ElevatorWork *);
-void Elevator_800DA2E0(ElevatorWork *);
-void Elevator_800DA3F8(ElevatorWork *, HZD_GRP *);
+void Elevator_800DA268(Work *);
+void Elevator_800DA2E0(Work *);
+void Elevator_800DA3F8(Work *, HZD_GRP *);
 
-void ElevatorDie_800D97D8(ElevatorWork *work)
+void ElevatorDie_800D97D8(Work *work)
 {
     Elevator_800DA2E0(work);
     Elevator_800DA268(work);
@@ -499,7 +499,7 @@ void ElevatorDie_800D97D8(ElevatorWork *work)
     Elevator_800DA3F8(work, work->groups4);
 }
 
-int ElevatorGetResources_800D98A8(ElevatorWork *work, int name, int where)
+int ElevatorGetResources_800D98A8(Work *work, int name, int where)
 {
     CONTROL *control;
     OBJECT  *object1;
@@ -728,9 +728,9 @@ error:
 
 void *NewElevator(int name, int where, int argc, char **argv)
 {
-    ElevatorWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(ElevatorWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, ElevatorAct_800D8EA8, ElevatorDie_800D97D8, "elevator.c");
@@ -745,7 +745,7 @@ void *NewElevator(int name, int where, int argc, char **argv)
     return (void *)work;
 }
 
-void Elevator_800D9FC4(ElevatorWork *work, SVECTOR *offset)
+void Elevator_800D9FC4(Work *work, SVECTOR *offset)
 {
     HZD_GRP *areas;
     HZD_FLR  *floor;
@@ -795,7 +795,7 @@ void Elevator_800D9FC4(ElevatorWork *work, SVECTOR *offset)
     }
 }
 
-void Elevator_800DA140(ElevatorWork *work)
+void Elevator_800DA140(Work *work)
 {
     HZD_SEG *wall;
     char    *flags_lo;
@@ -820,7 +820,7 @@ void Elevator_800DA140(ElevatorWork *work)
     }
 }
 
-void Elevator_800DA1F0(ElevatorWork *work)
+void Elevator_800DA1F0(Work *work)
 {
     HZD_FLR *floor;
     int      i;
@@ -838,7 +838,7 @@ void Elevator_800DA1F0(ElevatorWork *work)
     }
 }
 
-void Elevator_800DA268(ElevatorWork *work)
+void Elevator_800DA268(Work *work)
 {
     HZD_SEG *wall;
     int      i;
@@ -856,7 +856,7 @@ void Elevator_800DA268(ElevatorWork *work)
     }
 }
 
-void Elevator_800DA2E0(ElevatorWork *work)
+void Elevator_800DA2E0(Work *work)
 {
     HZD_FLR *floor;
     int      i;
@@ -874,7 +874,7 @@ void Elevator_800DA2E0(ElevatorWork *work)
     }
 }
 
-void Elevator_800DA358(ElevatorWork *work, HZD_GRP *area)
+void Elevator_800DA358(Work *work, HZD_GRP *area)
 {
     HZD_SEG *wall;
     char    *flags_lo;
@@ -899,7 +899,7 @@ void Elevator_800DA358(ElevatorWork *work, HZD_GRP *area)
     }
 }
 
-void Elevator_800DA3F8(ElevatorWork *work, HZD_GRP *area)
+void Elevator_800DA3F8(Work *work, HZD_GRP *area)
 {
     HZD_SEG *wall;
     int      i;
@@ -921,11 +921,11 @@ void Elevator_800DA3F8(ElevatorWork *work, HZD_GRP *area)
  * @brief Check if the given pointer is in the list of walls or floors.
  *  Used to check if c4 or claymores are on the elevator.
  *
- * @param work ElevatorWork actor
+ * @param work Work actor
  * @param ptr Pointer to check
  * @return int 1 if the target is a wall or floor, 0 otherwise
  */
-int Elevator_800DA464(ElevatorWork *work, void *ptr)
+int Elevator_800DA464(Work *work, void *ptr)
 {
     HZD_SEG *wall;
     int      i;

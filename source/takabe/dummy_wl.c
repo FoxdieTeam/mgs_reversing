@@ -10,7 +10,7 @@
 #include "bullet/bakudan.h"
 #include "linkvar.h"
 
-typedef struct DummyWallWork
+typedef struct _Work
 {
     GV_ACT   actor;
     int      field_20;
@@ -49,7 +49,7 @@ typedef struct DummyWallWork
     short    field_196;
     HZD_HDL *field_198;
     HZD_SEG  field_19C;
-} DummyWallWork;
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_USER
 
@@ -61,9 +61,9 @@ DG_OBJS *Takabe_MakePreshade(int model, LIT *lit);
 extern HITTABLE      GM_C4Datas[C4_COUNT];
 
 void DummyWall_800D7418(OBJECT *obj, int model, int where, int flag);
-void DummyWall_800D7488(DummyWallWork *work, DG_MDL *mdl);
+void DummyWall_800D7488(Work *work, DG_MDL *mdl);
 
-void DummyWallAct_800D6E64(DummyWallWork *work)
+void DummyWallAct_800D6E64(Work *work)
 {
     SVECTOR        svec1;
     SVECTOR       *svec2;
@@ -138,7 +138,7 @@ void DummyWallAct_800D6E64(DummyWallWork *work)
     }
 }
 
-void DummyWallDie_800D70A4(DummyWallWork *work)
+void DummyWallDie_800D70A4(Work *work)
 {
     if (work->field_194 != 0)
     {
@@ -149,7 +149,7 @@ void DummyWallDie_800D70A4(DummyWallWork *work)
     Takabe_FreeObjs(work->field_24.objs);
 }
 
-void DummyWall_800D7104(DummyWallWork *work)
+void DummyWall_800D7104(Work *work)
 {
     TARGET *target;
     target = GM_AllocTarget();
@@ -160,7 +160,7 @@ void DummyWall_800D7104(DummyWallWork *work)
     target->damaged = TARGET_STALE;
 }
 
-int DummyWallGetResources_800D7178(DummyWallWork *work, int name, int where)
+int DummyWallGetResources_800D7178(Work *work, int name, int where)
 {
     MATRIX   mat;
     SVECTOR  svec1, svec2;
@@ -231,9 +231,9 @@ int DummyWallGetResources_800D7178(DummyWallWork *work, int name, int where)
 
 void *NewDummyWall(int name, int where, int argc, char **argv)
 {
-    DummyWallWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(DummyWallWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, DummyWallAct_800D6E64, DummyWallDie_800D70A4, "dummy_wl.c");
@@ -255,7 +255,7 @@ void DummyWall_800D7418(OBJECT *obj, int model, int where, int flag)
     obj->objs->flag = flag;
 }
 
-void DummyWall_800D7488(DummyWallWork *work, DG_MDL *mdl)
+void DummyWall_800D7488(Work *work, DG_MDL *mdl)
 {
     SVECTOR *vertexIndexOffsetIter;
     int      min_vx, min_vy, min_vz;

@@ -48,7 +48,7 @@ typedef struct
     int     field_950;
 } PARAM;
 
-typedef struct _RevolverWork
+typedef struct _Work
 {
     GV_ACT         actor;
     GV_PAD        *pad;
@@ -111,7 +111,7 @@ typedef struct _RevolverWork
     int            field_96C;
     int            field_970;
     int            field_974;
-} RevolverWork;
+} Work;
 
 typedef struct _RevolverPrims
 {
@@ -167,7 +167,7 @@ void Voicesys_800CE5F8(int index, int field_18);
 int  Voicesys_800CE694(void);
 void Voicesys_800CE734(void);
 
-static void DrawPrims(RevolverWork *work);
+static void DrawPrims(Work *work);
 
 void s04c_revolver_800CF3DC(int id)
 {
@@ -182,7 +182,7 @@ void s04c_revolver_800CF418(void)
     /* do nothing */
 }
 
-void s04c_revolver_800CF420(RevolverWork *work)
+void s04c_revolver_800CF420(Work *work)
 {
     if (work->body.action2 != 14)
     {
@@ -198,7 +198,7 @@ void s04c_revolver_800CF420(RevolverWork *work)
     }
 }
 
-void s04c_revolver_800CF4A0(RevolverWork *work)
+void s04c_revolver_800CF4A0(Work *work)
 {
     int mask;
 
@@ -215,7 +215,7 @@ void s04c_revolver_800CF4A0(RevolverWork *work)
     }
 }
 
-void s04c_revolver_800CF518(RevolverWork *work)
+void s04c_revolver_800CF518(Work *work)
 {
     work->field_888 = 0;
 
@@ -228,7 +228,7 @@ void s04c_revolver_800CF518(RevolverWork *work)
     }
 }
 
-void s04c_revolver_800CF584(RevolverWork *work)
+void s04c_revolver_800CF584(Work *work)
 {
     if (work->body.action2 != 9)
     {
@@ -238,7 +238,7 @@ void s04c_revolver_800CF584(RevolverWork *work)
     work->m_ctrl.info1.field_14 = 0;
 }
 
-void s04c_revolver_800CF5D0(RevolverWork *work)
+void s04c_revolver_800CF5D0(Work *work)
 {
     if (work->field_888 != 0)
     {
@@ -259,7 +259,7 @@ void s04c_revolver_800CF5D0(RevolverWork *work)
     }
 }
 
-void s04c_revolver_800CF650(RevolverWork *work)
+void s04c_revolver_800CF650(Work *work)
 {
     if (work->body.action2 != 13)
     {
@@ -269,7 +269,7 @@ void s04c_revolver_800CF650(RevolverWork *work)
     work->m_ctrl.info1.field_14 = 0;
 }
 
-void s04c_revolver_800CF69C(RevolverWork *work)
+void s04c_revolver_800CF69C(Work *work)
 {
     if (work->field_888 != 0)
     {
@@ -290,12 +290,12 @@ void s04c_revolver_800CF69C(RevolverWork *work)
     }
 }
 
-void s04c_revolver_800CF71C(RevolverWork *work)
+void s04c_revolver_800CF71C(Work *work)
 {
     GM_ConfigObjectAction(&work->body, 0, 0, 4);
 }
 
-void s04c_revolver_800CF748(RevolverWork *work)
+void s04c_revolver_800CF748(Work *work)
 {
     work->field_880 = 1;
     work->field_884 = 0;
@@ -309,7 +309,7 @@ void s04c_revolver_800CF748(RevolverWork *work)
     }
 }
 
-void s04c_revolver_800CF7AC(RevolverWork *work)
+void s04c_revolver_800CF7AC(Work *work)
 {
     work->field_880 = 0;
 
@@ -322,7 +322,7 @@ void s04c_revolver_800CF7AC(RevolverWork *work)
     }
 }
 
-void s04c_revolver_800CF7FC(RevolverWork *work)
+void s04c_revolver_800CF7FC(Work *work)
 {
     int mov;
 
@@ -337,7 +337,7 @@ void s04c_revolver_800CF7FC(RevolverWork *work)
     GM_ConfigMotionAdjust(&work->body, work->adjust);
 }
 
-void s04c_revolver_800CF868(RevolverWork* work, int unit, int count)
+void s04c_revolver_800CF868(Work* work, int unit, int count)
 {
     MATRIX world;
 
@@ -348,7 +348,7 @@ void s04c_revolver_800CF868(RevolverWork* work, int unit, int count)
     NewBlood(&world, count);
 }
 
-void s04c_revolver_800CF8D8(RevolverWork *work)
+void s04c_revolver_800CF8D8(Work *work)
 {
     TARGET *target;
     int     life;
@@ -410,7 +410,7 @@ void s04c_revolver_800CF8D8(RevolverWork *work)
     }
 }
 
-int s04c_revolver_800CFAF0(RevolverWork *work, int turn)
+int s04c_revolver_800CFAF0(Work *work, int turn)
 {
     SVECTOR point[2];
     SVECTOR temp;
@@ -475,12 +475,12 @@ int s04c_revolver_800CFBE0(int x, int z)
     }
 }
 
-int s04c_revolver_800CFC3C(RevolverWork *work)
+int s04c_revolver_800CFC3C(Work *work)
 {
     return s04c_revolver_800CFBE0(GM_PlayerPosition.vx, GM_PlayerPosition.vz);
 }
 
-void s04c_revolver_800CFC6C(RevolverWork *work, int flag)
+void s04c_revolver_800CFC6C(Work *work, int flag)
 {
     ROUTE *r = &work->route;
     int f8A0, f8A4;
@@ -537,7 +537,7 @@ void s04c_revolver_800CFD08(SVECTOR *arg0, int arg1)
     }
 }
 
-int s04c_revolver_800CFD84(RevolverWork *work)
+int s04c_revolver_800CFD84(Work *work)
 {
     ROUTE   *r;
     SVECTOR *rot;
@@ -592,7 +592,7 @@ int s04c_revolver_800CFE44(int arg0, int arg1)
     }
 }
 
-int s04c_revolver_800CFED4(RevolverWork *work, int arg1)
+int s04c_revolver_800CFED4(Work *work, int arg1)
 {
     int      sector0;
     PARAM   *param;
@@ -662,7 +662,7 @@ int s04c_revolver_800CFED4(RevolverWork *work, int arg1)
     return 0;
 }
 
-int s04c_revolver_800D00B4(RevolverWork *work)
+int s04c_revolver_800D00B4(Work *work)
 {
     PARAM   *param;
     CONTROL *control;
@@ -735,7 +735,7 @@ int s04c_revolver_800D00B4(RevolverWork *work)
     return 0;
 }
 
-int s04c_revolver_800D02C8(RevolverWork *work, short *arg1, short *arg2)
+int s04c_revolver_800D02C8(Work *work, short *arg1, short *arg2)
 {
     int side1;
     int side2;
@@ -778,22 +778,22 @@ int s04c_revolver_800D02C8(RevolverWork *work, short *arg1, short *arg2)
     return s04c_revolver_800CFED4(work, index);
 }
 
-int s04c_revolver_800D03C0(RevolverWork *work)
+int s04c_revolver_800D03C0(Work *work)
 {
     return s04c_revolver_800D02C8(work, s04c_dword_800C3518, s04c_dword_800C3528);
 }
 
-int s04c_revolver_800D03EC(RevolverWork *work)
+int s04c_revolver_800D03EC(Work *work)
 {
     return s04c_revolver_800D02C8(work, s04c_dword_800C3538, s04c_dword_800C3548);
 }
 
-int s04c_revolver_800D0418(RevolverWork *work)
+int s04c_revolver_800D0418(Work *work)
 {
     return s04c_revolver_800D02C8(work, s04c_dword_800C3558, s04c_dword_800C3568);
 }
 
-int s04c_revolver_800D0444(RevolverWork *work)
+int s04c_revolver_800D0444(Work *work)
 {
     int side;
     int shift;
@@ -817,7 +817,7 @@ void s04c_revolver_800D04B8(STATE *state, int value)
     state->time = 0;
 }
 
-void s04c_revolver_800D04C4(RevolverWork *work, STATE *state)
+void s04c_revolver_800D04C4(Work *work, STATE *state)
 {
     SVECTOR diff;
     int     dir;
@@ -936,7 +936,7 @@ void s04c_revolver_800D04C4(RevolverWork *work, STATE *state)
     }
 }
 
-void s04c_revolver_800D07F4(RevolverWork *work, STATE *state)
+void s04c_revolver_800D07F4(Work *work, STATE *state)
 {
     SVECTOR diff;
     int     len;
@@ -1029,7 +1029,7 @@ void s04c_revolver_800D07F4(RevolverWork *work, STATE *state)
     }
 }
 
-void s04c_revolver_800D0A94(RevolverWork* work, STATE *state)
+void s04c_revolver_800D0A94(Work* work, STATE *state)
 {
     SVECTOR diff;
     MATRIX  world;
@@ -1137,7 +1137,7 @@ void s04c_revolver_800D0A94(RevolverWork* work, STATE *state)
     }
 }
 
-void s04c_revolver_800D0DE0(RevolverWork *work, STATE *state)
+void s04c_revolver_800D0DE0(Work *work, STATE *state)
 {
     SVECTOR diff;
     int     frame;
@@ -1290,7 +1290,7 @@ void s04c_revolver_800D0DE0(RevolverWork *work, STATE *state)
     }
 }
 
-void s04c_revolver_800D1120(RevolverWork *work, STATE *state)
+void s04c_revolver_800D1120(Work *work, STATE *state)
 {
     if (state->time == 0)
     {
@@ -1315,7 +1315,7 @@ void s04c_revolver_800D1120(RevolverWork *work, STATE *state)
     }
 }
 
-void s04c_revolver_800D11C8(RevolverWork *work, STATE *state)
+void s04c_revolver_800D11C8(Work *work, STATE *state)
 {
     SVECTOR diff;
 
@@ -1377,7 +1377,7 @@ void s04c_revolver_800D11C8(RevolverWork *work, STATE *state)
     }
 }
 
-void s04c_revolver_800D1318(RevolverWork *work, STATE *state)
+void s04c_revolver_800D1318(Work *work, STATE *state)
 {
     if (++state->time > 50)
     {
@@ -1386,7 +1386,7 @@ void s04c_revolver_800D1318(RevolverWork *work, STATE *state)
     }
 }
 
-int s04c_revolver_800D1364(RevolverWork *work)
+int s04c_revolver_800D1364(Work *work)
 {
     s04c_revolver_800CF8D8(work);
 
@@ -1432,7 +1432,7 @@ int s04c_revolver_800D1364(RevolverWork *work)
     return 0;
 }
 
-int s04c_revolver_800D149C(RevolverWork *work)
+int s04c_revolver_800D149C(Work *work)
 {
     STATE *state;
 
@@ -1471,7 +1471,7 @@ int s04c_revolver_800D149C(RevolverWork *work)
     return 0;
 }
 
-void s04c_revolver_800D158C(RevolverWork *work)
+void s04c_revolver_800D158C(Work *work)
 {
     s04c_revolver_800D149C(work);
 
@@ -1484,7 +1484,7 @@ void s04c_revolver_800D158C(RevolverWork *work)
     }
 }
 
-void s04c_revolver_800D15D4(RevolverWork *work)
+void s04c_revolver_800D15D4(Work *work)
 {
     if (work->field_8AC > 1)
     {
@@ -1509,7 +1509,7 @@ void s04c_revolver_800D15D4(RevolverWork *work)
     }
 }
 
-void s04c_revolver_800D168C(RevolverWork* work)
+void s04c_revolver_800D168C(Work* work)
 {
     MATRIX  mat;
     SVECTOR pos;
@@ -1537,7 +1537,7 @@ void s04c_revolver_800D168C(RevolverWork* work)
     }
 }
 
-void s04c_revolver_800D1760(RevolverWork *work)
+void s04c_revolver_800D1760(Work *work)
 {
     int action;
     int frame;
@@ -1575,7 +1575,7 @@ void s04c_revolver_800D1760(RevolverWork *work)
     }
 }
 
-static void Act(RevolverWork *work)
+static void Act(Work *work)
 {
     int diff;
     int sector;
@@ -1713,7 +1713,7 @@ static void Act(RevolverWork *work)
     s04c_revolver_800D1760(work);
 }
 
-static void Die(RevolverWork *work)
+static void Die(Work *work)
 {
     GM_GameStatus &= ~STATE_SHOW_LIFEBAR;
 
@@ -1725,7 +1725,7 @@ static void Die(RevolverWork *work)
     GM_GameStatus &= ~STATE_SHOW_LIFEBAR;
 }
 
-static int InitTarget(RevolverWork *work)
+static int InitTarget(Work *work)
 {
     TARGET *target;
 
@@ -1742,7 +1742,7 @@ static int InitTarget(RevolverWork *work)
     return 0;
 }
 
-static int GetResources(RevolverWork *work, int name, int where)
+static int GetResources(Work *work, int name, int where)
 {
     SVECTOR        indices;
     CONTROL       *control;
@@ -1856,9 +1856,9 @@ static int GetResources(RevolverWork *work, int name, int where)
 
 void *NewOcelotBoss(int name, int where)
 {
-    RevolverWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(RevolverWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "revolver.c");
@@ -1873,7 +1873,7 @@ void *NewOcelotBoss(int name, int where)
     return work;
 }
 
-static void DrawPrims(RevolverWork *work)
+static void DrawPrims(Work *work)
 {
     int            x, y;
     DG_TEX        *tex1;

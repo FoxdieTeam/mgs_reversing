@@ -10,10 +10,10 @@
 #include "linkvar.h"
 
 // Actor created by NewRasen
-typedef struct _RasenWork
+typedef struct _Work
 {
     GV_ACT actor;
-} RasenWork;
+} Work;
 
 typedef struct _Rasen2Item
 {
@@ -650,7 +650,7 @@ void Rasen_800CB34C()
     }
 }
 
-void RasenAct_800CB530(RasenWork *work)
+void RasenAct_800CB530(Work *work)
 {
     SVECTOR svec1;
     SVECTOR svec2;
@@ -785,20 +785,20 @@ void RasenAct_800CB530(RasenWork *work)
     GM_Camera.pan.pad = 0;
 }
 
-void RasenAct_800CBA54(RasenWork *work)
+void RasenAct_800CBA54(Work *work)
 {
     RasenAct_800CB530(work);
 }
 
-void RasenDie_800CBA74(RasenWork *work)
+void RasenDie_800CBA74(Work *work)
 {
 }
 
 void *NewRasen(void)
 {
-    RasenWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(RasenWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, RasenAct_800CBA54, RasenDie_800CBA74, "rasen.c");

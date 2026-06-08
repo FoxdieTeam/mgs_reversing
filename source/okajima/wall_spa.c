@@ -7,7 +7,7 @@
 
 #include "takabe/spark2.h"      // for NewSpark2_800CA714
 
-typedef struct _WallSpaWork
+typedef struct _Work
 {
     GV_ACT  actor;
     int     map;
@@ -15,7 +15,7 @@ typedef struct _WallSpaWork
     SVECTOR bounds[2];
     int     height;
     int     enable;
-} WallSpaWork;
+} Work;
 
 void *NewPlasma_800CD30C(SVECTOR *arg0, SVECTOR *arg1, int arg2, int arg3);
 void AN_Smoke_800CE164(SVECTOR *pos, SVECTOR *speed, int index, int script);
@@ -66,7 +66,7 @@ int WallSpaCheckMessage_800CB0D4(unsigned short name, int n_hashes, unsigned sho
     return found;
 }
 
-void WallSpaUpdate_800CB16C(WallSpaWork *work, MATRIX *world)
+void WallSpaUpdate_800CB16C(Work *work, MATRIX *world)
 {
     SVECTOR rot;
     SVECTOR pos;
@@ -95,7 +95,7 @@ void WallSpaUpdate_800CB16C(WallSpaWork *work, MATRIX *world)
     }
 }
 
-void WallSpaAct_800CB300(WallSpaWork *work)
+void WallSpaAct_800CB300(Work *work)
 {
     MATRIX         world;
     VECTOR         scale;
@@ -148,11 +148,11 @@ void WallSpaAct_800CB300(WallSpaWork *work)
     }
 }
 
-void WallSpaDie_800CB420(WallSpaWork *work)
+void WallSpaDie_800CB420(Work *work)
 {
 }
 
-int WallSpaGetResources_800CB428(WallSpaWork *work, int name, int map)
+int WallSpaGetResources_800CB428(Work *work, int name, int map)
 {
     char *opt;
 
@@ -185,9 +185,9 @@ int WallSpaGetResources_800CB428(WallSpaWork *work, int name, int map)
 
 void *NewWallSpark(int name, int where)
 {
-    WallSpaWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(WallSpaWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, WallSpaAct_800CB300, WallSpaDie_800CB420, "wall_spa.c");

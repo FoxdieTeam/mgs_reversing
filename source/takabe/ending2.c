@@ -36,7 +36,7 @@ typedef struct Ending2Prims
     char        pad12EC[0x640]; // maybe the previous array is actually larger than needed?
 } Ending2Prims;
 
-typedef struct Ending2Work
+typedef struct _Work
 {
     GV_ACT       actor;
     int          field_20;
@@ -58,13 +58,13 @@ typedef struct Ending2Work
     int          field_60;
     Ending2Prims field_64[2];
     DISPENV      field_325C;
-} Ending2Work;
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_USER
 
 // Similar in usage to struct in movie.c
 // (but different order of fields)
-typedef struct _Ending2MovieWork
+typedef struct _Work2
 {
     int            field_0; // 0
     FS_MOVIE_FILE *file;    // 4
@@ -85,7 +85,7 @@ typedef struct _Ending2MovieWork
     void          *ring;         // 38
     void          *dctin[2];     // 3C
     void          *dctout[2];    // 44
-} Ending2MovieWork;
+} Work2;
 
 int roll_dword_800C3244 = 0x00FF0000;
 int roll_dword_800C3248 = 0x00010010;
@@ -97,7 +97,7 @@ RECT moviework_rects_800C3254[3] = {
     { 640, 320, 320, 160 }
 };
 
-Ending2MovieWork moviework_800C326C = {0};
+Work2 moviework_800C326C = {0};
 
 int roll_dword_800C32B8 = 0x00000140;
 int roll_dword_800C32BC[1] = {0x00000267}; // unknown how large
@@ -239,7 +239,7 @@ int Ending2Movie_800C6070()
     StHEADER         *header;
     u_short           type;
     int               ret;
-    Ending2MovieWork *moviework;
+    Work2 *moviework;
 
     moviework = &moviework_800C326C;
 
@@ -283,7 +283,7 @@ int Ending2Movie_800C6070()
 void Ending2Movie_800C6184(void)
 {
     u_long           *breakdraw;
-    Ending2MovieWork *moviework;
+    Work2 *moviework;
 
     moviework = &moviework_800C326C;
 
@@ -312,7 +312,7 @@ void Ending2Movie_800C6240(void)
     char pad[8];
     int  status;
 
-    Ending2MovieWork *moviework;
+    Work2 *moviework;
     RECT             *rect;
 
     moviework = &moviework_800C326C;
@@ -427,7 +427,7 @@ void Ending2Movie_800C6460(void)
     mts_start_task(MTSID_CD_READ, Ending2Movie_800C6240, STACK_BOTTOM(stack_800C9F60), ENDING_STACK_SIZE);
 }
 
-void Ending2_800C65C4(Ending2Work *work)
+void Ending2_800C65C4(Work *work)
 {
     while (mts_get_task_status(MTSID_CD_READ) != 0)
     {
@@ -449,7 +449,7 @@ void Ending2_800C665C(int movieId)
 
     if (moviework_800C326C.file == NULL)
     {
-        GV_ZeroMemory(&moviework_800C326C, sizeof(Ending2MovieWork));
+        GV_ZeroMemory(&moviework_800C326C, sizeof(Work2));
         printf("MOVIE %d\n", movieId);
         file = FS_GetMovieInfo(movieId);
         if (file == NULL)
@@ -463,7 +463,7 @@ void Ending2_800C665C(int movieId)
     }
 }
 
-void Ending2_800C66EC(Ending2Work *work)
+void Ending2_800C66EC(Work *work)
 {
     if (work->field_40 == 0)
     {
@@ -476,7 +476,7 @@ void Ending2_800C66EC(Ending2Work *work)
     }
 }
 
-void Ending2_800C673C(Ending2Work *work)
+void Ending2_800C673C(Work *work)
 {
     if (work->field_40 == 0)
     {
@@ -488,7 +488,7 @@ void Ending2_800C673C(Ending2Work *work)
     }
 }
 
-int Ending2_800C677C(Ending2Work *work)
+int Ending2_800C677C(Work *work)
 {
     int status;
 
@@ -581,7 +581,7 @@ void Ending2_800C691C(int offset, int count)
     }
 }
 
-void Ending2_800C6968(Ending2Work *work) // TODO: I guessed that it's work
+void Ending2_800C6968(Work *work) // TODO: I guessed that it's work
 {
     int yoff;
 
@@ -599,7 +599,7 @@ void Ending2_800C6968(Ending2Work *work) // TODO: I guessed that it's work
     work->field_24 = (work->field_24 + 2) % 320;
 }
 
-void roll_ending2_800C6AA4(Ending2Work *work, int count)
+void roll_ending2_800C6AA4(Work *work, int count)
 {
     int i;
     int yoff;
@@ -621,7 +621,7 @@ void roll_ending2_800C6AA4(Ending2Work *work, int count)
     work->field_24 = (work->field_24 + count) % 320;
 }
 
-int Ending2_800C6C40(Ending2Work *work)
+int Ending2_800C6C40(Work *work)
 {
     // FIMXE: figure out the type of field_50, field_54
     short *temp_v1;
@@ -806,7 +806,7 @@ void Ending2_800C6E00(SPRT *polys, Ending2Prims *prims, int arg2, u_long *ot, in
     addPrim(ot, tpages[3]);
 }
 
-void Ending2Act_800C71D8(Ending2Work *work)
+void Ending2Act_800C71D8(Work *work)
 {
     int             shade;
     Ending2Prims   *prims;
@@ -959,7 +959,7 @@ void Ending2Act_800C71D8(Ending2Work *work)
     }
 }
 
-void Ending2Die_800C76BC(Ending2Work *work)
+void Ending2Die_800C76BC(Work *work)
 {
     RECT     rect;
     DRAWENV  drawenv;
@@ -1002,7 +1002,7 @@ void Ending2Die_800C76BC(Ending2Work *work)
 
 #define HASH_credit 0xEAE8 // GV_StrCode("credit")
 
-void Ending2GetResources_800C77F8(Ending2Work *work, int field_48)
+void Ending2GetResources_800C77F8(Work *work, int field_48)
 {
     RECT     rect;
     DRAWENV  drawenv;
@@ -1106,9 +1106,9 @@ void Ending2GetResources_800C77F8(Ending2Work *work, int field_48)
 
 void *NewEndingRoll(int arg0)
 {
-    Ending2Work *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Ending2Work));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Ending2Act_800C71D8, Ending2Die_800C76BC, "ending2.c");

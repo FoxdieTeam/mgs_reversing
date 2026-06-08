@@ -7,7 +7,7 @@
 #include "takabe/thing.h"
 #include "strcode.h"
 
-typedef struct MosaicWork
+typedef struct _Work
 {
     GV_ACT actor;
     int    field_20;
@@ -29,7 +29,7 @@ typedef struct MosaicWork
     int    field_60;
     int    field_64;
     int    field_68;
-} MosaicWork;
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_PREV2
 
@@ -47,7 +47,7 @@ void s00a_mosaic_800DC930()
 {
 }
 
-void MosaicAct_800DC938(MosaicWork *work)
+void MosaicAct_800DC938(Work *work)
 {
     char unused[16];
     int  found;
@@ -67,7 +67,7 @@ void MosaicAct_800DC938(MosaicWork *work)
     }
 }
 
-void MosaicDie_800DC9A0(MosaicWork *work)
+void MosaicDie_800DC9A0(Work *work)
 {
     void *allocated;
 
@@ -78,7 +78,7 @@ void MosaicDie_800DC9A0(MosaicWork *work)
     }
 }
 
-int MosaicGetResources_800DC9D0(MosaicWork *arg0, void *arg1, int arg2, int arg3, int arg4)
+int MosaicGetResources_800DC9D0(Work *arg0, void *arg1, int arg2, int arg3, int arg4)
 {
     arg0->field_58 = 16;
     arg0->field_5C = 16;
@@ -91,9 +91,9 @@ int MosaicGetResources_800DC9D0(MosaicWork *arg0, void *arg1, int arg2, int arg3
 
 void *NewMosaic(void *arg0, int arg1, int arg2, int arg3)
 {
-    MosaicWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(MosaicWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, MosaicAct_800DC938, MosaicDie_800DC9A0, "mosaic.c");
@@ -111,10 +111,10 @@ void *NewMosaic(void *arg0, int arg1, int arg2, int arg3)
 void *NewMosaicSet(int name, int where, int argc, char **argv)
 {
     SVECTOR     vec;
-    MosaicWork *work;
+    Work *work;
     int         s, d;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(MosaicWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, MosaicAct_800DC938, MosaicDie_800DC9A0, "mosaic.c");

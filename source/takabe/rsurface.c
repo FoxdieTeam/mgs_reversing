@@ -16,7 +16,7 @@ typedef struct RSurfaceElem
     SVECTOR  field_8;
 } RSurfaceElem;
 
-typedef struct RSurfaceWork
+typedef struct _Work
 {
     GV_ACT       actor;
     int          field_20;
@@ -29,16 +29,16 @@ typedef struct RSurfaceWork
     short        field_82;
     short        field_84;
     short        field_86;
-} RSurfaceWork;
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_USER
 
 extern CONTROL *GM_WhereList[96];
 extern int      GM_N_WhereList;
 
-void  s00a_rsurface_800D82E0(RSurfaceWork *work);
+void  s00a_rsurface_800D82E0(Work *work);
 
-void RippleSurfaceAct_800D7FC4(RSurfaceWork *work)
+void RippleSurfaceAct_800D7FC4(Work *work)
 {
     MATRIX        mat;
     int           i;
@@ -81,11 +81,11 @@ void RippleSurfaceAct_800D7FC4(RSurfaceWork *work)
     }
 }
 
-void RippleSurfaceDie_800D8140(RSurfaceWork *work)
+void RippleSurfaceDie_800D8140(Work *work)
 {
 }
 
-int RippleSurfaceGetResources_800D8148(RSurfaceWork *work, int name, int where)
+int RippleSurfaceGetResources_800D8148(Work *work, int name, int where)
 {
     GM_CurrentMap = where;
     if (GCL_GetOption('p'))
@@ -110,9 +110,9 @@ int RippleSurfaceGetResources_800D8148(RSurfaceWork *work, int name, int where)
 
 void *NewRippleSurface(int name, int where, int argc, char **argv)
 {
-    RSurfaceWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(RSurfaceWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, RippleSurfaceAct_800D7FC4,
@@ -128,7 +128,7 @@ void *NewRippleSurface(int name, int where, int argc, char **argv)
     return (void *)work;
 }
 
-static inline int s00a_rsurface_800D82E0_helper(RSurfaceWork *work, CONTROL *ctrl)
+static inline int s00a_rsurface_800D82E0_helper(Work *work, CONTROL *ctrl)
 {
     int height;
     height = ctrl->height;
@@ -143,7 +143,7 @@ static inline int s00a_rsurface_800D82E0_helper(RSurfaceWork *work, CONTROL *ctr
     return 0;
 }
 
-void s00a_rsurface_800D82E0(RSurfaceWork *work)
+void s00a_rsurface_800D82E0(Work *work)
 {
     CONTROL     **wherelistIter;
     CONTROL      *ctrl;

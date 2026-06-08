@@ -5,7 +5,7 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 
-typedef struct _SmktrgtWork
+typedef struct _Work
 {
     GV_ACT  actor;
     TARGET  target[32];
@@ -21,7 +21,7 @@ typedef struct _SmktrgtWork
     SVECTOR fBE4[16];
     SVECTOR fC64[16];
     int     map;
-} SmktrgtWork;
+} Work;
 
 SVECTOR s13a_800C36FC = {200, 200, 200, 0};
 SVECTOR s13a_800C3704 = {300, 300, 300, 0};
@@ -30,7 +30,7 @@ void AN_Unknown_800DC5B4(SVECTOR *pos, SVECTOR *speed, int script);
 
 #define EXEC_LEVEL GV_ACTOR_PREV
 
-int s13a_smktrgt_800DBBC0(SmktrgtWork *work)
+int s13a_smktrgt_800DBBC0(Work *work)
 {
     int i;
 
@@ -79,7 +79,7 @@ int s13a_smktrgt_800DBD08(char *opt, int *out)
     return count;
 }
 
-void s13a_smktrgt_800DBD60(SmktrgtWork *work, int index)
+void s13a_smktrgt_800DBD60(Work *work, int index)
 {
     MATRIX  sp10;
     SVECTOR sp30;
@@ -213,7 +213,7 @@ void s13a_smktrgt_800DBD60(SmktrgtWork *work, int index)
     }
 }
 
-void SmktrgtAct_800DC19C(SmktrgtWork *work)
+void SmktrgtAct_800DC19C(Work *work)
 {
     int i;
 
@@ -228,7 +228,7 @@ void SmktrgtAct_800DC19C(SmktrgtWork *work)
     }
 }
 
-int SmktrgtGetResources_800DC210(SmktrgtWork *work, int name, int map)
+int SmktrgtGetResources_800DC210(Work *work, int name, int map)
 {
     char *opt;
     int i;
@@ -299,20 +299,20 @@ int SmktrgtGetResources_800DC210(SmktrgtWork *work, int name, int map)
     return 0;
 }
 
-int Smktrgt_800DC400(SmktrgtWork *work, int map)
+int Smktrgt_800DC400(Work *work, int map)
 {
     return 0;
 }
 
-void SmktrgtDie_800DC408(SmktrgtWork *work)
+void SmktrgtDie_800DC408(Work *work)
 {
 }
 
 void *NewSmokeTarget(int name, int map)
 {
-    SmktrgtWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(SmktrgtWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, SmktrgtAct_800DC19C, SmktrgtDie_800DC408, "smktrgt.c");

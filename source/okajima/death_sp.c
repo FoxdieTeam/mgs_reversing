@@ -7,7 +7,7 @@
 
 #include "takabe/spark2.h"   // for NewSpark2_800CA714
 
-typedef struct _DeathSpWork
+typedef struct _Work
 {
     GV_ACT actor;
     int    map;
@@ -20,7 +20,7 @@ typedef struct _DeathSpWork
     int    fE8[4];
     int    s_time;
     int    time;
-} DeathSpWork;
+} Work;
 
 void AN_Smoke_800CE164(SVECTOR *pos, SVECTOR *speed, int index, int script);
 
@@ -38,7 +38,7 @@ void DeathSp_800CFDBC(SVECTOR *out, int index)
     out->vz = body->objs->objs[index].world.t[2];
 }
 
-void DeathSpAct_800CFE1C(DeathSpWork *work)
+void DeathSpAct_800CFE1C(Work *work)
 {
     SVECTOR pos0;
     SVECTOR pos1;
@@ -122,11 +122,11 @@ void DeathSpAct_800CFE1C(DeathSpWork *work)
     }
 }
 
-void DeathSpDie_800D00EC(DeathSpWork *work)
+void DeathSpDie_800D00EC(Work *work)
 {
 }
 
-int DeathSpGetResources_800D00F4(DeathSpWork *work, int name, int map)
+int DeathSpGetResources_800D00F4(Work *work, int name, int map)
 {
     char *opt;
     int   i;
@@ -198,9 +198,9 @@ int DeathSpGetResources_800D00F4(DeathSpWork *work, int name, int map)
 
 void *NewDeathSpark(int name, int where)
 {
-    DeathSpWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(DeathSpWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, DeathSpAct_800CFE1C, DeathSpDie_800D00EC, "death_sp.c");

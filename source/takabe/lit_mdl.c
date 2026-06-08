@@ -5,7 +5,7 @@
 #include "libdg/libdg.h"
 #include "game/game.h"
 
-typedef struct LitMdlWork
+typedef struct _Work
 {
     GV_ACT         actor;
     int            field_20;
@@ -41,7 +41,7 @@ typedef struct LitMdlWork
     unsigned char  field_390_normalFaceOffsets[144];
     unsigned char  field_420_uvOffsets[288];
     unsigned short field_540_materialOffsets[36];
-} LitMdlWork;
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_AFTER2
 
@@ -74,7 +74,7 @@ DG_DEF litmdl_dg_def = {
 
 extern DG_CHANL DG_Chanls[3];
 
-void s01a_lit_mdl_800E26EC(LitMdlWork *work)
+void s01a_lit_mdl_800E26EC(Work *work)
 {
     int      scale;
     DG_MDL  *mdl;
@@ -154,7 +154,7 @@ void s01a_lit_mdl_800E26EC(LitMdlWork *work)
     mdl->max.vx = work->field_140_vertexIndexOffsets[48].vx;
 }
 
-void s01a_lit_mdl_800E2928(LitMdlWork *work)
+void s01a_lit_mdl_800E2928(Work *work)
 {
     int mat1;
     int mat2;
@@ -194,14 +194,14 @@ void s01a_lit_mdl_800E2928(LitMdlWork *work)
     }
 }
 
-void s01a_lit_mdl_800E2ABC(LitMdlWork *work)
+void s01a_lit_mdl_800E2ABC(Work *work)
 {
     GM_FreeObject((OBJECT *)&work->field_24_obj);
 }
 
-void s01a_lit_mdl_800E2D64(LitMdlWork *, SVECTOR *);
+void s01a_lit_mdl_800E2D64(Work *, SVECTOR *);
 
-int s01a_lit_mdl_800E2ADC(LitMdlWork *work, MATRIX *arg2, int arg3, int arg4, int raise)
+int s01a_lit_mdl_800E2ADC(Work *work, MATRIX *arg2, int arg3, int arg4, int raise)
 {
     OBJECT_NO_ROTS *obj;
     short           map;
@@ -234,9 +234,9 @@ int s01a_lit_mdl_800E2ADC(LitMdlWork *work, MATRIX *arg2, int arg3, int arg4, in
 
 void *s01a_lit_mdl_800E2C88(MATRIX *arg0, int arg1, int arg2, int arg3)
 {
-    LitMdlWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(LitMdlWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, s01a_lit_mdl_800E2928, s01a_lit_mdl_800E2ABC, "lit_mdl.c");
@@ -249,14 +249,14 @@ void *s01a_lit_mdl_800E2C88(MATRIX *arg0, int arg1, int arg2, int arg3)
     return (void *)work;
 }
 
-void s01a_lit_mdl_800E2D3C(LitMdlWork *work, int ang)
+void s01a_lit_mdl_800E2D3C(Work *work, int ang)
 {
     work->field_B4 = ang;
     work->field_B8 = ang / 6;
     work->field_BC = ang / 6;
 }
 
-void s01a_lit_mdl_800E2D64(LitMdlWork *work, SVECTOR *unused)
+void s01a_lit_mdl_800E2D64(Work *work, SVECTOR *unused)
 {
     DG_MDL        *mdl;
     int            i, j;

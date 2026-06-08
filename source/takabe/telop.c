@@ -24,18 +24,18 @@ typedef struct _TelopSub
     int        shade;
 } TelopSub;
 
-typedef struct _TelopWork
+typedef struct _Work
 {
     GV_ACT    actor;
     TelopSub *sub;
-} TelopWork;
+} Work;
 
-typedef struct _TelopWork2
+typedef struct _Work2
 {
     GV_ACT    actor;
     TelopSub *sub;
     int       count;
-} TelopWork2;
+} Work2;
 
 #define EXEC_LEVEL GV_ACTOR_PREV2
 
@@ -162,7 +162,7 @@ void telop_800DD730(u_long *ot, TelopSub *sub)
     }
 }
 
-void TelopSetAct_800DD92C(TelopWork2 *work)
+void TelopSetAct_800DD92C(Work2 *work)
 {
     TelopSub *sub;
     u_long   *ot;
@@ -189,7 +189,7 @@ void TelopSetAct_800DD92C(TelopWork2 *work)
     }
 }
 
-void TelopSetDie_800DD9E8(TelopWork2 *work)
+void TelopSetDie_800DD9E8(Work2 *work)
 {
     if (work->sub)
     {
@@ -197,7 +197,7 @@ void TelopSetDie_800DD9E8(TelopWork2 *work)
     }
 }
 
-int TelopGetResources_800DDA18(TelopWork2 *work, int unused, int unused2)
+int TelopGetResources_800DDA18(Work2 *work, int unused, int unused2)
 {
     TelopSub *sub;
     int       count;
@@ -229,9 +229,9 @@ int TelopGetResources_800DDA18(TelopWork2 *work, int unused, int unused2)
 
 void *NewTelopSet(int name, int where, int argc, char **argv)
 {
-    TelopWork2 *work;
+    Work2 *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(TelopWork2));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work2));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, TelopSetAct_800DD92C, TelopSetDie_800DD9E8, "telop.c");
@@ -246,7 +246,7 @@ void *NewTelopSet(int name, int where, int argc, char **argv)
     return (void *)work;
 }
 
-void Telop2Act_800DDBC8(TelopWork *work)
+void Telop2Act_800DDBC8(Work *work)
 {
     TelopSub *sub;
 
@@ -259,7 +259,7 @@ void Telop2Act_800DDBC8(TelopWork *work)
     }
 }
 
-void telop_800DDC30(TelopWork *work)
+void telop_800DDC30(Work *work)
 {
     if (work->sub)
     {
@@ -269,12 +269,12 @@ void telop_800DDC30(TelopWork *work)
 
 void *NewTelop2(int x, int y, int timer, int reload, int arg4, int arg5)
 {
-    TelopWork *work;
+    Work *work;
     TelopSub  *sub;
     DG_TEX    *tex1;
     DG_TEX    *tex2;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(TelopWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Telop2Act_800DDBC8, telop_800DDC30, "telop.c");

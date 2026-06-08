@@ -20,7 +20,7 @@ extern unsigned short GM_ItemTypes[];
 
 /*---------------------------------------------------------------------------*/
 
-typedef struct ItemWork
+typedef struct _Work
 {
     GV_ACT         actor;
     CONTROL        control;
@@ -41,7 +41,7 @@ typedef struct ItemWork
     LINE_F4        text_line[2]; // lines around the item text
     DG_PRIM       *shadow;
     SVECTOR        shadow_verts[4];
-} ItemWork;
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_USER
 
@@ -174,7 +174,7 @@ void enable_equipment(void)
     }
 }
 
-static int in_pickup_range(ItemWork *work)
+static int in_pickup_range(Work *work)
 {
     SVECTOR vec;
     int     diff;
@@ -236,7 +236,7 @@ static int world_to_screen(SVECTOR *out, SVECTOR *in)
     return z > 0;
 }
 
-static void Act(ItemWork *work)
+static void Act(Work *work)
 {
     SVECTOR     screen_pos;
     SVECTOR     position;
@@ -545,7 +545,7 @@ static void Act(ItemWork *work)
 
 /*---------------------------------------------------------------------------*/
 
-static void Die(ItemWork *work)
+static void Die(Work *work)
 {
     GM_FreeControl(&work->control);
     GM_FreeObject((OBJECT *)&work->body);
@@ -566,7 +566,7 @@ static void Die(ItemWork *work)
 
 /*---------------------------------------------------------------------------*/
 
-static int check_type( ItemWork *work, int type )
+static int check_type( Work *work, int type )
 {
     int id;
 
@@ -622,7 +622,7 @@ static int check_type( ItemWork *work, int type )
     return 1;
 }
 
-static int GetResources(ItemWork *work, int name, int where)
+static int GetResources(Work *work, int name, int where)
 {
     CONTROL        *control;
     char           *pos;
@@ -790,10 +790,10 @@ static int GetResources(ItemWork *work, int name, int where)
 
 void *NewItem(int name, int where, int argc, char **argv)
 {
-    ItemWork *work;
+    Work *work;
     int       inited;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(ItemWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "item.c");
@@ -827,7 +827,7 @@ void *NewItem(int name, int where, int argc, char **argv)
 
 /*---------------------------------------------------------------------------*/
 
-static int GetResourcesPut(ItemWork *work, SVECTOR *pos, SVECTOR *step, Item_Info *info, int where)
+static int GetResourcesPut(Work *work, SVECTOR *pos, SVECTOR *step, Item_Info *info, int where)
 {
     int      type;
     CONTROL *control;
@@ -875,9 +875,9 @@ static int GetResourcesPut(ItemWork *work, SVECTOR *pos, SVECTOR *step, Item_Inf
 
 void *NewItemPut(SVECTOR *pos, SVECTOR *step, Item_Info *info)
 {
-    ItemWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(ItemWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "item.c");

@@ -18,7 +18,7 @@ typedef struct _RedAlrtPrims
     TILE     tile[2];
 } RedAlrtPrims;
 
-typedef struct _RedAlrtWork
+typedef struct _Work
 {
     GV_ACT        actor;
     RedAlrtPrims *prims;
@@ -37,9 +37,9 @@ typedef struct _RedAlrtWork
     int           f64;
     int           f68;
     int           f6C;
-} RedAlrtWork;
+} Work;
 
-RedAlrtWork *d03a_dword_800C3270 = NULL;
+Work *d03a_dword_800C3270 = NULL;
 
 // Identical to THING_Msg_CheckMessage minus returning the message value.
 int d03a_red_alrt_800C437C(unsigned short name, int nhashes, unsigned short *hashes)
@@ -69,7 +69,7 @@ int d03a_red_alrt_800C437C(unsigned short name, int nhashes, unsigned short *has
     return found;
 }
 
-void d03a_red_alrt_800C4414(RedAlrtWork *work)
+void d03a_red_alrt_800C4414(Work *work)
 {
     SVECTOR color;
 
@@ -95,7 +95,7 @@ void d03a_red_alrt_800C4414(RedAlrtWork *work)
     setRGB0(&work->prims->tile[GV_Clock], color.vx, color.vy, color.vz);
 }
 
-void d03a_red_alrt_800C45CC(RedAlrtWork *work, int length, short x, short y, short z)
+void d03a_red_alrt_800C45CC(Work *work, int length, short x, short y, short z)
 {
     work->length = length;
     work->f38.vx = x;
@@ -103,7 +103,7 @@ void d03a_red_alrt_800C45CC(RedAlrtWork *work, int length, short x, short y, sho
     work->f38.vz = z;
 }
 
-void RedAlertAct_800C45E4(RedAlrtWork *work)
+void RedAlertAct_800C45E4(Work *work)
 {
     u_short hashes[5];
     int     found;
@@ -198,7 +198,7 @@ void RedAlertAct_800C45E4(RedAlrtWork *work)
     d03a_dword_800C3270 = work;
 }
 
-void RedAlertDie_800C48D0(RedAlrtWork *work)
+void RedAlertDie_800C48D0(Work *work)
 {
     if (work->prims)
     {
@@ -226,7 +226,7 @@ int d03a_red_alrt_800C4904(char *opt, SVECTOR *svec)
     return count;
 }
 
-int d03a_red_alrt_800C4958(RedAlrtWork *work, int name, int map)
+int d03a_red_alrt_800C4958(Work *work, int name, int map)
 {
     char         *opt;
     RedAlrtPrims *prims;
@@ -329,7 +329,7 @@ int d03a_red_alrt_800C4958(RedAlrtWork *work, int name, int map)
     return 0;
 }
 
-int d03a_red_alrt_800C4BB0(RedAlrtWork *work, int name, int length, SVECTOR *color1, SVECTOR *color2, int arg5, int arg6)
+int d03a_red_alrt_800C4BB0(Work *work, int name, int length, SVECTOR *color1, SVECTOR *color2, int arg5, int arg6)
 {
     RedAlrtPrims *prims;
 
@@ -394,9 +394,9 @@ int d03a_red_alrt_800C4BB0(RedAlrtWork *work, int name, int length, SVECTOR *col
 
 void *NewRedAlert(int name, int where, int argc, char **argv)
 {
-    RedAlrtWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(RedAlrtWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, RedAlertAct_800C45E4, RedAlertDie_800C48D0, "red_alrt.c");
@@ -413,9 +413,9 @@ void *NewRedAlert(int name, int where, int argc, char **argv)
 
 void *NewRedAlert2(int name, int length, SVECTOR *color1, SVECTOR *color2, int arg4, int arg5)
 {
-    RedAlrtWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(RedAlrtWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, RedAlertAct_800C45E4, RedAlertDie_800C48D0, "red_alrt.c");

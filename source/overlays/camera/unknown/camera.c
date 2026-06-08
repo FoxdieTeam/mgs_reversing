@@ -23,7 +23,7 @@
 #include "mts/taskid.h"
 #include "sound/g_sound.h"
 
-typedef struct CameraWork
+typedef struct _Work
 {
     GV_ACT   actor;
     int      f20;
@@ -58,7 +58,7 @@ typedef struct CameraWork
     char     padding6c[0x20];
     int      f49E0;
     char    *f49E4;
-} CameraWork;
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_MANAGER
 
@@ -93,8 +93,8 @@ extern char camera_aRequestx_800CFF3C[];
 extern char camera_aNomemoryforstack_800CFF54[];
 extern const char camera_a_800D0144[];
 
-void camera_800C3ED8(CameraWork *);
-int camera_800CDF18(CameraWork *);
+void camera_800C3ED8(Work *);
+int camera_800CDF18(Work *);
 
 void camera_800C3A7C(unsigned long *runlevel, RECT *pRect)
 {
@@ -136,7 +136,7 @@ void camera_800C3A7C(unsigned long *runlevel, RECT *pRect)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C3B9C.s")
-void camera_800C3D3C(CameraWork *work)
+void camera_800C3D3C(Work *work)
 {
     POLY_FT4 *p;
     int len = 9;
@@ -184,7 +184,7 @@ void camera_800C3D3C(CameraWork *work)
     SetSemiTrans(p, 0);
     work->field_654[1] = 0x800;
 }
-void camera_800C3ED8(CameraWork *work)
+void camera_800C3ED8(Work *work)
 {
     POLY_FT4 *src;
     POLY_FT4 *dst;
@@ -226,7 +226,7 @@ extern const char camera_aThisidisexistsoiclearthisid_800CFAD4[];
 extern const char camera_aThisidisnotexist_800CFAFC[];
 extern const char camera_aTextureloadimagefinish_800CFB14[];
 
-int camera_800C408C(CameraWork *unused, int idx)
+int camera_800C408C(Work *unused, int idx)
 {
     int   *base;
     int   *entry;
@@ -266,7 +266,7 @@ int camera_800C408C(CameraWork *unused, int idx)
 
 extern const char camera_aCamexflush_800CFB30[];
 
-void camera_800C4184(CameraWork *work)
+void camera_800C4184(Work *work)
 {
     POLY_FT4 *p;
     DG_TEX   *tex;
@@ -334,7 +334,7 @@ void camera_800C4184(CameraWork *work)
     work->field_654[3] = 0;
 }
 
-void camera_800C4350(CameraWork* work) {
+void camera_800C4350(Work* work) {
 
     printf((char *)camera_aThisissinreiphoto_800CFB40);
     printf((char *)camera_aSinreinod_800CFB58, work->field_4934);
@@ -1383,7 +1383,7 @@ void camera_800C85D8(void)
     setClut(sprt, 976, 511);
 }
 
-void camera_800C864C(CameraWork *work)
+void camera_800C864C(Work *work)
 {
     int i;
 
@@ -1403,7 +1403,7 @@ void camera_800C864C(CameraWork *work)
     }
 }
 
-void camera_800C869C(CameraWork *work)
+void camera_800C869C(Work *work)
 {
     int i;
 
@@ -1414,9 +1414,9 @@ void camera_800C869C(CameraWork *work)
 }
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C86BC.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C884C.s")
-extern void camera_800C86BC(CameraWork *work, int x, int y, int w, int h, int color, int unused);
+extern void camera_800C86BC(Work *work, int x, int y, int w, int h, int color, int unused);
 
-void camera_800C89DC(CameraWork *work)
+void camera_800C89DC(Work *work)
 {
     POLY_FT4 *p = work->polys_lr;
     int counter = work->field_4938;
@@ -1465,9 +1465,9 @@ void camera_800C89DC(CameraWork *work)
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800CA918.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800CB024.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800CB8AC.s")
-extern void camera_800C884C(CameraWork *work, int x, int y, int w, int h, int color, int unused);
+extern void camera_800C884C(Work *work, int x, int y, int w, int h, int color, int unused);
 
-void camera_800CBCC8(CameraWork *work)
+void camera_800CBCC8(Work *work)
 {
     GV_PAD   *pad   = work->pad;
     int       state = work->field_49BC;
@@ -1551,7 +1551,7 @@ void camera_800CD0A0(MenuPrim *prim, int x, int y, int w, int h)
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800CDCA4.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800CDF18.s")
 
-void CameraAct_800CE404(CameraWork *work)
+void CameraAct_800CE404(Work *work)
 {
     work->field_920 = work->field_92C[GV_Clock];
     work->field_924_mOrderingTable = DG_Chanl(1)->ot[GV_Clock];
@@ -1560,16 +1560,16 @@ void CameraAct_800CE404(CameraWork *work)
     work->field_4938++;
 }
 
-void CameraDie_800CE470(CameraWork *work)
+void CameraDie_800CE470(Work *work)
 {
     GM_FreePrim(work->prim1);
     GM_FreePrim(work->prim2);
     GM_FreePrim(work->prim3);
 }
 
-int camera_800CE6EC(CameraWork *work, int where);
+int camera_800CE6EC(Work *work, int where);
 
-void camera_800CE4F8(CameraWork *work, POLY_FT4 *pPoly, int x0, int y0, int x1, int y1, int semiTrans)
+void camera_800CE4F8(Work *work, POLY_FT4 *pPoly, int x0, int y0, int x1, int y1, int semiTrans)
 {
     setPolyFT4(pPoly);
     setRGB0(pPoly, 128, 128, 128);
@@ -1584,7 +1584,7 @@ void camera_800CE4F8(CameraWork *work, POLY_FT4 *pPoly, int x0, int y0, int x1, 
     SetSemiTrans(pPoly, semiTrans);
 }
 
-void camera_800CE568(CameraWork *work, int hashCode, POLY_FT4 *pPoly, int x0, int y0, int x1, int y1, int semiTrans, int arg9)
+void camera_800CE568(Work *work, int hashCode, POLY_FT4 *pPoly, int x0, int y0, int x1, int y1, int semiTrans, int arg9)
 {
     DG_TEX *tex;
     camera_800CE4F8(work, pPoly, x0, y0, x1, y1, semiTrans);
@@ -1653,7 +1653,7 @@ void camera_800CE568(CameraWork *work, int hashCode, POLY_FT4 *pPoly, int x0, in
     }
 }
 
-int CameraGetResources_800CE6EC(CameraWork *work, int map)
+int CameraGetResources_800CE6EC(Work *work, int map)
 {
     POLY_FT4 *poly;
     int       i;
@@ -1907,10 +1907,10 @@ int CameraGetResources_800CE6EC(CameraWork *work, int map)
 
 void *NewCamera_800CF388(int name, int where, int argc, char **argv)
 {
-    CameraWork *work;
+    Work *work;
 
     GM_GameStatus |= STATE_ALL_OFF;
-    work = GV_NewActor(EXEC_LEVEL, sizeof(CameraWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, CameraAct_800CE404, CameraDie_800CE470, "camera.c");

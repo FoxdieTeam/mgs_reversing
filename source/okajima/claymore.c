@@ -17,7 +17,7 @@ extern MAP *claymore_MAP_800bdf08;
 
 /*---------------------------------------------------------------------------*/
 
-typedef struct ClaymoreWork
+typedef struct _Work
 {
     GV_ACT      actor;
     int       field_20_map;
@@ -56,7 +56,7 @@ typedef struct ClaymoreWork
     int       field_120;
     int       field_124; // Counter increasing from 0 to 3?
     int       field_128;
-} ClaymoreWork;
+} Work;
 
 #define EXEC_LEVEL  GV_ACTOR_AFTER
 
@@ -81,7 +81,7 @@ STATIC void claymore_800731CC(SVECTOR *param_1)
     DG_PutVector(stru_8009F630, param_1, 4); // 4 = sizeof?
 }
 
-STATIC void claymore_loader_helper2_800731F8(ClaymoreWork *work)
+STATIC void claymore_loader_helper2_800731F8(Work *work)
 {
     // Perform copies:
     //   work->field_E8  = work->field_C8;
@@ -102,7 +102,7 @@ STATIC void claymore_loader_helper2_800731F8(ClaymoreWork *work)
     }
 }
 
-STATIC void claymore_act_helper_800732B0(ClaymoreWork *work)
+STATIC void claymore_act_helper_800732B0(Work *work)
 {
     // Perform copies:
     //   work->field_E8  = work->field_C8;
@@ -123,7 +123,7 @@ STATIC void claymore_act_helper_800732B0(ClaymoreWork *work)
     claymore_800731CC(vec);
 }
 
-STATIC void claymore_act_helper_80073364(ClaymoreWork *work)
+STATIC void claymore_act_helper_80073364(Work *work)
 {
     SVECTOR *pSrc;
     SVECTOR *pDst;
@@ -179,7 +179,7 @@ STATIC void claymore_loader_helper_80073490(POLY_FT4 *pPoly, DG_TEX *pTex)
     }
 }
 
-STATIC int claymore_loader_helper_800735A0(ClaymoreWork *work, SVECTOR *arg1, SVECTOR *arg2)
+STATIC int claymore_loader_helper_800735A0(Work *work, SVECTOR *arg1, SVECTOR *arg2)
 {
     SVECTOR  vec;
     SVECTOR  vec2;
@@ -220,7 +220,7 @@ STATIC int claymore_loader_helper_800735A0(ClaymoreWork *work, SVECTOR *arg1, SV
     return len;
 }
 
-STATIC void claymore_Act(ClaymoreWork *work)
+STATIC void claymore_Act(Work *work)
 {
     SVECTOR vec;
     MATRIX  matrix;
@@ -297,12 +297,12 @@ STATIC void claymore_Act(ClaymoreWork *work)
     }
 }
 
-STATIC void claymore_Die(ClaymoreWork *work)
+STATIC void claymore_Die(Work *work)
 {
     GM_FreePrim(work->field_84_pPrim);
 }
 
-STATIC void claymore_loader_80073930(ClaymoreWork *work)
+STATIC void claymore_loader_80073930(Work *work)
 {
     SVECTOR vec;
 
@@ -317,7 +317,7 @@ STATIC void claymore_loader_80073930(ClaymoreWork *work)
 
 STATIC const SVECTOR svector_80012EDC = {0, 0, 1500, 0};
 
-STATIC int claymore_GetResources(ClaymoreWork *work, SVECTOR *new_field_24, SVECTOR *new_field_2C)
+STATIC int claymore_GetResources(Work *work, SVECTOR *new_field_24, SVECTOR *new_field_2C)
 {
     DG_PRIM *prim;
     DG_TEX  *tex;
@@ -367,8 +367,8 @@ STATIC const SVECTOR stru_80012EEC = {200, 200, 200, 0};
 void *NewClaymore(SVECTOR *noise_position, SVECTOR *new_field_2C, int pCnt, int param_4)
 {
     int             i;
-    ClaymoreWork   *work;
-    ClaymoreWork   *dummy;
+    Work   *work;
+    Work   *dummy;
     SVECTOR         new_field_24;
     SVECTOR         vec2;
     int             current_map;
@@ -399,7 +399,7 @@ void *NewClaymore(SVECTOR *noise_position, SVECTOR *new_field_2C, int pCnt, int 
 
     for (i = 0; i < pCnt; i++)
     {
-        work = GV_NewActor(EXEC_LEVEL, sizeof(ClaymoreWork));
+        work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
         if (work != NULL)
         {
             GV_SetNamedActor(&work->actor, claymore_Act, claymore_Die, "claymore.c");

@@ -18,7 +18,7 @@ typedef struct _GasEfctPrims
     POLY_G4  poly[2][16];
 } GasEfctPrims;
 
-typedef struct _GasEfctWork
+typedef struct _Work
 {
     GV_ACT        actor;
     int           map;
@@ -38,16 +38,16 @@ typedef struct _GasEfctWork
     int           f60;
     int           f64;
     char          pad[0x20];
-} GasEfctWork;
+} Work;
 
 unsigned short gas_efct_msgs[] = {HASH_ON2, HASH_OFF2};
 
 #define EXEC_LEVEL GV_ACTOR_PREV2
 
-void d11c_800C4FFC(GasEfctWork *work);
-void d11c_800C5094(GasEfctWork *work, int arg1);
+void d11c_800C4FFC(Work *work);
+void d11c_800C5094(Work *work, int arg1);
 
-void d11c_800C49A4(GasEfctWork *work, POLY_G4 *packs)
+void d11c_800C49A4(Work *work, POLY_G4 *packs)
 {
     int x1, y1, sin1, cos1;
     int x2, y2, sin2, cos2;
@@ -93,9 +93,9 @@ void d11c_800C49A4(GasEfctWork *work, POLY_G4 *packs)
     }
 }
 
-void GasEffectAct_800C4BBC(GasEfctWork *work_copy)
+void GasEffectAct_800C4BBC(Work *work_copy)
 {
-    GasEfctWork *work;
+    Work *work;
     int          found;
     int          message;
     int          state;
@@ -193,7 +193,7 @@ void GasEffectAct_800C4BBC(GasEfctWork *work_copy)
     work->f44++;
 }
 
-void GasEffectDie_800C4D64(GasEfctWork *work)
+void GasEffectDie_800C4D64(Work *work)
 {
     if (work->f40 != 0)
     {
@@ -201,7 +201,7 @@ void GasEffectDie_800C4D64(GasEfctWork *work)
     }
 }
 
-int GasEffectGetResources_800C4D98(GasEfctWork *work, int name, int where)
+int GasEffectGetResources_800C4D98(Work *work, int name, int where)
 {
     if (GCL_GetOption('c'))
     {
@@ -224,9 +224,9 @@ int GasEffectGetResources_800C4D98(GasEfctWork *work, int name, int where)
 
 void *NewGasEffectSet(int name, int where, int argc, char **argv)
 {
-    GasEfctWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(GasEfctWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, GasEffectAct_800C4BBC, GasEffectDie_800C4D64, "gas_efct.c");
@@ -246,9 +246,9 @@ void *NewGasEffectSet(int name, int where, int argc, char **argv)
 
 void *NewGasEffect(SVECTOR *arg0, int arg1, int arg2)
 {
-    GasEfctWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(GasEfctWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, GasEffectAct_800C4BBC, GasEffectDie_800C4D64, "gas_efct.c");
@@ -270,7 +270,7 @@ void *NewGasEffect(SVECTOR *arg0, int arg1, int arg2)
     return (void *)work;
 }
 
-void d11c_800C4FFC(GasEfctWork *work)
+void d11c_800C4FFC(Work *work)
 {
     GasEfctPrims *prims;
 
@@ -288,7 +288,7 @@ void d11c_800C4FFC(GasEfctWork *work)
     d11c_800C49A4(work, prims->poly[1]);
 }
 
-void d11c_800C5094(GasEfctWork *work, int arg1)
+void d11c_800C5094(Work *work, int arg1)
 {
     MATRIX   sp10;
     SVECTOR  sp30;

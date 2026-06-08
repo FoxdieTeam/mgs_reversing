@@ -9,7 +9,7 @@
 #include "chara/snake/sna_init.h"
 #include "strcode.h"
 
-typedef struct ElcDamgWork
+typedef struct _Work
 {
     GV_ACT actor;
     int    where;
@@ -20,7 +20,7 @@ typedef struct ElcDamgWork
     int    field_34;
     int    field_38;
     int    proc_id;
-} ElcDamgWork;
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_USER
 
@@ -41,7 +41,7 @@ void ElcDamgExecProc_800D4AAC(int proc, int value)
     }
 }
 
-void ElcDamgAct_800D4AE4(ElcDamgWork *work)
+void ElcDamgAct_800D4AE4(Work *work)
 {
     int sum;
 
@@ -83,7 +83,7 @@ void ElcDamgDie_800D4BF4()
 {
 }
 
-int ElcDamgGetResources_800D4BFC(ElcDamgWork *work, int name, int where)
+int ElcDamgGetResources_800D4BFC(Work *work, int name, int where)
 {
     work->addend = THING_Gcl_GetInt('s');
     work->field_30 = THING_Gcl_GetInt('c');
@@ -96,9 +96,9 @@ int ElcDamgGetResources_800D4BFC(ElcDamgWork *work, int name, int where)
 
 void *NewElectricDamage(int name, int where)
 {
-    ElcDamgWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(ElcDamgWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, ElcDamgAct_800D4AE4, ElcDamgDie_800D4BF4, "elc_damg.c");

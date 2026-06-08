@@ -10,7 +10,7 @@
 
 #include "takabe/spark2.h"      // for NewSpark2_800CA714
 
-typedef struct _PanelWork
+typedef struct _Work
 {
     GV_ACT   actor;
     int      map;
@@ -26,7 +26,7 @@ typedef struct _PanelWork
     short    f86;
     short    f88;
     short    f8A;
-} PanelWork;
+} Work;
 
 int panel_base_color = 0x3C808080;
 
@@ -34,7 +34,7 @@ void AN_PanelSmoke(SVECTOR *pos);
 
 #define EXEC_LEVEL GV_ACTOR_USER
 
-void PanelTexPack_800D1BD0(POLY_GT4 *pack, DG_TEX *tex, int size, PanelWork *work)
+void PanelTexPack_800D1BD0(POLY_GT4 *pack, DG_TEX *tex, int size, Work *work)
 {
     int x, y, w, h;
     int x2, y2, w2, h2;
@@ -111,7 +111,7 @@ void PanelLightPacks_800D1D54(POLY_GT4 *pack0, POLY_GT4 *pack1, SVECTOR *pos, SV
     LSTORE(color[3], &pack1->r3);
 }
 
-void PanelAct_800D1E58(PanelWork *work)
+void PanelAct_800D1E58(Work *work)
 {
     TARGET  *target;
     DG_PRIM *prim;
@@ -150,7 +150,7 @@ void PanelAct_800D1E58(PanelWork *work)
     }
 }
 
-void PanelDie_800D1F98(PanelWork *work)
+void PanelDie_800D1F98(Work *work)
 {
     TARGET  *target;
 
@@ -163,7 +163,7 @@ void PanelDie_800D1F98(PanelWork *work)
     GM_FreePrim(work->prim);
 }
 
-void PanelCreateTarget_800D1FF0(PanelWork *work)
+void PanelCreateTarget_800D1FF0(Work *work)
 {
     SVECTOR size;
     int     i;
@@ -204,7 +204,7 @@ void PanelCreateTarget_800D1FF0(PanelWork *work)
     GM_SetPowerTarget(target, POWER_DECREASE, -1, 2, 0, &DG_ZeroVector);
 }
 
-int PanelGetResources_800D210C(PanelWork *work, int name, int map)
+int PanelGetResources_800D210C(Work *work, int name, int map)
 {
     VECTOR   e12;
     VECTOR   e01;
@@ -347,9 +347,9 @@ int PanelGetResources_800D210C(PanelWork *work, int name, int map)
 
 void *NewPanel(int name, int where)
 {
-    PanelWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(PanelWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, PanelAct_800D1E58, PanelDie_800D1F98, "panel.c");

@@ -9,7 +9,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-typedef struct _DBloodWork
+typedef struct _Work
 {
     GV_ACT actor;
     int    f20;
@@ -17,13 +17,13 @@ typedef struct _DBloodWork
     int    f28;
     char   padding[0xC];
     int    current_map;
-} DBloodWork;
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_AFTER
 
 /*---------------------------------------------------------------------------*/
 
-STATIC void d_blood_Die(DBloodWork *work)
+STATIC void d_blood_Die(Work *work)
 {
 }
 
@@ -52,7 +52,7 @@ STATIC int d_blood_act_helper_800729B4(void)
     return 0;
 }
 
-STATIC void d_blood_Act(DBloodWork *work)
+STATIC void d_blood_Act(Work *work)
 {
     switch (work->f24_state)
     {
@@ -90,14 +90,14 @@ STATIC void d_blood_Act(DBloodWork *work)
     }
 }
 
-STATIC int d_blood_loader_helper_80072B24(DBloodWork *work)
+STATIC int d_blood_loader_helper_80072B24(Work *work)
 {
     work->f20 = 100;
     work->f24_state = 0;
     return 0;
 }
 
-STATIC int d_blood_GetResources(DBloodWork *work)
+STATIC int d_blood_GetResources(Work *work)
 {
     work->current_map = GM_CurrentMap;
     d_blood_loader_helper_80072B24(work);
@@ -108,9 +108,9 @@ STATIC int d_blood_GetResources(DBloodWork *work)
 
 void *NewKetchap(CONTROL *control, OBJECT *parent_obj, int num_parent)
 {
-    DBloodWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(DBloodWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, &d_blood_Act, &d_blood_Die, "d_blood.c");

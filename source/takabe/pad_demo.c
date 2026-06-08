@@ -13,7 +13,7 @@ extern void MENU_ResetWeaponPos(void);
 
 /*---------------------------------------------------------------------------*/
 
-typedef struct _PadDemoWork
+typedef struct _Work
 {
     GV_ACT          actor;
     int             map;
@@ -27,13 +27,13 @@ typedef struct _PadDemoWork
     char            f3E[0x2];
     int             proc;
     int             f44;
-} PadDemoWork;
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_MANAGER
 
 /*---------------------------------------------------------------------------*/
 
-static void PadDemo_800DCBB0(PadDemoWork *work)
+static void PadDemo_800DCBB0(Work *work)
 {
     if (GM_StreamStatus() == -1)
     {
@@ -41,7 +41,7 @@ static void PadDemo_800DCBB0(PadDemoWork *work)
     }
 }
 
-static void PadDemo_800DCBE8(PadDemoWork *work)
+static void PadDemo_800DCBE8(Work *work)
 {
     unsigned short status;
 
@@ -109,7 +109,7 @@ static void PadDemo_800DCBE8(PadDemoWork *work)
 
 /*---------------------------------------------------------------------------*/
 
-static void Act(PadDemoWork *work)
+static void Act(Work *work)
 {
     if (GM_StreamStatus() == 0)
     {
@@ -128,7 +128,7 @@ static void Act(PadDemoWork *work)
     }
 }
 
-static void Die(PadDemoWork *work)
+static void Die(Work *work)
 {
     GCL_ARGS args;
     long     data;
@@ -144,7 +144,7 @@ static void Die(PadDemoWork *work)
     }
 }
 
-static int GetResources(PadDemoWork *work, int name, int map)
+static int GetResources(Work *work, int name, int map)
 {
     int filename;
 
@@ -207,9 +207,9 @@ static int GetResources(PadDemoWork *work, int name, int map)
 
 void *NewPadDemo(int name, int where, int argc, char **argv)
 {
-    PadDemoWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(PadDemoWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "pad_demo.c");

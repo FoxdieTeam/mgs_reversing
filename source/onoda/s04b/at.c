@@ -19,7 +19,7 @@
 #define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND \
                         | DG_FLAG_SHADE | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE )
 
-typedef struct _AtWork
+typedef struct _Work
 {
     GV_ACT         actor;
     OBJECT         body;
@@ -42,7 +42,7 @@ typedef struct _AtWork
     int            max_hp;
     int            frac_hp;
     int            update;
-} AtWork;
+} Work;
 
 /*---------------------------------------------------------------------------*/
 
@@ -53,7 +53,7 @@ SVECTOR at_target_size = {400, 900, 400, 0};
 
 /*---------------------------------------------------------------------------*/
 
-static void SetBlood(AtWork *work, int index, int count)
+static void SetBlood(Work *work, int index, int count)
 {
     MATRIX rot;
 
@@ -64,7 +64,7 @@ static void SetBlood(AtWork *work, int index, int count)
     NewBlood(&rot, count);
 }
 
-static void UpdateTarget(AtWork *work)
+static void UpdateTarget(Work *work)
 {
     TARGET *target;
     int     hp;
@@ -124,7 +124,7 @@ static void UpdateTarget(AtWork *work)
     }
 }
 
-static void Act(AtWork *work)
+static void Act(Work *work)
 {
     DG_GetLightMatrix2(&work->control.mov, work->light);
     GM_CurrentMap = work->map;
@@ -197,12 +197,12 @@ static void Act(AtWork *work)
     printf("GameOverTimer = %d\n", GM_GameOverTimer);
 }
 
-static void Die(AtWork *work)
+static void Die(Work *work)
 {
     GM_FreeObject(&work->body);
 }
 
-static int CreateTarget(AtWork *work)
+static int CreateTarget(Work *work)
 {
     TARGET *target;
 
@@ -220,7 +220,7 @@ static int CreateTarget(AtWork *work)
     return 0;
 }
 
-static int GetResources(AtWork *work, int name, int map)
+static int GetResources(Work *work, int name, int map)
 {
     CONTROL       *control;
     OBJECT        *body;
@@ -316,9 +316,9 @@ static int GetResources(AtWork *work, int name, int map)
 
 void *NewArmsTechPresident(int name, int where)
 {
-    AtWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(AtWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "at.c");

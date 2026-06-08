@@ -28,7 +28,7 @@ typedef struct _Unknown
     short f6;
 } Unknown;
 
-typedef struct _OptionWork
+typedef struct _Work
 {
     GV_ACT   actor;
     GV_PAD  *pad;
@@ -64,7 +64,7 @@ typedef struct _OptionWork
     int      f2B58;
     char     pad2[0x4];
     int      f2B60;
-} OptionWork;
+} Work;
 
 typedef struct _Unknown2
 {
@@ -114,7 +114,7 @@ signed char byte_800C3394[] = {-1, 0, 1, 0, 0, 1, 0, -1};
 
 #define EXEC_LEVEL GV_ACTOR_MANAGER
 
-static void option_800C339C(OptionWork *work, int index)
+static void option_800C339C(Work *work, int index)
 {
     RECT rect;
     KCB *kcb;
@@ -159,7 +159,7 @@ static void option_800C339C(OptionWork *work, int index)
     font_clut_update(kcb);
 }
 
-static void option_800C352C(OptionWork *work, int index)
+static void option_800C352C(Work *work, int index)
 {
     char     *string;
     KCB      *kcb;
@@ -193,7 +193,7 @@ static void option_800C352C(OptionWork *work, int index)
     }
 }
 
-static void option_800C3664(OptionWork *work, u_long *ot)
+static void option_800C3664(Work *work, u_long *ot)
 {
     int       index;
     int       i, j, k;
@@ -293,7 +293,7 @@ static void option_800C3664(OptionWork *work, u_long *ot)
     }
 }
 
-static void option_800C3B3C(OptionWork *work, int index, int color)
+static void option_800C3B3C(Work *work, int index, int color)
 {
     KCB *kcb;
 
@@ -307,7 +307,7 @@ static void *option_800C3B8C(KCB *kcb)
     return kcb->cbuffer;
 }
 
-static void option_800C3B98(OptionWork *work)
+static void option_800C3B98(Work *work)
 {
     POLY_FT4 *polys;
 
@@ -342,7 +342,7 @@ static void option_800C3B98(OptionWork *work)
     }
 }
 
-static void option_800C3C74(OptionWork *work)
+static void option_800C3C74(Work *work)
 {
     POLY_FT4 *poly_dst, *poly_src;
     int       r0, g0, b0;
@@ -431,7 +431,7 @@ static void option_800C3C74(OptionWork *work)
     }
 }
 
-static void option_800C4130(OptionWork *work, u_long *ot)
+static void option_800C4130(Work *work, u_long *ot)
 {
     int i;
 
@@ -577,7 +577,7 @@ static void option_800C4130(OptionWork *work, u_long *ot)
     option_800C3664(work, ot);
 }
 
-static void option_800C449C(OptionWork *work, int x, int y, int w, int h, int shade, int type)
+static void option_800C449C(Work *work, int x, int y, int w, int h, int shade, int type)
 {
     POLY_FT4 *poly;
     int       i;
@@ -758,7 +758,7 @@ static void option_800C449C(OptionWork *work, int x, int y, int w, int h, int sh
     }
 }
 
-static void option_800C4780(OptionWork *work)
+static void option_800C4780(Work *work)
 {
     POLY_FT4 *poly;
     int       f29E8;
@@ -894,7 +894,7 @@ static void option_800C4780(OptionWork *work)
     }
 }
 
-static void option_800C4A6C(OptionWork *work)
+static void option_800C4A6C(Work *work)
 {
     POLY_FT4 *polys;
 
@@ -911,7 +911,7 @@ static void option_800C4A6C(OptionWork *work)
     }
 }
 
-static void option_800C4AE8(OptionWork *work, int name, POLY_FT4 *poly)
+static void option_800C4AE8(Work *work, int name, POLY_FT4 *poly)
 {
     DG_TEX *tex;
     int     x, y, w, h;
@@ -937,7 +937,7 @@ static void option_800C4AE8(OptionWork *work, int name, POLY_FT4 *poly)
     poly->clut = tex->clut;
 }
 
-static void option_800C4B68(OptionWork *work)
+static void option_800C4B68(Work *work)
 {
     POLY_FT4 *poly;
 
@@ -1135,7 +1135,7 @@ static void option_800C4B68(OptionWork *work)
     }
 }
 
-static void option_800C5150(OptionWork *work, int param_2)
+static void option_800C5150(Work *work, int param_2)
 {
     POLY_FT4 *poly;
     int       i;
@@ -1316,7 +1316,7 @@ static void option_800C5150(OptionWork *work, int param_2)
     }
 }
 
-static void option_800C5698(OptionWork *work)
+static void option_800C5698(Work *work)
 {
     int press;
 
@@ -1438,7 +1438,7 @@ static void option_800C5698(OptionWork *work)
     }
 }
 
-static inline void SetGameOptionFlag( OptionWork *work )
+static inline void SetGameOptionFlag( Work *work )
 {
     GM_SeSet2( 0, 63, SE_MENU_EXIT ) ;
 
@@ -1538,7 +1538,7 @@ static inline void SetGameOptionFlag( OptionWork *work )
     work->f2B50 = 0;
 }
 
-static void option_800C5950( OptionWork *work )
+static void option_800C5950( Work *work )
 {
     int press  = work->pad->press;
     int status = work->pad->status;
@@ -1696,7 +1696,7 @@ static void option_800C5950( OptionWork *work )
     }
 }
 
-static void Act(OptionWork *work)
+static void Act(Work *work)
 {
     int       fade;
     u_long   *ot;
@@ -2296,7 +2296,7 @@ static void Act(OptionWork *work)
     option_800C3C74(work);
 }
 
-static void Die(OptionWork *work)
+static void Die(Work *work)
 {
     int   i;
     void *buf;
@@ -2321,7 +2321,7 @@ static void Die(OptionWork *work)
     work->f2B50 = 0;
 }
 
-static void InitPack(OptionWork *work, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int abe)
+static void InitPack(Work *work, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int abe)
 {
     setPolyFT4(poly);
     setRGB0(poly, 128, 128, 128);
@@ -2344,7 +2344,7 @@ static inline void SetPacketTexture(POLY_FT4 *poly, DG_TEX *tex, int uo, int vo)
     poly->clut = tex->clut;
 }
 
-static void Init_Res(OptionWork *work, int name, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int abe, int type)
+static void Init_Res(Work *work, int name, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int abe, int type)
 {
     DG_TEX *tex;
 
@@ -2369,7 +2369,7 @@ static void Init_Res(OptionWork *work, int name, POLY_FT4 *poly, int x0, int y0,
     }
 }
 
-static int GetResources(OptionWork *work, int map)
+static int GetResources(Work *work, int map)
 {
     POLY_FT4 *po;
     int       i;
@@ -2811,11 +2811,11 @@ static int GetResources(OptionWork *work, int map)
 
 void *NewOption(int name, int where)
 {
-    OptionWork *work;
+    Work *work;
 
     GM_GameStatus |= STATE_ALL_OFF;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(OptionWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "opt.c");

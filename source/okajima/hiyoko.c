@@ -11,7 +11,7 @@
 #include "game/game.h"
 #include "takabe/prim.h"
 
-typedef struct _HiyokoWork
+typedef struct _Work
 {
     GV_ACT   actor;
     int      map;
@@ -23,7 +23,7 @@ typedef struct _HiyokoWork
     SVECTOR  pos;
     MATRIX  *world;
     int      f74;
-} HiyokoWork;
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_USER
 
@@ -41,7 +41,7 @@ int HiyokoGetSvec_800CFD04(char *opt, SVECTOR *out)
     return 1;
 }
 
-void HiyokoAct_800CFD44(HiyokoWork *work)
+void HiyokoAct_800CFD44(Work *work)
 {
     SVECTOR  rot;
     SVECTOR *vec;
@@ -91,7 +91,7 @@ void HiyokoShadePacks_800CFE3C(POLY_FT4 *packs, int n_packs, DG_TEX *tex)
     }
 }
 
-int HiyokoGetResources_800CFECC(HiyokoWork *work, int map)
+int HiyokoGetResources_800CFECC(Work *work, int map)
 {
     SVECTOR  off;
     SVECTOR  rot;
@@ -149,7 +149,7 @@ int HiyokoGetResources_800CFECC(HiyokoWork *work, int map)
     return 0;
 }
 
-int HiyokoGetResources_800D0018(HiyokoWork *work, MATRIX *world, int arg2)
+int HiyokoGetResources_800D0018(Work *work, MATRIX *world, int arg2)
 {
     SVECTOR  off;
     SVECTOR  rot;
@@ -199,16 +199,16 @@ int HiyokoGetResources_800D0018(HiyokoWork *work, MATRIX *world, int arg2)
     return 0;
 }
 
-void HiyokoDie_800D0150(HiyokoWork *work)
+void HiyokoDie_800D0150(Work *work)
 {
     GM_FreePrim(work->prim);
 }
 
 void *NewHiyokoGcl(int name, int where, int argc, char **argv)
 {
-    HiyokoWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(HiyokoWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, HiyokoAct_800CFD44, HiyokoDie_800D0150, "hiyoko.c");
@@ -225,9 +225,9 @@ void *NewHiyokoGcl(int name, int where, int argc, char **argv)
 
 void *NewHiyoko(MATRIX *world, int arg1)
 {
-    HiyokoWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(HiyokoWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, HiyokoAct_800CFD44, HiyokoDie_800D0150, "hiyoko.c");

@@ -13,7 +13,7 @@ typedef struct _PatoLmpPrims
     TILE     tile[2];
 } PatoLmpPrims;
 
-typedef struct _PatoLmpWork
+typedef struct _Work
 {
     GV_ACT         actor;
     PatoLmpPrims  *field_20;
@@ -49,7 +49,7 @@ typedef struct _PatoLmpWork
     int            field_195C;
     int            field_1960;
     int            sound;
-} PatoLmpWork;
+} Work;
 
 const char s00a_dword_800E0ADC[] = "開く";
 const char s00a_dword_800E0AE4[] = "閉める";
@@ -120,7 +120,7 @@ void s00a_pato_lmp_800D5F38(POLY_FT4 *polys, int count, DG_TEX *tex)
     }
 }
 
-void s00a_pato_lmp_800D5FC4( PatoLmpWork* work )
+void s00a_pato_lmp_800D5FC4( Work* work )
 {
     short rgb[3];
 
@@ -148,7 +148,7 @@ void s00a_pato_lmp_800D5FC4( PatoLmpWork* work )
 
 }
 
-void s00a_pato_lmp_800D617C(PatoLmpWork *work, int field_191C, short vx, short vy, short vz)
+void s00a_pato_lmp_800D617C(Work *work, int field_191C, short vx, short vy, short vz)
 {
     work->field_1920 = field_191C;
     work->field_1930.vx = vx;
@@ -156,7 +156,7 @@ void s00a_pato_lmp_800D617C(PatoLmpWork *work, int field_191C, short vx, short v
     work->field_1930.vz = vz;
 }
 
-void s00a_pato_lmp_800D6194(PatoLmpWork *work, int arg1, int arg2, int arg3)
+void s00a_pato_lmp_800D6194(Work *work, int arg1, int arg2, int arg3)
 {
     SVECTOR vec;
     SVECTOR *var_a2;
@@ -283,7 +283,7 @@ void s00a_pato_lmp_800D6194(PatoLmpWork *work, int arg1, int arg2, int arg3)
     }
 }
 
-void s00a_pato_lmp_800D6550( PatoLmpWork* work )
+void s00a_pato_lmp_800D6550( Work* work )
 {
     int i;
     for ( i = 0 ; i < work->field_1004 ; i++ )
@@ -299,7 +299,7 @@ void s00a_pato_lmp_800D6550( PatoLmpWork* work )
     work->field_193C = 1;
 }
 
-void s00a_pato_lmp_800D6600( PatoLmpWork* work )
+void s00a_pato_lmp_800D6600( Work* work )
 {
     int i;
     for ( i = 0 ; i < work->field_1004 ; i++ )
@@ -310,7 +310,7 @@ void s00a_pato_lmp_800D6600( PatoLmpWork* work )
     }
 }
 
-void PatrolLampAct_800D6678(PatoLmpWork *work)
+void PatrolLampAct_800D6678(Work *work)
 {
     SVECTOR svec;
     short   hashes[6];
@@ -487,7 +487,7 @@ void PatrolLampAct_800D6678(PatoLmpWork *work)
     }
 }
 
-void PatrolLampDie_800D6C44(PatoLmpWork *work)
+void PatrolLampDie_800D6C44(Work *work)
 {
     void    *allocated;
     int      i;
@@ -513,7 +513,7 @@ void s00a_pato_lmp_800D6D24(SVECTOR* svec, short x, short z)
     svec->vz += z;
 }
 
-void s00a_pato_lmp_800D6D40( PatoLmpWork *work, int idx, int idx2, int y )
+void s00a_pato_lmp_800D6D40( Work *work, int idx, int idx2, int y )
 {
     int dis;
 
@@ -539,7 +539,7 @@ const char aPatLamp[] = "pat_lamp";
 const char aPatSpt1[] = "pat_spt1";
 
 //I'll clean this up later
-int PatrolLampGetResources_800D6E28(PatoLmpWork *work, int name, int map)
+int PatrolLampGetResources_800D6E28(Work *work, int name, int map)
 {
     SVECTOR sp18[4][16];
     int     sp218[4][16];
@@ -971,9 +971,9 @@ temp_label_end4:
 
 void *NewPatrolLamp(int name, int where, int argc, char **argv)
 {
-    PatoLmpWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(PatoLmpWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, PatrolLampAct_800D6678,

@@ -28,7 +28,7 @@ typedef struct _SearchlightSub
     DG_TEX  *tex;
 } SearchlightSub;
 
-typedef struct _SearchlightWork
+typedef struct _Work
 {
     GV_ACT         actor;
     CONTROL        control;
@@ -64,7 +64,7 @@ typedef struct _SearchlightWork
     char           pad8[0x8];
     GV_ACT        *lit_mdl;
     MATRIX         lit_mtx;
-} SearchlightWork;
+} Work;
 
 extern CONTROL *GM_WhereList[96];
 extern int     COM_VibTime;
@@ -119,7 +119,7 @@ void s01a_searchli_800D734C(SVECTOR *from, SVECTOR *to, SVECTOR *out)
     }
 }
 
-int s01a_searchli_800D73D8(SearchlightWork *work)
+int s01a_searchli_800D73D8(Work *work)
 {
     if (!(work->control.map->index & GM_PlayerMap) || (work->f2A4 == 0))
     {
@@ -149,7 +149,7 @@ int s01a_searchli_800D73D8(SearchlightWork *work)
     return 1;
 }
 
-void s01a_searchli_800D7500(SVECTOR *in, SVECTOR *out, SearchlightWork *work)
+void s01a_searchli_800D7500(SVECTOR *in, SVECTOR *out, Work *work)
 {
     int diff;
 
@@ -173,7 +173,7 @@ void s01a_searchli_800D7500(SVECTOR *in, SVECTOR *out, SearchlightWork *work)
     }
 }
 
-void s01a_searchli_800D75C0(SearchlightWork *work)
+void s01a_searchli_800D75C0(Work *work)
 {
     SVECTOR player;
 
@@ -184,7 +184,7 @@ void s01a_searchli_800D75C0(SearchlightWork *work)
     s01a_searchli_800D7500(&work->f260, &work->control.turn, work);
 }
 
-int s01a_searchli_800D763C(SearchlightWork *work)
+int s01a_searchli_800D763C(Work *work)
 {
     SVECTOR  player;
     SVECTOR *pos;
@@ -214,7 +214,7 @@ int s01a_searchli_800D763C(SearchlightWork *work)
     return 0;
 }
 
-int s01a_searchli_800D770C(SearchlightWork *work)
+int s01a_searchli_800D770C(Work *work)
 {
     SVECTOR *rot;
 
@@ -233,7 +233,7 @@ int s01a_searchli_800D770C(SearchlightWork *work)
     return 0;
 }
 
-int s01a_searchli_800D77A4(SearchlightWork *work)
+int s01a_searchli_800D77A4(Work *work)
 {
     SVECTOR *rot;
 
@@ -252,7 +252,7 @@ int s01a_searchli_800D77A4(SearchlightWork *work)
     return 0;
 }
 
-void Searchli_800D783C(SearchlightWork *work)
+void Searchli_800D783C(Work *work)
 {
   SVECTOR *rot;
   int rnd, vx, vy;
@@ -276,7 +276,7 @@ void Searchli_800D783C(SearchlightWork *work)
   work->f2A0++;
 }
 
-int Searchli_800D7908(SearchlightWork *work)
+int Searchli_800D7908(Work *work)
 {
     SVECTOR *from;
     SVECTOR *to;
@@ -324,7 +324,7 @@ int Searchli_800D7908(SearchlightWork *work)
     return 0;
 }
 
-void Searchli_800D7A4C(SearchlightWork *work)
+void Searchli_800D7A4C(Work *work)
 {
     switch (work->f29C)
     {
@@ -395,7 +395,7 @@ void Searchli_800D7A4C(SearchlightWork *work)
     }
 }
 
-void Searchli_800D7BB8(SearchlightWork *work)
+void Searchli_800D7BB8(Work *work)
 {
     switch (work->f29C)
     {
@@ -425,7 +425,7 @@ void Searchli_800D7BB8(SearchlightWork *work)
     }
 }
 
-void Searchli_800D7C58(SearchlightWork *work)
+void Searchli_800D7C58(Work *work)
 {
     switch (work->f29C)
     {
@@ -467,7 +467,7 @@ void Searchli_800D7C58(SearchlightWork *work)
     }
 }
 
-void Searchli_800D7D40(SearchlightWork *work)
+void Searchli_800D7D40(Work *work)
 {
     switch (work->f294)
     {
@@ -615,7 +615,7 @@ void Searchli_800D80AC(SVECTOR *vec, int x, int y, int z)
     vec->vz = z;
 }
 
-void Searchli_800D80BC(SearchlightWork *work)
+void Searchli_800D80BC(Work *work)
 {
     SVECTOR sp18;
     VECTOR  sp20;
@@ -761,7 +761,7 @@ void Searchli_800D80BC(SearchlightWork *work)
     DG_SetTmpLight(&pos, 1024, 2000);
 }
 
-void SearchlightAct_800D86F0(SearchlightWork *work)
+void SearchlightAct_800D86F0(Work *work)
 {
     SVECTOR  pos;
     VECTOR   sp18;
@@ -935,7 +935,7 @@ void SearchlightAct_800D86F0(SearchlightWork *work)
     }
 }
 
-int Searchlight_800D8B84(SearchlightWork *work, int name, int map)
+int Searchlight_800D8B84(Work *work, int name, int map)
 {
     int opt;
 
@@ -1057,7 +1057,7 @@ void Searchli_800D8DDC(POLY_FT4 *packs, DG_TEX *tex, int abr, int r, int g, int 
     }
 }
 
-int Searchli_800D9040(SearchlightWork *work)
+int Searchli_800D9040(Work *work)
 {
     DG_PRIM *prim;
     DG_TEX  *tex;
@@ -1090,7 +1090,7 @@ int Searchli_800D9040(SearchlightWork *work)
     return 0;
 }
 
-int SearchlightGetResources_800D91B0(SearchlightWork *work, int name, int map)
+int SearchlightGetResources_800D91B0(Work *work, int name, int map)
 {
     CONTROL *control;
     char    *pos, *dir;
@@ -1114,7 +1114,7 @@ int SearchlightGetResources_800D91B0(SearchlightWork *work, int name, int map)
     return 0;
 }
 
-void SearchlightDie_800D9274(SearchlightWork *work)
+void SearchlightDie_800D9274(Work *work)
 {
     GM_FreeControl(&work->control);
     GM_FreePrim(work->fFC.prim);
@@ -1122,9 +1122,9 @@ void SearchlightDie_800D9274(SearchlightWork *work)
 
 void *NewSearchlight(int name, int where, int argc, char **argv)
 {
-    SearchlightWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(SearchlightWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, SearchlightAct_800D86F0, SearchlightDie_800D9274, "searchli.c");

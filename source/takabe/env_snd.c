@@ -5,7 +5,7 @@
 #include "game/game.h"
 #include "takabe/thing.h"
 
-typedef struct _EnvSndWork
+typedef struct _Work
 {
     GV_ACT  actor;
     int     map;
@@ -20,13 +20,13 @@ typedef struct _EnvSndWork
     short   f3E;
     int     f40;
     char    pad[0x4];
-} EnvSndWork;
+} Work;
 
 unsigned short env_snd_hashes[] = { 0xBA27, 0x560E };
 
 #define EXEC_LEVEL GV_ACTOR_USER
 
-void EnvSndAct_800DF1F8(EnvSndWork *work)
+void EnvSndAct_800DF1F8(Work *work)
 {
     int time;
     int found;
@@ -96,11 +96,11 @@ void EnvSndAct_800DF1F8(EnvSndWork *work)
     work->f40 -= time;
 }
 
-void EnvSndDie_800DF39C(EnvSndWork *work)
+void EnvSndDie_800DF39C(Work *work)
 {
 }
 
-int EnvSndGetResources_800DF3A4(EnvSndWork *work, int name, int where)
+int EnvSndGetResources_800DF3A4(Work *work, int name, int where)
 {
     work->name = name;
     work->map = where;
@@ -119,9 +119,9 @@ int EnvSndGetResources_800DF3A4(EnvSndWork *work, int name, int where)
 
 void *NewEnvSound(int name, int where, int argc, char **argv)
 {
-    EnvSndWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(EnvSndWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, EnvSndAct_800DF1F8, EnvSndDie_800DF39C, "env_snd.c");

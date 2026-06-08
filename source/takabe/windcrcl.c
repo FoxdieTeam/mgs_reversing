@@ -9,7 +9,7 @@
 #include "libdg/libdg.h"
 #include "game/game.h"
 
-typedef struct _WindcrclWork
+typedef struct _Work
 {
     GV_ACT   actor;
     int      map;
@@ -21,7 +21,7 @@ typedef struct _WindcrclWork
     int      f450;
     int      f454;
     int      time;
-} WindcrclWork;
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_USER
 
@@ -123,7 +123,7 @@ void WindcrclShadePacks_800CF3D4(POLY_FT4 *packs0, POLY_FT4 *packs1, int n_packs
     }
 }
 
-void WindcrclAct_800CF414(WindcrclWork *work)
+void WindcrclAct_800CF414(Work *work)
 {
     DG_PRIM *prim;
     short    time;
@@ -156,12 +156,12 @@ void WindcrclAct_800CF414(WindcrclWork *work)
     WindcrclShadePacks_800CF3D4(prim->packs[0], prim->packs[1], 32, time * 8);
 }
 
-void WindcrclDie_800CF55C(WindcrclWork *work)
+void WindcrclDie_800CF55C(Work *work)
 {
     GM_FreePrim(work->prim);
 }
 
-int WindcrclGetResources_800CF598(WindcrclWork *work, MATRIX *world, int arg2)
+int WindcrclGetResources_800CF598(Work *work, MATRIX *world, int arg2)
 {
     DG_PRIM *prim;
     DG_TEX  *tex;
@@ -196,9 +196,9 @@ int WindcrclGetResources_800CF598(WindcrclWork *work, MATRIX *world, int arg2)
 
 void *NewWindcrcl_800CF6BC(MATRIX *world, int arg1)
 {
-    WindcrclWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(WindcrclWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, WindcrclAct_800CF414, WindcrclDie_800CF55C, "windcrcl.c");
@@ -219,9 +219,9 @@ void *NewWindcrcl_800CF6BC(MATRIX *world, int arg1)
 
 void *NewWindcrcl_800CF784(MATRIX *world, int arg1, int arg2, int arg3, int time)
 {
-    WindcrclWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(WindcrclWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, WindcrclAct_800CF414, WindcrclDie_800CF55C, "windcrcl.c");

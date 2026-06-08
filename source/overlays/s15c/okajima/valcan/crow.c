@@ -29,7 +29,7 @@ typedef struct _CrowEntry
     int            f3C8;
 } CrowEntry;
 
-typedef struct _CrowWork
+typedef struct _Work
 {
     GV_ACT    actor;
     int       map;
@@ -47,7 +47,7 @@ typedef struct _CrowWork
     int       f64;
     int       f68;
     CrowEntry entries[0];
-} CrowWork;
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_AFTER
 
@@ -167,7 +167,7 @@ void Crow_800DDAD4(CrowEntry *entry)
     GV_AddVec3(pos, &entry->f3A4, pos);
 }
 
-void Crow_800DDB50(CrowWork *work)
+void Crow_800DDB50(Work *work)
 {
     int rnd;
 
@@ -228,7 +228,7 @@ void Crow_800DDCD0(CrowEntry *entry)
     }
 }
 
-void CrowAct_800DDD08(CrowWork *work)
+void CrowAct_800DDD08(Work *work)
 {
     SVECTOR    svec1;
     SVECTOR    svec2;
@@ -587,7 +587,7 @@ void CrowAct_800DDD08(CrowWork *work)
     }
 }
 
-int Crow_800DE890(CrowWork *work, int name, int map)
+int Crow_800DE890(Work *work, int name, int map)
 {
     SVECTOR    size;
     int        i;
@@ -617,7 +617,7 @@ int Crow_800DE890(CrowWork *work, int name, int map)
     return 0;
 }
 
-int Crow_800DE93C(CrowWork *work, int name, int map)
+int Crow_800DE93C(Work *work, int name, int map)
 {
     char    *opt;
     int      i;
@@ -700,7 +700,7 @@ int Crow_800DE93C(CrowWork *work, int name, int map)
     return 0;
 }
 
-void CrowDie_800DEC78(CrowWork *work)
+void CrowDie_800DEC78(Work *work)
 {
     int i;
 
@@ -714,7 +714,7 @@ void CrowDie_800DEC78(CrowWork *work)
 
 void *NewCrow(int name, int where)
 {
-    CrowWork *work;
+    Work *work;
     char     *opt;
     int       n_entries;
 
@@ -732,7 +732,7 @@ void *NewCrow(int name, int where)
         n_entries = 1;
     }
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(CrowWork) + sizeof(CrowEntry) * n_entries);
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work) + sizeof(CrowEntry) * n_entries);
     if (work != NULL)
     {
         work->n_entries = n_entries;

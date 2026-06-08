@@ -7,7 +7,7 @@
 #include "takabe/thing.h"
 #include "strcode.h"
 
-typedef struct _ElcFlrWork
+typedef struct _Work
 {
     GV_ACT actor;
     int    map;
@@ -16,13 +16,13 @@ typedef struct _ElcFlrWork
     OBJECT object;
     int    f14C;
     int    f150;
-} ElcFlrWork;
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_USER
 
 unsigned short elc_flr_800C36DC[] = {HASH_ON2, HASH_OFF2};
 
-void ElcFlrAct_800D47CC(ElcFlrWork *work)
+void ElcFlrAct_800D47CC(Work *work)
 {
     long   *t;
     int     ang;
@@ -83,12 +83,12 @@ void ElcFlrAct_800D47CC(ElcFlrWork *work)
     }
 }
 
-void ElcFlrDie_800D4968(ElcFlrWork *work)
+void ElcFlrDie_800D4968(Work *work)
 {
     GM_FreeObject(&work->object);
 }
 
-int ElcFlrGetResources_800D4988(ElcFlrWork *work, int name, int map)
+int ElcFlrGetResources_800D4988(Work *work, int name, int map)
 {
     OBJECT *object;
 
@@ -111,9 +111,9 @@ int ElcFlrGetResources_800D4988(ElcFlrWork *work, int name, int map)
 
 void *NewElectricFloor(int name, int where)
 {
-    ElcFlrWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(ElcFlrWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, ElcFlrAct_800D47CC, ElcFlrDie_800D4968, "elc_flr.c");

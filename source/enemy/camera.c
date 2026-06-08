@@ -15,7 +15,7 @@
 
 #include "takabe/spark2.h"      // for NewSpark2_800CA714
 
-typedef struct CameraWork
+typedef struct _Work
 {
     GV_ACT         actor;
     CONTROL        control;
@@ -81,7 +81,7 @@ typedef struct CameraWork
     short          field_288;
     short          field_28A;
     int            field_28C;
-} CameraWork;
+} Work;
 
 #define EXEC_LEVEL  GV_ACTOR_PREV
 
@@ -145,7 +145,7 @@ void s01a_camera_800D4D7C(CONTROL *arg0, SVECTOR *arg1, SVECTOR *arg2)
     }
 }
 
-int s01a_camera_800D4E08(CameraWork *work)
+int s01a_camera_800D4E08(Work *work)
 {
     SVECTOR  svec;
     CONTROL *ctrl;
@@ -232,20 +232,20 @@ void s01a_camera_800D4FE8(SVECTOR *arg0, SVECTOR *arg1, int arg2)
     }
 }
 
-void s01a_camera_800D509C(CameraWork *work)
+void s01a_camera_800D509C(Work *work)
 {
     s01a_camera_800D4D7C(&work->control, &GM_PlayerPosition, &work->control.turn);
     s01a_camera_800D4FE8(&work->field_1C0, &work->control.turn, work->field_282);
 }
 
-void s01a_camera_800D50EC(CameraWork *work)
+void s01a_camera_800D50EC(Work *work)
 {
     s01a_camera_800D4D7C(&work->control, &GM_PlayerPosition, &work->control.turn);
     s01a_camera_800D4FE8(&work->field_1C0, &work->control.turn, work->field_282);
     work->control.rot = work->control.turn;
 }
 
-int s01a_camera_800D515C(CameraWork *work)
+int s01a_camera_800D515C(Work *work)
 {
     int field_1EC;
 
@@ -274,7 +274,7 @@ int s01a_camera_800D515C(CameraWork *work)
     return 0;
 }
 
-void s01a_camera_800D522C(CameraWork *work)
+void s01a_camera_800D522C(Work *work)
 {
     if (mts_get_tick_count() - work->field_286 >= 13)
     {
@@ -286,7 +286,7 @@ void s01a_camera_800D522C(CameraWork *work)
     }
 }
 
-int s01a_camera_800D528C(CameraWork *work)
+int s01a_camera_800D528C(Work *work)
 {
     SVECTOR *turn;
 
@@ -315,7 +315,7 @@ int s01a_camera_800D528C(CameraWork *work)
 }
 
 // Same as s01a_camera_800D528C, but with - 8 instead of + 8
-int s01a_camera_800D5338(CameraWork *work)
+int s01a_camera_800D5338(Work *work)
 {
     SVECTOR *turn;
 
@@ -343,7 +343,7 @@ int s01a_camera_800D5338(CameraWork *work)
     return 0;
 }
 
-void s01a_camera_800D53E4(CameraWork *work)
+void s01a_camera_800D53E4(Work *work)
 {
     CONTROL *ctrl;
     SVECTOR *turn;
@@ -376,7 +376,7 @@ void s01a_camera_800D53E4(CameraWork *work)
 }
 
 // Copy of s01a_camera_800D53E4, but with different GM_SeSet
-void s01a_camera_800D5504(CameraWork *work)
+void s01a_camera_800D5504(Work *work)
 {
     CONTROL *ctrl;
     SVECTOR *turn;
@@ -408,7 +408,7 @@ void s01a_camera_800D5504(CameraWork *work)
     work->field_1EC++;
 }
 
-int s01a_camera_800D5624(CameraWork *work)
+int s01a_camera_800D5624(Work *work)
 {
     CONTROL *ctrl;
     SVECTOR *turn;
@@ -467,7 +467,7 @@ int s01a_camera_800D5624(CameraWork *work)
     return 0;
 }
 
-void s01a_camera_800D57CC(CameraWork *work)
+void s01a_camera_800D57CC(Work *work)
 {
     switch (work->field_1E8)
     {
@@ -541,7 +541,7 @@ void s01a_camera_800D57CC(CameraWork *work)
     }
 }
 
-void s01a_camera_800D5970(CameraWork *work)
+void s01a_camera_800D5970(Work *work)
 {
     if (work->field_1E8 != 0)
     {
@@ -576,7 +576,7 @@ void s01a_camera_800D5970(CameraWork *work)
     }
 }
 
-void s01a_camera_800D5A68(CameraWork *work)
+void s01a_camera_800D5A68(Work *work)
 {
     if (work->field_1E8 == 6)
     {
@@ -617,7 +617,7 @@ void s01a_camera_800D5A68(CameraWork *work)
     }
 }
 
-void s01a_camera_800D5B9C(CameraWork *work)
+void s01a_camera_800D5B9C(Work *work)
 {
     int field_1E8;
 
@@ -652,7 +652,7 @@ void s01a_camera_800D5B9C(CameraWork *work)
     }
 }
 
-void s01a_camera_800D5C7C(CameraWork *work)
+void s01a_camera_800D5C7C(Work *work)
 {
     switch (work->field_1E0)
     {
@@ -671,12 +671,12 @@ void s01a_camera_800D5C7C(CameraWork *work)
     }
 }
 
-void s01a_camera_800D5D10(CameraWork *work)
+void s01a_camera_800D5D10(Work *work)
 {
     work->control.radar_param.dir = work->control.rot.vy;
 }
 
-void s01a_camera_800D5D1C(CameraWork *work)
+void s01a_camera_800D5D1C(Work *work)
 {
     MATRIX  mat;
     SVECTOR svec;
@@ -719,7 +719,7 @@ void s01a_camera_800D5D1C(CameraWork *work)
     }
 }
 
-int s01a_camera_800D5EC0(CameraWork *work)
+int s01a_camera_800D5EC0(Work *work)
 {
     GV_MSG *msg;
     int     type;
@@ -755,7 +755,7 @@ int s01a_camera_800D5EC0(CameraWork *work)
     return type;
 }
 
-void CameraAct_800D5F64(CameraWork *work)
+void CameraAct_800D5F64(Work *work)
 {
     MATRIX   mat;
     SVECTOR  svec1;
@@ -827,7 +827,7 @@ void CameraAct_800D5F64(CameraWork *work)
     }
 }
 
-void s01a_camera_800D6174(CameraWork *work)
+void s01a_camera_800D6174(Work *work)
 {
     CONTROL    *ctrl;
     RADAR_SIGHT_PARAM *r_param;
@@ -842,7 +842,7 @@ void s01a_camera_800D6174(CameraWork *work)
     r_param->r = 0;
 }
 
-int s01a_camera_800D61AC(CameraWork *work, int arg1, int arg2)
+int s01a_camera_800D61AC(Work *work, int arg1, int arg2)
 {
     char *opt;
 
@@ -953,7 +953,7 @@ int s01a_camera_800D61AC(CameraWork *work, int arg1, int arg2)
     return 0;
 }
 
-int InitArm_800D640C(CameraWork *work)
+int InitArm_800D640C(Work *work)
 {
     OBJECT_NO_ROTS *obj;
 
@@ -992,7 +992,7 @@ void s01a_camera_800D648C(POLY_FT4 *poly, DG_TEX *tex, int col)
     poly->clut = (unsigned short)tex->clut;
 }
 
-int InitLed_800D6504(CameraWork *work)
+int InitLed_800D6504(Work *work)
 {
     DG_PRIM *prim;
     DG_TEX  *tex;
@@ -1016,7 +1016,7 @@ int InitLed_800D6504(CameraWork *work)
     return -1;
 }
 
-int CameraGetResources_800D65EC(CameraWork *work, int arg1, int arg2)
+int CameraGetResources_800D65EC(Work *work, int arg1, int arg2)
 {
     TARGET         *target;
     int             type;
@@ -1092,7 +1092,7 @@ int CameraGetResources_800D65EC(CameraWork *work, int arg1, int arg2)
     return 0;
 }
 
-void CameraDie_800D678C(CameraWork *work)
+void CameraDie_800D678C(Work *work)
 {
     GM_FreeControl(&work->control);
     GM_FreeObject((OBJECT *)&work->body);
@@ -1103,9 +1103,9 @@ void CameraDie_800D678C(CameraWork *work)
 
 void *NewCamera_800D67F8(int name, int where, int argc, char **argv)
 {
-    CameraWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(CameraWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, CameraAct_800D5F64, CameraDie_800D678C, "camera.c");

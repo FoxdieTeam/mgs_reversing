@@ -13,7 +13,7 @@
 #include "sound/g_sound.h"
 
 // "It stands for Otaku Comvention."
-typedef struct OtacomWork
+typedef struct _Work
 {
     GV_ACT         actor;
     CONTROL        control;
@@ -33,7 +33,7 @@ typedef struct OtacomWork
     int            timer;
     int            field_810[3];
     int            procs[3];
-} OtacomWork;
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_USER
 
@@ -75,7 +75,7 @@ void OtacomSendLampOnOffToGomon_800CB420(int on)
     GV_SendMessage(&msg);
 }
 
-void Otacom_800CB494(OtacomWork *work, int timer)
+void Otacom_800CB494(Work *work, int timer)
 {
     SVECTOR svec1;
     SVECTOR indices;
@@ -209,7 +209,7 @@ void Otacom_800CB494(OtacomWork *work, int timer)
     }
 }
 
-void Otacom_800CB838(OtacomWork *work, int timer)
+void Otacom_800CB838(Work *work, int timer)
 {
     SVECTOR  indices;
     CONTROL *control;
@@ -323,7 +323,7 @@ void Otacom_800CB838(OtacomWork *work, int timer)
     }
 }
 
-void Otacom_800CBB20(OtacomWork *work)
+void Otacom_800CBB20(Work *work)
 {
     int      footstepsFrame;
     CONTROL *control;
@@ -343,7 +343,7 @@ void Otacom_800CBB20(OtacomWork *work)
     }
 }
 
-void OtacomAct_800CBB8C(OtacomWork *work)
+void OtacomAct_800CBB8C(Work *work)
 {
     CONTROL *control;
     OBJECT  *object;
@@ -375,7 +375,7 @@ void OtacomAct_800CBB8C(OtacomWork *work)
     sna_act_helper2_helper2_80033054(GV_StrCode("オタコン"), &work->adjust[6]); // オタコン = Otacon
 }
 
-void OtacomDie_800CBC50(OtacomWork *work)
+void OtacomDie_800CBC50(Work *work)
 {
     if (work->shadow)
     {
@@ -393,7 +393,7 @@ void OtacomDie_800CBC50(OtacomWork *work)
     GM_GameStatus &= ~STATE_RADIO_OFF;
 }
 
-void Otacom_800CBCC4(OtacomWork *work)
+void Otacom_800CBCC4(Work *work)
 {
     int   i;
     int  *out;
@@ -418,7 +418,7 @@ void Otacom_800CBCC4(OtacomWork *work)
     }
 }
 
-void Otacom_800CBD3C(OtacomWork *work)
+void Otacom_800CBD3C(Work *work)
 {
     int   i;
     int  *out;
@@ -443,7 +443,7 @@ void Otacom_800CBD3C(OtacomWork *work)
     }
 }
 
-int OtacomGetResources_800CBDB4(OtacomWork *work, int arg1, int arg2)
+int OtacomGetResources_800CBDB4(Work *work, int arg1, int arg2)
 {
     SVECTOR  svec;
     CONTROL *control;
@@ -534,9 +534,9 @@ int OtacomGetResources_800CBDB4(OtacomWork *work, int arg1, int arg2)
 
 void *NewPrisonOtacon(int name, int where)
 {
-    OtacomWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(OtacomWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work == NULL)
     {
         return NULL;

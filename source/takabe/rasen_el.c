@@ -11,7 +11,7 @@
 #include "sound/g_sound.h"
 #include "strcode.h"
 
-typedef struct RasenElWork
+typedef struct _Work
 {
     GV_ACT   actor;
     int      map;
@@ -49,7 +49,7 @@ typedef struct RasenElWork
     SVECTOR  f2E8;
     int      f2F0;
     int      f2F4;
-} RasenElWork;
+} Work;
 
 unsigned short rasen_el_800C342C[] = {0xACDC, 0x085B, 0x804B, 0xDBC9, 0xE0CF, 0x5F2B};
 
@@ -70,20 +70,20 @@ extern unsigned short rasen_el_800D2CA4[];
 void Takabe_ReshadeModel(DG_OBJS *objs, LIT *lit);
 void Takabe_FreeObjs(DG_OBJS *objs);
 
-void s11c_800CCFCC(RasenElWork *, int);
-void s11c_800CD0C4(RasenElWork *);
+void s11c_800CCFCC(Work *, int);
+void s11c_800CD0C4(Work *);
 void RasenElExecProc_800CD1E4(int proc, int value);
-void s11c_800CD340(RasenElWork *work, int);
-void s11c_800CDAB4(RasenElWork *);
-void s11c_800CDB6C(RasenElWork *work);
-void s11c_800CD120(RasenElWork *work);
+void s11c_800CD340(Work *work, int);
+void s11c_800CDAB4(Work *);
+void s11c_800CDB6C(Work *work);
+void s11c_800CD120(Work *work);
 void s11c_800CD17C(OBJECT *, int, int);
 
 DG_OBJS * Takabe_MakeElevatorPreshade(int model, LIT *lit);
 
 #define EXEC_LEVEL GV_ACTOR_AFTER
 
-void RasenElAct_800CC454(RasenElWork *work)
+void RasenElAct_800CC454(Work *work)
 {
     SVECTOR   sp10;
     int       check;
@@ -372,7 +372,7 @@ void RasenElAct_800CC454(RasenElWork *work)
     s11c_800CDB6C(work);
 }
 
-void RasenElDie_800CCAC4(RasenElWork *work)
+void RasenElDie_800CCAC4(Work *work)
 {
     if (GM_Camera.flag & 0x200)
     {
@@ -397,7 +397,7 @@ void RasenElDie_800CCAC4(RasenElWork *work)
     GM_FreePrim(work->f24C);
 }
 
-int RasenElGetResources_800CCB9C(RasenElWork *work, int name, int map)
+int RasenElGetResources_800CCB9C(Work *work, int name, int map)
 {
     SVECTOR sp10;
     SVECTOR sp18;
@@ -520,9 +520,9 @@ int RasenElGetResources_800CCB9C(RasenElWork *work, int name, int map)
 
 void *NewRasenElevator(int arg0, int arg1)
 {
-    RasenElWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(RasenElWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, RasenElAct_800CC454, RasenElDie_800CCAC4, "rasen_el.c");
@@ -537,7 +537,7 @@ void *NewRasenElevator(int arg0, int arg1)
     return (void *)work;
 }
 
-void s11c_800CCFCC(RasenElWork *work, int height)
+void s11c_800CCFCC(Work *work, int height)
 {
     HZD_FLR *dst;
     HZD_FLR *src;
@@ -572,7 +572,7 @@ void s11c_800CCFCC(RasenElWork *work, int height)
     }
 }
 
-void s11c_800CD0C4(RasenElWork *work)
+void s11c_800CD0C4(Work *work)
 {
     HZD_FLR *floor;
     int      i;
@@ -585,7 +585,7 @@ void s11c_800CD0C4(RasenElWork *work)
     }
 }
 
-void s11c_800CD120(RasenElWork *work)
+void s11c_800CD120(Work *work)
 {
     HZD_FLR *floor;
     int      i;
@@ -644,7 +644,7 @@ void s11c_800CD21C(void)
     GV_OriginPadSystem(rasen_el_800D2CB4.vy + 2048);
 }
 
-void s11c_800CD340(RasenElWork *work, int arg1)
+void s11c_800CD340(Work *work, int arg1)
 {
     int press, release;
 
@@ -858,7 +858,7 @@ void s11c_800CD868(POLY_FT4 *packs, DG_TEX *tex)
     }
 }
 
-void s11c_800CD958(RasenElWork *work)
+void s11c_800CD958(Work *work)
 {
     SVECTOR  vec;
     SVECTOR *iter;
@@ -887,7 +887,7 @@ void s11c_800CD958(RasenElWork *work)
     }
 }
 
-void s11c_800CDAB4(RasenElWork *work)
+void s11c_800CDAB4(Work *work)
 {
     DG_PRIM *prim;
 
@@ -904,7 +904,7 @@ void s11c_800CDAB4(RasenElWork *work)
     prim->root = &work->object.objs->world;
 }
 
-void s11c_800CDB6C(RasenElWork *work)
+void s11c_800CDB6C(Work *work)
 {
     DG_PRIM  *prim;
     POLY_FT4 *pack0;

@@ -7,7 +7,7 @@
 #include "linkvar.h"
 #include "sound/g_sound.h"
 
-typedef struct _LifeUpWork
+typedef struct _Work
 {
     GV_ACT actor;
     int    max;
@@ -17,11 +17,11 @@ typedef struct _LifeUpWork
     char   pad[0x4];
     int    f34;
     int    time;
-} LifeUpWork;
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_ASSIST
 
-STATIC void LifeUpAct_800DF1A8(LifeUpWork *work)
+STATIC void LifeUpAct_800DF1A8(Work *work)
 {
     GM_GameStatus |= PLAYER_MENU_DISABLE;
 
@@ -70,12 +70,12 @@ STATIC void LifeUpAct_800DF1A8(LifeUpWork *work)
     }
 }
 
-STATIC void LifeUpDie_800DF318(LifeUpWork *work)
+STATIC void LifeUpDie_800DF318(Work *work)
 {
     GM_GameStatus &= ~(STATE_PADRELEASE | STATE_SHOW_LIFEBAR);
 }
 
-STATIC int LifeUpGetResources_800DF334(LifeUpWork *work, int name, int map)
+STATIC int LifeUpGetResources_800DF334(Work *work, int name, int map)
 {
     if (GCL_GetOption('m'))
     {
@@ -113,9 +113,9 @@ STATIC int LifeUpGetResources_800DF334(LifeUpWork *work, int name, int map)
 
 void *NewLifeUp(int name, int where)
 {
-    LifeUpWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(LifeUpWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, LifeUpAct_800DF1A8, LifeUpDie_800DF318, "life_up.c");

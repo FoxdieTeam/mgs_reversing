@@ -7,7 +7,7 @@
 #include "game/game.h"
 #include "sound/g_sound.h"
 
-typedef struct _DuctmouseWork
+typedef struct _Work
 {
     GV_ACT   actor;
     OBJECT   body;
@@ -27,7 +27,7 @@ typedef struct _DuctmouseWork
     int      f294;
     SVECTOR  vec[4];
     MATRIX   world;
-} DuctmouseWork;
+} Work;
 
 SVECTOR mouse_offsets[2] = {{48, 0, 96, 0}, {-48, 0, 96, 0}};
 
@@ -61,7 +61,7 @@ void Ductmouse_800DA35C(SVECTOR *from, SVECTOR *to, SVECTOR *out)
     out->vz = 0;
 }
 
-void Ductmouse_800DA3DC(DuctmouseWork *work)
+void Ductmouse_800DA3DC(Work *work)
 {
     SVECTOR  pos;
     SVECTOR  off[2];
@@ -95,7 +95,7 @@ void Ductmouse_800DA55C(POLY_FT4 *poly, DG_TEX *tex)
     DG_SetPacketTexture4(poly, tex);
 }
 
-void Ductmouse_800DA5BC(DuctmouseWork *work)
+void Ductmouse_800DA5BC(Work *work)
 {
     SVECTOR sp10;
     SVECTOR sp18;
@@ -207,7 +207,7 @@ void Ductmouse_800DA5BC(DuctmouseWork *work)
     work->rot.vy += work->f160[work->f15C % 8] * 64;
 }
 
-void DuctmouseAct_800DA978(DuctmouseWork *work)
+void DuctmouseAct_800DA978(Work *work)
 {
     GM_CurrentMap = work->map;
 
@@ -218,13 +218,13 @@ void DuctmouseAct_800DA978(DuctmouseWork *work)
     DG_GetLightMatrix2(&work->pos, work->light);
 }
 
-void DuctmouseDie_800DA9D4(DuctmouseWork *work)
+void DuctmouseDie_800DA9D4(Work *work)
 {
     GM_FreeObject(&work->body);
     GM_FreePrim(work->prim);
 }
 
-int DuctmouseGetResources_800DAA1C(DuctmouseWork *work, int name, int where)
+int DuctmouseGetResources_800DAA1C(Work *work, int name, int where)
 {
     MAP        *map;
     char       *opt;
@@ -326,9 +326,9 @@ int DuctmouseGetResources_800DAA1C(DuctmouseWork *work, int name, int where)
 
 void *NewDuctMouse(int name, int where, int argc, char **argv)
 {
-    DuctmouseWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(DuctmouseWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, DuctmouseAct_800DA978, DuctmouseDie_800DA9D4, "ductmous.c");

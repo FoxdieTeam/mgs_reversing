@@ -9,7 +9,7 @@
 #include "takabe/thing.h"
 #include "sound/g_sound.h"
 
-typedef struct _ShuterWork
+typedef struct _Work
 {
     GV_ACT   actor;
     int      map;
@@ -39,24 +39,24 @@ typedef struct _ShuterWork
     int      open_proc;
     int      close_proc;
     int      moving;
-} ShuterWork;
+} Work;
 
 unsigned short shuter_msgs_800C3738[] = {0x418B, 0x3A02};
 
 DG_OBJS * Takabe_MakePreshade(int model, LIT *lit);
 void      Takabe_FreeObjs(DG_OBJS *objs);
 
-void Shuter_800DFBD8(ShuterWork *);
-void Shuter_800DFC30(ShuterWork *work);
-void Shuter_800DFC84(ShuterWork *);
-void Shuter_800DFD7C(ShuterWork *);
-void Shuter_800DFDD0(ShuterWork *work);
-void Shuter_800DFE24(ShuterWork *work);
+void Shuter_800DFBD8(Work *);
+void Shuter_800DFC30(Work *work);
+void Shuter_800DFC84(Work *);
+void Shuter_800DFD7C(Work *);
+void Shuter_800DFDD0(Work *work);
+void Shuter_800DFE24(Work *work);
 void Shuter_800DFF34(OBJECT *, int, int);
 
 #define EXEC_LEVEL GV_ACTOR_USER
 
-void ShuterAct_800DF484(ShuterWork *work)
+void ShuterAct_800DF484(Work *work)
 {
     int found;
 
@@ -180,7 +180,7 @@ void ShuterAct_800DF484(ShuterWork *work)
     work->target->center.vy = work->level + (work->center.vy - (work->hzd_height / 2)) + 250;
 }
 
-void ShuterDie_800DF774(ShuterWork *work)
+void ShuterDie_800DF774(Work *work)
 {
     Shuter_800DFDD0(work);
     Shuter_800DFC30(work);
@@ -188,13 +188,13 @@ void ShuterDie_800DF774(ShuterWork *work)
     Takabe_FreeObjs(work->object.objs);
 }
 
-void Shuter_800DF7B8(ShuterWork *work)
+void Shuter_800DF7B8(Work *work)
 {
     work->target = GM_AllocTarget();
     GM_SetTarget(work->target, 8, NO_SIDE, &work->target_size);
 }
 
-int ShuterGetResources_800DF7F4(ShuterWork *work, int name, int map)
+int ShuterGetResources_800DF7F4(Work *work, int name, int map)
 {
     MATRIX   world;
     SVECTOR  max;
@@ -311,9 +311,9 @@ int ShuterGetResources_800DF7F4(ShuterWork *work, int name, int map)
 
 void *NewShutter(int name, int where, int argc, char **argv)
 {
-    ShuterWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(ShuterWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, ShuterAct_800DF484, ShuterDie_800DF774, "shuter.c");
@@ -328,7 +328,7 @@ void *NewShutter(int name, int where, int argc, char **argv)
     return (void *)work;
 }
 
-void Shuter_800DFBD8(ShuterWork *work)
+void Shuter_800DFBD8(Work *work)
 {
     HZD_SEG *seg;
     int      i;
@@ -341,7 +341,7 @@ void Shuter_800DFBD8(ShuterWork *work)
     }
 }
 
-void Shuter_800DFC30(ShuterWork *work)
+void Shuter_800DFC30(Work *work)
 {
     HZD_SEG *seg;
     int      i;
@@ -353,7 +353,7 @@ void Shuter_800DFC30(ShuterWork *work)
     }
 }
 
-void Shuter_800DFC84(ShuterWork *work)
+void Shuter_800DFC84(Work *work)
 {
     HZD_SEG *seg;
     HZD_VEC *vec;
@@ -413,7 +413,7 @@ void Shuter_800DFC84(ShuterWork *work)
     floor->b2.y = seg->p1.y + 100;
 }
 
-void Shuter_800DFD7C(ShuterWork *work)
+void Shuter_800DFD7C(Work *work)
 {
     HZD_FLR *floor;
     int      i;
@@ -426,7 +426,7 @@ void Shuter_800DFD7C(ShuterWork *work)
     }
 }
 
-void Shuter_800DFDD0(ShuterWork *work)
+void Shuter_800DFDD0(Work *work)
 {
     HZD_FLR *floor;
     int      i;
@@ -439,7 +439,7 @@ void Shuter_800DFDD0(ShuterWork *work)
     }
 }
 
-void Shuter_800DFE24(ShuterWork *work)
+void Shuter_800DFE24(Work *work)
 {
     SVECTOR diff;
     SVECTOR pos;

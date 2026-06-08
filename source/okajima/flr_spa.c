@@ -8,7 +8,7 @@
 #include "okajima/plasma_h.h"   // for NewPlasmaH
 #include "takabe/spark2.h"      // for NewSpark2_800CA714
 
-typedef struct _FlrSpaWork
+typedef struct _Work
 {
     GV_ACT  actor;
     int     map;
@@ -20,7 +20,7 @@ typedef struct _FlrSpaWork
     int     spin;
     int     timer;
     int     reload;
-} FlrSpaWork;
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_PREV
 
@@ -71,7 +71,7 @@ int FlrSpaCheckMessage_800D09F8(unsigned short name, int n_hashes, unsigned shor
 
 #define LERP(a, b, t) ((a) + (((b) - (a)) * (t)) / 4096)
 
-void FlrSpaMain_800D0A90(FlrSpaWork *work)
+void FlrSpaMain_800D0A90(Work *work)
 {
     MATRIX  world;
     VECTOR  scale;
@@ -160,7 +160,7 @@ void FlrSpaMain_800D0A90(FlrSpaWork *work)
     }
 }
 
-void FlrSpaAct_800D0E24(FlrSpaWork *work)
+void FlrSpaAct_800D0E24(Work *work)
 {
     unsigned short hashes[2];
 
@@ -186,11 +186,11 @@ void FlrSpaAct_800D0E24(FlrSpaWork *work)
     }
 }
 
-void FlrSpaDie_800D0EC0(FlrSpaWork *work)
+void FlrSpaDie_800D0EC0(Work *work)
 {
 }
 
-int FlrSpaGetResources_800D0EC8(FlrSpaWork *work, int name, int map)
+int FlrSpaGetResources_800D0EC8(Work *work, int name, int map)
 {
     char *opt;
 
@@ -236,9 +236,9 @@ int FlrSpaGetResources_800D0EC8(FlrSpaWork *work, int name, int map)
 
 void *NewFloorSpark(int name, int where)
 {
-    FlrSpaWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(FlrSpaWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, FlrSpaAct_800D0E24, FlrSpaDie_800D0EC0, "flr_spa.c");
