@@ -8,7 +8,7 @@ typedef struct _HindBulWork
 {
     GV_ACT  actor;       // 0x00
     CONTROL control;     // 0x20
-    char    pad_a0[0xE4 - 0x20 - sizeof(CONTROL)];
+    TARGET  target;      // 0x9C
     int     field_E4;
     int     field_E8;
     int     field_EC;
@@ -37,8 +37,8 @@ int s11d_hind_bul_800CB794(HindBulWork *work)
     hit = GM_Target_8002E1B8(&pos, &out, work->field_EC, &out, ENEMY_SIDE);
     if (hit)
     {
-        GM_MoveTarget((TARGET *)((char *)work + 0x9C), &out);
-        GM_PowerTarget((TARGET *)((char *)work + 0x9C));
+        GM_MoveTarget(&work->target, &out);
+        GM_PowerTarget(&work->target);
     }
 
     return hit;
@@ -68,13 +68,11 @@ void s11d_hind_bul_800CB938(HindBulWork *work)
     MATRIX  mat;
     SVECTOR rot;
     VECTOR  scale;
-    int     temp;
 
     GM_ActControl(&work->control);
 
     work->field_E4 -= 2000;
-    temp = (unsigned short)work->control.mov.vy + (unsigned short)work->control.step.vy;
-    work->control.mov.vy = temp;
+    work->control.mov.vy = (unsigned short)work->control.mov.vy + (unsigned short)work->control.step.vy;
 
     s11d_hind_bul_800CB888(work);
 
