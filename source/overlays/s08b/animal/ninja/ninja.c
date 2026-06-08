@@ -879,7 +879,65 @@ void s08b_bunsin2_800CDB54(Work *work)
         GM_VoxStream((int)work, 0);
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CDBAC.s")
+void s08b_bunsin2_800CDBAC(Work *work)
+{
+    if (s08b_dword_800C3440 % 12 == 1)
+    {
+        if (GM_StreamStatus() == -1)
+        {
+            if (GM_GameOverTimer == 0 && GM_SnakeCurrentHealth > 0)
+            {
+                GM_VoxStream(work->field_1A98[1], 0);
+            }
+            s08b_dword_800C3440 = s08b_dword_800C3440 + 1;
+        }
+    }
+    else if (s08b_dword_800C3440 % 12 == 5)
+    {
+        if (GM_StreamStatus() == -1)
+        {
+            if (GM_GameOverTimer == 0 && GM_SnakeCurrentHealth > 0)
+            {
+                GM_VoxStream(work->field_1A98[2], 0);
+            }
+            s08b_dword_800C3440 = s08b_dword_800C3440 + 1;
+        }
+    }
+    if (s08b_dword_800C3450 == 2)
+    {
+        if (GM_StreamStatus() == -1)
+        {
+            if (GM_GameOverTimer == 0 && GM_SnakeCurrentHealth > 0)
+            {
+                GM_VoxStream(work->field_1A98[15], 0);
+            }
+            s08b_dword_800C3450 = s08b_dword_800C3450 + 1;
+        }
+    }
+    else if (s08b_dword_800C3450 == 4)
+    {
+        if (GM_StreamStatus() == -1)
+        {
+            if (GM_GameOverTimer == 0 && GM_SnakeCurrentHealth > 0)
+            {
+                GM_VoxStream(work->field_1A98[16], 0);
+            }
+            s08b_dword_800C3450 = s08b_dword_800C3450 + 1;
+        }
+    }
+    else if (s08b_dword_800C3450 == 6)
+    {
+        if (GM_StreamStatus() == -1)
+        {
+            if (GM_GameOverTimer == 0 && GM_SnakeCurrentHealth > 0)
+            {
+                GM_VoxStream(work->field_1A98[14], 0);
+            }
+            s08b_dword_800C3450 = 0;
+        }
+    }
+    s08b_dword_800C3588 = s08b_dword_800C3588 + 1;
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CDDD8.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CDE74.s")
 
