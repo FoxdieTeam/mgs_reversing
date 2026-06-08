@@ -29,11 +29,6 @@ extern signed char open_800C3400[16];
 extern int title_dword_800D92D0;
 extern int title_dword_800C33D4;
 
-extern const char title_aVeryeasy_800D8F6C[];            // = "VERY EASY"
-extern const char title_aEasy_800D8F78[];                // = "EASY"
-extern const char title_aNormal_800D8F80[];              // = "NORMAL"
-extern const char title_aHard_800D8F88[];                // = "HARD"
-extern const char title_aExtreme_800D8F90[];             // = "EXTREME"
 
 extern const char title_aClearflagd_800D8B30[];          // = "clear flag %d\n"
 extern const char title_aCleardataexistss_800D8B40[];    // = "clear data exists %s\n"
@@ -41,14 +36,6 @@ extern const char title_aBislpm_800D8B58[];              // = "BISLPM-86111"
 extern const char title_aOldclearflagd_800D8B68[];       // = "old clear flag %d\n"
 extern const char title_aOldcleardataexistss_800D8B7C[]; // = "old clear data exists %s\n"
 
-extern const char title_aMemorycardslot_800D8FAC[];      // = "MEMORY CARD SLOT 1  :  "
-extern const char title_aFull_800D8FC4[];                // = "   FULL"
-extern const char title_aNocard_800D8FCC[];              // = "NO CARD"
-extern const char title_aMemorycardslot_800D8FD4[];      // = "MEMORY CARD SLOT 2  :  "
-extern const char title_aDoyouwanttocontinue_800D8FEC[]; // = "DO YOU WANT TO CONTINUE\n"
-extern const char title_aYourgamelikethis_800D9008[];    // = "YOUR GAME LIKE THIS?"
-extern const char title_aYes_800D9020[];                 // = "YES"
-extern const char title_aNo_800D9024[];                  // = "NO"
 extern const char aOpenC[];                              // = "open.c"
 
 extern char *MGS_MemoryCardName; /* in main.c */
@@ -1561,7 +1548,7 @@ void title_open_800CE378(OpenWork *work, int idx)
 /* Tail-piece moved from openact.c. Placed after 800CE378's auto-emitted
  * switch table so it lands at 0x800D8AFC (right after the table at
  * 0x800D8AE8..0x800D8AFB). This makes openact.obj.rdata start at 0x800D8B00
- * (8-byte aligned) so the .obj-local offset of title_aNo_800D9024 keeps the
+ * (8-byte aligned) so the .obj-local offset of "NO" keeps the
  * same alignment-mod-8 as in the original openact.obj.
  */
 const char title_dword_800D8AFC[] = {0x0, 0x0, 0x0, 0x0};
@@ -2150,12 +2137,6 @@ void title_open_800D2AFC(OpenWork *work)
 
 /* ==== merged from openact.c (single TU; resolves cross-object jump tables) ==== */
 
-#include "game/game.h"
-#include "sound/sd_cli.h"
-#include "sound/g_sound.h"
-
-#include "openwork.h"
-
 extern void  title_open_800C5644(OpenWork *work, int index);
 extern void  title_open_800C5CB8(OpenWork *work);
 extern void  title_open_800C5CF0(OpenWork *work);
@@ -2273,11 +2254,6 @@ void title_open_800D2CA8(OpenWork *work, u_long *ot)
 
     title_open_800C47B8(work, ot);
 }
-const char title_aVeryeasy_800D8F6C[] = "VERY EASY";
-const char title_aEasy_800D8F78[] = "EASY";
-const char title_aNormal_800D8F80[] = "NORMAL";
-const char title_aHard_800D8F88[] = "HARD";
-const char title_aExtreme_800D8F90[] = "EXTREME";
 void title_open_800D2E44(OpenWork *work, u_long *ot)
 {
     if (title_dword_800D92D0)
@@ -2292,58 +2268,58 @@ void title_open_800D2E44(OpenWork *work, u_long *ot)
     switch (work->f24E4 + 1)
     {
     case 0:
-        MENU_Locate(0x7C, 0x3C, 0x10); MENU_Color(0xC0, 0xC0, 0xC0); MENU_Printf(title_aVeryeasy_800D8F6C);
-        MENU_Locate(0x90, 0x56, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf(title_aEasy_800D8F78);
-        MENU_Locate(0x88, 0x70, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf(title_aNormal_800D8F80);
-        MENU_Locate(0x90, 0x8A, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf(title_aHard_800D8F88);
+        MENU_Locate(0x7C, 0x3C, 0x10); MENU_Color(0xC0, 0xC0, 0xC0); MENU_Printf("VERY EASY");
+        MENU_Locate(0x90, 0x56, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf("EASY");
+        MENU_Locate(0x88, 0x70, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf("NORMAL");
+        MENU_Locate(0x90, 0x8A, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf("HARD");
         MENU_Locate(0x84, 0xA4, 0x10);
         if (work->fB48) { MENU_Color(0x64, 0xA0, 0x87); } else { MENU_Color(0x40, 0x40, 0x40); }
-        MENU_Printf(title_aExtreme_800D8F90);
+        MENU_Printf("EXTREME");
         title_open_800C4F1C(work, -0x28, -0x36, 0x52, 9, 0xFF, 1);
         title_open_800C4AD0(work, 0xF, 0x6739);
         title_open_800C4AD0(work, 4, 0);
         break;
     case 1:
-        MENU_Locate(0x7C, 0x3C, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf(title_aVeryeasy_800D8F6C);
-        MENU_Locate(0x90, 0x56, 0x10); MENU_Color(0xC0, 0xC0, 0xC0); MENU_Printf(title_aEasy_800D8F78);
-        MENU_Locate(0x88, 0x70, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf(title_aNormal_800D8F80);
-        MENU_Locate(0x90, 0x8A, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf(title_aHard_800D8F88);
+        MENU_Locate(0x7C, 0x3C, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf("VERY EASY");
+        MENU_Locate(0x90, 0x56, 0x10); MENU_Color(0xC0, 0xC0, 0xC0); MENU_Printf("EASY");
+        MENU_Locate(0x88, 0x70, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf("NORMAL");
+        MENU_Locate(0x90, 0x8A, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf("HARD");
         MENU_Locate(0x84, 0xA4, 0x10);
         if (work->fB48) { MENU_Color(0x64, 0xA0, 0x87); } else { MENU_Color(0x40, 0x40, 0x40); }
-        MENU_Printf(title_aExtreme_800D8F90);
+        MENU_Printf("EXTREME");
         title_open_800C4F1C(work, -0x14, -0x1C, 0x2A, 9, 0xFF, 1);
         title_open_800C4AD0(work, 0x10, 0x6739);
         title_open_800C4AD0(work, 4, 0);
         break;
     case 2:
-        MENU_Locate(0x7C, 0x3C, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf(title_aVeryeasy_800D8F6C);
-        MENU_Locate(0x90, 0x56, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf(title_aEasy_800D8F78);
-        MENU_Locate(0x88, 0x70, 0x10); MENU_Color(0xC0, 0xC0, 0xC0); MENU_Printf(title_aNormal_800D8F80);
-        MENU_Locate(0x90, 0x8A, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf(title_aHard_800D8F88);
+        MENU_Locate(0x7C, 0x3C, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf("VERY EASY");
+        MENU_Locate(0x90, 0x56, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf("EASY");
+        MENU_Locate(0x88, 0x70, 0x10); MENU_Color(0xC0, 0xC0, 0xC0); MENU_Printf("NORMAL");
+        MENU_Locate(0x90, 0x8A, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf("HARD");
         MENU_Locate(0x84, 0xA4, 0x10);
         if (work->fB48) { MENU_Color(0x64, 0xA0, 0x87); } else { MENU_Color(0x40, 0x40, 0x40); }
-        MENU_Printf(title_aExtreme_800D8F90);
+        MENU_Printf("EXTREME");
         title_open_800C4F1C(work, -0x1C, -0x02, 0x3A, 9, 0xFF, 1);
         title_open_800C4AD0(work, 4, 0);
         title_open_800C4AD0(work, 0x11, 0x6739);
         break;
     case 3:
-        MENU_Locate(0x7C, 0x3C, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf(title_aVeryeasy_800D8F6C);
-        MENU_Locate(0x90, 0x56, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf(title_aEasy_800D8F78);
-        MENU_Locate(0x88, 0x70, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf(title_aNormal_800D8F80);
-        MENU_Locate(0x90, 0x8A, 0x10); MENU_Color(0xC0, 0xC0, 0xC0); MENU_Printf(title_aHard_800D8F88);
+        MENU_Locate(0x7C, 0x3C, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf("VERY EASY");
+        MENU_Locate(0x90, 0x56, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf("EASY");
+        MENU_Locate(0x88, 0x70, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf("NORMAL");
+        MENU_Locate(0x90, 0x8A, 0x10); MENU_Color(0xC0, 0xC0, 0xC0); MENU_Printf("HARD");
         MENU_Locate(0x84, 0xA4, 0x10);
         if (work->fB48) { MENU_Color(0x64, 0xA0, 0x87); } else { MENU_Color(0x40, 0x40, 0x40); }
-        MENU_Printf(title_aExtreme_800D8F90);
+        MENU_Printf("EXTREME");
         title_open_800C4F1C(work, -0x14, 0x18, 0x2A, 9, 0xFF, 1);
         title_open_800C4AD0(work, 4, 0x6739);
         break;
     case 4:
-        MENU_Locate(0x7C, 0x3C, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf(title_aVeryeasy_800D8F6C);
-        MENU_Locate(0x90, 0x56, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf(title_aEasy_800D8F78);
-        MENU_Locate(0x88, 0x70, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf(title_aNormal_800D8F80);
-        MENU_Locate(0x90, 0x8A, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf(title_aHard_800D8F88);
-        MENU_Locate(0x84, 0xA4, 0x10); MENU_Color(0xC0, 0xC0, 0xC0); MENU_Printf(title_aExtreme_800D8F90);
+        MENU_Locate(0x7C, 0x3C, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf("VERY EASY");
+        MENU_Locate(0x90, 0x56, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf("EASY");
+        MENU_Locate(0x88, 0x70, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf("NORMAL");
+        MENU_Locate(0x90, 0x8A, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf("HARD");
+        MENU_Locate(0x84, 0xA4, 0x10); MENU_Color(0xC0, 0xC0, 0xC0); MENU_Printf("EXTREME");
         title_open_800C4F1C(work, -0x20, 0x32, 0x46, 9, 0xFF, 1);
         title_open_800C4AD0(work, 4, 0x6739);
         break;
@@ -2351,14 +2327,6 @@ void title_open_800D2E44(OpenWork *work, u_long *ot)
 
     title_open_800C47B8(work, ot);
 }
-const char title_aMemorycardslot_800D8FAC[] = "MEMORY CARD SLOT 1  :  ";
-const char title_aFull_800D8FC4[] = "   FULL";
-const char title_aNocard_800D8FCC[] = "NO CARD";
-const char title_aMemorycardslot_800D8FD4[] = "MEMORY CARD SLOT 2  :  ";
-const char title_aDoyouwanttocontinue_800D8FEC[] = "DO YOU WANT TO CONTINUE\n";
-const char title_aYourgamelikethis_800D9008[] = "YOUR GAME LIKE THIS?";
-const char title_aYes_800D9020[] = "YES";
-const char title_aNo_800D9024[] = "NO";
 
 void title_open_800D3500(OpenWork *work, u_long *ot)
 {
@@ -2375,55 +2343,55 @@ void title_open_800D3500(OpenWork *work, u_long *ot)
 
         MENU_Locate(54, 60, 0x10);
         MENU_Color(100, 160, 135);
-        MENU_Printf(title_aMemorycardslot_800D8FAC);
+        MENU_Printf("MEMORY CARD SLOT 1  :  ");
 
         if (work->f24F0 == 3)
         {
             MENU_Locate(223, 60, 0x10);
             MENU_Color(181, 85, 42);
-            MENU_Printf(title_aFull_800D8FC4);
+            MENU_Printf("   FULL");
         }
         else
         {
             MENU_Locate(223, 60, 0x10);
             MENU_Color(181, 85, 42);
-            MENU_Printf(title_aNocard_800D8FCC);
+            MENU_Printf("NO CARD");
         }
 
         MENU_Locate(54, 75, 0x10);
         MENU_Color(100, 160, 135);
-        MENU_Printf(title_aMemorycardslot_800D8FD4);
+        MENU_Printf("MEMORY CARD SLOT 2  :  ");
 
         if (work->f24F4 == 3)
         {
             MENU_Locate(223, 75, 0x10);
             MENU_Color(181, 85, 42);
-            MENU_Printf(title_aFull_800D8FC4);
+            MENU_Printf("   FULL");
         }
         else
         {
             MENU_Locate(223, 75, 0x10);
             MENU_Color(181, 85, 42);
-            MENU_Printf(title_aNocard_800D8FCC);
+            MENU_Printf("NO CARD");
         }
 
         MENU_Locate(70, 100, 0x10);
         MENU_Color(100, 160, 135);
-        MENU_Printf(title_aDoyouwanttocontinue_800D8FEC);
+        MENU_Printf("DO YOU WANT TO CONTINUE\n");
 
         MENU_Locate(85, 115, 0x10);
         MENU_Color(100, 160, 135);
-        MENU_Printf(title_aYourgamelikethis_800D9008);
+        MENU_Printf("YOUR GAME LIKE THIS?");
 
         if (work->f24E0 == 0)
         {
             MENU_Locate(100, 150, 0x10);
             MENU_Color(192, 192, 192);
-            MENU_Printf(title_aYes_800D9020);
+            MENU_Printf("YES");
 
             MENU_Locate(200, 150, 0x10);
             MENU_Color(46, 72, 61);
-            MENU_Printf(title_aNo_800D9024);
+            MENU_Printf("NO");
 
             title_open_800C4F1C(work, -68, 33, 40, 15, 255, 1);
         }
@@ -2431,11 +2399,11 @@ void title_open_800D3500(OpenWork *work, u_long *ot)
         {
             MENU_Locate(100, 150, 0x10);
             MENU_Color(46, 72, 61);
-            MENU_Printf(title_aYes_800D9020);
+            MENU_Printf("YES");
 
             MENU_Locate(200, 150, 0x10);
             MENU_Color(192, 192, 192);
-            MENU_Printf(title_aNo_800D9024);
+            MENU_Printf("NO");
 
             title_open_800C4F1C(work, 28, 33, 40, 15, 255, 1);
         }
