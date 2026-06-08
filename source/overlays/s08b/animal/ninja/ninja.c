@@ -870,7 +870,15 @@ void s08b_bunsin2_800CDB10(Work *work)
     s08b_bunsin2_800CD990(work);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CDB54.s")
+void s08b_bunsin2_800CDB54(Work *work)
+{
+    if (GM_StreamStatus() == -1 &&
+        GM_GameOverTimer == 0 &&
+        GM_SnakeCurrentHealth > 0)
+    {
+        GM_VoxStream((int)work, 0);
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CDBAC.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CDDD8.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CDE74.s")
