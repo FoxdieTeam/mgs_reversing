@@ -2343,7 +2343,80 @@ void s08b_bunsin2_800D2158(Work *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D21B8.s")
+void s08b_bunsin2_800D21B8(Work *work)
+{
+    switch (work->field_19CC)
+    {
+    case 0x17:
+        if (s08b_bunsin2_800D06A0(work))
+        {
+            if (work->field_1A38 == 1)
+            {
+                if (work->field_1A2C < 0x4B0)
+                {
+                    work->field_19C8 = 5;
+                    work->field_19CC = 5;
+                }
+                else
+                {
+                    work->field_19C8 = 3;
+                    work->field_19CC = 8;
+                }
+            }
+            else
+            {
+                if (work->field_19E4 < 6)
+                {
+                    work->field_19C4 = 7;
+                    work->field_19C8 = 0;
+                    work->field_19CC = 0;
+                }
+                else
+                {
+                    work->field_19CC = 0x23;
+                }
+            }
+            work->field_19D0 = 0;
+        }
+        break;
+    case 0x1C:
+        if (s08b_bunsin2_800D02E8(work))
+        {
+            work->field_19CC = 0x23;
+            work->field_19D0 = 0;
+        }
+        break;
+    case 0x23:
+        if (s08b_bunsin2_800D0550(work))
+        {
+            if (work->field_1A2C < 0x4B0)
+            {
+                work->field_19C8 = 5;
+                work->field_19CC = 5;
+            }
+            else
+            {
+                work->field_19C8 = 3;
+                work->field_19CC = 8;
+            }
+            work->field_19D0 = 0;
+        }
+        else
+        {
+            work->field_19B0 = 0x16;
+        }
+        break;
+    case 5:
+        if (s08b_bunsin2_800CFDE0(work))
+        {
+            work->field_19C8 = 3;
+            work->field_19CC = 8;
+            work->field_19D4 = 0;
+            work->field_19D0 = 0;
+        }
+        break;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D231C.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D2420.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D2510.s")
