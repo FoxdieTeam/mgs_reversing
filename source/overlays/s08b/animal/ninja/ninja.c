@@ -734,7 +734,20 @@ void s08b_bunsin2_800CCDBC(Work *work)
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CCE34.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CCF8C.s")
+void s08b_bunsin2_800CCF8C(Work *work)
+{
+    if (work->field_1A00 == 1)
+    {
+        if (s08b_bunsin2_800C9978(&work->body))
+        {
+            GM_SeSetMode(&work->control.mov, 0xB2, 1);
+        }
+    }
+    else if (work->field_1A00 != 2 && work->field_19E4 < 0x5A)
+    {
+        work->field_1A00 = 1;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CD000.s")
 void s08b_bunsin2_800CD000(Work *work);
 
