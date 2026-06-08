@@ -1130,7 +1130,60 @@ int s08b_bunsin2_800CF54C(Work *work);
 
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CF660.s")
 
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CF704.s")
+void s08b_bunsin2_800CF704(Work *work)
+{
+    int s = work->field_19D0;
+    int r;
+
+    if (s == 0)
+    {
+        s08b_dword_800C3440 = 0;
+        s08b_dword_800C3444 = 0;
+        s08b_dword_800C3448 = 0;
+        s08b_dword_800C344C = 0;
+        s08b_dword_800C3450 = 0;
+        GM_AlertModeSet(4);
+        s08b_bunsin2_800D53E8(1, 0xEA60);
+        GM_GameStatus |= STATE_RADIO_OFF | STATE_LIFEBAR_OFF | STATE_MENU_OFF | STATE_PADRELEASE | 0x40;
+        GM_VoxStream(work->field_1A98[0], 0);
+        s08b_ninja_800C79D4(0);
+        work->field_19B4 = work->field_1A28;
+    }
+    if (s >= 0xB)
+    {
+        r = GM_StreamStatus();
+        if (r == -1)
+        {
+            s08b_ninja_800C79D4(2);
+            s08b_bunsin2_800D5434();
+            work->field_1964 = 0;
+            work->field_1966 = r;
+            work->field_19D4 = 0;
+            GM_GameStatus &= ~(STATE_RADIO_OFF | STATE_LIFEBAR_OFF | STATE_MENU_OFF | STATE_PADRELEASE | 0x40);
+            s08b_bunsin2_800CEB40(work);
+            work->field_19C4 = 3;
+            work->field_19C8 = 0;
+            work->field_19CC = 0x18;
+            work->field_19D4 = 0;
+            work->field_19D0 = 0;
+            return;
+        }
+    }
+    if (s < 0x50)
+    {
+        work->field_19B0 = 9;
+        work->field_19B4 = work->field_1A28;
+    }
+    else if (s == 0x50)
+    {
+        work->field_19B0 = 0x15;
+    }
+    else if (s >= 0xCF)
+    {
+        work->field_19B0 = 9;
+    }
+    work->field_19D0 = work->field_19D0 + 1;
+}
 void s08b_bunsin2_800CF704(Work *work);
 
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CF880.s")
