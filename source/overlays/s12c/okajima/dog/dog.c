@@ -35,9 +35,11 @@ typedef struct DogWork
     int      field_14F8[3];
     char     pad1504[0xC];
     int      field_1510[3];
-    char     pad151C[0xC];
+    int      field_151C[3];
     int      field_1528;
-    char     pad152C[0x30];
+    char     pad152C[0x152E - 0x152C];
+    SVECTOR  field_152E[3];
+    char     pad1546[0x155C - 0x152E - sizeof(SVECTOR[3])];
     int      field_155C[3];
     char     pad1568[0xC];
     int      field_1574[3];
@@ -45,9 +47,11 @@ typedef struct DogWork
     int      field_158C[3];
     char     pad1598[0x24];
     int      field_15BC[3];
-    char     pad15C8[0x38];
+    char     pad15C8[0x15FC - 0x15C8];
+    int      field_15FC;
     int      field_1600;
-    char     pad1604[0xC];
+    int      field_1604;
+    char     pad1608[0x1610 - 0x1604 - sizeof(int)];
     int      field_1610;
     char     pad1614[0x68];
     DG_PRIM *field_167C[3];
@@ -58,7 +62,9 @@ typedef struct DogWork
     char     pad1778[0x38];
     int      field_17B0;
     int      field_17B4;
-    char     pad17B8[0x30];
+    char     pad17B8[0x18];
+    int      field_17D0[3];
+    int      field_17DC[3];
 } DogWork;
 
 #define EXEC_LEVEL GV_ACTOR_USER
@@ -587,7 +593,18 @@ int Dog_800CA3C0(unsigned short name, int nhashes, unsigned short *hashes)
     return found;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CA458.s")
+void s12c_dog_800CA458(char *a0, int count, int idx)
+{
+    int      off = idx * 0x90 + 0xF00;
+    SVECTOR *p = (SVECTOR *)(a0 + off);
+    int i;
+
+    for (i = 0; i < count; i++)
+    {
+        *p = DG_ZeroVector;
+        p++;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CA4B4.s")
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CA758.s")
 
@@ -651,7 +668,36 @@ int Dog_800CABF4(SVECTOR *arg0, SVECTOR *arg1, SVECTOR *arg2)
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CAC84.s")
 int s12c_dog_800CAC84(DogWork *work, int, int);
 
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CAD8C.s")
+void s12c_dog_800CAD8C(DogWork *work, int idx)
+{
+    SVECTOR vec;
+    int     half;
+    int     state = work->field_1494[idx];
+    char   *base = (char *)work + idx * 0x90;
+
+    work->field_17D0[idx] = *(short *)(base + 0xF20);
+    work->field_17DC[idx] = *(short *)(base + 0xF28);
+
+    if (state == 0xB || state == 0x14)
+    {
+        if (work->field_151C[idx] >= 0xFA1)
+        {
+            *(short *)(base + 0xF20) = 0;
+            *(short *)(base + 0xF28) = 0;
+        }
+        else
+        {
+            vec.vx = *(short *)((char *)work->field_19C[idx].objs + 0x228);
+            vec.vy = *(short *)((char *)work->field_19C[idx].objs + 0x22C);
+            vec.vz = *(short *)((char *)work->field_19C[idx].objs + 0x230);
+            Dog_800CABF4(&vec, &GM_PlayerPosition, &vec);
+
+            half = vec.vx / 2;
+            *(short *)(base + 0xF20) = (half + work->field_17D0[idx] * 15) / 16;
+            *(short *)(base + 0xF28) = (half + work->field_17DC[idx] * 15) / 16;
+        }
+    }
+}
 
 void s12c_dog_800CAEC8(DogWork *work, int index, int mark)
 {
@@ -844,7 +890,62 @@ void s12c_dog_800CB42C(DogWork *work, int index1, int arg2, int arg3, int index2
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CB54C.s")
+int s12c_dog_800CB54C(DogWork *work, int index)
+{
+    CONTROL           *control;
+    RADAR_SIGHT_PARAM *radar;
+
+    if (!work->field_1604)
+    {
+        if (GM_PlayerPosition.vx > -3500)
+        {
+            if (GM_PlayerPosition.vx < 7000)
+            {
+                if (GM_PlayerPosition.vz > 2000)
+                {
+                    if (GM_PlayerPosition.vz < 7500)
+                    {
+                        return 0;
+                    }
+                }
+            }
+        }
+    }
+
+    control = &work->field_28[index];
+    radar = &control->radar_param;
+
+    if (control->map->index != GM_PlayerMap)
+    {
+        return 0;
+    }
+
+    if (GM_PlayerStatus & PLAYER_INTRUDE)
+    {
+        return 0;
+    }
+
+    if ((index != 2 && work->field_151C[index] > 1000) ||
+        (index == 2 && work->field_151C[index] > 1500))
+    {
+        if (work->field_151C[index] > radar->dis)
+        {
+            return 0;
+        }
+        if (GV_DiffDirAbs(radar->dir, work->field_152E[index].vx) > radar->range)
+        {
+            return 0;
+        }
+    }
+
+    if (HZD_OnlineHazardCheck(control->map->hzd, &GM_PlayerPosition, &control->mov, 0xF, 2))
+    {
+        return 0;
+    }
+
+    work->field_15FC = 0x300;
+    return 1;
+}
 
 void Dog_800CB6DC(DogWork *work, int arg1, int arg2)
 {
@@ -862,6 +963,8 @@ void Dog_800CB6DC(DogWork *work, int arg1, int arg2)
 
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CB714.s")
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CB97C.s")
+extern void s12c_dog_800CB97C(SVECTOR *arg0, SVECTOR *arg1, int arg2);
+extern void s12c_dog_800CA758(DogWork *work, int idx);
 
 void Dog_800CBBE8(DogWork *work, int index)
 {
@@ -953,7 +1056,39 @@ void DogExecProc_800CEB2C(DogWork *work, int param)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CEB74.s")
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CF578.s")
+void s12c_dog_800CF578(DogWork *work, int idx)
+{
+    CONTROL *ctrl = &work->field_28[idx];
+    SVECTOR  vec;
+
+    switch (work->field_1510[idx])
+    {
+    case 0:
+        work->field_1510[idx] = 1;
+        GM_SeSetMode(&ctrl->mov, 0x8D, GM_SEMODE_NORMAL);
+        work->field_126C[idx]->flag = 0;
+        /* fall through */
+    case 1:
+        work->field_1574[idx] = 0;
+        Dog_800CB23C(work, 0x18, 5, idx);
+        break;
+    case 5:
+        if (work->field_151C[idx] >= 0xBB9)
+        {
+            Dog_800CABF4(&ctrl->mov, &GM_PlayerPosition, &vec);
+            vec.vx = 0;
+            s12c_dog_800CB97C((SVECTOR *)((char *)ctrl + 0x4C), &vec, 8);
+        }
+        Dog_800CB23C(work, 0x1C, 0xE, idx);
+        break;
+    case 0xE:
+        work->field_14F8[idx] = 6;
+        work->field_1510[idx] = 0;
+        s12c_dog_800CA758(work, idx);
+        work->field_126C[idx]->flag = 1;
+        break;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CF6CC.s")
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CFA30.s")
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800D0374.s")
