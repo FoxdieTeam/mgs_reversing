@@ -8,9 +8,11 @@ typedef struct _HindBulWork
 {
     GV_ACT  actor;       // 0x00
     CONTROL control;     // 0x20
-    char    pad_a0[0xE8 - 0x20 - sizeof(CONTROL)];
+    char    pad_a0[0xE4 - 0x20 - sizeof(CONTROL)];
+    int     field_E4;
     int     field_E8;
-    char    pad_ec[0xF8 - 0xE8 - sizeof(int)];
+    int     field_EC;
+    SVECTOR field_F0;
     DG_PRIM *prim;
     char    pad_fc[0x17C - 0xF8 - sizeof(DG_PRIM *)];
 } HindBulWork;
@@ -28,11 +30,11 @@ int s11d_hind_bul_800CB794(HindBulWork *work)
     }
 
     pos = work->control.mov;
-    GV_SubVec3((SVECTOR *)((char *)work + 0xF0), &pos, &diff);
+    GV_SubVec3(&work->field_F0, &pos, &diff);
     GV_LenVec3(&diff, &out, GV_VecLen3(&diff), 2000);
     GV_AddVec3(&pos, &out, &out);
 
-    hit = GM_Target_8002E1B8(&pos, &out, *(int *)((char *)work + 0xEC), &out, ENEMY_SIDE);
+    hit = GM_Target_8002E1B8(&pos, &out, work->field_EC, &out, ENEMY_SIDE);
     if (hit)
     {
         GM_MoveTarget((TARGET *)((char *)work + 0x9C), &out);
@@ -70,9 +72,9 @@ void s11d_hind_bul_800CB938(HindBulWork *work)
 
     GM_ActControl(&work->control);
 
-    *(int *)((char *)work + 0xE4) -= 2000;
-    temp = *(unsigned short *)((char *)work + 0x22) + *(unsigned short *)((char *)work + 0x66);
-    *(short *)((char *)work + 0x22) = temp;
+    work->field_E4 -= 2000;
+    temp = (unsigned short)work->control.mov.vy + (unsigned short)work->control.step.vy;
+    work->control.mov.vy = temp;
 
     s11d_hind_bul_800CB888(work);
 
@@ -82,18 +84,18 @@ void s11d_hind_bul_800CB938(HindBulWork *work)
         return;
     }
 
-    if (*(int *)((char *)work + 0xE4) <= 0)
+    if (work->field_E4 <= 0)
     {
         rot.vx = -1024;
         rot.vz = 0;
         rot.vy = 0;
         RotMatrixYXZ(&rot, &mat);
 
-        mat.t[0] = *(short *)((char *)work + 0xF0);
-        mat.t[1] = *(short *)((char *)work + 0xF2);
-        mat.t[2] = *(short *)((char *)work + 0xF4);
+        mat.t[0] = work->field_F0.vx;
+        mat.t[1] = work->field_F0.vy;
+        mat.t[2] = work->field_F0.vz;
 
-        GM_SeSet((SVECTOR *)((char *)work + 0xF0), 0xB5);
+        GM_SeSet(&work->field_F0, 0xB5);
 
         scale.vz = 0x2000;
         scale.vy = 0x2000;

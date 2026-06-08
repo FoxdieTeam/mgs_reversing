@@ -98,69 +98,7 @@ void s11g_hind_800D9344(HindWork *work)
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D96B0.s")
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D9B80.s")
 
-void s11g_hind_800DA534(HindWork *work)
-{
-    int f5F4;
-
-    s11g_hind_800D61F8(work);
-
-    work->field_5C8 = 5;
-    work->field_5E4 = 100;
-    *(volatile int *)&work->field_5F8 = GV_RandU(2);
-    *(volatile int *)&work->field_5F4 = (*(volatile int *)&work->field_5F4 + 2048) & 0xFFF;
-
-    f5F4 = *(volatile int *)&work->field_5F4;
-    if (f5F4 > 256 && f5F4 < 1792)
-    {
-        if (f5F4 < 1024)
-        {
-            *(volatile int *)&work->field_5F4 = 256;
-        }
-        else
-        {
-            *(volatile int *)&work->field_5F4 = 1792;
-        }
-    }
-
-    work->field_60C.vx = rcos(*(volatile int *)&work->field_5F4) * 43;
-    work->field_60C.vy = (work->field_60C.vy + 10000) / 2;
-    work->field_60C.vz = rsin(*(volatile int *)&work->field_5F4) * 43;
-}
-
-void s11g_hind_800DA534(HindWork *work);
-
-/*
-TODO: This only matches when field_5F4 is volatile
-void s11g_hind_800DA534(HindWork *work)
-{
-    int f5F4;
-
-    s11g_hind_800D61F8(work);
-
-    work->field_5C8 = 5;
-    work->field_5E4 = 100;
-    work->field_5F8 = GV_RandU(2);
-    do {} while (0);
-    work->field_5F4 = (work->field_5F4 + 2048) & 0xFFF;
-
-    f5F4 = work->field_5F4;
-    if (f5F4 > 256 && f5F4 < 1792)
-    {
-        if (f5F4 < 1024)
-        {
-            work->field_5F4 = 256;
-        }
-        else
-        {
-            work->field_5F4 = 1792;
-        }
-    }
-
-    work->field_60C.vx = rcos(work->field_5F4) * 43;
-    work->field_60C.vy = (work->field_60C.vy + 10000) / 2;
-    work->field_60C.vz = rsin(work->field_5F4) * 43;
-}
-*/
+#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800DA534.s")
 
 void s11g_hind_800DA614(HindWork *work)
 {
