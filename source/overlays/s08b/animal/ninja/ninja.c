@@ -2493,7 +2493,43 @@ void s08b_bunsin2_800D2D3C(Work *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D2DB0.s")
+void s08b_bunsin2_800D2DB0(Work *work)
+{
+    int x;
+
+    switch (work->field_19CC)
+    {
+    case 0x17:
+        work->field_1A08 = 1;
+        if (s08b_bunsin2_800D06A0(work) == 0)
+        {
+            return;
+        }
+        if (work->field_19E0 >= 3)
+        {
+            s08b_bunsin2_800CE064(work);
+            x = work->field_1A8C;
+            work->field_19CC = 0x1B;
+            work->field_19C8 = 1;
+            work->field_19B8 = 3;
+            if (x >= 0 && GM_GameOverTimer == 0 && GM_SnakeCurrentHealth > 0)
+            {
+                GCL_ExecProc(x, 0);
+            }
+        }
+        else
+        {
+            s08b_bunsin2_800CE9BC(work);
+            work->field_19C8 = 1;
+            work->field_19CC = 5;
+        }
+        work->field_19D0 = 0;
+        break;
+    case 0x1D:
+        s08b_bunsin2_800D0530(work);
+        break;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D2EA0.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D2F80.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D3064.s")
