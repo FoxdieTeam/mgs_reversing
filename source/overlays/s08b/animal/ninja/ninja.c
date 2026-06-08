@@ -1331,7 +1331,19 @@ int s08b_bunsin2_800CFCF8(Work *work)
     }
     return work->field_19A8;
 }
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CFD88.s")
+int s08b_bunsin2_800CFD88(Work *work)
+{
+    if (work->field_19D0 == 0)
+    {
+        work->field_19B0 = 5;
+    }
+    if (work->field_19D0 >= 0x3D && work->body.is_end != 0)
+    {
+        return 1;
+    }
+    work->field_19D0++;
+    return 0;
+}
 int s08b_bunsin2_800CFDE0(Work *work)
 {
     if (work->field_19D0 == 0)
