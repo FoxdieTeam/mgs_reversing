@@ -1764,7 +1764,62 @@ int s08b_bunsin2_800D0F54(Work *work)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D0F88.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D1014.s")
+int s08b_bunsin2_800D1014(Work *work)
+{
+    int g;
+    int threshold;
+    int n;
+
+    g = GM_DifficultyFlag;
+    if (g == 1)
+    {
+        threshold = 4;
+    }
+    else if (g <= 0)
+    {
+        threshold = 0xA;
+    }
+    else if (g < 4)
+    {
+        threshold = 1;
+    }
+    else
+    {
+        threshold = 0xA;
+    }
+
+    if (threshold < work->field_19D0)
+    {
+        if (GM_PlayerStatus & 0x1060)
+        {
+            work->field_19B0 = 0x12;
+        }
+        else if (GM_CurrentWeaponId == -1)
+        {
+            work->field_19B0 = 0x11;
+        }
+        else
+        {
+            work->field_19B0 = 0xC;
+        }
+    }
+    else
+    {
+        work->field_19B0 = 7;
+    }
+
+    n = work->field_19D0 + 1;
+    work->field_19D0 = n;
+    if (n >= 0x12D)
+    {
+        return 1;
+    }
+    if (n >= 9)
+    {
+        return work->field_19A8;
+    }
+    return 0;
+}
 int s08b_bunsin2_800D10C4(Work *work)
 {
     if (GM_PlayerStatus & (PLAYER_SQUAT | PLAYER_GROUND | PLAYER_CB_BOX))
