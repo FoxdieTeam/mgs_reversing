@@ -16,8 +16,8 @@ typedef void (*NinjaFunc)(struct _Work *);
 
 typedef struct _NinjaClone
 {
-    int  field_0;
-    char pad[0x104 - sizeof(int)];
+    int     field_0;
+    SVECTOR field_4[32];
 } NinjaClone;
 
 typedef struct _Work
@@ -38,7 +38,11 @@ typedef struct _Work
 
     char      pad_910[0x910 - 0x8C4 - sizeof(TARGET *)];
     HOMING   *field_910;   /* 0x910 */
-    char      pad_19BC[0x1968 - 0x910 - sizeof(HOMING *)];
+    char       pad_920[0x920 - 0x910 - sizeof(HOMING *)];
+    NinjaClone clones[11];  /* 0x920 */
+    char       pad_1964[0x1964 - 0x920 - 11 * sizeof(NinjaClone)];
+    short      field_1964;  /* 0x1964 */
+    short      field_1966;  /* 0x1966 */
     SVECTOR   field_1968;  /* 0x1968 */
     int       field_1970;  /* 0x1970 */
     int       field_1974;  // 0x1974
@@ -47,15 +51,16 @@ typedef struct _Work
     SVECTOR   field_1980;  // 0x1980
     int       field_1988;  // 0x1988
     SVECTOR   field_198C;  // 0x198C
-    char      pad_19A8[0x19A8 - 0x198C - sizeof(SVECTOR)];
-    int       field_19A8;  /* 0x19B8 */
-    char      pad_19B0[0x19B0 - 0x19A8 - sizeof(int)];
+    char      pad_19A4[0x19A4 - 0x198C - sizeof(SVECTOR)];
+    int       field_19A4;  /* 0x19A4 */
+    int       field_19A8;  /* 0x19A8 */
+    int       field_19AC;  /* 0x19AC */
     int       field_19B0;  /* 0x19B0 */
     int       field_19B4;  /* 0x19B4 */
     int       field_19B8;  /* 0x19B8 */
     void     *field_19BC;  /* 0x19BC */
     int       field_19C0;  /* 0x19C0 */
-    char      pad_19D8[0x19C8 - 0x19C0 - sizeof(void *)];
+    int       field_19C4;  /* 0x19C4 */
     int       field_19C8;  /* 0x19C8 */
     int       field_19CC;  /* 0x19CC */
     int       field_19D0;  /* 0x19D0 */
@@ -64,17 +69,26 @@ typedef struct _Work
     int       field_19DC;  /* 0x19DC */
     int       field_19E0;  /* 0x19E0 */
     int       field_19E4;  /* 0x19E4 */
-    char      pad_19F8[0x19F4 - 0x19E4 - 4];
+    char      pad_19F0[0x19F0 - 0x19E4 - 4];
+    int       field_19F0;  /* 0x19F0 */
     int       field_19F4;  /* 0x19F4 */
     int       field_19F8;  /* 0x19F8 */
-    char      pad_1A20[0x1A20 - 0x19F8 - 4];
+    char      pad_1A00[0x1A00 - 0x19F8 - 4];
+    int       field_1A00;  /* 0x1A00 */
+    int       field_1A04;  /* 0x1A04 */
+    int       field_1A08;  /* 0x1A08 */
+    int       field_1A0C;  /* 0x1A0C */
+    char      pad_1A14[0x1A14 - 0x1A0C - sizeof(int)];
+    int       field_1A14;  /* 0x1A14 */
+    char      pad_1A20[0x1A20 - 0x1A14 - sizeof(int)];
     void     *field_1A20;  /* 0x1A20 */
     void     *field_1A24;  /* 0x1A24 */
     int       field_1A28;     // 0x1A28
     int       field_1A2C;     // 0x1A2C
     char      pad_1A30[0x4]; /* 0x1A28 */
     int       field_1A34;     /* 0x1A34 */
-    char      pad_1A38[0x8]; /* 0x1A38 */
+    int       field_1A38;     /* 0x1A38 */
+    char      pad_1A40[0x4]; /* 0x1A3C */
     NinjaFunc field_1A40[8];  /* 0x1A40 */
     char      pad_1A80[0x1A80 - 0x1A60];
     DG_PRIM  *field_1A80;  /* 0x1A80 */
@@ -84,8 +98,46 @@ typedef struct _Work
     int       field_1A94;  /* 0x1A94 */
     int       field_1A98[0x23]; /* 0x1A98 */
     short     field_1B24;  /* 0x1B24 */
-    char      pad_1B34[0x1B34 - 0x1B24 - sizeof(short)];
+    char      pad_1B28[0x1B28 - 0x1B24 - sizeof(short)];
+    short     field_1B28;  /* 0x1B28 */
+    char      pad_1B34[0x1B34 - 0x1B28 - sizeof(short)];
 } Work;
+
+/* forward declarations for helpers called by the migrated functions */
+extern int   s08b_bunsin2_800C9978(OBJECT *body);
+extern void  s08b_bunsin2_800CDE74(Work *work);
+extern void  s08b_bunsin2_800CE0A4(void);
+extern void  s08b_bunsin2_800CE180(Work *work);
+extern int   s08b_bunsin2_800CE584(Work *work);
+extern void  s08b_bunsin2_800CE800(Work *work, int arg);
+extern int   s08b_bunsin2_800CE8A0(Work *work);
+extern void  s08b_bunsin2_800CEB40(Work *work);
+extern int   s08b_bunsin2_800CF150(Work *work);
+extern int   s08b_bunsin2_800CF354(Work *work);
+extern void  s08b_bunsin2_800CF660(Work *work);
+extern int   s08b_bunsin2_800CFB98(Work *work);
+extern int   s08b_bunsin2_800D0078(Work *work);
+extern int   s08b_bunsin2_800D0550(Work *work);
+extern void  s08b_bunsin2_800D0B4C(Work *work);
+extern void  s08b_bunsin2_800D1F9C(Work *work);
+extern void  s08b_bunsin2_800D2BFC(Work *work);
+extern void  s08b_bunsin2_800D401C(Work *work);
+extern void  s08b_bunsin2_800D452C(Work *work);
+extern void  s08b_bunsin2_800D4FBC(DG_OBJ *obj, int arg);
+extern void  s08b_bunsin2_800D53E8(int a0, int a1);
+extern void  s08b_bunsin2_800D5434(void);
+extern void *s08b_p_sphere_800D9834(void *a, void *b);
+extern void *NewCinemaScreenClose(void *addr);
+extern int   okajima_CHAF_LIFE;
+extern unsigned short GM_ItemTypes[];
+extern unsigned short GM_WeaponTypes[];
+extern int     s08b_dword_800C3440;
+extern int     s08b_dword_800C3444;
+extern int     s08b_dword_800C3448;
+extern int     s08b_dword_800C344C;
+extern int     s08b_dword_800C3450;
+extern SVECTOR s08b_dword_800C34F8[];
+extern int     s08b_dword_800C3588;
 
 extern GM_CameraSystemWork GM_Camera;
 
@@ -664,7 +716,6 @@ void s08b_bunsin2_800CCD74(Work *work)
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CCDBC.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CCE34.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CCF8C.s")
-
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CD000.s")
 void s08b_bunsin2_800CD000(Work *work);
 
@@ -1020,7 +1071,6 @@ int s08b_bunsin2_800CFC90(Work *work)
 
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CFCF8.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CFD88.s")
-
 int s08b_bunsin2_800CFDE0(Work *work)
 {
     if (work->field_19D0 == 0)
@@ -1075,7 +1125,6 @@ int s08b_bunsin2_800D018C(Work *work)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D0200.s")
-
 int s08b_bunsin2_800D0278(Work *work)
 {
     if (work->field_19D0 >= 0x79)
@@ -1116,7 +1165,6 @@ int s08b_bunsin2_800D02E8(Work *work)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D0330.s")
-
 int s08b_bunsin2_800D0410(Work *work)
 {
     if (!(GM_GameStatus & STATE_CHAFF))
@@ -1150,7 +1198,6 @@ int s08b_bunsin2_800D0688(Work *work)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D06A0.s")
-
 int s08b_bunsin2_800D0720(Work *work)
 {
     int val;
@@ -1212,7 +1259,6 @@ int s08b_bunsin2_800D0864(Work *work)
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D08C8.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D093C.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D09C4.s")
-
 int s08b_bunsin2_800D0A54(Work *work)
 {
     work->field_19B0 = 8;
@@ -1226,7 +1272,6 @@ int s08b_bunsin2_800D0A54(Work *work)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D0A90.s")
-
 void s08b_bunsin2_800D0B1C(Work *work)
 {
     work->field_19B0 = 7;
@@ -1260,7 +1305,6 @@ int s08b_bunsin2_800D0F54(Work *work)
 
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D0F88.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D1014.s")
-
 int s08b_bunsin2_800D10C4(Work *work)
 {
     if (GM_PlayerStatus & (PLAYER_SQUAT | PLAYER_GROUND | PLAYER_CB_BOX))
@@ -1403,7 +1447,6 @@ int s08b_bunsin2_800D1348(Work *work)
 
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D138C.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D1400.s")
-
 int s08b_bunsin2_800D1514(Work *work)
 {
     int below;
@@ -1436,7 +1479,6 @@ int s08b_bunsin2_800D1514(Work *work)
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D195C.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D1A18.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D1AF8.s")
-
 void s08b_bunsin2_800D1CF4(Work *work)
 {
     switch (work->field_19CC)
@@ -1524,7 +1566,6 @@ void s08b_bunsin2_800D2D3C(Work *work)
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D38F0.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D39F8.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D3A84.s")
-
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D3B00.s")
 void s08b_bunsin2_800D3B00(Work *work);
 
@@ -1564,7 +1605,6 @@ void s08b_bunsin2_800D3BD4(Work *work)
 int s08b_bunsin2_800D42D8(Work *work);
 
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D43D8.s")
-
 void s08b_bunsin2_800D4460(Work *work)
 {
     if (s08b_bunsin2_800CF464(work))
@@ -1631,7 +1671,6 @@ void s08b_bunsin2_800D4638(Work *work)
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D4FBC.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D53E8.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D5434.s")
-
 void s08b_bunsin2_800D5498(void)
 {
     int v;
