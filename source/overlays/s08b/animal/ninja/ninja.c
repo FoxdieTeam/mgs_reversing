@@ -1459,7 +1459,31 @@ int s08b_bunsin2_800D02E8(Work *work)
     return work->field_19A8;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D0330.s")
+int s08b_bunsin2_800D0330(Work *work)
+{
+    if (work->field_1A34 != 0)
+    {
+        GM_StreamPlayStop();
+        work->field_19CC = 0x17;
+        return 1;
+    }
+    if (okajima_CHAF_LIFE < 0x5A)
+    {
+        GM_StreamPlayStop();
+        work->field_19CC = 0x1C;
+        return 1;
+    }
+    if (work->field_19D0 == 0 &&
+        GM_StreamStatus() == -1 &&
+        GM_GameOverTimer == 0 &&
+        GM_SnakeCurrentHealth > 0)
+    {
+        GM_VoxStream(work->field_1A98[17], 0);
+    }
+    work->field_19B0 = 0x1A;
+    work->field_19D0 = work->field_19D0 + 1;
+    return 0;
+}
 int s08b_bunsin2_800D0410(Work *work)
 {
     if (!(GM_GameStatus & STATE_CHAFF))
