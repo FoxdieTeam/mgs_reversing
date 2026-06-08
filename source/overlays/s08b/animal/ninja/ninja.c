@@ -1616,7 +1616,43 @@ int s08b_bunsin2_800D093C(Work *work)
     work->field_19D0 = work->field_19D0 + 1;
     return 0;
 }
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D09C4.s")
+int s08b_bunsin2_800D09C4(Work *work)
+{
+    int g;
+    int threshold;
+
+    if (work->field_19D0 == 0)
+    {
+        work->field_19B4 = work->field_1A28;
+        s08b_dword_800C3450 = s08b_dword_800C3450 + 1;
+    }
+    work->field_19C0 |= 2;
+
+    g = GM_DifficultyFlag;
+    if (g == 1)
+    {
+        threshold = 0x96;
+    }
+    else if (g <= 0)
+    {
+        threshold = 0x1C2;
+    }
+    else if (g < 4)
+    {
+        threshold = 0x5A;
+    }
+    else
+    {
+        threshold = 0x1C2;
+    }
+
+    if (threshold < work->field_19D0)
+    {
+        return 1;
+    }
+    work->field_19D0 = work->field_19D0 + 1;
+    return 0;
+}
 int s08b_bunsin2_800D0A54(Work *work)
 {
     work->field_19B0 = 8;
