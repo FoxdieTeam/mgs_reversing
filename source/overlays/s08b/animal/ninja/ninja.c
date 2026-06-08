@@ -1186,7 +1186,36 @@ void s08b_bunsin2_800CF704(Work *work)
 }
 void s08b_bunsin2_800CF704(Work *work);
 
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CF880.s")
+void s08b_bunsin2_800CF880(Work *work)
+{
+    int s;
+
+    if (work->field_19D0 == 0)
+    {
+        GM_VoxStream(work->field_1A98[1], 0);
+        work->field_19B4 = work->field_1A28;
+    }
+    if (work->field_19D0 >= 0xB)
+    {
+        s = GM_StreamStatus();
+        if (s == -1)
+        {
+            work->field_1964 = 0;
+            work->field_1966 = s;
+            work->field_19D4 = 0;
+            GM_GameStatus &= ~(STATE_RADIO_OFF | STATE_LIFEBAR_OFF | STATE_MENU_OFF | STATE_PADRELEASE | 0x40);
+            s08b_bunsin2_800CEB40(work);
+            work->field_19C4 = 1;
+            work->field_19C8 = 0;
+            work->field_19CC = 0x17;
+            work->field_19D4 = 0;
+            work->field_19D0 = 0;
+            return;
+        }
+    }
+    work->field_19B0 = 7;
+    work->field_19D0 = work->field_19D0 + 1;
+}
 void s08b_bunsin2_800CF880(Work *work);
 
 int s08b_bunsin2_800CF950(void)
