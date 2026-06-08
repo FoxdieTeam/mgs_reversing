@@ -152,7 +152,7 @@
 #define CHARA_MYSTERYHEI        { 0x173c, ? }                       // GV_StrCode("ミステリー兵") enemy/mystery.c
 #define CHARA_D3C0              { 0xd3c0, ? }                       // ???
 #define CHARA_NAOMIHAIR         { 0xf002, ? }                       // GV_StrCode("ナオミ髪") chara/others/hair_n.c
-#define CHARA_NINJA             { 0x30ba, s08b_ninja_800C8DCC }     // GV_StrCode("忍者") animal/ninja/ninja.c
+#define CHARA_NINJA             { 0x30ba, NewNinjaBoss }            // GV_StrCode("忍者") animal/ninja/ninja.c
 #define CHARA_OBJECT            { 0x4811, NewMovingObject }         // GV_StrCode("移動物") enemy/object.c
 #define CHARA_OPEN              { 0xcf79, NewOpen }                 // GV_StrCode("タイトル") onoda/open/open.c
 #define CHARA_OPENA             { 0x3ac3, ? }                       // onoda/opena/opena.c
@@ -405,7 +405,7 @@ extern NEWCHARA NewCamera_800CF388;             /* ???/camera.c                 
 extern NEWCHARA NewDemoDoll;                    /* animal/doll/doll.c           */
 extern NEWCHARA NewBombLed;                     /* animal/liquid/bombled.c      */
 extern NEWCHARA NewMeryl72_800C7BC4;            /* animal/meryl72/meryl72.c     */
-extern NEWCHARA s08b_ninja_800C8DCC;            /* animal/ninja/ninja.c         */
+extern NEWCHARA NewNinjaBoss;                   /* animal/ninja/ninja.c         */
 extern NEWCHARA d18a_snake18_800D4E94;          /* animal/snake18/snake18.c     */
 extern NEWCHARA NewZako11E;                     /* animal/zako11e/zako11e.c     */
 extern NEWCHARA NewZako11ECommander;            /* animal/zako11e/zk11ecom.c    */
