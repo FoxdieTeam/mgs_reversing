@@ -2034,7 +2034,28 @@ int s08b_bunsin2_800D1514(Work *work)
     return 1;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D1588.s")
+int s08b_bunsin2_800D1588(Work *work)
+{
+    int s = work->field_19D0;
+
+    if (s == 0)
+    {
+        if (GM_StreamStatus() == -1 &&
+            GM_GameOverTimer == 0 &&
+            GM_SnakeCurrentHealth > 0)
+        {
+            GM_VoxStream(work->field_1A98[6], 0);
+        }
+    }
+    if (s == 1)
+    {
+        return 1;
+    }
+    work->field_19B0 = 8;
+    work->field_19B4 = work->field_1A28;
+    work->field_19D0 = work->field_19D0 + 1;
+    return 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D1638.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D1738.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D17F8.s")
