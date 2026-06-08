@@ -1960,7 +1960,21 @@ int s08b_bunsin2_800D1348(Work *work)
     return work->field_19A8;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D138C.s")
+int s08b_bunsin2_800D138C(Work *work)
+{
+    if (work->field_19D0 == 0)
+    {
+        work->field_1A04 = 1;
+        s08b_p_sphere_800D9834(&work->body.objs, &work->field_1A04);
+    }
+    if (work->field_19D0 >= 0x1F)
+    {
+        return 1;
+    }
+    work->field_19B0 = 0x1C;
+    work->field_19D0 = work->field_19D0 + 1;
+    return 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D1400.s")
 int s08b_bunsin2_800D1514(Work *work)
 {
