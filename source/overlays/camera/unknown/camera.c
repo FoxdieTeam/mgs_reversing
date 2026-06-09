@@ -1412,9 +1412,74 @@ void camera_800C869C(Work *work)
         work->field_664[i] = NULL;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C86BC.s")
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C884C.s")
-extern void camera_800C86BC(Work *work, int x, int y, int w, int h, int color, int unused);
+void camera_800C86BC(Work *work, int x, int y, int w, int h, int color, int unused)
+{
+    POLY_FT4 *p;
+    int i;
+    int xl0, xl1, xr0, xr1, yt0, yt1, yb0, yb1;
+    int xw, yh;
+
+    p = work->polys;
+    for (i = 0; i < 9; i++)
+    {
+        work->field_664[i] = (GV_ACT *)0x400;
+        setRGB0(&p[i], color, color, color);
+    }
+
+    xw = x + w;
+    yh = y + h;
+    xl0 = x - 6;   xl1 = x + 2;
+    yt0 = y - 6;   yt1 = y + 2;
+    xr0 = xw - 2;  xr1 = xw + 6;
+    yb0 = yh - 2;  yb1 = yh + 6;
+
+    /* corners */
+    setXY4(&p[0], xl0, yt0, xl1, yt0, xl0, yt1, xl1, yt1);
+    setXY4(&p[1], xr0, yt0, xr1, yt0, xr0, yt1, xr1, yt1);
+    setXY4(&p[2], xl0, yb0, xl1, yb0, xl0, yb1, xl1, yb1);
+    setXY4(&p[3], xr0, yb0, xr1, yb0, xr0, yb1, xr1, yb1);
+    /* edges */
+    setXY4(&p[4], xl1, yt0, xr0, yt0, xl1, yt1, xr0, yt1);
+    setXY4(&p[5], xl1, yb0, xr0, yb0, xl1, yb1, xr0, yb1);
+    setXY4(&p[6], xl0, yt1, xl1, yt1, xl0, yb0, xl1, yb0);
+    setXY4(&p[7], xr0, yt1, xr1, yt1, xr0, yb0, xr1, yb0);
+    /* center */
+    setXY4(&p[8], xl1, yt1, xr0, yt1, xl1, yb0, xr0, yb0);
+}
+void camera_800C884C(Work *work, int x, int y, int w, int h, int color, int unused)
+{
+    POLY_FT4 *p;
+    int i;
+    int xl0, xl1, xr0, xr1, yt0, yt1, yb0, yb1;
+    int xw, yh;
+
+    p = work->polys;
+    for (i = 0; i < 9; i++)
+    {
+        work->field_664[i] = (GV_ACT *)0x200;
+        setRGB0(&p[i], color, color, color);
+    }
+
+    xw = x + w;
+    yh = y + h;
+    xl0 = x - 6;   xl1 = x + 2;
+    yt0 = y - 6;   yt1 = y + 2;
+    xr0 = xw - 2;  xr1 = xw + 6;
+    yb0 = yh - 2;  yb1 = yh + 6;
+
+    /* corners */
+    setXY4(&p[0], xl0, yt0, xl1, yt0, xl0, yt1, xl1, yt1);
+    setXY4(&p[1], xr0, yt0, xr1, yt0, xr0, yt1, xr1, yt1);
+    setXY4(&p[2], xl0, yb0, xl1, yb0, xl0, yb1, xl1, yb1);
+    setXY4(&p[3], xr0, yb0, xr1, yb0, xr0, yb1, xr1, yb1);
+    /* edges */
+    setXY4(&p[4], xl1, yt0, xr0, yt0, xl1, yt1, xr0, yt1);
+    setXY4(&p[5], xl1, yb0, xr0, yb0, xl1, yb1, xr0, yb1);
+    setXY4(&p[6], xl0, yt1, xl1, yt1, xl0, yb0, xl1, yb0);
+    setXY4(&p[7], xr0, yt1, xr1, yt1, xr0, yb0, xr1, yb0);
+    /* center */
+    setXY4(&p[8], xl1, yt1, xr0, yt1, xl1, yb0, xr0, yb0);
+}
 
 void camera_800C89DC(Work *work)
 {
