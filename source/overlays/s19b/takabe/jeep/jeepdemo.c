@@ -77,7 +77,11 @@ void s19b_jlamp_800D08F0(void)
     GM_GameStatus &= ~0x40000000;
     Takabe_JeepSystem.field_54 &= ~0x10000000;
 }
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D0928.s")
+void s19b_jlamp_800D0928(Work *work)
+{
+    work->field_44 = &Takabe_JeepSystem.field_130;
+    Takabe_JeepSystem.field_4C |= 0x40000;
+}
 void s19b_jlamp_800D094C(void)
 {
     NewCinemaScreen(270, 0);
