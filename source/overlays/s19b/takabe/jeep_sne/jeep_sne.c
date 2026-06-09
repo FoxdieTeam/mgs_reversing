@@ -225,7 +225,34 @@ int s19b_jlamp2_800D50F4(Work *work)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp2_800D519C.s")
+void s19b_jlamp2_800D55E8(Work *work, int arg1);
+
+int s19b_jlamp2_800D519C(Work *work)
+{
+    if (s19b_jlamp2_800D50F4(work) != 0)
+    {
+        work->target->class = 1;
+        work->field_944 = 4;
+        work->field_908 += GV_RandS(0x200);
+        return 1;
+    }
+    if (work->field_944 != 0)
+    {
+        return 0;
+    }
+    if (work->field_92C & 8)
+    {
+        work->field_918 = (void *)s19b_jlamp2_800D55E8;
+        work->field_920 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        NewPadVibration((unsigned char *)&s19b_dword_800C3A14, 1);
+        NewPadVibration((unsigned char *)&s19b_dword_800C3A18, 2);
+        work->field_908 += GV_RandS(0x100);
+        return 1;
+    }
+    return 0;
+}
 extern void *NewJeepBullet(MATRIX *world, int side, int mode, int mode2);
 extern void NewAnime_8005D604(MATRIX *world);
 extern void s19b_jblood_800C8070(MATRIX *world);
