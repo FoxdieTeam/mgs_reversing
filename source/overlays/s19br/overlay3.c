@@ -15,13 +15,20 @@ int SECTION(".bss") s19b_dword_800DE5B8;
 int SECTION(".bss") s19b_dword_800DE5BC;
 int SECTION(".bss") s19b_dword_800DE5C0;
 int SECTION(".bss") s19b_dword_800DE5C4;
-int SECTION(".bss") s19b_dword_800DE5C8;
-int SECTION(".bss") s19b_dword_800DE5CC;
-int SECTION(".bss") s19b_dword_800DE5D0;
-int SECTION(".bss") s19b_dword_800DE5D4;
-int SECTION(".bss") s19b_dword_800DE5D8;
-int SECTION(".bss") s19b_dword_800DE5DC;
-int SECTION(".bss") s19b_dword_800DE5E0;
+typedef struct _JeepCamParams
+{
+    short field_0;
+    short field_2;
+    short field_4;
+    short field_6;
+    int   field_8;
+    int   field_C;
+    int   field_10;
+    int   field_14;
+    int   field_18;
+} JeepCamParams; /* 0x1C, at 0x800DE5C8 */
+
+JeepCamParams SECTION(".bss") s19b_JeepCamParams_800DE5C8;
 int SECTION(".bss") s19b_dword_800DE5E4;
 int SECTION(".bss") s19b_dword_800DE5E8;
 int SECTION(".bss") s19b_dword_800DE5EC;

@@ -35,7 +35,21 @@ typedef struct _Work
     int    field_4C;
 } Work;
 
-extern int s19b_dword_800DE5D0;
+typedef struct _JeepCamParams
+{
+    short field_0;
+    short field_2;
+    short field_4;
+    short field_6;
+    int   field_8;
+    int   field_C;
+    int   field_10;
+    int   field_14;
+    int   field_18;
+} JeepCamParams; /* 0x1C, at 0x800DE5C8 */
+
+extern JeepCamParams s19b_JeepCamParams_800DE5C8;
+extern void s19b_jlamp_800D0C44(void);
 
 void s19b_jlamp_800D0648(SVECTOR *from, SVECTOR *to, SVECTOR *ang, int *len)
 {
@@ -110,11 +124,22 @@ void s19b_jlamp_800D09DC(void)
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D0A20.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D0ABC.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D0C44.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D0CE0.s")
+void s19b_jlamp_800D0CE0(void)
+{
+    s19b_JeepCamParams_800DE5C8.field_0 = 0;
+    s19b_JeepCamParams_800DE5C8.field_2 = 0x5DC;
+    s19b_JeepCamParams_800DE5C8.field_4 = 0x7D0;
+    s19b_JeepCamParams_800DE5C8.field_C = 0x7D0;
+    s19b_JeepCamParams_800DE5C8.field_8 = 0;
+    s19b_JeepCamParams_800DE5C8.field_10 = 0x5DC;
+    s19b_JeepCamParams_800DE5C8.field_14 = 0;
+    s19b_JeepCamParams_800DE5C8.field_18 = 0;
+    GM_SetCameraCallbackFunc(1, s19b_jlamp_800D0C44);
+}
 
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D0D40.s")
 
 void s19b_jlamp_800D0FE4(int arg0)
 {
-    s19b_dword_800DE5D0 = arg0;
+    s19b_JeepCamParams_800DE5C8.field_8 = arg0;
 }
