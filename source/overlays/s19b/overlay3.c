@@ -26,9 +26,8 @@ typedef struct _JeepCamParams
     int   field_10;
     int   field_14;
     int   field_18;
-} JeepCamParams; /* 0x1C, at 0x800DE5C8 */
+    short field_1C[4];
+} JeepCamParams; /* 0x24, at 0x800DE5C8 */
 
 JeepCamParams SECTION(".bss") s19b_JeepCamParams_800DE5C8;
-int SECTION(".bss") s19b_dword_800DE5E4;
-int SECTION(".bss") s19b_dword_800DE5E8;
 int SECTION(".bss") s19b_dword_800DE5EC;
