@@ -870,13 +870,13 @@ void s08b_bunsin2_800CDB10(Work *work)
     s08b_bunsin2_800CD990(work);
 }
 
-void s08b_bunsin2_800CDB54(Work *work)
+void s08b_bunsin2_800CDB54(int vox_code)
 {
     if (GM_StreamStatus() == -1 &&
         GM_GameOverTimer == 0 &&
         GM_SnakeCurrentHealth > 0)
     {
-        GM_VoxStream((int)work, 0);
+        GM_VoxStream(vox_code, 0);
     }
 }
 void s08b_bunsin2_800CDBAC(Work *work)
