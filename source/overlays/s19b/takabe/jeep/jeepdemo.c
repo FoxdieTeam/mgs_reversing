@@ -1,4 +1,5 @@
 #include "game/game.h"
+#include "game/camera.h"
 #include "takabe/cinema.h"
 
 typedef struct _JEEP_SYSTEM
@@ -35,7 +36,19 @@ typedef struct _Work
     int    field_4C;
 } Work;
 
+typedef struct _JlampState
+{
+    SVECTOR field_0;
+    int     field_8;
+    int     field_C;
+    int     field_10;
+    int     field_14;
+    int     field_18;
+} JlampState;
+
+extern JlampState s19b_dword_800DE5C8;
 extern int s19b_dword_800DE5D0;
+void s19b_jlamp_800D0C44(void);
 
 void s19b_jlamp_800D0648(SVECTOR *from, SVECTOR *to, SVECTOR *ang, int *len)
 {
@@ -110,7 +123,21 @@ void s19b_jlamp_800D09DC(void)
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D0A20.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D0ABC.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D0C44.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D0CE0.s")
+void s19b_jlamp_800D0CE0(void)
+{
+    JlampState *state;
+
+    state = &s19b_dword_800DE5C8;
+    state->field_0.vx = 0;
+    state->field_0.vy = 1500;
+    state->field_0.vz = 2000;
+    state->field_C = 2000;
+    state->field_8 = 0;
+    state->field_10 = 1500;
+    state->field_14 = 0;
+    state->field_18 = 0;
+    GM_SetCameraCallbackFunc(1, s19b_jlamp_800D0C44);
+}
 
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D0D40.s")
 
