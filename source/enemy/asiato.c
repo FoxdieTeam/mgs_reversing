@@ -19,7 +19,7 @@ extern CONTROL *GM_WhereList[96];
 
 #define SEGMENT_ATR ( HZD_SEG_NO_NAVIGATE )
 
-typedef struct _AsiatoCharWork
+typedef struct _Work
 {
     GV_ACT   actor;
     DG_PRIM *prim;
@@ -28,7 +28,7 @@ typedef struct _AsiatoCharWork
     int      field_48;
     int      field_4C;
     int      field_50;
-} AsiatoCharWork;
+} Work;
 
 /*---------------------------------------------------------------------------*/
 
@@ -56,7 +56,7 @@ static void AsiatoChar_SetPos(SVECTOR *vec, short x, short y, short z)
     vec->vz = z;
 }
 
-static void AsiatoChar_Act(AsiatoCharWork *work)
+static void AsiatoChar_Act(Work *work)
 {
     int shade;
     if (++work->field_48 > 390)
@@ -84,7 +84,7 @@ static void AsiatoChar_InitPacks(POLY_FT4 *poly, DG_TEX *tex, int abr, int r, in
     }
 }
 
-static int AsiatoChar_GetResources(AsiatoCharWork *work, MATRIX *world, int arg2, int vy)
+static int AsiatoChar_GetResources(Work *work, MATRIX *world, int arg2, int vy)
 {
     SVECTOR  svec1, svec2;
     DG_PRIM *prim;
@@ -127,7 +127,7 @@ static int AsiatoChar_GetResources(AsiatoCharWork *work, MATRIX *world, int arg2
     return -1;
 }
 
-static void AsiatoChar_Die(AsiatoCharWork *work)
+static void AsiatoChar_Die(Work *work)
 {
     GM_FreePrim(work->prim);
 
@@ -139,9 +139,9 @@ static void AsiatoChar_Die(AsiatoCharWork *work)
 
 void *NewAsiatoChar(MATRIX *world, int arg1, int arg2, int arg3, int arg4)
 {
-    AsiatoCharWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(AsiatoCharWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, AsiatoChar_Act, AsiatoChar_Die, "asiato.c");
@@ -320,14 +320,14 @@ int AsiatoCheck( HZD_HDL *hzd, SVECTOR *pos )
 
 /*---------------------------------------------------------------------------*/
 
-typedef struct _AsiatoWork
+typedef struct _Work2
 {
     GV_ACT actor;
     int    field_20;
     int    field_24;
-} AsiatoWork;
+} Work2;
 
-static int asiato_800D16F8(AsiatoWork *work, HZD_HDL *hdl, SVECTOR *pos)
+static int asiato_800D16F8(Work2 *work, HZD_HDL *hdl, SVECTOR *pos)
 {
     work->field_20 = 0;
 
@@ -353,7 +353,7 @@ static int AsiatoIsAllowedOnMove_800D179C()
     return (GM_PlayerStatus & (PLAYER_CAUTION | PLAYER_MOVE | PLAYER_GROUND)) == PLAYER_MOVE;
 }
 
-static int asiato_800D17BC(AsiatoWork *work)
+static int asiato_800D17BC(Work2 *work)
 {
     HZD_HDL *hdl;
 
@@ -385,7 +385,7 @@ static void RecordAsiatoPosition(void)
     }
 }
 
-static void Act(AsiatoWork *work)
+static void Act(Work2 *work)
 {
     int     temp_v0;
     DG_OBJ *obj;
@@ -407,12 +407,12 @@ static void Act(AsiatoWork *work)
     }
 }
 
-static void Die(AsiatoWork *work)
+static void Die(Work2 *work)
 {
     /* do nothing */
 }
 
-static void GetResources(AsiatoWork *work)
+static void GetResources(Work2 *work)
 {
     int i;
 
@@ -431,9 +431,9 @@ static void GetResources(AsiatoWork *work)
 
 void *NewAsiato(int name, int where, int argc, char **argv)
 {
-    AsiatoWork *work;
+    Work2 *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(AsiatoWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work2));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "asiato.c");
@@ -446,9 +446,9 @@ void *NewAsiato(int name, int where, int argc, char **argv)
 void *NewAsiatoKun(int name, int where, int argc, char **argv)
 {
     // Identical to NewAsiato
-    AsiatoWork *work;
+    Work2 *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(AsiatoWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work2));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "asiato.c");

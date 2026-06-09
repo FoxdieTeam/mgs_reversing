@@ -11,11 +11,11 @@ typedef struct SepiaPrims
     TILE     tile[2];
 } SepiaPrims;
 
-typedef struct _SepiaWork
+typedef struct _Work
 {
     GV_ACT      actor;
     SepiaPrims *prims;
-} SepiaWork;
+} Work;
 
 extern u_long DG_PaletteBuffer[256];
 
@@ -83,7 +83,7 @@ void s16b_800C4CD0(void)
     }
 }
 
-void SepiaAct_800C4DC4(SepiaWork *work)
+void SepiaAct_800C4DC4(Work *work)
 {
     u_long *ot;
 
@@ -92,7 +92,7 @@ void SepiaAct_800C4DC4(SepiaWork *work)
     addPrim(ot, &work->prims->tpage[GV_Clock]);
 }
 
-void SepiaDie_800C4E70(SepiaWork *work)
+void SepiaDie_800C4E70(Work *work)
 {
     DG_ResetExtPaletteMakeFunc();
 
@@ -102,7 +102,7 @@ void SepiaDie_800C4E70(SepiaWork *work)
     }
 }
 
-int s16b_800C4EAC(SepiaWork *work, short r, short g, short b)
+int s16b_800C4EAC(Work *work, short r, short g, short b)
 {
     SepiaPrims *prims;
 
@@ -137,9 +137,9 @@ int s16b_800C4EAC(SepiaWork *work, short r, short g, short b)
 
 void *NewSepia_800C4F9C(int r, int g, int b)
 {
-    SepiaWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(SepiaWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, SepiaAct_800C4DC4, SepiaDie_800C4E70, "sepia.c");
@@ -213,11 +213,11 @@ void s16b_800C50EC(void)
     }
 }
 
-void SepiaAct_800C51E0(SepiaWork *work)
+void SepiaAct_800C51E0(Work *work)
 {
 }
 
-int SepiaGetResources_800C51E8(SepiaWork *work)
+int SepiaGetResources_800C51E8(Work *work)
 {
     DG_SetExtPaletteMakeFunc(s16b_800C50EC, s16b_800C5074);
     return 0;
@@ -225,9 +225,9 @@ int SepiaGetResources_800C51E8(SepiaWork *work)
 
 void *NewSepia_800C5214(void)
 {
-    SepiaWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(SepiaWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, SepiaAct_800C51E0, SepiaDie_800C4E70, "sepia.c");

@@ -11,7 +11,7 @@ typedef struct _Unk_Dog0
     char  pad2[0x8E];    // size 0x90 total
 } Unk_Dog0;
 
-typedef struct DogWork
+typedef struct _Work
 {
     GV_ACT   actor;
     int      field_20;
@@ -59,7 +59,7 @@ typedef struct DogWork
     int      field_17B0;
     int      field_17B4;
     char     pad17B8[0x30];
-} DogWork;
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_USER
 
@@ -471,7 +471,7 @@ const char s12c_aDoglow_800DA10C[] = "dog_low";
 void *AN_Unknown_800CA1EC(MATRIX *mat, int mark);
 void *AN_Unknown_800CA320(MATRIX *mat, int mark);
 
-void Dog_800C9E4C(DogWork *work, int index)
+void Dog_800C9E4C(Work *work, int index)
 {
     int mod;
 
@@ -511,7 +511,7 @@ void Dog_800C9E4C(DogWork *work, int index)
     }
 }
 
-void Dog_800C9F48(DogWork *work, int index)
+void Dog_800C9F48(Work *work, int index)
 {
     if (work->field_155C[index] & 7)
     {
@@ -529,21 +529,21 @@ void Dog_800C9F48(DogWork *work, int index)
     }
 }
 
-void Dog_800C9FAC(DogWork *work, int index)
+void Dog_800C9FAC(Work *work, int index)
 {
     work->field_15BC[index] = 0;
     DG_InvisiblePrim(work->field_167C[index]);
     DG_InvisibleObjs(work->field_19C[index].objs);
 }
 
-void Dog_800CA000(DogWork *work, int index)
+void Dog_800CA000(Work *work, int index)
 {
     work->field_15BC[index] = 1;
     DG_VisiblePrim(work->field_167C[index]);
     DG_VisibleObjs(work->field_19C[index].objs);
 }
 
-void Dog_800CA058(DogWork *work)
+void Dog_800CA058(Work *work)
 {
     if (work->field_1774 > 0)
     {
@@ -591,7 +591,7 @@ int Dog_800CA3C0(unsigned short name, int nhashes, unsigned short *hashes)
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CA4B4.s")
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CA758.s")
 
-void Dog_800CA93C(DogWork *work)
+void Dog_800CA93C(Work *work)
 {
     if (GV_PadData->press != 0)
     {
@@ -605,7 +605,7 @@ void Dog_800CA93C(DogWork *work)
 
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CA96C.s")
 
-int Dog_800CAB34(DogWork *work, int arg1)
+int Dog_800CAB34(Work *work, int arg1)
 {
     if (arg1 == 0 || (arg1 == 1 && work->field_1528 < 2000))
     {
@@ -614,7 +614,7 @@ int Dog_800CAB34(DogWork *work, int arg1)
     return 0;
 }
 
-void Dog_800CAB68(DogWork *work, int index, int hp)
+void Dog_800CAB68(Work *work, int index, int hp)
 {
     TARGET *target;
 
@@ -649,11 +649,11 @@ int Dog_800CABF4(SVECTOR *arg0, SVECTOR *arg1, SVECTOR *arg2)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CAC84.s")
-int s12c_dog_800CAC84(DogWork *work, int, int);
+int s12c_dog_800CAC84(Work *work, int, int);
 
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CAD8C.s")
 
-void s12c_dog_800CAEC8(DogWork *work, int index, int mark)
+void s12c_dog_800CAEC8(Work *work, int index, int mark)
 {
     CONTROL *control;
 
@@ -690,7 +690,7 @@ void s12c_dog_800CAEC8(DogWork *work, int index, int mark)
     }
 }
 
-void Dog_800CAFB0(DogWork *work, int index)
+void Dog_800CAFB0(Work *work, int index)
 {
     SVECTOR svec1;
     SVECTOR svec2;
@@ -729,7 +729,7 @@ void Dog_800CB0C8(int *arg0, int arg1, int arg2)
     *arg0 = ((*arg0 * (arg2 - 1)) + arg1) / arg2;
 }
 
-void s12c_dog_800CB114(DogWork *work, int index)
+void s12c_dog_800CB114(Work *work, int index)
 {
     RADAR_SIGHT_PARAM *r_param;
 
@@ -750,7 +750,7 @@ void s12c_dog_800CB114(DogWork *work, int index)
     r_param->r = 0;
 }
 
-void s12c_dog_800CB180(DogWork *work, int index)
+void s12c_dog_800CB180(Work *work, int index)
 {
     RADAR_SIGHT_PARAM *r_param;
 
@@ -767,7 +767,7 @@ void s12c_dog_800CB180(DogWork *work, int index)
     }
 }
 
-void Dog_800CB23C(DogWork *work, int arg1, int field_1510, int index)
+void Dog_800CB23C(Work *work, int arg1, int field_1510, int index)
 {
     if (work->field_1494[index] != arg1)
     {
@@ -789,7 +789,7 @@ void Dog_800CB23C(DogWork *work, int arg1, int field_1510, int index)
     }
 }
 
-void Dog_800CB324(DogWork *work, int arg1, int arg2, int field_1510, int index)
+void Dog_800CB324(Work *work, int arg1, int arg2, int field_1510, int index)
 {
     if (work->field_1494[index] != arg1)
     {
@@ -812,7 +812,7 @@ void Dog_800CB324(DogWork *work, int arg1, int arg2, int field_1510, int index)
     }
 }
 
-void s12c_dog_800CB42C(DogWork *work, int index1, int arg2, int arg3, int index2, unsigned int arg5)
+void s12c_dog_800CB42C(Work *work, int index1, int arg2, int arg3, int index2, unsigned int arg5)
 {
     int temp_a0;
 
@@ -846,7 +846,7 @@ void s12c_dog_800CB42C(DogWork *work, int index1, int arg2, int arg3, int index2
 
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CB54C.s")
 
-void Dog_800CB6DC(DogWork *work, int arg1, int arg2)
+void Dog_800CB6DC(Work *work, int arg1, int arg2)
 {
     int i;
 
@@ -863,7 +863,7 @@ void Dog_800CB6DC(DogWork *work, int arg1, int arg2)
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CB714.s")
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CB97C.s")
 
-void Dog_800CBBE8(DogWork *work, int index)
+void Dog_800CBBE8(Work *work, int index)
 {
     MATRIX  rot;
     SVECTOR pos;
@@ -900,7 +900,7 @@ void Dog_800CBBE8(DogWork *work, int index)
     }
 }
 
-void Dog_800CBCF4(DogWork *work, int arg1)
+void Dog_800CBCF4(Work *work, int arg1)
 {
     MATRIX  rot;
     SVECTOR svec;
@@ -936,7 +936,7 @@ void Dog_800CBCF4(DogWork *work, int arg1)
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CE034.s")
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CE194.s")
 
-void DogExecProc_800CEB2C(DogWork *work, int param)
+void DogExecProc_800CEB2C(Work *work, int param)
 {
     GCL_ARGS args;
     long     data[1];
@@ -959,7 +959,7 @@ void DogExecProc_800CEB2C(DogWork *work, int param)
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800D0374.s")
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800D0680.s")
 
-int Dog_800D0BC4(DogWork *work)
+int Dog_800D0BC4(Work *work)
 {
     int i;
 
@@ -985,7 +985,7 @@ int Dog_800D0BC4(DogWork *work)
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800D0F30.s")
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800D11D4.s")
 
-void Dog_800D1638(DogWork *work, int obj_index, int blood_count, int index)
+void Dog_800D1638(Work *work, int obj_index, int blood_count, int index)
 {
     MATRIX rot;
 
@@ -1019,10 +1019,10 @@ void Dog_800D1D24(DG_OBJS *objs, DG_DEF *def)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800D1DA0.s")
-void s12c_dog_800D1DA0(DogWork *work);
+void s12c_dog_800D1DA0(Work *work);
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800D20A0.s")
 
-void DogDie_800D2798(DogWork *work)
+void DogDie_800D2798(Work *work)
 {
     // https://i.kym-cdn.com/photos/images/newsfeed/001/464/596/d38.jpg
     int i;
@@ -1080,13 +1080,13 @@ int DogGetInts_800D2904(char *opt, int *out)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800D295C.s")
-int s12c_dog_800D295C(DogWork *work, int, int);
+int s12c_dog_800D295C(Work *work, int, int);
 
 void *NewDog(int arg0, int arg1)
 {
-    DogWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(DogWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, s12c_dog_800D1DA0, DogDie_800D2798, "dog.c");

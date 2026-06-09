@@ -6,7 +6,7 @@
 #include "libdg/libdg.h"
 #include "game/game.h"
 
-typedef struct KatanaWork
+typedef struct _Work
 {
     GV_ACT   actor;
     int      where;
@@ -19,11 +19,11 @@ typedef struct KatanaWork
     SVECTOR  field_48[8][4];
     int      field_148;
     int      field_14C;
-} KatanaWork;
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_PREV
 
-void s08c_katana_800C5040(KatanaWork *work)
+void s08c_katana_800C5040(Work *work)
 {
     int old_index, new_index;
 
@@ -42,7 +42,7 @@ void s08c_katana_800C5040(KatanaWork *work)
     work->field_48[new_index][3] = work->field_48[old_index][1];
 }
 
-void s08c_katana_800C5100(KatanaWork *work)
+void s08c_katana_800C5100(Work *work)
 {
     int       i;
     int       r, g, b;
@@ -88,7 +88,7 @@ void s08c_katana_800C5100(KatanaWork *work)
     }
 }
 
-void KatanaAct_800C5210(KatanaWork *work)
+void KatanaAct_800C5210(Work *work)
 {
     GM_CurrentMap = work->where;
     s08c_katana_800C5040(work);
@@ -145,7 +145,7 @@ void s08c_katana_800C5294(POLY_GT4 *poly, DG_TEX *tex, int abr, int r, int g, in
     }
 }
 
-int KatanaGetResources_800C53E4(KatanaWork *work, MATRIX *pos, SVECTOR *arg2, SVECTOR *arg3, int *arg4)
+int KatanaGetResources_800C53E4(Work *work, MATRIX *pos, SVECTOR *arg2, SVECTOR *arg3, int *arg4)
 {
     DG_PRIM *prim;
     DG_TEX  *tex;
@@ -172,16 +172,16 @@ int KatanaGetResources_800C53E4(KatanaWork *work, MATRIX *pos, SVECTOR *arg2, SV
     return -1;
 }
 
-void KatanaDie_800C5564(KatanaWork *work)
+void KatanaDie_800C5564(Work *work)
 {
     GM_FreePrim(work->prim);
 }
 
 void *NewKatana_800C55A0(MATRIX *pos, SVECTOR *svec1, SVECTOR *svec2, int *field_44)
 {
-    KatanaWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(KatanaWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, KatanaAct_800C5210, KatanaDie_800C5564, "katana.c");
@@ -199,9 +199,9 @@ void *NewKatana_800C5660(MATRIX *pos)
 {
     SVECTOR     svec1;
     SVECTOR     svec2;
-    KatanaWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(KatanaWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, (GV_ACTFUNC)KatanaAct_800C5210,

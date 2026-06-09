@@ -12,7 +12,7 @@
 
 #define SEGMENT_ATR ( HZD_SEG_NO_DISP_RADAR | HZD_SEG_NO_BULLET | HZD_SEG_NO_HARITSUKI | HZD_SEG_NO_PLAYER )
 
-typedef struct _GlassWork
+typedef struct _Work
 {
     GV_ACT   actor;
     MATRIX   world;
@@ -32,7 +32,7 @@ typedef struct _GlassWork
     HZD_HDL *hzd;
     HZD_SEG  bounds[2];
     int      proc;
-} GlassWork;
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_USER
 
@@ -73,7 +73,7 @@ void GlassInitPacks_800D2E88(POLY_FT4 *poly, DG_TEX *tex, int size)
     GlassInitPack(&poly[1], tex, size, 1);
 }
 
-void GlassAct_800D302C(GlassWork *work)
+void GlassAct_800D302C(Work *work)
 {
     MATRIX  world;
     SVECTOR sp30;
@@ -146,7 +146,7 @@ void GlassAct_800D302C(GlassWork *work)
     target->damaged &= ~TARGET_PUSH;
 }
 
-void GlassDie_800D3270(GlassWork *work)
+void GlassDie_800D3270(Work *work)
 {
     if (work->has_bounds != 0)
     {
@@ -158,7 +158,7 @@ void GlassDie_800D3270(GlassWork *work)
     GM_FreePrim(work->prim);
 }
 
-void GlassCreateTarget_800D32E4(GlassWork *work, SVECTOR *size)
+void GlassCreateTarget_800D32E4(Work *work, SVECTOR *size)
 {
     TARGET *target;
 
@@ -191,7 +191,7 @@ static inline void GlassClampSize(SVECTOR *size)
     }
 }
 
-int GlassGetResources_800D335C(GlassWork *work, int name, int map)
+int GlassGetResources_800D335C(Work *work, int name, int map)
 {
     SVECTOR  size;
     SVECTOR  max;
@@ -316,9 +316,9 @@ int GlassGetResources_800D335C(GlassWork *work, int name, int map)
 
 void *NewGlassSet(int name, int where)
 {
-    GlassWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(GlassWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, GlassAct_800D302C, GlassDie_800D3270, "glass.c");

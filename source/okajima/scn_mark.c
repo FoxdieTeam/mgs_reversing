@@ -4,7 +4,7 @@
 #include "libgv/libgv.h"
 #include "game/game.h"
 
-typedef struct _ScnMarkWork
+typedef struct _Work
 {
     GV_ACT actor;
     int    map;
@@ -14,7 +14,7 @@ typedef struct _ScnMarkWork
     char pad1[0x10];
     int  f38;
     char pad2[0x4];
-} ScnMarkWork;
+} Work;
 
 void * AN_Unknown_800CA1EC(MATRIX *pos, int mark);
 
@@ -47,7 +47,7 @@ static int CheckMessages(u_short name, int n_hashes, u_short *hashes)
     return found;
 }
 
-static void Act(ScnMarkWork *work)
+static void Act(Work *work)
 {
     u_short hashes[7];
     int     found;
@@ -69,7 +69,7 @@ static void Act(ScnMarkWork *work)
     }
 }
 
-static int GetResources(ScnMarkWork *work, int map, int name)
+static int GetResources(Work *work, int map, int name)
 {
     work->map = map;
     work->name = name;
@@ -77,16 +77,16 @@ static int GetResources(ScnMarkWork *work, int map, int name)
     return 0;
 }
 
-static void Die(ScnMarkWork *work)
+static void Die(Work *work)
 {
     /* do nothing */
 }
 
 void *NewScreenMark(int name, int where)
 {
-    ScnMarkWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(ScnMarkWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "scn_mark.c");

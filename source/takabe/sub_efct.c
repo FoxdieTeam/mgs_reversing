@@ -9,7 +9,7 @@
 #include "libdg/libdg.h"
 #include "game/game.h"
 
-typedef struct _SubEfctWork
+typedef struct _Work
 {
     GV_ACT   actor;
     OBJECT  *parent;
@@ -18,7 +18,7 @@ typedef struct _SubEfctWork
     u_long   flag;
     MATRIX  *lightp;
     char     pad[0x4];
-} SubEfctWork;
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_DAEMON
 
@@ -134,7 +134,7 @@ void SubEfct_800CC914(DG_OBJ *obj)
     }
 }
 
-void SubEfct_800CC9A0(SubEfctWork *work)
+void SubEfct_800CC9A0(Work *work)
 {
     MATRIX   world;
     DG_OBJS *objs;
@@ -155,7 +155,7 @@ void SubEfct_800CC9A0(SubEfctWork *work)
     }
 }
 
-void SubEfct_800CCA58(SubEfctWork *work)
+void SubEfct_800CCA58(Work *work)
 {
     DG_OBJS *objs;
     DG_OBJ  *obj;
@@ -173,23 +173,23 @@ void SubEfct_800CCA58(SubEfctWork *work)
     }
 }
 
-void SubEfctAct_800CCAC0(SubEfctWork *work)
+void SubEfctAct_800CCAC0(Work *work)
 {
     SubEfct_800CC9A0(work);
     work->parent->light = work->light;
 }
 
-void SubEfctDie_800CCAF0(SubEfctWork *work)
+void SubEfctDie_800CCAF0(Work *work)
 {
     SubEfct_800CCA58(work);
 }
 
 void *NewSubEfct_800CCB10(OBJECT *parent, SVECTOR *rotation)
 {
-    SubEfctWork *work;
+    Work *work;
     DG_OBJS     *objs;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(SubEfctWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, SubEfctAct_800CCAC0, SubEfctDie_800CCAF0, "sub_efct.c");

@@ -4,7 +4,7 @@
 #include "game/game.h"
 #include "takabe/thing.h"
 
-typedef struct _FogWork
+typedef struct _Work
 {
     GV_ACT       actor;
     int          map;
@@ -16,7 +16,7 @@ typedef struct _FogWork
     DG_CHANLFUNC old_shade;
     DG_CHANLFUNC old_sort;
     int          f40;
-} FogWork;
+} Work;
 
 int SECTION(".bss") s12c_800DA428;
 int SECTION(".bss") s12c_800DA42C;
@@ -35,7 +35,7 @@ void FogShadeChanl_800D6A04(DG_CHANL *chanl, int idx);
 
 #define EXEC_LEVEL GV_ACTOR_PREV2
 
-void FogAct_800D4074(FogWork *work)
+void FogAct_800D4074(Work *work)
 {
     int scale;
 
@@ -46,7 +46,7 @@ void FogAct_800D4074(FogWork *work)
     s12c_800D4AB4(scale);
 }
 
-void FogDie_800D40E0(FogWork *work)
+void FogDie_800D40E0(Work *work)
 {
     DG_SetChanlSystemUnits(DG_BOUND_CHANL, work->old_bound);
     DG_SetChanlSystemUnits(DG_TRANS_CHANL, work->old_trans);
@@ -54,7 +54,7 @@ void FogDie_800D40E0(FogWork *work)
     DG_SetChanlSystemUnits(DG_SORT_CHANL,  work->old_sort);
 }
 
-int FogGetResources_800D4130(FogWork *work, int name, int map)
+int FogGetResources_800D4130(Work *work, int name, int map)
 {
     int temp_s1;
     int temp_s2;
@@ -83,9 +83,9 @@ int FogGetResources_800D4130(FogWork *work, int name, int map)
 
 void *NewFog(int arg0, int arg1)
 {
-    FogWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(FogWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, FogAct_800D4074, FogDie_800D40E0, "fog.c");

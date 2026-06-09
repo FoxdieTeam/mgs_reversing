@@ -7,7 +7,7 @@
 #include "takabe/thing.h"
 #include "strcode.h"
 
-typedef struct _WireWork
+typedef struct _Work
 {
     GV_ACT   actor;
     int      name;
@@ -51,7 +51,7 @@ typedef struct _WireWork
     int      f20D0;
     TARGET  *f20D4;
     SVECTOR  f20D8;
-} WireWork;
+} Work;
 
 extern BLAST_DATA blast_data_8009F4B8[8];
 
@@ -62,7 +62,7 @@ SVECTOR        s04c_dword_800C35F8 = {2500, 10000, 2500, 0};
 
 #define EXEC_LEVEL GV_ACTOR_USER
 
-static void CheckWireCut(WireWork *work)
+static void CheckWireCut(Work *work)
 {
     int   px, pz;
     int   x, z;
@@ -320,7 +320,7 @@ static void CheckWireCut(WireWork *work)
     }
 }
 
-static void TriggerDetonation(WireWork *work)
+static void TriggerDetonation(Work *work)
 {
     GM_CurrentMap = work->map;
 
@@ -434,7 +434,7 @@ static void TriggerDetonation(WireWork *work)
     work->f166C++;
 }
 
-static void Act(WireWork *work)
+static void Act(Work *work)
 {
     SVECTOR pos;
 
@@ -587,7 +587,7 @@ static void Act(WireWork *work)
     }
 }
 
-static void Die(WireWork *work)
+static void Die(Work *work)
 {
     GM_FreeObject(&work->objects[0]);
     GM_FreeObject(&work->objects[3]);
@@ -621,7 +621,7 @@ static void Die(WireWork *work)
     GM_FreeTarget(work->f20D4);
 }
 
-int wire_CreateTarget(WireWork *work)
+int wire_CreateTarget(Work *work)
 {
     TARGET *target;
 
@@ -637,7 +637,7 @@ int wire_CreateTarget(WireWork *work)
     return 0;
 }
 
-int wire_CreateTarget2(WireWork *work)
+int wire_CreateTarget2(Work *work)
 {
     TARGET *target;
 
@@ -657,13 +657,13 @@ const char s04c_aWire_800DBBA8[] = "wire";
 const char s04c_aBc_800DBBB0[] = "04b_c4";
 
 #pragma INCLUDE_ASM("asm/overlays/s04c/s04c_wire_800D3FA8.s")
-int s04c_wire_800D3FA8(WireWork *work, int name, int map); // GetResources
+int s04c_wire_800D3FA8(Work *work, int name, int map); // GetResources
 
 void *NewWire(int name, int where)
 {
-    WireWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(WireWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "wire.c");

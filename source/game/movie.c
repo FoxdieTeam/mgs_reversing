@@ -20,7 +20,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-typedef struct _MovieWork
+typedef struct _Work
 {
     GV_ACT         actor;
     FS_MOVIE_FILE *info;
@@ -43,9 +43,9 @@ typedef struct _MovieWork
     void          *ring;
     void          *dctin[2];
     void          *dctout[2];
-} MovieWork;
+} Work;
 
-static MovieWork movie_work;
+static Work movie_work;
 
 /*---------------------------------------------------------------------------*/
 
@@ -82,7 +82,7 @@ static void Movie_800C4484(int pos)
     } while (CdRead2(CdlModeStream2 | CdlModeSpeed | CdlModeRT) == 0);
 }
 
-static int Movie_800C45F4(MovieWork *work)
+static int Movie_800C45F4(Work *work)
 {
     u_long   *addr;
     StHEADER *header;
@@ -200,7 +200,7 @@ static void set_fade(int fade)
     DrawSync(0);
 }
 
-static void Act2(MovieWork *work)
+static void Act2(Work *work)
 {
     RECT *rect;
     int   res_flag;
@@ -297,7 +297,7 @@ static void Act2(MovieWork *work)
     }
 }
 
-static void Act(MovieWork *work)
+static void Act(Work *work)
 {
     int i;
     int status;
@@ -352,7 +352,7 @@ static void Act(MovieWork *work)
 
 /*---------------------------------------------------------------------------*/
 
-static void Die(MovieWork *work)
+static void Die(Work *work)
 {
     DecDCToutCallback(NULL);
     StUnSetRing();
@@ -393,7 +393,7 @@ void *NewMovie(unsigned int code)
         return NULL;
     }
 
-    GV_ZeroMemory(&movie_work, sizeof(MovieWork));
+    GV_ZeroMemory(&movie_work, sizeof(Work));
     printf("MOVIE %d\n", code);
 
     file = FS_GetMovieInfo(code);
@@ -428,9 +428,9 @@ void *NewMovie(unsigned int code)
 
 void *NewMovieGCL(unsigned int code)
 {
-    MovieWork *work;
+    Work *work;
 
-    work = (MovieWork *)NewMovie(code);
+    work = (Work *)NewMovie(code);
     if (work == NULL)
     {
         return NULL;

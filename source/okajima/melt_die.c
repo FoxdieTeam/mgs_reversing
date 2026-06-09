@@ -4,7 +4,7 @@
 #include "libgv/libgv.h"
 #include "game/game.h"
 
-typedef struct MeltDieWork
+typedef struct _Work
 {
     GV_ACT  actor;
     int     map;
@@ -17,13 +17,13 @@ typedef struct MeltDieWork
     int svec_vx;
     int svec_vy;
     int svec_vz;
-} MeltDieWork;
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_USER
 
 void AN_Unknown_800DC94C(SVECTOR *pos);
 
-void MeltDieAct_800E0DC8(MeltDieWork *work)
+void MeltDieAct_800E0DC8(Work *work)
 {
     SVECTOR svec;
 
@@ -55,7 +55,7 @@ void MeltDieAct_800E0DC8(MeltDieWork *work)
     }
 }
 
-int MeltDieGetResources_800E0EE8(MeltDieWork *work, SVECTOR *arg1, int arg2)
+int MeltDieGetResources_800E0EE8(Work *work, SVECTOR *arg1, int arg2)
 {
     work->map = GM_CurrentMap;
 
@@ -71,15 +71,15 @@ int MeltDieGetResources_800E0EE8(MeltDieWork *work, SVECTOR *arg1, int arg2)
     return 0;
 }
 
-void MeltDieDie_800E0F54(MeltDieWork *work)
+void MeltDieDie_800E0F54(Work *work)
 {
 }
 
 void *NewMeltDie_800E0F5C(SVECTOR *arg1, int arg2)
 {
-    MeltDieWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(MeltDieWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, MeltDieAct_800E0DC8, MeltDieDie_800E0F54, "melt_die.c");

@@ -7,7 +7,7 @@
 #include "game/game.h"
 #include "takabe/thing.h"
 
-typedef struct _WsurfaceWork
+typedef struct _Work
 {
     GV_ACT   actor;
     int      map;
@@ -26,11 +26,11 @@ typedef struct _WsurfaceWork
     short    f102;
     short    f104;
     char     pad2[0x2];
-} WsurfaceWork;
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_USER
 
-void Wsurface_800DAC14(POLY_GT4 *poly, DG_TEX *tex, WsurfaceWork *work)
+void Wsurface_800DAC14(POLY_GT4 *poly, DG_TEX *tex, Work *work)
 {
     int i, j;
     int x, y, w, h;
@@ -67,7 +67,7 @@ void Wsurface_800DAC14(POLY_GT4 *poly, DG_TEX *tex, WsurfaceWork *work)
     }
 }
 
-void Wsurface_800DAE3C(POLY_GT4 *packs, int shade, WsurfaceWork *work)
+void Wsurface_800DAE3C(POLY_GT4 *packs, int shade, Work *work)
 {
     int       fFC, inc;
     int       fFE;
@@ -123,7 +123,7 @@ void Wsurface_800DAE3C(POLY_GT4 *packs, int shade, WsurfaceWork *work)
     }
 }
 
-void Wsurface_800DAFE8(POLY_GT4 *poly, DVECTOR *in, WsurfaceWork *work)
+void Wsurface_800DAFE8(POLY_GT4 *poly, DVECTOR *in, Work *work)
 {
     int      i, j;
     DVECTOR *vec0;
@@ -155,7 +155,7 @@ void Wsurface_800DAFE8(POLY_GT4 *poly, DVECTOR *in, WsurfaceWork *work)
     }
 }
 
-void Wsurface_800DB0C4(DVECTOR *vec, DG_TEX *tex, WsurfaceWork *work)
+void Wsurface_800DB0C4(DVECTOR *vec, DG_TEX *tex, Work *work)
 {
     int i, j;
     int xoff, yoff;
@@ -185,7 +185,7 @@ void Wsurface_800DB0C4(DVECTOR *vec, DG_TEX *tex, WsurfaceWork *work)
     }
 }
 
-void Wsurface_800DB1E4(DVECTOR *in, DVECTOR *out, WsurfaceWork *work)
+void Wsurface_800DB1E4(DVECTOR *in, DVECTOR *out, Work *work)
 {
     DVECTOR *f3C;
     DVECTOR *f7C;
@@ -257,7 +257,7 @@ void Wsurface_800DB1E4(DVECTOR *in, DVECTOR *out, WsurfaceWork *work)
     }
 }
 
-void Wsurface_800DB3B8(WsurfaceWork *work, SVECTOR *arg1, int x, int z)
+void Wsurface_800DB3B8(Work *work, SVECTOR *arg1, int x, int z)
 {
     SVECTOR  sp0;
     SVECTOR  sp8;
@@ -304,7 +304,7 @@ void Wsurface_800DB3B8(WsurfaceWork *work, SVECTOR *arg1, int x, int z)
     }
 }
 
-void WsurfaceAct_800DB564(WsurfaceWork *work)
+void WsurfaceAct_800DB564(Work *work)
 {
     unsigned short hashes[2];
 
@@ -331,13 +331,13 @@ void WsurfaceAct_800DB564(WsurfaceWork *work)
     }
 }
 
-void WsurfaceDie_800DB630(WsurfaceWork *work)
+void WsurfaceDie_800DB630(Work *work)
 {
     GM_FreePrim(work->prim);
     GV_Free(work->ptr);
 }
 
-int WsurfaceGetResources_800DB684(WsurfaceWork *work, int name, int map)
+int WsurfaceGetResources_800DB684(Work *work, int name, int map)
 {
     SVECTOR  sp18;
     SVECTOR  sp20;
@@ -437,9 +437,9 @@ int WsurfaceGetResources_800DB684(WsurfaceWork *work, int name, int map)
 
 void *NewWaterSurface(int name, int where, int argc, char **argv)
 {
-    WsurfaceWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(WsurfaceWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, WsurfaceAct_800DB564, WsurfaceDie_800DB630, "wsurface.c");

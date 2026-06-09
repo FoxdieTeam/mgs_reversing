@@ -9,7 +9,7 @@
 #include "takabe/thing.h"
 #include "sound/g_sound.h"
 
-typedef struct _O2DamgeWork
+typedef struct _Work
 {
     GV_ACT actor;
     int    map;
@@ -26,7 +26,7 @@ typedef struct _O2DamgeWork
     int    f4C;
     int    f50;
     int    f54;
-} O2DamgeWork;
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_USER
 
@@ -45,7 +45,7 @@ void ExecProc_800DE580(int proc, long arg)
     }
 }
 
-void O2DamageAct_800DE5B8(O2DamgeWork *work)
+void O2DamageAct_800DE5B8(Work *work)
 {
     GV_MSG *msg;
     int     damage;
@@ -165,11 +165,11 @@ void O2DamageAct_800DE5B8(O2DamgeWork *work)
     }
 }
 
-void O2DamageDie_800DE8F4(O2DamgeWork *work)
+void O2DamageDie_800DE8F4(Work *work)
 {
 }
 
-int O2DamageGetResources_800DE8FC(O2DamgeWork *work, int name, int where)
+int O2DamageGetResources_800DE8FC(Work *work, int name, int where)
 {
     if (GCL_GetOption('o'))
     {
@@ -197,9 +197,9 @@ int O2DamageGetResources_800DE8FC(O2DamgeWork *work, int name, int where)
 
 void *NewFewDamageSet(int name, int where, int argc, char **argv)
 {
-    O2DamgeWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(O2DamgeWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, O2DamageAct_800DE5B8, O2DamageDie_800DE8F4, "o2_damge.c");

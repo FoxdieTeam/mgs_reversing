@@ -13,7 +13,7 @@
 #include "takabe/cinema.h"      // for NewCinemaScreen, NewCinemaScreenClose
 #include "takabe/ripple.h"      // for NewRipple
 
-typedef struct _EventmouseWork
+typedef struct _Work
 {
     GV_ACT   actor;
     TARGET  *target;
@@ -52,7 +52,7 @@ typedef struct _EventmouseWork
     void    *f690;
     SVECTOR  eye;
     SVECTOR  center;
-} EventmouseWork;
+} Work;
 
 SVECTOR eventmous_vecs[2] = {{48, 0, 96, 0}, {-48, 0, 96, 0}};
 
@@ -62,7 +62,7 @@ void   NewSplash2_800DB6F0( int, SVECTOR *, int );
 #define EXEC_LEVEL      GV_ACTOR_USER
 #define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE | DG_FLAG_ONEPIECE )
 
-void Eventmouse_800C8E88(EventmouseWork *work, SVECTOR *arg1, int arg2)
+void Eventmouse_800C8E88(Work *work, SVECTOR *arg1, int arg2)
 {
     SVECTOR view;
     SVECTOR rot;
@@ -157,7 +157,7 @@ int Eventmouse_800C9140(SVECTOR *a, SVECTOR *b)
     return SquareRoot0(x * x + y * y + z * z) * 16;
 }
 
-int Eventmouse_800C91B0(EventmouseWork *work, SVECTOR *arg1)
+int Eventmouse_800C91B0(Work *work, SVECTOR *arg1)
 {
     int ret;
 
@@ -191,7 +191,7 @@ void Eventmouse_800C9288(SVECTOR *from, SVECTOR *to, SVECTOR *out)
     out->vz = 0;
 }
 
-void Eventmouse_800C9308(EventmouseWork *work)
+void Eventmouse_800C9308(Work *work)
 {
     SVECTOR sp10;
     SVECTOR pos;
@@ -227,7 +227,7 @@ void Eventmouse_800C9308(EventmouseWork *work)
     DG_PutVector(&work->f614, &work->f614, 1);
 }
 
-void Eventmouse_800C948C(EventmouseWork *work, SVECTOR *pos)
+void Eventmouse_800C948C(Work *work, SVECTOR *pos)
 {
     SVECTOR sp10;
     SVECTOR sp18;
@@ -280,7 +280,7 @@ void Eventmouse_800C948C(EventmouseWork *work, SVECTOR *pos)
     Eventmouse_800C90E4(work->f660, &sp10);
 }
 
-void Eventmouse_800C96A8(EventmouseWork *work)
+void Eventmouse_800C96A8(Work *work)
 {
     SVECTOR  pos;
     SVECTOR  sp18[2];
@@ -308,7 +308,7 @@ void Eventmouse_800C96A8(EventmouseWork *work)
     vecs[0].vy = vecs[1].vy = vecs[2].vy = vecs[3].vy = pos.vy;
 }
 
-int Eventmouse_800C9828(EventmouseWork *work)
+int Eventmouse_800C9828(Work *work)
 {
     if (!(work->map & GM_PlayerMap))
     {
@@ -331,7 +331,7 @@ void Eventmouse_800C9890(POLY_FT4 *poly, DG_TEX *tex)
     DG_SetPacketTexture4(poly, tex);
 }
 
-void Eventmouse_800C98F0(EventmouseWork *work)
+void Eventmouse_800C98F0(Work *work)
 {
     SVECTOR  pos;
     SVECTOR  sp18;
@@ -495,7 +495,7 @@ void Eventmouse_800C98F0(EventmouseWork *work)
     control->rot.vy += work->f1DC[work->f1D8 % 8] * 64;
 }
 
-void EventMouseAct_800C9F14(EventmouseWork *work)
+void EventMouseAct_800C9F14(Work *work)
 {
     VECTOR   scale;
     MATRIX   world;
@@ -627,7 +627,7 @@ void EventMouseAct_800C9F14(EventmouseWork *work)
     DG_GetLightMatrix2(&control->mov, work->light);
 }
 
-void EventMouseDie_800CA2C4(EventmouseWork *work)
+void EventMouseDie_800CA2C4(Work *work)
 {
     GM_FreeControl(&work->control);
     GM_FreeObject(&work->body);
@@ -644,7 +644,7 @@ void EventMouseDie_800CA2C4(EventmouseWork *work)
     GM_GameStatus &= ~STATE_PADRELEASE;
 }
 
-int EventMouseGetResources_800CA370(EventmouseWork *work, HZD_PTP *points, short n_points, int arg3, int arg4, int name, int map, int arg7, int arg8)
+int EventMouseGetResources_800CA370(Work *work, HZD_PTP *points, short n_points, int arg3, int arg4, int name, int map, int arg7, int arg8)
 {
     SVECTOR  size;
     int      start;
@@ -757,9 +757,9 @@ int EventMouseGetResources_800CA370(EventmouseWork *work, HZD_PTP *points, short
 
 void *NewEventmouse_800CA6F4(HZD_PTP *points, short n_points, int arg2, int arg3, int arg4, int arg5)
 {
-    EventmouseWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(EventmouseWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, EventMouseAct_800C9F14, EventMouseDie_800CA2C4, "evntmous.c");

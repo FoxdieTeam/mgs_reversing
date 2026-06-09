@@ -11,7 +11,7 @@
 
 #include "takabe/optxtscn.h"    // for NewOpTxtScn_800CD29C
 
-typedef struct _SubRoomWork
+typedef struct _Work
 {
     GV_ACT   actor;
     DG_PRIM *prim1;
@@ -29,7 +29,7 @@ typedef struct _SubRoomWork
     int      f5D8;
     int      map;
     GV_ACT  *txtscn;
-} SubRoomWork;
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_PREV
 
@@ -59,7 +59,7 @@ void SubRoomShadePacks_800C7340(POLY_FT4 *packs, int n_packs, DG_TEX *tex, SVECT
     }
 }
 
-void SubRoom_800C73E4(SubRoomWork *work)
+void SubRoom_800C73E4(Work *work)
 {
     int       last;
     int       mod;
@@ -98,7 +98,7 @@ void SubRoom_800C73E4(SubRoomWork *work)
     }
 }
 
-void SubRoom_800C751C(SubRoomWork *work)
+void SubRoom_800C751C(Work *work)
 {
     SVECTOR verts[4];
 
@@ -156,7 +156,7 @@ void SubRoom_800C751C(SubRoomWork *work)
     }
 }
 
-void SubRoom_800C7678(SubRoomWork *work)
+void SubRoom_800C7678(Work *work)
 {
     SVECTOR   color;
     POLY_FT4 *poly;
@@ -176,7 +176,7 @@ void SubRoom_800C7678(SubRoomWork *work)
     }
 }
 
-void SubRoomAct_800C7750(SubRoomWork *work)
+void SubRoomAct_800C7750(Work *work)
 {
     GM_CurrentMap = work->map;
 
@@ -190,7 +190,7 @@ void SubRoomAct_800C7750(SubRoomWork *work)
     }
 }
 
-void SubRoomDie_800C77D0(SubRoomWork *work)
+void SubRoomDie_800C77D0(Work *work)
 {
     GM_FreePrim(work->prim2);
     GM_FreePrim(work->prim1);
@@ -200,7 +200,7 @@ void SubRoomDie_800C77D0(SubRoomWork *work)
     GV_DestroyOtherActor(work->txtscn);
 }
 
-void SubRoom_800C7884(SubRoomWork *work, int index, SVECTOR *position, SVECTOR *rotation, int inc)
+void SubRoom_800C7884(Work *work, int index, SVECTOR *position, SVECTOR *rotation, int inc)
 {
     SVECTOR  rot;
     SVECTOR  pos;
@@ -248,7 +248,7 @@ void SubRoom_800C7884(SubRoomWork *work, int index, SVECTOR *position, SVECTOR *
     }
 }
 
-void SubRoom_800C79D4(SubRoomWork *work, int index, SVECTOR *position, SVECTOR *rotation, int arg4, int arg5)
+void SubRoom_800C79D4(Work *work, int index, SVECTOR *position, SVECTOR *rotation, int arg4, int arg5)
 {
     SVECTOR pos;
 
@@ -264,7 +264,7 @@ void SubRoom_800C79D4(SubRoomWork *work, int index, SVECTOR *position, SVECTOR *
     work->f55C[1][index] = arg5;
 }
 
-void SubRoom_800C7A84(SubRoomWork *work, int index, SVECTOR *position, SVECTOR *rotation, int arg4, SVECTOR *color)
+void SubRoom_800C7A84(Work *work, int index, SVECTOR *position, SVECTOR *rotation, int arg4, SVECTOR *color)
 {
     SVECTOR pos;
     SVECTOR rot;
@@ -302,7 +302,7 @@ void SubRoom_800C7A84(SubRoomWork *work, int index, SVECTOR *position, SVECTOR *
     work->f5C8[index] = *color;
 }
 
-int SubRoomGetResources_800C7B94(SubRoomWork *work)
+int SubRoomGetResources_800C7B94(Work *work)
 {
     SVECTOR  pos;
     SVECTOR  rot;
@@ -512,9 +512,9 @@ int SubRoomGetResources_800C7B94(SubRoomWork *work)
 
 void *NewSubRoom_800C815C(void)
 {
-    SubRoomWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(SubRoomWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, SubRoomAct_800C7750, SubRoomDie_800C77D0, "sub_room.c");

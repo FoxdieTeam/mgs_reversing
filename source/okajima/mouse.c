@@ -34,7 +34,7 @@ typedef struct _MouseEntry
     int     f184;
 } MouseEntry;
 
-typedef struct _MouseWork
+typedef struct _Work
 {
     GV_ACT     actor;
     int        nvertices;
@@ -55,12 +55,12 @@ typedef struct _MouseWork
     int        proc;
     int        f1DC;
     MouseEntry entries[0];
-} MouseWork;
+} Work;
 
 #define EXEC_LEVEL      GV_ACTOR_PREV
 #define STAGE_s00a      0x469b  // GV_StrCode("s00a")
 
-void s00a_mouse_800D3B68(MouseWork *work, OBJECT *object)
+void s00a_mouse_800D3B68(Work *work, OBJECT *object)
 {
     VECTOR scale;
 
@@ -103,7 +103,7 @@ int s00a_mouse_800D3C30(char *opt, SVECTOR *svec)
     return count;
 }
 
-void s00a_mouse_800D3C84(MouseWork *work)
+void s00a_mouse_800D3C84(Work *work)
 {
     SVECTOR     sp10;
     MouseEntry *entry;
@@ -152,7 +152,7 @@ void s00a_mouse_800D3C84(MouseWork *work)
     }
 }
 
-void s00a_mouse_800D3E9C(MouseWork *work)
+void s00a_mouse_800D3E9C(Work *work)
 {
     SVECTOR     sp10;
     MouseEntry *entry;
@@ -245,7 +245,7 @@ void s00a_mouse_800D3E9C(MouseWork *work)
     }
 }
 
-void s00a_mouse_800D4350(MouseWork *work)
+void s00a_mouse_800D4350(Work *work)
 {
     MouseEntry *entry;
 
@@ -274,7 +274,7 @@ void s00a_mouse_800D4350(MouseWork *work)
     }
 }
 
-void s00a_mouse_800D4430(MouseWork *work)
+void s00a_mouse_800D4430(Work *work)
 {
     MATRIX      sp10;
     SVECTOR     diff;
@@ -419,7 +419,7 @@ void s00a_mouse_800D4430(MouseWork *work)
     }
 }
 
-void MouseThink_800D4840(MouseWork *work)
+void MouseThink_800D4840(Work *work)
 {
     int index;
 
@@ -446,7 +446,7 @@ void MouseThink_800D4840(MouseWork *work)
     }
 }
 
-void MouseAct_800D4904(MouseWork *work)
+void MouseAct_800D4904(Work *work)
 {
     MATRIX      sp10;
     SVECTOR     sp30;
@@ -511,7 +511,7 @@ void MouseAct_800D4904(MouseWork *work)
     }
 }
 
-int s00a_mouse_800D4B60(MouseWork *work, int name, int unused)
+int s00a_mouse_800D4B60(Work *work, int name, int unused)
 {
     SVECTOR     diff;
     SVECTOR     scale;
@@ -770,7 +770,7 @@ int s00a_mouse_800D4B60(MouseWork *work, int name, int unused)
     return 0;
 }
 
-int MouseGetResources_800D50F4(MouseWork *work, int name, int map)
+int MouseGetResources_800D50F4(Work *work, int name, int map)
 {
     int         i;
     MouseEntry *entry;
@@ -794,7 +794,7 @@ int MouseGetResources_800D50F4(MouseWork *work, int name, int map)
     return 0;
 }
 
-void MouseDie_800D51A4(MouseWork *work)
+void MouseDie_800D51A4(Work *work)
 {
     int i;
 
@@ -813,7 +813,7 @@ void *NewMouse(int name, int where, int argc, char **argv)
 {
     char      *opt;
     int        nentries;
-    MouseWork *work;
+    Work *work;
 
     opt = GCL_GetOption('m');
     if (opt != 0)
@@ -830,7 +830,7 @@ void *NewMouse(int name, int where, int argc, char **argv)
         nentries = 1;
     }
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(MouseWork) + sizeof(MouseEntry) * nentries);
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work) + sizeof(MouseEntry) * nentries);
     if (work != NULL)
     {
         work->nentries = nentries;

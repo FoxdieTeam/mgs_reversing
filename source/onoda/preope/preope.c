@@ -30,7 +30,7 @@ typedef struct _Unknown
     short f6;
 } Unknown;
 
-typedef struct Work
+typedef struct _Work
 {
     GV_ACT   actor;
     GV_PAD  *pad;

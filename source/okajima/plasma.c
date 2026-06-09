@@ -6,7 +6,7 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 
-typedef struct _PlasmaWork
+typedef struct _Work
 {
     GV_ACT   actor;
     int      map;
@@ -35,7 +35,7 @@ typedef struct _PlasmaWork
     int      f3B4;
     int      f3B8;
     int      f3BC;
-} PlasmaWork;
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_PREV
 
@@ -90,7 +90,7 @@ void PlasmaShadePacks_800CBCD8(POLY_FT4 *packs, int shade)
     setRGB0(packs, shade, shade, shade);
 }
 
-void PlasmaTexPacks_800CBCE8(PlasmaWork *work, POLY_FT4 *packs, int n_packs, DG_TEX *tex)
+void PlasmaTexPacks_800CBCE8(Work *work, POLY_FT4 *packs, int n_packs, DG_TEX *tex)
 {
     while (--n_packs >= 0)
     {
@@ -112,7 +112,7 @@ void PlasmaTexPacks_800CBCE8(PlasmaWork *work, POLY_FT4 *packs, int n_packs, DG_
     }
 }
 
-void Plasma_800CBDA8(PlasmaWork *work, SVECTOR *arg1, SVECTOR *arg2)
+void Plasma_800CBDA8(Work *work, SVECTOR *arg1, SVECTOR *arg2)
 {
     int i;
 
@@ -163,7 +163,7 @@ void Plasma_800CBDA8(PlasmaWork *work, SVECTOR *arg1, SVECTOR *arg2)
     work->f360[16] = 0;
 }
 
-void Plasma_800CBF8C(PlasmaWork *work)
+void Plasma_800CBF8C(Work *work)
 {
     int rnd;
 
@@ -182,7 +182,7 @@ void Plasma_800CBF8C(PlasmaWork *work)
     Plasma_800CBDA8(work, &work->f304, &work->f30C);
 }
 
-void Plasma_800CC104(PlasmaWork *work)
+void Plasma_800CC104(Work *work)
 {
     work->f31C[4] = (work->f31C[4] + GV_RandU(32)) & 0xFFF;
     work->f33E[4] = (work->f33E[4] + GV_RandS(64)) & 0xFFF;
@@ -212,7 +212,7 @@ void Plasma_800CC104(PlasmaWork *work)
     }
 }
 
-void Plasma_800CC258(PlasmaWork *work)
+void Plasma_800CC258(Work *work)
 {
     SVECTOR   pos;
     SVECTOR   rot;
@@ -313,7 +313,7 @@ void Plasma_800CC258(PlasmaWork *work)
     }
 }
 
-void Plasma_800CC5E4(PlasmaWork *work, int arg1, int arg2)
+void Plasma_800CC5E4(Work *work, int arg1, int arg2)
 {
     int idx1, idx2;
 
@@ -325,7 +325,7 @@ void Plasma_800CC5E4(PlasmaWork *work, int arg1, int arg2)
     work->f31C[arg1] = work->f31C[idx1] + ((work->f31C[idx2] - work->f31C[idx1]) >> 1);
 }
 
-void PlasmaAct_800CC67C(PlasmaWork *work)
+void PlasmaAct_800CC67C(Work *work)
 {
     SVECTOR        sp10;
     SVECTOR        sp18;
@@ -502,12 +502,12 @@ void PlasmaAct_800CC67C(PlasmaWork *work)
     }
 }
 
-void PlasmaDie_800CCC64(PlasmaWork *work)
+void PlasmaDie_800CCC64(Work *work)
 {
     GM_FreePrim(work->prim);
 }
 
-int Plasma_800CCCA0(PlasmaWork *work)
+int Plasma_800CCCA0(Work *work)
 {
     DG_TEX  *tex;
     DG_PRIM *prim;
@@ -533,7 +533,7 @@ int Plasma_800CCCA0(PlasmaWork *work)
     return 0;
 }
 
-int PlasmaGetResources_800CCD6C(PlasmaWork *work, int name, int map)
+int PlasmaGetResources_800CCD6C(Work *work, int name, int map)
 {
     char *opt;
 
@@ -572,7 +572,7 @@ int PlasmaGetResources_800CCD6C(PlasmaWork *work, int name, int map)
     return 0;
 }
 
-int PlasmaGetResources_800CCE08(PlasmaWork *work, OBJECT *parent, int arg2, int arg3, int arg4, int arg5, int arg6)
+int PlasmaGetResources_800CCE08(Work *work, OBJECT *parent, int arg2, int arg3, int arg4, int arg5, int arg6)
 {
     SVECTOR sp10;
     SVECTOR sp18;
@@ -609,7 +609,7 @@ int PlasmaGetResources_800CCE08(PlasmaWork *work, OBJECT *parent, int arg2, int 
     return 0;
 }
 
-int PlasmaGetResources_800CCF78(PlasmaWork *work, SVECTOR *arg1, SVECTOR *arg2, int arg3)
+int PlasmaGetResources_800CCF78(Work *work, SVECTOR *arg1, SVECTOR *arg2, int arg3)
 {
     work->f3A8 = 1;
     work->f3B0 = 0;
@@ -630,7 +630,7 @@ int PlasmaGetResources_800CCF78(PlasmaWork *work, SVECTOR *arg1, SVECTOR *arg2, 
     return 0;
 }
 
-int PlasmaGetResources_800CD040(PlasmaWork *work, SVECTOR *arg1, SVECTOR *arg2, int arg3, int arg4)
+int PlasmaGetResources_800CD040(Work *work, SVECTOR *arg1, SVECTOR *arg2, int arg3, int arg4)
 {
     work->map = GM_CurrentMap;
 
@@ -656,9 +656,9 @@ int PlasmaGetResources_800CD040(PlasmaWork *work, SVECTOR *arg1, SVECTOR *arg2, 
 
 void *NewPlasmaGcl(int name, int where)
 {
-    PlasmaWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(PlasmaWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, PlasmaAct_800CC67C, PlasmaDie_800CCC64, "plasma.c");
@@ -675,9 +675,9 @@ void *NewPlasmaGcl(int name, int where)
 
 void *NewPlasma_800CD1A4(OBJECT *parent, int arg1, int arg2, int arg3, int arg4, int arg5)
 {
-    PlasmaWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(PlasmaWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, PlasmaAct_800CC67C, PlasmaDie_800CCC64, "plasma.c");
@@ -694,9 +694,9 @@ void *NewPlasma_800CD1A4(OBJECT *parent, int arg1, int arg2, int arg3, int arg4,
 
 void *NewPlasma_800CD268(SVECTOR *arg0, SVECTOR *arg1, int arg2)
 {
-    PlasmaWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(PlasmaWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, PlasmaAct_800CC67C, PlasmaDie_800CCC64, "plasma.c");
@@ -713,9 +713,9 @@ void *NewPlasma_800CD268(SVECTOR *arg0, SVECTOR *arg1, int arg2)
 
 void *NewPlasma_800CD30C(SVECTOR *arg0, SVECTOR *arg1, int arg2, int arg3)
 {
-    PlasmaWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(PlasmaWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, PlasmaAct_800CC67C, PlasmaDie_800CCC64, "plasma.c");

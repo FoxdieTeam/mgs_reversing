@@ -10,7 +10,7 @@
 
 #define EXEC_LEVEL GV_ACTOR_PREV
 
-typedef struct _Asiato2CharWork
+typedef struct _Work
 {
     GV_ACT   actor;
     DG_PRIM *prim;
@@ -20,7 +20,7 @@ typedef struct _Asiato2CharWork
     int      f4C;
     int      f50;
     int      f54;
-} Asiato2CharWork;
+} Work;
 
 /*---------------------------------------------------------------------------*/
 
@@ -53,7 +53,7 @@ static void Asiato2Char_SetPos(SVECTOR *vec, int x, int y, int z)
     vec->vz = z;
 }
 
-static void Asiato2Char_Act(Asiato2CharWork *work)
+static void Asiato2Char_Act(Work *work)
 {
     int t;
     int shade;
@@ -92,7 +92,7 @@ static void Asiato2Char_InitPacks(POLY_FT4 *poly, DG_TEX *tex, int abr, int r, i
     }
 }
 
-static int Asiato2Char_GetResources(Asiato2CharWork *work, MATRIX *world, int arg2, int height, int arg4)
+static int Asiato2Char_GetResources(Work *work, MATRIX *world, int arg2, int height, int arg4)
 {
     SVECTOR  rot;
     SVECTOR  pos;
@@ -145,7 +145,7 @@ static int Asiato2Char_GetResources(Asiato2CharWork *work, MATRIX *world, int ar
     return 0;
 }
 
-static void Asiato2Char_Die(Asiato2CharWork *work)
+static void Asiato2Char_Die(Work *work)
 {
     GM_FreePrim(work->prim);
 
@@ -157,9 +157,9 @@ static void Asiato2Char_Die(Asiato2CharWork *work)
 
 void *NewAsiato2Char(MATRIX *world, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6)
 {
-    Asiato2CharWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Asiato2CharWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Asiato2Char_Act, Asiato2Char_Die, "asiato2.c");
@@ -181,7 +181,7 @@ void *NewAsiato2Char(MATRIX *world, int arg1, int arg2, int arg3, int arg4, int 
 
 /*---------------------------------------------------------------------------*/
 
-typedef struct _Asiato2Work
+typedef struct _Work2
 {
     GV_ACT   actor;
     CONTROL *control;
@@ -190,9 +190,9 @@ typedef struct _Asiato2Work
     int      f2C;
     int      f30;
     int     *f34;
-} Asiato2Work;
+} Work2;
 
-static int asiato2_800DD308(Asiato2Work *work, int name)
+static int asiato2_800DD308(Work2 *work, int name)
 {
     HZD_EVT *events;
     int      i;
@@ -209,7 +209,7 @@ static int asiato2_800DD308(Asiato2Work *work, int name)
     return 0;
 }
 
-static int asiato2_800DD358(Asiato2Work *work)
+static int asiato2_800DD358(Work2 *work)
 {
     work->f28 = 0;
 
@@ -229,7 +229,7 @@ static int asiato2_800DD358(Asiato2Work *work)
     return asiato2_800DD308(work, 0xDC55);
 }
 
-static int asiato2_800DD3D4(Asiato2Work *work)
+static int asiato2_800DD3D4(Work2 *work)
 {
     int temp_s0;
 
@@ -247,7 +247,7 @@ static int asiato2_800DD3D4(Asiato2Work *work)
     return temp_s0;
 }
 
-static void asiato2_800DD42C(Asiato2Work *work)
+static void asiato2_800DD42C(Work2 *work)
 {
     asiato2_800E4FC0.vec[asiato2_800E4FC0.index] = work->control->mov;
     asiato2_800E4FC0.vec[asiato2_800E4FC0.index].pad = 1;
@@ -260,7 +260,7 @@ static void asiato2_800DD42C(Asiato2Work *work)
     }
 }
 
-static void Act(Asiato2Work *work)
+static void Act(Work2 *work)
 {
     int     which;
     MATRIX *world;
@@ -287,11 +287,11 @@ static void Act(Asiato2Work *work)
     NewAsiato2Char(world, which, work->control->levels[0], asiato2_800E4FC0.index - 1, work->f28, work->control->rot.vy, work->f30);
 }
 
-static void Die(Asiato2Work *work)
+static void Die(Work2 *work)
 {
 }
 
-static void GetResources(Asiato2Work *work)
+static void GetResources(Work2 *work)
 {
     int i;
 
@@ -311,9 +311,9 @@ static void GetResources(Asiato2Work *work)
 
 void *NewAsiato2(CONTROL *control, OBJECT *object, int arg2, int *arg3)
 {
-    Asiato2Work *work;
+    Work2 *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Asiato2Work));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work2));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "asiato2.c");

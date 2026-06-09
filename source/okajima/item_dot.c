@@ -6,7 +6,7 @@
 #include "game/game.h"
 #include "linkvar.h"
 
-typedef struct _ItemDotWork
+typedef struct _Work
 {
     GV_ACT  actor;
     CONTROL control;
@@ -14,7 +14,7 @@ typedef struct _ItemDotWork
     int     fA0;
     int     fA4;
     int     fA8;
-} ItemDotWork;
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_PREV
 
@@ -45,7 +45,7 @@ int ItemDotCheckMessage_800CC4C8(unsigned short name, int n_hashes, unsigned sho
     return found;
 }
 
-void ItemDotAct_800CC560(ItemDotWork *work)
+void ItemDotAct_800CC560(Work *work)
 {
     unsigned short hash[1];
 
@@ -108,7 +108,7 @@ int ItemDotGetSvecs_800CC688(char *opt, SVECTOR *out)
     return count;
 }
 
-int ItemDotGetResources_800CC6DC(ItemDotWork *work, int name, int map)
+int ItemDotGetResources_800CC6DC(Work *work, int name, int map)
 {
     char *opt;
 
@@ -155,16 +155,16 @@ int ItemDotGetResources_800CC6DC(ItemDotWork *work, int name, int map)
     return 0;
 }
 
-void ItemDotDie_800CC7B0(ItemDotWork *work)
+void ItemDotDie_800CC7B0(Work *work)
 {
     GM_FreeControl(&work->control);
 }
 
 void *NewItemDot(int name, int where)
 {
-    ItemDotWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(ItemDotWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, ItemDotAct_800CC560, ItemDotDie_800CC7B0, "item_dot.c");

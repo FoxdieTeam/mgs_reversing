@@ -12,7 +12,7 @@
 #include "takabe/spark2.h"      // for NewSpark2_800CA714
 
 // We came, we saw, GunCame
-typedef struct GunCameWork
+typedef struct _Work
 {
     GV_ACT   actor;
     CONTROL  control;
@@ -75,7 +75,7 @@ typedef struct GunCameWork
     int      field_410;
     int      field_414;
     int      field_418;
-} GunCameWork;
+} Work;
 
 #define EXEC_LEVEL  GV_ACTOR_PREV
 
@@ -135,7 +135,7 @@ int GunCame_800C6F60(unsigned short name, int nhashes, unsigned short *hashes)
     return found;
 }
 
-void GunCame_800C6FF8(GunCameWork *work)
+void GunCame_800C6FF8(Work *work)
 {
     SVECTOR svec;
 
@@ -148,7 +148,7 @@ void GunCame_800C6FF8(GunCameWork *work)
     work->field_338 = svec;
 }
 
-void GunCame_800C7068(GunCameWork *work)
+void GunCame_800C7068(Work *work)
 {
     work->field_3A0 = 1;
     work->field_3AC[0] = GM_PlayerPosition;
@@ -178,7 +178,7 @@ void GunCame_800C7118(DG_PRIM *prim, DG_TEX *tex, int r, int g, int b)
     setRGB0(poly, r, g, b);
 }
 
-void GunCame_800C7144(GunCameWork *work, int r, int g, int b)
+void GunCame_800C7144(Work *work, int r, int g, int b)
 {
     work->field_3F4.vx = r;
     work->field_3F4.vy = g;
@@ -218,7 +218,7 @@ void GunCame_800C71A8(SVECTOR* arg0, SVECTOR* arg1, SVECTOR* arg2) {
     arg2->vx = (short int) ((ratan2(GV_VecLen3(&sp10), (int) temp_s0) & 0xFFF) - 0x400);
 }
 
-int GunCame_800C7224(GunCameWork *work)
+int GunCame_800C7224(Work *work)
 {
     SVECTOR  ang;
     CONTROL *control;
@@ -286,7 +286,7 @@ int GunCame_800C7224(GunCameWork *work)
     return 0;
 }
 
-void GunCame_800C73D0(GunCameWork *work)
+void GunCame_800C73D0(Work *work)
 {
     MATRIX pos;
     int    f3C4;
@@ -354,7 +354,7 @@ void GunCame_800C73D0(GunCameWork *work)
 
 const SVECTOR s03e_svec_800CC084 = {0, -80, 0, 0};
 
-void GunCame_800C75FC(SVECTOR *svec1, SVECTOR *svec2, GunCameWork *work)
+void GunCame_800C75FC(SVECTOR *svec1, SVECTOR *svec2, Work *work)
 {
     int dir;
 
@@ -379,13 +379,13 @@ void GunCame_800C75FC(SVECTOR *svec1, SVECTOR *svec2, GunCameWork *work)
     }
 }
 
-void GunCame_800C76E8(GunCameWork* work)
+void GunCame_800C76E8(Work* work)
 {
     GunCame_800C71A8(&work->control.mov, &work->field_3AC[work->field_39C], &work->control.turn);
     GunCame_800C75FC(&work->field_330, &work->control.turn, work);
 }
 
-int GunCame_800C7740(GunCameWork *work)
+int GunCame_800C7740(Work *work)
 {
     SVECTOR *vec;
 
@@ -408,7 +408,7 @@ int GunCame_800C7740(GunCameWork *work)
     return 0;
 }
 
-int GunCame_800C77D4(GunCameWork *work)
+int GunCame_800C77D4(Work *work)
 {
     SVECTOR *vec;
 
@@ -431,7 +431,7 @@ int GunCame_800C77D4(GunCameWork *work)
     return 0;
 }
 
-int GunCame_800C7868(GunCameWork *work)
+int GunCame_800C7868(Work *work)
 {
     SVECTOR *svec1, *svec2;
     int      dir;
@@ -476,7 +476,7 @@ int GunCame_800C7868(GunCameWork *work)
     return 1;
 }
 
-void GunCame_800C7994(GunCameWork *work)
+void GunCame_800C7994(Work *work)
 {
     switch (work->field_344)
     {
@@ -527,7 +527,7 @@ void GunCame_800C7994(GunCameWork *work)
     }
 }
 
-void GunCame_800C7AD8(GunCameWork *work)
+void GunCame_800C7AD8(Work *work)
 {
     switch (work->field_344)
     {
@@ -585,7 +585,7 @@ void GunCame_800C7AD8(GunCameWork *work)
     }
 }
 
-void GunCame_800C7C0C(GunCameWork *work)
+void GunCame_800C7C0C(Work *work)
 {
     switch (work->field_344)
     {
@@ -626,7 +626,7 @@ void GunCame_800C7C0C(GunCameWork *work)
     }
 }
 
-void GunCame_800C7CE0(GunCameWork *work)
+void GunCame_800C7CE0(Work *work)
 {
     int time;
     int tx, ty;
@@ -678,12 +678,12 @@ void GunCame_800C7CE0(GunCameWork *work)
     }
 }
 
-void GunCame_800C8024(GunCameWork *work)
+void GunCame_800C8024(Work *work)
 {
     work->control.radar_param.dir = work->control.rot.vy;
 }
 
-void GunCame_800C8030(GunCameWork *work)
+void GunCame_800C8030(Work *work)
 {
     switch (work->field_340)
     {
@@ -706,7 +706,7 @@ void GunCame_800C8030(GunCameWork *work)
     }
 }
 
-void GunCame_Act_800C80F4(GunCameWork *work)
+void GunCame_Act_800C80F4(Work *work)
 {
     MATRIX         world;
     SVECTOR        rot;
@@ -995,7 +995,7 @@ void GunCame_Act_800C80F4(GunCameWork *work)
     GunCame_800C8030(work);
 }
 
-void GunCame_800C8940(GunCameWork *work)
+void GunCame_800C8940(Work *work)
 {
     CONTROL    *control;
     RADAR_SIGHT_PARAM *r_param;
@@ -1012,7 +1012,7 @@ void GunCame_800C8940(GunCameWork *work)
 
 const SVECTOR s03e_svec_800CC0F4 = {0, -150, -400, 0};
 
-int GunCame_800C8978(GunCameWork *work, int name, int map)
+int GunCame_800C8978(Work *work, int name, int map)
 {
     SVECTOR disp_local;
     SVECTOR pos;
@@ -1264,7 +1264,7 @@ void GunCame_800C8E04(POLY_FT4 *poly, DG_TEX *tex, int col)
     poly->clut = (unsigned short) tex->clut;
 }
 
-int GunCame_800C8E7C(GunCameWork *work)
+int GunCame_800C8E7C(Work *work)
 {
     DG_PRIM *prim;
     DG_TEX  *tex;
@@ -1289,7 +1289,7 @@ int GunCame_800C8E7C(GunCameWork *work)
     return -1;
 }
 
-int GunCame_GetResources_800C8F64(GunCameWork *work, int name, int where)
+int GunCame_GetResources_800C8F64(Work *work, int name, int where)
 {
     CONTROL *control;
     OBJECT  *obj1, *obj2;
@@ -1341,7 +1341,7 @@ int GunCame_GetResources_800C8F64(GunCameWork *work, int name, int where)
     return -1;
 }
 
-void GunCame_Die_800C911C(GunCameWork *work)
+void GunCame_Die_800C911C(Work *work)
 {
     s03e_dword_800C32B8 = 0;
     dword_8009F480 = 0;
@@ -1354,9 +1354,9 @@ void GunCame_Die_800C911C(GunCameWork *work)
 
 void *NewGunCamera(int name, int where, int argc, char **argv)
 {
-    GunCameWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(GunCameWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, GunCame_Act_800C80F4, GunCame_Die_800C911C, "guncame.c");

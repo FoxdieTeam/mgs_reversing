@@ -17,7 +17,7 @@ typedef struct _FocusPrims
     SPRT     sprt2[2];
 } FocusPrims;
 
-typedef struct _FocusWork
+typedef struct _Work
 {
     GV_ACT      actor;
     FocusPrims *prims;
@@ -28,9 +28,9 @@ typedef struct _FocusWork
     int         f_len;
     int         f_target;
     int         f_range;
-} FocusWork;
+} Work;
 
-void FocusAct_800CEA70(FocusWork *work)
+void FocusAct_800CEA70(Work *work)
 {
     GV_MSG *msg;
     int     f_len;
@@ -89,7 +89,7 @@ void FocusAct_800CEA70(FocusWork *work)
     addPrim(&ot[0xFF], &stp[0]);
 }
 
-void FocusDie_800CED74(FocusWork *work)
+void FocusDie_800CED74(Work *work)
 {
     if (work->prims != NULL)
     {
@@ -97,7 +97,7 @@ void FocusDie_800CED74(FocusWork *work)
     }
 }
 
-int FocusGetResources_800CEDA4(FocusWork *work, int arg1, int arg2)
+int FocusGetResources_800CEDA4(Work *work, int arg1, int arg2)
 {
     FocusPrims *prims;
     SPRT       *sprt;
@@ -152,9 +152,9 @@ int FocusGetResources_800CEDA4(FocusWork *work, int arg1, int arg2)
 
 void *NewFocusView(int name, int where, int argc, char **argv)
 {
-    FocusWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(FocusWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, FocusAct_800CEA70, FocusDie_800CED74, "focus.c");

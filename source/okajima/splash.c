@@ -5,7 +5,7 @@
 #include "libdg/libdg.h"
 #include "game/game.h"
 
-typedef struct SplashWork
+typedef struct _Work
 {
     GV_ACT   actor;
     int      map;
@@ -13,7 +13,7 @@ typedef struct SplashWork
     SVECTOR  off[16];
     SVECTOR  pos[64];
     int      time;
-} SplashWork;
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_USER
 
@@ -111,7 +111,7 @@ void SplashShadePacks_800C8B70(POLY_FT4 *packs, int n_packs, int shade)
     }
 }
 
-void SplashAct_800C8BA8(SplashWork *work)
+void SplashAct_800C8BA8(Work *work)
 {
     int time;
 
@@ -128,12 +128,12 @@ void SplashAct_800C8BA8(SplashWork *work)
     SplashShadePacks_800C8B70(work->prim->packs[GV_Clock], 16, time * 16);
 }
 
-void SplashDie_800C8C30(SplashWork *work)
+void SplashDie_800C8C30(Work *work)
 {
     GM_FreePrim(work->prim);
 }
 
-int SplashGetResources_800C8C6C(SplashWork *work, MATRIX *mat, int rgb)
+int SplashGetResources_800C8C6C(Work *work, MATRIX *mat, int rgb)
 {
     DG_PRIM  *prim;
     int       texid;
@@ -164,9 +164,9 @@ int SplashGetResources_800C8C6C(SplashWork *work, MATRIX *mat, int rgb)
 
 void *NewSplash_800C8D6C(MATRIX *mat, int rgb)
 {
-    SplashWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(SplashWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, SplashAct_800C8BA8, SplashDie_800C8C30, "splash.c");

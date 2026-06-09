@@ -9,7 +9,7 @@
 #include "takabe/thing.h"
 #include "bullet/bakudan.h"
 
-typedef struct _LiftWork
+typedef struct _Work
 {
     GV_ACT  actor;
     CONTROL control;
@@ -27,7 +27,7 @@ typedef struct _LiftWork
     int     f210;
     int     f214;
     int     f218;
-} LiftWork;
+} Work;
 
 extern int      bakudan_count_8009F42C;
 extern int      counter_8009F448;
@@ -38,12 +38,12 @@ extern HITTABLE GM_ClayDatas[8];
 
 #define EXEC_LEVEL GV_ACTOR_USER
 
-void s13a_lift_800DDA90(LiftWork *work)
+void s13a_lift_800DDA90(Work *work)
 {
     work->floor.p1.y = work->floor.p2.y = work->floor.p3.y = work->floor.p4.y = work->control.mov.vy + work->size.vy + 1;
 }
 
-void s13a_lift_800DDAB8(LiftWork *work)
+void s13a_lift_800DDAB8(Work *work)
 {
     work->floor.p1.x = work->control.mov.vx - work->size.vx;
     work->floor.p1.z = work->control.mov.vz - work->size.vz;
@@ -85,7 +85,7 @@ void s13a_lift_800DDBC4(int proc, int param)
     }
 }
 
-void LiftAct_800DDBFC(LiftWork *work)
+void LiftAct_800DDBFC(Work *work)
 {
     unsigned short messages[2];
     CONTROL       *control;
@@ -217,7 +217,7 @@ void LiftAct_800DDBFC(LiftWork *work)
     target->size.vy = (control->mov.vy - work->f204) / 2;
 }
 
-void LiftDie_800DDF88(LiftWork *work)
+void LiftDie_800DDF88(Work *work)
 {
     HZD_DequeueDynamicFloor(work->control.map->hzd, &work->floor);
     GM_FreeControl(&work->control);
@@ -225,7 +225,7 @@ void LiftDie_800DDF88(LiftWork *work)
     GM_FreeTarget(work->target);
 }
 
-void s13a_lift_800DDFD8(LiftWork *work)
+void s13a_lift_800DDFD8(Work *work)
 {
     TARGET *target;
 
@@ -239,7 +239,7 @@ void s13a_lift_800DDFD8(LiftWork *work)
     target->size.vy = (work->control.mov.vy - work->f204) / 2;
 }
 
-int LiftGetResources_800DE070(LiftWork *work, int name, int map)
+int LiftGetResources_800DE070(Work *work, int name, int map)
 {
     CONTROL *control;
     OBJECT  *body;
@@ -295,9 +295,9 @@ int LiftGetResources_800DE070(LiftWork *work, int name, int map)
 
 void *NewLift(int name, int where)
 {
-    LiftWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(LiftWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, LiftAct_800DDBFC, LiftDie_800DDF88, "lift.c");

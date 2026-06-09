@@ -5,14 +5,14 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 
-typedef struct FallSplWork
+typedef struct _Work
 {
     GV_ACT  actor;
     int     map;
     int     field_24;
     int     dir;
     SVECTOR limit[2];
-} FallSplWork;
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_USER
 
@@ -33,7 +33,7 @@ int s15b_fall_spl_800C7B0C(char *opt, SVECTOR *out)
     return count;
 }
 
-void s15b_fall_spl_800C7B60(FallSplWork *work)
+void s15b_fall_spl_800C7B60(Work *work)
 {
     SVECTOR pos;
     int     rand;
@@ -46,7 +46,7 @@ void s15b_fall_spl_800C7B60(FallSplWork *work)
     NewSplash3_800C83D0(work->dir, &pos);
 }
 
-int s15b_fall_spl_800C7C3C(FallSplWork *work, int where)
+int s15b_fall_spl_800C7C3C(Work *work, int where)
 {
     char *opt1;
     unsigned char *opt2;
@@ -65,15 +65,15 @@ int s15b_fall_spl_800C7C3C(FallSplWork *work, int where)
     return 0;
 }
 
-void s15b_fall_spl_800C7C98(FallSplWork *work)
+void s15b_fall_spl_800C7C98(Work *work)
 {
 }
 
 void *NewFallSplash(int name, int where, int argc, char **argv)
 {
-    FallSplWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(FallSplWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, s15b_fall_spl_800C7B60,

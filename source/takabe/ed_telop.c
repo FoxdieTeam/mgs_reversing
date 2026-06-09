@@ -12,7 +12,7 @@
 #include "menu/menuman.h"
 #include "takabe/thing.h"
 
-typedef struct _EdTelopWork
+typedef struct _Work
 {
     GV_ACT actor;
     int    f20;
@@ -25,7 +25,7 @@ typedef struct _EdTelopWork
     int   *f3C;
     void  *f40;
     int    proc;
-} EdTelopWork;
+} Work;
 
 typedef struct _EdTelopPrims
 {
@@ -147,7 +147,7 @@ void EdTelop_800C512C(SPRT *sprt, DR_TPAGE *tpage, u_long *ot, int color)
     addPrim(ot, tpage);
 }
 
-void EdTelopAct_800C525C(EdTelopWork *work)
+void EdTelopAct_800C525C(Work *work)
 {
     EdTelopPrims *prims;
     DR_TPAGE     *tpage;
@@ -237,7 +237,7 @@ void EdTelopAct_800C525C(EdTelopWork *work)
     }
 }
 
-void EdTelopDie_800C54D4(EdTelopWork* work)
+void EdTelopDie_800C54D4(Work* work)
 {
     if (work->proc != 0)
     {
@@ -245,7 +245,7 @@ void EdTelopDie_800C54D4(EdTelopWork* work)
     }
 }
 
-void EdTelopGetResources_800C5504(EdTelopWork *work)
+void EdTelopGetResources_800C5504(Work *work)
 {
     char *data;
     int   tp0, tp1;
@@ -274,9 +274,9 @@ void EdTelopGetResources_800C5504(EdTelopWork *work)
 
 void *NewEndingTelop(int arg0)
 {
-    EdTelopWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(EdTelopWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, EdTelopAct_800C525C, EdTelopDie_800C54D4, "ed_telop.c");

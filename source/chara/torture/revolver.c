@@ -14,7 +14,7 @@
 #include "takabe/fadeio.h"      // for NewFadeInOut
 #include "takabe/cineutil.h"    // for OpenCinemaScreen, etc.
 
-typedef struct RevolverWork
+typedef struct _Work
 {
     GV_ACT         actor;
     CONTROL        control;
@@ -61,7 +61,7 @@ typedef struct RevolverWork
     SVECTOR        field_9AC;
     short          field_9B4;
     short          field_9B6;
-} RevolverWork;
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_USER
 #define BODY_FLAG  ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE)
@@ -122,10 +122,10 @@ int  s03b_boxall_800C968C(void);
 
 void s03b_800CA868(void);
 
-int Revolver_800C8710(RevolverWork *work, int arg1);
-int Revolver_800C8794(RevolverWork *, int);
-int Revolver_800C884C(RevolverWork *, int);
-int Revolver_800C8910(RevolverWork *, int);
+int Revolver_800C8710(Work *work, int arg1);
+int Revolver_800C8794(Work *, int);
+int Revolver_800C884C(Work *, int);
+int Revolver_800C8910(Work *, int);
 
 void RevolverSendMessage_800C7170(int hash, short *message)
 {
@@ -185,7 +185,7 @@ int s03b_revolver_800C71E8(int hash, short *messages, int arg2)
     return count;
 }
 
-void s03b_revolver_800C72A4(RevolverWork *work, int arg1)
+void s03b_revolver_800C72A4(Work *work, int arg1)
 {
     short *messages;
     int    hash;
@@ -215,7 +215,7 @@ void s03b_revolver_800C72A4(RevolverWork *work, int arg1)
     }
 }
 
-int s03b_revolver_800C7384(RevolverWork *work, int index)
+int s03b_revolver_800C7384(Work *work, int index)
 {
     int entry;
     int name;
@@ -236,7 +236,7 @@ int s03b_revolver_800C7384(RevolverWork *work, int index)
     return 0;
 }
 
-int s03b_revolver_800C742C(RevolverWork *work, int arg1, int arg2, int arg3)
+int s03b_revolver_800C742C(Work *work, int arg1, int arg2, int arg3)
 {
     int temp_a1;
 
@@ -297,7 +297,7 @@ int s03b_revolver_800C742C(RevolverWork *work, int arg1, int arg2, int arg3)
     return 1;
 }
 
-void s03b_revolver_800C7574(RevolverWork *work, int arg1)
+void s03b_revolver_800C7574(Work *work, int arg1)
 {
     short messages[4];
 
@@ -478,7 +478,7 @@ check:
     }
 }
 
-void s03b_revolver_800C7958(RevolverWork *work, int arg1)
+void s03b_revolver_800C7958(Work *work, int arg1)
 {
     short messages[4];
     int   iVar4;
@@ -651,7 +651,7 @@ check:
     }
 }
 
-void s03b_revolver_800C7D04(RevolverWork *work, int arg1)
+void s03b_revolver_800C7D04(Work *work, int arg1)
 {
     short message[4];
 
@@ -693,7 +693,7 @@ void s03b_revolver_800C7D04(RevolverWork *work, int arg1)
     }
 }
 
-void Revolver_800C7E2C(RevolverWork *work, int arg1)
+void Revolver_800C7E2C(Work *work, int arg1)
 {
     work->control.mov = *work->field_8B8;
     if (work->field_948 & 0x200)
@@ -702,7 +702,7 @@ void Revolver_800C7E2C(RevolverWork *work, int arg1)
     }
 }
 
-void s03b_revolver_800C7E88(RevolverWork *work, int arg1)
+void s03b_revolver_800C7E88(Work *work, int arg1)
 {
     short messages[4];
     int   uVar8;
@@ -853,7 +853,7 @@ void s03b_revolver_800C7E88(RevolverWork *work, int arg1)
     }
 }
 
-void s03b_revolver_800C81EC(RevolverWork *work, int arg1)
+void s03b_revolver_800C81EC(Work *work, int arg1)
 {
     if (arg1 == 0)
     {
@@ -873,7 +873,7 @@ void s03b_revolver_800C81EC(RevolverWork *work, int arg1)
     }
 }
 
-void s03b_revolver_800C826C(RevolverWork *work, int arg1)
+void s03b_revolver_800C826C(Work *work, int arg1)
 {
     short messages[4];
     int   uVar1;
@@ -968,7 +968,7 @@ void s03b_revolver_800C826C(RevolverWork *work, int arg1)
     }
 }
 
-void Revolver_800C8488(RevolverWork *work, int mode)
+void Revolver_800C8488(Work *work, int mode)
 {
     short message[3];
     int   field_9B4;
@@ -1014,7 +1014,7 @@ void Revolver_800C8488(RevolverWork *work, int mode)
     }
 }
 
-void s03b_revolver_800C8600(RevolverWork *work)
+void s03b_revolver_800C8600(Work *work)
 {
     int iVar1;
     int uVar2;
@@ -1060,7 +1060,7 @@ void s03b_revolver_800C8600(RevolverWork *work)
     }
 }
 
-int Revolver_800C8710(RevolverWork *work, int arg1)
+int Revolver_800C8710(Work *work, int arg1)
 {
     if (arg1 == 0 && work->field_9C.action != 12)
     {
@@ -1080,7 +1080,7 @@ int Revolver_800C8710(RevolverWork *work, int arg1)
     return 0;
 }
 
-int Revolver_800C8794(RevolverWork *work, int arg1)
+int Revolver_800C8794(Work *work, int arg1)
 {
     if (arg1 == 0)
     {
@@ -1109,7 +1109,7 @@ int Revolver_800C8794(RevolverWork *work, int arg1)
     return 0;
 }
 
-int Revolver_800C884C(RevolverWork *work, int arg1)
+int Revolver_800C884C(Work *work, int arg1)
 {
     if (arg1 == 0)
     {
@@ -1138,7 +1138,7 @@ int Revolver_800C884C(RevolverWork *work, int arg1)
     return 0;
 }
 
-int Revolver_800C8910(RevolverWork *work, int arg1)
+int Revolver_800C8910(Work *work, int arg1)
 {
     if (arg1 == 0)
     {
@@ -1167,7 +1167,7 @@ int Revolver_800C8910(RevolverWork *work, int arg1)
     return 0;
 }
 
-void s03b_revolver_800C89C8(RevolverWork *work)
+void s03b_revolver_800C89C8(Work *work)
 {
     int     n_msgs;
     GV_MSG *msg;
@@ -1240,7 +1240,7 @@ void s03b_revolver_800C89C8(RevolverWork *work)
     }
 }
 
-void Revolver_800C8B5C(RevolverWork *work)
+void Revolver_800C8B5C(Work *work)
 {
     SVECTOR svec2, svec1;
 
@@ -1280,7 +1280,7 @@ void Revolver_800C8B5C(RevolverWork *work)
     }
 }
 
-void Revolver_800C8CA8(RevolverWork *work)
+void Revolver_800C8CA8(Work *work)
 {
     s03b_800CA868();
     s03b_revolver_800C89C8(work);
@@ -1288,7 +1288,7 @@ void Revolver_800C8CA8(RevolverWork *work)
     s03b_revolver_800C8600(work);
 }
 
-void RevolverAct_800C8CE4(RevolverWork *work)
+void RevolverAct_800C8CE4(Work *work)
 {
     GM_ActMotion(&work->field_9C);
     GM_ActControl(&work->control);
@@ -1309,7 +1309,7 @@ void RevolverAct_800C8CE4(RevolverWork *work)
     work->control.step.vy += work->field_8C0.vy;
 }
 
-void RevolverDie_800C8D8C(RevolverWork *work)
+void RevolverDie_800C8D8C(Work *work)
 {
     GV_DestroyOtherActor(work->shadow);
     GM_FreeControl(&work->control);
@@ -1339,7 +1339,7 @@ int s03b_revolver_800C8DD0(HZD_PAT *route, int *n_out, SVECTOR *out)
     return 0;
 }
 
-int Revolver_800C8E34(RevolverWork *work)
+int Revolver_800C8E34(Work *work)
 {
     HZD_PAT *routes;
     int      route_idx;
@@ -1365,7 +1365,7 @@ int Revolver_800C8E34(RevolverWork *work)
     return 0;
 }
 
-void s03b_revolver_800C8EC0(RevolverWork *work)
+void s03b_revolver_800C8EC0(Work *work)
 {
     int   i;
     int  *out;
@@ -1394,7 +1394,7 @@ void s03b_revolver_800C8EC0(RevolverWork *work)
     }
 }
 
-void s03b_revolver_800C8F4C(RevolverWork *work)
+void s03b_revolver_800C8F4C(Work *work)
 {
     int   i;
     int  *out;
@@ -1419,14 +1419,14 @@ void s03b_revolver_800C8F4C(RevolverWork *work)
     }
 }
 
-void Revolver_800C8FC4(RevolverWork *work)
+void Revolver_800C8FC4(Work *work)
 {
     work->field_964 = NULL;
     work->field_95C = 0;
     work->field_960 = 0;
 }
 
-int RevolverGetResources_800C8FD4(RevolverWork *work, int arg1, int arg2)
+int RevolverGetResources_800C8FD4(Work *work, int arg1, int arg2)
 {
     SVECTOR  indices;
     OBJECT  *object;
@@ -1526,9 +1526,9 @@ int RevolverGetResources_800C8FD4(RevolverWork *work, int arg1, int arg2)
 
 void *NewTortureOcelot(int arg0, int arg1)
 {
-    RevolverWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(RevolverWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work == NULL)
     {
         return NULL;

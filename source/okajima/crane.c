@@ -13,7 +13,7 @@
 
 #define SEGMENT_ATR ( HZD_SEG_NO_BEHIND | HZD_SEG_NO_HARITSUKI | HZD_SEG_NO_PLAYER | HZD_SEG_NO_NAVIGATE | HZD_SEG_NO_COLLIDE )
 
-typedef struct _CraneWork
+typedef struct _Work
 {
     GV_ACT  actor;
     OBJECT  main;
@@ -55,7 +55,7 @@ typedef struct _CraneWork
     int     f388;
     int     f38C;
     int     f390;
-} CraneWork;
+} Work;
 
 char crane_800C35F4[] = {0x00, 0x00, 0x00, 0x00};
 char crane_800C35F8[] = {0xAF, 0x04, 0x28, 0x03, 0x23, 0x03, 0x1E, 0x0C, 0x00, 0x00, 0x00, 0x00};
@@ -226,7 +226,7 @@ int s13a_crane_800D4038(char *opt, SVECTOR *out)
     return count;
 }
 
-void s13a_crane_800D408C(CraneWork *work)
+void s13a_crane_800D408C(Work *work)
 {
     SVECTOR pos;
     int     mult;
@@ -256,7 +256,7 @@ void s13a_crane_800D408C(CraneWork *work)
     }
 }
 
-int s13a_crane_800D420C(CraneWork *work)
+int s13a_crane_800D420C(Work *work)
 {
     switch (work->think3)
     {
@@ -278,7 +278,7 @@ int s13a_crane_800D420C(CraneWork *work)
     return 1;
 }
 
-int s13a_crane_800D428C(CraneWork *work)
+int s13a_crane_800D428C(Work *work)
 {
     switch (work->think3)
     {
@@ -320,7 +320,7 @@ int s13a_crane_800D428C(CraneWork *work)
     return 1;
 }
 
-int s13a_crane_800D4390(CraneWork *work)
+int s13a_crane_800D4390(Work *work)
 {
     switch (work->think3)
     {
@@ -362,7 +362,7 @@ int s13a_crane_800D4390(CraneWork *work)
     return 1;
 }
 
-int s13a_crane_800D4498(CraneWork *work)
+int s13a_crane_800D4498(Work *work)
 {
     switch (work->think3)
     {
@@ -386,7 +386,7 @@ int s13a_crane_800D4498(CraneWork *work)
     return 1;
 }
 
-int s13a_crane_800D4548(CraneWork *work)
+int s13a_crane_800D4548(Work *work)
 {
     switch (work->think3)
     {
@@ -455,7 +455,7 @@ int s13a_crane_800D4548(CraneWork *work)
     return 1;
 }
 
-int s13a_crane_800D4724(CraneWork *work)
+int s13a_crane_800D4724(Work *work)
 {
     unsigned short f314;
 
@@ -494,7 +494,7 @@ int s13a_crane_800D4724(CraneWork *work)
     return 1;
 }
 
-int s13a_crane_800D4844(CraneWork *work)
+int s13a_crane_800D4844(Work *work)
 {
     SVECTOR pos;
 
@@ -526,7 +526,7 @@ int s13a_crane_800D4844(CraneWork *work)
     return 1;
 }
 
-void s13a_crane_800D4918(CraneWork *work)
+void s13a_crane_800D4918(Work *work)
 {
     switch (work->think2)
     {
@@ -588,7 +588,7 @@ void s13a_crane_800D4918(CraneWork *work)
     }
 }
 
-void s13a_crane_800D4A60(CraneWork *work)
+void s13a_crane_800D4A60(Work *work)
 {
     switch (work->think2)
     {
@@ -622,7 +622,7 @@ void s13a_crane_800D4A60(CraneWork *work)
     }
 }
 
-void s13a_crane_800D4B8C(CraneWork *work)
+void s13a_crane_800D4B8C(Work *work)
 {
     switch (work->think1)
     {
@@ -636,7 +636,7 @@ void s13a_crane_800D4B8C(CraneWork *work)
     }
 }
 
-void CranePutData_800D4BDC(CraneWork *work, int param)
+void CranePutData_800D4BDC(Work *work, int param)
 {
     GCL_ARGS args;
     long     data[2];
@@ -653,7 +653,7 @@ void CranePutData_800D4BDC(CraneWork *work, int param)
     }
 }
 
-void CraneAct_800D4C28(CraneWork *work)
+void CraneAct_800D4C28(Work *work)
 {
     SVECTOR  sp10;
     SVECTOR  sp18;
@@ -892,7 +892,7 @@ void CraneAct_800D4C28(CraneWork *work)
     }
 }
 
-void s13a_crane_800D5338(CraneWork *work)
+void s13a_crane_800D5338(Work *work)
 {
     TARGET *target;
 
@@ -903,7 +903,7 @@ void s13a_crane_800D5338(CraneWork *work)
     work->has_target = 1;
 }
 
-int s13a_crane_800D5394(CraneWork *work, int name)
+int s13a_crane_800D5394(Work *work, int name)
 {
     SVECTOR  sp10;
     SVECTOR  sp18;
@@ -1004,7 +1004,7 @@ int s13a_crane_800D5394(CraneWork *work, int name)
     return 0;
 }
 
-int CraneGetResources_800D5620(CraneWork *work, int map)
+int CraneGetResources_800D5620(Work *work, int map)
 {
     SVECTOR step;
     OBJECT *object;
@@ -1030,7 +1030,7 @@ int CraneGetResources_800D5620(CraneWork *work, int map)
     return 0;
 }
 
-void CraneDie_800D5724(CraneWork *work)
+void CraneDie_800D5724(Work *work)
 {
     HZD_HDL *hzd;
 
@@ -1049,9 +1049,9 @@ void CraneDie_800D5724(CraneWork *work)
 
 void *NewCrane(int name, int where)
 {
-    CraneWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(CraneWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, CraneAct_800D4C28, CraneDie_800D5724, "crane.c");

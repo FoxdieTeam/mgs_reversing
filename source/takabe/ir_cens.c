@@ -10,7 +10,7 @@
 #include "takabe/thing.h"
 #include "strcode.h"
 
-typedef struct _IrCensWork
+typedef struct _Work
 {
     GV_ACT   actor;
     int      map;
@@ -39,7 +39,7 @@ typedef struct _IrCensWork
     int      proc;
     int      f110;
     int      f114;
-} IrCensWork;
+} Work;
 
 unsigned short s02c_dword_800C3714[] = {HASH_KILL, 0xDCFC, 0xE102};
 const SVECTOR  s02c_dword_800E3900 = {0, 512, 1024, 0};
@@ -86,7 +86,7 @@ void IrCens_800D98DC(POLY_GT4 *poly, DG_TEX *tex, int x)
     }
 }
 
-void IrCens_800D9934(IrCensWork *work, int shade)
+void IrCens_800D9934(Work *work, int shade)
 {
     int       color;
     POLY_GT4 *poly0;
@@ -114,7 +114,7 @@ void IrCens_800D9934(IrCensWork *work, int shade)
     }
 }
 
-void IrCens_800D99A4(IrCensWork *work, SVECTOR *arg1)
+void IrCens_800D99A4(Work *work, SVECTOR *arg1)
 {
     SVECTOR  *svec;
     int       x, y, z;
@@ -214,7 +214,7 @@ void IrCens_800D9B5C(char *rgb0, char *rgb1, int inc)
     LSTORE(color, rgb0);
 }
 
-void IrCens_800D9BE4(IrCensWork *work, int inc)
+void IrCens_800D9BE4(Work *work, int inc)
 {
     POLY_GT4 *poly0;
     POLY_GT4 *poly1;
@@ -234,7 +234,7 @@ void IrCens_800D9BE4(IrCensWork *work, int inc)
     }
 }
 
-void IrCens_800D9C7C(IrCensWork *work, SVECTOR *in, int arg2)
+void IrCens_800D9C7C(Work *work, SVECTOR *in, int arg2)
 {
     SVECTOR *scratch;
     SVECTOR *out;
@@ -278,7 +278,7 @@ void IrCens_800D9C7C(IrCensWork *work, SVECTOR *in, int arg2)
     }
 }
 
-void IrCensAct_800D9EF8(IrCensWork *work)
+void IrCensAct_800D9EF8(Work *work)
 {
     SVECTOR  sp18;
     SVECTOR  sp20;
@@ -447,12 +447,12 @@ void IrCensAct_800D9EF8(IrCensWork *work)
     IrCens_800D98DC(work->prim->packs[1], work->tex, work->fE0 / 2);
 }
 
-void IrCensDie_800DA3DC(IrCensWork *work)
+void IrCensDie_800DA3DC(Work *work)
 {
     GM_FreePrim(work->prim);
 }
 
-int IrCensGetResources_800DA418(IrCensWork *work, int name, int map)
+int IrCensGetResources_800DA418(Work *work, int name, int map)
 {
     char    *opt;
     SVECTOR *vec;
@@ -529,9 +529,9 @@ int IrCensGetResources_800DA418(IrCensWork *work, int name, int map)
 
 void *NewIrSensor(int name, int where, int argc, char **argv)
 {
-    IrCensWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(IrCensWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, IrCensAct_800D9EF8, IrCensDie_800DA3DC, "ir_cens.c");

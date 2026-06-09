@@ -6,7 +6,7 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 
-typedef struct SmokeWork
+typedef struct _Work
 {
     GV_ACT   actor;
     DG_PRIM *field_20;
@@ -16,7 +16,7 @@ typedef struct SmokeWork
     int      field_34;
     int      field_38;
     int      field_3C;
-} SmokeWork;
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_USER
 
@@ -25,7 +25,7 @@ const char aSmokeC[] = "smoke.c";
 
 RECT smoke_rect = {500, 1000, 1000, 2000};
 
-int s00a_smoke_800D2694(SmokeWork *work)
+int s00a_smoke_800D2694(Work *work)
 {
     int       color;
     POLY_FT4 *poly;
@@ -42,7 +42,7 @@ int s00a_smoke_800D2694(SmokeWork *work)
     return 0;
 }
 
-int s00a_smoke_800D26F0(SmokeWork *work)
+int s00a_smoke_800D26F0(Work *work)
 {
     int       color;
     POLY_FT4 *poly;
@@ -59,7 +59,7 @@ int s00a_smoke_800D26F0(SmokeWork *work)
     return 0;
 }
 
-void s00a_smoke_800D2758(POLY_FT4 *poly, DG_TEX *text, SmokeWork *work)
+void s00a_smoke_800D2758(POLY_FT4 *poly, DG_TEX *text, Work *work)
 {
     short clut;
     int   x0, y0;
@@ -134,7 +134,7 @@ void s00a_smoke_800D2888(POLY_FT4 *prim, DG_TEX *unused, short color)
     prim->clut = clut;
 }
 
-void s00a_smoke_800D296C(SmokeWork *work)
+void s00a_smoke_800D296C(Work *work)
 {
     switch (work->field_34)
     {
@@ -172,12 +172,12 @@ void s00a_smoke_800D296C(SmokeWork *work)
     s00a_smoke_800D2758(work->field_20->packs[GV_Clock], work->field_2C, work);
 }
 
-void SmokeAct_800D2A80(SmokeWork *work)
+void SmokeAct_800D2A80(Work *work)
 {
     s00a_smoke_800D296C(work);
 }
 
-void SmokeDie_800D2AA0(SmokeWork *work)
+void SmokeDie_800D2AA0(Work *work)
 {
     GM_FreePrim(work->field_20);
 }
@@ -187,7 +187,7 @@ void s00a_smoke_800D2ADC(SVECTOR *svec)
     GCL_StrToSV(GCL_NextStr(), (short *)svec);
 }
 
-int SmokeGetResources_800D2B0C(SmokeWork *work, int where)
+int SmokeGetResources_800D2B0C(Work *work, int where)
 {
     DG_PRIM *prim;
     DG_TEX  *tex;
@@ -214,9 +214,9 @@ int SmokeGetResources_800D2B0C(SmokeWork *work, int where)
 
 void *NewSmoke(int name, int where, int argc, char **argv)
 {
-    SmokeWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(SmokeWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, SmokeAct_800D2A80, SmokeDie_800D2AA0, aSmokeC);

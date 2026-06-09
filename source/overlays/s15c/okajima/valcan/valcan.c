@@ -10,7 +10,7 @@
 
 #include "takabe/fadeio.h"      // for NewFadeInOut
 
-typedef struct ValcanWork
+typedef struct _Work
 {
     GV_ACT         actor;
     int            field_20;
@@ -125,7 +125,7 @@ typedef struct ValcanWork
     int            field_948;
     int            field_94C;
     int            field_950;
-} ValcanWork;
+} Work;
 
 #define EXEC_LEVEL  GV_ACTOR_PREV
 
@@ -167,17 +167,17 @@ int Valcan_800D8D20(CONTROL *control, SVECTOR *svec1)
     return ratan2(svec2.vx, svec2.vz) & 0xFFF;
 }
 
-void ValcanQueueDynamicSegment_800D8D5C(ValcanWork *work, int flag)
+void ValcanQueueDynamicSegment_800D8D5C(Work *work, int flag)
 {
     HZD_QueueDynamicSegment2(GM_GetMap(work->field_20)->hzd, &work->field_928, flag);
 }
 
-void ValcanDequeueDynamicSegment_800D8DA0(ValcanWork *work)
+void ValcanDequeueDynamicSegment_800D8DA0(Work *work)
 {
     HZD_DequeueDynamicSegment(GM_GetMap(work->field_20)->hzd, &work->field_928);
 }
 
-void Valcan_800D8DD8(ValcanWork *work)
+void Valcan_800D8DD8(Work *work)
 {
     SVECTOR svec1, svec2;
 
@@ -218,7 +218,7 @@ void ValcanGetInts_800D8E88(unsigned char *opt, int *out)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_valcan_800D8ECC.s")
-void s15c_valcan_800D8ECC(ValcanWork *work);
+void s15c_valcan_800D8ECC(Work *work);
 
 // Identical to item_init_prim_buffer_800336A4
 void Valcan_800D9028(POLY_FT4 *prims, DG_TEX *tex)
@@ -243,9 +243,9 @@ void Valcan_800D9028(POLY_FT4 *prims, DG_TEX *tex)
     prims->clut = tex->clut;
 }
 
-void Valcan_800D9B5C(ValcanWork *);
+void Valcan_800D9B5C(Work *);
 
-void ValcanAct_800D9088(ValcanWork *work)
+void ValcanAct_800D9088(Work *work)
 {
     CONTROL *control;
 
@@ -313,9 +313,9 @@ void ValcanAct_800D9088(ValcanWork *work)
     }
 }
 
-void Valcan_800D9B3C(ValcanWork *work);
+void Valcan_800D9B3C(Work *work);
 
-int ValcanGetResources_800D92A8(ValcanWork *work, int name, int where)
+int ValcanGetResources_800D92A8(Work *work, int name, int where)
 {
     int            args[15];
     CONTROL       *control;
@@ -454,7 +454,7 @@ int ValcanGetResources_800D92A8(ValcanWork *work, int name, int where)
     return 0;
 }
 
-void ValcanDie_800D96E8(ValcanWork *work)
+void ValcanDie_800D96E8(Work *work)
 {
     GM_FreeControl(&work->control);
     GM_FreeObject(&work->field_A0);
@@ -466,7 +466,7 @@ void ValcanDie_800D96E8(ValcanWork *work)
     ValcanDequeueDynamicSegment_800D8DA0(work);
 }
 
-int ValcanGetResources2_800D9774(ValcanWork *work)
+int ValcanGetResources2_800D9774(Work *work)
 {
     TARGET *target, *target2;
 
@@ -493,7 +493,7 @@ int ValcanGetResources2_800D9774(ValcanWork *work)
     return -1;
 }
 
-int ValcanGetResources_800D9830(ValcanWork *work, int name, int where)
+int ValcanGetResources_800D9830(Work *work, int name, int where)
 {
     s15c_dword_800E346C = 0;
     if (ValcanGetResources_800D92A8(work, name, where) < 0)
@@ -505,9 +505,9 @@ int ValcanGetResources_800D9830(ValcanWork *work, int name, int where)
 
 void *NewValcan_800D9864(int name, int where)
 {
-    ValcanWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(ValcanWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, ValcanAct_800D9088, ValcanDie_800D96E8, s15c_dword_800E2E5C);
@@ -525,7 +525,7 @@ void *NewValcan_800D9864(int name, int where)
     return (void *)work;
 }
 
-void Valcan_800D990C(ValcanWork *work)
+void Valcan_800D990C(Work *work)
 {
     int rest;
     int now;
@@ -557,7 +557,7 @@ void Valcan_800D990C(ValcanWork *work)
     MENU_DrawBar2(28, rest, now, 1024, &work->lifebar_8F4);
 }
 
-void Valcan_800D99F0(ValcanWork *work)
+void Valcan_800D99F0(Work *work)
 {
     MENU_BAR_CONF *bar;
 
@@ -575,7 +575,7 @@ void Valcan_800D99F0(ValcanWork *work)
     bar->right[2] = 127;
 }
 
-void Valcan_800D9AB8(ValcanWork *work)
+void Valcan_800D9AB8(Work *work)
 {
     CONTROL *control;
 
@@ -592,16 +592,16 @@ void Valcan_800D9AB8(ValcanWork *work)
     control->step.vy = work->field_66C;
 }
 
-void Valcan_800DD578(ValcanWork *work);
+void Valcan_800DD578(Work *work);
 
-void Valcan_800D9B3C(ValcanWork *work)
+void Valcan_800D9B3C(Work *work)
 {
     Valcan_800DD578(work);
 }
 
-void s15c_crow_800DD03C(ValcanWork *work);
+void s15c_crow_800DD03C(Work *work);
 
-void Valcan_800D9B5C(ValcanWork *work)
+void Valcan_800D9B5C(Work *work)
 {
     SVECTOR unused;
 
@@ -682,7 +682,7 @@ void Valcan_800D9B5C(ValcanWork *work)
     work->field_184.rots[1].vy += work->field_6B4;
 }
 
-void Valcan_800D9D90(ValcanWork *work)
+void Valcan_800D9D90(Work *work)
 {
     RADAR_SIGHT_PARAM *r_param;
 
@@ -694,7 +694,7 @@ void Valcan_800D9D90(ValcanWork *work)
     r_param->r = 0;
 }
 
-int Valcan_800D9DC0(ValcanWork *work, int param_2)
+int Valcan_800D9DC0(Work *work, int param_2)
 {
     SVECTOR svec1, pos;
     int     vx, vy, vz;
@@ -734,7 +734,7 @@ void Valcan_800D9EBC(SVECTOR *from, SVECTOR *to, SVECTOR *out)
     out->vz = 0;
 }
 
-void Valcan_800D9F3C(ValcanWork *work, int count)
+void Valcan_800D9F3C(Work *work, int count)
 {
     SVECTOR *out;
     int      i;
@@ -747,7 +747,7 @@ void Valcan_800D9F3C(ValcanWork *work, int count)
     }
 }
 
-void Valcan_800D9F8C(ValcanWork *work)
+void Valcan_800D9F8C(Work *work)
 {
     if (dword_8009F46C[0] == 1)
     {
@@ -764,7 +764,7 @@ void Valcan_800D9F8C(ValcanWork *work)
     work->field_51C = GM_PlayerPosition;
 }
 
-void Valcan_800DA044(ValcanWork *work)
+void Valcan_800DA044(Work *work)
 {
     // FIXME: why does this function do everything on stack?
     // FIXME: is there a better for loop match (without those strange break/continues)?
@@ -803,7 +803,7 @@ void Valcan_800DA044(ValcanWork *work)
     work->field_7A2 = sp0[1];
 }
 
-void Valcan_800DA140(ValcanWork *work)
+void Valcan_800DA140(Work *work)
 {
     if (work->field_690 >= 48)
     {
@@ -840,7 +840,7 @@ int Valcan_800DA1AC(int arg0, int arg1)
     return (arg0 * arg1 + 1) / 2 + 2;
 }
 
-void Valcan_800DA21C(ValcanWork *work) // it possibly returns a BulletWork*
+void Valcan_800DA21C(Work *work) // it possibly returns a BulletWork*
 {
     MATRIX  rotmat;
     SVECTOR svec;
@@ -853,7 +853,7 @@ void Valcan_800DA21C(ValcanWork *work) // it possibly returns a BulletWork*
 
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DA2A8.s")
 
-int Valcan_800DA558(ValcanWork *work, int arg1)
+int Valcan_800DA558(Work *work, int arg1)
 {
     SVECTOR svec1;
     SVECTOR svec2;
@@ -974,7 +974,7 @@ int Valcan_800DA558(ValcanWork *work, int arg1)
     return 1;
 }
 
-void Valcan_800DA8E4(ValcanWork *work)
+void Valcan_800DA8E4(Work *work)
 {
     SVECTOR  svecs[2];
     CONTROL *control;
@@ -997,7 +997,7 @@ void Valcan_800DA8E4(ValcanWork *work)
 
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DA990.s")
 
-void Valcan_800DACCC(ValcanWork *work)
+void Valcan_800DACCC(Work *work)
 {
     if (work->field_758 != 0)
     {
@@ -1047,13 +1047,13 @@ int Valcan_800DAE38()
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DAE7C.s")
-int s15c_crow_800DAE7C(ValcanWork *work);
+int s15c_crow_800DAE7C(Work *work);
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DAFCC.s")
-int s15c_crow_800DAFCC(ValcanWork *work);
+int s15c_crow_800DAFCC(Work *work);
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DB200.s")
-int s15c_crow_800DB200(ValcanWork *work);
+int s15c_crow_800DB200(Work *work);
 
-int Valcan_800DB2E4(ValcanWork *work)
+int Valcan_800DB2E4(Work *work)
 {
     short diffs[2];
     int   flag;
@@ -1132,7 +1132,7 @@ int Valcan_800DB2E4(ValcanWork *work)
     return flag;
 }
 
-int Valcan_800DB470(ValcanWork *work)
+int Valcan_800DB470(Work *work)
 {
     switch (work->field_770)
     {
@@ -1149,7 +1149,7 @@ int Valcan_800DB470(ValcanWork *work)
     }
 }
 
-void Valcan_800DB500(ValcanWork *work)
+void Valcan_800DB500(Work *work)
 {
     work->field_738 = work->field_73C;
     work->field_73A = work->field_73E;
@@ -1274,7 +1274,7 @@ void Valcan_800DB500(ValcanWork *work)
     }
 }
 
-void Valcan_800DB868(ValcanWork *work)
+void Valcan_800DB868(Work *work)
 {
     int diff1, diff2;
 
@@ -1322,7 +1322,7 @@ void Valcan_800DB868(ValcanWork *work)
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DB9F0.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DBCB4.s")
 
-void Valcan_800DBF74(ValcanWork *work)
+void Valcan_800DBF74(Work *work)
 {
     int sqrt;
     int vx, vy;
@@ -1355,7 +1355,7 @@ void Valcan_800DBF74(ValcanWork *work)
     work->control.turn.vx = 0;
 }
 
-void Valcan_800DC06C(ValcanWork *work, int index, int blood_count)
+void Valcan_800DC06C(Work *work, int index, int blood_count)
 {
     MATRIX mat;
 
@@ -1371,7 +1371,7 @@ void Valcan_800DC06C(ValcanWork *work, int index, int blood_count)
     NewBlood(&mat, blood_count);
 }
 
-void Valcan_800DC124(ValcanWork *work)
+void Valcan_800DC124(Work *work)
 {
     if (work->field_94C >= 30 && Valcan_800DA558(work, 1) && (work->field_940 >= 0x1E || work->field_68C < 0x1F41))
     {
@@ -1410,7 +1410,7 @@ void Valcan_800DC124(ValcanWork *work)
     }
 }
 
-void Valcan_800DC290(ValcanWork *work, int arg1, int arg2)
+void Valcan_800DC290(Work *work, int arg1, int arg2)
 {
     if (work->field_670 != arg1)
     {
@@ -1424,16 +1424,16 @@ void Valcan_800DC290(ValcanWork *work, int arg1, int arg2)
     }
 }
 
-void Valcan_800DC2EC(ValcanWork *work, int action)
+void Valcan_800DC2EC(Work *work, int action)
 {
     work->field_670 = action;
     GM_ConfigObjectAction(&work->field_A0, action, 0, 4);
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DC318.s")
-void s15c_crow_800DC318(ValcanWork *work);
+void s15c_crow_800DC318(Work *work);
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DC7A0.s")
-void s15c_crow_800DC7A0(ValcanWork *work);
+void s15c_crow_800DC7A0(Work *work);
 
 #define ABS(x) (((x) >= 0) ? (x) : -(x))
 
@@ -1442,7 +1442,7 @@ static inline int Valcan_800DCC84_helper(int a)
     return (a & 0xFFF) + 0x1000;
 }
 
-void Valcan_800DCC84(ValcanWork *work)
+void Valcan_800DCC84(Work *work)
 {
     int temp_a0;
     int temp_v0;
@@ -1510,7 +1510,7 @@ void Valcan_800DCC84(ValcanWork *work)
     }
 }
 
-void Valcan_800DCE60(ValcanWork *work)
+void Valcan_800DCE60(Work *work)
 {
     if (work->field_698 == 0)
     {
@@ -1553,7 +1553,7 @@ void Valcan_800DCE60(ValcanWork *work)
     }
 }
 
-void Valcan_800DCF8C(ValcanWork *work)
+void Valcan_800DCF8C(Work *work)
 {
     work->field_798 = work->field_794;
     work->field_794 = Valcan_800DA558(work, 0);
@@ -1577,9 +1577,9 @@ void Valcan_800DCF8C(ValcanWork *work)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DD03C.s")
-void s15c_crow_800DD03C(ValcanWork *work);
+void s15c_crow_800DD03C(Work *work);
 
-void Valcan_800DD578(ValcanWork *work)
+void Valcan_800DD578(Work *work)
 {
     work->field_69C = 0;
     work->field_6A0 = 0;

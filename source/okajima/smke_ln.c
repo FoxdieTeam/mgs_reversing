@@ -8,7 +8,7 @@
 #include "libgv/libgv.h"
 #include "game/game.h"
 
-typedef struct _SmokeLnWork
+typedef struct _Work
 {
     GV_ACT  actor;
     int     map;
@@ -23,13 +23,13 @@ typedef struct _SmokeLnWork
     char    f50;
     char    f51;
     char    f52;
-} SmokeLnWork;
+} Work;
 
 void AN_Smoke_800CE2C4(SVECTOR *pos, SVECTOR *speed, int, int, int, int, int);
 
 #define EXEC_LEVEL GV_ACTOR_PREV
 
-void SmokeLnAct_800CDB38(SmokeLnWork *work)
+void SmokeLnAct_800CDB38(Work *work)
 {
     SVECTOR pos;
     int     rnd;
@@ -107,11 +107,11 @@ void SmokeLnAct_800CDB38(SmokeLnWork *work)
     }
 }
 
-void SmokeLnDie_800CDEF0(SmokeLnWork *work)
+void SmokeLnDie_800CDEF0(Work *work)
 {
 }
 
-int SmokeLnGetResources_800CDEF8(SmokeLnWork *work, int arg1, int time, int arg3, SVECTOR *arg4, SVECTOR *arg5, SVECTOR *speed, char arg7, char arg8, char arg9)
+int SmokeLnGetResources_800CDEF8(Work *work, int arg1, int time, int arg3, SVECTOR *arg4, SVECTOR *arg5, SVECTOR *speed, char arg7, char arg8, char arg9)
 {
     work->map = GM_CurrentMap;
 
@@ -134,9 +134,9 @@ int SmokeLnGetResources_800CDEF8(SmokeLnWork *work, int arg1, int time, int arg3
 
 void *NewSmokeLn_800CDFA4(int arg0, int arg1, int arg2, SVECTOR *arg3, SVECTOR *arg4, SVECTOR *arg5, char arg6, char arg7, char arg8)
 {
-    SmokeLnWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(SmokeLnWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, SmokeLnAct_800CDB38, SmokeLnDie_800CDEF0, "smke_ln.c");

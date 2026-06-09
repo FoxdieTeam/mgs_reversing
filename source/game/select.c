@@ -10,7 +10,7 @@
 
 #define EXEC_LEVEL GV_ACTOR_PREV2
 
-typedef struct Work
+typedef struct _Work
 {
     GV_ACT         actor;
     unsigned char *gcl_menu_entries;

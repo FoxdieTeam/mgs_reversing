@@ -27,7 +27,7 @@ typedef struct _MirrorObject
     MATRIX  light[2];
 } MirrorObject;
 
-typedef struct _MirrorWork
+typedef struct _Work
 {
     GV_ACT       actor;
     int          map;
@@ -42,19 +42,19 @@ typedef struct _MirrorWork
     int          snake_flags;
     OBJECT       kogaku_object;
     GV_ACT      *kogaku;
-} MirrorWork;
+} Work;
 
 extern int      GM_N_WhereList;
 extern CONTROL *GM_WhereList[96];
 
-void     Mirror_800E08F0(MirrorWork *work, int name);
+void     Mirror_800E08F0(Work *work, int name);
 void     Mirror_800E0A88(MirrorEntry *entry);
 DG_DEF * Mirror_800E0AD8(DG_DEF *def, int arg1);
 void     Mirror_800E0BDC(DG_OBJS *objs);
 
 #define EXEC_LEVEL GV_ACTOR_USER
 
-void MirrorAct_800DFDDC(MirrorWork *work)
+void MirrorAct_800DFDDC(Work *work)
 {
     SVECTOR       sp10;
     GV_MSG       *msg;
@@ -312,7 +312,7 @@ void MirrorAct_800DFDDC(MirrorWork *work)
     chanl->objs_index += work->n_objects;
 }
 
-void MirrorDie_800E0670(MirrorWork *work)
+void MirrorDie_800E0670(Work *work)
 {
     MirrorEntry  *entry;
     int           i, j;
@@ -373,7 +373,7 @@ void MirrorDie_800E0670(MirrorWork *work)
     }
 }
 
-int MirrorGetResources_800E07F8(MirrorWork *work, int name, int map)
+int MirrorGetResources_800E07F8(Work *work, int name, int map)
 {
     GM_CurrentMap = map;
 
@@ -392,9 +392,9 @@ int MirrorGetResources_800E07F8(MirrorWork *work, int name, int map)
 
 void *NewMirror(int name, int where)
 {
-    MirrorWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(MirrorWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, MirrorAct_800DFDDC, MirrorDie_800E0670, "mirror.c");
@@ -409,7 +409,7 @@ void *NewMirror(int name, int where)
     return (void *)work;
 }
 
-void Mirror_800E08F0(MirrorWork *work, int name)
+void Mirror_800E08F0(Work *work, int name)
 {
     CONTROL    **where;
     int          i;

@@ -13,7 +13,7 @@
 #include "takabe/cinema.h"      // for NewCinemaScreen, NewCinemaScreenClose
 #include "takabe/spark2.h"      // for NewSpark2_800CA714
 
-typedef struct PLampWork
+typedef struct _Work
 {
     GV_ACT   actor;
     DG_PRIM *prims[32];
@@ -34,7 +34,7 @@ typedef struct PLampWork
     int      proc_id;
     int      has_prims;
     GV_ACT  *cinema_screen;
-} PLampWork;
+} Work;
 
 #define EXEC_LEVEL GV_ACTOR_PREV
 
@@ -43,7 +43,7 @@ RECT    p_lamp_prim_rect_800C3544 = {100, 100, 200, 200};
 
 extern DG_CHANL DG_Chanls[3];
 
-void PLampLookAt_800CC9F4(PLampWork *work, SVECTOR *eye, SVECTOR *center)
+void PLampLookAt_800CC9F4(Work *work, SVECTOR *eye, SVECTOR *center)
 {
     if (work->field_1CC > 0)
     {
@@ -84,7 +84,7 @@ void PLamp_800CCBA8(POLY_FT4 *poly, DG_TEX *tex, int r, int g, int b)
     poly->clut = tex->clut;
 }
 
-void PLampFreePrims_800CCC6C(PLampWork *work, int count)
+void PLampFreePrims_800CCC6C(Work *work, int count)
 {
     int i;
 
@@ -94,7 +94,7 @@ void PLampFreePrims_800CCC6C(PLampWork *work, int count)
     }
 }
 
-void PLampDie_800CCCE0(PLampWork *work)
+void PLampDie_800CCCE0(Work *work)
 {
     if (work->cinema_screen)
     {
@@ -127,7 +127,7 @@ int PLampGetSvecs_800CCD44(char *opt, SVECTOR *svec)
     return count;
 }
 
-void s08a_p_lamp_800CCD98(PLampWork *work)
+void s08a_p_lamp_800CCD98(Work *work)
 {
     int i;
 
@@ -165,7 +165,7 @@ void s08a_p_lamp_800CCD98(PLampWork *work)
     }
 }
 
-void PLamp_800CCE6C(PLampWork *work)
+void PLamp_800CCE6C(Work *work)
 {
     SVECTOR  svec1;
     SVECTOR  svec2;
@@ -365,7 +365,7 @@ void PLamp_800CCE6C(PLampWork *work)
     }
 }
 
-void PLamp_800CD570(PLampWork *work)
+void PLamp_800CD570(Work *work)
 {
     switch (work->field_1BC)
     {
@@ -378,7 +378,7 @@ void PLamp_800CD570(PLampWork *work)
     }
 }
 
-void PLampAct_800CD5C0(PLampWork *work)
+void PLampAct_800CD5C0(Work *work)
 {
     GM_CurrentMap = work->where;
     PLamp_800CD570(work);
@@ -392,7 +392,7 @@ void PLampAct_800CD5C0(PLampWork *work)
     }
 }
 
-void PLampInitTarget_800CD640(PLampWork *work)
+void PLampInitTarget_800CD640(Work *work)
 {
     SVECTOR svec;
     TARGET *target;
@@ -406,7 +406,7 @@ void PLampInitTarget_800CD640(PLampWork *work)
     GM_MoveTarget(target, &svec);
 }
 
-int PLampGetResources2_800CD6B0(PLampWork *work, int name, int map)
+int PLampGetResources2_800CD6B0(Work *work, int name, int map)
 {
     work->field_1BC = 0;
     work->field_1C0 = 0;
@@ -415,7 +415,7 @@ int PLampGetResources2_800CD6B0(PLampWork *work, int name, int map)
     return 0;
 }
 
-int PLampGetResources_800CD6E4(PLampWork *work, int map, int n_verts)
+int PLampGetResources_800CD6E4(Work *work, int map, int n_verts)
 {
     int      i;
     DG_PRIM *prim;
@@ -497,10 +497,10 @@ int PLampGetResources_800CD6E4(PLampWork *work, int map, int n_verts)
 
 void *NewPilotLamp(int name, int where)
 {
-    PLampWork *work;
+    Work *work;
     int        n_verts;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(PLampWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, PLampAct_800CD5C0, PLampDie_800CCCE0, "p_lamp.c");

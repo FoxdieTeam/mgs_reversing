@@ -24,7 +24,7 @@ typedef struct OpTxtScnPrims
     DR_MOVE move[2][4]; // Only 2 out of the 4 are used
 } OpTxtScnPrims;
 
-typedef struct OpTxtScnWork
+typedef struct _Work
 {
     GV_ACT         actor;
     int            field_20;
@@ -36,7 +36,7 @@ typedef struct OpTxtScnWork
     OpTxtScnPrims *field_40;
     DG_OBJS       *field_44_objs[2];
     MATRIX         field_4C_light[2];
-} OpTxtScnWork;
+} Work;
 
 char opening_dword_800C32C8[] =
 {
@@ -79,7 +79,7 @@ void Optxtscn_800CCBDC(DG_TEX *tex, RECT *out)
     out->h = tex->h;
 }
 
-void Optxtscn_800CCC4C(OpTxtScnWork *work, OpTxtScnUnk *unk, DR_MOVE *move, int xoff)
+void Optxtscn_800CCC4C(Work *work, OpTxtScnUnk *unk, DR_MOVE *move, int xoff)
 {
     RECT rect;
     int  x, y;
@@ -101,7 +101,7 @@ void Optxtscn_800CCC4C(OpTxtScnWork *work, OpTxtScnUnk *unk, DR_MOVE *move, int 
     }
 }
 
-void Optxtscn_800CCD08(OpTxtScnWork *work, OpTxtScnUnk *unk, DR_MOVE *move)
+void Optxtscn_800CCD08(Work *work, OpTxtScnUnk *unk, DR_MOVE *move)
 {
     RECT rect;
     int  x, y;
@@ -120,7 +120,7 @@ void Optxtscn_800CCD08(OpTxtScnWork *work, OpTxtScnUnk *unk, DR_MOVE *move)
     unk->field_0.x = 1;
 }
 
-void Optxtscn_800CCD80(OpTxtScnWork *work)
+void Optxtscn_800CCD80(Work *work)
 {
     RECT rect;
     rect.x = work->field_30.x;
@@ -141,7 +141,7 @@ char Optxtscn_800CCDCC(char x, OpTxtScnUnk *unk)
     return x;
 }
 
-void OptxtscnAct_800CCDE8(OpTxtScnWork *work)
+void OptxtscnAct_800CCDE8(Work *work)
 {
     OpTxtScnUnk *unk;
     DR_MOVE     *move;
@@ -203,7 +203,7 @@ void OptxtscnAct_800CCDE8(OpTxtScnWork *work)
     }
 }
 
-void OpTxtScnDie_800CCFFC(OpTxtScnWork *work)
+void OpTxtScnDie_800CCFFC(Work *work)
 {
     int i;
 
@@ -224,7 +224,7 @@ void OpTxtScnDie_800CCFFC(OpTxtScnWork *work)
     }
 }
 
-int OptxtscnGetResources_800CD080(OpTxtScnWork *work)
+int OptxtscnGetResources_800CD080(Work *work)
 {
     unsigned short cacheIds[2];
     DG_DEF        *def;
@@ -287,9 +287,9 @@ int OptxtscnGetResources_800CD080(OpTxtScnWork *work)
 
 void *NewOpTxtScn_800CD29C(void)
 {
-    OpTxtScnWork *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(OpTxtScnWork));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, OptxtscnAct_800CCDE8, OpTxtScnDie_800CCFFC, "optxtscn.c");
