@@ -1,6 +1,11 @@
 #include "game/game.h"
 #include "takabe/cinema.h"
 
+typedef struct _Bytes8
+{
+    char b[8];
+} Bytes8;
+
 typedef struct _JEEP_SYSTEM
 {
     char     pad1[0x4];
@@ -13,7 +18,10 @@ typedef struct _JEEP_SYSTEM
     int      field_54;
     char     pad4[0x8];
     OBJECT  *body;
-    char     pad5[0x18];
+    char     pad5a[0x6C - 0x64];
+    int     *field_6C;
+    int     *field_70;
+    char     pad5b[0x7C - 0x70 - sizeof(int *)];
     int      field_7C;
     MATRIX   world;
     char     pad6[0x88];
@@ -22,6 +30,15 @@ typedef struct _JEEP_SYSTEM
     int      field_130;
     char     pad8[0x138 - 0x130 - sizeof(int)];
     int      field_138;
+    char     pad9[0x140 - 0x138 - sizeof(int)];
+    int      field_140;
+    char     pad10[0x148 - 0x140 - sizeof(int)];
+    int      field_148;
+    char     pad11[0x150 - 0x148 - sizeof(int)];
+    int      field_150;
+    Bytes8   field_154;
+    int      field_15C;
+    Bytes8   field_160;
 } JEEP_SYSTEM;
 
 extern JEEP_SYSTEM Takabe_JeepSystem;
@@ -29,7 +46,8 @@ extern JEEP_SYSTEM Takabe_JeepSystem;
 typedef struct _Work
 {
     GV_ACT actor;
-    char   pad1[0x24];
+    char   pad1[0x40 - 0x20];
+    void  *field_40;
     void  *field_44;
     char   pad2[0x4C - 0x44 - sizeof(void *)];
     int    field_4C;
@@ -72,7 +90,20 @@ void s19b_jlamp_800D06E0(Work *work)
 
 extern void Voicesys_800CE2D0(void);
 
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D072C.s")
+extern int s19b_dword_800C3760;
+extern int s19b_dword_800C3768;
+
+void s19b_jlamp_800D072C(Work *work)
+{
+    Takabe_JeepSystem.field_4C |= 0x10000;
+    work->field_40 = &Takabe_JeepSystem.field_140;
+    Takabe_JeepSystem.field_150 = *Takabe_JeepSystem.field_6C;
+    Takabe_JeepSystem.field_154 = *(Bytes8 *)&s19b_dword_800C3760;
+    work->field_44 = &Takabe_JeepSystem.field_148;
+    Takabe_JeepSystem.field_15C = *Takabe_JeepSystem.field_70;
+    Takabe_JeepSystem.field_160 = *(Bytes8 *)&s19b_dword_800C3768;
+    GM_SeSet(NULL, 0xC4);
+}
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D07EC.s")
 extern int s19b_dword_800DE5B8;
 
