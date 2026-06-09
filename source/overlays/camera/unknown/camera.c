@@ -1423,9 +1423,7 @@ void camera_800C86BC(Work *work, int x, int y, int w, int h, int color, int unus
     for (i = 0; i < 9; i++)
     {
         work->field_664[i] = (GV_ACT *)0x400;
-        p[i].r0 = color;
-        p[i].g0 = color;
-        p[i].b0 = color;
+        setRGB0(&p[i], color, color, color);
     }
 
     xw = x + w;
@@ -1436,26 +1434,17 @@ void camera_800C86BC(Work *work, int x, int y, int w, int h, int color, int unus
     yb0 = yh - 2;  yb1 = yh + 6;
 
     /* corners */
-    p[0].x0 = xl0; p[0].y0 = yt0; p[0].x1 = xl1; p[0].y1 = yt0;
-    p[0].x2 = xl0; p[0].y2 = yt1; p[0].x3 = xl1; p[0].y3 = yt1;
-    p[1].x0 = xr0; p[1].y0 = yt0; p[1].x1 = xr1; p[1].y1 = yt0;
-    p[1].x2 = xr0; p[1].y2 = yt1; p[1].x3 = xr1; p[1].y3 = yt1;
-    p[2].x0 = xl0; p[2].y0 = yb0; p[2].x1 = xl1; p[2].y1 = yb0;
-    p[2].x2 = xl0; p[2].y2 = yb1; p[2].x3 = xl1; p[2].y3 = yb1;
-    p[3].x0 = xr0; p[3].y0 = yb0; p[3].x1 = xr1; p[3].y1 = yb0;
-    p[3].x2 = xr0; p[3].y2 = yb1; p[3].x3 = xr1; p[3].y3 = yb1;
+    setXY4(&p[0], xl0, yt0, xl1, yt0, xl0, yt1, xl1, yt1);
+    setXY4(&p[1], xr0, yt0, xr1, yt0, xr0, yt1, xr1, yt1);
+    setXY4(&p[2], xl0, yb0, xl1, yb0, xl0, yb1, xl1, yb1);
+    setXY4(&p[3], xr0, yb0, xr1, yb0, xr0, yb1, xr1, yb1);
     /* edges */
-    p[4].x0 = xl1; p[4].y0 = yt0; p[4].x1 = xr0; p[4].y1 = yt0;
-    p[4].x2 = xl1; p[4].y2 = yt1; p[4].x3 = xr0; p[4].y3 = yt1;
-    p[5].x0 = xl1; p[5].y0 = yb0; p[5].x1 = xr0; p[5].y1 = yb0;
-    p[5].x2 = xl1; p[5].y2 = yb1; p[5].x3 = xr0; p[5].y3 = yb1;
-    p[6].x0 = xl0; p[6].y0 = yt1; p[6].x1 = xl1; p[6].y1 = yt1;
-    p[6].x2 = xl0; p[6].y2 = yb0; p[6].x3 = xl1; p[6].y3 = yb0;
-    p[7].x0 = xr0; p[7].y0 = yt1; p[7].x1 = xr1; p[7].y1 = yt1;
-    p[7].x2 = xr0; p[7].y2 = yb0; p[7].x3 = xr1; p[7].y3 = yb0;
+    setXY4(&p[4], xl1, yt0, xr0, yt0, xl1, yt1, xr0, yt1);
+    setXY4(&p[5], xl1, yb0, xr0, yb0, xl1, yb1, xr0, yb1);
+    setXY4(&p[6], xl0, yt1, xl1, yt1, xl0, yb0, xl1, yb0);
+    setXY4(&p[7], xr0, yt1, xr1, yt1, xr0, yb0, xr1, yb0);
     /* center */
-    p[8].x0 = xl1; p[8].y0 = yt1; p[8].x1 = xr0; p[8].y1 = yt1;
-    p[8].x2 = xl1; p[8].y2 = yb0; p[8].x3 = xr0; p[8].y3 = yb0;
+    setXY4(&p[8], xl1, yt1, xr0, yt1, xl1, yb0, xr0, yb0);
 }
 void camera_800C884C(Work *work, int x, int y, int w, int h, int color, int unused)
 {
@@ -1468,9 +1457,7 @@ void camera_800C884C(Work *work, int x, int y, int w, int h, int color, int unus
     for (i = 0; i < 9; i++)
     {
         work->field_664[i] = (GV_ACT *)0x200;
-        p[i].r0 = color;
-        p[i].g0 = color;
-        p[i].b0 = color;
+        setRGB0(&p[i], color, color, color);
     }
 
     xw = x + w;
@@ -1481,26 +1468,17 @@ void camera_800C884C(Work *work, int x, int y, int w, int h, int color, int unus
     yb0 = yh - 2;  yb1 = yh + 6;
 
     /* corners */
-    p[0].x0 = xl0; p[0].y0 = yt0; p[0].x1 = xl1; p[0].y1 = yt0;
-    p[0].x2 = xl0; p[0].y2 = yt1; p[0].x3 = xl1; p[0].y3 = yt1;
-    p[1].x0 = xr0; p[1].y0 = yt0; p[1].x1 = xr1; p[1].y1 = yt0;
-    p[1].x2 = xr0; p[1].y2 = yt1; p[1].x3 = xr1; p[1].y3 = yt1;
-    p[2].x0 = xl0; p[2].y0 = yb0; p[2].x1 = xl1; p[2].y1 = yb0;
-    p[2].x2 = xl0; p[2].y2 = yb1; p[2].x3 = xl1; p[2].y3 = yb1;
-    p[3].x0 = xr0; p[3].y0 = yb0; p[3].x1 = xr1; p[3].y1 = yb0;
-    p[3].x2 = xr0; p[3].y2 = yb1; p[3].x3 = xr1; p[3].y3 = yb1;
+    setXY4(&p[0], xl0, yt0, xl1, yt0, xl0, yt1, xl1, yt1);
+    setXY4(&p[1], xr0, yt0, xr1, yt0, xr0, yt1, xr1, yt1);
+    setXY4(&p[2], xl0, yb0, xl1, yb0, xl0, yb1, xl1, yb1);
+    setXY4(&p[3], xr0, yb0, xr1, yb0, xr0, yb1, xr1, yb1);
     /* edges */
-    p[4].x0 = xl1; p[4].y0 = yt0; p[4].x1 = xr0; p[4].y1 = yt0;
-    p[4].x2 = xl1; p[4].y2 = yt1; p[4].x3 = xr0; p[4].y3 = yt1;
-    p[5].x0 = xl1; p[5].y0 = yb0; p[5].x1 = xr0; p[5].y1 = yb0;
-    p[5].x2 = xl1; p[5].y2 = yb1; p[5].x3 = xr0; p[5].y3 = yb1;
-    p[6].x0 = xl0; p[6].y0 = yt1; p[6].x1 = xl1; p[6].y1 = yt1;
-    p[6].x2 = xl0; p[6].y2 = yb0; p[6].x3 = xl1; p[6].y3 = yb0;
-    p[7].x0 = xr0; p[7].y0 = yt1; p[7].x1 = xr1; p[7].y1 = yt1;
-    p[7].x2 = xr0; p[7].y2 = yb0; p[7].x3 = xr1; p[7].y3 = yb0;
+    setXY4(&p[4], xl1, yt0, xr0, yt0, xl1, yt1, xr0, yt1);
+    setXY4(&p[5], xl1, yb0, xr0, yb0, xl1, yb1, xr0, yb1);
+    setXY4(&p[6], xl0, yt1, xl1, yt1, xl0, yb0, xl1, yb0);
+    setXY4(&p[7], xr0, yt1, xr1, yt1, xr0, yb0, xr1, yb0);
     /* center */
-    p[8].x0 = xl1; p[8].y0 = yt1; p[8].x1 = xr0; p[8].y1 = yt1;
-    p[8].x2 = xl1; p[8].y2 = yb0; p[8].x3 = xr0; p[8].y3 = yb0;
+    setXY4(&p[8], xl1, yt1, xr0, yt1, xl1, yb0, xr0, yb0);
 }
 
 void camera_800C89DC(Work *work)
