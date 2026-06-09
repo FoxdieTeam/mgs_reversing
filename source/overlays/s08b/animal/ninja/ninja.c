@@ -1,5 +1,6 @@
 #include "common.h"
 #include "linkvar.h"
+#include "takabe/cinema.h"
 #include "chara/snake/sna_init.h"
 #include "game/game.h"
 #include "game/jimctrl.h"
@@ -127,7 +128,6 @@ extern void  s08b_bunsin2_800D4FBC(DG_OBJ *obj, int arg);
 extern void  s08b_bunsin2_800D53E8(int a0, int a1);
 extern void  s08b_bunsin2_800D5434(void);
 extern void *s08b_p_sphere_800D9834(void *a, void *b);
-extern void *NewCinemaScreenClose(void *addr);
 extern int   okajima_CHAF_LIFE;
 extern unsigned short GM_ItemTypes[];
 extern unsigned short GM_WeaponTypes[];
