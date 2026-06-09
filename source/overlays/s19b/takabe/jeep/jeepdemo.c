@@ -61,6 +61,10 @@ extern int s19b_dword_800DE5D0;
 void s19b_jlamp_800D0C44(void);
 extern SVECTOR s19b_dword_800C3760;
 extern SVECTOR s19b_dword_800C3768;
+extern SVECTOR s19b_dword_800C3770;
+extern int s19b_dword_800DE5B8;
+void *NewBlurSet();
+void s19b_jlamp_800D0FE4(int arg0);
 
 void s19b_jlamp_800D0648(SVECTOR *from, SVECTOR *to, SVECTOR *ang, int *len)
 {
@@ -94,8 +98,16 @@ void s19b_jlamp_800D072C(Work *work)
     Takabe_JeepSystem.field_160 = s19b_dword_800C3768;
     GM_SeSet(NULL, 0xC4);
 }
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D07EC.s")
-extern int s19b_dword_800DE5B8;
+void s19b_jlamp_800D07EC(Work *work)
+{
+    Voicesys_800CE2D0();
+    work->field_44 = &Takabe_JeepSystem.field_138;
+    work->field_40 = &Takabe_JeepSystem.field_140;
+    Takabe_JeepSystem.field_150 = *Takabe_JeepSystem.field_70;
+    Takabe_JeepSystem.field_154 = s19b_dword_800C3770;
+    s19b_dword_800DE5B8 = (int)NewBlurSet(0, 0, 0);
+    s19b_jlamp_800D0FE4(1);
+}
 
 void s19b_jlamp_800D087C(void)
 {
