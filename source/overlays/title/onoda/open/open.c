@@ -3269,40 +3269,40 @@ void title_open_800D1CB4(OpenWork *work)
                         }
                         else if (flag == 1)
                         {
-                            work->fB2C = 1;
+                            work->fB2C[0] = 1;
                             printf((char *)title_aThisisrank_800D8BD4);
                         }
                         else if (flag == 2)
                         {
-                            work->fB30 = 1;
+                            work->fB2C[1] = 1;
                             printf((char *)title_aThisisrank_800D8BE4);
                         }
                         else if (flag == 3)
                         {
-                            work->fB2C = 1;
-                            work->fB30 = 1;
+                            work->fB2C[0] = 1;
+                            work->fB2C[1] = 1;
                             printf((char *)title_aThisisrank_800D8BF4);
                         }
                         else if (flag == 4)
                         {
-                            work->fB2C = 1;
-                            work->fB30 = 1;
-                            work->fB34 = 1;
+                            work->fB2C[0] = 1;
+                            work->fB2C[1] = 1;
+                            work->fB2C[2] = 1;
                             printf((char *)title_aThisisrank_800D8C04);
                         }
                         else if (flag == 5)
                         {
-                            work->fB2C = 1;
-                            work->fB30 = 1;
-                            work->fB38 = 1;
+                            work->fB2C[0] = 1;
+                            work->fB2C[1] = 1;
+                            work->fB2C[3] = 1;
                             printf((char *)title_aThisisrank_800D8C14);
                         }
                         else if (flag == 6)
                         {
-                            work->fB2C = 1;
-                            work->fB30 = 1;
-                            work->fB34 = 1;
-                            work->fB38 = 1;
+                            work->fB2C[0] = 1;
+                            work->fB2C[1] = 1;
+                            work->fB2C[2] = 1;
+                            work->fB2C[3] = 1;
                             printf((char *)title_aThisisrank_800D8C24);
                         }
                     }
@@ -3358,40 +3358,40 @@ void title_open_800D1CB4(OpenWork *work)
                         }
                         else if (flag == 1)
                         {
-                            work->fB2C = 1;
+                            work->fB2C[0] = 1;
                             printf((char *)title_aThisisrank_800D8BD4);
                         }
                         else if (flag == 2)
                         {
-                            work->fB30 = 1;
+                            work->fB2C[1] = 1;
                             printf((char *)title_aThisisrank_800D8BE4);
                         }
                         else if (flag == 3)
                         {
-                            work->fB2C = 1;
-                            work->fB30 = 1;
+                            work->fB2C[0] = 1;
+                            work->fB2C[1] = 1;
                             printf((char *)title_aThisisrank_800D8BF4);
                         }
                         else if (flag == 4)
                         {
-                            work->fB2C = 1;
-                            work->fB30 = 1;
-                            work->fB34 = 1;
+                            work->fB2C[0] = 1;
+                            work->fB2C[1] = 1;
+                            work->fB2C[2] = 1;
                             printf((char *)title_aThisisrank_800D8C04);
                         }
                         else if (flag == 5)
                         {
-                            work->fB2C = 1;
-                            work->fB30 = 1;
-                            work->fB38 = 1;
+                            work->fB2C[0] = 1;
+                            work->fB2C[1] = 1;
+                            work->fB2C[3] = 1;
                             printf((char *)title_aThisisrank_800D8C14);
                         }
                         else if (flag == 6)
                         {
-                            work->fB2C = 1;
-                            work->fB30 = 1;
-                            work->fB34 = 1;
-                            work->fB38 = 1;
+                            work->fB2C[0] = 1;
+                            work->fB2C[1] = 1;
+                            work->fB2C[2] = 1;
+                            work->fB2C[3] = 1;
                             printf((char *)title_aThisisrank_800D8C24);
                         }
                     }
@@ -3427,9 +3427,9 @@ void title_open_800D1CB4(OpenWork *work)
         work->fB28 = 1;
     }
 
-    if (work->fB2C == 0)
+    if (work->fB2C[0] == 0)
     {
-        if (work->fB30 == 0)
+        if (work->fB2C[1] == 0)
         {
             work->fB48 = 0;
         }
@@ -3438,13 +3438,13 @@ void title_open_800D1CB4(OpenWork *work)
             work->fB48 = 2;
         }
     }
-    else if (work->fB30 == 0)
+    else if (work->fB2C[1] == 0)
     {
         work->fB48 = 1;
     }
-    else if (work->fB34 == 0)
+    else if (work->fB2C[2] == 0)
     {
-        if (work->fB38 == 0)
+        if (work->fB2C[3] == 0)
         {
             work->fB48 = 3;
         }
@@ -3455,7 +3455,7 @@ void title_open_800D1CB4(OpenWork *work)
     }
     else
     {
-        if (work->fB38 == 0)
+        if (work->fB2C[3] == 0)
         {
             work->fB48 = 4;
         }
@@ -4740,8 +4740,864 @@ void title_open_800D4464(OpenWork *work, int name, POLY_GT4 *poly, int x0, int y
     SetSemiTrans(poly, abe);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/title/OpenGetResources_800D4584.s")
-int  OpenGetResources_800D4584(OpenWork *work, int);
+int OpenGetResources_800D4584(OpenWork *work, int side)
+{
+    POLY_FT4 *poly;
+    POLY_GT4 *gpoly;
+    POLY_GT4 *gp;
+    DG_TEX   *tex;
+    int       n;
+
+    GM_CurrentMap = side;
+
+    work->f2498 = 0x340;
+    work->f249C = 0x100;
+    work->f24A0 = 0x340;
+    work->f24A4 = 0x114;
+
+    work->prim[0] = GM_MakePrim(0x812, 0x16, 0, 0);
+    work->prim[2] = GM_MakePrim(0x812, 0x12, 0, 0);
+    work->prim[3] = GM_MakePrim(0x812, 9, 0, 0);
+
+    n = 0;
+
+    gpoly = &work->f934_polys[0];
+    gp = &work->f934_polys[0];
+
+    poly = &work->f18C_polys[0];
+    title_open_800D4368(work, GV_StrCode("op_back_l"), poly, -0xA0, -0x70, 0, 0x70, 0);
+    work->f30[n++] = 0;
+
+    poly++;
+    title_open_800D4368(work, GV_StrCode("op_back_r"), poly, 0, -0x70, 0xA0, 0x70, 0);
+    work->f30[n++] = 0;
+
+    poly++;
+    title_open_800D4368(work, GV_StrCode("op_back_l"), poly, 0xA0, -0x70, 0x140, 0x70, 0);
+    work->f30[n++] = 0;
+
+    poly++;
+    tex = DG_GetTexture(GV_StrCode("op_back_l"));
+    setPolyFT4(poly);
+    title_open_800C5238(poly, tex, 6, 0x140, 0x1F4);
+    setRGB0(poly, 0, 0, 0);
+    setXY4(poly, -0xA0, -0x70, 0xA0, -0x70, -0xA0, 0x184, 0xA0, 0x184);
+    SetSemiTrans(poly, 1);
+    title_open_800C5200(poly, 2);
+    work->f30[n++] = 0;
+
+    poly++;
+    title_open_800D4368(work, GV_StrCode("op_back_l"), poly, -0xA0, -0x70, 0xA0, 0x70, 1);
+    work->f30[n++] = 0;
+
+    poly++;
+    title_open_800D4368(work, GV_StrCode("op_back_r"), poly, -0xA0, -0x70, 0xA0, 0x70, 1);
+    work->f30[n++] = 0;
+
+    poly++;
+    title_open_800D4368(work, GV_StrCode("op_back_l"), poly, -0xA0, -0x70, 0xA0, 0x70, 1);
+    work->f30[n++] = 0;
+
+    poly++;
+    title_open_800D4368(work, GV_StrCode("op_title"), poly, -0x70, -0x66, 0x76, -0x2A, 1);
+    work->f30[n++] = 0;
+
+    poly++;
+    title_open_800D4368(work, GV_StrCode("op_copy"), poly, -0x58, 0x60, 0x58, 0x67, 0);
+    work->f30[n++] = 0;
+
+    poly++;
+    title_open_800D4368(work, GV_StrCode("op_snake_cut"), poly, -0x3A, -0x4C, 0x3A, 0x69, 1);
+    work->f30[n++] = 0;
+
+    poly++;
+    title_open_800D4368(work, GV_StrCode("op_eye_open"), poly, -0x1E, 3, 0x14, 0xF, 1);
+    work->f30[n++] = 0;
+
+    poly++;
+    title_open_800D4368(work, GV_StrCode("op_snake_waku"), poly, -0x4E, -0x63, 0x4E, 0x73, 1);
+    work->f30[n++] = 0;
+
+    poly++;
+    title_open_800D4368(work, GV_StrCode("op_p_start"), poly, -0x50, 0x46, 0x50, 0x4E, 0);
+    work->f30[n++] = 0;
+
+    poly++;
+    title_open_800D4368(work, GV_StrCode("op_n_game"), poly, -0x26, 0x46, -0x28, 0x4E, 0);
+    work->f30[n++] = 0;
+
+    poly++;
+    title_open_800D4368(work, GV_StrCode("op_l_game"), poly, -0x26, 0x46, -0x28, 0x4E, 0);
+    work->f30[n++] = 0;
+
+    poly++;
+    title_open_800D4368(work, GV_StrCode("op_option"), poly, -0x1A, 0x46, -0x20, 0x4E, 0);
+    work->f30[n++] = 0;
+
+    poly++;
+    title_open_800D4368(work, GV_StrCode("op_sellevel"), poly, -0x56, -0x55, 0x56, -0x49, 1);
+    setRGB0(poly, 0x64, 0xA0, 0x87);
+    work->f30[n++] = 0;
+
+    poly++;
+    title_open_800D4368(work, GV_StrCode("op_warning"), poly, -0x26, 0x46, -0x28, 0x4E, 0);
+    work->f30[n++] = 0;
+
+    poly++;
+    title_open_800D4368(work, GV_StrCode("op_konami_l"), poly, -0xA0, -0x70, 0, 0x70, 0);
+    work->f30[n++] = 0;
+
+    poly++;
+    title_open_800D4368(work, GV_StrCode("op_konami_r"), poly, 0, -0x70, 0xA0, 0x70, 0);
+    work->f30[n++] = 0;
+
+    poly++;
+    title_open_800D4368(work, GV_StrCode("op_kcej_l"), poly, -0xA0, -0x70, 0, 0x70, 0);
+    work->f30[n++] = 0;
+
+    poly++;
+    title_open_800D4368(work, GV_StrCode("op_kcej_r"), poly, 0, -0x70, 0xA0, 0x70, 0);
+    work->f30[n++] = 0;
+
+    n = 0;
+
+    poly += 19;
+    title_open_800D41E4(work, GV_StrCode("cur_lu"), poly, 0, 0, 0, 0, 1, 0);
+    work->f140[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode("cur_ru"), poly, 0, 0, 0, 0, n, 0);
+    work->f140[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode("cur_ld"), poly, 0, 0, 0, 0, 1, 0);
+    work->f140[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode("cur_rd"), poly, 0, 0, 0, 0, 1, 0);
+    work->f140[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode("cur_u"), poly, 0, 0, 0, 0, 1, 2);
+    work->f140[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode("cur_d"), poly, 0, 0, 0, 0, 1, 2);
+    work->f140[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode("cur_l"), poly, 0, 0, 0, 0, 1, 1);
+    work->f140[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode("cur_r"), poly, 0, 0, 0, 0, 1, 1);
+    work->f140[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode("cur_c"), poly, 0, 0, 0, 0, 1, 3);
+    work->f140[n] = 0;
+
+    n = 0;
+
+    poly = &work->f4FC_polys[0];
+    title_open_800D41E4(work, GV_StrCode("sp_back_l"), poly, -0xA0, -0x70, 0, 0x70, 0, 0);
+    setRGB0(poly, 0x80, 0x80, 0x80);
+    work->fF8[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode("sp_back_r"), poly, 0, -0x70, 0xA0, 0x70, 0, 0);
+    setRGB0(poly, 0x80, 0x80, 0x80);
+    work->fF8[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode("sp_special"), poly, -0x32, -0x5E, 0x32, -0x51, 1, 0);
+    setRGB0(poly, 0x46, 0x64, 0x5A);
+    work->fF8[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode("sp_special"), poly, -0x32, -0x5E, 0x32, -0x51, 1, 0);
+    setRGB0(poly, 0x46, 0x64, 0x5A);
+    work->fF8[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode(title_aSppre_800D8880), poly, -0x50, -0x35, 0x50, -0x2D, 1, 2);
+    setRGB0(poly, 0x64, 0xA0, 0x87);
+    work->fF8[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode(title_aSpexit_800D8888), poly, -0x1C, 0x2E, 0x1C, 0x3A, 1, 2);
+    setRGB0(poly, 0x64, 0xA0, 0x87);
+    work->fF8[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode(title_aSpalbum_800D8890), poly, -0x18, -0x21, 0x18, -0x19, 1, 2);
+    setRGB0(poly, 0x64, 0xA0, 0x87);
+    work->fF8[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode(title_aSpdemo_800D889C), poly, -0x34, -0xD, 0x34, -5, 1, 2);
+    setRGB0(poly, 0x64, 0xA0, 0x87);
+    work->fF8[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode("sp_radar"), poly, -0x2A, 0xB, 0x2A, 0x17, 1, 2);
+    setRGB0(poly, 0x64, 0xA0, 0x87);
+    work->fF8[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode(title_aSponw_800D88B8), poly, -0x6D, 0xB, -0x45, 0x17, 1, 0);
+    setRGB0(poly, 0x64, 0xA0, 0x87);
+    work->fF8[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode(title_aSpoff_800D88C0), poly, 0x38, 0xB, 0x68, 0x17, 1, 0);
+    setRGB0(poly, 0x46, 0x64, 0x5A);
+    work->fF8[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode("sp_line"), poly, -0x45, 0x10, -0x2A, 0x12, 1, 2);
+    setRGB0(poly, 0x64, 0xA0, 0x87);
+    work->fF8[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode("demo_demo"), poly, -0x38, -0x5E, 0x38, -0x52, 1, 0);
+    setRGB0(poly, 0x64, 0xA0, 0x87);
+    work->fF8[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode("demo_ra"), poly, -0x1C, -0x2A, 0x1C, -0x24, 1, 0);
+    setRGB0(poly, 0x64, 0xA0, 0x87);
+    work->fF8[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode("demo_rb"), poly, -0x1C, 1, 0x1C, 7, 1, 0);
+    setRGB0(poly, 0x64, 0xA0, 0x87);
+    work->fF8[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode("demo_roll_c"), poly, -0x1C, 4, 0x1C, 0xA, 1, 0);
+    setRGB0(poly, 0x64, 0xA0, 0x87);
+    work->fF8[15] = 0;
+
+    poly++;
+    title_open_800D41E4(work, GV_StrCode("demo_roll_d"), poly, -0x1C, 4, 0x1C, 0xA, 1, 0);
+    setRGB0(poly, 0x64, 0xA0, 0x87);
+    work->fF8[16] = 0;
+
+    poly++;
+    title_open_800D41E4(work, GV_StrCode(title_aDsppmode_800D88C8), poly, -0x46, -0x35, 0x46, -0x2D, 1, 2);
+    setRGB0(poly, 0x64, 0xA0, 0x87);
+    work->fF8[17] = 0;
+
+    {
+        DG_PRIM *prim;
+
+        prim = DG_MakePrim(0x814, 6, 0, 0, 0);
+        if (prim)
+        {
+            DG_QueuePrim(prim);
+            DG_GroupPrim(prim, GM_CurrentMap);
+        }
+        work->prim[1] = prim;
+    }
+
+    n = 0;
+
+    gpoly = &work->f934_polys[0];
+    title_open_800D4464(work, GV_StrCode("op_n_game"), gpoly, -0x26, 0x46, 0x26, 0x4E, 1);
+    work->fE0[n] = 0;
+
+    gpoly = &work->f934_polys[1];
+    n++;
+    title_open_800D4464(work, GV_StrCode("op_l_game"), gpoly, -0x28, 0x46, 0x28, 0x4E, n);
+    work->fE0[n] = 0;
+
+    gpoly = &work->f934_polys[2];
+    n++;
+    title_open_800D4464(work, GV_StrCode("op_option"), gpoly, -0x1A, 0x46, 0x1A, 0x4E, 1);
+    work->fE0[n] = 0;
+
+    gpoly = &work->f934_polys[3];
+    n++;
+    title_open_800D4464(work, GV_StrCode("op_brf"), gpoly, -0x20, 0x46, 0x20, 0x4E, 1);
+    work->fE0[n] = 0;
+
+    gpoly = &work->f934_polys[4];
+    n++;
+    title_open_800D4464(work, GV_StrCode("op_special"), gpoly, -0x1E, 0x46, 0x1E, 0x4E, 1);
+    work->fE0[n] = 0;
+
+    gpoly = &work->f934_polys[5];
+    n++;
+    title_open_800D4464(work, GV_StrCode("op_vr"), gpoly, -0x2C, 0x46, 0x2C, 0x4E, 1);
+    work->fE0[n] = 0;
+
+    if (GCL_GetOption('s'))
+    {
+        work->f24F8_proc = GCL_StrToInt(GCL_NextStr());
+    }
+    else
+    {
+        work->f24F8_proc = -1;
+    }
+
+    if (GCL_GetOption('k'))
+    {
+        work->f24FC = GCL_StrToInt(GCL_NextStr());
+    }
+    else
+    {
+        work->f24FC = -1;
+    }
+
+    if (GCL_GetOption('l'))
+    {
+        work->f2500 = GCL_StrToInt(GCL_NextStr());
+    }
+    else
+    {
+        work->f2500 = -1;
+    }
+
+    if (GCL_GetOption('e'))
+    {
+        work->fAD0 = GCL_StrToInt(GCL_NextStr());
+    }
+    else
+    {
+        work->fAD0 = -1;
+    }
+
+    if (GCL_GetOption('b'))
+    {
+        work->fAD4 = GCL_StrToInt(GCL_NextStr());
+    }
+    else
+    {
+        work->fAD4 = -1;
+    }
+
+    if (GCL_GetOption('f'))
+    {
+        work->fAD8 = GCL_StrToInt(GCL_NextStr());
+    }
+    else
+    {
+        work->fAD8 = -1;
+    }
+
+    if (GCL_GetOption('o'))
+    {
+        work->fADC = GCL_StrToInt(GCL_NextStr());
+    }
+    else
+    {
+        work->fADC = -1;
+    }
+
+    if (GCL_GetOption('j'))
+    {
+        work->fAE4 = GCL_StrToInt(GCL_NextStr());
+    }
+    else
+    {
+        work->fAE4 = -1;
+    }
+
+    if (GCL_GetOption('a'))
+    {
+        work->fAE0 = GCL_StrToInt(GCL_NextStr());
+    }
+    else
+    {
+        work->fAE0 = -1;
+    }
+
+    if (GCL_GetOption('r'))
+    {
+        work->fAE8 = GCL_StrToInt(GCL_NextStr());
+    }
+    else
+    {
+        work->fAE8 = -1;
+    }
+
+    if (GCL_GetOption('c'))
+    {
+        work->fAEC = GCL_StrToInt(GCL_NextStr());
+    }
+    else
+    {
+        work->fAEC = -1;
+    }
+
+    if (GCL_GetOption('d'))
+    {
+        work->fAF8 = GCL_StrToInt(GCL_NextStr());
+    }
+    else
+    {
+        work->fAF8 = -1;
+    }
+
+    if (GCL_GetOption('x'))
+    {
+        work->fB08 = GCL_StrToInt(GCL_NextStr());
+    }
+    else
+    {
+        work->fB08 = 1;
+    }
+
+    if (GCL_GetOption('p'))
+    {
+        work->fAF0 = GCL_StrToInt(GCL_NextStr());
+    }
+    else
+    {
+        work->fAF0 = -1;
+    }
+
+    if (GCL_GetOption('m'))
+    {
+        work->fAF4 = GCL_StrToInt(GCL_NextStr());
+    }
+    else
+    {
+        work->fAF4 = -1;
+    }
+
+    if (GCL_GetOption('g'))
+    {
+        work->f24D0 = GCL_StrToInt(GCL_NextStr());
+    }
+
+    if (GCL_GetOption('h'))
+    {
+        work->fB28 = GCL_StrToInt(GCL_NextStr());
+    }
+
+    if (GCL_GetOption('v'))
+    {
+        work->fB10 = GCL_StrToInt(GCL_NextStr());
+    }
+
+    for (n = 0; n < 24; n++)
+    {
+        work->unk[n].string = GCL_GetString(GCL_NextStr());
+        work->unk[n].num = 0;
+        Open_800C4500(work, n);
+    }
+
+    for (n = 0; n < 24; n++)
+    {
+        Open_800C4674(work, n);
+        title_open_800C4AD0(work, n, 0);
+    }
+
+    work->fA6C = (short *)&GV_PadData[2];
+    work->f164 = 0;
+    work->f168 = 0;
+    work->f16C = 0;
+    work->f170 = 0;
+    work->f174 = 0;
+    work->f178 = 0;
+    work->f17C = 0;
+    work->f180 = 0;
+    work->f184 = 0;
+    work->f188 = 0;
+    work->fA7C = 0;
+    work->fA80 = 0;
+    work->fA84 = 0;
+    work->fA88 = 0;
+    work->fA8C = 0;
+    work->fA90 = 0;
+    work->fA94 = 0;
+    work->fA98 = 0;
+    work->fA9C = 0;
+    work->fA78 = 0;
+    work->fAB8 = 0;
+    work->fABC = 0;
+    work->fAC0 = 0;
+    work->fA70 = 0;
+    work->fAA8.r = 0x80;
+    work->fAA8.g = 0x80;
+    work->fAA8.b = 0x80;
+    work->fB00 = 0;
+    work->fB04 = 0;
+    work->fB14 = 0;
+    work->fB18 = 0;
+    work->fB20 = 0;
+    work->fB24 = 0;
+    work->f24D4 = 0;
+
+    for (n = 3; n >= 0; n--)
+    {
+        work->fB2C[n] = 0;
+    }
+
+    poly = &work->f18C_polys[0];
+    gp = &work->f934_polys[0];
+    work->f24CC = 0;
+
+    switch (work->fB08)
+    {
+    case 0:
+        work->fA74 = 0;
+        work->fB0C = 1;
+        break;
+
+    case 1:
+        work->fA74 = 4;
+        work->fB0C = 1;
+        break;
+
+    case 2:
+        work->fA74 = 6;
+        work->fB0C = 1;
+        break;
+
+    case 4:
+        work->fA74 = 7;
+        work->fB0C = 1;
+        title_open_800C5CB8(work);
+        work->f30[0] = 0x700;
+        work->f30[1] = 0x700;
+        work->f30[2] = 0x700;
+        work->f30[3] = 0x600;
+        work->f30[4] = 0x500;
+        work->f30[5] = 0x500;
+        work->f30[6] = 0x500;
+        work->f30[7] = 0x100;
+        work->f30[8] = 0x100;
+        work->f30[9] = 0x300;
+        work->f30[10] = 0x200;
+        work->f30[11] = 0x400;
+        work->f30[12] = 0x100;
+        setRGB0(&poly[7], 0x80, 0x80, 0x80);
+        setRGB0(&poly[8], 0x80, 0x80, 0x80);
+        setRGB0(&poly[9], 0x80, 0x80, 0x80);
+        setRGB0(&poly[10], 0x80, 0x80, 0x80);
+        setRGB0(&poly[11], 0x80, 0x80, 0x80);
+        setRGB0(&poly[12], 0x80, 0x80, 0x80);
+        if (work->fA7C == 0)
+        {
+            work->fA7C = 1;
+        }
+        if (work->fA80 == 0)
+        {
+            work->fA80 = 1;
+            work->f170 = 0;
+        }
+        if (work->fA84 == 0)
+        {
+            work->fA84 = 1;
+            work->f170 = 0;
+        }
+        if (sd_sng_play() == 0)
+        {
+            GM_SetSound(0x1000001, 0);
+        }
+        work->fA78 = 1;
+        title_open_800C4B94(&gp[0], 0, 0, 0, 0x80, 0xC0, 0x80);
+        title_open_800C4B94(&gp[1], 0x80, 0xC0, 0x80, 0x80, 0xC0, 0x80);
+        title_open_800C4B94(&gp[2], 0x80, 0xC0, 0x80, 0, 0, 0);
+        setXY4(&gp[0], -0x26, 0x37, 0x26, 0x37, -0x26, 0x3F, 0x26, 0x3F);
+        setXY4(&gp[1], -0x28, 0x46, 0x28, 0x46, -0x28, 0x4E, 0x28, 0x4E);
+        setXY4(&gp[2], -0x1A, 0x55, 0x1A, 0x55, -0x1A, 0x5D, 0x1A, 0x5D);
+        SetSemiTrans(&gp[0], 1);
+        SetSemiTrans(&gp[1], 0);
+        SetSemiTrans(&gp[2], 1);
+        work->fA98 = 2;
+        work->f184 = 0;
+        work->fE0[0] = 0x100;
+        work->fE0[1] = 0x100;
+        work->fE0[2] = 0x100;
+        work->fE0[3] = 0;
+        work->fE0[4] = 0;
+        work->fE0[5] = 0;
+        break;
+
+    case 5:
+        work->fA74 = 7;
+        work->fB0C = 1;
+        title_open_800C5CB8(work);
+        work->f30[0] = 0x700;
+        work->f30[1] = 0x700;
+        work->f30[2] = 0x700;
+        work->f30[3] = 0x600;
+        work->f30[4] = 0x500;
+        work->f30[5] = 0x500;
+        work->f30[6] = 0x500;
+        work->f30[7] = 0x100;
+        work->f30[8] = 0x100;
+        work->f30[9] = 0x300;
+        work->f30[10] = 0x200;
+        work->f30[11] = 0x400;
+        work->f30[12] = 0x100;
+        setRGB0(&poly[7], 0x80, 0x80, 0x80);
+        setRGB0(&poly[8], 0x80, 0x80, 0x80);
+        setRGB0(&poly[9], 0x80, 0x80, 0x80);
+        setRGB0(&poly[10], 0x80, 0x80, 0x80);
+        setRGB0(&poly[11], 0x80, 0x80, 0x80);
+        setRGB0(&poly[12], 0x80, 0x80, 0x80);
+        if (work->fA7C == 0)
+        {
+            work->fA7C = 1;
+        }
+        if (work->fA80 == 0)
+        {
+            work->fA80 = 1;
+            work->f170 = 0;
+        }
+        if (work->fA84 == 0)
+        {
+            work->fA84 = 1;
+            work->f170 = 0;
+        }
+        if (sd_sng_play() == 0)
+        {
+            GM_SetSound(0x1000001, 0);
+        }
+        work->fA78 = 2;
+        title_open_800C4B94(&gp[1], 0, 0, 0, 0x80, 0xC0, 0x80);
+        title_open_800C4B94(&gp[2], 0x80, 0xC0, 0x80, 0x80, 0xC0, 0x80);
+        title_open_800C4B94(&gp[3], 0x80, 0xC0, 0x80, 0, 0, 0);
+        setXY4(&gp[1], -0x28, 0x37, 0x28, 0x37, -0x28, 0x3F, 0x28, 0x3F);
+        setXY4(&gp[2], -0x1A, 0x46, 0x1A, 0x46, -0x1A, 0x4E, 0x1A, 0x4E);
+        setXY4(&gp[3], -0x20, 0x55, 0x20, 0x55, -0x20, 0x5D, 0x20, 0x5D);
+        SetSemiTrans(&gp[1], 1);
+        SetSemiTrans(&gp[2], 0);
+        SetSemiTrans(&gp[3], 1);
+        work->fA98 = 2;
+        work->f184 = 0;
+        work->fE0[0] = 0;
+        work->fE0[1] = 0x100;
+        work->fE0[2] = 0x100;
+        work->fE0[3] = 0x100;
+        work->fE0[4] = 0;
+        work->fE0[5] = 0;
+        break;
+
+    case 6:
+        work->fA74 = 7;
+        work->fB0C = 1;
+        title_open_800C5CB8(work);
+        work->f30[0] = 0x700;
+        work->f30[1] = 0x700;
+        work->f30[2] = 0x700;
+        work->f30[3] = 0x600;
+        work->f30[4] = 0x500;
+        work->f30[5] = 0x500;
+        work->f30[6] = 0x500;
+        work->f30[7] = 0x100;
+        work->f30[8] = 0x100;
+        work->f30[9] = 0x300;
+        work->f30[10] = 0x200;
+        work->f30[11] = 0x400;
+        work->f30[12] = 0x100;
+        setRGB0(&poly[7], 0x80, 0x80, 0x80);
+        setRGB0(&poly[8], 0x80, 0x80, 0x80);
+        setRGB0(&poly[9], 0x80, 0x80, 0x80);
+        setRGB0(&poly[10], 0x80, 0x80, 0x80);
+        setRGB0(&poly[11], 0x80, 0x80, 0x80);
+        setRGB0(&poly[12], 0x80, 0x80, 0x80);
+        if (work->fA7C == 0)
+        {
+            work->fA7C = 1;
+        }
+        if (work->fA80 == 0)
+        {
+            work->fA80 = 1;
+            work->f170 = 0;
+        }
+        if (work->fA84 == 0)
+        {
+            work->fA84 = 1;
+            work->f170 = 0;
+        }
+        if (sd_sng_play() == 0)
+        {
+            GM_SetSound(0x1000001, 0);
+        }
+        work->fA78 = 3;
+        title_open_800C4B94(&gp[2], 0, 0, 0, 0x80, 0xC0, 0x80);
+        title_open_800C4B94(&gp[3], 0x80, 0xC0, 0x80, 0x80, 0xC0, 0x80);
+        title_open_800C4B94(&gp[4], 0x80, 0xC0, 0x80, 0, 0, 0);
+        setXY4(&gp[2], -0x1A, 0x37, 0x1A, 0x37, -0x1A, 0x3F, 0x1A, 0x3F);
+        setXY4(&gp[3], -0x20, 0x46, 0x20, 0x46, -0x20, 0x4E, 0x20, 0x4E);
+        setXY4(&gp[4], -0x1E, 0x55, 0x1E, 0x55, -0x1E, 0x5D, 0x1E, 0x5D);
+        SetSemiTrans(&gp[2], 1);
+        SetSemiTrans(&gp[3], 0);
+        SetSemiTrans(&gp[4], 1);
+        work->fA98 = 2;
+        work->f184 = 0;
+        work->fE0[0] = 0;
+        work->fE0[1] = 0;
+        work->fE0[2] = 0x100;
+        work->fE0[3] = 0x100;
+        work->fE0[4] = 0x100;
+        work->fE0[5] = 0;
+        break;
+
+    case 7:
+        work->fA74 = 7;
+        work->fB0C = 1;
+        title_open_800C5CB8(work);
+        work->f30[0] = 0x700;
+        work->f30[1] = 0x700;
+        work->f30[2] = 0x700;
+        work->f30[3] = 0x600;
+        work->f30[4] = 0x500;
+        work->f30[5] = 0x500;
+        work->f30[6] = 0x500;
+        work->f30[7] = 0x100;
+        work->f30[8] = 0x100;
+        work->f30[9] = 0x300;
+        work->f30[10] = 0x200;
+        work->f30[11] = 0x400;
+        work->f30[12] = 0x100;
+        setRGB0(&poly[7], 0x80, 0x80, 0x80);
+        setRGB0(&poly[8], 0x80, 0x80, 0x80);
+        setRGB0(&poly[9], 0x80, 0x80, 0x80);
+        setRGB0(&poly[10], 0x80, 0x80, 0x80);
+        setRGB0(&poly[11], 0x80, 0x80, 0x80);
+        setRGB0(&poly[12], 0x80, 0x80, 0x80);
+        if (work->fA7C == 0)
+        {
+            work->fA7C = 1;
+        }
+        if (work->fA80 == 0)
+        {
+            work->fA80 = 1;
+            work->f170 = 0;
+        }
+        if (work->fA84 == 0)
+        {
+            work->fA84 = 1;
+            work->f170 = 0;
+        }
+        if (sd_sng_play() == 0)
+        {
+            GM_SetSound(0x1000001, 0);
+        }
+        work->fA78 = 4;
+        title_open_800C4B94(&gp[3], 0, 0, 0, 0x80, 0xC0, 0x80);
+        title_open_800C4B94(&gp[4], 0x80, 0xC0, 0x80, 0x80, 0xC0, 0x80);
+        title_open_800C4B94(&gp[0], 0x80, 0xC0, 0x80, 0, 0, 0);
+        setXY4(&gp[3], -0x20, 0x37, 0x20, 0x37, -0x20, 0x3F, 0x20, 0x3F);
+        setXY4(&gp[4], -0x1E, 0x46, 0x1E, 0x46, -0x1E, 0x4E, 0x1E, 0x4E);
+        setXY4(&gp[0], -0x26, 0x55, 0x26, 0x55, -0x26, 0x5D, 0x26, 0x5D);
+        SetSemiTrans(&gp[3], 1);
+        SetSemiTrans(&gp[4], 0);
+        SetSemiTrans(&gp[0], 1);
+        work->fA98 = 2;
+        work->f184 = 0;
+        work->fE0[0] = 0x100;
+        work->fE0[1] = 0;
+        work->fE0[2] = 0;
+        work->fE0[3] = 0x100;
+        work->fE0[4] = 0x100;
+        work->fE0[5] = 0;
+        break;
+
+    case 8:
+        work->fA74 = 7;
+        work->fB0C = 1;
+        title_open_800C5CB8(work);
+        work->f30[0] = 0x700;
+        work->f30[1] = 0x700;
+        work->f30[2] = 0x700;
+        work->f30[3] = 0x600;
+        work->f30[4] = 0x500;
+        work->f30[5] = 0x500;
+        work->f30[6] = 0x500;
+        work->f30[7] = 0x100;
+        work->f30[8] = 0x100;
+        work->f30[9] = 0x300;
+        work->f30[10] = 0x200;
+        work->f30[11] = 0x400;
+        work->f30[12] = 0x100;
+        setRGB0(&poly[7], 0x80, 0x80, 0x80);
+        setRGB0(&poly[8], 0x80, 0x80, 0x80);
+        setRGB0(&poly[9], 0x80, 0x80, 0x80);
+        setRGB0(&poly[10], 0x80, 0x80, 0x80);
+        setRGB0(&poly[11], 0x80, 0x80, 0x80);
+        setRGB0(&poly[12], 0x80, 0x80, 0x80);
+        if (work->fA7C == 0)
+        {
+            work->fA7C = 1;
+        }
+        if (work->fA80 == 0)
+        {
+            work->fA80 = 1;
+            work->f170 = 0;
+        }
+        if (work->fA84 == 0)
+        {
+            work->fA84 = 1;
+            work->f170 = 0;
+        }
+        if (sd_sng_play() == 0)
+        {
+            GM_SetSound(0x1000001, 0);
+        }
+        work->fA78 = 5;
+        title_open_800C4B94(&gp[4], 0, 0, 0, 0x80, 0xC0, 0x80);
+        title_open_800C4B94(&gp[5], 0x80, 0xC0, 0x80, 0x80, 0xC0, 0x80);
+        title_open_800C4B94(&gp[0], 0x80, 0xC0, 0x80, 0, 0, 0);
+        setXY4(&gp[4], -0x1E, 0x37, 0x1E, 0x37, -0x1E, 0x3F, 0x1E, 0x3F);
+        setXY4(&gp[5], -0x2C, 0x46, 0x2C, 0x46, -0x2C, 0x4E, 0x2C, 0x4E);
+        setXY4(&gp[0], -0x26, 0x55, 0x26, 0x55, -0x26, 0x5D, 0x26, 0x5D);
+        SetSemiTrans(&gp[4], 1);
+        SetSemiTrans(&gp[5], 0);
+        SetSemiTrans(&gp[0], 1);
+        work->fA98 = 2;
+        work->f184 = 0;
+        work->fE0[0] = 0x100;
+        work->fE0[1] = 0;
+        work->fE0[2] = 0;
+        work->fE0[3] = 0;
+        work->fE0[4] = 0x100;
+        work->fE0[5] = 0x100;
+        break;
+
+    case 9:
+        break;
+    }
+
+    printf("start flag = %d\n", work->fB08);
+    printf("mem flag = %d\n", work->f24D0);
+
+    work->f24D8 = 0;
+    work->f24DC = 0;
+    work->f24E8 = 0;
+
+    return 0;
+}
 
 /* Actor constructor for the title screen. Allocates the OpenWork, registers
  * the act/die pair, then loads resources; on resource failure the actor is

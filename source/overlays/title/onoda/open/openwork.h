@@ -67,7 +67,13 @@ typedef struct _OpenWork
     CVECTOR  fAB0;
     CVECTOR  fAB4;
     int      fAB8;
-    char     pad7[0x1C];
+    int      fABC;
+    int      fAC0;
+    int      fAC4;
+    int      fAC8;
+    int      fACC;
+    int      fAD0;
+    int      fAD4;
     int      fAD8;
     int      fADC;
     int      fAE0;
@@ -89,10 +95,7 @@ typedef struct _OpenWork
     int      fB20;
     int      fB24;
     int      fB28;
-    int      fB2C;
-    int      fB30;
-    int      fB34;
-    int      fB38;
+    int      fB2C[4];
     int      fB3C;
     int      fB40;
     int      fB44;
@@ -128,7 +131,7 @@ typedef struct _OpenWork
     int      f24F4;
     int      f24F8_proc;
     int      f24FC;
-    char     pad11[4];
+    int      f2500;
 } OpenWork;
 
 #endif /* __MGS_OVERLAYS_TITLE_OPEN_OPENWORK_H__ */
