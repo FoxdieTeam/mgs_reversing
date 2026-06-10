@@ -1837,7 +1837,141 @@ void title_open_800CE6AC(OpenWork *work, int index)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800CE748.s")
+void title_open_800CE748(OpenWork *work, int index)
+{
+    POLY_FT4 *poly;
+    DG_TEX   *tex;
+    int       r, g, b;
+    int       i;
+
+    poly = work->f18C_polys;
+    poly += index;
+    r = work->fAA8.r;
+    g = work->fAA8.g;
+    b = work->fAA8.b;
+
+    switch (work->fA7C)
+    {
+    case 1:
+        for (i = 0; i < 3; i++)
+        {
+            setRGB0(poly, r, g, b);
+            poly->x0--;
+            poly->x1--;
+            poly->x2--;
+            poly->x3--;
+            poly++;
+        }
+        {
+        int width = work->f168;
+        if (width != 0xA0)
+        {
+            return;
+        }
+        work->fA7C = 2;
+        work->f168 = 0;
+        poly = &work->f18C_polys[0];
+        tex = DG_GetTexture(GV_StrCode(title_aOpbackr_800D8AB0));
+        {
+            int u0 = tex->off_x;
+            int u1 = u0 + tex->w + 1;
+            int v0 = tex->off_y;
+            int v1 = v0 + tex->h + 1;
+            setUV4(poly, u0, v0, u1, v0, u0, v1, u1, v1);
+        }
+        poly->tpage = tex->tpage;
+        poly->clut = tex->clut;
+        setXY4(poly, -0xA0, -0x70, 0, -0x70, -0xA0, 0x70, 0, 0x70);
+        setRGB0(poly, r, g, b);
+        poly = &work->f18C_polys[1];
+        tex = DG_GetTexture(GV_StrCode(title_aOpbackl_800D8ABC));
+        {
+            int u0 = tex->off_x;
+            int u1 = u0 + tex->w + 1;
+            int v0 = tex->off_y;
+            int v1 = v0 + tex->h + 1;
+            setUV4(poly, u0, v0, u1, v0, u0, v1, u1, v1);
+        }
+        poly->tpage = tex->tpage;
+        poly->clut = tex->clut;
+        setXY4(poly, 0, -0x70, width, -0x70, 0, 0x70, width, 0x70);
+        setRGB0(poly, r, g, b);
+        poly = &work->f18C_polys[2];
+        tex = DG_GetTexture(GV_StrCode(title_aOpbackr_800D8AB0));
+        {
+            int u0 = tex->off_x;
+            int u1 = u0 + tex->w + 1;
+            int v0 = tex->off_y;
+            int v1 = v0 + tex->h + 1;
+            setUV4(poly, u0, v0, u1, v0, u0, v1, u1, v1);
+        }
+        poly->tpage = tex->tpage;
+        poly->clut = tex->clut;
+        setXY4(poly, width, -0x70, 0x140, -0x70, width, 0x70, 0x140, 0x70);
+        setRGB0(poly, r, g, b);
+        }
+        break;
+    case 2:
+        for (i = 0; i < 3; i++)
+        {
+            setRGB0(poly, r, g, b);
+            poly->x0--;
+            poly->x1--;
+            poly->x2--;
+            poly->x3--;
+            poly++;
+        }
+        {
+        int width = work->f168;
+        if (width != 0xA0)
+        {
+            return;
+        }
+        work->fA7C = 1;
+        work->f168 = 0;
+        poly = &work->f18C_polys[0];
+        tex = DG_GetTexture(GV_StrCode(title_aOpbackl_800D8ABC));
+        {
+            int u0 = tex->off_x;
+            int u1 = u0 + tex->w + 1;
+            int v0 = tex->off_y;
+            int v1 = v0 + tex->h + 1;
+            setUV4(poly, u0, v0, u1, v0, u0, v1, u1, v1);
+        }
+        poly->tpage = tex->tpage;
+        poly->clut = tex->clut;
+        setXY4(poly, -0xA0, -0x70, 0, -0x70, -0xA0, 0x70, 0, 0x70);
+        setRGB0(poly, r, g, b);
+        poly = &work->f18C_polys[1];
+        tex = DG_GetTexture(GV_StrCode(title_aOpbackr_800D8AB0));
+        {
+            int u0 = tex->off_x;
+            int u1 = u0 + tex->w + 1;
+            int v0 = tex->off_y;
+            int v1 = v0 + tex->h + 1;
+            setUV4(poly, u0, v0, u1, v0, u0, v1, u1, v1);
+        }
+        poly->tpage = tex->tpage;
+        poly->clut = tex->clut;
+        setXY4(poly, 0, -0x70, width, -0x70, 0, 0x70, width, 0x70);
+        setRGB0(poly, r, g, b);
+        poly = &work->f18C_polys[2];
+        tex = DG_GetTexture(GV_StrCode(title_aOpbackl_800D8ABC));
+        {
+            int u0 = tex->off_x;
+            int u1 = u0 + tex->w + 1;
+            int v0 = tex->off_y;
+            int v1 = v0 + tex->h + 1;
+            setUV4(poly, u0, v0, u1, v0, u0, v1, u1, v1);
+        }
+        poly->tpage = tex->tpage;
+        poly->clut = tex->clut;
+        setXY4(poly, width, -0x70, 0x140, -0x70, width, 0x70, 0x140, 0x70);
+        setRGB0(poly, r, g, b);
+        }
+        break;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CEB14.s")
 void title_open_800CEF54(OpenWork *work, int index)
 {
