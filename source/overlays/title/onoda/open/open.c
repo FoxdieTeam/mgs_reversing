@@ -1212,8 +1212,6 @@ void title_open_800CD320(OpenWork *work, int index)
     }
 }
 
-const char title_aOpbackr_800D8AB0[] = "op_back_r";
-const char title_aOpbackl_800D8ABC[] = "op_back_l";
 
 void title_open_800CD3B8(OpenWork *work, int index)
 {
@@ -1263,7 +1261,7 @@ void title_open_800CD3B8(OpenWork *work, int index)
         work->fA7C = 2;
         work->f168 = 0;
         poly = &work->f18C_polys[0];
-        tex = DG_GetTexture(GV_StrCode(title_aOpbackr_800D8AB0));
+        tex = DG_GetTexture(GV_StrCode("op_back_r"));
         {
             int u0 = tex->off_x;
             int u1 = u0 + tex->w + 1;
@@ -1276,7 +1274,7 @@ void title_open_800CD3B8(OpenWork *work, int index)
         setXY4(poly, -0xA0, -0x70, 0, -0x70, -0xA0, 0x70, 0, 0x70);
         setRGB0(poly, 0x80, 0x80, 0x80);
         poly = &work->f18C_polys[1];
-        tex = DG_GetTexture(GV_StrCode(title_aOpbackl_800D8ABC));
+        tex = DG_GetTexture(GV_StrCode("op_back_l"));
         {
             int u0 = tex->off_x;
             int u1 = u0 + tex->w + 1;
@@ -1289,7 +1287,7 @@ void title_open_800CD3B8(OpenWork *work, int index)
         setXY4(poly, 0, -0x70, 0xA0, -0x70, 0, 0x70, 0xA0, 0x70);
         setRGB0(poly, 0x80, 0x80, 0x80);
         poly = &work->f18C_polys[2];
-        tex = DG_GetTexture(GV_StrCode(title_aOpbackr_800D8AB0));
+        tex = DG_GetTexture(GV_StrCode("op_back_r"));
         {
             int u0 = tex->off_x;
             int u1 = u0 + tex->w + 1;
@@ -1318,7 +1316,7 @@ void title_open_800CD3B8(OpenWork *work, int index)
         work->fA7C = 1;
         work->f168 = 0;
         poly = &work->f18C_polys[0];
-        tex = DG_GetTexture(GV_StrCode(title_aOpbackl_800D8ABC));
+        tex = DG_GetTexture(GV_StrCode("op_back_l"));
         {
             int u0 = tex->off_x;
             int u1 = u0 + tex->w + 1;
@@ -1331,7 +1329,7 @@ void title_open_800CD3B8(OpenWork *work, int index)
         setXY4(poly, -0xA0, -0x70, 0, -0x70, -0xA0, 0x70, 0, 0x70);
         setRGB0(poly, 0x80, 0x80, 0x80);
         poly = &work->f18C_polys[1];
-        tex = DG_GetTexture(GV_StrCode(title_aOpbackr_800D8AB0));
+        tex = DG_GetTexture(GV_StrCode("op_back_r"));
         {
             int u0 = tex->off_x;
             int u1 = u0 + tex->w + 1;
@@ -1344,7 +1342,7 @@ void title_open_800CD3B8(OpenWork *work, int index)
         setXY4(poly, 0, -0x70, 0xA0, -0x70, 0, 0x70, 0xA0, 0x70);
         setRGB0(poly, 0x80, 0x80, 0x80);
         poly = &work->f18C_polys[2];
-        tex = DG_GetTexture(GV_StrCode(title_aOpbackl_800D8ABC));
+        tex = DG_GetTexture(GV_StrCode("op_back_l"));
         {
             int u0 = tex->off_x;
             int u1 = u0 + tex->w + 1;
@@ -1424,7 +1422,7 @@ void title_open_800CD800(OpenWork *work, int index)
         {
             work->fA80 = 4;
             work->f16C = 0;
-            tex = DG_GetTexture(GV_StrCode(title_aOpbackl_800D8ABC));
+            tex = DG_GetTexture(GV_StrCode("op_back_l"));
             title_open_800C5238(poly, tex, 6, 0x140, 0x1F4);
             setXY4(poly, -0xA0, -0x70, 0xA0, -0x70, -0xA0, 0x184, 0xA0, 0x184);
             title_open_800C5200(poly, 2);
@@ -1475,7 +1473,7 @@ void title_open_800CD800(OpenWork *work, int index)
         {
             work->fA80 = 1;
             work->f16C = 0;
-            tex = DG_GetTexture(GV_StrCode(title_aOpbackr_800D8AB0));
+            tex = DG_GetTexture(GV_StrCode("op_back_r"));
             title_open_800C5238(poly, tex, 6, 0x140, 0x1F4);
             setXY4(poly, -0xA0, -0x70, 0xA0, -0x70, -0xA0, 0x184, 0xA0, 0x184);
             title_open_800C5200(poly, 2);
@@ -1541,12 +1539,12 @@ void title_open_800CDBF8(OpenWork *work, int index)
     {
     case 0:
     case 1:
-        tex = DG_GetTexture(GV_StrCode(title_aOpbackl_800D8ABC));
+        tex = DG_GetTexture(GV_StrCode("op_back_l"));
         title_open_800CDB9C(poly, tex, work->f168);
         setXY4(poly, -0xA0, -0x70, work->fAA0, -0x70, -0xA0, 0x70, work->fAA0, 0x70);
         setRGB0(poly, 0, 0, 0);
         poly++;
-        tex = DG_GetTexture(GV_StrCode(title_aOpbackr_800D8AB0));
+        tex = DG_GetTexture(GV_StrCode("op_back_r"));
         {
             int u0 = tex->off_x;
             int u1 = u0 + tex->w + 1;
@@ -1559,18 +1557,18 @@ void title_open_800CDBF8(OpenWork *work, int index)
         setXY4(poly, work->fAA0, -0x70, work->fAA4, -0x70, work->fAA0, 0x70, work->fAA4, 0x70);
         setRGB0(poly, 0, 0, 0);
         poly++;
-        tex = DG_GetTexture(GV_StrCode(title_aOpbackl_800D8ABC));
+        tex = DG_GetTexture(GV_StrCode("op_back_l"));
         title_open_800CDB4C(poly, tex, work->f168);
         setXY4(poly, work->fAA4, -0x70, 0xA0, -0x70, work->fAA4, 0x70, 0xA0, 0x70);
         setRGB0(poly, 0, 0, 0);
         break;
     case 2:
-        tex = DG_GetTexture(GV_StrCode(title_aOpbackr_800D8AB0));
+        tex = DG_GetTexture(GV_StrCode("op_back_r"));
         title_open_800CDB9C(poly, tex, work->f168);
         setXY4(poly, -0xA0, -0x70, work->fAA0, -0x70, -0xA0, 0x70, work->fAA0, 0x70);
         setRGB0(poly, 0, 0, 0);
         poly++;
-        tex = DG_GetTexture(GV_StrCode(title_aOpbackl_800D8ABC));
+        tex = DG_GetTexture(GV_StrCode("op_back_l"));
         {
             int u0 = tex->off_x;
             int u1 = u0 + tex->w + 1;
@@ -1583,7 +1581,7 @@ void title_open_800CDBF8(OpenWork *work, int index)
         setXY4(poly, work->fAA0, -0x70, work->fAA4, -0x70, work->fAA0, 0x70, work->fAA4, 0x70);
         setRGB0(poly, 0, 0, 0);
         poly++;
-        tex = DG_GetTexture(GV_StrCode(title_aOpbackr_800D8AB0));
+        tex = DG_GetTexture(GV_StrCode("op_back_r"));
         title_open_800CDB4C(poly, tex, work->f168);
         setXY4(poly, work->fAA4, -0x70, 0xA0, -0x70, work->fAA4, 0x70, 0xA0, 0x70);
         setRGB0(poly, 0, 0, 0);
@@ -1936,7 +1934,7 @@ void title_open_800CE748(OpenWork *work, int index)
         work->fA7C = 2;
         work->f168 = 0;
         poly = &work->f18C_polys[0];
-        tex = DG_GetTexture(GV_StrCode(title_aOpbackr_800D8AB0));
+        tex = DG_GetTexture(GV_StrCode("op_back_r"));
         {
             int u0 = tex->off_x;
             int u1 = u0 + tex->w + 1;
@@ -1949,7 +1947,7 @@ void title_open_800CE748(OpenWork *work, int index)
         setXY4(poly, -0xA0, -0x70, 0, -0x70, -0xA0, 0x70, 0, 0x70);
         setRGB0(poly, r, g, b);
         poly = &work->f18C_polys[1];
-        tex = DG_GetTexture(GV_StrCode(title_aOpbackl_800D8ABC));
+        tex = DG_GetTexture(GV_StrCode("op_back_l"));
         {
             int u0 = tex->off_x;
             int u1 = u0 + tex->w + 1;
@@ -1962,7 +1960,7 @@ void title_open_800CE748(OpenWork *work, int index)
         setXY4(poly, 0, -0x70, width, -0x70, 0, 0x70, width, 0x70);
         setRGB0(poly, r, g, b);
         poly = &work->f18C_polys[2];
-        tex = DG_GetTexture(GV_StrCode(title_aOpbackr_800D8AB0));
+        tex = DG_GetTexture(GV_StrCode("op_back_r"));
         {
             int u0 = tex->off_x;
             int u1 = u0 + tex->w + 1;
@@ -1995,7 +1993,7 @@ void title_open_800CE748(OpenWork *work, int index)
         work->fA7C = 1;
         work->f168 = 0;
         poly = &work->f18C_polys[0];
-        tex = DG_GetTexture(GV_StrCode(title_aOpbackl_800D8ABC));
+        tex = DG_GetTexture(GV_StrCode("op_back_l"));
         {
             int u0 = tex->off_x;
             int u1 = u0 + tex->w + 1;
@@ -2008,7 +2006,7 @@ void title_open_800CE748(OpenWork *work, int index)
         setXY4(poly, -0xA0, -0x70, 0, -0x70, -0xA0, 0x70, 0, 0x70);
         setRGB0(poly, r, g, b);
         poly = &work->f18C_polys[1];
-        tex = DG_GetTexture(GV_StrCode(title_aOpbackr_800D8AB0));
+        tex = DG_GetTexture(GV_StrCode("op_back_r"));
         {
             int u0 = tex->off_x;
             int u1 = u0 + tex->w + 1;
@@ -2021,7 +2019,7 @@ void title_open_800CE748(OpenWork *work, int index)
         setXY4(poly, 0, -0x70, width, -0x70, 0, 0x70, width, 0x70);
         setRGB0(poly, r, g, b);
         poly = &work->f18C_polys[2];
-        tex = DG_GetTexture(GV_StrCode(title_aOpbackl_800D8ABC));
+        tex = DG_GetTexture(GV_StrCode("op_back_l"));
         {
             int u0 = tex->off_x;
             int u1 = u0 + tex->w + 1;
