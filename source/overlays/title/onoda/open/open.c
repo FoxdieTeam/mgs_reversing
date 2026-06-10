@@ -2262,7 +2262,889 @@ void title_open_800CF610(OpenWork *work, int index)
         break;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800CF794.s")
+/* Reverse-transcribed jump table for the still-INCLUDE_ASM title_open_800CEB14
+ * (0x800D8B00..0x800D8B14). Placed immediately before title_open_800CF794 so
+ * that gcc emits it first and 800CF794's own auto-emitted switch jump table
+ * lands exactly at 0x800D8B18. */
+const int  title_dword_800D8B00 = 0x800CEB74;
+const int  title_dword_800D8B04 = 0x800CEC14;
+const int  title_dword_800D8B08 = 0x800CEC68;
+const int  title_dword_800D8B0C = 0x800CED18;
+const int  title_dword_800D8B10 = 0x800CEDC8;
+const int  title_dword_800D8B14 = 0x800CEE20;
+
+void title_open_800CF794(OpenWork *work)
+{
+    POLY_GT4 *poly = work->f934_polys;
+    int top1, bot1, top2, bot2, top3, bot3, bot4;
+
+    if (work->fB14 == 0)
+    {
+        return;
+    }
+    if (work->fB14 == 6)
+    {
+        return;
+    }
+
+    switch (work->fA78)
+    {
+    case 0:
+        if (work->fB14 == 5)
+        {
+            setXY4(&poly[4], -0x1E, 0x37, 0x1E, 0x37, -0x1E, 0x3F, 0x1E, 0x3F);
+            setXY4(&poly[0], -0x26, 0x46, 0x26, 0x46, -0x26, 0x4E, 0x26, 0x4E);
+            setXY4(&poly[1], -0x28, 0x55, 0x28, 0x55, -0x28, 0x5D, 0x28, 0x5D);
+            title_open_800C4B94(&poly[4], 0, 0, 0, 0x80, 0xC0, 0x80);
+            title_open_800C4B94(&poly[0], 0x80, 0xC0, 0x80, 0x80, 0xC0, 0x80);
+            title_open_800C4B94(&poly[1], 0x80, 0xC0, 0x80, 0, 0, 0);
+            SetSemiTrans(&poly[4], 1);
+            SetSemiTrans(&poly[0], 0);
+            SetSemiTrans(&poly[1], 1);
+            work->fE0[0] = 0x100;
+            work->fE0[1] = 0x100;
+            work->fE0[2] = 0;
+            work->fE0[3] = 0;
+            work->fE0[4] = 0x100;
+            work->fE0[5] = 0;
+        }
+        else
+        {
+            int y = work->fB14 * 3;
+
+            if (work->fB18 == 0)
+            {
+                setXY4(&poly[4], -0x1E, y + 0x28, 0x1E, y + 0x28, -0x1E, y + 0x30, 0x1E, y + 0x30);
+                setXY4(&poly[0], -0x26, y + 0x37, 0x26, y + 0x37, -0x26, y + 0x3F, 0x26, y + 0x3F);
+                setXY4(&poly[1], -0x28, y + 0x46, 0x28, y + 0x46, -0x28, y + 0x4E, 0x28, y + 0x4E);
+                setXY4(&poly[2], -0x1A, y + 0x55, 0x1A, y + 0x55, -0x1A, y + 0x5D, 0x1A, y + 0x5D);
+                SetSemiTrans(&poly[4], 1);
+                SetSemiTrans(&poly[0], 1);
+                SetSemiTrans(&poly[1], 1);
+                SetSemiTrans(&poly[2], 1);
+                top1 = 0;
+                work->fE0[0] = 0x100;
+                work->fE0[1] = 0x100;
+                work->fE0[2] = 0x100;
+                work->fE0[3] = 0;
+                work->fE0[4] = 0x100;
+                work->fE0[5] = 0;
+                if (work->fB14 < 3)
+                {
+                    bot1 = top1;
+                    work->fE0[4] = 0;
+                }
+                else
+                {
+                    bot1 = (work->fB14 - 2) * 128 / 3;
+                }
+                if (work->fB14 < 4)
+                {
+                    top2 = work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    top2 = 0x80;
+                }
+                bot2 = 0x80;
+                top3 = bot2;
+                if (work->fB14 < 3)
+                {
+                    bot3 = 0x80;
+                }
+                else
+                {
+                    bot3 = top3 - (work->fB14 - 2) * 128 / 3;
+                }
+                if (work->fB14 < 4)
+                {
+                    bot4 = 0x80 - work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    bot4 = 0;
+                    work->fE0[2] = 0;
+                }
+                title_open_800C4BD4(&poly[4], top1, bot1);
+                title_open_800C4BD4(&poly[0], top2, bot2);
+                title_open_800C4BD4(&poly[1], top3, bot3);
+                title_open_800C4BD4(&poly[2], bot4, 0);
+            }
+            else
+            {
+                setXY4(&poly[3], -0x20, 0x37 - y, 0x20, 0x37 - y, -0x20, 0x3F - y, 0x20, 0x3F - y);
+                setXY4(&poly[4], -0x1E, 0x46 - y, 0x1E, 0x46 - y, -0x1E, 0x4E - y, 0x1E, 0x4E - y);
+                setXY4(&poly[0], -0x26, 0x55 - y, 0x26, 0x55 - y, -0x26, 0x5D - y, 0x26, 0x5D - y);
+                setXY4(&poly[1], -0x28, 0x64 - y, 0x28, 0x64 - y, -0x28, 0x6C - y, 0x28, 0x6C - y);
+                SetSemiTrans(&poly[3], 1);
+                SetSemiTrans(&poly[4], 1);
+                SetSemiTrans(&poly[0], 1);
+                SetSemiTrans(&poly[1], 1);
+                top1 = 0;
+                work->fE0[0] = 0x100;
+                work->fE0[1] = 0x100;
+                work->fE0[2] = 0;
+                work->fE0[3] = 0x100;
+                work->fE0[4] = 0x100;
+                work->fE0[5] = 0;
+                if (work->fB14 < 4)
+                {
+                    bot1 = 0x80 - work->fB14 * 128 / 3;
+                    work->fE0[3] = 0; /* sic: original zeroes the exit row in this
+                                       * arm; every other case does it in the else */
+                }
+                else
+                {
+                    bot1 = 0;
+                }
+                if (work->fB14 < 3)
+                {
+                    top2 = 0x80;
+                }
+                else
+                {
+                    top2 = 0x80 - (work->fB14 - 2) * 128 / 3;
+                }
+                bot2 = 0x80;
+                top3 = bot2;
+                if (work->fB14 < 4)
+                {
+                    bot3 = work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    bot3 = 0x80;
+                }
+                if (work->fB14 < 3)
+                {
+                    bot4 = 0;
+                    work->fE0[1] = 0;
+                }
+                else
+                {
+                    bot4 = (work->fB14 - 2) * 128 / 3;
+                }
+                title_open_800C4BD4(&poly[3], top1, bot1);
+                title_open_800C4BD4(&poly[4], top2, bot2);
+                title_open_800C4BD4(&poly[0], top3, bot3);
+                title_open_800C4BD4(&poly[1], bot4, 0);
+            }
+        }
+        break;
+
+    case 1:
+        if (work->fB14 == 5)
+        {
+            setXY4(&poly[0], -0x26, 0x37, 0x26, 0x37, -0x26, 0x3F, 0x26, 0x3F);
+            setXY4(&poly[1], -0x28, 0x46, 0x28, 0x46, -0x28, 0x4E, 0x28, 0x4E);
+            setXY4(&poly[2], -0x1A, 0x55, 0x1A, 0x55, -0x1A, 0x5D, 0x1A, 0x5D);
+            title_open_800C4B94(&poly[0], 0, 0, 0, 0x80, 0xC0, 0x80);
+            title_open_800C4B94(&poly[1], 0x80, 0xC0, 0x80, 0x80, 0xC0, 0x80);
+            title_open_800C4B94(&poly[2], 0x80, 0xC0, 0x80, 0, 0, 0);
+            SetSemiTrans(&poly[0], 1);
+            SetSemiTrans(&poly[1], 0);
+            SetSemiTrans(&poly[2], 1);
+            work->fE0[0] = 0x100;
+            work->fE0[1] = 0x100;
+            work->fE0[2] = 0x100;
+            work->fE0[3] = 0;
+            work->fE0[4] = 0;
+            work->fE0[5] = 0;
+        }
+        else
+        {
+            int y = work->fB14 * 3;
+
+            if (work->fB18 == 0)
+            {
+                setXY4(&poly[0], -0x26, y + 0x28, 0x26, y + 0x28, -0x26, y + 0x30, 0x26, y + 0x30);
+                setXY4(&poly[1], -0x28, y + 0x37, 0x28, y + 0x37, -0x28, y + 0x3F, 0x28, y + 0x3F);
+                setXY4(&poly[2], -0x1A, y + 0x46, 0x1A, y + 0x46, -0x1A, y + 0x4E, 0x1A, y + 0x4E);
+                setXY4(&poly[3], -0x20, y + 0x55, 0x20, y + 0x55, -0x20, y + 0x5D, 0x20, y + 0x5D);
+                SetSemiTrans(&poly[0], 1);
+                SetSemiTrans(&poly[1], 1);
+                SetSemiTrans(&poly[2], 1);
+                SetSemiTrans(&poly[3], 1);
+                top1 = 0;
+                work->fE0[0] = 0x100;
+                work->fE0[1] = 0x100;
+                work->fE0[2] = 0x100;
+                work->fE0[3] = 0x100;
+                work->fE0[4] = 0;
+                work->fE0[5] = 0;
+                if (work->fB14 < 3)
+                {
+                    bot1 = top1;
+                    work->fE0[0] = 0;
+                }
+                else
+                {
+                    bot1 = (work->fB14 - 2) * 128 / 3;
+                }
+                if (work->fB14 < 4)
+                {
+                    top2 = work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    top2 = 0x80;
+                }
+                bot2 = 0x80;
+                top3 = bot2;
+                if (work->fB14 < 3)
+                {
+                    bot3 = 0x80;
+                }
+                else
+                {
+                    bot3 = top3 - (work->fB14 - 2) * 128 / 3;
+                }
+                if (work->fB14 < 4)
+                {
+                    bot4 = 0x80 - work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    bot4 = 0;
+                    work->fE0[3] = 0;
+                }
+                title_open_800C4BD4(&poly[0], top1, bot1);
+                title_open_800C4BD4(&poly[1], top2, bot2);
+                title_open_800C4BD4(&poly[2], top3, bot3);
+                title_open_800C4BD4(&poly[3], bot4, 0);
+            }
+            else
+            {
+                setXY4(&poly[4], -0x1E, 0x37 - y, 0x1E, 0x37 - y, -0x1E, 0x3F - y, 0x1E, 0x3F - y);
+                setXY4(&poly[0], -0x26, 0x46 - y, 0x26, 0x46 - y, -0x26, 0x4E - y, 0x26, 0x4E - y);
+                setXY4(&poly[1], -0x28, 0x55 - y, 0x28, 0x55 - y, -0x28, 0x5D - y, 0x28, 0x5D - y);
+                setXY4(&poly[2], -0x1A, 0x64 - y, 0x1A, 0x64 - y, -0x1A, 0x6C - y, 0x1A, 0x6C - y);
+                SetSemiTrans(&poly[4], 1);
+                SetSemiTrans(&poly[0], 1);
+                SetSemiTrans(&poly[1], 1);
+                SetSemiTrans(&poly[2], 1);
+                top1 = 0;
+                work->fE0[0] = 0x100;
+                work->fE0[1] = 0x100;
+                work->fE0[2] = 0x100;
+                work->fE0[3] = 0;
+                work->fE0[4] = 0x100;
+                work->fE0[5] = 0;
+                if (work->fB14 < 4)
+                {
+                    bot1 = 0x80 - work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    bot1 = 0;
+                    work->fE0[4] = 0;
+                }
+                if (work->fB14 < 3)
+                {
+                    top2 = 0x80;
+                }
+                else
+                {
+                    top2 = 0x80 - (work->fB14 - 2) * 128 / 3;
+                }
+                bot2 = 0x80;
+                top3 = bot2;
+                if (work->fB14 < 4)
+                {
+                    bot3 = work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    bot3 = 0x80;
+                }
+                if (work->fB14 < 3)
+                {
+                    bot4 = 0;
+                    work->fE0[2] = 0;
+                }
+                else
+                {
+                    bot4 = (work->fB14 - 2) * 128 / 3;
+                }
+                title_open_800C4BD4(&poly[4], top1, bot1);
+                title_open_800C4BD4(&poly[0], top2, bot2);
+                title_open_800C4BD4(&poly[1], top3, bot3);
+                title_open_800C4BD4(&poly[2], bot4, 0);
+            }
+        }
+        break;
+
+    case 2:
+        if (work->fB14 == 5)
+        {
+            setXY4(&poly[1], -0x28, 0x37, 0x28, 0x37, -0x28, 0x3F, 0x28, 0x3F);
+            setXY4(&poly[2], -0x1A, 0x46, 0x1A, 0x46, -0x1A, 0x4E, 0x1A, 0x4E);
+            setXY4(&poly[3], -0x20, 0x55, 0x20, 0x55, -0x20, 0x5D, 0x20, 0x5D);
+            title_open_800C4B94(&poly[1], 0, 0, 0, 0x80, 0xC0, 0x80);
+            title_open_800C4B94(&poly[2], 0x80, 0xC0, 0x80, 0x80, 0xC0, 0x80);
+            title_open_800C4B94(&poly[3], 0x80, 0xC0, 0x80, 0, 0, 0);
+            SetSemiTrans(&poly[1], 1);
+            SetSemiTrans(&poly[2], 0);
+            SetSemiTrans(&poly[3], 1);
+            work->fE0[0] = 0;
+            work->fE0[1] = 0x100;
+            work->fE0[2] = 0x100;
+            work->fE0[3] = 0x100;
+            work->fE0[4] = 0;
+            work->fE0[5] = 0;
+        }
+        else
+        {
+            int y = work->fB14 * 3;
+
+            if (work->fB18 == 0)
+            {
+                setXY4(&poly[1], -0x28, y + 0x28, 0x28, y + 0x28, -0x28, y + 0x30, 0x28, y + 0x30);
+                setXY4(&poly[2], -0x1A, y + 0x37, 0x1A, y + 0x37, -0x1A, y + 0x3F, 0x1A, y + 0x3F);
+                setXY4(&poly[3], -0x20, y + 0x46, 0x20, y + 0x46, -0x20, y + 0x4E, 0x20, y + 0x4E);
+                setXY4(&poly[4], -0x1E, y + 0x55, 0x1E, y + 0x55, -0x1E, y + 0x5D, 0x1E, y + 0x5D);
+                SetSemiTrans(&poly[1], 1);
+                SetSemiTrans(&poly[2], 1);
+                SetSemiTrans(&poly[3], 1);
+                SetSemiTrans(&poly[4], 1);
+                top1 = 0;
+                work->fE0[0] = 0;
+                work->fE0[1] = 0x100;
+                work->fE0[2] = 0x100;
+                work->fE0[3] = 0x100;
+                work->fE0[4] = 0x100;
+                work->fE0[5] = 0;
+                if (work->fB14 < 3)
+                {
+                    bot1 = top1;
+                    work->fE0[1] = 0;
+                }
+                else
+                {
+                    bot1 = (work->fB14 - 2) * 128 / 3;
+                }
+                if (work->fB14 < 4)
+                {
+                    top2 = work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    top2 = 0x80;
+                }
+                bot2 = 0x80;
+                top3 = bot2;
+                if (work->fB14 < 3)
+                {
+                    bot3 = 0x80;
+                }
+                else
+                {
+                    bot3 = top3 - (work->fB14 - 2) * 128 / 3;
+                }
+                if (work->fB14 < 4)
+                {
+                    bot4 = 0x80 - work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    bot4 = 0;
+                    work->fE0[4] = 0;
+                }
+                title_open_800C4BD4(&poly[1], top1, bot1);
+                title_open_800C4BD4(&poly[2], top2, bot2);
+                title_open_800C4BD4(&poly[3], top3, bot3);
+                title_open_800C4BD4(&poly[4], bot4, 0);
+            }
+            else
+            {
+                setXY4(&poly[0], -0x26, 0x37 - y, 0x26, 0x37 - y, -0x26, 0x3F - y, 0x26, 0x3F - y);
+                setXY4(&poly[1], -0x28, 0x46 - y, 0x28, 0x46 - y, -0x28, 0x4E - y, 0x28, 0x4E - y);
+                setXY4(&poly[2], -0x1A, 0x55 - y, 0x1A, 0x55 - y, -0x1A, 0x5D - y, 0x1A, 0x5D - y);
+                setXY4(&poly[3], -0x20, 0x64 - y, 0x20, 0x64 - y, -0x20, 0x6C - y, 0x20, 0x6C - y);
+                SetSemiTrans(&poly[0], 1);
+                SetSemiTrans(&poly[1], 1);
+                SetSemiTrans(&poly[2], 1);
+                SetSemiTrans(&poly[3], 1);
+                top1 = 0;
+                work->fE0[0] = 0x100;
+                work->fE0[1] = 0x100;
+                work->fE0[2] = 0x100;
+                work->fE0[3] = 0x100;
+                work->fE0[4] = 0;
+                work->fE0[5] = 0;
+                if (work->fB14 < 4)
+                {
+                    bot1 = 0x80 - work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    bot1 = 0;
+                    work->fE0[0] = 0;
+                }
+                if (work->fB14 < 3)
+                {
+                    top2 = 0x80;
+                }
+                else
+                {
+                    top2 = 0x80 - (work->fB14 - 2) * 128 / 3;
+                }
+                bot2 = 0x80;
+                top3 = bot2;
+                if (work->fB14 < 4)
+                {
+                    bot3 = work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    bot3 = 0x80;
+                }
+                if (work->fB14 < 3)
+                {
+                    bot4 = 0;
+                    work->fE0[3] = 0;
+                }
+                else
+                {
+                    bot4 = (work->fB14 - 2) * 128 / 3;
+                }
+                title_open_800C4BD4(&poly[0], top1, bot1);
+                title_open_800C4BD4(&poly[1], top2, bot2);
+                title_open_800C4BD4(&poly[2], top3, bot3);
+                title_open_800C4BD4(&poly[3], bot4, 0);
+            }
+        }
+        break;
+
+    case 3:
+        if (work->fB14 == 5)
+        {
+            setXY4(&poly[2], -0x1A, 0x37, 0x1A, 0x37, -0x1A, 0x3F, 0x1A, 0x3F);
+            setXY4(&poly[3], -0x20, 0x46, 0x20, 0x46, -0x20, 0x4E, 0x20, 0x4E);
+            setXY4(&poly[4], -0x1E, 0x55, 0x1E, 0x55, -0x1E, 0x5D, 0x1E, 0x5D);
+            title_open_800C4B94(&poly[2], 0, 0, 0, 0x80, 0xC0, 0x80);
+            title_open_800C4B94(&poly[3], 0x80, 0xC0, 0x80, 0x80, 0xC0, 0x80);
+            title_open_800C4B94(&poly[4], 0x80, 0xC0, 0x80, 0, 0, 0);
+            SetSemiTrans(&poly[2], 1);
+            SetSemiTrans(&poly[3], 0);
+            SetSemiTrans(&poly[4], 1);
+            work->fE0[0] = 0;
+            work->fE0[1] = 0;
+            work->fE0[2] = 0x100;
+            work->fE0[3] = 0x100;
+            work->fE0[4] = 0x100;
+            work->fE0[5] = 0;
+        }
+        else
+        {
+            int y = work->fB14 * 3;
+
+            if (work->fB18 == 0)
+            {
+                setXY4(&poly[2], -0x1A, y + 0x28, 0x1A, y + 0x28, -0x1A, y + 0x30, 0x1A, y + 0x30);
+                setXY4(&poly[3], -0x20, y + 0x37, 0x20, y + 0x37, -0x20, y + 0x3F, 0x20, y + 0x3F);
+                setXY4(&poly[4], -0x1E, y + 0x46, 0x1E, y + 0x46, -0x1E, y + 0x4E, 0x1E, y + 0x4E);
+                setXY4(&poly[0], -0x26, y + 0x55, 0x26, y + 0x55, -0x26, y + 0x5D, 0x26, y + 0x5D);
+                SetSemiTrans(&poly[2], 1);
+                SetSemiTrans(&poly[3], 1);
+                SetSemiTrans(&poly[4], 1);
+                SetSemiTrans(&poly[0], 1);
+                top1 = 0;
+                work->fE0[0] = 0x100;
+                work->fE0[5] = 0;
+                work->fE0[1] = 0;
+                work->fE0[2] = 0x100;
+                work->fE0[3] = 0x100;
+                work->fE0[4] = 0x100;
+                if (work->fB14 < 3)
+                {
+                    bot1 = top1;
+                    work->fE0[2] = 0;
+                }
+                else
+                {
+                    bot1 = (work->fB14 - 2) * 128 / 3;
+                }
+                if (work->fB14 < 4)
+                {
+                    top2 = work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    top2 = 0x80;
+                }
+                bot2 = 0x80;
+                top3 = bot2;
+                if (work->fB14 < 3)
+                {
+                    bot3 = 0x80;
+                }
+                else
+                {
+                    bot3 = top3 - (work->fB14 - 2) * 128 / 3;
+                }
+                if (work->fB14 < 4)
+                {
+                    bot4 = 0x80 - work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    bot4 = 0;
+                    work->fE0[0] = 0;
+                }
+                title_open_800C4BD4(&poly[2], top1, bot1);
+                title_open_800C4BD4(&poly[3], top2, bot2);
+                title_open_800C4BD4(&poly[4], top3, bot3);
+                title_open_800C4BD4(&poly[0], bot4, 0);
+            }
+            else
+            {
+                setXY4(&poly[1], -0x28, 0x37 - y, 0x28, 0x37 - y, -0x28, 0x3F - y, 0x28, 0x3F - y);
+                setXY4(&poly[2], -0x1A, 0x46 - y, 0x1A, 0x46 - y, -0x1A, 0x4E - y, 0x1A, 0x4E - y);
+                setXY4(&poly[3], -0x20, 0x55 - y, 0x20, 0x55 - y, -0x20, 0x5D - y, 0x20, 0x5D - y);
+                setXY4(&poly[4], -0x1E, 0x64 - y, 0x1E, 0x64 - y, -0x1E, 0x6C - y, 0x1E, 0x6C - y);
+                SetSemiTrans(&poly[1], 1);
+                SetSemiTrans(&poly[2], 1);
+                SetSemiTrans(&poly[3], 1);
+                SetSemiTrans(&poly[4], 1);
+                top1 = 0;
+                work->fE0[0] = 0;
+                work->fE0[1] = 0x100;
+                work->fE0[2] = 0x100;
+                work->fE0[3] = 0x100;
+                work->fE0[4] = 0x100;
+                work->fE0[5] = 0;
+                if (work->fB14 < 4)
+                {
+                    bot1 = 0x80 - work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    bot1 = 0;
+                    work->fE0[1] = 0;
+                }
+                if (work->fB14 < 3)
+                {
+                    top2 = 0x80;
+                }
+                else
+                {
+                    top2 = 0x80 - (work->fB14 - 2) * 128 / 3;
+                }
+                bot2 = 0x80;
+                top3 = bot2;
+                if (work->fB14 < 4)
+                {
+                    bot3 = work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    bot3 = 0x80;
+                }
+                if (work->fB14 < 3)
+                {
+                    bot4 = 0;
+                    work->fE0[4] = 0;
+                }
+                else
+                {
+                    bot4 = (work->fB14 - 2) * 128 / 3;
+                }
+                title_open_800C4BD4(&poly[1], top1, bot1);
+                title_open_800C4BD4(&poly[2], top2, bot2);
+                title_open_800C4BD4(&poly[3], top3, bot3);
+                title_open_800C4BD4(&poly[4], bot4, 0);
+            }
+        }
+        break;
+
+    case 4:
+        if (work->fB14 == 5)
+        {
+            setXY4(&poly[3], -0x20, 0x37, 0x20, 0x37, -0x20, 0x3F, 0x20, 0x3F);
+            setXY4(&poly[4], -0x1E, 0x46, 0x1E, 0x46, -0x1E, 0x4E, 0x1E, 0x4E);
+            setXY4(&poly[0], -0x26, 0x55, 0x26, 0x55, -0x26, 0x5D, 0x26, 0x5D);
+            title_open_800C4B94(&poly[3], 0, 0, 0, 0x80, 0xC0, 0x80);
+            title_open_800C4B94(&poly[4], 0x80, 0xC0, 0x80, 0x80, 0xC0, 0x80);
+            title_open_800C4B94(&poly[0], 0x80, 0xC0, 0x80, 0, 0, 0);
+            SetSemiTrans(&poly[3], 1);
+            SetSemiTrans(&poly[4], 0);
+            SetSemiTrans(&poly[5], 1); /* sic: original bug, the visible row is poly[0] */
+            work->fE0[0] = 0x100;
+            work->fE0[5] = 0;
+            work->fE0[1] = 0;
+            work->fE0[2] = 0;
+            work->fE0[3] = 0x100;
+            work->fE0[4] = 0x100;
+        }
+        else
+        {
+            int y = work->fB14 * 3;
+
+            if (work->fB18 == 0)
+            {
+                setXY4(&poly[3], -0x20, y + 0x28, 0x20, y + 0x28, -0x20, y + 0x30, 0x20, y + 0x30);
+                setXY4(&poly[4], -0x1E, y + 0x37, 0x1E, y + 0x37, -0x1E, y + 0x3F, 0x1E, y + 0x3F);
+                setXY4(&poly[0], -0x26, y + 0x46, 0x26, y + 0x46, -0x26, y + 0x4E, 0x26, y + 0x4E);
+                setXY4(&poly[1], -0x28, y + 0x55, 0x28, y + 0x55, -0x28, y + 0x5D, 0x28, y + 0x5D);
+                SetSemiTrans(&poly[3], 1);
+                SetSemiTrans(&poly[4], 1);
+                SetSemiTrans(&poly[5], 1); /* sic: original bug, rows are 3,4,0,1 */
+                SetSemiTrans(&poly[0], 1);
+                top1 = 0;
+                work->fE0[0] = 0x100;
+                work->fE0[1] = 0x100;
+                work->fE0[2] = 0;
+                work->fE0[3] = 0x100;
+                work->fE0[4] = 0x100; /* sic: original never writes fE0[5] here */
+                if (work->fB14 < 3)
+                {
+                    bot1 = top1;
+                    work->fE0[3] = 0;
+                }
+                else
+                {
+                    bot1 = (work->fB14 - 2) * 128 / 3;
+                }
+                if (work->fB14 < 4)
+                {
+                    top2 = work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    top2 = 0x80;
+                }
+                bot2 = 0x80;
+                top3 = bot2;
+                if (work->fB14 < 3)
+                {
+                    bot3 = 0x80;
+                }
+                else
+                {
+                    bot3 = top3 - (work->fB14 - 2) * 128 / 3;
+                }
+                if (work->fB14 < 4)
+                {
+                    bot4 = 0x80 - work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    bot4 = 0;
+                    work->fE0[1] = 0;
+                }
+                title_open_800C4BD4(&poly[3], top1, bot1);
+                title_open_800C4BD4(&poly[4], top2, bot2);
+                title_open_800C4BD4(&poly[0], top3, bot3);
+                title_open_800C4BD4(&poly[1], bot4, 0);
+            }
+            else
+            {
+                setXY4(&poly[2], -0x1A, 0x37 - y, 0x1A, 0x37 - y, -0x1A, 0x3F - y, 0x1A, 0x3F - y);
+                setXY4(&poly[3], -0x20, 0x46 - y, 0x20, 0x46 - y, -0x20, 0x4E - y, 0x20, 0x4E - y);
+                setXY4(&poly[4], -0x1E, 0x55 - y, 0x1E, 0x55 - y, -0x1E, 0x5D - y, 0x1E, 0x5D - y);
+                setXY4(&poly[0], -0x26, 0x64 - y, 0x26, 0x64 - y, -0x26, 0x6C - y, 0x26, 0x6C - y);
+                SetSemiTrans(&poly[2], 1);
+                SetSemiTrans(&poly[3], 1);
+                SetSemiTrans(&poly[4], 1);
+                SetSemiTrans(&poly[5], 1); /* sic: original bug, rows are 2,3,4,0 */
+                top1 = 0;
+                work->fE0[0] = 0x100;
+                work->fE0[5] = 0;
+                work->fE0[1] = 0;
+                work->fE0[2] = 0x100;
+                work->fE0[3] = 0x100;
+                work->fE0[4] = 0x100;
+                if (work->fB14 < 4)
+                {
+                    bot1 = 0x80 - work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    bot1 = 0;
+                    work->fE0[2] = 0;
+                }
+                if (work->fB14 < 3)
+                {
+                    top2 = 0x80;
+                }
+                else
+                {
+                    top2 = 0x80 - (work->fB14 - 2) * 128 / 3;
+                }
+                bot2 = 0x80;
+                top3 = bot2;
+                if (work->fB14 < 4)
+                {
+                    bot3 = work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    bot3 = 0x80;
+                }
+                if (work->fB14 < 3)
+                {
+                    bot4 = 0;
+                    work->fE0[0] = 0;
+                }
+                else
+                {
+                    bot4 = (work->fB14 - 2) * 128 / 3;
+                }
+                title_open_800C4BD4(&poly[2], top1, bot1);
+                title_open_800C4BD4(&poly[3], top2, bot2);
+                title_open_800C4BD4(&poly[4], top3, bot3);
+                title_open_800C4BD4(&poly[0], bot4, 0);
+            }
+        }
+        break;
+
+    case 5:
+        if (work->fB14 == 5)
+        {
+            setXY4(&poly[4], -0x1E, 0x37, 0x1E, 0x37, -0x1E, 0x3F, 0x1E, 0x3F);
+            setXY4(&poly[5], -0x2C, 0x46, 0x2C, 0x46, -0x2C, 0x4E, 0x2C, 0x4E);
+            setXY4(&poly[0], -0x26, 0x55, 0x26, 0x55, -0x26, 0x5D, 0x26, 0x5D);
+            title_open_800C4B94(&poly[4], 0, 0, 0, 0x80, 0xC0, 0x80);
+            title_open_800C4B94(&poly[5], 0x80, 0xC0, 0x80, 0x80, 0xC0, 0x80);
+            title_open_800C4B94(&poly[0], 0x80, 0xC0, 0x80, 0, 0, 0);
+            SetSemiTrans(&poly[4], 1);
+            SetSemiTrans(&poly[5], 0);
+            SetSemiTrans(&poly[0], 1);
+            work->fE0[0] = 0x100;
+            work->fE0[1] = 0;
+            work->fE0[2] = 0;
+            work->fE0[3] = 0;
+            work->fE0[4] = 0x100;
+            work->fE0[5] = 0x100;
+        }
+        else
+        {
+            int y = work->fB14 * 3;
+
+            if (work->fB18 == 0)
+            {
+                setXY4(&poly[4], -0x1E, y + 0x28, 0x1E, y + 0x28, -0x1E, y + 0x30, 0x1E, y + 0x30);
+                setXY4(&poly[5], -0x2C, y + 0x37, 0x2C, y + 0x37, -0x2C, y + 0x3F, 0x2C, y + 0x3F);
+                setXY4(&poly[0], -0x26, y + 0x46, 0x26, y + 0x46, -0x26, y + 0x4E, 0x26, y + 0x4E);
+                setXY4(&poly[1], -0x28, y + 0x55, 0x28, y + 0x55, -0x28, y + 0x5D, 0x28, y + 0x5D);
+                SetSemiTrans(&poly[4], 1);
+                SetSemiTrans(&poly[5], 1);
+                SetSemiTrans(&poly[0], 1);
+                SetSemiTrans(&poly[1], 1);
+                top1 = 0;
+                work->fE0[0] = 0x100;
+                work->fE0[1] = 0x100;
+                work->fE0[2] = 0;
+                work->fE0[3] = 0;
+                work->fE0[4] = 0x100;
+                work->fE0[5] = 0x100;
+                if (work->fB14 < 3)
+                {
+                    bot1 = top1;
+                    work->fE0[4] = 0;
+                }
+                else
+                {
+                    bot1 = (work->fB14 - 2) * 128 / 3;
+                }
+                if (work->fB14 < 4)
+                {
+                    top2 = work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    top2 = 0x80;
+                }
+                bot2 = 0x80;
+                top3 = bot2;
+                if (work->fB14 < 3)
+                {
+                    bot3 = 0x80;
+                }
+                else
+                {
+                    bot3 = top3 - (work->fB14 - 2) * 128 / 3;
+                }
+                if (work->fB14 < 4)
+                {
+                    bot4 = 0x80 - work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    bot4 = 0;
+                    work->fE0[1] = 0;
+                }
+                title_open_800C4BD4(&poly[4], top1, bot1);
+                title_open_800C4BD4(&poly[5], top2, bot2);
+                title_open_800C4BD4(&poly[0], top3, bot3);
+                title_open_800C4BD4(&poly[1], bot4, 0);
+            }
+            else
+            {
+                setXY4(&poly[3], -0x20, 0x37 - y, 0x20, 0x37 - y, -0x20, 0x3F - y, 0x20, 0x3F - y);
+                setXY4(&poly[4], -0x1E, 0x46 - y, 0x1E, 0x46 - y, -0x1E, 0x4E - y, 0x1E, 0x4E - y);
+                setXY4(&poly[5], -0x2C, 0x55 - y, 0x2C, 0x55 - y, -0x2C, 0x5D - y, 0x2C, 0x5D - y);
+                setXY4(&poly[0], -0x26, 0x64 - y, 0x26, 0x64 - y, -0x26, 0x6C - y, 0x26, 0x6C - y);
+                SetSemiTrans(&poly[3], 1);
+                SetSemiTrans(&poly[4], 1);
+                SetSemiTrans(&poly[5], 1);
+                SetSemiTrans(&poly[0], 1);
+                top1 = 0;
+                work->fE0[0] = 0x100;
+                work->fE0[1] = 0;
+                work->fE0[2] = 0;
+                work->fE0[3] = 0x100;
+                work->fE0[4] = 0x100;
+                work->fE0[5] = 0x100;
+                if (work->fB14 < 4)
+                {
+                    bot1 = 0x80 - work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    bot1 = 0;
+                    work->fE0[3] = 0;
+                }
+                if (work->fB14 < 3)
+                {
+                    top2 = 0x80;
+                }
+                else
+                {
+                    top2 = 0x80 - (work->fB14 - 2) * 128 / 3;
+                }
+                bot2 = 0x80;
+                top3 = bot2;
+                if (work->fB14 < 4)
+                {
+                    bot3 = work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    bot3 = 0x80;
+                }
+                if (work->fB14 < 3)
+                {
+                    bot4 = 0;
+                    work->fE0[0] = 0;
+                }
+                else
+                {
+                    bot4 = (work->fB14 - 2) * 128 / 3;
+                }
+                title_open_800C4BD4(&poly[3], top1, bot1);
+                title_open_800C4BD4(&poly[4], top2, bot2);
+                title_open_800C4BD4(&poly[5], top3, bot3);
+                title_open_800C4BD4(&poly[0], bot4, 0);
+            }
+        }
+        break;
+
+    }
+
+    work->fB14++;
+}
 void title_open_800D1B74(char *name)
 {
     int   i;
@@ -2625,18 +3507,6 @@ void title_open_800D1CB4(OpenWork *work)
 }
 /* Moved from openact.c to open.c so open.obj's rdata extends to 0x800D8CD0,
  * where gcc's auto-emitted switch table for 800D2374 lands. */
-const int  title_dword_800D8B00 = 0x800CEB74;
-const int  title_dword_800D8B04 = 0x800CEC14;
-const int  title_dword_800D8B08 = 0x800CEC68;
-const int  title_dword_800D8B0C = 0x800CED18;
-const int  title_dword_800D8B10 = 0x800CEDC8;
-const int  title_dword_800D8B14 = 0x800CEE20;
-const int  title_dword_800D8B18 = 0x800CF808;
-const int  title_dword_800D8B1C = 0x800CFDE4;
-const int  title_dword_800D8B20 = 0x800D03C0;
-const int  title_dword_800D8B24 = 0x800D09A8;
-const int  title_dword_800D8B28 = 0x800D0F80;
-const int  title_dword_800D8B2C = 0x800D1550;
 const char title_aClearflagd_800D8B30[] = "clear flag %d\n";
 const char title_aCleardataexistss_800D8B40[] = "clear data exists %s\n";
 const char title_aBislpm_800D8B58[] = "BISLPM-86111";
