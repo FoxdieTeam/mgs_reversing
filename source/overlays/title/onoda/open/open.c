@@ -1,20 +1,148 @@
 #include <stdio.h>
 #include <sys/types.h>
+#include <libcd.h>
 #include <libgte.h>
 #include <libgpu.h>
 
 #include "common.h"
 #include "libdg/libdg.h"
+#include "libfs/libfs.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "font/font.h"
 #include "menu/menuman.h"
+#include "mts/mts.h"
 #include "game/game.h"
 #include "linkvar.h"
 #include "sound/sd_cli.h"
 #include "sound/g_sound.h"
 
-#include "openwork.h"
+typedef struct _Unknown
+{
+    SPRT  sprt[2];
+    SPRT  sprt2[2][4];
+    char *string;
+    short num;
+    short num2;
+    RECT  rect;
+    short f0;
+    short f2;
+    short f4;
+    short f6;
+} Unknown;
+
+typedef struct _Work
+{
+    GV_ACT   actor;
+    DG_PRIM *prim[4];
+    int      f30[22];
+    char     pad1[0x58];
+    int      fE0[6];
+    int      fF8[18];
+    int      f140[9];
+    int      f164;     /* main per-state frame counter; case 4/5 transitions trigger when f164 crosses thresholds */
+    int      f168;
+    int      f16C;
+    int      f170;
+    int      f174;
+    int      f178;
+    int      f17C;
+    int      f180;
+    int      f184;
+    int      f188;
+    POLY_FT4 f18C_polys[22];
+    POLY_FT4 f4FC_polys[18];
+    POLY_FT4 f7CC_polys[9];
+    POLY_GT4 f934_polys[6];
+    GV_PAD  *pad;
+    int      fA70;
+    int      fA74;     /* OpenAct state (drives the top-level switch) */
+    int      fA78;     /* sub-state for case 7 (difficulty 0..5) */
+    int      fA7C;
+    int      fA80;
+    int      fA84;
+    int      fA88;
+    int      fA8C;
+    int      fA90;
+    int      fA94;
+    int      fA98;
+    int      fA9C;
+    int      fAA0;
+    int      fAA4;
+    CVECTOR  fAA8;
+    u_char   fAAC;
+    u_char   fAAD;
+    u_char   fAAE;
+    char     fAAF;
+    CVECTOR  fAB0;
+    CVECTOR  fAB4;
+    int      fAB8;
+    int      fABC;
+    int      fAC0;
+    int      fAC4;
+    int      fAC8;
+    int      fACC;
+    int      fAD0;
+    int      fAD4;
+    int      fAD8;
+    int      fADC;
+    int      fAE0;
+    int      fAE4;
+    int      fAE8;
+    int      fAEC;
+    int      fAF0;
+    int      fAF4;
+    int      fAF8;
+    int      fAFC;
+    int      fB00;
+    int      fB04;
+    int      fB08;
+    int      fB0C;     /* set on every state transition; the new state's case re-runs its one-time init then clears this back to 0 */
+    int      fB10;
+    int      fB14;
+    int      fB18;
+    int      fB1C;
+    int      fB20;
+    int      fB24;
+    int      fB28;
+    int      fB2C[4];
+    int      fB3C;
+    int      fB40;
+    int      fB44;
+    int      fB48;
+    KCB      kcb[24];
+    char     pad2[0x14];
+    DR_TPAGE tpage[2];
+    char     pad3[0x8];
+    Unknown  unk[24];
+    int      f2498;
+    int      f249C;
+    int      f24A0;
+    int      f24A4;
+    void    *mg_logo;
+    int      f24AC;
+    int      f24B0;
+    int      f24B4;
+    int      f24B8;
+    int      f24BC;
+    int      f24C0;
+    int      f24C4;
+    int      f24C8;
+    int      f24CC;
+    int      f24D0;
+    int      f24D4;
+    int      f24D8;
+    int      f24DC;
+    int      f24E0;
+    int      f24E4;
+    int      f24E8;
+    int      f24EC;
+    int      f24F0;
+    int      f24F4;
+    int      f24F8_proc;
+    int      f24FC;
+    int      f2500;
+} Work;
 
 typedef struct _Desc
 {
@@ -26,9 +154,14 @@ typedef struct _Desc
 extern Desc        open_800C32B4[24];
 extern signed char open_800C3400[16];
 
-extern int title_dword_800D92D0;
+int SECTION(".bss") title_dword_800D92D0 = 0;
+
 extern int title_dword_800C33D4;
 
+extern char *MGS_MemoryCardName; /* in main.c */
+extern int   FS_DiskNum;
+
+extern void *NewMetalGearLogo(int *exit);
 
 extern const char title_aClearflagd_800D8B30[];          // = "clear flag %d\n"
 extern const char title_aCleardataexistss_800D8B40[];    // = "clear data exists %s\n"
@@ -36,14 +169,7 @@ extern const char title_aBislpm_800D8B58[];              // = "BISLPM-86111"
 extern const char title_aOldclearflagd_800D8B68[];       // = "old clear flag %d\n"
 extern const char title_aOldcleardataexistss_800D8B7C[]; // = "old clear data exists %s\n"
 
-extern const char aOpenC[];                              // = "open.c"
-
-extern char *MGS_MemoryCardName; /* in main.c */
-extern int   FS_DiskNum;
-
-#define EXEC_LEVEL GV_ACTOR_MANAGER
-
-void Open_800C4500(OpenWork *work, int index)
+void Open_800C4500(Work *work, int index)
 {
     RECT  rect;
     KCB  *kcb;
@@ -82,7 +208,7 @@ void Open_800C4500(OpenWork *work, int index)
     font_clut_update(kcb);
 }
 
-void Open_800C4674(OpenWork *work, int index)
+void Open_800C4674(Work *work, int index)
 {
     KCB *kcb;
 
@@ -115,7 +241,7 @@ void Open_800C4674(OpenWork *work, int index)
     work->unk[index].num = 1;
 }
 
-static inline void AddTpage(OpenWork *work, u_long *ot, int found, int i)
+static inline void AddTpage(Work *work, u_long *ot, int found, int i)
 {
     int       tp;
     DR_TPAGE *tpage;
@@ -129,7 +255,7 @@ static inline void AddTpage(OpenWork *work, u_long *ot, int found, int i)
     }
 }
 
-void title_open_800C47B8(OpenWork *work, u_long *ot)
+void title_open_800C47B8(Work *work, u_long *ot)
 {
     int   count;
     int   found;
@@ -178,7 +304,7 @@ void title_open_800C47B8(OpenWork *work, u_long *ot)
     AddTpage(work, ot, found, i);
 }
 
-void title_open_800C4AD0(OpenWork *work, int index, int color)
+void title_open_800C4AD0(Work *work, int index, int color)
 {
     KCB *kcb;
 
@@ -237,7 +363,7 @@ void title_open_800C4BD4(POLY_GT4 *poly, int shade3, int shade4)
 }
 
 // Identical to title_open_800C4F1C, but sets 0x200 to f140[] elements
-void title_open_800C4C38(OpenWork *work, int x0, int y0, int xsize, int ysize, int color, int mode)
+void title_open_800C4C38(Work *work, int x0, int y0, int xsize, int ysize, int color, int mode)
 {
     POLY_FT4 *polys;
     int i;
@@ -275,7 +401,7 @@ void title_open_800C4C38(OpenWork *work, int x0, int y0, int xsize, int ysize, i
     }
 }
 
-void title_open_800C4F1C(OpenWork *work, int x0, int y0, int xsize, int ysize, int color, int mode)
+void title_open_800C4F1C(Work *work, int x0, int y0, int xsize, int ysize, int color, int mode)
 {
     POLY_FT4 *polys;
     int i;
@@ -344,7 +470,7 @@ void title_open_800C5238(POLY_FT4 *poly, DG_TEX *tex, int scale, int width, int 
     poly->clut = tex->clut;
 }
 
-void title_open_800C5360(OpenWork *work, int texid, POLY_FT4 *poly)
+void title_open_800C5360(Work *work, int texid, POLY_FT4 *poly)
 {
     DG_TEX *tex;
     int u0, u1;
@@ -363,7 +489,7 @@ void title_open_800C5360(OpenWork *work, int texid, POLY_FT4 *poly)
     poly->clut = tex->clut;
 }
 
-void title_open_800C53E0(OpenWork *work)
+void title_open_800C53E0(Work *work)
 {
     POLY_FT4 *src_ft4;
     POLY_FT4 *dst_ft4;
@@ -432,7 +558,7 @@ static inline void ShadePack(POLY_FT4 *poly, DG_TEX *tex)
     poly->clut = tex->clut;
 }
 
-void title_open_800C5644(OpenWork *work, int index)
+void title_open_800C5644(Work *work, int index)
 {
     POLY_FT4 *poly;
     int       name;
@@ -479,67 +605,67 @@ void title_open_800C5644(OpenWork *work, int index)
     }
 }
 
-void title_open_800C5760(OpenWork *work)
+void title_open_800C5760(Work *work)
 {
     int r, g, b;
 
-    if (work->fA6C[4] >= 0 && work->fA6C[4] < 512)
+    if (work->pad->dir >= 0 && work->pad->dir < 512)
     {
         work->fA70 = 0;
         r = work->fAA8.r - 10;
         g = work->fAA8.g + 5;
         b = work->fAA8.b + 5;
     }
-    else if (work->fA6C[4] >= 512 && work->fA6C[4] < 1024)
+    else if (work->pad->dir >= 512 && work->pad->dir < 1024)
     {
         work->fA70 = 0;
         r = work->fAA8.r - 5;
         g = work->fAA8.g;
         b = work->fAA8.b + 10;
     }
-    else if (work->fA6C[4] >= 1024 && work->fA6C[4] < 1536)
+    else if (work->pad->dir >= 1024 && work->pad->dir < 1536)
     {
         work->fA70 = 0;
         r = work->fAA8.r;
         g = work->fAA8.g - 5;
         b = work->fAA8.b + 5;
     }
-    else if (work->fA6C[4] >= 1536 && work->fA6C[4] < 2048)
+    else if (work->pad->dir >= 1536 && work->pad->dir < 2048)
     {
         work->fA70 = 0;
         r = work->fAA8.r + 5;
         g = work->fAA8.g - 10;
         b = work->fAA8.b;
     }
-    else if (work->fA6C[4] >= 2048 && work->fA6C[4] < 2560)
+    else if (work->pad->dir >= 2048 && work->pad->dir < 2560)
     {
         work->fA70 = 0;
         r = work->fAA8.r + 10;
         g = work->fAA8.g - 5;
         b = work->fAA8.b - 5;
     }
-    else if (work->fA6C[4] >= 2560 && work->fA6C[4] < 3072)
+    else if (work->pad->dir >= 2560 && work->pad->dir < 3072)
     {
         work->fA70 = 0;
         r = work->fAA8.r + 5;
         g = work->fAA8.g;
         b = work->fAA8.b - 10;
     }
-    else if (work->fA6C[4] >= 3072 && work->fA6C[4] < 3584)
+    else if (work->pad->dir >= 3072 && work->pad->dir < 3584)
     {
         work->fA70 = 0;
         r = work->fAA8.r;
         g = work->fAA8.g + 5;
         b = work->fAA8.b - 5;
     }
-    else if (work->fA6C[4] >= 3584 && work->fA6C[4] < 4096)
+    else if (work->pad->dir >= 3584 && work->pad->dir < 4096)
     {
         work->fA70 = 0;
         r = work->fAA8.r - 5;
         g = work->fAA8.g + 10;
         b = work->fAA8.b;
     }
-    else if (work->fA6C[4] == -1)
+    else if (work->pad->dir == -1)
     {
         work->fA70++;
         r = work->fAA8.r;
@@ -569,7 +695,7 @@ void title_open_800C5760(OpenWork *work)
     }
 }
 
-void title_open_800C593C(OpenWork *work)
+void title_open_800C593C(Work *work)
 {
     POLY_FT4 *polys1;
     POLY_GT4 *polys2;
@@ -644,7 +770,7 @@ void title_open_800C593C(OpenWork *work)
     }
 }
 
-void title_open_800C5CB8(OpenWork *work)
+void title_open_800C5CB8(Work *work)
 {
     int i;
 
@@ -659,7 +785,7 @@ void title_open_800C5CB8(OpenWork *work)
     }
 }
 
-void title_open_800C5CF0(OpenWork *work)
+void title_open_800C5CF0(Work *work)
 {
     int i;
 
@@ -669,7 +795,7 @@ void title_open_800C5CF0(OpenWork *work)
     }
 }
 
-void title_open_800C5D10(OpenWork *work)
+void title_open_800C5D10(Work *work)
 {
     int i;
 
@@ -679,7 +805,7 @@ void title_open_800C5D10(OpenWork *work)
     }
 }
 
-void title_open_800C5D30(OpenWork *work)
+void title_open_800C5D30(Work *work)
 {
     MEM_CARD card1, card2;
     int      check1, check2;
@@ -838,7 +964,7 @@ void title_open_800C5D30(OpenWork *work)
     }
 }
 
-void title_open_800C61E0(OpenWork *work, GCL_ARGS *args)
+void title_open_800C61E0(Work *work, GCL_ARGS *args)
 {
     GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
     if (FS_DiskNum == 0)
@@ -863,16 +989,6 @@ void title_open_800C61E0(OpenWork *work, GCL_ARGS *args)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800C628C.s")
-/* Strings + reverse-transcribed tables for the still-INCLUDE_ASM
- * title_open_800C628C (0x800D8848..0x800D8A97). Placed here, AFTER all the
- * preceding C functions (so their auto-emitted switch tables fill
- * 0x800D86A0..0x800D8848 first) and immediately BEFORE title_open_800CCDC8,
- * so gcc emits these first and then 800CCDC8's own switch jump table lands
- * exactly at 0x800D8A98. The 0x800D8AB0+ strings/tables (op_back, 800CD800's
- * table, ...) stay after 800CCDC8 so they keep their addresses and
- * title_open_800CE378's table still lands at 0x800D8AE8.
- */
 const char title_aGameleveld_800D8848[] = "\n Game Level = %d\n\n";
 const char title_aErrormemcardcheckerror_800D885C[] = "ERROR!!!! MEMCARD Check ERROR!!!\n";
 const char title_aSppre_800D8880[] = "sp_pre";
@@ -996,10 +1112,11 @@ const int title_dword_800D8A88 = 0x800CC8D0;
 const int title_dword_800D8A8C = 0x800CC914;
 const int title_dword_800D8A90 = 0x800CC968;
 const char title_dword_800D8A94[] = {0x0, 0x0, 0x0, 0x0};
+#pragma INCLUDE_ASM("asm/overlays/title/title_open_800C628C.s")
 
 extern CVECTOR title_dword_800C33D8[];
 
-void title_open_800CCDC8(OpenWork *work)
+void title_open_800CCDC8(Work *work)
 {
     if (work->fA70 < 3)
     {
@@ -1079,7 +1196,7 @@ void title_open_800CCDC8(OpenWork *work)
     }
 }
 
-void title_open_800CD074(OpenWork *work)
+void title_open_800CD074(Work *work)
 {
     int sqrt1, sqrt2;
     int val1, val2, val3;
@@ -1125,7 +1242,7 @@ void title_open_800CD074(OpenWork *work)
     work->fAAE = val3_2;
 }
 
-void title_open_800CD23C(OpenWork *work, int index, int arg3)
+void title_open_800CD23C(Work *work, int index, int arg3)
 {
     GCL_ARGS args;
     long argv[2];
@@ -1170,7 +1287,7 @@ void title_open_800CD23C(OpenWork *work, int index, int arg3)
     }
 }
 
-void title_open_800CD320(OpenWork *work, int index)
+void title_open_800CD320(Work *work, int index)
 {
     POLY_FT4 *polys;
     int shade;
@@ -1212,11 +1329,154 @@ void title_open_800CD320(OpenWork *work, int index)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800CD3B8.s")
-const char title_aOpbackr_800D8AB0[] = "op_back_r";
-const char title_aOpbackl_800D8ABC[] = "op_back_l";
 
-void title_open_800CD800(OpenWork *work, int index)
+void title_open_800CD3B8(Work *work, int index)
+{
+    POLY_FT4 *poly;
+    DG_TEX   *tex;
+    int       i;
+
+    poly = work->f18C_polys;
+    poly += index;
+
+    switch (work->fA7C)
+    {
+    case 0:
+    {
+        int c = work->f168 * 2;
+        setRGB0(&poly[0], c, c, c);
+        setRGB0(&poly[1], c, c, c);
+        setRGB0(&poly[2], c, c, c);
+    }
+        for (i = 0; i < 3; i++)
+        {
+            poly->x0--;
+            poly->x1--;
+            poly->x2--;
+            poly->x3--;
+            poly++;
+        }
+        if (work->f168 < 0x40)
+        {
+            return;
+        }
+        work->fA7C = 1;
+        return;
+    case 1:
+        for (i = 0; i < 3; i++)
+        {
+            poly->x0--;
+            poly->x1--;
+            poly->x2--;
+            poly->x3--;
+            poly++;
+        }
+        if (work->f168 < 0xA0)
+        {
+            return;
+        }
+        work->fA7C = 2;
+        work->f168 = 0;
+        poly = &work->f18C_polys[0];
+        tex = DG_GetTexture(GV_StrCode("op_back_r"));
+        {
+            int u0 = tex->off_x;
+            int u1 = u0 + tex->w + 1;
+            int v0 = tex->off_y;
+            int v1 = v0 + tex->h + 1;
+            setUV4(poly, u0, v0, u1, v0, u0, v1, u1, v1);
+        }
+        poly->tpage = tex->tpage;
+        poly->clut = tex->clut;
+        setXY4(poly, -0xA0, -0x70, 0, -0x70, -0xA0, 0x70, 0, 0x70);
+        setRGB0(poly, 0x80, 0x80, 0x80);
+        poly = &work->f18C_polys[1];
+        tex = DG_GetTexture(GV_StrCode("op_back_l"));
+        {
+            int u0 = tex->off_x;
+            int u1 = u0 + tex->w + 1;
+            int v0 = tex->off_y;
+            int v1 = v0 + tex->h + 1;
+            setUV4(poly, u0, v0, u1, v0, u0, v1, u1, v1);
+        }
+        poly->tpage = tex->tpage;
+        poly->clut = tex->clut;
+        setXY4(poly, 0, -0x70, 0xA0, -0x70, 0, 0x70, 0xA0, 0x70);
+        setRGB0(poly, 0x80, 0x80, 0x80);
+        poly = &work->f18C_polys[2];
+        tex = DG_GetTexture(GV_StrCode("op_back_r"));
+        {
+            int u0 = tex->off_x;
+            int u1 = u0 + tex->w + 1;
+            int v0 = tex->off_y;
+            int v1 = v0 + tex->h + 1;
+            setUV4(poly, u0, v0, u1, v0, u0, v1, u1, v1);
+        }
+        poly->tpage = tex->tpage;
+        poly->clut = tex->clut;
+        setXY4(poly, 0xA0, -0x70, 0x140, -0x70, 0xA0, 0x70, 0x140, 0x70);
+        setRGB0(poly, 0x80, 0x80, 0x80);
+        break;
+    case 2:
+        for (i = 0; i < 3; i++)
+        {
+            poly->x0--;
+            poly->x1--;
+            poly->x2--;
+            poly->x3--;
+            poly++;
+        }
+        if (work->f168 < 0xA0)
+        {
+            return;
+        }
+        work->fA7C = 1;
+        work->f168 = 0;
+        poly = &work->f18C_polys[0];
+        tex = DG_GetTexture(GV_StrCode("op_back_l"));
+        {
+            int u0 = tex->off_x;
+            int u1 = u0 + tex->w + 1;
+            int v0 = tex->off_y;
+            int v1 = v0 + tex->h + 1;
+            setUV4(poly, u0, v0, u1, v0, u0, v1, u1, v1);
+        }
+        poly->tpage = tex->tpage;
+        poly->clut = tex->clut;
+        setXY4(poly, -0xA0, -0x70, 0, -0x70, -0xA0, 0x70, 0, 0x70);
+        setRGB0(poly, 0x80, 0x80, 0x80);
+        poly = &work->f18C_polys[1];
+        tex = DG_GetTexture(GV_StrCode("op_back_r"));
+        {
+            int u0 = tex->off_x;
+            int u1 = u0 + tex->w + 1;
+            int v0 = tex->off_y;
+            int v1 = v0 + tex->h + 1;
+            setUV4(poly, u0, v0, u1, v0, u0, v1, u1, v1);
+        }
+        poly->tpage = tex->tpage;
+        poly->clut = tex->clut;
+        setXY4(poly, 0, -0x70, 0xA0, -0x70, 0, 0x70, 0xA0, 0x70);
+        setRGB0(poly, 0x80, 0x80, 0x80);
+        poly = &work->f18C_polys[2];
+        tex = DG_GetTexture(GV_StrCode("op_back_l"));
+        {
+            int u0 = tex->off_x;
+            int u1 = u0 + tex->w + 1;
+            int v0 = tex->off_y;
+            int v1 = v0 + tex->h + 1;
+            setUV4(poly, u0, v0, u1, v0, u0, v1, u1, v1);
+        }
+        poly->tpage = tex->tpage;
+        poly->clut = tex->clut;
+        setXY4(poly, 0xA0, -0x70, 0x140, -0x70, 0xA0, 0x70, 0x140, 0x70);
+        setRGB0(poly, 0x80, 0x80, 0x80);
+        break;
+    }
+}
+
+
+void title_open_800CD800(Work *work, int index)
 {
     POLY_FT4 *poly;
     DG_TEX   *tex;
@@ -1279,7 +1539,7 @@ void title_open_800CD800(OpenWork *work, int index)
         {
             work->fA80 = 4;
             work->f16C = 0;
-            tex = DG_GetTexture(GV_StrCode(title_aOpbackl_800D8ABC));
+            tex = DG_GetTexture(GV_StrCode("op_back_l"));
             title_open_800C5238(poly, tex, 6, 0x140, 0x1F4);
             setXY4(poly, -0xA0, -0x70, 0xA0, -0x70, -0xA0, 0x184, 0xA0, 0x184);
             title_open_800C5200(poly, 2);
@@ -1330,7 +1590,7 @@ void title_open_800CD800(OpenWork *work, int index)
         {
             work->fA80 = 1;
             work->f16C = 0;
-            tex = DG_GetTexture(GV_StrCode(title_aOpbackr_800D8AB0));
+            tex = DG_GetTexture(GV_StrCode("op_back_r"));
             title_open_800C5238(poly, tex, 6, 0x140, 0x1F4);
             setXY4(poly, -0xA0, -0x70, 0xA0, -0x70, -0xA0, 0x184, 0xA0, 0x184);
             title_open_800C5200(poly, 2);
@@ -1379,10 +1639,75 @@ void title_open_800CDB9C(POLY_FT4 *poly, DG_TEX *tex, int arg2)
     poly->clut = tex->clut;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800CDBF8.s")
-extern void title_open_800CDBF8(OpenWork *work, int index);
+void title_open_800CDBF8(Work *work, int index)
+{
+    POLY_FT4 *poly;
+    DG_TEX   *tex;
 
-void title_open_800CDE44(OpenWork *work, int index)
+    poly = work->f18C_polys;
+    poly += index;
+
+    if (work->fA7C < 0)
+    {
+        return;
+    }
+
+    switch (work->fA7C)
+    {
+    case 0:
+    case 1:
+        tex = DG_GetTexture(GV_StrCode("op_back_l"));
+        title_open_800CDB9C(poly, tex, work->f168);
+        setXY4(poly, -0xA0, -0x70, work->fAA0, -0x70, -0xA0, 0x70, work->fAA0, 0x70);
+        setRGB0(poly, 0, 0, 0);
+        poly++;
+        tex = DG_GetTexture(GV_StrCode("op_back_r"));
+        {
+            int u0 = tex->off_x;
+            int u1 = u0 + tex->w + 1;
+            int v0 = tex->off_y;
+            int v1 = v0 + tex->h + 1;
+            setUV4(poly, u0, v0, u1, v0, u0, v1, u1, v1);
+        }
+        poly->tpage = tex->tpage;
+        poly->clut = tex->clut;
+        setXY4(poly, work->fAA0, -0x70, work->fAA4, -0x70, work->fAA0, 0x70, work->fAA4, 0x70);
+        setRGB0(poly, 0, 0, 0);
+        poly++;
+        tex = DG_GetTexture(GV_StrCode("op_back_l"));
+        title_open_800CDB4C(poly, tex, work->f168);
+        setXY4(poly, work->fAA4, -0x70, 0xA0, -0x70, work->fAA4, 0x70, 0xA0, 0x70);
+        setRGB0(poly, 0, 0, 0);
+        break;
+    case 2:
+        tex = DG_GetTexture(GV_StrCode("op_back_r"));
+        title_open_800CDB9C(poly, tex, work->f168);
+        setXY4(poly, -0xA0, -0x70, work->fAA0, -0x70, -0xA0, 0x70, work->fAA0, 0x70);
+        setRGB0(poly, 0, 0, 0);
+        poly++;
+        tex = DG_GetTexture(GV_StrCode("op_back_l"));
+        {
+            int u0 = tex->off_x;
+            int u1 = u0 + tex->w + 1;
+            int v0 = tex->off_y;
+            int v1 = v0 + tex->h + 1;
+            setUV4(poly, u0, v0, u1, v0, u0, v1, u1, v1);
+        }
+        poly->tpage = tex->tpage;
+        poly->clut = tex->clut;
+        setXY4(poly, work->fAA0, -0x70, work->fAA4, -0x70, work->fAA0, 0x70, work->fAA4, 0x70);
+        setRGB0(poly, 0, 0, 0);
+        poly++;
+        tex = DG_GetTexture(GV_StrCode("op_back_r"));
+        title_open_800CDB4C(poly, tex, work->f168);
+        setXY4(poly, work->fAA4, -0x70, 0xA0, -0x70, work->fAA4, 0x70, 0xA0, 0x70);
+        setRGB0(poly, 0, 0, 0);
+        break;
+    }
+}
+extern void title_open_800CDBF8(Work *work, int index);
+
+void title_open_800CDE44(Work *work, int index)
 {
     POLY_FT4 *pack;
     int       shade;
@@ -1488,7 +1813,7 @@ void title_open_800CDE44(OpenWork *work, int index)
 }
 const char title_dword_800D8AE4[] = {0x0, 0x0, 0x0, 0x0};
 
-void title_open_800CE378(OpenWork *work, int idx)
+void title_open_800CE378(Work *work, int idx)
 {
     POLY_FT4 *poly = work->f18C_polys;
     int       v;
@@ -1553,7 +1878,7 @@ void title_open_800CE378(OpenWork *work, int idx)
  */
 const char title_dword_800D8AFC[] = {0x0, 0x0, 0x0, 0x0};
 
-void title_open_800CE4A8(OpenWork *work, int index)
+void title_open_800CE4A8(Work *work, int index)
 {
     POLY_FT4 *polys;
     int shade;
@@ -1585,7 +1910,7 @@ void title_open_800CE4A8(OpenWork *work, int index)
     }
 }
 
-void title_open_800CE544(OpenWork *work, int index)
+void title_open_800CE544(Work *work, int index)
 {
     POLY_FT4 *polys;
     int shade;
@@ -1620,7 +1945,7 @@ void title_open_800CE544(OpenWork *work, int index)
     }
 }
 
-void title_open_800CE5F8(OpenWork *work, int index)
+void title_open_800CE5F8(Work *work, int index)
 {
     POLY_FT4 *polys;
     int f184;
@@ -1660,7 +1985,7 @@ void title_open_800CE5F8(OpenWork *work, int index)
     }
 }
 
-void title_open_800CE6AC(OpenWork *work, int index)
+void title_open_800CE6AC(Work *work, int index)
 {
     POLY_FT4 *polys;
     int shade;
@@ -1692,9 +2017,151 @@ void title_open_800CE6AC(OpenWork *work, int index)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800CE748.s")
+void title_open_800CE748(Work *work, int index)
+{
+    POLY_FT4 *poly;
+    DG_TEX   *tex;
+    int       r, g, b;
+    int       i;
+
+    poly = work->f18C_polys;
+    poly += index;
+    r = work->fAA8.r;
+    g = work->fAA8.g;
+    b = work->fAA8.b;
+
+    switch (work->fA7C)
+    {
+    case 1:
+        for (i = 0; i < 3; i++)
+        {
+            setRGB0(poly, r, g, b);
+            poly->x0--;
+            poly->x1--;
+            poly->x2--;
+            poly->x3--;
+            poly++;
+        }
+        {
+        int width = work->f168;
+        if (width != 0xA0)
+        {
+            return;
+        }
+        work->fA7C = 2;
+        work->f168 = 0;
+        poly = &work->f18C_polys[0];
+        tex = DG_GetTexture(GV_StrCode("op_back_r"));
+        {
+            int u0 = tex->off_x;
+            int u1 = u0 + tex->w + 1;
+            int v0 = tex->off_y;
+            int v1 = v0 + tex->h + 1;
+            setUV4(poly, u0, v0, u1, v0, u0, v1, u1, v1);
+        }
+        poly->tpage = tex->tpage;
+        poly->clut = tex->clut;
+        setXY4(poly, -0xA0, -0x70, 0, -0x70, -0xA0, 0x70, 0, 0x70);
+        setRGB0(poly, r, g, b);
+        poly = &work->f18C_polys[1];
+        tex = DG_GetTexture(GV_StrCode("op_back_l"));
+        {
+            int u0 = tex->off_x;
+            int u1 = u0 + tex->w + 1;
+            int v0 = tex->off_y;
+            int v1 = v0 + tex->h + 1;
+            setUV4(poly, u0, v0, u1, v0, u0, v1, u1, v1);
+        }
+        poly->tpage = tex->tpage;
+        poly->clut = tex->clut;
+        setXY4(poly, 0, -0x70, width, -0x70, 0, 0x70, width, 0x70);
+        setRGB0(poly, r, g, b);
+        poly = &work->f18C_polys[2];
+        tex = DG_GetTexture(GV_StrCode("op_back_r"));
+        {
+            int u0 = tex->off_x;
+            int u1 = u0 + tex->w + 1;
+            int v0 = tex->off_y;
+            int v1 = v0 + tex->h + 1;
+            setUV4(poly, u0, v0, u1, v0, u0, v1, u1, v1);
+        }
+        poly->tpage = tex->tpage;
+        poly->clut = tex->clut;
+        setXY4(poly, width, -0x70, 0x140, -0x70, width, 0x70, 0x140, 0x70);
+        setRGB0(poly, r, g, b);
+        }
+        break;
+    case 2:
+        for (i = 0; i < 3; i++)
+        {
+            setRGB0(poly, r, g, b);
+            poly->x0--;
+            poly->x1--;
+            poly->x2--;
+            poly->x3--;
+            poly++;
+        }
+        {
+        int width = work->f168;
+        if (width != 0xA0)
+        {
+            return;
+        }
+        work->fA7C = 1;
+        work->f168 = 0;
+        poly = &work->f18C_polys[0];
+        tex = DG_GetTexture(GV_StrCode("op_back_l"));
+        {
+            int u0 = tex->off_x;
+            int u1 = u0 + tex->w + 1;
+            int v0 = tex->off_y;
+            int v1 = v0 + tex->h + 1;
+            setUV4(poly, u0, v0, u1, v0, u0, v1, u1, v1);
+        }
+        poly->tpage = tex->tpage;
+        poly->clut = tex->clut;
+        setXY4(poly, -0xA0, -0x70, 0, -0x70, -0xA0, 0x70, 0, 0x70);
+        setRGB0(poly, r, g, b);
+        poly = &work->f18C_polys[1];
+        tex = DG_GetTexture(GV_StrCode("op_back_r"));
+        {
+            int u0 = tex->off_x;
+            int u1 = u0 + tex->w + 1;
+            int v0 = tex->off_y;
+            int v1 = v0 + tex->h + 1;
+            setUV4(poly, u0, v0, u1, v0, u0, v1, u1, v1);
+        }
+        poly->tpage = tex->tpage;
+        poly->clut = tex->clut;
+        setXY4(poly, 0, -0x70, width, -0x70, 0, 0x70, width, 0x70);
+        setRGB0(poly, r, g, b);
+        poly = &work->f18C_polys[2];
+        tex = DG_GetTexture(GV_StrCode("op_back_l"));
+        {
+            int u0 = tex->off_x;
+            int u1 = u0 + tex->w + 1;
+            int v0 = tex->off_y;
+            int v1 = v0 + tex->h + 1;
+            setUV4(poly, u0, v0, u1, v0, u0, v1, u1, v1);
+        }
+        poly->tpage = tex->tpage;
+        poly->clut = tex->clut;
+        setXY4(poly, width, -0x70, 0x140, -0x70, width, 0x70, 0x140, 0x70);
+        setRGB0(poly, r, g, b);
+        }
+        break;
+    }
+}
+
+const int title_dword_800D8B00 = 0x800CEB74;
+const int title_dword_800D8B04 = 0x800CEC14;
+const int title_dword_800D8B08 = 0x800CEC68;
+const int title_dword_800D8B0C = 0x800CED18;
+const int title_dword_800D8B10 = 0x800CEDC8;
+const int title_dword_800D8B14 = 0x800CEE20;
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CEB14.s")
-void title_open_800CEF54(OpenWork *work, int index)
+
+void title_open_800CEF54(Work *work, int index)
 {
     POLY_FT4 *pack;
     int       r;
@@ -1799,7 +2266,7 @@ void title_open_800CEF54(OpenWork *work, int index)
     }
 }
 
-void title_open_800CF504(OpenWork *work, int index)
+void title_open_800CF504(Work *work, int index)
 {
     POLY_FT4 *p;
     int counter, r_val;
@@ -1845,7 +2312,7 @@ void title_open_800CF504(OpenWork *work, int index)
         break;
     }
 }
-void title_open_800CF610(OpenWork *work, int index)
+void title_open_800CF610(Work *work, int index)
 {
     POLY_GT4 *p;
     int counter, r_val;
@@ -1918,7 +2385,879 @@ void title_open_800CF610(OpenWork *work, int index)
         break;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800CF794.s")
+
+void title_open_800CF794(Work *work)
+{
+    POLY_GT4 *poly = work->f934_polys;
+    int top1, bot1, top2, bot2, top3, bot3, bot4;
+
+    if (work->fB14 == 0)
+    {
+        return;
+    }
+    if (work->fB14 == 6)
+    {
+        return;
+    }
+
+    switch (work->fA78)
+    {
+    case 0:
+        if (work->fB14 == 5)
+        {
+            setXY4(&poly[4], -0x1E, 0x37, 0x1E, 0x37, -0x1E, 0x3F, 0x1E, 0x3F);
+            setXY4(&poly[0], -0x26, 0x46, 0x26, 0x46, -0x26, 0x4E, 0x26, 0x4E);
+            setXY4(&poly[1], -0x28, 0x55, 0x28, 0x55, -0x28, 0x5D, 0x28, 0x5D);
+            title_open_800C4B94(&poly[4], 0, 0, 0, 0x80, 0xC0, 0x80);
+            title_open_800C4B94(&poly[0], 0x80, 0xC0, 0x80, 0x80, 0xC0, 0x80);
+            title_open_800C4B94(&poly[1], 0x80, 0xC0, 0x80, 0, 0, 0);
+            SetSemiTrans(&poly[4], 1);
+            SetSemiTrans(&poly[0], 0);
+            SetSemiTrans(&poly[1], 1);
+            work->fE0[0] = 0x100;
+            work->fE0[1] = 0x100;
+            work->fE0[2] = 0;
+            work->fE0[3] = 0;
+            work->fE0[4] = 0x100;
+            work->fE0[5] = 0;
+        }
+        else
+        {
+            int y = work->fB14 * 3;
+
+            if (work->fB18 == 0)
+            {
+                setXY4(&poly[4], -0x1E, y + 0x28, 0x1E, y + 0x28, -0x1E, y + 0x30, 0x1E, y + 0x30);
+                setXY4(&poly[0], -0x26, y + 0x37, 0x26, y + 0x37, -0x26, y + 0x3F, 0x26, y + 0x3F);
+                setXY4(&poly[1], -0x28, y + 0x46, 0x28, y + 0x46, -0x28, y + 0x4E, 0x28, y + 0x4E);
+                setXY4(&poly[2], -0x1A, y + 0x55, 0x1A, y + 0x55, -0x1A, y + 0x5D, 0x1A, y + 0x5D);
+                SetSemiTrans(&poly[4], 1);
+                SetSemiTrans(&poly[0], 1);
+                SetSemiTrans(&poly[1], 1);
+                SetSemiTrans(&poly[2], 1);
+                top1 = 0;
+                work->fE0[0] = 0x100;
+                work->fE0[1] = 0x100;
+                work->fE0[2] = 0x100;
+                work->fE0[3] = 0;
+                work->fE0[4] = 0x100;
+                work->fE0[5] = 0;
+                if (work->fB14 < 3)
+                {
+                    bot1 = top1;
+                    work->fE0[4] = 0;
+                }
+                else
+                {
+                    bot1 = (work->fB14 - 2) * 128 / 3;
+                }
+                if (work->fB14 < 4)
+                {
+                    top2 = work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    top2 = 0x80;
+                }
+                bot2 = 0x80;
+                top3 = bot2;
+                if (work->fB14 < 3)
+                {
+                    bot3 = 0x80;
+                }
+                else
+                {
+                    bot3 = top3 - (work->fB14 - 2) * 128 / 3;
+                }
+                if (work->fB14 < 4)
+                {
+                    bot4 = 0x80 - work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    bot4 = 0;
+                    work->fE0[2] = 0;
+                }
+                title_open_800C4BD4(&poly[4], top1, bot1);
+                title_open_800C4BD4(&poly[0], top2, bot2);
+                title_open_800C4BD4(&poly[1], top3, bot3);
+                title_open_800C4BD4(&poly[2], bot4, 0);
+            }
+            else
+            {
+                setXY4(&poly[3], -0x20, 0x37 - y, 0x20, 0x37 - y, -0x20, 0x3F - y, 0x20, 0x3F - y);
+                setXY4(&poly[4], -0x1E, 0x46 - y, 0x1E, 0x46 - y, -0x1E, 0x4E - y, 0x1E, 0x4E - y);
+                setXY4(&poly[0], -0x26, 0x55 - y, 0x26, 0x55 - y, -0x26, 0x5D - y, 0x26, 0x5D - y);
+                setXY4(&poly[1], -0x28, 0x64 - y, 0x28, 0x64 - y, -0x28, 0x6C - y, 0x28, 0x6C - y);
+                SetSemiTrans(&poly[3], 1);
+                SetSemiTrans(&poly[4], 1);
+                SetSemiTrans(&poly[0], 1);
+                SetSemiTrans(&poly[1], 1);
+                top1 = 0;
+                work->fE0[0] = 0x100;
+                work->fE0[1] = 0x100;
+                work->fE0[2] = 0;
+                work->fE0[3] = 0x100;
+                work->fE0[4] = 0x100;
+                work->fE0[5] = 0;
+                if (work->fB14 < 4)
+                {
+                    bot1 = 0x80 - work->fB14 * 128 / 3;
+                    work->fE0[3] = 0; /* sic: original zeroes the exit row in this
+                                       * arm; every other case does it in the else */
+                }
+                else
+                {
+                    bot1 = 0;
+                }
+                if (work->fB14 < 3)
+                {
+                    top2 = 0x80;
+                }
+                else
+                {
+                    top2 = 0x80 - (work->fB14 - 2) * 128 / 3;
+                }
+                bot2 = 0x80;
+                top3 = bot2;
+                if (work->fB14 < 4)
+                {
+                    bot3 = work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    bot3 = 0x80;
+                }
+                if (work->fB14 < 3)
+                {
+                    bot4 = 0;
+                    work->fE0[1] = 0;
+                }
+                else
+                {
+                    bot4 = (work->fB14 - 2) * 128 / 3;
+                }
+                title_open_800C4BD4(&poly[3], top1, bot1);
+                title_open_800C4BD4(&poly[4], top2, bot2);
+                title_open_800C4BD4(&poly[0], top3, bot3);
+                title_open_800C4BD4(&poly[1], bot4, 0);
+            }
+        }
+        break;
+
+    case 1:
+        if (work->fB14 == 5)
+        {
+            setXY4(&poly[0], -0x26, 0x37, 0x26, 0x37, -0x26, 0x3F, 0x26, 0x3F);
+            setXY4(&poly[1], -0x28, 0x46, 0x28, 0x46, -0x28, 0x4E, 0x28, 0x4E);
+            setXY4(&poly[2], -0x1A, 0x55, 0x1A, 0x55, -0x1A, 0x5D, 0x1A, 0x5D);
+            title_open_800C4B94(&poly[0], 0, 0, 0, 0x80, 0xC0, 0x80);
+            title_open_800C4B94(&poly[1], 0x80, 0xC0, 0x80, 0x80, 0xC0, 0x80);
+            title_open_800C4B94(&poly[2], 0x80, 0xC0, 0x80, 0, 0, 0);
+            SetSemiTrans(&poly[0], 1);
+            SetSemiTrans(&poly[1], 0);
+            SetSemiTrans(&poly[2], 1);
+            work->fE0[0] = 0x100;
+            work->fE0[1] = 0x100;
+            work->fE0[2] = 0x100;
+            work->fE0[3] = 0;
+            work->fE0[4] = 0;
+            work->fE0[5] = 0;
+        }
+        else
+        {
+            int y = work->fB14 * 3;
+
+            if (work->fB18 == 0)
+            {
+                setXY4(&poly[0], -0x26, y + 0x28, 0x26, y + 0x28, -0x26, y + 0x30, 0x26, y + 0x30);
+                setXY4(&poly[1], -0x28, y + 0x37, 0x28, y + 0x37, -0x28, y + 0x3F, 0x28, y + 0x3F);
+                setXY4(&poly[2], -0x1A, y + 0x46, 0x1A, y + 0x46, -0x1A, y + 0x4E, 0x1A, y + 0x4E);
+                setXY4(&poly[3], -0x20, y + 0x55, 0x20, y + 0x55, -0x20, y + 0x5D, 0x20, y + 0x5D);
+                SetSemiTrans(&poly[0], 1);
+                SetSemiTrans(&poly[1], 1);
+                SetSemiTrans(&poly[2], 1);
+                SetSemiTrans(&poly[3], 1);
+                top1 = 0;
+                work->fE0[0] = 0x100;
+                work->fE0[1] = 0x100;
+                work->fE0[2] = 0x100;
+                work->fE0[3] = 0x100;
+                work->fE0[4] = 0;
+                work->fE0[5] = 0;
+                if (work->fB14 < 3)
+                {
+                    bot1 = top1;
+                    work->fE0[0] = 0;
+                }
+                else
+                {
+                    bot1 = (work->fB14 - 2) * 128 / 3;
+                }
+                if (work->fB14 < 4)
+                {
+                    top2 = work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    top2 = 0x80;
+                }
+                bot2 = 0x80;
+                top3 = bot2;
+                if (work->fB14 < 3)
+                {
+                    bot3 = 0x80;
+                }
+                else
+                {
+                    bot3 = top3 - (work->fB14 - 2) * 128 / 3;
+                }
+                if (work->fB14 < 4)
+                {
+                    bot4 = 0x80 - work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    bot4 = 0;
+                    work->fE0[3] = 0;
+                }
+                title_open_800C4BD4(&poly[0], top1, bot1);
+                title_open_800C4BD4(&poly[1], top2, bot2);
+                title_open_800C4BD4(&poly[2], top3, bot3);
+                title_open_800C4BD4(&poly[3], bot4, 0);
+            }
+            else
+            {
+                setXY4(&poly[4], -0x1E, 0x37 - y, 0x1E, 0x37 - y, -0x1E, 0x3F - y, 0x1E, 0x3F - y);
+                setXY4(&poly[0], -0x26, 0x46 - y, 0x26, 0x46 - y, -0x26, 0x4E - y, 0x26, 0x4E - y);
+                setXY4(&poly[1], -0x28, 0x55 - y, 0x28, 0x55 - y, -0x28, 0x5D - y, 0x28, 0x5D - y);
+                setXY4(&poly[2], -0x1A, 0x64 - y, 0x1A, 0x64 - y, -0x1A, 0x6C - y, 0x1A, 0x6C - y);
+                SetSemiTrans(&poly[4], 1);
+                SetSemiTrans(&poly[0], 1);
+                SetSemiTrans(&poly[1], 1);
+                SetSemiTrans(&poly[2], 1);
+                top1 = 0;
+                work->fE0[0] = 0x100;
+                work->fE0[1] = 0x100;
+                work->fE0[2] = 0x100;
+                work->fE0[3] = 0;
+                work->fE0[4] = 0x100;
+                work->fE0[5] = 0;
+                if (work->fB14 < 4)
+                {
+                    bot1 = 0x80 - work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    bot1 = 0;
+                    work->fE0[4] = 0;
+                }
+                if (work->fB14 < 3)
+                {
+                    top2 = 0x80;
+                }
+                else
+                {
+                    top2 = 0x80 - (work->fB14 - 2) * 128 / 3;
+                }
+                bot2 = 0x80;
+                top3 = bot2;
+                if (work->fB14 < 4)
+                {
+                    bot3 = work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    bot3 = 0x80;
+                }
+                if (work->fB14 < 3)
+                {
+                    bot4 = 0;
+                    work->fE0[2] = 0;
+                }
+                else
+                {
+                    bot4 = (work->fB14 - 2) * 128 / 3;
+                }
+                title_open_800C4BD4(&poly[4], top1, bot1);
+                title_open_800C4BD4(&poly[0], top2, bot2);
+                title_open_800C4BD4(&poly[1], top3, bot3);
+                title_open_800C4BD4(&poly[2], bot4, 0);
+            }
+        }
+        break;
+
+    case 2:
+        if (work->fB14 == 5)
+        {
+            setXY4(&poly[1], -0x28, 0x37, 0x28, 0x37, -0x28, 0x3F, 0x28, 0x3F);
+            setXY4(&poly[2], -0x1A, 0x46, 0x1A, 0x46, -0x1A, 0x4E, 0x1A, 0x4E);
+            setXY4(&poly[3], -0x20, 0x55, 0x20, 0x55, -0x20, 0x5D, 0x20, 0x5D);
+            title_open_800C4B94(&poly[1], 0, 0, 0, 0x80, 0xC0, 0x80);
+            title_open_800C4B94(&poly[2], 0x80, 0xC0, 0x80, 0x80, 0xC0, 0x80);
+            title_open_800C4B94(&poly[3], 0x80, 0xC0, 0x80, 0, 0, 0);
+            SetSemiTrans(&poly[1], 1);
+            SetSemiTrans(&poly[2], 0);
+            SetSemiTrans(&poly[3], 1);
+            work->fE0[0] = 0;
+            work->fE0[1] = 0x100;
+            work->fE0[2] = 0x100;
+            work->fE0[3] = 0x100;
+            work->fE0[4] = 0;
+            work->fE0[5] = 0;
+        }
+        else
+        {
+            int y = work->fB14 * 3;
+
+            if (work->fB18 == 0)
+            {
+                setXY4(&poly[1], -0x28, y + 0x28, 0x28, y + 0x28, -0x28, y + 0x30, 0x28, y + 0x30);
+                setXY4(&poly[2], -0x1A, y + 0x37, 0x1A, y + 0x37, -0x1A, y + 0x3F, 0x1A, y + 0x3F);
+                setXY4(&poly[3], -0x20, y + 0x46, 0x20, y + 0x46, -0x20, y + 0x4E, 0x20, y + 0x4E);
+                setXY4(&poly[4], -0x1E, y + 0x55, 0x1E, y + 0x55, -0x1E, y + 0x5D, 0x1E, y + 0x5D);
+                SetSemiTrans(&poly[1], 1);
+                SetSemiTrans(&poly[2], 1);
+                SetSemiTrans(&poly[3], 1);
+                SetSemiTrans(&poly[4], 1);
+                top1 = 0;
+                work->fE0[0] = 0;
+                work->fE0[1] = 0x100;
+                work->fE0[2] = 0x100;
+                work->fE0[3] = 0x100;
+                work->fE0[4] = 0x100;
+                work->fE0[5] = 0;
+                if (work->fB14 < 3)
+                {
+                    bot1 = top1;
+                    work->fE0[1] = 0;
+                }
+                else
+                {
+                    bot1 = (work->fB14 - 2) * 128 / 3;
+                }
+                if (work->fB14 < 4)
+                {
+                    top2 = work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    top2 = 0x80;
+                }
+                bot2 = 0x80;
+                top3 = bot2;
+                if (work->fB14 < 3)
+                {
+                    bot3 = 0x80;
+                }
+                else
+                {
+                    bot3 = top3 - (work->fB14 - 2) * 128 / 3;
+                }
+                if (work->fB14 < 4)
+                {
+                    bot4 = 0x80 - work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    bot4 = 0;
+                    work->fE0[4] = 0;
+                }
+                title_open_800C4BD4(&poly[1], top1, bot1);
+                title_open_800C4BD4(&poly[2], top2, bot2);
+                title_open_800C4BD4(&poly[3], top3, bot3);
+                title_open_800C4BD4(&poly[4], bot4, 0);
+            }
+            else
+            {
+                setXY4(&poly[0], -0x26, 0x37 - y, 0x26, 0x37 - y, -0x26, 0x3F - y, 0x26, 0x3F - y);
+                setXY4(&poly[1], -0x28, 0x46 - y, 0x28, 0x46 - y, -0x28, 0x4E - y, 0x28, 0x4E - y);
+                setXY4(&poly[2], -0x1A, 0x55 - y, 0x1A, 0x55 - y, -0x1A, 0x5D - y, 0x1A, 0x5D - y);
+                setXY4(&poly[3], -0x20, 0x64 - y, 0x20, 0x64 - y, -0x20, 0x6C - y, 0x20, 0x6C - y);
+                SetSemiTrans(&poly[0], 1);
+                SetSemiTrans(&poly[1], 1);
+                SetSemiTrans(&poly[2], 1);
+                SetSemiTrans(&poly[3], 1);
+                top1 = 0;
+                work->fE0[0] = 0x100;
+                work->fE0[1] = 0x100;
+                work->fE0[2] = 0x100;
+                work->fE0[3] = 0x100;
+                work->fE0[4] = 0;
+                work->fE0[5] = 0;
+                if (work->fB14 < 4)
+                {
+                    bot1 = 0x80 - work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    bot1 = 0;
+                    work->fE0[0] = 0;
+                }
+                if (work->fB14 < 3)
+                {
+                    top2 = 0x80;
+                }
+                else
+                {
+                    top2 = 0x80 - (work->fB14 - 2) * 128 / 3;
+                }
+                bot2 = 0x80;
+                top3 = bot2;
+                if (work->fB14 < 4)
+                {
+                    bot3 = work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    bot3 = 0x80;
+                }
+                if (work->fB14 < 3)
+                {
+                    bot4 = 0;
+                    work->fE0[3] = 0;
+                }
+                else
+                {
+                    bot4 = (work->fB14 - 2) * 128 / 3;
+                }
+                title_open_800C4BD4(&poly[0], top1, bot1);
+                title_open_800C4BD4(&poly[1], top2, bot2);
+                title_open_800C4BD4(&poly[2], top3, bot3);
+                title_open_800C4BD4(&poly[3], bot4, 0);
+            }
+        }
+        break;
+
+    case 3:
+        if (work->fB14 == 5)
+        {
+            setXY4(&poly[2], -0x1A, 0x37, 0x1A, 0x37, -0x1A, 0x3F, 0x1A, 0x3F);
+            setXY4(&poly[3], -0x20, 0x46, 0x20, 0x46, -0x20, 0x4E, 0x20, 0x4E);
+            setXY4(&poly[4], -0x1E, 0x55, 0x1E, 0x55, -0x1E, 0x5D, 0x1E, 0x5D);
+            title_open_800C4B94(&poly[2], 0, 0, 0, 0x80, 0xC0, 0x80);
+            title_open_800C4B94(&poly[3], 0x80, 0xC0, 0x80, 0x80, 0xC0, 0x80);
+            title_open_800C4B94(&poly[4], 0x80, 0xC0, 0x80, 0, 0, 0);
+            SetSemiTrans(&poly[2], 1);
+            SetSemiTrans(&poly[3], 0);
+            SetSemiTrans(&poly[4], 1);
+            work->fE0[0] = 0;
+            work->fE0[1] = 0;
+            work->fE0[2] = 0x100;
+            work->fE0[3] = 0x100;
+            work->fE0[4] = 0x100;
+            work->fE0[5] = 0;
+        }
+        else
+        {
+            int y = work->fB14 * 3;
+
+            if (work->fB18 == 0)
+            {
+                setXY4(&poly[2], -0x1A, y + 0x28, 0x1A, y + 0x28, -0x1A, y + 0x30, 0x1A, y + 0x30);
+                setXY4(&poly[3], -0x20, y + 0x37, 0x20, y + 0x37, -0x20, y + 0x3F, 0x20, y + 0x3F);
+                setXY4(&poly[4], -0x1E, y + 0x46, 0x1E, y + 0x46, -0x1E, y + 0x4E, 0x1E, y + 0x4E);
+                setXY4(&poly[0], -0x26, y + 0x55, 0x26, y + 0x55, -0x26, y + 0x5D, 0x26, y + 0x5D);
+                SetSemiTrans(&poly[2], 1);
+                SetSemiTrans(&poly[3], 1);
+                SetSemiTrans(&poly[4], 1);
+                SetSemiTrans(&poly[0], 1);
+                top1 = 0;
+                work->fE0[0] = 0x100;
+                work->fE0[5] = 0;
+                work->fE0[1] = 0;
+                work->fE0[2] = 0x100;
+                work->fE0[3] = 0x100;
+                work->fE0[4] = 0x100;
+                if (work->fB14 < 3)
+                {
+                    bot1 = top1;
+                    work->fE0[2] = 0;
+                }
+                else
+                {
+                    bot1 = (work->fB14 - 2) * 128 / 3;
+                }
+                if (work->fB14 < 4)
+                {
+                    top2 = work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    top2 = 0x80;
+                }
+                bot2 = 0x80;
+                top3 = bot2;
+                if (work->fB14 < 3)
+                {
+                    bot3 = 0x80;
+                }
+                else
+                {
+                    bot3 = top3 - (work->fB14 - 2) * 128 / 3;
+                }
+                if (work->fB14 < 4)
+                {
+                    bot4 = 0x80 - work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    bot4 = 0;
+                    work->fE0[0] = 0;
+                }
+                title_open_800C4BD4(&poly[2], top1, bot1);
+                title_open_800C4BD4(&poly[3], top2, bot2);
+                title_open_800C4BD4(&poly[4], top3, bot3);
+                title_open_800C4BD4(&poly[0], bot4, 0);
+            }
+            else
+            {
+                setXY4(&poly[1], -0x28, 0x37 - y, 0x28, 0x37 - y, -0x28, 0x3F - y, 0x28, 0x3F - y);
+                setXY4(&poly[2], -0x1A, 0x46 - y, 0x1A, 0x46 - y, -0x1A, 0x4E - y, 0x1A, 0x4E - y);
+                setXY4(&poly[3], -0x20, 0x55 - y, 0x20, 0x55 - y, -0x20, 0x5D - y, 0x20, 0x5D - y);
+                setXY4(&poly[4], -0x1E, 0x64 - y, 0x1E, 0x64 - y, -0x1E, 0x6C - y, 0x1E, 0x6C - y);
+                SetSemiTrans(&poly[1], 1);
+                SetSemiTrans(&poly[2], 1);
+                SetSemiTrans(&poly[3], 1);
+                SetSemiTrans(&poly[4], 1);
+                top1 = 0;
+                work->fE0[0] = 0;
+                work->fE0[1] = 0x100;
+                work->fE0[2] = 0x100;
+                work->fE0[3] = 0x100;
+                work->fE0[4] = 0x100;
+                work->fE0[5] = 0;
+                if (work->fB14 < 4)
+                {
+                    bot1 = 0x80 - work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    bot1 = 0;
+                    work->fE0[1] = 0;
+                }
+                if (work->fB14 < 3)
+                {
+                    top2 = 0x80;
+                }
+                else
+                {
+                    top2 = 0x80 - (work->fB14 - 2) * 128 / 3;
+                }
+                bot2 = 0x80;
+                top3 = bot2;
+                if (work->fB14 < 4)
+                {
+                    bot3 = work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    bot3 = 0x80;
+                }
+                if (work->fB14 < 3)
+                {
+                    bot4 = 0;
+                    work->fE0[4] = 0;
+                }
+                else
+                {
+                    bot4 = (work->fB14 - 2) * 128 / 3;
+                }
+                title_open_800C4BD4(&poly[1], top1, bot1);
+                title_open_800C4BD4(&poly[2], top2, bot2);
+                title_open_800C4BD4(&poly[3], top3, bot3);
+                title_open_800C4BD4(&poly[4], bot4, 0);
+            }
+        }
+        break;
+
+    case 4:
+        if (work->fB14 == 5)
+        {
+            setXY4(&poly[3], -0x20, 0x37, 0x20, 0x37, -0x20, 0x3F, 0x20, 0x3F);
+            setXY4(&poly[4], -0x1E, 0x46, 0x1E, 0x46, -0x1E, 0x4E, 0x1E, 0x4E);
+            setXY4(&poly[0], -0x26, 0x55, 0x26, 0x55, -0x26, 0x5D, 0x26, 0x5D);
+            title_open_800C4B94(&poly[3], 0, 0, 0, 0x80, 0xC0, 0x80);
+            title_open_800C4B94(&poly[4], 0x80, 0xC0, 0x80, 0x80, 0xC0, 0x80);
+            title_open_800C4B94(&poly[0], 0x80, 0xC0, 0x80, 0, 0, 0);
+            SetSemiTrans(&poly[3], 1);
+            SetSemiTrans(&poly[4], 0);
+            SetSemiTrans(&poly[5], 1); /* sic: original bug, the visible row is poly[0] */
+            work->fE0[0] = 0x100;
+            work->fE0[5] = 0;
+            work->fE0[1] = 0;
+            work->fE0[2] = 0;
+            work->fE0[3] = 0x100;
+            work->fE0[4] = 0x100;
+        }
+        else
+        {
+            int y = work->fB14 * 3;
+
+            if (work->fB18 == 0)
+            {
+                setXY4(&poly[3], -0x20, y + 0x28, 0x20, y + 0x28, -0x20, y + 0x30, 0x20, y + 0x30);
+                setXY4(&poly[4], -0x1E, y + 0x37, 0x1E, y + 0x37, -0x1E, y + 0x3F, 0x1E, y + 0x3F);
+                setXY4(&poly[0], -0x26, y + 0x46, 0x26, y + 0x46, -0x26, y + 0x4E, 0x26, y + 0x4E);
+                setXY4(&poly[1], -0x28, y + 0x55, 0x28, y + 0x55, -0x28, y + 0x5D, 0x28, y + 0x5D);
+                SetSemiTrans(&poly[3], 1);
+                SetSemiTrans(&poly[4], 1);
+                SetSemiTrans(&poly[5], 1); /* sic: original bug, rows are 3,4,0,1 */
+                SetSemiTrans(&poly[0], 1);
+                top1 = 0;
+                work->fE0[0] = 0x100;
+                work->fE0[1] = 0x100;
+                work->fE0[2] = 0;
+                work->fE0[3] = 0x100;
+                work->fE0[4] = 0x100; /* sic: original never writes fE0[5] here */
+                if (work->fB14 < 3)
+                {
+                    bot1 = top1;
+                    work->fE0[3] = 0;
+                }
+                else
+                {
+                    bot1 = (work->fB14 - 2) * 128 / 3;
+                }
+                if (work->fB14 < 4)
+                {
+                    top2 = work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    top2 = 0x80;
+                }
+                bot2 = 0x80;
+                top3 = bot2;
+                if (work->fB14 < 3)
+                {
+                    bot3 = 0x80;
+                }
+                else
+                {
+                    bot3 = top3 - (work->fB14 - 2) * 128 / 3;
+                }
+                if (work->fB14 < 4)
+                {
+                    bot4 = 0x80 - work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    bot4 = 0;
+                    work->fE0[1] = 0;
+                }
+                title_open_800C4BD4(&poly[3], top1, bot1);
+                title_open_800C4BD4(&poly[4], top2, bot2);
+                title_open_800C4BD4(&poly[0], top3, bot3);
+                title_open_800C4BD4(&poly[1], bot4, 0);
+            }
+            else
+            {
+                setXY4(&poly[2], -0x1A, 0x37 - y, 0x1A, 0x37 - y, -0x1A, 0x3F - y, 0x1A, 0x3F - y);
+                setXY4(&poly[3], -0x20, 0x46 - y, 0x20, 0x46 - y, -0x20, 0x4E - y, 0x20, 0x4E - y);
+                setXY4(&poly[4], -0x1E, 0x55 - y, 0x1E, 0x55 - y, -0x1E, 0x5D - y, 0x1E, 0x5D - y);
+                setXY4(&poly[0], -0x26, 0x64 - y, 0x26, 0x64 - y, -0x26, 0x6C - y, 0x26, 0x6C - y);
+                SetSemiTrans(&poly[2], 1);
+                SetSemiTrans(&poly[3], 1);
+                SetSemiTrans(&poly[4], 1);
+                SetSemiTrans(&poly[5], 1); /* sic: original bug, rows are 2,3,4,0 */
+                top1 = 0;
+                work->fE0[0] = 0x100;
+                work->fE0[5] = 0;
+                work->fE0[1] = 0;
+                work->fE0[2] = 0x100;
+                work->fE0[3] = 0x100;
+                work->fE0[4] = 0x100;
+                if (work->fB14 < 4)
+                {
+                    bot1 = 0x80 - work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    bot1 = 0;
+                    work->fE0[2] = 0;
+                }
+                if (work->fB14 < 3)
+                {
+                    top2 = 0x80;
+                }
+                else
+                {
+                    top2 = 0x80 - (work->fB14 - 2) * 128 / 3;
+                }
+                bot2 = 0x80;
+                top3 = bot2;
+                if (work->fB14 < 4)
+                {
+                    bot3 = work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    bot3 = 0x80;
+                }
+                if (work->fB14 < 3)
+                {
+                    bot4 = 0;
+                    work->fE0[0] = 0;
+                }
+                else
+                {
+                    bot4 = (work->fB14 - 2) * 128 / 3;
+                }
+                title_open_800C4BD4(&poly[2], top1, bot1);
+                title_open_800C4BD4(&poly[3], top2, bot2);
+                title_open_800C4BD4(&poly[4], top3, bot3);
+                title_open_800C4BD4(&poly[0], bot4, 0);
+            }
+        }
+        break;
+
+    case 5:
+        if (work->fB14 == 5)
+        {
+            setXY4(&poly[4], -0x1E, 0x37, 0x1E, 0x37, -0x1E, 0x3F, 0x1E, 0x3F);
+            setXY4(&poly[5], -0x2C, 0x46, 0x2C, 0x46, -0x2C, 0x4E, 0x2C, 0x4E);
+            setXY4(&poly[0], -0x26, 0x55, 0x26, 0x55, -0x26, 0x5D, 0x26, 0x5D);
+            title_open_800C4B94(&poly[4], 0, 0, 0, 0x80, 0xC0, 0x80);
+            title_open_800C4B94(&poly[5], 0x80, 0xC0, 0x80, 0x80, 0xC0, 0x80);
+            title_open_800C4B94(&poly[0], 0x80, 0xC0, 0x80, 0, 0, 0);
+            SetSemiTrans(&poly[4], 1);
+            SetSemiTrans(&poly[5], 0);
+            SetSemiTrans(&poly[0], 1);
+            work->fE0[0] = 0x100;
+            work->fE0[1] = 0;
+            work->fE0[2] = 0;
+            work->fE0[3] = 0;
+            work->fE0[4] = 0x100;
+            work->fE0[5] = 0x100;
+        }
+        else
+        {
+            int y = work->fB14 * 3;
+
+            if (work->fB18 == 0)
+            {
+                setXY4(&poly[4], -0x1E, y + 0x28, 0x1E, y + 0x28, -0x1E, y + 0x30, 0x1E, y + 0x30);
+                setXY4(&poly[5], -0x2C, y + 0x37, 0x2C, y + 0x37, -0x2C, y + 0x3F, 0x2C, y + 0x3F);
+                setXY4(&poly[0], -0x26, y + 0x46, 0x26, y + 0x46, -0x26, y + 0x4E, 0x26, y + 0x4E);
+                setXY4(&poly[1], -0x28, y + 0x55, 0x28, y + 0x55, -0x28, y + 0x5D, 0x28, y + 0x5D);
+                SetSemiTrans(&poly[4], 1);
+                SetSemiTrans(&poly[5], 1);
+                SetSemiTrans(&poly[0], 1);
+                SetSemiTrans(&poly[1], 1);
+                top1 = 0;
+                work->fE0[0] = 0x100;
+                work->fE0[1] = 0x100;
+                work->fE0[2] = 0;
+                work->fE0[3] = 0;
+                work->fE0[4] = 0x100;
+                work->fE0[5] = 0x100;
+                if (work->fB14 < 3)
+                {
+                    bot1 = top1;
+                    work->fE0[4] = 0;
+                }
+                else
+                {
+                    bot1 = (work->fB14 - 2) * 128 / 3;
+                }
+                if (work->fB14 < 4)
+                {
+                    top2 = work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    top2 = 0x80;
+                }
+                bot2 = 0x80;
+                top3 = bot2;
+                if (work->fB14 < 3)
+                {
+                    bot3 = 0x80;
+                }
+                else
+                {
+                    bot3 = top3 - (work->fB14 - 2) * 128 / 3;
+                }
+                if (work->fB14 < 4)
+                {
+                    bot4 = 0x80 - work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    bot4 = 0;
+                    work->fE0[1] = 0;
+                }
+                title_open_800C4BD4(&poly[4], top1, bot1);
+                title_open_800C4BD4(&poly[5], top2, bot2);
+                title_open_800C4BD4(&poly[0], top3, bot3);
+                title_open_800C4BD4(&poly[1], bot4, 0);
+            }
+            else
+            {
+                setXY4(&poly[3], -0x20, 0x37 - y, 0x20, 0x37 - y, -0x20, 0x3F - y, 0x20, 0x3F - y);
+                setXY4(&poly[4], -0x1E, 0x46 - y, 0x1E, 0x46 - y, -0x1E, 0x4E - y, 0x1E, 0x4E - y);
+                setXY4(&poly[5], -0x2C, 0x55 - y, 0x2C, 0x55 - y, -0x2C, 0x5D - y, 0x2C, 0x5D - y);
+                setXY4(&poly[0], -0x26, 0x64 - y, 0x26, 0x64 - y, -0x26, 0x6C - y, 0x26, 0x6C - y);
+                SetSemiTrans(&poly[3], 1);
+                SetSemiTrans(&poly[4], 1);
+                SetSemiTrans(&poly[5], 1);
+                SetSemiTrans(&poly[0], 1);
+                top1 = 0;
+                work->fE0[0] = 0x100;
+                work->fE0[1] = 0;
+                work->fE0[2] = 0;
+                work->fE0[3] = 0x100;
+                work->fE0[4] = 0x100;
+                work->fE0[5] = 0x100;
+                if (work->fB14 < 4)
+                {
+                    bot1 = 0x80 - work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    bot1 = 0;
+                    work->fE0[3] = 0;
+                }
+                if (work->fB14 < 3)
+                {
+                    top2 = 0x80;
+                }
+                else
+                {
+                    top2 = 0x80 - (work->fB14 - 2) * 128 / 3;
+                }
+                bot2 = 0x80;
+                top3 = bot2;
+                if (work->fB14 < 4)
+                {
+                    bot3 = work->fB14 * 128 / 3;
+                }
+                else
+                {
+                    bot3 = 0x80;
+                }
+                if (work->fB14 < 3)
+                {
+                    bot4 = 0;
+                    work->fE0[0] = 0;
+                }
+                else
+                {
+                    bot4 = (work->fB14 - 2) * 128 / 3;
+                }
+                title_open_800C4BD4(&poly[3], top1, bot1);
+                title_open_800C4BD4(&poly[4], top2, bot2);
+                title_open_800C4BD4(&poly[5], top3, bot3);
+                title_open_800C4BD4(&poly[0], bot4, 0);
+            }
+        }
+        break;
+
+    }
+
+    work->fB14++;
+}
 void title_open_800D1B74(char *name)
 {
     int   i;
@@ -1966,21 +3305,321 @@ skip:
         printf((char *)title_aOldcleardataexistss_800D8B7C, name);
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800D1CB4.s")
+extern const char title_aGamedatafind_800D8B98[];
+extern const char title_aFlagx_800D8BA8[];
+extern const char title_aFlagnewx_800D8BB4[];
+extern const char title_aThisisrank_800D8BC4[];
+extern const char title_aThisisrank_800D8BD4[];
+extern const char title_aThisisrank_800D8BE4[];
+extern const char title_aThisisrank_800D8BF4[];
+extern const char title_aThisisrank_800D8C04[];
+extern const char title_aThisisrank_800D8C14[];
+extern const char title_aThisisrank_800D8C24[];
+extern const char title_aPhotodatafind_800D8C34[];
+extern const char title_aVrfind_800D8C48[];
+extern const char title_aTitlememcardcheckreult_800D8C54[];
+extern const char title_aSaveflagd_800D8C78[];
+extern const char title_aPhotoflagd_800D8C88[];
+extern const char title_aVrflagd_800D8C9C[];
+extern const char title_aSperankd_800D8CAC[];
+extern const char title_aDemorankd_800D8CBC[];
+
+void title_open_800D1CB4(Work *work)
+{
+    MEM_CARD card1, card2;
+    int      check1, check2;
+    char    *name;
+    int      found;
+    int      photo, vr;
+    int      i, j;
+    int      mismatch;
+
+    name = MGS_MemoryCardName;
+
+    check1 = memcard_check(0);
+    check2 = memcard_check(1);
+
+    printf("check1 = %x\n", check1);
+    printf("check2 = %x\n", check2);
+
+    found = 0;
+    photo = 0;
+    vr = 0;
+
+    if (check1 >= 0)
+    {
+        printf("this memcard is OK\n");
+
+        card1 = *memcard_get_files(0);
+
+        for (i = 0; i < card1.file_count; i++)
+        {
+                printf("name = %s\n", card1.files[i].name);
+                title_open_800D1B74(card1.files[i].name);
+
+                mismatch = 0;
+                for (j = 0; j < 12; j++)
+                {
+                    if (card1.files[i].name[j] != name[j])
+                    {
+                        mismatch = 1;
+                        break;
+                    }
+                }
+
+                if (mismatch == 0)
+                {
+                    if (card1.files[i].name[12] == 'G')
+                    {
+                        unsigned char flag;
+                        found = 1;
+                        printf((char *)title_aGamedatafind_800D8B98);
+                        flag = card1.files[i].name[17] - '@';
+                        printf((char *)title_aFlagx_800D8BA8, flag);
+                        flag &= 7;
+                        printf((char *)title_aFlagnewx_800D8BB4, flag);
+                        if (flag == 0)
+                        {
+                            printf((char *)title_aThisisrank_800D8BC4);
+                        }
+                        else if (flag == 1)
+                        {
+                            work->fB2C[0] = 1;
+                            printf((char *)title_aThisisrank_800D8BD4);
+                        }
+                        else if (flag == 2)
+                        {
+                            work->fB2C[1] = 1;
+                            printf((char *)title_aThisisrank_800D8BE4);
+                        }
+                        else if (flag == 3)
+                        {
+                            work->fB2C[0] = 1;
+                            work->fB2C[1] = 1;
+                            printf((char *)title_aThisisrank_800D8BF4);
+                        }
+                        else if (flag == 4)
+                        {
+                            work->fB2C[0] = 1;
+                            work->fB2C[1] = 1;
+                            work->fB2C[2] = 1;
+                            printf((char *)title_aThisisrank_800D8C04);
+                        }
+                        else if (flag == 5)
+                        {
+                            work->fB2C[0] = 1;
+                            work->fB2C[1] = 1;
+                            work->fB2C[3] = 1;
+                            printf((char *)title_aThisisrank_800D8C14);
+                        }
+                        else if (flag == 6)
+                        {
+                            work->fB2C[0] = 1;
+                            work->fB2C[1] = 1;
+                            work->fB2C[2] = 1;
+                            work->fB2C[3] = 1;
+                            printf((char *)title_aThisisrank_800D8C24);
+                        }
+                    }
+                    else if (card1.files[i].name[12] == 'C')
+                    {
+                        photo = 1;
+                        printf((char *)title_aPhotodatafind_800D8C34);
+                    }
+                    else if (card1.files[i].name[12] == 'V')
+                    {
+                        vr = 1;
+                        printf((char *)title_aVrfind_800D8C48);
+                    }
+            }
+        }
+    }
+
+    if (check2 >= 0)
+    {
+        printf("this memcard is OK\n");
+
+        card2 = *memcard_get_files(1);
+
+        for (i = 0; i < card2.file_count; i++)
+        {
+                printf("name = %s\n", card2.files[i].name);
+                title_open_800D1B74(card2.files[i].name);
+
+                mismatch = 0;
+                for (j = 0; j < 12; j++)
+                {
+                    if (card2.files[i].name[j] != name[j])
+                    {
+                        mismatch = 1;
+                        break;
+                    }
+                }
+
+                if (mismatch == 0)
+                {
+                    if (card2.files[i].name[12] == 'G')
+                    {
+                        unsigned char flag;
+                        found = 1;
+                        printf((char *)title_aGamedatafind_800D8B98);
+                        flag = card2.files[i].name[17] - '@';
+                        printf((char *)title_aFlagx_800D8BA8, flag);
+                        flag &= 7;
+                        printf((char *)title_aFlagnewx_800D8BB4, flag);
+                        if (flag == 0)
+                        {
+                            printf((char *)title_aThisisrank_800D8BC4);
+                        }
+                        else if (flag == 1)
+                        {
+                            work->fB2C[0] = 1;
+                            printf((char *)title_aThisisrank_800D8BD4);
+                        }
+                        else if (flag == 2)
+                        {
+                            work->fB2C[1] = 1;
+                            printf((char *)title_aThisisrank_800D8BE4);
+                        }
+                        else if (flag == 3)
+                        {
+                            work->fB2C[0] = 1;
+                            work->fB2C[1] = 1;
+                            printf((char *)title_aThisisrank_800D8BF4);
+                        }
+                        else if (flag == 4)
+                        {
+                            work->fB2C[0] = 1;
+                            work->fB2C[1] = 1;
+                            work->fB2C[2] = 1;
+                            printf((char *)title_aThisisrank_800D8C04);
+                        }
+                        else if (flag == 5)
+                        {
+                            work->fB2C[0] = 1;
+                            work->fB2C[1] = 1;
+                            work->fB2C[3] = 1;
+                            printf((char *)title_aThisisrank_800D8C14);
+                        }
+                        else if (flag == 6)
+                        {
+                            work->fB2C[0] = 1;
+                            work->fB2C[1] = 1;
+                            work->fB2C[2] = 1;
+                            work->fB2C[3] = 1;
+                            printf((char *)title_aThisisrank_800D8C24);
+                        }
+                    }
+                    else if (card2.files[i].name[12] == 'C')
+                    {
+                        photo = 1;
+                        printf((char *)title_aPhotodatafind_800D8C34);
+                    }
+                    else if (card2.files[i].name[12] == 'V')
+                    {
+                        vr = 1;
+                        printf((char *)title_aVrfind_800D8C48);
+                    }
+            }
+        }
+    }
+
+    if (found == 1)
+    {
+        work->fB20 = 1;
+        if ((unsigned int)work->fB08 < 3)
+        {
+            work->fA78 = 1;
+        }
+    }
+
+    if (photo == 1)
+    {
+        work->fB24 = 1;
+    }
+    if (vr == 1)
+    {
+        work->fB28 = 1;
+    }
+
+    if (work->fB2C[0] == 0)
+    {
+        if (work->fB2C[1] == 0)
+        {
+            work->fB48 = 0;
+        }
+        else
+        {
+            work->fB48 = 2;
+        }
+    }
+    else if (work->fB2C[1] == 0)
+    {
+        work->fB48 = 1;
+    }
+    else if (work->fB2C[2] == 0)
+    {
+        if (work->fB2C[3] == 0)
+        {
+            work->fB48 = 3;
+        }
+        else
+        {
+            work->fB48 = 5;
+        }
+    }
+    else
+    {
+        if (work->fB2C[3] == 0)
+        {
+            work->fB48 = 4;
+        }
+        else
+        {
+            work->fB48 = 6;
+        }
+    }
+
+    if (work->fB24 == 0)
+    {
+        if (work->fB48 == 0)
+        {
+            work->fB40 = 0;
+        }
+        else
+        {
+            work->fB40 = 2;
+        }
+    }
+    else
+    {
+        if (work->fB48 == 0)
+        {
+            work->fB40 = 1;
+        }
+        else
+        {
+            work->fB40 = 3;
+        }
+    }
+
+    if (title_dword_800D92D0 == 1)
+    {
+        work->fB40 += 4;
+    }
+
+    printf((char *)title_aTitlememcardcheckreult_800D8C54);
+    printf((char *)title_aSaveflagd_800D8C78, work->fB20);
+    printf((char *)title_aPhotoflagd_800D8C88, work->fB24);
+    printf((char *)title_aVrflagd_800D8C9C, work->fB28);
+    printf((char *)title_aSperankd_800D8CAC, work->fB40);
+    printf((char *)title_aDemorankd_800D8CBC, work->fB48);
+
+    work->f24D0 = 1;
+    work->f24D4 = 1;
+}
 /* Moved from openact.c to open.c so open.obj's rdata extends to 0x800D8CD0,
  * where gcc's auto-emitted switch table for 800D2374 lands. */
-const int  title_dword_800D8B00 = 0x800CEB74;
-const int  title_dword_800D8B04 = 0x800CEC14;
-const int  title_dword_800D8B08 = 0x800CEC68;
-const int  title_dword_800D8B0C = 0x800CED18;
-const int  title_dword_800D8B10 = 0x800CEDC8;
-const int  title_dword_800D8B14 = 0x800CEE20;
-const int  title_dword_800D8B18 = 0x800CF808;
-const int  title_dword_800D8B1C = 0x800CFDE4;
-const int  title_dword_800D8B20 = 0x800D03C0;
-const int  title_dword_800D8B24 = 0x800D09A8;
-const int  title_dword_800D8B28 = 0x800D0F80;
-const int  title_dword_800D8B2C = 0x800D1550;
 const char title_aClearflagd_800D8B30[] = "clear flag %d\n";
 const char title_aCleardataexistss_800D8B40[] = "clear data exists %s\n";
 const char title_aBislpm_800D8B58[] = "BISLPM-86111";
@@ -2006,7 +3645,7 @@ const char title_aSperankd_800D8CAC[] = "spe_rank = %d\n";
 const char title_aDemorankd_800D8CBC[] = "demo_rank = %d\n";
 const char title_dword_800D8CCC[] = {0x0, 0x0, 0x0, 0x0};
 
-void title_open_800D2374(OpenWork *work)
+void title_open_800D2374(Work *work)
 {
     int i;
 
@@ -2053,17 +3692,312 @@ void title_open_800D2374(OpenWork *work)
     }
 }
 
-/* Tail strings moved from openact.c so openact.obj.rdata starts at
- * 0x800D8D58 (mod 8 = 0), preserving .align 3 for OpenAct's switch table. */
-const char title_aCdcaseopen_800D8CFC[] = "CD CASE OPEN!!\n";
-const char title_aCdnormalspeedsetfailed_800D8D0C[] = "CD NORMAL SPEED SET FAILED!!\n";
-const char title_aCdnormalspeedsetsuccess_800D8D2C[] = "CD NORMAL SPEED SET SUCCESS!!\n";
-const char title_a_800D8D4C[] = "???????\n";
 
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800D2460.s")
-extern void title_open_800D2460(OpenWork *work);
+void title_open_800D2460(Work *work)
+{
+    char   result[8];
+    char   result2[8];
+    CdlLOC loc;
+    char   param[8];
+    int    press;
+    int    status;
+    int    intr;
+    int    error;
+    void  *alloc;
 
-void title_open_800D2A00(OpenWork *work)
+    press = work->pad->press;
+
+    switch(work->f24AC)
+    {
+    case 0:
+        param[0] = 0;
+        CdControlB(CdlNop,param, result);
+
+        if (result[0] & CdlStatShellOpen)
+        {
+            work->f24AC = 3;
+            printf("CD CASE OPEN!!\n");
+            mts_wait_vbl(3);
+            break;
+        }
+
+        param[0] = 0;
+        status = CdControlB(CdlSetmode, param, result);
+
+        if (status == 0)
+        {
+            printf("CD NORMAL SPEED SET FAILED!!\n");
+            work->f24C0++;
+        }
+        else if (status == 1)
+        {
+            work->f24AC = 1;
+            printf("CD NORMAL SPEED SET SUCCESS!!\n");
+            mts_wait_vbl(3);
+            work->f24C0 = 0;
+        }
+        else
+        {
+            printf("???????\n");
+        }
+
+        if (work->f24C0 >= 300)
+        {
+            work->f24AC = 10;
+            work->f24B8 = 0;
+            printf("THIS IS NOT PS DISC!!\n");
+        }
+        break;
+    case 1:
+        param[0] = 0;
+        CdControlB(CdlNop, param, result);
+
+        if (result[0] & CdlStatShellOpen)
+        {
+            work->f24AC = 3;
+            printf("CD CASE OPEN!!\n");
+            mts_wait_vbl(3);
+            break;
+        }
+
+        param[0] = 0;
+        status = CdControlB(CdlStop, param, result);
+
+        if (status == 0)
+        {
+            printf("CD STOP FAILED!!\n");
+            work->f24C0++;
+        }
+        else if (status == 1)
+        {
+            work->f24AC = 2;
+            printf("CD STOP SUCCESS!!\n");
+            work->f24C0 = 0;
+        }
+        else
+        {
+            printf("???????\n");
+        }
+
+        if (work->f24C0 >= 300)
+        {
+            work->f24AC = 10;
+            work->f24B8 = 0;
+            printf("THIS IS NOT PS DISC!!\n");
+        }
+        break;
+    case 2:
+        param[0] = 0;
+        CdControlB(CdlNop, param, result);
+
+        if (!(result[0] & CdlStatShellOpen))
+        {
+            printf("CD CASE CLOSE!!\n");
+        }
+        else
+        {
+            work->f24AC = 3;
+            printf("CD CASE OPEN!!\n");
+        }
+        break;
+    case 3:
+        param[0] = 0;
+        CdControlB(CdlNop, param, result);
+
+        if (!(result[0] & CdlStatShellOpen))
+        {
+            work->f24AC = 4;
+            printf("CD CASE CLOSE!!\n");
+        }
+        else
+        {
+            printf("CD CASE OPEN!!\n");
+        }
+        break;
+    case 4:
+        if (work->f24EC != 0 && (press & PAD_START))
+        {
+            work->f24AC = 5;
+            printf("START BUTTON PUSH!!\n");
+            GM_SeSet2(0, 63, 32);
+            work->f24C0 = 0;
+        }
+        break;
+    case 5:
+        param[0] = 0;
+        CdControlB(CdlNop, param, result);
+        work->f24C0++;
+
+        if (result[0] & CdlStatStandby)
+        {
+            work->f24AC = 6;
+            printf("CD SPIN START!!\n");
+            work->f24C0 = 0;
+        }
+        else
+        {
+            printf("CD NOT SPIN!!\n");
+        }
+
+        if (work->f24C0 >= 300)
+        {
+            work->f24AC = 10;
+            work->f24B8 = 0;
+            printf("THIS IS NOT PS DISC!!\n");
+        }
+        break;
+    case 6:
+        param[0] = 0;
+        status = CdControlB(CdlGetTN, param, result);
+
+        if (status == 0)
+        {
+            printf("CD TOC READ NOT FINISH!!\n");
+            work->f24C0++;
+        }
+        else if (status == 1)
+        {
+            work->f24AC = 7;
+            printf("CD TOC READ SUCCESS!!\n");
+            work->f24C0 = 0;
+        }
+        else
+        {
+            printf("???????\n");
+        }
+
+        if (work->f24C0 >= 300)
+        {
+            work->f24AC = 10;
+            work->f24B8 = 0;
+            printf("THIS IS NOT PS DISC!!\n");
+        }
+        break;
+    case 7:
+        param[0] = CdlModeSize1 | CdlModeSpeed;
+        status = CdControlB(CdlSetmode, param, result);
+
+        if (status == 0)
+        {
+            printf("CD SPEED INIT FAILED!!\n");
+            work->f24C0++;
+        }
+        else if (status == 1)
+        {
+            work->f24AC = 8;
+            work->f24C0 = 0;
+            printf("CD SPEED INIT SUCCESS!!\n");
+            mts_wait_vbl(3);
+        }
+        else
+        {
+            printf("???????\n");
+        }
+
+        if (work->f24C0 >= 300)
+        {
+            work->f24AC = 10;
+            work->f24B8 = 0;
+            printf("THIS IS NOT PS DISC!!\n");
+        }
+        break;
+    case 8:
+        CdIntToPos(16, &loc);
+        status = CdControlB(CdlReadN, (char *)&loc, result);
+
+        if (status == 0)
+        {
+            printf("CD CHECK FAILED!!\n");
+            work->f24C0++;
+
+            if (result[0] & CdlStatError && result[1] & CdlStatSeek)
+            {
+                work->f24AC = 10;
+                work->f24B8 = 0;
+                printf("THIS IS NOT PS DISC!!\n");
+            }
+
+            if (work->f24C0 >= 300)
+            {
+                work->f24AC = 10;
+                work->f24B8 = 0;
+                printf("THIS IS NOT PS DISC!!\n");
+            }
+        }
+        else if (status == 1)
+        {
+            intr = CdReady(0, result2);
+            error = 0;
+
+            if (intr == CdlDataReady)
+            {
+                printf("CD CHECK OK!!\n");
+
+                if (result[0] & CdlStatError && result[1] & CdlStatSeek)
+                {
+                    error = 1;
+                    printf("THIS IS NOT PS DISC!!!\n");
+                    work->f24AC = 10;
+                    work->f24B8 = 0;
+                }
+            }
+            else if (intr == CdlDiskError)
+            {
+                error = 1;
+                printf("CD CHECK ERROR!!\n");
+            }
+
+            if (error)
+            {
+                break;
+            }
+
+            printf("THIS IS PS DISC!!\n");
+
+            alloc = GV_Malloc(8192);
+            status = FS_ResetCdFilePosition(alloc);
+
+            if (status == 0)
+            {
+                printf("THIS IS DISC 1!!\n");
+                work->f24AC = 9;
+                FS_DiskNum = 0;
+            }
+            else
+            {
+                printf("THIS IS NOT DISC 1!!!\n");
+                work->f24AC = 10;
+                work->f24B8 = 0;
+            }
+
+            GV_Free(alloc);
+        }
+        else
+        {
+            printf("???????\n");
+        }
+        break;
+    case 9:
+        param[0] = 0;
+        CdControlB(CdlPause, param, result);
+
+        work->f24BC = 1;
+        work->f24C4 = 1;
+        printf("OK! OK!\n");
+        break;
+    case 10:
+        work->f24B8++;
+        printf("NOT OK! NOT OK!\n");
+
+        if (work->f24B8 >= 30)
+        {
+            work->f24AC = 0;
+        }
+        break;
+    }
+}
+
+void title_open_800D2A00(Work *work)
 {
     GCL_ARGS args;
     long     argv[3];
@@ -2099,7 +4033,7 @@ void title_open_800D2A00(OpenWork *work)
         GV_DestroyActor(work);
     }
 }
-void title_open_800D2AFC(OpenWork *work)
+void title_open_800D2AFC(Work *work)
 {
     GCL_ARGS args;
     long     argv[3];
@@ -2137,83 +4071,46 @@ void title_open_800D2AFC(OpenWork *work)
 
 /* ==== merged from openact.c (single TU; resolves cross-object jump tables) ==== */
 
-extern void  title_open_800C5644(OpenWork *work, int index);
-extern void  title_open_800C5CB8(OpenWork *work);
-extern void  title_open_800C5CF0(OpenWork *work);
-extern void  title_open_800C5D10(OpenWork *work);
-extern void  title_open_800C53E0(OpenWork *work);
-extern int   title_open_800C628C(OpenWork *work);
-extern void  title_open_800CCDC8(OpenWork *work);
-extern void  title_open_800CD074(OpenWork *work);
-extern void  title_open_800CD23C(OpenWork *work, int index, int arg3);
-extern void  title_open_800CD320(OpenWork *work, int index);
-extern void  title_open_800CD3B8(OpenWork *work, int index);
-extern void  title_open_800CD800(OpenWork *work, int index);
-extern void  title_open_800CDE44(OpenWork *work, int index);
-extern void  title_open_800CE378(OpenWork *work, int index);
-extern void  title_open_800CE4A8(OpenWork *work, int index);
-extern void  title_open_800CE544(OpenWork *work, int index);
-extern void  title_open_800CE5F8(OpenWork *work, int index);
-extern void  title_open_800CE6AC(OpenWork *work, int index);
-extern void  title_open_800CE748(OpenWork *work, int index);
-extern void  title_open_800CEB14(OpenWork *work, int index);
-extern void  title_open_800CEF54(OpenWork *work, int index);
-extern void  title_open_800CF504(OpenWork *work, int index);
-extern void  title_open_800CF610(OpenWork *work, int index);
-extern void  title_open_800CF794(OpenWork *work);
-extern void  title_open_800D1CB4(OpenWork *work);
-extern void  title_open_800D2A00(OpenWork *work);
-extern void  title_open_800D2AFC(OpenWork *work);
-extern void  title_open_800D2CA8(OpenWork *work, u_long *ot);
-extern void  title_open_800D2E44(OpenWork *work, u_long *ot);
-extern void  title_open_800D3500(OpenWork *work, u_long *ot);
-extern void  title_open_800C4AD0(OpenWork *work, int index, int color);
-extern void  title_open_800C47B8(OpenWork *work, u_long *ot);
-extern void  title_open_800C4F1C(OpenWork *work, int x0, int y0, int xsize, int ysize, int color, int mode);
-extern void *NewMetalGearLogo(int *exit);
-extern void *title_open_800C4B20(KCB *kcb);
-extern int   title_dword_800D92D0;
-extern const char aOpenC[];
-
-#define EXEC_LEVEL GV_ACTOR_MANAGER
+extern void  title_open_800C5644(Work *work, int index);
+extern void  title_open_800C5CB8(Work *work);
+extern void  title_open_800C5CF0(Work *work);
+extern void  title_open_800C5D10(Work *work);
+extern void  title_open_800C53E0(Work *work);
+extern int   title_open_800C628C(Work *work);
+extern void  title_open_800CCDC8(Work *work);
+extern void  title_open_800CD074(Work *work);
+extern void  title_open_800CD23C(Work *work, int index, int arg3);
+extern void  title_open_800CD320(Work *work, int index);
+extern void  title_open_800CD3B8(Work *work, int index);
+extern void  title_open_800CD800(Work *work, int index);
+extern void  title_open_800CDE44(Work *work, int index);
+extern void  title_open_800CE378(Work *work, int index);
+extern void  title_open_800CE4A8(Work *work, int index);
+extern void  title_open_800CE544(Work *work, int index);
+extern void  title_open_800CE5F8(Work *work, int index);
+extern void  title_open_800CE6AC(Work *work, int index);
+extern void  title_open_800CE748(Work *work, int index);
+extern void  title_open_800CEB14(Work *work, int index);
+extern void  title_open_800CEF54(Work *work, int index);
+extern void  title_open_800CF504(Work *work, int index);
+extern void  title_open_800CF610(Work *work, int index);
+extern void  title_open_800CF794(Work *work);
+extern void  title_open_800D1CB4(Work *work);
+extern void  title_open_800D2A00(Work *work);
+extern void  title_open_800D2AFC(Work *work);
+extern void  title_open_800D2CA8(Work *work, u_long *ot);
+extern void  title_open_800D2E44(Work *work, u_long *ot);
+extern void  title_open_800D3500(Work *work, u_long *ot);
+extern void  title_open_800C4AD0(Work *work, int index, int color);
+extern void  title_open_800C47B8(Work *work, u_long *ot);
+extern void  title_open_800C4F1C(Work *work, int x0, int y0, int xsize, int ysize, int color, int mode);
 
 /* The strings that previously lived at 0x800D8848..0x800D9024 in overlay3.c
  * are moved here so openact.obj's rdata fills the gap up to 0x800D9028,
  * where gcc's emitted switch jump tables for OpenAct's switch then land. */
 
-const char title_aThisisnotpsdisc_800D8D58[] = "THIS IS NOT PS DISC!!\n";
-const char title_aCdstopfailed_800D8D70[] = "CD STOP FAILED!!\n";
-const char title_aCdstopsuccess_800D8D84[] = "CD STOP SUCCESS!!\n";
-const char title_aCdcaseclose_800D8D98[] = "CD CASE CLOSE!!\n";
-const char title_aStartbuttonpush_800D8DAC[] = "START BUTTON PUSH!!\n";
-const char title_aCdspinstart_800D8DC4[] = "CD SPIN START!!\n";
-const char title_aCdnotspin_800D8DD8[] = "CD NOT SPIN!!\n";
-const char title_aCdtocreadnotfinish_800D8DE8[] = "CD TOC READ NOT FINISH!!\n";
-const char title_aCdtocreadsuccess_800D8E04[] = "CD TOC READ SUCCESS!!\n";
-const char title_aCdspeedinitfailed_800D8E1C[] = "CD SPEED INIT FAILED!!\n";
-const char title_aCdspeedinitsuccess_800D8E34[] = "CD SPEED INIT SUCCESS!!\n";
-const char title_aCdcheckfailed_800D8E50[] = "CD CHECK FAILED!!\n";
-const char title_aCdcheckok_800D8E64[] = "CD CHECK OK!!\n";
-const char title_aThisisnotpsdisc_800D8E74[] = "THIS IS NOT PS DISC!!!\n";
-const char title_aCdcheckerror_800D8E8C[] = "CD CHECK ERROR!!\n";
-const char title_aThisispsdisc_800D8EA0[] = "THIS IS PS DISC!!\n";
-const char title_aThisisdisc_800D8EB4[] = "THIS IS DISC 1!!\n";
-const char title_aThisisnotdisc_800D8EC8[] = "THIS IS NOT DISC 1!!!\n";
-const char title_aOkok_800D8EE0[] = "OK! OK!\n";
-const char title_aNotoknotok_800D8EEC[] = "NOT OK! NOT OK!\n";
-const int title_dword_800D8F00 = 0x800D24AC;
-const int title_dword_800D8F04 = 0x800D254C;
-const int title_dword_800D8F08 = 0x800D25F0;
-const int title_dword_800D8F0C = 0x800D2620;
-const int title_dword_800D8F10 = 0x800D2678;
-const int title_dword_800D8F14 = 0x800D26B8;
-const int title_dword_800D8F18 = 0x800D2708;
-const int title_dword_800D8F1C = 0x800D2754;
-const int title_dword_800D8F20 = 0x800D27BC;
-const int title_dword_800D8F24 = 0x800D2984;
-const int title_dword_800D8F28 = 0x800D29B8;
 const char title_dword_800D8F2C[] = {0x0, 0x0, 0x0, 0x0};
-void title_open_800D2CA8(OpenWork *work, u_long *ot)
+void title_open_800D2CA8(Work *work, u_long *ot)
 {
     int i;
 
@@ -2254,7 +4151,7 @@ void title_open_800D2CA8(OpenWork *work, u_long *ot)
 
     title_open_800C47B8(work, ot);
 }
-void title_open_800D2E44(OpenWork *work, u_long *ot)
+void title_open_800D2E44(Work *work, u_long *ot)
 {
     if (title_dword_800D92D0)
     {
@@ -2328,7 +4225,7 @@ void title_open_800D2E44(OpenWork *work, u_long *ot)
     title_open_800C47B8(work, ot);
 }
 
-void title_open_800D3500(OpenWork *work, u_long *ot)
+void title_open_800D3500(Work *work, u_long *ot)
 {
     int i;
 
@@ -2414,7 +4311,7 @@ void title_open_800D3500(OpenWork *work, u_long *ot)
 
 /* Top-level title-screen state machine. Dispatches on work->fA74; each case
  * runs its one-time init when work->fB0C is set, then renders this frame. */
-void OpenAct_800D37F4(OpenWork *work)
+static void Act(Work *work)
 {
     u_long   *ot;
     POLY_FT4 *packs;
@@ -2807,7 +4704,7 @@ void OpenAct_800D37F4(OpenWork *work)
 
 /* Actor destructor: frees the four DG primitives and each font character
  * block's backing buffer. */
-void OpenDie_800D4098(OpenWork *work)
+static void Die(Work *work)
 {
     int      i;
     void    *buf;
@@ -2827,7 +4724,7 @@ void OpenDie_800D4098(OpenWork *work)
 /* Build a flat-shaded textured quad at neutral brightness (128,128,128 = no
  * tint) with the given vertex rectangle and semi-transparency mode. UV/tpage
  * are filled in later by the caller (typically via the helper below). */
-void title_open_800D4174(OpenWork *work, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int abe)
+void title_open_800D4174(Work *work, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int abe)
 {
     setPolyFT4(poly);
     setRGB0(poly, 128, 128, 128);
@@ -2853,7 +4750,7 @@ static inline void title_open_helper_800D41E4(POLY_FT4 *poly, DG_TEX *tex, int u
     poly->clut = tex->clut;
 }
 
-void title_open_800D41E4(OpenWork *work, int name, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int abe, int type)
+void title_open_800D41E4(Work *work, int name, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int abe, int type)
 {
     DG_TEX *tex;
 
@@ -2880,7 +4777,7 @@ void title_open_800D41E4(OpenWork *work, int name, POLY_FT4 *poly, int x0, int y
 
 /* Like title_open_800D41E4 but with RGB0 set to (0,0,0). On a textured poly
  * an all-zero RGB darkens the texture to black — used as a fade overlay. */
-void title_open_800D4368(OpenWork *work, int name, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int abe)
+void title_open_800D4368(Work *work, int name, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int abe)
 {
     DG_TEX *tex;
     int     u0, u1;
@@ -2906,7 +4803,7 @@ void title_open_800D4368(OpenWork *work, int name, POLY_FT4 *poly, int x0, int y
 
 /* Gouraud variant of title_open_800D4368: same black-tint textured quad but
  * as POLY_GT4, so the per-vertex colors can be ramped later for a gradient. */
-void title_open_800D4464(OpenWork *work, int name, POLY_GT4 *poly, int x0, int y0, int x1, int y1, int abe)
+void title_open_800D4464(Work *work, int name, POLY_GT4 *poly, int x0, int y0, int x1, int y1, int abe)
 {
     DG_TEX *tex;
     int     u0, u1;
@@ -2933,26 +4830,879 @@ void title_open_800D4464(OpenWork *work, int name, POLY_GT4 *poly, int x0, int y
     SetSemiTrans(poly, abe);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/title/OpenGetResources_800D4584.s")
-int  OpenGetResources_800D4584(OpenWork *work, int);
-
-/* Actor constructor for the title screen. Allocates the OpenWork, registers
- * the act/die pair, then loads resources; on resource failure the actor is
- * destroyed and NULL is returned. */
-void *NewOpen(int arg0, int arg1)
+static int GetResources(Work *work, int where)
 {
-    OpenWork *work;
+    POLY_FT4 *poly;
+    POLY_GT4 *gpoly;
+    POLY_GT4 *gp;
+    DG_TEX   *tex;
+    int       n;
+
+    GM_CurrentMap = where;
+
+    work->f2498 = 0x340;
+    work->f249C = 0x100;
+    work->f24A0 = 0x340;
+    work->f24A4 = 0x114;
+
+    work->prim[0] = GM_MakePrim(0x812, 0x16, 0, 0);
+    work->prim[2] = GM_MakePrim(0x812, 0x12, 0, 0);
+    work->prim[3] = GM_MakePrim(0x812, 9, 0, 0);
+
+    n = 0;
+
+    gpoly = &work->f934_polys[0];
+    gp = &work->f934_polys[0];
+
+    poly = &work->f18C_polys[0];
+    title_open_800D4368(work, GV_StrCode("op_back_l"), poly, -0xA0, -0x70, 0, 0x70, 0);
+    work->f30[n++] = 0;
+
+    poly++;
+    title_open_800D4368(work, GV_StrCode("op_back_r"), poly, 0, -0x70, 0xA0, 0x70, 0);
+    work->f30[n++] = 0;
+
+    poly++;
+    title_open_800D4368(work, GV_StrCode("op_back_l"), poly, 0xA0, -0x70, 0x140, 0x70, 0);
+    work->f30[n++] = 0;
+
+    poly++;
+    tex = DG_GetTexture(GV_StrCode("op_back_l"));
+    setPolyFT4(poly);
+    title_open_800C5238(poly, tex, 6, 0x140, 0x1F4);
+    setRGB0(poly, 0, 0, 0);
+    setXY4(poly, -0xA0, -0x70, 0xA0, -0x70, -0xA0, 0x184, 0xA0, 0x184);
+    SetSemiTrans(poly, 1);
+    title_open_800C5200(poly, 2);
+    work->f30[n++] = 0;
+
+    poly++;
+    title_open_800D4368(work, GV_StrCode("op_back_l"), poly, -0xA0, -0x70, 0xA0, 0x70, 1);
+    work->f30[n++] = 0;
+
+    poly++;
+    title_open_800D4368(work, GV_StrCode("op_back_r"), poly, -0xA0, -0x70, 0xA0, 0x70, 1);
+    work->f30[n++] = 0;
+
+    poly++;
+    title_open_800D4368(work, GV_StrCode("op_back_l"), poly, -0xA0, -0x70, 0xA0, 0x70, 1);
+    work->f30[n++] = 0;
+
+    poly++;
+    title_open_800D4368(work, GV_StrCode("op_title"), poly, -0x70, -0x66, 0x76, -0x2A, 1);
+    work->f30[n++] = 0;
+
+    poly++;
+    title_open_800D4368(work, GV_StrCode("op_copy"), poly, -0x58, 0x60, 0x58, 0x67, 0);
+    work->f30[n++] = 0;
+
+    poly++;
+    title_open_800D4368(work, GV_StrCode("op_snake_cut"), poly, -0x3A, -0x4C, 0x3A, 0x69, 1);
+    work->f30[n++] = 0;
+
+    poly++;
+    title_open_800D4368(work, GV_StrCode("op_eye_open"), poly, -0x1E, 3, 0x14, 0xF, 1);
+    work->f30[n++] = 0;
+
+    poly++;
+    title_open_800D4368(work, GV_StrCode("op_snake_waku"), poly, -0x4E, -0x63, 0x4E, 0x73, 1);
+    work->f30[n++] = 0;
+
+    poly++;
+    title_open_800D4368(work, GV_StrCode("op_p_start"), poly, -0x50, 0x46, 0x50, 0x4E, 0);
+    work->f30[n++] = 0;
+
+    poly++;
+    title_open_800D4368(work, GV_StrCode("op_n_game"), poly, -0x26, 0x46, -0x28, 0x4E, 0);
+    work->f30[n++] = 0;
+
+    poly++;
+    title_open_800D4368(work, GV_StrCode("op_l_game"), poly, -0x26, 0x46, -0x28, 0x4E, 0);
+    work->f30[n++] = 0;
+
+    poly++;
+    title_open_800D4368(work, GV_StrCode("op_option"), poly, -0x1A, 0x46, -0x20, 0x4E, 0);
+    work->f30[n++] = 0;
+
+    poly++;
+    title_open_800D4368(work, GV_StrCode("op_sellevel"), poly, -0x56, -0x55, 0x56, -0x49, 1);
+    setRGB0(poly, 0x64, 0xA0, 0x87);
+    work->f30[n++] = 0;
+
+    poly++;
+    title_open_800D4368(work, GV_StrCode("op_warning"), poly, -0x26, 0x46, -0x28, 0x4E, 0);
+    work->f30[n++] = 0;
+
+    poly++;
+    title_open_800D4368(work, GV_StrCode("op_konami_l"), poly, -0xA0, -0x70, 0, 0x70, 0);
+    work->f30[n++] = 0;
+
+    poly++;
+    title_open_800D4368(work, GV_StrCode("op_konami_r"), poly, 0, -0x70, 0xA0, 0x70, 0);
+    work->f30[n++] = 0;
+
+    poly++;
+    title_open_800D4368(work, GV_StrCode("op_kcej_l"), poly, -0xA0, -0x70, 0, 0x70, 0);
+    work->f30[n++] = 0;
+
+    poly++;
+    title_open_800D4368(work, GV_StrCode("op_kcej_r"), poly, 0, -0x70, 0xA0, 0x70, 0);
+    work->f30[n++] = 0;
+
+    n = 0;
+
+    poly += 19;
+    title_open_800D41E4(work, GV_StrCode("cur_lu"), poly, 0, 0, 0, 0, 1, 0);
+    work->f140[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode("cur_ru"), poly, 0, 0, 0, 0, n, 0);
+    work->f140[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode("cur_ld"), poly, 0, 0, 0, 0, 1, 0);
+    work->f140[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode("cur_rd"), poly, 0, 0, 0, 0, 1, 0);
+    work->f140[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode("cur_u"), poly, 0, 0, 0, 0, 1, 2);
+    work->f140[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode("cur_d"), poly, 0, 0, 0, 0, 1, 2);
+    work->f140[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode("cur_l"), poly, 0, 0, 0, 0, 1, 1);
+    work->f140[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode("cur_r"), poly, 0, 0, 0, 0, 1, 1);
+    work->f140[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode("cur_c"), poly, 0, 0, 0, 0, 1, 3);
+    work->f140[n] = 0;
+
+    n = 0;
+
+    poly = &work->f4FC_polys[0];
+    title_open_800D41E4(work, GV_StrCode("sp_back_l"), poly, -0xA0, -0x70, 0, 0x70, 0, 0);
+    setRGB0(poly, 0x80, 0x80, 0x80);
+    work->fF8[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode("sp_back_r"), poly, 0, -0x70, 0xA0, 0x70, 0, 0);
+    setRGB0(poly, 0x80, 0x80, 0x80);
+    work->fF8[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode("sp_special"), poly, -0x32, -0x5E, 0x32, -0x51, 1, 0);
+    setRGB0(poly, 0x46, 0x64, 0x5A);
+    work->fF8[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode("sp_special"), poly, -0x32, -0x5E, 0x32, -0x51, 1, 0);
+    setRGB0(poly, 0x46, 0x64, 0x5A);
+    work->fF8[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode(title_aSppre_800D8880), poly, -0x50, -0x35, 0x50, -0x2D, 1, 2);
+    setRGB0(poly, 0x64, 0xA0, 0x87);
+    work->fF8[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode(title_aSpexit_800D8888), poly, -0x1C, 0x2E, 0x1C, 0x3A, 1, 2);
+    setRGB0(poly, 0x64, 0xA0, 0x87);
+    work->fF8[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode(title_aSpalbum_800D8890), poly, -0x18, -0x21, 0x18, -0x19, 1, 2);
+    setRGB0(poly, 0x64, 0xA0, 0x87);
+    work->fF8[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode(title_aSpdemo_800D889C), poly, -0x34, -0xD, 0x34, -5, 1, 2);
+    setRGB0(poly, 0x64, 0xA0, 0x87);
+    work->fF8[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode("sp_radar"), poly, -0x2A, 0xB, 0x2A, 0x17, 1, 2);
+    setRGB0(poly, 0x64, 0xA0, 0x87);
+    work->fF8[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode(title_aSponw_800D88B8), poly, -0x6D, 0xB, -0x45, 0x17, 1, 0);
+    setRGB0(poly, 0x64, 0xA0, 0x87);
+    work->fF8[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode(title_aSpoff_800D88C0), poly, 0x38, 0xB, 0x68, 0x17, 1, 0);
+    setRGB0(poly, 0x46, 0x64, 0x5A);
+    work->fF8[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode("sp_line"), poly, -0x45, 0x10, -0x2A, 0x12, 1, 2);
+    setRGB0(poly, 0x64, 0xA0, 0x87);
+    work->fF8[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode("demo_demo"), poly, -0x38, -0x5E, 0x38, -0x52, 1, 0);
+    setRGB0(poly, 0x64, 0xA0, 0x87);
+    work->fF8[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode("demo_ra"), poly, -0x1C, -0x2A, 0x1C, -0x24, 1, 0);
+    setRGB0(poly, 0x64, 0xA0, 0x87);
+    work->fF8[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode("demo_rb"), poly, -0x1C, 1, 0x1C, 7, 1, 0);
+    setRGB0(poly, 0x64, 0xA0, 0x87);
+    work->fF8[n] = 0;
+
+    poly++;
+    n++;
+    title_open_800D41E4(work, GV_StrCode("demo_roll_c"), poly, -0x1C, 4, 0x1C, 0xA, 1, 0);
+    setRGB0(poly, 0x64, 0xA0, 0x87);
+    work->fF8[15] = 0;
+
+    poly++;
+    title_open_800D41E4(work, GV_StrCode("demo_roll_d"), poly, -0x1C, 4, 0x1C, 0xA, 1, 0);
+    setRGB0(poly, 0x64, 0xA0, 0x87);
+    work->fF8[16] = 0;
+
+    poly++;
+    title_open_800D41E4(work, GV_StrCode(title_aDsppmode_800D88C8), poly, -0x46, -0x35, 0x46, -0x2D, 1, 2);
+    setRGB0(poly, 0x64, 0xA0, 0x87);
+    work->fF8[17] = 0;
+
+    {
+        DG_PRIM *prim;
+
+        prim = DG_MakePrim(0x814, 6, 0, 0, 0);
+        if (prim)
+        {
+            DG_QueuePrim(prim);
+            DG_GroupPrim(prim, GM_CurrentMap);
+        }
+        work->prim[1] = prim;
+    }
+
+    n = 0;
+
+    gpoly = &work->f934_polys[0];
+    title_open_800D4464(work, GV_StrCode("op_n_game"), gpoly, -0x26, 0x46, 0x26, 0x4E, 1);
+    work->fE0[n] = 0;
+
+    gpoly = &work->f934_polys[1];
+    n++;
+    title_open_800D4464(work, GV_StrCode("op_l_game"), gpoly, -0x28, 0x46, 0x28, 0x4E, n);
+    work->fE0[n] = 0;
+
+    gpoly = &work->f934_polys[2];
+    n++;
+    title_open_800D4464(work, GV_StrCode("op_option"), gpoly, -0x1A, 0x46, 0x1A, 0x4E, 1);
+    work->fE0[n] = 0;
+
+    gpoly = &work->f934_polys[3];
+    n++;
+    title_open_800D4464(work, GV_StrCode("op_brf"), gpoly, -0x20, 0x46, 0x20, 0x4E, 1);
+    work->fE0[n] = 0;
+
+    gpoly = &work->f934_polys[4];
+    n++;
+    title_open_800D4464(work, GV_StrCode("op_special"), gpoly, -0x1E, 0x46, 0x1E, 0x4E, 1);
+    work->fE0[n] = 0;
+
+    gpoly = &work->f934_polys[5];
+    n++;
+    title_open_800D4464(work, GV_StrCode("op_vr"), gpoly, -0x2C, 0x46, 0x2C, 0x4E, 1);
+    work->fE0[n] = 0;
+
+    if (GCL_GetOption('s'))
+    {
+        work->f24F8_proc = GCL_StrToInt(GCL_NextStr());
+    }
+    else
+    {
+        work->f24F8_proc = -1;
+    }
+
+    if (GCL_GetOption('k'))
+    {
+        work->f24FC = GCL_StrToInt(GCL_NextStr());
+    }
+    else
+    {
+        work->f24FC = -1;
+    }
+
+    if (GCL_GetOption('l'))
+    {
+        work->f2500 = GCL_StrToInt(GCL_NextStr());
+    }
+    else
+    {
+        work->f2500 = -1;
+    }
+
+    if (GCL_GetOption('e'))
+    {
+        work->fAD0 = GCL_StrToInt(GCL_NextStr());
+    }
+    else
+    {
+        work->fAD0 = -1;
+    }
+
+    if (GCL_GetOption('b'))
+    {
+        work->fAD4 = GCL_StrToInt(GCL_NextStr());
+    }
+    else
+    {
+        work->fAD4 = -1;
+    }
+
+    if (GCL_GetOption('f'))
+    {
+        work->fAD8 = GCL_StrToInt(GCL_NextStr());
+    }
+    else
+    {
+        work->fAD8 = -1;
+    }
+
+    if (GCL_GetOption('o'))
+    {
+        work->fADC = GCL_StrToInt(GCL_NextStr());
+    }
+    else
+    {
+        work->fADC = -1;
+    }
+
+    if (GCL_GetOption('j'))
+    {
+        work->fAE4 = GCL_StrToInt(GCL_NextStr());
+    }
+    else
+    {
+        work->fAE4 = -1;
+    }
+
+    if (GCL_GetOption('a'))
+    {
+        work->fAE0 = GCL_StrToInt(GCL_NextStr());
+    }
+    else
+    {
+        work->fAE0 = -1;
+    }
+
+    if (GCL_GetOption('r'))
+    {
+        work->fAE8 = GCL_StrToInt(GCL_NextStr());
+    }
+    else
+    {
+        work->fAE8 = -1;
+    }
+
+    if (GCL_GetOption('c'))
+    {
+        work->fAEC = GCL_StrToInt(GCL_NextStr());
+    }
+    else
+    {
+        work->fAEC = -1;
+    }
+
+    if (GCL_GetOption('d'))
+    {
+        work->fAF8 = GCL_StrToInt(GCL_NextStr());
+    }
+    else
+    {
+        work->fAF8 = -1;
+    }
+
+    if (GCL_GetOption('x'))
+    {
+        work->fB08 = GCL_StrToInt(GCL_NextStr());
+    }
+    else
+    {
+        work->fB08 = 1;
+    }
+
+    if (GCL_GetOption('p'))
+    {
+        work->fAF0 = GCL_StrToInt(GCL_NextStr());
+    }
+    else
+    {
+        work->fAF0 = -1;
+    }
+
+    if (GCL_GetOption('m'))
+    {
+        work->fAF4 = GCL_StrToInt(GCL_NextStr());
+    }
+    else
+    {
+        work->fAF4 = -1;
+    }
+
+    if (GCL_GetOption('g'))
+    {
+        work->f24D0 = GCL_StrToInt(GCL_NextStr());
+    }
+
+    if (GCL_GetOption('h'))
+    {
+        work->fB28 = GCL_StrToInt(GCL_NextStr());
+    }
+
+    if (GCL_GetOption('v'))
+    {
+        work->fB10 = GCL_StrToInt(GCL_NextStr());
+    }
+
+    for (n = 0; n < 24; n++)
+    {
+        work->unk[n].string = GCL_GetString(GCL_NextStr());
+        work->unk[n].num = 0;
+        Open_800C4500(work, n);
+    }
+
+    for (n = 0; n < 24; n++)
+    {
+        Open_800C4674(work, n);
+        title_open_800C4AD0(work, n, 0);
+    }
+
+    work->pad = &GV_PadData[2];
+    work->f164 = 0;
+    work->f168 = 0;
+    work->f16C = 0;
+    work->f170 = 0;
+    work->f174 = 0;
+    work->f178 = 0;
+    work->f17C = 0;
+    work->f180 = 0;
+    work->f184 = 0;
+    work->f188 = 0;
+    work->fA7C = 0;
+    work->fA80 = 0;
+    work->fA84 = 0;
+    work->fA88 = 0;
+    work->fA8C = 0;
+    work->fA90 = 0;
+    work->fA94 = 0;
+    work->fA98 = 0;
+    work->fA9C = 0;
+    work->fA78 = 0;
+    work->fAB8 = 0;
+    work->fABC = 0;
+    work->fAC0 = 0;
+    work->fA70 = 0;
+    work->fAA8.r = 0x80;
+    work->fAA8.g = 0x80;
+    work->fAA8.b = 0x80;
+    work->fB00 = 0;
+    work->fB04 = 0;
+    work->fB14 = 0;
+    work->fB18 = 0;
+    work->fB20 = 0;
+    work->fB24 = 0;
+    work->f24D4 = 0;
+
+    for (n = 3; n >= 0; n--)
+    {
+        work->fB2C[n] = 0;
+    }
+
+    poly = &work->f18C_polys[0];
+    gp = &work->f934_polys[0];
+    work->f24CC = 0;
+
+    switch (work->fB08)
+    {
+    case 0:
+        work->fA74 = 0;
+        work->fB0C = 1;
+        break;
+
+    case 1:
+        work->fA74 = 4;
+        work->fB0C = 1;
+        break;
+
+    case 2:
+        work->fA74 = 6;
+        work->fB0C = 1;
+        break;
+
+    case 4:
+        work->fA74 = 7;
+        work->fB0C = 1;
+        title_open_800C5CB8(work);
+        work->f30[0] = 0x700;
+        work->f30[1] = 0x700;
+        work->f30[2] = 0x700;
+        work->f30[3] = 0x600;
+        work->f30[4] = 0x500;
+        work->f30[5] = 0x500;
+        work->f30[6] = 0x500;
+        work->f30[7] = 0x100;
+        work->f30[8] = 0x100;
+        work->f30[9] = 0x300;
+        work->f30[10] = 0x200;
+        work->f30[11] = 0x400;
+        work->f30[12] = 0x100;
+        setRGB0(&poly[7], 0x80, 0x80, 0x80);
+        setRGB0(&poly[8], 0x80, 0x80, 0x80);
+        setRGB0(&poly[9], 0x80, 0x80, 0x80);
+        setRGB0(&poly[10], 0x80, 0x80, 0x80);
+        setRGB0(&poly[11], 0x80, 0x80, 0x80);
+        setRGB0(&poly[12], 0x80, 0x80, 0x80);
+        if (work->fA7C == 0)
+        {
+            work->fA7C = 1;
+        }
+        if (work->fA80 == 0)
+        {
+            work->fA80 = 1;
+            work->f170 = 0;
+        }
+        if (work->fA84 == 0)
+        {
+            work->fA84 = 1;
+            work->f170 = 0;
+        }
+        if (sd_sng_play() == 0)
+        {
+            GM_SetSound(0x1000001, 0);
+        }
+        work->fA78 = 1;
+        title_open_800C4B94(&gp[0], 0, 0, 0, 0x80, 0xC0, 0x80);
+        title_open_800C4B94(&gp[1], 0x80, 0xC0, 0x80, 0x80, 0xC0, 0x80);
+        title_open_800C4B94(&gp[2], 0x80, 0xC0, 0x80, 0, 0, 0);
+        setXY4(&gp[0], -0x26, 0x37, 0x26, 0x37, -0x26, 0x3F, 0x26, 0x3F);
+        setXY4(&gp[1], -0x28, 0x46, 0x28, 0x46, -0x28, 0x4E, 0x28, 0x4E);
+        setXY4(&gp[2], -0x1A, 0x55, 0x1A, 0x55, -0x1A, 0x5D, 0x1A, 0x5D);
+        SetSemiTrans(&gp[0], 1);
+        SetSemiTrans(&gp[1], 0);
+        SetSemiTrans(&gp[2], 1);
+        work->fA98 = 2;
+        work->f184 = 0;
+        work->fE0[0] = 0x100;
+        work->fE0[1] = 0x100;
+        work->fE0[2] = 0x100;
+        work->fE0[3] = 0;
+        work->fE0[4] = 0;
+        work->fE0[5] = 0;
+        break;
+
+    case 5:
+        work->fA74 = 7;
+        work->fB0C = 1;
+        title_open_800C5CB8(work);
+        work->f30[0] = 0x700;
+        work->f30[1] = 0x700;
+        work->f30[2] = 0x700;
+        work->f30[3] = 0x600;
+        work->f30[4] = 0x500;
+        work->f30[5] = 0x500;
+        work->f30[6] = 0x500;
+        work->f30[7] = 0x100;
+        work->f30[8] = 0x100;
+        work->f30[9] = 0x300;
+        work->f30[10] = 0x200;
+        work->f30[11] = 0x400;
+        work->f30[12] = 0x100;
+        setRGB0(&poly[7], 0x80, 0x80, 0x80);
+        setRGB0(&poly[8], 0x80, 0x80, 0x80);
+        setRGB0(&poly[9], 0x80, 0x80, 0x80);
+        setRGB0(&poly[10], 0x80, 0x80, 0x80);
+        setRGB0(&poly[11], 0x80, 0x80, 0x80);
+        setRGB0(&poly[12], 0x80, 0x80, 0x80);
+        if (work->fA7C == 0)
+        {
+            work->fA7C = 1;
+        }
+        if (work->fA80 == 0)
+        {
+            work->fA80 = 1;
+            work->f170 = 0;
+        }
+        if (work->fA84 == 0)
+        {
+            work->fA84 = 1;
+            work->f170 = 0;
+        }
+        if (sd_sng_play() == 0)
+        {
+            GM_SetSound(0x1000001, 0);
+        }
+        work->fA78 = 2;
+        title_open_800C4B94(&gp[1], 0, 0, 0, 0x80, 0xC0, 0x80);
+        title_open_800C4B94(&gp[2], 0x80, 0xC0, 0x80, 0x80, 0xC0, 0x80);
+        title_open_800C4B94(&gp[3], 0x80, 0xC0, 0x80, 0, 0, 0);
+        setXY4(&gp[1], -0x28, 0x37, 0x28, 0x37, -0x28, 0x3F, 0x28, 0x3F);
+        setXY4(&gp[2], -0x1A, 0x46, 0x1A, 0x46, -0x1A, 0x4E, 0x1A, 0x4E);
+        setXY4(&gp[3], -0x20, 0x55, 0x20, 0x55, -0x20, 0x5D, 0x20, 0x5D);
+        SetSemiTrans(&gp[1], 1);
+        SetSemiTrans(&gp[2], 0);
+        SetSemiTrans(&gp[3], 1);
+        work->fA98 = 2;
+        work->f184 = 0;
+        work->fE0[0] = 0;
+        work->fE0[1] = 0x100;
+        work->fE0[2] = 0x100;
+        work->fE0[3] = 0x100;
+        work->fE0[4] = 0;
+        work->fE0[5] = 0;
+        break;
+
+    case 6:
+        work->fA74 = 7;
+        work->fB0C = 1;
+        title_open_800C5CB8(work);
+        work->f30[0] = 0x700;
+        work->f30[1] = 0x700;
+        work->f30[2] = 0x700;
+        work->f30[3] = 0x600;
+        work->f30[4] = 0x500;
+        work->f30[5] = 0x500;
+        work->f30[6] = 0x500;
+        work->f30[7] = 0x100;
+        work->f30[8] = 0x100;
+        work->f30[9] = 0x300;
+        work->f30[10] = 0x200;
+        work->f30[11] = 0x400;
+        work->f30[12] = 0x100;
+        setRGB0(&poly[7], 0x80, 0x80, 0x80);
+        setRGB0(&poly[8], 0x80, 0x80, 0x80);
+        setRGB0(&poly[9], 0x80, 0x80, 0x80);
+        setRGB0(&poly[10], 0x80, 0x80, 0x80);
+        setRGB0(&poly[11], 0x80, 0x80, 0x80);
+        setRGB0(&poly[12], 0x80, 0x80, 0x80);
+        if (work->fA7C == 0)
+        {
+            work->fA7C = 1;
+        }
+        if (work->fA80 == 0)
+        {
+            work->fA80 = 1;
+            work->f170 = 0;
+        }
+        if (work->fA84 == 0)
+        {
+            work->fA84 = 1;
+            work->f170 = 0;
+        }
+        if (sd_sng_play() == 0)
+        {
+            GM_SetSound(0x1000001, 0);
+        }
+        work->fA78 = 3;
+        title_open_800C4B94(&gp[2], 0, 0, 0, 0x80, 0xC0, 0x80);
+        title_open_800C4B94(&gp[3], 0x80, 0xC0, 0x80, 0x80, 0xC0, 0x80);
+        title_open_800C4B94(&gp[4], 0x80, 0xC0, 0x80, 0, 0, 0);
+        setXY4(&gp[2], -0x1A, 0x37, 0x1A, 0x37, -0x1A, 0x3F, 0x1A, 0x3F);
+        setXY4(&gp[3], -0x20, 0x46, 0x20, 0x46, -0x20, 0x4E, 0x20, 0x4E);
+        setXY4(&gp[4], -0x1E, 0x55, 0x1E, 0x55, -0x1E, 0x5D, 0x1E, 0x5D);
+        SetSemiTrans(&gp[2], 1);
+        SetSemiTrans(&gp[3], 0);
+        SetSemiTrans(&gp[4], 1);
+        work->fA98 = 2;
+        work->f184 = 0;
+        work->fE0[0] = 0;
+        work->fE0[1] = 0;
+        work->fE0[2] = 0x100;
+        work->fE0[3] = 0x100;
+        work->fE0[4] = 0x100;
+        work->fE0[5] = 0;
+        break;
+
+    case 7:
+        work->fA74 = 7;
+        work->fB0C = 1;
+        title_open_800C5CB8(work);
+        work->f30[0] = 0x700;
+        work->f30[1] = 0x700;
+        work->f30[2] = 0x700;
+        work->f30[3] = 0x600;
+        work->f30[4] = 0x500;
+        work->f30[5] = 0x500;
+        work->f30[6] = 0x500;
+        work->f30[7] = 0x100;
+        work->f30[8] = 0x100;
+        work->f30[9] = 0x300;
+        work->f30[10] = 0x200;
+        work->f30[11] = 0x400;
+        work->f30[12] = 0x100;
+        setRGB0(&poly[7], 0x80, 0x80, 0x80);
+        setRGB0(&poly[8], 0x80, 0x80, 0x80);
+        setRGB0(&poly[9], 0x80, 0x80, 0x80);
+        setRGB0(&poly[10], 0x80, 0x80, 0x80);
+        setRGB0(&poly[11], 0x80, 0x80, 0x80);
+        setRGB0(&poly[12], 0x80, 0x80, 0x80);
+        if (work->fA7C == 0)
+        {
+            work->fA7C = 1;
+        }
+        if (work->fA80 == 0)
+        {
+            work->fA80 = 1;
+            work->f170 = 0;
+        }
+        if (work->fA84 == 0)
+        {
+            work->fA84 = 1;
+            work->f170 = 0;
+        }
+        if (sd_sng_play() == 0)
+        {
+            GM_SetSound(0x1000001, 0);
+        }
+        work->fA78 = 4;
+        title_open_800C4B94(&gp[3], 0, 0, 0, 0x80, 0xC0, 0x80);
+        title_open_800C4B94(&gp[4], 0x80, 0xC0, 0x80, 0x80, 0xC0, 0x80);
+        title_open_800C4B94(&gp[0], 0x80, 0xC0, 0x80, 0, 0, 0);
+        setXY4(&gp[3], -0x20, 0x37, 0x20, 0x37, -0x20, 0x3F, 0x20, 0x3F);
+        setXY4(&gp[4], -0x1E, 0x46, 0x1E, 0x46, -0x1E, 0x4E, 0x1E, 0x4E);
+        setXY4(&gp[0], -0x26, 0x55, 0x26, 0x55, -0x26, 0x5D, 0x26, 0x5D);
+        SetSemiTrans(&gp[3], 1);
+        SetSemiTrans(&gp[4], 0);
+        SetSemiTrans(&gp[0], 1);
+        work->fA98 = 2;
+        work->f184 = 0;
+        work->fE0[0] = 0x100;
+        work->fE0[1] = 0;
+        work->fE0[2] = 0;
+        work->fE0[3] = 0x100;
+        work->fE0[4] = 0x100;
+        work->fE0[5] = 0;
+        break;
+
+    case 8:
+        work->fA74 = 7;
+        work->fB0C = 1;
+        title_open_800C5CB8(work);
+        work->f30[0] = 0x700;
+        work->f30[1] = 0x700;
+        work->f30[2] = 0x700;
+        work->f30[3] = 0x600;
+        work->f30[4] = 0x500;
+        work->f30[5] = 0x500;
+        work->f30[6] = 0x500;
+        work->f30[7] = 0x100;
+        work->f30[8] = 0x100;
+        work->f30[9] = 0x300;
+        work->f30[10] = 0x200;
+        work->f30[11] = 0x400;
+        work->f30[12] = 0x100;
+        setRGB0(&poly[7], 0x80, 0x80, 0x80);
+        setRGB0(&poly[8], 0x80, 0x80, 0x80);
+        setRGB0(&poly[9], 0x80, 0x80, 0x80);
+        setRGB0(&poly[10], 0x80, 0x80, 0x80);
+        setRGB0(&poly[11], 0x80, 0x80, 0x80);
+        setRGB0(&poly[12], 0x80, 0x80, 0x80);
+        if (work->fA7C == 0)
+        {
+            work->fA7C = 1;
+        }
+        if (work->fA80 == 0)
+        {
+            work->fA80 = 1;
+            work->f170 = 0;
+        }
+        if (work->fA84 == 0)
+        {
+            work->fA84 = 1;
+            work->f170 = 0;
+        }
+        if (sd_sng_play() == 0)
+        {
+            GM_SetSound(0x1000001, 0);
+        }
+        work->fA78 = 5;
+        title_open_800C4B94(&gp[4], 0, 0, 0, 0x80, 0xC0, 0x80);
+        title_open_800C4B94(&gp[5], 0x80, 0xC0, 0x80, 0x80, 0xC0, 0x80);
+        title_open_800C4B94(&gp[0], 0x80, 0xC0, 0x80, 0, 0, 0);
+        setXY4(&gp[4], -0x1E, 0x37, 0x1E, 0x37, -0x1E, 0x3F, 0x1E, 0x3F);
+        setXY4(&gp[5], -0x2C, 0x46, 0x2C, 0x46, -0x2C, 0x4E, 0x2C, 0x4E);
+        setXY4(&gp[0], -0x26, 0x55, 0x26, 0x55, -0x26, 0x5D, 0x26, 0x5D);
+        SetSemiTrans(&gp[4], 1);
+        SetSemiTrans(&gp[5], 0);
+        SetSemiTrans(&gp[0], 1);
+        work->fA98 = 2;
+        work->f184 = 0;
+        work->fE0[0] = 0x100;
+        work->fE0[1] = 0;
+        work->fE0[2] = 0;
+        work->fE0[3] = 0;
+        work->fE0[4] = 0x100;
+        work->fE0[5] = 0x100;
+        break;
+
+    case 9:
+        break;
+    }
+
+    printf("start flag = %d\n", work->fB08);
+    printf("mem flag = %d\n", work->f24D0);
+
+    work->f24D8 = 0;
+    work->f24DC = 0;
+    work->f24E8 = 0;
+
+    return 0;
+}
+
+void *NewOpen(int name, int where)
+{
+    Work *work;
 
     GM_GameStatus |= STATE_ALL_OFF;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(OpenWork));
+    work = GV_NewActor(GV_ACTOR_MANAGER, sizeof(Work));
     title_dword_800D92D0 = 0;
 
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, OpenAct_800D37F4, OpenDie_800D4098, aOpenC);
+        GV_SetNamedActor(&work->actor, Act, Die, "open.c");
 
-        if (OpenGetResources_800D4584(work, arg1) < 0)
+        if (GetResources(work, where) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
@@ -2961,4 +5711,3 @@ void *NewOpen(int arg0, int arg1)
 
     return (void *)work;
 }
-
