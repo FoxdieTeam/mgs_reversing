@@ -2715,8 +2715,322 @@ const char title_aCdcaseopen_800D8CFC[] = "CD CASE OPEN!!\n";
 const char title_aCdnormalspeedsetfailed_800D8D0C[] = "CD NORMAL SPEED SET FAILED!!\n";
 const char title_aCdnormalspeedsetsuccess_800D8D2C[] = "CD NORMAL SPEED SET SUCCESS!!\n";
 const char title_a_800D8D4C[] = "???????\n";
+const char title_aThisisnotpsdisc_800D8D58[] = "THIS IS NOT PS DISC!!\n";
+const char title_aCdstopfailed_800D8D70[] = "CD STOP FAILED!!\n";
+const char title_aCdstopsuccess_800D8D84[] = "CD STOP SUCCESS!!\n";
+const char title_aCdcaseclose_800D8D98[] = "CD CASE CLOSE!!\n";
+const char title_aStartbuttonpush_800D8DAC[] = "START BUTTON PUSH!!\n";
+const char title_aCdspinstart_800D8DC4[] = "CD SPIN START!!\n";
+const char title_aCdnotspin_800D8DD8[] = "CD NOT SPIN!!\n";
+const char title_aCdtocreadnotfinish_800D8DE8[] = "CD TOC READ NOT FINISH!!\n";
+const char title_aCdtocreadsuccess_800D8E04[] = "CD TOC READ SUCCESS!!\n";
+const char title_aCdspeedinitfailed_800D8E1C[] = "CD SPEED INIT FAILED!!\n";
+const char title_aCdspeedinitsuccess_800D8E34[] = "CD SPEED INIT SUCCESS!!\n";
+const char title_aCdcheckfailed_800D8E50[] = "CD CHECK FAILED!!\n";
+const char title_aCdcheckok_800D8E64[] = "CD CHECK OK!!\n";
+const char title_aThisisnotpsdisc_800D8E74[] = "THIS IS NOT PS DISC!!!\n";
+const char title_aCdcheckerror_800D8E8C[] = "CD CHECK ERROR!!\n";
+const char title_aThisispsdisc_800D8EA0[] = "THIS IS PS DISC!!\n";
+const char title_aThisisdisc_800D8EB4[] = "THIS IS DISC 1!!\n";
+const char title_aThisisnotdisc_800D8EC8[] = "THIS IS NOT DISC 1!!!\n";
+const char title_aOkok_800D8EE0[] = "OK! OK!\n";
+const char title_aNotoknotok_800D8EEC[] = "NOT OK! NOT OK!\n";
 
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800D2460.s")
+typedef struct {
+    unsigned char minute;
+    unsigned char second;
+    unsigned char sector;
+    unsigned char track;
+} CdlLOC;
+extern int  CdControlB(unsigned char com, unsigned char *param, unsigned char *result);
+extern int  CdReady(int mode, unsigned char *result);
+extern void CdIntToPos(int i, CdlLOC *p);
+extern int  mts_wait_vbl(long count);
+extern int  FS_ResetCdFilePosition(void *buffer);
+extern void GM_SeSet2(int pan, int vol, int se_id);
+extern int  FS_DiskNum;
+
+void title_open_800D2460(OpenWork *work)
+{
+    unsigned char result[8];
+    unsigned char rdy[8];
+    CdlLOC        loc;
+    unsigned char param;
+    int           status;
+    short         flags;
+    int           valid;
+    int           ready;
+    void         *buf;
+
+    flags = work->fA6C[1];
+
+    switch (work->f24AC)
+    {
+    case 0:
+        param = 0;
+        CdControlB(1, &param, result);
+        if (result[0] & 0x10)
+        {
+            work->f24AC = 3;
+            printf((char *)title_aCdcaseopen_800D8CFC);
+            mts_wait_vbl(3);
+            return;
+        }
+        param = 0;
+        status = CdControlB(0xE, &param, result);
+        if (status == 0)
+        {
+            printf((char *)title_aCdnormalspeedsetfailed_800D8D0C);
+            work->f24C0++;
+        }
+        else if (status == 1)
+        {
+            work->f24AC = status;
+            printf((char *)title_aCdnormalspeedsetsuccess_800D8D2C);
+            mts_wait_vbl(3);
+            work->f24C0 = 0;
+        }
+        else
+        {
+            printf((char *)title_a_800D8D4C);
+        }
+        if (work->f24C0 >= 0x12C)
+        {
+            work->f24AC = 0xA;
+            work->f24B8 = 0;
+            printf((char *)title_aThisisnotpsdisc_800D8D58);
+        }
+        return;
+    case 1:
+        param = 0;
+        CdControlB(1, &param, result);
+        if (result[0] & 0x10)
+        {
+            work->f24AC = 3;
+            printf((char *)title_aCdcaseopen_800D8CFC);
+            mts_wait_vbl(3);
+            return;
+        }
+        param = 0;
+        status = CdControlB(8, &param, result);
+        if (status == 0)
+        {
+            printf((char *)title_aCdstopfailed_800D8D70);
+            work->f24C0++;
+        }
+        else if (status == 1)
+        {
+            work->f24AC = 2;
+            printf((char *)title_aCdstopsuccess_800D8D84);
+            work->f24C0 = 0;
+        }
+        else
+        {
+            printf((char *)title_a_800D8D4C);
+        }
+        if (work->f24C0 >= 0x12C)
+        {
+            work->f24AC = 0xA;
+            work->f24B8 = 0;
+            printf((char *)title_aThisisnotpsdisc_800D8D58);
+        }
+        return;
+    case 2:
+        param = 0;
+        CdControlB(1, &param, result);
+        if (result[0] & 0x10)
+        {
+            work->f24AC = 3;
+            printf((char *)title_aCdcaseopen_800D8CFC);
+        }
+        else
+        {
+            printf((char *)title_aCdcaseclose_800D8D98);
+        }
+        return;
+    case 3:
+        param = 0;
+        CdControlB(1, &param, result);
+        if (!(result[0] & 0x10))
+        {
+            work->f24AC = 4;
+            printf((char *)title_aCdcaseclose_800D8D98);
+        }
+        else
+        {
+            printf((char *)title_aCdcaseopen_800D8CFC);
+        }
+        return;
+    case 4:
+        if (work->f24EC == 0)
+        {
+            return;
+        }
+        if (!(flags & 0x800))
+        {
+            return;
+        }
+        work->f24AC = 5;
+        printf((char *)title_aStartbuttonpush_800D8DAC);
+        GM_SeSet2(0, 0x3F, 0x20);
+        work->f24C0 = 0;
+        return;
+    case 5:
+        param = 0;
+        CdControlB(1, &param, result);
+        work->f24C0++;
+        if (result[0] & 2)
+        {
+            work->f24AC = 6;
+            printf((char *)title_aCdspinstart_800D8DC4);
+            work->f24C0 = 0;
+        }
+        else
+        {
+            printf((char *)title_aCdnotspin_800D8DD8);
+        }
+        if (work->f24C0 >= 0x12C)
+        {
+            work->f24AC = 0xA;
+            work->f24B8 = 0;
+            printf((char *)title_aThisisnotpsdisc_800D8D58);
+        }
+        return;
+    case 6:
+        param = 0;
+        status = CdControlB(0x13, &param, result);
+        if (status == 0)
+        {
+            printf((char *)title_aCdtocreadnotfinish_800D8DE8);
+            work->f24C0++;
+        }
+        else if (status == 1)
+        {
+            work->f24AC = 7;
+            printf((char *)title_aCdtocreadsuccess_800D8E04);
+            work->f24C0 = 0;
+        }
+        else
+        {
+            printf((char *)title_a_800D8D4C);
+        }
+        if (work->f24C0 >= 0x12C)
+        {
+            work->f24AC = 0xA;
+            work->f24B8 = 0;
+            printf((char *)title_aThisisnotpsdisc_800D8D58);
+        }
+        return;
+    case 7:
+        param = 0xA0;
+        status = CdControlB(0xE, &param, result);
+        if (status == 0)
+        {
+            printf((char *)title_aCdspeedinitfailed_800D8E1C);
+            work->f24C0++;
+        }
+        else if (status == 1)
+        {
+            work->f24AC = 8;
+            work->f24C0 = 0;
+            printf((char *)title_aCdspeedinitsuccess_800D8E34);
+            mts_wait_vbl(3);
+        }
+        else
+        {
+            printf((char *)title_a_800D8D4C);
+        }
+        if (work->f24C0 >= 0x12C)
+        {
+            work->f24AC = 0xA;
+            work->f24B8 = 0;
+            printf((char *)title_aThisisnotpsdisc_800D8D58);
+        }
+        return;
+    case 8:
+        CdIntToPos(0x10, &loc);
+        status = CdControlB(6, (unsigned char *)&loc, result);
+        if (status == 0)
+        {
+            printf((char *)title_aCdcheckfailed_800D8E50);
+            work->f24C0++;
+            if ((result[0] & 1) && (result[1] & 0x40))
+            {
+                work->f24AC = 0xA;
+                work->f24B8 = 0;
+                printf((char *)title_aThisisnotpsdisc_800D8D58);
+            }
+            if (work->f24C0 >= 0x12C)
+        {
+            work->f24AC = 0xA;
+            work->f24B8 = 0;
+            printf((char *)title_aThisisnotpsdisc_800D8D58);
+        }
+        return;
+        }
+        else if (status == 1)
+        {
+            ready = CdReady(0, rdy);
+            valid = 0;
+            if (ready == 1)
+            {
+                printf((char *)title_aCdcheckok_800D8E64);
+                if ((result[0] & 1) && (result[1] & 0x40))
+                {
+                    valid = 1;
+                    printf((char *)title_aThisisnotpsdisc_800D8E74);
+                    work->f24AC = 0xA;
+                    work->f24B8 = 0;
+                }
+            }
+            else if (ready == 5)
+            {
+                valid = 1;
+                printf((char *)title_aCdcheckerror_800D8E8C);
+            }
+            if (valid)
+            {
+                return;
+            }
+            printf((char *)title_aThisispsdisc_800D8EA0);
+            buf = GV_Malloc(0x2000);
+            if (FS_ResetCdFilePosition(buf) == 0)
+            {
+                printf((char *)title_aThisisdisc_800D8EB4);
+                work->f24AC = 9;
+                FS_DiskNum = 0;
+            }
+            else
+            {
+                printf((char *)title_aThisisnotdisc_800D8EC8);
+                work->f24AC = 0xA;
+                work->f24B8 = 0;
+            }
+            GV_Free(buf);
+            return;
+        }
+        else
+        {
+            printf((char *)title_a_800D8D4C);
+            return;
+        }
+    case 9:
+        param = 0;
+        CdControlB(9, &param, result);
+        work->f24BC = 1;
+        work->f24C4 = 1;
+        printf((char *)title_aOkok_800D8EE0);
+        return;
+    case 10:
+        work->f24B8++;
+        printf((char *)title_aNotoknotok_800D8EEC);
+        if (work->f24B8 >= 0x1E)
+        {
+            work->f24AC = 0;
+        }
+        return;
+    }
+}
 extern void title_open_800D2460(OpenWork *work);
 
 void title_open_800D2A00(OpenWork *work)
@@ -2837,37 +3151,6 @@ extern const char aOpenC[];
  * are moved here so openact.obj's rdata fills the gap up to 0x800D9028,
  * where gcc's emitted switch jump tables for OpenAct's switch then land. */
 
-const char title_aThisisnotpsdisc_800D8D58[] = "THIS IS NOT PS DISC!!\n";
-const char title_aCdstopfailed_800D8D70[] = "CD STOP FAILED!!\n";
-const char title_aCdstopsuccess_800D8D84[] = "CD STOP SUCCESS!!\n";
-const char title_aCdcaseclose_800D8D98[] = "CD CASE CLOSE!!\n";
-const char title_aStartbuttonpush_800D8DAC[] = "START BUTTON PUSH!!\n";
-const char title_aCdspinstart_800D8DC4[] = "CD SPIN START!!\n";
-const char title_aCdnotspin_800D8DD8[] = "CD NOT SPIN!!\n";
-const char title_aCdtocreadnotfinish_800D8DE8[] = "CD TOC READ NOT FINISH!!\n";
-const char title_aCdtocreadsuccess_800D8E04[] = "CD TOC READ SUCCESS!!\n";
-const char title_aCdspeedinitfailed_800D8E1C[] = "CD SPEED INIT FAILED!!\n";
-const char title_aCdspeedinitsuccess_800D8E34[] = "CD SPEED INIT SUCCESS!!\n";
-const char title_aCdcheckfailed_800D8E50[] = "CD CHECK FAILED!!\n";
-const char title_aCdcheckok_800D8E64[] = "CD CHECK OK!!\n";
-const char title_aThisisnotpsdisc_800D8E74[] = "THIS IS NOT PS DISC!!!\n";
-const char title_aCdcheckerror_800D8E8C[] = "CD CHECK ERROR!!\n";
-const char title_aThisispsdisc_800D8EA0[] = "THIS IS PS DISC!!\n";
-const char title_aThisisdisc_800D8EB4[] = "THIS IS DISC 1!!\n";
-const char title_aThisisnotdisc_800D8EC8[] = "THIS IS NOT DISC 1!!!\n";
-const char title_aOkok_800D8EE0[] = "OK! OK!\n";
-const char title_aNotoknotok_800D8EEC[] = "NOT OK! NOT OK!\n";
-const int title_dword_800D8F00 = 0x800D24AC;
-const int title_dword_800D8F04 = 0x800D254C;
-const int title_dword_800D8F08 = 0x800D25F0;
-const int title_dword_800D8F0C = 0x800D2620;
-const int title_dword_800D8F10 = 0x800D2678;
-const int title_dword_800D8F14 = 0x800D26B8;
-const int title_dword_800D8F18 = 0x800D2708;
-const int title_dword_800D8F1C = 0x800D2754;
-const int title_dword_800D8F20 = 0x800D27BC;
-const int title_dword_800D8F24 = 0x800D2984;
-const int title_dword_800D8F28 = 0x800D29B8;
 const char title_dword_800D8F2C[] = {0x0, 0x0, 0x0, 0x0};
 void title_open_800D2CA8(OpenWork *work, u_long *ot)
 {
