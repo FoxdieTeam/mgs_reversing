@@ -2310,7 +2310,319 @@ skip:
         printf((char *)title_aOldcleardataexistss_800D8B7C, name);
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800D1CB4.s")
+extern const char title_aGamedatafind_800D8B98[];
+extern const char title_aFlagx_800D8BA8[];
+extern const char title_aFlagnewx_800D8BB4[];
+extern const char title_aThisisrank_800D8BC4[];
+extern const char title_aThisisrank_800D8BD4[];
+extern const char title_aThisisrank_800D8BE4[];
+extern const char title_aThisisrank_800D8BF4[];
+extern const char title_aThisisrank_800D8C04[];
+extern const char title_aThisisrank_800D8C14[];
+extern const char title_aThisisrank_800D8C24[];
+extern const char title_aPhotodatafind_800D8C34[];
+extern const char title_aVrfind_800D8C48[];
+extern const char title_aTitlememcardcheckreult_800D8C54[];
+extern const char title_aSaveflagd_800D8C78[];
+extern const char title_aPhotoflagd_800D8C88[];
+extern const char title_aVrflagd_800D8C9C[];
+extern const char title_aSperankd_800D8CAC[];
+extern const char title_aDemorankd_800D8CBC[];
+
+void title_open_800D1CB4(OpenWork *work)
+{
+    MEM_CARD card1, card2;
+    int      check1, check2;
+    char    *name;
+    int      found;
+    int      photo, vr;
+    int      i, j;
+    int      mismatch;
+
+    name = MGS_MemoryCardName;
+
+    check1 = memcard_check(0);
+    check2 = memcard_check(1);
+
+    printf("check1 = %x\n", check1);
+    printf("check2 = %x\n", check2);
+
+    found = 0;
+    photo = 0;
+    vr = 0;
+
+    if (check1 >= 0)
+    {
+        printf("this memcard is OK\n");
+
+        card1 = *memcard_get_files(0);
+
+        for (i = 0; i < card1.file_count; i++)
+        {
+                printf("name = %s\n", card1.files[i].name);
+                title_open_800D1B74(card1.files[i].name);
+
+                mismatch = 0;
+                for (j = 0; j < 12; j++)
+                {
+                    if (card1.files[i].name[j] != name[j])
+                    {
+                        mismatch = 1;
+                        break;
+                    }
+                }
+
+                if (mismatch == 0)
+                {
+                    if (card1.files[i].name[12] == 'G')
+                    {
+                        unsigned char flag;
+                        found = 1;
+                        printf((char *)title_aGamedatafind_800D8B98);
+                        flag = card1.files[i].name[17] - '@';
+                        printf((char *)title_aFlagx_800D8BA8, flag);
+                        flag &= 7;
+                        printf((char *)title_aFlagnewx_800D8BB4, flag);
+                        if (flag == 0)
+                        {
+                            printf((char *)title_aThisisrank_800D8BC4);
+                        }
+                        else if (flag == 1)
+                        {
+                            work->fB2C = 1;
+                            printf((char *)title_aThisisrank_800D8BD4);
+                        }
+                        else if (flag == 2)
+                        {
+                            work->fB30 = 1;
+                            printf((char *)title_aThisisrank_800D8BE4);
+                        }
+                        else if (flag == 3)
+                        {
+                            work->fB2C = 1;
+                            work->fB30 = 1;
+                            printf((char *)title_aThisisrank_800D8BF4);
+                        }
+                        else if (flag == 4)
+                        {
+                            work->fB2C = 1;
+                            work->fB30 = 1;
+                            work->fB34 = 1;
+                            printf((char *)title_aThisisrank_800D8C04);
+                        }
+                        else if (flag == 5)
+                        {
+                            work->fB2C = 1;
+                            work->fB30 = 1;
+                            work->fB38 = 1;
+                            printf((char *)title_aThisisrank_800D8C14);
+                        }
+                        else if (flag == 6)
+                        {
+                            work->fB2C = 1;
+                            work->fB30 = 1;
+                            work->fB34 = 1;
+                            work->fB38 = 1;
+                            printf((char *)title_aThisisrank_800D8C24);
+                        }
+                    }
+                    else if (card1.files[i].name[12] == 'C')
+                    {
+                        photo = 1;
+                        printf((char *)title_aPhotodatafind_800D8C34);
+                    }
+                    else if (card1.files[i].name[12] == 'V')
+                    {
+                        vr = 1;
+                        printf((char *)title_aVrfind_800D8C48);
+                    }
+            }
+        }
+    }
+
+    if (check2 >= 0)
+    {
+        printf("this memcard is OK\n");
+
+        card2 = *memcard_get_files(1);
+
+        for (i = 0; i < card2.file_count; i++)
+        {
+                printf("name = %s\n", card2.files[i].name);
+                title_open_800D1B74(card2.files[i].name);
+
+                mismatch = 0;
+                for (j = 0; j < 12; j++)
+                {
+                    if (card2.files[i].name[j] != name[j])
+                    {
+                        mismatch = 1;
+                        break;
+                    }
+                }
+
+                if (mismatch == 0)
+                {
+                    if (card2.files[i].name[12] == 'G')
+                    {
+                        unsigned char flag;
+                        found = 1;
+                        printf((char *)title_aGamedatafind_800D8B98);
+                        flag = card2.files[i].name[17] - '@';
+                        printf((char *)title_aFlagx_800D8BA8, flag);
+                        flag &= 7;
+                        printf((char *)title_aFlagnewx_800D8BB4, flag);
+                        if (flag == 0)
+                        {
+                            printf((char *)title_aThisisrank_800D8BC4);
+                        }
+                        else if (flag == 1)
+                        {
+                            work->fB2C = 1;
+                            printf((char *)title_aThisisrank_800D8BD4);
+                        }
+                        else if (flag == 2)
+                        {
+                            work->fB30 = 1;
+                            printf((char *)title_aThisisrank_800D8BE4);
+                        }
+                        else if (flag == 3)
+                        {
+                            work->fB2C = 1;
+                            work->fB30 = 1;
+                            printf((char *)title_aThisisrank_800D8BF4);
+                        }
+                        else if (flag == 4)
+                        {
+                            work->fB2C = 1;
+                            work->fB30 = 1;
+                            work->fB34 = 1;
+                            printf((char *)title_aThisisrank_800D8C04);
+                        }
+                        else if (flag == 5)
+                        {
+                            work->fB2C = 1;
+                            work->fB30 = 1;
+                            work->fB38 = 1;
+                            printf((char *)title_aThisisrank_800D8C14);
+                        }
+                        else if (flag == 6)
+                        {
+                            work->fB2C = 1;
+                            work->fB30 = 1;
+                            work->fB34 = 1;
+                            work->fB38 = 1;
+                            printf((char *)title_aThisisrank_800D8C24);
+                        }
+                    }
+                    else if (card2.files[i].name[12] == 'C')
+                    {
+                        photo = 1;
+                        printf((char *)title_aPhotodatafind_800D8C34);
+                    }
+                    else if (card2.files[i].name[12] == 'V')
+                    {
+                        vr = 1;
+                        printf((char *)title_aVrfind_800D8C48);
+                    }
+            }
+        }
+    }
+
+    if (found == 1)
+    {
+        work->fB20 = 1;
+        if ((unsigned int)work->fB08 < 3)
+        {
+            work->fA78 = 1;
+        }
+    }
+
+    if (photo == 1)
+    {
+        work->fB24 = 1;
+    }
+    if (vr == 1)
+    {
+        work->fB28 = 1;
+    }
+
+    if (work->fB2C == 0)
+    {
+        if (work->fB30 == 0)
+        {
+            work->fB48 = 0;
+        }
+        else
+        {
+            work->fB48 = 2;
+        }
+    }
+    else if (work->fB30 == 0)
+    {
+        work->fB48 = 1;
+    }
+    else if (work->fB34 == 0)
+    {
+        if (work->fB38 == 0)
+        {
+            work->fB48 = 3;
+        }
+        else
+        {
+            work->fB48 = 5;
+        }
+    }
+    else
+    {
+        if (work->fB38 == 0)
+        {
+            work->fB48 = 4;
+        }
+        else
+        {
+            work->fB48 = 6;
+        }
+    }
+
+    if (work->fB24 == 0)
+    {
+        if (work->fB48 == 0)
+        {
+            work->fB40 = 0;
+        }
+        else
+        {
+            work->fB40 = 2;
+        }
+    }
+    else
+    {
+        if (work->fB48 == 0)
+        {
+            work->fB40 = 1;
+        }
+        else
+        {
+            work->fB40 = 3;
+        }
+    }
+
+    if (title_dword_800D92D0 == 1)
+    {
+        work->fB40 += 4;
+    }
+
+    printf((char *)title_aTitlememcardcheckreult_800D8C54);
+    printf((char *)title_aSaveflagd_800D8C78, work->fB20);
+    printf((char *)title_aPhotoflagd_800D8C88, work->fB24);
+    printf((char *)title_aVrflagd_800D8C9C, work->fB28);
+    printf((char *)title_aSperankd_800D8CAC, work->fB40);
+    printf((char *)title_aDemorankd_800D8CBC, work->fB48);
+
+    work->f24D0 = 1;
+    work->f24D4 = 1;
+}
 /* Moved from openact.c to open.c so open.obj's rdata extends to 0x800D8CD0,
  * where gcc's auto-emitted switch table for 800D2374 lands. */
 const int  title_dword_800D8B00 = 0x800CEB74;
