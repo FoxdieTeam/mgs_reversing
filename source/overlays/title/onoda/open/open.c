@@ -1,21 +1,18 @@
-#include <stdio.h>
-#include <sys/types.h>
-#include <libcd.h>
-#include <libgte.h>
-#include <libgpu.h>
-
 #include "common.h"
+#include "linkvar.h"
+#include "font/font.h"
+#include "game/game.h"
 #include "libdg/libdg.h"
 #include "libfs/libfs.h"
-#include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
-#include "font/font.h"
+#include "libgv/libgv.h"
 #include "menu/menuman.h"
 #include "mts/mts.h"
-#include "game/game.h"
-#include "linkvar.h"
-#include "sound/sd_cli.h"
 #include "sound/g_sound.h"
+#include "sound/sd_cli.h"
+
+#include <libcd.h>
+#include <stdio.h>
 
 typedef struct _Unknown
 {
@@ -82,7 +79,7 @@ typedef struct _Work
     int      fAC4;
     int      fAC8;
     int      fACC;
-    int      fAD0;
+    int      end_proc;
     int      fAD4;
     int      fAD8;
     int      fADC;
@@ -96,20 +93,20 @@ typedef struct _Work
     int      fAFC;
     int      fB00;
     int      fB04;
-    int      fB08;
+    int      start_flag;
     int      fB0C;     /* set on every state transition; the new state's case re-runs its one-time init then clears this back to 0 */
     int      fB10;
     int      fB14;
     int      fB18;
     int      fB1C;
-    int      fB20;
-    int      fB24;
-    int      fB28;
+    int      save_flag;
+    int      photo_flag;
+    int      vr_flag;
     int      fB2C[4];
     int      fB3C;
-    int      fB40;
+    int      spe_rank;
     int      fB44;
-    int      fB48;
+    int      demo_rank;
     KCB      kcb[24];
     char     pad2[0x14];
     DR_TPAGE tpage[2];
@@ -129,7 +126,7 @@ typedef struct _Work
     int      f24C4;
     int      f24C8;
     int      f24CC;
-    int      f24D0;
+    int      mem_flag;
     int      f24D4;
     int      f24D8;
     int      f24DC;
@@ -139,8 +136,8 @@ typedef struct _Work
     int      f24EC;
     int      f24F0;
     int      f24F4;
-    int      f24F8_proc;
-    int      f24FC;
+    int      sound_proc;
+    int      clear_proc;
     int      f2500;
 } Work;
 
@@ -151,25 +148,66 @@ typedef struct _Desc
     int     color;
 } Desc;
 
-extern Desc        open_800C32B4[24];
-extern signed char open_800C3400[16];
+Desc open_800C32B4[] =
+{
+    {1, {160, 190}, 0},
+    {1, {160, 190}, 0},
+    {1, {160, 210}, 0},
+    {1, {160, 190}, 0},
+    {1, {162, 196}, 0},
+    {1, {160, 190}, 0},
+    {0, {88, 186}, 0},
+    {0, {106, 186}, 0},
+    {0, {100, 186}, 0},
+    {0, {60, 186}, 0},
+    {0, {200, 184}, 0},
+    {0, {214, 186}, 0},
+    {0, {214, 186}, 0},
+    {0, {94, 186}, 0},
+    {1, {162, 196}, 0},
+    {1, {162, 196}, 0},
+    {1, {162, 196}, 0},
+    {1, {162, 196}, 0},
+    {0, {88, 186}, 0},
+    {0, {54, 80}, 0},
+    {0, {54, 80}, 0},
+    {0, {54, 180}, 0},
+    {0, {96, 130}, 0},
+    {0, {200, 130}, 0}
+};
 
-int SECTION(".bss") title_dword_800D92D0 = 0;
+int title_dword_800C33D4 = -1;
 
-extern int title_dword_800C33D4;
+CVECTOR title_dword_800C33D8[] =
+{
+    {0xDF, 0x73, 0x77},
+    {0x1F, 0x80, 0x80},
+    {0x37, 0x8E, 0x79},
+    {0x41, 0x9C, 0xBC},
+    {0x5D, 0x94, 0xA5},
+    {0x28, 0x80, 0xAB},
+    {0x70, 0xA3, 0x8E},
+    {0xBD, 0xA2, 0x91},
+    {0xAB, 0x83, 0x7B},
+    {0x80, 0x80, 0x80},
+};
+
+signed char open_800C3400[] =
+{
+    -1, 0, 1, 0, 0, 1, 0, -1,
+    -1, 0, 1, 0, 0, 1, 0, -1,
+};
+
+int SECTION(".bss") has_clear_data = 0;
 
 extern char *MGS_MemoryCardName; /* in main.c */
 extern int   FS_DiskNum;
 
+extern int fonttext_kill_name;
+
 extern void *NewMetalGearLogo(int *exit);
 
-extern const char title_aClearflagd_800D8B30[];          // = "clear flag %d\n"
-extern const char title_aCleardataexistss_800D8B40[];    // = "clear data exists %s\n"
-extern const char title_aBislpm_800D8B58[];              // = "BISLPM-86111"
-extern const char title_aOldclearflagd_800D8B68[];       // = "old clear flag %d\n"
-extern const char title_aOldcleardataexistss_800D8B7C[]; // = "old clear data exists %s\n"
-
-void Open_800C4500(Work *work, int index)
+static void Open_800C4500(Work *work, int index)
 {
     RECT  rect;
     KCB  *kcb;
@@ -208,7 +246,7 @@ void Open_800C4500(Work *work, int index)
     font_clut_update(kcb);
 }
 
-void Open_800C4674(Work *work, int index)
+static void Open_800C4674(Work *work, int index)
 {
     KCB *kcb;
 
@@ -255,7 +293,7 @@ static inline void AddTpage(Work *work, u_long *ot, int found, int i)
     }
 }
 
-void title_open_800C47B8(Work *work, u_long *ot)
+static void title_open_800C47B8(Work *work, u_long *ot)
 {
     int   count;
     int   found;
@@ -304,7 +342,7 @@ void title_open_800C47B8(Work *work, u_long *ot)
     AddTpage(work, ot, found, i);
 }
 
-void title_open_800C4AD0(Work *work, int index, int color)
+static void title_open_800C4AD0(Work *work, int index, int color)
 {
     KCB *kcb;
 
@@ -313,12 +351,12 @@ void title_open_800C4AD0(Work *work, int index, int color)
     font_clut_update(kcb);
 }
 
-void * title_open_800C4B20(KCB *kcb)
+static void *title_open_800C4B20(KCB *kcb)
 {
     return kcb->cbuffer;
 }
 
-int title_open_800C4B2C(int val)
+static int title_open_800C4B2C(int val)
 {
     int ret;
     int pow2;
@@ -341,7 +379,7 @@ int title_open_800C4B2C(int val)
     return ret;
 }
 
-void title_open_800C4B94(POLY_GT4 *poly, int r0, int g0, int b0, int r2, int g2, int b2)
+static void title_open_800C4B94(POLY_GT4 *poly, int r0, int g0, int b0, int r2, int g2, int b2)
 {
     setRGB0(poly, r0, g0, b0);
     setRGB1(poly, r0, g0, b0);
@@ -349,7 +387,7 @@ void title_open_800C4B94(POLY_GT4 *poly, int r0, int g0, int b0, int r2, int g2,
     setRGB3(poly, r2, g2, b2);
 }
 
-void title_open_800C4BD4(POLY_GT4 *poly, int shade3, int shade4)
+static void title_open_800C4BD4(POLY_GT4 *poly, int shade3, int shade4)
 {
     int shade1, shade2;
 
@@ -362,8 +400,7 @@ void title_open_800C4BD4(POLY_GT4 *poly, int shade3, int shade4)
     setRGB3(poly, shade4, shade2, shade4);
 }
 
-// Identical to title_open_800C4F1C, but sets 0x200 to f140[] elements
-void title_open_800C4C38(Work *work, int x0, int y0, int xsize, int ysize, int color, int mode)
+static void title_open_800C4C38(Work *work, int x0, int y0, int xsize, int ysize, int color, int mode)
 {
     POLY_FT4 *polys;
     int i;
@@ -401,7 +438,7 @@ void title_open_800C4C38(Work *work, int x0, int y0, int xsize, int ysize, int c
     }
 }
 
-void title_open_800C4F1C(Work *work, int x0, int y0, int xsize, int ysize, int color, int mode)
+static void title_open_800C4F1C(Work *work, int x0, int y0, int xsize, int ysize, int color, int mode)
 {
     POLY_FT4 *polys;
     int i;
@@ -439,16 +476,16 @@ void title_open_800C4F1C(Work *work, int x0, int y0, int xsize, int ysize, int c
     }
 }
 
-void title_open_800C5200(POLY_FT4 *poly, int arg1)
+static void title_open_800C5200(POLY_FT4 *poly, int arg1)
 {
     int tpage;
-    unsigned short tpage2;
+    u_short tpage2;
 
     tpage = tpage2 = poly->tpage;
     poly->tpage = (tpage & 0x180) | ((arg1 & 3) << 5) | (poly->tpage & 0x10) | (poly->tpage & 0xF) | (tpage & 0x800);
 }
 
-void title_open_800C5238(POLY_FT4 *poly, DG_TEX *tex, int scale, int width, int height)
+static void title_open_800C5238(POLY_FT4 *poly, DG_TEX *tex, int scale, int width, int height)
 {
     int x, y, w, h;
     int xoff, yoff;
@@ -470,7 +507,7 @@ void title_open_800C5238(POLY_FT4 *poly, DG_TEX *tex, int scale, int width, int 
     poly->clut = tex->clut;
 }
 
-void title_open_800C5360(Work *work, int texid, POLY_FT4 *poly)
+static void title_open_800C5360(Work *work, int texid, POLY_FT4 *poly)
 {
     DG_TEX *tex;
     int u0, u1;
@@ -489,7 +526,7 @@ void title_open_800C5360(Work *work, int texid, POLY_FT4 *poly)
     poly->clut = tex->clut;
 }
 
-void title_open_800C53E0(Work *work)
+static void title_open_800C53E0(Work *work)
 {
     POLY_FT4 *src_ft4;
     POLY_FT4 *dst_ft4;
@@ -538,7 +575,7 @@ void title_open_800C53E0(Work *work)
     }
 }
 
-int title_open_800C5620(int val)
+static int title_open_800C5620(int val)
 {
     return title_open_800C4B2C(val) == 1;
 }
@@ -558,7 +595,7 @@ static inline void ShadePack(POLY_FT4 *poly, DG_TEX *tex)
     poly->clut = tex->clut;
 }
 
-void title_open_800C5644(Work *work, int index)
+static void title_open_800C5644(Work *work, int index)
 {
     POLY_FT4 *poly;
     int       name;
@@ -605,7 +642,7 @@ void title_open_800C5644(Work *work, int index)
     }
 }
 
-void title_open_800C5760(Work *work)
+static void title_open_800C5760(Work *work)
 {
     int r, g, b;
 
@@ -695,7 +732,7 @@ void title_open_800C5760(Work *work)
     }
 }
 
-void title_open_800C593C(Work *work)
+static void title_open_800C593C(Work *work)
 {
     POLY_FT4 *polys1;
     POLY_GT4 *polys2;
@@ -770,7 +807,7 @@ void title_open_800C593C(Work *work)
     }
 }
 
-void title_open_800C5CB8(Work *work)
+static void title_open_800C5CB8(Work *work)
 {
     int i;
 
@@ -785,7 +822,7 @@ void title_open_800C5CB8(Work *work)
     }
 }
 
-void title_open_800C5CF0(Work *work)
+static void title_open_800C5CF0(Work *work)
 {
     int i;
 
@@ -795,7 +832,7 @@ void title_open_800C5CF0(Work *work)
     }
 }
 
-void title_open_800C5D10(Work *work)
+static void title_open_800C5D10(Work *work)
 {
     int i;
 
@@ -805,7 +842,7 @@ void title_open_800C5D10(Work *work)
     }
 }
 
-void title_open_800C5D30(Work *work)
+static void title_open_800C5D30(Work *work)
 {
     MEM_CARD card1, card2;
     int      check1, check2;
@@ -966,12 +1003,12 @@ void title_open_800C5D30(Work *work)
 
 void title_open_800C61E0(Work *work, GCL_ARGS *args)
 {
-    GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+    GM_SeSet2(0, 63, SE_MENU_GUNSHOT);
     if (FS_DiskNum == 0)
     {
         if (sd_sng_play() == 0)
         {
-            GCL_ExecProc(work->f24F8_proc, args);
+            GCL_ExecProc(work->sound_proc, args);
             GV_DestroyActor(&work->actor);
         }
     }
@@ -985,22 +1022,9 @@ void title_open_800C61E0(Work *work, GCL_ARGS *args)
         work->f24B4 = 0;
         work->f24B8 = 0;
         work->f24BC = 0;
-        title_dword_800C33D4 = work->f24F8_proc;
+        title_dword_800C33D4 = work->sound_proc;
     }
 }
-
-const char title_aGameleveld_800D8848[] = "\n Game Level = %d\n\n";
-const char title_aErrormemcardcheckerror_800D885C[] = "ERROR!!!! MEMCARD Check ERROR!!!\n";
-const char title_aSppre_800D8880[] = "sp_pre";
-const char title_aSpexit_800D8888[] = "sp_exit";
-const char title_aSpalbum_800D8890[] = "sp_album";
-const char title_aSpdemo_800D889C[] = "sp_demo";
-const char title_aSpon_800D88A4[] = "sp_on";
-const char title_aSpoffw_800D88AC[] = "sp_off_w";
-const char title_aSponw_800D88B8[] = "sp_on_w";
-const char title_aSpoff_800D88C0[] = "sp_off";
-const char title_aDsppmode_800D88C8[] = "d3_sp_1p_mode";
-extern int fonttext_dword_800C32B0;
 
 void title_open_800C628C(Work *work)
 {
@@ -1009,8 +1033,8 @@ void title_open_800C628C(Work *work)
     POLY_FT4 *p18C = work->f18C_polys;
     POLY_GT4 *p934 = work->f934_polys;
     POLY_FT4 *p4FC = work->f4FC_polys;
-    short     press;
-    short     press2;
+    u_short   press;
+    u_short   press2;
     short     status;
     int       i;
     int       r, g, b;
@@ -1023,11 +1047,11 @@ void title_open_800C628C(Work *work)
     press = work->pad->press;
     press2 = work->pad[1].press;
     status = work->pad->status;
-    argv[0] = work->f24D0;
-    argv[1] = work->fB28;
-    argv[2] = title_dword_800D92D0;
+    argv[0] = work->mem_flag;
+    argv[1] = work->vr_flag;
+    argv[2] = has_clear_data;
 
-    if (!(press & 0xFFFF) && !(press2 & 0xFFFF))
+    if (press == 0 && press2 == 0)
     {
         work->fB00++;
     }
@@ -1049,7 +1073,7 @@ void title_open_800C628C(Work *work)
         switch (work->fA74)
         {
         case 0:
-            if (press & 0xFFFF)
+            if (press != 0)
             {
                 work->fA74 = 2;
                 if (sd_sng_play() == 1)
@@ -1060,7 +1084,7 @@ void title_open_800C628C(Work *work)
             break;
 
         case 1:
-            if (press & 0xFFFF)
+            if (press != 0)
             {
                 work->fA74 = 3;
                 if (sd_sng_play() == 1)
@@ -1071,7 +1095,7 @@ void title_open_800C628C(Work *work)
             break;
 
         case 4:
-            if (press & 0x800)
+            if (press & PAD_START)
             {
                 work->fB0C = 1;
                 work->fA74 = 6;
@@ -1082,7 +1106,7 @@ void title_open_800C628C(Work *work)
             break;
 
         case 5:
-            if (press & 0x800)
+            if (press & PAD_START)
             {
                 work->fB0C = 1;
                 work->fA74 = 6;
@@ -1094,7 +1118,7 @@ void title_open_800C628C(Work *work)
             break;
 
         case 6:
-            if (press & 0x800)
+            if (press & PAD_START)
             {
                 work->fB0C = 1;
                 work->fA74 = 7;
@@ -1231,9 +1255,9 @@ void title_open_800C628C(Work *work)
             case 0:
                 if (work->fB14 == 0)
                 {
-                    if (status & 0x1000)
+                    if (status & PAD_UP)
                     {
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                         work->fA78 = 4;
                         work->fB14 = 1;
                         work->fB1C = 1;
@@ -1241,9 +1265,9 @@ void title_open_800C628C(Work *work)
                         work->fA98 = 2;
                         work->f184 = 0;
                     }
-                    else if (status & 0x4000)
+                    else if (status & PAD_DOWN)
                     {
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                         work->fA78 = 1;
                         work->fB14 = 1;
                         work->fB18 = 1;
@@ -1264,18 +1288,18 @@ void title_open_800C628C(Work *work)
                         work->fB14 = 6;
                         work->fB1C++;
                     }
-                    else if (status & 0x1000)
+                    else if (status & PAD_UP)
                     {
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                         work->fA78 = 4;
                         work->fB14 = 1;
                         work->fB18 = 0;
                         work->fA98 = 2;
                         work->f184 = 0;
                     }
-                    else if (status & 0x4000)
+                    else if (status & PAD_DOWN)
                     {
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                         work->fA78 = 1;
                         work->fB14 = 1;
                         work->fB18 = 1;
@@ -1289,9 +1313,9 @@ void title_open_800C628C(Work *work)
                     }
                 }
 
-                if (press & 0x820)
+                if (press & (PAD_CIRCLE | PAD_START))
                 {
-                    GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                    GM_SeSet2(0, 63, SE_MENU_GUNSHOT);
                     work->fA74 = 0x15;
                     work->fF8[0] = 0x300;
                     work->fF8[1] = 0x300;
@@ -1321,7 +1345,7 @@ void title_open_800C628C(Work *work)
                         GM_SetSound(0x1FFFFFF, 0);
                     }
                 }
-                else if (press & 0x40)
+                else if (press & PAD_CROSS)
                 {
                     work->fB0C = 1;
                     work->fA74 = 6;
@@ -1334,9 +1358,9 @@ void title_open_800C628C(Work *work)
             case 1:
                 if (work->fB14 == 0)
                 {
-                    if (status & 0x1000)
+                    if (status & PAD_UP)
                     {
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                         work->fB14 = 1;
                         work->fB1C = 1;
                         work->fA78 = 0;
@@ -1344,9 +1368,9 @@ void title_open_800C628C(Work *work)
                         work->fA98 = 2;
                         work->f184 = 0;
                     }
-                    else if (status & 0x4000)
+                    else if (status & PAD_DOWN)
                     {
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                         work->fA78 = 2;
                         work->fB14 = 1;
                         work->fB18 = 1;
@@ -1367,18 +1391,18 @@ void title_open_800C628C(Work *work)
                         work->fB14 = 6;
                         work->fB1C++;
                     }
-                    else if (status & 0x1000)
+                    else if (status & PAD_UP)
                     {
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                         work->fB14 = 1;
                         work->fA78 = 0;
                         work->fB18 = 0;
                         work->fA98 = 2;
                         work->f184 = 0;
                     }
-                    else if (status & 0x4000)
+                    else if (status & PAD_DOWN)
                     {
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                         work->fA78 = 2;
                         work->fB14 = 1;
                         work->fB18 = 1;
@@ -1392,9 +1416,9 @@ void title_open_800C628C(Work *work)
                     }
                 }
 
-                if (press & 0x820)
+                if (press & (PAD_CIRCLE | PAD_START))
                 {
-                    GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                    GM_SeSet2(0, 63, SE_MENU_GUNSHOT);
                     work->fA74 = 0xA;
                     for (i = 0; i < 22; i++)
                     {
@@ -1410,7 +1434,7 @@ void title_open_800C628C(Work *work)
                         GM_SetSound(0x1FFFFFF, 0);
                     }
                 }
-                else if (press & 0x40)
+                else if (press & PAD_CROSS)
                 {
                     work->fB0C = 1;
                     work->fA74 = 6;
@@ -1423,9 +1447,9 @@ void title_open_800C628C(Work *work)
             case 2:
                 if (work->fB14 == 0)
                 {
-                    if (status & 0x1000)
+                    if (status & PAD_UP)
                     {
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                         work->fA78 = 1;
                         work->fB14 = 1;
                         work->fB1C = 1;
@@ -1433,9 +1457,9 @@ void title_open_800C628C(Work *work)
                         work->fA98 = 2;
                         work->f184 = 0;
                     }
-                    else if (status & 0x4000)
+                    else if (status & PAD_DOWN)
                     {
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                         work->fA78 = 3;
                         work->fB14 = 1;
                         work->fB18 = 1;
@@ -1456,18 +1480,18 @@ void title_open_800C628C(Work *work)
                         work->fB14 = 6;
                         work->fB1C++;
                     }
-                    else if (status & 0x1000)
+                    else if (status & PAD_UP)
                     {
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                         work->fA78 = 1;
                         work->fB14 = 1;
                         work->fB18 = 0;
                         work->fA98 = 2;
                         work->f184 = 0;
                     }
-                    else if (status & 0x4000)
+                    else if (status & PAD_DOWN)
                     {
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                         work->fA78 = 3;
                         work->fB14 = 1;
                         work->fB18 = 1;
@@ -1481,9 +1505,9 @@ void title_open_800C628C(Work *work)
                     }
                 }
 
-                if (press & 0x820)
+                if (press & (PAD_CIRCLE | PAD_START))
                 {
-                    GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                    GM_SeSet2(0, 63, SE_MENU_GUNSHOT);
                     work->fA74 = 0xB;
                     for (i = 0; i < 22; i++)
                     {
@@ -1499,7 +1523,7 @@ void title_open_800C628C(Work *work)
                         GM_SetSound(0x1FFFFFF, 0);
                     }
                 }
-                else if (press & 0x40)
+                else if (press & PAD_CROSS)
                 {
                     work->fB0C = 1;
                     work->fA74 = 6;
@@ -1512,9 +1536,9 @@ void title_open_800C628C(Work *work)
             case 3:
                 if (work->fB14 == 0)
                 {
-                    if (status & 0x1000)
+                    if (status & PAD_UP)
                     {
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                         work->fA78 = 2;
                         work->fB14 = 1;
                         work->fB18 = 0;
@@ -1522,9 +1546,9 @@ void title_open_800C628C(Work *work)
                         work->fA98 = 2;
                         work->f184 = 0;
                     }
-                    else if (status & 0x4000)
+                    else if (status & PAD_DOWN)
                     {
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                         work->fA78 = 4;
                         work->fB14 = 1;
                         work->fB18 = 1;
@@ -1544,18 +1568,18 @@ void title_open_800C628C(Work *work)
                         work->fB14 = 6;
                         work->fB1C++;
                     }
-                    else if (status & 0x1000)
+                    else if (status & PAD_UP)
                     {
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                         work->fA78 = 2;
                         work->fB14 = 1;
                         work->fB18 = 0;
                         work->fA98 = 2;
                         work->f184 = 0;
                     }
-                    else if (status & 0x4000)
+                    else if (status & PAD_DOWN)
                     {
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                         work->fA78 = 4;
                         work->fB14 = 1;
                         work->fB18 = 1;
@@ -1569,9 +1593,9 @@ void title_open_800C628C(Work *work)
                     }
                 }
 
-                if (press & 0x820)
+                if (press & (PAD_CIRCLE | PAD_START))
                 {
-                    GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                    GM_SeSet2(0, 63, SE_MENU_GUNSHOT);
                     work->fA74 = 0xC;
                     for (i = 0; i < 22; i++)
                     {
@@ -1587,7 +1611,7 @@ void title_open_800C628C(Work *work)
                         GM_SetSound(0x1FFFFFF, 0);
                     }
                 }
-                else if (press & 0x40)
+                else if (press & PAD_CROSS)
                 {
                     work->fB0C = 1;
                     work->fA74 = 6;
@@ -1600,9 +1624,9 @@ void title_open_800C628C(Work *work)
             case 4:
                 if (work->fB14 == 0)
                 {
-                    if (status & 0x1000)
+                    if (status & PAD_UP)
                     {
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                         work->fA78 = 3;
                         work->fB14 = 1;
                         work->fB1C = 1;
@@ -1610,9 +1634,9 @@ void title_open_800C628C(Work *work)
                         work->fA98 = 2;
                         work->f184 = 0;
                     }
-                    else if (status & 0x4000)
+                    else if (status & PAD_DOWN)
                     {
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                         work->fB14 = 1;
                         work->fB18 = 1;
                         work->fB1C = 1;
@@ -1632,18 +1656,18 @@ void title_open_800C628C(Work *work)
                         work->fB14 = 6;
                         work->fB1C++;
                     }
-                    else if (status & 0x1000)
+                    else if (status & PAD_UP)
                     {
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                         work->fA78 = 3;
                         work->fB14 = 1;
                         work->fB18 = 0;
                         work->fA98 = 2;
                         work->f184 = 0;
                     }
-                    else if (status & 0x4000)
+                    else if (status & PAD_DOWN)
                     {
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                         work->fB14 = 1;
                         work->fB18 = 1;
                         work->fA78 = 0;
@@ -1657,9 +1681,9 @@ void title_open_800C628C(Work *work)
                     }
                 }
 
-                if (press & 0x820)
+                if (press & (PAD_CIRCLE | PAD_START))
                 {
-                    GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                    GM_SeSet2(0, 63, SE_MENU_GUNSHOT);
                     work->fA74 = 0xD;
                     work->fB3C = 0;
                     work->f24C8 = 0;
@@ -1677,7 +1701,7 @@ void title_open_800C628C(Work *work)
                         GM_SetSound(0x1FFFF0B, 0);
                     }
                 }
-                else if (press & 0x40)
+                else if (press & PAD_CROSS)
                 {
                     work->fB0C = 1;
                     work->fA74 = 6;
@@ -1690,9 +1714,9 @@ void title_open_800C628C(Work *work)
             case 5:
                 if (work->fB14 == 0)
                 {
-                    if (status & 0x1000)
+                    if (status & PAD_UP)
                     {
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                         work->fA78 = 4;
                         work->fB14 = 1;
                         work->fB1C = 1;
@@ -1700,9 +1724,9 @@ void title_open_800C628C(Work *work)
                         work->fA98 = 2;
                         work->f184 = 0;
                     }
-                    else if (status & 0x4000)
+                    else if (status & PAD_DOWN)
                     {
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                         work->fB14 = 1;
                         work->fB18 = 1;
                         work->fB1C = 1;
@@ -1722,18 +1746,18 @@ void title_open_800C628C(Work *work)
                         work->fB14 = 6;
                         work->fB1C++;
                     }
-                    else if (status & 0x1000)
+                    else if (status & PAD_UP)
                     {
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                         work->fA78 = 4;
                         work->fB14 = 1;
                         work->fB18 = 0;
                         work->fA98 = 2;
                         work->f184 = 0;
                     }
-                    else if (status & 0x4000)
+                    else if (status & PAD_DOWN)
                     {
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                         work->fB14 = 1;
                         work->fB18 = 1;
                         work->fA78 = 0;
@@ -1747,9 +1771,9 @@ void title_open_800C628C(Work *work)
                     }
                 }
 
-                if (press & 0x820)
+                if (press & (PAD_CIRCLE | PAD_START))
                 {
-                    GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                    GM_SeSet2(0, 63, SE_MENU_GUNSHOT);
                     work->fA74 = 0xE;
                     for (i = 0; i < 22; i++)
                     {
@@ -1765,7 +1789,7 @@ void title_open_800C628C(Work *work)
                         GM_SetSound(0x1FFFFFF, 0);
                     }
                 }
-                else if (press & 0x40)
+                else if (press & PAD_CROSS)
                 {
                     work->fB0C = 1;
                     work->fA74 = 6;
@@ -1779,32 +1803,32 @@ void title_open_800C628C(Work *work)
             break;
 
         case 21:
-            if (press & 0x1000)
+            if (press & PAD_UP)
             {
                 if (work->f24E4 == -1)
                 {
                     break;
                 }
                 work->f24E4 = work->f24E4 - 1;
-                GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                GM_SeSet2(0, 63, SE_MENU_CURSOR);
             }
-            else if (press & 0x4000)
+            else if (press & PAD_DOWN)
             {
                 if (work->f24E4 == 3)
                 {
                     break;
                 }
-                if (work->f24E4 == 2 && work->fB48 == 0)
+                if (work->f24E4 == 2 && work->demo_rank == 0)
                 {
                     break;
                 }
                 work->f24E4 = work->f24E4 + 1;
-                GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                GM_SeSet2(0, 63, SE_MENU_CURSOR);
             }
-            else if (press & 0x20)
+            else if (press & PAD_CIRCLE)
             {
-                GM_DifficultyFlag = *(u_short *)&work->f24E4;
-                printf((char *)title_aGameleveld_800D8848, GM_DifficultyFlag);
+                GM_DifficultyFlag = work->f24E4;
+                printf("\n Game Level = %d\n\n", GM_DifficultyFlag);
                 if (work->f24E4 == 2 || work->f24E4 == 3)
                 {
                     GM_OptionFlag |= 0x800;
@@ -1813,7 +1837,7 @@ void title_open_800C628C(Work *work)
                 {
                     GM_OptionFlag &= 0xF7FF;
                 }
-                GM_SeSet2(0, 0x3F, SE_MENU_SELECT);
+                GM_SeSet2(0, 63, SE_MENU_SELECT);
                 work->fA74 = 0x14;
                 title_open_800C5CB8(work);
                 title_open_800C5D10(work);
@@ -1823,15 +1847,15 @@ void title_open_800C628C(Work *work)
                     title_open_800C4AD0(work, i, 0);
                 }
                 GCL_ExecProc(work->f2500, 0);
-                fonttext_dword_800C32B0 = 0x46CD;
+                fonttext_kill_name = 0x46CD;
             }
-            else if (press & 0x40)
+            else if (press & PAD_CROSS)
             {
                 for (i = 0; i < 24; i++)
                 {
                     title_open_800C4AD0(work, i, 0);
                 }
-                GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                GM_SeSet2(0, 63, SE_MENU_EXIT);
                 work->fA74 = 7;
                 work->fB0C = 1;
                 title_open_800C5CB8(work);
@@ -1893,7 +1917,7 @@ void title_open_800C628C(Work *work)
                 work->fE0[4] = 0x100;
                 work->fE0[5] = 0;
                 GCL_ExecProc(work->f2500, 0);
-                fonttext_dword_800C32B0 = 0x46CD;
+                fonttext_kill_name = 0x46CD;
             }
             break;
 
@@ -1907,7 +1931,7 @@ void title_open_800C628C(Work *work)
                 title_open_800C5D30(work);
                 if (++work->f24E8 >= 30)
                 {
-                    printf((char *)title_aErrormemcardcheckerror_800D885C);
+                    printf("ERROR!!!! MEMCARD Check ERROR!!!\n");
                     work->fA74 = 8;
                 }
             }
@@ -1918,27 +1942,27 @@ void title_open_800C628C(Work *work)
             work->f30[17] = 0x100;
             setRGB0(&p18C[17], 0x80, 0x80, 0x80);
             setXY4(&p18C[17], -0x22, -0x5A, 0x22, -0x5A, -0x22, -0x4C, 0x22, -0x4C);
-            if (press & 0x8000)
+            if (press & PAD_LEFT)
             {
                 if (work->f24E0 == 1)
                 {
-                    GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     work->f24E0 = 0;
                 }
             }
-            else if (press & 0x2000)
+            else if (press & PAD_RIGHT)
             {
                 if (work->f24E0 == 0)
                 {
-                    GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     work->f24E0 = 1;
                 }
             }
-            else if (press & 0x20)
+            else if (press & PAD_CIRCLE)
             {
                 if (work->f24E0 == 1)
                 {
-                    GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                    GM_SeSet2(0, 63, SE_MENU_EXIT);
                     work->fA74 = 7;
                     work->fB0C = 1;
                     title_open_800C5CB8(work);
@@ -2001,16 +2025,16 @@ void title_open_800C628C(Work *work)
                 }
                 else
                 {
-                    GM_SeSet2(0, 0x3F, SE_MENU_SELECT);
+                    GM_SeSet2(0, 63, SE_MENU_SELECT);
                     work->fA74 = 8;
                     title_open_800C5CB8(work);
                     title_open_800C5D10(work);
                 }
                 title_open_800C4AD0(work, 0x15, 0);
             }
-            else if (press & 0x40)
+            else if (press & PAD_CROSS)
             {
-                GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                GM_SeSet2(0, 63, SE_MENU_EXIT);
                 work->fA74 = 7;
                 work->fB0C = 1;
                 title_open_800C5CB8(work);
@@ -2079,11 +2103,11 @@ void title_open_800C628C(Work *work)
             {
                 if (sd_sng_play() == 0)
                 {
-                    if ((GV_PadData[2].status & 2) && (GV_PadData[2].status & 1))
+                    if ((GV_PadData[2].status & PAD_R2) && (GV_PadData[2].status & PAD_L2))
                     {
                         argv[2] = 0;
                     }
-                    GCL_ExecProc(work->fAD0, &args);
+                    GCL_ExecProc(work->end_proc, &args);
                     GV_DestroyActor(&work->actor);
                 }
             }
@@ -2097,11 +2121,11 @@ void title_open_800C628C(Work *work)
                 work->f24B4 = 0;
                 work->f24B8 = 0;
                 work->f24BC = 0;
-                if ((GV_PadData[2].status & 2) && (GV_PadData[2].status & 1))
+                if ((GV_PadData[2].status & PAD_R2) && (GV_PadData[2].status & PAD_L2))
                 {
-                    title_dword_800D92D0 = 0;
+                    has_clear_data = 0;
                 }
-                title_dword_800C33D4 = work->fAD0;
+                title_dword_800C33D4 = work->end_proc;
             }
             break;
 
@@ -2136,7 +2160,7 @@ void title_open_800C628C(Work *work)
             break;
 
         case 13:
-            switch (work->fB40)
+            switch (work->spe_rank)
             {
             case 0: /* page 0 */
                 switch (work->fB3C)
@@ -2175,7 +2199,7 @@ void title_open_800C628C(Work *work)
                         p4FC[3].b0 = 0x5A;
                         if (fade == 1)
                         {
-                            GM_SeSet2(0, 0x3F, SE_MENUOPN1);
+                            GM_SeSet2(0, 63, SE_MENUOPN1);
                         }
                     }
                     else if (fade < 0xD)
@@ -2281,8 +2305,8 @@ void title_open_800C628C(Work *work)
                     }
                     else if (fade == 0x2B)
                     {
-                        title_open_800C5360(work, GV_StrCode((char *)title_aSppre_800D8880), &p4FC[4]);
-                        title_open_800C5360(work, GV_StrCode((char *)title_aSpexit_800D8888), &p4FC[5]);
+                        title_open_800C5360(work, GV_StrCode("sp_pre"), &p4FC[4]);
+                        title_open_800C5360(work, GV_StrCode("sp_exit"), &p4FC[5]);
                     }
                     else if (fade == 0x2C)
                     {
@@ -2300,20 +2324,20 @@ void title_open_800C628C(Work *work)
                 }
 
                 case 1:
-                    if (press & 0x4000)
+                    if (press & PAD_DOWN)
                     {
                         work->fB3C = 7;
                         title_open_800C4C38(work, -0x1C, 0x2E, 0x38, 0xC, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     }
                     break;
 
                 case 7:
-                    if (press & 0x1000)
+                    if (press & PAD_UP)
                     {
                         work->fB3C = 1;
                         title_open_800C4C38(work, -0x50, -0x16, 0xA0, 8, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     }
                     break;
                 case 8:
@@ -2392,28 +2416,28 @@ void title_open_800C628C(Work *work)
                     break;
                 }
 
-                if (press & 0x40)
+                if (press & PAD_CROSS)
                 {
                     if (work->fB3C != 0 && work->fB3C != 8)
                     {
                         work->fB3C = 8;
                         work->f24C8 = 0;
-                        GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                        GM_SeSet2(0, 63, SE_MENU_EXIT);
                         title_open_800C5D10(work);
                     }
                 }
-                else if (press & 0x20)
+                else if (press & PAD_CIRCLE)
                 {
                     if (work->fB3C == 7)
                     {
                         work->fB3C = 8;
                         work->f24C8 = 0;
-                        GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                        GM_SeSet2(0, 63, SE_MENU_EXIT);
                         title_open_800C5D10(work);
                     }
                     else if (work->fB3C == 1)
                     {
-                        GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                        GM_SeSet2(0, 63, SE_MENU_GUNSHOT);
                         if (sd_sng_play() == 0)
                         {
                             GCL_ExecProc(work->fAF0, &args);
@@ -2460,7 +2484,7 @@ void title_open_800C628C(Work *work)
                         p4FC[3].y3 = 0;
                         if (fade == 1)
                         {
-                            GM_SeSet2(0, 0x3F, SE_MENUOPN1);
+                            GM_SeSet2(0, 63, SE_MENUOPN1);
                         }
                     }
                     else if (fade < 0xD)
@@ -2580,9 +2604,9 @@ void title_open_800C628C(Work *work)
                     }
                     else if (fade == 0x2B)
                     {
-                        title_open_800C5360(work, GV_StrCode((char *)title_aSppre_800D8880), &p4FC[4]);
-                        title_open_800C5360(work, GV_StrCode((char *)title_aSpexit_800D8888), &p4FC[5]);
-                        title_open_800C5360(work, GV_StrCode((char *)title_aSpalbum_800D8890), &p4FC[6]);
+                        title_open_800C5360(work, GV_StrCode("sp_pre"), &p4FC[4]);
+                        title_open_800C5360(work, GV_StrCode("sp_exit"), &p4FC[5]);
+                        title_open_800C5360(work, GV_StrCode("sp_album"), &p4FC[6]);
                     }
                     else if (fade == 0x2C)
                     {
@@ -2600,35 +2624,35 @@ void title_open_800C628C(Work *work)
                 }
 
                 case 1:
-                    if (press & 0x4000)
+                    if (press & PAD_DOWN)
                     {
                         work->fB3C = 2;
                         title_open_800C4C38(work, -0x18, -0x3, 0x30, 8, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     }
                     break;
 
                 case 2:
-                    if (press & 0x4000)
+                    if (press & PAD_DOWN)
                     {
                         work->fB3C = 7;
                         title_open_800C4C38(work, -0x1C, 0x2E, 0x38, 0xC, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     }
-                    else if (press & 0x1000)
+                    else if (press & PAD_UP)
                     {
                         work->fB3C = 1;
                         title_open_800C4C38(work, -0x50, -0x26, 0xA0, 8, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     }
                     break;
 
                 case 7:
-                    if (press & 0x1000)
+                    if (press & PAD_UP)
                     {
                         work->fB3C = 2;
                         title_open_800C4C38(work, -0x18, -0x3, 0x30, 8, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     }
                     break;
 
@@ -2708,28 +2732,28 @@ void title_open_800C628C(Work *work)
                     break;
                 }
 
-                if (press & 0x40)
+                if (press & PAD_CROSS)
                 {
                     if (work->fB3C != 0 && work->fB3C != 8)
                     {
                         work->fB3C = 8;
                         work->f24C8 = 0;
-                        GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                        GM_SeSet2(0, 63, SE_MENU_EXIT);
                         title_open_800C5D10(work);
                     }
                 }
-                else if (press & 0x20)
+                else if (press & PAD_CIRCLE)
                 {
                     if (work->fB3C == 7)
                     {
                         work->fB3C = 8;
                         work->f24C8 = 0;
-                        GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                        GM_SeSet2(0, 63, SE_MENU_EXIT);
                         title_open_800C5D10(work);
                     }
                     else if (work->fB3C == 2)
                     {
-                        GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                        GM_SeSet2(0, 63, SE_MENU_GUNSHOT);
                         if (sd_sng_play() == 0)
                         {
                             GCL_ExecProc(work->fAE4, &args);
@@ -2738,7 +2762,7 @@ void title_open_800C628C(Work *work)
                     }
                     else if (work->fB3C == 1)
                     {
-                        GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                        GM_SeSet2(0, 63, SE_MENU_GUNSHOT);
                         if (sd_sng_play() == 0)
                         {
                             GCL_ExecProc(work->fAF0, &args);
@@ -2785,7 +2809,7 @@ void title_open_800C628C(Work *work)
                         p4FC[3].y3 = 0;
                         if (fade == 1)
                         {
-                            GM_SeSet2(0, 0x3F, SE_MENUOPN1);
+                            GM_SeSet2(0, 63, SE_MENUOPN1);
                         }
                     }
                     else if (fade < 0xD)
@@ -2909,9 +2933,9 @@ void title_open_800C628C(Work *work)
                     }
                     else if (fade == 0x2B)
                     {
-                        title_open_800C5360(work, GV_StrCode((char *)title_aSppre_800D8880), &p4FC[4]);
-                        title_open_800C5360(work, GV_StrCode((char *)title_aSpexit_800D8888), &p4FC[5]);
-                        title_open_800C5360(work, GV_StrCode((char *)title_aSpdemo_800D889C), &p4FC[7]);
+                        title_open_800C5360(work, GV_StrCode("sp_pre"), &p4FC[4]);
+                        title_open_800C5360(work, GV_StrCode("sp_exit"), &p4FC[5]);
+                        title_open_800C5360(work, GV_StrCode("sp_demo"), &p4FC[7]);
                     }
                     else if (fade == 0x2C)
                     {
@@ -2929,55 +2953,55 @@ void title_open_800C628C(Work *work)
                 }
 
                 case 1:
-                    if (press & 0x4000)
+                    if (press & PAD_DOWN)
                     {
                         work->fB3C = 3;
                         title_open_800C4C38(work, -0x34, -0x3, 0x68, 8, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     }
                     break;
 
                 case 3:
-                    if (press & 0x4000)
+                    if (press & PAD_DOWN)
                     {
                         work->fB3C = 7;
                         title_open_800C4C38(work, -0x1C, 0x2E, 0x38, 0xC, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     }
-                    else if (press & 0x1000)
+                    else if (press & PAD_UP)
                     {
                         work->fB3C = 1;
                         title_open_800C4C38(work, -0x50, -0x26, 0xA0, 8, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     }
                     break;
 
                 case 5:
-                    if (press & 0x4000)
+                    if (press & PAD_DOWN)
                     {
                         work->fB3C = 7;
                         title_open_800C4C38(work, -0x1C, 0x38, 0x38, 0xC, 0xFF, 1);
                         title_open_800C4C38(work, -0x1C, 0x2E, 0x38, 0xC, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     }
-                    else if (press & 0x1000)
+                    else if (press & PAD_UP)
                     {
                         work->fB3C = 3;
                         title_open_800C4C38(work, -0x34, 0x2, 0x68, 8, 0xFF, 1);
                         title_open_800C4C38(work, -0x34, -0x3, 0x68, 8, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     }
-                    else if (press & 0x2000)
+                    else if (press & PAD_RIGHT)
                     {
                         if (work->f24CC == 0)
                         {
-                            GM_SeSet2(0, 0x3F, 0x7F);
+                            GM_SeSet2(0, 63, SE_MENU_TOGGLE);
                             work->f24CC = 1;
-                            title_open_800C5360(work, GV_StrCode((char *)title_aSpon_800D88A4), &p4FC[9]);
+                            title_open_800C5360(work, GV_StrCode("sp_on"), &p4FC[9]);
                             p4FC[9].r0 = 0x46;
                             p4FC[9].g0 = 0x64;
                             p4FC[9].b0 = 0x5A;
-                            title_open_800C5360(work, GV_StrCode((char *)title_aSpoffw_800D88AC), &p4FC[10]);
+                            title_open_800C5360(work, GV_StrCode("sp_off_w"), &p4FC[10]);
                             p4FC[10].r0 = 0x64;
                             p4FC[10].g0 = 0xA0;
                             p4FC[10].b0 = 0x87;
@@ -2991,17 +3015,17 @@ void title_open_800C628C(Work *work)
                             p4FC[11].y3 = 7;
                         }
                     }
-                    else if (press & 0x8000)
+                    else if (press & PAD_LEFT)
                     {
                         if (work->f24CC == 1)
                         {
-                            GM_SeSet2(0, 0x3F, 0x7F);
+                            GM_SeSet2(0, 63, SE_MENU_TOGGLE);
                             work->f24CC = 0;
-                            title_open_800C5360(work, GV_StrCode((char *)title_aSponw_800D88B8), &p4FC[9]);
+                            title_open_800C5360(work, GV_StrCode("sp_on_w"), &p4FC[9]);
                             p4FC[9].r0 = 0x64;
                             p4FC[9].g0 = 0xA0;
                             p4FC[9].b0 = 0x87;
-                            title_open_800C5360(work, GV_StrCode((char *)title_aSpoff_800D88C0), &p4FC[10]);
+                            title_open_800C5360(work, GV_StrCode("sp_off"), &p4FC[10]);
                             p4FC[10].r0 = 0x46;
                             p4FC[10].g0 = 0x64;
                             p4FC[10].b0 = 0x5A;
@@ -3017,11 +3041,11 @@ void title_open_800C628C(Work *work)
                     }
                     break;
                 case 7:
-                    if (press & 0x1000)
+                    if (press & PAD_UP)
                     {
                         work->fB3C = 3;
                         title_open_800C4C38(work, -0x34, -0x3, 0x68, 8, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     }
                     break;
                 case 8:
@@ -3100,7 +3124,7 @@ void title_open_800C628C(Work *work)
                     break;
                 }
 
-                if (press & 0x40)
+                if (press & PAD_CROSS)
                 {
                     if (work->fB3C == 4)
                     {
@@ -3120,28 +3144,28 @@ void title_open_800C628C(Work *work)
                         work->fF8[15] = 0;
                         work->fF8[16] = 0;
                         title_open_800C4C38(work, -0x34, -0x19, 0x68, 8, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                        GM_SeSet2(0, 63, SE_MENU_EXIT);
                     }
                     else if (work->fB3C != 0 && work->fB3C != 8)
                     {
                         work->fB3C = 8;
                         work->f24C8 = 0;
-                        GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                        GM_SeSet2(0, 63, SE_MENU_EXIT);
                         title_open_800C5D10(work);
                     }
                 }
-                else if (press & 0x20)
+                else if (press & PAD_CIRCLE)
                 {
                     if (work->fB3C == 7)
                     {
                         work->fB3C = 8;
                         work->f24C8 = 0;
-                        GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                        GM_SeSet2(0, 63, SE_MENU_EXIT);
                         title_open_800C5D10(work);
                     }
                     else if (work->fB3C == 2)
                     {
-                        GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                        GM_SeSet2(0, 63, SE_MENU_GUNSHOT);
                         if (sd_sng_play() == 0)
                         {
                             GCL_ExecProc(work->fAE4, &args);
@@ -3150,7 +3174,7 @@ void title_open_800C628C(Work *work)
                     }
                     else if (work->fB3C == 1)
                     {
-                        GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                        GM_SeSet2(0, 63, SE_MENU_GUNSHOT);
                         if (sd_sng_play() == 0)
                         {
                             GCL_ExecProc(work->fAF0, &args);
@@ -3159,10 +3183,10 @@ void title_open_800C628C(Work *work)
                     }
                     else if (work->fB3C == 3)
                     {
-                        GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                        GM_SeSet2(0, 63, SE_MENU_GUNSHOT);
                         if (sd_sng_play() == 0)
                         {
-                            argv[0] = work->fB48;
+                            argv[0] = work->demo_rank;
                             GM_OptionFlag &= 0xF7FF;
                             GCL_ExecProc(work->fAF4, &args);
                             GV_DestroyActor(&work->actor);
@@ -3188,11 +3212,11 @@ void title_open_800C628C(Work *work)
                             work->fF8[16] = 0;
                             work->fB3C = 3;
                             title_open_800C4C38(work, -0x34, -0x19, 0x68, 8, 0xFF, 1);
-                            GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                            GM_SeSet2(0, 63, SE_MENU_EXIT);
                         }
                         else
                         {
-                            GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                            GM_SeSet2(0, 63, SE_MENU_GUNSHOT);
                         }
                     }
                 }
@@ -3234,7 +3258,7 @@ void title_open_800C628C(Work *work)
                         p4FC[3].b0 = 0x5A;
                         if (fade == 1)
                         {
-                            GM_SeSet2(0, 0x3F, SE_MENUOPN1);
+                            GM_SeSet2(0, 63, SE_MENUOPN1);
                         }
                     }
                     else if (fade < 0xD)
@@ -3372,10 +3396,10 @@ void title_open_800C628C(Work *work)
                     }
                     else if (fade == 0x2B)
                     {
-                        title_open_800C5360(work, GV_StrCode((char *)title_aSppre_800D8880), &p4FC[4]);
-                        title_open_800C5360(work, GV_StrCode((char *)title_aSpexit_800D8888), &p4FC[5]);
-                        title_open_800C5360(work, GV_StrCode((char *)title_aSpalbum_800D8890), &p4FC[6]);
-                        title_open_800C5360(work, GV_StrCode((char *)title_aSpdemo_800D889C), &p4FC[7]);
+                        title_open_800C5360(work, GV_StrCode("sp_pre"), &p4FC[4]);
+                        title_open_800C5360(work, GV_StrCode("sp_exit"), &p4FC[5]);
+                        title_open_800C5360(work, GV_StrCode("sp_album"), &p4FC[6]);
+                        title_open_800C5360(work, GV_StrCode("sp_demo"), &p4FC[7]);
                     }
                     else if (fade == 0x2C)
                     {
@@ -3393,68 +3417,68 @@ void title_open_800C628C(Work *work)
                 }
 
                 case 1:
-                    if (press & 0x4000)
+                    if (press & PAD_DOWN)
                     {
                         work->fB3C = 2;
                         title_open_800C4C38(work, -0x18, -0x15, 0x30, 8, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     }
                     break;
 
                 case 2:
-                    if (press & 0x4000)
+                    if (press & PAD_DOWN)
                     {
                         work->fB3C = 3;
                         title_open_800C4C38(work, -0x34, 0xB, 0x68, 8, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     }
-                    else if (press & 0x1000)
+                    else if (press & PAD_UP)
                     {
                         work->fB3C = 1;
                         title_open_800C4C38(work, -0x50, -0x35, 0xA0, 8, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     }
                     break;
 
                 case 3:
-                    if (press & 0x4000)
+                    if (press & PAD_DOWN)
                     {
                         work->fB3C = 7;
                         title_open_800C4C38(work, -0x1C, 0x2E, 0x38, 0xC, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     }
-                    else if (press & 0x1000)
+                    else if (press & PAD_UP)
                     {
                         work->fB3C = 2;
                         title_open_800C4C38(work, -0x18, -0x15, 0x30, 8, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     }
                     break;
 
                 case 5:
-                    if (press & 0x4000)
+                    if (press & PAD_DOWN)
                     {
                         work->fB3C = 7;
                         title_open_800C4C38(work, -0x1C, 0x2E, 0x38, 0xC, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     }
-                    else if (press & 0x1000)
+                    else if (press & PAD_UP)
                     {
                         work->fB3C = 3;
                         title_open_800C4C38(work, -0x34, 0xB, 0x68, 8, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     }
-                    else if (press & 0x2000)
+                    else if (press & PAD_RIGHT)
                     {
                         if (work->f24CC == 0)
                         {
-                            GM_SeSet2(0, 0x3F, 0x7F);
+                            GM_SeSet2(0, 63, SE_MENU_TOGGLE);
                             work->f24CC = 1;
-                            title_open_800C5360(work, GV_StrCode((char *)title_aSpon_800D88A4), &p4FC[9]);
+                            title_open_800C5360(work, GV_StrCode("sp_on"), &p4FC[9]);
                             p4FC[9].r0 = 0x46;
                             p4FC[9].g0 = 0x64;
                             p4FC[9].b0 = 0x5A;
-                            title_open_800C5360(work, GV_StrCode((char *)title_aSpoffw_800D88AC), &p4FC[10]);
+                            title_open_800C5360(work, GV_StrCode("sp_off_w"), &p4FC[10]);
                             p4FC[10].r0 = 0x64;
                             p4FC[10].g0 = 0xA0;
                             p4FC[10].b0 = 0x87;
@@ -3468,17 +3492,17 @@ void title_open_800C628C(Work *work)
                             p4FC[11].y3 = 0x12;
                         }
                     }
-                    else if (press & 0x8000)
+                    else if (press & PAD_LEFT)
                     {
                         if (work->f24CC == 1)
                         {
-                            GM_SeSet2(0, 0x3F, 0x7F);
+                            GM_SeSet2(0, 63, SE_MENU_TOGGLE);
                             work->f24CC = 0;
-                            title_open_800C5360(work, GV_StrCode((char *)title_aSponw_800D88B8), &p4FC[9]);
+                            title_open_800C5360(work, GV_StrCode("sp_on_w"), &p4FC[9]);
                             p4FC[9].r0 = 0x64;
                             p4FC[9].g0 = 0xA0;
                             p4FC[9].b0 = 0x87;
-                            title_open_800C5360(work, GV_StrCode((char *)title_aSpoff_800D88C0), &p4FC[10]);
+                            title_open_800C5360(work, GV_StrCode("sp_off"), &p4FC[10]);
                             p4FC[10].r0 = 0x46;
                             p4FC[10].g0 = 0x64;
                             p4FC[10].b0 = 0x5A;
@@ -3495,11 +3519,11 @@ void title_open_800C628C(Work *work)
                     break;
 
                 case 7:
-                    if (press & 0x1000)
+                    if (press & PAD_UP)
                     {
                         work->fB3C = 3;
                         title_open_800C4C38(work, -0x34, 0xB, 0x68, 8, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     }
                     break;
 
@@ -3579,7 +3603,7 @@ void title_open_800C628C(Work *work)
                     break;
                 }
 
-                if (press & 0x40)
+                if (press & PAD_CROSS)
                 {
                     if (work->fB3C == 4)
                     {
@@ -3600,28 +3624,28 @@ void title_open_800C628C(Work *work)
                         work->fF8[15] = 0;
                         work->fF8[16] = 0;
                         title_open_800C4C38(work, -0x34, -0xD, 0x68, 8, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                        GM_SeSet2(0, 63, SE_MENU_EXIT);
                     }
                     else if (work->fB3C != 0 && work->fB3C != 8)
                     {
                         work->fB3C = 8;
                         work->f24C8 = 0;
-                        GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                        GM_SeSet2(0, 63, SE_MENU_EXIT);
                         title_open_800C5D10(work);
                     }
                 }
-                else if (press & 0x20)
+                else if (press & PAD_CIRCLE)
                 {
                     if (work->fB3C == 7)
                     {
                         work->fB3C = 8;
                         work->f24C8 = 0;
-                        GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                        GM_SeSet2(0, 63, SE_MENU_EXIT);
                         title_open_800C5D10(work);
                     }
                     else if (work->fB3C == 2)
                     {
-                        GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                        GM_SeSet2(0, 63, SE_MENU_GUNSHOT);
                         if (sd_sng_play() == 0)
                         {
                             GCL_ExecProc(work->fAE4, &args);
@@ -3630,7 +3654,7 @@ void title_open_800C628C(Work *work)
                     }
                     else if (work->fB3C == 1)
                     {
-                        GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                        GM_SeSet2(0, 63, SE_MENU_GUNSHOT);
                         if (sd_sng_play() == 0)
                         {
                             GCL_ExecProc(work->fAF0, &args);
@@ -3639,10 +3663,10 @@ void title_open_800C628C(Work *work)
                     }
                     else if (work->fB3C == 3)
                     {
-                        GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                        GM_SeSet2(0, 63, SE_MENU_GUNSHOT);
                         if (sd_sng_play() == 0)
                         {
-                            argv[0] = work->fB48;
+                            argv[0] = work->demo_rank;
                             GM_OptionFlag &= 0xF7FF;
                             GCL_ExecProc(work->fAF4, &args);
                             GV_DestroyActor(&work->actor);
@@ -3669,11 +3693,11 @@ void title_open_800C628C(Work *work)
                             work->fF8[16] = 0;
                             work->fB3C = 3;
                             title_open_800C4C38(work, -0x34, -0xD, 0x68, 8, 0xFF, 1);
-                            GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                            GM_SeSet2(0, 63, SE_MENU_EXIT);
                         }
                         else
                         {
-                            GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                            GM_SeSet2(0, 63, SE_MENU_GUNSHOT);
                         }
                     }
                 }
@@ -3715,7 +3739,7 @@ void title_open_800C628C(Work *work)
                         p4FC[3].b0 = 0x5A;
                         if (fade == 1)
                         {
-                            GM_SeSet2(0, 0x3F, SE_MENUOPN1);
+                            GM_SeSet2(0, 63, SE_MENUOPN1);
                         }
                     }
                     else if (fade < 0xD)
@@ -3835,9 +3859,9 @@ void title_open_800C628C(Work *work)
                     }
                     else if (fade == 0x2B)
                     {
-                        title_open_800C5360(work, GV_StrCode((char *)title_aSppre_800D8880), &p4FC[4]);
-                        title_open_800C5360(work, GV_StrCode((char *)title_aSpexit_800D8888), &p4FC[5]);
-                        title_open_800C5360(work, GV_StrCode((char *)title_aDsppmode_800D88C8), &p4FC[17]);
+                        title_open_800C5360(work, GV_StrCode("sp_pre"), &p4FC[4]);
+                        title_open_800C5360(work, GV_StrCode("sp_exit"), &p4FC[5]);
+                        title_open_800C5360(work, GV_StrCode("d3_sp_1p_mode"), &p4FC[17]);
                     }
                     else if (fade == 0x2C)
                     {
@@ -3855,35 +3879,35 @@ void title_open_800C628C(Work *work)
                 }
 
                 case 1:
-                    if (press & 0x4000)
+                    if (press & PAD_DOWN)
                     {
                         work->fB3C = 6;
                         title_open_800C4C38(work, -0x46, -0x3, 0x8C, 8, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     }
                     break;
 
                 case 6:
-                    if (press & 0x1000)
+                    if (press & PAD_UP)
                     {
                         work->fB3C = 1;
                         title_open_800C4C38(work, -0x50, -0x26, 0xA0, 8, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     }
-                    else if (press & 0x4000)
+                    else if (press & PAD_DOWN)
                     {
                         work->fB3C = 7;
                         title_open_800C4C38(work, -0x1C, 0x2E, 0x38, 0xC, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     }
                     break;
 
                 case 7:
-                    if (press & 0x1000)
+                    if (press & PAD_UP)
                     {
                         work->fB3C = 6;
                         title_open_800C4C38(work, -0x46, -0x3, 0x8C, 8, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     }
                     break;
                 case 8:
@@ -3962,28 +3986,28 @@ void title_open_800C628C(Work *work)
                     break;
                 }
 
-                if (press & 0x40)
+                if (press & PAD_CROSS)
                 {
                     if (work->fB3C != 0 && work->fB3C != 8)
                     {
                         work->fB3C = 8;
                         work->f24C8 = 0;
-                        GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                        GM_SeSet2(0, 63, SE_MENU_EXIT);
                         title_open_800C5D10(work);
                     }
                 }
-                else if (press & 0x20)
+                else if (press & PAD_CIRCLE)
                 {
                     if (work->fB3C == 7)
                     {
                         work->fB3C = 8;
                         work->f24C8 = 0;
-                        GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                        GM_SeSet2(0, 63, SE_MENU_EXIT);
                         title_open_800C5D10(work);
                     }
                     else if (work->fB3C == 1)
                     {
-                        GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                        GM_SeSet2(0, 63, SE_MENU_GUNSHOT);
                         if (sd_sng_play() == 0)
                         {
                             GCL_ExecProc(work->fAF0, &args);
@@ -4033,7 +4057,7 @@ void title_open_800C628C(Work *work)
                         p4FC[3].y3 = 0;
                         if (fade == 1)
                         {
-                            GM_SeSet2(0, 0x3F, SE_MENUOPN1);
+                            GM_SeSet2(0, 63, SE_MENUOPN1);
                         }
                     }
                     else if (fade < 0xD)
@@ -4171,10 +4195,10 @@ void title_open_800C628C(Work *work)
                     }
                     else if (fade == 0x2B)
                     {
-                        title_open_800C5360(work, GV_StrCode((char *)title_aSppre_800D8880), &p4FC[4]);
-                        title_open_800C5360(work, GV_StrCode((char *)title_aSpexit_800D8888), &p4FC[5]);
-                        title_open_800C5360(work, GV_StrCode((char *)title_aSpalbum_800D8890), &p4FC[6]);
-                        title_open_800C5360(work, GV_StrCode((char *)title_aDsppmode_800D88C8), &p4FC[17]);
+                        title_open_800C5360(work, GV_StrCode("sp_pre"), &p4FC[4]);
+                        title_open_800C5360(work, GV_StrCode("sp_exit"), &p4FC[5]);
+                        title_open_800C5360(work, GV_StrCode("sp_album"), &p4FC[6]);
+                        title_open_800C5360(work, GV_StrCode("d3_sp_1p_mode"), &p4FC[17]);
                     }
                     else if (fade == 0x2C)
                     {
@@ -4192,50 +4216,50 @@ void title_open_800C628C(Work *work)
                 }
 
                 case 1:
-                    if (press & 0x4000)
+                    if (press & PAD_DOWN)
                     {
                         work->fB3C = 2;
                         title_open_800C4C38(work, -0x18, -0x15, 0x30, 8, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     }
                     break;
 
                 case 2:
-                    if (press & 0x4000)
+                    if (press & PAD_DOWN)
                     {
                         work->fB3C = 6;
                         title_open_800C4C38(work, -0x46, 0xB, 0x8C, 8, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     }
-                    else if (press & 0x1000)
+                    else if (press & PAD_UP)
                     {
                         work->fB3C = 1;
                         title_open_800C4C38(work, -0x50, -0x35, 0xA0, 8, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     }
                     break;
 
                 case 6:
-                    if (press & 0x4000)
+                    if (press & PAD_DOWN)
                     {
                         work->fB3C = 7;
                         title_open_800C4C38(work, -0x1C, 0x2E, 0x38, 0xC, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     }
-                    else if (press & 0x1000)
+                    else if (press & PAD_UP)
                     {
                         work->fB3C = 2;
                         title_open_800C4C38(work, -0x18, -0x15, 0x30, 8, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     }
                     break;
 
                 case 7:
-                    if (press & 0x1000)
+                    if (press & PAD_UP)
                     {
                         work->fB3C = 6;
                         title_open_800C4C38(work, -0x46, 0xB, 0x8C, 8, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     }
                     break;
 
@@ -4318,28 +4342,28 @@ void title_open_800C628C(Work *work)
                 }
                 }
 
-                if (press & 0x40)
+                if (press & PAD_CROSS)
                 {
                     if (work->fB3C != 0 && work->fB3C != 8)
                     {
                         work->fB3C = 8;
                         work->f24C8 = 0;
-                        GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                        GM_SeSet2(0, 63, SE_MENU_EXIT);
                         title_open_800C5D10(work);
                     }
                 }
-                else if (press & 0x20)
+                else if (press & PAD_CIRCLE)
                 {
                     if (work->fB3C == 7)
                     {
                         work->fB3C = 8;
                         work->f24C8 = 0;
-                        GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                        GM_SeSet2(0, 63, SE_MENU_EXIT);
                         title_open_800C5D10(work);
                     }
                     else if (work->fB3C == 2)
                     {
-                        GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                        GM_SeSet2(0, 63, SE_MENU_GUNSHOT);
                         if (sd_sng_play() == 0)
                         {
                             GCL_ExecProc(work->fAE4, &args);
@@ -4348,7 +4372,7 @@ void title_open_800C628C(Work *work)
                     }
                     else if (work->fB3C == 1)
                     {
-                        GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                        GM_SeSet2(0, 63, SE_MENU_GUNSHOT);
                         if (sd_sng_play() == 0)
                         {
                             GCL_ExecProc(work->fAF0, &args);
@@ -4398,7 +4422,7 @@ void title_open_800C628C(Work *work)
                         p4FC[3].y3 = 0;
                         if (fade == 1)
                         {
-                            GM_SeSet2(0, 0x3F, SE_MENUOPN1);
+                            GM_SeSet2(0, 63, SE_MENUOPN1);
                         }
                     }
                     else if (fade < 0xD)
@@ -4534,10 +4558,10 @@ void title_open_800C628C(Work *work)
                     }
                     else if (fade == 0x2B)
                     {
-                        title_open_800C5360(work, GV_StrCode((char *)title_aSppre_800D8880), &p4FC[4]);
-                        title_open_800C5360(work, GV_StrCode((char *)title_aSpexit_800D8888), &p4FC[5]);
-                        title_open_800C5360(work, GV_StrCode((char *)title_aSpdemo_800D889C), &p4FC[7]);
-                        title_open_800C5360(work, GV_StrCode((char *)title_aDsppmode_800D88C8), &p4FC[17]);
+                        title_open_800C5360(work, GV_StrCode("sp_pre"), &p4FC[4]);
+                        title_open_800C5360(work, GV_StrCode("sp_exit"), &p4FC[5]);
+                        title_open_800C5360(work, GV_StrCode("sp_demo"), &p4FC[7]);
+                        title_open_800C5360(work, GV_StrCode("d3_sp_1p_mode"), &p4FC[17]);
                     }
                     else if (fade == 0x2C)
                     {
@@ -4555,50 +4579,50 @@ void title_open_800C628C(Work *work)
                 }
 
                 case 1:
-                    if (press & 0x4000)
+                    if (press & PAD_DOWN)
                     {
                         work->fB3C = 3;
                         title_open_800C4C38(work, -0x34, -0x15, 0x68, 8, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     }
                     break;
 
                 case 3:
-                    if (press & 0x4000)
+                    if (press & PAD_DOWN)
                     {
                         work->fB3C = 6;
                         title_open_800C4C38(work, -0x46, 0xB, 0x8C, 8, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     }
-                    else if (press & 0x1000)
+                    else if (press & PAD_UP)
                     {
                         work->fB3C = 1;
                         title_open_800C4C38(work, -0x50, -0x35, 0xA0, 8, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     }
                     break;
 
                 case 6:
-                    if (press & 0x4000)
+                    if (press & PAD_DOWN)
                     {
                         work->fB3C = 7;
                         title_open_800C4C38(work, -0x1C, 0x2E, 0x38, 0xC, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     }
-                    else if (press & 0x1000)
+                    else if (press & PAD_UP)
                     {
                         work->fB3C = 3;
                         title_open_800C4C38(work, -0x34, -0x15, 0x68, 8, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     }
                     break;
 
                 case 7:
-                    if (press & 0x1000)
+                    if (press & PAD_UP)
                     {
                         work->fB3C = 6;
                         title_open_800C4C38(work, -0x46, 0xB, 0x8C, 8, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     }
                     break;
 
@@ -4681,31 +4705,31 @@ void title_open_800C628C(Work *work)
                 }
                 }
 
-                if (press & 0x40)
+                if (press & PAD_CROSS)
                 {
                     if (work->fB3C != 0 && work->fB3C != 8)
                     {
                         work->fB3C = 8;
                         work->f24C8 = 0;
-                        GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                        GM_SeSet2(0, 63, SE_MENU_EXIT);
                         title_open_800C5D10(work);
                     }
                 }
-                else if (press & 0x20)
+                else if (press & PAD_CIRCLE)
                 {
                     if (work->fB3C == 7)
                     {
                         work->fB3C = 8;
                         work->f24C8 = 0;
-                        GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                        GM_SeSet2(0, 63, SE_MENU_EXIT);
                         title_open_800C5D10(work);
                     }
                     else if (work->fB3C == 3)
                     {
-                        GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                        GM_SeSet2(0, 63, SE_MENU_GUNSHOT);
                         if (sd_sng_play() == 0)
                         {
-                            argv[0] = work->fB48;
+                            argv[0] = work->demo_rank;
                             GM_OptionFlag &= 0xF7FF;
                             GCL_ExecProc(work->fAF4, &args);
                             GV_DestroyActor(&work->actor);
@@ -4713,7 +4737,7 @@ void title_open_800C628C(Work *work)
                     }
                     else if (work->fB3C == 1)
                     {
-                        GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                        GM_SeSet2(0, 63, SE_MENU_GUNSHOT);
                         if (sd_sng_play() == 0)
                         {
                             GCL_ExecProc(work->fAF0, &args);
@@ -4763,7 +4787,7 @@ void title_open_800C628C(Work *work)
                         p4FC[3].y3 = 0;
                         if (fade == 1)
                         {
-                            GM_SeSet2(0, 0x3F, SE_MENUOPN1);
+                            GM_SeSet2(0, 63, SE_MENUOPN1);
                         }
                     }
                     else if (fade < 0xD)
@@ -4909,11 +4933,11 @@ void title_open_800C628C(Work *work)
                     }
                     else if (fade == 0x2B)
                     {
-                        title_open_800C5360(work, GV_StrCode((char *)title_aSppre_800D8880), &p4FC[4]);
-                        title_open_800C5360(work, GV_StrCode((char *)title_aSpexit_800D8888), &p4FC[5]);
-                        title_open_800C5360(work, GV_StrCode((char *)title_aSpalbum_800D8890), &p4FC[6]);
-                        title_open_800C5360(work, GV_StrCode((char *)title_aSpdemo_800D889C), &p4FC[7]);
-                        title_open_800C5360(work, GV_StrCode((char *)title_aDsppmode_800D88C8), &p4FC[17]);
+                        title_open_800C5360(work, GV_StrCode("sp_pre"), &p4FC[4]);
+                        title_open_800C5360(work, GV_StrCode("sp_exit"), &p4FC[5]);
+                        title_open_800C5360(work, GV_StrCode("sp_album"), &p4FC[6]);
+                        title_open_800C5360(work, GV_StrCode("sp_demo"), &p4FC[7]);
+                        title_open_800C5360(work, GV_StrCode("d3_sp_1p_mode"), &p4FC[17]);
                     }
                     else if (fade == 0x2C)
                     {
@@ -4930,61 +4954,61 @@ void title_open_800C628C(Work *work)
                     break;
                 }
                 case 1:
-                    if (press & 0x4000)
+                    if (press & PAD_DOWN)
                     {
                         work->fB3C = 2;
                         title_open_800C4C38(work, -0x18, -0x20, 0x30, 8, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     }
                     break;
                 case 2:
-                    if (press & 0x4000)
+                    if (press & PAD_DOWN)
                     {
                         work->fB3C = 3;
                         title_open_800C4C38(work, -0x34, -0xA, 0x68, 8, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     }
-                    else if (press & 0x1000)
+                    else if (press & PAD_UP)
                     {
                         work->fB3C = 1;
                         title_open_800C4C38(work, -0x50, -0x36, 0xA0, 8, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     }
                     break;
                 case 3:
-                    if (press & 0x4000)
+                    if (press & PAD_DOWN)
                     {
                         work->fB3C = 6;
                         title_open_800C4C38(work, -0x46, 0xC, 0x8C, 8, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     }
-                    else if (press & 0x1000)
+                    else if (press & PAD_UP)
                     {
                         work->fB3C = 2;
                         title_open_800C4C38(work, -0x18, -0x20, 0x30, 8, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     }
                     break;
                 case 6:
-                    if (press & 0x4000)
+                    if (press & PAD_DOWN)
                     {
                         work->fB3C = 7;
                         title_open_800C4C38(work, -0x1C, 0x2E, 0x38, 0xC, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     }
-                    else if (press & 0x1000)
+                    else if (press & PAD_UP)
                     {
                         work->fB3C = 3;
                         title_open_800C4C38(work, -0x34, -0xA, 0x68, 8, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     }
                     break;
                 case 7:
-                    if (press & 0x1000)
+                    if (press & PAD_UP)
                     {
                         work->fB3C = 6;
                         title_open_800C4C38(work, -0x46, 0xC, 0x8C, 8, 0xFF, 1);
-                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        GM_SeSet2(0, 63, SE_MENU_CURSOR);
                     }
                     break;
                 case 8:
@@ -5063,28 +5087,28 @@ void title_open_800C628C(Work *work)
                     break;
                 }
 
-                if (press & 0x40)
+                if (press & PAD_CROSS)
                 {
                     if (work->fB3C != 0 && work->fB3C != 8)
                     {
                         work->fB3C = 8;
                         work->f24C8 = 0;
-                        GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                        GM_SeSet2(0, 63, SE_MENU_EXIT);
                         title_open_800C5D10(work);
                     }
                 }
-                else if (press & 0x20)
+                else if (press & PAD_CIRCLE)
                 {
                     if (work->fB3C == 7)
                     {
                         work->fB3C = 8;
                         work->f24C8 = 0;
-                        GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                        GM_SeSet2(0, 63, SE_MENU_EXIT);
                         title_open_800C5D10(work);
                     }
                     else if (work->fB3C == 2)
                     {
-                        GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                        GM_SeSet2(0, 63, SE_MENU_GUNSHOT);
                         if (sd_sng_play() == 0)
                         {
                             GCL_ExecProc(work->fAE4, &args);
@@ -5093,10 +5117,10 @@ void title_open_800C628C(Work *work)
                     }
                     else if (work->fB3C == 3)
                     {
-                        GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                        GM_SeSet2(0, 63, SE_MENU_GUNSHOT);
                         if (sd_sng_play() == 0)
                         {
-                            argv[0] = work->fB48;
+                            argv[0] = work->demo_rank;
                             GM_OptionFlag &= 0xF7FF;
                             GCL_ExecProc(work->fAF4, &args);
                             GV_DestroyActor(&work->actor);
@@ -5104,7 +5128,7 @@ void title_open_800C628C(Work *work)
                     }
                     else if (work->fB3C == 1)
                     {
-                        GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                        GM_SeSet2(0, 63, SE_MENU_GUNSHOT);
                         if (sd_sng_play() == 0)
                         {
                             GCL_ExecProc(work->fAF0, &args);
@@ -5128,7 +5152,7 @@ void title_open_800C628C(Work *work)
             break;
         case 15:
             title_open_800C593C(work);
-            if (press & 0x800)
+            if (press & PAD_START)
             {
                 work->fB0C = 1;
                 work->fA74 = 6;
@@ -5161,8 +5185,6 @@ void title_open_800C628C(Work *work)
         }
     }
 }
-
-extern CVECTOR title_dword_800C33D8[];
 
 void title_open_800CCDC8(Work *work)
 {
@@ -5299,8 +5321,8 @@ void title_open_800CD23C(Work *work, int index, int arg3)
 
     args.argc = 2;
     args.argv = argv;
-    argv[0] = work->f24D0;
-    argv[1] = work->fB28;
+    argv[0] = work->mem_flag;
+    argv[1] = work->vr_flag;
 
     polys = work->f18C_polys;
     polys += index;
@@ -5376,7 +5398,6 @@ void title_open_800CD320(Work *work, int index)
         work->fB0C = 1;
     }
 }
-
 
 void title_open_800CD3B8(Work *work, int index)
 {
@@ -5523,7 +5544,6 @@ void title_open_800CD3B8(Work *work, int index)
     }
 }
 
-
 void title_open_800CD800(Work *work, int index)
 {
     POLY_FT4 *poly;
@@ -5666,7 +5686,6 @@ void title_open_800CDB4C(POLY_FT4 *poly, DG_TEX *tex, int arg2)
     poly->clut = tex->clut;
 }
 
-
 void title_open_800CDB9C(POLY_FT4 *poly, DG_TEX *tex, int arg2)
 {
     int u0, u1;
@@ -5753,7 +5772,6 @@ void title_open_800CDBF8(Work *work, int index)
         break;
     }
 }
-extern void title_open_800CDBF8(Work *work, int index);
 
 void title_open_800CDE44(Work *work, int index)
 {
@@ -5859,7 +5877,6 @@ void title_open_800CDE44(Work *work, int index)
         break;
     }
 }
-const char title_dword_800D8AE4[] = {0x0, 0x0, 0x0, 0x0};
 
 void title_open_800CE378(Work *work, int idx)
 {
@@ -5917,14 +5934,6 @@ void title_open_800CE378(Work *work, int idx)
         break;
     }
 }
-
-/* Tail-piece moved from openact.c. Placed after 800CE378's auto-emitted
- * switch table so it lands at 0x800D8AFC (right after the table at
- * 0x800D8AE8..0x800D8AFB). This makes openact.obj.rdata start at 0x800D8B00
- * (8-byte aligned) so the .obj-local offset of "NO" keeps the
- * same alignment-mod-8 as in the original openact.obj.
- */
-const char title_dword_800D8AFC[] = {0x0, 0x0, 0x0, 0x0};
 
 void title_open_800CE4A8(Work *work, int index)
 {
@@ -6201,13 +6210,16 @@ void title_open_800CE748(Work *work, int index)
     }
 }
 
+const int title_dword_800D8B18 = 0x00000000;
 const int title_dword_800D8B00 = 0x800CEB74;
 const int title_dword_800D8B04 = 0x800CEC14;
 const int title_dword_800D8B08 = 0x800CEC68;
 const int title_dword_800D8B0C = 0x800CED18;
 const int title_dword_800D8B10 = 0x800CEDC8;
 const int title_dword_800D8B14 = 0x800CEE20;
+
 #pragma INCLUDE_ASM("asm/overlays/title/title_open_800CEB14.s")
+void title_open_800CEB14(Work *work, int index);
 
 void title_open_800CEF54(Work *work, int index)
 {
@@ -6360,6 +6372,7 @@ void title_open_800CF504(Work *work, int index)
         break;
     }
 }
+
 void title_open_800CF610(Work *work, int index)
 {
     POLY_GT4 *p;
@@ -7306,12 +7319,13 @@ void title_open_800CF794(Work *work)
 
     work->fB14++;
 }
+
 void title_open_800D1B74(char *name)
 {
     int   i;
     char *str;
 
-    if (title_dword_800D92D0 == 1)
+    if (has_clear_data == 1)
     {
         return;
     }
@@ -7325,18 +7339,18 @@ void title_open_800D1B74(char *name)
         }
     }
 
-    printf((char *)title_aClearflagd_800D8B30, name[17] - '@');
+    printf("clear flag %d\n", name[17] - '@');
 
     if (name[12] == 'G' && ((name[17] - '@') & 0x7))
     {
-        title_dword_800D92D0 = 1;
-        printf((char *)title_aCleardataexistss_800D8B40, name);
+        has_clear_data = 1;
+        printf("clear data exists %s\n", name);
     }
 
     return;
 
 skip:
-    str = (char *)title_aBislpm_800D8B58;
+    str = "BISLPM-86111";
     for (i = 0; i < 12; i++)
     {
         if (name[i] != str[i])
@@ -7345,32 +7359,14 @@ skip:
         }
     }
 
-    printf((char *)title_aOldclearflagd_800D8B68, name[17] - '@');
+    printf("old clear flag %d\n", name[17] - '@');
 
     if (name[12] == 'G' && ((name[17] - '@') & 0x7))
     {
-        title_dword_800D92D0 = 1;
-        printf((char *)title_aOldcleardataexistss_800D8B7C, name);
+        has_clear_data = 1;
+        printf("old clear data exists %s\n", name);
     }
 }
-extern const char title_aGamedatafind_800D8B98[];
-extern const char title_aFlagx_800D8BA8[];
-extern const char title_aFlagnewx_800D8BB4[];
-extern const char title_aThisisrank_800D8BC4[];
-extern const char title_aThisisrank_800D8BD4[];
-extern const char title_aThisisrank_800D8BE4[];
-extern const char title_aThisisrank_800D8BF4[];
-extern const char title_aThisisrank_800D8C04[];
-extern const char title_aThisisrank_800D8C14[];
-extern const char title_aThisisrank_800D8C24[];
-extern const char title_aPhotodatafind_800D8C34[];
-extern const char title_aVrfind_800D8C48[];
-extern const char title_aTitlememcardcheckreult_800D8C54[];
-extern const char title_aSaveflagd_800D8C78[];
-extern const char title_aPhotoflagd_800D8C88[];
-extern const char title_aVrflagd_800D8C9C[];
-extern const char title_aSperankd_800D8CAC[];
-extern const char title_aDemorankd_800D8CBC[];
 
 void title_open_800D1CB4(Work *work)
 {
@@ -7419,46 +7415,46 @@ void title_open_800D1CB4(Work *work)
                 {
                     if (card1.files[i].name[12] == 'G')
                     {
-                        unsigned char flag;
+                        u_char flag;
                         found = 1;
-                        printf((char *)title_aGamedatafind_800D8B98);
+                        printf("gamedata find!\n");
                         flag = card1.files[i].name[17] - '@';
-                        printf((char *)title_aFlagx_800D8BA8, flag);
+                        printf("flag = %x\n", flag);
                         flag &= 7;
-                        printf((char *)title_aFlagnewx_800D8BB4, flag);
+                        printf("flag_new = %x\n", flag);
                         if (flag == 0)
                         {
-                            printf((char *)title_aThisisrank_800D8BC4);
+                            printf("This Is Rank 0\n");
                         }
                         else if (flag == 1)
                         {
                             work->fB2C[0] = 1;
-                            printf((char *)title_aThisisrank_800D8BD4);
+                            printf("This Is Rank 1\n");
                         }
                         else if (flag == 2)
                         {
                             work->fB2C[1] = 1;
-                            printf((char *)title_aThisisrank_800D8BE4);
+                            printf("This Is Rank 2\n");
                         }
                         else if (flag == 3)
                         {
                             work->fB2C[0] = 1;
                             work->fB2C[1] = 1;
-                            printf((char *)title_aThisisrank_800D8BF4);
+                            printf("This Is Rank 3\n");
                         }
                         else if (flag == 4)
                         {
                             work->fB2C[0] = 1;
                             work->fB2C[1] = 1;
                             work->fB2C[2] = 1;
-                            printf((char *)title_aThisisrank_800D8C04);
+                            printf("This Is Rank 4\n");
                         }
                         else if (flag == 5)
                         {
                             work->fB2C[0] = 1;
                             work->fB2C[1] = 1;
                             work->fB2C[3] = 1;
-                            printf((char *)title_aThisisrank_800D8C14);
+                            printf("This Is Rank 5\n");
                         }
                         else if (flag == 6)
                         {
@@ -7466,18 +7462,18 @@ void title_open_800D1CB4(Work *work)
                             work->fB2C[1] = 1;
                             work->fB2C[2] = 1;
                             work->fB2C[3] = 1;
-                            printf((char *)title_aThisisrank_800D8C24);
+                            printf("This Is Rank 6\n");
                         }
                     }
                     else if (card1.files[i].name[12] == 'C')
                     {
                         photo = 1;
-                        printf((char *)title_aPhotodatafind_800D8C34);
+                        printf("photodata find!\n");
                     }
                     else if (card1.files[i].name[12] == 'V')
                     {
                         vr = 1;
-                        printf((char *)title_aVrfind_800D8C48);
+                        printf("VR find!\n");
                     }
             }
         }
@@ -7508,46 +7504,46 @@ void title_open_800D1CB4(Work *work)
                 {
                     if (card2.files[i].name[12] == 'G')
                     {
-                        unsigned char flag;
+                        u_char flag;
                         found = 1;
-                        printf((char *)title_aGamedatafind_800D8B98);
+                        printf("gamedata find!\n");
                         flag = card2.files[i].name[17] - '@';
-                        printf((char *)title_aFlagx_800D8BA8, flag);
+                        printf("flag = %x\n", flag);
                         flag &= 7;
-                        printf((char *)title_aFlagnewx_800D8BB4, flag);
+                        printf("flag_new = %x\n", flag);
                         if (flag == 0)
                         {
-                            printf((char *)title_aThisisrank_800D8BC4);
+                            printf("This Is Rank 0\n");
                         }
                         else if (flag == 1)
                         {
                             work->fB2C[0] = 1;
-                            printf((char *)title_aThisisrank_800D8BD4);
+                            printf("This Is Rank 1\n");
                         }
                         else if (flag == 2)
                         {
                             work->fB2C[1] = 1;
-                            printf((char *)title_aThisisrank_800D8BE4);
+                            printf("This Is Rank 2\n");
                         }
                         else if (flag == 3)
                         {
                             work->fB2C[0] = 1;
                             work->fB2C[1] = 1;
-                            printf((char *)title_aThisisrank_800D8BF4);
+                            printf("This Is Rank 3\n");
                         }
                         else if (flag == 4)
                         {
                             work->fB2C[0] = 1;
                             work->fB2C[1] = 1;
                             work->fB2C[2] = 1;
-                            printf((char *)title_aThisisrank_800D8C04);
+                            printf("This Is Rank 4\n");
                         }
                         else if (flag == 5)
                         {
                             work->fB2C[0] = 1;
                             work->fB2C[1] = 1;
                             work->fB2C[3] = 1;
-                            printf((char *)title_aThisisrank_800D8C14);
+                            printf("This Is Rank 5\n");
                         }
                         else if (flag == 6)
                         {
@@ -7555,18 +7551,18 @@ void title_open_800D1CB4(Work *work)
                             work->fB2C[1] = 1;
                             work->fB2C[2] = 1;
                             work->fB2C[3] = 1;
-                            printf((char *)title_aThisisrank_800D8C24);
+                            printf("This Is Rank 6\n");
                         }
                     }
                     else if (card2.files[i].name[12] == 'C')
                     {
                         photo = 1;
-                        printf((char *)title_aPhotodatafind_800D8C34);
+                        printf("photodata find!\n");
                     }
                     else if (card2.files[i].name[12] == 'V')
                     {
                         vr = 1;
-                        printf((char *)title_aVrfind_800D8C48);
+                        printf("VR find!\n");
                     }
             }
         }
@@ -7574,8 +7570,8 @@ void title_open_800D1CB4(Work *work)
 
     if (found == 1)
     {
-        work->fB20 = 1;
-        if ((unsigned int)work->fB08 < 3)
+        work->save_flag = 1;
+        if (work->start_flag == 0 || work->start_flag == 1 || work->start_flag == 2)
         {
             work->fA78 = 1;
         }
@@ -7583,119 +7579,94 @@ void title_open_800D1CB4(Work *work)
 
     if (photo == 1)
     {
-        work->fB24 = 1;
+        work->photo_flag = 1;
     }
     if (vr == 1)
     {
-        work->fB28 = 1;
+        work->vr_flag = 1;
     }
 
     if (work->fB2C[0] == 0)
     {
         if (work->fB2C[1] == 0)
         {
-            work->fB48 = 0;
+            work->demo_rank = 0;
         }
         else
         {
-            work->fB48 = 2;
+            work->demo_rank = 2;
         }
     }
     else if (work->fB2C[1] == 0)
     {
-        work->fB48 = 1;
+        work->demo_rank = 1;
     }
     else if (work->fB2C[2] == 0)
     {
         if (work->fB2C[3] == 0)
         {
-            work->fB48 = 3;
+            work->demo_rank = 3;
         }
         else
         {
-            work->fB48 = 5;
+            work->demo_rank = 5;
         }
     }
     else
     {
         if (work->fB2C[3] == 0)
         {
-            work->fB48 = 4;
+            work->demo_rank = 4;
         }
         else
         {
-            work->fB48 = 6;
+            work->demo_rank = 6;
         }
     }
 
-    if (work->fB24 == 0)
+    if (work->photo_flag == 0)
     {
-        if (work->fB48 == 0)
+        if (work->demo_rank == 0)
         {
-            work->fB40 = 0;
+            work->spe_rank = 0;
         }
         else
         {
-            work->fB40 = 2;
+            work->spe_rank = 2;
         }
     }
     else
     {
-        if (work->fB48 == 0)
+        if (work->demo_rank == 0)
         {
-            work->fB40 = 1;
+            work->spe_rank = 1;
         }
         else
         {
-            work->fB40 = 3;
+            work->spe_rank = 3;
         }
     }
 
-    if (title_dword_800D92D0 == 1)
+    if (has_clear_data == 1)
     {
-        work->fB40 += 4;
+        work->spe_rank += 4;
     }
 
-    printf((char *)title_aTitlememcardcheckreult_800D8C54);
-    printf((char *)title_aSaveflagd_800D8C78, work->fB20);
-    printf((char *)title_aPhotoflagd_800D8C88, work->fB24);
-    printf((char *)title_aVrflagd_800D8C9C, work->fB28);
-    printf((char *)title_aSperankd_800D8CAC, work->fB40);
-    printf((char *)title_aDemorankd_800D8CBC, work->fB48);
+    printf("-- Title MemCard Check Reult! --\n");
+    printf("save_flag = %d\n", work->save_flag);
+    printf("photo_flag = %d\n", work->photo_flag);
+    printf("vr_flag = %d\n", work->vr_flag);
+    printf("spe_rank = %d\n", work->spe_rank);
+    printf("demo_rank = %d\n", work->demo_rank);
 
-    work->f24D0 = 1;
+    work->mem_flag = 1;
     work->f24D4 = 1;
 }
-/* Moved from openact.c to open.c so open.obj's rdata extends to 0x800D8CD0,
- * where gcc's auto-emitted switch table for 800D2374 lands. */
-const char title_aClearflagd_800D8B30[] = "clear flag %d\n";
-const char title_aCleardataexistss_800D8B40[] = "clear data exists %s\n";
-const char title_aBislpm_800D8B58[] = "BISLPM-86111";
-const char title_aOldclearflagd_800D8B68[] = "old clear flag %d\n";
-const char title_aOldcleardataexistss_800D8B7C[] = "old clear data exists %s\n";
-const char title_aGamedatafind_800D8B98[] = "gamedata find!\n";
-const char title_aFlagx_800D8BA8[] = "flag = %x\n";
-const char title_aFlagnewx_800D8BB4[] = "flag_new = %x\n";
-const char title_aThisisrank_800D8BC4[] = "This Is Rank 0\n";
-const char title_aThisisrank_800D8BD4[] = "This Is Rank 1\n";
-const char title_aThisisrank_800D8BE4[] = "This Is Rank 2\n";
-const char title_aThisisrank_800D8BF4[] = "This Is Rank 3\n";
-const char title_aThisisrank_800D8C04[] = "This Is Rank 4\n";
-const char title_aThisisrank_800D8C14[] = "This Is Rank 5\n";
-const char title_aThisisrank_800D8C24[] = "This Is Rank 6\n";
-const char title_aPhotodatafind_800D8C34[] = "photodata find!\n";
-const char title_aVrfind_800D8C48[] = "VR find!\n";
-const char title_aTitlememcardcheckreult_800D8C54[] = "-- Title MemCard Check Reult! --\n";
-const char title_aSaveflagd_800D8C78[] = "save_flag = %d\n";
-const char title_aPhotoflagd_800D8C88[] = "photo_flag = %d\n";
-const char title_aVrflagd_800D8C9C[] = "vr_flag = %d\n";
-const char title_aSperankd_800D8CAC[] = "spe_rank = %d\n";
-const char title_aDemorankd_800D8CBC[] = "demo_rank = %d\n";
-const char title_dword_800D8CCC[] = {0x0, 0x0, 0x0, 0x0};
 
 void title_open_800D2374(Work *work)
 {
     int i;
+    register int v asm("$4");
 
     for (i = 0; i < 24; i++)
     {
@@ -7704,8 +7675,8 @@ void title_open_800D2374(Work *work)
 
     if (work->f24BC)
     {
-        register int dummy asm("$4") = work->f24B4;
-        asm volatile ("" : : "r" (dummy));
+        v = work->f24B4;
+        work->f24B4 = v;
         return;
     }
 
@@ -7739,7 +7710,6 @@ void title_open_800D2374(Work *work)
         break;
     }
 }
-
 
 void title_open_800D2460(Work *work)
 {
@@ -7867,7 +7837,7 @@ void title_open_800D2460(Work *work)
         {
             work->f24AC = 5;
             printf("START BUTTON PUSH!!\n");
-            GM_SeSet2(0, 63, 32);
+            GM_SeSet2(0, 63, SE_MENU_SELECT);
             work->f24C0 = 0;
         }
         break;
@@ -8052,9 +8022,9 @@ void title_open_800D2A00(Work *work)
 
     args.argc = 3;
     args.argv = argv;
-    argv[0] = work->f24D0;
-    argv[1] = work->fB28;
-    argv[2] = title_dword_800D92D0;
+    argv[0] = work->mem_flag;
+    argv[1] = work->vr_flag;
+    argv[2] = has_clear_data;
 
     if (work->f24BC)
     {
@@ -8081,6 +8051,7 @@ void title_open_800D2A00(Work *work)
         GV_DestroyActor(work);
     }
 }
+
 void title_open_800D2AFC(Work *work)
 {
     GCL_ARGS args;
@@ -8088,7 +8059,7 @@ void title_open_800D2AFC(Work *work)
 
     args.argc = 3;
     args.argv = argv;
-    argv[0] = work->f24D0;
+    argv[0] = work->mem_flag;
     if (work->f24BC) { work->f24B4++; }
     title_open_800D2374(work);
     title_open_800C47B8(work, DG_ChanlOTag(1));
@@ -8097,7 +8068,7 @@ void title_open_800D2AFC(Work *work)
     work->f24B0++;
     if (work->f24B4 >= 0x48)
     {
-        switch (work->fB48)
+        switch (work->demo_rank)
         {
         case 1: argv[1] = 1; argv[2] = 0; break;
         case 2: argv[1] = 0; argv[2] = 0; break;
@@ -8117,47 +8088,6 @@ void title_open_800D2AFC(Work *work)
     }
 }
 
-/* ==== merged from openact.c (single TU; resolves cross-object jump tables) ==== */
-
-extern void  title_open_800C5644(Work *work, int index);
-extern void  title_open_800C5CB8(Work *work);
-extern void  title_open_800C5CF0(Work *work);
-extern void  title_open_800C5D10(Work *work);
-extern void  title_open_800C53E0(Work *work);
-extern void  title_open_800C628C(Work *work);
-extern void  title_open_800CCDC8(Work *work);
-extern void  title_open_800CD074(Work *work);
-extern void  title_open_800CD23C(Work *work, int index, int arg3);
-extern void  title_open_800CD320(Work *work, int index);
-extern void  title_open_800CD3B8(Work *work, int index);
-extern void  title_open_800CD800(Work *work, int index);
-extern void  title_open_800CDE44(Work *work, int index);
-extern void  title_open_800CE378(Work *work, int index);
-extern void  title_open_800CE4A8(Work *work, int index);
-extern void  title_open_800CE544(Work *work, int index);
-extern void  title_open_800CE5F8(Work *work, int index);
-extern void  title_open_800CE6AC(Work *work, int index);
-extern void  title_open_800CE748(Work *work, int index);
-extern void  title_open_800CEB14(Work *work, int index);
-extern void  title_open_800CEF54(Work *work, int index);
-extern void  title_open_800CF504(Work *work, int index);
-extern void  title_open_800CF610(Work *work, int index);
-extern void  title_open_800CF794(Work *work);
-extern void  title_open_800D1CB4(Work *work);
-extern void  title_open_800D2A00(Work *work);
-extern void  title_open_800D2AFC(Work *work);
-extern void  title_open_800D2CA8(Work *work, u_long *ot);
-extern void  title_open_800D2E44(Work *work, u_long *ot);
-extern void  title_open_800D3500(Work *work, u_long *ot);
-extern void  title_open_800C4AD0(Work *work, int index, int color);
-extern void  title_open_800C47B8(Work *work, u_long *ot);
-extern void  title_open_800C4F1C(Work *work, int x0, int y0, int xsize, int ysize, int color, int mode);
-
-/* The strings that previously lived at 0x800D8848..0x800D9024 in overlay3.c
- * are moved here so openact.obj's rdata fills the gap up to 0x800D9028,
- * where gcc's emitted switch jump tables for OpenAct's switch then land. */
-
-const char title_dword_800D8F2C[] = {0x0, 0x0, 0x0, 0x0};
 void title_open_800D2CA8(Work *work, u_long *ot)
 {
     int i;
@@ -8181,7 +8111,7 @@ void title_open_800D2CA8(Work *work, u_long *ot)
         break;
     case 7: title_open_800C4AD0(work, 0xD, 0x6739); break;
     case 4:
-        if (work->fB48 >= 3 && work->fB48 < 7)
+        if (work->demo_rank >= 3 && work->demo_rank < 7)
         {
             switch (work->fB44)
             {
@@ -8199,11 +8129,12 @@ void title_open_800D2CA8(Work *work, u_long *ot)
 
     title_open_800C47B8(work, ot);
 }
+
 void title_open_800D2E44(Work *work, u_long *ot)
 {
-    if (title_dword_800D92D0)
+    if (has_clear_data)
     {
-        GCL_ExecProc(work->f24FC, 0);
+        GCL_ExecProc(work->clear_proc, 0);
     }
 
     title_open_800C4AD0(work, 0xF, 0);
@@ -8218,7 +8149,7 @@ void title_open_800D2E44(Work *work, u_long *ot)
         MENU_Locate(0x88, 0x70, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf("NORMAL");
         MENU_Locate(0x90, 0x8A, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf("HARD");
         MENU_Locate(0x84, 0xA4, 0x10);
-        if (work->fB48) { MENU_Color(0x64, 0xA0, 0x87); } else { MENU_Color(0x40, 0x40, 0x40); }
+        if (work->demo_rank) { MENU_Color(0x64, 0xA0, 0x87); } else { MENU_Color(0x40, 0x40, 0x40); }
         MENU_Printf("EXTREME");
         title_open_800C4F1C(work, -0x28, -0x36, 0x52, 9, 0xFF, 1);
         title_open_800C4AD0(work, 0xF, 0x6739);
@@ -8230,7 +8161,7 @@ void title_open_800D2E44(Work *work, u_long *ot)
         MENU_Locate(0x88, 0x70, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf("NORMAL");
         MENU_Locate(0x90, 0x8A, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf("HARD");
         MENU_Locate(0x84, 0xA4, 0x10);
-        if (work->fB48) { MENU_Color(0x64, 0xA0, 0x87); } else { MENU_Color(0x40, 0x40, 0x40); }
+        if (work->demo_rank) { MENU_Color(0x64, 0xA0, 0x87); } else { MENU_Color(0x40, 0x40, 0x40); }
         MENU_Printf("EXTREME");
         title_open_800C4F1C(work, -0x14, -0x1C, 0x2A, 9, 0xFF, 1);
         title_open_800C4AD0(work, 0x10, 0x6739);
@@ -8242,7 +8173,7 @@ void title_open_800D2E44(Work *work, u_long *ot)
         MENU_Locate(0x88, 0x70, 0x10); MENU_Color(0xC0, 0xC0, 0xC0); MENU_Printf("NORMAL");
         MENU_Locate(0x90, 0x8A, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf("HARD");
         MENU_Locate(0x84, 0xA4, 0x10);
-        if (work->fB48) { MENU_Color(0x64, 0xA0, 0x87); } else { MENU_Color(0x40, 0x40, 0x40); }
+        if (work->demo_rank) { MENU_Color(0x64, 0xA0, 0x87); } else { MENU_Color(0x40, 0x40, 0x40); }
         MENU_Printf("EXTREME");
         title_open_800C4F1C(work, -0x1C, -0x02, 0x3A, 9, 0xFF, 1);
         title_open_800C4AD0(work, 4, 0);
@@ -8254,7 +8185,7 @@ void title_open_800D2E44(Work *work, u_long *ot)
         MENU_Locate(0x88, 0x70, 0x10); MENU_Color(0x64, 0xA0, 0x87); MENU_Printf("NORMAL");
         MENU_Locate(0x90, 0x8A, 0x10); MENU_Color(0xC0, 0xC0, 0xC0); MENU_Printf("HARD");
         MENU_Locate(0x84, 0xA4, 0x10);
-        if (work->fB48) { MENU_Color(0x64, 0xA0, 0x87); } else { MENU_Color(0x40, 0x40, 0x40); }
+        if (work->demo_rank) { MENU_Color(0x64, 0xA0, 0x87); } else { MENU_Color(0x40, 0x40, 0x40); }
         MENU_Printf("EXTREME");
         title_open_800C4F1C(work, -0x14, 0x18, 0x2A, 9, 0xFF, 1);
         title_open_800C4AD0(work, 4, 0x6739);
@@ -8357,8 +8288,6 @@ void title_open_800D3500(Work *work, u_long *ot)
     title_open_800C47B8(work, ot);
 }
 
-/* Top-level title-screen state machine. Dispatches on work->fA74; each case
- * runs its one-time init when work->fB0C is set, then renders this frame. */
 static void Act(Work *work)
 {
     u_long   *ot;
@@ -8750,8 +8679,6 @@ static void Act(Work *work)
     title_open_800C53E0(work);
 }
 
-/* Actor destructor: frees the four DG primitives and each font character
- * block's backing buffer. */
 static void Die(Work *work)
 {
     int      i;
@@ -8769,9 +8696,6 @@ static void Die(Work *work)
     }
 }
 
-/* Build a flat-shaded textured quad at neutral brightness (128,128,128 = no
- * tint) with the given vertex rectangle and semi-transparency mode. UV/tpage
- * are filled in later by the caller (typically via the helper below). */
 void title_open_800D4174(Work *work, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int abe)
 {
     setPolyFT4(poly);
@@ -8780,9 +8704,6 @@ void title_open_800D4174(Work *work, POLY_FT4 *poly, int x0, int y0, int x1, int
     SetSemiTrans(poly, abe);
 }
 
-/* Bind tex to poly's UV/tpage/clut. uo/vo (0 or 1) extend the U/V range past
- * the texture's nominal w/h to compensate for PS1's UV truncation when the
- * sampler clips on the right/bottom edge. */
 static inline void title_open_helper_800D41E4(POLY_FT4 *poly, DG_TEX *tex, int uo, int vo)
 {
     int u0, u1;
@@ -8823,8 +8744,6 @@ void title_open_800D41E4(Work *work, int name, POLY_FT4 *poly, int x0, int y0, i
     }
 }
 
-/* Like title_open_800D41E4 but with RGB0 set to (0,0,0). On a textured poly
- * an all-zero RGB darkens the texture to black — used as a fade overlay. */
 void title_open_800D4368(Work *work, int name, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int abe)
 {
     DG_TEX *tex;
@@ -8849,8 +8768,6 @@ void title_open_800D4368(Work *work, int name, POLY_FT4 *poly, int x0, int y0, i
     SetSemiTrans(poly, abe);
 }
 
-/* Gouraud variant of title_open_800D4368: same black-tint textured quad but
- * as POLY_GT4, so the per-vertex colors can be ramped later for a gradient. */
 void title_open_800D4464(Work *work, int name, POLY_GT4 *poly, int x0, int y0, int x1, int y1, int abe)
 {
     DG_TEX *tex;
@@ -9070,25 +8987,25 @@ static int GetResources(Work *work, int where)
 
     poly++;
     n++;
-    title_open_800D41E4(work, GV_StrCode(title_aSppre_800D8880), poly, -0x50, -0x35, 0x50, -0x2D, 1, 2);
+    title_open_800D41E4(work, GV_StrCode("sp_pre"), poly, -0x50, -0x35, 0x50, -0x2D, 1, 2);
     setRGB0(poly, 0x64, 0xA0, 0x87);
     work->fF8[n] = 0;
 
     poly++;
     n++;
-    title_open_800D41E4(work, GV_StrCode(title_aSpexit_800D8888), poly, -0x1C, 0x2E, 0x1C, 0x3A, 1, 2);
+    title_open_800D41E4(work, GV_StrCode("sp_exit"), poly, -0x1C, 0x2E, 0x1C, 0x3A, 1, 2);
     setRGB0(poly, 0x64, 0xA0, 0x87);
     work->fF8[n] = 0;
 
     poly++;
     n++;
-    title_open_800D41E4(work, GV_StrCode(title_aSpalbum_800D8890), poly, -0x18, -0x21, 0x18, -0x19, 1, 2);
+    title_open_800D41E4(work, GV_StrCode("sp_album"), poly, -0x18, -0x21, 0x18, -0x19, 1, 2);
     setRGB0(poly, 0x64, 0xA0, 0x87);
     work->fF8[n] = 0;
 
     poly++;
     n++;
-    title_open_800D41E4(work, GV_StrCode(title_aSpdemo_800D889C), poly, -0x34, -0xD, 0x34, -5, 1, 2);
+    title_open_800D41E4(work, GV_StrCode("sp_demo"), poly, -0x34, -0xD, 0x34, -5, 1, 2);
     setRGB0(poly, 0x64, 0xA0, 0x87);
     work->fF8[n] = 0;
 
@@ -9100,13 +9017,13 @@ static int GetResources(Work *work, int where)
 
     poly++;
     n++;
-    title_open_800D41E4(work, GV_StrCode(title_aSponw_800D88B8), poly, -0x6D, 0xB, -0x45, 0x17, 1, 0);
+    title_open_800D41E4(work, GV_StrCode("sp_on_w"), poly, -0x6D, 0xB, -0x45, 0x17, 1, 0);
     setRGB0(poly, 0x64, 0xA0, 0x87);
     work->fF8[n] = 0;
 
     poly++;
     n++;
-    title_open_800D41E4(work, GV_StrCode(title_aSpoff_800D88C0), poly, 0x38, 0xB, 0x68, 0x17, 1, 0);
+    title_open_800D41E4(work, GV_StrCode("sp_off"), poly, 0x38, 0xB, 0x68, 0x17, 1, 0);
     setRGB0(poly, 0x46, 0x64, 0x5A);
     work->fF8[n] = 0;
 
@@ -9146,7 +9063,7 @@ static int GetResources(Work *work, int where)
     work->fF8[16] = 0;
 
     poly++;
-    title_open_800D41E4(work, GV_StrCode(title_aDsppmode_800D88C8), poly, -0x46, -0x35, 0x46, -0x2D, 1, 2);
+    title_open_800D41E4(work, GV_StrCode("d3_sp_1p_mode"), poly, -0x46, -0x35, 0x46, -0x2D, 1, 2);
     setRGB0(poly, 0x64, 0xA0, 0x87);
     work->fF8[17] = 0;
 
@@ -9195,20 +9112,20 @@ static int GetResources(Work *work, int where)
 
     if (GCL_GetOption('s'))
     {
-        work->f24F8_proc = GCL_StrToInt(GCL_NextStr());
+        work->sound_proc = GCL_StrToInt(GCL_NextStr());
     }
     else
     {
-        work->f24F8_proc = -1;
+        work->sound_proc = -1;
     }
 
     if (GCL_GetOption('k'))
     {
-        work->f24FC = GCL_StrToInt(GCL_NextStr());
+        work->clear_proc = GCL_StrToInt(GCL_NextStr());
     }
     else
     {
-        work->f24FC = -1;
+        work->clear_proc = -1;
     }
 
     if (GCL_GetOption('l'))
@@ -9222,11 +9139,11 @@ static int GetResources(Work *work, int where)
 
     if (GCL_GetOption('e'))
     {
-        work->fAD0 = GCL_StrToInt(GCL_NextStr());
+        work->end_proc = GCL_StrToInt(GCL_NextStr());
     }
     else
     {
-        work->fAD0 = -1;
+        work->end_proc = -1;
     }
 
     if (GCL_GetOption('b'))
@@ -9303,11 +9220,11 @@ static int GetResources(Work *work, int where)
 
     if (GCL_GetOption('x'))
     {
-        work->fB08 = GCL_StrToInt(GCL_NextStr());
+        work->start_flag = GCL_StrToInt(GCL_NextStr());
     }
     else
     {
-        work->fB08 = 1;
+        work->start_flag = 1;
     }
 
     if (GCL_GetOption('p'))
@@ -9330,12 +9247,12 @@ static int GetResources(Work *work, int where)
 
     if (GCL_GetOption('g'))
     {
-        work->f24D0 = GCL_StrToInt(GCL_NextStr());
+        work->mem_flag = GCL_StrToInt(GCL_NextStr());
     }
 
     if (GCL_GetOption('h'))
     {
-        work->fB28 = GCL_StrToInt(GCL_NextStr());
+        work->vr_flag = GCL_StrToInt(GCL_NextStr());
     }
 
     if (GCL_GetOption('v'))
@@ -9388,8 +9305,8 @@ static int GetResources(Work *work, int where)
     work->fB04 = 0;
     work->fB14 = 0;
     work->fB18 = 0;
-    work->fB20 = 0;
-    work->fB24 = 0;
+    work->save_flag = 0;
+    work->photo_flag = 0;
     work->f24D4 = 0;
 
     for (n = 3; n >= 0; n--)
@@ -9401,7 +9318,7 @@ static int GetResources(Work *work, int where)
     gp = &work->f934_polys[0];
     work->f24CC = 0;
 
-    switch (work->fB08)
+    switch (work->start_flag)
     {
     case 0:
         work->fA74 = 0;
@@ -9727,8 +9644,8 @@ static int GetResources(Work *work, int where)
         break;
     }
 
-    printf("start flag = %d\n", work->fB08);
-    printf("mem flag = %d\n", work->f24D0);
+    printf("start flag = %d\n", work->start_flag);
+    printf("mem flag = %d\n", work->mem_flag);
 
     work->f24D8 = 0;
     work->f24DC = 0;
@@ -9744,7 +9661,7 @@ void *NewOpen(int name, int where)
     GM_GameStatus |= STATE_ALL_OFF;
 
     work = GV_NewActor(GV_ACTOR_MANAGER, sizeof(Work));
-    title_dword_800D92D0 = 0;
+    has_clear_data = 0;
 
     if (work != NULL)
     {
