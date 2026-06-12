@@ -13,8 +13,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 typedef struct _Work
 {
     GV_ACT  actor;
@@ -29,7 +27,7 @@ typedef struct _Work
 
 /*---------------------------------------------------------------------------*/
 
-int fonttext_dword_800C32B0 = 0;
+int fonttext_kill_name = 0;
 
 static int CheckMessage( Work *work, int name )
 {
@@ -61,9 +59,9 @@ static void Act( Work *work )
 {
     int x, y;
 
-    if ( CheckMessage( work, work->name ) || fonttext_dword_800C32B0 == work->name )
+    if ( CheckMessage( work, work->name ) || fonttext_kill_name == work->name )
     {
-        fonttext_dword_800C32B0 = 0;
+        fonttext_kill_name = 0;
         GV_DestroyActor( &( work->actor ) );
         return;
     }
@@ -134,7 +132,7 @@ void *NewFontText( int name, int where )
 {
     Work *work;
 
-    work = GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
+    work = GV_NewActor( GV_ACTOR_USER, sizeof( Work ) );
     if ( work != NULL )
     {
         GV_SetNamedActor( &( work->actor ), Act, Die, "fonttext.c" );
