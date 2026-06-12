@@ -36,7 +36,7 @@ typedef struct _Work
     GV_ACT   actor;
     DG_PRIM *prim[4];
     int      f30[22];
-    char     pad1[0x58];
+    int      f88[22];
     int      fE0[6];
     int      fF8[18];
     int      f140[9];
@@ -1000,119 +1000,4167 @@ const char title_aSpoffw_800D88AC[] = "sp_off_w";
 const char title_aSponw_800D88B8[] = "sp_on_w";
 const char title_aSpoff_800D88C0[] = "sp_off";
 const char title_aDsppmode_800D88C8[] = "d3_sp_1p_mode";
-const int title_dword_800D88D8 = 0x800C6398;
-const int title_dword_800D88DC = 0x800C63C0;
-const int title_dword_800D88E0 = 0x800CCDA0;
-const int title_dword_800D88E4 = 0x800CCDA0;
-const int title_dword_800D88E8 = 0x800C63E8;
-const int title_dword_800D88EC = 0x800C6414;
-const int title_dword_800D88F0 = 0x800C6440;
-const int title_dword_800D88F4 = 0x800C6C50;
-const int title_dword_800D88F8 = 0x800C805C;
-const int title_dword_800D88FC = 0x800C8104;
-const int title_dword_800D8900 = 0x800C8110;
-const int title_dword_800D8904 = 0x800C812C;
-const int title_dword_800D8908 = 0x800C8148;
-const int title_dword_800D890C = 0x800C8164;
-const int title_dword_800D8910 = 0x800CCCE4;
-const int title_dword_800D8914 = 0x800CCD10;
-const int title_dword_800D8918 = 0x800C8104;
-const int title_dword_800D891C = 0x800CCDA0;
-const int title_dword_800D8920 = 0x800C7A5C;
-const int title_dword_800D8924 = 0x800C7A5C;
-const int title_dword_800D8928 = 0x800C7A0C;
-const int title_dword_800D892C = 0x800C760C;
-const int title_dword_800D8930 = 0x800C6484;
-const int title_dword_800D8934 = 0x800C65CC;
-const int title_dword_800D8938 = 0x800C6714;
-const int title_dword_800D893C = 0x800C6868;
-const int title_dword_800D8940 = 0x800C69B0;
-const int title_dword_800D8944 = 0x800C6B00;
-const int title_dword_800D8948 = 0x800C6C80;
-const int title_dword_800D894C = 0x800C6E48;
-const int title_dword_800D8950 = 0x800C6FB4;
-const int title_dword_800D8954 = 0x800C7128;
-const int title_dword_800D8958 = 0x800C72AC;
-const int title_dword_800D895C = 0x800C7440;
-const int title_dword_800D8960 = 0x800C8194;
-const int title_dword_800D8964 = 0x800C88F4;
-const int title_dword_800D8968 = 0x800C911C;
-const int title_dword_800D896C = 0x800C9C98;
-const int title_dword_800D8970 = 0x800CA8A4;
-const int title_dword_800D8974 = 0x800CB0B8;
-const int title_dword_800D8978 = 0x800CB99C;
-const int title_dword_800D897C = 0x800CC2B8;
-const int title_dword_800D8980 = 0x800C8924;
-const int title_dword_800D8984 = 0x800C8D80;
-const int title_dword_800D8988 = 0x800C8D88;
-const int title_dword_800D898C = 0x800C906C;
-const int title_dword_800D8990 = 0x800C906C;
-const int title_dword_800D8994 = 0x800C906C;
-const int title_dword_800D8998 = 0x800C906C;
-const int title_dword_800D899C = 0x800C8DE0;
-const int title_dword_800D89A0 = 0x800C8E34;
-const char title_dword_800D89A4[] = {0x0, 0x0, 0x0, 0x0};
-const int title_dword_800D89A8 = 0x800C914C;
-const int title_dword_800D89AC = 0x800C95C8;
-const int title_dword_800D89B0 = 0x800C9AE4;
-const int title_dword_800D89B4 = 0x800C95D0;
-const int title_dword_800D89B8 = 0x800C9AE4;
-const int title_dword_800D89BC = 0x800C9628;
-const int title_dword_800D89C0 = 0x800C9AE4;
-const int title_dword_800D89C4 = 0x800C9854;
-const int title_dword_800D89C8 = 0x800C98AC;
-const char title_dword_800D89CC[] = {0x0, 0x0, 0x0, 0x0};
-const int title_dword_800D89D0 = 0x800C9CC8;
-const int title_dword_800D89D4 = 0x800CA1A0;
-const int title_dword_800D89D8 = 0x800CA1C0;
-const int title_dword_800D89DC = 0x800CA1FC;
-const int title_dword_800D89E0 = 0x800CA678;
-const int title_dword_800D89E4 = 0x800CA240;
-const int title_dword_800D89E8 = 0x800CA678;
-const int title_dword_800D89EC = 0x800CA3EC;
-const int title_dword_800D89F0 = 0x800CA440;
-const char title_dword_800D89F4[] = {0x0, 0x0, 0x0, 0x0};
-const int title_dword_800D89F8 = 0x800CA8D4;
-const int title_dword_800D89FC = 0x800CAD4C;
-const int title_dword_800D8A00 = 0x800CB038;
-const int title_dword_800D8A04 = 0x800CB038;
-const int title_dword_800D8A08 = 0x800CB038;
-const int title_dword_800D8A0C = 0x800CB038;
-const int title_dword_800D8A10 = 0x800CAD54;
-const int title_dword_800D8A14 = 0x800CADAC;
-const int title_dword_800D8A18 = 0x800CAE00;
-const char title_dword_800D8A1C[] = {0x0, 0x0, 0x0, 0x0};
-const int title_dword_800D8A20 = 0x800CB0E8;
-const int title_dword_800D8A24 = 0x800CB5BC;
-const int title_dword_800D8A28 = 0x800CB5DC;
-const int title_dword_800D8A2C = 0x800CB8E8;
-const int title_dword_800D8A30 = 0x800CB8E8;
-const int title_dword_800D8A34 = 0x800CB8E8;
-const int title_dword_800D8A38 = 0x800CB618;
-const int title_dword_800D8A3C = 0x800CB65C;
-const int title_dword_800D8A40 = 0x800CB6B0;
-const char title_dword_800D8A44[] = {0x0, 0x0, 0x0, 0x0};
-const int title_dword_800D8A48 = 0x800CB9CC;
-const int title_dword_800D8A4C = 0x800CBEC0;
-const int title_dword_800D8A50 = 0x800CC1EC;
-const int title_dword_800D8A54 = 0x800CBEE0;
-const int title_dword_800D8A58 = 0x800CC1EC;
-const int title_dword_800D8A5C = 0x800CC1EC;
-const int title_dword_800D8A60 = 0x800CBF1C;
-const int title_dword_800D8A64 = 0x800CBF60;
-const int title_dword_800D8A68 = 0x800CBFB4;
-const char title_dword_800D8A6C[] = {0x0, 0x0, 0x0, 0x0};
-const int title_dword_800D8A70 = 0x800CC2E8;
-const int title_dword_800D8A74 = 0x800CC838;
-const int title_dword_800D8A78 = 0x800CC858;
-const int title_dword_800D8A7C = 0x800CC8A8;
-const int title_dword_800D8A80 = 0x800CCBA0;
-const int title_dword_800D8A84 = 0x800CCBA0;
-const int title_dword_800D8A88 = 0x800CC8D0;
-const int title_dword_800D8A8C = 0x800CC914;
-const int title_dword_800D8A90 = 0x800CC968;
-const char title_dword_800D8A94[] = {0x0, 0x0, 0x0, 0x0};
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800C628C.s")
+extern int fonttext_dword_800C32B0;
+
+void title_open_800C628C(Work *work)
+{
+    GCL_ARGS  args;
+    long      argv[3];
+    POLY_FT4 *p18C = work->f18C_polys;
+    POLY_GT4 *p934 = work->f934_polys;
+    POLY_FT4 *p4FC = work->f4FC_polys;
+    short     press;
+    short     press2;
+    short     status;
+    int       i;
+    int       r, g, b;
+    int       x, y;
+    int       shade;
+    int       bright;
+
+    args.argc = 3;
+    args.argv = argv;
+    press = work->pad->press;
+    press2 = work->pad[1].press;
+    status = work->pad->status;
+    argv[0] = work->f24D0;
+    argv[1] = work->fB28;
+    argv[2] = title_dword_800D92D0;
+
+    if (!(press & 0xFFFF) && !(press2 & 0xFFFF))
+    {
+        work->fB00++;
+    }
+    else
+    {
+        work->fB00 = 0;
+    }
+
+    if (work->fB00 >= 1000)
+    {
+        work->fA74 = 15;
+        work->fB00 = 0;
+        work->fB04 = 0;
+        GM_SetSound(0x1FFFF0C, 0);
+    }
+
+    if (work->fB0C == 0)
+    {
+        switch (work->fA74)
+        {
+        case 0:
+            if (press & 0xFFFF)
+            {
+                work->fA74 = 2;
+                if (sd_sng_play() == 1)
+                {
+                    GM_SetSound(0x1FFFFFF, 0);
+                }
+            }
+            break;
+
+        case 1:
+            if (press & 0xFFFF)
+            {
+                work->fA74 = 3;
+                if (sd_sng_play() == 1)
+                {
+                    GM_SetSound(0x1FFFFFF, 0);
+                }
+            }
+            break;
+
+        case 4:
+            if (press & 0x800)
+            {
+                work->fB0C = 1;
+                work->fA74 = 6;
+                work->fAA8.r = 0x80;
+                work->fAA8.g = 0x80;
+                work->fAA8.b = 0x80;
+            }
+            break;
+
+        case 5:
+            if (press & 0x800)
+            {
+                work->fB0C = 1;
+                work->fA74 = 6;
+                work->fAA8.r = 0x80;
+                work->fAA8.g = 0x80;
+                work->fAA8.b = 0x80;
+            }
+            title_open_800C5760(work);
+            break;
+
+        case 6:
+            if (press & 0x800)
+            {
+                work->fB0C = 1;
+                work->fA74 = 7;
+
+                switch (work->fA78)
+                {
+                case 0:
+                    title_open_800C4B94(&p934[4], 0, 0, 0, 0x80, 0xC0, 0x80);
+                    title_open_800C4B94(&p934[0], 0x80, 0xC0, 0x80, 0x80, 0xC0, 0x80);
+                    title_open_800C4B94(&p934[1], 0x80, 0xC0, 0x80, 0, 0, 0);
+                    setXY4(&p934[4], -0x1E, 0x37, 0x1E, 0x37, -0x1E, 0x3F, 0x1E, 0x3F);
+                    setXY4(&p934[0], -0x26, 0x46, 0x26, 0x46, -0x26, 0x4E, 0x26, 0x4E);
+                    setXY4(&p934[1], -0x28, 0x55, 0x28, 0x55, -0x28, 0x5D, 0x28, 0x5D);
+                    SetSemiTrans(&p934[4], 1);
+                    SetSemiTrans(&p934[0], 0);
+                    SetSemiTrans(&p934[1], 1);
+                    work->fA98 = 2;
+                    work->f184 = 0;
+                    work->fE0[0] = 0x100;
+                    work->fE0[1] = 0x100;
+                    work->fE0[2] = 0;
+                    work->fE0[3] = 0;
+                    work->fE0[4] = 0x100;
+                    work->fE0[5] = 0;
+                    break;
+
+                case 1:
+                    title_open_800C4B94(&p934[0], 0, 0, 0, 0x80, 0xC0, 0x80);
+                    title_open_800C4B94(&p934[1], 0x80, 0xC0, 0x80, 0x80, 0xC0, 0x80);
+                    title_open_800C4B94(&p934[2], 0x80, 0xC0, 0x80, 0, 0, 0);
+                    setXY4(&p934[0], -0x26, 0x37, 0x26, 0x37, -0x26, 0x3F, 0x26, 0x3F);
+                    setXY4(&p934[1], -0x28, 0x46, 0x28, 0x46, -0x28, 0x4E, 0x28, 0x4E);
+                    setXY4(&p934[2], -0x1A, 0x55, 0x1A, 0x55, -0x1A, 0x5D, 0x1A, 0x5D);
+                    SetSemiTrans(&p934[0], 1);
+                    SetSemiTrans(&p934[1], 0);
+                    SetSemiTrans(&p934[2], 1);
+                    work->fA98 = 2;
+                    work->f184 = 0;
+                    work->fE0[0] = 0x100;
+                    work->fE0[1] = 0x100;
+                    work->fE0[2] = 0x100;
+                    work->fE0[3] = 0;
+                    work->fE0[4] = 0;
+                    work->fE0[5] = 0;
+                    break;
+
+                case 2:
+                    title_open_800C4B94(&p934[1], 0, 0, 0, 0x80, 0xC0, 0x80);
+                    title_open_800C4B94(&p934[2], 0x80, 0xC0, 0x80, 0x80, 0xC0, 0x80);
+                    title_open_800C4B94(&p934[3], 0x80, 0xC0, 0x80, 0, 0, 0);
+                    setXY4(&p934[1], -0x28, 0x37, 0x28, 0x37, -0x28, 0x3F, 0x28, 0x3F);
+                    setXY4(&p934[2], -0x1A, 0x46, 0x1A, 0x46, -0x1A, 0x4E, 0x1A, 0x4E);
+                    setXY4(&p934[3], -0x20, 0x55, 0x20, 0x55, -0x20, 0x5D, 0x20, 0x5D);
+                    SetSemiTrans(&p934[1], 1);
+                    SetSemiTrans(&p934[2], 0);
+                    SetSemiTrans(&p934[3], 1);
+                    work->fA98 = 2;
+                    work->f184 = 0;
+                    work->fE0[0] = 0;
+                    work->fE0[1] = 0x100;
+                    work->fE0[2] = 0x100;
+                    work->fE0[3] = 0x100;
+                    work->fE0[4] = 0;
+                    work->fE0[5] = 0;
+                    break;
+
+                case 3:
+                    title_open_800C4B94(&p934[2], 0, 0, 0, 0x80, 0xC0, 0x80);
+                    title_open_800C4B94(&p934[3], 0x80, 0xC0, 0x80, 0x80, 0xC0, 0x80);
+                    title_open_800C4B94(&p934[4], 0x80, 0xC0, 0x80, 0, 0, 0);
+                    setXY4(&p934[2], -0x1A, 0x37, 0x1A, 0x37, -0x1A, 0x3F, 0x1A, 0x3F);
+                    setXY4(&p934[3], -0x20, 0x46, 0x20, 0x46, -0x20, 0x4E, 0x20, 0x4E);
+                    setXY4(&p934[4], -0x1E, 0x55, 0x1E, 0x55, -0x1E, 0x5D, 0x1E, 0x5D);
+                    SetSemiTrans(&p934[2], 1);
+                    SetSemiTrans(&p934[3], 0);
+                    SetSemiTrans(&p934[4], 1);
+                    work->fA98 = 2;
+                    work->f184 = 0;
+                    work->fE0[0] = 0;
+                    work->fE0[1] = 0;
+                    work->fE0[2] = 0x100;
+                    work->fE0[3] = 0x100;
+                    work->fE0[4] = 0x100;
+                    work->fE0[5] = 0;
+                    break;
+
+                case 4:
+                    title_open_800C4B94(&p934[3], 0, 0, 0, 0x80, 0xC0, 0x80);
+                    title_open_800C4B94(&p934[4], 0x80, 0xC0, 0x80, 0x80, 0xC0, 0x80);
+                    title_open_800C4B94(&p934[0], 0x80, 0xC0, 0x80, 0, 0, 0);
+                    setXY4(&p934[3], -0x20, 0x37, 0x20, 0x37, -0x20, 0x3F, 0x20, 0x3F);
+                    setXY4(&p934[4], -0x1E, 0x46, 0x1E, 0x46, -0x1E, 0x4E, 0x1E, 0x4E);
+                    setXY4(&p934[0], -0x26, 0x55, 0x26, 0x55, -0x26, 0x5D, 0x26, 0x5D);
+                    SetSemiTrans(&p934[3], 1);
+                    SetSemiTrans(&p934[4], 0);
+                    SetSemiTrans(&p934[0], 1);
+                    work->fA98 = 2;
+                    work->f184 = 0;
+                    work->fE0[0] = 0x100;
+                    work->fE0[1] = 0;
+                    work->fE0[2] = 0;
+                    work->fE0[3] = 0x100;
+                    work->fE0[4] = 0x100;
+                    work->fE0[5] = 0;
+                    break;
+
+                case 5:
+                    title_open_800C4B94(&p934[4], 0, 0, 0, 0x80, 0xC0, 0x80);
+                    title_open_800C4B94(&p934[5], 0x80, 0xC0, 0x80, 0x80, 0xC0, 0x80);
+                    title_open_800C4B94(&p934[0], 0x80, 0xC0, 0x80, 0, 0, 0);
+                    setXY4(&p934[4], -0x1E, 0x37, 0x1E, 0x37, -0x1E, 0x3F, 0x1E, 0x3F);
+                    setXY4(&p934[5], -0x2C, 0x46, 0x2C, 0x46, -0x2C, 0x4E, 0x2C, 0x4E);
+                    setXY4(&p934[0], -0x26, 0x55, 0x26, 0x55, -0x26, 0x5D, 0x26, 0x5D);
+                    SetSemiTrans(&p934[4], 1);
+                    SetSemiTrans(&p934[5], 0);
+                    SetSemiTrans(&p934[0], 1);
+                    work->fA98 = 2;
+                    work->f184 = 0;
+                    work->fE0[0] = 0x100;
+                    work->fE0[1] = 0;
+                    work->fE0[2] = 0;
+                    work->fE0[3] = 0;
+                    work->fE0[4] = 0x100;
+                    work->fE0[5] = 0x100;
+                    break;
+                }
+            }
+            title_open_800C5760(work);
+            break;
+
+        case 7:
+            switch (work->fA78)
+            {
+            case 0:
+                if (work->fB14 == 0)
+                {
+                    if (status & 0x1000)
+                    {
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        work->fA78 = 4;
+                        work->fB14 = 1;
+                        work->fB1C = 1;
+                        work->fB18 = 0;
+                        work->fA98 = 2;
+                        work->f184 = 0;
+                    }
+                    else if (status & 0x4000)
+                    {
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        work->fA78 = 1;
+                        work->fB14 = 1;
+                        work->fB18 = 1;
+                        work->fB1C = 1;
+                        work->fA98 = 2;
+                        work->f184 = 0;
+                    }
+                    else
+                    {
+                        work->fB14 = 0;
+                        work->fB1C = 0;
+                    }
+                }
+                else if (work->fB14 == 6)
+                {
+                    if (work->fB1C < 6)
+                    {
+                        work->fB14 = 6;
+                        work->fB1C++;
+                    }
+                    else if (status & 0x1000)
+                    {
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        work->fA78 = 4;
+                        work->fB14 = 1;
+                        work->fB18 = 0;
+                        work->fA98 = 2;
+                        work->f184 = 0;
+                    }
+                    else if (status & 0x4000)
+                    {
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        work->fA78 = 1;
+                        work->fB14 = 1;
+                        work->fB18 = 1;
+                        work->fA98 = 2;
+                        work->f184 = 0;
+                    }
+                    else
+                    {
+                        work->fB14 = 0;
+                        work->fB1C = 0;
+                    }
+                }
+
+                if (press & 0x820)
+                {
+                    GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                    work->fA74 = 0x15;
+                    work->fF8[0] = 0x300;
+                    work->fF8[1] = 0x300;
+                    p4FC[0].r0 = 0x80;
+                    p4FC[0].g0 = 0x80;
+                    p4FC[0].b0 = 0x80;
+                    p4FC[1].r0 = 0x80;
+                    p4FC[1].g0 = 0x80;
+                    p4FC[1].b0 = 0x80;
+                    work->f24E4 = 1;
+                    work->f24E8 = 0;
+                    for (i = 0; i < 22; i++)
+                    {
+                        work->f88[i] = work->f30[i];
+                        work->f30[i] = 0;
+                    }
+                    work->f30[16] = 256;
+                    p18C[16].r0 = 0x64;
+                    p18C[16].g0 = 0xA0;
+                    p18C[16].b0 = 0x87;
+                    for (i = 5; i >= 0; i--)
+                    {
+                        work->fE0[i] = 0;
+                    }
+                    if (sd_sng_play() == 1)
+                    {
+                        GM_SetSound(0x1FFFFFF, 0);
+                    }
+                }
+                else if (press & 0x40)
+                {
+                    work->fB0C = 1;
+                    work->fA74 = 6;
+                    work->fA88 = 0;
+                    work->fA70 = 0;
+                    work->fB14 = 0;
+                }
+                break;
+
+            case 1:
+                if (work->fB14 == 0)
+                {
+                    if (status & 0x1000)
+                    {
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        work->fB14 = 1;
+                        work->fB1C = 1;
+                        work->fA78 = 0;
+                        work->fB18 = 0;
+                        work->fA98 = 2;
+                        work->f184 = 0;
+                    }
+                    else if (status & 0x4000)
+                    {
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        work->fA78 = 2;
+                        work->fB14 = 1;
+                        work->fB18 = 1;
+                        work->fB1C = 1;
+                        work->fA98 = 2;
+                        work->f184 = 0;
+                    }
+                    else
+                    {
+                        work->fB14 = 0;
+                        work->fB1C = 0;
+                    }
+                }
+                else if (work->fB14 == 6)
+                {
+                    if (work->fB1C < 6)
+                    {
+                        work->fB14 = 6;
+                        work->fB1C++;
+                    }
+                    else if (status & 0x1000)
+                    {
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        work->fB14 = 1;
+                        work->fA78 = 0;
+                        work->fB18 = 0;
+                        work->fA98 = 2;
+                        work->f184 = 0;
+                    }
+                    else if (status & 0x4000)
+                    {
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        work->fA78 = 2;
+                        work->fB14 = 1;
+                        work->fB18 = 1;
+                        work->fA98 = 2;
+                        work->f184 = 0;
+                    }
+                    else
+                    {
+                        work->fB14 = 0;
+                        work->fB1C = 0;
+                    }
+                }
+
+                if (press & 0x820)
+                {
+                    GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                    work->fA74 = 0xA;
+                    for (i = 0; i < 22; i++)
+                    {
+                        work->f88[i] = work->f30[i];
+                        work->f30[i] = 0;
+                    }
+                    for (i = 5; i >= 0; i--)
+                    {
+                        work->fE0[i] = 0;
+                    }
+                    if (sd_sng_play() == 1)
+                    {
+                        GM_SetSound(0x1FFFFFF, 0);
+                    }
+                }
+                else if (press & 0x40)
+                {
+                    work->fB0C = 1;
+                    work->fA74 = 6;
+                    work->fA88 = 0;
+                    work->fA70 = 0;
+                    work->fB14 = 0;
+                }
+                break;
+
+            case 2:
+                if (work->fB14 == 0)
+                {
+                    if (status & 0x1000)
+                    {
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        work->fA78 = 1;
+                        work->fB14 = 1;
+                        work->fB1C = 1;
+                        work->fB18 = 0;
+                        work->fA98 = 2;
+                        work->f184 = 0;
+                    }
+                    else if (status & 0x4000)
+                    {
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        work->fA78 = 3;
+                        work->fB14 = 1;
+                        work->fB18 = 1;
+                        work->fB1C = 1;
+                        work->fA98 = 2;
+                        work->f184 = 0;
+                    }
+                    else
+                    {
+                        work->fB14 = 0;
+                        work->fB1C = 0;
+                    }
+                }
+                else if (work->fB14 == 6)
+                {
+                    if (work->fB1C < 6)
+                    {
+                        work->fB14 = 6;
+                        work->fB1C++;
+                    }
+                    else if (status & 0x1000)
+                    {
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        work->fA78 = 1;
+                        work->fB14 = 1;
+                        work->fB18 = 0;
+                        work->fA98 = 2;
+                        work->f184 = 0;
+                    }
+                    else if (status & 0x4000)
+                    {
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        work->fA78 = 3;
+                        work->fB14 = 1;
+                        work->fB18 = 1;
+                        work->fA98 = 2;
+                        work->f184 = 0;
+                    }
+                    else
+                    {
+                        work->fB14 = 0;
+                        work->fB1C = 0;
+                    }
+                }
+
+                if (press & 0x820)
+                {
+                    GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                    work->fA74 = 0xB;
+                    for (i = 0; i < 22; i++)
+                    {
+                        work->f88[i] = work->f30[i];
+                        work->f30[i] = 0;
+                    }
+                    for (i = 5; i >= 0; i--)
+                    {
+                        work->fE0[i] = 0;
+                    }
+                    if (sd_sng_play() == 1)
+                    {
+                        GM_SetSound(0x1FFFFFF, 0);
+                    }
+                }
+                else if (press & 0x40)
+                {
+                    work->fB0C = 1;
+                    work->fA74 = 6;
+                    work->fA88 = 0;
+                    work->fA70 = 0;
+                    work->fB14 = 0;
+                }
+                break;
+
+            case 3:
+                if (work->fB14 == 0)
+                {
+                    if (status & 0x1000)
+                    {
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        work->fA78 = 2;
+                        work->fB14 = 1;
+                        work->fB18 = 0;
+                        work->fB1C = 1;
+                        work->fA98 = 2;
+                        work->f184 = 0;
+                    }
+                    else if (status & 0x4000)
+                    {
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        work->fA78 = 4;
+                        work->fB14 = 1;
+                        work->fB18 = 1;
+                        work->fB1C = 1;
+                        work->fA98 = 2;
+                        work->f184 = 0;
+                    }
+                    else
+                    {
+                        work->fB14 = 0;
+                    }
+                }
+                else if (work->fB14 == 6)
+                {
+                    if (work->fB1C < 6)
+                    {
+                        work->fB14 = 6;
+                        work->fB1C++;
+                    }
+                    else if (status & 0x1000)
+                    {
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        work->fA78 = 2;
+                        work->fB14 = 1;
+                        work->fB18 = 0;
+                        work->fA98 = 2;
+                        work->f184 = 0;
+                    }
+                    else if (status & 0x4000)
+                    {
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        work->fA78 = 4;
+                        work->fB14 = 1;
+                        work->fB18 = 1;
+                        work->fA98 = 2;
+                        work->f184 = 0;
+                    }
+                    else
+                    {
+                        work->fB14 = 0;
+                        work->fB1C = 0;
+                    }
+                }
+
+                if (press & 0x820)
+                {
+                    GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                    work->fA74 = 0xC;
+                    for (i = 0; i < 22; i++)
+                    {
+                        work->f88[i] = work->f30[i];
+                        work->f30[i] = 0;
+                    }
+                    for (i = 5; i >= 0; i--)
+                    {
+                        work->fE0[i] = 0;
+                    }
+                    if (sd_sng_play() == 1)
+                    {
+                        GM_SetSound(0x1FFFFFF, 0);
+                    }
+                }
+                else if (press & 0x40)
+                {
+                    work->fB0C = 1;
+                    work->fA74 = 6;
+                    work->fA88 = 0;
+                    work->fA70 = 0;
+                    work->fB14 = 0;
+                }
+                break;
+
+            case 4:
+                if (work->fB14 == 0)
+                {
+                    if (status & 0x1000)
+                    {
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        work->fA78 = 3;
+                        work->fB14 = 1;
+                        work->fB1C = 1;
+                        work->fB18 = 0;
+                        work->fA98 = 2;
+                        work->f184 = 0;
+                    }
+                    else if (status & 0x4000)
+                    {
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        work->fB14 = 1;
+                        work->fB18 = 1;
+                        work->fB1C = 1;
+                        work->fA78 = 0;
+                        work->fA98 = 2;
+                        work->f184 = 0;
+                    }
+                    else
+                    {
+                        work->fB14 = 0;
+                    }
+                }
+                else if (work->fB14 == 6)
+                {
+                    if (work->fB1C < 6)
+                    {
+                        work->fB14 = 6;
+                        work->fB1C++;
+                    }
+                    else if (status & 0x1000)
+                    {
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        work->fA78 = 3;
+                        work->fB14 = 1;
+                        work->fB18 = 0;
+                        work->fA98 = 2;
+                        work->f184 = 0;
+                    }
+                    else if (status & 0x4000)
+                    {
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        work->fB14 = 1;
+                        work->fB18 = 1;
+                        work->fA78 = 0;
+                        work->fA98 = 2;
+                        work->f184 = 0;
+                    }
+                    else
+                    {
+                        work->fB14 = 0;
+                        work->fB1C = 0;
+                    }
+                }
+
+                if (press & 0x820)
+                {
+                    GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                    work->fA74 = 0xD;
+                    work->fB3C = 0;
+                    work->f24C8 = 0;
+                    for (i = 0; i < 22; i++)
+                    {
+                        work->f88[i] = work->f30[i];
+                        work->f30[i] = 0;
+                    }
+                    for (i = 5; i >= 0; i--)
+                    {
+                        work->fE0[i] = 0;
+                    }
+                    if (sd_sng_play() == 1)
+                    {
+                        GM_SetSound(0x1FFFF0B, 0);
+                    }
+                }
+                else if (press & 0x40)
+                {
+                    work->fB0C = 1;
+                    work->fA74 = 6;
+                    work->fA88 = 0;
+                    work->fA70 = 0;
+                    work->fB14 = 0;
+                }
+                break;
+
+            case 5:
+                if (work->fB14 == 0)
+                {
+                    if (status & 0x1000)
+                    {
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        work->fA78 = 4;
+                        work->fB14 = 1;
+                        work->fB1C = 1;
+                        work->fB18 = 0;
+                        work->fA98 = 2;
+                        work->f184 = 0;
+                    }
+                    else if (status & 0x4000)
+                    {
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        work->fB14 = 1;
+                        work->fB18 = 1;
+                        work->fB1C = 1;
+                        work->fA78 = 0;
+                        work->fA98 = 2;
+                        work->f184 = 0;
+                    }
+                    else
+                    {
+                        work->fB14 = 0;
+                    }
+                }
+                else if (work->fB14 == 6)
+                {
+                    if (work->fB1C < 6)
+                    {
+                        work->fB14 = 6;
+                        work->fB1C++;
+                    }
+                    else if (status & 0x1000)
+                    {
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        work->fA78 = 4;
+                        work->fB14 = 1;
+                        work->fB18 = 0;
+                        work->fA98 = 2;
+                        work->f184 = 0;
+                    }
+                    else if (status & 0x4000)
+                    {
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                        work->fB14 = 1;
+                        work->fB18 = 1;
+                        work->fA78 = 0;
+                        work->fA98 = 2;
+                        work->f184 = 0;
+                    }
+                    else
+                    {
+                        work->fB14 = 0;
+                        work->fB1C = 0;
+                    }
+                }
+
+                if (press & 0x820)
+                {
+                    GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                    work->fA74 = 0xE;
+                    for (i = 0; i < 22; i++)
+                    {
+                        work->f88[i] = work->f30[i];
+                        work->f30[i] = 0;
+                    }
+                    for (i = 5; i >= 0; i--)
+                    {
+                        work->fE0[i] = 0;
+                    }
+                    if (sd_sng_play() == 1)
+                    {
+                        GM_SetSound(0x1FFFFFF, 0);
+                    }
+                }
+                else if (press & 0x40)
+                {
+                    work->fB0C = 1;
+                    work->fA74 = 6;
+                    work->fA88 = 0;
+                    work->fA70 = 0;
+                    work->fB14 = 0;
+                }
+                break;
+            }
+            title_open_800C5760(work);
+            break;
+
+        case 21:
+            if (press & 0x1000)
+            {
+                if (work->f24E4 == -1)
+                {
+                    break;
+                }
+                work->f24E4 = work->f24E4 - 1;
+                GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+            }
+            else if (press & 0x4000)
+            {
+                if (work->f24E4 == 3)
+                {
+                    break;
+                }
+                if (work->f24E4 == 2 && work->fB48 == 0)
+                {
+                    break;
+                }
+                work->f24E4 = work->f24E4 + 1;
+                GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+            }
+            else if (press & 0x20)
+            {
+                GM_DifficultyFlag = *(u_short *)&work->f24E4;
+                printf((char *)title_aGameleveld_800D8848, GM_DifficultyFlag);
+                if (work->f24E4 == 2 || work->f24E4 == 3)
+                {
+                    GM_OptionFlag |= 0x800;
+                }
+                else
+                {
+                    GM_OptionFlag &= 0xF7FF;
+                }
+                GM_SeSet2(0, 0x3F, SE_MENU_SELECT);
+                work->fA74 = 0x14;
+                title_open_800C5CB8(work);
+                title_open_800C5D10(work);
+                title_open_800C5CF0(work);
+                for (i = 0; i < 24; i++)
+                {
+                    title_open_800C4AD0(work, i, 0);
+                }
+                GCL_ExecProc(work->f2500, 0);
+                fonttext_dword_800C32B0 = 0x46CD;
+            }
+            else if (press & 0x40)
+            {
+                for (i = 0; i < 24; i++)
+                {
+                    title_open_800C4AD0(work, i, 0);
+                }
+                GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                work->fA74 = 7;
+                work->fB0C = 1;
+                title_open_800C5CB8(work);
+                title_open_800C5D10(work);
+                title_open_800C5CF0(work);
+                work->f30[0] = 0x700;
+                work->f30[1] = 0x700;
+                work->f30[2] = 0x700;
+                work->f30[3] = 0x600;
+                work->f30[4] = 0x500;
+                work->f30[5] = 0x500;
+                work->f30[6] = 0x500;
+                work->f30[7] = 0x100;
+                work->f30[8] = 0x100;
+                work->f30[9] = 0x300;
+                work->f30[10] = 0x200;
+                work->f30[11] = 0x400;
+                work->f30[12] = 0x100;
+                setRGB0(&p18C[7], 0x80, 0x80, 0x80);
+                setRGB0(&p18C[8], 0x80, 0x80, 0x80);
+                setRGB0(&p18C[9], 0x80, 0x80, 0x80);
+                setRGB0(&p18C[10], 0x80, 0x80, 0x80);
+                setRGB0(&p18C[11], 0x80, 0x80, 0x80);
+                setRGB0(&p18C[12], 0x80, 0x80, 0x80);
+                if (work->fA7C == 0)
+                {
+                    work->fA7C = 1;
+                }
+                if (work->fA80 == 0)
+                {
+                    work->fA80 = 1;
+                    work->f170 = 0;
+                }
+                if (work->fA84 == 0)
+                {
+                    work->fA84 = 1;
+                    work->f170 = 0;
+                }
+                if (sd_sng_play() == 0)
+                {
+                    GM_SetSound(0x1000001, 0);
+                }
+                work->fA78 = 0;
+                title_open_800C4B94(&p934[4], 0, 0, 0, 0x80, 0xC0, 0x80);
+                title_open_800C4B94(&p934[0], 0x80, 0xC0, 0x80, 0x80, 0xC0, 0x80);
+                title_open_800C4B94(&p934[1], 0x80, 0xC0, 0x80, 0, 0, 0);
+                setXY4(&p934[4], -0x1E, 0x37, 0x1E, 0x37, -0x1E, 0x3F, 0x1E, 0x3F);
+                setXY4(&p934[0], -0x26, 0x46, 0x26, 0x46, -0x26, 0x4E, 0x26, 0x4E);
+                setXY4(&p934[1], -0x28, 0x55, 0x28, 0x55, -0x28, 0x5D, 0x28, 0x5D);
+                SetSemiTrans(&p934[4], 1);
+                SetSemiTrans(&p934[0], 0);
+                SetSemiTrans(&p934[1], 1);
+                work->fA98 = 2;
+                work->f184 = 0;
+                work->fE0[0] = 0x100;
+                work->fE0[1] = 0x100;
+                work->fE0[2] = 0;
+                work->fE0[3] = 0;
+                work->fE0[4] = 0x100;
+                work->fE0[5] = 0;
+                GCL_ExecProc(work->f2500, 0);
+                fonttext_dword_800C32B0 = 0x46CD;
+            }
+            break;
+
+        case 20:
+            if (work->f24E8 == 0)
+            {
+                work->f24E8 = 1;
+            }
+            else
+            {
+                title_open_800C5D30(work);
+                if (++work->f24E8 >= 30)
+                {
+                    printf((char *)title_aErrormemcardcheckerror_800D885C);
+                    work->fA74 = 8;
+                }
+            }
+            break;
+
+        case 18:
+        case 19:
+            work->f30[17] = 0x100;
+            setRGB0(&p18C[17], 0x80, 0x80, 0x80);
+            setXY4(&p18C[17], -0x22, -0x5A, 0x22, -0x5A, -0x22, -0x4C, 0x22, -0x4C);
+            if (press & 0x8000)
+            {
+                if (work->f24E0 == 1)
+                {
+                    GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    work->f24E0 = 0;
+                }
+            }
+            else if (press & 0x2000)
+            {
+                if (work->f24E0 == 0)
+                {
+                    GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    work->f24E0 = 1;
+                }
+            }
+            else if (press & 0x20)
+            {
+                if (work->f24E0 == 1)
+                {
+                    GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                    work->fA74 = 7;
+                    work->fB0C = 1;
+                    title_open_800C5CB8(work);
+                    title_open_800C5D10(work);
+                    work->f30[0] = 0x700;
+                    work->f30[1] = 0x700;
+                    work->f30[2] = 0x700;
+                    work->f30[3] = 0x600;
+                    work->f30[4] = 0x500;
+                    work->f30[5] = 0x500;
+                    work->f30[6] = 0x500;
+                    work->f30[7] = 0x100;
+                    work->f30[8] = 0x100;
+                    work->f30[9] = 0x300;
+                    work->f30[10] = 0x200;
+                    work->f30[11] = 0x400;
+                    work->f30[12] = 0x100;
+                    setRGB0(&p18C[7], 0x80, 0x80, 0x80);
+                    setRGB0(&p18C[8], 0x80, 0x80, 0x80);
+                    setRGB0(&p18C[9], 0x80, 0x80, 0x80);
+                    setRGB0(&p18C[10], 0x80, 0x80, 0x80);
+                    setRGB0(&p18C[11], 0x80, 0x80, 0x80);
+                    setRGB0(&p18C[12], 0x80, 0x80, 0x80);
+                    if (work->fA7C == 0)
+                    {
+                        work->fA7C = 1;
+                    }
+                    if (work->fA80 == 0)
+                    {
+                        work->fA80 = 1;
+                        work->f170 = 0;
+                    }
+                    if (work->fA84 == 0)
+                    {
+                        work->fA84 = 1;
+                        work->f170 = 0;
+                    }
+                    if (sd_sng_play() == 0)
+                    {
+                        GM_SetSound(0x1000001, 0);
+                    }
+                    work->fA78 = 0;
+                    title_open_800C4B94(&p934[4], 0, 0, 0, 0x80, 0xC0, 0x80);
+                    title_open_800C4B94(&p934[0], 0x80, 0xC0, 0x80, 0x80, 0xC0, 0x80);
+                    title_open_800C4B94(&p934[1], 0x80, 0xC0, 0x80, 0, 0, 0);
+                    setXY4(&p934[4], -0x1E, 0x37, 0x1E, 0x37, -0x1E, 0x3F, 0x1E, 0x3F);
+                    setXY4(&p934[0], -0x26, 0x46, 0x26, 0x46, -0x26, 0x4E, 0x26, 0x4E);
+                    setXY4(&p934[1], -0x28, 0x55, 0x28, 0x55, -0x28, 0x5D, 0x28, 0x5D);
+                    SetSemiTrans(&p934[4], 1);
+                    SetSemiTrans(&p934[0], 0);
+                    SetSemiTrans(&p934[1], 1);
+                    work->fA98 = 2;
+                    work->f184 = 0;
+                    work->fE0[0] = 0x100;
+                    work->fE0[1] = 0x100;
+                    work->fE0[2] = 0;
+                    work->fE0[3] = 0;
+                    work->fE0[4] = 0x100;
+                    work->fE0[5] = 0;
+                }
+                else
+                {
+                    GM_SeSet2(0, 0x3F, SE_MENU_SELECT);
+                    work->fA74 = 8;
+                    title_open_800C5CB8(work);
+                    title_open_800C5D10(work);
+                }
+                title_open_800C4AD0(work, 0x15, 0);
+            }
+            else if (press & 0x40)
+            {
+                GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                work->fA74 = 7;
+                work->fB0C = 1;
+                title_open_800C5CB8(work);
+                title_open_800C5D10(work);
+                work->f30[0] = 0x700;
+                work->f30[1] = 0x700;
+                work->f30[2] = 0x700;
+                work->f30[3] = 0x600;
+                work->f30[4] = 0x500;
+                work->f30[5] = 0x500;
+                work->f30[6] = 0x500;
+                work->f30[7] = 0x100;
+                work->f30[8] = 0x100;
+                work->f30[9] = 0x300;
+                work->f30[10] = 0x200;
+                work->f30[11] = 0x400;
+                work->f30[12] = 0x100;
+                setRGB0(&p18C[7], 0x80, 0x80, 0x80);
+                setRGB0(&p18C[8], 0x80, 0x80, 0x80);
+                setRGB0(&p18C[9], 0x80, 0x80, 0x80);
+                setRGB0(&p18C[10], 0x80, 0x80, 0x80);
+                setRGB0(&p18C[11], 0x80, 0x80, 0x80);
+                setRGB0(&p18C[12], 0x80, 0x80, 0x80);
+                if (work->fA7C == 0)
+                {
+                    work->fA7C = 1;
+                }
+                if (work->fA80 == 0)
+                {
+                    work->fA80 = 1;
+                    work->f170 = 0;
+                }
+                if (work->fA84 == 0)
+                {
+                    work->fA84 = 1;
+                    work->f170 = 0;
+                }
+                if (sd_sng_play() == 0)
+                {
+                    GM_SetSound(0x1000001, 0);
+                }
+                work->fA78 = 0;
+                title_open_800C4B94(&p934[4], 0, 0, 0, 0x80, 0xC0, 0x80);
+                title_open_800C4B94(&p934[0], 0x80, 0xC0, 0x80, 0x80, 0xC0, 0x80);
+                title_open_800C4B94(&p934[1], 0x80, 0xC0, 0x80, 0, 0, 0);
+                setXY4(&p934[4], -0x1E, 0x37, 0x1E, 0x37, -0x1E, 0x3F, 0x1E, 0x3F);
+                setXY4(&p934[0], -0x26, 0x46, 0x26, 0x46, -0x26, 0x4E, 0x26, 0x4E);
+                setXY4(&p934[1], -0x28, 0x55, 0x28, 0x55, -0x28, 0x5D, 0x28, 0x5D);
+                SetSemiTrans(&p934[4], 1);
+                SetSemiTrans(&p934[0], 0);
+                SetSemiTrans(&p934[1], 1);
+                work->fA98 = 2;
+                work->f184 = 0;
+                work->fE0[0] = 0x100;
+                work->fE0[1] = 0x100;
+                work->fE0[2] = 0;
+                work->fE0[3] = 0;
+                work->fE0[4] = 0x100;
+                work->fE0[5] = 0;
+                title_open_800C4AD0(work, 0x15, 0);
+            }
+            break;
+
+        case 8:
+            if (FS_DiskNum == 0)
+            {
+                if (sd_sng_play() == 0)
+                {
+                    if ((GV_PadData[2].status & 2) && (GV_PadData[2].status & 1))
+                    {
+                        argv[2] = 0;
+                    }
+                    GCL_ExecProc(work->fAD0, &args);
+                    GV_DestroyActor(&work->actor);
+                }
+            }
+            else
+            {
+                work->fB0C = 1;
+                work->fA74 = 9;
+                work->f24EC = 0;
+                work->f24AC = 0;
+                work->f24B0 = 0;
+                work->f24B4 = 0;
+                work->f24B8 = 0;
+                work->f24BC = 0;
+                if ((GV_PadData[2].status & 2) && (GV_PadData[2].status & 1))
+                {
+                    title_dword_800D92D0 = 0;
+                }
+                title_dword_800C33D4 = work->fAD0;
+            }
+            break;
+
+        case 9:
+        case 16:
+            work->fA70 = 0;
+            work->fB00 = 0;
+            break;
+
+        case 10:
+            if (sd_sng_play() == 0)
+            {
+                GCL_ExecProc(work->fAE0, &args);
+                GV_DestroyActor(&work->actor);
+            }
+            break;
+
+        case 11:
+            if (sd_sng_play() == 0)
+            {
+                GCL_ExecProc(work->fADC, &args);
+                GV_DestroyActor(&work->actor);
+            }
+            break;
+
+        case 12:
+            if (sd_sng_play() == 0)
+            {
+                GCL_ExecProc(work->fAD4, &args);
+                GV_DestroyActor(&work->actor);
+            }
+            break;
+
+        case 13:
+            switch (work->fB40)
+            {
+            case 0: /* page 0 */
+                switch (work->fB3C)
+                {
+                case 0:
+                {
+                    int fade = work->f24C8;
+
+                    if (fade < 9)
+                    {
+                        x = 0xBE - fade * 30;
+                        work->fF8[2] = 0x100;
+                        work->fF8[3] = 0x100;
+                        p4FC[2].x0 = x;
+                        p4FC[2].y0 = -0xD;
+                        p4FC[2].x1 = x + 0x64;
+                        p4FC[2].y1 = -0xD;
+                        p4FC[2].x2 = x;
+                        p4FC[2].y2 = 0;
+                        p4FC[2].x3 = x + 0x64;
+                        p4FC[2].y3 = 0;
+                        p4FC[2].r0 = 0x46;
+                        p4FC[2].g0 = 0x64;
+                        p4FC[2].b0 = 0x5A;
+                        x = fade * 30 - 0x122;
+                        p4FC[3].x0 = x;
+                        p4FC[3].y0 = -0xD;
+                        p4FC[3].x1 = fade * 30 - 0xBE;
+                        p4FC[3].y1 = -0xD;
+                        p4FC[3].x2 = x;
+                        p4FC[3].y2 = 0;
+                        p4FC[3].x3 = fade * 30 - 0xBE;
+                        p4FC[3].y3 = 0;
+                        p4FC[3].r0 = 0x46;
+                        p4FC[3].g0 = 0x64;
+                        p4FC[3].b0 = 0x5A;
+                        if (fade == 1)
+                        {
+                            GM_SeSet2(0, 0x3F, SE_MENUOPN1);
+                        }
+                    }
+                    else if (fade < 0xD)
+                    {
+                    }
+                    else if (fade < 0x11)
+                    {
+                        bright = (fade - 0xC) * 255 / 4;
+                        title_open_800C4C38(work, -0x32, -0xD, 0x64, 0xD, bright, 0);
+                    }
+                    else if (fade < 0x19)
+                    {
+                        bright = 0xFF;
+                        title_open_800C4C38(work, -0x32, -0xD, 0x64, 0xD, bright, 0);
+                    }
+                    else if (fade < 0x1D)
+                    {
+                        bright = 0xFF - (fade - 0x18) * 255 / 4;
+                        title_open_800C4C38(work, -0x32, -0xD, 0x64, 0xD, bright, 0);
+                    }
+                    else if (fade < 0x21)
+                    {
+                        y = -0xD - (fade - 0x1C) * 20;
+                        p4FC[2].x0 = -0x32;
+                        p4FC[2].y0 = y;
+                        p4FC[2].x1 = 0x32;
+                        p4FC[2].y1 = y;
+                        p4FC[2].x2 = -0x32;
+                        p4FC[2].y2 = y + 0xD;
+                        p4FC[2].x3 = 0x32;
+                        p4FC[2].y3 = y + 0xD;
+                        p4FC[3].x0 = -0x32;
+                        p4FC[3].y0 = y;
+                        p4FC[3].x1 = 0x32;
+                        p4FC[3].y1 = y;
+                        p4FC[3].x2 = -0x32;
+                        p4FC[3].y2 = y + 0xD;
+                        p4FC[3].x3 = 0x32;
+                        p4FC[3].y3 = y + 0xD;
+                    }
+                    else if (fade < 0x25)
+                    {
+                        work->fF8[0] = 0x300;
+                        work->fF8[1] = 0x300;
+                        p4FC[0].x0 = -0xA0;
+                        p4FC[0].y0 = -0x70;
+                        p4FC[0].x1 = 0;
+                        p4FC[0].y1 = -0x70;
+                        p4FC[0].x2 = -0xA0;
+                        p4FC[0].y2 = 0x70;
+                        p4FC[0].x3 = 0;
+                        p4FC[0].y3 = 0x70;
+                        p4FC[1].x0 = 0;
+                        p4FC[1].y0 = -0x70;
+                        p4FC[1].x1 = 0xA0;
+                        p4FC[1].y1 = -0x70;
+                        p4FC[1].x2 = 0;
+                        p4FC[1].y2 = 0x70;
+                        p4FC[1].x3 = 0xA0;
+                        p4FC[1].y3 = 0x70;
+                        shade = (fade - 0x20) * 128 / 10;
+                        p4FC[0].r0 = shade;
+                        p4FC[0].g0 = shade;
+                        p4FC[0].b0 = shade;
+                        p4FC[1].r0 = shade;
+                        p4FC[1].g0 = shade;
+                        p4FC[1].b0 = shade;
+                    }
+                    else if (fade < 0x2B)
+                    {
+                        work->fF8[4] = 256;
+                        work->fF8[5] = 256;
+
+                        x = (fade - 36) * 80 / 6;
+                        p4FC[4].x0 = -x;
+                        p4FC[4].y0 = -22;
+                        p4FC[4].x1 = x;
+                        p4FC[4].y1 = -22;
+                        p4FC[4].x2 = -x;
+                        p4FC[4].y2 = -14;
+                        p4FC[4].x3 = x;
+                        p4FC[4].y3 = -14;
+                        setRGB0(&p4FC[4], 100, 160, 135);
+
+                        x = (fade - 36) * 28 / 6;
+                        p4FC[5].x0 = -x;
+                        p4FC[5].y0 = 46;
+                        p4FC[5].x1 = x;
+                        p4FC[5].y1 = 46;
+                        p4FC[5].x2 = -x;
+                        p4FC[5].y2 = 58;
+                        p4FC[5].x3 = x;
+                        p4FC[5].y3 = 58;
+                        setRGB0(&p4FC[5], 100, 160, 135);
+
+                        shade = (fade - 32) * 128 / 10;
+                        p4FC[0].r0 = shade;
+                        p4FC[0].g0 = shade;
+                        p4FC[0].b0 = shade;
+                        p4FC[1].r0 = shade;
+                        p4FC[1].g0 = shade;
+                        p4FC[1].b0 = shade;
+                    }
+                    else if (fade == 0x2B)
+                    {
+                        title_open_800C5360(work, GV_StrCode((char *)title_aSppre_800D8880), &p4FC[4]);
+                        title_open_800C5360(work, GV_StrCode((char *)title_aSpexit_800D8888), &p4FC[5]);
+                    }
+                    else if (fade == 0x2C)
+                    {
+                    }
+                    else if (fade < 0x31)
+                    {
+                        title_open_800C4C38(work, -0x50, -0x16, 0xA0, 8, 0xFF, 1);
+                        if (fade == 0x30)
+                        {
+                            work->fB3C = 1;
+                        }
+                    }
+                    work->f24C8++;
+                    break;
+                }
+
+                case 1:
+                    if (press & 0x4000)
+                    {
+                        work->fB3C = 7;
+                        title_open_800C4C38(work, -0x1C, 0x2E, 0x38, 0xC, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    }
+                    break;
+
+                case 7:
+                    if (press & 0x1000)
+                    {
+                        work->fB3C = 1;
+                        title_open_800C4C38(work, -0x50, -0x16, 0xA0, 8, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    }
+                    break;
+                case 8:
+                    if (work->f24C8 < 0x11)
+                    {
+                        r = 0x64 - (work->f24C8 * 100) / 16;
+                        g = 0xA0 - work->f24C8 * 10;
+                        b = 0x87 - (work->f24C8 * 135) / 16;
+
+                        for (i = 0; i < 18; i++)
+                        {
+                            p4FC[i].r0 = r;
+                            p4FC[i].g0 = g;
+                            p4FC[i].b0 = b;
+                        }
+
+                        bright = 0x80 - work->f24C8 * 8;
+                        p4FC[0].r0 = bright;
+                        p4FC[0].g0 = bright;
+                        p4FC[0].b0 = bright;
+                        p4FC[1].r0 = bright;
+                        p4FC[1].g0 = bright;
+                        p4FC[1].b0 = bright;
+
+                        r = 0x46 - (work->f24C8 * 70) / 16;
+                        g = 0x64 - (work->f24C8 * 100) / 16;
+                        b = 0x5A - work->f24C8 * 90 / 16;
+                        p4FC[2].r0 = r;
+                        p4FC[2].g0 = g;
+                        p4FC[2].b0 = b;
+                        p4FC[3].r0 = r;
+                        p4FC[3].g0 = g;
+                        p4FC[3].b0 = b;
+
+                        if (work->f24CC == 0)
+                        {
+                            p4FC[10].r0 = r;
+                            p4FC[10].g0 = g;
+                            p4FC[10].b0 = b;
+                        }
+                        else
+                        {
+                            p4FC[9].r0 = r;
+                            p4FC[9].g0 = g;
+                            p4FC[9].b0 = b;
+                        }
+
+                        work->f24C8++;
+                    }
+                    else
+                    {
+                        work->fA74 = 7;
+                        work->fA78 = 4;
+                        for (i = 17; i >= 0; i--)
+                        {
+                            work->fF8[i] = 0;
+                        }
+                        for (i = 0; i < 22; i++)
+                        {
+                            work->f30[i] = work->f88[i];
+                        }
+                        for (i = 8; i >= 0; i--)
+                        {
+                            work->f140[i] = 0;
+                        }
+                        work->fA98 = 2;
+                        work->f184 = 0;
+                        work->fE0[0] = 0x100;
+                        work->fE0[1] = 0;
+                        work->fE0[2] = 0;
+                        work->fE0[3] = 0x100;
+                        work->fE0[4] = 0x100;
+                        work->fE0[5] = 0;
+                        GM_SetSound(0x1000001, 0);
+                    }
+                    break;
+                }
+
+                if (press & 0x40)
+                {
+                    if (work->fB3C != 0 && work->fB3C != 8)
+                    {
+                        work->fB3C = 8;
+                        work->f24C8 = 0;
+                        GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                        title_open_800C5D10(work);
+                    }
+                }
+                else if (press & 0x20)
+                {
+                    if (work->fB3C == 7)
+                    {
+                        work->fB3C = 8;
+                        work->f24C8 = 0;
+                        GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                        title_open_800C5D10(work);
+                    }
+                    else if (work->fB3C == 1)
+                    {
+                        GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                        if (sd_sng_play() == 0)
+                        {
+                            GCL_ExecProc(work->fAF0, &args);
+                            GV_DestroyActor(&work->actor);
+                        }
+                    }
+                }
+                break;
+
+            case 1: /* page 1 */
+                switch (work->fB3C)
+                {
+                case 0:
+                {
+                    int fade = work->f24C8;
+
+                    if (fade < 9)
+                    {
+                        x = 0xBE - fade * 30;
+                        work->fF8[2] = 0x100;
+                        work->fF8[3] = 0x100;
+                        p4FC[2].r0 = 0x46;
+                        p4FC[2].g0 = 0x64;
+                        p4FC[2].b0 = 0x5A;
+                        p4FC[2].x0 = x;
+                        p4FC[2].y0 = -0xD;
+                        p4FC[2].x1 = x + 0x64;
+                        p4FC[2].y1 = -0xD;
+                        p4FC[2].x2 = x;
+                        p4FC[2].y2 = 0;
+                        p4FC[2].x3 = x + 0x64;
+                        p4FC[2].y3 = 0;
+                        x = fade * 30 - 0x122;
+                        p4FC[3].r0 = 0x46;
+                        p4FC[3].g0 = 0x64;
+                        p4FC[3].b0 = 0x5A;
+                        p4FC[3].x0 = x;
+                        p4FC[3].y0 = -0xD;
+                        p4FC[3].x1 = fade * 30 - 0xBE;
+                        p4FC[3].y1 = -0xD;
+                        p4FC[3].x2 = x;
+                        p4FC[3].y2 = 0;
+                        p4FC[3].x3 = fade * 30 - 0xBE;
+                        p4FC[3].y3 = 0;
+                        if (fade == 1)
+                        {
+                            GM_SeSet2(0, 0x3F, SE_MENUOPN1);
+                        }
+                    }
+                    else if (fade < 0xD)
+                    {
+                    }
+                    else if (fade < 0x11)
+                    {
+                        bright = (fade - 0xC) * 255 / 4;
+                        title_open_800C4C38(work, -0x32, -0xD, 0x64, 0xD, bright, 0);
+                    }
+                    else if (fade < 0x19)
+                    {
+                        bright = 0xFF;
+                        title_open_800C4C38(work, -0x32, -0xD, 0x64, 0xD, bright, 0);
+                    }
+                    else if (fade < 0x1D)
+                    {
+                        bright = 0xFF - (fade - 0x18) * 255 / 4;
+                        title_open_800C4C38(work, -0x32, -0xD, 0x64, 0xD, bright, 0);
+                    }
+                    else if (fade < 0x21)
+                    {
+                        y = -0xD - (fade - 0x1C) * 20;
+                        p4FC[2].x0 = -0x32;
+                        p4FC[2].y0 = y;
+                        p4FC[2].x1 = 0x32;
+                        p4FC[2].y1 = y;
+                        p4FC[2].x2 = -0x32;
+                        p4FC[2].y2 = y + 0xD;
+                        p4FC[2].x3 = 0x32;
+                        p4FC[2].y3 = y + 0xD;
+                        p4FC[3].x0 = -0x32;
+                        p4FC[3].y0 = y;
+                        p4FC[3].x1 = 0x32;
+                        p4FC[3].y1 = y;
+                        p4FC[3].x2 = -0x32;
+                        p4FC[3].y2 = y + 0xD;
+                        p4FC[3].x3 = 0x32;
+                        p4FC[3].y3 = y + 0xD;
+                    }
+                    else if (fade < 0x25)
+                    {
+                        work->fF8[0] = 0x300;
+                        work->fF8[1] = 0x300;
+                        p4FC[0].x0 = -0xA0;
+                        p4FC[0].y0 = -0x70;
+                        p4FC[0].x1 = 0;
+                        p4FC[0].y1 = -0x70;
+                        p4FC[0].x2 = -0xA0;
+                        p4FC[0].y2 = 0x70;
+                        p4FC[0].x3 = 0;
+                        p4FC[0].y3 = 0x70;
+                        p4FC[1].x0 = 0;
+                        p4FC[1].y0 = -0x70;
+                        p4FC[1].x1 = 0xA0;
+                        p4FC[1].y1 = -0x70;
+                        p4FC[1].x2 = 0;
+                        p4FC[1].y2 = 0x70;
+                        p4FC[1].x3 = 0xA0;
+                        p4FC[1].y3 = 0x70;
+                        shade = (fade - 0x20) * 128 / 10;
+                        p4FC[0].r0 = shade;
+                        p4FC[0].g0 = shade;
+                        p4FC[0].b0 = shade;
+                        p4FC[1].r0 = shade;
+                        p4FC[1].g0 = shade;
+                        p4FC[1].b0 = shade;
+                    }
+                    else if (fade < 0x2B)
+                    {
+                        work->fF8[4] = 0x100;
+                        work->fF8[5] = 0x100;
+                        work->fF8[6] = 0x100;
+                        p4FC[4].y0 = -0x26;
+                        p4FC[4].y1 = -0x26;
+                        p4FC[4].y2 = -0x1E;
+                        p4FC[4].y3 = -0x1E;
+                        p4FC[4].r0 = 0x64;
+                        p4FC[4].g0 = 0xA0;
+                        p4FC[4].b0 = 0x87;
+                        p4FC[5].y0 = 0x2E;
+                        p4FC[5].y1 = 0x2E;
+                        p4FC[5].y2 = 0x3A;
+                        p4FC[5].y3 = 0x3A;
+                        p4FC[5].r0 = 0x64;
+                        p4FC[5].g0 = 0xA0;
+                        p4FC[5].b0 = 0x87;
+                        p4FC[6].y0 = -0x3;
+                        p4FC[6].y1 = -0x3;
+                        p4FC[6].y2 = 5;
+                        p4FC[6].y3 = 5;
+                        x = (fade - 0x24) * 80 / 6;
+                        p4FC[4].x1 = x;
+                        p4FC[4].x3 = x;
+                        p4FC[4].x0 = -x;
+                        p4FC[4].x2 = -x;
+                        x = (fade - 0x24) * 28 / 6;
+                        p4FC[5].x1 = x;
+                        p4FC[5].x3 = x;
+                        p4FC[5].x0 = -x;
+                        p4FC[5].x2 = -x;
+                        x = (fade - 0x24) * 4;
+                        p4FC[6].x1 = x;
+                        p4FC[6].x3 = x;
+                        p4FC[6].x0 = -x;
+                        p4FC[6].x2 = -x;
+                        p4FC[6].r0 = 0x64;
+                        p4FC[6].g0 = 0xA0;
+                        p4FC[6].b0 = 0x87;
+                        shade = (fade - 0x20) * 128 / 10;
+                        p4FC[0].r0 = shade;
+                        p4FC[0].g0 = shade;
+                        p4FC[0].b0 = shade;
+                        p4FC[1].r0 = shade;
+                        p4FC[1].g0 = shade;
+                        p4FC[1].b0 = shade;
+                    }
+                    else if (fade == 0x2B)
+                    {
+                        title_open_800C5360(work, GV_StrCode((char *)title_aSppre_800D8880), &p4FC[4]);
+                        title_open_800C5360(work, GV_StrCode((char *)title_aSpexit_800D8888), &p4FC[5]);
+                        title_open_800C5360(work, GV_StrCode((char *)title_aSpalbum_800D8890), &p4FC[6]);
+                    }
+                    else if (fade == 0x2C)
+                    {
+                    }
+                    else if (fade < 0x31)
+                    {
+                        title_open_800C4C38(work, -0x50, -0x26, 0xA0, 8, 0xFF, 1);
+                        if (fade == 0x30)
+                        {
+                            work->fB3C = 1;
+                        }
+                    }
+                    work->f24C8++;
+                    break;
+                }
+
+                case 1:
+                    if (press & 0x4000)
+                    {
+                        work->fB3C = 2;
+                        title_open_800C4C38(work, -0x18, -0x3, 0x30, 8, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    }
+                    break;
+
+                case 2:
+                    if (press & 0x4000)
+                    {
+                        work->fB3C = 7;
+                        title_open_800C4C38(work, -0x1C, 0x2E, 0x38, 0xC, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    }
+                    else if (press & 0x1000)
+                    {
+                        work->fB3C = 1;
+                        title_open_800C4C38(work, -0x50, -0x26, 0xA0, 8, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    }
+                    break;
+
+                case 7:
+                    if (press & 0x1000)
+                    {
+                        work->fB3C = 2;
+                        title_open_800C4C38(work, -0x18, -0x3, 0x30, 8, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    }
+                    break;
+
+                case 8:
+                    if (work->f24C8 < 0x11)
+                    {
+                        r = 0x64 - (work->f24C8 * 100) / 16;
+                        g = 0xA0 - work->f24C8 * 10;
+                        b = 0x87 - (work->f24C8 * 135) / 16;
+
+                        for (i = 0; i < 18; i++)
+                        {
+                            p4FC[i].r0 = r;
+                            p4FC[i].g0 = g;
+                            p4FC[i].b0 = b;
+                        }
+
+                        bright = 0x80 - work->f24C8 * 8;
+                        p4FC[0].r0 = bright;
+                        p4FC[0].g0 = bright;
+                        p4FC[0].b0 = bright;
+                        p4FC[1].r0 = bright;
+                        p4FC[1].g0 = bright;
+                        p4FC[1].b0 = bright;
+
+                        r = 0x46 - (work->f24C8 * 70) / 16;
+                        g = 0x64 - (work->f24C8 * 100) / 16;
+                        b = 0x5A - work->f24C8 * 90 / 16;
+                        p4FC[2].r0 = r;
+                        p4FC[2].g0 = g;
+                        p4FC[2].b0 = b;
+                        p4FC[3].r0 = r;
+                        p4FC[3].g0 = g;
+                        p4FC[3].b0 = b;
+
+                        if (work->f24CC == 0)
+                        {
+                            p4FC[10].r0 = r;
+                            p4FC[10].g0 = g;
+                            p4FC[10].b0 = b;
+                        }
+                        else
+                        {
+                            p4FC[9].r0 = r;
+                            p4FC[9].g0 = g;
+                            p4FC[9].b0 = b;
+                        }
+
+                        work->f24C8++;
+                    }
+                    else
+                    {
+                        work->fA74 = 7;
+                        work->fA78 = 4;
+                        for (i = 17; i >= 0; i--)
+                        {
+                            work->fF8[i] = 0;
+                        }
+                        for (i = 0; i < 22; i++)
+                        {
+                            work->f30[i] = work->f88[i];
+                        }
+                        for (i = 8; i >= 0; i--)
+                        {
+                            work->f140[i] = 0;
+                        }
+                        work->fA98 = 2;
+                        work->f184 = 0;
+                        work->fE0[0] = 0x100;
+                        work->fE0[5] = 0;
+                        work->fE0[1] = 0;
+                        work->fE0[2] = 0;
+                        work->fE0[3] = 0x100;
+                        work->fE0[4] = 0x100;
+                        GM_SetSound(0x1000001, 0);
+                    }
+                    break;
+                }
+
+                if (press & 0x40)
+                {
+                    if (work->fB3C != 0 && work->fB3C != 8)
+                    {
+                        work->fB3C = 8;
+                        work->f24C8 = 0;
+                        GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                        title_open_800C5D10(work);
+                    }
+                }
+                else if (press & 0x20)
+                {
+                    if (work->fB3C == 7)
+                    {
+                        work->fB3C = 8;
+                        work->f24C8 = 0;
+                        GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                        title_open_800C5D10(work);
+                    }
+                    else if (work->fB3C == 2)
+                    {
+                        GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                        if (sd_sng_play() == 0)
+                        {
+                            GCL_ExecProc(work->fAE4, &args);
+                            GV_DestroyActor(&work->actor);
+                        }
+                    }
+                    else if (work->fB3C == 1)
+                    {
+                        GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                        if (sd_sng_play() == 0)
+                        {
+                            GCL_ExecProc(work->fAF0, &args);
+                            GV_DestroyActor(&work->actor);
+                        }
+                    }
+                }
+                break;
+
+            case 2: /* page 2 */
+                switch (work->fB3C)
+                {
+                case 0:
+                {
+                    int fade = work->f24C8;
+
+                    if (fade < 9)
+                    {
+                        x = 0xBE - fade * 30;
+                        work->fF8[2] = 0x100;
+                        work->fF8[3] = 0x100;
+                        p4FC[2].r0 = 0x46;
+                        p4FC[2].g0 = 0x64;
+                        p4FC[2].b0 = 0x5A;
+                        p4FC[2].x0 = x;
+                        p4FC[2].y0 = -0xD;
+                        p4FC[2].x1 = x + 0x64;
+                        p4FC[2].y1 = -0xD;
+                        p4FC[2].x2 = x;
+                        p4FC[2].y2 = 0;
+                        p4FC[2].x3 = x + 0x64;
+                        p4FC[2].y3 = 0;
+                        x = fade * 30 - 0x122;
+                        p4FC[3].r0 = 0x46;
+                        p4FC[3].g0 = 0x64;
+                        p4FC[3].b0 = 0x5A;
+                        p4FC[3].x0 = x;
+                        p4FC[3].y0 = -0xD;
+                        p4FC[3].x1 = fade * 30 - 0xBE;
+                        p4FC[3].y1 = -0xD;
+                        p4FC[3].x2 = x;
+                        p4FC[3].y2 = 0;
+                        p4FC[3].x3 = fade * 30 - 0xBE;
+                        p4FC[3].y3 = 0;
+                        if (fade == 1)
+                        {
+                            GM_SeSet2(0, 0x3F, SE_MENUOPN1);
+                        }
+                    }
+                    else if (fade < 0xD)
+                    {
+                    }
+                    else if (fade < 0x11)
+                    {
+                        bright = (fade - 0xC) * 255 / 4;
+                        title_open_800C4C38(work, -0x32, -0xD, 0x64, 0xD, bright, 0);
+                    }
+                    else if (fade < 0x19)
+                    {
+                        bright = 0xFF;
+                        title_open_800C4C38(work, -0x32, -0xD, 0x64, 0xD, bright, 0);
+                    }
+                    else if (fade < 0x1D)
+                    {
+                        bright = 0xFF - (fade - 0x18) * 255 / 4;
+                        title_open_800C4C38(work, -0x32, -0xD, 0x64, 0xD, bright, 0);
+                    }
+                    else if (fade < 0x21)
+                    {
+                        y = -0xD - (fade - 0x1C) * 20;
+                        p4FC[2].x0 = -0x32;
+                        p4FC[2].y0 = y;
+                        p4FC[2].x1 = 0x32;
+                        p4FC[2].y1 = y;
+                        p4FC[2].x2 = -0x32;
+                        p4FC[2].y2 = y + 0xD;
+                        p4FC[2].x3 = 0x32;
+                        p4FC[2].y3 = y + 0xD;
+                        p4FC[3].x0 = -0x32;
+                        p4FC[3].y0 = y;
+                        p4FC[3].x1 = 0x32;
+                        p4FC[3].y1 = y;
+                        p4FC[3].x2 = -0x32;
+                        p4FC[3].y2 = y + 0xD;
+                        p4FC[3].x3 = 0x32;
+                        p4FC[3].y3 = y + 0xD;
+                    }
+                    else if (fade < 0x25)
+                    {
+                        work->fF8[0] = 0x300;
+                        work->fF8[1] = 0x300;
+                        p4FC[0].x0 = -0xA0;
+                        p4FC[0].y0 = -0x70;
+                        p4FC[0].x1 = 0;
+                        p4FC[0].y1 = -0x70;
+                        p4FC[0].x2 = -0xA0;
+                        p4FC[0].y2 = 0x70;
+                        p4FC[0].x3 = 0;
+                        p4FC[0].y3 = 0x70;
+                        p4FC[1].x0 = 0;
+                        p4FC[1].y0 = -0x70;
+                        p4FC[1].x1 = 0xA0;
+                        p4FC[1].y1 = -0x70;
+                        p4FC[1].x2 = 0;
+                        p4FC[1].y2 = 0x70;
+                        p4FC[1].x3 = 0xA0;
+                        p4FC[1].y3 = 0x70;
+                        shade = (fade - 0x20) * 128 / 10;
+                        p4FC[0].r0 = shade;
+                        p4FC[0].g0 = shade;
+                        p4FC[0].b0 = shade;
+                        p4FC[1].r0 = shade;
+                        p4FC[1].g0 = shade;
+                        p4FC[1].b0 = shade;
+                    }
+                    else if (fade < 0x2B)
+                    {
+                        work->fF8[4] = 0x100;
+                        work->fF8[5] = 0x100;
+                        work->fF8[7] = 0x100;
+
+                        x = (fade - 0x24) * 80 / 6;
+                        p4FC[4].x0 = -x;
+                        p4FC[4].y0 = -0x26;
+                        p4FC[4].x1 = x;
+                        p4FC[4].y1 = -0x26;
+                        p4FC[4].x2 = -x;
+                        p4FC[4].y2 = -0x1E;
+                        p4FC[4].x3 = x;
+                        p4FC[4].y3 = -0x1E;
+                        p4FC[4].r0 = 0x64;
+                        p4FC[4].g0 = 0xA0;
+                        p4FC[4].b0 = 0x87;
+
+                        x = (fade - 0x24) * 28 / 6;
+                        p4FC[5].x0 = -x;
+                        p4FC[5].y0 = 0x2E;
+                        p4FC[5].x1 = x;
+                        p4FC[5].y1 = 0x2E;
+                        p4FC[5].x2 = -x;
+                        p4FC[5].y2 = 0x3A;
+                        p4FC[5].x3 = x;
+                        p4FC[5].y3 = 0x3A;
+                        p4FC[5].r0 = 0x64;
+                        p4FC[5].g0 = 0xA0;
+                        p4FC[5].b0 = 0x87;
+
+                        x = (fade - 0x24) * 52 / 6;
+                        p4FC[7].x0 = -x;
+                        p4FC[7].y0 = -0x3;
+                        p4FC[7].x1 = x;
+                        p4FC[7].y1 = -0x3;
+                        p4FC[7].x2 = -x;
+                        p4FC[7].y2 = 5;
+                        p4FC[7].x3 = x;
+                        p4FC[7].y3 = 5;
+                        p4FC[7].r0 = 0x64;
+                        p4FC[7].g0 = 0xA0;
+                        p4FC[7].b0 = 0x87;
+
+                        shade = (fade - 0x20) * 128 / 10;
+                        p4FC[0].r0 = shade;
+                        p4FC[0].g0 = shade;
+                        p4FC[0].b0 = shade;
+                        p4FC[1].r0 = shade;
+                        p4FC[1].g0 = shade;
+                        p4FC[1].b0 = shade;
+                    }
+                    else if (fade == 0x2B)
+                    {
+                        title_open_800C5360(work, GV_StrCode((char *)title_aSppre_800D8880), &p4FC[4]);
+                        title_open_800C5360(work, GV_StrCode((char *)title_aSpexit_800D8888), &p4FC[5]);
+                        title_open_800C5360(work, GV_StrCode((char *)title_aSpdemo_800D889C), &p4FC[7]);
+                    }
+                    else if (fade == 0x2C)
+                    {
+                    }
+                    else if (fade < 0x31)
+                    {
+                        title_open_800C4C38(work, -0x50, -0x26, 0xA0, 8, 0xFF, 1);
+                        if (fade == 0x30)
+                        {
+                            work->fB3C = 1;
+                        }
+                    }
+                    work->f24C8++;
+                    break;
+                }
+
+                case 1:
+                    if (press & 0x4000)
+                    {
+                        work->fB3C = 3;
+                        title_open_800C4C38(work, -0x34, -0x3, 0x68, 8, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    }
+                    break;
+
+                case 3:
+                    if (press & 0x4000)
+                    {
+                        work->fB3C = 7;
+                        title_open_800C4C38(work, -0x1C, 0x2E, 0x38, 0xC, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    }
+                    else if (press & 0x1000)
+                    {
+                        work->fB3C = 1;
+                        title_open_800C4C38(work, -0x50, -0x26, 0xA0, 8, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    }
+                    break;
+
+                case 5:
+                    if (press & 0x4000)
+                    {
+                        work->fB3C = 7;
+                        title_open_800C4C38(work, -0x1C, 0x38, 0x38, 0xC, 0xFF, 1);
+                        title_open_800C4C38(work, -0x1C, 0x2E, 0x38, 0xC, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    }
+                    else if (press & 0x1000)
+                    {
+                        work->fB3C = 3;
+                        title_open_800C4C38(work, -0x34, 0x2, 0x68, 8, 0xFF, 1);
+                        title_open_800C4C38(work, -0x34, -0x3, 0x68, 8, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    }
+                    else if (press & 0x2000)
+                    {
+                        if (work->f24CC == 0)
+                        {
+                            GM_SeSet2(0, 0x3F, 0x7F);
+                            work->f24CC = 1;
+                            title_open_800C5360(work, GV_StrCode((char *)title_aSpon_800D88A4), &p4FC[9]);
+                            p4FC[9].r0 = 0x46;
+                            p4FC[9].g0 = 0x64;
+                            p4FC[9].b0 = 0x5A;
+                            title_open_800C5360(work, GV_StrCode((char *)title_aSpoffw_800D88AC), &p4FC[10]);
+                            p4FC[10].r0 = 0x64;
+                            p4FC[10].g0 = 0xA0;
+                            p4FC[10].b0 = 0x87;
+                            p4FC[11].x0 = 0x2A;
+                            p4FC[11].y0 = 5;
+                            p4FC[11].x1 = 0x38;
+                            p4FC[11].y1 = 5;
+                            p4FC[11].x2 = 0x2A;
+                            p4FC[11].y2 = 7;
+                            p4FC[11].x3 = 0x38;
+                            p4FC[11].y3 = 7;
+                        }
+                    }
+                    else if (press & 0x8000)
+                    {
+                        if (work->f24CC == 1)
+                        {
+                            GM_SeSet2(0, 0x3F, 0x7F);
+                            work->f24CC = 0;
+                            title_open_800C5360(work, GV_StrCode((char *)title_aSponw_800D88B8), &p4FC[9]);
+                            p4FC[9].r0 = 0x64;
+                            p4FC[9].g0 = 0xA0;
+                            p4FC[9].b0 = 0x87;
+                            title_open_800C5360(work, GV_StrCode((char *)title_aSpoff_800D88C0), &p4FC[10]);
+                            p4FC[10].r0 = 0x46;
+                            p4FC[10].g0 = 0x64;
+                            p4FC[10].b0 = 0x5A;
+                            p4FC[11].x0 = -0x45;
+                            p4FC[11].y0 = 5;
+                            p4FC[11].x1 = -0x2A;
+                            p4FC[11].y1 = 5;
+                            p4FC[11].x2 = -0x45;
+                            p4FC[11].y2 = 7;
+                            p4FC[11].x3 = -0x2A;
+                            p4FC[11].y3 = 7;
+                        }
+                    }
+                    break;
+                case 7:
+                    if (press & 0x1000)
+                    {
+                        work->fB3C = 3;
+                        title_open_800C4C38(work, -0x34, -0x3, 0x68, 8, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    }
+                    break;
+                case 8:
+                    if (work->f24C8 < 0x11)
+                    {
+                        r = 0x64 - (work->f24C8 * 100) / 16;
+                        g = 0xA0 - work->f24C8 * 10;
+                        b = 0x87 - (work->f24C8 * 135) / 16;
+
+                        for (i = 0; i < 18; i++)
+                        {
+                            p4FC[i].r0 = r;
+                            p4FC[i].g0 = g;
+                            p4FC[i].b0 = b;
+                        }
+
+                        bright = 0x80 - work->f24C8 * 8;
+                        p4FC[0].r0 = bright;
+                        p4FC[0].g0 = bright;
+                        p4FC[0].b0 = bright;
+                        p4FC[1].r0 = bright;
+                        p4FC[1].g0 = bright;
+                        p4FC[1].b0 = bright;
+
+                        r = 0x46 - (work->f24C8 * 70) / 16;
+                        g = 0x64 - (work->f24C8 * 100) / 16;
+                        b = 0x5A - work->f24C8 * 90 / 16;
+                        p4FC[2].r0 = r;
+                        p4FC[2].g0 = g;
+                        p4FC[2].b0 = b;
+                        p4FC[3].r0 = r;
+                        p4FC[3].g0 = g;
+                        p4FC[3].b0 = b;
+
+                        if (work->f24CC == 0)
+                        {
+                            p4FC[10].r0 = r;
+                            p4FC[10].g0 = g;
+                            p4FC[10].b0 = b;
+                        }
+                        else
+                        {
+                            p4FC[9].r0 = r;
+                            p4FC[9].g0 = g;
+                            p4FC[9].b0 = b;
+                        }
+
+                        work->f24C8++;
+                    }
+                    else
+                    {
+                        work->fA74 = 7;
+                        work->fA78 = 4;
+                        for (i = 17; i >= 0; i--)
+                        {
+                            work->fF8[i] = 0;
+                        }
+                        for (i = 0; i < 22; i++)
+                        {
+                            work->f30[i] = work->f88[i];
+                        }
+                        for (i = 8; i >= 0; i--)
+                        {
+                            work->f140[i] = 0;
+                        }
+                        work->fA98 = 2;
+                        work->f184 = 0;
+                        work->fE0[0] = 0x100;
+                        work->fE0[5] = 0;
+                        work->fE0[1] = 0;
+                        work->fE0[2] = 0;
+                        work->fE0[3] = 0x100;
+                        work->fE0[4] = 0x100;
+                        GM_SetSound(0x1000001, 0);
+                    }
+                    break;
+                }
+
+                if (press & 0x40)
+                {
+                    if (work->fB3C == 4)
+                    {
+                        work->fF8[2] = 0x100;
+                        work->fF8[3] = 0x100;
+                        work->fF8[4] = 0x100;
+                        work->fF8[5] = 0x100;
+                        work->fF8[7] = 0x100;
+                        work->fF8[8] = 0x100;
+                        work->fF8[9] = 0x100;
+                        work->fF8[10] = 0x100;
+                        work->fF8[11] = 0x100;
+                        work->fB3C = 3;
+                        work->fF8[12] = 0;
+                        work->fF8[13] = 0;
+                        work->fF8[14] = 0;
+                        work->fF8[15] = 0;
+                        work->fF8[16] = 0;
+                        title_open_800C4C38(work, -0x34, -0x19, 0x68, 8, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                    }
+                    else if (work->fB3C != 0 && work->fB3C != 8)
+                    {
+                        work->fB3C = 8;
+                        work->f24C8 = 0;
+                        GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                        title_open_800C5D10(work);
+                    }
+                }
+                else if (press & 0x20)
+                {
+                    if (work->fB3C == 7)
+                    {
+                        work->fB3C = 8;
+                        work->f24C8 = 0;
+                        GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                        title_open_800C5D10(work);
+                    }
+                    else if (work->fB3C == 2)
+                    {
+                        GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                        if (sd_sng_play() == 0)
+                        {
+                            GCL_ExecProc(work->fAE4, &args);
+                            GV_DestroyActor(&work->actor);
+                        }
+                    }
+                    else if (work->fB3C == 1)
+                    {
+                        GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                        if (sd_sng_play() == 0)
+                        {
+                            GCL_ExecProc(work->fAF0, &args);
+                            GV_DestroyActor(&work->actor);
+                        }
+                    }
+                    else if (work->fB3C == 3)
+                    {
+                        GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                        if (sd_sng_play() == 0)
+                        {
+                            argv[0] = work->fB48;
+                            GM_OptionFlag &= 0xF7FF;
+                            GCL_ExecProc(work->fAF4, &args);
+                            GV_DestroyActor(&work->actor);
+                        }
+                    }
+                    else if (work->fB3C == 4)
+                    {
+                        if (work->fB44 == 4)
+                        {
+                            work->fF8[2] = 0x100;
+                            work->fF8[3] = 0x100;
+                            work->fF8[4] = 0x100;
+                            work->fF8[5] = 0x100;
+                            work->fF8[7] = 0x100;
+                            work->fF8[8] = 0x100;
+                            work->fF8[9] = 0x100;
+                            work->fF8[10] = 0x100;
+                            work->fF8[11] = 0x100;
+                            work->fF8[12] = 0;
+                            work->fF8[13] = 0;
+                            work->fF8[14] = 0;
+                            work->fF8[15] = 0;
+                            work->fF8[16] = 0;
+                            work->fB3C = 3;
+                            title_open_800C4C38(work, -0x34, -0x19, 0x68, 8, 0xFF, 1);
+                            GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                        }
+                        else
+                        {
+                            GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                        }
+                    }
+                }
+                break;
+            case 3: /* page 3 */
+                switch (work->fB3C)
+                {
+                case 0:
+                {
+                    int fade = work->f24C8;
+
+                    if (fade < 9)
+                    {
+                        x = 0xBE - fade * 30;
+                        work->fF8[2] = 0x100;
+                        work->fF8[3] = 0x100;
+                        p4FC[2].x0 = x;
+                        p4FC[2].y0 = -0xD;
+                        p4FC[2].x1 = x + 0x64;
+                        p4FC[2].y1 = -0xD;
+                        p4FC[2].x2 = x;
+                        p4FC[2].y2 = 0;
+                        p4FC[2].x3 = x + 0x64;
+                        p4FC[2].y3 = 0;
+                        p4FC[2].r0 = 0x46;
+                        p4FC[2].g0 = 0x64;
+                        p4FC[2].b0 = 0x5A;
+                        x = fade * 30 - 0x122;
+                        p4FC[3].x0 = x;
+                        p4FC[3].y0 = -0xD;
+                        p4FC[3].x1 = fade * 30 - 0xBE;
+                        p4FC[3].y1 = -0xD;
+                        p4FC[3].x2 = x;
+                        p4FC[3].y2 = 0;
+                        p4FC[3].x3 = fade * 30 - 0xBE;
+                        p4FC[3].y3 = 0;
+                        p4FC[3].r0 = 0x46;
+                        p4FC[3].g0 = 0x64;
+                        p4FC[3].b0 = 0x5A;
+                        if (fade == 1)
+                        {
+                            GM_SeSet2(0, 0x3F, SE_MENUOPN1);
+                        }
+                    }
+                    else if (fade < 0xD)
+                    {
+                    }
+                    else if (fade < 0x11)
+                    {
+                        bright = (fade - 0xC) * 255 / 4;
+                        title_open_800C4C38(work, -0x32, -0xD, 0x64, 0xD, bright, 0);
+                    }
+                    else if (fade < 0x19)
+                    {
+                        bright = 0xFF;
+                        title_open_800C4C38(work, -0x32, -0xD, 0x64, 0xD, bright, 0);
+                    }
+                    else if (fade < 0x1D)
+                    {
+                        bright = 0xFF - (fade - 0x18) * 255 / 4;
+                        title_open_800C4C38(work, -0x32, -0xD, 0x64, 0xD, bright, 0);
+                    }
+                    else if (fade < 0x21)
+                    {
+                        y = -0xD - (fade - 0x1C) * 20;
+                        p4FC[2].x0 = -0x32;
+                        p4FC[2].y0 = y;
+                        p4FC[2].x1 = 0x32;
+                        p4FC[2].y1 = y;
+                        p4FC[2].x2 = -0x32;
+                        p4FC[2].y2 = y + 0xD;
+                        p4FC[2].x3 = 0x32;
+                        p4FC[2].y3 = y + 0xD;
+                        p4FC[3].x0 = -0x32;
+                        p4FC[3].y0 = y;
+                        p4FC[3].x1 = 0x32;
+                        p4FC[3].y1 = y;
+                        p4FC[3].x2 = -0x32;
+                        p4FC[3].y2 = y + 0xD;
+                        p4FC[3].x3 = 0x32;
+                        p4FC[3].y3 = y + 0xD;
+                    }
+                    else if (fade < 0x25)
+                    {
+                        work->fF8[0] = 0x300;
+                        work->fF8[1] = 0x300;
+                        p4FC[0].x0 = -0xA0;
+                        p4FC[0].y0 = -0x70;
+                        p4FC[0].x1 = 0;
+                        p4FC[0].y1 = -0x70;
+                        p4FC[0].x2 = -0xA0;
+                        p4FC[0].y2 = 0x70;
+                        p4FC[0].x3 = 0;
+                        p4FC[0].y3 = 0x70;
+                        p4FC[1].x0 = 0;
+                        p4FC[1].y0 = -0x70;
+                        p4FC[1].x1 = 0xA0;
+                        p4FC[1].y1 = -0x70;
+                        p4FC[1].x2 = 0;
+                        p4FC[1].y2 = 0x70;
+                        p4FC[1].x3 = 0xA0;
+                        p4FC[1].y3 = 0x70;
+                        shade = (fade - 0x20) * 128 / 10;
+                        p4FC[0].r0 = shade;
+                        p4FC[0].g0 = shade;
+                        p4FC[0].b0 = shade;
+                        p4FC[1].r0 = shade;
+                        p4FC[1].g0 = shade;
+                        p4FC[1].b0 = shade;
+                    }
+                    else if (fade < 0x2B)
+                    {
+                        work->fF8[4] = 0x100;
+                        work->fF8[5] = 0x100;
+                        work->fF8[6] = 0x100;
+                        work->fF8[7] = 0x100;
+
+                        x = (fade - 0x24) * 80 / 6;
+                        p4FC[4].x0 = -x;
+                        p4FC[4].y0 = -0x35;
+                        p4FC[4].x1 = x;
+                        p4FC[4].y1 = -0x35;
+                        p4FC[4].x2 = -x;
+                        p4FC[4].y2 = -0x2D;
+                        p4FC[4].x3 = x;
+                        p4FC[4].y3 = -0x2D;
+                        p4FC[4].r0 = 0x64;
+                        p4FC[4].g0 = 0xA0;
+                        p4FC[4].b0 = 0x87;
+
+                        x = (fade - 0x24) * 28 / 6;
+                        p4FC[5].x1 = x;
+                        p4FC[5].x3 = x;
+                        p4FC[5].x0 = -x;
+                        p4FC[5].x2 = -x;
+                        p4FC[5].y0 = 0x2E;
+                        p4FC[5].y1 = 0x2E;
+                        p4FC[5].y2 = 0x3A;
+                        p4FC[5].y3 = 0x3A;
+                        p4FC[5].r0 = 0x64;
+                        p4FC[5].g0 = 0xA0;
+                        p4FC[5].b0 = 0x87;
+
+                        x = (fade - 0x24) * 4;
+                        p4FC[6].x0 = -x;
+                        p4FC[6].y0 = -0x15;
+                        p4FC[6].x1 = x;
+                        p4FC[6].y1 = -0x15;
+                        p4FC[6].x2 = -x;
+                        p4FC[6].y2 = -0xD;
+                        p4FC[6].x3 = x;
+                        p4FC[6].y3 = -0xD;
+                        p4FC[6].r0 = 0x64;
+                        p4FC[6].g0 = 0xA0;
+                        p4FC[6].b0 = 0x87;
+
+                        x = (fade - 0x24) * 52 / 6;
+                        p4FC[7].x0 = -x;
+                        p4FC[7].y0 = 0xB;
+                        p4FC[7].x1 = x;
+                        p4FC[7].y1 = 0xB;
+                        p4FC[7].x2 = -x;
+                        p4FC[7].y2 = 0x13;
+                        p4FC[7].x3 = x;
+                        p4FC[7].y3 = 0x13;
+                        p4FC[7].r0 = 0x64;
+                        p4FC[7].g0 = 0xA0;
+                        p4FC[7].b0 = 0x87;
+
+                        shade = (fade - 0x20) * 128 / 10;
+                        p4FC[0].r0 = shade;
+                        p4FC[0].g0 = shade;
+                        p4FC[0].b0 = shade;
+                        p4FC[1].r0 = shade;
+                        p4FC[1].g0 = shade;
+                        p4FC[1].b0 = shade;
+                    }
+                    else if (fade == 0x2B)
+                    {
+                        title_open_800C5360(work, GV_StrCode((char *)title_aSppre_800D8880), &p4FC[4]);
+                        title_open_800C5360(work, GV_StrCode((char *)title_aSpexit_800D8888), &p4FC[5]);
+                        title_open_800C5360(work, GV_StrCode((char *)title_aSpalbum_800D8890), &p4FC[6]);
+                        title_open_800C5360(work, GV_StrCode((char *)title_aSpdemo_800D889C), &p4FC[7]);
+                    }
+                    else if (fade == 0x2C)
+                    {
+                    }
+                    else if (fade < 0x31)
+                    {
+                        title_open_800C4C38(work, -0x50, -0x35, 0xA0, 8, 0xFF, 1);
+                        if (fade == 0x30)
+                        {
+                            work->fB3C = 1;
+                        }
+                    }
+                    work->f24C8++;
+                    break;
+                }
+
+                case 1:
+                    if (press & 0x4000)
+                    {
+                        work->fB3C = 2;
+                        title_open_800C4C38(work, -0x18, -0x15, 0x30, 8, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    }
+                    break;
+
+                case 2:
+                    if (press & 0x4000)
+                    {
+                        work->fB3C = 3;
+                        title_open_800C4C38(work, -0x34, 0xB, 0x68, 8, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    }
+                    else if (press & 0x1000)
+                    {
+                        work->fB3C = 1;
+                        title_open_800C4C38(work, -0x50, -0x35, 0xA0, 8, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    }
+                    break;
+
+                case 3:
+                    if (press & 0x4000)
+                    {
+                        work->fB3C = 7;
+                        title_open_800C4C38(work, -0x1C, 0x2E, 0x38, 0xC, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    }
+                    else if (press & 0x1000)
+                    {
+                        work->fB3C = 2;
+                        title_open_800C4C38(work, -0x18, -0x15, 0x30, 8, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    }
+                    break;
+
+                case 5:
+                    if (press & 0x4000)
+                    {
+                        work->fB3C = 7;
+                        title_open_800C4C38(work, -0x1C, 0x2E, 0x38, 0xC, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    }
+                    else if (press & 0x1000)
+                    {
+                        work->fB3C = 3;
+                        title_open_800C4C38(work, -0x34, 0xB, 0x68, 8, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    }
+                    else if (press & 0x2000)
+                    {
+                        if (work->f24CC == 0)
+                        {
+                            GM_SeSet2(0, 0x3F, 0x7F);
+                            work->f24CC = 1;
+                            title_open_800C5360(work, GV_StrCode((char *)title_aSpon_800D88A4), &p4FC[9]);
+                            p4FC[9].r0 = 0x46;
+                            p4FC[9].g0 = 0x64;
+                            p4FC[9].b0 = 0x5A;
+                            title_open_800C5360(work, GV_StrCode((char *)title_aSpoffw_800D88AC), &p4FC[10]);
+                            p4FC[10].r0 = 0x64;
+                            p4FC[10].g0 = 0xA0;
+                            p4FC[10].b0 = 0x87;
+                            p4FC[11].x0 = 0x2A;
+                            p4FC[11].y0 = 0x10;
+                            p4FC[11].x1 = 0x38;
+                            p4FC[11].y1 = 0x10;
+                            p4FC[11].x2 = 0x2A;
+                            p4FC[11].y2 = 0x12;
+                            p4FC[11].x3 = 0x38;
+                            p4FC[11].y3 = 0x12;
+                        }
+                    }
+                    else if (press & 0x8000)
+                    {
+                        if (work->f24CC == 1)
+                        {
+                            GM_SeSet2(0, 0x3F, 0x7F);
+                            work->f24CC = 0;
+                            title_open_800C5360(work, GV_StrCode((char *)title_aSponw_800D88B8), &p4FC[9]);
+                            p4FC[9].r0 = 0x64;
+                            p4FC[9].g0 = 0xA0;
+                            p4FC[9].b0 = 0x87;
+                            title_open_800C5360(work, GV_StrCode((char *)title_aSpoff_800D88C0), &p4FC[10]);
+                            p4FC[10].r0 = 0x46;
+                            p4FC[10].g0 = 0x64;
+                            p4FC[10].b0 = 0x5A;
+                            p4FC[11].x0 = -0x45;
+                            p4FC[11].y0 = 0x10;
+                            p4FC[11].x1 = -0x2A;
+                            p4FC[11].y1 = 0x10;
+                            p4FC[11].x2 = -0x45;
+                            p4FC[11].y2 = 0x12;
+                            p4FC[11].x3 = -0x2A;
+                            p4FC[11].y3 = 0x12;
+                        }
+                    }
+                    break;
+
+                case 7:
+                    if (press & 0x1000)
+                    {
+                        work->fB3C = 3;
+                        title_open_800C4C38(work, -0x34, 0xB, 0x68, 8, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    }
+                    break;
+
+                case 8:
+                    if (work->f24C8 < 0x11)
+                    {
+                        r = 0x64 - (work->f24C8 * 100) / 16;
+                        g = 0xA0 - work->f24C8 * 10;
+                        b = 0x87 - (work->f24C8 * 135) / 16;
+
+                        for (i = 0; i < 18; i++)
+                        {
+                            p4FC[i].r0 = r;
+                            p4FC[i].g0 = g;
+                            p4FC[i].b0 = b;
+                        }
+
+                        bright = 0x80 - work->f24C8 * 8;
+                        p4FC[0].r0 = bright;
+                        p4FC[0].g0 = bright;
+                        p4FC[0].b0 = bright;
+                        p4FC[1].r0 = bright;
+                        p4FC[1].g0 = bright;
+                        p4FC[1].b0 = bright;
+
+                        r = 0x46 - (work->f24C8 * 70) / 16;
+                        g = 0x64 - (work->f24C8 * 100) / 16;
+                        b = 0x5A - work->f24C8 * 90 / 16;
+                        p4FC[2].r0 = r;
+                        p4FC[2].g0 = g;
+                        p4FC[2].b0 = b;
+                        p4FC[3].r0 = r;
+                        p4FC[3].g0 = g;
+                        p4FC[3].b0 = b;
+
+                        if (work->f24CC == 0)
+                        {
+                            p4FC[10].r0 = r;
+                            p4FC[10].g0 = g;
+                            p4FC[10].b0 = b;
+                        }
+                        else
+                        {
+                            p4FC[9].r0 = r;
+                            p4FC[9].g0 = g;
+                            p4FC[9].b0 = b;
+                        }
+
+                        work->f24C8++;
+                    }
+                    else
+                    {
+                        work->fA74 = 7;
+                        work->fA78 = 4;
+                        for (i = 17; i >= 0; i--)
+                        {
+                            work->fF8[i] = 0;
+                        }
+                        for (i = 0; i < 22; i++)
+                        {
+                            work->f30[i] = work->f88[i];
+                        }
+                        for (i = 8; i >= 0; i--)
+                        {
+                            work->f140[i] = 0;
+                        }
+                        work->fA98 = 2;
+                        work->f184 = 0;
+                        work->fE0[0] = 0x100;
+                        work->fE0[5] = 0;
+                        work->fE0[1] = 0;
+                        work->fE0[2] = 0;
+                        work->fE0[3] = 0x100;
+                        work->fE0[4] = 0x100;
+                        GM_SetSound(0x1000001, 0);
+                    }
+                    break;
+                }
+
+                if (press & 0x40)
+                {
+                    if (work->fB3C == 4)
+                    {
+                        work->fF8[2] = 0x100;
+                        work->fF8[3] = 0x100;
+                        work->fF8[4] = 0x100;
+                        work->fF8[5] = 0x100;
+                        work->fF8[6] = 0x100;
+                        work->fF8[7] = 0x100;
+                        work->fF8[8] = 0x100;
+                        work->fF8[9] = 0x100;
+                        work->fF8[10] = 0x100;
+                        work->fF8[11] = 0x100;
+                        work->fB3C = 3;
+                        work->fF8[12] = 0;
+                        work->fF8[13] = 0;
+                        work->fF8[14] = 0;
+                        work->fF8[15] = 0;
+                        work->fF8[16] = 0;
+                        title_open_800C4C38(work, -0x34, -0xD, 0x68, 8, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                    }
+                    else if (work->fB3C != 0 && work->fB3C != 8)
+                    {
+                        work->fB3C = 8;
+                        work->f24C8 = 0;
+                        GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                        title_open_800C5D10(work);
+                    }
+                }
+                else if (press & 0x20)
+                {
+                    if (work->fB3C == 7)
+                    {
+                        work->fB3C = 8;
+                        work->f24C8 = 0;
+                        GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                        title_open_800C5D10(work);
+                    }
+                    else if (work->fB3C == 2)
+                    {
+                        GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                        if (sd_sng_play() == 0)
+                        {
+                            GCL_ExecProc(work->fAE4, &args);
+                            GV_DestroyActor(&work->actor);
+                        }
+                    }
+                    else if (work->fB3C == 1)
+                    {
+                        GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                        if (sd_sng_play() == 0)
+                        {
+                            GCL_ExecProc(work->fAF0, &args);
+                            GV_DestroyActor(&work->actor);
+                        }
+                    }
+                    else if (work->fB3C == 3)
+                    {
+                        GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                        if (sd_sng_play() == 0)
+                        {
+                            argv[0] = work->fB48;
+                            GM_OptionFlag &= 0xF7FF;
+                            GCL_ExecProc(work->fAF4, &args);
+                            GV_DestroyActor(&work->actor);
+                        }
+                    }
+                    else if (work->fB3C == 4)
+                    {
+                        if (work->fB44 == 4)
+                        {
+                            work->fF8[2] = 0x100;
+                            work->fF8[3] = 0x100;
+                            work->fF8[4] = 0x100;
+                            work->fF8[5] = 0x100;
+                            work->fF8[6] = 0x100;
+                            work->fF8[7] = 0x100;
+                            work->fF8[8] = 0x100;
+                            work->fF8[9] = 0x100;
+                            work->fF8[10] = 0x100;
+                            work->fF8[11] = 0x100;
+                            work->fF8[12] = 0;
+                            work->fF8[13] = 0;
+                            work->fF8[14] = 0;
+                            work->fF8[15] = 0;
+                            work->fF8[16] = 0;
+                            work->fB3C = 3;
+                            title_open_800C4C38(work, -0x34, -0xD, 0x68, 8, 0xFF, 1);
+                            GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                        }
+                        else
+                        {
+                            GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                        }
+                    }
+                }
+                break;
+            case 4: /* page 4 */
+                switch (work->fB3C)
+                {
+                case 0:
+                {
+                    int fade = work->f24C8;
+
+                    if (fade < 9)
+                    {
+                        x = 0xBE - fade * 30;
+                        work->fF8[2] = 0x100;
+                        work->fF8[3] = 0x100;
+                        p4FC[2].x0 = x;
+                        p4FC[2].y0 = -0xD;
+                        p4FC[2].x1 = x + 0x64;
+                        p4FC[2].y1 = -0xD;
+                        p4FC[2].x2 = x;
+                        p4FC[2].y2 = 0;
+                        p4FC[2].x3 = x + 0x64;
+                        p4FC[2].y3 = 0;
+                        p4FC[2].r0 = 0x46;
+                        p4FC[2].g0 = 0x64;
+                        p4FC[2].b0 = 0x5A;
+                        x = fade * 30 - 0x122;
+                        p4FC[3].x0 = x;
+                        p4FC[3].y0 = -0xD;
+                        p4FC[3].x1 = fade * 30 - 0xBE;
+                        p4FC[3].y1 = -0xD;
+                        p4FC[3].x2 = x;
+                        p4FC[3].y2 = 0;
+                        p4FC[3].x3 = fade * 30 - 0xBE;
+                        p4FC[3].y3 = 0;
+                        p4FC[3].r0 = 0x46;
+                        p4FC[3].g0 = 0x64;
+                        p4FC[3].b0 = 0x5A;
+                        if (fade == 1)
+                        {
+                            GM_SeSet2(0, 0x3F, SE_MENUOPN1);
+                        }
+                    }
+                    else if (fade < 0xD)
+                    {
+                    }
+                    else if (fade < 0x11)
+                    {
+                        bright = (fade - 0xC) * 255 / 4;
+                        title_open_800C4C38(work, -0x32, -0xD, 0x64, 0xD, bright, 0);
+                    }
+                    else if (fade < 0x19)
+                    {
+                        bright = 0xFF;
+                        title_open_800C4C38(work, -0x32, -0xD, 0x64, 0xD, bright, 0);
+                    }
+                    else if (fade < 0x1D)
+                    {
+                        bright = 0xFF - (fade - 0x18) * 255 / 4;
+                        title_open_800C4C38(work, -0x32, -0xD, 0x64, 0xD, bright, 0);
+                    }
+                    else if (fade < 0x21)
+                    {
+                        y = -0xD - (fade - 0x1C) * 20;
+                        p4FC[2].x0 = -0x32;
+                        p4FC[2].y0 = y;
+                        p4FC[2].x1 = 0x32;
+                        p4FC[2].y1 = y;
+                        p4FC[2].x2 = -0x32;
+                        p4FC[2].y2 = y + 0xD;
+                        p4FC[2].x3 = 0x32;
+                        p4FC[2].y3 = y + 0xD;
+                        p4FC[3].x0 = -0x32;
+                        p4FC[3].y0 = y;
+                        p4FC[3].x1 = 0x32;
+                        p4FC[3].y1 = y;
+                        p4FC[3].x2 = -0x32;
+                        p4FC[3].y2 = y + 0xD;
+                        p4FC[3].x3 = 0x32;
+                        p4FC[3].y3 = y + 0xD;
+                    }
+                    else if (fade < 0x25)
+                    {
+                        work->fF8[0] = 0x300;
+                        work->fF8[1] = 0x300;
+                        p4FC[0].x0 = -0xA0;
+                        p4FC[0].y0 = -0x70;
+                        p4FC[0].x1 = 0;
+                        p4FC[0].y1 = -0x70;
+                        p4FC[0].x2 = -0xA0;
+                        p4FC[0].y2 = 0x70;
+                        p4FC[0].x3 = 0;
+                        p4FC[0].y3 = 0x70;
+                        p4FC[1].x0 = 0;
+                        p4FC[1].y0 = -0x70;
+                        p4FC[1].x1 = 0xA0;
+                        p4FC[1].y1 = -0x70;
+                        p4FC[1].x2 = 0;
+                        p4FC[1].y2 = 0x70;
+                        p4FC[1].x3 = 0xA0;
+                        p4FC[1].y3 = 0x70;
+                        shade = (fade - 0x20) * 128 / 10;
+                        p4FC[0].r0 = shade;
+                        p4FC[0].g0 = shade;
+                        p4FC[0].b0 = shade;
+                        p4FC[1].r0 = shade;
+                        p4FC[1].g0 = shade;
+                        p4FC[1].b0 = shade;
+                    }
+                    else if (fade < 0x2B)
+                    {
+                        work->fF8[4] = 0x100;
+                        work->fF8[5] = 0x100;
+                        work->fF8[17] = 0x100;
+                        x = (fade - 0x24) * 80 / 6;
+                        p4FC[4].y0 = -0x26;
+                        p4FC[4].y1 = -0x26;
+                        p4FC[4].y2 = -0x1E;
+                        p4FC[4].y3 = -0x1E;
+                        p4FC[4].r0 = 0x64;
+                        p4FC[4].g0 = 0xA0;
+                        p4FC[4].b0 = 0x87;
+                        p4FC[5].y0 = 0x2E;
+                        p4FC[5].y1 = 0x2E;
+                        p4FC[5].y2 = 0x3A;
+                        p4FC[5].y3 = 0x3A;
+                        p4FC[5].r0 = 0x64;
+                        p4FC[5].g0 = 0xA0;
+                        p4FC[5].b0 = 0x87;
+                        p4FC[17].y0 = -0x3;
+                        p4FC[17].y1 = -0x3;
+                        p4FC[17].y2 = 5;
+                        p4FC[17].y3 = 5;
+                        p4FC[4].x1 = x;
+                        p4FC[4].x3 = x;
+                        p4FC[4].x0 = -x;
+                        p4FC[4].x2 = -x;
+                        x = (fade - 0x24) * 28 / 6;
+                        p4FC[5].x1 = x;
+                        p4FC[5].x3 = x;
+                        p4FC[5].x0 = -x;
+                        p4FC[5].x2 = -x;
+                        x = (fade - 0x24) * 70 / 6;
+                        p4FC[17].x1 = x;
+                        p4FC[17].x3 = x;
+                        p4FC[17].x0 = -x;
+                        p4FC[17].x2 = -x;
+                        p4FC[17].r0 = 0x64;
+                        p4FC[17].g0 = 0xA0;
+                        p4FC[17].b0 = 0x87;
+                        shade = (fade - 0x20) * 128 / 10;
+                        p4FC[0].r0 = shade;
+                        p4FC[0].g0 = shade;
+                        p4FC[0].b0 = shade;
+                        p4FC[1].r0 = shade;
+                        p4FC[1].g0 = shade;
+                        p4FC[1].b0 = shade;
+                    }
+                    else if (fade == 0x2B)
+                    {
+                        title_open_800C5360(work, GV_StrCode((char *)title_aSppre_800D8880), &p4FC[4]);
+                        title_open_800C5360(work, GV_StrCode((char *)title_aSpexit_800D8888), &p4FC[5]);
+                        title_open_800C5360(work, GV_StrCode((char *)title_aDsppmode_800D88C8), &p4FC[17]);
+                    }
+                    else if (fade == 0x2C)
+                    {
+                    }
+                    else if (fade < 0x31)
+                    {
+                        title_open_800C4C38(work, -0x50, -0x26, 0xA0, 8, 0xFF, 1);
+                        if (fade == 0x30)
+                        {
+                            work->fB3C = 1;
+                        }
+                    }
+                    work->f24C8++;
+                    break;
+                }
+
+                case 1:
+                    if (press & 0x4000)
+                    {
+                        work->fB3C = 6;
+                        title_open_800C4C38(work, -0x46, -0x3, 0x8C, 8, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    }
+                    break;
+
+                case 6:
+                    if (press & 0x1000)
+                    {
+                        work->fB3C = 1;
+                        title_open_800C4C38(work, -0x50, -0x26, 0xA0, 8, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    }
+                    else if (press & 0x4000)
+                    {
+                        work->fB3C = 7;
+                        title_open_800C4C38(work, -0x1C, 0x2E, 0x38, 0xC, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    }
+                    break;
+
+                case 7:
+                    if (press & 0x1000)
+                    {
+                        work->fB3C = 6;
+                        title_open_800C4C38(work, -0x46, -0x3, 0x8C, 8, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    }
+                    break;
+                case 8:
+                    if (work->f24C8 < 0x11)
+                    {
+                        r = 0x64 - (work->f24C8 * 100) / 16;
+                        g = 0xA0 - work->f24C8 * 10;
+                        b = 0x87 - (work->f24C8 * 135) / 16;
+
+                        for (i = 0; i < 18; i++)
+                        {
+                            p4FC[i].r0 = r;
+                            p4FC[i].g0 = g;
+                            p4FC[i].b0 = b;
+                        }
+
+                        bright = 0x80 - work->f24C8 * 8;
+                        p4FC[0].r0 = bright;
+                        p4FC[0].g0 = bright;
+                        p4FC[0].b0 = bright;
+                        p4FC[1].r0 = bright;
+                        p4FC[1].g0 = bright;
+                        p4FC[1].b0 = bright;
+
+                        r = 0x46 - (work->f24C8 * 70) / 16;
+                        g = 0x64 - (work->f24C8 * 100) / 16;
+                        b = 0x5A - work->f24C8 * 90 / 16;
+                        p4FC[2].r0 = r;
+                        p4FC[2].g0 = g;
+                        p4FC[2].b0 = b;
+                        p4FC[3].r0 = r;
+                        p4FC[3].g0 = g;
+                        p4FC[3].b0 = b;
+
+                        if (work->f24CC == 0)
+                        {
+                            p4FC[10].r0 = r;
+                            p4FC[10].g0 = g;
+                            p4FC[10].b0 = b;
+                        }
+                        else
+                        {
+                            p4FC[9].r0 = r;
+                            p4FC[9].g0 = g;
+                            p4FC[9].b0 = b;
+                        }
+
+                        work->f24C8++;
+                    }
+                    else
+                    {
+                        work->fA74 = 7;
+                        work->fA78 = 4;
+                        for (i = 17; i >= 0; i--)
+                        {
+                            work->fF8[i] = 0;
+                        }
+                        for (i = 0; i < 22; i++)
+                        {
+                            work->f30[i] = work->f88[i];
+                        }
+                        for (i = 8; i >= 0; i--)
+                        {
+                            work->f140[i] = 0;
+                        }
+                        work->fA98 = 2;
+                        work->f184 = 0;
+                        work->fE0[0] = 0x100;
+                        work->fE0[1] = 0;
+                        work->fE0[2] = 0;
+                        work->fE0[3] = 0x100;
+                        work->fE0[4] = 0x100;
+                        work->fE0[5] = 0;
+                        GM_SetSound(0x1000001, 0);
+                    }
+                    break;
+                }
+
+                if (press & 0x40)
+                {
+                    if (work->fB3C != 0 && work->fB3C != 8)
+                    {
+                        work->fB3C = 8;
+                        work->f24C8 = 0;
+                        GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                        title_open_800C5D10(work);
+                    }
+                }
+                else if (press & 0x20)
+                {
+                    if (work->fB3C == 7)
+                    {
+                        work->fB3C = 8;
+                        work->f24C8 = 0;
+                        GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                        title_open_800C5D10(work);
+                    }
+                    else if (work->fB3C == 1)
+                    {
+                        GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                        if (sd_sng_play() == 0)
+                        {
+                            GCL_ExecProc(work->fAF0, &args);
+                            GV_DestroyActor(&work->actor);
+                        }
+                    }
+                    else if (work->fB3C == 6)
+                    {
+                        title_open_800C61E0(work, &args);
+                    }
+                }
+                break;
+            case 5: /* page 5 */
+                switch (work->fB3C)
+                {
+                case 0:
+                {
+                    int fade = work->f24C8;
+
+                    if (fade < 9)
+                    {
+                        x = 0xBE - fade * 30;
+                        work->fF8[2] = 0x100;
+                        work->fF8[3] = 0x100;
+                        p4FC[2].r0 = 0x46;
+                        p4FC[2].g0 = 0x64;
+                        p4FC[2].b0 = 0x5A;
+                        p4FC[2].x0 = x;
+                        p4FC[2].y0 = -0xD;
+                        p4FC[2].x1 = x + 0x64;
+                        p4FC[2].y1 = -0xD;
+                        p4FC[2].x2 = x;
+                        p4FC[2].y2 = 0;
+                        p4FC[2].x3 = x + 0x64;
+                        p4FC[2].y3 = 0;
+                        x = fade * 30 - 0x122;
+                        p4FC[3].r0 = 0x46;
+                        p4FC[3].g0 = 0x64;
+                        p4FC[3].b0 = 0x5A;
+                        p4FC[3].x0 = x;
+                        p4FC[3].y0 = -0xD;
+                        p4FC[3].x1 = fade * 30 - 0xBE;
+                        p4FC[3].y1 = -0xD;
+                        p4FC[3].x2 = x;
+                        p4FC[3].y2 = 0;
+                        p4FC[3].x3 = fade * 30 - 0xBE;
+                        p4FC[3].y3 = 0;
+                        if (fade == 1)
+                        {
+                            GM_SeSet2(0, 0x3F, SE_MENUOPN1);
+                        }
+                    }
+                    else if (fade < 0xD)
+                    {
+                    }
+                    else if (fade < 0x11)
+                    {
+                        bright = (fade - 0xC) * 255 / 4;
+                        title_open_800C4C38(work, -0x32, -0xD, 0x64, 0xD, bright, 0);
+                    }
+                    else if (fade < 0x19)
+                    {
+                        bright = 0xFF;
+                        title_open_800C4C38(work, -0x32, -0xD, 0x64, 0xD, bright, 0);
+                    }
+                    else if (fade < 0x1D)
+                    {
+                        bright = 0xFF - (fade - 0x18) * 255 / 4;
+                        title_open_800C4C38(work, -0x32, -0xD, 0x64, 0xD, bright, 0);
+                    }
+                    else if (fade < 0x21)
+                    {
+                        y = -0xD - (fade - 0x1C) * 20;
+                        p4FC[2].x0 = -0x32;
+                        p4FC[2].y0 = y;
+                        p4FC[2].x1 = 0x32;
+                        p4FC[2].y1 = y;
+                        p4FC[2].x2 = -0x32;
+                        p4FC[2].y2 = y + 0xD;
+                        p4FC[2].x3 = 0x32;
+                        p4FC[2].y3 = y + 0xD;
+                        p4FC[3].x0 = -0x32;
+                        p4FC[3].y0 = y;
+                        p4FC[3].x1 = 0x32;
+                        p4FC[3].y1 = y;
+                        p4FC[3].x2 = -0x32;
+                        p4FC[3].y2 = y + 0xD;
+                        p4FC[3].x3 = 0x32;
+                        p4FC[3].y3 = y + 0xD;
+                    }
+                    else if (fade < 0x25)
+                    {
+                        work->fF8[0] = 0x300;
+                        work->fF8[1] = 0x300;
+                        p4FC[0].x0 = -0xA0;
+                        p4FC[0].y0 = -0x70;
+                        p4FC[0].x1 = 0;
+                        p4FC[0].y1 = -0x70;
+                        p4FC[0].x2 = -0xA0;
+                        p4FC[0].y2 = 0x70;
+                        p4FC[0].x3 = 0;
+                        p4FC[0].y3 = 0x70;
+                        p4FC[1].x0 = 0;
+                        p4FC[1].y0 = -0x70;
+                        p4FC[1].x1 = 0xA0;
+                        p4FC[1].y1 = -0x70;
+                        p4FC[1].x2 = 0;
+                        p4FC[1].y2 = 0x70;
+                        p4FC[1].x3 = 0xA0;
+                        p4FC[1].y3 = 0x70;
+                        shade = (fade - 0x20) * 128 / 10;
+                        p4FC[0].r0 = shade;
+                        p4FC[0].g0 = shade;
+                        p4FC[0].b0 = shade;
+                        p4FC[1].r0 = shade;
+                        p4FC[1].g0 = shade;
+                        p4FC[1].b0 = shade;
+                    }
+                    else if (fade < 0x2B)
+                    {
+                        work->fF8[4] = 0x100;
+                        work->fF8[5] = 0x100;
+                        work->fF8[6] = 0x100;
+                        work->fF8[17] = 0x100;
+
+                        x = (fade - 0x24) * 80 / 6;
+                        p4FC[4].x0 = -x;
+                        p4FC[4].y0 = -0x35;
+                        p4FC[4].x1 = x;
+                        p4FC[4].y1 = -0x35;
+                        p4FC[4].x2 = -x;
+                        p4FC[4].y2 = -0x2D;
+                        p4FC[4].x3 = x;
+                        p4FC[4].y3 = -0x2D;
+                        p4FC[4].r0 = 0x64;
+                        p4FC[4].g0 = 0xA0;
+                        p4FC[4].b0 = 0x87;
+
+                        x = (fade - 0x24) * 28 / 6;
+                        p4FC[5].x0 = -x;
+                        p4FC[5].y0 = 0x2E;
+                        p4FC[5].x1 = x;
+                        p4FC[5].y1 = 0x2E;
+                        p4FC[5].x2 = -x;
+                        p4FC[5].y2 = 0x3A;
+                        p4FC[5].x3 = x;
+                        p4FC[5].y3 = 0x3A;
+                        p4FC[5].r0 = 0x64;
+                        p4FC[5].g0 = 0xA0;
+                        p4FC[5].b0 = 0x87;
+
+                        x = (fade - 0x24) * 4;
+                        p4FC[6].x0 = -x;
+                        p4FC[6].y0 = -0x15;
+                        p4FC[6].x1 = x;
+                        p4FC[6].y1 = -0x15;
+                        p4FC[6].x2 = -x;
+                        p4FC[6].y2 = -0xD;
+                        p4FC[6].x3 = x;
+                        p4FC[6].y3 = -0xD;
+                        p4FC[6].r0 = 0x64;
+                        p4FC[6].g0 = 0xA0;
+                        p4FC[6].b0 = 0x87;
+
+                        x = (fade - 0x24) * 70 / 6;
+                        p4FC[17].x0 = -x;
+                        p4FC[17].y0 = 0xB;
+                        p4FC[17].x1 = x;
+                        p4FC[17].y1 = 0xB;
+                        p4FC[17].x2 = -x;
+                        p4FC[17].y2 = 0x13;
+                        p4FC[17].x3 = x;
+                        p4FC[17].y3 = 0x13;
+                        p4FC[17].r0 = 0x64;
+                        p4FC[17].g0 = 0xA0;
+                        p4FC[17].b0 = 0x87;
+
+                        shade = (fade - 0x20) * 128 / 10;
+                        p4FC[0].r0 = shade;
+                        p4FC[0].g0 = shade;
+                        p4FC[0].b0 = shade;
+                        p4FC[1].r0 = shade;
+                        p4FC[1].g0 = shade;
+                        p4FC[1].b0 = shade;
+                    }
+                    else if (fade == 0x2B)
+                    {
+                        title_open_800C5360(work, GV_StrCode((char *)title_aSppre_800D8880), &p4FC[4]);
+                        title_open_800C5360(work, GV_StrCode((char *)title_aSpexit_800D8888), &p4FC[5]);
+                        title_open_800C5360(work, GV_StrCode((char *)title_aSpalbum_800D8890), &p4FC[6]);
+                        title_open_800C5360(work, GV_StrCode((char *)title_aDsppmode_800D88C8), &p4FC[17]);
+                    }
+                    else if (fade == 0x2C)
+                    {
+                    }
+                    else if (fade < 0x31)
+                    {
+                        title_open_800C4C38(work, -0x50, -0x35, 0xA0, 8, 0xFF, 1);
+                        if (fade == 0x30)
+                        {
+                            work->fB3C = 1;
+                        }
+                    }
+                    work->f24C8++;
+                    break;
+                }
+
+                case 1:
+                    if (press & 0x4000)
+                    {
+                        work->fB3C = 2;
+                        title_open_800C4C38(work, -0x18, -0x15, 0x30, 8, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    }
+                    break;
+
+                case 2:
+                    if (press & 0x4000)
+                    {
+                        work->fB3C = 6;
+                        title_open_800C4C38(work, -0x46, 0xB, 0x8C, 8, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    }
+                    else if (press & 0x1000)
+                    {
+                        work->fB3C = 1;
+                        title_open_800C4C38(work, -0x50, -0x35, 0xA0, 8, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    }
+                    break;
+
+                case 6:
+                    if (press & 0x4000)
+                    {
+                        work->fB3C = 7;
+                        title_open_800C4C38(work, -0x1C, 0x2E, 0x38, 0xC, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    }
+                    else if (press & 0x1000)
+                    {
+                        work->fB3C = 2;
+                        title_open_800C4C38(work, -0x18, -0x15, 0x30, 8, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    }
+                    break;
+
+                case 7:
+                    if (press & 0x1000)
+                    {
+                        work->fB3C = 6;
+                        title_open_800C4C38(work, -0x46, 0xB, 0x8C, 8, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    }
+                    break;
+
+                case 8:
+                {
+                    if (work->f24C8 < 0x11)
+                    {
+                        r = 0x64 - (work->f24C8 * 100) / 16;
+                        g = 0xA0 - work->f24C8 * 10;
+                        b = 0x87 - (work->f24C8 * 135) / 16;
+
+                        for (i = 0; i < 18; i++)
+                        {
+                            p4FC[i].r0 = r;
+                            p4FC[i].g0 = g;
+                            p4FC[i].b0 = b;
+                        }
+
+                        bright = 0x80 - work->f24C8 * 8;
+                        p4FC[0].r0 = bright;
+                        p4FC[0].g0 = bright;
+                        p4FC[0].b0 = bright;
+                        p4FC[1].r0 = bright;
+                        p4FC[1].g0 = bright;
+                        p4FC[1].b0 = bright;
+
+                        r = 0x46 - (work->f24C8 * 70) / 16;
+                        g = 0x64 - (work->f24C8 * 100) / 16;
+                        b = 0x5A - work->f24C8 * 90 / 16;
+
+                        p4FC[2].r0 = r;
+                        p4FC[2].g0 = g;
+                        p4FC[2].b0 = b;
+                        p4FC[3].r0 = r;
+                        p4FC[3].g0 = g;
+                        p4FC[3].b0 = b;
+
+                        if (work->f24CC == 0)
+                        {
+                            p4FC[10].r0 = r;
+                            p4FC[10].g0 = g;
+                            p4FC[10].b0 = b;
+                        }
+                        else
+                        {
+                            p4FC[9].r0 = r;
+                            p4FC[9].g0 = g;
+                            p4FC[9].b0 = b;
+                        }
+
+                        work->f24C8++;
+                    }
+                    else
+                    {
+                        work->fA74 = 7;
+                        work->fA78 = 4;
+                        for (i = 17; i >= 0; i--)
+                        {
+                            work->fF8[i] = 0;
+                        }
+                        for (i = 0; i < 22; i++)
+                        {
+                            work->f30[i] = work->f88[i];
+                        }
+                        for (i = 8; i >= 0; i--)
+                        {
+                            work->f140[i] = 0;
+                        }
+                        work->fA98 = 2;
+                        work->f184 = 0;
+                        work->fE0[0] = 0x100;
+                        work->fE0[5] = 0;
+                        work->fE0[1] = 0;
+                        work->fE0[2] = 0;
+                        work->fE0[3] = 0x100;
+                        work->fE0[4] = 0x100;
+                        GM_SetSound(0x1000001, 0);
+                    }
+                    break;
+                }
+                }
+
+                if (press & 0x40)
+                {
+                    if (work->fB3C != 0 && work->fB3C != 8)
+                    {
+                        work->fB3C = 8;
+                        work->f24C8 = 0;
+                        GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                        title_open_800C5D10(work);
+                    }
+                }
+                else if (press & 0x20)
+                {
+                    if (work->fB3C == 7)
+                    {
+                        work->fB3C = 8;
+                        work->f24C8 = 0;
+                        GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                        title_open_800C5D10(work);
+                    }
+                    else if (work->fB3C == 2)
+                    {
+                        GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                        if (sd_sng_play() == 0)
+                        {
+                            GCL_ExecProc(work->fAE4, &args);
+                            GV_DestroyActor(&work->actor);
+                        }
+                    }
+                    else if (work->fB3C == 1)
+                    {
+                        GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                        if (sd_sng_play() == 0)
+                        {
+                            GCL_ExecProc(work->fAF0, &args);
+                            GV_DestroyActor(&work->actor);
+                        }
+                    }
+                    else if (work->fB3C == 6)
+                    {
+                        title_open_800C61E0(work, &args);
+                    }
+                }
+                break;
+            case 6: /* page 6 */
+                switch (work->fB3C)
+                {
+                case 0:
+                {
+                    int fade = work->f24C8;
+
+                    if (fade < 9)
+                    {
+                        x = 0xBE - fade * 30;
+                        work->fF8[2] = 0x100;
+                        work->fF8[3] = 0x100;
+                        p4FC[2].r0 = 0x46;
+                        p4FC[2].g0 = 0x64;
+                        p4FC[2].b0 = 0x5A;
+                        p4FC[2].x0 = x;
+                        p4FC[2].y0 = -0xD;
+                        p4FC[2].x1 = x + 0x64;
+                        p4FC[2].y1 = -0xD;
+                        p4FC[2].x2 = x;
+                        p4FC[2].y2 = 0;
+                        p4FC[2].x3 = x + 0x64;
+                        p4FC[2].y3 = 0;
+                        x = fade * 30 - 0x122;
+                        p4FC[3].r0 = 0x46;
+                        p4FC[3].g0 = 0x64;
+                        p4FC[3].b0 = 0x5A;
+                        p4FC[3].x0 = x;
+                        p4FC[3].y0 = -0xD;
+                        p4FC[3].x1 = fade * 30 - 0xBE;
+                        p4FC[3].y1 = -0xD;
+                        p4FC[3].x2 = x;
+                        p4FC[3].y2 = 0;
+                        p4FC[3].x3 = fade * 30 - 0xBE;
+                        p4FC[3].y3 = 0;
+                        if (fade == 1)
+                        {
+                            GM_SeSet2(0, 0x3F, SE_MENUOPN1);
+                        }
+                    }
+                    else if (fade < 0xD)
+                    {
+                    }
+                    else if (fade < 0x11)
+                    {
+                        bright = (fade - 0xC) * 255 / 4;
+                        title_open_800C4C38(work, -0x32, -0xD, 0x64, 0xD, bright, 0);
+                    }
+                    else if (fade < 0x19)
+                    {
+                        bright = 0xFF;
+                        title_open_800C4C38(work, -0x32, -0xD, 0x64, 0xD, bright, 0);
+                    }
+                    else if (fade < 0x1D)
+                    {
+                        bright = 0xFF - (fade - 0x18) * 255 / 4;
+                        title_open_800C4C38(work, -0x32, -0xD, 0x64, 0xD, bright, 0);
+                    }
+                    else if (fade < 0x21)
+                    {
+                        y = -0xD - (fade - 0x1C) * 20;
+                        p4FC[2].x0 = -0x32;
+                        p4FC[2].y0 = y;
+                        p4FC[2].x1 = 0x32;
+                        p4FC[2].y1 = y;
+                        p4FC[2].x2 = -0x32;
+                        p4FC[2].y2 = y + 0xD;
+                        p4FC[2].x3 = 0x32;
+                        p4FC[2].y3 = y + 0xD;
+                        p4FC[3].x0 = -0x32;
+                        p4FC[3].y0 = y;
+                        p4FC[3].x1 = 0x32;
+                        p4FC[3].y1 = y;
+                        p4FC[3].x2 = -0x32;
+                        p4FC[3].y2 = y + 0xD;
+                        p4FC[3].x3 = 0x32;
+                        p4FC[3].y3 = y + 0xD;
+                    }
+                    else if (fade < 0x25)
+                    {
+                        work->fF8[0] = 0x300;
+                        work->fF8[1] = 0x300;
+                        p4FC[0].x0 = -0xA0;
+                        p4FC[0].y0 = -0x70;
+                        p4FC[0].x1 = 0;
+                        p4FC[0].y1 = -0x70;
+                        p4FC[0].x2 = -0xA0;
+                        p4FC[0].y2 = 0x70;
+                        p4FC[0].x3 = 0;
+                        p4FC[0].y3 = 0x70;
+                        p4FC[1].x0 = 0;
+                        p4FC[1].y0 = -0x70;
+                        p4FC[1].x1 = 0xA0;
+                        p4FC[1].y1 = -0x70;
+                        p4FC[1].x2 = 0;
+                        p4FC[1].y2 = 0x70;
+                        p4FC[1].x3 = 0xA0;
+                        p4FC[1].y3 = 0x70;
+                        shade = (fade - 0x20) * 128 / 10;
+                        p4FC[0].r0 = shade;
+                        p4FC[0].g0 = shade;
+                        p4FC[0].b0 = shade;
+                        p4FC[1].r0 = shade;
+                        p4FC[1].g0 = shade;
+                        p4FC[1].b0 = shade;
+                    }
+                    else if (fade < 0x2B)
+                    {
+                        work->fF8[4] = 0x100;
+                        work->fF8[5] = 0x100;
+                        work->fF8[7] = 0x100;
+                        work->fF8[17] = 0x100;
+                        p4FC[4].y0 = -0x35;
+                        p4FC[4].y1 = -0x35;
+                        p4FC[4].y2 = -0x2D;
+                        p4FC[4].y3 = -0x2D;
+                        p4FC[4].r0 = 0x64;
+                        p4FC[4].g0 = 0xA0;
+                        p4FC[4].b0 = 0x87;
+                        p4FC[5].y0 = 0x2E;
+                        p4FC[5].y1 = 0x2E;
+                        p4FC[5].y2 = 0x3A;
+                        p4FC[5].y3 = 0x3A;
+                        p4FC[5].r0 = 0x64;
+                        p4FC[5].g0 = 0xA0;
+                        p4FC[5].b0 = 0x87;
+                        p4FC[7].y0 = -0x15;
+                        p4FC[7].y1 = -0x15;
+                        x = (fade - 0x24) * 80 / 6;
+                        p4FC[4].x1 = x;
+                        p4FC[4].x3 = x;
+                        p4FC[4].x0 = -x;
+                        p4FC[4].x2 = -x;
+                        x = (fade - 0x24) * 28 / 6;
+                        p4FC[5].x1 = x;
+                        p4FC[5].x3 = x;
+                        p4FC[5].x0 = -x;
+                        p4FC[5].x2 = -x;
+                        x = (fade - 0x24) * 52 / 6;
+                        p4FC[7].x1 = x;
+                        p4FC[7].x3 = x;
+                        p4FC[7].x0 = -x;
+                        p4FC[7].x2 = -x;
+                        p4FC[7].y2 = -0xD;
+                        p4FC[7].y3 = -0xD;
+                        p4FC[7].r0 = 0x64;
+                        p4FC[7].g0 = 0xA0;
+                        p4FC[7].b0 = 0x87;
+
+                        x = (fade - 0x24) * 70 / 6;
+                        p4FC[17].x0 = -x;
+                        p4FC[17].y0 = 0xB;
+                        p4FC[17].x1 = x;
+                        p4FC[17].y1 = 0xB;
+                        p4FC[17].x2 = -x;
+                        p4FC[17].y2 = 0x13;
+                        p4FC[17].x3 = x;
+                        p4FC[17].y3 = 0x13;
+
+                        p4FC[17].r0 = 0x64;
+                        p4FC[17].g0 = 0xA0;
+                        p4FC[17].b0 = 0x87;
+
+                        shade = (fade - 0x20) * 128 / 10;
+                        p4FC[0].r0 = shade;
+                        p4FC[0].g0 = shade;
+                        p4FC[0].b0 = shade;
+                        p4FC[1].r0 = shade;
+                        p4FC[1].g0 = shade;
+                        p4FC[1].b0 = shade;
+                    }
+                    else if (fade == 0x2B)
+                    {
+                        title_open_800C5360(work, GV_StrCode((char *)title_aSppre_800D8880), &p4FC[4]);
+                        title_open_800C5360(work, GV_StrCode((char *)title_aSpexit_800D8888), &p4FC[5]);
+                        title_open_800C5360(work, GV_StrCode((char *)title_aSpdemo_800D889C), &p4FC[7]);
+                        title_open_800C5360(work, GV_StrCode((char *)title_aDsppmode_800D88C8), &p4FC[17]);
+                    }
+                    else if (fade == 0x2C)
+                    {
+                    }
+                    else if (fade < 0x31)
+                    {
+                        title_open_800C4C38(work, -0x50, -0x35, 0xA0, 8, 0xFF, 1);
+                        if (fade == 0x30)
+                        {
+                            work->fB3C = 1;
+                        }
+                    }
+                    work->f24C8++;
+                    break;
+                }
+
+                case 1:
+                    if (press & 0x4000)
+                    {
+                        work->fB3C = 3;
+                        title_open_800C4C38(work, -0x34, -0x15, 0x68, 8, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    }
+                    break;
+
+                case 3:
+                    if (press & 0x4000)
+                    {
+                        work->fB3C = 6;
+                        title_open_800C4C38(work, -0x46, 0xB, 0x8C, 8, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    }
+                    else if (press & 0x1000)
+                    {
+                        work->fB3C = 1;
+                        title_open_800C4C38(work, -0x50, -0x35, 0xA0, 8, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    }
+                    break;
+
+                case 6:
+                    if (press & 0x4000)
+                    {
+                        work->fB3C = 7;
+                        title_open_800C4C38(work, -0x1C, 0x2E, 0x38, 0xC, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    }
+                    else if (press & 0x1000)
+                    {
+                        work->fB3C = 3;
+                        title_open_800C4C38(work, -0x34, -0x15, 0x68, 8, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    }
+                    break;
+
+                case 7:
+                    if (press & 0x1000)
+                    {
+                        work->fB3C = 6;
+                        title_open_800C4C38(work, -0x46, 0xB, 0x8C, 8, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    }
+                    break;
+
+                case 8:
+                {
+                    if (work->f24C8 < 0x11)
+                    {
+                        r = 0x64 - (work->f24C8 * 100) / 16;
+                        g = 0xA0 - work->f24C8 * 10;
+                        b = 0x87 - (work->f24C8 * 135) / 16;
+
+                        for (i = 0; i < 18; i++)
+                        {
+                            p4FC[i].r0 = r;
+                            p4FC[i].g0 = g;
+                            p4FC[i].b0 = b;
+                        }
+
+                        bright = 0x80 - work->f24C8 * 8;
+                        p4FC[0].r0 = bright;
+                        p4FC[0].g0 = bright;
+                        p4FC[0].b0 = bright;
+                        p4FC[1].r0 = bright;
+                        p4FC[1].g0 = bright;
+                        p4FC[1].b0 = bright;
+
+                        r = 0x46 - (work->f24C8 * 70) / 16;
+                        g = 0x64 - (work->f24C8 * 100) / 16;
+                        b = 0x5A - work->f24C8 * 90 / 16;
+
+                        p4FC[2].r0 = r;
+                        p4FC[2].g0 = g;
+                        p4FC[2].b0 = b;
+                        p4FC[3].r0 = r;
+                        p4FC[3].g0 = g;
+                        p4FC[3].b0 = b;
+
+                        if (work->f24CC == 0)
+                        {
+                            p4FC[10].r0 = r;
+                            p4FC[10].g0 = g;
+                            p4FC[10].b0 = b;
+                        }
+                        else
+                        {
+                            p4FC[9].r0 = r;
+                            p4FC[9].g0 = g;
+                            p4FC[9].b0 = b;
+                        }
+
+                        work->f24C8++;
+                    }
+                    else
+                    {
+                        work->fA74 = 7;
+                        work->fA78 = 4;
+                        for (i = 17; i >= 0; i--)
+                        {
+                            work->fF8[i] = 0;
+                        }
+                        for (i = 0; i < 22; i++)
+                        {
+                            work->f30[i] = work->f88[i];
+                        }
+                        for (i = 8; i >= 0; i--)
+                        {
+                            work->f140[i] = 0;
+                        }
+                        work->fA98 = 2;
+                        work->f184 = 0;
+                        work->fE0[0] = 0x100;
+                        work->fE0[5] = 0;
+                        work->fE0[1] = 0;
+                        work->fE0[2] = 0;
+                        work->fE0[3] = 0x100;
+                        work->fE0[4] = 0x100;
+                        GM_SetSound(0x1000001, 0);
+                    }
+                    break;
+                }
+                }
+
+                if (press & 0x40)
+                {
+                    if (work->fB3C != 0 && work->fB3C != 8)
+                    {
+                        work->fB3C = 8;
+                        work->f24C8 = 0;
+                        GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                        title_open_800C5D10(work);
+                    }
+                }
+                else if (press & 0x20)
+                {
+                    if (work->fB3C == 7)
+                    {
+                        work->fB3C = 8;
+                        work->f24C8 = 0;
+                        GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                        title_open_800C5D10(work);
+                    }
+                    else if (work->fB3C == 3)
+                    {
+                        GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                        if (sd_sng_play() == 0)
+                        {
+                            argv[0] = work->fB48;
+                            GM_OptionFlag &= 0xF7FF;
+                            GCL_ExecProc(work->fAF4, &args);
+                            GV_DestroyActor(&work->actor);
+                        }
+                    }
+                    else if (work->fB3C == 1)
+                    {
+                        GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                        if (sd_sng_play() == 0)
+                        {
+                            GCL_ExecProc(work->fAF0, &args);
+                            GV_DestroyActor(&work->actor);
+                        }
+                    }
+                    else if (work->fB3C == 6)
+                    {
+                        title_open_800C61E0(work, &args);
+                    }
+                }
+                break;
+            case 7: /* page 7 */
+                switch (work->fB3C)
+                {
+                case 0:
+                {
+                    int fade = work->f24C8;
+
+                    if (fade < 9)
+                    {
+                        x = 0xBE - fade * 30;
+                        work->fF8[2] = 0x100;
+                        work->fF8[3] = 0x100;
+                        p4FC[2].r0 = 0x46;
+                        p4FC[2].g0 = 0x64;
+                        p4FC[2].b0 = 0x5A;
+                        p4FC[2].x0 = x;
+                        p4FC[2].y0 = -0xD;
+                        p4FC[2].x1 = x + 0x64;
+                        p4FC[2].y1 = -0xD;
+                        p4FC[2].x2 = x;
+                        p4FC[2].y2 = 0;
+                        p4FC[2].x3 = x + 0x64;
+                        p4FC[2].y3 = 0;
+                        x = fade * 30 - 0x122;
+                        p4FC[3].r0 = 0x46;
+                        p4FC[3].g0 = 0x64;
+                        p4FC[3].b0 = 0x5A;
+                        p4FC[3].x0 = x;
+                        p4FC[3].y0 = -0xD;
+                        p4FC[3].x1 = fade * 30 - 0xBE;
+                        p4FC[3].y1 = -0xD;
+                        p4FC[3].x2 = x;
+                        p4FC[3].y2 = 0;
+                        p4FC[3].x3 = fade * 30 - 0xBE;
+                        p4FC[3].y3 = 0;
+                        if (fade == 1)
+                        {
+                            GM_SeSet2(0, 0x3F, SE_MENUOPN1);
+                        }
+                    }
+                    else if (fade < 0xD)
+                    {
+                    }
+                    else if (fade < 0x11)
+                    {
+                        bright = (fade - 0xC) * 255 / 4;
+                        title_open_800C4C38(work, -0x32, -0xD, 0x64, 0xD, bright, 0);
+                    }
+                    else if (fade < 0x19)
+                    {
+                        bright = 0xFF;
+                        title_open_800C4C38(work, -0x32, -0xD, 0x64, 0xD, bright, 0);
+                    }
+                    else if (fade < 0x1D)
+                    {
+                        bright = 0xFF - (fade - 0x18) * 255 / 4;
+                        title_open_800C4C38(work, -0x32, -0xD, 0x64, 0xD, bright, 0);
+                    }
+                    else if (fade < 0x21)
+                    {
+                        y = -0xD - (fade - 0x1C) * 20;
+                        p4FC[2].x0 = -0x32;
+                        p4FC[2].y0 = y;
+                        p4FC[2].x1 = 0x32;
+                        p4FC[2].y1 = y;
+                        p4FC[2].x2 = -0x32;
+                        p4FC[2].y2 = y + 0xD;
+                        p4FC[2].x3 = 0x32;
+                        p4FC[2].y3 = y + 0xD;
+                        p4FC[3].x0 = -0x32;
+                        p4FC[3].y0 = y;
+                        p4FC[3].x1 = 0x32;
+                        p4FC[3].y1 = y;
+                        p4FC[3].x2 = -0x32;
+                        p4FC[3].y2 = y + 0xD;
+                        p4FC[3].x3 = 0x32;
+                        p4FC[3].y3 = y + 0xD;
+                    }
+                    else if (fade < 0x25)
+                    {
+                        work->fF8[0] = 0x300;
+                        work->fF8[1] = 0x300;
+                        p4FC[0].x0 = -0xA0;
+                        p4FC[0].y0 = -0x70;
+                        p4FC[0].x1 = 0;
+                        p4FC[0].y1 = -0x70;
+                        p4FC[0].x2 = -0xA0;
+                        p4FC[0].y2 = 0x70;
+                        p4FC[0].x3 = 0;
+                        p4FC[0].y3 = 0x70;
+                        p4FC[1].x0 = 0;
+                        p4FC[1].y0 = -0x70;
+                        p4FC[1].x1 = 0xA0;
+                        p4FC[1].y1 = -0x70;
+                        p4FC[1].x2 = 0;
+                        p4FC[1].y2 = 0x70;
+                        p4FC[1].x3 = 0xA0;
+                        p4FC[1].y3 = 0x70;
+                        shade = (fade - 0x20) * 128 / 10;
+                        p4FC[0].r0 = shade;
+                        p4FC[0].g0 = shade;
+                        p4FC[0].b0 = shade;
+                        p4FC[1].r0 = shade;
+                        p4FC[1].g0 = shade;
+                        p4FC[1].b0 = shade;
+                    }
+                    else if (fade < 0x2B)
+                    {
+                        work->fF8[4] = 0x100;
+                        work->fF8[5] = 0x100;
+                        work->fF8[6] = 0x100;
+                        work->fF8[7] = 0x100;
+                        work->fF8[17] = 0x100;
+                        p4FC[4].y0 = -0x36;
+                        p4FC[4].y1 = -0x36;
+                        p4FC[4].y2 = -0x2E;
+                        p4FC[4].y3 = -0x2E;
+                        p4FC[4].r0 = 0x64;
+                        p4FC[4].g0 = 0xA0;
+                        p4FC[4].b0 = 0x87;
+                        p4FC[5].r0 = 0x64;
+                        p4FC[5].g0 = 0xA0;
+                        p4FC[5].b0 = 0x87;
+                        p4FC[5].y0 = 0x2E;
+                        p4FC[5].y1 = 0x2E;
+                        p4FC[5].y2 = 0x3A;
+                        p4FC[5].y3 = 0x3A;
+                        p4FC[6].y0 = -0x20;
+                        p4FC[6].y1 = -0x20;
+                        p4FC[6].y2 = -0x18;
+                        x = (fade - 0x24) * 80 / 6;
+                        p4FC[4].x1 = x;
+                        p4FC[4].x3 = x;
+                        p4FC[4].x0 = -x;
+                        p4FC[4].x2 = -x;
+                        x = (fade - 0x24) * 28 / 6;
+                        p4FC[5].x1 = x;
+                        p4FC[5].x3 = x;
+                        p4FC[5].x0 = -x;
+                        p4FC[5].x2 = -x;
+                        x = (fade - 0x24) * 4;
+                        p4FC[6].x0 = -x;
+                        p4FC[6].x1 = x;
+                        p4FC[6].x2 = -x;
+                        p4FC[6].x3 = x;
+                        p4FC[6].y3 = -0x18;
+                        p4FC[6].r0 = 0x64;
+                        p4FC[6].g0 = 0xA0;
+                        p4FC[6].b0 = 0x87;
+                        p4FC[7].r0 = 0x64;
+                        p4FC[7].g0 = 0xA0;
+                        p4FC[7].b0 = 0x87;
+                        p4FC[17].r0 = 0x64;
+                        p4FC[17].g0 = 0xA0;
+                        p4FC[17].b0 = 0x87;
+                        x = (fade - 0x24) * 52 / 6;
+                        p4FC[7].x1 = x;
+                        p4FC[7].x3 = x;
+                        p4FC[7].x0 = -x;
+                        p4FC[7].x2 = -x;
+                        x = (fade - 0x24) * 70 / 6;
+                        p4FC[17].x1 = x;
+                        p4FC[17].x3 = x;
+                        p4FC[7].y0 = -0xA;
+                        p4FC[7].y1 = -0xA;
+                        p4FC[7].y2 = -0x2;
+                        p4FC[17].x0 = -x;
+                        p4FC[7].y3 = -0x2;
+                        p4FC[17].y0 = 0xC;
+                        p4FC[17].y1 = 0xC;
+                        p4FC[17].x2 = -x;
+                        p4FC[17].y2 = 0x14;
+                        p4FC[17].y3 = 0x14;
+                        shade = (fade - 32) * 128 / 10;
+                        p4FC[0].r0 = shade;
+                        p4FC[0].g0 = shade;
+                        p4FC[0].b0 = shade;
+                        p4FC[1].r0 = shade;
+                        p4FC[1].g0 = shade;
+                        p4FC[1].b0 = shade;
+                    }
+                    else if (fade == 0x2B)
+                    {
+                        title_open_800C5360(work, GV_StrCode((char *)title_aSppre_800D8880), &p4FC[4]);
+                        title_open_800C5360(work, GV_StrCode((char *)title_aSpexit_800D8888), &p4FC[5]);
+                        title_open_800C5360(work, GV_StrCode((char *)title_aSpalbum_800D8890), &p4FC[6]);
+                        title_open_800C5360(work, GV_StrCode((char *)title_aSpdemo_800D889C), &p4FC[7]);
+                        title_open_800C5360(work, GV_StrCode((char *)title_aDsppmode_800D88C8), &p4FC[17]);
+                    }
+                    else if (fade == 0x2C)
+                    {
+                    }
+                    else if (fade < 0x31)
+                    {
+                        title_open_800C4C38(work, -0x50, -0x37, 0xA0, 8, 0xFF, 1);
+                        if (fade == 0x30)
+                        {
+                            work->fB3C = 1;
+                        }
+                    }
+                    work->f24C8++;
+                    break;
+                }
+                case 1:
+                    if (press & 0x4000)
+                    {
+                        work->fB3C = 2;
+                        title_open_800C4C38(work, -0x18, -0x20, 0x30, 8, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    }
+                    break;
+                case 2:
+                    if (press & 0x4000)
+                    {
+                        work->fB3C = 3;
+                        title_open_800C4C38(work, -0x34, -0xA, 0x68, 8, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    }
+                    else if (press & 0x1000)
+                    {
+                        work->fB3C = 1;
+                        title_open_800C4C38(work, -0x50, -0x36, 0xA0, 8, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    }
+                    break;
+                case 3:
+                    if (press & 0x4000)
+                    {
+                        work->fB3C = 6;
+                        title_open_800C4C38(work, -0x46, 0xC, 0x8C, 8, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    }
+                    else if (press & 0x1000)
+                    {
+                        work->fB3C = 2;
+                        title_open_800C4C38(work, -0x18, -0x20, 0x30, 8, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    }
+                    break;
+                case 6:
+                    if (press & 0x4000)
+                    {
+                        work->fB3C = 7;
+                        title_open_800C4C38(work, -0x1C, 0x2E, 0x38, 0xC, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    }
+                    else if (press & 0x1000)
+                    {
+                        work->fB3C = 3;
+                        title_open_800C4C38(work, -0x34, -0xA, 0x68, 8, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    }
+                    break;
+                case 7:
+                    if (press & 0x1000)
+                    {
+                        work->fB3C = 6;
+                        title_open_800C4C38(work, -0x46, 0xC, 0x8C, 8, 0xFF, 1);
+                        GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
+                    }
+                    break;
+                case 8:
+                    if (work->f24C8 < 0x11)
+                    {
+                        r = 0x64 - (work->f24C8 * 100) / 16;
+                        g = 0xA0 - work->f24C8 * 10;
+                        b = 0x87 - (work->f24C8 * 135) / 16;
+
+                        for (i = 0; i < 18; i++)
+                        {
+                            p4FC[i].r0 = r;
+                            p4FC[i].g0 = g;
+                            p4FC[i].b0 = b;
+                        }
+
+                        bright = 0x80 - work->f24C8 * 8;
+                        p4FC[0].r0 = bright;
+                        p4FC[0].g0 = bright;
+                        p4FC[0].b0 = bright;
+                        p4FC[1].r0 = bright;
+                        p4FC[1].g0 = bright;
+                        p4FC[1].b0 = bright;
+
+                        r = 0x46 - (work->f24C8 * 70) / 16;
+                        g = 0x64 - (work->f24C8 * 100) / 16;
+                        b = 0x5A - (work->f24C8 * 90) / 16;
+                        p4FC[2].r0 = r;
+                        p4FC[2].g0 = g;
+                        p4FC[2].b0 = b;
+                        p4FC[3].r0 = r;
+                        p4FC[3].g0 = g;
+                        p4FC[3].b0 = b;
+
+                        if (work->f24CC == 0)
+                        {
+                            p4FC[10].r0 = r;
+                            p4FC[10].g0 = g;
+                            p4FC[10].b0 = b;
+                        }
+                        else
+                        {
+                            p4FC[9].r0 = r;
+                            p4FC[9].g0 = g;
+                            p4FC[9].b0 = b;
+                        }
+
+                        work->f24C8++;
+                    }
+                    else
+                    {
+                        work->fA74 = 7;
+                        work->fA78 = 4;
+                        for (i = 17; i >= 0; i--)
+                        {
+                            work->fF8[i] = 0;
+                        }
+                        for (i = 0; i < 22; i++)
+                        {
+                            work->f30[i] = work->f88[i];
+                        }
+                        for (i = 8; i >= 0; i--)
+                        {
+                            work->f140[i] = 0;
+                        }
+                        work->fA98 = 2;
+                        work->f184 = 0;
+                        work->fE0[0] = 0x100;
+                        work->fE0[5] = 0;
+                        work->fE0[1] = 0;
+                        work->fE0[2] = 0;
+                        work->fE0[3] = 0x100;
+                        work->fE0[4] = 0x100;
+                        GM_SetSound(0x1000001, 0);
+                    }
+                    break;
+                }
+
+                if (press & 0x40)
+                {
+                    if (work->fB3C != 0 && work->fB3C != 8)
+                    {
+                        work->fB3C = 8;
+                        work->f24C8 = 0;
+                        GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                        title_open_800C5D10(work);
+                    }
+                }
+                else if (press & 0x20)
+                {
+                    if (work->fB3C == 7)
+                    {
+                        work->fB3C = 8;
+                        work->f24C8 = 0;
+                        GM_SeSet2(0, 0x3F, SE_MENU_EXIT);
+                        title_open_800C5D10(work);
+                    }
+                    else if (work->fB3C == 2)
+                    {
+                        GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                        if (sd_sng_play() == 0)
+                        {
+                            GCL_ExecProc(work->fAE4, &args);
+                            GV_DestroyActor(&work->actor);
+                        }
+                    }
+                    else if (work->fB3C == 3)
+                    {
+                        GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                        if (sd_sng_play() == 0)
+                        {
+                            argv[0] = work->fB48;
+                            GM_OptionFlag &= 0xF7FF;
+                            GCL_ExecProc(work->fAF4, &args);
+                            GV_DestroyActor(&work->actor);
+                        }
+                    }
+                    else if (work->fB3C == 1)
+                    {
+                        GM_SeSet2(0, 0x3F, SE_MENU_GUNSHOT);
+                        if (sd_sng_play() == 0)
+                        {
+                            GCL_ExecProc(work->fAF0, &args);
+                            GV_DestroyActor(&work->actor);
+                        }
+                    }
+                    else if (work->fB3C == 6)
+                    {
+                        title_open_800C61E0(work, &args);
+                    }
+                }
+                break;
+            }
+            break;
+        case 14:
+            if (sd_sng_play() == 0)
+            {
+                GCL_ExecProc(work->fAF8, &args);
+                GV_DestroyActor(&work->actor);
+            }
+            break;
+        case 15:
+            title_open_800C593C(work);
+            if (press & 0x800)
+            {
+                work->fB0C = 1;
+                work->fA74 = 6;
+                work->fAA8.r = 0x80;
+                work->fAA8.g = 0x80;
+                work->fAA8.b = 0x80;
+                work->fB04 = 0;
+                if (work->fA7C == 0)
+                {
+                    work->fA7C = 1;
+                }
+                if (work->fA80 == 0)
+                {
+                    work->fA80 = 1;
+                    work->f170 = 0;
+                }
+                if (work->fA84 == 0)
+                {
+                    work->fA84 = 1;
+                    work->f170 = 0;
+                }
+                work->fA98 = 2;
+                work->f184 = 0;
+                if (sd_sng_play() == 1)
+                {
+                    GM_SetSound(0x1FFFFFF, 0);
+                }
+            }
+            break;
+        }
+    }
+}
 
 extern CVECTOR title_dword_800C33D8[];
 
@@ -4076,7 +8124,7 @@ extern void  title_open_800C5CB8(Work *work);
 extern void  title_open_800C5CF0(Work *work);
 extern void  title_open_800C5D10(Work *work);
 extern void  title_open_800C53E0(Work *work);
-extern int   title_open_800C628C(Work *work);
+extern void  title_open_800C628C(Work *work);
 extern void  title_open_800CCDC8(Work *work);
 extern void  title_open_800CD074(Work *work);
 extern void  title_open_800CD23C(Work *work, int index, int arg3);
