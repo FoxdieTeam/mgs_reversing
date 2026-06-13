@@ -1,5 +1,7 @@
 #include "game/game.h"
 #include "libgcl/libgcl.h"
+#include "libfs/libfs.h"
+#include "mts/mts.h"
 
 #include <stdio.h>
 
@@ -68,7 +70,17 @@ typedef struct _Work
     /* +0x5DAC */ int      field_5DAC;
 } Work;
 
+typedef struct _AbstRes
+{
+    int id;
+    int file;
+    int size;
+} AbstRes;
+
 extern Unknown2 abst_dword_800C37B8[];
+extern AbstRes abst_dword_800C3820[];
+extern const char abst_dword_800CE7E4[];
+extern const char abst_dword_800CE800[];
 
 void abst_800C7AB0(Work *work, int index)
 {
@@ -172,7 +184,61 @@ void abst_800C8658(Work *work)
         dst++;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/abst/abst_800C877C.s")
+void abst_800C877C(Work *work, int x, int y, int w, int h, int color, int sel)
+{
+    POLY_FT4 *poly;
+    int       i;
+
+    poly = work->polys2;
+    for (i = 0; i < 9; i++)
+    {
+        work->attrs2[i] = 0x200;
+        setRGB0(&poly[i], color, color, color);
+    }
+
+    if (sel == 0)
+    {
+        int xl = x - 8;
+        int yl = y - 8;
+        int xr = x + w;
+        int xr8 = xr + 8;
+        int yb = y + h;
+        int yb8 = yb + 8;
+
+        setXY4(&poly[0], xl, yl, x, yl, xl, y, x, y);
+        setXY4(&poly[1], xr, yl, xr8, yl, xr, y, xr8, y);
+        setXY4(&poly[2], xl, yb, x, yb, xl, yb8, x, yb8);
+        setXY4(&poly[3], xr, yb, xr8, yb, xr, yb8, xr8, yb8);
+        setXY4(&poly[4], x, yl, xr, yl, x, y, xr, y);
+        setXY4(&poly[5], x, yb, xr, yb, x, yb8, xr, yb8);
+        setXY4(&poly[6], xl, y, x, y, xl, yb, x, yb);
+        setXY4(&poly[7], xr, y, xr8, y, xr, yb, xr8, yb);
+        setXY4(&poly[8], x, y, xr, y, x, yb, xr, yb);
+    }
+    else if (sel == 1)
+    {
+        int xl = x - 6;
+        int yl = y - 6;
+        int xi = x + 2;
+        int yi = y + 2;
+        int xr = x + w;
+        int xrl = xr - 2;
+        int xrr = xr + 6;
+        int yb = y + h;
+        int ybl = yb - 2;
+        int ybr = yb + 6;
+
+        setXY4(&poly[0], xl, yl, xi, yl, xl, yi, xi, yi);
+        setXY4(&poly[1], xrl, yl, xrr, yl, xrl, yi, xrr, yi);
+        setXY4(&poly[2], xl, ybl, xi, ybl, xl, ybr, xi, ybr);
+        setXY4(&poly[3], xrl, ybl, xrr, ybl, xrl, ybr, xrr, ybr);
+        setXY4(&poly[4], xi, yl, xrl, yl, xi, yi, xrl, yi);
+        setXY4(&poly[5], xi, ybl, xrl, ybl, xi, ybr, xrl, ybr);
+        setXY4(&poly[6], xl, yi, xi, yi, xl, ybl, xi, ybl);
+        setXY4(&poly[7], xrl, yi, xrr, yi, xrl, ybl, xrr, ybl);
+        setXY4(&poly[8], xi, yi, xrl, yi, xi, ybl, xrl, ybl);
+    }
+}
 void abst_800C8A60(MenuPrim *prim, int x, int y, int w, int h)
 {
     TILE *pTile;
@@ -210,7 +276,47 @@ void abst_800C98B8(Work *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/abst/abst_800C9954.s")
+void abst_800C9954(Work *work, int opt)
+{
+    AbstRes *res;
+    int      i;
+    int      found;
+    int      file;
+    int      size;
+    void    *buf;
+
+    found = -1;
+    file = 0;
+    size = 0;
+    for (i = 0; i < 100; i++)
+    {
+        res = &abst_dword_800C3820[i];
+        if (opt == res->id)
+        {
+            found = i;
+            file = res->file;
+            size = res->size;
+        }
+    }
+
+    if (found != -1)
+    {
+        buf = GV_Malloc(size);
+        FS_LoadFileRequest(6, file, size, buf);
+        while (FS_LoadFileSync() > 0)
+        {
+            mts_wait_vbl(1);
+        }
+
+        DG_LoadInitPcx(buf, opt);
+        printf((char *)abst_dword_800CE7E4);
+        GV_Free(buf);
+    }
+    else
+    {
+        printf((char *)abst_dword_800CE800);
+    }
+}
 
 void abst_800C9A40(void *work, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int abe)
 {
