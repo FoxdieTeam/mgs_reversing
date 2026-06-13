@@ -185,7 +185,61 @@ void abst_800CB23C(Work *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/abst/abst_800CB360.s")
+void abst_800CB360(Work *work, int x, int y, int w, int h, int color, int sel)
+{
+    POLY_FT4 *poly;
+    int       i;
+
+    poly = work->polys2;
+    for (i = 0; i < 9; i++)
+    {
+        work->attrs2[i] = 0x200;
+        setRGB0(&poly[i], color, color, color);
+    }
+
+    if (sel == 0)
+    {
+        int xl = x - 8;
+        int yl = y - 8;
+        int xr = x + w;
+        int xr8 = xr + 8;
+        int yb = y + h;
+        int yb8 = yb + 8;
+
+        setXY4(&poly[0], xl, yl, x, yl, xl, y, x, y);
+        setXY4(&poly[1], xr, yl, xr8, yl, xr, y, xr8, y);
+        setXY4(&poly[2], xl, yb, x, yb, xl, yb8, x, yb8);
+        setXY4(&poly[3], xr, yb, xr8, yb, xr, yb8, xr8, yb8);
+        setXY4(&poly[4], x, yl, xr, yl, x, y, xr, y);
+        setXY4(&poly[5], x, yb, xr, yb, x, yb8, xr, yb8);
+        setXY4(&poly[6], xl, y, x, y, xl, yb, x, yb);
+        setXY4(&poly[7], xr, y, xr8, y, xr, yb, xr8, yb);
+        setXY4(&poly[8], x, y, xr, y, x, yb, xr, yb);
+    }
+    else if (sel == 1)
+    {
+        int xl = x - 6;
+        int yl = y - 6;
+        int xi = x + 2;
+        int yi = y + 2;
+        int xr = x + w;
+        int xrl = xr - 2;
+        int xrr = xr + 6;
+        int yb = y + h;
+        int ybl = yb - 2;
+        int ybr = yb + 6;
+
+        setXY4(&poly[0], xl, yl, xi, yl, xl, yi, xi, yi);
+        setXY4(&poly[1], xrl, yl, xrr, yl, xrl, yi, xrr, yi);
+        setXY4(&poly[2], xl, ybl, xi, ybl, xl, ybr, xi, ybr);
+        setXY4(&poly[3], xrl, ybl, xrr, ybl, xrl, ybr, xrr, ybr);
+        setXY4(&poly[4], xi, yl, xrl, yl, xi, yi, xrl, yi);
+        setXY4(&poly[5], xi, ybl, xrl, ybl, xi, ybr, xrl, ybr);
+        setXY4(&poly[6], xl, yi, xi, yi, xl, ybl, xi, ybl);
+        setXY4(&poly[7], xrl, yi, xrr, yi, xrl, ybl, xrr, ybl);
+        setXY4(&poly[8], xi, yi, xrl, yi, xi, ybl, xrl, ybl);
+    }
+}
 void abst_800CB644(MenuPrim *prim, int x, int y, int w, int h)
 {
     TILE *pTile;
